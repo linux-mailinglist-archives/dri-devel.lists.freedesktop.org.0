@@ -2,118 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF0AB0AF3F
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 12:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75C5B0AF46
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 12:11:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5FD810E009;
-	Sat, 19 Jul 2025 10:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 342B810E1E4;
+	Sat, 19 Jul 2025 10:11:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="l+cVNGda";
+	dkim=pass (1024-bit key; unprotected) header.d=felixrichter.tech header.i=@felixrichter.tech header.b="Jl34XNkt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A9CA10E009
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 10:09:57 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56J4LVYd015806
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 10:09:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=RE1pFV3S18CkB3zRzoB2uTfO
- /SX7VdjQHJe24Ou3Foc=; b=l+cVNGdakJcecBefkvUSegIxlcXElvvMqp/MsTT8
- 4H3ve5RHgdJt6/VIbmHWVa8AxxidKvl0neLm4AAyxvJOctdZMRSFuBkQleplbg7u
- K8BY7aeqXLM7hHQHvbhLdNVOMDJBgSS1IOovw2lQVgfQg64+LxwuVuo5+beWLuaT
- 47gzC1zkbxt01mdWRchWKUYkfMZQg4BA0xv3OAdXwhWwItn91ea93QGx25zZiUSf
- bRMnTyR5k6REkPLAePBGyvfensF5RXNhRJQF0f91RyKLWjtHONIbjAU1VU0EUhmx
- uyb7GXTLiQ8YfE28SVuEso1Se4ntnlCRirHG8dtkHxXkDQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48048t8ev2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 10:09:56 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7e1fb57a7adso268365685a.2
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 03:09:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752919796; x=1753524596;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RE1pFV3S18CkB3zRzoB2uTfO/SX7VdjQHJe24Ou3Foc=;
- b=XeSFiEV6AxKhOonBoSQJWzk9S4Shf5BfHOM/5kci6WyVSOfxW9MjSat+KL8kqadTVL
- LOsPw0xechPSgq201vrJEd0FmJYQO7GEqNLPpGSXYXXUqniPGtaJBOTBdEbfqSDmV/V2
- UCEYO3IdsJMFrcnYPYgHguARPpt6AmxzU1kZ7UfgSnSqdHyRddQdGf0vnlBDhLvMjBQp
- 9LLHGh0XZs8NI7U/dE5fmoJYbqx0nCq0LvKVaF1koe52nzb6K7Hhgz+dODCK65/U4iSg
- LvCa1IqisNEzflDA7iODIByrLkvmR7i9kiULtkJOqF7YIBEoK7rm1N/2jC88iLhbZPqk
- 1hYw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVlPagrakra8ckvfLDQqYKfyqA3l7DK9z1XpgmyDxWiFihFhrG2ELuvdHUhRS2ayI68c2MCCK3rxTQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1BCQGTEDQQdXHSW29VC3NCEzSnfECoFFRswGEglhwhqVgJhf7
- xoVQPivAjWk9NSLJCPfSg4SaqeaIa1erwoePiSft8oXNe38cuzbh9S/I66iiNcBGdAGepX5ziDr
- BQHJC5tF8PWQfUhqWWd2mrzVuEdBr9zZQMsRSkuQNmD8Q9z+P1/7uIkD2ccBHoeHRZISSwfc=
-X-Gm-Gg: ASbGncuh4EtB6DdoVIAD4XsrlYqHjyvQ0/ovgQ1vcBBudo3y/4Po9BiIZKIm3u8sKSQ
- ZBPrPg5bwLrcnT8YmE9wn0fUB7SBq7xEnsCkxL6OsgLO6EqM19Y6zccgpbjLIho3gRLOBXSaEie
- 3NUYSRLW/Msmfi9aLIlh/+cQp0hRV4M+7s4GPGdCIZmfFfrwenkMPX9+Oz0l2VBiTgZCBpy/BoK
- 05v/ZURtFG5+9Hm+3uBgfGu6y5c27lgqsFKd5SkK6Jz3FgFEj6rIly2KndTQdZNG8HaNvAwjhIU
- AgWnkO9f0p0uWuROoOKQkEn6gq51ulZAiiHGTljeK2d7EdBLZFMdUQ+EeBGlM9gNy2Pa+sz8XWC
- HpUuSoB0HH9tJeD+AWEC99sm85OnNB86EoXyoxArR+Q0MzeKkculT
-X-Received: by 2002:a05:6214:2588:b0:702:bd47:c83b with SMTP id
- 6a1803df08f44-704f6b14502mr218121746d6.45.1752919795426; 
- Sat, 19 Jul 2025 03:09:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFehkDz+6k3vy4Why9MJSZaqqZjYifa1Z30P0ziJ8/YT+jYi7ZIiAlsF/cxcytNaLGGtDLW/g==
-X-Received: by 2002:a05:6214:2588:b0:702:bd47:c83b with SMTP id
- 6a1803df08f44-704f6b14502mr218121076d6.45.1752919794955; 
- Sat, 19 Jul 2025 03:09:54 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55a31da2274sm655766e87.172.2025.07.19.03.09.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jul 2025 03:09:53 -0700 (PDT)
-Date: Sat, 19 Jul 2025 13:09:52 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v12 10/12] drm/msm/dpu: support SSPP assignment for
- quad-pipe case
-Message-ID: <khu6gwzn7gulubwoshdutl4d2nu3c6exnkv4cimjljc5wbxf7l@ho4gxsolq3hn>
-References: <20250707-v6-16-rc2-quad-pipe-upstream-v12-0-67e3721e7d83@linaro.org>
- <20250707-v6-16-rc2-quad-pipe-upstream-v12-10-67e3721e7d83@linaro.org>
+Received: from dijkstra.felixrichter.tech (unknown [37.120.184.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA1210E1E4;
+ Sat, 19 Jul 2025 10:11:05 +0000 (UTC)
+Received: from [10.130.10.1] (unknown [10.130.10.1])
+ by dijkstra.felixrichter.tech (Postfix) with ESMTPSA id BF8651A30BD;
+ Sat, 19 Jul 2025 12:11:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=felixrichter.tech;
+ s=20210926; t=1752919899;
+ bh=3VNfUxSAOp65CvuEaSzBq77SlXZOKw58vVaXGiL/O5w=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=Jl34XNktwUvmuKXe7npo+PCYFQW/xOBr1+GtI/8at3IY6Mfm29wl8adA41SvXnFAl
+ PoDU7ZOUVe8YMCXvQHyJh+XFfmiHXON4PLPjQnNncDG0YYX+KsiLQvT0u5fZBJuNZ3
+ z0TOW2IAFN6kQhgrqR4phjTkIX+jkZZxYAWNY22A=
+Message-ID: <5f63ae37-793e-4e34-a8ab-1845121fcd7e@felixrichter.tech>
+Date: Sat, 19 Jul 2025 12:10:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250707-v6-16-rc2-quad-pipe-upstream-v12-10-67e3721e7d83@linaro.org>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDEwMCBTYWx0ZWRfXxHiOUTFVOQQ4
- SL1B9SDixusc8QyI/7OXKG2SruM5A89mkA0yfX5xho/wdYcnPL/V11JMih3mbQPTO1/1LiVp6kO
- /5kHR/Q+2kaTabX5Fl4vQZiCjLSRKsn66Pfc9AR6QnUrOpnJL1l41HXm2VZArjAfHAhVk6QmEeg
- rHtSTUo+uGEz80ukaNFYzFvlzQ3jNg3y0ip+VuwFhWVbIppzbGW9k7U9K6Xrq4CzZFOVcccpbqr
- 9zoj28bj+4FQcGHOybxRXw2HuXTdfE03bqpUDzLSIZCK6MQNGFrrt+oMm/7nCDxw2satl2/cN6E
- t3WIDTMhCpmZHmqXcq2BuVvTFdoiJzxVbZvMCNA+hGBaIx5rKoYNXOpif+c3fZgLZCg2tuv5p1R
- Evxpag38VTjh3fKy/xUeQ/CXbuBa5vlF4M59nY2sPZZlG1XZul2pzxdxMGirw6RrIqpmCFPF
-X-Authority-Analysis: v=2.4 cv=Jb68rVKV c=1 sm=1 tr=0 ts=687b6ef4 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=sWKEhP36mHoA:10 a=KKAkSRfTAAAA:8 a=X62n9y2ZVatY7HXpRCIA:9
- a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: 59G4LNWO6L1IdXRTHurMI9zYLAkY8egT
-X-Proofpoint-ORIG-GUID: 59G4LNWO6L1IdXRTHurMI9zYLAkY8egT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-19_01,2025-07-17_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0 mlxscore=0
- spamscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507190100
+User-Agent: Mozilla Thunderbird
+Subject: Re: Regression: DDC I2C Display Freezing for internal displays
+To: Mario Limonciello <superm1@kernel.org>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, jonas@3j14.de
+References: <0863bc3e-7364-4572-bb72-fc85657cbad7@felixrichter.tech>
+ <d9706fe0-7965-457d-830e-19f9aafee855@felixrichter.tech>
+ <1c64c181-4e96-4274-975b-454f7207af92@kernel.org>
+Content-Language: en-US
+From: Felix Richter <judge@felixrichter.tech>
+Autocrypt: addr=judge@felixrichter.tech; keydata=
+ xsFNBFrjhUABEADNPx0ZEGSSjZfVpxZpDuC7d+fhtIdjsb9TILfPXMjyu1vqCV9/yfMB015m
+ 989qp6CLcM5vk3jW6vpcrFmdVxqRd2MUNZGSBKqcNLr8tHv8tT76TJ3uDgU5XgXgznMoAdC6
+ qNHHN9+h9wpEbUvqcIaIIcAqRuaCnEc9RlfZLgaAVv3hef8NUeSf7Y97EKVaISZ0KKdAB3IT
+ LoKe7YB1fCwULiqyhGcSJ5tDujeeUtiMbTuAMhqWTXf80xSzqdm6Aedf1R1pyVqNlZf1Yvao
+ qJPPVRibOhyzRa4QXl32evBjy4N4Z2b3uSMjf497zFiMKWP66ydFCC/tJWOgloVrhlEIvUIG
+ j6tEDMMssUNFdRlte8PFg8DxIGRl23q2WxdP6TPc8sjcvVWZijXvqYo62empn7j3dqkygNfu
+ Cwi0XEf2DgTCQ0ex02EFVbF8MfovkEShdJrb7vCc1zKoec24bDqAdmGcSFjp+lFGwV3Mfhh3
+ qqvVOM6MyodJY9RW4GXpmllvaIpxPSjxGow6C07/wSc2YsjWTBQ3u1uejhx+BSVeB8QOKzov
+ bORkIoh6/zPmyvrmNS8r8TP4XSBhWgNZlkJ0vY07bSG3IL1Gf5rFE1dUACZAtUFoQawt9aSQ
+ zjH6QHD2G0yVoo7XOiZjsUzqWm5ZRw5EBYQknCweH8ctBDZhvQARAQABzSdGZWxpeCBSaWNo
+ dGVyIDxqdWRnZUBmZWxpeHJpY2h0ZXIudGVjaD7CwYsEEwEKADUCGwMICwkIBw0MCwoFFQoJ
+ CAsCHgECF4AWIQTyFnprcemCp8YKHUyKcRsNoQAh7QUCX38+FQAKCRCKcRsNoQAh7RJ+D/0W
+ FPj3ZqYJ/PIGnlm6+vKb65Dw9f9ZJvUHDd/T8HIBVHI29UX3PLZFk7+8Klf97i0yoI/n+oP1
+ IPyQBRs6sKC+J8aKMFufoRPDnI3AclBRsYKhTa47XMMwB10Q1JmzJuAvieywc5WrifmMNdb+
+ uXxJch5OG/I5iu25AhHgBNwwalnEpXHpGs2VL8einM5jl9lMeMwEfo0Sf5KovPLgKMiM5oz5
+ jxNdXxqrnb6SRp9c/ai1y788Y8RhIyjPx2LyxgHWBOdBm28kioHBFxc2g8bMYt1kUUWhrrd0
+ V3umw1leqPxtC+4vMN7YdJ4F/3ASrcNFmR1UGVJh6Kl1Udser9I/wAd7mZDAwv2dUIt2Zo/F
+ 2OrR7J9uhokgHYqOYO5e46Qhsk/mm4ABy7Jv5HgoBK6fE74YRHOAmpCAFLBnk/kieeL7Y8sL
+ IM7DVE6oUGaCf/sG0IeUQ8TgNOllr/ckgOXLomxLZbW+i1lTurkX1JcCXyvKToY6+To252+p
+ mfTq9wEWURRO4bz4gssIRo7rAlqovrKdncoD0tsQfoG4Tzd+lWZdI7B6PpTRzY5sCUZrNR6q
+ Fa2izMfL1dN9FLRgq9Fl+8DQ90FwcYvQI2EBu7sp+bUZzzub4AWrC+/VC04UJXvm88nirByg
+ 9m8fRs2Qy5um5n3H3W6678Up1jeOpYnBp87BTQRa44XfARAAyMLyu0W1rhYy2H7sk/W7KJCr
+ z0LfLFZhR2IeOzwq42ibhxD2wZiigHKP7vOyHGgHcTLjG3F+pudrTzl0ziFxBYDXUbZ6liad
+ UZQGRPsB6TStWHq0tCA+ctP6EhLuRvbMnKhACJCdrJKyZ3W6DMbUXLE/y1ScgEXPxjb5ti/f
+ UVN01at0N2umkz6dw9xpCo3wPD6PI9aE/ePtXjOSbYS3bZ+XWnnQ3hCeUKIzAgLMgum3fBHn
+ jIIENuacXc4VyaDYBodi1sXW4GFs5dJdTJ44R1CMPxSSY/pA1aHqBV79y5l8bvvoTMETyYxY
+ tSZnjluw6oW4RA3mi3gEXMBpc95dy3ujycstKL6lj3/u7aUoEF8IyZg2R+ZKZWnnlWia7rVI
+ DeZwj9QCkCk8Vva9UErZ+oS7pYlHl65/LyDjfoejrFIrvv9grVojZQcIrrn1RtXkuXD9z/oH
+ Q0dDV/j5vdBBTCILpFGKUCNEEE/GUew0t5w9aYebb4vV517W7RFOcQah0D/NP5pFCZzlYTmf
+ Vx7xKtzWlNtX02ymdcIhflEmWF2bINF5j91m1qCppSYhAKn9Njpq0R3XVSSOO0tz/9nR861Z
+ 6R2XVeCwzB2PUZmWK9bmfvzLQK3RkogVMMiJWnA3jxnY+I99dl4C+MTc4q1CPWfkVuXyDIvz
+ wMoDdJe8CV0AEQEAAcLBdgQYAQoAIAIbDBYhBPIWemtx6YKnxgodTIpxGw2hACHtBQJffz4z
+ AAoJEIpxGw2hACHtx1IP+wYJ1gR4tQuJBUqj2slUZ3p/IP6dGhgPKo7kr2XS7zhqd8rY571O
+ Dp26yhJsMCqHtIyGcgqgsz83XRmVOk+NGAkeyrQtVRbRHFEcdnSbMvKl13jmGd7tIxPF6nnr
+ dkXM4pFTSzGP7ip30UmgKF7+IsPlSUQ0yc1DDIOyQG0N6fT/GE0OmJMeggyvheuANeA5fua2
+ 6WZJW/53B4dbMeqf7kBvMXMATaVVhhkoBJV5he+zWOkb2BUc5vPqrB356IYIvMH87D5iCIvb
+ g9v4uBnOADC+M2jRwBZxEKABQi60N1WRwah3hXkmBXo7c70MtnmUxMe22oB4+6hSThLrOhjS
+ rQ5HYVHQd7HkNUdfGnoRX4BPgyalg4HULuFgHPHn/3QuFZ7PVzzk35SX3Q9OJAGARAn+dVx8
+ lqTXibAO0X2Hn6TzcZr+++Nx1tGF6Ld06aXw73fNHrqtbrlqQsiAsSrDcy73T6xcC0QrcmRi
+ YkbG+ExKtTB95OaJ5iKyXZZwuO32PcTWoS5zZ1l80NJdo7k2fkHd6sXBbtGD++HD20IT/8Jg
+ fCYFhM7sYeeNDe/MSjqF0KIKPTRlP81NhTy6VaN9tlA6V4PG5nDj4ZYmZi8fYBnyESGOdZp7
+ /gCDtAyFQYGIbXKjiOFvQzpD93R7ljal4D+J/RyIFR94xM5xOwX24kxN
+In-Reply-To: <1c64c181-4e96-4274-975b-454f7207af92@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,238 +100,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 07, 2025 at 02:18:05PM +0800, Jun Nie wrote:
-> Currently, SSPPs are assigned to a maximum of two pipes. However,
-> quad-pipe usage scenarios require four pipes and involve configuring
-> two stages. In quad-pipe case, the first two pipes share a set of
-> mixer configurations and enable multi-rect mode when certain
-> conditions are met. The same applies to the subsequent two pipes.
-> 
-> Assign SSPPs to the pipes in each stage using a unified method and
-> to loop the stages accordingly.
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 143 +++++++++++++++++++-----------
->  1 file changed, 89 insertions(+), 54 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 149e7066480b07f9f6d422748d89ffd6f9416f33..ecfebf7a2406d65930075cc2a4b8a8a7d40b3d3c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -954,6 +954,30 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_hw_sspp *sspp,
->  		dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth);
->  }
->  
-> +static bool dpu_plane_get_single_pipe(struct dpu_plane_state *pstate,
-> +				      struct dpu_sw_pipe **single_pipe,
-> +				      struct dpu_sw_pipe_cfg **single_pipe_cfg,
-> +				      int *stage_index)
-> +{
-> +	int stage_idx, pipe_idx, i, valid_pipe = 0;
-> +
-> +	for (stage_idx = 0; stage_idx < STAGES_PER_PLANE; stage_idx++) {
-> +		for (i = 0; i < PIPES_PER_STAGE; i++) {
-> +			pipe_idx = stage_idx * PIPES_PER_STAGE + i;
-> +			if (drm_rect_width(&pstate->pipe_cfg[pipe_idx].src_rect) != 0) {
-> +				valid_pipe++;
-> +				if (valid_pipe > 1)
-> +					return false;
-> +
-> +				*single_pipe = &pstate->pipe[pipe_idx];
-> +				*single_pipe_cfg = &pstate->pipe_cfg[pipe_idx];
-> +				*stage_index = stage_idx;
-> +			}
-> +		}
-> +	}
-> +
-> +	return valid_pipe == 1;
-> +}
->  
->  static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
->  				       struct drm_atomic_state *state,
-> @@ -1021,18 +1045,23 @@ static int dpu_plane_try_multirect_shared(struct dpu_plane_state *pstate,
->  					  const struct msm_format *fmt,
->  					  uint32_t max_linewidth)
->  {
-> -	struct dpu_sw_pipe *pipe = &pstate->pipe[0];
-> -	struct dpu_sw_pipe *r_pipe = &pstate->pipe[1];
-> -	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg[0];
-> -	struct dpu_sw_pipe *prev_pipe = &prev_adjacent_pstate->pipe[0];
-> -	struct dpu_sw_pipe_cfg *prev_pipe_cfg = &prev_adjacent_pstate->pipe_cfg[0];
-> +	struct dpu_sw_pipe *pipe, *prev_pipe;
-> +	struct dpu_sw_pipe_cfg *pipe_cfg, *prev_pipe_cfg;
->  	const struct msm_format *prev_fmt = msm_framebuffer_format(prev_adjacent_pstate->base.fb);
-> +	int stage_index, prev_stage_index;
->  	u16 max_tile_height = 1;
->  
-> -	if (prev_adjacent_pstate->pipe[1].sspp != NULL ||
-> +	if (!dpu_plane_get_single_pipe(pstate, &pipe, &pipe_cfg, &stage_index))
-> +		return false;
-> +
-> +	if (!dpu_plane_get_single_pipe(prev_adjacent_pstate, &prev_pipe,
-> +				       &prev_pipe_cfg, &prev_stage_index) ||
->  	    prev_pipe->multirect_mode != DPU_SSPP_MULTIRECT_NONE)
->  		return false;
->  
-> +	if (stage_index != prev_stage_index)
-> +		return false;
+Thanks for the reply.
 
-This should be handled other way around: save N pstates and then loop
-over stage indices. If there is no rect at the corresponding stage for a
-plane, skip assignment (and use prev_adjacent_pstate for the next plane).
+I am aware that i can read and `edid` via sysfs from the drm device. I 
+did not know about `drm_info` but from a quick look at it I don't think 
+it provides the information I need.
 
-> +
->  	if (!dpu_plane_is_multirect_capable(pipe->sspp, pipe_cfg, fmt) ||
->  	    !dpu_plane_is_multirect_capable(prev_pipe->sspp, prev_pipe_cfg, prev_fmt))
->  		return false;
-> @@ -1043,11 +1072,6 @@ static int dpu_plane_try_multirect_shared(struct dpu_plane_state *pstate,
->  	if (MSM_FORMAT_IS_UBWC(prev_fmt))
->  		max_tile_height = max(max_tile_height, prev_fmt->tile_height);
->  
-> -	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -
-> -	r_pipe->sspp = NULL;
-> -
->  	if (dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth) &&
->  	    dpu_plane_is_parallel_capable(prev_pipe_cfg, prev_fmt, max_linewidth) &&
->  	    (pipe_cfg->dst_rect.x1 >= prev_pipe_cfg->dst_rect.x2 ||
-> @@ -1176,6 +1200,44 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
->  	return 0;
->  }
->  
-> +static int dpu_plane_assign_resource_in_stage(struct dpu_sw_pipe *pipe,
-> +					      struct dpu_sw_pipe_cfg *pipe_cfg,
-> +					      struct drm_plane_state *plane_state,
-> +					      struct dpu_global_state *global_state,
-> +					      struct drm_crtc *crtc,
-> +					      struct dpu_rm_sspp_requirements *reqs)
-> +{
-> +	struct drm_plane *plane = plane_state->plane;
-> +	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
-> +	struct dpu_sw_pipe *r_pipe = pipe + 1;
-> +	struct dpu_sw_pipe_cfg *r_pipe_cfg = pipe_cfg + 1;
-> +
-> +	if (drm_rect_width(&pipe_cfg->src_rect) != 0) {
-> +		pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, reqs);
-> +		if (!pipe->sspp)
-> +			return -ENODEV;
-> +	}
-> +
-> +	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0 &&
-> +	    dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
-> +					      pipe->sspp,
-> +					      msm_framebuffer_format(plane_state->fb),
-> +					      dpu_kms->catalog->caps->max_linewidth)) {
-> +		goto stage_assinged;
-> +	}
-> +
-> +	if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
-> +		r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, reqs);
-> +		if (!r_pipe->sspp)
-> +			return -ENODEV;
-> +		r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> +		r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +	}
-> +
-> +stage_assinged:
-> +	return 0;
-> +}
-> +
->  static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->  					      struct dpu_global_state *global_state,
->  					      struct drm_atomic_state *state,
-> @@ -1188,11 +1250,9 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->  	struct dpu_rm_sspp_requirements reqs;
->  	struct dpu_plane_state *pstate, *prev_adjacent_pstate;
->  	struct dpu_sw_pipe *pipe;
-> -	struct dpu_sw_pipe *r_pipe;
->  	struct dpu_sw_pipe_cfg *pipe_cfg;
-> -	struct dpu_sw_pipe_cfg *r_pipe_cfg;
->  	const struct msm_format *fmt;
-> -	int i;
-> +	int i, stage_id, ret;
->  
->  	if (plane_state->crtc)
->  		crtc_state = drm_atomic_get_new_crtc_state(state,
-> @@ -1202,11 +1262,6 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->  	prev_adjacent_pstate = prev_adjacent_plane_state ?
->  		to_dpu_plane_state(prev_adjacent_plane_state) : NULL;
->  
-> -	pipe = &pstate->pipe[0];
-> -	r_pipe = &pstate->pipe[1];
-> -	pipe_cfg = &pstate->pipe_cfg[0];
-> -	r_pipe_cfg = &pstate->pipe_cfg[1];
-> -
->  	for (i = 0; i < PIPES_PER_PLANE; i++)
->  		pstate->pipe[i].sspp = NULL;
->  
-> @@ -1220,44 +1275,24 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
->  
->  	reqs.rot90 = drm_rotation_90_or_270(plane_state->rotation);
->  
-> -	if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
-> -		if (!prev_adjacent_pstate ||
-> -		    !dpu_plane_try_multirect_shared(pstate, prev_adjacent_pstate, fmt,
-> -						    dpu_kms->catalog->caps->max_linewidth)) {
-> -			pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> -			if (!pipe->sspp)
-> -				return -ENODEV;
-> -
-> -			r_pipe->sspp = NULL;
-> -
-> -			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -
-> -			r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -		}
-> -	} else {
-> -		pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> -		if (!pipe->sspp)
-> -			return -ENODEV;
-> -
-> -		if (!dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
-> -						      pipe->sspp,
-> -						      msm_framebuffer_format(plane_state->fb),
-> -						      dpu_kms->catalog->caps->max_linewidth)) {
-> -			/* multirect is not possible, use two SSPP blocks */
-> -			r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> -			if (!r_pipe->sspp)
-> -				return -ENODEV;
-> -
-> -			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> +	if (prev_adjacent_pstate &&
-> +	    dpu_plane_try_multirect_shared(pstate, prev_adjacent_pstate, fmt,
-> +					    dpu_kms->catalog->caps->max_linewidth)) {
-> +		goto assigned;
-> +	}
->  
-> -			r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> -			r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> -		}
-> +	for (stage_id = 0; stage_id < STAGES_PER_PLANE; stage_id++) {
-> +		pipe = &pstate->pipe[stage_id * PIPES_PER_STAGE];
-> +		pipe_cfg = &pstate->pipe_cfg[stage_id * PIPES_PER_STAGE];
-> +		ret = dpu_plane_assign_resource_in_stage(pipe, pipe_cfg,
-> +							 plane_state,
-> +							 global_state,
-> +							 crtc, &reqs);
-> +		if (ret)
-> +			return ret;
->  	}
->  
-> +assigned:
->  	return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
->  }
->  
-> 
-> -- 
-> 2.34.1
-> 
+The problem is not that I need more information about the attached 
+display. The problem is that there is not enough information about the 
+what `i2c` device corresponds to which monitors ddc channel. Relying on 
+udev hierarchies is not sufficient, because in many cases the relevant 
+i2c device has no parent drm output device. So when I have no 
+information about the i2c device I need to get more information by 
+reading from it. Then I know more and can map the device to the correct 
+display. I am happy to change the approach if there is a simpler way for 
+me to get this information.
 
--- 
-With best wishes
-Dmitry
+Ultimately I don't think that me accessing the bus should be the issue 
+here … This issue did not happen with kernel 6.6, so it definitely 
+qualifies as a regression. In my mind it is the job of the driver to 
+handle resource allocation, so if the bus is in use by somebody else it 
+is the kernels job to handle who uses it. It is not the users job to 
+have to worry about some sort of synchronization issue. That is the 
+operating systems job.
+
+People have been experiencing similar screen freezing issues randomly on 
+this drm issue thread: 
+https://gitlab.freedesktop.org/drm/amd/-/issues/4141#note_3016182
+
+This example highlights an issue that can be triggered reliably with a 
+very similar effect. It may not be the same issue, but they may be related.
+
+
+On 7/18/25 20:02, Mario Limonciello wrote:
+>
+> At least to me, this issue sounds like a case that multiple entities 
+> are trying to communicate with the panel at the same time.
+>
+> By setting dcdebugmask=0x10 what you're essentially doing is stopping 
+> the display hardware from trying to put the panel into PSR.  So there 
+> is "less" I2C traffic to fight with.
+>
+> *Why* are you using I2C to read the EDID like this?  Could you instead 
+> use /sys/class/drm/cardX-inputY/edid?  Or even better - can you use 
+> the information from drm_info to make decisions?
+>
+> I think the less I2C traffic done directly from userspace the better 
+> when it comes to synchronization issues..
+>
+
