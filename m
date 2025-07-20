@@ -2,90 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB99B0B424
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 09:50:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C845B0B468
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 11:01:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9521510E04E;
-	Sun, 20 Jul 2025 07:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD1BE10E179;
+	Sun, 20 Jul 2025 09:01:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="PlYGJWpA";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="L6mJtI9u";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="RbJxu4Aj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5B9B10E04E
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 07:50:46 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-235f9e87f78so29519995ad.2
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 00:50:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1752997846; x=1753602646;
- darn=lists.freedesktop.org; 
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1EIzLiEKFNKNhapurV5TiPfyoyMNTU5jV2wejXKsOv0=;
- b=PlYGJWpArNn7GylQMkN69vYU1Tuv9A7wJAPsSkenwJvZvh5xvki4tRIgvj7RE98/UW
- JJ+FmCIn+K9dlznh8iX5CzUBTyVKpUIDoF29sXF1Ah+P83SpD2NgNfEFRAU9XNHyrc9c
- fIb2VvUzyUIQ9mTEv04y2rUMQY9rJ7teTO515fQDwI6/JwWT4LNc0saCcmk5n8lMhxBD
- IdKsDEFnuex1Udu1ZB2uXv9tzYUgA/lyHXCTVkpyUc1liBEA8Svyb47SSkyXWcqIt09L
- t1eY1rwDxdfSaFjqeoJsyMuNfk/9JjSgBHw4m1Yd4Y5wiJmaw79p1vlROEzjLhBEwAPu
- 0GcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752997846; x=1753602646;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=1EIzLiEKFNKNhapurV5TiPfyoyMNTU5jV2wejXKsOv0=;
- b=IwGp25oDncQQbwz3P0+ROIuEWIZqp2niievqt9yj+zWiubDrw3jG9OxnmNsuNtoUhk
- Ip1mHV1aNWFnUKT5BxaL33KKO3ReqUd+n4YhTuhCzogl0CWoNAwJhwR2FA5l7a0v8ygv
- EIahKspk+T9qJhAtg7WGVFEKglAVMmIreovdpcR+iQt/1RjyIN/fREwyj00XepyAQYgt
- dRVs1XAXB7krhuMQiF92ijABfHInvcTgy6FVRNGifYCTsHi6xlkwbWIAVK3284AbQ0pz
- fU37t41BFcwvAtbZ4CiuV0qFGjRrt4OoIIfWHPhZ+vOCq5LTpR966SHqSj+gGzVHMLtZ
- 3OAw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXoRl4rkGCN1BxK8hfF01hPVrL/MPzyBYY8dEoIFU6fp/lKq1lA8f948MQS2L8sVhGZdCvCaBSddHI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwBknvQ3a8L3D2ZbxR7ejgIGK7nLEy/dlEoCU2glnECOIsHB9K9
- 1aXIEnLsu6Jj4Hi7kQGtKIZR1wfAOmPJ6QBJtASSDLmZaf4m165XfHMTZWEwjLS9ye4=
-X-Gm-Gg: ASbGncvSg6b68SEUSJaXy/Mik0jXqIR2V9vXNZSEydqL/+MrZnpgVD4Un/pk3eOeej9
- zxYescY5Pmv27KpvcEDrun+8YzjrWinCIDcrgZoY/GAF/ooV1UzxWv60d2/k5G6WCgeQNyRjkEs
- slo0uYXxOHJSOj8xtlgRUG944ifo7ImMHGmqCTYwHd0/oYpMA/mrQeB/qbAYVvEE/59PwqMxy75
- kJkWTswonMvhHfBGRfRXKsD6wf0QCnFO3k8lehR9oeboQDQAnyUkZWBwWquHcAnu2ik5eO59PmY
- eu4hYqpUnv8ryAy8DTte7Rxq6qaQZPj7OG0GY2Sjwqt/WPaeLYCJZnvbkjIj9tKbueYbK+fd8yv
- ihAfRb/QUnFXPskEDLT0=
-X-Google-Smtp-Source: AGHT+IHLtegd1iyRVDLN/vP8oO8twGnp2iC58ZPKXolFVDdIfrLW6ekD318QbzbDW8XkVDBKOe/oyA==
-X-Received: by 2002:a17:902:ef44:b0:234:a139:120b with SMTP id
- d9443c01a7336-23e2566ae6fmr224043965ad.11.1752997846197; 
- Sun, 20 Jul 2025 00:50:46 -0700 (PDT)
-Received: from localhost ([64.71.154.6]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23e3b60ec88sm38530095ad.65.2025.07.20.00.50.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Jul 2025 00:50:45 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 20 Jul 2025 01:50:43 -0600
-Message-Id: <DBGPVFN5DTGU.5UTP35ALYS2Q@brighamcampbell.com>
-Cc: <tejasvipin76@gmail.com>, <skhan@linuxfoundation.org>,
- <linux-kernel-mentees@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Jessica Zhang"
- <jessica.zhang@oss.qualcomm.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>
-Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
- driver
-From: "Brigham Campbell" <me@brighamcampbell.com>
-To: "Diogo Ivo" <diogo.ivo@tecnico.ulisboa.pt>, "Doug Anderson"
- <dianders@chromium.org>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250717164053.284969-1-me@brighamcampbell.com>
- <20250717164053.284969-3-me@brighamcampbell.com>
- <CAD=FV=Vrp9MM_5de10sV-TC_mp-D7en9gjU8DBoD6mBrRvF2eg@mail.gmail.com>
- <f0d300fc-0141-4eab-a888-d1d32778f5de@tecnico.ulisboa.pt>
-In-Reply-To: <f0d300fc-0141-4eab-a888-d1d32778f5de@tecnico.ulisboa.pt>
+Received: from fout-b3-smtp.messagingengine.com
+ (fout-b3-smtp.messagingengine.com [202.12.124.146])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF0C10E179
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 09:01:10 +0000 (UTC)
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal
+ [10.202.2.49])
+ by mailfout.stl.internal (Postfix) with ESMTP id 058F01D00127;
+ Sun, 20 Jul 2025 04:51:08 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-09.internal (MEProxy); Sun, 20 Jul 2025 04:51:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:subject
+ :subject:to:to; s=fm2; t=1753001468; x=1753087868; bh=gQV59Aievl
+ /LHsII52zjTNCqSuGz5fExZsMExKq04hU=; b=L6mJtI9u0DIJzIFzES6RUxC6QM
+ nOXOwy892BeOgiSBCkNqfsHBWKukdfgnfdkT1EVFc2ZCi41DtWTyJ1aTGIXe/EJe
+ n/mTi4JhMAAvxnE4716Tl4enwxvyA0V7XrP9hM2vV0sEiTnLHCpD3wpsJPhnWq4Z
+ D9hA+OxZEwEOkNNoLAq+ZTE5paeOKtlTEkTd/2+uPh6odv8iKUP6Ut7SOyV5eNyj
+ JLFhN/hrRUvYSdPMmBQdfDNNABgCqx8hhhVdNrmtOuLeFccHvvuZodhrSA+xaVgF
+ 1Z4FF7Gpya1BGYEhiomDHJDSKvq2qTGIdOVdRc1gZM6DZko8CyKP4Do+wRgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1753001468; x=1753087868; bh=gQV59Aievl/LHsII52zjTNCqSuGz5fExZsM
+ ExKq04hU=; b=RbJxu4AjYWHWGO4Xti0Kan6IjgghWZpt5gx/58ZxJg40ok4PHXz
+ QgPcpy+D7eCLdrpVIEpknRBLD8YvR1069xlCM3mGkvgOtCbzCPN6QAZ+Qc8eE+BA
+ Ce8+Uct8z+eRYvbf3fiLVXe4/rZjj3c1L4W5adxnKt4eCbpsM8N4g2Py4c/EE41Y
+ U3UjmgSmpdoCVYd8/ceO78lQ8LUaMFIsEB7SCeYriEMEpby5eAC4/c9Pc5zzdSmJ
+ MresWbmCc9CmafExSzDnxdpGtabn8qLpL7shBa0HL/8scbLrWNuwJQMEUCuN8JsS
+ swVDCsFXgxx8GZnnsyq7xkol2/55/djxnjA==
+X-ME-Sender: <xms:-618aNAwOZt92zal1_CFhaLA1qzd89iBE_WfT7Zo_8Ft96EEEnY42A>
+ <xme:-618aMIY2DmpguQqvbYoOzN4asaZ4Yvh8S1biHv_-BGd40b3cY5FLKzHU0jIGgvh4
+ 1APrvrZWBYNKLlnhw>
+X-ME-Received: <xmr:-618aDumqiz37U_wXkz9mL1dksN5UiD28M5bcvXe-S2OmHYe9FhGXEtGf3fh99OJm-gTApSUWnhd6JedgxBHzuLFWDx9aQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeikeejjecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefthigrnhcuhggrlhhk
+ lhhinhcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecuggftrfgrthhtvghrnh
+ epfeejjefhjefhgfeitdellefhueekfeetueektdejvdeuueegudehudffkeevudeunecu
+ ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
+ pghrtghpthhtohepudehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrohgshh
+ eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdho
+ rhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtth
+ hopeifvghnshestghsihgvrdhorhhgpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggs
+ vggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshgrmhhuvghlsehshhholhhlrghnug
+ drohhrghdprhgtphhtthhopegrnhgurhgvrdhprhiihiifrghrrgesrghrmhdrtghomhdp
+ rhgtphhtthhopehmrggtrhhorghlphhhrgekvdesghhmrghilhdrtghomhdprhgtphhtth
+ hopehkihhkuhgthhgrnhelkeesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:-618aMXTENndXGA_6xrbCkrXOv3WPuZabdw3SfGnJrqDJ31BPnTG3Q>
+ <xmx:-618aGKIvE3F3HpGJatCw5N-_DS3ZcBIxP-49rTD8VoIv4IBLSAElw>
+ <xmx:-618aJ-ld0ahDCW-UIPPoySWYcnZmtn3M4n8V8J2Aq6v092xt4orRw>
+ <xmx:-618aMOc2O_9EoAc2MbWzdlSFG7NEbm24S9oWQWmrnNyJ06_Si4swQ>
+ <xmx:_K18aELd15twgm1QngICr-FB1pgniyT_ZH2OxV46XAUzztVOO4y_YRjY>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 20 Jul 2025 04:51:03 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Philippe Simons <simons.philippe@gmail.com>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH v2 00/12] arm64: dts: allwinner: h616: add LCD timing
+ controller and display engine support
+Date: Sun, 20 Jul 2025 20:48:38 +1200
+Message-ID: <20250720085047.5340-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,36 +106,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat Jul 19, 2025 at 11:10 AM MDT, Diogo Ivo wrote:
->> nit: can just be this:
->>=20
->> struct mipi_dsi_multi_context dsi_ctx =3D {};
->
-> I am not an expert here but I was under the impression that this is only
-> valid with C23 while the kernel is written in C11. Is there something I
-> am missing?
->
-> Diogo
+Hi All,
 
-You're right, C23 was the first standard to bless the usage of the empty
-initializer, ` =3D {};`, but if I'm right, it's been a GNU extension long
-before C11. At risk of being pedantic, I'll draw attention to line 580
-of the kernel's root Makefile:
+V2 of this patch adding display engine and timing controller support for the H616 and related SoCs, and enabling LCD output for the RG35XX series of handheld gaming devices using this SoC. V2 updates with feedback and Acks from the previous v1, with changes largely improving consistency of DT compatible and fallback strings, and removing the temporary GPIO switched backlight from v1 in favour of waiting for proper PWM support.
 
-KBUILD_CFLAGS +=3D -std=3Dgnu11
+Regards,
 
-The kernel is technically written in the GNU variant of C11, extensions
-and all. In fact, the first patch of this series uses optional variadic
-macro arguments, which aren't a part of any official C standard as far
-as I'm aware.
+Ryan
 
-In any case, a simple grep for some forms of the empty initializer shows
-usages all over the drm subsystem.
+Original blurb below:
 
-That said, I don't know if GNU extensions are formally documented or
-where one would look for that information. Importantly, I am by far the
-junior as far as kernel coding is concerned. I yield to your experience
-and I'm happy to change this initialization in v6 if that's best.
+The H616 series of SoCs has an LCD timing controller as part of its display pipeline, capable of outputting to an LCD display, as well as HDMI and (depending on the SoC) composite TV signals. The pins are not exposed on all die variants, but the H700 variant is exposes RGB and LVDS pins. Building on the DE33 display engine patches on the list (https://lore.kernel.org/linux-sunxi/20250216085432.6373-2-ryan@testtoast.com), this patch series:
 
-Cheers,
-Brigham
+- adds the required device tree configuration for the display pipeline to the H616 (bus, display engine, mixer and timing controller)
+- adds a quirk to the sun4i TCON driver for the Allwinner R40 (compatible with the H616/H618/H700/T507)
+- describes the H616 RGB and LVDS GPIO pins
+- adds the required pipeline endpoints to the device tree for the Anbernic RG35XX devices featuring this SoC
+- adds LCD panel description, and required power supply configuration for the panel, backlight and GPIO pins for the RG35XX
+
+Thanks to Jernej Skrabec for the initial out-of-tree patch for the T507.
+
+Regards,
+
+Ryan
+
+Chris Morgan (1):
+  dt-bindings: allwinner: add H616 DE33 bus binding
+
+Jernej Skrabec (1):
+  drm/sun4i: tcon: add support for R40
+
+Ryan Walklin (10):
+  dt-bindings: allwinner: Add TCON_TOP_LCD clock defines
+  dt-bindings: display: sun4i: Add compatible strings for H616 DE
+  dt-bindings: display: sun4i: Add compatible strings for H616 TCON TOP
+  dt-bindings: display: sun4i: add allwinner R40 and H616 tcon
+    compatible strings
+  dt-bindings: sram: sunxi-sram: Add H616 SRAM C compatible
+  drm: sun4i: add compatible for h616 display engine
+  arm64: dts: allwinner: h616: add display engine, bus and mixer nodes
+  arm64: dts: allwinner: h616: Add LCD timing controller nodes
+  arm64: dts: allwinner: h616: add LCD and LVDS pins
+  arm64: dts: allwinner: rg35xx: Enable LCD output
+
+ .../bus/allwinner,sun50i-a64-de2.yaml         |   7 +-
+ .../allwinner,sun4i-a10-display-engine.yaml   |   1 +
+ .../display/allwinner,sun4i-a10-tcon.yaml     |  10 +
+ .../display/allwinner,sun8i-r40-tcon-top.yaml |  13 +-
+ .../allwinner,sun4i-a10-system-control.yaml   |   4 +-
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 225 ++++++++++++++++++
+ .../sun50i-h700-anbernic-rg35xx-2024.dts      |  56 +++++
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |   1 +
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            |   9 +
+ include/dt-bindings/clock/sun8i-tcon-top.h    |   2 +
+ 10 files changed, 319 insertions(+), 9 deletions(-)
+
+-- 
+2.50.1
+
