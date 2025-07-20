@@ -2,57 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544EBB0B4E7
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 12:30:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E1CB0B565
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 13:19:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 327DB10E1E9;
-	Sun, 20 Jul 2025 10:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76CC110E1E0;
+	Sun, 20 Jul 2025 11:19:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MFU0B/Ju";
+	dkim=pass (1024-bit key; secure) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="QRaPlXD6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 956F710E1CD;
- Sun, 20 Jul 2025 10:30:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5F5975C0C37;
- Sun, 20 Jul 2025 10:30:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C611BC4CEE7;
- Sun, 20 Jul 2025 10:30:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753007408;
- bh=J92ChcRnDttWm9ZMqpwKbQR0/39abVygpXfEDwM1XU0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MFU0B/JufihuasPZrquWC1GFzNqNRIWTymvqOvM+JUohH7UJtMwgY07U+OOEosiCS
- +sx76Fbp3KsfNU/7vYb22NP4keJGU8Ga1+o0HN1oYNr8xn27QNM0ZuneCOEqBINMJl
- QdYqf/Ngmtn9QBltRNeXxFGVG8/EeOPSaz2jKrfV7Ld7/AOEfDRQhniKT+hyDON73Q
- B8CoP6ZiOxBjXwbVS3jMoeo+nWg5/rLuyXsjUyKUl3J++Lu66U/VumCbEXeFK6h9rG
- nGgvHc27nkqlzL8lYqGvFDecUwPX+JrBwB2bHp82LeLAHmkWL1NVmIRS7KnVcaYFiv
- Rl+dwUvNcUO3Q==
-Date: Sun, 20 Jul 2025 13:30:03 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Yonatan Maman <ymaman@nvidia.com>
-Cc: =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alistair Popple <apopple@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Michael Guralnik <michaelgur@nvidia.com>,
- Or Har-Toov <ohartoov@nvidia.com>,
- Daisuke Matsuda <dskmtsd@gmail.com>, Shay Drory <shayd@nvidia.com>,
- linux-mm@kvack.org, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] *** GPU Direct RDMA (P2P DMA) for Device Private
- Pages ***
-Message-ID: <20250720103003.GH402218@unreal>
-References: <20250718115112.3881129-1-ymaman@nvidia.com>
+Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
+ [193.136.128.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AEE110E1E0
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 11:19:45 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 53F7C600085A;
+ Sun, 20 Jul 2025 12:19:43 +0100 (WEST)
+X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
+Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
+ by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
+ with LMTP id fFBU6Rh2sC4W; Sun, 20 Jul 2025 12:19:41 +0100 (WEST)
+Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
+ by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 7D5E1600086B;
+ Sun, 20 Jul 2025 12:19:39 +0100 (WEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
+ s=mail; t=1753010380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4AYcinkFOAcq7n312XvMccrwqLxCWTdWzIdRjmqY2XU=;
+ b=QRaPlXD66sIibZEDIjJ2zvX7gQs/B8rdfQb+t5Zae4AQxVWBGEGEgc3UgMJRugmK60YJU1
+ sgM2DPkHRz0HHqtOhSvMVuCjnD45iKEWVGAL+RNwBJv7rba0Eiuayp9OOz7Ckv9ZpZfch/
+ 3MqHqNxeCQkIdPnHpwM+KQVgmIgJNC4=
+Received: from [IPV6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde] (unknown
+ [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
+ (Authenticated sender: ist187313)
+ by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id A09F5360071;
+ Sun, 20 Jul 2025 12:19:37 +0100 (WEST)
+Message-ID: <73686985-27c4-4a4f-8b75-18df112367a7@tecnico.ulisboa.pt>
+Date: Sun, 20 Jul 2025 12:19:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250718115112.3881129-1-ymaman@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
+ driver
+To: Brigham Campbell <me@brighamcampbell.com>,
+ Doug Anderson <dianders@chromium.org>
+Cc: tejasvipin76@gmail.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250717164053.284969-1-me@brighamcampbell.com>
+ <20250717164053.284969-3-me@brighamcampbell.com>
+ <CAD=FV=Vrp9MM_5de10sV-TC_mp-D7en9gjU8DBoD6mBrRvF2eg@mail.gmail.com>
+ <f0d300fc-0141-4eab-a888-d1d32778f5de@tecnico.ulisboa.pt>
+ <DBGPVFN5DTGU.5UTP35ALYS2Q@brighamcampbell.com>
+Content-Language: en-US
+From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+In-Reply-To: <DBGPVFN5DTGU.5UTP35ALYS2Q@brighamcampbell.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,69 +82,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 18, 2025 at 02:51:07PM +0300, Yonatan Maman wrote:
-> From: Yonatan Maman <Ymaman@Nvidia.com>
-> 
-> This patch series aims to enable Peer-to-Peer (P2P) DMA access in
-> GPU-centric applications that utilize RDMA and private device pages. This
-> enhancement reduces data transfer overhead by allowing the GPU to directly
-> expose device private page data to devices such as NICs, eliminating the
-> need to traverse system RAM, which is the native method for exposing
-> device private page data.
-> 
-> To fully support Peer-to-Peer for device private pages, the following
-> changes are proposed:
-> 
-> `Memory Management (MM)`
->  * Leverage struct pagemap_ops to support P2P page operations: This
-> modification ensures that the GPU can directly map device private pages
-> for P2P DMA.
->  * Utilize hmm_range_fault to support P2P connections for device private
-> pages (instead of Page fault)
-> 
-> `IB Drivers`
-> Add TRY_P2P_REQ flag for the hmm_range_fault call: This flag indicates the
-> need for P2P mapping, enabling IB drivers to efficiently handle P2P DMA
-> requests.
-> 
-> `Nouveau driver`
-> Add support for the Nouveau p2p_page callback function: This update
-> integrates P2P DMA support into the Nouveau driver, allowing it to handle
-> P2P page operations seamlessly.
-> 
-> `MLX5 Driver`
-> Utilize NIC Address Translation Service (ATS) for ODP memory, to optimize
-> DMA P2P for private device pages. Also, when P2P DMA mapping fails due to
-> inaccessible bridges, the system falls back to standard DMA, which uses host
-> memory, for the affected PFNs
 
-I'm probably missing something very important, but why can't you always
-perform p2p if two devices support it? It is strange that IB and not HMM
-has a fallback mode.
 
-Thanks
+On 7/20/25 8:50 AM, Brigham Campbell wrote:
+> On Sat Jul 19, 2025 at 11:10 AM MDT, Diogo Ivo wrote:
+>>> nit: can just be this:
+>>>
+>>> struct mipi_dsi_multi_context dsi_ctx = {};
+>>
+>> I am not an expert here but I was under the impression that this is only
+>> valid with C23 while the kernel is written in C11. Is there something I
+>> am missing?
+>>
+>> Diogo
+> 
+> You're right, C23 was the first standard to bless the usage of the empty
+> initializer, ` = {};`, but if I'm right, it's been a GNU extension long
+> before C11. At risk of being pedantic, I'll draw attention to line 580
+> of the kernel's root Makefile:
+> 
+> KBUILD_CFLAGS += -std=gnu11
+> 
+> The kernel is technically written in the GNU variant of C11, extensions
+> and all. In fact, the first patch of this series uses optional variadic
+> macro arguments, which aren't a part of any official C standard as far
+> as I'm aware.
+> 
+> In any case, a simple grep for some forms of the empty initializer shows
+> usages all over the drm subsystem.
+> 
+> That said, I don't know if GNU extensions are formally documented or
+> where one would look for that information. Importantly, I am by far the
+> junior as far as kernel coding is concerned. I yield to your experience
+> and I'm happy to change this initialization in v6 if that's best.
 
-> 
-> Previous version:
-> https://lore.kernel.org/linux-mm/20241201103659.420677-1-ymaman@nvidia.com/
-> https://lore.kernel.org/linux-mm/20241015152348.3055360-1-ymaman@nvidia.com/
-> 
-> Yonatan Maman (5):
->   mm/hmm: HMM API to enable P2P DMA for device private pages
->   nouveau/dmem: HMM P2P DMA for private dev pages
->   IB/core: P2P DMA for device private pages
->   RDMA/mlx5: Enable P2P DMA with fallback mechanism
->   RDMA/mlx5: Enabling ATS for ODP memory
-> 
->  drivers/gpu/drm/nouveau/nouveau_dmem.c | 110 +++++++++++++++++++++++++
->  drivers/infiniband/core/umem_odp.c     |   4 +
->  drivers/infiniband/hw/mlx5/mlx5_ib.h   |   6 +-
->  drivers/infiniband/hw/mlx5/odp.c       |  24 +++++-
->  include/linux/hmm.h                    |   3 +-
->  include/linux/memremap.h               |   8 ++
->  mm/hmm.c                               |  57 ++++++++++---
->  7 files changed, 195 insertions(+), 17 deletions(-)
-> 
-> -- 
-> 2.34.1
-> 
+I found the documentation here [1], and it does state regarding designated
+initializers that "Omitted fields are implicitly initialized the same as for
+objects that have static storage duration." so I take it that no v6 is 
+needed :)
+
+Diogo
+
+[1]: 
+https://gcc.gnu.org/onlinedocs/gcc/Designated-Inits.html#Designated-Inits
