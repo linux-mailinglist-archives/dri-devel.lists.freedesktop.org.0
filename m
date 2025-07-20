@@ -2,81 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D91FB0B2DC
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 02:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2166CB0B2EB
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 02:06:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAB210E44A;
-	Sun, 20 Jul 2025 00:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D37F10E445;
+	Sun, 20 Jul 2025 00:06:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WHE8FrZH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pEtxp9jq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3EF810E378
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 00:02:20 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-23dc5bcf49eso39886485ad.2
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 17:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752969740; x=1753574540; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=84kX2XXjEmF3ERut/9hhHijiazxXV8Nw4X0UoQzs5OY=;
- b=WHE8FrZHXQf/NRTVVuya4btQ4wKNqk/7nRJbdoCvScD5qm8j/QzlTCo3gNdc/T32Nw
- pnonaLDK8Ct7E70zpeStHa5PJePATEYdoSL0WHQzCf/ZwHDM+AnJQt+062scsPSZLKQm
- /OygWc3v/ZZqE6XR5tBIDhzaX0lOvv29QG8safVuCC9axSyVspjHKEVsiuHCDx3ufhgK
- M8z7yqkWyRU15GclMbPK4ze7mdL9/q30ppXMvVhe0UrMRMuH95Iiu8WfQaVPC8aoDdaR
- zzQ74g0hGBNg4MjlWHEJkY7e/v6CXxXHkgWinwz5A8oMF8pD/ImdpOd/IVRtjnSn6gR6
- 175A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752969740; x=1753574540;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=84kX2XXjEmF3ERut/9hhHijiazxXV8Nw4X0UoQzs5OY=;
- b=wXewrhyE3CggaxCIdpCJ9Rtd8w/plZ2WWfCQBPBLOX4GjNl3TSakxWOk34C3FvjNGo
- rqg9rMk+tPjdcHriGHx6KRHkF7+HYfs1KdNp6n/FtIE5siLX51H9CDyMovknbkI7A9yo
- 5hL7KLodGVa5qSqgxALoEWLeGP4Lh4BcteWtPJRRMVlzAIKD7LTgtUZZ84sQgmChmQRs
- XpfwGuiZUqaIPU9soi4EMGTtdgYT5eXeFqWwE5ijZ2EOnbReNs0AQY4lusdRthoNt9V/
- ZD7cePzoZaNp7mBag8zaf8KxbTUzbHuGj1cMmyyb/LkApVTKSBflpLKKlB2ojd3NAUav
- tFvA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUutFkEpuy0gEp+zkNwXAyBBesGPDnZLPThJd7ZPcQPavtkSwMfBd7+Jl0FjVrTg6QPriwr334nAvU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyEx9l2Exnkkit+lGnCdK1ZM44HtXo6RgbTq4tISuZuHZoIiaF7
- /LdLEd5hJJcRGdDeQ8FUWW8a9I3/lPJx4OqbPOAlHH6+i+FxR5ktDCtg
-X-Gm-Gg: ASbGncs9J4vrfxsTLjzuZmgxe8tugj7zrxtc2pRNBSDF7LMhny/RF5daGksNv18IF0r
- MgO/QofvLOtSwpGcFm4lG8TyfEOi2KpJGYOMADpQQ3SOPqiBS9jNK52J5BeUQtV2d1QlwYJvzCr
- m7LmeF9zIwp/6jWY4K1c5JDtJYKAV/BvRJkM/91Hka7tt1FMJ/Ji3zjz2tyVEHVJhd099/bP5bQ
- nawkIjSUqgebQU/fpvXFh/k5RsrXU9tfHhMuONquxbCOI9NkZeqzEvhs+Ef51sN46A4q1V8LmHI
- OZE/szBoazTCWzdTv2Imhm++fIymQX2wJw8AM9pkZsy0yZMnqg5UpayTShW/Q0J62nW6bVNRW68
- yfacAFsKfvTKfah7HAWVouHZROOyt3T6ZCniJ2CJmEswg5hmP+Vpu
-X-Google-Smtp-Source: AGHT+IGrdnG0OWJunucDj7yzg7E2yLnTs0LAdIZYU4n36wPhEob7h9C1DqLDA0cQ6ZgUGwr9uA3FPQ==
-X-Received: by 2002:a17:903:8c5:b0:23d:da20:1685 with SMTP id
- d9443c01a7336-23e302821f4mr152125815ad.4.1752969740108; 
- Sat, 19 Jul 2025 17:02:20 -0700 (PDT)
-Received: from localhost (111-252-5-201.dynamic-ip.hinet.net. [111.252.5.201])
- by smtp.gmail.com with UTF8SMTPSA id
- d9443c01a7336-23e3b708763sm33826375ad.230.2025.07.19.17.02.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jul 2025 17:02:19 -0700 (PDT)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 9/9] drm/panthor: add DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE
-Date: Sat, 19 Jul 2025 17:01:46 -0700
-Message-ID: <20250720000146.1405060-10-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-In-Reply-To: <20250720000146.1405060-1-olvaffe@gmail.com>
-References: <20250720000146.1405060-1-olvaffe@gmail.com>
-MIME-Version: 1.0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E30610E445;
+ Sun, 20 Jul 2025 00:06:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 91ED245B16;
+ Sun, 20 Jul 2025 00:06:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13700C4CEF7;
+ Sun, 20 Jul 2025 00:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752970010;
+ bh=EApa/B3qVNDfcExaLR6bhySD8ifVqpdKzBSj8T1Yzv8=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=pEtxp9jqGZO/EZuUwwHs96LA4wrnlAkGCZ4Pg0R4zbUB4294vQFYHYJTV1LBCw2H1
+ 04kSoJNYJMhAtTEUS7WcSFj0U3uh7AAnoun76XMx8phL4VcGr0ejm4qGizm0MnRhwi
+ bsAhIocqOL2gdDrJk1yPAkxQmmD8KfytwnDGJkt26gwL29NcHKv7tZa+1kZPF56Ty8
+ D3q5im5bsSV5jcEnWvJo9ek5gcWPf3KOzh3Oh8RP7MRnoCAZ9uCAQO8GaLyLCNoxld
+ ZDb5f/yRhPsNzBzlGohtFYDLYlaVe+kNf4a+KhbJLutSbLx0FZ96kG2jMVDoyCLjjz
+ 34Q0P2ptEK31Q==
+Date: Sat, 19 Jul 2025 19:06:49 -0500
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org, 
+ Bjorn Andersson <andersson@kernel.org>, Sean Paul <sean@poorly.run>, 
+ freedreno@lists.freedesktop.org, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abel.vesa@linaro.org>, 
+ Yongxing Mou <quic_yongmou@quicinc.com>, 
+ Danila Tikhonov <danila@jiaxyga.com>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Abhinav Kumar <abhinav.kumar@oss.qualcomm.com>, 
+ linux-kernel@vger.kernel.org, 
+ Marijn Suijten <marijn.suijten@somainline.org>, linux-clk@vger.kernel.org, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Mahadevan <quic_mahap@quicinc.com>, 
+ Simona Vetter <simona@ffwll.ch>, Konrad Dybcio <konradybcio@kernel.org>, 
+ devicetree@vger.kernel.org
+To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+In-Reply-To: <20250717-dp_mst_bindings-v3-0-72ce08285703@oss.qualcomm.com>
+References: <20250717-dp_mst_bindings-v3-0-72ce08285703@oss.qualcomm.com>
+Message-Id: <175296991792.777248.14434286781609695390.robh@kernel.org>
+Subject: Re: [PATCH v3 0/5] dt-bindings: msm/dp: Add support for 4 pixel
+ streams
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,135 +79,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the flag is set, bo data is captured for devcoredump.
 
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
----
- drivers/gpu/drm/panthor/panthor_coredump.c | 36 ++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_drv.c      |  3 +-
- drivers/gpu/drm/panthor/panthor_mmu.c      |  7 +++--
- include/uapi/drm/panthor_drm.h             |  7 +++++
- 4 files changed, 49 insertions(+), 4 deletions(-)
+On Thu, 17 Jul 2025 16:28:42 -0700, Jessica Zhang wrote:
+> On some MSM chipsets, the display port controller is capable of supporting
+> up to 4 streams.
+> 
+> To drive these additional streams, the pixel clocks for the corresponding
+> stream needs to be enabled.
+> 
+> Fixup the documentation of some of the bindings to clarify exactly which
+> stream they correspond to, then add the new bindings and device tree
+> changes.
+> 
+> ---
+> Changes in v3:
+> - Fixed dtschema errors (Rob Herring)
+> - Documented all pixel stream clocks (Dmitry)
+> - Ordered compatibility list alphabetically (Dmitry)
+> - Dropped assigned-clocks too (Dmitry)
+> - Link to v2: https://lore.kernel.org/r/20250530-dp_mst_bindings-v2-0-f925464d32a8@oss.qualcomm.com
+> 
+> Changes in v2:
+> - Rebased on top of next-20250523
+> - Dropped merged maintainer patch
+> - Added a patch to make the corresponding dts change to add pixel 1
+>   stream
+> - Squashed pixel 0 and pixel 1 stream binding patches (Krzysztof)
+> - Drop assigned-clock-parents bindings for dp-controller (Krzysztof)
+> - Updated dp-controller.yaml to include all chipsets that support stream
+>   1 pixel clock (Krzysztof)
+> - Added missing minItems and if statement (Krzysztof)
+> - Link to v1: https://lore.kernel.org/r/20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com
+> 
+> ---
+> Abhinav Kumar (4):
+>       dt-bindings: Fixup x1e80100 to add DP MST support
+>       dt-bindings: clock: Add SC7280 DISPCC DP pixel 1 clock binding
+>       dt-bindings: display/msm: drop assigned-clock-parents for dp controller
+>       dt-bindings: display/msm: add stream pixel clock bindings for MST
+> 
+> Jessica Zhang (1):
+>       arm64: dts: qcom: Add MST pixel streams for displayport
+> 
+>  .../bindings/display/msm/dp-controller.yaml        | 53 +++++++++++-----
+>  .../bindings/display/msm/qcom,sa8775p-mdss.yaml    | 14 +++--
+>  .../bindings/display/msm/qcom,sar2130p-mdss.yaml   | 11 ++--
+>  .../bindings/display/msm/qcom,sc7180-mdss.yaml     |  3 -
+>  .../bindings/display/msm/qcom,sc7280-mdss.yaml     | 12 ++--
+>  .../bindings/display/msm/qcom,sm7150-mdss.yaml     |  5 --
+>  .../bindings/display/msm/qcom,sm8750-mdss.yaml     | 11 ++--
+>  .../bindings/display/msm/qcom,x1e80100-mdss.yaml   | 21 +++----
+>  arch/arm64/boot/dts/qcom/sa8775p.dtsi              | 34 +++++++---
+>  arch/arm64/boot/dts/qcom/sar2130p.dtsi             | 10 ++-
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi               | 10 ++-
+>  arch/arm64/boot/dts/qcom/sc8180x.dtsi              | 20 ++++--
+>  arch/arm64/boot/dts/qcom/sc8280xp.dtsi             | 72 +++++++++++++++-------
+>  arch/arm64/boot/dts/qcom/sm8150.dtsi               | 10 ++-
+>  arch/arm64/boot/dts/qcom/sm8250.dtsi               | 10 ++-
+>  arch/arm64/boot/dts/qcom/sm8350.dtsi               | 10 ++-
+>  arch/arm64/boot/dts/qcom/sm8450.dtsi               | 10 ++-
+>  arch/arm64/boot/dts/qcom/sm8550.dtsi               | 10 ++-
+>  arch/arm64/boot/dts/qcom/sm8650.dtsi               | 10 ++-
+>  arch/arm64/boot/dts/qcom/x1e80100.dtsi             | 30 ++++++---
+>  include/dt-bindings/clock/qcom,dispcc-sc7280.h     |  2 +
+>  21 files changed, 235 insertions(+), 133 deletions(-)
+> ---
+> base-commit: 7a88d609b069b7d2f4d10113b18fea02921bedb1
+> change-id: 20241202-dp_mst_bindings-7536ffc9ae2f
+> 
+> Best regards,
+> --
+> Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> 
+> 
+> 
 
-diff --git a/drivers/gpu/drm/panthor/panthor_coredump.c b/drivers/gpu/drm/panthor/panthor_coredump.c
-index 5502452a5baa..db5695b38c2d 100644
---- a/drivers/gpu/drm/panthor/panthor_coredump.c
-+++ b/drivers/gpu/drm/panthor/panthor_coredump.c
-@@ -5,6 +5,7 @@
- #include <drm/drm_print.h>
- #include <drm/drm_managed.h>
- #include <generated/utsrelease.h>
-+#include <linux/ascii85.h>
- #include <linux/devcoredump.h>
- #include <linux/err.h>
- #include <linux/pm_runtime.h>
-@@ -99,6 +100,26 @@ static const char *reason_str(enum panthor_coredump_reason reason)
- 	}
- }
- 
-+static void print_bo(struct drm_printer *p, struct panthor_gem_object *bo,
-+		     u64 offset, u64 size)
-+{
-+	struct iosys_map map;
-+	const u32 *vals;
-+	u64 count;
-+	char buf[ASCII85_BUFSZ];
-+
-+	if (drm_gem_vmap(&bo->base.base, &map))
-+		return;
-+
-+	/* offset and size are aligned to panthor_vm_page_size, which is SZ_4K */
-+	vals = map.vaddr + offset;
-+	count = size / sizeof(u32);
-+	for (u64 i = 0; i < count; i++)
-+		drm_puts(p, ascii85_encode(vals[i], buf));
-+
-+	drm_gem_vunmap(&bo->base.base, &map);
-+}
-+
- static void print_vma(struct drm_printer *p,
- 		      const struct panthor_coredump_vma_state *vma, u32 vma_id,
- 		      size_t *max_dyn_size)
-@@ -129,6 +150,21 @@ static void print_vma(struct drm_printer *p,
- 			}
- 		}
- 	}
-+
-+	if (vma->flags & DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE) {
-+		drm_puts(p, "    data: |\n");
-+		drm_puts(p, "      ");
-+
-+		/* bo data is dynamic */
-+		if (max_dyn_size) {
-+			*max_dyn_size +=
-+				vma->size / sizeof(u32) * (ASCII85_BUFSZ - 1);
-+		} else {
-+			print_bo(p, bo, vma->bo_offset, vma->size);
-+		}
-+
-+		drm_puts(p, "\n");
-+	}
- }
- 
- static void print_as(struct drm_printer *p,
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 1116f2d2826e..6c4de1e73cd1 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1608,6 +1608,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-  * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
-  * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
-  * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
-+ * - 1.6 - adds DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE flag
-  */
- static const struct drm_driver panthor_drm_driver = {
- 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-@@ -1621,7 +1622,7 @@ static const struct drm_driver panthor_drm_driver = {
- 	.name = "panthor",
- 	.desc = "Panthor DRM driver",
- 	.major = 1,
--	.minor = 5,
-+	.minor = 6,
- 
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 7862c99984b6..72b1b2799b65 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -2045,10 +2045,11 @@ static void panthor_vma_init(struct panthor_vma *vma, u32 flags)
- 	vma->flags = flags;
- }
- 
--#define PANTHOR_VM_MAP_FLAGS \
-+#define PANTHOR_VM_MAP_FLAGS                   \
- 	(DRM_PANTHOR_VM_BIND_OP_MAP_READONLY | \
--	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC | \
--	 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED)
-+	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |   \
-+	 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED | \
-+	 DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE)
- 
- static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
- {
-diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-index e1f43deb7eca..c4c5e38365e9 100644
---- a/include/uapi/drm/panthor_drm.h
-+++ b/include/uapi/drm/panthor_drm.h
-@@ -496,6 +496,13 @@ enum drm_panthor_vm_bind_op_flags {
- 	 */
- 	DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED = 1 << 2,
- 
-+	/**
-+	 * @DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE: Dump the VMA for devcoredump.
-+	 *
-+	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
-+	 */
-+	DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE = 1 << 3,
-+
- 	/**
- 	 * @DRM_PANTHOR_VM_BIND_OP_TYPE_MASK: Mask used to determine the type of operation.
- 	 */
--- 
-2.50.0.727.gbf7dc18ff4-goog
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: base-commit 7a88d609b069b7d2f4d10113b18fea02921bedb1 not known, ignoring
+ Base: attempting to guess base-commit...
+ Base: tags/v6.16-rc2-698-g6b93840116df (exact match)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250717-dp_mst_bindings-v3-0-72ce08285703@oss.qualcomm.com:
+
+arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['edp-panel'], 'enable-gpios': [[71, 74, 0]], 'power-supply': [[258]], 'pinctrl-0': [[259]], 'pinctrl-names': ['default'], 'port': {'endpoint': {'remote-endpoint': [[260]], 'phandle': 257}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['edp-panel'], 'power-supply': [[276]], 'phandle': 597, 'port': {'endpoint': {'remote-endpoint': [[277]], 'phandle': 275}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['samsung,atna45dc02', 'samsung,atna33xc20'], 'enable-gpios': [[275, 4, 0]], 'power-supply': [[276]], 'pinctrl-0': [[277]], 'pinctrl-names': ['default'], 'port': {'endpoint': {'remote-endpoint': [[278]], 'phandle': 274}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1p42100-crd.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['samsung,atna45af01', 'samsung,atna33xc20'], 'enable-gpios': [[268, 4, 0]], 'power-supply': [[269]], 'pinctrl-0': [[270]], 'pinctrl-names': ['default'], 'port': {'endpoint': {'remote-endpoint': [[271]], 'phandle': 267}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1p42100-crd.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['edp-panel'], 'power-supply': [[272]], 'backlight': [[273]], 'port': {'endpoint': {'remote-endpoint': [[274]], 'phandle': 271}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-hp-omnibook-x14.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['edp-panel'], 'power-supply': [[268]], 'port': {'endpoint': {'remote-endpoint': [[269]], 'phandle': 267}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['samsung,atna56ac03', 'samsung,atna33xc20'], 'enable-gpios': [[261, 4, 0]], 'power-supply': [[262]], 'pinctrl-0': [[263]], 'pinctrl-names': ['default'], 'port': {'endpoint': {'remote-endpoint': [[264]], 'phandle': 260}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['edp-panel'], 'power-supply': [[276]], 'backlight': [[277]], 'phandle': 603, 'port': {'endpoint': {'remote-endpoint': [[278]], 'phandle': 275}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-hp-elitebook-ultra-g1q.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['edp-panel'], 'power-supply': [[272]], 'backlight': [[273]], 'port': {'endpoint': {'remote-endpoint': [[274]], 'phandle': 271}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-hp-elitebook-ultra-g1q.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['edp-panel'], 'backlight': [[266]], 'power-supply': [[267]], 'port': {'endpoint': {'remote-endpoint': [[268]], 'phandle': 265}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['samsung,atna45af01', 'samsung,atna33xc20'], 'enable-gpios': [[278, 4, 0]], 'power-supply': [[279]], 'pinctrl-0': [[280]], 'pinctrl-names': ['default'], 'port': {'endpoint': {'remote-endpoint': [[281]], 'phandle': 277}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): aux-bus: False schema does not allow {'panel': {'compatible': ['edp-panel'], 'backlight': [[266]], 'power-supply': [[267]], 'port': {'endpoint': {'remote-endpoint': [[268]], 'phandle': 265}}}}
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: displayport-controller@aea0000 (qcom,x1e80100-dp): '#sound-dai-cells' is a required property
+	from schema $id: http://devicetree.org/schemas/display/msm/dp-controller.yaml#
+
+
+
+
 
