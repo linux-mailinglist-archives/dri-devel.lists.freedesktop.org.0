@@ -2,99 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2636DB0B61C
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 14:26:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36418B0B620
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 14:30:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D46C910E363;
-	Sun, 20 Jul 2025 12:26:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2A9710E36D;
+	Sun, 20 Jul 2025 12:30:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="krEhdMlL";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hnDdl3mq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89DCE10E363
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 12:26:26 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6EA715C586A;
- Sun, 20 Jul 2025 12:26:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BFDC4CEE7;
- Sun, 20 Jul 2025 12:26:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753014385;
- bh=7fG1ZiX1kVoYPnjokhnLvlTdKwDkkEtf2WSeMJ/wqZY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=krEhdMlLaqBd2zE/tloojMtkv+FGoTCF/y4/yyAd/eHosmUkraXur0gyeZH72nSRQ
- l5xV+CqSvvQX+s9G21P51NlHbpnL5aJ03geKtYvG3YQ/0cWLETN5FNntAnEQgapm4c
- pm94mtrqZxDdl0TJUQQFy3O0R4r9ljEQ18OHsOY00oAGTVEF3YoQV2zRapgB2C8ivi
- H6eWfY0lIWu6GiMYwXoFBUYOrkceFwPedb+Wf58CAoDlWw77SJTUtaL57Q28mwb49Q
- 4BRkgpwQR5cAQfMmtZ27USJoUoc/vBrh6wjAEBotcJC1AOPYALvOVDzs2sovlD+DLR
- sp4HU4rbEGC8A==
-Message-ID: <9966b9e4-399b-4446-81e4-15daf9acbff7@kernel.org>
-Date: Sun, 20 Jul 2025 14:26:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] dt-bindings: display: sprd: adapt for UMS9230
- support
-To: =?UTF-8?Q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 373ED10E36D
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 12:30:14 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-455f151fe61so1528025e9.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 05:30:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1753014612; x=1753619412; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WOmXIHslm007FzsXzToQ9K53LoS29sfzMlaZ0QeflvU=;
+ b=hnDdl3mqonmOtIiMie2BoXG9sJNK7T0EUKg8PJe0ZrFUFA2OcfzKor2WLabhrN6AW+
+ 20YGsxX/ZtzK0Az/BGAqiluZ/or6pRoQ6QFtdY4+OHYrW+96RCOWp45D6iDp8lXhYijn
+ eJHVa+QA3guulnVApkIL5plqkrliwlgR2oljt8Q0Ify03RTYb43grAOiDZLD8o3uCiaa
+ kexyJ/u04t0InhxZNpTvKEHIBkpWOgFvS8I1/CmAMesLutijXWvuRBLaReqVpB5R9vDz
+ x2VBZ0lEPKEjNo1QjDcSVuLi4zy56JGKZpYL7xMGE3/g9Uhi+DZGvJcWpyIddgfoctsa
+ hsLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753014612; x=1753619412;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WOmXIHslm007FzsXzToQ9K53LoS29sfzMlaZ0QeflvU=;
+ b=YPsXAGdRXyIjF0PeMu7bw77OMJHOqcktUSFLm9msVVIR4sXJORhiHLKmgwr7618EXs
+ hSmALKHJZ9cdKdsL4+jmYFdqBw43O1n63bUNXqIxeNKYZx5KW42RpMWJfwMSdTJUQOiq
+ Uvqua0AKwigIj8pcWG1DdCYBT7NiLtuwGVII7/RgTz/FtAaAnJH9/dZOoF2K8k1cwPEf
+ gwWwH4TnuNUJ+epg3tLXTquRPrYLJCbn6XMQIfbjZro9HKex7J0FBWHMdvW1GYbOZuoh
+ ySPZ6frxDHhzaI3F62YrZqJMcCLzFOuNxq549ajlEEAldB6JQfHv4ZlKwsHPF1Gk6YQE
+ +ZMA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVrd2GnH+O++hk+oRFzhzXaylWvV0z2bMzsfEQjCXG/QStZsb0C84nhv4fZCz3Po1F9g9WvveRWm1I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiSDJMXf1aVTHBQra7V2eBcuMf5atwtMjvepPUsG8lMnWsOYFx
+ pnLaxlKBtpuTdlxkFYRFSuJdikYTGd2GawSw+eYLBDViQYP7XsDAzh1l7WANqZ9M7R8=
+X-Gm-Gg: ASbGncuE7a9YpRgKeKfnuAdqmkRJnZCTX4xa103zBVgmm73sSS04PBoS+QU5dwwGv7V
+ XQH3HeUb2XY8YKAEW78a4s6OXa4ToVcfI/el6ZJbNcTPtTnChInvO+yhuD8O85QXLn99Z7OvOrr
+ ng2vPXiJ8DXnVeISzKt7Qy7G0M61FVXOs0bf0Tt+iwYrBJsUjt4U8wbdJ3SLZXNOAaqFDjOPjuS
+ utIVUX1cYX+gg+7TMKHz/NWwAd5QgWiwgE40cjM0Am4h6/B/qGXpEtjZTdKVRaWAC748aStQCOP
+ ZkYEWoEenTTen62AaaN86OslQwdCf/h9dijgp6cWbIOFvJa4iPxMZNB+8gxkBlbF/B4KY0VzyZw
+ 20gMXzQrQcVw8zYh0Pd1w48gdT/mC7gUeqC0SEoQL4PU=
+X-Google-Smtp-Source: AGHT+IF1jb/t3lMEYkuVgJjgGXy7n6gJqv+86XFthlPcTDAu6sCMAg/ieEjC5qGzPo+xE85GYYxQBw==
+X-Received: by 2002:a05:600c:3591:b0:453:9b3:5b70 with SMTP id
+ 5b1f17b1804b1-4562e23d1ebmr67166885e9.8.1753014612459; 
+ Sun, 20 Jul 2025 05:30:12 -0700 (PDT)
+Received: from kuoka.. ([178.197.222.89]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4562e8ab7a1sm131396955e9.34.2025.07.20.05.30.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Jul 2025 05:30:11 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Kevin Tang <kevin.tang@unisoc.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Kevin Tang <kevin.tang@unisoc.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20250719-ums9230-drm-v1-0-e4344a05eb3d@abscue.de>
- <20250719-ums9230-drm-v1-1-e4344a05eb3d@abscue.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250719-ums9230-drm-v1-1-e4344a05eb3d@abscue.de>
-Content-Type: text/plain; charset=UTF-8
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ stable@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: display: sprd,
+ sharkl3-dpu: Fix missing clocks constraints
+Date: Sun, 20 Jul 2025 14:30:04 +0200
+Message-ID: <20250720123003.37662-3-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.48.1
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=973;
+ i=krzysztof.kozlowski@linaro.org; 
+ h=from:subject; bh=lrVr6vyO/GU3pnxEMXTf5/aN2EXpLcZcEs388mBJkEI=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBofOFL04wCWPK1JMPYGESdpRjENFrgPOAvPGkpY
+ xCwQQkWfu+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaHzhSwAKCRDBN2bmhouD
+ 1x9WD/0c9aIWe7bwg6zEBRiI80exn32zI0JiolaPNhMaTwhqjLrrmYp3+NdbgjCQCOTVxjRkUdn
+ pz5HBCu6MBE7Yi9GVGdAxeZMi51UywuDupAmA7dssM8ZpmdRNQLQn5ExISOj64Dn6rN0BcdVjGT
+ xblZd32kRtFzI20IFQNzAiGhTtzMYyO57saKQJDIbKFYuYwxjimgkQFp/muc/aBEID/Ynza9PSO
+ /gOyOyjzzV4f0APpL3vQhgg5gRXcLVqpJNl0a5XJ2RCtYlx1HLli3x0FYQxu7aXFDJdfTTHlON8
+ ho1hDAFLZyZjQRM6PAs1aVGjYjmLbkonywGjPDGf3P8YkfnMH95XQjTzKtpFwEWHyRQpA8D/XDV
+ KdyX2/56W7OuCbfSnYUCPCEygMZr/xk7iUiUaYgX4hXiHwOTlwZ8N7YfEHh86W2rxkwhJKttzrh
+ drtPn5x9l0zbzBIGiv1/5wZ741vOqBe26o2gm1Bz/LIuZGo4N+crTHrzbZ6yVYGjIWHoTFG6Sn9
+ OGK4XS8F9GoTvSdA1w63RPyBc+nSR8Kw0bfdzUNtbVKXMa1maAUmWrehcrhYNKl7wKsvaGGq7E7
+ G9d5SinQagBmL54VEoQYFEydP+u0WVjs+mVjzKYnmjDcskdSRuiK0KO0ShHV1z4Vei6O+yR40g7
+ 31ylTJUR0XYBl1g==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -111,83 +112,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/07/2025 14:09, Otto Pflüger wrote:
-> diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
-> index 4ebea60b8c5ba5f177854e3a8d89e93e7304e18b..6fedb6e508b247eb71da17ced589b8ed09085592 100644
-> --- a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
-> +++ b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
-> @@ -16,7 +16,12 @@ description: |
->  
->  properties:
->    compatible:
-> -    const: sprd,sharkl3-dpu
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - sprd,ums9230-dpu
-> +          - const: sprd,sharkl3-dpu
-> +      - const: sprd,sharkl3-dpu
->  
->    reg:
->      maxItems: 1
-> @@ -25,12 +30,15 @@ properties:
->      maxItems: 1
->  
->    clocks:
-> -    minItems: 2
-> +    minItems: 1
+'minItems' alone does not impose upper bound, unlike 'maxItems' which
+implies lower bound.  Add missing clock constraint so the list will have
+exact number of items (clocks).
 
-This is wrong. You miss maxItems. I will fix existing bindings.
+Fixes: 8cae15c60cf0 ("dt-bindings: display: add Unisoc's dpu bindings")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->  
->    clock-names:
-> -    items:
-> -      - const: clk_src_128m
-> -      - const: clk_src_384m
-> +    oneOf:
-> +      - items:
-> +        - const: clk_src_128m
-> +        - const: clk_src_384m
-> +      - items:
-> +        - const: enable
->  
->    power-domains:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
-> index bc5594d18643010b91376c92a8f235a522d7dc3d..8438d2da0a4277db03e30b13cb270684c0c360cb 100644
-> --- a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
-> +++ b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
-> @@ -11,7 +11,9 @@ maintainers:
->  
->  properties:
->    compatible:
-> -    const: sprd,sharkl3-dsi-host
-> +    enum:
-> +      - sprd,sharkl3-dsi-host
-> +      - sprd,ums9230-dsi-host
->  
->    reg:
->      maxItems: 1
-> @@ -23,8 +25,11 @@ properties:
->      minItems: 1
->  
->    clock-names:
-> -    items:
-> -      - const: clk_src_96m
-> +    oneOf:
-> +      - items:
-> +          - const: clk_src_96m
-> +      - items:
-> +          - const: enable
+diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
+index 4ebea60b8c5b..8c52fa0ea5f8 100644
+--- a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
++++ b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
+@@ -25,7 +25,7 @@ properties:
+     maxItems: 1
+ 
+   clocks:
+-    minItems: 2
++    maxItems: 2
+ 
+   clock-names:
+     items:
+-- 
+2.48.1
 
-Why this is completely different clock? How same class device could have
-completely different clock INPUT?
-
->  
->    power-domains:
->      maxItems: 1
-> 
-
-
-Best regards,
-Krzysztof
