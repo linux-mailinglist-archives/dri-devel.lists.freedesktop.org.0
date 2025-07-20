@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF052B0B5AB
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 14:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165C6B0B5AC
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 14:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71D4410E206;
-	Sun, 20 Jul 2025 12:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83C6810E20C;
+	Sun, 20 Jul 2025 12:02:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="KBOyZuH4";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="Lzo0ACJu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA50210E206
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 12:02:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66B0A10E20C
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 12:02:22 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 640D325DA1;
- Sun, 20 Jul 2025 14:02:12 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 4ED2922F3E;
+ Sun, 20 Jul 2025 14:02:21 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id iwt8Xl3-yt6y; Sun, 20 Jul 2025 14:02:11 +0200 (CEST)
+ id SpD6C_8uplgD; Sun, 20 Jul 2025 14:02:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1753012931; bh=z7UInY2V+5A/AzQtYe31EauuP8QWRTvlpkfW8x62dEQ=;
- h=From:Subject:Date:To:Cc;
- b=KBOyZuH4Ecm7kqnX0sWekVAqNY0FyqQUW4taiOQE4oMyYvIaH4xFtUSqp+ek1qJR7
- zerS1pzUw9BOXAZ7Jp+DCzsk+02ScTJpBdSS8VtTlgw1I2qlvW5gZV34UcYVGIrWu7
- 8B62MZEKOPJ8N7bysML0txUqLajcGfxuZAVyNTTXwRUQn0UtEuRuaXR+AFZwroH9Z8
- F+/NapKFyhucBX3M5lOdZTGSWd8mLbTKD9zTAuqHKyTw7cj9lYdTV/YflzAY7egD4H
- W92uNkiv2+RqRjJQg2sz+KC5gvw/Ez+TXvKedGaM3VBrNZWCXi13/P3EYV2GHEq14g
- 4DiLipCptdt8Q==
+ t=1753012939; bh=We7amH1B4SyPPjeaqUpaFP4DU6xAfLuufxsp/dk8cPI=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc;
+ b=Lzo0ACJukD3HzY65fEkk00FxZd0PM44qENHVRnmgGruPUlK13erecsYNidEzNysQ9
+ vnx5p5DCp+8GFpo1mRXo4lGoO6EDH2Ddao3hnpKWKou26G1ZHRPn/SIlBxaB9F1Deu
+ xWWe7uQVXFh+HnMHS4uTL80QqJ85LdlkKGldUgqBdADRZv+5V3KKVybB6Ohw+dA9WS
+ GIQga00QB736mg1+Rvl77yU/X6//CRDDgP/VELOGzNOj6HHf0UJwYfMpT62tkBo0m9
+ ojiqBbwayIOomVv6g7SD7TNLUPikhCFoyn9E4oFnadcBX9MqNFuN2/i9NMIiGd8tju
+ jdPXA1xwMK/IQ==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Subject: [PATCH v3 0/2] Support for Synaptics TDDI series panels
-Date: Sun, 20 Jul 2025 17:31:53 +0530
-Message-Id: <20250720-panel-synaptics-tddi-v3-0-43a5957f4b24@disroot.org>
+Date: Sun, 20 Jul 2025 17:31:54 +0530
+Subject: [PATCH v3 1/2] dt-bindings: display: panel: document Synaptics
+ TDDI panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALHafGgC/3XNTQqDMBCG4atI1k1JJsZIV71H6SK/OlCMJCIV8
- e6NdtNCu3w/mGdWkn1Cn8mlWknyM2aMQwlxqojt9dB5iq40AQaSSRB01IN/0LwMepzQZjo5h5Q
- ZZkRgKrS8JuV0TD7g82Bv99I95imm5fgy8319gw2H3+DMKaMumFbXIINq7NVhTjFO55g6spMzf
- DAg/zBQGKUb0IY7Lqz6ZrZtewFjhD9kAQEAAA==
-X-Change-ID: 20250523-panel-synaptics-tddi-0b0b3f07f814
+Message-Id: <20250720-panel-synaptics-tddi-v3-1-43a5957f4b24@disroot.org>
+References: <20250720-panel-synaptics-tddi-v3-0-43a5957f4b24@disroot.org>
+In-Reply-To: <20250720-panel-synaptics-tddi-v3-0-43a5957f4b24@disroot.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, 
@@ -53,11 +51,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1753012923; l=1952;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753012923; l=3009;
  i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
- bh=z7UInY2V+5A/AzQtYe31EauuP8QWRTvlpkfW8x62dEQ=;
- b=g1zKgQ1Y+6w3mlITGjx3sHpmfGU82CJFK8NEX2y40l0Q//jEZpCURnKYU5h7da5MOQcFpGaES
- I7EzK91pmTmAy+jCDj0IJ5tdUBh4ZtQ7LDhtjvxi50ITvIN1CpgGW3M
+ bh=We7amH1B4SyPPjeaqUpaFP4DU6xAfLuufxsp/dk8cPI=;
+ b=73U7JZnBYGPbIOu9f7JOo5/lDGzi7DrOAqgM19A10NkZ79mJvf52G7HI7IIdNwBZhYKIZpCgi
+ xCLOqAvLG3fB5QX2DIgbAiGzYVq5AOgyDrZSkSZP/Qgo2lQJYmkH+De
 X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
  pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,49 +73,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Synaptics' Touch and Display Driver Integration (TDDI) technology [1]
-employs a single chip for both touchscreen and display capabilities.
-Such designs reportedly help reducing costs and power consumption.
+Document the Synaptics TDDI (Touch/Display Integration) panel hardware.
+Along with the MIPI-DSI panel, these devices also have an in-built LED
+backlight device and a touchscreen, all packed together in a single chip.
 
-Although the touchscreens, which are powered by Synaptics'
-Register-Mapped Interface 4 (RMI4) touch protocol via I2C or SPI have
-driver support in the kernel, the MIPI DSI display panels don't.
-
-This series introduces a rudimentary driver for controlling said display
-panels, which supports TD4101 and TD4300 panels.
-
-[1] https://www.synaptics.com/technology/display-integration
+Also, add compatibles for supported panels - TD4101 and TD4300. Both
+have the '-panel' suffix so as to remove any ambiguity between the panel
+and touchscreen chips.
 
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
-Changes in v3:
-- fixed various dt_binding_check errors (robh's bot)
-- adjusted commit description of [v2 1/2] (robh)
-- utilized devm_drm_panel_alloc() and devm_regulator_bulk_get_const()
-- Link to v2: https://lore.kernel.org/r/20250625-panel-synaptics-tddi-v2-0-7a62ab1d13c7@disroot.org
+ .../display/panel/synaptics,td4300-panel.yaml      | 89 ++++++++++++++++++++++
+ 1 file changed, 89 insertions(+)
 
-Changes in v2:
-- fixed various dt_binding_check errors (conor)
-- did s/tddi_update_brightness/tddi_update_status
-- added check for panel enable in tddi_update_status()
-- used backlight_get_brightness() in appropriate places
-- Link to v1: https://lore.kernel.org/r/20250612-panel-synaptics-tddi-v1-0-dfb8a425f76c@disroot.org
+diff --git a/Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.yaml b/Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..152d94367130e9d80a885fe87a2da53db88e3393
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.yaml
+@@ -0,0 +1,89 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/synaptics,td4300-panel.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Synaptics TDDI Display Panel Controller
++
++maintainers:
++  - Kaustabh Chakraborty <kauschluss@disroot.org>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - syna,td4101-panel
++      - syna,td4300-panel
++
++  reg:
++    maxItems: 1
++
++  vio-supply:
++    description: core I/O voltage supply
++
++  vsn-supply:
++    description: negative voltage supply for analog circuits
++
++  vsp-supply:
++    description: positive voltage supply for analog circuits
++
++  backlight-gpios:
++    maxItems: 1
++    description: backlight enable GPIO
++
++  reset-gpios: true
++  width-mm: true
++  height-mm: true
++  panel-timing: true
++
++required:
++  - compatible
++  - reg
++  - width-mm
++  - height-mm
++  - panel-timing
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "syna,td4300-panel";
++            reg = <0>;
++
++            vio-supply = <&panel_vio_reg>;
++            vsn-supply = <&panel_vsn_reg>;
++            vsp-supply = <&panel_vsp_reg>;
++
++            backlight-gpios = <&gpd3 5 GPIO_ACTIVE_LOW>;
++            reset-gpios = <&gpd3 4 GPIO_ACTIVE_LOW>;
++
++            width-mm = <68>;
++            height-mm = <121>;
++
++            panel-timing {
++                clock-frequency = <144389520>;
++
++                hactive = <1080>;
++                hsync-len = <4>;
++                hfront-porch = <120>;
++                hback-porch = <32>;
++
++                vactive = <1920>;
++                vsync-len = <2>;
++                vfront-porch = <21>;
++                vback-porch = <4>;
++            };
++        };
++    };
++
++...
 
----
-Kaustabh Chakraborty (2):
-      dt-bindings: display: panel: document Synaptics TDDI panel
-      drm: panel: add support for Synaptics TDDI series DSI panels
-
- .../display/panel/synaptics,td4300-panel.yaml      |  89 +++++++
- drivers/gpu/drm/panel/Kconfig                      |  11 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-synaptics-tddi.c       | 289 +++++++++++++++++++++
- 4 files changed, 390 insertions(+)
----
-base-commit: d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
-change-id: 20250523-panel-synaptics-tddi-0b0b3f07f814
-
-Best regards,
 -- 
-Kaustabh Chakraborty <kauschluss@disroot.org>
+2.50.0
 
