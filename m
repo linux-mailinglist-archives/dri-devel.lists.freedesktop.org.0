@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CBEB0B466
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 11:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481D3B0B46E
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 11:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E88110E17E;
-	Sun, 20 Jul 2025 09:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEEA310E2D4;
+	Sun, 20 Jul 2025 09:01:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="inTep5QD";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="mw3Y3eyI";
+	dkim=pass (2048-bit key; unprotected) header.d=testtoast.com header.i=@testtoast.com header.b="i/2sljGN";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="oIyfp+DZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-b8-smtp.messagingengine.com
- (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3CEF10E17E
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 09:01:09 +0000 (UTC)
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal
- [10.202.2.44])
- by mailfhigh.stl.internal (Postfix) with ESMTP id 707857A0189;
- Sun, 20 Jul 2025 04:52:03 -0400 (EDT)
+Received: from fout-b3-smtp.messagingengine.com
+ (fout-b3-smtp.messagingengine.com [202.12.124.146])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF7610E164
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 09:01:10 +0000 (UTC)
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal
+ [10.202.2.41])
+ by mailfout.stl.internal (Postfix) with ESMTP id B1A7F1D0016C;
+ Sun, 20 Jul 2025 04:52:08 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-04.internal (MEProxy); Sun, 20 Jul 2025 04:52:03 -0400
+ by phl-compute-01.internal (MEProxy); Sun, 20 Jul 2025 04:52:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
  h=cc:cc:content-transfer-encoding:content-type:date:date:from
  :from:in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:subject:subject:to:to; s=fm2; t=1753001523; x=
- 1753087923; bh=V8jVCNBeo/+6f3Mo8OE9T6Hkz0Ib2C8UypT57jXFp3E=; b=i
- nTep5QD3SOrLVtWUx/yStr90f+zFyJTIqgfv7SJlewJ11ST5hCphpLKBqzZE6hck
- 1iNV2CCIu55nJccFp59JHPe9Kd2K/tP9tsZX6ojIPS4OcOkLklkHXYGo38PWRZwu
- 94bLetnGY2r3z9IS28v7oG6n8YyRDvjsVSr7carlXhThLEuPk2ZtBCWC3UhpPt1U
- +fDvRHB+kq1LWc5YpnGwYIfHdS8Ko5JO3Jn7lVqmwejPPp0tsi767G0HM6gKZf2Z
- NDJojk++91tC0UHAKgULHMae0aUhZaop6AqH9BArdtLOAFk9DljUviiFzNNUws5j
- Bmc+X0csQ6p3oS0hGpJhg==
+ :reply-to:subject:subject:to:to; s=fm2; t=1753001528; x=
+ 1753087928; bh=z8FVm607UWKJAij5hCF0+BtaoAu3+mKeNPsz7+FKgJk=; b=i
+ /2sljGNwWWvSTded8/dxuP/BJE8VvbxPh6HTAavZiyW6VBWtFXXmzzlXG45qZ3Y5
+ Kd2I+Ee4GpKxyqMzpEW3aTwuq/Hl8bIn1W6A8RRbR4XqlmuasOdjltFtdPZzcbDK
+ s1TAwAtV3hbDivMNFkyOcDkIc35mSY+wX4PR+XOoveiL+UqxK9Z4N7MpBjif6E37
+ Vkj+DP3K/4qtKTGJxmXf1yGo9o0cXaXgc/4t1O+FimnzshR81z9qOjTrsnHZVdJk
+ bJK+Fyimra8Eblrw6El0Pw0ky+gyWAX7HQcEG33J3fIpiRpoDn/u2O3AezlW6Max
+ IArCWtujEMiF7ZJBAY2MQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm2; t=1753001523; x=1753087923; bh=V
- 8jVCNBeo/+6f3Mo8OE9T6Hkz0Ib2C8UypT57jXFp3E=; b=mw3Y3eyIpZl1ypRFT
- Oasg3AzEuEja397h9R8hix+h+C0a7szyYB4SaEzBuemF85zmA5JC/IP26M9v37MN
- E3fmfNgHhVZZPIBB9Ut/lqTkQLGCu6B1NzTYu1OwmoJahx+8hcq1vDqOksnxMxF+
- M8vdXeX2RQvYwcHNA0WlPIwYK85/Q9yY6wmcgMrCnnJzvWVlFWOa/l8fePEPsyIX
- rSh8IlyVboMHmrITDvUYM/JJ7RJIctU2PW93DZdjWfOll/jI69Agl1hL8NDd0ZBY
- C74mzOas8LN3wP7U9QssWyxPNnB0MMrNwmSreF3BT+/Vkjgowb9+mGOdxB8r2hlX
- gekEg==
-X-ME-Sender: <xms:M658aGIS9UOhZDqcwXYOul5OaJKczvr1YgnU59-0721uv3tej0Sydw>
- <xme:M658aJD7MIL2iO-C5HJ6Ed_KUfP758lkYwzjmcHZNrIWPo_mpeCDl2j0scUDSC4xm
- BCaCF0B9mFoIaNgTg>
-X-ME-Received: <xmr:M658aA7IBAtmJtS5DuFqdKdSR7p0GtR3D-6BpZQ8t6F0rfxdPspqPxC45XCmJz7U0LmjPgs471LCPGVTACdeI5j747Z6jQ>
+ :x-me-sender:x-sasl-enc; s=fm2; t=1753001528; x=1753087928; bh=z
+ 8FVm607UWKJAij5hCF0+BtaoAu3+mKeNPsz7+FKgJk=; b=oIyfp+DZREimo8ERM
+ Jg94cd8xQxuKLB2ES+aSu6hIqWaMgAq+aa/wklJF0aLAzP4eyaVWUU4TU6khYmkp
+ bDlD27I2vRHh1ZJyzvy3W9d9rQ0FDGjCljL1n1CjfsK5EyCEmWPpbtc4vYnaqFpo
+ XpCTEUeKuiPZo3gQTbiBR9MO/z//937BjqdZZN1kYe/wXxOs2Bd8AUnJhNRI63i3
+ Xe9gNyHFJ/fel/SgMugqL7ciqmyWCmhJQ2bjZQNwrBkAsluOfya7GFvy6vWWEl71
+ qLDrdLKC3Vx5vBXqrYOj0DPfj3BOK/yFCTIFcefAgePhtYwDO/OiWufuwkXSJ5cl
+ c+ffQ==
+X-ME-Sender: <xms:OK58aPk_vMZwoYvm5OUL837NF_p0aa_aOVh1Ao2UsBlXXKH6-4YnPg>
+ <xme:OK58aDdjEAiaZENw4qoBdL1ybvnV9pjOnnd1uw8pKWQtsxmrjG1er7Clljw6yWXEy
+ DFry5sClXRxoOuLNQ>
+X-ME-Received: <xmr:OK58aAx4Y6fcj7AxZgn8HC68MqsDiTUv9QM4zfQfQuRpj56DXecbzmSHPQYhAxkFUSZzZWG4l2IG9bgN3hPdbHRPZNf3CA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeikeejjecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
  ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
  hrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefthigrnhcuhggr
  lhhklhhinhcuoehrhigrnhesthgvshhtthhorghsthdrtghomheqnecuggftrfgrthhtvg
  hrnhepffehieffgedtgfffjeetveegfeekleeileekveeuteffteetudffveegieeiheet
- necuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomheprhihrg
- hnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgtphhtthhopeduiedpmhhouggvpehs
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhihrg
+ hnsehtvghsthhtohgrshhtrdgtohhmpdhnsggprhgtphhtthhopeduhedpmhhouggvpehs
  mhhtphhouhhtpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtth
  hopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgu
  theskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprh
@@ -67,14 +67,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeikeejjecutefuodetgg
  drphhriiihfigrrhgrsegrrhhmrdgtohhmpdhrtghpthhtohepmhgrtghrohgrlhhphhgr
  kedvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhhikhhutghhrghnleeksehgmhgrih
  hlrdgtohhm
-X-ME-Proxy: <xmx:M658aNH_rF0hjDBpHor-Yf2hSivaaCXRFxZK9R05yqhBXunogvi-5A>
- <xmx:M658aDQwY599IYLUMJsPVHhmOxK_2jqtTwLDDRJ1bq8tUvVTpxmlDg>
- <xmx:M658aPdDJ2H2Dn9oSNvqr6Fh-3GKdwUEXxtqpoOa7M7x3oXAiRnkIQ>
- <xmx:M658aBik_StL-bc4QrSvUNnYjHehB7Nrcgfk8ULmfbO33xV0rtmBkQ>
- <xmx:M658aNH6L_-2E669Ete9w2ud0NTN-GkCcQ12xE9KbSk4nR2-1V6LBidG>
+X-ME-Proxy: <xmx:OK58aMLv79AfZihFTXTIroDwppMAfAlsVCD6mSeKxWKVFrj-NYSkVw>
+ <xmx:OK58aBvBHH6lO8sa73BHpE8mXSqjYdCTJd-F47NTqm3U675Oc3rGoA>
+ <xmx:OK58aGQC8gqWYGaJ2nrJwkejIdV2cpRe3KdJEQY1OrQE8bbRoXZ9zQ>
+ <xmx:OK58aKQa5-KkORSHUXQYHiIajEAPd17AaubqzSs-oAXWFZ-Mi86-4w>
+ <xmx:OK58aE-TZIBbsJ8TvyXTb-jlq4JhgOhK2D6KBIGE4ns6j2NGKCnBmtvv>
 Feedback-ID: idc0145fc:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 20 Jul 2025 04:51:58 -0400 (EDT)
+ 20 Jul 2025 04:52:04 -0400 (EDT)
 From: Ryan Walklin <ryan@testtoast.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -85,12 +85,10 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
  Hironori KIKUCHI <kikuchan98@gmail.com>,
  Philippe Simons <simons.philippe@gmail.com>, linux-sunxi@lists.linux.dev,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Ryan Walklin <ryan@testtoast.com>,
- Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH v2 10/12] arm64: dts: allwinner: h616: Add LCD timing
- controller nodes
-Date: Sun, 20 Jul 2025 20:48:48 +1200
-Message-ID: <20250720085047.5340-11-ryan@testtoast.com>
+ dri-devel@lists.freedesktop.org, Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH v2 11/12] arm64: dts: allwinner: h616: add LCD and LVDS pins
+Date: Sun, 20 Jul 2025 20:48:49 +1200
+Message-ID: <20250720085047.5340-12-ryan@testtoast.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250720085047.5340-1-ryan@testtoast.com>
 References: <20250720085047.5340-1-ryan@testtoast.com>
@@ -111,195 +109,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Allwinner H616 has a display pipeline similar to other Allwinner
-devices, specifically the A10, but using a newer display engine
-revision (DE33).
+The Allwinner H616 (and its H618, H700 and T507 package variants with
+the same die) have 28 video output pins for RGB/SPI and LVDS display.
+These are in GPIO Bank D and are multiplexed.
 
-Not all output pins are exposed on all package variants, for example
-only the H700 and T507 have LCD pins exposed, but all variants support
-HDMI output. On the die these are connected to a display engine via a
-TCON TOP and one or more timing controllers (TCONs).
+In RGB mode, pins PD0-PD23 are for 24-bit RGB pixel output, pins
+PD24-PD27 are for clock, DE, HSYNC and VSYNC.
 
-Add TCON nodes for the TOP, and the LCD and TV timing controllers. The
-timing controllers are compatible with the existing R40 driver.
+In LVDS mode, pins PD0-PD9 are for LVDS0 and pins PD10-19 for LVDS1, and
+can be configured by the H616 display engine for either one high-
+resolution (dual link) or two low resolution displays.
 
-HDMI output support is not provided in this series so for now note this
-within the relevant node to prevent a DT compiler error.
+Add device tree nodes for the LCD and LVDS pins.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+[ryan@testtoast.com: add RGB and LVDS1 pin assignments]
 Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 
 --
 Changelog v1..v2:
-- Add correct register, address and size cell, and endpoint definitions
-- Add stub tcon_lcd0_out_lcd endpoint so that device DTs only need to provide remote endpoint.
+- Remove PWM pin assignment as driver not implemented
 ---
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 141 ++++++++++++++++++
- 1 file changed, 141 insertions(+)
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 7347332f54a7..e4209dc6b46b 100644
+index e4209dc6b46b..1d4ad2adca7d 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -7,9 +7,12 @@
- #include <dt-bindings/clock/sun50i-h616-ccu.h>
- #include <dt-bindings/clock/sun50i-h6-r-ccu.h>
- #include <dt-bindings/clock/sun6i-rtc.h>
-+#include <dt-bindings/clock/sun8i-de2.h>
-+#include <dt-bindings/clock/sun8i-tcon-top.h>
- #include <dt-bindings/reset/sun50i-h616-ccu.h>
- #include <dt-bindings/reset/sun50i-h6-r-ccu.h>
- #include <dt-bindings/thermal/thermal.h>
-+#include <dt-bindings/reset/sun8i-de2.h>
+@@ -339,6 +339,32 @@ ir_rx_pin: ir-rx-pin {
+ 				function = "ir_rx";
+ 			};
  
- / {
- 	interrupt-parent = <&gic>;
-@@ -926,6 +929,144 @@ ohci3: usb@5311400 {
- 			status = "disabled";
- 		};
- 
-+		tcon_top: tcon-top@6510000 {
-+			compatible = "allwinner,sun50i-h6-tcon-top";
-+			reg = <0x06510000 0x1000>;
-+			clocks = <&ccu CLK_BUS_TCON_TOP>,
-+				 <&ccu CLK_TCON_TV0>;
-+			clock-names = "bus", "tcon-tv0";
-+			clock-output-names = "tcon-top-tv0";
-+			#clock-cells = <1>;
-+			resets = <&ccu RST_BUS_TCON_TOP>;
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				tcon_top_mixer0_in: port@0 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <0>;
-+
-+					tcon_top_mixer0_in_mixer0: endpoint@0 {
-+						reg = <0>;
-+						remote-endpoint = <&mixer0_out_tcon_top>;
-+					};
-+				};
-+
-+				tcon_top_mixer0_out: port@1 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <1>;
-+
-+					tcon_top_mixer0_out_tcon_lcd0: endpoint@0 {
-+						reg = <0>;
-+						remote-endpoint = <&tcon_lcd0_in_tcon_top_mixer0>;
-+					};
-+
-+					tcon_top_mixer0_out_tcon_tv0: endpoint@2 {
-+						reg = <2>;
-+						remote-endpoint = <&tcon_tv0_in_tcon_top_mixer0>;
-+					};
-+				};
-+
-+				tcon_top_hdmi_in: port@4 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <4>;
-+
-+					tcon_top_hdmi_in_tcon_tv0: endpoint@0 {
-+						reg = <0>;
-+						remote-endpoint = <&tcon_tv0_out_tcon_top>;
-+					};
-+				};
-+
-+				tcon_top_hdmi_out: port@5 {
-+					reg = <5>;
-+
-+					tcon_top_hdmi_out_hdmi: endpoint {
-+						/* placeholder for HDMI  - remote-endpoint = <&hdmi_in_tcon_top>;*/
-+					};
-+				};
++			/omit-if-no-ref/
++			lcd0_rgb888_pins: lcd0-rgb888-pins {
++				pins = "PD0", "PD1", "PD2", "PD3",
++				       "PD4", "PD5", "PD6", "PD7",
++				       "PD8", "PD9", "PD10", "PD11",
++				       "PD12", "PD13", "PD14", "PD15",
++				       "PD16", "PD17", "PD18", "PD19",
++				       "PD20", "PD21", "PD22", "PD23",
++				       "PD24", "PD25", "PD26", "PD27";
++				function = "lcd0";
 +			};
-+		};
 +
-+		tcon_lcd0: lcd-controller@6511000 {
-+			compatible = "allwinner,sun8i-r40-tcon-lcd";
-+			reg = <0x06511000 0x1000>;
-+			interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_TCON_LCD0>, <&ccu CLK_TCON_LCD0>;
-+			clock-names = "ahb", "tcon-ch0";
-+			clock-output-names = "tcon-data-clock";
-+			#clock-cells = <0>;
-+			resets = <&ccu RST_BUS_TCON_LCD0>, <&ccu RST_BUS_LVDS>;
-+			reset-names = "lcd", "lvds";
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				tcon_lcd0_in: port@0 {
-+					reg = <0>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					tcon_lcd0_in_tcon_top_mixer0: endpoint {
-+						remote-endpoint = <&tcon_top_mixer0_out_tcon_lcd0>;
-+					};
-+				};
-+
-+				tcon_lcd0_out: port@1 {
-+					reg = <1>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					tcon_lcd0_out_lcd: endpoint@0 {
-+						reg = <0>;
-+					};
-+				};
++			/omit-if-no-ref/
++			lvds0_pins: lvds0-pins {
++				pins = "PD0", "PD1", "PD2", "PD3", "PD4",
++				       "PD5", "PD6", "PD7", "PD8", "PD9";
++				function = "lvds0";
 +			};
-+		};
 +
-+		tcon_tv0: lcd-controller@6515000 {
-+			compatible = "allwinner,sun50i-h6-tcon-tv",
-+				     "allwinner,sun8i-r40-tcon-tv";
-+			reg = <0x06515000 0x1000>;
-+			interrupts = <GIC_SPI 66 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_TCON_TV0>,
-+				 <&tcon_top CLK_TCON_TOP_TV0>;
-+			clock-names = "ahb", "tcon-ch1";
-+			#clock-cells = <0>;
-+			resets = <&ccu RST_BUS_TCON_TV0>;
-+			reset-names = "lcd";
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				tcon_tv0_in: port@0 {
-+					reg = <0>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					tcon_tv0_in_tcon_top_mixer0: endpoint {
-+						remote-endpoint = <&tcon_top_mixer0_out_tcon_tv0>;
-+					};
-+				};
-+
-+				tcon_tv0_out: port@1 {
-+					reg = <1>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					tcon_tv0_out_tcon_top: endpoint@1 {
-+						reg = <1>;
-+						remote-endpoint = <&tcon_top_hdmi_in_tcon_tv0>;
-+					};
-+				};
++			/omit-if-no-ref/
++			lvds1_pins: lvds1-pins {
++				pins = "PD10", "PD11", "PD12", "PD13", "PD14",
++				       "PD15", "PD16", "PD17", "PD18", "PD19";
++				function = "lvds1";
 +			};
-+		};
 +
- 		rtc: rtc@7000000 {
- 			compatible = "allwinner,sun50i-h616-rtc";
- 			reg = <0x07000000 0x400>;
+ 			mmc0_pins: mmc0-pins {
+ 				pins = "PF0", "PF1", "PF2", "PF3",
+ 				       "PF4", "PF5";
 -- 
 2.50.1
 
