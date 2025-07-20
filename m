@@ -2,109 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D51B0B25F
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 00:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EDFB0B2D1
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 02:02:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D37BA10E43A;
-	Sat, 19 Jul 2025 22:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64FA810E0E4;
+	Sun, 20 Jul 2025 00:02:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Unwzlwru";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e8mAgFhx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCA4E10E43B
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 22:43:00 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id
- d75a77b69052e-4ab9ba884c6so40005121cf.0
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 15:43:00 -0700 (PDT)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1336910E0E4
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 00:02:02 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-236377f00a1so26660085ad.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 17:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752964980; x=1753569780; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=s3NY47tJRGk+8ZCP8/kt7QLiEFpyYgbdtZryIR8Da5M=;
- b=UnwzlwrueTiGTuGNYduRsUFUkD5gLa1mp09FiNkTkmeC7n1AkXbco0xW8RbqGdvu5C
- gnYlkWRlDy4xHy14b+u3Nu7M2c/QOs0QIHAeOXdJHZ6B/5AcMDC7nNPJ6Ec7E3IeYsmn
- NJoXSvCM9TbjL4Eo+I4lXj8tidibLRKV/Vd2fPmqfh3IrCN+iYzPMRq0Y75cnixPs312
- BkoNkr7G2BNdLyNuh+DXlQuQzZKfMDYcF3pZ3zodea/u/C7Hk91ZiS33Z6AnS3tF692F
- 9CDDFoZiMkqfyhezzooseQgtjWBAM0Y5hJ3ESZc81k4dzdA6/Np9jnXu/s2ZeR2qkC4s
- xVsQ==
+ d=gmail.com; s=20230601; t=1752969721; x=1753574521; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OMXYFyLZ9LRVuoYvq7JlpXm9rj1HGO9gOfANGlZsnNU=;
+ b=e8mAgFhx+fWOI5dXPSyZ6lUgIGxmsWK2/C/3cz5Ufv4nv8gFbnAyrgaBHiQwy4ela3
+ s5V9ui5uf7wQdcocgpTshBGj4p1PYt1WEDbkl2Kj5siil0gB/oKs8ddfjD6iq9X44Ubd
+ gtYyhYOOPBSK20XxAI/6J4KPpA7R5i3ZyfgOkfusSvktaHrYw5I2v/YG0qM4pcBN1Q9e
+ M3J7rv/SHw/w+OxNA8xn/g1BLs2H8B+HHCwsYLzy6ZPMsL93NOY0b+N5bKNqcnSBkujJ
+ 7zcYXS0mqt8GNyoBn4l1LCscAeB2yCAMFytmAXyMsNsM54udRgbZmZXO4q09F2AtwD1/
+ cj9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752964980; x=1753569780;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s3NY47tJRGk+8ZCP8/kt7QLiEFpyYgbdtZryIR8Da5M=;
- b=iXKXdPvfUMG3BGeWse66Ac1LArrn7GbgF69RanuChBgsVB0+Yk1RDV0B2DsUkYW28T
- I+HGmsQQ5wBG8pKLvXG+obTmGF6FavoctWY03zc9jwo7uV0nxpW/oN+bbhZ2u3AuavyY
- heOeYbwmxvIT0ulOco/D7u5rqSyStTC3x6pE4w1qMErBjygemjRAuX2I6gqNf9/IGiaQ
- 1zHk55vTtdJiD0FtbtwET95Bt7VkRuh/lkU9udGImYLII+7y9P982DGpS2Z+HOLJ7FCI
- 0srIFTY9GvmyiWoOYl4dLYsudNbdjn/rZXCqLgiUdfVcrUOfGUgeVbVvw1V/QVTIzwZU
- ROCA==
-X-Gm-Message-State: AOJu0Yx24/M2Cl5Ttb1mdu5e2GHYtu7xbUWrY5DalEof5p8+P1BWKHaH
- Fm+2BghFDGGgh9sJFE6LzpGjpDj1sWQXH5NcYDgRrE2xieP+k0ltYobc
-X-Gm-Gg: ASbGncufmS8qYNWagnFWBGMDsncH/9yCeRl34ubBdEU+k79yySF9G4LzOkG0PO9OS0x
- /TV0hDL94Hx6pwsCvS+YWnIk8CSW7MXUwLwtGbGPw+P4i1HqQBCrxbiCpkNNqFa1P0/ldsm2qJc
- auq+n5bofAGz4XHg+4H+X6CgYzp04qmbgVMfXyBoueUPEXbXSWDGl7OIdIsOPmBSbi/bNWI/4mO
- WdD8HfeRl0+9sXoU153zFwXzhMr9GM/b6hZVARVlY0SDbkUrQ2Puo6WICI1giNjquKRLLhj3Z8/
- PFlEeGGt2fadYQWtneFmtU9KwfbOZX4xlF6T2Mm10ZUkNAy6PiaU3e7xX3XX+ePAZWcAIvUQ/Mu
- Ua2wLMPDNcz8Do46SaEJ5w3ksIdEbtSQLHC6lTznapdHik7NocqzlNbr5PSf8VYsz8n6NV6hequ
- FKYz+8QmRd4dm1pPTB6conD6EYm8lh
-X-Google-Smtp-Source: AGHT+IE+VLj1eoQJlkntq9FCqSiBVAWaZ6ejE3+GS7GuKBpgeIfpkdAoy8KZVTX3zCCXeHxJrsI52A==
-X-Received: by 2002:ac8:7d89:0:b0:4ab:70df:fa20 with SMTP id
- d75a77b69052e-4aba25f73cdmr190367941cf.16.1752964979879; 
- Sat, 19 Jul 2025 15:42:59 -0700 (PDT)
-Received: from
- 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
- ([2600:4041:5c29:e400:78d6:5625:d350:50d1])
- by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4abb4b1f1d5sm23671841cf.50.2025.07.19.15.42.58
+ d=1e100.net; s=20230601; t=1752969721; x=1753574521;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OMXYFyLZ9LRVuoYvq7JlpXm9rj1HGO9gOfANGlZsnNU=;
+ b=PqMpMb5Yh+KLU+WMMI5krAplKEBF2U19RFiEVBUqDs67fh5ka3nDCd5digeOE4nd/W
+ Ah67q+SZPbkqonpqk1t/5nU+Oj4Fzq86x2Wfgvich5eJUPMlUR+z0PQpNKdY87nkfejB
+ czUmwH3XkVcgIyx2da6SC3OQ+Ffypm91rJXv/sbMP2dX9tlJQUWjQ/a0v/RFGmPfNghT
+ MYeIj6oWx56a0wILxFLcllg5MWPUrDpSFxsbUsOnC58ibDmno6oKGouadl7naJxMR7ri
+ 0y2xkxVSsNOrdiOmJjf9dFQHJv9Ra21AUpkxEtcwDHJTfhsC8jUDN7CXJ4akNQ1ulxgo
+ mMmw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVHOljGolMm8yAIV24ciIYuoO4PtiHpqO4ITWm/RBOou/tkuRSJtyZ4RwDmQ1t3ma5dwU19gwZ8vy4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwZXcEoZI6JrmALLDtiMQ0Cvg/LGwPo/G5AOIdSfjTy+lwWjj3C
+ /kebXT8mSbOMPHjtOBjG+EUzuhRyst8BNkdO/+EYUSqSeZjS90Yz5/gO
+X-Gm-Gg: ASbGncugcAjy5mk9sSpp08Fc2JiYxChgMlBY7eWD41zmxKx9WByAiBKXosw3V6JPVY1
+ TOY5EB0d1jEY55zXr4vFHChS3PT67UoplB9gLWf3Q/96PS766rDUiJGUuTukc/HBhs2PI6XOlwU
+ RnVutdpVQQpVYKFHIeJvDAInMtvrqSY+vQV3EnqrkhSQ3PVHXBF+/1SiaODnAy/NZowB2CgmU5Q
+ eumeQL4I0r6WS6XJ9zMmqOOcQgBPluk8lU8Mt/5cAXZ9dVxkk/kiZIGh+5cIXK3gIKW3p1dIrTO
+ D2LcSHYh5zeBSjJNVXSMqza/mBfbAXamX7vgv1wM6kCSZAHDjclIQxmHq6gz0tpeyua4Vg6ql21
+ 1WMwX6ipgh3f/pZt7r5kidHpBJG3KYhwHeBdkxWbipOxfhvj3BJYs
+X-Google-Smtp-Source: AGHT+IEWhzR2mm7DE1QL76lEZq9yVKIipYDARtaJz7Dl9K267KKRrQQk077MGORFZcrIgL6+UJPf9w==
+X-Received: by 2002:a17:902:e804:b0:235:779:edea with SMTP id
+ d9443c01a7336-23e24f56b2emr264152565ad.38.1752969721497; 
+ Sat, 19 Jul 2025 17:02:01 -0700 (PDT)
+Received: from localhost (111-252-5-201.dynamic-ip.hinet.net. [111.252.5.201])
+ by smtp.gmail.com with UTF8SMTPSA id
+ d9443c01a7336-23e3b6cfb89sm34023075ad.132.2025.07.19.17.02.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jul 2025 15:42:59 -0700 (PDT)
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Sat, 19 Jul 2025 18:42:39 -0400
-Subject: [PATCH v2 10/10] rust: of: use `core::ffi::CStr` method names
+ Sat, 19 Jul 2025 17:02:01 -0700 (PDT)
+From: Chia-I Wu <olvaffe@gmail.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/9] drm/panthor: add devcoredump support
+Date: Sat, 19 Jul 2025 17:01:37 -0700
+Message-ID: <20250720000146.1405060-1-olvaffe@gmail.com>
+X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250719-core-cstr-fanout-1-v2-10-e1cb53f6d233@gmail.com>
-References: <20250719-core-cstr-fanout-1-v2-0-e1cb53f6d233@gmail.com>
-In-Reply-To: <20250719-core-cstr-fanout-1-v2-0-e1cb53f6d233@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, Breno Leitao <leitao@debian.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
- Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@google.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- netdev@vger.kernel.org, devicetree@vger.kernel.org, 
- Tamir Duberstein <tamird@gmail.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1752964956; l=1199;
- i=tamird@gmail.com; h=from:subject:message-id;
- bh=SD3G4jqyuzcSVOOImxvxCQKawvUyi73ZCoxehYBa7Fo=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
- MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QDbHtLruIIxp9ZSU/n/rHXJnJySJp0GBObTIQohb5XiIw2SrNPfLKfjjQVWotSa6tEAbOEg5G0M
- tsoqBodzCsg4=
-X-Developer-Key: i=tamird@gmail.com; a=openssh;
- fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,33 +89,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare for `core::ffi::CStr` taking the place of `kernel::str::CStr` by
-avoid methods that only exist on the latter.
+This series adds devcoredump support to panthor.
 
-Link: https://github.com/Rust-for-Linux/linux/issues/1075
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Reviewed-by: Benno Lossin <lossin@kernel.org>
-Acked-by: Danilo Krummrich <dakr@kernel.org>
-Signed-off-by: Tamir Duberstein <tamird@gmail.com>
----
- rust/kernel/of.rs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is written from scratch and is not based on the prior work[1]. The
+main differences are
 
-diff --git a/rust/kernel/of.rs b/rust/kernel/of.rs
-index 40d1bd13682c..5cf50979c1e8 100644
---- a/rust/kernel/of.rs
-+++ b/rust/kernel/of.rs
-@@ -29,7 +29,7 @@ fn index(&self) -> usize {
- impl DeviceId {
-     /// Create a new device id from an OF 'compatible' string.
-     pub const fn new(compatible: &'static CStr) -> Self {
--        let src = compatible.as_bytes_with_nul();
-+        let src = compatible.to_bytes_with_nul();
-         // Replace with `bindings::of_device_id::default()` once stabilized for `const`.
-         // SAFETY: FFI type is valid to be zero-initialized.
-         let mut of: bindings::of_device_id = unsafe { core::mem::zeroed() };
+ - coredump triggers on all faulty/fatal/timeout events
+ - state capture and state process are two separated steps, with
+   GFP_NOWAIT being used for state capture
+ - state capture captures both sw states and hw regs that are
+   potentially interesting
+ - coredump data is in text format, similar to what msm and xe do
+
+A sample devcoredump can be found at
+https://gitlab.freedesktop.org/panfrost/linux/-/issues/44
+
+[1] https://lore.kernel.org/lkml/20240821143826.3720-1-daniel.almeida@collabora.com/
+
+Chia-I Wu (9):
+  drm/panthor: add devcoredump support
+  drm/panthor: capture GPU state for devcoredump
+  drm/panthor: capture GLB state for devcoredump
+  drm/panthor: capture CSG state for devcoredump
+  drm/panthor: capture CS state for devcoredump
+  drm/panthor: capture AS state for devcoredump
+  drm/panthor: capture VMA state for devcoredump
+  drm/panthor: check bo offset alignment in vm bind
+  drm/panthor: add DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE
+
+ drivers/gpu/drm/panthor/Makefile           |   2 +
+ drivers/gpu/drm/panthor/panthor_coredump.c | 617 +++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_coredump.h | 178 ++++++
+ drivers/gpu/drm/panthor/panthor_device.h   |   6 +
+ drivers/gpu/drm/panthor/panthor_drv.c      |   3 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c      |  54 +-
+ drivers/gpu/drm/panthor/panthor_mmu.h      |   4 +
+ drivers/gpu/drm/panthor/panthor_regs.h     |   6 +
+ drivers/gpu/drm/panthor/panthor_sched.c    | 104 ++++
+ drivers/gpu/drm/panthor/panthor_sched.h    |  14 +
+ include/uapi/drm/panthor_drm.h             |   7 +
+ 11 files changed, 989 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/gpu/drm/panthor/panthor_coredump.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_coredump.h
 
 -- 
-2.50.1
+2.50.0.727.gbf7dc18ff4-goog
 
