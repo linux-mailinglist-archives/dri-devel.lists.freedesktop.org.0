@@ -2,60 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BFAB0B8FB
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 00:53:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE5AB0B900
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 00:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4E8510E39C;
-	Sun, 20 Jul 2025 22:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E06410E45C;
+	Sun, 20 Jul 2025 22:58:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fDsGwMVL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e/TNHY0C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13DA910E39C
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 22:53:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DDBD35C59B0;
- Sun, 20 Jul 2025 22:53:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E0F5C4CEED;
- Sun, 20 Jul 2025 22:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753051999;
- bh=gu826IvHRyAEWn/2JNRgozBZ7hiQUBpc3/l9ysf5qJs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fDsGwMVLiI/LTDwH9ycnBG01VZ4rAmsujISgGH9RmHDDA9qmo8RMftEgKdWNT67L2
- eFI/lNigL9sGmVdBpkyDoTTGju7E6s7voB6+dJW0JhAEzrocdxKVh01D+m2yEgNAxy
- kL5ndJMIs4Jfznltnkv8ohMxjWnGfDqxihlR4U3QU91YOKf3IttWj7kUSt+nuiZa2W
- Fr5XpRpxfQUUW6F4yLT4qHopDHxLmIWOLStanqssPXmi89Bu2OJze8is4mirxd1l0m
- gCNn3Bv45fKjjqGxkOYBmA9e5DZFWflvdlerbtgEtr36UqCCKyGxtTiIvCK7szh8CF
- kVHaNNgUVLqLw==
-Date: Sun, 20 Jul 2025 17:53:18 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Joseph Guo <qijian.guo@nxp.com>
-Cc: Robert Foss <rfoss@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Simona Vetter <simona@ffwll.ch>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- linux-kernel@vger.kernel.org, victor.liu@nxp.com,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 2/3] dt-bindings: display: panel: Add waveshare DPI panel
- support
-Message-ID: <175305199815.3017932.12028214384187991932.robh@kernel.org>
-References: <20250716-waveshare-v1-0-81cb03fb25a3@nxp.com>
- <20250716-waveshare-v1-2-81cb03fb25a3@nxp.com>
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9C4810E45C;
+ Sun, 20 Jul 2025 22:58:05 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-313336f8438so685415a91.0; 
+ Sun, 20 Jul 2025 15:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753052285; x=1753657085; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=daKnTV4fSp02pGETIV5FEMpqyBsp4GEPOMMbZuGBz/g=;
+ b=e/TNHY0CWcKELNucbm/8hT1f9K3E2V2fzeC1vvb7cuS9YgszQ6gobCg00tFREgB1Wt
+ PoI411CfNw5g7uRTjHFZGjcRdbFpgT+JTKcXunKaaXpPjH7tb7BKcqL8RuQm0Px4vN/K
+ OWUbHVYt266e1mGbXFm9z/uJKhokcYrIYpmM8RKrjJY/zDyCDWRKEINj3v9PosaDXh1m
+ wxIZyRE1TQULll33nbCra62TlWH8o4byXYn1oX36BbLCV2ombd0fliHf3sxYhoXMMIb7
+ cyKaMHO5901bl768LetOw814kUoCxJO3DvtMt/nUPWjkqGzRVMoRq6Y9iUu2clEDgScz
+ OeDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753052285; x=1753657085;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=daKnTV4fSp02pGETIV5FEMpqyBsp4GEPOMMbZuGBz/g=;
+ b=vzv5FQdPGE9fx+0iSC5yGZ5coy+mipSGZgNoiEpgCCiJOqGoXxbYmq/613DuhtpwJT
+ 7iA2LO/C1JOF6RxhFBeRrjIZpNil8rp9V48qFrPBxeSnwJhAbESDOH6lDrm24L//8+I4
+ cyxCclrULeTnfb3urT3PFtL2GGcd+rGjz2FYNQ6/2h9qlL9SqEIv4fSb49qWDHaNzEwU
+ sZQFPNM+jqfd6mhSGsYHVNB7S345dCG47X57DJ8mfHBKUN7dkpZrMzWMIAgEAkYhsFkZ
+ GU1Uk7SK9plGwjB132AwXm+4vBZhpLK4D6fi+zDOmtapWZkZJzF5RGVCYDxLPx0/otC8
+ 6A5Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVWEGDMI7Q7+8zD8FH90ersiIN4e0vqXo70J53vdwidjYucShmVCbpgfc4LYNYvI5I3/v+OQP21Gg==@lists.freedesktop.org,
+ AJvYcCVzVohzftW8ixBFfDoYTM8cAFO/oqOPGPnUb+iWkLCVej00fTnnBpR649XRFNLZ7KDbwvjlfA2Qvfk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNw7iDhhNSUUVQW2P1vfVvSzgMw9QArMb+EYTwtcEHFLXsTU4i
+ njlrLQYdaYUYz6MydlinaEo84hAAsNasfMk4pcVzpDjmJBiFzJSP4s8Gug+qO60DhoaM6p1tocT
+ DF1GNzkgF6O8PyllsIPV/2KshffWIA0A=
+X-Gm-Gg: ASbGncuDWmcCvaylPTedqqrNsbAZqFWjWxr4bzevWMCA1SFg1fRCJS1iYLcwY+sS5wj
+ CvnpBCu0Xb8fu7QAG2TGWeBZVb5i0iyFrs01Y/owH95fRMT3pA+bxHvAy1Q1RUzNDQlLF73hlIh
+ OlkG4TDxCIoJAc3dez0A2QgGwU+emCdstq8Th7AKEq4uljhEFbWmIuOpfdqjaLypeVCdEl/oqna
+ /gJVVM4
+X-Google-Smtp-Source: AGHT+IFzjmvc0kMfKRG7U+xZ8wdQiM8shuAqXzIYwkhDrfmjAGRQWO9y1Uiy4Ste1/hFhJYypkZPHvTw/dT2WozP73o=
+X-Received: by 2002:a17:90b:5307:b0:311:b0d3:851 with SMTP id
+ 98e67ed59e1d1-31c9e75ef14mr12278425a91.4.1753052285238; Sun, 20 Jul 2025
+ 15:58:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250716-waveshare-v1-2-81cb03fb25a3@nxp.com>
+References: <20250704-core-cstr-prepare-v1-0-a91524037783@gmail.com>
+In-Reply-To: <20250704-core-cstr-prepare-v1-0-a91524037783@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 21 Jul 2025 00:57:51 +0200
+X-Gm-Features: Ac12FXxrHoi9ILUmBTRKm1OiT5BshvaFgsQVGJOA5I6_EA8yoKmhyCiVsD11rgg
+Message-ID: <CANiq72mF8v7Gzr-dgfd68OPjJXDp=q+-asMiqcet0R0viqMbkw@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Replace `kernel::str::CStr` with `core::ffi::CStr`
+ (cycle 1)
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, 
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ linux-pm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,15 +98,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jul 4, 2025 at 10:16=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
+ wrote:
+>
+> As this is a large migration that touches many subsystems, it will take
+> place in several cycles, each of which may see multiple series:
 
-On Wed, 16 Jul 2025 16:08:30 +0900, Joseph Guo wrote:
-> Add dt-binding documentation for waveshare DPI panel
-> 
-> Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
-> ---
->  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+Let's start the long road, then...
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Applied to `rust-next` -- thanks everyone!
 
+    [ Reworded title. - Miguel ]
+
+    [ Reworded title. - Miguel ]
+
+Cheers,
+Miguel
