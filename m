@@ -2,60 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A80C3B0C5DE
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0EDBB0C614
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:19:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA9B10E031;
-	Mon, 21 Jul 2025 14:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74AAE10E551;
+	Mon, 21 Jul 2025 14:19:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bZVn9xd1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SyypF1+s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB8EB10E031
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753107032; x=1784643032;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=5DOBpaAcvTn33uKU20KtqmP4eSVJJ3zgsAwq6gJFkuk=;
- b=bZVn9xd1d27HQ+yoLCK8h1lD+P1qLyWbM4q8oiUC2CyjEpBVmeEv3tE8
- Z3glBXwBzzY1h70dXw/tM6/kID6ViOmVCT90QhBSnrZh22R4skZZauB0j
- i86W8hsxq3Eok10z4S7LXSwoR6V157uipBfbllvhza8SAhvl+qsCYeOxE
- ASIzJfS67LQp2Hl8A0x5V+PEf3EF8/DFyEkKN2mQYJSziGsgSXD9Xc/Gy
- NozliYGL7IYMag7WCbkYCHoFDdaY5gMnnN2DwRM1GwVSG4VCefjqf9S1W
- KWdreUMWicV/QpkR+wWrGMoZgJ2iLDK8q28w6SrX038omjASip7dHsoxl A==;
-X-CSE-ConnectionGUID: ia4BAmc9Qp+tDs6nx6DsFA==
-X-CSE-MsgGUID: Q5O5IT7NQIOMnqIF1i36+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="42942742"
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; d="scan'208";a="42942742"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2025 07:10:31 -0700
-X-CSE-ConnectionGUID: g135ToA4T66MCpuEaHYnow==
-X-CSE-MsgGUID: 5kDbQjl/TJe3jxHQFQKQMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; d="scan'208";a="158181346"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.244.33])
- ([10.245.244.33])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2025 07:10:30 -0700
-Message-ID: <70af5644eaf561617aaf6ade2d83fe1f1afa7ffa.camel@linux.intel.com>
-Subject: Re: [bug report] drm/ttm, drm_xe, Implement
- ttm_lru_walk_for_evict() using the guarded LRU iteration
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: dri-devel@lists.freedesktop.org
-Date: Mon, 21 Jul 2025 16:10:15 +0200
-In-Reply-To: <1dcd1afb-1e5d-4624-ae3f-9f96ceab6134@sabinyo.mountain>
-References: <1dcd1afb-1e5d-4624-ae3f-9f96ceab6134@sabinyo.mountain>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F1210E54A
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:19:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1753107547;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I2e2g+RSdLVrXvuMyT6qHHm4bEHxvzYzZzIUO+TrG+M=;
+ b=SyypF1+ssXJ8VxaSKJFR6xAIvMz+3MQ7JHFELADZWVv1bTsQqeS9iUbPPWz8PGprwGYr+g
+ v5oBk+dbjtQ48J9y3zlJhSAmS9bdx8rRpgMhhySyeCdDCZosZANbuCPf1FiLku53SZVHZg
+ 1jmAGggo9rfcakUDyPK0A5woh7QHr1E=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-372-0s7-oAUkMnC-wg7irDhL8A-1; Mon, 21 Jul 2025 10:19:02 -0400
+X-MC-Unique: 0s7-oAUkMnC-wg7irDhL8A-1
+X-Mimecast-MFC-AGG-ID: 0s7-oAUkMnC-wg7irDhL8A_1753107541
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-3132c8437ffso7591242a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:19:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753107541; x=1753712341;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=I2e2g+RSdLVrXvuMyT6qHHm4bEHxvzYzZzIUO+TrG+M=;
+ b=TY4RQVf9qCj4fCpDP1cPgBDh9LRT1w4LemvB3Rpd/bb64DzoOOb1oLDNgN2bfkyavL
+ 4UIEStbb2ArM/Vbm6d5BtoX2FjtprmUQhMINrU9B8LMpB3piJzCCBxgnzRVUh5V9IeJu
+ BkJH1DTmGs0KalTcy+ozlTk+GIptJeDi4cxO50dm5rWrUtqrBvrcg8AX5Hekbm9+zQ+6
+ D8tJu5DJDfotQzYDgfINbsgJqP9IP8HIr0OaJyoFocn2ZFVZ2JQW9LwlwpUoRqI72bAL
+ kVLWb7YwmBxG02jcz79RSPATgvSTrd7DBi02HqdMrSdcIj2/a6K2bVeveMyTVBTv+fBa
+ G6TA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVj+8sqDkjyGbAB5kODv4o5FUloiH40lnkGQgQXaVNUufxUyVNEtm2QdJO4vlwG93/lFntjkZeSEhs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywn82UZJ0nsv0k/WXKBVB1eZHBetrDI4J/ZQ37mpMjsjxccfjka
+ aDyicppT8UZGkmCmRYr2T/IEPlkh3Tc/dVnEthHWxMeEDKfM4yAx/fn2HfbeM/n3elQg0GSuDiJ
+ n3YXJIVuQqIJiXT20gmasWSGr0oWYREKSt4UihTgOsrHwZ/2zH+zpoe0/0rue8a1LispijdQk3W
+ doiu0kbq63MGqzD0jEza+GbfODH6dV9CUeJUMLGB+GHlaU
+X-Gm-Gg: ASbGncv9Lr8GEVG0dGEKaVEGPccyKTubVRBBB2VSIeC0jOX1BXxCnbxU+a3npMbi3tE
+ SAuzT13B4RP4cDaWJ2yMvED/1XAARiZNRL7cgWetvUhYmfOCo2VgyF9BPYP4dFvzWM1vg3CspmY
+ wpE6Dr0YEUYwVswBVJCuxTiQ==
+X-Received: by 2002:a17:90b:2252:b0:312:1508:fb4e with SMTP id
+ 98e67ed59e1d1-31c9f45e1bamr34067981a91.17.1753107541241; 
+ Mon, 21 Jul 2025 07:19:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHJIdqihCeYBVzkOqoaHkVeRUSem0hiE8oGsu0T7UvW6Id9zyyr788yaoKXL+Z4xHCOtXdyTT7abtsFJKNwYFA=
+X-Received: by 2002:a17:90b:2252:b0:312:1508:fb4e with SMTP id
+ 98e67ed59e1d1-31c9f45e1bamr34067933a91.17.1753107540404; Mon, 21 Jul 2025
+ 07:19:00 -0700 (PDT)
 MIME-Version: 1.0
+References: <197d1dc3bff.c01ddb9024897.1898328361232711826@zohomail.com>
+ <cd3ca680ac5751368941713c1071e04d69544d47@intel.com>
+ <197d710ac39.10e2c241536088.2706332519040181850@zohomail.com>
+In-Reply-To: <197d710ac39.10e2c241536088.2706332519040181850@zohomail.com>
+From: Pingfan Liu <piliu@redhat.com>
+Date: Mon, 21 Jul 2025 22:18:48 +0800
+X-Gm-Features: Ac12FXzDdHF_s7WVKonqNsgMwmdC6Q6zqqujKluH5OQTrSCN3xvRecpp-sj16FU
+Message-ID: <CAF+s44SvWGxwty3FA6ZpR3GoXEbqXRDoT9H6KBj_jy0yM1jjLw@mail.gmail.com>
+Subject: Re: Second kexec_file_load (but not kexec_load) fails on i915 if
+ CONFIG_INTEL_IOMMU_DEFAULT_ON=n
+To: Askar Safin <safinaskar@zohomail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ regressions <regressions@lists.linux.dev>, 
+ intel-gfx <intel-gfx@lists.freedesktop.org>, kexec <kexec@lists.infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, iommu <iommu@lists.linux.dev>, 
+ Ben Hutchings <benh@debian.org>,
+ joonaslahtinen <joonas.lahtinen@linux.intel.com>, 
+ josesouza <jose.souza@intel.com>, davehansen <dave.hansen@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: mxET570h8aiYMkY4iTFEYm5MtVUPRt3XyIHsIs1SPwk_1753107541
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,58 +102,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkhCgpPbiBUdWUsIDIwMjUtMDctMDEgYXQgMTI6NDkgLTA1MDAsIERhbiBDYXJwZW50ZXIgd3Jv
-dGU6Cj4gSGVsbG8gVGhvbWFzIEhlbGxzdHLDtm0sCj4gCj4gQ29tbWl0IGJiOGFhMjdlZmY2ZiAo
-ImRybS90dG0sIGRybV94ZSwgSW1wbGVtZW50Cj4gdHRtX2xydV93YWxrX2Zvcl9ldmljdCgpIHVz
-aW5nIHRoZSBndWFyZGVkIExSVSBpdGVyYXRpb24iKSBmcm9tIEp1bgo+IDIzLCAyMDI1IChsaW51
-eC1uZXh0KSwgbGVhZHMgdG8gdGhlIGZvbGxvd2luZyBTbWF0Y2ggc3RhdGljIGNoZWNrZXIKPiB3
-YXJuaW5nOgo+IAo+IAlkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmM6ODk5Cj4gdHRt
-X2xydV93YWxrX2Zvcl9ldmljdCgpCj4gCXdhcm46ICdibycgaXNuJ3QgYW4gRVJSX1BUUgo+IAo+
-IGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYwo+IMKgwqAgODgzwqAgczY0IHR0bV9s
-cnVfd2Fsa19mb3JfZXZpY3Qoc3RydWN0IHR0bV9scnVfd2FsayAqd2Fsaywgc3RydWN0Cj4gdHRt
-X2RldmljZSAqYmRldiwKPiDCoMKgIDg4NMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCB0dG1fcmVzb3VyY2VfbWFuYWdlciAqbWFu
-LAo+IHM2NCB0YXJnZXQpCj4gwqDCoCA4ODXCoCB7Cj4gwqDCoCA4ODbCoMKgwqDCoMKgwqDCoMKg
-wqAgc3RydWN0IHR0bV9ib19scnVfY3Vyc29yIGN1cnNvcjsKPiDCoMKgIDg4N8KgwqDCoMKgwqDC
-oMKgwqDCoCBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvOwo+IMKgwqAgODg4wqDCoMKgwqDC
-oMKgwqDCoMKgIHM2NCBwcm9ncmVzcyA9IDA7Cj4gwqDCoCA4ODnCoMKgwqDCoMKgwqDCoMKgwqAg
-czY0IGxyZXQ7Cj4gwqDCoCA4OTDCoCAKPiDCoMKgIDg5McKgwqDCoMKgwqDCoMKgwqDCoCB0dG1f
-Ym9fbHJ1X2Zvcl9lYWNoX3Jlc2VydmVkX2d1YXJkZWQoJmN1cnNvciwgbWFuLAo+ICZ3YWxrLT5h
-cmcsIGJvKSB7Cj4gwqDCoCA4OTLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGxy
-ZXQgPSB3YWxrLT5vcHMtPnByb2Nlc3NfYm8od2FsaywgYm8pOwo+IMKgwqAgODkzwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAobHJldCA9PSAtRUJVU1kgfHwgbHJldCA9PSAt
-RUFMUkVBRFkpCj4gwqDCoCA4OTTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBscmV0ID0gMDsKPiDCoMKgIDg5NcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgcHJvZ3Jlc3MgPSAobHJldCA8IDApID8gbHJldCA6IHByb2dyZXNzICsKPiBs
-cmV0Owo+IMKgwqAgODk2wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAocHJv
-Z3Jlc3MgPCAwIHx8IHByb2dyZXNzID49IHRhcmdldCkKPiDCoMKgIDg5N8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJyZWFrOwo+IMKgwqAgODk4wqDC
-oMKgwqDCoMKgwqDCoMKgIH0KPiDCoMKgIDg5OcKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoSVNfRVJS
-KGJvKSkKPiDCoMKgIDkwMMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJu
-IFBUUl9FUlIoYm8pOwo+IAo+IFRoZSB0dG1fYm9fbHJ1X2Zvcl9lYWNoX3Jlc2VydmVkX2d1YXJk
-ZWQoKSBtYWNybyBjaGVja3MgZm9yCj4gSVNfRVJSX09SX05VTEwoKQo+IGJ1dCBpdCBjYW4gb25s
-eSBiZSBOVUxMLgoKVGhhdCdzIG5vdCBjb3JyZWN0LgoKPiDCoCBUaGVzZSB0aGluZ3MgYXJlIGEg
-Yml0IGZydXN0cmF0aW5nIHRvIG1lIGJlY2F1c2UKPiB3aGVuIGEgZnVuY3Rpb24gcmV0dXJucyBi
-b3RoIGVycm9yIHBvaW50ZXJzIGFuZCBOVUxMIHRoZW4gaWRlYWxseQo+IHRoZXJlIGlzIGEKPiBy
-ZWFzb24gZm9yIHRoYXQgYW5kIGl0IHNob3VsZCBiZSBkb2N1bWVudGVkLsKgICJUaGlzIGZ1bmN0
-aW9uIHJldHVybnMKPiBlcnJvcgo+IHBvaW50ZXJzIGlmIHRoZXJlIGlzIGFuIGVycm9yIChrbWFs
-bG9jIGZhaWxlZCBldGMpIG9yIE5VTEwgaWYgdGhlCj4gb2JqZWN0IGlzCj4gbm90IGZvdW5kIi4K
-ClRoZSBlcnJvciBwb2ludGVyIGlzIGRvY3VtZW50ZWQgdW5kZXIgdGhlCnR0bV9ib19scnVfZm9y
-X2VhY2hfcmVzZXJ2ZWRfZ3VhcmRlZCgpIG1hY3JvLiBCdXQgaXQgaXMgdHJ1ZSB0aGF0IEkndmUK
-Zm9yZ290dGVuIHRvIHVwZGF0ZSB0aGUgZG9jIGZvciB0dG1fYm9fbHJ1X2N1cnNvcl9maXJzdCgp
-IGFuZAp0dG1fYm9fbHJ1X2N1cnNvcl9uZXh0KCkgdG8gcmVmbGVjdCB0aGF0IHRoZXkgbWF5IHJl
-dHVybiBhbiBlcnJvcgpwb2ludGVyIG9yIE5VTEwuIEkgd2lsbCBwdXQgdG9nZXRoZXIgYSBwYXRj
-aCBmb3IgdGhhdC4KCj4gCj4gaHR0cHM6Ly9zdGF0aWN0aGlua2luZy53b3JkcHJlc3MuY29tLzIw
-MjIvMDgvMDEvbWl4aW5nLWVycm9yLXBvaW50ZXJzLWFuZC1udWxsLwo+IAo+IMKgwqAgOTAxwqAg
-Cj4gwqDCoCA5MDLCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHByb2dyZXNzOwo+IAo+IEl0J3Mg
-c3RyYW5nZSB0byBtZSB0aGF0IHdlIHJldHVybnMgcHJvZ3Jlc3MgdmFsdWVzIHdoaWNoIGFyZSBn
-cmVhdGVyCj4gdGhhbiB0aGUKPiB0YXJnZXQgdmFsdWUuCgpUaGlzIGlzIGFsc28gZG9jdW1lbnRl
-ZCBpbiB0aGUgdHRtX2xydV93YWxrX2Zvcl9ldmljdCgpIGtlcm5lbGRvYy4gSW4Kc2hvcnQgYSB0
-eXBpY2FsIGludGVuZGVkIHVzZS1jYXNlIGlzIHRoYXQgd2UncmUgcmVxdWVzdGVkIHRvIGV2aWN0
-CkB0YXJnZXQgcGFnZXMsIGJ1dCBzaW5jZSB3ZSBldmljdCBhIGJ1ZmZlciBvYmplY3QgYXQgYSB0
-aW1lIChtdWx0aXBsZQpwYWdlcykgdGhlIHRvdGFsIG1heSBleGNlZWQgQHByb2dyZXNzLgoKSW4g
-YW55IGNhc2UgaXQgbG9va3MgbGlrZSB0aGUgdHRtX2xydV93YWxrX2Zvcl9ldmljdCgpIGZ1bmN0
-aW9uIG1heSBnbwphd2F5IHdpdGggdXBjb21pbmcgcGF0Y2hlcyBmcm9tIENocmlzdGlhbi4KClRo
-YW5rcywKVGhvbWFzCiAKCj4gCj4gwqDCoCA5MDPCoCB9Cj4gCj4gcmVnYXJkcywKPiBkYW4gY2Fy
-cGVudGVyCgo=
+On Sat, Jul 5, 2025 at 4:12=E2=80=AFAM Askar Safin <safinaskar@zohomail.com=
+> wrote:
+>
+>  ---- On Fri, 04 Jul 2025 12:29:01 +0400  Jani Nikula <jani.nikula@linux.=
+intel.com> wrote ---
+>  > Thanks for the detailed debug info. I'm afraid all I can say at this
+>  > point is, please file all of this in a bug report as described in
+>  > [1]. Please add the drm.debug related options, and attach the dmesgs a=
+nd
+>  > configs in the bug instead of pointing at external sites.
+>
+> Okay, now let me speculate how to fix this bug. :) I think someone with m=
+oderate kexec understanding
+> and with Intel GPU should do this: reproduce the bug and then slowly modi=
+fy kexec_file_load code until it
+> becomes kexec_load code. (Or vice versa.) In the middle of this modificat=
+ion the bug stops to reproduce,
+> and so we will know what exactly causes it.
+>
+> kexec_file_load and kexec_load should behave the same. If they do not, th=
+en we should
+> understand, why. We should closely review their code.
+>
+> Also, in case of kexec_load kernel uncompressing and parsing performed by=
+ "kexec" userspace
+> tool, and in case of kexec_file_load by kernel. So we should closely revi=
+ew this two uncompressing/parsing code fragments.
+> I think that this bug is related to kexec, not to i915. And thus it shoul=
+d be fixed by kexec people, not by i915 people. (But I may be wrong.)
+>
+
+I tend to agree with Baoquan on this scene when kexec rebooted with a
+graphic card.
+I heard that this was due to the missed initialization on the graphic
+card by the firmware in the kexec reboot process. But it is not an
+official explanation. If any experts could enlighten me on this, I'd
+really appreciate it.
+
+IMHO, you could try blacklisting the i915 module to see if
+kexec_file_load works without issues - this would help narrow down the
+culprit.
+
+Thanks,
+
+Pingfan
+
+> But okay, I reported it to that bug tracker anyway: https://gitlab.freede=
+sktop.org/drm/i915/kernel/-/issues/14598
+>
+> Maybe there is separate kexec bug tracker?
+>
+> Also, your bug tracker is cool. One can attach files in the middle of rep=
+ort. Why not whole kernel uses it? :)
+>
+> --
+> Askar Safin
+> https://types.pl/@safinaskar
+>
+>
 
