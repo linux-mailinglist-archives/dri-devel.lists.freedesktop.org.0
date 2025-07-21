@@ -2,42 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA615B0C0A6
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 11:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A23B0C0A8
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 11:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA54110E4C5;
-	Mon, 21 Jul 2025 09:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAC2410E4CB;
+	Mon, 21 Jul 2025 09:49:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=grimler.se header.i=@grimler.se header.b="OUnCEbkH";
+	dkim=pass (1024-bit key; secure) header.d=grimler.se header.i=@grimler.se header.b="YBw89Lf4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 347 seconds by postgrey-1.36 at gabe;
- Mon, 21 Jul 2025 09:49:32 UTC
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com
- [95.215.58.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB2B10E4C1
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com
+ [95.215.58.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EDBA10E4C5
  for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 09:49:32 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grimler.se; s=key1;
- t=1753091024;
+ t=1753091027;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aF2s9Qr5GNaKwpyz9KRWWSUy0LehEu6UCIeJ3Re6uEI=;
- b=OUnCEbkHFEy1n8ZiypQGthy17Gzm1YnNLmxPTC3xisnSuvNBEjKGsdJSRDm50i9fGYrGvB
- dVnyrhVS3x8mLeVP5oWPjzGrlSFjr/thjguBWrwBdGITJqOB5FkqzPihy3N1EoF1lICnYs
- hyir03/1c/cEnTsKYMyuPW+MYCL+XUQ=
+ bh=OLEv1F8si+d4JJJEfku+IvjEsa+DjKyQC0EuZ/oVHD0=;
+ b=YBw89Lf4y0J81omtVXFiErCy7x7GCqvBn9kRHUywYFrPxpgnwB8GnQ1oWSMqF3dK6auKZd
+ TIVzr17F0DAzQsdoZzgMIVze8Nx24Y6tlvowId9/BdMVItXdl7O700OyBHnfh1Man7gGiQ
+ egQLEfykp0Sglpzko5rNyXEaHVOBFS8=
 From: Henrik Grimler <henrik@grimler.se>
-Date: Mon, 21 Jul 2025 11:43:17 +0200
-Subject: [PATCH 1/3] drm/bridge: sii9234: fix some typos in comments and
- messages
+Date: Mon, 21 Jul 2025 11:43:18 +0200
+Subject: [PATCH 2/3] drm/bridge: sii9234: use dev_err_probe where
+ applicable
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250721-exynos4-sii9234-driver-v1-1-2e47ed02f677@grimler.se>
+Message-Id: <20250721-exynos4-sii9234-driver-v1-2-2e47ed02f677@grimler.se>
 References: <20250721-exynos4-sii9234-driver-v1-0-2e47ed02f677@grimler.se>
 In-Reply-To: <20250721-exynos4-sii9234-driver-v1-0-2e47ed02f677@grimler.se>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -51,15 +49,15 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org, 
  ~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org, 
  linux-kernel@vger.kernel.org, Henrik Grimler <henrik@grimler.se>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2316; i=henrik@grimler.se;
- h=from:subject:message-id; bh=VZR9L/YQAGIhhNghVVdCnKKDaytCOzfTudQMGYx1nto=;
- b=owEBbQGS/pANAwAKAbAHbkkLcWFrAcsmYgBofgvFk192z/AfkceQ1t7q4qnae8at/l3esEQ6q
- nMLYBZ02v+JATMEAAEKAB0WIQQsfymul4kfZBmp4s2wB25JC3FhawUCaH4LxQAKCRCwB25JC3Fh
- a75zB/9PB/5w5mjThVdcK7yy/nNmqcAi85C13GIQiZ/CIAOL41K09ViKp+BpNdayeixeFnWzkFh
- k6HzPKn2XQfD+S5z/7rHXNZW4lOqvzUQ4ltJQW4jcU2JOs+0COf/mFTRPRI1f52qXr7j4VBKZ09
- 4UYGYUr9N4HEB4Vs2F+j5nGE0R+0R4xIVEZv4N7YnkgSdP9x6Fg+tYMBc0sFFzG/Y1EhTRCCV6t
- zKRS/iIdPfqIvgsywu0Q+oXoXKvSvzFaZHMzmV+OjdJaDv2zsHl0A/7At8Dj7aKHi11eDJOWvGz
- +6nKC0+OZu3Lz1B2YUXsxbVtThESjL4cbJePM+QcSzhZC/Nm
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1995; i=henrik@grimler.se;
+ h=from:subject:message-id; bh=fA7kCw/btmE/Kdd4JfUiEBidHB1Txrk8ejW2zzBXunM=;
+ b=owEBbQGS/pANAwAKAbAHbkkLcWFrAcsmYgBofgvIS7HDC0DrDRkeyFvc9LW0I1rTyNgAnlKfU
+ bM4zIXwgQqJATMEAAEKAB0WIQQsfymul4kfZBmp4s2wB25JC3FhawUCaH4LyAAKCRCwB25JC3Fh
+ a3XoB/9G40Lv0JikNKi9Ia8QkocQfYruM/z/b25jkjcvIMg5emz1qVhp4+y6a/lOb8wxDwSronb
+ r0DcGzDRu+uBkuNJJTqPDSUT8OdWNrabTLHQb0g0lRMkzdGvqEthoZh7b77uFB2FYcJy0667FxY
+ fmB0SCpJPWuhfF6o5lJY1W3qjcl40tpPjdgUrlNSeSdgfa5YSvxsylKke/698b3U87mZAjq/mVF
+ wZAg7ppIU+1baeyu0De6hog7wGH0+prm1c9/n/yfAZbfWcQbg4bJzuBzmrlFHkv5HywIcjZxpgp
+ 3eJeWA74HahKR5PMQx4q1bvXXon1/RICH7CYjs0Eususlxhb
 X-Developer-Key: i=henrik@grimler.se; a=openpgp;
  fpr=2C7F29AE97891F6419A9E2CDB0076E490B71616B
 X-Migadu-Flow: FLOW_OUT
@@ -78,67 +76,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix spelling and formatting so that the code is easier to follow, and
-so that it is more searchable.
+In case of error during resource acquisition the driver should print
+an error message only if it is not deferred probe. Use dev_err_probe
+helper to handle this, which will also record defer probe reason for
+debugging.
 
 Signed-off-by: Henrik Grimler <henrik@grimler.se>
 ---
- drivers/gpu/drm/bridge/sii9234.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/sii9234.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-index bb1bed03eb5b7ae67f752c0d593dc54131e9e370..930117bbba87285e62107389606897740516eb0a 100644
+index 930117bbba87285e62107389606897740516eb0a..0e0bb1bf71fdcef788715cfd6fa158a6992def33 100644
 --- a/drivers/gpu/drm/bridge/sii9234.c
 +++ b/drivers/gpu/drm/bridge/sii9234.c
-@@ -339,7 +339,7 @@ static int sii9234_cbus_reset(struct sii9234 *ctx)
- 	return sii9234_clear_error(ctx);
- }
- 
--/* Require to chek mhl imformation of samsung in cbus_init_register */
-+/* Require to check mhl information of samsung in cbus_init_register */
- static int sii9234_cbus_init(struct sii9234 *ctx)
- {
- 	cbus_writeb(ctx, 0x07, 0xF2);
-@@ -614,7 +614,7 @@ static void sii9234_cable_out(struct sii9234 *ctx)
- 
- 	disable_irq(to_i2c_client(ctx->dev)->irq);
- 	tpi_writeb(ctx, TPI_DPD_REG, 0);
--	/* Turn on&off hpd festure for only QCT HDMI */
-+	/* Turn on&off hpd feature for only QCT HDMI */
- 	sii9234_hw_off(ctx);
- 
- 	ctx->state = ST_OFF;
-@@ -708,7 +708,7 @@ static enum sii9234_state sii9234_rsen_change(struct sii9234 *ctx)
- {
- 	int value;
- 
--	/* Work_around code to handle wrong interrupt */
-+	/* Workaround code to handle wrong interrupt */
- 	if (ctx->state != ST_RGND_1K) {
- 		dev_err(ctx->dev, "RSEN_HIGH without RGND_1K\n");
- 		return ST_FAILURE;
-@@ -723,9 +723,9 @@ static enum sii9234_state sii9234_rsen_change(struct sii9234 *ctx)
- 	}
- 	dev_dbg(ctx->dev, "RSEN lost\n");
- 	/*
--	 * Once RSEN loss is confirmed,we need to check
--	 * based on cable status and chip power status,whether
--	 * it is SINK Loss(HDMI cable not connected, TV Off)
-+	 * Once RSEN loss is confirmed, we need to check
-+	 * based on cable status and chip power status, whether
-+	 * it is SINK Loss (HDMI cable not connected, TV Off)
- 	 * or MHL cable disconnection
- 	 * TODO: Define the below mhl_disconnection()
- 	 */
-@@ -820,7 +820,7 @@ static int sii9234_init_resources(struct sii9234 *ctx,
- 	int ret;
- 
- 	if (!ctx->dev->of_node) {
--		dev_err(ctx->dev, "not DT device\n");
-+		dev_err(ctx->dev, "no DT device\n");
- 		return -ENODEV;
+@@ -825,10 +825,9 @@ static int sii9234_init_resources(struct sii9234 *ctx,
  	}
  
+ 	ctx->gpio_reset = devm_gpiod_get(ctx->dev, "reset", GPIOD_OUT_LOW);
+-	if (IS_ERR(ctx->gpio_reset)) {
+-		dev_err(ctx->dev, "failed to get reset gpio from DT\n");
+-		return PTR_ERR(ctx->gpio_reset);
+-	}
++	if (IS_ERR(ctx->gpio_reset))
++		return dev_err_probe(ctx->dev, PTR_ERR(ctx->gpio_reset),
++				     "failed to get reset gpio from DT\n");
+ 
+ 	ctx->supplies[0].supply = "avcc12";
+ 	ctx->supplies[1].supply = "avcc33";
+@@ -836,9 +835,7 @@ static int sii9234_init_resources(struct sii9234 *ctx,
+ 	ctx->supplies[3].supply = "cvcc12";
+ 	ret = devm_regulator_bulk_get(ctx->dev, 4, ctx->supplies);
+ 	if (ret) {
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(ctx->dev, "regulator_bulk failed\n");
+-		return ret;
++		dev_err_probe(ctx->dev, ret, "regulator_bulk failed\n");
+ 	}
+ 
+ 	ctx->client[I2C_MHL] = client;
+@@ -911,10 +908,9 @@ static int sii9234_probe(struct i2c_client *client)
+ 					sii9234_irq_thread,
+ 					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+ 					"sii9234", ctx);
+-	if (ret < 0) {
+-		dev_err(dev, "failed to install IRQ handler\n");
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(dev, ret,
++				     "failed to install IRQ handler\n");
+ 
+ 	ret = sii9234_init_resources(ctx, client);
+ 	if (ret < 0)
 
 -- 
 2.50.1
