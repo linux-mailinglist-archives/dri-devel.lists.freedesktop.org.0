@@ -2,85 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C81B0BF46
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 10:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F2DB0BE79
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 10:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1CE010E49D;
-	Mon, 21 Jul 2025 08:45:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6626E10E263;
+	Mon, 21 Jul 2025 08:16:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Twiq8vye";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="i/Evez6e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
- [209.85.166.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53EC410E244
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 03:41:54 +0000 (UTC)
-Received: by mail-il1-f179.google.com with SMTP id
- e9e14a558f8ab-3ddd2710d14so35655005ab.2
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 20:41:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753069313; x=1753674113; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kxOupiP+AzDKFj9Eqf69444hP/4a0m824WZ/8vreM8A=;
- b=Twiq8vye7WSbWBzhiOZXBt4oOnl6fuhcfLzAk5obdxU12rA1xA+QsUQajTL5tk5zNU
- sk+ssGfcj5/IGAd/bpEqArrZhJUCviBYnpJv8EpgQ0/ynMBTg1NB5FaPPfhXB2yuZ9Q6
- YXhrZMnQQyexx3fmTWViAuHjRDdh9Y3EEaVoDNb2s2rlPmAYzr9t3e3BtwJesSNf3PPY
- tGWIqcY1AtSDcPXOqs9TEPOGVy8juD8lMWnsBeRCSqE/1LQ4WSs9Zr4oThjNJnRUpY4v
- x0prIfS4TG18kviQ6IMavg6qq+Yxhn7ZaMaishmhZa0blR8oFvdbvAP5Wzp05qtJHR0b
- VyRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753069313; x=1753674113;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kxOupiP+AzDKFj9Eqf69444hP/4a0m824WZ/8vreM8A=;
- b=UpUCUTsUMsAntAHMrYnkLVpSPk1lABbXDi+TnpoGGn6VMh1x+Z7OJ1KzLCPhc2n8BX
- nisVBzHhpSRxQao1rMyjTeKBUJaTRnD+8UoaSbHKWA3zUryFNGS0ZPSuxb85fo0rRjBZ
- U/gAa/DHci/tyYTIi3sP0GUJXyVH1pW0mWtA8Uo9Ej9Fa3b44cUXCKoWU+dNaddFvs09
- f5IIpAAfy8FM6VJLaVgFV4JZ88Fr8qMqYPPkl8N44jd0Ztn9eCHULa+eygkl0n95AKjg
- 1hmnMfinc88LOxEr9mxWmBDjR12lNoNBdHuBfs8Agn4/4zq3cEy04Vj3AfOY8FR8O/5P
- 8w7w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWTSkKBPxrpCKFINNebk7Dv4jDiwEWjiYaewy3YqcgVU6W0kzsBelvnE1YCiMBYzmlmBemN3sb0cGA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyj1ulmK4uJbjIASF8AhhbCNcS9V2ncfliW1XwV5KH6w+dXX9pO
- a3FYMLPhRqHojsWxEfdKdB2Js7lNvG8NK4VnjMM8db4hM+F3eB1Wobdr1nyRf89r7L/LAUsl9C/
- ua9yJtVqS0JyNzrqO9mPSvbWe/IXsXOM=
-X-Gm-Gg: ASbGnctbGJnSB82el9xACfh5DEnBYl9VDG3P3fQDhLhEnvsuP0vP9V9X309eNWk8o7v
- Gefsyh3dPlmaD8XNW1uyOGvl8q/RuD7YpsimEnOZ0rkf3q8HSKGQzmFtQabdLeJVoxvZP0uSV8N
- SGzI3pSXcA26TLYsNz1vjKQFyES81aN69mbGDwWAi/1I3ohv062hYZDpq8y/mp7OeG8SMHZO5nc
- 5VS65g=
-X-Google-Smtp-Source: AGHT+IFz1HGhNEidAOsOni/rjfsNvb1evXBa1c+HDuQzYd0asweyMsVHkfpWiKwkdYQQRpPesF4vdrwP3e7ac96hFQs=
-X-Received: by 2002:a05:6e02:3c86:b0:3e2:a366:c125 with SMTP id
- e9e14a558f8ab-3e2a366c42bmr93375905ab.18.1753069313428; Sun, 20 Jul 2025
- 20:41:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250718101150.3681002-1-shengjiu.wang@nxp.com>
- <20250718101150.3681002-3-shengjiu.wang@nxp.com> <4668607.LvFx2qVVIh@steina-w>
-In-Reply-To: <4668607.LvFx2qVVIh@steina-w>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Mon, 21 Jul 2025 11:41:38 +0800
-X-Gm-Features: Ac12FXytZWevTn3X9nBgcYpx1xuFdbioGQ2AJMdPLLsLdh8ViabsDJrmMi_DxPU
-Message-ID: <CAA+D8ANQdOuEiHrOWAbqVN2oFAAop2agBzKB2_YsoQ3_SFYYNw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/bridge: imx: add driver for HDMI TX Parallel
- Audio Interface
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org, 
- l.stach@pengutronix.de, Shengjiu Wang <shengjiu.wang@nxp.com>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A7F210E263
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 08:16:14 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bltWv23Ngz9sc0;
+ Mon, 21 Jul 2025 10:16:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1753085771; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hhnMxRmkS61DlprDg4AkVtqMMKlfLS909pAkAs72P9Y=;
+ b=i/Evez6eHv4GoCyNgUcjRJurRE24Rg8YPfJE0VI2hKrCaVEbeVN6MAWdDSmU/bXVGlNsnF
+ Yu5OBIr9n4g/f6zA1AQwv4bePsXQrIJSEZDFiTyc3n1RJw1d193UGVNJvMxVwHhTbXrbEm
+ sPF5cudu9qXby59mXFUud14cvsvud+cNnw0C8fX7p7je7A8rP7OFo9iA6PvQ6muezqud+m
+ f0hVucE1kmd2fwbdcky21G/JqGEbVYMTlwE0mHTn772I6wVJv2aYZD5zIDyaPMFxRfTD+S
+ K117mTSSeS6qXb2+hG3KZ8+uYAY7gySaf4ZAXaiYLpBk7OpClP+MzBtdw/a9hw==
+Message-ID: <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
+ the run queue.
+From: Philipp Stanner <phasta@mailbox.org>
+To: phasta@kernel.org, James Flowers <bold.zone2373@fastmail.com>, 
+ matthew.brost@intel.com, dakr@kernel.org, ckoenig.leichtzumerken@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de,  airlied@gmail.com, simona@ffwll.ch,
+ skhan@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linux.dev, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>
+Date: Mon, 21 Jul 2025 10:16:05 +0200
+In-Reply-To: <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
+References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
+ <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Mon, 21 Jul 2025 08:45:46 +0000
+MIME-Version: 1.0
+X-MBO-RS-ID: 560656e7d9b6cbca030
+X-MBO-RS-META: nkochdei9nboa4zkfkbjjt45x4p4z4z4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,300 +67,746 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 18, 2025 at 7:51=E2=80=AFPM Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
->
-> Hi,
->
-> thanks for sending this path.
->
-> Am Freitag, 18. Juli 2025, 12:11:48 CEST schrieb Shengjiu Wang:
-> > The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
-> > acts as the bridge between the Audio Subsystem to the HDMI TX Controlle=
-r.
-> > This IP block is found in the HDMI subsystem of the i.MX8MP SoC.
-> >
-> > Data received from the audio subsystem can have an arbitrary component
-> > ordering. The HTX_PAI block has integrated muxing options to select whi=
-ch
-> > sections of the 32-bit input data word will be mapped to each IEC60958
-> > field. The HTX_PAI_FIELD_CTRL register contains mux selects to
-> > individually select P,C,U,V,Data, and Preamble.
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+On Mon, 2025-07-21 at 09:52 +0200, Philipp Stanner wrote:
+> +Cc Tvrtko, who's currently reworking FIFO and RR.
+>=20
+> On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
+> > Fixes an issue where entities are added to the run queue in
+> > drm_sched_rq_update_fifo_locked after being killed, causing a
+> > slab-use-after-free error.
+> >=20
+> > Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
 > > ---
-> >  drivers/gpu/drm/bridge/imx/Kconfig           |   7 +
-> >  drivers/gpu/drm/bridge/imx/Makefile          |   1 +
-> >  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c | 134 +++++++++++++++++++
-> >  include/drm/bridge/dw_hdmi.h                 |   6 +
-> >  4 files changed, 148 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
-> >
-> > diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridg=
-e/imx/Kconfig
-> > index 9a480c6abb85..d95fa84a8dcd 100644
-> > --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> > +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> > @@ -24,6 +24,13 @@ config DRM_IMX8MP_DW_HDMI_BRIDGE
-> >         Choose this to enable support for the internal HDMI encoder fou=
-nd
-> >         on the i.MX8MP SoC.
-> >
-> > +config DRM_IMX8MP_HDMI_PAI
-> > +     tristate "Freescale i.MX8MP HDMI PAI bridge support"
-> > +     depends on OF
-> > +     help
-> > +       Choose this to enable support for the internal HDMI TX Parallel
-> > +       Audio Interface found on the Freescale i.MX8MP SoC.
-> > +
-> >  config DRM_IMX8MP_HDMI_PVI
-> >       tristate "Freescale i.MX8MP HDMI PVI bridge support"
-> >       depends on OF
-> > diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/brid=
-ge/imx/Makefile
-> > index dd5d48584806..8d01fda25451 100644
-> > --- a/drivers/gpu/drm/bridge/imx/Makefile
-> > +++ b/drivers/gpu/drm/bridge/imx/Makefile
-> > @@ -1,6 +1,7 @@
-> >  obj-$(CONFIG_DRM_IMX_LDB_HELPER) +=3D imx-ldb-helper.o
-> >  obj-$(CONFIG_DRM_IMX_LEGACY_BRIDGE) +=3D imx-legacy-bridge.o
-> >  obj-$(CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE) +=3D imx8mp-hdmi-tx.o
-> > +obj-$(CONFIG_DRM_IMX8MP_HDMI_PAI) +=3D imx8mp-hdmi-pai.o
-> >  obj-$(CONFIG_DRM_IMX8MP_HDMI_PVI) +=3D imx8mp-hdmi-pvi.o
-> >  obj-$(CONFIG_DRM_IMX8QM_LDB) +=3D imx8qm-ldb.o
-> >  obj-$(CONFIG_DRM_IMX8QXP_LDB) +=3D imx8qxp-ldb.o
-> > diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c b/drivers/gpu=
-/drm/bridge/imx/imx8mp-hdmi-pai.c
-> > new file mode 100644
-> > index 000000000000..f09ee2622e57
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
-> > @@ -0,0 +1,134 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Copyright 2025 NXP
-> > + */
-> > +
-> > +#include <drm/bridge/dw_hdmi.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_platform.h>
-> > +#include <linux/platform_device.h>
-> > +
-> > +#define HTX_PAI_CTRL                   0x00
-> > +#define HTX_PAI_CTRL_EXT               0x04
-> > +#define HTX_PAI_FIELD_CTRL             0x08
-> > +#define HTX_PAI_STAT                   0x0c
-> > +#define HTX_PAI_IRQ_NOMASK             0x10
-> > +#define HTX_PAI_IRQ_MASKED             0x14
-> > +#define HTX_PAI_IRQ_MASK               0x18
-> > +
-> > +#define CTRL_ENABLE                    BIT(0)
-> > +
-> > +#define CTRL_EXT_WTMK_HIGH_MASK                GENMASK(31, 24)
-> > +#define CTRL_EXT_WTMK_HIGH             (0x3 << 24)
-> > +#define CTRL_EXT_WTMK_LOW_MASK         GENMASK(23, 16)
-> > +#define CTRL_EXT_WTMK_LOW              (0x3 << 16)
-> > +#define CTRL_EXT_NUM_CH_MASK           GENMASK(10, 8)
-> > +#define CTRL_EXT_NUM_CH_SHIFT          8
-> > +
-> > +#define FIELD_CTRL_B_FILT              BIT(31)
-> > +#define FIELD_CTRL_PARITY_EN           BIT(30)
-> > +#define FIELD_CTRL_END_SEL             BIT(29)
-> > +#define FIELD_CTRL_PRE_SEL             GENMASK(28, 24)
-> > +#define FIELD_CTRL_PRE_SEL_SHIFT       24
-> > +#define FIELD_CTRL_D_SEL               GENMASK(23, 20)
-> > +#define FIELD_CTRL_D_SEL_SHIFT         20
-> > +#define FIELD_CTRL_V_SEL               GENMASK(19, 15)
-> > +#define FIELD_CTRL_V_SEL_SHIFT         15
-> > +#define FIELD_CTRL_U_SEL               GENMASK(14, 10)
-> > +#define FIELD_CTRL_U_SEL_SHIFT         10
-> > +#define FIELD_CTRL_C_SEL               GENMASK(9, 5)
-> > +#define FIELD_CTRL_C_SEL_SHIFT         5
-> > +#define FIELD_CTRL_P_SEL               GENMASK(4, 0)
-> > +#define FIELD_CTRL_P_SEL_SHIFT         0
-> > +
-> > +struct imx8mp_hdmi_pai {
-> > +     struct device   *dev;
-> > +     void __iomem    *base;
-> > +};
-> > +
-> > +static void imx8mp_hdmi_pai_enable(struct dw_hdmi *dw_hdmi, int channe=
-l,
-> > +                                int width, int rate, int non_pcm)
-> > +{
-> > +     const struct dw_hdmi_plat_data *pdata =3D dw_hdmi_to_plat_data(dw=
-_hdmi);
-> > +     struct imx8mp_hdmi_pai *hdmi_pai =3D (struct imx8mp_hdmi_pai *)pd=
-ata->priv_audio;
-> > +     int val;
-> > +
-> > +     /* PAI set */
-> > +     val =3D CTRL_EXT_WTMK_HIGH | CTRL_EXT_WTMK_LOW;
-> > +     val |=3D ((channel - 1) << CTRL_EXT_NUM_CH_SHIFT);
-> > +     writel(val, hdmi_pai->base + HTX_PAI_CTRL_EXT);
-> > +
-> > +     /* IEC60958 format */
-> > +     val =3D 31 << FIELD_CTRL_P_SEL_SHIFT;
-> > +     val |=3D 30 << FIELD_CTRL_C_SEL_SHIFT;
-> > +     val |=3D 29 << FIELD_CTRL_U_SEL_SHIFT;
-> > +     val |=3D 28 << FIELD_CTRL_V_SEL_SHIFT;
-> > +     val |=3D 4 << FIELD_CTRL_D_SEL_SHIFT;
-> > +     val |=3D 0 << FIELD_CTRL_PRE_SEL_SHIFT;
->
-> You can use FIELD_PREP_CONST() for these shifts as the GENMASK are
-> already available.
+> > This issue was detected by syzkaller running on a Steam Deck OLED.
+> > Unfortunately I don't have a reproducer for it. I've
+>=20
+> Well, now that's kind of an issue =E2=80=93 if you don't have a reproduce=
+r, how
+> can you know that your patch is correct? How can we?
+>=20
+> It would certainly be good to know what the fuzz testing framework
+> does.
+>=20
+> > included the KASAN reports below:
+>=20
+>=20
+> Anyways, KASAN reports look interesting. But those might be many
+> different issues. Again, would be good to know what the fuzzer has been
+> testing. Can you maybe split this fuzz test into sub-tests? I suspsect
+> those might be different faults.
+>=20
+>=20
+> Anyways, taking a first look=E2=80=A6
+>=20
+>=20
+> >=20
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > BUG: KASAN: slab-use-after-free in rb_next+0xda/0x160 lib/rbtree.c:505
+> > Read of size 8 at addr ffff8881805085e0 by task kworker/u32:12/192
+> > CPU: 3 UID: 0 PID: 192 Comm: kworker/u32:12 Not tainted 6.14.0-flowejam=
+-+ #1
+> > Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+> > Workqueue: sdma0 drm_sched_run_job_work [gpu_sched]
+> > Call Trace:
+> > =C2=A0<TASK>
+> > =C2=A0__dump_stack lib/dump_stack.c:94 [inline]
+> > =C2=A0dump_stack_lvl+0xd2/0x130 lib/dump_stack.c:120
+> > =C2=A0print_address_description.constprop.0+0x88/0x380 mm/kasan/report.=
+c:408
+> > =C2=A0print_report+0xfc/0x1ff mm/kasan/report.c:521
+> > =C2=A0kasan_report+0xdd/0x1b0 mm/kasan/report.c:634
+> > =C2=A0rb_next+0xda/0x160 lib/rbtree.c:505
+> > =C2=A0drm_sched_rq_select_entity_fifo drivers/gpu/drm/scheduler/sched_m=
+ain.c:332 [inline] [gpu_sched]
+> > =C2=A0drm_sched_select_entity+0x497/0x720 drivers/gpu/drm/scheduler/sch=
+ed_main.c:1081 [gpu_sched]
+> > =C2=A0drm_sched_run_job_work+0x2e/0x710 drivers/gpu/drm/scheduler/sched=
+_main.c:1206 [gpu_sched]
+> > =C2=A0process_one_work+0x9c0/0x17e0 kernel/workqueue.c:3238
+> > =C2=A0process_scheduled_works kernel/workqueue.c:3319 [inline]
+> > =C2=A0worker_thread+0x734/0x1060 kernel/workqueue.c:3400
+> > =C2=A0kthread+0x3fd/0x810 kernel/kthread.c:464
+> > =C2=A0ret_from_fork+0x53/0x80 arch/x86/kernel/process.c:148
+> > =C2=A0ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+> > =C2=A0</TASK>
+> > Allocated by task 73472:
+> > =C2=A0kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
+> > =C2=A0kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+> > =C2=A0poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
+> > =C2=A0__kasan_kmalloc+0x9a/0xb0 mm/kasan/common.c:394
+> > =C2=A0kmalloc_noprof include/linux/slab.h:901 [inline] [amdgpu]
+> > =C2=A0kzalloc_noprof include/linux/slab.h:1037 [inline] [amdgpu]
+> > =C2=A0amdgpu_driver_open_kms+0x151/0x660 drivers/gpu/drm/amd/amdgpu/amd=
+gpu_kms.c:1402 [amdgpu]
+> > =C2=A0drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
+> > =C2=A0drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
+> > =C2=A0drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
+> > =C2=A0drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
+> > =C2=A0chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
+> > =C2=A0do_dentry_open+0x743/0x1bf0 fs/open.c:956
+> > =C2=A0vfs_open+0x87/0x3f0 fs/open.c:1086
+> > =C2=A0do_open+0x72f/0xf80 fs/namei.c:3830
+> > =C2=A0path_openat+0x2ec/0x770 fs/namei.c:3989
+> > =C2=A0do_filp_open+0x1ff/0x420 fs/namei.c:4016
+> > =C2=A0do_sys_openat2+0x181/0x1e0 fs/open.c:1428
+> > =C2=A0do_sys_open fs/open.c:1443 [inline]
+> > =C2=A0__do_sys_openat fs/open.c:1459 [inline]
+> > =C2=A0__se_sys_openat fs/open.c:1454 [inline]
+> > =C2=A0__x64_sys_openat+0x149/0x210 fs/open.c:1454
+> > =C2=A0do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+> > =C2=A0do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > Freed by task 73472:
+> > =C2=A0kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
+> > =C2=A0kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+> > =C2=A0kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:576
+> > =C2=A0poison_slab_object mm/kasan/common.c:247 [inline]
+> > =C2=A0__kasan_slab_free+0x52/0x70 mm/kasan/common.c:264
+> > =C2=A0kasan_slab_free include/linux/kasan.h:233 [inline]
+> > =C2=A0slab_free_hook mm/slub.c:2353 [inline]
+> > =C2=A0slab_free mm/slub.c:4609 [inline]
+> > =C2=A0kfree+0x14f/0x4d0 mm/slub.c:4757
+> > =C2=A0amdgpu_driver_postclose_kms+0x43d/0x6b0 drivers/gpu/drm/amd/amdgp=
+u/amdgpu_kms.c:1538 [amdgpu]
+> > =C2=A0drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
+> > =C2=A0drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
+> > =C2=A0drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:27=
+8
+> > =C2=A0drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
+> > =C2=A0__fput+0x402/0xb50 fs/file_table.c:464
+> > =C2=A0task_work_run+0x155/0x250 kernel/task_work.c:227
+> > =C2=A0get_signal+0x1be/0x19d0 kernel/signal.c:2809
+> > =C2=A0arch_do_signal_or_restart+0x96/0x3a0 arch/x86/kernel/signal.c:337
+> > =C2=A0exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+> > =C2=A0exit_to_user_mode_prepare include/linux/entry-common.h:329 [inlin=
+e]
+> > =C2=A0__syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inlin=
+e]
+> > =C2=A0syscall_exit_to_user_mode+0x1fc/0x290 kernel/entry/common.c:218
+> > =C2=A0do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > The buggy address belongs to the object at ffff888180508000
+> > The buggy address is located 1504 bytes inside of
+> > The buggy address belongs to the physical page:
+> > page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x18=
+0508
+> > head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+> > flags: 0x17ffffc0000040(head|node=3D0|zone=3D2|lastcpupid=3D0x1fffff)
+> > page_type: f5(slab)
+> > raw: 0017ffffc0000040 ffff888100043180 dead000000000100 dead00000000012=
+2
+> > raw: 0000000000000000 0000000080020002 00000000f5000000 000000000000000=
+0
+> > head: 0017ffffc0000040 ffff888100043180 dead000000000100 dead0000000001=
+22
+> > head: 0000000000000000 0000000080020002 00000000f5000000 00000000000000=
+00
+> > head: 0017ffffc0000003 ffffea0006014201 ffffffffffffffff 00000000000000=
+00
+> > head: 0000000000000008 0000000000000000 00000000ffffffff 00000000000000=
+00
+> > page dumped because: kasan: bad access detected
+> > Memory state around the buggy address:
+> > =C2=A0ffff888180508480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0ffff888180508500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > > ffff888180508580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> > =C2=A0ffff888180508600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0ffff888180508680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > BUG: KASAN: slab-use-after-free in rb_set_parent_color include/linux/rb=
+tree_augmented.h:191 [inline]
+> > BUG: KASAN: slab-use-after-free in __rb_erase_augmented include/linux/r=
+btree_augmented.h:312 [inline]
+> > BUG: KASAN: slab-use-after-free in rb_erase+0x157c/0x1b10 lib/rbtree.c:=
+443
+> > Write of size 8 at addr ffff88816414c5d0 by task syz.2.3004/12376
+> > CPU: 7 UID: 65534 PID: 12376 Comm: syz.2.3004 Not tainted 6.14.0-flowej=
+am-+ #1
+> > Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+> > Call Trace:
+> > =C2=A0<TASK>
+> > =C2=A0__dump_stack lib/dump_stack.c:94 [inline]
+> > =C2=A0dump_stack_lvl+0xd2/0x130 lib/dump_stack.c:120
+> > =C2=A0print_address_description.constprop.0+0x88/0x380 mm/kasan/report.=
+c:408
+> > =C2=A0print_report+0xfc/0x1ff mm/kasan/report.c:521
+> > =C2=A0kasan_report+0xdd/0x1b0 mm/kasan/report.c:634
+> > =C2=A0rb_set_parent_color include/linux/rbtree_augmented.h:191 [inline]
+> > =C2=A0__rb_erase_augmented include/linux/rbtree_augmented.h:312 [inline=
+]
+> > =C2=A0rb_erase+0x157c/0x1b10 lib/rbtree.c:443
+> > =C2=A0rb_erase_cached include/linux/rbtree.h:126 [inline] [gpu_sched]
+> > =C2=A0drm_sched_rq_remove_fifo_locked drivers/gpu/drm/scheduler/sched_m=
+ain.c:154 [inline] [gpu_sched]
+> > =C2=A0drm_sched_rq_remove_entity+0x2d3/0x480 drivers/gpu/drm/scheduler/=
+sched_main.c:243 [gpu_sched]
+> > =C2=A0drm_sched_entity_kill.part.0+0x82/0x5e0 drivers/gpu/drm/scheduler=
+/sched_entity.c:237 [gpu_sched]
+> > =C2=A0drm_sched_entity_kill drivers/gpu/drm/scheduler/sched_entity.c:23=
+2 [inline] [gpu_sched]
+> > =C2=A0drm_sched_entity_fini+0x4c/0x290 drivers/gpu/drm/scheduler/sched_=
+entity.c:331 [gpu_sched]
+> > =C2=A0amdgpu_vm_fini_entities drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:52=
+9 [inline] [amdgpu]
+> > =C2=A0amdgpu_vm_fini+0x862/0x1180 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.=
+c:2752 [amdgpu]
+> > =C2=A0amdgpu_driver_postclose_kms+0x3db/0x6b0 drivers/gpu/drm/amd/amdgp=
+u/amdgpu_kms.c:1526 [amdgpu]
+> > =C2=A0drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
+> > =C2=A0drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
+> > =C2=A0drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:27=
+8
+> > =C2=A0drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
+> > =C2=A0__fput+0x402/0xb50 fs/file_table.c:464
+> > =C2=A0task_work_run+0x155/0x250 kernel/task_work.c:227
+> > =C2=A0exit_task_work include/linux/task_work.h:40 [inline]
+> > =C2=A0do_exit+0x841/0xf60 kernel/exit.c:938
+> > =C2=A0do_group_exit+0xda/0x2b0 kernel/exit.c:1087
+> > =C2=A0get_signal+0x171f/0x19d0 kernel/signal.c:3036
+> > =C2=A0arch_do_signal_or_restart+0x96/0x3a0 arch/x86/kernel/signal.c:337
+> > =C2=A0exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+> > =C2=A0exit_to_user_mode_prepare include/linux/entry-common.h:329 [inlin=
+e]
+> > =C2=A0__syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inlin=
+e]
+> > =C2=A0syscall_exit_to_user_mode+0x1fc/0x290 kernel/entry/common.c:218
+> > =C2=A0do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > RIP: 0033:0x7f2d90da36ed
+> > Code: Unable to access opcode bytes at 0x7f2d90da36c3.
+> > RSP: 002b:00007f2d91b710d8 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
+> > RAX: 0000000000000000 RBX: 00007f2d90fe6088 RCX: 00007f2d90da36ed
+> > RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007f2d90fe6088
+> > RBP: 00007f2d90fe6080 R08: 0000000000000000 R09: 0000000000000000
+> > R10: 0000000000000000 R11: 0000000000000246 R12: 00007f2d90fe608c
+> > R13: 0000000000000000 R14: 0000000000000002 R15: 00007ffc34a67bd0
+> > =C2=A0</TASK>
+> > Allocated by task 12381:
+> > =C2=A0kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
+> > =C2=A0kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+> > =C2=A0poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
+> > =C2=A0__kasan_kmalloc+0x9a/0xb0 mm/kasan/common.c:394
+> > =C2=A0kmalloc_noprof include/linux/slab.h:901 [inline] [amdgpu]
+> > =C2=A0kzalloc_noprof include/linux/slab.h:1037 [inline] [amdgpu]
+> > =C2=A0amdgpu_driver_open_kms+0x151/0x660 drivers/gpu/drm/amd/amdgpu/amd=
+gpu_kms.c:1402 [amdgpu]
+> > =C2=A0drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
+> > =C2=A0drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
+> > =C2=A0drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
+> > =C2=A0drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
+> > =C2=A0chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
+> > =C2=A0do_dentry_open+0x743/0x1bf0 fs/open.c:956
+> > =C2=A0vfs_open+0x87/0x3f0 fs/open.c:1086
+> > =C2=A0do_open+0x72f/0xf80 fs/namei.c:3830
+> > =C2=A0path_openat+0x2ec/0x770 fs/namei.c:3989
+> > =C2=A0do_filp_open+0x1ff/0x420 fs/namei.c:4016
+> > =C2=A0do_sys_openat2+0x181/0x1e0 fs/open.c:1428
+> > =C2=A0do_sys_open fs/open.c:1443 [inline]
+> > =C2=A0__do_sys_openat fs/open.c:1459 [inline]
+> > =C2=A0__se_sys_openat fs/open.c:1454 [inline]
+> > =C2=A0__x64_sys_openat+0x149/0x210 fs/open.c:1454
+> > =C2=A0do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+> > =C2=A0do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > Freed by task 12381:
+> > =C2=A0kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
+> > =C2=A0kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+> > =C2=A0kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:576
+> > =C2=A0poison_slab_object mm/kasan/common.c:247 [inline]
+> > =C2=A0__kasan_slab_free+0x52/0x70 mm/kasan/common.c:264
+> > =C2=A0kasan_slab_free include/linux/kasan.h:233 [inline]
+> > =C2=A0slab_free_hook mm/slub.c:2353 [inline]
+> > =C2=A0slab_free mm/slub.c:4609 [inline]
+> > =C2=A0kfree+0x14f/0x4d0 mm/slub.c:4757
+> > =C2=A0amdgpu_driver_postclose_kms+0x43d/0x6b0 drivers/gpu/drm/amd/amdgp=
+u/amdgpu_kms.c:1538 [amdgpu]
+> > =C2=A0drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
+> > =C2=A0drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
+> > =C2=A0drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:27=
+8
+> > =C2=A0drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
+> > =C2=A0__fput+0x402/0xb50 fs/file_table.c:464
+> > =C2=A0task_work_run+0x155/0x250 kernel/task_work.c:227
+> > =C2=A0get_signal+0x1be/0x19d0 kernel/signal.c:2809
+> > =C2=A0arch_do_signal_or_restart+0x96/0x3a0 arch/x86/kernel/signal.c:337
+> > =C2=A0exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+> > =C2=A0exit_to_user_mode_prepare include/linux/entry-common.h:329 [inlin=
+e]
+> > =C2=A0__syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inlin=
+e]
+> > =C2=A0syscall_exit_to_user_mode+0x1fc/0x290 kernel/entry/common.c:218
+> > =C2=A0do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > The buggy address belongs to the object at ffff88816414c000
+> > The buggy address is located 1488 bytes inside of
+> > The buggy address belongs to the physical page:
+> > page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x16=
+4148
+> > head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+> > flags: 0x17ffffc0000040(head|node=3D0|zone=3D2|lastcpupid=3D0x1fffff)
+> > page_type: f5(slab)
+> > raw: 0017ffffc0000040 ffff88810005c8c0 dead000000000122 000000000000000=
+0
+> > raw: 0000000000000000 0000000080020002 00000000f5000000 000000000000000=
+0
+> > head: 0017ffffc0000040 ffff88810005c8c0 dead000000000122 00000000000000=
+00
+> > head: 0000000000000000 0000000080020002 00000000f5000000 00000000000000=
+00
+> > head: 0017ffffc0000003 ffffea0005905201 ffffffffffffffff 00000000000000=
+00
+> > head: 0000000000000008 0000000000000000 00000000ffffffff 00000000000000=
+00
+> > page dumped because: kasan: bad access detected
+> > Memory state around the buggy address:
+> > =C2=A0ffff88816414c480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0ffff88816414c500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > > ffff88816414c580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> > =C2=A0ffff88816414c600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0ffff88816414c680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > BUG: KASAN: slab-use-after-free in __rb_erase_augmented include/linux/r=
+btree_augmented.h:259 [inline]
+> > BUG: KASAN: slab-use-after-free in rb_erase+0xf5d/0x1b10 lib/rbtree.c:4=
+43
+> > Read of size 8 at addr ffff88812ebcc5e0 by task syz.1.814/6553
+> > CPU: 0 UID: 65534 PID: 6553 Comm: syz.1.814 Not tainted 6.14.0-flowejam=
+-+ #1
+> > Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+> > Call Trace:
+> > =C2=A0<TASK>
+> > =C2=A0__dump_stack lib/dump_stack.c:94 [inline]
+> > =C2=A0dump_stack_lvl+0xd2/0x130 lib/dump_stack.c:120
+> > =C2=A0print_address_description.constprop.0+0x88/0x380 mm/kasan/report.=
+c:408
+> > =C2=A0print_report+0xfc/0x1ff mm/kasan/report.c:521
+> > =C2=A0kasan_report+0xdd/0x1b0 mm/kasan/report.c:634
+> > =C2=A0__rb_erase_augmented include/linux/rbtree_augmented.h:259 [inline=
+]
+> > =C2=A0rb_erase+0xf5d/0x1b10 lib/rbtree.c:443
+> > =C2=A0rb_erase_cached include/linux/rbtree.h:126 [inline] [gpu_sched]
+> > =C2=A0drm_sched_rq_remove_fifo_locked drivers/gpu/drm/scheduler/sched_m=
+ain.c:154 [inline] [gpu_sched]
+> > =C2=A0drm_sched_rq_remove_entity+0x2d3/0x480 drivers/gpu/drm/scheduler/=
+sched_main.c:243 [gpu_sched]
+> > =C2=A0drm_sched_entity_kill.part.0+0x82/0x5e0 drivers/gpu/drm/scheduler=
+/sched_entity.c:237 [gpu_sched]
+> > =C2=A0drm_sched_entity_kill drivers/gpu/drm/scheduler/sched_entity.c:23=
+2 [inline] [gpu_sched]
+> > =C2=A0drm_sched_entity_fini+0x4c/0x290 drivers/gpu/drm/scheduler/sched_=
+entity.c:331 [gpu_sched]
+> > =C2=A0amdgpu_vm_fini_entities drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:52=
+9 [inline] [amdgpu]
+> > =C2=A0amdgpu_vm_fini+0x862/0x1180 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.=
+c:2752 [amdgpu]
+> > =C2=A0amdgpu_driver_postclose_kms+0x3db/0x6b0 drivers/gpu/drm/amd/amdgp=
+u/amdgpu_kms.c:1526 [amdgpu]
+> > =C2=A0drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
+> > =C2=A0drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
+> > =C2=A0drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:27=
+8
+> > =C2=A0drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
+> > =C2=A0__fput+0x402/0xb50 fs/file_table.c:464
+> > =C2=A0task_work_run+0x155/0x250 kernel/task_work.c:227
+> > =C2=A0resume_user_mode_work include/linux/resume_user_mode.h:50 [inline=
+]
+> > =C2=A0exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+> > =C2=A0exit_to_user_mode_prepare include/linux/entry-common.h:329 [inlin=
+e]
+> > =C2=A0__syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inlin=
+e]
+> > =C2=A0syscall_exit_to_user_mode+0x26b/0x290 kernel/entry/common.c:218
+> > =C2=A0do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > RIP: 0033:0x7fd23eba36ed
+> > Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89=
+ f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 =
+ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+> > RSP: 002b:00007ffc2943a358 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+> > RAX: 0000000000000000 RBX: 00007ffc2943a428 RCX: 00007fd23eba36ed
+> > RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+> > RBP: 00007fd23ede7ba0 R08: 0000000000000001 R09: 0000000c00000000
+> > R10: 00007fd23ea00000 R11: 0000000000000246 R12: 00007fd23ede5fac
+> > R13: 00007fd23ede5fa0 R14: 0000000000059ad1 R15: 0000000000059a8e
+> > =C2=A0</TASK>
+> > Allocated by task 6559:
+> > =C2=A0kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
+> > =C2=A0kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+> > =C2=A0poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
+> > =C2=A0__kasan_kmalloc+0x9a/0xb0 mm/kasan/common.c:394
+> > =C2=A0kmalloc_noprof include/linux/slab.h:901 [inline] [amdgpu]
+> > =C2=A0kzalloc_noprof include/linux/slab.h:1037 [inline] [amdgpu]
+> > =C2=A0amdgpu_driver_open_kms+0x151/0x660 drivers/gpu/drm/amd/amdgpu/amd=
+gpu_kms.c:1402 [amdgpu]
+> > =C2=A0drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
+> > =C2=A0drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
+> > =C2=A0drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
+> > =C2=A0drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
+> > =C2=A0chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
+> > =C2=A0do_dentry_open+0x743/0x1bf0 fs/open.c:956
+> > =C2=A0vfs_open+0x87/0x3f0 fs/open.c:1086
+> > =C2=A0do_open+0x72f/0xf80 fs/namei.c:3830
+> > =C2=A0path_openat+0x2ec/0x770 fs/namei.c:3989
+> > =C2=A0do_filp_open+0x1ff/0x420 fs/namei.c:4016
+> > =C2=A0do_sys_openat2+0x181/0x1e0 fs/open.c:1428
+> > =C2=A0do_sys_open fs/open.c:1443 [inline]
+> > =C2=A0__do_sys_openat fs/open.c:1459 [inline]
+> > =C2=A0__se_sys_openat fs/open.c:1454 [inline]
+> > =C2=A0__x64_sys_openat+0x149/0x210 fs/open.c:1454
+> > =C2=A0do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+> > =C2=A0do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > Freed by task 6559:
+> > =C2=A0kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
+> > =C2=A0kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+> > =C2=A0kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:576
+> > =C2=A0poison_slab_object mm/kasan/common.c:247 [inline]
+> > =C2=A0__kasan_slab_free+0x52/0x70 mm/kasan/common.c:264
+> > =C2=A0kasan_slab_free include/linux/kasan.h:233 [inline]
+> > =C2=A0slab_free_hook mm/slub.c:2353 [inline]
+> > =C2=A0slab_free mm/slub.c:4609 [inline]
+> > =C2=A0kfree+0x14f/0x4d0 mm/slub.c:4757
+> > =C2=A0amdgpu_driver_postclose_kms+0x43d/0x6b0 drivers/gpu/drm/amd/amdgp=
+u/amdgpu_kms.c:1538 [amdgpu]
+> > =C2=A0drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
+> > =C2=A0drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
+> > =C2=A0drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:27=
+8
+> > =C2=A0drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
+> > =C2=A0__fput+0x402/0xb50 fs/file_table.c:464
+> > =C2=A0task_work_run+0x155/0x250 kernel/task_work.c:227
+> > =C2=A0get_signal+0x1be/0x19d0 kernel/signal.c:2809
+> > =C2=A0arch_do_signal_or_restart+0x96/0x3a0 arch/x86/kernel/signal.c:337
+> > =C2=A0exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+> > =C2=A0exit_to_user_mode_prepare include/linux/entry-common.h:329 [inlin=
+e]
+> > =C2=A0__syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inlin=
+e]
+> > =C2=A0syscall_exit_to_user_mode+0x1fc/0x290 kernel/entry/common.c:218
+> > =C2=A0do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > The buggy address belongs to the object at ffff88812ebcc000
+> > The buggy address is located 1504 bytes inside of
+> > The buggy address belongs to the physical page:
+> > page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x12=
+ebc8
+> > head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+> > flags: 0x17ffffc0000040(head|node=3D0|zone=3D2|lastcpupid=3D0x1fffff)
+> > page_type: f5(slab)
+> > raw: 0017ffffc0000040 ffff888100058780 dead000000000122 000000000000000=
+0
+> > raw: 0000000000000000 0000000000020002 00000000f5000000 000000000000000=
+0
+> > head: 0017ffffc0000040 ffff888100058780 dead000000000122 00000000000000=
+00
+> > head: 0000000000000000 0000000000020002 00000000f5000000 00000000000000=
+00
+> > head: 0017ffffc0000003 ffffea0004baf201 ffffffffffffffff 00000000000000=
+00
+> > head: 0000000000000008 0000000000000000 00000000ffffffff 00000000000000=
+00
+> > page dumped because: kasan: bad access detected
+> > Memory state around the buggy address:
+> > =C2=A0ffff88812ebcc480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0ffff88812ebcc500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > > ffff88812ebcc580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> > =C2=A0ffff88812ebcc600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0ffff88812ebcc680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > BUG: KASAN: slab-use-after-free in drm_sched_entity_compare_before driv=
+ers/gpu/drm/scheduler/sched_main.c:147 [inline] [gpu_sched]
+> > BUG: KASAN: slab-use-after-free in rb_add_cached include/linux/rbtree.h=
+:174 [inline] [gpu_sched]
+> > BUG: KASAN: slab-use-after-free in drm_sched_rq_update_fifo_locked+0x47=
+b/0x540 drivers/gpu/drm/scheduler/sched_main.c:175 [gpu_sched]
+> > Read of size 8 at addr ffff8881208445c8 by task syz.1.49115/146644
+> > CPU: 7 UID: 65534 PID: 146644 Comm: syz.1.49115 Not tainted 6.14.0-flow=
+ejam-+ #1
+> > Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
+> > Call Trace:
+> > =C2=A0<TASK>
+> > =C2=A0__dump_stack lib/dump_stack.c:94 [inline]
+> > =C2=A0dump_stack_lvl+0xd2/0x130 lib/dump_stack.c:120
+> > =C2=A0print_address_description.constprop.0+0x88/0x380 mm/kasan/report.=
+c:408
+> > =C2=A0print_report+0xfc/0x1ff mm/kasan/report.c:521
+> > =C2=A0kasan_report+0xdd/0x1b0 mm/kasan/report.c:634
+> > =C2=A0drm_sched_entity_compare_before drivers/gpu/drm/scheduler/sched_m=
+ain.c:147 [inline] [gpu_sched]
+> > =C2=A0rb_add_cached include/linux/rbtree.h:174 [inline] [gpu_sched]
+> > =C2=A0drm_sched_rq_update_fifo_locked+0x47b/0x540 drivers/gpu/drm/sched=
+uler/sched_main.c:175 [gpu_sched]
+> > =C2=A0drm_sched_entity_push_job+0x509/0x5d0 drivers/gpu/drm/scheduler/s=
+ched_entity.c:623 [gpu_sched]
+>=20
+> This might be a race between entity killing and the push_job. Let's
+> look at your patch below=E2=80=A6
+>=20
+> > =C2=A0amdgpu_job_submit+0x1a4/0x270 drivers/gpu/drm/amd/amdgpu/amdgpu_j=
+ob.c:314 [amdgpu]
+> > =C2=A0amdgpu_vm_sdma_commit+0x1f9/0x7d0 drivers/gpu/drm/amd/amdgpu/amdg=
+pu_vm_sdma.c:122 [amdgpu]
+> > =C2=A0amdgpu_vm_pt_clear+0x540/0x6b0 drivers/gpu/drm/amd/amdgpu/amdgpu_=
+vm_pt.c:422 [amdgpu]
+> > =C2=A0amdgpu_vm_init+0x9c2/0x12f0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.=
+c:2609 [amdgpu]
+> > =C2=A0amdgpu_driver_open_kms+0x274/0x660 drivers/gpu/drm/amd/amdgpu/amd=
+gpu_kms.c:1418 [amdgpu]
+> > =C2=A0drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
+> > =C2=A0drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
+> > =C2=A0drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
+> > =C2=A0drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
+> > =C2=A0chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
+> > =C2=A0do_dentry_open+0x743/0x1bf0 fs/open.c:956
+> > =C2=A0vfs_open+0x87/0x3f0 fs/open.c:1086
+> > =C2=A0do_open+0x72f/0xf80 fs/namei.c:3830
+> > =C2=A0path_openat+0x2ec/0x770 fs/namei.c:3989
+> > =C2=A0do_filp_open+0x1ff/0x420 fs/namei.c:4016
+> > =C2=A0do_sys_openat2+0x181/0x1e0 fs/open.c:1428
+> > =C2=A0do_sys_open fs/open.c:1443 [inline]
+> > =C2=A0__do_sys_openat fs/open.c:1459 [inline]
+> > =C2=A0__se_sys_openat fs/open.c:1454 [inline]
+> > =C2=A0__x64_sys_openat+0x149/0x210 fs/open.c:1454
+> > =C2=A0do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+> > =C2=A0do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > RIP: 0033:0x7feb303a36ed
+> > Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89=
+ f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 =
+ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+> > RSP: 002b:00007feb3123c018 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+> > RAX: ffffffffffffffda RBX: 00007feb305e5fa0 RCX: 00007feb303a36ed
+> > RDX: 0000000000000002 RSI: 0000200000000140 RDI: ffffffffffffff9c
+> > RBP: 00007feb30447722 R08: 0000000000000000 R09: 0000000000000000
+> > R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> > R13: 0000000000000001 R14: 00007feb305e5fa0 R15: 00007ffcfd0a3460
+> > =C2=A0</TASK>
+> > Allocated by task 146638:
+> > =C2=A0kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
+> > =C2=A0kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+> > =C2=A0poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
+> > =C2=A0__kasan_kmalloc+0x9a/0xb0 mm/kasan/common.c:394
+> > =C2=A0kmalloc_noprof include/linux/slab.h:901 [inline] [amdgpu]
+> > =C2=A0kzalloc_noprof include/linux/slab.h:1037 [inline] [amdgpu]
+> > =C2=A0amdgpu_driver_open_kms+0x151/0x660 drivers/gpu/drm/amd/amdgpu/amd=
+gpu_kms.c:1402 [amdgpu]
+> > =C2=A0drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
+> > =C2=A0drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
+> > =C2=A0drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
+> > =C2=A0drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
+> > =C2=A0chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
+> > =C2=A0do_dentry_open+0x743/0x1bf0 fs/open.c:956
+> > =C2=A0vfs_open+0x87/0x3f0 fs/open.c:1086
+> > =C2=A0do_open+0x72f/0xf80 fs/namei.c:3830
+> > =C2=A0path_openat+0x2ec/0x770 fs/namei.c:3989
+> > =C2=A0do_filp_open+0x1ff/0x420 fs/namei.c:4016
+> > =C2=A0do_sys_openat2+0x181/0x1e0 fs/open.c:1428
+> > =C2=A0do_sys_open fs/open.c:1443 [inline]
+> > =C2=A0__do_sys_openat fs/open.c:1459 [inline]
+> > =C2=A0__se_sys_openat fs/open.c:1454 [inline]
+> > =C2=A0__x64_sys_openat+0x149/0x210 fs/open.c:1454
+> > =C2=A0do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+> > =C2=A0do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > Freed by task 146638:
+> > =C2=A0kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
+> > =C2=A0kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+> > =C2=A0kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:576
+> > =C2=A0poison_slab_object mm/kasan/common.c:247 [inline]
+> > =C2=A0__kasan_slab_free+0x52/0x70 mm/kasan/common.c:264
+> > =C2=A0kasan_slab_free include/linux/kasan.h:233 [inline]
+> > =C2=A0slab_free_hook mm/slub.c:2353 [inline]
+> > =C2=A0slab_free mm/slub.c:4609 [inline]
+> > =C2=A0kfree+0x14f/0x4d0 mm/slub.c:4757
+> > =C2=A0amdgpu_driver_postclose_kms+0x43d/0x6b0 drivers/gpu/drm/amd/amdgp=
+u/amdgpu_kms.c:1538 [amdgpu]
+> > =C2=A0drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
+> > =C2=A0drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
+> > =C2=A0drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:27=
+8
+> > =C2=A0drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
+> > =C2=A0__fput+0x402/0xb50 fs/file_table.c:464
+> > =C2=A0task_work_run+0x155/0x250 kernel/task_work.c:227
+> > =C2=A0resume_user_mode_work include/linux/resume_user_mode.h:50 [inline=
+]
+> > =C2=A0exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+> > =C2=A0exit_to_user_mode_prepare include/linux/entry-common.h:329 [inlin=
+e]
+> > =C2=A0__syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inlin=
+e]
+> > =C2=A0syscall_exit_to_user_mode+0x26b/0x290 kernel/entry/common.c:218
+> > =C2=A0do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
+> > =C2=A0entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> > The buggy address belongs to the object at ffff888120844000
+> > The buggy address is located 1480 bytes inside of
+> > The buggy address belongs to the physical page:
+> > page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x12=
+0840
+> > head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+> > flags: 0x17ffffc0000040(head|node=3D0|zone=3D2|lastcpupid=3D0x1fffff)
+> > page_type: f5(slab)
+> > raw: 0017ffffc0000040 ffff88810005c8c0 ffffea0005744c00 dead00000000000=
+2
+> > raw: 0000000000000000 0000000000020002 00000000f5000000 000000000000000=
+0
+> > head: 0017ffffc0000040 ffff88810005c8c0 ffffea0005744c00 dead0000000000=
+02
+> > head: 0000000000000000 0000000000020002 00000000f5000000 00000000000000=
+00
+> > head: 0017ffffc0000003 ffffea0004821001 ffffffffffffffff 00000000000000=
+00
+> > head: 0000000000000008 0000000000000000 00000000ffffffff 00000000000000=
+00
+> > page dumped because: kasan: bad access detected
+> > Memory state around the buggy address:
+> > =C2=A0ffff888120844480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0ffff888120844500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > > ffff888120844580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> > =C2=A0ffff888120844600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =C2=A0ffff888120844680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+> > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 6 ++++--
+> > =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
+cheduler/sched_main.c
+> > index bfea608a7106..997a2cc1a635 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct drm_sc=
+hed_entity *entity,
+> > =C2=A0
+> > =C2=A0	entity->oldest_job_waiting =3D ts;
+> > =C2=A0
+> > -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before);
+> > +	if (!entity->stopped) {
+> > +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before);
+> > +	}
+>=20
+> If this is a race, then this patch here is broken, too, because you're
+> checking the 'stopped' boolean as the callers of that function do, too
+> =E2=80=93 just later. :O
+>=20
+> Could still race, just less likely.
+>=20
+> The proper way to fix it would then be to address the issue where the
+> locking is supposed to happen. Let's look at, for example,
+> drm_sched_entity_push_job():
+>=20
+>=20
+> void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+> {
+> 	(Bla bla bla)
+>=20
+> =C2=A0	=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
+>=20
+> 	/* first job wakes up scheduler */
+> 	if (first) {
+> 		struct drm_gpu_scheduler *sched;
+> 		struct drm_sched_rq *rq;
+>=20
+> 		/* Add the entity to the run queue */
+> 		spin_lock(&entity->lock);
+> 		if (entity->stopped) {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <---- Aha!
+> 			spin_unlock(&entity->lock);
+>=20
+> 			DRM_ERROR("Trying to push to a killed entity\n");
+> 			return;
+> 		}
+>=20
+> 		rq =3D entity->rq;
+> 		sched =3D rq->sched;
+>=20
+> 		spin_lock(&rq->lock);
+> 		drm_sched_rq_add_entity(rq, entity);
+>=20
+> 		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bumm!
+>=20
+> 		spin_unlock(&rq->lock);
+> 		spin_unlock(&entity->lock);
+>=20
+> But the locks are still being hold. So that "shouldn't be happening"(tm).
+>=20
+> Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini()
+> stop entities. The former holds appropriate locks, but drm_sched_fini()
+> doesn't. So that looks like a hot candidate to me. Opinions?
+>=20
+> On the other hand, aren't drivers prohibited from calling
+> drm_sched_entity_push_job() after calling drm_sched_fini()? If the
+> fuzzer does that, then it's not the scheduler's fault.
+>=20
+> Could you test adding spin_lock(&entity->lock) to drm_sched_fini()?
 
-Ok.
+Ah no, forget about that.
 
-> But where do these numbers come from? I can see that downstream kernel
-> sets these bits depending on audio config being passed.
+In drm_sched_fini(), you'd have to take the locks in reverse order as
+in drm_sched_entity_push/pop_job(), thereby replacing race with
+deadlock.
 
-These numbers are defined in standard IEC958 spec.
+I suspect that this is an issue in amdgpu. But let's wait for
+Christian.
 
-The implementation in downstream kernel may not good enough, which can't
-distinguish between the raw PCM and IEC958 PCM. Even raw PCM can work,
-but in RM, the supported format is IEC958.
 
-So later we need to update the aud2htx driver to only support IEC958 format=
-.
-Make the alignment between PAI driver and aud2htx driver.
+P.
 
->
-> > +
-> > +     writel(val, hdmi_pai->base + HTX_PAI_FIELD_CTRL);
-> > +     /* PAI start running */
-> > +     writel(CTRL_ENABLE, hdmi_pai->base + HTX_PAI_CTRL);
-> > +}
-> > +
-> > +static void imx8mp_hdmi_pai_disable(struct dw_hdmi *dw_hdmi)
-> > +{
-> > +     const struct dw_hdmi_plat_data *pdata =3D dw_hdmi_to_plat_data(dw=
-_hdmi);
-> > +     struct imx8mp_hdmi_pai *hdmi_pai =3D (struct imx8mp_hdmi_pai *)pd=
-ata->priv_audio;
-> > +
-> > +     /* Stop PAI */
-> > +     writel(0, hdmi_pai->base + HTX_PAI_CTRL);
-> > +}
-> > +
-> > +static int imx8mp_hdmi_pai_probe(struct platform_device *pdev)
-> > +{
-> > +     struct device *dev =3D &pdev->dev;
-> > +     struct dw_hdmi_plat_data *plat_data;
-> > +     struct imx8mp_hdmi_pai *hdmi_pai;
-> > +     struct device_node *remote;
-> > +     struct platform_device *hdmi_tx;
-> > +     struct resource *res;
-> > +
-> > +     hdmi_pai =3D devm_kzalloc(dev, sizeof(*hdmi_pai), GFP_KERNEL);
-> > +     if (!hdmi_pai)
-> > +             return -ENOMEM;
-> > +
-> > +     hdmi_pai->base =3D devm_platform_get_and_ioremap_resource(pdev, 0=
-, &res);
-> > +     if (IS_ERR(hdmi_pai->base))
-> > +             return PTR_ERR(hdmi_pai->base);
-> > +
-> > +     hdmi_pai->dev =3D dev;
-> > +
-> > +     remote =3D of_graph_get_remote_node(pdev->dev.of_node, 0, -1);
-> > +     if (!remote)
-> > +             return -EINVAL;
-> > +
-> > +     hdmi_tx =3D of_find_device_by_node(remote);
-> > +     if (!hdmi_tx)
-> > +             return -EINVAL;
-> > +
-> > +     plat_data =3D platform_get_drvdata(hdmi_tx);
->
-> How do you ensure hdmi_tx has been probed so that drvdata is set?
-> Also hdmi_tx needs to be dropped.
 
-Good catch. need to update to
+>=20
+> Would be cool if Tvrtko and Christian take a look. Maybe we even have a
+> fundamental design issue.
+>=20
+>=20
+> Regards
+> P.
+>=20
+>=20
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0/**
+>=20
 
-        hdmi_tx =3D of_find_device_by_node(remote);
-        of_node_put(remote);
-        if (!hdmi_tx)
-                return -ENODEV;
-
-        plat_data =3D platform_get_drvdata(hdmi_tx);
-        put_device(&hdmi_tx->dev);
-        if (!plat_data)
-                return -EPROBE_DEFER;
-
->
-> > +     plat_data->enable_audio =3D imx8mp_hdmi_pai_enable;
-> > +     plat_data->disable_audio =3D imx8mp_hdmi_pai_disable;
-> > +     plat_data->priv_audio =3D hdmi_pai;
->
-> How do you connect this device to aud2htx?
-
-aud2htx -> hdmi_codec -> dw-hdmi-gp-audio
-hdmi_codec is sound/soc/codecs/hdmi-codec.c
-
-gp-audio will call this plat_data->enable(disable)_audio().
-So need to register the plat_data->enable(disable)_audio in this driver.
-
-Best regards
-Shengjiu Wang
->
-> Best regards,
-> Alexander
->
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static const struct of_device_id imx8mp_hdmi_pai_of_table[] =3D {
-> > +     { .compatible =3D "fsl,imx8mp-hdmi-pai" },
-> > +     { /* Sentinel */ }
-> > +};
-> > +MODULE_DEVICE_TABLE(of, imx8mp_hdmi_pai_of_table);
-> > +
-> > +static struct platform_driver imx8mp_hdmi_pai_platform_driver =3D {
-> > +     .probe          =3D imx8mp_hdmi_pai_probe,
-> > +     .driver         =3D {
-> > +             .name   =3D "imx8mp-hdmi-pai",
-> > +             .of_match_table =3D imx8mp_hdmi_pai_of_table,
-> > +     },
-> > +};
-> > +module_platform_driver(imx8mp_hdmi_pai_platform_driver);
-> > +
-> > +MODULE_DESCRIPTION("i.MX8MP HDMI PAI driver");
-> > +MODULE_LICENSE("GPL");
-> > diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.=
-h
-> > index a56a3519a22a..9ca70ce80cc5 100644
-> > --- a/include/drm/bridge/dw_hdmi.h
-> > +++ b/include/drm/bridge/dw_hdmi.h
-> > @@ -143,6 +143,12 @@ struct dw_hdmi_plat_data {
-> >                                          const struct drm_display_info =
-*info,
-> >                                          const struct drm_display_mode =
-*mode);
-> >
-> > +     /*
-> > +      * priv_audio is specially used for additional audio device to ge=
-t
-> > +      * driver data through this dw_hdmi_plat_data.
-> > +      */
-> > +     void *priv_audio;
-> > +
-> >       /* Platform-specific audio enable/disable (optional) */
-> >       void (*enable_audio)(struct dw_hdmi *hdmi, int channel,
-> >                            int width, int rate, int non_pcm);
-> >
->
->
-> --
-> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
-rmany
-> Amtsgericht M=C3=BCnchen, HRB 105018
-> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
-chneider
-> http://www.tq-group.com/
->
->
