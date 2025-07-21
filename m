@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220D9B0BF49
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 10:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8690CB0BF4F
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 10:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7694910E49E;
-	Mon, 21 Jul 2025 08:45:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD4E10E49F;
+	Mon, 21 Jul 2025 08:46:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ba2z7pnh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RTyMAS0q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
- [209.85.166.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE2310E244
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 03:24:39 +0000 (UTC)
-Received: by mail-io1-f54.google.com with SMTP id
- ca18e2360f4ac-879c214fe6dso100193339f.1
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 20:24:39 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 370EE10E244
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 03:27:13 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id
+ ca18e2360f4ac-87c26c9e8d5so124713839f.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 20:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753068279; x=1753673079; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1753068432; x=1753673232; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OwI2hpcy3lcVV+QnTniw+hVEeGQWL5HMOKObyfZtgEM=;
- b=Ba2z7pnhlrVw823VvlACf1uY6mXiGZoC6terPU4M5b6SjhgltDXdfJwid+Uq/o/83R
- 3W4csCNNLay5s7AWwNuQUq67pdVXnuBvklJqp3mqEb3GQ4Wq2yLV6DoBHV401iU6wLor
- cOpkqU/KkYKhhDo2KMYfbX3r9MqtVlRhc/G1QZpq6UJVj2A10ZcPuNV2lZxC4rvHdafe
- TdFYDX/kRtTD98SyPf6pI3ajm7IqwaXIvwZ8P6uw9noF4wYE9IpvmALoGm51Ct3+HuPm
- vFBcQiLmvNiCbbDH4bJfP8yZfB39waw5b/SBQ0npDL968JOhq2CAMcJ/xPhSvkhlxraK
- xG2w==
+ bh=5GJULZkEl8j6az+Nmf6Q9IdIMazJkldN2OlkYV3zqRI=;
+ b=RTyMAS0qMCrGLP1fPxSk5tsFl6KTyQLUlOqCm2/+ec2hWMX5nhU+nibGEVnY+/U6Rx
+ QAC/YBT24oPc4uEUY1HvAnjai6lM9LSfz0KIPnq+PNWPbP2zNZ6j0k3967t2mz2fzNxw
+ jOUGtoRjRMEduDX5o6UsIeH6zQS+kCAoiC7AjYJi7WalnSgSVSvIQlXCKTHNhnpmvKjw
+ +HDUFbzD7yy9O1IBlTYY5HU3xYy+IqJXibwg/qcB2Vjk0qBssiv0gDX5aoqr/0aNMBjU
+ FrDNFxLxJwRhLHsshqTACwjTIGGXepLCwTGei1kT2fSojumZx2RS05hRn/xgwJkYw8uY
+ Ym/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753068279; x=1753673079;
+ d=1e100.net; s=20230601; t=1753068432; x=1753673232;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OwI2hpcy3lcVV+QnTniw+hVEeGQWL5HMOKObyfZtgEM=;
- b=dgd/NhrJtjt8KY36orqWvxAJ97cM8Ma5y/IIUeSb+pzrITFkOM9719eTuARBR1qxk/
- VzEE9xXz4PoF54v2Nuhn9EmwmMWUHjfAnabzanHIURHXUaPjPlfsmlmm5Sa+6vsfnaZw
- jDSnGRzbxZYXlkD9JTiPCo3VkQSg5yZ6yQwFdKOJarA0H4ORI+RdGB16EH48PlGvkNf2
- f9f+0frAghggiv5R9l5302zn5IlZfw03ucx/lhnNOnUdnv+64bg0Q57yC14tj2QamZbm
- 9x7ETR9p8AkqPPfnh34ufMbGMlEC9vCFHFWqtM7jBg98DqMhWA3BEiaT6sWay5VqxhHf
- Et8w==
+ bh=5GJULZkEl8j6az+Nmf6Q9IdIMazJkldN2OlkYV3zqRI=;
+ b=gzNk5MPyTtsdGaPe4221XOc7I9YVIJ8udOsfvD9MroljCXjyKnYhTkARplkMeYkrek
+ k709bRs7QICqQ/vCa2CyjVwmaUqvo2wxiMauLCotOdi9cM8o6xpQ9n6+sXvrKiaWVFji
+ WO2q7LCLS74P0qKOOhjloklVrD7+mxwpT55jhPLCFkEo/mW2JEwQAneYTqHhfxTdTNF+
+ bmKiFbAti6LTBrJUzU0ymtj+EzPSZy0nJoB/YgkGluU99mrzdiZFgWKvok9n1XiYPNTt
+ Jr8DI+Uqa6hoyRIivc91PEGzy1OSv7/OPUL1pucfyTylpYW5xja6DiieMB+CVxbDWW5T
+ cG4A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUrI6rXyFpUoOZjWKmBD6VM6gqNN/pzJFSmqJzp9TuMWqqESIW2PQilZ+n6yR65zuE4mzJqlTsHE4A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJmMucCZBpQ8u9wztOSDg+0CMMF9EEWISxCJDR/rCqg+UoUp3B
- r3pbBW/wd+4T0X51KDdt3r7gifDawUCss6PEqjG1k1SQ58x7yf3cXopTbeXIm6iVxy1+cqPukKK
- 1zZ3fk5MPoMGz7+eyU0ug9m6yipaUFYs=
-X-Gm-Gg: ASbGncs04GkypD4Pu2nQ9pcZqojUOfVxby/gK8Ty6mbOp2ncGLLwZUi6SJP09oMIbbv
- L4we8sEpa5TLh9hWhoZkUbV2FBQ2eOodL5KRhnz7MuHakw+wMD2RnRM+WNq5trVWxSuQhW3eeHF
- Zxz1WvBHNsP6tqUdWOxZVB2B4zZ6gf2s2y6gD0kzHu8tWecyybUc8e9qvVLqkFVfn+jBHGrPIhE
- 9DNox0=
-X-Google-Smtp-Source: AGHT+IEc4eCE70WDmGsnRlEEKfMnJZ+xtO+dDhCQVQfDpz+1aJdPRzDCoXXMD8/WnfPbQf13oi/XE9aCmcR1NPGUpLY=
-X-Received: by 2002:a05:6e02:2582:b0:3df:2f47:dc21 with SMTP id
- e9e14a558f8ab-3e282f5547amr213949295ab.22.1753068278812; Sun, 20 Jul 2025
- 20:24:38 -0700 (PDT)
+ AJvYcCVIZrmL2txs+PGubPm+7Hpu73jZFTB4WTgw1b2IihbCmWrlgi/5YXwV3bR0WQ7Dv1tJcnO3AEr5I80=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJIQcYd7kt9xdia/v+QoViBUFE8z4yku+MSPot+tRmYHZXY5VS
+ TIVggdd/8c3R9N64XA0PB7Ebi6DGpOQR0dFgeiJgx+DU9OzunW3/ImwlobvxUxgUVP2ZDej5enA
+ 7xsFCrYczBaKAt2hUVZpLrYL6d7jwWjM=
+X-Gm-Gg: ASbGncvSnhCsYxeTt9F+IZsYRKKZfdWO3poJxNJrx6D3CCU8etHXnzL/VvUq0eoEoAc
+ tqeEow9sQbSsvHR7MjGK90V2ptNTVoDQKS55n7sCZ5kuJGMP7zzMWtkDkl8YT9xPwFURxbLfI7O
+ 1NO0gNW/p2otzx7imGkg+j5PnX7YuQPg2q6gbjWIEZrybxM1SX1znEYmMZIW94klPCFskltSjq3
+ jPwrQthUjjz/kdo9g==
+X-Google-Smtp-Source: AGHT+IG8vUHFP70UXed9iRLKIptriKCIABWtAWB4NI0eKfx64HKik6dvxbUYvCeLTR40uVNuIWcVYOwlyUyYpDWTz70=
+X-Received: by 2002:a05:6e02:2587:b0:3e2:9f78:3783 with SMTP id
+ e9e14a558f8ab-3e29f783956mr91962715ab.21.1753068432378; Sun, 20 Jul 2025
+ 20:27:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250718101150.3681002-1-shengjiu.wang@nxp.com>
- <20250718101150.3681002-2-shengjiu.wang@nxp.com>
- <aHpzElP09pEOi4id@lizhi-Precision-Tower-5810>
-In-Reply-To: <aHpzElP09pEOi4id@lizhi-Precision-Tower-5810>
+ <20250718101150.3681002-4-shengjiu.wang@nxp.com>
+ <aHp1be6omEO8qB8o@lizhi-Precision-Tower-5810>
+In-Reply-To: <aHp1be6omEO8qB8o@lizhi-Precision-Tower-5810>
 From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Mon, 21 Jul 2025 11:24:23 +0800
-X-Gm-Features: Ac12FXy5bUMTlHGaq7PpDN0ZSeNbIlr9FhbAx0Aren2E8HjpPRhVBNLuNDI2CRQ
-Message-ID: <CAA+D8AOQ9v_qCHecfL1brXUJgpA3UjdDq-O3J9udQzp2xm3J9w@mail.gmail.com>
-Subject: Re: [PATCH 1/4] drm/bridge: dw-hdmi: Add function to get plat_data
+Date: Mon, 21 Jul 2025 11:26:56 +0800
+X-Gm-Features: Ac12FXxLXoN3PdgILVQcoB0Vod44PqH8KIxOUI90ky-y_nERjNH_OhhfrJs7NGk
+Message-ID: <CAA+D8AMz4MAn7M40ipTefXapQ0-KZnUT3H6iVzBscO4UmrK6cw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] dt-bindings: display: imx: add binding for i.MX8MP
+ HDMI PAI
 To: Frank Li <Frank.li@nxp.com>
 Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com, 
  neil.armstrong@linaro.org, rfoss@kernel.org, 
@@ -97,65 +98,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 19, 2025 at 12:15=E2=80=AFAM Frank Li <Frank.li@nxp.com> wrote:
+On Sat, Jul 19, 2025 at 12:25=E2=80=AFAM Frank Li <Frank.li@nxp.com> wrote:
 >
-> On Fri, Jul 18, 2025 at 06:11:47PM +0800, Shengjiu Wang wrote:
-> > The enable_audio() and disable_audio() callback pointers are in
-> > plat_data structure, and the audio device driver needs to get plat_data
-> > for assign these pointers. So add a function to export plat_data
-> > structure.
+> On Fri, Jul 18, 2025 at 06:11:49PM +0800, Shengjiu Wang wrote:
 >
-> drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
+> Subject needn't said binding again.
 >
-> Add API dw_hdmi_to_plat_data() to fetch plat_data because audo device
-> driver needs it to enabe(disable)_audio().
+> dt-bindings: display: imx: add HDMI PAI for i.MX8MP
+>
+> > Add binding for the i.MX8MP HDMI parallel Audio interface block.
+>
+> Need empty line between two paragraph
 
-Thanks for comments.  will update it to the next version.
-
-best regards
-Shengjiu Wang
+Ok.
 >
-> Frank
+> > As this port is linked to imx8mp-hdmi-tx, add port@2 in
+> > fsl,imx8mp-hdmi-tx.yaml document.
+>
+> In fsl,imx8mp-hdmi-tx.yaml, add port@2 that linked to imx8mp-hdmi-tx (
+> look like pai_to_hdmi_tx?)
+
+yes, linked to pai_to_hdmi_tx.
 >
 > >
 > > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 > > ---
-> >  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 6 ++++++
-> >  include/drm/bridge/dw_hdmi.h              | 1 +
-> >  2 files changed, 7 insertions(+)
+> >  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    | 13 ++++
+> >  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      | 61 +++++++++++++++++++
+> >  2 files changed, 74 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,i=
+mx8mp-hdmi-pai.yaml
 > >
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/dr=
-m/bridge/synopsys/dw-hdmi.c
-> > index 76c6570e2a85..3dfa42178f6c 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > @@ -198,6 +198,12 @@ struct dw_hdmi {
-> >       enum drm_connector_status last_connector_result;
-> >  };
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8m=
+p-hdmi-tx.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8m=
+p-hdmi-tx.yaml
+> > index 05442d437755..cf810b277557 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-=
+tx.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-=
+tx.yaml
+> > @@ -49,9 +49,14 @@ properties:
+> >          $ref: /schemas/graph.yaml#/properties/port
+> >          description: HDMI output port
 > >
-> > +const struct dw_hdmi_plat_data *dw_hdmi_to_plat_data(struct dw_hdmi *h=
-dmi)
-> > +{
-> > +     return hdmi->plat_data;
-> > +}
-> > +EXPORT_SYMBOL_GPL(dw_hdmi_to_plat_data);
+> > +      port@2:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: Parallel audio input port
 > > +
-> >  #define HDMI_IH_PHY_STAT0_RX_SENSE \
-> >       (HDMI_IH_PHY_STAT0_RX_SENSE0 | HDMI_IH_PHY_STAT0_RX_SENSE1 | \
-> >        HDMI_IH_PHY_STAT0_RX_SENSE2 | HDMI_IH_PHY_STAT0_RX_SENSE3)
-> > diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.=
-h
-> > index 6a46baa0737c..a56a3519a22a 100644
-> > --- a/include/drm/bridge/dw_hdmi.h
-> > +++ b/include/drm/bridge/dw_hdmi.h
-> > @@ -208,4 +208,5 @@ void dw_hdmi_phy_setup_hpd(struct dw_hdmi *hdmi, vo=
-id *data);
+> >      required:
+> >        - port@0
+> >        - port@1
+> > +      - port@2
+>
+> Are you sure it is required?  It may cause may dtb check warning.
+
+yes, it is required.
+>
 > >
-> >  bool dw_hdmi_bus_fmt_is_420(struct dw_hdmi *hdmi);
-> >
-> > +const struct dw_hdmi_plat_data *dw_hdmi_to_plat_data(struct dw_hdmi *h=
-dmi);
-> >  #endif /* __IMX_HDMI_H__ */
+> >  required:
+> >    - compatible
+> > @@ -98,5 +103,13 @@ examples:
+> >                      remote-endpoint =3D <&hdmi0_con>;
+> >                  };
+> >              };
+> > +
+> > +            port@2 {
+> > +                reg =3D <2>;
+> > +
+> > +                endpoint {
+> > +                    remote-endpoint =3D <&pai_to_hdmi_tx>;
+> > +                };
+> > +            };
+> >          };
+> >      };
+> > diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-h=
+dmi-pai.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdm=
+i-pai.yaml
+> > new file mode 100644
+> > index 000000000000..d2d723935032
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai=
+.yaml
+> > @@ -0,0 +1,61 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pai.yam=
+l#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Freescale i.MX8MP HDMI Parallel Audio Interface
+> > +
+> > +maintainers:
+> > +  - Shengjiu Wang <shengjiu.wang@nxp.com>
+> > +
+> > +description:
+> > +  The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module t=
+hat acts as the
+> > +  bridge between the Audio Subsystem to the HDMI TX Controller.
+>
+> remove "a digital module that acts as the"
+
+Ok, will update it in the next version.
+
+best regards
+Shengjiu Wang
+
+>
+> Frank
+>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: fsl,imx8mp-hdmi-pai
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/properties/port
+> > +    description: Output to the HDMI TX controller.
+> > +    unevaluatedProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - power-domains
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/power/imx8mp-power.h>
+> > +
+> > +    hdmi@32fc4800 {
+> > +        compatible =3D "fsl,imx8mp-hdmi-pai";
+> > +        reg =3D <0x32fc4800 0x800>;
+> > +        interrupt-parent =3D <&irqsteer_hdmi>;
+> > +        interrupts =3D <14>;
+> > +        power-domains =3D <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_PAI>;
+> > +
+> > +        port {
+> > +
+> > +            pai_to_hdmi_tx: endpoint {
+> > +                remote-endpoint =3D <&hdmi_tx_from_pai>;
+> > +            };
+> > +        };
+> > +    };
 > > --
 > > 2.34.1
 > >
