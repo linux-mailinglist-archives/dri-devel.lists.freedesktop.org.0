@@ -2,51 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5528CB0BCC2
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 08:38:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBC9B0BCF9
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 08:49:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A38010E259;
-	Mon, 21 Jul 2025 06:38:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BEE210E482;
+	Mon, 21 Jul 2025 06:49:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="I0nOAeGz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hXfMo9FY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF4D10E48F
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 06:38:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=NdvLfkkGBjZm0b5b6FIzS2hH6p0WgirRS6OItPXP3Mk=; b=I0nOAeGze5satY0gBGngOmVfvn
- cF9LmYBQ7qZF+DajmnkYt4iCKkh01jTbY5HhtPMdQlmgJL4h0CovfDJChZEHF2f/Qe+JiBrVhAyWW
- LU2qQ1jg8qcyuOJdIjaDBxURUW5MI/O0rjeW674lIpYgg7nbDFmnjPfQSBL5bI9qV1jXL1M1TeT5J
- PoXetBUh4AEmSwtS8IlnyOLLFhenvZ37W6g7ZT3qtvcoHxq5zyFC1RGqD/BM44F3MmnmMTOR1SmjG
- iLs2wPfTozEABwP9lUdplm009M9sYJD2OF9iFq4ELqAz3US1lk06KOZr8oCAb9T8D6LBNufkry2vc
- bozSAp+Q==;
-Received: from [159.147.180.92] (helo=[192.168.0.17])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1udkAP-001ar3-32; Mon, 21 Jul 2025 08:38:29 +0200
-Message-ID: <2eb2618a80e78dc62f2ebd8835d76812597c602d.camel@igalia.com>
-Subject: Re: [PATCH 0/6] drm/v3d: General job locking improvements +
- race-condition fixes
-From: Iago Toral <itoral@igalia.com>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
- <mwen@igalia.com>, Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-Date: Mon, 21 Jul 2025 08:38:18 +0200
-In-Reply-To: <20250719-v3d-queue-lock-v1-0-bcc61210f1e5@igalia.com>
-References: <20250719-v3d-queue-lock-v1-0-bcc61210f1e5@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C100910E478;
+ Mon, 21 Jul 2025 06:49:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 273A7A527F6;
+ Mon, 21 Jul 2025 06:49:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19A71C4CEF4;
+ Mon, 21 Jul 2025 06:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753080550;
+ bh=R4gstohCCiEcB83QHp4vePC6Vl/FRbG01v8oYCtIJb4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hXfMo9FYah+I/klWyq3E4MM8uAEW+sVZ6ODTWsq5JUGj0H3aocK/YvbN4TFt88Hvo
+ Rn06q7poo3PqWnBummfdHCv3BPx6GuFba9cIihgDNPzUzVyMGM+iS0hPLeAsvnHP3l
+ U16vKWM2EvhSN9ENkKqsKLL6P+hah8+TgBzcVXJobxUE7ZVqOKbmm4hm0TXfKYNChx
+ SSFWMkt4DOwbPfkKpjrcSjqtEzEmHFxNyFpppZlLc8Cu6Ru5oSdrYYLOQST7PAChe3
+ CoqaxGFV0y1PwQZKEVuQqLnMxUFjEdPhV9/PxlWmOLfWgwSQKGbvScbg47BtI5mlQ2
+ IcE2ZN/gKY35Q==
+Date: Mon, 21 Jul 2025 09:49:04 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Yonatan Maman <ymaman@nvidia.com>
+Cc: =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alistair Popple <apopple@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Michael Guralnik <michaelgur@nvidia.com>,
+ Or Har-Toov <ohartoov@nvidia.com>,
+ Daisuke Matsuda <dskmtsd@gmail.com>, Shay Drory <shayd@nvidia.com>,
+ linux-mm@kvack.org, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] *** GPU Direct RDMA (P2P DMA) for Device Private
+ Pages ***
+Message-ID: <20250721064904.GK402218@unreal>
+References: <20250718115112.3881129-1-ymaman@nvidia.com>
+ <20250720103003.GH402218@unreal>
+ <35ff6080-9cb8-43cf-b77a-9ef3afd2ae59@nvidia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <35ff6080-9cb8-43cf-b77a-9ef3afd2ae59@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,70 +70,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Ma=C3=ADra, series is:
+On Mon, Jul 21, 2025 at 12:03:51AM +0300, Yonatan Maman wrote:
+> 
+> 
+> On 20/07/2025 13:30, Leon Romanovsky wrote:
+> > External email: Use caution opening links or attachments
+> > 
+> > 
+> > On Fri, Jul 18, 2025 at 02:51:07PM +0300, Yonatan Maman wrote:
+> > > From: Yonatan Maman <Ymaman@Nvidia.com>
+> > > 
+> > > This patch series aims to enable Peer-to-Peer (P2P) DMA access in
+> > > GPU-centric applications that utilize RDMA and private device pages. This
+> > > enhancement reduces data transfer overhead by allowing the GPU to directly
+> > > expose device private page data to devices such as NICs, eliminating the
+> > > need to traverse system RAM, which is the native method for exposing
+> > > device private page data.
+> > > 
+> > > To fully support Peer-to-Peer for device private pages, the following
+> > > changes are proposed:
+> > > 
+> > > `Memory Management (MM)`
+> > >   * Leverage struct pagemap_ops to support P2P page operations: This
+> > > modification ensures that the GPU can directly map device private pages
+> > > for P2P DMA.
+> > >   * Utilize hmm_range_fault to support P2P connections for device private
+> > > pages (instead of Page fault)
+> > > 
+> > > `IB Drivers`
+> > > Add TRY_P2P_REQ flag for the hmm_range_fault call: This flag indicates the
+> > > need for P2P mapping, enabling IB drivers to efficiently handle P2P DMA
+> > > requests.
+> > > 
+> > > `Nouveau driver`
+> > > Add support for the Nouveau p2p_page callback function: This update
+> > > integrates P2P DMA support into the Nouveau driver, allowing it to handle
+> > > P2P page operations seamlessly.
+> > > 
+> > > `MLX5 Driver`
+> > > Utilize NIC Address Translation Service (ATS) for ODP memory, to optimize
+> > > DMA P2P for private device pages. Also, when P2P DMA mapping fails due to
+> > > inaccessible bridges, the system falls back to standard DMA, which uses host
+> > > memory, for the affected PFNs
+> > 
+> > I'm probably missing something very important, but why can't you always
+> > perform p2p if two devices support it? It is strange that IB and not HMM
+> > has a fallback mode.
+> > 
+> > Thanks
+> > 
+> 
+> P2P mapping can fail even when both devices support it, due to PCIe bridge
+> limitations or IOMMU restrictions that block direct P2P access.
 
-Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+Yes, it is how p2p works. The decision "if p2p is supported or not" is
+calculated by pci_p2pdma_map_type(). That function needs to get which two
+devices will be connected.
 
-Iago
+In proposed HMM_PFN_ALLOW_P2P flag, you don't provide device information
+and for the system with more than 2 p2p devices, you will get completely
+random result.
 
-El s=C3=A1b, 19-07-2025 a las 10:24 -0300, Ma=C3=ADra Canal escribi=C3=B3:
-> This patch series was initially motivated by a race condition
-> (exposed
-> in PATCH 4/6) where we lacked synchronization for `job->file` access.
-> This led to use-after-free issues when a file descriptor was closed
-> while a job was still running.
->=20
-> However, beyond fixing this specific race, the series introduces
-> broader improvements to active job management and locking. While
-> PATCH
-> 1/6, 2/6, and 5/6 are primarily code refactors, PATCH 3/6 brings a
-> significant change to the locking scheme. Previously, all queues
-> shared
-> the same spinlock, which caused unnecessary contention during high
-> GPU
-> usage across different queues. PATCH 3/6 allows queues to operate
-> more
-> independently.
->=20
-> Finally, PATCH 6/6 addresses a similar race condition to PATCH 4/6,
-> but
-> this time, on the per-file descriptor reset counter.
->=20
-> Best Regards,
-> - Ma=C3=ADra
->=20
-> ---
-> Ma=C3=ADra Canal (6):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Store a pointer to `struct v3d_fi=
-le_priv` inside each
-> job
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Store the active job inside the q=
-ueue's state
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Replace a global spinlock with a =
-per-queue spinlock
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Address race-condition between pe=
-r-fd GPU stats and fd
-> release
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Synchronous operations can't time=
-out
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Protect per-fd reset counter agai=
-nst fd release
->=20
-> =C2=A0drivers/gpu/drm/v3d/v3d_drv.c=C2=A0=C2=A0=C2=A0 | 14 ++++++-
-> =C2=A0drivers/gpu/drm/v3d/v3d_drv.h=C2=A0=C2=A0=C2=A0 | 22 ++++-------
-> =C2=A0drivers/gpu/drm/v3d/v3d_fence.c=C2=A0 | 11 +++---
-> =C2=A0drivers/gpu/drm/v3d/v3d_gem.c=C2=A0=C2=A0=C2=A0 | 10 ++---
-> =C2=A0drivers/gpu/drm/v3d/v3d_irq.c=C2=A0=C2=A0=C2=A0 | 68 +++++++++++++-=
-----------------
-> --
-> =C2=A0drivers/gpu/drm/v3d/v3d_sched.c=C2=A0 | 85 +++++++++++++++++++++++-=
-------
-> ----------
-> =C2=A0drivers/gpu/drm/v3d/v3d_submit.c |=C2=A0 2 +-
-> =C2=A07 files changed, 108 insertions(+), 104 deletions(-)
-> ---
-> base-commit: ca2a6abdaee43808034cdb218428d2ed85fd3db8
-> change-id: 20250718-v3d-queue-lock-59babfb548bc
->=20
->=20
 
+> The fallback is in IB rather than HMM because HMM only manages memory pages - it doesn't
+> do DMA mapping. The IB driver does the actual DMA operations, so it knows
+> when P2P mapping fails and can fall back to copying through system memory.
+
+The thing is that in proposed patch, IB doesn't check that p2p is
+established with right device.
+https://lore.kernel.org/all/20250718115112.3881129-5-ymaman@nvidia.com/
+
+> In fact, hmm_range_fault doesn't have information about the destination
+> device that will perform the DMA mapping.
+
+So probably you need to teach HMM to perform page_faults on specific device.
+
+Thansk
+
+> > > 
+> > > Previous version:
+> > > https://lore.kernel.org/linux-mm/20241201103659.420677-1-ymaman@nvidia.com/
+> > > https://lore.kernel.org/linux-mm/20241015152348.3055360-1-ymaman@nvidia.com/
+> > > 
+> > > Yonatan Maman (5):
+> > >    mm/hmm: HMM API to enable P2P DMA for device private pages
+> > >    nouveau/dmem: HMM P2P DMA for private dev pages
+> > >    IB/core: P2P DMA for device private pages
+> > >    RDMA/mlx5: Enable P2P DMA with fallback mechanism
+> > >    RDMA/mlx5: Enabling ATS for ODP memory
+> > > 
+> > >   drivers/gpu/drm/nouveau/nouveau_dmem.c | 110 +++++++++++++++++++++++++
+> > >   drivers/infiniband/core/umem_odp.c     |   4 +
+> > >   drivers/infiniband/hw/mlx5/mlx5_ib.h   |   6 +-
+> > >   drivers/infiniband/hw/mlx5/odp.c       |  24 +++++-
+> > >   include/linux/hmm.h                    |   3 +-
+> > >   include/linux/memremap.h               |   8 ++
+> > >   mm/hmm.c                               |  57 ++++++++++---
+> > >   7 files changed, 195 insertions(+), 17 deletions(-)
+> > > 
+> > > --
+> > > 2.34.1
+> > > 
+> 
+> 
+> 
