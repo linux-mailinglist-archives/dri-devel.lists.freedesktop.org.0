@@ -2,137 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E1AB0BBB2
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 06:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482F8B0BC19
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 07:47:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0D110E00D;
-	Mon, 21 Jul 2025 04:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABB6410E38A;
+	Mon, 21 Jul 2025 05:47:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Pd+gqMZN";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="R6sgbtT1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E30D10E00D
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 04:18:26 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56L40kLW000890
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 04:18:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 0HxS55+QTxxnhovCNlJMVgeCUCIs7adrQbeCrM4+8pY=; b=Pd+gqMZN6VlsReQ2
- ApLJJ3KRx8yfPGzjKNebwJ80Go6FToeUYYa4O3lfQ5S2qmB4E34dhEzTL4M9KXN7
- vU58SaWiWgI4OzuOYPgSrgb4RQf375zxiPkmT2RUyzmLU7FJsSnJTkBQqSIc0xQe
- hH68NESm3siMXM5EMpgKo76pIExrNphUcOUVqi/jQgSj23wvtEG8dmGSi6TaCuPI
- thk+Z/BVtHM2Lw4D3n6mBmBwz1l9IKfKnqGriP6TdGbt06GYnx+uoH91zzfPDYI6
- F/Oi+QNMY1ijMZcOsntm8K2USXBvnjx669FrqrQIPQixelVh80lAKL/3UoieitQL
- j6WMLQ==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48044dbacp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 04:18:25 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-749286f935aso299300b3a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 21:18:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753071504; x=1753676304;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=0HxS55+QTxxnhovCNlJMVgeCUCIs7adrQbeCrM4+8pY=;
- b=UncQnEIRLnKZjfTWis3nroyHuBi6P3aUasehQwKj/g0p+0VEUJE1JeLutaPHnQ3mH1
- LQwTovCOaJF4zhEdBvVtS2Qul6ZVZ+M/fyN9WbsVV6bR+3qEfWjbF/xJzcNJ02BL7bzc
- ljPYf9pM9w0u0frXNRyZFt7HnS4EKFRynGXk2dQpMtOoY7VLTmDf0LriraEq0J+WA8Us
- B0NkIzHeRP2mqSjcE4ieb8LeCHWliqk7F2dBhAAoErDSmYUpxBINizfhORZQ7tKXydVs
- chdFu6uwbCC9wVHkXbQcSwwWMwCshV3U5lCLQLLslCBhxTIfLnNiNrVy01Qqs9cBKRgJ
- 4v2w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVk1KknfipnLRiyGMroacC6bsVG5ESqewfp/s5Ccnwmvd6ndZ0FGnKOSAajpin4f8MkqKAeWug9tYE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxngyObqOdsxOg/V6PgePy4e4WkBhkvX3HLgWlu/8I/7aIb/BDZ
- yURJvn5Oy9+xfGxFVQJH7VK+m6mGvooZEsLy1BMUGmTuLR/DQB4knZwsirFwlJXBJ5F6oTIoJQb
- cJFMZQh1RE+8MPTpqgHCwqnXDZqit5n5biVKCCPUj7ac+Avp6CvA1qYrVQhNibx4Yw6BItsM=
-X-Gm-Gg: ASbGnctokIrtbh7AJN5wJF9FaQ+T19qCn+0G6I9yW8LtOJy79JzXVhgK6mSUilubtCS
- dPRfqnQsc9UHnVTqVGqyyygk0G6PrawSH0KmapNTlGppJAUZMMbPBnGkN3icm2WiFsAGVRw6D57
- gCpXe2xaEqZbPfQzcLzZ/a7q3cM+y5IxKlreM8XwMWEL3Gxl9G3K4hY5qixVtbzkgaxy/kxnS6P
- umLr1SIbidrIw6bn7ARnhPUQoIrs0jmEF9SgWTpcxbQ2vWhK/yD7mclxz3L1i2ojspN6ZGpUqja
- u2YHbt1rCZUUAJ3M6BrB0Xr858Y8noGzLt7oeeaRmOsh6VZLwzRFLJHbzOHiTQblVYe3uI/oamv
- cviq3CCN+N0m9rDcyntcSYkdzAOiM
-X-Received: by 2002:a05:6a20:9147:b0:1ee:d6da:b645 with SMTP id
- adf61e73a8af0-237d5c0df9emr13823371637.4.1753071504501; 
- Sun, 20 Jul 2025 21:18:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE9E+Jpxuf/n9mwdKcrc+ICdr6n87fGKbL6wE5SUt8XIJ2tugZsZ8TP4nLkT2kWBtaUKyMt+w==
-X-Received: by 2002:a05:6a20:9147:b0:1ee:d6da:b645 with SMTP id
- adf61e73a8af0-237d5c0df9emr13823324637.4.1753071503997; 
- Sun, 20 Jul 2025 21:18:23 -0700 (PDT)
-Received: from [10.133.33.17] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b3f2fe8ea7bsm4493637a12.21.2025.07.20.21.18.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Jul 2025 21:18:23 -0700 (PDT)
-Message-ID: <a723b6a6-c70a-442f-9785-9f607548664f@oss.qualcomm.com>
-Date: Mon, 21 Jul 2025 12:18:16 +0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 500C410E252;
+ Mon, 21 Jul 2025 05:47:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1753076842;
+ bh=Y6O1LeXawfH6jqCiha75wKFY04tLvXmKtw8IkQsRZzE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=R6sgbtT1j4PydMnb9LKCtJbvY/h+dBwoJCRjJfAknzIQNRrlcOiG3Rk7yOIjryhEo
+ oT7IdyLx4C46fpqYi16JO1SXk+maA3prPGcpfO41dZKiPy/jt/7nmEClDczTMthbjO
+ f5rn1uQfLT9p/KaXVj+L7P7QFkUwyCRq8fB7KJnD12SvtbzJDgF6K2DqpC6eNNMXSc
+ R4tdiCX2+c7lD3XeADrFBiihDgbCH+kYyNMl57OF7K1/z6GCmvW19PSFZ3/ayya0Kj
+ Sl9U4R7JPUywoq3uTD9VyR8AzQ3zrX9cT/8qIK4KOr7oEry2iagdrQ+7cmqWFkzuq2
+ qyC1Q3wjkaoUw==
+Received: from [192.168.50.250] (unknown [171.76.80.183])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B508E17E0F66;
+ Mon, 21 Jul 2025 07:47:19 +0200 (CEST)
+Message-ID: <bcff3bed-0695-45fa-8f62-453878b6075f@collabora.com>
+Date: Mon, 21 Jul 2025 11:17:02 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/8] drm/msm/dp: Retry Link Training 2 with lower pattern
+Subject: Re: [PATCH v1 5/7] drm/ci: uprev IGT
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, quic_lliu6@quicinc.com,
- quic_fangez@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
- quic_xiangxuy@quicinc.com
-References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
- <20241129-add-displayport-support-for-qcs615-platform-v1-7-09a4338d93ef@quicinc.com>
- <CAA8EJpoN1qBHyZrQJT_=e_26+tcaKRnSrhtxrK6zBP4BwpL=Hg@mail.gmail.com>
- <b4345b9e-62c6-470d-b1b0-4758cef7f175@quicinc.com>
- <xlmgdysjah3ueypdrdu5b6botvidb2wn4rfm4qpeysclscmuwy@vpfv2ymprblj>
- <b4e1ea54-ff3c-408e-8716-f48001ec9113@oss.qualcomm.com>
- <d427de7d-76ac-4e5b-b79a-3b7638a8e7fc@oss.qualcomm.com>
- <w66xyhu5w7ajpkennvj24cad4j6izvapsp3reyla7iui2jdgkx@d43b6z3qw5tj>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <w66xyhu5w7ajpkennvj24cad4j6izvapsp3reyla7iui2jdgkx@d43b6z3qw5tj>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=BJ6zrEQG c=1 sm=1 tr=0 ts=687dbf91 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=q-zp-rPcFIMxVU44S18A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: Xj-FLtmjrLcacG1dpD3DAyT6aI66LQLv
-X-Proofpoint-ORIG-GUID: Xj-FLtmjrLcacG1dpD3DAyT6aI66LQLv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIxMDAzNCBTYWx0ZWRfX9G2QwBfdK3gH
- u9Zv1pPe8VXXxXQtu49nsaAIPlt4vaf2fg0hZsUsXc1Donh3EOiKvNGJh6Oxeewaluik1kr9+c0
- c5+F/wsTIOAyiNEnaVYsSH+Aybm2/n1x+48qWqMKQCY8iJgX1difsuG3ulXMdswhYEAEo8GOn73
- Z57Z//9OnEWlTwdNhWKICq9TnbkE/C+61C0yj4Sx292NaKd7KLlc7GXPeeUz1/vlPkH4TgYkUe8
- BxHfoysqLZorTcc4Q+4FL4UPZnBPOW0RJiVKJQfUcgM5cDQA2cxSOKRhUxnPBJFflk/uwejo6lB
- HGd2GIIdbeKwYWhGm6KC52Q41WDoge9bcBenN295nnjb4D9c1nvz5YMsWAW9H848eE22Wc1j5Jd
- bVgvouTH77/t1APvf2OXDGaWbB5aCchen49f0dse61KPji/qeyql1XrpG+3jVayB1wwQ+Utz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-21_02,2025-07-17_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
- mlxlogscore=999 suspectscore=0 impostorscore=0 phishscore=0 adultscore=0
- mlxscore=0 malwarescore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507210034
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
+ helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch,
+ robdclark@gmail.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
+ lumag@kernel.org, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250718105407.32878-1-vignesh.raman@collabora.com>
+ <20250718105407.32878-6-vignesh.raman@collabora.com>
+ <7c6suvc6quwwxni2nsos65btzim2lbv7f2u6mz5qbupzpmpzgb@g46wg63ubr6l>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <7c6suvc6quwwxni2nsos65btzim2lbv7f2u6mz5qbupzpmpzgb@g46wg63ubr6l>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,57 +70,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 7/19/2025 5:43 PM, Dmitry Baryshkov wrote:
-> On Wed, Jul 09, 2025 at 05:16:02PM +0800, Xiangxu Yin wrote:
+On 18/07/25 18:24, Dmitry Baryshkov wrote:
+> On Fri, Jul 18, 2025 at 04:23:57PM +0530, Vignesh Raman wrote:
+>> Uprev IGT to the latest version and update expectation files.
 >>
->> On 5/28/2025 4:49 AM, Konrad Dybcio wrote:
->>> On 12/3/24 3:07 PM, Dmitry Baryshkov wrote:
->>>> On Tue, Dec 03, 2024 at 04:13:22PM +0800, Xiangxu Yin wrote:
->>>>>
->>>>> On 11/29/2024 9:53 PM, Dmitry Baryshkov wrote:
->>>>>> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
->>>>>>> Add a mechanism to retry Link Training 2 by lowering the pattern level
->>>>>>> when the link training #2 first attempt fails. This approach enhances
->>>>>>> compatibility, particularly addressing issues caused by certain hub
->>>>>>> configurations.
->>>>>> Please reference corresponding part of the standard, describing this lowering.
->>>>>>
->>>>> Per DisplayPort 1.4a specification Section 3.5.1.2 and Table 3-10, while the standard doesn't explicitly define a TPS downgrade mechanism, it does specify:
->>>> Anything in DP 2.1?
->>>>
->> In the DP 2.1 spec, mainly on section '3.6.7.2 8b/10b DP Link Layer LTTPR Link Training Mandates', defined 'LTTPR shall support TPS4'.
->> The other parts seems similar to the 1.4 spec.
->>>>> - All devices shall support TPS1 and TPS2
->>>>> - HDR2-capable devices shall support TPS3
->>>>> - HDR3-capable devices shall support TPS4
->>>>> While these capabilities are explicitly defined DPCD for sink devices, source device capabilities are less strictly defined, with the minimum requirement being support for TPS1 and TPS2.
->>>>> In QCS615 DP phy is only supporting to HBR2, we observed a critical interoperability scenario with a DP->HDMI bridge. When link training at TPS4 consistently failed, downgrading to the next lower training pattern successfully established the link and display output successfully.
->>>> Any other driver doing such TPS lowering? Or maybe we should be
->>>> selecting TPS3 for HBR2-only devices?
->> This logic is porting from qualcomm downstream, 
-> Hopefully a downstream has some sensible commit message which describes
-> the issue and the configuration to reproduce it?
+>> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+>> ---
+>>   drivers/gpu/drm/ci/gitlab-ci.yml              |   2 +-
+>>   .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |   2 +
+>>   .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |   7 ++
+>>   drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |  11 +-
+>>   drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |   2 +
+>>   drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |  29 +----
+>>   drivers/gpu/drm/ci/xfails/i915-cml-flakes.txt |   7 ++
+>>   drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |   8 +-
+>>   drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  |  83 ++++++++++++
+>>   drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt  |  10 +-
+>>   drivers/gpu/drm/ci/xfails/i915-kbl-fails.txt  |   3 +
+>>   drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |   5 +-
+>>   drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt |   6 +
+>>   drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |   7 +-
+>>   .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   5 +-
+>>   .../drm/ci/xfails/mediatek-mt8173-flakes.txt  | 119 ++++++++++++++++++
+>>   .../drm/ci/xfails/mediatek-mt8183-fails.txt   |   7 +-
+>>   .../msm-sc7180-trogdor-kingoftown-fails.txt   |   1 +
+>>   ...sm-sc7180-trogdor-lazor-limozeen-fails.txt |   1 +
+>>   .../drm/ci/xfails/msm-sm8350-hdk-fails.txt    |   1 +
+>>   .../drm/ci/xfails/msm-sm8350-hdk-skips.txt    |  73 +++++++++++
+>>   .../drm/ci/xfails/panfrost-mt8183-fails.txt   |   1 +
+>>   .../drm/ci/xfails/panfrost-rk3288-fails.txt   |   1 +
+>>   .../drm/ci/xfails/panfrost-rk3399-fails.txt   |   1 +
+>>   .../drm/ci/xfails/rockchip-rk3288-fails.txt   |  12 +-
+>>   .../drm/ci/xfails/rockchip-rk3288-flakes.txt  |  21 ++++
+>>   .../drm/ci/xfails/rockchip-rk3399-fails.txt   |   9 +-
+>>   .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |  35 ++++++
+>>   .../drm/ci/xfails/virtio_gpu-none-fails.txt   |   4 +
+>>   drivers/gpu/drm/ci/xfails/vkms-none-fails.txt |   3 +
+>>   drivers/gpu/drm/ci/xfails/vkms-none-skips.txt |   3 +
+>>   31 files changed, 416 insertions(+), 63 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt
+>>
+>> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt
+>> index e4a8f8352cd6..9bf38c077f8e 100644
+>> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt
+>> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt
+>> @@ -15,3 +15,4 @@ kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail
+>>   kms_plane_alpha_blend@alpha-7efc,Fail
+>>   kms_plane_alpha_blend@coverage-7efc,Fail
+>>   kms_plane_alpha_blend@coverage-vs-premult-vs-constant,Fail
+>> +core_setmaster@master-drop-set-user,Fail
+> 
+> Could you please point out the issue / failure log?
 
-The downstream commit log shows in 2019/08, SM8250 (kernel 4.19) type-c DP meet LT2 failures on Samsung HDR curved monitor, the pattern lowering fix was adopted.
-On QCS615, an mDP-to-HDMI adapter cable exhibited similar LT failure pattern, and it's works with this solution.
-However, It's rare compatibility case with special device and lowering seems violates protocol standards, maybe not suitable for general deployment.
+Please see the pipeline logs,
+https://gitlab.freedesktop.org/vigneshraman/msm/-/jobs/79793740
+https://gitlab.freedesktop.org/vigneshraman/msm/-/jobs/79793742
 
->> For other device, only found in some older Tx chips like i915（intel_dp_training_pattern) used the maximum hardware-supported patterns, but not lowering.
->>
->> According to the description in DPCD table 2-232 003h, From the DP spec perspective, it appears that all supported cases should preferably adopt TPS4, as it is more robust.
-> If other drivers don't perform this kind of lowering, I'd prefer if we
-> don't perform it too.
-Agree,  I'll remove this patch in an upcoming version soon.
->
->> 'DPRXs should support TPS4 and set this bit, regardless of whether the DPRX supports HBR3 because TPS4 is more conducive to robust link establishment than TPS2 and TPS3.
->> 0 = TPS4 is not supported.
->> 1 = TPS4 is supported (shall be supported for downstream devices with DPCD r1.4, except for eDPRXs).'
->>
->> Although maximum capability of QCS615 is HBR2, but the actual pattern supports TPS4. 
->> From pure design perspective, it would be cleaner to drop this lowering in next patch. 
->>> Bump, this patch looks interesting and I'd like to see it revisited if
->>> it's correct
->>>
->>> Konrad
->>
+Let me know if you want me to raise an issue.
+
+Regards,
+Vignesh
+
+> 
+>> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt
+>> index e4a8f8352cd6..7441b363efae 100644
+>> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt
+>> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt
+>> @@ -1,3 +1,4 @@
+>> +core_setmaster@master-drop-set-user,Fail
+>>   kms_color@ctm-0-25,Fail
+>>   kms_color@ctm-0-50,Fail
+>>   kms_color@ctm-0-75,Fail
+>> diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
+>> index 8d26b23133aa..f387c73193c6 100644
+>> --- a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
+>> +++ b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
+>> @@ -1,3 +1,4 @@
+>> +core_setmaster@master-drop-set-user,Fail
+>>   kms_3d,Fail
+>>   kms_cursor_legacy@forked-bo,Fail
+>>   kms_cursor_legacy@forked-move,Fail
+>> diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
+>> index 9450f2a002fd..84ffbe0981ea 100644
+>> --- a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
+>> +++ b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-skips.txt
+>> @@ -210,3 +210,76 @@ msm/msm_mapping@ring
+>>   # [  229.752499] CPU features: 0x18,00000017,00200928,4200720b
+>>   # [  229.758095] Memory Limit: none
+>>   # [  229.761291] ---[ end Kernel panic - not syncing: softlockup: hung tasks ]---
+>> +
+>> +msm/msm_recovery@gpu-fault
+> 
+> Hmm. I thought this should have been fixed...
+> 
+>> +# DEBUG - Begin test msm/msm_recovery@gpu-fault
+>> +# [  153.288652] [IGT] msm_recovery: executing
+>> +# [  153.295317] [IGT] msm_recovery: starting subtest gpu-fault
+>> +# [  153.317588] adreno 3d00000.gpu: CP | opcode error | possible opcode=0xDEADDEAD
+>> +# [  153.367412] adreno 3d00000.gpu: [drm:a6xx_irq] *ERROR* gpu fault ring 0 fence 814 status 00800005 rb 016b/0215 ib1 000000010000B000/0000 ib2 0000000000000000/0000
+>> +# [  153.383449] msm_dpu ae01000.display-controller: [drm:recover_worker] *ERROR* 6.6.0.1: hangcheck recover!
+>> +# [  153.393296] msm_dpu ae01000.display-controller: [drm:recover_worker] *ERROR* 6.6.0.1: offending task: msm_recovery (/igt/libexec/igt-gpu-tools/msm/msm_recovery --run-subtest gpu-fault)
+>> +# [  153.436085] revision: 660 (6.6.0.1)
+>> +# [  153.439702] rb 0: fence:    2063/2068
+>> +# [  153.443659] rptr:     360
+>> +# [  153.446389] rb wptr:  533
+>> +# [  153.449103] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG0: 0
+>> +# [  153.455746] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG1: 0
+>> +# [  153.462387] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG2: 2062
+>> +# [  153.469293] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG3: 0
+>> +# [  153.475680] adreno 3d00000.gpu: [drm:a6xx_irq] *ERROR* gpu fault ring 0 fence 814 status 00800005 rb 016b/0215 ib1 000000010000B000/0000 ib2 0000000000000000/0000
+>> +# [  153.475919] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG4: 0
+>> +# [  153.475925] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG5: 0
+>> +# [  153.475928] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG6: 0
+>> +# [  153.475930] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG7: 1
+>> +# [  153.529587] platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
+>> +# [  153.539837] msm_dpu ae01000.display-controller: [drm:recover_worker] *ERROR* 6.6.0.1: hangcheck recover!
+>> +# [  153.549597] msm_dpu ae01000.display-controller: [drm:recover_worker] *ERROR* 6.6.0.1: offending task: msm_recovery (/igt/libexec/igt-gpu-tools/msm/msm_recovery --run-subtest gpu-fault)
+>> +# [  153.566489] revision: 660 (6.6.0.1)
+>> +# [  153.570099] rb 0: fence:    2064/2068
+>> +# [  153.573878] rptr:     0
+>> +# [  153.576411] rb wptr:  688
+>> +# [  153.579134] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG0: 0
+>> +# [  153.585775] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG1: 0
+>> +# [  153.592410] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG2: 0
+>> +# [  153.597308] [IGT] msm_recovery: finished subtest gpu-fault, FAIL
+>> +# [  153.599039] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG3: 0
+>> +# [  153.611856] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG4: 0
+>> +# [  153.618498] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG5: 0
+>> +# [  153.625132] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG6: 0
+>> +# [  153.631766] adreno 3d00000.gpu: [drm:a6xx_recover] CP_SCRATCH_REG7: 0
+>> +# [  153.639162] *** gpu fault: ttbr0=00000001042fc000 iova=0000000000000000 dir=READ type=TRANSLATION source=CP (0,0,0,0)
+>> +# [  153.648502] platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
+>> +# [  153.650144] *** gpu fault: ttbr0=00000001042fc000 iova=0000000000000020 dir=READ type=TRANSLATION source=CP (0,0,0,0)
+>> +# [  153.650241] adreno 3d00000.gpu: CP illegal instruction error
+>> +# [  153.671006] platform 3d6a000.gmu: [drm:a6xx_rpmh_start] *ERROR* Unable to power on the GPU RSC
+>> +# [  153.687278] platform 3d6a000.gmu: [drm:a6xx_gmu_set_oob] *ERROR* Timeout waiting for GMU OOB set GPU_SET: 0x0
+>> +# [  363.495437] INFO: task msm_recovery:876 blocked for more than 120 seconds.
+>> +# [  363.503070]       Not tainted 6.16.0-rc2-g0594d0b01a7c #1
+>> +# [  363.508838] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>> +# [  363.517142] task:msm_recovery    state:D stack:0     pid:876   tgid:876   ppid:274    task_flags:0x400100 flags:0x00000009
+>> +# [  363.528876] Call trace:
+>> +# [  363.531554]  __switch_to+0xf8/0x1a8 (T)
+>> +# [  363.535703]  __schedule+0x418/0xee0
+>> +# [  363.539486]  schedule+0x4c/0x164
+>> +# [  363.542986]  schedule_timeout+0x11c/0x128
+>> +# [  363.547281]  dma_fence_default_wait+0x13c/0x234
+>> +# [  363.552123]  dma_fence_wait_timeout+0x160/0x45c
+>> +# [  363.556947]  dma_resv_wait_timeout+0x70/0x11c
+>> +# [  363.561582]  msm_gem_close+0xac/0xe4
+>> +# [  363.565405]  drm_gem_handle_delete+0x74/0xe8
+>> +# [  363.569951]  drm_gem_close_ioctl+0x38/0x44
+>> +# [  363.574297]  drm_ioctl_kernel+0xc4/0x134
+>> +# [  363.578442]  drm_ioctl+0x224/0x4f0
+>> +# [  363.582050]  __arm64_sys_ioctl+0xac/0x104
+>> +# [  363.586292]  invoke_syscall+0x48/0x110
+>> +# [  363.590254]  el0_svc_common.constprop.0+0x40/0xe0
+>> +# [  363.595197]  do_el0_svc+0x1c/0x28
+>> +# [  363.598705]  el0_svc+0x4c/0x158
+>> +# [  363.602035]  el0t_64_sync_handler+0x10c/0x138
+>> +# [  363.606601]  el0t_64_sync+0x198/0x19c
+>> +# [  363.610465] Showing all locks held in the system:
+>> +# [  363.620406]  #0: ffff0000840200a0 (&tty->ldisc_sem){++++}-{0:0}, at: ldsem_down_read+0x18/0x24
+>> +# [  363.629412]  #1: ffff800080d7c2f0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x15c/0x57c
+>> +# [  363.643169]  #0: ffffbd9c0475d920 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x18/0x1c0
+>> +# [  363.654158] =============================================
+> 
+
