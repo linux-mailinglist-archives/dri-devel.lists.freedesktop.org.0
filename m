@@ -2,60 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA12B0C679
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8E8B0C68D
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:38:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7924710E289;
-	Mon, 21 Jul 2025 14:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C90D310E2AA;
+	Mon, 21 Jul 2025 14:38:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GdFV+a7R";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y4x3Q2iZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0391810E289
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:35:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753108553; x=1784644553;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=eSy3oPeQezkeVBC8sAq/ah/CZdVgGqMu9rAcZiaT0mY=;
- b=GdFV+a7RFO92EjBL6LufqIXfH94rt9S0kLOTXVqAGkzibXkvPVVI0jIp
- JE/f4KIuD1wM3d/FOTw0dSxAMsXLABIhDcFXn1D3nL2pW5meVVdhlvX3N
- d/N0Cq7Jpm9CbgcPKA5lKDuf1l2/jPC64vfY/yFrbB1lkEEHxm6gjHR9i
- 1qULY05EminNPScelkZG98P2Ka4+W0347jOf34dmhSTIGaJPm9qhRE5cj
- tzO+G+9rpfDqYuwc3dz3uz+FZLnNnhuuQYZNmzAucOYLBfPVuWx79tdF1
- u3T6dk+i3RtU+F2/tmVxkfn70wZiitcRZ5Qzs0vVhDcAQy6e8BwoRQVZK A==;
-X-CSE-ConnectionGUID: x4PlR8gnQZiJv8VfVZ3rdA==
-X-CSE-MsgGUID: E2Uy60PXQN2XT2kjejoHlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="54426451"
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; d="scan'208";a="54426451"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2025 07:35:52 -0700
-X-CSE-ConnectionGUID: rvGbAtY5ShGkHSxGkubHKw==
-X-CSE-MsgGUID: 4lYtrXVJToi5y5p5Z09gCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; d="scan'208";a="195941250"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.244.33])
- ([10.245.244.33])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2025 07:35:51 -0700
-Message-ID: <104f9c315544db102c933e82f6a02836e2033b64.camel@linux.intel.com>
-Subject: Re: [bug report] drm/ttm, drm_xe, Implement
- ttm_lru_walk_for_evict() using the guarded LRU iteration
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: dri-devel@lists.freedesktop.org
-Date: Mon, 21 Jul 2025 16:35:49 +0200
-In-Reply-To: <cc9453cb-6f6e-4122-aa17-3fdf8af312e0@sabinyo.mountain>
-References: <cc9453cb-6f6e-4122-aa17-3fdf8af312e0@sabinyo.mountain>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDBC210E2AA;
+ Mon, 21 Jul 2025 14:38:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 20959A54C7E;
+ Mon, 21 Jul 2025 14:38:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F6F8C4CEED;
+ Mon, 21 Jul 2025 14:38:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753108722;
+ bh=Rvu0r8kwgBxipAxQiYHn7UFFSL0RRcLSxbSDcMmsCk0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Y4x3Q2iZ7jBgZLWFnMQ7KoznQ+yd8/iBXZmW7dlOp2v2fOhN8IxBa2mQhqQ1D+YEq
+ fjSPPj4Hc70435n9pdpKMWfnO4d6DMNFPBiUplWNay19MoO3K4vpbeO+oBeYltrzay
+ TDHWDzpLwB5IxfYo57stXFmkV0bfQbo+udRi7Wiov0HblyScULYG7yPu0qdiUigdcW
+ MnSkg8iWLCOwqo2sVSkmwmgBl5IwCwbQ1J46C3uGXt/9MxOof/4mgPdFLL2d7mjVH3
+ JzigV2dqnJK5/3fykFefCnvac0mg0pz2elB0F+emFCnTEFDNUmdcV24Qgy1zawoi6Q
+ JiGAWOREpG5GQ==
+Date: Mon, 21 Jul 2025 09:38:41 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Yongxing Mou <quic_yongmou@quicinc.com>,
+ Mahadevan <quic_mahap@quicinc.com>, Simona Vetter <simona@ffwll.ch>,
+ Sean Paul <sean@poorly.run>, Abel Vesa <abel.vesa@linaro.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, freedreno@lists.freedesktop.org,
+ Michael Turquette <mturquette@baylibre.com>,
+ cros-qcom-dts-watchers@chromium.org, Danila Tikhonov <danila@jiaxyga.com>,
+ David Airlie <airlied@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ devicetree@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, linux-clk@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH] dt-bindings: display/msm: dp-controller: allow eDP for
+ X1E8 and SA8775P
+Message-ID: <175310872113.600678.8339317766064145962.robh@kernel.org>
+References: <20250717-dp_mst_bindings-v3-0-72ce08285703@oss.qualcomm.com>
+ <20250719091445.3126775-1-dmitry.baryshkov@oss.qualcomm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250719091445.3126775-1-dmitry.baryshkov@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,84 +78,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCAyMDI1LTA2LTI4IGF0IDIyOjUxIC0wNTAwLCBEYW4gQ2FycGVudGVyIHdyb3RlOgo+
-IEhlbGxvIFRob21hcyBIZWxsc3Ryw7ZtLAo+IAo+IENvbW1pdCBiYjhhYTI3ZWZmNmYgKCJkcm0v
-dHRtLCBkcm1feGUsIEltcGxlbWVudAo+IHR0bV9scnVfd2Fsa19mb3JfZXZpY3QoKSB1c2luZyB0
-aGUgZ3VhcmRlZCBMUlUgaXRlcmF0aW9uIikgZnJvbSBKdW4KPiAyMywgMjAyNSAobGludXgtbmV4
-dCksIGxlYWRzIHRvIHRoZSBmb2xsb3dpbmcgKHVucHVibGlzaGVkKSBTbWF0Y2gKPiBzdGF0aWMg
-Y2hlY2tlciB3YXJuaW5nOgo+IAo+IAlkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmM6
-OTkxCj4gX190dG1fYm9fbHJ1X2N1cnNvcl9uZXh0KCkKPiAJd2FybjogZHVwbGljYXRlIGNoZWNr
-ICdyZXMnIChwcmV2aW91cyBvbiBsaW5lIDk1MikKPiAKPiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0
-bV9ib191dGlsLmMKPiDCoMKgIDkzMcKgIF9fdHRtX2JvX2xydV9jdXJzb3JfbmV4dChzdHJ1Y3Qg
-dHRtX2JvX2xydV9jdXJzb3IgKmN1cnMpCj4gwqDCoCA5MzLCoCB7Cj4gwqDCoCA5MzPCoMKgwqDC
-oMKgwqDCoMKgwqAgc3BpbmxvY2tfdCAqbHJ1X2xvY2sgPSAmY3Vycy0+cmVzX2N1cnMubWFuLT5i
-ZGV2LQo+ID5scnVfbG9jazsKPiDCoMKgIDkzNMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgdHRt
-X3Jlc291cmNlICpyZXMgPSBOVUxMOwo+IMKgwqAgOTM1wqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVj
-dCB0dG1fYnVmZmVyX29iamVjdCAqYm87Cj4gwqDCoCA5MzbCoMKgwqDCoMKgwqDCoMKgwqAgc3Ry
-dWN0IHR0bV9scnVfd2Fsa19hcmcgKmFyZyA9IGN1cnMtPmFyZzsKPiDCoMKgIDkzN8KgwqDCoMKg
-wqDCoMKgwqDCoCBib29sIGZpcnN0ID0gIWN1cnMtPmJvOwo+IMKgwqAgOTM4wqAgCj4gwqDCoCA5
-MznCoMKgwqDCoMKgwqDCoMKgwqAgdHRtX2JvX2xydV9jdXJzb3JfY2xlYW51cF9ibyhjdXJzKTsK
-PiDCoMKgIDk0MMKgIAo+IMKgwqAgOTQxwqDCoMKgwqDCoMKgwqDCoMKgIHNwaW5fbG9jayhscnVf
-bG9jayk7Cj4gwqDCoCA5NDLCoMKgwqDCoMKgwqDCoMKgwqAgZm9yICg7Oykgewo+IMKgwqAgOTQz
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnQgbWVtX3R5cGUsIHJldCA9IDA7
-Cj4gwqDCoCA5NDTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJvb2wgYm9fbG9j
-a2VkID0gZmFsc2U7Cj4gwqDCoCA5NDXCoCAKPiDCoMKgIDk0NsKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgaWYgKGZpcnN0KSB7Cj4gwqDCoCA5NDfCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXMgPQo+IHR0bV9yZXNvdXJjZV9tYW5h
-Z2VyX2ZpcnN0KCZjdXJzLT5yZXNfY3Vycyk7Cj4gwqDCoCA5NDjCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmaXJzdCA9IGZhbHNlOwo+IMKgwqAgOTQ5
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9IGVsc2Ugewo+IMKgwqAgOTUwwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmVzID0KPiB0
-dG1fcmVzb3VyY2VfbWFuYWdlcl9uZXh0KCZjdXJzLT5yZXNfY3Vycyk7Cj4gwqDCoCA5NTHCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPiDCoMKgIDk1MsKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCFyZXMpCj4gwqDCoCA5NTPCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBicmVhazsKPiAKPiBUaGlzIGlzIHRo
-ZSBvbmx5IGJyZWFrIHN0YXRlbWVudAo+IAo+IMKgwqAgOTU0wqAgCj4gwqDCoCA5NTXCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJvID0gcmVzLT5ibzsKPiDCoMKgIDk1NsKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHR0bV9scnVfd2Fsa190cnlsb2NrKGN1
-cnMsIGJvKSkKPiDCoMKgIDk1N8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIGJvX2xvY2tlZCA9IHRydWU7Cj4gwqDCoCA5NTjCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGVsc2UgaWYgKCFhcmctPnRpY2tldCB8fCBhcmctPmN0eC0KPiA+
-bm9fd2FpdF9ncHUgfHwgYXJnLT50cnlsb2NrX29ubHkpCj4gwqDCoCA5NTnCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb250aW51ZTsKPiDCoMKgIDk2
-MMKgIAo+IMKgwqAgOTYxwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoIXR0
-bV9ib19nZXRfdW5sZXNzX3plcm8oYm8pKSB7Cj4gwqDCoCA5NjLCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoY3Vycy0+bmVlZHNfdW5sb2NrKQo+
-IMKgwqAgOTYzwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGRtYV9yZXN2X3VubG9jayhiby0KPiA+YmFzZS5yZXN2KTsKPiDC
-oMKgIDk2NMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGNvbnRpbnVlOwo+IMKgwqAgOTY1wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9
-Cj4gwqDCoCA5NjbCoCAKPiDCoMKgIDk2N8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgbWVtX3R5cGUgPSByZXMtPm1lbV90eXBlOwo+IMKgwqAgOTY4wqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBzcGluX3VubG9jayhscnVfbG9jayk7Cj4gwqDCoCA5NjnCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICghYm9fbG9ja2VkKQo+IMKgwqAgOTcwwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0ID0gdHRt
-X2xydV93YWxrX3RpY2tldGxvY2soY3VycywKPiBibyk7Cj4gwqDCoCA5NzHCoCAKPiDCoMKgIDk3
-MsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyoKPiDCoMKgIDk3M8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIE5vdGUgdGhhdCBpbiBiZXR3ZWVuIHRoZSBy
-ZWxlYXNlIG9mIHRoZQo+IGxydSBsb2NrIGFuZCB0aGUKPiDCoMKgIDk3NMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIHRpY2tldGxvY2ssIHRoZSBibyBtYXkgaGF2ZSBzd2l0
-Y2hlZAo+IHJlc291cmNlLAo+IMKgwqAgOTc1wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgICogYW5kIGFsc28gbWVtb3J5IHR5cGUsIHNpbmNlIHRoZSByZXNvdXJjZQo+IG1heSBo
-YXZlIGJlZW4KPiDCoMKgIDk3NsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAq
-IGZyZWVkIGFuZCBhbGxvY2F0ZWQgYWdhaW4gd2l0aCBhIGRpZmZlcmVudAo+IG1lbW9yeSB0eXBl
-Lgo+IMKgwqAgOTc3wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICogSW4gdGhh
-dCBjYXNlLCBqdXN0IHNraXAgaXQuCj4gwqDCoCA5NzjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgKi8KPiDCoMKgIDk3OcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgY3Vycy0+Ym8gPSBibzsKPiDCoMKgIDk4MMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgaWYgKCFyZXQgJiYgYm8tPnJlc291cmNlICYmIGJvLT5yZXNvdXJjZS0KPiA+bWVtX3R5
-cGUgPT0gbWVtX3R5cGUpCj4gwqDCoCA5ODHCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gYm87Cj4gwqDCoCA5ODLCoCAKPiDCoMKgIDk4M8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdHRtX2JvX2xydV9jdXJzb3JfY2xlYW51
-cF9ibyhjdXJzKTsKPiDCoMKgIDk4NMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-aWYgKHJldCAmJiByZXQgIT0gLUVBTFJFQURZKQo+IMKgwqAgOTg1wqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIEVSUl9QVFIocmV0KTsKPiDC
-oMKgIDk4NsKgIAo+IMKgwqAgOTg3wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBz
-cGluX2xvY2sobHJ1X2xvY2spOwo+IMKgwqAgOTg4wqDCoMKgwqDCoMKgwqDCoMKgIH0KPiDCoMKg
-IDk4OcKgIAo+IMKgwqAgOTkwwqDCoMKgwqDCoMKgwqDCoMKgIHNwaW5fdW5sb2NrKGxydV9sb2Nr
-KTsKPiDCoMKgIDk5McKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcmVzID8gYm8gOiBOVUxMOwo+
-IAo+IFNvIHdlIGtub3cgcmVzIGlzIE5VTEwgYW5kIHdlIGNvdWxkIGp1c3QgY2hhbmdlIHRoaXMg
-dG8gInJldHVybgo+IE5VTEw7IgoKUmlnaHQuClRoYW5rcyBmb3IgdGhlIHJlcG9ydC4gV2lsbCBw
-dXQgdG9nZXRoZXIgYSBwYXRjaC4KClRoYW5rcywKVGhvbWFzCgoKPiAKPiDCoMKgIDk5MsKgIH0K
-PiAKPiByZWdhcmRzLAo+IGRhbiBjYXJwZW50ZXIKCg==
+
+On Sat, 19 Jul 2025 12:14:45 +0300, Dmitry Baryshkov wrote:
+> 
+> On Qualcomm SA8775P and X1E80100 the DP controller might be driving
+> either a DisplayPort or a eDP sink (depending on the PHY that is tied to
+> the controller). Reflect that in the schema.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+> 
+> Jessica, your X1E8 patch also triggers warnings for several X1E8-based
+> laptops. Please include this patch into the series (either separately
+> or, better, by squashing into your first patch).
+> 
+> ---
+>  .../bindings/display/msm/dp-controller.yaml   | 26 ++++++++++++++-----
+>  1 file changed, 20 insertions(+), 6 deletions(-)
+> 
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
