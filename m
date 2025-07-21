@@ -2,150 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB4FB0CB1C
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 21:42:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8F3B0CB83
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 22:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3575210E3AC;
-	Mon, 21 Jul 2025 19:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF66E10E117;
+	Mon, 21 Jul 2025 20:16:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fCnv+kVB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="00x96o/B";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fCnv+kVB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="00x96o/B";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WzunUEsq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F7210E3AC
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 19:42:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 87D022118F;
- Mon, 21 Jul 2025 19:42:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1753126967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2IWprOXfvc6EbCygrPqSL0CUWIJ2ps0kwcPH/0eYJTc=;
- b=fCnv+kVBU7Lfomb+uOH+aKD8kZfgjgfbdrpYgXuown1mcht6eBibr58EaihXBowcBRiGmo
- r5ecx9XJIWww+ujXi3GxkIBOSMC++gbo2axhWph3j65Clj19nPmsekYNRdzQVXTBwiv9PM
- KgAJ6QzTmg7DMq/1G9BITGbrkTGYGaU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1753126967;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2IWprOXfvc6EbCygrPqSL0CUWIJ2ps0kwcPH/0eYJTc=;
- b=00x96o/BJT8X0gXMZQsYqn68EISCJbDlwVKkHQHtc04sixLrTRleFFqZeT1gCavj1wCwOW
- lZixJ5a5/qwDOMBA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fCnv+kVB;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="00x96o/B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1753126967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2IWprOXfvc6EbCygrPqSL0CUWIJ2ps0kwcPH/0eYJTc=;
- b=fCnv+kVBU7Lfomb+uOH+aKD8kZfgjgfbdrpYgXuown1mcht6eBibr58EaihXBowcBRiGmo
- r5ecx9XJIWww+ujXi3GxkIBOSMC++gbo2axhWph3j65Clj19nPmsekYNRdzQVXTBwiv9PM
- KgAJ6QzTmg7DMq/1G9BITGbrkTGYGaU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1753126967;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2IWprOXfvc6EbCygrPqSL0CUWIJ2ps0kwcPH/0eYJTc=;
- b=00x96o/BJT8X0gXMZQsYqn68EISCJbDlwVKkHQHtc04sixLrTRleFFqZeT1gCavj1wCwOW
- lZixJ5a5/qwDOMBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 269C3136A8;
- Mon, 21 Jul 2025 19:42:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id YAFYBjaYfmgSQgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 21 Jul 2025 19:42:46 +0000
-Message-ID: <90d816ba-aaf3-4b7b-9c52-72613be5b85a@suse.de>
-Date: Mon, 21 Jul 2025 21:42:41 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BA7010E117
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 20:16:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 384255C62FC;
+ Mon, 21 Jul 2025 20:16:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC8A7C4CEED;
+ Mon, 21 Jul 2025 20:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753128972;
+ bh=fTSn/Sv4qArtz++sMbcoZ8ek+PmQQYja+lqgn+b/W4w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WzunUEsqwxpuwQgEca4OI+FIlVz5ORZ2sBMXjovqNc0/b19F1pVZ2cgX3kE7XURrZ
+ 5AP+C4XZSST0Xim/UkxZ+3IaaYiCyvnapDw+BembHZF7uJEC0tXlPdIPR7DDuK4qeW
+ eWSQk06E+OjEWEVrb2CI88Ibo4I5HXozwiiPU51rTEik+TKb34xgGHLcI1zVsxsI1y
+ SEShEW1+BVMHxpu3crNvuSSDLIlKM2BnZNisff7UTRg3tKlh9XnHwJkXFKJOGZ86bA
+ yec+bO3HQ0+S7sKAxdk8+m6P9X8mQwIQvmEtqV6ZmXLk2ME9vosumlNDzjFwNb77IK
+ XcpKFw5DLUGOA==
+Date: Mon, 21 Jul 2025 15:16:12 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Simona Vetter <simona@ffwll.ch>, devicetree@vger.kernel.org,
+ David Airlie <airlied@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: Re: [PATCH v2 2/6] dt-bindings: display: sitronix,st7571: add
+ optional inverted property
+Message-ID: <175312897159.1251067.10084528761404344067.robh@kernel.org>
+References: <20250721-st7571-format-v2-0-159f4134098c@gmail.com>
+ <20250721-st7571-format-v2-2-159f4134098c@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/15] platform/x86: dell-uart-backlight: Use
- blacklight power constant
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
- neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, deller@gmx.de,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net,
- Hans de Goede <hdegoede@redhat.com>, sven@kernel.org, alyssa@rosenzweig.io,
- neal@gompa.dev, support.opensource@diasemi.com, duje.mihanovic@skole.hr,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, Hans de Goede <hansg@kernel.org>
-References: <20250715122643.137027-1-tzimmermann@suse.de>
- <20250715122643.137027-2-tzimmermann@suse.de>
- <c380d3a4-2a99-cf52-0952-ee916b6c9676@linux.intel.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <c380d3a4-2a99-cf52-0952-ee916b6c9676@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 87D022118F
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCPT_COUNT_TWELVE(0.00)[25]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,gmx.de,linux.intel.com,ffwll.ch,jannau.net,redhat.com,rosenzweig.io,gompa.dev,diasemi.com,skole.hr,lists.freedesktop.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- TAGGED_RCPT(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid, suse.de:email]
-X-Spam-Score: -3.01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250721-st7571-format-v2-2-159f4134098c@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,52 +64,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 21.07.25 um 13:43 schrieb Ilpo Järvinen:
-> On Tue, 15 Jul 2025, Thomas Zimmermann wrote:
->
->> The backlight subsystem has gotten its own power constants. Replace
->> FB_BLANK_UNBLANK with BACKLIGHT_POWER_ON.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Reviewed-by: Hans de Goede <hansg@kernel.org>
->> Acked-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
->> ---
->>   drivers/platform/x86/dell/dell-uart-backlight.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/platform/x86/dell/dell-uart-backlight.c b/drivers/platform/x86/dell/dell-uart-backlight.c
->> index 8f868f845350..f323a667dc2d 100644
->> --- a/drivers/platform/x86/dell/dell-uart-backlight.c
->> +++ b/drivers/platform/x86/dell/dell-uart-backlight.c
->> @@ -305,7 +305,7 @@ static int dell_uart_bl_serdev_probe(struct serdev_device *serdev)
->>   	dev_dbg(dev, "Firmware version: %.*s\n", resp[RESP_LEN] - 3, resp + RESP_DATA);
->>   
->>   	/* Initialize bl_power to a known value */
->> -	ret = dell_uart_set_bl_power(dell_bl, FB_BLANK_UNBLANK);
->> +	ret = dell_uart_set_bl_power(dell_bl, BACKLIGHT_POWER_ON);
->>   	if (ret)
->>   		return ret;
-> Hi Thomas,
->
-> Do you expect this entire series to go in this cycle through some other
-> tree than pdx86? If not, I'll take this through pdx86 tree in this cycle.
+On Mon, 21 Jul 2025 12:43:32 +0200, Marcus Folkesson wrote:
+> Depending on which display that is connected to the controller, an "1"
+> means either a black or a white pixel.
+> 
+> The supported formats (R1/R2/XRGB8888) expects the pixels
+> to map against (4bit):
+> 00 => Black
+> 01 => Dark Gray
+> 10 => Light Gray
+> 11 => White
+> 
+> If this is not what the display map against, the controller has support
+> to invert these values.
+> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/display/sitronix,st7571.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
-I don't know when the series will get merged, but it might still take a 
-bit. Please take this patch through your tree. Good to have it off the list.
-
-Best regards
-Thomas
-
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
