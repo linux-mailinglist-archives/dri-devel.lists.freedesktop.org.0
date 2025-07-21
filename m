@@ -2,72 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B4AB0C700
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB4CB0C715
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:59:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1328E10E564;
-	Mon, 21 Jul 2025 14:55:24 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="B1y6ZZpb";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CACDF10E08D;
+	Mon, 21 Jul 2025 14:59:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
- [209.85.128.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E91F810E3A2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:55:22 +0000 (UTC)
-Received: by mail-wm1-f74.google.com with SMTP id
- 5b1f17b1804b1-4561c67daebso16383205e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1753109721; x=1753714521;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=nIkm8zbvd3d5B5IB10UU8koluangNArwbTcD9iZkkEg=;
- b=B1y6ZZpbvmCA69lZNwjYzpvpyqFrHZ+tvEIXTnvKTrpydAFNaM94fiNv3bIXYo6Myb
- 9TutuJ8CmrGeYUDDUTxnsNI0tNYDWoJNFtPUGDUAwyjtcD27Wbm8ygl1zm/tW/B7wdR5
- rwp9Ijkq72w4ifNfuTm/RwP8/8rpAFrSRW+rCKDUdvGqUhKqC9FAj+QH7U0uiPLuOXqE
- WFZYoYBrRFiA+kLr6WA24iqJ5K/O5b+TFCfj+BLC2d3XnRwUETan+zfbTtB0DOpyip8E
- ne4l8NuZuxjMOK6yOflPJzWr4gVUaMpMXlvTryqtUXWb4bcDjeMyhhm0kRWsEgVUJaS/
- lWFA==
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA65E10E55C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:59:27 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-553ba7f11cbso4467505e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:59:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753109721; x=1753714521;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nIkm8zbvd3d5B5IB10UU8koluangNArwbTcD9iZkkEg=;
- b=USN/aMkufc1Yct7Pl9phK4gor96g1rccIFpEHLEC9yUO4XVvQESP4Qdkcnru19fR6S
- 0un3gqJgtbGYQPj1wef/WO2Y4uejGb54WQwugi54AMdt5lp55aVNIdqjiE4yhDCytwqO
- Io6ZzON5a5SiZApG8lZw0tQvnBk0t1yFajL4n5Bv1QkMAzlwh4pFeg8obiv+8sN1Tx1u
- 2FQ4qFwc/NyJ+cB/1a2jt/oyqQlH6RWfuZEwYX09gWZzSonrU5KkotOg9+NLpkobUg2t
- fQs4dt9cL0Xv2m082BPmFRUq5iPIo2n2pAJ4a6rCJEkTbJXTw+fYlC8a95Y/uQzH9pXB
- 0B3Q==
+ d=1e100.net; s=20230601; t=1753109963; x=1753714763;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0rmsuabFxgO5HQbcS/AHuTJwDw0eGQTKollo0RZOzC8=;
+ b=YsJ9cckJIi58TiCnKWE7601uAswn0fQu+x8ph56/xlrj+IIM59U6JDppYx47I/43cq
+ 55/x0fWULz4aaIcuM9iL/a5s1+8ewIhtotH1oNBEedv7P8NbreXLyrHgUaXxCsODtS7q
+ juFt1bG/xuVba4LvJKq5USidgentPdEwWJUHs0QrgfxAc2ygFGYYMPpLz2lqgZwzGDiN
+ gZu4Yhrw83wz4smeiMo/C9It11LBdh08Z1n+jSqQO/idPZIvSe9E6QB4Xs0CF260Olb5
+ dM/aMCjFnxOivl8/rohZOlT4COpVkZYtkL2NM6LndUJRKcwjCyljndcbrAvNpAoKCvIK
+ dC7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV4UD7Qvp2SCMPpMonr0pCjA2qyhaNabAb4FYDSA/fLAy6ke51JSbmNClly7FT6OeVGx8SzfscuIqo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YydJWepkIzVwf+I0/Z1qVXr0X8GlsZJ2Mrb155VOuNxDevos0nQ
- 9e9XRNHE3fz2pDVh0D1t5nHGmeEV/AS3rr8JCeWCep3RzlOm2j97VLhh0LSW4/U8C0RMYRz80Z6
- Zbkx0HPNrTTQ3SFMQkA==
-X-Google-Smtp-Source: AGHT+IEfUvqsUXX7mjN3ADzeqqjN+nnoq4umTFLEEX0oJHAoh0DUDSSefRyYrhyKMQYxAIrsPeFXqc82yi2VXIs=
-X-Received: from wmcq26.prod.google.com ([2002:a05:600c:c11a:b0:456:293d:55c5])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:c285:b0:456:1122:8342 with SMTP id
- 5b1f17b1804b1-4563a51150emr80477435e9.5.1753109721212; 
- Mon, 21 Jul 2025 07:55:21 -0700 (PDT)
-Date: Mon, 21 Jul 2025 14:55:20 +0000
-In-Reply-To: <20250626162313.2755584-1-beata.michalska@arm.com>
-Mime-Version: 1.0
-References: <20250626162313.2755584-1-beata.michalska@arm.com>
-Message-ID: <aH5U2Jm6Jpf5LyB9@google.com>
-Subject: Re: [PATCH v5] rust: drm: Drop the use of Opaque for ioctl arguments
-From: Alice Ryhl <aliceryhl@google.com>
-To: Beata Michalska <beata.michalska@arm.com>,
- Danilo Krummrich <dakr@kernel.org>
-Cc: ojeda@kernel.org, alex.gaynor@gmail.com, daniel.almeida@collabora.com, 
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
- lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu, 
- alyssa@rosenzweig.io, lyude@redhat.com, rust-for-linux@vger.kernel.org, 
+ AJvYcCXJqwJv9Gu57/RGejo3qZHQCdrrMw0l7BA9XPO83OduQVJM0fnQ7kEHgvW5IGrSN91qCTUMJIf1HeU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz28HJtaK9TcsS5NVDe7UjWDT8c2VFZUQxMcRMk7pEK1BQUZOQq
+ qDphBGv9YcQS/Yn06GUb138TgGk1RrI3f1oll4iBiLmc4PKOngsixU4g6J/wZbwR
+X-Gm-Gg: ASbGncvVtVuh9oF9lZtnRTp73/FA0zQM3zEGdqbwB9cNgj/fe1KWfBx8WCx72JscaJo
+ zrEAzlafFjHRmcOvAvBZ7m3qtemujvn6T4nuwWFIjpEc2DFJ2bagUOgTQX28NVOOzj2WRpNXgKn
+ VvcWrTaSEtfyF5PxQ4Yu6rv4SL3tcMjGd/knIDjVwQDe6K8C2eyufxBz1XDJSoG4V9j0eb0/Bli
+ mL0a7XpQzoVSqGdxnUQZMhaP+zR7gP3NuAlUerpcZfCPdhsaxoQ2DWABOQEHqh6A7YEKW4zXBqd
+ 3ALiUlY9uL3uZ4p1Q8Lj5dGVWrjjtHgsiLJJt7Wjj+CNDV3IXCmxuiLlXHVe/G8OxuLhDgYDdRi
+ LDhQnX+PK6gJX3Js7/yuXvp+7GZ2STkDM5QdQf/4M6yoegFyGN67o/50=
+X-Google-Smtp-Source: AGHT+IG+Ogu3s1EECv0ifj5QOZkk0WG6AXYV34YA2pch/mVdvynX79cJ/liL1HSwPSyA7gATTbCdig==
+X-Received: by 2002:a05:6512:34ca:b0:55a:3205:b3bd with SMTP id
+ 2adb3069b0e04-55a3214fb0dmr2894562e87.24.1753109962742; 
+ Mon, 21 Jul 2025 07:59:22 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
+ [209.85.208.182]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55a31a9b939sm1597740e87.12.2025.07.21.07.59.21
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Jul 2025 07:59:22 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-32ce1b2188dso37395031fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:59:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVtRm2exwLvNPmILgdKRA2CprpVPC2Wk8BswbQsyPjWbAlL4WXFZmcil1Vo0A5KLhsXMuozbqkiu4k=@lists.freedesktop.org
+X-Received: by 2002:a05:651c:b10:b0:32f:3671:4d6d with SMTP id
+ 38308e7fff4ca-3309a469ac4mr36664631fa.1.1753109960994; Mon, 21 Jul 2025
+ 07:59:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250720085047.5340-1-ryan@testtoast.com>
+ <20250720085047.5340-2-ryan@testtoast.com>
+In-Reply-To: <20250720085047.5340-2-ryan@testtoast.com>
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 21 Jul 2025 22:59:08 +0800
+X-Gmail-Original-Message-ID: <CAGb2v6641hLu85FJieWGH5YJsRmxCD1U-tXgStMZtCN1u0sFBQ@mail.gmail.com>
+X-Gm-Features: Ac12FXy8xxyVpMZUJXrjnYkRucYHTAN65deHIYaoxabOBlfZwoY8o6UDGEBDiMM
+Message-ID: <CAGb2v6641hLu85FJieWGH5YJsRmxCD1U-tXgStMZtCN1u0sFBQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/12] dt-bindings: allwinner: Add TCON_TOP_LCD clock
+ defines
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, 
+ Chris Morgan <macroalpha82@gmail.com>, Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Philippe Simons <simons.philippe@gmail.com>, linux-sunxi@lists.linux.dev, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,24 +90,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 26, 2025 at 06:23:13PM +0200, Beata Michalska wrote:
-> With the Opaque<T>, the expectations are that Rust should not
-> make any assumptions on the layout or invariants of the wrapped
-> C types. That runs rather counter to ioctl arguments, which must
-> adhere to certain data-layout constraints. By using Opaque<T>,
-> ioctl handlers are forced to use unsafe code where none is actually
-> needed. This adds needless complexity and maintenance overhead,
-> brining no safety benefits.
-> Drop the use of Opaque for ioctl arguments as that is not the best
-> fit here.
-> 
-> Signed-off-by: Beata Michalska <beata.michalska@arm.com>
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
+Hi.
 
-I'm guessing this should go through the DRM tree?
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+On Sun, Jul 20, 2025 at 4:51=E2=80=AFPM Ryan Walklin <ryan@testtoast.com> w=
+rote:
+>
+> The Allwinner H700 exposes RGB and LVDS pins as well as a HDMI
+> connector. This requires additional clocks for the TCON_TOP as per the
+> T507 datasheet (which shares the same die).
+>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
+>  include/dt-bindings/clock/sun8i-tcon-top.h | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/include/dt-bindings/clock/sun8i-tcon-top.h b/include/dt-bind=
+ings/clock/sun8i-tcon-top.h
+> index 25164d767835..2a12d047d2e1 100644
+> --- a/include/dt-bindings/clock/sun8i-tcon-top.h
+> +++ b/include/dt-bindings/clock/sun8i-tcon-top.h
+> @@ -7,5 +7,7 @@
+>  #define CLK_TCON_TOP_TV0       0
+>  #define CLK_TCON_TOP_TV1       1
+>  #define CLK_TCON_TOP_DSI       2
+> +#define CLK_TCON_TOP_LCD0      3
+> +#define CLK_TCON_TOP_LCD1      4
+
+I'm confused as I don't see these new ones used anywhere in the series.
+
+ChenYu
