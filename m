@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1775BB0C9D3
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 19:39:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C309B0C9D9
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 19:39:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A269A10E29C;
-	Mon, 21 Jul 2025 17:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C037A10E581;
+	Mon, 21 Jul 2025 17:39:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SD9ogbyT";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CRtEapz+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 106BC10E29A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC40810E2A6
  for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 17:39:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1753119555;
- bh=dHhguMwz0kEDLX+532xIurAbZ7MjjLHU4FQ7aKYTGBo=;
- h=From:Subject:Date:To:Cc:From;
- b=SD9ogbyTVBuGVxmj0D3pEiOix6OM6CMMYuZ/DKqtbCcf3DhtdB9HXtHn8m6I25c/p
- Df82h1emHCCkr6EunA5QOYhreHIblt0mnh8fArDFSWQxA709qUnBDlKVsFOQUmqZ+O
- qKvrGYNsjhJuU5hVy+ZCq2AHeDGAowVUn+PUbnZuGjldv3j8S6zsj/dcq5jyEaUw+z
- 9qjjYqOMnW+UqRQ6oocPj8h90voAlH+EAo5GLqLJNxrLj7jA7GpepZFs1n52k/lFQD
- E9mGBSLjFLeacocCx07lculEWcHuUTrJ6N6UdJ732J8pviEO/ZwG94j5L8+/DdijYT
- iM/2tBI0b1zRg==
+ s=mail; t=1753119556;
+ bh=FL2EBBa+wSm77LeCRuxbxYL7cW7Y0BEpaYSJV7FVF5A=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=CRtEapz+FWAhM5zcEGnvhUmfHhzRnTaKs8ZI48vJaeYGrWyo4Dg9shRY/fW6oGs1w
+ Y+rhdoZG/7ZpqPOzRDNnHGU+6FS1ifZUq/MSTrFIQ1hqcHrHheje9cSSDLXxO2GwGi
+ pkFE6Zlh3uI+xcLhz1qsg4SBEo37GcUIFDh4ZdE9/bvaAmQojVKejrb6XPqvbqxnA3
+ Ufkd06epzR0rq4/xxfDGFaELibMIby99JPKovs2b9RSRJsbJsYijGqLiIZAo6WYSlb
+ slrauUWrPL6p52umvpAnvfI2qlNXlpmY05i9IaIEOjnQXceKSFQGW+T3JM1DvZfTpa
+ x8unM6QfhX8vA==
 Received: from localhost (unknown [82.79.138.60])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 799DF17E0FA8;
- Mon, 21 Jul 2025 19:39:15 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 4460F17E0FC2;
+ Mon, 21 Jul 2025 19:39:16 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: [PATCH 0/5] High color depth support for RK3576/RK3588 HDMI output
-Date: Mon, 21 Jul 2025 20:39:03 +0300
-Message-Id: <20250721-rk3588-10bpc-v1-0-e95a4abcf482@collabora.com>
+Date: Mon, 21 Jul 2025 20:39:04 +0300
+Subject: [PATCH 1/5] drm/rockchip: vop2: Add high color depth support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADh7fmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDcyND3aJsY1MLC11Dg6SCZF0L07Q0k2QjI4tUM2MloJaCotS0zAqwcdG
- xtbUAwIc+hl4AAAA=
-X-Change-ID: 20250721-rk3588-10bpc-85ff4c228e63
+Message-Id: <20250721-rk3588-10bpc-v1-1-e95a4abcf482@collabora.com>
+References: <20250721-rk3588-10bpc-v1-0-e95a4abcf482@collabora.com>
+In-Reply-To: <20250721-rk3588-10bpc-v1-0-e95a4abcf482@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
  =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
  Andy Yan <andy.yan@rock-chips.com>, 
@@ -73,26 +71,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since both Rockchip RK3576 and RK3588 SoCs are capable of handling 10
-bpc color depth HDMI output and we've already landed the required HDPTX
-PHY driver changes to support the setup, let's add the missing bits and
-pieces to VOP2, DW HDMI QP encoder and bridge library.
+Take the bits per color channel into consideration when computing DCLK
+rate.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
-Cristian Ciocaltea (5):
-      drm/rockchip: vop2: Add high color depth support
-      drm/bridge: dw-hdmi-qp: Handle platform supported formats and color depth
-      drm/rockchip: dw_hdmi_qp: Switch to phy_configure()
-      drm/rockchip: dw_hdmi_qp: Use bit macros for RK3576 regs
-      drm/rockchip: dw_hdmi_qp: Add high color depth support
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   |  11 ++-
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 113 ++++++++++++++++++-------
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c   |   3 +
- include/drm/bridge/dw_hdmi_qp.h                |   4 +
- 4 files changed, 97 insertions(+), 34 deletions(-)
----
-base-commit: 97987520025658f30bb787a99ffbd9bbff9ffc9d
-change-id: 20250721-rk3588-10bpc-85ff4c228e63
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 186f6452a7d359f079662bc580850929632ea8fe..a714bcbb02de16267e7febbaeb1eb270c70aaef2 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1731,6 +1731,9 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+ 		clock *= 2;
+ 	}
+ 
++	if (vcstate->output_bpc > 8)
++		clock = DIV_ROUND_CLOSEST(clock * vcstate->output_bpc, 8);
++
+ 	vop2_vp_write(vp, RK3568_VP_MIPI_CTRL, 0);
+ 
+ 	/*
+
+-- 
+2.50.0
 
