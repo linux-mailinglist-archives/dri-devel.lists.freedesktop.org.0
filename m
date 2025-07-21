@@ -2,63 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E18B0CD6D
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 01:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58C45B0CDA1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 01:16:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 228C210E102;
-	Mon, 21 Jul 2025 23:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8AB210E145;
+	Mon, 21 Jul 2025 23:16:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y3/h5a43";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YAfHi6Ln";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E14910E102
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 23:00:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 11EDD456B9;
- Mon, 21 Jul 2025 23:00:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B47ADC4CEED;
- Mon, 21 Jul 2025 23:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753138814;
- bh=SnHb5Ff2Sxs8l3uYD7IYErUPUDBONk0p5oJ0NjX4EOs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=Y3/h5a43DOytbrvY/BlcgPbSMxWUB93+MZtw+hgxr0Imk3Lm4UBoCF5wPCnSH+91C
- Xasgl3FtnWEB0ajbTTPnoxXchSdPm+ZiC5yhv2oFrr3MWTfbU3peH+EbNRQkC6rawc
- +/p3ygrqSZ86w0UJS3eZ0NkdoPPmdpiCenB+WbQWxh5n/SgMtXx8y0e9Za0PIKcc4x
- gOnUwYkBZappo9o59gUPFNzB9zoUK22nmMZAxkvE3ygWgfT8hirYcVGihGaX4sJThI
- HdMhfeLwpibSU83+rDUDmWk0M4Lh6h67rag2NDwbE/1tylJAk9Zl2WEsp5cSKqRUk7
- vf1DiAByuE14w==
-Date: Mon, 21 Jul 2025 18:00:13 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v9 9/9] PCI: Add a new 'boot_display' attribute
-Message-ID: <20250721230013.GA2759370@bhelgaas>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD18910E145
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 23:16:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1753139784;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0RANPUwLK/+IsiZ6Dm52cZEYEBOxN8znQ9xRdG6vVQQ=;
+ b=YAfHi6LneK6RXr+V49CyVENa+PXy8i/hZezwgabSIo9ZgKQ0MrEDwSLpVogeM8E2cTcAUB
+ Mp54ZIxmlUPxp8EvSclVohLMlTw934FGlf2LMxQFjipu+BqEQIh5RgaXw8bY+HGGVtdwJ0
+ eh41QCvdDVoXvu7Qe9cVxRAd73ui0Tk=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-38-8T14QfhnNyC7kJjCypmqTw-1; Mon, 21 Jul 2025 19:16:23 -0400
+X-MC-Unique: 8T14QfhnNyC7kJjCypmqTw-1
+X-Mimecast-MFC-AGG-ID: 8T14QfhnNyC7kJjCypmqTw_1753139782
+Received: by mail-pj1-f70.google.com with SMTP id
+ 98e67ed59e1d1-313f702d37fso5101853a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 16:16:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753139782; x=1753744582;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0RANPUwLK/+IsiZ6Dm52cZEYEBOxN8znQ9xRdG6vVQQ=;
+ b=DUTJUoGFFjTOhzTuNJmumWyvH3sJxFAiHowCtRSX9sKj6TR2XIiKv04D8BOtWLgbti
+ xwEPsDQRj25a/4nVNmDzjZWHjJ4QymsHQSz4NVy71R8EqBn7Sm7FDJvrJYtyzHiI0WgW
+ a0VBd5V2B8BCY5YQqnGs9sFtf4Bc8FOIS6KN8/7GAmbzP5EMJ0XAyuKHQTCo9KrYh8jJ
+ udi1yyzC1xYujCzTjFacR761KN0pNcK48v1GxnaweDHnmJVAaav2+ZUC7VdApklu0S3b
+ tp1Vjp2DlNWystgg6ms2JkGew/VzwjSkwdhp+8CFpXzMhvhDXeY+9E+wQVYgnEqxrm+b
+ nn8Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXD1XIUAX14PVXARLsiZosVI4xsjMUQ+CT11rxz+dY+lSIfH3s5NOmFRNLEUefRUEPzjSHAO4GqKZ8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTixJvfaJ92s8+OsOve/AZwQZkOEviE4qKnc6SFFLscj0pDgP0
+ c45MMlf2QhMlwE1nHWAQgfjrdGXKDdPqWR5sJQkKY+Z095spcRkyiWwzx938qcSDo/VAyHkMbpZ
+ N/qbrtvJHpQCPNFE9l2lo0go/rSLqo/yots0xqsz75YO+sfZg0/V3V/2RiTb9rvWBJPgVAogphK
+ d4m1gwA5kulTsr4VaP+fQ3EozZMHBRkOcjejd6THeSMYy/
+X-Gm-Gg: ASbGncsMPqh6T1YghiNDZ3rLFN72w6uDnXyteWqLK6KqQhdnr3Kz4a0BKJrff22dNcv
+ 5x6R4+zx04XkbOkr3P71UYWK+3ryxZmeWVT04wxtq5s7pDXWs+vesA2nMMAn4AbasmIByAgeXBM
+ +aDUfy3CSkjbtZHZo2mss=
+X-Received: by 2002:a17:90a:f945:b0:31e:4112:4031 with SMTP id
+ 98e67ed59e1d1-31e4112423fmr346196a91.30.1753139782046; 
+ Mon, 21 Jul 2025 16:16:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFVllUE0kmokZ1rSFDEaxeK1PBlFYNYGMDZAa5DZKKR/0uMFkT3Ygqlo2cbqSkCQZHg5Z+MdCRteXwtLMA85Cc=
+X-Received: by 2002:a17:90a:f945:b0:31e:4112:4031 with SMTP id
+ 98e67ed59e1d1-31e4112423fmr346163a91.30.1753139781564; Mon, 21 Jul 2025
+ 16:16:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c7c8b0bf-8602-4030-acbe-ac56678b633c@kernel.org>
+References: <20250714052243.1149732-1-airlied@gmail.com>
+ <20250714052243.1149732-14-airlied@gmail.com>
+ <77949b3a-201d-4e7d-a51f-e77274e4a4be@amd.com>
+ <CAMwc25qP-42wMX4UYhZWiYfvf_1dBVNL9TU9i_Wq7uZPqjQL5Q@mail.gmail.com>
+In-Reply-To: <CAMwc25qP-42wMX4UYhZWiYfvf_1dBVNL9TU9i_Wq7uZPqjQL5Q@mail.gmail.com>
+From: David Airlie <airlied@redhat.com>
+Date: Tue, 22 Jul 2025 09:16:10 +1000
+X-Gm-Features: Ac12FXyYV-2PTuPjVu6efxxbgIVKXXIhFVKn9Tqb1n6SV0qyL72jNnhdrGWhJXc
+Message-ID: <CAMwc25pyqhcq-8ubGZT5UX5AYroewBYP6oFN-JmjzEkHgFLTrg@mail.gmail.com>
+Subject: Re: [PATCH 13/18] ttm/pool: enable memcg tracking and shrinker. (v2)
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, 
+ Johannes Weiner <hannes@cmpxchg.org>, Dave Chinner <david@fromorbit.com>, 
+ Kairui Song <kasong@tencent.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: BAdSU_pzcF11Xp6R_stSZH65UhcolN5iwdkHr_DTO1w_1753139782
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,90 +97,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 18, 2025 at 12:44:11PM -0500, Mario Limonciello wrote:
-> On 7/18/2025 12:36 PM, Bjorn Helgaas wrote:
-> > On Fri, Jul 18, 2025 at 12:29:05PM -0500, Mario Limonciello wrote:
-> > > On 7/18/2025 12:25 PM, Bjorn Helgaas wrote:
-> > > > On Thu, Jul 17, 2025 at 12:38:12PM -0500, Mario Limonciello wrote:
-> > > > > From: Mario Limonciello <mario.limonciello@amd.com>
-> > > > > 
-> > > > > On systems with multiple GPUs there can be uncertainty which GPU is the
-> > > > > primary one used to drive the display at bootup. In some desktop
-> > > > > environments this can lead to increased power consumption because
-> > > > > secondary GPUs may be used for rendering and never go to a low power
-> > > > > state. In order to disambiguate this add a new sysfs attribute
-> > > > > 'boot_display' that uses the output of video_is_primary_device() to
-> > > > > populate whether a PCI device was used for driving the display.
-> > > > 
-> > > > > +What:		/sys/bus/pci/devices/.../boot_display
-> > > > > +Date:		October 2025
-> > > > > +Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
-> > > > > +Description:
-> > > > > +		This file indicates that displays connected to the device were
-> > > > > +		used to display the boot sequence.  If a display connected to
-> > > > > +		the device was used to display the boot sequence the file will
-> > > > > +		be present and contain "1".
-> > > > 
-> > > > >    int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
-> > > > >    {
-> > > > > +	int retval;
-> > > > > +
-> > > > >    	if (!sysfs_initialized)
-> > > > >    		return -EACCES;
-> > > > > +	retval = pci_create_boot_display_file(pdev);
-> > > > 
-> > > > In addition to Mani's question about whether /sys/bus/pci/ is
-> > > > the right place for this (which is a very good question), it's
-> > > > also been pointed out to me that we've been trying to get rid
-> > > > of pci_create_sysfs_dev_files() for years.
-> > > > 
-> > > > If it's possible to make this a static attribute that would be
-> > > > much, much cleaner.
-> > > 
-> > > Right - I tried to do this, but the problem is at the time the
-> > > PCI device is created the information needed to make the
-> > > judgement isn't ready.  The options end up being:
-> > > * a sysfs file for every display device with 0/1
-> > > * a sysfs file that is not accurate until later in the boot
-> > 
-> > What's missing?  The specifics might be helpful if someone has
-> > another crack at getting rid of pci_create_sysfs_dev_files() in
-> > the future.
-> 
-> The underlying SCREEN_INFO code tries to walk through all the PCI
-> devices in a loop, but at the time all the devices are walked the
-> memory regions associated with the device weren't populated.
+> > On 14.07.25 07:18, Dave Airlie wrote:
+> > > From: Dave Airlie <airlied@redhat.com>
+> > >
+> > > This enables all the backend code to use the list lru in memcg mode,
+> > > and set the shrinker to be memcg aware.
+> > >
+> > > It adds the loop case for when pooled pages end up being reparented
+> > > to a higher memcg group, that newer memcg can search for them there
+> > > and take them back.
+> > >
+> > > Signed-off-by: Dave Airlie <airlied@redhat.com>
+> > >
+> > > ---
+> > > v2: just use the proper stats.
+> > > ---
+> > >  drivers/gpu/drm/ttm/ttm_pool.c | 126 ++++++++++++++++++++++++++-------
+> > >  1 file changed, 102 insertions(+), 24 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > index a4f4e27c6a1f..1e6da2cc1f06 100644
+> > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > @@ -142,7 +142,9 @@ static int ttm_pool_nid(struct ttm_pool *pool) {
+> > >  }
+> > >
+> > >  /* Allocate pages of size 1 << order with the given gfp_flags */
+> > > -static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+> > > +static struct page *ttm_pool_alloc_page(struct ttm_pool *pool,
+> > > +                                     struct obj_cgroup *objcg,
+> > > +                                     gfp_t gfp_flags,
+> > >                                       unsigned int order)
+> > >  {
+> > >       unsigned long attr = DMA_ATTR_FORCE_CONTIGUOUS;
+> > > @@ -162,7 +164,10 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+> > >               p = alloc_pages_node(pool->nid, gfp_flags, order);
+> > >               if (p) {
+> > >                       p->private = order;
+> > > -                     mod_node_page_state(NODE_DATA(page_to_nid(p)), NR_GPU_ACTIVE, (1 << order));
+> > > +                     if (!mem_cgroup_charge_gpu_page(objcg, p, order, gfp_flags, false)) {
+> >
+> > Thinking more about it that is way to late. At this point we can't fail the allocation any more.
+> >
+>
+> I've tested it at least works, but there is a bit of a problem with
+> it, because if we fail a 10 order allocation, it tries to fallback
+> down the order hierarchy, when there is no point since it can't
+> account the maximum size.
+>
+> > Otherwise we either completely break suspend or don't account system allocations to the correctly any more after resume.
+>
+> When you say suspend here, do you mean for VRAM allocations, normal
+> system RAM allocations which are accounted here shouldn't have any
+> effect on suspend/resume since they stay where they are. Currently it
+> also doesn't try account for evictions at all.
 
-Which loop are you referring to that walks through all the PCI
-devices?  I see this:
+I've just traced the global swapin/out paths as well and those seem
+fine for memcg at this point, since they are called only after
+populate/unpopulate. Now I haven't addressed the new xe swap paths,
+because I don't have a test path, since amdgpu doesn't support those,
+I was thinking I'd leave it on the list for when amdgpu goes to that
+path, or I can spend some time on xe.
 
-  efifb_set_system
-    for_each_pci_dev(dev)
+Dave.
 
-but that only looks at VGA devices and IIUC you also want to look at
-non-VGA GPUs.
+> >
+> > What we need is to reserve the memory on BO allocation and commit it when the TT backend is populated.
+>
+> I'm not sure what reserve vs commit is here, mem cgroup is really just
+> reserve until you can reserve no more, it's just a single
+> charge/uncharge stage. If we try and charge and we are over the limit,
+> bad things will happen, either fail allocation or reclaim for the
+> cgroup.
+>
+> Regards,
+> Dave.
 
-I don't see a loop in *this* series, where the screen_info path looks
-like this:
-
-  pci_create_boot_display_file
-    video_is_primary_device
-      screen_info_pci_dev      # added by "fbcon: Use screen info to find primary device"
-        screen_info_resources
-        __screen_info_pci_dev
-
-and we're basically matching the screen_info base/address with BAR
-values.
-
-The usual problem is that BARs may not have been assigned by the time
-pci_device_add() -> device_add() creates the static attributes.
-
-So we call pci_assign_unassigned_root_bus_resources() to assign all
-the BARs.  Then we call pci_create_sysfs_dev_files(), where
-pci_create_resource_files() creates a "resource%d" file for each BAR.
-
-But since we're trying to find the GPU that was used by BIOS, I assume
-its BARs were programmed by BIOS and we shouldn't have to wait until
-after pci_assign_unassigned_root_bus_resources().
-
-Bjorn
