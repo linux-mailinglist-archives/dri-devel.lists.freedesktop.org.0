@@ -2,76 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82229B0BC64
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 08:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5528CB0BCC2
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 08:38:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 110CA10E258;
-	Mon, 21 Jul 2025 06:16:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A38010E259;
+	Mon, 21 Jul 2025 06:38:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="q/0zUVYo";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="I0nOAeGz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 372C410E258
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 06:16:36 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-75ce8f8a3a1so288351b3a.3
- for <dri-devel@lists.freedesktop.org>; Sun, 20 Jul 2025 23:16:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1753078596; x=1753683396; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=N0ENQ275HCx0o/sjGDH+fa7srMZMEHCVXuFWv7uWYYc=;
- b=q/0zUVYoi5MdVDDmWvY/y5xsd6pez5+DVcLWrl3fErkEGUXYMLUYJQY0Vqe7JlOCPR
- BemScgs/PfGYOk0UstPXU9I0jHAT85FdwfnpUPu+FOrDXNbDMohD594dezx0wrWYiccD
- DcTMwmUaCusdGGuhEHr5YHI6tfKV3jsk9bzWcWfg+2Vm2w+xOCDFFY86wZkb4UlYRdrP
- GaSw4dPjmPwgjy6W+CcUUTqb5qFxo0OsbLq+SSErr6wbhdx1Z/X+BkT3smvqXujNQQ9o
- gAS0iEWJmMCL4qOYHqqznuNz2vdWFiFFPwnhFsPcaD7OD9FLklFGUXUKye1guISpEZYU
- E/Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753078596; x=1753683396;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=N0ENQ275HCx0o/sjGDH+fa7srMZMEHCVXuFWv7uWYYc=;
- b=edxnULk+JVG0YIrrZ1yYeEHWnPX8zeb6sinua9cVws7WcY4yd3T90p5aYhhSxYY7VN
- /SBwCViEMfJI4X3O8LrrRFrGcVFUpVU6mxFjlfrrK2a/kfasAQqbhoCP7tJpBitj0YKK
- xFCbfzksr6Yit1am1ClBCF8XSvyN54iH3c+jIGqFS0LhXJmc8HzsiX507yBlUy1fFP0d
- t0B3guhfkXWfpTUOD++PKaH9fj22LK6rfBas3jCoGZy4q4GsgdCK385zyHN9NJwwTAdr
- M019SJgP5sbVXPjSHMPlFITaxv/bewIk5yDnZZB9OJj4961RjkIxIkaJexT8lABZHD/C
- sKRw==
-X-Gm-Message-State: AOJu0Yxj7Oo8TW5XJAIWu5j/7FUJTewoUC6M0uMiJy6aXqHy6XyCOjgI
- hquoc7umGcf2rDfN0h1JFo8EU8tlvM6cgtOZFxUEGSpvudM6r8FQ+HXKtfoEAbyvsvU=
-X-Gm-Gg: ASbGncss72bRPmzwXXPZqlttdm2dOoKbbuhOzAH/90ORI7o8ObjaAfki3FLp8/HExL4
- jh84/DVCW7NzcZifdd7azdyZ6OkYkqTVzq1CkZoftOwfQnW/81KmYIb5t+iuMZ+c/8FBF3j5vM4
- NToqTLVuCEbI552kK+9S43L17hCFQGIQbz2XHDD1W9hR4dEX9op5mzm2mfpWLqhH3WUF9cdI4Nd
- mGvz1OfB79krExy+QOImZsfltIqPuX2moi1QH+PE4FOnUD4Zlcz+8pjyXMZf/9mZcEEGD2Kdmse
- LARbeYrdWzdo0sg3/yFkzz4y1o+oOpBV6Le91/r45Oy/gEd8SZejTq8XztMhcgD/tI36tuPDZ3I
- OEalAMUP2yUxACSpQLDHL7jWRRmPTY3cpqVqXG1TSMNLNWgpU3A2Lt7T/4+zmEtY+hsJQ2w==
-X-Google-Smtp-Source: AGHT+IHjZqTtlpY0pL6h5Pp0btNtFSEGfuHRyOoDc2GP654jKlH/a0zZPhaWHOyzP97vMnL9W7trlw==
-X-Received: by 2002:a05:6a00:3e23:b0:748:e150:ac5c with SMTP id
- d2e1a72fcca58-759ae1e7120mr16787301b3a.23.1753078595560; 
- Sun, 20 Jul 2025 23:16:35 -0700 (PDT)
-Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-759c89d0678sm5104153b3a.43.2025.07.20.23.16.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Jul 2025 23:16:35 -0700 (PDT)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: dianders@chromium.org, neil.armstrong@linaro.org,
- jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH] drm/panel-edp: Add disable to 100ms for MNB601LS1-4
-Date: Mon, 21 Jul 2025 14:16:27 +0800
-Message-Id: <20250721061627.3816612-1-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF4D10E48F
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 06:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=NdvLfkkGBjZm0b5b6FIzS2hH6p0WgirRS6OItPXP3Mk=; b=I0nOAeGze5satY0gBGngOmVfvn
+ cF9LmYBQ7qZF+DajmnkYt4iCKkh01jTbY5HhtPMdQlmgJL4h0CovfDJChZEHF2f/Qe+JiBrVhAyWW
+ LU2qQ1jg8qcyuOJdIjaDBxURUW5MI/O0rjeW674lIpYgg7nbDFmnjPfQSBL5bI9qV1jXL1M1TeT5J
+ PoXetBUh4AEmSwtS8IlnyOLLFhenvZ37W6g7ZT3qtvcoHxq5zyFC1RGqD/BM44F3MmnmMTOR1SmjG
+ iLs2wPfTozEABwP9lUdplm009M9sYJD2OF9iFq4ELqAz3US1lk06KOZr8oCAb9T8D6LBNufkry2vc
+ bozSAp+Q==;
+Received: from [159.147.180.92] (helo=[192.168.0.17])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1udkAP-001ar3-32; Mon, 21 Jul 2025 08:38:29 +0200
+Message-ID: <2eb2618a80e78dc62f2ebd8835d76812597c602d.camel@igalia.com>
+Subject: Re: [PATCH 0/6] drm/v3d: General job locking improvements +
+ race-condition fixes
+From: Iago Toral <itoral@igalia.com>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
+ <mwen@igalia.com>, Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+Date: Mon, 21 Jul 2025 08:38:18 +0200
+In-Reply-To: <20250719-v3d-queue-lock-v1-0-bcc61210f1e5@igalia.com>
+References: <20250719-v3d-queue-lock-v1-0-bcc61210f1e5@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,42 +62,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For the MNB601LS1-4 panel, the T9+T10 timing does not meet the
-requirements of the specification, so disable is set to 100ms.
+Thanks Ma=C3=ADra, series is:
 
-Fixes: 9d8e91439fc3 ("drm/panel-edp: Add CSW MNB601LS1-4")
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/panel/panel-edp.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 9a56e208cbdd..09170470b3ef 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1828,6 +1828,13 @@ static const struct panel_delay delay_50_500_e200_d200_po2e335 = {
- 	.powered_on_to_enable = 335,
- };
- 
-+static const struct panel_delay delay_200_500_e50_d100 = {
-+	.hpd_absent = 200,
-+	.unprepare = 500,
-+	.enable = 50,
-+	.disable = 100,
-+};
-+
- #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
- { \
- 	.ident = { \
-@@ -1984,7 +1991,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1100, &delay_200_500_e80_d50, "MNB601LS1-1"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1103, &delay_200_500_e80_d50, "MNB601LS1-3"),
--	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1104, &delay_200_500_e50, "MNB601LS1-4"),
-+	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1104, &delay_200_500_e50_d100, "MNB601LS1-4"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1448, &delay_200_500_e50, "MNE007QS3-7"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1457, &delay_80_500_e80_p2e200, "MNE007QS3-8"),
- 
--- 
-2.34.1
+Iago
+
+El s=C3=A1b, 19-07-2025 a las 10:24 -0300, Ma=C3=ADra Canal escribi=C3=B3:
+> This patch series was initially motivated by a race condition
+> (exposed
+> in PATCH 4/6) where we lacked synchronization for `job->file` access.
+> This led to use-after-free issues when a file descriptor was closed
+> while a job was still running.
+>=20
+> However, beyond fixing this specific race, the series introduces
+> broader improvements to active job management and locking. While
+> PATCH
+> 1/6, 2/6, and 5/6 are primarily code refactors, PATCH 3/6 brings a
+> significant change to the locking scheme. Previously, all queues
+> shared
+> the same spinlock, which caused unnecessary contention during high
+> GPU
+> usage across different queues. PATCH 3/6 allows queues to operate
+> more
+> independently.
+>=20
+> Finally, PATCH 6/6 addresses a similar race condition to PATCH 4/6,
+> but
+> this time, on the per-file descriptor reset counter.
+>=20
+> Best Regards,
+> - Ma=C3=ADra
+>=20
+> ---
+> Ma=C3=ADra Canal (6):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Store a pointer to `struct v3d_fi=
+le_priv` inside each
+> job
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Store the active job inside the q=
+ueue's state
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Replace a global spinlock with a =
+per-queue spinlock
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Address race-condition between pe=
+r-fd GPU stats and fd
+> release
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Synchronous operations can't time=
+out
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm/v3d: Protect per-fd reset counter agai=
+nst fd release
+>=20
+> =C2=A0drivers/gpu/drm/v3d/v3d_drv.c=C2=A0=C2=A0=C2=A0 | 14 ++++++-
+> =C2=A0drivers/gpu/drm/v3d/v3d_drv.h=C2=A0=C2=A0=C2=A0 | 22 ++++-------
+> =C2=A0drivers/gpu/drm/v3d/v3d_fence.c=C2=A0 | 11 +++---
+> =C2=A0drivers/gpu/drm/v3d/v3d_gem.c=C2=A0=C2=A0=C2=A0 | 10 ++---
+> =C2=A0drivers/gpu/drm/v3d/v3d_irq.c=C2=A0=C2=A0=C2=A0 | 68 +++++++++++++-=
+----------------
+> --
+> =C2=A0drivers/gpu/drm/v3d/v3d_sched.c=C2=A0 | 85 +++++++++++++++++++++++-=
+------
+> ----------
+> =C2=A0drivers/gpu/drm/v3d/v3d_submit.c |=C2=A0 2 +-
+> =C2=A07 files changed, 108 insertions(+), 104 deletions(-)
+> ---
+> base-commit: ca2a6abdaee43808034cdb218428d2ed85fd3db8
+> change-id: 20250718-v3d-queue-lock-59babfb548bc
+>=20
+>=20
 
