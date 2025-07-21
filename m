@@ -2,82 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25FAB0CADF
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 21:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB4FB0CB1C
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 21:42:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17DED10E599;
-	Mon, 21 Jul 2025 19:12:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3575210E3AC;
+	Mon, 21 Jul 2025 19:42:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="jCq12FB0";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fCnv+kVB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="00x96o/B";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fCnv+kVB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="00x96o/B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 743B910E5AE
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 19:12:36 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-4ab3802455eso62005731cf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 12:12:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1753125155;
- x=1753729955; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7cmh9zZEdqiV3NmqqAUhDgNdsvYT/9RhKyW5oIISWXc=;
- b=jCq12FB00lRq24VS5CBeeq/nxzg/2WqwgVet99kd+ed+sSK8OuM8Xcj7qtESWvUR9R
- EKtVT+AA1Dk8MGokMHTP5ZqpZwml3iT3GQH+8cImyOMfqln3ks7P2LZcUT33fA0hvvRR
- t0OI4pSmgwE7R0h0I2dbSo2ER5XyG/pLWbP2wToH8902bdVK7lfWYAQjgKlfIg5HqF1a
- wS+2OEeN41BXGzNrgB1Cxnpgt4h6qUJ8TleBkuCFoVxxgGCIgCUxPsH0gS7zypHGFjyL
- HYg6rDF6nfA30r/RChigytmtodtWG/Pg8L15E2pMWXmwkn+nMbS5pks7mvDwqd/cSmE4
- f9Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753125155; x=1753729955;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7cmh9zZEdqiV3NmqqAUhDgNdsvYT/9RhKyW5oIISWXc=;
- b=pp5HaYnQ7qBOA7pFSkqMN6uGWXum1IMPTUaGo+xHCh2dH5+oFLZuJTWABRu3Eo/dNP
- be1liNbYsoiQ9R+mX2byvl6rCMC3jIBsuo+wKktLE+316n1v4/udMtrhVrO3nsWATQiF
- 4vRblhhFxVl6lQDRVKLbPcAP/0gPibxJ9usYTPk4kujtpIgROiTqbUaH8u7gq2GjSJet
- cisbGo1xvMNOC5jCY9JyX4bUGjfrJvuNHb1wAebA0vLNzLl8JFuCwxfdT4WBefvJYqiP
- 0LEyZqTEaA3nxP308toANFbEUsaz57d5i9yBNLTxiFmWX6k9nacK5sCHuZFen+qX2wvk
- 645A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWUvCSDKVhQUPKjPRIWWLFrzoOBKbE1GVO1uA+bTslhZxhl3J+ITDMF2w9FerKSWwVkQnbsM3ITyPs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw6cvrEfv4l38UqmzwP9kraYyuQIgkJlVOOcAdrIzOgdSQE5aum
- pcVHbQUM/FimfdUp0y8RxDcaEqQICA9KAYqrtnmS6gkJw0oppu7hSYGPjEuAetClSRE=
-X-Gm-Gg: ASbGnctgfY6icf3yiAmQnM6Fz2+L2MMZgog083XkinkfOaHvQzFHVTeucq9oaO8Nj8j
- Mrw0sQ2fUWrnTHiXY0JECJY1vm6u0zxGYIaNfg+Z/6t2lcw85k/R4LIm7bNK8631UUXg/Ba9VKh
- jIm9PhmZjqwgVJeC3eaQzIpIc7CQgvyunzPuUAuPPo5RWXCU1ynEhZnbxoTC0IdzDQchcVOrTP7
- ndWCVPS5tc1tI3vTOUkRGcybq+DHSIzFH7eLyo3Dbi3yjkRrDlG/gfkWYtfNEau1uOxJM9nwQD2
- Eq+OXibhxuABx4OE2+0K//XFNtyBDvigj/zXGzLUKnaCJLTyN4wIdMy1hhuetWOgJZjPQ3G/edC
- xTnsz7xcCXs+0m8WZUwgRFAbR26WQvg7kpY8f/fC7+Q==
-X-Google-Smtp-Source: AGHT+IHuY0XrfYtM5VcLzCGvICnogZDiGC/0eP+fqCo0xMya0ZsWEn+IFG+DBAqyRJQwRDge+ZFqow==
-X-Received: by 2002:ac8:5d53:0:b0:4ab:6e44:d236 with SMTP id
- d75a77b69052e-4aba3d96241mr279614691cf.29.1753125155195; 
- Mon, 21 Jul 2025 12:12:35 -0700 (PDT)
-Received: from m-kiwi.verizon.net ([108.27.160.38])
- by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4abb4b24930sm44626211cf.51.2025.07.21.12.12.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jul 2025 12:12:34 -0700 (PDT)
-From: Mel Henning <mhenning@darkrefraction.com>
-To: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, ttabi@nvidia.com,
- bskeggs@nvidia.com, martin.peres@free.fr, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Cc: Mel Henning <mhenning@darkrefraction.com>
-Subject: [PATCH V2 3/3] drm/nouveau: Improve message for missing firmware
-Date: Mon, 21 Jul 2025 15:09:16 -0400
-Message-ID: <20250721191214.19800-4-mhenning@darkrefraction.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250721191214.19800-1-mhenning@darkrefraction.com>
-References: <20250721191214.19800-1-mhenning@darkrefraction.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06F7210E3AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 19:42:49 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 87D022118F;
+ Mon, 21 Jul 2025 19:42:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1753126967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2IWprOXfvc6EbCygrPqSL0CUWIJ2ps0kwcPH/0eYJTc=;
+ b=fCnv+kVBU7Lfomb+uOH+aKD8kZfgjgfbdrpYgXuown1mcht6eBibr58EaihXBowcBRiGmo
+ r5ecx9XJIWww+ujXi3GxkIBOSMC++gbo2axhWph3j65Clj19nPmsekYNRdzQVXTBwiv9PM
+ KgAJ6QzTmg7DMq/1G9BITGbrkTGYGaU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1753126967;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2IWprOXfvc6EbCygrPqSL0CUWIJ2ps0kwcPH/0eYJTc=;
+ b=00x96o/BJT8X0gXMZQsYqn68EISCJbDlwVKkHQHtc04sixLrTRleFFqZeT1gCavj1wCwOW
+ lZixJ5a5/qwDOMBA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fCnv+kVB;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="00x96o/B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1753126967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2IWprOXfvc6EbCygrPqSL0CUWIJ2ps0kwcPH/0eYJTc=;
+ b=fCnv+kVBU7Lfomb+uOH+aKD8kZfgjgfbdrpYgXuown1mcht6eBibr58EaihXBowcBRiGmo
+ r5ecx9XJIWww+ujXi3GxkIBOSMC++gbo2axhWph3j65Clj19nPmsekYNRdzQVXTBwiv9PM
+ KgAJ6QzTmg7DMq/1G9BITGbrkTGYGaU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1753126967;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=2IWprOXfvc6EbCygrPqSL0CUWIJ2ps0kwcPH/0eYJTc=;
+ b=00x96o/BJT8X0gXMZQsYqn68EISCJbDlwVKkHQHtc04sixLrTRleFFqZeT1gCavj1wCwOW
+ lZixJ5a5/qwDOMBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 269C3136A8;
+ Mon, 21 Jul 2025 19:42:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id YAFYBjaYfmgSQgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 21 Jul 2025 19:42:46 +0000
+Message-ID: <90d816ba-aaf3-4b7b-9c52-72613be5b85a@suse.de>
+Date: Mon, 21 Jul 2025 21:42:41 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/15] platform/x86: dell-uart-backlight: Use
+ blacklight power constant
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
+ neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, deller@gmx.de,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net,
+ Hans de Goede <hdegoede@redhat.com>, sven@kernel.org, alyssa@rosenzweig.io,
+ neal@gompa.dev, support.opensource@diasemi.com, duje.mihanovic@skole.hr,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, Hans de Goede <hansg@kernel.org>
+References: <20250715122643.137027-1-tzimmermann@suse.de>
+ <20250715122643.137027-2-tzimmermann@suse.de>
+ <c380d3a4-2a99-cf52-0952-ee916b6c9676@linux.intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <c380d3a4-2a99-cf52-0952-ee916b6c9676@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 87D022118F
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCPT_COUNT_TWELVE(0.00)[25]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,gmx.de,linux.intel.com,ffwll.ch,jannau.net,redhat.com,rosenzweig.io,gompa.dev,diasemi.com,skole.hr,lists.freedesktop.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TAGGED_RCPT(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid, suse.de:email]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,39 +161,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is inteded to address concerns that users might get cryptic error
-messages or a failure to boot if they set nouveau.config=NvGspRm=0 on
-the kernel command line and their gpu requires gsp (Ada or newer).
-With this patch, that configuration results in error messages like this:
+Hi
 
-nouveau 0000:01:00.0: gsp: Failed to load required firmware for device.
-nouveau 0000:01:00.0: gsp ctor failed: -22
-nouveau 0000:01:00.0: probe with driver nouveau failed with error -22
+Am 21.07.25 um 13:43 schrieb Ilpo Järvinen:
+> On Tue, 15 Jul 2025, Thomas Zimmermann wrote:
+>
+>> The backlight subsystem has gotten its own power constants. Replace
+>> FB_BLANK_UNBLANK with BACKLIGHT_POWER_ON.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Reviewed-by: Hans de Goede <hansg@kernel.org>
+>> Acked-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+>> ---
+>>   drivers/platform/x86/dell/dell-uart-backlight.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/platform/x86/dell/dell-uart-backlight.c b/drivers/platform/x86/dell/dell-uart-backlight.c
+>> index 8f868f845350..f323a667dc2d 100644
+>> --- a/drivers/platform/x86/dell/dell-uart-backlight.c
+>> +++ b/drivers/platform/x86/dell/dell-uart-backlight.c
+>> @@ -305,7 +305,7 @@ static int dell_uart_bl_serdev_probe(struct serdev_device *serdev)
+>>   	dev_dbg(dev, "Firmware version: %.*s\n", resp[RESP_LEN] - 3, resp + RESP_DATA);
+>>   
+>>   	/* Initialize bl_power to a known value */
+>> -	ret = dell_uart_set_bl_power(dell_bl, FB_BLANK_UNBLANK);
+>> +	ret = dell_uart_set_bl_power(dell_bl, BACKLIGHT_POWER_ON);
+>>   	if (ret)
+>>   		return ret;
+> Hi Thomas,
+>
+> Do you expect this entire series to go in this cycle through some other
+> tree than pdx86? If not, I'll take this through pdx86 tree in this cycle.
 
-When nouveau fails to load like this, we still fall back to the generic
-framebuffer device, so users will still have limited graphical output.
+I don't know when the series will get merged, but it might still take a 
+bit. Please take this patch through your tree. Good to have it off the list.
 
-Signed-off-by: Mel Henning <mhenning@darkrefraction.com>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Best regards
+Thomas
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c
-index d23243a83a4c..7ccb41761066 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/base.c
-@@ -138,8 +138,10 @@ nvkm_gsp_new_(const struct nvkm_gsp_fwif *fwif, struct nvkm_device *device,
- 	nvkm_subdev_ctor(&nvkm_gsp, device, type, inst, &gsp->subdev);
- 
- 	fwif = nvkm_firmware_load(&gsp->subdev, fwif, "Gsp", gsp);
--	if (IS_ERR(fwif))
-+	if (IS_ERR(fwif)) {
-+		nvkm_error(&gsp->subdev, "Failed to load required firmware for device.");
- 		return PTR_ERR(fwif);
-+	}
- 
- 	gsp->func = fwif->func;
- 
+>
+
 -- 
-2.50.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
