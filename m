@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8E8B0C68D
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52262B0C6A6
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:41:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C90D310E2AA;
-	Mon, 21 Jul 2025 14:38:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B247D10E556;
+	Mon, 21 Jul 2025 14:41:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y4x3Q2iZ";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="Vh4TTQz5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDBC210E2AA;
- Mon, 21 Jul 2025 14:38:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 20959A54C7E;
- Mon, 21 Jul 2025 14:38:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F6F8C4CEED;
- Mon, 21 Jul 2025 14:38:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753108722;
- bh=Rvu0r8kwgBxipAxQiYHn7UFFSL0RRcLSxbSDcMmsCk0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Y4x3Q2iZ7jBgZLWFnMQ7KoznQ+yd8/iBXZmW7dlOp2v2fOhN8IxBa2mQhqQ1D+YEq
- fjSPPj4Hc70435n9pdpKMWfnO4d6DMNFPBiUplWNay19MoO3K4vpbeO+oBeYltrzay
- TDHWDzpLwB5IxfYo57stXFmkV0bfQbo+udRi7Wiov0HblyScULYG7yPu0qdiUigdcW
- MnSkg8iWLCOwqo2sVSkmwmgBl5IwCwbQ1J46C3uGXt/9MxOof/4mgPdFLL2d7mjVH3
- JzigV2dqnJK5/3fykFefCnvac0mg0pz2elB0F+emFCnTEFDNUmdcV24Qgy1zawoi6Q
- JiGAWOREpG5GQ==
-Date: Mon, 21 Jul 2025 09:38:41 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Yongxing Mou <quic_yongmou@quicinc.com>,
- Mahadevan <quic_mahap@quicinc.com>, Simona Vetter <simona@ffwll.ch>,
- Sean Paul <sean@poorly.run>, Abel Vesa <abel.vesa@linaro.org>,
- Dmitry Baryshkov <lumag@kernel.org>, freedreno@lists.freedesktop.org,
- Michael Turquette <mturquette@baylibre.com>,
- cros-qcom-dts-watchers@chromium.org, Danila Tikhonov <danila@jiaxyga.com>,
- David Airlie <airlied@gmail.com>, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- devicetree@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, linux-clk@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH] dt-bindings: display/msm: dp-controller: allow eDP for
- X1E8 and SA8775P
-Message-ID: <175310872113.600678.8339317766064145962.robh@kernel.org>
-References: <20250717-dp_mst_bindings-v3-0-72ce08285703@oss.qualcomm.com>
- <20250719091445.3126775-1-dmitry.baryshkov@oss.qualcomm.com>
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A10D10E556
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:41:46 +0000 (UTC)
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 59DD820CBF;
+ Mon, 21 Jul 2025 16:41:44 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id zGOlqnVLPpDF; Mon, 21 Jul 2025 16:41:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1753108903; bh=8VlZJ7NfFX9P6kbP/UbsBxb9wnj7bBEt5OE6yQCiJZ8=;
+ h=From:Subject:Date:To:Cc;
+ b=Vh4TTQz5jOHQekYk+nMEvka9HIe8n4VeJmBV4wiqUFJDmHqJWeG7PUkVCAs2rvO7J
+ 4BbYkMnk6smpz+NAlB4KksEKwiQJmrXIazwLKf6Wyj6ZzWepb1OL8ck+pHJkTAFAha
+ jg53Fzm86XkIPS7KNvYa0MvE5k2/dbCSRQo1/N+sFNEsBKQOaM5SJvJJPIk2suwu1w
+ mQjYvkk14NIulxFS3w3p9wvUk3HvDSfEc6FDbPYF6S31+I7+Mb1Z5wwEBwDZRK9WgM
+ cvo8EXBpKc0Cr5KYgM6TRKB4N0KDI3s5a3JhsNsNUy7gs56SepNv5GNehAwUtKNxPV
+ nhWct/h7KAXCQ==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v5 0/2] Add driver for Samsung AMS561RA01 panel with
+ S6E8AA5X01 controller
+Date: Mon, 21 Jul 2025 20:08:58 +0530
+Message-Id: <20250721-panel-samsung-s6e8aa5x01-v5-0-1a315aba530b@disroot.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250719091445.3126775-1-dmitry.baryshkov@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAJRfmgC/43NzarCMBCG4VuRrE8kmeandeV9iItpM6kBTyOJF
+ kV670ZdqIji8v1gnjmzTClQZovZmSUaQw5xKKH/Zqzb4NATD640AwFaaKj4Dgfa8oz/+TD0PBu
+ qEfVRSE4IqjGEnhyycr5L5MPxRq/WpTch72M63T6N8rreUSPhMzpKLrgwrmtRWEloli7kFON+H
+ lPPruwITxToLxQUSrnWQltb1KjeqepXqipUg1I1ypPptHin1IOyIL5QqlDWNaBrj5VX+EpN03Q
+ Bwo544qMBAAA=
+X-Change-ID: 20250523-panel-samsung-s6e8aa5x01-ea2496eafeda
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753108898; l=2241;
+ i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
+ bh=8VlZJ7NfFX9P6kbP/UbsBxb9wnj7bBEt5OE6yQCiJZ8=;
+ b=WlPhe8JkFzxzWn6AWCAtFWBMonHKZ6tBCr1HUNvRyQpbsyAW1WAupE8eFZhuW3ZUsPbcWobRc
+ Kju7CoC3PaYDxvyWtXB1TnTrVYNUQo4GB60AceWeTlbPTa+Dgl8dnBF
+X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
+ pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,24 +78,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patch series introduces a driver for Samsung AMS561RA01, which is
+an AMOLED panel using the Samsung S6E8AA5X01 panel controller. This
+panel is found in several (mostly Samsung) phones, it is a ~5.6 inch
+720x1480 panel.
 
-On Sat, 19 Jul 2025 12:14:45 +0300, Dmitry Baryshkov wrote:
-> 
-> On Qualcomm SA8775P and X1E80100 the DP controller might be driving
-> either a DisplayPort or a eDP sink (depending on the PHY that is tied to
-> the controller). Reflect that in the schema.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> 
-> Jessica, your X1E8 patch also triggers warnings for several X1E8-based
-> laptops. Please include this patch into the series (either separately
-> or, better, by squashing into your first patch).
-> 
-> ---
->  .../bindings/display/msm/dp-controller.yaml   | 26 ++++++++++++++-----
->  1 file changed, 20 insertions(+), 6 deletions(-)
-> 
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+---
+Changes in v5:
+- fixed dt_binding_check error for invalid compatible used in example dts
+  (robh's bot)
+- Link to v4: https://lore.kernel.org/r/20250720-panel-samsung-s6e8aa5x01-v4-0-7d9258fa3f4a@disroot.org
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Changes in v4:
+- tweaked commit description of [v3 1/2] to reference the hardware.
+- utilized devm_drm_panel_alloc() and devm_regulator_bulk_get_const()
+  (neil.armstrong)
+- redid patches to mention both panel and controller (dmitry.baryshkov)
+- Link to v3: https://lore.kernel.org/r/20250625-panel-samsung-s6e8aa5x01-v3-0-9a1494fe6c50@disroot.org
+
+Changes in v3:
+- added brightness values for upto 500 nits.
+- removed unused mutex object from panel code.
+- Link to v2: https://lore.kernel.org/r/20250625-panel-samsung-s6e8aa5x01-v2-0-4db72b87a5a4@disroot.org
+
+Changes in v2:
+- fixed various dt_binding_check errors (conor)
+- simplified panel enable sequencing (tzimmermann)
+- did s/s6e8aa5x01_update_brightness/s6e8aa5x01_update_status (tzimmermann)
+- added check for panel enable in s6e8aa5x01_update_status() (tzimmermann)
+- used backlight_get_brightness() in appropriate places (tzimmermann)
+- Link to v1: https://lore.kernel.org/r/20250612-panel-samsung-s6e8aa5x01-v1-0-06dcba071ea6@disroot.org
+
+---
+Kaustabh Chakraborty (2):
+      dt-bindings: display: panel: document Samsung AMS561RA01 panel with S6E8AA5X01 controller
+      drm: panel: add support for Samsung AMS561RA01 panel with S6E8AA5X01 controller
+
+ .../panel/samsung,s6e8aa5x01-ams561ra01.yaml       |  55 ++
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ .../panel/panel-samsung-s6e8aa5x01-ams561ra01.c    | 981 +++++++++++++++++++++
+ 4 files changed, 1048 insertions(+)
+---
+base-commit: 97987520025658f30bb787a99ffbd9bbff9ffc9d
+change-id: 20250523-panel-samsung-s6e8aa5x01-ea2496eafeda
+
+Best regards,
+-- 
+Kaustabh Chakraborty <kauschluss@disroot.org>
 
