@@ -2,72 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21952B0C187
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 12:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A93B0C188
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 12:44:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F92910E4CC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEE3A10E4D1;
 	Mon, 21 Jul 2025 10:44:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Akic2lWs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="axISOskY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
  [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D359210E4D1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 10:44:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B9DB10E4D1
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 10:44:18 +0000 (UTC)
 Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-54b10594812so4041622e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 03:44:16 -0700 (PDT)
+ 2adb3069b0e04-55a25635385so4844102e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 03:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753094655; x=1753699455; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1753094656; x=1753699456; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=VxAdZWe4deFkVw4HveAlQFq3r8kE1/6molhjhEtjNCc=;
- b=Akic2lWsI6YL1j9WtqjZLywfXSz0MVOxPph9Sj6UuPg5R0r5xtY/uQylajMLG06Qes
- BMNeizDIPYqE9WxaxffsG8bhBGDgwMQ4GXIksvt4Sl+9J52aPZfo6JltbgBWwRvIC2kC
- abArbCpDamEq0Zp4BcN0kVZYWnXCtBigzSa6EffY56xKwOfdLVG1J5kjgtlladyxUGdF
- Dc9I71R56wLLjyO5K9naisGJRfByUadJwT278iBt32FL4dJJtL2TYg/Fm8hzwHW6gjBq
- DcQKnkLYv1B2NhKDzGCHpN3OtrpJrmNxMswkQ5dZ0LxV1tBCz2HIrTkwA6/yLXQ4GwwT
- p7sA==
+ :reply-to; bh=g94RElh8n5FdWhINQBgf3TM1P9IZtqRvM+lGnJwdOEI=;
+ b=axISOskY39KHx9IZ/aXYt+NaoIG75oIejbpXGL4w7O5GuO/UNgND+DL7pW7HWtjc8g
+ cRyzfH7qj/mT8vPqPGold5LrtR/9UiL67dHWuC6RvRo3Md5qf6ItIIVvcGcpT9mDvSvP
+ AdfdVmAIenIQEEYJhl5rbgSu6e+e0yAQHLdwZmPWzrJFCoHaP1BGldw1ygo/xYTKWTBt
+ xtncPPknBiIGIIrox7o1RLJuJwhewO+MWvix4eiyznBdEQwNgTzQlF0Vgn3tkuUzd7EW
+ KPmwKP4LJZvYEbdJlsStJsZEEX/7HQ3HuSubGNfiOHJfBrGKiWnXoYaSRd3ff0wM754V
+ sEaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753094655; x=1753699455;
+ d=1e100.net; s=20230601; t=1753094656; x=1753699456;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VxAdZWe4deFkVw4HveAlQFq3r8kE1/6molhjhEtjNCc=;
- b=a+qw8t8cwySSsv3hLfUVbotuT1THnM36P2JgKacpFutiPI98YuWKq+2G2S95zK7Vgj
- rsITx1igBjrZRPaK9o/h6oYsWGNlP9GrcMxb2ZiVBMxaCmj9JJtpkc3hWXjOLE0SLJLx
- qTuQkG+mOPsYcaRjC8m7B/tnMNpaLw+J1/IruFZ+JfEzAnWdNtLHamXPZ9UycKgByVzk
- gPyURCoYWZujvD8aqFc4+cgpERB8T7yv/u+AjRedy9CK8+L8dBKBJrDbCl5xzjVjcbZg
- oYhKdoguF9D261ewDmuFQ65IfuJWnLk6oK35Rq3BwBYJrtZsw8WWs5lia6zilbceiZ0m
- idLw==
-X-Gm-Message-State: AOJu0YzK2vfvXYYGlPE+xcQ58IQSVJvr+wdTczMeMO4XaN3+WR+sIJgf
- 2sWjjH9bpfjpNWgmv0a055iT8fqi5haQzj0/HKXa1Sx/ZzEaxC1pUZWq
-X-Gm-Gg: ASbGncvui5CB64CQ4W2Nm3AaA91+ObwZwG4K/xd21BzQJj5DZ3YmrChm9yZuCLccUTi
- +0UROkuye/9qS45i95Gmr6N/odsyc+37to9QLXuykHFERmpP2OdxCS9uipAdyXRTr9bqScGH8kI
- VMLvkHVdBIz0GgnsXtCOzP5ZSjEj7tjYJnkSkyevkDyfql1II7bgbXNSc/qRAhay2PKMn6SgTpr
- FEu3T5f7L9sgDkM4NKujhyrMzYh2mur9iBlfVLLDbzwBSVR2Ct0/bP5UX5jM/hdaW6USvNrStGY
- zCoNWb4YaJ1ZWLEcTWRtr2bxx0OTig4mwL1AVmmb47NAjhYpE/2EYYfyr3alduSGD8ZT1QxPOO6
- u/mmqxBItn8suChDZPPFiI6wZxz/irBZKfFe6cYIlOFEHYJNvwyvYTlbw2ITQiM1GhwHE/GXNak
- zsdw==
-X-Google-Smtp-Source: AGHT+IGYWaCFL8xA5EyMa434EWfdLSheJ3rDLZChUay5GLugk1edqdQ6zS2UsVz48U3bLv0JPWIcIQ==
-X-Received: by 2002:a05:6512:1387:b0:553:cab0:37f6 with SMTP id
- 2adb3069b0e04-55a23f06ca5mr5166596e87.20.1753094654822; 
- Mon, 21 Jul 2025 03:44:14 -0700 (PDT)
+ bh=g94RElh8n5FdWhINQBgf3TM1P9IZtqRvM+lGnJwdOEI=;
+ b=IIfGbzqjN+gLd+QrRK/Tes/+i9Id7Q+M2IqBUq97EC/lfqzp5z/KUkp8zfnvg/gxJp
+ szjPQRRpgzJuB7SnCEahuyyeOluDnu2SRBaxbxYsnbVGbXAc0MPpEIzoiJYSb4QylLvn
+ 5w9xc0JMkzd8WCmHjIQ0mAiTm42N7DRl/v79MFYgmzC6lq8nY/EzutgHcD4iGVpRiXFe
+ TTS6g1e39yZVoKjE3743QbhM2YRv1/+Xipayr3gLLLUci9vN55V3IxxluX2OPdYzl9P4
+ y0m8NFSLXFQSV7MmB/mbIzc1zwLWd2mxkEAi8i9OFaCZpcPs5kwo/AoavrWh767N+q8/
+ osBw==
+X-Gm-Message-State: AOJu0Ywf8NEG17jhFv/D5SR0X47SbktN+vr86tZ6S9EVtK6pwoe8geKS
+ Xd8gs1mD0unnINGIh2qUuKPXcqH58pR3KKmDFZK0Yuem2CS7HZTIGcpT
+X-Gm-Gg: ASbGnctuPb2SDA0bfeb38Jlm6wNk8kXQv1GTvaIArVLaphmAAZjib86kVybrG9nhewA
+ ku1Gr109FxvUa5WhzvRc6DTO5Elo6WXdUOQshO0RzdxpxDG8WZUsf6Nn7q9h90NyD3/PTEWYukH
+ rl8sp3cbD4pUrtIDoLbd1EpWlj/bdHDkJU8V2J+dxgGonUX55uOQjD9XibCQnm0TRk4wjdzRamO
+ tr0qR5AhtdmdpG6yKMG6/tcf9vMyxQwBcDjSUmbUODnjWy73NOCVnv324L/Ry8SpYrmS3DHNOFi
+ WENugnh/pT7l+XAr+nsvyzre6riKEJB4NFGAK+GHF0VNi7tOpTOPUL4kdODP5URLivuXA5/2dJN
+ fTY1JSRsXeFYWOAiEFeBYATjicYWc00pcfR2b8U1QyYjkbiOWMwsDEfZNg9qElEUChO8=
+X-Google-Smtp-Source: AGHT+IHkGSC0km51BD6ZF4Mf93uahDRHJELprcnQqkqQ/veK9u3GssP0LAfbM5e/0BcP+puuCr3y7g==
+X-Received: by 2002:a05:6512:3d02:b0:553:510d:f470 with SMTP id
+ 2adb3069b0e04-55a23300e4amr6363513e87.4.1753094656252; 
+ Mon, 21 Jul 2025 03:44:16 -0700 (PDT)
 Received: from [192.168.1.198] (83-233-6-197.cust.bredband2.com.
  [83.233.6.197]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55a31db89bbsm1505164e87.237.2025.07.21.03.44.12
+ 2adb3069b0e04-55a31db89bbsm1505164e87.237.2025.07.21.03.44.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jul 2025 03:44:14 -0700 (PDT)
+ Mon, 21 Jul 2025 03:44:15 -0700 (PDT)
 From: Marcus Folkesson <marcus.folkesson@gmail.com>
-Date: Mon, 21 Jul 2025 12:43:33 +0200
-Subject: [PATCH v2 3/6] dt-bindings: display: sitronix,st7567: add optional
- inverted property
+Date: Mon, 21 Jul 2025 12:43:34 +0200
+Subject: [PATCH v2 4/6] drm/st7571-i2c: add support for inverted pixel format
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250721-st7571-format-v2-3-159f4134098c@gmail.com>
+Message-Id: <20250721-st7571-format-v2-4-159f4134098c@gmail.com>
 References: <20250721-st7571-format-v2-0-159f4134098c@gmail.com>
 In-Reply-To: <20250721-st7571-format-v2-0-159f4134098c@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -79,21 +77,21 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1140;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2429;
  i=marcus.folkesson@gmail.com; h=from:subject:message-id;
- bh=pofdZO+wzv4XwsWqba5LTe4zsUx4ThM2T3T7ftsOpsk=;
- b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBofhnjRBHsrqsSV2/fq/jzKaw5WsrLQutrj7Ebn
- 19MT6dUgMyJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaH4Z4wAKCRCIgE5vWV1S
- MkKfEAC+ZSML1KYLh3tZHsiCOqR1W2O3/mHSafftlzqaA14RiJnPYhJvXz5qVVWNAuRq1/v9LSe
- yT6nYzzDECSCpoaGtBEMjk1CiOoyy+6O0Hn9mdi+kO/93E/PDBc5sPgeqbKWxLFgvNRd8eHhw++
- S2rOZZKE4vQ45RH0DIPK+pe4o2ZCRjGmC5SmE0OyGUM63cg6Yk2IN2S3aDuHhQZyrv5cxhNTlmV
- cLqB7st8fondSA/XsvDbB8ocDnGCfmycS0Jtg9TUUjZo0ZhKV/DoSRbxVL76jzsTBfhl172DNM0
- hDBfSVm9O3Ll4D2iyrzvGfnGxYExP/akGr3zw8DTRuRH/54I/IYulAtwFJuUK3wYMqeNeSVXj7W
- JNvp2lRUhvGzceRhJVf4pbtBFrtOIlfH+DRCizq8IMig/99BCjlSMukEUoOGnI1ZJxbQLICsdT1
- ZRgYGxNqokdFj3BunFvdfa1/TAWoXqH/QeexWnCZUQFuUjtsjdCcNL1J7aOtn3qsY/2HDF2IESP
- 5VIAVR443VJwoEXsSjaE9rGhHNGMabpcif546yvD6ipORAsv4KlrrI3TZTLIgfYtpilvrcwMrPO
- 7rgrJIEv6xZO5/0vdFAQ0Ox9xp4k+89m1NCjte3wRPRJ9qWYNtYnT0ivlO6xOVPBB8rgQsMVypW
- PQFH2GN0k2tFiYw==
+ bh=XXw5Ljs40nuD+6Xw/IEzZjAPPPvss4V5WiaBhIEjKmM=;
+ b=owEBbQKS/ZANAwAIAYiATm9ZXVIyAcsmYgBofhnoXeJ5E1rL0wCRLER895ZymN6j36cstqv2u
+ RpuZEaFDjGJAjMEAAEIAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaH4Z6AAKCRCIgE5vWV1S
+ MonCEACA0O2iGW1ogh59ZdknKyjz24l/VRyP5T2CXUH073SIz9mlwGnd2KV5VvDbkID0c0CbRMQ
+ Po+hscDGzVgk+p5ml1yzX1TcG6RF/EIL4pP3HLr4yLhu7KcEGLxgAoUYbp6U4p1ymmOgyXlj673
+ ZZUHs0yVw/E49bfNnrg2tcTFC6frf0IyJN+ADrZVIsyvQDF00smM48V38BxPQFoRLZAGB0jcB3Y
+ oH8kV9LfkbELthvvlYX4MUMvdowjQw4qBu0bNO1Ek8E64u1pruat8kO0HhF8B/8nHtHBW37B/dA
+ /uiWpIuBDGn0EEr+NOMDWn71otV0+3SB+tDYZbnbmVbPFKgFOppjVh7su/N+drgcwKFr6W3S+VP
+ km6xdnY47b1j5YgQgEqJQCKgYpFMYyZNHtf5Y8ViuN6PeEmUliPr865Ct9QuOv0FHKcaew3HP27
+ hOja8noIRsN/ZxnqEXsFVyZvQclXU+Jr0X1utlzU/p4lwpHtMt5YQG73X3kgLp2QV/JYC4xLID9
+ 0OrGcPDIIwdtHgxKBICTELJzr7m9gpBJE3c01akRl2moohTKHwW6or0Ee4nA6MdVD8BdRtfsePq
+ laA604TFpnPVepLMNc5gcCeHTPbobvF1Sk1sDkdBwuG+aqk0oLOXOLAMKlDeyAdWox5c971k27m
+ QATuWptg+wz7ESw==
 X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
  fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,37 +109,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Depending on which display that is connected to the controller, an "1"
-means either a black or a white pixel.
+Depending on which display that is connected to the controller, an
+"1" means either a black or a white pixel.
 
-The supported format (R1) expects the pixels to map against:
-    0 => Black
-    1 => White
+The supported formats (R1/R2/XRGB8888) expects the pixels
+to map against (4bit):
+    00 => Black
+    01 => Dark Gray
+    10 => Light Gray
+    11 => White
 
-If this is not what the display map against, the controller has support
-to invert these values.
+If this is not what the display map against, make it possible to invert
+the pixels.
 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 ---
- Documentation/devicetree/bindings/display/sitronix,st7567.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/sitronix/st7571-i2c.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/sitronix,st7567.yaml b/Documentation/devicetree/bindings/display/sitronix,st7567.yaml
-index e8a5b8ad18fe01429146b20a0b8237a164a7dd47..2eb6d00b5a25632a1ce121c1b43a92b2a4010fde 100644
---- a/Documentation/devicetree/bindings/display/sitronix,st7567.yaml
-+++ b/Documentation/devicetree/bindings/display/sitronix,st7567.yaml
-@@ -23,6 +23,11 @@ properties:
-   reg:
-     maxItems: 1
+diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
+index dfdd0fa4ff24090c3cbe7ab162285be45464d6a6..9f2de057ce9d990fdd77e395a6c32ba1e2f36137 100644
+--- a/drivers/gpu/drm/sitronix/st7571-i2c.c
++++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
+@@ -151,6 +151,7 @@ struct st7571_device {
+ 	bool ignore_nak;
  
-+  sitronix,inverted:
-+    type: boolean
-+    description:
-+      Display pixels are inverted, i.e. 0 is white and 1 is black.
-+
-   width-mm: true
-   height-mm: true
-   panel-timing: true
+ 	bool grayscale;
++	bool inverted;
+ 	u32 height_mm;
+ 	u32 width_mm;
+ 	u32 startline;
+@@ -792,6 +793,7 @@ static int st7567_parse_dt(struct st7571_device *st7567)
+ 
+ 	of_property_read_u32(np, "width-mm", &st7567->width_mm);
+ 	of_property_read_u32(np, "height-mm", &st7567->height_mm);
++	st7567->inverted = of_property_read_bool(np, "sitronix,inverted");
+ 
+ 	st7567->pformat = &st7571_monochrome;
+ 	st7567->bpp = 1;
+@@ -819,6 +821,7 @@ static int st7571_parse_dt(struct st7571_device *st7571)
+ 	of_property_read_u32(np, "width-mm", &st7571->width_mm);
+ 	of_property_read_u32(np, "height-mm", &st7571->height_mm);
+ 	st7571->grayscale = of_property_read_bool(np, "sitronix,grayscale");
++	st7571->inverted = of_property_read_bool(np, "sitronix,inverted");
+ 
+ 	if (st7571->grayscale) {
+ 		st7571->pformat = &st7571_grayscale;
+@@ -873,7 +876,7 @@ static int st7567_lcd_init(struct st7571_device *st7567)
+ 		ST7571_SET_POWER(0x6),	/* Power Control, VC: ON, VR: ON, VF: OFF */
+ 		ST7571_SET_POWER(0x7),	/* Power Control, VC: ON, VR: ON, VF: ON */
+ 
+-		ST7571_SET_REVERSE(0),
++		ST7571_SET_REVERSE(st7567->inverted ? 1 : 0),
+ 		ST7571_SET_ENTIRE_DISPLAY_ON(0),
+ 	};
+ 
+@@ -917,7 +920,7 @@ static int st7571_lcd_init(struct st7571_device *st7571)
+ 		ST7571_SET_COLOR_MODE(st7571->pformat->mode),
+ 		ST7571_COMMAND_SET_NORMAL,
+ 
+-		ST7571_SET_REVERSE(0),
++		ST7571_SET_REVERSE(st7571->inverted ? 1 : 0),
+ 		ST7571_SET_ENTIRE_DISPLAY_ON(0),
+ 	};
+ 
 
 -- 
 2.49.0
