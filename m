@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD57FB0C650
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:30:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCA12B0C679
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:35:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E99510E288;
-	Mon, 21 Jul 2025 14:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7924710E289;
+	Mon, 21 Jul 2025 14:35:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GdFV+a7R";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4C48510E288
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:30:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4E08153B
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:30:14 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5FE4A3F66E
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:30:20 -0700 (PDT)
-Date: Mon, 21 Jul 2025 15:30:18 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/6] drm/panthor: Add panthor_hw and move gpu_info
- initialization into it
-Message-ID: <aH5O-im06qJTOPkF@e110455-lin.cambridge.arm.com>
-References: <20250721111344.1610250-1-karunika.choo@arm.com>
- <20250721111344.1610250-2-karunika.choo@arm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0391810E289
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:35:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753108553; x=1784644553;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=eSy3oPeQezkeVBC8sAq/ah/CZdVgGqMu9rAcZiaT0mY=;
+ b=GdFV+a7RFO92EjBL6LufqIXfH94rt9S0kLOTXVqAGkzibXkvPVVI0jIp
+ JE/f4KIuD1wM3d/FOTw0dSxAMsXLABIhDcFXn1D3nL2pW5meVVdhlvX3N
+ d/N0Cq7Jpm9CbgcPKA5lKDuf1l2/jPC64vfY/yFrbB1lkEEHxm6gjHR9i
+ 1qULY05EminNPScelkZG98P2Ka4+W0347jOf34dmhSTIGaJPm9qhRE5cj
+ tzO+G+9rpfDqYuwc3dz3uz+FZLnNnhuuQYZNmzAucOYLBfPVuWx79tdF1
+ u3T6dk+i3RtU+F2/tmVxkfn70wZiitcRZ5Qzs0vVhDcAQy6e8BwoRQVZK A==;
+X-CSE-ConnectionGUID: x4PlR8gnQZiJv8VfVZ3rdA==
+X-CSE-MsgGUID: E2Uy60PXQN2XT2kjejoHlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="54426451"
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; d="scan'208";a="54426451"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2025 07:35:52 -0700
+X-CSE-ConnectionGUID: rvGbAtY5ShGkHSxGkubHKw==
+X-CSE-MsgGUID: 4lYtrXVJToi5y5p5Z09gCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; d="scan'208";a="195941250"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.244.33])
+ ([10.245.244.33])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2025 07:35:51 -0700
+Message-ID: <104f9c315544db102c933e82f6a02836e2033b64.camel@linux.intel.com>
+Subject: Re: [bug report] drm/ttm, drm_xe, Implement
+ ttm_lru_walk_for_evict() using the guarded LRU iteration
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
+Date: Mon, 21 Jul 2025 16:35:49 +0200
+In-Reply-To: <cc9453cb-6f6e-4122-aa17-3fdf8af312e0@sabinyo.mountain>
+References: <cc9453cb-6f6e-4122-aa17-3fdf8af312e0@sabinyo.mountain>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250721111344.1610250-2-karunika.choo@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,336 +71,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 21, 2025 at 12:13:39PM +0100, Karunika Choo wrote:
-> This patch introduces panthor_hw and moves the initialization of the
-> gpu_info struct into panthor_hw.c in preparation of handling future GPU
-> register and naming changes.
-> 
-> Future GPU support can be added by extending panthor_gpu_info_init()
-> with the necessary register reads behind GPU architecture version guards
-> if the change is minor. For more complex changes, the function can be
-> forked and the appropriate function will need to be called based on the
-> GPU architecture version.
-> 
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+T24gU2F0LCAyMDI1LTA2LTI4IGF0IDIyOjUxIC0wNTAwLCBEYW4gQ2FycGVudGVyIHdyb3RlOgo+
+IEhlbGxvIFRob21hcyBIZWxsc3Ryw7ZtLAo+IAo+IENvbW1pdCBiYjhhYTI3ZWZmNmYgKCJkcm0v
+dHRtLCBkcm1feGUsIEltcGxlbWVudAo+IHR0bV9scnVfd2Fsa19mb3JfZXZpY3QoKSB1c2luZyB0
+aGUgZ3VhcmRlZCBMUlUgaXRlcmF0aW9uIikgZnJvbSBKdW4KPiAyMywgMjAyNSAobGludXgtbmV4
+dCksIGxlYWRzIHRvIHRoZSBmb2xsb3dpbmcgKHVucHVibGlzaGVkKSBTbWF0Y2gKPiBzdGF0aWMg
+Y2hlY2tlciB3YXJuaW5nOgo+IAo+IAlkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmM6
+OTkxCj4gX190dG1fYm9fbHJ1X2N1cnNvcl9uZXh0KCkKPiAJd2FybjogZHVwbGljYXRlIGNoZWNr
+ICdyZXMnIChwcmV2aW91cyBvbiBsaW5lIDk1MikKPiAKPiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0
+bV9ib191dGlsLmMKPiDCoMKgIDkzMcKgIF9fdHRtX2JvX2xydV9jdXJzb3JfbmV4dChzdHJ1Y3Qg
+dHRtX2JvX2xydV9jdXJzb3IgKmN1cnMpCj4gwqDCoCA5MzLCoCB7Cj4gwqDCoCA5MzPCoMKgwqDC
+oMKgwqDCoMKgwqAgc3BpbmxvY2tfdCAqbHJ1X2xvY2sgPSAmY3Vycy0+cmVzX2N1cnMubWFuLT5i
+ZGV2LQo+ID5scnVfbG9jazsKPiDCoMKgIDkzNMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgdHRt
+X3Jlc291cmNlICpyZXMgPSBOVUxMOwo+IMKgwqAgOTM1wqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVj
+dCB0dG1fYnVmZmVyX29iamVjdCAqYm87Cj4gwqDCoCA5MzbCoMKgwqDCoMKgwqDCoMKgwqAgc3Ry
+dWN0IHR0bV9scnVfd2Fsa19hcmcgKmFyZyA9IGN1cnMtPmFyZzsKPiDCoMKgIDkzN8KgwqDCoMKg
+wqDCoMKgwqDCoCBib29sIGZpcnN0ID0gIWN1cnMtPmJvOwo+IMKgwqAgOTM4wqAgCj4gwqDCoCA5
+MznCoMKgwqDCoMKgwqDCoMKgwqAgdHRtX2JvX2xydV9jdXJzb3JfY2xlYW51cF9ibyhjdXJzKTsK
+PiDCoMKgIDk0MMKgIAo+IMKgwqAgOTQxwqDCoMKgwqDCoMKgwqDCoMKgIHNwaW5fbG9jayhscnVf
+bG9jayk7Cj4gwqDCoCA5NDLCoMKgwqDCoMKgwqDCoMKgwqAgZm9yICg7Oykgewo+IMKgwqAgOTQz
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnQgbWVtX3R5cGUsIHJldCA9IDA7
+Cj4gwqDCoCA5NDTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJvb2wgYm9fbG9j
+a2VkID0gZmFsc2U7Cj4gwqDCoCA5NDXCoCAKPiDCoMKgIDk0NsKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgaWYgKGZpcnN0KSB7Cj4gwqDCoCA5NDfCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXMgPQo+IHR0bV9yZXNvdXJjZV9tYW5h
+Z2VyX2ZpcnN0KCZjdXJzLT5yZXNfY3Vycyk7Cj4gwqDCoCA5NDjCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmaXJzdCA9IGZhbHNlOwo+IMKgwqAgOTQ5
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9IGVsc2Ugewo+IMKgwqAgOTUwwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmVzID0KPiB0
+dG1fcmVzb3VyY2VfbWFuYWdlcl9uZXh0KCZjdXJzLT5yZXNfY3Vycyk7Cj4gwqDCoCA5NTHCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPiDCoMKgIDk1MsKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCFyZXMpCj4gwqDCoCA5NTPCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBicmVhazsKPiAKPiBUaGlzIGlzIHRo
+ZSBvbmx5IGJyZWFrIHN0YXRlbWVudAo+IAo+IMKgwqAgOTU0wqAgCj4gwqDCoCA5NTXCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJvID0gcmVzLT5ibzsKPiDCoMKgIDk1NsKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHR0bV9scnVfd2Fsa190cnlsb2NrKGN1
+cnMsIGJvKSkKPiDCoMKgIDk1N8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGJvX2xvY2tlZCA9IHRydWU7Cj4gwqDCoCA5NTjCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIGVsc2UgaWYgKCFhcmctPnRpY2tldCB8fCBhcmctPmN0eC0KPiA+
+bm9fd2FpdF9ncHUgfHwgYXJnLT50cnlsb2NrX29ubHkpCj4gwqDCoCA5NTnCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb250aW51ZTsKPiDCoMKgIDk2
+MMKgIAo+IMKgwqAgOTYxwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoIXR0
+bV9ib19nZXRfdW5sZXNzX3plcm8oYm8pKSB7Cj4gwqDCoCA5NjLCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoY3Vycy0+bmVlZHNfdW5sb2NrKQo+
+IMKgwqAgOTYzwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIGRtYV9yZXN2X3VubG9jayhiby0KPiA+YmFzZS5yZXN2KTsKPiDC
+oMKgIDk2NMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGNvbnRpbnVlOwo+IMKgwqAgOTY1wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9
+Cj4gwqDCoCA5NjbCoCAKPiDCoMKgIDk2N8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgbWVtX3R5cGUgPSByZXMtPm1lbV90eXBlOwo+IMKgwqAgOTY4wqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBzcGluX3VubG9jayhscnVfbG9jayk7Cj4gwqDCoCA5NjnCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICghYm9fbG9ja2VkKQo+IMKgwqAgOTcwwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0ID0gdHRt
+X2xydV93YWxrX3RpY2tldGxvY2soY3VycywKPiBibyk7Cj4gwqDCoCA5NzHCoCAKPiDCoMKgIDk3
+MsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyoKPiDCoMKgIDk3M8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIE5vdGUgdGhhdCBpbiBiZXR3ZWVuIHRoZSBy
+ZWxlYXNlIG9mIHRoZQo+IGxydSBsb2NrIGFuZCB0aGUKPiDCoMKgIDk3NMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIHRpY2tldGxvY2ssIHRoZSBibyBtYXkgaGF2ZSBzd2l0
+Y2hlZAo+IHJlc291cmNlLAo+IMKgwqAgOTc1wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgICogYW5kIGFsc28gbWVtb3J5IHR5cGUsIHNpbmNlIHRoZSByZXNvdXJjZQo+IG1heSBo
+YXZlIGJlZW4KPiDCoMKgIDk3NsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAq
+IGZyZWVkIGFuZCBhbGxvY2F0ZWQgYWdhaW4gd2l0aCBhIGRpZmZlcmVudAo+IG1lbW9yeSB0eXBl
+Lgo+IMKgwqAgOTc3wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICogSW4gdGhh
+dCBjYXNlLCBqdXN0IHNraXAgaXQuCj4gwqDCoCA5NzjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgKi8KPiDCoMKgIDk3OcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgY3Vycy0+Ym8gPSBibzsKPiDCoMKgIDk4MMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgaWYgKCFyZXQgJiYgYm8tPnJlc291cmNlICYmIGJvLT5yZXNvdXJjZS0KPiA+bWVtX3R5
+cGUgPT0gbWVtX3R5cGUpCj4gwqDCoCA5ODHCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gYm87Cj4gwqDCoCA5ODLCoCAKPiDCoMKgIDk4M8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdHRtX2JvX2xydV9jdXJzb3JfY2xlYW51
+cF9ibyhjdXJzKTsKPiDCoMKgIDk4NMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+aWYgKHJldCAmJiByZXQgIT0gLUVBTFJFQURZKQo+IMKgwqAgOTg1wqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIEVSUl9QVFIocmV0KTsKPiDC
+oMKgIDk4NsKgIAo+IMKgwqAgOTg3wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBz
+cGluX2xvY2sobHJ1X2xvY2spOwo+IMKgwqAgOTg4wqDCoMKgwqDCoMKgwqDCoMKgIH0KPiDCoMKg
+IDk4OcKgIAo+IMKgwqAgOTkwwqDCoMKgwqDCoMKgwqDCoMKgIHNwaW5fdW5sb2NrKGxydV9sb2Nr
+KTsKPiDCoMKgIDk5McKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gcmVzID8gYm8gOiBOVUxMOwo+
+IAo+IFNvIHdlIGtub3cgcmVzIGlzIE5VTEwgYW5kIHdlIGNvdWxkIGp1c3QgY2hhbmdlIHRoaXMg
+dG8gInJldHVybgo+IE5VTEw7IgoKUmlnaHQuClRoYW5rcyBmb3IgdGhlIHJlcG9ydC4gV2lsbCBw
+dXQgdG9nZXRoZXIgYSBwYXRjaC4KClRoYW5rcywKVGhvbWFzCgoKPiAKPiDCoMKgIDk5MsKgIH0K
+PiAKPiByZWdhcmRzLAo+IGRhbiBjYXJwZW50ZXIKCg==
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/panthor/Makefile         |   1 +
->  drivers/gpu/drm/panthor/panthor_device.c |   5 +
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  95 -------------------
->  drivers/gpu/drm/panthor/panthor_hw.c     | 113 +++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_hw.h     |  11 +++
->  5 files changed, 130 insertions(+), 95 deletions(-)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_hw.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_hw.h
-> 
-> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
-> index 15294719b09c..02db21748c12 100644
-> --- a/drivers/gpu/drm/panthor/Makefile
-> +++ b/drivers/gpu/drm/panthor/Makefile
-> @@ -8,6 +8,7 @@ panthor-y := \
->  	panthor_gem.o \
->  	panthor_gpu.o \
->  	panthor_heap.o \
-> +	panthor_hw.o \
->  	panthor_mmu.o \
->  	panthor_sched.o
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index f0b2da5b2b96..81df49880bd8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -18,6 +18,7 @@
->  #include "panthor_device.h"
->  #include "panthor_fw.h"
->  #include "panthor_gpu.h"
-> +#include "panthor_hw.h"
->  #include "panthor_mmu.h"
->  #include "panthor_regs.h"
->  #include "panthor_sched.h"
-> @@ -244,6 +245,10 @@ int panthor_device_init(struct panthor_device *ptdev)
->  			return ret;
->  	}
->  
-> +	ret = panthor_hw_init(ptdev);
-> +	if (ret)
-> +		goto err_rpm_put;
-> +
->  	ret = panthor_gpu_init(ptdev);
->  	if (ret)
->  		goto err_rpm_put;
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index cb7a335e07d7..5e2c3173ae27 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -37,40 +37,6 @@ struct panthor_gpu {
->  	wait_queue_head_t reqs_acked;
->  };
->  
-> -/**
-> - * struct panthor_model - GPU model description
-> - */
-> -struct panthor_model {
-> -	/** @name: Model name. */
-> -	const char *name;
-> -
-> -	/** @arch_major: Major version number of architecture. */
-> -	u8 arch_major;
-> -
-> -	/** @product_major: Major version number of product. */
-> -	u8 product_major;
-> -};
-> -
-> -/**
-> - * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
-> - * by a combination of the major architecture version and the major product
-> - * version.
-> - * @_name: Name for the GPU model.
-> - * @_arch_major: Architecture major.
-> - * @_product_major: Product major.
-> - */
-> -#define GPU_MODEL(_name, _arch_major, _product_major) \
-> -{\
-> -	.name = __stringify(_name),				\
-> -	.arch_major = _arch_major,				\
-> -	.product_major = _product_major,			\
-> -}
-> -
-> -static const struct panthor_model gpu_models[] = {
-> -	GPU_MODEL(g610, 10, 7),
-> -	{},
-> -};
-> -
->  #define GPU_INTERRUPTS_MASK	\
->  	(GPU_IRQ_FAULT | \
->  	 GPU_IRQ_PROTM_FAULT | \
-> @@ -83,66 +49,6 @@ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
->  		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
->  }
->  
-> -static void panthor_gpu_init_info(struct panthor_device *ptdev)
-> -{
-> -	const struct panthor_model *model;
-> -	u32 arch_major, product_major;
-> -	u32 major, minor, status;
-> -	unsigned int i;
-> -
-> -	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
-> -	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
-> -	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
-> -	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
-> -	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
-> -	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
-> -	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
-> -	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
-> -	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
-> -	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
-> -	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
-> -	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
-> -	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
-> -	for (i = 0; i < 4; i++)
-> -		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
-> -
-> -	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
-> -
-> -	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT);
-> -	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT);
-> -	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT);
-> -
-> -	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
-> -	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
-> -	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
-> -	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
-> -	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
-> -
-> -	for (model = gpu_models; model->name; model++) {
-> -		if (model->arch_major == arch_major &&
-> -		    model->product_major == product_major)
-> -			break;
-> -	}
-> -
-> -	drm_info(&ptdev->base,
-> -		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
-> -		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
-> -		 major, minor, status);
-> -
-> -	drm_info(&ptdev->base,
-> -		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
-> -		 ptdev->gpu_info.l2_features,
-> -		 ptdev->gpu_info.tiler_features,
-> -		 ptdev->gpu_info.mem_features,
-> -		 ptdev->gpu_info.mmu_features,
-> -		 ptdev->gpu_info.as_present);
-> -
-> -	drm_info(&ptdev->base,
-> -		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
-> -		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
-> -		 ptdev->gpu_info.tiler_present);
-> -}
-> -
->  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
->  	gpu_write(ptdev, GPU_INT_CLEAR, status);
-> @@ -205,7 +111,6 @@ int panthor_gpu_init(struct panthor_device *ptdev)
->  	spin_lock_init(&gpu->reqs_lock);
->  	init_waitqueue_head(&gpu->reqs_acked);
->  	ptdev->gpu = gpu;
-> -	panthor_gpu_init_info(ptdev);
->  
->  	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
->  	pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-> new file mode 100644
-> index 000000000000..3f7175cb0ab4
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
-> @@ -0,0 +1,113 @@
-> +// SPDX-License-Identifier: GPL-2.0 or MIT
-> +/* Copyright 2025 ARM Limited. All rights reserved. */
-> +
-> +#include "panthor_device.h"
-> +#include "panthor_hw.h"
-> +#include "panthor_regs.h"
-> +
-> +/**
-> + * struct panthor_model - GPU model description
-> + */
-> +struct panthor_model {
-> +	/** @name: Model name. */
-> +	const char *name;
-> +
-> +	/** @arch_major: Major version number of architecture. */
-> +	u8 arch_major;
-> +
-> +	/** @product_major: Major version number of product. */
-> +	u8 product_major;
-> +};
-> +
-> +/**
-> + * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
-> + * by a combination of the major architecture version and the major product
-> + * version.
-> + * @_name: Name for the GPU model.
-> + * @_arch_major: Architecture major.
-> + * @_product_major: Product major.
-> + */
-> +#define GPU_MODEL(_name, _arch_major, _product_major) \
-> +{\
-> +	.name = __stringify(_name),				\
-> +	.arch_major = _arch_major,				\
-> +	.product_major = _product_major,			\
-> +}
-> +
-> +static const struct panthor_model gpu_models[] = {
-> +	GPU_MODEL(g610, 10, 7),
-> +	{},
-> +};
-> +
-> +static void panthor_gpu_info_init(struct panthor_device *ptdev)
-> +{
-> +	unsigned int i;
-> +
-> +	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
-> +	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
-> +	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
-> +	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
-> +	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
-> +	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
-> +	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
-> +	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
-> +	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
-> +	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
-> +	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
-> +	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
-> +	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
-> +	for (i = 0; i < 4; i++)
-> +		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
-> +
-> +	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
-> +
-> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT);
-> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT);
-> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT);
-> +}
-> +
-> +static void panthor_hw_info_init(struct panthor_device *ptdev)
-> +{
-> +	const struct panthor_model *model;
-> +	u32 arch_major, product_major;
-> +	u32 major, minor, status;
-> +
-> +	panthor_gpu_info_init(ptdev);
-> +
-> +	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
-> +	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
-> +	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
-> +	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
-> +	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
-> +
-> +	for (model = gpu_models; model->name; model++) {
-> +		if (model->arch_major == arch_major &&
-> +		    model->product_major == product_major)
-> +			break;
-> +	}
-> +
-> +	drm_info(&ptdev->base,
-> +		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
-> +		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
-> +		 major, minor, status);
-> +
-> +	drm_info(&ptdev->base,
-> +		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
-> +		 ptdev->gpu_info.l2_features,
-> +		 ptdev->gpu_info.tiler_features,
-> +		 ptdev->gpu_info.mem_features,
-> +		 ptdev->gpu_info.mmu_features,
-> +		 ptdev->gpu_info.as_present);
-> +
-> +	drm_info(&ptdev->base,
-> +		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
-> +		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
-> +		 ptdev->gpu_info.tiler_present);
-> +}
-> +
-> +int panthor_hw_init(struct panthor_device *ptdev)
-> +{
-> +	panthor_hw_info_init(ptdev);
-> +
-> +	return 0;
-> +}
-> \ No newline at end of file
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
-> new file mode 100644
-> index 000000000000..0af6acc6aa6a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
-> +/* Copyright 2025 ARM Limited. All rights reserved. */
-> +
-> +#ifndef __PANTHOR_HW_H__
-> +#define __PANTHOR_HW_H__
-> +
-> +struct panthor_device;
-> +
-> +int panthor_hw_init(struct panthor_device *ptdev);
-> +
-> +#endif /* __PANTHOR_HW_H__ */
-> -- 
-> 2.49.0
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
