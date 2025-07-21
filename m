@@ -2,44 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12363B0C717
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7476B0C719
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 17:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67F0310E55C;
-	Mon, 21 Jul 2025 14:59:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD8610E56A;
+	Mon, 21 Jul 2025 15:00:15 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IB/CSD6V";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A9C9410E55C
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:59:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 972D8153B
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:59:47 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2C77F3F6A8
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:59:53 -0700 (PDT)
-Date: Mon, 21 Jul 2025 15:59:51 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1E8C10E569
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 15:00:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id AA28961360;
+ Mon, 21 Jul 2025 15:00:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39475C4CEED;
+ Mon, 21 Jul 2025 15:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753110012;
+ bh=VZAFEBYGkW7zkA9QHXJ+nLYWvFYNy70boXd5O+3hoTc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IB/CSD6Vq+QSQx7hD4TITcqcR5SxQBlyS50DA0avSGhIjlvqkcRKYI17VaEjvhG9G
+ 8EkxIyAshM5qj5/Ca5ztlQkj1/5by7Mn9fXzKf4k03zrNSF4q6xKRa+9ynRjtY32c1
+ koQ/MqhOdb++vqwtjVnKSWpw8D55HKl5tj8mVRhwr8N/crPeyeNEJXMwY/S5CE8p8V
+ kD7P+aQdsXlW2q/DsTXwF+7EQEN/Fa5+0Tg3w6c5t9/A3e3yqdRXuhO3vmRAcdsZfN
+ IVxJw+tZ2vk2x/To/uEb0vgzEKb9n3+yTioSZBLwKbhoPU54izO08bAtR3kGxOEwzH
+ TX8rvX67snRIQ==
+Date: Mon, 21 Jul 2025 10:00:11 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-rockchip@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 6/6] drm/panthor: Add support for Mali-Gx20 and
- Mali-Gx25 GPUs
-Message-ID: <aH5V5_sXBGp5XOBQ@e110455-lin.cambridge.arm.com>
-References: <20250721111344.1610250-1-karunika.choo@arm.com>
- <20250721111344.1610250-7-karunika.choo@arm.com>
+ Robin Murphy <robin.murphy@arm.com>, Conor Dooley <conor+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ linux-kernel@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-media@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
+ linux-doc@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
+ Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v9 06/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Message-ID: <175311001041.629023.12786244001330541185.robh@kernel.org>
+References: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
+ <20250721-6-10-rocket-v9-6-77ebd484941e@tomeuvizoso.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250721111344.1610250-7-karunika.choo@arm.com>
+In-Reply-To: <20250721-6-10-rocket-v9-6-77ebd484941e@tomeuvizoso.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,186 +77,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 21, 2025 at 12:13:44PM +0100, Karunika Choo wrote:
-> This patch adds firmware binary and GPU model naming support for
-> Mali-Gx20 and Mali-Gx25 GPUs.
+
+On Mon, 21 Jul 2025 11:17:33 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
 > 
-> It also introduces the following registers:
-> - GPU_COMMAND_ARG0~1
-> - SHADER_PWRFEATURES
-> - MCU_FEATURES
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
 > 
-> The GPU_COHERENCY_FEATURES macros are slightly reworked as the
-> assumption that FEATURE = BIT(PROTOCOL) no longer holds with the
-> introduction of the SHAREABLE_CACHE_SUPPORT, which is BIT(5) on the
-> GPU_COHERENCY_PROTOCOL register. As such, the feature bits are now
-> individually defined. Further changes were also made to enable
-> SHAREABLE_CACHE_SUPPORT if coherency is enabled and the feature is
-> supported.
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
 > 
-> This patch also fixes a minor bug that incorrectly writes ACE instead of
-> ACE_LITE to GPU_COHERENCY_PROTOCOL if coherency is enabled.
+> v4:
+> - Change required node name to npu@ (Rob Herring and Krzysztof Kozlowski)
+> - Remove unneeded items: (Krzysztof Kozlowski)
+> - Fix use of minItems/maxItems (Krzysztof Kozlowski)
+> - Add reg-names to list of required properties (Krzysztof Kozlowski)
+> - Fix example (Krzysztof Kozlowski)
 > 
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+> v5:
+> - Rename file to rockchip,rk3588-rknn-core.yaml (Krzysztof Kozlowski)
+> - Streamline compatible property (Krzysztof Kozlowski)
+> 
+> v6:
+> - Remove mention to NVDLA, as the hardware is only incidentally related
+>   (Kever Yang)
+> - Mark pclk and npu clocks as required by all clocks (Rob Herring)
+> 
+> v7:
+> - Remove allOf section, not needed now that all nodes require 4 clocks
+>   (Heiko St�bner)
+> 
+> v8:
+> - Remove notion of top core (Robin Murphy)
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 > ---
->  drivers/gpu/drm/panthor/panthor_device.c |  2 +-
->  drivers/gpu/drm/panthor/panthor_fw.c     |  2 ++
->  drivers/gpu/drm/panthor/panthor_gpu.c    | 14 ++++++++++++--
->  drivers/gpu/drm/panthor/panthor_hw.c     | 18 ++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_regs.h   | 11 ++++++++++-
->  5 files changed, 43 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 81df49880bd8..f547aa4159ec 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -34,7 +34,7 @@ static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
->  	 * ACE protocol has never been supported for command stream frontend GPUs.
->  	 */
->  	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
-> -		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
-> +	     GPU_COHERENCY_FEATURE_ACE_LITE))
->  		return 0;
->  
->  	drm_err(&ptdev->base, "Coherency not supported by the device");
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index fa6e0b48a0b2..9bf06e55eaee 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -1405,3 +1405,5 @@ MODULE_FIRMWARE("arm/mali/arch10.8/mali_csffw.bin");
->  MODULE_FIRMWARE("arm/mali/arch10.10/mali_csffw.bin");
->  MODULE_FIRMWARE("arm/mali/arch10.12/mali_csffw.bin");
->  MODULE_FIRMWARE("arm/mali/arch11.8/mali_csffw.bin");
-> +MODULE_FIRMWARE("arm/mali/arch12.8/mali_csffw.bin");
-> +MODULE_FIRMWARE("arm/mali/arch13.8/mali_csffw.bin");
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 5e2c3173ae27..df2419706fe0 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -45,8 +45,18 @@ struct panthor_gpu {
->  
->  static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
->  {
-> -	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
-> -		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
-> +	u32 coherency_protocol = GPU_COHERENCY_NONE;
-> +
-> +	if (ptdev->coherent) {
-> +		coherency_protocol = GPU_COHERENCY_ACE_LITE;
-> +
-> +		if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
-> +		     GPU_COHERENCY_FEATURE_SHAREABLE_CACHE_SUPPORT))
-> +			coherency_protocol |=
-> +				GPU_COHERENCY_SHAREABLE_CACHE_SUPPORT;
-> +	}
-> +
-> +	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL, coherency_protocol);
->  }
->  
->  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-> index a7583342d797..3fcb69a6f959 100644
-> --- a/drivers/gpu/drm/panthor/panthor_hw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
-> @@ -35,6 +35,24 @@ static char *get_gpu_model_name(struct panthor_device *ptdev)
->  		fallthrough;
->  	case GPU_PROD_ID_MAKE(11, 3):
->  		return "Mali-G615";
-> +	case GPU_PROD_ID_MAKE(12, 0):
-> +		if (shader_core_count >= 10 && ray_intersection)
-> +			return "Mali-G720-Immortalis";
-> +		else if (shader_core_count >= 6)
-> +			return "Mali-G720";
-> +
-> +		fallthrough;
-> +	case GPU_PROD_ID_MAKE(12, 1):
-> +		return "Mali-G620";
-> +	case GPU_PROD_ID_MAKE(13, 0):
-> +		if (shader_core_count >= 10 && ray_intersection)
-> +			return "Mali-G925-Immortalis";
-> +		else if (shader_core_count >= 6)
-> +			return "Mali-G725";
-> +
-> +		fallthrough;
-> +	case GPU_PROD_ID_MAKE(13, 1):
-> +		return "Mali-G625";
->  	}
->  
->  	return "(Unknown Mali GPU)";
-> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-> index e4c34f70a880..a9ea32e5fe39 100644
-> --- a/drivers/gpu/drm/panthor/panthor_regs.h
-> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
-> @@ -87,6 +87,8 @@
->  
->  #define GPU_DOORBELL_FEATURES				0xC0
->  
-> +#define GPU_COMMAND_ARG(n)				(0xD0 + ((n) * 8))
-
-This ...
-
-> +
->  #define GPU_SHADER_PRESENT				0x100
->  #define GPU_TILER_PRESENT				0x110
->  #define GPU_L2_PRESENT					0x120
-> @@ -96,6 +98,8 @@
->  #define L2_READY					0x160
->  
->  #define SHADER_PWRON					0x180
-> +#define SHADER_PWRFEATURES				0x188
-> +#define   SHADER_PWRFEATURES_RAY_TRACING_UNIT		BIT(0)
-
-... and this are not used anywhere. Can we remove them until we add code that uses them?
-
->  #define TILER_PWRON					0x190
->  #define L2_PWRON					0x1A0
->  
-> @@ -116,12 +120,15 @@
->  #define GPU_ASN_HASH(n)				(0x2C0 + ((n) * 4))
->  
->  #define GPU_COHERENCY_FEATURES				0x300
-> -#define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
-> +#define   GPU_COHERENCY_FEATURE_ACE_LITE		BIT(0)
-> +#define   GPU_COHERENCY_FEATURE_ACE			BIT(1)
-> +#define   GPU_COHERENCY_FEATURE_SHAREABLE_CACHE_SUPPORT	BIT(5)
->  
->  #define GPU_COHERENCY_PROTOCOL				0x304
->  #define   GPU_COHERENCY_ACE_LITE			0
->  #define   GPU_COHERENCY_ACE				1
->  #define   GPU_COHERENCY_NONE				31
-> +#define   GPU_COHERENCY_SHAREABLE_CACHE_SUPPORT		BIT(5)
->  
->  #define GPU_SYSC_PBHA_OVERRIDE(n)			(0x320 + ((n) * 4))
->  #define GPU_SYSC_ALLOC(n)				(0x340 + ((n) * 4))
-> @@ -137,6 +144,8 @@
->  #define MCU_STATUS_HALT					2
->  #define MCU_STATUS_FATAL				3
->  
-> +#define MCU_FEATURES					0x708
-
-Same for this one.
-
-With that changed,
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> +
->  /* Job Control regs */
->  #define JOB_INT_RAWSTAT					0x1000
->  #define JOB_INT_CLEAR					0x1004
-> -- 
-> 2.49.0
+>  .../bindings/npu/rockchip,rk3588-rknn-core.yaml    | 112 +++++++++++++++++++++
+>  1 file changed, 112 insertions(+)
 > 
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
