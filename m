@@ -2,82 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB4CB0C715
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12363B0C717
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 16:59:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CACDF10E08D;
-	Mon, 21 Jul 2025 14:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67F0310E55C;
+	Mon, 21 Jul 2025 14:59:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA65E10E55C
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:59:27 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-553ba7f11cbso4467505e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:59:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753109963; x=1753714763;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0rmsuabFxgO5HQbcS/AHuTJwDw0eGQTKollo0RZOzC8=;
- b=YsJ9cckJIi58TiCnKWE7601uAswn0fQu+x8ph56/xlrj+IIM59U6JDppYx47I/43cq
- 55/x0fWULz4aaIcuM9iL/a5s1+8ewIhtotH1oNBEedv7P8NbreXLyrHgUaXxCsODtS7q
- juFt1bG/xuVba4LvJKq5USidgentPdEwWJUHs0QrgfxAc2ygFGYYMPpLz2lqgZwzGDiN
- gZu4Yhrw83wz4smeiMo/C9It11LBdh08Z1n+jSqQO/idPZIvSe9E6QB4Xs0CF260Olb5
- dM/aMCjFnxOivl8/rohZOlT4COpVkZYtkL2NM6LndUJRKcwjCyljndcbrAvNpAoKCvIK
- dC7A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXJqwJv9Gu57/RGejo3qZHQCdrrMw0l7BA9XPO83OduQVJM0fnQ7kEHgvW5IGrSN91qCTUMJIf1HeU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz28HJtaK9TcsS5NVDe7UjWDT8c2VFZUQxMcRMk7pEK1BQUZOQq
- qDphBGv9YcQS/Yn06GUb138TgGk1RrI3f1oll4iBiLmc4PKOngsixU4g6J/wZbwR
-X-Gm-Gg: ASbGncvVtVuh9oF9lZtnRTp73/FA0zQM3zEGdqbwB9cNgj/fe1KWfBx8WCx72JscaJo
- zrEAzlafFjHRmcOvAvBZ7m3qtemujvn6T4nuwWFIjpEc2DFJ2bagUOgTQX28NVOOzj2WRpNXgKn
- VvcWrTaSEtfyF5PxQ4Yu6rv4SL3tcMjGd/knIDjVwQDe6K8C2eyufxBz1XDJSoG4V9j0eb0/Bli
- mL0a7XpQzoVSqGdxnUQZMhaP+zR7gP3NuAlUerpcZfCPdhsaxoQ2DWABOQEHqh6A7YEKW4zXBqd
- 3ALiUlY9uL3uZ4p1Q8Lj5dGVWrjjtHgsiLJJt7Wjj+CNDV3IXCmxuiLlXHVe/G8OxuLhDgYDdRi
- LDhQnX+PK6gJX3Js7/yuXvp+7GZ2STkDM5QdQf/4M6yoegFyGN67o/50=
-X-Google-Smtp-Source: AGHT+IG+Ogu3s1EECv0ifj5QOZkk0WG6AXYV34YA2pch/mVdvynX79cJ/liL1HSwPSyA7gATTbCdig==
-X-Received: by 2002:a05:6512:34ca:b0:55a:3205:b3bd with SMTP id
- 2adb3069b0e04-55a3214fb0dmr2894562e87.24.1753109962742; 
- Mon, 21 Jul 2025 07:59:22 -0700 (PDT)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
- [209.85.208.182]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55a31a9b939sm1597740e87.12.2025.07.21.07.59.21
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Jul 2025 07:59:22 -0700 (PDT)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-32ce1b2188dso37395031fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:59:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVtRm2exwLvNPmILgdKRA2CprpVPC2Wk8BswbQsyPjWbAlL4WXFZmcil1Vo0A5KLhsXMuozbqkiu4k=@lists.freedesktop.org
-X-Received: by 2002:a05:651c:b10:b0:32f:3671:4d6d with SMTP id
- 38308e7fff4ca-3309a469ac4mr36664631fa.1.1753109960994; Mon, 21 Jul 2025
- 07:59:20 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A9C9410E55C
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 14:59:53 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 972D8153B
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:59:47 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2C77F3F6A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 07:59:53 -0700 (PDT)
+Date: Mon, 21 Jul 2025 15:59:51 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Karunika Choo <karunika.choo@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 6/6] drm/panthor: Add support for Mali-Gx20 and
+ Mali-Gx25 GPUs
+Message-ID: <aH5V5_sXBGp5XOBQ@e110455-lin.cambridge.arm.com>
+References: <20250721111344.1610250-1-karunika.choo@arm.com>
+ <20250721111344.1610250-7-karunika.choo@arm.com>
 MIME-Version: 1.0
-References: <20250720085047.5340-1-ryan@testtoast.com>
- <20250720085047.5340-2-ryan@testtoast.com>
-In-Reply-To: <20250720085047.5340-2-ryan@testtoast.com>
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 21 Jul 2025 22:59:08 +0800
-X-Gmail-Original-Message-ID: <CAGb2v6641hLu85FJieWGH5YJsRmxCD1U-tXgStMZtCN1u0sFBQ@mail.gmail.com>
-X-Gm-Features: Ac12FXy8xxyVpMZUJXrjnYkRucYHTAN65deHIYaoxabOBlfZwoY8o6UDGEBDiMM
-Message-ID: <CAGb2v6641hLu85FJieWGH5YJsRmxCD1U-tXgStMZtCN1u0sFBQ@mail.gmail.com>
-Subject: Re: [PATCH v2 01/12] dt-bindings: allwinner: Add TCON_TOP_LCD clock
- defines
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, 
- Chris Morgan <macroalpha82@gmail.com>, Hironori KIKUCHI <kikuchan98@gmail.com>,
- Philippe Simons <simons.philippe@gmail.com>, linux-sunxi@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250721111344.1610250-7-karunika.choo@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,38 +52,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi.
-
-
-On Sun, Jul 20, 2025 at 4:51=E2=80=AFPM Ryan Walklin <ryan@testtoast.com> w=
-rote:
->
-> The Allwinner H700 exposes RGB and LVDS pins as well as a HDMI
-> connector. This requires additional clocks for the TCON_TOP as per the
-> T507 datasheet (which shares the same die).
->
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+On Mon, Jul 21, 2025 at 12:13:44PM +0100, Karunika Choo wrote:
+> This patch adds firmware binary and GPU model naming support for
+> Mali-Gx20 and Mali-Gx25 GPUs.
+> 
+> It also introduces the following registers:
+> - GPU_COMMAND_ARG0~1
+> - SHADER_PWRFEATURES
+> - MCU_FEATURES
+> 
+> The GPU_COHERENCY_FEATURES macros are slightly reworked as the
+> assumption that FEATURE = BIT(PROTOCOL) no longer holds with the
+> introduction of the SHAREABLE_CACHE_SUPPORT, which is BIT(5) on the
+> GPU_COHERENCY_PROTOCOL register. As such, the feature bits are now
+> individually defined. Further changes were also made to enable
+> SHAREABLE_CACHE_SUPPORT if coherency is enabled and the feature is
+> supported.
+> 
+> This patch also fixes a minor bug that incorrectly writes ACE instead of
+> ACE_LITE to GPU_COHERENCY_PROTOCOL if coherency is enabled.
+> 
+> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
 > ---
->  include/dt-bindings/clock/sun8i-tcon-top.h | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/include/dt-bindings/clock/sun8i-tcon-top.h b/include/dt-bind=
-ings/clock/sun8i-tcon-top.h
-> index 25164d767835..2a12d047d2e1 100644
-> --- a/include/dt-bindings/clock/sun8i-tcon-top.h
-> +++ b/include/dt-bindings/clock/sun8i-tcon-top.h
-> @@ -7,5 +7,7 @@
->  #define CLK_TCON_TOP_TV0       0
->  #define CLK_TCON_TOP_TV1       1
->  #define CLK_TCON_TOP_DSI       2
-> +#define CLK_TCON_TOP_LCD0      3
-> +#define CLK_TCON_TOP_LCD1      4
+>  drivers/gpu/drm/panthor/panthor_device.c |  2 +-
+>  drivers/gpu/drm/panthor/panthor_fw.c     |  2 ++
+>  drivers/gpu/drm/panthor/panthor_gpu.c    | 14 ++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_hw.c     | 18 ++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_regs.h   | 11 ++++++++++-
+>  5 files changed, 43 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 81df49880bd8..f547aa4159ec 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -34,7 +34,7 @@ static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
+>  	 * ACE protocol has never been supported for command stream frontend GPUs.
+>  	 */
+>  	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
+> -		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
+> +	     GPU_COHERENCY_FEATURE_ACE_LITE))
+>  		return 0;
+>  
+>  	drm_err(&ptdev->base, "Coherency not supported by the device");
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index fa6e0b48a0b2..9bf06e55eaee 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -1405,3 +1405,5 @@ MODULE_FIRMWARE("arm/mali/arch10.8/mali_csffw.bin");
+>  MODULE_FIRMWARE("arm/mali/arch10.10/mali_csffw.bin");
+>  MODULE_FIRMWARE("arm/mali/arch10.12/mali_csffw.bin");
+>  MODULE_FIRMWARE("arm/mali/arch11.8/mali_csffw.bin");
+> +MODULE_FIRMWARE("arm/mali/arch12.8/mali_csffw.bin");
+> +MODULE_FIRMWARE("arm/mali/arch13.8/mali_csffw.bin");
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 5e2c3173ae27..df2419706fe0 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -45,8 +45,18 @@ struct panthor_gpu {
+>  
+>  static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+>  {
+> -	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
+> -		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
+> +	u32 coherency_protocol = GPU_COHERENCY_NONE;
+> +
+> +	if (ptdev->coherent) {
+> +		coherency_protocol = GPU_COHERENCY_ACE_LITE;
+> +
+> +		if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
+> +		     GPU_COHERENCY_FEATURE_SHAREABLE_CACHE_SUPPORT))
+> +			coherency_protocol |=
+> +				GPU_COHERENCY_SHAREABLE_CACHE_SUPPORT;
+> +	}
+> +
+> +	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL, coherency_protocol);
+>  }
+>  
+>  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
+> index a7583342d797..3fcb69a6f959 100644
+> --- a/drivers/gpu/drm/panthor/panthor_hw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+> @@ -35,6 +35,24 @@ static char *get_gpu_model_name(struct panthor_device *ptdev)
+>  		fallthrough;
+>  	case GPU_PROD_ID_MAKE(11, 3):
+>  		return "Mali-G615";
+> +	case GPU_PROD_ID_MAKE(12, 0):
+> +		if (shader_core_count >= 10 && ray_intersection)
+> +			return "Mali-G720-Immortalis";
+> +		else if (shader_core_count >= 6)
+> +			return "Mali-G720";
+> +
+> +		fallthrough;
+> +	case GPU_PROD_ID_MAKE(12, 1):
+> +		return "Mali-G620";
+> +	case GPU_PROD_ID_MAKE(13, 0):
+> +		if (shader_core_count >= 10 && ray_intersection)
+> +			return "Mali-G925-Immortalis";
+> +		else if (shader_core_count >= 6)
+> +			return "Mali-G725";
+> +
+> +		fallthrough;
+> +	case GPU_PROD_ID_MAKE(13, 1):
+> +		return "Mali-G625";
+>  	}
+>  
+>  	return "(Unknown Mali GPU)";
+> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+> index e4c34f70a880..a9ea32e5fe39 100644
+> --- a/drivers/gpu/drm/panthor/panthor_regs.h
+> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
+> @@ -87,6 +87,8 @@
+>  
+>  #define GPU_DOORBELL_FEATURES				0xC0
+>  
+> +#define GPU_COMMAND_ARG(n)				(0xD0 + ((n) * 8))
 
-I'm confused as I don't see these new ones used anywhere in the series.
+This ...
 
-ChenYu
+> +
+>  #define GPU_SHADER_PRESENT				0x100
+>  #define GPU_TILER_PRESENT				0x110
+>  #define GPU_L2_PRESENT					0x120
+> @@ -96,6 +98,8 @@
+>  #define L2_READY					0x160
+>  
+>  #define SHADER_PWRON					0x180
+> +#define SHADER_PWRFEATURES				0x188
+> +#define   SHADER_PWRFEATURES_RAY_TRACING_UNIT		BIT(0)
+
+... and this are not used anywhere. Can we remove them until we add code that uses them?
+
+>  #define TILER_PWRON					0x190
+>  #define L2_PWRON					0x1A0
+>  
+> @@ -116,12 +120,15 @@
+>  #define GPU_ASN_HASH(n)				(0x2C0 + ((n) * 4))
+>  
+>  #define GPU_COHERENCY_FEATURES				0x300
+> -#define GPU_COHERENCY_PROT_BIT(name)			BIT(GPU_COHERENCY_  ## name)
+> +#define   GPU_COHERENCY_FEATURE_ACE_LITE		BIT(0)
+> +#define   GPU_COHERENCY_FEATURE_ACE			BIT(1)
+> +#define   GPU_COHERENCY_FEATURE_SHAREABLE_CACHE_SUPPORT	BIT(5)
+>  
+>  #define GPU_COHERENCY_PROTOCOL				0x304
+>  #define   GPU_COHERENCY_ACE_LITE			0
+>  #define   GPU_COHERENCY_ACE				1
+>  #define   GPU_COHERENCY_NONE				31
+> +#define   GPU_COHERENCY_SHAREABLE_CACHE_SUPPORT		BIT(5)
+>  
+>  #define GPU_SYSC_PBHA_OVERRIDE(n)			(0x320 + ((n) * 4))
+>  #define GPU_SYSC_ALLOC(n)				(0x340 + ((n) * 4))
+> @@ -137,6 +144,8 @@
+>  #define MCU_STATUS_HALT					2
+>  #define MCU_STATUS_FATAL				3
+>  
+> +#define MCU_FEATURES					0x708
+
+Same for this one.
+
+With that changed,
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+> +
+>  /* Job Control regs */
+>  #define JOB_INT_RAWSTAT					0x1000
+>  #define JOB_INT_CLEAR					0x1004
+> -- 
+> 2.49.0
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
