@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718CDB0C2A9
-	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 13:19:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC68B0C2C7
+	for <lists+dri-devel@lfdr.de>; Mon, 21 Jul 2025 13:24:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF2210E516;
-	Mon, 21 Jul 2025 11:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0868A10E13D;
+	Mon, 21 Jul 2025 11:24:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fdHzzUM8";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="caf84TSc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C42B010E516
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 11:19:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97E6910E13D
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 11:24:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1753096764;
+ s=mimecast20190719; t=1753097064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TFoz2WZRMZK4qulVAmwYVCtTJ8qaORO4AKebBTnJutI=;
- b=fdHzzUM8Ew3QfvZfnR7qpjMTKwWvC3V01YIbZIOsBFuAILBsFrSymAjhIIpzpivzy3O1V7
- ZGo0ESIommhMq0u6pfMgMFKUyVl4WldsnSnx0YQJjyQcVFsDe1KVW9CkKB8ENQBlnoOXXP
- X7EX+XxPfKCtnlJ7kJaK8N6lyQWm/UA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S64oug4rzFMt9OTheEDJ2IKdCev+SwZ84xmyXjvBrdc=;
+ b=caf84TScm/PlkCIizkjVs844qrr+xt2MvdBMUtZAUt+jDIbyKR/suaNjrXt5g+u0dgHpW/
+ Gsu/JaXhICWSDzhnmW42+U2lt9Qjw34fuC/XJitchBuTssdj/Iy76kne63f55WnBlAapCM
+ eAjxKAK4tMuK0N2HSsoWoJYHZ5sS4ho=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-257-Xk1GgW27NBKO2au7QnPpew-1; Mon, 21 Jul 2025 07:19:23 -0400
-X-MC-Unique: Xk1GgW27NBKO2au7QnPpew-1
-X-Mimecast-MFC-AGG-ID: Xk1GgW27NBKO2au7QnPpew_1753096762
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3a4f7f1b932so2880724f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 04:19:22 -0700 (PDT)
+ us-mta-55-c925Nv6WPGaPGfZTUJ5sWw-1; Mon, 21 Jul 2025 07:24:23 -0400
+X-MC-Unique: c925Nv6WPGaPGfZTUJ5sWw-1
+X-Mimecast-MFC-AGG-ID: c925Nv6WPGaPGfZTUJ5sWw_1753097062
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-451d30992bcso32273205e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 04:24:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753096762; x=1753701562;
+ d=1e100.net; s=20230601; t=1753097062; x=1753701862;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TFoz2WZRMZK4qulVAmwYVCtTJ8qaORO4AKebBTnJutI=;
- b=DWYhmrBQVcYgqjqgPufkCWjPoxaWyIG6z+B+bBISAy1VhVLlwDNtYFmANLSgTdzeaC
- iPQfw+Yv1ITqIDQZ7EqHehmPdKRtcp9YWUh6F6TQpwRj2pPtpzbNI2Sj6OoNZOxplf4c
- Hrd8JOSX7rHOF3yJ7hAhkk/syFa8ZlY0iOW0EOeob6XxoP63aRf6FEmAIY6RA/vSirVe
- MVVsKwISxYh248HMT1a3jlWcerRlyQS4fr+Ak2C/9JZG0zE7C4Xk8lKlw3HjBAmD0Osb
- hhSYdt+yh2P/V66gvzwc2M9Swk2wPBSSd7WX0r9VjagdGS8jTpnKG5i7H4cCvqCEmllM
- lvew==
-X-Gm-Message-State: AOJu0Ywv07d3VX8oW48VfcZ99w5KhKoRiHBKLce5J3Us5law2WfSmARF
- Pgeg9TXTQ+qrXIbnenYXb+9V3CWgj7espK+SnwCD4yZh97Ea+YyXwNkZfP5GK9jNFguly1sDeNu
- 6uoXgeOT0k8Fs8vbTlLYSQrO+aV+IS+yhBXa/BIIVW9+M4xFdhy7XLUDCmvLgmutwT/Tjbg==
-X-Gm-Gg: ASbGncsa7ZOLwNOFGPPvWBIXus8VtE0vJ/ISJQSY7rb4nTPAErvNyA75VR6b20iEmfG
- w2HSrGp8BmyxvAIg9dOHu00HXHfOaAsjRsSAYDger1Gl7ZNaTu0ZNbiNPn7CPS6AQ5PKhzls+tH
- LWNrUf33q+BbaWcfpdbHwAr1ZAgZa9oNbmFfB5vBRk5x8/VZYQfH+fNwZK3AA1Lfo87BpGRR2eB
- BNE/Xywxn4iXRS/KhLaLZLJPnY5KEz9PCaf+uW4uAtvDfsd+DzA6w3/9V7gHIaif5ryvfGVG5YJ
- Ljy45Sy9z1DNnsPV4sAGKsvDCKfXpviWTSWlNiiwFsmakGIyFAdslbPsoX81QYJ4FQ==
-X-Received: by 2002:a05:6000:2902:b0:3a4:f038:af74 with SMTP id
- ffacd0b85a97d-3b60e518418mr15912927f8f.51.1753096761758; 
- Mon, 21 Jul 2025 04:19:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEBgZ8j7cvCchuIks11flM8QmUtWUgbRezl2Kmbq73XrYO5/Elgn5PE0sAseXfZtCEO2HQMwQ==
-X-Received: by 2002:a05:6000:2902:b0:3a4:f038:af74 with SMTP id
- ffacd0b85a97d-3b60e518418mr15912898f8f.51.1753096761314; 
- Mon, 21 Jul 2025 04:19:21 -0700 (PDT)
+ bh=S64oug4rzFMt9OTheEDJ2IKdCev+SwZ84xmyXjvBrdc=;
+ b=WMb/wOBzqTNj9JVdzY8o297T6KibmXitJql0qSEKjSpLz64fOD7Zc5mRQTO5tiaCjs
+ uQuGJM8sb0/FHMzLzoY+4t0uCPsLYZHi5G+4w+OBQ4cNs27ZJtN54POZ17TtXKdJvAK9
+ u7VhBJgZa/IfBLhMu4iK828v4wqv3d9xq5/+OrAT2b17x4xB+viRs4Se0CErkdl7wsZ7
+ s+9CZIleUbIt+8M7bkBQsvyihdbgd1RgpDChZYe0hau9AkdWDUW5ZSaesX/TtDe6RcV7
+ dTmnkeKdRsA6VjxidVIxO2RwausXk7SSO2t8kvdYnOWCE2UQ/zutdQP9ZeWNZfxbgr8l
+ OQSw==
+X-Gm-Message-State: AOJu0YyN8wLeh4BXlUXROe16DXJWEQKSUdwSwTloHlBHFoX184zXqFtB
+ uN/g5ipBM8HQ4wSf00OIt6weN2x2oFMQ5ggT7iBfMA+hg4hxSBQyuryKj1XaDjdh/QWb7yZ+yAL
+ ifz7L9zKGaznYsCJx/58QW3IM6VKcxRshBe+FyQkvD3Ur45fj79tQAgg2SmCpdfOmqlf6bg==
+X-Gm-Gg: ASbGncvtYbhBxk12TmiSX/XZY9G8V7soECBt2C5cxlgIfB09jmQqz3Z6yLWvmg1Anf+
+ ya8+CWJKAW2bqg4hzgivcuk226UIejD/TSBT3DNse/QEFaPNXG90XTax8+GnPAiMkB/HH/MY4G1
+ p2OILW6QGCPaKDNvoZ42fsvHa9A6CFJrbKaiULmyocSxKthDmZ2512By5QcwmL5DowCruaPWn1e
+ iG0d/FZqV4yVijGF0j2eO0zS4Nv2Xkb5FdfHWgtkpRH0iUX+IFe9bwIyHFVB+kbLhYkzSkIxWbN
+ uMcdkpHf4qGWgPAcHoMur71vqHu9uNKQKpklH738E+OAYKDOuZJi6fZ5gMCZ3e3xYw==
+X-Received: by 2002:a05:6000:2286:b0:3a4:ef70:e0e1 with SMTP id
+ ffacd0b85a97d-3b60e53ef79mr14025127f8f.55.1753097061998; 
+ Mon, 21 Jul 2025 04:24:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHV5fGm/RSSf7ecoYFwTb4SzjfI9mHWgwy3o4Ms8iGa6PQPuLjyQSBdsTEN4qxIYWqzBJlVrQ==
+X-Received: by 2002:a05:6000:2286:b0:3a4:ef70:e0e1 with SMTP id
+ ffacd0b85a97d-3b60e53ef79mr14025105f8f.55.1753097061590; 
+ Mon, 21 Jul 2025 04:24:21 -0700 (PDT)
 Received: from localhost ([89.128.88.54]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b61ca2bf4bsm10047278f8f.31.2025.07.21.04.19.20
+ ffacd0b85a97d-3b61ca24219sm9820770f8f.15.2025.07.21.04.24.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jul 2025 04:19:20 -0700 (PDT)
+ Mon, 21 Jul 2025 04:24:20 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
@@ -72,16 +72,16 @@ To: Marcus Folkesson <marcus.folkesson@gmail.com>, Maarten Lankhorst
  Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>
-Subject: Re: [PATCH v2 3/6] dt-bindings: display: sitronix,st7567: add
- optional inverted property
-In-Reply-To: <20250721-st7571-format-v2-3-159f4134098c@gmail.com>
+Subject: Re: [PATCH v2 5/6] drm/format-helper: introduce
+ drm_fb_xrgb8888_to_gray2()
+In-Reply-To: <20250721-st7571-format-v2-5-159f4134098c@gmail.com>
 References: <20250721-st7571-format-v2-0-159f4134098c@gmail.com>
- <20250721-st7571-format-v2-3-159f4134098c@gmail.com>
-Date: Mon, 21 Jul 2025 13:19:19 +0200
-Message-ID: <871pq9aj0o.fsf@minerva.mail-host-address-is-not-set>
+ <20250721-st7571-format-v2-5-159f4134098c@gmail.com>
+Date: Mon, 21 Jul 2025 13:24:19 +0200
+Message-ID: <87y0sh947w.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: De9zMtf2JHg3d2F3slg3T0g7Li8BDYIanW4eqbn_nR4_1753096762
+X-Mimecast-MFC-PROC-ID: 0iSeCKbAxVV7OxSa6rOR5uuBmFi_y_A7SDatE8OVpGo_1753097062
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,20 +101,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Marcus Folkesson <marcus.folkesson@gmail.com> writes:
 
-Hello Marcus,
-
-> Depending on which display that is connected to the controller, an "1"
-> means either a black or a white pixel.
+> Convert XRGB8888 to 2bit grayscale.
 >
-> The supported format (R1) expects the pixels to map against:
->     0 => Black
->     1 => White
->
-> If this is not what the display map against, the controller has support
-> to invert these values.
+> It uses drm_fb_xrgb8888_to_gray8() to convert the pixels to gray8 as an
+> intermediate step before converting to gray2.
 >
 > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 > ---
+
+I would like Thomas to review it too, but for me the change looks good.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
