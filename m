@@ -2,97 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B4FB0E1F2
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 18:32:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFD7B0E231
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 18:53:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE9A10E6CC;
-	Tue, 22 Jul 2025 16:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2212F10E30F;
+	Tue, 22 Jul 2025 16:53:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="PwnteF8B";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bvXXYSIp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCE6210E6CC
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 16:32:17 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id
- 41be03b00d2f7-b26f5f47ba1so4613021a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 09:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1753201935; x=1753806735;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=g5dIDnAxZOX8ng1HhpeNVCkuVrJFpRO5masWNAnQ3RE=;
- b=PwnteF8B+mHHE2T96L/RaUmxW9engi3e8BZb9JX4OHV5EYbfwaKQ2IVB4ykg0hN7Ep
- LYwQps46huqknvByRY4qppFIauZ6kKLDtovE5o3mGd4/UW3u6926lokPM+M17JT9OgzQ
- LKIroliYzjS21rIx4sYQVAzr4RCO/YKKaytjY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753201935; x=1753806735;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=g5dIDnAxZOX8ng1HhpeNVCkuVrJFpRO5masWNAnQ3RE=;
- b=fznENSBq4YijP5+a1V1Yhz7Kw1GWgCmBWvCL5Ba/l14pT5bjP/CETGyNJ8o4NrfTJJ
- DyOvj1i/yK9suZ/+5SLgyUYjKlaR6Tzcs5c3D723hXs2SrQMfAQhu3hqecynyrSZ5meZ
- yqHxvRGotnhmflixE0pEpaAeFZOmxJK9cBdDSGHUfGCl7Fevp8PV0Z6WsKUQsZtrFK8U
- 7WTdEX9JDPf4XDkgkdvfgdLY1SGa3xFAl75eNc4ViqcdOR89Yyv9PKketoMoMcLZE8H+
- /DfGeQNV1WumMgRfCdk0ju4MuAlGzoNG7VSKLkDZfBhYnxYiFgNIf8YBFxiz47VeqD8f
- z+IQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWveywGgnzmvHyS1um4rtG0NfaBMb7pJ8Eo9oS1qRwwxV/UkjNCa/U4NmDeiEQNdK1G4o+oEl9bkCU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyyYO+FcXSMVwHhfUMvu7+zPI8YaOhle/WMrpYfW03QFpf2Xjf9
- WEdTU9QgQvJPLR638DVJ3VZmajv5tl4Lo8RIKnm2MbOXAA1Gz0vS4U6RcpWtAzCx8BxGOyiBNwm
- vZvQ=
-X-Gm-Gg: ASbGncvdIWKQpfHGQXaxt1D0RzSxvJ2/7KdHThp2AatqZ56HZFNiuzitIZLjsC83hC6
- oeq7s+5benW/nlFhA/DF1FRe2Ep93QNt0aYOAZdcgo9JkCPL75Hnqkq2gsH04ZqJUPdSiTFDf3C
- qTgIT0gjemlYs70Jwf91wh/WbhjWPTjdcC1Y2aiJVMoF+km2lrXCj9kTM27TOxJyVTEhbOf7pSy
- 13lSNhGcyJFBove14fedMblo2PEh3Xk9OLPAu9NSFUYSJCYSBh/7ldjU4ubFhKnnDY3Cf0en5kL
- YbLRtoo+cbJd5++L/Y+ZIi45g7P9dzkAiLahrMhmCFb95T2kNG2IQeVNB/+/i5dihtpUNqldCn/
- WtQi0h47/SX8eCf8+SnCaICnuJOj27JEWws1KOncc3RyNPzG2FiQC+M6tQKjXMAhG/6ioALMn
-X-Google-Smtp-Source: AGHT+IGN9EtoHM6/YhRhf7Hb3mln62VmOlxwc9FY0PjFW3btoigtrY6baqv42m2KzheQNAInBBOsxg==
-X-Received: by 2002:a17:90b:46:b0:312:1cd7:b337 with SMTP id
- 98e67ed59e1d1-31c9f3c3663mr30297030a91.5.1753201935022; 
- Tue, 22 Jul 2025 09:32:15 -0700 (PDT)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com.
- [209.85.216.51]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-31cc3e5bec9sm8315103a91.15.2025.07.22.09.32.11
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-313a001d781so4735696a91.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVrZTXT66JfHTRWCuSbxMo3czRidFYQxEZlL/CxpM42BRH/QgDLCVeO0Grlh9olW0ru6APNHT6HWWs=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:2247:b0:313:283e:e881 with SMTP id
- 98e67ed59e1d1-31c9f3ded05mr36938957a91.11.1753201930387; Tue, 22 Jul 2025
- 09:32:10 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88A510E30F
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 16:53:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753203195; x=1784739195;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=CkaSBlwzzYaGcAnLPWY/P+SSy1fbLBWJPLy6c9IYQlI=;
+ b=bvXXYSIpiPwOgEP6/GvctIMANulcvHkF725K28dYyAxeR3bx30oP90zR
+ rHOVuQVlt9A4VZ7CRxNfRe/9XSTkTMwA0MfpEh5kK2kUfHxZgohOh/4Js
+ RzqTwOr7lQEoDnlD2eaWjH7N0DHWUbkm51hxU9oyDUxYTuRWeV14eBgR+
+ xmPH43NKWHPzskeNfI4Ob36ybkicykUNjw2oYsXvgaYUhojoQDlVY1Uo/
+ fX8f1MAgXAmpH+eKy7lePHt7fbnQfAvUOJI/zieQifUuqQ6nap/qjI7SY
+ SiktKOV0oaH5d0KBunQB+7H5rGY6W41y2Pj+SX6lVNNjiqFZHtJKNqYuG A==;
+X-CSE-ConnectionGUID: RwsGNQ9nS5mJL+jnUFBlaQ==
+X-CSE-MsgGUID: l9Rs6kEhSnugDYHnRpKz6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55316299"
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="55316299"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2025 09:53:15 -0700
+X-CSE-ConnectionGUID: HEoKRkggRsaAZDKRCtkP8w==
+X-CSE-MsgGUID: sm7HFahMQHucoTbGEEvprw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="158495843"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+ by orviesa010.jf.intel.com with ESMTP; 22 Jul 2025 09:53:12 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ueGEo-000IYZ-14;
+ Tue, 22 Jul 2025 16:53:10 +0000
+Date: Wed, 23 Jul 2025 00:52:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
+ Christian Koenig <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dave Chinner <david@fromorbit.com>,
+ Kairui Song <kasong@tencent.com>, Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH 15/15] ttm: add support for a module option to disable
+ memcg integration
+Message-ID: <202507230039.EESybnUE-lkp@intel.com>
+References: <20250722014942.1878844-16-airlied@gmail.com>
 MIME-Version: 1.0
-References: <20250722015313.561966-1-me@brighamcampbell.com>
- <20250722015313.561966-3-me@brighamcampbell.com>
-In-Reply-To: <20250722015313.561966-3-me@brighamcampbell.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 22 Jul 2025 09:31:58 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Vg6LoPzOHRj=XzCcSb7rPb=vPuCZngrf4hROZNwfj2Pg@mail.gmail.com>
-X-Gm-Features: Ac12FXxeoQ5h83qTRHx6WqFmrhVxXb5TjaxOWmVQAou0S7ba7bXolm4shfJMxPI
-Message-ID: <CAD=FV=Vg6LoPzOHRj=XzCcSb7rPb=vPuCZngrf4hROZNwfj2Pg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
- driver
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250722014942.1878844-16-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,40 +73,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave,
 
-On Mon, Jul 21, 2025 at 6:53=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
-l.com> wrote:
->
-> Fix bug in unprepare() which causes the function's return value to be
-> that of the last mipi "enter sleep mode" command.
->
-> Update driver to use the "multi" variant of MIPI functions in order to
-> facilitate improved error handling and remove the panel's dependency on
-> deprecated MIPI functions.
->
-> Use the new mipi_dsi_dual macro to reduce code duplication.
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++++++------------
->  1 file changed, 59 insertions(+), 137 deletions(-)
+kernel test robot noticed the following build errors:
 
-Just for fun, I ran bloat-o-meter to compare before and after.
+[auto build test ERROR on drm/drm-next]
+[cannot apply to akpm-mm/mm-everything linus/master v6.16-rc7 next-20250722]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-add/remove: 0/0 grow/shrink: 0/3 up/down: 0/-217 (-217)
-Function                                     old     new   delta
-jdi_write_dcdc_registers.d                    10       5      -5
-jdi_panel_unprepare                          312     260     -52
-jdi_panel_prepare                           1020     860    -160
-Total: Before=3D4908, After=3D4691, chg -4.42%
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations-v4/20250722-104402
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20250722014942.1878844-16-airlied%40gmail.com
+patch subject: [PATCH 15/15] ttm: add support for a module option to disable memcg integration
+config: x86_64-buildonly-randconfig-001-20250722 (https://download.01.org/0day-ci/archive/20250723/202507230039.EESybnUE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507230039.EESybnUE-lkp@intel.com/reproduce)
 
-...not as big of a savings, but that's not too surprising in this case
-since we don't have the whole pile of "seq" functions. Still the point
-was making the driver cleaner and the space savings is just an extra
-bonus!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507230039.EESybnUE-lkp@intel.com/
 
--Doug
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/ttm/ttm_pool.c:132:27: error: 'CONFIG_DRM_TTM_MEMCG' undeclared here (not in a function); did you mean 'CONFIG_DRM_TTM_HELPER'?
+     132 | #define DEFAULT_TTM_MEMCG CONFIG_DRM_TTM_MEMCG
+         |                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/ttm_pool.c:133:25: note: in expansion of macro 'DEFAULT_TTM_MEMCG'
+     133 | static bool ttm_memcg = DEFAULT_TTM_MEMCG;
+         |                         ^~~~~~~~~~~~~~~~~
+
+
+vim +132 drivers/gpu/drm/ttm/ttm_pool.c
+
+   120	
+   121	/*
+   122	 * Don't use the memcg aware lru for pooled pages.
+   123	 *
+   124	 * There are use-cases where for example one application in a cgroup will preallocate 1GB
+   125	 * of uncached pages, and immediately release them into the pool, for other consumers
+   126	 * to use. This use-case could be handled with a proper cgroup hierarchy, but to allow
+   127	 * that use case to continue to operate as-is, add a module option.
+   128	 *
+   129	 * This still stores the pages in the list_lru, it just doesn't use the memcg when
+   130	 * adding/removing them.
+   131	 */
+ > 132	#define DEFAULT_TTM_MEMCG CONFIG_DRM_TTM_MEMCG
+   133	static bool ttm_memcg = DEFAULT_TTM_MEMCG;
+   134	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
