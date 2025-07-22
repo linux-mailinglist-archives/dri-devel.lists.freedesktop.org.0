@@ -2,100 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F14B0D78E
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 12:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D68B0D80A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 13:21:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D60910E2B8;
-	Tue, 22 Jul 2025 10:52:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8D7810E070;
+	Tue, 22 Jul 2025 11:21:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="C6VqZ2f7";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="llkC/Qoz";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="TZ6myj7n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-b7-smtp.messagingengine.com
- (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE0410E079;
- Tue, 22 Jul 2025 10:52:54 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal
- [10.202.2.45])
- by mailfhigh.stl.internal (Postfix) with ESMTP id 5515A7A0201;
- Tue, 22 Jul 2025 06:52:53 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
- by phl-compute-05.internal (MEProxy); Tue, 22 Jul 2025 06:52:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1753181573;
- x=1753267973; bh=FnLOLSv8agUNvtWwXJcvjWEfYF/cxzIbWP6/PqOEwAk=; b=
- C6VqZ2f7S9mIRYUELpXpnO+t69T3rnNMXuzWdaK0skJw3mX2rjnMo99gBMZIEkdm
- GRmQRG21g5icCitmkKspFhO3+WgV1e7jDG4im8gm6Ju/jfgt0nFLoSEYgRPIPoWf
- UDQSFpOU8XzMP+AhmX7rdHlyxiXm9K20mH8lRJamCxesQweQ42ZuTnWPQE1s+cUy
- cHwzpLF0+ORRQ5fhoHoaZ7B8iCNEyHc1rgSSSe6846A547d43qJKU8HMLf5xw5Q0
- fG9YLbYiZy3OLqaHYrcTuJjhtxH9K0JcoZRt6cyTDc1mMeJYu+SOn4IRsRuitnPV
- 7Om/9IUL2rn7WgC2LZlyhQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1753181573; x=
- 1753267973; bh=FnLOLSv8agUNvtWwXJcvjWEfYF/cxzIbWP6/PqOEwAk=; b=l
- lkC/QozRAylQgy6u7kRCxvUIEG1Ke6z8TeCFBvPSD/8OI9YBM6Kc4ugdxIuVXlJp
- LS83fZACrI1wNVRqSpigtbmyAV2V607Sj+fzSoASGR/wf3Yqfzbb0CwLw9vm6umz
- U8Tf2op9kh6rVlPyJSUOVoL7dgcco8E9yzmzzuwF/1mdGwLWsChWUsDy8DKZ8tL4
- HUzM0oAZ1Kfbqcus0CwA5RlEhcdY2juyD9UhDR/Fq2ml/b8QYhwezjU9WQe9Eyn9
- gqWrQKiVKWUuzsL2SsopqtZzumjyL/IQ9EBjghO6dhtPKkGGKHHrcrcvfhr/Sl5h
- Y+ymbYN5mkyaeN/KA5y4Q==
-X-ME-Sender: <xms:hG1_aBEK_DWPSzEhKYWqA8yKDJ1izCEv6xSL3zTRRayHtxRijVhhxQ>
- <xme:hG1_aGWr_brqeEpSRKL7TCLl_A9YyH7zaBPkZL6KGyE0dsrqpnNC6LHZaI0cEZ0J1
- gybBhfWeLPLBmvMIfU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdejgeejudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
- uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
- hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
- ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
- esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhhtphhouhht
- pdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrihhrlh
- hivggusehgmhgrihhlrdgtohhmpdhrtghpthhtoheptghhrhhishdrsggrihhnsghrihgu
- ghgvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshgrthgrughruhesghhmrghilhdrtg
- homhdprhgtphhtthhopegrrhhnugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughr
- ihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtth
- hopehnohhuvhgvrghusehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghp
- thhtoheprhgvghhrvghsshhiohhnsheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
- htthhopegsshhkvghgghhssehnvhhiughirgdrtghomh
-X-ME-Proxy: <xmx:hG1_aAO57fs7HK76j4t-6D10Og1axam1vQQiYg7sR_mkTbZnz1devA>
- <xmx:hG1_aO2C3xsktnCVcqaaED66usVapgUe6HiFXuodCIBJbFKPSAAITQ>
- <xmx:hG1_aGoM-5k1pDzf6gT6A5zWJoUz6J-8js2brOIBKnVjweJxOT7f8Q>
- <xmx:hG1_aAcNFY8wF6rYWJ5EgpxGwj_2HUtujs7x6_77x9AKuF9OyQ4AMA>
- <xmx:hW1_aDOZEwNtzPLa3pup_ixPAFisLyKZONmEX3Az98dsOdbYdDlZwBbH>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id D45E8700065; Tue, 22 Jul 2025 06:52:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 786CE10E070
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 11:21:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1753183273; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Gv9oGH68zKdRkIgjVM1zHmhUNikzYByusvfpbbSI3qQrbR6dy7qMYYwdrP+vfVtzjqSY3lUQygV2QTV/Hu1Ti5IJpeQ8rKdG22+0BAYZr0tNvlz9JqyAZ2y3T+rbZe50Mi4MhWEO14deO3OcSdCjzpt1BDVU2sZDspacWWB7heg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1753183273;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=FmEk2snejcbJWJ/01YuvjfvZovqB2NJooCH4yUHlJEc=; 
+ b=B24BUEmKFJAz5yfFZeg5er2Np9zSmQYtrHTHcIqcQYsKrwpBi9jthCB1aH6NLfP4KhDQaCqUOCBndWWI7Dqq5GoTehMGhU3aQGETCOCjahgK9BGvZqk+P3460BfoA1nGGNLGBB1p1KTuBTHVTozOORhc6563ExzGPRN1d9cc5tk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753183273; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=FmEk2snejcbJWJ/01YuvjfvZovqB2NJooCH4yUHlJEc=;
+ b=TZ6myj7noYo/vloSK0+qJn14TElPvDkOLnV5/7kic+HAO8Qdthw7GMjZEZUJJdFi
+ qJJkpLbCew9GtF4j3OBAD/EGxtlgqClS9ltt3MBSM9G9vlJOXqXdZEUOM2DANShjwF7
+ wibTDBRYgilWN6uiJ9RDRtQDh91rdmrG/UzFcbEC/+Un8X5Pc+VkmXnuTB3OCZtF2o7
+ xFQkdSYwDrlaT63t9a0R+dH5TenGOie2A50uNZl56lSj7hRUScy78fNMR5wSyFOHkDV
+ sQZ4bnGxMt9GxW22cVKDGfEaUAHnPcE/EuIio2MJ9gjZavtajc7SNeF70S8TpHczmwY
+ sjw4Lxro0g==
+Received: by mx.zohomail.com with SMTPS id 1753183268062183.51689612735777;
+ Tue, 22 Jul 2025 04:21:08 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, Han Gao <rabenda.cn@gmail.com>,
+ Vivian Wang <wangruikang@iscas.ac.cn>, Inochi Amaoto <inochiama@gmail.com>,
+ Yao Zi <ziyao@disroot.org>, Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH] drm/ttm: add pgprot handling for RISC-V
+Date: Tue, 22 Jul 2025 19:20:50 +0800
+Message-ID: <20250722112050.909616-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-X-ThreadId: T0fa10d1000c4a2fe
-Date: Tue, 22 Jul 2025 12:52:30 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Chris Bainbridge" <chris.bainbridge@gmail.com>,
- "Satadru Pramanik" <satadru@gmail.com>
-Cc: "Arnd Bergmann" <arnd@kernel.org>, "Dave Airlie" <airlied@gmail.com>,
- "Dave Airlie" <airlied@redhat.com>, "Ben Skeggs" <bskeggs@nvidia.com>,
- "bskeggs@redhat.com" <bskeggs@redhat.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list" <linux-kernel@vger.kernel.org>, "Lyude Paul" <lyude@redhat.com>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "Simona Vetter" <simona@ffwll.ch>, "Timur Tabi" <ttabi@nvidia.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, regressions@lists.linux.dev
-Message-Id: <d5010230-b718-4770-b731-f62225f1f808@app.fastmail.com>
-In-Reply-To: <aH9n_QGMFx2ZbKlw@debian.local>
-References: <CAFrh3J85tsZRpOHQtKgNHUVnn=EG=QKBnZTRtWS8eWSc1K1xkA@mail.gmail.com>
- <aH9n_QGMFx2ZbKlw@debian.local>
-Subject: Re: [PATCH] drm/nouveau: check ioctl command codes better
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,29 +76,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 22, 2025, at 12:29, Chris Bainbridge wrote:
-> On Mon, Jul 21, 2025 at 08:22:48AM -0400, Satadru Pramanik wrote:
->> Hello all,
->> 
->> I suspect this commit in 6.16-rc7 has broken acceleration with Mesa's
->> nouveau drivers on my machine.
->> 
->> glxinfo -B reports that I'm using llvmpipe.
->> 
->> Reverting this in 6.16-rc7 restores nouveau acceleration, and glxinfo
->> then reports: "OpenGL renderer string: NVE7"
->
-> I also bisected an issue to this commit. On my laptop, this commit
-> results in an intermittent desktop crash (Xorg segfault) when changing
-> display scale, which can be more reliably reproduced with:
->
-> for x in {1..100}; do
->   xrandr --output eDP-1 --mode 2560x1600 --scale 0.5 --filter nearest
->   xrandr --output eDP-1 --mode 2560x1600 --scale 1 --filter nearest
-> done
->
+The RISC-V Svpbmt privileged extension provides support for overriding
+page memory coherency attributes, and, along with vendor extensions like
+Xtheadmae, supports pgprot_{writecombine,noncached} on RISC-V.
 
-I won't have time to work on fixing my patch before the merge window,
-let's just revert it.
+Adapt the codepath that maps ttm_write_combined to pgprot_writecombine
+and ttm_noncached to pgprot_noncached to RISC-V, to allow proper page
+access attributes.
 
-      Arnd
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+---
+ drivers/gpu/drm/ttm/ttm_module.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_module.c b/drivers/gpu/drm/ttm/ttm_module.c
+index b3fffe7b5062..aa137ead5cc5 100644
+--- a/drivers/gpu/drm/ttm/ttm_module.c
++++ b/drivers/gpu/drm/ttm/ttm_module.c
+@@ -74,7 +74,8 @@ pgprot_t ttm_prot_from_caching(enum ttm_caching caching, pgprot_t tmp)
+ #endif /* CONFIG_UML */
+ #endif /* __i386__ || __x86_64__ */
+ #if defined(__ia64__) || defined(__arm__) || defined(__aarch64__) || \
+-	defined(__powerpc__) || defined(__mips__) || defined(__loongarch__)
++	defined(__powerpc__) || defined(__mips__) || defined(__loongarch__) || \
++	defined(__riscv)
+ 	if (caching == ttm_write_combined)
+ 		tmp = pgprot_writecombine(tmp);
+ 	else
+-- 
+2.50.1
+
