@@ -2,120 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2F0B0DE9B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 16:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE60B0DEA7
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 16:31:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE47610E6A1;
-	Tue, 22 Jul 2025 14:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD1010E19E;
+	Tue, 22 Jul 2025 14:31:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RxG/FZr4";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="d0FqbdSG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tPLgTgax";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dJwwtp5g";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NFsJE0Xm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA81B10E6A1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:30:23 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56MA53B2016262
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:30:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- x/SZ0lHFoJHSAX7MLV7k/Qc97OKQJ9c7d2vsYjpczs4=; b=RxG/FZr4xEQeY5vn
- qX0sSrMzgTq88IcR0hMrfzu1DG7zz++O/Lr4qUiZ4BpYMf1H1giGoptn5fgASdYu
- 1ObLnGbCwr1ZmFHNUcOOmgpWZl25DwCALBpE2u5ybbdzbmO1VPC05IU2x5xntwY2
- 9LvZmsMFtEBiobzrI4UnwVd5wAWazVZpkFS0un7Gj8j2sF23onazRJsScif5oee+
- DdN63Eqg1ZaLwfSLz8/hoH5rdt49Rib7jtZxL+HW5gCDDYuHT42RWz2axWsv5Sru
- YnJ56uXovMXv+pKNUgcbcA0r8R+R+h2H+krvNdnxXN4vapRvF8XVPE9IGygnMAZy
- +oeBJg==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48048s1t7w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:30:22 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6f539358795so19551456d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:30:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753194622; x=1753799422;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=x/SZ0lHFoJHSAX7MLV7k/Qc97OKQJ9c7d2vsYjpczs4=;
- b=ecWaQ6/qUIFlFK6U9HkucGSLz5LHjkJ29ssMEUYDRAdXOvN7pQ7G21FA++ZYJCFpwE
- n5kl6rE/ge/5mX1habN/2VxuZ7cCldQ1okiqvbpVWHRFLRJ/fg+g2MiajFNRJLcNXInk
- A3kketM1eFLZYkedEnbSbiKIQvt49yAotdUoGoBv9r/PNhHZ72sZWf79tW0zp8ET8ocX
- dkq7HFZjn8/ogi+vVWaZbkCySS2X/U1DAgzHP87FL/U6tNcf+g6Tjj5WhC70/2nZebyF
- lagtvRM78wCLzbsohi1K2qRVhnv4K0AEZHmrRbPrc8v+TcZW7Mtjj6Ah3ewTttJNmfTo
- gPOw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0UZfalKSpL5bOUYNVmqukw8t2waEUJLwFzao+d/noSILuBZgHXPR+IXKxhpzgXKPhWoJPxjeYp/g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8D/8cyYWykf8l7AaMXKhROqcQO/9vdQT9jztwdAVbU98mSDgz
- siIrxCSeZ+dXklt/if2xiJB4Kkm7NgSEELloINg9N5RmvElMTqQgrVJXu9vyZQ7AlgYc8KN24Xf
- BrNkONucTgQxKbaKjrlNbRa8M6jREiKIfXkypPwXHpbt6qYmrKR8ZxCz5temspv7AA/7H+HE=
-X-Gm-Gg: ASbGncsyll+UQ644maEqTN/yAYYGe48flzOdnI798XyyrOFcynLVpyTPbCr7C6iGyW9
- Jd18HUjtz6s3GJ6UAefy/2WTeV4Gpv78yYs+KOoUCPxDZuGUDA31r3KZ7UdSmR0TpCYSIL9H1RF
- wcLv66lSyF8VvElLBS1OlAsd6x4m/J2+9O2ZqAbPTWe90/ZnjJZMhRDV+gu2XFBZnl9tQ/rvCcF
- k4WsnvcrxzOHAaHUCy+ZZ5lPyiMwTpVCFplqI80sHxGZrnZ1oVeFsvAmxEnB0nE/jPj1Z05OmGa
- 73ccZQXw6aW+/Zw5zHpwSQZ/+uUiURuubsVQuE4oVU1xHqNjajZ5C39BhMZqAajdNlouCWQypGg
- HUFe/N/HU0MZjG//fSjlD
-X-Received: by 2002:a05:620a:a48b:b0:7e6:2435:b6a4 with SMTP id
- af79cd13be357-7e62435bac5mr97899685a.12.1753194621264; 
- Tue, 22 Jul 2025 07:30:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IELIFe7dttYXlWKLb8+yk+ojhPQpxXLFbOGTgUNnufmtAMzR7XiOb6CgD79dyMxVD6171XqNg==
-X-Received: by 2002:a05:620a:a48b:b0:7e6:2435:b6a4 with SMTP id
- af79cd13be357-7e62435bac5mr97890885a.12.1753194619840; 
- Tue, 22 Jul 2025 07:30:19 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aeefb091e4dsm486326866b.12.2025.07.22.07.30.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jul 2025 07:30:19 -0700 (PDT)
-Message-ID: <d4b46652-c4d0-44b4-aef5-e8bcf606de06@oss.qualcomm.com>
-Date: Tue, 22 Jul 2025 16:30:16 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6DD910E19E
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:31:45 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C473C1F7CA;
+ Tue, 22 Jul 2025 14:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1753194704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=pHYWfw/m4PTgtfW0+QFjAYnrHgL2x5x4Pyqks+qkPFw=;
+ b=d0FqbdSGTevG2TN5pFlZQ90qZQVxnWGmi2Kki8EG3xPOrCkz2vlbWDuYMuLXh8nv5v9Bbl
+ YKJSgfSUETV96WfXAWoHhPhj7rFrkMa7j0TP9PJEu6S8jMaD0GZ7gaUfEaNfp+u9tvx/4G
+ CpHuZVcIihh9R5CeiFPNVX98YlSaepc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1753194704;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=pHYWfw/m4PTgtfW0+QFjAYnrHgL2x5x4Pyqks+qkPFw=;
+ b=tPLgTgax3LeXBBkXg9iEQPrMJB3h/CfOdXw+PLKNlO4tTZNje/emJWwhXhXuLWjDjnTzgM
+ AMk1Gx6IB2CrTVAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1753194703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=pHYWfw/m4PTgtfW0+QFjAYnrHgL2x5x4Pyqks+qkPFw=;
+ b=dJwwtp5g79JNBn/H92bwLSKHeZ5EESnXnsWaJYELSHg87c2tYbQOnt1IBmiY6VFW1TY6Wo
+ oGdwla49Ywg37F66GwL2pwbFUL5rHzIp42qR4xv2h5YNyJ0pSt4XcWeFcrWXgl+zJMmXVh
+ dwQ1JzwU3R+W3io8D2zUdEgboe7SR18=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1753194703;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=pHYWfw/m4PTgtfW0+QFjAYnrHgL2x5x4Pyqks+qkPFw=;
+ b=NFsJE0XmnNsSFy7n4DiRUhNWmw8m6YfuzN3qz2jpzG3lKf1kQTwEXCXvd0Y8EdSFTOMcKN
+ 5D2r6hx/O/3i3uBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10493132EA;
+ Tue, 22 Jul 2025 14:31:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 13/rAc+gf2i7KAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 22 Jul 2025 14:31:43 +0000
+Message-ID: <5e569f5a-61b3-40ec-b320-dc1dc69e2413@suse.de>
+Date: Tue, 22 Jul 2025 16:31:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/17] drm/msm: a6xx: Refactor a6xx_sptprac_enable()
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
- <20250720-ifpc-support-v1-2-9347aa5bcbd6@oss.qualcomm.com>
+Subject: Re: [PATCH] drm/udl: add noblocking dirtyfb support
+To: oushixiong1025@163.com, Dave Airlie <airlied@redhat.com>
+Cc: Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250722102912.2256895-1-oushixiong1025@163.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250720-ifpc-support-v1-2-9347aa5bcbd6@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250722102912.2256895-1-oushixiong1025@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDEyMCBTYWx0ZWRfX5oxKmnrOjARk
- sPxRBZKNdA/LBoYI4rPRvCHzn+ETzzSD/bHDK36Qy00nIy9v0UETdRqdU2zpj8jas4EjWaJiyWN
- denTvCjJ/5DGjDF8ZHm711J3/ZoeEbIuLy8QFY+ovy3AhUnl7qK96/mFK5PIqLYKonNx0VBp36s
- d+n4vc2ZhYwwwqOGMUdjU1k+MuXNhXbmqFCT5WVWQeRJExQFKbWboI7KWcLIEMbggq0JjyvxIkG
- I/CuVzyaJOpTVMvKQ71+lfs1miCgVxqD3Sd+2kt4KdtFuu3gPzqLkTE9Oh4XE8pNIPGktlR+f+/
- qEh5XUQUFZ5WxkOm6i2rGNknc9Qkunc9ImMr6Ihf8iwgAbxnQnbtdMKWjZfswLOw9ehvO0DVSBN
- piABaCTgfR1QuQKqISBtabmBz4GjM9a5HZVKZw4ecpZlbqJ0STGVcI7qQClwvXXIlXpL0Vh/
-X-Proofpoint-ORIG-GUID: rQ4tuHhxCQ9psPeWTzcJU8fmEfFJkRte
-X-Proofpoint-GUID: rQ4tuHhxCQ9psPeWTzcJU8fmEfFJkRte
-X-Authority-Analysis: v=2.4 cv=OPUn3TaB c=1 sm=1 tr=0 ts=687fa07e cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=68B5CXoyvkL1tjfyVhIA:9
- a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 mlxlogscore=898 lowpriorityscore=0 suspectscore=0
- spamscore=0 mlxscore=0 bulkscore=0 priorityscore=1501 phishscore=0
- malwarescore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507220120
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_TO(0.00)[163.com,redhat.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[poorly.run,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,kylinos.cn];
+ RCPT_COUNT_SEVEN(0.00)[10]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[patchwork.freedesktop.org:url, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,31 +145,344 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/20/25 2:16 PM, Akhil P Oommen wrote:
-> A minor refactor to combine the subroutines for legacy a6xx GMUs under
-> a single check. This helps to avoid an unnecessary check and return
-> early from the subroutine for majority of a6xx gpus.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Hi
+
+Am 22.07.25 um 12:29 schrieb oushixiong1025@163.com:
+> From: Shixiong Ou <oushixiong@kylinos.cn>
+>
+> [WHY]
+> The DIRTYFB IOCTL is blocking by default. In multi-GPU setups, this
+> may rate-limit the Primary GPU if the UDL handles damage too slowly.
+> For example, in a cloud virtual desktop environment, when a USB
+> DisplayLink device is connected to the client, the primary screen's
+> refresh rate may significantly degrade. This occurs because the DIRTYFB
+> operations must first be transmitted over the network (to the remote host)
+> before the actual USB display commands can be executed.
+>
+> [HOW]
+> Add non-blocking DIRTYFB support for UDL as an optional feature.
+> Move udl_handle_damage() to a dedicated kthread, and try to merge damage regions
+> before processing to prevent display content from lagging behind the latest
+> data too much.
+>
+> In my cloud desktop system environment, the udl_handle_damage() takes up to
+> dozens of milliseconds. After using this optional feature, the desktop display
+> becomes smoother and more responsive.
+
+Display updates serve as a rate limiter to desktop environments. Take 
+away the blocking and your desktop will easily push large amounts of 
+updates to the driver without waiting for earlier updates to finish. 
+We've especially seen this on virtual gpus with little overhead from I/O 
+writes. I've sent out a series to fix that, see 
+https://patchwork.freedesktop.org/series/149887/ . This probably first 
+needs to be reviewed and prove itself in practice.
+
+The other big problem is that we have a number of drivers with such 
+damage threads. Usually all hardware on the slow, serial busses is 
+affected. IIRC they usually have issues with lifetime of the involved 
+buffers or need extra memcpys. It's time to integrate this into DRM 
+helpers and solve the issues for all drivers.
+
+Hence, a soft-NAK until these underlying problems have been addressed.
+
+Best regards
+Thomas
+
+>
+> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 38c0f8ef85c3d260864541d83abe43e49c772c52..41129692d127b70e9293b82bea5ccb6b911b0bfb 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -403,7 +403,10 @@ int a6xx_sptprac_enable(struct a6xx_gmu *gmu)
->  	int ret;
->  	u32 val;
->  
-> -	if (!gmu->legacy)
-> +	WARN_ON(!gmu->legacy);
+>   drivers/gpu/drm/udl/udl_drv.c     |   4 +
+>   drivers/gpu/drm/udl/udl_drv.h     |  16 ++++
+>   drivers/gpu/drm/udl/udl_main.c    |  41 ++++++++++
+>   drivers/gpu/drm/udl/udl_modeset.c | 132 ++++++++++++++++++++++++++++++
+>   4 files changed, 193 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
+> index 1506094..c2fc4b3 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.c
+> +++ b/drivers/gpu/drm/udl/udl_drv.c
+> @@ -17,6 +17,10 @@
+>   
+>   #include "udl_drv.h"
+>   
+> +int udl_noblocking_damage;
+> +MODULE_PARM_DESC(noblocking_damage, "Noblocking damage (1 = enabled, 0 = disabled(default))");
+> +module_param_named(noblocking_damage, udl_noblocking_damage, int, 0444);
 > +
-> +	/* Nothing to do if GMU does the power management */
-> +	if (gmu->idle_level > GMU_IDLE_STATE_ACTIVE)
+>   static int udl_usb_suspend(struct usb_interface *interface,
+>   			   pm_message_t message)
+>   {
+> diff --git a/drivers/gpu/drm/udl/udl_drv.h b/drivers/gpu/drm/udl/udl_drv.h
+> index 282ebd6..6ed4346 100644
+> --- a/drivers/gpu/drm/udl/udl_drv.h
+> +++ b/drivers/gpu/drm/udl/udl_drv.h
+> @@ -21,6 +21,8 @@
+>   #include <drm/drm_framebuffer.h>
+>   #include <drm/drm_gem.h>
+>   #include <drm/drm_plane.h>
+> +#include <linux/list.h>
+> +#include <linux/spinlock.h>
+>   
+>   struct drm_mode_create_dumb;
+>   
+> @@ -34,6 +36,13 @@ struct drm_mode_create_dumb;
+>   
+>   struct udl_device;
+>   
+> +struct damage_work_node {
+> +	struct drm_framebuffer *fb;
+> +	struct drm_rect *clip;
+> +
+> +	struct list_head list;
+> +};
+> +
+>   struct urb_node {
+>   	struct list_head entry;
+>   	struct udl_device *dev;
+> @@ -74,10 +83,17 @@ struct udl_device {
+>   	int sku_pixel_limit;
+>   
+>   	struct urb_list urbs;
+> +
+> +
+> +	struct list_head	damage_queue;
+> +	spinlock_t		damage_lock;
+> +	struct work_struct	damage_work;
+>   };
+>   
+>   #define to_udl(x) container_of(x, struct udl_device, drm)
+>   
+> +extern int udl_noblocking_damage;
+> +
+>   static inline struct usb_device *udl_to_usb_device(struct udl_device *udl)
+>   {
+>   	return interface_to_usbdev(to_usb_interface(udl->drm.dev));
+> diff --git a/drivers/gpu/drm/udl/udl_main.c b/drivers/gpu/drm/udl/udl_main.c
+> index 3ebe2ce..3de1a06 100644
+> --- a/drivers/gpu/drm/udl/udl_main.c
+> +++ b/drivers/gpu/drm/udl/udl_main.c
+> @@ -9,6 +9,7 @@
+>    */
+>   
+>   #include <drm/drm.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+>   #include <drm/drm_print.h>
+>   #include <drm/drm_probe_helper.h>
+>   
+> @@ -348,10 +349,50 @@ err:
+>   	return ret;
+>   }
+>   
+> +static void udl_free_damage_queue(struct drm_device *dev)
+> +{
+> +	struct udl_device *udl = to_udl(dev);
+> +	struct list_head *entry, *tmp;
+> +	struct drm_gem_object *obj;
+> +	unsigned long flags;
+> +	int i;
+> +
+> +	if (!udl_noblocking_damage)
+> +		return;
+> +
+> +	udl_noblocking_damage = false;
+> +
+> +	spin_lock_irqsave(&udl->damage_lock, flags);
+> +
+> +	list_for_each_safe(entry, tmp, &udl->damage_queue) {
+> +		struct damage_work_node *damage;
+> +
+> +		damage = list_entry(entry, struct damage_work_node, list);
+> +		if (damage == NULL)
+> +			continue;
+> +		list_del(&damage->list);
+> +
+> +		for (i = 0; i < damage->fb->format->num_planes; ++i) {
+> +			obj = drm_gem_fb_get_obj(damage->fb, i);
+> +			if (obj)
+> +				drm_gem_object_put(obj);
+> +		}
+> +
+> +		drm_framebuffer_put(damage->fb);
+> +
+> +		kfree(damage->clip);
+> +		kfree(damage);
+> +	}
+> +
+> +	spin_unlock_irqrestore(&udl->damage_lock, flags);
+> +}
+> +
+> +
+>   int udl_drop_usb(struct drm_device *dev)
+>   {
+>   	struct udl_device *udl = to_udl(dev);
+>   
+> +	udl_free_damage_queue(dev);
+>   	udl_free_urb_list(dev);
+>   	put_device(udl->dmadev);
+>   	udl->dmadev = NULL;
+> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+> index 5a15399..a4a4c4b 100644
+> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> @@ -261,6 +261,124 @@ static const uint64_t udl_primary_plane_fmtmods[] = {
+>   	DRM_FORMAT_MOD_INVALID
+>   };
+>   
+> +static void udl_damage_work_func(struct work_struct *work)
+> +{
+> +	struct udl_device *udl = container_of(work, struct udl_device, damage_work);
+> +	struct drm_gem_object *obj;
+> +	unsigned long flags;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	if (!list_empty(&udl->damage_queue)) {
+> +		struct damage_work_node *damage;
+> +
+> +		spin_lock_irqsave(&udl->damage_lock, flags);
+> +
+> +		damage = list_first_entry(&udl->damage_queue,
+> +					  struct damage_work_node, list);
+> +		list_del(&damage->list);
+> +		spin_unlock_irqrestore(&udl->damage_lock, flags);
+> +
+> +		if (damage->clip && damage->fb) {
+> +			struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+> +
+> +			ret = drm_gem_fb_vmap(damage->fb, map, NULL);
+> +			if (ret) {
+> +				DRM_ERROR("vmap damage fb error %d\n", ret);
+> +				goto free;
+> +			}
+> +
+> +			udl_handle_damage(damage->fb, &map[0], damage->clip);
+> +			drm_gem_fb_vunmap(damage->fb, map);
+> +
+> +free:
+> +			for (i = 0; i < damage->fb->format->num_planes; ++i) {
+> +				obj = drm_gem_fb_get_obj(damage->fb, i);
+> +				if (obj)
+> +					drm_gem_object_put(obj);
+> +			}
+> +
+> +			drm_framebuffer_put(damage->fb);
+> +
+> +			kfree(damage->clip);
+> +			kfree(damage);
+> +		}
+> +	}
+> +}
+> +
+> +void udl_damage_merged(const struct drm_rect *rect, struct drm_rect *dst_rect)
+> +{
+> +	dst_rect->x1 = min(dst_rect->x1, rect->x1);
+> +	dst_rect->y1 = min(dst_rect->y1, rect->y1);
+> +	dst_rect->x2 = max(dst_rect->x2, rect->x2);
+> +	dst_rect->y2 = max(dst_rect->y2, rect->y2);
+> +}
+> +
+> +static void udl_queue_damage_work(struct udl_device *udl, struct drm_framebuffer *fb,
+> +				  const struct drm_rect *clip)
+> +{
+> +	struct list_head *entry, *tmp;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&udl->damage_lock, flags);
+> +
+> +	/* Just merge the damage if the same framebuffer damage is already queued */
+> +	list_for_each_safe(entry, tmp, &udl->damage_queue) {
+> +		struct damage_work_node *dirty_work;
+> +
+> +		dirty_work = list_entry(entry, struct damage_work_node, list);
+> +		if (dirty_work == NULL)
+> +			continue;
+> +
+> +		if (dirty_work->fb == fb) {
+> +			/* Merged clips */
+> +			udl_damage_merged(clip, dirty_work->clip);
+> +			spin_unlock_irqrestore(&udl->damage_lock, flags);
+> +
+> +			return;
+> +		}
+> +	}
+> +
+> +	struct damage_work_node *new_work;
+> +	struct drm_rect *new_damage;
+> +
+> +	new_work = kzalloc(sizeof(*new_work), GFP_KERNEL);
+> +	if (!new_work)
+> +		goto err;
+> +
+> +	new_damage = kzalloc(sizeof(*new_damage), GFP_KERNEL);
+> +	if (!new_damage)
+> +		goto free_work;
+> +
+> +	memcpy(new_damage, clip, sizeof(*clip));
+> +
+> +	new_work->fb = fb;
+> +	new_work->clip = new_damage;
+> +	drm_framebuffer_get(fb);
+> +
+> +	struct drm_gem_object *obj;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < fb->format->num_planes; ++i) {
+> +		obj = drm_gem_fb_get_obj(fb, i);
+> +		if (obj)
+> +			drm_gem_object_get(obj);
+> +	}
+> +
+> +	/* Queue a new damage request */
+> +	list_add_tail(&new_work->list, &udl->damage_queue);
+> +	spin_unlock_irqrestore(&udl->damage_lock, flags);
+> +
+> +	schedule_work(&udl->damage_work);
+> +
+> +	return;
+> +
+> +free_work:
+> +	kfree(new_work);
+> +err:
+> +	spin_unlock_irqrestore(&udl->damage_lock, flags);
+> +}
+> +
+>   static void udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   						   struct drm_atomic_state *state)
+>   {
+> @@ -276,6 +394,14 @@ static void udl_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   	if (!fb)
+>   		return; /* no framebuffer; plane is disabled */
+>   
+> +	if (udl_noblocking_damage) {
+> +		struct udl_device *udl = to_udl(dev);
+> +
+> +		drm_atomic_helper_damage_merged(old_plane_state, plane_state, &damage);
+> +		udl_queue_damage_work(udl, fb, &damage);
+> +		return;
+> +	}
+> +
+>   	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+>   	if (ret)
+>   		return;
+> @@ -600,5 +726,11 @@ int udl_modeset_init(struct drm_device *dev)
+>   
+>   	drm_mode_config_reset(dev);
+>   
+> +	if (udl_noblocking_damage) {
+> +		INIT_LIST_HEAD(&udl->damage_queue);
+> +		spin_lock_init(&udl->damage_lock);
+> +		INIT_WORK(&udl->damage_work, udl_damage_work_func);
+> +	}
+> +
+>   	return 0;
+>   }
 
-This isn't quite a no-op, but I can't seem to find what the '1' value
-would map to, even in 845 kernel sources. Do we have to worry about it?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Konrad
