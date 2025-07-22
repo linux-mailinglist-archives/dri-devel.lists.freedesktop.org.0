@@ -2,58 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB45FB0E120
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 18:00:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAA3B0E195
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 18:21:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D63A10E30B;
-	Tue, 22 Jul 2025 16:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A27410E309;
+	Tue, 22 Jul 2025 16:20:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XIE5KH0B";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="brCJh20j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D306E10E30B
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 16:00:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A2898A56247;
- Tue, 22 Jul 2025 16:00:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12EECC4CEEB;
- Tue, 22 Jul 2025 16:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753200053;
- bh=ZfUcciwVgnlfjhjMBuKB6y9OEMBDUN0nvSVkl8Ymh/g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XIE5KH0Bx4MvTH/jCH+qLhoYLunZlawbLiuGWxul0vhqetUIjltknPKgVJyD/vMwx
- ekWkg2ensjx2SbbnCVe1y84rKjbOnCnRYCQ524AyNQ/1qQN+rfXDHsQurjdDkpzTxQ
- ypnSaVFRZvFeRhg7j5h6jPUkHNi060LwyKvGVTWl4NHQWRn4U8OXb5KRUvTOjlNPSf
- /t1VrPLmSJ/nqxBPkEQDaAOAIiWnPjHMeMBFaQ+i4AE6qeqsyfFkjw9lXb29xNRFTo
- YlkAa58+cH9zTEjwZJqyHLEiI19D4to66bh2dxX4j/jOMvDkyEIvXdHJ18/lAh2xQC
- 21Ogt0f6uFg3g==
-Date: Tue, 22 Jul 2025 21:30:42 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, 
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>, 
- Mario Limonciello <mario.limonciello@amd.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v4 1/1] PCI: Move boot display attribute to DRM
-Message-ID: <ab7r6nngsez44ogixmbc4lbucjam3bhnwidnoo3luv5xancsa7@gltpd5fkkvie>
-References: <20250721185726.1264909-1-superm1@kernel.org>
- <20250721185726.1264909-2-superm1@kernel.org>
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388BF10E309
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 16:20:53 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-23c8a5053c2so54263895ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 09:20:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1753201253; x=1753806053;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZwHRFu4FSql/d/NwVvAy0lekcQX4lLK0gqetRRULkuc=;
+ b=brCJh20jLGFPQIG9Z15ztKBBcQ0bch4e9dqONR5/Kai9mbRpDxnythTcmN+U9zTavi
+ k7tJQnuN6ksfDs9vW59NJXmlUwhBSVvUi/OmhzhmjND6RoI5MfDyefHu6HI/tF19Udcp
+ rtX/QGpSOp4Q0oYdRSUozaClMxJfogaSfuKJY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753201253; x=1753806053;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZwHRFu4FSql/d/NwVvAy0lekcQX4lLK0gqetRRULkuc=;
+ b=uj7ajqxvFi9epOp2g43RAqJJNw3aDYiaq+w0mXcxSa0hF/eVhwIl6gVhahX2F9b095
+ NLkFF9A0ZBrZ3jbsnlC3F4Sd1TYCKkTlTYRuKIp9ddtjK74yaOQ3LBxAM04vJFhZcJaX
+ zYe4lztf635IYPigjxU2MfSI1yHOMOdHxaQxiFxQ63jznJxOUQwrHbTniPQ2+2RhCJcS
+ Xac0oaCJOlYEkXL8hJRsWNvCYEo7nBV0N7rOa/GT8BvAZ+voyGM1KhEOPciUD5JZv7VC
+ k9qMVx+0/xlLOa6XrIZgzM6ss2JILx7FI0arMxbd9er+eqhS/xrW8kkrTM+04dDVz6hv
+ yTqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXl7/uPZNXSR5wzrUlPAlsKo9xGP6WGji8ANEZ8bTkqewbpXpxJD0to0JyrBt27n0gQV5HEjtrsRJ0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpK5yBY1IRaju78VhO4z/Wr3cuUZrNAtiNpkVb0KKWL+kexkVT
+ 8RmkGOwVG+x2PRAcjZF9UFHMiicD/N6iX9TyatGNXYAoHdFfTurKxo+6L7ZcBmtoz9g3g7X4djg
+ ygeY=
+X-Gm-Gg: ASbGncvKFiRhIr7kVlMcg19E0JjcOAzESV4b4oV+37K3Pzb/7F5fGTUlB/FsYNXcjuO
+ mU6XExJHbpdSDyCzWzAk3G2XyfaA11x06C7H8ckslI1AsySjdhatbLutZ95wKYpEfsxo4Woo8ad
+ +3YboJkNLsPhiNsOzxJbAtKCkaqo64YgnW1VQU1Z9+CoIGrw/ZlmxXahl1WSec8b+TuaPMKwdgj
+ ROMOUKvCnqWngKMoUP7sbW7OYovsX5QNwkBS46QzgxKbm+CXdM3lPj8zYRYVc6m7GKzYd+BXCJ1
+ bvIdboa80+VceSwf3Iy2QLJCztgygEeudKVyETo2iifrx22lhzdDLo6IXVA01ZrCf/fT1c8ixiK
+ Cd/IF5kOJK/5DJnZq+AdrejX2S9n78y5IrOCAFBQ9EnaHH7u19027Xag5MxWIO6SJXZFqDhbR
+X-Google-Smtp-Source: AGHT+IEW+NwocNBqvgPFNXB+SdAQujYnJQC5XalmMafLtnW2P9LXGKENBhGgA2Ie6b2WNuTqK8Dk5A==
+X-Received: by 2002:a17:903:3c6c:b0:235:f51f:c9e4 with SMTP id
+ d9443c01a7336-23e24f49430mr390671335ad.12.1753201252663; 
+ Tue, 22 Jul 2025 09:20:52 -0700 (PDT)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com.
+ [209.85.216.51]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23e3b5e3c95sm79446475ad.34.2025.07.22.09.20.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Jul 2025 09:20:52 -0700 (PDT)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-3138b2f0249so4449530a91.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 09:20:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWkNCSY27fc5DeP1ej0DOxrNwKH243WXeUXMOYeMl8YZ05qjGoWC0+014VmoWFNX0Qtwedb/u9MKwI=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:3f8d:b0:316:d69d:49fb with SMTP id
+ 98e67ed59e1d1-31c9e70915amr41164532a91.14.1753201251543; Tue, 22 Jul 2025
+ 09:20:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250721185726.1264909-2-superm1@kernel.org>
+References: <20250722015313.561966-1-me@brighamcampbell.com>
+ <20250722015313.561966-2-me@brighamcampbell.com>
+In-Reply-To: <20250722015313.561966-2-me@brighamcampbell.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 22 Jul 2025 09:20:39 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XGO5y0F40oaOANW-r-q5qZPFYRwO7aQHi3R6Ag-aeMag@mail.gmail.com>
+X-Gm-Features: Ac12FXwtfJseOxsGp7nVtSJKfbTvysXVQqEuN_xMYIUstfIqb9Hrqert7fbtJBI
+Message-ID: <CAD=FV=XGO5y0F40oaOANW-r-q5qZPFYRwO7aQHi3R6Ag-aeMag@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] drm: Create mipi_dsi_dual* macros
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Jianhua Lu <lujianhua000@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,222 +109,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 21, 2025 at 01:57:26PM GMT, Mario Limonciello wrote:
-> From: Mario Limonciello <mario.limonciello@amd.com>
-> 
-> The boot_display attribute is currently created by PCI core, but the
-> main reason it exists is for userspace software that interacts with
-> drm to make decisions. Move the attribute to DRM.
-> 
-> This also fixes a compilation failure when compiled without
-> CONFIG_VIDEO on sparc.
-> 
-> Suggested-by: Manivannan Sadhasivam <mani@kernel.org>
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20250718224118.5b3f22b0@canb.auug.org.au/
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Hi,
 
-Acked-by: Manivannan Sadhasivam <mani@kernel.org>
-
-Thanks Mario!
-
-- Mani
-
+On Mon, Jul 21, 2025 at 6:53=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
+l.com> wrote:
+>
+> Create mipi_dsi_dual, mipi_dsi_dual_dcs_write_seq_multi, and
+> mipi_dsi_dual_generic_write_seq_multi macros for panels which are driven
+> by two parallel serial interfaces. This allows for the reduction of code
+> duplication in drivers for these panels.
+>
+> Remove mipi_dsi_dual_dcs_write_seq_multi definition from
+> panel-novatek-nt36523.c to avoid the duplicate definition. Make novatek
+> driver pass mipi_dsi_context struct as a pointer.
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 > ---
->  Documentation/ABI/testing/sysfs-bus-pci   |  9 -----
->  Documentation/ABI/testing/sysfs-class-drm |  8 ++++
->  drivers/gpu/drm/drm_sysfs.c               | 41 +++++++++++++++++++++
->  drivers/pci/pci-sysfs.c                   | 45 -----------------------
->  4 files changed, 49 insertions(+), 54 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-class-drm
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-> index a2c74d4ebeadd..69f952fffec72 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-pci
-> +++ b/Documentation/ABI/testing/sysfs-bus-pci
-> @@ -612,12 +612,3 @@ Description:
->  
->  		  # ls doe_features
->  		  0001:01        0001:02        doe_discovery
-> -
-> -What:		/sys/bus/pci/devices/.../boot_display
-> -Date:		October 2025
-> -Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
-> -Description:
-> -		This file indicates that displays connected to the device were
-> -		used to display the boot sequence.  If a display connected to
-> -		the device was used to display the boot sequence the file will
-> -		be present and contain "1".
-> diff --git a/Documentation/ABI/testing/sysfs-class-drm b/Documentation/ABI/testing/sysfs-class-drm
-> new file mode 100644
-> index 0000000000000..536820afca05b
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-class-drm
-> @@ -0,0 +1,8 @@
-> +What:		/sys/class/drm/.../boot_display
-> +Date:		October 2025
-> +Contact:	Linux DRI developers <dri-devel@vger.kernel.org>
-> +Description:
-> +		This file indicates that displays connected to the device were
-> +		used to display the boot sequence.  If a display connected to
-> +		the device was used to display the boot sequence the file will
-> +		be present and contain "1".
-> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index 60c1f26edb6fa..1bc2e6abaa1a9 100644
-> --- a/drivers/gpu/drm/drm_sysfs.c
-> +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -18,6 +18,7 @@
->  #include <linux/gfp.h>
->  #include <linux/i2c.h>
->  #include <linux/kdev_t.h>
-> +#include <linux/pci.h>
->  #include <linux/property.h>
->  #include <linux/slab.h>
->  
-> @@ -30,6 +31,8 @@
->  #include <drm/drm_property.h>
->  #include <drm/drm_sysfs.h>
->  
-> +#include <asm/video.h>
-> +
->  #include "drm_internal.h"
->  #include "drm_crtc_internal.h"
->  
-> @@ -508,6 +511,43 @@ void drm_sysfs_connector_property_event(struct drm_connector *connector,
->  }
->  EXPORT_SYMBOL(drm_sysfs_connector_property_event);
->  
-> +static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
-> +				 char *buf)
-> +{
-> +	return sysfs_emit(buf, "1\n");
-> +}
-> +static DEVICE_ATTR_RO(boot_display);
-> +
-> +static struct attribute *display_attrs[] = {
-> +	&dev_attr_boot_display.attr,
-> +	NULL
-> +};
-> +
-> +static umode_t boot_display_visible(struct kobject *kobj,
-> +				    struct attribute *a, int n)
-> +{
-> +	struct device *dev = kobj_to_dev(kobj)->parent;
-> +
-> +	if (dev_is_pci(dev)) {
-> +		struct pci_dev *pdev = to_pci_dev(dev);
-> +
-> +		if (video_is_primary_device(&pdev->dev))
-> +			return a->mode;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct attribute_group display_attr_group = {
-> +	.attrs = display_attrs,
-> +	.is_visible = boot_display_visible,
-> +};
-> +
-> +static const struct attribute_group *card_dev_groups[] = {
-> +	&display_attr_group,
-> +	NULL
-> +};
-> +
->  struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
->  {
->  	const char *minor_str;
-> @@ -531,6 +571,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
->  
->  		kdev->devt = MKDEV(DRM_MAJOR, minor->index);
->  		kdev->class = drm_class;
-> +		kdev->groups = card_dev_groups;
->  		kdev->type = &drm_sysfs_device_minor;
->  	}
->  
-> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> index 6ccd65f5b1051..b3fb6024e0ba7 100644
-> --- a/drivers/pci/pci-sysfs.c
-> +++ b/drivers/pci/pci-sysfs.c
-> @@ -680,13 +680,6 @@ const struct attribute_group *pcibus_groups[] = {
->  	NULL,
->  };
->  
-> -static ssize_t boot_display_show(struct device *dev,
-> -				 struct device_attribute *attr, char *buf)
-> -{
-> -	return sysfs_emit(buf, "1\n");
-> -}
-> -static DEVICE_ATTR_RO(boot_display);
-> -
->  static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
->  			     char *buf)
->  {
-> @@ -1059,37 +1052,6 @@ void pci_remove_legacy_files(struct pci_bus *b)
->  }
->  #endif /* HAVE_PCI_LEGACY */
->  
-> -/**
-> - * pci_create_boot_display_file - create "boot_display"
-> - * @pdev: dev in question
-> - *
-> - * Create "boot_display" in sysfs for the PCI device @pdev if it is the
-> - * boot display device.
-> - */
-> -static int pci_create_boot_display_file(struct pci_dev *pdev)
-> -{
-> -#ifdef CONFIG_VIDEO
-> -	if (video_is_primary_device(&pdev->dev))
-> -		return sysfs_create_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-> -#endif
-> -	return 0;
-> -}
-> -
-> -/**
-> - * pci_remove_boot_display_file - remove "boot_display"
-> - * @pdev: dev in question
-> - *
-> - * Remove "boot_display" in sysfs for the PCI device @pdev if it is the
-> - * boot display device.
-> - */
-> -static void pci_remove_boot_display_file(struct pci_dev *pdev)
-> -{
-> -#ifdef CONFIG_VIDEO
-> -	if (video_is_primary_device(&pdev->dev))
-> -		sysfs_remove_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-> -#endif
-> -}
-> -
->  #if defined(HAVE_PCI_MMAP) || defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
->  /**
->   * pci_mmap_resource - map a PCI resource into user memory space
-> @@ -1693,15 +1655,9 @@ static const struct attribute_group pci_dev_resource_resize_group = {
->  
->  int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
->  {
-> -	int retval;
-> -
->  	if (!sysfs_initialized)
->  		return -EACCES;
->  
-> -	retval = pci_create_boot_display_file(pdev);
-> -	if (retval)
-> -		return retval;
-> -
->  	return pci_create_resource_files(pdev);
->  }
->  
-> @@ -1716,7 +1672,6 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
->  	if (!sysfs_initialized)
->  		return;
->  
-> -	pci_remove_boot_display_file(pdev);
->  	pci_remove_resource_files(pdev);
->  }
->  
-> -- 
-> 2.43.0
-> 
+>  drivers/gpu/drm/drm_mipi_dsi.c                |  48 ++
+>  drivers/gpu/drm/panel/panel-novatek-nt36523.c | 804 +++++++++---------
+>  include/drm/drm_mipi_dsi.h                    |  95 +++
+>  3 files changed, 541 insertions(+), 406 deletions(-)
 
--- 
-மணிவண்ணன் சதாசிவம்
+Just because I was curious and wanted to confirm my claim that this
+would result in a nice space savings for novatek, I ran bloat-o-meter
+on the novatek module comparing before and after your patch:
+
+add/remove: 0/0 grow/shrink: 0/4 up/down: 0/-8754 (-8754)
+Function                                     old     new   delta
+elish_csot_init_sequence.d                   758     379    -379
+elish_boe_init_sequence.d                    846     423    -423
+elish_csot_init_sequence                    9136    5380   -3756
+elish_boe_init_sequence                    10192    5996   -4196
+Total: Before=3D33880, After=3D25126, chg -25.84%
+
+So the new way of defining mipi_dsi_dual_dcs_write_seq_multi() did
+indeed give a pretty sweet space savings! :-)
+
+This patch looks good to me now. Thanks for putting up with all my
+requests. I know this is a lot bigger than you thought it would be
+when you posted your first patch, but I appreciate you sticking with
+it!
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+My plan would be to give this series another week on the list. If
+there is no additional feedback then I'll plan to land it.
+
+
+-Doug
