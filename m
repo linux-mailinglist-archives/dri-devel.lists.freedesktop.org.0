@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8682B0D34F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0689B0D358
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58CB510E5FD;
-	Tue, 22 Jul 2025 07:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CAB810E605;
+	Tue, 22 Jul 2025 07:37:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="PhtDPLo9";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="bWMI3G2t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.155.102])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5116B10E5FD;
- Tue, 22 Jul 2025 07:36:53 +0000 (UTC)
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C29910E604;
+ Tue, 22 Jul 2025 07:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1753169780;
- bh=m+UXxlrjT5dODP8ALqZgjPieqq+D0qMqbX8YRGfdS4A=;
+ s=onoh2408; t=1753169790;
+ bh=vYmY+9tqPioPK6cSdujQjMbixbob4YHFsEPo+u1e8jk=;
  h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=PhtDPLo9y6c3GyaY1DjEYaUY76U9ml1O7VRtDndXyrbmN86To21pHgveN2eryVQJg
- 2c5sOxBKVLeW2Wpy+Lz7eMoTpl4dD2lKHQvsmUo0HFfMTdLBa06pvmm2psvj23btGW
- /Ee+AzhWHJVNqNGDDQ/cB+TWNcM52e0rOCN7vnDE=
-X-QQ-mid: zesmtpip2t1753169721t82d79e29
-X-QQ-Originating-IP: VhBpf0Yvw5Lj6PbKLNVVhr1ZGW55NX9MRAkCLXPkiaM=
+ b=bWMI3G2tg2sQ9TLlEb/YhuFjuscFDegOce5lLCzYm5nVtlxwel+1d6njCILzlmJ+h
+ 5O1nt+gP9NfvaOse7fagdnf1XvO8MsPnxG3Kx60lKVs39s0nsso3iu+m7wysyb5kQZ
+ nanlWLFBJsPeTGmJLDzVKPEzoFt9vOI9y0Exqj0s=
+X-QQ-mid: zesmtpip2t1753169729tcf86fa72
+X-QQ-Originating-IP: HNLldTyG1udNmPKueSkK9C3LgPlbsP2VGGl0nQkGM08=
 Received: from avenger-e500 ( [localhost]) by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 22 Jul 2025 15:35:17 +0800 (CST)
+ id ; Tue, 22 Jul 2025 15:35:25 +0800 (CST)
 X-QQ-SSF: 0002000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 15702502862464076907
+X-BIZMAIL-ID: 14499228657243384026
 EX-QQ-RecipientCnt: 64
 From: WangYuli <wangyuli@uniontech.com>
 To: wangyuli@uniontech.com
@@ -56,9 +56,9 @@ Cc: airlied@gmail.com, akpm@linux-foundation.org, alison.schofield@intel.com,
  thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com,
  wangyuli@deepin.org, x86@kernel.org, xen-devel@lists.xenproject.org,
  yujiaoliang@vivo.com, zhanjun@uniontech.com
-Subject: [PATCH v3 6/8] serial: 8250_dw: Fix typo "notifer"
-Date: Tue, 22 Jul 2025 15:34:29 +0800
-Message-ID: <BD4804BF4FBA1648+20250722073431.21983-6-wangyuli@uniontech.com>
+Subject: [PATCH v3 7/8] xen/xenbus: Fix typo "notifer"
+Date: Tue, 22 Jul 2025 15:34:30 +0800
+Message-ID: <C6633C66376C709A+20250722073431.21983-7-wangyuli@uniontech.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <576F0D85F6853074+20250722072734.19367-1-wangyuli@uniontech.com>
 References: <576F0D85F6853074+20250722072734.19367-1-wangyuli@uniontech.com>
@@ -66,24 +66,24 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NUD6C8ibrP4BlpyOlLDI06chYZekOUCZTlSlcpL8dzVHHwru8SSCc+Yf
- uclUpL6SNW+PshL7oaMfB38E3p9RutDk/H/p+fLXg6OLwHGseLsqad9viM6TvN1ioul8Lqn
- EHKSRtFC9/zEmyD4nq7HbiUNr6o20OLXsfPgDde8sPosaCWamUMOsfRsuOQFwiL9iWrgTz9
- WQnx4W6FMtEhEJa0f7ZHQv9AzWNWWPYBxFf/GxFv0SVCWYfe/LDhs+L1RdjrgNDTwhX4uPW
- TytUw1RsNAngUBWGQio8cl54YfP1KAb3HfrXoSqc/DOCH9l7xs4tvQ2X51QI8JkypQJ3HE5
- 0zvedK5LvOFBDNm5Bvt8lIRjnCoTcbDa3BCB4paP4LuWpl500TOTEo9zuhprepk8ZVe92Kx
- bvthcCZ2E/IY8EbbXHev2hzsmG3nV78hEIILHUxmTA2fR5ZIovhaoQV/1sLCTYaF0T9tV1F
- CNmgWgb0JlTHyGeSHE1yWvRxKqYDIITNpKlY8UFR+k7ebW8ZSkAwdYhYnvy6ib5eq4lPLTK
- F/ojPixmhoHSSl5G6LzYND27bG13jmukknrO3y9KBgsq1SF4BBC6ROaP1S/FLIoW5oNyyWw
- OeHslp/jNu9uvp8hIRsCI3+CkcFIfJ4XcZHZuWHmswvLcVOHblZJbZWumhH2t+g2OUZ7IFg
- 34O6dCZ718Qmek0M7D5hCUTYKT+DjbiYQ2QouycFLCAdXZUL5ve36UgaeacvuyntJyy6pDF
- 54RV1rXJ/0/60j7CCwEGtERi1V00Hn+H+artdgVdZlXayfHG8omeUFjeWKjXo2N+TB7+OGO
- UECNUZ3OkYIfksg34le9OlWzACOk/zuGWg3hnMr9is/MNhlI17hvhi/s9JWGs9jzX7je50C
- sJYnXkFnWVUe6J7GkMN+GY/89bR159kRRyPj+k9wH9L7HMJyDhB/EbJYpSySUfDEIJGxvi1
- eM4oF4O0MjcDEUpFJ8xFsAaxzaOeC+RQDgcblV6eVUsjLedMxAHQ4Hw1WOWoX605LTVFauJ
- T6irZALqHy/Y84jN5k7tWxSSItgaNA2qwqVmc8QG0ff9Mg0UKAt3EQbxluYffUQuPcd4gqT
- AkT/a0rXK+afAttcWoOrdzUMv/XukhMZy0yxgr56bzdo5x99p9yVJ4=
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-XMAILINFO: N0PzTgVEUVk2ub/nyTM0nfY4845ERu7wWdm72JrCdkWIDuDLA+ddACqX
+ LcFDIMiFRiUk8gLGqlmDsRmrsVX1NToF+rMnRodFsm1NKtrWc9F12vsvtGxVWYdRokT3plj
+ bXSTyvGzthcG9HyDAsrlReNW+BxYwI4ElqdL9eGMAWbmckaRtCeCyCltIJ6iUNfG1p3bVZu
+ mQr63FMntQD02A/LI6t+xVPVlBo2dlC94FlYy8nNdNIXdY0T3H4Khtc6wEhk9Oy0AvswOF0
+ oUsQsktM8rQiXCjloxgQX7C9INjKteCL83GMTCQw+Ba2pBtXVaOXw3hCdRIMZrci/i9rwi7
+ yyxLntkzfyrQwETfx7vOqNnMxJ1kYIazDpjVD+eEa3luXOv3IQgUygm6QxFzy8akuSRhrj1
+ 2X5uunADEfUb2wQwDW+plfZsVSbo8fFwAU3TiTADq6FH+QiZIi/YrX5gv8xn+0aqWdMogFG
+ cGHzyRci2kmKuCvHDuDzKb7Jq4bXbZwoiGjQheBv2Hn0RG+9hEJPhXt4rnU2j8p9v8wZGZB
+ wQO5dL2QSHrTSURQ+C3Gh2YfYDyfTpqSCkyutTD7WCqPN2GlcBy+imoI/ttMTPkPRL81QMM
+ 6kPrlCRRNAltMNJuaEEk5x/dcwc2l6FgFZ/dBmAO8pdk2Qv4vZBgSqi5qyanLqthaXxR78B
+ n6KnYqPtGTiSZSe3LFr8P4ayiyShZK5mHFC822Fj0wq53lYFSXFc1QrglPmL+HYz9YprcAF
+ U61Z1QbXG/xB4dzPMaAsoaVCcjUxAGnmcsXP9mkxXJDaIl9LSFdhyGAiqgDuaNvlm01lu4u
+ GWD7C5k3XLbHQgj/ulkl7rovYDLFh+XkpVTMBcdrYbF1bFPv7YmD5WflVwCKurGAbjy81eP
+ i/skcv/bptudW/qT7hvTpP4I8c/P0JKbOfsFt/9aG2x1ECjoCUWX4e35s0U1pHptdFi3Dib
+ hthtBOmJ5zs44pSZJ8D3pmwlLSnyZ06imQNZL8DYFGCW4lGZ111C4DY92CpkPPOMc258yR/
+ kGTV6NK0RKgcS4su+5SPxlrLlENbGUNUSCUX0x+7+LJI0/Bq6k27c52zZT0YmFWx1JpNRHO
+ D1zYQOFDu8daZSb1dE9m3hZRi/1XF2yoDkI/sL3eN7+KLwhzDV9hXSGOEhYXmUlDg==
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,25 +103,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 There is a spelling mistake of 'notifer' in the comment which
 should be 'notifier'.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Juergen Gross <jgross@suse.com>
 Signed-off-by: WangYuli <wangyuli@uniontech.com>
 ---
- drivers/tty/serial/8250/8250_dw.c | 2 +-
+ include/xen/xenbus.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index 1902f29444a1..6d9af6417620 100644
---- a/drivers/tty/serial/8250/8250_dw.c
-+++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -392,7 +392,7 @@ static void dw8250_set_termios(struct uart_port *p, struct ktermios *termios,
- 	rate = clk_round_rate(d->clk, newrate);
- 	if (rate > 0) {
- 		/*
--		 * Note that any clock-notifer worker will block in
-+		 * Note that any clock-notifier worker will block in
- 		 * serial8250_update_uartclk() until we are done.
- 		 */
- 		ret = clk_set_rate(d->clk, newrate);
+diff --git a/include/xen/xenbus.h b/include/xen/xenbus.h
+index 3f90bdd387b6..00b84f2e402b 100644
+--- a/include/xen/xenbus.h
++++ b/include/xen/xenbus.h
+@@ -180,7 +180,7 @@ int xenbus_printf(struct xenbus_transaction t,
+  * sprintf-style type string, and pointer. Returns 0 or errno.*/
+ int xenbus_gather(struct xenbus_transaction t, const char *dir, ...);
+ 
+-/* notifer routines for when the xenstore comes up */
++/* notifier routines for when the xenstore comes up */
+ extern int xenstored_ready;
+ int register_xenstore_notifier(struct notifier_block *nb);
+ void unregister_xenstore_notifier(struct notifier_block *nb);
 -- 
 2.50.0
 
