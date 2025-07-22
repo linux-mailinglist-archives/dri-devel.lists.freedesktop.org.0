@@ -2,90 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DEBB0D353
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:37:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC45B0D35E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:37:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF92510E602;
-	Tue, 22 Jul 2025 07:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA18D10E604;
+	Tue, 22 Jul 2025 07:37:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="HqdsA6lu";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="dOtFOwV2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C79410E602;
- Tue, 22 Jul 2025 07:36:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1753169797;
- bh=Ln6z5UMdHfy09BVb3ISvR9kteELxlxv1r4Jb0WU5wac=;
- h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=HqdsA6lurvDL0BN2pocw0QqQp9+aGe9jikD27j0oyb4hk3oU8jfBKUI2UATKWcgVw
- 0joLp5ZvfAoYKmtHvd9MsqX2YthMCEHV6g/xHDyBVBTcH3hgS/nLk8UBOj9E1Y5ixK
- 70uoqWAcPf3R6uGe7zIOn+1TcwKgpQTMuzjbvWj8=
-X-QQ-mid: zesmtpip2t1753169738t55bf3778
-X-QQ-Originating-IP: KSjByG7dJMLO7TG5I1iv5PR6js3yTNO4FTwwtL4j6qI=
-Received: from avenger-e500 ( [localhost]) by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 22 Jul 2025 15:35:33 +0800 (CST)
-X-QQ-SSF: 0002000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10523341223142092495
-EX-QQ-RecipientCnt: 64
-From: WangYuli <wangyuli@uniontech.com>
-To: wangyuli@uniontech.com
-Cc: airlied@gmail.com, akpm@linux-foundation.org, alison.schofield@intel.com,
- andrew+netdev@lunn.ch, andriy.shevchenko@linux.intel.com,
- arend.vanspriel@broadcom.com, bp@alien8.de,
- brcm80211-dev-list.pdl@broadcom.com, brcm80211@lists.linux.dev,
- colin.i.king@gmail.com, cvam0000@gmail.com, dan.j.williams@intel.com,
- dave.hansen@linux.intel.com, dave.jiang@intel.com, dave@stgolabs.net,
- davem@davemloft.net, dri-devel@lists.freedesktop.org, edumazet@google.com,
- gregkh@linuxfoundation.org, guanwentao@uniontech.com, hpa@zytor.com,
- ilpo.jarvinen@linux.intel.com, intel-xe@lists.freedesktop.org,
- ira.weiny@intel.com, j@jannau.net, jeff.johnson@oss.qualcomm.com,
- jgross@suse.com, jirislaby@kernel.org, johannes.berg@intel.com,
- jonathan.cameron@huawei.com, kuba@kernel.org, kvalo@kernel.org,
- kvm@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux@treblig.org,
- lucas.demarchi@intel.com, marcin.s.wojtas@gmail.com, ming.li@zohomail.com,
- mingo@kernel.org, mingo@redhat.com, netdev@vger.kernel.org,
- niecheng1@uniontech.com, oleksandr_tyshchenko@epam.com, pabeni@redhat.com,
- pbonzini@redhat.com, quic_ramess@quicinc.com, ragazenta@gmail.com,
- rodrigo.vivi@intel.com, seanjc@google.com, shenlichuan@vivo.com,
- simona@ffwll.ch, sstabellini@kernel.org, tglx@linutronix.de,
- thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com,
- wangyuli@deepin.org, x86@kernel.org, xen-devel@lists.xenproject.org,
- yujiaoliang@vivo.com, zhanjun@uniontech.com
-Subject: [PATCH v3 8/8] scripts/spelling.txt: Add notifer||notifier to
- spelling.txt
-Date: Tue, 22 Jul 2025 15:34:31 +0800
-Message-ID: <02153C05ED7B49B7+20250722073431.21983-8-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <576F0D85F6853074+20250722072734.19367-1-wangyuli@uniontech.com>
-References: <576F0D85F6853074+20250722072734.19367-1-wangyuli@uniontech.com>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4106B10E604
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:37:20 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bmTcY17jTz9tCQ;
+ Tue, 22 Jul 2025 09:37:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1753169837; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q2bLNMdIPfKO4SCOWzbgq6cW49X1f449Ft9JQplmrnM=;
+ b=dOtFOwV2s+2zqp8anZO/A3wt55S5GA+OUOdwddJkA6Xjqamo+BQst4UfQ1JL6TSjS2sZWp
+ hSn/PbC0KPmuOmrOM1dn+j7gU6WDQXF86SLej4or0iuiYXKr83IAVO06VaE5JEtdIhutRA
+ 7iIjLWAu4hlySiyyiRVjhYrK29/pHSHdDUzG+dHFCl6jGwZ2AcKK4kZ+c3ipQ8AS8UDOda
+ ANr40iGCENe9NWv9sO9/iDNOuyUoHYIB0aNCliEseREeYj6OZHwTMfL2p0voQPmoXVM/QA
+ HRmqPZf2SiZdS/23U9Cqow6eIx8X5zxQFEi7KbVC3M262lc2LGI2JEg04IGK4A==
+Message-ID: <80f569dd3c42f11927324ea80e7c14ac2d3352b5.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
+ the run queue.
+From: Philipp Stanner <phasta@mailbox.org>
+To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>
+Cc: phasta@kernel.org, James Flowers <bold.zone2373@fastmail.com>, 
+ ckoenig.leichtzumerken@gmail.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch,  skhan@linuxfoundation.org,
+ dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>
+Date: Tue, 22 Jul 2025 09:37:11 +0200
+In-Reply-To: <aH6B7JruWCkReaLw@lstrano-desk.jf.intel.com>
+References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
+ <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
+ <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
+ <DBHNK2XQHUIW.TQHV41LR5D8I@kernel.org>
+ <aH6B7JruWCkReaLw@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NpSWo64krennrayvYca9TiASTtSK2LQJ3tk09IAkmeR25Z5bUOproBXL
- 5lg/koGe6F8MW1CkY3ORVzaoTNKDWtDz03ArrIakXQhzHtkdJ//H5DMd/oPETQCMe3XjUsC
- oAGNXqhgpp5Cy4bK7xFWQFtgxeznuQxdU2si+nj0KdoIeW3kuA48Auw/begSwXYn2AYfOdT
- 13z7u3GqHsmpmuTV9ymzbSl8e76KmNFOwvYf4GkoOCi4zj34HhatzlbA8fC+DGPv4aDd/uO
- CZu3I3dpS0a6/7cnN0mUNOEo0pAIX99IR06/F8rSitli3qnXBKoV4FpZMkC9lrM49xWFDYd
- 1TDCAFcWSeb6Nh0j9a088R1aHzN0/ucV9MoSA8LPZQbKAYKFuYkhfbIlHUbr4v9wBqSJeVO
- DRrvtw9tzFsrq8x+C9+0bPQYHY0EBVlGSSb+9vPKFwo16eAIclFRFHeFsFr3V7PBFF/qGYH
- pmjY4yoIBM3q+ocB1OTsC6xPRJbOPG3nvcdsXo8K4z8njFsZudPQwK6EBDPXHF27tKP5RV5
- PXGCoSAuwsDLAwrNinj7ZLhgdQrq9wJ2t6ydU8Mj+A0jCq0hg1Rq8e9lXK7G9y49tCVEHEf
- Fm3cM25NaAuWL7MaaDqcYnF9IfIFTB/OAlPwmZ4NSZGp74L+wJ8m4mJuoK+f2UZlWumZuNH
- fRLIFWoXWQ+Jfkp4yLY6U59oVWqfLN4UXpb7Y/iHKZMRa0IhtlYUbDYnwMzniS64hjm+yUu
- 0U8iMDxjSLyHKmuANPmpIQAY4Rzd7iQoqMwja0SbTqowMquTvPMQMBvCHHpyMWIo9Cpn4XB
- rTdQZqqVSG5mFn77EAg5sbx/qFUYo0ZrHhC8KK63A67Aaxa+AdbcOalX5e+q6shoggUYS3s
- NctPUeAdhww4muZ1tjoXpQhXwc4ew4bIzFNks8F3sorE2hb1GpV8ZM8IWvSb4C6y4X8bn9/
- ALl61rhfN8pkXa7VfZNJp6crpP1T3xIhB/kbw66mA1GoMsLGvUk0FaAOewjn/avKIogDu9P
- /LnQSCxldbkBn8Ft5fxJIHpblyZEgaTu9x7f4MVJLvpv9ejnrGHlwpzjiVbynJq4Se4lmhe
- G/ucfPQ76j1Lg0Dto40L7R1fC+CZCelPPhLsHnIWdYika1BZ6psDu0=
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-X-QQ-RECHKSPAM: 0
+X-MBO-RS-ID: 41a315498ead22c9c49
+X-MBO-RS-META: pxs98gsf34wnustn6xmuyoea4zjoi7m8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,30 +70,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This typo was not listed in scripts/spelling.txt, thus it was more
-difficult to detect. Add it for convenience.
+On Mon, 2025-07-21 at 11:07 -0700, Matthew Brost wrote:
+> On Mon, Jul 21, 2025 at 12:14:31PM +0200, Danilo Krummrich wrote:
+> > On Mon Jul 21, 2025 at 10:16 AM CEST, Philipp Stanner wrote:
+> > > On Mon, 2025-07-21 at 09:52 +0200, Philipp Stanner wrote:
+> > > > On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
+> > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu=
+/drm/scheduler/sched_main.c
+> > > > > index bfea608a7106..997a2cc1a635 100644
+> > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > > @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct =
+drm_sched_entity *entity,
+> > > > > =C2=A0
+> > > > > =C2=A0	entity->oldest_job_waiting =3D ts;
+> > > > > =C2=A0
+> > > > > -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> > > > > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before=
+);
+> > > > > +	if (!entity->stopped) {
+> > > > > +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> > > > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_befor=
+e);
+> > > > > +	}
+> > > >=20
+> > > > If this is a race, then this patch here is broken, too, because you=
+'re
+> > > > checking the 'stopped' boolean as the callers of that function do, =
+too
+> > > > =E2=80=93 just later. :O
+> > > >=20
+> > > > Could still race, just less likely.
+> > > >=20
+> > > > The proper way to fix it would then be to address the issue where t=
+he
+> > > > locking is supposed to happen. Let's look at, for example,
+> > > > drm_sched_entity_push_job():
+> > > >=20
+> > > >=20
+> > > > void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+> > > > {
+> > > > 	(Bla bla bla)
+> > > >=20
+> > > > =C2=A0	=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
+> > > >=20
+> > > > 	/* first job wakes up scheduler */
+> > > > 	if (first) {
+> > > > 		struct drm_gpu_scheduler *sched;
+> > > > 		struct drm_sched_rq *rq;
+> > > >=20
+> > > > 		/* Add the entity to the run queue */
+> > > > 		spin_lock(&entity->lock);
+> > > > 		if (entity->stopped) {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <---- Aha!
+> > > > 			spin_unlock(&entity->lock);
+> > > >=20
+> > > > 			DRM_ERROR("Trying to push to a killed entity\n");
+> > > > 			return;
+> > > > 		}
+> > > >=20
+> > > > 		rq =3D entity->rq;
+> > > > 		sched =3D rq->sched;
+> > > >=20
+> > > > 		spin_lock(&rq->lock);
+> > > > 		drm_sched_rq_add_entity(rq, entity);
+> > > >=20
+> > > > 		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> > > > 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bu=
+mm!
+> > > >=20
+> > > > 		spin_unlock(&rq->lock);
+> > > > 		spin_unlock(&entity->lock);
+> > > >=20
+> > > > But the locks are still being hold. So that "shouldn't be happening=
+"(tm).
+> > > >=20
+> > > > Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini=
+()
+> > > > stop entities. The former holds appropriate locks, but drm_sched_fi=
+ni()
+> > > > doesn't. So that looks like a hot candidate to me. Opinions?
+> > > >=20
+> > > > On the other hand, aren't drivers prohibited from calling
+> > > > drm_sched_entity_push_job() after calling drm_sched_fini()? If the
+> > > > fuzzer does that, then it's not the scheduler's fault.
+> >=20
+> > Exactly, this is the first question to ask.
+> >=20
+> > And I think it's even more restrictive:
+> >=20
+> > In drm_sched_fini()
+> >=20
+> > 	for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
+> > 		struct drm_sched_rq *rq =3D sched->sched_rq[i];
+> >=20
+> > 		spin_lock(&rq->lock);
+> > 		list_for_each_entry(s_entity, &rq->entities, list)
+> > 			/*
+> > 			 * Prevents reinsertion and marks job_queue as idle,
+> > 			 * it will be removed from the rq in drm_sched_entity_fini()
+> > 			 * eventually
+> > 			 */
+> > 			s_entity->stopped =3D true;
+> > 		spin_unlock(&rq->lock);
+> > 		kfree(sched->sched_rq[i]);
+> > 	}
+> >=20
+> > In drm_sched_entity_kill()
+> >=20
+> > 	static void drm_sched_entity_kill(struct drm_sched_entity *entity)
+> > 	{
+> > 		struct drm_sched_job *job;
+> > 		struct dma_fence *prev;
+> >=20
+> > 		if (!entity->rq)
+> > 			return;
+> >=20
+> > 		spin_lock(&entity->lock);
+> > 		entity->stopped =3D true;
+> > 		drm_sched_rq_remove_entity(entity->rq, entity);
+> > 		spin_unlock(&entity->lock);
+> >=20
+> > 		[...]
+> > 	}
+> >=20
+> > If this runs concurrently, this is a UAF as well.
+> >=20
+> > Personally, I have always been working with the assupmtion that entites=
+ have to
+> > be torn down *before* the scheduler, but those lifetimes are not docume=
+nted
+> > properly.
+>=20
+> Yes, this is my assumption too. I would even take it further: an entity
+> shouldn't be torn down until all jobs associated with it are freed as
+> well. I think this would solve a lot of issues I've seen on the list
+> related to UAF, teardown, etc.
 
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
- scripts/spelling.txt | 1 +
- 1 file changed, 1 insertion(+)
+That's kind of impossible with the new tear down design, because
+drm_sched_fini() ensures that all jobs are freed on teardown. And
+drm_sched_fini() wouldn't be called before all jobs are gone,
+effectively resulting in a chicken-egg-problem, or rather: the driver
+implementing its own solution for teardown.
 
-diff --git a/scripts/spelling.txt b/scripts/spelling.txt
-index c9a6df5be281..d824c4b17390 100644
---- a/scripts/spelling.txt
-+++ b/scripts/spelling.txt
-@@ -1099,6 +1099,7 @@ notication||notification
- notications||notifications
- notifcations||notifications
- notifed||notified
-+notifer||notifier
- notity||notify
- notfify||notify
- nubmer||number
--- 
-2.50.0
+P.
+
+
+>=20
+> >=20
+> > There are two solutions:
+> >=20
+> > =C2=A0 (1) Strictly require all entities to be torn down before drm_sch=
+ed_fini(),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i.e. stick to the natural ownership and =
+lifetime rules here (see below).
+> >=20
+> > =C2=A0 (2) Actually protect *any* changes of the relevent fields of the=
+ entity
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 structure with the entity lock.
+> >=20
+> > While (2) seems rather obvious, we run into lock inversion with this ap=
+proach,
+> > as you note below as well. And I think drm_sched_fini() should not mess=
+ with
+> > entities anyways.
+> >=20
+> > The ownership here seems obvious:
+> >=20
+> > The scheduler *owns* a resource that is used by entities. Consequently,=
+ entities
+> > are not allowed to out-live the scheduler.
+> >=20
+> > Surely, the current implementation to just take the resource away from =
+the
+> > entity under the hood can work as well with appropriate locking, but th=
+at's a
+> > mess.
+> >=20
+> > If the resource *really* needs to be shared for some reason (which I do=
+n't see),
+> > shared ownership, i.e. reference counting, is much less error prone.
+>=20
+> Yes, Xe solves all of this via reference counting (jobs refcount the
+> entity). It's a bit easier in Xe since the scheduler and entities are
+> the same object due to their 1:1 relationship. But even in non-1:1
+> relationships, an entity could refcount the scheduler. The teardown
+> sequence would then be: all jobs complete on the entity =E2=86=92 teardow=
+n the
+> entity =E2=86=92 all entities torn down =E2=86=92 teardown the scheduler.
+>=20
+> Matt
 
