@@ -2,53 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A5EB0CF5F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 03:51:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD385B0CF60
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 03:53:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 541D710E5D6;
-	Tue, 22 Jul 2025 01:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D61E10E5CB;
+	Tue, 22 Jul 2025 01:53:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="nVvhNVTu";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA58C10E5CD
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 01:51:20 +0000 (UTC)
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-483-u27LP2rOO2yuSOYVIUlimw-1; Mon,
- 21 Jul 2025 21:51:14 -0400
-X-MC-Unique: u27LP2rOO2yuSOYVIUlimw-1
-X-Mimecast-MFC-AGG-ID: u27LP2rOO2yuSOYVIUlimw_1753149073
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 7161E195FD02; Tue, 22 Jul 2025 01:51:13 +0000 (UTC)
-Received: from dreadlord.redhat.com (unknown [10.67.32.7])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 488FC19560A3; Tue, 22 Jul 2025 01:51:08 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Johannes Weiner <hannes@cmpxchg.org>,
- Christian Koenig <christian.koenig@amd.com>
-Cc: Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>,
- Dave Airlie <airlied@redhat.com>
-Subject: [PATCH 15/15] ttm: add support for a module option to disable memcg
- integration
-Date: Tue, 22 Jul 2025 11:43:28 +1000
-Message-ID: <20250722014942.1878844-16-airlied@gmail.com>
-In-Reply-To: <20250722014942.1878844-1-airlied@gmail.com>
-References: <20250722014942.1878844-1-airlied@gmail.com>
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F68B10E5CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 01:53:19 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-23694cec0feso46155585ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 18:53:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brighamcampbell.com; s=google; t=1753149199; x=1753753999;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=02hyzrs3C6jwWph1NhtzQUl897VWViCvH01In3YsMDc=;
+ b=nVvhNVTurx9URWZmjL4/2pPmyVq7WkN+WR5qZC0l0of8scAqLF9dpYBDRFQ3SvRsuX
+ E0IUwUcUXURmHgTc3UtPOEXSn+8qd7rrjK4Ndw+WUaNJjnHVmOrnV7d6maYZIFBCOMXu
+ hXXuXS34u2DdAC9ocwPKRjRF89+RpDLRkS956BKAYGi/5JuFokKqRq5mMZv4znUu59JU
+ DKi52eMj16g3qKHokrT8V8vtiOduwtSO4qWws3KFbLXh+mqPq0PcAHL/Rsu0x5Y8mG2H
+ skPJ/bKj6AgvYNTceaI2vP0Rk8ezTXnq7okXQCuFnVHgcZrr+/F3HgSiVwfWynxgvV4U
+ CsJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753149199; x=1753753999;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=02hyzrs3C6jwWph1NhtzQUl897VWViCvH01In3YsMDc=;
+ b=n2F6agX/ssMS01su/n6+DZKLcwCQW6orS3mg6upMTF60+c/Y02m7XvsTtxqxZ5rSu1
+ 6UUqowOg6HJ4NFYuZM47eR8pp9J2ZyekPGN7IhNs1SJmHkDgrWJdDKOnDcaCJ/DFzXin
+ sDXOK7KhpU2gaTvAe+NGGjSLIM6XByDFzNqGckPT+SgkSMCDw4PV8Bl86MAWNzQL7FRG
+ nnMuS9yp36A08MfZUsdMjDW4pnrSYQ0/rS4NMwQaF4/rWjIzmd7RwInIczmiyllVghT9
+ EP1dMKDGeg0jZP3DHBvH3pFR+1Vnf0SdoezaheGV4OQk+TXGP3u1lr2dIktDWPFkTzmw
+ u+Nw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVrL8QpUdSk65/ofSNpN/QqQ1EhiKP0eZtc9TlRfSGq4i7k0TkPmLE2jSo2Gj6yRaBYQNj3g8JYl7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyhEz15CmBvxzXlqEw2aMI/K8aEdbEerl3eX4HopkL4AFxuw4aR
+ 1M69g+oxVi8lAXxzdHemIJqHJIB5g/xFl1r+YYZo1zaiibs1FZ0ed0pKAlMjuANtb/0=
+X-Gm-Gg: ASbGncs8uIl3qNHZXCJgM1+f8Mv+LSeydEBV9e3rH+5u2ac+ssHp1FQbJ/1D1esWmxH
+ 0qTJs3ItuThXo8bVu5KcVS/a6t8HwKIxgwOscztRFmEmSii9CDMSVitlVzligf6sR6o2JC09D0E
+ qHaWYqM3K6K5jd7KEyPpHOIYzloIEib/+6Hv4UbhaomjHMglW+Dr2JuN8aat2Q3Xu3DfdOjkECY
+ KUQA9AXiZrZeFvq7BF9+ImQiA9dPBFfe+Z6l7u51vdAPF50XSA23ca4W6j8pjr28doqfD0tty48
+ CmYXeJQ4Dgkd790mmErJ5NIUGEAGL+cND0OFGq9uR2le1+PvGFiQ0xYjnCVcBwYliCUxuvt3oHY
+ AKBsb3ThkfitOTNHv7AK9egnlfm4Ol8iXU7O6Cmm1PSBjM0VbaA==
+X-Google-Smtp-Source: AGHT+IG+irLWOD78xwoAvbuOvZHdyLGDUiKL9Lg3uosSOKZjL28JHUt4/xMQ/877nSZppjATq3CYSA==
+X-Received: by 2002:a17:902:f78a:b0:234:c549:da13 with SMTP id
+ d9443c01a7336-23e24edaf41mr361519995ad.17.1753149198840; 
+ Mon, 21 Jul 2025 18:53:18 -0700 (PDT)
+Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b3f2fe62d9fsm6017441a12.1.2025.07.21.18.53.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Jul 2025 18:53:18 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: dianders@chromium.org, tejasvipin76@gmail.com,
+ diogo.ivo@tecnico.ulisboa.pt, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH v6 0/4] drm: Fix bug in panel driver,
+ update MIPI support macros
+Date: Mon, 21 Jul 2025 19:53:07 -0600
+Message-ID: <20250722015313.561966-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 87ODoKVlMy6wAgdwlrzA5BSN9afNoanLZURy1x4Ng-Q_1753149073
-X-Mimecast-Originator: gmail.com
-Content-Transfer-Encoding: quoted-printable
-content-type: text/plain; charset=WINDOWS-1252; x-default=true
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,114 +90,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+This series removes the unintuitive mipi_dsi_generic_write_seq() macro
+and related mipi_dsi_generic_write_chatty() method from the drm
+subsystem. This is in accordance with a TODO item from Douglas Anderson
+in the drm subsystem documentation. Tejas Vipin (among others) has
+largely spearheaded this effort up until now, converting MIPI panel
+drivers one at a time.
 
-This adds a kconfig and a module option to turn off ttm memcg
-integration completely.
+The second patch of the series removes the last remaining references to
+mipi_dsi_generic_write_seq() in the jdi-lpm102a188a driver and updates
+the driver to use the undeprecated _multi variants of MIPI functions. It
+fixes a bug in the driver's unprepare function and cleans up duplicated
+code using the new mipi_dsi_dual* macros introduced in the first patch.
 
-When this is used, no object will ever end up using memcg aware
-paths.
+changes to v6:
+ - Fix various style and kerneldoc issues in patch 1/4
+ - Fix typo mpi_dsi_dual... -> mipi_dsi_dual...
+ - Fix incorrectly named "data" and "len" variables
+ - Make _seq argument of mipi_dsi_dual_dcs_write_seq_multi macro
+   variadic
+ - Remove duplicate definition of mipi_dsi_dual_dcs_write_seq_multi
+   macro from novatek display driver
 
-There is an existing workload that cgroup support might regress,
-the systems are setup to allocate 1GB of uncached pages at system
-startup to prime the pool, then any further users will take them
-from the pool. The current cgroup code might handle that, but
-it also may regress, so add an option to ttm to avoid using
-memcg for the pool pages.
+changes to v5:
+ - Rework mipi_dsi_dual to explicitly not support passing macros into
+   _func and add "dual" variants of the generic and dcs write macros.
+ - Make jdi-lpm102a188a use the new
+   mipi_dsi_dual_generic_write_seq_multi macro.
+ - Make local struct variable in jdi-lpm102a188a conform to reverse
+   christmas tree order.
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/Kconfig        |  7 +++++++
- drivers/gpu/drm/ttm/ttm_pool.c | 24 +++++++++++++++++++++---
- 2 files changed, 28 insertions(+), 3 deletions(-)
+changes to v4:
+ - Fix whitespace (I forgot to run checkpatch. Thanks for your patience
+   as I familiarize myself with the kernel development process)
+ - Initialize mipi_dsi_multi_context struct
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index f7ea8e895c0c..4a1501b05e7c 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -239,6 +239,13 @@ config DRM_TTM_HELPER
- =09help
- =09  Helpers for ttm-based gem objects
-=20
-+config DRM_TTM_MEMCG
-+=09bool "Enable TTM mem cgroup by default"
-+=09depends on DRM_TTM
-+=09depends on MEMCG
-+=09help
-+=09  Enable the memcg intergration by default
-+
- config DRM_GEM_DMA_HELPER
- =09tristate
- =09depends on DRM
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.=
-c
-index 1e6da2cc1f06..375858b84fb2 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -118,6 +118,24 @@ static unsigned long page_pool_size;
- MODULE_PARM_DESC(page_pool_size, "Number of pages in the WC/UC/DMA pool pe=
-r NUMA node");
- module_param(page_pool_size, ulong, 0644);
-=20
-+/*
-+ * Don't use the memcg aware lru for pooled pages.
-+ *
-+ * There are use-cases where for example one application in a cgroup will =
-preallocate 1GB
-+ * of uncached pages, and immediately release them into the pool, for othe=
-r consumers
-+ * to use. This use-case could be handled with a proper cgroup hierarchy, =
-but to allow
-+ * that use case to continue to operate as-is, add a module option.
-+ *
-+ * This still stores the pages in the list_lru, it just doesn't use the me=
-mcg when
-+ * adding/removing them.
-+ */
-+#define DEFAULT_TTM_MEMCG CONFIG_DRM_TTM_MEMCG
-+static bool ttm_memcg =3D DEFAULT_TTM_MEMCG;
-+
-+MODULE_PARM_DESC(ttm_memcg, "Allow using cgroups with TTM "
-+=09=09 "[default=3D" __stringify(DEFAULT_TTM_MEMCG) "])");
-+module_param(ttm_memcg, bool, 0444);
-+
- static unsigned long pool_node_limit[MAX_NUMNODES];
- static atomic_long_t allocated_pages[MAX_NUMNODES];
-=20
-@@ -305,7 +323,7 @@ static void ttm_pool_type_give(struct ttm_pool_type *pt=
-, struct page *p)
-=20
- =09INIT_LIST_HEAD(&p->lru);
- =09rcu_read_lock();
--=09list_lru_add(&pt->pages, &p->lru, nid, page_memcg_check(p));
-+=09list_lru_add(&pt->pages, &p->lru, nid, ttm_memcg ? page_memcg_check(p) =
-: NULL);
- =09rcu_read_unlock();
-=20
- =09atomic_long_add(num_pages, &allocated_pages[nid]);
-@@ -354,7 +372,7 @@ static struct page *ttm_pool_type_take(struct ttm_pool_=
-type *pt, int nid,
- =09struct page *page_out =3D NULL;
- =09int ret;
- =09struct mem_cgroup *orig_memcg =3D orig_objcg ? get_mem_cgroup_from_objc=
-g(orig_objcg) : NULL;
--=09struct mem_cgroup *memcg =3D orig_memcg;
-+=09struct mem_cgroup *memcg =3D ttm_memcg ? orig_memcg : NULL;
-=20
- =09/*
- =09 * Attempt to get a page from the current memcg, but if it hasn't got a=
-ny in it's level,
-@@ -824,7 +842,7 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, stru=
-ct ttm_tt *tt,
- =09bool allow_pools;
- =09struct page *p;
- =09int r;
--=09struct obj_cgroup *objcg =3D memcg_account ? tt->objcg : NULL;
-+=09struct obj_cgroup *objcg =3D (ttm_memcg && memcg_account) ? tt->objcg :=
- NULL;
-=20
- =09WARN_ON(!alloc->remaining_pages || ttm_tt_is_populated(tt));
- =09WARN_ON(alloc->dma_addr && !pool->dev);
---=20
-2.49.0
+changes to v3:
+ - Define new mipi_dsi_dual macro in drm_mipi_dsi.h to reduce code
+   duplication.
+ - Fix bug in lpm102a188a panel driver's unprepare function which causes
+   it to return a nonsensical value.
+ - Make lpm102a188a panel driver's unprepare function send "display off"
+   and "enter sleep mode" commands to both serial interfaces regardless
+   of whether an error occurred when sending the last command.
+
+changes to v2:
+ - Remove all usages of deprecated MIPI functions from jdi-lpm102a188a
+   driver instead of just mipi_dsi_generic_write_seq().
+ - Update TODO item in drm documentation instead of removing it
+   entirely.
+
+Brigham Campbell (4):
+  drm: Create mipi_dsi_dual* macros
+  drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
+  drm: Remove unused MIPI write seq and chatty functions
+  drm: docs: Update task from drm TODO list
+
+ Documentation/gpu/todo.rst                    |  22 +-
+ drivers/gpu/drm/drm_mipi_dsi.c                |  82 +-
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++---
+ drivers/gpu/drm/panel/panel-novatek-nt36523.c | 804 +++++++++---------
+ include/drm/drm_mipi_dsi.h                    | 118 ++-
+ 5 files changed, 614 insertions(+), 608 deletions(-)
+
+
+base-commit: ca2a6abdaee43808034cdb218428d2ed85fd3db8
+-- 
+2.50.1
 
