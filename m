@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D72B0D3EC
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDE8B0D3F4
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:56:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D577210E61D;
-	Tue, 22 Jul 2025 07:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22BB010E621;
+	Tue, 22 Jul 2025 07:55:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jetJyM5O";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z7E8Ostb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E05110E61D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:53:52 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9DD10E626
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753170833; x=1784706833;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=LvEhH1A6Dwx3H/5INeeHeEgiquLdi0o4ez7HR52K0KQ=;
- b=jetJyM5OIXGmapwAXgbKk5T2AidZcZXUxX5WoNqtul2UMZccPlDqfk4N
- Zhe6iolaTbsbABXZj04MbAYQ++WfG/Xyv5Cfg0cSZmyPy2LmXhxgWkP8r
- 2HMqAWXKw7tNpdAsf+9XX8QpHWkheESGXVQUaSX1JX/oLAqDYy41fVJBw
- otgLgFleck0whRyt08E+e/yQI6EHcRrIkco0M+6zwwbJ49ULYx+guyfP3
- MBLqx/045Zj/XFbvdmBdc52G5twbL+DBoDu0UmnEb6nOsKoJX9Eotmth2
- Vmbth3EHgVbyKx81VlyUv6yW67DTJDlLr6/V0Ks2Yif+rO1669rc6CMfe Q==;
-X-CSE-ConnectionGUID: FV/O9Y1cR2imT2y6UZeQnQ==
-X-CSE-MsgGUID: HT52WYpRTYKWcqbKDjDvZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55556848"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="55556848"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2025 00:53:52 -0700
-X-CSE-ConnectionGUID: WWaCzABEQKahnLI8UEuS9Q==
-X-CSE-MsgGUID: fEILP3QARfilWvfcjIBU0w==
+ t=1753170941; x=1784706941;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=538BX0oOECz/l/2l9Mo1894gIcR3ZyqW32EhlafprQA=;
+ b=Z7E8OstbUsnbyCdUyYXHPq1jsElXtLOllfMTNZglL4wEWYbM8/q7EA0u
+ XuKlaviB+uuyaGMbgVk9DwHHds9dI9D3LNxRWNBAXVaOiNwI0YKk5XVhV
+ P9xISfEjiW+MCrx99DGVAHhlRgbtg1zqdLCOmOj+oG+R+0WaNMU+rR87d
+ A3Mp9uDT5TNtSn9sKk9HxVdUpG05hzB/UZMGcmwVHDPgNh3PkDKCnIsIf
+ aohyrTIbfOuskacQYMMKrUgd+0cyV92Q8CucBpuH+evihuHtfTFaOTsYj
+ Wg4rwthPP6BbeOMpvjcmo/VsNB3z9X4iCWfR8vterekplDZZ8Ub4sk03g Q==;
+X-CSE-ConnectionGUID: nQFc69HERq2C6IFtmhHk0w==
+X-CSE-MsgGUID: kyngfD80SGqKXIS264VW5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="77947065"
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="77947065"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2025 00:55:40 -0700
+X-CSE-ConnectionGUID: tGbBdjeuRN2HT1zmZaohPw==
+X-CSE-MsgGUID: /aq+xyXuS/26s2GRvXURew==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="159154782"
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="158373034"
 Received: from wdziedzi-mobl.ger.corp.intel.com (HELO [10.245.113.213])
  ([10.245.113.213])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2025 00:53:49 -0700
-Message-ID: <f14e9187-e3b1-494d-b04f-9e7875a17e5a@linux.intel.com>
-Date: Tue, 22 Jul 2025 09:53:46 +0200
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2025 00:55:39 -0700
+Message-ID: <fc12ee3d-1b76-43e1-98a6-b5b647fbb603@linux.intel.com>
+Date: Tue, 22 Jul 2025 09:55:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Remove lockdep_assert_irqs_disabled()
-To: Maarten Lankhorst <dev@lankhorst.se>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20250715165919.33754-1-dev@lankhorst.se>
+Subject: Re: [PATCH] accel/amdxdna: Delete pci_free_irq_vectors()
+To: Salah Triki <salah.triki@gmail.com>, Min Ma <min.ma@amd.com>,
+ Lizhi Hou <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <aHs8QAfUlFeNp7qL@pc>
 Content-Language: en-US
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
  Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250715165919.33754-1-dev@lankhorst.se>
+In-Reply-To: <aHs8QAfUlFeNp7qL@pc>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,25 +75,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-On 7/15/2025 6:59 PM, Maarten Lankhorst wrote:
-> This breaks on PREEMPT_RT, and should be unneeded since
-> lockdep can track irq disabled status itself.
+On 7/19/2025 8:33 AM, Salah Triki wrote:
+> The device is managed so pci_free_irq_vectors() is called automatically
+> no need to do it manually.
 > 
-> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
+> Signed-off-by: Salah Triki <salah.triki@gmail.com>
 > ---
->  drivers/accel/ivpu/ivpu_ipc.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/accel/amdxdna/aie2_pci.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-> index 39f83225c1815..5f00809d448af 100644
-> --- a/drivers/accel/ivpu/ivpu_ipc.c
-> +++ b/drivers/accel/ivpu/ivpu_ipc.c
-> @@ -141,7 +141,6 @@ ivpu_ipc_rx_msg_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
->  	struct ivpu_ipc_rx_msg *rx_msg;
+> diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
+> index c6cf7068d23c..3474a8d4e560 100644
+> --- a/drivers/accel/amdxdna/aie2_pci.c
+> +++ b/drivers/accel/amdxdna/aie2_pci.c
+> @@ -520,14 +520,14 @@ static int aie2_init(struct amdxdna_dev *xdna)
+>  	if (!ndev->psp_hdl) {
+>  		XDNA_ERR(xdna, "failed to create psp");
+>  		ret = -ENOMEM;
+> -		goto free_irq;
+> +		goto release_fw;
+>  	}
+>  	xdna->dev_handle = ndev;
 >  
->  	lockdep_assert_held(&ipc->cons_lock);
-> -	lockdep_assert_irqs_disabled();
+>  	ret = aie2_hw_start(xdna);
+>  	if (ret) {
+>  		XDNA_ERR(xdna, "start npu failed, ret %d", ret);
+> -		goto free_irq;
+> +		goto release_fw;
+>  	}
 >  
->  	rx_msg = kzalloc(sizeof(*rx_msg), GFP_ATOMIC);
->  	if (!rx_msg) {
+>  	ret = aie2_mgmt_fw_query(ndev);
+> @@ -578,8 +578,6 @@ static int aie2_init(struct amdxdna_dev *xdna)
+>  	aie2_error_async_events_free(ndev);
+>  stop_hw:
+>  	aie2_hw_stop(xdna);
+> -free_irq:
+> -	pci_free_irq_vectors(pdev);
+>  release_fw:
+>  	release_firmware(fw);
+>  
+> @@ -588,12 +586,10 @@ static int aie2_init(struct amdxdna_dev *xdna)
+>  
+>  static void aie2_fini(struct amdxdna_dev *xdna)
+>  {
+> -	struct pci_dev *pdev = to_pci_dev(xdna->ddev.dev);
+>  	struct amdxdna_dev_hdl *ndev = xdna->dev_handle;
+>  
+>  	aie2_hw_stop(xdna);
+>  	aie2_error_async_events_free(ndev);
+> -	pci_free_irq_vectors(pdev);
+>  }
+>  
+>  static int aie2_get_aie_status(struct amdxdna_client *client,
 
