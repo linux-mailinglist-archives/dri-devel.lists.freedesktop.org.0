@@ -2,196 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE84B0D4D7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 10:43:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38578B0D4EC
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 10:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1D7A10E630;
-	Tue, 22 Jul 2025 08:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0864F10E3EF;
+	Tue, 22 Jul 2025 08:47:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SdRS63dk";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="aDXJdV9A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2FF210E62C
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 08:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753173805; x=1784709805;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=oNYhlaY/y79VZsA/3dv09PQbsuDuEHkfLPmy63jUIrQ=;
- b=SdRS63dkNBvAWhrteSLBj99X7jcgqeEISlgfMG3hlpVN5vZjA/yFPO7w
- z1rxHdpKTgbhE+Igb0KLxaoeOItRamOmj86SchxUs3QwcaAXVrWanuVe3
- +idvkhM3XBlOdwNGZpw9X4C92+ei/tWH100UhE2URrcBbo0EgM5Ovuze3
- pucrSQKJbPdQciV1frSLP3Z6vPQQ9Jl943mGvopc0MF0KhwScodvoBQj7
- F1hc8WTxix3uaXHRsr7yGg6FB6BgMZkDvf1Gdf7QJa9VUv1gMWpQwQDf4
- o6jvW0HhjH7kjfYjv1wsHbMUVFEhtErDJHs+JKweMA1BbfCReYVyii7ld A==;
-X-CSE-ConnectionGUID: TcKgp7LMT5ybQLlX9jBaEQ==
-X-CSE-MsgGUID: LnC8s0BOT6qFKNWhRQ+ynA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="72982338"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="72982338"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2025 01:43:24 -0700
-X-CSE-ConnectionGUID: +SRQp/wpQfGFSlPNjSsDGQ==
-X-CSE-MsgGUID: pMKqaNC6Q36jSMtKOt1kDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="158744685"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2025 01:43:23 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Tue, 22 Jul 2025 01:43:23 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Tue, 22 Jul 2025 01:43:23 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.43) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Tue, 22 Jul 2025 01:43:23 -0700
+Received: from AS8PR04CU009.outbound.protection.outlook.com
+ (mail-westeuropeazon11011071.outbound.protection.outlook.com [52.101.70.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AFC710E633
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 08:47:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N3kqeJwj4PKHqIwkXY0p0nAxn2d1K4Z9JTOy3VG9izDh1dzvPTm2WVjgD56PYc9gnu+VPlllVXrPu223dxnJt3z7WyL0SEqaIuWTjiPki+o4A5ZEHwXNwLTyiIZk6e+ZzPse9fMbPE2zQuxoQQorzAmXmWprAI0YkTC9xbDdnrc57Z85IHIF6tj6va9asCUVLon9iK7ia5q76m3m8xHVroEjNrYAF47H+Nxtsbj0GvFlLsExwzE84asbAI20iIicxyM0+uRoIDf1WUD7go3KgUiCP0o3tSv6ZXdXBZBUtYuBe84Jtv3UNjryqViN1q+Kj2SiJknR6iRlkyufZlU2Ow==
+ b=Y9VVmV13uNBvVKAbkBUOJY16n3Q4GxiqMinQmEWWWMfVv1GJYJMAf5UK+NtE/LZoFNu4d7ARh+iz3Y2fFNawwkELk2nk+GUUa7Bm2d7sOW5mvxHMDmdhehC4lD/FPKxZ9aAkKfuC67Bg6guwmBwEy5GxoNSNC1wWtldZut64M5wu3/EsmU9jjZfhNQ7pFZ2AhUB6uovpt45ZUJnOexq7EwzRtx/NToRV9SFtHb87RG0yvIMA1L+auvGOQKXwVqMEpn6pst4VbOWkfhIa/KsZqPsYqBV0ky2XvE54ye+30a+4Ez/cHCHCRe8X2v8uiJ9PtWcDa5I6JhL8rzyrS3aKAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=060ee1RXEUhuiLHC6bypZSiw+AlCaYbJznUKNL9V1ZM=;
- b=lGpTsd7iLOWcfYErP4E2qjQZpMP2kPTHVsYLjwgpqwfubYWWM/6gP6fLJfIKszQDofhMwOiNZCMtG4k+pk3nEILVhQYJObGxejHOoDPOSJDYjaI10ma4D5+Ys7l+CijP1NGRvnp38I1zMWCWRK5NtgmSK2vsIQzT9BxOPZqSLXF9yRjexcoAtrvya9wEyEbA/b6/TSwSCgeavWicN7ULkmEtdBP+LQseHYycup8k31EMvQJBI86B7BbZeBP5OzGiXpwJrIhWa7sdhxlcGALKg5mkPg6aM3lkCMHv6hRXlzVMc7b8VIQl4QSoPhMrktlBnZFYQESiP8QT5/hboaK3Dg==
+ bh=+8OMZ8x5VbL8KwCJ7pghpo+qa5X3kNLeWB05NMj9hrg=;
+ b=fpuy6LaWHRzgzlo4reebm2lxm8MKKz5JWlogy4Kp+M4EtDENztWo7U3pxNegeReljFz6pJ2xOokHbFu3c1vBeR9jWXz7uFZ8/3UJgwzk8LSoEmQXzwPNPjd8NsxfFqz/Bc4bGBudf2iyoK1RRK5bWX1qTpCEITekNM61xJpsblv8sWrQ1zYpEz2F/DmDgm8y9wiEimmXJ2zogzp4IPGnh7j0BVEzNW+W4eFdxNDQCfTEqZbldQZagrGMkMmWkFrCJd/KHHRdTSqdVRG3IPFwx5xvj7iZxprPhmg2YraS2NME45neYZ6uGm6qenHbzcVOsWJ0SP3L+CdzAGW3hkX0Gw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+8OMZ8x5VbL8KwCJ7pghpo+qa5X3kNLeWB05NMj9hrg=;
+ b=aDXJdV9AHVCFFnd1qOp7nhVbAzP9pkwePIf3MNN/Q6f2mGV2nK1xUefHgJrLT5BrA8hgcsd4/Xi4AfxyxkSjRc9/uQIroo2qVstu53xPugEgHnqpoun7fdc+v/uVWFxH/TB96f0g2dZCDmEVv9X83IvG6CdHOR8AC8rd3SDDKQ1PsIxlASjLKuftUqjXKoOvVo1IKbzEanUc9FykNFSd2shDDL/AVPKYZgcXYinTtMdnRCA0GQ4Yq69Ud9UbmhEo3mWIqFquhtjBl/5RNxNFxTi4rNlFY4cpkgN7EqLpW0OCWWaI2ahIv+Okc4UKGrCXeKE0G7OTkQILER4cbRrhPg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL3PR11MB6508.namprd11.prod.outlook.com (2603:10b6:208:38f::5)
- by CYXPR11MB8711.namprd11.prod.outlook.com (2603:10b6:930:d7::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Tue, 22 Jul
- 2025 08:43:18 +0000
-Received: from BL3PR11MB6508.namprd11.prod.outlook.com
- ([fe80::1a0f:84e3:d6cd:e51]) by BL3PR11MB6508.namprd11.prod.outlook.com
- ([fe80::1a0f:84e3:d6cd:e51%7]) with mapi id 15.20.8943.028; Tue, 22 Jul 2025
- 08:43:18 +0000
-Date: Tue, 22 Jul 2025 01:45:03 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <phasta@kernel.org>
-CC: Danilo Krummrich <dakr@kernel.org>, James Flowers
- <bold.zone2373@fastmail.com>, <ckoenig.leichtzumerken@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <skhan@linuxfoundation.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
- the run queue.
-Message-ID: <aH9Pj+eIuIgNiL69@lstrano-desk.jf.intel.com>
-References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
- <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
- <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
- <DBHNK2XQHUIW.TQHV41LR5D8I@kernel.org>
- <aH6B7JruWCkReaLw@lstrano-desk.jf.intel.com>
- <80f569dd3c42f11927324ea80e7c14ac2d3352b5.camel@mailbox.org>
- <aH9GwaquE7OR0HFY@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aH9GwaquE7OR0HFY@lstrano-desk.jf.intel.com>
-X-ClientProxiedBy: BYAPR07CA0028.namprd07.prod.outlook.com
- (2603:10b6:a02:bc::41) To BL3PR11MB6508.namprd11.prod.outlook.com
- (2603:10b6:208:38f::5)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by AM8PR04MB7475.eurprd04.prod.outlook.com (2603:10a6:20b:1d4::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Tue, 22 Jul
+ 2025 08:47:36 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%5]) with mapi id 15.20.8922.037; Tue, 22 Jul 2025
+ 08:47:35 +0000
+Message-ID: <e7c90b0c-8aec-4fe0-85ef-a629e67a56a0@nxp.com>
+Date: Tue, 22 Jul 2025 16:49:08 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] drm/bridge: imx: add driver for HDMI TX Parallel
+ Audio Interface
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ lumag@kernel.org, dianders@chromium.org, cristian.ciocaltea@collabora.com,
+ luca.ceresoli@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+ l.stach@pengutronix.de, shengjiu.wang@gmail.com
+References: <20250718101150.3681002-1-shengjiu.wang@nxp.com>
+ <20250718101150.3681002-3-shengjiu.wang@nxp.com>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20250718101150.3681002-3-shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA1PR01CA0175.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:d::10) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL3PR11MB6508:EE_|CYXPR11MB8711:EE_
-X-MS-Office365-Filtering-Correlation-Id: 701449bb-540d-4083-f493-08ddc8fbce2a
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM8PR04MB7475:EE_
+X-MS-Office365-Filtering-Correlation-Id: be420d0b-3522-4836-ae55-08ddc8fc67d5
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eXdTNHdjRytNQ0YyQURRd25aVlZNVjIveE9TaHlTc1FvUUtaMzV6YmVJMFUw?=
- =?utf-8?B?aTM1Q3JoN1UvR3lNWHlueGNISGZRQ0tyazVodUkrZUMzUUthVVNYbFFaWEdr?=
- =?utf-8?B?OGxHL2Z1L0x1N09xZW5GaXF3azRyOTNlQkxCQ1Z4aUpBSHpZMlR0aW4zWFlY?=
- =?utf-8?B?QW5JL01zKyt4ZXM2ZVgrS2VIVmpqTFVGUWRkZGJrQ0JBYjNxOUlvcjFtZjJn?=
- =?utf-8?B?Y0RYSC9CaFlyVFRySGQ2cHgzVFRRWWVGQStlM3ZlUjJtYWdJaXRQRWFhU3J1?=
- =?utf-8?B?ZlVvNWtzb1NBaUhLZkVUb2J2dXVEdktydzBXN2RuRGZXckJ3SVdCbjBOQ0FT?=
- =?utf-8?B?My9SNnZnTjdiZy93T2VKRGlPMEJxSXlpbG13M2dIeVVxdS9KZTBzbG9rQkp0?=
- =?utf-8?B?L044UDdhQ3FWcFRpM3pCRTN0eWxvSDFqYzNyem9WWjh0ejRtOGd2WDNOWEdU?=
- =?utf-8?B?aWpsalQ5NDNTOGNwR3pvM0RxTXQ5R01aWnNBNkltcEtaSlZiWW9qNHRmL0o0?=
- =?utf-8?B?RkRWbjNRUzVod1hwUi9TSW5YbCtDbWVqQlJKNDF0b2hxekwyc09xSWR1b3Mr?=
- =?utf-8?B?SjgzRHpJZlhINGdRcFlGcHFGam5aTEZzUS8rYTE0YXNTZlBLeTcvcEkxM0xH?=
- =?utf-8?B?a1dYV2hnYlRFTEUyNHV6bHdqZEhZaUhEcWp0YXh2NlhJTHhmVFdnK0NteUll?=
- =?utf-8?B?L3pOWXpiS2JBY2JENGpkM08wV3NWOGRZL3dWeHhPUDNYMzk1UTBoVDhrWHYw?=
- =?utf-8?B?QTRmcmhmOWlCeVVrc1ZkejVQcHROS1JuTXp6VkZ0SGlUSk1ONFVvUy81dGxu?=
- =?utf-8?B?MFJHQi9wZ1BaWEprN3VuSVBELzlmSVZ1NHZCRUVOOEkrY01zOTBxajVJb2xz?=
- =?utf-8?B?UFZRSGhtcVI0dW43MmFyZVVtTzh2bUhKd2N0MGxPMGtuSDRuSnNPaGZPY3Vp?=
- =?utf-8?B?YWNaSnhocU95Q1RwSHV1ZVdUc0Z0YmRmUUhYQzJhRG92ODhnZ2ZPQ0dxSWFJ?=
- =?utf-8?B?Y0JTUmtueWFMSEdLOFR2c1Q3OUVTcU1zQVdCbWtFcGtTREtYSkswWndJUnMz?=
- =?utf-8?B?dXc0VkdUdXpNRC9WQWpGR0hLdHg0VWV2THovK1AwTTRGVGdsV09ibWU1Mkw2?=
- =?utf-8?B?YklmU3EyS2dYaVVzOEJ2QS9SRjB6VUdHWFd3S25NVlRpN0Eyd3RyNEdneEw0?=
- =?utf-8?B?L0hXUDVWRUJwVmxuL1JnOHN4TWhBNTFCc3p3TFVjYW1WcmUySzRKc1d2Rjk0?=
- =?utf-8?B?TVh6R2lYbG9mb0xQanNYMXZLR1VQUGpRS1NQT0piTk51R0RKVXR4ZXpiWjVV?=
- =?utf-8?B?U0JyNlRnVUVaajRUcmpYY09QdlFTb2dlMXBYeHR1YVpFRW9kMThrdmo3aWlq?=
- =?utf-8?B?eStMMm1QNnd4dldQa2dudWR6QjczMkhLM3Z1bW5Pd3Flc3BjaW1DS2FjZEo4?=
- =?utf-8?B?Q1ozUHhpL245U0RuQ1BlZ05uUWxBVm1aeXo0bnF3aktWclVDRS8zcnJVYnBh?=
- =?utf-8?B?R0h1aGZ5QngxclJuKzZjRGJJU1NuMmY3UFBtc0xIYzdwRVJWNnJvWlMyMUxF?=
- =?utf-8?B?bnNwUGlIVVpoUEMzRlBKWjlVbElHMjBsYWVVcFZwL2FnTHIxbnhuWUhNM3k5?=
- =?utf-8?B?Wi9ZR09yc0VWL3N3TkZyT1pJUHlaZmo3RDk3RW9UcHRjVW0rb21tZDVjb0Jr?=
- =?utf-8?B?MjJNWGxZRHBpTnJNOE55SnhOTlZhbDBkZFI4bTlKSS82WkJsQklOaldzanh6?=
- =?utf-8?B?OEI2TTRXdzlOQXdibUtxUW5DTTJ3Kzc1WnM0R2pGL3RESVJQSURCenhrWFJZ?=
- =?utf-8?B?OEllUUxmZE90YTVqRGp3Zk1NZ2diUTBMamZvTmFvSlYrN1kwaXdrMzA5UktM?=
- =?utf-8?B?aklqR3gyOFNhUFdpNEw3ZFh5S3Y1aUNjMlNvWGliWE1Dd3lhVFJ1UWpXd2RX?=
- =?utf-8?Q?4OtgWjGU28M=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|19092799006|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ejNydjBqcnZodGdJNzg4RVpPdi8zTzlvUTI2UnhZVUI5dWwvQWNPUVlPWHdh?=
+ =?utf-8?B?Wm5aUDJ4T1hKOWRFWFo4K0pWUjRmMVFMd1RjL3ErajEwMEtocTRDRkhaVW9M?=
+ =?utf-8?B?dUZ6bmR6UE1FelJOeVR6bkErdWMyOHRqOS9QSVh6Vkc1Z0plbHZvMzVYL0FN?=
+ =?utf-8?B?WC9YUDA4c21wN3gybE4xeHFyMnhHc1ptb0xLb3RTNk9mMkR0eXVQZ2tzYjRQ?=
+ =?utf-8?B?cGRoRmVMWjAwTmRxdnV6ZW1qS05VNUhITnA5VHY2Uzc4Z0dWNzdxWC9vZjZT?=
+ =?utf-8?B?eU5qNjNBNTJKUm9YcEJ2QURwdGZZU1RzekRMc0daL2tSYUtVZjdkbVAyRzYw?=
+ =?utf-8?B?aDBEQjdCNXo1Z3kxZ0tQWTlSamhBdTZwTlpTOTNrTlc5SVBMb29MZytkOVlD?=
+ =?utf-8?B?SjdpSjZTMkNKM2NpMVYzOE93Ylp6ZXRyblBLYzZJWkk5d29Rbm9kOFJKUDdm?=
+ =?utf-8?B?NDRqdklwcFAvQ2JlNWN4bUhFYy9PT2VhYjJYaHd1bHBFU1BZcW9uM3ptODB3?=
+ =?utf-8?B?dmhGT1VoanlYdkgwdHU5dGJxQWVVV2M0TjJSWit6eml0K0JxZDBKdkVWbnlO?=
+ =?utf-8?B?T0cxdWxyZHJobnNVQTc5WVdtcmpTbXhPZE9nMUNucmJQNGhod2J5L3Freitk?=
+ =?utf-8?B?bXhHWmI3NndhY2g1VzVReGo0NG5hQnBDWDFCbE1nN2NrVHBEVlB1QW1tYXhu?=
+ =?utf-8?B?MmxScnhmQ1o0UGpZdWFFa1ZSSXR2RktBL1hpR0xETnFOeDlRODF4eWRzZGhN?=
+ =?utf-8?B?OTZpdlFZV1U1STdjVk1VaEE0S2JIcndQZno5RjllRTROOFlNRFFBYS91dm13?=
+ =?utf-8?B?eUY3TFA2YXdDSkd0MUo3ZXYwUnh3aVZwVUJXZE05NFh3MjBtRjdyVnBXN1Iz?=
+ =?utf-8?B?ZTVCRS94WGhIMUlpcjFvSzhiVmtkM0IwZGxVcFhKOXJlWG9GTnlrR1cxVHdN?=
+ =?utf-8?B?alRPUkt2ZzFnUHdyZy91OVNHU21uUVphMGVLRWxtN09tWHNMMHNkT0pzVWRp?=
+ =?utf-8?B?NFEvOWhvY0IvTXRNeVowYnpiaHB4Mm8vUXFEbjFxd1pITW4vNzNxRFo1Ymp6?=
+ =?utf-8?B?cHpQZ3lzYWtGM3FscEVjT1d0Z3FEK1A1MWJnMEdnN0hwWVMzZElPYTM5aVA5?=
+ =?utf-8?B?K2dTVWZpcytVNzFkSGNlcC9DM2VrVUpTTGhrNFN0U1BEbDZBR2doWXlESTQ2?=
+ =?utf-8?B?RnFUV3JDYUtadUd6UDhnVGtGczgyNWV4bGMreithNDFnd1l3Nks0c0Q4TnpH?=
+ =?utf-8?B?aVVSbkNleXBDZVNFc3FYQ1VCWHhiRU1WN3NlNWR6QWpGVUk3cGdoRm10d2o0?=
+ =?utf-8?B?cE1kbU9DSEduMGsxSytSSXNmaVRQZ1Q2eWZZMGJPNzljVjhJejFDblU3Q3Qv?=
+ =?utf-8?B?U1EvVVcwckU0NnJBbUtFaStQQklsbkVMTDhxWGQ5NllFNmtoSE13bnFtaFli?=
+ =?utf-8?B?ZWg5a20vbzBPSnZaSU1McjhyR2dKVVBjZng4c3BWMzNHWU50U3UweTNBZExL?=
+ =?utf-8?B?UEJ0dExsM1lJbUJMWVMzbEovREdBaitCS3ZqUVhKd2RqUk5nWGlOTGFQOXJm?=
+ =?utf-8?B?SEdvaGRrNzRYaGtEaElLTmxrMEYxNjdPWm5NWm9yalUxQ2VGTXhRZ2NvWDZ5?=
+ =?utf-8?B?N1pGSW1kcCtBOWZWVnowYlRWZGF0czB3Z2N3T05MZUxZaW44Uk1MZDJSMzhY?=
+ =?utf-8?B?aVRrcUtSUytjbFpMZEtwenpCWG5KQ0NvLzFFZ2hFdXhtcTRSSEdmeWhzRHRr?=
+ =?utf-8?B?djZVN1NpT0NtNWx5MmNEVExoeFhsb3NUK0lGQXBSM1dUTXBwS2NnT2xGbHpR?=
+ =?utf-8?B?blVBOExrcEFWdCtnZmtuQ0ZxMWRTQmJCeEhCKzU5VWFCaHcrMkxQYktHZlVs?=
+ =?utf-8?B?ZnYzZ3lTUkdhd3FiSFFZUzg5RVU5NThOcXBHRUY3cUdDWTVGQXRpalhOQUV6?=
+ =?utf-8?B?N1pMT0VnWkZibDRMM1ZRd08xL1BYN3VYbjhFcFZHOS9sTWllcU5RaThVdnpw?=
+ =?utf-8?B?dEF5QzFubFJBPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL3PR11MB6508.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(19092799006)(921020);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UU1xTGZ1ZFpwWUZ1ZFErdFFEYzcxa29oUENKS0piTFJhOE55OG9TeGxJM0xK?=
- =?utf-8?B?ck1MbzJVRUEvbTh1QWVnNkN3M0xJckFOcW9ScHJGZHZCMUJYNFp6QWZ2NGE1?=
- =?utf-8?B?dVhPRjRlYVVtR3U4dUFUM2dLRVYzRE1sNU02K1o1enpndUFaR2RlRnBzL2E1?=
- =?utf-8?B?L3I3L3lFNDJzdkZldUtra3hkUkdCOGFDSXZnRDVYQlg1S3pCZFNXWUxhNWJq?=
- =?utf-8?B?RVE1QWFVaURSd1hjbWFOU2JucVh5K0ZaREo1cnhpY2svdmxmeVRES1F1K0I2?=
- =?utf-8?B?YmVxdjFGcS9BcEIzY2xmb0JVL1o1YXRGVis4TFg4MmxTMFNoVzlUM3BLQXov?=
- =?utf-8?B?UzVMemJyWWRzRU5IQTZ2YkhCS3I5bmZmemRtazlkSUxwdmUydTdDSHRPdml6?=
- =?utf-8?B?VGZMMXE5dkYyVGViVEo3cDNCMDh1RUNlK1RyQkZaS2pUTnBKS0Z0NmQ4WnZz?=
- =?utf-8?B?QlFmUnNqUVYyMS9majBLVEdCSEpDYU4yekhwdy9zbTFqR0Vpa0R6Y1FVa3pK?=
- =?utf-8?B?OGNVM3JRUDByOFhwdml1RU12MVF5am5WQTloQU14VDNOVXB2K044eTh5Tld1?=
- =?utf-8?B?bFM2UVFaS0krNnlDUENXWGhiU3ljc1JqbDVyUXZ3SlZkcGlVc2VQaDFUQ0U3?=
- =?utf-8?B?dVl2ejFUell6SWtIWWZscVZVdEZDSWg5OVVybmRkS052My9hN2NZRUFERVA5?=
- =?utf-8?B?TWFTTmd4ajBkR0E5ZHdKNm1OUWpMVGZRekRuYXQ4cWJVZXc5azZvU0RGUjll?=
- =?utf-8?B?by9Fd29QYWtScFFTZE5zYm5LbStvV1pQbVZoV0ZYekFGZGJmNi9OY0pqNytF?=
- =?utf-8?B?bjVXN0pOc1E5YVFXRll3MUtCNjhRS2Z6WDVjZUxhaWoxamZHWHg4WWsrNHRQ?=
- =?utf-8?B?MzQ1enhCeUxLRUwxeTJsUi9QTGxGeDZoT0hBd3o0cWMzUVZKNnlQaGxuOUVL?=
- =?utf-8?B?OTRWOGR5L1VVWlFFdGxIRi94OEVCMXlZQjhMTjBwWHZ1MUNHSjBiWlc0M3pX?=
- =?utf-8?B?dVpNcHdWVlFKNzFmTUVCYm1PTEhja2RZWWVIcjFaQ3c0M3pGbVo4N1Rvd2hp?=
- =?utf-8?B?M2hGQW5hSTZzMzhtUEdMSUFtVng3aFlhOGRIa0ZrUjlYSVpLanl2YU8vQ2Zj?=
- =?utf-8?B?ZzVTYVRtcG5UM2hhaFN4NjVxb3ZYNWdBcHlHZWd6UkpVRXRpK014aURudEV6?=
- =?utf-8?B?NTNKUkRCMGFKay91S1FHcVdibDhCM2FZS1huclR6MnlJL0t6RzVMa3haSEJp?=
- =?utf-8?B?a09kaXVwMkZuTXJJZm9NWVdRdGR5ZUxZQkNkRkhUQ0FObGFUQ0JZVURUcit0?=
- =?utf-8?B?UUpOd3ZBU09VVE5KaVB2UmI0TEl1SVZDbFdQdU5UOHdIaTlua2ZmTldqbjdj?=
- =?utf-8?B?QnlXZGRtSkZOWFA1aUoweHJEazdJUzNZdnNmdUpTODU1WjhPUytCRllUMFdw?=
- =?utf-8?B?SGNvZzVPc3BUaXBhL296U1dIa25sLzAyai94VDJxK3c5MkdJS3N6Q2NneUVK?=
- =?utf-8?B?YlFpKzA1QkRqK09qWUh0MzF3TlpEVytoQ1p6VHF0S0t2eEtibGI4bGcwRkhk?=
- =?utf-8?B?TjlHemFLNlhhQUdOZUdsOS9Ic3dNQW5NV1RscGN3eXdKcHhoT0dXZVhVKzJv?=
- =?utf-8?B?SVFaRVVZa3hJUG95cm9VS0o2eU0wT280dXlhb1VpU3ZjOERLSEFpd3UydDNr?=
- =?utf-8?B?ZlNvb3kwSlhuaUE2em9DL1JNdXRNdzRyeWtGeHdFa1ZBaW9mUk95YTdHMUxQ?=
- =?utf-8?B?My9GM3ZEQ2VxUmVhZFh5dHpFdmpDdzRZRGplMVNxSHpPcG1lS0FRN0VtYnJB?=
- =?utf-8?B?NjNkUWs1ZXh6a0dNK1MyM1IrZXZBOW9JNHJvaDR2MEFnY2NVWDFiaUk2cGtB?=
- =?utf-8?B?Y2lueUFwK2FLYkRUK2JKc2RreFVNNDRRM0g3NHVrNTVISFFqazZ3RGxIVTdF?=
- =?utf-8?B?aFpYUWs4c09RTStpNVpyMU5NT0E1dHNTYXBKQ1FmWVRkZjF1SStaa1ZJS1J0?=
- =?utf-8?B?QmJoMEQyK0lrR1dadUlOMlhoRnNBV25tVnNJdTJ4emlpSUVWNVRpaW5IanNp?=
- =?utf-8?B?OElaUzhHVUNuQUMrOHZnQjdvQ3dia0pieGxLcG8rMWhxcFZLejI3dlE0UDAw?=
- =?utf-8?B?WFJWK1orcUF6dUxsSlhnV096cWpnaDhUYitqanZXNlF2UUpwbGUvdjduVWpE?=
- =?utf-8?B?MHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 701449bb-540d-4083-f493-08ddc8fbce2a
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6508.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dnBka25qUElRWFovT01rTFF2WmVSc2dOcmt3RWVBNEExVjNXSWEvc1RLamVT?=
+ =?utf-8?B?cHNWQ0lqNno3Z2RRNkRydUhsZk12RHBzQlF4UkVwMWphNWlhY1orKzYxazVG?=
+ =?utf-8?B?eCttYVdobnphMTByLzlSQUREbWRRVE9ybG9qdGhLK3Jkb1FNeUpndXh0ZC9k?=
+ =?utf-8?B?SDN3U1VOR3J3Q0IwVnVvaUcxdlR4MHhRRkE5TTlIVytyN2hPbVUrR1drenpW?=
+ =?utf-8?B?YnhLOTdsUmxSMW9JZHlucDBCMHVObXhiTUpzTzFYdWEydjY0ZHU1ZWI0Mk5Y?=
+ =?utf-8?B?T1FDNkZtZEhhak5iZW43UEdYMjhLK1dFdDM5ZUsxN2lzSlNPbFJOcE51RExz?=
+ =?utf-8?B?VzZCRUxHRVFKMUpBTEwzaVg4UFFncWhLWklWblgra25ReHdYZ2NJaTNSQ0VV?=
+ =?utf-8?B?R0JZTDU4bHhKc0l6SHFkM3FueTJUV1laS250N2VaWnJ3T2VPNzh5RE9DbzV6?=
+ =?utf-8?B?UnE1MXZmU0Vub244MlRMN1hZRURmb0ZyWjZUa3VLYTl5Yk1OYjZEYlV2WVhp?=
+ =?utf-8?B?b2FjNCtuUDFaRGU4WWtLbXJicEdSakVMR200RTFrenY1Y1VjM3lIdEhwUUZu?=
+ =?utf-8?B?ZWJOeTRlMmJxQUN6UlJwdkFpUkl3Lzd0clN4eTYrQkRkMytTZlJMdFNJSkFs?=
+ =?utf-8?B?dWtPTEVUb2VXSjFpWERBZTQzRGhMaDZJZCswWHZWL3F5T0kvTDVCbmVwRTQr?=
+ =?utf-8?B?RUN1SW04UDUvc2dqU2NTV08xZ01ZcUh0UVJPVzlxbUdMbHpZK1FvSGcxbXQv?=
+ =?utf-8?B?Uk5SZFRHVWdRUUg1QnBBMWU2bnVxWVQwZ3MwN0E4SzNRdFE1VnZ2aWN5TzUz?=
+ =?utf-8?B?alFuZEgwaWhBY1JQVElIemF5UkJINlc4MjJZblc0bUJGb21nQlR1eFoyM2Rk?=
+ =?utf-8?B?b3F5aVp4dHU4WjZqSFFuZ3Q1blFDZmVsaVNWLzFsejdlYnYxNjJDcW11Smpi?=
+ =?utf-8?B?TkpGNGlaalY0U2x4SzgvQ0xTd0kxVXFUNGcyVXJsTnM3cC9KWlRFM1BONkdi?=
+ =?utf-8?B?NVRrbk8ydUMrL3lJOStOblA0VG81SFZRMVRvZktTQ0d2LzFNQnJ4NC9VMzJj?=
+ =?utf-8?B?ejl5bndTemRqYkFzcEVUYTlxVkU3dE9EL2ZEMjBPOE1DeUNWNDNZM2k4cXdG?=
+ =?utf-8?B?Wm1wNG8vTTNESXFrakZyd1gzbDlCMmdwTXNTVmZyQnpkcTBGTE5GOWc5MFJt?=
+ =?utf-8?B?emVwbmg1OUpTYURtMnRnNmdIR0tRQXVLTjIzV05UWExNMWNBeVZ0UDB5QXhH?=
+ =?utf-8?B?aU9LZmpiVHZPRTdiVG5QRjFIalp0SENFbzFKWjBRZzBjdUV0L0V4TmJKajJs?=
+ =?utf-8?B?MDE1Q01QMEkzN0VzVTRYT0ZXSStEQ0l3TllJVFFKOU9BemNZZ0FiTWhUOFBx?=
+ =?utf-8?B?V1p3M2cxeldSOENoWThJVC9qc0ljcm9DckM1WHJXQVpVR1dobEtCVElHLyth?=
+ =?utf-8?B?QlA1QzVsZFNtN09FZ3o4NkZNTzhNd2hrNGpuSVQwMzY0VTRCcUhleGY4ZElC?=
+ =?utf-8?B?R29jSjBhR2JWRmVJeGhadS9wWUlTQnZYcW9veFhCcU5XbFgwT01KVGxmMU9y?=
+ =?utf-8?B?OFl5cithOUczbkpKNlpUcXk1MGE2U2szREhHMmJKa2U1S2l3eHFPT0tOemx1?=
+ =?utf-8?B?Ti96QkluelUrc2NYcW9QQWxWRnYrYUt6K3pKWi9QdUJBdkUvQkZYK3Q5MmFL?=
+ =?utf-8?B?Z2wxZEZuOTc5WGdnMkRFN0NRcFNBS1hYM0NUWkZUWXpkYWZ2elpDeEdXSTlG?=
+ =?utf-8?B?OGpDdGFzUHByNk5OMmJtczVwbkhhVGJjREhIb251NW9QWEJVZFpmQTFIL2F5?=
+ =?utf-8?B?ZlVpNnZrVkRwczlMVnVSK29oRnZIUS9lTHVoZEcvTENxeHo5WS82NzdrdFEw?=
+ =?utf-8?B?bFByMkR1OVVsVW10enJNVFF3RlN3RjJ1aTJaVlVhcVBZVDhvRnc5QmxWVHhh?=
+ =?utf-8?B?TWVlV01raHZBMXVlN0EzVzJDYVpuakdvbnNvN3gwcmhVZVRnb1hQUDVWdklQ?=
+ =?utf-8?B?NlIyRWRSYVlpREY3KzRid21abXd2R1lyOFQ5NVB0L1BSeUIzWFIrUGlGMlZT?=
+ =?utf-8?B?blpaYmErRUtHdk9Rc1cvMDVycmwxZWRiTzBxTFgzVnlsck5ocTNYZUROZytF?=
+ =?utf-8?Q?AShpnBxdDRctNCp4EeeHhgybT?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be420d0b-3522-4836-ae55-08ddc8fc67d5
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 08:43:18.0914 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 08:47:35.7988 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2LCuZTZrOOE1tUJtN4Sns7Mf+WmB5HQI6J9H4iMBJlFHlZRR5CWQoOq1K0iwU2oPd7rWMx0hA7RONEBF+VItiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8711
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: CrgLwolWnVjj3mf6gSz5F2J86EJ5I6JzGMEHjeVJUIAOgOB5q3v+eZq0lN+tzJjH+KvD55zjaWmxC8zZs0MFRg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7475
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -207,206 +177,269 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 22, 2025 at 01:07:29AM -0700, Matthew Brost wrote:
-> On Tue, Jul 22, 2025 at 09:37:11AM +0200, Philipp Stanner wrote:
-> > On Mon, 2025-07-21 at 11:07 -0700, Matthew Brost wrote:
-> > > On Mon, Jul 21, 2025 at 12:14:31PM +0200, Danilo Krummrich wrote:
-> > > > On Mon Jul 21, 2025 at 10:16 AM CEST, Philipp Stanner wrote:
-> > > > > On Mon, 2025-07-21 at 09:52 +0200, Philipp Stanner wrote:
-> > > > > > On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
-> > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > index bfea608a7106..997a2cc1a635 100644
-> > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
-> > > > > > >  
-> > > > > > >  	entity->oldest_job_waiting = ts;
-> > > > > > >  
-> > > > > > > -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
-> > > > > > > -		      drm_sched_entity_compare_before);
-> > > > > > > +	if (!entity->stopped) {
-> > > > > > > +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
-> > > > > > > +			      drm_sched_entity_compare_before);
-> > > > > > > +	}
-> > > > > > 
-> > > > > > If this is a race, then this patch here is broken, too, because you're
-> > > > > > checking the 'stopped' boolean as the callers of that function do, too
-> > > > > > – just later. :O
-> > > > > > 
-> > > > > > Could still race, just less likely.
-> > > > > > 
-> > > > > > The proper way to fix it would then be to address the issue where the
-> > > > > > locking is supposed to happen. Let's look at, for example,
-> > > > > > drm_sched_entity_push_job():
-> > > > > > 
-> > > > > > 
-> > > > > > void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
-> > > > > > {
-> > > > > > 	(Bla bla bla)
-> > > > > > 
-> > > > > >  	…………
-> > > > > > 
-> > > > > > 	/* first job wakes up scheduler */
-> > > > > > 	if (first) {
-> > > > > > 		struct drm_gpu_scheduler *sched;
-> > > > > > 		struct drm_sched_rq *rq;
-> > > > > > 
-> > > > > > 		/* Add the entity to the run queue */
-> > > > > > 		spin_lock(&entity->lock);
-> > > > > > 		if (entity->stopped) {                  <---- Aha!
-> > > > > > 			spin_unlock(&entity->lock);
-> > > > > > 
-> > > > > > 			DRM_ERROR("Trying to push to a killed entity\n");
-> > > > > > 			return;
-> > > > > > 		}
-> > > > > > 
-> > > > > > 		rq = entity->rq;
-> > > > > > 		sched = rq->sched;
-> > > > > > 
-> > > > > > 		spin_lock(&rq->lock);
-> > > > > > 		drm_sched_rq_add_entity(rq, entity);
-> > > > > > 
-> > > > > > 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> > > > > > 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bumm!
-> > > > > > 
-> > > > > > 		spin_unlock(&rq->lock);
-> > > > > > 		spin_unlock(&entity->lock);
-> > > > > > 
-> > > > > > But the locks are still being hold. So that "shouldn't be happening"(tm).
-> > > > > > 
-> > > > > > Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini()
-> > > > > > stop entities. The former holds appropriate locks, but drm_sched_fini()
-> > > > > > doesn't. So that looks like a hot candidate to me. Opinions?
-> > > > > > 
-> > > > > > On the other hand, aren't drivers prohibited from calling
-> > > > > > drm_sched_entity_push_job() after calling drm_sched_fini()? If the
-> > > > > > fuzzer does that, then it's not the scheduler's fault.
-> > > > 
-> > > > Exactly, this is the first question to ask.
-> > > > 
-> > > > And I think it's even more restrictive:
-> > > > 
-> > > > In drm_sched_fini()
-> > > > 
-> > > > 	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
-> > > > 		struct drm_sched_rq *rq = sched->sched_rq[i];
-> > > > 
-> > > > 		spin_lock(&rq->lock);
-> > > > 		list_for_each_entry(s_entity, &rq->entities, list)
-> > > > 			/*
-> > > > 			 * Prevents reinsertion and marks job_queue as idle,
-> > > > 			 * it will be removed from the rq in drm_sched_entity_fini()
-> > > > 			 * eventually
-> > > > 			 */
-> > > > 			s_entity->stopped = true;
-> > > > 		spin_unlock(&rq->lock);
-> > > > 		kfree(sched->sched_rq[i]);
-> > > > 	}
-> > > > 
-> > > > In drm_sched_entity_kill()
-> > > > 
-> > > > 	static void drm_sched_entity_kill(struct drm_sched_entity *entity)
-> > > > 	{
-> > > > 		struct drm_sched_job *job;
-> > > > 		struct dma_fence *prev;
-> > > > 
-> > > > 		if (!entity->rq)
-> > > > 			return;
-> > > > 
-> > > > 		spin_lock(&entity->lock);
-> > > > 		entity->stopped = true;
-> > > > 		drm_sched_rq_remove_entity(entity->rq, entity);
-> > > > 		spin_unlock(&entity->lock);
-> > > > 
-> > > > 		[...]
-> > > > 	}
-> > > > 
-> > > > If this runs concurrently, this is a UAF as well.
-> > > > 
-> > > > Personally, I have always been working with the assupmtion that entites have to
-> > > > be torn down *before* the scheduler, but those lifetimes are not documented
-> > > > properly.
-> > > 
-> > > Yes, this is my assumption too. I would even take it further: an entity
-> > > shouldn't be torn down until all jobs associated with it are freed as
-> > > well. I think this would solve a lot of issues I've seen on the list
-> > > related to UAF, teardown, etc.
-> > 
-> > That's kind of impossible with the new tear down design, because
-> > drm_sched_fini() ensures that all jobs are freed on teardown. And
-> > drm_sched_fini() wouldn't be called before all jobs are gone,
-> > effectively resulting in a chicken-egg-problem, or rather: the driver
-> > implementing its own solution for teardown.
-> > 
-> 
-> I've read this four times and I'm still generally confused.
-> 
-> "drm_sched_fini ensures that all jobs are freed on teardown" — Yes,
-> that's how a refcounting-based solution works. drm_sched_fini would
-> never be called if there were pending jobs.
-> 
-> "drm_sched_fini() wouldn't be called before all jobs are gone" — See
-> above.
-> 
-> "effectively resulting in a chicken-and-egg problem" — A job is created
-> after the scheduler, and it holds a reference to the scheduler until
-> it's freed. I don't see how this idiom applies.
-> 
-> "the driver implementing its own solution for teardown" — It’s just
-> following the basic lifetime rules I outlined below. Perhaps Xe was
-> ahead of its time, but the number of DRM scheduler blowups we've had is
-> zero — maybe a strong indication that this design is correct.
-> 
+Hi Shengjiu,
 
-Sorry—self-reply.
-
-To expand on this: the reason Xe implemented a refcount-based teardown
-solution is because the internals of the DRM scheduler during teardown
-looked wildly scary. A lower layer should not impose its will on upper
-layers. I think that’s the root cause of all the problems I've listed.
-
-In my opinion, we should document the lifetime rules I’ve outlined, fix
-all drivers accordingly, and assert these rules in the scheduler layer.
-
-Matt
-
-> Matt
+On 07/18/2025, Shengjiu Wang wrote:
+> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
+> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
+> This IP block is found in the HDMI subsystem of the i.MX8MP SoC.
 > 
-> > P.
-> > 
-> > 
-> > > 
-> > > > 
-> > > > There are two solutions:
-> > > > 
-> > > >   (1) Strictly require all entities to be torn down before drm_sched_fini(),
-> > > >       i.e. stick to the natural ownership and lifetime rules here (see below).
-> > > > 
-> > > >   (2) Actually protect *any* changes of the relevent fields of the entity
-> > > >       structure with the entity lock.
-> > > > 
-> > > > While (2) seems rather obvious, we run into lock inversion with this approach,
-> > > > as you note below as well. And I think drm_sched_fini() should not mess with
-> > > > entities anyways.
-> > > > 
-> > > > The ownership here seems obvious:
-> > > > 
-> > > > The scheduler *owns* a resource that is used by entities. Consequently, entities
-> > > > are not allowed to out-live the scheduler.
-> > > > 
-> > > > Surely, the current implementation to just take the resource away from the
-> > > > entity under the hood can work as well with appropriate locking, but that's a
-> > > > mess.
-> > > > 
-> > > > If the resource *really* needs to be shared for some reason (which I don't see),
-> > > > shared ownership, i.e. reference counting, is much less error prone.
-> > > 
-> > > Yes, Xe solves all of this via reference counting (jobs refcount the
-> > > entity). It's a bit easier in Xe since the scheduler and entities are
-> > > the same object due to their 1:1 relationship. But even in non-1:1
-> > > relationships, an entity could refcount the scheduler. The teardown
-> > > sequence would then be: all jobs complete on the entity → teardown the
-> > > entity → all entities torn down → teardown the scheduler.
-> > > 
-> > > Matt
-> > 
+> Data received from the audio subsystem can have an arbitrary component
+> ordering. The HTX_PAI block has integrated muxing options to select which
+> sections of the 32-bit input data word will be mapped to each IEC60958
+> field. The HTX_PAI_FIELD_CTRL register contains mux selects to
+> individually select P,C,U,V,Data, and Preamble.
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  drivers/gpu/drm/bridge/imx/Kconfig           |   7 +
+>  drivers/gpu/drm/bridge/imx/Makefile          |   1 +
+>  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c | 134 +++++++++++++++++++
+>  include/drm/bridge/dw_hdmi.h                 |   6 +
+>  4 files changed, 148 insertions(+)
+>  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
+> 
+> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+> index 9a480c6abb85..d95fa84a8dcd 100644
+> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+> @@ -24,6 +24,13 @@ config DRM_IMX8MP_DW_HDMI_BRIDGE
+>  	  Choose this to enable support for the internal HDMI encoder found
+>  	  on the i.MX8MP SoC.
+>  
+> +config DRM_IMX8MP_HDMI_PAI
+> +	tristate "Freescale i.MX8MP HDMI PAI bridge support"
+> +	depends on OF
+> +	help
+> +	  Choose this to enable support for the internal HDMI TX Parallel
+> +	  Audio Interface found on the Freescale i.MX8MP SoC.
+
+Should DRM_IMX8MP_DW_HDMI_BRIDGE imply DRM_IMX8MP_HDMI_PAI as it implies
+DRM_IMX8MP_HDMI_PVI and PHY_FSL_SAMSUNG_HDMI_PHY?
+
+> +
+>  config DRM_IMX8MP_HDMI_PVI
+>  	tristate "Freescale i.MX8MP HDMI PVI bridge support"
+>  	depends on OF
+> diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
+> index dd5d48584806..8d01fda25451 100644
+> --- a/drivers/gpu/drm/bridge/imx/Makefile
+> +++ b/drivers/gpu/drm/bridge/imx/Makefile
+> @@ -1,6 +1,7 @@
+>  obj-$(CONFIG_DRM_IMX_LDB_HELPER) += imx-ldb-helper.o
+>  obj-$(CONFIG_DRM_IMX_LEGACY_BRIDGE) += imx-legacy-bridge.o
+>  obj-$(CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE) += imx8mp-hdmi-tx.o
+> +obj-$(CONFIG_DRM_IMX8MP_HDMI_PAI) += imx8mp-hdmi-pai.o
+>  obj-$(CONFIG_DRM_IMX8MP_HDMI_PVI) += imx8mp-hdmi-pvi.o
+>  obj-$(CONFIG_DRM_IMX8QM_LDB) += imx8qm-ldb.o
+>  obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
+> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
+> new file mode 100644
+> index 000000000000..f09ee2622e57
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
+> @@ -0,0 +1,134 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright 2025 NXP
+> + */
+> +
+> +#include <drm/bridge/dw_hdmi.h>
+
+Usually, linux/*.h header files come before drm/*.h header files.
+
+> +#include <linux/module.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +
+> +#define HTX_PAI_CTRL                   0x00
+> +#define HTX_PAI_CTRL_EXT               0x04
+> +#define HTX_PAI_FIELD_CTRL             0x08
+> +#define HTX_PAI_STAT                   0x0c
+> +#define HTX_PAI_IRQ_NOMASK             0x10
+> +#define HTX_PAI_IRQ_MASKED             0x14
+> +#define HTX_PAI_IRQ_MASK               0x18
+
+The above 4 registers are unused.  Drop.
+
+> +
+> +#define CTRL_ENABLE                    BIT(0)
+
+Drop CTRL_ prefix.  Same for the other bits/fields.
+
+Define this bit under register HTX_PAI_CTRL.  Same for bits/fields of
+the other registers.
+
+> +
+> +#define CTRL_EXT_WTMK_HIGH_MASK                GENMASK(31, 24)
+> +#define CTRL_EXT_WTMK_HIGH             (0x3 << 24)
+
+Add a parameter for the macro and use FIELD_PREP.
+Same for WTMK_LOW and NUM_CH.
+
+#define WTMK_HIGH(n)	FIELD_PREP(WTMK_HIGH_MASK, (n))
+
+> +#define CTRL_EXT_WTMK_LOW_MASK         GENMASK(23, 16)
+> +#define CTRL_EXT_WTMK_LOW              (0x3 << 16)
+> +#define CTRL_EXT_NUM_CH_MASK           GENMASK(10, 8)
+> +#define CTRL_EXT_NUM_CH_SHIFT          8
+
+This is not needed if FIELD_PREP is used.
+
+> +
+> +#define FIELD_CTRL_B_FILT              BIT(31)
+> +#define FIELD_CTRL_PARITY_EN           BIT(30)
+> +#define FIELD_CTRL_END_SEL             BIT(29)
+> +#define FIELD_CTRL_PRE_SEL             GENMASK(28, 24)
+> +#define FIELD_CTRL_PRE_SEL_SHIFT       24
+> +#define FIELD_CTRL_D_SEL               GENMASK(23, 20)
+> +#define FIELD_CTRL_D_SEL_SHIFT         20
+> +#define FIELD_CTRL_V_SEL               GENMASK(19, 15)
+> +#define FIELD_CTRL_V_SEL_SHIFT         15
+> +#define FIELD_CTRL_U_SEL               GENMASK(14, 10)
+> +#define FIELD_CTRL_U_SEL_SHIFT         10
+> +#define FIELD_CTRL_C_SEL               GENMASK(9, 5)
+> +#define FIELD_CTRL_C_SEL_SHIFT         5
+> +#define FIELD_CTRL_P_SEL               GENMASK(4, 0)
+> +#define FIELD_CTRL_P_SEL_SHIFT         0
+> +
+> +struct imx8mp_hdmi_pai {
+> +	struct device	*dev;
+> +	void __iomem	*base;
+> +};
+> +
+> +static void imx8mp_hdmi_pai_enable(struct dw_hdmi *dw_hdmi, int channel,
+> +				   int width, int rate, int non_pcm)
+> +{
+> +	const struct dw_hdmi_plat_data *pdata = dw_hdmi_to_plat_data(dw_hdmi);
+> +	struct imx8mp_hdmi_pai *hdmi_pai = (struct imx8mp_hdmi_pai *)pdata->priv_audio;
+> +	int val;
+> +
+> +	/* PAI set */
+
+/* PAI set control extended */
+
+> +	val = CTRL_EXT_WTMK_HIGH | CTRL_EXT_WTMK_LOW;
+> +	val |= ((channel - 1) << CTRL_EXT_NUM_CH_SHIFT);
+> +	writel(val, hdmi_pai->base + HTX_PAI_CTRL_EXT);
+
+Can you use regmap API?
+
+> +
+> +	/* IEC60958 format */
+> +	val = 31 << FIELD_CTRL_P_SEL_SHIFT;
+> +	val |= 30 << FIELD_CTRL_C_SEL_SHIFT;
+> +	val |= 29 << FIELD_CTRL_U_SEL_SHIFT;
+> +	val |= 28 << FIELD_CTRL_V_SEL_SHIFT;
+> +	val |= 4 << FIELD_CTRL_D_SEL_SHIFT;
+> +	val |= 0 << FIELD_CTRL_PRE_SEL_SHIFT;
+> +
+
+Nit: remove this blank line.
+
+> +	writel(val, hdmi_pai->base + HTX_PAI_FIELD_CTRL);
+
+Nit: add a blank line here.
+
+> +	/* PAI start running */
+> +	writel(CTRL_ENABLE, hdmi_pai->base + HTX_PAI_CTRL);
+> +}
+> +
+> +static void imx8mp_hdmi_pai_disable(struct dw_hdmi *dw_hdmi)
+> +{
+> +	const struct dw_hdmi_plat_data *pdata = dw_hdmi_to_plat_data(dw_hdmi);
+> +	struct imx8mp_hdmi_pai *hdmi_pai = (struct imx8mp_hdmi_pai *)pdata->priv_audio;
+> +
+> +	/* Stop PAI */
+> +	writel(0, hdmi_pai->base + HTX_PAI_CTRL);
+> +}
+> +
+> +static int imx8mp_hdmi_pai_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct dw_hdmi_plat_data *plat_data;
+> +	struct imx8mp_hdmi_pai *hdmi_pai;
+> +	struct device_node *remote;
+> +	struct platform_device *hdmi_tx;
+> +	struct resource *res;
+> +
+> +	hdmi_pai = devm_kzalloc(dev, sizeof(*hdmi_pai), GFP_KERNEL);
+> +	if (!hdmi_pai)
+> +		return -ENOMEM;
+> +
+> +	hdmi_pai->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(hdmi_pai->base))
+> +		return PTR_ERR(hdmi_pai->base);
+> +
+> +	hdmi_pai->dev = dev;
+> +
+> +	remote = of_graph_get_remote_node(pdev->dev.of_node, 0, -1);
+> +	if (!remote)
+> +		return -EINVAL;
+> +
+> +	hdmi_tx = of_find_device_by_node(remote);
+> +	if (!hdmi_tx)
+> +		return -EINVAL;
+> +
+> +	plat_data = platform_get_drvdata(hdmi_tx);
+> +	plat_data->enable_audio = imx8mp_hdmi_pai_enable;
+> +	plat_data->disable_audio = imx8mp_hdmi_pai_disable;
+
+{enable,disable}_audio callbacks could be set too late...
+You are trying to probe this driver after imx8mp_hdmi_tx is probed,
+i.e., after dw_hdmi_probe() is called in imx8mp_dw_hdmi_probe().
+Note that after dw_hdmi_probe() is called, the audio device could be
+functional soon, while this probe is called asynchronously.
+
+Also, what if imx8mp_hdmi_pai module is removed while imx8mp_hdmi_tx
+is running?  Leaking {enable,disable}_audio callbacks?
+
+I think that you may try to use component helper to take imx8mp_hdmi_tx
+as an aggregate driver and this driver as a component driver.  After
+the component is bound, you may set {enable,disable}_audio callbacks
+in imx8mp_hdmi_tx before calling dw_hdmi_probe().
+And, you need to export imx8mp_hdmi_pai_{enable,disable} symbols.
+
+> +	plat_data->priv_audio = hdmi_pai;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id imx8mp_hdmi_pai_of_table[] = {
+> +	{ .compatible = "fsl,imx8mp-hdmi-pai" },
+> +	{ /* Sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, imx8mp_hdmi_pai_of_table);
+> +
+> +static struct platform_driver imx8mp_hdmi_pai_platform_driver = {
+> +	.probe		= imx8mp_hdmi_pai_probe,
+> +	.driver		= {
+> +		.name	= "imx8mp-hdmi-pai",
+> +		.of_match_table = imx8mp_hdmi_pai_of_table,
+> +	},
+> +};
+> +module_platform_driver(imx8mp_hdmi_pai_platform_driver);
+> +
+> +MODULE_DESCRIPTION("i.MX8MP HDMI PAI driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+> index a56a3519a22a..9ca70ce80cc5 100644
+> --- a/include/drm/bridge/dw_hdmi.h
+> +++ b/include/drm/bridge/dw_hdmi.h
+> @@ -143,6 +143,12 @@ struct dw_hdmi_plat_data {
+>  					   const struct drm_display_info *info,
+>  					   const struct drm_display_mode *mode);
+>  
+> +	/*
+> +	 * priv_audio is specially used for additional audio device to get
+> +	 * driver data through this dw_hdmi_plat_data.
+> +	 */
+> +	void *priv_audio;
+> +
+>  	/* Platform-specific audio enable/disable (optional) */
+>  	void (*enable_audio)(struct dw_hdmi *hdmi, int channel,
+>  			     int width, int rate, int non_pcm);
+
+-- 
+Regards,
+Liu Ying
