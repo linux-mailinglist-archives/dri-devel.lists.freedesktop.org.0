@@ -2,108 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7539BB0D5D4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 11:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050EFB0D5E1
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 11:24:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C9810E647;
-	Tue, 22 Jul 2025 09:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF8410E150;
+	Tue, 22 Jul 2025 09:24:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fG6YjahE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MjJRYeJZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE22B10E643;
- Tue, 22 Jul 2025 09:23:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id EEE3C61135;
- Tue, 22 Jul 2025 09:23:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836E3C4CEEB;
- Tue, 22 Jul 2025 09:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753176193;
- bh=iYT38q0vkIlt677rfAYxqq2CIp6/tDmkB90sG8ZjiEg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fG6YjahE5uoLdVNFku95vCJ0a0w4aUb1MNaf0i3k4IILzQIOxneUF7CiCk9cMNk8J
- hVbAjlkwQtXGKWGte08hqP8gHK3bxPA2hTsN3y4ogEQr0rwWYUfGTexv9FlacNI0lA
- Ti62dH2SIsDGg1MVS2bwJzOQRjtrXAeU9UuNhokrZKusXFj+SkupGiYlumvegg1Rvy
- 2BshPnAIPHJYhBkmeIc7nHSYGQbl5aVF4iLsRMlgVPVewXgWkzdWWIHXeElNzCIyVs
- Rk90bpJ4sm7zIKNFnReSiO5HD7DVeY/MOq/twalrl8aPGVPZiTvXoeX8wY91f7wDxu
- V03OIqOcnMMTg==
-Message-ID: <b810f0d9-b1e8-4182-9551-601b248d572d@kernel.org>
-Date: Tue, 22 Jul 2025 11:23:05 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F07A10E150;
+ Tue, 22 Jul 2025 09:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753176271; x=1784712271;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=Ksr4RcpyiaVxvdAz9Ft+gR94b9IMq2d1CEO85zHMm3o=;
+ b=MjJRYeJZpalrlHw+UcPoLhG0hsnDsFWT4Vl198E033SFSD8VB0j88IgK
+ tsdjYlB+nUlOBtv2gmxqzWzz9v+1Vz7qcqmQRLBAvR7KjSNbfuZ3TSzwx
+ 6qaTp8+EIIpqjbs7F1OpPp5qYQBh9Dmgn1p5WW0Z46zH98v9JSfFuaIof
+ mP7E3btZygMf7XIArG3cCmTUHgD3AJV5tezE1D566DfnmyOrKeYuvS5xy
+ aEiF4fT4jF51WLsfHPlb0dYBL8C8bnah7e9LuE9zS+DhxKao1yeS5i3uh
+ FKU4YUYIuD8NilU9B5NSz6N2dJHzhdmg7f0JBMvNqHTQ++GDVFQ8Titq4 w==;
+X-CSE-ConnectionGUID: 4+UFLf4WQ96pBt0PnCJP5A==
+X-CSE-MsgGUID: L5OHo97MQeWZX8hRZdLifA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55574730"
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="55574730"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2025 02:24:30 -0700
+X-CSE-ConnectionGUID: cbehGU95QkWPRtX5+LVZGA==
+X-CSE-MsgGUID: 7OhfXV8JRdOAnLadikdZ1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="163133052"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO [10.245.244.202])
+ ([10.245.244.202])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jul 2025 02:24:17 -0700
+Message-ID: <ffd58e1a8b51c98cac9be49e85d367f1a3a24c2d.camel@linux.intel.com>
+Subject: Re: [PATCH v3 3/8] drm/xe: Fix typo "notifer"
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: WangYuli <wangyuli@uniontech.com>
+Cc: airlied@gmail.com, akpm@linux-foundation.org,
+ alison.schofield@intel.com, 	andrew+netdev@lunn.ch,
+ andriy.shevchenko@linux.intel.com, 	arend.vanspriel@broadcom.com,
+ bp@alien8.de, brcm80211-dev-list.pdl@broadcom.com, 
+ brcm80211@lists.linux.dev, colin.i.king@gmail.com, cvam0000@gmail.com, 
+ dan.j.williams@intel.com, dave.hansen@linux.intel.com,
+ dave.jiang@intel.com, 	dave@stgolabs.net, davem@davemloft.net,
+ dri-devel@lists.freedesktop.org, 	edumazet@google.com,
+ gregkh@linuxfoundation.org, guanwentao@uniontech.com, 	hpa@zytor.com,
+ ilpo.jarvinen@linux.intel.com, intel-xe@lists.freedesktop.org, 
+ ira.weiny@intel.com, j@jannau.net, jeff.johnson@oss.qualcomm.com,
+ jgross@suse.com, 	jirislaby@kernel.org, johannes.berg@intel.com,
+ jonathan.cameron@huawei.com, 	kuba@kernel.org, kvalo@kernel.org,
+ kvm@vger.kernel.org, linux-cxl@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, linux@treblig.org,
+ lucas.demarchi@intel.com, 	marcin.s.wojtas@gmail.com, ming.li@zohomail.com,
+ mingo@kernel.org, 	mingo@redhat.com, netdev@vger.kernel.org,
+ niecheng1@uniontech.com, 	oleksandr_tyshchenko@epam.com, pabeni@redhat.com,
+ pbonzini@redhat.com, 	quic_ramess@quicinc.com, ragazenta@gmail.com,
+ rodrigo.vivi@intel.com, 	seanjc@google.com, shenlichuan@vivo.com,
+ simona@ffwll.ch, sstabellini@kernel.org, 	tglx@linutronix.de,
+ vishal.l.verma@intel.com, wangyuli@deepin.org, x86@kernel.org, 
+ xen-devel@lists.xenproject.org, yujiaoliang@vivo.com, zhanjun@uniontech.com
+Date: Tue, 22 Jul 2025 11:24:15 +0200
+In-Reply-To: <94190C5F54A19F3E+20250722073431.21983-3-wangyuli@uniontech.com>
+References: <576F0D85F6853074+20250722072734.19367-1-wangyuli@uniontech.com>
+ <94190C5F54A19F3E+20250722073431.21983-3-wangyuli@uniontech.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/13] dt-bindings: display/msm: Document DP on QCS615
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- konrad.dybcio@oss.qualcomm.com, fange.zhang@oss.qualcomm.com,
- quic_lliu6@quicinc.com, quic_yongmou@quicinc.com
-References: <20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com>
- <20250722-add-displayport-support-for-qcs615-platform-v2-1-42b4037171f8@oss.qualcomm.com>
- <e15df8ba-f058-4eb2-919c-bc327290e66a@kernel.org>
- <5ec480ac-ee60-473d-83e6-c2f25d3d30d8@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <5ec480ac-ee60-473d-83e6-c2f25d3d30d8@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,26 +94,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/07/2025 11:16, Dmitry Baryshkov wrote:
-> On 22/07/2025 12:13, Krzysztof Kozlowski wrote:
->> On 22/07/2025 09:22, Xiangxu Yin wrote:
->>> The QCS615 platform is based on the SM6150 SoC. Since the DP hardware is
->>> shared with SM6150, the compatible string qcom,sm6150-dp is used to
->>> represent the DP controller on QCS615.
->>
->>
->> No, you cannot use other SoC compatible for different one. Look at
->> qcs615.dtsi and board DTS - there is nothing saying that this is the
->> same die.
-> 
-> Please take another look, we even have renamed qcs615.dtsi to sm6150.dtsi
+On Tue, 2025-07-22 at 15:34 +0800, WangYuli wrote:
+> There is a spelling mistake of 'notifer' in the comment which
+> should be 'notifier'.
+>=20
+> Signed-off-by: WangYuli <wangyuli@uniontech.com>
+Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 
-I checked on recent next, although not latest next-20250716. Commit msg
-should explain that. Any qcs615 feel then inappropriate here.
+> ---
+> =C2=A0drivers/gpu/drm/xe/xe_vm_types.h | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_vm_types.h
+> b/drivers/gpu/drm/xe/xe_vm_types.h
+> index 1979e9bdbdf3..0ca27579fd1f 100644
+> --- a/drivers/gpu/drm/xe/xe_vm_types.h
+> +++ b/drivers/gpu/drm/xe/xe_vm_types.h
+> @@ -259,7 +259,7 @@ struct xe_vm {
+> =C2=A0		 * up for revalidation. Protected from access with
+> the
+> =C2=A0		 * @invalidated_lock. Removing items from the list
+> =C2=A0		 * additionally requires @lock in write mode, and
+> adding
+> -		 * items to the list requires either the
+> @userptr.notifer_lock in
+> +		 * items to the list requires either the
+> @userptr.notifier_lock in
+> =C2=A0		 * write mode, OR @lock in write mode.
+> =C2=A0		 */
+> =C2=A0		struct list_head invalidated;
 
-Subject says clearly "on QCS615". Patch does something completely else!
-
-For gods sake how anyone can understand this?
-
-Best regards,
-Krzysztof
