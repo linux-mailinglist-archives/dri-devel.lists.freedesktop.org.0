@@ -2,45 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EC9B0D508
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 10:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942C6B0D57E
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 11:13:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3643F10E0A0;
-	Tue, 22 Jul 2025 08:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B495A10E63D;
+	Tue, 22 Jul 2025 09:13:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cOmEVJ0E";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D24F110E0A0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 08:55:49 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C59FA152B
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 01:55:43 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0C5863F66E
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 01:55:48 -0700 (PDT)
-Date: Tue, 22 Jul 2025 09:55:46 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Erik Faye-Lund <erik.faye-lund@collabora.com>
-Cc: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org,
- nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/6] drm/panthor: Add support for Mali-G710, Mali-G510
- and Mali-G310
-Message-ID: <aH9SEno547vpIJxy@e110455-lin.cambridge.arm.com>
-References: <20250721111344.1610250-1-karunika.choo@arm.com>
- <20250721111344.1610250-4-karunika.choo@arm.com>
- <abc0eae5319ed14409c88baab3160b7aed2061b2.camel@collabora.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2764D10E150;
+ Tue, 22 Jul 2025 09:13:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2EC6A6020A;
+ Tue, 22 Jul 2025 09:13:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F381C4CEEB;
+ Tue, 22 Jul 2025 09:13:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753175627;
+ bh=KRsv54cqTUpZUL0BV5Mw8aYJWJw4xyvwVfuzWnaYFFw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cOmEVJ0EyAV7KzOnn44MHaZXzjabPuXnLbXJtS8kOPS+b5lDpbBBRKGa/M97/WlY1
+ 1Q98Z6G4XpXd1kqr8NnpSGv9BMH61xsKdEPLbCZOS1nT6tQPHEsu4Hr+CYFofu67rK
+ e1Ks+Sh36r6+AYcm95gB8GhWL60Ps9a3VBInhsBiJgFLIHxF3ZCJiHjy76WXLx/yoD
+ HTiwUDWJ2vmsdJ8zR79A+bmYzKqr5VelKclSNLg/i+n4hNbnYilDDTicOrkWMZMt86
+ +dddeWgfGDaKCFP9OZ4dFFvoddjukFj1VcQYprPmkOwZA/hv16zZghomWEdnwZUY3a
+ vSiiiyNcm38sQ==
+Message-ID: <e15df8ba-f058-4eb2-919c-bc327290e66a@kernel.org>
+Date: Tue, 22 Jul 2025 11:13:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <abc0eae5319ed14409c88baab3160b7aed2061b2.camel@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/13] dt-bindings: display/msm: Document DP on QCS615
+To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
+ fange.zhang@oss.qualcomm.com, quic_lliu6@quicinc.com,
+ quic_yongmou@quicinc.com
+References: <20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com>
+ <20250722-add-displayport-support-for-qcs615-platform-v2-1-42b4037171f8@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250722-add-displayport-support-for-qcs615-platform-v2-1-42b4037171f8@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,74 +117,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 22, 2025 at 10:29:21AM +0200, Erik Faye-Lund wrote:
-> On Mon, 2025-07-21 at 12:13 +0100, Karunika Choo wrote:
-> > This patch adds GPU model name and FW binary support for Mali-G710,
-> > Mali-G510, and Mali-G310.
-> > 
-> > Signed-off-by: Karunika Choo <karunika.choo@arm.com>
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_fw.c | 2 ++
-> >  drivers/gpu/drm/panthor/panthor_hw.c | 6 ++++++
-> >  2 files changed, 8 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c
-> > b/drivers/gpu/drm/panthor/panthor_fw.c
-> > index 36f1034839c2..b7b454d16f12 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> > @@ -1402,3 +1402,5 @@ int panthor_fw_init(struct panthor_device
-> > *ptdev)
-> >  }
-> >  
-> >  MODULE_FIRMWARE("arm/mali/arch10.8/mali_csffw.bin");
-> > +MODULE_FIRMWARE("arm/mali/arch10.10/mali_csffw.bin");
-> > +MODULE_FIRMWARE("arm/mali/arch10.12/mali_csffw.bin");
-> 
-> This isn't a problem with this series per-se, but these (as well as the
-> ones you're adding in later commits here) are all missing from here:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/arm/mali
-> 
-> Any plans on upstreaming these so people without DDK access can
-> actually try these patches?
+On 22/07/2025 09:22, Xiangxu Yin wrote:
+> The QCS615 platform is based on the SM6150 SoC. Since the DP hardware is
+> shared with SM6150, the compatible string qcom,sm6150-dp is used to
+> represent the DP controller on QCS615.
 
-If you want to try the patches the cover letter has the link for the binaries.
-Once we're happy with the patches I will send a pull request to linux-firmware for the binaries.
+
+No, you cannot use other SoC compatible for different one. Look at
+qcs615.dtsi and board DTS - there is nothing saying that this is the
+same die.
 
 Best regards,
-Liviu
-
-> 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_hw.c
-> > b/drivers/gpu/drm/panthor/panthor_hw.c
-> > index f39010c0ca86..7f138974d43b 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_hw.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_hw.c
-> > @@ -15,8 +15,14 @@ static char *get_gpu_model_name(struct
-> > panthor_device *ptdev)
-> >  						GPU_PROD_MAJOR(gpu_i
-> > d));
-> >  
-> >  	switch (product_id) {
-> > +	case GPU_PROD_ID_MAKE(10, 2):
-> > +		return "Mali-G710";
-> >  	case GPU_PROD_ID_MAKE(10, 7):
-> >  		return "Mali-G610";
-> > +	case GPU_PROD_ID_MAKE(10, 3):
-> > +		return "Mali-G510";
-> > +	case GPU_PROD_ID_MAKE(10, 4):
-> > +		return "Mali-G310";
-> >  	}
-> >  
-> >  	return "(Unknown Mali GPU)";
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Krzysztof
