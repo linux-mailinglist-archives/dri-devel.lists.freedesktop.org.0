@@ -2,62 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDE8B0D3F4
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B60B0D3F5
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:56:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22BB010E621;
-	Tue, 22 Jul 2025 07:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 937CB10E61F;
+	Tue, 22 Jul 2025 07:56:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z7E8Ostb";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="IyBJDlZ/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9DD10E626
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753170941; x=1784706941;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=538BX0oOECz/l/2l9Mo1894gIcR3ZyqW32EhlafprQA=;
- b=Z7E8OstbUsnbyCdUyYXHPq1jsElXtLOllfMTNZglL4wEWYbM8/q7EA0u
- XuKlaviB+uuyaGMbgVk9DwHHds9dI9D3LNxRWNBAXVaOiNwI0YKk5XVhV
- P9xISfEjiW+MCrx99DGVAHhlRgbtg1zqdLCOmOj+oG+R+0WaNMU+rR87d
- A3Mp9uDT5TNtSn9sKk9HxVdUpG05hzB/UZMGcmwVHDPgNh3PkDKCnIsIf
- aohyrTIbfOuskacQYMMKrUgd+0cyV92Q8CucBpuH+evihuHtfTFaOTsYj
- Wg4rwthPP6BbeOMpvjcmo/VsNB3z9X4iCWfR8vterekplDZZ8Ub4sk03g Q==;
-X-CSE-ConnectionGUID: nQFc69HERq2C6IFtmhHk0w==
-X-CSE-MsgGUID: kyngfD80SGqKXIS264VW5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="77947065"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="77947065"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2025 00:55:40 -0700
-X-CSE-ConnectionGUID: tGbBdjeuRN2HT1zmZaohPw==
-X-CSE-MsgGUID: /aq+xyXuS/26s2GRvXURew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="158373034"
-Received: from wdziedzi-mobl.ger.corp.intel.com (HELO [10.245.113.213])
- ([10.245.113.213])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2025 00:55:39 -0700
-Message-ID: <fc12ee3d-1b76-43e1-98a6-b5b647fbb603@linux.intel.com>
-Date: Tue, 22 Jul 2025 09:55:36 +0200
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6428410E61F
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:56:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+ s=onoh2408; t=1753170976;
+ bh=sEi6Qc+0LMLSRWy4yxxZXRzpQLiDwl7qhwa3kf4qeBE=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=IyBJDlZ/46kFPBbWehvroWoU9cTUfolUS5qddaAsKRZn80OHNHmJXL5SFicbDZ43U
+ sh+1rL2SBYiGrF4x6AsgQNw0sgJQRUNmAYRGP+5mzxgNm3XLGJuvOpYonGAWl7cHDT
+ kR2L1iNLPssExD0XV37gu8ZhIxeCv2cEuLyGM+6c=
+X-QQ-mid: zesmtpip2t1753170967t5ee6ac39
+X-QQ-Originating-IP: RjCZbseQq4oikT5GmR1Rbfwt8wXQmxJlvGsd6iZwE7U=
+Received: from avenger-e500 ( [localhost]) by bizesmtp.qq.com (ESMTP) with 
+ id ; Tue, 22 Jul 2025 15:56:05 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 5626045234927739205
+From: WangYuli <wangyuli@uniontech.com>
+To: jiang.peng9@zte.com.cn
+Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ eperezma@redhat.com, jasowang@redhat.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, mst@redhat.com, sumit.semwal@linaro.org,
+ virtualization@lists.linux.dev, xu.xin16@zte.com.cn,
+ xuanzhuo@linux.alibaba.com, yang.yang29@zte.com.cn
+Subject: Re: Re: [PATCH v3] virtio: Update kerneldoc in
+ drivers/virtio/virtio_dma_buf.c
+Date: Tue, 22 Jul 2025 15:56:05 +0800
+Message-ID: <B54095728F89524F+20250722075605.24998-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250717160707018ilXWr01CnLXI8dTRDVKy4@zte.com.cn>
+References: <20250717160707018ilXWr01CnLXI8dTRDVKy4@zte.com.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/amdxdna: Delete pci_free_irq_vectors()
-To: Salah Triki <salah.triki@gmail.com>, Min Ma <min.ma@amd.com>,
- Lizhi Hou <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <aHs8QAfUlFeNp7qL@pc>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <aHs8QAfUlFeNp7qL@pc>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: M5znx2hx04lbAGhAtTpGT8TMqZAxGzKRNrEQKddeNz1di6XnjLJi+ZP8
+ 1PyOHEVqrJ0Mi7j9Sw5Cs/HRnL0Ie7HPuBQrTUrna+KUM5YGK8qBDDGNdIfeeRP1CVS3v4W
+ b/ZQODKSPJpiShXBdy9z2RUMCJUkUoEAp4E1bMf9eLKDVl+v/dxYIHUVViBJlOR9E00E7la
+ gA+sZYSWsUOda8Z3mxZgb5LvLgDzWuhX2Lm/Soh/uULxK1kxidGERc9+M/s7aOnHh3ONFPx
+ 3nkkQOm2wcYSWFPnRTRXIvgISlmGd+El90qdPzstqYKJ/rP2xr81zI3NXB+6ph/bnbDvrqI
+ vkaXwqMVvjtYbtjmJ4NdZBd8/7dEmAe4dslbt42DQMoeHVnw9XE2akbEgA5tXEDL2afKWw+
+ 5xN7dFv+yg6OmDR1ZmbebaPmNvMxBghAwq1J3vDmFpq04u4dNEo1+3oYK+dLXWMG1NoTvly
+ bFCdJxD2EMoMfC2LmuZ2+Gb8v3+fQGgdug9WE/oAhay6Eov78myJTv4xhDhfyMXnI1o1FtU
+ FajytM7SwA8NVxAk/tfXWWMD5XzkIigtJmKlPpfB2hdvUjvP0u7HfeMRUHrF6brg1zWuFfJ
+ jJ/t8KnTsx2h9UiFaF0Gg8dWfn5ZgNZPxiBcTJoD2cgJZ2CAPIC90VTdSZk5jI2COSh9O6O
+ yNJBGUlrsfF63AnVN8n1E4X2mUIOcBHG3or5IBa8oh4cjwH0p/FJqn1J53i8IiDyeBfGHQ3
+ +fm9QOuDVTdWtW20pYb4hRSCzOmNgknkJ+5EpWPaxcBoX/lYFtRudWcVcW/r/ZQO3D/u2KX
+ hVk/2bz2q7KAUxp3p4QmbfwRN1Rz5/ADplFZVSZ0vutMJLCPKtSYWMxHd7fgS++fOQOCDJk
+ 6yF7fjZXQ2u50BFKUtwrEsfBAsPV+Th5+rnRn7OoJ9VlXA73mc/dxu0j9dYoW/eSVyIsGTl
+ FVdCF4NLkXB5oH/xnSLkbIJs7ynIrd3EuRqfkECoAu4cnXVdkHCzXPg5mRJjE6Q12nSBR3z
+ 2E3Xa1vRDnJ/s4KC+c1bJ2t7wpIMZq4S20KMZ9Nw==
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,58 +80,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Hi Peng Jiang,
 
-On 7/19/2025 8:33 AM, Salah Triki wrote:
-> The device is managed so pci_free_irq_vectors() is called automatically
-> no need to do it manually.
-> 
-> Signed-off-by: Salah Triki <salah.triki@gmail.com>
-> ---
->  drivers/accel/amdxdna/aie2_pci.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-> index c6cf7068d23c..3474a8d4e560 100644
-> --- a/drivers/accel/amdxdna/aie2_pci.c
-> +++ b/drivers/accel/amdxdna/aie2_pci.c
-> @@ -520,14 +520,14 @@ static int aie2_init(struct amdxdna_dev *xdna)
->  	if (!ndev->psp_hdl) {
->  		XDNA_ERR(xdna, "failed to create psp");
->  		ret = -ENOMEM;
-> -		goto free_irq;
-> +		goto release_fw;
->  	}
->  	xdna->dev_handle = ndev;
->  
->  	ret = aie2_hw_start(xdna);
->  	if (ret) {
->  		XDNA_ERR(xdna, "start npu failed, ret %d", ret);
-> -		goto free_irq;
-> +		goto release_fw;
->  	}
->  
->  	ret = aie2_mgmt_fw_query(ndev);
-> @@ -578,8 +578,6 @@ static int aie2_init(struct amdxdna_dev *xdna)
->  	aie2_error_async_events_free(ndev);
->  stop_hw:
->  	aie2_hw_stop(xdna);
-> -free_irq:
-> -	pci_free_irq_vectors(pdev);
->  release_fw:
->  	release_firmware(fw);
->  
-> @@ -588,12 +586,10 @@ static int aie2_init(struct amdxdna_dev *xdna)
->  
->  static void aie2_fini(struct amdxdna_dev *xdna)
->  {
-> -	struct pci_dev *pdev = to_pci_dev(xdna->ddev.dev);
->  	struct amdxdna_dev_hdl *ndev = xdna->dev_handle;
->  
->  	aie2_hw_stop(xdna);
->  	aie2_error_async_events_free(ndev);
-> -	pci_free_irq_vectors(pdev);
->  }
->  
->  static int aie2_get_aie_status(struct amdxdna_client *client,
+Please feel free to add "Reviewed-by: WangYuli <wangyuli@uniontech.com>"
+to your patch v4. [1]
 
+[1]. https://lore.kernel.org/all/20250716094357-mutt-send-email-mst@kernel.org/
+
+Thanks,
+--
+WangYuli
