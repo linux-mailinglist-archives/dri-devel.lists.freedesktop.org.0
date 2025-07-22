@@ -2,65 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2192B0D229
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 08:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3787B0D266
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:17:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FCA410E131;
-	Tue, 22 Jul 2025 06:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E72C10E2EA;
+	Tue, 22 Jul 2025 07:16:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="jLm3ReU3";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="WmoZ4vXg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id A44A710E131
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 06:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=Od2N/35x0n354N5QbOs1x7Zwbn1xkujRTkM0QU+Krc4=; b=j
- Lm3ReU3BJJa092GingCNVpiE8NPy8AFOpwXf9oyRdkpHwZ4kPJeWedm/vN9X79CS
- u92+uU4vb+6usS+PEElSMslBVDDtSk+lg3D8OjakzMRt5ogj71Lcl55XAmt13xpV
- Q2kvPEymIbedrkQ1cpEhHPHmjiwrp1LKpZddxZ1O0g=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-106 (Coremail) ; Tue, 22 Jul 2025 14:55:06 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Tue, 22 Jul 2025 14:55:06 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: "Algea Cao" <algea.cao@rock-chips.com>, "Sandy Huang" <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re:Re: [PATCH 1/5] drm/rockchip: vop2: Add high color depth support
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <c5624dad-93cb-4cc3-88ad-808dcc43274d@collabora.com>
-References: <20250721-rk3588-10bpc-v1-0-e95a4abcf482@collabora.com>
- <20250721-rk3588-10bpc-v1-1-e95a4abcf482@collabora.com>
- <3ceb2c70.2145.1982ff28b9c.Coremail.andyshrk@163.com>
- <c5624dad-93cb-4cc3-88ad-808dcc43274d@collabora.com>
-X-NTES-SC: AL_Qu2eAf2duEsr4CKQZekfmUkTh+o2Xca5uf0j3YBWOZh+jCDp+QI/WUd7PHfV+c6FAj2WqyCvXhFv2v9ITLdpdJIwnenVIiESySmfHn87IETmow==
-Content-Transfer-Encoding: base64
+Received: from AS8PR03CU001.outbound.protection.outlook.com
+ (mail-westeuropeazon11012051.outbound.protection.outlook.com [52.101.71.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0121610E2AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:16:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OyX2atmbCOIEQCTTsLBNJwYUN7gJDUoFYPW0WklY4RGaVZHFFgXvsGyWPxT4V76duJNNJWW2WTLuNDpWwgrAK+uB/0MA3uawjLsJHNiwEfAcj75DJnAZ/kS8gRXh0+63u/TfqAcFMA/PGqddw7RBYNJf4bQqkPKGGKzqLKbWUrKwipBM9SqZnx1DJQUfvfC3aftRi/vbQ+KY/xv1KyesDhjjP6Kxm+Ia9AbVWurDtGRPGqCw/u/rFgTqzPyd725i8q/UyaIecIynD2oGJTRgW8lpr8/cvaQ1my/1Z9ph4PSs9DF7hR2oqbaHRFkMgk83c9nke+4WwNg5gcZFzKs16w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6Q/Sgz/MXcNAhRvlXDa8DzYklUDDvsPpKwfBdTbKPgA=;
+ b=Rv8hwSuh81sA8yjdibxYJ0XSEHIk0VyZza8mikG2Fz8k1yvL634+AbHnyBoMR3FWyAMJLaMqTrzccIH8GpiSDoQiKApcGSg3PeBJ3ogLmS3CJEwTGsHIOh6TfdXR4OFr8OlqAFdgOWwZsIkqpQUQPYuQkoYkC8qXyFY/D+nD/wakaURFFhv/m+LjB098SHhjVC0KvW+9BHTdow8UbFpM6Kugqc20Mrt5Pz3jv4v4djU/E+nwJZ3cT3PLeG5V1LWPdk+e1y+AJPQtCNPJL5w+NfsrAStapyxl56wvNnrEI90KbXXpxoqUwWvfon/+hq7E/1wZZVZu8vF2anh9yQd4FQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Q/Sgz/MXcNAhRvlXDa8DzYklUDDvsPpKwfBdTbKPgA=;
+ b=WmoZ4vXgVDT565Od0I///icybz8mawVrOEeCQEY7EJBeoYwQwcR9cTUi8ain7aZ6PUlY1lFzOy+99WuVkxdoRSTQsI1nTLxjgkg/OnKMeonvPi70Q/qcBSJDAn13gxx9sA+gcW4vohbhIWDBkif/aLCjC1v/upcFHzOtxAYu28sELfMjaF+gzvz4r276qHBfvhiugH+qDz7kJ1kfkHPvhE7GQRv5+2IT2munMpEh5r3BhvXynBf9JK/HRWX79Ut6OAF8j8Djb4N+P7XXsnCagmKEEQ2HVHzNNKC9n51vLgQuUWgyw80WVshRm7m/3ExkshovfzNS31ybNr7Xsg1Bzg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by VI2PR04MB10286.eurprd04.prod.outlook.com (2603:10a6:800:21e::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Tue, 22 Jul
+ 2025 07:16:53 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::d1ce:ea15:6648:6f90%5]) with mapi id 15.20.8922.037; Tue, 22 Jul 2025
+ 07:16:53 +0000
+Message-ID: <a5621775-5032-4422-80bb-5f8f60351dbe@nxp.com>
+Date: Tue, 22 Jul 2025 15:17:37 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] dt-bindings: display: imx: add binding for i.MX8MP
+ HDMI PAI
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ lumag@kernel.org, dianders@chromium.org, cristian.ciocaltea@collabora.com,
+ luca.ceresoli@bootlin.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+ l.stach@pengutronix.de, shengjiu.wang@gmail.com
+References: <20250718101150.3681002-1-shengjiu.wang@nxp.com>
+ <20250718101150.3681002-4-shengjiu.wang@nxp.com>
+From: Liu Ying <victor.liu@nxp.com>
+Content-Language: en-US
+In-Reply-To: <20250718101150.3681002-4-shengjiu.wang@nxp.com>
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5PR01CA0021.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:177::13) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-Message-ID: <4966b602.5395.19830ea1e2f.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: aigvCgD3lz_KNX9oftoDAA--.34909W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEgCSXmh-NBYeHAABso
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|VI2PR04MB10286:EE_
+X-MS-Office365-Filtering-Correlation-Id: 646a0c9e-29f3-4d32-f177-08ddc8efbbbc
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|19092799006|376014|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U3pZV2pjRmxUMEZXT2VxODNWdVhtUFNXSXdJb0F3S3RvcWNOYytlT3JyTnFI?=
+ =?utf-8?B?OU82MGR5ZEc1VnhKSkkzazgvNFBJL2RWZ3FpNGVWY25vL1czQXNITTJSSEJK?=
+ =?utf-8?B?VkVRdEhjUWRBWTVEZk5SK3NubXd3M25rOTU0S2dvU3hsOWJQaVVXNWlEV25v?=
+ =?utf-8?B?amhnK0ZzNkRZZ3ZXUVVNcWttOWsrZUYzQnVHWFg3MGExTXlHaEY1RS9uL0hZ?=
+ =?utf-8?B?aVFiMFRlbVlwS3lxQzdiNG1iVFd3VHRsbWFOeWFHU2V0RUp4aHhLQktRV2NF?=
+ =?utf-8?B?TE9mTVNlbGhPS3FkYk0zZUJrTWc5UTFwYi9mM2pjSTY0bFkwWTB3M1A0S0U1?=
+ =?utf-8?B?WDFFK3Y1S2xxN05HT1A3NWRtN0JGZ2VhellsLzRCaTZXNzRUcmZrSkNVMC9M?=
+ =?utf-8?B?NjNjZ1ZnVFVnM3kvckp1THZZUlJadHB3aHhaZFdDalk3cWFqZTZaR25PKzlJ?=
+ =?utf-8?B?bW1qVzg1N0hIOVIxUlhrY0pxNWl3RUMzRXF4b2htbk5mYzV3a1VIODFmVmU1?=
+ =?utf-8?B?UUdXNkVaaDVIY3ViaURXMk54dWNDVjRjNjVJS3lJcFN2cGtOQVJabS9WYU5E?=
+ =?utf-8?B?Kzd1Rm8rbHNGajV0YUR4WFRJaHh5c2tOaW05YjBlUHhFcUROcVhQTy9BbjFO?=
+ =?utf-8?B?M2hYWjZVa3hkc0labnh0a1pvS01vcWJKSEtTS2Y5clRKaVBDN2NuT0M2ZWhS?=
+ =?utf-8?B?TGRqajNXMldsYVZyUUV6RnNDME5qRW1Vc3V3UDk0RjNkL2ZhWEZxZ2Z2VDFD?=
+ =?utf-8?B?N3JTTXd3cXh3RVVnNSs0ZGo5dEZVbi9qanR2Qkl5QzZqcGhKMmZ0V21wOHFS?=
+ =?utf-8?B?akcvUXJBNlBJZlF4dnBxVVRjRkw2R3QyK2VZTU1uNy85QVdKVHVhSjZ5dW9R?=
+ =?utf-8?B?QWRBby9WN1FOOE9Eb1ZycithWGpib3BNRmY1LzR5QkRRaVpRRXo2ZWo1aUFB?=
+ =?utf-8?B?cU1vd0cvTkdoTnpXRmlKSms3c29WeUdVVVBsTlFlVWVPcGlwY2NveExiNHBC?=
+ =?utf-8?B?MzU0VWtOMTRNZVA2ajgwNkNweStsYlJuYmtZS09yZXFXQ1JyQjl4czdXWmk1?=
+ =?utf-8?B?T3lJSktKOHV4SnEzUGF0S2x6QWFHREFCMHkySHlwdlN4L2ZVYWpmaGpDekdX?=
+ =?utf-8?B?bTFsb3Nib3ZNZjFZK2J3TWFiNVhyOWpQTDJSSG1JenF5b2FxaGMwdHIvQ2Uy?=
+ =?utf-8?B?NTNESkoyZGhrUWpLRGhORFhOem03elVUQjRBOVRLd0R3MGxZSVRDU1FkQWR0?=
+ =?utf-8?B?cUZIV2d0NldJRWJmbXZzN3BiNkMrS1ZCMlpIUnNJZlV6ci8yR2FZRFNYSThG?=
+ =?utf-8?B?MjJ6Y2k4NWJBWXBwWVlOYVJqdElGUzNxRmtQazNGQTF0N25UeUdVUThLb0xy?=
+ =?utf-8?B?eEp5VTVhYm9PYkRQcG5QNVdkRTZtMGdJeWtoRStLVVp2QkpIVXhsTFdCdjlq?=
+ =?utf-8?B?N05yeFJoajQ4NFRyc2VHVGpnajlodUxKd0Zpa0Y0TVRpMzhHYjZPUCtDV0xM?=
+ =?utf-8?B?NUVuY3RtdE94N3J3aWx6YXJ5cE0yeFc1NTNCMHpHaklhQlZyTXp6M2dCalda?=
+ =?utf-8?B?bXYwV1JjYzIvWHpYQVhkNjNLV25OTzV6bXBJRk81RXlmN0U2UnR6NFFad0lv?=
+ =?utf-8?B?ZGg5eHAzUDc5RTZra1hTRnNFVjNDRWJsanhCZkNWdTFqL1dhUWNXTDAwQ1Jn?=
+ =?utf-8?B?UGRWdUlSVHdqNTNjVXl3d0xFTkt6R243am5DU0NTV050WWM0dGtHSXczRWVy?=
+ =?utf-8?B?WUNycHRDUGNBSnVwTjR0ZWloUVBiNG9pcGtCc1JyZGNLZ2dxUlUwVGdoS1pH?=
+ =?utf-8?B?RFV1NWVZVkRhcDA5YTVuV09odXdZK2VFS3JLUzVqUE9Oa3ZwL3lZbldsa0pr?=
+ =?utf-8?B?VTFlcERaQmpMelU2VUZGWkJqN3NTYURTMzI2L2hObTBQZHc9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(19092799006)(376014)(7416014)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2lNRjEvTmMzZnFCRTJ4VkpkUHN5TmlXellRV2Rwd1FWVmxyaTFvMVJ1elVk?=
+ =?utf-8?B?dE5kLzltRUVxc3dwcmRBWHBwT0ZyTWJnQ1I4SjZKanhpQnEvQTZHKy9RT2d6?=
+ =?utf-8?B?b08rbmgwL2NaRGVWYXprWW9rS09tQUN2eVRLKzdmZ3ZoMXhiTmpHUVQwRVBw?=
+ =?utf-8?B?LzhuRzhwNjZFSm93Z1RDRHRxdjlJZE5FdVo3S0UrV1kxVVk3NTRwUnJjRm9p?=
+ =?utf-8?B?aGxCTjNGcFFLckVTTDFDMXpXcFo4UzVzVmlvTTVGTGxOQ1lYV1JaUFlzMGtl?=
+ =?utf-8?B?dTVoNXdoeExsWktSK04xaHVPalRtenJKZTdFdGJlWmtvdU5paGYzblFvVWxW?=
+ =?utf-8?B?L2w5aVRPbklnKzYwb1NEeHB0elZZZFZlNnV4emdTdzVvbmw0NXZBQUdxWGg2?=
+ =?utf-8?B?b0g1WWEzOE00MG4wUFVSREhUbEMxSHVEWEx6aWkwcC9KRFM0aFFzMkJrRzIz?=
+ =?utf-8?B?elM2RlVucCswVjl2Zng2T1VrTy9sc2ZUdC96RGtiM1gwVENhUnUyb3UwV3Bu?=
+ =?utf-8?B?aklnQkU5MmxFUXpHeWZJM3BRM2RtY1BFWHhoSmlzMHlmN2k2V0ovejJlaUdy?=
+ =?utf-8?B?MVQ5MnJaaUVSNTZzUkdHcWFFeGZyUjZRQS84dDVkeWNabjVOc3YyUksrYmRm?=
+ =?utf-8?B?WUl1SUsvaVd6dHh3UlFRNTZ2Rk5oSnFyaEhZTklTaDhKTHRCb2FTakphU1hL?=
+ =?utf-8?B?VUdRQ1ZXOFNzQnQvN2FybUozK1l2VFBpbmphVUZxZVNLekVlcWZKamFoMWx2?=
+ =?utf-8?B?VE14YTlzcjJwSWJpM25HT3dNQTNDRFNLV3lXNWQwQS9TOGlHL2JMM1hUSUNu?=
+ =?utf-8?B?cWZuVUZ3UC96eTJwUEpQUHV5Qyt2QzlSRlYxcGZQOGxCY1hUQVd4dXdBckpH?=
+ =?utf-8?B?Z2Rma041RlJsa21qRVZUcUhRWms1WmVibWVib0puREhSUG4yKzMvOEJXUmxL?=
+ =?utf-8?B?cTh6NGlKL2R4QVppdHc5T2gvZWU5NTE5VVI0bjdyQnU2UW9IcTQ1Vit2UkFP?=
+ =?utf-8?B?eDlZNFFmb00xQXJPb2l0VkNERGdRU0ZGZW9rY1N5VVVMbmJIN1Y4SmlnUEdl?=
+ =?utf-8?B?VzNuUUhqRVJJK2NQMzFPa1NTZWd2SDg3SUwzdDNYMVhtM3pyN3hGRDY1VW9Q?=
+ =?utf-8?B?OHNkLytvcDAzUlJPeitENkdXYzA4OFA1Q1ViY2lLUW1xT3ZnR2VCSHBldkI0?=
+ =?utf-8?B?RmpicEdQNmUzZVdUejM2WW5pcUtoZC9EWjF1T0RHUk9waGV2ajNiN3JxZlIw?=
+ =?utf-8?B?cHFjWkorK0dZL2RYMjIzdWdmMmlIOU1UMVYrSHF6cDlvQzQ2UTVIL2NJYjVt?=
+ =?utf-8?B?cEgzdndJWjIrRjNGaEI2Tys0NDh0ZmFRbjJjdWNaQzFUcm1iZWxMd2FLcTBM?=
+ =?utf-8?B?dDJISitQVmJ1Z0pLMDBBTzdFNWRxRTFmOE9IUC8rWnMzTTUwcUQ5SWorQitG?=
+ =?utf-8?B?MW4wbzlvdEJzbFBoQmVEeEh0MFYyeDVRWDR6d0YvYWhBOXZBRXAvTmc3My85?=
+ =?utf-8?B?eVZRNm1TZW5mSTVEcXIrTUg2SjdvdEFXWUozeWsxaXBzVlh4bVgrWTNNTHB1?=
+ =?utf-8?B?M2NCRUQ0Z1FyUGJmeUhNVWlSZk56R0FPT1J4aTNkRk1EU2JzYmFXOUgyLzBv?=
+ =?utf-8?B?amQ4L01IeUxZU0Q4T0lzVU5IVG5BZUlobThsYzhFb3pDRDdRd1N6b25DUFVQ?=
+ =?utf-8?B?Qnl1Mmg3WU9DUzVOcnhTNEtRenVsZTRlV1RvQ3dXMWJMT1dPNlhScldDWnYr?=
+ =?utf-8?B?YkhxUFQwSkFOMmFyZGJFYjNpTlIrVEIvaTNIWkY3TEZDTlF1dUdJQlZsTEhn?=
+ =?utf-8?B?YndUU1ZVNkMzL3JPRTV3RDU1dmUya1R4WFoxZzBaUjRLREtYdkNieS9yMmpB?=
+ =?utf-8?B?aWJWeGFzVzlyWUE4ZGpvK2daeXliaTNLeXEyS3JtalVqZlB1M2gvenVWQVJP?=
+ =?utf-8?B?b1RkS1N4Z3pzcFVYTXk3TXJSQVpDeG1YRXlCRU1wdzlBSndiVDBaMWRXUGZx?=
+ =?utf-8?B?alRLQmNFK0VqRlN1YmxKcU1RQ05yMnhCbVUwTXRBbTdaRHBJQWlNRFRpbng4?=
+ =?utf-8?B?TzlaV3dEblgvNHBreldWZDRob0w3QkgvblNTcWJxRnlRVmVPeVNEQjc0SUpa?=
+ =?utf-8?Q?bDAQEb9p1d/OY09uB95QZB7pM?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 646a0c9e-29f3-4d32-f177-08ddc8efbbbc
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 07:16:53.0957 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pSUAJs1bYU2DBlCjIIs/nyyrgMM8BwrGW4wKr4q9Yq36v41Z/b+l5DBQYpOAhfYkU3aIEt1MUpsxRVNgmkqTfw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10286
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,83 +175,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlbGxvIENyaXN0aWFuLAoK5ZyoIDIwMjUtMDctMjIgMTQ6MTY6MjbvvIwiQ3Jpc3RpYW4gQ2lv
-Y2FsdGVhIiA8Y3Jpc3RpYW4uY2lvY2FsdGVhQGNvbGxhYm9yYS5jb20+IOWGmemBk++8mgo+SGkg
-QW5keSwKPgo+T24gNy8yMi8yNSA1OjI0IEFNLCBBbmR5IFlhbiB3cm90ZToKPj4gCj4+IEhlbGxv
-IENyaXN0aWFu77yMCj4+IAo+PiBBdCAyMDI1LTA3LTIyIDAxOjM5OjA0LCAiQ3Jpc3RpYW4gQ2lv
-Y2FsdGVhIiA8Y3Jpc3RpYW4uY2lvY2FsdGVhQGNvbGxhYm9yYS5jb20+IHdyb3RlOgo+Pj4gVGFr
-ZSB0aGUgYml0cyBwZXIgY29sb3IgY2hhbm5lbCBpbnRvIGNvbnNpZGVyYXRpb24gd2hlbiBjb21w
-dXRpbmcgRENMSwo+Pj4gcmF0ZS4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBDcmlzdGlhbiBDaW9j
-YWx0ZWEgPGNyaXN0aWFuLmNpb2NhbHRlYUBjb2xsYWJvcmEuY29tPgo+Pj4gLS0tCj4+PiBkcml2
-ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIuYyB8IDMgKysrCj4+PiAxIGZp
-bGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4+Pgo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5jIGIvZHJpdmVycy9ncHUvZHJtL3Jv
-Y2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMKPj4+IGluZGV4IDE4NmY2NDUyYTdkMzU5ZjA3OTY2
-MmJjNTgwODUwOTI5NjMyZWE4ZmUuLmE3MTRiY2JiMDJkZTE2MjY3ZTdmZWJiYWViMWViMjcwYzcw
-YWFlZjIgMTAwNjQ0Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBf
-ZHJtX3ZvcDIuYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2Ry
-bV92b3AyLmMKPj4+IEBAIC0xNzMxLDYgKzE3MzEsOSBAQCBzdGF0aWMgdm9pZCB2b3AyX2NydGNf
-YXRvbWljX2VuYWJsZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4+PiAJCWNsb2NrICo9IDI7Cj4+
-PiAJfQo+Pj4KPj4+ICsJaWYgKHZjc3RhdGUtPm91dHB1dF9icGMgPiA4KQo+Pj4gKwkJY2xvY2sg
-PSBESVZfUk9VTkRfQ0xPU0VTVChjbG9jayAqIHZjc3RhdGUtPm91dHB1dF9icGMsIDgpOwo+PiAK
-Pj4gCj4+IFRoaXMgc2VlbXMgbm90IHJpZ2h0LCAgcmVnYXJkbGVzcyBvZiB0aGUgdmFsdWUgb2Yg
-YnBjLCB0aGUgZGNsayBvZiBWT1AgbXVzdCBiZQo+PiBjb25zaXN0ZW50IHdpdGggbW9kZS0+Y3J0
-Y19jbG9jay4KPj4gSWYgdGhlIGRjbGsgb2YgVk9QIGlzIGluY3JlYXNlZCBpbiBhY2NvcmRhbmNl
-IHdpdGggdGhlIEJQQyByYXRpbyBoZXJlLCB0aGVuIHRoZSByZWZyZXNoIHJhdGUgb2YgVk9QIHdp
-bGwgYWxzbyBpbmNyZWFzZSBwcm9wb3J0aW9uYWxseS4KPj4gVGhpcyB3b3VsZCBiZSBpbmNvbnNp
-c3RlbnQgd2l0aCB0aGUgdGltaW5nIGRlc2NyaWJlZCBpbiB0aGUgbW9kZS4KPj4gRm9yIGEgaGln
-aHQgY29sb3IgZGVwdGgsICB0aGUgZnJlcXVlbmN5IG5lZWRzIHRvIGJlIGluY3JlYXNlZCBmb3Ig
-dGhlIEhETUkgUEhZJ3MgY2xvY2suCj4KPlRoZSBIRE1JIFBIWSdzIGNsb2NrIGlzIGFjdHVhbGx5
-IGNvbXB1dGVkIGF0IEhETUkgY29ubmVjdG9yIGZyYW1ld29yayBsZXZlbAo+WzFdLCB0YWtpbmcg
-aW50byBhY2NvdW50IHRoZSBjdXJyZW50IGJwYyB2YWx1ZSwgd2hpY2ggaXMgZGV0ZXJtaW5lZCBh
-cyBwYXJ0Cj5vZiBoZG1pX2NvbXB1dGVfY29uZmlnKCkgWzJdLgo+Cj5UaGF0IG1lYW5zIGNvbm5f
-c3RhdGUtPmhkbWkudG1kc19jaGFyX3JhdGUgaW4KPmR3X2hkbWlfcXBfcm9ja2NoaXBfZW5jb2Rl
-cl9hdG9taWNfY2hlY2soKSBkb2VzIGFscmVhZHkgaW5jbHVkZSB0aGUgYnBjCj5yZWxhdGVkIGFk
-anVzdG1lbnQsIGFuZCB3ZSBwYXNzIHRoYXQgZGlyZWN0bHkgdG8gdGhlIFBIWSB2aWEKPnBoeV9j
-b25maWd1cmUoKS4gIE5vdGUgdGhlcmUncyBzdGlsbCB0aGUgbmVlZCB0byBoYW5kbGUgYnBjIHNl
-cGFyYXRlbHkgdmlhCj5waHlfY29uZmlndXJlX29wdHMgaW4gb3JkZXIgdG8gc2V0dXAgQ01OX1JF
-RygwMDg2KSBbM10uCj4KPlNpbmNlIFZPUDIgc3dpdGNoZXMgdG8gUEhZIFBMTCBhcyBEQ0xLIHNv
-dXJjZSBmb3IgbW9kZXMgdXAgdG8gNEtANjBIeiwgaXQKPm5lZWRzIHRvIHRha2UgY29sb3IgZGVw
-dGggaW50byBhY2NvdW50LCB0byBrZWVwIHRoZW0gaW4gc3luYy4gIEFzIGEgbWF0dGVyCj5vZiBm
-YWN0LCB0aGUgY2xvY2sgYWRqdXN0bWVudCBpbiBWT1AyIGlzIG1haW5seSBuZWNlc3NhcnkgZm9y
-IGxlZ2FjeQo+cmVhc29ucywgc2luY2UgSERQVFggUEhZIGFsbG93ZWQgY2hhbmdpbmcgVE1EUyBj
-aGFyIHJhdGUgdmlhIHRoZSBDb21tb24KPkNsb2NrIEZyYW1ld29yayBBUEkuICBXZSBsYW5kZWQg
-YSBwcm9wZXIgc29sdXRpb24gZm9yIHRoYXQgdmlhIHRoZSBIRE1JIFBIWQo+QVBJLCBoZW5jZSB0
-aGUgcGxhbiB3b3VsZCBiZSB0byBtYWtlIENDRiBBUEkgcmVhZG9ubHkgYWZ0ZXIgdGhlIHN3aXRj
-aCB0bwo+UEhZIEFQSSBpcyBjb21wbGV0ZWQsIHdoaWNoIG1lYW5zIFZPUDIgc2hvdWxkbid0IGRl
-YWwgYW55bW9yZSB3aXRoIGNsb2NrCj5jYWxjdWxhdGlvbnMgd2hlbiB1c2luZyB0aGUgUEhZIFBM
-TCBhcyBEQ0xLIHNvdXJjZS4KCldoYXQgSSB3YW50IHRvIGVtcGhhc2l6ZSBpcyB0aGF0IG9uIHRo
-ZSB2b3AvY3J0YyBzaWRlLCB3aGF0IHdlIHNob3VsZCBiZSBjb25jZXJuZWQgYWJvdXQgaXMgbW9k
-ZSAtPiBjbG9jaywgCm5vdCB0aGUgSERNSSBQSFkgY2xvY2suIFRoZSBIRE1JIFBIWSBjbG9jayBp
-cyBzb21ldGhpbmcgdGhhdCB0aGUgSERNSSBicmlkZ2Ugb3IgdGhlIEhETUkgUEhZIGRyaXZlciBu
-ZWVkcyB0byBwYXkgYXR0ZW50aW9uIHRvLgoKVGhpcyBwYXRjaCB3b3JrcyBqdXN0IGJlY2F1c2Ug
-Y3VycmVudGx5LCBvbiBSSzM1NzYgYW5kIFJLMzU4OCwgdGhlIEhETUkgUEhZIFBMTCBjYW4gYmUg
-dXNlZCBhcyB0aGUgZGNsayBzb3VyY2UgZm9yIHRoZSB2b3AuCkFmdGVyIGNvcnJlY3RseSBzZXR0
-aW5nIENNTl9SRUcwMDg2LCBpdCBjYW4gcHJlY2lzZWx5IGFkanVzdCB0aGUgSERNSSBIUFkgUExM
-IGNsb2NrIGFkanVzdGVkIGFjY29yZGluZyB0byB0aGUgYnBjIGZ1cnRoZXIgdG8KdGhlIGZyZXF1
-ZW5jeSBvZiBtb2RlLT5jbG9jaywgYW5kIHRoZW4gdXNlIGl0IGFzIHRoZSBkY2xrIGZvciB0aGUg
-dm9wLgpIb3dldmVyLCB3ZSBhbHNvIG5lZWQgdG8gYmUgYXdhcmUgb2YgdGhlIGZvbGxvd2luZyBz
-aXR1YXRpb25zOgoKMSkgV2hlbiB3ZSBhcmUgdXNpbmcgSERNSSwgd2UgY2FuIHN0aWxsIGNob29z
-ZSB0aGUgc3lzdGVtIFBMTCBpbnN0ZWFkIG9mIHRoZSBIRE1JIFBIWSBQTEwgYXMKICAgIHRoZSBj
-bG9jayBzb3VyY2UgZm9yIGRjbGsuIEluIHRoaXMgY2FzZSwgdGhpcyBwYXRjaCB3aWxsIGNhdXNl
-IGluY29ycmVjdCBtb2RlLT5jbG9jay4KMikgIFdoZW4gd2UgYXJlIHVzaW5nIEhETUkgYWJvdmUg
-dGhlIDRLNjAgbW9kZSg0SzEyMCksIHdlIGNhbiBvbmx5IHVzZSB0aGUgc3lzdGVtIFBMTCBpbnN0
-ZWFkCiAgICAgb2YgdGhlIEhETUlQSFkgUExMIGFzIHRoZSBjbG9jayBzb3VyY2UgZm9yIHRoZSB2
-b3AgZGNsaywgIHRoaXMgcGF0Y2ggd2lsbCBjYXVzZSBpbmNvcnJlY3QgbW9kZS0+Y2xvY2suCjMp
-IEZvciBSSzM1NzYgYW5kIFJLMzU4OCwgIGludGVyZmFjZXMgc3VjaCBhcyBEUCwgZURQLCBhbmQg
-RFNJIGFsc28gc3VwcG9ydCAxMC1iaXQgbW9kZS4gCiAgICBIb3dldmVyLCBpbiBtb3N0IGNhc2Vz
-LCB0aGV5IHdpbGwgY2hvb3NlIHRoZSBzeXN0ZW0gUExMIGFzIHRoZSB2b3AgZGNsayBjbG9jayBz
-b3VyY2UsdGhpcyBwYXRjaCB3aWxsIGNhdXNlIGluY29ycmVjdCBtb2RlLT5jbG9jay4KNCkgVGhl
-cmUgYXJlIGFsc28gb3RoZXIgcGxhdGZvcm1zLCBzdWNoIGFzIFJLMzU2OCwgZXZlbiBmb3IgSERN
-SSAsIGl0IHN0aWxsIHVzZXMgdGhlIHN5c3RlbSBQTEwgYXMgdGhlIGRjbGsgY2xvY2sgc291cmNl
-IGZvciB2b3AuCiAgICAgdGhpcyBwYXRjaCB3aWxsIGNhdXNlIGluY29ycmVjdCBtb2RlLT5jbG9j
-ay4KCgo+Cj5SZWdhcmRsZXNzLCBJIHNob3VsZCBwcm9iYWJseSBtb3ZlIHRoaXMgY2xvY2sgYWRq
-dXN0bWVudCB0byB0aGUgY29uZGl0aW9uYWwKPmJsb2NrIGhhbmRsaW5nIERDTEsgc291cmNlIHN3
-aXRjaC4KPgo+WzFdIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
-Z2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL2RyaXZlcnMvZ3B1L2RybS9kaXNwbGF5L2RybV9o
-ZG1pX3N0YXRlX2hlbHBlci5jP2g9djYuMTYtcmM3I241MjUKPlsyXSBodHRwczovL2dpdC5rZXJu
-ZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQvdHJlZS9k
-cml2ZXJzL2dwdS9kcm0vZGlzcGxheS9kcm1faGRtaV9zdGF0ZV9oZWxwZXIuYz9oPXY2LjE2LXJj
-NyNuNjA4Cj5bM10gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9n
-aXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvZHJpdmVycy9waHkvcm9ja2NoaXAvcGh5LXJvY2tj
-aGlwLXNhbXN1bmctaGRwdHguYz9oPXY2LjE2LXJjNyNuMTAzNAo=
+Hi Shengjiu,
+
+On 07/18/2025, Shengjiu Wang wrote:
+> Add binding for the i.MX8MP HDMI parallel Audio interface block.
+> As this port is linked to imx8mp-hdmi-tx, add port@2 in
+> fsl,imx8mp-hdmi-tx.yaml document.
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    | 13 ++++
+>  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      | 61 +++++++++++++++++++
+>  2 files changed, 74 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+
+Usually, to add a new driver, a DT binding patch comes first.
+
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> index 05442d437755..cf810b277557 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> @@ -49,9 +49,14 @@ properties:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description: HDMI output port
+>  
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Parallel audio input port
+> +
+>      required:
+>        - port@0
+>        - port@1
+> +      - port@2
+
+Can port@2 be optional?
+Note that video output can work with only port@0 and port@1.
+
+>  
+>  required:
+>    - compatible
+> @@ -98,5 +103,13 @@ examples:
+>                      remote-endpoint = <&hdmi0_con>;
+>                  };
+>              };
+> +
+> +            port@2 {
+> +                reg = <2>;
+> +
+> +                endpoint {
+> +                    remote-endpoint = <&pai_to_hdmi_tx>;
+> +                };
+> +            };
+>          };
+>      };
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+> new file mode 100644
+> index 000000000000..d2d723935032
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pai.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8MP HDMI Parallel Audio Interface
+> +
+> +maintainers:
+> +  - Shengjiu Wang <shengjiu.wang@nxp.com>
+> +
+> +description:
+> +  The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that acts as the
+> +  bridge between the Audio Subsystem to the HDMI TX Controller.
+> +
+> +properties:
+
+In i.MX8MP TRM, HTX_PAI block diagram mentions an APB interface.
+Does it mean a clock is needed?
+
+> +  compatible:
+> +    const: fsl,imx8mp-hdmi-pai
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description: Output to the HDMI TX controller.
+> +    unevaluatedProperties: false
+
+Why do you need this line?
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - power-domains
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+
+Unused. Drop.
+
+> +    #include <dt-bindings/power/imx8mp-power.h>
+> +
+> +    hdmi@32fc4800 {
+> +        compatible = "fsl,imx8mp-hdmi-pai";
+> +        reg = <0x32fc4800 0x800>;
+> +        interrupt-parent = <&irqsteer_hdmi>;
+> +        interrupts = <14>;
+> +        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_PAI>;
+> +
+> +        port {
+> +
+
+Drop this blank line.
+
+> +            pai_to_hdmi_tx: endpoint {
+> +                remote-endpoint = <&hdmi_tx_from_pai>;
+> +            };
+> +        };
+> +    };
+
+-- 
+Regards,
+Liu Ying
