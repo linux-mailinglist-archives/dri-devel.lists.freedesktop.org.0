@@ -2,76 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAB7B0CFD6
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 04:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F63AB0D0B8
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 05:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A69210E272;
-	Tue, 22 Jul 2025 02:45:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60BD910E3E4;
+	Tue, 22 Jul 2025 03:59:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="rfyqArqu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YGjbFzmD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55C410E272
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 02:45:20 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-234d3261631so39598255ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 19:45:20 -0700 (PDT)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1831810E3E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 03:59:42 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-b321bd36a41so4069100a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 21 Jul 2025 20:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1753152320; x=1753757120; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=SgR5lyoK6/GJ41X9p2+Joh61MHj8cPp4obeeP6rb+Do=;
- b=rfyqArqujeoOiJlulC3Jj1E/Y7wCYM7BlsUYPfGqp/l0eMJf9RZzNT/Ob0IQfyaSiO
- azkF4op2QeH4im2eay2q3p0ch8Bl5SlbfkJtDU/mzhAoy0ewAuclNdmY42oN+4luvu8n
- ML/OrChAe716jnWwADZIDBOfnmQsEFguptjFKDS/dFSaMDlsnIX7AmznYYrj8LUwcR4c
- sNvUZ2rwMu/dQ0bjoRxcw1STaeNI+Xj68rNgcNHm0IuR+l0YRzrMRMmf+/pV6lwFcGiA
- 1izOwqfoATpyehdikAmFdMx2XPPG5wlnY9KHIcc3/DFRTPe80xz4TBjsC+3ENAdh142D
- oBkw==
+ d=gmail.com; s=20230601; t=1753156781; x=1753761581; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wXXOavQ4WOy2gE8aAWn+LnkavWdDlut0iVqvj5kQmL0=;
+ b=YGjbFzmDgQYqtNVPIYCMR4ydqGG7aBO/jhL9IVUmRECO+0uVngfiv5tzj7SJPRJGgJ
+ KqPuEBcT7KUtzJqEIkM1E1mSNilIVz+CqpCygdaP/0esKmEQkSU1vcwSlp10kUUaykuU
+ oy7ub6WWkgeLuOSzaBVpggKfYVHgT63JrdaMsFl8vol+2/pTs30rqLQYk06v4VFoRNcw
+ 4zJXL3LS5FSjZsFjhogeGaDgpd2643XkPe0glrY2dFnPXZaSG8/eEuUqHroyFqt1lxgL
+ BRJTXnLYxusgv1SvCEBRUvHw1hJaAXNWSVnoqeNGURo6hQjLD7rcX+abkbRAJEWK3CX1
+ Z36g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753152320; x=1753757120;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SgR5lyoK6/GJ41X9p2+Joh61MHj8cPp4obeeP6rb+Do=;
- b=XH2vy+cM1K4Kt++h59zNMa24uh7lBAPCTqBq/vRVw1IlTi+Pu+AmovuFSsOx3J/UO6
- XFmshVdP2pnLF3PgixkIgCzi6AxcD+RIcz4JoR2zuRurF2AU2oac0tq1+qMERFNNfSr5
- krD1Klx2NdXyBJ15wmOd0MJuHc9BLzN8QHZ8ENFxYWjQKyO83pVwQekhNZ9wgjxMq9tI
- yPSYE+vl7KGsgYvYIyyJRQCqG7BPCH/eXgEmBNXx9ceC4y9H/hiAa4X2ucmP4EPi3R3d
- UgsGxNUaJzFPNQURaWdRoocWZp/YRGC7L/VutmYA9l2i9sOIZ+0aox1uJJBSeN5X24PD
- Vl4Q==
-X-Gm-Message-State: AOJu0YzhV95A7NC4MrJe77O3T8b0YJASlMmkDcVyH7Oy5pBW5DMTxHJR
- ocJPreyFv+trX3hCLs3BmrDw+9k//oxTqLTyzFWdzX8A+j/Tud46c4V/eijuZtmJCI4=
-X-Gm-Gg: ASbGncuNYSyKoKw1Dcb11cEVzaFK6C+5ApAJPP+dljxvktICjXz0H2dMhFeHsqGo/tT
- Mp5y0uWDk4dQHTOjF/O6Rj/TDhIa9NhZAFJHzE94aEq7n7vfDtlgM5zDL4Wun9nM/ByeDkDY9XF
- xQmU4e7Qg7wSGckxE1mwoZ6VV0gHrHLrGnCYk0+iqmd7Y5bBT+i4o7cKYO5kfqXAEHOwdMBXN64
- 1Do04kSljpNQtu8WNojoX4k/JTkySKLIXA9rbhI+DiytbpXgk7YSFpuqNo2FvVSknTj/AiASdnr
- vd9h3G6Z/RVRnNaD6ZraSivDiBgH4urNhh/7nBBSfh+lRHaFyHCe9cm70VjaqZHRMUiHp27DXK6
- z9+I8CnpN7f9/h6ZUTkO+AIkpnvocIT4mrnEmBzoFQX0Pfzcr4fUb2tqkrhLWIsId9/SVkQ==
-X-Google-Smtp-Source: AGHT+IH/Q+dX34w1vgsvL0us1ncK+GZVoY6ee3ZuaokqA8D2OA9tnAnpdE9lvFFBdQr6D4JmaqIx3g==
-X-Received: by 2002:a17:902:ef4e:b0:237:ec18:eab9 with SMTP id
- d9443c01a7336-23e3b80c3femr189211675ad.32.1753152320172; 
- Mon, 21 Jul 2025 19:45:20 -0700 (PDT)
-Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23e3b4adeb8sm66117965ad.0.2025.07.21.19.45.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Jul 2025 19:45:19 -0700 (PDT)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: dianders@chromium.org, neil.armstrong@linaro.org,
- jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH] drm/panel-edp: Add 50ms disable delay for three panels
-Date: Tue, 22 Jul 2025 10:45:12 +0800
-Message-Id: <20250722024512.983313-1-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20230601; t=1753156781; x=1753761581;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wXXOavQ4WOy2gE8aAWn+LnkavWdDlut0iVqvj5kQmL0=;
+ b=PDkUvdevA4drJmYeOeegjueSgt+T5mgFUP7TuKNMuJg99pSYCZP0XM06JCDI+l1TA5
+ oDxkF96LuCjlB2O1V9k6MZDE4HLlAJeuksZGfOCSYNg0epEGZ4H6Pj4g95osQs2gWav3
+ ya2SMzfneAFHx6bLiIPp2nq2p/uw23sMDVnZ2OFLbtA1sguKLNgyuknzsIL0IZCNVGlz
+ 9qfoFYA+6iZoS2Zrigylj1c9vTIqQoniCegc0hm3jLUNwgz/LCq5HYmdQt9EgdKyYG1B
+ UxoHGY7/mVGNX1akxwG9Vyw9wvXP2HmqzN07SP/MMFrPrPyLyp4/ikVkPTysyEjxrAqq
+ ZcLg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX3jJo5lsxfRJfHNRurIrhSnfcAs6P0OzmOBNguUUoRPLSDnnXVAx9vgFyCbex40BxU8OoOP+c8LxU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyOErRCHqW/Zm+B5aKzh3BFpCy75qYRvngXTMVLPl3tYv64wrXm
+ Kopl4GWfHQiidNDrUsr4lobHN00kT17PIHBTGcz2LSjLwnbLvtKlx+sE188YgzOz9eMrBi8Dgrs
+ 6y24SNghBHlnLylyhOQL2vUOe0coyrXo=
+X-Gm-Gg: ASbGncsLXewjp15Scs76vnawLjUVWTd+/Qlj05PRQW6TNF4o/KZA8WugFvnG7l/9/Ny
+ I7AyeksG2Kj3CD7pdI8K3lkV+hakYDy7N2xfojPaSPnlfLANwbpq8EaRtzqOdyddbiOEe9/9a02
+ SsmFS4uW3lw/a1neMFBPcqiGiK12a3A5Gli5g/n64vPrQulVp2CU0UWKIdmRqMWUHSeHq5dljIJ
+ hZog0gL7g==
+X-Google-Smtp-Source: AGHT+IE89eLL47Hf4D1CEwGtR86mrukxEHw9vX/u6lpqJWi3y3SDJHMW63vPpjaWuKbwDGISOChwVGhNpGUIMHBPG8c=
+X-Received: by 2002:a17:903:3bc5:b0:235:6e7:8df2 with SMTP id
+ d9443c01a7336-23e2575a8d6mr314731345ad.41.1753156781485; Mon, 21 Jul 2025
+ 20:59:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250720152401.70720-1-luis.hernandez093@gmail.com>
+ <20250720152401.70720-2-luis.hernandez093@gmail.com>
+ <c0cac011-cc07-42f8-bdac-620f3faeebf2@wanadoo.fr>
+In-Reply-To: <c0cac011-cc07-42f8-bdac-620f3faeebf2@wanadoo.fr>
+From: Felipe Hernandez <luis.hernandez093@gmail.com>
+Date: Mon, 21 Jul 2025 23:59:05 -0400
+X-Gm-Features: Ac12FXwAZjYe99Ed8fi0EHgmRE6NYfIksS7kFVNneQku7XTz2fKoUAQSeFSHNfQ
+Message-ID: <CAGRSKZiZpHm1-EtMsdG5LMUKo6PRgamHpSsEcqDXvcc_PpR5Gw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] docs: Fix kernel-doc indentation errors
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Pavel Pisa <pisa@cmp.felk.cvut.cz>, 
+ Ondrej Ille <ondrej.ille@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, 
+ linux-i3c@lists.infradead.org, linux-can@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,59 +94,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add 50ms disable delay for NV116WHM-N49, NV122WUM-N41, and MNC207QS1-1
-to satisfy T9+T10 timing.
+On Mon, Jul 21, 2025 at 3:48=E2=80=AFAM Vincent Mailhol
+<mailhol.vincent@wanadoo.fr> wrote:
+>
+> On 21/07/2025 at 00:24, Luis Felipe Hernandez wrote:
+> > Fix kernel-doc issues that reported Unexpected indentation errors
+> > durring documentation build (make htmldocs) in CAN, I3C and GPU drivers=
+.
+>   ^^^^^^^
+> during
+>
+> > Convert formatting to proper ReST list syntax to resolve warning.
+> >
+> > Changes since v1:
+> > - Convert return value descriptions to proper ReST format
+> > - Fix code block introduction with :: syntax
+> > - Add GPU driver fixes
+> > - Remove SCSI driver (already fixed)At
+>
+> The change log does not need to appear in the patch main body.
+>
+> Add a --- cutter after your signature and put the change log after that c=
+utter.
+> This way, the change log will automatically be discarded when the patch i=
+s picked.
+>
+> > Link: https://lore.kernel.org/all/20250703023511.82768-1-luis.hernandez=
+093@gmail.com/
+> >
+> > Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+> > ---
+> >  drivers/gpu/drm/drm_gpuvm.c              | 16 ++++++++--------
+> >  drivers/i3c/device.c                     | 13 ++++++++-----
+> >  drivers/net/can/ctucanfd/ctucanfd_base.c | 12 +++++++-----
+>
+> Can you do one patch per sub-domains and send them separately? The mainta=
+iners
+> of drivers/i3c/ are not the same as the maintainers of drivers/net/can/. =
+And
+> there is no dependencies preventing you to split.
+>
+>
+> Yours sincerely,
+> Vincent Mailhol
+>
 
-Fixes: 0547692ac146 ("drm/panel-edp: Add several generic edp panels")
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/panel/panel-edp.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+Hi Vincent,
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 09170470b3ef..742a83fa4da1 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1743,6 +1743,14 @@ static const struct panel_delay delay_200_500_e50_p2e200 = {
- 	.prepare_to_enable = 200,
- };
- 
-+static const struct panel_delay delay_200_500_e50_d50_p2e200 = {
-+	.hpd_absent = 200,
-+	.unprepare = 500,
-+	.enable = 50,
-+	.disable = 50,
-+	.prepare_to_enable = 200,
-+};
-+
- static const struct panel_delay delay_200_500_e80 = {
- 	.hpd_absent = 200,
- 	.unprepare = 500,
-@@ -1941,13 +1949,13 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x09dd, &delay_200_500_e50, "NT116WHM-N21"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a1b, &delay_200_500_e50, "NV133WUM-N63"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a36, &delay_200_500_e200, "Unknown"),
--	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a3e, &delay_200_500_e80, "NV116WHM-N49"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a3e, &delay_200_500_e80_d50, "NV116WHM-N49"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, "NV140WUM-N41"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_po2e200, "NV140FHM-NZ"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b1e, &delay_200_500_e80, "NE140QDM-N6A"),
--	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122WUM-N41"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80_d50, "NV122WUM-N41"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b66, &delay_200_500_e80, "NE140WUM-N6G"),
-@@ -1986,7 +1994,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14e5, &delay_200_500_e80_d50, "N140HGA-EA1"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x162b, &delay_200_500_e80_d50, "N160JCE-ELL"),
- 
--	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50_p2e200, "MNC207QS1-1"),
-+	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50_d50_p2e200, "MNC207QS1-1"),
- 	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1413, &delay_200_500_e50_p2e200, "MNE007JA1-2"),
- 
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1100, &delay_200_500_e80_d50, "MNB601LS1-1"),
--- 
-2.34.1
+Thank you for taking time to review my v2 patch and for the feedback.
+I have since applied the changes you suggested. I apologize about
+mixing the sub-domains, at first I thought they would all be related
+as being part of the documentation subsystem since they were reporting
+a similar error but I now understand these weren't documentation
+related per-se and should've gone to each of the sub-domains
+separately as the changes were made in the sources.
 
+Again, I appreciate the guidance!
+
+Best,
+
+Felipe
