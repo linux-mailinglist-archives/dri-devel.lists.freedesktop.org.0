@@ -2,120 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF04B0DEBA
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 16:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A73EB0DED2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 16:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5105A10E690;
-	Tue, 22 Jul 2025 14:33:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7275910E6A7;
+	Tue, 22 Jul 2025 14:36:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="D6uh+MGG";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="u2Hu8Jjl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="plinSJiD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u2Hu8Jjl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="plinSJiD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 091DE10E099
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:33:53 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56M7VSn4004441
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:33:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- xtT5su/VJ7JP1pHjFV7X/fYhQ9wlxMPwqcGXpQ4560g=; b=D6uh+MGGULIyksQh
- T1z98YOrVB8kJ3nH/vaFmvUc1IfBWpz8u0xhpyshYnb99/AfS5SqUhMAYDEMLYpP
- xNUvw3lHLhJTkEfTlivMfUj3jb7mXStVBncUdBjfuZyi3fYAGnt8edcWZHdf3bQX
- MDWPWdi0BqJ8AGbFosXVtz4O5ZCBNfAweH45AbC9XYUWpf0UXJA3B89ZU6ALzcut
- UQ60GCuT/nLISw0wGWVJEfCl1gaBUrAGXPYWzGUgVXYccslegUOQNYumJ0R6+opH
- J+1m1XDDRjBKOfheJt2+x2TzW7CB2+Y7J16+DzY+25uvuyabjNe7G0NZgq9wLAi3
- anrgTw==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48045w045e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:33:51 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6fabbaa1937so11130996d6.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:33:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753194830; x=1753799630;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xtT5su/VJ7JP1pHjFV7X/fYhQ9wlxMPwqcGXpQ4560g=;
- b=dZfsE1QspT9MdUX9lq2ytmsJctPBAKripXISsoDBKaYQVJ4Hr0HSK8aJnqwhuk44A5
- fojbXt8VUcONQ3nB3U67w3RIH6j49VIkXSoux1nNUCV2rlmNgwqcMM7Hh8jDNX2iXC7r
- ujyqCE0L288uZf2r8FhTsWOeBzvk7P2CooSLC84PAJ1qau7om6E+UF1RICHQ34SYpZ7W
- WTwSoExtIaDYGAPNBhB7NVznVR2DY7ryAahbK1yvg/MKZl153i4sk7Kyy9o+J96CRmp1
- 44qCitEaS5BcfmGtwQ6c20KsMM1oRh5J/tbfxdAuV9rFJDNBw/6YUtxV4r5fMkWy6wvH
- hNiA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX34ZEDJEW6EMl1vgVHZ49A36Cwj6EeDPKqCZ46PBWnIUmm+gE/CXVJMUlWupoUuTbBZHB97m2paBU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw5aQvjufB9y8q/actD9/XYw7IBRY2Z2A83J7Hlx3AzSMzpD/CZ
- I8o6sxDZrmftbQm9dz+A/QJKElIKHJf0oYp6trAHKpDwgpRqeO+yasStjIpwksaNwrWOYysS5KJ
- +i/Pz4NalFPwmOZpUdixxXOSlM0ZR8HXweCRVHWx6wqU6P4EOH9Ouy5viiOaI9Om4ha9vFe8=
-X-Gm-Gg: ASbGncvWROrr7S6tJCvX1eUTl8yfDt9UmrPydi+EAMUZJl77jJXXS0fTCp+2+ZnFkcl
- FPwmiBUnD2Div0nojb9F9Z3pbgIlzPq2jyIbD1hxHX0DSTVKdh5tW4n/TEdxlINHByyHsbTktEm
- TLFxaEJxOZ+qZvTxl5VXWUq0ZJL7pFzsLKQkOg4ZXuJ3ljSaTadIE/QbLC6PoDkw6aHyDxdD0Hr
- Bf1vYdcom5DExhycnotkzp8qz6YEq5cM4LnWW77xp1xm/gKlL0tcmXjIe9G225O5mtmNuzxuQe5
- ZjXzEA05zyrIOkTZTP0yy8w82pek9nP+Uo21mUYNr316q128u78Xh2n9c+sBWpDdihC7qrGhOCN
- UVpDL04ue2m2kAKyQITRU
-X-Received: by 2002:a05:620a:2227:b0:7e3:2e02:4849 with SMTP id
- af79cd13be357-7e342b41754mr1177998585a.9.1753194829885; 
- Tue, 22 Jul 2025 07:33:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEU1lbhaP2WVsTXTqM7GGer/GTSGogiYRwUzlLubvQGVjS0cOplM2JT/IJ8lGgLcTomzSOXCQ==
-X-Received: by 2002:a05:620a:2227:b0:7e3:2e02:4849 with SMTP id
- af79cd13be357-7e342b41754mr1177993285a.9.1753194828498; 
- Tue, 22 Jul 2025 07:33:48 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-612c9075d76sm6920459a12.52.2025.07.22.07.33.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jul 2025 07:33:47 -0700 (PDT)
-Message-ID: <84a33e15-edaf-4951-8411-24b17ee5f4f5@oss.qualcomm.com>
-Date: Tue, 22 Jul 2025 16:33:45 +0200
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A93AD10E6A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:36:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3C061211C9;
+ Tue, 22 Jul 2025 14:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1753194992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=AYaGKdibHtzw4fA/0MfIQrIP4w9AF7TLkj3JQ1iP4C4=;
+ b=u2Hu8JjlgffotkHx5wKimPnY9YrKxfvbfJCljb9mXhMfit/pJkkv57d0u5hRXM6sLi6d7R
+ BdbvJtJcKyy7i/IOYeNOzxspvafX4FbrhBK3e9PYqehsA9qZ2MwxBb4f0WxZk59gYg1S94
+ WIPA9y6prvKGlVMbjjvJI/kTyzABIeQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1753194992;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=AYaGKdibHtzw4fA/0MfIQrIP4w9AF7TLkj3JQ1iP4C4=;
+ b=plinSJiDqSWEZSQEdK7JB5oOXqxdfJ6KMMqJL3BUb4gHbFGmAcXVZGvaqqyS0wXotfgJPY
+ WwQj1yDN8088MRBw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=u2Hu8Jjl;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=plinSJiD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1753194992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=AYaGKdibHtzw4fA/0MfIQrIP4w9AF7TLkj3JQ1iP4C4=;
+ b=u2Hu8JjlgffotkHx5wKimPnY9YrKxfvbfJCljb9mXhMfit/pJkkv57d0u5hRXM6sLi6d7R
+ BdbvJtJcKyy7i/IOYeNOzxspvafX4FbrhBK3e9PYqehsA9qZ2MwxBb4f0WxZk59gYg1S94
+ WIPA9y6prvKGlVMbjjvJI/kTyzABIeQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1753194992;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=AYaGKdibHtzw4fA/0MfIQrIP4w9AF7TLkj3JQ1iP4C4=;
+ b=plinSJiDqSWEZSQEdK7JB5oOXqxdfJ6KMMqJL3BUb4gHbFGmAcXVZGvaqqyS0wXotfgJPY
+ WwQj1yDN8088MRBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CE5FB132EA;
+ Tue, 22 Jul 2025 14:36:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Y3kdIuihf2jxKQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 22 Jul 2025 14:36:24 +0000
+Message-ID: <a0afced8-fcfe-4e1e-b679-e17b40238786@suse.de>
+Date: Tue, 22 Jul 2025 16:36:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/17] drm/msm: a6xx: Fix gx_is_on check for a7x family
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
- <20250720-ifpc-support-v1-3-9347aa5bcbd6@oss.qualcomm.com>
+Subject: Re: [PATCH v5 00/25] drm/dumb-buffers: Fix and improve buffer-size
+ calculation
+To: simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, geert@linux-m68k.org,
+ tomi.valkeinen@ideasonboard.com
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org
+References: <20250613090431.127087-1-tzimmermann@suse.de>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250720-ifpc-support-v1-3-9347aa5bcbd6@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250613090431.127087-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=LL1mQIW9 c=1 sm=1 tr=0 ts=687fa14f cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=rILJP4qTGdYfNujWrMwA:9
- a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-GUID: mIq5Dho0SQtTe3Q_fsKBzFyleHRE5Bcj
-X-Proofpoint-ORIG-GUID: mIq5Dho0SQtTe3Q_fsKBzFyleHRE5Bcj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDEyMSBTYWx0ZWRfX03dPaPNlBJcJ
- o82ZbUy5Xv2IiL8lDLhuLLWBZJPLtZg8Pp2ulVugxVK2kCryj85nIVAOPMS7P1KOsQAMANJYScT
- I2BD7OnBMu3oHuExzMxRzR/j33xEfqDI1eqfbhqEgc5II+/HmJxDse71xK7/UZfAyDZOIPQRPGR
- VQVS9WVRcKG2tpwYt0zE9ZOnKypl07RzJIAMTkA6NdT6lgSyJ8fyClN3yoVzGsk2pjpAahM3Xr7
- Bc+9mMpSELU5jGtDSB262yaIp+8BmYA+4LeX04XL2HPU+0rG/be/rPAGGDPU3eS3hHlgux14wAJ
- uufLXeLiTRBrGPMPvZZ74PTc6/IvE0kbJJPD6d+TEd8l6ThXOA3cbygBo/4vDM0Ry2Q8bjgjdrp
- BLlmv4xZGyVXrc8EdRKLc/y0qvKwiW+wfT5NegX0a/4gdN6+x5wGZOwaxooUoCtMO3UNb5jY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxlogscore=999 clxscore=1015 mlxscore=0 adultscore=0
- suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507220121
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,kernel.org,linux.intel.com,linux-m68k.org,ideasonboard.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[20];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_DN_NONE(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MID_RHS_MATCH_FROM(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:mid, suse.de:dkim]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 3C061211C9
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,20 +162,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/20/25 2:16 PM, Akhil P Oommen wrote:
-> Bitfield definition for REG_A6XX_GMU_SPTPRAC_PWR_CLK_STATUS register is
-> different in A7XX family. Check the correct bits to see if GX is
-> collapsed on A7XX series.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
+Ping for additional reviews. Especially patches 3, 4, and 5, which cover 
+a wide range of drivers..
 
-This seems to have been introduced all the way back in the initial
-a7xx submission downstream, so I'll assume this concerns all SKUs
-and this is a relevant fixes tag:
+Am 13.06.25 um 11:00 schrieb Thomas Zimmermann:
+> Dumb-buffer pitch and size is specified by width, height, bits-per-pixel
+> plus various hardware-specific alignments. The calculation of these
+> values is inconsistent and duplicated among drivers. The results for
+> formats with bpp < 8 are sometimes incorrect.
+>
+> This series fixes this for most drivers. Default scanline pitch and
+> buffer size are now calculated with the existing 4CC helpers. There is
+> a new helper drm_mode_size_dumb() that calculates scanline pitch and
+> buffer size according to driver requirements.
+>
+> The series fixes the common GEM implementations for DMA, SHMEM and
+> VRAM. It further changes most implementations of dumb_create to use
+> the new helper. A small number of drivers has more complicated
+> calculations and will be updated by a later patches.
+>
+> v5:
+> - use check_mul_overflow() for overflow test (Tomi)
+> - imx: fix intermediate code (Tomi)
+> - rz-du: include dumb-buffers header
+> v4:
+> - improve UAPI documentation
+> - document bpp special cases
+> - use drm_warn_once()
+> - add TODO lists
+> - armada: fix pitch alignment
+> v3:
+> - document UAPI semantics
+> - fall back to bpp-based allocation for unknown color modes
+> - cleanups
+> v2:
+> - rewrite series
+> - convert many individual drivers besides the shared GEM helpers
+>
+> Thomas Zimmermann (25):
+>    drm/dumb-buffers: Sanitize output on errors
+>    drm/dumb-buffers: Provide helper to set pitch and size
+>    drm/gem-dma: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/gem-shmem: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/gem-vram: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/armada: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/exynos: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/gma500: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/hibmc: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/imx/ipuv3: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/loongson: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/mediatek: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/msm: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/nouveau: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/omapdrm: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/qxl: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/renesas/rcar-du: Compute dumb-buffer sizes with
+>      drm_mode_size_dumb()
+>    drm/renesas/rz-du: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/rockchip: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/tegra: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/virtio: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/vmwgfx: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/xe: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/xen: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>    drm/xlnx: Compute dumb-buffer sizes with drm_mode_size_dumb()
+>
+>   Documentation/gpu/todo.rst                    |  27 +++
+>   drivers/gpu/drm/armada/armada_gem.c           |  16 +-
+>   drivers/gpu/drm/drm_dumb_buffers.c            | 170 ++++++++++++++++--
+>   drivers/gpu/drm/drm_gem_dma_helper.c          |   7 +-
+>   drivers/gpu/drm/drm_gem_shmem_helper.c        |  16 +-
+>   drivers/gpu/drm/drm_gem_vram_helper.c         |  89 +++------
+>   drivers/gpu/drm/exynos/exynos_drm_gem.c       |   8 +-
+>   drivers/gpu/drm/gma500/gem.c                  |  21 +--
+>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  25 ++-
+>   drivers/gpu/drm/imx/ipuv3/imx-drm-core.c      |  29 ++-
+>   drivers/gpu/drm/loongson/lsdc_gem.c           |  29 +--
+>   drivers/gpu/drm/mediatek/mtk_gem.c            |  13 +-
+>   drivers/gpu/drm/msm/msm_gem.c                 |  27 ++-
+>   drivers/gpu/drm/nouveau/nouveau_display.c     |   7 +-
+>   drivers/gpu/drm/omapdrm/omap_gem.c            |  15 +-
+>   drivers/gpu/drm/qxl/qxl_dumb.c                |  17 +-
+>   drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |   7 +-
+>   drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |   8 +-
+>   drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |  12 +-
+>   drivers/gpu/drm/tegra/gem.c                   |   8 +-
+>   drivers/gpu/drm/virtio/virtgpu_gem.c          |  11 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_surface.c       |  21 +--
+>   drivers/gpu/drm/xe/xe_bo.c                    |   8 +-
+>   drivers/gpu/drm/xen/xen_drm_front.c           |   7 +-
+>   drivers/gpu/drm/xlnx/zynqmp_kms.c             |   7 +-
+>   include/drm/drm_dumb_buffers.h                |  14 ++
+>   include/drm/drm_gem_vram_helper.h             |   6 -
+>   include/uapi/drm/drm_mode.h                   |  50 +++++-
+>   28 files changed, 447 insertions(+), 228 deletions(-)
+>   create mode 100644 include/drm/drm_dumb_buffers.h
+>
+>
+> base-commit: 75238c32deae15ee4120b42a5be556ec36807a84
+> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+> prerequisite-patch-id: a5a973e527c88a5b47053d7a72aefe0b550197cb
+> prerequisite-patch-id: 719d09751d38f5da743beed6266585ee063e1e29
 
-Fixes: af66706accdf ("drm/msm/a6xx: Add skeleton A7xx support")
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-
-Konrad
