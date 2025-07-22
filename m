@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6E8B0D5BA
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 11:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE94B0D5C8
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 11:21:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B03A10E636;
-	Tue, 22 Jul 2025 09:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35A4110E642;
+	Tue, 22 Jul 2025 09:21:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iXUykyln";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cWn0jZkU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 093A510E636;
- Tue, 22 Jul 2025 09:20:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B2E710E642;
+ Tue, 22 Jul 2025 09:21:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 774E661135;
- Tue, 22 Jul 2025 09:20:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECA3CC4CEEB;
- Tue, 22 Jul 2025 09:20:00 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5EB535C3E57;
+ Tue, 22 Jul 2025 09:21:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC046C4CEEB;
+ Tue, 22 Jul 2025 09:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753176007;
- bh=B1T2MWPDPDtUYOSFsDx/tfdQ/pEGziEZ3AKWuscvoqs=;
+ s=k20201202; t=1753176108;
+ bh=03h99rwdlaftyLCQRNswUUAcFdErDW9dGKOcWE+JySo=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=iXUykyln4dJhQGpxCRNG5+tveBFfMM/aZyBOVCGy/PEZz9eR8G5iK1skRzqTr0fHq
- kN0teNAZyFW9l2F+koQIDL7iZU03RH4YYLAd8CEV0PviK9kAPjeCVFV1fh2scUA2xe
- dBlku0E1DO2YV1HCqX3mZZCpqpdyxKVfk3A7scH8wkQ771S8yuJkbMATcAyI95r38W
- ORg2mmWFd0g3dlAVVN6cvqtBxpq2JNXja6QBPiGoWO3WMrBgyayUjFy0G5WSh6+1Qk
- rxbugE3vsX/PSap08fUMLLVLWKfh5YrypS4A1UMGSl2P0PYdWrwbKWxGebPbk95dTD
- kEDEgFR3jfiow==
-Message-ID: <2fd202a6-2c92-469c-81c0-8852562d4e35@kernel.org>
-Date: Tue, 22 Jul 2025 11:19:59 +0200
+ b=cWn0jZkUFZOluvKv6bmbyATKVWy1bkg+lnaGFGhNjCvP7/rYMSavgYwuJrgYP54lr
+ gJgttUHbssF+a8ZyVhH7i6BcqJIPGltXcAL1ylzxzG8AqEVTk9MYgWelPCYj4nFiv4
+ IpfLpo0Pg+lph878RN6vKNnwxue/S0Kbd69fXilhr60tG4MW3Y9IBY7y2siD/yWFvl
+ T4aUobIZgT1RPIP/6MgfJQRzSOwD4JSzx6ox25pVf5DEy9cvJ5CcfZuzaMy5zf4iyF
+ qyncpPdW259n2TQMntkRLq82EFyimrCcKa7WMY0UTyGsMtaNJrFXKHufUjtS/FrKek
+ P8r9HEqg7kWYA==
+Message-ID: <bca68e7a-cb36-4903-bde9-15cb1945c71e@kernel.org>
+Date: Tue, 22 Jul 2025 11:21:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/13] dt-bindings: phy: qcom,msm8998-qmp-usb3-phy:
- support dual TCSR registers
+Subject: Re: [PATCH v2 12/13] drm/msm/dp: Add DisplayPort support for QCS615
 To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>,
  Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
  <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
@@ -54,7 +53,7 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  fange.zhang@oss.qualcomm.com, quic_lliu6@quicinc.com,
  quic_yongmou@quicinc.com
 References: <20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com>
- <20250722-add-displayport-support-for-qcs615-platform-v2-3-42b4037171f8@oss.qualcomm.com>
+ <20250722-add-displayport-support-for-qcs615-platform-v2-12-42b4037171f8@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -100,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250722-add-displayport-support-for-qcs615-platform-v2-3-42b4037171f8@oss.qualcomm.com>
+In-Reply-To: <20250722-add-displayport-support-for-qcs615-platform-v2-12-42b4037171f8@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,49 +118,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 22/07/2025 09:22, Xiangxu Yin wrote:
-> Add support for specifying two TCSR register addresses in the
-> qcom,tcsr-reg property to enable DP-only mode switching. This change
-> maintains backward compatibility with the original single-register
-> format.
+> The Qualcomm QCS615 platform comes with a DisplayPort controller use the
+> same base offset as sc7180. add support for this in DP driver.
 > 
-> Also update #clock-cells and #phy-cells to <1> to support clock and PHY
-> provider interfaces, respectively. This is required for platforms that
-> consume the PHY clock and select PHY mode dynamically.
-> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 > ---
->  .../bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml    | 28 +++++++++++++++++-----
->  1 file changed, 22 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/msm/dp/dp_display.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
-> index 1636285fbe535c430fdf792b33a5e9c523de323b..badfc46cda6c3a128688ac63b00d97dc2ba742d6 100644
-> --- a/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
-> @@ -44,13 +44,21 @@ properties:
->    vdda-pll-supply: true
->  
->    "#clock-cells":
-> -    const: 0
-> +    oneOf:
-> +      - description: Set to 0 for legacy platforms without clock provider
-> +        const: 0
-> +      - description: Set to 1 to expose PHY pipe clock.
-> +        const: 1
->  
->    clock-output-names:
->      maxItems: 1
->  
->    "#phy-cells":
-> -    const: 0
-> +    oneOf:
-> +      - description: Set to 0 for legacy platforms
-> +        const: 0
-> +      - description: Set to 1 to supports mode selection (e.g. USB/DP)
-> +        const: 1
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index d87d47cc7ec3eb757ac192c411000bc50b824c59..ddb22b50490035779904d4cab20e2fee7e0f9657 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -196,6 +196,7 @@ static const struct of_device_id msm_dp_dt_match[] = {
+>  	{ .compatible = "qcom,sc8280xp-dp", .data = &msm_dp_desc_sc8280xp },
+>  	{ .compatible = "qcom,sc8280xp-edp", .data = &msm_dp_desc_sc8280xp },
+>  	{ .compatible = "qcom,sdm845-dp", .data = &msm_dp_desc_sdm845 },
+> +	{ .compatible = "qcom,sm6150-dp", .data = &msm_dp_desc_sc7180 },
 
-I don't understand why EXISTING platforms now get more clocks. What did
-you change in the hardware? This you must explain in the commit msg.
 
+So devices are compatible? Why are you adding this entry instead of
+expressing compatibility?
 
 Best regards,
 Krzysztof
