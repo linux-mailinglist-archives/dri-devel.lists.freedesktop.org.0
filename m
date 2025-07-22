@@ -2,120 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE8EB0DFAC
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 16:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD20B0E07D
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 17:30:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FBF510E6C9;
-	Tue, 22 Jul 2025 14:55:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 069AA10E01F;
+	Tue, 22 Jul 2025 15:30:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="QcfPf5cg";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Sew48lEz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B73FF10E6C9
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:55:55 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56ME385q009227
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:55:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- C0hlxJyA1IJ9h6I+V+ie87W0rqn0HSylQG7JgAg/IlM=; b=QcfPf5cgQ5enNMgB
- P5Jir3+SM7xsRHoRsYLCP7SeEg5OUvk46GS/jNhYJaMwxPIbzcmzPYlmdkyUm2FM
- Mq14j5LID/7xsk7g5zwP2V6WkEy4P8EWYDhJMRRL5OZrV1TUrhwbOdR7ZYPOvG6t
- 5fw3TVNOGOpQXCgBl9glQoQNcvlQii3bWU7l40PkDXN6HVaQztBM4dtimAryAWwo
- ObNfrd944+6O64maA1Ss8cjyPjXoIXRyfVzEA4cyWVln6L6xElKxBQ7/pOcskAnp
- dZWUa5gBjqDn4sHGavri3Mz5+t6bJb6Pebraf+x1n7P89eOdwIfZ0l0cLGlCZdq2
- IFoluQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48045w07je-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:55:55 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-7047de9a9b1so1320566d6.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:55:54 -0700 (PDT)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B38410E01F
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 15:30:20 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-748d982e97cso5063438b3a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 08:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1753198218; x=1753803018;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lonorFHz/PRQJclxUnHKWPN5pEdso/Me+ZrNdy5Tq8A=;
+ b=Sew48lEzF2YQwsADjvvo3iCmRYf7LhAM4+7ZfVsFZmYQ+Riv6ZECBjkbk9Hx0iqC9D
+ dsh0S2zQOgZ9v3xvX1D2khxc205hQheS9aZ443X/7csvRqEG3Lly1+kka9U6naxTFrHG
+ RNnQXChhMqRqLElHGQmRfFjpPO40zG7YaaKGI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753196154; x=1753800954;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=C0hlxJyA1IJ9h6I+V+ie87W0rqn0HSylQG7JgAg/IlM=;
- b=bi/NBJwjSPG2wAnlZ87R3YvhmHuVoMv4jwxqDZi5tJ5N/LPWhgMcAk2tqVhIPA766A
- W2FO4b//nfL3WtEqQ5AQeY73Du2GRYnH79SL/aQWVNF+JQQMg8P0if3BiHIsVJfcm3wh
- r832DsIlL78j46dIvbgQM6ST4cW714o5JlQ7o3A/bN8zItCif4jwmVdKZyegEHYRDhkM
- djFfpUC0e5WF9FjK3h4+z5kBXp6UZHhDZB7f+Jnx0EvSZx63PzzgtrHiNctc/+eI21Bp
- oWEvIV/uWLQ9zfyutjzBC3WrkirmkWGbWYCFAJDnxM8rm1cJiatJ6429C9JP82RemeMt
- aTYQ==
+ d=1e100.net; s=20230601; t=1753198218; x=1753803018;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lonorFHz/PRQJclxUnHKWPN5pEdso/Me+ZrNdy5Tq8A=;
+ b=cb4LUc6EwIjobJoZKXcFQXlbm8BP2y0QQ+TYWdzPtbeBINYWgEunJiEFl/x9NOOgUt
+ 3Jt8318d5v7z3htUg9o9lKRfjChguAZpAJwRhFUY8MbWjWTM6gHWPmh2BoqNV5bzLpYf
+ m3BLOrnoPkB9rlBaPeHpnc2Aff0QDBlc1MoB/3+eqZ/0zx/7q3P5ZIQ5SkooHdKnc1cE
+ KAMGZLbXllWyHG/lZ/kIoKnOskwjOpHEwkyCwRbZbykBu8fw8sqouyuXVMqfGr7jB4sF
+ f4g3OZ27IlyNlSjTwBNELXlExmvpvJ3v3ttcAXEcJHknt+nBVyBw/87G6e9NMktwG0bB
+ 192A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW847fZO/ZZ/RbPUZkEiHky+Mbwl1TFeT6rjhx7XJNP4npQB13567NvcrXEwe5dQHmGi80UHK2X0wk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPa0sTNA1/cyF4vPTpVyERcBkYjbSq4+rNxOyuZQk2tKgq0sDR
- reZyl65Comp4gQ7FmkZY4yzoe02ncFhNJniM6IyGoi+T9tb5UgED2BYX4dw8ri8YVwLTaMt9IBx
- bWCKF0iQ+woS5GQtDpsYVS9HOVLoEwMi/4XFsrf0kEelfZg2Hh4uv2zAsOXYqMS35JaE42CE=
-X-Gm-Gg: ASbGnct2h7xem8I6Yj/I8ripL7n1oceDYvaxjREQaa9XXy47q0NNO1a7lClqos280+l
- m2XoNYJrP4VO6yGdU8jQn84TQbi2n1TfnbYoo/0WBILdW4rBPEG5tphh/G0isU1N6yLuy70uNqO
- 7g9vcwoWfZPJ6lFxddUqPTBXHbyasb5r8MtKPxHmKeqcYN+uh1KcCw8/zzlNpD2r3DNgXm9s54j
- l0rV0bmaPDIIzqmu0Ic2vkJbPtdUDZLbd3Of5/yUk/RGYxIeU72dTCknpxRScauRTJjcbyt15wf
- GVpHWotFEnPg14ZxoabZFKAZRjwHV0Klf027rkW6xN4YJXn8BpDrwTRhmJ6EZZN72x7Vgceq0jx
- 1UlqFZb+HW+53mctSd8Dw
-X-Received: by 2002:a05:620a:4586:b0:7e1:79eb:18a3 with SMTP id
- af79cd13be357-7e342b3fcbemr1355050785a.10.1753196153035; 
- Tue, 22 Jul 2025 07:55:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFnVBwZCXiywWrdb3FDM9RN4tirxT5EabZ2Ai1SNmjP7E/TXKdb3AzhUWjSu0iEK7NCe3JGkg==
-X-Received: by 2002:a05:620a:4586:b0:7e1:79eb:18a3 with SMTP id
- af79cd13be357-7e342b3fcbemr1355047085a.10.1753196151593; 
- Tue, 22 Jul 2025 07:55:51 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-af22f6fa6afsm73454166b.120.2025.07.22.07.55.49
+ AJvYcCVjb3qLEtZmXm2TFovx7aNuiFaKVPyNxR0eJ43IyRNCCuipyJ1aL2Ilb9UEy6gxSKEJdm1IQ6xavEc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyb+rtxOi7DhMI3LNARv9IlJgB0A8n9FoxFzPa4og6Po2scsBQ6
+ XRL8jSElAovTwHkJF5eVg8gW1+kfieGy89cK2kKy7mPhG673MuJshmweWs4t0O800EHg5qTd45i
+ XKrk=
+X-Gm-Gg: ASbGncuGcpNLPvh2+98j1BxwAjkuca5PdStxWyCwDAchlIuTmJr/4plD5qv9Y389EBx
+ FRJ9utUxXfXsOOj+uCheLS3Gi90myxvwmrO0tNXhRu2LREnVshoNrZh8daIgJX/9E9XGHuaugFk
+ KLLm2AZjye1W1q+TAB8VLcESFArvnmvA2IqYUsuEUbBhGcMl0VxxEls7FL2dVK6yX4kWtmUnffO
+ GmBQyyBhSXOjYGN2ortFnMp1HZUvpeXrpbBYg7gWk5hhoXLvrWZsCaWHV4Sc6hm+61pk93mSUiJ
+ QxHy2QVyxq6uNBjkPpzE0ZDHELz8KbTB4ZJCUKUQ1edPim78C0ov1qpUt4/Wntg64LgmYxSwbRs
+ VN4tktrH5i93mzSju67BXnpQSSaQ5H54QWDeHlZq6sSNzvPX0az8683qmgj5p89AOWQ==
+X-Google-Smtp-Source: AGHT+IHRzPNsqQ3mqlfcBC9Z1210PAE76nixajjoW3EnUZcl3jYK9490NFET1v8Tf+xDHRCOw8cbqQ==
+X-Received: by 2002:a05:6a20:9188:b0:232:fcfc:7209 with SMTP id
+ adf61e73a8af0-23812f448e7mr41946918637.35.1753198218215; 
+ Tue, 22 Jul 2025 08:30:18 -0700 (PDT)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com.
+ [209.85.214.169]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-759cbc67fedsm7734800b3a.153.2025.07.22.08.30.16
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jul 2025 07:55:51 -0700 (PDT)
-Message-ID: <38100984-df2c-4a15-a192-7f38b8671145@oss.qualcomm.com>
-Date: Tue, 22 Jul 2025 16:55:48 +0200
+ Tue, 22 Jul 2025 08:30:16 -0700 (PDT)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-235d6de331fso65938795ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 08:30:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBtULAgD7EW9PI48hKB5BL10WfAYWcalquuRq6kC7QeMF50KbvXX7noLLxzmVqOdRNJA59RJcEJmw=@lists.freedesktop.org
+X-Received: by 2002:a17:903:187:b0:21f:1202:f2f5 with SMTP id
+ d9443c01a7336-23e2566aebdmr353462865ad.8.1753198215386; Tue, 22 Jul 2025
+ 08:30:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/17] drm/msm/a6xx: Enable IFPC on Adreno X1-85
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
- <20250720-ifpc-support-v1-16-9347aa5bcbd6@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250720-ifpc-support-v1-16-9347aa5bcbd6@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=LL1mQIW9 c=1 sm=1 tr=0 ts=687fa67b cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=eUh3tnNZifY16eYFU8cA:9
- a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-GUID: -VgHQbMHXYh4tStLS5tiXYkMW4Uoim3D
-X-Proofpoint-ORIG-GUID: -VgHQbMHXYh4tStLS5tiXYkMW4Uoim3D
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDEyNCBTYWx0ZWRfX3yKwR3KFcyOh
- IYke8OyjGDWCmPgF5BN84Tl4eHSYjWpnEKOkI1kvwUQ5vVswjtIxTERMyF/pd/US0/6KnQmsYXJ
- G2XtDWdvAvzMoiQcz9Cm8f2CB8ILk4Lm7h+yb1NGftxkeri/QlBKAjwgPcoZAhfuUhvH4aKZ0Ap
- rssw71+NkrL98wzTlgw0Gxh+q9yrjxzv6ZSX7It3xgSR4ho+UxJXolqelAc7gtuts/l4PY9xwZI
- x8FH/gh2ha46EGWdVHwP843h9zfJsmJEJbbIxde0QxC+qdYxBZbythe7dfuAJm1rLmKFXFs6z5Y
- V343d9NyNdS4X8tp0oYgZmIigikMqcTcO89w3gvOgOYa5KtUch1p4ukbkl+wsGR6PKLUQ5oD9F1
- xdr1YJQ0WW0S8tJBAKMEg8ThqQ1LC3ebAfARMgeQPdKyT/I7aCbwbZI4jIXfvr8iBZrPYE2i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxlogscore=726 clxscore=1015 mlxscore=0 adultscore=0
- suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507220124
+References: <20250722024512.983313-1-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250722024512.983313-1-yelangyan@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 22 Jul 2025 08:30:02 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UMnQLyDxj0q28OEpfcBOX7Fdnn=VbEHLPTgPDBCPjJLg@mail.gmail.com>
+X-Gm-Features: Ac12FXwLlGFsM1matkfYWetnozGyh0S87g1mvbretcxQ3x1IGxTvY3ketxgqOJs
+Message-ID: <CAD=FV=UMnQLyDxj0q28OEpfcBOX7Fdnn=VbEHLPTgPDBCPjJLg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add 50ms disable delay for three panels
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,41 +101,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/20/25 2:16 PM, Akhil P Oommen wrote:
-> Add the IFPC restore register list and enable IFPC support on Adreno
-> X1-85 gpu.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Hi,
+
+On Mon, Jul 21, 2025 at 7:45=E2=80=AFPM Langyan Ye
+<yelangyan@huaqin.corp-partner.google.com> wrote:
+>
+> Add 50ms disable delay for NV116WHM-N49, NV122WUM-N41, and MNC207QS1-1
+> to satisfy T9+T10 timing.
+>
+> Fixes: 0547692ac146 ("drm/panel-edp: Add several generic edp panels")
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 > ---
->  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 67 ++++++++++++++++++++++++++++++-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 15 +++++--
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
->  3 files changed, 78 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> index 70f7ad806c34076352d84f32d62c2833422b6e5e..07fcabed472c3b9ca47faf1a8b3f7cf580801981 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> @@ -1343,6 +1343,69 @@ static const uint32_t a7xx_pwrup_reglist_regs[] = {
->  
->  DECLARE_ADRENO_REGLIST_LIST(a7xx_pwrup_reglist);
->  
-> +/* Applicable for X185, A750 */
-> +static const u32 a750_ifpc_reglist_regs[] = {
-> +	REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_0,
-> +	REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_1,
-> +	REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_2,
-> +	REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_3,
-> +	REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_4,
-> +	REG_A6XX_TPL1_NC_MODE_CNTL,
-> +	REG_A6XX_SP_NC_MODE_CNTL,
-> +	REG_A6XX_CP_DBG_ECO_CNTL,
-> +	REG_A6XX_CP_PROTECT_CNTL,
-> +	REG_A6XX_CP_PROTECT(0),
-> +	REG_A6XX_CP_PROTECT(1),
+>  drivers/gpu/drm/panel/panel-edp.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
+nel-edp.c
+> index 09170470b3ef..742a83fa4da1 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1743,6 +1743,14 @@ static const struct panel_delay delay_200_500_e50_=
+p2e200 =3D {
+>         .prepare_to_enable =3D 200,
+>  };
+>
+> +static const struct panel_delay delay_200_500_e50_d50_p2e200 =3D {
+> +       .hpd_absent =3D 200,
+> +       .unprepare =3D 500,
+> +       .enable =3D 50,
+> +       .disable =3D 50,
+> +       .prepare_to_enable =3D 200,
+> +};
+> +
+>  static const struct panel_delay delay_200_500_e80 =3D {
+>         .hpd_absent =3D 200,
+>         .unprepare =3D 500,
+> @@ -1941,13 +1949,13 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x09dd, &delay_200_500_e50, "NT116=
+WHM-N21"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a1b, &delay_200_500_e50, "NV133=
+WUM-N63"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a36, &delay_200_500_e200, "Unkn=
+own"),
+> -       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a3e, &delay_200_500_e80, "NV116=
+WHM-N49"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a3e, &delay_200_500_e80_d50, "N=
+V116WHM-N49"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116=
+WHM-N45"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116=
+WHM-N4C"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, =
+"NV140WUM-N41"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_po2e200=
+, "NV140FHM-NZ"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b1e, &delay_200_500_e80, "NE140=
+QDM-N6A"),
+> -       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122=
+WUM-N41"),
+> +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80_d50, "N=
+V122WUM-N41"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV14=
+0FHM-T09"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140=
+FHM-N47"),
+>         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b66, &delay_200_500_e80, "NE140=
+WUM-N6G"),
+> @@ -1986,7 +1994,7 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x14e5, &delay_200_500_e80_d50, "N=
+140HGA-EA1"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x162b, &delay_200_500_e80_d50, "N=
+160JCE-ELL"),
+>
+> -       EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50_p2e200,=
+ "MNC207QS1-1"),
+> +       EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50_d50_p2e=
+200, "MNC207QS1-1"),
+>         EDP_PANEL_ENTRY('C', 'S', 'O', 0x1413, &delay_200_500_e50_p2e200,=
+ "MNE007JA1-2"),
 
-Is it fair to assume that we'd like to saverestore all CP_PROT
-registers on all SKUs, always? We can save some space in .rodata
-this way..
+Can you send a v2 where you also change the timings for "MNE007JA1-2"
+in the same patch? That also means that instead of adding a new timing
+for "delay_200_500_e50_d50_p2e200" you can rename/replace the
+"delay_200_500_e50_p2e200" since these are the only two users of that
+timing.
 
-Konrad
+Specifically it can be noted that when "MNE007JA1-2" was added [1] it
+was done by someone without panel docs so they just copied the other
+timings. Adding an extra 50ms delay should be safe and is probably
+right for that panel as well.
+
+When you do this then your patch will have two "Fixes" tags, one for
+the commit you've already identified and one for commit 50625eab3972
+("drm/edp-panel: Add panel used by T14s Gen6 Snapdragon").
+
+[1] https://patchwork.freedesktop.org/patch/msgid/20250211014314.94429-1-sr=
+e@ring0.de
+
+-Doug
