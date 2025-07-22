@@ -2,91 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93886B0E19F
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 18:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B4FB0E1F2
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 18:32:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03EA410E6C8;
-	Tue, 22 Jul 2025 16:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DE9A10E6CC;
+	Tue, 22 Jul 2025 16:32:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ciz9aBzK";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="PwnteF8B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B228F10E6CC
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 16:22:50 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-75b5be236deso2394062b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 09:22:50 -0700 (PDT)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCE6210E6CC
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 16:32:17 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-b26f5f47ba1so4613021a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 09:32:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1753201368; x=1753806168;
+ d=chromium.org; s=google; t=1753201935; x=1753806735;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xEXUdZr0ohXXfzmWQ2dHHBxRJSqO63DOp1ZvGK6vo/c=;
- b=ciz9aBzKPVzyJbRp6aQVtKnlnlVEdEI0H+qLXbYNKliAyjJVe5mO2HSgH08pFk23EQ
- XjHNQesXVJXzpLKOVdm2VGZKSsI7erxaWRxW807Wjos4O2lUFe6pd86rPr2cq9s2Golp
- uXaWltFD9SEV1yqWDSQQt0jyhQwCYbQIrd+o4=
+ bh=g5dIDnAxZOX8ng1HhpeNVCkuVrJFpRO5masWNAnQ3RE=;
+ b=PwnteF8B+mHHE2T96L/RaUmxW9engi3e8BZb9JX4OHV5EYbfwaKQ2IVB4ykg0hN7Ep
+ LYwQps46huqknvByRY4qppFIauZ6kKLDtovE5o3mGd4/UW3u6926lokPM+M17JT9OgzQ
+ LKIroliYzjS21rIx4sYQVAzr4RCO/YKKaytjY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753201368; x=1753806168;
+ d=1e100.net; s=20230601; t=1753201935; x=1753806735;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xEXUdZr0ohXXfzmWQ2dHHBxRJSqO63DOp1ZvGK6vo/c=;
- b=OQaYkrloQk/m1RdxEc9TIPg05RUJb49wz3SWXEVpffmyTR7UKuDst12ldhmabD0jbu
- YwWi4Y4E4wXuuRfn/9gD9Ww9/nHR8Tee3xAYyTPEbsF4lR/coNEaOXekRpp3fyH8kmKz
- Gy1df03k/pf+zrWrP3I89SsiTz/6O1fZV05vAblhRzyrJZRF8d/3cm7yKFw8r0yh9msr
- 05dX33UpXNq4tciJXFOQ0H+kyB/k1OPavKov2rsO5NMPQRob6uiGS+Xfnf6OI/Ex5pGB
- oFsCh1MTRpYOtlbeGhFgNp6bcdJQPXN6O9E3KIIpR/SSmDt3VYSuKkwueNCbkoSWQfwV
- Lrdg==
+ bh=g5dIDnAxZOX8ng1HhpeNVCkuVrJFpRO5masWNAnQ3RE=;
+ b=fznENSBq4YijP5+a1V1Yhz7Kw1GWgCmBWvCL5Ba/l14pT5bjP/CETGyNJ8o4NrfTJJ
+ DyOvj1i/yK9suZ/+5SLgyUYjKlaR6Tzcs5c3D723hXs2SrQMfAQhu3hqecynyrSZ5meZ
+ yqHxvRGotnhmflixE0pEpaAeFZOmxJK9cBdDSGHUfGCl7Fevp8PV0Z6WsKUQsZtrFK8U
+ 7WTdEX9JDPf4XDkgkdvfgdLY1SGa3xFAl75eNc4ViqcdOR89Yyv9PKketoMoMcLZE8H+
+ /DfGeQNV1WumMgRfCdk0ju4MuAlGzoNG7VSKLkDZfBhYnxYiFgNIf8YBFxiz47VeqD8f
+ z+IQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVY3Joq3Wn4QtNrS42wBrusAqq0su7tFcCtIsz2cUjTQDQsZWaWRNKtBPizSqEIxUOgCoNRZtNmEp0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGu0ehCE2R9/69Xk3gqf3bMQNdgCcMfg9cekJ3K8EGI5VFu0pd
- WS0AJA15OwsL7cMooiPq8ahGUCwfPDVF/voMoncDJNLZLJGkF0Hv348KIgqL+uSqZCvrrslDOTV
- fuV0=
-X-Gm-Gg: ASbGncsf6wuWh1KZreKH/er+SqJCkmXxhiZt53xlTXSz+ccFMYba224jIzdAWyucpG/
- Vlp2pMf6OA7+3O2Q7+MzW5DPudtpp7FGtT53qbwz3p8taLD9mDM8z8PYYaX15YBD5zfEKHliHL6
- T/fbmMaBTmL5pnwk+aK4GEYDaNdOdImAU00z6ayqTDnP4clBoWkw6Hfd36isjLBtHM9zKsulkHH
- C3XrOeYN1qShDuPoA+v5zUER5D511l5IOKdPmEF6CwiJHFUqCZBukQ81cr0tQAyoY5TiTRfydAR
- 9NH/TZEC1bnl8h2Qes26FGy4Ger0MvBbtL46XimrSbUFUDhAlHLFttTlscalPvGkq1SMaG4cO8J
- /B/Lw0eIA8fmH1NghprFEEnIHvcHlaFwuWeglPc30DfS/Cu6dLAjdEYKUZq8jh39udQgcDqS5
-X-Google-Smtp-Source: AGHT+IEF8kleeivIsUmfwhr3B87RM/AFJzA9wvSkSbF3HNu0+ZBZA5NDe84+kApmkwNkgSfP9GCU2A==
-X-Received: by 2002:a05:6a00:460e:b0:748:de24:1ade with SMTP id
- d2e1a72fcca58-75722d62d06mr35792281b3a.7.1753201368179; 
- Tue, 22 Jul 2025 09:22:48 -0700 (PDT)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com.
- [209.85.216.46]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-759cb1575f0sm7821929b3a.75.2025.07.22.09.22.45
+ AJvYcCWveywGgnzmvHyS1um4rtG0NfaBMb7pJ8Eo9oS1qRwwxV/UkjNCa/U4NmDeiEQNdK1G4o+oEl9bkCU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyYO+FcXSMVwHhfUMvu7+zPI8YaOhle/WMrpYfW03QFpf2Xjf9
+ WEdTU9QgQvJPLR638DVJ3VZmajv5tl4Lo8RIKnm2MbOXAA1Gz0vS4U6RcpWtAzCx8BxGOyiBNwm
+ vZvQ=
+X-Gm-Gg: ASbGncvdIWKQpfHGQXaxt1D0RzSxvJ2/7KdHThp2AatqZ56HZFNiuzitIZLjsC83hC6
+ oeq7s+5benW/nlFhA/DF1FRe2Ep93QNt0aYOAZdcgo9JkCPL75Hnqkq2gsH04ZqJUPdSiTFDf3C
+ qTgIT0gjemlYs70Jwf91wh/WbhjWPTjdcC1Y2aiJVMoF+km2lrXCj9kTM27TOxJyVTEhbOf7pSy
+ 13lSNhGcyJFBove14fedMblo2PEh3Xk9OLPAu9NSFUYSJCYSBh/7ldjU4ubFhKnnDY3Cf0en5kL
+ YbLRtoo+cbJd5++L/Y+ZIi45g7P9dzkAiLahrMhmCFb95T2kNG2IQeVNB/+/i5dihtpUNqldCn/
+ WtQi0h47/SX8eCf8+SnCaICnuJOj27JEWws1KOncc3RyNPzG2FiQC+M6tQKjXMAhG/6ioALMn
+X-Google-Smtp-Source: AGHT+IGN9EtoHM6/YhRhf7Hb3mln62VmOlxwc9FY0PjFW3btoigtrY6baqv42m2KzheQNAInBBOsxg==
+X-Received: by 2002:a17:90b:46:b0:312:1cd7:b337 with SMTP id
+ 98e67ed59e1d1-31c9f3c3663mr30297030a91.5.1753201935022; 
+ Tue, 22 Jul 2025 09:32:15 -0700 (PDT)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com.
+ [209.85.216.51]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-31cc3e5bec9sm8315103a91.15.2025.07.22.09.32.11
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Jul 2025 09:22:45 -0700 (PDT)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-3135f3511bcso4709353a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 09:22:45 -0700 (PDT)
+ Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-313a001d781so4735696a91.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 09:32:11 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCV7up6/y1oodEYD8CtvXlBFctl9u6gqcjMf9SEmwUjfVQDe1XlUN/vbTUtSH3G7+DRBE74CoZMuqsE=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:4f49:b0:311:c970:c9c0 with SMTP id
- 98e67ed59e1d1-31c9f45e26cmr31413464a91.22.1753201365336; Tue, 22 Jul 2025
- 09:22:45 -0700 (PDT)
+ AJvYcCVrZTXT66JfHTRWCuSbxMo3czRidFYQxEZlL/CxpM42BRH/QgDLCVeO0Grlh9olW0ru6APNHT6HWWs=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:2247:b0:313:283e:e881 with SMTP id
+ 98e67ed59e1d1-31c9f3ded05mr36938957a91.11.1753201930387; Tue, 22 Jul 2025
+ 09:32:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250719082639.307545-1-me@brighamcampbell.com>
- <20250719082639.307545-2-me@brighamcampbell.com>
- <CAD=FV=Xzno3ReSyp9w+DC+nLoy1AXmcwd+j1=_XRxFi_k+bmng@mail.gmail.com>
- <DBI61MARVMJA.1DDSNK4TZE5TG@brighamcampbell.com>
-In-Reply-To: <DBI61MARVMJA.1DDSNK4TZE5TG@brighamcampbell.com>
+References: <20250722015313.561966-1-me@brighamcampbell.com>
+ <20250722015313.561966-3-me@brighamcampbell.com>
+In-Reply-To: <20250722015313.561966-3-me@brighamcampbell.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 22 Jul 2025 09:22:33 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U7rAhChkJgOXW09z6O0ad2n478oRXpeT5p9EzYTAr3mA@mail.gmail.com>
-X-Gm-Features: Ac12FXwxEcBNTtJQox66nAzXomf74eWKkhHW-9gxqeg5dTLC3EZLkMZuuh1RwxM
-Message-ID: <CAD=FV=U7rAhChkJgOXW09z6O0ad2n478oRXpeT5p9EzYTAr3mA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/4] drm: Create mipi_dsi_dual* macros
+Date: Tue, 22 Jul 2025 09:31:58 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vg6LoPzOHRj=XzCcSb7rPb=vPuCZngrf4hROZNwfj2Pg@mail.gmail.com>
+X-Gm-Features: Ac12FXxeoQ5h83qTRHx6WqFmrhVxXb5TjaxOWmVQAou0S7ba7bXolm4shfJMxPI
+Message-ID: <CAD=FV=Vg6LoPzOHRj=XzCcSb7rPb=vPuCZngrf4hROZNwfj2Pg@mail.gmail.com>
+Subject: Re: [PATCH v6 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
+ driver
 To: Brigham Campbell <me@brighamcampbell.com>
 Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
  skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
@@ -110,96 +110,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Jul 21, 2025 at 5:43=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
+On Mon, Jul 21, 2025 at 6:53=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
 l.com> wrote:
 >
-> On Mon Jul 21, 2025 at 10:30 AM MDT, Doug Anderson wrote:
-> >> +void mpi_dsi_dual_generic_write_multi(struct mipi_dsi_device *dsi1,
-> >
-> > BUG: above should be "mipi", not "mpi"
-> >
-> >> +                                     struct mipi_dsi_device *dsi2,
-> >> +                                     struct mipi_dsi_multi_context *c=
-tx,
-> >> +                                     const void *payload, size_t size=
-)
-> >> +{
-> >> +       ctx->dsi =3D dsi1;
-> >> +       mipi_dsi_generic_write_multi(ctx, data, len);
-> >
-> > BUG: "data" and "len" are not valid local variables...
-> >
-> >> + * mipi_dsi_dual - send the same MIPI DSI command to two interfaces
-> >
-> > It could be worth also pointing people to
-> > mipi_dsi_dual_generic_write_seq_multi() and
-> > mipi_dsi_dual_dcs_write_seq_multi() below?
-> >
-> >> + * @_func: MIPI DSI function or macro to pass context and arguments i=
-nto
-> >
-> > nit: remove "or macro".
-> >
-> >> +               struct mipi_dsi_multi_context *_ctxcpy =3D (_ctx); \
-> >> +               (_ctxcpy)->dsi =3D (_dsi1);                        \
-> >
-> > nit: now that "_ctxcpy" is a local variable you no longer need the
-> > extra parenthesis around it.
-> >
-> >> +               mipi_dsi_dual_generic_write_multi(_dsi1, _dsi2, _ctx, =
-d,        \
-> >> +                                                        ARRAY_SIZE(d)=
-);        \
-> >
-> > nit: the indentation of ARRAY_SIZE() is slightly off.
-> >
-> >> +#define mipi_dsi_dual_dcs_write_seq_multi(_dsi1, _dsi2, _ctx, _cmd, _=
-seq)   \
-> >
-> > BUG: doesn't "_seq" need to be "_seq..." ?
-> >
-> > BUG: You need to remove the definition of this macro from
-> > `panel-novatek-nt36523.c` or else it won't compile anymore since the
-> > name of your macro is the exact same as theirs and they include this
-> > header file. It would be OK w/ me if you squashed that into the same
-> > patch since otherwise rejiggering things would just be churn...
+> Fix bug in unprepare() which causes the function's return value to be
+> that of the last mipi "enter sleep mode" command.
 >
-> Sorry to have sent out such a poor quality patch, Doug! I always compile
-> changed files and test my changes when I can, but I think I must have
-> compiled just the lpm102a188a panel C source file itself by mistake when
-> I sent out this series revision. From now on, I'll simply enable the
-> relevant kernel config options and rebuild the entire kernel.
+> Update driver to use the "multi" variant of MIPI functions in order to
+> facilitate improved error handling and remove the panel's dependency on
+> deprecated MIPI functions.
 >
-> I'll address each of these items in v6.
-
-Don't worry too much about it. While it's good to make sure you test
-your patches, everyone makes mistakes! :-)
-
-
-> > I guess we also chose different argument orders than they did (that's
-> > probably my fault, sorry!). They had the "ctx" still first and this
-> > patch consistently has "dsi1" and "dsi2" first. I don't think it
-> > really matters, but we should be consistent which means either
-> > adjusting your patch or theirs. It's probably worth confirming that
-> > the novatek driver at least compiles before you submit v6.
+> Use the new mipi_dsi_dual macro to reduce code duplication.
 >
-> No, this was my fault. You had suggested the correct order. When I
-> implemented the change, I preferred to put `ctx` after `dsi1` and `dsi2`
-> because that's what I had done when I implemented the mipi_dsi_dual
-> macro. I'll swap up the order, remove the function definition from the
-> novatek driver, and compile both lpm102a188a and the novatek driver
-> before sending out v6.
->
-> By the way, we can discuss this further when I've sent out v6, but the
-> novatek driver appears to pass a mipi_dsi_context struct into the
-> write_seq_multi macro directly instead of a mipi_dsi_context struct
-> pointer. We opted to use a pointer in this patch series so that it can
-> be passed to a function in order to reduce the compiled size of drivers.
-> For now, I'll plan to solve this by changing calls to write_seq_multi in
-> the novatek driver to pass a pointer. I hope that the churn that this
-> will cause in the novatek driver isn't unacceptable.
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Reviewed-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+> Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+>  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++++++------------
+>  1 file changed, 59 insertions(+), 137 deletions(-)
 
-Looks fine. It probably should have been a pointer in the novatek
-driver to begin with, but when it was a macro it didn't really matter.
+Just for fun, I ran bloat-o-meter to compare before and after.
+
+add/remove: 0/0 grow/shrink: 0/3 up/down: 0/-217 (-217)
+Function                                     old     new   delta
+jdi_write_dcdc_registers.d                    10       5      -5
+jdi_panel_unprepare                          312     260     -52
+jdi_panel_prepare                           1020     860    -160
+Total: Before=3D4908, After=3D4691, chg -4.42%
+
+...not as big of a savings, but that's not too surprising in this case
+since we don't have the whole pile of "seq" functions. Still the point
+was making the driver cleaner and the space savings is just an extra
+bonus!
 
 -Doug
