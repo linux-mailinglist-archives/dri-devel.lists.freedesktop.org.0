@@ -2,113 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E45CB0E292
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 19:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA27B0E3D7
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 21:05:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC0D10E314;
-	Tue, 22 Jul 2025 17:27:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8811510E31B;
+	Tue, 22 Jul 2025 19:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CsofTea7";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MUxoL7Yr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA9410E314
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 17:27:11 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56MFDfYT031374
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 17:27:10 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 317AB10E31B
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 19:05:44 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56MI1B70012944
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 19:05:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=YrjoZd7QCC3rgO1NgwMgFJMp5C62tulHsO96Xx3lRDo=; b=Cs
- ofTea7bG1QFvcknnfaPBsuxWjCB0UwTjj5Zxci9asGpuq3hMstWoQjWAYWaQDz6B
- SKzUwUS2+OFrMyBfT67QLCCUXA8ajpRXPRsbKJYuCbS1NF/tV2sAGDF3o0x8iBLe
- fx1o+KOJyRfQSaPRPXzgZTqFM0cyKn8FJmuAtn+/+bSoL8bYkJQ+MpfwEnAjsNPu
- RD15BGgWVFRAu4Lx6rdPekOfXW+j2+oamlWVWByfQ6cb+s15qRWrFmL8VCPOPk3z
- PkIj7pRqYREenC2JWlrfUZjc5xmGvWImFdfYSdSRTdusmESyXLdbaUEt4xMrkmRY
- c2r7LhemJkovIgAzdbyA==
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 482d3hrdr5-1
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=P2+6l4qAfd3G8OT0Vp0C7LdE
+ m1O9SDlPysbdkSzFPqg=; b=MUxoL7Yr83E+66mLMhAAylNYCqeVBssfMOlrmT4S
+ aAbjRbfxz0+QE7G2I3hT8WVzhyN9cIyCDNOlDGs8qUjrVHsHNB5+SznDuCxI/NmL
+ D8YY8gq4AZtUpYzHJTaGtePF+jv6xZ5d1syLl53KWwgNcji7lUHHw0idozwBbuOX
+ I2SoEvbhgHHIBUnySrmJzzSWEpJPfGR4pgOFRK+PXzvnsfBHHEt01U9VozkdoRe3
+ uF6uGBnVid5pHvfGaUDSgZ3NBB8N801sBD5eyPE67oHK3FL230RT//0e1GJt0tAs
+ GYh4r5vWb5o+UmzGzOC6eRLhVpeXtmYOph5AAFLw4kvXuw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 481qh6mvtm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 17:27:10 +0000 (GMT)
-Received: by mail-oi1-f200.google.com with SMTP id
- 5614622812f47-4033c872b60so4458642b6e.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 10:27:10 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 19:05:42 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7e36e20d700so29098585a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 12:05:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753205229; x=1753810029;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YrjoZd7QCC3rgO1NgwMgFJMp5C62tulHsO96Xx3lRDo=;
- b=t5d7BJx4XmeB2Uib1pS8fyUEGFdeudgzv+selebDrDyrRNK2Ddpwkn0rE5mdSYn0ZY
- bWbew1n9u1ujgiO4RWe5qWn0QCkVr4DnRUIbc9pFQGvLQFI57gczT5qBtgFzaufGwoaJ
- dn9ca2G+4Xg1zqp7/V3Us+khTIFRHd8JCcNVGzhO6Dc6h1fjhMCc1GackAa6pviUBF2h
- k9z5K+7cy1YwG1ed3eTqVKZdN0Ll9r/+iG+fJ1Yko4zPwtGALEitMl/LxyiFS2UO3YcX
- +YVxRH4Cc6iS1cLqXSMgrvpVykQRUL/BYBsVoGz7GvuVYETxYBBHJRpayOvMFdQq1rDs
- 7OgQ==
+ d=1e100.net; s=20230601; t=1753211142; x=1753815942;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=P2+6l4qAfd3G8OT0Vp0C7LdEm1O9SDlPysbdkSzFPqg=;
+ b=JcuFCN3T96UHb0OcrplZxYv10wi7Em0CdVQZOXxyjNcQJ0rg4QUUXA2Cz9cfNO5Sqj
+ 5c7xjBVIvJrkDKzRHRNZYH8bQkzrGgVzOIrhmxln+3PVFYIJZC2sHMC29nG3kbEamWN8
+ 3DmhmSl/2wVyAiUAKX2Z8c2CTi1L47Qg4maf78kgFKxMeQteaaErWS9FcftTOLRGDX8Q
+ Xgo7+3R1rUyakVMJcY0QUTWvZJ/nx5KhwBro0ccTzGdWDnXiOI6YApZmjOKu7Mo0phyM
+ +l6MJ9meMGXfuDoatyd17boqJfkqu4GMz9aOScNwCR75N3/ge9fCUBwmjwfmUGsAkzhb
+ MFFg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVysZkFlTnPfPuIzzgPCwEIT9PeJeynVo1Y773/ERAgKaR28DKYqew93tSZLJtfcp+kc2aLo4wagqA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxInrPQnkyuegHPFIPN9w6Bqgn5rMQX57TX1wsD5pg+IbXgsvIE
- oSuhvHIOPhx3x9whI/A4xsJqJh0+oJkWhTqqrcHylHzFRs+4cH6pGLqfPa2m1zoDYkIXiNb+Uk7
- RYr61j8RwEfl2+EyZkJ2h7JtbjPj+/9hUElXX3i2mxFOEM14C+IxVgMfT+Qzy+JLJEw6VHivCRN
- OHzILv3kscx106/fP5zWNRDBfa4laEaQJ7DBwV5Mdz1Yfq7w==
-X-Gm-Gg: ASbGncsHq5q2yYzFo74vPpIoiDCaVpSddLZZmS8Be/2umujIfQiTLXs1KG3D+ZTKvbr
- nUzIuW6/seXNv/xToJI4qD3UR9yYhF1QTzNk+xQWBCB6CRhR4dAuvfejS5Lop88CxXjn9QanWuL
- Ou8E/1feAGqp4tqY2VGgL8tpT/3izMBInXP+z2J1SwZ05C4Hs4YJvh
-X-Received: by 2002:a05:6808:1b2c:b0:41c:1727:8b4d with SMTP id
- 5614622812f47-426c4bdfe8amr134370b6e.11.1753205229223; 
- Tue, 22 Jul 2025 10:27:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHt351bm791NHr11RGdS2kzc1apQfD8udpp73fwAAszYsw6GEV5yDdNjEt0nwD6ENSLExfzwwg6Dsyx6tcyQ74=
-X-Received: by 2002:a05:6808:1b2c:b0:41c:1727:8b4d with SMTP id
- 5614622812f47-426c4bdfe8amr134333b6e.11.1753205228734; Tue, 22 Jul 2025
- 10:27:08 -0700 (PDT)
+ AJvYcCVLcOj8eWwSiE2RSDhVqPp9mQQzJvF9jdJ1auU5z8J7etP18p2Espa/p5ei31bmTX5e9AueqFqwQHM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlujblcjzTp38sHvyUZ5eSqn53owyQkVBAbrYgBDSwRMxMgTkU
+ aY48p5Z6sTWh9cHKZJKrj/XI8FGK7Q5bFrQot21L4E/UZUwysfO5gYmN3lZ3Z9AC3AMxQd5UHbL
+ 4rymRD5YEuqrMk2luvfvvMbhQu62lqvpjO3oUHwDh3cwWk13vZ6VMwGUuw+IzECD8LoobCK4=
+X-Gm-Gg: ASbGncth5NyB9aUl9BX03uo451SYAL9Nc6iIy8KCDWWw8L51puKJYN0z6/3iDr7O5jP
+ +DxLzwEZUmLHeoVHjK17dFSwRHAC8fBNBIbW3UAKkUHg+ZCIKy0OwYgU08NHsByH5GUEBep22oj
+ sjBI6T+XValN8BB1HIcPZsk9aArH/te0mfyifYRQvXErU2QSlVaXLCHP+nAMH7aYFrQSvKBoWaf
+ 6uzeAClVGClTyhSyT1CxyF/ylg6GeUF+Ew6uDvIhQ+5dk+QBC2I3iIQchCQcNQxKmFAxsakWIEz
+ FKDBU4CwRFUmDnszKv+HqopnUgmwAftqbmKZFY2NBa5edQiGoXNNDvRI3El6LNjivVkcMlD+l1l
+ SZWVeW59KVY25voXTq+aUhmQeIEcHLrC7czvbDQvt3LCKD+QgiHXi
+X-Received: by 2002:a05:620a:7004:b0:7e1:aeab:41b6 with SMTP id
+ af79cd13be357-7e62123d2admr639045985a.18.1753211141898; 
+ Tue, 22 Jul 2025 12:05:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEnWw82SLv09ir9ZtrixO/tE940fX1DelTTNbNTu76eCwjlOF98H3Zx1i+G/fDCf6mx0HVYLg==
+X-Received: by 2002:a05:620a:7004:b0:7e1:aeab:41b6 with SMTP id
+ af79cd13be357-7e62123d2admr639040285a.18.1753211141325; 
+ Tue, 22 Jul 2025 12:05:41 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55a31aba0f7sm2051200e87.83.2025.07.22.12.05.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Jul 2025 12:05:40 -0700 (PDT)
+Date: Tue, 22 Jul 2025 22:05:38 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: dianders@chromium.org, tejasvipin76@gmail.com,
+ diogo.ivo@tecnico.ulisboa.pt, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH v6 3/4] drm: Remove unused MIPI write seq and chatty
+ functions
+Message-ID: <46h32rtuyamdvg36wegmi5fonfg6o6gau2ek377mhumscd4k57@3mw47znxnj7p>
+References: <20250722015313.561966-1-me@brighamcampbell.com>
+ <20250722015313.561966-4-me@brighamcampbell.com>
 MIME-Version: 1.0
-References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
- <20250720-ifpc-support-v1-5-9347aa5bcbd6@oss.qualcomm.com>
- <avni4utnzdmmafc2mf7aqgva3osbhuiqtia7gdngqswk5cmtn6@zo65ir7gyj6y>
-In-Reply-To: <avni4utnzdmmafc2mf7aqgva3osbhuiqtia7gdngqswk5cmtn6@zo65ir7gyj6y>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Tue, 22 Jul 2025 10:26:58 -0700
-X-Gm-Features: Ac12FXz7GgAd4CQ5r6mtT-fkFUIs76swU0cXdPQmfmKvXuiUlkOuIL_tdrwpuow
-Message-ID: <CACSVV0346j2y-1Jkj=wasekYy5syax_E495AQZv0bvrrqwCSRw@mail.gmail.com>
-Subject: Re: [PATCH 05/17] drm/msm/a6xx: Fix PDC sleep sequence
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=G8UcE8k5 c=1 sm=1 tr=0 ts=687fc9ee cx=c_pps
- a=AKZTfHrQPB8q3CcvmcIuDA==:117 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=EUspDBNiAAAA:8 a=5FltqUUlFAtdD00mdp8A:9 a=QEXdDO2ut3YA:10
- a=pF_qn-MSjDawc0seGVz6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDE0NiBTYWx0ZWRfX7bWq3hN6El57
- /9fEDCRFy+m3mF1PKl7tKHXVBf0H2JvEkKaiTAx5EJu06bqRHL89aRzscvPd8wrNsVzuFFS5lwu
- VXg6cPliMG8BuYF/lSSsXtmaaXT5lPKhELv+J9uCJdsvRJeak8eu/prcRVU9M3fPtgEYxv5MVTV
- mS8yJZh7EJr/pS8apCDBas2rb6dWPm5G/+2g/m1uPZE25lGBckvAMQ2SMVXN3g9AvaS78eAJB4m
- ZzoU2gHR+RoKgt/lSqQ+guM+Ig7aRdmN704Vvuq1XlQjxZYs576meeuUWIKNE1X08/K2nq8ItDv
- iy/vXVwwb5sMl0/hr10TS/sk/pr5pJVQmii52vTLJAPFhPbcCh6Cuk+cRxDpD16TvbLNWvzcRA4
- lmNUlcFt3ZkJ7ljXzazCfs89kGHkT0m2TPjJ2iA7a87Ir455U6tRVMTp3OJqGXYIKrB/NHDg
-X-Proofpoint-GUID: x8czVg6ZJffRQeL_y5nrkH7ezKl5bOeg
-X-Proofpoint-ORIG-GUID: x8czVg6ZJffRQeL_y5nrkH7ezKl5bOeg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250722015313.561966-4-me@brighamcampbell.com>
+X-Authority-Analysis: v=2.4 cv=CZ4I5Krl c=1 sm=1 tr=0 ts=687fe106 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=cm27Pg_UAAAA:8 a=wukD7SXyAAAA:8 a=EUspDBNiAAAA:8
+ a=BQFrTPDZmi-2fyfDvBEA:9 a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+ a=n7THaJik3DRP1sDdJiGm:22
+X-Proofpoint-ORIG-GUID: -HLTBxl60sEStbSvJk1msBf4fRkTzLh4
+X-Proofpoint-GUID: -HLTBxl60sEStbSvJk1msBf4fRkTzLh4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDE2MyBTYWx0ZWRfX10WFjfqslMjQ
+ 3p/MrrtAliPHQT4oALhns2YP0gtw1V9MyOEG7tuN7J9sS/0RnjtbWrD0OgayQMnA/nP7mTymW3B
+ zEFD/n2VgaF7pLBxPx2XT84tWyzC418fvI0KTJaOO6DmWQGEyeH9LfJ17wOhfUptzQqya/DgI/2
+ xumt2d5naxYh2kVnyLRdA99qbBaYjFCK+VWunsJhPljV4nkmKqlZLenVXu4IVvC4jJSLp9WJnEg
+ Zp7cxEl/BEDmbAl6AuhHqLnBZHZpgysvg7IG514d8pxTW77bgWNZAfd1fZyjhzeGY9pCxLyEMpC
+ prpEB+Bumaz9m/Ea29pnkzyaikoESE0LQh9ORgW9s4pxt4qfZlo9d0unD9raU4lnK0S6Recz8EW
+ tVBI9lp/vvIUNPVb1ZGsQjy8hfm6ZTSTKtPm1CK3hB8oSUs9VvnZ1L5VOgsmjr25On8GTtdH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
- bulkscore=0 impostorscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
- mlxlogscore=999 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507220146
+ priorityscore=1501 suspectscore=0 mlxlogscore=669 impostorscore=0
+ clxscore=1015 mlxscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507220163
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,168 +128,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 22, 2025 at 6:33=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On Sun, Jul 20, 2025 at 05:46:06PM +0530, Akhil P Oommen wrote:
-> > Since the PDC resides out of the GPU subsystem and cannot be reset in
-> > case it enters bad state, utmost care must be taken to trigger the PDC
-> > wake/sleep routines in the correct order.
-> >
-> > The PDC wake sequence can be exercised only after a PDC sleep sequence.
-> > Additionally, GMU firmware should initialize a few registers before the
-> > KMD can trigger a PDC sleep sequence. So PDC sleep can't be done if the
->
-> s/KMD/the driver/
+On Mon, Jul 21, 2025 at 07:53:10PM -0600, Brigham Campbell wrote:
+> Remove the deprecated mipi_dsi_generic_write_seq() and
+> mipi_dsi_generic_write_chatty() functions now that they are no longer
+> used.
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+>  drivers/gpu/drm/drm_mipi_dsi.c | 34 +++-------------------------------
+>  include/drm/drm_mipi_dsi.h     | 23 -----------------------
+>  2 files changed, 3 insertions(+), 54 deletions(-)
+> 
 
-IMHO for gpu things "KMD" makes sense, to differentiate between kernel
-and user mode (UMD).. this is perhaps different from other areas where
-there isn't a userspace component to the driver stack
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-BR,
--R
 
-> > GMU firmware has not initialized. Track these dependencies using a new
-> > status variable and trigger PDC sleep/wake sequences appropriately.
->
-> Again, it looks like there should be a Fixes tag here.
->
-> >
-> > Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> > ---
-> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 30 +++++++++++++++++++--------=
----
-> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  6 ++++++
-> >  2 files changed, 25 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/ms=
-m/adreno/a6xx_gmu.c
-> > index 3bebb6dd7059782ceca29f2efd2acee24d3fc930..4d6c70735e0892ed87d6a68=
-d64f24bda844e5e16 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> > @@ -279,6 +279,8 @@ static int a6xx_gmu_start(struct a6xx_gmu *gmu)
-> >       if (ret)
-> >               DRM_DEV_ERROR(gmu->dev, "GMU firmware initialization time=
-d out\n");
-> >
-> > +     set_bit(GMU_STATUS_FW_START, &gmu->status);
-> > +
-> >       return ret;
-> >  }
-> >
-> > @@ -528,6 +530,9 @@ static int a6xx_rpmh_start(struct a6xx_gmu *gmu)
-> >       int ret;
-> >       u32 val;
-> >
-> > +     if (!test_and_clear_bit(GMU_STATUS_PDC_SLEEP, &gmu->status))
-> > +             return 0;
-> > +
-> >       gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, BIT(1));
-> >
-> >       ret =3D gmu_poll_timeout(gmu, REG_A6XX_GMU_RSCC_CONTROL_ACK, val,
-> > @@ -555,6 +560,11 @@ static void a6xx_rpmh_stop(struct a6xx_gmu *gmu)
-> >       int ret;
-> >       u32 val;
-> >
-> > +     if (test_and_clear_bit(GMU_STATUS_FW_START, &gmu->status))
-> > +             return;
-> > +
-> > +     /* TODO: should we skip if IFPC is not enabled */
->
-> Is this a question or a statement?
->
-> > +
-> >       gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, 1);
-> >
-> >       ret =3D gmu_poll_timeout_rscc(gmu, REG_A6XX_GPU_RSCC_RSC_STATUS0_=
-DRV0,
-> > @@ -563,6 +573,8 @@ static void a6xx_rpmh_stop(struct a6xx_gmu *gmu)
-> >               DRM_DEV_ERROR(gmu->dev, "Unable to power off the GPU RSC\=
-n");
-> >
-> >       gmu_write(gmu, REG_A6XX_GMU_RSCC_CONTROL_REQ, 0);
-> > +
-> > +     set_bit(GMU_STATUS_PDC_SLEEP, &gmu->status);
-> >  }
-> >
-> >  static inline void pdc_write(void __iomem *ptr, u32 offset, u32 value)
-> > @@ -691,8 +703,6 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu=
-)
-> >       /* ensure no writes happen before the uCode is fully written */
-> >       wmb();
-> >
-> > -     a6xx_rpmh_stop(gmu);
-> > -
-> >  err:
-> >       if (!IS_ERR_OR_NULL(pdcptr))
-> >               iounmap(pdcptr);
-> > @@ -852,19 +862,15 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu=
-, unsigned int state)
-> >       else
-> >               gmu_write(gmu, REG_A6XX_GMU_GENERAL_7, 1);
-> >
-> > -     if (state =3D=3D GMU_WARM_BOOT) {
-> > -             ret =3D a6xx_rpmh_start(gmu);
-> > -             if (ret)
-> > -                     return ret;
-> > -     } else {
-> > +     ret =3D a6xx_rpmh_start(gmu);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     if (state =3D=3D GMU_COLD_BOOT) {
-> >               if (WARN(!adreno_gpu->fw[ADRENO_FW_GMU],
-> >                       "GMU firmware is not loaded\n"))
-> >                       return -ENOENT;
-> >
-> > -             ret =3D a6xx_rpmh_start(gmu);
-> > -             if (ret)
-> > -                     return ret;
-> > -
-> >               ret =3D a6xx_gmu_fw_load(gmu);
-> >               if (ret)
-> >                       return ret;
-> > @@ -1046,6 +1052,8 @@ static void a6xx_gmu_force_off(struct a6xx_gmu *g=
-mu)
-> >
-> >       /* Reset GPU core blocks */
-> >       a6xx_gpu_sw_reset(gpu, true);
-> > +
-> > +     a6xx_rpmh_stop(gmu);
-> >  }
-> >
-> >  static void a6xx_gmu_set_initial_freq(struct msm_gpu *gpu, struct a6xx=
-_gmu *gmu)
-> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/ms=
-m/adreno/a6xx_gmu.h
-> > index b2d4489b40249b1916ab4a42c89e3f4bdc5c4af9..034f1b4e5a3fb9cd601bfbe=
-6d06d64e5ace3b6e7 100644
-> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-> > @@ -117,6 +117,12 @@ struct a6xx_gmu {
-> >
-> >       struct qmp *qmp;
-> >       struct a6xx_hfi_msg_bw_table *bw_table;
-> > +
-> > +/* To check if we can trigger sleep seq at PDC. Cleared in a6xx_rpmh_s=
-top() */
-> > +#define GMU_STATUS_FW_START  0
-> > +/* To track if PDC sleep seq was done */
-> > +#define GMU_STATUS_PDC_SLEEP 1
-> > +     unsigned long status;
-> >  };
-> >
-> >  static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
-> >
-> > --
-> > 2.50.1
-> >
->
-> --
-> With best wishes
-> Dmitry
+-- 
+With best wishes
+Dmitry
