@@ -2,120 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA27B0E3D7
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 21:05:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712C0B0E400
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 21:17:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8811510E31B;
-	Tue, 22 Jul 2025 19:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B2F10E6F5;
+	Tue, 22 Jul 2025 19:17:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MUxoL7Yr";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="NkrEs0k7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 317AB10E31B
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 19:05:44 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56MI1B70012944
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 19:05:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=P2+6l4qAfd3G8OT0Vp0C7LdE
- m1O9SDlPysbdkSzFPqg=; b=MUxoL7Yr83E+66mLMhAAylNYCqeVBssfMOlrmT4S
- aAbjRbfxz0+QE7G2I3hT8WVzhyN9cIyCDNOlDGs8qUjrVHsHNB5+SznDuCxI/NmL
- D8YY8gq4AZtUpYzHJTaGtePF+jv6xZ5d1syLl53KWwgNcji7lUHHw0idozwBbuOX
- I2SoEvbhgHHIBUnySrmJzzSWEpJPfGR4pgOFRK+PXzvnsfBHHEt01U9VozkdoRe3
- uF6uGBnVid5pHvfGaUDSgZ3NBB8N801sBD5eyPE67oHK3FL230RT//0e1GJt0tAs
- GYh4r5vWb5o+UmzGzOC6eRLhVpeXtmYOph5AAFLw4kvXuw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 481qh6mvtm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 19:05:42 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7e36e20d700so29098585a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 12:05:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753211142; x=1753815942;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=P2+6l4qAfd3G8OT0Vp0C7LdEm1O9SDlPysbdkSzFPqg=;
- b=JcuFCN3T96UHb0OcrplZxYv10wi7Em0CdVQZOXxyjNcQJ0rg4QUUXA2Cz9cfNO5Sqj
- 5c7xjBVIvJrkDKzRHRNZYH8bQkzrGgVzOIrhmxln+3PVFYIJZC2sHMC29nG3kbEamWN8
- 3DmhmSl/2wVyAiUAKX2Z8c2CTi1L47Qg4maf78kgFKxMeQteaaErWS9FcftTOLRGDX8Q
- Xgo7+3R1rUyakVMJcY0QUTWvZJ/nx5KhwBro0ccTzGdWDnXiOI6YApZmjOKu7Mo0phyM
- +l6MJ9meMGXfuDoatyd17boqJfkqu4GMz9aOScNwCR75N3/ge9fCUBwmjwfmUGsAkzhb
- MFFg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVLcOj8eWwSiE2RSDhVqPp9mQQzJvF9jdJ1auU5z8J7etP18p2Espa/p5ei31bmTX5e9AueqFqwQHM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzlujblcjzTp38sHvyUZ5eSqn53owyQkVBAbrYgBDSwRMxMgTkU
- aY48p5Z6sTWh9cHKZJKrj/XI8FGK7Q5bFrQot21L4E/UZUwysfO5gYmN3lZ3Z9AC3AMxQd5UHbL
- 4rymRD5YEuqrMk2luvfvvMbhQu62lqvpjO3oUHwDh3cwWk13vZ6VMwGUuw+IzECD8LoobCK4=
-X-Gm-Gg: ASbGncth5NyB9aUl9BX03uo451SYAL9Nc6iIy8KCDWWw8L51puKJYN0z6/3iDr7O5jP
- +DxLzwEZUmLHeoVHjK17dFSwRHAC8fBNBIbW3UAKkUHg+ZCIKy0OwYgU08NHsByH5GUEBep22oj
- sjBI6T+XValN8BB1HIcPZsk9aArH/te0mfyifYRQvXErU2QSlVaXLCHP+nAMH7aYFrQSvKBoWaf
- 6uzeAClVGClTyhSyT1CxyF/ylg6GeUF+Ew6uDvIhQ+5dk+QBC2I3iIQchCQcNQxKmFAxsakWIEz
- FKDBU4CwRFUmDnszKv+HqopnUgmwAftqbmKZFY2NBa5edQiGoXNNDvRI3El6LNjivVkcMlD+l1l
- SZWVeW59KVY25voXTq+aUhmQeIEcHLrC7czvbDQvt3LCKD+QgiHXi
-X-Received: by 2002:a05:620a:7004:b0:7e1:aeab:41b6 with SMTP id
- af79cd13be357-7e62123d2admr639045985a.18.1753211141898; 
- Tue, 22 Jul 2025 12:05:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnWw82SLv09ir9ZtrixO/tE940fX1DelTTNbNTu76eCwjlOF98H3Zx1i+G/fDCf6mx0HVYLg==
-X-Received: by 2002:a05:620a:7004:b0:7e1:aeab:41b6 with SMTP id
- af79cd13be357-7e62123d2admr639040285a.18.1753211141325; 
- Tue, 22 Jul 2025 12:05:41 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55a31aba0f7sm2051200e87.83.2025.07.22.12.05.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jul 2025 12:05:40 -0700 (PDT)
-Date: Tue, 22 Jul 2025 22:05:38 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Brigham Campbell <me@brighamcampbell.com>
-Cc: dianders@chromium.org, tejasvipin76@gmail.com,
- diogo.ivo@tecnico.ulisboa.pt, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v6 3/4] drm: Remove unused MIPI write seq and chatty
- functions
-Message-ID: <46h32rtuyamdvg36wegmi5fonfg6o6gau2ek377mhumscd4k57@3mw47znxnj7p>
-References: <20250722015313.561966-1-me@brighamcampbell.com>
- <20250722015313.561966-4-me@brighamcampbell.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C604010E065;
+ Tue, 22 Jul 2025 19:17:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1753211844; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=V1MFNMXtbVII3OyG/PJfG0pIn5cGQmWJ4e/Sa9JRmZPWY0akP2RlV+ZnN+vqV50ngc1EmCGNe39HaEPHStoCqhvgA+gILA0+waTLDO1VLsOF8La91m+Zx0Rag5cBr8yVyzEgQnnbLpwsJqXi/QGiyAZrnXZtzTpiNIOZ5d5ACkc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1753211844;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=+zesf94SJA+dm4PLjqUTSklRh64IZWgPDN+EL0S1jgA=; 
+ b=lIq+/U/ngfwnEQArKc/zm49Isyp9glr+rMW02rr6bzs23xI/1yGD0cWSdIuKSgoTazwjXHDR2a9jGz5dYTteXCXP3uGehdue/hkGmIYzOjrC6sPEwnc7bDVf+NuBUuPNH88emANlhQnczidwBTSsukHvsXrJirxvUY533iecsa0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753211844; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=+zesf94SJA+dm4PLjqUTSklRh64IZWgPDN+EL0S1jgA=;
+ b=NkrEs0k7zPTimqzWvCjoW9+Bd/rI9Ug5K94zoa0qRdoj3HE06H8f219b7J1Xh9Yz
+ NTfZ13GNH3A+lkfif3dfcUqP3Cb9RRnoSKVGmoNI1qYaFGZ84BWikovUTIojJhCPO1/
+ dc9T8UjzgwRyLQaSyA0IJT94uUoYTqe8vHZedLho=
+Received: by mx.zohomail.com with SMTPS id 1753211840656362.2056657687194;
+ Tue, 22 Jul 2025 12:17:20 -0700 (PDT)
+Date: Tue, 22 Jul 2025 20:17:14 +0100
+From: Adrian Larumbe <adrian.larumbe@collabora.com>
+To: Caterina Shablia <caterina.shablia@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, asahi@lists.linux.dev,
+ Asahi Lina <lina@asahilina.net>
+Subject: Re: [PATCH v4 4/7] drm/gpuvm: Add a helper to check if two VA can be
+ merged
+Message-ID: <bvoiomc5x7cbyc4l35rbideznuyw557u2ttp7utoifaxs27j3m@6mc7ya7asmpy>
+References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
+ <20250707170442.1437009-5-caterina.shablia@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250722015313.561966-4-me@brighamcampbell.com>
-X-Authority-Analysis: v=2.4 cv=CZ4I5Krl c=1 sm=1 tr=0 ts=687fe106 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=cm27Pg_UAAAA:8 a=wukD7SXyAAAA:8 a=EUspDBNiAAAA:8
- a=BQFrTPDZmi-2fyfDvBEA:9 a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
- a=n7THaJik3DRP1sDdJiGm:22
-X-Proofpoint-ORIG-GUID: -HLTBxl60sEStbSvJk1msBf4fRkTzLh4
-X-Proofpoint-GUID: -HLTBxl60sEStbSvJk1msBf4fRkTzLh4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDE2MyBTYWx0ZWRfX10WFjfqslMjQ
- 3p/MrrtAliPHQT4oALhns2YP0gtw1V9MyOEG7tuN7J9sS/0RnjtbWrD0OgayQMnA/nP7mTymW3B
- zEFD/n2VgaF7pLBxPx2XT84tWyzC418fvI0KTJaOO6DmWQGEyeH9LfJ17wOhfUptzQqya/DgI/2
- xumt2d5naxYh2kVnyLRdA99qbBaYjFCK+VWunsJhPljV4nkmKqlZLenVXu4IVvC4jJSLp9WJnEg
- Zp7cxEl/BEDmbAl6AuhHqLnBZHZpgysvg7IG514d8pxTW77bgWNZAfd1fZyjhzeGY9pCxLyEMpC
- prpEB+Bumaz9m/Ea29pnkzyaikoESE0LQh9ORgW9s4pxt4qfZlo9d0unD9raU4lnK0S6Recz8EW
- tVBI9lp/vvIUNPVb1ZGsQjy8hfm6ZTSTKtPm1CK3hB8oSUs9VvnZ1L5VOgsmjr25On8GTtdH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 mlxlogscore=669 impostorscore=0
- clxscore=1015 mlxscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- bulkscore=0 spamscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507220163
+In-Reply-To: <20250707170442.1437009-5-caterina.shablia@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,22 +79,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 21, 2025 at 07:53:10PM -0600, Brigham Campbell wrote:
-> Remove the deprecated mipi_dsi_generic_write_seq() and
-> mipi_dsi_generic_write_chatty() functions now that they are no longer
-> used.
-> 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+On 07.07.2025 17:04, Caterina Shablia wrote:
+> From: Boris Brezillon <boris.brezillon@collabora.com>
+>
+> We are going to add flags/properties that will impact the VA merging
+> ability. Instead of sprinkling tests all over the place in
+> __drm_gpuvm_sm_map(), let's add a helper aggregating all these checks
+> can call it for every existing VA we walk through in the
+> __drm_gpuvm_sm_map() loop.
+>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
 > ---
->  drivers/gpu/drm/drm_mipi_dsi.c | 34 +++-------------------------------
->  include/drm/drm_mipi_dsi.h     | 23 -----------------------
->  2 files changed, 3 insertions(+), 54 deletions(-)
-> 
+>  drivers/gpu/drm/drm_gpuvm.c | 47 +++++++++++++++++++++++++++++--------
+>  1 file changed, 37 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index 05978c5c38b1..dc3c2f906400 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -2098,12 +2098,48 @@ op_unmap_cb(const struct drm_gpuvm_ops *fn, void *priv,
+>  	return fn->sm_step_unmap(&op, priv);
+>  }
+>
+> +static bool can_merge(struct drm_gpuvm *gpuvm, const struct drm_gpuva *a,
+> +		      const struct drm_gpuva *b)
+> +{
+> +	/* Only GEM-based mappings can be merged, and they must point to
+> +	 * the same GEM object.
+> +	 */
+> +	if (a->gem.obj != b->gem.obj || !a->gem.obj)
+> +		return false;
+> +
+> +	/* Let's keep things simple for now and force all flags to match. */
+> +	if (a->flags != b->flags)
+> +		return false;
+> +
+> +	/* Order VAs for the rest of the checks. */
+> +	if (a->va.addr > b->va.addr)
+> +		swap(a, b);
+> +
+> +	/* We assume the caller already checked that VAs overlap or are
+> +	 * contiguous.
+> +	 */
+> +	if (drm_WARN_ON(gpuvm->drm, b->va.addr > a->va.addr + a->va.range))
+> +		return false;
+> +
+> +	/* We intentionally ignore u64 underflows because all we care about
+> +	 * here is whether the VA diff matches the GEM offset diff.
+> +	 */
+> +	return b->va.addr - a->va.addr == b->gem.offset - a->gem.offset;
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+If we're reordering the VAs for the rest of the checks, when could underflow happen?
+
+> +}
+> +
+>  static int
+>  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  		   const struct drm_gpuvm_ops *ops, void *priv,
+>  		   const struct drm_gpuvm_map_req *req)
+>  {
+>  	struct drm_gpuva *va, *next;
+> +	struct drm_gpuva reqva = {
+> +		.va.addr = req->va.addr,
+> +		.va.range = req->va.range,
+> +		.gem.offset = req->gem.offset,
+> +		.gem.obj = req->gem.obj,
+> +		.flags = req->flags,
+> +	};
+>  	u64 req_end = req->va.addr + req->va.range;
+>  	int ret;
+>
+> @@ -2116,12 +2152,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  		u64 addr = va->va.addr;
+>  		u64 range = va->va.range;
+>  		u64 end = addr + range;
+> -		bool merge = !!va->gem.obj;
+> +		bool merge = can_merge(gpuvm, va, &reqva);
+>
+>  		if (addr == req->va.addr) {
+> -			merge &= obj == req->gem.obj &&
+> -				 offset == req->gem.offset;
+> -
+>  			if (end == req_end) {
+>  				ret = op_unmap_cb(ops, priv, va, merge);
+>  				if (ret)
+> @@ -2163,8 +2196,6 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  			};
+>  			struct drm_gpuva_op_unmap u = { .va = va };
+>
+> -			merge &= obj == req->gem.obj &&
+> -				 offset + ls_range == req->gem.offset;
+>  			u.keep = merge;
+>
+>  			if (end == req_end) {
+> @@ -2196,10 +2227,6 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  				break;
+>  			}
+>  		} else if (addr > req->va.addr) {
+> -			merge &= obj == req->gem.obj &&
+> -				 offset == req->gem.offset +
+> -					   (addr - req->va.addr);
+> -
+>  			if (end == req_end) {
+>  				ret = op_unmap_cb(ops, priv, va, merge);
+>  				if (ret)
+> --
+> 2.47.2
 
 
--- 
-With best wishes
-Dmitry
+Adrian Larumbe
