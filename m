@@ -2,73 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F39E7B0E541
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 23:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2284B0E552
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 23:17:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2524110E713;
-	Tue, 22 Jul 2025 21:11:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFEAE10E70F;
+	Tue, 22 Jul 2025 21:17:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dnoLgrGJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HtX43Sk5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4337E10E713;
- Tue, 22 Jul 2025 21:11:30 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id
- 5b1f17b1804b1-456108bf94bso42714815e9.0; 
- Tue, 22 Jul 2025 14:11:30 -0700 (PDT)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86C3510E274;
+ Tue, 22 Jul 2025 21:17:45 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id
+ af79cd13be357-7e32c21ca52so23946685a.0; 
+ Tue, 22 Jul 2025 14:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753218688; x=1753823488; darn=lists.freedesktop.org;
- h=mime-version:message-id:date:user-agent:subject:cc:to:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=02k7SvjRhCaME9MdUTVrzF7bGQou1g9Sbfk7ChPAhp4=;
- b=dnoLgrGJv70DXxahLGBUjaunK0dM17O+QbdJ5xv3DqDlbBRsRYKGnkACBHIiVeJDI5
- aP+dZTAPyC3QXpNi8RK2ROQFkuZBeHLaDjX2Rxl80a7S8Ptl0TZPzyXNdKAskkvevjWx
- xz3faoRDxhCPfS0Rx5mmSCmQ5A7RxEV+uJV4+u7UC7/KdlCfoesXC8D229fcgAzWcAv6
- poXsQKhoNoUchJNM3kEmIgcqByWMyP25Idawq3luBl9I0HhqpxSlKQCx6ansJbivfMdA
- 6MgEjCT2j9/UTeMk79QXIsHJCSrXC1C1mU2g6/AYJ9t77KmrSFFtJ1F+dPtta6RJmF3L
- jZTQ==
+ d=gmail.com; s=20230601; t=1753219064; x=1753823864; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9Cexht8Ep7iJV5NQmaqpXtQhmXD0krdDQCxLXZ5pJ04=;
+ b=HtX43Sk5q73EZDiQrLGcE9c3QROTwRHX7jBhhIzRiLkhi8TJlZ+YwEU3GE/O5b80tl
+ PXMzdMZTVF+IrF4PVoi6JmJ57Wli2DSABt21W1E/egWJGYto+JXoDSnOeXH+j/y0fDLj
+ 4hSfzLlBfMPq1ZZrBPaeBKDxq5TZjJeRzU7M4zf1fmperFTbxDOPDyu97tKlNeTJTvCF
+ xx/Ido3HPSEhR7H/EDqyOsr/5GuGP6QWu3TCJSmWKEw2DaWck/jkJzaBpPiaU8lCti8L
+ pormhX2t0XsfgUrh9bIZ3Mpjg7ByoKuEk5XcSodjqwSS6zLZpun11FL1bm/PwJihnuIQ
+ t8Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753218688; x=1753823488;
- h=mime-version:message-id:date:user-agent:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=02k7SvjRhCaME9MdUTVrzF7bGQou1g9Sbfk7ChPAhp4=;
- b=kTpu8dqBaC/q3m19Anr2Tr9+16l0LziyzeqryspzUnjs97z6z9VlB2fLTyggltPqBq
- hQBjP06ciJVfnpIDQja9X1HSr0vQHqywsB53oIxpzBe2RDyG4oChPos6UKZXXbEB+lxL
- KU4ymgslaJ+GuXCAk4HbAEGt4LCf2Dgj4hoaX93ItsjGnDGKQYmXI+2+cWM6N33bJ7qt
- UhxLk+W3Gu3Oo671MPXDP7t/AgGnz/l2yTAHxu3Svqbx57M8ChYJ9SeYxsLxbJl/7xiV
- 7lfydncBjZddwj0GOH2dR/gTZxGvRZpDMpTm5yixbvbINwLYqa6ynwcm5FVsQFwL9lyg
- FD0g==
+ d=1e100.net; s=20230601; t=1753219064; x=1753823864;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9Cexht8Ep7iJV5NQmaqpXtQhmXD0krdDQCxLXZ5pJ04=;
+ b=i1i/oeAy6B75r8NbvXp5bI/jiH/2Ku7Kfqp74whmc8Bu03ecXwd865JPgN/kFCw/mh
+ RBptd/SpxMPXisl7UdyqcNvjCqmaIFFpwqjjur+Pg+BusvQaUa9xMRYsMSwIXWRMD7Ye
+ CiTRlNdYL0JttrDNosmy+xIXGPsXazivj3b29NGlQmABUIDHil1kOJGt8QXmmIDaBMcq
+ P2N3cOXuIslc9+2i32PkseyOZjDseLa2oRLaXMbnGfrkIUwK59D11cryRzgeKVDwEqfd
+ x6aKxCSUPeorEcxumOLrhDrQWsZTJsoe9mn+MwvR7rtj8S6/6QTJgkIIPpjfC6QFJ397
+ RZow==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUQrJp1hNdOlpoCD8EU2zyTPew33pTct0Hc5l3ocr0B9i2b4Nu1/ZBrhiBEu4ePJ9aF/LG2U+83@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzot+AU43oGjV+26dx3FGgd8b2Dru4XnsxLYc7d0yajRSPnNckd
- 6MFxj+jzm8Qmm08995A88w6faGPK06qiOYLIOr2uFfspLrpJrwscu00VfqIuEGL3yWM=
-X-Gm-Gg: ASbGncucNataxCUIfdVRE4rqJT5p01ZDy5ieaVBqhpfIWMCUL6DkxfFiALaTRIJeW3/
- WVGIMS6P4nHnLwNw6ST3r4WQ4WVtqw+Aqn3KpRKlUyQLuBzCD2OrUu5cD26hZbK6lajDpe4ZnCq
- h3gVoWt5dQyb24krMSj9U7v8q930pJFZWCWqypWUUbwbjMpVoR7pgdtVwZD9zibquZxWSOQo4c0
- nKIa2tBcSJ3RWXxhx1PceKq6RRENd27EbzbrJbiRibfbgLJpW6bag3yqIUAbvzCU+GSIFgu6Dli
- tUSsbbem1a6SBO7YSyS0louLQWENOp3c7+37GkMO+azJLgm2Nbiu8Up2QXfvcZdiVl7q9joTqen
- eqblzjFKfhyS4fLtcvAlThg==
-X-Google-Smtp-Source: AGHT+IGm5emYv08P4JjpwU1ZgumGvll3d7SmkVojf9n8iNSrvMltAMegiN2W1Nn44QMhhj47I+Y0bA==
-X-Received: by 2002:a05:600c:1c8b:b0:456:c48:491f with SMTP id
- 5b1f17b1804b1-45868c8cef1mr2752905e9.10.1753218687966; 
- Tue, 22 Jul 2025 14:11:27 -0700 (PDT)
-Received: from hactar ([78.180.251.16]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b61ca4c754sm14493029f8f.59.2025.07.22.14.11.26
+ AJvYcCV6ujotziqcoQR+ODLhVr2hfcs36ru95Lj+xBUubHrhUGwGsHN2dxJcoIdAslzUMd5Pc04OCjB0BSOm@lists.freedesktop.org,
+ AJvYcCXw6sdjwf9mBHtbnWCllL+R2GfKrsYZmDOgaVeNBkLcOEwg19J09oZnvEMV11r9590y/lfqZRYYWWY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxFhY1vMfhrtHHvz1TzOAUHGbQYOC5AjkVqxvv8S+Z9MsPwfD3j
+ yvfC+LGgPa7X//Jjr0YrCckz9pPEzPzOuKPPFcbUp3NlQHMGJRkSE4M=
+X-Gm-Gg: ASbGncuNKJIrf5m8MeH1Yw5/LA2kGoreQjtGhhBldv7CziXb+PgV3iPUmpNvx03qISP
+ Q8UBYB8bvRithL/+EQwi2eiKLnKJs8SebYdDnbqm7KLn/C509hXVuG5OY1f2/XrOe6nMZKe7UP7
+ XG0/HUsSOlMb58vySan75UEuOCpM3WB6Dj1nyrj+5pRm91y6uPhPxtJr8EW4a6NH1TodVMG5DoF
+ g23Rpdxw9nc5Lmk8CJ956t2R6uyS2mwT9o/bIxbnHS1bJy3mh0qD+PKyvAyu2+omlG0LwgoZQKK
+ 4T5w2BipB5Y4QCpCrlGaoqyoATgGl4HZ1ilqd5irGAA/yiP8etSsxu8U2L428WmpJ2qfx8HiSv4
+ AiySKYsjC3wEhEQ8+e7I2mKYj5xFs0A==
+X-Google-Smtp-Source: AGHT+IE/MpJ1aJEcf6uIJ+8Or+5rNscHlCsMb7jqpnefW/nDyf5wJzo0n/quIZ7eod05PIUmZvDb/A==
+X-Received: by 2002:ad4:5ba7:0:b0:6e8:fee2:aae2 with SMTP id
+ 6a1803df08f44-70700672aebmr3725206d6.9.1753219064144; 
+ Tue, 22 Jul 2025 14:17:44 -0700 (PDT)
+Received: from ise-alpha.. ([2620:0:e00:550a:642:1aff:fee8:511b])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-7051ba6b0fasm54823786d6.65.2025.07.22.14.17.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jul 2025 14:11:27 -0700 (PDT)
-From: Koorosh Lahijani <kooroshlahijani@gmail.com>
-To: Sean Paul <sean@poorly.run>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: Converting dev_* to drm_* in amdgpu
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Wed, 23 Jul 2025 00:11:25 +0300
-Message-ID: <87tt34aq2q.fsf@gmail.com>
+ Tue, 22 Jul 2025 14:17:43 -0700 (PDT)
+From: Chenyuan Yang <chenyuan0y@gmail.com>
+To: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ jessica.zhang@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ tglx@linutronix.de, krzysztof.kozlowski@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Chenyuan Yang <chenyuan0y@gmail.com>
+Subject: [PATCH] drm/msm/dpu: Add a null ptr check for
+ dpu_encoder_needs_modeset
+Date: Tue, 22 Jul 2025 16:17:40 -0500
+Message-Id: <20250722211740.3697191-1-chenyuan0y@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,19 +92,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The drm_atomic_get_new_connector_state() can return NULL if the
+connector is not part of the atomic state. Add a check to prevent
+a NULL pointer dereference.
 
-I'm Koorosh a computer engineering student, I like to start learning
-kernel development and I'm interested in the Linux graphics stack.
+This follows the same pattern used in dpu_encoder_update_topology()
+within the same file, which checks for NULL before using conn_state.
 
-I like to take up the task of converting the dev_* logging macros to
-their drm_* counterparts if this change is wanted in amdgpu driver.
+Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+Fixes: 1ce69c265a53 ("drm/msm/dpu: move resource allocation to CRTC")
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-One small question about the task, it is mentioned in
-linux/Documentation/gpu/todo.rst:217 that the reason for using dev_*
-macros is differentiating between instances of the same driver, should I
-do anything special on the format string part for this or leaving it to
-the first argument of drm_* macros is enough?
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index c0ed110a7d30..4bddb9504796 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -729,6 +729,8 @@ bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_st
+ 		return false;
+ 
+ 	conn_state = drm_atomic_get_new_connector_state(state, connector);
++	if (!conn_state)
++		return false;
+ 
+ 	/**
+ 	 * These checks are duplicated from dpu_encoder_update_topology() since
+-- 
+2.34.1
 
-Regards,
-Koorosh
