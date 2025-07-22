@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE46FB0DF0B
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 16:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A05B0DF16
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 16:42:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B40C10E6BE;
-	Tue, 22 Jul 2025 14:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 337C710E6D0;
+	Tue, 22 Jul 2025 14:41:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from srv01.abscue.de (abscue.de [89.58.28.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE3C210E6BB
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:41:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B31010E6B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 14:41:44 +0000 (UTC)
 Received: from srv01.abscue.de (localhost [127.0.0.1])
- by spamfilter.srv.local (Postfix) with ESMTP id 967EE1C06A3;
- Tue, 22 Jul 2025 16:41:37 +0200 (CEST)
+ by spamfilter.srv.local (Postfix) with ESMTP id 77F6D1C00FF;
+ Tue, 22 Jul 2025 16:41:41 +0200 (CEST)
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on abscue.de
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
  autolearn_force=no version=4.0.1
 Received: from fluffy-mammal.metal.fwg-cag.de (unknown
  [IPv6:2001:9e8:cdcb:3c00:ce39:8bff:5db4:1ef8])
- by srv01.abscue.de (Postfix) with ESMTPSA id BCD851C0628;
- Tue, 22 Jul 2025 16:41:36 +0200 (CEST)
+ by srv01.abscue.de (Postfix) with ESMTPSA id 679421C0680;
+ Tue, 22 Jul 2025 16:41:37 +0200 (CEST)
 From: =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>
-Date: Tue, 22 Jul 2025 16:41:04 +0200
-Subject: [PATCH v2 02/15] dt-bindings: display: sprd: add memory-region
- property
+Date: Tue, 22 Jul 2025 16:41:05 +0200
+Subject: [PATCH v2 03/15] dt-bindings: display: sprd: allow attaching a DSI
+ panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250722-ums9230-drm-v2-2-054276ec213d@abscue.de>
+Message-Id: <20250722-ums9230-drm-v2-3-054276ec213d@abscue.de>
 References: <20250722-ums9230-drm-v2-0-054276ec213d@abscue.de>
 In-Reply-To: <20250722-ums9230-drm-v2-0-054276ec213d@abscue.de>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -59,35 +59,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Explain that the DPU node supports a memory-region property that can be
-used to describe an initial framebuffer set up by the bootloader,
-usually in order to create a passthrough mapping for this framebuffer
-when the IOMMU is used.
+Add a DSI output port and include common DSI controller bindings in the
+bindings for the Unisoc DSI controller.
 
 Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
 ---
- .../devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml        | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../display/sprd/sprd,sharkl3-dsi-host.yaml        | 27 ++++++++++++++++------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
-index 7f34652080b22e7b7072a709fd390a72375110ef..fa9ad2600f150e1023606898322a1a7b4675bab3 100644
---- a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
-+++ b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml
-@@ -48,6 +48,14 @@ properties:
-   iommus:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
+index 71abbc2de8dbb1b674f151a87490c865b187fdd0..7da68eb026b97932515b470764fa3948104db4e8 100644
+--- a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
++++ b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
+@@ -46,12 +46,22 @@ properties:
+         const: 0
  
-+  memory-region:
-+    maxItems: 1
-+    description:
-+      A phandle to the framebuffer region configured by the bootloader. This
-+      can be used together with an iommu-addresses property on the reserved
-+      memory region to create an initial passthrough mapping for the boot
-+      splash framebuffer.
+       port@0:
+-        type: object
+-        description:
+-          A port node with endpoint definitions as defined in
+-          Documentation/devicetree/bindings/media/video-interfaces.txt.
+-          That port should be the input endpoint, usually coming from
+-          the associated DPU.
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++            description: The input endpoint, usually connected to the DPU
 +
-   port:
-     type: object
-     description:
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++            description: The output endpoint, usually connected to the panel
+ 
+     required:
+       - "#address-cells"
+@@ -60,6 +70,9 @@ properties:
+ 
+     additionalProperties: false
+ 
++allOf:
++  - $ref: /schemas/display/dsi-controller.yaml#
++
+ required:
+   - compatible
+   - reg
+@@ -68,7 +81,7 @@ required:
+   - clock-names
+   - ports
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
 
 -- 
 2.50.0
