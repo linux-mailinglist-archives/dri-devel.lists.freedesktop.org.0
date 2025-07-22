@@ -2,87 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941CCB0D2F5
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2162B0D33F
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:36:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31C9410E5EF;
-	Tue, 22 Jul 2025 07:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1BEB10E5F0;
+	Tue, 22 Jul 2025 07:36:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="iSOav6Ln";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="Y1Jg2QXw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.64.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C31F310E5EF;
- Tue, 22 Jul 2025 07:29:12 +0000 (UTC)
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.73.137])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42F7210E5F0;
+ Tue, 22 Jul 2025 07:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1753169326;
- bh=x+S0lLyonKMBOYVe3hwfq+3jtrctPFlVfJ/rovDXpoI=;
+ s=onoh2408; t=1753169747;
+ bh=1DFykB4IGMZc95pr0nP6WV8K6S5/SNh6P26mZWnTYNc=;
  h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=iSOav6Lng8FvoeHsQ5EaVq6WcOa5VBdkUBs1J0knzzqJJoZedNzoi3UQP/bUqJgVD
- qDSakpFzr8gZoLZolGbS+MhAHK9kIin0sv/jrsFd46jFgViG1OjMYp419ZWG52kfaE
- 7IToGnzVtYGu2GIHC99N4FKROLGkdjW+xjWoh/Rw=
-X-QQ-mid: zesmtpip3t1753169263t53df68e6
-X-QQ-Originating-IP: rTOvj0yplF8v1TzV+LE7s5Wipo1URwqutr9CN7Z1bPc=
+ b=Y1Jg2QXwqu0x2BRg/T3WYlXX/ZLkVKX/ZLLlKTP9+oJExjNwpX4RNx/xk1oj9Xg3t
+ RA2PQJchG9V//6Uxp00RUEwHbprhmM5uYmBf7O8fwyqG4YAmxLFjs5UDVO3GJzb9aY
+ CTE6+pHuGh3QMLwCi1DY66kRiSgUQRIPa61jVQaE=
+X-QQ-mid: zesmtpip2t1753169680t1d8848d9
+X-QQ-Originating-IP: /2Vqiv1DKGDiDTOeHrTcoDDvJdzpiY2SWG31K/OjoKo=
 Received: from avenger-e500 ( [localhost]) by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 22 Jul 2025 15:27:37 +0800 (CST)
+ id ; Tue, 22 Jul 2025 15:34:34 +0800 (CST)
 X-QQ-SSF: 0002000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 4379188185935626122
+X-BIZMAIL-ID: 12305455310709652104
 EX-QQ-RecipientCnt: 64
 From: WangYuli <wangyuli@uniontech.com>
-To: seanjc@google.com, pbonzini@redhat.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, hpa@zytor.com, dave@stgolabs.net,
- jonathan.cameron@huawei.com, dave.jiang@intel.com,
- alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
- dan.j.williams@intel.com, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- airlied@gmail.com, simona@ffwll.ch, marcin.s.wojtas@gmail.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, arend.vanspriel@broadcom.com,
- ilpo.jarvinen@linux.intel.com, andriy.shevchenko@linux.intel.com,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, jgross@suse.com,
- sstabellini@kernel.org, oleksandr_tyshchenko@epam.com,
- akpm@linux-foundation.org
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, wangyuli@uniontech.com,
- ming.li@zohomail.com, linux-cxl@vger.kernel.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- netdev@vger.kernel.org, kvalo@kernel.org, johannes.berg@intel.com,
- quic_ramess@quicinc.com, ragazenta@gmail.com,
- jeff.johnson@oss.qualcomm.com, mingo@kernel.org, j@jannau.net,
- linux@treblig.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, xen-devel@lists.xenproject.org,
- shenlichuan@vivo.com, yujiaoliang@vivo.com, colin.i.king@gmail.com,
- cvam0000@gmail.com, zhanjun@uniontech.com, niecheng1@uniontech.com,
- guanwentao@uniontech.com, wangyuli@deepin.org
-Subject: [PATCH v3 0/8] treewide: Fix typo "notifer"
-Date: Tue, 22 Jul 2025 15:27:34 +0800
-Message-ID: <576F0D85F6853074+20250722072734.19367-1-wangyuli@uniontech.com>
+To: wangyuli@uniontech.com
+Cc: airlied@gmail.com, akpm@linux-foundation.org, alison.schofield@intel.com,
+ andrew+netdev@lunn.ch, andriy.shevchenko@linux.intel.com,
+ arend.vanspriel@broadcom.com, bp@alien8.de,
+ brcm80211-dev-list.pdl@broadcom.com, brcm80211@lists.linux.dev,
+ colin.i.king@gmail.com, cvam0000@gmail.com, dan.j.williams@intel.com,
+ dave.hansen@linux.intel.com, dave.jiang@intel.com, dave@stgolabs.net,
+ davem@davemloft.net, dri-devel@lists.freedesktop.org, edumazet@google.com,
+ gregkh@linuxfoundation.org, guanwentao@uniontech.com, hpa@zytor.com,
+ ilpo.jarvinen@linux.intel.com, intel-xe@lists.freedesktop.org,
+ ira.weiny@intel.com, j@jannau.net, jeff.johnson@oss.qualcomm.com,
+ jgross@suse.com, jirislaby@kernel.org, johannes.berg@intel.com,
+ jonathan.cameron@huawei.com, kuba@kernel.org, kvalo@kernel.org,
+ kvm@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux@treblig.org,
+ lucas.demarchi@intel.com, marcin.s.wojtas@gmail.com, ming.li@zohomail.com,
+ mingo@kernel.org, mingo@redhat.com, netdev@vger.kernel.org,
+ niecheng1@uniontech.com, oleksandr_tyshchenko@epam.com, pabeni@redhat.com,
+ pbonzini@redhat.com, quic_ramess@quicinc.com, ragazenta@gmail.com,
+ rodrigo.vivi@intel.com, seanjc@google.com, shenlichuan@vivo.com,
+ simona@ffwll.ch, sstabellini@kernel.org, tglx@linutronix.de,
+ thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com,
+ wangyuli@deepin.org, x86@kernel.org, xen-devel@lists.xenproject.org,
+ yujiaoliang@vivo.com, zhanjun@uniontech.com
+Subject: [PATCH v3 1/8] KVM: x86: Fix typo "notifer"
+Date: Tue, 22 Jul 2025 15:34:24 +0800
+Message-ID: <7F05778C3A1A9F8B+20250722073431.21983-1-wangyuli@uniontech.com>
 X-Mailer: git-send-email 2.50.0
+In-Reply-To: <576F0D85F6853074+20250722072734.19367-1-wangyuli@uniontech.com>
+References: <576F0D85F6853074+20250722072734.19367-1-wangyuli@uniontech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MTbLGNmJundR9k3L4hhUbJN8ObUlVPA7XbHV14TgBBAfxrpD5Ypbo40l
- nZrsDOgyPnf+NL/d6EzXUG1uHE8kpUFk4fTguLEcOua3KIz0fHzkWIXjeg75SiRUq8fQJZb
- 4AXg4eHkptFUHnf8Cl/aG11dJbDqlLM/nD0TyKENAY5EOl1zEXtVdQ6Az1SAxKfKubcjCPJ
- siUzVVUy6TrmUKgn1UZFv4oFu8Ogf9P/pyUjL1iGIu30Q5a+x5QBj49MkkhDpG3Jf5uN0VE
- 90Lks4XTwRf+sTGUF3tL0Mrjr8aKesaBEeYO8K57eFxWJzgaFMtabjmM8tUeQ+rwxDoGPZS
- BUh9+KumoBYbofbWlmPrTaw2JNxyNGc+kQIPnmgG2xhdrFzaqja82U6LNKT6lNJgSPa6QKi
- sbYd7aOz/ZlcElDchI/1DCX7p7QYoUjsR41qAmK+VdTBj3WOL/bT5EQKFmTC2m6fnqtnpUc
- Crir85ke2PU382sIy0bWV0TStHdF5gAzXSZcUxS4niYJO+KLX3PMqF0tlEvyP83ZAI7SjfL
- OJcrpbnacSYRRca1Nr9e8nWLrRs8jUoMozvDCUgvJAaBkRtf4k3DQtJLg9MVvSt6HPTLyeH
- ULP30KOejksCzSLDHPstq7KS9yorLr0ZquQbfDBtt1KH+HfQB8PFuyRrZ3jvCOmmGlLptOb
- KjQqoVTd99fUNDs+l02nUMVdT8d7Zd23pTZNBk9egvtJvC//zLYkts3W3q9ZIAX8y/fi5s7
- 0v7PoTJvQrdx8QOi0vMIHQJJrDoPEdEqt/wppDubBk8Xnp5C8MvwNS1909ey2kyl/B77Tt5
- BT8Juo/RxdrMmcjtSoPfqG1FKfybX8QKotz/VeDAv8e7DMFd1zxLDJeF20SLfqsTMGuZUoC
- 6kVwp0yq+7AbXGAiBgthExtXAlhuPc3P1Am0ZXGQE5JxN7cY87bn3If/xUI7jUiT1ebVuD3
- ov5V7roqN4vsj+XCo0PJWXkl/P5VXarQqAcDB2wjyHB2+oPMoBjhqeWRbFw9ptZJqxaLe2N
- JKDsDdu9AAiPtyVjqh44MjyRxEWJw3YNqVzsftpUANgDBrM39OVskcHdfgkWuWS5b/9TOB9
- 988tzCECp7Ls0QbVknq43QriqCApGGmhw==
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-XMAILINFO: NgaJKxROpQTjpj1dawfBAp5BSKyrzx32+b+lvgiwlIqmeOnmN6gaJuqT
+ kpPq0Tcw7FjvzfD1y4yMicxRTECnWGhe243OBCOx8JWCkHjVmCV0lj2Xz2WhGCyxSL75MqN
+ juLqDstsXTzc33gWmclCnZb/vwt5cxfXDIncp4wEzQ0NDhaCyTxsEsqGWRbWTX2slZ1z2Yy
+ RFOy8avkO3moq6N4JCG7enVElGkKifijhIwEp8EP9n40czRfGtDLVkijXF7pLHhw7daaybO
+ 0afXA4YR8+5A8ZSvooyf8jDET6QdgtuUl8cxmKADIkNQbLV0s20ruREzEgTs8+SLFjixcFs
+ xQDw39cadCJQ6k/Gh8uM5ahHYKHmoLPwX9SLZkn5ojEZC6ZVyF6cTBGIiYVe2sSmUtTeQAO
+ nfUfUrrpTtBM9i96G48SJiObIHL6F57CroFxye9WSPXvEkvuF/nG7AAo2Xze+B0zs15UFdD
+ 4B501bEOL39ZdD5b2C3JU8Dcm4usU5q/LInKoUfk4x9eSnueX8jrSnhNi4nWLOrIYw/jR/m
+ jY67P/6CkRlYZ0dqzJPWibJKRQ0Y7rh+gGuBVRPAfef7OHAfXYuyKv6acBFbpq18C38U5cn
+ z9Zd5/JFd7hta74MCQrcrLTKiDhouCxVWUN9BHvqyCX4I2bizlLwS94O2tjJYrl1PmmsvgK
+ uxvPWOH7FLeFiVDM7YUZWzIMenAsK21hn644n39QmyQh91BNxBQDsz4UbWK37qoQK3+JT2d
+ MduKFEFT1DDJpNB2HMyMAtNO7UCToLbn/3+T0+mZ84bB0Q405t22J5LmddoskZn/HT2M0Q9
+ EcetZVVDyOOM+3gNrh3TZpXPVrIjZHHX/q+fe1SWLtwlqauJEmSbTZkLHqEPZOooUOgxBUa
+ mdSEyATRlytmE6+ppkWvxz2KZeGHjBCSp7NuP3/0m8fI7AU2f7hnp/mv9NNrzLXRoAzu/SM
+ SyF5icDmtTMGyMcEQqUThYyQspC9RIHWIBmUIo61NAhmXRZqlf/2BKrIKPB4mNOyEFYN68G
+ EyQCIp+FRUY9qAleIOnpCT+0W7BctHf4f5j6fzmgb5uqp5jCMhTTaUbQGfrBltB+wJJgwaO
+ n5De1kXZg+J1GTPt5CtLvs=
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,35 +100,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are some spelling mistakes of 'notifer' in comments which
-should be 'notifier'.
+There are some spelling mistakes of 'notifer' which should be 'notifier'.
 
-Fix them and add it to scripts/spelling.txt.
-
-WangYuli (8):
-  KVM: x86: Fix typo "notifer"
-  cxl: mce: Fix typo "notifer"
-  drm/xe: Fix typo "notifer"
-  net: mvneta: Fix typo "notifer"
-  wifi: brcmfmac: Fix typo "notifer"
-  serial: 8250_dw: Fix typo "notifer"
-  xen/xenbus: Fix typo "notifer"
-  scripts/spelling.txt: Add notifer||notifier to spelling.txt
-
- arch/x86/kvm/i8254.c                                        | 4 ++--
- drivers/cxl/core/mce.h                                      | 2 +-
- drivers/gpu/drm/xe/xe_vm_types.h                            | 2 +-
- drivers/net/ethernet/marvell/mvneta.c                       | 2 +-
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c | 2 +-
- drivers/tty/serial/8250/8250_dw.c                           | 2 +-
- include/xen/xenbus.h                                        | 2 +-
- scripts/spelling.txt                                        | 1 +
- 8 files changed, 9 insertions(+), 8 deletions(-)
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
 ---
-Changelog:
- *v1->v2: Break patch v1 up into one-patch-per-subsystem.
-  v2->v3: Remove links to my patch v1 and add some "Reviewed-by" tags.
+ arch/x86/kvm/i8254.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/arch/x86/kvm/i8254.c b/arch/x86/kvm/i8254.c
+index 739aa6c0d0c3..9ff55112900a 100644
+--- a/arch/x86/kvm/i8254.c
++++ b/arch/x86/kvm/i8254.c
+@@ -641,7 +641,7 @@ static void kvm_pit_reset(struct kvm_pit *pit)
+ 	kvm_pit_reset_reinject(pit);
+ }
+ 
+-static void pit_mask_notifer(struct kvm_irq_mask_notifier *kimn, bool mask)
++static void pit_mask_notifier(struct kvm_irq_mask_notifier *kimn, bool mask)
+ {
+ 	struct kvm_pit *pit = container_of(kimn, struct kvm_pit, mask_notifier);
+ 
+@@ -694,7 +694,7 @@ struct kvm_pit *kvm_create_pit(struct kvm *kvm, u32 flags)
+ 
+ 	pit_state->irq_ack_notifier.gsi = 0;
+ 	pit_state->irq_ack_notifier.irq_acked = kvm_pit_ack_irq;
+-	pit->mask_notifier.func = pit_mask_notifer;
++	pit->mask_notifier.func = pit_mask_notifier;
+ 
+ 	kvm_pit_reset(pit);
+ 
 -- 
 2.50.0
 
