@@ -2,56 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B414B0D6C1
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 12:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0CC5B0D74C
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 12:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F052610E28D;
-	Tue, 22 Jul 2025 10:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C31BD10E10E;
+	Tue, 22 Jul 2025 10:27:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MXOaafsc";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Ftjrvg9T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3E1E10E28D
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 10:04:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753178674; x=1784714674;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=9u7YXSMqXgwEJA3MP5jCiJu6R8QpV+612aT7/Wz7sRQ=;
- b=MXOaafscYqu58HIC8R4dfHW5L9KqvGNQRJ1FGQiIUy2zazQFKCtaljcU
- OUXk2E6nJm1McAhM1SKbvXwPAQ0gAT3LezvXwBS3ztW92aoryo1RFiYgE
- tWIF1T6s5DhN7Cct72C2zlMXdvTvOcItrL0k8pbkRsdzkfp2O+54NYUX6
- CQZZK2KhxwvM5yivPWOsIvUi440lDiPWwL4fVBp0/I7cgFwk/Dy2hYPgb
- 4fivlcGkYXXyfj3tDPuMSsXcW3jwXOM3C79cdiRgJ5BQ9g2YhF3pZY3CX
- FyXbVaI6FXe839zxTzTkhTNLIKy4e7SgMcOe5ZAauKTnZS2rqQcoIthH+ g==;
-X-CSE-ConnectionGUID: XphYgbLeRe2DBcawCobqKQ==
-X-CSE-MsgGUID: Aw+X1LLWQKyZlzTCg9fPbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55265640"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="55265640"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2025 03:04:31 -0700
-X-CSE-ConnectionGUID: rYgAIWQDRv2SUOtYs7LeDg==
-X-CSE-MsgGUID: h7jRy9CJQPCC9KcXmrlnOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; d="scan'208";a="159416282"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2025 03:04:30 -0700
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: jeff.hugo@oss.qualcomm.com, lizhi.hou@amd.com,
- karol.wachowski@linux.intel.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH] MAINTAINERS: Add new intel_vpu maintainer
-Date: Tue, 22 Jul 2025 12:04:21 +0200
-Message-ID: <20250722100421.500984-1-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.45.1
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0A4CD10E10E
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 10:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=lB
+ XlC4JtAXtnVPhmyXizUjaqmuQupzk/Y7wvzszghCU=; b=Ftjrvg9TBeiuY24kr7
+ BGQ62H4MvR6tVQkYOJiOlnGEv1bDbl3naT7Pbx++Q6pjyNY0/ONlaN6vuDk5gGYQ
+ Rmswb/dBiRf4JKdysheR1DVDjygVozlnPILIAXfHY7NHf8xDJC/6H2s6qfJzqcu0
+ eS53lXHoybyQVkz4nARY6kPbI=
+Received: from localhost.localdomain (unknown [])
+ by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id
+ _____wDnt9KGZ39oRKU8Gg--.16241S2; 
+ Tue, 22 Jul 2025 18:27:20 +0800 (CST)
+From: oushixiong1025@163.com
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH] drm/shmem-helper: Remove duplicate dma_resv_assert_held
+Date: Tue, 22 Jul 2025 18:27:17 +0800
+Message-Id: <20250722102717.2247698-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDnt9KGZ39oRKU8Gg--.16241S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWrZFWfuFWDKry7Kr48Cw4xCrg_yoW8JrW5pF
+ ZrA34UKrW8KFZ0qFZ7Zws7Aa45CanaqFW0qFW5W3y3uFn7JFnrtryFkFyDZFy7ArW7ur1Y
+ qryDCFWrCryUKF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UWlk-UUUUU=
+X-Originating-IP: [116.128.244.169]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXQWSD2h-YTh75QAAsV
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,25 +59,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Karol as a new intel_vpu maintainer.
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+The call to dma_resv_assert_held(shmem->base.resv) is duplicated
+in the vmap() and vunamp() function.
+
+Remove the duplicate call to clean up the code.
+
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7e7515a412e9d..22dc118f43d89 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7386,6 +7386,7 @@ F:	include/linux/power/smartreflex.h
- DRM ACCEL DRIVERS FOR INTEL VPU
- M:	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
- M:	Maciej Falkowski <maciej.falkowski@linux.intel.com>
-+M:	Karol Wachowski <karol.wachowski@linux.intel.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 8ac0b1fa5287..10e20209f3b2 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -355,8 +355,6 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+ 	} else {
+ 		pgprot_t prot = PAGE_KERNEL;
+ 
+-		dma_resv_assert_held(shmem->base.resv);
+-
+ 		if (refcount_inc_not_zero(&shmem->vmap_use_count)) {
+ 			iosys_map_set_vaddr(map, shmem->vaddr);
+ 			return 0;
+@@ -415,8 +413,6 @@ void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+ 	if (drm_gem_is_imported(obj)) {
+ 		dma_buf_vunmap(obj->dma_buf, map);
+ 	} else {
+-		dma_resv_assert_held(shmem->base.resv);
+-
+ 		if (refcount_dec_and_test(&shmem->vmap_use_count)) {
+ 			vunmap(shmem->vaddr);
+ 			shmem->vaddr = NULL;
 -- 
-2.45.1
+2.25.1
 
