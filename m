@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A15FB0D298
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0448DB0D29A
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 09:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 572E910E398;
-	Tue, 22 Jul 2025 07:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D10F10E5F2;
+	Tue, 22 Jul 2025 07:22:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Mf4mkhjW";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jA2DS2cn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F23410E398
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:22:44 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56LIg2dA013033
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:22:43 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76B7010E5EF
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:22:47 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56LMCa5B012550
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:22:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ahrBulyU4QSMtpu0KlTx4RsdzzFchdneJBpLgEVdzls=; b=Mf4mkhjWYpBhxUp7
- a1GWkk/1Sv2f1IR7Iijvav/IbpXYD7zl+Jo8OcvO0tyel+KNhiQ93U2InnQPtfIk
- CuN5YjbpkNKHoUWfof85UgROFs90SHnTP/3XKJIxvtbwZPglGERQHUUU9KJ+2RC+
- nauv7A1M/O5JwyDto5zKuniSqra7m3bSubptfQCXzBZTXz9n9zk1c+/TCcdD+HUi
- +R1jueB7H/QyPTZi36qft4zopumh/helhl1mUJRJZyW1UDvjhzMiMYIbPO7JDoqK
- 8U2PsC4hGIXjWnXnXdVmQYhA+gsYaQ0bG3DGISeIbbg17Rg4H1yxwpQbRH6iQniM
- 0g18qA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 481g3eka19-1
+ 95HJf98jrYhdOK50h5t/HTsn+deQ8bx6DN868zwIVWU=; b=jA2DS2cnWB8l7V+7
+ ogovGQRFNcB+J1U2DHnr6lCDgPuP+LaiSlHoY9OGragpXdHErAz5aooOIGibHDz7
+ lAxWJCWTqQVC9Fy4lIVdLmzs7AeNn4qZ6dMDJu5LahAW3WMrtU6zykcMOJu3e9ye
+ YnnG2YS0+AHnYDN8V1rDbU8WAC427KpQ/znWKBfUhnoRGrdP9z1E0DwwmPjsjlGn
+ g0WK5/4Dh2bR0x6Nq3PjEyY5SPi71obxzceQpxdnremrXZkrG7ij7lhgJlZbWltG
+ F7Dq9usQPg2ntgfCtsggjoyMfyIbrna6HZwrCZCrnASStYPSCbSajRAzBALJ9cWn
+ AcEWrw==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 481qh6js9w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:22:43 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id
- 98e67ed59e1d1-3131cf89075so1363618a91.2
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 00:22:43 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 07:22:46 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-23c6ff64067so1614915ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 00:22:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753168958; x=1753773758;
+ d=1e100.net; s=20230601; t=1753168965; x=1753773765;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ahrBulyU4QSMtpu0KlTx4RsdzzFchdneJBpLgEVdzls=;
- b=xIyu7eH/S6djS+2h4aQoKnQ4cV3vSFuAvDDq/DcIx70dIX3Zituq7yrw2K2p1Iydai
- OQLR/kMO21WBdzIGf67Ultd0b8k5/SWMDrOX66I85/Mmqyc9/dVVZGSLPn6jJeOxqs9u
- XYgJfQpbKiCs5bIJz2Yb0BpC4Qjg4kekLh+ik4QThec3QLq75jxYI6mnEcJ54hnn2xWq
- AOjIql85cJTqW0ztBzrde8cW+Gl5pOYCBis84hAKKvUb4d8i3yISpZILvCpuxSz88NCb
- 2DDLrClmpmbP7VEMgg/KxEdZ+yP9d79N32GTeyP4aFrqo+zpYGBybrW8b6uz2rnT3+4q
- P85w==
+ bh=95HJf98jrYhdOK50h5t/HTsn+deQ8bx6DN868zwIVWU=;
+ b=kJRNDSZImVadlmPPE7ZUKfk2ZlTrmpYL5iHFTwKi6ilCOT6B00cQPCsnldoTGiW6BH
+ BUo3F3jtXBKapujGTOzqWHKvHEFLtkDcXlYSXckmwFYCjlfvXoFcW3MMUoaZ9sFRy7On
+ wCa3EYb9vwpVl7Lsn09Qaq/iwAHTKScT6L3qgMNreS1vqH+G2f9dECDiXDYnDxjw5eo9
+ I6MrMrSgOtAK669xOds9ctzecBCByei7mcJjllhL8k1F9SZf7Tt5nCS3Ww/jwfojDUiA
+ 2yQf3WVGGi/RmonGNg3qWjC1ozAitOH9fJ8MndKE2kR5vvL3OI0O4nbRp5FVXJ4Rkrp9
+ bJ6g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXKVdvV6yS7wXfjRR9Gp2eF1o0OLX/oT5VRCzTBoduxOOR0pUASJBb53+Vg7nnsXX6ZyJq6KQgd90Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwwjrWmW2+j2W7SxItatnGVrOe00KZrP25BV1Z2TZ2HLJsvJZVF
- AN3GkN2bfAbYdB+8Rj4V+TxZDj8lykVxQfx7yQdgX0jPEzAdHg6i0qoJbUC60ZusDY+nbNaUKQt
- CfIup2lCdUnMzKVytoVwJODJhzJ9q+6XYxQFGYGVTB5CjicFQAt44JZdTCKCHvabOeYEqVIU=
-X-Gm-Gg: ASbGncvB+Xv9GreFIOukfWM4RR+qb9kTAqp48vOP/enb9E+0M009b3bC6czUT1E9VCs
- iydxJOij48f9csrMAZg6z0h7My7T9IPFVmAJCQoG5x+E7gtInYDxBpHnQAxBvzHlrp4cuiutpnu
- NX8h/PYoYIyPBsvciojOB0nqbjL/8iO4xAj/mHzhBG/XZdOrKaF7GWxktFWqeaQp+gKSSepIuSA
- TTeNBlcOMPMUTI5fdCUaflYXbInfYs6rnywAPNvUuLNAXR8GlRk5VUfac7eWmtDhP4ReqJgvMCT
- 0aGuMHmi56j2Hmi/2VWXC2dZvFBHX8r48jDjtMnCWA+pC8RSXOwoSTz347a6P/5o4JLkFeRgZ8o
- m+E5OP/woh+btlGmYS3osS4sSj5EF/7BP/bdicJouSC+nhu5/Q/12dK+f
-X-Received: by 2002:a17:90b:1cc3:b0:311:c5d9:2c8b with SMTP id
- 98e67ed59e1d1-31c9e7767fbmr13067011a91.5.1753168958323; 
- Tue, 22 Jul 2025 00:22:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEWj61R7/p9w0dDf3iRKZ2LE3OM4e0kwtzjTJU0dUunJEF/B4dIihVqiHHAlGGrq42tM3d51g==
-X-Received: by 2002:a17:90b:1cc3:b0:311:c5d9:2c8b with SMTP id
- 98e67ed59e1d1-31c9e7767fbmr13066994a91.5.1753168957893; 
- Tue, 22 Jul 2025 00:22:37 -0700 (PDT)
+ AJvYcCUwcjfc0kzZEi822+wxD5wHb3WBSd0JuGpwwpTg1B88bf9ZyOnnm+BkAfXym7fXsWWlyU0vKzlr5IY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJ3I4tUPmvK3c8yc5P6ArJ0sZyoshjpaPpLBuoKb63NU41Jsuu
+ PoXZGkKr9ZcZhwGbkCv7SWdv6ttkLx9G1zGVgRduJtVlVAF6xHh7eplPfLXyyHP/mhRvqRlewHq
+ sQyIgmrKS6BoEpDi2pD538XZWBSVtyQJLLZjprAE9DKOpri+16z2SlrfuwZyy3fBrztD3Tns=
+X-Gm-Gg: ASbGncvg1FylB/Yt5Rk8GE8uZ7U+z476LxmzEqGOIJ5wgkiV4Ou29XjIIsBVZOZWeGk
+ rnNDmxDypWMoySa5e1g3EU2IRr5ctuOVqBBt40HPKJ14Xz+KWLMT5BozV9Z9quCtxupTXR1aAa0
+ jYMIx81wzY0T2bxPoYyhlzDtss2Kosi5SynsayRnhCKPjf9hfpJapoVRj89O79AgwFoEYZYmNU8
+ g1hGv4ZL6c/3+6qyU/DjcKq6f8xurz0LDq9O4UlZ7y6SKIM1bEoTR1gyvGKBEZtXWVsAQOu5i0H
+ VXgWMSukLq1DcMXklHj1gb77w25L0mik3vkyq8RWh+MaokGVjD4e+LNP21dA/YblTpt/MKXuNI3
+ 7F7sv7c7JUGbJ32nPfpON8Vc/oFl8OYrBSSukSeuOvhcfnthT4s30kaq8
+X-Received: by 2002:a17:902:f547:b0:234:ba37:87a3 with SMTP id
+ d9443c01a7336-23e24ecc5bdmr132166305ad.3.1753168965173; 
+ Tue, 22 Jul 2025 00:22:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG70wgcxv2Og+kPKUjYru/eTK2MCHabUKt0QBDH4BfkImjNq4j8b/P4oRqYxZYzHj6XtGxz9w==
+X-Received: by 2002:a17:902:f547:b0:234:ba37:87a3 with SMTP id
+ d9443c01a7336-23e24ecc5bdmr132166155ad.3.1753168964744; 
+ Tue, 22 Jul 2025 00:22:44 -0700 (PDT)
 Received: from sziotdisp01-gv.qualcomm.com.ap.qualcomm.com
  (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-31cc3e45e6csm7490753a91.3.2025.07.22.00.22.31
+ 98e67ed59e1d1-31cc3e45e6csm7490753a91.3.2025.07.22.00.22.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Jul 2025 00:22:37 -0700 (PDT)
+ Tue, 22 Jul 2025 00:22:44 -0700 (PDT)
 From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Date: Tue, 22 Jul 2025 15:22:03 +0800
-Subject: [PATCH v2 02/13] dt-bindings: phy: Add binding for QCS615
- standalone QMP DP PHY
+Date: Tue, 22 Jul 2025 15:22:04 +0800
+Subject: [PATCH v2 03/13] dt-bindings: phy: qcom,msm8998-qmp-usb3-phy:
+ support dual TCSR registers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250722-add-displayport-support-for-qcs615-platform-v2-2-42b4037171f8@oss.qualcomm.com>
+Message-Id: <20250722-add-displayport-support-for-qcs615-platform-v2-3-42b4037171f8@oss.qualcomm.com>
 References: <20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com>
 In-Reply-To: <20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -104,36 +104,35 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  fange.zhang@oss.qualcomm.com, quic_lliu6@quicinc.com,
  quic_yongmou@quicinc.com, Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1753168937; l=3578;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753168937; l=2537;
  i=xiangxu.yin@oss.qualcomm.com; s=20241125; h=from:subject:message-id;
- bh=UDTnjCmveSMGSp/9NQ1xFqa1/QflcdbQxJ1GccXnTeo=;
- b=YoL+Xx1wzPD3/qIMkTLFdtwm8HNMkESmMYELfdTMUCrTewkhorshB/5RAVcHRq4SwdOiu3BPo
- lXKaRSJmwq6BcU6iUavW+f2u7KPzXVqQYTEjJo8QVt0uEvrlQAZKJks
+ bh=71nsNROW8nOruef5bHMWdW3ozXU/NjQImv6aKmL0T24=;
+ b=dLa0B1WM5pUjkW4SwnkHpZoEZpTLwSATWGvvZEls9+EyqvaTXc0lRt/0UyqWmrJRqq5wLe/z9
+ j/MpgPhJxb5CZpHDFqsNvkHX+TzWVnCqfLppugMnbDEfKk+5I/8/cZX
 X-Developer-Key: i=xiangxu.yin@oss.qualcomm.com; a=ed25519;
  pk=F1TwipJzpywfbt3n/RPi4l/A4AVF+QC89XzCHgZYaOc=
-X-Proofpoint-ORIG-GUID: 1gxma9mlcGnHfuDJrEGFZrGJWZ7vn2wK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDA1OSBTYWx0ZWRfX9dfkQa/8TXHo
- eEAg3AavzX2h57lzn6TMSJXfFkX0tI0PEJTSDP87RxgDdwAxPmhM4bLR0KE+m0AH8spD8qBdbv5
- ocZCQCfioDxiySlRL7mvUhuLWIhi4U11VUeGUV/9JyxUIXBVVC9R+Go9X4wAOxr/Vc3tDY2JK4g
- U+CAVCmpgPahnUzHfDTl5GOX8ZpMrltAmvwpDzH6oYUA4roBMN4rlq0CHRk/7sZE52IWY8f1YA3
- Dd+yqc4ATOMVSM8Y481qBi7KEKO7Gg7oqrLOqN5Gs+9oaRiWUT06CsQLhhzpDMW6v5mH4AJgdqC
- 9BTcvEpkD7YSDMH4XIPts9v46n97t9xPI7X4oB8p4LV4qG2uzx719297BPNuPinfehBV1BTztb8
- JSPThFBCLXjfC6TsoNaF91HPUeQ5/OGNUZqblgokzkCYlPHuA44bZdlZdBA+AWLwm43HGoAM
-X-Authority-Analysis: v=2.4 cv=Q+fS452a c=1 sm=1 tr=0 ts=687f3c43 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8
- a=VwQbUJbxAAAA:8 a=vvfQ0qTNUOrexlX-OJMA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22 a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-GUID: 1gxma9mlcGnHfuDJrEGFZrGJWZ7vn2wK
+X-Authority-Analysis: v=2.4 cv=CZ4I5Krl c=1 sm=1 tr=0 ts=687f3c46 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=nxDEYaoXc1MktuKintAA:9
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-ORIG-GUID: 17n3mABv9BuTY0KSiCwDEvVzwxUOByOT
+X-Proofpoint-GUID: 17n3mABv9BuTY0KSiCwDEvVzwxUOByOT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDA1OSBTYWx0ZWRfX7dCGqHjWIlub
+ Qh35OUHEUA+aKmpwoQ/zUAcClLq33as4EkXRNnIFckyQ5JjKCnu5mlesFDSuAF9bS/uzz2JUpkR
+ mlpXN4/oQRWqjaq7gHVQ1EyVnGS2EVDWIZf+3bz4StuFTzDVj25SlaGk1FyvTY3Ud6cD2yK/kwT
+ 6W2+DOajjZRy3QhA0G8IKosNKa8oIXjqhomsUkSwby1hunn+cJZ49O5N36GALWelYpX6+efea0t
+ 2cJt3GXp5Oij2TacRDCRwq55jsrjZypZnuhrCVVxr9yjHcq8HB23WB5N7mUnisRv2LehOBroajB
+ o2K19apnJxVFa+slggPBoVkh3RBmqbev5sgpBcua/JOEAfE+ouq25ToH7sSg+wd7ctbtsy1bNeI
+ MhvDFINXcyiTnGJ1gLWl/MVjeJS6UqdJCJM9fgkcg3R9AFF4xh6e8K7iVRDscSwpFY6rBt9t
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-22_01,2025-07-21_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507220059
+ priorityscore=1501 suspectscore=0 mlxlogscore=999 impostorscore=0
+ clxscore=1015 mlxscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
+ bulkscore=0 spamscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507220059
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,137 +148,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce device tree binding documentation for the Qualcomm QMP DP PHY
-on QCS615 SoCs. This PHY supports DisplayPort functionality and is
-designed to operate independently from the USB3 PHY.
+Add support for specifying two TCSR register addresses in the
+qcom,tcsr-reg property to enable DP-only mode switching. This change
+maintains backward compatibility with the original single-register
+format.
 
-Unlike combo PHYs found on other platforms, the QCS615 DP PHY is
-standalone and does not support USB/DP multiplexing. The binding
-describes the required clocks, resets, TCSR configuration, and clock/PHY
-cells for proper integration.
+Also update #clock-cells and #phy-cells to <1> to support clock and PHY
+provider interfaces, respectively. This is required for platforms that
+consume the PHY clock and select PHY mode dynamically.
 
 Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
 ---
- .../bindings/phy/qcom,qcs615-qmp-dp-phy.yaml       | 111 +++++++++++++++++++++
- 1 file changed, 111 insertions(+)
+ .../bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml    | 28 +++++++++++++++++-----
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-dp-phy.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..17e37c1df7b61dc2f7aa35ee106fd94ee2829c5f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-dp-phy.yaml
-@@ -0,0 +1,111 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/qcom,qcs615-qmp-dp-phy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm QMP PHY controller (DP, QCS615)
-+
-+maintainers:
-+  - Vinod Koul <vkoul@kernel.org>
-+
-+description:
-+  The QMP DP PHY controller supports DisplayPort physical layer functionality
-+  on Qualcomm QCS615 SoCs. This PHY is independent from USB3 PHY and does not
-+  support combo mode.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - qcom,qcs615-qmp-dp-phy
-+
-+  reg:
-+    maxItems: 4
-+
-+  clocks:
-+    maxItems: 2
-+
-+  clock-names:
-+    items:
-+      - const: cfg_ahb
-+      - const: ref
-+
-+  clock-output-names:
-+    maxItems: 2
-+    description:
-+      Names of the clocks provided by the PHY.
-+
-+  qcom,tcsr-reg:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    items:
+diff --git a/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
+index 1636285fbe535c430fdf792b33a5e9c523de323b..badfc46cda6c3a128688ac63b00d97dc2ba742d6 100644
+--- a/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,msm8998-qmp-usb3-phy.yaml
+@@ -44,13 +44,21 @@ properties:
+   vdda-pll-supply: true
+ 
+   "#clock-cells":
+-    const: 0
++    oneOf:
++      - description: Set to 0 for legacy platforms without clock provider
++        const: 0
++      - description: Set to 1 to expose PHY pipe clock.
++        const: 1
+ 
+   clock-output-names:
+     maxItems: 1
+ 
+   "#phy-cells":
+-    const: 0
++    oneOf:
++      - description: Set to 0 for legacy platforms
++        const: 0
++      - description: Set to 1 to supports mode selection (e.g. USB/DP)
++        const: 1
+ 
+   orientation-switch:
+     description:
+@@ -59,11 +67,19 @@ properties:
+ 
+   qcom,tcsr-reg:
+     $ref: /schemas/types.yaml#/definitions/phandle-array
+-    items:
++    description: Clamp and PHY mode register present in the TCSR
++    oneOf:
 +      - items:
-+          - description: phandle to TCSR hardware block
-+          - description: offset of the DP PHY moode register
-+    description:
-+      DP PHY moode register present in the TCSR
-+
-+  resets:
-+    maxItems: 1
-+
-+  reset-names:
-+    items:
-+      - const: phy
-+
-+  vdda-phy-supply: true
-+
-+  vdda-pll-supply: true
-+
-+  "#clock-cells":
-+    const: 1
-+    description:
-+      See include/dt-bindings/phy/phy-qcom-qmp.h
-+
-+  "#phy-cells":
-+    const: 1
-+    description:
-+      See include/dt-bindings/phy/phy-qcom-qmp.h
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - clock-output-names
-+  - qcom,tcsr-reg
-+  - resets
-+  - reset-names
-+  - vdda-phy-supply
-+  - vdda-pll-supply
-+  - "#clock-cells"
-+  - "#phy-cells"
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,qcs615-gcc.h>
-+    #include <dt-bindings/clock/qcom,rpmh.h>
-+
-+    phy@88e9000 {
-+      compatible = "qcom,qcs615-qmp-dp-phy";
-+      reg = <0x088e9000 0x200>,
-+            <0x088e9400 0x10c>,
-+            <0x088e9800 0x10c>,
-+            <0x088e9c00 0x200>;
-+
-+      clocks = <&gcc GCC_AHB2PHY_WEST_CLK>,
-+               <&gcc GCC_USB3_SEC_CLKREF_CLK>;
-+      clock-names = "cfg_ahb", "ref";
-+      clock-output-names = "dp_phy_link_clk", "dp_phy_vco_div_clk";
-+
-+      qcom,tcsr-reg = <&tcsr 0xb24c>;
-+
-+      resets = <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
-+      reset-names = "phy";
-+
-+      vdda-phy-supply = <&vreg_l11a>;
-+      vdda-pll-supply = <&vreg_l5a>;
-+
-+      #clock-cells = <1>;
-+      #phy-cells = <1>;
-+    };
++          - items:
++              - description: phandle to TCSR hardware block
++              - description: offset of the VLS CLAMP register
+       - items:
+-          - description: phandle to TCSR hardware block
+-          - description: offset of the VLS CLAMP register
+-    description: Clamp register present in the TCSR
++          - items:
++              - description: phandle to TCSR hardware block
++              - description: offset of the VLS CLAMP register
++          - items:
++              - description: phandle to TCSR hardware block
++              - description: offset of the DP PHY mode register
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
 
 -- 
 2.34.1
