@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC878B0E46D
-	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 21:54:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35B6B0E470
+	for <lists+dri-devel@lfdr.de>; Tue, 22 Jul 2025 21:54:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513EC10E15A;
-	Tue, 22 Jul 2025 19:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD7310E700;
+	Tue, 22 Jul 2025 19:54:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OTkSwdlZ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="p7kOQl2S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0139E10E15A
- for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 19:54:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF1310E700
+ for <dri-devel@lists.freedesktop.org>; Tue, 22 Jul 2025 19:54:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1753214084;
- bh=yE8FP2dB5XJGvL/8C5raEX/QIQT7yEmjwtR6o2JvdoQ=;
- h=From:To:Cc:Subject:Date:From;
- b=OTkSwdlZMtfFENnUxJx3F2UDbuMZFafwndv5GqGePHeD7MraPK7g8dw3pvqFdQFFr
- pZbmKpoZnUe0qE51afm4imeM2c1+nIpHl+B0GUKuZE2SCqtcFXpRJLTDv1QGpfof/7
- pV/ouUvkkf8mgAns6DrGf+yv51JGr5acLRSYE9ptym7h2rdw/vaNdIK6Pr2M0Khglg
- 2ZEszpyDWZV1nZHyyYHqxe+9sY09AaFkx6UWSthhATE39L8BOSGPto1ADLTW/QeJut
- +LvN8Jm2vUuMvhr3hzb6tmYkqZWxEEVC9HdZghmntdiIdqgJ6Vm8VlenzG8SpqaEqn
- lyq0H/2pF42gQ==
+ s=mail; t=1753214088;
+ bh=mtENC6BN0sB5OMWMRTcHCpxBXeo+DFs033MQq3LZxKI=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=p7kOQl2S8BS6xzi9H9TX87Sesl7tBnlqiFPjyGB6+bKJhIsRDXr70YtrgaZEYYvqm
+ kIsUaeSfJ6rpEu/qc66dpipZjKzQoQlZVlF94uZ+N098LvDhN99qC+aJYZgSjSN7nr
+ rnOAT3okBISM8foU/FNtnPDgwV36RhHsJuX0zl0Pohn5X0SRn9vNrzN0yCn6Q04vwu
+ +lCKstrZi6iPwnPQfRrPWZcHXFJzo1nnHvWiXlfcYpZS75x2hAun6aamTNQ/uFkwN7
+ o3+L3Okt5aWBwXtZ36H+pit2EYf7c9h6DbSk2qmCxjRvhHfDkVGGNavvmluG7J7Ato
+ gw9tZq0DmXzGw==
 Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: detlev)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4A3BF17E0497;
- Tue, 22 Jul 2025 21:54:41 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id EA7F617E04D6;
+ Tue, 22 Jul 2025 21:54:44 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -52,10 +52,13 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Charles Keepax <ckeepax@opensource.cirrus.com>,
  Raag Jadav <raag.jadav@intel.com>, dri-devel@lists.freedesktop.org,
  linux-sound@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v2 0/3] Clean some logs on rockchip hdmi audio
-Date: Tue, 22 Jul 2025 15:54:34 -0400
-Message-ID: <20250722195437.1347865-1-detlev.casanova@collabora.com>
+Subject: [PATCH v2 1/3] drm/bridge: dw-hdmi-qp: Return 0 in audio prepare when
+ disconnected
+Date: Tue, 22 Jul 2025 15:54:35 -0400
+Message-ID: <20250722195437.1347865-2-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250722195437.1347865-1-detlev.casanova@collabora.com>
+References: <20250722195437.1347865-1-detlev.casanova@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,26 +76,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HDMI audio is showing lots of logs, particularly when HDMI is
-disconnected.
+To configure audio registers, the clock of the video port in use must be
+enabled.
+As those clocks are managed by the VOP driver, they can't be enabled here
+to write the registers even when the HDMI cable is disconnected.
 
-It doubled on RK3588 with the addition of the second HDMI TX port, so
-clean it up to avoid missing important log lines.
+Furthermore, the registers values are computed from the TMDS char rate,
+which is not available when disconnected.
 
-Changes since v1:
- - Add comment about clock requirements
- - Add Fixes tags to the drm/bridge commits
- - Link to v1: https://lore.kernel.org/all/20250717215620.288651-1-detlev.casanova@collabora.com/
+Returning -ENODEV seemed reasonable at first, but ASoC will log an error
+multiple times if dw_hdmi_qp_audio_prepare() return an error.
+Userspace might also retry multiple times, filling the kernel log with:
 
-Detlev Casanova (3):
-  drm/bridge: dw-hdmi-qp: Return 0 in audio prepare when disconnected
-  ASoC: hdac_hdmi: Use dev_info on invalid ELD version
-  drm/bridge: synopsys: Do not warn about audio params computation
+hdmi-audio-codec hdmi-audio-codec.0.auto: ASoC error (-19): at snd_soc_dai_prepare() on i2s-hifi
 
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 13 ++++++++++---
- sound/soc/codecs/hdac_hdmi.c                 |  2 +-
- 2 files changed, 11 insertions(+), 4 deletions(-)
+This has become even worse with the support of the second HDMI TX port.
 
+Activating the clocks to write fake data (fake because the TMDS char
+rate is unavailable) would require API changes to communicate between
+VOP and HDMI, which doesn't really make sense.
+
+Using a cached regmap to be dumped when a cable is connected won't work
+because writing order is important and some data needs to be retrieved
+from registers to write others.
+
+Returning 0 to silently fail sounds like the best and simplest solution.
+
+Fixes: fd0141d1a8a2 ("drm/bridge: synopsys: Add audio support for dw-hdmi-qp")
+Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+index 5e5f8c2f95be1..9b9d43c02e3a5 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+@@ -458,8 +458,16 @@ static int dw_hdmi_qp_audio_prepare(struct drm_connector *connector,
+ 	struct dw_hdmi_qp *hdmi = dw_hdmi_qp_from_bridge(bridge);
+ 	bool ref2stream = false;
+ 
++	/*
++	 * Silently return if tmds_char_rate is not set.
++	 *
++	 * Writing audio registers requires that the clock of the Video Port currently in
++	 * use by the VOP (dclk_vp<id>) is enabled.
++	 * That clock is guaranteed to be enabled when hdmi->tmds_char_rate is set, so we
++	 * only configure audio when it is set.
++	 */
+ 	if (!hdmi->tmds_char_rate)
+-		return -ENODEV;
++		return 0;
+ 
+ 	if (fmt->bit_clk_provider | fmt->frame_clk_provider) {
+ 		dev_err(hdmi->dev, "unsupported clock settings\n");
 -- 
 2.50.1
 
