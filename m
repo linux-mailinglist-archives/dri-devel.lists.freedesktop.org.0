@@ -2,82 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18818B0F29B
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 14:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC128B0F2BA
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 15:01:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5569C10E7BB;
-	Wed, 23 Jul 2025 12:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32E1810E7BC;
+	Wed, 23 Jul 2025 13:01:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="BeHwH6Lm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PyvJ2iUl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F078110E7BA
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 12:54:06 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-6077dea37easo10309042a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 05:54:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1753275245; x=1753880045; darn=lists.freedesktop.org;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E5lpP9/8KkNOqIjJehurSf+iqWvP7v1rvCy4fSy8ktk=;
- b=BeHwH6Lm3airzJy+ft0hr8krEH5UV3N4VAUFhFrY7cbC+aRcv9aE0Il3/b4cM3x4KQ
- IarWI4dzA9Bx48l3no3Z9/TWVxi0uhYt5CyMjssUdgqxCdHIBaduAStmJJkw0Q9gJCpW
- qaXW6/Ko1G2twe/p1qDfZ+7DuTwsvo+qOZd7IKkz3d124OjgiCkY7E/mQDVFR86QpXub
- 0Ef7utVt39lm1if5CbyRYtqZ5loTAZqJ3m1ppnaG/HTL6wJ4ZWUaKXx5PwunTaa9kPDb
- P6eC+lh7IRgUWEvTboxca16MuZnkCFquQojH3bnunAIx/XaQibyQtnMTtlgvfGyVCnWk
- oO/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753275245; x=1753880045;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=E5lpP9/8KkNOqIjJehurSf+iqWvP7v1rvCy4fSy8ktk=;
- b=TiKVpczfWGFYASaAipQFpqusrzAGHQU3O241K/JYJUEfo9Afpp7IKWmtObr+iWDdqR
- mIp3IIXwuJuj4sU0u/O3Uga6rX4jbVSQ+90MsMqyiTnJMOpS80LOIo44Ej3x57mFS7o3
- MYW5Kq0HITd+ZG0KLY+3z/aE+/HvJRJIc4Fy/XHaLCAYeqVyMaAYnGAbwyGjUV872JQf
- hxBUom7Iq2CF0Rd00Pt9Fz4y5ZcTGlafS3gXCF2xg6aE8o+L6vR01UmXEfGz9fkln87G
- 6mRSGJ93+t4YSumCimruOmLto4AyRaNbRB/heNeVwYH3uxEOyOzxg4dXmoHFuZcfrOF7
- n48g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUVdK6BznbKRUISrshYT+f20+g6Mg5w7kOnTYmd4a1Ul4cdof0lniZpcTAM+Mf5Fwgjqx/4LPx6CMg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz8TSMb29vwkiqFI+khNqdibsthXeST1m83LfoHvaNJAm8QZxH6
- 4eR2arP9N0A/GaX3zm0y5Mmlome+K+XYb6yUzMFj5bDoaox4Fv+rhmWR43X/ZhhqgFw=
-X-Gm-Gg: ASbGncvsjpswZQE1YS5/kUejRvEKq1VSpsuAYTDPM9p6LFxandD8nrrX575kr/8CjQm
- /Ix58FMEHDt5CsOVu0o9Yv6iBvhxMJXRLgV0YvxRBubcGDaApGaBHzxTKRFE0TOyyqv10NzS+6Y
- aO8VLTTO8akplL/Qm6bxR+ZlVbfrbd1aCbnCtStOS0vW8zJiwThwEFxSYOQfV7eEHs9j3lzTIOO
- 8lP752IGWJaX/kI/R6yz6fRQigxhoO7LfLNDVb6Bi94V19nIES3nT4Rq375TxZ7VswdpmPKWGG7
- gBFV6URm5tS++ksUq3zDg7QeU00pfZoQ5ZYm0Q6KlAkM7AIgHturfdA+CEsIvWIql2fNE4UzT9G
- ekjlr5MjQFLmN9YhNU9FYOv0ya0LbKX7UrWzKkIkvebjZHEDudzkO3yZH17bBkpZ+f1Q=
-X-Google-Smtp-Source: AGHT+IGI0FRIBcn7+ewvVoVXQiIxd4aqI3a5daINMP5NPbGCg/btrnW7FF6uC84mAKOivQzb6X0JuQ==
-X-Received: by 2002:a17:907:2d0e:b0:af2:aa60:90c with SMTP id
- a640c23a62f3a-af2f917a878mr268806566b.53.1753275245117; 
- Wed, 23 Jul 2025 05:54:05 -0700 (PDT)
-Received: from localhost (144-178-202-139.static.ef-service.nl.
- [144.178.202.139]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aec6caf9ad7sm1043339866b.164.2025.07.23.05.54.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Jul 2025 05:54:04 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 23 Jul 2025 14:54:04 +0200
-Message-Id: <DBJG7C0L3EFP.BOWGHS7WB4RM@fairphone.com>
-Cc: "Konrad Dybcio" <konrad.dybcio@oss.qualcomm.com>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] soc: qcom: ubwc: provide no-UBWC configuration
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Bjorn
- Andersson" <andersson@kernel.org>, "Konrad Dybcio"
- <konradybcio@kernel.org>, "Rob Clark" <robin.clark@oss.qualcomm.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250706-ubwc-no-ubwc-v1-1-e39552aa04df@oss.qualcomm.com>
-In-Reply-To: <20250706-ubwc-no-ubwc-v1-1-e39552aa04df@oss.qualcomm.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6624D10E7BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 13:01:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 0E15646205;
+ Wed, 23 Jul 2025 13:01:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB36AC4CEE7;
+ Wed, 23 Jul 2025 13:01:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753275715;
+ bh=VeEaP0I6Ju84rRyRYaicpp+t8ePJyjkfRFyzhb+AudA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=PyvJ2iUlLMlbGzX5qzJpPwU19z2ZHVNgRRR6I6pgdUocqIvlwyAEVWlzxFVyH+O5B
+ rgvRUW0KyWJCaIjAWkNSjYQZTjUA8hXt537lM2z1lqW3QLRM+cccx6Wa7AnC47Kdh5
+ 5vyhtPdVK3eYgRSInD6ot6DkzLAf5sTN26YAlVnpeeskZCszqRTW1E/3s1cIFoXbIv
+ cwHrWiFoDlhJYh6kh2ZXmBFSyLLP1YH2+JOYj0Akmjoq6YhcbZiRr95b4qm1dHfFnN
+ OpoAwh1yBhmId5vMmQ85Jwdtkwph/jN1NrrSQ24V5bB3R7cAOPmCfMDkPo1fsYxenn
+ 0kqYO1EMHe0rw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Jason Gunthorpe <jgg@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ Jens Axboe <axboe@kernel.dk>,
+ =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+ Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org,
+ Logan Gunthorpe <logang@deltatee.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+Subject: [PATCH 00/10] vfio/pci: Allow MMIO regions to be exported through
+ dma-buf
+Date: Wed, 23 Jul 2025 16:00:01 +0300
+Message-ID: <cover.1753274085.git.leonro@nvidia.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,69 +71,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun Jul 6, 2025 at 1:01 PM CEST, Dmitry Baryshkov wrote:
-> After the commit 45a2974157d2 ("drm/msm: Use the central UBWC config
-> database") the MDSS driver errors out if UBWC database didn't provide it
-> with the UBWC configuration. Make UBWC database return zero data for
-> MSM8916 / APQ8016, MSM8974 / APQ8074, MSM8226 and MSM8939.
->
-> Fixes: 1924272b9ce1 ("soc: qcom: Add UBWC config provider")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> Note: the driver is a part of drivers/soc, but as it got merged through
-> drm/msm tree, this fix should also go through the drm/msm tree.
-> ---
->  drivers/soc/qcom/ubwc_config.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_confi=
-g.c
-> index bd0a98aad9f3b222abcf0a7af85a318caffa9841..df074520a8cae1a202a14ca09=
-4903bb1e7389066 100644
-> --- a/drivers/soc/qcom/ubwc_config.c
-> +++ b/drivers/soc/qcom/ubwc_config.c
-> @@ -12,6 +12,10 @@
-> =20
->  #include <linux/soc/qcom/ubwc.h>
-> =20
-> +static const struct qcom_ubwc_cfg_data no_ubwc_data =3D {
-> +	/* no UBWC, no HBB */
-> +};
-> +
->  static const struct qcom_ubwc_cfg_data msm8937_data =3D {
->  	.ubwc_enc_version =3D UBWC_1_0,
->  	.ubwc_dec_version =3D UBWC_1_0,
-> @@ -215,11 +219,17 @@ static const struct qcom_ubwc_cfg_data x1e80100_dat=
-a =3D {
->  };
-> =20
->  static const struct of_device_id qcom_ubwc_configs[] __maybe_unused =3D =
-{
-> +	{ .compatible =3D "qcom,apq8016", .data =3D &no_ubwc_data },
+From: Leon Romanovsky <leonro@nvidia.com>
 
-Isn't also qcom,apq8026 missing here? Not sure there's any more
-missing...
+---------------------------------------------------------------------------
+Based on blk and DMA patches which will be sent during coming merge window.
+---------------------------------------------------------------------------
 
-Regards
-Luca
+This series extends the VFIO PCI subsystem to support exporting MMIO regions
+from PCI device BARs as dma-buf objects, enabling safe sharing of non-struct
+page memory with controlled lifetime management. This allows RDMA and other
+subsystems to import dma-buf FDs and build them into memory regions for PCI
+P2P operations.
 
-> +	{ .compatible =3D "qcom,apq8074", .data =3D &no_ubwc_data },
->  	{ .compatible =3D "qcom,apq8096", .data =3D &msm8998_data },
-> +	{ .compatible =3D "qcom,msm8226", .data =3D &no_ubwc_data },
-> +	{ .compatible =3D "qcom,msm8916", .data =3D &no_ubwc_data },
->  	{ .compatible =3D "qcom,msm8917", .data =3D &msm8937_data },
->  	{ .compatible =3D "qcom,msm8937", .data =3D &msm8937_data },
-> +	{ .compatible =3D "qcom,msm8939", .data =3D &no_ubwc_data },
->  	{ .compatible =3D "qcom,msm8953", .data =3D &msm8937_data },
->  	{ .compatible =3D "qcom,msm8956", .data =3D &msm8937_data },
-> +	{ .compatible =3D "qcom,msm8974", .data =3D &no_ubwc_data },
->  	{ .compatible =3D "qcom,msm8976", .data =3D &msm8937_data },
->  	{ .compatible =3D "qcom,msm8996", .data =3D &msm8998_data },
->  	{ .compatible =3D "qcom,msm8998", .data =3D &msm8998_data },
->
-> ---
-> base-commit: 8290d37ad2b087bbcfe65fa5bcaf260e184b250a
-> change-id: 20250706-ubwc-no-ubwc-3c5919273e03
->
-> Best regards,
+The series supports a use case for SPDK where a NVMe device will be owned
+by SPDK through VFIO but interacting with a RDMA device. The RDMA device
+may directly access the NVMe CMB or directly manipulate the NVMe device's
+doorbell using PCI P2P.
+
+However, as a general mechanism, it can support many other scenarios with
+VFIO. This dmabuf approach can be usable by iommufd as well for generic
+and safe P2P mappings.
+
+In addition to the SPDK use-case mentioned above, the capability added
+in this patch series can also be useful when a buffer (located in device
+memory such as VRAM) needs to be shared between any two dGPU devices or
+instances (assuming one of them is bound to VFIO PCI) as long as they
+are P2P DMA compatible.
+
+The implementation provides a revocable attachment mechanism using dma-buf
+move operations. MMIO regions are normally pinned as BARs don't change
+physical addresses, but access is revoked when the VFIO device is closed
+or a PCI reset is issued. This ensures kernel self-defense against
+potentially hostile userspace.
+
+The series includes significant refactoring of the PCI P2PDMA subsystem
+to separate core P2P functionality from memory allocation features,
+making it more modular and suitable for VFIO use cases that don't need
+struct page support.
+
+-----------------------------------------------------------------------
+This is based on
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
+but heavily rewritten to be based on DMA physical API.
+-----------------------------------------------------------------------
+The WIP branch can be found here:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio
+
+Thanks
+
+Leon Romanovsky (8):
+  PCI/P2PDMA: Remove redundant bus_offset from map state
+  PCI/P2PDMA: Introduce p2pdma_provider structure for cleaner
+    abstraction
+  PCI/P2PDMA: Simplify bus address mapping API
+  PCI/P2PDMA: Refactor to separate core P2P functionality from memory
+    allocation
+  PCI/P2PDMA: Export pci_p2pdma_map_type() function
+  types: move phys_vec definition to common header
+  vfio/pci: Enable peer-to-peer DMA transactions by default
+  vfio/pci: Add dma-buf export support for MMIO regions
+
+Vivek Kasireddy (2):
+  vfio: Export vfio device get and put registration helpers
+  vfio/pci: Share the core device pointer while invoking feature
+    functions
+
+ block/blk-mq-dma.c                 |   7 +-
+ drivers/iommu/dma-iommu.c          |   4 +-
+ drivers/pci/p2pdma.c               | 144 +++++++++----
+ drivers/vfio/pci/Kconfig           |  20 ++
+ drivers/vfio/pci/Makefile          |   2 +
+ drivers/vfio/pci/vfio_pci_config.c |  22 +-
+ drivers/vfio/pci/vfio_pci_core.c   |  59 ++++--
+ drivers/vfio/pci/vfio_pci_dmabuf.c | 321 +++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h   |  23 +++
+ drivers/vfio/vfio_main.c           |   2 +
+ include/linux/dma-buf.h            |   1 +
+ include/linux/pci-p2pdma.h         | 114 +++++-----
+ include/linux/types.h              |   5 +
+ include/linux/vfio.h               |   2 +
+ include/linux/vfio_pci_core.h      |   4 +
+ include/uapi/linux/vfio.h          |  19 ++
+ kernel/dma/direct.c                |   4 +-
+ mm/hmm.c                           |   2 +-
+ 18 files changed, 631 insertions(+), 124 deletions(-)
+ create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+
+-- 
+2.50.1
 
