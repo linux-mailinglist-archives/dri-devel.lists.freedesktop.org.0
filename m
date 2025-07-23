@@ -2,125 +2,218 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F50B0EE53
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 11:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F448B0EEB8
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 11:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8C9710E119;
-	Wed, 23 Jul 2025 09:24:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A5310E149;
+	Wed, 23 Jul 2025 09:46:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GCY8O4jQ";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="iG+3WP+a";
+	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="WNkC47qg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1BA510E119
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:24:14 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56N8nuGE030488
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:24:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 4+wq30tYrS+hasxmkNFAkgFt+v2Bn03QvpeOwwRgrrc=; b=GCY8O4jQ5lKWecVN
- j7nkCPQ6+HK9KWWJ7KVC4kGOZcCj44hO+hKh5nTLB/RUtqqlxH8QIbS9+Rpj44v2
- NLdBg/zr4jHrbihqcreqR2Vqwk3zxnIfswDUS+pQcNeK4pKerSXKGjtRhFZ32zCq
- 5jUlj26OAIQYCrYv+qs1afF9jKJH3X1JJyH9KLk0xjyX5kqbCJ4zF6kB/KFUU8kt
- ni/zRJNaAGHOOtL6u/T/7bqDynoFu6Y5Cfo00Ewp87l4Eygory76eMwHudp1TVdy
- WmnZA/OqDqgEdqOh7D0BhuvDN7KT4YzQaPZOOPoF7Nimma5nfGcuYR1+QQi1o1J4
- yVIB3w==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48045w2y1m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:24:14 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-75e28bcec3bso3756471b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 02:24:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753262653; x=1753867453;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4+wq30tYrS+hasxmkNFAkgFt+v2Bn03QvpeOwwRgrrc=;
- b=hgDddW7M/ffTRRdwNTDnDGw2vaWKhnXq15Wyg3an7Y8fDFYqYVaLyy5Nr0rV+5I5Il
- 29qzxykr2+iueyQDRLONH8SsAAuq1K397cd0r2E7qJ3rTEfNPYFmMMUFPG3pxaMzATPp
- FQpxM+G7bJPFj0yjO+/SVO8Hdv5BXM/nZYvI8H7AW49mxlfErFyHzzptLw+SMoMle+R2
- lOavvt1brQ4fJoRUv+lB5Ju/Stzv3Zlm3tQmv7bHdP6TZOus4rilot/HC14ojSiY9ikd
- h/HuUU+5+oRB1JfDDo0Xyz0Rl05eofTLKzcqu4nf9oJ9mC5C8GMiDKXN+r0AUQ5Rh3yQ
- kyvQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUc5zCaccO/PvJV7gkjyeggMnbGuvQxchATq3fydqizcfLKj+Io2pWxfFT9ORUcE4EQr8Tc2jYdd1s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw12IaaN2EEXWE/f3cICISJHqfEgWc4E925PZl/Bx3TT29xMzjT
- 7FlCvl9arEh/VZWKR/fRGs+Tug3kALunYFUoIgso2/sAfVwlShIv7CtV0o1aiHKrMBGH48/5axa
- fNrA2enLYR7IkQF6VfIT3zfeDDUaSxQzV5JlYrumuNp3CUljF6QbRY9UwDOJyDobDR1wrsBc=
-X-Gm-Gg: ASbGncsfz/0sOkBsxpuJsThttowJ7aYWS83vcLJ0CVSK1zFvPfA0jfrD6Pp1qYZ/XYC
- JYQYyi1pCPOa4exECc53zaFrT4ORUqOkLGKyWRGy7aGSuDy/CoeaNACgLzZ+jZ9nSOzFa8DmrUw
- 2owUiozZL+2weFsm0nYVtTXC42VxwJQn0W7YQiiIWVlR7+TEnowD3QUGSlT4UiVnoGHtoLPuikr
- 5EHMs6feEvZozht+yCd2a8Cekf5+KrDh1/08JFkLhbmHcun2hePKvHZ8EqD9/+QFMu297dBeWqc
- TmltW4rSQai0oT0d6s5GrOU0VnAWDmyoidKNyGwy1Ib9KC8YVuRIenwWsXgJUCgpvLWjBkA=
-X-Received: by 2002:a05:6a20:9147:b0:220:1af3:d98f with SMTP id
- adf61e73a8af0-23d491221d4mr3493431637.26.1753262653282; 
- Wed, 23 Jul 2025 02:24:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFLdbjhjnYdkfyrjU5ffjGqKzviUX7fhzbfayZMX0Fs1jRE595puZVjT4iJO4hden7j7BS+zw==
-X-Received: by 2002:a05:6a20:9147:b0:220:1af3:d98f with SMTP id
- adf61e73a8af0-23d491221d4mr3493411637.26.1753262652840; 
- Wed, 23 Jul 2025 02:24:12 -0700 (PDT)
-Received: from [10.206.107.125] ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b3f2feabe7bsm8441323a12.32.2025.07.23.02.24.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Jul 2025 02:24:12 -0700 (PDT)
-Message-ID: <5af0c2ad-de58-4858-b94d-f7dfc6359e22@oss.qualcomm.com>
-Date: Wed, 23 Jul 2025 14:54:08 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 5/5] misc: fastrpc: Add missing unmapping
- user-requested remote heap
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: srinivas.kandagatla@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, arnd@arndb.de, stable@kernel.org
-References: <22uccyp5m2szry7bpitqcav5nlvwch5eqh4mdacfedidgrnyhx@vsjobngwdkmb>
- <dc67df54-2a19-4318-acd4-b96b8549b64d@oss.qualcomm.com>
- <7ogkoxsowpd2x5qmjog4qx5eu4eiinvtnyjz5hfufgna2hz7na@oxzmowlnelxb>
- <61dd2c3f-20ac-484e-8a45-f42fd5f42b86@oss.qualcomm.com>
- <CAO9ioeX1uE3ty5oSezYOLJKqf8G5dLYAS5nRiNvryWTk0RPdEQ@mail.gmail.com>
- <f3d376cc-6e2d-4ac3-88f6-3104eec67acf@oss.qualcomm.com>
- <qw64xqfnyy76f6oawtaecvraejcwyml5k7oxdy67adj2rh46lq@nupxbuy3vwu4>
- <7505f0e8-222d-4052-8614-c12109d14bce@oss.qualcomm.com>
- <cq3qfx32dallivdcwjwqgq7kggiwucpcyhwqqlbrf6n4efkmuc@htjwnigojag2>
- <8b877eeb-941a-47c5-a67d-450dfb772d6e@oss.qualcomm.com>
- <lmytte3p2eq7fsjsbogzrqjyimlw42v2x2zystx32nuvnm62yb@wzqrmhqcrzl3>
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92E5110E139
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:46:14 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id
+ 56N72iTI3363460; Wed, 23 Jul 2025 10:45:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=dk201812; bh=hWQurCFOwswlVtH95m4vdbuua
+ gjCjMt/pwEVDGQ+Oi0=; b=iG+3WP+aBlUfz18JvxjiL4L6e3NstpMClkaBhqla3
+ 9u+vIjd2VcU2804vmFHQVYhkrAbTP7L+ivQG+HE1keRhAZwOIfTZHWtiOjw7vC+1
+ qR6zOG8EV+QDWB8o0laN//0rICmXTIGz6t8mzom/isMICBZdLjXU1T+zfdzwprA1
+ CZWCbc8Js5ixZNCROmq/tV6TTG7g0IaLBQXZNPKl3yxjuhU+PeDECkd7oV48pP7R
+ 7JpQtMyhe2esYMV1f6OH+tPDrzOaxxxoLFoFZGP6gRrsAFOHebB0PW6dyedj/VVc
+ dwyARH9jm1zKR+QibhEg4lYLf2YOMTjyJBg2+aaj2klXA==
+Received: from cwxp265cu009.outbound.protection.outlook.com
+ (mail-ukwestazon11021140.outbound.protection.outlook.com [52.101.100.140])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 482jw50gkj-1
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Wed, 23 Jul 2025 10:45:45 +0100 (BST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ELGaRqo715k5jgBE/eJJyWgUyy4NKwWSISEmagcZgXVt48wBwHI6aulTP2Ie+bZmsHjv3pUK7QAkowTKBTQSIj8SiGy1mw91eToPX7EnshjyZsb4iTV3WYkWom7slTCXB0MhODuxuUOgPM5A+1onhbEv11yuHFpsh1TmWdWhv+Q811wzk6FuCdFs45k76PC9463Y6egM+wTJn9zBcqspeBLDeRli+hkCogFcpUbSAAfXwp+aG0oGJQ0FN7jrX26MK7sv0RDlC6iT+SzV7eekZXfgg88bZTwwMP3wqjuSwQnvL9oPbjhkRmQnIaLCaYPnYaxVI1xvtxtSk1ydArsT+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hWQurCFOwswlVtH95m4vdbuuagjCjMt/pwEVDGQ+Oi0=;
+ b=JQYOztTYsH1GepaJ/sSgtwdADGTzDHeOjtd2JownyBvBDg+K0xYOjeZhAH6Jr0axtvkr7IlW+cvMKpDGHWIUhYuWr3LzMg89x0BUT+1l3OxN0CByxNgwYz4GGBrW6h6C7cTB7EhXmJkYn6o5JTMZvZMzS5K3jyT0gQQc82+7b+94nTY/30CGfMle1NMqMeN1A/6WZhJWH8zcsGhRG/jRx8zgW0Ff7DeYpH8mxw3Z4NgjNSKuIdpPYF8/NiIcbcbfJinGEsZV4tA4P58WXe0fUcR9fMbGdCe8boCLLYWtCG9UEWDc41d8ImVFds29ok+7s7JB7CbtllTLmNCyN0uP6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hWQurCFOwswlVtH95m4vdbuuagjCjMt/pwEVDGQ+Oi0=;
+ b=WNkC47qgMs4UwqH7fPCGzxt+Pqlfppvi8ZsUp/2cXg2MFnYT7vGygu63CZY/WZ+67z+vFmS5Gb9Ujf0iyOp83I5qTLuq7QlDT2n73wxwD0XFZHjdZSi7cQclyC56XK892DevykWFu5+7EVyrYyYyAPNzPTnixZ0mMyZh74o3KHE=
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
+ LO0P265MB2777.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:13e::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8964.21; Wed, 23 Jul 2025 09:45:43 +0000
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15%7]) with mapi id 15.20.8964.019; Wed, 23 Jul 2025
+ 09:45:43 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>, Krzysztof Kozlowski
+ <krzk@kernel.org>
+CC: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>, Fu Wei
+ <wefu@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns
+ <Frank.Binns@imgtec.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>, "linux-riscv@lists.infradead.org"
+ <linux-riscv@lists.infradead.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-pm@vger.kernel.org"
+ <linux-pm@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v6 5/8] dt-bindings: gpu: img,powervr-rogue: Add TH1520
+ GPU compatible
+Thread-Topic: [PATCH v6 5/8] dt-bindings: gpu: img,powervr-rogue: Add TH1520
+ GPU compatible
+Thread-Index: AQHb5d9F1EaSROGCxkS8VT4CcJNvq7Q/oV0A
+Date: Wed, 23 Jul 2025 09:45:42 +0000
+Message-ID: <f25c1e7f-bef2-47b1-8fa8-14c9c51087a8@imgtec.com>
+References: <20250623-apr_14_for_sending-v6-0-6583ce0f6c25@samsung.com>
+ <CGME20250623114436eucas1p1ab8455b32937a472f5f656086e38f428@eucas1p1.samsung.com>
+ <20250623-apr_14_for_sending-v6-5-6583ce0f6c25@samsung.com>
+ <9c82a6bc-c6ff-4656-8f60-9d5fa499b61a@imgtec.com>
+ <d154d2d0-3d59-4176-a8fb-3cb754cf2734@samsung.com>
+ <e1a3d854-93bc-4771-9b8e-1639ca57b687@kernel.org>
+ <d12fd4fb-0adb-40c4-8a0a-c685cd6327b3@samsung.com>
+ <27068fd3-92b5-402b-9f3c-fd786db56668@kernel.org>
+In-Reply-To: <27068fd3-92b5-402b-9f3c-fd786db56668@kernel.org>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <lmytte3p2eq7fsjsbogzrqjyimlw42v2x2zystx32nuvnm62yb@wzqrmhqcrzl3>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=LL1mQIW9 c=1 sm=1 tr=0 ts=6880aa3e cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8
- a=kN03k85zHqnGvZpLErYA:9 a=Zd2r3LNXiuh2AZG0:21 a=QEXdDO2ut3YA:10
- a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-GUID: 9jkK_gJRlHxcacnXN0Q7eB9JZokLUp1w
-X-Proofpoint-ORIG-GUID: 9jkK_gJRlHxcacnXN0Q7eB9JZokLUp1w
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDA3OSBTYWx0ZWRfX17vylh51uuTv
- 9DguWcmC2DE7GR/WIb9eZREOO9QjuFmzq3p1qow7Vf0Jb9eJsvV3l2sWcSa0JENkq+DpCyg8jpY
- m66EmaxY7BvdYeMzrtXg3rdHYvANtyovtjldlUN5vVOqJSmZ+ox6Ut10vqX9culrw+WwfDHPJ/6
- 51LxS2X2XDHbeqSoiDo+m08rZLlXHqsaEf24xD4HgxgAuEnkfAJYOv3pqZ61V+qplHHr9jYwx5M
- Kn0vuwixUItsDFvikFSyBw6YmZelOJbV9H8IhAx9JTaMll6icjE9UKIzbUHyNf/X+TnX0/9uCA3
- G2hHTNM7WJSFDEVs2ogtYKHTOj85bgtyvDzprYiX9VNEB6er06QakZXIImqqzvlHK0rqR2UA4FV
- E1lTG9zepGWn2jhlU38+Nw/6ljYyKJvwXY62rTRBiBj+1oZjexqVuynW9qCqypb5mvXH10bP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-23_01,2025-07-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxlogscore=999 clxscore=1011 mlxscore=0 adultscore=0
- suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507230079
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWXP265MB3397:EE_|LO0P265MB2777:EE_
+x-ms-office365-filtering-correlation-id: aae5b3f6-2a7e-40eb-507c-08ddc9cdb0da
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|7416014|376014|1800799024|4053099003|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?cEU1Q3lIWTFRaEY3MjMrdlBHb1pJTDFYeFFFRUFyVHRINXNqcVU5U3BjeTk5?=
+ =?utf-8?B?QkpBdHo0V285ektjV2sySWsxNmxOS1VMakptbVQ4TmhDRlk0NGRuOFFnSmZV?=
+ =?utf-8?B?ZnBoODFpZEhvWm5ETVhUUzRTV0lmdVYyQlFQR2t1Mkwwbk1UcnBuSjEyWkFY?=
+ =?utf-8?B?SmQwYUF6NkZrajVydXdYbUh1RjVHQjVZK1lKL1cyeTlEaklJdFdiY0NuTFBw?=
+ =?utf-8?B?OXZsUXZrZG9VQmY4NitxSjJDTzZGekJiVjR3K1Q0VEVBYmtVN0N6VTQ5MnVa?=
+ =?utf-8?B?RUR5cUxVMFJWZWNuWlJWMm13a241N2tqdmNVZlJhWnUzVlVqUVgwa1VKZHNQ?=
+ =?utf-8?B?S0hrNWNqYnhSVUtjMTl5dHlXaHcvVkVwNFprSmcrM3dyU3grMzNiUEJSdmJx?=
+ =?utf-8?B?c0o4Ky9hakFCb2tFakU5N2l4cGdDQzg5T2lDeFJYa1kraTV5bFlTL0lXU3Y0?=
+ =?utf-8?B?NElVTkRGU0w2V1RXZ0dIdzl0WmJNNDdoK2lsaVlUci9UdjV3LzdqSDVHK0tw?=
+ =?utf-8?B?dXIvMUpEK3N5V0RVWkIzY1lQREVuSHZwVnVIR2NnWjcwSjJsWDRMSHpNQm81?=
+ =?utf-8?B?RjVsclFXT2xPZHZ6TCtVV0lnc1hzSmNVVmN3L2VNblp1Q3hja0xPYzZ3b2N4?=
+ =?utf-8?B?Mng0aHNsZGljR2N4Q1VkU2tCN21RNUtTSmhpZzhpNm1pK0RZdGlYZktqREE3?=
+ =?utf-8?B?SGtMZkFMMWZhR2FMWmlwbGlOYkY0ZExrK2dDMWR3R2lRVzZIV3dTM1Nlbk9j?=
+ =?utf-8?B?YWNLRTc2bDg3RjlDK0FDT1lycUtITTBWamNFQlhVYXVSNVpRQm0vRTFDdDhh?=
+ =?utf-8?B?RzBXK2NUSWJPU0J5MEoxd05GUldVWHQ2Q29KT21VWUwzN0NXY3lFVkc5Sjlx?=
+ =?utf-8?B?Uk5tTGlya0JHNm8vTnV3cTk0TUp5dFkybzkzSVdUa2tTQ0Q0QkZTN0pERXVO?=
+ =?utf-8?B?aWVNaE5remxPUHdUN3g0bDd6bko3TXlUOW55SHRKK0Z4eithYzNHUi9QcUI5?=
+ =?utf-8?B?TkdRZzVKUlp1Y0ZpVVZ2ajZRUGZHVTlxWDdCRUZ1Uy84OUxKVjV1V3FKMjFQ?=
+ =?utf-8?B?eFBCRk56UEp6SytReTBGNWpwVGd0QURxR2k2ajErYjNBK0hvVmhKYnNNY2Ja?=
+ =?utf-8?B?VUhsVzdlZVBYSFJ0OWMyQ3BYMG42MUNPTjBmamcwUlc3NkJCL2poK3d1S1hU?=
+ =?utf-8?B?WVlOdmQ4SktZdHYyYVFXWktMeVlJQk9kY2hDUEN2RFRnZjVZYUNaSzVxYnNC?=
+ =?utf-8?B?bnVWT0V6UXhsOGFnMFJPTGhhQ0h6Z2xKMWpocWFkNjdJMzQ4ZkVWZHNGa2NZ?=
+ =?utf-8?B?V1hGdy9DTmVYTG9OM0c5MUl3RCs1ZWtRRmVUcjNGaGdkdkhDOTMwQ0ltcDZj?=
+ =?utf-8?B?a3liaVFZQU5VS2ljV2xONHRVd2ZZLzlzb1NZKzV2SkZEWHBaakp5SGRxWmh6?=
+ =?utf-8?B?RS8zQlUzLzRnTlhaREU0RldMK3B0N3l4SG9VUlcyU284QjVkaG1TWW4zUnVp?=
+ =?utf-8?B?aFZoOEp2NEtGTFpHSWV5VWVlTzJvbmJQQURocGJLSXJnZU9OWmlMRUQxeHJl?=
+ =?utf-8?B?SWhTd3FXQXJPcWtrUWFYWkE0S0w5d25UakoyNVVzc1plT0QxYlB1RUFjSVVC?=
+ =?utf-8?B?TEFpRk1UZ2NIS1dlUnhBY2VQRzBiOWg3T081enRVMGxOMFBvOE10aGFNbUhD?=
+ =?utf-8?B?dWphV0RiSVluM20rMGl2WXlwbEVDZDBsSm1qd1psSGozRGduZm42MlYwNUlW?=
+ =?utf-8?B?OHFaOGRFTlMvWStuWng0NXA3cm04NHdWdUVSVTZjb1E1eVRhMEdPZjVNV0VJ?=
+ =?utf-8?B?aXpta25kbDU5NkdBcnIvV2FGMlA2dkY5M0V2K0lmSXU3aFkxY0ZFdFhoTUZR?=
+ =?utf-8?B?WHZwVkVhMEVzQWdxaTc0K3VPMXQrb0R6TVpYYzlhcTJ5clVodFNjUG5DcDA5?=
+ =?utf-8?B?bnZ1dUltTFJVMXFwYXF6TDAzc1hrbkdqN1V0K3N6U0R4RGJ3NlhWNWo3MXhz?=
+ =?utf-8?Q?FZOlhLQ+vY2I1xg0NSk++jowNZwqpQ=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024)(4053099003)(38070700018);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TTRSRGp1aW1UOVdRWHJ3VUFOeXBQbkYrSkwzQTdFRlVHTkY3Z3pPc1Baamox?=
+ =?utf-8?B?SjFZSHhTUlJSYXR3Yk9lRVBmL1BGMGpyZzlIUHQrZFZNWDFkN1A5UkFqSllD?=
+ =?utf-8?B?MDZwVXlMclhJVTR1U2s5WWUrQjh3TDJac25wOC9SSHdXak9tYmt6VzhDOWNw?=
+ =?utf-8?B?ZTRZdC9ZY3RydGZ0QXYzSVFXVGNsTkkrbFFqeFpQRjFRaHRsek9LVUhhdXdq?=
+ =?utf-8?B?b0R2TVBqdTF4VHcvMWQxWlAzcmY5T2JSZGhiL2FqTTR2TEpFQTVpQlc3ek16?=
+ =?utf-8?B?QVBhcVZOekpRelgveHIyNWJRc2dLWlFSZFVVcVFSUk01RlNiNFRBUHZMN3pq?=
+ =?utf-8?B?bWoyclE2eDFZNXF3TUlXOTlBbnROeE9paXJwM2p1aHNMUzFHTmhVMEgyUVZj?=
+ =?utf-8?B?eFdDcFdaTnpzb2lMK2ZSejU1YkpCZGhaZEpqTE80SzlXT2NRNzBvVTBKbk91?=
+ =?utf-8?B?RlJxaEc0SVJWdWx4VWlZMnlmTUdPU1k1K0gzU3lSNmZ3ZERlcW5GZU9BenAz?=
+ =?utf-8?B?b1JENTg4TDFyRTRqVklJaDFsY0YxTk9jQ3RZZHRjTHhHVXpLRlRrUlBLeGZy?=
+ =?utf-8?B?T1ZMSndxYStJK05qVCtCTmJyMzJybWgzMER0VWpoNXQwdGVkdVRWR3c3NXcy?=
+ =?utf-8?B?RmZKemcxMnNTbTJBYkUyMmFKYWpDWTlCL08rdWRqakQ3cDJCVHdncUlCTXRI?=
+ =?utf-8?B?eUs3a0pKeUpkaThqbmEycmxpbmxFY1pmbDFTbEc3Vy9sZVM0UjhsdHA0L3FO?=
+ =?utf-8?B?WXRqT0hGUmgrUFFvTnBxdlVIZHYzam02MTJNVXFTRGlTbUljcFd0OWFJYW40?=
+ =?utf-8?B?b1AzYmx6cDNqdEovK21CT3JkenBTVDMzNGd5cnlBVVlXeVZaRDFhNkM4ZWhn?=
+ =?utf-8?B?bldOcVpQa0ZOVExMdjhNai9NeGNGbGpKWVBDN0xLREhaN1pSQWE2LzhNYjFN?=
+ =?utf-8?B?WFFnVkswZFBIaThZc1pUZGwraEplUURxVnE2V0duM0IwdjFUdjNOM2MxeWFI?=
+ =?utf-8?B?Tnp6VHp0TFVTTWVQMElxTjZHR3FiajFIelZ4Yk04cDJnc2tsTXMwdjJwSVcw?=
+ =?utf-8?B?MG1UZVpSV01iZnNyd3NibkpBazJzVWdRcmhSUURqZG41NW9TVEdENm9NMk4v?=
+ =?utf-8?B?VGkybjJLVHl2WWUxYmNLZTBsSGpuWWI2OThPRG1ZSTFPeEg4NTlQR0Zxc3RD?=
+ =?utf-8?B?M1FvTEN3MUtHN0hZdnJ2QURYVGVSRmZqL2Q2YktodngzY3hjZnhtYzZUZjhK?=
+ =?utf-8?B?LzRvSWFPcmQxamZpQXNvVktsM1NrM3NJc2puZHRzdU9yeGhJTDVkQ1NGWUp5?=
+ =?utf-8?B?WHFYelV1bTVkRVlSOTIrdHNjYkJIa2RRVklmN1V5QzVkT3R0OG9aL25ObTY5?=
+ =?utf-8?B?SUlmT0E3SDJIRWRwQW16djJjREFhSEYxVDgxci9QV0ZOUERMZjFGWWR3MFBX?=
+ =?utf-8?B?bVJHODduMmRLRHZCVGpQVzFBK0VTSUQ4czRmSzFjTnoyT0VkNlJYSDBYaHZm?=
+ =?utf-8?B?ZnkvSHdxOUlJNnZLZUtJQ3BQcWNxNkJsQ2FBajdjcld5L0ZSOE1UYzV4SGUz?=
+ =?utf-8?B?N1lHSEJFK2p6Z1g0V0RZMTgzSmJhQkFqYjFtbmxSbm9ka3BlaDM5M05aRHl3?=
+ =?utf-8?B?RW5OTjhvMDNyNk1ZWWxDVUdzb3FFcG9BWnh3SU9hL01DWG5QQml1a1daVmV6?=
+ =?utf-8?B?bC9JRWJHdU1ZSi9yVEgxTlg1V0haUTFkc2tlNCtTUWxKakRlTmVnVDJJMXpE?=
+ =?utf-8?B?ZHRnU3BlTVpqTWQ2MklXamJ1ZHAvQ0M0TElEVmFxN0YwZDFRYmJyVGRjQUw4?=
+ =?utf-8?B?Wkx2RzUwMmM0RXU1RzdIZERhWGhOSzVSU0cwUU9zSEhRUlVVVEdwdHp3aW9P?=
+ =?utf-8?B?amhtYmttZkFrd0FvUmR6UHFrTXlpSDd6L3lJYytzZTAzTmRIOTJCcTIvSWFn?=
+ =?utf-8?B?L3FXOVRRT0JRcE4yYWRabjlldjRXT3dKTm1ZcmltZDdqRmhteGJJdmRyd0Uw?=
+ =?utf-8?B?RXlKbElFdDcwZUQ4YXpJVWYycXAwQzgrQzBYZHptRFFVRHZxNFVhT2NuOGdu?=
+ =?utf-8?B?TFp2RDFBTFNmZ3pJWExZYjZBTXhOZ3h2N083MXNkTkxBQlB3RFV2SVBsM2Vz?=
+ =?utf-8?B?SW9BTUJVMklFc0RtMHY5a0owaUdsWXVTQXcxOW55S2xOVzFBM1hpU2RSWm5q?=
+ =?utf-8?B?RGc9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ab9h7gr6ve4yFtxIVhQtdlVL"
+MIME-Version: 1.0
+X-OriginatorOrg: imgtec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: aae5b3f6-2a7e-40eb-507c-08ddc9cdb0da
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2025 09:45:42.9017 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7yK0gRB1uZ5BCTc+xLnbMRBF3us0aI6+s26qRpiHGoN6yOC5krpUzJx1cNMXa/6rQFaywbkVflb+bPyEQyn/Zw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB2777
+X-Proofpoint-GUID: h-9uEQOGSBk4slIdNxSRki9ak2GrSfcJ
+X-Proofpoint-ORIG-GUID: h-9uEQOGSBk4slIdNxSRki9ak2GrSfcJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDA4MiBTYWx0ZWRfX+hkroqj0NAlL
+ hJuRuZex5zN07vey9cdzRyVqxtQle54NW7yofFiiwwdx9cz3RWimsdRKnYTNH3CW8q3OsLR+w0O
+ +5enawyBQrNme3L0eqQByy7wblG56xlvgIDKLTMe5ZUf6qVvYO0Cn2/hPxnKkYJxzfRqF3v76k6
+ K7XXljm0UVetbfWfeRSeUvOsjS+3162rpVgpKWWV+8RCPQ5lR5TZqYwGf6wHBvIiflwi2xYA2w6
+ iJNK8HYxpWKh1kmlsY9MhurzjU0zBrMfvUeOKnsga8ELe+7F56pPEDpLmBrYCFMbhqhz6HWbVXI
+ EWqIl+suUHTsGVS02Ry4uD/o+wVAUbnKa8Yd513flxj5SYO1oarINIjn95OWoCvVkBMwbAgy/18
+ L1xHxo3V
+X-Authority-Analysis: v=2.4 cv=dp7bC0g4 c=1 sm=1 tr=0 ts=6880af4a cx=c_pps
+ a=k+0uX8idyWF9koV3rWdvhw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10 a=NgoYpvdbvlAA:10 a=KKAkSRfTAAAA:8
+ a=hD80L64hAAAA:8 a=r_1tXGB3AAAA:8 a=BXWD1kwdEsBxI_JLQoEA:9 a=QEXdDO2ut3YA:10
+ a=6h5F1V3u8ZvVygUH174A:9 a=FfaGCDsud1wA:10 a=cvBusfyB2V15izCimMoJ:22
+ a=t8nPyN_e6usw4ciXM-Pk:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,92 +229,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--------------ab9h7gr6ve4yFtxIVhQtdlVL
+Content-Type: multipart/mixed; boundary="------------DMA9MUXICW2ytHwYZ0MA8DKa";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns
+ <Frank.Binns@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Message-ID: <f25c1e7f-bef2-47b1-8fa8-14c9c51087a8@imgtec.com>
+Subject: Re: [PATCH v6 5/8] dt-bindings: gpu: img,powervr-rogue: Add TH1520
+ GPU compatible
+References: <20250623-apr_14_for_sending-v6-0-6583ce0f6c25@samsung.com>
+ <CGME20250623114436eucas1p1ab8455b32937a472f5f656086e38f428@eucas1p1.samsung.com>
+ <20250623-apr_14_for_sending-v6-5-6583ce0f6c25@samsung.com>
+ <9c82a6bc-c6ff-4656-8f60-9d5fa499b61a@imgtec.com>
+ <d154d2d0-3d59-4176-a8fb-3cb754cf2734@samsung.com>
+ <e1a3d854-93bc-4771-9b8e-1639ca57b687@kernel.org>
+ <d12fd4fb-0adb-40c4-8a0a-c685cd6327b3@samsung.com>
+ <27068fd3-92b5-402b-9f3c-fd786db56668@kernel.org>
+In-Reply-To: <27068fd3-92b5-402b-9f3c-fd786db56668@kernel.org>
 
+--------------DMA9MUXICW2ytHwYZ0MA8DKa
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 7/19/2025 3:14 PM, Dmitry Baryshkov wrote:
-> On Wed, Jul 09, 2025 at 11:13:49AM +0530, Ekansh Gupta wrote:
+On 25/06/2025 15:41, Krzysztof Kozlowski wrote:
+> On 25/06/2025 16:18, Michal Wilczynski wrote:
 >>
->> On 6/12/2025 3:54 PM, Dmitry Baryshkov wrote:
->>> On Thu, Jun 12, 2025 at 03:02:52PM +0530, Ekansh Gupta wrote:
->>>> On 6/12/2025 1:35 PM, Dmitry Baryshkov wrote:
->>>>> On Thu, Jun 12, 2025 at 10:50:10AM +0530, Ekansh Gupta wrote:
->>>>>> On 5/22/2025 5:43 PM, Dmitry Baryshkov wrote:
->>>>>>> On Thu, 22 May 2025 at 08:01, Ekansh Gupta
->>>>>>> <ekansh.gupta@oss.qualcomm.com> wrote:
->>>>>>>> On 5/19/2025 7:04 PM, Dmitry Baryshkov wrote:
->>>>>>>>> On Mon, May 19, 2025 at 04:28:34PM +0530, Ekansh Gupta wrote:
->>>>>>>>>> On 5/19/2025 4:22 PM, Dmitry Baryshkov wrote:
->>>>>>>>>>> On Tue, May 13, 2025 at 09:58:25AM +0530, Ekansh Gupta wrote:
->>>>>>>>>>>> User request for remote heap allocation is supported using ioctl
->>>>>>>>>>>> interface but support for unmap is missing. This could result in
->>>>>>>>>>>> memory leak issues. Add unmap user request support for remote heap.
->>>>>>>>>>> Can this memory be in use by the remote proc?
->>>>>>>>>> Remote heap allocation request is only intended for audioPD. Other PDs
->>>>>>>>>> running on DSP are not intended to use this request.
->>>>>>>>> 'Intended'. That's fine. I asked a different question: _can_ it be in
->>>>>>>>> use? What happens if userspace by mistake tries to unmap memory too
->>>>>>>>> early? Or if it happens intentionally, at some specific time during
->>>>>>>>> work.
->>>>>>>> If the unmap is restricted to audio daemon, then the unmap will only
->>>>>>>> happen if the remoteproc is no longer using this memory.
->>>>>>>>
->>>>>>>> But without this restriction, yes it possible that some userspace process
->>>>>>>> calls unmap which tries to move the ownership back to HLOS which the
->>>>>>>> remoteproc is still using the memory. This might lead to memory access
->>>>>>>> problems.
->>>>>>> This needs to be fixed in the driver. We need to track which memory is
->>>>>>> being used by the remoteproc and unmap it once remoteproc stops using
->>>>>>> it, without additional userspace intervention.
->>>>>> If it's the audio daemon which is requesting for unmap then it basically means that
->>>>>> the remoteproc is no longer using the memory. Audio PD can request for both grow
->>>>>> and shrink operations for it's dedicated heap. The case of grow is already supported
->>>>>> from fastrpc_req_mmap but the case of shrink(when remoteproc is no longer using the
->>>>>> memory) is not yet available. This memory is more specific to audio PD rather than
->>>>>> complete remoteproc.
+>>
+>> On 6/25/25 15:55, Krzysztof Kozlowski wrote:
+>>> On 25/06/2025 14:45, Michal Wilczynski wrote:
+>>>>
+>>>>
+>>>> On 6/24/25 15:53, Matt Coster wrote:
+>>>>> On 23/06/2025 12:42, Michal Wilczynski wrote:
+>>>>>> Update the img,powervr-rogue.yaml to include the T-HEAD TH1520 SoC=
+'s
+>>>>>> specific GPU compatible string.
 >>>>>>
->>>>>> If we have to control this completely from driver then I see a problem in freeing/unmapping
->>>>>> the memory when the PD is no longer using the memory.
->>>>> What happens if userspace requests to free the memory that is still in
->>>>> use by the PD
->>>> I understand your point, for this I was thinking to limit the unmap functionality to the process
->>>> that is already attached to audio PD on DSP, no other process will be able to map/unmap this
->>>> memory from userspace.
->>> Ugh... and what if the adsprpcd misbehaves?
+>>>>>> The thead,th1520-gpu compatible, along with its full chain
+>>>>>> img,img-bxm-4-64, and img,img-rogue, is added to the
+>>>>>> list of recognized GPU types.
+>>>>>>
+>>>>>> The power-domains property requirement for img,img-bxm-4-64 is als=
+o
+>>>>>> ensured by adding it to the relevant allOf condition.
+>>>>>>
+>>>>>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>>>>> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+>>>>>> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>>>>>> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+>>>>>> ---
+>>>>>>  Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 9 =
+++++++++-
+>>>>>>  1 file changed, 8 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rog=
+ue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+>>>>>> index 4450e2e73b3ccf74d29f0e31e2e6687d7cbe5d65..9b241a0c1f5941dc58=
+a1e23970f6d3773d427c22 100644
+>>>>>> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml=
+
+>>>>>> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml=
+
+>>>>>> @@ -21,6 +21,11 @@ properties:
+>>>>>>            # work with newer dts.
+>>>>>>            - const: img,img-axe
+>>>>>>            - const: img,img-rogue
+>>>>>> +      - items:
+>>>>>> +          - enum:
+>>>>>> +              - thead,th1520-gpu
+>>>>>> +          - const: img,img-bxm-4-64
+>>>>>> +          - const: img,img-rogue
+>>>>>>        - items:
+>>>>>>            - enum:
+>>>>>>                - ti,j721s2-gpu
+>>>>>> @@ -93,7 +98,9 @@ allOf:
+>>>>>>        properties:
+>>>>>>          compatible:
+>>>>>>            contains:
+>>>>>> -            const: img,img-axe-1-16m
+>>>>>> +            enum:
+>>>>>> +              - img,img-axe-1-16m
+>>>>>> +              - img,img-bxm-4-64
+>>>>>
+>>>>> This isn't right =E2=80=93 BXM-4-64 has two power domains like BXS-=
+4-64. I don't
+>>>>> really know what the right way to handle that in devicetree is give=
+n the
+>>>>> TH1520 appears to expose only a top-level domain for the entire GPU=
+, but
+>>>>> there are definitely two separate domains underneath that as far as=
+ the
+>>>>> GPU is concerned (see the attached snippet from integration guide).=
+
+>>>>>
+>>>>> Since power nodes are ref-counted anyway, do we just use the same n=
+ode
+>>>>> for both domains and let the driver up/down-count it twice?
+>>>>
+>>>> Hi Matt,
+>>>>
+>>>> Thanks for the very helpful insight. That's a great point, it seems =
+the
+>>>> SoC's design presents a tricky case for the bindings.
+>>>>
+>>>> I see what you mean about potentially using the same power domain no=
+de
+>>>> twice. My only hesitation is that it might be a bit unclear for some=
+one
+>>>> reading the devicetree later. Perhaps another option could be to rel=
+ax
+>>>> the constraint for this compatible?
+>>>>
+>>>> Krzysztof, we'd be grateful for your thoughts on how to best model t=
+his
+>>>> situation.
 >>>
->>>>> How does PD signal the memory is no longer in use?
->>>> PD makes a reverse fastrpc request[1] to unmap the memory when it is no longer used.
->>> I don't see how this can be made robust. I fear that the only way would
->>> be to unmap the memory only on audio PD restart / shutdown. Such
->>> requests should never leave the kernel.
 >>>
->>> Moreover, the payload should not be trusted, however you don't validate
->>> the length that you've got from the remote side.
->> I was thinking of giving the entire reserved memory to audio PD when
->> init_create_static_process is called. This way, we can avoid any need to
->> support grow/free request from user process and the audio PD pool on
->> DSP will have sufficient memory support the use cases.
+>>> It's your hardware, you should tell us, not me. I don't know how many=
+
+>>> power domains you have there, but for sure it is not one AND two doma=
+ins
+>>> the same time. It is either one or two, because power domains are not=
+
+>>> the same as regulator supplies.
 >>
->> This way the free can be moved to fastrpc_rpmsg_remove(When DSP
->> is shutting down) or during Audio PD restart(Static PD restart is not
->> yet supported, but clean-up can be done when PDR framework is
->> implemented in the future).
+>> Hi Krzysztof, Matt,
 >>
->> Do you see any drawbacks with this design?
-> I'm sorry for the delay in responding to your email.
->
-> I think this is a perfect idea. Can we be sure that there will be no
-> extra requests from the DSP?
-Thanks for the review!
+>> The img,bxm-4-64 GPU IP itself is designed with two separate power
+>> domains. The TH1520 SoC, which integrates this GPU, wires both of thes=
+e
+>> to a single OS controllable power gate (controlled via mailbox and E90=
+2
+>> co-processor).
+>=20
+> This helps... and also sounds a lot like regulator supplies, not power
+> domains. :/
 
-With the existing design, maximum available memory from reserved_memory section
-can be allocated and after that it the requests are expected to fail.
+Apologies for taking so long to get back to you with this, I wanted to
+make sure I had the whole picture from our side before commenting again.
 
-With the proposed design, as the entire memory is sent to audio PD, usually grow
-request is not expected, but even if there is any grow request, it is expected to fail.
+=46rom the GPU side, a "typical" integration of BXM-4-64 would use two
+power domains.
 
-I'll send out a patch with this new design for more clear understanding.
+Typically, these domains exist in silicon, regardless of whether they
+are exposed to the host OS, because the SoC's power controller must have
+control over them. As part of normal operation, the GPU firmware (always
+in domain "a" on Rogue) will request the power-up/down of the other
+domains, including during the initial boot sequence. This all happens
+transparently to the OS. The GPU block itself has no power gating at
+that level, it relies entirely on the SoC integration.
 
-//Ekansh
->
->>>> [1] https://github.com/quic/fastrpc/blob/development/src/apps_mem_imp.c#L231
+However, it turns out (unknown to me until very recently) that this
+functionality is optional. The integrator can opt to forego the
+power-saving functionality afforded by firmware-controlled power gating
+and just throw everything into a single domain, which appears to be
+what's happened here.
 
+My only remaining issue here, then, is the naming. Since this
+integration doesn't use discrete domains, saying it has one domain
+called "a" isn't correct*. We should either:
+
+ - Drop the name altogether for this integration (and others like it
+   that don't use the low-power functionality, if there are any), or
+ - Come up with a new domain name to signal this explicitly (perhaps
+   simply "gpu")? Something that's unlikely to clash with the "real"
+   names that are going to start appearing in the Volcanic bindings
+   (where we finally ditched "a", "b", etc.).
+
+Cheers,
+Matt
+
+*Yes, I know that's what we said for the AXE-1-16M, but that tiny GPU is
+the exception to the rule; AFAIK it's the only one we've ever produced
+that truly has only one power domain.
+
+>=20
+>>
+>> This means a devicetree for the TH1520 can only ever provide one power=
+
+>> domain for the GPU. However, a generic binding for img,bxm-4-64 should=
+
+>=20
+> If this was a supply, you would have two supplies. Anyway internal
+> wirings of GPU do not matter in such case and more important what the
+> SoC has wired. And it has one power domain.
+>=20
+>=20
+>> account for a future SoC that might implement both power domains.
+>>
+>> That's why I proposed to relax the constraints on the img,bmx-4-64 GPU=
+=2E
+>=20
+> This should be constrained per each device, so 1 for you and 2 for
+> everyone else.
+>=20
+> Best regards,
+> Krzysztof
+
+
+--=20
+Matt Coster
+E: matt.coster@imgtec.com
+
+--------------DMA9MUXICW2ytHwYZ0MA8DKa--
+
+--------------ab9h7gr6ve4yFtxIVhQtdlVL
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaICvRgUDAAAAAAAKCRB5vBnz2d5qsDR/
+AQCVMkVo0DMTS2De7GE/E7OlGBVH9LFEnn7OO9TwShMFUAEAtA/lX9xjcxwhQEnaeVfxNMZTaSSZ
+kNOLOVuHGwFZyAA=
+=XFar
+-----END PGP SIGNATURE-----
+
+--------------ab9h7gr6ve4yFtxIVhQtdlVL--
