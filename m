@@ -2,114 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5DEB0FC8B
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 00:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20629B0FD05
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 00:43:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16C8D10E86B;
-	Wed, 23 Jul 2025 22:12:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5379410E048;
+	Wed, 23 Jul 2025 22:43:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AWICn2Ap";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="T4kmCAI4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE4610E863
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 22:12:37 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56NGNfx0019551
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 22:12:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=nwBcV4Oemt5
- w740AAje6mIColtrmwRWXKq31FSAZZI4=; b=AWICn2ApB2hptKoeZROC9GpzaY5
- SFOn2Ft8ShfZYY1eOrWzBCbUCM9IEdHDe24FI+bSASpuOLAtwDefPQXyw+GumzTq
- XbtgmrE4Q0LY4qQbsKoVG2r0VEQNCqYxMFeaXT8ELJbN9GMGuRZ16Vhe9RDXna8n
- 8hB2ymR0ZL/m7y+4ew/0C5oPpUx5658CNlQpY9vHYy2onO/NEtrtjqGHZVKVF1uf
- GiePYIFU9rF+LBJ6QgPeS1RS56CYyEn2fg8A76CaTbB6hh/1HzwC3EwFXb37uU+G
- 2NCM46UhzpjmsQC7BLbu7sUCnC9+k5Yy17RjQxfFoe1O25R70YGAt6lLJ5A==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 483379rt7m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 22:12:36 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-234906c5e29so3480905ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 15:12:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753308745; x=1753913545;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nwBcV4Oemt5w740AAje6mIColtrmwRWXKq31FSAZZI4=;
- b=HKwG4NCfaqOu9Wt8l7whVWrUHwJTunK+b9XjVsNQddlGwASNcEihYCMnk1d/DrIyH5
- /JrOuOa8uFudJtF4DuASVOCBbe6N0FZiB7SWIlkybgD9ZssQQVg7yXcoBNl7AOlH3dk6
- jcFEAehxk20lYJk9T2hUAzMLZO559u4vjGFEWDN5yk4PBM9RxI8mdCdFwzESsaOFRIWF
- IcvVzQM2AClw6xaPXsRTUwSMODMzoRfBxGTtzkjne4oU0lsezemUrGudKTWcNV3+LJur
- Q33/XqEMFnjHezDL59ojyIu6nE+Mc0xN9hJBKNl3PSp2QYvaI+UIyWJDc8XZcUFHFOSA
- 3yYQ==
-X-Gm-Message-State: AOJu0YxKKOv2MdUhuvpRIjA73kjApkHSluKKPEg5Xw5zE1FJCYvTAWYt
- pCBXQU9fD204ovaP240ZMUJg0ho1U2XhKc0JDSx2maD31fQ+RCHS1sYYiCqiPUgKcbAbs4H2cgy
- 9/BOu2biGMbp5Efw5DWvOh3uCFOxZLZ5cOOEiaiZk4mMaKQNm95W6GApViRBjRZTfd5tEXTSU54
- 1l0Pg=
-X-Gm-Gg: ASbGncsiplunpENkp43HMVaFYV14ycphhipLuz+C1wYoZTWPdbXYO3EfMTVFaR59xWF
- nRJ8VItxm8jWichiJnbeGXx10IzNlFAg+VbL1s8VPA5Z9oZENcVNhwsoeA4fqZOq9kXU5vq3sSJ
- bw/K106YGBXDHGzui/S/r7l27knBvLfu98trUMzPITl/yHzomEzR5kHCr2/Bw40CWIuPfilGEaZ
- ZtM8qrqqELABW/tbvsyF1KHFnNeZTHnDdKHvExcIBQdcoBAmiX0FD9Zy90USyEnvPtE/avrh9th
- j+lMNiRpS+hQtPcqIguaEm+oa/PcekTXr2GiTzEb1wI5kORpvlg=
-X-Received: by 2002:a17:902:e943:b0:235:ec11:f0ee with SMTP id
- d9443c01a7336-23f9814207bmr57803145ad.14.1753308744789; 
- Wed, 23 Jul 2025 15:12:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGkj+Iw99H9WbS4Td45rekkyuGG7wRyakRiLqXabI0Xe5dEzjqYnRgG1GK9hr915l7+gNcwMA==
-X-Received: by 2002:a17:902:e943:b0:235:ec11:f0ee with SMTP id
- d9443c01a7336-23f9814207bmr57802895ad.14.1753308744415; 
- Wed, 23 Jul 2025 15:12:24 -0700 (PDT)
-Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23fa48fa0f7sm449255ad.169.2025.07.23.15.12.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jul 2025 15:12:23 -0700 (PDT)
-From: Rob Clark <robin.clark@oss.qualcomm.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Danilo Krummrich <dakr@redhat.com>, Connor Abbott <cwabbott0@gmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC22A10E048
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 22:43:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753310613; x=1784846613;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=AB2be7bdlGypmACU4zZ0a1wnOFT1GBNtcZel1TManbs=;
+ b=T4kmCAI4ezs1tii3zpNKI33/ss1aRp1tqWlKi/lQiOn+OBInQp0FmiJO
+ bkXEtrgVisZuREpnaEG06e7aSi0vKgJsgCQCXPi0pQLaWSJtmB7vOAbRS
+ jDN1NKRc+VGHHIEQercDOeZQEZmlhBUe8pxXK3yOu+amuTYuXoxUg/1Dj
+ dbkZZDPdv9md7vDjdfjgQs4pTXPxeXyfOozueJlxPHb0cFsiHdlb7s9rA
+ uupz54+lEX2hHZPAMtZ6Q0JLayz3lxGHWMx3e/ZKDL5K/GiahkDTiuHQ2
+ JsPQ59LQM3gRyvnS0FSY3l7CCPy+Csb4h7uyyXCAWnqb6spriaVUMUBFg A==;
+X-CSE-ConnectionGUID: 0C0A11tgSCOjs64BrFYcXQ==
+X-CSE-MsgGUID: 6SQR4fhyRr+WPegxCdWcZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55551144"
+X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; d="scan'208";a="55551144"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2025 15:43:32 -0700
+X-CSE-ConnectionGUID: 70TgYBp0R+So1kNDZjPRHg==
+X-CSE-MsgGUID: gGNfpaRzTpeqI3mV40pCAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; d="scan'208";a="190751334"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+ by fmviesa001.fm.intel.com with ESMTP; 23 Jul 2025 15:43:29 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ueiBK-000Jr9-1n;
+ Wed, 23 Jul 2025 22:43:26 +0000
+Date: Thu, 24 Jul 2025 06:43:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 2/2] drm/msm: Handle in-place remaps
-Date: Wed, 23 Jul 2025 15:12:12 -0700
-Message-ID: <20250723221213.36325-3-robin.clark@oss.qualcomm.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250723221213.36325-1-robin.clark@oss.qualcomm.com>
-References: <20250723221213.36325-1-robin.clark@oss.qualcomm.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Kevin Tang <kevin.tang@unisoc.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>
+Subject: Re: [PATCH v2 14/15] drm: sprd: implement IOMMU-based buffer
+ management
+Message-ID: <202507240607.WFI08aBs-lkp@intel.com>
+References: <20250722-ums9230-drm-v2-14-054276ec213d@abscue.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: -y51ZxOPdis8t-NGjDiOClx0v7depRRD
-X-Authority-Analysis: v=2.4 cv=btxMBFai c=1 sm=1 tr=0 ts=68815e54 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
- a=EUspDBNiAAAA:8 a=kCfvZJGldO2mi53t-5YA:9 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDE5MSBTYWx0ZWRfX/j9w+5MjU3ee
- purv5R/F6o7nxsduY4Rs0BdFECaW7worm0Cx2uvs78mGmLGkgK9HLApIZg9qQCQUpR2DzADDqVH
- MyFHcrVWhRmRcKFAtKwS80sf31R59cTZE88MBEJ7BjZ+ceazyeIgUOBAjKA/zA13qr0UCMbQH03
- FsPKnO9MOV/qK81tWtq98eN9CIzoXlkJy0CK5g7Bgc7SqWbOc7pEVNAPZhiMgRkGpsGUlbXzAfz
- V/IrDoNg1pYqHreDCQHYgT6/Yz7w1dRu5bGcTDNNZ5zIh6SXOo2MLbyUxwCPHyxlcXWflp8lh66
- vHDwkttVSmjhhE6GFwwqS8xhfEl9mtaJOPkH4GAB1Kq1+MydJbsSMHF8IIs5F1FbsTyXRMGK2TR
- XthLlzUxMyyfRjzIxL+hDjaq+8ydV7csligW1p4gDUOB8kHZkxW+GVOdJt3BUv8dXLOPToPv
-X-Proofpoint-ORIG-GUID: -y51ZxOPdis8t-NGjDiOClx0v7depRRD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-23_03,2025-07-23_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 clxscore=1015
- adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- lowpriorityscore=0 spamscore=0 bulkscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507230191
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250722-ums9230-drm-v2-14-054276ec213d@abscue.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,50 +80,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Handle the special case of a MAP op simply updating the va flags by
-detecting the special case, and skip pgtable updates.
+Hi Otto,
 
-Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/msm_gem_vma.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index dc54c693b28d..d4b1cfb3aa03 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -519,9 +519,10 @@ msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *arg)
- }
- 
- static int
--msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
-+msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *_arg)
- {
--	struct msm_vm_bind_job *job = ((struct op_arg *)arg)->job;
-+	struct op_arg *arg = _arg;
-+	struct msm_vm_bind_job *job = arg->job;
- 	struct drm_gpuvm *vm = job->vm;
- 	struct drm_gpuva *orig_vma = op->remap.unmap->va;
- 	struct drm_gpuva *prev_vma = NULL, *next_vma = NULL;
-@@ -529,6 +530,18 @@ msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
- 	bool mapped = to_msm_vma(orig_vma)->mapped;
- 	unsigned flags;
- 
-+	/* Special case for in-place updates: */
-+	if (op->remap.unmap->keep && arg->flags &&
-+	    op->remap.next && !op->remap.prev &&
-+	    (orig_vma->gem.obj == op->remap.next->gem.obj) &&
-+	    (orig_vma->gem.offset == op->remap.next->gem.offset) &&
-+	    (orig_vma->va.addr == op->remap.next->va.addr) &&
-+	    (orig_vma->va.range == op->remap.next->va.range)) {
-+		/* Only flags are changing, so update that in-place: */
-+		unsigned orig_flags = orig_vma->flags & (DRM_GPUVA_USERBITS - 1);
-+		orig_vma->flags |= orig_flags | arg->flags;
-+	}
-+
- 	vm_dbg("orig_vma: %p:%p:%p: %016llx %016llx", vm, orig_vma,
- 	       orig_vma->gem.obj, orig_vma->va.addr, orig_vma->va.range);
- 
+[auto build test WARNING on 05adbee3ad528100ab0285c15c91100e19e10138]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Otto-Pfl-ger/dt-bindings-display-sprd-adapt-for-UMS9230-support/20250722-224414
+base:   05adbee3ad528100ab0285c15c91100e19e10138
+patch link:    https://lore.kernel.org/r/20250722-ums9230-drm-v2-14-054276ec213d%40abscue.de
+patch subject: [PATCH v2 14/15] drm: sprd: implement IOMMU-based buffer management
+config: hexagon-randconfig-r132-20250724 (https://download.01.org/0day-ci/archive/20250724/202507240607.WFI08aBs-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+reproduce: (https://download.01.org/0day-ci/archive/20250724/202507240607.WFI08aBs-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507240607.WFI08aBs-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/sprd/sprd_gem.c:157:16: sparse: sparse: Using plain integer as NULL pointer
+
+vim +157 drivers/gpu/drm/sprd/sprd_gem.c
+
+   135	
+   136	static struct sg_table *sprd_gem_object_get_sg_table(struct drm_gem_object *obj)
+   137	{
+   138		struct sprd_gem_obj *sprd_gem = to_sprd_gem_obj(obj);
+   139		struct sg_table *sgt;
+   140		int ret;
+   141	
+   142		if (sprd_gem->pages)
+   143			return drm_prime_pages_to_sg(obj->dev, sprd_gem->pages,
+   144						     obj->size >> PAGE_SHIFT);
+   145	
+   146		sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+   147		if (!sgt)
+   148			return ERR_PTR(-ENOMEM);
+   149	
+   150		ret = dma_get_sgtable(obj->dev->dev, sgt, sprd_gem->vaddr,
+   151				      sprd_gem->dma_addr, obj->size);
+   152		if (ret < 0) {
+   153			kfree(sgt);
+   154			return ERR_PTR(ret);
+   155		}
+   156	
+ > 157		return 0;
+   158	}
+   159	
+
 -- 
-2.50.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
