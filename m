@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65C3B0EF39
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 12:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04245B0EF35
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 12:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2CC210E78F;
-	Wed, 23 Jul 2025 10:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1841710E78A;
+	Wed, 23 Jul 2025 10:05:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KaihtoYF";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZwBw95Rm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D927810E78A
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 10:05:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 272E210E78A
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 10:05:40 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D036F06;
- Wed, 23 Jul 2025 12:04:58 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2C6BF0B;
+ Wed, 23 Jul 2025 12:04:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1753265099;
- bh=j87NeKlc9anpUXCbEig4homQtezEMDttOfQxDN4FPIA=;
+ s=mail; t=1753265100;
+ bh=ORJ+r9QXRlTePgAiA6Oc9ykTVuz6BMPrXnHDUBW7+tA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=KaihtoYFNTD1kuuRosBUc6R31TXd0ojQKLc23zUJzBBFE3rMqDTc4vS4h3B1z96Fu
- URszaM91zy4ahEf3hhckXKAzhqosAFyYcPQVUcBddylJzzLrmhKH5IGgqrbDxbpNEl
- FEijYHr/+lsNFvxPkn0C2IpLVGXo7fIP5PcJ12oQ=
+ b=ZwBw95RmpEJaC4q9D0iCiR3XOHlc5Eke5Y1lPizelg4h3jhxfsDa09QGaScgRs+Xu
+ g7UuCo0KAl06l6wl+kwJiZsyjs73D6RW76WWYrV21AbobbaLNgcK3BHnP2V0gfHG/T
+ 47UiPbsU9pffBjoyQW/TvOZUFHp+BqHCobmmt1cw=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 23 Jul 2025 13:05:07 +0300
-Subject: [PATCH v5 01/15] drm/bridge: cdns-dsi: Fix the _atomic_check()
+Date: Wed, 23 Jul 2025 13:05:08 +0300
+Subject: [PATCH v5 02/15] drm/tidss: Fix missing includes and struct decls
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250723-cdns-dsi-impro-v5-1-e61cc06074c2@ideasonboard.com>
+Message-Id: <20250723-cdns-dsi-impro-v5-2-e61cc06074c2@ideasonboard.com>
 References: <20250723-cdns-dsi-impro-v5-0-e61cc06074c2@ideasonboard.com>
 In-Reply-To: <20250723-cdns-dsi-impro-v5-0-e61cc06074c2@ideasonboard.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -53,21 +53,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Parth Pancholi <parth.pancholi@toradex.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1760;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2357;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=+iBIKU6n3zpwp3bvYiJEm9dNQvFt67iy0FOXdcvLF+o=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBogLPpMF38GOVq5ARd08pP2pPYl/yZs2MBNHs30
- 3/cs9dFEwyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaICz6QAKCRD6PaqMvJYe
- 9aD2D/9jHisLIjf1YghAMVIHwfNJJ2tixN1LL+yqR9U8Zdyjo0e3oiuvEUqKyQGWC9TJVVVhlSg
- 2kQI7vQuqXy9njrFtMc6SD2Hq6fiiVFUW7pRxri5Nr135JAdtZul6BzqpHZQ247A4aaD+4WfG9v
- /Gq/oqFsc5ShTbpt/wG/MGYFt/Fy/Dwn/poBPxGBHUdT/VvPpdxj4GBB3Sj/ogeSWt9TlYHfhh+
- rRSDDddjwcu2zxOsUb58hPMnWnOMTVwHuwjsR3u8ub0/WEWKNEGjo19sROeIZAyGBs6GgxvQ0S1
- zM0D89/+HGabWBjKHp2rAopCpLEBLZDn+s3urx6xTOKrFNiwvnqkZSa5NxYLleh+nk2se4A4CVi
- Sa8MrIqlJFxc2dNSIzfMqRJzdUAYMUkFGLNMCtPKq8w8Wgm4FUOtUMbiW9IBbUQW8j6Tw5Q39XO
- S2lytxA4kfcfj1dlYxi1MPqkpFMso72F7J7opL0cOwA0ax351J3JO1hoNnxjFO0kzZuOgUN2l9h
- 8Fn0mU5fWy0PoR1Ix+CYXd6nvqqAhqKF9cEILAbwVZrtqVlw0POzsXN5pqLjqS/I+ck3IuHCOkt
- YYXgFtjLPBmqQUepH8/6znWgHRPYBspwnxgyd4XXiSYMEmqqATRyNUvuQu9y3rSzQVvShrhJ0rM
- u2FqDSGFtd7KIXw==
+ bh=ORJ+r9QXRlTePgAiA6Oc9ykTVuz6BMPrXnHDUBW7+tA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBogLPp6kU/4JIExEPKogdspBc6ktmg57XLDNNpo
+ iOOklnleBuJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaICz6QAKCRD6PaqMvJYe
+ 9aDUD/4s3YKIhT5PfWB6Fy4SGIOCjBhxa2MDayzUI4BoaHAjSEuJ4O1G2T73C3FWVLOlKjdtxL+
+ tnDLofKetsbnw/HDU1YdPtm8gbPhScEJP4uHL6MKTPSD1CJEd/aq4HKlzh3KTkLNsrXZkCVt0il
+ QSBhpn6VLauVh85jUiDKyOR4ARqIOSUU/Nf1VPn5YBKWHsvOh8pjwx5LXiD3YoRXoXpC8JtvZ1r
+ VnCSHpTlqzo3NKsj4BSaqk7bEn7QZL/2EjSZrbzSMf+zroAUUwV1Xoeqbv8rAF8myyEnE+/pwIE
+ ORs6q4Bgz0H9el1oWUPTZUD4AdCN1zL7BUPQvcLuXii5hzDlFeTXxviZJWDBgJjSL8qaUplp6Dt
+ VcvAwJD7cQLyBie737+yqBP4yXlVSsCw1emL99WrEGRD3fDEUJ5ugxlPbe40o6QuJmVxJUe7K2o
+ /a8K27ftRdTheuGdQz6Kv8KwrNNO4Zkq7ki7j9EVTsdel83XbyWAG2GDBW1NQe1T7ovT7gl1q02
+ 7HHjhgng/B8NsKTUbvZVdgtFyLS12lkJwWXw7WA7VsZATkQPsODU4nkWzW0N6OBbbJvSK0H2vtA
+ sldzNcTS5M+mfmrJuo7q2bczzxdIR1ZPXktZEC0+ODbqomNYHqmpZnA1sE7VqR6MFqZr2n6+iZj
+ 2AX71AJqsUl87uw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,42 +85,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Fix missing includes and struct declarations. Even if these don't cause
+any compile issues at the moment, it's good to have them correct.
 
-Use the "adjusted_mode" for the dsi configuration check, as that is the
-more appropriate display_mode for validation, and later bridge enable.
-
-Also, fix the mode_valid_check parameter from false to true, as the dsi
-configuration check is taking place during the check-phase, and the
-crtc_* mode values are not expected to be populated yet.
-
-Fixes: a53d987756ea ("drm/bridge: cdns-dsi: Move DSI mode check to _atomic_check()")
-Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Tested-by: Parth Pancholi <parth.pancholi@toradex.com>
 Tested-by: Jayesh Choudhary <j-choudhary@ti.com>
 Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tidss/tidss_dispc.h       | 3 +++
+ drivers/gpu/drm/tidss/tidss_drv.h         | 2 ++
+ drivers/gpu/drm/tidss/tidss_plane.h       | 2 ++
+ drivers/gpu/drm/tidss/tidss_scale_coefs.h | 2 ++
+ 4 files changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index a57ca8c3bdae..695b6246b280 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -997,10 +997,10 @@ static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
- 	struct cdns_dsi_bridge_state *dsi_state = to_cdns_dsi_bridge_state(bridge_state);
--	const struct drm_display_mode *mode = &crtc_state->mode;
-+	const struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
- 	struct cdns_dsi_cfg *dsi_cfg = &dsi_state->dsi_cfg;
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+index b8614f62186c..60c1b400eb89 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.h
++++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+@@ -7,11 +7,14 @@
+ #ifndef __TIDSS_DISPC_H__
+ #define __TIDSS_DISPC_H__
  
--	return cdns_dsi_check_conf(dsi, mode, dsi_cfg, false);
-+	return cdns_dsi_check_conf(dsi, adjusted_mode, dsi_cfg, true);
- }
++#include <drm/drm_color_mgmt.h>
++
+ #include "tidss_drv.h"
  
- static struct drm_bridge_state *
+ struct dispc_device;
+ 
+ struct drm_crtc_state;
++struct drm_plane_state;
+ 
+ enum tidss_gamma_type { TIDSS_GAMMA_8BIT, TIDSS_GAMMA_10BIT };
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+index d14d5d28f0a3..84454a4855d1 100644
+--- a/drivers/gpu/drm/tidss/tidss_drv.h
++++ b/drivers/gpu/drm/tidss/tidss_drv.h
+@@ -9,6 +9,8 @@
+ 
+ #include <linux/spinlock.h>
+ 
++#include <drm/drm_device.h>
++
+ #define TIDSS_MAX_PORTS 4
+ #define TIDSS_MAX_PLANES 4
+ #define TIDSS_MAX_OLDI_TXES 2
+diff --git a/drivers/gpu/drm/tidss/tidss_plane.h b/drivers/gpu/drm/tidss/tidss_plane.h
+index aecaf2728406..92c560c3a621 100644
+--- a/drivers/gpu/drm/tidss/tidss_plane.h
++++ b/drivers/gpu/drm/tidss/tidss_plane.h
+@@ -7,6 +7,8 @@
+ #ifndef __TIDSS_PLANE_H__
+ #define __TIDSS_PLANE_H__
+ 
++#include <drm/drm_plane.h>
++
+ #define to_tidss_plane(p) container_of((p), struct tidss_plane, plane)
+ 
+ struct tidss_device;
+diff --git a/drivers/gpu/drm/tidss/tidss_scale_coefs.h b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
+index 9c560d0fdac0..9824d02d9d1f 100644
+--- a/drivers/gpu/drm/tidss/tidss_scale_coefs.h
++++ b/drivers/gpu/drm/tidss/tidss_scale_coefs.h
+@@ -9,6 +9,8 @@
+ 
+ #include <linux/types.h>
+ 
++struct device;
++
+ struct tidss_scale_coefs {
+ 	s16 c2[16];
+ 	s16 c1[16];
 
 -- 
 2.43.0
