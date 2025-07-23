@@ -2,76 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B302B0F78F
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 17:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B31B0F7BB
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 18:03:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AADF310E7F9;
-	Wed, 23 Jul 2025 15:58:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F46D10E810;
+	Wed, 23 Jul 2025 16:03:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bbbXgvZU";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="m3yhEFpL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
- [209.85.222.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4A1510E7FB
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 15:58:20 +0000 (UTC)
-Received: by mail-ua1-f47.google.com with SMTP id
- a1e0cc1a2514c-888d575cb64so64012241.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 08:58:20 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7218910E81A
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 16:03:53 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-af0dc229478so500596766b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753286299; x=1753891099; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=9p/UBhTFN1ybZMAaIUf09nitE5JwcpwgmN2jWget8ss=;
- b=bbbXgvZUSpTY9smL5WdWn5RliB5HYGA3r5hM0GyiIiDea1IEqGg6FnzIx3vKAPmkVV
- UUqlswx/sMAyHaLtNijCFpn+OKHn6H2a/z1fILGF8pNFJ8IPUiLLsIkMHoIAfSQzLYB9
- +k/6bt9U/7zf6HcBWtE+CeFZGNGKJfJEdfvxtQ3VWNqOMxNt6U2WBOddAt14D4f7O3++
- dcuex/Acen4/RUYDNkAIgW3ZEKvzLdmwe1XdlVbiVok5cWB/tmTMLrPx4HwLHfwq97Mn
- 0Hfug7/8e9AMBckZjoQSBulOV7phRzJbB5JfwPOQMvLITumDeC2mZb5H8HWypv67z0t1
- JjIQ==
+ d=chromium.org; s=google; t=1753286629; x=1753891429;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4Q7xv7dB05a0bq7wMlNS1QxIiv1Ilfjn0v+vSe8yJNg=;
+ b=m3yhEFpLRazhgs+lN3+eCXOeWHa5/XE9/nsiZqXsnuBXj/3aIUQIUK/4jE2oc0eGj7
+ VQzzTGtl+gD1v5sY8DRl+D0ZA9AV1L4+ci1fqkVry9wOhGyo0PUVnijklCbDuW0tiwXq
+ Fv9WTu4gZaHokbvcEXkowwY6EsFyOQzvLOC2k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753286299; x=1753891099;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9p/UBhTFN1ybZMAaIUf09nitE5JwcpwgmN2jWget8ss=;
- b=SUxDMxNE6t1ZVP+mdGhN2jvFUcUCqtcvMD5k97xLNBlAeZGSRvR3iee2uQh6dPH6op
- yaYgHPSEC+CIsimdlXx3/uqV2EvzyudsRcMZwVqwtJ6Gi2DuZK2JAIga8gJORKUf0Mri
- IXEGDnsqZUlreOBoNMFwRr+alGW00zwMS7jhjE80IUboTlzC7K64SEka6NgHTZ2YJmu1
- G0CS3ev1akCd6HFuRE//137FNZtnDQMA/z/gcDY9Mfbvu6QskG517bFG02wGEvc1D7VN
- NFS6a7/xoeUu5DRkOxbiihbbATB9w3upoS2spsyNHXi7PLHVPhDOALb2KVru6aKW80R+
- tWaQ==
+ d=1e100.net; s=20230601; t=1753286629; x=1753891429;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4Q7xv7dB05a0bq7wMlNS1QxIiv1Ilfjn0v+vSe8yJNg=;
+ b=XLK84vMfas+qmG0wLUVJF45n0TapGW/H32BMCULzB+0Olf20EweciBZuDHvO5rKGxc
+ oQezYKEwgWN7dG3Bkl/tm+x4yfalRl8r0zo7b8FKdGP/5chBO0luFwp6uwrCwrypyqfP
+ TylrlT3XsHQ+EoOxEYdp9iLstTeLqKJG24RRMoQ6DqyucUcuffPpZy98ZeJUjY8OPoOc
+ U2rnreg7PDuYKwXgvipIQyEOflsrtLLerNsNr1ytrVPiY1kmOguRa+TrMfgUmbTmWP6g
+ n0YX4LKzous8+i4JFIpPdqSA2u0MvZNDDO6IjwcPtZKZrBw8DL1wDLgoQNB2/7mqGlGj
+ cqCQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVHmik/lIBTPJz3FgN+E4oPjBw9PFMQuku8faFBX1t5klpoERfmEovAnnxTO2r4L32TYkPdhHYg6Go=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEEXg2z1K65v6KqgGUVxLvAnEYQ/vd1WUohb+l+E79VyAN0qCj
- uoZu3/WynPf2msuMQWnUK/wF3XY/mNhyENU2hINsio8r1S+0KDtx1VXzWqQ02dOxnQTQro8bBji
- ivXD5ldE5b4sdDXvzTtuKyeps/kAFyw==
-X-Gm-Gg: ASbGncsfYu1425K9BA8P8N9EVs81S74D9MV3DhAhsow+bK7zcO2bbO6uyE0sAV5YoWC
- sm6lU6m97HTQbG1nPmbRHPplUKJY/Iz7mx4mkoq/EHTJlLqW/Fu1tMujKHSA7zFycJKa+GQ5dmk
- OAK8BGCS8SCK1zQiUUY3ovR1yIgUf0fAeZQAnIowES91nopvIRNWYsCKVp4742SNJbOCDhgsaC7
- wc5sljlo2mYU4TvGIha9sW0QyUhpUVfGvIsF3h0
-X-Google-Smtp-Source: AGHT+IEkjxd0m/zhlC4ZnfLYdT0ducGCRfhwTDZXM+3uaEwz1+kgtPDk/fk5srjuJPOGaCt6mYTu9FV35LzKIor/6xo=
-X-Received: by 2002:a05:6102:2b95:b0:4cd:43d2:1b05 with SMTP id
- ada2fe7eead31-4fa152c4873mr609753137.8.1753286299374; Wed, 23 Jul 2025
- 08:58:19 -0700 (PDT)
+ AJvYcCU6cxXMTcqK/yQdLyizk5HwJcekgZcrcQhLTV7605mhT1T6aRaxcPATng67QFydsnGtF4EBDEz4xAg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw5QXiAWJkw+97XgnbkbGV0VnKjvAWe6YtVX6Jnn/NDpGuNOEXE
+ 1N/sMmLeojCd3FoShht1zjwtBvJ6WEZ4J6oKpy9B3xMlHQV5+gXQ8F4LJvTpJvEZ1ym/GAvhpO9
+ WA40iFw==
+X-Gm-Gg: ASbGncuBhNN/mAK9DFdxcJ92WwY5kWUQFXd6dVjPuZUknzVbpkp359NEcz/HazBBqXQ
+ aEPTTzzaxdo15UTn4YS+gf2LsUGEp5c+nEF/BJGVGHL+NekHxiXebK2l88E82jIt0ciSSxE3iuF
+ mJRXPtpDqAzyqrlrwIVDhwpdepTU5CYRSdaIhjUFsFhT9SduHlq9Pw6T8noltjntcKpZZOkX4Fs
+ pOeKi1e5FiJllsYY7npnweOEA0wcaZfXLKWbrC3lMO6Idrqwmy39NRJFMbTYe7D6Rl2P8N3d5Dv
+ IYO6x38sSGo/LP1tdyhusuoHg05flNsprfGlteGLCll7KI8wD1GfVVTMa7uVxWV+p8xA8D7zH0k
+ oEa3AcajrK2FSVbJVkvxytc6Ridl6b/qm229hynagwysVUlFXhGxyWddBnJCEE+bvtWUARuk8
+X-Google-Smtp-Source: AGHT+IGkIyTeH4B+wNeHKGPThX/OGkOaAdLRJzKW8oo5JiknwOm08bZviAAE1AEtp5h0iZeb71zgpQ==
+X-Received: by 2002:a17:907:e916:b0:ae6:efe1:5baf with SMTP id
+ a640c23a62f3a-af2f6bfcd52mr410304866b.19.1753286628480; 
+ Wed, 23 Jul 2025 09:03:48 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
+ [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aec6ca310c1sm1064023766b.71.2025.07.23.09.03.46
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Jul 2025 09:03:47 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-60707b740a6so113063a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:03:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2dYKg+5G54F3So0gmyqVx8MY0+SLr8pzKV2KTcY7hi6dWXfz7vK8dyIR8f8FN9aPNTmfAAuqoilU=@lists.freedesktop.org
+X-Received: by 2002:a17:907:94cc:b0:aec:4881:6e2b with SMTP id
+ a640c23a62f3a-af2f8762776mr368390066b.28.1753286625900; Wed, 23 Jul 2025
+ 09:03:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250722204114.3340516-1-chenyuan0y@gmail.com>
- <20250723-gigantic-wrasse-of-warranty-dc70d7@houat>
-In-Reply-To: <20250723-gigantic-wrasse-of-warranty-dc70d7@houat>
-From: Chenyuan Yang <chenyuan0y@gmail.com>
-Date: Wed, 23 Jul 2025 08:58:07 -0700
-X-Gm-Features: Ac12FXyFBnyJS7i6qAUtDTkRAZ2UuJbgRYhO6627x_xdrklKBCINjWCHGEn28js
-Message-ID: <CALGdzuoprX2Q=vwOENrmAbPbJb+XeBjQqG90YEOApSbW9uKeZg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: Add null pointer check for ITE IT6263
-To: Maxime Ripard <mripard@kernel.org>
-Cc: airlied@gmail.com, andrzej.hajda@intel.com, biju.das.jz@bp.renesas.com, 
- dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se, 
- laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, 
- lumag@kernel.org, maarten.lankhorst@linux.intel.com, 
- neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch, 
- tzimmermann@suse.de, victor.liu@nxp.com
-Content-Type: multipart/alternative; boundary="000000000000105aaf063a9ac789"
+References: <20250723072513.2880369-1-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250723072513.2880369-1-yelangyan@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 23 Jul 2025 09:03:31 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XB0s_-qxm0p+vV96iJUxAwhcsvzFkOh1nhso2WkDoC2g@mail.gmail.com>
+X-Gm-Features: Ac12FXwPjOsbwvF6lFtTC0ghMcxi51ZA2W2nWz8FIaHzuI_Dwx1tzkAytibzqGA
+Message-ID: <CAD=FV=XB0s_-qxm0p+vV96iJUxAwhcsvzFkOh1nhso2WkDoC2g@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panel-edp: Add 50ms disable delay for four panels
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,168 +101,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000105aaf063a9ac789
-Content-Type: text/plain; charset="UTF-8"
+Hi,
 
-On Tue, Jul 22, 2025 at 23:57 Maxime Ripard <mripard@kernel.org> wrote:
-
-> On Tue, Jul 22, 2025 at 03:41:14PM -0500, Chenyuan Yang wrote:
-> > drm_atomic_get_new_connector_for_encoder and
-> > drm_atomic_get_new_connector_state could return Null.
+On Wed, Jul 23, 2025 at 12:25=E2=80=AFAM Langyan Ye
+<yelangyan@huaqin.corp-partner.google.com> wrote:
 >
-> They can, but not in that scenario. atomic_enable will never be called
-> if either would return NULL.
+> Add 50ms disable delay for NV116WHM-N49, NV122WUM-N41, and MNC207QS1-1
+> to satisfy T9+T10 timing. Add 50ms disable delay for MNE007JA1-2
+> as well, since MNE007JA1-2 copies the timing of MNC207QS1-1.
 >
-> In which situation did you trigger this bug?
-
-
-This is found by our static analysis tool based on the fact that
-drm_atomic_get_new_connector_state() could return NULL. We also noticed
-that under the same dir, ITE IT6505 transmitter has such checks. Thus, we
-assume it would be good to have similar checks here.
-
-
-> > Thus, add the null pointer check for them with a similar format with
-> > it6505_bridge_atomic_enable in ITE IT6505.
-> >
-> > Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-> > Fixes: 049723628716 ("drm/bridge: Add ITE IT6263 LVDS to HDMI converter")
-> > ---
-> >  drivers/gpu/drm/bridge/ite-it6263.c | 15 ++++++++++++++-
-> >  1 file changed, 14 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/ite-it6263.c
-> b/drivers/gpu/drm/bridge/ite-it6263.c
-> > index a3a63a977b0a..3a20b2088bf9 100644
-> > --- a/drivers/gpu/drm/bridge/ite-it6263.c
-> > +++ b/drivers/gpu/drm/bridge/ite-it6263.c
-> > @@ -590,15 +590,28 @@ static void it6263_bridge_atomic_enable(struct
-> drm_bridge *bridge,
-> >       struct drm_connector *connector;
-> >       bool is_stable = false;
-> >       struct drm_crtc *crtc;
-> > +     struct drm_connector_state *conn_state;
-> >       unsigned int val;
-> >       bool pclk_high;
-> >       int i, ret;
-> >
-> >       connector = drm_atomic_get_new_connector_for_encoder(state,
-> >
-> bridge->encoder);
-> > -     crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-> > +     if (WARN_ON(!connector))
-> > +             return;
-> > +
-> > +     conn_state = drm_atomic_get_new_connector_state(state, connector);
-> > +     if (WARN_ON(!conn_state))
-> > +             return;
-> > +
-> > +     crtc = conn_state->crtc;
-> >       crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-> > +     if (WARN_ON(!crtc_state))
-> > +             return;
-> > +
-> >       mode = &crtc_state->adjusted_mode;
-> > +     if (WARN_ON(!mode))
-> > +             return;
+> Specifically, it should be noted that the MNE007JA1-2 panel was added
+> by someone who did not have the panel documentation, so they simply
+> copied the timing from the MNC207QS1-1 panel. Adding an extra 50 ms
+> of delay should be safe.
 >
-> And that condition can never be true.
->
-> Maxime
->
+> Fixes: 0547692ac146 ("drm/panel-edp: Add several generic edp panels")
+> Fixes: 50625eab3972 ("drm/edp-panel: Add panel used by T14s Gen6 Snapdrag=
+on")
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+> v2:
+>   - Deleted "delay_200_500_e50_d50_p2e200" structure and renamed/replaced=
+ "delay_200_500_e50_p2e200"
+>   - Link to v1: https://lore.kernel.org/all/20250722024512.983313-1-yelan=
+gyan@huaqin.corp-partner.google.com/
+> ---
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 
---000000000000105aaf063a9ac789
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks! This looks good to me now:
 
-<div><div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Tue, Jul 22, 2025 at 23:57 Maxime Ripard &lt;<a href=
-=3D"mailto:mripard@kernel.org" target=3D"_blank">mripard@kernel.org</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bo=
-rder-left-color:rgb(204,204,204)">On Tue, Jul 22, 2025 at 03:41:14PM -0500,=
- Chenyuan Yang wrote:<br>
-&gt; drm_atomic_get_new_connector_for_encoder and<br>
-&gt; drm_atomic_get_new_connector_state could return Null.<br>
-<br>
-They can, but not in that scenario. atomic_enable will never be called<br>
-if either would return NULL.<br>
-<br>
-In which situation did you trigger this bug?</blockquote><div dir=3D"auto">=
-<br></div><div dir=3D"auto">This is found by our static analysis tool based=
- on the fact that=C2=A0<div dir=3D"auto"><span style=3D"font-size:17px;font=
--style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:norma=
-l;text-align:start;text-indent:0px;text-transform:none;white-space:normal;w=
-ord-spacing:0px;text-decoration:none;float:none;display:inline!important;co=
-lor:rgb(0,0,0)">drm_atomic_get_new_connector_</span><span style=3D"font-siz=
-e:17px;font-style:normal;font-variant-caps:normal;font-weight:400;letter-sp=
-acing:normal;text-align:start;text-indent:0px;text-transform:none;white-spa=
-ce:normal;word-spacing:0px;text-decoration:none;float:none;display:inline!i=
-mportant;color:rgb(0,0,0)">state() could return NULL. We also noticed that =
-under the same dir,=C2=A0</span><span style=3D"color:rgb(0,0,0)">ITE IT6505=
- transmitter has such checks. Thus, we assume it would be good to have simi=
-lar checks here.</span></div></div><div dir=3D"auto"><br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1=
-px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,2=
-04)" dir=3D"auto"><br>
-&gt; Thus, add the null pointer check for them with a similar format with<b=
-r>
-&gt; it6505_bridge_atomic_enable in ITE IT6505.<br>
-&gt; <br>
-&gt; Signed-off-by: Chenyuan Yang &lt;<a href=3D"mailto:chenyuan0y@gmail.co=
-m" target=3D"_blank">chenyuan0y@gmail.com</a>&gt;<br>
-&gt; Fixes: 049723628716 (&quot;drm/bridge: Add ITE IT6263 LVDS to HDMI con=
-verter&quot;)<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/bridge/ite-it6263.c | 15 ++++++++++++++-<br>
-&gt;=C2=A0 1 file changed, 14 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bri=
-dge/ite-it6263.c<br>
-&gt; index a3a63a977b0a..3a20b2088bf9 100644<br>
-&gt; --- a/drivers/gpu/drm/bridge/ite-it6263.c<br>
-&gt; +++ b/drivers/gpu/drm/bridge/ite-it6263.c<br>
-&gt; @@ -590,15 +590,28 @@ static void it6263_bridge_atomic_enable(struct d=
-rm_bridge *bridge,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_connector *connector;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool is_stable =3D false;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct drm_crtc *crtc;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct drm_connector_state *conn_state;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int val;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool pclk_high;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int i, ret;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0connector =3D drm_atomic_get_new_connector_f=
-or_encoder(state,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bridge-&=
-gt;encoder);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0crtc =3D drm_atomic_get_new_connector_state(state=
-, connector)-&gt;crtc;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (WARN_ON(!connector))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0conn_state =3D drm_atomic_get_new_connector_state=
-(state, connector);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (WARN_ON(!conn_state))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0crtc =3D conn_state-&gt;crtc;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0crtc_state =3D drm_atomic_get_new_crtc_state=
-(state, crtc);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (WARN_ON(!crtc_state))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0mode =3D &amp;crtc_state-&gt;adjusted_mode;<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (WARN_ON(!mode))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-<br>
-And that condition can never be true.<br>
-<br>
-Maxime<br>
-</blockquote></div></div>
-</div>
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
---000000000000105aaf063a9ac789--
+I looked at pushing this to drm-misc-fixes but it didn't apply cleanly
+due to context. Given that the original patch is 1.5 years old and the
+only reported problems are that timings were violated (probably tested
+on a scope), I'm going to say it's not worth it to make someone deal
+with a merge conflict so I'm just applying to drm-misc-next.
+
+Pushed to drm-misc-next:
+
+[1/1] drm/panel-edp: Add 50ms disable delay for four panels
+      commit: 1511d3c4d2bb30f784924a877f3cef518bb73077
