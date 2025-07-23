@@ -2,64 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAAF9B0EB8C
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 09:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C29B0EBDA
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 09:25:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16D7610E761;
-	Wed, 23 Jul 2025 07:15:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF94F10E762;
+	Wed, 23 Jul 2025 07:25:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ryz3mPKK";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="n6LMVasq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A360E10E75E
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 07:15:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2D8C75C57E1;
- Wed, 23 Jul 2025 07:15:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FEA7C4CEE7;
- Wed, 23 Jul 2025 07:15:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753254929;
- bh=aoQqriX7CooIPgMf9W7uo25rnfymCO1WAzndg4imAxs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ryz3mPKKqpMYfFdxtdLwsLUNADzvjjWOQj9xApvRL/oZjV4pGyNB2CcAVql1LM8gG
- 1OF9dXIptw4qYkMUmgtx+r9Vp/wvKnGmqsj/PV77SOobPPfX7QQQ3jHGzTw3TdaEqp
- k9Z9zcaC1+9uZRm3Llky+X0MyyzfgEK2GILXMURVCyZV6vZAUrBZSrsyoTi2S0Supq
- 1n0X1Y8POOkozkFMTU5KAB9sxAqzQQZRkqNSJpjrGJIA8ME/leaiOBYrfGni7yGH4K
- jcZ0K4UK0HtJs8RpnVR3qiQEqUeIoTK9cVtc9oXU7KT5bDUpV4tGlAvAI5jKFzuvm2
- crjsI7K7CdRXQ==
-Date: Wed, 23 Jul 2025 12:45:25 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>,
- Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
- Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <aICMDROkyjzBZFHo@vaman>
-References: <644oygj43z2um42tmmldp3feemgzrdoirzfw7pu27k4zi76bwg@wfxbtgqqgh4p>
- <dc7358a1-ddc5-402e-9024-283f8e46e3b6@quicinc.com>
- <CAO9ioeVuAO6mYpBSpiTW0jhFRPtkubZ5eEskd1yLBHVdR8_YMA@mail.gmail.com>
- <1b55d9d4-f3ff-4cd9-8906-5f370da55732@quicinc.com>
- <28d26c70-178f-413b-b7f8-410c508cfdd7@quicinc.com>
- <CAO9ioeXBwFYL8q7x7_fHvx5YO+qyAXk4wpnfPrku4iY9yBsk0Q@mail.gmail.com>
- <cac5e84b-fbdb-47a9-860d-16a7fa4dc773@quicinc.com>
- <4q3vlydi5xgltd3pcez54alxgrehhfn4pppg47ngwp6y5k7n33@d4d4htntj64k>
- <53dd18ec-9a65-4bf7-8490-ca3eb56ce2a5@quicinc.com>
- <iang2jpe4s6wmbypmtq5uswcm6n6xntqdulyhekcz5k6zxddu3@re3rrr4dso5p>
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D244410E762
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 07:25:21 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-23e210ebd5dso4715985ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 00:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1753255521; x=1753860321; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FbVvJ/dl2UFKOk7clhbTp0K7aqaTWpr5zaoIRguIYZA=;
+ b=n6LMVasq4kWYyXpN82YDHq7OtEVcwvaEU92hX/99enkTP0YJLMQNBlwexqzX93Bzo5
+ Upix8rw4BaXEH4Mo10/CcTsG3JCtRU18tC6KhvZ2ErhJW8jNTomYDOfhLSLT8PURMCSs
+ KjWOfkLAFr9PC61kfzVdDW9F/eHakw2acPiK43vG91Wxdf0tR/oww+lxyIOZM/ERdeLi
+ ElCRoCW94GdnenMo5EOhCKuemHuz810pU/OLbuAywOA4zNq8yNn7oLRvUxRg2dL1xTE1
+ Y2neKIHfc1ysXd07FLlG8RHMZPwoY25hXIMHbTckpvzFYRqpfU4GXzCWV438XgBpnOkD
+ eJfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753255521; x=1753860321;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FbVvJ/dl2UFKOk7clhbTp0K7aqaTWpr5zaoIRguIYZA=;
+ b=PJzU6oEu8v7en4eIoaI0AOYvfS/CTOJx5WmliOWse6AwFohlSYYwQay5PbqHZ4EYS4
+ fxe4rHSB4w4V/tfU3GYKamKn+a0WywT6IqG7/mRLQJzmnT5cQAxUoLd1GqURzFuYsR4R
+ fwiAA+I4LJd0tkeg2/YWzXv+VcYKNvMlGwgWatFtcDZ+Tk9+N64qYypzdgm44oMCBCvO
+ j1DIJfToLVbG5TNitJ+77KQddsx4oVKNkXFj1f8RUmOyKMQOxZsm+GuGN5YcHc2hPd+P
+ SsvFNlQ3l/a0DXm5rfWRkZoNfiGK3yC93odfv12vy1p2sloRqXPlcIM+cpBWcIaGcpPg
+ 7PGg==
+X-Gm-Message-State: AOJu0YzB2oYwexJ9OJyim4Nh9RCwJ/+tnfyxdzrc1l0DHiC3JAeiP6gR
+ 0Ypwt81t4dtJn7X+2nN53ZbeS0ncFs62D7FJ1jzIixTZ7mIFBmraYrueBQ3VxdVCNtw=
+X-Gm-Gg: ASbGnctVNoo9HZfR9ye72y/fUZOu4XPWDanEBH3ufygL0syXPegxjV2poEatVABdVBE
+ O3bL2Z1vILBpD3q1G1cXRFdqThZIVb0pNVlw7eTjzsq8yv6nUMy4EgJ5dcu4mAlvCVpxxtk+9IZ
+ +SttVWV+LFsHq8HzwTeqYEf34XoeWVIOhX3HjXgkqwnqGV/fb9q/1iwy7LkQEm8D6M1/lC675oa
+ B0IgwRYUSEEQLUGKE0FecVAY0RFO5/6xmkx55bfcAeLxdGy8OZhJe5F6A6I678xK7K6co5wvGqY
+ RzdccXZpuT5BWEymn9q1QWO5oIGfLukRBFypx02tRhgaDap5O2HAQi44U4nsJgyoVLfy148m4jI
+ 7nvvl6gjStVRy4usfBu7EuZDM3DQ32BNCuxoRMsV5D4FRYhq+OX2epIKYCVn3KBIuPyG+pQIQvu
+ CD9/kB
+X-Google-Smtp-Source: AGHT+IFINmSfyMA860ygGntKNOpi4Ot+pzj3Tn4lpfMlC1W1Ze9XP6Rd+l9jS1YOTv/Ti5UF8dwxxQ==
+X-Received: by 2002:a17:902:d4d1:b0:235:e1d6:2ac0 with SMTP id
+ d9443c01a7336-23f8ace63afmr92233655ad.24.1753255521187; 
+ Wed, 23 Jul 2025 00:25:21 -0700 (PDT)
+Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23e3b6b491bsm89749575ad.126.2025.07.23.00.25.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Jul 2025 00:25:20 -0700 (PDT)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: dianders@chromium.org, neil.armstrong@linaro.org,
+ jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH v2] drm/panel-edp: Add 50ms disable delay for four panels
+Date: Wed, 23 Jul 2025 15:25:13 +0800
+Message-Id: <20250723072513.2880369-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <iang2jpe4s6wmbypmtq5uswcm6n6xntqdulyhekcz5k6zxddu3@re3rrr4dso5p>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,40 +88,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22-07-25, 15:46, Dmitry Baryshkov wrote:
-> On Tue, Jul 22, 2025 at 05:50:08PM +0530, Jyothi Kumar Seerapu wrote:
-> > On 7/19/2025 3:27 PM, Dmitry Baryshkov wrote:
-> > > On Mon, Jul 07, 2025 at 09:58:30PM +0530, Jyothi Kumar Seerapu wrote:
-> > > > On 7/4/2025 1:11 AM, Dmitry Baryshkov wrote:
-> > > > > On Thu, 3 Jul 2025 at 15:51, Jyothi Kumar Seerapu
+Add 50ms disable delay for NV116WHM-N49, NV122WUM-N41, and MNC207QS1-1
+to satisfy T9+T10 timing. Add 50ms disable delay for MNE007JA1-2
+as well, since MNE007JA1-2 copies the timing of MNC207QS1-1.
 
-[Folks, would be nice to trim replies]
+Specifically, it should be noted that the MNE007JA1-2 panel was added
+by someone who did not have the panel documentation, so they simply
+copied the timing from the MNC207QS1-1 panel. Adding an extra 50 ms
+of delay should be safe.
 
-> > > > Could you please confirm if can go with the similar approach of unmap the
-> > > > processed TREs based on a fixed threshold or constant value, instead of
-> > > > unmapping them all at once?
-> > > 
-> > > I'd still say, that's a bad idea. Please stay within the boundaries of
-> > > the DMA API.
-> > >
-> > I agree with the approach you suggested—it's the GPI's responsibility to
-> > manage the available TREs.
-> > 
-> > However, I'm curious whether can we set a dynamic watermark value perhaps
-> > half the available TREs) to trigger unmapping of processed TREs ? This would
-> > allow the software to prepare the next set of TREs while the hardware
-> > continues processing the remaining ones, enabling better parallelism and
-> > throughput.
-> 
-> Let's land the simple implementation first, which can then be improved.
-> However I don't see any way to return 'above the watermark' from the DMA
-> controller. You might need to enhance the API.
+Fixes: 0547692ac146 ("drm/panel-edp: Add several generic edp panels")
+Fixes: 50625eab3972 ("drm/edp-panel: Add panel used by T14s Gen6 Snapdragon")
+Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+---
+v2:
+  - Deleted "delay_200_500_e50_d50_p2e200" structure and renamed/replaced "delay_200_500_e50_p2e200"
+  - Link to v1: https://lore.kernel.org/all/20250722024512.983313-1-yelangyan@huaqin.corp-partner.google.com/
+---
+---
+ drivers/gpu/drm/panel/panel-edp.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Traditionally, we set the dma transfers for watermark level and we get a
-interrupt. So you might want to set the callback for watermark level
-and then do mapping/unmapping etc in the callback. This is typical model
-for dmaengines, we should follow that well
-
-BR
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 09170470b3ef..d0aa602ecc9d 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1736,10 +1736,11 @@ static const struct panel_delay delay_200_500_e50 = {
+ 	.enable = 50,
+ };
+ 
+-static const struct panel_delay delay_200_500_e50_p2e200 = {
++static const struct panel_delay delay_200_500_e50_d50_p2e200 = {
+ 	.hpd_absent = 200,
+ 	.unprepare = 500,
+ 	.enable = 50,
++	.disable = 50,
+ 	.prepare_to_enable = 200,
+ };
+ 
+@@ -1941,13 +1942,13 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x09dd, &delay_200_500_e50, "NT116WHM-N21"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a1b, &delay_200_500_e50, "NV133WUM-N63"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a36, &delay_200_500_e200, "Unknown"),
+-	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a3e, &delay_200_500_e80, "NV116WHM-N49"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a3e, &delay_200_500_e80_d50, "NV116WHM-N49"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, "NV140WUM-N41"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_po2e200, "NV140FHM-NZ"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b1e, &delay_200_500_e80, "NE140QDM-N6A"),
+-	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122WUM-N41"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80_d50, "NV122WUM-N41"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b66, &delay_200_500_e80, "NE140WUM-N6G"),
+@@ -1986,8 +1987,8 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14e5, &delay_200_500_e80_d50, "N140HGA-EA1"),
+ 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x162b, &delay_200_500_e80_d50, "N160JCE-ELL"),
+ 
+-	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50_p2e200, "MNC207QS1-1"),
+-	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1413, &delay_200_500_e50_p2e200, "MNE007JA1-2"),
++	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50_d50_p2e200, "MNC207QS1-1"),
++	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1413, &delay_200_500_e50_d50_p2e200, "MNE007JA1-2"),
+ 
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1100, &delay_200_500_e80_d50, "MNB601LS1-1"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1103, &delay_200_500_e80_d50, "MNB601LS1-3"),
 -- 
-~Vinod
+2.34.1
+
