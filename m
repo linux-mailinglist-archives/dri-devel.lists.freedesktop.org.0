@@ -2,120 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19121B0EF10
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 12:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC981B0EF34
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 12:05:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7923610E787;
-	Wed, 23 Jul 2025 10:01:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 998A910E785;
+	Wed, 23 Jul 2025 10:05:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="do/DoECD";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tlyHAGcU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC1A10E785
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 10:01:12 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56N9SGrX016061
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 10:01:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 02eNwnQSdZOrbqRzgnYfd2i6lrz8eYPVvEuITuHkMEA=; b=do/DoECDOeN90vpB
- KzWf4ibiN6N8XYYoDuyxMYCU5SUsmJVZcS3mPpqQsslsJjjplu5j8q7IRQBnT60P
- KOYIIKqpdpGL6d2hg71FmLCmxC7463Sstr1BHNgmXoQHZlfGLW3Rxf1KZ2ophO+2
- 47olr6vATftjGZWXDIsUtTNNCu+qknvwkxbfm6YLpY1aEAjJkbX7mLhjp4DtDUZR
- mTKz2f96lME6KjCHSlkO+Yi7OqICekdFpbhIR2GlcvHPllDazIOBNM4zkCM9Hx1w
- 2UZg9XUSGubuX1zWLjrykqkdTf9Z3cYBZHbNNTS7BEUs6XlCFuKBo3+6bUs9/q8O
- mwCCuw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48048vb1sy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 10:01:11 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7e33e133f42so28383385a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 03:01:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753264870; x=1753869670;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=02eNwnQSdZOrbqRzgnYfd2i6lrz8eYPVvEuITuHkMEA=;
- b=kgrAG8lkIsX6J7xEifIfRhCZ60KVXB0Qz6zOXnSrxSesxgaC38eCpniJobkeloD/Yv
- TkscTtX+qsa7DS1JB1f0i6tQmsF7vXZeegI2O1tq2S1dBrhCt2EiyaZKEaxybZA6WeLL
- KtViLieRdShNSx5WhiyVguvZomFBfmERrtvuus5E3CcFnM4AYtQxSSARwTNdjAJo+asF
- HHzJWyTpPOWpKftcpyAPRp6DJ8DcLWvkYhL0hDrJ2kzV/vfDwJWpMYL/va5foKDsoQE9
- 5OAhx16bCNFWznk75wCH+Ujm/yzPT9p0xchLNCf2GNio0GjFD4Cjm4z6lYIl3K7akVG/
- +UjA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCULsJDrxE0TTuV3bQz7DN62s0GEYEovPgmRtPeNeBn2Mptsl4wzTnLI66QFsQUGBu5bcJSpD59+gGM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylzewGAXvfSoQASB6VBtyoUdRGEybdCIDeX+3NkVCj4F7Xghy6
- FhknHESGlyuSQYTTYTXhjXBmGezbP6DJRD7jQmj/DAannMFKqfROyrufzS5L8Z6quuwXpL1rRzJ
- wfmD2BgXnf/7e3hJau//EPnHDzHnkwWb1LojJJtis8VPr7vGrmUgwtMJy6/nVI29BsYe9OIg=
-X-Gm-Gg: ASbGnctmwJSDeEXQeXN/g4btq05KNB1wI5q4lY+A7Rh9/nrgi5pCIVziuv/6OGZ43as
- 3+jEDhOtC3+pvy3ap+vBUHodV7gmsUv2DYb6kV0gt6ngw6pGBLS9CxjKCSfI4R8SSjo5Qx0vMnE
- n8fR2B/Ec/FMOnedTetkBOzacTKrB0lDVEBl2bT0dSMs0E6YMcE4fTnIWr1OCLzahEkeHCa7IFX
- 0gVymM+nULIHkFqz7R4sAOzPy8g8aQghspKHpxq2qbW6lCWVCZjzSlPhI3uw1YRelRoAckK0Nrz
- 0kGow883Cw2Shf39xN37IwENrLU7gmNw0b3a4t8OjpV4z+MwEFCqCc4YX3y6kYnkgaK+Hx9gUHr
- 6sD5HfZCVYW1Crsb6TQ==
-X-Received: by 2002:a05:620a:9633:b0:7e3:3029:44c with SMTP id
- af79cd13be357-7e62a112c00mr102520085a.7.1753264869961; 
- Wed, 23 Jul 2025 03:01:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGpCoJV9xj9Gc/I7a8P3qXIdiRSdG1vduKGp1cHjyO1PBWiyVBdxvbjxKAxdAdhWKfRMhgQ7A==
-X-Received: by 2002:a05:620a:9633:b0:7e3:3029:44c with SMTP id
- af79cd13be357-7e62a112c00mr102517085a.7.1753264869322; 
- Wed, 23 Jul 2025 03:01:09 -0700 (PDT)
-Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aec6ca3005bsm1020602266b.88.2025.07.23.03.01.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Jul 2025 03:01:08 -0700 (PDT)
-Message-ID: <9778efad-e9a8-4934-9b70-b0429bcfe63e@oss.qualcomm.com>
-Date: Wed, 23 Jul 2025 12:01:06 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B26210E785
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 10:05:37 +0000 (UTC)
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21FCDEA0;
+ Wed, 23 Jul 2025 12:04:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1753265098;
+ bh=B/V0GYOcAzL6vFMAfDHXfosHSzQrBzvrlkN4WeibsYI=;
+ h=From:Subject:Date:To:Cc:From;
+ b=tlyHAGcUlJiDG5ahUyQIZL7Nk7z0TncxqJ8f1FX8Ltfoo446uQ4/cvorfugOKYv+n
+ BYdkGhhJc8d/vdR4ycIqQRBJKbxJbQ2kx7zPSG8h33pH8s4Nf9+YUHh1Yh2g9m6N+r
+ Yn8hwb7cgcHNV+O0U2JWNaFdsUYPUklen0obNfXk=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v5 00/15] drm/bridge: cdns-dsi: Make it work a bit better
+Date: Wed, 23 Jul 2025 13:05:06 +0300
+Message-Id: <20250723-cdns-dsi-impro-v5-0-e61cc06074c2@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/17] drm/msm/a6xx: Poll additional DRV status
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
- <20250720-ifpc-support-v1-4-9347aa5bcbd6@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250720-ifpc-support-v1-4-9347aa5bcbd6@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: Cu5Dl2trijCwOveWZRV_s10W3P-qSJX9
-X-Authority-Analysis: v=2.4 cv=SYL3duRu c=1 sm=1 tr=0 ts=6880b2e7 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=45tQodLAf9T1fsO_g0QA:9
- a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDA4NCBTYWx0ZWRfX7sgjFYliZvkg
- x4q8AWy1a5pFyijkqejqBY/HPP2lqExB6LZ4bfKedQSzGe7pRIFeD6S0+doQeIKBNgtvWbUpYse
- kBYZawB3caYWCqBK5yt7Y1eaoaAmeFSakiteSt1iqKH7QXHCeEKeT7WVBP9ooPdemkIfW3WGyr5
- cnZywLdR1keuV3JRDYTK1mVnPoV5QKwR60G6+DnfxNF+fEQts15tfI2MS4+cNAURIAG/PNcEOYm
- tFN644ghvrjxyOEVpILz4KCc6GSe9fso/Ewea3a7ldv++5W2+k+BT6EU9aFTyhwlqiNAyG5GXWM
- TBg3dKQ1Ki15bIq4iaoH+wnlSx6g7/JiqECXIVXnNJCidDQo1jEe9LkDShv7T5PWUEHNaDZu60c
- p1O/bC/xAaPHXiGKFLgyUb1NDyKlMH59qOy2rvz1HV+Qn4j6+uV18uZLpVolyVdHNANlb1eg
-X-Proofpoint-ORIG-GUID: Cu5Dl2trijCwOveWZRV_s10W3P-qSJX9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-23_01,2025-07-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 mlxscore=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 malwarescore=0 spamscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507230084
+X-B4-Tracking: v=1; b=H4sIANOzgGgC/3XNQW7DIBCF4atErEsFwxBoV7lHlQVmxg2LmBQSq
+ 1HkuxenC1dyvfyfNN88ROWSuIr33UMUHlNNeWhhX3YinsLwyTJRawEKrDKgZKShSqpJpvOlZGn
+ I9x05j560aEeXwn36foIfx98u/HVr7nUZT6lec7k/n456Xjf9UUslHVhwLtoeTXdIxKHmocuh0
+ GvMZzGLIywKKlgp0BQM6s1wCJbBbSjmj6JxpZhZYQvWasJebSm4KHvtVwo2xe8hetTUsYJ/lGm
+ afgDmd5IRmgEAAA==
+X-Change-ID: 20250320-cdns-dsi-impro-3d8fbd7848d1
+To: Jyri Sarha <jyri.sarha@iki.fi>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jayesh Choudhary <j-choudhary@ti.com>, Dmitry Baryshkov <lumag@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>, 
+ Devarsh Thakkar <devarsht@ti.com>, 
+ Parth Pancholi <parth.pancholi@toradex.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4601;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=B/V0GYOcAzL6vFMAfDHXfosHSzQrBzvrlkN4WeibsYI=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBogLPo7IyCtyZpAZ3tfUnypqp+RNxnlzTEvdvHJ
+ EhBwbAwIq6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaICz6AAKCRD6PaqMvJYe
+ 9T3QEACqDSm5uW1rTCS0cbGuU14U0tos8wXkXaNAR4GmbmBAan7SrD+hwF9ZlC3YCLxr4D8Mpdp
+ sD2Y/lK6FhcJoGM6QG/gE2yfPG8aSD+Oih12dRzKw+1muVhuujPpixxE4kReittu13B6CiUgcRz
+ vvMMeeipTgRTf9yWWE7Bs6s+dR2m1W+3YRprL6jPJGPA02M+NRndYd8nA+9r1x3xtnIaswMn5BM
+ eWPYVHD/mbmj4svosZKG6EwSAtTg+piD0CqWRnmq+U5DCahwZDtOZpBgWPYsOMuh+qJy3BumK2r
+ 31nBOc+YryDMW4m0rzJHDQ7wtR+OUiVxT5gpStgcAql64akCAy8N8bTHHrqtAhUtF/d+tVrUdqv
+ 2Mw+/4iSfVkctNQJ2yyBvt06hDTwiIpe3LDkjd+iCC5JBYW+/uNUa0pTLdizNSJAmR+ottfBTnr
+ kMrmUp+kZE9KKXolvZXjy/n485m9pqnjU/nNaKTu6nvb/5vmAZbSM3UDVWorgvCC7jimc/S5zd9
+ 8+lKZu+WtjVlXY/byoxzTKdyqzIbn6NY8BYGCa4J+pkLphyNFGnlVBweAU7amw2s8dyLiIPn5qd
+ Ga0s4/ZgvUhWXM3cmNxjilBredE1ftrwUgTS3XValnM+ZpgFlm39PF1SItgbYFy1Y7F75nkcmw0
+ y+aM15XI678giAg==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,46 +89,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/20/25 2:16 PM, Akhil P Oommen wrote:
-> A7XX_GEN2 generation has additional TCS slots. Poll the respective
-> DRV status registers before pm suspend.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> index 790ef2f94a0b0cd40433d7edb6a89e4f04408bf5..3bebb6dd7059782ceca29f2efd2acee24d3fc930 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-> @@ -987,6 +987,22 @@ static void a6xx_gmu_rpmh_off(struct a6xx_gmu *gmu)
->  		val, (val & 1), 100, 10000);
->  	gmu_poll_timeout_rscc(gmu, REG_A6XX_RSCC_TCS3_DRV0_STATUS + seqmem_off,
->  		val, (val & 1), 100, 1000);
-> +
-> +	if (!adreno_is_a740_family(adreno_gpu))
-> +		return;
-> +
-> +	gmu_poll_timeout_rscc(gmu, REG_A7XX_RSCC_TCS4_DRV0_STATUS + seqmem_off,
-> +		val, (val & 1), 100, 10000);
-> +	gmu_poll_timeout_rscc(gmu, REG_A7XX_RSCC_TCS5_DRV0_STATUS + seqmem_off,
-> +		val, (val & 1), 100, 10000);
-> +	gmu_poll_timeout_rscc(gmu, REG_A7XX_RSCC_TCS6_DRV0_STATUS + seqmem_off,
-> +		val, (val & 1), 100, 10000);
-> +	gmu_poll_timeout_rscc(gmu, REG_A7XX_RSCC_TCS7_DRV0_STATUS + seqmem_off,
-> +		val, (val & 1), 100, 1000);
-> +	gmu_poll_timeout_rscc(gmu, REG_A7XX_RSCC_TCS8_DRV0_STATUS + seqmem_off,
-> +		val, (val & 1), 100, 10000);
-> +	gmu_poll_timeout_rscc(gmu, REG_A7XX_RSCC_TCS9_DRV0_STATUS + seqmem_off,
-> +		val, (val & 1), 100, 1000);
+While trying to get the cdns-dsi to work on Toradex's AM69 Aquila
+platform, I hit multiple issues in the driver. Basicaly nothing worked
+for with the board.
 
-FWIW there are places downstream where it polls for 1 ms
-(gen7_gmu_pwrctrl_suspend) / 2 ms (gen7_gmu_power_off) ms (as opposed
-to 1 or 10 ms here), but the timeouts are all the same across registers
-(unlike TCS3 and TCS9 above)
+This series fixes those issues. While I itch to make much larger changes
+to the cdns-dsi driver, I opted to keep this series relatively simple to
+make the fixes more clear and possibly help with backporting.
 
-Ultimately it's a timeout, so a value too big shouldn't matter, but
-let's make sure the other threshold is ok
+The series also touches tidss, but those changes are not strictly
+needed, and can be merged separately. And the series also touches
+cdns-dphy, and those changes are needed.
 
-Konrad
+This has been tested on Toradex AM69 Aquila (upstream) and AM62P Verdin
+(Toradex's BSP), with:
+- HDMI output using lontium lt8912b
+- LVDS panel (sn65dsi84 + panel-lvds)
+
+ Tomi
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v5:
+- Added Tested-by and Reviewed-by tags
+- Dropped cdns-dphy patches, which are now in a separate series
+- Link to v4: https://lore.kernel.org/r/20250618-cdns-dsi-impro-v4-0-862c841dbe02@ideasonboard.com
+
+Changes in v4:
+- Rebased on top of drm-misc-next, which has most of the dependencies
+  merged
+- Moved one dependency, "drm/bridge: cdns-dsi: Fix the _atomic_check()"
+  into this series
+- Dropped "drm/tidss: Adjust the pclk based on the HW capabilities".
+  This causes a regression with OLDI outputs, and is not strictly
+  required. Fixing this needs restructuring tidss clock handling.
+- Link to v3: https://lore.kernel.org/r/20250414-cdns-dsi-impro-v3-0-4e52551d4f07@ideasonboard.com
+
+Changes in v3:
+- Add Aradhya's "drm/bridge: cdns-dsi: Fix the _atomic_check()" to the
+  dependencies
+- The above patch from Aradhya allowed adding "drm/bridge: cdns-dsi:
+  Drop crtc_* code", which resulted in quite large changes in the
+  commits, even if the end result doesn't really differ.
+- Reordered commits to decrease back-and-forth (e.g. fixing something in
+  a a code that will be removed in the next commits)
+- The reordering caused quite big changes in the commits (even if the
+  final end result is more or less the same), so I chose not to add
+  tested-by tags.
+- Rename 'cdns_get_dphy_pll_cfg' to 'cdns_dphy_get_pll_cfg'
+- Use div_u64() instead of div64_u64()
+- Drop "Fail if HS rate changed when validating PHY config". This was
+  too strict, as clock rounding (especially with DRM's 1kHz
+  resolution...) leads to clock rates that do not match exactly.
+  However, the rate mismatch should be fine as the commits adjust the
+  pixel clock, and the resulting differences should be so small that we
+  can't even improve the timings match by adjusting the DSI HFP, as the
+  adjustment rounds to 0.
+- Link to v2: https://lore.kernel.org/r/20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com
+
+Changes in v2:
+- Change the tidss clock adjustment from mode_fixup() to atomic_check()
+- Link to v1: https://lore.kernel.org/r/20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com
+
+---
+Aradhya Bhatia (1):
+      drm/bridge: cdns-dsi: Fix the _atomic_check()
+
+Tomi Valkeinen (14):
+      drm/tidss: Fix missing includes and struct decls
+      drm/tidss: Use the crtc_* timings when programming the HW
+      drm/bridge: cdns-dsi: Remove extra line at the end of the file
+      drm/bridge: cdns-dsi: Drop crtc_* code
+      drm/bridge: cdns-dsi: Remove broken fifo emptying check
+      drm/bridge: cdns-dsi: Drop checks that shouldn't be in .mode_valid()
+      drm/bridge: cdns-dsi: Update htotal in cdns_dsi_mode2cfg()
+      drm/bridge: cdns-dsi: Drop cdns_dsi_adjust_phy_config()
+      drm/bridge: cdns-dsi: Adjust mode to negative syncs
+      drm/bridge: cdns-dsi: Fix REG_WAKEUP_TIME value
+      drm/bridge: cdns-dsi: Use video mode and clean up cdns_dsi_mode2cfg()
+      drm/bridge: cdns-dsi: Fix event mode
+      drm/bridge: cdns-dsi: Tune adjusted_mode->clock according to dsi needs
+      drm/bridge: cdns-dsi: Don't fail on MIPI_DSI_MODE_VIDEO_BURST
+
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 211 +++++++++++--------------
+ drivers/gpu/drm/tidss/tidss_crtc.c             |   2 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c            |  16 +-
+ drivers/gpu/drm/tidss/tidss_dispc.h            |   3 +
+ drivers/gpu/drm/tidss/tidss_drv.h              |   2 +
+ drivers/gpu/drm/tidss/tidss_plane.h            |   2 +
+ drivers/gpu/drm/tidss/tidss_scale_coefs.h      |   2 +
+ 7 files changed, 106 insertions(+), 132 deletions(-)
+---
+base-commit: ea6f8ed2dd2cea602911fa76c0bc2938ec67db88
+change-id: 20250320-cdns-dsi-impro-3d8fbd7848d1
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
