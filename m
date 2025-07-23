@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D72B0EEE0
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 11:54:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A897B0EEE2
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 11:55:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82FB010E784;
-	Wed, 23 Jul 2025 09:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B84B10E786;
+	Wed, 23 Jul 2025 09:55:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="OLhpIzVJ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JQbyvmB1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9988210E77D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:54:48 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 907CE43380;
- Wed, 23 Jul 2025 09:54:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CCA210E77D
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:54:50 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8DCD043369;
+ Wed, 23 Jul 2025 09:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1753264487;
+ t=1753264489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LClR2cqFUi4SSBqHoy3glnoRo4IOBUbQ/Lmg6Lq1GSw=;
- b=OLhpIzVJ/xQEkvq8Y4qqJMyGWRRs2eUI6C6y1oYJWUCvTdglTzTXWDMwrmvcYjwav1oez4
- t6gWn3sa6oxHlQ+hXVAFrxkOvFTSe2e9rioOJ8NTEFI3f9bLHrgV6Ddg+cT3GxTipIuMKw
- w+5xwiFtYjEsO38uW7Jlqy2LejJYubvOnD9dEwWJ6Bs7vSJf3bbPbaLQu6d9vmc3EZgH6E
- vtkmMGTJU1duRrepRXtSXE8ZbARBOvJu8aGxMnepUBOO5DcHh3pvQV622zM9cXRccmt6h0
- 36th97sI3g4qr7zdGv0f9ix5wgdHenuhwD3ozEXZJFe+ETnTjqN2DKbQClrliw==
+ bh=gYn1Rc8HkKQf4J/p8AgwWmzwMMTkHWwwAtY/ky/WmUs=;
+ b=JQbyvmB1aLyN9i2RF7H+oQSaywgNLxA3xNYGN+/W5qpP+0pVporzDEyOHZwI7Tt5r5tMeD
+ cBp0e40cBIoxXOUUTe1qG+JlHyPfAQDKoWnMW7FJt1V/Ax5z64vDk9/EckK0is4Zeu6JUG
+ 5Ac52EwwlpYTvfYawwKDD26vnE76yzK7VSIy5F0bvcgIDrG3awkD4oPsDq8ti19pNQWCqe
+ w0HOZCQKlazbsm4EiL5I7kPHlgOudaRyWgQQjSTxphJFQstK9B3GDNC+7m7t6LC1jTAXVB
+ F48xgJBCIjMcZk8bjT5QIfvHpiFmEl7W4kj6fR+ufiqpDoycJP23PWUPD+lkZg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 23 Jul 2025 11:54:15 +0200
-Subject: [PATCH 8/9] drm/bridge: add drm_for_each_bridge_in_chain_from()
+Date: Wed, 23 Jul 2025 11:54:16 +0200
+Subject: [PATCH 9/9] drm/omap: use drm_for_each_bridge_in_chain_from()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250723-drm-bridge-alloc-getput-for_each_bridge-v1-8-be8f4ae006e9@bootlin.com>
+Message-Id: <20250723-drm-bridge-alloc-getput-for_each_bridge-v1-9-be8f4ae006e9@bootlin.com>
 References: <20250723-drm-bridge-alloc-getput-for_each_bridge-v1-0-be8f4ae006e9@bootlin.com>
 In-Reply-To: <20250723-drm-bridge-alloc-getput-for_each_bridge-v1-0-be8f4ae006e9@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -76,44 +76,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add variant of drm_for_each_bridge_in_chain_scoped() that iterates on the
-encoder bridge from a given bridge until the end of the chain.
+Use drm_for_each_bridge_in_chain_from _scoped() instead of an open-coded
+loop based on drm_bridge_get_next_bridge() to ensure the bridge being
+looped on is refcounted and simplify the driver code.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- include/drm/drm_bridge.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/gpu/drm/omapdrm/omap_encoder.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 0a45ed862ca3293bd0b12dacf3ba2c5429800d00..b271e1204c002f8dba080448583d75612f22a366 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -1389,6 +1389,25 @@ drm_bridge_get_next_bridge_and_put(struct drm_bridge *bridge)
- 	     bridge;							\
- 	     bridge = drm_bridge_get_next_bridge_and_put(bridge))
+diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
+index 4dd05bc732daebcedbfcbbc9ba7dffee7415bdfc..195715b162e38ea0cd0870f3dd79342a8cbf218b 100644
+--- a/drivers/gpu/drm/omapdrm/omap_encoder.c
++++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
+@@ -77,7 +77,6 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
+ 	struct omap_dss_device *output = omap_encoder->output;
+ 	struct drm_device *dev = encoder->dev;
+ 	struct drm_connector *connector;
+-	struct drm_bridge *bridge;
+ 	struct videomode vm = { 0 };
+ 	u32 bus_flags;
  
-+/**
-+ * drm_for_each_bridge_in_chain_from - iterate over all bridges starting
-+ *                                     from the given bridge
-+ * @first_bridge: the bridge to start from
-+ * @bridge: a bridge pointer updated to point to the current bridge at each
-+ *	    iteration
-+ *
-+ * Iterate over all bridges in the encoder chain starting from
-+ * @first_bridge, included.
-+ *
-+ * Automatically gets/puts the bridge reference while iterating, and puts
-+ * the reference even if returning or breaking in the middle of the loop.
-+ */
-+#define drm_for_each_bridge_in_chain_from(first_bridge, bridge)		\
-+	for (struct drm_bridge *bridge __free(drm_bridge_put) =		\
-+		     drm_bridge_get(first_bridge);			\
-+	     bridge;							\
-+	     bridge = drm_bridge_get_next_bridge_and_put(bridge))
-+
- enum drm_mode_status
- drm_bridge_chain_mode_valid(struct drm_bridge *bridge,
- 			    const struct drm_display_info *info,
+@@ -97,8 +96,7 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
+ 	 *
+ 	 * A better solution is to use DRM's bus-flags through the whole driver.
+ 	 */
+-	for (bridge = output->bridge; bridge;
+-	     bridge = drm_bridge_get_next_bridge(bridge)) {
++	drm_for_each_bridge_in_chain_from(output->bridge, bridge) {
+ 		if (!bridge->timings)
+ 			continue;
+ 
 
 -- 
 2.50.1
