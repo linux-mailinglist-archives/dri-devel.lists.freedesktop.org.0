@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5653FB0EEDC
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 11:54:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE61B0EEDD
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 11:54:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B95410E781;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F31810E782;
 	Wed, 23 Jul 2025 09:54:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GUvROV94";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="a5ysdtpe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4CAB10E77D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:54:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D485F43384;
- Wed, 23 Jul 2025 09:54:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBC5A10E77E
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 09:54:44 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B33CF43369;
+ Wed, 23 Jul 2025 09:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1753264481;
+ t=1753264483;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x5FboEgCdGJLmxZMiB0i2htDNO12smggut39uay0DPM=;
- b=GUvROV94pozBFc65v/DzF4t3HhV21w50rtBPVJanFBjKKN1dIoPWuvLLhmJoR8800y6elU
- ikjU93kkSRYfrcjpmKjk5xcH1sPuUrAu6+I1x+sTLAHMyyugKOdC43yN5dDe4MxW04e3Ze
- BCuPuKevq2Gmx/XukEu4CL8jZKWcXpQ8k88lcX0/omtnD6Q8zt4zR1Cyo1qZX+luY6BN5e
- gEmBg7DyH2aC/Wr1PwnCzWUbMU2JI8yD+PSPnsHVDz5EwUHZ5FeWDebKAfu8XVqtMFr0X1
- rm33tO/jHnIHF6Ran0l7PQXVyRXsA8pwpz60MnAwPELPoBXUawp6JUOZuYVt1g==
+ bh=dJo7ghMiIZotvVeKxTetMQIxPpCfLLJg57qJECz1Vds=;
+ b=a5ysdtpeS+HG2AVt6jZqBt309XUOj8ZAa6QCYmAtns/8X4z/7dpngFg6Qou4ApGmP4RDHq
+ dKN7MK5wnKiss9QXGrMg0kIVnK8TsG/JnGeS/NOITXldLxv4T9b4NlaX9w3l9PlR13W/kA
+ +27HoCHPz0osuJHnzO0oMmGZojrHtMMD70oF7SdRX3MGJfrX7m8lrfANi1vyxijc788403
+ HSpETqx08cwOq3lj28R7QS4ksrnwm9az7pYQTvIdoyh1iPoEU6V4ol1bw8/gCNwYmx+Ror
+ YlsnHa7L6fTQiIOuMjFGJxs5Ri9JvIQJzj0N03xe6oOYhXw7InzM2GTCs6DFSg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 23 Jul 2025 11:54:12 +0200
-Subject: [PATCH 5/9] drm/atomic: use drm_for_each_bridge_in_chain_scoped()
+Date: Wed, 23 Jul 2025 11:54:13 +0200
+Subject: [PATCH 6/9] drm/bridge: use drm_for_each_bridge_in_chain_scoped()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250723-drm-bridge-alloc-getput-for_each_bridge-v1-5-be8f4ae006e9@bootlin.com>
+Message-Id: <20250723-drm-bridge-alloc-getput-for_each_bridge-v1-6-be8f4ae006e9@bootlin.com>
 References: <20250723-drm-bridge-alloc-getput-for_each_bridge-v1-0-be8f4ae006e9@bootlin.com>
 In-Reply-To: <20250723-drm-bridge-alloc-getput-for_each_bridge-v1-0-be8f4ae006e9@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -82,30 +82,25 @@ refcounted.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_atomic.c | 3 +--
+ drivers/gpu/drm/drm_bridge.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index cd15cf52f0c9144711da5879da57884674aea9e4..ed5359a71f7e2cd8fa52b993e62ee65f8fed4537 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1308,7 +1308,6 @@ drm_atomic_add_encoder_bridges(struct drm_atomic_state *state,
- 			       struct drm_encoder *encoder)
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index dd45d9b504d8f2802f4ee93e4b4d893d8535abea..297e8cde585c685e5105f8e6060ae7c2371dea00 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1476,10 +1476,9 @@ static int encoder_bridges_show(struct seq_file *m, void *data)
  {
- 	struct drm_bridge_state *bridge_state;
+ 	struct drm_encoder *encoder = m->private;
+ 	struct drm_printer p = drm_seq_file_printer(m);
 -	struct drm_bridge *bridge;
+ 	unsigned int idx = 0;
  
- 	if (!encoder)
- 		return 0;
-@@ -1317,7 +1316,7 @@ drm_atomic_add_encoder_bridges(struct drm_atomic_state *state,
- 		       "Adding all bridges for [encoder:%d:%s] to %p\n",
- 		       encoder->base.id, encoder->name, state);
+-	drm_for_each_bridge_in_chain(encoder, bridge)
++	drm_for_each_bridge_in_chain_scoped(encoder, bridge)
+ 		drm_bridge_debugfs_show_bridge(&p, bridge, idx++);
  
--	drm_for_each_bridge_in_chain(encoder, bridge) {
-+	drm_for_each_bridge_in_chain_scoped(encoder, bridge) {
- 		/* Skip bridges that don't implement the atomic state hooks. */
- 		if (!bridge->funcs->atomic_duplicate_state)
- 			continue;
+ 	return 0;
 
 -- 
 2.50.1
