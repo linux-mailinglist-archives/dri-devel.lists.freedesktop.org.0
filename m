@@ -2,116 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D2AB0FAAD
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 21:05:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78DFBB0FABE
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 21:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 385E110E848;
-	Wed, 23 Jul 2025 19:05:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E29610E008;
+	Wed, 23 Jul 2025 19:08:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="l1hsHUTr";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dY9FdImd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC5D410E85D
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 19:05:06 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56NGq9a0024471
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 19:05:06 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCFD810E008
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 19:08:56 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56NGnwwc005629
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 19:08:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=LlwxGzbxOFLE6tNUdLnrCDcI
- n1YFSoVX4yc5JSgu4+8=; b=l1hsHUTrgTE7qd/eAxzIIAPPwarGjdXcx56NN52j
- F+j9zlJ6VRNZp825RrlRrIUojTEpFyP6CU8DHN3zQj9uhORUL9BRsCaPaGL5OQwg
- Zzat7JfrFHTsTWFHXhub+YhJWBF1s0tOXv6vkP9YIST3k/Aulb06J2NhkND3lg5k
- 1Ttuwtd1HB+WuEYWXcwjGJSxatj+yu7GnHQfeaPBGwGApIttVhUPQ/hElc+DnSL0
- sktYR5LPlavblOMiiRdz4Xvkq5+mkNq229iK8Ux4j1Qgeow4CKqGcy3yo0IBDvc7
- Lbjo9VLg3MAVDp2AgV/+NRwpvbybNozyDgyLdZ6KFSVjoQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 481g3es3up-1
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=mASOgsCi7NBq5T98FPC/x55U6eCvkphaYtG
+ YjqMVya8=; b=dY9FdImdDR9/7eLvB5z/muueEDREJzyboWBxSOLntKGdkenKupL
+ 19gbBWE4IN96sEDEKmNnsOorRLY3yOZ+ScfhLcoIaJknbgmpeM6GhRtjl47DnT21
+ 0Pf8v6kEfnLz2upXp/AV9L84pvK+0z7fIakSAwmSpI4RrPdV7s/0xIpP3BIvNmdD
+ bCGYaMDGJR+9X/p5PTONCcTrvic+qz0zipnngxozjzjntjyH/YAjujokB6OtqjNy
+ 8fiea5orKNWNkTp3mnlaJYDJBkiCe+Ev/Bzfuf0OLl4CeL0YkimmGhv88mHszUYQ
+ aR7BOf9iBfUkoKvEd34q6MAiC+oZUcgcQ5g==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 482b1ucvcf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 19:05:06 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7e1b84c9a3dso29659185a.2
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 12:05:05 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 19:08:56 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id
+ 41be03b00d2f7-b2c37558eccso132825a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 12:08:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753297505; x=1753902305;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LlwxGzbxOFLE6tNUdLnrCDcIn1YFSoVX4yc5JSgu4+8=;
- b=htZkZ9yfpOc8Ts3R6ndk8twRgDazn7za1TRRRjNz+NUeKudRFcbNSvXbRWTeRWi0DE
- 17/h3VV2WuJzBCt5E0QyPRd76JvVkeHpaJMaPsyVFlwSZ0DHoQFNy0zZ+bQ7P59OnPuo
- bPDZKL4ZZ9CTyCYjDjOgMY0A2EvlU4JnLuKzL4FxleRjDE4W8QFvPW6hpZLj6Hp0hEec
- uhvl59f+wMEsK6UrqDI+tTUfHjHgcXEUPEJINNSt6KevYZ9x+pOBPGQ+5EntBfEjohfg
- Rec156GSp1hiv8+joinJkiqE27rxZ0E4hA47n+7kAUAvgzXFGkYrMpAhmvV7HD4Fj91T
- 3R1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXSk4k57sy8R0ptb84YtsZfoRO3o0Zeo0stbdwXW3OmR2fAOyZpcxWMHz/IwfYWe/cH4dp0Cd6GZgY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+f30PhnOYKxbU4ExUpDcug+h8hHjWupIufOMhGJTANBhJfRav
- JfOSeW2G7Mbbf8qWNx7jvk3A5ojQgb0T+TIJp1o4XHILG0iJsSpn7qffWZZ9bcycmJUzop4XidG
- pvpnCKIk1VQC4RZe8kKle/vJ9Z5JVrFMntavig0iSpB0Ixz6nAyajx1CaJjyIpviQ177wUHA=
-X-Gm-Gg: ASbGncu3G1Z8Xzfmmhlwj4elDuRd7OoWGT6JmeASvqVwtnpa7QcuwzWfY7uGg1eiDju
- P2kr9gqLmj/P3IUL8yd370qNv3tgarh3r7VVW/91Da27dtJ43UPcplMOAekJZkeWXgqheFjHPuY
- 2mcolbvjLLFF7gb9OaAXjwZNCgke28ZKQQTvHfltavKFSMYNcf1PVkc4luVV9yeLbOtkezZumaw
- ycljtt9vSIUMch8c6LiCCxKdDITdZHC8U67kEIQUmRgqtbotYZrCSh14RKJlRHopv/MqWmUynub
- UtsWO0vb0MxbcaQotUJAF62JifkU1Br5gGU37CHin7h5YVlaZZHEfxrqBIbCdk5Bf1fBiw0JAuC
- bDtiIETkov4akTYmJPIzL2K6KLlx1W3IF3aWhjQRT9XK/WxFbC8vk
-X-Received: by 2002:a05:620a:a201:b0:7d3:f883:6047 with SMTP id
- af79cd13be357-7e62a19e6bdmr438161385a.51.1753297504548; 
- Wed, 23 Jul 2025 12:05:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHVikEHzskkn5r6WHCg2DXMAwpPQxlleG1dXDP5Na0HIBh6BhiLe+Oy1cOXXzmZ/m6sol52RQ==
-X-Received: by 2002:a05:620a:a201:b0:7d3:f883:6047 with SMTP id
- af79cd13be357-7e62a19e6bdmr438155485a.51.1753297503926; 
- Wed, 23 Jul 2025 12:05:03 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ d=1e100.net; s=20230601; t=1753297735; x=1753902535;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mASOgsCi7NBq5T98FPC/x55U6eCvkphaYtGYjqMVya8=;
+ b=iVrfprJAB3z1sm4vBBJJWquptquEhNWvXftb32XVbPAYQ8DeFrcASCujvd8hxE6wuE
+ 93WJjY51kC7YqGMDhaiqSLl5suZRFkSW5vwhwKpLjpeHnG6WLnyk1ClfnrUa2FnQndmp
+ 32fzZ6Yuupu5e6ZV6Y9BMDvemf4wW5DkJVhHKlR/k+k9jBnujBiaKQvfimAMFfilY4i8
+ aOYGqaqFSo1vBTj1maV7x+xlbYeMpfv6TKTApZPGxSw8TYgjmUoyOSfMPHa8QJnukQSa
+ N9v9RlU7k+SucTr+mirwTHIaW4a+iBHd5aPFAUbhMa+vg/kORrTr/KXhgOJ0sVnqhPYl
+ BYgw==
+X-Gm-Message-State: AOJu0Ywgo+4shd98XCHuzzue68rOVeLqUjh1dBqDPNISpjeJwwDcWPLz
+ kpVSgPEHJ+wnUJlIDLd7nJax1xWi74XjAweWJMj6YlVb4kPzDH9O8043uNBCy6BIQM/Pc9U/T0c
+ CZxv/0cw3UVrLPGQRmw1qm1P/6SvjFWF4fCMTOoxwZpF1kQWWcW9Ucbf1NkMzcU+p6BlJgaqDC9
+ rcsFU=
+X-Gm-Gg: ASbGncvi6H0kKORk4pUHwekZECZc6s3JVWHp/8G+KffhU/IQA6n+lJPGDN6Lhch2Oyv
+ i9Amj7fyq0Ev+09ZNW5pia5bfABp6OGu3qlhA/UYLJQONfTtobMlRCwL58QduxtTOGi7fBv6/wm
+ gXKXPG6zU46fiyUn9o0ALeHIXWPWk/8Hcohw2j7oom1tGkIzmZGqpitU3cQ3V5kNNgC78f5sRBv
+ l4QIzOu4eAJiP2LoZnoYYTVVbJvBIBOFf/Q6vSBFq0I5fqq6Og8CZF4+hYhhBvSDwJjKolRAELG
+ r4wBg9xM/lIBFu+2e9NjNIxZU5w2527P3tV3TIMwLLEZEB810q4=
+X-Received: by 2002:a17:903:1109:b0:235:c973:ba20 with SMTP id
+ d9443c01a7336-23f9820283dmr69182815ad.49.1753297735443; 
+ Wed, 23 Jul 2025 12:08:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhVi/6gfyiJ69GTvshRkz/NQIrNp1El4Pbp2UDbBc4h/tVujCiVC1TqjgOnUvKlvGS+Ua0kA==
+X-Received: by 2002:a17:903:1109:b0:235:c973:ba20 with SMTP id
+ d9443c01a7336-23f9820283dmr69182405ad.49.1753297735019; 
+ Wed, 23 Jul 2025 12:08:55 -0700 (PDT)
+Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55a4e0338casm527398e87.190.2025.07.23.12.05.01
+ d9443c01a7336-23e3b6ef9aesm101308975ad.211.2025.07.23.12.08.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Jul 2025 12:05:03 -0700 (PDT)
-Date: Wed, 23 Jul 2025 22:05:00 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chenyuan Yang <chenyuan0y@gmail.com>
-Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
- jessica.zhang@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- tglx@linutronix.de, krzysztof.kozlowski@linaro.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dpu: Add a null ptr check for
- dpu_encoder_needs_modeset
-Message-ID: <ciawdvjevycjjuowmykfux2v25lvr66kzey4jklq7t5cjzqalj@qfcva77k2bvr>
-References: <20250722211740.3697191-1-chenyuan0y@gmail.com>
+ Wed, 23 Jul 2025 12:08:54 -0700 (PDT)
+From: Rob Clark <robin.clark@oss.qualcomm.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ linux-kernel@vger.kernel.org (open list),
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH 0/2] drm/msm: Error path fixes
+Date: Wed, 23 Jul 2025 12:08:48 -0700
+Message-ID: <20250723190852.18394-1-robin.clark@oss.qualcomm.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250722211740.3697191-1-chenyuan0y@gmail.com>
-X-Proofpoint-ORIG-GUID: VHqmRz5-XlWIDMukv4FCXYlP3p3JBbr4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDE2MSBTYWx0ZWRfX9ozKjQlO07qw
- 2OkFP4uht4U8w9VJf2/Vv8z7wpvcObAO0u4yTqrGA1uCo6bggNGNsK3fJp2YkSCuX9iL7jge3pu
- DvEOREpUM2plZYRl5ghgk6qTw7GmR1ySEoe8b3D9QAKW3Z0QM15WDQJaVgkDvX+Ab/V8cJyWRYq
- O9Ao9tsGHCewnwHkgA21mR+oOXpOAyEghUDQbiUQXmzgVijekBdjsel5u40e5E0XP39d+qAL4GP
- vVnN7oSUUXht+ryeFqbQ6oCx1dffpqBaTnK45s4R3Hiob36b9UBq6ID2CoiLjUdDXNxXYVfxNr1
- lqmfXvCB3UWL9dsrp4mHM2yRciEJRtuFvkvnevch9rtxnpheZuUC4d62qYi9D8NOYoM1GD1/qPI
- 3Okj8RmGgI+3l/r6POmsS6kVdp1SaJA1cBRRZycA0ceapagICe61Cd5uqHKRfq3HZHVg7S6K
-X-Authority-Analysis: v=2.4 cv=Q+fS452a c=1 sm=1 tr=0 ts=68813262 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=pGLkceISAAAA:8 a=_XfERVBWgaszTNbD_PYA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: VHqmRz5-XlWIDMukv4FCXYlP3p3JBbr4
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=LdY86ifi c=1 sm=1 tr=0 ts=68813348 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=eljiBBwz-SQjAQrFlygA:9 a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDE2MiBTYWx0ZWRfX5jpiHKHZYyh/
+ g2DJO8y3QPKeZ4do+CGJJkyuT6nYuj0xvgRXao4Zd8OPT8+ml8CKM5e4QoxncLppbEI9nP43BfM
+ 0A6o1FJMs3xx3gPUcSXnulvhj6bWRjwC7XFOpmBpHYohlpDynkEwKUmMru7C69EzmmDi+9PmqQP
+ nXOqqBrdqHeFVvPvJaBdJSLAiBvR3FCUnxlMVijAM/rgLDgSFK4GUyuDpUVUVxTdtOmEbk45d1E
+ jKJTU4tHc2D87AxA94i4YqoR59UKUjRvi/t1p4t32P9U4u9IkGMh1x5yC8O5MucLAy2q6ByLB0o
+ 8Ly6FO2NT1NLVIiuS6dX0F5/VOduYLuJXANVyoeAVeC62CdObD2rDitv5WeM6MOmBok6WQGE7rr
+ gokY2xnlvEtFLxkkjkoFcT0++VINc+oyv2oyVk71qJlKWWzdN+TgtTQsEsP6Z7cutO1XHvFh
+X-Proofpoint-ORIG-GUID: GcK9hrt64MXUx65yDhPD38H_N8nO_otu
+X-Proofpoint-GUID: GcK9hrt64MXUx65yDhPD38H_N8nO_otu
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-23_03,2025-07-23_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ impostorscore=0 mlxscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ malwarescore=0 lowpriorityscore=0 mlxlogscore=954 bulkscore=0 spamscore=0
+ suspectscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507230161
+ definitions=main-2507230162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,41 +121,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 22, 2025 at 04:17:40PM -0500, Chenyuan Yang wrote:
-> The drm_atomic_get_new_connector_state() can return NULL if the
-> connector is not part of the atomic state. Add a check to prevent
-> a NULL pointer dereference.
-> 
-> This follows the same pattern used in dpu_encoder_update_topology()
-> within the same file, which checks for NULL before using conn_state.
-> 
-> Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-> Fixes: 1ce69c265a53 ("drm/msm/dpu: move resource allocation to CRTC")
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index c0ed110a7d30..4bddb9504796 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -729,6 +729,8 @@ bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_st
->  		return false;
->  
->  	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +	if (!conn_state)
-> +		return false;
+For reasons unknown to me, systemd-udev recently started limiting
+max-files to 64k (at least in f42), which exposed some problematic
+allocation related error paths.
 
-Did this happen in a real case or is it just
-yet-another-static-analysys?
+Rob Clark (2):
+  drm/msm: Fix refcnt underflow in error path
+  drm/msm: Fix submit error path cleanup
 
->  
->  	/**
->  	 * These checks are duplicated from dpu_encoder_update_topology() since
-> -- 
-> 2.34.1
-> 
+ drivers/gpu/drm/msm/msm_gem.c        | 4 +++-
+ drivers/gpu/drm/msm/msm_gem_submit.c | 9 +++++----
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.50.1
+
