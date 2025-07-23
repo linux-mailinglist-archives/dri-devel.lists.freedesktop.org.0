@@ -2,62 +2,188 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905D9B0F590
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 16:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7642B0F595
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 16:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9813910E046;
-	Wed, 23 Jul 2025 14:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D5DA10E7DF;
+	Wed, 23 Jul 2025 14:41:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="CVyTPFHM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YboFHd1L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D327510E046
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 14:41:11 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bnGz75YDmz9snp;
- Wed, 23 Jul 2025 16:41:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1753281667; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ke85bfOu9U/z4qWHLgSi9M97NOdAmDef0WSr+i5D30M=;
- b=CVyTPFHMw9F9OMHBskxiQxmgaymMt1BF6AVnDhl45qgNfNOKdPvwxFJiM5VQSTIvkDDX2T
- anguJMI127QV62LM/NpwAXoLlguIDDWwDx8FXg2r3SPsHYTqk6IuPqVjlYFPVN9fDCeFEm
- uu7Uqvwf1g3ebQCtE2xC9lLGPkP5fqN1IksYEGUSbli2cyu8B/HHkcl3IgNbnmr4Ao/ylF
- pRY+8p444o+qKgdN/SPwpgE/vgsp2j6+Btw1KohWJmoNjNM0j0oVtpPyJho+GBVjQxoP50
- xzhCzqTRkZhbZqKnRFxdocXpJZG0SzONZbV3Rpyt7tMh2CqhXeGrXs3hos6RIg==
-Message-ID: <5ce98154b3f16c09b2d9b48493e88a4c6916281e.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
- the run queue.
-From: Philipp Stanner <phasta@mailbox.org>
-To: James <bold.zone2373@fastmail.com>, phasta@kernel.org, 
- matthew.brost@intel.com, dakr@kernel.org, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- maarten.lankhorst@linux.intel.com,  mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,  Shuah Khan
- <skhan@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linux.dev, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>
-Date: Wed, 23 Jul 2025 16:41:00 +0200
-In-Reply-To: <a6b4f8a2-7be1-4bc7-9700-fe7e52e21ea4@app.fastmail.com>
-References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
- <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
- <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
- <a6b4f8a2-7be1-4bc7-9700-fe7e52e21ea4@app.fastmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30ED310E7DE;
+ Wed, 23 Jul 2025 14:41:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753281703; x=1784817703;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=yzX/HJlm5h3xVNGSr62F9DHgcvGL+zPJ/dumn7YYJUU=;
+ b=YboFHd1L8U1gsUq/8JaGQDeyxMwmhkeDkgKebAQNJpu21JRMltbQ/s3Q
+ sETuM9wwo6b4J7yk12j3UgmYKUZKcgPxusgyhQF2tlSwio/aa6+dAL6Xc
+ tgC0a5GTAvhFuQYRZ/bLNKK691t8lSRtDAglxGFGLvUlHVFTSb/16Y9QU
+ W5kX/jXPhWvXwaXa3mQdNT4DLpe2nMgQdwha+AloW+6pCRUUorgane0Wv
+ TFr7jOrsuG84IYdYImJ5W3Wm6OqUfU2tIgdsMwAcvHa0+GkPLfaI4itwt
+ 1oHte7dMlrp3na7weqa4PHcdIsD58bGuEn0NT4jNgiiwZMiwoiqwPEIap Q==;
+X-CSE-ConnectionGUID: 71jQLD3OSACnOZNmWvKADg==
+X-CSE-MsgGUID: gBqfDp37TsaYlN5Q9oUbjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="58182160"
+X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; d="scan'208";a="58182160"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2025 07:41:43 -0700
+X-CSE-ConnectionGUID: QnU9IklQRmedSebdQ55NAA==
+X-CSE-MsgGUID: KHcEYiNSTC6ko6hJwjQLZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; d="scan'208";a="159569354"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2025 07:41:43 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Wed, 23 Jul 2025 07:41:42 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Wed, 23 Jul 2025 07:41:42 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.56)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 23 Jul 2025 07:41:41 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ahYBoJL7enWG8MADDfoavClVwSg+cYPHn+Ug+GmeOmplzCT5h1ZZj41N3TJEdjgHfzEPS+CMNZGy+CI3rkGvTvZOSMfPNgkgsuD9DORgSzpYhk/Bs2SEUpzjVz7gPNMQfdJZjthTu+UQ1nowv+vBMaZU7hWinuR+8D42kfiIsn0x14LUdpCwey8oTebKdTa8lyRO+z1EOzIVKMxAYrmYU2NpG3CNNCdnSZdhaCFXIEsuMkpoUiMcAm9e5tAB6FIwQqpLqRnDyScamv4f4Nlu8XrQqLcb5MwOvRnNYK+DV8DI7bHSEFTPFUC8SHTKOjup5CqyZTvYg9UWVltZ7ck2SQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z/4DHAW0H6GEeXyTrVORZzWUN3RQuwp/jT/7bdMT2Fc=;
+ b=ZDgZ3UnEzSxpZuI0YdQqlQHke/YEH8Hpv74tPz4cu63HrEw0iVT+Re7TsFBBBBlluQu6JGvhW1ooG1bBFz4iz/pJSqSue2Y1ba8PfngjYJYNnlUtGR5giTKmktD0eqTL8rr3WJ96GSWicDxAH74JixJGEo+hbxgDiWzfwrxew6TvRfmLV0CGSk4SjtacRV6sdgG/3PTKOBjtHAfsxsWegS9Qp35xRHYVxVB7hwLMmKWuj5ikEfaBhInhaCclLj/+fuCobAXC0YuR0GQ+N0KUolzT4dNKh+ZX4yFxc6PpFzgcIYm00VOPs1D/3tGNxnzrGJq7ODlaxwtkL5/Kpj6CUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) by
+ BL3PR11MB6388.namprd11.prod.outlook.com (2603:10b6:208:3b8::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Wed, 23 Jul
+ 2025 14:41:39 +0000
+Received: from DS0PR11MB7958.namprd11.prod.outlook.com
+ ([fe80::d3ba:63fc:10be:dfca]) by DS0PR11MB7958.namprd11.prod.outlook.com
+ ([fe80::d3ba:63fc:10be:dfca%7]) with mapi id 15.20.8943.029; Wed, 23 Jul 2025
+ 14:41:39 +0000
+Message-ID: <aab4d187-3a9f-4399-bccc-8e6634a16110@intel.com>
+Date: Wed, 23 Jul 2025 20:11:29 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 5/9] drm/xe/xe_survivability: Add support for Runtime
+ survivability mode
+To: Raag Jadav <raag.jadav@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
+ <lucas.demarchi@intel.com>, <aravind.iddamsetty@linux.intel.com>,
+ <umesh.nerlige.ramappa@intel.com>, <frank.scarbrough@intel.com>,
+ <sk.anirban@intel.com>, <simona.vetter@ffwll.ch>, <airlied@gmail.com>
+References: <20250715104730.2109506-1-riana.tauro@intel.com>
+ <20250715104730.2109506-6-riana.tauro@intel.com>
+ <aIDsz7UkxW1XRRtP@black.fi.intel.com>
+Content-Language: en-US
+From: Riana Tauro <riana.tauro@intel.com>
+In-Reply-To: <aIDsz7UkxW1XRRtP@black.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0064.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ad::6) To DS0PR11MB7958.namprd11.prod.outlook.com
+ (2603:10b6:8:f9::19)
 MIME-Version: 1.0
-X-MBO-RS-META: u1f6subx8934y76me46mas51hpeg9cpi
-X-MBO-RS-ID: 52395c03797e5330bee
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7958:EE_|BL3PR11MB6388:EE_
+X-MS-Office365-Filtering-Correlation-Id: c3af5d90-f404-45fe-6639-08ddc9f70836
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?b0pHTnZnb3lBMSt1dWZYa3lWSXVIL0ZlOTl6cjZvMzhPUUNsTk5sdDNvb0Fl?=
+ =?utf-8?B?eFRXdklJWjRsUmxkLzE2OFh3ZmtGeDNmU1NjU0p5RnplMVc4WjNDRWVmWFp5?=
+ =?utf-8?B?S3F3a0NVMkhGUWkya1dOOUdaamRzWU8xZklUTW0vOUhnWnBxdkJUNHNuem1j?=
+ =?utf-8?B?U0Npdi9RRkxzaFNCTXpIWGhCMjBqMlVsY3VVMDkzVjM5N0VLa01VRDlXU1dS?=
+ =?utf-8?B?bkNKei80VGFlVXpDL0U4Nm9aMzY3OUlvTmFqRldRWi9PNlBCRVhSR2VZRFIx?=
+ =?utf-8?B?VnVQb1pxUTRVS3lSWmhrMlhyTTByQWpiYW5PcnVNUkhweERNM1dwZGRpMTQ3?=
+ =?utf-8?B?ZlNWR2xSVTFjcStJUFlIR2lSZnFMSVR5aUZCT3JhYWg2YVFaTzdnZDBucURx?=
+ =?utf-8?B?emxYZFZxS1NCWHVGQ3VqRXFNdjFPazRsamFzYkRzOEpZbXZjOWZOZXBCc3RM?=
+ =?utf-8?B?WXk5K2ZjWUd6b1lWMmtyWW9hSFpreDQyVUp4cUdrNzVHY29zTVhyM25mbEI4?=
+ =?utf-8?B?cERNeVVrdWhZQXZuYVkzWmFZMDlXTlc3eGtaRkhJS3V5bi9ET3NQa0l3OFBV?=
+ =?utf-8?B?aWpmVm9SYmRjcnN2NVdtSk83aEVXeFNEM3NJTGhjbU9XMEZQb2RXZkdtMlgz?=
+ =?utf-8?B?eEIrSmpmM3Q5ODhUNjBZa3dSa2RBRkJxby8wYjM5YmNrNTgzbFdFZkhxcXU1?=
+ =?utf-8?B?MDBPZ0poMWhyeFB4b0Y1d2ZvTHltcnpWeCsrQ2NhNUNweGlxM3dlMXR0eTgv?=
+ =?utf-8?B?VW5YM3laZW5idjdYc0pmc1JjZUx5aFdjZFJncko5M3hxZXI5MVEvZ1JpeU1z?=
+ =?utf-8?B?ZWRxcVFnOUxrZmdzelExSUplWXJ5bGx1VDd1YkVEeUZqU2RjSW9BZ3lRYmlC?=
+ =?utf-8?B?NmdaTUs0ZTBPdzk3eHZPTDVtTEVtOFZUSFlqOExsRGRDOXBrVTBTZ0lPZHdE?=
+ =?utf-8?B?eDZSZ0RseHIvMGo5Uk05SSsrVjNVKzVBeU9lSEZBb00rNjVJWWE0MExreUZ2?=
+ =?utf-8?B?eElQcGszeWY0dy9iRnVjMWhodWRON2R3Y2NaL3BYLzE3d1pmQ2s1MzhiQTlx?=
+ =?utf-8?B?bWVJMHFqc1RaallZUmRlUDAyeHpXU256YmtqNE5UY1lCS2c3NFRna3pBRDZY?=
+ =?utf-8?B?TDgyc0hFd2pNc2VSRUttWm1sUVF1b0w1ZHNOcisrU0F5alBEK254eGlIZHFP?=
+ =?utf-8?B?KzRlbGtKNGdBZHhCQStDYzZuUmZGTXpNUGZENnJ6N2FZY3RaRDZQUzFJcHNP?=
+ =?utf-8?B?bkdDZEJSalZIeFBheVlWbjZwR2Y2S01yaG5ncFBJM1VqcnJrTjNVV0ZLaVZO?=
+ =?utf-8?B?WkdadWJLYUlieHFUQmZKZnpMR3JQZG04cDZCTDdUaHF5dXcwQ21KenA0aHlC?=
+ =?utf-8?B?QVpwVlRiTkZ6eXNRSW16dUFIVWtyQVNKUTVmM1Qvai8vSTNJQUxRNVBacTFl?=
+ =?utf-8?B?dEpkZDEyNkNzT3pVUjhjRGtpM3g4Ymw0YkRvZ0ZqWGplblJNN3NLRUMwdU90?=
+ =?utf-8?B?MDhHMVU5TkEvSjNMQmNBYW5uOVhNNUMwMzBSVXNPZGpEUHNjS0crbHljSGl3?=
+ =?utf-8?B?Q3luck5xTVBoNVY3dm9paTNPdFJlRUt1NnBEZVYwYXV6UTJ4VWk1LzRpZUk4?=
+ =?utf-8?B?c3NlaEFaazlFeHZsL0JnSXlaRVkzM0FwWkxFd0cwUnExdnc3WUFmNWpJWGt5?=
+ =?utf-8?B?VVJLOEdVcnJyNWN0WkdWQXhsMlRQWVJUTStxSXF5RWhySlYvTHA0bmEzaXJB?=
+ =?utf-8?B?dVprUVU1M0I4WFFyVmVtN2cxMzI5Y1ZEbS93NmtJYlV2ZXd5N3BDTCtwcnpj?=
+ =?utf-8?Q?r4P7+xHuBR4keMDY413zGc5LpG77Ii0i04Hrc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB7958.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YzN5Q2tTNWVvODh6TWpucnJSL0JCbkRzOGZQSTBwMWM1NS96bUM0cktaRzc5?=
+ =?utf-8?B?Mll1dHpkVkY3QzJLaVhpMW1HWjlXUDBaaEZEN1dIVDFjc0FrV3R0bFVUNVZV?=
+ =?utf-8?B?T3ZFUFhndmdKYkc5RTFGZHVQUGIzMW9qMHRPdjVsektaME5vY2RLOTZ4NkJt?=
+ =?utf-8?B?d3hmS0pyNXBKUTlxZnZYcGhLOE5OZmUwQ0txc0dJUGdnQ2NXWCtUOFQ2S2hT?=
+ =?utf-8?B?SkxEb01EWmZXSU1MR0ZVVnVFUm9GTVJXN0tEaFRxM2VFTDY4Mk52UzFMZzJT?=
+ =?utf-8?B?LzUvNHFET1g3OHpzUzk5WVlQRFlWT2N0RUtlOEhmcUJZK1hYMzRPY0xoYlRG?=
+ =?utf-8?B?Um5vUzBuZWxsdUdTdnRaOGhKaHdLM2hzOFBzcStKODdPS0dXZjh5V0RTRGtW?=
+ =?utf-8?B?VmNaYytsZE5PVTdvbWsvb2lWRUh4VlhPYmRMemRTQnRhMGdPVGY3NWNYZW81?=
+ =?utf-8?B?ajVhOThpaW1yY3NDRWFWNUsySzB4aHNCSzZnOU0xOXR6amRlRUJCMVBzS1hY?=
+ =?utf-8?B?Z1pXTXM4NDRsNnFKa1FUTTZoQk40RS85ZDhhR0YyZ2lmVmtEUlZwSGlOYm4w?=
+ =?utf-8?B?SWZINnpnelQ5V1Y4Tkt3ajRDVU90WUNFc1Q4ZnFqV2hwVUh3RTF3UlJwWkJZ?=
+ =?utf-8?B?MTNMRnZnVjZyaEdka0pPNVhMRFplSnEvZFVxcGhMdllFT21KUHJPWS85Uk1J?=
+ =?utf-8?B?ZGhPakgvSWR5WjNjMVVJR2I1dmVwTFZGM3hpZndKNWhtK3pJR3ZYb3ZkWno4?=
+ =?utf-8?B?S3crKzN6ZTdrdjJKd2dJdkZzUGZMMWtVMWl1RlNubW9aMGRJV1E1OS9qd1hx?=
+ =?utf-8?B?OVphRDJQUkNIa0U3cWhTcGRFNEl1ck5YcDJCeUNtWDdhbFhOTEJ4bmNJdWJx?=
+ =?utf-8?B?WDJmc3RUbjFkZ0p4Vm1NOXd5UnpKcEFtTFNKNTVKeHQzQlZzbGE3UUJlZEF0?=
+ =?utf-8?B?eFo1R1Y2ell2clg4ZUZpOVJPUXhJU2JPV2ZrRGdlc2FwS3dzaHlUdEY1V2NB?=
+ =?utf-8?B?bURaOUo5SjZ6RndGa2swcCtiRzhjUVdJTzZCRTJzbnVaVUovUHVTdkkvZThs?=
+ =?utf-8?B?NUZ0NUxMczBlbksrbGQ2a1JOUGh5S1FsOHlTbEtDWU1uaFJFMkZTNU1OQzhm?=
+ =?utf-8?B?UVM2bS9TcGtVa2g5T1RwVi9rd2doOXd5eEdkSndmTzJFS0lYd1hTYlR4dkdq?=
+ =?utf-8?B?ajhzMUNIS0wwOVZkT0o3Tk5lZnFLZ3FERnNXQTJCbmFadnYrU3E4N0xzVWhr?=
+ =?utf-8?B?YlhCUCt2VkVmN1JSeEozSC9XaERyNXJCZFBoUVpNT01mNUR1aEY3aVV3NThl?=
+ =?utf-8?B?c28rZlFIZFJTOXN0SzJXTzI2aXVCT2FPZjhhS0lITjQ4SE93S0pxVkxqT1RB?=
+ =?utf-8?B?RGgwWWQvZzI0enZ5WVdzZC9qdGhpZTgzaHlpQk9ERld1ZnhrOFIwa2FESzQ3?=
+ =?utf-8?B?MXBocHlXMTRzT0ZLSXpidGJBNkM1UU9OY0haaUNtaGk1aDlid0ZhYTd0aDhL?=
+ =?utf-8?B?eUN1OHZMbW5zRFRTekVTMUlIQXdXbXBYTmVsRmsyUTFSMFlJUHF1di9LdGtl?=
+ =?utf-8?B?UytycXErZjhhdndsSVRZZTdGRnlBYzF3OUFDby9CeHRYVVgwMnB0UEdqcTAz?=
+ =?utf-8?B?UmVLMFNhaS9Kc3RNRmFJby9PcUV4eVhoSFo1VTU2SXhXOHQ4LzJOUVNQK0pI?=
+ =?utf-8?B?NE8xOS9tTjNqUWg2WU9GMUZ4QUkyRVh3alowYWM4d1VIRW9WWnMzblFkOWor?=
+ =?utf-8?B?YkhFRFVpdEJlS0QyY1ZiTFl0RXdaV2ZsdG1LcXViYVZJejVkRkViVmU0WTRm?=
+ =?utf-8?B?cllrNXBZNGlhZ3dGV3JCSFBYQXVXT1Y2ZlpzWkdrdzJOblEzZzN6YWQ1UXF4?=
+ =?utf-8?B?R2VmM0c2NERqSXpZekJGME5XODBDdDk3VVZtaS95UlpjeDB3WUUwWmR2bmZm?=
+ =?utf-8?B?bUtBcklzUzBWeVFZRkN0SjNQOWJlY1NGYmhhV0xYOGpsYkNXOUdraWt5a0Q4?=
+ =?utf-8?B?WVRFV1pCZVdDQWZTalJpU21nSkF5MEdoeEdFeStKcXpOQ0JaSnZBbzZKSkwy?=
+ =?utf-8?B?ZFNTWmx0TFhYQ29jbkVQdHkxQTVsUk1BYk1RbHFWcEJjTEE2a0hTQ2t4NmN0?=
+ =?utf-8?Q?lfs/UesAj2RbsCgoAvEOv6A7H?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3af5d90-f404-45fe-6639-08ddc9f70836
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7958.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 14:41:39.1553 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TvC0xbApgkaq/Y3bypgrlpznsJ8jDlQ7igYS8/pUddsgcauONoe4mlHP9kcD7kzqd9NQGa+5Q5f6QSbn64GiXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6388
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,209 +196,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
 
-On Tue, 2025-07-22 at 13:05 -0700, James wrote:
-> On Mon, Jul 21, 2025, at 1:16 AM, Philipp Stanner wrote:
-> > On Mon, 2025-07-21 at 09:52 +0200, Philipp Stanner wrote:
-> > > +Cc Tvrtko, who's currently reworking FIFO and RR.
-> > >=20
-> > > On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
-> > > > Fixes an issue where entities are added to the run queue in
-> > > > drm_sched_rq_update_fifo_locked after being killed, causing a
-> > > > slab-use-after-free error.
-> > > >=20
-> > > > Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
-> > > > ---
-> > > > This issue was detected by syzkaller running on a Steam Deck OLED.
-> > > > Unfortunately I don't have a reproducer for it. I've
-> > >=20
-> > > Well, now that's kind of an issue =E2=80=93 if you don't have a repro=
-ducer, how
-> > > can you know that your patch is correct? How can we?
-> > >=20
-> > > It would certainly be good to know what the fuzz testing framework
-> > > does.
-> > >=20
-> > > > included the KASAN reports below:
-> > >=20
-> > >=20
-> > > Anyways, KASAN reports look interesting. But those might be many
-> > > different issues. Again, would be good to know what the fuzzer has be=
-en
-> > > testing. Can you maybe split this fuzz test into sub-tests? I suspsec=
-t
-> > > those might be different faults.
-> > >=20
-> > >=20
-> > > Anyways, taking a first look=E2=80=A6
-> > >=20
-> > >=20
-> > > >=20
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > BUG: KASAN: slab-use-after-free in rb_next+0xda/0x160 lib/rbtree.c:=
-505
-> > > > Read of size 8 at addr ffff8881805085e0 by task kworker/u32:12/192
 
-[SNIP]
+On 7/23/2025 7:38 PM, Raag Jadav wrote:
+> On Tue, Jul 15, 2025 at 04:17:25PM +0530, Riana Tauro wrote:
+>> Certain runtime firmware errors can cause the device to be in a unusable
+>> state requiring a firmware flash to restore normal operation.
+>> Runtime Survivability Mode indicates firmware flash is necessary by
+>> wedging the device and exposing survivability mode sysfs.
+>>
+>> The below sysfs is an indication that device is in survivability mode
+>>
+>> /sys/bus/pci/devices/<device>/survivability_mode
+> 
+> ...
+> 
+>> +int xe_survivability_mode_runtime_enable(struct xe_device *xe)
+>> +{
+>> +	struct xe_survivability *survivability = &xe->survivability;
+>> +	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+>> +	int ret;
+>> +
+>> +	if (!IS_DGFX(xe) || IS_SRIOV_VF(xe) || xe->info.platform < XE_BATTLEMAGE) {
+>> +		dev_err(&pdev->dev, "Runtime Survivability Mode not supported\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	ret = init_survivability_mode(xe);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = create_survivability_sysfs(pdev);
+>> +	if (ret)
+>> +		dev_err(&pdev->dev, "Failed to create survivability mode sysfs\n");
+>> +
+>> +	survivability->type = XE_SURVIVABILITY_TYPE_RUNTIME;
+>> +	dev_err(&pdev->dev, "Runtime Survivability mode enabled\n");
+>> +
+>> +	xe_device_set_wedged_method(xe, DRM_WEDGE_RECOVERY_VENDOR);
+>> +	xe_device_declare_wedged(xe);
+>> +	dev_err(&pdev->dev, "Firmware update required, Refer the userspace documentation for more details!\n");
+> 
+> Do we have it? Or did I miss it somewhere? :D
 
-> > > >=20
-> > > > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 6 ++++--
-> > > > =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/d=
-rm/scheduler/sched_main.c
-> > > > index bfea608a7106..997a2cc1a635 100644
-> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct dr=
-m_sched_entity *entity,
-> > > > =C2=A0
-> > > > =C2=A0	entity->oldest_job_waiting =3D ts;
-> > > > =C2=A0
-> > > > -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
-> > > > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before);
-> > > > +	if (!entity->stopped) {
-> > > > +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
-> > > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before)=
-;
-> > > > +	}
-> > >=20
-> > > If this is a race, then this patch here is broken, too, because you'r=
-e
-> > > checking the 'stopped' boolean as the callers of that function do, to=
-o
-> > > =E2=80=93 just later. :O
-> > >=20
-> > > Could still race, just less likely.
-> > >=20
-> > > The proper way to fix it would then be to address the issue where the
-> > > locking is supposed to happen. Let's look at, for example,
-> > > drm_sched_entity_push_job():
-> > >=20
-> > >=20
-> > > void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
-> > > {
-> > > 	(Bla bla bla)
-> > >=20
-> > > =C2=A0	=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
-> > >=20
-> > > 	/* first job wakes up scheduler */
-> > > 	if (first) {
-> > > 		struct drm_gpu_scheduler *sched;
-> > > 		struct drm_sched_rq *rq;
-> > >=20
-> > > 		/* Add the entity to the run queue */
-> > > 		spin_lock(&entity->lock);
-> > > 		if (entity->stopped) {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <---- Aha!
-> > > 			spin_unlock(&entity->lock);
-> > >=20
-> > > 			DRM_ERROR("Trying to push to a killed entity\n");
-> > > 			return;
-> > > 		}
-> > >=20
-> > > 		rq =3D entity->rq;
-> > > 		sched =3D rq->sched;
-> > >=20
-> > > 		spin_lock(&rq->lock);
-> > > 		drm_sched_rq_add_entity(rq, entity);
-> > >=20
-> > > 		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
-> > > 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bumm=
-!
-> > >=20
-> > > 		spin_unlock(&rq->lock);
-> > > 		spin_unlock(&entity->lock);
-> > >=20
-> > > But the locks are still being hold. So that "shouldn't be happening"(=
-tm).
-> > >=20
-> > > Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini()
-> > > stop entities. The former holds appropriate locks, but drm_sched_fini=
-()
-> > > doesn't. So that looks like a hot candidate to me. Opinions?
-> > >=20
-> > > On the other hand, aren't drivers prohibited from calling
-> > > drm_sched_entity_push_job() after calling drm_sched_fini()? If the
-> > > fuzzer does that, then it's not the scheduler's fault.
-> > >=20
-> > > Could you test adding spin_lock(&entity->lock) to drm_sched_fini()?
-> >=20
-> > Ah no, forget about that.
-> >=20
-> > In drm_sched_fini(), you'd have to take the locks in reverse order as
-> > in drm_sched_entity_push/pop_job(), thereby replacing race with
-> > deadlock.
-> >=20
-> > I suspect that this is an issue in amdgpu. But let's wait for
-> > Christian.
-> >=20
-> >=20
-> > P.
-> >=20
-> >=20
-> > >=20
-> > > Would be cool if Tvrtko and Christian take a look. Maybe we even have=
- a
-> > > fundamental design issue.
-> > >=20
-> > >=20
-> > > Regards
-> > > P.
-> > >=20
-> > >=20
-> > > > =C2=A0}
-> > > > =C2=A0
-> > > > =C2=A0/**
-> > >=20
->=20
-> Thanks for taking a look at this. I did try to get a reproducer using syz=
-kaller, without success. I can attempt it myself but I expect it will take =
-me some time, if I'm able to at all with this bug. I did run some of the ig=
-t-gpu-tools tests (amdgpu and drm ones), and there was no difference after =
-the changes on my system. After this change I wasn't running into the UAF e=
-rrors after 100k+ executions but I see what you mean, Philipp - perhaps it'=
-s missing the root issue.=20
->=20
-> FYI, as an experiment I forced the use of RR with "drm_sched_policy =3D D=
-RM_SCHED_POLICY_RR", and I'm not seeing any slab-use-after-frees, so maybe =
-the problem is with the FIFO implementation?=20
+fwupd currently implements it and they have a generic documentation
+and https://github.com/fwupd/fwupd/blob/main/plugins/intel-gsc/README.md 
+intel specific. Once the patches are good to merge the dmesg and sysfs 
+will be added in the same location by Frank.
 
-I can't imagine that. The issue your encountering is most likely a race
-caused by the driver tearing down entities after the scheduler, so
-different scheduler runtime behavior might hide ("fix") the race
-(that's the nature of races, actually: sometimes they're there,
-sometimes not). RR running with different time patterns than FIFO
-doesn't mean that FIFO has a bug.
+I have mentioned "userspace" as there can be other tools in the future 
+that might use this. There has to be a message indicating firmware 
+update is required.
 
->=20
-> For now, the closest thing to a reproducer I can provide is my syzkaller =
-config, in case anyone else is able to try this with a Steam Deck OLED. I'v=
-e included this below along with an example program run by syzkaller (in ge=
-nerated C code and a Syz language version).
+Thanks
+Riana
 
-Thanks for investigating this.
+> 
+> Raag
 
-My recommendation for now is that you write a reproducer program,
-possibly inspired by the syzkaller code you showed.
 
-Reproduce it cleanly and (optionally) try a fix. Then another mail
-would be good, especially with the amdgpu maintainers on Cc since I
-suspect that this is a driver issue.
-
-Don't get me wrong, a UAF definitely needs to be fixed; but since it's
-not occurring outside of fuzzing currently and as we can't reproduce
-it, we can't really do much about it until that's the case.
-
-I will in the mean time provide a patch pimping up the memory life time
-documentation for scheduler objects.
-
-Thx
-P.
