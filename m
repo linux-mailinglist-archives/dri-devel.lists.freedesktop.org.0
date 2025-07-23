@@ -2,49 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C41B0F430
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 15:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B97B0F4BE
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 16:00:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1CEA10E7D4;
-	Wed, 23 Jul 2025 13:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47BC010E7D9;
+	Wed, 23 Jul 2025 14:00:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xCw5ycBA";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nfraprado@collabora.com header.b="G0kKPqh8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC3510E7D4
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 13:38:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B019B456EC;
- Wed, 23 Jul 2025 13:38:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E005C4CEE7;
- Wed, 23 Jul 2025 13:38:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1753277891;
- bh=pjrEu/ZYnLRzeKLNkYuVmzbdoItD0h6Ztyl55j9UJ88=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=xCw5ycBAwUcSaJdYIWrBLul+jQrB7dwkGTn2u5FjIRpwVuwhXNLMC4x5c0z+JNam8
- i/uV1iyhSUR0o/r9E+RRUx3biiUHk2biae0Vb7GQlaZgtMle4zOhr97Q6nwZXzTmu4
- pgwMlVjU8DTkD7sFKA/vSawi/TNplZYWQK53hbb4=
-Date: Wed, 23 Jul 2025 15:38:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nicusor Huhulea <nicusor.huhulea@siemens.com>
-Cc: cip-dev@lists.cip-project.org, Imre Deak <imre.deak@intel.com>,
- stable@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org,
- Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PATCH 6.1.y-cip 2/5] [PARTIAL BACKPORT]drm: Add an HPD poll
- helper to reschedule the poll work
-Message-ID: <2025072342-handpick-geriatric-ce9a@gregkh>
-References: <20250723125427.59324-1-nicusor.huhulea@siemens.com>
- <20250723125427.59324-3-nicusor.huhulea@siemens.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63CF710E7DD;
+ Wed, 23 Jul 2025 14:00:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1753279207; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=N5iTYjyepKeVwUsy3xrnJ4o2yQ4MvSLS0+wVMYJIhtDO6OtRzVkVxixiHzAcyscQVMe7UvVYHuvPClxlM+HfJ4UMrTSM1XcpCpqZVjzcopzbY2LznpdY79xbE50oe+Cu9hT+gknNlDNXt2o70wS7QzOAv3rBmJZ09dMD3V2ZTSk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1753279207;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=zk0L+C4K3jKWIEouwPa+VL9hBipstr3UBV39eVVZtzc=; 
+ b=Jw4SDO6N3L3BFKFPA4ODrr8giHGyK3mcSnIc4dSU3U2iJk69f3jpd3YoI1vo5lplER3+Xm0j2ZCgJXPTXYft/Kw+2PUH2sE86+vdQXOQ8CRjh+Gl6OhTEitDriYUx4i5b29uKEhQKbeI36GXOKrh5LTwxmLlwxybtHd+YAG1Les=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nfraprado@collabora.com;
+ dmarc=pass header.from=<nfraprado@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753279207; 
+ s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=zk0L+C4K3jKWIEouwPa+VL9hBipstr3UBV39eVVZtzc=;
+ b=G0kKPqh8jyzSZ6yDdQ8uATQ+4yyJhgz6epyn7MMhI3OATuz8yrUx8lJDsGj+JVol
+ q/dnNabJ90ozFxka9o1xQL1bx7Drn76RT5OXDmwArKmnke3caUb67Hr1NL2ip8NG2Z2
+ OwxJh4MgkdZEJzTleapyxtx54gvF+r23GZaL4j9Y=
+Received: by mx.zohomail.com with SMTPS id 1753279204657109.55205778707705;
+ Wed, 23 Jul 2025 07:00:04 -0700 (PDT)
+Message-ID: <5bf31a150ac7556d59cf9d1828a5d2a7a1c0da8f.camel@collabora.com>
+Subject: Re: [PATCH V10 41/46] drm/colorop: allow non-bypass colorops
+From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, 
+ leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, 	contact@emersion.fr, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, 	shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, 
+ aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com,
+ daniel@ffwll.ch, 	uma.shankar@intel.com, quic_naseer@quicinc.com,
+ quic_cbraga@quicinc.com, 	quic_abhinavk@quicinc.com, marcan@marcan.st,
+ Liviu.Dudau@arm.com, 	sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, 	louis.chauvet@bootlin.com,
+ arthurgrillo@riseup.net, Daniel Stone	 <daniels@collabora.com>
+Date: Wed, 23 Jul 2025 10:00:01 -0400
+In-Reply-To: <20250617041746.2884343-42-alex.hung@amd.com>
+References: <20250617041746.2884343-1-alex.hung@amd.com>
+ <20250617041746.2884343-42-alex.hung@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250723125427.59324-3-nicusor.huhulea@siemens.com>
+X-ZohoMailClient: External
+X-ZohoMail-Owner: <5bf31a150ac7556d59cf9d1828a5d2a7a1c0da8f.camel@collabora.com>+zmo_0_nfraprado@collabora.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,30 +78,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 23, 2025 at 03:54:24PM +0300, Nicusor Huhulea wrote:
-> From: Imre Deak <imre.deak@intel.com>
-> 
-> Add a helper to reschedule drm_mode_config::output_poll_work after
-> polling has been enabled for a connector (and needing a reschedule,
-> since previously polling was disabled for all connectors and hence
-> output_poll_work was not running).
-> 
-> This is needed by the next patch fixing HPD polling on i915.
-> 
-> CC: stable@vger.kernel.org # 6.4+
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Reviewed-by: Jouni Högander <jouni.hogander@intel.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20230822113015.41224-1-imre.deak@intel.com
-> (cherry picked from commit fe2352fd64029918174de4b460dfe6df0c6911cd)
-> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Partial-Backport-by: Nicusor Huhulea <nicusor.huhulea@siemens.com>
+On Mon, 2025-06-16 at 22:17 -0600, Alex Hung wrote:
+> From: Harry Wentland <harry.wentland@amd.com>
+>=20
+> Not all HW will be able to do bypass on all color
+> operations. Introduce an 32 bits 'flags' for all colorop
+> init functions and DRM_COLOROP_FLAG_ALLOW_BYPASS for creating
+> the BYPASS property when it's true.
+>=20
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Reviewed-by: Daniel Stone <daniels@collabora.com>
+> Reviewed-by: Simon Ser <contact@emersion.fr>
+> Reviewed-by: Melissa Wen <mwen@igalia.com>
+> ---
+[..]
+> =C2=A0
+> =C2=A0	/* next */
+> =C2=A0	prop =3D drm_property_create_object(dev,
+> DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_ATOMIC,
+> @@ -195,10 +197,11 @@ EXPORT_SYMBOL(drm_colorop_pipeline_destroy);
+> =C2=A0 * @supported_tfs: A bitfield of supported
+> drm_plane_colorop_curve_1d_init enum values,
+> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 created using BIT(curve_type) and combine=
+d with
+> the OR '|'
+> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 operator.
+> + * @flags: bitmask of misc, see DRM_COLOROP_FLAGS_* defines.
 
-What does "Partial-Backport-by:" mean?  I don't see that in the
-documentation files as a valid tag to put in kernel commits :(
+Typo, should be DRM_COLOROP_FLAG_*
 
-confused,
+Same on the other kernel-docs below.
 
-greg k-h
+--=20
+Thanks,
+
+N=C3=ADcolas
