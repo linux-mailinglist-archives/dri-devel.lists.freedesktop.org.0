@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8FDB0F4E7
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 16:08:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905D9B0F590
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 16:41:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E10810E175;
-	Wed, 23 Jul 2025 14:08:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9813910E046;
+	Wed, 23 Jul 2025 14:41:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I0+1Q2t/";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="CVyTPFHM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8018210E514;
- Wed, 23 Jul 2025 14:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753279703; x=1784815703;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Uam3uGSmS8X/U2z5MvULB0BxVpco+wkNtehkt3u+mt4=;
- b=I0+1Q2t/Jk+38bdiyo4OKDBiJR0x1vhTot+SntBWyiSr1vzMHfzrFODf
- lntdOXKZCzX7xa0q3x2ImeX7vw3jxJi4/nS0hi41Lh0yX7eWar91zhMy9
- dlVk57BaUPxm8SyTbCStK9pp5CMzUwpffQigAb0C+GIBi+aXAnGcHGiTn
- mbft351f0m4fJMX88TKcqWDOGwK4O3Hq+oWPCFlBjbdPE1zJLr/2SSvbG
- Pg5SKg71JUQaHoaToOCVNzc/j+gCLHp0dhvI1Dc0YLZ0vWeOeR2gkHfJu
- OkNypKbCgN8z7siui1k+CLmb9z+U3AfXysDEu20OgkX+56NARXhd4U2pg A==;
-X-CSE-ConnectionGUID: eJRUa9BbRFGZIsCX/L+H7Q==
-X-CSE-MsgGUID: vUFwYwWFRGiPEYy6mjlhDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="59220257"
-X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; d="scan'208";a="59220257"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2025 07:08:22 -0700
-X-CSE-ConnectionGUID: SSZkd+7VQwm/2kRLs32b8A==
-X-CSE-MsgGUID: +uwbC2FSRkOJfinnQGXK1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; d="scan'208";a="163601539"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2025 07:08:19 -0700
-Date: Wed, 23 Jul 2025 17:08:15 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
- umesh.nerlige.ramappa@intel.com, frank.scarbrough@intel.com,
- sk.anirban@intel.com, simona.vetter@ffwll.ch, airlied@gmail.com
-Subject: Re: [PATCH v5 5/9] drm/xe/xe_survivability: Add support for Runtime
- survivability mode
-Message-ID: <aIDsz7UkxW1XRRtP@black.fi.intel.com>
-References: <20250715104730.2109506-1-riana.tauro@intel.com>
- <20250715104730.2109506-6-riana.tauro@intel.com>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D327510E046
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 14:41:11 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bnGz75YDmz9snp;
+ Wed, 23 Jul 2025 16:41:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1753281667; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ke85bfOu9U/z4qWHLgSi9M97NOdAmDef0WSr+i5D30M=;
+ b=CVyTPFHMw9F9OMHBskxiQxmgaymMt1BF6AVnDhl45qgNfNOKdPvwxFJiM5VQSTIvkDDX2T
+ anguJMI127QV62LM/NpwAXoLlguIDDWwDx8FXg2r3SPsHYTqk6IuPqVjlYFPVN9fDCeFEm
+ uu7Uqvwf1g3ebQCtE2xC9lLGPkP5fqN1IksYEGUSbli2cyu8B/HHkcl3IgNbnmr4Ao/ylF
+ pRY+8p444o+qKgdN/SPwpgE/vgsp2j6+Btw1KohWJmoNjNM0j0oVtpPyJho+GBVjQxoP50
+ xzhCzqTRkZhbZqKnRFxdocXpJZG0SzONZbV3Rpyt7tMh2CqhXeGrXs3hos6RIg==
+Message-ID: <5ce98154b3f16c09b2d9b48493e88a4c6916281e.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
+ the run queue.
+From: Philipp Stanner <phasta@mailbox.org>
+To: James <bold.zone2373@fastmail.com>, phasta@kernel.org, 
+ matthew.brost@intel.com, dakr@kernel.org, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ maarten.lankhorst@linux.intel.com,  mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,  Shuah Khan
+ <skhan@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linux.dev, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>
+Date: Wed, 23 Jul 2025 16:41:00 +0200
+In-Reply-To: <a6b4f8a2-7be1-4bc7-9700-fe7e52e21ea4@app.fastmail.com>
+References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
+ <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
+ <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
+ <a6b4f8a2-7be1-4bc7-9700-fe7e52e21ea4@app.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250715104730.2109506-6-riana.tauro@intel.com>
+X-MBO-RS-META: u1f6subx8934y76me46mas51hpeg9cpi
+X-MBO-RS-ID: 52395c03797e5330bee
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,47 +70,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 15, 2025 at 04:17:25PM +0530, Riana Tauro wrote:
-> Certain runtime firmware errors can cause the device to be in a unusable
-> state requiring a firmware flash to restore normal operation.
-> Runtime Survivability Mode indicates firmware flash is necessary by
-> wedging the device and exposing survivability mode sysfs.
-> 
-> The below sysfs is an indication that device is in survivability mode
-> 
-> /sys/bus/pci/devices/<device>/survivability_mode
+Hello,
 
-...
+On Tue, 2025-07-22 at 13:05 -0700, James wrote:
+> On Mon, Jul 21, 2025, at 1:16 AM, Philipp Stanner wrote:
+> > On Mon, 2025-07-21 at 09:52 +0200, Philipp Stanner wrote:
+> > > +Cc Tvrtko, who's currently reworking FIFO and RR.
+> > >=20
+> > > On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
+> > > > Fixes an issue where entities are added to the run queue in
+> > > > drm_sched_rq_update_fifo_locked after being killed, causing a
+> > > > slab-use-after-free error.
+> > > >=20
+> > > > Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
+> > > > ---
+> > > > This issue was detected by syzkaller running on a Steam Deck OLED.
+> > > > Unfortunately I don't have a reproducer for it. I've
+> > >=20
+> > > Well, now that's kind of an issue =E2=80=93 if you don't have a repro=
+ducer, how
+> > > can you know that your patch is correct? How can we?
+> > >=20
+> > > It would certainly be good to know what the fuzz testing framework
+> > > does.
+> > >=20
+> > > > included the KASAN reports below:
+> > >=20
+> > >=20
+> > > Anyways, KASAN reports look interesting. But those might be many
+> > > different issues. Again, would be good to know what the fuzzer has be=
+en
+> > > testing. Can you maybe split this fuzz test into sub-tests? I suspsec=
+t
+> > > those might be different faults.
+> > >=20
+> > >=20
+> > > Anyways, taking a first look=E2=80=A6
+> > >=20
+> > >=20
+> > > >=20
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > BUG: KASAN: slab-use-after-free in rb_next+0xda/0x160 lib/rbtree.c:=
+505
+> > > > Read of size 8 at addr ffff8881805085e0 by task kworker/u32:12/192
 
-> +int xe_survivability_mode_runtime_enable(struct xe_device *xe)
-> +{
-> +	struct xe_survivability *survivability = &xe->survivability;
-> +	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
-> +	int ret;
-> +
-> +	if (!IS_DGFX(xe) || IS_SRIOV_VF(xe) || xe->info.platform < XE_BATTLEMAGE) {
-> +		dev_err(&pdev->dev, "Runtime Survivability Mode not supported\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = init_survivability_mode(xe);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = create_survivability_sysfs(pdev);
-> +	if (ret)
-> +		dev_err(&pdev->dev, "Failed to create survivability mode sysfs\n");
-> +
-> +	survivability->type = XE_SURVIVABILITY_TYPE_RUNTIME;
-> +	dev_err(&pdev->dev, "Runtime Survivability mode enabled\n");
-> +
-> +	xe_device_set_wedged_method(xe, DRM_WEDGE_RECOVERY_VENDOR);
-> +	xe_device_declare_wedged(xe);
-> +	dev_err(&pdev->dev, "Firmware update required, Refer the userspace documentation for more details!\n");
+[SNIP]
 
-Do we have it? Or did I miss it somewhere? :D
+> > > >=20
+> > > > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 6 ++++--
+> > > > =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/d=
+rm/scheduler/sched_main.c
+> > > > index bfea608a7106..997a2cc1a635 100644
+> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct dr=
+m_sched_entity *entity,
+> > > > =C2=A0
+> > > > =C2=A0	entity->oldest_job_waiting =3D ts;
+> > > > =C2=A0
+> > > > -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> > > > -		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before);
+> > > > +	if (!entity->stopped) {
+> > > > +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
+> > > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_entity_compare_before)=
+;
+> > > > +	}
+> > >=20
+> > > If this is a race, then this patch here is broken, too, because you'r=
+e
+> > > checking the 'stopped' boolean as the callers of that function do, to=
+o
+> > > =E2=80=93 just later. :O
+> > >=20
+> > > Could still race, just less likely.
+> > >=20
+> > > The proper way to fix it would then be to address the issue where the
+> > > locking is supposed to happen. Let's look at, for example,
+> > > drm_sched_entity_push_job():
+> > >=20
+> > >=20
+> > > void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
+> > > {
+> > > 	(Bla bla bla)
+> > >=20
+> > > =C2=A0	=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6
+> > >=20
+> > > 	/* first job wakes up scheduler */
+> > > 	if (first) {
+> > > 		struct drm_gpu_scheduler *sched;
+> > > 		struct drm_sched_rq *rq;
+> > >=20
+> > > 		/* Add the entity to the run queue */
+> > > 		spin_lock(&entity->lock);
+> > > 		if (entity->stopped) {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <---- Aha!
+> > > 			spin_unlock(&entity->lock);
+> > >=20
+> > > 			DRM_ERROR("Trying to push to a killed entity\n");
+> > > 			return;
+> > > 		}
+> > >=20
+> > > 		rq =3D entity->rq;
+> > > 		sched =3D rq->sched;
+> > >=20
+> > > 		spin_lock(&rq->lock);
+> > > 		drm_sched_rq_add_entity(rq, entity);
+> > >=20
+> > > 		if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
+> > > 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bumm=
+!
+> > >=20
+> > > 		spin_unlock(&rq->lock);
+> > > 		spin_unlock(&entity->lock);
+> > >=20
+> > > But the locks are still being hold. So that "shouldn't be happening"(=
+tm).
+> > >=20
+> > > Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini()
+> > > stop entities. The former holds appropriate locks, but drm_sched_fini=
+()
+> > > doesn't. So that looks like a hot candidate to me. Opinions?
+> > >=20
+> > > On the other hand, aren't drivers prohibited from calling
+> > > drm_sched_entity_push_job() after calling drm_sched_fini()? If the
+> > > fuzzer does that, then it's not the scheduler's fault.
+> > >=20
+> > > Could you test adding spin_lock(&entity->lock) to drm_sched_fini()?
+> >=20
+> > Ah no, forget about that.
+> >=20
+> > In drm_sched_fini(), you'd have to take the locks in reverse order as
+> > in drm_sched_entity_push/pop_job(), thereby replacing race with
+> > deadlock.
+> >=20
+> > I suspect that this is an issue in amdgpu. But let's wait for
+> > Christian.
+> >=20
+> >=20
+> > P.
+> >=20
+> >=20
+> > >=20
+> > > Would be cool if Tvrtko and Christian take a look. Maybe we even have=
+ a
+> > > fundamental design issue.
+> > >=20
+> > >=20
+> > > Regards
+> > > P.
+> > >=20
+> > >=20
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > =C2=A0/**
+> > >=20
+>=20
+> Thanks for taking a look at this. I did try to get a reproducer using syz=
+kaller, without success. I can attempt it myself but I expect it will take =
+me some time, if I'm able to at all with this bug. I did run some of the ig=
+t-gpu-tools tests (amdgpu and drm ones), and there was no difference after =
+the changes on my system. After this change I wasn't running into the UAF e=
+rrors after 100k+ executions but I see what you mean, Philipp - perhaps it'=
+s missing the root issue.=20
+>=20
+> FYI, as an experiment I forced the use of RR with "drm_sched_policy =3D D=
+RM_SCHED_POLICY_RR", and I'm not seeing any slab-use-after-frees, so maybe =
+the problem is with the FIFO implementation?=20
 
-Raag
+I can't imagine that. The issue your encountering is most likely a race
+caused by the driver tearing down entities after the scheduler, so
+different scheduler runtime behavior might hide ("fix") the race
+(that's the nature of races, actually: sometimes they're there,
+sometimes not). RR running with different time patterns than FIFO
+doesn't mean that FIFO has a bug.
+
+>=20
+> For now, the closest thing to a reproducer I can provide is my syzkaller =
+config, in case anyone else is able to try this with a Steam Deck OLED. I'v=
+e included this below along with an example program run by syzkaller (in ge=
+nerated C code and a Syz language version).
+
+Thanks for investigating this.
+
+My recommendation for now is that you write a reproducer program,
+possibly inspired by the syzkaller code you showed.
+
+Reproduce it cleanly and (optionally) try a fix. Then another mail
+would be good, especially with the amdgpu maintainers on Cc since I
+suspect that this is a driver issue.
+
+Don't get me wrong, a UAF definitely needs to be fixed; but since it's
+not occurring outside of fuzzing currently and as we can't reproduce
+it, we can't really do much about it until that's the case.
+
+I will in the mean time provide a patch pimping up the memory life time
+documentation for scheduler objects.
+
+Thx
+P.
