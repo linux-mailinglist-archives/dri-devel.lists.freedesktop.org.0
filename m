@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384B4B0F017
-	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 12:40:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE57BB0F0D7
+	for <lists+dri-devel@lfdr.de>; Wed, 23 Jul 2025 13:10:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93F8B10E7A7;
-	Wed, 23 Jul 2025 10:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F1A10E339;
+	Wed, 23 Jul 2025 11:10:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wb7gA+dL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ri+ecnKq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B76110E7A7
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 10:40:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 91A165C276B;
- Wed, 23 Jul 2025 10:40:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E282C4CEE7;
- Wed, 23 Jul 2025 10:40:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753267221;
- bh=Kr9pqZNtJgRq0KuJQB/cKSB7DHn2xeP5OuSwdjWmQ5A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Wb7gA+dLTG19+kAQhtI7r0ZURbl/JDkasqowAE3a/Wh248Nnlc1k7aU/ksS9RYamq
- knUFyuAwhsxKRsAI/GG5CibNsysPDlNp0afPwO/aCFq6sRgp0+shNphfUqcwHJi0DH
- 3zs7KxJtS+1uKRBASoEE7QKPSkc2D6lJ6IXybMF9LHGU4aZuB6JczBwnpWZJ7EHg1O
- gg+A1yYh9daxiGnJOFjBpZhC0l0n5Om15FAGdxEoDiUhzgyiLNnxFBFRJbttHttbMN
- duLDp6XGWO6RXQ3QgR66ZfIwhP5gpt2SItcGGEYZ4XA0smDpSHIKYfufmwryt8Qtgx
- UZgjbM2LQ2PaA==
-Date: Wed, 23 Jul 2025 11:40:13 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Douglas Anderson <dianders@chromium.org>, Heiko Stuebner <heiko@sntech.de>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Raag Jadav <raag.jadav@intel.com>, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v2 2/3] ASoC: hdac_hdmi: Use dev_info on invalid ELD
- version
-Message-ID: <b209b185-8caa-41d4-8f8d-95aefec1d785@sirena.org.uk>
-References: <20250722195437.1347865-1-detlev.casanova@collabora.com>
- <20250722195437.1347865-3-detlev.casanova@collabora.com>
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF11D10E339
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 11:10:15 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4BF6F41C84;
+ Wed, 23 Jul 2025 11:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1753269014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jEJXTViUpwJmM1PZQ4s5GJCfEWzwic955fqQl2UwH2Y=;
+ b=Ri+ecnKq2DYLUj8KACW+RfVmXvXtr5s4EL4hPM5F3FAZm5N6cXrkR7xTphb29dqoVLNH7M
+ F3uGD1otPxX5lJ1yB9HNKWuLJ5GQQTYscGf69OAQgI4zfWavFEO7EprayVJUFoBKdMdu/E
+ wcrrIxfOGC1Emtmq/ZLK0vY9UAKRzrOkx6GSy3SZK5rTJuQGPYDjvMGaV7dgX9vDNo3vhA
+ 0rJRv+nCAfEca1UzSlbtlQsZzQPDDumS/j3mAn77PJSnP3yAETqKSi/VN5wDUtDPwdrF9X
+ 40INrZClD3YDKuXvWaUIhEurA8qOZrHcgg74mQPjef9pXXYFYztZ6lijYKPRmA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250709-drm-bridge-alloc-getput-drm_bridge_get_prev_bridge-v1-0-34ba6f395aaa@bootlin.com>
+References: <20250709-drm-bridge-alloc-getput-drm_bridge_get_prev_bridge-v1-0-34ba6f395aaa@bootlin.com>
+Subject: Re: [PATCH 0/3] drm/bridge: get/put the bridge returned by
+ drm_bridge_get_prev_bridge()
+Message-Id: <175326901209.1518728.9011986165395959669.b4-ty@bootlin.com>
+Date: Wed, 23 Jul 2025 13:10:12 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="eFKBin1ilgiNfb0m"
-Content-Disposition: inline
-In-Reply-To: <20250722195437.1347865-3-detlev.casanova@collabora.com>
-X-Cookie: List was current at time of printing.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdejjeeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvegjfhfukfffgggtgffosehtkeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepledtveevveduvedvteefhffgiefhfeefleffvdfgffefheeuueeihffhtdeuteehnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedrjeehngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduiedprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhto
+ hepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,46 +73,26 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---eFKBin1ilgiNfb0m
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 09 Jul 2025 17:59:36 +0200, Luca Ceresoli wrote:
+> This series adds drm_bridge_get/put() calls for DRM bridges returned by
+> drm_bridge_get_prev_bridge().
+> 
+> This is part of the work towards removal of bridges from a still existing
+> DRM pipeline without use-after-free. The grand plan was discussed in [1].
+> Here's the work breakdown (➜ marks the current series):
+> 
+> [...]
 
-On Tue, Jul 22, 2025 at 03:54:36PM -0400, Detlev Casanova wrote:
-> When disconnected, the ELD data cannot be read by the display driver, so
-> it just sets the data to 0.
+Applied, thanks!
 
-Please don't put patches for different subsystems into the same series
-if there's no dependencies, it just makes dependencies less obvious and
-creates hassle merging things.
+[1/3] drm/bridge: get the bridge returned by drm_bridge_get_prev_bridge()
+      commit: 9b75346e3c2b8ecb5b90b132c2fc185ddd30ecf3
+[2/3] drm/bridge: select_bus_fmt_recursive(): put the bridge obtained by drm_bridge_get_prev_bridge()
+      commit: d4eecb4c24dc160f4a003c804602c746fb8fec58
+[3/3] drm/bridge: display-connector: put the bridge obtained by drm_bridge_get_prev_bridge()
+      commit: c571cb70e1ed43ee543c70151e61a001ab2eefa2
 
-> That makes the ELD parsing code read an ELD version of 0, which is
-> invalid. In hdac_hdmi, that is logged with dev_err(), but should be
-> logged with dev_info() instead as it is done in sound/core/pcm_drm_eld.c
->=20
-> This avoids printing multiple messages like:
->=20
->     HDMI: Unknown ELD version 0
->=20
-> in the kernel log when userspace tries to open the sound device.
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-It doesn't, it just lowers the severity of the logs that are printed.
-If the goal is to lower the number of messages printed you need to use
-a ratelimited print.
-
---eFKBin1ilgiNfb0m
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiAvAwACgkQJNaLcl1U
-h9DLlAf/UR+hhxSi+4m+Jov1EipVWvw6PObyiKC9GcgVW5a8/3sx58QxgNNL8n3q
-VL8fD2dSxmbCICrI92GRYs2EXXQI6MFk2n5HgxDCWK+GzqcgfmkxTEKaXRezAgdD
-Z74CEyQKMytwHrZg0hSN4uIy62KUm6gLu7A+GI2rOOJ3Xd8IgaDyVt1WoRfdj8nO
-StiMnf3kaa9LgC5Ql9J0cqdhKI0xA6FfdcrU6qO2Ki6/644qZDzgrnVaVMjP4lpp
-kT6s8rVgT7gMIlsnUk8U2l4Q8q/fEUibVe2groGTUmiYOZU4MUznrXVPF+fuYi5G
-JttLPr13R3i/120Tj1aSwcBpmslvjw==
-=8mPT
------END PGP SIGNATURE-----
-
---eFKBin1ilgiNfb0m--
