@@ -2,54 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4114FB101F4
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 09:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB2FB101F7
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 09:35:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFDB410E8A4;
-	Thu, 24 Jul 2025 07:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2E0B10E8A9;
+	Thu, 24 Jul 2025 07:35:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=siemens.com header.i=nicusor.huhulea@siemens.com header.b="FP5C+JhI";
+	dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.b="NgCz6zxh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 602 seconds by postgrey-1.36 at gabe;
- Wed, 23 Jul 2025 13:04:52 UTC
-Received: from mta-65-226.siemens.flowmailer.net
- (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA8110E0F6
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 13:04:51 +0000 (UTC)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id
- 202507231254471b7e77965196646cab
- for <dri-devel@lists.freedesktop.org>;
- Wed, 23 Jul 2025 14:54:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=nicusor.huhulea@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=mMY6koi/7lGlCmPZAEmoeOab4VQfFn7AF6DFerqVnfM=;
- b=FP5C+JhIkIjA3o7aTijHB9mC8ddi7RfjWn0AnegaYMsWswwi7ZXtIxMjmhJSAmxNOYTh1F
- GdvAzKNcdx/6MwOpL1Abb1SGnMeWpj8inwNjNIVEGaWf+0zwfHavyt4ALa58dchQgy4GdoKN
- elrJl9yEammFwF+aVR3+ulWdFhPdYQ/RenJ+QXlz49fgaHmO+VSBmy7a40xIzTjeFcpwq3Ov
- gDuWjQ3/2Xa2Gc2fXjTDXBT+CwYvMY269FE1C1QB4fPBO7G+0Wp38fQflsiubjnmB/TTrc7Y
- QzSLmpnrq8waa35iN8pDO9nrQw8MBeHb48oEekLXFrCZZTWBEBUvH7nA==;
-From: Nicusor Huhulea <nicusor.huhulea@siemens.com>
-To: cip-dev@lists.cip-project.org
-Cc: Imre Deak <imre.deak@intel.com>, stable@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Nicusor Huhulea <nicusor.huhulea@siemens.com>
-Subject: [PATCH 6.1.y-cip 2/5] [PARTIAL BACKPORT]drm: Add an HPD poll helper
- to reschedule the poll work
-Date: Wed, 23 Jul 2025 15:54:24 +0300
-Message-Id: <20250723125427.59324-3-nicusor.huhulea@siemens.com>
-In-Reply-To: <20250723125427.59324-1-nicusor.huhulea@siemens.com>
-References: <20250723125427.59324-1-nicusor.huhulea@siemens.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0326610E7EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 14:52:35 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id
+ 4fb4d7f45d1cf-60bfcada295so10783046a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 07:52:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=9elements.com; s=google; t=1753282354; x=1753887154;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fvfnia2CHFBiouPbufqpXi7mHD51PcZYlBOxi7dhKxg=;
+ b=NgCz6zxhiEcQNk8tmCZruvdhFJAuFVJsnZBHmqEFo6Y6njZgCKjz4xGmU1e2oKfDC+
+ uJ5YdHt5RO7tfbODjPxkCgUWLaOKMjQupcTdX/IlMJ57wYrKY0WVPgKrOjPRajbo/gb8
+ R8C+PU5RDY8UDwvdEdcf4J8+/6NanchUz3i27rIAtDiJ4u/tmykRh7U7dbtXSkb/pKBb
+ Sg2zG/Vgb9jbC7pK+Iuc8ZisobXaFFPtJQGOz1G9RaZvlqNwgu7AUDUmgQaB0Fy7JoYN
+ IuoPM8xpAhxyZv0g+X1a1ybPWhS+70OMsw7qzsjLec/jCppGk1yu9tTc2/1NY3+OezT1
+ oQgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753282354; x=1753887154;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fvfnia2CHFBiouPbufqpXi7mHD51PcZYlBOxi7dhKxg=;
+ b=ntr+JPh2ZPXKcjpzPjcvrtk9k9ltfamhzLhPr4d9RMhaQokUzu51ecDoeeY5AO9ndd
+ gotD9OC0LpPhDc0jCjqcp98ba5MlaguYUh3cY7JrjcO3AdvATihZIFH/+IHYzWHgozyh
+ mQVDklVR80F0Rx5iRxs97T1X4A+yChdR06x0s+VwdxezNoYojd4kfZ20A5KLNKGxXAW4
+ qtGekuH8GJrCbnoZppGlf+pXOvcgk5ytHGWC9Z4sVDvQp0kIqAN//UQnVHwk/juA6aR5
+ RLR0cDIT2WJjPemN0M9IOYtoR6fiXX/SQTg9e+jtxmus8G8agSGVpcg9rA24+wMIFyg/
+ 02Ug==
+X-Gm-Message-State: AOJu0YysLt3Iy7Y9tid2AXUfbPj/Xpod8GUgok3QtoFLsB9TVGFLxMox
+ wq+XPVbJPVoqNHowiHMqWIU+Ie+AopWyKpuLY7y57l++Nilc6uJJg5g0MHVhZUpqvE8=
+X-Gm-Gg: ASbGncv53/RuNDk1CfUASTJyANAt89qjvMlwYeKYCDDSmxTR717xdycPJiWM/LYvEUk
+ NCdQtax/v+0VlC3WefKiC1ZOajndGJqUDr/kNOh2qlMVDF83mxLWpbl5V0S2+SlsU2mfdBzKkYv
+ tk/i0s4jmAkGrEwtadQPOEJOuvZYkLBp3riJX+OAH7V66LeNbpqK6Xwrnde8nTXLuGm+i0xs3US
+ NDi7OaWlniHzIl+dgqzMWiKhjc/CZazPYgdho4xqQpk26LA3aT0K1aFQvLyC9t1jaFE3euV2Aei
+ xOR5fxyeYl3YJibpABQ3WHcP2OTCp3VsddedMrQGx+/ujmHU8ssdTbNxg7ilpdWo9wV8Kyh73oe
+ 9r+CmSy0QN6CUfUxupg0dDRQ+XYk8KAgrHWDG9/IFvi1qWTNrB8G7Xn1M5FGEeEC8lQ==
+X-Google-Smtp-Source: AGHT+IEvpxQ+IdsGdLfLz4S4DQH4qkl51XEwv0CgbC8jzYZnEKNF3mo0VOu+/IQoalSy+Lq0YzUIPA==
+X-Received: by 2002:a05:6402:42ce:b0:609:aa85:8d78 with SMTP id
+ 4fb4d7f45d1cf-6149b427070mr2940560a12.8.1753282354261; 
+ Wed, 23 Jul 2025 07:52:34 -0700 (PDT)
+Received: from tora.lan (83.22.10.6.ipv4.supernova.orange.pl. [83.22.10.6])
+ by smtp.googlemail.com with ESMTPSA id
+ 4fb4d7f45d1cf-612c8f33964sm8575657a12.18.2025.07.23.07.52.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 23 Jul 2025 07:52:33 -0700 (PDT)
+From: Alicja Michalska <alicja.michalska@9elements.com>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Alicja Michalska <alicja.michalska@9elements.com>
+Subject: [PATCH 1/3] dt-bindings: display: panel: Add Samsung EA8076 panel
+Date: Wed, 23 Jul 2025 16:52:08 +0200
+Message-ID: <20250723145208.338162-2-alicja.michalska@9elements.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1331196:519-21489:flowmailer
 X-Mailman-Approved-At: Thu, 24 Jul 2025 07:35:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,145 +89,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Imre Deak <imre.deak@intel.com>
+Add bindings for Samsung EA8076 LCD panel.
+This panel was usually used in mid-high end smartphones manufactured by
+Xiaomi in 2018 and 2019 (Mi 9 Lite and Mi Mix 3, with codenames
+"xiaomi-pyxis" and "xiaomi-perseus", respectively).
 
-Add a helper to reschedule drm_mode_config::output_poll_work after
-polling has been enabled for a connector (and needing a reschedule,
-since previously polling was disabled for all connectors and hence
-output_poll_work was not running).
-
-This is needed by the next patch fixing HPD polling on i915.
-
-CC: stable@vger.kernel.org # 6.4+
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Jouni Högander <jouni.hogander@intel.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230822113015.41224-1-imre.deak@intel.com
-(cherry picked from commit fe2352fd64029918174de4b460dfe6df0c6911cd)
-Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Partial-Backport-by: Nicusor Huhulea <nicusor.huhulea@siemens.com>
+Signed-off-by: Alicja Michalska <alicja.michalska@9elements.com>
 ---
- drivers/gpu/drm/drm_probe_helper.c | 74 +++++++++++++++++++-----------
- include/drm/drm_probe_helper.h     |  1 +
- 2 files changed, 49 insertions(+), 26 deletions(-)
+ .../display/panel/samsung,ea8076.yaml         | 71 +++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,ea8076.yaml
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 0e5eadc6d44de..787f6699971f1 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -224,6 +224,26 @@ drm_connector_mode_valid(struct drm_connector *connector,
- }
- 
- #define DRM_OUTPUT_POLL_PERIOD (10*HZ)
-+static void reschedule_output_poll_work(struct drm_device *dev)
-+{
-+	unsigned long delay = DRM_OUTPUT_POLL_PERIOD;
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,ea8076.yaml b/Documentation/devicetree/bindings/display/panel/samsung,ea8076.yaml
+new file mode 100644
+index 000000000000..7ea0c9fedfa4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,ea8076.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,ea8076.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	if (dev->mode_config.delayed_event)
-+		/*
-+		 * FIXME:
-+		 *
-+		 * Use short (1s) delay to handle the initial delayed event.
-+		 * This delay should not be needed, but Optimus/nouveau will
-+		 * fail in a mysterious way if the delayed event is handled as
-+		 * soon as possible like it is done in
-+		 * drm_helper_probe_single_connector_modes() in case the poll
-+		 * was enabled before.
-+		 */
-+		delay = HZ;
++title: Samsung EA8076 1080x2340 AMOLED panel
 +
-+	schedule_delayed_work(&dev->mode_config.output_poll_work, delay);
-+}
++description: EA8076 panel manufactured by Samsung Display. It's used in some Xiaomi smartphones from 2018 and 2019, such as xiaomi-pyxis or xiaomi-perseus.
 +
- /**
-  * drm_kms_helper_poll_enable - re-enable output polling.
-  * @dev: drm_device
-@@ -244,43 +264,45 @@ drm_connector_mode_valid(struct drm_connector *connector,
-  */
- void drm_kms_helper_poll_enable(struct drm_device *dev)
- {
--	bool poll = false;
++maintainers:
++  - Alicja Michalska <alicja.michalska@9elements.com>
 +
- 	struct drm_connector *connector;
- 	struct drm_connector_list_iter conn_iter;
--	unsigned long delay = DRM_OUTPUT_POLL_PERIOD;
- 
- 	if (drm_WARN_ON_ONCE(dev, !dev->mode_config.poll_enabled) ||
- 	    !drm_kms_helper_poll || dev->mode_config.poll_running)
- 		return;
- 
--	drm_connector_list_iter_begin(dev, &conn_iter);
--	drm_for_each_connector_iter(connector, &conn_iter) {
--		if (connector->polled & (DRM_CONNECTOR_POLL_CONNECT |
--					 DRM_CONNECTOR_POLL_DISCONNECT))
--			poll = true;
--	}
--	drm_connector_list_iter_end(&conn_iter);
-+	if (drm_kms_helper_enable_hpd(dev) ||
-+	    dev->mode_config.delayed_event)
-+		reschedule_output_poll_work(dev);
- 
--	if (dev->mode_config.delayed_event) {
--		/*
--		 * FIXME:
--		 *
--		 * Use short (1s) delay to handle the initial delayed event.
--		 * This delay should not be needed, but Optimus/nouveau will
--		 * fail in a mysterious way if the delayed event is handled as
--		 * soon as possible like it is done in
--		 * drm_helper_probe_single_connector_modes() in case the poll
--		 * was enabled before.
--		 */
--		poll = true;
--		delay = HZ;
--	}
--
--	if (poll)
--		schedule_delayed_work(&dev->mode_config.output_poll_work, delay);
-+	dev->mode_config.poll_running = true;
- }
- EXPORT_SYMBOL(drm_kms_helper_poll_enable);
- 
-+/**
-+ * drm_kms_helper_poll_reschedule - reschedule the output polling work
-+ * @dev: drm_device
-+ *
-+ * This function reschedules the output polling work, after polling for a
-+ * connector has been enabled.
-+ *
-+ * Drivers must call this helper after enabling polling for a connector by
-+ * setting %DRM_CONNECTOR_POLL_CONNECT / %DRM_CONNECTOR_POLL_DISCONNECT flags
-+ * in drm_connector::polled. Note that after disabling polling by clearing these
-+ * flags for a connector will stop the output polling work automatically if
-+ * the polling is disabled for all other connectors as well.
-+ *
-+ * The function can be called only after polling has been enabled by calling
-+ * drm_kms_helper_poll_init() / drm_kms_helper_poll_enable().
-+ */
-+void drm_kms_helper_poll_reschedule(struct drm_device *dev)
-+{
-+	if (dev->mode_config.poll_running)
-+		reschedule_output_poll_work(dev);
-+}
-+EXPORT_SYMBOL(drm_kms_helper_poll_reschedule);
++allOf:
++  - $ref: panel-common.yaml#
 +
- static enum drm_connector_status
- drm_helper_probe_detect_ctx(struct drm_connector *connector, bool force)
- {
-diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-index 5880daa146240..429a85f38036a 100644
---- a/include/drm/drm_probe_helper.h
-+++ b/include/drm/drm_probe_helper.h
-@@ -25,6 +25,7 @@ void drm_kms_helper_connector_hotplug_event(struct drm_connector *connector);
- 
- void drm_kms_helper_poll_disable(struct drm_device *dev);
- void drm_kms_helper_poll_enable(struct drm_device *dev);
-+void drm_kms_helper_poll_reschedule(struct drm_device *dev);
- bool drm_kms_helper_is_poll_worker(void);
- 
- enum drm_mode_status drm_crtc_helper_mode_valid_fixed(struct drm_crtc *crtc,
++properties:
++  compatible:
++    const: samsung,ea8076
++
++  reg:
++    maxItems: 1
++
++  te-gpios: VSync GPIO pin, usually GPIO_ACTIVE_LOW.
++  reset-gpios: Reset GPIO pin, usually GPIO_ACTIVE_LOW.
++
++  port: Required on platforms using MDSS DSI (Qualcomm).
++
++  vio-supply:
++    description: IO supply, usually 3V controlled by GPIO regulator.
++
++  power-supply:
++    description: Main power supply for the panel, usually around 3.3V.
++
++required:
++  - compatible
++  - vio-supply
++  - power-supply
++  - te-gpios
++  - reset-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,ea8076";
++            reg = <0>;
++            vio-supply = <&disp_3p0_en>;
++            power-supply = <&vreg_l8b_3p3>;
++            te-gpios = <&tlmm 10 GPIO_ACTIVE_LOW>;
++            reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
++            pinctrl-names = "default", "sleep";
++            pinctrl-0 = <&panel_default>;
++            pinctrl-1 = <&panel_sleep>;
++
++            port {
++                panel_in: endpoint {
++                    remote-endpoint = <&mdss_dsi0_out>;
++                };
++            };
++        };
++    };
++
++...
 -- 
-2.39.2
+2.50.1
 
