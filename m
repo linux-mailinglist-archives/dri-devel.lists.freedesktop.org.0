@@ -2,89 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C37B10EF9
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 17:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C100DB10F6F
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 18:12:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAD9A10E975;
-	Thu, 24 Jul 2025 15:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA53E10E03A;
+	Thu, 24 Jul 2025 16:12:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="FZ/c/cpr";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="KZO5ZyHD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF9610E03A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 15:44:12 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-ae0dffaa8b2so238828366b.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:44:12 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B89FA10E03A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 16:12:01 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-3a510432236so907646f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 09:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1753371851; x=1753976651;
+ d=raspberrypi.com; s=google; t=1753373520; x=1753978320;
  darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Mjpmrfxd/v0JpwF7YUxdgp+tuUqNPC5F1qAamn0lqqk=;
- b=FZ/c/cprKIyJfZkwT9tA7LkuZTTvT+V5bAHLVeiHwvdgXF9S5ulH/X9VgwW7hORFXT
- oVVd2go7MrPCy08KbjbjFvbgN/XnJybaHIMyxgSq92qkcGuHV3Biezr/6Fe9nTHcMll8
- 2CgSqTWNOYkr22zepXuB7ZP3SoHuNUMiZqKA8=
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sKE2Yth+IoZ8wREbSbWpM1Yc17BubACX60lHqBMyElY=;
+ b=KZO5ZyHDXZISUws5GWSEGGvBhTJCZLGekJGhY7xiiDtCOrhZ1jvgGWxbAwB6vXwHPt
+ I9HRdS00U4nKEj00k1wNGP1SO59iBP5P5jyqjdwTwvGqsBsd5tegLq+H01H1rGrPPU9m
+ Orx+EYv+eKp0lDqMwcaPVThkacPTMSWCTb6NIPGHOSENSx37zAi1LQ8m8hu+Pmh7JdbU
+ BB5OPxtc3FjztLJFpTDpdOBopY0PqBUkJv6JMEuRQZTOk0h9qvbPws8Pv9e83arzUuP5
+ 1QN1uRb7EjsRPPQ4NJbU1VcBSo6BvXs/EjSrB9kPcjU+jGluZjBSC8gg21+lRJWp0goo
+ WvPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753371851; x=1753976651;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1753373520; x=1753978320;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Mjpmrfxd/v0JpwF7YUxdgp+tuUqNPC5F1qAamn0lqqk=;
- b=ZthoNsbP0f+2UBZaylzG2MojN+KlJcfAU6NNcF5YK8MP1BhvGqXINBmkjUEXbKyuNG
- agvlyHbRVuwGzN63x7WR5p5ZiFOznrIWWo2CV5M0jDBjAT5EP1uB+EEa5rGITxQzcKHR
- 3ZOhHmfu6eH1ooaGz17r5iSq5X7+7RG8ODitX1kS61/3DjXfevqus/2ZrKlBkLZ92m9r
- x7eJdS02EW52WvXO3/H5lKIvL+aueRc4qm0zxSTLSCXfyimwZuSs1BqV4R0f57xNvnLL
- l15sULi8e6ec3e0heHUvh3D1w3nqqriEXWOQvK8zRn4ouukCEEUF45lrQnS1ojl4A9nq
- Fmfg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWz0X+aZylgHAiz0taGOx48zrMw2oPbI1jgHsKcItjZ3vnFA+xN6bU/Qj524bIxgIhHJg5iNGnmbmQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXWsqWTXioTtqDq+x69PiVWUHnZY0cLsqjUCcEE9jip4WvnDn/
- ZNFJQ89t1w3f/s93qN2oyBeri/OKZIW+Hkt2VUVnUD/tBxwfr8l4UsZSIhrVQyAjVZMEnhoB0CX
- 9dymjSxM=
-X-Gm-Gg: ASbGnct2OnhWE1iyXomCP1Ts/hzpk0LPOdlDzQy1ZSbmtQmYt7G7gFrF1oLU9wOGIxS
- jeUecjnzIRQUjFuD1SY6mm3KjpZHRs+umFgD9zDF/UNs0VuDIdOlAtk9sw/48YDrgj1mSbuhUg2
- S+83mauRM9Y2lbvvO1vaLJbbWl8cPTtwfvT8qkC5JzxPYWYXdh4Bd5Ka1LAYS3/gJN/7xhO4jFA
- oaTzIG+1Ai23TCvWX9rfknoige3Pa070OTyNrJ+IT/YbH+H4KM0dDc27e3fRIr/IdBkx99UCM+b
- gSxMHN6CVX516DXOnJjnJJMgB+e5ju2QdL+Xwd19IFDbqFsLvXY/MlELvGcg3Cgl/rZs5B4Z4yl
- YsfB/2cVOGEyOEAb/t9Ah6aHXEZfSX2vNaqwji58fjf/wB86d2M9Ae78CULYEoD/pNawKbJ0e
-X-Google-Smtp-Source: AGHT+IHJixNUMall+XPZFgDKTwVoHubaCcNB2rp5ob+ZSgsx/EJPcGPw73zSaXwv7OIjTWqZAHGafg==
-X-Received: by 2002:a17:907:7b81:b0:aee:e698:1afd with SMTP id
- a640c23a62f3a-af2f8d4fc11mr735080366b.43.1753371850826; 
- Thu, 24 Jul 2025 08:44:10 -0700 (PDT)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com.
- [209.85.208.43]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-af47f85ee73sm124363866b.116.2025.07.24.08.44.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jul 2025 08:44:10 -0700 (PDT)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-607cf70b00aso2276879a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:44:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWAtPsF06aBNuAXuE5gxYCypVMZsqEHvIdANhF9c/0nNhspnRjYFg9oRcedLbf/sKRKQYnuHtEGk9M=@lists.freedesktop.org
-X-Received: by 2002:a05:6402:5244:b0:60c:4521:aa54 with SMTP id
- 4fb4d7f45d1cf-6149b5902c3mr6837921a12.17.1753371849006; Thu, 24 Jul 2025
- 08:44:09 -0700 (PDT)
+ bh=sKE2Yth+IoZ8wREbSbWpM1Yc17BubACX60lHqBMyElY=;
+ b=iHtH2v3Wtc8XbkbxrzF3ocvGBM7eh3WTskl50xTarDfosD073MWjx+CNKw75yRByBD
+ 2lY9wX9bCmldsODZcJSj/TgKA40KhYUvU24FKdxaU2QRk6VzP1RMmbrrYkog/6gSrBAg
+ H0vWEfzk1ZbdUGPX6PIepI7st4iVJ/yO0Xw9CTlRH7R/mi/RiFeUbLl3FiO/PqHiLbRb
+ 8rYEuC7l48KfLtjdNoimczb7QZJRtewt7Q/00yaLbpGj3298enUXCTVKQEpGjwz2Mwp1
+ 5mM5x9/7OHBADB/qGSNmtpBNlA19QkvOJJrSOvq6VwMPs3Jitngmbs/GD9wI/SkO1sfp
+ /ebg==
+X-Gm-Message-State: AOJu0Yyz2LZ+n6RRcdrq0ynbyUzkZF8UP6Co60A6eoxmVIisqwCDL9nT
+ FdF1Won1GNbvpAJAlkwvWt187ESYG3UyC/46dtiJVcMCZ5Gf3e3sGyVdLlRwt8hLcFQ=
+X-Gm-Gg: ASbGncuetLeQNAftIsIUQ8mmugEvAkSZ+7jfAiGM3cCiy+0NSy/jyOF2w4JNA1wmOPw
+ 4u30vS3sl2EqfH6O2cOcOWMQBjMmJafleaM/ht9l1iT+gXzJp+RATgtOf4x8O3q9tayJ+NHlrx0
+ NDQ/NusM0bSxOgCohQyBF07/MIYkOq1Q1iT01z/f8hT5sLDL0r6/KRMNH8G6c0sUtiTONYGtlHO
+ GNpldZCtqi0TBfEXZt14/3ok7bBLhK4PT+ZorIHZLaOtMsEjGhA3gzdt1kQ0ufSEdk+EmUTAhQq
+ T9fC5Zlh92dRtYbMMmo6Qp3jY7bhYIv+J+opG+0svg7vVMDvpcfrQsEllwJuo53Qrau1wKRG7Jn
+ 91NdxCoaloH5MFw==
+X-Google-Smtp-Source: AGHT+IFERQTwzNbDaULjFQ2kQzB2Vjvp40JoxsenWhZmq9Krh5Kw8UX1u5qAYA7gY7+JEEXIyqnFZA==
+X-Received: by 2002:a5d:4383:0:b0:3b7:739d:b4bf with SMTP id
+ ffacd0b85a97d-3b7739db587mr697633f8f.51.1753373519838; 
+ Thu, 24 Jul 2025 09:11:59 -0700 (PDT)
+Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
+ by smtp.googlemail.com with ESMTPSA id
+ 5b1f17b1804b1-45870532a4csm24968315e9.7.2025.07.24.09.11.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jul 2025 09:11:59 -0700 (PDT)
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 24 Jul 2025 17:11:46 +0100
+Subject: [PATCH] drm/vc4: plane: Add support for P01[026] and S01[026] formats
 MIME-Version: 1.0
-References: <CAPM=9twUCJj4X-2jf0VG5+A2YN9Gk8hjOAhJ2hxq4SdgZfvtMA@mail.gmail.com>
- <CAHk-=wgLQ+EPeV+JzrvkPWt2jeteqwsRkf-X61jjfV8pefgXeg@mail.gmail.com>
- <73d6e78c-a360-40d7-9123-e00d47ee2a7a@linux.intel.com>
-In-Reply-To: <73d6e78c-a360-40d7-9123-e00d47ee2a7a@linux.intel.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 24 Jul 2025 08:43:52 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wj8t_0By0LOCa_sJ_BPhvdBg3SuQPgkBYWycxeh9DNipg@mail.gmail.com>
-X-Gm-Features: Ac12FXydeKBt6S9LzXamLxkh9jnQ3kcsPJ5_fVc9HQF90V33v-OymCtO9Q6ha0w
-Message-ID: <CAHk-=wj8t_0By0LOCa_sJ_BPhvdBg3SuQPgkBYWycxeh9DNipg@mail.gmail.com>
-Subject: Re: [git pull] drm fixes for 6.16-rc8/final (resend in txt for sure)
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Cc: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250724-drm-vc4-extra-formats-v1-1-67fa80597fad@raspberrypi.com>
+X-B4-Tracking: v=1; b=H4sIAEFbgmgC/x3MTQqAIBBA4avErBtI06KuEi3ExppFP4wRgnT3p
+ OW3eC9DJGGKMFYZhB6OfB4Fqq7Ab+5YCXkpBt1o2/Ta4CI7Pt4gpVschlN2d0dUwbbUmUF5r6C
+ 0l1Dg9H+n+X0/Nj9Q6GcAAAA=
+To: Maxime Ripard <mripard@kernel.org>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Robert Mader <robert.mader@collabora.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+X-Mailer: b4 0.14.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,11 +95,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Jul 2025 at 01:50, Jacek Lawrynowicz
-<jacek.lawrynowicz@linux.intel.com> wrote:
->
-> Such behavior propagates down and makes the community miserable.
+There are now formats defined for 2-plane YUV420 at 10, 12,
+and 16 bit depth using the most significant bits of the 16bit
+word (P010, P012, and P016), and 3-plane YUV420 at those
+depths using the least significant bits of the 16 bit word
+(S010, S012, and S016).
 
-Google "friendly ribbing".
+VC4_GEN_6 can support all those formats although only using
+at most 10bits of resolution.
+Add them as supported formats for all planes, but filtered
+by hardware revision.
 
-               Linus
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+---
+We'd been asked if the S01x YUV formats could be supported on Pi5 as some
+software codecs produce them.
+The answer was yes, so this patch adds them and the P01x formats.
+---
+ drivers/gpu/drm/vc4/vc4_plane.c | 54 ++++++++++++++++++++++++++++++++++++++---
+ drivers/gpu/drm/vc4/vc4_regs.h  |  9 +++++++
+ 2 files changed, 59 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index 056d344c5411..3d1342751a80 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -36,6 +36,7 @@ static const struct hvs_format {
+ 	u32 pixel_order;
+ 	u32 pixel_order_hvs5;
+ 	bool hvs5_only;
++	bool hvs6_only;
+ } hvs_formats[] = {
+ 	{
+ 		.drm = DRM_FORMAT_XRGB8888,
+@@ -247,6 +248,42 @@ static const struct hvs_format {
+ 		.pixel_order = HVS_PIXEL_ORDER_BGRA,
+ 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_RGBA,
+ 	},
++	{
++		.drm = DRM_FORMAT_P010,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.hvs6_only = true,
++	},
++	{
++		.drm = DRM_FORMAT_P012,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.hvs6_only = true,
++	},
++	{
++		.drm = DRM_FORMAT_P016,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.hvs6_only = true,
++	},
++	{
++		.drm = DRM_FORMAT_S010,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_9_0_3PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.hvs6_only = true,
++	},
++	{
++		.drm = DRM_FORMAT_S012,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_11_2_3PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.hvs6_only = true,
++	},
++	{
++		.drm = DRM_FORMAT_S016,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_3PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.hvs6_only = true,
++	},
+ };
+ 
+ static const struct hvs_format *vc4_get_hvs_format(u32 drm_format)
+@@ -2490,6 +2527,12 @@ static bool vc4_format_mod_supported(struct drm_plane *plane,
+ 	case DRM_FORMAT_YVU420:
+ 	case DRM_FORMAT_NV16:
+ 	case DRM_FORMAT_NV61:
++	case DRM_FORMAT_P010:
++	case DRM_FORMAT_P012:
++	case DRM_FORMAT_P016:
++	case DRM_FORMAT_S010:
++	case DRM_FORMAT_S012:
++	case DRM_FORMAT_S016:
+ 	default:
+ 		return (modifier == DRM_FORMAT_MOD_LINEAR);
+ 	}
+@@ -2524,10 +2567,13 @@ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+ 	};
+ 
+ 	for (i = 0; i < ARRAY_SIZE(hvs_formats); i++) {
+-		if (!hvs_formats[i].hvs5_only || vc4->gen >= VC4_GEN_5) {
+-			formats[num_formats] = hvs_formats[i].drm;
+-			num_formats++;
+-		}
++		if (hvs_formats[i].hvs5_only && vc4->gen < VC4_GEN_5)
++			continue;
++		if (hvs_formats[i].hvs6_only && vc4->gen < VC4_GEN_6_C)
++			continue;
++
++		formats[num_formats] = hvs_formats[i].drm;
++		num_formats++;
+ 	}
+ 
+ 	vc4_plane = drmm_universal_plane_alloc(dev, struct vc4_plane, base,
+diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
+index 27158be19952..4536e3c0533b 100644
+--- a/drivers/gpu/drm/vc4/vc4_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_regs.h
+@@ -1079,6 +1079,15 @@ enum hvs_pixel_format {
+ 	HVS_PIXEL_FORMAT_AYUV444_RGB = 15,
+ 	HVS_PIXEL_FORMAT_RGBA1010102 = 16,
+ 	HVS_PIXEL_FORMAT_YCBCR_10BIT = 17,
++	/* 10 bit YUV420 formats with data with various alignments */
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE = 24,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_3PLANE = 25,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_13_4_2PLANE = 26,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_13_4_3PLANE = 27,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_11_2_2PLANE = 28,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_11_2_3PLANE = 29,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_9_0_2PLANE = 30,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_9_0_3PLANE = 31,
+ };
+ 
+ /* Note: the LSB is the rightmost character shown.  Only valid for
+
+---
+base-commit: e48123c607a0db8b9ad02f83c8c3d39918dbda06
+change-id: 20250724-drm-vc4-extra-formats-1f53e6491cc1
+
+Best regards,
+-- 
+Dave Stevenson <dave.stevenson@raspberrypi.com>
+
