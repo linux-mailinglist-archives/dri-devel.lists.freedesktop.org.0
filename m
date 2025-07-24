@@ -2,198 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5D4B0FF7C
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 06:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53673B0FFC9
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 07:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68CF910E875;
-	Thu, 24 Jul 2025 04:15:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A32710E87D;
+	Thu, 24 Jul 2025 05:06:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eypnFTXK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LcMHYX/e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B728710E875
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 04:15:45 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81AE410E878;
+ Thu, 24 Jul 2025 05:05:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753330546; x=1784866546;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=C9J3YqyDrbSAqKJubCXRu3PUXQqFWR1G5lBuw9GRTX4=;
- b=eypnFTXKIaUJF8XeywpwiAwXCaDQzo2FypcoQ4I+qtJbXMhQCKYu1FDZ
- YiLei6rASIZ7NtGlj5CseEeB3imsa0o3T39VM1ubRjkhge0LDEu1R4Kpm
- LSZGkj4zVsnLvFXZMzpzWpERwr+5mGr/riKMuMrkIoGUplL0Mlc/MHxhV
- N9aMU/+KN6qFNG+uC47A5oOKHhUT+ZxXoCQ4vXS8iIueeZ2y9+t2kRRLB
- sdiYPQWHi/gNkl494/FqGUyV62ed1d5z/sHkuOAod1Q8nKIK48htV5KVg
- FHyzi03A2c607yk6j7zRZISwAiyY9NgiXWpq3kgNlTSPuSSqEKxiZnHDi A==;
-X-CSE-ConnectionGUID: cYmEEk8NTfu6uimvnYgQcw==
-X-CSE-MsgGUID: KKeERyicRECFcwzg7YKRtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="78165490"
-X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; d="scan'208";a="78165490"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2025 21:15:45 -0700
-X-CSE-ConnectionGUID: 5/aRY5BXS66pbKc0Q5gepA==
-X-CSE-MsgGUID: nWAWaVn2TpS+wTKAPU3Nvw==
+ t=1753333547; x=1784869547;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=ojbSZXAFwgntwM/JsLF3p8dEI1btb1yOXistA/kntyo=;
+ b=LcMHYX/eaTLmKX5FOdfj2/DKwg5Xixlh1F9gUsdpfs94b2bkwSxPLyEM
+ PgvYjfUe/J7DJZmYmZB3nc8fEhxA6p9PWLUmg+LWSbhnDyOG44Vd9iUiI
+ uXqGEYJJJRv84AVyMWZESsKjREu1hy7dMIsX5Ks6VquSLB2DjDZ6aDuNk
+ JApY+CGf9UhyAV8T60zoqC7ZMl8C6YPolJBY2ahLgVJswiPtznPumKyCx
+ wHFevHf12ZbSepFK9ASN+KmPGATgjy8WWzSoeM4fqyQsGj4rw3AvCASNh
+ nAo7814ih5NP2+0ymLpW73LNTST9y4lpU5Wyl/FayKgI8SuhMLKLISBwc g==;
+X-CSE-ConnectionGUID: MNgKpSxHQIGtKvaiueM4Ig==
+X-CSE-MsgGUID: 4KZdBshkTQamoxZnr0WQVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="59288766"
+X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; d="scan'208";a="59288766"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2025 22:05:46 -0700
+X-CSE-ConnectionGUID: kGqO+y24Tv25+pviUSwzPg==
+X-CSE-MsgGUID: Av5/WRAjTQiM005jMTs1og==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; d="scan'208";a="160336224"
+X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; d="scan'208";a="164450867"
 Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2025 21:15:46 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2025 22:05:36 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
  ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Wed, 23 Jul 2025 21:15:44 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.2.1748.26; Wed, 23 Jul 2025 22:05:35 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Wed, 23 Jul 2025 21:15:44 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.75) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ 15.2.1748.26 via Frontend Transport; Wed, 23 Jul 2025 22:05:35 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (40.107.100.54)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Wed, 23 Jul 2025 21:15:44 -0700
+ 15.2.1544.25; Wed, 23 Jul 2025 22:05:35 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a6iiNO5dAXLsv7Y1qdyv1+auS4ViDxapZD1YjhSumqZ9HT/mUJbC2aP9kzMaS1AUY1IyTpUwiNWjzsfWFDDdmIZkYsSW+XaDQLrqOVEGhjxpg5bGRrB2mPbqnXndQP9MYMky92EOeboQ8i5stKFZBU0SSTb7wEAON5/4H8byb+eCKyom4gEieTvMg51WmMC81/mt/PyLR4CQs3iyQDVT8ooTc5ozXYstHVTbK5NYW0YUCbumbVOjGPwRg1cHhYRqHF6lIEucbUo5mRs35MTyCoo5kVhCw9btuywCQNGoGgXmY0+b22CSblkc9t9lweBQfLmQYJmhIGkrVxrS3k09+g==
+ b=UzjPLgoRU1HkWIBpHvjina+NKrXs92KsmEL+CeB/nrtdGOe6DE9pvXe+XTghCg7TwTAc07T8OBXUuAV5v7VZwwnwL0e5TMusMTX/5EVYPuCKdoeVtyFWOxh1v9cRNTjXBS8aOKjgUsMvXwCvrBmBk+OAwYV+0oX7xix/vL+ejS34dLIBkRpns+FfefkofqMblxr2TZflfnKT85l8NDhWDEhedso4W2KuJ5MYhBtytX8548Y6c2Jx6+y5LIGVzA59j3ehk1hFxG5+J/1Wl3nw4TOLY+K967RGpIcJTFqVdqURcyst4KemriQ5Z0Xo4Zsm3ixwEesc0V6v/bvD1MxgRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3mRVnuaM2piMiF2eIE03xioDuFy6iK4s7D8D+gvFHwI=;
- b=wU0HaNgYv5hx/iphqPMXCNbDFwbM5k1tDiANVasqjEH9PtSvWU3wqK8UYU+aFwUDF7x2rjRx32CaGkYk4aFEjIJ4xY/zQjumYFZv8J9Qy8TuFkz+Wcrx8Ya3zDPpYmE8y3Jn2Xpo1alwGNJD4dByV1jBOsqnXhc7bZWrrSBPkBvCp66JcfP+BwFljBFsdLcoPTCgbyQ9hppLkJ/lYn+XWhohWMR/m3es4EVrXr3BCrawrtpYjcYRynLGTpME6lQJ0chfkHeiegyyibUjy+wSTsX7ciNljjDM8jv9Q66ACx3hAXfuAvvOq9vRAUzdF/fVhwkrrrL1bPH2Hsx9y/PBNA==
+ bh=ojbSZXAFwgntwM/JsLF3p8dEI1btb1yOXistA/kntyo=;
+ b=GVm++vMQh97pCfuiVAV8pMY3CKn6WLjoEMws/ZWr53iH5KieVIhf7TffmZ3fvEz4QlW2De7Hw5pcv02nNSKptaNTQQkNolne+Es1XTol1DiMLvsYnbam3Fjv23Rhsn7LRZdMyHJbn+/jPD5LCCk182gPqCO7mFRutuGIp+Los4dbi1WKi5NnlzOrLr7P95D1hBf/OsB3xyIaFFYJENi4MLgyNrv3zqiziDvzq3e0b5+tG6VTDq7qx+PjaK8X0nK+1rP8woD4bSOcBAYQVaeMwmL7+RDFyAxuRBRXcq+NyBpisImLuJ0hSOIRfQa47vX5iVWzW8dJJVbHwdB9Efv6og==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by CY8PR11MB7340.namprd11.prod.outlook.com (2603:10b6:930:84::13)
- with Microsoft SMTP Server (version=TLS1_2,
+Received: from IA3PR11MB8987.namprd11.prod.outlook.com (2603:10b6:208:574::18)
+ by DS0PR11MB7903.namprd11.prod.outlook.com (2603:10b6:8:f7::10) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Thu, 24 Jul
- 2025 04:15:42 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.8964.019; Thu, 24 Jul 2025
- 04:15:42 +0000
-Date: Wed, 23 Jul 2025 21:17:29 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <phasta@kernel.org>
-CC: Danilo Krummrich <dakr@kernel.org>, James Flowers
- <bold.zone2373@fastmail.com>, <ckoenig.leichtzumerken@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <skhan@linuxfoundation.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-kernel-mentees@lists.linux.dev>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
- the run queue.
-Message-ID: <aIGz2fzBILVQnDW8@lstrano-desk.jf.intel.com>
-References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
- <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
- <e7c0f63678a93261182b69aa526217821552a150.camel@mailbox.org>
- <DBHNK2XQHUIW.TQHV41LR5D8I@kernel.org>
- <aH6B7JruWCkReaLw@lstrano-desk.jf.intel.com>
- <80f569dd3c42f11927324ea80e7c14ac2d3352b5.camel@mailbox.org>
- <aH9GwaquE7OR0HFY@lstrano-desk.jf.intel.com>
- <aH9Pj+eIuIgNiL69@lstrano-desk.jf.intel.com>
- <3b4ef4687af55b2332fd128ff3f3f810f5681df0.camel@mailbox.org>
- <aIGy7uRuvYA0v8TO@lstrano-desk.jf.intel.com>
+ 2025 05:05:32 +0000
+Received: from IA3PR11MB8987.namprd11.prod.outlook.com
+ ([fe80::c011:ff94:944e:f96e]) by IA3PR11MB8987.namprd11.prod.outlook.com
+ ([fe80::c011:ff94:944e:f96e%7]) with mapi id 15.20.8943.021; Thu, 24 Jul 2025
+ 05:05:32 +0000
+From: "Gote, Nitin R" <nitin.r.gote@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Shyti,
+ Andi" <andi.shyti@intel.com>
+Subject: RE: [PATCH] iosys-map: Fix undefined behavior in iosys_map_clear()
+Thread-Topic: [PATCH] iosys-map: Fix undefined behavior in iosys_map_clear()
+Thread-Index: AQHb9855RD8SejSisEuXjvmUXA1DarQ39j4AgAALLICACLzYYA==
+Date: Thu, 24 Jul 2025 05:05:31 +0000
+Message-ID: <IA3PR11MB8987884A53D81CADB5C088DFD05EA@IA3PR11MB8987.namprd11.prod.outlook.com>
+References: <20250718105051.2709487-1-nitin.r.gote@intel.com>
+ <aHpelIVPhfR74SUH@ashyti-mobl2.lan>
+ <598098e1-f5fa-46cb-a7e6-589f75ce7234@suse.de>
+In-Reply-To: <598098e1-f5fa-46cb-a7e6-589f75ce7234@suse.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA3PR11MB8987:EE_|DS0PR11MB7903:EE_
+x-ms-office365-filtering-correlation-id: a0eb1cf9-c4ba-4b2e-0fdf-08ddca6fb6f8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?MFo2ZzVjNW9KNHRNQ0grWE9CMGxkWU9Rb0p5NWs0L0Fpb3BxYXNRc3ZxNnZT?=
+ =?utf-8?B?UFhoaFlvbDdRVnVYYjFpTkpac2ErbnJsUDh0UFhsOU5vTDh1cVNIL3lTcmlv?=
+ =?utf-8?B?RzdIYWF5NTZiVDVMRkU0aXFVdWV5ZG40ME5IalljU3pML1M3ZjFGalVqL1JQ?=
+ =?utf-8?B?REx5M09hSStqalFLdnRVdzhIQXdzV011QlR0eVZDNHAzV0c0ZjVVU09iTU03?=
+ =?utf-8?B?YndmVWpRTzVPc2Znd0tHelpQQ3Yvc05MWXlLV040aFl1cERvYkZDOXIzeitj?=
+ =?utf-8?B?VlExMTFYbm1hZFMyRFNCeUlCYXRjeGN5Q3ExTm9mSnh1bnJUVXhPMklDVFRn?=
+ =?utf-8?B?QnBncldBNU1ZYkR0TWpkREZFQzdzUjc3SCtpVFZ2Tmd0Z29aQkI1OFpoSjIw?=
+ =?utf-8?B?TEF0OTVQaWd3UDJzQlFJT2RLNXdTYW41bjc4cEExTmRUaVFFb1FZRmtwN3NF?=
+ =?utf-8?B?a2RtRWdMZ2NCek95QjZtcHd0SU9kMytMampNWmVwTHd0TEowV1hIVVM4cDdY?=
+ =?utf-8?B?TmZZSGFyZ3V4NEZ3WFFXTHRZTFNwbFJHaTQ3LzIxMWJGS0NUeTk0L3laOGNN?=
+ =?utf-8?B?anRZVFVSWjBtTlU4dElDdFQyUmlEL0p4QkJmSnZxU0ZlU2FRWVM5T3lSQklp?=
+ =?utf-8?B?TmR3Wi9qLzltbmhrd3dEL0oxeTRuZFR4OEtQYUxWVnFWSkJPSVViQ0t4V1Zh?=
+ =?utf-8?B?bUNYSVhDQ0RiUis0VUZkSWJ1M0tSSW1DT2xiYTVWNUtIUENOUFhEb3NYd21w?=
+ =?utf-8?B?L0dzYnlwVE1kMzYxazVmeXN2VXlNRERwV1pMaXRvNVdGdCs2UU0vK3pBNkV3?=
+ =?utf-8?B?M3hpdGxZQUhLSXNrT0JXSUU0Vy9CK2lLNEd6WTFibm1ObUJKNEhpc2xVQVBT?=
+ =?utf-8?B?UzBoWWx6bVNrY0Y4bW1NM2FXblk3Vy81V0xqYjNlNUxaeGx3UG5NdTIyMVk1?=
+ =?utf-8?B?aW5IazJCU0NuZnlTaUVqbld2SDZZckxleUg2VUVCalZVc2lIMVdHRnoyNk03?=
+ =?utf-8?B?SUF6eDZ2TGY4ako3a1ovQUM3dm1Fa2hNNEV3YlFVYm1tN3RrWkpkTXpHQWc5?=
+ =?utf-8?B?NzcxNXBlRGh5K280c3daWGluWXoydWhIWXM4bjdkQVBWSmNXVzhYclNuU29q?=
+ =?utf-8?B?WkltTnc3WGx3UXcvUlhkK08vTnhrV1RlNkR6em1seklCOElRcU1mZTJVRjlB?=
+ =?utf-8?B?dUZyWW1LWElnRnVpWnlPSFlnSWUzbkt2U0RvWkRsSCtaR1IzVkF0c09RbmZv?=
+ =?utf-8?B?UmFiTUg2eVFKMnZ4dVZrQkRBWGM2RS9IV3VJTmxOR0k1TmJyaytFR1pKbWFF?=
+ =?utf-8?B?SnovcDlBQ1JyakM0L2ZML05scEVQL29YT3VmQUJuSTlVMlJNWkhGck9uRXdj?=
+ =?utf-8?B?NVlPL0ljWHhoUlZZTHQxZFd1MEc5MVB1ZUp4Tkx5bGo2MjVzREFHVFQ1c3BE?=
+ =?utf-8?B?YmpCQlR2UHE3bHI0dXdtWjZVQWlqWElvM2REL0hoSDJFRzFtUFdudVBmeGEw?=
+ =?utf-8?B?REQyaUF0Ym84WVhDVEQ5dy9xZFJGbUp4U1NoR3FUQXBXMXoxZWhsNnltalFL?=
+ =?utf-8?B?RVd3Z1Q0NWJkaUZvRFExeFJVd1RQMlNYM29WMXI2SDlnakg4T1J5eCtEczBR?=
+ =?utf-8?B?dHIvUFFhaG9Reng1VTJVT2x5ZjRDQzQ2M245WFIyeUJrRXl1cjJCUDU4NWVm?=
+ =?utf-8?B?YkljZkhuaXhmZzVRTllwU05qNzRqT0ZjY08xMzFUM1l2Z0hlYS9FazFuUC9I?=
+ =?utf-8?B?RFpPM0l0YTZDak9janZPNTJRY3VkY01SZHM1S1pLazZ2M3BUc2NEYnJFcU1Y?=
+ =?utf-8?B?a2RiMU45cTBIeW9BVW9keEFzMkYwS0hyOEpKakgydUtlVjZuYzkxdWp1REpC?=
+ =?utf-8?B?WlVsNDJpbmNiZXU4c2U2Ujk0bXdxampVZTdvc2pDU1kzNXhIbXRVRXBoR3lJ?=
+ =?utf-8?Q?6LrIHv6m724=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA3PR11MB8987.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?OGVJODNrL2JxdzBQQWM5SXUxeUlnV2NzaEIrcXFXdGI5NEhOeFdUeWJEVTMz?=
+ =?utf-8?B?djJhWTlFVm1qSlZHaE5meWRLTW1SK0VpZ3UyY0VsUTNYcFFPSm56MzRHbjM5?=
+ =?utf-8?B?VnplYnl2c0NGVGVvbnloNjF5UGtBM2E5dDFMM01oWUNadk5nTnB0eGIxN0FO?=
+ =?utf-8?B?NnN5bTh1a1NjTENZK0dueVQ0TjFkUzVKWTZtSWVQd3VKQm5TcjNCeVlxU1RY?=
+ =?utf-8?B?a2JQajlLZ0NXVFJEcnFDOHlIUFc5S3YzMnRScFF3c1N3em9ZMTk1emVLRWJG?=
+ =?utf-8?B?Ykp2WFRia2dJQTRrb3ljMnY3UTN1eVh5RG9ObEpoV1M5Tzc5M3Q5OTZ4c0JS?=
+ =?utf-8?B?Z2hML3R6YU5pd1RlbGNPOXlPTzVIUFhaUUhMVnZSSUhxWHJYRWtJcFI2NUVZ?=
+ =?utf-8?B?RmdlZUFLTmtuVlFZSlFXUzJOSjZTbzhVL1pCbEFUWXJPay9Cc0kvMUdtUzFD?=
+ =?utf-8?B?amtqRVpHcC96ZytOTTdXNGJldTJXeEdLa1F3YmlOZmN1VVUxcVdIUmgxWnpZ?=
+ =?utf-8?B?dkEvRW5lOVpwMmV2SjdrOWdxdUFxMEVxNTZkTkpmMzZ1dXV4WDl0VzA2WnJL?=
+ =?utf-8?B?bDRzNTV2OEtGVEdONEZkc1pLNTFicGhiOEVTenpQT0VlVW9CaTVSYmcrYnB2?=
+ =?utf-8?B?Q3V4bDhQRlUyemxMUWQvZHpUOCtIS0ZvQ1dnZGE0L2tJTGh6OUo3Qy85aE9I?=
+ =?utf-8?B?QUtHWldNQ3BOa0NqdUhqUFBpQXZxaUVUTnAzbFl0bEZBTlNJWmwvMW5rYUpw?=
+ =?utf-8?B?OTNKc1hpbkp5WHkrWEpDVXZ2L3BXTjMyenR0OGYyZFRwcEw2RHJOZlFNaFJt?=
+ =?utf-8?B?N2hSQkMwckxyLy9BdkdMdTB6UHF4QVFvTG1aSjdYV21FdTA5V2diVjVxY1Z0?=
+ =?utf-8?B?NHdKeXFQZXBEbnlFTjBvRHpJMUFwRU93M1JBYVhzbmRrNzlmUHhrNlhDckdU?=
+ =?utf-8?B?L2tFR08rajRtT2l5YStaYkdJN2FzbGtLM29tV1RnSVh5dGNmYW5vRGNHY3NF?=
+ =?utf-8?B?Z2RZUEMxS1FobmFFd216T0xZaE80N0d3UGU1YktaUHlWZTBONnVDSHlVOHlG?=
+ =?utf-8?B?SE4yK09TQ3lHSEFEaW02TE14dnM1eldEMllUK0ovbTc2UTFjUFRzaE9YUU44?=
+ =?utf-8?B?RGdZUmYvOXFMVDRGVnFQNFdMMnVuanJQM3gyOEVXVSt0MlNaT2txZFpYMnVy?=
+ =?utf-8?B?WjB2UXA5VHBQd1RPczVnK0o4Z3l1cTFzVktHRExZQStmVHIxQ3JrZHlSeGVC?=
+ =?utf-8?B?czg1T2l5L0h0dm90dXhLWE5wMjh0dngwekttM3FLSUUyRlZDWjZDUWwyYXFX?=
+ =?utf-8?B?SG9vWHg0Y2JvdEoyNXd1VElxdHhBUWE4T09ycXdvdzd6T1ZTNWYxYUhFY0Fv?=
+ =?utf-8?B?NUkrV1EvdGM4RHgvRTJHSTlUNEhMS3duc2U5VTBqSTEwMVZxQnIyRUJ2ZFQ4?=
+ =?utf-8?B?Y1huRjY1N0MvaE1rQ1VlbXhsRjczN2hrK1ViNlJOOVdkQyt1QU9NcUoxcEMw?=
+ =?utf-8?B?eUFWNnRXT2NQYzAzSXpORzBLZ2JtekF0bkp6VGVNRFI4VEN3MkZCTDY3Ui9a?=
+ =?utf-8?B?SGhhWnVkakxuU2RZZzRueXRwb09IYlZGOCtOd2UzakpoZHlDWFZWRmJUM1JH?=
+ =?utf-8?B?RlEyYko5dEdnUXI3MGJjSjVtNlgybFFIYWJZSzN6S016bmVxdmlHWElMQXoy?=
+ =?utf-8?B?U2g3K3FseUI1NU1HeWhJODJhUFgrejJnTHlNYWpWVTBUUEFEYmZGTEpwWVFm?=
+ =?utf-8?B?VGVFVlBOTTFvT2JhYmFCd25VdktBYW9QVUY2TEFIMmZteTlRVkZ3YytSSDRt?=
+ =?utf-8?B?WEVwUW84M3dKbGRaUUxjbzQweTJITVNZYzBxaXhPSVVraXlwUGxydEY0U2pK?=
+ =?utf-8?B?dUplZjNxRFRsalpqUW9qb0ZrczVwTGtJK1dNUTFaUEF6OXVGMk1zZXNhL2NL?=
+ =?utf-8?B?WjBSZk5YdFdBNkJJcXB3UmRXdTd6T3NGc01FL3U2ZXFJakdUVytyY1hhNDQ2?=
+ =?utf-8?B?R0xZei9PSGh3cTNacUdDM3F1N2x3MkdVeTRXa2hKaVRPeXZ6c2ZxaTdkcFpG?=
+ =?utf-8?B?bmh5UGpldzM0Yzd3TEcrQXJQb1ZZZzN0VTdHUlFWcHR0ME1NalR1ZXBQcCtJ?=
+ =?utf-8?Q?m03D7uiycuzcl+KIUTudKObxL?=
 Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aIGy7uRuvYA0v8TO@lstrano-desk.jf.intel.com>
-X-ClientProxiedBy: MW4PR04CA0183.namprd04.prod.outlook.com
- (2603:10b6:303:86::8) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CY8PR11MB7340:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab8a318e-7378-4716-07f7-08ddca68c108
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bFdaWFVlYndSUzdDTENTZWFLSm85dWlOamRZK3N2RmZGbmZaN2p5R1RDSmw5?=
- =?utf-8?B?eXJSblBGMTFXWVNVTXFMWTJ5Zm9xb1YvR1RoRzRaNnhBQVlickVsbUhyZksy?=
- =?utf-8?B?SlowNUpnbGZtWUZUSlZ5RDNKM0hWRE95NnJBaXZrYlVWTmF0UE5tT3NVWTBY?=
- =?utf-8?B?SElKMWZYN2t0ait2OG5weDZqNmZIMmg0cjd6enlQa3d4WnNRRk5NVDRYMlF2?=
- =?utf-8?B?Z1hMbk52eVVBQXdpdTV4MW5BeXM5NDJ6S3JTTzRXamNZRlRGNlpaMlhWTytC?=
- =?utf-8?B?U01VMlMxb05sUXV4NVBkWFhXbTkzSUYyL29yb3FXeXdqeUIwZXg3KytHZndS?=
- =?utf-8?B?VHJRd1pXeWdibWJqakVkTVdyeldhRG9HUE5aNWhkOGVSQWlxVnVHT3AyeitY?=
- =?utf-8?B?WjhNOFJrUkFReGpvdWpReFVPWGZvc0dvdCtOMVNEZ1dTekdZM1g2cDB6cm1Z?=
- =?utf-8?B?aFFSOVVocWh4ZjhENEIwUFhhWGZtc293aUFvY1ZBYkFWT09NVWRWRnIwWngw?=
- =?utf-8?B?SEFpb01XQzRSNGZibmlHNzFsVFFYbFdUUDhJQnE4UUt2eVdteFQvRlMwOGdr?=
- =?utf-8?B?dXNvcXpkeEM4cFdXTGx0TUd6NkJJKzErQ0crWWgxeXVoV3pCZ3VqMUlCL3c5?=
- =?utf-8?B?WVV4Zm8yWmtPcXk2M0swYnNVdnZVMlZzZWdCYWRCcFYzTmZZblRqeVE3bGl2?=
- =?utf-8?B?WDloV1NnYXR0dkJYenlvYW54MDZyT0ZuNWF3bjAySmFmZDF0Yk54eHk0L0Ry?=
- =?utf-8?B?SXFYNDduUndPK0ZIZ0lXcm9FK2pMenhsMDYreDdhUkRrN2lFRmZKN2svMzVh?=
- =?utf-8?B?Yk9zeHpTcHBZOVNTbUJ1L1ZCV0FzcldadS83am1VeDVZdS9IeVZNVVJiWjkx?=
- =?utf-8?B?WlVPMThocUg0K09IbjFHY0FrVmpLSHRDNkd1cTFScFVKaml2M05GWUtaM1B3?=
- =?utf-8?B?VEd6b1IvWXN0RE00bjNnYjNnUFVaQlBQUi8vOWlLYW5BTW9WL05JTE5JZkNG?=
- =?utf-8?B?U0RPKytWTElieW5VSllZMFNObHhPNUF3WHNkWVBBTThTTTFLZHhlbVRwNUE3?=
- =?utf-8?B?dDMzNFdJNE5NN1NuS3ZvbDVITVBkNExDM3VVRzIyeWNQaDFRNmh5WlV1Rlgw?=
- =?utf-8?B?S2wzSFBCVmdZaWhOOXpYb29FbmVjRzF2TGEydCtabVI4ejdTMFVJZE5RZFF6?=
- =?utf-8?B?Y0xXNlNyUlo5djA5YXlTMmVnemN6ZDRTeThMWHpGQ09RYlk4YUNRVWlYa0Vw?=
- =?utf-8?B?N0J2VXhUbnVzbGNhQWtUZmRycFZTNnJQUkFpUExaS2NRRzRrNTBCazFTY0dQ?=
- =?utf-8?B?VHBiNHpZc0JvMGNxbGt1VkRZR1NhNWlHRWRJUnlzamlSb08wdEZRcFRFR1Fr?=
- =?utf-8?B?OW5PbmFocWZ1TEd1NHkrWHlrOEdXZllybWlWYlM5L3hNQTczQ2hOSFJNRG9P?=
- =?utf-8?B?ak5yVVlTaHpzTlljZUwzM2RnRStBUU9rQ0ZYMTA0bnhOSnNKbzdYMDhrUS81?=
- =?utf-8?B?WWcxRnVNNUVRS1k2Z2ZJd3VFK0JQWEl2VGhjQjJESVJQQ2RIQ2loNlRJL2JP?=
- =?utf-8?B?dmlLa3JYNkRjbzg0TkgvSnJyWjFKY3VOcEEvb21kT3VVU1ozMW9XYmhTUW9G?=
- =?utf-8?B?dE5ORDl6YmQrbnpXWmY4OFZFSVcrMWhTYzlsSGJiQ2dERjBGeUNjdmtDalZX?=
- =?utf-8?B?MDRKbi83SW1nMW1iNmdRbFdNUzJOc2l4d0diUklTUDVYemRQdy9FOTNaaERF?=
- =?utf-8?B?UkhZenRnSjdCMzNybEREUzEzZFk3TlJ2RzR6MXphWGZCS1pWMEE2QXlOV2sx?=
- =?utf-8?B?NUM4cWI1WkN5T2kvYnpsMmdvMWlMcDNrSHRIWGVhL0lTMVU1SEpOME9naVlD?=
- =?utf-8?B?cUgwaDNCSURLeHYvRE5ULzk3czgxeE0xbkhWMzZmejNPYjB5M25tMW9mVVUy?=
- =?utf-8?Q?A9J6zJVmUiE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bWVJVXRwcmMvTUJWbDRWeU4zSExkeHFtSStxaW5hUlNpY2paUmd6Mnh2RUh3?=
- =?utf-8?B?ejhUeUFKN1IvSDFhR3FlR1B4TGVMNG9NaWE3UnVLZGxkb0tPOG4zSVQ4L2hx?=
- =?utf-8?B?NGtRWW8vS3dkb2syRDF4cUZhMVVocWxrcXJ6N2dtdlp3dVBtSnJOLzMvZkZI?=
- =?utf-8?B?ZzJKRnNiN2hoZDQ3bEs4VnFoTWh3T3cxR0l5cEQvSlkvSG9uQkN6K2gwU2Zt?=
- =?utf-8?B?cTFXNXJSMUd1U3kwbk9Ba0JwdEJxQjVPN0hRQXVFQkVKV1dUVnFpYmJuSVJR?=
- =?utf-8?B?S21VWCticE10enBuU1JHMXd2Kys1QVdtSXJKOFMyQ2F5eXlIQUowekY4S01x?=
- =?utf-8?B?OFk1ZHpGYnRzKzh3SEh4TVpnVVJXU0JjRHBXS25rdE9HUFlJOER3ZjFzSkN1?=
- =?utf-8?B?NHdBaFhvUzNGdTV6UUpOamZRVUJnUkxzTEtqdTFrejhQdHFpTXN1NjJFQWl1?=
- =?utf-8?B?QTlwNUQwR21wc0l4cVFQYy9oTnNKMW44WTM0Q3F6MUpibWlQcTB4T2tjbVZr?=
- =?utf-8?B?ZUduQVMzejhxcG9BNWR0TnUrY0k0Vk04d01HYVh1cFgzM1lFcVArYzRuSWN5?=
- =?utf-8?B?MGRnMmRqUGZvSkRmcGVaZzRRamNSL1NrTE5UMXUzU1dDNTVSa1ArUFZrTFJw?=
- =?utf-8?B?bWFFQmJSUTNiZ2duaUI1NHRBVnZtM2pVUDNzUnlpVWp0dU9qNHE5TkdqbXU1?=
- =?utf-8?B?L1dlMFZuc3Fjem1tWktxSmVsQ21waUxKYk0rd2ttWE94aHlDb3RCUWpmM0hQ?=
- =?utf-8?B?UlY0WFVjV25XVERmUzg3dmN1VWVzK1JDVUEreUc0SnhqcnRpdXdaZTBraHFj?=
- =?utf-8?B?V2l0a0MvNmlwUEtra2RzZGwzVS9oQk9LZGliNGE4MnRQU2lNUWQ2a2pKOUI5?=
- =?utf-8?B?eUIyT0hGRnZSMm9TVDVRQ2V4bFMzMFhLVjQrSFk3VndtdlE1VE1OYTB1QnJT?=
- =?utf-8?B?Y1NOSS9qdlMxVExtSUtEUkQrRUpMT2VQRU96T3pmYzNtRFAvek95T1pKU2hj?=
- =?utf-8?B?YjkvTW1ia0ZVYUhJOUxLS3BkaXZBU2xWTUNDWjkzQXpCQzExMWpUdXFCaDdr?=
- =?utf-8?B?ckk0em5JejNjeEpqb0cwMlVLdXZnV0VoOU9oclpxdkt3YVFmUzVnVGRxUE9D?=
- =?utf-8?B?U1ZLaTc1NnNQU3BSbnpPckZtWTJ0S2ZPNisrT1NRcTdFdTFCN0RzbSs1cGtD?=
- =?utf-8?B?NjRMWnJjSFY5bnVnTTU1SzJOSHAvdlJwVlM3SjRFMzBPYkc3Q0crL0JlWE1x?=
- =?utf-8?B?K2VIdWZobkVJTEptTmpMNHh5OUFFZEFJVTRMb0IzN25PUXBrdGFQUWZZWTRo?=
- =?utf-8?B?QS9ZZUVXUXhPL2lYOHppU21BOG9GZTQ1dzZVeUY4Z2locHMzWWpZSW5IV3B5?=
- =?utf-8?B?WDVZQ2hibnJ6QjhFOGZISEZwdGZHSHVLc1VZeHpTUGw5R0N0aWFYSFFCbXAw?=
- =?utf-8?B?Rm1NQzN3amZPUEthRVVjOW95dVhMQUlPd1FFeXdRNEd3a0dIQXJUUGJvWjhs?=
- =?utf-8?B?am9JbDQrZllIUmpPWC9Za05wYmU4bUJTeW1aOG9TUzlobXRUY2NaNTlDQWIv?=
- =?utf-8?B?UWRIOWZOM2R5eU5BY0p0MWxmTGwvT0NPVXJaOVgwNWlUb1A1MzlDM001SStJ?=
- =?utf-8?B?bjIxbjFKQ1praUFUMnhaYWNxKzFUdXUvd2NabGVmUll4eUc3UFAxNVRjV09a?=
- =?utf-8?B?YUU5Z2ZYcnNUUEM4QWpCaGh0aHNRN01VcjRGd3g5NXJ0eVllWkcvTEcxU1Ni?=
- =?utf-8?B?RUphVUk4WlNFOHh6UlJkQ045TVpmQWN6U2F2L1lRcFB6aWxDWXhZSXlVQ2dT?=
- =?utf-8?B?QUc0azF1RWc5MmI0eVdzQlNCb1UyemtrL1NGZ2lJYzRZKzFTN0xEb0Z5UFJz?=
- =?utf-8?B?dnh0Ty9KaStSTWxaL1ZuR3BoM0JPRnlhVSsvYmMyczVPcmV0YXl2TStVOGtR?=
- =?utf-8?B?MVhhZlE0MmlIemQzcGpRbkh2cEsrcmZWYlhYOW9aSzBQUk85c0FCZGVSVit0?=
- =?utf-8?B?Z1VPR3A2VDR5bEdKVWxpZFN2U3JPa01CVGpBOGxMN2s1ZjNhT1RhejBya05q?=
- =?utf-8?B?cG9zZm5vMCtMQ2xDSVF4c3BGamt6VTNKYVpTQkkvMDN2bW9tMktpaHpJNW9v?=
- =?utf-8?B?TEpkWi9VOHV5ZE9jVklPbjJEMndCNGVjWUc3T2hMTXU0WDhZWW02L3VrU05j?=
- =?utf-8?B?Y0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab8a318e-7378-4716-07f7-08ddca68c108
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2025 04:15:42.1835 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HLW8HVEoYXfqJ5Hwo/r10IXwvEKomdE/MPwjZL6OEhYkDxBPihK2u+Fqa3GoSrAl78ENYep2t2X/oxzSqKyW7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7340
+X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8987.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0eb1cf9-c4ba-4b2e-0fdf-08ddca6fb6f8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2025 05:05:31.6321 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: etv0tT3oN3yGxuK2jITJT9B+7SLpHG5mlnrMsVT3zH7NN/46LN1idyhxBisJinXDGT1zHHUwhiTVp/94zWVElg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7903
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -210,286 +199,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 23, 2025 at 09:13:34PM -0700, Matthew Brost wrote:
-> On Wed, Jul 23, 2025 at 08:56:01AM +0200, Philipp Stanner wrote:
-> > On Tue, 2025-07-22 at 01:45 -0700, Matthew Brost wrote:
-> > > On Tue, Jul 22, 2025 at 01:07:29AM -0700, Matthew Brost wrote:
-> > > > On Tue, Jul 22, 2025 at 09:37:11AM +0200, Philipp Stanner wrote:
-> > > > > On Mon, 2025-07-21 at 11:07 -0700, Matthew Brost wrote:
-> > > > > > On Mon, Jul 21, 2025 at 12:14:31PM +0200, Danilo Krummrich wrote:
-> > > > > > > On Mon Jul 21, 2025 at 10:16 AM CEST, Philipp Stanner wrote:
-> > > > > > > > On Mon, 2025-07-21 at 09:52 +0200, Philipp Stanner wrote:
-> > > > > > > > > On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
-> > > > > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > index bfea608a7106..997a2cc1a635 100644
-> > > > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > > @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
-> > > > > > > > > >  
-> > > > > > > > > >  	entity->oldest_job_waiting = ts;
-> > > > > > > > > >  
-> > > > > > > > > > -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
-> > > > > > > > > > -		      drm_sched_entity_compare_before);
-> > > > > > > > > > +	if (!entity->stopped) {
-> > > > > > > > > > +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
-> > > > > > > > > > +			      drm_sched_entity_compare_before);
-> > > > > > > > > > +	}
-> > > > > > > > > 
-> > > > > > > > > If this is a race, then this patch here is broken, too, because you're
-> > > > > > > > > checking the 'stopped' boolean as the callers of that function do, too
-> > > > > > > > > – just later. :O
-> > > > > > > > > 
-> > > > > > > > > Could still race, just less likely.
-> > > > > > > > > 
-> > > > > > > > > The proper way to fix it would then be to address the issue where the
-> > > > > > > > > locking is supposed to happen. Let's look at, for example,
-> > > > > > > > > drm_sched_entity_push_job():
-> > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
-> > > > > > > > > {
-> > > > > > > > > 	(Bla bla bla)
-> > > > > > > > > 
-> > > > > > > > >  	…………
-> > > > > > > > > 
-> > > > > > > > > 	/* first job wakes up scheduler */
-> > > > > > > > > 	if (first) {
-> > > > > > > > > 		struct drm_gpu_scheduler *sched;
-> > > > > > > > > 		struct drm_sched_rq *rq;
-> > > > > > > > > 
-> > > > > > > > > 		/* Add the entity to the run queue */
-> > > > > > > > > 		spin_lock(&entity->lock);
-> > > > > > > > > 		if (entity->stopped) {                  <---- Aha!
-> > > > > > > > > 			spin_unlock(&entity->lock);
-> > > > > > > > > 
-> > > > > > > > > 			DRM_ERROR("Trying to push to a killed entity\n");
-> > > > > > > > > 			return;
-> > > > > > > > > 		}
-> > > > > > > > > 
-> > > > > > > > > 		rq = entity->rq;
-> > > > > > > > > 		sched = rq->sched;
-> > > > > > > > > 
-> > > > > > > > > 		spin_lock(&rq->lock);
-> > > > > > > > > 		drm_sched_rq_add_entity(rq, entity);
-> > > > > > > > > 
-> > > > > > > > > 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> > > > > > > > > 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bumm!
-> > > > > > > > > 
-> > > > > > > > > 		spin_unlock(&rq->lock);
-> > > > > > > > > 		spin_unlock(&entity->lock);
-> > > > > > > > > 
-> > > > > > > > > But the locks are still being hold. So that "shouldn't be happening"(tm).
-> > > > > > > > > 
-> > > > > > > > > Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini()
-> > > > > > > > > stop entities. The former holds appropriate locks, but drm_sched_fini()
-> > > > > > > > > doesn't. So that looks like a hot candidate to me. Opinions?
-> > > > > > > > > 
-> > > > > > > > > On the other hand, aren't drivers prohibited from calling
-> > > > > > > > > drm_sched_entity_push_job() after calling drm_sched_fini()? If the
-> > > > > > > > > fuzzer does that, then it's not the scheduler's fault.
-> > > > > > > 
-> > > > > > > Exactly, this is the first question to ask.
-> > > > > > > 
-> > > > > > > And I think it's even more restrictive:
-> > > > > > > 
-> > > > > > > In drm_sched_fini()
-> > > > > > > 
-> > > > > > > 	for (i = DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++) {
-> > > > > > > 		struct drm_sched_rq *rq = sched->sched_rq[i];
-> > > > > > > 
-> > > > > > > 		spin_lock(&rq->lock);
-> > > > > > > 		list_for_each_entry(s_entity, &rq->entities, list)
-> > > > > > > 			/*
-> > > > > > > 			 * Prevents reinsertion and marks job_queue as idle,
-> > > > > > > 			 * it will be removed from the rq in drm_sched_entity_fini()
-> > > > > > > 			 * eventually
-> > > > > > > 			 */
-> > > > > > > 			s_entity->stopped = true;
-> > > > > > > 		spin_unlock(&rq->lock);
-> > > > > > > 		kfree(sched->sched_rq[i]);
-> > > > > > > 	}
-> > > > > > > 
-> > > > > > > In drm_sched_entity_kill()
-> > > > > > > 
-> > > > > > > 	static void drm_sched_entity_kill(struct drm_sched_entity *entity)
-> > > > > > > 	{
-> > > > > > > 		struct drm_sched_job *job;
-> > > > > > > 		struct dma_fence *prev;
-> > > > > > > 
-> > > > > > > 		if (!entity->rq)
-> > > > > > > 			return;
-> > > > > > > 
-> > > > > > > 		spin_lock(&entity->lock);
-> > > > > > > 		entity->stopped = true;
-> > > > > > > 		drm_sched_rq_remove_entity(entity->rq, entity);
-> > > > > > > 		spin_unlock(&entity->lock);
-> > > > > > > 
-> > > > > > > 		[...]
-> > > > > > > 	}
-> > > > > > > 
-> > > > > > > If this runs concurrently, this is a UAF as well.
-> > > > > > > 
-> > > > > > > Personally, I have always been working with the assupmtion that entites have to
-> > > > > > > be torn down *before* the scheduler, but those lifetimes are not documented
-> > > > > > > properly.
-> > > > > > 
-> > > > > > Yes, this is my assumption too. I would even take it further: an entity
-> > > > > > shouldn't be torn down until all jobs associated with it are freed as
-> > > > > > well. I think this would solve a lot of issues I've seen on the list
-> > > > > > related to UAF, teardown, etc.
-> > > > > 
-> > > > > That's kind of impossible with the new tear down design, because
-> > > > > drm_sched_fini() ensures that all jobs are freed on teardown. And
-> > > > > drm_sched_fini() wouldn't be called before all jobs are gone,
-> > > > > effectively resulting in a chicken-egg-problem, or rather: the driver
-> > > > > implementing its own solution for teardown.
-> > > > > 
-> > > > 
-> > > > I've read this four times and I'm still generally confused.
-> > > > 
-> > > > "drm_sched_fini ensures that all jobs are freed on teardown" — Yes,
-> > > > that's how a refcounting-based solution works. drm_sched_fini would
-> > > > never be called if there were pending jobs.
-> > > > 
-> > > > "drm_sched_fini() wouldn't be called before all jobs are gone" — See
-> > > > above.
-> > > > 
-> > > > "effectively resulting in a chicken-and-egg problem" — A job is created
-> > > > after the scheduler, and it holds a reference to the scheduler until
-> > > > it's freed. I don't see how this idiom applies.
-> > > > 
-> > > > "the driver implementing its own solution for teardown" — It’s just
-> > > > following the basic lifetime rules I outlined below. Perhaps Xe was
-> > > > ahead of its time, but the number of DRM scheduler blowups we've had is
-> > > > zero — maybe a strong indication that this design is correct.
-> > > > 
-> > > 
-> > > Sorry—self-reply.
-> > > 
-> > > To expand on this: the reason Xe implemented a refcount-based teardown
-> > > solution is because the internals of the DRM scheduler during teardown
-> > > looked wildly scary. A lower layer should not impose its will on upper
-> > > layers. I think that’s the root cause of all the problems I've listed.
-> > > 
-> > > In my opinion, we should document the lifetime rules I’ve outlined, fix
-> > > all drivers accordingly, and assert these rules in the scheduler layer.
-> > 
-> > 
-> > Everyone had a separate solution for that. Nouveau used a waitqueue.
-> > That's what happens when there's no centralized mechanism for solving a
-> > problem.
-> > 
-> 
-> Right, this is essentially my point — I think refcounting on the driver
-> side is what the long-term solution really needs to be.
-> 
-> To recap the basic rules:
-> 
-> - Entities should not be finalized or freed until all jobs associated
->   with them are freed.
-> - Schedulers should not be finalized or freed until all associated
->   entities are finalized.
-> - Jobs should hold a reference to the entity.
-> - Entities should hold a reference to the scheduler.
-> 
-> I understand this won’t happen overnight — or perhaps ever — but
-> adopting this model would solve a lot of problems across the subsystem
-> and reduce a significant amount of complexity in the DRM scheduler. I’ll
-> also acknowledge that part of this is my fault — years ago, I worked
-> around problems (implemented above ref count model) in the scheduler
-> related to teardown rather than proposing a common, unified solution,
-> and clear lifetime rules.
-> 
-> For drivers with a 1:1 entity-to-scheduler relationship, teardown
-> becomes fairly simple: set the TDR timeout to zero and naturally let the
-> remaining jobs flush out via TDR + the timedout_job callback, which
-> signals the job’s fence. Free job, is called after that.
-> 
-> For non-1:1 setups, we could introduce something like
-> drm_sched_entity_kill, which would move all jobs on the pending list of
-> a given entity to a kill list. A worker could then process that kill
-> list — calling timedout_job and signaling the associated fences.
-> Similarly, any jobs that had unresolved dependencies could be
-> immediately added to the kill list. The kill list would have to be
-
-s/added to the kill list/added to the kill list after calling run_job/
-
-Matt
-
-> checked in drm_sched_free_job_work too.
-> 
-> This would ensure that all jobs submitted would go through the full
-> lifecycle:
-> 
-> - run_job is called
-> - free_job is called
-> - If the fence returned from run_job needs to be artificially signaled,
->   timedout_job is called
-> 
-> We can add the infrastructure for this and once all driver adhere this
-> model, clean up ugliness in the scheduler related to teardown and all
-> races here.
-> 
-> > Did you see the series we recently merged which repairs the memory
-> > leaks of drm/sched? It had been around for quite some time.
-> > 
-> > https://lore.kernel.org/dri-devel/20250701132142.76899-3-phasta@kernel.org/
-> >
-> 
-> I would say this is just hacking around the fundamental issues with the
-> lifetime of these objects. Do you see anything in Nouveau that would
-> prevent the approach I described above from working?
-> 
-> Also, what if jobs have dependencies that aren't even on the pending
-> list yet? This further illustrates the problems with trying to finalize
-> objects while child objects (entities, job) are still around.
-> 
-> Matt
-> 
-> > 
-> > P.
-> > 
-> > > 
-> > > Matt
-> > > 
-> > > > Matt
-> > > > 
-> > > > > P.
-> > > > > 
-> > > > > 
-> > > > > > 
-> > > > > > > 
-> > > > > > > There are two solutions:
-> > > > > > > 
-> > > > > > >   (1) Strictly require all entities to be torn down before drm_sched_fini(),
-> > > > > > >       i.e. stick to the natural ownership and lifetime rules here (see below).
-> > > > > > > 
-> > > > > > >   (2) Actually protect *any* changes of the relevent fields of the entity
-> > > > > > >       structure with the entity lock.
-> > > > > > > 
-> > > > > > > While (2) seems rather obvious, we run into lock inversion with this approach,
-> > > > > > > as you note below as well. And I think drm_sched_fini() should not mess with
-> > > > > > > entities anyways.
-> > > > > > > 
-> > > > > > > The ownership here seems obvious:
-> > > > > > > 
-> > > > > > > The scheduler *owns* a resource that is used by entities. Consequently, entities
-> > > > > > > are not allowed to out-live the scheduler.
-> > > > > > > 
-> > > > > > > Surely, the current implementation to just take the resource away from the
-> > > > > > > entity under the hood can work as well with appropriate locking, but that's a
-> > > > > > > mess.
-> > > > > > > 
-> > > > > > > If the resource *really* needs to be shared for some reason (which I don't see),
-> > > > > > > shared ownership, i.e. reference counting, is much less error prone.
-> > > > > > 
-> > > > > > Yes, Xe solves all of this via reference counting (jobs refcount the
-> > > > > > entity). It's a bit easier in Xe since the scheduler and entities are
-> > > > > > the same object due to their 1:1 relationship. But even in non-1:1
-> > > > > > relationships, an entity could refcount the scheduler. The teardown
-> > > > > > sequence would then be: all jobs complete on the entity → teardown the
-> > > > > > entity → all entities torn down → teardown the scheduler.
-> > > > > > 
-> > > > > > Matt
-> > > > > 
-> > 
+SGkgVGhvbWFzLA0KDQo+IA0KPiBIaQ0KPiANCj4gQW0gMTguMDcuMjUgdW0gMTY6NDcgc2Nocmll
+YiBBbmRpIFNoeXRpOg0KPiA+IEhpIE5pdGluLA0KPiA+DQo+ID4gT24gRnJpLCBKdWwgMTgsIDIw
+MjUgYXQgMDQ6MjA6NTFQTSArMDUzMCwgTml0aW4gR290ZSB3cm90ZToNCj4gPj4gVGhlIGN1cnJl
+bnQgaW9zeXNfbWFwX2NsZWFyKCkgaW1wbGVtZW50YXRpb24gcmVhZHMgdGhlIHBvdGVudGlhbGx5
+DQo+ID4+IHVuaW5pdGlhbGl6ZWQgJ2lzX2lvbWVtJyBib29sZWFuIGZpZWxkIHRvIGRlY2lkZSB3
+aGljaCB1bmlvbiBtZW1iZXINCj4gPj4gdG8gY2xlYXIuIFRoaXMgY2F1c2VzIHVuZGVmaW5lZCBi
+ZWhhdmlvciB3aGVuIGNhbGxlZCBvbiB1bmluaXRpYWxpemVkDQo+ID4+IHN0cnVjdHVyZXMsIGFz
+ICdpc19pb21lbScgbWF5IGNvbnRhaW4gZ2FyYmFnZSB2YWx1ZXMgbGlrZSAweEZGLg0KPiA+Pg0K
+PiA+PiBVQlNBTiBkZXRlY3RzIHRoaXMgYXM6DQo+ID4+ICAgICAgVUJTQU46IGludmFsaWQtbG9h
+ZCBpbiBpbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oOjI2Nw0KPiA+PiAgICAgIGxvYWQgb2YgdmFs
+dWUgMjU1IGlzIG5vdCBhIHZhbGlkIHZhbHVlIGZvciB0eXBlICdfQm9vbCcNCj4gPj4NCj4gPj4g
+Rml4IGJ5IHVuY29uZGl0aW9uYWxseSBjbGVhcmluZyB0aGUgZW50aXJlIHN0cnVjdHVyZSB3aXRo
+IG1lbXNldCgpLA0KPiA+PiBlbGltaW5hdGluZyB0aGUgbmVlZCB0byByZWFkIHVuaW5pdGlhbGl6
+ZWQgZGF0YSBhbmQgZW5zdXJpbmcgYWxsDQo+ID4+IGZpZWxkcyBhcmUgc2V0IHRvIGtub3duIGdv
+b2QgdmFsdWVzLg0KPiA+Pg0KPiA+PiBDbG9zZXM6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9w
+Lm9yZy9kcm0vaTkxNS9rZXJuZWwvLS9pc3N1ZXMvMTQ2MzkNCj4gPj4gRml4ZXM6IDAxZmQzMGRh
+MDQ3NCAoImRtYS1idWY6IEFkZCBzdHJ1Y3QgZG1hLWJ1Zi1tYXAgZm9yIHN0b3JpbmcNCj4gPj4g
+c3RydWN0IGRtYV9idWYudmFkZHJfcHRyIikNCj4gPj4gU2lnbmVkLW9mZi1ieTogTml0aW4gR290
+ZSA8bml0aW4uci5nb3RlQGludGVsLmNvbT4NCj4gPiArVGhvbWFzIGFuZCB0aGUgZHJpLWRldmVs
+IG1haWxpbmcgbGlzdC4NCj4gPg0KPiA+IEluIGFueSBjYXNlLCB5b3VyIHBhdGNoIG1ha2VzIHNl
+bnNlIHRvIG1lOg0KPiANCj4gVGhlIGNhbGwgdG8gaW9zeXNfbWFwX2NsZWFyKCkgaXMgYXQNCj4g
+DQo+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y2LjE1LjYvc291cmNlL2RyaXZl
+cnMvZG1hLWJ1Zi9kbWEtDQo+IGJ1Zi5jI0wxNTcxDQo+IA0KPiBJdCdzIGEgZGVmZW5zaXZlIG1l
+YXN1cmUgZm9yIGNhc2VzIHdoZXJlIHRoZSBjYWxsZXIgcmVhZHMgdGhlIHJldHVybmVkIG1hcA0K
+PiBhZGRyZXNzIHdoZW4gaXQgd2FzIG5ldmVyIGluaXRpYWxpemVkIGJ5IHRoZSB2bWFwIGltcGxl
+bWVudGF0aW9uLg0KPiBJJ20gbm90IGEgYmlnIGZhbiBvZiBtZW1zZXQoKSwgYnV0IE9LLiBQcmVm
+ZXJhYmx5LCBpb3N5c19tYXBfY2xlYXIoKSB3b3VsZCBzaW1wbHkNCj4gc2V0IHZhZGRyID0gTlVM
+TCBhbmQgaXNfaW9tZW0gPSBmYWxzZS4gQW55d2F5LA0KPiANCj4gUmV2aWV3ZWQtYnk6IFRob21h
+cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiANCj4gQmVzdCByZWdhcmRzDQo+
+IFRob21hcw0KPiANCg0KVGhhbmsgeW91IGZvciB0aGUgcmV2aWV3Lg0KQ291bGQgeW91IHBsZWFz
+ZSBoZWxwIHRvIG1lcmdlIHRoaXMgcGF0Y2g/IA0KDQotIE5pdGluDQoNCj4gPg0KPiA+IFJldmll
+d2VkLWJ5OiBBbmRpIFNoeXRpIDxhbmRpLnNoeXRpQGxpbnV4LmludGVsLmNvbT4NCj4gPg0KPiA+
+IEFuZGkNCj4gPg0KPiA+PiAtLS0NCj4gPj4gICBpbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oIHwg
+NyArLS0tLS0tDQo+ID4+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA2IGRlbGV0
+aW9ucygtKQ0KPiA+Pg0KPiA+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9pb3N5cy1tYXAu
+aCBiL2luY2x1ZGUvbGludXgvaW9zeXMtbWFwLmgNCj4gPj4gaW5kZXggNDY5NmFiZmQzMTFjLi4z
+ZTg1YWZlNzk0YzAgMTAwNjQ0DQo+ID4+IC0tLSBhL2luY2x1ZGUvbGludXgvaW9zeXMtbWFwLmgN
+Cj4gPj4gKysrIGIvaW5jbHVkZS9saW51eC9pb3N5cy1tYXAuaA0KPiA+PiBAQCAtMjY0LDEyICsy
+NjQsNyBAQCBzdGF0aWMgaW5saW5lIGJvb2wgaW9zeXNfbWFwX2lzX3NldChjb25zdCBzdHJ1Y3QN
+Cj4gaW9zeXNfbWFwICptYXApDQo+ID4+ICAgICovDQo+ID4+ICAgc3RhdGljIGlubGluZSB2b2lk
+IGlvc3lzX21hcF9jbGVhcihzdHJ1Y3QgaW9zeXNfbWFwICptYXApDQo+ID4+ICAgew0KPiA+PiAt
+CWlmIChtYXAtPmlzX2lvbWVtKSB7DQo+ID4+IC0JCW1hcC0+dmFkZHJfaW9tZW0gPSBOVUxMOw0K
+PiA+PiAtCQltYXAtPmlzX2lvbWVtID0gZmFsc2U7DQo+ID4+IC0JfSBlbHNlIHsNCj4gPj4gLQkJ
+bWFwLT52YWRkciA9IE5VTEw7DQo+ID4+IC0JfQ0KPiA+PiArCW1lbXNldChtYXAsIDAsIHNpemVv
+ZigqbWFwKSk7DQo+ID4+ICAgfQ0KPiA+Pg0KPiA+PiAgIC8qKg0KPiA+PiAtLQ0KPiA+PiAyLjI1
+LjENCj4gDQo+IC0tDQo+IC0tDQo+IFRob21hcyBaaW1tZXJtYW5uDQo+IEdyYXBoaWNzIERyaXZl
+ciBEZXZlbG9wZXINCj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQo+IEZy
+YW5rZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQo+IEdGOiBJdm8gVG90
+ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4gSFJCIDM2
+ODA5DQo+IChBRyBOdWVybmJlcmcpDQoNCg==
