@@ -2,155 +2,208 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A9CB104D7
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:53:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AA6B104E6
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:54:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B7E10E8FB;
-	Thu, 24 Jul 2025 08:53:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 017D310E1E2;
+	Thu, 24 Jul 2025 08:54:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EQtU3pZK";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="Ssl/aZ28";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Ssl/aZ28";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F69510E8FA
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1753347180;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=eSRWHNR3oSryq2XtU/spTQx/p9VSczkNbYfeDDaHpfg=;
- b=EQtU3pZKsVcqalR19MUJ3IPfcgJkxvCcvkv1hHYnmA1IJCW8sem4JY+9WN+b/zWmR+CAbA
- Mj/lHor23rCjzbThtd8lgbGcMR3JvKe4BnsuOUF2lmnaK1ZxNbEWLmoPZ0aWOmwmvOb7FZ
- hFWbBKw2ym+ZNMxDKl0ZNnbxI6fzU7M=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-436-6PwuG9OHP6OAIy2bfPGzuA-1; Thu, 24 Jul 2025 04:52:59 -0400
-X-MC-Unique: 6PwuG9OHP6OAIy2bfPGzuA-1
-X-Mimecast-MFC-AGG-ID: 6PwuG9OHP6OAIy2bfPGzuA_1753347178
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3a5058f9ef4so275395f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 01:52:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753347178; x=1753951978;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=eSRWHNR3oSryq2XtU/spTQx/p9VSczkNbYfeDDaHpfg=;
- b=JweJG+ILrag1x3n3TyEpyCxyO/FdiEsqA7O1w5AmDzsMMJIefEZbXBG1nKMb2PNlKb
- 0PI5eqjLWsiyk7lKsisdVnbN9B0yklIktBuQwiNnI1S/WtHkQPXUQjlAt0crgPtt75vc
- T6kyphgJRIE8FvFadABu5YUO2aGUuUdUDGGFgQI0uhlA57bQaeR/WML0sh1J0Drf5XmO
- +VIAzNUl8XDL5UWNhu/yIkjZ4oZVnuFOY3EqM1abSdUJv9z7P2f76cNQFF61eqQ6X6su
- K6aBPxB9EzVQFQj0GfooFzMfAq49grB5/7esuBSzl3VQ5KU2z91xIUvHsFQ8Ilqt80lJ
- lQ5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVSI2KlO7sVjrqL+Q+42tox/TVnu/y5MAAyVl3WtJwYWA7mgkH108SiP8JAbFD6Dv0vGSv90mwBAGM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMk0KsLygJuYzNpLh7b/1gX5G9G4bZvHkbweK0haqEh2QtkYJ+
- WXmMfQYJRBROwwUoiWSagDrejmjO7OSj6QDJgaGzLNPKcQRvHIqCaB0o4im7nO/PHQ9btqsyX3I
- WkXWXvyvrv10x5mFKoiaJ/lUYQSeOhMtIAQWLqCMBTM/+xMhnEYDUwoDvLREqy5W4PJoDFw==
-X-Gm-Gg: ASbGncsSk1GtHLQaHwr6tK+MxNbMYpuSoYqrwkYLTSgeNmckR9EXvtaf8t5kJuouue9
- l5McKMqufPG8kvNxGAzsDqnh49yol/toozEq8y+jgIa+gGYy41CN8vOsTSWwhTOE0b9kx/PAuUa
- VWaTmdSRVnEQf/Nl/2M88tlqMK4pPLE2hHbOsw2sAsh/nl2XEnpJUeRfrHR0EnrXMMVTnQ5is9I
- TQdexOqQj9fcNkw4ocyoCYn6Q2MJ7Gw7E8Rk12/UNyaHhpklNoD90RMHUjVgVMJfbQaloyWSNuS
- DVdvBLcBTsmPKN34YIGX1R5Wbh+tXgvsA9QgulGr3QSHe/rv4T5FymvgRzOSr8j9+XzfWvBPWDe
- JZUxVMklYr/RI4bbtj1JeXLj57F9LAjE9hmGyMGC7KNNhsQlBJrJC2KvekYZjLHGZ
-X-Received: by 2002:a05:6000:1884:b0:3a8:30b8:cb93 with SMTP id
- ffacd0b85a97d-3b768ef953dmr4588641f8f.32.1753347177747; 
- Thu, 24 Jul 2025 01:52:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEoD8bQhLMR7nrUTvI3JvUWW9/Pn8ZIBrS4iPYjqfRFSc5RU+yNx7pIBUo5X7x71tBeIaa94w==
-X-Received: by 2002:a05:6000:1884:b0:3a8:30b8:cb93 with SMTP id
- ffacd0b85a97d-3b768ef953dmr4588610f8f.32.1753347177191; 
- Thu, 24 Jul 2025 01:52:57 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f1f:5e00:c941:d6fb:3e30:b42?
- (p200300d82f1f5e00c941d6fb3e300b42.dip0.t-ipconnect.de.
- [2003:d8:2f1f:5e00:c941:d6fb:3e30:b42])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b76fcc43c2sm1436739f8f.83.2025.07.24.01.52.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Jul 2025 01:52:56 -0700 (PDT)
-Message-ID: <a3f1af02-ef3f-40f8-be79-4c3929a59bb7@redhat.com>
-Date: Thu, 24 Jul 2025 10:52:54 +0200
-MIME-Version: 1.0
+Received: from DU2PR03CU002.outbound.protection.outlook.com
+ (mail-northeuropeazon11011019.outbound.protection.outlook.com [52.101.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6394310E1E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:54:06 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=SIoNNjtSY4iWGQlOGPWWQfBX0MWj5/rqT2/+xKduDvK59AaaeD60D7HVhtBfeXmAob9t6G8FaUJe6l7pvV4w1AGlEiPvGxukckjw65vHSsrhHbzRJsAr305T5JNQPmMLZoec5qEuPCdpJrqf16+s3EiPlItTh0mcVMmBD0kSva6xIgNi06FOiueauC6RElU7gcD6DmCBWb1xoU+7Ykcc96DEfF95vqztAScpKXrS2vAGIpuxkvVFSAOjY/9dbolizo226xvZxDKqWgTGq0Ogl8pWFxvkd2TK9P+S3kYBfI5gRa9fAjNwBrH4pWxGT2XH8e03qg9DVu68I7e3qbHykA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vOGvz84rSfcTabIQonmJZgQ2IGaCfjsco40d69nkMUo=;
+ b=ON8g2cu4/U+g0dA8pVSJHHvDKFWPL704x6E2liNFOWzNClQhnzOeYKKpHKVk2ZbgJ10h7slX0gHM92Qx/pqVXRkL89mGBKWI3BExUQphlGPYEqo2NxJnElPHgjy6qIwvo7XY0dKCpodN1RuFf+gd85ccdrIlyZw1P1VGStf9V5HRMCZ8IASe5wmB14aw1NHf8xrf7FbQlfRtKCFUPHKpjPKgupxHK4WH507TutBfVs536e3IGWcmTr4ToJY2SnSDwhkwmqHntev22QOvSlrjpqTCW419hPDJ+d1XEQVcLfbUnbcXmLMOn6OrqcQ6XVFDt5xIfqvYPlLcSxNocz5o2g==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vOGvz84rSfcTabIQonmJZgQ2IGaCfjsco40d69nkMUo=;
+ b=Ssl/aZ28/X9XG4o/8FaTQ2so/tzmQNqq9A5ZcjpeCyvZL3Q8T6fwOoClWbLZxnzRu3yKURGbfoxCfJRYRXP+QAAYUu28pESo6rvn+XBexLcnR29vTwjA7d/iMu/XXCVN9AeAxuLM2ojFtCiN29gHJumdU02jTlYSODzjP5zX8do=
+Received: from AM0PR02CA0181.eurprd02.prod.outlook.com (2603:10a6:20b:28e::18)
+ by VE1PR08MB5646.eurprd08.prod.outlook.com (2603:10a6:800:1a9::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.22; Thu, 24 Jul
+ 2025 08:54:03 +0000
+Received: from AMS0EPF000001AC.eurprd05.prod.outlook.com
+ (2603:10a6:20b:28e:cafe::d7) by AM0PR02CA0181.outlook.office365.com
+ (2603:10a6:20b:28e::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8964.22 via Frontend Transport; Thu,
+ 24 Jul 2025 08:54:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF000001AC.mail.protection.outlook.com (10.167.16.152) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8964.20
+ via Frontend Transport; Thu, 24 Jul 2025 08:54:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xb78oVPreMxM0Jbl4aFHIVW2S/7qBYd4b7CxFQ6qFxZq2Fg6DXJcUnV7yEzLm4YGwN8p1qJ2ut7DNcVy6fdtSwphlm8fA6k0pfdIs8+O07E2/KiTJHvx49TLGYnFVjcNB+oxJd8sam/iZte2KGTIN06F6cQBDfExlGlo+8pT9nNhPwofo946rgQqRg5KrzEMOFCxvdON4CXvUQv95Nv6VxVPdjoxDUCSggdutkP8icYms1PXOcYiT+UTVPOXeSseLzxRpqbCZ+Cqg3RRrqV+4w4083CIJe99TKYDr9V/80PsU9U1dSLkWJyrn33Gt/25ldrm0yCHXTJ1WD5ucedI9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vOGvz84rSfcTabIQonmJZgQ2IGaCfjsco40d69nkMUo=;
+ b=tMPb9EwOGOeCBID16isqONrzoUmo2tofyD6NWdDC/bRdUUzr6LqM/8EHU8SbFnRyPtZxYRJlYoQg7ZmGDv9lMgJ9vAnotfeEpjx24Jvub9FMyTizG7wh3pcmDFrHgtQwwi9Nplslu8+Ob9ORofjQl6E+A2QAr4pcg6LOHLq909d9xUM4hXWFtJ8BS96n7a7EoZcN97iYgX0qHWOrTPnEikkd0DSukeEe2FzuE9XvNW0SSsH8oTGiQdL90m1IZVSlfSH2+XY/XLSEsrxU3ycp8U8tcGvf7tYJ612AuqLYZAsxXCiiNxRzJjDaF4xH6uj2tPaPUfAhfZTBLfryES9ovg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vOGvz84rSfcTabIQonmJZgQ2IGaCfjsco40d69nkMUo=;
+ b=Ssl/aZ28/X9XG4o/8FaTQ2so/tzmQNqq9A5ZcjpeCyvZL3Q8T6fwOoClWbLZxnzRu3yKURGbfoxCfJRYRXP+QAAYUu28pESo6rvn+XBexLcnR29vTwjA7d/iMu/XXCVN9AeAxuLM2ojFtCiN29gHJumdU02jTlYSODzjP5zX8do=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
+ (2603:10a6:800:257::18) by AM8PR08MB5796.eurprd08.prod.outlook.com
+ (2603:10a6:20b:1d1::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.22; Thu, 24 Jul
+ 2025 08:53:31 +0000
+Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
+ ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
+ ([fe80::d594:64a:dfc:db74%5]) with mapi id 15.20.8943.029; Thu, 24 Jul 2025
+ 08:53:30 +0000
+Message-ID: <1674fa29-db08-4241-929e-4c0354669022@arm.com>
+Date: Thu, 24 Jul 2025 09:53:28 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] mm/hmm: HMM API to enable P2P DMA for device
- private pages
-To: Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Matthew Wilcox <willy@infradead.org>, Yonatan Maman <ymaman@nvidia.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Leon Romanovsky
- <leon@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ben Skeggs <bskeggs@nvidia.com>,
- Michael Guralnik <michaelgur@nvidia.com>, Or Har-Toov <ohartoov@nvidia.com>,
- Daisuke Matsuda <dskmtsd@gmail.com>, Shay Drory <shayd@nvidia.com>,
- linux-mm@kvack.org, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Gal Shalom <GalShalom@nvidia.com>
-References: <20250718115112.3881129-1-ymaman@nvidia.com>
- <20250718115112.3881129-2-ymaman@nvidia.com>
- <aHpXXKTaqp8FUhmq@casper.infradead.org> <20250718144442.GG2206214@ziepe.ca>
- <aH4_QaNtIJMrPqOw@casper.infradead.org>
- <7lvduvov3rvfsgixbkyyinnzz3plpp3szxam46ccgjmh6v5d7q@zoz4k723vs3d>
- <aIBcTpC9Te7YIe4J@ziepe.ca>
- <cn7hcxskr5prkc3jnd4vzzeau5weevzumcspzfayeiwdexkkfe@ovvgraqo7svh>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <cn7hcxskr5prkc3jnd4vzzeau5weevzumcspzfayeiwdexkkfe@ovvgraqo7svh>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: cdJEeNCSAozx_nPojEvMTD20bsE16nTQzIKoyJcGnlI_1753347178
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 4/6] drm/panthor: Add support for Mali-Gx15 family of
+ GPUs
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+References: <20250721213528.2885035-1-karunika.choo@arm.com>
+ <20250721213528.2885035-5-karunika.choo@arm.com>
+ <CAPaKu7S3=8UASg70E9LQcGiqKq319asOwv7pAhBEMAQgwh608Q@mail.gmail.com>
+Content-Language: en-GB
+From: Karunika Choo <karunika.choo@arm.com>
+In-Reply-To: <CAPaKu7S3=8UASg70E9LQcGiqKq319asOwv7pAhBEMAQgwh608Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P265CA0127.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c6::18) To VI0PR08MB11200.eurprd08.prod.outlook.com
+ (2603:10a6:800:257::18)
+MIME-Version: 1.0
+X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|AM8PR08MB5796:EE_|AMS0EPF000001AC:EE_|VE1PR08MB5646:EE_
+X-MS-Office365-Filtering-Correlation-Id: 43edd881-3f0d-4ce3-a8a0-08ddca8fa3b1
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?Z1ZoY2gxcCtZNCtDMjlQUk9BYXhuNExDL3BvUjNadDJPVlF5bWhZL3JpMnFm?=
+ =?utf-8?B?eWRFdlVia2NXcU5yVzlKTFFhM1Z4emxiSXZoWDVjWGdoa2RtcG5FR1pIN0tu?=
+ =?utf-8?B?eWpvNzcxZ1A1djd2cmc4aWJUVDROSGpHdjBmVTFiU2tRYVY3Q2N3VTBWTElY?=
+ =?utf-8?B?UWVoSmpTWElyRC9TR2hzRERXYmFyZ21XY25aZkp6bDNPVnozTXVyL3U1MXBM?=
+ =?utf-8?B?T3BrS2lQSVFXVUZyb0hBQ043MXpuSEQ3aWRpbGdRZEhXQzVJWWg4WjZzd2Rm?=
+ =?utf-8?B?K0w2VW5RSXZtTTJ2b3lWS1pSSXVISVFWN1dnOUJPTEtDeHNxZXlrVFdPQnk1?=
+ =?utf-8?B?ZkZpRytCS0pFL2h5RE54OHl1K1BraG1RdmczVm4xL2RaSk15bEhFYVRhSncz?=
+ =?utf-8?B?REJkbDRoclh1Z2EzZzFEeHZ6Yjhhc1A2WjdWNFd5czlJdW5sK3Vub2sweVJn?=
+ =?utf-8?B?ZTl3cFNTMFZsWFVTTE1hYTJTRUVKa3llUTI5V290VFdaNFVrQjY4VWIyT05p?=
+ =?utf-8?B?anYrbXh2WHphSjFYZzhyeTk3SVYrMmVacHBaN0VFMUd6aW5vREJ2dEo0dytu?=
+ =?utf-8?B?U1ZQcHI3cFpNUncwL3lFVjNPQTFNU2hLQXBmZkc3cXdyaVNhZW5zd0xzQUJm?=
+ =?utf-8?B?S0NuL0I4SjZhRUVDOE81NXptV0xFb2dpN3dkSmo2Y0lnZTdETmh1YklZYWhF?=
+ =?utf-8?B?S0VPRCs4VjZXRzJnL1hvS1hidmxWN1ZCWW85MHUyWERNTUtrdXZKQTRHanAv?=
+ =?utf-8?B?VjMxL1czT214MzhCMUxzYW5ybm5sQnFnQ0pqNzV5aE5RYXl0MGVkVFpBWlVX?=
+ =?utf-8?B?Wkt4V3R4aHd2cWhjR0FYYnZLQzVwSjAyZXJxZnJEaUJ0RHJPeGMzV2lFMWZm?=
+ =?utf-8?B?emliZElWa01hSVZyVDUxNHA5UTk3Yjh2eERNOEdoQmFDTStad0lLQ1JreGU0?=
+ =?utf-8?B?SnY5YmRtZ01IVXNtZXRRc2licVZucVFLUjBIR1c0RDhhOWxrZG9ISlFvY3Iw?=
+ =?utf-8?B?NEt6Vlk1aDIwdGIwYU9BS0FDL0ZQVVZUVlBKWmhVcEp0UXJZNTZzQ2pxeVBY?=
+ =?utf-8?B?K0dTSGkwZFNhbDRwR0JyQnorWjZySG8wNmRrbnRsZEZ4c0c1QlZtWG5Kcmxh?=
+ =?utf-8?B?dDVpVENucUdiOEtpTUlwR0tNV2swekE0aCtXZ2gzeDEyRmVWMWt3bHErVkNQ?=
+ =?utf-8?B?SWo2Z2phWGVrb3dRYlJGREVaTEJabDVaa0Z0OGFWckNleCtNbUdORmJlcnhs?=
+ =?utf-8?B?T1djclVrM1RMODd0bEpKOEU4NzlIaWpaTDd3TXhsNnFPTXRpVVhYdUpFMjk3?=
+ =?utf-8?B?S2Uva0c4SEFPZkplQ2FwdW9aM2pDWm9aRlZjMDhJakcvSVdKNGc5K3ByTS83?=
+ =?utf-8?B?c3QvUDlvbVBIb2crd2ZOM1BnUXFjRlMvM3cxcnNTOEVDM2lHNE1aVi8zUktz?=
+ =?utf-8?B?bEdFMlRLS3c1QmJhbHFyOUt1UzREd1NEZERNak4yTGN6OW44bTI0NmlVbVR4?=
+ =?utf-8?B?OXlzMnljMHlGT0tzd0Q1VE0rcVE0SVZFM2craW15UCtSSkgrczhqVjNjT0JJ?=
+ =?utf-8?B?SXZuWnlVVlpNd3N5OSs2VGswanJFbTZXYlhSa1YxYWxOWHN6Z2dPTThJR3Bn?=
+ =?utf-8?B?dzRYTWw5K1dQcGxUQ09QYlRCWWtMWUtCK0Y0K1l1SGl6ZFlmdHlwVHJYQ3pX?=
+ =?utf-8?B?Ukt2ODBRMWJlK0liV2I0ZlkzUDZ2QUM2TFhlWE1WcGlIbXk3MlVXeHRHK2dE?=
+ =?utf-8?B?aEpZOWhvVmIzL0JQdkF4WnBneEZDWE81QWNjaHVQWUxMZ1NEMGNsL3NKZ1Qz?=
+ =?utf-8?B?cE00R2ZlUndjM1FtdkZET0NJQXIwd1VUbHp0bmdPVlo0UG8wZklZZlVKOWNR?=
+ =?utf-8?B?MUQxWWlEWWphZEZQU1l4YlBnZUZZRk9zQTNjZXZOc0V2emc9PQ==?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5796
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS0EPF000001AC.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 8961a76d-a542-4ef4-ffc8-08ddca8f8ffa
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|14060799003|35042699022|376014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bUcwKzlCZkRCTXhWRVUrYXJwNU9CcmVoYlJnYjIxR0kzRzduajNoOHRqVFJU?=
+ =?utf-8?B?ZmFjc3BJTkZ4cENidWxGelhWcUZmYjlUVTNteHNYYWtaTlR5eGZuTE9PcUll?=
+ =?utf-8?B?N24zZklFZStFNWlWdU50d1M0cVNkWU1YYmY2VFM1MUxwOWpaZEc1RjQxSThV?=
+ =?utf-8?B?YTdVbUhBSkpHMUEwTFJkcWRCWS9XMTE1ZzRpSGZQZHFmcjJRT0Q1ekdYODNH?=
+ =?utf-8?B?ZmlIODMxeE1DTHJYVWdPSktHSXBhN2ZVaDFLb2FkV3d4ZXFPZnY5S043c1E4?=
+ =?utf-8?B?cTJXUlRlTFhYWDBZQ3hOem45R2hlK2RXOW5PU3FENzJPV0RSN3Z6azA2d2dL?=
+ =?utf-8?B?WE16UWlzQTZqN1dFSU9oWlVHQUplUm5wY203ejltQjVZR3g4Um9GVm5qVndo?=
+ =?utf-8?B?QXhsdTRFYzZibzVveEJMWndPZnlWa1FIRlozM3J0RkRDUnVTRVZsb0ZOblEv?=
+ =?utf-8?B?alFpZXdHSDhQMFhCVE5lQU9hNE5ad0l2WjBydGRSR2IvdUtmSDFBSVQ5bVJD?=
+ =?utf-8?B?dlFvZFhRMW1uVkk5b0svcHQvZU1PcVVjVjJ1RW1OWjhMZXhHY1ZUOUIwOHRo?=
+ =?utf-8?B?QXdGakVMbkhtSEtMdElwTlQzajhsNGI5V3J4eERSZjhqL2UvU0dSUWpoejl4?=
+ =?utf-8?B?ZkNNQTdFKy9tVmdhUEVOMFpiK3VXMHBiM2dPTzJaY2pQYm9mWkhWSm84b0lP?=
+ =?utf-8?B?NnRGNTc4bHRETGRLMDhsdmpkMVp0c0dybCsxbHdicDdQaHZGMm9HM0pjRkRs?=
+ =?utf-8?B?SElZUFpDSnlQNHMzbzZQL2N3ZVcwVlhsYVV2aGlyQUtRRTRGSTJQN25vdmFi?=
+ =?utf-8?B?VXA4eTZFYUdYOEtlK2hFNk82QS84dXdkdTRrSll2V0pveURIcy9qWEdXMG12?=
+ =?utf-8?B?STdzZVRkVGpuaU0rVEFTZHArOFY2Wm82TG1TY3JvdGErK25jYjJtbHBqZmhH?=
+ =?utf-8?B?MjEzdzVDMDg5ei9pRVpyZzg2NnZHSmRkRW5NR29BUnhOUGV4RElMS1RXSjdI?=
+ =?utf-8?B?SkpCbWRtVHZEMFNRMlFDb2xlWFN5Ykt4ZzFGRFZlRmpOQjVoWGQ2alY3MmNv?=
+ =?utf-8?B?THBLL2ROc3haM1kzeC8rSUk5d2dLOXVmZnlaVG00bHpSSHRvTWNhTmg0akR3?=
+ =?utf-8?B?eWx3aFpkeTYxSjZXTTNERUlnMEM4N0hEN2YrVHFwOVcvcWFtYU0vNnRlYXFv?=
+ =?utf-8?B?SGFSdk5QZDFkaEtSV202TFdnbUJMREpCYk45Z2xad2dNaVFhaGUzN1FkVmsv?=
+ =?utf-8?B?YWxiQUpHS3cya3krVDF4ZWE5NzVoVU5XTHpRc29oUXVhMnAyeFRvQ0krcG02?=
+ =?utf-8?B?bmlXZUxqdllYb05DdGtKcUN2VWxjTkllVmYvNUtCTzJwdnNPdTNmbGNKUEdl?=
+ =?utf-8?B?dXRlTHQ0a0V6V1pvaXFzbU1nbUFmc1FzUktYV29UTGdrYUllR2htQlI4ZFha?=
+ =?utf-8?B?bDVkeEROTnphaUhzbksyZ2pwS2ljWWlmazBTQU9yOW5NQTd5czRidUpQSHRm?=
+ =?utf-8?B?dWNaOGl4L1VucmQvSnkrYnRDMnUyTUJ5ZGh6Q0Q5WWc5c1YvTE5NcVRuV3Fm?=
+ =?utf-8?B?aVdKQzRvZWpUTHNrM3pXRU9aMjJmdE1Ca0gwbWxqbmF4T095TWNTdC8yR1Na?=
+ =?utf-8?B?TERiaTNBQWNXUFErRGVOcXQxMXAyY3g4SU8wZUtsWGxtSHllSFE1ODJGZUdw?=
+ =?utf-8?B?OHEzcnhtc1Z0WmtkemxZTHJnSnQ5QlY4TGpudEJ0eTRBOXFoNjRYZDZvaU1Q?=
+ =?utf-8?B?Nm54QUZDWGViNERSVzNPTklpUGhmaTI0TVF0U21Ray9CdTV5OEhjODlUUVBh?=
+ =?utf-8?B?cXZxYUdDUXNVbTcrWmZxV3dUWDVVYjB5SkMzZ1JXVGFDWWpFYkFZZkFlRzA1?=
+ =?utf-8?B?eGhEMCtrbHlvWmhFL0ZwcXRzSGEzZEpnbTFoZ2pkdm1JM2c0cVBialdiNWty?=
+ =?utf-8?B?UHJuZGo5MnFTMER6MkY3MXE3d0JyOG9YckZXUDFiKzQvaWpId1lYM1dyTk5E?=
+ =?utf-8?B?dXRsa0pYczZ1bDlvUUU2N2xET2sreFNiejdUbjg2QklrczdEdVZPS0NCeUpm?=
+ =?utf-8?Q?btAZkD?=
+X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
+ PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(14060799003)(35042699022)(376014)(36860700013)(82310400026)(1800799024);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2025 08:54:03.0971 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43edd881-3f0d-4ce3-a8a0-08ddca8fa3b1
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
+ Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF000001AC.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5646
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,68 +219,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23.07.25 06:10, Alistair Popple wrote:
-> On Wed, Jul 23, 2025 at 12:51:42AM -0300, Jason Gunthorpe wrote:
->> On Tue, Jul 22, 2025 at 10:49:10AM +1000, Alistair Popple wrote:
->>>> So what is it?
->>>
->>> IMHO a hack, because obviously we shouldn't require real physical addresses for
->>> something the CPU can't actually address anyway and this causes real
->>> problems
+On 24/07/2025 06:40, Chia-I Wu wrote:
+> On Mon, Jul 21, 2025 at 3:13 PM Karunika Choo <karunika.choo@arm.com> wrote:
 >>
->> IMHO what DEVICE PRIVATE really boils down to is a way to have swap
->> entries that point to some kind of opaque driver managed memory.
+>> Mali-Gx15 introduces a new GPU_FEATURES register that provides
+>> information about GPU-wide supported features. The register value will
+>> be passed on to userspace via gpu_info.
 >>
->> We have alot of assumptions all over about pfn/phys to page
->> relationships so anything that has a struct page also has to come with
->> a fake PFN today..
-> 
-> Hmm ... maybe. To get that PFN though we have to come from either a special
-> swap entry which we already have special cases for, or a struct page (which is
-> a device private page) which we mostly have to handle specially anyway. I'm not
-> sure there's too many places that can sensibly handle a fake PFN without somehow
-> already knowing it is device-private PFN.
-> 
->>> (eg. it doesn't actually work on anything other than x86_64). There's no reason
->>> the "PFN" we store in device-private entries couldn't instead just be an index
->>> into some data structure holding pointers to the struct pages. So instead of
->>> using pfn_to_page()/page_to_pfn() we would use device_private_index_to_page()
->>> and page_to_device_private_index().
+>> Additionally, Mali-Gx15 presents an 'Immortalis' naming variant
+>> depending on the shader core count and presence of Ray Intersection
+>> feature support.
 >>
->> It could work, but any of the pfn conversions would have to be tracked
->> down.. Could be troublesome.
+>> This patch adds:
+>> - support for correctly identifying the model names for Mali-Gx15 GPUs.
+>> - arch 11.8 FW binary support
+>>
+>> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+>> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+>> ---
+>>  drivers/gpu/drm/panthor/panthor_fw.c   |  1 +
+>>  drivers/gpu/drm/panthor/panthor_hw.c   | 15 +++++++++++++++
+>>  drivers/gpu/drm/panthor/panthor_regs.h |  3 +++
+>>  include/uapi/drm/panthor_drm.h         |  3 +++
+>>  4 files changed, 22 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+>> index b7b454d16f12..fa6e0b48a0b2 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+>> @@ -1404,3 +1404,4 @@ int panthor_fw_init(struct panthor_device *ptdev)
+>>  MODULE_FIRMWARE("arm/mali/arch10.8/mali_csffw.bin");
+>>  MODULE_FIRMWARE("arm/mali/arch10.10/mali_csffw.bin");
+>>  MODULE_FIRMWARE("arm/mali/arch10.12/mali_csffw.bin");
+>> +MODULE_FIRMWARE("arm/mali/arch11.8/mali_csffw.bin");
+>> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
+>> index 7f138974d43b..a7583342d797 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_hw.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+>> @@ -13,6 +13,9 @@ static char *get_gpu_model_name(struct panthor_device *ptdev)
+>>         const u32 gpu_id = ptdev->gpu_info.gpu_id;
+>>         const u32 product_id = GPU_PROD_ID_MAKE(GPU_ARCH_MAJOR(gpu_id),
+>>                                                 GPU_PROD_MAJOR(gpu_id));
+>> +       const bool ray_intersection = !!(ptdev->gpu_info.gpu_features &
+>> +                                        GPU_FEATURES_RAY_INTERSECTION);
+>> +       const u8 shader_core_count = hweight64(ptdev->gpu_info.shader_present);
+>>
+>>         switch (product_id) {
+>>         case GPU_PROD_ID_MAKE(10, 2):
+>> @@ -23,6 +26,15 @@ static char *get_gpu_model_name(struct panthor_device *ptdev)
+>>                 return "Mali-G510";
+>>         case GPU_PROD_ID_MAKE(10, 4):
+>>                 return "Mali-G310";
+>> +       case GPU_PROD_ID_MAKE(11, 2):
+>> +               if (shader_core_count > 10 && ray_intersection)
+>> +                       return "Mali-G715-Immortalis";
+>> +               else if (shader_core_count >= 7)
+>> +                       return "Mali-G715";
+>> +
+>> +               fallthrough;
+>> +       case GPU_PROD_ID_MAKE(11, 3):
+>> +               return "Mali-G615";
+>>         }
+>>
+>>         return "(Unknown Mali GPU)";
+>> @@ -53,6 +65,9 @@ static void panthor_gpu_info_init(struct panthor_device *ptdev)
+>>         ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT);
+>>         ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT);
+>>         ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT);
+>> +
+>> +       /* Introduced in arch 11.x */
+>> +       ptdev->gpu_info.gpu_features = gpu_read64(ptdev, GPU_FEATURES);
+> Is this guaranteed to be 0 prior to v11?
 > 
-> I looked at this a while back and I'm reasonably optimistic that this is doable
-> because we already have to treat these specially everywhere anyway.
-How would that look like?
+Hi, This is guaranteed to be zero as it was a reserved register prior to v11.
 
-E.g., we have code like
-
-if (is_device_private_entry(entry)) {
-	page = pfn_swap_entry_to_page(entry);
-	folio = page_folio(page);
-
-	...
-	folio_get(folio);
-	...
-}
-
-We could easily stop allowing pfn_swap_entry_to_page(), turning these 
-into non-pfn swap entries.
-
-Would it then be something like
-
-if (is_device_private_entry(entry)) {
-	page = device_private_entry_to_page(entry);
-	
-	...
-}
-
-Whereby device_private_entry_to_page() obtains the "struct page" not via 
-the PFN but some other magical (index) value?
-
--- 
-Cheers,
-
-David / dhildenb
+Kind regards,
+Karunika>>  }
+>>
+>>  static void panthor_hw_info_init(struct panthor_device *ptdev)
+>> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+>> index 48bbfd40138c..8bee76d01bf8 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_regs.h
+>> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
+>> @@ -70,6 +70,9 @@
+>>  #define GPU_PWR_OVERRIDE0                              0x54
+>>  #define GPU_PWR_OVERRIDE1                              0x58
+>>
+>> +#define GPU_FEATURES                                   0x60
+>> +#define   GPU_FEATURES_RAY_INTERSECTION                        BIT(2)
+>> +
+>>  #define GPU_TIMESTAMP_OFFSET                           0x88
+>>  #define GPU_CYCLE_COUNT                                        0x90
+>>  #define GPU_TIMESTAMP                                  0x98
+>> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+>> index e1f43deb7eca..467d365ed7ba 100644
+>> --- a/include/uapi/drm/panthor_drm.h
+>> +++ b/include/uapi/drm/panthor_drm.h
+>> @@ -327,6 +327,9 @@ struct drm_panthor_gpu_info {
+>>
+>>         /** @pad: MBZ. */
+>>         __u32 pad;
+>> +
+>> +       /** @gpu_features: Bitmask describing supported GPU-wide features */
+>> +       __u64 gpu_features;
+>>  };
+>>
+>>  /**
+>> --
+>> 2.49.0
+>>
 
