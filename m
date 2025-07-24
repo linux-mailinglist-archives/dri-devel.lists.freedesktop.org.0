@@ -2,116 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9526B10647
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 11:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0850EB1064D
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 11:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EB8C10E90C;
-	Thu, 24 Jul 2025 09:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6513010E927;
+	Thu, 24 Jul 2025 09:34:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="c68fSYgO";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="oAlphdwY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C65010E90C
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 09:33:00 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56NMXHsH028541
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 09:32:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=mqPtRcbsCOw9EJIhatPqsdNe
- y6biej6WaprATCoZHfI=; b=c68fSYgOcIskSyM6amsMkBBy0BUZ63dZppXvSR6V
- ShYY/drd2v1u08mUGLBLhR+93YR1U7a9lqlgqG8AiVptN0O4i6AWGm2JleaNChuV
- U3irDMUEogVwhjLwmkTgR7qW8DluJ2yUv15RI9qYR80xUExaXLF8IdTkt5axpvO1
- /Uw/W2aSplfjChw42ZiluTY76yFQeIp4mWTOgVLVp7QjKBNxLD5sl2PBNLwz0cKW
- xuswAev07TGblCaGnrK1sfhwqlw9YYFisKb3plzSX2Ci0RDu7s27+dUZ44hovL71
- w/ogQ7YeDJShrUx2Z1yfRhi9aRevRPvrpnrywxBeJehNDA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4826t1fhj4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 09:32:59 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-2349498f00eso17851075ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 02:32:59 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67B4D10E91D
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 09:34:29 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-55628eaec6cso735249e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 02:34:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1753349668; x=1753954468;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4BiDDqrD6a5pZkcMdx9/g3Y4QyPCSLekJ/xiBVz6j3w=;
+ b=oAlphdwYBt2Xgy68b6GFp3s8hPZBqZlz04a7aopBTdMajffR5Qa5WOMCpxbsM38s+j
+ PNSqPqxzSKfhKRQwSI8A2ieI7uU3CP4349nVo9RhEomCPWfSEquoPwz+o0mYSzjOJqq8
+ Eih1dENXSFMMKKh86k6MJ1dzzQFFl0X/cNvPU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753349578; x=1753954378;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mqPtRcbsCOw9EJIhatPqsdNey6biej6WaprATCoZHfI=;
- b=D/xiewlPQhKY8FKrDtrkvpx5lbdO5ur3h9z3WKYqOLu0fVPgkQIvKAXclgFNorWJ5W
- diq+AVIYIqFkm51e4edkh+/xyD7RtJwZklhANLYAcORs4P5rJ0EytvR5cXkwCooUkeSP
- QeazbzrShuASMmNO3elga+Dx2cCOb8Xw7Udnzb/wTYfUJ/ZpVMBLvg8wDTE5BU6cilgF
- GyUgJVIckoOrx9TcbrEIzl8rKa9Eu7eQ1pmbiJ+8W5BWpLMkfqMuEljTnhFNaV0sb5uP
- mlmM3gLy598ht/YH2vwhmF5LN60M6IkEAgA0MO2u9fJKxL7ldslkHeIxBWYmQZuEeh29
- PyNA==
+ d=1e100.net; s=20230601; t=1753349668; x=1753954468;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4BiDDqrD6a5pZkcMdx9/g3Y4QyPCSLekJ/xiBVz6j3w=;
+ b=baIg+cXFN530sBrTIXeOeZsS8Kxztjz4bILzvcAN/SCbpOIP74cg15kZ+uzCQtSmds
+ +JbsKu2y792yRJT22G7rX2HXlWEUXd9ETnr+z11apwFZfN03OfSxdJbVTHxdNF4ZfOXb
+ P+ujiPF8pAhUej+c65cwmWgXpeT1vFzRsVWTdka5ge8LrFptP/sY8QdgWxlPrDLksnXx
+ 5TSD9pMR7ssILCNxMipSmA2jNL2Kbym2yyuaiasQt3zT/Un/TaOdQcqRzpXsut++Wzgc
+ iL4LZ0iuEDyQQaCik/qznFY/gebdtsNO7An2Y9jFhGrTpBU9cMFgB4LYcBhXLTZjh44S
+ RNtw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXvH6RVqRBqwMVGSFAYkpINBS2M/hUcIOXhjzBVGf12PQjdEgUnkJVbs46mzBwX6+dai/17DMOXiiU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YykMNyx4sgr2TyDrZESVVZUEqTk9kE35P+mxPEk7v4nd5bExNN9
- MBgvFhc/Iwo0MvpDyv9pv3x5MvD3genOVvw1HnDM9Ary3kRqSzZCjmBdFLlch5W+NSWObQWRuw7
- jAp95SmfdVMhkuis0Fu+SxmzJKXihyrobGrsXxPZL6K7XFRuOWsKiwwrUOsnfU8AO+JEp/J9/rU
- ofiC8NB7VGr7HawPYTquOJWMwF8ci3E5Jx7WBS7VP/AF1Hcg==
-X-Gm-Gg: ASbGncsftaNuzrPBg66sYPehrQwnGwZgL2cVwAZ/1veTfKJsQ0b1LgyJGAEtYFeRjYC
- bns1gO7mi/SnAuJ/8OMP5XCrxC+PqCyiP+gmCsdaIdhKG8tUVeTo+J5wjzG1+fW07+dxtkvO+EZ
- KByoXdxvyE1ZHyYoAsUXfMHBaJo0pUTePmaXg=
-X-Received: by 2002:a17:902:d0d1:b0:236:6f43:7053 with SMTP id
- d9443c01a7336-23fa5ce54a6mr13650645ad.2.1753349577750; 
- Thu, 24 Jul 2025 02:32:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHzcZWmBo9GRk2H2wGBOAXn/nV3iajdijuwc47ScbovcMfJiyNhRJm/ijNpez+vVpfMM1XLZpby4Ds8CFIu3OM=
-X-Received: by 2002:a17:902:d0d1:b0:236:6f43:7053 with SMTP id
- d9443c01a7336-23fa5ce54a6mr13650325ad.2.1753349577252; Thu, 24 Jul 2025
- 02:32:57 -0700 (PDT)
+ AJvYcCV4/sWmfmm6z0BAGKwr62I+r7Yxlv3C9EcXIAdVmuUbTZfzPKuX9kTRVnsjzXAtOH3yVTY6MipfIDY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6UYDUj3IwXHZkFLmKNFNd9GKd5XBmFomhssIXgAg1tB09LZzX
+ fp5RrLGkOEv2Rx16q7XA+Et0hiMSMnsKBMcSNpf+KHeL6i42Z4omm/U4EYIvmDQFtRDd55SfVC5
+ gpSzSrZt1mYztVcTTYWvRgzAMC6EIurOCtXs1kZ7M
+X-Gm-Gg: ASbGncsZ5Glr6s1SZAhpnVn2ApgQT71gk0tBeW4Na3uGLnfp+oATAj7RfsZAoollr6M
+ e3siWrmZD0gq7Mc5s1c2aI21tWaZJgPLlNpP5EunCnS6LXz7IeHjjsL8cqzGrybNSFSr/wQo/Ol
+ XEzLSE8hPoX4yxGFqTbbGTq7IGR2dffRDvYSs/S3tWJZrGJoZVa1pufoeSRs/YW9ws/4QHAvE68
+ f1pb/85HqAM0I0m37efUZLrnCynwagr2JY=
+X-Google-Smtp-Source: AGHT+IGbQGAzYrZuGKb7ZyVDVB2IA3/m7/1T14ShQ1gB/s052YEW14kETsBT1/6F7qIVfTgZAU3RoBMdAKdnokA3DJc=
+X-Received: by 2002:a05:6512:2391:b0:553:65bc:4232 with SMTP id
+ 2adb3069b0e04-55a513bf799mr2287118e87.31.1753349667560; Thu, 24 Jul 2025
+ 02:34:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250330-wip-obbardc-qcom-t14s-oled-panel-brightness-v6-1-84ad1cd1078a@linaro.org>
- <Z-pTcB0L33bozxjl@hovoldconsulting.com>
- <CACr-zFAiKRTHyRAF5HkM2drCMD7Q_Z3ZUFAsSnevy38yD8XMwg@mail.gmail.com>
- <Z--eRHaYw_vbgK2f@hovoldconsulting.com>
- <CACr-zFA77ogDSNEOGd32Rdh3geqkL25T0BKtNdKzUdjrL0+9RA@mail.gmail.com>
- <aCw4EK_8C1KLb6MD@hovoldconsulting.com>
- <6612cd14-8353-4d3a-a248-5d32e0d3ca23@linaro.org>
-In-Reply-To: <6612cd14-8353-4d3a-a248-5d32e0d3ca23@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Thu, 24 Jul 2025 12:32:46 +0300
-X-Gm-Features: Ac12FXzfi9ETqpAOxGcnUxM_fc41kHLrlMlbMTS6AIQ3Z-mT3xW4dKOu7lXyMDU
-Message-ID: <CAO9ioeWeQ++qSaD5ukooqBg997=1pwwS80NHD_xiHz25ABmtXg@mail.gmail.com>
-Subject: Re: [PATCH v6] drm/dp: clamp PWM bit count to advertised MIN and MAX
- capabilities
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>,
- Christopher Obbard <christopher.obbard@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Rui Miguel Silva <rui.silva@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-34-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-34-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 24 Jul 2025 17:34:15 +0800
+X-Gm-Features: Ac12FXx-dC7GqsweL9em8IYbzr7gdu7h7TRc-hJouMaDYtIUw_U2Osb1ZV53HA8
+Message-ID: <CAGXv+5ECM53Q4ndZ49Xa71mamy=GhGqdOMQYXydH6cEeT=0EgA@mail.gmail.com>
+Subject: Re: [PATCH 33/38] arm64: dts: mediatek: mt8183-kukui: Move DSI panel
+ node to machine dtsis
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
+ herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com, 
+ mchehab@kernel.org, matthias.bgg@gmail.com, chunfeng.yun@mediatek.com, 
+ vkoul@kernel.org, kishon@kernel.org, sean.wang@kernel.org, 
+ linus.walleij@linaro.org, lgirdwood@gmail.com, broonie@kernel.org, 
+ andersson@kernel.org, mathieu.poirier@linaro.org, daniel.lezcano@linaro.org, 
+ tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com, 
+ ck.hu@mediatek.com, houlong.wei@mediatek.com, 
+ kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com, 
+ tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com, shane.chien@mediatek.com, 
+ olivia.wen@mediatek.com, granquet@baylibre.com, eugen.hristev@linaro.org, 
+ arnd@arndb.de, sam.shih@mediatek.com, jieyy.yang@mediatek.com, 
+ frank-w@public-files.de, mwalle@kernel.org, fparent@baylibre.com, 
+ linux-crypto@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org, 
+ linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-GUID: Op0b-YJda1H_jC4dnFo5AlzOmcsJy5jf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI0MDA3MCBTYWx0ZWRfX/hRQCNnCZidG
- WbOVxFwXWT9upfdf59Vi+ue4u94TGcd/OETc1dnfhE5tzEmklE/wQF4KIeI877VQ25rCGBZe/b5
- GtCGOae2YtVPwHVG/pl30H3A2NTcd8qDI6bA6CWm8/c8ABCeZ7gJ9wk8GzlN3SdqF4JZMWzjbUX
- MS1y4Jw6zm3zvvPpEz+3qSy1AcYmrdXc92ajsobAqgxsAWKAcY5i88UV1QY3cwfdTYA41AA8vAq
- y64zgJ/i60x/aR79NSLamVuppxHamQ73bopt4rpVUOj/N7h0ywFR93IyD4+wSUhEhdvUBbAbhAG
- TEv8iviBEX0kSO+wDuDazSSdEDqvy4h8XWeMfLadzyYgqEFELa8T8CZab3wZ8OLPeSJUUB5SJ2h
- vKqGWS4eqowT0y+3dA08PEcDs1LkVzuSwseyd6qwuYfygE6QIyhDy1mzJWe2b/s3AR4pBckv
-X-Authority-Analysis: v=2.4 cv=E8/Npbdl c=1 sm=1 tr=0 ts=6881fdcb cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=KKAkSRfTAAAA:8 a=VwQbUJbxAAAA:8 a=2v3lhCP2OwN22-7ziQcA:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: Op0b-YJda1H_jC4dnFo5AlzOmcsJy5jf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-24_01,2025-07-23_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015 phishscore=0
- mlxlogscore=999 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507240070
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,92 +103,211 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Jul 2025 at 12:08, <neil.armstrong@linaro.org> wrote:
+On Thu, Jul 24, 2025 at 4:40=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
 >
-> On 20/05/2025 10:06, Johan Hovold wrote:
-> > Hi Chris,
-> >
-> > On Fri, Apr 04, 2025 at 02:24:32PM +0100, Christopher Obbard wrote:
-> >> On Fri, 4 Apr 2025 at 09:54, Johan Hovold <johan@kernel.org> wrote:
-> >>> On Fri, Apr 04, 2025 at 08:54:29AM +0100, Christopher Obbard wrote:
-> >>>> On Mon, 31 Mar 2025 at 09:33, Johan Hovold <johan@kernel.org> wrote:
-> >>>>>> @@ -4035,6 +4036,32 @@ drm_edp_backlight_probe_max(struct drm_dp_aux *aux, struct drm_edp_backlight_inf
-> >>>>>>        }
-> >>>>>>
-> >>>>>>        pn &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-> >>>>>> +
-> >>>>>> +     ret = drm_dp_dpcd_read_byte(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN, &pn_min);
-> >>>>>> +     if (ret < 0) {
-> >>>>>> +             drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap min: %d\n",
-> >>>>>> +                         aux->name, ret);
-> >>>>>> +             return -ENODEV;
-> >>>>>> +     }
-> >>>>>> +     pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-> >>>>>> +
-> >>>>>> +     ret = drm_dp_dpcd_read_byte(aux, DP_EDP_PWMGEN_BIT_COUNT_CAP_MAX, &pn_max);
-> >>>>>> +     if (ret < 0) {
-> >>>>>> +             drm_dbg_kms(aux->drm_dev, "%s: Failed to read pwmgen bit count cap max: %d\n",
-> >>>>>> +                         aux->name, ret);
-> >>>>>> +             return -ENODEV;
-> >>>>>> +     }
-> >>>>>> +     pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
-> >>>>>> +
-> >>>>>> +     /*
-> >>>>>> +      * Per VESA eDP Spec v1.4b, section 3.3.10.2:
-> >>>>>> +      * If DP_EDP_PWMGEN_BIT_COUNT is less than DP_EDP_PWMGEN_BIT_COUNT_CAP_MIN,
-> >>>>>> +      * the sink must use the MIN value as the effective PWM bit count.
-> >>>>>> +      * Clamp the reported value to the [MIN, MAX] capability range to ensure
-> >>>>>> +      * correct brightness scaling on compliant eDP panels.
-> >>>>>> +      */
-> >>>>>> +     pn = clamp(pn, pn_min, pn_max);
-> >>>>>
-> >>>>> You never make sure that pn_min <= pn_max so you could end up with
-> >>>>> pn < pn_min on broken hardware here. Not sure if it's something you need
-> >>>>> to worry about at this point.
+> Not all of the kukui machines have got a real DSI panel, infact,
+> some of those have got a DSI to eDP bridge instead: this means
+> that the address and size cells are necessary in the first case
+> but unnecessary in the latter.
 >
-> I'm trying to figure out what would be the behavior in this case ?
->
-> - Warn ?
-> - pn_max = pn_min ?
-> - use BIT_COUNT as-is and ignore MIN/MAX ?
-> - pm_max = max(pn_min, pn_max); pm_min = min(pn_min, pn_max); ?
-> - reverse clamp? clamp(pn, pn_max, pn_min); ?
-> - generic clamp? clamp(pn, min(pn_min, pn_max), max(pn_min, pn_max)); ?
+> Instead of adding a bunch of /delete-node/ which would impact on
+> human readability, move the entire panel node declaration to each
+> of the relevant Kukui machine dtsi: even though this introduces
+> some duplication, the advantages in readability surclass that.
 
-Per the standard, the min >= 1 and max >= min. We don't need to bother
-about anything here.
+This is just an artifact of the lineage. Kukui the original design
+was a tablet with MIPI DSI panels. Then the Jacuzzi clamshell design
+with eDP panels was derived from that.
 
-On the other hand, I think the patch needs to be updated a bit. If the
-pn value changed after clamping, it makes sense to write it back to
-the DP_EDP_PWMGEN_BIT_COUNT register by jumping to the tail of the
-drm_edp_backlight_probe_max() function
+If we really don't like the duplication, maybe we could introduce
+a `mt8183-kukui-tablet.dtsi` file for the bits that are specific
+to the tablet design.
 
->
-> Or just bail out ?
->
-> Neil
->
-> >>>>
-> >>>> I am honestly not sure. I would hope that devices follow the spec and
-> >>>> there is no need to be too paranoid, but then again we do live in the
-> >>>> real world where things are... not so simple ;-).
-> >>>> I will wait for further feedback from someone who has more experience
-> >>>> with eDP panels than I have.
-> >>>
-> >>> There's always going to be buggy devices and input should always be
-> >>> sanitised so I suggest adding that check before calling clamp() (which
-> >>> expects min <= max) so that the result here is well-defined.
-> >>
-> >> Makes sense, I will do so in the next revision.
-> >
-> > It seems you never got around to respinning this one so sending a
-> > reminder.
-> >
-> > Johan
-> >
->
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
 
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
--- 
-With best wishes
-Dmitry
+> ---
+>  .../dts/mediatek/mt8183-kukui-jacuzzi.dtsi    |  5 ----
+>  .../dts/mediatek/mt8183-kukui-kakadu.dtsi     | 27 ++++++++++++++++++
+>  .../dts/mediatek/mt8183-kukui-kodama.dtsi     | 28 +++++++++++++++++++
+>  .../boot/dts/mediatek/mt8183-kukui-krane.dtsi | 28 +++++++++++++++++++
+>  .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 23 ---------------
+>  5 files changed, 83 insertions(+), 28 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arc=
+h/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> index f2afca63c75a..1b74ec171c10 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> @@ -93,11 +93,6 @@ cros_ec_pwm: pwm {
+>         };
+>  };
+>
+> -&dsi0 {
+> -       status =3D "okay";
+> -       /delete-node/panel@0;
+> -};
+> -
+>  &dsi_out {
+>         remote-endpoint =3D <&anx7625_in>;
+>  };
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi b/arch=
+/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+> index 472d4987615a..d71972c94e42 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+> @@ -61,6 +61,33 @@ &bluetooth {
+>         firmware-name =3D "nvm_00440302_i2s_eu.bin";
+>  };
+>
+> +&dsi0 {
+> +       #address-cells =3D <1>;
+> +       #size-cells =3D <0>;
+> +
+> +       panel: panel@0 {
+> +               /* compatible will be set in board dts */
+> +               reg =3D <0>;
+> +               enable-gpios =3D <&pio 45 0>;
+> +               pinctrl-names =3D "default";
+> +               pinctrl-0 =3D <&panel_pins_default>;
+> +               avdd-supply =3D <&ppvarn_lcd>;
+> +               avee-supply =3D <&ppvarp_lcd>;
+> +               pp1800-supply =3D <&pp1800_lcd>;
+> +               backlight =3D <&backlight_lcd0>;
+> +               rotation =3D <270>;
+> +               port {
+> +                       panel_in: endpoint {
+> +                               remote-endpoint =3D <&dsi_out>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&dsi_out {
+> +       remote-endpoint =3D <&panel_in>;
+> +};
+> +
+>  &i2c0 {
+>         status =3D "okay";
+>  };
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi b/arch=
+/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+> index 1b21e3958061..b702ff066636 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+> @@ -42,6 +42,34 @@ pp1800_lcd: pp1800-lcd {
+>         };
+>  };
+>
+> +&dsi0 {
+> +       #address-cells =3D <1>;
+> +       #size-cells =3D <0>;
+> +       status =3D "okay";
+> +
+> +       panel: panel@0 {
+> +               /* compatible will be set in board dts */
+> +               reg =3D <0>;
+> +               enable-gpios =3D <&pio 45 0>;
+> +               pinctrl-names =3D "default";
+> +               pinctrl-0 =3D <&panel_pins_default>;
+> +               avdd-supply =3D <&ppvarn_lcd>;
+> +               avee-supply =3D <&ppvarp_lcd>;
+> +               pp1800-supply =3D <&pp1800_lcd>;
+> +               backlight =3D <&backlight_lcd0>;
+> +               rotation =3D <270>;
+> +               port {
+> +                       panel_in: endpoint {
+> +                               remote-endpoint =3D <&dsi_out>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&dsi_out {
+> +       remote-endpoint =3D <&panel_in>;
+> +};
+> +
+>  &i2c0 {
+>         status =3D "okay";
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi b/arch/=
+arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+> index a85c73b43195..b6cfcafd8b06 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+> @@ -45,6 +45,34 @@ &bluetooth {
+>         firmware-name =3D "nvm_00440302_i2s_eu.bin";
+>  };
+>
+> +&dsi0 {
+> +       #address-cells =3D <1>;
+> +       #size-cells =3D <0>;
+> +       status =3D "okay";
+> +
+> +       panel: panel@0 {
+> +               /* compatible will be set in board dts */
+> +               reg =3D <0>;
+> +               enable-gpios =3D <&pio 45 0>;
+> +               pinctrl-names =3D "default";
+> +               pinctrl-0 =3D <&panel_pins_default>;
+> +               avdd-supply =3D <&ppvarn_lcd>;
+> +               avee-supply =3D <&ppvarp_lcd>;
+> +               pp1800-supply =3D <&pp1800_lcd>;
+> +               backlight =3D <&backlight_lcd0>;
+> +               rotation =3D <270>;
+> +               port {
+> +                       panel_in: endpoint {
+> +                               remote-endpoint =3D <&dsi_out>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&dsi_out {
+> +       remote-endpoint =3D <&panel_in>;
+> +};
+> +
+>  &i2c0 {
+>         status =3D "okay";
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/=
+boot/dts/mediatek/mt8183-kukui.dtsi
+> index 8f3a0e85b4ed..4ac0a60fdd24 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> @@ -252,29 +252,6 @@ &cpu7 {
+>
+>  &dsi0 {
+>         status =3D "okay";
+> -       #address-cells =3D <1>;
+> -       #size-cells =3D <0>;
+> -       panel: panel@0 {
+> -               /* compatible will be set in board dts */
+> -               reg =3D <0>;
+> -               enable-gpios =3D <&pio 45 0>;
+> -               pinctrl-names =3D "default";
+> -               pinctrl-0 =3D <&panel_pins_default>;
+> -               avdd-supply =3D <&ppvarn_lcd>;
+> -               avee-supply =3D <&ppvarp_lcd>;
+> -               pp1800-supply =3D <&pp1800_lcd>;
+> -               backlight =3D <&backlight_lcd0>;
+> -               rotation =3D <270>;
+> -               port {
+> -                       panel_in: endpoint {
+> -                               remote-endpoint =3D <&dsi_out>;
+> -                       };
+> -               };
+> -       };
+> -};
+> -
+> -&dsi_out {
+> -       remote-endpoint =3D <&panel_in>;
+>  };
+>
+>  &gic {
+> --
+> 2.50.1
+>
