@@ -2,96 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EB5B111D7
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 21:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F032EB111D9
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 21:41:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2894F10E223;
-	Thu, 24 Jul 2025 19:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63ED810E29E;
+	Thu, 24 Jul 2025 19:41:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=felixrichter.tech header.i=@felixrichter.tech header.b="AfxgLGNl";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="f9JillTe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dijkstra.felixrichter.tech (dijkstra.felixrichter.tech
- [37.120.184.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11A7310E223;
- Thu, 24 Jul 2025 19:41:08 +0000 (UTC)
-Received: from [10.130.10.2] (unknown [10.130.10.2])
- by dijkstra.felixrichter.tech (Postfix) with ESMTPSA id B53011A30B9;
- Thu, 24 Jul 2025 21:42:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=felixrichter.tech;
- s=20210926; t=1753386126;
- bh=jPcKOYRYVvQX2L/QtYS0YzxpKvQAYJULvoetNMAdv0w=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=AfxgLGNl6tESiyj6WW8Yuy05Sf6Gf7pVTmnr4HVfF64exTQwFwhGkywsliGPyF1Ud
- 3cuNgQ3qk/1XU8k5aY0Vpw0Kni8JCXH/n9ThQWxPYK0E+0iCbf/3iIRJBCEEeRf3A6
- eueDHZ4MzqvlILty4VYMRoJPejpkhei5g1aMyrmU=
-Content-Type: multipart/alternative;
- boundary="------------30c514Pv90YWWNMzzHtQ4bcS"
-Message-ID: <706fb4e2-8b5b-46fc-b640-b304b224a259@felixrichter.tech>
-Date: Thu, 24 Jul 2025 21:41:05 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDA110E29D
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 19:41:37 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56OA8Bk5022037
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 19:41:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ wwNM3mtjau7uqQilaPmYdY7ZPk417VPjIHda79n7D24=; b=f9JillTeN1WWZHH5
+ ZY3pIKR7gBlgsbTV8nCfFkTwKQFvc5kAKHYZv2Tuj8F0FDRD9jScKpxAp/K2jnaB
+ euatl+Z9Tsi99VFiPUFZdOBnCGc0I3d3Jx8BF33TP7IxPwSyl722y8Z3ZgTaIgfH
+ Bvt/53/FSMaoTtatXZAU9N5bKFUAa9xDFVCbyz1RzCKGaz263feye4ADoqGNI6w9
+ NaFOJuXW3mu1PVZ9howbmHPYzAbpkvSRfFgJrxlQt78K0uKPrjADeNIv3eokqoAv
+ CeQRDXO50Jw6HStpgErl+H0NVJCIiz+OAQYbMO6T3mZ/7BBEkwIOGDQ0EO+F2g/b
+ WhrZVg==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48044dspj3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 19:41:35 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-706efc88653so28944776d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 12:41:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753386095; x=1753990895;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wwNM3mtjau7uqQilaPmYdY7ZPk417VPjIHda79n7D24=;
+ b=ehCwfqHvy0hSv9/ZCQCQ87WrpyPIZdteBtBZALfxqYVzm39eKpFyteyKjn2Nmapgow
+ enwFElq8cDWl8bUQNY07P7JS8cR1Wpcl1T6EY4y54HO4D4zsWIKR0EmOiiB+cKG+1IBG
+ rRYGB1rj4HkGGKs1BcqgXVuGXKkPzgeepCUHpKdMup7R29/wSsV2xyOGNeY4kWufhnM6
+ ZknxLEcoRVribZCeQiu0pnwgCQ//LO026DQcT5Ob5JLWgTnkEakinVf6xHm823fRfAGR
+ RDoXyiDz4nzwOiOxJnhIky5Ww9MgZHiuryYuIgn9aVT8boKIOpdyyIatpZHoEzqn7noN
+ 0+Vw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX7wPJ/tn5maR0ZqGCdA7S0NDdyCHXJ83mWm55qmqQrUwWuDrKXcQqLMdP2pGaoFhdC6pEOfuJcUNw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxV8iigZS4qQ4k9YqIxUw/wr9biqzLq+zvqlZCGsQbwzbdg0z8K
+ BcV1xvdhaAbe0QAHxLV7WXAJJ4tKXyl5M6kjNVrWSeBK7yxxMYv07nVbexlN8e0NikNOVuTYFtN
+ 9fp80RWZ1/FFm5Ks2EjjGsCl25NXnDPPdLyGEZX607HQeupR45ClBgpHapxE53+1HGAvvyE4=
+X-Gm-Gg: ASbGncub/i53bwQBuGgDd7/yvHNzs9Pqq3w4T5U9R/lB2hpuHdn+Ri1/1sXIKjV+oAu
+ AdJICsAsJz4vtb+zH9ikAQ/mVlq3NHgUByz5xJloJOBwLXc+NCy1y7tppxiH69XTnJUut1laA2i
+ W2vLOa2AVGul5SN+p/kgsq2D3Y5wPa9rJNJkNnNCi21ew4wibYQAPS95EJhpDK4Xg+jebiKnbLF
+ nsSjROB3eZy4DGyr/HSN7+KhkFbMSxz6IWyhJ+LLlP7/USkGd76dyCcEkErfDHLallFsGA0LV+S
+ 5jUNJ+y+Z2NFsGYTy044PywQF3x0FPWjxPm4+Zhsdwr/NpWM8OR79cB2FJgL5WtwE5ScfhdN7A5
+ pqeH7x42ptizxD8Kg/Rs2C7dGFyXq19SJDO436V1pIMS662WCqa0Y
+X-Received: by 2002:a05:6214:2508:b0:706:6967:71da with SMTP id
+ 6a1803df08f44-7070069c664mr109753516d6.38.1753386095140; 
+ Thu, 24 Jul 2025 12:41:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGQDqKstosSneJZpb85nOhQ+2TXw7qj/NhXKc7lo8KhtjTczwG5CeYfAMo04mula3VPY10+OA==
+X-Received: by 2002:a05:6214:2508:b0:706:6967:71da with SMTP id
+ 6a1803df08f44-7070069c664mr109752856d6.38.1753386094418; 
+ Thu, 24 Jul 2025 12:41:34 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55b53c87a88sm501393e87.152.2025.07.24.12.41.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jul 2025 12:41:33 -0700 (PDT)
+Date: Thu, 24 Jul 2025 22:41:31 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Konrad Dybcio <konradybcio@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v6 01/14] soc: qcom: Add UBWC config provider
+Message-ID: <jfslenwbfdoy7qz44on5ckzuljrxfjce2encitxiz5pws2iecl@2xnwdlpppmsk>
+References: <20250626-topic-ubwc_central-v6-0-c94fa9d12040@oss.qualcomm.com>
+ <20250626-topic-ubwc_central-v6-1-c94fa9d12040@oss.qualcomm.com>
+ <CAL_JsqLviOtUjzyq6Yg5tksxV3ANuxorX7kXcn6ibFi+mPwTog@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Regression: DDC I2C Display Freezing for internal displays
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Mario Limonciello <superm1@kernel.org>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Linux regressions mailing list <regressions@lists.linux.dev>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- jonas@3j14.de, seanpaul@chromium.org
-References: <0863bc3e-7364-4572-bb72-fc85657cbad7@felixrichter.tech>
- <d9706fe0-7965-457d-830e-19f9aafee855@felixrichter.tech>
- <1c64c181-4e96-4274-975b-454f7207af92@kernel.org>
- <5f63ae37-793e-4e34-a8ab-1845121fcd7e@felixrichter.tech>
- <79d7b8a1-b472-4f32-a724-1f2303fb2cab@kernel.org>
- <19229f06-9062-492b-90fd-b6c931e29146@felixrichter.tech>
- <CADnq5_Mpsd_68T3uKqdXzHSzm4dWcHamYJZMNpPNZFHBp=DORQ@mail.gmail.com>
-Content-Language: en-US
-From: Felix Richter <judge@felixrichter.tech>
-Autocrypt: addr=judge@felixrichter.tech; keydata=
- xsFNBFrjhUABEADNPx0ZEGSSjZfVpxZpDuC7d+fhtIdjsb9TILfPXMjyu1vqCV9/yfMB015m
- 989qp6CLcM5vk3jW6vpcrFmdVxqRd2MUNZGSBKqcNLr8tHv8tT76TJ3uDgU5XgXgznMoAdC6
- qNHHN9+h9wpEbUvqcIaIIcAqRuaCnEc9RlfZLgaAVv3hef8NUeSf7Y97EKVaISZ0KKdAB3IT
- LoKe7YB1fCwULiqyhGcSJ5tDujeeUtiMbTuAMhqWTXf80xSzqdm6Aedf1R1pyVqNlZf1Yvao
- qJPPVRibOhyzRa4QXl32evBjy4N4Z2b3uSMjf497zFiMKWP66ydFCC/tJWOgloVrhlEIvUIG
- j6tEDMMssUNFdRlte8PFg8DxIGRl23q2WxdP6TPc8sjcvVWZijXvqYo62empn7j3dqkygNfu
- Cwi0XEf2DgTCQ0ex02EFVbF8MfovkEShdJrb7vCc1zKoec24bDqAdmGcSFjp+lFGwV3Mfhh3
- qqvVOM6MyodJY9RW4GXpmllvaIpxPSjxGow6C07/wSc2YsjWTBQ3u1uejhx+BSVeB8QOKzov
- bORkIoh6/zPmyvrmNS8r8TP4XSBhWgNZlkJ0vY07bSG3IL1Gf5rFE1dUACZAtUFoQawt9aSQ
- zjH6QHD2G0yVoo7XOiZjsUzqWm5ZRw5EBYQknCweH8ctBDZhvQARAQABzSdGZWxpeCBSaWNo
- dGVyIDxqdWRnZUBmZWxpeHJpY2h0ZXIudGVjaD7CwYsEEwEKADUCGwMICwkIBw0MCwoFFQoJ
- CAsCHgECF4AWIQTyFnprcemCp8YKHUyKcRsNoQAh7QUCX38+FQAKCRCKcRsNoQAh7RJ+D/0W
- FPj3ZqYJ/PIGnlm6+vKb65Dw9f9ZJvUHDd/T8HIBVHI29UX3PLZFk7+8Klf97i0yoI/n+oP1
- IPyQBRs6sKC+J8aKMFufoRPDnI3AclBRsYKhTa47XMMwB10Q1JmzJuAvieywc5WrifmMNdb+
- uXxJch5OG/I5iu25AhHgBNwwalnEpXHpGs2VL8einM5jl9lMeMwEfo0Sf5KovPLgKMiM5oz5
- jxNdXxqrnb6SRp9c/ai1y788Y8RhIyjPx2LyxgHWBOdBm28kioHBFxc2g8bMYt1kUUWhrrd0
- V3umw1leqPxtC+4vMN7YdJ4F/3ASrcNFmR1UGVJh6Kl1Udser9I/wAd7mZDAwv2dUIt2Zo/F
- 2OrR7J9uhokgHYqOYO5e46Qhsk/mm4ABy7Jv5HgoBK6fE74YRHOAmpCAFLBnk/kieeL7Y8sL
- IM7DVE6oUGaCf/sG0IeUQ8TgNOllr/ckgOXLomxLZbW+i1lTurkX1JcCXyvKToY6+To252+p
- mfTq9wEWURRO4bz4gssIRo7rAlqovrKdncoD0tsQfoG4Tzd+lWZdI7B6PpTRzY5sCUZrNR6q
- Fa2izMfL1dN9FLRgq9Fl+8DQ90FwcYvQI2EBu7sp+bUZzzub4AWrC+/VC04UJXvm88nirByg
- 9m8fRs2Qy5um5n3H3W6678Up1jeOpYnBp87BTQRa44XfARAAyMLyu0W1rhYy2H7sk/W7KJCr
- z0LfLFZhR2IeOzwq42ibhxD2wZiigHKP7vOyHGgHcTLjG3F+pudrTzl0ziFxBYDXUbZ6liad
- UZQGRPsB6TStWHq0tCA+ctP6EhLuRvbMnKhACJCdrJKyZ3W6DMbUXLE/y1ScgEXPxjb5ti/f
- UVN01at0N2umkz6dw9xpCo3wPD6PI9aE/ePtXjOSbYS3bZ+XWnnQ3hCeUKIzAgLMgum3fBHn
- jIIENuacXc4VyaDYBodi1sXW4GFs5dJdTJ44R1CMPxSSY/pA1aHqBV79y5l8bvvoTMETyYxY
- tSZnjluw6oW4RA3mi3gEXMBpc95dy3ujycstKL6lj3/u7aUoEF8IyZg2R+ZKZWnnlWia7rVI
- DeZwj9QCkCk8Vva9UErZ+oS7pYlHl65/LyDjfoejrFIrvv9grVojZQcIrrn1RtXkuXD9z/oH
- Q0dDV/j5vdBBTCILpFGKUCNEEE/GUew0t5w9aYebb4vV517W7RFOcQah0D/NP5pFCZzlYTmf
- Vx7xKtzWlNtX02ymdcIhflEmWF2bINF5j91m1qCppSYhAKn9Njpq0R3XVSSOO0tz/9nR861Z
- 6R2XVeCwzB2PUZmWK9bmfvzLQK3RkogVMMiJWnA3jxnY+I99dl4C+MTc4q1CPWfkVuXyDIvz
- wMoDdJe8CV0AEQEAAcLBdgQYAQoAIAIbDBYhBPIWemtx6YKnxgodTIpxGw2hACHtBQJffz4z
- AAoJEIpxGw2hACHtx1IP+wYJ1gR4tQuJBUqj2slUZ3p/IP6dGhgPKo7kr2XS7zhqd8rY571O
- Dp26yhJsMCqHtIyGcgqgsz83XRmVOk+NGAkeyrQtVRbRHFEcdnSbMvKl13jmGd7tIxPF6nnr
- dkXM4pFTSzGP7ip30UmgKF7+IsPlSUQ0yc1DDIOyQG0N6fT/GE0OmJMeggyvheuANeA5fua2
- 6WZJW/53B4dbMeqf7kBvMXMATaVVhhkoBJV5he+zWOkb2BUc5vPqrB356IYIvMH87D5iCIvb
- g9v4uBnOADC+M2jRwBZxEKABQi60N1WRwah3hXkmBXo7c70MtnmUxMe22oB4+6hSThLrOhjS
- rQ5HYVHQd7HkNUdfGnoRX4BPgyalg4HULuFgHPHn/3QuFZ7PVzzk35SX3Q9OJAGARAn+dVx8
- lqTXibAO0X2Hn6TzcZr+++Nx1tGF6Ld06aXw73fNHrqtbrlqQsiAsSrDcy73T6xcC0QrcmRi
- YkbG+ExKtTB95OaJ5iKyXZZwuO32PcTWoS5zZ1l80NJdo7k2fkHd6sXBbtGD++HD20IT/8Jg
- fCYFhM7sYeeNDe/MSjqF0KIKPTRlP81NhTy6VaN9tlA6V4PG5nDj4ZYmZi8fYBnyESGOdZp7
- /gCDtAyFQYGIbXKjiOFvQzpD93R7ljal4D+J/RyIFR94xM5xOwX24kxN
-In-Reply-To: <CADnq5_Mpsd_68T3uKqdXzHSzm4dWcHamYJZMNpPNZFHBp=DORQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL_JsqLviOtUjzyq6Yg5tksxV3ANuxorX7kXcn6ibFi+mPwTog@mail.gmail.com>
+X-Authority-Analysis: v=2.4 cv=BJ6zrEQG c=1 sm=1 tr=0 ts=68828c70 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=xQNkBhgbifyRU6rVYtUA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-GUID: M3rHgruYKF_OclPnI10MTe2AYF1jyPSV
+X-Proofpoint-ORIG-GUID: M3rHgruYKF_OclPnI10MTe2AYF1jyPSV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI0MDE1MyBTYWx0ZWRfXyz/TVkmm4hkU
+ 46B4uJ067B8QCbkc70RWMOUvVNasrFes351sNoa9vLXeDlgIU/fLPvbfzhqcXyOXY36rHp4R3Zo
+ uQcBxG/e3spoIiCEi2+qxhDWXQxRjqLbE38eg6WiPYKDDA4jBjw1KgVhNqgw+/cO9iCGOqTmNh9
+ nBihzcZ1EJWxU+gqC0oKLYN/k9Q5wgGJhXLT6x1mCm4jLzdWtHrQb4YwBwCNDZisuybUetqRArN
+ IQN2rhWA3sIugxKuaRTUaHISiH9j2h16BRkfJRz5k7BQ6acXoxy1agP0xdDH2cSlcjcqWPMtsPI
+ nlbG/mpT8TlplJBSMlZA9SUPXtiqMTRLOIdGaVMdZl7h3usGF6Ghu0hhIEF37L4BTRVXOU7l5v5
+ eTH0UiWvh8vB0iDyAw4sVssY13KhpOyGJD7qOB0JVnm3OthMpLsgyohhw6DfsNvZmTJi9mU1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-24_04,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 clxscore=1015 spamscore=0
+ mlxlogscore=999 suspectscore=0 impostorscore=0 phishscore=0 adultscore=0
+ mlxscore=0 malwarescore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507240153
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,119 +137,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------30c514Pv90YWWNMzzHtQ4bcS
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Thu, Jul 24, 2025 at 12:24:29PM -0500, Rob Herring wrote:
+> On Thu, Jun 26, 2025 at 4:02 AM Konrad Dybcio <konradybcio@kernel.org> wrote:
+> >
+> > From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> >
+> > Add a file that will serve as a single source of truth for UBWC
+> > configuration data for various multimedia blocks.
+> >
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> > ---
+> >  drivers/soc/qcom/Kconfig       |   8 ++
+> >  drivers/soc/qcom/Makefile      |   1 +
+> >  drivers/soc/qcom/ubwc_config.c | 251 +++++++++++++++++++++++++++++++++++++++++
+> >  include/linux/soc/qcom/ubwc.h  |  65 +++++++++++
+> >  4 files changed, 325 insertions(+)
+> 
+> > +static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
+> > +       { .compatible = "qcom,apq8096", .data = &msm8998_data },
+> > +       { .compatible = "qcom,msm8917", .data = &msm8937_data },
+> > +       { .compatible = "qcom,msm8937", .data = &msm8937_data },
+> 
+> This compatible is not documented.
 
+Oh, fun. We have several qcom,msm8937-foo compatibles, we have support
+for display on MSM8937, but not the main platform compatible.
 
-On 7/20/25 17:45, Alex Deucher wrote:
-> DP (and all of its variants, eDP, USB-C thunderbolt) doesn't actually
-> use i2c directly.  It's aux; you can do i2c over aux, but in the case
-> of MST, it's more like a network for displays so naively messing with
-> i2c buses from userspace won't do what you expect.  For MST, you have
-> a single set of i2c/aux pins for the connector which may have several
-> monitors on the other end.
-> DP is a two way communications channel.  You may have the driver
-> training a link or communicating with other devices on the DP network
-> (MST hubs, monitors, etc.).  You can also get requests from the
-> monitor to the driver via hpd interrupts.  Many of these processes do
-> not do well if interrupted.
->
-> Alex
->
-
-I get that this is a part of a very complicated protocol. I am still 
-irritated that the points you mention are relevant from the perspective 
-of userspace. From my perspective there is no expectation that the 
-kernel should just interrupt ongoing procedures when I access an i2c 
-link. I am happy to wait for the kernel to schedule the operation for 
-when it is convenient. After all the point of abstraction is not having 
-to worry about the layers underneath. And if the drm device exposes an 
-i2c device that I access it is the job of the drm driver to handle how 
-and when that transmission takes place.
-
-Also I would like to point out that the bug I am experiencing does not 
-materialize in case of any external displays attached via an MST hub. It 
-happens with the internal display even when nothing is attached. The 
-point about MST Hubs is only relevant because those i2c interface can 
-not be matched via udev to the corresponding display. Though the can be 
-matched when reading edid from the device. Those interfaces then work 
-just fine when I use ddc to read/set monitor inputs. So those points do 
-not seem to really be relevant in case of the screen freezing trigger.
-
-Anyway that is just my thoughts on the matter. I'll look into writing a 
-workaround to maybe avoid some i2c devices that could be problematic.
-
-And there still might be a relation to the other screen freezing issues.
-
-Felix
---------------30c514Pv90YWWNMzzHtQ4bcS
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <br>
-    <div class="moz-cite-prefix"><font face="monospace">On 7/20/25
-        17:45, Alex Deucher wrote:</font><span
-      style="white-space: pre-wrap">
-</span></div>
-    <blockquote type="cite"
-cite="mid:CADnq5_Mpsd_68T3uKqdXzHSzm4dWcHamYJZMNpPNZFHBp=DORQ@mail.gmail.com">
-      <pre wrap="" class="moz-quote-pre">
-DP (and all of its variants, eDP, USB-C thunderbolt) doesn't actually
-use i2c directly.  It's aux; you can do i2c over aux, but in the case
-of MST, it's more like a network for displays so naively messing with
-i2c buses from userspace won't do what you expect.  For MST, you have
-a single set of i2c/aux pins for the connector which may have several
-monitors on the other end.</pre>
-      <pre wrap="" class="moz-quote-pre">
-DP is a two way communications channel.  You may have the driver
-training a link or communicating with other devices on the DP network
-(MST hubs, monitors, etc.).  You can also get requests from the
-monitor to the driver via hpd interrupts.  Many of these processes do
-not do well if interrupted.
-
-Alex
-
-</pre>
-    </blockquote>
-    <br>
-    <font face="monospace">I get that this is a part of a very
-      complicated protocol. I am still irritated that the points you
-      mention are relevant from the perspective of userspace. From my
-      perspective there is no expectation that the kernel should just
-      interrupt ongoing procedures when I access an i2c link. I am happy
-      to wait for the kernel to schedule the operation for when it is
-      convenient. After all the point of abstraction is not having to
-      worry about the layers underneath. And if the drm device exposes
-      an i2c device that I access it is the job of the drm driver to
-      handle how and when that transmission takes place. <br>
-      <br>
-      Also I would like to point out that the bug I am experiencing does
-      not materialize in case of any external displays attached via an
-      MST hub. It happens with the internal display even when nothing is
-      attached. The point about MST Hubs is only relevant because those
-      i2c interface can not be matched via udev to the corresponding
-      display. Though the can be matched when reading edid from the
-      device. Those interfaces then work just fine when I use ddc to
-      read/set monitor inputs. So those points do not seem to really be
-      relevant in case of the screen freezing trigger.<br>
-      <br>
-      Anyway that is just my thoughts on the matter. I'll look into
-      writing a workaround to maybe avoid some i2c devices that could be
-      problematic.<br>
-      <br>
-      And there still might be a relation to the other screen freezing
-      issues.<br>
-      <br>
-      Felix</font>
-  </body>
-</html>
-
---------------30c514Pv90YWWNMzzHtQ4bcS--
+-- 
+With best wishes
+Dmitry
