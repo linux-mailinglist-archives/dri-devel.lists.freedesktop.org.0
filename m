@@ -2,44 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173C3B10FE8
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 18:49:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 569D1B10FF3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 18:55:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5FB910E12A;
-	Thu, 24 Jul 2025 16:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F11F10E14D;
+	Thu, 24 Jul 2025 16:55:00 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JT8cmGuI";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0544210E12A
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 16:49:56 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A3931A00
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 09:49:49 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4CEC43F66E
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 09:49:55 -0700 (PDT)
-Date: Thu, 24 Jul 2025 17:49:53 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 6/6] drm/panthor: Add support for Mali-Gx20 and
- Mali-Gx25 GPUs
-Message-ID: <aIJkMV1J41ZB1pYH@e110455-lin.cambridge.arm.com>
-References: <20250724124210.3675094-1-karunika.choo@arm.com>
- <20250724124210.3675094-7-karunika.choo@arm.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 997F010E14D;
+ Thu, 24 Jul 2025 16:54:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7E6FC5C5785;
+ Thu, 24 Jul 2025 16:54:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83C2BC4CEED;
+ Thu, 24 Jul 2025 16:54:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753376098;
+ bh=+8vMFcg7Tsq0mO858hZbLULWT+KkS4qq2g4dlZowKp0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=JT8cmGuIREx1jz6ZKLidnrP3vP9wPZx5FmQO9CyMH5soqG65rEsumGoy4WN8AjO/U
+ 7WsBfIfnZIm1ggedysQicNr1LPjOapqk3qhhU9l1rerj4X+QcSa3Ix6/GvflBrclNj
+ Z2gR8+K+BhKr71/Ra9zSNujcESjfYviYz3sfjXMX3OwH+LQM2yzpGffprDW3h7ik1N
+ WXj+rIl/FRCFyUgMsZ4yhcC/gHsqCJRzU/qHooOZzjU38AJuOLmZBZV/X2yA9801w8
+ ywA0I2dtPAWwQEkilqnoVpGAn2+EHUopUPGgpRkcQ6k6emfEWPp5Tlj+jqB67IfJt4
+ ZFj8Vc46xiugA==
+From: Miguel Ojeda <ojeda@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev
+Subject: [PATCH] drm: nova-drm: fix 32-bit arm build
+Date: Thu, 24 Jul 2025 18:54:41 +0200
+Message-ID: <20250724165441.2105632-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250724124210.3675094-7-karunika.choo@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,71 +61,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 01:42:10PM +0100, Karunika Choo wrote:
-> This patch adds firmware binary and GPU model naming support for
-> Mali-Gx20 and Mali-Gx25 GPUs.
-> 
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+In 32-bit arm, the build fails with:
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+    error[E0308]: mismatched types
+      --> drivers/gpu/drm/nova/file.rs:42:28
+       |
+    42 |         getparam.set_value(value);
+       |                  --------- ^^^^^ expected `u64`, found `u32`
+       |                  |
+       |                  arguments to this method are incorrect
+       |
+    note: method defined here
+      --> drivers/gpu/drm/nova/uapi.rs:29:12
+       |
+    29 |     pub fn set_value(&self, v: u64) {
+       |            ^^^^^^^^^        ------
+    help: you can convert a `u32` to a `u64`
+       |
+    42 |         getparam.set_value(value.into());
+       |                                 +++++++
 
-Best regards,
-Liviu
+The reason is that `Getparam::set_value` takes a `u64` (from the UAPI),
+but `pci::Device::resource_len()` returns a `resource_size_t`, which is a
+`phys_addr_t`, which may be 32- or 64-bit.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.c |  2 ++
->  drivers/gpu/drm/panthor/panthor_hw.c | 18 ++++++++++++++++++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index fa6e0b48a0b2..9bf06e55eaee 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -1405,3 +1405,5 @@ MODULE_FIRMWARE("arm/mali/arch10.8/mali_csffw.bin");
->  MODULE_FIRMWARE("arm/mali/arch10.10/mali_csffw.bin");
->  MODULE_FIRMWARE("arm/mali/arch10.12/mali_csffw.bin");
->  MODULE_FIRMWARE("arm/mali/arch11.8/mali_csffw.bin");
-> +MODULE_FIRMWARE("arm/mali/arch12.8/mali_csffw.bin");
-> +MODULE_FIRMWARE("arm/mali/arch13.8/mali_csffw.bin");
-> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-> index 8c041e1074a1..4f2858114e5e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_hw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
-> @@ -35,6 +35,24 @@ static char *get_gpu_model_name(struct panthor_device *ptdev)
->  		fallthrough;
->  	case GPU_PROD_ID_MAKE(11, 3):
->  		return "Mali-G615";
-> +	case GPU_PROD_ID_MAKE(12, 0):
-> +		if (shader_core_count >= 10 && ray_intersection)
-> +			return "Mali-G720-Immortalis";
-> +		else if (shader_core_count >= 6)
-> +			return "Mali-G720";
-> +
-> +		fallthrough;
-> +	case GPU_PROD_ID_MAKE(12, 1):
-> +		return "Mali-G620";
-> +	case GPU_PROD_ID_MAKE(13, 0):
-> +		if (shader_core_count >= 10 && ray_intersection)
-> +			return "Mali-G925-Immortalis";
-> +		else if (shader_core_count >= 6)
-> +			return "Mali-G725";
-> +
-> +		fallthrough;
-> +	case GPU_PROD_ID_MAKE(13, 1):
-> +		return "Mali-G625";
->  	}
->  
->  	return "(Unknown Mali GPU)";
-> -- 
-> 2.49.0
-> 
+Thus add an `into()` call to support the 32-bit case, while allowing the
+Clippy lint that complains in the 64-bit case where the type is the same.
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Fixes: cdeaeb9dd762 ("drm: nova-drm: add initial driver skeleton")
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+As discussed, it may be best to have a newtype, or at least a function
+to perform this -- here it is the minimal fix nevertheless.
+
+ drivers/gpu/drm/nova/file.rs | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nova/file.rs b/drivers/gpu/drm/nova/file.rs
+index 7e59a34b830d..4fe62cf98a23 100644
+--- a/drivers/gpu/drm/nova/file.rs
++++ b/drivers/gpu/drm/nova/file.rs
+@@ -39,7 +39,8 @@ pub(crate) fn get_param(
+             _ => return Err(EINVAL),
+         };
+
+-        getparam.set_value(value);
++        #[allow(clippy::useless_conversion)]
++        getparam.set_value(value.into());
+
+         Ok(0)
+     }
+
+base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
+--
+2.50.1
