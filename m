@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544FDB103DC
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8104B103DB
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F0410E8E0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1977710E8DE;
 	Thu, 24 Jul 2025 08:40:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="G8O3iaX5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="M1PkibsZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA7E710E8DC
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:40:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62EA010E8E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:40:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1753346410;
- bh=D1HOyy4TBDGnhrbxI7GeEpBZEP1av0kTGOf7VJ9HZcg=;
+ s=mail; t=1753346413;
+ bh=U0NhcerLHh1oCate+eEdvddToxEmvxRAGAsruPXeFfk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=G8O3iaX5kWyIyxaCS94ng/7FIdaQ0ri+SUmHWoOUXGc3aw8AfWLLiRXZNuBZ/ZUS/
- qvl0Kvr2WHROs6zC3K0s0BOoK+u8uiuukfvNviYQmePPwD64MAMHy1Bzao6jDVCLBA
- BOpU5QMvlLKUyuMWiyptaOTSIyTS8cWp8fnkaG++LPLz1eQBP1KotY35w760t5x3re
- UZQ2Pbc4kDjGljeIZOkKeVovPfchtJbXbqj/4mvYHs5Fd5hiFbYIUw9x9MC8ca22CX
- +S34W/IzthZxgXdQsThsVZ/cpXNxA6zcRytz95N10eJcy5kO9WNG3XzNIG5Rck6tk2
- BqaBf/RD6QENQ==
+ b=M1PkibsZJVm4lfM/B30w/FE1YR1hdRpr+dgUH6D+9x3tT6+5tdd+5ekkdsFw5YFOt
+ iVmsu1Tib12DcEhckh+r1cx+EIJ9NTC97S1zvhgxFBoV1O+gCGqmRbPnoJgtLN6yN5
+ gK0Tnt8NLLW4CNplefG8yj7yws83ZT5puhFYR/DT5akTyq0UwPkxS1ia4segWdk1IT
+ HNZEIc5PPMCeBU0gAVMLO/5s4UdDcTxbltNXIdjxdM3W4dxib6xUXmKyl9sG6uUKMq
+ VeK5bRPgOxovc9+NtBJUZ8QqBj8VLsw2or3cw6rn45q+UuRUNH6MsUvLL6h4t77Zus
+ EebcnjLnf4a1Q==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0EAF417E1110;
- Thu, 24 Jul 2025 10:40:08 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id ADD6217E0FC2;
+ Thu, 24 Jul 2025 10:40:10 +0200 (CEST)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: linux-mediatek@lists.infradead.org,
 	robh@kernel.org
@@ -58,9 +58,10 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
-Subject: [PATCH 17/38] arm64: dts: mediatek: mt6797: Fix pinctrl node names
-Date: Thu, 24 Jul 2025 10:38:53 +0200
-Message-ID: <20250724083914.61351-18-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 18/38] arm64: dts: mediatek: mt6797: Remove bogus id property
+ in i2c nodes
+Date: Thu, 24 Jul 2025 10:38:54 +0200
+Message-ID: <20250724083914.61351-19-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
@@ -81,110 +82,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the pinctrl node names to adhere to the binding: the main
-nodes are now named like "uart0-pins" and the children "pins-bus".
+All of the I2C nodes in this devicetree has a bogus "id" property,
+which was probably specifying the I2C bus number.
+
+This property was never parsed and never used - and besides, it
+also gives dtbs_check warnings: remove it from all i2c nodes.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- arch/arm64/boot/dts/mediatek/mt6797.dtsi | 40 ++++++++++++------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ arch/arm64/boot/dts/mediatek/mt6797.dtsi | 10 ----------
+ 1 file changed, 10 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/mediatek/mt6797.dtsi b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-index 0e9d11b4585b..be401617dfd8 100644
+index be401617dfd8..f2d93bf6a055 100644
 --- a/arch/arm64/boot/dts/mediatek/mt6797.dtsi
 +++ b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-@@ -135,71 +135,71 @@ pio: pinctrl@10005000 {
- 		gpio-controller;
- 		#gpio-cells = <2>;
- 
--		uart0_pins_a: uart0 {
--			pins0 {
-+		uart0_pins_a: uart0-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO234__FUNC_UTXD0>,
- 					 <MT6797_GPIO235__FUNC_URXD0>;
- 			};
- 		};
- 
--		uart1_pins_a: uart1 {
--			pins1 {
-+		uart1_pins_a: uart1-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO232__FUNC_URXD1>,
- 					 <MT6797_GPIO233__FUNC_UTXD1>;
- 			};
- 		};
- 
--		i2c0_pins_a: i2c0 {
--			pins0 {
-+		i2c0_pins_a: i2c0-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO37__FUNC_SCL0_0>,
- 					 <MT6797_GPIO38__FUNC_SDA0_0>;
- 			};
- 		};
- 
--		i2c1_pins_a: i2c1 {
--			pins1 {
-+		i2c1_pins_a: i2c1-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO55__FUNC_SCL1_0>,
- 					 <MT6797_GPIO56__FUNC_SDA1_0>;
- 			};
- 		};
- 
--		i2c2_pins_a: i2c2 {
--			pins2 {
-+		i2c2_pins_a: i2c2-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO96__FUNC_SCL2_0>,
- 					 <MT6797_GPIO95__FUNC_SDA2_0>;
- 			};
- 		};
- 
--		i2c3_pins_a: i2c3 {
--			pins3 {
-+		i2c3_pins_a: i2c3-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO75__FUNC_SDA3_0>,
- 					 <MT6797_GPIO74__FUNC_SCL3_0>;
- 			};
- 		};
- 
--		i2c4_pins_a: i2c4 {
--			pins4 {
-+		i2c4_pins_a: i2c4-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO238__FUNC_SDA4_0>,
- 					 <MT6797_GPIO239__FUNC_SCL4_0>;
- 			};
- 		};
- 
--		i2c5_pins_a: i2c5 {
--			pins5 {
-+		i2c5_pins_a: i2c5-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO240__FUNC_SDA5_0>,
- 					 <MT6797_GPIO241__FUNC_SCL5_0>;
- 			};
- 		};
- 
--		i2c6_pins_a: i2c6 {
--			pins6 {
-+		i2c6_pins_a: i2c6-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO152__FUNC_SDA6_0>,
- 					 <MT6797_GPIO151__FUNC_SCL6_0>;
- 			};
- 		};
- 
--		i2c7_pins_a: i2c7 {
--			pins7 {
-+		i2c7_pins_a: i2c7-pins {
-+			pins-bus {
- 				pinmux = <MT6797_GPIO154__FUNC_SDA7_0>,
- 					 <MT6797_GPIO153__FUNC_SCL7_0>;
- 			};
+@@ -285,7 +285,6 @@ uart3: serial@11005000 {
+ 	i2c0: i2c@11007000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <0>;
+ 		reg = <0 0x11007000 0 0x1000>,
+ 		      <0 0x11000100 0 0x80>;
+ 		interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_LOW>;
+@@ -301,7 +300,6 @@ i2c0: i2c@11007000 {
+ 	i2c1: i2c@11008000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <1>;
+ 		reg = <0 0x11008000 0 0x1000>,
+ 		      <0 0x11000180 0 0x80>;
+ 		interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_LOW>;
+@@ -317,7 +315,6 @@ i2c1: i2c@11008000 {
+ 	i2c8: i2c@11009000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <8>;
+ 		reg = <0 0x11009000 0 0x1000>,
+ 		      <0 0x11000200 0 0x80>;
+ 		interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_LOW>;
+@@ -334,7 +331,6 @@ i2c8: i2c@11009000 {
+ 	i2c9: i2c@1100d000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <9>;
+ 		reg = <0 0x1100d000 0 0x1000>,
+ 		      <0 0x11000280 0 0x80>;
+ 		interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+@@ -351,7 +347,6 @@ i2c9: i2c@1100d000 {
+ 	i2c6: i2c@1100e000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <6>;
+ 		reg = <0 0x1100e000 0 0x1000>,
+ 		      <0 0x11000500 0 0x80>;
+ 		interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_LOW>;
+@@ -367,7 +362,6 @@ i2c6: i2c@1100e000 {
+ 	i2c7: i2c@11010000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <7>;
+ 		reg = <0 0x11010000 0 0x1000>,
+ 		      <0 0x11000580 0 0x80>;
+ 		interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_LOW>;
+@@ -383,7 +377,6 @@ i2c7: i2c@11010000 {
+ 	i2c4: i2c@11011000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <4>;
+ 		reg = <0 0x11011000 0 0x1000>,
+ 		      <0 0x11000300 0 0x80>;
+ 		interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_LOW>;
+@@ -399,7 +392,6 @@ i2c4: i2c@11011000 {
+ 	i2c2: i2c@11013000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <2>;
+ 		reg = <0 0x11013000 0 0x1000>,
+ 		      <0 0x11000400 0 0x80>;
+ 		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_LOW>;
+@@ -416,7 +408,6 @@ i2c2: i2c@11013000 {
+ 	i2c3: i2c@11014000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <3>;
+ 		reg = <0 0x11014000 0 0x1000>,
+ 		      <0 0x11000480 0 0x80>;
+ 		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_LOW>;
+@@ -433,7 +424,6 @@ i2c3: i2c@11014000 {
+ 	i2c5: i2c@1101c000 {
+ 		compatible = "mediatek,mt6797-i2c",
+ 			     "mediatek,mt6577-i2c";
+-		id = <5>;
+ 		reg = <0 0x1101c000 0 0x1000>,
+ 		      <0 0x11000380 0 0x80>;
+ 		interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_LOW>;
 -- 
 2.50.1
 
