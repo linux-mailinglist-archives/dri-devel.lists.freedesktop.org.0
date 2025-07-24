@@ -2,73 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164BEB0FEA1
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 04:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D001B0FECC
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 04:34:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C11D310E1BA;
-	Thu, 24 Jul 2025 02:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8816510E867;
+	Thu, 24 Jul 2025 02:34:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YczZvaB6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A7vpVD0N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7A610E1BA
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 02:05:30 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-60c6fea6742so1071747a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 23 Jul 2025 19:05:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753322728; x=1753927528; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qoxO/t2HqqWgt0wqaYNeB6LybJXDl4DsUk2bcFlF3Lg=;
- b=YczZvaB6zJV3bXk/6h8la5gRx3HysP+spaoffw694zPTHnf4PXq84tCTkMYHk3T4md
- uE0Fbp0tgunmUC/i5cho1wrwgmZPJe6Vj7/3Y3azAml1NSTrYt74G5pq0c7N4wpJsJCc
- +7OwOCzE83hD6Y1n+ox/v8W24t+gK99VWEi1QCuTSueKca/YqQAh8o+DUVWX6mTPGffe
- 7IfYsrUeYWz5wiJnGk9mBJKlbeoBeICCkb/oy2FdhcZD+wx/Jc6GLfRQK3q8PA3SV30H
- s/Nfz3Wzb88LS1TP8ToZK5QtNGioF1N3wVRn8+KJnzJ/hjl0Q1xFMmPfrLYtKdwcRQra
- AQJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753322728; x=1753927528;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qoxO/t2HqqWgt0wqaYNeB6LybJXDl4DsUk2bcFlF3Lg=;
- b=Ak6cB4xbNbClaGtBO862EvxVs34GDleFhGLaBrIRolwqqDq4inpjMqxpq+qyLqng+P
- hT0K3QplHpe6Py1VVaAE1+mNW5v4NarGJc/rD//G3mGFn8tHf9HOtqNk1/WQ1FD1boBG
- RrFqbCed9x22neI1b6FMMnWvhs2FbRgVLNp4FBg+Qz6eguda75MgNfPpR4trM4qisx9K
- m3dD30iIHiKb57SGkd1qm+s+peXrYKoVTD+9kLkeocV5Am3QKH4BiJi50fH34EEdfOBf
- /RJs7zT27UTrNanEjEpjEPVf8gSifbo2dTpKXujEL50d+C47wYEFfiQjCaNunT8/scLF
- 8h4Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV/+bNkLgwASJIONzXgEuZUNe1BE4AUNYD42dOuj1L+/tSFV8GNmNmOKy5L4I7MQzZchBPP/pfaoAM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/rGoZ4063OZxmrQYgleDnnrXZ+bgaKFnLvQ5tRtBpcZtEpK7T
- DCMfXwGa3bU+1EebCK3WrQr6YU138LQUTqY17vIA1IwCQ+5JTzSP1MRuCWih3OjETd1hrz4By7i
- afttIU89GDAkgVTDV0tDH06BhN4S3aJ0=
-X-Gm-Gg: ASbGncudMzEH8ocLWLlVi/gsFK17Mf926Zv02UPAbvp6/yJWiHdbRx8um9678EIzkd3
- wgGRkmj4IM1G+EKzyROYpv/qRXzOiNYoUnIgNyu7zRs8dH4tuCZKF6XwK4MtdpIiUvEm0iNUy3t
- VrL+cn3/JaWzvQxL50lrKby2rGf6Ukucp2zVhc2ZWNwdAKh/EhWrmTNWzHG+5cCCRUNd61E4rSv
- XFp1A==
-X-Google-Smtp-Source: AGHT+IHgT1htUDvnyjVtLqLDcTFKVHnNusF2fxhRiQSaqrcP2J0p2sXCbdzkDOVUVWIgORWkxZdDOuLiMVaW0R7k24s=
-X-Received: by 2002:a17:907:608f:b0:ad8:9466:3344 with SMTP id
- a640c23a62f3a-af2f8d53bd3mr564341966b.43.1753322728253; Wed, 23 Jul 2025
- 19:05:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAPM=9twUCJj4X-2jf0VG5+A2YN9Gk8hjOAhJ2hxq4SdgZfvtMA@mail.gmail.com>
- <CAHk-=wgLQ+EPeV+JzrvkPWt2jeteqwsRkf-X61jjfV8pefgXeg@mail.gmail.com>
-In-Reply-To: <CAHk-=wgLQ+EPeV+JzrvkPWt2jeteqwsRkf-X61jjfV8pefgXeg@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 24 Jul 2025 12:05:17 +1000
-X-Gm-Features: Ac12FXwgacPq_LmQOaqm7vLoci_B1iQ_12PFAOVERPpyC75eR6ZSArprlhiTSYw
-Message-ID: <CAPM=9tyCq9kLeYD71oxzvkRzcAEqHjaLKKras_cottvZOogOGw@mail.gmail.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE7810E1B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 02:34:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 02D80A55DAE;
+ Thu, 24 Jul 2025 02:34:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8722C4CEE7;
+ Thu, 24 Jul 2025 02:34:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753324450;
+ bh=XGPGL9OVy6dFXMESf6ZLlfVJaLRxBfn/cwkkzq8+YCY=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=A7vpVD0Ns7OU9l03FyWnFtMUvLjdgEvyve74IpPhc7/SQ6T5EREyoinSAHKmNiH2t
+ cQqfxT8YUxhbipSm4A8yVamEtK4HNbED2HY1kaGL3g35KrNGYe4dvZhkeSP2AFIO62
+ y/L4rKIdYGbvSOOArFEt2xg8Egi1rU+nyrK4JPAB5ltin6B20RpGnOecY3fsvq/SHI
+ iH6hrE09JnTibeH1zSBWMp4mKSaU8BO6uu9eqA61M6Dl6+UKGjIBWzbKNkvMvqaNKB
+ VgI11x3x92lXtVpdlvA/65QrKyBfJl0XhdiXIHTqIJA90DMQN2TgWv9+gaXMSlOlKx
+ cD/EddqWe2P/w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ E7118383BF4E; Thu, 24 Jul 2025 02:34:29 +0000 (UTC)
 Subject: Re: [git pull] drm fixes for 6.16-rc8/final (resend in txt for sure)
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Simona Vetter <simona@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9twUCJj4X-2jf0VG5+A2YN9Gk8hjOAhJ2hxq4SdgZfvtMA@mail.gmail.com>
+References: <CAPM=9twUCJj4X-2jf0VG5+A2YN9Gk8hjOAhJ2hxq4SdgZfvtMA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9twUCJj4X-2jf0VG5+A2YN9Gk8hjOAhJ2hxq4SdgZfvtMA@mail.gmail.com>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-fixes-2025-07-24
+X-PR-Tracked-Commit-Id: 337666c522b9eca36deabf4133f7b2279155b69f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 25fae0b93d1d7ddb25958bcb90c3c0e5e0e202bd
+Message-Id: <175332446845.1852750.8580468393012759936.pr-tracker-bot@kernel.org>
+Date: Thu, 24 Jul 2025 02:34:28 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,19 +66,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Jul 2025 at 11:59, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Wed, 23 Jul 2025 at 17:40, Dave Airlie <airlied@gmail.com> wrote:
-> >
-> > (this time for sure, plain text).
->
-> I knew you could do it! Third time's the charm!
->
-> I hope I don't need to worry about the branch contents as much as I
-> apparently need to worry about your email sending capabilities?
+The pull request you sent on Thu, 24 Jul 2025 10:40:08 +1000:
 
-Should be pretty safe, whatever muscle memory I have to send fixes
-pull requests, only seems to work on the weekends.
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-07-24
 
-Dave.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/25fae0b93d1d7ddb25958bcb90c3c0e5e0e202bd
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
