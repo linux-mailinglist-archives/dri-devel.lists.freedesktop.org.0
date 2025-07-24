@@ -2,174 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39AEB10F87
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 18:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3452B10F92
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 18:21:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35B4110E0BB;
-	Thu, 24 Jul 2025 16:19:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F0C010E05D;
+	Thu, 24 Jul 2025 16:21:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="llgzDJUk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SvKpsxp6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D69CB10E05D;
- Thu, 24 Jul 2025 16:19:14 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E704C10E05D;
+ Thu, 24 Jul 2025 16:21:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753373955; x=1784909955;
+ t=1753374075; x=1784910075;
  h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=n96evV4s3n7nfkJIWlGw7uhJ6uAA6JOhSuImpeWtgmY=;
- b=llgzDJUklWdmHUvDaov5G35N946rSXBi9k8X/zEh4EncAObsPEkUpniz
- dbOQT2MiaVyuBAFC8MXIExSrZLZmHjdOUd05ZO3XDBR2mimWMkgEjkVCW
- CXUGYjz+3qXBxM9gp76ILdk2eLC7b4ZXKVLHMfDozmU0fZx6/sNxKn7AW
- 1U5vJ6xb3RYSkl8XDkBXCTZ9HQqG+Kaib8gOU8EQjq4cKpVKWKx++zWwJ
- r1KHoSKRXdkxe7NVsPDPJvGUUkBZopcG1x8o1h8lKvFJLSUlxGwD+Wepa
- yu8lIixNmsEVSX/QmhRZsA4ubbUIJRaKho4cNpyKO7g+DkELtNZtg4tp2 A==;
-X-CSE-ConnectionGUID: MyH6nZdYT6y0YKyjuay5nQ==
-X-CSE-MsgGUID: XWHqepz3SKCI2J50ccFrKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="78248092"
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; d="scan'208";a="78248092"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2025 09:19:03 -0700
-X-CSE-ConnectionGUID: +cpZuyKMRBGh13ylY6UPAA==
-X-CSE-MsgGUID: lrS0TAd0TCeTU1o/UembrQ==
+ in-reply-to:mime-version;
+ bh=pANwun3oMOJRKDHc1/qhsH+6OzahhpiGzo+Z9LJ7oRI=;
+ b=SvKpsxp6UBbscoShtBR0uH8P/r+Pauh+81L631onF9dBM7/ur/PPTrzH
+ YcnT8MD9AE7ivzvqySH7vNcQN305bYqudQK7Y5RfaUTMqlGdcNpeAj4Ft
+ 94FvbYiAKR/HM2OJvY9sBntBT/ZOmEMVPnR1wVY7YpW7GiZeVMl5S0MDb
+ WkrEHZIPE2+46+CvPRlc57UFeaAkY+Utt0bWCW5VGO8Z6Of/1pHo0gmFp
+ Ejm7X6gCIWIJWIFC8tyF8FZxgjjNEyGijLnjzkQ4qY4FiIpi44XklJkCd
+ ztJTgCzju2uOmylwVuSuKQM80BnC4sFJodO68eoU9fGA7W3ZGuDqh+h4u w==;
+X-CSE-ConnectionGUID: 6v924MJaQe2A6jopBQjfdw==
+X-CSE-MsgGUID: QVdMBXWaQIqQEW4KC4K7QQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55401332"
+X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; d="scan'208";a="55401332"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2025 09:21:14 -0700
+X-CSE-ConnectionGUID: gL54J+aXT5a+och8yNAdsA==
+X-CSE-MsgGUID: hSnJANkXQtitFd8nwZYWaQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; d="scan'208";a="165688058"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2025 09:19:01 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; d="scan'208";a="160073061"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2025 09:21:13 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Thu, 24 Jul 2025 09:19:01 -0700
+ 15.2.1748.26; Thu, 24 Jul 2025 09:21:10 -0700
 Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Thu, 24 Jul 2025 09:19:01 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.48) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ 15.2.1748.26 via Frontend Transport; Thu, 24 Jul 2025 09:21:10 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.76)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Thu, 24 Jul 2025 09:19:00 -0700
+ 15.2.1748.26; Thu, 24 Jul 2025 09:21:10 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xKdDkKRO+JeTqvcqivTuUwPRQxOL62GqlODrKiKMd8OzrSXXuk3USqRBdCaRvXzw+YkFMEp/Zmb6Ga3jh+X+1RHcW0xMMDGSYyf0RdH+GhzSE8XgkDX1uhKmwhVed8yycVQvF+2lU+sk53Gk/VuIfA8hKY7f2i/WiX3tsJnPSX7syAIVdTxqprXfmQlzBMPoI53MbteyNu8TJFmJtT7wHC/j0s4qVq2sRZphfGpMOGaInfWHmrmGe613MM6ioYTbvZbKu9KrDGFhtJz6r40xtqc1d/cKOUvNhZhhAkyxuRp6+1SbIpk8tTzQWBoUq/cEpreZr+hUJ2ShQOgg3LOaVA==
+ b=Zxe291CykVuKBk7yX8FhmPlXtk/Ht8w85eCvqJuWAFBJ8zi3VDHIZgGfbHX7AR2lGUomdkk4dwO4zwcOVl4BKNd73CeS8wP4jRAc+2OWgZD+M64HP703iCd4gZzqGf26gDvBtLUZ3a47sZyHSYlGl5RZZOaeKnpBvdwp5WGjRph3I9cBHbvO7WXWiqcPxQ1hbin2TKKFtxuFv3URUcw4Jq39fkACN9km2W3GIQ18m4vQ9Chx+uzwKYGhlEcrws4yhZrQ2ShbFDbjAPGl60RQUJ9RpE2GS5ieEWlkRTMe8yV9A+FJnW9LUu1tnvfOtgjFVWrku2blWMs2DNka+fVX3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vx2mVADRsjEK1EmwEFtbQCDrnhbYgb6a9SrUqYHPAVY=;
- b=y2ddaMLT36W4L3vmqs9uDOLbDKeBg8uH8DCG81W1iIa34c2l/lYTBDq3iMrbb7wqTl1zQQoqwLFGltKVYSWA7hOXVFv45o2+CkKale16T4oDfr5lHAOFZWeQFdYR3Z0nQMVmsFYAE+HraMkemVp1y0PbdE4Fz1EvybJAvKXAMjcjLmVCAmMq/Llz/Q5m+IzR+HPrG/Tzjud4gxzRHOs6nFa46MhsgSEy1Z9m5AC6DFlpkSMhE/X2FxCYRRxpTklbnKkDruxynwfdmxfZfOsdVOabgyV/1p8kWjJdblFfA30ebmC0l0Eg0ZxwJmLPP/xDm3M86YHzIBxhbTWdn/pv6g==
+ bh=Gt8KHCicErmmsT7qJASNRrGjIHhoTsN+M0ivB/A5VAE=;
+ b=TguI6zSsgIYTIrHD46J88da/Rz7bqbUpTgrQxHfn13b5WoI4ipLXl/RmZ86DSOaIYkXq0bY014p03wRISLlL8WmtiWTpLirqAOZDJvjdHgAudRqYzzyeFQZnyRr0ffm77H17FuNOKAVtsvswipYOqqTSnLWiaq/mQXNREQDqtPSMXtfeiFEVCB19sCo9JJE4drv6d1OCUEJK70AHYzYE6sxJADdF4UezduveLDcrOEnjqUiy3i5cdW7IMCzx+PKrZrNUlDlYzazSaEtgOYbYv8QgKnMtuI0kkexdTQ6E9jX1/H9CzeeOO6qEL3MXG+V/NxJCrMPm+QI1S2PwrQ+szA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by DS7PR11MB7783.namprd11.prod.outlook.com (2603:10b6:8:e1::17) with
- Microsoft SMTP Server (version=TLS1_2,
+ by LV3PR11MB8767.namprd11.prod.outlook.com (2603:10b6:408:215::11)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Thu, 24 Jul
- 2025 16:18:31 +0000
+ 2025 16:20:25 +0000
 Received: from CYYPR11MB8430.namprd11.prod.outlook.com
  ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
  ([fe80::76d2:8036:2c6b:7563%5]) with mapi id 15.20.8943.029; Thu, 24 Jul 2025
- 16:18:31 +0000
-Date: Thu, 24 Jul 2025 12:18:25 -0400
+ 16:20:24 +0000
+Date: Thu, 24 Jul 2025 12:20:19 -0400
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
+To: Riana Tauro <riana.tauro@intel.com>
 CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <anshuman.gupta@intel.com>, <lucas.demarchi@intel.com>,
  <aravind.iddamsetty@linux.intel.com>, <raag.jadav@intel.com>,
  <umesh.nerlige.ramappa@intel.com>, <frank.scarbrough@intel.com>,
- <sk.anirban@intel.com>, <simona.vetter@ffwll.ch>, "=?iso-8859-1?Q?Andr=E9?=
- Almeida" <andrealmeid@igalia.com>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v6 1/9] drm: Add a vendor-specific recovery method to drm
- device wedged uevent
-Message-ID: <aIJc0asrYbD7DzHL@intel.com>
+ <sk.anirban@intel.com>, <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v6 6/9] drm/xe/doc: Document device wedged and runtime
+ survivability
+Message-ID: <aIJdQw6X2F0thI8l@intel.com>
 References: <20250724143440.232862-1-riana.tauro@intel.com>
- <20250724143440.232862-2-riana.tauro@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
+ <20250724143440.232862-7-riana.tauro@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250724143440.232862-2-riana.tauro@intel.com>
-X-ClientProxiedBy: BY5PR17CA0006.namprd17.prod.outlook.com
- (2603:10b6:a03:1b8::19) To CYYPR11MB8430.namprd11.prod.outlook.com
+In-Reply-To: <20250724143440.232862-7-riana.tauro@intel.com>
+X-ClientProxiedBy: SJ0PR03CA0052.namprd03.prod.outlook.com
+ (2603:10b6:a03:33e::27) To CYYPR11MB8430.namprd11.prod.outlook.com
  (2603:10b6:930:c6::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|DS7PR11MB7783:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1986026b-08d2-4571-a548-08ddcacdbae7
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|LV3PR11MB8767:EE_
+X-MS-Office365-Filtering-Correlation-Id: 74f1a38c-723c-47ae-c864-08ddcacdfe68
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?cvEObW7l7XfxwQf9VtsWRxNb6SRy1eSqsaM2gNIXFPujZc3Ktwl3LM05iz?=
- =?iso-8859-1?Q?HgFZhjlL0d1Jpn7D4m26wABbEmU2C0AG/gi7zrmXpAUPr/GQIpNmaarXJ9?=
- =?iso-8859-1?Q?+voARt46UjBwmvLGoNsD0NeSDVE5l+YZxPXJ6HhmJbSC+SZ5+f+U9HzQT2?=
- =?iso-8859-1?Q?YKJbTrY0DL1TqRop6PmIbDUy5Dwv05AUkUHAH2LQUyjlOOPRXoqpyuFv3Z?=
- =?iso-8859-1?Q?DsXzyNAlG7x0tcIJB4ut8rPrEbXYTGrwovXrIA/Vocdegky97stXn3TNMo?=
- =?iso-8859-1?Q?Yd0iBUimUGLWi750pxXA0QrDfQX82Mdh5H5GZKYRKz/jBnzxnKTba/uSBH?=
- =?iso-8859-1?Q?vd6VVaMvfjV/7tlgwfFoiLehd2GVWPSRbKuU5chV8noObMsN1rkxl57rXs?=
- =?iso-8859-1?Q?Z1LGRqgqbUTZsU3PYx3qZHfInwCfy9HffVndB0Zan3NKMgh20UQAkHhOY8?=
- =?iso-8859-1?Q?Lug5LrgOMbWcE9dB9UX8sQHNApzpyl9o1m6pcAPwkajO8A6VifaMPqCRXY?=
- =?iso-8859-1?Q?sLPV89IZ7RICrZVebgBwih1mumLxkniXp/Vv+VJ1D03FEA2b3/ft5rtICm?=
- =?iso-8859-1?Q?rMvSKotjPfZ0YT5pic4LMXoghcjQzoiouLdiUsxupcG4zqIGoV2IlXUaLx?=
- =?iso-8859-1?Q?B0N9jEqYj1pcGQXxS0xA2sWUKASqb5f7+BYu0DEQ/iVSADw6Pap9Na1ATj?=
- =?iso-8859-1?Q?rh00LhKqdPHaR5UwQiwOBNl7nzjomUDyAVd7ZlewnYZznIKi1FRfvAX1EU?=
- =?iso-8859-1?Q?Lf8NTKQWLR3oUSf6Dn4s/9lRdPBKhTmVNYhxUlcQtEnLW/tM8IgrxochfT?=
- =?iso-8859-1?Q?95S8RDBr5vMM0NWuPopuRrzyEGXZWBp+x2s00QH4OR6nUgiqSNF5KOKBq9?=
- =?iso-8859-1?Q?AcCZL1J9dUH72Zf11egDMT9n+gjiHrOZQ4SLbLKGqXXDTJW3+jsV41kzNa?=
- =?iso-8859-1?Q?UARuBjRZYBVbeZySxGTBjFy5Ixzlupep0igfh10PJF+CpEs4koV0fICOOU?=
- =?iso-8859-1?Q?uVLkaABNCDGjWyc5JXwCPyOnUTxiDcz5KgjogG82Y9wgkbXfRtdNKpzAEI?=
- =?iso-8859-1?Q?jZg5AcYBaAs4qnLSSgoMJAaFMEFewd0+6NVcR8p3AzdUKwKWE/fKuw9RtO?=
- =?iso-8859-1?Q?tnejmPqRj7ZsVQBaHuiRVOppwPLJG5qZqK4ZoWwKR1mnocZi8J4QALO0Cs?=
- =?iso-8859-1?Q?hS8N79Jwvy7ikr5nDp7qiXLhlRp+3MIJSIWlY2rpcc5PxANwt9cVaSjazJ?=
- =?iso-8859-1?Q?1LNPtNAsDhSgntPzau4D9rX3rgIhw67TQqBhFPghwD/RUUctzT1tc938Ds?=
- =?iso-8859-1?Q?247TM0eW42CBBpUbIyzRXHlMBTpAE1nV0OAHoZ74rpFBczEqGAbta2P3Hs?=
- =?iso-8859-1?Q?/kxZpE2afzmGwNVc9B7CkmB13QRLr9pjaDz4nlu7Ylopwa48Iy1T1MWtLf?=
- =?iso-8859-1?Q?VRdJ50NkmoYhgPIkjrSlsayW5DYvil/knaCQlUGCXX26lzsiHLoNQRh+WN?=
- =?iso-8859-1?Q?M=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?3IUFV+/7rZEntu/JWGPMIGDzXjt0773owBMNM0AryN9CURl+8dUrG5pBDKg3?=
+ =?us-ascii?Q?bDvzq6ZwHKgFLc8CMa+kzaCvjxRckLsRXhaKpSjDia8uZMA1F0Al6tFok1Xl?=
+ =?us-ascii?Q?bsIVfZu0bg9K3DVdzvHVhuejYLnXytRCii/SHkZHt+zq0pRPNSTqYlGir1Py?=
+ =?us-ascii?Q?rICee+LgzCWY7qqm2HFEnWVvu/XttqNhYvqa5xxupHqpcL1M4oRVoDK5Lz9u?=
+ =?us-ascii?Q?np3f6QsV7EDCCvyW6W+on8P+KLQDdZ2oo9sZKM2OqKP+VHp5zNpBmMWBRJ8J?=
+ =?us-ascii?Q?/eZqsVf/UyLJE1KPJQvzewRiueu8z1oEVWb/iaWzUiaWR3SvtFZTwxdM3oBA?=
+ =?us-ascii?Q?UItrrFD+pempl9WxIGvmfW7QPxIx1cmVqwHmzMm5z3AXKxzfKI6WO94ihlCb?=
+ =?us-ascii?Q?tK4B5YWw9WGiJyNlnv0+mGGZrIU+Uod0oJdhthlh4HHhlYhp9l71rWW9Uz7Q?=
+ =?us-ascii?Q?pz+VUycpp/GVxYAbmQX9LIMcJ07R3TsRAhlfYGplJOg40E3RQgdkCb4P784b?=
+ =?us-ascii?Q?W52gwHMDEZe4pQPkLtCmpeiw4K8mdjv+M4rUaEZf8nwXqvCb1hu0lF8LIw3V?=
+ =?us-ascii?Q?QcLptpnBhJEY44Gr1A50pslNkGk0qHtSbepfB9cUNpATOGctTHPQdbcXRFmZ?=
+ =?us-ascii?Q?2vcHn3qg/m8f4ViZ0Zd1MwD7c1L9359BbFNk8NFsOJk3heatVReOMsOObe5y?=
+ =?us-ascii?Q?MJKxWtcFPaYou+oaHTbQKM4jKSdN6PQn7X73DN84cN16pxsBscqcUY6EPqwG?=
+ =?us-ascii?Q?Fe2mWl/iPpAx0P1skG72LRLBHr9pW8Cw1kTGAsXTmKydExUGwrFCefpWi+2f?=
+ =?us-ascii?Q?+AFaco5/+Y/KQFJfEcsAQYZQfx6dZyfiWS2qLNLBB8vehQiNmb+U8QddC0cT?=
+ =?us-ascii?Q?/u83KKfG4pMVJ4+u/HKP0TrujnvHA7LJ4xwtmxBL/OU1ovkqziEXd0TTydm3?=
+ =?us-ascii?Q?trDlalaI85/mJQ+nXoNBfcrmrSVLwpTZT07miBej/f7E1OA3IUBCaVmQD2Sg?=
+ =?us-ascii?Q?fm3Lacp/uyq1jsMcUVfSJw/+sj543eh/J36sa2Uqq/NeubzbBt2/oLPWo0YY?=
+ =?us-ascii?Q?MwYTmfYApiiuq4ylxdqngUSfBH+kHNMxCkhSsnKRMgt2cwrg3fZA5mi2Se4j?=
+ =?us-ascii?Q?LBIzNn8mI7Tqm2vMEEH+J77HP/FycaqXFptoGopS8/F/rwPJbN8LuE02ASwI?=
+ =?us-ascii?Q?zNsI2qIN25IXaCWl+OMBwsGsMkJGEF4q0tYEsX3vj2Trlr0ZVs+EJMdRgEMI?=
+ =?us-ascii?Q?7/G1P4mwmQw9gxSb4ICaQsEA89tTaQW81mAVH3KLwKFQUSBN46tvzbdyxKN5?=
+ =?us-ascii?Q?AO2hsXqmjDPFqpRGLG7MkA90cwL2HH2znPYI4oN2DNn5PRiYQQzkyVQhCc1A?=
+ =?us-ascii?Q?R09grOW5y4gcotSYd5gY29Sxu3fYjPUx5CEveUPYxg/25rpPHh1x3OV6k67C?=
+ =?us-ascii?Q?Mqs3eN9GXTs=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?uZO/qbLC7LDcbksN64ip23GY71ODjo+tvPFwnxhOe7aTsNeMnHZGCKiLJD?=
- =?iso-8859-1?Q?R8LL0BVpqckU8spBWA4MGslixIsj4o7X6c3tJhNMzhrTI3Vyfeel+2u948?=
- =?iso-8859-1?Q?FAgwRjDaP6vRqvJucuBfe33Eux+NBQr7KKIDmFPlXLBFzKP9cNbBIcANwB?=
- =?iso-8859-1?Q?G+HxyPFmVGgIyiEp67iv1A/E0AQr0l7I8Diahn9mmjr7jed4CSOxhasGnl?=
- =?iso-8859-1?Q?3qJnV4BM0eXiJjSEvhQjQDsiQeEiN8GHBoGtaia9sQs+ouXDtC9EIDlcQ+?=
- =?iso-8859-1?Q?rFP+XbogaNEKMubyhrNQACdzhFxKrHxPwWmscJPSL9C2B+gVbecBrnU4f5?=
- =?iso-8859-1?Q?PIITw47eBbYtMZ7uNH8P8vV/AysL4Dg/0MrepKYiF6N2Bo4eazxkHCMPxA?=
- =?iso-8859-1?Q?HseAW0Yyl7usP1v2GhDMfaJhO+KGhjr3/eXUCPTwmqvCw71TIbU1ErvI2l?=
- =?iso-8859-1?Q?XMkn8XY0fIzcTcO/IrwWon9+vqeG6RovBxiISDxrp1oacgPXKlMTuZ4GMf?=
- =?iso-8859-1?Q?wY11yld5U9utRquHdBdFh1yt9AC9R/Eu0kfi5hel8s72wJFw2hSPTzz/an?=
- =?iso-8859-1?Q?b5GRkrdyu+hCQDYridEfUepr+pYQbDcq+5BbOLZvRyT6zXumeOhtiIl1oW?=
- =?iso-8859-1?Q?LFXc41bHMIdW0qE390pI8Mj98dW0P9NA7LaJFzRXnbVky0RB44oKt22p0S?=
- =?iso-8859-1?Q?+R/+2QKF2QnvqxqiwpuLKISCpkUtAk0YkOJ3HaiewGwFUlXpp3RZH9v4m0?=
- =?iso-8859-1?Q?lZao3VcAPzyqDms0nTK02VI2oQrzyOz8BRvj2Gascn/PXcSdUT0SMUqlpY?=
- =?iso-8859-1?Q?ouOxb7EFVcskrOwmMD5gFyUb6k0Kak5FkdvMSq2fzUdp5cNi/5KtAcVgT1?=
- =?iso-8859-1?Q?IOFN3DwAzs+f13flvrcNhdAoptamC6fY3rzxEfSnkEvyx5/vygZ54VoVl0?=
- =?iso-8859-1?Q?USNU/fWFn+/tdIPvdxGIpv1FhP8dqzKIS3AqRTQzVW/BT3HrgK1eBdToDi?=
- =?iso-8859-1?Q?WRAx2eYdjhHeNjDryuJW9B4sWxRJblirx2OozwnCsnbR7kFj7sUKipBruj?=
- =?iso-8859-1?Q?xI5tpjlCWsXaskOblxh7ENMvWVuFF+qmGe2fU0Y7UJUtDsjq4EwjFz1J/I?=
- =?iso-8859-1?Q?aDo0enXd4GRFS34g7kFlj60uhMtFUIYrti4UDYiIki3bHhhI4Oikvkli8F?=
- =?iso-8859-1?Q?Po3GShdsnYnbjzwWS3b0ag5ClxkB9yRddWcaxwF4QjEQejOfkiL1j6bSfG?=
- =?iso-8859-1?Q?uMzhz3qxFbJEWrrB69MPnD3/BRrGsr3DRRv/njaX0Jm3n3aX/5Yb2ZFpWM?=
- =?iso-8859-1?Q?rJmzwJ/5lM1z/299kOk4CnowQ5l46pK/1llNzT7YJc9Vm+zKNB+jDTl/T9?=
- =?iso-8859-1?Q?OXc9NE+sd9753kPKEdwjwwCH+BXaSq4GG4TGjswbqORVeawgdQXG7R9BpA?=
- =?iso-8859-1?Q?ttfVMBx9O5N+/G4YvQJFzQyuSbOkDkgIRx9Sby9/PA+0P+KOhSnvB1FydW?=
- =?iso-8859-1?Q?WcrR89uMDziNRhmP3LLLKaP5mxrgsC4OG9VjHxpLb6WRs1QpLUlSwBqRBl?=
- =?iso-8859-1?Q?NqsaULYjwBUck4EIZf0+ot7i0HEiLFfxlkud4xT5uXHRXwGsk8uDXHDypR?=
- =?iso-8859-1?Q?uxeJI/p+b0ldKGo+aLvrQP5/HtbpoKSHMi?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1986026b-08d2-4571-a548-08ddcacdbae7
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+R39GGuWDrlQwxddCMqdc9wwsg1h3zTOKugLFcq0arPxEox1LrrSbFkr/mQh?=
+ =?us-ascii?Q?LOMYm9S3OkRvUPTMPx05cyRPInaHZqfizW5SKTzVMcbpgEmpdI7ZoBWw/Dze?=
+ =?us-ascii?Q?CVxe8Jl5uqG9o6joO4KwM4OXZPHa/aJ1Xl1aPs3jimqCY+X+bjCCy4oPYKYd?=
+ =?us-ascii?Q?j0tppgSdjY3OLofQaAhctBIErMhoWsmzz4nXA0LHEBp9f1ZLk1bystPOEkTd?=
+ =?us-ascii?Q?bFz5GM8pYnngdADYipL3sWhSn5RrZ9ucTQsV7lYdipwzFmN1ADS6ZI4wszka?=
+ =?us-ascii?Q?Zrf70hCmVWyz2958dznE/sWDQbUQXptCdSKoBTnHFsn5wDfh6If5tYHdey3p?=
+ =?us-ascii?Q?3uoRQ7WkZGOJwAv6aaUxL3oA1279dSigt9pln2iklHAjseBQoM8+G1oeQyxV?=
+ =?us-ascii?Q?lqfxarsY/xa/VxXAIfDQO6BnZkAtn3Nv3wN3a28Go5COJ9xIuGszDTNBs7RP?=
+ =?us-ascii?Q?l+FIHbOBXGC2bTHxyET76XFV3NcJaTzdmFxZYriTDUNABU+Ht0BraNxF8GQl?=
+ =?us-ascii?Q?FDYH/i/ENi/mOZYkFsjei+Ml4qDHavylDg7i4to1kqyTDYVNPwpt8fvMe4gt?=
+ =?us-ascii?Q?IKAdYT73PKo6QyLvEX5jWkv7OhNaprJ88AtaMGxNxKAQ1dSGw9/IIBYCbp9V?=
+ =?us-ascii?Q?7sayxwS2ovWDr/wHDsaVw2Qzv21tenxAgEZW+4P6sC3qHJmyM2cnlXsJ1YAX?=
+ =?us-ascii?Q?Di2uaifZyIjcaQCvu6IWgU+upOsmgxyDFUmL0PaBN2FG/+YyYeG6yclz+Ixn?=
+ =?us-ascii?Q?LDHFI031S6m2VQMevW3V1RfJR9SczyNQYaO6W2/uZK3ZOFZhWEs0++lyh41q?=
+ =?us-ascii?Q?Qe/ltv7IO/wpGuqhbrnVTVrLRd1F8ijJ9C2fp0QAnBVbbWpgwk2dxust2Dkv?=
+ =?us-ascii?Q?Lo1ImNb5hNvkP6IlcjncQOo92LuhBQgPYO8pXgeiOSS3YMdu/4tdDGPYgJu0?=
+ =?us-ascii?Q?/BBBMub/DK/BfAqnoIh5zYSp+Rdc5wp11SR7P2YzlrOO0meLfUjQoIKxJ315?=
+ =?us-ascii?Q?QMz1WwDOEXqXYZyjZNkRb2aDbRnHibhzTmEq0gEsjaNUcSRtyGGOwMLmeFqI?=
+ =?us-ascii?Q?kMQBdW8UZBhBFgGzrN+X9xZ68PAF8vGdVZaJhMFodHwvdNDF7JAo38+xgma1?=
+ =?us-ascii?Q?NDstUlGfDPWauLnCP+kXBzXyHPcPRxSMW7gAlApdASdUnBBdE4QmnveboPMA?=
+ =?us-ascii?Q?De67micOZHLEg1xnjUbCONkiy9nwJ4/tN2hTj3OaD7lB896wDGwcs6ux/IpJ?=
+ =?us-ascii?Q?o4ik/BMk03RqhAwVypNy5drJ8N00Lg39DUKCQIngwdGJR9PEu3fI2jnpGJ6E?=
+ =?us-ascii?Q?Mw0JbM7WjymuHkeoVxh2l0rvmotIvK6f79tA5OiuMThFy7YSbytfiMRs2N1i?=
+ =?us-ascii?Q?qdThHInvsLmcIzoQxlJZiKq0mEMs6hDPAH2054hj5uCG3bH/nydZx3evEOis?=
+ =?us-ascii?Q?xKz93uhcjI+V8adRFxv8793MHxTu1uGrl+aBKZ0K/Z8v2rvu+SO8QyBeMUIb?=
+ =?us-ascii?Q?hQSTxmJg2ro4Y9+8f7hGDKJRIBD2pIUGypVu8YXd8jkU1q9Z0b8z7ruG2Mm/?=
+ =?us-ascii?Q?wrshT6mEgjyRpKMcMltQ1QBspsv5WaxSz9nhcQZMwnx2Vrh/NLHryRCPd3ZS?=
+ =?us-ascii?Q?Xg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74f1a38c-723c-47ae-c864-08ddcacdfe68
 X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2025 16:18:31.1945 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2025 16:20:24.5202 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PBKnUi2VJwGoLl+4Yj3SNMvYfp0VIxSJEJxZxAGfczyVz/LReOdkk1TY4Xh/Cusa4cdYw1FxBnOm+/1qx7UlCQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7783
+X-MS-Exchange-CrossTenant-UserPrincipalName: /e8/i7Ks8ed/sLpwc4aESTQe+x/pWyEPFKoEP9cYIN2hpHgekJX+1sJlsVgbglZGZCH91MJlDt7K/RYcUQHpKg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8767
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -186,161 +182,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 08:04:30PM +0530, Riana Tauro wrote:
-> This patch addresses the need for a recovery method (firmware flash
-> on Firmware errors) introduced in the later patches of Xe KMD. Whenever
-> XE KMD detects a firmware error, a drm device wedged uevent needs to be sent
-> to the system administrator/userspace to trigger a firmware flash.
-> 
-> The initial proposal to use 'firmware-flash' as a recovery method was
-> not applicable to other drivers and could cause multiple recovery
-> methods specific to vendors to be added.
-> To address this a more generic 'vendor-specific' method is introduced,
-> guiding users to refer to vendor specific documentation and system logs
-> for detailed vendor specific recovery procedure.
-> 
-> Add a recovery method 'WEDGED=vendor-specific' for such errors.
-> Vendors must provide additional recovery documentation if this method
-> is used.
-> 
-> It is the responsibility of the consumer to refer to the correct vendor
-> specific documentation and usecase before attempting a recovery.
-> 
-> For example: If driver is XE KMD, the consumer must refer
-> to the documentation of 'Device Wedging' under 'Documentation/gpu/xe/'.
-> 
-> Recovery script contributed by Raag.
+On Thu, Jul 24, 2025 at 08:04:35PM +0530, Riana Tauro wrote:
+> Add documentation for vendor specific device wedged recovery method
+> and runtime survivability.
 > 
 > v2: fix documentation (Raag)
-> v3: add more details to commit message (Sima, Rodrigo, Raag)
->     add an example script to the documentation (Raag)
-> v4: use consistent naming (Raag)
+> v3: add userspace tool for firmware update (Raag)
+> v4: use consistent documentation (Raag)
 > 
-> Cc: André Almeida <andrealmeid@igalia.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-
-Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
 
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-> Co-developed-by: Raag Jadav <raag.jadav@intel.com>
-> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
 > ---
->  Documentation/gpu/drm-uapi.rst | 42 ++++++++++++++++++++++++++++------
->  drivers/gpu/drm/drm_drv.c      |  2 ++
->  include/drm/drm_device.h       |  4 ++++
->  3 files changed, 41 insertions(+), 7 deletions(-)
+>  Documentation/gpu/xe/index.rst             |  1 +
+>  Documentation/gpu/xe/xe_device.rst         | 10 +++++++
+>  Documentation/gpu/xe/xe_pcode.rst          |  6 ++--
+>  drivers/gpu/drm/xe/xe_device.c             | 22 ++++++++++++++
+>  drivers/gpu/drm/xe/xe_survivability_mode.c | 35 +++++++++++++++++-----
+>  5 files changed, 64 insertions(+), 10 deletions(-)
+>  create mode 100644 Documentation/gpu/xe/xe_device.rst
 > 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 843facf01b2d..5691b29acde3 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -418,13 +418,15 @@ needed.
->  Recovery
->  --------
+> diff --git a/Documentation/gpu/xe/index.rst b/Documentation/gpu/xe/index.rst
+> index 42ba6c263cd0..88b22fad880e 100644
+> --- a/Documentation/gpu/xe/index.rst
+> +++ b/Documentation/gpu/xe/index.rst
+> @@ -25,5 +25,6 @@ DG2, etc is provided to prototype the driver.
+>     xe_tile
+>     xe_debugging
+>     xe_devcoredump
+> +   xe_device
+>     xe-drm-usage-stats.rst
+>     xe_configfs
+> diff --git a/Documentation/gpu/xe/xe_device.rst b/Documentation/gpu/xe/xe_device.rst
+> new file mode 100644
+> index 000000000000..39a937b97cd3
+> --- /dev/null
+> +++ b/Documentation/gpu/xe/xe_device.rst
+> @@ -0,0 +1,10 @@
+> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +
+> +.. _xe-device-wedging:
+> +
+> +==================
+> +Xe Device Wedging
+> +==================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/xe/xe_device.c
+> +   :doc: Xe Device Wedging
+> diff --git a/Documentation/gpu/xe/xe_pcode.rst b/Documentation/gpu/xe/xe_pcode.rst
+> index 5937ef3599b0..2a43601123cb 100644
+> --- a/Documentation/gpu/xe/xe_pcode.rst
+> +++ b/Documentation/gpu/xe/xe_pcode.rst
+> @@ -13,9 +13,11 @@ Internal API
+>  .. kernel-doc:: drivers/gpu/drm/xe/xe_pcode.c
+>     :internal:
 >  
-> -Current implementation defines three recovery methods, out of which, drivers
-> +Current implementation defines four recovery methods, out of which, drivers
->  can use any one, multiple or none. Method(s) of choice will be sent in the
->  uevent environment as ``WEDGED=<method1>[,..,<methodN>]`` in order of less to
-> -more side-effects. If driver is unsure about recovery or method is unknown
-> -(like soft/hard system reboot, firmware flashing, physical device replacement
-> -or any other procedure which can't be attempted on the fly), ``WEDGED=unknown``
-> -will be sent instead.
-> +more side-effects. If recovery method is specific to vendor
-> +``WEDGED=vendor-specific`` will be sent and userspace should refer to vendor
-> +specific documentation for the recovery procedure. As an example if the driver
-> +is 'Xe' then the documentation for 'Device Wedging' of Xe driver needs to be
-> +referred for the recovery procedure. If driver is unsure about recovery or
-> +method is unknown, ``WEDGED=unknown`` will be sent instead.
+> +.. _xe-survivability-mode:
+> +
+>  ==================
+> -Boot Survivability
+> +Survivability Mode
+>  ==================
 >  
->  Userspace consumers can parse this event and attempt recovery as per the
->  following expectations.
-> @@ -435,6 +437,7 @@ following expectations.
->      none            optional telemetry collection
->      rebind          unbind + bind driver
->      bus-reset       unbind + bus reset/re-enumeration + bind
-> +    vendor-specific vendor specific recovery method
->      unknown         consumer policy
->      =============== ========================================
->  
-> @@ -472,8 +475,12 @@ erroring out, all device memory should be unmapped and file descriptors should
->  be closed to prevent leaks or undefined behaviour. The idea here is to clear the
->  device of all user context beforehand and set the stage for a clean recovery.
->  
-> -Example
-> --------
-> +For ``WEDGED=vendor-specific`` recovery method, it is the responsibility of the
-> +consumer to check the driver documentation and the usecase before attempting
-> +a recovery.
-> +
-> +Example - rebind
-> +----------------
->  
->  Udev rule::
->  
-> @@ -491,6 +498,27 @@ Recovery script::
->      echo -n $DEVICE > $DRIVER/unbind
->      echo -n $DEVICE > $DRIVER/bind
->  
-> +Example - vendor-specific
-> +-------------------------
-> +
-> +Udev rule::
-> +
-> +    SUBSYSTEM=="drm", ENV{WEDGED}=="vendor-specific", DEVPATH=="*/drm/card[0-9]",
-> +    RUN+="/path/to/vendor_specific_recovery.sh $env{DEVPATH}"
-> +
-> +Recovery script::
-> +
-> +    #!/bin/sh
-> +
-> +    DEVPATH=$(readlink -f /sys/$1/device)
-> +    DRIVERPATH=$(readlink -f $DEVPATH/driver)
-> +    DRIVER=$(basename $DRIVERPATH)
-> +
-> +    if [ "$DRIVER" = "xe" ]; then
-> +        # Refer XE documentation and check usecase and recovery procedure
-> +    fi
-> +
-> +
->  Customization
->  -------------
->  
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index cdd591b11488..0ac723a46a91 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -532,6 +532,8 @@ static const char *drm_get_wedge_recovery(unsigned int opt)
->  		return "rebind";
->  	case DRM_WEDGE_RECOVERY_BUS_RESET:
->  		return "bus-reset";
-> +	case DRM_WEDGE_RECOVERY_VENDOR:
-> +		return "vendor-specific";
->  	default:
->  		return NULL;
->  	}
-> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> index a33aedd5e9ec..59fd3f4d5995 100644
-> --- a/include/drm/drm_device.h
-> +++ b/include/drm/drm_device.h
-> @@ -26,10 +26,14 @@ struct pci_controller;
->   * Recovery methods for wedged device in order of less to more side-effects.
->   * To be used with drm_dev_wedged_event() as recovery @method. Callers can
->   * use any one, multiple (or'd) or none depending on their needs.
-> + *
-> + * Refer to "Device Wedging" chapter in Documentation/gpu/drm-uapi.rst for more
-> + * details.
->   */
->  #define DRM_WEDGE_RECOVERY_NONE		BIT(0)	/* optional telemetry collection */
->  #define DRM_WEDGE_RECOVERY_REBIND	BIT(1)	/* unbind + bind driver */
->  #define DRM_WEDGE_RECOVERY_BUS_RESET	BIT(2)	/* unbind + reset bus device + bind */
-> +#define DRM_WEDGE_RECOVERY_VENDOR	BIT(3)	/* vendor specific recovery method */
+>  .. kernel-doc:: drivers/gpu/drm/xe/xe_survivability_mode.c
+> -   :doc: Xe Boot Survivability
+> +   :doc: Survivability Mode
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index df29b87ffc5f..4a34b15f9527 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -1157,6 +1157,28 @@ static void xe_device_wedged_fini(struct drm_device *drm, void *arg)
+>  }
 >  
 >  /**
->   * struct drm_wedge_task_info - information about the guilty task of a wedge dev
+> + * DOC: Xe Device Wedging
+> + *
+> + * Xe driver uses drm device wedged uevent as documented in Documentation/gpu/drm-uapi.rst.
+> + *
+> + * When device is in wedged state, every IOCTL will be blocked and GT cannot be
+> + * used. Certain critical errors like gt reset failure, firmware failures can cause
+> + * the device to be wedged. The default recovery method for a wedged state
+> + * is rebind/bus-reset.
+> + *
+> + * Another recovery method is vendor-specific. Below are the usecases that trigger
+> + * vendor-specific drm device wedged uevent and the procedure to be performed
+> + * to recover the device.
+> + *
+> + * Case 1: CSC firmware errors require a firmware flash to restore normal device
+> + *         operation. Since firmware flash is a vendor-specific action
+> + *         ``WEDGED=vendor-specific`` recovery method along with
+> + *         :ref:`runtime survivability mode <xe-survivability-mode>` is used to
+> + *         notify userspace. User can then initiate a firmware flash using userspace tools
+> + *         like fwupd to restore device to normal situation.
+> + */
+> +
+> +/*
+>   * xe_device_set_wedged_method - Set wedged recovery method
+>   * @xe: xe device instance
+>   * @method: recovery method to set
+> diff --git a/drivers/gpu/drm/xe/xe_survivability_mode.c b/drivers/gpu/drm/xe/xe_survivability_mode.c
+> index 267d0e3fd85a..86ba767c4e44 100644
+> --- a/drivers/gpu/drm/xe/xe_survivability_mode.c
+> +++ b/drivers/gpu/drm/xe/xe_survivability_mode.c
+> @@ -22,15 +22,18 @@
+>  #define MAX_SCRATCH_MMIO 8
+>  
+>  /**
+> - * DOC: Xe Boot Survivability
+> + * DOC: Survivability Mode
+>   *
+> - * Boot Survivability is a software based workflow for recovering a system in a failed boot state
+> + * Survivability Mode is a software based workflow for recovering a system in a failed boot state
+>   * Here system recoverability is concerned with recovering the firmware responsible for boot.
+>   *
+> - * This is implemented by loading the driver with bare minimum (no drm card) to allow the firmware
+> - * to be flashed through mei and collect telemetry. The driver's probe flow is modified
+> - * such that it enters survivability mode when pcode initialization is incomplete and boot status
+> - * denotes a failure.
+> + * Boot Survivability
+> + * ===================
+> + *
+> + * Boot Survivability is implemented by loading the driver with bare minimum (no drm card) to allow
+> + * the firmware to be flashed through mei driver and collect telemetry. The driver's probe flow is
+> + * modified such that it enters survivability mode when pcode initialization is incomplete and boot
+> + * status denotes a failure.
+>   *
+>   * Survivability mode can also be entered manually using the survivability mode attribute available
+>   * through configfs which is beneficial in several usecases. It can be used to address scenarios
+> @@ -46,7 +49,7 @@
+>   * Survivability mode is indicated by the below admin-only readable sysfs which provides additional
+>   * debug information::
+>   *
+> - *	/sys/bus/pci/devices/<device>/surivability_mode
+> + *	/sys/bus/pci/devices/<device>/survivability_mode
+>   *
+>   * Capability Information:
+>   *	Provides boot status
+> @@ -56,6 +59,22 @@
+>   *	Provides history of previous failures
+>   * Auxiliary Information
+>   *	Certain failures may have information in addition to postcode information
+> + *
+> + * Runtime Survivability
+> + * =====================
+> + *
+> + * Certain runtime firmware errors can cause the device to enter a wedged state
+> + * (:ref:`xe-device-wedging`) requiring a firmware flash to restore normal operation.
+> + * Runtime Survivability Mode indicates that a firmware flash is necessary to recover the device and
+> + * is indicated by the presence of survivability mode sysfs::
+> + *
+> + *	/sys/bus/pci/devices/<device>/survivability_mode
+> + *
+> + * Survivability mode sysfs provides information about the type of survivability mode.
+> + *
+> + * When such errors occur, userspace is notified with the drm device wedged uevent and runtime
+> + * survivability mode. User can then initiate a firmware flash using userspace tools like fwupd
+> + * to restore device to normal operation.
+>   */
+>  
+>  static u32 aux_history_offset(u32 reg_value)
+> @@ -327,7 +346,7 @@ int xe_survivability_mode_runtime_enable(struct xe_device *xe)
+>  
+>  	xe_device_set_wedged_method(xe, DRM_WEDGE_RECOVERY_VENDOR);
+>  	xe_device_declare_wedged(xe);
+> -	dev_err(&pdev->dev, "Firmware update required, Refer the userspace documentation for more details!\n");
+> +	dev_err(&pdev->dev, "Firmware flash required, Refer the userspace documentation for more details!\n");
+>  
+>  	return 0;
+>  }
 > -- 
 > 2.47.1
 > 
