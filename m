@@ -2,55 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054A3B109CF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 14:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09498B10B4C
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 15:24:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 557BE10E959;
-	Thu, 24 Jul 2025 12:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25FEB10E2B0;
+	Thu, 24 Jul 2025 13:24:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="RSV9t1fr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LKWKixLW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1DB6610E93E
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 12:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=0sHiDwJliauha+2ZqYLG22+5Mn4RxXcnn7wzkYD5rxw=; b=R
- SV9t1fr1yKy0AfQU48621iWwaFqxmsJwJmlGIA0XrCTF3nSF02C2a9iUpJJC0Fo6
- Rj/IMsWnqp01xaZi1+38bno/9mCEO2+TD6/kYtcmG44XYKnuRzK+ydw4Zc7hgHB1
- mNXUkAzZ3IuoLYUrMF9B4xyu73BBQ6h1Tq6Z1dtHdY=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-106 (Coremail) ; Thu, 24 Jul 2025 20:00:05 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Thu, 24 Jul 2025 20:00:05 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: dmitry.baryshkov@oss.qualcomm.com, heiko@sntech.de
-Cc: hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com,
- stephen@radxa.com, cristian.ciocaltea@collabora.com,
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, robh@kernel.org,
- sebastian.reichel@collabora.com, "Andy Yan" <andy.yan@rock-chips.com>
-Subject: Re:[PATCH v5 00/10] Add support for RK3588 DisplayPort Controller
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250716100440.816351-1-andyshrk@163.com>
-References: <20250716100440.816351-1-andyshrk@163.com>
-X-NTES-SC: AL_Qu2eAf+et0wr4ymQZekfmUkTh+o2Xca5uf0j3YBWOZh+jCDp+QI/WUd7PHfV+c6FAj2WqyCvXhFv2v9ITLdpdJIwy+P6kRHwohgDB5b8O/wqyA==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED1610E91A
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 10:10:24 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id
+ ca18e2360f4ac-879399faac9so65333639f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 03:10:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753351823; x=1753956623; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0+meAXBdOYjti/xHVnSu9+/vlo6BxGcgq1eAbTOjxvs=;
+ b=LKWKixLWc2/HTPitlVTmloIkfefmnw6ipnXHvYOw2ffADmWL+nTOJgH9OjnIMND9yz
+ PsCRt7nJcqXIU9FWSa5mP2QQHGHYG1b4Ya6v17z9jdtO+wX853IrYA5oyXaCNdRTvuSS
+ 73VSqCcEupvSWDnUs/ZCjrSvgrD9E+4wT+Obaf3ZNEmnPnLedCcaFOCbx+zHwwH2pa1/
+ 2gWnT1l9sOytrDJ+Q8wKdoBcKN6vkRJATMeGXGDkD3iSydbQczuETmZhp/LRqdr0ZuD8
+ P+7al+gayXqFMcvRLSwRnp85KW3fLg0C8COtbuT4tfR7iPIET2xFG0DMAnV46P5/DIj/
+ KwMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753351823; x=1753956623;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0+meAXBdOYjti/xHVnSu9+/vlo6BxGcgq1eAbTOjxvs=;
+ b=BAPXIP+SznBL4vLdHLpsw71m8FE84GIu9pea7hUmZy6aV3JQ6/5NGY/Hatkug+dl4Y
+ 8LnW26ta6pbUERo1mpMcSqp9Gv/dStg/J1U1dsBMNkolUdMqS1m6LQuLuQ+O9T1q+yDg
+ fO0nRTHgSfn85goRQQ08j57A0wT0yzqWztzUOTljQSX8AJkEyh83GWPMG3IWsgnVCUxY
+ jzPDPpXKpJT4ux3Mfnx/xUjmZw/FuU29dA5V/qc3tkZA06mjx9+0GMz8UK+eDexw+GlX
+ gAEEyVuCc/FtjcrckqOw/iG/lCt2WXKC5D0CLyVSM/4CGYAkHU+/jJvGU/dU9MEkis1s
+ fWlw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUAQC7k14hQ6Up7cMas9OcuxzisCfXtz59ZU2+23/6w/yEJw3dSdSbeDwEWXKgOVb+ayD2YtkQiN4I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YznVXxMNIn6sYeTzVqitH0GUsINE+jROAdlDx9H9OfWEX9xn5AP
+ /1YgxnQk+MP+jjezN2wS/yfErMke7GjNrTwrGeT+r8lP/4+eAlr82CNwO7uWjx1uPPzuAOVrkJY
+ /k+HWAtrTMWBGh91267mR62GdGBfL3u0=
+X-Gm-Gg: ASbGncsStlanrO0MiCEsdNgQtHypVPb/yqliUkiz1r38iX4q+3F9GM/KyFcJjVtKIBM
+ n3+U71dLqOxiGEHRKU7lM23lkqyU4wlmUSjPJfRmAyI4ZUq4Mq8K6W5p4wxziFwcIxjoReF7W5c
+ 7gSA0wY5ntvIGAsPPTE/TciCcEinjz+ngQ6aWVTGkIQbIQeolFA1d3/sz7lhaiqjorq/yLqsFeY
+ xT/MXc=
+X-Google-Smtp-Source: AGHT+IF7M0baFlK3062K6BXEoa8kOdw9KDdHsQbjFyV5neQ+2sKDdzPXmbuSGlkwEtGraleUJvxc24KLjX8I3/Jqb8w=
+X-Received: by 2002:a92:cd8d:0:b0:3dd:d321:79ab with SMTP id
+ e9e14a558f8ab-3e335535dc5mr117038895ab.18.1753351822074; Thu, 24 Jul 2025
+ 03:10:22 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <3eeb9150.90fb.1983c4e1163.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: aigvCgD3_1hGIIJoZ_QFAA--.53340W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEhaUXmiCGCWvpgACsS
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+References: <20250724072248.1517569-1-shengjiu.wang@nxp.com>
+ <20250724072248.1517569-2-shengjiu.wang@nxp.com>
+ <20250724-straight-lorikeet-of-novelty-9124f8@kuoka>
+In-Reply-To: <20250724-straight-lorikeet-of-novelty-9124f8@kuoka>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Thu, 24 Jul 2025 18:10:10 +0800
+X-Gm-Features: Ac12FXwoUiu0ZopeKo51pKtd4fVW0e5JyUbFY0Gq7Yw0jp0bxpzJja68FGRxr2Q
+Message-ID: <CAA+D8ANV74k1=_m7HfCO2n7nCU7mH=QMrd0CS5eMqGqDHn9HEw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: display: imx: add HDMI PAI for i.MX8MP
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
+ cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org, 
+ l.stach@pengutronix.de, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Thu, 24 Jul 2025 13:24:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,83 +98,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlbGxvIERtaXRyeSwKICAgIENvdWxkIHlvdSBwbGVhc2UgY29udGludWUgdG8gcmV2aWV3IHRo
-aXMgcGF0Y2ggc2VyaWVzIGF0IHlvdXIgY29udmVuaWVuY2U/CiAgICBUaGFuayB5b3UhCgpBdCAy
-MDI1LTA3LTE2IDE4OjA0OjI3LCAiQW5keSBZYW4iIDxhbmR5c2hya0AxNjMuY29tPiB3cm90ZToK
-PkZyb206IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPgo+Cj5UaGVyZSBhcmUg
-dHdvIERXIERQVFggYmFzZWQgRGlzcGxheVBvcnQgQ29udHJvbGxlciBvbiByazM1ODggd2hpY2gK
-PmFyZSBjb21wbGlhbnQgd2l0aCB0aGUgRGlzcGxheVBvcnQgU3BlY2lmaWNhdGlvbiBWZXJzaW9u
-IDEuNCB3aXRoCj50aGUgZm9sbG93aW5nIGZlYXR1cmVzOgo+Cj4qIERpc3BsYXlQb3J0IDEuNGEK
-PiogTWFpbiBMaW5rOiAxLzIvNCBsYW5lcwo+KiBNYWluIExpbmsgU3VwcG9ydCAxLjYyR2Jwcywg
-Mi43R2JwcywgNS40R2JwcyBhbmQgOC4xR2Jwcwo+KiBBVVggY2hhbm5lbCAxTWJwcwo+KiBTaW5n
-bGUgU3RyZWFtIFRyYW5zcG9ydChTU1QpCj4qIE11bHRpc3RyZWFtIFRyYW5zcG9ydCAoTVNUKQo+
-KiBUeXBlLUMgc3VwcG9ydCAoYWx0ZXJuYXRlIG1vZGUpCj4qIEhEQ1AgMi4yLCBIRENQIDEuMwo+
-KiBTdXBwb3J0cyB1cCB0byA4LzEwIGJpdHMgcGVyIGNvbG9yIGNvbXBvbmVudAo+KiBTdXBwb3J0
-cyBSQkcsIFlDYkNyNDo0OjQsIFlDYkNyNDoyOjIsIFlDYkNyNDoyOjAKPiogUGl4ZWwgY2xvY2sg
-dXAgdG8gNTk0TUh6Cj4qIEkyUywgU1BESUYgYXVkaW8gaW50ZXJmYWNlCj4KPlRoZSBjdXJyZW50
-IHZlcnNpb24gb2YgdGhpcyBwYXRjaCBzZXJpZXMgb25seSBzdXBwb3J0cyBiYXNpYyBkaXNwbGF5
-IG91dHB1dHMuCj5JIGNvbmR1Y3RlZCB0ZXN0cyB3aXRoIERQMCBpbiAxMDgwcCBhbmQgNEtANjAg
-WUNiQ3I0OjI6MCBtb2RlczsgdGhlIEFMVC9UeXBlLUMKPm1vZGUgd2FzIHRlc3RlZCBvbiBSb2Nr
-IDVCLCBEUDEgd2FzIHRlc3RlZCBvbiBSb2NrIDUgSVRYIGJ5IFN0ZXBoZW4gYW5kIFBpb3RyLgo+
-SERDUCBhbmQgYXVkaW8gZmVhdHVyZXMgcmVtYWluIHVuaW1wbGVtZW50ZWQuCj5Gb3IgUkszNTg4
-LCBpdCdzIG9ubHkgc3VwcG9ydCBTU1QsIHdoaWxlIGluIHRoZSB1cGNvbWluZyBSSzM1NzYsIGl0
-IGNhbiBzdXBwb3J0Cj5NU1Qgb3V0cHV0Lgo+Cj4KPkNoYW5nZXMgaW4gdjU6Cj4tIFVzZSBkcm1f
-ZHBfcmVhZF9zaW5rX2NvdW50X2NhcCBpbnN0ZWFkIG9mIHRoZSBwcml2YXRlIGltcGxlbWVudGF0
-aW9uLgo+LSBBZGQgTUFJTlRBSU5FUlMgZW50cnkuCj4tIExpbmsgdG8gdjQ6IGh0dHBzOi8vbG9y
-ZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjUwNjE5MDYzOTAwLjcwMDQ5MS0xLWFuZHlz
-aHJrQDE2My5jb20vCj4KPkNoYW5nZXMgaW4gdjQ6Cj4tIERyb3AgdW5uZWNlc3NhcnkgaGVhZGVy
-IGZpbGVzCj4tIFN3aXRjaCB0byBkZXZtX2RybV9icmlkZ2VfYWxsb2MKPi0gRHJvcCB1bnVzZWQg
-ZnVuY3Rpb24KPi0gQWRkIHBsYXRmb3JtX3NldF9kcnZkYXRhCj4tIExpbmsgdG8gdjM6IGh0dHBz
-Oi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjUwNDAzMDMzNzQ4LjI0NTAwNy0x
-LWFuZHlzaHJrQDE2My5jb20vCj4KPkNoYW5nZXMgaW4gdjM6Cj4tIFJlYmFzZSBvbiBkcm0tbWlz
-Yy1uZXh0Cj4tIFN3aXRjaCB0byBjb21tb24gaGVscGVycyB0byBwb3dlciB1cC9kb3duIGRwIGxp
-bmsKPi0gT25seSBwYXNzIHBhcmFtZXRlcnMgdG8gcGh5IHRoYXQgc2hvdWxkIGJlIHNldAo+LSBG
-aXJzdCBpbnRyb2R1Y2VkIGluIHRoaXMgdmVyc2lvbi4KPi0gRmlyc3QgaW50cm9kdWNlZCBpbiB0
-aGlzIHZlcnNpb24uCj4tIEFkZCBSQTYyMCBpbnRvIGJyaWRnZSBjaGFpbi4KPi0gTGluayB0byB2
-MjogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtcm9ja2NoaXAvMjAyNTAzMTIxMDQyMTQu
-NTI1MjQyLTEtYW5keXNocmtAMTYzLmNvbS8KPgo+Q2hhbmdlcyBpbiB2MjoKPi0gTGluayB0byBW
-MTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtcm9ja2NoaXAvMjAyNTAyMjMxMTMwMzYu
-NzQyNTItMS1hbmR5c2hya0AxNjMuY29tLwo+LSBGaXggYSBjaGFyYWN0ZXIgZW5jb2RpbmcgaXNz
-dWUKPi0gRml4IGNvbXBpbGUgZXJyb3Igd2hlbiBidWlsZCBhcyBtb2R1bGUKPi0gQWRkIHBoeSBp
-bml0Cj4tIE9ubHkgdXNlIG9uZSBkd19kcF9saW5rX3RyYWluX3NldAo+LSBpbmxpbmUgZHdfZHBf
-cGh5X3VwZGF0ZV92c19lbXBoCj4tIFVzZSBkcF9zZHAKPi0gQ2hlY2sgcmV0dXJuIHZhbHVlIG9m
-IGRybV9tb2Rlc2V0X2xvY2sKPi0gTWVyZ2UgY29kZSBpbiBhdG9taWNfcHJlX2VuYWJsZS9tb2Rl
-X2ZpeHVwIHRvIGF0b21pY19jaGVjawo+LSBSZXR1cm4gTlVMTCBpZiBjYW4ndCBmaW5kIGEgc3Vw
-cG9ydGVkIG91dHB1dCBmb3JtYXQKPi0gRml4IG1heF9saW5rX3JhdGUgZnJvbSBwbGF0X2RhdGEK
-Pi0gbm8gaW5jbHVkZSB1YXBpIHBhdGgKPi0gc3dpdGNoIHRvIGRybW1fZW5jb2Rlcl9pbml0Cj4t
-IFNvcnQgaW4gYWxwaGFiZXRpY2FsIG9yZGVyCj4KPkFuZHkgWWFuICgxMCk6Cj4gIGR0LWJpbmRp
-bmdzOiBkaXNwbGF5OiByb2NrY2hpcDogQWRkIHNjaGVtYSBmb3IgUkszNTg4IERQVFggQ29udHJv
-bGxlcgo+ICBkcm0vYnJpZGdlOiBzeW5vcHN5czogQWRkIERXIERQVFggQ29udHJvbGxlciBzdXBw
-b3J0IGxpYnJhcnkKPiAgZHJtL3JvY2tjaGlwOiBBZGQgUkszNTg4IERQVFggb3V0cHV0IHN1cHBv
-cnQKPiAgTUFJTlRBSU5FUlM6IEFkZCBlbnRyeSBmb3IgRFcgRFBUWCBDb250cm9sbGVyIGJyaWRn
-ZQo+ICBkdC1iaW5kaW5nczogZGlzcGxheTogc2ltcGxlLWJyaWRnZTogQWRkIHJhNjIwIGNvbXBh
-dGlibGUKPiAgZHJtL2JpcmRnZTogc2ltcGxlLWJyaWRnZTogQWRkIHN1cHBvcnQgZm9yIHJhZHhh
-IHJhNjIwCj4gIGFybTY0OiBkdHM6IHJvY2tjaGlwOiBBZGQgRFAwIGZvciByazM1ODgKPiAgYXJt
-NjQ6IGR0czogcm9ja2NoaXA6IEFkZCBEUDEgZm9yIHJrMzU4OAo+ICBhcm02NDogZHRzOiByb2Nr
-Y2hpcDogRW5hYmxlIERpc3BsYXlQb3J0IGZvciByazM1ODhzIENvb2wgUGkgNEIKPiAgYXJtNjQ6
-IGR0czogcm9ja2NoaXA6IEVuYWJsZSBEUDJIRE1JIGZvciBST0NLIDUgSVRYCj4KPiAuLi4vZGlz
-cGxheS9icmlkZ2Uvc2ltcGxlLWJyaWRnZS55YW1sICAgICAgICAgfCAgICAxICsKPiAuLi4vZGlz
-cGxheS9yb2NrY2hpcC9yb2NrY2hpcCxkdy1kcC55YW1sICAgICAgfCAgMTUwICsrCj4gTUFJTlRB
-SU5FUlMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgOCArCj4gYXJjaC9h
-cm02NC9ib290L2R0cy9yb2NrY2hpcC9yazM1ODgtYmFzZS5kdHNpIHwgICAzMCArCj4gLi4uL2Fy
-bTY0L2Jvb3QvZHRzL3JvY2tjaGlwL3JrMzU4OC1leHRyYS5kdHNpIHwgICAzMCArCj4gLi4uL2Jv
-b3QvZHRzL3JvY2tjaGlwL3JrMzU4OC1yb2NrLTUtaXR4LmR0cyAgIHwgICA1OSArCj4gLi4uL2Jv
-b3QvZHRzL3JvY2tjaGlwL3JrMzU4OHMtY29vbHBpLTRiLmR0cyAgIHwgICAzNyArCj4gZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9zaW1wbGUtYnJpZGdlLmMgICAgICAgIHwgICAgNSArCj4gZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9LY29uZmlnICAgICAgIHwgICAgNyArCj4gZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9NYWtlZmlsZSAgICAgIHwgICAgMSArCj4gZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1kcC5jICAgICAgIHwgMjA0NCArKysrKysrKysr
-KysrKysrKwo+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9LY29uZmlnICAgICAgICAgICAgICB8
-ICAgIDkgKwo+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9NYWtlZmlsZSAgICAgICAgICAgICB8
-ICAgIDEgKwo+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19kcC1yb2NrY2hpcC5jICAgICB8
-ICAxNTAgKysKPiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5jICAg
-fCAgICAxICsKPiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2Rydi5oICAg
-fCAgICAxICsKPiBpbmNsdWRlL2RybS9icmlkZ2UvZHdfZHAuaCAgICAgICAgICAgICAgICAgICAg
-fCAgIDIwICsKPiAxNyBmaWxlcyBjaGFuZ2VkLCAyNTU0IGluc2VydGlvbnMoKykKPiBjcmVhdGUg
-bW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcm9j
-a2NoaXAvcm9ja2NoaXAsZHctZHAueWFtbAo+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
-dS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWRwLmMKPiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL2R3X2RwLXJvY2tjaGlwLmMKPiBjcmVhdGUgbW9kZSAxMDA2NDQg
-aW5jbHVkZS9kcm0vYnJpZGdlL2R3X2RwLmgKPgo+LS0gCj4yLjQzLjAKPgo+YmFzZS1jb21taXQ6
-IDYwODVhNDVhMDY5ZDJhZWFiNmJiM2U1ZjNmZGQzMmUyNTk3MDMxMDYKPmJyYW5jaDogcmszNTg4
-LWRwLXVwc3RyZWFtLXY1Cg==
+On Thu, Jul 24, 2025 at 4:52=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On Thu, Jul 24, 2025 at 03:22:43PM +0800, Shengjiu Wang wrote:
+> > Add binding for the i.MX8MP HDMI parallel Audio interface block.
+> >
+> > In fsl,imx8mp-hdmi-tx.yaml, add port@2 that linked to pai_to_hdmi_tx.
+> >
+> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > ---
+> >  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    | 12 ++++
+> >  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      | 69 +++++++++++++++++++
+> >  2 files changed, 81 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,i=
+mx8mp-hdmi-pai.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8m=
+p-hdmi-tx.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8m=
+p-hdmi-tx.yaml
+> > index 05442d437755..6211ab8bbb0e 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-=
+tx.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-=
+tx.yaml
+> > @@ -49,6 +49,10 @@ properties:
+> >          $ref: /schemas/graph.yaml#/properties/port
+> >          description: HDMI output port
+> >
+> > +      port@2:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: Parallel audio input port
+>
+> Which data path this represents? Feels like you are duplicating ASoC
+> dai-links/cells...
+
+Here it means from HDMI PAI to HDMI TX controller. not the ASoC dai link.
+
+On i.MX8MP, for HDMI audio, it is separated into several hardware modules:
+1. Aud2HTX
+   driver:  sound/soc/fsl/fsl_aud2htx.c
+2. HDMI PAI
+   driver:  this patch set
+3. HDMI TX controller audio part
+    driver: drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c
+
+Aud2HTX is in the Audio subsystem,  HDMI PAI and HDMI TX are in the
+HDMI subsystem. The full data path is
+Aud2htx -> HDMI PAI -> HDMI TX controller.
+
+>
+>
+> > +
+> >      required:
+> >        - port@0
+> >        - port@1
+> > @@ -98,5 +102,13 @@ examples:
+> >                      remote-endpoint =3D <&hdmi0_con>;
+> >                  };
+> >              };
+> > +
+> > +            port@2 {
+> > +                reg =3D <2>;
+> > +
+> > +                endpoint {
+> > +                    remote-endpoint =3D <&pai_to_hdmi_tx>;
+> > +                };
+> > +            };
+> >          };
+> >      };
+> > diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-h=
+dmi-pai.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdm=
+i-pai.yaml
+> > new file mode 100644
+> > index 000000000000..4f99682a308d
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai=
+.yaml
+> > @@ -0,0 +1,69 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pai.yam=
+l#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Freescale i.MX8MP HDMI Parallel Audio Interface
+> > +
+> > +maintainers:
+> > +  - Shengjiu Wang <shengjiu.wang@nxp.com>
+> > +
+> > +description:
+> > +  The HDMI TX Parallel Audio Interface (HTX_PAI) is a bridge between t=
+he
+> > +  Audio Subsystem to the HDMI TX Controller.
+>
+> What is Audio Subsystem? Like Linux Audio or some name matching actual
+> hardware?
+
+Audio subsystem is the name for hardware.
+
+>
+>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: fsl,imx8mp-hdmi-pai
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  clock-names:
+> > +    const: apb
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/properties/port
+> > +    description: Output to the HDMI TX controller.
+>
+> And how do you plug it into sound card? Where are any DAI links?
+
+The hardware data path is Aud2htx -> HDMI PAI -> HDMI TX controller.
+
+From a software point of view. the path is
+Aud2htx -> hdmi_codec  (ALSA sound card)
+hdmi_codec -> dw-hdmi-gp-audio -> hdmi_pai
+
+hdmi_codec is registered by dw-hdmi-gp-audio.c,  hdmi_codec will call
+the function in dw-hdmi-gp-audio.c, dw-hdmi-gp-audio.c will call the
+function in hdmi pai driver.
+
+Aud2htx is cpu dai in ALSA
+hdmi-codec.c is the codec dai in ALSA
+Above is the dai link for ALSA, they already exist in the kernel.
+
+The HDMI PAI is the bridge, which is covered by this patch set.
+
+Best regards
+Shengjiu Wang
+>
+> Best regards,
+> Krzysztof
+>
