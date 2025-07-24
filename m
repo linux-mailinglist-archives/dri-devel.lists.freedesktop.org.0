@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBDFB103D2
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:40:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B98B103D3
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:40:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA89010E8D4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCA7E10E8D9;
 	Thu, 24 Jul 2025 08:39:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EOQHw5dW";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OlrWJURe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4BB310E8D2
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:39:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6AA10E8D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:39:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1753346394;
- bh=v0flDi7EoltDZidtFDgX25K3EX5eZ39OLHBODZmt3jI=;
+ s=mail; t=1753346397;
+ bh=jcKtkqOWpg9P4oY5xy/RlTOoT9vxXXHhnzs4o6P45RI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EOQHw5dWvWRsLrb/IHJ+axQp+71IdF4KUnDviAaWdBxnRKpGGEbDOCcCrSSG1eeZ8
- gZrYo8iwKvcJvRqGDKk/YQrXncNCKyvnUARhbZg19p4bcISm8EN/sDC7a1ouPyH9QZ
- KROUGsCGr7HS/s5k8pALlHVoQTFAbDCoHCJQcnxZA6Fx4reWBwXxh35M6eQWOImh7W
- hUAvXDMOszay6N5G2TNGEbrXStV/Xvn4RpuzNo1AdhXMGGruHKLlJ9s4jS6IaBlKbS
- Uo+creRPiKwGClnw+2u6A5BWd6fP98m4u+j3JWnhLPL8egE3MK85L+AIGLT/pWURKg
- OW6B6zxpyaWlw==
+ b=OlrWJUReDGWMJT23zcuQ9RsovThXX4BJuN2UJNnZR51ml3FJ0erxI3z3G3S8ti8ch
+ ptKwHGjnOxZde1q79v+oaF6DHpQOBI7ZDZ9q8DkLIIAC7E0FWlZIeOnZBrQsxiNS9m
+ PxEy0BwDsy8UCcDUUw47Qiq1+q3xByx76ovR65S4gHLTYypU/8XWtoY7IX7p55RXLT
+ yCfU/pnW5ND1sK/F6n9ho/Pu/vdsuIZ6w4wy3FqfqcXWU4CkNvulQIn0qfMmnvVMsI
+ z/E21qE4992P42BWn/v5qCaz8LomrXr77gZ/7O0mrJNMDNog9bOJ5HF2cIpqH76GB+
+ RsTrGA9xlCo+g==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2A20917E128C;
- Thu, 24 Jul 2025 10:39:52 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C89E917E1110;
+ Thu, 24 Jul 2025 10:39:54 +0200 (CEST)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: linux-mediatek@lists.infradead.org,
 	robh@kernel.org
@@ -58,10 +58,10 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
-Subject: [PATCH 11/38] dt-bindings: regulator: mediatek,
- mt6331: Fix various regulator names
-Date: Thu, 24 Jul 2025 10:38:47 +0200
-Message-ID: <20250724083914.61351-12-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 12/38] dt-bindings: regulator: mediatek,
+ mt6331: Add missing compatible
+Date: Thu, 24 Jul 2025 10:38:48 +0200
+Message-ID: <20250724083914.61351-13-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
@@ -82,68 +82,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This binding was never applied to anything because it misses the
-compatible, hence any mistake in it got unnoticed.
-
-Before adding the compatible to let it apply, fix the names and
-the node names of various regulators.
+This binding had no compatible and for this reason would not be
+applied to anything: add the missing "mediatek,mt6331-regulator"
+comaptible.
 
 Fixes: 6385e21692bb ("regulator: Add bindings for MT6331 regulator")
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../regulator/mediatek,mt6331-regulator.yaml         | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../bindings/regulator/mediatek,mt6331-regulator.yaml      | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/regulator/mediatek,mt6331-regulator.yaml b/Documentation/devicetree/bindings/regulator/mediatek,mt6331-regulator.yaml
-index 79e5198e1c73..6006a973b865 100644
+index 6006a973b865..c654acf13768 100644
 --- a/Documentation/devicetree/bindings/regulator/mediatek,mt6331-regulator.yaml
 +++ b/Documentation/devicetree/bindings/regulator/mediatek,mt6331-regulator.yaml
-@@ -26,23 +26,23 @@ patternProperties:
+@@ -15,6 +15,10 @@ description: |
+   buck-<name> and ldo-<name>.
+   MT6331 regulators node should be sub node of the MT6397 MFD node.
  
-     unevaluatedProperties: false
- 
--  "^ldo-v(avdd32aud|auxa32)$":
-+  "^ldo-(avdd32aud|vauxa32)$":
++properties:
++  compatible:
++    const: mediatek,mt6331-regulator
++
+ patternProperties:
+   "^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$":
      type: object
-     $ref: regulator.yaml#
- 
-     properties:
-       regulator-name:
--        pattern: "^v(avdd32aud|auxa32)$"
-+        pattern: "^(avdd32_aud|vauxa32)$"
+@@ -82,6 +86,9 @@ patternProperties:
  
      unevaluatedProperties: false
  
--  "^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sram|usb10)$":
-+  "^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb10)$":
-     type: object
-     $ref: regulator.yaml#
++required:
++  - compatible
++
+ additionalProperties: false
  
-     properties:
-       regulator-name:
--        pattern: "^v(dig18|emc33|ibr|mc|mch|mipi|rtc|sram|usb10)$"
-+        pattern: "^v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb)$"
- 
-     unevaluatedProperties: false
- 
-@@ -52,7 +52,7 @@ patternProperties:
- 
-     properties:
-       regulator-name:
--        pattern: "^vcam(a|af|d|io)$"
-+        pattern: "^vcam(a|_af|d|io)$"
- 
-     unevaluatedProperties: false
- 
-@@ -75,7 +75,7 @@ patternProperties:
- 
-     properties:
-       regulator-name:
--        pattern: "^vgp[12]$"
-+        pattern: "^vgp[1234]$"
- 
-     required:
-       - regulator-name
+ examples:
 -- 
 2.50.1
 
