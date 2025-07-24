@@ -2,64 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7420B11142
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 20:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EAB9B1117E
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 21:16:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68C2610E2A3;
-	Thu, 24 Jul 2025 18:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F13D710E02E;
+	Thu, 24 Jul 2025 19:15:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=grimler.se header.i=@grimler.se header.b="pdy7IY3p";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bhfzO8wd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
- [91.218.175.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBD5310E29D
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 18:57:32 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grimler.se; s=key1;
- t=1753383093;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C2A810E02E
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 19:15:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1753384557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IiDy4Kqhspm647hepX8y1s6z9FB1aeWSmguTuvv/WIY=;
- b=pdy7IY3pUnKui/Ta8C2Wr1on2JhuiWcv2LIGyHGanxZrRo8OZkhG83VXMGmPjOYr3AHdQt
- mM4wu0v0g02mryRzQl54NXKXf67brGla0YTkYM3DnEqxY71d4ijEPXqOvhkpHO1ZnfLL/t
- SQCf4v4q5BSBg6iu5GMEA/ZQyLKw3xg=
-From: Henrik Grimler <henrik@grimler.se>
-Date: Thu, 24 Jul 2025 20:50:53 +0200
-Subject: [PATCH v2 3/3] drm/bridge: sii9234: use extcon cable detection
- logic to detect MHL
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rDZbSpivZvNtqNNz2nVMJ9AyhIB6jJidbuEul+8M8EM=;
+ b=bhfzO8wd9Y774IUHMd+D/EJzcFy1yrXG/18kHkyrnK5Ardd8Bz2LbmqHV3cGY6rlKC06N+
+ NzdBKttWqzFZVPMl3Q35Mis1FvSuzchYCRPWt+QpIgFy7Vx+y1ZWJ/G+P6vAguycnQEQ6/
+ xwIPCnSQ0COJOxThrckS2JxtdBqMFNE=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-399-_7VPjU56PVStwyCwyxYvTQ-1; Thu,
+ 24 Jul 2025 15:15:51 -0400
+X-MC-Unique: _7VPjU56PVStwyCwyxYvTQ-1
+X-Mimecast-MFC-AGG-ID: _7VPjU56PVStwyCwyxYvTQ_1753384549
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 2213B1956056; Thu, 24 Jul 2025 19:15:48 +0000 (UTC)
+Received: from chopper.lyude.net (unknown [10.22.88.223])
+ by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id D5C4B1966665; Thu, 24 Jul 2025 19:15:42 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Danilo Krummrich <dakr@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Asahi Lina <lina+kernel@asahilina.net>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] Partially revert "rust: drm: gem: Implement AlwaysRefCounted
+ for all gem objects automatically"
+Date: Thu, 24 Jul 2025 15:15:18 -0400
+Message-ID: <20250724191523.561314-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250724-exynos4-sii9234-driver-v2-3-faee244f1d40@grimler.se>
-References: <20250724-exynos4-sii9234-driver-v2-0-faee244f1d40@grimler.se>
-In-Reply-To: <20250724-exynos4-sii9234-driver-v2-0-faee244f1d40@grimler.se>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org, 
- linux-kernel@vger.kernel.org, Henrik Grimler <henrik@grimler.se>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4838; i=henrik@grimler.se;
- h=from:subject:message-id; bh=2W4tp0oa2XQwld7BwY7rhkBMwuoZwKS4j+VSjCp8d7Q=;
- b=owEBbQGS/pANAwAKAbAHbkkLcWFrAcsmYgBogoCphlDJtFUAS+pTsqCgiQ4LJlV+aTwzDIlOg
- +vU258AoFqJATMEAAEKAB0WIQQsfymul4kfZBmp4s2wB25JC3FhawUCaIKAqQAKCRCwB25JC3Fh
- a6STB/9C+RD2eaYcEnHCFUmxelDgXrIVwITs1EzwPY/05rgDYSQE2RleM1lhcPukWJJblCUfWse
- OFRGvZDjBO8+Z+arNoALsd5B/2TXXX7KwZxzZJshRwqU1uw1kZfRu8sd4cLt0E7oMYCzsn3zmnq
- 217BxK38Td/dsOUw208LpMxtSj73U1FnDKdFD7bfzXINry+bsUWXzrfecDwrJkNja4fJjLRnik9
- gTqJR+zn2f447VX3Ohg33awU3X0Hf6Bljo8MpIc4FcAjYAI2pNrM0DbD5FhjNwKCSzXddSQujCH
- Ou08idSHi0MM7joygqj65s4/ZFloITcMGijNjnedBPwatPxM
-X-Developer-Key: i=henrik@grimler.se; a=openpgp;
- fpr=2C7F29AE97891F6419A9E2CDB0076E490B71616B
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,173 +81,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To use MHL we currently need the MHL chip to be permanently on, which
-consumes unnecessary power. Let's use extcon attached to MUIC to enable
-the MHL chip only if it detects an MHL cable.
+I made a very silly mistake with this commit that managed to slip by
+because I forgot to mzke sure rvkms was rebased before testing my work last
+- we can't do blanket implementations like this due to rust's orphan rule.
 
-Signed-off-by: Henrik Grimler <henrik@grimler.se>
+The code -does- build just fine right now, but it doesn't with the ongoing
+bindings for gem shmem. So, just revert this and we'll introduce a macro
+for implementing AlwaysRefCounted individually for each type of gem
+implementation.
+
+Note that we leave the IntoGEMObject since it is true that all gem objects
+are refcounted, so any implementations that are added should be
+implementing AlwaysRefCounted anyhow.
+
+This reverts commit 38cb08c3fcd3f3b1d0225dcec8ae50fab5751549.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
-v2: add dependency on extcon. Issue reported by kernel test robot
-    <lkp@intel.com>
----
- drivers/gpu/drm/bridge/Kconfig   |  1 +
- drivers/gpu/drm/bridge/sii9234.c | 89 ++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 87 insertions(+), 3 deletions(-)
+ rust/kernel/drm/gem/mod.rs | 36 ++++++++++++++++--------------------
+ 1 file changed, 16 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index b9e0ca85226a603a24f90c6879d1499f824060cb..f18a083f6e1c6fe40bde5e65a1548acc61a162ae 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -303,6 +303,7 @@ config DRM_SII902X
- config DRM_SII9234
- 	tristate "Silicon Image SII9234 HDMI/MHL bridge"
- 	depends on OF
-+	select EXTCON
- 	help
- 	  Say Y here if you want support for the MHL interface.
- 	  It is an I2C driver, that detects connection of MHL bridge
-diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-index 0e0bb1bf71fdcef788715cfd6fa158a6992def33..4d84ba01ea76816bebdbc29d48a041c9c6cd508e 100644
---- a/drivers/gpu/drm/bridge/sii9234.c
-+++ b/drivers/gpu/drm/bridge/sii9234.c
-@@ -19,6 +19,7 @@
- 
- #include <linux/delay.h>
- #include <linux/err.h>
-+#include <linux/extcon.h>
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/interrupt.h>
-@@ -26,6 +27,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- 
-@@ -170,8 +172,12 @@ struct sii9234 {
- 	struct drm_bridge bridge;
- 	struct device *dev;
- 	struct gpio_desc *gpio_reset;
--	int i2c_error;
- 	struct regulator_bulk_data supplies[4];
-+	struct extcon_dev *extcon;
-+	struct notifier_block extcon_nb;
-+	struct work_struct extcon_wq;
-+	int cable_state;
-+	int i2c_error;
- 
- 	struct mutex lock; /* Protects fields below and device registers */
- 	enum sii9234_state state;
-@@ -864,6 +870,70 @@ static int sii9234_init_resources(struct sii9234 *ctx,
- 	return 0;
+diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+index 4cd69fa84318c..db65807dbce88 100644
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@ -54,26 +54,6 @@ pub trait IntoGEMObject: Sized + super::private::Sealed + AlwaysRefCounted {
+     unsafe fn as_ref<'a>(self_ptr: *mut bindings::drm_gem_object) -> &'a Self;
  }
  
-+static void sii9234_extcon_work(struct work_struct *work)
-+{
-+	struct sii9234 *ctx =
-+		container_of(work, struct sii9234, extcon_wq);
-+	int state = extcon_get_state(ctx->extcon, EXTCON_DISP_MHL);
-+
-+	if (state == ctx->cable_state)
-+		return;
-+
-+	ctx->cable_state = state;
-+
-+	if (state > 0)
-+		sii9234_cable_in(ctx);
-+	else
-+		sii9234_cable_out(ctx);
-+}
-+
-+static int sii9234_extcon_notifier(struct notifier_block *self,
-+			unsigned long event, void *ptr)
-+{
-+	struct sii9234 *ctx =
-+		container_of(self, struct sii9234, extcon_nb);
-+
-+	schedule_work(&ctx->extcon_wq);
-+
-+	return NOTIFY_DONE;
-+}
-+
-+static int sii9234_extcon_init(struct sii9234 *ctx)
-+{
-+	struct extcon_dev *edev;
-+	struct device_node *musb, *muic;
-+	int ret;
-+
-+	/* Get micro-USB connector node */
-+	musb = of_graph_get_remote_node(ctx->dev->of_node, 1, -1);
-+	/* Then get micro-USB Interface Controller node */
-+	muic = of_get_next_parent(musb);
-+
-+	if (!muic) {
-+		dev_info(ctx->dev,
-+			 "no extcon found, switching to 'always on' mode\n");
-+		return 0;
-+	}
-+
-+	edev = extcon_find_edev_by_node(muic);
-+	of_node_put(muic);
-+	if (IS_ERR(edev)) {
-+		dev_err_probe(ctx->dev, PTR_ERR(edev),
-+			      "invalid or missing extcon\n");
-+	}
-+
-+	ctx->extcon = edev;
-+	ctx->extcon_nb.notifier_call = sii9234_extcon_notifier;
-+	INIT_WORK(&ctx->extcon_wq, sii9234_extcon_work);
-+	ret = extcon_register_notifier(edev, EXTCON_DISP_MHL, &ctx->extcon_nb);
-+	if (ret) {
-+		dev_err(ctx->dev, "failed to register notifier for MHL\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static enum drm_mode_status sii9234_mode_valid(struct drm_bridge *bridge,
- 					 const struct drm_display_info *info,
- 					 const struct drm_display_mode *mode)
-@@ -916,12 +986,17 @@ static int sii9234_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = sii9234_extcon_init(ctx);
-+	if (ret < 0)
-+		return ret;
-+
- 	i2c_set_clientdata(client, ctx);
- 
- 	ctx->bridge.of_node = dev->of_node;
- 	drm_bridge_add(&ctx->bridge);
- 
--	sii9234_cable_in(ctx);
-+	if (!ctx->extcon)
-+		sii9234_cable_in(ctx);
- 
- 	return 0;
- }
-@@ -930,7 +1005,15 @@ static void sii9234_remove(struct i2c_client *client)
- {
- 	struct sii9234 *ctx = i2c_get_clientdata(client);
- 
--	sii9234_cable_out(ctx);
-+	if (ctx->extcon) {
-+		extcon_unregister_notifier(ctx->extcon, EXTCON_DISP_MHL,
-+					   &ctx->extcon_nb);
-+		flush_work(&ctx->extcon_wq);
-+		if (ctx->cable_state > 0)
-+			sii9234_cable_out(ctx);
-+	} else {
-+		sii9234_cable_out(ctx);
-+	}
- 	drm_bridge_remove(&ctx->bridge);
+-// SAFETY: All gem objects are refcounted.
+-unsafe impl<T: IntoGEMObject> AlwaysRefCounted for T {
+-    fn inc_ref(&self) {
+-        // SAFETY: The existence of a shared reference guarantees that the refcount is non-zero.
+-        unsafe { bindings::drm_gem_object_get(self.as_raw()) };
+-    }
+-
+-    unsafe fn dec_ref(obj: NonNull<Self>) {
+-        // SAFETY: We either hold the only refcount on `obj`, or one of many - meaning that no one
+-        // else could possibly hold a mutable reference to `obj` and thus this immutable reference
+-        // is safe.
+-        let obj = unsafe { obj.as_ref() }.as_raw();
+-
+-        // SAFETY:
+-        // - The safety requirements guarantee that the refcount is non-zero.
+-        // - We hold no references to `obj` now, making it safe for us to potentially deallocate it.
+-        unsafe { bindings::drm_gem_object_put(obj) };
+-    }
+-}
+-
+ /// Trait which must be implemented by drivers using base GEM objects.
+ pub trait DriverObject: BaseDriverObject<Object<Self>> {
+     /// Parent `Driver` for this object.
+@@ -287,6 +267,22 @@ extern "C" fn free_callback(obj: *mut bindings::drm_gem_object) {
+     }
  }
  
++// SAFETY: Instances of `Object<T>` are always reference-counted.
++unsafe impl<T: DriverObject> crate::types::AlwaysRefCounted for Object<T> {
++    fn inc_ref(&self) {
++        // SAFETY: The existence of a shared reference guarantees that the refcount is non-zero.
++        unsafe { bindings::drm_gem_object_get(self.as_raw()) };
++    }
++
++    unsafe fn dec_ref(obj: NonNull<Self>) {
++        // SAFETY: `obj` is a valid pointer to an `Object<T>`.
++        let obj = unsafe { obj.as_ref() };
++
++        // SAFETY: The safety requirements guarantee that the refcount is non-zero.
++        unsafe { bindings::drm_gem_object_put(obj.as_raw()) }
++    }
++}
++
+ impl<T: DriverObject> super::private::Sealed for Object<T> {}
+ 
+ impl<T: DriverObject> Deref for Object<T> {
 
+base-commit: 89be9a83ccf1f88522317ce02f854f30d6115c41
 -- 
-2.50.1
+2.50.0
 
