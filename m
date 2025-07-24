@@ -2,29 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E71AB10B4D
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 15:24:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A619CB10B4E
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 15:24:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E64FC10E296;
-	Thu, 24 Jul 2025 13:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B70110E329;
+	Thu, 24 Jul 2025 13:24:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aladdin.ru header.i=@aladdin.ru header.b="IVZvlrzM";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aladdin.ru header.i=@aladdin.ru header.b="XTjetLu9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 905 seconds by postgrey-1.36 at gabe;
- Thu, 24 Jul 2025 10:40:19 UTC
 Received: from mail-out.aladdin-rd.ru (mail-out.aladdin-rd.ru [91.199.251.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC97710E061;
- Thu, 24 Jul 2025 10:40:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C577A10E061;
+ Thu, 24 Jul 2025 10:40:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; d=aladdin.ru; s=mail; c=simple/simple;
- t=1753352697; h=from:subject:to:date:message-id;
- bh=0vefUBiAWQYh2/3REMI7EF97twDh4DDuzRSmvvySUiU=;
- b=IVZvlrzM7XgROlM2SvvSleF3Z4ZrFYTtzyDrPbeVBCmEJ/V2dNFwVdTWpX3OV6lzkW/V7w+FV28
- OAEtMGbHy0IJyJCo+EX1c4DIgrziMlH7zrHxS2g76b3OqLV3moS3hvqh3Ptqkr3Cqf1+2hspCxbB9
- Cp+Il7vDkPM/OzLKtW6DLnxfC2VIj0lEtAnfAGPR+U9yEUxY9v/6O8KSDSqQlni0pJf37WH1OMziZ
- VqXj8i2aAlkhCqr06cWaGh7FsZQPVImiLmJ9hiJSyF81ESBJX+SXzf0sS3VFlzKL77Nk6o682AIwi
- M8plSBHPJuKsL/KXSS17vqxi+20fPH307i3A==
+ t=1753352707; h=from:subject:to:date:message-id;
+ bh=Y9JrkBs6/AHJ/jtw7YK1U4nAQTPwDGnhSXLxNcAPncw=;
+ b=XTjetLu9+2eM1ii2DfR9qPXlXANLeK5jOimYq62LAdeBLzC33Blnsyh8Q6zgLmEf5VZ4VxleQ9f
+ Q1WZ2/5spjH8ocieF+a6z6fqvSUEXzLCgK58Vn3ByFxBmJkyFHHVyL3ABfLn6Z0lyLm28sB+QLNy1
+ /YAf5CpgS0NPINEJe+0Of+ZURXXu/Ra79LIUTK8uq60hRtFVX3Auxe+3CrvRT4Dcwn1jmmEa0YybF
+ w8OQyOd9BArLVzCj5rus2teewKdO9T1LBTEMBSLTRVnkHAak1orYECdvFPTaJ/C5zJPuYFXbED18u
+ 9gpEkID9FYzpk8EZ0klYeAR3Y2fKg2jmc5NA==
 From: Daniil Dulov <d.dulov@aladdin.ru>
 To: <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC: Daniil Dulov <d.dulov@aladdin.ru>, Harry Wentland
@@ -36,11 +34,13 @@ CC: Daniil Dulov <d.dulov@aladdin.ru>, Harry Wentland
  <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, "Rodrigo
  Siqueira" <rodrigo.siqueira@amd.com>, Jerry Zuo <jerry.zuo@amd.com>, Alex
  Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>
-Subject: [PATCH 5.10] drm/amd/display: Pass non-null to
+Subject: [PATCH 5.15/6.1] drm/amd/display: Pass non-null to
  dcn20_validate_apply_pipe_split_flags
-Date: Thu, 24 Jul 2025 13:24:48 +0300
-Message-ID: <20250724102449.63028-1-d.dulov@aladdin.ru>
+Date: Thu, 24 Jul 2025 13:24:49 +0300
+Message-ID: <20250724102449.63028-2-d.dulov@aladdin.ru>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250724102449.63028-1-d.dulov@aladdin.ru>
+References: <20250724102449.63028-1-d.dulov@aladdin.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -79,23 +79,23 @@ Signed-off-by: Jerry Zuo <jerry.zuo@amd.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-[ Daniil: Changes to dcn21_fast_validate_bw() were dropped since the function
-  is not inplemented in 5.10.y. Also dcn20 and dcn21 were moved from
-  drivers/gpu/drm/amd/display/dc to drivers/gpu/drm/amd/display/dc/resource
-  since commit 8b8eed05a1c6 ("drm/amd/display: Refactor resource into component
-  directory"). The path is changed accordingly to apply the patch on 5.10.y ]
+[ Daniil: dcn20 and dcn21 were moved from drivers/gpu/drm/amd/display/dc to
+  drivers/gpu/drm/amd/display/dc/resource since commit
+  8b8eed05a1c6 ("drm/amd/display: Refactor resource into component directory").
+  The path is changed accordingly to apply the patch on 5.15.y and 6.1.y. ]
 Signed-off-by: Daniil Dulov <d.dulov@aladdin.ru>
 ---
 Backport fix for CVE-2024-49923
 
  drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-index b4bff3b3d842..029aba780d83 100644
+index 04b370e7e732..877acdbb9d8d 100644
 --- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
 +++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-@@ -2847,6 +2847,7 @@ bool dcn20_fast_validate_bw(
+@@ -2817,6 +2817,7 @@ bool dcn20_fast_validate_bw(
  {
  	bool out = false;
  	int split[MAX_PIPES] = { 0 };
@@ -103,7 +103,7 @@ index b4bff3b3d842..029aba780d83 100644
  	int pipe_cnt, i, pipe_idx, vlevel;
  
  	ASSERT(pipes);
-@@ -2869,7 +2870,7 @@ bool dcn20_fast_validate_bw(
+@@ -2839,7 +2840,7 @@ bool dcn20_fast_validate_bw(
  	if (vlevel > context->bw_ctx.dml.soc.num_states)
  		goto validate_fail;
  
@@ -112,6 +112,27 @@ index b4bff3b3d842..029aba780d83 100644
  
  	/*initialize pipe_just_split_from to invalid idx*/
  	for (i = 0; i < MAX_PIPES; i++)
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+index 257ab8820c7a..4dcfdb2c013f 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+@@ -1190,6 +1190,7 @@ static bool dcn21_fast_validate_bw(
+ {
+ 	bool out = false;
+ 	int split[MAX_PIPES] = { 0 };
++	bool merge[MAX_PIPES] = { false };
+ 	int pipe_cnt, i, pipe_idx, vlevel;
+ 
+ 	ASSERT(pipes);
+@@ -1230,7 +1231,7 @@ static bool dcn21_fast_validate_bw(
+ 			goto validate_fail;
+ 	}
+ 
+-	vlevel = dcn20_validate_apply_pipe_split_flags(dc, context, vlevel, split, NULL);
++	vlevel = dcn20_validate_apply_pipe_split_flags(dc, context, vlevel, split, merge);
+ 
+ 	for (i = 0, pipe_idx = 0; i < dc->res_pool->pipe_count; i++) {
+ 		struct pipe_ctx *pipe = &context->res_ctx.pipe_ctx[i];
 -- 
 2.34.1
 
