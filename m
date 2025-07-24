@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207C8B102B7
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09271B102B9
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:03:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0E210E8BD;
-	Thu, 24 Jul 2025 08:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE0F10E8C2;
+	Thu, 24 Jul 2025 08:03:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="JRR3A9dh";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="bfxNzPVX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m3294.qiye.163.com (mail-m3294.qiye.163.com
- [220.197.32.94])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40D3D10E8BB
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:03:46 +0000 (UTC)
+Received: from mail-m32120.qiye.163.com (mail-m32120.qiye.163.com
+ [220.197.32.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C6610E8BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:03:48 +0000 (UTC)
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 1d1c34441;
- Thu, 24 Jul 2025 16:03:42 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 1d1c34455;
+ Thu, 24 Jul 2025 16:03:44 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
 To: andrzej.hajda@intel.com,
 	neil.armstrong@linaro.org,
@@ -34,25 +34,25 @@ Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-rockchip@lists.infradead.org, Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v3 11/14] drm/exynos: exynos_dp: Apply
- analogix_dp_find_panel_or_bridge()
-Date: Thu, 24 Jul 2025 16:03:01 +0800
-Message-Id: <20250724080304.3572457-12-damon.ding@rock-chips.com>
+Subject: [PATCH v3 12/14] drm/bridge: analogix_dp: Remove panel disabling and
+ enabling in analogix_dp_set_bridge()
+Date: Thu, 24 Jul 2025 16:03:02 +0800
+Message-Id: <20250724080304.3572457-13-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250724080304.3572457-1-damon.ding@rock-chips.com>
 References: <20250724080304.3572457-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a983b75a3c403a3kunmbbba7af2a064
+X-HM-Tid: 0a983b75ad0903a3kunmbbba7af2a0b5
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhhCQlZISksYHxlNTh0YHR5WFRQJFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGklCT1ZNHkwaQ0lLQhlMSxhWFRQJFh
  oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
  hVSktLVUpCS0tZBg++
 DKIM-Signature: a=rsa-sha256;
- b=JRR3A9dhVuInFKflciWmtxeO35JgqAgF/ez+slG/xokgRyhrxYkJ5ol7dtNlFdnPiayM7hTlqaTu7buXs2e6iFoIFEQm9XQNwAjDmKxITAgFQtL6Sv9+hPswAA2wZwEMPo2Zz3NFvLW26eQz3ZP8m5DhXO6yrmdZbcJY/5nsMl0=;
+ b=bfxNzPVXsnPXqDBG0ztRvhRZ9csh114R/jxfBhKJwQ9GIcEDqG+5BINo4s/UUb0rn4xmfPbuwrJiGQFYBinfSGwTwwGcYI4HY1dIrae1Av45cdnI/aUo4ecWQO/YwEsswA8I8sZiq60/nsUpF93HykNY4q7XeAs46zig7TbiQyo=;
  s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=DSLukblLESTTAuXw3hygP55JWV94nhT/wWVcn/G+HYU=;
+ bh=/UpZWUSC6M6zsft66dZBf5Ok4iS/QWzh74y+WkBpLWE=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,68 +69,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Apply analogix_dp_find_panel_or_bridge() in order to move the
-panel/bridge parsing from Exynos side to the Analogix side.
+The &drm_panel_funcs.enable() and &drm_panel_funcs.disable() mainly
+help turn on/off the backlight to make the image visible, and the
+backlight operations are even needless if drm_panel_of_backlight() or
+drm_panel_dp_aux_backlight() is applied, in which case the enabling
+and disabling process just add necessary delays.
+
+Therefore, it should make sense to remove panel disabling and move
+panel enabling after analogix_dp_set_bridge() finished.
 
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 ---
- drivers/gpu/drm/exynos/exynos_dp.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/exynos_dp.c
-index 39dfb7a44c85..c5aa9cc5e2bd 100644
---- a/drivers/gpu/drm/exynos/exynos_dp.c
-+++ b/drivers/gpu/drm/exynos/exynos_dp.c
-@@ -203,9 +203,6 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct device_node *np;
- 	struct exynos_dp_device *dp;
--	struct drm_panel *panel;
--	struct drm_bridge *bridge;
--	int ret;
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index b67087639609..f4807ef337e6 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -840,9 +840,6 @@ static int analogix_dp_commit(struct analogix_dp_device *dp)
+ {
+ 	int ret;
  
- 	dp = devm_kzalloc(&pdev->dev, sizeof(struct exynos_dp_device),
- 			  GFP_KERNEL);
-@@ -225,32 +222,31 @@ static int exynos_dp_probe(struct platform_device *pdev)
- 	if (np) {
- 		dp->plat_data.panel = of_drm_find_panel(np);
- 
--		of_node_put(np);
- 		if (IS_ERR(dp->plat_data.panel))
- 			return PTR_ERR(dp->plat_data.panel);
- 
- 		goto out;
+-	/* Keep the panel disabled while we configure video */
+-	drm_panel_disable(dp->plat_data->panel);
+-
+ 	ret = analogix_dp_train_link(dp);
+ 	if (ret) {
+ 		dev_err(dp->dev, "unable to do link train, ret=%d\n", ret);
+@@ -862,9 +859,6 @@ static int analogix_dp_commit(struct analogix_dp_device *dp)
+ 		return ret;
  	}
  
--	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &panel, &bridge);
--	if (ret)
--		return ret;
+-	/* Safe to enable the panel now */
+-	drm_panel_enable(dp->plat_data->panel);
 -
- 	/* The remote port can be either a panel or a bridge */
--	dp->plat_data.panel = panel;
--	dp->plat_data.bridge = bridge;
- 	dp->plat_data.dev_type = EXYNOS_DP;
- 	dp->plat_data.power_on = exynos_dp_poweron;
- 	dp->plat_data.power_off = exynos_dp_poweroff;
- 	dp->plat_data.attach = exynos_dp_bridge_attach;
- 	dp->plat_data.get_modes = exynos_dp_get_modes;
-+	dp->plat_data.ops = &exynos_dp_ops;
- 
- out:
- 	dp->adp = analogix_dp_probe(dev, &dp->plat_data);
- 	if (IS_ERR(dp->adp))
- 		return PTR_ERR(dp->adp);
- 
--	return component_add(&pdev->dev, &exynos_dp_ops);
-+	if (np) {
-+		of_node_put(np);
-+		return component_add(&pdev->dev, &exynos_dp_ops);
-+	} else {
-+		return analogix_dp_find_panel_or_bridge(dp->adp);
-+	}
- }
- 
- static void exynos_dp_remove(struct platform_device *pdev)
+ 	/* Check whether panel supports fast training */
+ 	ret = analogix_dp_fast_link_train_detection(dp);
+ 	if (ret)
+@@ -1242,6 +1236,7 @@ static void analogix_dp_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	while (timeout_loop < MAX_PLL_LOCK_LOOP) {
+ 		if (analogix_dp_set_bridge(dp) == 0) {
+ 			dp->dpms_mode = DRM_MODE_DPMS_ON;
++			drm_panel_enable(dp->plat_data->panel);
+ 			return;
+ 		}
+ 		dev_err(dp->dev, "failed to set bridge, retry: %d\n",
 -- 
 2.34.1
 
