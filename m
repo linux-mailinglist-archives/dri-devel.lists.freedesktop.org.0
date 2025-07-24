@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08A4B11220
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 22:23:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C18B11221
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 22:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C154D10E09B;
-	Thu, 24 Jul 2025 20:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21AB910E0AB;
+	Thu, 24 Jul 2025 20:23:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="aQMUfLNm";
+	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="mEO7SZ2L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
  [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D914610E09B
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 20:23:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D9F10E0AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 20:23:45 +0000 (UTC)
 Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-235f9ea8d08so12559615ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 13:23:43 -0700 (PDT)
+ d9443c01a7336-2350fc2591dso17879865ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 13:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1753388623; x=1753993423;
+ d=brighamcampbell.com; s=google; t=1753388625; x=1753993425;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=aNZbwQw5iHEb9CKajVAO1swZ1MthUYrqZ1xdxET+ZZU=;
- b=aQMUfLNmcStO4qjZdqfKRQ/Qlc7iTw7ImBUyDNP0c7XmzemvzPQMc0vSplPoQ18GU0
- yzHL/tn+YSi0jeyNN3ahfVh7tH5I5dCbH4ELVJBRazQI19T8/jG1fQdgb+tNC/BPMitp
- Sijtj420bsiFabCjct3CfKD5u/HE5Y4EbecHyw/4MvS91GDKrB0lYeBLMj+NEx5oPY1D
- l8MAzYtGz7mlrKDi73Y3gvyEmdV8z7RXNkS+6ppbZPkZr7qX0YLgffUFQUfAZ6rJUhRZ
- bO56ptu9Guu+KnDZOqVBDZr4gHE+qelnrpobVgNeo9f/Plmn03PX53v7AJE6D8Nrx4qe
- OQRA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=i4zUj/idKOirKhzudfRqBBLM0pFf8X+XkqCIOZ++mo4=;
+ b=mEO7SZ2L3GdvSVXUuS3AWpDTNWEH1wXRGKrAPmEO6nPclTAYtRJrkxSowEt6Hs/qv3
+ wD3hhzKXp4sY9dGr0G/y+X/txtASmaw8TjkuZVqJdCmysEitzxqhc/2Lnr9gmPmdVE6T
+ N6D/33GMfOcf8a4FKmwecGmL+dx7dbXuXps4GwjRwcu6zFQV3BnmfGTTBDosgC7hT8EF
+ znUqrLESYCi2K4JLYjvucfLWxxqqYFbCPY2Cid02GKC19bPabp073e3j3kbAm0qOUaBF
+ szWHzyuw5Fq0YQGK2sOtS2+XnzxYz5uKKnnFZJ3T8JV53lsgcJTvqaSJHUfH5VocU0QX
+ XRAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753388623; x=1753993423;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aNZbwQw5iHEb9CKajVAO1swZ1MthUYrqZ1xdxET+ZZU=;
- b=KR54Cw1w/CUkbitKkUDBFzXCn6U3OBD+nVhTAVXOS3TpgvlK8vqm6SwQxMc8lIfxHW
- GQcwHQ6bKAUYaHwIgpWDM1R6HCh/tNLZefIVMX+SieMj+IEUM41dw4QOf4jUtYD3IKvy
- UwmREHSb7vJ/JSn10ihZTJpfVppGmEpL/r2/TjNjKYfdVP2zNv41rBMXVdthiYnv548E
- TackVG+sxJ97M7cBNekqR88Xay+mkk1XgEH1EbFPlGmyYadpbyEmVGryoVVMGPlJ+6ao
- BcjXRDlpH6HgxcmWXVyADA+tFXskfzDJgy13PkC/pkETXt4CeetsedQF42iBECJ54ecu
- Qb4g==
+ d=1e100.net; s=20230601; t=1753388625; x=1753993425;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=i4zUj/idKOirKhzudfRqBBLM0pFf8X+XkqCIOZ++mo4=;
+ b=Ya+1FURM6FwVKfKlECBZWXBthh3vUDtemOqYoZIRWjmMgyNVFvpCGVhyLpWmt/bRQq
+ 6f9HxK7s2eGV67BfkWkPVd7Tp/L2ui1aOZK28SYUuXd1X5mhhrstMSGxC7vHvRKyFMeM
+ GwQf5OR6ZpsFRFe1iLvsqgMzJo/2+ZKsdyoOKR2tmJXXfMIUc3hkgZYs/X0RQUYuwhGr
+ wZy21A27ONibiKW/odWZoiKYjF3Ou/TehadcZSDe/8v12RWJTRpaDNCaokK/E3fwksVT
+ RM5ikbBf09beixQrEHuQb5stHAp+7Y9iMsLDvXM4UMfrVzlG3QUFyFGzagJzxY2aQ530
+ 7HYg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMc1AgnoBr4lsRgrK3p6RsN4HrJn0a5voyzmteInw/mCuK1lmQy4Qfed3X+mNsC8xT+cFobfO1KJ0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw00s0x1qkwJdoxNrpkqYj9dsBxaHG9ltVHhZGQj3iVgulLD1uT
- Eek7hnFQ0hQo4FmEX0IC0hkeBF37vvUUNGALP9Ieq3mStNXtXnXlozd1AR3JxXmO7I8=
-X-Gm-Gg: ASbGnct01pfx+RB+6Ta+E01rVirAUH41pcgsoD8CHxxIm+wCOjvrZxrtcmVnuXohCEN
- gYYlJm1k5Cn1fwH+pqabk2M/fYEkYeDiLnKbzm0IfEx2RAFqyJrWLHWO+9qg/uQtmAZjUcufBuY
- 8m0IXd6UA6fUL3r4Ix2AvlO1N0p0a7BIzZFmf7Ys250b/mfBV2pQdI4/WOz10c0sqqlWti311KS
- NGb7FJLN5HEL9RASr9Wefp31EemeGVOBWcZSGdUbclO/g3WokOUpqqWik4H0YakdoYQdi6LYL8u
- BO3+6AvzekkOoGf4HOm2d7Obfgdpr+W6BpVjYYBzM93LGml52GuGrf5ztwzI1zt+P9DAbPU+1uq
- ue22JHYijKUH27oHCakD8gghD1XhZ508QIWJSg/dezpn5ybI0NA==
-X-Google-Smtp-Source: AGHT+IGPSLo7EaVXZqu37vUKdjxS3cia3ql+tqXEMZ48FC5JJP2rAz+cHkmUkDzlL3JzUsZOXDC49Q==
-X-Received: by 2002:a17:903:8c8:b0:23f:6fa4:1567 with SMTP id
- d9443c01a7336-23f98146861mr98965735ad.8.1753388623215; 
- Thu, 24 Jul 2025 13:23:43 -0700 (PDT)
+ AJvYcCWGygp50npNiKVkeRL/cdJnbMvjxJpAfUifWUdF4BfhM8TqNvimyFnTXR0WCWeIUE1j4lM6Q70Rkd0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykiBByxEcLa8ZKO+2zEE2Z8J52mgN9672k74Vid+hmBcxvy7+1
+ 9w3MEwSAdDVSHvj+V/lnf2+qbDde1GzVt6HylPW02KLEC5gTHWT2kx2Pp2aMIXlor0I=
+X-Gm-Gg: ASbGncvZnd+N1NF5auXqHkTX6PhefI7DOAILYfeN9A1MdoC8dcBeTbNKilwDENmQRZG
+ PEDB0aWLV569pZoP8u0sPA+yb0N4JIzv0c2CQPviSj+BPcj/rzgiRtjGmqSo1WPytXX3VfOgMSn
+ 3XeSVyG9XOXULYa8Q5nMCtjYqjpqdbJ3E4OjeUDqvY1wvn517Zpy2ZAh4uXzgIeIixtFQanEkmo
+ VsrYquq8kVyzjUlA498ZJ71xBZB8gfmf9SrsDp/RyAzn0MAFDnd2TT8xW6t/8reQGz0mG5QZBx9
+ kZkwI2hWgOWoc8bBuLiqoMd4R/6wFdKdU/cUUfsLdMbqJ93E4XARW+eFU/teim8WJZbFQYB3Qcp
+ fTIPXmkf0fugcgefh6ROlrOEkuykqyHYX5oSU7F4sWUip3AmRlu/Khs1VaS0a
+X-Google-Smtp-Source: AGHT+IHd+bt4vHJ39l4CpLf5WhIwZLQkiEEpVe8TOKkAb1COeGQGReplWtQ1IyJKNtoQWNlr1/1dZA==
+X-Received: by 2002:a17:903:b8c:b0:21f:5063:d3ca with SMTP id
+ d9443c01a7336-23fa5d73fc6mr46051295ad.16.1753388624999; 
+ Thu, 24 Jul 2025 13:23:44 -0700 (PDT)
 Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23fa48dbfccsm22077815ad.138.2025.07.24.13.23.41
+ d9443c01a7336-23fa48dbfccsm22077815ad.138.2025.07.24.13.23.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jul 2025 13:23:42 -0700 (PDT)
+ Thu, 24 Jul 2025 13:23:44 -0700 (PDT)
 From: Brigham Campbell <me@brighamcampbell.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, linus.walleij@linaro.org,
@@ -69,10 +70,12 @@ To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
 Cc: dianders@chromium.org, skhan@linuxfoundation.org,
  linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH 0/2] drm/panel: novatek-nt35560: Fix bug and clean up
-Date: Thu, 24 Jul 2025 14:23:36 -0600
-Message-ID: <20250724202338.648499-1-me@brighamcampbell.com>
+Subject: [PATCH 1/2] drm: Create mipi_dsi_dcs_read_multi()
+Date: Thu, 24 Jul 2025 14:23:37 -0600
+Message-ID: <20250724202338.648499-2-me@brighamcampbell.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250724202338.648499-1-me@brighamcampbell.com>
+References: <20250724202338.648499-1-me@brighamcampbell.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,29 +93,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series does the following:
- - Add mipi_dsi_dcs_read_multi() to drm_mipi_dsi.c for improved error
-   handling in drivers which use mipi_dsi_dcs_read() such as the
-   novatek-nt35560 driver.
- - Fix a bug in nt35560_set_brightness() which causes the driver to
-   incorrectly report that it "failed to disable display backlight".
- - Clean up novatek-nt35560 driver to use "multi" variants of MIPI
-   functions which promote cleaner code.
+Create mipi_dsi_dcs_read_multi(), which accepts a mipi_dsi_multi_context
+struct for improved error handling and cleaner panel driver code.
 
-If there's a reason that mipi_dsi_dcs_read_multi doesn't exist, I'm
-happy to drop it.
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+---
+ drivers/gpu/drm/drm_mipi_dsi.c | 37 ++++++++++++++++++++++++++++++++++
+ include/drm/drm_mipi_dsi.h     |  2 ++
+ 2 files changed, 39 insertions(+)
 
-Brigham Campbell (2):
-  drm: Create mipi_dsi_dcs_read_multi()
-  drm/panel: novatek-nt35560: Fix bug and clean up
-
- drivers/gpu/drm/drm_mipi_dsi.c                |  37 +++
- drivers/gpu/drm/panel/panel-novatek-nt35560.c | 212 ++++++------------
- include/drm/drm_mipi_dsi.h                    |   2 +
- 3 files changed, 105 insertions(+), 146 deletions(-)
-
-
-base-commit: 1511d3c4d2bb30f784924a877f3cef518bb73077
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index a00d76443128..227b28555174 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -1075,6 +1075,43 @@ ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, void *data,
+ }
+ EXPORT_SYMBOL(mipi_dsi_dcs_read);
+ 
++/**
++ * mipi_dsi_dcs_read_multi() - mipi_dsi_dcs_read() w/ accum_err
++ * @ctx: Context for multiple DSI transactions
++ * @cmd: DCS command
++ * @data: buffer in which to receive data
++ * @len: size of receive buffer
++ *
++ * Like mipi_dsi_dcs_read() but deals with errors in a way that makes it
++ * convenient to make several calls in a row.
++ */
++void mipi_dsi_dcs_read_multi(struct mipi_dsi_multi_context *ctx, u8 cmd,
++			     void *data, size_t len)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	struct mipi_dsi_msg msg = {
++		.channel = dsi->channel,
++		.type = MIPI_DSI_DCS_READ,
++		.tx_buf = &cmd,
++		.tx_len = 1,
++		.rx_buf = data,
++		.rx_len = len
++	};
++	ssize_t ret;
++
++	if (ctx->accum_err)
++		return;
++
++	ret = mipi_dsi_device_transfer(dsi, &msg);
++	if (ret < 0) {
++		ctx->accum_err = ret;
++		dev_err(dev, "transferring dcs message %xh failed: %d\n", cmd,
++			ctx->accum_err);
++	}
++}
++EXPORT_SYMBOL(mipi_dsi_dcs_read_multi);
++
+ /**
+  * mipi_dsi_dcs_nop() - send DCS nop packet
+  * @dsi: DSI peripheral device
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 369b0d8830c3..d17c00d299c8 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -333,6 +333,8 @@ ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
+ 			   const void *data, size_t len);
+ ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, void *data,
+ 			  size_t len);
++void mipi_dsi_dcs_read_multi(struct mipi_dsi_multi_context *ctx, u8 cmd,
++			     void *data, size_t len);
+ int mipi_dsi_dcs_nop(struct mipi_dsi_device *dsi);
+ int mipi_dsi_dcs_soft_reset(struct mipi_dsi_device *dsi);
+ int mipi_dsi_dcs_get_power_mode(struct mipi_dsi_device *dsi, u8 *mode);
 -- 
 2.50.1
 
