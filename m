@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBF43B1055C
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 11:13:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6407FB1056F
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 11:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7BA10E1AF;
-	Thu, 24 Jul 2025 09:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D19A510E8FC;
+	Thu, 24 Jul 2025 09:14:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tiCkKB/K";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j6GRV9cY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEEAF10E8FC
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 09:13:33 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D02010E8FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 09:14:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 52073A56102;
- Thu, 24 Jul 2025 09:13:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B74C4CEF4;
- Thu, 24 Jul 2025 09:13:20 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 74807601D5;
+ Thu, 24 Jul 2025 09:14:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FB83C4CEF4;
+ Thu, 24 Jul 2025 09:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753348412;
- bh=sWc0yEy6Cd35ZjpBpGmYfeV2qZHM+ODroGPwcwarzUU=;
+ s=k20201202; t=1753348497;
+ bh=HvehlH/2CLE3MGaL9UtFsif+bmgfGYTsR5JQ7GEt1p0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tiCkKB/K/rkYwavuOfNvMUSI3XyhFZuvImxGEz8jQj0rKARnlQw1TpRfb/aA6A287
- ZEiVMdi/1M+PsvizRK+CojtNMSMDnGpys5AbgYVSx/aslQBh7BTblBOD+Vf8EhPTRZ
- rl6DcFs9MQtyIDH7rb+/uK2VyG5EWgh0mSOBxSqj515sMCMzb8t6Jqw+aI83bSl9Rp
- 0rCLUtV6U/I+VuZ+gsGBaeVxocAr2TPUh1RX9wh6n/ddKGtPyFaeppNWafjkBfO4gz
- Nu9FciZorEJSADrCrFlpA5U8GHCz+/u9BCqYco4amDUP2AtHZhdoAIbq8mHwPcKaYO
- wBtzsg9rpFrIA==
-Message-ID: <a7962584-f6b4-40ca-ae11-c08b67b9f42d@kernel.org>
-Date: Thu, 24 Jul 2025 11:13:18 +0200
+ b=j6GRV9cY8JJjAsshQQczASZlfbPLxoOPeuumnGEhTmG1bf+islCdh1pt0NH/SZWHJ
+ D3eI9TQ8eZsT2Kx2fCrTiCwCMYx21ExNTJqECq7o7PUbHH0KzQKL7jnSIyaQwqWVz2
+ 5p3evYUmAdvKhoN06V5EpvbN/gZCjWuZyDXE0WVhKytxSzrU6qLdYkfD7GwfmfepHD
+ IIlE1v3cJaR7xL+0k5Vsb1FfIPhV94Z99cKISQHLT9Myj1PXYxzLMp1EWX7z7i73KK
+ 2Mc25V+caW5Vbd2Z4ypLj3g3fY973i4pYzDaGvsSszA0z9CGCF5jDofdpRxHN4t6c1
+ ItqoHCvcdyvPQ==
+Message-ID: <70ae6787-ee0b-43a0-851e-1fb6c82f6c31@kernel.org>
+Date: Thu, 24 Jul 2025 11:14:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/38] dt-bindings: pinctrl: mediatek, mt7622-pinctrl: Add
- missing base reg
+Subject: Re: [PATCH 14/38] dt-bindings: media: mediatek,mt8195-jpeg: Allow
+ range number in node address
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -59,7 +59,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
  linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-9-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-15-angelogioacchino.delregno@collabora.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,7 +105,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250724083914.61351-9-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-15-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,18 +124,21 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
-> The pin controller for both MT7622 and MT7629 need both a "base"
-> and an "eint" MMIO like the ones found on other MediaTek SoCs:
-> while devicetrees have always been correct, the binding is not,
-> as it only allows an "eint" reg.
+> The dual and triple core jpeg encoder and decoder (respectively)
+> on MT8195 are far apart: the only way to have this to make sense
+> is to split those in multiple address ranges in device trees as
+> one big range would overlap with other IP in at least the MT8195
+> SoC.
 > 
-> Add "base" to reg-names and increment maxItems for reg to two.
+> Change both the jpegdec and jpegenc bindings to allow specifying
+> children nodes such as "jpegdec@0,10000", "jpegdec@1,0" or for
+> encoder "jpegenc@0,0", "jpegenc@1,0" to resolve dtbs_check issues.
 
 
-Fixes tag, please.
+This should not be needed for standard MMIO/simple-bus nodes. I think
+DTS is wrong here.
 
-With that:
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Which cases really need the ','?
 
 
 Best regards,
