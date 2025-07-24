@@ -2,64 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E52B10270
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 09:55:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F314FB102AB
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:03:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C69C10E8B3;
-	Thu, 24 Jul 2025 07:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C56110E8B6;
+	Thu, 24 Jul 2025 08:03:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BmgGnxFd";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="aE5wZPbt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D15010E8B3
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 07:55:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 0E728A55FA7;
- Thu, 24 Jul 2025 07:55:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01868C4CEED;
- Thu, 24 Jul 2025 07:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753343737;
- bh=RejzoqE1QxLnfVJEcMygPRhvHl4TUui1JW/EXqf2Ekw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BmgGnxFd0m0ax8BCXu8Z23nkYEvrbYb+kfQKhThhtk3fHD05jyqUumNras/XMac1K
- fNsR+wJhnDxgDW3B0m/HYoEQYDy1trcfoIv3oJ5G6lK6WxOJgRTPmYPyorkEbtucoO
- lstjt+ChPXcIFyADPo+xmzPFYCtn+am83vuGKyQI9REWZ+4QOBGiYXPyVWpj/Mf6Qq
- 1sj2VY/rutJ5LfhdVsfBdfsSZKWAiRCmF5WPvyewWqqP7ARQWZMzXtSEGh/Zr+/bJF
- bksCHkNXFT6a8dFppzN/TYVK3Vt0jyt6BKBOSqke/cENn8f6Uq9rDv+qbrJJvq5YYP
- D7SDuGtahnLuA==
-Date: Thu, 24 Jul 2025 10:55:33 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Logan Gunthorpe <logang@deltatee.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 02/10] PCI/P2PDMA: Introduce p2pdma_provider structure
- for cleaner abstraction
-Message-ID: <20250724075533.GR402218@unreal>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <c2307cb4c3f1af46da138f3410738754691fbb3d.1753274085.git.leonro@nvidia.com>
- <20250724075145.GB30590@lst.de>
+Received: from mail-m3277.qiye.163.com (mail-m3277.qiye.163.com
+ [220.197.32.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2473B10E8B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:03:21 +0000 (UTC)
+Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 1d1c34377;
+ Thu, 24 Jul 2025 16:03:14 +0800 (GMT+08:00)
+From: Damon Ding <damon.ding@rock-chips.com>
+To: andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, jingoohan1@gmail.com, inki.dae@samsung.com,
+ sw0312.kim@samsung.com, kyungmin.park@samsung.com, krzk@kernel.org,
+ alim.akhtar@samsung.com, hjc@rock-chips.com, heiko@sntech.de,
+ andy.yan@rock-chips.com, dmitry.baryshkov@oss.qualcomm.com,
+ l.stach@pengutronix.de, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Damon Ding <damon.ding@rock-chips.com>
+Subject: [PATCH v3 00/14] Apply drm_bridge_connector and panel_bridge helper
+ for the Analogix DP driver
+Date: Thu, 24 Jul 2025 16:02:50 +0800
+Message-Id: <20250724080304.3572457-1-damon.ding@rock-chips.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250724075145.GB30590@lst.de>
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a983b75378603a3kunmbbba7af29cef
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU1KTVZKH0JKSkhPQkkfSE9WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=aE5wZPbtuRrtIKfTtfH1/ikI4T3SwqKfYIQFQF0cJgKNHKPMw5hIHuZnyzme+bRPAfqFFVFvp6NN8I7ysZI2sy6CpvDBGLi2k3yp8xSSpOhh6MEiXP7iKv6qUoIs5OJ9Xj//5OYtjK95hW+TofDYLNMxGpYuH9pcHBjhQi0YroE=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=/a3ZH/e6MX3cQWLnQo0XUfQLEK6LM5ZgF2VvUtU43P0=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,32 +67,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 09:51:45AM +0200, Christoph Hellwig wrote:
-> On Wed, Jul 23, 2025 at 04:00:03PM +0300, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Extract the core P2PDMA provider information (device owner and bus
-> > offset) from the dev_pagemap into a dedicated p2pdma_provider structure.
-> > This creates a cleaner separation between the memory management layer and
-> > the P2PDMA functionality.
-> > 
-> > The new p2pdma_provider structure contains:
-> > - owner: pointer to the providing device
-> > - bus_offset: computed offset for non-host transactions
-> > 
-> > This refactoring simplifies the P2PDMA state management by removing
-> > the need to access pgmap internals directly. The pci_p2pdma_map_state
-> > now stores a pointer to the provider instead of the pgmap, making
-> > the API more explicit and easier to understand.
-> 
-> I really don't see how anything becomes cleaner or simpler here.
-> It adds a new structure that only exists embedded in the exist one
-> and more code for no apparent benefit.
+PATCH 1 is a small format optimization for struct analogid_dp_device.
+PATCH 2 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
+PATCH 3 is to apply a better API for the encoder initialization.
+PATCH 4-7 are preparations for apply drm_bridge_connector helper.
+PATCH 8 is to apply the drm_bridge_connector helper.
+PATCH 9-11 are to move the panel/bridge parsing to the Analogix side.
+PATCH 12-13 are preparations for apply panel_bridge helper.
+PATCH 14 is to apply the panel_bridge helper.
 
-Please, see last patch in the series https://lore.kernel.org/all/aea452cc27ca9e5169f7279d7b524190c39e7260.1753274085.git.leonro@nvidia.com
-It gives me a way to call p2p code with stable pointer for whole BAR.
+Damon Ding (14):
+  drm/bridge: analogix_dp: Formalize the struct analogix_dp_device
+  drm/bridge: analogix_dp: Move &drm_bridge_funcs.mode_set to
+    &drm_bridge_funcs.atomic_enable
+  drm/rockchip: analogix_dp: Apply drmm_encoder_init() instead of
+    drm_simple_encoder_init()
+  drm/bridge: analogix_dp: Add &analogix_dp_plat_data.bridge
+  drm/exynos: exynos_dp: Remove &exynos_dp_device.ptn_bridge
+  drm/bridge: exynos_dp: Remove unused &exynos_dp_device.connector
+  drm/bridge: analogix_dp: Remove redundant
+    &analogix_dp_plat_data.skip_connector
+  drm/bridge: analogix_dp: Apply drm_bridge_connector helper
+  drm/bridge: analogix_dp: Add support to find panel or bridge
+  drm/rockchip: analogix_dp: Apply analogix_dp_find_panel_or_bridge()
+  drm/exynos: exynos_dp: Apply analogix_dp_find_panel_or_bridge()
+  drm/bridge: analogix_dp: Remove panel disabling and enabling in
+    analogix_dp_set_bridge()
+  drm/bridge: analogix_dp: Remove bridge disabing and panel unpreparing
+    in analogix_dp_unbind()
+  drm/bridge: analogix_dp: Apply panel_bridge helper
 
-Thanks
+ .../drm/bridge/analogix/analogix_dp_core.c    | 383 ++++++++++--------
+ .../drm/bridge/analogix/analogix_dp_core.h    |   5 +-
+ drivers/gpu/drm/exynos/exynos_dp.c            |  48 +--
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  53 +--
+ include/drm/bridge/analogix_dp.h              |   7 +-
+ 5 files changed, 248 insertions(+), 248 deletions(-)
 
-> 
-> 
+-- 
+2.34.1
+
