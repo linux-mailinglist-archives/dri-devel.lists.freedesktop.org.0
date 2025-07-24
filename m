@@ -2,59 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A08B107CF
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 12:32:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264F2B107F4
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 12:42:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14F7810E91F;
-	Thu, 24 Jul 2025 10:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4983610E925;
+	Thu, 24 Jul 2025 10:42:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=caterina.shablia@collabora.com header.b="Z+IxacRT";
+	dkim=pass (2048-bit key; unprotected) header.d=public-files.de header.i=frank-w@public-files.de header.b="n3gB+ccw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
- [136.143.188.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 979EB10E1F3;
- Thu, 24 Jul 2025 10:32:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1753353162; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=FsITs/KURZXMu22rAO551EaLS2V8OSLn0waxpjxhOkAZQR5nijDeDXf8FFV7ndllAMvWaqBLfi7TVYc+V4VrQzGTX56Qd3nKueK1KcnNlL+Zle6GM82bRMf6SivBMI5UQlhiSFYmZ5qkFgmuixudXG7/1j/s3tb1ZBHKOxt2NEw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1753353162;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=4wmYApn9wGtb+W6Wt3Ug/OxBHr90gym6aX1SwTrXfS0=; 
- b=lUloMMeNdQqoCSHzrJPHXhRM1XwGQvkuPht2u5d7L/fTIyRqS5J/ddoQUsNa7TMNggpjwSTnIDmDg6ucDHuyxB+xXFxARShahWy5jCrqCoddubq9nCe6Z4oaMpDUa+h6edkmLa1iVE4ABdh29txHRYD8tKe5sZY1P13KNRpXuZE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=caterina.shablia@collabora.com;
- dmarc=pass header.from=<caterina.shablia@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753353162; 
- s=zohomail; d=collabora.com; i=caterina.shablia@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=4wmYApn9wGtb+W6Wt3Ug/OxBHr90gym6aX1SwTrXfS0=;
- b=Z+IxacRT4LwL/lRxz36b2ys8X+LgXrnY4Nlyyj62ajL+40G5vQSuf6MkvRBQN7DC
- WOUNYdm8x866bpi730R2jIMs7MJQkVB0IUvKYMn21Z/im0b1Oog2ql62w03PwMhsb2y
- hVIdRq+BjU+VSjQqOYO/+me12SYjeSOsitTwws2k=
-Received: by mx.zohomail.com with SMTPS id 175335316097995.59171158793265;
- Thu, 24 Jul 2025 03:32:40 -0700 (PDT)
-From: Caterina Shablia <caterina.shablia@collabora.com>
-To: Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- intel-xe@lists.freedesktop.org,
- Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
- Danilo Krummrich <dakr@redhat.com>, Boris Brezillon <bbrezillon@kernel.org>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 01/23] Introduce drm_gpuvm_sm_map_ops_flags enums for
- sm_map_ops
-Date: Thu, 24 Jul 2025 12:32:37 +0200
-Message-ID: <2304014.vFx2qVVIhK@xps>
-In-Reply-To: <aIGBzCnTAcyb6v1H@lstrano-desk.jf.intel.com>
-References: <20250722133526.3550547-1-himal.prasad.ghimiray@intel.com>
- <DBIMILMUUV20.YED53M3X50H5@kernel.org>
- <aIGBzCnTAcyb6v1H@lstrano-desk.jf.intel.com>
+X-Greylist: delayed 402 seconds by postgrey-1.36 at gabe;
+ Thu, 24 Jul 2025 10:42:26 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0DD10E061
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 10:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=public-files.de;
+ s=s31663417; t=1753353743; x=1753958543; i=frank-w@public-files.de;
+ bh=qwlcmLAbRr/MQRSxhxjFBqTr2CYUizJoPcZmxNDBDks=;
+ h=X-UI-Sender-Class:Date:From:To:CC:Subject:Reply-to:In-Reply-To:
+ References:Message-ID:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=n3gB+ccwcpRviisqrT2H0zEzpMvyPoYRP2lG+c7M8OrUxZI1DLlu80hQGdsRoiaE
+ Y2/5V/TUhyW291Rl/lu/kN4X5QbC/+6WogmC/9H7SoaSEmZjc1pE6gF9WIdtJDgXE
+ eANGs0YJ70B7XY/R3FescTVF5hWKRS12hXjIpcubgwh4GaT/e8xlbcMPQNVkX0ghE
+ q9hDu03gols+s1LtMaHUg4jH4Qd0H/2v3LUdeLDcA6rzMB64D008nLIJh4FrMRH8b
+ If5XcO5+AAXodU+UIESHZJmrG0uiYzcT28/9rx4GHBtQVE7uW/+2aTXXuevtcKg11
+ 74SJcVynU9WVUJB1FQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [IPv6:::1] ([80.187.69.140]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MzhnN-1uSBvr1TE1-00qu8U; Thu, 24
+ Jul 2025 12:35:42 +0200
+Date: Thu, 24 Jul 2025 12:35:32 +0200
+From: Frank Wunderlich <frank-w@public-files.de>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, robh@kernel.org
+CC: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
+ conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
+ mchehab@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, chunfeng.yun@mediatek.com,
+ vkoul@kernel.org, kishon@kernel.org, sean.wang@kernel.org,
+ linus.walleij@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
+ andersson@kernel.org, mathieu.poirier@linaro.org, daniel.lezcano@linaro.org,
+ tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com,
+ ck.hu@mediatek.com, houlong.wei@mediatek.com,
+ kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com,
+ tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com, shane.chien@mediatek.com,
+ olivia.wen@mediatek.com, granquet@baylibre.com, eugen.hristev@linaro.org,
+ arnd@arndb.de, sam.shih@mediatek.com, jieyy.yang@mediatek.com,
+ mwalle@kernel.org, fparent@baylibre.com, linux-crypto@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_27/38=5D_arm64=3A_dts=3A_mediatek=3A_m?=
+ =?US-ASCII?Q?t7988a=3A_Fix_PCI-Express_T-PHY_node_address?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250724083914.61351-28-angelogioacchino.delregno@collabora.com>
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-28-angelogioacchino.delregno@collabora.com>
+Message-ID: <E00D9C7A-CEC6-4BB3-8568-CC54C80E1F9F@public-files.de>
 MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-Provags-ID: V03:K1:nkz0xBWOn6njT18nQoUfw6V1GVlL8WpIemZpMHLlbE8QqNvMruQ
+ Dw1Pn/9vrDC5T+QE1uC+gQrBvCbuCBubKZuNY/QtmAr8uYJpemV1UWgy1GRhjhzujMe4Sno
+ OFT//bgrHPOQkyWfSsQl5jIAop0RmK2bQYCM8GBsuQbZ18A3HnORU53wBCWooCm/gqkZStX
+ r26BYjnhKxDQSZciDLXoQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:mgZ48VJGxb8=;775ZXHy//kHKJjvD24peUpDrSJI
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,170 +139,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: frank-w@public-files.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-El jueves, 24 de julio de 2025 2:43:56 (hora de verano de Europa central),=
-=20
-Matthew Brost escribi=C3=B3:
-> On Tue, Jul 22, 2025 at 03:38:14PM +0200, Danilo Krummrich wrote:
-> > (Cc: Caterina)
-> >=20
-> > On Tue Jul 22, 2025 at 3:35 PM CEST, Himal Prasad Ghimiray wrote:
-> > > - DRM_GPUVM_SM_MAP_NOT_MADVISE: Default sm_map operations for the inp=
-ut
-> > >=20
-> > >   range.
-> > >=20
-> > > - DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE: This flag is used by
-> > >=20
-> > >   drm_gpuvm_sm_map_ops_create to iterate over GPUVMA's in the
-> > >=20
-> > > user-provided range and split the existing non-GEM object VMA if the
-> > > start or end of the input range lies within it. The operations can
-> > > create up to 2 REMAPS and 2 MAPs. The purpose of this operation is to=
- be
-> > > used by the Xe driver to assign attributes to GPUVMA's within the
-> > > user-defined range. Unlike drm_gpuvm_sm_map_ops_flags in default mode,
-> > > the operation with this flag will never have UNMAPs and
-> > > merges, and can be without any final operations.
-> > >=20
-> > > v2
-> > > - use drm_gpuvm_sm_map_ops_create with flags instead of defining new
-> > >=20
-> > >   ops_create (Danilo)
-> > >=20
-> > > - Add doc (Danilo)
-> > >=20
-> > > v3
-> > > - Fix doc
-> > > - Fix unmapping check
-> > >=20
-> > > v4
-> > > - Fix mapping for non madvise ops
-> > >=20
-> > > Cc: Danilo Krummrich <dakr@redhat.com>
-> > > Cc: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: Boris Brezillon <bbrezillon@kernel.org>
-> > > Cc: <dri-devel@lists.freedesktop.org>
-> > > Signed-off-by: Himal Prasad Ghimiray<himal.prasad.ghimiray@intel.com>
-> > > ---
-> > >=20
-> > >  drivers/gpu/drm/drm_gpuvm.c            | 93 ++++++++++++++++++++----=
-=2D-
-> > >  drivers/gpu/drm/nouveau/nouveau_uvmm.c |  1 +
-> > >  drivers/gpu/drm/xe/xe_vm.c             |  1 +
-> >=20
-> > What about the other drivers using GPUVM, aren't they affected by the
-> > changes?
-> Yes, this seemly would break the build or other users. If the baseline
-> includes the patch below that I suggest to pull in this is a moot point
-> though.
+Am 24=2E Juli 2025 10:39:03 MESZ schrieb AngeloGioacchino Del Regno <angelo=
+gioacchino=2Edelregno@collabora=2Ecom>:
+>The PCIe and USB TPHYs are under the soc bus, which provides MMIO,
+>and all nodes under that must use the bus, otherwise those would
+>clearly be out of place=2E
+>
+>Add ranges to both the tphy(s) and assign the address to the main
+>node to silence a dtbs_check warning, and fix the children to
+>use the MMIO range of t-phy=2E
+>
+>Fixes: ("f693e6ba55ae arm64: dts: mediatek: mt7988: Add t-phy for ssusb1"=
+)
+>Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino=2Edelregno@co=
+llabora=2Ecom>
+>---
+> arch/arm64/boot/dts/mediatek/mt7988a=2Edtsi | 28 +++++++++++------------
+> 1 file changed, 14 insertions(+), 14 deletions(-)
+>
+>diff --git a/arch/arm64/boot/dts/mediatek/mt7988a=2Edtsi b/arch/arm64/boo=
+t/dts/mediatek/mt7988a=2Edtsi
+>index 560ec86dbec0=2E=2Ecc0d3e3f4374 100644
+>--- a/arch/arm64/boot/dts/mediatek/mt7988a=2Edtsi
+>+++ b/arch/arm64/boot/dts/mediatek/mt7988a=2Edtsi
+>@@ -629,20 +629,20 @@ pcie_intc1: interrupt-controller {
+> 		tphy: t-phy@11c50000 {
+> 			compatible =3D "mediatek,mt7986-tphy",
+> 				     "mediatek,generic-tphy-v2";
+>-			#address-cells =3D <2>;
+>-			#size-cells =3D <2>;
+>-			ranges;
+>+			#address-cells =3D <1>;
+>+			#size-cells =3D <1>;
+>+			ranges =3D <0 0 0x11c50000 0x1000>;
+> 			status =3D "disabled";
 >=20
-> > >  include/drm/drm_gpuvm.h                | 25 ++++++-
-> > >  4 files changed, 98 insertions(+), 22 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> > > index e89b932e987c..c7779588ea38 100644
-> > > --- a/drivers/gpu/drm/drm_gpuvm.c
-> > > +++ b/drivers/gpu/drm/drm_gpuvm.c
-> > > @@ -2103,10 +2103,13 @@ static int
-> > >=20
-> > >  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> > > =20
-> > >  		   const struct drm_gpuvm_ops *ops, void *priv,
-> > >  		   u64 req_addr, u64 req_range,
-> > >=20
-> > > +		   enum drm_gpuvm_sm_map_ops_flags flags,
-> >=20
-> > Please coordinate with Boris and Caterina here. They're adding a new
-> > request structure, struct drm_gpuvm_map_req.
-> >=20
-> > I think we can define it as
-> >=20
-> > 	struct drm_gpuvm_map_req {
-> > =09
-> > 		struct drm_gpuva_op_map map;
-> > 		struct drm_gpuvm_sm_map_ops_flags flags;
-> > =09
-> > 	}
+>-			tphyu2port0: usb-phy@11c50000 {
+>-				reg =3D <0 0x11c50000 0 0x700>;
+>+			tphyu2port0: usb-phy@0 {
+>+				reg =3D <0 0x700>;
+> 				clocks =3D <&infracfg CLK_INFRA_USB_UTMI_CK_P1>;
+> 				clock-names =3D "ref";
+> 				#phy-cells =3D <1>;
+> 			};
 >=20
-> +1, I see the patch [2] and the suggested change to drm_gpuva_op_map
-> [3]. Both patch and your suggestion look good to me.
->=20
-> Perhaps we try to accelerate [2] landing ahead of either series as
-> overall just looks like a good cleanup which can be merged asap.
-I'm not sure my patchset would be in a mergeable state any time soon -- I'v=
-e=20
-discovered some issues with split/merge of repeated mappings while writing =
-the=20
-doc, so it will be a while before I'll be submitting that again. [2] itself=
- is=20
-in a good shape, absolutely feel free to submit that as part of your series.
->=20
-> Himal - I'd rebase on top [2], with Danilo suggestion in [3] if this
-> hasn't landed by your next rev.
->=20
-> [2]
-> https://lore.kernel.org/all/20250707170442.1437009-4-caterina.shablia@col=
-la
-> bora.com/ [3]
-> https://lore.kernel.org/all/DB61N61AKIJ3.FG7GUJBG386P@kernel.org/
-> > eventually.
-> >=20
-> > Please also coordinate on the changes in __drm_gpuvm_sm_map() below
-> > regarding Caterina's series [1], it looks like they're conflicting.
->=20
-> It looks pretty minor actually. I'm sure if really matter who this is
-> race but yes, always good to coordinate.
->=20
-> > [1]
-> > https://lore.kernel.org/all/20250707170442.1437009-1-caterina.shablia@c=
-ol
-> > labora.com/>=20
-> > > +/**
-> > > + * enum drm_gpuvm_sm_map_ops_flags - flags for drm_gpuvm split/merge
-> > > ops
-> > > + */
-> > > +enum drm_gpuvm_sm_map_ops_flags {
-> > > +	/**
-> > > +	 * @DRM_GPUVM_SM_MAP_NOT_MADVISE: DEFAULT sm_map ops
-> > > +	 */
-> > > +	DRM_GPUVM_SM_MAP_NOT_MADVISE =3D 0,
-> >=20
-> > Why would we name this "NOT_MADVISE"? What if we add more flags for oth=
-er
-> > purposes?
->=20
-> How about...
->=20
-> s/DRM_GPUVM_SM_MAP_NOT_MADVISE/DRM_GPUVM_SM_MAP_OPS_FLAG_NONE/
->=20
-> > > +	/**
-> > > +	 * @DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE: This flag is used by
-> > > +	 * drm_gpuvm_sm_map_ops_create to iterate over GPUVMA's in the
-> > > +	 * user-provided range and split the existing non-GEM object VMA=20
-if
-> > > the
-> > > +	 * start or end of the input range lies within it. The operations=20
-can
-> > > +	 * create up to 2 REMAPS and 2 MAPs. Unlike=20
-drm_gpuvm_sm_map_ops_flags
-> > > +	 * in default mode, the operation with this flag will never have
-> > > UNMAPs and +	 * merges, and can be without any final operations.
-> > > +	 */
-> > > +	DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE =3D BIT(0),
->=20
-> Then normalize this one...
->=20
-> s/DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE/DRM_GPUVM_SM_MAP_OPS_FLAG_SPLIT=
-_MA
-> DVISE/
->=20
-> Matt
->=20
-> > > +};
+>-			tphyu3port0: usb-phy@11c50700 {
+>-				reg =3D <0 0x11c50700 0 0x900>;
+>+			tphyu3port0: usb-phy@700 {
+>+				reg =3D <0 0x700 0 0x900>;
 
+This one looks wrong to me
 
+I guess it should be=20
 
+reg =3D <0x700 0x900>;
 
+> 				clocks =3D <&infracfg CLK_INFRA_USB_PIPE_CK_P1>;
+> 				clock-names =3D "ref";
+> 				#phy-cells =3D <1>;
+>@@ -659,20 +659,20 @@ topmisc: system-controller@11d10084 {
+> 		xsphy: xs-phy@11e10000 {
+> 			compatible =3D "mediatek,mt7988-xsphy",
+> 				     "mediatek,xsphy";
+>-			#address-cells =3D <2>;
+>-			#size-cells =3D <2>;
+>-			ranges;
+>+			#address-cells =3D <1>;
+>+			#size-cells =3D <1>;
+>+			ranges =3D <0 0 0x11e10000 0x3900>;
+> 			status =3D "disabled";
+>=20
+>-			xphyu2port0: usb-phy@11e10000 {
+>-				reg =3D <0 0x11e10000 0 0x400>;
+>+			xphyu2port0: usb-phy@0 {
+>+				reg =3D <0 0x400>;
+> 				clocks =3D <&infracfg CLK_INFRA_USB_UTMI>;
+> 				clock-names =3D "ref";
+> 				#phy-cells =3D <1>;
+> 			};
+>=20
+>-			xphyu3port0: usb-phy@11e13000 {
+>-				reg =3D <0 0x11e13400 0 0x500>;
+>+			xphyu3port0: usb-phy@3400 {
+>+				reg =3D <0x3400 0x500>;
+> 				clocks =3D <&infracfg CLK_INFRA_USB_PIPE>;
+> 				clock-names =3D "ref";
+> 				#phy-cells =3D <1>;
+
+Hi Angelo,
+
+thanks for taking case of many of current binding errors (only wondering a=
+bout this one as i had checked it before sending upstream)=2E
+regards Frank
