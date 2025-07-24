@@ -2,125 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A9CB10839
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 12:55:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F57B1084F
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 13:00:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7922A10E920;
-	Thu, 24 Jul 2025 10:55:18 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Irk0T0BT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W1G/olrr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Irk0T0BT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W1G/olrr";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2101E10E922;
+	Thu, 24 Jul 2025 11:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83C2110E920
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 10:55:17 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2CFD3218A4;
- Thu, 24 Jul 2025 10:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1753354516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HWsshxpqlq8ILqW4GaEqib4rNKrGm9gH3qXjyZvaU1A=;
- b=Irk0T0BTMDiOehJsNZYsUqvPQkE28G5mYq67WDVRnADUO2SlqQ1iAG/HRoKdAOlqPoMNxF
- bVUVrnn3wpT9a9krtG+QyYPNdnpKJEdcbZcP1U/FWzIPMmllwwQCACRJuOSerI3o9k1YLJ
- zP2GDIptAZMRVHJJRnEu4GzJ1moxcKw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1753354516;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HWsshxpqlq8ILqW4GaEqib4rNKrGm9gH3qXjyZvaU1A=;
- b=W1G/olrrwVV6urQwmohdFY8FPuoSfHOl2QKmAYECVdXg3gT2o1zBK9/iUSazDKncDkffH3
- DAy91lm0+5z1rdAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1753354516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HWsshxpqlq8ILqW4GaEqib4rNKrGm9gH3qXjyZvaU1A=;
- b=Irk0T0BTMDiOehJsNZYsUqvPQkE28G5mYq67WDVRnADUO2SlqQ1iAG/HRoKdAOlqPoMNxF
- bVUVrnn3wpT9a9krtG+QyYPNdnpKJEdcbZcP1U/FWzIPMmllwwQCACRJuOSerI3o9k1YLJ
- zP2GDIptAZMRVHJJRnEu4GzJ1moxcKw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1753354516;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HWsshxpqlq8ILqW4GaEqib4rNKrGm9gH3qXjyZvaU1A=;
- b=W1G/olrrwVV6urQwmohdFY8FPuoSfHOl2QKmAYECVdXg3gT2o1zBK9/iUSazDKncDkffH3
- DAy91lm0+5z1rdAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4AF8F136DC;
- Thu, 24 Jul 2025 10:55:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id I3ATERMRgmjDbgAAD6G6ig
- (envelope-from <tiwai@suse.de>); Thu, 24 Jul 2025 10:55:15 +0000
-Date: Thu, 24 Jul 2025 12:55:14 +0200
-Message-ID: <874iv1luy5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, Takashi Iwai <tiwai@suse.de>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, imx@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- festevam@gmail.com, simona@ffwll.ch, robh@kernel.org, rfoss@kernel.org,
- airlied@gmail.com, tiwai@suse.com, jernej.skrabec@gmail.com,
- p.zabel@pengutronix.de, luca.ceresoli@bootlin.com,
- devicetree@vger.kernel.org, conor+dt@kernel.org, tzimmermann@suse.de,
- jonas@kwiboo.se, victor.liu@nxp.com, s.hauer@pengutronix.de,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- linux-sound@vger.kernel.org, perex@perex.cz,
- linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org,
- lumag@kernel.org, dianders@chromium.org, kernel@pengutronix.de,
- cristian.ciocaltea@collabora.com, krzk+dt@kernel.org, shawnguo@kernel.org,
- l.stach@pengutronix.de
-Subject: Re: [PATCH v2 2/6] ALSA: Add definitions for the bits in IEC958
- subframe
-In-Reply-To: <CAA+D8AN2B_RZ9iZ3qE5zMBfs7BMAkruSRQupoXyrsr7Tt+Gfkg@mail.gmail.com>
-References: <20250724072248.1517569-1-shengjiu.wang@nxp.com>
- <20250724072248.1517569-3-shengjiu.wang@nxp.com>
- <87jz3ykpju.wl-tiwai@suse.de>
- <20250724-fair-sheep-of-success-e02586-mkl@pengutronix.de>
- <CAA+D8AN2B_RZ9iZ3qE5zMBfs7BMAkruSRQupoXyrsr7Tt+Gfkg@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A686110E922
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 11:00:04 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1CD31A00;
+ Thu, 24 Jul 2025 03:59:57 -0700 (PDT)
+Received: from [10.1.33.48] (e122027.cambridge.arm.com [10.1.33.48])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CEEFE3F66E;
+ Thu, 24 Jul 2025 04:00:01 -0700 (PDT)
+Message-ID: <f9a80f44-5347-4b4e-8f52-042e0f04f18a@arm.com>
+Date: Thu, 24 Jul 2025 12:00:00 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/6] drm/panthor: Add panthor_hw and move gpu_info
+ initialization into it
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, Chia-I Wu <olvaffe@gmail.com>
+References: <20250724092600.3225493-1-karunika.choo@arm.com>
+ <20250724092600.3225493-2-karunika.choo@arm.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250724092600.3225493-2-karunika.choo@arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_TWELVE(0.00)[37]; RCVD_VIA_SMTP_AUTH(0.00)[];
- TO_DN_SOME(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[gmail.com];
- R_RATELIMIT(0.00)[to_ip_from(RL8m7tqgwaqu97o1bbfnn6ewdz)];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[pengutronix.de,suse.de,nxp.com,lists.linux.dev,lists.freedesktop.org,vger.kernel.org,ideasonboard.com,intel.com,gmail.com,ffwll.ch,kernel.org,suse.com,bootlin.com,kwiboo.se,linux.intel.com,perex.cz,lists.infradead.org,linaro.org,chromium.org,collabora.com];
- TAGGED_RCPT(0.00)[dt]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,61 +53,328 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 24 Jul 2025 12:14:10 +0200,
-Shengjiu Wang wrote:
+On 24/07/2025 10:25, Karunika Choo wrote:
+> This patch introduces panthor_hw and moves the initialization of the
+> gpu_info struct into panthor_hw.c in preparation of handling future GPU
+> register and naming changes.
 > 
-> On Thu, Jul 24, 2025 at 3:40 PM Marc Kleine-Budde <mkl@pengutronix.de> wrote:
-> >
-> > On 24.07.2025 09:37:09, Takashi Iwai wrote:
-> > > On Thu, 24 Jul 2025 09:22:44 +0200,
-> > > Shengjiu Wang wrote:
-> > > >
-> > > > The IEC958 subframe format SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE are used
-> > > > in HDMI and DisplayPort to describe the audio stream, but hardware device
-> > > > may need to reorder the IEC958 bits for internal transmission, so need
-> > > > these standard bits definitions for IEC958 subframe format.
-> > > >
-> > > > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > > > ---
-> > > >  include/sound/asoundef.h | 9 +++++++++
-> > > >  1 file changed, 9 insertions(+)
-> > > >
-> > > > diff --git a/include/sound/asoundef.h b/include/sound/asoundef.h
-> > > > index 09b2c3dffb30..7efd61568636 100644
-> > > > --- a/include/sound/asoundef.h
-> > > > +++ b/include/sound/asoundef.h
-> > > > @@ -12,6 +12,15 @@
-> > > >   *        Digital audio interface                                      *
-> > > >   *                                                                          *
-> > > >   ****************************************************************************/
-> > > > +/* IEC958 subframe format */
-> > > > +#define IEC958_SUBFRAME_PREAMBLE_MASK      (0xf)
-> > > > +#define IEC958_SUBFRAME_AUXILIARY_MASK     (0xf<<4)
-> > > > +#define IEC958_SUBFRAME_SAMPLE_24_MASK     (0xffffff<<4)
-> > > > +#define IEC958_SUBFRAME_SAMPLE_20_MASK     (0xfffff<<8)
-> > > > +#define IEC958_SUBFRAME_VALIDITY   (0x1<<28)
-> > > > +#define IEC958_SUBFRAME_USER_DATA  (0x1<<29)
-> > > > +#define IEC958_SUBFRAME_CHANNEL_STATUS     (0x1<<30)
-> > > > +#define IEC958_SUBFRAME_PARITY             (0x1<<31)
-> > >
-> > > I'd use "U" suffix as it can reach to the MSB.
-> > > Also, you can put spaces around the operators to align with the
-> > > standard format, too.  I guess you followed to the other code there,
-> > > but following to the standard coding style would be better.
-> > >
-> > > With those addressed, feel free to take my ack for this patch:
-> >
-> > Or make use of the BIT() and GEN_MASK() helpers.
+> Future GPU support can be added by extending panthor_gpu_info_init()
+> with the necessary register reads behind GPU architecture version guards
+> if the change is minor. For more complex changes, the function can be
+> forked and the appropriate function will need to be called based on the
+> GPU architecture version.
 > 
-> Is it acceptable to include the headers in this file?
+> Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
 
-It's no UAPI, so should be fine (although I'm no big fan of
-GEN_MASK()).
+One minor nit (see below), but otherwise:
 
-Other definitions can be converted with the macros, but it should be a
-different patch.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
+> ---
+>  drivers/gpu/drm/panthor/Makefile         |   1 +
+>  drivers/gpu/drm/panthor/panthor_device.c |   5 +
+>  drivers/gpu/drm/panthor/panthor_gpu.c    |  95 -------------------
+>  drivers/gpu/drm/panthor/panthor_hw.c     | 113 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_hw.h     |  11 +++
+>  5 files changed, 130 insertions(+), 95 deletions(-)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_hw.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_hw.h
+> 
+> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
+> index 15294719b09c..02db21748c12 100644
+> --- a/drivers/gpu/drm/panthor/Makefile
+> +++ b/drivers/gpu/drm/panthor/Makefile
+> @@ -8,6 +8,7 @@ panthor-y := \
+>  	panthor_gem.o \
+>  	panthor_gpu.o \
+>  	panthor_heap.o \
+> +	panthor_hw.o \
+>  	panthor_mmu.o \
+>  	panthor_sched.o
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index f0b2da5b2b96..81df49880bd8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -18,6 +18,7 @@
+>  #include "panthor_device.h"
+>  #include "panthor_fw.h"
+>  #include "panthor_gpu.h"
+> +#include "panthor_hw.h"
+>  #include "panthor_mmu.h"
+>  #include "panthor_regs.h"
+>  #include "panthor_sched.h"
+> @@ -244,6 +245,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  			return ret;
+>  	}
+>  
+> +	ret = panthor_hw_init(ptdev);
+> +	if (ret)
+> +		goto err_rpm_put;
+> +
+>  	ret = panthor_gpu_init(ptdev);
+>  	if (ret)
+>  		goto err_rpm_put;
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index cb7a335e07d7..5e2c3173ae27 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -37,40 +37,6 @@ struct panthor_gpu {
+>  	wait_queue_head_t reqs_acked;
+>  };
+>  
+> -/**
+> - * struct panthor_model - GPU model description
+> - */
+> -struct panthor_model {
+> -	/** @name: Model name. */
+> -	const char *name;
+> -
+> -	/** @arch_major: Major version number of architecture. */
+> -	u8 arch_major;
+> -
+> -	/** @product_major: Major version number of product. */
+> -	u8 product_major;
+> -};
+> -
+> -/**
+> - * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
+> - * by a combination of the major architecture version and the major product
+> - * version.
+> - * @_name: Name for the GPU model.
+> - * @_arch_major: Architecture major.
+> - * @_product_major: Product major.
+> - */
+> -#define GPU_MODEL(_name, _arch_major, _product_major) \
+> -{\
+> -	.name = __stringify(_name),				\
+> -	.arch_major = _arch_major,				\
+> -	.product_major = _product_major,			\
+> -}
+> -
+> -static const struct panthor_model gpu_models[] = {
+> -	GPU_MODEL(g610, 10, 7),
+> -	{},
+> -};
+> -
+>  #define GPU_INTERRUPTS_MASK	\
+>  	(GPU_IRQ_FAULT | \
+>  	 GPU_IRQ_PROTM_FAULT | \
+> @@ -83,66 +49,6 @@ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+>  		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
+>  }
+>  
+> -static void panthor_gpu_init_info(struct panthor_device *ptdev)
+> -{
+> -	const struct panthor_model *model;
+> -	u32 arch_major, product_major;
+> -	u32 major, minor, status;
+> -	unsigned int i;
+> -
+> -	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
+> -	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
+> -	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
+> -	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
+> -	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
+> -	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
+> -	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
+> -	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
+> -	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
+> -	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
+> -	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+> -	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
+> -	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
+> -	for (i = 0; i < 4; i++)
+> -		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
+> -
+> -	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
+> -
+> -	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT);
+> -	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT);
+> -	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT);
+> -
+> -	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
+> -	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
+> -	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
+> -	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
+> -	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
+> -
+> -	for (model = gpu_models; model->name; model++) {
+> -		if (model->arch_major == arch_major &&
+> -		    model->product_major == product_major)
+> -			break;
+> -	}
+> -
+> -	drm_info(&ptdev->base,
+> -		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
+> -		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
+> -		 major, minor, status);
+> -
+> -	drm_info(&ptdev->base,
+> -		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
+> -		 ptdev->gpu_info.l2_features,
+> -		 ptdev->gpu_info.tiler_features,
+> -		 ptdev->gpu_info.mem_features,
+> -		 ptdev->gpu_info.mmu_features,
+> -		 ptdev->gpu_info.as_present);
+> -
+> -	drm_info(&ptdev->base,
+> -		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
+> -		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
+> -		 ptdev->gpu_info.tiler_present);
+> -}
+> -
+>  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  {
+>  	gpu_write(ptdev, GPU_INT_CLEAR, status);
+> @@ -205,7 +111,6 @@ int panthor_gpu_init(struct panthor_device *ptdev)
+>  	spin_lock_init(&gpu->reqs_lock);
+>  	init_waitqueue_head(&gpu->reqs_acked);
+>  	ptdev->gpu = gpu;
+> -	panthor_gpu_init_info(ptdev);
+>  
+>  	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
+>  	pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
+> new file mode 100644
+> index 000000000000..3f7175cb0ab4
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.c
+> @@ -0,0 +1,113 @@
+> +// SPDX-License-Identifier: GPL-2.0 or MIT
+> +/* Copyright 2025 ARM Limited. All rights reserved. */
+> +
+> +#include "panthor_device.h"
+> +#include "panthor_hw.h"
+> +#include "panthor_regs.h"
+> +
+> +/**
+> + * struct panthor_model - GPU model description
+> + */
+> +struct panthor_model {
+> +	/** @name: Model name. */
+> +	const char *name;
+> +
+> +	/** @arch_major: Major version number of architecture. */
+> +	u8 arch_major;
+> +
+> +	/** @product_major: Major version number of product. */
+> +	u8 product_major;
+> +};
+> +
+> +/**
+> + * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
+> + * by a combination of the major architecture version and the major product
+> + * version.
+> + * @_name: Name for the GPU model.
+> + * @_arch_major: Architecture major.
+> + * @_product_major: Product major.
+> + */
+> +#define GPU_MODEL(_name, _arch_major, _product_major) \
+> +{\
+> +	.name = __stringify(_name),				\
+> +	.arch_major = _arch_major,				\
+> +	.product_major = _product_major,			\
+> +}
+> +
+> +static const struct panthor_model gpu_models[] = {
+> +	GPU_MODEL(g610, 10, 7),
+> +	{},
+> +};
+> +
+> +static void panthor_gpu_info_init(struct panthor_device *ptdev)
+> +{
+> +	unsigned int i;
+> +
+> +	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
+> +	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
+> +	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
+> +	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
+> +	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
+> +	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
+> +	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
+> +	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
+> +	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
+> +	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
+> +	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
+> +	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
+> +	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
+> +	for (i = 0; i < 4; i++)
+> +		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
+> +
+> +	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
+> +
+> +	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT);
+> +	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT);
+> +	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT);
+> +}
+> +
+> +static void panthor_hw_info_init(struct panthor_device *ptdev)
+> +{
+> +	const struct panthor_model *model;
+> +	u32 arch_major, product_major;
+> +	u32 major, minor, status;
+> +
+> +	panthor_gpu_info_init(ptdev);
+> +
+> +	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
+> +	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
+> +	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
+> +	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
+> +	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
+> +
+> +	for (model = gpu_models; model->name; model++) {
+> +		if (model->arch_major == arch_major &&
+> +		    model->product_major == product_major)
+> +			break;
+> +	}
+> +
+> +	drm_info(&ptdev->base,
+> +		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
+> +		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
+> +		 major, minor, status);
+> +
+> +	drm_info(&ptdev->base,
+> +		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
+> +		 ptdev->gpu_info.l2_features,
+> +		 ptdev->gpu_info.tiler_features,
+> +		 ptdev->gpu_info.mem_features,
+> +		 ptdev->gpu_info.mmu_features,
+> +		 ptdev->gpu_info.as_present);
+> +
+> +	drm_info(&ptdev->base,
+> +		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
+> +		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
+> +		 ptdev->gpu_info.tiler_present);
+> +}
+> +
+> +int panthor_hw_init(struct panthor_device *ptdev)
+> +{
+> +	panthor_hw_info_init(ptdev);
+> +
+> +	return 0;
+> +}
+> \ No newline at end of file
 
-thanks,
+NIT: Missing new line at the end of the file.
 
-Takashi
+> diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
+> new file mode 100644
+> index 000000000000..0af6acc6aa6a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_hw.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* Copyright 2025 ARM Limited. All rights reserved. */
+> +
+> +#ifndef __PANTHOR_HW_H__
+> +#define __PANTHOR_HW_H__
+> +
+> +struct panthor_device;
+> +
+> +int panthor_hw_init(struct panthor_device *ptdev);
+> +
+> +#endif /* __PANTHOR_HW_H__ */
+
