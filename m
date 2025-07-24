@@ -2,69 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE80B108FE
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 13:19:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4C7B1091B
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 13:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2363F10E936;
-	Thu, 24 Jul 2025 11:19:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8207110E92B;
+	Thu, 24 Jul 2025 11:24:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gtcIHEg+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kOwlanuB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30B0B10E934
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 11:19:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1139D613F7;
- Thu, 24 Jul 2025 11:19:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADBABC4AF0B;
- Thu, 24 Jul 2025 11:19:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753355974;
- bh=xr9UfPrtsc/ykSfE3EhQN0BAiqLo6Aci+RNDYoh3hig=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=gtcIHEg+ph2IJp1WJwEVEk3R4hb7SfpYBo9kg5zwfeF9fN/WnQ/3g4N5KdsEraUxJ
- a4kPxnUb6bid5gAmKGKCF0eNsTLWvajd+kYVB4502wn7qiMsf11sjF4R9lpE6mCSR+
- P67vfBvqBl1xbYZsCu2vX1bxZGrZ52K4QMWbuo9F9vjdiw2jK+i6++M5BfJ5MP73Hc
- 6kOllnuqTh9sjsC7d3K1OIsNLehSe8QcLzIASlA5D65JUPFShxhMhZJ0esq5Y2XylZ
- Kw+y5W5Hc6gxWxuEybtqyQNpcVHYHK+xTxB5pnUfeY2DDLHt8hF0/MdFi4v5IQxVVo
- BR6VL794/V8cg==
-Date: Thu, 24 Jul 2025 06:19:34 -0500
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C972810E92B
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 11:24:32 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-3a51481a598so444087f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 04:24:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753356271; x=1753961071; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/chaQOtrwAc8iUspacpGx3XlnJkksuOlQUkOi3ydoks=;
+ b=kOwlanuBesG9+AcC2aKt/diO429p+nvjALFHdtm6MUKCVrX2s4Q2tjMhkcJVLsaqrl
+ K+oUyJ/2JHDEsl2loiiK2jPBdn5viXkfj57myUqZ5XH8VeWlL/EGQRjfyokokb7t/e5+
+ K3yJhzVWJLT45DtFQUdznLqXpvYW0VlGp/tTlT8djny2P4xmkoPbRX7sW2CeRiVkhUb9
+ Umg9TG/kx+/Zm2OKaBLuR13YSgcgvuPIKoXcC5+3v5UbcltZYgeMUQXuDxKlKUxk2d1K
+ z7EUZnRUH6MlWbpVjERfwXQUxyDqpXF6LDFs6SAlFTyhUGOAeI3WJEWsZbbBsZM/jAMg
+ RRiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753356271; x=1753961071;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/chaQOtrwAc8iUspacpGx3XlnJkksuOlQUkOi3ydoks=;
+ b=DOTuAM3e3RT+XZ93EwMO0IGP6+XxQzTwTOTmBvxZHIhzpLSzm77IUpyKBw/VzLR/m4
+ V8CiFgKB0i9/S+SMKPqy2sH26rkpziKUo3zguKFKWCjsGEpWDFpsqkXpsvChOVLnY1lf
+ RCWHR4XaDX1IpjQrgVJhm0DGudEdfSK8fbTiM8TC4bV4ZhSVorvEgZOWhCuqLGTeWjm7
+ Lz4Iw2Rk/ZKZjIasEg5FtrxGaKoCgS/t3SbhD+gi1sIvQHfk1Ac2hFH2ja6cm0Ad6Bgt
+ 1eT5HZL83/JPF6EXV9K2suHVji07xcX1mHBrPY0R7RrG07417kcFUtqT6vfXDOa3uTQq
+ jiAg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWzjDU0TA4h2eG18bdTLVRiS87JPL0JyZnbZ6PpBRAHwdOV2ez66+tFgnaWneXjg707j+hS933DPIg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJbGoosLb2zMusCr1gNF7fz6wdGnW5bdMxahkj77dXWjDCNOrP
+ Md7Lsjcn9i3yDNenF9Nra8uAx0Cu0AMSuIhyf02qO+pahYr9chNsO7w8
+X-Gm-Gg: ASbGncv0oSxPza31YeJuZyg3rZKobVm7UXDzsIZjc/i+uzvR1/YZ1SjI1Diu5oLfycp
+ ANW3Qp0eqN7Z0DCleDaaVnBtlW/QQynGAcy80Fu0vNXkjqIYuihT10U6dV0dGC74xBbrA81qmiZ
+ qDc04IcCJ6RbA60KINXzI0QdQZcxZ7LhcH6O9l5Wh97lRhwQXZG8cb3bJxPdW07HmbhOmAWlAx3
+ 7cVkN4FZZ9RZ/1YI6i9JIy5thMBJ6UFzg3ZTKNmbWE/gNjo+yInNuDiaSpwGDxKb54w/ChEaM97
+ KDrEba5oXbtACAGBHSWV44APSXl63yJDIVh0vCs6FtpPvrQ09wT5aTI+7zDbACCFUTpKudDKdhe
+ yqNfBvrfIRc4Nz6u4zXhd
+X-Google-Smtp-Source: AGHT+IGx6vY4OBDv0GI0qirOCTTfwNlLAd70BQpOL4ASVZfSa5T1qQYZyS8mCneRMwPLhBgww6T32g==
+X-Received: by 2002:a05:6000:240c:b0:3a5:2c18:b181 with SMTP id
+ ffacd0b85a97d-3b768f12c24mr5451850f8f.53.1753356271195; 
+ Thu, 24 Jul 2025 04:24:31 -0700 (PDT)
+Received: from localhost ([87.254.0.133]) by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-3b76fcad22asm1904963f8f.53.2025.07.24.04.24.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Jul 2025 04:24:30 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/panel: Kconfig: Fix spelling mistake "pannel" ->
+ "panel"
+Date: Thu, 24 Jul 2025 12:23:58 +0100
+Message-ID: <20250724112358.142351-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.50.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: tinghan.shen@mediatek.com, linux-remoteproc@vger.kernel.org, 
- olivia.wen@mediatek.com, devicetree@vger.kernel.org, 
- linux-sound@vger.kernel.org, andy.teng@mediatek.com, 
- eugen.hristev@linaro.org, matthias.bgg@gmail.com, 
- linux-mediatek@lists.infradead.org, frank-w@public-files.de, 
- linux-phy@lists.infradead.org, mripard@kernel.org, atenart@kernel.org, 
- sean.wang@kernel.org, ck.hu@mediatek.com, fparent@baylibre.com, 
- granquet@baylibre.com, p.zabel@pengutronix.de, simona@ffwll.ch, 
- tglx@linutronix.de, dri-devel@lists.freedesktop.org, 
- linux-gpio@vger.kernel.org, chunkuang.hu@kernel.org, 
- linux-crypto@vger.kernel.org, vkoul@kernel.org, 
- maarten.lankhorst@linux.intel.com, andersson@kernel.org, 
- linux-arm-kernel@lists.infradead.org, shane.chien@mediatek.com, 
- davem@davemloft.net, herbert@gondor.apana.org.au, broonie@kernel.org, 
- houlong.wei@mediatek.com, mathieu.poirier@linaro.org, 
- linus.walleij@linaro.org, conor+dt@kernel.org, 
- kyrie.wu@mediatek.corp-partner.google.com, daniel.lezcano@linaro.org, 
- mchehab@kernel.org, tzimmermann@suse.de, chunfeng.yun@mediatek.com, 
- mwalle@kernel.org, jiaxin.yu@mediatek.com, airlied@gmail.com, 
- jassisinghbrar@gmail.com, krzk+dt@kernel.org, linux-kernel@vger.kernel.org, 
- kishon@kernel.org, arnd@arndb.de, linux-media@vger.kernel.org, 
- jieyy.yang@mediatek.com, lgirdwood@gmail.com, sam.shih@mediatek.com, 
- jitao.shi@mediatek.com
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250724083914.61351-14-angelogioacchino.delregno@collabora.com>
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-14-angelogioacchino.delregno@collabora.com>
-Message-Id: <175335597061.1587930.6517956701582557579.robh@kernel.org>
-Subject: Re: [PATCH 13/38] dt-bindings: remoteproc: mediatek: Remove l1tcm
- MMIO from MT8188 dual
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,63 +92,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There is a spelling mistake in the LEDS_BD2606MVV config. Fix it.
 
-On Thu, 24 Jul 2025 10:38:49 +0200, AngeloGioacchino Del Regno wrote:
-> Even though the MT8188 SoC's Dual-Core SCP IP is practically the
-> same as the one found on MT8195, it doesn't have a dedicated L1
-> TCM and relies only on SRAM.
-> 
-> Set reg/reg-names minItems to 1 globally and override it in all of
-> the conditionals for the SoCs that require more, and then split
-> the mt8195/8188 conditionals to allow specifying only the cfg MMIO
-> on MT8188.
-> 
-> Fixes: 91e0d560b9fd ("dt-bindings: remoteproc: mediatek: Support MT8188 dual-core SCP")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  .../bindings/remoteproc/mtk,scp.yaml          | 23 ++++++++++++++++---
->  1 file changed, 20 insertions(+), 3 deletions(-)
-> 
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/panel/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml: allOf:1:then:properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'sram'}, {'const': 'cfg'}] is too long
-	[{'const': 'sram'}, {'const': 'cfg'}] is too short
-	False schema does not allow 2
-	1 was expected
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml: allOf:3:then:properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'cfg'}] is too short
-	False schema does not allow 1
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml: allOf:4:then:properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'cfg'}, {'const': 'l1tcm'}] is too long
-	[{'const': 'cfg'}, {'const': 'l1tcm'}] is too short
-	False schema does not allow 2
-	1 was expected
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250724083914.61351-14-angelogioacchino.delregno@collabora.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 09b9f7ff9340..af90ca62e57d 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -971,7 +971,7 @@ config DRM_PANEL_STARTEK_KD070FHFID015
+ 	depends on BACKLIGHT_CLASS_DEVICE
+ 	help
+ 	  Say Y here if you want to enable support for STARTEK KD070FHFID015 DSI panel
+-	  based on RENESAS-R69429 controller. The pannel is a 7-inch TFT LCD display
++	  based on RENESAS-R69429 controller. The panel is a 7-inch TFT LCD display
+ 	  with a resolution of 1024 x 600 pixels. It provides a MIPI DSI interface to
+ 	  the host, a built-in LED backlight and touch controller.
+ 
+-- 
+2.50.0
 
