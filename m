@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A946B103E7
-	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:40:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2BEB103EB
+	for <lists+dri-devel@lfdr.de>; Thu, 24 Jul 2025 10:40:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CCE910E8EC;
-	Thu, 24 Jul 2025 08:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBBC810E8E2;
+	Thu, 24 Jul 2025 08:40:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PaLbWjah";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="M8EoBdIU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D56DD10E8EC
- for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:40:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5F010E8EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 24 Jul 2025 08:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1753346439;
- bh=61TsENTbcnTVKtS7pa9gHS0SsFFeoRzSzkWyfk9U/wc=;
+ s=mail; t=1753346442;
+ bh=QvtX3tiJFOYUG861Cv5j7NgxDHzKzYZ7Z7s6cgpc96c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PaLbWjah2O9Uo1dw6B4l8MVLZIIR2jeQMqjiWQSXz1lirEb8aTFqrxlmWLeWrL7Ke
- myBLi6oYxjmP282f/Zlk+u3mCmQFaxQt7hnbgW1Bys9/mGirIvcZbuRHNaMljURdGw
- AnmqcRSk/FZ4WYjf3pkMJ3AkMh+NF4Sk2WSx+XRFmjG2gSF0cKMzUc7jaOsgVatK0j
- ciQqHJbJZWQWPw6mr7GrfddtHt7FrGzkYQMcI1gN3PRsPLy21R3BeqWhlYKB4oeieT
- JuAHDEqNIfkvfqUri0/DRKhH644JautlNPDyw4OWUU60JXz7uD+B8S6vEUbxhcJhBb
- WCqxc9iIgYuYw==
+ b=M8EoBdIUYqrfo7xyDRMBUTSoWwrpaJ0qXStYlLHeEQAQPYmSlgQXVS4qASQMI65Eh
+ oK72gJosli1LqY3trS/gr3BYIJy3xNsOxLPuOdioAANj9Ej0OoDOqoP8Euh956qbYu
+ iTv1yaJUiJ0+V8SAyKY/ElZV94O1Z1IbPYmpF9lzVENTPQ2PIFl9BNQdwb2GA6/8TI
+ tEGo1Hfg7fdQoRNQHnjtxCg9zTFqOnQenESYG9vPJUylkIeOjVGw9cb80YKA4wPs9Z
+ xZdWQHPxjh4Mqc7BZP/neiZh7dB0zfFIZyI8flpxnuf6CfNlIIx4/O8MdJ/aZfaCKM
+ 648nnNs3t0KMA==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2C1D417E0FC2;
- Thu, 24 Jul 2025 10:40:37 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CA2E117E11EE;
+ Thu, 24 Jul 2025 10:40:39 +0200 (CEST)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: linux-mediatek@lists.infradead.org,
 	robh@kernel.org
@@ -58,10 +58,9 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
-Subject: [PATCH 28/38] arm64: dts: mediatek: mt8173: Fix pinctrl node names
- and cleanup
-Date: Thu, 24 Jul 2025 10:39:04 +0200
-Message-ID: <20250724083914.61351-29-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH 29/38] arm64: dts: mediatek: mt8183: Fix pinctrl node names
+Date: Thu, 24 Jul 2025 10:39:05 +0200
+Message-ID: <20250724083914.61351-30-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
@@ -86,676 +85,569 @@ Fix the pinctrl node names to adhere to the bindings, as the main
 pin node is supposed to be named like "uart0-pins" and the pinmux
 node named like "pins-bus".
 
-While at it, also cleanup all of the MTK_DRIVE_(x)mA by changing
-that to just the (x) number.
-
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |  34 ++---
- arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  | 138 +++++++++---------
- arch/arm64/boot/dts/mediatek/mt8173-evb.dts   |  60 ++++----
- arch/arm64/boot/dts/mediatek/mt8173.dtsi      |  28 ++--
- 4 files changed, 128 insertions(+), 132 deletions(-)
+ .../mediatek/mt8183-kukui-audio-da7219.dtsi   |  4 +-
+ .../mediatek/mt8183-kukui-audio-ts3a227e.dtsi |  2 +-
+ .../dts/mediatek/mt8183-kukui-jacuzzi.dtsi    | 22 +++---
+ .../dts/mediatek/mt8183-kukui-kakadu.dtsi     | 16 ++--
+ .../dts/mediatek/mt8183-kukui-kodama.dtsi     | 12 +--
+ .../boot/dts/mediatek/mt8183-kukui-krane.dtsi | 12 +--
+ .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 78 +++++++++----------
+ 7 files changed, 73 insertions(+), 73 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-index dfc5c2f0ddef..1004eb8ea52c 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm-hana.dtsi
-@@ -5,6 +5,14 @@
- 
- #include "mt8173-elm.dtsi"
- 
-+&hdmi_mux_pins {
-+	pins-mux {
-+		pinmux = <MT8173_PIN_98_URTS1__FUNC_GPIO98>;
-+		bias-pull-up;
-+		output-high;
-+	};
-+};
-+
- &i2c0 {
- 	clock-frequency = <200000>;
- };
-@@ -67,26 +75,16 @@ trackpad2: trackpad@2c {
- 	};
- };
- 
--&mmc1 {
--	wp-gpios = <&pio 42 GPIO_ACTIVE_HIGH>;
--};
--
--&pio {
--	hdmi_mux_pins: hdmi_mux_pins {
--		pins2 {
--			pinmux = <MT8173_PIN_98_URTS1__FUNC_GPIO98>;
--			bias-pull-up;
--			output-high;
--		};
-+&mmc1_pins_default {
-+	pins-wp {
-+		pinmux = <MT8173_PIN_42_DSI_TE__FUNC_GPIO42>;
-+		input-enable;
-+		bias-pull-up;
- 	};
-+};
- 
--	mmc1_pins_default: mmc1default {
--		pins_wp {
--			pinmux = <MT8173_PIN_42_DSI_TE__FUNC_GPIO42>;
--			input-enable;
--			bias-pull-up;
--		};
--	};
-+&mmc1 {
-+	wp-gpios = <&pio 42 GPIO_ACTIVE_HIGH>;
- };
- 
- &touchscreen {
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-index 0d995b342d46..9ec930058b92 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi
-@@ -601,8 +601,8 @@ &pio {
- 			  "SOC_I2C4_1V8_SDA_400K",
- 			  "SOC_I2C4_1V8_SCL_400K";
- 
--	aud_i2s2: aud_i2s2 {
--		pins1 {
-+	aud_i2s2: aud-i2s2-pins {
-+		pins-bus {
- 			pinmux = <MT8173_PIN_128_I2S0_LRCK__FUNC_I2S1_WS>,
- 				 <MT8173_PIN_129_I2S0_BCK__FUNC_I2S1_BCK>,
- 				 <MT8173_PIN_130_I2S0_MCK__FUNC_I2S1_MCK>,
-@@ -614,55 +614,55 @@ pins1 {
- 		};
- 	};
- 
--	bl_fixed_pins: bl_fixed_pins {
--		pins1 {
-+	bl_fixed_pins: backlight-pins {
-+		pins-blon {
- 			pinmux = <MT8173_PIN_32_UTXD2__FUNC_GPIO32>;
- 			output-low;
- 		};
- 	};
- 
--	bt_wake_pins: bt_wake_pins {
--		pins1 {
-+	bt_wake_pins: bt-pins {
-+		pins-wake {
- 			pinmux = <MT8173_PIN_119_KPROW0__FUNC_GPIO119>;
- 			bias-pull-up;
- 		};
- 	};
- 
--	disp_pwm0_pins: disp_pwm0_pins {
-+	disp_pwm0_pins: disp-pwm0-pins {
- 		pins1 {
- 			pinmux = <MT8173_PIN_87_DISP_PWM0__FUNC_DISP_PWM0>;
- 			output-low;
- 		};
- 	};
- 
--	gpio_keys_pins: gpio_keys_pins {
--		volume_pins {
-+	gpio_keys_pins: gpio-keys-pins {
-+		pins-volumeupdn {
- 			pinmux = <MT8173_PIN_123_KPCOL1__FUNC_GPIO123>,
- 				 <MT8173_PIN_124_KPCOL2__FUNC_GPIO124>;
- 			bias-pull-up;
- 		};
- 
--		tablet_mode_pins {
-+		pins-tabletmode {
- 			pinmux = <MT8173_PIN_121_KPROW2__FUNC_GPIO121>;
- 			bias-pull-up;
- 		};
- 	};
- 
--	hdmi_mux_pins: hdmi_mux_pins {
--		pins1 {
-+	hdmi_mux_pins: hdmi-pins {
-+		pins-mux {
- 			pinmux = <MT8173_PIN_36_DAISYNC__FUNC_GPIO36>;
- 		};
- 	};
- 
--	i2c1_pins_a: i2c1 {
--		da9211_pins {
-+	i2c1_pins_a: i2c1-pins {
-+		pins-da9211 {
- 			pinmux = <MT8173_PIN_15_EINT15__FUNC_GPIO15>;
- 			bias-pull-up;
- 		};
- 	};
- 
--	mmc0_pins_default: mmc0default {
--		pins_cmd_dat {
-+	mmc0_pins_default: mmc0-default-pins {
-+		pins-cmd-dat {
- 			pinmux = <MT8173_PIN_57_MSDC0_DAT0__FUNC_MSDC0_DAT0>,
- 				 <MT8173_PIN_58_MSDC0_DAT1__FUNC_MSDC0_DAT1>,
- 				 <MT8173_PIN_59_MSDC0_DAT2__FUNC_MSDC0_DAT2>,
-@@ -675,68 +675,68 @@ pins_cmd_dat {
- 			bias-pull-up;
- 		};
- 
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_65_MSDC0_CLK__FUNC_MSDC0_CLK>;
- 			bias-pull-down;
- 		};
- 
--		pins_rst {
-+		pins-rst {
- 			pinmux = <MT8173_PIN_68_MSDC0_RST___FUNC_MSDC0_RSTB>;
- 			bias-pull-up;
- 		};
- 	};
- 
--	mmc1_pins_default: mmc1default {
--		pins_cmd_dat {
-+	mmc1_pins_default: mmc1-default-pins {
-+		pins-cmd-dat {
- 			pinmux = <MT8173_PIN_73_MSDC1_DAT0__FUNC_MSDC1_DAT0>,
- 				 <MT8173_PIN_74_MSDC1_DAT1__FUNC_MSDC1_DAT1>,
- 				 <MT8173_PIN_75_MSDC1_DAT2__FUNC_MSDC1_DAT2>,
- 				 <MT8173_PIN_76_MSDC1_DAT3__FUNC_MSDC1_DAT3>,
- 				 <MT8173_PIN_78_MSDC1_CMD__FUNC_MSDC1_CMD>;
- 			input-enable;
--			drive-strength = <MTK_DRIVE_4mA>;
-+			drive-strength = <4>;
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_10>;
- 		};
- 
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_77_MSDC1_CLK__FUNC_MSDC1_CLK>;
- 			bias-pull-down;
--			drive-strength = <MTK_DRIVE_4mA>;
-+			drive-strength = <4>;
- 		};
- 
--		pins_insert {
-+		pins-insert {
- 			pinmux = <MT8173_PIN_1_EINT1__FUNC_GPIO1>;
- 			bias-pull-up;
- 		};
- 	};
- 
--	mmc3_pins_default: mmc3default {
--		pins_dat {
-+	mmc3_pins_default: mmc3-default-pins {
-+		pins-dat {
- 			pinmux = <MT8173_PIN_22_MSDC3_DAT0__FUNC_MSDC3_DAT0>,
- 				 <MT8173_PIN_23_MSDC3_DAT1__FUNC_MSDC3_DAT1>,
- 				 <MT8173_PIN_24_MSDC3_DAT2__FUNC_MSDC3_DAT2>,
- 				 <MT8173_PIN_25_MSDC3_DAT3__FUNC_MSDC3_DAT3>;
- 			input-enable;
--			drive-strength = <MTK_DRIVE_8mA>;
-+			drive-strength = <8>;
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_10>;
- 		};
- 
--		pins_cmd {
-+		pins-cmd {
- 			pinmux = <MT8173_PIN_27_MSDC3_CMD__FUNC_MSDC3_CMD>;
- 			input-enable;
--			drive-strength = <MTK_DRIVE_8mA>;
-+			drive-strength = <8>;
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_10>;
- 		};
- 
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_26_MSDC3_CLK__FUNC_MSDC3_CLK>;
- 			bias-pull-down;
--			drive-strength = <MTK_DRIVE_8mA>;
-+			drive-strength = <8>;
- 		};
- 	};
- 
--	mmc0_pins_uhs: mmc0 {
--		pins_cmd_dat {
-+	mmc0_pins_uhs: mmc0-uhs-pins {
-+		pins-cmd-dat {
- 			pinmux = <MT8173_PIN_57_MSDC0_DAT0__FUNC_MSDC0_DAT0>,
- 				 <MT8173_PIN_58_MSDC0_DAT1__FUNC_MSDC0_DAT1>,
- 				 <MT8173_PIN_59_MSDC0_DAT2__FUNC_MSDC0_DAT2>,
-@@ -747,109 +747,109 @@ pins_cmd_dat {
- 				 <MT8173_PIN_64_MSDC0_DAT7__FUNC_MSDC0_DAT7>,
- 				 <MT8173_PIN_66_MSDC0_CMD__FUNC_MSDC0_CMD>;
- 			input-enable;
--			drive-strength = <MTK_DRIVE_6mA>;
-+			drive-strength = <6>;
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_01>;
- 		};
- 
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_65_MSDC0_CLK__FUNC_MSDC0_CLK>;
--			drive-strength = <MTK_DRIVE_6mA>;
-+			drive-strength = <6>;
- 			bias-pull-down = <MTK_PUPD_SET_R1R0_01>;
- 		};
- 
--		pins_ds {
-+		pins-ds {
- 			pinmux = <MT8173_PIN_67_MSDC0_DSL__FUNC_MSDC0_DSL>;
- 			drive-strength = <MTK_DRIVE_10mA>;
- 			bias-pull-down = <MTK_PUPD_SET_R1R0_01>;
- 		};
- 
--		pins_rst {
-+		pins-rst {
- 			pinmux = <MT8173_PIN_68_MSDC0_RST___FUNC_MSDC0_RSTB>;
- 			bias-pull-up;
- 		};
- 	};
- 
--	mmc1_pins_uhs: mmc1 {
--		pins_cmd_dat {
-+	mmc1_pins_uhs: mmc1-pins {
-+		pins-cmd-dat {
- 			pinmux = <MT8173_PIN_73_MSDC1_DAT0__FUNC_MSDC1_DAT0>,
- 				 <MT8173_PIN_74_MSDC1_DAT1__FUNC_MSDC1_DAT1>,
- 				 <MT8173_PIN_75_MSDC1_DAT2__FUNC_MSDC1_DAT2>,
- 				 <MT8173_PIN_76_MSDC1_DAT3__FUNC_MSDC1_DAT3>,
- 				 <MT8173_PIN_78_MSDC1_CMD__FUNC_MSDC1_CMD>;
- 			input-enable;
--			drive-strength = <MTK_DRIVE_6mA>;
-+			drive-strength = <6>;
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_10>;
- 		};
- 
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_77_MSDC1_CLK__FUNC_MSDC1_CLK>;
--			drive-strength = <MTK_DRIVE_8mA>;
-+			drive-strength = <8>;
- 			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
- 		};
- 	};
- 
--	mmc3_pins_uhs: mmc3 {
--		pins_dat {
-+	mmc3_pins_uhs: mmc3-pins {
-+		pins-dat {
- 			pinmux = <MT8173_PIN_22_MSDC3_DAT0__FUNC_MSDC3_DAT0>,
- 				 <MT8173_PIN_23_MSDC3_DAT1__FUNC_MSDC3_DAT1>,
- 				 <MT8173_PIN_24_MSDC3_DAT2__FUNC_MSDC3_DAT2>,
- 				 <MT8173_PIN_25_MSDC3_DAT3__FUNC_MSDC3_DAT3>;
- 			input-enable;
--			drive-strength = <MTK_DRIVE_8mA>;
-+			drive-strength = <8>;
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_10>;
- 		};
- 
--		pins_cmd {
-+		pins-cmd {
- 			pinmux = <MT8173_PIN_27_MSDC3_CMD__FUNC_MSDC3_CMD>;
- 			input-enable;
--			drive-strength = <MTK_DRIVE_8mA>;
-+			drive-strength = <8>;
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_10>;
- 		};
- 
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_26_MSDC3_CLK__FUNC_MSDC3_CLK>;
--			drive-strength = <MTK_DRIVE_8mA>;
-+			drive-strength = <8>;
- 			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
- 		};
- 	};
- 
--	nor_gpio1_pins: nor {
-+	nor_gpio1_pins: nor-pins {
- 		pins1 {
- 			pinmux = <MT8173_PIN_6_EINT6__FUNC_SFCS0>,
- 				 <MT8173_PIN_7_EINT7__FUNC_SFHOLD>,
- 				 <MT8173_PIN_8_EINT8__FUNC_SFIN>;
- 			input-enable;
--			drive-strength = <MTK_DRIVE_4mA>;
-+			drive-strength = <4>;
- 			bias-pull-up;
- 		};
- 
- 		pins2 {
- 			pinmux = <MT8173_PIN_5_EINT5__FUNC_SFOUT>;
--			drive-strength = <MTK_DRIVE_4mA>;
-+			drive-strength = <4>;
- 			bias-pull-up;
- 		};
- 
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_9_EINT9__FUNC_SFCK>;
- 			input-enable;
--			drive-strength = <MTK_DRIVE_4mA>;
-+			drive-strength = <4>;
- 			bias-pull-up;
- 		};
- 	};
- 
--	panel_backlight_en_pins: panel_backlight_en_pins {
-+	panel_backlight_en_pins: panel-backlight-en-pins {
- 		pins1 {
- 			pinmux = <MT8173_PIN_95_PCM_TX__FUNC_GPIO95>;
- 		};
- 	};
- 
--	panel_fixed_pins: panel_fixed_pins {
-+	panel_fixed_pins: panel-fixed-pins {
- 		pins1 {
- 			pinmux = <MT8173_PIN_41_CMMCLK__FUNC_GPIO41>;
- 		};
- 	};
- 
--	ps8640_pins: ps8640_pins {
-+	ps8640_pins: ps8640-pins {
- 		pins1 {
- 			pinmux = <MT8173_PIN_92_PCM_CLK__FUNC_GPIO92>,
- 				 <MT8173_PIN_115_URTS0__FUNC_GPIO115>,
-@@ -857,33 +857,33 @@ pins1 {
- 		};
- 	};
- 
--	ps8640_fixed_pins: ps8640_fixed_pins {
-+	ps8640_fixed_pins: ps8640-fixed-pins {
- 		pins1 {
- 			pinmux = <MT8173_PIN_30_URTS2__FUNC_GPIO30>;
- 		};
- 	};
- 
--	rt5650_irq: rt5650_irq {
--		pins1 {
-+	rt5650_irq: rt5650-pins {
-+		pins-intn {
- 			pinmux = <MT8173_PIN_3_EINT3__FUNC_GPIO3>;
- 			bias-pull-down;
- 		};
- 	};
- 
--	sdio_fixed_3v3_pins: sdio_fixed_3v3_pins {
-+	sdio_fixed_3v3_pins: sdio-vreg-3v3-pins {
- 		pins1 {
- 			pinmux = <MT8173_PIN_85_AUD_DAT_MOSI__FUNC_GPIO85>;
- 			output-low;
- 		};
- 	};
- 
--	spi_pins_a: spi1 {
-+	spi_pins_a: spi1-pins {
- 		pins1 {
- 			pinmux = <MT8173_PIN_0_EINT0__FUNC_GPIO0>;
- 			bias-pull-up;
- 		};
- 
--		pins_spi {
-+		pins-spi {
- 			pinmux = <MT8173_PIN_102_MSDC2_DAT2__FUNC_SPI_CK_1_>,
- 				 <MT8173_PIN_103_MSDC2_DAT3__FUNC_SPI_MI_1_>,
- 				 <MT8173_PIN_104_MSDC2_CLK__FUNC_SPI_MO_1_>,
-@@ -892,15 +892,15 @@ pins_spi {
- 		};
- 	};
- 
--	trackpad_irq: trackpad_irq {
--		pins1 {
-+	trackpad_irq: trackpad-pins {
-+		pins-intn {
- 			pinmux = <MT8173_PIN_117_URXD3__FUNC_GPIO117>;
- 			input-enable;
- 			bias-pull-up;
- 		};
- 	};
- 
--	usb_pins: usb {
-+	usb_pins: usb-pins {
- 		pins1 {
- 			pinmux = <MT8173_PIN_101_MSDC2_DAT1__FUNC_GPIO101>;
- 			output-high;
-@@ -908,8 +908,8 @@ pins1 {
- 		};
- 	};
- 
--	wifi_wake_pins: wifi_wake_pins {
--		pins1 {
-+	wifi_wake_pins: wifi-pins {
-+		pins-wake {
- 			pinmux = <MT8173_PIN_38_CONN_RST__FUNC_GPIO38>;
- 			bias-pull-up;
- 		};
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173-evb.dts b/arch/arm64/boot/dts/mediatek/mt8173-evb.dts
-index 9fffed0ef4bf..51118a4149d8 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173-evb.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8173-evb.dts
-@@ -172,15 +172,15 @@ &mmc1 {
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-da7219.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-da7219.dtsi
+index 586eee79c73c..f69ffcb9792a 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-da7219.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-da7219.dtsi
+@@ -39,8 +39,8 @@ da7219_aad {
  };
  
  &pio {
--	disp_pwm0_pins: disp_pwm0_pins {
-+	disp_pwm0_pins: disp-pwm0-pins {
+-	da7219_pins: da7219_pins {
+-		pins1 {
++	da7219_pins: da7219-pins {
++		pins-intn {
+ 			pinmux = <PINMUX_GPIO165__FUNC_GPIO165>;
+ 			input-enable;
+ 			bias-pull-up;
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-ts3a227e.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-ts3a227e.dtsi
+index 548e22c194a2..c4aedf8cbfcd 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-ts3a227e.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-audio-ts3a227e.dtsi
+@@ -17,7 +17,7 @@ ts3a227e: ts3a227e@3b {
+ };
+ 
+ &pio {
+-	ts3a227e_pins: ts3a227e_pins {
++	ts3a227e_pins: ts3a227e-pins {
  		pins1 {
- 			pinmux = <MT8173_PIN_87_DISP_PWM0__FUNC_DISP_PWM0>;
+ 			pinmux = <PINMUX_GPIO157__FUNC_GPIO157>;
+ 			input-enable;
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+index 80888bd4ad82..f2afca63c75a 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+@@ -395,14 +395,14 @@ &pio {
+ 		"",
+ 		"";
+ 
+-	pp1000_mipibrdg_en: pp1000-mipibrdg-en {
++	pp1000_mipibrdg_en: pp1000-mipibrdg-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO54__FUNC_GPIO54>;
  			output-low;
  		};
  	};
  
--	mmc0_pins_default: mmc0default {
--		pins_cmd_dat {
-+	mmc0_pins_default: mmc0-default-pins {
-+		pins-cmd-dat {
- 			pinmux = <MT8173_PIN_57_MSDC0_DAT0__FUNC_MSDC0_DAT0>,
- 				 <MT8173_PIN_58_MSDC0_DAT1__FUNC_MSDC0_DAT1>,
- 				 <MT8173_PIN_59_MSDC0_DAT2__FUNC_MSDC0_DAT2>,
-@@ -194,19 +194,19 @@ pins_cmd_dat {
+-	pp1800_mipibrdg_en: pp1800-mipibrdg-en {
++	pp1800_mipibrdg_en: pp1800-mipibrdg-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO36__FUNC_GPIO36>;
+ 			output-low;
+@@ -410,20 +410,20 @@ pins1 {
+ 	};
+ 
+ 	pp3300_panel_pins: pp3300-panel-pins {
+-		panel_3v3_enable: panel-3v3-enable {
++		panel_3v3_enable: pins-panel-en {
+ 			pinmux = <PINMUX_GPIO35__FUNC_GPIO35>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	ppvarp_lcd_en: ppvarp-lcd-en {
++	ppvarp_lcd_en: ppvarp-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO66__FUNC_GPIO66>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	ppvarn_lcd_en: ppvarn-lcd-en {
++	ppvarn_lcd_en: ppvarn-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO166__FUNC_GPIO166>;
+ 			output-low;
+@@ -444,27 +444,27 @@ pins2 {
+ 	};
+ 
+ 	touchscreen_pins: touchscreen-pins {
+-		touch-int-odl {
++		pins-intn {
+ 			pinmux = <PINMUX_GPIO155__FUNC_GPIO155>;
+ 			input-enable;
  			bias-pull-up;
  		};
  
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_65_MSDC0_CLK__FUNC_MSDC0_CLK>;
- 			bias-pull-down;
- 		};
- 
--		pins_rst {
+-		touch-rst-l {
 +		pins-rst {
- 			pinmux = <MT8173_PIN_68_MSDC0_RST___FUNC_MSDC0_RSTB>;
- 			bias-pull-up;
+ 			pinmux = <PINMUX_GPIO156__FUNC_GPIO156>;
+ 			output-high;
  		};
  	};
  
--	mmc1_pins_default: mmc1default {
--		pins_cmd_dat {
-+	mmc1_pins_default: mmc1-default-pins {
-+		pins-cmd-dat {
- 			pinmux = <MT8173_PIN_73_MSDC1_DAT0__FUNC_MSDC1_DAT0>,
- 				 <MT8173_PIN_74_MSDC1_DAT1__FUNC_MSDC1_DAT1>,
- 				 <MT8173_PIN_75_MSDC1_DAT2__FUNC_MSDC1_DAT2>,
-@@ -217,20 +217,20 @@ pins_cmd_dat {
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_10>;
- 		};
- 
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_77_MSDC1_CLK__FUNC_MSDC1_CLK>;
- 			bias-pull-down;
- 			drive-strength = <4>;
- 		};
- 
--		pins_insert {
-+		pins-insert {
- 			pinmux = <MT8173_PIN_132_I2S0_DATA1__FUNC_GPIO132>;
- 			bias-pull-up;
+ 	trackpad_pins: trackpad-pins {
+-		trackpad-int {
++		pins-intn {
+ 			pinmux = <PINMUX_GPIO7__FUNC_GPIO7>;
+ 			input-enable;
+ 			bias-disable; /* pulled externally */
  		};
  	};
  
--	mmc0_pins_uhs: mmc0 {
--		pins_cmd_dat {
-+	mmc0_pins_uhs: mmc0-uhs-pins {
-+		pins-cmd-dat {
- 			pinmux = <MT8173_PIN_57_MSDC0_DAT0__FUNC_MSDC0_DAT0>,
- 				 <MT8173_PIN_58_MSDC0_DAT1__FUNC_MSDC0_DAT1>,
- 				 <MT8173_PIN_59_MSDC0_DAT2__FUNC_MSDC0_DAT2>,
-@@ -245,20 +245,29 @@ pins_cmd_dat {
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_01>;
+-	pp3300_mipibrdg_en: pp3300-mipibrdg-en {
++	pp3300_mipibrdg_en: pp3300-mipibrdg-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO37__FUNC_GPIO37>;
+ 			output-low;
+@@ -472,13 +472,13 @@ pins1 {
+ 	};
+ 
+ 	volume_button_pins: volume-button-pins {
+-		voldn-btn-odl {
++		pins-voldn {
+ 			pinmux = <PINMUX_GPIO6__FUNC_GPIO6>;
+ 			input-enable;
+ 			bias-pull-up;
  		};
  
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_65_MSDC0_CLK__FUNC_MSDC0_CLK>;
- 			drive-strength = <2>;
- 			bias-pull-down = <MTK_PUPD_SET_R1R0_01>;
+-		volup-btn-odl {
++		pins-volup {
+ 			pinmux = <PINMUX_GPIO5__FUNC_GPIO5>;
+ 			input-enable;
+ 			bias-pull-up;
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+index ff02f63bac29..472d4987615a 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+@@ -304,35 +304,35 @@ &pio {
+ 		"",
+ 		"";
+ 
+-	ppvarp_lcd_en: ppvarp-lcd-en {
++	ppvarp_lcd_en: ppvarp-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO66__FUNC_GPIO66>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	ppvarn_lcd_en: ppvarn-lcd-en {
++	ppvarn_lcd_en: ppvarn-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO166__FUNC_GPIO166>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	pp1800_lcd_en: pp1800-lcd-en {
++	pp1800_lcd_en: pp1800-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO36__FUNC_GPIO36>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	open_touch: open_touch {
+-		irq_pin {
++	open_touch: opentouch-pins {
++		pins-intn {
+ 			pinmux = <PINMUX_GPIO155__FUNC_GPIO155>;
+ 			input-enable;
+ 			bias-pull-up;
  		};
  
--		pins_rst {
+-		rst_pin {
 +		pins-rst {
- 			pinmux = <MT8173_PIN_68_MSDC0_RST___FUNC_MSDC0_RSTB>;
+ 			pinmux = <PINMUX_GPIO156__FUNC_GPIO156>;
+ 
+ 			/*
+@@ -349,8 +349,8 @@ rst_pin {
+ 		};
+ 	};
+ 
+-	pen_eject: peneject {
+-		pen_eject {
++	pen_eject: pen-pins {
++		pins-eject {
+ 			pinmux = <PINMUX_GPIO6__FUNC_GPIO6>;
+ 			input-enable;
+ 			/* External pull-up. */
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+index da6e767b4cee..1b21e3958061 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+@@ -292,35 +292,35 @@ &pio {
+ 		"",
+ 		"";
+ 
+-	ppvarp_lcd_en: ppvarp-lcd-en {
++	ppvarp_lcd_en: ppvarp-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO66__FUNC_GPIO66>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	ppvarn_lcd_en: ppvarn-lcd-en {
++	ppvarn_lcd_en: ppvarn-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO166__FUNC_GPIO166>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	pp1800_lcd_en: pp1800-lcd-en {
++	pp1800_lcd_en: pp1800-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO36__FUNC_GPIO36>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	touch_default: touchdefault {
+-		pin_irq {
++	touch_default: touch-pins {
++		pins-intn {
+ 			pinmux = <PINMUX_GPIO155__FUNC_GPIO155>;
+ 			input-enable;
  			bias-pull-up;
  		};
- 	};
  
--	mmc1_pins_uhs: mmc1 {
--		pins_cmd_dat {
-+	spi_pins_a: spi0-pins {
-+		pins-bus {
-+			pinmux = <MT8173_PIN_69_SPI_CK__FUNC_SPI_CK_0_>,
-+				<MT8173_PIN_70_SPI_MI__FUNC_SPI_MI_0_>,
-+				<MT8173_PIN_71_SPI_MO__FUNC_SPI_MO_0_>,
-+				<MT8173_PIN_72_SPI_CS__FUNC_SPI_CS_0_>;
-+		};
-+	};
-+
-+	mmc1_pins_uhs: mmc1-uhs-pins {
-+		pins-cmd-dat {
- 			pinmux = <MT8173_PIN_73_MSDC1_DAT0__FUNC_MSDC1_DAT0>,
- 				 <MT8173_PIN_74_MSDC1_DAT1__FUNC_MSDC1_DAT1>,
- 				 <MT8173_PIN_75_MSDC1_DAT2__FUNC_MSDC1_DAT2>,
-@@ -269,22 +278,22 @@ pins_cmd_dat {
- 			bias-pull-up = <MTK_PUPD_SET_R1R0_10>;
- 		};
+-		touch_pin_reset: pin_reset {
++		touch_pin_reset: pins-rst {
+ 			pinmux = <PINMUX_GPIO156__FUNC_GPIO156>;
  
--		pins_clk {
-+		pins-clk {
- 			pinmux = <MT8173_PIN_77_MSDC1_CLK__FUNC_MSDC1_CLK>;
- 			drive-strength = <4>;
- 			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
+ 			/*
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+index 8b56b8564ed7..a85c73b43195 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+@@ -296,35 +296,35 @@ &pio {
+ 		"",
+ 		"";
+ 
+-	ppvarp_lcd_en: ppvarp-lcd-en {
++	ppvarp_lcd_en: ppvarp-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO66__FUNC_GPIO66>;
+ 			output-low;
  		};
  	};
  
--	usb_id_pins_float: usb_iddig_pull_up {
--		pins_iddig {
-+	usb_id_pins_float: usb-iddig-pu-pins {
-+		pins-iddig-pu {
- 			pinmux = <MT8173_PIN_16_IDDIG__FUNC_IDDIG>;
+-	ppvarn_lcd_en: ppvarn-lcd-en {
++	ppvarn_lcd_en: ppvarn-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO166__FUNC_GPIO166>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	pp1800_lcd_en: pp1800-lcd-en {
++	pp1800_lcd_en: pp1800-lcd-en-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO36__FUNC_GPIO36>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	open_touch: open_touch {
+-		irq_pin {
++	open_touch: opentouch-pins {
++		pins-intn {
+ 			pinmux = <PINMUX_GPIO155__FUNC_GPIO155>;
+ 			input-enable;
  			bias-pull-up;
  		};
- 	};
  
--	usb_id_pins_ground: usb_iddig_pull_down {
--		pins_iddig {
-+	usb_id_pins_ground: usb-iddig-pd-pins {
-+		pins-iddig-pd {
- 			pinmux = <MT8173_PIN_16_IDDIG__FUNC_IDDIG>;
- 			bias-pull-down;
- 		};
-@@ -473,17 +482,6 @@ mt6397_vibr_reg: ldo_vibr {
- 	};
+-		rst_pin {
++		pins-rst {
+ 			pinmux = <PINMUX_GPIO156__FUNC_GPIO156>;
+ 
+ 			/*
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+index 400c61d11035..8f3a0e85b4ed 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+@@ -435,7 +435,7 @@ &mt6358_vsram_gpu_reg {
  };
  
--&pio {
--	spi_pins_a: spi0 {
--		pins_spi {
--			pinmux = <MT8173_PIN_69_SPI_CK__FUNC_SPI_CK_0_>,
--				<MT8173_PIN_70_SPI_MI__FUNC_SPI_MI_0_>,
--				<MT8173_PIN_71_SPI_MO__FUNC_SPI_MO_0_>,
--				<MT8173_PIN_72_SPI_CS__FUNC_SPI_CS_0_>;
--		};
--	};
--};
--
- &spi {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&spi_pins_a>;
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-index 122a57c3780b..78c2ccd5be13 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-@@ -391,58 +391,58 @@ pio: pinctrl@1000b000 {
- 				     <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
+ &pio {
+-	aud_pins_default: audiopins {
++	aud_pins_default: audio-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO97__FUNC_I2S2_MCK>,
+ 				<PINMUX_GPIO98__FUNC_I2S2_BCK>,
+@@ -457,7 +457,7 @@ pins-bus {
+ 		};
+ 	};
  
--			hdmi_pin: xxx {
-+			hdmi_pin: hdmi-hotplug-pins {
+-	aud_pins_tdm_out_on: audiotdmouton {
++	aud_pins_tdm_out_on: audio-tdmout-on-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO169__FUNC_TDM_BCK_2ND>,
+ 				<PINMUX_GPIO170__FUNC_TDM_LRCK_2ND>,
+@@ -469,7 +469,7 @@ pins-bus {
+ 		};
+ 	};
  
- 				/*hdmi htplg pin*/
--				pins1 {
-+				pins-htplg {
- 					pinmux = <MT8173_PIN_21_HTPLG__FUNC_HTPLG>;
- 					input-enable;
- 					bias-pull-down;
- 				};
- 			};
+-	aud_pins_tdm_out_off: audiotdmoutoff {
++	aud_pins_tdm_out_off: audio-tdmout-off-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO169__FUNC_GPIO169>,
+ 				<PINMUX_GPIO170__FUNC_GPIO170>,
+@@ -490,22 +490,22 @@ pins-bt-en {
+ 		};
+ 	};
  
--			i2c0_pins_a: i2c0 {
--				pins1 {
-+			i2c0_pins_a: i2c0-pins {
-+				pins-bus {
- 					pinmux = <MT8173_PIN_45_SDA0__FUNC_SDA0>,
- 						 <MT8173_PIN_46_SCL0__FUNC_SCL0>;
- 					bias-disable;
- 				};
- 			};
+-	ec_ap_int_odl: ec-ap-int-odl {
+-		pins1 {
++	ec_ap_int_odl: ec-ap-int-odl-pins {
++		pins-intn {
+ 			pinmux = <PINMUX_GPIO151__FUNC_GPIO151>;
+ 			input-enable;
+ 			bias-pull-up;
+ 		};
+ 	};
  
--			i2c1_pins_a: i2c1 {
--				pins1 {
-+			i2c1_pins_a: i2c1-pins {
-+				pins-bus {
- 					pinmux = <MT8173_PIN_125_SDA1__FUNC_SDA1>,
- 						 <MT8173_PIN_126_SCL1__FUNC_SCL1>;
- 					bias-disable;
- 				};
- 			};
+-	h1_int_od_l: h1-int-od-l {
+-		pins1 {
++	h1_int_od_l: h1-int-od-l-pins {
++		pins-intn {
+ 			pinmux = <PINMUX_GPIO153__FUNC_GPIO153>;
+ 			input-enable;
+ 		};
+ 	};
  
--			i2c2_pins_a: i2c2 {
--				pins1 {
-+			i2c2_pins_a: i2c2-pins {
-+				pins-bus {
- 					pinmux = <MT8173_PIN_43_SDA2__FUNC_SDA2>,
- 						 <MT8173_PIN_44_SCL2__FUNC_SCL2>;
- 					bias-disable;
- 				};
- 			};
+-	i2c0_pins: i2c0 {
++	i2c0_pins: i2c0-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO82__FUNC_SDA0>,
+ 				 <PINMUX_GPIO83__FUNC_SCL0>;
+@@ -513,7 +513,7 @@ pins-bus {
+ 		};
+ 	};
  
--			i2c3_pins_a: i2c3 {
--				pins1 {
-+			i2c3_pins_a: i2c3-pins {
-+				pins-bus {
- 					pinmux = <MT8173_PIN_106_SDA3__FUNC_SDA3>,
- 						 <MT8173_PIN_107_SCL3__FUNC_SCL3>;
- 					bias-disable;
- 				};
- 			};
+-	i2c1_pins: i2c1 {
++	i2c1_pins: i2c1-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO81__FUNC_SDA1>,
+ 				 <PINMUX_GPIO84__FUNC_SCL1>;
+@@ -521,7 +521,7 @@ pins-bus {
+ 		};
+ 	};
  
--			i2c4_pins_a: i2c4 {
--				pins1 {
-+			i2c4_pins_a: i2c4-pins {
-+				pins-bus {
- 					pinmux = <MT8173_PIN_133_SDA4__FUNC_SDA4>,
- 						 <MT8173_PIN_134_SCL4__FUNC_SCL4>;
- 					bias-disable;
- 				};
- 			};
+-	i2c2_pins: i2c2 {
++	i2c2_pins: i2c2-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO103__FUNC_SCL2>,
+ 				 <PINMUX_GPIO104__FUNC_SDA2>;
+@@ -529,7 +529,7 @@ pins-bus {
+ 		};
+ 	};
  
--			i2c6_pins_a: i2c6 {
--				pins1 {
-+			i2c6_pins_a: i2c6-pins {
-+				pins-bus {
- 					pinmux = <MT8173_PIN_100_MSDC2_DAT0__FUNC_SDA5>,
- 						 <MT8173_PIN_101_MSDC2_DAT1__FUNC_SCL5>;
- 					bias-disable;
+-	i2c3_pins: i2c3 {
++	i2c3_pins: i2c3-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO50__FUNC_SCL3>,
+ 				 <PINMUX_GPIO51__FUNC_SDA3>;
+@@ -537,7 +537,7 @@ pins-bus {
+ 		};
+ 	};
+ 
+-	i2c4_pins: i2c4 {
++	i2c4_pins: i2c4-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO105__FUNC_SCL4>,
+ 				 <PINMUX_GPIO106__FUNC_SDA4>;
+@@ -545,7 +545,7 @@ pins-bus {
+ 		};
+ 	};
+ 
+-	i2c5_pins: i2c5 {
++	i2c5_pins: i2c5-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO48__FUNC_SCL5>,
+ 				 <PINMUX_GPIO49__FUNC_SDA5>;
+@@ -553,7 +553,7 @@ pins-bus {
+ 		};
+ 	};
+ 
+-	i2c6_pins: i2c6 {
++	i2c6_pins: i2c6-pins {
+ 		pins-bus {
+ 			pinmux = <PINMUX_GPIO11__FUNC_SCL6>,
+ 				 <PINMUX_GPIO12__FUNC_SDA6>;
+@@ -561,7 +561,7 @@ pins-bus {
+ 		};
+ 	};
+ 
+-	mmc0_pins_default: mmc0-pins-default {
++	mmc0_pins_default: mmc0-default-pins {
+ 		pins-cmd-dat {
+ 			pinmux = <PINMUX_GPIO123__FUNC_MSDC0_DAT0>,
+ 				 <PINMUX_GPIO128__FUNC_MSDC0_DAT1>,
+@@ -625,7 +625,7 @@ pins-rst {
+ 		};
+ 	};
+ 
+-	mmc1_pins_default: mmc1-pins-default {
++	mmc1_pins_default: mmc1-default-pins {
+ 		pins-cmd-dat {
+ 			pinmux = <PINMUX_GPIO31__FUNC_MSDC1_CMD>,
+ 				 <PINMUX_GPIO32__FUNC_MSDC1_DAT0>,
+@@ -643,7 +643,7 @@ pins-clk {
+ 		};
+ 	};
+ 
+-	mmc1_pins_uhs: mmc1-pins-uhs {
++	mmc1_pins_uhs: mmc1-uhs-pins {
+ 		pins-cmd-dat {
+ 			pinmux = <PINMUX_GPIO31__FUNC_MSDC1_CMD>,
+ 				 <PINMUX_GPIO32__FUNC_MSDC1_DAT0>,
+@@ -663,15 +663,15 @@ pins-clk {
+ 		};
+ 	};
+ 
+-	panel_pins_default: panel-pins-default {
+-		panel-reset {
++	panel_pins_default: panel-pins {
++		pins-panel-reset {
+ 			pinmux = <PINMUX_GPIO45__FUNC_GPIO45>;
+ 			output-low;
+ 			bias-pull-up;
+ 		};
+ 	};
+ 
+-	pwm0_pin_default: pwm0-pin-default {
++	pwm0_pin_default: pwm0-pins {
+ 		pins1 {
+ 			pinmux = <PINMUX_GPIO176__FUNC_GPIO176>;
+ 			output-high;
+@@ -682,15 +682,15 @@ pins2 {
+ 		};
+ 	};
+ 
+-	scp_pins: scp {
++	scp_pins: scp-pins {
+ 		pins-scp-uart {
+ 			pinmux = <PINMUX_GPIO110__FUNC_TP_URXD1_AO>,
+ 				 <PINMUX_GPIO112__FUNC_TP_UTXD1_AO>;
+ 		};
+ 	};
+ 
+-	spi0_pins: spi0 {
+-		pins-spi {
++	spi0_pins: spi0-pins {
++		pins-bus {
+ 			pinmux = <PINMUX_GPIO85__FUNC_SPI0_MI>,
+ 				 <PINMUX_GPIO86__FUNC_GPIO86>,
+ 				 <PINMUX_GPIO87__FUNC_SPI0_MO>,
+@@ -699,8 +699,8 @@ pins-spi {
+ 		};
+ 	};
+ 
+-	spi1_pins: spi1 {
+-		pins-spi {
++	spi1_pins: spi1-pins {
++		pins-bus {
+ 			pinmux = <PINMUX_GPIO161__FUNC_SPI1_A_MI>,
+ 				 <PINMUX_GPIO162__FUNC_SPI1_A_CSB>,
+ 				 <PINMUX_GPIO163__FUNC_SPI1_A_MO>,
+@@ -709,21 +709,21 @@ pins-spi {
+ 		};
+ 	};
+ 
+-	spi2_pins: spi2 {
+-		pins-spi {
++	spi2_pins: spi2-pins {
++		pins-bus {
+ 			pinmux = <PINMUX_GPIO0__FUNC_SPI2_CSB>,
+ 				 <PINMUX_GPIO1__FUNC_SPI2_MO>,
+ 				 <PINMUX_GPIO2__FUNC_SPI2_CLK>;
+ 			bias-disable;
+ 		};
+-		pins-spi-mi {
++		pins-miso {
+ 			pinmux = <PINMUX_GPIO94__FUNC_SPI2_MI>;
+ 			mediatek,pull-down-adv = <00>;
+ 		};
+ 	};
+ 
+-	spi3_pins: spi3 {
+-		pins-spi {
++	spi3_pins: spi3-pins {
++		pins-bus {
+ 			pinmux = <PINMUX_GPIO21__FUNC_SPI3_MI>,
+ 				 <PINMUX_GPIO22__FUNC_SPI3_CSB>,
+ 				 <PINMUX_GPIO23__FUNC_SPI3_MO>,
+@@ -732,8 +732,8 @@ pins-spi {
+ 		};
+ 	};
+ 
+-	spi4_pins: spi4 {
+-		pins-spi {
++	spi4_pins: spi4-pins {
++		pins-bus {
+ 			pinmux = <PINMUX_GPIO17__FUNC_SPI4_MI>,
+ 				 <PINMUX_GPIO18__FUNC_SPI4_CSB>,
+ 				 <PINMUX_GPIO19__FUNC_SPI4_MO>,
+@@ -742,8 +742,8 @@ pins-spi {
+ 		};
+ 	};
+ 
+-	spi5_pins: spi5 {
+-		pins-spi {
++	spi5_pins: spi5-pins {
++		pins-bus {
+ 			pinmux = <PINMUX_GPIO13__FUNC_SPI5_MI>,
+ 				 <PINMUX_GPIO14__FUNC_SPI5_CSB>,
+ 				 <PINMUX_GPIO15__FUNC_SPI5_MO>,
+@@ -752,7 +752,7 @@ pins-spi {
+ 		};
+ 	};
+ 
+-	uart0_pins_default: uart0-pins-default {
++	uart0_pins_default: uart0-pins {
+ 		pins-rx {
+ 			pinmux = <PINMUX_GPIO95__FUNC_URXD0>;
+ 			input-enable;
+@@ -763,7 +763,7 @@ pins-tx {
+ 		};
+ 	};
+ 
+-	uart1_pins_default: uart1-pins-default {
++	uart1_pins_default: uart1-pins {
+ 		pins-rx {
+ 			pinmux = <PINMUX_GPIO121__FUNC_URXD1>;
+ 			input-enable;
+@@ -781,7 +781,7 @@ pins-cts {
+ 		};
+ 	};
+ 
+-	uart1_pins_sleep: uart1-pins-sleep {
++	uart1_pins_sleep: uart1-sleep-pins {
+ 		pins-rx {
+ 			pinmux = <PINMUX_GPIO121__FUNC_GPIO121>;
+ 			input-enable;
+@@ -799,14 +799,14 @@ pins-cts {
+ 		};
+ 	};
+ 
+-	wifi_pins_pwrseq: wifi-pins-pwrseq {
++	wifi_pins_pwrseq: wifi-pwr-pins {
+ 		pins-wifi-enable {
+ 			pinmux = <PINMUX_GPIO119__FUNC_GPIO119>;
+ 			output-low;
+ 		};
+ 	};
+ 
+-	wifi_pins_wakeup: wifi-pins-wakeup {
++	wifi_pins_wakeup: wifi-wake-pins {
+ 		pins-wifi-wakeup {
+ 			pinmux = <PINMUX_GPIO113__FUNC_GPIO113>;
+ 			input-enable;
 -- 
 2.50.1
 
