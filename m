@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA22B11793
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 07:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B27C4B11792
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 07:04:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E49D10E41E;
-	Fri, 25 Jul 2025 05:04:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8916810E419;
+	Fri, 25 Jul 2025 05:04:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="f7lehPIC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O6CVMQHE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 593FC10E419;
- Fri, 25 Jul 2025 05:04:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8E3910E419;
+ Fri, 25 Jul 2025 05:04:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753419858; x=1784955858;
+ t=1753419861; x=1784955861;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+lCjD91myzsQgC8opfuAMchW/OE6eApOt869C0u26YY=;
- b=f7lehPICyO6Rx4ZoKbQMQRmVx3Z5OYj4SnkgwYu/ChDOxl7o3HCwLDIQ
- ZhyHzJdJFd/ZKKxM+WwiZrivAdvQyj/cHehI883wLpUACYItdYYMoUjZ5
- nZbtJMl0GR1fNyiAT63YlPJvg5TJgsWJtqu/5u+L4jRdPhqc96cRrKMxe
- EamPrVj2+LXlnMvuuziSDnm80csQ+/X6uter89Q/s1iFiXB6V+VfK74Zo
- EGmKSw8LDtTIFX/FjnbHQYv1zHkynATkqUfgX1A3L6Th98PRhf8YuQH9B
- E2JWys6iBMXWHpIXXeQNdADb4KWCOB132ywBXDx65P1GCePJ7Yq4vMtJF g==;
-X-CSE-ConnectionGUID: 0goQ789KSK2t5LpJJD/zzQ==
-X-CSE-MsgGUID: d1KoIjKRSUmzrUv4pjHXmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="78299512"
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="78299512"
+ bh=ZL48KN6h92VH+lTQxKJhE2g8ShEaTolON/Td8lBYeOE=;
+ b=O6CVMQHE/11ACXeRcS1C+W2AQ+bnBVafep9F4cyC94pRfeqjMn+k9ghE
+ YlQNrPnVU4vZ8Dj/iqJ4sLaskpM+zy7lkAVwfkjMXodPKRvgKhPPsv/r6
+ UzUXp/VASFQkh0DHoDbjG/G4eFTcdMANUTw+0mX86EGHktp6lskC41xR1
+ CKQSymdLlpAGdpWlTomDMQkJhEbD4pAQtONWkRd417mWZHBXUIgSVBiN+
+ RVS321qWXhi9sQeqQe8u/E1nYRkjftK3Asv7wSK0YBUuF4JtGLF3KKcZK
+ TaX4TxDtOe735VZ7UqANsklioGcUt9ozgMckJ9t3AqnO4JdGsi7FIE7Ms A==;
+X-CSE-ConnectionGUID: rZdWqB5XQdKI7Uq59C5krg==
+X-CSE-MsgGUID: a2fKHibtTbyfVW3t3ek8JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="78299514"
+X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="78299514"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2025 22:04:18 -0700
-X-CSE-ConnectionGUID: 51JVhvsaRsO0sDJL3rE5/g==
-X-CSE-MsgGUID: obLqR/AYQ5anFybBYkZrfw==
+ 24 Jul 2025 22:04:20 -0700
+X-CSE-ConnectionGUID: NeE5sxzkREmwiTf9fKGu+g==
+X-CSE-MsgGUID: ytyL7FaUR+2I8mK35fopBA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="160956474"
+X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="160956481"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by fmviesa009.fm.intel.com with ESMTP; 24 Jul 2025 22:04:16 -0700
+ by fmviesa009.fm.intel.com with ESMTP; 24 Jul 2025 22:04:18 -0700
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
 Cc: ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com, uma.shankar@intel.com,
  Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH 01/28] drm/writeback: Add function that takes preallocated
+Subject: [PATCH 02/28] drm/writeback: Add a helper function to get writeback
  connector
-Date: Fri, 25 Jul 2025 10:33:42 +0530
-Message-Id: <20250725050409.2687242-2-suraj.kandpal@intel.com>
+Date: Fri, 25 Jul 2025 10:33:43 +0530
+Message-Id: <20250725050409.2687242-3-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250725050409.2687242-1-suraj.kandpal@intel.com>
 References: <20250725050409.2687242-1-suraj.kandpal@intel.com>
@@ -69,121 +69,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Write a function that takes a preallocated drm_connector instead of
-using the one allocated inside the drm writeback connector init
-function.
+Now that we can initialize a drm_writeback_connector without
+having to initialize the drm_connector within it and leaving the
+responsibility of initialising the drm_connector and maintaining
+the association with drm_writeback_connector to it. This helper
+hooks lets drivers return the drm_writeback_connector associated
+with the give drm_connector.
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/drm_writeback.c | 76 +++++++++++++++++++++++++++++++++
- include/drm/drm_writeback.h     |  7 +++
- 2 files changed, 83 insertions(+)
+ drivers/gpu/drm/drm_writeback.c          | 14 ++++++
+ include/drm/drm_modeset_helper_vtables.h | 59 ++++++++++++++++++++++++
+ include/drm/drm_writeback.h              | 14 ++++--
+ 3 files changed, 82 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index 95b8a2e4bda6..fa58eb0dc7bf 100644
+index fa58eb0dc7bf..e9f7123270d6 100644
 --- a/drivers/gpu/drm/drm_writeback.c
 +++ b/drivers/gpu/drm/drm_writeback.c
-@@ -416,6 +416,82 @@ int drmm_writeback_connector_init(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drmm_writeback_connector_init);
+@@ -107,6 +107,19 @@ static const struct dma_fence_ops drm_writeback_fence_ops = {
+ 	.get_timeline_name = drm_writeback_fence_get_timeline_name,
+ };
  
-+/*
-+ * drm_writeback_connector_init_with_conn - Initialize a writeback connector with
-+ * custom encoder and connector
-+ *
-+ * @enc: handle to the already initialized drm encoder
-+ * @con_funcs: Connector funcs vtable
-+ * @formats: Array of supported pixel formats for the writeback engine
-+ * @n_formats: Length of the formats array
-+ *
-+ * This function assumes that the drm_writeback_connector's encoder has already been
-+ * created and initialized before invoking this function.
-+ *
-+ * In addition, this function also assumes that callers of this API will manage
-+ * assigning the encoder helper functions, possible_crtcs and any other encoder
-+ * specific operation.
-+ *
-+ * Drivers should always use this function instead of drm_connector_init() to
-+ * set up writeback connectors if they want to manage themselves the lifetime of the
-+ * associated encoder.
-+ *
-+ * Returns: 0 on success, or a negative error code
-+ */
-+int
-+drm_writeback_connector_init_with_conn(struct drm_device *dev, struct drm_connector *connector,
-+				       struct drm_writeback_connector *wb_connector,
-+				       struct drm_encoder *enc,
-+				       const struct drm_connector_funcs *con_funcs,
-+				       const u32 *formats, int n_formats)
++struct drm_writeback_connector *
++drm_connector_to_writeback(struct drm_connector *connector)
 +{
-+	struct drm_property_blob *blob;
-+	struct drm_mode_config *config = &dev->mode_config;
-+	int ret = create_writeback_properties(dev);
++	const struct drm_connector_helper_funcs *funcs =
++		connector->helper_private;
 +
-+	if (ret != 0)
-+		return ret;
++	if (funcs->get_writeback_connector)
++		return funcs->get_writeback_connector(connector);
 +
-+	blob = drm_property_create_blob(dev, n_formats * sizeof(*formats),
-+					formats);
-+	if (IS_ERR(blob))
-+		return PTR_ERR(blob);
-+
-+	connector->interlace_allowed = 0;
-+
-+	ret = drm_connector_init(dev, connector, con_funcs,
-+				 DRM_MODE_CONNECTOR_WRITEBACK);
-+	if (ret)
-+		goto connector_fail;
-+
-+	INIT_LIST_HEAD(&wb_connector->job_queue);
-+	spin_lock_init(&wb_connector->job_lock);
-+
-+	wb_connector->fence_context = dma_fence_context_alloc(1);
-+	spin_lock_init(&wb_connector->fence_lock);
-+	snprintf(wb_connector->timeline_name,
-+		 sizeof(wb_connector->timeline_name),
-+		 "CONNECTOR:%d-%s", connector->base.id, connector->name);
-+
-+	drm_object_attach_property(&connector->base,
-+				   config->writeback_out_fence_ptr_property, 0);
-+
-+	drm_object_attach_property(&connector->base,
-+				   config->writeback_fb_id_property, 0);
-+
-+	drm_object_attach_property(&connector->base,
-+				   config->writeback_pixel_formats_property,
-+				   blob->base.id);
-+	wb_connector->pixel_formats_blob_ptr = blob;
-+
-+	return 0;
-+
-+connector_fail:
-+	drm_property_blob_put(blob);
-+	return ret;
++	return container_of(connector, struct drm_writeback_connector, base);
 +}
-+EXPORT_SYMBOL(drm_writeback_connector_init_with_conn);
++EXPORT_SYMBOL(drm_connector_to_writeback);
 +
- int drm_writeback_set_fb(struct drm_connector_state *conn_state,
- 			 struct drm_framebuffer *fb)
+ static int create_writeback_properties(struct drm_device *dev)
  {
+ 	struct drm_property *prop;
+@@ -443,6 +456,7 @@ drm_writeback_connector_init_with_conn(struct drm_device *dev, struct drm_connec
+ 				       struct drm_writeback_connector *wb_connector,
+ 				       struct drm_encoder *enc,
+ 				       const struct drm_connector_funcs *con_funcs,
++				       const struct drm_writeback_connector_helper_funcs *wb_funcs,
+ 				       const u32 *formats, int n_formats)
+ {
+ 	struct drm_property_blob *blob;
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index ce7c7aeac887..6b89b33d2304 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -31,6 +31,7 @@
+ 
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_encoder.h>
++#include <drm/drm_writeback.h>
+ 
+ /**
+  * DOC: overview
+@@ -1179,6 +1180,25 @@ struct drm_connector_helper_funcs {
+ 	 *
+ 	 */
+ 	void (*disable_hpd)(struct drm_connector *connector);
++
++	/**
++	 * @get_writeback_connector:
++	 *
++	 * This callback is used by drivers to get the writeback connector in
++	 * case the init is done via drm_writeback_init_with_conn. Which means
++	 * the drivers don't have drm_connector embedded in drm_writeback_connector
++	 * so they need to send the associated writeback connector with this
++	 * function.
++	 *
++	 * This operation is optional.
++	 *
++	 * This is mainly called from drm_writeback_set_gb.
++	 *
++	 * RETURNS:
++	 *
++	 * drm_writeback_connector assoiciated with the drm connector.
++	 */
++	struct drm_writeback_connector *(*get_writeback_connector)(struct drm_connector *connector);
+ };
+ 
+ /**
+@@ -1192,6 +1212,45 @@ static inline void drm_connector_helper_add(struct drm_connector *connector,
+ 	connector->helper_private = funcs;
+ }
+ 
++/**
++ * struct drm_writeback_connector_helper_funcs - helper operations for writeback
++ * connectors.
++ *
++ * These functions are used by the atomic and legacy modeset helpers and by the
++ * probe helpers.
++ */
++struct drm_writeback_connector_helper_funcs {
++	/**
++	 * @get_connector_from_writeback:
++	 *
++	 * This callback is used by drivers to get the drm_connector in
++	 * case the init is done via drm_writeback_init_with_conn. Which means
++	 * the drivers don't have drm_connector embedded in drm_writeback_connector
++	 * so they need to send the associated drm_connector with this
++	 * function.
++	 *
++	 * This operation is optional.
++	 *
++	 * RETURNS:
++	 *
++	 * drm_connector assoiciated with the drm_writeback_connector.
++	 */
++	struct drm_connector
++	*(*get_connector_from_writeback)(struct drm_writeback_connector *wbconnector);
++};
++
++/**
++ * drm_writeback_connector_helper_add - sets the helper vtable for a connector
++ * @wb_connector: DRM writeback connector
++ * @funcs: helper vtable to set for @wb_connector
++ */
++static inline void
++drm_writeback_connector_helper_add(struct drm_writeback_connector *wb_connector,
++				   const struct drm_writeback_connector_helper_funcs *funcs)
++{
++	wb_connector->helper_private = funcs;
++}
++
+ /**
+  * struct drm_plane_helper_funcs - helper operations for planes
+  *
 diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-index c380a7b8f55a..149744dbeef0 100644
+index 149744dbeef0..77c3c64c132d 100644
 --- a/include/drm/drm_writeback.h
 +++ b/include/drm/drm_writeback.h
-@@ -167,6 +167,13 @@ int drmm_writeback_connector_init(struct drm_device *dev,
- 				  struct drm_encoder *enc,
- 				  const u32 *formats, int n_formats);
- 
-+int
-+drm_writeback_connector_init_with_conn(struct drm_device *dev, struct drm_connector *connector,
-+				       struct drm_writeback_connector *wb_connector,
-+				       struct drm_encoder *enc,
-+				       const struct drm_connector_funcs *con_funcs,
-+				       const u32 *formats, int n_formats);
+@@ -84,6 +84,13 @@ struct drm_writeback_connector {
+ 	 * The name of the connector's fence timeline.
+ 	 */
+ 	char timeline_name[32];
 +
- int drm_writeback_set_fb(struct drm_connector_state *conn_state,
- 			 struct drm_framebuffer *fb);
++	/**
++	 * @helper_private:
++	 *
++	 * helper private funcs for writeback_connector
++	 */
++	const struct drm_writeback_connector_helper_funcs *helper_private;
+ };
  
+ /**
+@@ -142,11 +149,7 @@ struct drm_writeback_job {
+ 	void *priv;
+ };
+ 
+-static inline struct drm_writeback_connector *
+-drm_connector_to_writeback(struct drm_connector *connector)
+-{
+-	return container_of(connector, struct drm_writeback_connector, base);
+-}
++struct drm_writeback_connector *drm_connector_to_writeback(struct drm_connector *connector);
+ 
+ int drm_writeback_connector_init(struct drm_device *dev,
+ 				 struct drm_writeback_connector *wb_connector,
+@@ -172,6 +175,7 @@ drm_writeback_connector_init_with_conn(struct drm_device *dev, struct drm_connec
+ 				       struct drm_writeback_connector *wb_connector,
+ 				       struct drm_encoder *enc,
+ 				       const struct drm_connector_funcs *con_funcs,
++				       const struct drm_writeback_connector_helper_funcs *wb_funcs,
+ 				       const u32 *formats, int n_formats);
+ 
+ int drm_writeback_set_fb(struct drm_connector_state *conn_state,
 -- 
 2.34.1
 
