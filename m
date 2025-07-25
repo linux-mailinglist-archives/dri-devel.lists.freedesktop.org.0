@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8CCB12570
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 22:30:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCE3B12574
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 22:30:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 869E210EA12;
-	Fri, 25 Jul 2025 20:30:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 657BF10EA13;
+	Fri, 25 Jul 2025 20:30:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uZ5PA19b";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dbW8S110";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDADD10EA12
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 20:30:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4992710EA13
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 20:30:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A63B04192B;
- Fri, 25 Jul 2025 20:30:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63321C4CEE7;
- Fri, 25 Jul 2025 20:30:19 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 2391944F67;
+ Fri, 25 Jul 2025 20:30:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3FC8C4CEE7;
+ Fri, 25 Jul 2025 20:30:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753475419;
- bh=3rcW5T4b32wrtkaTZSV6Q1gWpx5l5voD3MquK0Q4cBc=;
+ s=k20201202; t=1753475428;
+ bh=ba7r3CQWnc9Pg59zckBMYOhewHfZtzF4js8BFZ+0f9c=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uZ5PA19btE/yRueT0j7fKcKmN3DrMeOir0e1gsbj8yaS3uyi7D1F4UIlMCA/slpDZ
- ihTd7CKXcZf+1sZVkBN8RJGE7md62p2I+6yNu66rojh30veUJOQKBcBuPGOPf5RQhA
- elqqrdDAq8PsPQ5JSKaJd8sOWHhdEXt8LbrdddRC9fmK7Kt2S+ziBl/smsPhXYiSjr
- 7sSN8zjT5m4DiFA48LfhRzhV20060InQ0rid92ItlB17orD6FLLlJ+SYC6Jv6Jza9r
- PxhNzX3yRaJYJ+TbUMIrod+90q2XCWbaLBsd+9A+s9gOjdKa5AH7eesTheQU4l+cjb
- Qigm1vllcFhsg==
-Date: Fri, 25 Jul 2025 15:30:18 -0500
+ b=dbW8S110p3NBmLaJdPOPH54qeqD00XyhjoRdv89Oc/9seV5Gebju3lz+V2fFMuB/Q
+ ZG8upnvyRHMVpuySek1hBhmyctGYtzAQ6cXCXKjp1lQQHSzkE4iUJER7UN+9bgbZVA
+ QD1lVSbKRyDW0ZEe0/EMwhfbQ3E0gDpivtn/VhyvaLE9BDL80GMlVu3pdeb2Z5HYzH
+ TunHOOTBpQ6fbovuC8fjR2Xisgued54rZ+8BjIfP0ES1hs+vhy0arR1Uy65Q8BhfC2
+ L9k/9/uQq129XN7CqmqHgViTcChBd1BD0wYRt70Q9poeuLwbSEYOWmAUrgkw/tMMZW
+ DvOdLKPmgYbZg==
+Date: Fri, 25 Jul 2025 15:30:27 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: p.zabel@pengutronix.de, matthias.bgg@gmail.com, jitao.shi@mediatek.com,
- shane.chien@mediatek.com, linux-mediatek@lists.infradead.org,
- herbert@gondor.apana.org.au, houlong.wei@mediatek.com,
- sean.wang@kernel.org, mathieu.poirier@linaro.org,
- linux-media@vger.kernel.org, conor+dt@kernel.org,
- broonie@kernel.org, daniel.lezcano@linaro.org,
- granquet@baylibre.com, arnd@arndb.de, andy.teng@mediatek.com,
- linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org,
- eugen.hristev@linaro.org, chunfeng.yun@mediatek.com,
- sam.shih@mediatek.com, linux-crypto@vger.kernel.org,
- airlied@gmail.com, davem@davemloft.net, atenart@kernel.org,
- tglx@linutronix.de, linus.walleij@linaro.org,
- frank-w@public-files.de, jiaxin.yu@mediatek.com,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, tinghan.shen@mediatek.com,
- mchehab@kernel.org, jieyy.yang@mediatek.com, lgirdwood@gmail.com,
- linux-sound@vger.kernel.org, vkoul@kernel.org, tzimmermann@suse.de,
- jassisinghbrar@gmail.com, mwalle@kernel.org, fparent@baylibre.com,
- linux-gpio@vger.kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
- linux-remoteproc@vger.kernel.org, mripard@kernel.org,
- simona@ffwll.ch, devicetree@vger.kernel.org,
- chunkuang.hu@kernel.org, ck.hu@mediatek.com, andersson@kernel.org,
- kishon@kernel.org, olivia.wen@mediatek.com,
- maarten.lankhorst@linux.intel.com, krzk+dt@kernel.org
-Subject: Re: [PATCH 11/38] dt-bindings: regulator: mediatek,mt6331: Fix
- various regulator names
-Message-ID: <175347541826.1838218.10273283619500191646.robh@kernel.org>
+Cc: andersson@kernel.org, devicetree@vger.kernel.org, ck.hu@mediatek.com,
+ olivia.wen@mediatek.com, linus.walleij@linaro.org,
+ tglx@linutronix.de, mathieu.poirier@linaro.org,
+ sean.wang@kernel.org, andy.teng@mediatek.com,
+ jiaxin.yu@mediatek.com, kishon@kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ jieyy.yang@mediatek.com, simona@ffwll.ch,
+ linux-mediatek@lists.infradead.org, krzk+dt@kernel.org,
+ linux-remoteproc@vger.kernel.org, mwalle@kernel.org,
+ davem@davemloft.net, airlied@gmail.com, chunfeng.yun@mediatek.com,
+ linux-crypto@vger.kernel.org, tinghan.shen@mediatek.com,
+ arnd@arndb.de, chunkuang.hu@kernel.org, atenart@kernel.org,
+ linux-phy@lists.infradead.org, frank-w@public-files.de,
+ linux-media@vger.kernel.org, sam.shih@mediatek.com,
+ mripard@kernel.org, lgirdwood@gmail.com, daniel.lezcano@linaro.org,
+ maarten.lankhorst@linux.intel.com, houlong.wei@mediatek.com,
+ dri-devel@lists.freedesktop.org, herbert@gondor.apana.org.au,
+ matthias.bgg@gmail.com, jassisinghbrar@gmail.com, vkoul@kernel.org,
+ mchehab@kernel.org, linux-gpio@vger.kernel.org,
+ kyrie.wu@mediatek.corp-partner.google.com,
+ linux-arm-kernel@lists.infradead.org, shane.chien@mediatek.com,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, granquet@baylibre.com,
+ jitao.shi@mediatek.com, fparent@baylibre.com, tzimmermann@suse.de,
+ eugen.hristev@linaro.org, broonie@kernel.org
+Subject: Re: [PATCH 12/38] dt-bindings: regulator: mediatek,mt6331: Add
+ missing compatible
+Message-ID: <175347542615.1838505.12887834541571951617.robh@kernel.org>
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-12-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-13-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724083914.61351-12-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-13-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,18 +82,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 24 Jul 2025 10:38:47 +0200, AngeloGioacchino Del Regno wrote:
-> This binding was never applied to anything because it misses the
-> compatible, hence any mistake in it got unnoticed.
-> 
-> Before adding the compatible to let it apply, fix the names and
-> the node names of various regulators.
+On Thu, 24 Jul 2025 10:38:48 +0200, AngeloGioacchino Del Regno wrote:
+> This binding had no compatible and for this reason would not be
+> applied to anything: add the missing "mediatek,mt6331-regulator"
+> comaptible.
 > 
 > Fixes: 6385e21692bb ("regulator: Add bindings for MT6331 regulator")
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  .../regulator/mediatek,mt6331-regulator.yaml         | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  .../bindings/regulator/mediatek,mt6331-regulator.yaml      | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
 
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
