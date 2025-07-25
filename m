@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF0BB11DE2
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 13:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BE7B11CCE
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 12:50:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B948825B;
-	Fri, 25 Jul 2025 11:48:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93F6F10E9D5;
+	Fri, 25 Jul 2025 10:50:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dPgjVdj3";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="CP7FT5L6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 623F410E1BF
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 11:48:30 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id
- af79cd13be357-7e623a12701so305629585a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 04:48:30 -0700 (PDT)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89F1B10E9D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 10:50:37 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ 46e09a7af769-73e88bc3891so1125490a34.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 03:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1753444109; x=1754048909;
+ d=chromium.org; s=google; t=1753440636; x=1754045436;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=liSvRWA4OuPhKZFuMFSYIULFcTNts/JUeGi4znSdmNM=;
- b=dPgjVdj3Ier2vP1FdmpDx1vsmZ2tZWuoZdS30TfDTybqJVSAJ3xNAPe8SnAaHN4U7a
- Yl42lvEY0tP67r3EsWkkdbCVh7fQEGKagpMpJMXHsseNFP1KXPBOv5PnYgDirNW9hOvB
- DKAs8dAobeMFMX/Lh9erd6jlBl2uUqVSReeW8=
+ bh=YfE909p8Iq119G3J/2SxiBSXlMMdz4SFa3hpgANK2k8=;
+ b=CP7FT5L6kg8QoN3fNIQTi9VInVruZgpSh3eRPF2Rd2mg4QuwWUyWIR6+DiSUr4s89R
+ 1cBXdbt1UAGdTMZPMMfZRv0illNFXEP5B/vEBqPfU68za+UtHMVfmy5xKGZjBIDQGwdl
+ YjO/IQ8C8IW5hFbWz++qayI+6YQN1rJVGAZ8M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753444109; x=1754048909;
+ d=1e100.net; s=20230601; t=1753440636; x=1754045436;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=liSvRWA4OuPhKZFuMFSYIULFcTNts/JUeGi4znSdmNM=;
- b=KHm7VSTUeyVCGeNEjYiPpJaE8xHw0XdLKdjEMllMUO4AnNI5RMv2Bh3LRxC90J65+2
- SFHIc/pHeqwLwca8XUEBXdXgfJPDway5xYHHLK5MobglhG9fKHRSgF9H6xphm3L0wlDp
- +WmDtM7KfJUucwLF7g0wb3KNT1esEJFGFK9Xx2a8kKo8QQLT7jMBdkE6bahDPdhCvmLd
- FLoBSJZWEFI44T+3gTNS9BVrg+VBuixDlIKu3s3IqHmjjvsV4nJ8+jQ93VTvSs7UlW2y
- LEEFHFj7lWleJSKipRwwc+9YJGXKSNSVB29TbEKZEZW6tECgdGxUeCGtLlHk72lFFfca
- V8ug==
+ bh=YfE909p8Iq119G3J/2SxiBSXlMMdz4SFa3hpgANK2k8=;
+ b=w7gg9CXeXhkRZIyQP1R+upnwkoYjU4/uvd6yPdyKPmgTtxwYruczHUID8Nxm774pQg
+ cHvJU4M5SKTGGi1zdZyt+MYd7Go8F4I8DcDphD07SpsF7gjL9FZHiMak619QUXgZbdrd
+ 9OfEQK1Fd6y63JC416L651E/2IM3r2VOr3rtvvKJqLOMVnAQ/qkDkfiHjCZBXqjLuV8L
+ 0XgNJezjy3V0yiJgBHX4wlzQhxBOI2Q4xl4lfyJA6HghPQwQO/juOvPDN8HreaS613mc
+ J6qkLyEBbhTXCtydHanpjnwuvR5OhQ7cMC/NmBPsDDZ8l10R29pSuP/nVKygd37ubiFu
+ ZPLQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWBWC7HRY5eL5DDngQ+gFD3GwKkKno/ax+jRuFkMFyU86GmwMR12q7B9mXpx3YNNc9QLg82HEqSm3Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSGyIWJPwy+USzhSTniGlch+VQZgArLrZ3qGq7tZGwj8iV9sRs
- ijgKO1oo+xBeUIDZF9PyoxMRK8a8Y6eETXCJbwhkdzRUpxedz1jppyBAIc5lrD7SpM7EewR2aq5
- zYAIepA==
-X-Gm-Gg: ASbGncs/ab6MNVXmiVVf5Pau7zXV61b/ERECHToMGzKmboxFe1th+fg72J2IbjYclDD
- 2vWJRtlD5rsoVIrTr60xbH+MxhRfCoUn32bco2neguZTD0+o5JQc7aXtz8AJhpquJZKpdkU8tvY
- nSp/bemNOFyh/A2MmFV5YgfXzuVUCD+sHcoI+/+eXJPcSCj5CqY1rmfiTr9KvdXO3dbkpy08n80
- JxWVwc83YjSTUZbPoSw+O+fAe7K4cUrjnXQfKYigBjJxhSJ6x31wRSO5H5pJ4avgsrkNpzBuC2F
- aVXNVEhyZsiYMR7K5pf0rAwjgwEslPRj34yljr2A9SF3OuyMxnua1UQqOd6l2wjYt3a8nwujVkR
- EIIVnSNBM/xyk8///SK4md33Q6s7+k10UCaGiGwYIYKOR9MPk+YEKqIeqKw==
-X-Google-Smtp-Source: AGHT+IHzmka4ITcYh0kbazBFKS2URTnI0qAbor210yEdRTKze3pFdHkTX9akM+lbS5cNmqi8r3VP/w==
-X-Received: by 2002:a05:620a:c52:b0:7e1:31ca:954d with SMTP id
- af79cd13be357-7e63bf53d01mr161192885a.13.1753444108844; 
- Fri, 25 Jul 2025 04:48:28 -0700 (PDT)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com.
- [209.85.219.46]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7e632e3881csm241775485a.75.2025.07.25.04.48.28
+ AJvYcCV8CTm++6MrYr5ZL6ZHdj7t/P6w1St1iSqWyoRDidO+bvsH82vhnBDMSajr13Dem0ogCmJTPIjQ/dM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJkvBD+n0kie1js8YAhfBh7CL76dfqUKTNXmMn45Lb8chySgOJ
+ iGzGTH4wcGmmW+MjGwctEhy9+1opxlWuPIG989uZoPWu49RuvmrgI//RlKxjhZh8uyBfsQk/hr1
+ AZPNO2A==
+X-Gm-Gg: ASbGncsCO5F233h4jb81DagWjUMtu23e0cVPL3hufanPtAH5M73cdKw/tAIAVutoWGr
+ iJtYelWG7JtSjFSRkUXKmUlJzcKQKFO5hmVNkNUC3sSeA6K3B157aea0O6LnGhqExeRQN2WxY4G
+ rUJgoHhTDWI2ajo1IOJeqgdW1mdI2sv2dJjeCKpcQLkyF5ps8r+N78g4OcEP0CV6QIs8J3uikZJ
+ tLgcEBbeP3hZkZJLnO8GzdPTETkR2/au0DGtinQcriNIPy4KsKSdL2JmDpIl5/HDFiTmiqNWDFC
+ Yd9+WFPkEF/Vigdel+QHOgieJUOTGTqW8vuXxfaPuwNuqvfoKsryulMWIDOPXdOuCEtPND1i+xL
+ ucRus4aYNp015We2mXw12hGrpAH1n1SR6eMXGs0G8bW9PjglXsmQwuCEmEQ==
+X-Google-Smtp-Source: AGHT+IE0U3ClNYyUhdFLSBgUddVurUaRqdfRi4lg69yQQYQ7cR+dHwERpJ+pIsZG00nGY0mRPRIbXQ==
+X-Received: by 2002:a05:6830:448f:b0:73c:ee05:a51d with SMTP id
+ 46e09a7af769-7413dc6613cmr570034a34.11.1753440636395; 
+ Fri, 25 Jul 2025 03:50:36 -0700 (PDT)
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com.
+ [209.85.160.53]) by smtp.gmail.com with ESMTPSA id
+ 46e09a7af769-7412d15770csm649173a34.15.2025.07.25.03.50.35
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jul 2025 04:48:28 -0700 (PDT)
-Received: by mail-qv1-f46.google.com with SMTP id
- 6a1803df08f44-7072628404dso1984846d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 04:48:28 -0700 (PDT)
+ Fri, 25 Jul 2025 03:50:36 -0700 (PDT)
+Received: by mail-oa1-f53.google.com with SMTP id
+ 586e51a60fabf-2ffa8e58654so1098859fac.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 03:50:35 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVw8wOPp2vdQu+3M3oOgRiruouEqbNYWo/uX7wS0DaHNwddiraVRedWrWtvoHpXrZd4FuXCmhKkc/k=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:6891:b0:4dd:b82d:e0de with SMTP id
- ada2fe7eead31-4fa3ff44195mr308667137.17.1753440019738; Fri, 25 Jul 2025
- 03:40:19 -0700 (PDT)
+ AJvYcCVORVaXLrrFi9Dxy6JDqRZEFvqkid8OpM97FXiugxPnDtfrqmEil8iOT8T8/pwbyJmeN1WaIf+5AV4=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:3713:b0:4e9:b7e3:bdcd with SMTP id
+ ada2fe7eead31-4fa3fad468amr285963137.12.1753440273293; Fri, 25 Jul 2025
+ 03:44:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-38-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250724083914.61351-38-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-24-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-24-angelogioacchino.delregno@collabora.com>
 From: Fei Shao <fshao@chromium.org>
-Date: Fri, 25 Jul 2025 18:39:43 +0800
-X-Gmail-Original-Message-ID: <CAC=S1njv7qrL0LyhZsp=HVdxxDo2bA7FbCkMVqJ9R9qpg-0hMw@mail.gmail.com>
-X-Gm-Features: Ac12FXzAeqGgOrEJjRR1J4ryO0U3L8RJWv4_H_TyT4RYPsIpmGY3ViSbTr41uno
-Message-ID: <CAC=S1njv7qrL0LyhZsp=HVdxxDo2bA7FbCkMVqJ9R9qpg-0hMw@mail.gmail.com>
-Subject: Re: [PATCH 37/38] arm64: dts: mediatek: mt8395-kontron-i1200: Fix
- MT6360 regulator nodes
+Date: Fri, 25 Jul 2025 18:43:57 +0800
+X-Gmail-Original-Message-ID: <CAC=S1njhu11nHpyMULbK6PE-BLrBMq+d397pDU6gBzgo7xivXg@mail.gmail.com>
+X-Gm-Features: Ac12FXyc7RkTIKa4HnSlf_SM-GYdwIREUn6AcAkOBKhNuekdCdvFzy29o7Ufs68
+Message-ID: <CAC=S1njhu11nHpyMULbK6PE-BLrBMq+d397pDU6gBzgo7xivXg@mail.gmail.com>
+Subject: Re: [PATCH 23/38] arm64: dts: mediatek: mt7986a: Fix PCI-Express
+ T-PHY node address
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
  daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org, 
@@ -119,109 +119,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 5:51=E2=80=AFPM AngeloGioacchino Del Regno
+On Thu, Jul 24, 2025 at 5:49=E2=80=AFPM AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >
-> All of the MT6360 regulator nodes were wrong and would not probe
-> because the regulator names are supposed to be lower case, but
-> they are upper case in this devicetree.
+> The PCIe TPHY is under the soc bus, which provides MMIO, and all
+> nodes under that must use the bus, otherwise those would clearly
+> be out of place.
 >
-> Change all nodes to be lower case to get working regulators.
+> Add ranges to the PCIe tphy and assign the address to the main
+> node to silence a dtbs_check warning, and fix the children to
+> use the MMIO range of t-phy.
 >
-> Fixes: 94aaf79a6af5 ("arm64: dts: mediatek: add Kontron 3.5"-SBC-i1200")
+> Fixes: 963c3b0c47ec ("arm64: dts: mediatek: fix t-phy unit name")
+> Fixes: 918aed7abd2d ("arm64: dts: mt7986: add pcie related device nodes")
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
 
 Reviewed-by: Fei Shao <fshao@chromium.org>
 
 > ---
->  .../mediatek/mt8395-kontron-3-5-sbc-i1200.dts    | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  arch/arm64/boot/dts/mediatek/mt7986a.dtsi | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dt=
-s b/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts
-> index 4985b65925a9..d16f545cbbb2 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts
-> @@ -352,7 +352,7 @@ regulator {
->                         LDO_VIN2-supply =3D <&vsys>;
->                         LDO_VIN3-supply =3D <&vsys>;
->
-> -                       mt6360_buck1: BUCK1 {
-> +                       mt6360_buck1: buck1 {
->                                 regulator-name =3D "emi_vdd2";
->                                 regulator-min-microvolt =3D <600000>;
->                                 regulator-max-microvolt =3D <1800000>;
-> @@ -362,7 +362,7 @@ MT6360_OPMODE_LP
->                                 regulator-always-on;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi b/arch/arm64/boot/=
+dts/mediatek/mt7986a.dtsi
+> index 559990dcd1d1..3211905b6f86 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
+> @@ -428,16 +428,16 @@ pcie_intc: interrupt-controller {
 >                         };
+>                 };
 >
-> -                       mt6360_buck2: BUCK2 {
-> +                       mt6360_buck2: buck2 {
->                                 regulator-name =3D "emi_vddq";
->                                 regulator-min-microvolt =3D <300000>;
->                                 regulator-max-microvolt =3D <1300000>;
-> @@ -372,7 +372,7 @@ MT6360_OPMODE_LP
->                                 regulator-always-on;
->                         };
+> -               pcie_phy: t-phy {
+> +               pcie_phy: t-phy@11c00000 {
+>                         compatible =3D "mediatek,mt7986-tphy",
+>                                      "mediatek,generic-tphy-v2";
+> -                       ranges;
+> -                       #address-cells =3D <2>;
+> -                       #size-cells =3D <2>;
+> +                       ranges =3D <0 0 0x11c00000 0x20000>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <1>;
+>                         status =3D "disabled";
 >
-> -                       mt6360_ldo1: LDO1 {
-> +                       mt6360_ldo1: ldo1 {
->                                 regulator-name =3D "mt6360_ldo1"; /* Test=
- point */
->                                 regulator-min-microvolt =3D <1200000>;
->                                 regulator-max-microvolt =3D <3600000>;
-> @@ -380,7 +380,7 @@ mt6360_ldo1: LDO1 {
->                                                            MT6360_OPMODE_=
-LP>;
->                         };
->
-> -                       mt6360_ldo2: LDO2 {
-> +                       mt6360_ldo2: ldo2 {
->                                 regulator-name =3D "panel1_p1v8";
->                                 regulator-min-microvolt =3D <1800000>;
->                                 regulator-max-microvolt =3D <1800000>;
-> @@ -388,7 +388,7 @@ mt6360_ldo2: LDO2 {
->                                                            MT6360_OPMODE_=
-LP>;
->                         };
->
-> -                       mt6360_ldo3: LDO3 {
-> +                       mt6360_ldo3: ldo3 {
->                                 regulator-name =3D "vmc_pmu";
->                                 regulator-min-microvolt =3D <1800000>;
->                                 regulator-max-microvolt =3D <3300000>;
-> @@ -396,7 +396,7 @@ mt6360_ldo3: LDO3 {
->                                                            MT6360_OPMODE_=
-LP>;
->                         };
->
-> -                       mt6360_ldo5: LDO5 {
-> +                       mt6360_ldo5: ldo5 {
->                                 regulator-name =3D "vmch_pmu";
->                                 regulator-min-microvolt =3D <3300000>;
->                                 regulator-max-microvolt =3D <3300000>;
-> @@ -404,7 +404,7 @@ mt6360_ldo5: LDO5 {
->                                                            MT6360_OPMODE_=
-LP>;
->                         };
->
-> -                       mt6360_ldo6: LDO6 {
-> +                       mt6360_ldo6: ldo6 {
->                                 regulator-name =3D "mt6360_ldo6"; /* Test=
- point */
->                                 regulator-min-microvolt =3D <500000>;
->                                 regulator-max-microvolt =3D <2100000>;
-> @@ -412,7 +412,7 @@ mt6360_ldo6: LDO6 {
->                                                            MT6360_OPMODE_=
-LP>;
->                         };
->
-> -                       mt6360_ldo7: LDO7 {
-> +                       mt6360_ldo7: ldo7 {
->                                 regulator-name =3D "emi_vmddr_en";
->                                 regulator-min-microvolt =3D <1800000>;
->                                 regulator-max-microvolt =3D <1800000>;
+> -                       pcie_port: pcie-phy@11c00000 {
+> -                               reg =3D <0 0x11c00000 0 0x20000>;
+> +                       pcie_port: pcie-phy@0 {
+> +                               reg =3D <0 0x20000>;
+>                                 clocks =3D <&clk40m>;
+>                                 clock-names =3D "ref";
+>                                 #phy-cells =3D <1>;
 > --
 > 2.50.1
 >
