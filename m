@@ -2,80 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452BFB1159A
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 03:14:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266E4B115BC
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 03:21:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 101CB10E35F;
-	Fri, 25 Jul 2025 01:14:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D99D10E111;
+	Fri, 25 Jul 2025 01:21:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eib7mR13";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m1Rk3hWs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3524310E0C2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 01:14:13 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A846A10E0C2;
+ Fri, 25 Jul 2025 01:21:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1449B601D9;
- Fri, 25 Jul 2025 01:14:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E852C4CEED;
- Fri, 25 Jul 2025 01:14:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4CF755C6964;
+ Fri, 25 Jul 2025 01:21:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB5D7C4CEF6;
+ Fri, 25 Jul 2025 01:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753406051;
- bh=QCfq7NK2qUEbOfaVUsUfHClTgphOJ5SqPV/8zEcK5wk=;
+ s=k20201202; t=1753406486;
+ bh=MwqHEfaufpCZenjp6i2XUuWCEA4wM5dG9Nbu1j4rcuc=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=eib7mR13CXAqUYOGvZuBnzmXTI28/D0YWPjLXhdoeP2ORv2J/Bg0cre+NJXHgkvlK
- JyS6JBrn3yGS57nKM5UJ14FmIckuuILLLwq3pvt1YoDAqLfk5LmjIQCkPIytUlTNpJ
- cLqu+6QxYzG4zkvPS35ormr/S06tETerOT4NCnCpKMKGLmhpCxgtGoze/ZZkjk3W4R
- XYJ6vldLFjCDoLxMoZwR5Q274cnYfR/X6eeqcgq8Pt/Zj4QwzHxBIZi6usZGcL3or7
- h1xE6oTKpeNi3bW0aycHqsQ0vymIyGUOoQjyr1OzMlr8nt92advrsBmVyZRhIuEhEi
- RsgTts79mDXWw==
+ b=m1Rk3hWsOdacTaqRQmyKq2WcAz4JOiCCmafCCpJZccGewpWk5tGPQ8vUmkzPGQNtx
+ Nae3LJoRHEwKyp1nMtsPRvccMrdF64rL2Kwoq4uUk9osiNEPUvWp858ZzH2tvAnyKp
+ L57gcyS169BmwAj5aTWef7sjQKz2aikszYiwkniZivAlFvilRhoL07uCJePxeU0z7D
+ 6mediv7gl4GjUtxouU0P4vAmIV3kWOuq+zyrSkJWTedoI/jwOQxK2WKce1EjRxufSD
+ UdcrsM6goolXixPwQPkVuanLvYRSH+rGkJrILKsKqPPuKKhZkRK51RqEMAWbC+nVoY
+ t8BHUQy0d00Lw==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com>
-References: <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
- <20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com>
-Subject: Re: [PATCH v2 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
+In-Reply-To: <20250710-core-cstr-cstrings-v1-4-027420ea799e@gmail.com>
+References: <20250710-core-cstr-cstrings-v1-0-027420ea799e@gmail.com>
+ <20250710-core-cstr-cstrings-v1-4-027420ea799e@gmail.com>
+Subject: Re: [PATCH 04/17] rust: clk: replace `kernel::c_str!` with C-Strings
 From: Stephen Boyd <sboyd@kernel.org>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Andy Yan <andy.yan@rock-chips.com>,
- Bill Wendling <morbo@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, David Airlie <airlied@gmail.com>,
- David S. Miller <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Heiko Stuebner <heiko@sntech.de>, Jaehoon Chung <jh80.chung@samsung.com>,
- Jakub Kicinski <kuba@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Justin Stitt <justinstitt@google.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-block@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
+To: Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl <aliceryhl@google.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Arnd Bergmann <arnd@arndb.de>, Benno Lossin <lossin@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?utf-8?q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Brendan Higgins <brendan.higgins@linux.dev>,
+ Breno Leitao <leitao@debian.org>, Danilo Krummrich <dakr@kernel.org>,
+ Dave Ertman <david.m.ertman@intel.com>, David Airlie <airlied@gmail.com>,
+ David Gow <davidgow@google.com>, David S. Miller <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Ira Weiny <ira.weiny@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jens Axboe <axboe@kernel.dk>,
  Krzysztof =?utf-8?q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Leon Romanovsky <leon@kernel.or g>, Luis Chamberlain <mcgrof@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime Ripard <mripard@k
- ernel.org>, Michael Turquette <mturquette@baylibre.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Paolo Abeni <pabeni@redhat.com>, Qin Jian <qinjian@cqplus1.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Rob Herring <robh@kernel.org>,
- Sandy Huang <hjc@rock-chips.com>, Shawn Lin <shawn.lin@rock-chips.com>,
- Shreeya Patel <shreeya.patel@collabora.com>, Simona Vetter <simona@ffwll.ch>,
- Takashi Iwai <tiwai@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Ulf Hansson <ulf.hansson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Yury Norov <yury.norov@gmail.com>
-Date: Thu, 24 Jul 2025 18:14:10 -0700
-Message-ID: <175340605069.3513.18204498860033427106@lazor>
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Rae Moar <rmoar@google.com>,
+ Rafael J. Wysocki <rafael@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ Russell King <linux@armlinux.org.uk>, Simona Vetter <simona@ffwll.ch>,
+ Tamir Duberstein <tamird@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Trevor Gross <tmgross@umich.edu>, Viresh Kumar <viresh.kumar@linaro.org>
+Date: Thu, 24 Jul 2025 18:21:24 -0700
+Message-ID: <175340648493.3513.9465215631125389438@lazor>
 User-Agent: alot/0.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,18 +86,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Nicolas Frattaroli (2025-06-23 09:05:47)
-> The sp7021 clock driver has its own shifted high word mask macro,
-> similar to the ones many Rockchip drivers have.
+Quoting Tamir Duberstein (2025-07-10 08:31:07)
+> C-String literals were added in Rust 1.77. Replace instances of
+> `kernel::c_str!` with C-String literals where possible.
 >=20
-> Remove it, and replace instances of it with hw_bitfield.h's
-> FIELD_PREP_WM16 macro, which does the same thing except in a common
-> macro that also does compile-time error checking.
->=20
-> This was compile-tested with 32-bit ARM with Clang, no runtime tests
-> were performed as I lack the hardware. However, I verified that fix
-> commit 5c667d5a5a3e ("clk: sp7021: Adjust width of _m in HWM_FIELD_PREP()=
-")
-> is not regressed. No warning is produced.
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> ---
 
-Does it generate the same code before and after?
+Acked-by: Stephen Boyd <sboyd@kernel.org>
