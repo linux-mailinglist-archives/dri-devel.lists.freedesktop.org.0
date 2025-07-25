@@ -2,80 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70EAB11D5A
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 13:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D719B11D61
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 13:22:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A2210E1F1;
-	Fri, 25 Jul 2025 11:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 925CE10E9DD;
+	Fri, 25 Jul 2025 11:22:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="KwR+EWxB";
+	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="kGNq3qwR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9CB10E1F1
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 11:16:09 +0000 (UTC)
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56PAXQj6003648;
- Fri, 25 Jul 2025 13:15:58 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- bvHvjwd6XOG8gaFWJcVrEpn5/3TbrGK3z3uZ5mkkCQ4=; b=KwR+EWxBDubt5KZK
- KwTbP7hwmwQB918hKeREw1OoQlG78H3x+rh43s42Cjq4rbrZC2aVqeQ3H6cm2UAE
- opBjmNl9Lz/uXptDv6+oPJy5zUhCAoQzU3hMzAvDRyi8BwfSV7K7tPsZAbPaSWaC
- jc23JYGcJppcXjF4an+x9dqZ5eqShkjxIbB4sof2tZiqIgaNjv7PfkOz1afK8d5W
- iRCoF6bzj6SWpGnHhnXe/zpXEmaFMlbf3aOumMNiUjT8XCntqQXgHkuaonTeqOhS
- Rlq0blQ71ejJWutjyN9F5RvgR+qPbxDdXS0kJqCFBXqRgOGIiCNt9+ITfOSLKCOB
- Y/8O1g==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 483w3m2trd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Jul 2025 13:15:58 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id DB8284004B;
- Fri, 25 Jul 2025 13:14:29 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1D0D137A632;
- Fri, 25 Jul 2025 13:13:24 +0200 (CEST)
-Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 25 Jul
- 2025 13:13:23 +0200
-Message-ID: <a00bb4e2-b0e8-44ef-bf14-5e4f5e60f9d0@foss.st.com>
-Date: Fri, 25 Jul 2025 13:13:22 +0200
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D1E10E9DB;
+ Fri, 25 Jul 2025 11:22:14 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42]) (Authenticated sender: zamundaaa)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 50FC53387C3;
+ Fri, 25 Jul 2025 12:22:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1753442532; bh=XsQTZwistOHF7O8f26CcjmTuyvAe/g+tgG/l6IWHk90=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=kGNq3qwRLGLI+ZvSe1IYo6t/O29NgqVb4O2sVr1pXc+iKyxSyK3V7TGspGobkznq7
+ DPJVol26Yq6KHhNaWzzAzeZhHx7X34WfGtWQrhyPovbGxl3WO88WzTvJ+Suo4ukEMr
+ nI55ArRIZFV/KutaZiR/U7nLcawdm5l1uKzFOZJwJSVz4hshsNi63CCLvabmVcdrbR
+ uRHdnkYLd3ie6MqJAAuJPCTj/7DjxwO8AOGZSUl3QZsKD3EUW5yjjCHBCAqKNU4rH+
+ PurhFnWeSWYf9VGAPPrEUDT5AvPaf60UWclT6i4msQm5brNdZC6f1+xaon4fS56n8y
+ QU8RY9JcnpJqg==
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-ae0df6f5758so318558166b.0; 
+ Fri, 25 Jul 2025 04:22:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVkhlZOKYkrXqe2mui9p6bDs17ivVfdh7Grsct3ZhT1v/hhuDB3z6rxNgAE3AbjfUttdSlGFxpXC+k=@lists.freedesktop.org,
+ AJvYcCXlhhLVZc9oq7W1oVNb5Wp9glxMj13x2hRCGJoLWCaip3dcKIoTQUNbaogU6JBQg6dCd0IvAeqfEl0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yybh5STcwll7yLTfZIH7qB7HkcUaBeJ2E7M2gOmXr2mzrLgEZTT
+ e/PM2F+ypaxLYlSRT2pifhJV5D3562KdfqD/RTZ1pMtCNG6VB7ZRoxiVWnVTpW5SHqRka4Ev+3A
+ Cia3jgIfyCM5LPy/K0xxWrvOJjwL5LRA=
+X-Google-Smtp-Source: AGHT+IG/UGNT7TcvpSPiZpGkBkoEphXHlzBBGgFql1E53azOOA+bp+LgE6H0FSvwEH0iGg4Ff0r8Z3TRcDpI0D2eOD8=
+X-Received: by 2002:a17:907:d1b:b0:ae0:d1f3:f7f4 with SMTP id
+ a640c23a62f3a-af6179ffe2cmr179465066b.13.1753442531869; Fri, 25 Jul 2025
+ 04:22:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linux-stm32] [PATCH 09/12] arm64: dts: st: add lvds support on
- stm32mp255
-From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
- <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Christophe Roullier <christophe.roullier@foss.st.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250725-drm-misc-next-v1-0-a59848e62cf9@foss.st.com>
- <20250725-drm-misc-next-v1-9-a59848e62cf9@foss.st.com>
- <85673db7-d311-47cc-be52-291d94e136e4@foss.st.com>
-Content-Language: en-US
-In-Reply-To: <85673db7-d311-47cc-be52-291d94e136e4@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.48.86.185]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-25_03,2025-07-24_01,2025-03-28_01
+References: <20250724134544.284371-2-nemesa.garg@intel.com>
+In-Reply-To: <20250724134544.284371-2-nemesa.garg@intel.com>
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Fri, 25 Jul 2025 13:22:00 +0200
+X-Gmail-Original-Message-ID: <CAFZQkGzBCU+tDUP=KahwCq8=LLW3a8NKiNK5U4JQ0btUFFz+9g@mail.gmail.com>
+X-Gm-Features: Ac12FXyo8viM8MqYptt_w2cSpC1W_N5B3P-kWtv0htgcB_mmD6lkFT8VKPjtr5I
+Message-ID: <CAFZQkGzBCU+tDUP=KahwCq8=LLW3a8NKiNK5U4JQ0btUFFz+9g@mail.gmail.com>
+Subject: Re: [01/10] drm/drm-crtc: Introduce sharpness strength property
+To: Nemesa Garg <nemesa.garg@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,60 +69,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/25/25 13:08, Clement LE GOFFIC wrote:
-> Hi Raphael,
-> 
-> On 7/25/25 12:04, Raphael Gallais-Pou wrote:
->> The LVDS is used on STM32MP2 as a display interface.
->>
->> Add the LVDS node.
->>
->> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
->> ---
->>   arch/arm64/boot/dts/st/stm32mp255.dtsi | 12 ++++++++++++
->>   1 file changed, 12 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/st/stm32mp255.dtsi b/arch/arm64/boot/ 
->> dts/st/stm32mp255.dtsi
->> index 
->> f689b47c5010033120146cf1954d6624c0270045..a4d965f785fa42c4597494010855aec7e1b9fdd1 100644
->> --- a/arch/arm64/boot/dts/st/stm32mp255.dtsi
->> +++ b/arch/arm64/boot/dts/st/stm32mp255.dtsi
->> @@ -6,6 +6,18 @@
->>   #include "stm32mp253.dtsi"
->>   &rifsc {
->> +    lvds: lvds@48060000 {
->> +        compatible = "st,stm32mp25-lvds";
-> 
-> For the compatible you now need one comaptible per SoC.
-> It means your compatible should look like : "st,stm32mp251-lvds".
-> This way, if on the 253 or 255 there is an issue you are able to easily 
-> add match data in the driver with compatible "st,stm32mp253-lvds" or 
-> "st,stm32mp255-lvds".
-> A prior discussion on this subject has been raised on my V1 of HDP 
-> involving Krzysztof and Alexandre :
-> https://lore.kernel.org/all/418a80a9-8c08-4dd1- 
-> bf49-1bd7378321aa@kernel.org/
-Woops, this comment should target the add of the ltdc compatible as I 
-see that lvds one already exists and can't be changed.
-Though the main idea is here.
+Hello,
 
-> 
->> +        #clock-cells = <0>;
->> +        reg = <0x48060000 0x2000>;
->> +        clocks = <&rcc CK_BUS_LVDS>, <&rcc CK_KER_LVDSPHY>;
->> +        clock-names = "pclk", "ref";
->> +        resets = <&rcc LVDS_R>;
->> +        access-controllers = <&rifsc 84>;
->> +        power-domains = <&CLUSTER_PD>;
->> +        status = "disabled";
->> +    };
->> +
->>       vdec: vdec@480d0000 {
->>           compatible = "st,stm32mp25-vdec";
->>           reg = <0x480d0000 0x3c8>;
->>
-> 
-> Best regards,
-> Clément
+This patch is Acked-by: Xaver Hugl <xaver.hugl@kde.org>
 
+- Xaver
