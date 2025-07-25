@@ -2,62 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341F4B120EC
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 17:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17635B120FA
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 17:33:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9952A10E9E3;
-	Fri, 25 Jul 2025 15:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5EB610E9E6;
+	Fri, 25 Jul 2025 15:32:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bmVD4eIs";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gOe7LK/f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9585A10E9E6
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 15:28:14 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 902F8441D6;
- Fri, 25 Jul 2025 15:28:10 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C590D10E9E6
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 15:32:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BC9F443370;
+ Fri, 25 Jul 2025 15:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1753457292;
+ t=1753457574;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=W4q+49YQT2l30vtbVxxXxy6RyV8DhHrfMHle8faAKM0=;
- b=bmVD4eIsVTojpcJ4GSdQTGRHFum/Lfzq8sRACxVLdz3gBXiL1UTwlEeUZ1F3bQJt1jCjfq
- sDKfrwvkYKHklvrh17oUIkvwmNQRSCUZyCThMC0YRS4lZZjM9EnPb1904ywVO4C2BAlQJD
- uqXeRzmRo2WiXU2dFrmqxcWVWAtVzqCmfJZ/Mp8vUmpOxewZzgxuDOKgD/wKcZr/wzglA+
- ZHb1iJ8ycy3J2MCu175uSy0hdggcaYAcUpmV5AVCH+2TvLG0NyBFubS6jkkjmbW1aaUGn0
- rS2rcqxDNCEosxu0YEqaiA/jDHbce+vTSZXTCcT7+ctsVTKD6frgNEJRySXvxQ==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VUw48bVGzQDtnzpFCZ6F0zUPopLUUADYRFUd0lfoHsE=;
+ b=gOe7LK/fGYNTmz+SyIELCjPFaJaCHIQ1cZCxpO6F/7sKlMOxRRHmUVPl7IAXCdbmAmgzzJ
+ qhK1BlYOirxaOuv7zUtH+7p+NHrT7W6MoGw6U1vHfQA3q6tieo1SqT5AB7M/5eaJxkGkDh
+ 83V53TpmJLyk2exzGH7/QY3Nr79ar/ovL9WHSEUPkTnM/j18kUW2laDfMW3XjN4q70C7Bn
+ d4RvcOiRc1ArRt3EaCCaQHPmX90dMQCNFor+oGojqc5TmT1eBTWfPQ7A+mhqaGcjJZp8H7
+ E3OoJs+8MH+AAVPMtTkqeQ2oGKbCKz9KUKrzwRmSNF45iIk+nck7NEh0a/V7Dg==
+Date: Fri, 25 Jul 2025 17:32:48 +0200
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 25 Jul 2025 17:28:03 +0200
-Subject: [PATCH] samsung-dsim: move drm_bridge_add() call to probe
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Inki Dae
+ <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Marek
+ Szyprowski <m.szyprowski@samsung.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
+ <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Kevin Hilman <khilman@baylibre.com>, Jerome
+ Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH 00/32] drm/mipi-dsi: avoid DSI host drivers to have
+ pointers to DSI devices
+Message-ID: <20250725173248.4cdca9e4@booty>
+In-Reply-To: <20250725-juicy-falcon-of-climate-d87ea6@houat>
+References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
+ <20250707-strange-warm-bear-cb4ee8@houat>
+ <20250707115853.128f2e6f@booty> <20250707121319.1e40a73a@booty>
+ <20250725-juicy-falcon-of-climate-d87ea6@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250725-drm-bridge-samsung-dsim-add-in-probe-v1-1-b23d29c23fbd@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAIKig2gC/x2NQQqEMAwAvyI5G+h2reJ+RTxUEzWHVknYRRD/v
- sXjMDBzgbEKG3yqC5R/YrLnAq+6gnmLeWUUKgze+eA6H5A04aRCxVhM9s0rkknCSISS8dB9Yuz
- m0PTv1sWld1BSh/Ii57MZxvv+A8pKoUx2AAAA
-X-Change-ID: 20250725-drm-bridge-samsung-dsim-add-in-probe-7c549360af90
-To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdekfeeklecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepleeuheehfefgkefhgfekgeefueektdefkeefveetudfgjeegteefkeduvedugeegnecuffhomhgrihhnpehlphgtrdgvvhgvnhhtshdpkhgvrhhnvghlrdhorhhgnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudelpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepjhhonhgrs
- heskhifihgsohhordhsvgdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdekfeeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedtleejjeduvddutefftdduleefudfgudeltdeuffeuudefgfdugeekgedtieehudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhop
+ ehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,89 +80,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This bridge driver calls drm_bridge_add() in the DSI host .attach callback
-instead of in the probe function. This looks strange, even though
-apparently not a problem for currently supported use cases.
+Hi Maxime,
 
-However it is a problem for supporting hotplug of DRM bridges, which is in
-the works [0][1][2]. The problematic case is when this DSI host is always
-present while its DSI device is hot-pluggable. In such case with the
-current code the DRM card will not be populated until after the DSI device
-attaches to the host, and which could happen a very long time after
-booting, or even not happen at all.
+On Fri, 25 Jul 2025 17:22:47 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Supporting hotplug in the latest public draft is based on an ugly
-workaround in the hotplug-bridge driver code. This is visible in the
-hotplug_bridge_dsi_attach implementation and documentation in [3] (but
-keeping in mind that workaround is complicated as it is also circumventing
-another problem: updating the DSI host format when the DSI device gets
-connected).
+...
 
-As a preliminary step to supporting hotplug in a proper way, and also make
-this driver cleaner, move drm_bridge_add() at probe time, so that the
-bridge is available during boot.
+> > The question is: should a DSI host bridge driver:
+> > 
+> >  A) wait for a DSI device to .attach before drm_bridge_add()ing itself,
+> >     or
+> >  B) drm_bridge_add() itself unconditionally, and let the DSI device
+> >     .attach whenever it happens?
+> > 
+> > A) is what many drivers (IIRC the majority) does. It implies the card
+> > will not be populated until .attach, which in the hotplug case could
+> > happen very late
+> > 
+> > B) is done by a few drivers and allows the card to appear in the
+> > hotplug case without the device, which is needed for hotplug.
+> > 
+> > I had tried simply moving drm_bridge_add() from .attach to probe in
+> > the samsung-dsim driver in the pase but that would not work. Now I did
+> > yet another check at the code and I suspect it can be done with a small
+> > additional change, but cannot access the hardware to test it currently.
+> > 
+> > Answering this last question might change and simplify the requirements
+> > discussed in the (very lengthy, sorry about that) discussion above.  
+> 
+> You're not going to like the answer too much, but I think that it is
+> that "nobody knows".
+> 
+> The bad news is that I can't give you an answer, but the good one is
+> that it gives us some leeway.
+> 
+> As I said in my previous mail, we should probably figure it out,
+> document it, and then make it work for your drivers. Once we have a
+> documentation we can point to, the rest will fall in line.
 
-However simply moving drm_bridge_add() prevents populating the whole card
-when the hot-pluggable addon is not present at boot, for another
-reason. The reason is:
+Thanks for taking time to reply this!
 
- * now the encoder driver finds this bridge instead of getting
-   -EPROBE_DEFER as before
- * but it cannot attach it because the bridge attach function in turn tries
-   to attach to the following bridge, which has not yet been hot-plugged
+I just sent a patch to do the mentioned change in samsung-dsim [0] to
+start discussion on real code. I'd appreciate if you could prioritize
+that patch over all other patches I have sent.
 
-This needs to be fixed in the bridge attach function by simply returning
--EPROBE_DEFER ifs the following bridge (i.e. the DSI device) is not yet
-present.
-
-[0] https://lpc.events/event/18/contributions/1750/
-[1] https://lore.kernel.org/lkml/20240924174254.711c7138@booty/
-[2] https://lore.kernel.org/lkml/20250723-drm-bridge-alloc-getput-for_each_bridge-v1-0-be8f4ae006e9@bootlin.com/
-[3] https://lore.kernel.org/lkml/20240917-hotplug-drm-bridge-v4-4-bc4dfee61be6@bootlin.com/
-
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/bridge/samsung-dsim.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index c4997795db18280903570646b0a5b2c03b666307..173f730edb3707823b0a85460968a11b8206b508 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1633,6 +1633,9 @@ static int samsung_dsim_attach(struct drm_bridge *bridge,
- {
- 	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
- 
-+	if (!dsi->out_bridge)
-+		return -EPROBE_DEFER;
-+
- 	return drm_bridge_attach(encoder, dsi->out_bridge, bridge,
- 				 flags);
- }
-@@ -1749,8 +1752,6 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 		     mipi_dsi_pixel_format_to_bpp(device->format),
- 		     device->mode_flags);
- 
--	drm_bridge_add(&dsi->bridge);
--
- 	/*
- 	 * This is a temporary solution and should be made by more generic way.
- 	 *
-@@ -2011,6 +2012,8 @@ int samsung_dsim_probe(struct platform_device *pdev)
- 			goto err_disable_runtime;
- 	}
- 
-+	drm_bridge_add(&dsi->bridge);
-+
- 	return 0;
- 
- err_disable_runtime:
-
----
-base-commit: e48123c607a0db8b9ad02f83c8c3d39918dbda06
-change-id: 20250725-drm-bridge-samsung-dsim-add-in-probe-7c549360af90
+[0] https://lore.kernel.org/all/20250725-drm-bridge-samsung-dsim-add-in-probe-v1-1-b23d29c23fbd@bootlin.com/
 
 Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+Luca
 
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
