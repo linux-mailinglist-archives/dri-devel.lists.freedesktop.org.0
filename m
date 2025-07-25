@@ -2,132 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971F6B1218C
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 18:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA7DB1219B
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 18:15:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 018DF10E367;
-	Fri, 25 Jul 2025 16:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE10D10E9ED;
+	Fri, 25 Jul 2025 16:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VFdm9juM";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="gSmnJG5m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBFF410E367
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 16:14:26 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56P98npS017942
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 16:14:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- pTRAzXltnnQkXzy/4MfHD1BpN0UeO0JYTlGtIooVxhY=; b=VFdm9juMycnYZSHZ
- zUXA92nIOBcEnWTYEaYZVS7emlqydaCowoY21CWFScsHSDVVExvYnMTn3+dlby5s
- 4hFLISQiz6TZG5bi9tOohYCb2gCWD9ar+XlLTzhbijgIX5E+1GuC37zcPa/MIpya
- Oo+QWB/wZTSCWzJFBHyT5vIqi3kLN//g/8yaVMd6jODWQHGtad5rkobIVYMVlpGi
- QLhQbu1VTEgSBYOY3iL0IqqWARLFc6G4r96pz9jb5jkIpBrByhITf5ekJy3yUGmo
- cGXUD/bTv2Rbch1TAYQSSp7JiozaHKVfDPiHii4f0OPK+8rFfOAqjLYfe6b2gPOs
- XMi8ug==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 483w2wjpr0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 16:14:26 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b115fb801bcso2854488a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 09:14:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753460065; x=1754064865;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pTRAzXltnnQkXzy/4MfHD1BpN0UeO0JYTlGtIooVxhY=;
- b=e3YfNI6V/JowV76hnlmLXZyUxiyETU3ecUOQx+mFRobgGdAh4tPTwrT+2COOwYFm8A
- gJBvfB3IA3aQXfBzb4Z/ZfSyI/Xm05pNhJ4VnGaB2XkVKhczjuusTSg0NT5PPbR6Xm1O
- DINvgjZHISkRVqrw1dW7s8ZpvyoW/CYuL7mp79xQQiQooxa3RGjmZ3YVcOXF/MXU70S3
- +jpmjzKyXLZlPYP+O/SGiopFFfcwwCyGWC462gZfU7bxuvbQEbXkcVMDbTb3PVipikFm
- iwD2M2zu42JTnZhBEDDvPBLQpatNtvvO2roIWpyDj5wqwpZokMNUM+9SvCUPatWgUXan
- Z56w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWkd5H23bgC+H85CUeCMfKz8d+vLf1NDsVucrDygMLtR23+pYHAdJSmVh4nEr2DehtFE86UD8jxVOc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxgtwam7zl+TkMHW3wWmX2qTOxVPC0GerYty7hbeBQW0Q81JqIi
- YsMZOvVRXhtQ0PBJUWpAolK6pv8l0VjsprTfLZZJTanA9T0EFWDxqChsMQV5hI8B3ZZwn3jg3Jf
- hVpbMIzIfCP2gK2513B/hnXDHe+3wiGguWtaCB6doL3L2UV5+EELLZkhv4EsK5mKE9l2tfG4=
-X-Gm-Gg: ASbGncuEhCv9MWUns3x3JzRS/XibQLxqGjtCluQc0QIgT/GlsxXcZc0cr9YJ8m5tuKO
- RsmEIHrwBT1XO9DC2LT6UBMNFuYaBfm7EyjxdPoAPvILfuhGslo3FNr8ItAw/MN7Ag5nHM7bMqU
- BfKgOxnrSv0achXhjjK43y93WIDDb8wQwmvDOZnGcLzwSo2SL+q9FFpNApndHpDz/CzeG2O/eIe
- CkypL7fBQgXvnm4Y+ycKWfp8jrSb5j1/Mm0A/yAWhFzjeGFVRSe353cRsbU7tywG41vztbwk9v4
- vhY4BcFP68g9y8og2ebsZD/ZwxnvzUH1gWgnhzOiDT9aE6JVaeHk1WDr0I8zxCMyARtp3taZUaX
- SdFwAV3zMfQGVLQ==
-X-Received: by 2002:a05:6a20:7288:b0:239:1c1e:3edf with SMTP id
- adf61e73a8af0-23d701eaf4cmr4483523637.40.1753460065415; 
- Fri, 25 Jul 2025 09:14:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEH45mowQM24zNVVrDWA1OAKen9/Rncat1udl96ywd3HTaGlMrzSKhS42XbAwTPbo2lmkT86g==
-X-Received: by 2002:a05:6a20:7288:b0:239:1c1e:3edf with SMTP id
- adf61e73a8af0-23d701eaf4cmr4483464637.40.1753460064981; 
- Fri, 25 Jul 2025 09:14:24 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7640b8b0c60sm71215b3a.126.2025.07.25.09.14.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jul 2025 09:14:24 -0700 (PDT)
-Message-ID: <12223a91-82f0-4889-8f07-bfa5833c8ffb@oss.qualcomm.com>
-Date: Fri, 25 Jul 2025 10:14:21 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 00/10] New DRM accel driver for Rockchip's RKNN NPU
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93A3310E9EA;
+ Fri, 25 Jul 2025 16:15:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1753460106; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=J1WA3IXrUGpGOYPbJ9ZgPNX3m5pjoql//Rr6QiIc0/a8DBBksmQ6Urkzjn0zI4196iWY1/1X1jMvjsQ44piT4vILeaSE0eQNEggv24Spa9fFuAf/kdu+oWsjwOJcDYBpK6bZdu+MDwrs9Qz5Vd2LlIjUi3uB60ZWEHINF2DtbjQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1753460106;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Cbvvomnbtrld2kTiEXZvpI4lmoKBMsw0XyhLoXt6moE=; 
+ b=OhcsiiYmHKW98rgFm52+kLIPJ3dkkEVTs9egwzepqjos4A/F7IAIwM/mD+5JMK5OxOlfj5+r6YKF1Ib1q72j+dAIR60pAVe6WJ5Dvns329k1yXGEk0yXuMcFRz0OMwYPjeEVYZEFjxh70IoyYvlfJTwSg7JAR/kiyFR08/63oAM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753460106; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=Cbvvomnbtrld2kTiEXZvpI4lmoKBMsw0XyhLoXt6moE=;
+ b=gSmnJG5mXW1NZv6+BgCGA3dQ3uyWcDxxMDLgCjLBnlGi/41pNAthyUzhEjKn46Xz
+ L2wgQRachDsuZ9/aNUBvl7aPr1GNcFBZAmrahf/XnrKu6N6s1utp8pqakF4IR//WlZ+
+ SuiaYNM3/SDvkdrqTCE1Ys/HxfPS+HTfKFmS8JkI=
+Received: by mx.zohomail.com with SMTPS id 175346010455174.4659064233291;
+ Fri, 25 Jul 2025 09:15:04 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
+Subject: Re: [PATCH v2 01/19] gpu: nova-core: register: minor grammar and
+ spelling fixes
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20250718-nova-regs-v2-1-7b6a762aa1cd@nvidia.com>
+Date: Fri, 25 Jul 2025 13:14:49 -0300
+Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20250721-6-10-rocket-v9-0-77ebd484941e@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: YUiUPrTY7Mv3Z4l8OEr1ZL_30Lg-w4Yl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI1MDEzOSBTYWx0ZWRfXwYOwRQMLMgRI
- BzB8zqCNUJFz7nuZ6hVUYpDZ7+qmI+KCt+C2HDBQrLW+HjhH6y3xjicxD1KKy+2CfzlibqDqn28
- dWQ6SgnV2FrXWeAqxQqVRYs5Oc4QOsmSZFmC6dTQfCzgpFYrwwkgovAMWxhHKvYxDlkOoS3kkSF
- 2BPne4wg4Clwtr5jACBMSGuSwT3cOScMyELBCo1Ox3OQ3y4oRIvgNH1mfRysOcJi2nd0wt2ofzM
- uV1K4BibCRahWBAFPE3kcbGFSgHrzaYODQ4XA88Gt9mrnNzMQpD/ZbOySGpWR0OBjbg2LhHuriJ
- Cl1ejenO17NS8F7H/xfypdA4xKAn4/Wi+i7gJK0YsbAIY2zE0f8UaLHT4CzD2YRtbJ8vHakNa4l
- kxinmH0Rjqj9qJe6jjA8rQ0+6WsaB3l9y0ADm3amgdfGLp/Ue2jWl86dCqkDeWBEzCWu1A0Q
-X-Authority-Analysis: v=2.4 cv=d8b1yQjE c=1 sm=1 tr=0 ts=6883ad62 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=e5mUnYsNAAAA:8 a=DISFzqtZAAAA:8
- a=XWXL-kdBtCKZFopiRrIA:9 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=aug85vrO5LANNmmtkfAW:22
-X-Proofpoint-ORIG-GUID: YUiUPrTY7Mv3Z4l8OEr1ZL_30Lg-w4Yl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-25_04,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0 priorityscore=1501 phishscore=0 adultscore=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 mlxlogscore=826 impostorscore=0
- mlxscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507250139
+ Beata Michalska <beata.michalska@arm.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+ steven.price@arm.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <B1AA6359-7854-4284-B533-F5CA3C18AF34@collabora.com>
+References: <20250718-nova-regs-v2-0-7b6a762aa1cd@nvidia.com>
+ <20250718-nova-regs-v2-1-7b6a762aa1cd@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+X-Mailer: Apple Mail (2.3826.600.51.1.1)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,18 +76,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/21/2025 3:17 AM, Tomeu Vizoso wrote:
-> This series adds a new driver for the NPU that Rockchip includes in its
-> newer SoCs, developed by them on the NVDLA base.
-> 
-> In its current form, it supports the specific NPU in the RK3588 SoC.
-> 
-> The userspace driver is part of Mesa and an initial draft can be found at:
-> 
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Hi Alex. Thank you and John for working on this in general. It will be =
+useful
+for the whole ecosystem! :)=20
 
-Patches 1-6 pushed to drm-misc-next.
+> On 18 Jul 2025, at 04:26, Alexandre Courbot <acourbot@nvidia.com> =
+wrote:
+>=20
+> From: John Hubbard <jhubbard@nvidia.com>
+>=20
+> There is only one top-level macro in this file at the moment, but the
+> "macros.rs" file name allows for more. Change the wording so that it
+> will remain valid even if additional macros are added to the file.
+>=20
+> Fix a couple of spelling errors and grammatical errors, and break up a
+> run-on sentence, for clarity.
+>=20
+> Cc: Alexandre Courbot <acourbot@nvidia.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> ---
+> drivers/gpu/nova-core/regs/macros.rs | 14 +++++++-------
+> 1 file changed, 7 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/nova-core/regs/macros.rs =
+b/drivers/gpu/nova-core/regs/macros.rs
+> index =
+cdf668073480ed703c89ffa8628f5c9de6494687..864d1e83bed2979f5661e038f4c9fd87=
+d33f69a7 100644
+> --- a/drivers/gpu/nova-core/regs/macros.rs
+> +++ b/drivers/gpu/nova-core/regs/macros.rs
+> @@ -1,17 +1,17 @@
+> // SPDX-License-Identifier: GPL-2.0
+>=20
+> -//! Macro to define register layout and accessors.
+> +//! `register!` macro to define register layout and accessors.
 
--Jeff
+I would have kept this line as-is. Users will most likely know the name =
+of the
+macro already. At this point, they will be looking for what it does, so
+mentioning "register" here is a bit redundant IMHO.
+
+> //!
+> //! A single register typically includes several fields, which are =
+accessed through a combination
+> //! of bit-shift and mask operations that introduce a class of =
+potential mistakes, notably because
+> //! not all possible field values are necessarily valid.
+> //!
+> -//! The macro in this module allow to define, using an intruitive and =
+readable syntax, a dedicated
+> -//! type for each register with its own field accessors that can =
+return an error is a field's value
+> -//! is invalid.
+> +//! The `register!` macro in this module provides an intuitive and =
+readable syntax for defining a
+> +//! dedicated type for each register. Each such type comes with its =
+own field accessors that can
+> +//! return an error if a field's value is invalid.
+>=20
+> -/// Defines a dedicated type for a register with an absolute offset, =
+alongside with getter and
+> -/// setter methods for its fields and methods to read and write it =
+from an `Io` region.
+> +/// Defines a dedicated type for a register with an absolute offset, =
+including getter and setter
+> +/// methods for its fields and methods to read and write it from an =
+`Io` region.
+
++cc Steven Price,
+
+Sorry for hijacking this patch, but I think that we should be more =
+flexible and
+allow for non-literal offsets in the macro.
+
+In Tyr, for example, some of the offsets need to be computed at runtime, =
+i.e.:
+
++pub(crate) struct AsRegister(usize);
++
++impl AsRegister {
++    fn new(as_nr: usize, offset: usize) -> Result<Self> {
++        if as_nr >=3D 32 {
++            Err(EINVAL)
++        } else {
++            Ok(AsRegister(mmu_as(as_nr) + offset))
++        }
++    }
+
+Or:
+
++pub(crate) struct Doorbell(usize);
++
++impl Doorbell {
++    pub(crate) fn new(doorbell_id: usize) -> Self {
++        Doorbell(0x80000 + (doorbell_id * 0x10000))
++    }
+
+I don't think this will work with the current macro, JFYI.
+
+> ///
+> /// Example:
+> ///
+> @@ -24,7 +24,7 @@
+> /// ```
+> ///
+> /// This defines a `BOOT_0` type which can be read or written from =
+offset `0x100` of an `Io`
+> -/// region. It is composed of 3 fields, for instance `minor_revision` =
+is made of the 4 less
+> +/// region. It is composed of 3 fields, for instance `minor_revision` =
+is made of the 4 least
+> /// significant bits of the register. Each field can be accessed and =
+modified using accessor
+> /// methods:
+> ///
+>=20
+> --=20
+> 2.50.1
+>=20
+
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+
