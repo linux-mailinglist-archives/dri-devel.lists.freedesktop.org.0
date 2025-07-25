@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AABB11E41
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 14:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B13B11E44
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 14:12:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9550910E207;
-	Fri, 25 Jul 2025 12:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C92A110E9E4;
+	Fri, 25 Jul 2025 12:12:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vDwUZrR5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tok2lSwB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCBF510E207
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 12:12:25 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2913D10E207
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 12:12:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E722A601EC;
- Fri, 25 Jul 2025 12:12:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79FD8C4CEE7;
- Fri, 25 Jul 2025 12:12:24 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id DB0AB445B3;
+ Fri, 25 Jul 2025 12:12:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94B7AC4CEE7;
+ Fri, 25 Jul 2025 12:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753445544;
- bh=oWhXpWvXJKtar0BRT9MkmY1ZrHGWmX4khazLG8viu9s=;
+ s=k20201202; t=1753445545;
+ bh=1KrjuWTj/BAGpJTBOQ4VNJ8knTL5uEp25bM6bJplq4M=;
  h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=vDwUZrR50knB/uu9wIwecuE/n6L2Zq8Eq2Poc2AHPydHKd5WLGm0Gp07a9e7X3uLQ
- Fut/UhFiGRvUCU0E/rsd0vlo/nrGVBsO5O/IqqcSf6CVIFx61+FElWaG9kc//6fen9
- 7l+7ntGqSM09lHzhZM/Vabt6iGdmq+XPctxioEdgv/RmIz59ScNwcivx5YNntqcuHY
- S8JBtvACl9UR41kk6tbFvBByEtt9hiF9O94k/G6ZgXyGyYG98oKiPMgEO4hmmsAqyQ
- nF4WLP9+12dOi2qIotPwr06LJX6MeFFVAA8jMgDrN1F+nMw6FuzbDZxzoLsSFsJ9jh
- 9VOsL/klZ4Wng==
-Date: Fri, 25 Jul 2025 07:12:23 -0500
+ b=tok2lSwBDH1X8yR9/Jc4IVbBIYqpjB0vyEjB+bEiKaiiebGkT7FP9crn6eZ4iBPRe
+ kdOuy8MUsvnb5CGblr7NIZtTChxBOgisYpXP/PjMTDPbaUTCuOLWNwjWbbti5GORCT
+ DPJ9xpHnsUYIHIzzfmpzF0IeRK6hRvfT7IuYW35pl5Nh3QR2nNF87TjPA3iNhg0y58
+ SNsRGnzVtikyWO212cXdPOFGc1acTFvcXLSlRD0c12YK65dXK/PsYUVSIXEaVoUcWC
+ 4GWZLyem7jzBUIAOi93jQD1SCc0j6m5h0mm1QrwpumtXI7BuFnLcV5u80+uL+Aq2KC
+ PLmab2yoKcjMg==
+Date: Fri, 25 Jul 2025 07:12:24 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>, 
+Cc: linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, David Airlie <airlied@gmail.com>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, 
+ linux-stm32@st-md-mailman.stormreply.com, 
  Christophe Roullier <christophe.roullier@foss.st.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, Will Deacon <will@kernel.org>, 
- devicetree@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- linux-arm-kernel@lists.infradead.org, Simona Vetter <simona@ffwll.ch>, 
- linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>, 
- linux-stm32@st-md-mailman.stormreply.com
+ Will Deacon <will@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Conor Dooley <conor+dt@kernel.org>
 To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20250725-drm-misc-next-v1-1-a59848e62cf9@foss.st.com>
+In-Reply-To: <20250725-drm-misc-next-v1-2-a59848e62cf9@foss.st.com>
 References: <20250725-drm-misc-next-v1-0-a59848e62cf9@foss.st.com>
- <20250725-drm-misc-next-v1-1-a59848e62cf9@foss.st.com>
-Message-Id: <175344554296.803203.4450272226884409035.robh@kernel.org>
-Subject: Re: [PATCH 01/12] dt-bindings: display: st: add new compatible to
- LTDC device
+ <20250725-drm-misc-next-v1-2-a59848e62cf9@foss.st.com>
+Message-Id: <175344554361.803254.9739669006063034292.robh@kernel.org>
+Subject: Re: [PATCH 02/12] dt-bindings: display: st,stm32-ltdc: add
+ access-controllers property
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,35 +72,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Fri, 25 Jul 2025 12:03:53 +0200, Raphael Gallais-Pou wrote:
-> The new STMicroelectronics SoC features a display controller similar to
-> the one used in previous SoCs.  Because there is additional registers,
-> it is incompatible with existing IPs.
+On Fri, 25 Jul 2025 12:03:54 +0200, Raphael Gallais-Pou wrote:
+> access-controllers is an optional property that allows a peripheral to
+> refer to one or more domain access controller(s).
 > 
-> Add the new name to the list of compatible string.
+> This property is added when the peripheral is under the STM32 firewall
+> controller.  It allows an accurate representation of the hardware, where
+> the peripheral is connected to a firewall bus.  The firewall can then check
+> the peripheral accesses before allowing its device to probe.
 > 
 > Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 > ---
->  .../devicetree/bindings/display/st,stm32-ltdc.yaml | 37 +++++++++++++++++++---
->  1 file changed, 33 insertions(+), 4 deletions(-)
+>  Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
 
 yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml:78:7: [warning] wrong indentation: expected 8 but found 6 (indentation)
+./Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml:81:7: [warning] wrong indentation: expected 8 but found 6 (indentation)
 
 dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml: else:properties:clock-names: {'maxItems': 4, 'items': [{'const': 'bus'}, {'const': 'lcd'}, {'const': 'ref'}, {'const': 'lvds'}]} should not be valid under {'required': ['maxItems']}
-	hint: "maxItems" is not needed with an "items" list
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml: then:properties:clock-names: {'maxItems': 1, 'items': [{'const': 'lcd'}]} should not be valid under {'required': ['maxItems']}
-	hint: "maxItems" is not needed with an "items" list
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250725-drm-misc-next-v1-1-a59848e62cf9@foss.st.com
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250725-drm-misc-next-v1-2-a59848e62cf9@foss.st.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
