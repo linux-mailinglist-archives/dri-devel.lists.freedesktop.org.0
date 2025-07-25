@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F93B1234A
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 19:53:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F594B1236C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 19:59:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8528110E9FF;
-	Fri, 25 Jul 2025 17:53:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05B5410EA04;
+	Fri, 25 Jul 2025 17:59:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="YHJbqExK";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="A2b6XA90";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A960B10E9FE;
- Fri, 25 Jul 2025 17:53:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1753466007; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04A7A10E22C;
+ Fri, 25 Jul 2025 17:59:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1753466334; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=jqtrjjYj6HTKfmj3aX84YVPfuEOQmzDFm9YNESPruAdi7c1IrBwq3zs6UUB3JNHFCcCwsZiKqIfBMvjpEWmpZMLMNjrvRxtEQBQK5ZaX+dyc1jdPircTEiWNmN27EudqehStmj1mR06THbEEx5hSI41iZpsBR8rlM8k1KWCLg/k=
+ b=LEVbp08XDUjHJx6LqSj/JR6C0U4IOqrKt0NQUWCe3t0mGTC+F21+aKa0erdm9ikHqCH2GdiEZWsjogRGwzhA8luGaCga00jfsTtIsFRaixAmxya4vzuy1qSDct2iMz/GsiTSOEKUHSt3mZzAUUrP8ePQZEZxKS89NwZHwxvDAgA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1753466007;
+ s=zohoarc; t=1753466334;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=NPAGT4yPF+2r+2IWTtbeSzxA57WIMP0lOCJNqfVPWGw=; 
- b=WV+PSbnBOovgOZeIlpLRWWjxSsNPIxcuhrSreltZjIuMgc+XkaGbSiHDcUY6BNXWZ8+3GmwqqqPDLqEY3ui8NI3vkxQ05ANrvagsmrA7IWQ42IxTnUhDD+sBSvvyoaBcqmyA7bZ1+3iN+AslqygayKkMEcma7ED1/xmo0XMqHVc=
+ bh=l31wQX4Qp56LM69Cz12Yc9TZ5vpJYHQo6jJk4RUyqRA=; 
+ b=kMEUaXqFLHxTyuLNM8HXFDM0Jf1JRWzea07ZQmcjRxtAIuRaJsXGOoz4FTYEDBcBgprMgunHkdcR93strb78cIhPFffVF6vg7SeUTQQe3MZksmSZrzadS0Il4lCxvomeLsdCY6BtkmiQmdkm47sTkDMnTdh7lg+eRCpNLVOakQY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
  dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753466006; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753466334; 
  s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
  h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=NPAGT4yPF+2r+2IWTtbeSzxA57WIMP0lOCJNqfVPWGw=;
- b=YHJbqExK1umQIJ37NmjiJjzRbUQgNx0/hET6kydrgiqguVRDqEweR5Dc8yvGnUuf
- v9ttzki2C+3toJhVTXpm3rIy65Q/uCYhnZeG6aaiuUOlhVV8+BjGnWSBSKLUhG5YUaZ
- c5YU7VwYDFwJzE3xZke5mocBRayaqsxAeebwPPzY=
-Received: by mx.zohomail.com with SMTPS id 1753466003670980.98516398806;
- Fri, 25 Jul 2025 10:53:23 -0700 (PDT)
+ bh=l31wQX4Qp56LM69Cz12Yc9TZ5vpJYHQo6jJk4RUyqRA=;
+ b=A2b6XA90vN6vHst1GDSIhGSy5V41kO/+UiJkmaLT87srgn3dWIQRe/35S4H+Dx5l
+ l2TKkAshs7DO8yExwrX/V5yqzfOGYn0/KEeH31aEfUyeftyE97C/yY83tZX0FCH/Gow
+ KlyNuYQvsMx33ZyPhvs4XJJdbKRnDE9aP1Wm0HN0=
+Received: by mx.zohomail.com with SMTPS id 1753466331952608.3524594357607;
+ Fri, 25 Jul 2025 10:58:51 -0700 (PDT)
 Content-Type: text/plain;
 	charset=us-ascii
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
-Subject: Re: [PATCH v2 12/19] gpu: nova-core: register: generate correct
- `Default` implementation
+Subject: Re: [PATCH v2 13/19] gpu: nova-core: register: split @io rule into
+ fixed and relative versions
 From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20250718-nova-regs-v2-12-7b6a762aa1cd@nvidia.com>
-Date: Fri, 25 Jul 2025 14:53:09 -0300
+In-Reply-To: <20250718-nova-regs-v2-13-7b6a762aa1cd@nvidia.com>
+Date: Fri, 25 Jul 2025 14:58:37 -0300
 Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -54,9 +54,9 @@ Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
  dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  linux-kernel@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <F7ED4635-7F50-4D92-B72B-08D000CD6E26@collabora.com>
+Message-Id: <45B18878-7472-4AFD-88FB-BDE80FAF5EE3@collabora.com>
 References: <20250718-nova-regs-v2-0-7b6a762aa1cd@nvidia.com>
- <20250718-nova-regs-v2-12-7b6a762aa1cd@nvidia.com>
+ <20250718-nova-regs-v2-13-7b6a762aa1cd@nvidia.com>
 To: Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: Apple Mail (2.3826.600.51.1.1)
 X-ZohoMailClient: External
@@ -80,86 +80,85 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > On 18 Jul 2025, at 04:26, Alexandre Courbot <acourbot@nvidia.com> =
 wrote:
 >=20
-> The `Default` implementation of a register should be the aggregate of
-> the default values of all its fields, and not simply be zeroed.
+> We used the same @io rule with different patterns to define both the
+> fixed and relative I/O accessors. This can be confusing as the =
+matching
+> rules are very similar.
+>=20
+> Since all call sites know which version they want to call, split @io
+> into @io_fixed and @io_relative to remove any ambiguity.
 >=20
 > Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 > ---
-> drivers/gpu/nova-core/regs/macros.rs | 26 +++++++++++++++++++++++---
-> 1 file changed, 23 insertions(+), 3 deletions(-)
+> drivers/gpu/nova-core/regs/macros.rs | 12 ++++++------
+> 1 file changed, 6 insertions(+), 6 deletions(-)
 >=20
 > diff --git a/drivers/gpu/nova-core/regs/macros.rs =
 b/drivers/gpu/nova-core/regs/macros.rs
 > index =
-485cac806e4a6578059c657f3b31f15e361becbd..f0942dc29210f703fddd4d86b758173f=
-75b3477a 100644
+f0942dc29210f703fddd4d86b758173f75b3477a..bfa0220050d4ba03c9fcd75c9be1ed8d=
+baa4f290 100644
 > --- a/drivers/gpu/nova-core/regs/macros.rs
 > +++ b/drivers/gpu/nova-core/regs/macros.rs
-> @@ -112,14 +112,14 @@ macro_rules! register {
+> @@ -89,25 +89,25 @@ macro_rules! register {
+>     // Creates a register at a fixed offset of the MMIO space.
+>     ($name:ident @ $offset:literal $(, $comment:literal)? { =
+$($fields:tt)* } ) =3D> {
+>         register!(@core $name $(, $comment)? { $($fields)* } );
+> -        register!(@io $name @ $offset);
+> +        register!(@io_fixed $name @ $offset);
+>     };
+>=20
+>     // Creates an alias register of fixed offset register `alias` with =
+its own fields.
+>     ($name:ident =3D> $alias:ident $(, $comment:literal)? { =
+$($fields:tt)* } ) =3D> {
+>         register!(@core $name $(, $comment)? { $($fields)* } );
+> -        register!(@io $name @ $alias::OFFSET);
+> +        register!(@io_fixed $name @ $alias::OFFSET);
+>     };
+>=20
+>     // Creates a register at a relative offset from a base address.
+>     ($name:ident @ + $offset:literal $(, $comment:literal)? { =
+$($fields:tt)* } ) =3D> {
+>         register!(@core $name $(, $comment)? { $($fields)* } );
+> -        register!(@io $name @ + $offset);
+> +        register!(@io_relative $name @ + $offset);
+>     };
+>=20
+>     // Creates an alias register of relative offset register `alias` =
+with its own fields.
+>     ($name:ident =3D> + $alias:ident $(, $comment:literal)? { =
+$($fields:tt)* } ) =3D> {
+>         register!(@core $name $(, $comment)? { $($fields)* } );
+> -        register!(@io $name @ + $alias::OFFSET);
+> +        register!(@io_relative $name @ + $alias::OFFSET);
+>     };
 >=20
 >     // All rules below are helpers.
->=20
-> -    // Defines the wrapper `$name` type, as well as its relevant =
-implementations (`Debug`, `BitOr`,
-> -    // and conversion to the value type) and field accessor methods.
-> +    // Defines the wrapper `$name` type, as well as its relevant =
-implementations (`Debug`,
-> +    // `Default`, `BitOr`, and conversion to the value type) and =
-field accessor methods.
->     (@core $name:ident $(, $comment:literal)? { $($fields:tt)* }) =3D> =
-{
->         $(
->         #[doc=3D$comment]
->         )?
->         #[repr(transparent)]
-> -        #[derive(Clone, Copy, Default)]
-> +        #[derive(Clone, Copy)]
->         pub(crate) struct $name(u32);
->=20
->         impl ::core::ops::BitOr for $name {
-> @@ -162,6 +162,7 @@ fn from(reg: $name) -> u32 {
->             )*
->         });
->         register!(@debug $name { $($field;)* });
-> +        register!(@default $name { $($field;)* });
+> @@ -342,7 +342,7 @@ fn default() -> Self {
 >     };
 >=20
->     // Defines all the field getter/methods methods for `$name`.
-> @@ -321,6 +322,25 @@ fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) =
--> ::core::fmt::Result {
->         }
->     };
->=20
-> +    // Generates the `Default` implementation for `$name`.
-> +    (@default $name:ident { $($field:ident;)* }) =3D> {
-> +        /// Returns a value for the register where all fields are set =
-to their default value.
-> +        impl ::core::default::Default for $name {
-> +            fn default() -> Self {
-> +                #[allow(unused_mut)]
-> +                let mut value =3D Self(Default::default());
-> +
-> +                ::kernel::macros::paste!(
-> +                $(
-> +                value.[<set_ $field>](Default::default());
-> +                )*
-> +                );
-> +
-> +                value
-> +            }
-> +        }
-> +    };
-> +
 >     // Generates the IO accessors for a fixed offset register.
->     (@io $name:ident @ $offset:expr) =3D> {
+> -    (@io $name:ident @ $offset:expr) =3D> {
+> +    (@io_fixed $name:ident @ $offset:expr) =3D> {
 >         #[allow(dead_code)]
+>         impl $name {
+>             pub(crate) const OFFSET: usize =3D $offset;
+> @@ -380,7 +380,7 @@ pub(crate) fn alter<const SIZE: usize, T, F>(
+>     };
+>=20
+>     // Generates the IO accessors for a relative offset register.
+> -    (@io $name:ident @ + $offset:literal) =3D> {
+> +    (@io_relative $name:ident @ + $offset:literal) =3D> {
+>         #[allow(dead_code)]
+>         impl $name {
+>             pub(crate) const OFFSET: usize =3D $offset;
 >=20
 > --=20
 > 2.50.1
 >=20
 >=20
-
-Also very neat.
 
 Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 
