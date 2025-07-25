@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5CBB1180B
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 07:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB8FB11813
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 07:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC4F10E429;
-	Fri, 25 Jul 2025 05:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E77310E437;
+	Fri, 25 Jul 2025 05:50:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j8uZJPP7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z9gQxLqt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D11D10E425;
- Fri, 25 Jul 2025 05:44:48 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BF3D10E425;
+ Fri, 25 Jul 2025 05:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753422288; x=1784958288;
+ t=1753422614; x=1784958614;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=hf7co4+BNRg9vbUf2PfMJgsNLmvttu4Qf6xUlSeh10k=;
- b=j8uZJPP7mp1Px6WLEb7gEW2x+1/PTBbau7iE5EKdpUCoQ9t8NYKQI7yF
- /59ZoPda46Y66j+4MAFbKOwiiUe2p36oIIWyxgHz1AiYppkmPVXdTxiJ3
- jc67DTr6FH39K7QIFZYLwvsZa2MLnzVbYJld2mW1xqnhAbV5ZddNXH5Wq
- n5POKzKQcRDG5/BGYhuSou/sgzD/nxDPGjuq+a4+gIZmG3zaKw+JYDEPE
- UqCUVNWa+FyYFEI6CaqAmoVg8AU+lG3vLuYgg6HRbh4Ti+xSNp9U8zUFe
- mtN0KxTfRKYG6Ocy0PXAfdxoIf8z5n/E4DXRNph1S2kLFnwEWhoftAVbo A==;
-X-CSE-ConnectionGUID: 0hhBUKA+S3Sl6L8XzWwPOA==
-X-CSE-MsgGUID: 4fUQy6sqSZGRgqjUmpcExA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="81190975"
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="81190975"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2025 22:44:47 -0700
-X-CSE-ConnectionGUID: eFkmCWvZQ6Oysujb3K6gvQ==
-X-CSE-MsgGUID: ouGMEbDrRVCq86BOJCj9Ig==
+ bh=o86HXC8fS175u4T+p5NLxbkvugG8XecNDwVMDSSC+QA=;
+ b=Z9gQxLqttE6Y41xl4uSHvTMvnAVh/wxSf0qdGjsjLDAhhZeyqGrgcyuZ
+ ia3KAe45YKHTtxOqA/GSjw6xyUXdkMDrG0H5bGIDDacry0JOoSw8u/XZ+
+ 1IE/+pNnPvMQOkiaBLplEs4AUszij4jJl3vqc5hjf++5/1Lp+gG78NvEt
+ DzKHi9GgX4gAiLgF2pUdq8p6yxi0OTQmlS1BvXDRm2BcJnbgLEbbbCsvM
+ TLUuFRlmHQ4jROCJI8Lfrs/TITsFQb1qyvXeRjLKFWdi7t/3kmy01ki39
+ q+a8QCZ9wC/DFZSnwaQHVqOiJSqcOqtt4j+cxY6wU/3+1y4NLpJ3XvgXC g==;
+X-CSE-ConnectionGUID: t3D+j2owTuyJQ8bk/fpOoA==
+X-CSE-MsgGUID: ROtHAntbQA2p88DrcYx40A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="58371623"
+X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="58371623"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2025 22:50:14 -0700
+X-CSE-ConnectionGUID: mmatlTa/TpuHp5ohl2/gfg==
+X-CSE-MsgGUID: YfGJA1/8Smiw1RzWguPaDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="166240121"
+X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="161453275"
 Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2025 22:44:45 -0700
-Date: Fri, 25 Jul 2025 08:44:41 +0300
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jul 2025 22:50:11 -0700
+Date: Fri, 25 Jul 2025 08:50:08 +0300
 From: Raag Jadav <raag.jadav@intel.com>
 To: Riana Tauro <riana.tauro@intel.com>
 Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
@@ -49,15 +49,15 @@ Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
  umesh.nerlige.ramappa@intel.com, frank.scarbrough@intel.com,
  sk.anirban@intel.com, simona.vetter@ffwll.ch
-Subject: Re: [PATCH v6 5/9] drm/xe/xe_survivability: Add support for Runtime
- survivability mode
-Message-ID: <aIMZyWaRdaIWG00b@black.fi.intel.com>
+Subject: Re: [PATCH v6 6/9] drm/xe/doc: Document device wedged and runtime
+ survivability
+Message-ID: <aIMbEPlNhNjskITi@black.fi.intel.com>
 References: <20250724143440.232862-1-riana.tauro@intel.com>
- <20250724143440.232862-6-riana.tauro@intel.com>
+ <20250724143440.232862-7-riana.tauro@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724143440.232862-6-riana.tauro@intel.com>
+In-Reply-To: <20250724143440.232862-7-riana.tauro@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,23 +73,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 08:04:34PM +0530, Riana Tauro wrote:
-> Certain runtime firmware errors can cause the device to be in a unusable
-> state requiring a firmware flash to restore normal operation.
-> Runtime Survivability Mode indicates firmware flash is necessary by
-> wedging the device and exposing survivability mode sysfs.
+On Thu, Jul 24, 2025 at 08:04:35PM +0530, Riana Tauro wrote:
+> Add documentation for vendor specific device wedged recovery method
+> and runtime survivability.
 
 ...
 
-> +/**
-> + * xe_survivability_mode_runtime_enable - Initialize and enable runtime survivability mode
-> + * @xe: xe device instance
+>  /**
+> + * DOC: Xe Device Wedging
 > + *
-> + * Initialize survivability information and enable runtime survivability mode.
-> + * Runtime survivability mode is enabled when certain errors cause the device to be
-> + * in non-recoverable state. The device is declared wedged with the appropriate
-> + * recovery method and survivability mode sysfs exposed to userspace
+> + * Xe driver uses drm device wedged uevent as documented in Documentation/gpu/drm-uapi.rst.
+> + *
+> + * When device is in wedged state, every IOCTL will be blocked and GT cannot be
+> + * used. Certain critical errors like gt reset failure, firmware failures can cause
+> + * the device to be wedged. The default recovery method for a wedged state
+> + * is rebind/bus-reset.
+> + *
+> + * Another recovery method is vendor-specific. Below are the usecases that trigger
+> + * vendor-specific drm device wedged uevent and the procedure to be performed
+> + * to recover the device.
+> + *
+> + * Case 1: CSC firmware errors require a firmware flash to restore normal device
+> + *         operation. Since firmware flash is a vendor-specific action
+> + *         ``WEDGED=vendor-specific`` recovery method along with
+> + *         :ref:`runtime survivability mode <xe-survivability-mode>` is used to
+> + *         notify userspace. User can then initiate a firmware flash using userspace tools
+> + *         like fwupd to restore device to normal situation.
 
-With punctuations,
+s/situation/operation
 
 Reviewed-by: Raag Jadav <raag.jadav@intel.com>
