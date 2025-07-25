@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB8FB11813
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 07:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5F2B118BD
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 08:59:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E77310E437;
-	Fri, 25 Jul 2025 05:50:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Z9gQxLqt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84D9B10E078;
+	Fri, 25 Jul 2025 06:59:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BF3D10E425;
- Fri, 25 Jul 2025 05:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753422614; x=1784958614;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=o86HXC8fS175u4T+p5NLxbkvugG8XecNDwVMDSSC+QA=;
- b=Z9gQxLqttE6Y41xl4uSHvTMvnAVh/wxSf0qdGjsjLDAhhZeyqGrgcyuZ
- ia3KAe45YKHTtxOqA/GSjw6xyUXdkMDrG0H5bGIDDacry0JOoSw8u/XZ+
- 1IE/+pNnPvMQOkiaBLplEs4AUszij4jJl3vqc5hjf++5/1Lp+gG78NvEt
- DzKHi9GgX4gAiLgF2pUdq8p6yxi0OTQmlS1BvXDRm2BcJnbgLEbbbCsvM
- TLUuFRlmHQ4jROCJI8Lfrs/TITsFQb1qyvXeRjLKFWdi7t/3kmy01ki39
- q+a8QCZ9wC/DFZSnwaQHVqOiJSqcOqtt4j+cxY6wU/3+1y4NLpJ3XvgXC g==;
-X-CSE-ConnectionGUID: t3D+j2owTuyJQ8bk/fpOoA==
-X-CSE-MsgGUID: ROtHAntbQA2p88DrcYx40A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="58371623"
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="58371623"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2025 22:50:14 -0700
-X-CSE-ConnectionGUID: mmatlTa/TpuHp5ohl2/gfg==
-X-CSE-MsgGUID: YfGJA1/8Smiw1RzWguPaDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="161453275"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2025 22:50:11 -0700
-Date: Fri, 25 Jul 2025 08:50:08 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
- umesh.nerlige.ramappa@intel.com, frank.scarbrough@intel.com,
- sk.anirban@intel.com, simona.vetter@ffwll.ch
-Subject: Re: [PATCH v6 6/9] drm/xe/doc: Document device wedged and runtime
- survivability
-Message-ID: <aIMbEPlNhNjskITi@black.fi.intel.com>
-References: <20250724143440.232862-1-riana.tauro@intel.com>
- <20250724143440.232862-7-riana.tauro@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0EB10E078
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 06:59:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id CD53A5C5F5A;
+ Fri, 25 Jul 2025 06:59:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA7BCC4CEE7;
+ Fri, 25 Jul 2025 06:59:23 +0000 (UTC)
+Date: Fri, 25 Jul 2025 08:59:22 +0200
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
+ Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Drew Fustini <fustini@kernel.org>, linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v8 2/4] dt-bindings: gpu: img,powervr-rogue: Add TH1520
+ GPU compatible
+Message-ID: <20250725-gainful-saluki-of-mathematics-3c0dd0@kuoka>
+References: <20250724-apr_14_for_sending-v8-0-0714bef83c59@samsung.com>
+ <CGME20250724141911eucas1p17071ea620f183faff7ca00cad25cf824@eucas1p1.samsung.com>
+ <20250724-apr_14_for_sending-v8-2-0714bef83c59@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250724143440.232862-7-riana.tauro@intel.com>
+In-Reply-To: <20250724-apr_14_for_sending-v8-2-0714bef83c59@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,33 +62,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 08:04:35PM +0530, Riana Tauro wrote:
-> Add documentation for vendor specific device wedged recovery method
-> and runtime survivability.
+On Thu, Jul 24, 2025 at 04:18:59PM +0200, Michal Wilczynski wrote:
+> Update the img,powervr-rogue.yaml to include the T-HEAD TH1520 SoC's
+> specific GPU compatible string.
+> 
+> The thead,th1520-gpu compatible, along with its full chain
+> img,img-bxm-4-64, and img,img-rogue, is added to the
+> list of recognized GPU types.
+> 
+> While the BXM-4-64 GPU IP is designed with two distinct power domains,
+> the TH1520 SoC integrates it with only a single, unified power gate that
+> is controllable by the kernel.
+> 
+> To model this reality correctly while keeping the binding accurate for
+> other devices, add conditional constraints to the `allOf` section:
+>  - An if block for thead,th1520-gpu enforces a maximum of one
+>    power domain and disallows the power-domain-names property.
 
-...
+Why?
 
->  /**
-> + * DOC: Xe Device Wedging
-> + *
-> + * Xe driver uses drm device wedged uevent as documented in Documentation/gpu/drm-uapi.rst.
-> + *
-> + * When device is in wedged state, every IOCTL will be blocked and GT cannot be
-> + * used. Certain critical errors like gt reset failure, firmware failures can cause
-> + * the device to be wedged. The default recovery method for a wedged state
-> + * is rebind/bus-reset.
-> + *
-> + * Another recovery method is vendor-specific. Below are the usecases that trigger
-> + * vendor-specific drm device wedged uevent and the procedure to be performed
-> + * to recover the device.
-> + *
-> + * Case 1: CSC firmware errors require a firmware flash to restore normal device
-> + *         operation. Since firmware flash is a vendor-specific action
-> + *         ``WEDGED=vendor-specific`` recovery method along with
-> + *         :ref:`runtime survivability mode <xe-survivability-mode>` is used to
-> + *         notify userspace. User can then initiate a firmware flash using userspace tools
-> + *         like fwupd to restore device to normal situation.
+This solves nothing, because you did not change the meaning of power
+domain entry.
 
-s/situation/operation
+>  - A separate if block applies to other B-series GPUs
+>    img,img-bxm-4-64 and img,img-bxs-4-64. A not clause within this
+>    block excludes the thead,th1520-gpu compatible, ensuring this rule
+>    requires a minimum of two power domains only for non TH1520 B-series
+>    GPU's.
+> 
+> This makes the binding strict and correct for both the specific TH1520
+> implementation and for other SoCs that use the B-series Rogue GPUs.
+> 
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> ---
+>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 32 +++++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> index 4450e2e73b3ccf74d29f0e31e2e6687d7cbe5d65..2c5c278b730145a983d1ddfa4014b3c5046bcd52 100644
+> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> @@ -21,6 +21,11 @@ properties:
+>            # work with newer dts.
+>            - const: img,img-axe
+>            - const: img,img-rogue
+> +      - items:
+> +          - enum:
+> +              - thead,th1520-gpu
+> +          - const: img,img-bxm-4-64
+> +          - const: img,img-rogue
+>        - items:
+>            - enum:
+>                - ti,j721s2-gpu
+> @@ -84,11 +89,29 @@ allOf:
+>          compatible:
+>            contains:
+>              const: img,img-rogue
+> +      not:
 
-Reviewed-by: Raag Jadav <raag.jadav@intel.com>
+Previous patch was completely different!
+
+You cannot keep tags when you completely rewrite the patch. Drop all
+reviews and all acks.
+
+Above code is confusing and not correct, you just stuffed multiple if
+causes.
+
+Best regards,
+Krzysztof
+
