@@ -2,48 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5A7B11ECF
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 14:39:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BFBB11F57
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 15:27:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF5B910E094;
-	Fri, 25 Jul 2025 12:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F41A10E20B;
+	Fri, 25 Jul 2025 13:27:53 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Rxztm1Zg";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664A110E094
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 12:39:31 +0000 (UTC)
-Received: by mail-io1-f69.google.com with SMTP id
- ca18e2360f4ac-87c13b0a7ffso396407539f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 05:39:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753447171; x=1754051971;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IXz9KTBY7+EoVCIlZ/sPfvy8wLEP9/nh5FnTUB/si68=;
- b=rgu6t0MjZCDaQyJQBgSPcaajoQWEu+EUumOgFjmAsG7rJ7BUt5Gkf3vzh5t1JKbvmB
- JuXrAq3nTD5s9ME3GK6OuhxS1+Ta0NI0HIayKYLt7xWxBhaXd0t5DXXmLPjokxOwaH0a
- aB7fU5pCYSkyXLyn+68nlAtrlAuDBxJrMkvoQuQ5y2adrgHqsVMf1OtIWmUot3TgXlvq
- 3XzhjGuLccfbyqGoEwsj8uzjr4reIXZtZ407vVULcZIAY5GFHtWUPpJpTn3Diz7dyBJR
- CFYyl0mWdWcSCWwRe/6KR4Q2QblvtHRT5xp1I9fe9ptUWHbcqHtjQifO8BRKYlJhfrvU
- yjtA==
-X-Gm-Message-State: AOJu0Ywk6HNQ+E9Vci8rp1x2v7fcsgpGo8soYOXQL1E8nhMa/0zpK0De
- 7EZeI9TF1Pid1ry4UE8nNlvuUeYBoUo9SD1WScM3MHDnKOyLB7Yk+Sud07P+CvQPD3qQdJiDamv
- x4FwvxuXVA0UZxBIN2qs/F24eYZgC7o7hOTiFykclFTlR9iCnqfthXKi/qM8=
-X-Google-Smtp-Source: AGHT+IGbt8uT3+2IqdfWSjTjSOPO0spt6bo95zGsbwcMI3tudDKzn9qU6kaajG9+FNbiQRJjJgIQbvFhcqxczsHoPomb/rpU1xOC
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 724E710E20B
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 13:27:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5C2B95C6788;
+ Fri, 25 Jul 2025 13:27:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD9A8C4CEE7;
+ Fri, 25 Jul 2025 13:27:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753450070;
+ bh=lXb0UAkdLRBZEl2w236QgUTKNdJI4nqMaBIkSJhUt1A=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=Rxztm1Zg2BICuHOgdxuDU8E9XunHZYswcsJQky0leSQJM08JMEmbEaovz3Zcw9p0j
+ 5mfj1jIkSKLGMNg0L82YL1dxB/BtBYatXGCCvpH9at9O9fLl5j0kgG/WEIN7y6y1XH
+ PTaYC43Cvv9GXvkxGo/uhMuJOgV0VQMpsB+GZm7FsnnIiAWqBzF1GNxzntz/+MFiBH
+ IC8tBuHIgCdKuRipxJPpKnUjaE3itoHmfUAGscGFSUgpQDcfhF2DqhV+MTz6zYF1WS
+ oV/qTCl+tLpQguthUMBDg3Mir5PfyXvTK/APP5UVVkWYPb5I9jf6Xuo6ue9JyApvYQ
+ TjPbM4i2uvlfQ==
+Date: Fri, 25 Jul 2025 08:27:49 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:641e:b0:87c:34e3:1790 with SMTP id
- ca18e2360f4ac-8802290ec6fmr261154939f.1.1753447171073; Fri, 25 Jul 2025
- 05:39:31 -0700 (PDT)
-Date: Fri, 25 Jul 2025 05:39:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68837b03.a00a0220.2f88df.004f.GAE@google.com>
-Subject: [syzbot] Monthly dri report (Jul 2025)
-From: syzbot <syzbot+list90ea762fdc6ccf92e714@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Shawn Guo <shawnguo@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Daniel Thompson <danielt@kernel.org>, Helge Deller <deller@gmx.de>, 
+ linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org, 
+ linux-leds@vger.kernel.org, Pavel Machek <pavel@kernel.org>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>
+To: Maud Spierings <maudspierings@gocontroll.com>
+In-Reply-To: <20250725-max25014-v1-1-0e8cce92078e@gocontroll.com>
+References: <20250725-max25014-v1-0-0e8cce92078e@gocontroll.com>
+ <20250725-max25014-v1-1-0e8cce92078e@gocontroll.com>
+Message-Id: <175345006903.1002291.4212198267952446360.robh@kernel.org>
+Subject: Re: [PATCH 1/4] dt-bindings: backlight: Add max25014 bindings
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,40 +66,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello dri maintainers/developers,
 
-This is a 31-day syzbot report for the dri subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/dri
+On Fri, 25 Jul 2025 13:09:23 +0200, Maud Spierings wrote:
+> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+> with intgrated boost controller.
+> 
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+> ---
+>  .../bindings/leds/backlight/maxim,max25014.yaml    | 78 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  5 ++
+>  2 files changed, 83 insertions(+)
+> 
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 20 issues are still open and 32 have already been fixed.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Some of the still happening issues:
+yamllint warnings/errors:
 
-Ref Crashes Repro Title
-<1> 1688    Yes   WARNING in drm_syncobj_array_find
-                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
-<2> 465     Yes   WARNING in vkms_get_vblank_timestamp (2)
-                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
-<3> 83      Yes   WARNING in drm_wait_one_vblank (2)
-                  https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
-<4> 72      Yes   WARNING in drm_mode_create_lease_ioctl
-                  https://syzkaller.appspot.com/bug?extid=6754751ad05524dae739
-<5> 36      Yes   KASAN: slab-use-after-free Read in drm_atomic_helper_wait_for_vblanks (2)
-                  https://syzkaller.appspot.com/bug?extid=0f999d26a4fd79c3a23b
-<6> 30      Yes   WARNING in drm_gem_object_handle_put_unlocked
-                  https://syzkaller.appspot.com/bug?extid=ef3256a360c02207a4cb
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.example.dtb: backlight@6f (maxim,max25014): Unevaluated properties are not allowed ('bl-name' was unexpected)
+	from schema $id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+doc reference errors (make refcheckdocs):
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250725-max25014-v1-1-0e8cce92078e@gocontroll.com
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-You may send multiple commands in a single email message.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
