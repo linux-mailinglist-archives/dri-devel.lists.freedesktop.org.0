@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E728B11DF1
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 13:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D18BB11E0C
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 14:00:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 806C110E1BF;
-	Fri, 25 Jul 2025 11:52:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBEC910E9E1;
+	Fri, 25 Jul 2025 12:00:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="bIekI2BB";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="n6bc7qLv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F37BC10E1BF
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 11:52:36 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-4ab93f24dc3so37209711cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 04:52:36 -0700 (PDT)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C392910E9E1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 12:00:40 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id
+ 46e09a7af769-73e62d692fbso1245240a34.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 05:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1753444356; x=1754049156;
+ d=chromium.org; s=google; t=1753444840; x=1754049640;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5hJBa13s79OQWhYLxMwSe1UwJVG9FUdchi7fOARwLxY=;
- b=bIekI2BBYu8kMtcuC4ejTi7lc2baH8NAyoV51CF0Qpqj/2jsnqJFTV9eymHXnKFA0l
- 4zsg6x4xwhCH8YPvkGd1wi5457Nw+Jrn5udwJEEkrS08+4ID9hazLqFa6xucuU4CkU5/
- h2dbskR7IhIhnIUZTlnFzaSvFNMBjbcdoqbks=
+ bh=6mqK1RSBPE9C31GyE2vJbWJ8NDfAV+1bNXjXR8+rtBo=;
+ b=n6bc7qLviuxZA3yJoO72hx5UMb0601zAuAKiUTrPEI7XaYm3+45f4tUn5Dk9/8yfb8
+ HI4nHVnHSeCeKtBAVJUahMxygrBGK0xleZiqX+Vv4o5bVMrN5FtCkHI1Q296f3T60vRT
+ hPxeVOW66X86fGLiJEgpbeOph9FR+K0v9bfBY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753444356; x=1754049156;
+ d=1e100.net; s=20230601; t=1753444840; x=1754049640;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5hJBa13s79OQWhYLxMwSe1UwJVG9FUdchi7fOARwLxY=;
- b=knesaSpk4SGs10uxvBLmOZ36xR3/JPOLnxgTYmuA36wPDZQF8xLC/gaOBPePxxXD6f
- ZjkOeGuoUOIS+OBsZvaFNa402Mbtqit6K9upHTUWqq3XZ9xupTBV5GL7IHrOzd8+ECtD
- hLA6i0CbTQWvcjJVg4QkjrQz33jYd+f/aPuSGmvbm9UgxQB5H8QXFSws7OL2psjE+nE8
- /pdXF9uXeCM9y+Ppxbb5rx4sBP9DNkaf+uTf2cfkxeqWAtjHsFegjVfcuGpUf7ZGtitq
- VCsdp7cpO0dkNKp+yVJw1b1DZnqdcGbnsUXcUOv6rAHaM8jUA+btSeIUMvlT6tejsTU4
- wLdg==
+ bh=6mqK1RSBPE9C31GyE2vJbWJ8NDfAV+1bNXjXR8+rtBo=;
+ b=MIB6zB2nVxVPQ8G0c66Jl4CRvjmlmwWp5MaZ3TSGVgCvdEBg+D+i0EM9J2zFIVmsul
+ gNB1yUh9Z0gbUtzT3xSSk1UI103j/E32UgmmbOyEgtKKKDJL57LqZt2yUhBE4pBW2CGG
+ tEuIZi9FQbyLTUiWpt/iTMT9SQQ9GZwFx7vis+CWzPd4i9BPYuk6YEvb7lEwkLXj2KPI
+ 3Mw/tk6BNYLHBRngNfxaDwVdk9S9n0XyjJN06YHY4Tdw5414cc+rSlGdIsfTkqrTkkdI
+ XL/ZX7qbjRt9UNqNM8TspKuWLQZzQoBPizlHP2dLTRlhN2Kdyvl3o18XQthjacJaTV0Y
+ C7NQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUibfOaGRUA6lx1fGs2hdy/S6PJcFdgtonW0GQzJZAvahLJpmJ4K1b5uew7Hdb4WfNioB5ZiJDdJm8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyHjVdhDqC+Ru5Gy9LnDboLKEqIJDNjV0aBSGInKgMVL3xrNH98
- lVoBwdGxMFFSC4KKo9KTxEzQBQMMaSU5zfH8uUFF0S9ViIP5DJiFbJbehv26kG54MbSTYQUrlxV
- LySo=
-X-Gm-Gg: ASbGncs8c3NZ4TK41KtOyoWbXj/yYMeBCKpspRgIGskzNDGhaxiTGfYBRkbz0OHonfg
- iuhWneLhdthn78RZyjfaDCKIRmYC4KW1AWwVi3a815va0wspJhxDJc9alAphxTBWSj5/IJJay/4
- 2np4mNNOuldsqml42dp+pY3bq6EZrArQK7zkdtkyBLQjchMx4pfzCYqMVbRVgeC21U6uNAJ1PVT
- B7tdwuGRCkk9zQbiu+PL8hWQytXbIxSOS1/lgMz9MqJpxe0MWnZGnkWbDxRHtjfIwy3UoXAPyOG
- GBEY5Oke/iYc24osk8lHaTgMmJAYXxG4xXFtnrl8dv06g2Hv8xPi649QW0MStlTpyPEKH54EDwQ
- nBoY9oVoSLhvVUjFKOm3l7kvsi+safeCOdfhHt+NVqZi4n51ajZo9BRPlCw6e5w==
-X-Google-Smtp-Source: AGHT+IGgplAjFGwUhoGMUG5/NRU+bLzleL9Bx0E05a7LWrzmvxlJJ79zHKyNYD+/utKEuRI7N7wRnQ==
-X-Received: by 2002:a05:622a:1654:b0:4ab:7e22:8553 with SMTP id
- d75a77b69052e-4ae8ef89ebfmr14786611cf.12.1753444355421; 
- Fri, 25 Jul 2025 04:52:35 -0700 (PDT)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
- [209.85.222.172]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-7070fc9f711sm25711636d6.63.2025.07.25.04.52.35
+ AJvYcCWBHpO+oXkPnO5jA02KLON/hf7+1yz1wnRPFZc9ui1wEsYuF9nRl6wHwcOFwNGHn/OSOnvE6YV/DrI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzXiO6FFK/PHmvjS25UbsC/peVACetsdmz1QnIoj8+TEOYbPDr0
+ uTM0Zn6RYDWpcIx8tzNxytxnveHtcPxE5e9ESsxhPWLjUzaqwq8K10TwLE+3x7UjELfmnSVWQ1f
+ hTbg=
+X-Gm-Gg: ASbGncsFZu7abrxnNzJjgo6C/vaXj6UB7XLOg+lZqBzsXHe5zLs544/cMgms250Wymp
+ 1Ptm/iJYk4u41tEkTaIkgGIKcfdYlw9kK8j5lAEUqfTZ9L7x3juO52DcpxytzbDzZ7B2iEl4WBZ
+ qeWFal5BPOXboftHsu7GSpHPr75kXs0ShFPsu/VgGojCObiQGx6nfgp58Ka1fjex3YB4QUg1b5i
+ icLXC4ZXqCXi6mfxeNoGXlGTlFQ7NXSvqi3A81JSrfa4V1/Um12XfVMA8ajOMrv7AlfUVHgQfQb
+ eTV6hGIea6MwDsXesIAStUVlI5qVXSz1EFRZd3dUW5qrUsG9aEVsaCiIn8k+UVwiYAzVDY8q2bt
+ o+jDTZc7qfNCyI2R4KbzcaCi6g4RMqT/rWEcBKt8/haMSkoKNdNVsV5Z6Fg==
+X-Google-Smtp-Source: AGHT+IEYNzFLWJOPFisQSEpUqEYMdlh1O3SthX7R1aXe6i0Im/wNCI66KAzR0Ilyy1d5p81BIXP80Q==
+X-Received: by 2002:a05:6830:7305:b0:72a:1ec6:d47b with SMTP id
+ 46e09a7af769-7413df11722mr689147a34.22.1753444839480; 
+ Fri, 25 Jul 2025 05:00:39 -0700 (PDT)
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com.
+ [209.85.161.53]) by smtp.gmail.com with ESMTPSA id
+ 46e09a7af769-7412d2eb6d5sm639630a34.45.2025.07.25.05.00.39
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jul 2025 04:52:35 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-7e62a1cbf81so287335185a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 04:52:35 -0700 (PDT)
+ Fri, 25 Jul 2025 05:00:39 -0700 (PDT)
+Received: by mail-oo1-f53.google.com with SMTP id
+ 006d021491bc7-60402c94319so1123899eaf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 05:00:39 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWqZe033w8KXt/mJHLyOAp6W5iC01PXJtGRlqBNwHZK9Rs1Go8Rau5y6JawIsRH4RXGk0bkkvL0C1g=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:6891:b0:4dd:b82d:e0de with SMTP id
- ada2fe7eead31-4fa3ff44195mr316348137.17.1753440787376; Fri, 25 Jul 2025
- 03:53:07 -0700 (PDT)
+ AJvYcCVIYp5yqpXno2HaiwFQITnA1X+1Dom4Y7DCEql2z55DmBZU2ItNskWuu3/mDsOZoCuOKoig5QlyNZM=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:5a92:b0:4eb:502c:569a with SMTP id
+ ada2fe7eead31-4fa3fb3f3f9mr285813137.9.1753440864290; Fri, 25 Jul 2025
+ 03:54:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-20-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250724083914.61351-20-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-19-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-19-angelogioacchino.delregno@collabora.com>
 From: Fei Shao <fshao@chromium.org>
-Date: Fri, 25 Jul 2025 18:52:31 +0800
-X-Gmail-Original-Message-ID: <CAC=S1nguRWyG3ubmSFE95_zgsCjjq4dxGWr5ErV9-Yu2+mTmpw@mail.gmail.com>
-X-Gm-Features: Ac12FXzhNEGCOc6TL2wVpoG5kEXhC599YdNWu941VvXlO0dL7_W9Jc4if8EyMHA
-Message-ID: <CAC=S1nguRWyG3ubmSFE95_zgsCjjq4dxGWr5ErV9-Yu2+mTmpw@mail.gmail.com>
-Subject: Re: [PATCH 19/38] arm64: dts: mediatek: mt6795: Add mediatek, infracfg
- to iommu node
+Date: Fri, 25 Jul 2025 18:53:47 +0800
+X-Gmail-Original-Message-ID: <CAC=S1njpbfARTSBwddCeeO+c0vvf=GVaD6+QhauJOki0NS9dTQ@mail.gmail.com>
+X-Gm-Features: Ac12FXy3jzZS4uZ6X5J7uIwzpvgV1oXiUrEGuonvNPTbsP1Oacxt9m6NF-3FvZA
+Message-ID: <CAC=S1njpbfARTSBwddCeeO+c0vvf=GVaD6+QhauJOki0NS9dTQ@mail.gmail.com>
+Subject: Re: [PATCH 18/38] arm64: dts: mediatek: mt6797: Remove bogus id
+ property in i2c nodes
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
  daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org, 
@@ -119,11 +119,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 5:49=E2=80=AFPM AngeloGioacchino Del Regno
+On Thu, Jul 24, 2025 at 5:48=E2=80=AFPM AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >
-> The "M4U" IOMMU requires a handle to the infracfg to switch to
-> the 4gb/pae addressing mode: add it.
+> All of the I2C nodes in this devicetree has a bogus "id" property,
+> which was probably specifying the I2C bus number.
+>
+> This property was never parsed and never used - and besides, it
+> also gives dtbs_check warnings: remove it from all i2c nodes.
 >
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
@@ -131,22 +134,94 @@ abora.com>
 Reviewed-by: Fei Shao <fshao@chromium.org>
 
 > ---
->  arch/arm64/boot/dts/mediatek/mt6795.dtsi | 1 +
->  1 file changed, 1 insertion(+)
+>  arch/arm64/boot/dts/mediatek/mt6797.dtsi | 10 ----------
+>  1 file changed, 10 deletions(-)
 >
-> diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi b/arch/arm64/boot/d=
-ts/mediatek/mt6795.dtsi
-> index e5e269a660b1..38f65aad2802 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
-> @@ -427,6 +427,7 @@ iommu: iommu@10205000 {
->                         clocks =3D <&infracfg CLK_INFRA_M4U>;
->                         clock-names =3D "bclk";
->                         interrupts =3D <GIC_SPI 146 IRQ_TYPE_LEVEL_LOW>;
-> +                       mediatek,infracfg =3D <&infracfg>;
->                         mediatek,larbs =3D <&larb0 &larb1 &larb2 &larb3>;
->                         power-domains =3D <&spm MT6795_POWER_DOMAIN_MM>;
->                         #iommu-cells =3D <1>;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6797.dtsi b/arch/arm64/boot/d=
+ts/mediatek/mt6797.dtsi
+> index be401617dfd8..f2d93bf6a055 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+> @@ -285,7 +285,6 @@ uart3: serial@11005000 {
+>         i2c0: i2c@11007000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <0>;
+>                 reg =3D <0 0x11007000 0 0x1000>,
+>                       <0 0x11000100 0 0x80>;
+>                 interrupts =3D <GIC_SPI 84 IRQ_TYPE_LEVEL_LOW>;
+> @@ -301,7 +300,6 @@ i2c0: i2c@11007000 {
+>         i2c1: i2c@11008000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <1>;
+>                 reg =3D <0 0x11008000 0 0x1000>,
+>                       <0 0x11000180 0 0x80>;
+>                 interrupts =3D <GIC_SPI 85 IRQ_TYPE_LEVEL_LOW>;
+> @@ -317,7 +315,6 @@ i2c1: i2c@11008000 {
+>         i2c8: i2c@11009000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <8>;
+>                 reg =3D <0 0x11009000 0 0x1000>,
+>                       <0 0x11000200 0 0x80>;
+>                 interrupts =3D <GIC_SPI 86 IRQ_TYPE_LEVEL_LOW>;
+> @@ -334,7 +331,6 @@ i2c8: i2c@11009000 {
+>         i2c9: i2c@1100d000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <9>;
+>                 reg =3D <0 0x1100d000 0 0x1000>,
+>                       <0 0x11000280 0 0x80>;
+>                 interrupts =3D <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+> @@ -351,7 +347,6 @@ i2c9: i2c@1100d000 {
+>         i2c6: i2c@1100e000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <6>;
+>                 reg =3D <0 0x1100e000 0 0x1000>,
+>                       <0 0x11000500 0 0x80>;
+>                 interrupts =3D <GIC_SPI 88 IRQ_TYPE_LEVEL_LOW>;
+> @@ -367,7 +362,6 @@ i2c6: i2c@1100e000 {
+>         i2c7: i2c@11010000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <7>;
+>                 reg =3D <0 0x11010000 0 0x1000>,
+>                       <0 0x11000580 0 0x80>;
+>                 interrupts =3D <GIC_SPI 89 IRQ_TYPE_LEVEL_LOW>;
+> @@ -383,7 +377,6 @@ i2c7: i2c@11010000 {
+>         i2c4: i2c@11011000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <4>;
+>                 reg =3D <0 0x11011000 0 0x1000>,
+>                       <0 0x11000300 0 0x80>;
+>                 interrupts =3D <GIC_SPI 90 IRQ_TYPE_LEVEL_LOW>;
+> @@ -399,7 +392,6 @@ i2c4: i2c@11011000 {
+>         i2c2: i2c@11013000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <2>;
+>                 reg =3D <0 0x11013000 0 0x1000>,
+>                       <0 0x11000400 0 0x80>;
+>                 interrupts =3D <GIC_SPI 95 IRQ_TYPE_LEVEL_LOW>;
+> @@ -416,7 +408,6 @@ i2c2: i2c@11013000 {
+>         i2c3: i2c@11014000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <3>;
+>                 reg =3D <0 0x11014000 0 0x1000>,
+>                       <0 0x11000480 0 0x80>;
+>                 interrupts =3D <GIC_SPI 96 IRQ_TYPE_LEVEL_LOW>;
+> @@ -433,7 +424,6 @@ i2c3: i2c@11014000 {
+>         i2c5: i2c@1101c000 {
+>                 compatible =3D "mediatek,mt6797-i2c",
+>                              "mediatek,mt6577-i2c";
+> -               id =3D <5>;
+>                 reg =3D <0 0x1101c000 0 0x1000>,
+>                       <0 0x11000380 0 0x80>;
+>                 interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_LOW>;
 > --
 > 2.50.1
 >
