@@ -2,107 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312FCB11CCC
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 12:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F4C5B11CD7
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 12:51:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F82510E1E9;
-	Fri, 25 Jul 2025 10:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D913310E1B2;
+	Fri, 25 Jul 2025 10:51:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UFBbos72";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aEUlp4jg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 621FA10E9D8
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 10:50:37 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56P9AOTN018948;
- Fri, 25 Jul 2025 10:50:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 5bh0hvMC1PjdJpImLiwjapwCuJypbziWRznl02GU6Ls=; b=UFBbos72VZCd7Rdr
- 8TxZz9VkX3izCSl16/doF7Ve1n6NgEukoJShS5NxDiX4T/K0BEIAanHp4wixFMcJ
- YrYhLujDhRQw55WTiPLOR+68CQhb4SKmpPj0B7pf9w1wdwqAUQj1Ray+GrfY3kWS
- FSbuwWWJnw4lqS2Q/1+8w+Mqm6AJPA2N5ADDRBUzvF71n2J33A2lT4wIK01r8df8
- owdoua3+YCTx23/otjBL8PV+1yTvq42vWPwxVmvV39YSO6BIU0gTBKxzHqGdrj3a
- AEpUBc04tPp12vildKDGY2M+xV6NnO4NnB4jIlHPZHIMn02GKtrADSro9rcRhjra
- seYeuA==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 483w2s1s5f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Jul 2025 10:50:32 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56PAoVVF006564
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Jul 2025 10:50:31 GMT
-Received: from [10.216.28.154] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 25 Jul
- 2025 03:50:26 -0700
-Message-ID: <8a149580-5044-4744-b432-9f0eef0a0d31@quicinc.com>
-Date: Fri, 25 Jul 2025 16:20:23 +0530
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
+ [209.85.221.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93FF510E1B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 10:51:22 +0000 (UTC)
+Received: by mail-vk1-f177.google.com with SMTP id
+ 71dfb90a1353d-5314b486207so650120e0c.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 03:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1753440681; x=1754045481;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lj71s94DBO5ChtWnhYstkEV7QIcBC/2WSymKueRnDS4=;
+ b=aEUlp4jgmBgw4B6rESOBhu5IKGMcZqJoJZwyhP3pZcPuaGLnimS5xq8loVKLhFJXh9
+ wUp+e615T42wb8iTVfmFy/D+he1Oi8TyWQJxHVC6fAqO6HQWswmslkcua+gQoLHzYplL
+ WLLdCdZQoAVKfledlfP0kmsfsVjQnLu93dOUg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753440681; x=1754045481;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lj71s94DBO5ChtWnhYstkEV7QIcBC/2WSymKueRnDS4=;
+ b=B9x2D3Yi9ELUFkMLQwso40l2d0kDHsFtgX7xF5KXPwtHFnXT07F9+Mlf55Bz1eS2NO
+ w3A7tYZUXJDI86EArMzG7Jrlm8vwC6/h7zKmRwxMgAAB4+F/9YUdWDLxFpTGAPWb8n2K
+ 7n59OFya3ihHgsdR516nMUcv1HuCuCqauBuuKTfrVdiAwoRRrjX4QZbu0X39izfZaMxQ
+ AINTFthZWbcPyf6Kn8Iy/PxqGzcAMLEmjLjh3gCyaHu/s1f+gNo5YMOtPIo5PYd/M6el
+ T9PcFDrJmwCU0VuVnA5OJf0VS2Ny1nIC5sSYDBfGVqsnS9r3EC2aSB+suci1Zb1riOXe
+ R24w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV6GIDpEGzuxPHGcji/tnQpm7IfdVFFzWRW26pzv8TLKxBv8PpQI2O6loiJkmVYQQz7UIU2dog9Rz0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxmtvF8nqd9h8AKyNYeNrAtC2fqb21x9DHmPjHpnxFOOuv/zaiy
+ KACIRt6u+GB7YWdX9bid0FkgsfKS2fer/H8kv+gsRt4qYR6nPC7VjhoTGNPq9BE8Zequzl9J8GH
+ gEEKXYQ==
+X-Gm-Gg: ASbGnctNppLm+AN8ArY35czz/Y7NThaae51qYvl0Nkqarharu3QoTDJiil/bUbIzbeh
+ 9tDZZuuKe6weDZVxzRBPZZVEwrIahYaDOZzxAtBiXjQRzIuJalsBcVKLFZXe8aA0niUVBw1WqRe
+ /Juy1DWGn2NfzeoXFoGOOrFWfj0lIDM4iJmRi+pONhzSJIbFgMqAiuKGWDHawcf3FsSJq1ma06W
+ AHTD/MuYnV1HAcDNYCXlZukQtAGOk8Y48VNfTC7nj7DX2xbsDB9jZy8dnEzSuB1oQdbieEzP1K9
+ m9yLp/mcAs0YhrnSzIvI45jvOa0H9ipw6tzzHg6inYCLFcknoiyZYcg4Nfe9v3Q86Xj5a3w+w0w
+ k4aR0u2dBaJ+4tvYVS4tRN7C46aSiNVcpDY5r4J0UhKZoT1ZGY1jAp30cHgHbRw==
+X-Google-Smtp-Source: AGHT+IEiJlDw7437Mhvt4eUP0f4kBxbmB4v0Y1SQgb8oN2XUf3ONqRoSbCdZtTVQvTI2rcuLES2kzA==
+X-Received: by 2002:a05:6122:1e16:b0:531:188b:c19e with SMTP id
+ 71dfb90a1353d-538db4a45a5mr351938e0c.2.1753440680833; 
+ Fri, 25 Jul 2025 03:51:20 -0700 (PDT)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com.
+ [209.85.221.172]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-537bf605d88sm896537e0c.5.2025.07.25.03.51.19
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Jul 2025 03:51:20 -0700 (PDT)
+Received: by mail-vk1-f172.google.com with SMTP id
+ 71dfb90a1353d-5314b486207so650094e0c.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 03:51:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWoYO76TZNRN0mssaMb8Uexd/cc80TTB0jTckPSwAcZsBUlnIple0VAPkMQPAIy8Wp+KUs1xBVWrc0=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:358d:b0:4eb:f003:a636 with SMTP id
+ ada2fe7eead31-4fa3f8f1683mr313640137.0.1753440679035; Fri, 25 Jul 2025
+ 03:51:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-To: Vinod Koul <vkoul@kernel.org>, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>
-CC: Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, Viken Dadhaniya
- <quic_vdadhani@quicinc.com>, Andi Shyti <andi.shyti@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>,
- <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
-References: <644oygj43z2um42tmmldp3feemgzrdoirzfw7pu27k4zi76bwg@wfxbtgqqgh4p>
- <dc7358a1-ddc5-402e-9024-283f8e46e3b6@quicinc.com>
- <CAO9ioeVuAO6mYpBSpiTW0jhFRPtkubZ5eEskd1yLBHVdR8_YMA@mail.gmail.com>
- <1b55d9d4-f3ff-4cd9-8906-5f370da55732@quicinc.com>
- <28d26c70-178f-413b-b7f8-410c508cfdd7@quicinc.com>
- <CAO9ioeXBwFYL8q7x7_fHvx5YO+qyAXk4wpnfPrku4iY9yBsk0Q@mail.gmail.com>
- <cac5e84b-fbdb-47a9-860d-16a7fa4dc773@quicinc.com>
- <4q3vlydi5xgltd3pcez54alxgrehhfn4pppg47ngwp6y5k7n33@d4d4htntj64k>
- <53dd18ec-9a65-4bf7-8490-ca3eb56ce2a5@quicinc.com>
- <iang2jpe4s6wmbypmtq5uswcm6n6xntqdulyhekcz5k6zxddu3@re3rrr4dso5p>
- <aICMDROkyjzBZFHo@vaman>
-Content-Language: en-US
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-In-Reply-To: <aICMDROkyjzBZFHo@vaman>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: P68p_Z1RsZcKhPtwQSyBMGeyR68FpidV
-X-Authority-Analysis: v=2.4 cv=IZyHWXqa c=1 sm=1 tr=0 ts=68836178 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=La7-vtGrAMXfD6w410sA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: P68p_Z1RsZcKhPtwQSyBMGeyR68FpidV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI1MDA5MSBTYWx0ZWRfX1z/I87JUNVzD
- 5bwPy9cVP7Vgc1KxLEGFWi8y1zBiY12FviruEmjA9SvX5FqXPIZQbNGxr7zGW7RE0+2fYtiJpU1
- s2oQ19fuLNZ9GB/DBeAO9uduvck90Y/j42W89eU/465+CRc1+3ifhactqWo9EFgOFxZ9FCFeL+b
- XzgzRB3lJ1WMXU2yaEX+GCA7tGyV/fEw1LsJlvATUlsfL7b5AzdSfVUGlCKvkgP7C1Y1+MNi61I
- VRbv5c4ZLGCK5TeWOeUrjaUhIxjsP6SvZ5uRo890TECtRHH40E4sqqpAFel5FpN9VkGAO1WYKtF
- 7ilsnUGu6XTdYRd5JEewcrxoLvbi+oc4Jcy65nvwGJhdfVHrT4z28W+/ePTLfALTQjPOmzV38sI
- b/WraTVyl05oDXU4RwpnM/7ECsKS3HQM+Dy4ZvlxJnUlNREB3ywzFkSeytD20lSp5Xrl21XD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-25_03,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 adultscore=0
- phishscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- clxscore=1015 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507250091
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-25-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-25-angelogioacchino.delregno@collabora.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Fri, 25 Jul 2025 18:50:41 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nhS8yY6iWNDfv4Lwz8zUJEy0nMxC5MVZGb983hDsg7bhA@mail.gmail.com>
+X-Gm-Features: Ac12FXxJVbrVgIPSlm6u4--DKBHxaHRjM_36IT45XEIgpl9bR5PM8dE-s5Wt-28
+Message-ID: <CAC=S1nhS8yY6iWNDfv4Lwz8zUJEy0nMxC5MVZGb983hDsg7bhA@mail.gmail.com>
+Subject: Re: [PATCH 24/38] arm64: dts: mediatek: mt7986a-bpi-r3: Fix SFP I2C
+ node names
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
+ daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org, 
+ linus.walleij@linaro.org, linux-remoteproc@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ olivia.wen@mediatek.com, shane.chien@mediatek.com, linux-gpio@vger.kernel.org, 
+ linux-phy@lists.infradead.org, airlied@gmail.com, simona@ffwll.ch, 
+ herbert@gondor.apana.org.au, jassisinghbrar@gmail.com, jiaxin.yu@mediatek.com, 
+ andy.teng@mediatek.com, chunfeng.yun@mediatek.com, jieyy.yang@mediatek.com, 
+ chunkuang.hu@kernel.org, conor+dt@kernel.org, jitao.shi@mediatek.com, 
+ p.zabel@pengutronix.de, arnd@arndb.de, kishon@kernel.org, 
+ kyrie.wu@mediatek.corp-partner.google.com, maarten.lankhorst@linux.intel.com, 
+ tinghan.shen@mediatek.com, mripard@kernel.org, ck.hu@mediatek.com, 
+ broonie@kernel.org, eugen.hristev@linaro.org, houlong.wei@mediatek.com, 
+ matthias.bgg@gmail.com, tglx@linutronix.de, mchehab@kernel.org, 
+ linux-arm-kernel@lists.infradead.org, granquet@baylibre.com, 
+ sam.shih@mediatek.com, mathieu.poirier@linaro.org, fparent@baylibre.com, 
+ andersson@kernel.org, sean.wang@kernel.org, linux-sound@vger.kernel.org, 
+ lgirdwood@gmail.com, vkoul@kernel.org, linux-crypto@vger.kernel.org, 
+ tzimmermann@suse.de, atenart@kernel.org, krzk+dt@kernel.org, 
+ linux-media@vger.kernel.org, davem@davemloft.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,51 +119,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jul 24, 2025 at 5:49=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> The binding wants the node to be named "i2c-number", alternatively
+> "i2c@address", but those are named "i2c-gpio-number" instead.
+>
+> Rename those to i2c-0, i2c-1 to adhere to the binding and suppress
+> dtbs_check warnings.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
 
+It'd be nice to mention in v2 (if needed) that this patch also drops
+redundant #address-cells and #size-cells, but it's minor.
 
-On 7/23/2025 12:45 PM, Vinod Koul wrote:
-> On 22-07-25, 15:46, Dmitry Baryshkov wrote:
->> On Tue, Jul 22, 2025 at 05:50:08PM +0530, Jyothi Kumar Seerapu wrote:
->>> On 7/19/2025 3:27 PM, Dmitry Baryshkov wrote:
->>>> On Mon, Jul 07, 2025 at 09:58:30PM +0530, Jyothi Kumar Seerapu wrote:
->>>>> On 7/4/2025 1:11 AM, Dmitry Baryshkov wrote:
->>>>>> On Thu, 3 Jul 2025 at 15:51, Jyothi Kumar Seerapu
-> 
-> [Folks, would be nice to trim replies]
-> 
->>>>> Could you please confirm if can go with the similar approach of unmap the
->>>>> processed TREs based on a fixed threshold or constant value, instead of
->>>>> unmapping them all at once?
->>>>
->>>> I'd still say, that's a bad idea. Please stay within the boundaries of
->>>> the DMA API.
->>>>
->>> I agree with the approach you suggested—it's the GPI's responsibility to
->>> manage the available TREs.
->>>
->>> However, I'm curious whether can we set a dynamic watermark value perhaps
->>> half the available TREs) to trigger unmapping of processed TREs ? This would
->>> allow the software to prepare the next set of TREs while the hardware
->>> continues processing the remaining ones, enabling better parallelism and
->>> throughput.
->>
->> Let's land the simple implementation first, which can then be improved.
->> However I don't see any way to return 'above the watermark' from the DMA
->> controller. You might need to enhance the API.
-> 
-> Traditionally, we set the dma transfers for watermark level and we get a
-> interrupt. So you might want to set the callback for watermark level
-> and then do mapping/unmapping etc in the callback. This is typical model
-> for dmaengines, we should follow that well
-> 
-> BR
+Reviewed-by: Fei Shao <fshao@chromium.org>
 
-Thanks Dmitry and Vinod, I will work on V7 patch for submitting the I2C 
-messages until they fit and and unmap all processed messages together 
-for now.
-
-Regarding the watermark mechanism, looks GENI SE DMA supports watermark 
-interrupts but it appears that GPI DMA doesn't have such provision of 
-watermark.
-
-
+> ---
+>  arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts b/a=
+rch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
+> index ed79ad1ae871..6d2762866a1a 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
+> +++ b/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
+> @@ -64,23 +64,19 @@ wps-key {
+>         };
+>
+>         /* i2c of the left SFP cage (wan) */
+> -       i2c_sfp1: i2c-gpio-0 {
+> +       i2c_sfp1: i2c-0 {
+>                 compatible =3D "i2c-gpio";
+>                 sda-gpios =3D <&pio 16 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAI=
+N)>;
+>                 scl-gpios =3D <&pio 17 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAI=
+N)>;
+>                 i2c-gpio,delay-us =3D <2>;
+> -               #address-cells =3D <1>;
+> -               #size-cells =3D <0>;
+>         };
+>
+>         /* i2c of the right SFP cage (lan) */
+> -       i2c_sfp2: i2c-gpio-1 {
+> +       i2c_sfp2: i2c-1 {
+>                 compatible =3D "i2c-gpio";
+>                 sda-gpios =3D <&pio 18 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAI=
+N)>;
+>                 scl-gpios =3D <&pio 19 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAI=
+N)>;
+>                 i2c-gpio,delay-us =3D <2>;
+> -               #address-cells =3D <1>;
+> -               #size-cells =3D <0>;
+>         };
+>
+>         leds {
+> --
+> 2.50.1
+>
+>
