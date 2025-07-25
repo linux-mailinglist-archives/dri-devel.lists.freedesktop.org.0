@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9804B117BF
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 07:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC38B117C2
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 07:05:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C13110E9BE;
-	Fri, 25 Jul 2025 05:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5D1410E9CA;
+	Fri, 25 Jul 2025 05:05:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WmYv/gwf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nQTHd4wk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9BA10E9C6;
- Fri, 25 Jul 2025 05:05:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81AEF10E9C9;
+ Fri, 25 Jul 2025 05:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753419913; x=1784955913;
+ t=1753419915; x=1784955915;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rKk85jetrncvas2X2Fen8fZVZ7GI6R9JYsPb6Z+qujk=;
- b=WmYv/gwfv1RSMpXK23vAsbeit0hoNhGvYJwfSTHp8TrpmorMbrCR2pWR
- WjmbeW6uQZjAQw6suDN8/FpzuO/m3KagG/mDVEBiBR783eYRvj3D/OhDR
- 8DtUNEsCo6YKcBhgzOwdDU5CRFnzEiUPuFUjEPMeEaB1DTr4gjrl57KGJ
- UFoUJOuLEE5olJxsAEnR9K+z+Hq9NZR0z2C/l7a/8LkjD10jLsYCQ4ax5
- nT9thGf67J1x3DzfY9q7pJs2ahyduV/iO7mwDAymtalXUGMIJ0HXGeaQr
- mlBVg8X5r5eBp+4MdoMUnS5tVKngqODpZBSyxUDGW1I8L796/EAlsrcwg g==;
-X-CSE-ConnectionGUID: PBc7A9ObR+eMFXzr0ccZfQ==
-X-CSE-MsgGUID: q3wjineEQyafdo48r8f0jQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="78299568"
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="78299568"
+ bh=VhDnF8ClwyNGQAT4np6L7twh7tr8OmNjrj8ha/zoQqg=;
+ b=nQTHd4wkUIZFzDxrju3sZJdxpWBLr36WbHniRuC5YcIHx/cYT7WivS6C
+ eFgNMb8hOi28VNNvmOAkURdpvDAZEvBna0i2pMipMojtGvrGrYbvItbic
+ gqL5idvyoYudquyMz96TXASN085kyFg62JbBesDQ8yai/5EU35CjPPQhq
+ iD+lJ+gOzxOpb0jSy9Dh8Wc5+ht3vktrG+fWnKeJdAdHXmy0aoOWBnA7M
+ u1Btf2zALVVE/1eUzWE1OtQ8pn9lD8WOyVNprHsAeh7uN9caHCbny9nGe
+ fiUlSihy5bnuitRnWZS8vdJv/BrE7kYEptQpeflF49xdfdDvVwoW3spnw Q==;
+X-CSE-ConnectionGUID: t9Vz6az9TBKn3L0dhyeSsA==
+X-CSE-MsgGUID: nTizhGicSCCkfWml+k5ZiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="78299571"
+X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="78299571"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jul 2025 22:05:13 -0700
-X-CSE-ConnectionGUID: y8PxT623RimVOqdWCUAZXg==
-X-CSE-MsgGUID: mrekq+fyQcWXsDdfCVZMQA==
+ 24 Jul 2025 22:05:15 -0700
+X-CSE-ConnectionGUID: wYnpleLhT361juzMs8Dn2Q==
+X-CSE-MsgGUID: OLvCxekSROuat1FYEZnGOQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="160956796"
+X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; d="scan'208";a="160956807"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by fmviesa009.fm.intel.com with ESMTP; 24 Jul 2025 22:05:11 -0700
+ by fmviesa009.fm.intel.com with ESMTP; 24 Jul 2025 22:05:13 -0700
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org
 Cc: ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com, uma.shankar@intel.com,
  Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH 25/28] drm/i915/writeback: Initialize writeback encoder.
-Date: Fri, 25 Jul 2025 10:34:06 +0530
-Message-Id: <20250725050409.2687242-26-suraj.kandpal@intel.com>
+Subject: [PATCH 26/28] drm/i915/writeback: Define the disable sequence for
+ writeback
+Date: Fri, 25 Jul 2025 10:34:07 +0530
+Message-Id: <20250725050409.2687242-27-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250725050409.2687242-1-suraj.kandpal@intel.com>
 References: <20250725050409.2687242-1-suraj.kandpal@intel.com>
@@ -68,28 +69,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call the init function to initialize the writeback encoder
-only for ADLP.
+Define the disable sequence for a writeback encoder. We only disable
+the encoder if no writeback job is pending, if it is then we just
+need to disable the wd function so that values can be updated
+accordingly.
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 3 +++
- 1 file changed, 3 insertions(+)
+ .../gpu/drm/i915/display/intel_writeback.c    | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 67ed3d6791b8..dbde689713fe 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -7895,6 +7895,9 @@ void intel_setup_outputs(struct intel_display *display)
- 		intel_dvo_init(display);
+diff --git a/drivers/gpu/drm/i915/display/intel_writeback.c b/drivers/gpu/drm/i915/display/intel_writeback.c
+index d66843fecd9a..f8e940d91cb7 100644
+--- a/drivers/gpu/drm/i915/display/intel_writeback.c
++++ b/drivers/gpu/drm/i915/display/intel_writeback.c
+@@ -596,6 +596,33 @@ void intel_writeback_isr_handler(struct intel_display *display)
  	}
+ }
  
-+	if (DISPLAY_VER(display) == 13)
-+		intel_writeback_init(display);
++static void
++intel_writeback_disable_encoder(struct intel_atomic_state *state,
++				struct intel_encoder *encoder,
++				const struct intel_crtc_state *crtc_state,
++				const struct drm_connector_state *conn_state)
++{
++	struct intel_display *display = to_intel_display(encoder);
++	struct intel_writeback_connector *wb_conn =
++		enc_to_intel_writeback_connector(encoder);
++	struct intel_crtc *pipe_crtc;
++	int i = 0;
 +
- 	for_each_intel_encoder(display->drm, encoder) {
- 		encoder->base.possible_crtcs =
- 			intel_encoder_possible_crtcs(encoder);
++	for_each_pipe_crtc_modeset_disable(display, pipe_crtc, crtc_state, i) {
++		const struct intel_crtc_state *old_pipe_crtc_state =
++			intel_atomic_get_old_crtc_state(state, pipe_crtc);
++
++		intel_crtc_vblank_off(old_pipe_crtc_state);
++	}
++
++	intel_de_rmw(display, TRANSCONF_WD(crtc_state->cpu_transcoder), WD_TRANS_ENABLE,
++		     REG_FIELD_PREP(WD_TRANS_ENABLE, 0));
++	intel_de_rmw(display, WD_TRANS_FUNC_CTL(crtc_state->cpu_transcoder),
++		     TRANS_WD_FUNC_ENABLE,
++		     REG_FIELD_PREP(TRANS_WD_FUNC_ENABLE, 0));
++	wb_conn->frame_num = 1;
++}
++
+ int intel_writeback_init(struct intel_display *display)
+ {
+ 	struct intel_encoder *encoder;
+@@ -624,6 +651,7 @@ int intel_writeback_init(struct intel_display *display)
+ 	encoder->get_hw_state = intel_writeback_get_hw_state;
+ 	encoder->compute_config = intel_writeback_compute_config;
+ 	encoder->enable = intel_writeback_enable_encoder;
++	encoder->disable = intel_writeback_disable_encoder;
+ 
+ 	connector = &writeback_conn->connector;
+ 	intel_writeback_connector_alloc(connector);
 -- 
 2.34.1
 
