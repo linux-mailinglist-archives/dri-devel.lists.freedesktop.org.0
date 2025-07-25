@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935B3B12614
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 23:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA11B12617
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 23:17:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E99AC10E10B;
-	Fri, 25 Jul 2025 21:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D0AC10E23A;
+	Fri, 25 Jul 2025 21:17:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="I/DEwNV7";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="mlAMlln5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58C9D10E10B
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 21:16:45 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id
- 41be03b00d2f7-b34a78bb6e7so2277166a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 14:16:45 -0700 (PDT)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7791010E23A
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 21:17:19 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-23fc5aedaf0so313375ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 14:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1753478201; x=1754083001;
+ d=chromium.org; s=google; t=1753478235; x=1754083035;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=k7cqUBtmisnuPeRZVUL+pQK8RmL59JAS5kkk6fLd2w4=;
- b=I/DEwNV77SY6cS49fa5JrdszCPadP2r83vIB+Ep18Y/KMkCvXf1Nk8gvUA2xMV2H2C
- 9+JE68EsxHIom8wHjcXGwqtMSMzI+a+wiJiZmj9zBWk7NoMQohPOIU7BALBmXboNgxq8
- jqXuuNctayqRG+SvLh8x35reqorTa7ucvJn9o=
+ bh=ETkxLDxYY1VgsCRsmN7I3Wj916ZLSMePTLbGFUiSWPc=;
+ b=mlAMlln5nPixNr5+pmFNkVf5hfPqqZnjB/qDdfhB5NZMb+1a9xPzFx/2u84RZExMjc
+ Aw6P3LeKzwkp6ukX65mYamLEG2sL1VEEnhb6pmgJ6ExqwcEigdRveUqzYKgSVqskmc+x
+ pd182ZcF7Ax4NZu8bSTX4Q/a26pdHgU2K1teo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753478201; x=1754083001;
+ d=1e100.net; s=20230601; t=1753478235; x=1754083035;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=k7cqUBtmisnuPeRZVUL+pQK8RmL59JAS5kkk6fLd2w4=;
- b=mI9P5Fw3XFn5/XBJ3F3iaXKIV4YA4mi/nG3RxqcCu/EoEvOFySyYh5fu1iQcButaGC
- 0xKItqQpebva9ys3K6kjtluEdi53CbJbLO/0F02nTQEJi2+ZsA6GEXeCcgieZL8ty8r6
- S86h16Emb6hkiFahPGcd3wD+8hTlPho0xjSuSEbN0+V8uTYL36A5BeJTwU3MaOaw761O
- CbxFgaXWG++s+uNBMu2Kjpiehp4Jn7ZKw/KuZQ/VpA5cXaAh4ywrm4D/aE95ISo2SktN
- R0XNnHkBSRLq/wdEsARg51zZDoRKLOyQJbyE/QeA64U30Yw/l/lFemj/DRcKR4XNfkUh
- BRvg==
+ bh=ETkxLDxYY1VgsCRsmN7I3Wj916ZLSMePTLbGFUiSWPc=;
+ b=WrE7/acJLo3IWU+tNd2Vj7BdE0mh5Aol4P53O/5P+qp7oo/1Lg1XFRJCoPSfFsdwbX
+ 9P9sHLpWPJCwRLck5pLgHLjk96OBIBMWQ/x4TKW6nsm24kcdeaMK8yOOKinFg4Pyvtp6
+ zxKtliOQhj5DlZCfwaMkcEgGEzatx5nS2UV+NKG0aFiBqLQpeXHxCv3r8y7bHU2RZRQm
+ OkbKG4FHcVoIN12I6P0Hr8WMKgmJBvblreXTGObBh3hwQC4CttsLxEKaz+PgKA/LNTV+
+ MXHW11iuZH2xODPGlWpbl+MQAArdFzJ+ZT7qrpQ2q/2AzJ9qzNWw6KG0HhxhwpNp/0oJ
+ +KeA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU5LACJmRRuDRqN0Xw+NCFj7TIuS4UwvkTr3xJW2NADoYCouOhlF79DBYNgGwWmSdoFHBbchYiHKJc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCedbRP7a9ETK5/x5dSLhC9L2z2ap5ckO17bLUI4jxw51w8wtS
- VSncaSzxuBBh83VahaB0tmmTsv6/WDgJ0a/Sqzca6HCg+2UsLycWYEa+khOqLHo43pCi8NWZV1l
- 1hY4=
-X-Gm-Gg: ASbGnct33f1+dFee6ENWIUhjB9hRDJD+Ej1ZzVVE6qwYrCUWlEqXuypglEck5ceLsjj
- NOAbkoqWVouZAJeZUh0LUzNpdUcSSLIORCdu/NxSHDaW7Bu5HtLIUGRpc7Fnl8P3edI6ySeF8lG
- iikUv64cWZ/DO//8jMMzPYer+cYCXOqOB5R8VEmhJC981I4E2unKFjEwyTsWn+yZv/gP2rOAc4m
- 2R9Ef+QNWtNIqBAGF0M09UStwxI77F1jLXUlkudJH6ZGjG1C+vsNE6DvMQcugRHT81zRm017Z0S
- 74jbzhwrJcm7p46RSFdE1HYw3RYJGZ/F+0PNaewaXrqh06XdM2YwKfrhscoC+z/loTll/9hvapB
- DQgy+gmcrqc77NNBAIJENUPOU/+FtQxBKzYbgETjkLFvvrmNAwla3CxiMV89PdR3arQ==
-X-Google-Smtp-Source: AGHT+IHKwXjYCuvBaBjVuzAvnGsyrM8vKtYlI1ASaee0dWSPcV8p8mRz0Y0X+dDdMHe1uxXpDuwgmw==
-X-Received: by 2002:a05:6a20:7285:b0:215:df90:b298 with SMTP id
- adf61e73a8af0-23d7015a371mr5711889637.26.1753478201433; 
- Fri, 25 Jul 2025 14:16:41 -0700 (PDT)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com.
- [209.85.215.180]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76408c02e2bsm411490b3a.53.2025.07.25.14.16.39
+ AJvYcCWfjlLWFO0y0KZL/TT90mnRYQ5ZtQzgn/AFMSiDppYF2c67Q5JFOdt48+qUqIIn6M71k3ue8fObpWc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUjPLsCjACmcDzkyhrFYdTehl2G3lJYCbLYKkge26zZlkCk/I0
+ IiGBxbJjhJcSDkb8e5arQulGJWPFbWR7wTq2IuEoydIXDn5fbkisO2Xf9b2Vt03p8cqVCgJcw5g
+ 0rsI=
+X-Gm-Gg: ASbGncuOMLLjRQX5uUbjPfL/+Smo6ddO0mU60IX/8uIuHY99VIP94lz5NxgD5qrextO
+ mMqrBPRRY3zJTffzHG8K5Mw8CLeXGywIm0MqKR93Xyw7vkrevwIlEX/7mqD+IhLY2cb90HcJHQu
+ fd4i8yzW1tw7Zow+kTR8ph+sjmLfOrMd0/Wf9GUr/LxcUIQ2WfHUk/cxCkcRViqQgZzCEye8IHR
+ UCF2zVNQ9NJDnNcYVNqhhU0xxFh6jcO8QduDglaqNIOsG0+lq1aznA5OrelYc7P7YwH84aHDeU2
+ 3Rnow/mcNe/aqYVVvSKdFuVixqQFG2QfZMdQc0oTRMel3UcOrQVOi/UpLsBCVNqRBdowPpT08ZQ
+ Q9ZKyLPhWOkXdj3fYpDqse3ya+ELQGKLyTABiN82M/oVJrCw1Wn57mxdeIenpBWE0H2kD/qrUge
+ nv
+X-Google-Smtp-Source: AGHT+IEcU4Af5ic6YjIYkurishsfON9vSOJls2fwKJEHrLGz47pxscLta2JTAiZONIURN93WfvQdcA==
+X-Received: by 2002:a17:903:1b43:b0:234:f580:a11 with SMTP id
+ d9443c01a7336-23fb304452cmr46497585ad.19.1753478234811; 
+ Fri, 25 Jul 2025 14:17:14 -0700 (PDT)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com.
+ [209.85.210.176]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23fbe30bb5esm4275035ad.11.2025.07.25.14.17.08
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jul 2025 14:16:39 -0700 (PDT)
-Received: by mail-pg1-f180.google.com with SMTP id
- 41be03b00d2f7-b1fd59851baso1939492a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 14:16:39 -0700 (PDT)
+ Fri, 25 Jul 2025 14:17:09 -0700 (PDT)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-7490acf57b9so1901709b3a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 14:17:08 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXFz0XTfOjDKqBkJkCkXEz/EUkDXGpuuGByj4cwK3VSOuPGOPodrEjn2jNoyNBehhcNNvmb63OUd3k=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:53cc:b0:315:c77b:37d6 with SMTP id
- 98e67ed59e1d1-31e779fcfb2mr4543990a91.23.1753478198547; Fri, 25 Jul 2025
- 14:16:38 -0700 (PDT)
+ AJvYcCU5SNE1tC5YBbQ5vHF/xl+SRxeAj/l6VBbBOA8B/DHk6XfVSFM9A2muh2IJDmMMLdjG7T+KByp4K/Y=@lists.freedesktop.org
+X-Received: by 2002:a05:6a21:99aa:b0:232:ac34:70ec with SMTP id
+ adf61e73a8af0-23d6ffe455amr5790082637.7.1753478227853; Fri, 25 Jul 2025
+ 14:17:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250724202338.648499-1-me@brighamcampbell.com>
- <20250724202338.648499-2-me@brighamcampbell.com>
-In-Reply-To: <20250724202338.648499-2-me@brighamcampbell.com>
+In-Reply-To: <20250724202338.648499-1-me@brighamcampbell.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 25 Jul 2025 14:16:26 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UZqzWd+Ke2sU-z86jnhKhUo8v0ChyKYnGpmx+s7n0stQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwuy3K1ITZUFyK7_VvNz0LpuHmryqPozv35YYsEjO_5SuA5IxC-IXYo5jQ
-Message-ID: <CAD=FV=UZqzWd+Ke2sU-z86jnhKhUo8v0ChyKYnGpmx+s7n0stQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm: Create mipi_dsi_dcs_read_multi()
+Date: Fri, 25 Jul 2025 14:16:56 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V65Pa0p-ckGAHTCgkqd00M9gE2Py99QcYmaq13jOdX9g@mail.gmail.com>
+X-Gm-Features: Ac12FXxmzjj5lJEikgMEtUTC8c1N1dj-92vpoAep7aMMBdfPQfUJq6k3EPzR0JU
+Message-ID: <CAD=FV=V65Pa0p-ckGAHTCgkqd00M9gE2Py99QcYmaq13jOdX9g@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm/panel: novatek-nt35560: Fix bug and clean up
 To: Brigham Campbell <me@brighamcampbell.com>
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, linus.walleij@linaro.org, 
@@ -108,35 +108,23 @@ Hi,
 On Thu, Jul 24, 2025 at 1:23=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
 l.com> wrote:
 >
-> +void mipi_dsi_dcs_read_multi(struct mipi_dsi_multi_context *ctx, u8 cmd,
-> +                            void *data, size_t len)
-> +{
-> +       struct mipi_dsi_device *dsi =3D ctx->dsi;
-> +       struct device *dev =3D &dsi->dev;
-> +       struct mipi_dsi_msg msg =3D {
-> +               .channel =3D dsi->channel,
-> +               .type =3D MIPI_DSI_DCS_READ,
-> +               .tx_buf =3D &cmd,
-> +               .tx_len =3D 1,
-> +               .rx_buf =3D data,
-> +               .rx_len =3D len
-> +       };
-> +       ssize_t ret;
-> +
-> +       if (ctx->accum_err)
-> +               return;
-> +
-> +       ret =3D mipi_dsi_device_transfer(dsi, &msg);
-> +       if (ret < 0) {
-> +               ctx->accum_err =3D ret;
-> +               dev_err(dev, "transferring dcs message %xh failed: %d\n",=
- cmd,
+> This series does the following:
+>  - Add mipi_dsi_dcs_read_multi() to drm_mipi_dsi.c for improved error
+>    handling in drivers which use mipi_dsi_dcs_read() such as the
+>    novatek-nt35560 driver.
+>  - Fix a bug in nt35560_set_brightness() which causes the driver to
+>    incorrectly report that it "failed to disable display backlight".
+>  - Clean up novatek-nt35560 driver to use "multi" variants of MIPI
+>    functions which promote cleaner code.
+>
+> If there's a reason that mipi_dsi_dcs_read_multi doesn't exist, I'm
+> happy to drop it.
 
-Format code "%xh" is probably not exactly what you want. If the error
-code is 0x10 it will print 10h, which is not very standard. You
-probably copied it from the write routine which uses "%*ph". There the
-"h" means something. See Documentation/core-api/printk-formats.rst.
-Probably you want "%#x".
+It's a _little_ weird since one would normally assume that the caller
+would want to immediately act on whatever was read and to do that
+they'd need to look at the error code right away.
 
-I'd probably also say "dcs read with cmd" rather than "transferring
-dcs message".
+...but then again, there are places where a driver might want to read
+multiple things and then check for errors once in the end (like the
+driver you're changing here does). So I'm not against it. I'm not sure
+I'd expect it to be universally used, though...
