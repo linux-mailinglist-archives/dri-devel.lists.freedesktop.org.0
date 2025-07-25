@@ -2,211 +2,209 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289FDB11A63
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 11:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176D4B11A93
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 11:10:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C58710E14E;
-	Fri, 25 Jul 2025 09:00:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0B9B10E0C9;
+	Fri, 25 Jul 2025 09:10:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="TwCUbVn9";
-	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="rckB3Gvr";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="g4Wgyv1w";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="g4Wgyv1w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
- [91.207.212.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 058C310E14E
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 09:00:32 +0000 (UTC)
-Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
- by mx08-00376f01.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 56P5m4rL054897;
- Fri, 25 Jul 2025 10:00:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=dk201812; bh=Dfxol9bcupJwRtRNejZ2uYwXx
- QB4qRlZOBGnxNjiRIg=; b=TwCUbVn9GDejckF7szYc+mGEJa+njgPqaQyWp1QAe
- msNS5V8dI8QgoUu8/oQtUBj/OwJYPTqA5rHcdGL7lnvVQD0LxMhjj58spNkRCu/r
- fK8XEioql9g27BUM/QzYdXmsyBafNZM+yJdhddQ8qlgIZmgqaa6mUIpi3WYNx2xj
- cXyy3mOEVLcHVG5+RT5q2ys1WkjNpH4lVfSvQ2iwBANiimTpWxqPIVuG43uArz4I
- TTqGRRpTY0YDvX1nYDZlQtxwUp/EfzZPtrcITVsvoKUMJjVT2Y01n8E7Pg+qBWsM
- GsdXEgpkEKJTYXC1txn0b075WL81Cl8ZjaJ2PqSlBN1Dw==
-Received: from lo0p265cu003.outbound.protection.outlook.com
- (mail-uksouthazon11022098.outbound.protection.outlook.com [52.101.96.98])
- by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 482jw32jp1-1
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
- Fri, 25 Jul 2025 10:00:13 +0100 (BST)
+Received: from AS8PR04CU009.outbound.protection.outlook.com
+ (mail-westeuropeazon11011003.outbound.protection.outlook.com [52.101.70.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9729B10E0C9
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 09:10:25 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=G+pjhVquvDzK4phC+aXcx01Ow04IJk7Fst1HNIQif3TmxqL9ynDIdmxXGK4vrz51AveAe18x/5XnXRxZm3cPp0lc8E8rQhb7pgLEn4B58W1orhqMK4v5Ldmefh/9ZLEtQHkNbasPzkjWiu9FamQeRVst/8I77AQ3ViJkDIT1lcHdSCNbRCgpDrmPdiplSPbvlWndYOh7cIbov4rIOxafVc+Qjkw3Vd9HFKoqkG6yEjk/sKVMjnP8LHUG/Hg9VlIOiDYxnWGsnnFOJrTm7Caf0savvfZ5WM1PCueRxE+EZgY8w9wkXq9RLLbIjhXGLJT33ui/DEwyP+e60RgLktolaQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WyyDuD9f1VcWxszrTAYYROTgrBnmiTZr2Z0IQMZfSpA=;
+ b=jqGQLxI6lZ1xK5OWxtWU8cM9ERnclCWD/mHeaZ9sNnvLr07SmVZ2c9D+Q6UhrXW9ufNgOtGw/UVv0iZsAtQoBZBhO8Q2UMgdTL8lVziUu3RinpoyN6Vc1T/jYDlkmgJj7VoEk95rD5tnsQZbp8lQCfw+VIoFASJkaVsP4qvJppiQ7PSHcg/WeKf8rzx52PzznOwU1I7GKWn/8Ete/lJop31xXMmiIYeK+T8zulRsTUkANQFr5RHV1dGsUYpDpw4KmEYJH8YRY3KK/D9wOUHPbG/5aOs4mwjmNvuCEDf2uj/FsMbLhgMf+rGyAH0aJ1F+L95wsPNWZFSspZW/wvDxPw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WyyDuD9f1VcWxszrTAYYROTgrBnmiTZr2Z0IQMZfSpA=;
+ b=g4Wgyv1wOuLXn62wM+hwia1hWGOfLDDo5Lp/+ySIabJrA7sf20YHto0FNPxcWv8R2n0rnx4PoprwiXjmlaHWHrFw6XJxoKac6WPbL+hzwn4vRdLZmwWuHGScNqB9lR+Pebq9Wn1+K1VS5Ngj7uZeKHua5+MaexxSdqT2N3hTwOQ=
+Received: from AS4PR09CA0016.eurprd09.prod.outlook.com (2603:10a6:20b:5d4::8)
+ by DB9PR08MB7700.eurprd08.prod.outlook.com (2603:10a6:10:393::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Fri, 25 Jul
+ 2025 09:10:18 +0000
+Received: from AMS0EPF000001A6.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5d4:cafe::51) by AS4PR09CA0016.outlook.office365.com
+ (2603:10a6:20b:5d4::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8964.23 via Frontend Transport; Fri,
+ 25 Jul 2025 09:10:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF000001A6.mail.protection.outlook.com (10.167.16.233) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8964.20
+ via Frontend Transport; Fri, 25 Jul 2025 09:10:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BMzVwFepDzNvZKvpOGAZmf5or6b+Jcta5vgS1IoT7Zi+eXuSQ54HsSPdpGA08lPKIoqfgMW/4b4oT5RN6aP/C0ysXzzX/XBliAJaqv7zMtjaOIcdBScvkEircEGKR/FpuiFXPjmMDcun/dQrjSG/QcV0rXnjDIyqGbeIIdH6NzY4p4WFFzYYc17hVsHexve1CKJdZ9c7BwlrWxo6ymJXbTR42POOS7SrP64CRYxwfvB36y6XBWZIS7ybC+ILr9UTlmt/U5x+K7mNqvbav+gieQDdVs0Vgy5m04Rf/GTGjbx8xSkciSaPQ3DIAN21gXZsFwdm18+owJ42fvxtgPQuLw==
+ b=H7xlqgVp1fLbJjBU9MTSeABoHd2Zw0hHUETsnt0LQRSjUIVDCTAqYshjjoI1+3C54AOyg1JLl93U0fQzNLA3WmlnHNG6oQwagp4d4PCLalC71QlGwGJHFvo04Ug/CLJnqMnes908J/wEWAZ3YAGP8AJcKZe9kAb48xL4Ibjh+eC6xbHcWVpeobf1p0ThyqCPFEOrSAPD+zdH6OOpPAi+yGkQTI4emopZIGvnSb1y8FsE07ur7Xqv8h+sYFzqTB8nRkGRYpTod+Dsz/Dj53mLu77mjYzmpasF0uW5jQMFX2CAvcuZlq9H0TTb1LBPwgBIxg3bvLUt5t3BreYVOnbiIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dfxol9bcupJwRtRNejZ2uYwXxQB4qRlZOBGnxNjiRIg=;
- b=errL5RPMfApT1J9xNqEL3pzW17wxIKdmc/+nGhwyQqVKUMcDIqSioN1jHRVz1ph+4eZQobaWfDFJSQE0e2Rq+xQOaZ2xoxzNmjaEtjRy5B5DSTx/xvYXJsYVbqlVQmGl3K8tFgR1jO7Sr5jjaBvhX9OvE0OFI4NHark1ws0AShqt6vSKbyV5PYK0OrX0USaaX29cbpaQbnYhrg5vKMIOClz9PMNWTWu8rTvahnBJGzW3Pk6vQxIjlxx+bu/7oLxHgpmuO4WB2iYU5D/nVOOL5T3Dwme2JYue4Tjh2bFnunwzUZ19F8pyG3aE8FVPjQiklwb2/VdnjLJt7yq7burlQA==
+ bh=WyyDuD9f1VcWxszrTAYYROTgrBnmiTZr2Z0IQMZfSpA=;
+ b=wEzjp4Jh4thrwHC2/KlxPba15evuhywFPWKQ1XJ3o04t492hWa8HrbSdleFGlYyl7AROOpCBPIDR7MTT0uoYVSQvABf77/KYVs7IH7W/NwNQAMFvDV8LB/Di12NHQczPZRVUKvHgqJ1DnEwnAe/JIWbeL1nT1mvu54V55BT840YMOe9DHmRwpEAnWamsrcpj/Q34JxS4xe9tEKZPmf0FE80eVSIdiCyNi6OdrqJlAM7Te0/ABeX4bJSaq0JX/ttw2jYdo5dVEuCoIHXB+FS8t4rdROIcsstDLni+8gGtDgmZw/NV+cybfjMBTip6zzo5IStT7WkiutozxmfwTwmrSw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
- dkim=pass header.d=imgtec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dfxol9bcupJwRtRNejZ2uYwXxQB4qRlZOBGnxNjiRIg=;
- b=rckB3GvrC2aQxQxSuVPKLqUMlLyhPWDYhF1NgngnqptPQ9QZ+KMgDyzY2LP3nHLoJAcbIZ1U+4WEzwZe8OYXMK6Zq3e+//1yawQ542LYNzBWg0da60/8wZ/+8oNPiA7aaU+8FgdieY3rmsKKgZlybl2ahBzjhDLdvmzXdA82d0w=
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
- LO0P265MB6913.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2d7::12) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8964.23; Fri, 25 Jul 2025 09:00:02 +0000
-Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
- ([fe80::8e9d:6b2f:9881:1e15%7]) with mapi id 15.20.8964.023; Fri, 25 Jul 2025
- 09:00:02 +0000
-From: Matt Coster <Matt.Coster@imgtec.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Michal Wilczynski
- <m.wilczynski@samsung.com>
-CC: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
- <p.zabel@pengutronix.de>, Frank Binns <Frank.Binns@imgtec.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson
- <ulf.hansson@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Drew
- Fustini <fustini@kernel.org>, "linux-riscv@lists.infradead.org"
- <linux-riscv@lists.infradead.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-pm@vger.kernel.org"
- <linux-pm@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Bartosz Golaszewski
- <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v8 2/4] dt-bindings: gpu: img,powervr-rogue: Add TH1520
- GPU compatible
-Thread-Topic: [PATCH v8 2/4] dt-bindings: gpu: img,powervr-rogue: Add TH1520
- GPU compatible
-Thread-Index: AQHb/TGq1IgjppbgLk6aQ+EoSucUcbRCip6A
-Date: Fri, 25 Jul 2025 09:00:01 +0000
-Message-ID: <4461a785-b593-429e-b436-44cd2f1c96eb@imgtec.com>
-References: <20250724-apr_14_for_sending-v8-0-0714bef83c59@samsung.com>
- <CGME20250724141911eucas1p17071ea620f183faff7ca00cad25cf824@eucas1p1.samsung.com>
- <20250724-apr_14_for_sending-v8-2-0714bef83c59@samsung.com>
- <20250725-gainful-saluki-of-mathematics-3c0dd0@kuoka>
-In-Reply-To: <20250725-gainful-saluki-of-mathematics-3c0dd0@kuoka>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CWXP265MB3397:EE_|LO0P265MB6913:EE_
-x-ms-office365-filtering-correlation-id: af087b89-8492-41c0-ee66-08ddcb59a3ff
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|4053099003|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?UmpjN2U2eUF5Zm9NRzFBamh1dUpzdlF3NmxTS05KcnpBYUtQc1dsVlRNNVEw?=
- =?utf-8?B?Ni8xOHN2ZGh5bFZNVXJkY1o0Z1ZqbnRGOXRmdUhhRXo3Y2NXM1d0eEJRekZh?=
- =?utf-8?B?NURHczR0eHBXbEQ2Q1dwc3RlZnBkemw3eHhjR0NlczNib3k5cGhoc2pINnV4?=
- =?utf-8?B?UkhRMmdDODR0eGlXR1VMQ3JReGhIT2ppV0dmOW5CUnlQa1V1MHFXSnprK1Nv?=
- =?utf-8?B?Rmd3TVR1M0V4eHN6cDhQK2RDWnE1ZFExVVM4NFM5R2lVbGk0dHZSRTZzQ09E?=
- =?utf-8?B?dGFxcTJoWjhmRkNxYU5uRXowRG9FTzN1QUxQYWxQQ1dKbTVTdUx3Qkk5UGlD?=
- =?utf-8?B?OHdibW90U2tBMTZGdFFjYTZ0dGh6RGYyT2NIZUtZRDVmNmRWNThjL3NQd0U2?=
- =?utf-8?B?MUo0ZE5XOVROUlJrWkluQWdSamY3RlJGT1ZoL0tjRHlBZm9qLzhZMElmelk3?=
- =?utf-8?B?dGNQakdnN2hIQ2FqbGkxZmIxSURYTUswbUJ2cEdhdkordWdFY3BIc1BzY1Z5?=
- =?utf-8?B?MWxNRkxTb0RQWWd0d2FuQ1p2YXNTT2pCd1o5SkhPMGlMZjlOYkJza1hPaHBQ?=
- =?utf-8?B?NXBwZERMNG1RQ2NWL3U3UGN5VW0wd0tGR0srb0MxeWM5alpLeEY5N1ZObFY0?=
- =?utf-8?B?NWJPYmlGYjZQbWRQS1pMclozUnEvdFlDR2srMkxoamNiUWJhZzFGM3pjeEFY?=
- =?utf-8?B?U20zdU1RaEVqZWtFVDQ2MG1NRzJCa1FHSGFhMjh3STVYN0puWGFNN1l4N25u?=
- =?utf-8?B?dTZrclBaSFoxaGx5bFVMWjFXMzZBa2MyejhGNU8wNEN1M1RUcGYwejJDdCtr?=
- =?utf-8?B?a0hHWldnUDdMdUh3ZTBYUVJZaUtraVMwWEphTlZmWVVTaFNGWERGWWdtV0RF?=
- =?utf-8?B?c2NqdmgrUGRDbGx6NGRMZURKVzNpRmN4RUlldCtzZnltOUNrQUNrQXBWUXlt?=
- =?utf-8?B?LzNBK1ViZnZxelpmZDlzY2ExZnFGdkM3cVU3VnlyZlIwSFBpVWlyaHVpWnZt?=
- =?utf-8?B?eFlTWng5WXRKN2Z6WGpUeS93UlNYQzBod0k2S291Vm50QUMwUXN2VUNDcXMv?=
- =?utf-8?B?a0hTcm9XVjI2OEhqbjJSeUk4TEVjaFptRWttSEd5UDZ6ZldicE1LRDBHejly?=
- =?utf-8?B?VWJkTmR2MHM4aEhFeVY2MUxFd0ZRanpVUmJWVXRvRkpUZHBDajlMU1IzbEJJ?=
- =?utf-8?B?NnpOeXZZbU81anlXSDVha0oyanBzc29hWnZuTGx4R1J6bWhQUFBaMGNzTTVT?=
- =?utf-8?B?dkRNM1pnUDkya1hXZnJEbjE0UWxTZGlKeEpYR21udnR6SURCZVkrc2l4ZVlv?=
- =?utf-8?B?YzFCNExlUStzeWsraFpIUm9xMjZvd3hhdUlJU21kOERRNjczZkFGK1FXclRO?=
- =?utf-8?B?cHhnbTZFQlYvTzRIZFBaZ3BPNVhpVWRRVkkxQVBzeS9lRDRISXl4aXZ1enBL?=
- =?utf-8?B?YWJ4RjIvK0FWNk5qMFhzNkhEZUZyZldvS0ZvSG1xTzRyS3FMbS9FeitwNE9h?=
- =?utf-8?B?QUdPcTZCc1llVFFHYlJ6aERRajdGRmdtZ2Y4Q01MWTMzb0p3NlpYY20wT0JT?=
- =?utf-8?B?d3lmaVp6a0k5VHE5LzBEWkpienFpZ1hRYzd3Wkxrc2FGbzVpMTh2VWIrbWhD?=
- =?utf-8?B?RENNeTB0NlVPVTlaeEp1bEpIMGxSZlhqTUkzT3Z1WllEREt0MTl4UTNodDZj?=
- =?utf-8?B?Ty9LalBqNE1kRCsrKzVzcWpFYm1Lc3BIMTAwVDVJNUNIandrUjA0NmZRTTY5?=
- =?utf-8?B?b2pZeDZmTGdnR25aVUpQdjlueG1JNUp3RmY3OTcrdUdPSWhiZmFoQkptT3BU?=
- =?utf-8?B?ZkJuUkRXMnFKazk0anZxa20ydU1aaU1RUDRNZkpEdGhpQVVGWWJSZ1puVHcw?=
- =?utf-8?B?VUYzc1lGZldkQ3Y5VmJYTlpESlZqVVFpTVM1cnJOL3h4c1lvdVlZV2d1b1Qw?=
- =?utf-8?B?bzd6Z3hOZzN0emlEMklrRW1Kc1FqM0VJRzA4elc4M1ZFaDk1aDIwUkJhSGxl?=
- =?utf-8?Q?DFyopz7X9PGSbz7VNicWUuPnKkA/Co=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(4053099003)(38070700018);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q0I5d0ViSHIybUF4UEpTRWtDRHBZdUViZ1dJdmlVbEtIZFpocE1sODFlRHd0?=
- =?utf-8?B?MHlIZHViaWtiR1VJU09MbjB0c09aYWhWSGdhdEhYR0xUV0NxQkQ0bTNRSlUw?=
- =?utf-8?B?R1k0ZDFXVGFDVHdvc2xSb3ZDbFJvWWJJbzYrSHVac2dpNlR4SzJSWEFmSkhw?=
- =?utf-8?B?aTZUMWU4ajBjVXJSS0JxUDF6MmsrRnU2Kys3eU9XMkZuM2M2QVlmZCtlbTF2?=
- =?utf-8?B?VVZTRU1MS1MwdlNvR0p0ZXV2TXYyUWVwdGVKV0pSWnJFNFVIQ2tuam91V2xT?=
- =?utf-8?B?VVd3MTJhWFd2cGplSG1LQ2JTTUo1a0x1dEJRcWpKT1hlVDlMZkJvdUhENVJL?=
- =?utf-8?B?d2Z1bk91a0lkamJHcU5GYTBHZHBaaWVPdTJtVzZZV2VoelBtT0hKaitucDdj?=
- =?utf-8?B?SjN3ZTRqd3dDQnNVcHNUSkV2LzBWT29iTEtrSDh6UXNFaUdCcUJJczJieXdn?=
- =?utf-8?B?RVdyTmh4Z0ZuZ2FrNnBUOU1aVXFoYktFOUVZMlZkdmNOSGlSRlc1RFBDb2R2?=
- =?utf-8?B?ZHNDdXB0RGhsd1VTSnFtS2Z1RFZoZkZSY1B6MnhvN3NqL09PU0VvOGhTaEUv?=
- =?utf-8?B?QmNaLzBjbXgyL3VRQU5xL0lpVHhvRFZlanJmR2tKaENLUkZBZENJY2QycHgy?=
- =?utf-8?B?SDdTSldyQUhtRkJBTmx1aFFwTWZ0RmpSa056dmZydmJLMTkrVTlCZGhBb0oy?=
- =?utf-8?B?bGdPYzZkZkptbDlWTit2NjNaTkZIWG5JUE1OdnZmM1ZFQWR0WFRJQlJoM0x2?=
- =?utf-8?B?MnhHYWNvZEt0dWl6ZHJ0VGluQ0VaWnpWVWFaRmV1ai91bkE1TzBXRzgvVVhQ?=
- =?utf-8?B?Nm9BZUpNMHVVTUE1RnRHTGd1dTVaUlByaHNNcjV4M2M1YzNQT0RTVlJ4YXpu?=
- =?utf-8?B?VDBGMWFWU1g4eGdJRUdueXRGSnJJRHFWNkd0c2hhWW14V3lsM08ycGFmd08w?=
- =?utf-8?B?ZTRtUnhNQTRPYWt3eDZOZEZsNXpqbDg1UTVrQWw4RS9hRWJiQ214QUwrcTFp?=
- =?utf-8?B?TC9LUEJCVEk3VktaYXRUd2lZZUo1eXF5WXkzajdMRE9qc0t1eXVIOFFmeC9t?=
- =?utf-8?B?WHpJeFJQMGQ0WU80Q0p5SGV0UEdtbFpneWlwS1E2WG0yUjhVVDVidGxNRUVp?=
- =?utf-8?B?WlhUNW1QSDFIOWIvUnRIQlNLWVNtT2RIQmQ1MEo2Wnh3OThIdE5sZEIvYThi?=
- =?utf-8?B?N2VPRkdYVDdxWUtuNU55WVRCRHVVR0cyNU9wT1VCMVF6WFUvcm5WaHdBelIr?=
- =?utf-8?B?QzVMRGk3dHBqRm1EK0FGcnZIT3NKbFVSbmtYN3FTdlhWTW16UnNZY21iRjBO?=
- =?utf-8?B?LytVNUQvSDRoUzQ2eUx5TUI0QlYyWnpaR2txL0hTRkFoazR1OEdZbC85cFBw?=
- =?utf-8?B?VCtzeUVCcmRUSzEvbWFjbDY3SWhldUV0NlNxcmR5QWhrQithTXdiQ2dKT2ZS?=
- =?utf-8?B?T1ZHcGJDWHlWUDROQ3MvU2xuYlZZVVlma3U3UEY0ODVnNDJtZkpJQmRDTlJ6?=
- =?utf-8?B?Mm04TnFJbWIrS2NsbkMybUlKcGJST3c5QmE2aHJUT1Rud1duZHBiaStHQWlo?=
- =?utf-8?B?dmFZRWpWZGk1V0tPK1hRT1h0MjNhdlNCQW4wUUZyUFNzY0ppLzV0L05RbURh?=
- =?utf-8?B?aXNUWWtGaTNiclcrUFZNTzhPQnRtWFJNcHJrL0F5Z0ZBbUJsZ2E4a0JMd1BG?=
- =?utf-8?B?NnRKN2JoU1lwYjlBZmdNUWVWNCttdkhYQm5aMVAwSjNweCtwL2lORXAyQWQr?=
- =?utf-8?B?aFdIRFROKy9jaWJxeVo1Q1I5K2NFdlNYSnJBOXFUR2tnSTVkck44ZWoxaHBB?=
- =?utf-8?B?eU9nNmtDWjJiUkYwUHZVWmd5dFAwUDRyWi9hSzRvQkpBZEt6VFZ3R0VGeWMx?=
- =?utf-8?B?N1NnVXp4L0RtWDhEdFp4MU93Y2hrNmZsblpMMldPQWRPNVFkUm4yOE9NVU0w?=
- =?utf-8?B?L1UzVEpMT0JOWVN4NkkyeFpwY2QvTHl5TVB5ZWNLRDJ4K0JBcXVwQ0d2S2k1?=
- =?utf-8?B?eEZGajhzR1RiQmJtQklOcDF1RFVCM2xzeE13YXMyNWZES3JxakVvK3VTVlJt?=
- =?utf-8?B?MWI5Y2tvek1OWmhLaWI2cUl5SXFyREdpblh5Vy9zd2xtRVBlRFBiY3hlYUZi?=
- =?utf-8?B?bDZTR3Nla3JybmZLWGVJMTdOaC9qUVVEYzVQMkZVRDlGT2tMZnorNWJrYks2?=
- =?utf-8?B?eFE9PQ==?=
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------FA429wOmyZTDb0lEr1PO30cR"
+ bh=WyyDuD9f1VcWxszrTAYYROTgrBnmiTZr2Z0IQMZfSpA=;
+ b=g4Wgyv1wOuLXn62wM+hwia1hWGOfLDDo5Lp/+ySIabJrA7sf20YHto0FNPxcWv8R2n0rnx4PoprwiXjmlaHWHrFw6XJxoKac6WPbL+hzwn4vRdLZmwWuHGScNqB9lR+Pebq9Wn1+K1VS5Ngj7uZeKHua5+MaexxSdqT2N3hTwOQ=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AM9PR08MB6820.eurprd08.prod.outlook.com (2603:10a6:20b:30f::8)
+ by PAXPR08MB6624.eurprd08.prod.outlook.com (2603:10a6:102:dd::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Fri, 25 Jul
+ 2025 09:09:41 +0000
+Received: from AM9PR08MB6820.eurprd08.prod.outlook.com
+ ([fe80::65e1:f4ac:8b74:fea0]) by AM9PR08MB6820.eurprd08.prod.outlook.com
+ ([fe80::65e1:f4ac:8b74:fea0%4]) with mapi id 15.20.8943.024; Fri, 25 Jul 2025
+ 09:09:41 +0000
+Message-ID: <424cfb2c-c693-4197-89c8-6c3b13477141@arm.com>
+Date: Fri, 25 Jul 2025 10:09:40 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 7/7] drm/panthor: Expose the panthor perf ioctls
+Content-Language: en-GB
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <cover.1747148172.git.lukas.zapolskas@arm.com>
+ <d196bcce96cf0e3672905c3cb0336505728ddc52.1747148172.git.lukas.zapolskas@arm.com>
+ <xbia7yhrqgmagxqaa4c34ngj5gksy7saxlsnea6aarlvolqj6a@ebvrj2vhmy3z>
+From: Lukas Zapolskas <lukas.zapolskas@arm.com>
+In-Reply-To: <xbia7yhrqgmagxqaa4c34ngj5gksy7saxlsnea6aarlvolqj6a@ebvrj2vhmy3z>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0525.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c5::8) To AM9PR08MB6820.eurprd08.prod.outlook.com
+ (2603:10a6:20b:30f::8)
 MIME-Version: 1.0
-X-OriginatorOrg: imgtec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: af087b89-8492-41c0-ee66-08ddcb59a3ff
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2025 09:00:02.0049 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kMMAB5SGSx0YRizNnIwpeBJ5QgGacse57E/3fXmTKm5UATGwBVElu72FcHuvDCk1ZL2M35Mwf5FuUYW8IbW4lA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6913
-X-Authority-Analysis: v=2.4 cv=X9dSKHTe c=1 sm=1 tr=0 ts=6883479e cx=c_pps
- a=7g/F+h/Y0x/HpfuCXpN0Zw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10 a=NgoYpvdbvlAA:10 a=KKAkSRfTAAAA:8
- a=hD80L64hAAAA:8 a=r_1tXGB3AAAA:8 a=MLCi_6iGXI6muuAwRTYA:9 a=QEXdDO2ut3YA:10
- a=bWh5wrCMk0TJeFD2CLgA:9 a=FfaGCDsud1wA:10 a=cvBusfyB2V15izCimMoJ:22
- a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: swsyCnIrRnwD6WGdqs2XnB0Vgee9TTog
-X-Proofpoint-ORIG-GUID: swsyCnIrRnwD6WGdqs2XnB0Vgee9TTog
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI1MDA3NSBTYWx0ZWRfXzrzFFvfZ1tKV
- LNTJeKAOix07sf8FDizeAKwwJho8pHgbUbTtRFWMDpc0rZe1XARZs9aysFzLuOQbGl0Kj3u8fZ7
- J/yw0zAuYp5ZF86mEEKjGap4WoQGxNUv8MgVcjOwwyU/CcT+9pJiPQK5EOMXT/BydY5vn4kS3ye
- ZAAp9F16a3Eca+6qheoFpz26tOS0grmHYjw2If71DNtW7QMYnYCTxrzBKbMQAWTmBNBvQmEZedh
- 9vfGwE+FBfiXp4TQ8POXzr7gv2fX9K4a/Bz3jSF8J8aij03OuApjzIyBkeIN1qaSDGOmwOTmL/e
- +Cv9vk+E5xXNiGz2avWwcahMwCfNbrR08f2sXmDz82VHCx3pZqnPMWmtHzsRqVwtXPQL/r/w9Hh
- NP7U3llr
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6820:EE_|PAXPR08MB6624:EE_|AMS0EPF000001A6:EE_|DB9PR08MB7700:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6786adc2-4070-411c-1363-08ddcb5b1337
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+ ARA:13230040|1800799024|376014|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?Tkt0YzVGRjJmV1ZXV0xZNnR0bEEyaytXUEJzY0ZGbkZiUnFPVkpNWEZlYXVr?=
+ =?utf-8?B?dTVCMWhyekVpd2x2b3N6TXhsaGU1Wkd0R2tNcnlBdEMrdkhjNUEyLzhEamxn?=
+ =?utf-8?B?dEJmK3IrTlVxaHEzVzJZREJKczcwK2NTMHhyRDRnaFFRYUZuNDFYL1VyVmRV?=
+ =?utf-8?B?Umh6NTEyUWJpVTY1a29vdWFJRzdhZ21CWWVJVG44dlVVQ0tVSU9EL002ZW9q?=
+ =?utf-8?B?RGVmUFVRSmZpUm5HWk05THFxazRRN2xpajBGWGZjdlZ0bFIwTFN3K0RqL0Yv?=
+ =?utf-8?B?S2hyTUYzS3VldFBjZURxN2pqTVdGbDM1TjVBcm80bGh4SmxEYkIzVEc3dWNJ?=
+ =?utf-8?B?YVFkQm9UL0FPMWI5NjgzamFmYTJPVXk2ZUxzajB4MGhiSHFCZk9qQXpCNFZE?=
+ =?utf-8?B?Q2IvaG80R3BWM3padHpVRVlCOStDWXlzTWUvd1NPeFF1T3d4RFNWcVpFdS9w?=
+ =?utf-8?B?bWx0dXpwMlc5QVNzT3hmdHkwSGhsOW5XdmNCOG85bmxkMnBCUzVGK3dWMFh4?=
+ =?utf-8?B?WnduTFpNRjk4ZmhEU01lMVVwUUVWYTcvMGlvMXRBQitTYTErNkgzcy9aVXFw?=
+ =?utf-8?B?cTd4VWJTSXpjK0ROL3E5Q0ZjVE8rWjhtaFJIajNXUlp1OFFBQStoUkFBanZK?=
+ =?utf-8?B?My9CVGxEUDFOVWd6eU5xcGo0Mng0QnI0UnJha013c1k1aFViYVVzaUFoTHlm?=
+ =?utf-8?B?N0ZqdjBZNy8wYStIMFFWQzIrVGRLaG1oSmtUeDcyWG8rVkZ3bzc4ZFBxMk9P?=
+ =?utf-8?B?UWhlamZUcjVhOU9RekpwWDFEN3BRUElMOVdVVHFFV3JsZGliRUlyQW14eCtC?=
+ =?utf-8?B?NDN1VEJpc2p1WDlRR0N4MHUvNjFkQ1ZyUmJrWXlVK3RYM3lJdWpFOHF3OGpY?=
+ =?utf-8?B?SVY1STJmMUM0TjBWV1BkeGVrZmdid3FoVlo0Qkk1WVk3VUduZGJBOVRmYTN4?=
+ =?utf-8?B?NmN1T0p5MHdWUlRlaU9ncGlWekM2UFhDK0txR1J4SzY4TzR2bU1DVGlmelJw?=
+ =?utf-8?B?aWNtR0Q5aWp5TGd5d2taRU9zcGI3blZwdEZSQ2ZzeElXb2lEWjlXeWVxSFor?=
+ =?utf-8?B?cms3ck1abU5jaUxTK24wYWRhUHUvdCtxWnhTWlV0ekxhUGhyUzRXdGhiVXk5?=
+ =?utf-8?B?R29XbE5BTlYyc0VOUC9HUUhPUS9McWFrbDJZMVZPbkNqbUt4QjAzZ21lQ2ZV?=
+ =?utf-8?B?eEltQzVUSFdpWVVqRVd3MHZyemdHNWgzS3RCZXdFWEVMMWZqdFQ0d3dOenB2?=
+ =?utf-8?B?VGdPc3U3Y0pNa0pmU2FQQ2RTTDdVNFdaOXdEUm54c2Rub1c1YXQzdmFVRkJK?=
+ =?utf-8?B?MlJjNFBsY1NnaFhMbnpVbFlkMjBMSGVmblgrT2hmaE0xMzlPTUp5SlBIT3Rw?=
+ =?utf-8?B?TDlMRUp1ckJHYlhmUHgwVnJSaXU2dm82cGc1and2YnVqb2x1d3AwUFJUcHVM?=
+ =?utf-8?B?M0RoTzRQN2lPYmkzenRSRWRjdzlubjFzd0Y0TFdacTdCM00yZ3oxQVVoeTNj?=
+ =?utf-8?B?UHM2ZTFkeHJkVGdSVDIvVkplU3FEalVzUFQwYVFFV3BsUVhVOWs0dGtEeXlx?=
+ =?utf-8?B?VU12R1d3ZEdna3lSWXBXWjA5WGFScDk1empuZS9qLzV5cHVMVWZ1cVNEQnV4?=
+ =?utf-8?B?ejN4OHBUa0I5VGxSSmEwQU9DdkRMUUVTRTNISUJHQThOSVptV0lFNkdpQkNH?=
+ =?utf-8?B?dlMwVCt0UEFKTk5DaXpkNkZpbmdHVHgvcWxVRWRYeDQ3SXVXNzQvemEyUXBO?=
+ =?utf-8?B?MWR0QUdUUmgvcFU4K3BHL1l3NkU0YUlWaERvSWdXVHdURTJkMVdIOFo4Y1dt?=
+ =?utf-8?B?Q2Vma280eUVzbStEM2JBSWlPYzdyYkxqdXZ5aVVMNEJ4akxSdEJFWlRzbjNy?=
+ =?utf-8?B?MTl4QTFUVVBLTzlUKzJDdzZVbCsvWE9UbGJsci8zRVZreU1TREFLa05yelpk?=
+ =?utf-8?Q?Y2q4SCt9kL0=3D?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM9PR08MB6820.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE; SFS:(13230040)(1800799024)(376014)(366016)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6624
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS0EPF000001A6.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 73420943-f1d3-49af-e90a-08ddcb5afd2c
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|14060799003|35042699022|376014|82310400026|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZWZvZHl1K1l4R29HM2p3enFIR0NXNGxxSUw4SFBIUDV4eU5JSlpkTTdWcUNY?=
+ =?utf-8?B?VHFEc3FoUDhYdEtzRnAwMWJjbU82Q0psWThWVFA5V2Y0WXFTSVRCNzVmZmZT?=
+ =?utf-8?B?ZElVTE9Ec0xVaGl3M3dmMmJNSHhxYmlGVDFyTjQ0RWJyQTkvQUtvUGxlMHdN?=
+ =?utf-8?B?UURrcXZLQnZRUkZMM2xUM1BLYlo3TUhhTG9SR0V0T1Q2SG1yVTdWbDU1dmtJ?=
+ =?utf-8?B?aG8yUDRvUFFYQ1F6Skg3eVQ2aTNiU09yTDBoRGFaVFVFL1gzRlNxSURaa3Fm?=
+ =?utf-8?B?SXJGV082WEUvT1VLVDZROVJtQUwyZkpTcTJBdXUrNU4wT2JMeEVwQy8xRUtH?=
+ =?utf-8?B?dTBzNzIyZXh0N1dkSWFiWFZ5VXFaZHh2TEloK2RTMmc4N0pwTDFEODdaYVFx?=
+ =?utf-8?B?M2Znam1EZkZVdGFEK0tzS0FQY01IODV4YzRQTVhGQnRON2V6c0ZvT1A3Q0V6?=
+ =?utf-8?B?VE5rUUZxSnUvb2M3Mmhhb3Q4cWgySXJSNCtjbzlpSGhpWlBXTHFjTmxJMzBB?=
+ =?utf-8?B?NEhySXJqYUxYMlh3UXpyc21BNTJ1S0xQZmhOVnp2bnovYTRsL3BMbDdZcWs0?=
+ =?utf-8?B?dVYwa3B3STVnNWNTYW9HNWJDVlVUTXhHcnorL2lxVStnK3JSSVZaSVByd3Iw?=
+ =?utf-8?B?S0ZPZElaY0ZkSUxqMDBxOTNsTFFmUzE3RjNKYzdMeU1KZGhBaUlrd1QwUGhW?=
+ =?utf-8?B?UGhXY29IODV3Qkx0NFJvZnFXdVY5eXVXekVQb0lYRTJQai9rY0MzS25EZWl3?=
+ =?utf-8?B?Z2I2cDFiNkNjRVhhTXZvSWtKM2FPSUJsUXJzKzBnYjhETGtwZVB1Y3g1N2FR?=
+ =?utf-8?B?UXBxcjN5RnIxSSt2OXJ4RjNYTngwZENjTXhIcWNlNWk5aHlzZlNoeG5hTW1D?=
+ =?utf-8?B?WklpcGQ1SlNUNlZuZ1A4YXhjZFZyU0pJVTY2WHZlcDdRMERyQ0NlVHVMWDhW?=
+ =?utf-8?B?bmFhc3lvUnZCVzJPL1E3WWJTS3pTNVZSVi9UVWtLYVlXMjNCZUNOODZXSGdL?=
+ =?utf-8?B?bjh4OXpwSVczK21ML3kzVDRWWFQ3Ry9sV1FUM1NqT3R3MUxHczlSRis4a1FC?=
+ =?utf-8?B?Q20zSXJSSFgxeko1SkRPemZLK1BwcFpyOUt6M3QvN0w0Sld3OW00QmxFd0NT?=
+ =?utf-8?B?eDdHVUdoejVlNTlydWc4ZDR3ak8wOEdIMnhLR0J4TzlVNzYzWUtQTWJnTDhY?=
+ =?utf-8?B?dmdFYUYvWGhaK1ovbDJHY3ZBbWpkWmUycjh4R2hDMXAxQ3BWTVlKbDFqZE1n?=
+ =?utf-8?B?alNuV3NLR0V3OTlFOGl6VVR2eGN3OHA3U0liTWFPWm1CVVBjZGk5amI5SitH?=
+ =?utf-8?B?QUNmNGVnSEE5cnhNUDdhVGtNd2dOaW9id1JpTmZBSTIwZThnVlVHdFpod0l2?=
+ =?utf-8?B?MTZhRlBXZnlYQ3JORDR5T24rUUgvdGxGQ2tENHNReWs5eHJEQkFqek5FQ1Q0?=
+ =?utf-8?B?WnNxN0tKandIQnhOZFFVMTFtc0xCZjFvQWtZUU9tbWltbTFTUURZKzdRNkhQ?=
+ =?utf-8?B?Tm5EWGkySmUvTXNMWGFOeGs0ai95Y0l0WEJMSkFOTXkrbjI1Y3BUbFBKMXFT?=
+ =?utf-8?B?bzkwN0NDSnZwOVFxZmJLbjFWeHhRcWtBN2IvUXVlOE5kdlBjTEpsQkJmWmhK?=
+ =?utf-8?B?d0tWYnlmeEZrNmdtM2FlTlVxR3lJQVpvcE10QnNSUlh4YTg5aDYyNy9meWN4?=
+ =?utf-8?B?ajVMeXNBV2dFVHM1MzJJdWc5Q3ZXbno1OEFMZUpYekp0UEVsWTJQcWFBallZ?=
+ =?utf-8?B?Qy9LWVQ0RlNJNHNYVk43MWZpdmN6Z2dYRGkvYmIrWHhtMjNUM2hhK2tpb1dK?=
+ =?utf-8?B?OFo3VEI3dE5ReWFRSzJrU3g2RzFvME5sZitwNHo1Z1dEN21ZU2ljZWtTZXZq?=
+ =?utf-8?B?cDhZeW5Gd24yOWdibDAwY3BubWJjSURpVzZSUnpLbm04T21XTlFuLzFGVnEv?=
+ =?utf-8?B?R3pJSDZxYm04SGV3ZzhKQmdVRjdDNmhDV1BwSG90ZHh5Qzg3V0Nta2F3bmo4?=
+ =?utf-8?B?bUhmSlhBeWkvdVlVNDUvdElmTkZ0TVlIVGdjUDh5VGVsWnpqRC9Ga1MycW8w?=
+ =?utf-8?Q?FW1aGI?=
+X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
+ PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(14060799003)(35042699022)(376014)(82310400026)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2025 09:10:18.0301 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6786adc2-4070-411c-1363-08ddcb5b1337
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
+ Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF000001A6.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7700
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -222,152 +220,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------FA429wOmyZTDb0lEr1PO30cR
-Content-Type: multipart/mixed; boundary="------------6hT0JHBpma0FDK7oHoyGXy0A";
- protected-headers="v1"
-From: Matt Coster <matt.coster@imgtec.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns
- <frank.binns@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Drew Fustini <fustini@kernel.org>, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Message-ID: <4461a785-b593-429e-b436-44cd2f1c96eb@imgtec.com>
-Subject: Re: [PATCH v8 2/4] dt-bindings: gpu: img,powervr-rogue: Add TH1520
- GPU compatible
-References: <20250724-apr_14_for_sending-v8-0-0714bef83c59@samsung.com>
- <CGME20250724141911eucas1p17071ea620f183faff7ca00cad25cf824@eucas1p1.samsung.com>
- <20250724-apr_14_for_sending-v8-2-0714bef83c59@samsung.com>
- <20250725-gainful-saluki-of-mathematics-3c0dd0@kuoka>
-In-Reply-To: <20250725-gainful-saluki-of-mathematics-3c0dd0@kuoka>
 
---------------6hT0JHBpma0FDK7oHoyGXy0A
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 25/07/2025 07:59, Krzysztof Kozlowski wrote:
-> On Thu, Jul 24, 2025 at 04:18:59PM +0200, Michal Wilczynski wrote:
->> Update the img,powervr-rogue.yaml to include the T-HEAD TH1520 SoC's
->> specific GPU compatible string.
+On 18/07/2025 16:19, Adrián Larumbe wrote:
+> Hi Lucas, another missing remark from the original review,
+> 
+> On 16.05.2025 16:49, Lukas Zapolskas wrote:
+>> This patch implements the PANTHOR_PERF_CONTROL ioctl series, and
+>> a PANTHOR_GET_UOBJ wrapper to deal with the backwards and forwards
+>> compatibility of the uAPI.
 >>
->> The thead,th1520-gpu compatible, along with its full chain
->> img,img-bxm-4-64, and img,img-rogue, is added to the
->> list of recognized GPU types.
+>> The minor version is bumped to indicate that the feature is now
+>> supported.
 >>
->> While the BXM-4-64 GPU IP is designed with two distinct power domains,=
-
->> the TH1520 SoC integrates it with only a single, unified power gate th=
-at
->> is controllable by the kernel.
->>
->> To model this reality correctly while keeping the binding accurate for=
-
->> other devices, add conditional constraints to the `allOf` section:
->>  - An if block for thead,th1520-gpu enforces a maximum of one
->>    power domain and disallows the power-domain-names property.
->=20
-> Why?
->=20
-> This solves nothing, because you did not change the meaning of power
-> domain entry.
-
-Hi Krzysztof,
-
-Just to clarify, is this an issue that can be resolved by documenting
-the semantics of ">=3D1 power domains with names" vs "1 unnamed power
-domain" in the binding file? Or are you suggesting an alternative method
-of encoding this information in devicetree?
-
-Cheers,
-Matt
-
->=20
->>  - A separate if block applies to other B-series GPUs
->>    img,img-bxm-4-64 and img,img-bxs-4-64. A not clause within this
->>    block excludes the thead,th1520-gpu compatible, ensuring this rule
->>    requires a minimum of two power domains only for non TH1520 B-serie=
-s
->>    GPU's.
->>
->> This makes the binding strict and correct for both the specific TH1520=
-
->> implementation and for other SoCs that use the B-series Rogue GPUs.
->>
->> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
->> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+>> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
+>> Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 >> ---
->>  .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 32 +++++++++++++=
-++++++++-
->>  1 file changed, 31 insertions(+), 1 deletion(-)
+>>  drivers/gpu/drm/panthor/panthor_drv.c | 141 +++++++++++++++++++++++++-
+>>  1 file changed, 139 insertions(+), 2 deletions(-)
 >>
->> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.y=
-aml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
->> index 4450e2e73b3ccf74d29f0e31e2e6687d7cbe5d65..2c5c278b730145a983d1dd=
-fa4014b3c5046bcd52 100644
->> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
->> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
->> @@ -21,6 +21,11 @@ properties:
->>            # work with newer dts.
->>            - const: img,img-axe
->>            - const: img,img-rogue
->> +      - items:
->> +          - enum:
->> +              - thead,th1520-gpu
->> +          - const: img,img-bxm-4-64
->> +          - const: img,img-rogue
->>        - items:
->>            - enum:
->>                - ti,j721s2-gpu
->> @@ -84,11 +89,29 @@ allOf:
->>          compatible:
->>            contains:
->>              const: img,img-rogue
->> +      not:
->=20
-> Previous patch was completely different!
->=20
-> You cannot keep tags when you completely rewrite the patch. Drop all
-> reviews and all acks.
->=20
-> Above code is confusing and not correct, you just stuffed multiple if
-> causes.
->=20
-> Best regards,
-> Krzysztof
->=20
+>> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+>> index 4c1381320859..850a894fe91b 100644
+>> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+>> @@ -31,6 +31,7 @@
+>>  #include "panthor_gpu.h"
+>>  #include "panthor_heap.h"
+>>  #include "panthor_mmu.h"
+>> +#include "panthor_perf.h"
+>>  #include "panthor_regs.h"
+>>  #include "panthor_sched.h"
+>>
+>> @@ -73,6 +74,39 @@ panthor_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size, const v
+>>  	return 0;
+>>  }
+>>
+>> +/**
+>> + * panthor_get_uobj() - Copy kernel object to user object.
+>> + * @usr_ptr: Users pointer.
+>> + * @usr_size: Size of the user object.
+>> + * @min_size: Minimum size for this object.
+>> + *
+>> + * Helper automating kernel -> user object copies.
+>> + *
+>> + * Don't use this function directly, use PANTHOR_UOBJ_GET() instead.
+>> + *
+>> + * Return: valid pointer on success, an encoded error code otherwise.
+>> + */
+>> +static void*
+>> +panthor_get_uobj(u64 usr_ptr, u32 usr_size, u32 min_size)
+>> +{
+>> +	int ret;
+>> +	void *out_alloc __free(kvfree) = NULL;
+>> +
+>> +	/* User size shouldn't be smaller than the minimal object size. */
+>> +	if (usr_size < min_size)
+>> +		return ERR_PTR(-EINVAL);
+>> +
+>> +	out_alloc = kvmalloc(min_size, GFP_KERNEL);
+>> +	if (!out_alloc)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	ret = copy_struct_from_user(out_alloc, min_size, u64_to_user_ptr(usr_ptr), usr_size);
+>> +	if (ret)
+>> +		return ERR_PTR(ret);
+>> +
+>> +	return_ptr(out_alloc);
+>> +}
+>> +
+>>  /**
+>>   * panthor_get_uobj_array() - Copy a user object array into a kernel accessible object array.
+>>   * @in: The object array to copy.
+>> @@ -176,7 +210,12 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+>>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
+>> -		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks))
+>> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks), \
+>> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_setup, shader_enable_mask), \
+>> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_start, user_data), \
+>> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_stop, user_data), \
+>> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_sample, user_data))
+>> +
+>>
+>>  /**
+>>   * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
+>> @@ -191,6 +230,24 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>>  			 PANTHOR_UOBJ_MIN_SIZE(_src_obj), \
+>>  			 sizeof(_src_obj), &(_src_obj))
+>>
+>> +/**
+>> + * PANTHOR_UOBJ_GET() - Copies a user object from _usr_ptr to a kernel accessible _dest_ptr.
+>> + * @_dest_ptr: Local variable
+>> + * @_usr_size: Size of the user object.
+>> + * @_usr_ptr: The pointer of the object in userspace.
+>> + *
+>> + * Return: Error code. See panthor_get_uobj().
+>> + */
+>> +#define PANTHOR_UOBJ_GET(_dest_ptr, _usr_size, _usr_ptr) \
+>> +	({ \
+>> +		typeof(_dest_ptr) _tmp; \
+>> +		_tmp = panthor_get_uobj(_usr_ptr, _usr_size, \
+>> +				PANTHOR_UOBJ_MIN_SIZE(_tmp[0])); \
+>> +		if (!IS_ERR(_tmp)) \
+>> +			_dest_ptr = _tmp; \
+>> +		PTR_ERR_OR_ZERO(_tmp); \
+>> +	})
+>> +
+>>  /**
+>>   * PANTHOR_UOBJ_GET_ARRAY() - Copy a user object array to a kernel accessible
+>>   * object array.
+>> @@ -1339,6 +1396,83 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
+>>  	return 0;
+>>  }
+>>
+>> +#define perf_cmd(command) \
+>> +	({ \
+>> +		struct drm_panthor_perf_cmd_##command *command##_args __free(kvfree) = NULL; \
+>> +		int _ret = PANTHOR_UOBJ_GET(command##_args, args->size, args->pointer); \
+>> +		if (_ret) \
+>> +			return _ret; \
+>> +		return panthor_perf_session_##command(pfile, ptdev->perf, args->handle, \
+>> +				command##_args->user_data); \
+>> +	})
+>> +
+>> +static int panthor_ioctl_perf_control(struct drm_device *ddev, void *data,
+>> +				      struct drm_file *file)
+>> +{
+>> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
+>> +	struct panthor_file *pfile = file->driver_priv;
+>> +	struct drm_panthor_perf_control *args = data;
+>> +	int ret;
+>> +
+>> +	if (!args->pointer) {
+>> +		switch (args->cmd) {
+>> +		case DRM_PANTHOR_PERF_COMMAND_SETUP:
+>> +			args->size = sizeof(struct drm_panthor_perf_cmd_setup);
+>> +			return 0;
+>> +
+>> +		case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
+>> +			args->size = 0;
+>> +			return 0;
+>> +
+>> +		case DRM_PANTHOR_PERF_COMMAND_START:
+>> +			args->size = sizeof(struct drm_panthor_perf_cmd_start);
+>> +			return 0;
+>> +
+>> +		case DRM_PANTHOR_PERF_COMMAND_STOP:
+>> +			args->size = sizeof(struct drm_panthor_perf_cmd_stop);
+>> +			return 0;
+>> +
+>> +		case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
+>> +			args->size = sizeof(struct drm_panthor_perf_cmd_sample);
+>> +			return 0;
+>> +
+>> +		default:
+>> +			return -EINVAL;
+>> +		}
+>> +	}
+>> +
+>> +	switch (args->cmd) {
+>> +	case DRM_PANTHOR_PERF_COMMAND_SETUP:
+>> +	{
+>> +		struct drm_panthor_perf_cmd_setup *setup_args __free(kvfree) = NULL;
+>> +
+>> +		ret = PANTHOR_UOBJ_GET(setup_args, args->size, args->pointer);
+>> +		if (ret)
+>> +			return -EINVAL;
+>> +
+>> +		return panthor_perf_session_setup(ptdev, ptdev->perf, setup_args, pfile);
+> 
+> I think this is something I had already brought up in the revision for v2 of the patch series,
+> but I think I would pass the drm_file here straight away rather than the panthor file,
+> then retrieve the panthor_file pointer from the file's driver_priv field inside
+> panthor_perf_session_setup, and that way you can get rid of struct panthor_file::drm_file.
+> 
+> I think this should be alright, because the only place where it'd be essential to keep
+> a copy of the drm_file is in the session struct, to make sure sessions match their DRM device fd's.
+> 
 
+Thank you for pointing this out, I hadn't quite understood the suggestion for v2. Will update 
+the patches accordingly. 
 
---=20
-Matt Coster
-E: matt.coster@imgtec.com
+>> +	}
+>> +	case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
+>> +	{
+>> +		return panthor_perf_session_teardown(pfile, ptdev->perf, args->handle);
+>> +	}
+>> +	case DRM_PANTHOR_PERF_COMMAND_START:
+>> +	{
+>> +		perf_cmd(start);
+>> +	}
+>> +	case DRM_PANTHOR_PERF_COMMAND_STOP:
+>> +	{
+>> +		perf_cmd(stop);
+>> +	}
+>> +	case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
+>> +	{
+>> +		perf_cmd(sample);
+>> +	}
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +}
+>> +
+>>  static int
+>>  panthor_open(struct drm_device *ddev, struct drm_file *file)
+>>  {
+>> @@ -1409,6 +1543,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+>>  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
+>>  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
+>>  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+>> +	PANTHOR_IOCTL(PERF_CONTROL, perf_control, DRM_RENDER_ALLOW),
+>>  };
+>>
+>>  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+>> @@ -1518,6 +1653,8 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>>   * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
+>>   *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
+>>   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+>> + * - 1.4 - adds DEV_QUERY_PERF_INFO query
+>> + *       - adds PERF_CONTROL ioctl
+>>   */
+>>  static const struct drm_driver panthor_drm_driver = {
+>>  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+>> @@ -1531,7 +1668,7 @@ static const struct drm_driver panthor_drm_driver = {
+>>  	.name = "panthor",
+>>  	.desc = "Panthor DRM driver",
+>>  	.major = 1,
+>> -	.minor = 3,
+>> +	.minor = 4,
+>>
+>>  	.gem_create_object = panthor_gem_create_object,
+>>  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+>> --
+>> 2.33.0.dirty
+> 
+> 
+> Adrian Larumbe
 
---------------6hT0JHBpma0FDK7oHoyGXy0A--
-
---------------FA429wOmyZTDb0lEr1PO30cR
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaINHkQUDAAAAAAAKCRB5vBnz2d5qsPY+
-AQC+kjAW0uDtrouiceT5bYpMDndxRI7vRSUj+AHgYJbrQAD/ZRupEgxNo+m/Ltvl25Fsnif7v9bv
-H7qAp9Jy0KupbQU=
-=apKl
------END PGP SIGNATURE-----
-
---------------FA429wOmyZTDb0lEr1PO30cR--
