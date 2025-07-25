@@ -2,108 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BE7B11CCE
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 12:50:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312FCB11CCC
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 12:50:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93F6F10E9D5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F82510E1E9;
 	Fri, 25 Jul 2025 10:50:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="CP7FT5L6";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UFBbos72";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
- [209.85.210.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89F1B10E9D9
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 621FA10E9D8
  for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 10:50:37 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id
- 46e09a7af769-73e88bc3891so1125490a34.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 03:50:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1753440636; x=1754045436;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YfE909p8Iq119G3J/2SxiBSXlMMdz4SFa3hpgANK2k8=;
- b=CP7FT5L6kg8QoN3fNIQTi9VInVruZgpSh3eRPF2Rd2mg4QuwWUyWIR6+DiSUr4s89R
- 1cBXdbt1UAGdTMZPMMfZRv0illNFXEP5B/vEBqPfU68za+UtHMVfmy5xKGZjBIDQGwdl
- YjO/IQ8C8IW5hFbWz++qayI+6YQN1rJVGAZ8M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753440636; x=1754045436;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YfE909p8Iq119G3J/2SxiBSXlMMdz4SFa3hpgANK2k8=;
- b=w7gg9CXeXhkRZIyQP1R+upnwkoYjU4/uvd6yPdyKPmgTtxwYruczHUID8Nxm774pQg
- cHvJU4M5SKTGGi1zdZyt+MYd7Go8F4I8DcDphD07SpsF7gjL9FZHiMak619QUXgZbdrd
- 9OfEQK1Fd6y63JC416L651E/2IM3r2VOr3rtvvKJqLOMVnAQ/qkDkfiHjCZBXqjLuV8L
- 0XgNJezjy3V0yiJgBHX4wlzQhxBOI2Q4xl4lfyJA6HghPQwQO/juOvPDN8HreaS613mc
- J6qkLyEBbhTXCtydHanpjnwuvR5OhQ7cMC/NmBPsDDZ8l10R29pSuP/nVKygd37ubiFu
- ZPLQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV8CTm++6MrYr5ZL6ZHdj7t/P6w1St1iSqWyoRDidO+bvsH82vhnBDMSajr13Dem0ogCmJTPIjQ/dM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyJkvBD+n0kie1js8YAhfBh7CL76dfqUKTNXmMn45Lb8chySgOJ
- iGzGTH4wcGmmW+MjGwctEhy9+1opxlWuPIG989uZoPWu49RuvmrgI//RlKxjhZh8uyBfsQk/hr1
- AZPNO2A==
-X-Gm-Gg: ASbGncsCO5F233h4jb81DagWjUMtu23e0cVPL3hufanPtAH5M73cdKw/tAIAVutoWGr
- iJtYelWG7JtSjFSRkUXKmUlJzcKQKFO5hmVNkNUC3sSeA6K3B157aea0O6LnGhqExeRQN2WxY4G
- rUJgoHhTDWI2ajo1IOJeqgdW1mdI2sv2dJjeCKpcQLkyF5ps8r+N78g4OcEP0CV6QIs8J3uikZJ
- tLgcEBbeP3hZkZJLnO8GzdPTETkR2/au0DGtinQcriNIPy4KsKSdL2JmDpIl5/HDFiTmiqNWDFC
- Yd9+WFPkEF/Vigdel+QHOgieJUOTGTqW8vuXxfaPuwNuqvfoKsryulMWIDOPXdOuCEtPND1i+xL
- ucRus4aYNp015We2mXw12hGrpAH1n1SR6eMXGs0G8bW9PjglXsmQwuCEmEQ==
-X-Google-Smtp-Source: AGHT+IE0U3ClNYyUhdFLSBgUddVurUaRqdfRi4lg69yQQYQ7cR+dHwERpJ+pIsZG00nGY0mRPRIbXQ==
-X-Received: by 2002:a05:6830:448f:b0:73c:ee05:a51d with SMTP id
- 46e09a7af769-7413dc6613cmr570034a34.11.1753440636395; 
- Fri, 25 Jul 2025 03:50:36 -0700 (PDT)
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com.
- [209.85.160.53]) by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-7412d15770csm649173a34.15.2025.07.25.03.50.35
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Jul 2025 03:50:36 -0700 (PDT)
-Received: by mail-oa1-f53.google.com with SMTP id
- 586e51a60fabf-2ffa8e58654so1098859fac.3
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 03:50:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVORVaXLrrFi9Dxy6JDqRZEFvqkid8OpM97FXiugxPnDtfrqmEil8iOT8T8/pwbyJmeN1WaIf+5AV4=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:3713:b0:4e9:b7e3:bdcd with SMTP id
- ada2fe7eead31-4fa3fad468amr285963137.12.1753440273293; Fri, 25 Jul 2025
- 03:44:33 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56P9AOTN018948;
+ Fri, 25 Jul 2025 10:50:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 5bh0hvMC1PjdJpImLiwjapwCuJypbziWRznl02GU6Ls=; b=UFBbos72VZCd7Rdr
+ 8TxZz9VkX3izCSl16/doF7Ve1n6NgEukoJShS5NxDiX4T/K0BEIAanHp4wixFMcJ
+ YrYhLujDhRQw55WTiPLOR+68CQhb4SKmpPj0B7pf9w1wdwqAUQj1Ray+GrfY3kWS
+ FSbuwWWJnw4lqS2Q/1+8w+Mqm6AJPA2N5ADDRBUzvF71n2J33A2lT4wIK01r8df8
+ owdoua3+YCTx23/otjBL8PV+1yTvq42vWPwxVmvV39YSO6BIU0gTBKxzHqGdrj3a
+ AEpUBc04tPp12vildKDGY2M+xV6NnO4NnB4jIlHPZHIMn02GKtrADSro9rcRhjra
+ seYeuA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 483w2s1s5f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 25 Jul 2025 10:50:32 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56PAoVVF006564
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 25 Jul 2025 10:50:31 GMT
+Received: from [10.216.28.154] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 25 Jul
+ 2025 03:50:26 -0700
+Message-ID: <8a149580-5044-4744-b432-9f0eef0a0d31@quicinc.com>
+Date: Fri, 25 Jul 2025 16:20:23 +0530
 MIME-Version: 1.0
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-24-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250724083914.61351-24-angelogioacchino.delregno@collabora.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Fri, 25 Jul 2025 18:43:57 +0800
-X-Gmail-Original-Message-ID: <CAC=S1njhu11nHpyMULbK6PE-BLrBMq+d397pDU6gBzgo7xivXg@mail.gmail.com>
-X-Gm-Features: Ac12FXyc7RkTIKa4HnSlf_SM-GYdwIREUn6AcAkOBKhNuekdCdvFzy29o7Ufs68
-Message-ID: <CAC=S1njhu11nHpyMULbK6PE-BLrBMq+d397pDU6gBzgo7xivXg@mail.gmail.com>
-Subject: Re: [PATCH 23/38] arm64: dts: mediatek: mt7986a: Fix PCI-Express
- T-PHY node address
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
- daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org, 
- linus.walleij@linaro.org, linux-remoteproc@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- olivia.wen@mediatek.com, shane.chien@mediatek.com, linux-gpio@vger.kernel.org, 
- linux-phy@lists.infradead.org, airlied@gmail.com, simona@ffwll.ch, 
- herbert@gondor.apana.org.au, jassisinghbrar@gmail.com, jiaxin.yu@mediatek.com, 
- andy.teng@mediatek.com, chunfeng.yun@mediatek.com, jieyy.yang@mediatek.com, 
- chunkuang.hu@kernel.org, conor+dt@kernel.org, jitao.shi@mediatek.com, 
- p.zabel@pengutronix.de, arnd@arndb.de, kishon@kernel.org, 
- kyrie.wu@mediatek.corp-partner.google.com, maarten.lankhorst@linux.intel.com, 
- tinghan.shen@mediatek.com, mripard@kernel.org, ck.hu@mediatek.com, 
- broonie@kernel.org, eugen.hristev@linaro.org, houlong.wei@mediatek.com, 
- matthias.bgg@gmail.com, tglx@linutronix.de, mchehab@kernel.org, 
- linux-arm-kernel@lists.infradead.org, granquet@baylibre.com, 
- sam.shih@mediatek.com, mathieu.poirier@linaro.org, fparent@baylibre.com, 
- andersson@kernel.org, sean.wang@kernel.org, linux-sound@vger.kernel.org, 
- lgirdwood@gmail.com, vkoul@kernel.org, linux-crypto@vger.kernel.org, 
- tzimmermann@suse.de, atenart@kernel.org, krzk+dt@kernel.org, 
- linux-media@vger.kernel.org, davem@davemloft.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+To: Vinod Koul <vkoul@kernel.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>
+CC: Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, Viken Dadhaniya
+ <quic_vdadhani@quicinc.com>, Andi Shyti <andi.shyti@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+References: <644oygj43z2um42tmmldp3feemgzrdoirzfw7pu27k4zi76bwg@wfxbtgqqgh4p>
+ <dc7358a1-ddc5-402e-9024-283f8e46e3b6@quicinc.com>
+ <CAO9ioeVuAO6mYpBSpiTW0jhFRPtkubZ5eEskd1yLBHVdR8_YMA@mail.gmail.com>
+ <1b55d9d4-f3ff-4cd9-8906-5f370da55732@quicinc.com>
+ <28d26c70-178f-413b-b7f8-410c508cfdd7@quicinc.com>
+ <CAO9ioeXBwFYL8q7x7_fHvx5YO+qyAXk4wpnfPrku4iY9yBsk0Q@mail.gmail.com>
+ <cac5e84b-fbdb-47a9-860d-16a7fa4dc773@quicinc.com>
+ <4q3vlydi5xgltd3pcez54alxgrehhfn4pppg47ngwp6y5k7n33@d4d4htntj64k>
+ <53dd18ec-9a65-4bf7-8490-ca3eb56ce2a5@quicinc.com>
+ <iang2jpe4s6wmbypmtq5uswcm6n6xntqdulyhekcz5k6zxddu3@re3rrr4dso5p>
+ <aICMDROkyjzBZFHo@vaman>
+Content-Language: en-US
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+In-Reply-To: <aICMDROkyjzBZFHo@vaman>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: P68p_Z1RsZcKhPtwQSyBMGeyR68FpidV
+X-Authority-Analysis: v=2.4 cv=IZyHWXqa c=1 sm=1 tr=0 ts=68836178 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
+ a=La7-vtGrAMXfD6w410sA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: P68p_Z1RsZcKhPtwQSyBMGeyR68FpidV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI1MDA5MSBTYWx0ZWRfX1z/I87JUNVzD
+ 5bwPy9cVP7Vgc1KxLEGFWi8y1zBiY12FviruEmjA9SvX5FqXPIZQbNGxr7zGW7RE0+2fYtiJpU1
+ s2oQ19fuLNZ9GB/DBeAO9uduvck90Y/j42W89eU/465+CRc1+3ifhactqWo9EFgOFxZ9FCFeL+b
+ XzgzRB3lJ1WMXU2yaEX+GCA7tGyV/fEw1LsJlvATUlsfL7b5AzdSfVUGlCKvkgP7C1Y1+MNi61I
+ VRbv5c4ZLGCK5TeWOeUrjaUhIxjsP6SvZ5uRo890TECtRHH40E4sqqpAFel5FpN9VkGAO1WYKtF
+ 7ilsnUGu6XTdYRd5JEewcrxoLvbi+oc4Jcy65nvwGJhdfVHrT4z28W+/ePTLfALTQjPOmzV38sI
+ b/WraTVyl05oDXU4RwpnM/7ECsKS3HQM+Dy4ZvlxJnUlNREB3ywzFkSeytD20lSp5Xrl21XD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-25_03,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 adultscore=0
+ phishscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ clxscore=1015 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507250091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,57 +118,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 5:49=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> The PCIe TPHY is under the soc bus, which provides MMIO, and all
-> nodes under that must use the bus, otherwise those would clearly
-> be out of place.
->
-> Add ranges to the PCIe tphy and assign the address to the main
-> node to silence a dtbs_check warning, and fix the children to
-> use the MMIO range of t-phy.
->
-> Fixes: 963c3b0c47ec ("arm64: dts: mediatek: fix t-phy unit name")
-> Fixes: 918aed7abd2d ("arm64: dts: mt7986: add pcie related device nodes")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
 
-Reviewed-by: Fei Shao <fshao@chromium.org>
 
-> ---
->  arch/arm64/boot/dts/mediatek/mt7986a.dtsi | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi b/arch/arm64/boot/=
-dts/mediatek/mt7986a.dtsi
-> index 559990dcd1d1..3211905b6f86 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
-> @@ -428,16 +428,16 @@ pcie_intc: interrupt-controller {
->                         };
->                 };
->
-> -               pcie_phy: t-phy {
-> +               pcie_phy: t-phy@11c00000 {
->                         compatible =3D "mediatek,mt7986-tphy",
->                                      "mediatek,generic-tphy-v2";
-> -                       ranges;
-> -                       #address-cells =3D <2>;
-> -                       #size-cells =3D <2>;
-> +                       ranges =3D <0 0 0x11c00000 0x20000>;
-> +                       #address-cells =3D <1>;
-> +                       #size-cells =3D <1>;
->                         status =3D "disabled";
->
-> -                       pcie_port: pcie-phy@11c00000 {
-> -                               reg =3D <0 0x11c00000 0 0x20000>;
-> +                       pcie_port: pcie-phy@0 {
-> +                               reg =3D <0 0x20000>;
->                                 clocks =3D <&clk40m>;
->                                 clock-names =3D "ref";
->                                 #phy-cells =3D <1>;
-> --
-> 2.50.1
->
->
+On 7/23/2025 12:45 PM, Vinod Koul wrote:
+> On 22-07-25, 15:46, Dmitry Baryshkov wrote:
+>> On Tue, Jul 22, 2025 at 05:50:08PM +0530, Jyothi Kumar Seerapu wrote:
+>>> On 7/19/2025 3:27 PM, Dmitry Baryshkov wrote:
+>>>> On Mon, Jul 07, 2025 at 09:58:30PM +0530, Jyothi Kumar Seerapu wrote:
+>>>>> On 7/4/2025 1:11 AM, Dmitry Baryshkov wrote:
+>>>>>> On Thu, 3 Jul 2025 at 15:51, Jyothi Kumar Seerapu
+> 
+> [Folks, would be nice to trim replies]
+> 
+>>>>> Could you please confirm if can go with the similar approach of unmap the
+>>>>> processed TREs based on a fixed threshold or constant value, instead of
+>>>>> unmapping them all at once?
+>>>>
+>>>> I'd still say, that's a bad idea. Please stay within the boundaries of
+>>>> the DMA API.
+>>>>
+>>> I agree with the approach you suggested—it's the GPI's responsibility to
+>>> manage the available TREs.
+>>>
+>>> However, I'm curious whether can we set a dynamic watermark value perhaps
+>>> half the available TREs) to trigger unmapping of processed TREs ? This would
+>>> allow the software to prepare the next set of TREs while the hardware
+>>> continues processing the remaining ones, enabling better parallelism and
+>>> throughput.
+>>
+>> Let's land the simple implementation first, which can then be improved.
+>> However I don't see any way to return 'above the watermark' from the DMA
+>> controller. You might need to enhance the API.
+> 
+> Traditionally, we set the dma transfers for watermark level and we get a
+> interrupt. So you might want to set the callback for watermark level
+> and then do mapping/unmapping etc in the callback. This is typical model
+> for dmaengines, we should follow that well
+> 
+> BR
+
+Thanks Dmitry and Vinod, I will work on V7 patch for submitting the I2C 
+messages until they fit and and unmap all processed messages together 
+for now.
+
+Regarding the watermark mechanism, looks GENI SE DMA supports watermark 
+interrupts but it appears that GPI DMA doesn't have such provision of 
+watermark.
+
+
