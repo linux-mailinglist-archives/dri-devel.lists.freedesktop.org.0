@@ -2,125 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F77FB11F7D
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 15:45:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17C6B11F91
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 15:53:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6765710E1F4;
-	Fri, 25 Jul 2025 13:45:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B48810E379;
+	Fri, 25 Jul 2025 13:53:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eVfjDJws";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="b9ZVuhXb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4EF10E1F4
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 13:45:14 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56P9Da1T015901
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 13:45:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 6ONmnBZZ9xI8tN7Ug6QnlRIQwZtjBF6/HFAbbw5ba98=; b=eVfjDJwsYZBzEMcO
- V6yyGTyhTzC3N/k4f0tWdn8ta6024NnF7g0Umn7vZQm86LTJSIBLzJOlBm6uM72K
- 9RsB7+DbZEnqDHMcVlWNeo2pFxm+Q/9iyB82bKZ/RfgNNFZarW//YQF6qWAQpDcu
- hA/MYAhvTr6oXPnzgN7w5YhR6fz+5BS23W0P23EuyUztyVbnxMLUkRdZI1MFW3BU
- F0O3L8rj9ttoWyyXUcYtU32Zdj1Sn0aAlpCjEfsZsTOwKOdyHsRzXw19TOs65tAe
- zNi5T2HxUFHKio3HHapw/RKE8idak7xkZ5z65H08ehYLMJYq0VAuTyTfELNvutW6
- KAYNjg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 483w50287c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 13:45:12 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7e347b1a6c7so557522985a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 06:45:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753451112; x=1754055912;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6ONmnBZZ9xI8tN7Ug6QnlRIQwZtjBF6/HFAbbw5ba98=;
- b=bpbcwRiIvFblkSMszVCeYC8FZ9z7gYhaRfvoYPNTuLyX9tqfOEdi75VoILJu5fdNN8
- Wz4Um/PmsgfPekgHLv6V1WUCW1vyUkhDVPM/e2EGZj0NKyWVxnei45Pq6LklWOtyM6Od
- jyAOUsfIX05z5B37jkXais58rL/2CtCsx0AmKFMuiBZwgQ8KBRnEC5Ne7hCDwADSrfpk
- xIStQvATFUKm9nokqUTZefxr/S4RwkRFiK7TXZfld3fOwWspGefWMaoSJO4KQTbmAKrK
- BJujS19S1oCeGTjiE3UtIuRpLJ43U+daNOUBW3iFAmiFGXajTHvoR3jpqJQJdGZHg45O
- WlvQ==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3E410E371
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 13:53:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BB0F845E46
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 13:53:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 985EEC4CEF5
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 13:53:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753451583;
+ bh=oU729MW8v42O4+DLHvPxdMXGBdD9trCPOhSgmsjK+gc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=b9ZVuhXbGKIHEtNeDQ409+eweWUsMpZy22RxH5IYVSgYVj0smXsczXCUASbR2zcHv
+ 3ksOYLU+ClG7dHHSJ+Lt4FE/G7KvwGW0+pfW3u2UR/vDEetuGpKYDRCQ+lLQt4KCpf
+ sK9LLsM232lfRTuEIc4KqR8jtYKmE5vneCGZrXauSdJNasK2ZhoQgsDfQ3HXft6Ldj
+ EtCFba82wPZH9KWTOyHCA4J+0DnyTcHPPnNxE31XaHdXpcxGenB1C3uk02Ip1a0qst
+ CQoISiWdQmhMgYyObVkGbQmHyq/y6IRmfBxZr8XwBKpfXMbb2x+l4rVma25VSgvnh9
+ 6afiH1EcbsCaQ==
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-ae6f8d3bcd4so404061766b.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 06:53:03 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXwWq8lB3D4noFgK+2mAe9UiescC3n1/hoTCM56OpTq+qzg8iLmZ9SciA8B1gypZN059nyFME09HB8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzcFUJu7NUmN1vUU8GW0+JgL6VKqolvuwlOOQ1y2Ihv+TXh+q/Q
- 3ce7n0Qg+slRE/NxHsaKKBaqUtumYxRPfN/MnqBvjNTfCG2MSE6EuXa6uO5/4Xn2uKK9H7LyeX8
- urIJVvogfSO/aGNl1Pbxo009+t3Qe0r+u7EkxI3cUIX4mjzhNDnbNkImBSchqkVEwhng1C/4=
-X-Gm-Gg: ASbGncubr8l/CmaY4lMp4K0ctYlfy5tUDg+aOMhXQYVLHSAqbZuj5ncybJvIFGwMzOB
- CYWCcjU4R3XrB9oEdy7MyQXsJiJcjrK9M9eNDkfK1TrPktGMs8gVlGhiccnnYYjaznN7jBQRVL0
- TxTzQenPKih9b1z+yTtzYoN4MyqRbpq0uQOn1v6jqnuUGaOmy8xvusKdpFd4JD7/XauBMZnQ/bb
- /NVAVnlBshLmnkbajXkAWHE+sbSJJxvaD34SrlVWdo4o1uw2idEA8Yflo+Vg5dLIHber6DhuGl5
- xj6DaySetA6JVTOdo3VU8FRKjuMdIYrTE7t6cjlt23DXBixNlygGxCgLiQtMIHLM4IuxoOSXRiz
- Cw5iF6CNFZhcX624izNgHszxD4/WxnzAudWzJl8Jl+JWu00RuyTye
-X-Received: by 2002:a05:6214:2262:b0:706:c5f3:c137 with SMTP id
- 6a1803df08f44-7072088723dmr20905696d6.24.1753451111609; 
- Fri, 25 Jul 2025 06:45:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH1U/xIZZYpQK1jfWnH2Yh4VPLMFxYgo4DYiR+SfBY8b+qvkCOewAz9ojreIom0tLRc0x+sNA==
-X-Received: by 2002:a05:6214:2262:b0:706:c5f3:c137 with SMTP id
- 6a1803df08f44-7072088723dmr20904936d6.24.1753451110818; 
- Fri, 25 Jul 2025 06:45:10 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55b53b34ec2sm948748e87.48.2025.07.25.06.45.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jul 2025 06:45:10 -0700 (PDT)
-Date: Fri, 25 Jul 2025 16:45:08 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v12 10/12] drm/msm/dpu: support SSPP assignment for
- quad-pipe case
-Message-ID: <tozhsnjg34ob4xdhzs2tzga3cghjtkpfy4672ubdyazbqvne2e@kzdhjuwmrtor>
-References: <20250707-v6-16-rc2-quad-pipe-upstream-v12-0-67e3721e7d83@linaro.org>
- <20250707-v6-16-rc2-quad-pipe-upstream-v12-10-67e3721e7d83@linaro.org>
- <khu6gwzn7gulubwoshdutl4d2nu3c6exnkv4cimjljc5wbxf7l@ho4gxsolq3hn>
- <CABymUCPhjugvyQ2KQabjTn3XNEDRSnQgRX5te-tHKT8hBLPdMQ@mail.gmail.com>
- <bxual3dbzffgbe6vziwumaqpyxrnjbvnljy2pg2o5mtgixufbm@mjvg5em2xklf>
- <CABymUCOgnOMTM=XYEMbE_8h_x+zeC1OnMKGMH5ZEP+Zuhz4PKw@mail.gmail.com>
+ AJvYcCVptyHdxNoeiL9lru8FFfBcX0vMn14TiU5mpfnczsETGGtvgCOwpzwYuG6fHTfmgO7E6l07d9Nt8bg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyd8xVIfkd0ZvKIqLR7PHnIcIMjIYDrXE+drd8IBW0Qzq3fKz76
+ 9b/sHioslI91ZZMN1O94ycnzWn7mtVyfh+8vrGN9gp6VBRTgEGuDNRsO2+mbevwGLZMS8E2h5IG
+ NX8gK4P6Qlc3PoPv6dDwk0XmBnvJH5Q==
+X-Google-Smtp-Source: AGHT+IGMwaL+rmBfPzDJz4oey1pCXFPHKKw91Bot2wKSkFx4bXMvOHLEpxJUfZntcXB0BI+C/DLMALjqO45Bu9z0YRA=
+X-Received: by 2002:a17:907:6d0b:b0:ae3:5da3:1a23 with SMTP id
+ a640c23a62f3a-af61750a50dmr235368466b.21.1753451582011; Fri, 25 Jul 2025
+ 06:53:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABymUCOgnOMTM=XYEMbE_8h_x+zeC1OnMKGMH5ZEP+Zuhz4PKw@mail.gmail.com>
-X-Proofpoint-GUID: cHw3L_q8A-z7tY8GakaAah_TJBPYCu-G
-X-Proofpoint-ORIG-GUID: cHw3L_q8A-z7tY8GakaAah_TJBPYCu-G
-X-Authority-Analysis: v=2.4 cv=bKAWIO+Z c=1 sm=1 tr=0 ts=68838a69 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Wb1JkmetP80A:10 a=sWKEhP36mHoA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=1EURjifVAzo2SBUh9P8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI1MDExNyBTYWx0ZWRfX0smETuA1AL04
- 9rXqs6sJkLGhMdngZOok7WLaeRDq4vLzS+WGFn71AfRJo/R6fHrmAu0/yBU8mCj+gC3ZRcy/XgL
- DkltqUF4BWw/D+tcp+t5wVnRJcJ2Z+r8Hbgs9FbPmBKsSMGQQK919Ew2QJS5tZSnYy3fVdPD9ky
- qjXc/TFVTNmA+xfbPkzTbl7YATC6MASa8YMFpTw21wxW46yaXh8I4lRJq3AUjXnV1gTcEYyxAao
- PnqSQl5zRkEBH/Z8JLnOQlGnsqOT5Ctqu98HkbITKFsLfpdAsn2RqMo4U32PkS8CMbkki8vgQGY
- 3jb6YF6CG4TgZTo41QgbvKAJD+AVGdGsGcw21PE3Eh1xZVWzr+hz9ZY0ndoINc9eiW9ef0wF/ab
- tb+C1A6yZl15CIccM6+OTV9dco8GrGMHAu6mreOhTUjMuJ9c3eqV5p5FcXt3OpqwQJYlrStG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-25_03,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 spamscore=0 mlxlogscore=999 clxscore=1015
- phishscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507250117
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 25 Jul 2025 08:52:49 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJGNdp3Z0sXaEXWY8nqXD+0kSCo+BYCkcGstE7zcVVcXw@mail.gmail.com>
+X-Gm-Features: Ac12FXwKwOUzIhM63V196in4PCS6Bf2k_E9MkYLnnuY9m0IymXlzSXNHAMKf4rk
+Message-ID: <CAL_JsqJGNdp3Z0sXaEXWY8nqXD+0kSCo+BYCkcGstE7zcVVcXw@mail.gmail.com>
+Subject: Re: [PATCH 00/38] MediaTek devicetree/bindings warnings sanitization
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, herbert@gondor.apana.org.au, 
+ davem@davemloft.net, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, jassisinghbrar@gmail.com, mchehab@kernel.org, 
+ matthias.bgg@gmail.com, chunfeng.yun@mediatek.com, vkoul@kernel.org, 
+ kishon@kernel.org, sean.wang@kernel.org, linus.walleij@linaro.org, 
+ lgirdwood@gmail.com, broonie@kernel.org, andersson@kernel.org, 
+ mathieu.poirier@linaro.org, daniel.lezcano@linaro.org, tglx@linutronix.de, 
+ atenart@kernel.org, jitao.shi@mediatek.com, ck.hu@mediatek.com, 
+ houlong.wei@mediatek.com, kyrie.wu@mediatek.corp-partner.google.com, 
+ andy.teng@mediatek.com, tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com, 
+ shane.chien@mediatek.com, olivia.wen@mediatek.com, granquet@baylibre.com, 
+ eugen.hristev@linaro.org, arnd@arndb.de, sam.shih@mediatek.com, 
+ jieyy.yang@mediatek.com, frank-w@public-files.de, mwalle@kernel.org, 
+ fparent@baylibre.com, linux-crypto@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org, 
+ linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+ linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,290 +90,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 09:56:21AM +0800, Jun Nie wrote:
-> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 于2025年7月22日周二 20:04写道：
-> >
-> > On Mon, Jul 21, 2025 at 04:06:13PM +0800, Jun Nie wrote:
-> > > Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> 于2025年7月19日周六 18:09写道：
-> > > >
-> > > > On Mon, Jul 07, 2025 at 02:18:05PM +0800, Jun Nie wrote:
-> > > > > Currently, SSPPs are assigned to a maximum of two pipes. However,
-> > > > > quad-pipe usage scenarios require four pipes and involve configuring
-> > > > > two stages. In quad-pipe case, the first two pipes share a set of
-> > > > > mixer configurations and enable multi-rect mode when certain
-> > > > > conditions are met. The same applies to the subsequent two pipes.
-> > > > >
-> > > > > Assign SSPPs to the pipes in each stage using a unified method and
-> > > > > to loop the stages accordingly.
-> > > > >
-> > > > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > > > > ---
-> > > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 143 +++++++++++++++++++-----------
-> > > > >  1 file changed, 89 insertions(+), 54 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > > > > index 149e7066480b07f9f6d422748d89ffd6f9416f33..ecfebf7a2406d65930075cc2a4b8a8a7d40b3d3c 100644
-> > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > > > > @@ -954,6 +954,30 @@ static int dpu_plane_is_multirect_parallel_capable(struct dpu_hw_sspp *sspp,
-> > > > >               dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth);
-> > > > >  }
-> > > > >
-> > > > > +static bool dpu_plane_get_single_pipe(struct dpu_plane_state *pstate,
-> > > > > +                                   struct dpu_sw_pipe **single_pipe,
-> > > > > +                                   struct dpu_sw_pipe_cfg **single_pipe_cfg,
-> > > > > +                                   int *stage_index)
-> > > > > +{
-> > > > > +     int stage_idx, pipe_idx, i, valid_pipe = 0;
-> > > > > +
-> > > > > +     for (stage_idx = 0; stage_idx < STAGES_PER_PLANE; stage_idx++) {
-> > > > > +             for (i = 0; i < PIPES_PER_STAGE; i++) {
-> > > > > +                     pipe_idx = stage_idx * PIPES_PER_STAGE + i;
-> > > > > +                     if (drm_rect_width(&pstate->pipe_cfg[pipe_idx].src_rect) != 0) {
-> > > > > +                             valid_pipe++;
-> > > > > +                             if (valid_pipe > 1)
-> > > > > +                                     return false;
-> > > > > +
-> > > > > +                             *single_pipe = &pstate->pipe[pipe_idx];
-> > > > > +                             *single_pipe_cfg = &pstate->pipe_cfg[pipe_idx];
-> > > > > +                             *stage_index = stage_idx;
-> > > > > +                     }
-> > > > > +             }
-> > > > > +     }
-> > > > > +
-> > > > > +     return valid_pipe == 1;
-> > > > > +}
-> > > > >
-> > > > >  static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
-> > > > >                                      struct drm_atomic_state *state,
-> > > > > @@ -1021,18 +1045,23 @@ static int dpu_plane_try_multirect_shared(struct dpu_plane_state *pstate,
-> > > > >                                         const struct msm_format *fmt,
-> > > > >                                         uint32_t max_linewidth)
-> > > > >  {
-> > > > > -     struct dpu_sw_pipe *pipe = &pstate->pipe[0];
-> > > > > -     struct dpu_sw_pipe *r_pipe = &pstate->pipe[1];
-> > > > > -     struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg[0];
-> > > > > -     struct dpu_sw_pipe *prev_pipe = &prev_adjacent_pstate->pipe[0];
-> > > > > -     struct dpu_sw_pipe_cfg *prev_pipe_cfg = &prev_adjacent_pstate->pipe_cfg[0];
-> > > > > +     struct dpu_sw_pipe *pipe, *prev_pipe;
-> > > > > +     struct dpu_sw_pipe_cfg *pipe_cfg, *prev_pipe_cfg;
-> > > > >       const struct msm_format *prev_fmt = msm_framebuffer_format(prev_adjacent_pstate->base.fb);
-> > > > > +     int stage_index, prev_stage_index;
-> > > > >       u16 max_tile_height = 1;
-> > > > >
-> > > > > -     if (prev_adjacent_pstate->pipe[1].sspp != NULL ||
-> > > > > +     if (!dpu_plane_get_single_pipe(pstate, &pipe, &pipe_cfg, &stage_index))
-> > > > > +             return false;
-> > > > > +
-> > > > > +     if (!dpu_plane_get_single_pipe(prev_adjacent_pstate, &prev_pipe,
-> > > > > +                                    &prev_pipe_cfg, &prev_stage_index) ||
-> > > > >           prev_pipe->multirect_mode != DPU_SSPP_MULTIRECT_NONE)
-> > > > >               return false;
-> > > > >
-> > > > > +     if (stage_index != prev_stage_index)
-> > > > > +             return false;
-> > > >
-> > > > This should be handled other way around: save N pstates and then loop
-> > > > over stage indices. If there is no rect at the corresponding stage for a
-> > > > plane, skip assignment (and use prev_adjacent_pstate for the next plane).
-> > >
-> > > You mean dpu_plane_virtual_assign_resources() shall notify its caller
-> > > dpu_assign_plane_resources() to skip updating prev_adjacent_plane_state
-> > > if dpu_plane_try_multirect_shared() return false? If so, we can add an
-> > > argument "bool pipe_shared" in dpu_plane_virtual_assign_resources() to
-> > > get the status. But that is an optimization to share pipes across multiple
-> > > planes. Can we add new patches based on current patch set later?
-> > >
-> > > Or my understanding is not aligned with your thoughts?
-> >
-> > Not quite. I think we need to store all NUM_STAGES 'prev_adjancent' states and
-> > update them as the driver loops through the stages for each plane.
-> >
-> 
-> I see. So the prev_adjacent_plane_state in dpu_assign_plane_resources()
-> shall be converted into an array, and map to prev_adjacent_pstate[N] in
-> dpu_plane_virtual_assign_resources(). Then check new single pipe plane
-> vs every member in the prev_adjacent_pstate[N] to confirm stage index is
-> aligned before sharing SSPP.  Right?
-> 
-> If so, that is the optimization for the dual stage case. It does not introduce
-> regression to the existing single stage case with current implementation.
-> Can we just merge this patch first, then add the optimization for the
-> dual stages case in new patch set? As this patch set focus on quad-pipe
-> with 2 stages, without hurting existing usage cases. And it changes lots
-> of code and involve rebase effort from time to time. While the optimization
-> for the dual stage case will limit the change in plane, though several review
-> cycle may be needed.
+On Thu, Jul 24, 2025 at 3:39=E2=80=AFAM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> As Rob pointed out, MediaTek devicetrees are *poor* in the dtbs_check
+> tests, and got an infinite load of warnings.
+>
+> This series starts attacking this situation.
+>
+> I didn't really count how many warnings I have resolved - it's a lot
+> of them anyway - and I think that this is a good start in any case.
 
-It's not an optimization, it's a normal flow: you have two different
-stages, there should be no intersection between them. So, no, please fix
-that. It will also change some bits and pieces of the logic that you
-have here, hopefully making it easier to follow. For example, I don't
-think you'd need dpu_plane_get_single_pipe() anymore, etc.
+40 out of 125 (on arm64) fixed! Thanks! FYI, here's the ones that
+remain (first number is number of times the warning occurs):
 
-> 
-> Regards,
-> Jun
-> 
-> > > > > +
-> > > > >       if (!dpu_plane_is_multirect_capable(pipe->sspp, pipe_cfg, fmt) ||
-> > > > >           !dpu_plane_is_multirect_capable(prev_pipe->sspp, prev_pipe_cfg, prev_fmt))
-> > > > >               return false;
-> > > > > @@ -1043,11 +1072,6 @@ static int dpu_plane_try_multirect_shared(struct dpu_plane_state *pstate,
-> > > > >       if (MSM_FORMAT_IS_UBWC(prev_fmt))
-> > > > >               max_tile_height = max(max_tile_height, prev_fmt->tile_height);
-> > > > >
-> > > > > -     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > > > > -     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > > > > -
-> > > > > -     r_pipe->sspp = NULL;
-> > > > > -
-> > > > >       if (dpu_plane_is_parallel_capable(pipe_cfg, fmt, max_linewidth) &&
-> > > > >           dpu_plane_is_parallel_capable(prev_pipe_cfg, prev_fmt, max_linewidth) &&
-> > > > >           (pipe_cfg->dst_rect.x1 >= prev_pipe_cfg->dst_rect.x2 ||
-> > > > > @@ -1176,6 +1200,44 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
-> > > > >       return 0;
-> > > > >  }
-> > > > >
-> > > > > +static int dpu_plane_assign_resource_in_stage(struct dpu_sw_pipe *pipe,
-> > > > > +                                           struct dpu_sw_pipe_cfg *pipe_cfg,
-> > > > > +                                           struct drm_plane_state *plane_state,
-> > > > > +                                           struct dpu_global_state *global_state,
-> > > > > +                                           struct drm_crtc *crtc,
-> > > > > +                                           struct dpu_rm_sspp_requirements *reqs)
-> > > > > +{
-> > > > > +     struct drm_plane *plane = plane_state->plane;
-> > > > > +     struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
-> > > > > +     struct dpu_sw_pipe *r_pipe = pipe + 1;
-> > > > > +     struct dpu_sw_pipe_cfg *r_pipe_cfg = pipe_cfg + 1;
-> > > > > +
-> > > > > +     if (drm_rect_width(&pipe_cfg->src_rect) != 0) {
-> > > > > +             pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, reqs);
-> > > > > +             if (!pipe->sspp)
-> > > > > +                     return -ENODEV;
-> > > > > +     }
-> > > > > +
-> > > > > +     if (drm_rect_width(&r_pipe_cfg->src_rect) != 0 &&
-> > > > > +         dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
-> > > > > +                                           pipe->sspp,
-> > > > > +                                           msm_framebuffer_format(plane_state->fb),
-> > > > > +                                           dpu_kms->catalog->caps->max_linewidth)) {
-> > > > > +             goto stage_assinged;
-> > > > > +     }
-> > > > > +
-> > > > > +     if (drm_rect_width(&r_pipe_cfg->src_rect) != 0) {
-> > > > > +             r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, reqs);
-> > > > > +             if (!r_pipe->sspp)
-> > > > > +                     return -ENODEV;
-> > > > > +             r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > > > > +             r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > > > > +     }
-> > > > > +
-> > > > > +stage_assinged:
-> > > > > +     return 0;
-> > > > > +}
-> > > > > +
-> > > > >  static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
-> > > > >                                             struct dpu_global_state *global_state,
-> > > > >                                             struct drm_atomic_state *state,
-> > > > > @@ -1188,11 +1250,9 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
-> > > > >       struct dpu_rm_sspp_requirements reqs;
-> > > > >       struct dpu_plane_state *pstate, *prev_adjacent_pstate;
-> > > > >       struct dpu_sw_pipe *pipe;
-> > > > > -     struct dpu_sw_pipe *r_pipe;
-> > > > >       struct dpu_sw_pipe_cfg *pipe_cfg;
-> > > > > -     struct dpu_sw_pipe_cfg *r_pipe_cfg;
-> > > > >       const struct msm_format *fmt;
-> > > > > -     int i;
-> > > > > +     int i, stage_id, ret;
-> > > > >
-> > > > >       if (plane_state->crtc)
-> > > > >               crtc_state = drm_atomic_get_new_crtc_state(state,
-> > > > > @@ -1202,11 +1262,6 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
-> > > > >       prev_adjacent_pstate = prev_adjacent_plane_state ?
-> > > > >               to_dpu_plane_state(prev_adjacent_plane_state) : NULL;
-> > > > >
-> > > > > -     pipe = &pstate->pipe[0];
-> > > > > -     r_pipe = &pstate->pipe[1];
-> > > > > -     pipe_cfg = &pstate->pipe_cfg[0];
-> > > > > -     r_pipe_cfg = &pstate->pipe_cfg[1];
-> > > > > -
-> > > > >       for (i = 0; i < PIPES_PER_PLANE; i++)
-> > > > >               pstate->pipe[i].sspp = NULL;
-> > > > >
-> > > > > @@ -1220,44 +1275,24 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
-> > > > >
-> > > > >       reqs.rot90 = drm_rotation_90_or_270(plane_state->rotation);
-> > > > >
-> > > > > -     if (drm_rect_width(&r_pipe_cfg->src_rect) == 0) {
-> > > > > -             if (!prev_adjacent_pstate ||
-> > > > > -                 !dpu_plane_try_multirect_shared(pstate, prev_adjacent_pstate, fmt,
-> > > > > -                                                 dpu_kms->catalog->caps->max_linewidth)) {
-> > > > > -                     pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> > > > > -                     if (!pipe->sspp)
-> > > > > -                             return -ENODEV;
-> > > > > -
-> > > > > -                     r_pipe->sspp = NULL;
-> > > > > -
-> > > > > -                     pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > > > > -                     pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > > > > -
-> > > > > -                     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > > > > -                     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > > > > -             }
-> > > > > -     } else {
-> > > > > -             pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> > > > > -             if (!pipe->sspp)
-> > > > > -                     return -ENODEV;
-> > > > > -
-> > > > > -             if (!dpu_plane_try_multirect_parallel(pipe, pipe_cfg, r_pipe, r_pipe_cfg,
-> > > > > -                                                   pipe->sspp,
-> > > > > -                                                   msm_framebuffer_format(plane_state->fb),
-> > > > > -                                                   dpu_kms->catalog->caps->max_linewidth)) {
-> > > > > -                     /* multirect is not possible, use two SSPP blocks */
-> > > > > -                     r_pipe->sspp = dpu_rm_reserve_sspp(&dpu_kms->rm, global_state, crtc, &reqs);
-> > > > > -                     if (!r_pipe->sspp)
-> > > > > -                             return -ENODEV;
-> > > > > -
-> > > > > -                     pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > > > > -                     pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > > > > +     if (prev_adjacent_pstate &&
-> > > > > +         dpu_plane_try_multirect_shared(pstate, prev_adjacent_pstate, fmt,
-> > > > > +                                         dpu_kms->catalog->caps->max_linewidth)) {
-> > > > > +             goto assigned;
-> > > > > +     }
-> > > > >
-> > > > > -                     r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
-> > > > > -                     r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-> > > > > -             }
-> > > > > +     for (stage_id = 0; stage_id < STAGES_PER_PLANE; stage_id++) {
-> > > > > +             pipe = &pstate->pipe[stage_id * PIPES_PER_STAGE];
-> > > > > +             pipe_cfg = &pstate->pipe_cfg[stage_id * PIPES_PER_STAGE];
-> > > > > +             ret = dpu_plane_assign_resource_in_stage(pipe, pipe_cfg,
-> > > > > +                                                      plane_state,
-> > > > > +                                                      global_state,
-> > > > > +                                                      crtc, &reqs);
-> > > > > +             if (ret)
-> > > > > +                     return ret;
-> > > > >       }
-> > > > >
-> > > > > +assigned:
-> > > > >       return dpu_plane_atomic_check_sspp(plane, state, crtc_state);
-> > > > >  }
-> > > > >
-> > > > >
-> > > > > --
-> > > > > 2.34.1
-> > > > >
-> > > >
-> > > > --
-> > > > With best wishes
-> > > > Dmitry
-> >
-> > --
-> > With best wishes
-> > Dmitry
-
--- 
-With best wishes
-Dmitry
+     29 (mediatek,mt8183-mfgcfg): 'power-domains' does not match any
+of the regexes: '^pinctrl-[0-9]+$'
+     29 failed to match any schema with compatible:
+['mediatek,mt8183-audiosys', 'syscon']
+     29 failed to match any schema with compatible: ['mediatek,mt8183-audio=
+']
+     27 (mediatek,mt8183-pinctrl): 'gpio-line-names' does not match
+any of the regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
+     22 (mediatek,mt6359): '#sound-dai-cells' does not match any of
+the regexes: '^pinctrl-[0-9]+$'
+     14 failed to match any schema with compatible:
+['mediatek,mt8183_mt6358_ts3a227_max98357']
+     12 (mediatek,mt8186-mt6366-rt1019-rt5682s-sound): 'model' is a
+required property
+     12 failed to match any schema with compatible: ['mediatek,mt8173-mdp-r=
+sz']
+      9 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0],
+[0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too
+long
+      8 failed to match any schema with compatible: ['mediatek,mt8173-mdp-w=
+rot']
+      8 failed to match any schema with compatible:
+['mediatek,mt8173-mdp-rdma', 'mediatek,mt8173-mdp']
+      6 failed to match any schema with compatible:
+['mediatek,mt8183_da7219_rt1015p']
+      5 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4],
+[0, 198, 4], [0, 199, 4]] is too short
+      5 failed to match any schema with compatible:
+['mediatek,mt8183_mt6358_ts3a227_rt1015p']
+      4 (mediatek,mt8173-mmsys): 'assigned-clock-rates',
+'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
+      4 (mediatek,mt8173-disp-ufoe): 'mediatek,gce-client-reg' does
+not match any of the regexes: '^pinctrl-[0-9]+$'
+      4 (mediatek,mt8173-disp-od): 'mediatek,gce-client-reg' does not
+match any of the regexes: '^pinctrl-[0-9]+$'
+      4 (mediatek,mt6360): #interrupt-cells: 1 was expected
+      4 failed to match any schema with compatible: ['mediatek,mt8173-vpu']
+      4 failed to match any schema with compatible: ['mediatek,mt8173-mdp-w=
+dma']
+      4 failed to match any schema with compatible: ['mediatek,mt8173-mdp-r=
+dma']
+      4 failed to match any schema with compatible: ['mediatek,mt7622-pcie'=
+]
+      3 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any
+of the regexes: '^pinctrl-[0-9]+$'
+      3 (mediatek,mt8173-thermal): Unevaluated properties are not
+allowed ('bank0-supply', 'bank1-supply' were unexpected)
+      3 (mediatek,mt8173-pinctrl): 'gpio-line-names' does not match
+any of the regexes: '^pinctrl-[0-9]+$', 'pins$'
+      3 (mediatek,mt8173-dsi): Unevaluated properties are not allowed
+('ports' was unexpected)
+      3 (mediatek,mt8173-dsi): ports: 'port@1' is a required property
+      3 (mediatek,mt8173-dsi): ports: 'port@0' is a required property
+      3 failed to match any schema with compatible: ['mediatek,mt8173-rt565=
+0']
+      2 (mediatek,mt8192_mt6359_rt1015p_rt5682): 'model' is a required prop=
+erty
+      2 (mediatek,mt8192-i2c): Unevaluated properties are not allowed
+('clock-stretch-ns' was unexpected)
+      2 (mediatek,mt8186-spmi): Unevaluated properties are not allowed
+('interrupts' was unexpected)
+      2 (mediatek,mt7986-tphy): usb-phy@700:reg: [[0, 1792], [0,
+2304]] is too long
+      2 (mediatek,mt7622-pwrap): 'regulators' does not match any of
+the regexes: '^pinctrl-[0-9]+$'
+      2 (mediatek,mt7622-pciesys): compatible: 'oneOf' conditional
+failed, one must be fixed:
+      2 (mediatek,mt7622-audsys): audio-controller: 'power-domains' is
+a required property
+      2 (mediatek,mt7622-audsys): audio-controller:clock-names:
+['infra_sys_audio_clk', 'top_audio_mux1_sel
+', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp',
+'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_
+src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div',
+'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', '
+i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck',
+'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_c
+k', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck',
+'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_
+out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd',
+'audio_a1sys_pd', 'audio_a2sys_pd'] is too sh
+ort
+      2 (mediatek,mt7622-audio): 'power-domains' is a required property
+      2 (mediatek,mt7622-audio): clock-names: ['infra_sys_audio_clk',
+'top_audio_mux1_sel', 'top_audio_mux2
+_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel',
+'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_sr
+c_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div',
+'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2
+s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck',
+'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck'
+, 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck',
+'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_ou
+t_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd',
+'audio_a2sys_pd'] is too short
+      2 (mediatek,mt6795-mmsys): 'assigned-clock-rates',
+'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
+      2 (mediatek,mt6795-mmc): Unevaluated properties are not allowed
+('pinctrl-names' was unexpected)
+      2 (mediatek,mt6795-mmc): pinctrl-names: ['default'] is too short
+      2 (mediatek,mt6795-mmc): 'pinctrl-1' is a required property
+      2 (mediatek,mt6795-disp-ufoe): 'mediatek,gce-client-reg' does
+not match any of the regexes: '^pinctrl-[0-9]+$'
+      2 (mediatek,mt6795-disp-od): 'mediatek,gce-client-reg' does not
+match any of the regexes: '^pinctrl-[0-9]+$'
+      2 failed to match any schema with compatible:
+['mediatek,mt8183_da7219_max98357']
+      2 failed to match any schema with compatible:
+['mediatek,mt7622-scpsys', 'syscon']
+      2 failed to match any schema with compatible: ['mediatek,mt6797-scpsy=
+s']
+      2 failed to match any schema with compatible:
+['mediatek,mt6380-regulator']
+      2 failed to match any schema with compatible: ['mediatek,mt2712-pcie'=
+]
+      1 (mediatek,mt8516-topckgen): compatible: 'oneOf' conditional
+failed, one must be fixed:
+      1 (mediatek,mt8516-apmixedsys): compatible: 'oneOf' conditional
+failed, one must be fixed:
+      1 (mediatek,mt8186-mt6366-rt5682s-max98360-sound): 'model' is a
+required property
+      1 (mediatek,mt8186-cci): 'proc-supply' is a required property
+      1 (mediatek,mt8183-pinctrl): 'i2c0', 'i2c1', 'i2c2', 'i2c3',
+'i2c4', 'i2c5', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'pwm1',
+'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5' do not match any of the
+regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
+      1 (mediatek,mt8183-pinctrl): 'i2c0', 'i2c1', 'i2c2', 'i2c3',
+'i2c4', 'i2c5', 'i2c6', 'keyboard' do not match any of the regexes:
+'-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
+      1 (mediatek,mt8183-pinctrl): bt-pins-wakeup: 'piins-bt-wakeup'
+does not match any of the regexes: '^pinctrl-[0-9]+$', '^pins'
+      1 (mediatek,mt8173-pwrap): 'power-domains' does not match any of
+the regexes: '^pinctrl-[0-9]+$'
+      1 (mediatek,mt7622-pinctrl): 'asm-sel-hog' does not match any of
+the regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
+      1 (mediatek,mt7622-audsys): audio-controller:clocks: [[2, 2],
+[18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18,
+91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18,
+104], [18, 105], [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38,
+4], [38, 5], [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40],
+[38, 0], [38, 46], [38, 17], [38, 18]] is too short
+      1 (mediatek,mt7622-audsys): audio-controller:clocks: [[2, 2],
+[18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18,
+91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18,
+104], [18, 105], [18, 106], [37, 8], [37, 9], [37, 10], [37, 11], [37,
+4], [37, 5], [37, 6], [37, 7], [37, 14], [37, 15], [37, 39], [37, 40],
+[37, 0], [37, 46], [37, 17], [37, 18]] is too short
+      1 (mediatek,mt7622-audio): clocks: [[2, 2], [18, 80], [18, 81],
+[18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18,
+95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105],
+[18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38, 4], [38, 5],
+[38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40], [38, 0],
+[38, 46], [38, 17], [38, 18]] is too short
+      1 (mediatek,mt7622-audio): clocks: [[2, 2], [18, 80], [18, 81],
+[18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18,
+95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105],
+[18, 106], [37, 8], [37, 9], [37, 10], [37, 11], [37, 4], [37, 5],
+[37, 6], [37, 7], [37, 14], [37, 15], [37, 39], [37, 40], [37, 0],
+[37, 46], [37, 17], [37, 18]] is too short
+      1 (mediatek,mt7531): 'interrupts' is a dependency of
+'interrupt-controller'
+      1 (mediatek,mt6357): 'adc' does not match any of the regexes:
+'^pinctrl-[0-9]+$'
+      1 (mediatek,mt6331): regulators:compatible: 'oneOf' conditional
+failed, one must be fixed:
+      1 (mediatek,mt6331-regulator): 'ldo-vio28' does not match any of
+the regexes: '^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$',
+'^ldo-(avdd32aud|vauxa32)$',
+'^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb10)$',
+'^ldo-vcam(a|af|d|io)$', '^ldo-vgp[1234]$', '^ldo-vtcxo[12]$',
+'^pinctrl-[0-9]+$'
+      1 (mediatek,mt6331-regulator): ldo-vcamio:regulator-name:0:
+'vcam_io' does not match '^vcam(a|_af|d|io)$'
+      1 (mediatek,mt6331): 'mt6332-led' does not match any of the
+regexes: '^pinctrl-[0-9]+$'
+      1 failed to match any schema with compatible:
+['mediatek,mt6779-audio', 'syscon']
+      1 failed to match any schema with compatible:
+['mediatek,mt2712-scpsys', 'syscon']
