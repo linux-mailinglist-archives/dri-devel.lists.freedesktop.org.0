@@ -2,69 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17635B120FA
-	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 17:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC238B1213E
+	for <lists+dri-devel@lfdr.de>; Fri, 25 Jul 2025 17:47:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5EB610E9E6;
-	Fri, 25 Jul 2025 15:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B833210E9E9;
+	Fri, 25 Jul 2025 15:47:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gOe7LK/f";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FDuXdink";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C590D10E9E6
- for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 15:32:56 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BC9F443370;
- Fri, 25 Jul 2025 15:32:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1753457574;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VUw48bVGzQDtnzpFCZ6F0zUPopLUUADYRFUd0lfoHsE=;
- b=gOe7LK/fGYNTmz+SyIELCjPFaJaCHIQ1cZCxpO6F/7sKlMOxRRHmUVPl7IAXCdbmAmgzzJ
- qhK1BlYOirxaOuv7zUtH+7p+NHrT7W6MoGw6U1vHfQA3q6tieo1SqT5AB7M/5eaJxkGkDh
- 83V53TpmJLyk2exzGH7/QY3Nr79ar/ovL9WHSEUPkTnM/j18kUW2laDfMW3XjN4q70C7Bn
- d4RvcOiRc1ArRt3EaCCaQHPmX90dMQCNFor+oGojqc5TmT1eBTWfPQ7A+mhqaGcjJZp8H7
- E3OoJs+8MH+AAVPMtTkqeQ2oGKbCKz9KUKrzwRmSNF45iIk+nck7NEh0a/V7Dg==
-Date: Fri, 25 Jul 2025 17:32:48 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Inki Dae
- <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Marek
- Szyprowski <m.szyprowski@samsung.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
- <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Kevin Hilman <khilman@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH 00/32] drm/mipi-dsi: avoid DSI host drivers to have
- pointers to DSI devices
-Message-ID: <20250725173248.4cdca9e4@booty>
-In-Reply-To: <20250725-juicy-falcon-of-climate-d87ea6@houat>
-References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
- <20250707-strange-warm-bear-cb4ee8@houat>
- <20250707115853.128f2e6f@booty> <20250707121319.1e40a73a@booty>
- <20250725-juicy-falcon-of-climate-d87ea6@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE96710E20E
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 15:47:07 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56P9asLK004800
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 15:47:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ xKWzN4RQnwx1/G1Ilo0cVo6obJ0M8bE9e3o300R0dhg=; b=FDuXdinkKfnA5KQv
+ iYbkuz/m4hDQp9DeCCYo4lL608fd9nTsGL9Mwi7gohEoT95AVCBP26T7sIskoW15
+ Ndt3yINBjGYjMYJXx/9Be4Ff9KGP3eh75IROltmOwC4AyYT+CK84+DI5LC9rN1nc
+ Y2kNUiD8hATk7lw1vqT7k2kq53EFX6OWEpAri39a0FEVCtxWu8eA1+xl935PlpNz
+ wwdT1dwG6dVd1mYSLxDXQ3spswD1tA1jTZs3sm9GCi8YZkYp/ul/Q2rCNAxoekEA
+ oh4WJ0J709UdS33UKzB2yJRgfuWqKe/AMFOVWhQNsz/e7nscsUPq7y/bdZEMoCJW
+ PRmuLw==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 483w53aj03-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 15:47:06 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-23536f7c2d7so38004975ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 25 Jul 2025 08:47:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753458425; x=1754063225;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xKWzN4RQnwx1/G1Ilo0cVo6obJ0M8bE9e3o300R0dhg=;
+ b=PkzQEqgpJTcmX9Z3rDD41ZI6AZjALwyAT/eZIwWdLUfE2U2swbePbXTeGiTD+A3P26
+ jmKbEoKJM6omTIK4E4p+aWV5L+GfaQY8AckdZs/frQsvBes0Q+rt8x11sSuNlykD13iY
+ XozGZZYZcXZOF+diQlKKLXMdcXXEIj2+Tzl4P4mtYFKpIlFyrWET+MZf3f7O2Xed5/vi
+ HbymG+UVXmWKvTY+PA5yLDSSU86SrXJY/vt3rO7czUlrOBs2S+A8+vOeKFY6ps3Jf7zu
+ DAtDXz/cqV1Hrb79jGWgLsVu1WdYmgxyGuGV4e/iZhNtSeqrm/V3m/SQT5goQ9R1TPYH
+ OYJg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXoW+CaLAWb8S6Xul1WMIswaIXS+MNDGH17kGf+w4uGWF1+sD5fwBnnpyc+QTWAraU0gV6Dex+dWv4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzuG6AOSrnzUfI//sEg5eKqRLbNVy/qGdfJ7h/qeHhHvy+Qc7Iy
+ P77njTWBO6a2u/G0LDQFYmuHSdIRLNR8ZunNA9aUSx/qJehzD93LEHLiPmPtM1CZt1GES/r8D4b
+ A9hQ9a2dqWMpixqYbYSP7b6O39bmJI7D4BF+Q2GRnh5IHIwhyJB/Yjo79KjNJjKq8Nait3SI=
+X-Gm-Gg: ASbGncs9LHKMUAHk5vhfU7SIYuaia3wsOLwRqDaZhyOOyg+ATp8+NEJxDmtU/r8ZVXf
+ jHclz3J2eMxDlLrQvpywXSp+QvAhNSsWFhRqThpmY+6HBFv5LvG3dr5bQ1LwpIO2xNXgKxRkIlI
+ S2xX9zU4U2L95YlRWCRnim1VPQ/0ThwioL0BvqowGoSsh635MmgcUMHg1X6DLNWRNOe6qr7xI7b
+ JzHHpOqaMM/IYao8E7whbcRFI3H9tJHptIg4hCgQ/6Pxr9vZwZJ/81RcCVjp7TOZbZS6JEB8YgD
+ 9ToANoRViXmlIwU3MG3T4vUyuBW9iac+y+v/tRDq97Nq1Xlqp0bGfA19kcXM9c4REAzQbRfXo8F
+ L/ZtiDMGgjIoYMg==
+X-Received: by 2002:a17:902:e5c5:b0:235:f078:473e with SMTP id
+ d9443c01a7336-23fb31c5555mr39338985ad.43.1753458425364; 
+ Fri, 25 Jul 2025 08:47:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF3u5wS5G/nO4TNexnUpgWTgxPvcTdxwD3jiwmhhsgJT4z3eYr32MID0faDDGi1QAU8EjdrQA==
+X-Received: by 2002:a17:902:e5c5:b0:235:f078:473e with SMTP id
+ d9443c01a7336-23fb31c5555mr39338605ad.43.1753458424984; 
+ Fri, 25 Jul 2025 08:47:04 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23fbe563f1bsm203115ad.184.2025.07.25.08.47.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 25 Jul 2025 08:47:04 -0700 (PDT)
+Message-ID: <1a8a43b8-e9b1-40f1-ae16-ec7e0441324c@oss.qualcomm.com>
+Date: Fri, 25 Jul 2025 09:47:02 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: Update email address for Carl Vanderlip
+To: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20250721220811.962509-1-carl.vanderlip@oss.qualcomm.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20250721220811.962509-1-carl.vanderlip@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdekfeeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedtleejjeduvddutefftdduleefudfgudeltdeuffeuudefgfdugeekgedtieehudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhop
- ehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-Authority-Analysis: v=2.4 cv=AfKxH2XG c=1 sm=1 tr=0 ts=6883a6fa cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=XHUaY7U8O4OWe9Nk0CgA:9
+ a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI1MDEzNSBTYWx0ZWRfXxktk0DnbSeQx
+ C90GgicZaVPCwkR4ymi5etCNO+eGug1+ughUkrwdmgPHISo24KEulIJaKOAFjy6yyvMBlZmtH7L
+ QuBEkhrfjv1mxg8EoYItdH0ng4zcYviSVb96A4BbRYZD31rp6VmB411PURamY4OUO/edzJT0bgz
+ 4u99G2ncqScZobCc5x889+AyyhUriQ82/QXKpq+KhWZ4fX/+b4daYJYebynUoJk7pzhptT7GP9B
+ x7COVf3+anL9ZoOfVOCY2BUluW33mdpn5/vrCR5rJg0PUK5Vy8GIP1+eacjdYOrF3OWGWNqM65T
+ apW15zsivG5QE+AAx+K8vzk+Oux6MqDcGJsyho2v1D2GHj2rgkMXPJ6gPLhq0HPfrKxlg0neB/R
+ jgC5osr/qbZT29cRz3qwZGT43atpNV21XvYMyHPsKbQHmLPY6Y/IN4cHzaOEdk0f+yuOI3fC
+X-Proofpoint-GUID: oOsIxCp89wKfvk2hyiH4M8HmU42zb-Hy
+X-Proofpoint-ORIG-GUID: oOsIxCp89wKfvk2hyiH4M8HmU42zb-Hy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-25_04,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ adultscore=0 mlxscore=0 mlxlogscore=629 suspectscore=0 spamscore=0
+ impostorscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507250135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,57 +122,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-On Fri, 25 Jul 2025 17:22:47 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
-
-...
-
-> > The question is: should a DSI host bridge driver:
-> > 
-> >  A) wait for a DSI device to .attach before drm_bridge_add()ing itself,
-> >     or
-> >  B) drm_bridge_add() itself unconditionally, and let the DSI device
-> >     .attach whenever it happens?
-> > 
-> > A) is what many drivers (IIRC the majority) does. It implies the card
-> > will not be populated until .attach, which in the hotplug case could
-> > happen very late
-> > 
-> > B) is done by a few drivers and allows the card to appear in the
-> > hotplug case without the device, which is needed for hotplug.
-> > 
-> > I had tried simply moving drm_bridge_add() from .attach to probe in
-> > the samsung-dsim driver in the pase but that would not work. Now I did
-> > yet another check at the code and I suspect it can be done with a small
-> > additional change, but cannot access the hardware to test it currently.
-> > 
-> > Answering this last question might change and simplify the requirements
-> > discussed in the (very lengthy, sorry about that) discussion above.  
+On 7/21/2025 4:08 PM, Carl Vanderlip wrote:
+> Qualcomm is changing open source email address policy.
+> LKML and other busy mailing lists use the oss.qualcomm.com domain.
 > 
-> You're not going to like the answer too much, but I think that it is
-> that "nobody knows".
-> 
-> The bad news is that I can't give you an answer, but the good one is
-> that it gives us some leeway.
-> 
-> As I said in my previous mail, we should probably figure it out,
-> document it, and then make it work for your drivers. Once we have a
-> documentation we can point to, the rest will fall in line.
+> Signed-off-by: Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>
 
-Thanks for taking time to reply this!
+Applied to drm-misc-next
 
-I just sent a patch to do the mentioned change in samsung-dsim [0] to
-start discussion on real code. I'd appreciate if you could prioritize
-that patch over all other patches I have sent.
-
-[0] https://lore.kernel.org/all/20250725-drm-bridge-samsung-dsim-add-in-probe-v1-1-b23d29c23fbd@bootlin.com/
-
-Best regards,
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-Jeff
