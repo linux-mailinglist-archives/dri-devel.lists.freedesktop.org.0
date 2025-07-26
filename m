@@ -2,119 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06ECFB12B58
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Jul 2025 18:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0C6B12B5A
+	for <lists+dri-devel@lfdr.de>; Sat, 26 Jul 2025 18:07:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6E710E288;
-	Sat, 26 Jul 2025 16:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC78F10E291;
+	Sat, 26 Jul 2025 16:07:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cLCLH7lO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aT5RNRpV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF18810E288
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Jul 2025 16:06:16 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56Q6hs2m007844
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Jul 2025 16:06:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=7xqGhQFqvyN6IUSPs/7i5JwG
- WwgRKW2CZhmcIs4v2MY=; b=cLCLH7lOta8Ow3hwgQdU7GL5cN4S0X7sVodHkPGP
- UO/WvJVtshJrcDStbZyqRrkpdd4YdzdMFJM7rRJGl3MaiwonEmvVUTBTZpCUwaPy
- KKVHt/HSXnSbAFb4bKi2zG29BSx5ugkabX3Xos2+i608VkzTEkQBWGEQ3M8ZLHXr
- 8US5xWaFriq6PQ/8t7fo/rBV/Sumu3acKvCWWykl3/ohtqJ9uE/CkcYVrSHDjJAN
- hczulA/NYtZSo3XfHgXpQGjp4AHyJNhpNUKPEmpgUMZBVA2KgInC6TZIPF8uNamI
- NvE9foD4VtmpcVhh631/Wl9Lkgv1o4OHFsGVrHMUvqq7og==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484qsk0sau-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Jul 2025 16:06:16 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-70739adfaceso3372786d6.0
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Jul 2025 09:06:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753545975; x=1754150775;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7xqGhQFqvyN6IUSPs/7i5JwGWwgRKW2CZhmcIs4v2MY=;
- b=IU/JenmwxuVSaftuZjJkkpy4VK1L0WnUVmjM6n6P4QalCNQkvJ286trspUwtCoQvRU
- w0LCYQgtHFSheYJDkj7K+LJ//cfh+gPdcGydl2FGFjFS6Ls/wmGlqLN3gk37JZbd0aJv
- rXDdDHyha7JSuSYE/n+o7SaA+3aN9FiwBHncaHcNVATUnwL4OfTA14VulzOnFjGPGGyV
- C1ibKnv/3FxrqNJ3EJl4+ajJempsoWsDpvnekV/TwoaMQwPMJJdGykijAgfC0yJkqO0D
- rxjL36mj0gG7jFRSSIQfqYWg6B6bCjGMARYAjLAwkqxGtUiGybiXyxidXYfgvq8F2sq6
- Dn4A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXRh6d7a+g/HP39g5eKQPbXm/iW6/8BavpZa1bc7Vx1VJnCCxvLKUdwr81qwm5BL+8C/uUBhsYf9QA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw5oRY4yyPa0mjOKe3OVfnOXks8oroCxrwK76RLtavL4rStFv9R
- M/A4xRKU00vfu4mMRANUhR9O55IDIgjQ8y1KCj6b1FJJBICvK6tg2e9hwHNS2RHSfp58W2gTLmm
- xR9yWkO1Oh8wWERi4qfS7veVhKADXQWJeou3Pf3i+BghioLP3qE5dykAMlm0VhrcCWPBJFSU=
-X-Gm-Gg: ASbGncvkBKkrv6+SsmPr9QlaMJlSF8v+719WYuYWvNn0UnIqBMDUggWV6n0Oeayer3A
- ML5UHOMRw0DRqTRMYI0ixtTxaq0zs6V/M+BwuEpRXtWRyjnnz9G6jouA8c+Eo0y7JTsNokLtvuh
- udwcLbfnC2Sc4+C/LuZFHqLy7IaFbkRg+ouOVePAxuogMtzfLkZctr4qwHrtX7LxlWH2mxS22Le
- Ezu9bq8nuWDPwW1Neal/cdXc8BIUkJUk640S4/RdwWz2WFMVfMsYGWAiLUxHLbi6JwUL9xR7gJH
- vCJBmphy5G50GGF5QrcwuKURmNNQ7WvVE3ag3KAv+sKHZh/H30zrVNY7kuoy+kMnV0caM/tsKf/
- nuHg750NIbVe92QdjYvGQWAbbR/7cpjWAkeGtQmeaOjdotGYzy4Rt
-X-Received: by 2002:a05:6214:21e1:b0:704:7dfa:3fd with SMTP id
- 6a1803df08f44-7071fdc0d1fmr71998856d6.4.1753545974686; 
- Sat, 26 Jul 2025 09:06:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHj8127nMgWUnDZ+4c5uybplDoEBkbdUcB78Wr7iZNnU8dO2Qz1zMWTz3UJJVsx5Vcj3awxyQ==
-X-Received: by 2002:a05:6214:21e1:b0:704:7dfa:3fd with SMTP id
- 6a1803df08f44-7071fdc0d1fmr71998466d6.4.1753545974266; 
- Sat, 26 Jul 2025 09:06:14 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-331f4235902sm5021511fa.63.2025.07.26.09.06.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 26 Jul 2025 09:06:12 -0700 (PDT)
-Date: Sat, 26 Jul 2025 19:06:10 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Nilesh Laad <nilesh.laad@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- venkata.valluru@oss.qualcomm.com, jessica.zhang@oss.qualcomm.com
-Subject: Re: [PATCH] drm/bridge: lt9611uxc: extend mode valid checks
-Message-ID: <4vndrym4m7ql3lwbhqedukzcxb5qmtkyzaht66ps4fbjrvnwif@oqwnybnutx4h>
-References: <20250725-lt9611uxc-modes-v1-1-6a13b181927d@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67D0F10E28C;
+ Sat, 26 Jul 2025 16:06:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753546019; x=1785082019;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=97n7TGLjg/+mTPjK/3JeoW9Y0kyNUgwCatu2/1JDmYM=;
+ b=aT5RNRpV4dd5kKapu+VvP8LFYq54HR6GXKsln7si2Puoq797YFmen5kN
+ /tjZzAC1JAsDJOcF8ja+bZlawZrmsQT30QVo76dW+rwwCFqxZj65MxGQb
+ /dnUeOIS7/fLw5BP7eOZjCbHYE6Tf87kqaul3X+i2ysIigw0tCGiFYtsk
+ y/sX95YwNkZriPYPJrw3jvLM5tMrdj+9dw7cQPH/2YPoPWCC8iOZnfEnB
+ 0CfDqUlgZ+/pPM1s1B/dx04c9nH8+LlCvERl/Aq9sJFcKCgCYS9+20Kbc
+ wnnaLZWa5pMhfVgjarYnexfLIN+GQnYqUd1ea76qCa9+OaaSXCzzCvO9j Q==;
+X-CSE-ConnectionGUID: 4YgvyfluS4CVPudH2upFhg==
+X-CSE-MsgGUID: PTbi/IIhSCipPEDvM3h5oQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55938555"
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; d="scan'208";a="55938555"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jul 2025 09:06:59 -0700
+X-CSE-ConnectionGUID: 9he2HELvTgKI8xLuQ6s9cQ==
+X-CSE-MsgGUID: IohRdLb2STuEB34Px0zTTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; d="scan'208";a="198783985"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+ by orviesa001.jf.intel.com with ESMTP; 26 Jul 2025 09:06:57 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ufhQE-000M5D-0l;
+ Sat, 26 Jul 2025 16:06:54 +0000
+Date: Sun, 27 Jul 2025 00:06:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com,
+ uma.shankar@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: Re: [PATCH 27/28] drm/i915/writeback: Make exception for writeback
+ connector
+Message-ID: <202507262326.1J1VnzbD-lkp@intel.com>
+References: <20250725050409.2687242-28-suraj.kandpal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725-lt9611uxc-modes-v1-1-6a13b181927d@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=KdDSsRYD c=1 sm=1 tr=0 ts=6884fcf8 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=dA2U1Bku73MRG1Xy9NsA:9 a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-GUID: t1BgONSbAitWy43ZrSEp6t6KV4DgJ7Am
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI2MDE0MCBTYWx0ZWRfXw5+vYRAm3lC4
- 4KNE9j+w+7SyCuEsyiaJQo6sdbEnKQmITtA9QlMYjaeZeiTZL7C2CIFS8G1Ui5Ip/a9hCHrwQDs
- Fx4ZxOR55RgREBRICKf2VhLijStox8bgoOhL09mDBJhpQGYA/aoDhbkpHf6v92G4BEr7VIlWoyX
- 79EfL2lWm+QtBoXPBcIiHFrTr8aJO9jqiu7AU2zTLWva2d31qe8Zin7ejq8wbazdpI1WmaIzMYT
- sepSJMWA9IysphbJwZ7JgHwEB2J/yhb6uWmuPcVYi84zdTYaYewuOcU/hAAQsNMslSNZyqEMaWZ
- Mq8AHJ3snzC0/dKetNMea8m1aoqyVwWhZJ1xV5vsxBiwms0dqcM7fYyCYtRen3YthW7nhkpNE42
- pO4EviWEvEZGMyeLej5ze0OC98a5sCL+/8lwxJO/Qt6br9qQynENOCa6TXAsVCg7nvT3aF+n
-X-Proofpoint-ORIG-GUID: t1BgONSbAitWy43ZrSEp6t6KV4DgJ7Am
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-26_04,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 mlxscore=0 spamscore=0 bulkscore=0
- adultscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 clxscore=1015 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507260140
+In-Reply-To: <20250725050409.2687242-28-suraj.kandpal@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,91 +74,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 25, 2025 at 01:48:38PM +0530, Nilesh Laad wrote:
-> Currently valid mode checks are only for hdisplay and vdisplay,
-> add htotal and vtotal to filter only specific modes.
+Hi Suraj,
 
-Why?
+kernel test robot noticed the following build warnings:
 
-> 
-> Signed-off-by: Nilesh Laad <nilesh.laad@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 36 +++++++++++++++++-------------
->  1 file changed, 20 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> index 38fb8776c0f4..cfe389b4c25c 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -89,7 +89,9 @@ static const struct regmap_config lt9611uxc_regmap_config = {
->  
->  struct lt9611uxc_mode {
->  	u16 hdisplay;
-> +	u16 htotal;
->  	u16 vdisplay;
-> +	u16 vtotal;
->  	u8 vrefresh;
->  };
->  
-> @@ -98,22 +100,22 @@ struct lt9611uxc_mode {
->   * Enumerate them here to check whether the mode is supported.
->   */
->  static struct lt9611uxc_mode lt9611uxc_modes[] = {
-> -	{ 1920, 1080, 60 },
-> -	{ 1920, 1080, 30 },
-> -	{ 1920, 1080, 25 },
-> -	{ 1366, 768, 60 },
-> -	{ 1360, 768, 60 },
-> -	{ 1280, 1024, 60 },
-> -	{ 1280, 800, 60 },
-> -	{ 1280, 720, 60 },
-> -	{ 1280, 720, 50 },
-> -	{ 1280, 720, 30 },
-> -	{ 1152, 864, 60 },
-> -	{ 1024, 768, 60 },
-> -	{ 800, 600, 60 },
-> -	{ 720, 576, 50 },
-> -	{ 720, 480, 60 },
-> -	{ 640, 480, 60 },
-> +	{ 1920, 2200, 1080, 1125, 60 },
-> +	{ 1920, 2200, 1080, 1125, 30 },
-> +	{ 1920, 2640, 1080, 1125, 25 },
-> +	{ 1366, 1792, 768, 798, 60 },
-> +	{ 1360, 1792, 768, 795, 60 },
-> +	{ 1280, 1688, 1024, 1066, 60 },
-> +	{ 1280, 1680, 800, 831, 60 },
-> +	{ 1280, 1650, 720, 750, 60 },
-> +	{ 1280, 1980, 720, 750, 50 },
-> +	{ 1280, 3300, 720, 750, 30 },
-> +	{ 1152, 1600, 864, 900, 60 },
-> +	{ 1024, 1344, 768, 806, 60 },
-> +	{ 800, 1056, 600, 628, 60 },
-> +	{ 720, 864, 576, 625, 50 },
-> +	{ 720, 858, 480, 525, 60 },
-> +	{ 640, 800, 480, 525, 60 },
->  };
->  
->  static struct lt9611uxc *bridge_to_lt9611uxc(struct drm_bridge *bridge)
-> @@ -237,7 +239,9 @@ static struct lt9611uxc_mode *lt9611uxc_find_mode(const struct drm_display_mode
->  
->  	for (i = 0; i < ARRAY_SIZE(lt9611uxc_modes); i++) {
->  		if (lt9611uxc_modes[i].hdisplay == mode->hdisplay &&
-> +		    lt9611uxc_modes[i].htotal == mode->htotal &&
->  		    lt9611uxc_modes[i].vdisplay == mode->vdisplay &&
-> +		    lt9611uxc_modes[i].vtotal == mode->vtotal &&
->  		    lt9611uxc_modes[i].vrefresh == drm_mode_vrefresh(mode)) {
->  			return &lt9611uxc_modes[i];
->  		}
-> 
-> ---
-> base-commit: e48123c607a0db8b9ad02f83c8c3d39918dbda06
-> change-id: 20250725-lt9611uxc-modes-d59bd4d49442
-> 
-> Best regards,
-> --  
-> Nilesh Laad <nilesh.laad@oss.qualcomm.com>
-> 
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on next-20250725]
+[cannot apply to linus/master v6.16-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-writeback-Add-function-that-takes-preallocated-connector/20250725-133017
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20250725050409.2687242-28-suraj.kandpal%40intel.com
+patch subject: [PATCH 27/28] drm/i915/writeback: Make exception for writeback connector
+config: i386-buildonly-randconfig-006-20250725 (https://download.01.org/0day-ci/archive/20250726/202507262326.1J1VnzbD-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507262326.1J1VnzbD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507262326.1J1VnzbD-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/display/intel_display.c:3785:4: warning: variable 'trans_pipe' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+    3785 |                         default:
+         |                         ^~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3819:7: note: uninitialized use occurs here
+    3819 |                 if (trans_pipe == crtc->pipe)
+         |                     ^~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3760:3: note: variable 'trans_pipe' is declared here
+    3760 |                 enum pipe trans_pipe;
+         |                 ^
+   1 warning generated.
+
+
+vim +/trans_pipe +3785 drivers/gpu/drm/i915/display/intel_display.c
+
+  3743	
+  3744	static u8 hsw_enabled_transcoders(struct intel_crtc *crtc)
+  3745	{
+  3746		struct intel_display *display = to_intel_display(crtc);
+  3747		u8 panel_transcoder_mask = hsw_panel_transcoders(display);
+  3748		enum transcoder cpu_transcoder;
+  3749		u8 primary_pipe, secondary_pipes;
+  3750		u8 enabled_transcoders = 0;
+  3751	
+  3752		/*
+  3753		 * XXX: Do intel_display_power_get_if_enabled before reading this (for
+  3754		 * consistency and less surprising code; it's in always on power).
+  3755		 */
+  3756		for_each_cpu_transcoder_masked(display, cpu_transcoder,
+  3757					       panel_transcoder_mask) {
+  3758			enum intel_display_power_domain power_domain;
+  3759			intel_wakeref_t wakeref;
+  3760			enum pipe trans_pipe;
+  3761			u32 tmp = 0;
+  3762	
+  3763			power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+  3764			if (cpu_transcoder == TRANSCODER_WD_0 ||
+  3765			    cpu_transcoder == TRANSCODER_WD_1) {
+  3766				with_intel_display_power_if_enabled(display, power_domain, wakeref)
+  3767					tmp = intel_de_read(display,
+  3768							    WD_TRANS_FUNC_CTL(cpu_transcoder));
+  3769				if (!(tmp & TRANS_WD_FUNC_ENABLE))
+  3770					continue;
+  3771	
+  3772				switch (tmp & WD_INPUT_SELECT_MASK) {
+  3773				case WD_INPUT_PIPE_A:
+  3774					trans_pipe = PIPE_A;
+  3775					break;
+  3776				case WD_INPUT_PIPE_B:
+  3777					trans_pipe = PIPE_B;
+  3778					break;
+  3779				case WD_INPUT_PIPE_C:
+  3780					trans_pipe = PIPE_C;
+  3781					break;
+  3782				case WD_INPUT_PIPE_D:
+  3783					trans_pipe = PIPE_D;
+  3784					break;
+> 3785				default:
+  3786					MISSING_CASE(tmp & WD_INPUT_SELECT_MASK);
+  3787					break;
+  3788				}
+  3789			} else {
+  3790				with_intel_display_power_if_enabled(display, power_domain, wakeref)
+  3791					tmp = intel_de_read(display,
+  3792							    TRANS_DDI_FUNC_CTL(display, cpu_transcoder));
+  3793	
+  3794				if (!(tmp & TRANS_DDI_FUNC_ENABLE))
+  3795					continue;
+  3796	
+  3797				switch (tmp & TRANS_DDI_EDP_INPUT_MASK) {
+  3798				default:
+  3799					drm_WARN(display->drm, 1,
+  3800						 "unknown pipe linked to transcoder %s\n",
+  3801						 transcoder_name(cpu_transcoder));
+  3802					fallthrough;
+  3803				case TRANS_DDI_EDP_INPUT_A_ONOFF:
+  3804				case TRANS_DDI_EDP_INPUT_A_ON:
+  3805					trans_pipe = PIPE_A;
+  3806					break;
+  3807				case TRANS_DDI_EDP_INPUT_B_ONOFF:
+  3808					trans_pipe = PIPE_B;
+  3809					break;
+  3810				case TRANS_DDI_EDP_INPUT_C_ONOFF:
+  3811					trans_pipe = PIPE_C;
+  3812					break;
+  3813				case TRANS_DDI_EDP_INPUT_D_ONOFF:
+  3814					trans_pipe = PIPE_D;
+  3815					break;
+  3816				}
+  3817			}
+  3818	
+  3819			if (trans_pipe == crtc->pipe)
+  3820				enabled_transcoders |= BIT(cpu_transcoder);
+  3821		}
+  3822	
+  3823		/* single pipe or joiner primary */
+  3824		cpu_transcoder = (enum transcoder) crtc->pipe;
+  3825		if (transcoder_ddi_func_is_enabled(display, cpu_transcoder))
+  3826			enabled_transcoders |= BIT(cpu_transcoder);
+  3827	
+  3828		/* joiner secondary -> consider the primary pipe's transcoder as well */
+  3829		enabled_joiner_pipes(display, crtc->pipe, &primary_pipe, &secondary_pipes);
+  3830		if (secondary_pipes & BIT(crtc->pipe)) {
+  3831			cpu_transcoder = (enum transcoder)ffs(primary_pipe) - 1;
+  3832			if (transcoder_ddi_func_is_enabled(display, cpu_transcoder))
+  3833				enabled_transcoders |= BIT(cpu_transcoder);
+  3834		}
+  3835	
+  3836		return enabled_transcoders;
+  3837	}
+  3838	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
