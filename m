@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB80B1303B
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 18:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43891B1303E
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 18:06:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9DF410E01F;
-	Sun, 27 Jul 2025 16:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47D0310E144;
+	Sun, 27 Jul 2025 16:06:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="WiVpeKdd";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="Tn8Ba/is";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF0E810E01F
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 16:02:13 +0000 (UTC)
+X-Greylist: delayed 1872 seconds by postgrey-1.36 at gabe;
+ Sun, 27 Jul 2025 16:06:44 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E88910E144
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 16:06:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1753632120; x=1754236920; i=deller@gmx.de;
- bh=crl2NY3z8ht7kT2f4GAg9DUloR/Qxz14Lpt5cIkZZcc=;
+ s=s31663417; t=1753632395; x=1754237195; i=deller@gmx.de;
+ bh=d21zzX0pNAMMRdXfibiEsSOgxH3t+4CXsQmufDnPi1U=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=WiVpeKddOKCGXyux5T8LVNhSkDHG397OUtcWti6F4adLO9QwkB3UBdBrlwXk/43P
- 5yg6VOYBOZHxYw/8NvbS4DmB3LQ7NbOlDifhfBPUQlEAlTRTEGV43pmQEsJgpmDoR
- UH5msDYOyolf93bQdsgahB0u8VqCmwYztfo9Wlpf597U4i5RQN4jNX7prISQ/purM
- bUBhLsKaAmdAv1J5IQRDrtJaWdPbl1aGchK5OWvhwId4+8CRLIfmJC5i5tsGUJhSV
- HdvBvMLtVdaFOMf7HID8fsLCe3fCj59U27KzJ1bQ+GXP6HggCrbtEV05YkquYwNpf
- /PplV4jPKl1WdGcUPQ==
+ b=Tn8Ba/isq6Yv7PulLbom/BmDbiRM2DFEcsRFV9T8bdBHX7JW3uoVFlu2pkYtn6jv
+ 5V39dkjvBotEpBf1758GVmvLDWWcz9xZDTbNPHqWUe5ZxKZpWfwr6edsQ3PdQVdS4
+ izjugs20iuKDpJZsqTVagGK/bsagso9GjaggLODz7VbqYYQKuksxrcEGeJ6FW79Lb
+ Jh5cdPNk3XYkuDNJ37eD5x6nMjofKIyl1T3I7t/zAfgYu4VLCDjyANJwlF+7TuQit
+ 84weye0XEJuC4gGwB1qvOMh9ceK00DDeEw+bu+cFZuWUfhzfjrVLAzEbvrVkgra5H
+ /RlvZo5YykrpkJesSg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.173] ([109.250.63.22]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MBUqF-1uphvM40x5-00HDcA; Sun, 27
- Jul 2025 18:02:00 +0200
-Message-ID: <cd0f78c1-354b-452a-880e-cbdb12f76292@gmx.de>
-Date: Sun, 27 Jul 2025 19:53:24 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M72sJ-1ulI1c0703-0041yA; Sun, 27
+ Jul 2025 18:06:35 +0200
+Message-ID: <aab3d187-9204-4908-afc8-2a7347b93006@gmx.de>
+Date: Sun, 27 Jul 2025 19:57:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: simplefb: Use of_reserved_mem_region_to_resource()
- for "memory-region"
-To: "Rob Herring (Arm)" <robh@kernel.org>, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3 0/3] fbdev: kyro: Convert to managed device resources
+To: Giovanni Di Santi <giovanni.disanti.lkl@gmail.com>, tzimmermann@suse.de
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20250703183514.2074928-1-robh@kernel.org>
+References: <20250709095354.931589-1-giovanni.disanti.lkl@gmail.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -88,63 +89,64 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20250703183514.2074928-1-robh@kernel.org>
+In-Reply-To: <20250709095354.931589-1-giovanni.disanti.lkl@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rKmM2tfwVz/4DQST8SYcBqplU7G3sPUm7Rseicrovt3Vx4s8Q9w
- u+/uwsdPIULdRyGRw3h/lGvWdLtKA2sOWvOmlLWtP+Kt0zZop2La3ZTQ1/dN50npcp5ftmE
- 4RSKKNA2uBxK/4j/ZERPAh6sz2TCYxnqQjfD6QBieQRzaWLYn8+gUUsUoYPEX1MF+yykMAE
- WjBHIC80u/t1cVem2N6+g==
+X-Provags-ID: V03:K1:FPweNK/F0zSfOcMa2I8iQ6YznyiKRBWSvHEItDunwZs44bGt4fk
+ KzZYNErO4bSTlNY4lF1C+UcmbAAQKMqHcWOeWM6PSdQfpeFijJGfrDXA0Jmk/T1lixg1o/u
+ HkISb64da/SRHHpWOaTxCY5rSCEmylaRK8uGf0mwDQ+fP7Dkv4WJTqDxPyLblyBz3CPmPR1
+ ekv13Z8W9rGGFxL4TZ2XA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:zHFtaK5eRIU=;vuYsHAVWmKCHd4NRj/ri+ijZMm7
- 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
+UI-OutboundReport: notjunk:1;M01:P0:QZP/4pRALJY=;ChorN1+C3vgmYdd3rwdr3Cl2SS/
+ 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
+ xLpvosJC8NDkB1tz4673Cu1zy4YKHQzw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,23 +162,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/3/25 20:35, Rob Herring (Arm) wrote:
-> Use the newly added of_reserved_mem_region_to_resource() function to
-> handle "memory-region" properties.
+On 7/9/25 11:53, Giovanni Di Santi wrote:
+> This series aims to address the TODO item "Request memory regions in all
+> fbdev drivers" from Documentation/gpu/todo.rst.
+> Additionally, it also converts the kyro framebuffer driver to use manage=
+d device
+> functions.
 >=20
-> The error handling is a bit different. "memory-region" is optional, so
-> failed lookup is not an error. But then an error in
-> of_address_to_resource() is treated as an error. However, that
-> distinction is not really important. Either the region is available
-> and usable or it is not. So now, it is just
-> of_reserved_mem_region_to_resource() which is checked for an error.
+> In summary, it converts the driver to use:
+> 1. Managed PCI device enable and region request functions
+> 2. Managed ioremap for MMIO registers
+> 3. Managed ioremap_wc for screen memory
 >=20
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->   drivers/video/fbdev/simplefb.c | 17 ++++-------------
->   1 file changed, 4 insertions(+), 13 deletions(-
+> This simplifies error handling and removes the need for manual cleanup
+> in the remove function.
+>=20
+> Changes in v3:
+> - Split into a patch series as suggested by Thomas Zimmermann [1]
+> - Convert ioremap calls to devm_ variants
+>=20
+> Changes in v2:
+> - Use pcim_enable_device() instead of pci_enable_device()
+> - Use pcim_request_all_regions() instead of pci_request_regions()
+> - Removed manual cleanup code as it's now automatic
+>=20
+> [1] https://lore.kernel.org/lkml/fd6403d7-93f4-4fa4-ad0d-3ab91cba8183@su=
+se.de/
+>=20
+> Giovanni Di Santi (3):
+>    fbdev: kyro: Add missing PCI memory region request
+>    fbdev: kyro: Use devm_ioremap() for mmio registers
+>    fbdev: kyro: Use devm_ioremap_wc() for screen mem
+>=20
+>   drivers/video/fbdev/kyro/fbdev.c | 24 ++++++++++++------------
+>   1 file changed, 12 insertions(+), 12 deletions(-)
 
-applied.
+series applied to fbdev git tree.
 
 Thanks!
 Helge
