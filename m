@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA39B1311D
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 20:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F559B1309A
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 18:28:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3A8D10E298;
-	Sun, 27 Jul 2025 18:11:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AD9610E0F1;
+	Sun, 27 Jul 2025 16:28:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="pdNmqNW0";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="ZVGF4J2g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F177A10E298
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 18:11:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C30DA10E16A
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 16:28:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1753639901; x=1754244701; i=deller@gmx.de;
- bh=Exw6iUjPpcJYiqihVJyfamw8xTZxMpUnPYXzYUFycs0=;
+ s=s31663417; t=1753633712; x=1754238512; i=deller@gmx.de;
+ bh=pkLDT0HEsunX2btfz401SE7y2JBuE7M2u3LhGnMVqDw=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=pdNmqNW05kk9QTSxBmiwlvg1NXjsn8IKtXW3rPjJH+dZoY500Zw7bMSdZV3Mdom7
- crUEYQbaRZ2VqUr5m+8oYQxKoaIqwrJ3iY+LgEAjZbg11jDSE8wubBF9Vg+3seww3
- thY/DRwqw3/bksAXr+sFSy2b/SgZYmYMLCf4fbhab3IC/Q5106TTKwx9YVZRMgyvU
- 8WuD405dRWYEhS+l/rXaj8Ngb7M0P9jp46TgV51Ps6mIM7rdLqHQRMgnBc63XQaUu
- IpOw95/omF/9Is/M7ojXgL3DAOMeU4nlAkW54io7TN07Mh6e3zuBnslFwG0p52ORF
- 27EAqVBcPHgJUCSj2Q==
+ b=ZVGF4J2g6XFJoNwVshZ5gG5PZ8fiyT/NonOCvP74vVQD7oPpO0CYQ39CARmdmiEo
+ e6TQpBvj0Sj/XLMa4lQ13ZXEcrA5KxR8KL0yQ4MZLC6J2Yoq3SjPaawX18ItM7BOu
+ fwA/eIZgCin1XzzsWKk0s2HgfVVEQB271OrbDXPrh74VyuQHwVrWyXMeWoTaRD+rP
+ JEk8Ixq4sc27Uos1HbmaOd4/Z7mGwQjlX3+l5sSn/AWzUQzI97Or0uRmjmbdKfeJ4
+ 1AH+FvUfhWtbvD276qIi8p1T1qKSMmozGP4a2SxrlsJt7oBgpknzsHIhX2PU8f/9b
+ QXTC5b5ffZBI7TeHzQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.173] ([109.250.63.22]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVvPJ-1v5ZBw1hiP-00W7AW; Sun, 27
- Jul 2025 20:11:41 +0200
-Message-ID: <442075e2-d0e6-4ad7-bf72-4b58880fc416@gmx.de>
-Date: Sun, 27 Jul 2025 20:11:40 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MUowb-1v6hn726M5-00V1Kw; Sun, 27
+ Jul 2025 18:28:32 +0200
+Message-ID: <00dfd97d-892f-405e-b395-caf7e8e8f1e9@gmx.de>
+Date: Sun, 27 Jul 2025 20:17:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] fbdev: remove metronomefb
-To: Arnd Bergmann <arnd@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250625131511.3366522-1-arnd@kernel.org>
- <20250625131511.3366522-2-arnd@kernel.org>
+Subject: Re: [PATCH] fbdev: pm3fb: Fix potential divide by zero
+To: Alex Guo <alexguo1023@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <CAMuHMdW5wU1ForGOGD-+HDUu7wcnBx3jx911nLEqbJ71t4MBsg@mail.gmail.com>
+ <20250611161207.4031677-1-alexguo1023@gmail.com>
+ <CAMuHMdW=GyUHsfqtSD8iYaV_nRszEunaDMCoL6zWf5_bPS0T4Q@mail.gmail.com>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -87,63 +89,64 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20250625131511.3366522-2-arnd@kernel.org>
+In-Reply-To: <CAMuHMdW=GyUHsfqtSD8iYaV_nRszEunaDMCoL6zWf5_bPS0T4Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:TzmshtYNPx/fsdMurnY5ChnUrKt9dR6iP2ALqeDUmQSir6GPN8E
- 2HKjaK0KA+sy2q8t6PC6nbhNFnFjrBJpBSHqzC4xFq4cZINpySyBiCmNtOX/9amAsCaI/L5
- /bguDsd7KrjAdzbRDDKr0VL071pYgMR8TTklKiGhhRILfkTl0KYosIRKFaMls3tkvz+hGiL
- uNcLzfTH4/07nUveHuqaw==
+X-Provags-ID: V03:K1:e05JDAVMkyZ+FQ8bw/sOH11d+LSn4k+EZk0JAbBUOxdLsFr6grc
+ bL5L72uooH7pgjg2RJwsF+ib3Slj+1hjNlq3ceyjA/AQECPn4m1EKJ+di8cpiCEZgP6DF3K
+ MvzQ44c/oyvkOCEYvAYaqlIDxc+GLJi3hMSZvRjXr4qZrHEMIjU4LCmpAyGAXJkR9S/Wd4D
+ w4gzxtnqK6rzY57oYxCQw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:j2QzEE7dtXI=;KdGVkPnJHP46/0cKgV33yrbtW+D
- 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
- Aj0jSb+w173NFQYgwL9Q==
+UI-OutboundReport: notjunk:1;M01:P0:nMzw6wrqWvo=;h1NOHVh/mmKRv5p/xOcKR4jgXAJ
+ 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
+ C3qFFYoa7tQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,27 +162,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/25/25 15:12, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> This driver has not worked correctly for many years, and the only in-tre=
-e
-> reference to it is going away as well, so remove the driver now.
->=20
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   Documentation/fb/index.rst        |   1 -
->   Documentation/fb/metronomefb.rst  |  38 --
->   drivers/video/fbdev/Kconfig       |   9 -
->   drivers/video/fbdev/Makefile      |   1 -
->   drivers/video/fbdev/metronomefb.c | 724 ------------------------------
->   include/video/metronomefb.h       |  57 ---
->   6 files changed, 830 deletions(-)
->   delete mode 100644 Documentation/fb/metronomefb.rst
->   delete mode 100644 drivers/video/fbdev/metronomefb.c
->   delete mode 100644 include/video/metronomefb.h
+Hi Alex,
 
-applied.
+On 6/12/25 11:29, Geert Uytterhoeven wrote:
+> On Wed, 11 Jun 2025 at 18:12, Alex Guo <alexguo1023@gmail.com> wrote:
+>>> On Sat, 7 Jun 2025 at 22:14, Alex Guo <alexguo1023@gmail.com> wrote:
+>>>> variable var->pixclock can be set by user. In case it equals to
+>>>>   zero, divide by zero would occur in pm3fb_check_var. Similar
+>>>> crashes have happened in other fbdev drivers. There is no check
+>>>> and modification on var->pixclock along the call chain to
+>>>> pm3fb_check_var. So we fix this by checking whether 'pixclock'
+>>>> is zero.
+>>>>
+>>>> Similar commit: commit 16844e58704 ("video: fbdev: tridentfb:
+>>>> Error out if 'pixclock' equals zero")
+>>>>
+>>>> Signed-off-by: Alex Guo <alexguo1023@gmail.com>
+>>>
+>>> Thanks for your patch, which is now commit 59d1fc7b3e1ae9d4
+>>> ("fbdev: pm3fb: fix potential divide by zero") in fbdev/for-next.
+>>>
+>>>> --- a/drivers/video/fbdev/pm3fb.c
+>>>> +++ b/drivers/video/fbdev/pm3fb.c
+>>>> @@ -998,6 +998,9 @@ static int pm3fb_check_var(struct fb_var_screenin=
+fo *var, struct fb_info *info)
+>>>>                  return -EINVAL;
+>>>>          }
+>>>>
+>>>> +       if (!var->pixclock)
+>>>> +               return -EINVAL;
+>>>
+>>> While this fixes the crash, this is correct behavior for an fbdev driv=
+er.
+>>> When a value is invalid, it should be rounded up to a valid value inst=
+ead,
+>>> if possible.
+>>
+>> Thanks for your confirmation and suggestions.
+>>
+>> I added this patch based on existing checks on var->pixclock in other d=
+rivers, such as savagefb_check_var, nvidiafb_check_var, etc.
+>> Are you suggesting that it is better to replace an invalid value (var->=
+pixclock =3D=3D 0) with a default valid value, instead of returning -EINVA=
+L?
+>=20
+> Indeed.
+>=20
+>> If so, could you advise what a suitable default value would be for this=
+ case?
+>=20
+> The answer is hidden in the existing check below:
+>=20
+>>>> +
+>>>>          if (PICOS2KHZ(var->pixclock) > PM3_MAX_PIXCLOCK) {
+>>>>                  DPRINTK("pixclock too high (%ldKHz)\n",
+>>>>                          PICOS2KHZ(var->pixclock));
+>>>>                  return -EINVAL;
+>>>>          }
+>=20
+> It can be replaced by:
+>=20
+>      if (var->pixclock <=3D KHZ2PICOS(PM3_MAX_PIXCLOCK))
+>              var->pixclock =3D KHZ2PICOS(PM3_MAX_PIXCLOCK) + 1;
+>=20
+> The "+ 1" is needed because of rounding.
 
-Thanks!
+You sent a whole bunch of patches [1] which check pixclock against
+zero, but you don't set the default value as Geert pointed out
+above. Can you maybe revise your patches accordingly?
+
 Helge
+
+[1] https://patchwork.kernel.org/project/linux-fbdev/list/
