@@ -2,119 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E69B13033
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 17:55:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45313B130AD
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 18:37:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 746CB10E2FD;
-	Sun, 27 Jul 2025 15:55:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 750EC10E132;
+	Sun, 27 Jul 2025 16:37:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pngGWWT4";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qn/TluVM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0434610E2F8
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 15:55:13 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56RFWJHS027968
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 15:55:13 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A737010E132
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 16:37:41 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56REPOSN008239
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 16:37:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=EsrEgl39mei4/TuBE/dtIwTk
- oO2ifiwHmRgcyBvsWBg=; b=pngGWWT4Wj5yQvXPLzKXuW0oMs6hxuUt0FRGlR/X
- WF29Kr44N8DU5Zc3aVBNdr7LDRYL8Hu9q2URn+/olhoPTgCM8W9ZoAeRz6MmuUHN
- f44d3OVhUv8sY3TTQvw1ZDPd6eRA6vAXt+O3HSn04Lr50HW105t4LfrAiAkfpjui
- +jjMc08lxVsJbdQSZYg8SS2binzut2mmvi3YWKI0x0fYsiJV0H6yPk1dwb0kkGss
- WCKS6MCDmd/xuD5d7QV7eR2VR4uT8uWozVaZw6vtDl9srYqH0lcQgf4Las0x7V0T
- lt+siPETeFHt4txfV7Cqo75i+qf0MSBPE/gk3nzA5WaHrw==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484mqk2j0c-1
+ :references:subject:to; s=qcppdkim1; bh=wK/7AANYzXjuDWi34c4pgwf9
+ uDLv5k83zXcgqhJz5MM=; b=Qn/TluVMApsDuwbUJbomJ8HoK9g5RC/YolwxcDiJ
+ 4XjDV8hiixmpZtRAu4metDviUyVQmb6gpW3ZRRE9/nK+bft3S6H2+t6I5lVHmWta
+ p89PHGsmKd4l1dGIbiLFcQp8N8FSkdmjGL9acM2a+e5BidkLnCx8KoaDm8MyQkAU
+ phNRaM4uEjNzh6zD2LnHQ4tzHycwAjaIQXEhjMh5W8KiLql48ocZLGMdhI2fpGAh
+ MuUjXM9F8lns4O7uIE+t+FSC2vt/0cf+VF9NScJ3A5bkfG+2aNbJZRIsNg0Ef4FO
+ AQ/ZAIVUgSwDHOaPVIHv3JS52Lllu1Rj0828Eiutp6Yc5w==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484pm2abhq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 15:55:13 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-70732006280so21707366d6.3
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 08:55:13 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 16:37:40 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-6fab979413fso74451246d6.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 09:37:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753631711; x=1754236511;
+ d=1e100.net; s=20230601; t=1753634260; x=1754239060;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EsrEgl39mei4/TuBE/dtIwTkoO2ifiwHmRgcyBvsWBg=;
- b=CncWTaRXMGzSxKls4Q1qZ/tGLbwT9NGbtMkG95GIOqs6ISdjJi9nd82GhJWNcLZMcu
- zRX4Ag5KpNAJTh3uxkhduKo307LNMqUUd4VYaSupMHFjWeSVXub8yi+cYS37pugQPxbf
- HD0W74Xu5wq11y9oUbXGQr9zTrz0mQ8N6KWqAQGMa2U6SPJWqYe8OgGWpHOJNqwJVUeB
- PJ4XjCU5/As/nfJUUB2eq7G28vZp4i3tKxyJJb7oQByp7dYkk/Yymy28toMnCAscRaYU
- v4ttPf2q+O9L08ZwB0IRHFoTd3JitcVYeaegZv2MVKELc22YL8HcaE+njGqNaQC8JpFq
- //FA==
-X-Gm-Message-State: AOJu0Ywuasm4En7ry4xDo/Lm7K558uDu9X14RvaUSgXXFC4djWIS+F/H
- QgSKqyDtP/brFPUB2XREYEhEXwVKfz3lQckTzHrVdKWs68lqRhrjkFwDr5JOMuUVi4OUnOggfk/
- /yMC9arm87B/ALWF0j1Iu3cnMz2mxfvbEWZ1bEyNuA8u99z2ruSShbd4lOsyHesjcABjycSZnPC
- 36l7o=
-X-Gm-Gg: ASbGnctKubLc/PJAY0eNCzy0ODkL8getKjYpbRuRnxQSnC/AteDxawvJFHwtujAYz3Z
- /yYudL0vr45ghyNbuDEPMsNzf4jb0jSFQR7aNP/dhvpSm8b+T1XNy/52ThqBT+E/1SPH7kgbmGH
- jDU3sbG1o29yxxOxixeTacO7KgMjdnPxWnNbfD5fkK6V8N5iG488+oAhyQoaQwSy9hExIqg0R/f
- 5/KRE7NgnK2Owg+Az9AAWCJf8mTQoduwosulCd2iJHLa0io+dGZx2cLh6DJp4/SAYaEhrJPF7VJ
- OU+pDo53oIUFSGGoLIwS4eML0TNTlW/DWQNZzzV7wMEPKCo9LXaXgCP/xWtIOmBjo9AUT0z1x0m
- UwI8e4Q48QwiYgW/oARZhXN0EmFax1o6/pXfudgeh9qTUcpBOMABC
-X-Received: by 2002:a05:6214:c8f:b0:707:3eec:9d90 with SMTP id
- 6a1803df08f44-7073eecb410mr26188756d6.29.1753631711251; 
- Sun, 27 Jul 2025 08:55:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFtcfR5HCU7ZshJHg+xEGg2Ot5rBNCoukKiPTXMvDqwtwnKOTAJaeKv0a1uhe16ww038CEo5Q==
-X-Received: by 2002:a05:6214:c8f:b0:707:3eec:9d90 with SMTP id
- 6a1803df08f44-7073eecb410mr26188506d6.29.1753631710724; 
- Sun, 27 Jul 2025 08:55:10 -0700 (PDT)
+ bh=wK/7AANYzXjuDWi34c4pgwf9uDLv5k83zXcgqhJz5MM=;
+ b=lsk8PZrnaoqkcbNpKQ2CeAqv1gXwKVQPOaQplgeh/aWM8vh2IuxyPqarFndsAJEAFK
+ 4XrJ+d1wYXH7sRcp3CfcoVlNYMYoISvGKv0ib2LNmROeU7ex0GbYOCxi3pcVryHqD023
+ oMGGQ6oR0ojZmbYckCy5q0YrDV0YXyn8u3nODRytbVil/kuS9Zthxj5TvekTDX3WWhZo
+ xW810SfxeoHu0Hed5DXxUosL0EMgox6rS4/Q4OFmPp61T3/MWXu7Iw16rQem/wUIV6UK
+ E5IkOyEFOq0YRQBMYMJG0sWPefrRHr92BAyTZuSCCpVfCtDnCMOHEMNIfARa9WP2St46
+ 15Yg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUp28eUbwKMy9xtPww/y3+264Ezr94tzZl5IoJhEuMhxkxYtUPw5rFqkUKUp8aYlZGn297ak/hsZv8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyiCmlzXwSD5aiCH8doEeru3c3XC8phYF8WI2vuDhjdRk5Yygxr
+ u8bVCCPryKZNYLcijINPBPpi4WIds9M6ayXtaCd8zU630QFqa+ODuMQpXf27sUOXOEu9XaBnORB
+ EARG73CgjGMRcg/LWBXW/PHE5oBtlNG9lXq+msI3RLCdI2pLEoPQt5Y+Zq1/eAFhk1gIyGvo=
+X-Gm-Gg: ASbGncuKevJE6JgNmTMgHLC+zl5kaw4xl5ZjXBAnzbxu9CpeFMs9rM9zcIziR4vF6Zm
+ KE7HCirR2Q5kA7fAJB8sPied8TPO0dIra5qfb//YxiSSSkEl9b0jUGd3rQWRhohIY+HQkLbrfwV
+ eaDS7faFlsSr79GBhfRxZv+0fp++awJyiN9YNf5Tj+8mLzu9ZrWxLCkfGUKCO1ghPGoVax7oPI7
+ ELAAb1tXpVhOZqHIh3ghhRYbUPUqT40GvjXos9ciq3xavUQuiBBFfT5iF6PkI1NKQlVGd04VSn/
+ hhQxARFJLtoxWRk7wynpYfucSzFKT41vgvStZVHSD7wbE+1L0AI19IJZd84J5V3lH+SJmgB+48W
+ q09gfTXwMfBiY0LIDPJogR8cDX8HItuDSg4C7iteWIjdOekUyMPoT
+X-Received: by 2002:ad4:5d48:0:b0:6fd:37c0:2c74 with SMTP id
+ 6a1803df08f44-7072052e0b4mr146241676d6.11.1753634259616; 
+ Sun, 27 Jul 2025 09:37:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFCEzR9cxfhoQf+JRJGJJ+OBE525ZBdzHU5iOMQLP/D8dHXrDVAEtnxnZAfMekTleUclCVblw==
+X-Received: by 2002:ad4:5d48:0:b0:6fd:37c0:2c74 with SMTP id
+ 6a1803df08f44-7072052e0b4mr146241226d6.11.1753634259033; 
+ Sun, 27 Jul 2025 09:37:39 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-331f4271e59sm7897081fa.72.2025.07.27.08.55.09
+ 38308e7fff4ca-331f426e396sm8705181fa.70.2025.07.27.09.37.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Jul 2025 08:55:09 -0700 (PDT)
-Date: Sun, 27 Jul 2025 18:55:07 +0300
+ Sun, 27 Jul 2025 09:37:38 -0700 (PDT)
+Date: Sun, 27 Jul 2025 19:37:36 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "Murthy, Arun R" <arun.r.murthy@intel.com>,
- "Shankar, Uma" <uma.shankar@intel.com>
-Subject: Re: [PATCH 17/28] drm/i915/writeback: Define function to destroy
- writeback connector
-Message-ID: <j2w4elkctkh22cycelc3eclknwzz47axmqjqwpqwl2binzns6d@w2icvpyy2dst>
-References: <20250725050409.2687242-1-suraj.kandpal@intel.com>
- <20250725050409.2687242-18-suraj.kandpal@intel.com>
- <3paeal7ew2pjo6h23rr4t7fqz33avbyxuync5cxnxlh7w4xxr6@ja77buhqtlva>
- <DM3PPF208195D8D5AB9EBE34ED037888D2BE358A@DM3PPF208195D8D.namprd11.prod.outlook.com>
+To: Henrik Grimler <henrik@grimler.se>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] drm/bridge: sii9234: fix some typos in comments
+ and messages
+Message-ID: <dqkflgvnthhej44ocyqkeifixtwjwpyeapq4qpof4ah7kt3ynf@e5svmfyeimga>
+References: <20250724-exynos4-sii9234-driver-v2-0-faee244f1d40@grimler.se>
+ <20250724-exynos4-sii9234-driver-v2-1-faee244f1d40@grimler.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM3PPF208195D8D5AB9EBE34ED037888D2BE358A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI3MDEzNiBTYWx0ZWRfXxoBVE+9PcpKF
- Ub431tB0/eFYyJ6gcgyKhXR+JFlHuQht9B06RFMZK6slKbeIUXVsv0qIKGcNLf1JumstcVHGYFB
- 2oERQ8TLLlRrbpe8o8VRbUbsMB0dqS2vVaSXkenG4wxNGPIRL0EWjGz29I9vhoHLpVpgBRUPiZ6
- 3PITWOFkwIzsBIGqF9yeMHceGC7pfAQ2dqU/GVk8zhOines7KWtx0J3bzV4nXjOuOpbJspryaOe
- a7e94WluKo8yPG2batotV2NaaZAj0VX62JaV1QHorvdvyBsUDDiqiOxeSJsfvAAZiQx05eIs//Y
- ponaNM+Ur8NijRsVt/ovv+r194SUufeN/AHgcKyqPy1fyWsuJeAUIJGRsRRuu4pMfNn1K1CFayz
- 377gr3MWfbX536lJ18KR3hqJommVddXsxf+4IYYwPgMJGK/McPa0iB7ZDRJ/08n5cl44hGBA
-X-Authority-Analysis: v=2.4 cv=fqPcZE4f c=1 sm=1 tr=0 ts=68864be1 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8 a=e5mUnYsNAAAA:8
- a=P4PJ7VdoEiew2rMEjHIA:9 a=CjuIK1q_8ugA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-GUID: 27YyUpM1dt2L6mPxWvCV5UvaWtLGZGdl
-X-Proofpoint-ORIG-GUID: 27YyUpM1dt2L6mPxWvCV5UvaWtLGZGdl
+In-Reply-To: <20250724-exynos4-sii9234-driver-v2-1-faee244f1d40@grimler.se>
+X-Proofpoint-GUID: Uo9DOJoVAKzephPAIFCGUoPNtjri-EVm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI3MDE0NiBTYWx0ZWRfX2MzQyHwwTCah
+ 9cHGK7bvQn0GTFR0Bodd292jqiPH+drpUQv8ITGzsQctLlG6hoITYs4S+zV4sfYh+MxVSwQpyO8
+ XJ+QZxLLDxE/PqYwN+2WbPz70gyPRRwsC1J1NugvmmxXd0+N2IZXUhXGRzUVtM+RNmll/S7mvzk
+ QIXmuZU7IzN5rG+w/mzmeR0KQJTxXnc0GLEHtwRI90FBj1sIABDFghORWfHXpcvytuhpqL/lqWn
+ +oyUK3KYjJ5qcBmkBZ7F/8aRkPcWLbxruTg7rx4H8+KjviY94JXVhEycLvTfESzTnKW+HV4wn5H
+ mn1pwvl1zxOs0rqM+iS18RC6okZ4p3BowDZ0RjDuSAOQ+zOi1bXuRI4wwu4TeDsWLkAHGUzhm82
+ UEM66/I7d3BTydwXCohTlkbCiwo5LPR+CfwGvari1m8dbq9saG5Me2Y3jUWzZv9G9q7ITox1
+X-Authority-Analysis: v=2.4 cv=HfYUTjE8 c=1 sm=1 tr=0 ts=688655d4 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=7HXEQI8gbsEklOhadn0A:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-ORIG-GUID: Uo9DOJoVAKzephPAIFCGUoPNtjri-EVm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-27_05,2025-07-24_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 impostorscore=0
- adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507270136
+ mlxscore=0 clxscore=1015 bulkscore=0 suspectscore=0 impostorscore=0
+ spamscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507270146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,77 +133,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 26, 2025 at 04:29:54PM +0000, Kandpal, Suraj wrote:
+On Thu, Jul 24, 2025 at 08:50:51PM +0200, Henrik Grimler wrote:
+> Fix spelling and formatting so that the code is easier to follow, and
+> so that it is more searchable.
 > 
+> Signed-off-by: Henrik Grimler <henrik@grimler.se>
+> ---
+> v2: no changes
+> ---
+>  drivers/gpu/drm/bridge/sii9234.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
-> > -----Original Message-----
-> > From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > Sent: Saturday, July 26, 2025 6:11 PM
-> > To: Kandpal, Suraj <suraj.kandpal@intel.com>
-> > Cc: dri-devel@lists.freedesktop.org; intel-xe@lists.freedesktop.org; intel-
-> > gfx@lists.freedesktop.org; Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>;
-> > Murthy, Arun R <arun.r.murthy@intel.com>; Shankar, Uma
-> > <uma.shankar@intel.com>
-> > Subject: Re: [PATCH 17/28] drm/i915/writeback: Define function to destroy
-> > writeback connector
-> > 
-> > On Fri, Jul 25, 2025 at 10:33:58AM +0530, Suraj Kandpal wrote:
-> > > Define function to destroy the drm_writbeack_connector and
-> > > drm_connector associated with it.
-> > >
-> > > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/display/intel_writeback.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_writeback.c
-> > > b/drivers/gpu/drm/i915/display/intel_writeback.c
-> > > index def33191a89e..9b2432d86d35 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_writeback.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_writeback.c
-> > > @@ -180,6 +180,12 @@ intel_writeback_detect(struct drm_connector
-> > *connector,
-> > >  	return connector_status_connected;
-> > >  }
-> > >
-> > > +static void intel_writeback_connector_destroy(struct drm_connector
-> > > +*connector) {
-> > > +	drm_connector_cleanup(connector);
-> > > +	kfree(connector);
-> > > +}
-> > 
-> > Nice example of what I've written in my response to the cover letter:
-> > without this commit we have a memory leak here, don't we?
-> 
-> No we really don't none of this actually takes affect until the connector init is called which is way later 
-> So to answer your question this won't really cause a crash and is very bisectable
 
-Ack, thanks. Then it's a fine way to implement the callbacks.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> 
-> Regards,
-> Suraj Kandpal
-> 
-> > 
-> > > +
-> > >  static struct drm_writeback_connector *
-> > > intel_get_writeback_connector(struct drm_connector *connector)  { @@
-> > > -208,6 +214,7 @@ const struct drm_connector_funcs conn_funcs = {
-> > >  	.fill_modes = drm_helper_probe_single_connector_modes,
-> > >  	.atomic_duplicate_state = intel_digital_connector_duplicate_state,
-> > >  	.atomic_destroy_state =
-> > drm_atomic_helper_connector_destroy_state,
-> > > +	.destroy = intel_writeback_connector_destroy,
-> > >  };
-> > >
-> > >  static const struct drm_connector_helper_funcs conn_helper_funcs = {
-> > > --
-> > > 2.34.1
-> > >
-> > 
-> > --
-> > With best wishes
-> > Dmitry
 
 -- 
 With best wishes
