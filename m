@@ -2,72 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6A8B12CC2
-	for <lists+dri-devel@lfdr.de>; Sat, 26 Jul 2025 23:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA994B12D42
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 02:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C8E10E107;
-	Sat, 26 Jul 2025 21:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A94F010E2EC;
+	Sun, 27 Jul 2025 00:55:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kRu/PbZN";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="j2vuk7+G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8732010E107
- for <dri-devel@lists.freedesktop.org>; Sat, 26 Jul 2025 21:50:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753566635; x=1785102635;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=hSbqujNyJtfgoVzH7Vax+KT9pmAhM1E22Hv7yYf+bQ0=;
- b=kRu/PbZN9ATlJCM6RgFcm1KZXVu8/K1qDjSdStQA+7hQFj2vX853tDwQ
- b1Inm0JXVsImfUPmiYHU3wxJsYAC0JOst1ZcD0CVvTWPX9d6LLXoZVgET
- GShMDfaz9J75+4gtWoWs9qckDXsO0Sq152BE8NcklaOfy3M0kc21wTOYe
- O+iuDAlX+585YuLoL39yo65ynCI8q16Mz3st1sar76A/R0rd4WtbWBQLq
- ML2udDvaUKmbt8p15XHzBuyCpWYdjtWRfOnM4J1J94k+kXFUDkDo40Em0
- j/BZ7D9dhVm5r2+sfCjnU4SRiOHmvtX2HnU3kB5hZe3fZtAI7igWvzBh3 w==;
-X-CSE-ConnectionGUID: RYVeWz7hQFetVKayx6oLyw==
-X-CSE-MsgGUID: e/hHfJT4Ttmj0lVZK/2Bcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55721666"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; d="scan'208";a="55721666"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jul 2025 14:50:34 -0700
-X-CSE-ConnectionGUID: YUbCUJRlSDSYtBKh9alZxQ==
-X-CSE-MsgGUID: msO8MjvYQuO0CppyXIzicw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; d="scan'208";a="192644434"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
- by fmviesa001.fm.intel.com with ESMTP; 26 Jul 2025 14:50:29 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ufmmg-000MJH-2B;
- Sat, 26 Jul 2025 21:50:26 +0000
-Date: Sun, 27 Jul 2025 05:50:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maud Spierings via B4 Relay
- <devnull+maudspierings.gocontroll.com@kernel.org>, 
- Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
- Maud Spierings <maudspierings@gocontroll.com>,
- MaudSpieringsmaudspierings@gocontroll.com
-Subject: Re: [PATCH 2/4] backlight: add max25014atg backlight
-Message-ID: <202507270543.G0TT6f25-lkp@intel.com>
-References: <20250725-max25014-v1-2-0e8cce92078e@gocontroll.com>
+X-Greylist: delayed 367 seconds by postgrey-1.36 at gabe;
+ Sun, 27 Jul 2025 00:55:49 UTC
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D09BE10E2EC;
+ Sun, 27 Jul 2025 00:55:49 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bqNKv45Bdz9sp0;
+ Sun, 27 Jul 2025 02:49:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1753577379;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=a53d9aoObtRCbPa9u0Apg6/R/vHkZ8x0X/h8IvjYC20=;
+ b=j2vuk7+GWuCAFVpKwcj3x3aDvD4pPz5yXqelaXlmCp6BaLoqTjHz3oCMaS51zq9PGpiUXZ
+ 8hAg2JYYbi2ucuT5MMHxLAOfqqb+QvHJS5ZWgsq4SsP5zzxszpAZ/Q3b8u4ZnMvu+6uuKb
+ gMUDQEiR5hOgGrsgW4WVkyPFzzpTJtJqxxCY/K6m+P4NgJVAXMV4KlOatdAvPx8kJh0cyk
+ OXIBQ7yUXGpy3JI4BH6112sstA0NFtEze7Z+cETIPtXe/hvmUhlkM6zRhPzCLgWVHUW5oH
+ H91zhuesb1FrFvf0nhH5diKJ3+rzC4X3HHpL5gyjCExIvWqCR2C2KhrqJOv1oQ==
+Date: Sun, 27 Jul 2025 02:49:35 +0200
+From: Anthony Ruhier <aruhier@mailbox.org>
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 17/17] drm/msm/adreno: Relax devfreq tunings
+Message-ID: <acawiyjobxkmvgmjcr6ct6lkkoom66q6tn25wyrsqusq2hh2hq@t5di44stzbp2>
+References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
+ <20250720-ifpc-support-v1-17-9347aa5bcbd6@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725-max25014-v1-2-0e8cce92078e@gocontroll.com>
+In-Reply-To: <20250720-ifpc-support-v1-17-9347aa5bcbd6@oss.qualcomm.com>
+X-MBO-RS-META: ez5yztpbkr5h39tq1gyjgfyzemm7pyy9
+X-MBO-RS-ID: 9ce0f1739a2f2abe88e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,58 +71,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maud,
+Tested-by: Anthony Ruhier <aruhier@mailbox.org>
 
-kernel test robot noticed the following build warnings:
+Thanks for this patch series! I tested in on the Yoga Slim 7x, it works well on
+my setup beside this specific patch. On Hyprland, it makes the animations
+stuttery (in particular workspace changes, which are by default similar to
+Gnome's).
 
-[auto build test WARNING on d7af19298454ed155f5cf67201a70f5cf836c842]
+Dropping this patch fixes this problem.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maud-Spierings-via-B4-Relay/dt-bindings-backlight-Add-max25014-bindings/20250725-191221
-base:   d7af19298454ed155f5cf67201a70f5cf836c842
-patch link:    https://lore.kernel.org/r/20250725-max25014-v1-2-0e8cce92078e%40gocontroll.com
-patch subject: [PATCH 2/4] backlight: add max25014atg backlight
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250727/202507270543.G0TT6f25-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270543.G0TT6f25-lkp@intel.com/reproduce)
+Thanks,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507270543.G0TT6f25-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/video/backlight/max25014.c:86:4: warning: variable 'res' is uninitialized when used here [-Wuninitialized]
-      86 |                         res |= 1 << i;
-         |                         ^~~
-   drivers/video/backlight/max25014.c:82:13: note: initialize the variable 'res' to silence this warning
-      82 |         uint8_t res, i;
-         |                    ^
-         |                     = '\0'
-   1 warning generated.
-
-
-vim +/res +86 drivers/video/backlight/max25014.c
-
-    73	
-    74	/**
-    75	 * @brief get the bit mask for the DISABLE register.
-    76	 *
-    77	 * @param strings the led string configuration array.
-    78	 * @return uint8_t bits to set in the register.
-    79	 */
-    80	static uint8_t strings_mask(struct max25014 *maxim)
-    81	{
-    82		uint8_t res, i;
-    83	
-    84		for (i = 0; i < 4; i++) {
-    85			if (maxim->pdata->strings[i] == 0)
-  > 86				res |= 1 << i;
-    87		}
-    88		return res;
-    89	}
-    90	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Anthony Ruhier
