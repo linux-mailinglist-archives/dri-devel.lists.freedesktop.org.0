@@ -2,150 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76C5B13170
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 21:05:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7875B13193
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 21:51:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D22210E316;
-	Sun, 27 Jul 2025 19:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E18510E318;
+	Sun, 27 Jul 2025 19:51:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="At3Osj9o";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="gGfWW5rv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2068.outbound.protection.outlook.com [40.107.94.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB78710E316
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 19:05:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dg7x66/bUcUMfdR9Ps3MNteFBBiC3RemxRVvCN7U3WeLDf36DDGXpK5koJ1shvLvHZDQUbA02As78VyiX6hVJEkoDV8SUTZWwGubZ8hX98RWPSJhuwd8yeSx/zxYPJJvI5T+yoPGWLv8S6m1tm2I6BULc/jWcri6Ub8avh01HfKinJphsOoHFWtWLppLOdKlgHfqveaOWpX/X4xdp1NB9UvrN2GsGNXf6eq7yySuaxux//xik8Rx/nDPp4OD/s4Jvmt6KWqrHSd7wZZO8FtHkqoJwKk6Kt+Gn+L/ussG4Tvk1FQQ7qUYiOpPoF94hH+twag3H0oFqvB6VNW7EmGXcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ppkMvIiK/f3S/DEb4c2LCtYu6jIS22VQe6ZJOIk9tGU=;
- b=pk2GxZX8R0zOwxf7+di8N5nGGaHmH2L+dIoKVS5CiXd1iCTmpucchnhNLE7hWbNZHyc0sRzK/pXcxBn3pkcgSs27HTUGTvjMMNCElYwP009lpD8r1qYgh3YSxv5Ytfeo8ds2uFcl0u6ApxTOV48/BB308Ms/HwnMzhlYWGJUMP6Sd5Q1XaKCduEtVXMfIplld0ULYzwoTafq+JvsBRDHXkK3HIHY8ngS2ZB7/3xM92XeyffeMh3X1dGw8dc88I9OFp9XCtYWMTi148+G1Tltmc8jCNLkbhUxwVuiKtreezu80fij/hXf6rtAr5iCNiVIqefYBe6+xg11IPi5VUApcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ppkMvIiK/f3S/DEb4c2LCtYu6jIS22VQe6ZJOIk9tGU=;
- b=At3Osj9oJSlfdkFNnjFm5o5+UkqYaaS3Xsvs/0KfW3iubsw702+3ToE7RSeT+QjT7+0MxVhkOWNg5nZaeAC8bHuPSj386RktUqoa/iQHbIzeKsQnnx9KQ6sHwD9CcKIxm6GfMwlIlelaEm5QuRPfSvU4d9mOcU73kyq3SiJnqdYsbhhx/DxRTUtzDn2aVkQxjkipq58tmlbNjhZBAa8axgzGidNIykrKdOh44H08P3J9AcX7HuAc1y0pb1v0yd9z3CLgCIvVRcJo4pNi3R1bJps7q1SUgbJeD4qpB13tsPa9z8zlH7Y1NFXAFAoU7o9db1kXbDKDuFD1ZO/W86K2HQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by SJ5PPF75EAF8F39.namprd12.prod.outlook.com
- (2603:10b6:a0f:fc02::999) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.42; Sun, 27 Jul
- 2025 19:05:16 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8964.024; Sun, 27 Jul 2025
- 19:05:16 +0000
-Date: Sun, 27 Jul 2025 16:05:14 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Alex Williamson <alex.williamson@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 05/10] PCI/P2PDMA: Export pci_p2pdma_map_type() function
-Message-ID: <20250727190514.GG7551@nvidia.com>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <82e62eb59afcd39b68ae143573d5ed113a92344e.1753274085.git.leonro@nvidia.com>
- <20250724080313.GA31887@lst.de> <20250724081321.GT402218@unreal>
- <b32ae619-6c4a-46fc-a368-6ad4e245d581@deltatee.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b32ae619-6c4a-46fc-a368-6ad4e245d581@deltatee.com>
-X-ClientProxiedBy: YT4P288CA0031.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d3::9) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+X-Greylist: delayed 311 seconds by postgrey-1.36 at gabe;
+ Sun, 27 Jul 2025 19:51:27 UTC
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29FA710E318;
+ Sun, 27 Jul 2025 19:51:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1753645885; x=1754250685; i=markus.elfring@web.de;
+ bh=w7wV4bQw6I+f2MyxezAE54mSoFDxSCTYKVYPfxLRr80=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=gGfWW5rvO8+2fRGO3S4msEjf0YzBdojeC6mQBnrOp1Tj+23BiOeIpvJX9JWZhdf6
+ wIkbMQtlIAi+dOQlV28xdou+bRhT9xHXxlaxFdx7dpK6Pr5cHFA2PZR01eU1VU7KQ
+ 5g7+qIIlqdjJMvH8BDnLjv79g0u0WX5tw07KkMrZgP5tN+Sg9L1E2Cq3EZG9xjaqE
+ 78HZAr0DmxN8EGh2U7V/7v/UdsSKa6K4w9xYbH3Derlxr5CgeyBQ+QeYwYonJJOWQ
+ 5tZ3upELEFye6/q+1AcrRrnHWGRsHazX50Bw+ZoOljVSXWxQsOcpLomS8w5faNKFv
+ glk/pZHIPNB3HesMfQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.1]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1M3Euv-1uhVIH2JFl-00H3nV; Sun, 27
+ Jul 2025 21:46:04 +0200
+Message-ID: <3f9121a0-30ae-4dde-8c22-be195dfc4fe4@web.de>
+Date: Sun, 27 Jul 2025 21:46:01 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SJ5PPF75EAF8F39:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5e512f2-1f99-4108-b6b3-08ddcd40857c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?0sZO0eH4QB4Ql8XBONCtg7Ik7or2eFuee7p2ESzhrPusQksNWHWS/gwa875x?=
- =?us-ascii?Q?sdraFj13zZiEr948Y75mXCUX7c2F5PBCQ2kUju4JLGU9NFKdFVAmKfnzpcsd?=
- =?us-ascii?Q?02jN8OjbioANuS7C9mzCTvjemjYLOQ1ZT6i440h/8nsemAoHupTd3+VJKKYd?=
- =?us-ascii?Q?ldKA3kMRQ6/FDZzHI4IYxlCQ0ipiWYRwT17Mrhv3mP5mnmhEz81d1yMG5Vks?=
- =?us-ascii?Q?Z3vj4MpzvFBVto6t6eHmgAcdoLsfd4ZOjmsK5riO6viQ6N5SioCdHit4xVZm?=
- =?us-ascii?Q?J+z+ZfPSJ8vZqhNGNnl7mp0Xm+nu6EJEuZaSHqi27+FoA0NT8xBjvuUvEN+E?=
- =?us-ascii?Q?8nTPH13uvQAhKW1FIQbY5AjdfeY0Rm2jFi/AT4P55zbfGt/bH64qo2kydI7U?=
- =?us-ascii?Q?0F4I/i3ySmqENhKiSRHR3Tdpt9F1VnnwPaxCW15Lz3rMRUfQJ9L1t3KAWMem?=
- =?us-ascii?Q?4d/MivYwlW1e8f4SUJyJJZcALD+87DQvRcr4NbGJxn/RtvroX7udE0275f7k?=
- =?us-ascii?Q?vYEsR2eC3tf4oLkvBSCNLIwErnHTsN/3GfUseC0ilZaCEuJNDpwoyi6qMBir?=
- =?us-ascii?Q?vLy3rBWCrJRMfUExQlZxZNLcD8bPtwN/8Ns8lWTLoEY/X/BIKNrWX+azi02q?=
- =?us-ascii?Q?v+Enj29mr8OoAnGMT44251ETU0PeG7R2ozg/EPS4APl7xmtCsTDTpK2lB62q?=
- =?us-ascii?Q?l9QcS1CUD7dzq2jiS1aexgKgttis7qY6OUi53KDmZ7JcqNz0eZ/PJfu/v5IL?=
- =?us-ascii?Q?//P2eMGXgLAultRszhq2aXjU8TvKlI1duxoebU3VRQ7h4ZeAevQCxF+hC+Y+?=
- =?us-ascii?Q?SHMrzuw54CA8RZPBjEg9QEviXlLRFttoNC0fiaewDvUJYLp+T+mN9PEY69FE?=
- =?us-ascii?Q?sdMqIekidVxErIJ22n1FziQ5ADXqrfVsx+7gjpIcbfB6hpUfPhhPvS8M61nt?=
- =?us-ascii?Q?AWSk+te8JDP2MLigCiJTy33n8G/ZaR1TCtpfjWHcWBKAbdwbwanlzkIEd1Jm?=
- =?us-ascii?Q?6x8POPM36QIv8SvHKfGYjAQxYxxaN7qZIYZTYMcA2DHomWSHg6WZ6j5WWEbM?=
- =?us-ascii?Q?l24rUTmVcv3ftpyTEUD9pwdmi6oIKc4NDjqMBshFecqLcn2ocEyArx2j3MHN?=
- =?us-ascii?Q?BKRBeJFhH1pYf+ZAZzWw/YfrYconUsmd3rkPkDlL6mXbcPu+4PpL6tmUnng6?=
- =?us-ascii?Q?gcxVUOhHH8/ywzrS2DT/GI78+85Hbk17pN4BW1hgH2lWFA1PacyoMrtfyUgm?=
- =?us-ascii?Q?gkMckkE4P++cUGAI9s/oLiG9O7mHcU3fRTB+xF6tfhUlMdgfC7+fPBTLtmcp?=
- =?us-ascii?Q?JRgqjgR787IP5jpx1JZf8ByEUG7TCfL2E412JtJ2itQ0mGO3XKj7ee2W4EaP?=
- =?us-ascii?Q?buEyoiIjm79LnAZVZaI6iJZ4qIRhA58X/2o37OA7/ByziXiJ0Wv2EWie1naZ?=
- =?us-ascii?Q?rOLaegPBtS0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uiQ2rlnFLT7dJLg9vxrZrNnUHrcNf2Z8aXuh48wc7OxC2k0lh5avwbsdSu2b?=
- =?us-ascii?Q?/24rxDA4oO5IhJDl5yyEREhUcr5/42dsG63IUuqkyTKCAf37P2b1/IQI+VCW?=
- =?us-ascii?Q?rXtEJy10fXFELDOt7ed61iINtQJXAv6b+qNMxOQXw7wqieMErwqEjGBXivST?=
- =?us-ascii?Q?6N55Y9utH9MAjn+aEeU8HAz2F2BQ2e242tCmsahVL2DcEl1X/Vi/fXeefZSy?=
- =?us-ascii?Q?pSz+GsAnNy1iZES7HEkVmT+CJXChHVnsMgR+VKAmETH6DLLsCOoxgQJgY6yv?=
- =?us-ascii?Q?YtPF+ggGmqxE0Ej/cltiRW7MIgr0xC1AWrgxChB7cl1VxrmXf1ZF1l22r0IR?=
- =?us-ascii?Q?8PBeOeTlXSyMmH3b7DSm14M8Is9xsKH55gWlzbfEoCvyZB8myFgrDu15iLhu?=
- =?us-ascii?Q?rkrZ3Gd51qju3ihZfM462LSCpXQT+dPVKSDpg2roQE8Zl41AOLuwSwLspw5C?=
- =?us-ascii?Q?T2m0tIUFQU5mJyt6ttLX7XkBR1jVojnCUVerF8yQDIGjo6vLqbsUEaocXjKR?=
- =?us-ascii?Q?bxfE/KzMM4me2azFZG73dOWa+yDp8JcRzF95Ub5zpM6COABmrxJSxvPkFhnh?=
- =?us-ascii?Q?WhjAlgOO5ESYqZoieez2XAzU/LMpV5BO5aF0OUoySUu38e/arrX65R+K3WkA?=
- =?us-ascii?Q?yYxlFo926FcS+Z9dShpFnI15vw29aFo36nXCEUbu6WqT1OJgWsWkf2+LjWEs?=
- =?us-ascii?Q?6T5wXT7h3d7Eil7k0ycSxrh+MYRF1lMgvM7L5sldfekmS1NouY1+ln5mqSCf?=
- =?us-ascii?Q?98w4pz9l/gr/IM8vgMnuy0Ft6zaoBsN+H4zETBhjFBgKWoVO1D70PozUbQ6Q?=
- =?us-ascii?Q?s2GFZBCIDBmJqTgO4zXUtN23dTxtS9KEApHdmknnIfo4kMtBpo8FvSLzwF1o?=
- =?us-ascii?Q?FBI5ilgZxKZ3HObL6glPzr/tbUqCRpiRU2QgCOTuj+xfMy779y5P0VbyzoJl?=
- =?us-ascii?Q?c8TkeekH+z9DFATYGG1inxbk3LQ9XbP5Yo5V8hdXEKAwzG5G3cXGW0NaZQMS?=
- =?us-ascii?Q?59g9zTUZJbNRBmPRcjWVStq3LRsQKlQPssVGhAJCkAra7dHgfRdQsQ4GFSEV?=
- =?us-ascii?Q?GxboMcvvbk7m8/LEU2AmBxW0HyhSw/yWIOWWFonUX8RqRoNUT5y9Hkic7MNI?=
- =?us-ascii?Q?alJxcX+hHZuFjNKIQeEmxTn0ussJGSVh5oGY/psic9Pw6hBZdqzsD/HGzwoX?=
- =?us-ascii?Q?rJDliIbo1Gl2qszjm7+hhipLPt16Wgnr2ShjwogRFivXQCC/CibXliZCqFz6?=
- =?us-ascii?Q?c6cbo3xjjj4NIL+ffB1VR+chg9D6T8bXs1Sr3W581sVf3k6a49QgJCUpYxH1?=
- =?us-ascii?Q?JTSL0y+iVn/tygp8VHQPUtjIEYMv7yKYbbhUSVjh9NFybgytcdtaKVXeX1nT?=
- =?us-ascii?Q?UrRRdmqjTuVP8u5X/llT+p+rPQo9x6WyQs50Xd4PNlJhSiK46qEaZ/ZsQRdt?=
- =?us-ascii?Q?WzHIjdT3OzL+16T+cNNpBuw4UQqn3ghqbQ3RV1N+ZxFRMomUr/hP/8KfS3R2?=
- =?us-ascii?Q?5cW5FTO1IyikRlSU+wXSuFO/ryXyjnOlO8DVDnjgPSasL0/L9QKwKZSHRJda?=
- =?us-ascii?Q?b+ff1pJxjzusL9paLPM=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5e512f2-1f99-4108-b6b3-08ddcd40857c
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2025 19:05:15.9272 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DNBLRbleK40FGh2k8TFQC8W8ccHWZ0ii31199y9cf0Pk4w+l1bvxqaYV40vAkEk4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF75EAF8F39
+User-Agent: Mozilla Thunderbird
+To: Salah Triki <salah.triki@gmail.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <aCdkIkNOQgnA5Pou@pc>
+Subject: Re: [PATCH] drm/amdgpu: check return value of xa_store()
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <aCdkIkNOQgnA5Pou@pc>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:/UEPh5id4lqeb+TOA1F8EsVORfB81cvRTm/3ntn9RE3QjgTxHvO
+ QmkaeUpukQGSzRTZLbW9OxqV5MYL7NiLNttLqBOJbuZ8ZEYpRLFeXwQZTb9YameuFdaiaja
+ eUpa2NtQfkgDY0SthmK/DfbyXmxaZh/5q1UShwxio4vPZyV4zS712gytH2K3tRv894B4brs
+ 2sr5WiAZBqfW+lIpyJ7zQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:T8AGUB0TVkE=;kY1NtqiN+H6U/XETaZeOMhhZEFR
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,32 +120,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 25, 2025 at 10:30:46AM -0600, Logan Gunthorpe wrote:
-> 
-> 
-> On 2025-07-24 02:13, Leon Romanovsky wrote:
-> > On Thu, Jul 24, 2025 at 10:03:13AM +0200, Christoph Hellwig wrote:
-> >> On Wed, Jul 23, 2025 at 04:00:06PM +0300, Leon Romanovsky wrote:
-> >>> From: Leon Romanovsky <leonro@nvidia.com>
-> >>>
-> >>> Export the pci_p2pdma_map_type() function to allow external modules
-> >>> and subsystems to determine the appropriate mapping type for P2PDMA
-> >>> transfers between a provider and target device.
-> >>
-> >> External modules have no business doing this.
-> > 
-> > VFIO PCI code is built as module. There is no way to access PCI p2p code
-> > without exporting functions in it.
-> 
-> The solution that would make more sense to me would be for either
-> dma_iova_try_alloc() or another helper in dma-iommu.c to handle the
-> P2PDMA case.
+> xa_store() may fail so check its return value and if error occurred free
+> numa_info and return NULL.
 
-This has nothing to do with dma-iommu.c, the decisions here still need
-to be made even if dma-iommu.c is not compiled in.
+* I find such a change description improvable another bit.
 
-It could be exported from the main dma code, but I think it would just
-be a 1 line wrapper around the existing function? I'd rather rename
-the functions and leave them in the p2pdma.c files...
+* How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and=
+ =E2=80=9CCc=E2=80=9D) accordingly?
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/submitting-patches.rst?h=3Dv6.16-rc7#n145
 
-Jason
+
+Regards,
+Markus
