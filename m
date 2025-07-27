@@ -2,122 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FB1B130D7
-	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 19:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40336B1301A
+	for <lists+dri-devel@lfdr.de>; Sun, 27 Jul 2025 17:40:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A39C10E3D3;
-	Sun, 27 Jul 2025 17:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F75A10E2EB;
+	Sun, 27 Jul 2025 15:40:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GjWlHz6V";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="BHp3Linz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DADE410E3D8
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 17:07:46 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56R7YJjm031067
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 17:07:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=ixTGCGDVVyYZCVMPENu9+cSJ
- CMoukZrCFUWQs6e8nEs=; b=GjWlHz6VsRKE///7RZP+5J6nheAUZYr6XJ1Pn8y1
- 9PG8KwFozIyqCuM0kPniLOFb4DCi1tJP4COnQrtVj9R6dr67Ztcq0s+9PYkW5pDA
- D/aLW4F3wevb9eSFNy9tvV3KB+YZuUNkRfCqUKfaw5vjYKFoh1nas4aPogtn3L5L
- Z6ev0yhdRShYYdS86oXSMRGepuBXhBvFrDeMLrr+2Xdx4Bc3AmvCvdMzUXt7HjxD
- iGjajE0qEdOACM8yy2YkzM8HtLLhRmk8dkCf+mAdMYgOevhNemt2k7TsJpeBrNn8
- /nRDW8qbacMN0rvUJMEeBuzs/lVthIi3mFB1XWdo3RciEw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484mcr2m9p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 17:07:41 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6fb5f71b363so80923896d6.2
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 10:07:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753636060; x=1754240860;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ixTGCGDVVyYZCVMPENu9+cSJCMoukZrCFUWQs6e8nEs=;
- b=kCfOaz2+z82uBYl4I6dkoxb4KTS6VWEUsYx0IrN1T5QnS0AZ+IUeriV83Ucw8sZzzM
- tSqLSlKJnN9JyMVp/IpcI7gHgYUeQtl0WLHUSI613hDcqMa4vYkv9qKjVTvc8eim/KGI
- On/gtzd/A9K3whuccdH54BsmJf/C/WMS2mDt428MPIUCeo4mFpUBZaJEsQFZBw1cmfiA
- La5tK3XuQy2yA2yR+cDEcnKo40plXHYSoX9X0GylPapACxlJh5wyOTyCSZCKC8wqL/QG
- FLHUFsrAUTsKpAdOkEq5e5tReQIqMNRj8TjWVnsobyUDNfmBI0OAJhG74w/6AcBSx9pk
- FJyg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUpqgu+UHcx2xZ8gOwp23IpujGDVEHRm0T5EVAJsbLvMmqzwfRyOOh1rvbQ4+kPmC3epi+bdCu+11I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwiFA7NK0Z6YXeP00O9opw/ugEGNnm8ZfsH6YsGl2L+j8JEYm06
- 7knowW585F6Wj2LpoqXB9VD8MrIiNjr5VwtaCLvMHmaTxidvBLr31fdJTt0QIbvwH/a2yputee1
- mBYP2SWug2Bgoyzbi7IYhb9izIq1/bot1G+hgftSm8ReKpl/4Lb8I8BcmEL0XTL9X+p5acLs=
-X-Gm-Gg: ASbGncvc/7fJVnsbZy+dvxQu8QkdefUetKx4/0IUw4D+YXW/d4tVsM+ZzS+KQfMJQfV
- hb8vbVV46nm9T6KDOwYFAlKxe1eeTe24I8wezPdz7s10agXL5y582mpGURqSJlD6TDwdeNGUy38
- YQa+sYBKeq+9aJuE3YrpoxOTLMQyLXsx9mSNCCgh2e1aE0Ac/Wupopct8Aei6ws4PXJ3J9XCBFM
- reW7+hLChwkLSlQdmoGOEStU+Noch3XDa+2UQDLp34VARZ23eCcLsgvTLTb1ZkWHqUEB2SsgiKp
- w0LJQDOu+fej0x7C+WMOtfaEkm4gTLcaaqKz9t/V3L5HYnVReVqVYXbNEkg3dlepDnFS7HYw+q4
- GfUeG5BVefZ4mQEIJNQ18KdbAacy2yNWkDoe78A8QSkkaPEazereC
-X-Received: by 2002:a05:6214:2589:b0:707:4537:694d with SMTP id
- 6a1803df08f44-70745378ec4mr29537506d6.40.1753636060373; 
- Sun, 27 Jul 2025 10:07:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEEXLKqoDY1SG91obuUTr/s+jXCYfFkccduE+r6jszKozvG4bsVHcYbTsAuHs4gKScMQt334Q==
-X-Received: by 2002:a05:6214:2589:b0:707:4537:694d with SMTP id
- 6a1803df08f44-70745378ec4mr29537026d6.40.1753636059860; 
- Sun, 27 Jul 2025 10:07:39 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55b633760e6sm878179e87.160.2025.07.27.10.07.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 27 Jul 2025 10:07:38 -0700 (PDT)
-Date: Sun, 27 Jul 2025 20:07:37 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Henrik Grimler <henrik@grimler.se>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm/bridge: sii9234: use extcon cable detection
- logic to detect MHL
-Message-ID: <ldhyfuczwtwydwnvno4xn6ppjtt7mtcj35fp52xrqaajtfbtpb@2pgkytczb5k5>
-References: <20250724-exynos4-sii9234-driver-v2-0-faee244f1d40@grimler.se>
- <20250724-exynos4-sii9234-driver-v2-3-faee244f1d40@grimler.se>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEAED10E2EB
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 15:40:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1753630848; x=1754235648; i=deller@gmx.de;
+ bh=7KFIp9QJjt86jqd8grVfKPODLA75ai887TcSuOQb0Jo=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=BHp3Linz0SblKbiBNlBmI/4FPGitxRSEyi3tZi8IFC7BFSX4JjSor915YJ4oNk5b
+ y9lUWXjJbxmy219zb4HJpS6Cumasp93iQY4uG+rR6vnddxa7a2LcnpIL/tMTRyZFy
+ tmLJacrzAb01X4CXG61psRfk0Fe87vGxYKtU//mlcrcvwZ+W/URpV4l77SyfW+5kq
+ GQIsr4fMbK72bIVuW/Qq9aqnoLu10+YMw00ghP7IO/meRimep0NkEYWgZpZpWgQJk
+ gfbmeTtLxztlOnidu97LO0E3khjXjxPQjvxPY251JqmaJvkAWTQv8gxdB8sQXjFfx
+ 50TA0k28L1m/rvaYMg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.173] ([109.250.63.22]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MLiCu-1uxaHz1wtE-00PiE0; Sun, 27
+ Jul 2025 17:35:15 +0200
+Message-ID: <09e7d9c0-3348-49d0-a390-372031652e97@gmx.de>
+Date: Sun, 27 Jul 2025 19:28:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250724-exynos4-sii9234-driver-v2-3-faee244f1d40@grimler.se>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI3MDE1MiBTYWx0ZWRfX5IMxYMYFBb7q
- WHrzqK4LHqeH79o/F6R4gMSzukXKdZ0ysdATUzGBj2Ds99PFfd+nGK8AD1t9yLp7Msw/H84GvX8
- aPM44/13QLh1rTMH6IQ1WgZ+VQXBk3au60S2fb4atYe1eVn/DhszHcC0ld5cxGyWUdfmuqjhQ02
- WxovnlD/S0OwAJ3GkpzbFHNbiiCLKJ9iS5C7oLvu1f8VPTmI7mGGFNFFSHwdodBWWetaw0u3SwR
- IlVmdwe81STIkFVHsNaGQE3iM2rMx+KFQ8ZBmG4/sljy3dEsnRcYSA4i0xc1kuDOhufiWPqRBOU
- xS8m5XqbEspoT/uYQtPFCB5AI2MHKKV2duHpenXnv8jrhIWQP13RBSsZo8Ic6iHV5heoD9yN/+D
- BFs6BaP/o52RpsjKh/BnLuofQDf5tZ+ZN6+/ii/KSmV75wKCZA5fEHdZNrjHEcDOehJhxFB4
-X-Authority-Analysis: v=2.4 cv=Hth2G1TS c=1 sm=1 tr=0 ts=68865cdd cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=QyXUC8HyAAAA:8 a=he5a5jZawRGK-0tMrGoA:9 a=CjuIK1q_8ugA:10
- a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-GUID: clusum6Y5xhJHoX8SI-bT9821eoPn9BH
-X-Proofpoint-ORIG-GUID: clusum6Y5xhJHoX8SI-bT9821eoPn9BH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-27_05,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 mlxscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 mlxlogscore=959 clxscore=1015
- spamscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507270152
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: nvidiafb: add depends on HAS_IOPORT
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@kernel.org>, Niklas Schnelle
+ <schnelle@linux.ibm.com>, Antonino Daplas <adaplas@gmail.com>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20250615183651.902092-1-rdunlap@infradead.org>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20250615183651.902092-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:IHUNI1p1fU113kR6OYZbvVxGwAn0J7KM6wwR5NDy/erYDrHSSOi
+ QIbDbkISPEAcaJU/T643idMZXkViROBAAL1/tgSnEE9WO/xLZdO7Gzy6sHSeXE0ltm/ptqg
+ kycRFEccYJ02IE9VUvwAIYx3D3thfwnuvWRXms0l6xfH2XIvS+2zQCswWSbcJtX6d8q8Rd3
+ xdDdA18lJ3lU42DiXB4cg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Pv1D60Ux+2I=;Pqh58cwgc2zKalntDHEnxbx2Rlc
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,41 +160,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 24, 2025 at 08:50:53PM +0200, Henrik Grimler wrote:
-> To use MHL we currently need the MHL chip to be permanently on, which
-> consumes unnecessary power. Let's use extcon attached to MUIC to enable
-> the MHL chip only if it detects an MHL cable.
-
-Does HPD GPIO reflect the correct state of the cable? What is the order
-of events in such a case? Should the sii9234 signal to Exynos HDMI that
-the link is established?
-
-> 
-> Signed-off-by: Henrik Grimler <henrik@grimler.se>
+On 6/15/25 20:36, Randy Dunlap wrote:
+> The nvidiafb driver uses inb()/outb() without depending on HAS_IOPORT,
+> which leads to build errors since kernel v6.13-rc1:
+> commit 6f043e757445 ("asm-generic/io.h: Remove I/O port accessors
+> for HAS_IOPORT=3Dn")
+>=20
+> Add the HAS_IOPORT dependency to prevent the build errors.
+>=20
+> (Found in ARCH=3Dum allmodconfig builds)
+>=20
+> drivers/video/fbdev/nvidia/nv_accel.c: In function =E2=80=98NVDmaWait=E2=
+=80=99:
+> include/asm-generic/io.h:596:15: error: call to =E2=80=98_outb=E2=80=99 =
+declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+>    596 | #define _outb _outb
+>=20
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Arnd Bergmann <arnd@kernel.org>
+> Cc: Niklas Schnelle <schnelle@linux.ibm.com>
+> Cc: Antonino Daplas <adaplas@gmail.com>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
 > ---
-> v2: add dependency on extcon. Issue reported by kernel test robot
->     <lkp@intel.com>
+>   drivers/video/fbdev/Kconfig |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+
+applied.
+
+Thanks!
+Helge
+
+
+>=20
+> --- lnx-616-rc1.orig/drivers/video/fbdev/Kconfig
+> +++ lnx-616-rc1/drivers/video/fbdev/Kconfig
+> @@ -660,7 +660,7 @@ config FB_ATMEL
+>  =20
+>   config FB_NVIDIA
+>   	tristate "nVidia Framebuffer Support"
+> -	depends on FB && PCI
+> +	depends on FB && PCI && HAS_IOPORT
+>   	select FB_CFB_FILLRECT
+>   	select FB_CFB_COPYAREA
+>   	select FB_CFB_IMAGEBLIT
 > ---
->  drivers/gpu/drm/bridge/Kconfig   |  1 +
->  drivers/gpu/drm/bridge/sii9234.c | 89 ++++++++++++++++++++++++++++++++++++++--
->  2 files changed, 87 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index b9e0ca85226a603a24f90c6879d1499f824060cb..f18a083f6e1c6fe40bde5e65a1548acc61a162ae 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -303,6 +303,7 @@ config DRM_SII902X
->  config DRM_SII9234
->  	tristate "Silicon Image SII9234 HDMI/MHL bridge"
->  	depends on OF
-> +	select EXTCON
+> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494 # v6.16-rc1
 
-Either this or 'depends on EXTCON || !EXTCON'
-
->  	help
->  	  Say Y here if you want support for the MHL interface.
->  	  It is an I2C driver, that detects connection of MHL bridge
-
--- 
-With best wishes
-Dmitry
