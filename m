@@ -2,85 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858A1B13497
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 08:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C234DB1349A
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 08:05:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C623210E0BD;
-	Mon, 28 Jul 2025 06:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 379F010E332;
+	Mon, 28 Jul 2025 06:05:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="ERkINV3l";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QxuP2LW8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5716010E0BD
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 06:04:35 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-31efc10bb03so370947a91.0
- for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 23:04:35 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77D3D10E332
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 06:05:24 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-45600581226so41064085e9.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 27 Jul 2025 23:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1753682675; x=1754287475;
- darn=lists.freedesktop.org; 
- h=in-reply-to:references:from:subject:cc:to:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1753682723; x=1754287523; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=W8TIM/uSluixO4ZsvTxwh9SnRtahNK26geaW1rbU2HU=;
- b=ERkINV3lpyz362ge6Zk6cUlLhZ9tZhL5U4EaiiHk2cBo+wXyWoAti07EEH7GecK7F6
- AfJtQfCR9cqo65t2gmiRFbVvAs593ggIO/fq+vb9BCX4ECWyrlTUswMEbSTdPVyU4H4a
- Iw6HIJCNMdRwcCa9aasKTvUQlo5SWpoKz855ZlV6HjmVBC+xqOqchHKOGk0Tfzct3J8p
- xKkQ0sCi2FYmy0rDXcFd4Fn//Aut4z9BKvy3iojCeoU1LxbdZ5/cRN9LeGiHgyR7aOp/
- u4T/91ta8E9qwjpjxIrVqBH6b5Z+i5b56xGUa7wRhSL6ZF7LMnx8uLbPDjIXOhkpP/49
- mXKg==
+ bh=tQXF3uhUpKed79enyV2WSAsZRiLGa5m0jySlxIYlh2M=;
+ b=QxuP2LW8ZvfyJWa/m17dPti6wGv83sS2o0shzXAq5eCv/GTI+lO93oII9c/hzrOQzs
+ vX+ZwqM66aAA0uFIcI7JKEALEab7SqC2IcjenHJZmi7TRwsAiIUWbyO8sK+7/1lt2JNP
+ M0WPb1VmS+Lty+79KfwVpzqQ5qLIDFjIrga8I/Q7cGVr97PMtDXHuEa0a9iBhMwruGCb
+ Ji2noyW3jZf8dVPfqyb/C07Wd2+MrBDHxALeryAiPDOa8zZCR8mPTWUDHi6XgI9ZvtqH
+ n+677BB9haiJXc9vXIqaBmJfxu5UHyLLoRqBbRwSKahxFV1+MSER2zlNKKGhNLGe3pL/
+ pl7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753682675; x=1754287475;
- h=in-reply-to:references:from:subject:cc:to:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=W8TIM/uSluixO4ZsvTxwh9SnRtahNK26geaW1rbU2HU=;
- b=cKoLtfzWGtys3ZXSe0qij2dCtUhUbzw1cNndhe6WN9ruHZXXjDj83c3tc/z/9hVU3A
- SNLLBuxFxmpKbDT8kc+CfzmnVdiyixem7U/5NBMjXTpkolMF9MiXwiKM/oEXhk2rUKmb
- 5sFdJAJOy8V9UK5smzPgkLiqv3oddN1UIXJmXMx3VrT65hWL0RZA2XCWw0RQogvGJh0V
- Mq0PkWbyPersFDJ82ItJp0ZvMyb5Ym4oxKgNcnshYSqdn8s/3JOEbtCRjJ6d5mjAn4rp
- MdCxR2si5S3ee346m56PfAnoAa6dbFT96O7yjNE7DICfT9B70tgm2RcFkcUdVXnhso2g
- 2vqA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtGnYz8VMZsgO0dlgl4Mr4a1wQgArLSjEsG0ivnakmZfIlDryLFa9y3KINt4qrpc3hGYNNOKvW9nM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxhcxx6OkQ6hA2McsIB5znc1n8g49UedsSMGEtKxnqtFMgvN7mI
- gZxkxvwlZ1sepBFYL5e9JPe7+q41qAV4r7y3F4q+0RsIebikXENIvm1C4l/jdRbvnvY=
-X-Gm-Gg: ASbGncsuBhaXc7RKdZtHAZULnJygadG2NwPvnzdfB5lf4ORI38QLDmH6OH7gX61lzaT
- BIpU6D/+ut3dg5CWSVBd3QALy220+SGrFHbuvL8y2ILy53MRYFo9H0biLBCOCXTNS3mygqdCo6R
- LbUbDJD+b9iuS1gezGhQzTm3eGS/tuaylh580voU7gb/lPuKFu0015A3EDtdFJ1xQjpLUtCl5S1
- 3gWwUAk6SMFTdghyCneQNi6oXwLKC5sz8rKjvGjNnKDpyc1LFsnANfvmC+xiCYK60HzZggeG+ll
- l+y/JmQ3jBOIxz/mi1Wg2wvvrxip8V/PC16gte1Mvd+QIFjJjnPJvR0cZGo6CFZJZIRdmFy+TJ4
- g/MgDvn2vuiOQ55I3pq8=
-X-Google-Smtp-Source: AGHT+IE7a3uEkAL5faXj3D0sBZPBBYHiZvFmLCc83UwVWA0SEZUuwxE6gkHZtvmEceEe841TShqa0w==
-X-Received: by 2002:a17:90b:2d8c:b0:313:b78:dc14 with SMTP id
- 98e67ed59e1d1-31e77635171mr16398777a91.0.1753682674660; 
- Sun, 27 Jul 2025 23:04:34 -0700 (PDT)
-Received: from localhost ([64.71.154.6]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-31e83545002sm4811767a91.27.2025.07.27.23.04.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Jul 2025 23:04:33 -0700 (PDT)
-Mime-Version: 1.0
+ d=1e100.net; s=20230601; t=1753682723; x=1754287523;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tQXF3uhUpKed79enyV2WSAsZRiLGa5m0jySlxIYlh2M=;
+ b=pVnyE///MNW7Qcf8VlXQhMRMY+ldBCaGVx/cfjcFnv4/gahqx6KRGZxxvHlbCHFxMp
+ VS1M0QRqRQVwutt+XPiI2ISQ42rleoolwvIgupZ8b8+x8NvE9+Rh12INfSv/poIl6Rsh
+ HGZq4tk7jYZYVCYE4u/6gIvCFnoLIkbY13b1tx/kEIoCgKvpey7o71kpxl96h3VDyC+S
+ lMS0vRWkSwP+ZQ+DrZWA5ZAT1bBr0vNvIY2ILYs71nfSgcBXFhhVcGwpXkM+i1CPljO1
+ zEgrI60Wn5qbF84NInv+Nd0lJMBf6CVoRTpGdDkCSGYd4dHLyDg2SuRwpuFQ0U0mFu9e
+ Z9zQ==
+X-Gm-Message-State: AOJu0YwjpkjueAd86a2od2AM93AJKwcJoauetoG9PKaQHRRk9gqTdwI6
+ IU2PBC6ugRXWc85PhJTUg59/RdttOgEF9Sl/bnJBTGDcEaz0UDLdw8REa3kd4Ea3+dzMKsbu4gK
+ S0Ci6M4aqY6Hai0/oX2/fGN+FrPWdQ0w=
+X-Gm-Gg: ASbGncvjxIm7jEwvCbHcklgkKm81DW6c3w+y7oDRHA/E22aJOgXJott+BvY3K7pAJAl
+ idIcClSoF1sO1BxvCUkONfrxQSKUrVOK0MF27d7NnfjT/W5AjwUiKp5OF+4g62D0R/Q/Mp7bKY6
+ pYF73SQj2RI/G37DA5omGD+fnkvPZs1YdGjTgcz7CGWkGLTtswPa2zyJ05aB6kwaObs4Z4kDH3v
+ yv/0O3m
+X-Google-Smtp-Source: AGHT+IGbQly/khf35EnzlRO7ObYBo3BJlziBpv1lPzLbWO+xhKZeTjbakTyAb7qcQM/u3YZ/g+3x0BcnqrQrhaC7WKs=
+X-Received: by 2002:a05:600c:6748:b0:456:eab:633e with SMTP id
+ 5b1f17b1804b1-4587dd0db72mr59731935e9.17.1753682722442; Sun, 27 Jul 2025
+ 23:05:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250623081504.58622-1-clamor95@gmail.com>
+ <CAPVz0n38N32HobYshtS9cLBJqWGPA1MZjMr0HH3C4UqGcFaFVA@mail.gmail.com>
+In-Reply-To: <CAPVz0n38N32HobYshtS9cLBJqWGPA1MZjMr0HH3C4UqGcFaFVA@mail.gmail.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Mon, 28 Jul 2025 09:05:11 +0300
+X-Gm-Features: Ac12FXx4CN1mT0Dh6FdAxwgNHcr1BsYAY3RYhstMmFIeWt6bQ2yxBdsgzEZ5FqU
+Message-ID: <CAPVz0n0nwnVyVP2V4Oswhhrz=gwMpv_-f2xJfBO2N44GRNjaKQ@mail.gmail.com>
+Subject: Re: [PATCH v7 0/2] drm: bridge: add ssd2825 RGB/DSI bridge support
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 28 Jul 2025 00:04:32 -0600
-Message-Id: <DBNGMHS14LUB.3PDFCB3DI1789@brighamcampbell.com>
-To: "Doug Anderson" <dianders@chromium.org>
-Cc: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <linus.walleij@linaro.org>, <neil.armstrong@linaro.org>,
- <jessica.zhang@oss.qualcomm.com>, <sam@ravnborg.org>,
- <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] drm/panel: novatek-nt35560: Fix bug and clean up
-From: "Brigham Campbell" <me@brighamcampbell.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250724202338.648499-1-me@brighamcampbell.com>
- <20250724202338.648499-3-me@brighamcampbell.com>
- <CAD=FV=UGNN68Fu4kJQQ8jO+fYP4qVJYmL0quxa_=Y5GEtS-jMQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=UGNN68Fu4kJQQ8jO+fYP4qVJYmL0quxa_=Y5GEtS-jMQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,83 +91,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Jul 25, 2025 at 3:17 PM MDT, Doug Anderson wrote:
-> Hi,
+=D0=BF=D0=BD, 21 =D0=BB=D0=B8=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 19:38 Svya=
+toslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> On Thu, Jul 24, 2025 at 1:23=E2=80=AFPM Brigham Campbell <me@brighamcampb=
-ell.com> wrote:
->>
->> Fix bug in nt35560_set_brightness() which causes the function to
->> erroneously report an error. mipi_dsi_dcs_write() returns either a
->> negative value when an error occurred or a positive number of bytes
->> written when no error occurred. The buggy code reports and error under
->> either condition.
+> =D0=BF=D0=BD, 23 =D1=87=D0=B5=D1=80=D0=B2. 2025=E2=80=AF=D1=80. =D0=BE 11=
+:15 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > Solomon SSD2825 is a RGB to MIPI DSI bridge used in LG Optimus 4D P880
+> > and LG Optimus Vu P895
+> >
+> > ---
+> > Changes on switching from v6 to v7:
+> > - removed enabled checks
+> > - configuration complete quirk moved from host_transfer to
+> >   atomic_enable
+> > - switched to devm_drm_bridge_alloc
+> > - removed redundant dev_set_drvdata use
+> >
+> > Changes on switching from v5 to v6:
+> > - set correct module name in Kconfig help
+> > - return error if spi sync failed for reading
+> >
+> > Changes on switching from v4 to v5:
+> > - rebased on top of drm-misc-next with adjustments to fit
+> >
+> > Changes on switching from v3 to v4:
+> > - no changes, resend
+> >
+> > Changes on switching from v2 to v3:
+> > - added mutex guard
+> > - configuration register flags parametrized using panel flags
+> > - removed unneded debug messages
+> > - removed unimplemented modes checks
+> > - added check for maximum pixel row length
+> > - use types header
+> > - remove ssd2825_to_ns
+> > - shift bridge setup into atomic pre-enable
+> > - cleaned default values of hzd and hpd
+> >
+> > Changes on switching from v1 to v2:
+> > - added description for clock
+> > - removed clock-names
+> > - added boundries for hs-zero-delay-ns and hs-prep-delay-ns
+> > - added mutex lock for host transfers
+> > - converted to atomic ops
+> > - get drm_display_mode mode with atomic helpers
+> > - parameterized INTERFACE_CTRL_REG_6 configuration
+> > - added video mode validation and fixup
+> > - removed clock name
+> > - switched to devm_regulator_bulk_get_const
+> > - added default timings
+> > ---
+> >
+> > Svyatoslav Ryhel (2):
+> >   dt-bindings: display: bridge: Document Solomon SSD2825
+> >   drm: bridge: Add support for Solomon SSD2825 RGB/DSI bridge
+> >
+> >  .../display/bridge/solomon,ssd2825.yaml       | 141 ++++
+> >  drivers/gpu/drm/bridge/Kconfig                |  13 +
+> >  drivers/gpu/drm/bridge/Makefile               |   1 +
+> >  drivers/gpu/drm/bridge/ssd2825.c              | 775 ++++++++++++++++++
+> >  4 files changed, 930 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/so=
+lomon,ssd2825.yaml
+> >  create mode 100644 drivers/gpu/drm/bridge/ssd2825.c
+> >
+> > --
+> > 2.48.1
+> >
 >
-> My personal preference would be to code up the fix itself (without the
-> multi transition) as patch #1. That will make everyone's lives easier
-> with stable backports. You'll touch the same code twice in your
-> series, but it will keep it cleaner...
-
-Oh, this is good to know. It makes sense to me that a lazer-focused bug
-fix would be less likely to conflict with other changes in stable
-branches and would be easier to resolve in the case of conflict. I'll
-just fix the bug in patch 1/3 of v2.
-
->> The usage of the u8 array, mipi_buf_out, in nt35560_set_brightness() may
->> be a little curious. It's useful here because pwm_ratio and pwm_div
->> aren't constant, therefore we must store them in a buffer at runtime.
->>
->> Using mipi_dsi_dcs_write_{seq,buffer}_multi() in place of
->> mipi_dsi_dcs_write() gives the added benefit that kmalloc() isn't used
->> to write mipi commands.
+> Greetings!
 >
-> Ah, this makes sense. We've seen this before, but I keep forgetting
-> about it. Thanks for mentioning it. I wonder if it makes sense to have
-> variants of mipi_dsi_generic_write_seq_multi() and
-> mipi_dsi_dcs_write_seq_multi() that take non-const data. The only
-> difference would be that the array they declare on the stack would be
-> a "const" array instead of a "static const" array...
+> These patches had no activity/feedback from maintainers for almost a
+> month, so, in case they got lost in the depths of email box, this is a
+> friendly reminder that they are still relevant and I would like them
+> to move on.
+>
+> Best regards,
+> Svyatoslav R.
 
-Ok, I've thought about this one for a while. The problem with my patch
-as it is now is that it uses a u8 array, mipi_buf_out, to construct MIPI
-messages and send them out. My patch reuses mipi_buf_out because it
-happens to be the right size for both messages which need to be
-constructed at runtime. Not a super clean solution, perhaps.
+Hello there!
 
-The Novatek NT35950 has a better solution. See the following function
-from drivers/gpu/drm/panel/panel-novatek-nt35950.c:107:
+This is a friendly reminder that they are still relevant and I would
+like them to move on. Should I resent them?
 
-static void nt35950_set_cmd2_page(struct mipi_dsi_multi_context *dsi_ctx,
-				  struct nt35950 *nt, u8 page)
-{
-	const u8 mauc_cmd2_page[] =3D { MCS_CMD_MAUCCTR, 0x55, 0xaa, 0x52,
-				      0x08, page };
-
-	mipi_dsi_dcs_write_buffer_multi(dsi_ctx, mauc_cmd2_page,
-					ARRAY_SIZE(mauc_cmd2_page));
-	if (!dsi_ctx->accum_err)
-		nt->last_page =3D page;
-}
-
-The driver has a couple different functions like this and they're all
-for the express purpose of writing out a single MIPI buffer which is
-constructed at runtime.
-
-Arguably, a more readable solution would involve the definition of a new
-non-static macro like you suggest. The macro's `do {} while 0;` block
-would achieve effectively the exact same effect as the functions in the
-NT35950 driver, causing the buffer to be popped off the stack as soon as
-the code inside the macro completed.
-
-We could call it mipi_dsi_dcs_write_var_seq_multi(), perhaps. Or
-mipi_dsi_dcs_write_sequence_of_bytes_determined_at_runtime_multi()? ...
-(Help! I genuinely don't know what I would call it...)
-
-Please let me know if you'd prefer that in v2 I adopt the approach that
-the NT35950 driver uses or that I instead introduce a new macro for
-non-static data.
-
-I'll address the rest of your comments in v2.
-
-Thanks again for another thorough review,
-Brigham
+Best regards,
+Svyatoslav R.
