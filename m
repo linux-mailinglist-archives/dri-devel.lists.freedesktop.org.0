@@ -2,91 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA0BB13B3C
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 15:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555B0B13B6E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 15:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B51310E50D;
-	Mon, 28 Jul 2025 13:16:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ooCbRiAr";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0F3910E508;
+	Mon, 28 Jul 2025 13:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3421910E50D
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 13:15:58 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-748d982e92cso2776582b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 06:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1753708558; x=1754313358; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=qMyTzj0YkyEhVsWHYdHluPcgaxyf2WjhZvLWIgnb3dk=;
- b=ooCbRiAraAOQ3eqDGYosvF1x4WywJ0MZt2k04VbKM4ekO3l0vCoBi3RLdZiMeRMnxf
- QIVh4D5rIuLj/28JnXqWgPN0Aae7tt78HYx7UEWQQ3nVFaQIYesWzHCl1JExNz2H9Iqs
- Frt4i6EdXhH2o11YBuoN1InoAwEl080rDXmKM7/E1WwX56NLm/8iPJ4kX9p6yog1UqCO
- Wc86KrLNZ0+mbURQaEk5j4pf0GxLYVJEfsgjFAPbX1NdpOhk1PmNYbEJMkQFtQCS1a9R
- 0L9BMs2M8+5Yrb8xYwFuI4OWv4XOuJcP9dfEPaQvzDa0ZOMtZuEpvKJDRo2amgPs83wE
- LIxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753708558; x=1754313358;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qMyTzj0YkyEhVsWHYdHluPcgaxyf2WjhZvLWIgnb3dk=;
- b=sB01YydPkPf32O+ClJNWEGF9vUl20Baof6Hs9MpqguRcYaJb5/mODzpL3T6TpbgcU6
- 1cCpU8u8TAxub0CsVWk8jA9SQEs9sMCr0c2VmIi+EQQ/3fqcgRYaMsTR3kCvrAihFnSy
- 17i/Yb3snUuN2Run6sNpLsFXd4uqqg8csOOPREx7NkNQ3SqAvwH1oPBNWqKBYHHoO9uC
- YzcYRCk3XFCw2pifMn7a3EALpESCH/NwYMUWP9P0WeNyJWgeBlVaa8rN2GkO7tkT+Acm
- u+XCiUok/bLWxgsjf95EhCK4m5Wk/zxowCzr1rCNuxBuOligSiQMuwr3G8zClN91yopw
- /ukg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX9ZmODnwDmcxaJge3FP2kDLMeBeaVsjMuOVBGY0tprFkjCLoUWNlphySY2t+y10uyaXjK9aRPKsDM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YycQCElOPLCT8XiRJmneHjVQ6GCev4QT2P310Iw1r/yH2GtzDIu
- 5ehxNVv6gY46e7mj5yqu78iZBDVHFl7/3bT+ytzVdtB6MyfPiixUxNQUu6W8MMQKG40=
-X-Gm-Gg: ASbGnctoKECfRqF6Sidtkb+Bx+NLMlTWoY9L581+Z9IFbGnr9KeV+JL92qI0z0yK9gn
- NntCcqmP2rrm3ltf/oiV5xq0kAE0jLpnwMQtsmndtXRiwbSMMOaO3mpNHeArWV1P6cgtAmiHhg9
- pjCJ0o1TsSkZxeRDg9Yqerl0aEGtbCHEZkEHhbwE+RDTzRbSFeBmR0oIif9BLYcrDFJAaJIZuO6
- jwumRcsbXVI0y0Ga/ARn2hmvAXG6xvkETm7fy/CTEEp4Ad5Qou83L6RBP3kqDGPcMJ3H90oaDsS
- QbixIgdFbB8l7ZXZ5QTFFm3ZQ1BKZ4AfELt0q7Fu43dK0X5pzH28ljhgCMkVtw0Pv4bbCK3gK6B
- Y+hlkNc5g8BrQTFZvDA==
-X-Google-Smtp-Source: AGHT+IF41AHOs8A0OxHQMTS09csDC8OMvsP45DSIXvWjSMVZlKlacrDg2d+1H8I6R5vAhbCySpp/zQ==
-X-Received: by 2002:a05:6a00:22d6:b0:759:5208:59e with SMTP id
- d2e1a72fcca58-7633693f70cmr15706182b3a.7.1753708557445; 
- Mon, 28 Jul 2025 06:15:57 -0700 (PDT)
-Received: from [127.0.1.1] ([112.64.60.64]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76408c0287fsm5590318b3a.47.2025.07.28.06.15.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Jul 2025 06:15:57 -0700 (PDT)
-From: Jun Nie <jun.nie@linaro.org>
-Date: Mon, 28 Jul 2025 21:14:36 +0800
-Subject: [PATCH v13 12/12] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A311C10E161;
+ Mon, 28 Jul 2025 13:25:31 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 20F561516;
+ Mon, 28 Jul 2025 06:25:23 -0700 (PDT)
+Received: from [10.57.53.40] (unknown [10.57.53.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 94C793F66E;
+ Mon, 28 Jul 2025 06:25:27 -0700 (PDT)
+Message-ID: <ce8b4bd9-5122-4b85-b605-a1bf10556208@arm.com>
+Date: Mon, 28 Jul 2025 14:25:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/19] gpu: nova-core: register: minor grammar and
+ spelling fixes
+To: Alexandre Courbot <acourbot@nvidia.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Beata Michalska <beata.michalska@arm.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+ Nouveau <nouveau-bounces@lists.freedesktop.org>
+References: <20250718-nova-regs-v2-0-7b6a762aa1cd@nvidia.com>
+ <20250718-nova-regs-v2-1-7b6a762aa1cd@nvidia.com>
+ <B1AA6359-7854-4284-B533-F5CA3C18AF34@collabora.com>
+ <DBNF8SZWLI79.1NRX9AMW5QW45@nvidia.com>
+ <d0ffb55b-690a-4a65-98b5-b83adebfd88b@arm.com>
+ <DBNNTU14VH90.25AZCJSVT4JDR@nvidia.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <DBNNTU14VH90.25AZCJSVT4JDR@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250728-v6-16-rc2-quad-pipe-upstream-v13-12-954e4917fe4f@linaro.org>
-References: <20250728-v6-16-rc2-quad-pipe-upstream-v13-0-954e4917fe4f@linaro.org>
-In-Reply-To: <20250728-v6-16-rc2-quad-pipe-upstream-v13-0-954e4917fe4f@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jun Nie <jun.nie@linaro.org>, Dmitry Baryshkov <lumag@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1753708472; l=8147;
- i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=L0RJjmTLlYkHLbKt8l66Y1ANmmW3YDpsTiGU9UI7WH8=;
- b=WDEN9dQKMWVvdM/n5JOuK/3QGZyZFlO0joMfiWG4DnMCkXmA72aVFmWyhqnTlisFPl7ZMw9/7
- 1Mke7Oj9H2fDnCBZ6xbiCkjV2gxglxfNnMoI0hZ09JI1ykGZS93jGl1
-X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
- pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,212 +60,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To support high-resolution cases that exceed the width limitation of
-a pair of SSPPs, or scenarios that surpass the maximum MDP clock rate,
-additional pipes are necessary to enable parallel data processing
-within the SSPP width constraints and MDP clock rate.
+On 28/07/2025 12:43, Alexandre Courbot wrote:
+> On Mon Jul 28, 2025 at 4:51 PM JST, Steven Price wrote:
+>> On 28/07/2025 05:59, Alexandre Courbot wrote:
+>>> Hi Daniel, thanks for the review!
+>>>
+>>> On Sat Jul 26, 2025 at 1:14 AM JST, Daniel Almeida wrote:
+>>>> Hi Alex. Thank you and John for working on this in general. It will be useful
+>>>> for the whole ecosystem! :) 
+>>>>
+>>>>> On 18 Jul 2025, at 04:26, Alexandre Courbot <acourbot@nvidia.com> wrote:
+>>>>>
+>>>>> From: John Hubbard <jhubbard@nvidia.com>
+>>>>>
+>>>>> There is only one top-level macro in this file at the moment, but the
+>>>>> "macros.rs" file name allows for more. Change the wording so that it
+>>>>> will remain valid even if additional macros are added to the file.
+>>>>>
+>>>>> Fix a couple of spelling errors and grammatical errors, and break up a
+>>>>> run-on sentence, for clarity.
+>>>>>
+>>>>> Cc: Alexandre Courbot <acourbot@nvidia.com>
+>>>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>>>> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+>>>>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+>>>>> ---
+>>>>> drivers/gpu/nova-core/regs/macros.rs | 14 +++++++-------
+>>>>> 1 file changed, 7 insertions(+), 7 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-core/regs/macros.rs
+>>>>> index cdf668073480ed703c89ffa8628f5c9de6494687..864d1e83bed2979f5661e038f4c9fd87d33f69a7 100644
+>>>>> --- a/drivers/gpu/nova-core/regs/macros.rs
+>>>>> +++ b/drivers/gpu/nova-core/regs/macros.rs
+>>>>> @@ -1,17 +1,17 @@
+>>>>> // SPDX-License-Identifier: GPL-2.0
+>>>>>
+>>>>> -//! Macro to define register layout and accessors.
+>>>>> +//! `register!` macro to define register layout and accessors.
+>>>>
+>>>> I would have kept this line as-is. Users will most likely know the name of the
+>>>> macro already. At this point, they will be looking for what it does, so
+>>>> mentioning "register" here is a bit redundant IMHO.
+>>>>
+>>>>> //!
+>>>>> //! A single register typically includes several fields, which are accessed through a combination
+>>>>> //! of bit-shift and mask operations that introduce a class of potential mistakes, notably because
+>>>>> //! not all possible field values are necessarily valid.
+>>>>> //!
+>>>>> -//! The macro in this module allow to define, using an intruitive and readable syntax, a dedicated
+>>>>> -//! type for each register with its own field accessors that can return an error is a field's value
+>>>>> -//! is invalid.
+>>>>> +//! The `register!` macro in this module provides an intuitive and readable syntax for defining a
+>>>>> +//! dedicated type for each register. Each such type comes with its own field accessors that can
+>>>>> +//! return an error if a field's value is invalid.
+>>>>>
+>>>>> -/// Defines a dedicated type for a register with an absolute offset, alongside with getter and
+>>>>> -/// setter methods for its fields and methods to read and write it from an `Io` region.
+>>>>> +/// Defines a dedicated type for a register with an absolute offset, including getter and setter
+>>>>> +/// methods for its fields and methods to read and write it from an `Io` region.
+>>>>
+>>>> +cc Steven Price,
+>>>>
+>>>> Sorry for hijacking this patch, but I think that we should be more flexible and
+>>>> allow for non-literal offsets in the macro.
+>>>>
+>>>> In Tyr, for example, some of the offsets need to be computed at runtime, i.e.:
+>>>>
+>>>> +pub(crate) struct AsRegister(usize);
+>>>> +
+>>>> +impl AsRegister {
+>>>> +    fn new(as_nr: usize, offset: usize) -> Result<Self> {
+>>>> +        if as_nr >= 32 {
+>>>> +            Err(EINVAL)
+>>>> +        } else {
+>>>> +            Ok(AsRegister(mmu_as(as_nr) + offset))
+>>>> +        }
+>>>> +    }
+>>>>
+>>>> Or:
+>>>>
+>>>> +pub(crate) struct Doorbell(usize);
+>>>> +
+>>>> +impl Doorbell {
+>>>> +    pub(crate) fn new(doorbell_id: usize) -> Self {
+>>>> +        Doorbell(0x80000 + (doorbell_id * 0x10000))
+>>>> +    }
+>>>>
+>>>> I don't think this will work with the current macro, JFYI.
+>>>
+>>> IIUC from the comments on the next patches, your need is covered with
+>>> the relative and array registers definitions, is that correct?
+>>
+>> My Rust is somewhat shaky, but I believe "non-contiguous register 
+>> arrays" will do what we want. Although I'll admit it would be neater for 
+>> the likes of the AS registers if there was a way to define a "block" of 
+>> registers and then use an array of blocks. Something vaguely like this 
+>> (excuse the poor Rust):
+>>
+>> register_block!(MMU_AS_CONTROL @ 0x2400[16 ; 64], "MMU Address Space registers" {
+>> 	register!(TRANSTAB @ 0x0000, "Translation table base address" {
+>> 		31:0	base as u32;
+>> 	});
+>> 	register!(MEMATTR @ 0x0008, "Memory attributes" {
+>> 		7:0	attr0 as u8;
+>> 		7:0	attr1 as u8;
+>> 		// ...
+>> 	});
+>> 	// More registers
+>> });
+> 
+> I can think of two ways to achieve something similar using the current
+> patchset:
+> 
+> - As you mentioned, a set of non-contiguous register arrays. This should
+>   work rather well, as you could just do
+>   `MMU_AS_CONTROL_MEMATTR::read(bar, 4)` to read the `MMU_AS_CONTROL_MEMATTR`
+>   register of the 5th instance, with compile-time bound validation. It's
+>   not what register arrays are for originally, but it does the job.
 
-Request 4 mixers and 4 DSCs for high-resolution cases where both DSC
-and dual interfaces are enabled. More use cases can be incorporated
-later if quad-pipe capabilities are required.
+Sadly we generally don't want a compile time index - the whole point is
+that each address space is functionally the same, so the index (address
+space ID) is going to be dynamic in the code. The disadvantage here is
+that every register access will involve a bounds check - the compiler
+might be able to optimise but the code will still have to deal with a
+potential error from every access.
 
-Signed-off-by: Jun Nie <jun.nie@linaro.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         | 27 +++++++++++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++----------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
- 6 files changed, 35 insertions(+), 32 deletions(-)
+> - As a set of relative offset registers sharing the same group. This is
+>   more in line with the idea of a register block, but it also means that
+>   each instance needs to have its own type declared, which is a bit
+>   cumbersome but can be mitigated with a macro. More inconvenient if the
+>   fact that you cannot address using a simple number anymore...
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 1c7a5e545745320018c3e9a2d163cbfd3dceaf7b..2625ad777e477d2d5a6a746989bb9e10493e19ad 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -200,7 +200,7 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
- 		struct dpu_crtc_state *crtc_state)
- {
- 	struct dpu_crtc_mixer *m;
--	u32 crcs[CRTC_DUAL_MIXERS];
-+	u32 crcs[CRTC_QUAD_MIXERS];
- 
- 	int rc = 0;
- 	int i;
-@@ -1328,6 +1328,7 @@ static struct msm_display_topology dpu_crtc_get_topology(
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	struct msm_display_topology topology = {0};
- 	struct drm_encoder *drm_enc;
-+	u32 num_rt_intf;
- 
- 	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask)
- 		dpu_encoder_update_topology(drm_enc, &topology, crtc_state->state,
-@@ -1341,11 +1342,14 @@ static struct msm_display_topology dpu_crtc_get_topology(
- 	 * Dual display
- 	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
- 	 *
-+	 * If DSC is enabled, try to use 4:4:2 topology if there is enough
-+	 * resource. Otherwise, use 2:2:2 topology.
-+	 *
- 	 * Single display
- 	 * 1 LM, 1 INTF
- 	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
- 	 *
--	 * If DSC is enabled, use 2 LMs for 2:2:1 topology
-+	 * If DSC is enabled, use 2:2:1 topology
- 	 *
- 	 * Add dspps to the reservation requirements if ctm is requested
- 	 *
-@@ -1357,14 +1361,23 @@ static struct msm_display_topology dpu_crtc_get_topology(
- 	 * (mode->hdisplay > MAX_HDISPLAY_SPLIT) check.
- 	 */
- 
--	if (topology.num_intf == 2 && !topology.cwb_enabled)
--		topology.num_lm = 2;
--	else if (topology.num_dsc == 2)
-+	num_rt_intf = topology.num_intf;
-+	if (topology.cwb_enabled)
-+		num_rt_intf--;
-+
-+	if (topology.num_dsc) {
-+		if (dpu_kms->catalog->dsc_count >= num_rt_intf * 2)
-+			topology.num_dsc = num_rt_intf * 2;
-+		else
-+			topology.num_dsc = num_rt_intf;
-+		topology.num_lm = topology.num_dsc;
-+	} else if (num_rt_intf == 2) {
- 		topology.num_lm = 2;
--	else if (dpu_kms->catalog->caps->has_3d_merge)
-+	} else if (dpu_kms->catalog->caps->has_3d_merge) {
- 		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
--	else
-+	} else {
- 		topology.num_lm = 1;
-+	}
- 
- 	if (crtc_state->ctm)
- 		topology.num_dspp = topology.num_lm;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-index 6eaba5696e8e6bd1246a9895c4c8714ca6589b10..455073c7025b0bcb970d8817f197d9bcacc6dca5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-@@ -210,7 +210,7 @@ struct dpu_crtc_state {
- 
- 	bool bw_control;
- 	bool bw_split_vote;
--	struct drm_rect lm_bounds[CRTC_DUAL_MIXERS];
-+	struct drm_rect lm_bounds[CRTC_QUAD_MIXERS];
- 
- 	uint64_t input_fence_timeout_ns;
- 
-@@ -218,10 +218,10 @@ struct dpu_crtc_state {
- 
- 	/* HW Resources reserved for the crtc */
- 	u32 num_mixers;
--	struct dpu_crtc_mixer mixers[CRTC_DUAL_MIXERS];
-+	struct dpu_crtc_mixer mixers[CRTC_QUAD_MIXERS];
- 
- 	u32 num_ctls;
--	struct dpu_hw_ctl *hw_ctls[CRTC_DUAL_MIXERS];
-+	struct dpu_hw_ctl *hw_ctls[CRTC_QUAD_MIXERS];
- 
- 	enum dpu_crtc_crc_source crc_source;
- 	int crc_frame_skip_count;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 4616b360812491afbe63f8ffd4a57bc9604382e7..d13eeb3a707e186faec67ec02a634c14414d9048 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -55,7 +55,7 @@
- #define MAX_PHYS_ENCODERS_PER_VIRTUAL \
- 	(MAX_H_TILES_PER_DISPLAY * NUM_PHYS_ENCODER_TYPES)
- 
--#define MAX_CHANNELS_PER_ENC 2
-+#define MAX_CHANNELS_PER_ENC 4
- #define MAX_CWB_PER_ENC 2
- 
- #define IDLE_SHORT_TIMEOUT	1
-@@ -675,22 +675,12 @@ void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
- 
- 	dsc = dpu_encoder_get_dsc_config(drm_enc);
- 
--	/* We only support 2 DSC mode (with 2 LM and 1 INTF) */
--	if (dsc) {
--		/*
--		 * Use 2 DSC encoders, 2 layer mixers and 1 or 2 interfaces
--		 * when Display Stream Compression (DSC) is enabled,
--		 * and when enough DSC blocks are available.
--		 * This is power-optimal and can drive up to (including) 4k
--		 * screens.
--		 */
--		WARN(topology->num_intf > 2,
--		     "DSC topology cannot support more than 2 interfaces\n");
--		if (topology->num_intf >= 2 || dpu_kms->catalog->dsc_count >= 2)
--			topology->num_dsc = 2;
--		else
--			topology->num_dsc = 1;
--	}
-+	/*
-+	 * Set DSC number as 1 to mark the enabled status, will be adjusted
-+	 * in dpu_crtc_get_topology()
-+	 */
-+	if (dsc)
-+		topology->num_dsc = 1;
- 
- 	connector = drm_atomic_get_new_connector_for_encoder(state, drm_enc);
- 	if (!connector)
-@@ -2179,8 +2169,8 @@ static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys *phys_enc)
- 	struct dpu_hw_mixer_cfg mixer;
- 	int i, num_lm;
- 	struct dpu_global_state *global_state;
--	struct dpu_hw_blk *hw_lm[2];
--	struct dpu_hw_mixer *hw_mixer[2];
-+	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_mixer *hw_mixer[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
- 
- 	memset(&mixer, 0, sizeof(mixer));
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 61b22d9494546885db609efa156222792af73d2a..09395d7910ac87c035b65cf476350bf6c9619612 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -302,7 +302,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
- 
- 	/* Use merge_3d unless DSC MERGE topology is used */
- 	if (phys_enc->split_role == ENC_ROLE_SOLO &&
--	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS &&
-+	    (dpu_cstate->num_mixers != 1) &&
- 	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
- 		return BLEND_3D_H_ROW_INT;
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index a78bb2c334e30bc86554bde45355808b790c6235..ce0265c13e050fbd48ac5c3202e8fa23edd1220d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -24,7 +24,7 @@
- #define DPU_MAX_IMG_WIDTH 0x3fff
- #define DPU_MAX_IMG_HEIGHT 0x3fff
- 
--#define CRTC_DUAL_MIXERS	2
-+#define CRTC_QUAD_MIXERS	4
- 
- #define MAX_XIN_COUNT 16
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index e4875a1f638db6f1983d9c51cb399319d27675e9..5cedcda285273a46cd6e11da63cde92cab94b9f4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -34,7 +34,7 @@
- #define DPU_MAX_PLANES			4
- #endif
- 
--#define STAGES_PER_PLANE		1
-+#define STAGES_PER_PLANE		2
- #define PIPES_PER_STAGE			2
- #define PIPES_PER_PLANE			(PIPES_PER_STAGE * STAGES_PER_PLANE)
- #ifndef DPU_MAX_DE_CURVES
+Yeah this does sound cumbersome. Would you end up with a macro
+duplicating the code 16 times (once for each type of the 16 register
+blocks) and hoping the compiler can optimise it all back together?
 
--- 
-2.34.1
+> The idea of register blocks is interesting. I wonder how that would
+> translate in terms of access to invididual registers, i.e. does the
+> block end up just being a prefix into the full register name, or is it
+> something else? From your example declaration I picture that accesses
+> would look something like `MMU_AS_CONTROL[4]::MEMATTR::read(bar)`, which
+> ngl looks great, but I also cannot think of a construct that would allow
+> such a syntax... Happy to think more about it though.
+
+Yes, that is the sort of syntax I was imagining, although I was hoping
+you could do something like:
+
+  let as = MMU_AS_CONTROL[as_id]::try_get(&bar)?;
+
+  let memattr = as.MEMATTR.read(&bar);
+  memattr.set_attr0(3).write(&bar);
+  as.TRANSTAB.write(&bar, 0x1000);
+
+Which I'm sure shows how little Rust I've written, but hopefully you get
+the idea - only the first line is a try_xxx which can fail and takes the
+address space ID from a variable and bounds checks it. The other
+accesses we already know the bounds so there's no need to deal with
+failure, and we don't have to consider the situation where MEMATTR is
+written but the TRANSTAB write fails (which couldn't actually happen
+with non-contiguous register arrays but the compiler wouldn't be able to
+tell).
+
+[And of course having written the above I realise that MEMATTR being
+split up as separate named fields is also broken - we want to generate
+it by looping over the fields.]
+
+Steve
 
