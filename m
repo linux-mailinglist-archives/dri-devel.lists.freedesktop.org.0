@@ -2,47 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67ADB1380A
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 11:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76EF9B13857
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 11:54:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FEE110E4A2;
-	Mon, 28 Jul 2025 09:48:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fGfWLHTE";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED44810E119;
+	Mon, 28 Jul 2025 09:54:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B10910E119
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 09:48:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 122045C5BCF
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 09:48:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC5B4C4CEF6;
- Mon, 28 Jul 2025 09:48:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753696118;
- bh=5OxUAZ7Y+sSxxYZPmZEOWfLe9nY/JcJ5UtKgik4FNkU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fGfWLHTEyfpcloyCnDfkv/uMKbOvBBTipLkpylujkAxxEPe/cnVB0E20CTTq8LOdT
- r3l7Hcld+so+EXuCYnK3XHZPAO0zhrL11YfDcXQxqO70xTkwBBRHvTFNr7ROORjLES
- MDPSIVLMlpS8nMxMWwUZe3JQK4mNJNoKSCwDSwPKIt87JBxChbKTCrT9XD8B/JUket
- R3R3I1zaZGwYTV8M602W0kfPtVZ5MnYC1vEv6LBBJD8KmyO2rQqgArvkTNGDFOAvfh
- pRNDo5gKf5fSUxmXP9hkfKe+u8fBnjK5+BukhyfT3FP6LuO45aADSYIpHUfrSLg9D5
- GmlifRu/qCARQ==
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@kernel.org>,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCHv2 8/8] gpu: drm: display: drm_dp_cec: update Hans' email
- address
-Date: Mon, 28 Jul 2025 11:47:03 +0200
-Message-ID: <948b67aa923d0887b538912357c218c71417dac6.1753696023.git.hverkuil+cisco@kernel.org>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <cover.1753696022.git.hverkuil+cisco@kernel.org>
-References: <cover.1753696022.git.hverkuil+cisco@kernel.org>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D641F10E119
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 09:54:51 +0000 (UTC)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1ugKZF-0002Yr-7k; Mon, 28 Jul 2025 11:54:49 +0200
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH] MAINTAINERS: Use https:// protocol for i.MX5/6 DRM driver
+ integration tree
+Date: Mon, 28 Jul 2025 11:54:48 +0200
+Message-Id: <20250728095448.495623-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,29 +48,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hans Verkuil <hverkuil@kernel.org>
+Use https:// protocol, the git.pengutronix.de server does not support
+git:// anymore.
 
-Replace hverkuil@xs4all.nl by hverkuil@kernel.org.
-
-Signed-off-by: Hans Verkuil <hverkuil@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/gpu/drm/display/drm_dp_cec.c | 2 +-
+ MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
-index ed31471bd0e2..d0dcc9b4b92d 100644
---- a/drivers/gpu/drm/display/drm_dp_cec.c
-+++ b/drivers/gpu/drm/display/drm_dp_cec.c
-@@ -41,7 +41,7 @@
-  *
-  * https://hverkuil.home.xs4all.nl/cec-status.txt
-  *
-- * Please mail me (hverkuil@xs4all.nl) if you find an adapter that works
-+ * Please mail me (hverkuil@kernel.org) if you find an adapter that works
-  * and is not yet listed there.
-  *
-  * Note that the current implementation does not support CEC over an MST hub.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c0b444e5fd5a..466bfa901cf9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8061,7 +8061,7 @@ M:	Philipp Zabel <p.zabel@pengutronix.de>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+-T:	git git://git.pengutronix.de/git/pza/linux
++T:	git https://git.pengutronix.de/git/pza/linux.git
+ F:	Documentation/devicetree/bindings/display/imx/
+ F:	drivers/gpu/drm/imx/ipuv3/
+ F:	drivers/gpu/ipu-v3/
 -- 
-2.47.2
+2.39.5
 
