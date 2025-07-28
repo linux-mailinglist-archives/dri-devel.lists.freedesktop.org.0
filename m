@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C14B135DB
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 09:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF48B13DEF
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 17:10:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C000E10E494;
-	Mon, 28 Jul 2025 07:51:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B858110E521;
+	Mon, 28 Jul 2025 15:10:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="IHJHywaD";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0D84010E494;
- Mon, 28 Jul 2025 07:51:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CCD171596;
- Mon, 28 Jul 2025 00:51:36 -0700 (PDT)
-Received: from [10.57.53.40] (unknown [10.57.53.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D869F3F673;
- Mon, 28 Jul 2025 00:51:40 -0700 (PDT)
-Message-ID: <d0ffb55b-690a-4a65-98b5-b83adebfd88b@arm.com>
-Date: Mon, 28 Jul 2025 08:51:38 +0100
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Mon, 28 Jul 2025 08:09:07 UTC
+Received: from out30-124.freemail.mail.aliyun.com
+ (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F02B10E496
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:09:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux.alibaba.com; s=default;
+ t=1753690145; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+ bh=R5JhzFAe2+pi/8yqRFPN+PrUVu7txCrojFI/LNAgGtk=;
+ b=IHJHywaDUIpoPw91qA7KJkSjmHciFluC74UwXoHtC7EdCeFCjMxJUvV52D13hLWBHt+m0HtvlCw6mMgXglU6gPLnoG2k9+TeKekYWbyrxbd/O2m+OjH5VpEFfXgRXr0qLjnqu8VpfiODRqZXJaSMH7fJCpdezYkFQm/rwBx56VU=
+Received: from localhost(mailfrom:baolin.wang@linux.alibaba.com
+ fp:SMTPD_---0WkFS0FZ_1753689841 cluster:ay36) by smtp.aliyun-inc.com;
+ Mon, 28 Jul 2025 16:04:01 +0800
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+To: akpm@linux-foundation.org,
+	hughd@google.com
+Cc: patryk@kowalczyk.ws, ville.syrjala@linux.intel.com, david@redhat.com,
+ willy@infradead.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tursulin@ursulin.net, christian.koenig@amd.com,
+ ray.huang@amd.com, matthew.auld@intel.com, matthew.brost@intel.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org
+Subject: [PATCH] mm: shmem: fix the shmem large folio allocation for the i915
+ driver
+Date: Mon, 28 Jul 2025 16:03:53 +0800
+Message-ID: <0d734549d5ed073c80b11601da3abdd5223e1889.1753689802.git.baolin.wang@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/19] gpu: nova-core: register: minor grammar and
- spelling fixes
-To: Alexandre Courbot <acourbot@nvidia.com>,
- Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Beata Michalska <beata.michalska@arm.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
- Nouveau <nouveau-bounces@lists.freedesktop.org>
-References: <20250718-nova-regs-v2-0-7b6a762aa1cd@nvidia.com>
- <20250718-nova-regs-v2-1-7b6a762aa1cd@nvidia.com>
- <B1AA6359-7854-4284-B533-F5CA3C18AF34@collabora.com>
- <DBNF8SZWLI79.1NRX9AMW5QW45@nvidia.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <DBNF8SZWLI79.1NRX9AMW5QW45@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 28 Jul 2025 15:09:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,119 +61,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/07/2025 05:59, Alexandre Courbot wrote:
-> Hi Daniel, thanks for the review!
-> 
-> On Sat Jul 26, 2025 at 1:14 AM JST, Daniel Almeida wrote:
->> Hi Alex. Thank you and John for working on this in general. It will be useful
->> for the whole ecosystem! :) 
->>
->>> On 18 Jul 2025, at 04:26, Alexandre Courbot <acourbot@nvidia.com> wrote:
->>>
->>> From: John Hubbard <jhubbard@nvidia.com>
->>>
->>> There is only one top-level macro in this file at the moment, but the
->>> "macros.rs" file name allows for more. Change the wording so that it
->>> will remain valid even if additional macros are added to the file.
->>>
->>> Fix a couple of spelling errors and grammatical errors, and break up a
->>> run-on sentence, for clarity.
->>>
->>> Cc: Alexandre Courbot <acourbot@nvidia.com>
->>> Cc: Danilo Krummrich <dakr@kernel.org>
->>> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
->>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
->>> ---
->>> drivers/gpu/nova-core/regs/macros.rs | 14 +++++++-------
->>> 1 file changed, 7 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-core/regs/macros.rs
->>> index cdf668073480ed703c89ffa8628f5c9de6494687..864d1e83bed2979f5661e038f4c9fd87d33f69a7 100644
->>> --- a/drivers/gpu/nova-core/regs/macros.rs
->>> +++ b/drivers/gpu/nova-core/regs/macros.rs
->>> @@ -1,17 +1,17 @@
->>> // SPDX-License-Identifier: GPL-2.0
->>>
->>> -//! Macro to define register layout and accessors.
->>> +//! `register!` macro to define register layout and accessors.
->>
->> I would have kept this line as-is. Users will most likely know the name of the
->> macro already. At this point, they will be looking for what it does, so
->> mentioning "register" here is a bit redundant IMHO.
->>
->>> //!
->>> //! A single register typically includes several fields, which are accessed through a combination
->>> //! of bit-shift and mask operations that introduce a class of potential mistakes, notably because
->>> //! not all possible field values are necessarily valid.
->>> //!
->>> -//! The macro in this module allow to define, using an intruitive and readable syntax, a dedicated
->>> -//! type for each register with its own field accessors that can return an error is a field's value
->>> -//! is invalid.
->>> +//! The `register!` macro in this module provides an intuitive and readable syntax for defining a
->>> +//! dedicated type for each register. Each such type comes with its own field accessors that can
->>> +//! return an error if a field's value is invalid.
->>>
->>> -/// Defines a dedicated type for a register with an absolute offset, alongside with getter and
->>> -/// setter methods for its fields and methods to read and write it from an `Io` region.
->>> +/// Defines a dedicated type for a register with an absolute offset, including getter and setter
->>> +/// methods for its fields and methods to read and write it from an `Io` region.
->>
->> +cc Steven Price,
->>
->> Sorry for hijacking this patch, but I think that we should be more flexible and
->> allow for non-literal offsets in the macro.
->>
->> In Tyr, for example, some of the offsets need to be computed at runtime, i.e.:
->>
->> +pub(crate) struct AsRegister(usize);
->> +
->> +impl AsRegister {
->> +    fn new(as_nr: usize, offset: usize) -> Result<Self> {
->> +        if as_nr >= 32 {
->> +            Err(EINVAL)
->> +        } else {
->> +            Ok(AsRegister(mmu_as(as_nr) + offset))
->> +        }
->> +    }
->>
->> Or:
->>
->> +pub(crate) struct Doorbell(usize);
->> +
->> +impl Doorbell {
->> +    pub(crate) fn new(doorbell_id: usize) -> Self {
->> +        Doorbell(0x80000 + (doorbell_id * 0x10000))
->> +    }
->>
->> I don't think this will work with the current macro, JFYI.
-> 
-> IIUC from the comments on the next patches, your need is covered with
-> the relative and array registers definitions, is that correct?
+After commit acd7ccb284b8 ("mm: shmem: add large folio support for tmpfs"),
+we extend the 'huge=' option to allow any sized large folios for tmpfs,
+which means tmpfs will allow getting a highest order hint based on the size
+of write() and fallocate() paths, and then will try each allowable large order.
 
-My Rust is somewhat shaky, but I believe "non-contiguous register 
-arrays" will do what we want. Although I'll admit it would be neater for 
-the likes of the AS registers if there was a way to define a "block" of 
-registers and then use an array of blocks. Something vaguely like this 
-(excuse the poor Rust):
+However, when the i915 driver allocates shmem memory, it doesn't provide hint
+information about the size of the large folio to be allocated, resulting in
+the inability to allocate PMD-sized shmem, which in turn affects GPU performance.
 
-register_block!(MMU_AS_CONTROL @ 0x2400[16 ; 64], "MMU Address Space registers" {
-	register!(TRANSTAB @ 0x0000, "Translation table base address" {
-		31:0	base as u32;
-	});
-	register!(MEMATTR @ 0x0008, "Memory attributes" {
-		7:0	attr0 as u8;
-		7:0	attr1 as u8;
-		// ...
-	});
-	// More registers
-});
+To fix this issue, add the 'end' information for shmem_read_folio_gfp()  to help
+allocate PMD-sized large folios. Additionally, use the maximum allocation chunk
+(via mapping_max_folio_size()) to determine the size of the large folios to
+allocate in the i915 driver.
 
-In particular that would allow a try_() call to access the 'block' 
-followed by normal read()/write() calls for the members in the block.
+Fixes: acd7ccb284b8 ("mm: shmem: add large folio support for tmpfs")
+Reported-by: Patryk Kowalczyk <patryk@kowalczyk.ws>
+Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Tested-by: Patryk Kowalczyk <patryk@kowalczyk.ws>
+Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+---
+ drivers/gpu/drm/drm_gem.c                 | 2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 7 ++++++-
+ drivers/gpu/drm/ttm/ttm_backup.c          | 2 +-
+ include/linux/shmem_fs.h                  | 4 ++--
+ mm/shmem.c                                | 7 ++++---
+ 5 files changed, 14 insertions(+), 8 deletions(-)
 
-My Rust is certainly not good enough for me to try prototyping this
-yet though!
-
-Thanks,
-Steve
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 4bf0a76bb35e..5ed34a9211a4 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -627,7 +627,7 @@ struct page **drm_gem_get_pages(struct drm_gem_object *obj)
+ 	i = 0;
+ 	while (i < npages) {
+ 		long nr;
+-		folio = shmem_read_folio_gfp(mapping, i,
++		folio = shmem_read_folio_gfp(mapping, i, 0,
+ 				mapping_gfp_mask(mapping));
+ 		if (IS_ERR(folio))
+ 			goto fail;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index f263615f6ece..778290f49853 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -69,6 +69,7 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
+ 	struct scatterlist *sg;
+ 	unsigned long next_pfn = 0;	/* suppress gcc warning */
+ 	gfp_t noreclaim;
++	size_t chunk;
+ 	int ret;
+ 
+ 	if (overflows_type(size / PAGE_SIZE, page_count))
+@@ -94,6 +95,7 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
+ 	mapping_set_unevictable(mapping);
+ 	noreclaim = mapping_gfp_constraint(mapping, ~__GFP_RECLAIM);
+ 	noreclaim |= __GFP_NORETRY | __GFP_NOWARN;
++	chunk = mapping_max_folio_size(mapping);
+ 
+ 	sg = st->sgl;
+ 	st->nents = 0;
+@@ -105,10 +107,13 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
+ 			0,
+ 		}, *s = shrink;
+ 		gfp_t gfp = noreclaim;
++		loff_t bytes = (page_count - i) << PAGE_SHIFT;
++		loff_t pos = i << PAGE_SHIFT;
+ 
++		bytes = min_t(loff_t, chunk, bytes);
+ 		do {
+ 			cond_resched();
+-			folio = shmem_read_folio_gfp(mapping, i, gfp);
++			folio = shmem_read_folio_gfp(mapping, i, pos + bytes, gfp);
+ 			if (!IS_ERR(folio))
+ 				break;
+ 
+diff --git a/drivers/gpu/drm/ttm/ttm_backup.c b/drivers/gpu/drm/ttm/ttm_backup.c
+index 6f2e58be4f3e..0c90ae338afb 100644
+--- a/drivers/gpu/drm/ttm/ttm_backup.c
++++ b/drivers/gpu/drm/ttm/ttm_backup.c
+@@ -100,7 +100,7 @@ ttm_backup_backup_page(struct file *backup, struct page *page,
+ 	struct folio *to_folio;
+ 	int ret;
+ 
+-	to_folio = shmem_read_folio_gfp(mapping, idx, alloc_gfp);
++	to_folio = shmem_read_folio_gfp(mapping, idx, 0, alloc_gfp);
+ 	if (IS_ERR(to_folio))
+ 		return PTR_ERR(to_folio);
+ 
+diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+index 6d0f9c599ff7..203eebad6b38 100644
+--- a/include/linux/shmem_fs.h
++++ b/include/linux/shmem_fs.h
+@@ -156,12 +156,12 @@ enum sgp_type {
+ int shmem_get_folio(struct inode *inode, pgoff_t index, loff_t write_end,
+ 		struct folio **foliop, enum sgp_type sgp);
+ struct folio *shmem_read_folio_gfp(struct address_space *mapping,
+-		pgoff_t index, gfp_t gfp);
++		pgoff_t index, loff_t end, gfp_t gfp);
+ 
+ static inline struct folio *shmem_read_folio(struct address_space *mapping,
+ 		pgoff_t index)
+ {
+-	return shmem_read_folio_gfp(mapping, index, mapping_gfp_mask(mapping));
++	return shmem_read_folio_gfp(mapping, index, 0, mapping_gfp_mask(mapping));
+ }
+ 
+ static inline struct page *shmem_read_mapping_page(
+diff --git a/mm/shmem.c b/mm/shmem.c
+index e6cdfda08aed..c79f5760cfc9 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -5960,6 +5960,7 @@ int shmem_zero_setup(struct vm_area_struct *vma)
+  * shmem_read_folio_gfp - read into page cache, using specified page allocation flags.
+  * @mapping:	the folio's address_space
+  * @index:	the folio index
++ * @end:	end of a read if allocating a new folio
+  * @gfp:	the page allocator flags to use if allocating
+  *
+  * This behaves as a tmpfs "read_cache_page_gfp(mapping, index, gfp)",
+@@ -5972,14 +5973,14 @@ int shmem_zero_setup(struct vm_area_struct *vma)
+  * with the mapping_gfp_mask(), to avoid OOMing the machine unnecessarily.
+  */
+ struct folio *shmem_read_folio_gfp(struct address_space *mapping,
+-		pgoff_t index, gfp_t gfp)
++		pgoff_t index, loff_t end, gfp_t gfp)
+ {
+ #ifdef CONFIG_SHMEM
+ 	struct inode *inode = mapping->host;
+ 	struct folio *folio;
+ 	int error;
+ 
+-	error = shmem_get_folio_gfp(inode, index, 0, &folio, SGP_CACHE,
++	error = shmem_get_folio_gfp(inode, index, end, &folio, SGP_CACHE,
+ 				    gfp, NULL, NULL);
+ 	if (error)
+ 		return ERR_PTR(error);
+@@ -5998,7 +5999,7 @@ EXPORT_SYMBOL_GPL(shmem_read_folio_gfp);
+ struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
+ 					 pgoff_t index, gfp_t gfp)
+ {
+-	struct folio *folio = shmem_read_folio_gfp(mapping, index, gfp);
++	struct folio *folio = shmem_read_folio_gfp(mapping, index, 0, gfp);
+ 	struct page *page;
+ 
+ 	if (IS_ERR(folio))
+-- 
+2.43.5
 
