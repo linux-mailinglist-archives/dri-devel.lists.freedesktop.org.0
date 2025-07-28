@@ -2,80 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2D0B143AE
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 23:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14930B143B6
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 23:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2451210E1A0;
-	Mon, 28 Jul 2025 21:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F01410E041;
+	Mon, 28 Jul 2025 21:08:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D44l0Cu6";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="T9jhr2ru";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E61810E041;
- Mon, 28 Jul 2025 21:04:11 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-312a806f002so655831a91.3; 
- Mon, 28 Jul 2025 14:04:11 -0700 (PDT)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14EF210E041
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 21:08:53 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-4ab6416496dso59599771cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 14:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753736651; x=1754341451; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SQOZsxNcIwMWPzO0eYphZcFK2aSCHhJ8B+H+YjA4cbQ=;
- b=D44l0Cu6swSbu9xiEDbfFC0J7rGYXjI33jTTUldpLdqSMLVcyK4SMywWLfBQOrQxhz
- il0a2TPy34rFRdee7Kl6ZphOJKVP8N0RJOCHQ+zEaGwhGGUduHJTDHNckzlmeUNK0nEe
- 8O2UUh8UAY7DRcVZFLpWIf3CMkQ3TVAVuNwTC2ZOQlfjbyH570XUeHSwPNBg7wfIFe2J
- H+zDBotr/SCPSNfYEtTteba3lz+qcYD8UG6ww0indDexk0K2Pm8E26dWh+xPAvWRUdfz
- J3p45rL4VmyE/YP1xGdqv/FZrIKQ5FRPRRcqLyJxtqCsEx97Ww/Yel9sf/Ia0qKAoydY
- W53Q==
+ d=broadcom.com; s=google; t=1753736933; x=1754341733;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=RTQ6vqx28Dz0uqFmhv3LGEMxqXRH7t8/cVDuISwhels=;
+ b=T9jhr2ruSFy+ibFf329gzHtcRAo5ugIlbKr59aaBjQguimK5ZYjL6sHf7KaRMVbI9Y
+ 7hbWDZgdSHSzsxO8t91yqgsbGTS4vt1TfNr4Kggkijpadus8pNR4L7ZayZ7hPVboJIdB
+ m+o6xTF8yvYPfMX6Hxvv4EAMiixESy0UP2z20=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753736651; x=1754341451;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SQOZsxNcIwMWPzO0eYphZcFK2aSCHhJ8B+H+YjA4cbQ=;
- b=fb5TQbmn5cKDyIIpeOiA1SBu6SN4z0X+SUDTaounb+DGrrzjq9zoNSQHPGKIZnndIW
- VulwdDh3Mk7h4NCD7UVUUV1dnBgVq7GJTKeRhu2wDuQp+X3FuwddhPIdFuDa07cPaaCV
- cm/59m4tqOClc99j6lXOGYbxODBCPnTdX4O47K1CAcgS3lFvYECqNvX67kO0Cq9ESoQ5
- oCCaUFefOxkseEUWfxEDECZ4X4GhVvCL+rt4jrUNII4B1W0cnI7f5qZvuPSOolSc9/dm
- qieuLFvSJOVqH6kF+PGqIEIdNsxEDIBNYVIdnXQk8czGo+F+P4DUtfWF2xGYdE/lq9fk
- WN6A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVwD0jkhWY9EWXQXCOfkmyYUBszWplndqmkUvQzq3pI/oO/hclhTpeHCOVNUrKVUILLWa97xgtm2nk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyOQi2b6SHcXATELJgmzgkJbg51CcKP8Ye0EqZMDl+H3D1sBROu
- lcXkZz8R+BZ1HnT0ZglkSeeaBwWbpf1h6Uez2kshHXTfZRX3FG6BH/ZBqWBJH+NtQ8cS0aliHdJ
- RC/BkyyDW8Q1C/cMBFCS/Dgx5MtcM+lk=
-X-Gm-Gg: ASbGncvEFehcNCO7P5NLlEuuFgvO8m6xvyIBnKKvJQisbwkEmfbweZaRzlw9TizHEhQ
- 0uT7g8CJqqa08EbTv+DqG9WbDjyoZnDHJLHVeXWN+zzEr2ycJ8VIpfMvbjTGOWLUY+vux2MQWvQ
- gYryTzQrbMr8bHxkaKpPUOK9XfnNHdtvNjiQd/jIxboip5nQT8iGb9JrTdrVXa8UX02uetLK5qg
- hV6HU7Ge3X22g+e4Q==
-X-Google-Smtp-Source: AGHT+IHXV4AozNz1QhmqR3N4z/5+NI9Qmws9ZNXiu9ZBNY4JEZhI6MM87EguI/j4COGgXvJ2GC/HeH+W5+DXY6EfEJo=
-X-Received: by 2002:a17:90b:4a81:b0:31e:cdc1:999e with SMTP id
- 98e67ed59e1d1-31ecdc19b15mr3744592a91.1.1753736650794; Mon, 28 Jul 2025
- 14:04:10 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1753736933; x=1754341733;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RTQ6vqx28Dz0uqFmhv3LGEMxqXRH7t8/cVDuISwhels=;
+ b=CuB/9tDuAlrez0krrUGpTp7NtuCQwqdmrlRTp/X9zG6gWM+/+qOkh+c63VSj9bwm22
+ QsqC+1afUu4ORDqMRfrJot1llLRfOA/OigsoHdKwNVLcT/7LViNU7+9GWJ3njENViiNK
+ 4eF6iSs8xLVndq210MQYWs7BVqOqCOp8NYL1ZWi0yfDNXHMUkqdm8+aTKfoFE9A+dgM5
+ qCo5CGJLop5GYcwposkUQzAS9cuaAkd0lNHwcmftQ75dMTCt1JF6O1YPcZQsR/jtWOEa
+ RhEnxX/qMdDs0xEKPXTuPCoplHlbnMl0OZOHE35ox7GY/9AWf1swFW4bYp27haYjhYqk
+ P3jg==
+X-Gm-Message-State: AOJu0Ywm/CqDSSUjrWCewJIYHegb/9z8liLqyK5okq9ig04S7N8Lpl7n
+ VGWDd1pTcVOH4lRSSC4oPLyy6qsrex0BYIZuuUhIN+e2pkxyMAcLWVbWL//C6rMOa75L8RLA462
+ VM99rct9n3n5T9ZL5uEdk3sKHUBrw1I2SIO1ncjucwhj2afEbKqErT8dmQKPMH5HRyHPUaVHCWc
+ FljtsGuUJetccQiept3jKnhZbb97SRp6qcUSlRq28ml4MKxWyhZYBheg==
+X-Gm-Gg: ASbGnct/nPtmG4VL2bn8dtgkMAoMh39svd6T6CvDvW+mec8654FBtxqsqwCFe5GKBI5
+ sI9PNJnMCOuuG5bXWFABbO9t7KO+zSPcKJ2xFbRFODV3hjjuKZAuOpv8/QE6l9knGSlgYnmmnqU
+ M5o6YEac6VnyjXHMyl1TDdTfjJk4h68juRzwtw19iegMYvo59AIrcfPIimlVUXvBImLP34FMWVS
+ /XISC0GM/FW3J01KsT9znm5CMv+AZ2MdcNUrC45iijWXiDIVqY2sqB0Z3pH956FWC7tiypRfRBK
+ xYexHz1o7b9LjfO1zUkPh7HUAZUgT+Fw6kuLLnmn+vj6RC1krhy1rFNSa5lnGW/8HzAZLvJdm72
+ YIen9886QQn7QnsJhrTG2Qatxzuy7vO/+1VckGYowGWbFhAmcrNc+L34fjYD2eqGRzPM=
+X-Google-Smtp-Source: AGHT+IFzpOlsIsYr0/wxNPbh2BPW05kTk0qCfyhL5tkmrL+atIi+g8l6GS1g3z5Ei70yxcNRhTyOKg==
+X-Received: by 2002:ac8:7dd6:0:b0:4ab:71a2:6149 with SMTP id
+ d75a77b69052e-4ae8f0b4b03mr215035931cf.50.1753736932546; 
+ Mon, 28 Jul 2025 14:08:52 -0700 (PDT)
+Received: from plasma.dhcp.broadcom.net ([192.19.144.250])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4aeb2e7a7fdsm21452311cf.4.2025.07.28.14.08.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jul 2025 14:08:51 -0700 (PDT)
+From: Ian Forbes <ian.forbes@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: zack.rusin@broadcom.com, martin.krastev@broadcom.com,
+ maaz.mombasawala@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ Ian Forbes <ian.forbes@broadcom.com>
+Subject: [PATCH] drm/vmwgfx: Clamp the max COTable size
+Date: Mon, 28 Jul 2025 16:08:45 -0500
+Message-ID: <20250728210845.102771-1-ian.forbes@broadcom.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-References: <20250728203412.22573-1-robin.clark@oss.qualcomm.com>
- <20250728203412.22573-2-robin.clark@oss.qualcomm.com>
-In-Reply-To: <20250728203412.22573-2-robin.clark@oss.qualcomm.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Mon, 28 Jul 2025 17:03:59 -0400
-X-Gm-Features: Ac12FXxL-grY8XpxM4b1WvaHOSNhuOp0PxeaB_JShxxPOJcM1Ma0s4Hr5Qf_lsc
-Message-ID: <CACu1E7F=Y2oKfiWtD0VYfmLkL24e7JrZYMt8dmoGW7zrq7bd2g@mail.gmail.com>
-Subject: Re: [PATCH 1/7] drm/msm: Add missing "location"s to devcoredump
-To: Rob Clark <robin.clark@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, Akhil P Oommen <akhilpo@oss.qualcomm.com>, 
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,49 +85,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 28, 2025 at 4:43=E2=80=AFPM Rob Clark <robin.clark@oss.qualcomm=
-.com> wrote:
->
-> This is needed to properly interpret some of the sections.
->
-> Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/dr=
-m/msm/adreno/a6xx_gpu_state.c
-> index faca2a0243ab..e586577e90de 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> @@ -1796,6 +1796,7 @@ static void a7xx_show_shader(struct a6xx_gpu_state_=
-obj *obj,
->
->         print_name(p, "  - type: ", a7xx_statetype_names[block->statetype=
-]);
->         print_name(p, "    - pipe: ", a7xx_pipe_names[block->pipeid]);
-> +       drm_printf(p, "    - location: %d", block->location);
+Due to a quirk of the SVGA device the MOB that backs the COTable cannot
+exceed SVGA_COTABLE_MAX_IDS elements. This causes issues because MOBs
+are allocated in PAGE_SIZE chunks which means we always round up the
+size to the next page. This causes the device to error out when we try
+to set a COTable that can store SVGA_COTABLE_MAX_IDS but is slightly
+over-allocated by some fraction of a page. This then leaves the device
+in an indeterminate state.
 
-We should probably at least try to keep it proper YAML by indenting
-everything after another level...
+Due to the doubling logic in vmw_cotable_create this occurs when we
+allocate slightly more than half the available IDs. As a result the
+validation logic in vmw_cotable_notify never trips which is what we
+currently rely on to limit the size of the COTable indirectly.
 
->
->         for (i =3D 0; i < block->num_sps; i++) {
->                 drm_printf(p, "      - sp: %d\n", i);
-> @@ -1873,6 +1874,7 @@ static void a7xx_show_dbgahb_cluster(struct a6xx_gp=
-u_state_obj *obj,
->                 print_name(p, "  - pipe: ", a7xx_pipe_names[dbgahb->pipe_=
-id]);
->                 print_name(p, "    - cluster-name: ", a7xx_cluster_names[=
-dbgahb->cluster_id]);
->                 drm_printf(p, "      - context: %d\n", dbgahb->context_id=
-);
-> +               drm_printf(p, "      - location: %d\n", dbgahb->location_=
-id);
->                 a7xx_show_registers_indented(dbgahb->regs, obj->data, p, =
-4);
->         }
->  }
-> --
-> 2.50.1
->
+By reducing SVGA_COTABLE_MAX_IDS to a slightly smaller value we can avoid
+this quirk. Any application getting close to this limit is likely
+leaking resources so reducing the size by less than 1% should not have
+any noticeable impact on well behaving applications.
+
+Fixes: d80efd5cb3de ("drm/vmwgfx: Initial DX support")
+Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
+index 98331c4c0335..366e97a95179 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
+@@ -74,6 +74,11 @@ struct vmw_cotable_info {
+ 			    bool);
+ };
+ 
++/*
++ * Due to a quirk of SVGA device we can't actually allocate SVGA_COTABLE_MAX_IDS
++ * for all resource types. This new limit will work regardless of type.
++ */
++#define SVGA_COTABLE_EFFECTIVE_MAX_IDS (SVGA_COTABLE_MAX_IDS - 510)
+ 
+ /*
+  * Getting the initial size right is difficult because it all depends
+@@ -545,6 +550,7 @@ static int vmw_cotable_create(struct vmw_resource *res)
+ {
+ 	struct vmw_cotable *vcotbl = vmw_cotable(res);
+ 	size_t new_size = res->guest_memory_size;
++	size_t max_size = co_info[vcotbl->type].size * SVGA_COTABLE_EFFECTIVE_MAX_IDS;
+ 	size_t needed_size;
+ 	int ret;
+ 
+@@ -553,6 +559,8 @@ static int vmw_cotable_create(struct vmw_resource *res)
+ 	while (needed_size > new_size)
+ 		new_size *= 2;
+ 
++	new_size = MIN(new_size, max_size);
++
+ 	if (likely(new_size <= res->guest_memory_size)) {
+ 		if (vcotbl->scrubbed && vmw_resource_mob_attached(res)) {
+ 			ret = vmw_cotable_unscrub(res);
+@@ -650,7 +658,7 @@ int vmw_cotable_notify(struct vmw_resource *res, int id)
+ {
+ 	struct vmw_cotable *vcotbl = vmw_cotable(res);
+ 
+-	if (id < 0 || id >= SVGA_COTABLE_MAX_IDS) {
++	if (id < 0 || id >= SVGA_COTABLE_EFFECTIVE_MAX_IDS) {
+ 		DRM_ERROR("Illegal COTable id. Type is %u. Id is %d\n",
+ 			  (unsigned) vcotbl->type, id);
+ 		return -EINVAL;
+-- 
+2.50.1
+
