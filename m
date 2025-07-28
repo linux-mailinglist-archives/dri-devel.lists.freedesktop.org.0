@@ -2,80 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A93B1323C
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 00:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D71B132A1
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 02:15:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A61F010E1A3;
-	Sun, 27 Jul 2025 22:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE2510E323;
+	Mon, 28 Jul 2025 00:15:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CZhu1meJ";
+	dkim=pass (1024-bit key; unprotected) header.d=iitb.ac.in header.i=@iitb.ac.in header.b="RPbTfdr5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 796CA10E1A3;
- Sun, 27 Jul 2025 22:28:55 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-31c4a546cc2so3065443a91.2; 
- Sun, 27 Jul 2025 15:28:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753655335; x=1754260135; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7aE55925tcWmGaX7tTb9viX7+snG3Kn2dzQ5QJ3oigY=;
- b=CZhu1meJ6/nrxGyV44rNpw+112P/T2Clm+NzvTjGGSs/m0saWhoLIDn5Var4g3Uonz
- akOJ1tKxvz7wwGI8Tn9QWB9Dwx8B+VfIOrRTzV27oREC1KCzP7E//6XQc/SNC3K6S6FB
- cnIUTwK0ZXHQ7UL80MGgqGmb9JlTVu3XAuBlyRgd/1k9cFnGSgEEPORywtuVh9oyjNY3
- dhZLfYYe79r0JIBaxLFKIIAFHXEqk04SC+lyA4pNc3r0zUuPm2/PEgPmoyp2sr3ZkrUG
- p9J+j9D2anYUjGOhXNLvQVslMnNhbMwAEBScUK2YRunlHWmeEQ0lUwkBkr1LWm1Bqqqm
- +Npw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753655335; x=1754260135;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7aE55925tcWmGaX7tTb9viX7+snG3Kn2dzQ5QJ3oigY=;
- b=c9MFxXBbbkVAx/fi24X8woKQLIZm4+poX1BHhYD6qi/vNwtH7JM7jIvVy5nYDSo6ft
- 08Xj714Ic/gkfUPhYLcW/h8tJH+xtNj+y3B7RuCOpDj86D0RtsbNUppvvwTUdMqKJ4eN
- aVUKT2cXJlRoYCRMXC7d6zMd3O6T2l5uB4/0r96Or2iVF9h7wjBO0+W/fYUIM2OpuDyr
- Xq9UW0O3gEY8sft1vkbB+arVramJbg6HjfCe0jNOMImorUH1ev8apLa3/QKv/CAZaOBR
- HGdudSsHFVcsEaoC2WKGI1PQTLrHkoXGyiuqHNtdPCLg5H9v6J0xJlUtHD/rTzV8ugXS
- eOkg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWRjOJUBf8l9n/sXHI+HWwyMJ52OX2OJRxLrk2iZGwsRWAc1cBL+9FSVb77+V89o0vZgMCdwGeKSg==@lists.freedesktop.org,
- AJvYcCXNxy2pGuRVOG2qt9bQ+ZuCIijv9samoVQPHp0X2XJPCPkPOoSipiwYJX0+Eqv4yAY/0iJlJlTuT+A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4tmUdJY0GXuva5NKgvg9JkiLJDlE3Cmc42TPi5ILNfqL04U4a
- DF0/ze7Zf0sANxco5y4SmAHIzDx+lqK0iCxGAYfgDrnJ0XxnI3A0nheokmEDlEx9pD3T1NBuZY0
- IC8fx7Mj+CJyWwLJwnzVuDNiWGkEwxhY=
-X-Gm-Gg: ASbGncul6VH7EHDt0N2kDr6uTQVL9XPvJInd+E1LGhKdjudLmsA1afCsKpZ9FVh3ai4
- 0LTtXV5/lNF1YHRHP1dAzq0RcrNpjwaQaPwZjtObQnZiifpW4DeIrEEBomtY5L5tqNDl9jkNon7
- wzDQh8xjDcy3pRupRbTpF/Qb/TPfVjZt9039kb5O6YjGYeb+donvHWuOWxxw1kB4SvivDMAglNG
- BC1vw==
-X-Google-Smtp-Source: AGHT+IFB+UC79G6GOvpYCOqLMKe5c6XQOXyyyhKfZRzw/xMYi0ZwUgQjJFrdTLPc9goYRCJRriQdvkUAynVP85BQUE0=
-X-Received: by 2002:a17:90b:584b:b0:311:e305:4e97 with SMTP id
- 98e67ed59e1d1-31e77a01261mr14286891a91.19.1753655334777; Sun, 27 Jul 2025
- 15:28:54 -0700 (PDT)
+Received: from smtp1.iitb.ac.in (smtpd7.iitb.ac.in [103.21.126.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE4410E323
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 00:15:31 +0000 (UTC)
+Received: from ldns2.iitb.ac.in (ldns2.iitb.ac.in [10.200.12.2])
+ by smtp1.iitb.ac.in (Postfix) with SMTP id 5C8F5104C1CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 05:45:28 +0530 (IST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.iitb.ac.in 5C8F5104C1CA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=iitb.ac.in; s=mail;
+ t=1753661728; bh=5k8JYmHT2cWOWtGfELADGc92fbkTdz1tEljYzoDyHO0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=RPbTfdr5ubQ/Ie0C5V9yg/krhtrN1zu2JngvovCUqM54zyAyv3uxoXkeQAfDD6hsX
+ 09w6G31zxeqAlxBucisd1MD8NCzSJyyC1b7PYQu0CgeO74OvG/AiTgiwa5sz0BVfPR
+ fNfwKQ8TweWe07lsfBrtC0uOjEttlJoM17jhtWTU=
+Received: (qmail 23478 invoked by uid 510); 28 Jul 2025 05:45:28 +0530
+X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns2 (envelope-from
+ <akhilesh@ee.iitb.ac.in>, uid 501) with qmail-scanner-2.11
+ spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/26337} 
+ Clear:RC:1(10.200.1.25):SA:0(0.0/7.0):. Processed in 3.875186 secs;
+ 28 Jul 2025 05:45:28 +0530
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on ldns2.iitb.ac.in
+X-Spam-Level: 
+X-Spam-Status: No, score=0.0 required=7.0 tests=IITB_ORIG,PROPER_IITB_MSGID,
+ URIBL_BLOCKED autolearn=disabled version=3.4.1
+X-Spam-Pyzor: Reported 0 times.
+X-Envelope-From: akhilesh@ee.iitb.ac.in
+X-Qmail-Scanner-Mime-Attachments: |
+X-Qmail-Scanner-Zip-Files: |
+Received: from unknown (HELO ldns2.iitb.ac.in) (10.200.1.25)
+ by ldns2.iitb.ac.in with SMTP; 28 Jul 2025 05:45:24 +0530
+Received: from bhairav.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
+ by ldns2.iitb.ac.in (Postfix) with ESMTP id D4A563414DD;
+ Mon, 28 Jul 2025 05:45:23 +0530 (IST)
+Received: from bhairav-test.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
+ (Authenticated sender: akhilesh)
+ by bhairav.ee.iitb.ac.in (Postfix) with ESMTPSA id AA8EA1E8128E;
+ Mon, 28 Jul 2025 05:45:23 +0530 (IST)
+Date: Mon, 28 Jul 2025 05:45:17 +0530
+From: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
+To: thierry.reding@gmail.com, mperttunen@nvidia.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, akhileshpatilvnit@gmail.com,
+ skhan@linuxfoundation.org
+Subject: [PATCH] gpu: host1x: use dev_err_probe() in probe path
+Message-ID: <aIbBFQqgZalOMc6r@bhairav-test.ee.iitb.ac.in>
 MIME-Version: 1.0
-References: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
- <20250508145624.4154317-1-tomeu@tomeuvizoso.net>
- <a18f214ab0487a1c562f9e2f7f66ab1345925177.camel@pengutronix.de>
- <CAAObsKDwVB7w0mK3qkJJ-x3sOVxbcM5pbjxJk-106baaiwM=dg@mail.gmail.com>
-In-Reply-To: <CAAObsKDwVB7w0mK3qkJJ-x3sOVxbcM5pbjxJk-106baaiwM=dg@mail.gmail.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Mon, 28 Jul 2025 00:28:42 +0200
-X-Gm-Features: Ac12FXxXmcLRHhwJZhvSwh_E4TOWBWwI2_AjoaRN2XLAJ0SAZOxjnsj19GW09HQ
-Message-ID: <CAH9NwWfMCYKFF6Z+XiV9=4BANeyPk6bgNV_8FYM0cGwXuyDSxw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/etnaviv: Fix flush sequence logic
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Lucas Stach <l.stach@pengutronix.de>, linux-kernel@vger.kernel.org, 
- Russell King <linux+etnaviv@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, 
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,41 +75,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas,
+Use dev_err_probe() helper as recommended by core driver model in
+drivers/base/core.c to handle deferred probe error. Improve code
+consistency and debuggability using standard helper.
 
-> > > We should be comparing the last submitted sequence number with that o=
-f
-> > > the address space we may be switching to.
-> > >
-> > This isn't the relevant change here though: if we switch the address
-> > space, the comparison is moot, as we do a full flush on AS switch
-> > anyway. The relevant change is that with the old code we would record
-> > the flush sequence of the AS we switch away from as the current flush
-> > sequence, so we might miss a necessary flush on the next submission if
-> > that one doesn't require a AS switch, but would only flush based on
-> > sequence mismatch.
->
-> Ah, you are right.
->
-> > Mind if I rewrite the commit message along those lines while applying?
->
+Signed-off-by: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
+---
+ drivers/gpu/host1x/dev.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Now that v6.16 has been tagged, I was wondering why this patch didn=E2=80=
-=99t make
-it into this release. From the timeline, it seemed like there was
-enough time for it
-to be included, so I=E2=80=99m just trying to understand if it was overlook=
-ed
-or deferred
-for a reason.
+diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+index 1f93e5e276c0..e6f3cbeb9ae5 100644
+--- a/drivers/gpu/host1x/dev.c
++++ b/drivers/gpu/host1x/dev.c
+@@ -587,11 +587,7 @@ static int host1x_probe(struct platform_device *pdev)
+ 	host->clk = devm_clk_get(&pdev->dev, NULL);
+ 	if (IS_ERR(host->clk)) {
+ 		err = PTR_ERR(host->clk);
+-
+-		if (err != -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "failed to get clock: %d\n", err);
+-
+-		return err;
++		return dev_err_probe(&pdev->dev, err, "failed to get clock: %d\n", err);
+ 	}
+ 
+ 	err = host1x_get_resets(host);
+-- 
+2.34.1
 
-I also haven=E2=80=99t seen any recent activity at
-https://git.pengutronix.de/cgit/lst/linux/, which
-made me unsure about the current status of patch queue handling.
-
---=20
-Thanks
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
