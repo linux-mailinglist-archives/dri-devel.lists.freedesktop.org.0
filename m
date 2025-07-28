@@ -2,62 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97453B142DC
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 22:15:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5104BB142F9
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 22:28:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4C7510E58D;
-	Mon, 28 Jul 2025 20:15:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E14410E186;
+	Mon, 28 Jul 2025 20:28:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ftEeCykm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MHV0TNOB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C2910E58D
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 20:15:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=0LmW0E/vkDNIAhf3X31SRxOQwtkOCbr34v6CbexZ2HU=; b=ftEeCykmVD7+wuWAjJ/X4kj+un
- YzwkwGVF0bgM2jZgwsHfI7O9O9aUW0SjA7lGCFz5ziPpj/xO5D92x4DDbsdht/rF0MyLn2vhGBKuy
- QS5wcc2eyKQ21yp0+tRu3vbWrGHr8xtNO9RwghEkLHFdnvlzjNsTiWEdtrCbvwkMUi4ClEVA67Xk6
- L1rk5jmpjI5vbm+sucG+o3hGd4jwbu7r9GBZiT3TPNiys0ZKqDGyapJY7hx0An3mXThhtiDV6008+
- Un7XGFM6jmXWq3X15uln72QKltAU506EEsPYgiFowCXrTGty+sHnT2LmBFH0nbVOZshOLTjt8VP1n
- t4R3hg2A==;
-Received: from [189.7.87.79] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ugUFn-005571-H1; Mon, 28 Jul 2025 22:15:23 +0200
-Message-ID: <b19643a7-33b1-4b75-83ec-6027ed69d4c0@igalia.com>
-Date: Mon, 28 Jul 2025 17:15:15 -0300
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 731B510E186
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 20:28:08 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-451d41e1ad1so29848965e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 13:28:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753734487; x=1754339287; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3p7uNtOcYKX9AeLZxdOrba2Sw841/DoiWzWyyL7dQNI=;
+ b=MHV0TNOBsbgyIGwMW93nZ/SUhWYn7JVJjYJKFFmjl7u8g+S8sdxlzoX02WYCu3ruIL
+ g/VYWyKnRVj9SRG5pBvk8+IJbcy0bADviznC0ttpnOjqRbO07C1cf4V8QKg7oXt/HFdF
+ eZpx+y2NmCTPVYhH0dN3AoBInfd6BH1exzUbtMm/86yGzEiAENxOnRJJD3JEZr8zOhO0
+ cKU9Gu1qRN2EyblPA+a0GQ3e9UyF7StTGBn6TevuNpXjH7s3l/xHaxHgxRYXx7O/aSn7
+ QeNuwKFK50bevQRw+cRTZZev0anxjQYY12uZ772B6G7xnF4BjqvYnCcnrkknq+kvi6w/
+ nevg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753734487; x=1754339287;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3p7uNtOcYKX9AeLZxdOrba2Sw841/DoiWzWyyL7dQNI=;
+ b=W1pMZ8fyXWfRv/qkk/mYKareDj0kl31YTgJhnD+qHzXDUMe5TMmVnEgFEmhWpnUsed
+ iwmCWMPpbioaMtIMOopjkWPBuoYmwKCawRDLYEBoMSd45PYgE6cs9i6lSmbS0zztdbp5
+ z4l05IX0Ldo5nN1taKPRrjfmISCeqK3R0ulAItBwWb3ndxULh1gukoTR+9tcetaW/xuV
+ ghHvQilAByJ9N/KU9Qc/GwB/RVJJm4+jXyNurO4N7bCxs+EK7GBcnHPtn7gOnWChpURe
+ ChRhx8TbgB9C5hKP13iSy8uYTG+wSEU4PrGzclgXuSdHSfDyLZFAp3m5B9R9I2Ghc7jk
+ CA6g==
+X-Gm-Message-State: AOJu0YzO+bT4RDcvJtqmGgtPkifWDxIPG6BiUTaqlneDckMA7dMLCJuC
+ pndQUiVUKAECLf2ErnsRntmAoMT/vNwVfq+LoabPubmDb/f1RUabA1JAgmO8+e3lxbtohY1Sb2E
+ uAMwarWE1ZrbS0rqtu/1XUdnHuoqUr6k=
+X-Gm-Gg: ASbGncuelZB5wXxXgdM3bZYFQbAwjHLRPp8zX0yRqo2wayC2BU3Sg/oUdabhlI1HAsD
+ N+muw50LnH7D7TP326rxWVb+gCbUIlrF3NpFaLUG08fsEhU7kIdRlObPfaz8bBfkHHFty3dmteJ
+ vudARgeNS9SP1iZVI8ITBsRbXD95yFn0yUqrewBp8e1F7VkU6XIkzWT4rvZ5dUwNRtinaGIfMf1
+ YzgKZO2
+X-Google-Smtp-Source: AGHT+IG+tkX084ob9BPVH1wtp96BCaHvXOaWH/vJW6Hx67Y885Vfn0RXp7T9tAucn/9SDqLbh3dP5wGLiKEFiQ7iBaQ=
+X-Received: by 2002:a5d:588e:0:b0:3a4:d9fa:f1ed with SMTP id
+ ffacd0b85a97d-3b776728f9dmr8247114f8f.13.1753734486875; Mon, 28 Jul 2025
+ 13:28:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] clk: bcm: rpi: Turn firmware clock on/off when
- preparing/unpreparing
-To: Stefan Wahren <wahrenst@gmx.net>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
-References: <20250728-v3d-power-management-v1-0-780f922b1048@igalia.com>
- <20250728-v3d-power-management-v1-1-780f922b1048@igalia.com>
- <673f3f05-53f1-4eb4-ae65-a3cd9ccbd1bf@gmx.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <673f3f05-53f1-4eb4-ae65-a3cd9ccbd1bf@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250728201435.3505594-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250728201435.3505594-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250728201435.3505594-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 28 Jul 2025 21:27:39 +0100
+X-Gm-Features: Ac12FXzC9Bz7YbuCg4MGPdK7g0FCBbcgsYDYVglx3jjRJspjbkFCpGAuDcBuHBM
+Message-ID: <CA+V-a8ujMaFFOv8Jd-5=fKHUEfVji1Xt5y_h4uwtR96TBz4VNA@mail.gmail.com>
+Subject: Re: [PATCH v7 4/6] dt-bindings: display: bridge: renesas,dsi:
+ Document RZ/V2H(P) and RZ/V2N
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,164 +100,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+Hi All,
 
-On 28/07/25 13:33, Stefan Wahren wrote:
-> Hi Maíra,
-> 
-> thanks for working on this.
-> 
-> Am 28.07.25 um 14:35 schrieb Maíra Canal:
->> Currently, when we prepare or unprepare RPi's clocks, we don't actually
->> enable/disable the firmware clock. This means that
->> `clk_disable_unprepare()` doesn't actually change the clock state at
->> all, nor does it lowers the clock rate.
->>
->>  From the Mailbox Property Interface documentation [1], we can see that
->> we should use `RPI_FIRMWARE_SET_CLOCK_STATE` to set the clock state
->> off/on. Therefore, use `RPI_FIRMWARE_SET_CLOCK_STATE` to create a
->> prepare and an unprepare hook for RPi's firmware clock.
->>
->> As now the clocks are actually turned off, some of them are now marked
->> with CLK_IGNORE_UNUSED or CLK_IS_CRITICAL, as those are required since
->> early boot or are required during reboot.
->>
->> Link: https://github.com/raspberrypi/firmware/wiki/Mailbox-property- 
->> interface [1]
->> Fixes: 93d2725affd6 ("clk: bcm: rpi: Discover the firmware clocks")
-> could you please explain from user perspective, which issue is fixed by 
-> this patch?
+On Mon, Jul 28, 2025 at 9:14=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
+om> wrote:
+>
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Add the compatible string "renesas,r9a09g057-mipi-dsi" for the Renesas
+> RZ/V2H(P) (R9A09G057) SoC. While the MIPI DSI LINK registers are shared
+> with the RZ/G2L SoC, the D-PHY register layout differs. Additionally, the
+> RZ/V2H(P) uses only two resets compared to three on RZ/G2L, and requires
+> five clocks instead of six.
+>
+> To reflect these hardware differences, update the binding schema to
+> support the reduced clock and reset requirements for RZ/V2H(P).
+>
+> Since the RZ/V2N (R9A09G056) SoC integrates an identical DSI IP to
+> RZ/V2H(P), the same "renesas,r9a09g057-mipi-dsi" compatible string is
+> reused for RZ/V2N.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v6->v7:
+> - Renamed pllclk to pllrefclk
+> - Preserved the reviewed by tag from Geert and Krzysztof
+>
+- Included support for RZ/V2N in the same patch
+- Updated commit description.
 
-I was about to talk about the power savings benefits for the user.
-However, as I type, I notice that such a thing doesn't justify a
-"Fixes:" tag. I'll drop it.
+I missed mentioning the above.
 
-Thanks for your review, I'll address all the comments.
-
-Best Regards,
-- Maíra
-
-> 
-> Why does this needs to be backported?
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   drivers/clk/bcm/clk-raspberrypi.c | 41 +++++++++++++++++++++++++++++ 
->> +++++++++-
->>   1 file changed, 40 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk- 
->> raspberrypi.c
->> index 
->> 8e4fde03ed232b464165f524d27744b4ced93a60..a2bd5040283a2f456760bd685e696b423985cac0 100644
->> --- a/drivers/clk/bcm/clk-raspberrypi.c
->> +++ b/drivers/clk/bcm/clk-raspberrypi.c
->> @@ -68,6 +68,7 @@ struct raspberrypi_clk_variant {
->>       char        *clkdev;
->>       unsigned long    min_rate;
->>       bool        minimize;
->> +    u32        flags;
->>   };
->>   static struct raspberrypi_clk_variant
->> @@ -75,6 +76,7 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
->>       [RPI_FIRMWARE_ARM_CLK_ID] = {
->>           .export = true,
->>           .clkdev = "cpu0",
->> +        .flags = CLK_IGNORE_UNUSED,
->>       },
->>       [RPI_FIRMWARE_CORE_CLK_ID] = {
->>           .export = true,
->> @@ -90,6 +92,7 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
->>            * always use the minimum the drivers will let us.
->>            */
->>           .minimize = true,
->> +        .flags = CLK_IGNORE_UNUSED,
->>       },
->>       [RPI_FIRMWARE_M2MC_CLK_ID] = {
->>           .export = true,
->> @@ -115,6 +118,7 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
->>            * drivers will let us.
->>            */
->>           .minimize = true,
->> +        .flags = CLK_IGNORE_UNUSED,
->>       },
->>       [RPI_FIRMWARE_V3D_CLK_ID] = {
->>           .export = true,
->> @@ -127,6 +131,7 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
->>       [RPI_FIRMWARE_HEVC_CLK_ID] = {
->>           .export = true,
->>           .minimize = true,
->> +        .flags = CLK_IGNORE_UNUSED,
->>       },
->>       [RPI_FIRMWARE_ISP_CLK_ID] = {
->>           .export = true,
->> @@ -135,6 +140,7 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] = {
->>       [RPI_FIRMWARE_PIXEL_BVB_CLK_ID] = {
->>           .export = true,
->>           .minimize = true,
->> +        .flags = CLK_IS_CRITICAL,
->>       },
->>       [RPI_FIRMWARE_VEC_CLK_ID] = {
->>           .export = true,
->> @@ -259,7 +265,40 @@ static int 
->> raspberrypi_fw_dumb_determine_rate(struct clk_hw *hw,
->>       return 0;
->>   }
->> +static int raspberrypi_fw_prepare(struct clk_hw *hw)
->> +{
->> +    const struct raspberrypi_clk_data *data = clk_hw_to_data(hw);
->> +    struct raspberrypi_clk *rpi = data->rpi;
->> +    u32 state = RPI_FIRMWARE_STATE_ENABLE_BIT;
->> +    int ret;
->> +
->> +    ret = raspberrypi_clock_property(rpi->firmware, data,
->> +                     RPI_FIRMWARE_SET_CLOCK_STATE, &state);
->> +    if (ret)
->> +        dev_err(rpi->dev, "Failed to set clock %d state to on: %d",
->> +            data->id, ret);
-> I suggest to use dev_err_ratelimited for prepare/unprepare, otherwise 
-> this could spam the kernel log.
-> 
-> Furthermore i wouldn't recommend to log some magic clock id. How about 
-> using clk_hw_get_name(hw) instead?
-> 
-> Don't we need a newline character at the end?
-> 
->> +
->> +    return ret;
->> +}
->> +
->> +static void raspberrypi_fw_unprepare(struct clk_hw *hw)
->> +{
->> +    const struct raspberrypi_clk_data *data = clk_hw_to_data(hw);
->> +    struct raspberrypi_clk *rpi = data->rpi;
->> +    u32 state = 0;
->> +    int ret;
->> +
->> +    ret = raspberrypi_clock_property(rpi->firmware, data,
->> +                     RPI_FIRMWARE_SET_CLOCK_STATE, &state);
->> +    if (ret)
->> +        dev_err(rpi->dev, "Failed to set clock %d state to off: %d",
->> +            data->id, ret);
-> see above
-> 
-> Best regards
->> +}
->> +
->> +
->>   static const struct clk_ops raspberrypi_firmware_clk_ops = {
->> +    .prepare        = raspberrypi_fw_prepare,
->> +    .unprepare      = raspberrypi_fw_unprepare,
->>       .is_prepared    = raspberrypi_fw_is_prepared,
->>       .recalc_rate    = raspberrypi_fw_get_rate,
->>       .determine_rate    = raspberrypi_fw_dumb_determine_rate,
->> @@ -289,7 +328,7 @@ static struct clk_hw 
->> *raspberrypi_clk_register(struct raspberrypi_clk *rpi,
->>       if (!init.name)
->>           return ERR_PTR(-ENOMEM);
->>       init.ops = &raspberrypi_firmware_clk_ops;
->> -    init.flags = CLK_GET_RATE_NOCACHE;
->> +    init.flags = variant->flags | CLK_GET_RATE_NOCACHE;
->>       data->hw.init = &init;
->>
-> 
-
+Cheers,
+Prabhakar
