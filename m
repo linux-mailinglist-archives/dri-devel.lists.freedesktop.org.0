@@ -2,50 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF48B13DEF
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 17:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A28B13614
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 10:10:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B858110E521;
-	Mon, 28 Jul 2025 15:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F195410E496;
+	Mon, 28 Jul 2025 08:10:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="IHJHywaD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E9QZpS4i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Mon, 28 Jul 2025 08:09:07 UTC
-Received: from out30-124.freemail.mail.aliyun.com
- (out30-124.freemail.mail.aliyun.com [115.124.30.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F02B10E496
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1753690145; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
- bh=R5JhzFAe2+pi/8yqRFPN+PrUVu7txCrojFI/LNAgGtk=;
- b=IHJHywaDUIpoPw91qA7KJkSjmHciFluC74UwXoHtC7EdCeFCjMxJUvV52D13hLWBHt+m0HtvlCw6mMgXglU6gPLnoG2k9+TeKekYWbyrxbd/O2m+OjH5VpEFfXgRXr0qLjnqu8VpfiODRqZXJaSMH7fJCpdezYkFQm/rwBx56VU=
-Received: from localhost(mailfrom:baolin.wang@linux.alibaba.com
- fp:SMTPD_---0WkFS0FZ_1753689841 cluster:ay36) by smtp.aliyun-inc.com;
- Mon, 28 Jul 2025 16:04:01 +0800
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-To: akpm@linux-foundation.org,
-	hughd@google.com
-Cc: patryk@kowalczyk.ws, ville.syrjala@linux.intel.com, david@redhat.com,
- willy@infradead.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, christian.koenig@amd.com,
- ray.huang@amd.com, matthew.auld@intel.com, matthew.brost@intel.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org
-Subject: [PATCH] mm: shmem: fix the shmem large folio allocation for the i915
- driver
-Date: Mon, 28 Jul 2025 16:03:53 +0800
-Message-ID: <0d734549d5ed073c80b11601da3abdd5223e1889.1753689802.git.baolin.wang@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.5
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97EB10E496
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:10:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 76BFDA54A08;
+ Mon, 28 Jul 2025 08:10:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4B7FC4CEE7;
+ Mon, 28 Jul 2025 08:10:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753690241;
+ bh=J2e+GLmMnOhCVKeoQ/p5+Rn7SWm0zUljYsTljYx8HDM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=E9QZpS4iCDTg0P+RhQHM0ShEggR/T915d8YaAoGajPdrg5aHnm8DLFeDnYuFITZGH
+ i2IWyH+NIGviDfj175OAg+v6RSuAo9wEmvFxuOhcSb1gqUFg2C1gFvlgjfzYADeSdg
+ Oqhcn4tpNZeHphi5FDApufj2WEXcekUkVGktfuk7XDXFI3CbB/0gZ7UZ3sWzZTN5vK
+ qoLEZhKwieNicqBVeY/HGwVc33ITwYNIxBbmPKkJdZibDvnazytVMNWkQeT4J/w3BS
+ WMz0WO9vQpvHHe/BhXV1I6xu4P5+mAdxoW1cP+hcfhagZXgmdydy0uiLtfMcg9LE/Y
+ Q0o+3/wU+IvYw==
+Date: Mon, 28 Jul 2025 10:10:38 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] samsung-dsim: move drm_bridge_add() call to probe
+Message-ID: <20250728-diligent-brainy-hyena-109dde@houat>
+References: <20250725-drm-bridge-samsung-dsim-add-in-probe-v1-1-b23d29c23fbd@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 28 Jul 2025 15:09:48 +0000
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="hhxl6bbucpmtrmqw"
+Content-Disposition: inline
+In-Reply-To: <20250725-drm-bridge-samsung-dsim-add-in-probe-v1-1-b23d29c23fbd@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,151 +69,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After commit acd7ccb284b8 ("mm: shmem: add large folio support for tmpfs"),
-we extend the 'huge=' option to allow any sized large folios for tmpfs,
-which means tmpfs will allow getting a highest order hint based on the size
-of write() and fallocate() paths, and then will try each allowable large order.
 
-However, when the i915 driver allocates shmem memory, it doesn't provide hint
-information about the size of the large folio to be allocated, resulting in
-the inability to allocate PMD-sized shmem, which in turn affects GPU performance.
+--hhxl6bbucpmtrmqw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] samsung-dsim: move drm_bridge_add() call to probe
+MIME-Version: 1.0
 
-To fix this issue, add the 'end' information for shmem_read_folio_gfp()  to help
-allocate PMD-sized large folios. Additionally, use the maximum allocation chunk
-(via mapping_max_folio_size()) to determine the size of the large folios to
-allocate in the i915 driver.
+Hi,
 
-Fixes: acd7ccb284b8 ("mm: shmem: add large folio support for tmpfs")
-Reported-by: Patryk Kowalczyk <patryk@kowalczyk.ws>
-Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Tested-by: Patryk Kowalczyk <patryk@kowalczyk.ws>
-Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
----
- drivers/gpu/drm/drm_gem.c                 | 2 +-
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 7 ++++++-
- drivers/gpu/drm/ttm/ttm_backup.c          | 2 +-
- include/linux/shmem_fs.h                  | 4 ++--
- mm/shmem.c                                | 7 ++++---
- 5 files changed, 14 insertions(+), 8 deletions(-)
+On Fri, Jul 25, 2025 at 05:28:03PM +0200, Luca Ceresoli wrote:
+> This bridge driver calls drm_bridge_add() in the DSI host .attach callback
+> instead of in the probe function. This looks strange, even though
+> apparently not a problem for currently supported use cases.
+>=20
+> However it is a problem for supporting hotplug of DRM bridges, which is in
+> the works [0][1][2]. The problematic case is when this DSI host is always
+> present while its DSI device is hot-pluggable. In such case with the
+> current code the DRM card will not be populated until after the DSI device
+> attaches to the host, and which could happen a very long time after
+> booting, or even not happen at all.
+>=20
+> Supporting hotplug in the latest public draft is based on an ugly
+> workaround in the hotplug-bridge driver code. This is visible in the
+> hotplug_bridge_dsi_attach implementation and documentation in [3] (but
+> keeping in mind that workaround is complicated as it is also circumventing
+> another problem: updating the DSI host format when the DSI device gets
+> connected).
+>=20
+> As a preliminary step to supporting hotplug in a proper way, and also make
+> this driver cleaner, move drm_bridge_add() at probe time, so that the
+> bridge is available during boot.
+>=20
+> However simply moving drm_bridge_add() prevents populating the whole card
+> when the hot-pluggable addon is not present at boot, for another
+> reason. The reason is:
+>=20
+>  * now the encoder driver finds this bridge instead of getting
+>    -EPROBE_DEFER as before
+>  * but it cannot attach it because the bridge attach function in turn tri=
+es
+>    to attach to the following bridge, which has not yet been hot-plugged
+>=20
+> This needs to be fixed in the bridge attach function by simply returning
+> -EPROBE_DEFER ifs the following bridge (i.e. the DSI device) is not yet
+> present.
+>=20
+> [0] https://lpc.events/event/18/contributions/1750/
+> [1] https://lore.kernel.org/lkml/20240924174254.711c7138@booty/
+> [2] https://lore.kernel.org/lkml/20250723-drm-bridge-alloc-getput-for_eac=
+h_bridge-v1-0-be8f4ae006e9@bootlin.com/
+> [3] https://lore.kernel.org/lkml/20240917-hotplug-drm-bridge-v4-4-bc4dfee=
+61be6@bootlin.com/
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 4bf0a76bb35e..5ed34a9211a4 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -627,7 +627,7 @@ struct page **drm_gem_get_pages(struct drm_gem_object *obj)
- 	i = 0;
- 	while (i < npages) {
- 		long nr;
--		folio = shmem_read_folio_gfp(mapping, i,
-+		folio = shmem_read_folio_gfp(mapping, i, 0,
- 				mapping_gfp_mask(mapping));
- 		if (IS_ERR(folio))
- 			goto fail;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index f263615f6ece..778290f49853 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -69,6 +69,7 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
- 	struct scatterlist *sg;
- 	unsigned long next_pfn = 0;	/* suppress gcc warning */
- 	gfp_t noreclaim;
-+	size_t chunk;
- 	int ret;
- 
- 	if (overflows_type(size / PAGE_SIZE, page_count))
-@@ -94,6 +95,7 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
- 	mapping_set_unevictable(mapping);
- 	noreclaim = mapping_gfp_constraint(mapping, ~__GFP_RECLAIM);
- 	noreclaim |= __GFP_NORETRY | __GFP_NOWARN;
-+	chunk = mapping_max_folio_size(mapping);
- 
- 	sg = st->sgl;
- 	st->nents = 0;
-@@ -105,10 +107,13 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
- 			0,
- 		}, *s = shrink;
- 		gfp_t gfp = noreclaim;
-+		loff_t bytes = (page_count - i) << PAGE_SHIFT;
-+		loff_t pos = i << PAGE_SHIFT;
- 
-+		bytes = min_t(loff_t, chunk, bytes);
- 		do {
- 			cond_resched();
--			folio = shmem_read_folio_gfp(mapping, i, gfp);
-+			folio = shmem_read_folio_gfp(mapping, i, pos + bytes, gfp);
- 			if (!IS_ERR(folio))
- 				break;
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_backup.c b/drivers/gpu/drm/ttm/ttm_backup.c
-index 6f2e58be4f3e..0c90ae338afb 100644
---- a/drivers/gpu/drm/ttm/ttm_backup.c
-+++ b/drivers/gpu/drm/ttm/ttm_backup.c
-@@ -100,7 +100,7 @@ ttm_backup_backup_page(struct file *backup, struct page *page,
- 	struct folio *to_folio;
- 	int ret;
- 
--	to_folio = shmem_read_folio_gfp(mapping, idx, alloc_gfp);
-+	to_folio = shmem_read_folio_gfp(mapping, idx, 0, alloc_gfp);
- 	if (IS_ERR(to_folio))
- 		return PTR_ERR(to_folio);
- 
-diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-index 6d0f9c599ff7..203eebad6b38 100644
---- a/include/linux/shmem_fs.h
-+++ b/include/linux/shmem_fs.h
-@@ -156,12 +156,12 @@ enum sgp_type {
- int shmem_get_folio(struct inode *inode, pgoff_t index, loff_t write_end,
- 		struct folio **foliop, enum sgp_type sgp);
- struct folio *shmem_read_folio_gfp(struct address_space *mapping,
--		pgoff_t index, gfp_t gfp);
-+		pgoff_t index, loff_t end, gfp_t gfp);
- 
- static inline struct folio *shmem_read_folio(struct address_space *mapping,
- 		pgoff_t index)
- {
--	return shmem_read_folio_gfp(mapping, index, mapping_gfp_mask(mapping));
-+	return shmem_read_folio_gfp(mapping, index, 0, mapping_gfp_mask(mapping));
- }
- 
- static inline struct page *shmem_read_mapping_page(
-diff --git a/mm/shmem.c b/mm/shmem.c
-index e6cdfda08aed..c79f5760cfc9 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -5960,6 +5960,7 @@ int shmem_zero_setup(struct vm_area_struct *vma)
-  * shmem_read_folio_gfp - read into page cache, using specified page allocation flags.
-  * @mapping:	the folio's address_space
-  * @index:	the folio index
-+ * @end:	end of a read if allocating a new folio
-  * @gfp:	the page allocator flags to use if allocating
-  *
-  * This behaves as a tmpfs "read_cache_page_gfp(mapping, index, gfp)",
-@@ -5972,14 +5973,14 @@ int shmem_zero_setup(struct vm_area_struct *vma)
-  * with the mapping_gfp_mask(), to avoid OOMing the machine unnecessarily.
-  */
- struct folio *shmem_read_folio_gfp(struct address_space *mapping,
--		pgoff_t index, gfp_t gfp)
-+		pgoff_t index, loff_t end, gfp_t gfp)
- {
- #ifdef CONFIG_SHMEM
- 	struct inode *inode = mapping->host;
- 	struct folio *folio;
- 	int error;
- 
--	error = shmem_get_folio_gfp(inode, index, 0, &folio, SGP_CACHE,
-+	error = shmem_get_folio_gfp(inode, index, end, &folio, SGP_CACHE,
- 				    gfp, NULL, NULL);
- 	if (error)
- 		return ERR_PTR(error);
-@@ -5998,7 +5999,7 @@ EXPORT_SYMBOL_GPL(shmem_read_folio_gfp);
- struct page *shmem_read_mapping_page_gfp(struct address_space *mapping,
- 					 pgoff_t index, gfp_t gfp)
- {
--	struct folio *folio = shmem_read_folio_gfp(mapping, index, gfp);
-+	struct folio *folio = shmem_read_folio_gfp(mapping, index, 0, gfp);
- 	struct page *page;
- 
- 	if (IS_ERR(folio))
--- 
-2.43.5
+There's many things lacking from that commit log to evaluate whether
+it's a good solution or not:
 
+- What is the typical sequence of probe / attach on your board?
+
+- Why moving the call to drm_bridge_attach helps?
+
+- What is the next bridge in your case? Did you try with a device
+  controlled through DCS, or with a bridge connected through I2C/SPI
+  that would typically have a lifetime disconnected from the DSI host.
+
+- If you think it's a pattern that is generic enough, we must document
+  it. If you don't, we must find something else.
+
+- Why returning EPROBE_DEFER from the attach callback helps? Also, this
+  is an undocumented behaviour, so if it does, we must document that
+  it's acceptable.
+
+Without that, unfortunately, we can't really review that patch.
+
+Maxime
+
+--hhxl6bbucpmtrmqw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaIcweQAKCRAnX84Zoj2+
+diFrAX0dOWwVJpvrdGrihZ9k9sjqDwnxQlT9ParohkOH/+omSlX7TeDpDUnCGIXJ
+98XetfABf1lgG99jkFFG2UoKMqzFM3Any2hggvq6YPevVkdf8kvI/N2GVns0Hs/7
+Tj81Ojl/YA==
+=gmx9
+-----END PGP SIGNATURE-----
+
+--hhxl6bbucpmtrmqw--
