@@ -2,23 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13021B13DED
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 17:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D5CB13DEC
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 17:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D5110E175;
-	Mon, 28 Jul 2025 15:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 532FF10E17B;
+	Mon, 28 Jul 2025 15:09:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
 	dkim=pass (2048-bit key; secure) header.d=cachyos.org header.i=@cachyos.org header.b="gL/9WQ/q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 511 seconds by postgrey-1.36 at gabe;
- Mon, 28 Jul 2025 08:54:04 UTC
 Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D77810E004;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D9E10E341;
  Mon, 28 Jul 2025 08:54:04 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5403F284303; Mon, 28 Jul 2025 10:45:27 +0200 (CEST)
+ with ESMTPSA id 05FAE2842E3; Mon, 28 Jul 2025 10:45:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
  t=1753692331; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references;
