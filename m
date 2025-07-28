@@ -2,101 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE0FB1439C
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 22:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED2CB143AA
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 23:01:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DB2B10E008;
-	Mon, 28 Jul 2025 20:56:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1204A10E023;
+	Mon, 28 Jul 2025 21:00:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QFNnLwW7";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="WAKTjq9/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45EFC10E008
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 20:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1753736160;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3lAhpTjpbvFQu27uIQ7LZXIQUIKIfZHhU7pyfNlOjpc=;
- b=QFNnLwW7h0LVmcrOTFzruTUTrsbLW/U87LNuxjdPDbgsnEIqJIy/+qvUElmp9bcLntM78f
- K6d2Zzl6gkff0KdD10y2kO8uZv+H/X67NRyWUkPC6DqGetXvuFFH9Aa7XQkNL75fRhKxTV
- 4NE2O7n8DNx+ODm7VjxL57ZzGmwlBms=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-471-5juwjk6lOh20RHUix_hmTg-1; Mon, 28 Jul 2025 16:55:58 -0400
-X-MC-Unique: 5juwjk6lOh20RHUix_hmTg-1
-X-Mimecast-MFC-AGG-ID: 5juwjk6lOh20RHUix_hmTg_1753736158
-Received: by mail-il1-f197.google.com with SMTP id
- e9e14a558f8ab-3e3ea64a166so451995ab.0
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 13:55:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753736157; x=1754340957;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3lAhpTjpbvFQu27uIQ7LZXIQUIKIfZHhU7pyfNlOjpc=;
- b=nlxvLM7c3JL+vyWe1mJcSWqhXNYK0E/mVR94nosypVWzRy9eO/XfIvgmoGZkA9SjGN
- QI80BNRS/UYbYrvlQSNYAULHYjrxZyHdwUmQir8U0SOKHJTnhCjNRkvdrVrtAwQorUlc
- M5/l3V8yKJxXAUCKGikfyYS2EAeMNNyvwj/zsTP20USfNSS/1BZbaEjDv0FKuVmsab3F
- VwoViShir8/l/su07Z+x8TNYo2ovQ+5dk55Awvc/jmeyfiJyNdmE0hMA45FnmbJMZ5Mx
- Iiq4qbS3oWJz+IvjjCc5VP7hL18Y5q4LCzIgVutgaVQosI4Z8GueE8OMmibLNFH/JmBO
- cNAQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUEpd5tC/FfWjpb6IeAxS70vtkEMjSapl6vRI4VBOBajD6RlncecR9Z+CG6EnL4ZDtxhyt78qB1ol8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJJx+kvOhyH3buSjveBel7J/HH58NXBRkurYo6XHeZDP+s5NHV
- uDHB/iB0fS+Hf5UT4ozQLisQqKSjbqy9TUH5FIvxGLFi4mWcALWO1dugOZCOjjkvlx+ovQafA9M
- AR3k7XOBgGtAj+4WBE6BIdy8BRjweWekYsGhTvTaTFiLDT4ztOr5cRuu69ggz087sRr884A==
-X-Gm-Gg: ASbGncvFU5uw/pRJ3mlWkYaL+EsJBpIfop/D6XFDjLhsQE/Qwb97CoJj4phqqHllUTy
- ymPGIzePLw7ZbERv9V+L+E2vwSN3pGT7L+kiWL6B9qbSUY+FWSfjsOhHGNW48jpmZ5HBLXUJXBr
- tzimmCC/inJ9KKoDGC89S7g6/SdDZ3sK+plDPDI0yawpgPnf8vjLBjvu4MpJPhvvdud+t+0AODd
- 6XnJ1GSpnwOaPpmUa3N8xOnERfY6tGXCmmQor9gJKlGKxRu6dJhVKT9WFMXm4Nb5P5O/sPP79G9
- H3T5GIcZe6RUCEIc+KEGXHB+znxsO0OQEFAk8PCtTYo=
-X-Received: by 2002:a05:6e02:3389:b0:3e3:e461:4617 with SMTP id
- e9e14a558f8ab-3e3e4614777mr12699205ab.2.1753736157532; 
- Mon, 28 Jul 2025 13:55:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFaMLNGgu4ToITqnk/t+y4I2RkNZuq3J6YSgL+Stwkf8Y5Ta3HhAl493hrL7HwiUxfbSIOjGA==
-X-Received: by 2002:a05:6e02:3389:b0:3e3:e461:4617 with SMTP id
- e9e14a558f8ab-3e3e4614777mr12698925ab.2.1753736157034; 
- Mon, 28 Jul 2025 13:55:57 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11]) by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-508c9341e4csm2109194173.76.2025.07.28.13.55.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Jul 2025 13:55:55 -0700 (PDT)
-Date: Mon, 28 Jul 2025 14:55:53 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>, Christoph Hellwig
- <hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton
- <akpm@linux-foundation.org>, Bjorn Helgaas <bhelgaas@google.com>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, Jens Axboe
- <axboe@kernel.dk>, =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org, Logan Gunthorpe
- <logang@deltatee.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin
- Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>, Will
- Deacon <will@kernel.org>
-Subject: Re: [PATCH 09/10] vfio/pci: Share the core device pointer while
- invoking feature functions
-Message-ID: <20250728145553.53e94d49.alex.williamson@redhat.com>
-In-Reply-To: <19f71a0f4d1a5db8c712cb4d094ccf2f10dc22c5.1753274085.git.leonro@nvidia.com>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <19f71a0f4d1a5db8c712cb4d094ccf2f10dc22c5.1753274085.git.leonro@nvidia.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B702010E023
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 21:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1753736443; x=1754341243; i=wahrenst@gmx.net;
+ bh=J/Oy88lUm0FvJGz5wLKgjQPt0tOXP/VHyBYdDBP1ZbI=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=WAKTjq9/lYD3Ykm6ciWyw60DDlY6MpdkbkBBeBg5ZI2kziCU+1OxvU1jxu4xS20/
+ zCaE60R08Fy+csCD+9HcfG12hQxJbcTcxM6YmfXCm2TkGVNdT/Cu/5/1IwG2sVT4A
+ zvjUcajqdOByBljHf/wSqPDO8o9Yvb2PFg5mJIzvyQPID2uf2GfV5Q02SjJpQNLYS
+ t8DPdXBNLFIY6BEanczLjXko9ansP5WPg1Y2O6t/LVsGvUqy/jUJt1D6hhGpvVATa
+ DopjdUftouIW2NzZsYgZJ/0QRcUAe+XjnLWbOTgh0yeG+o0r/+oY73n1J3O7ZD6a4
+ B+zxJDoHRna1Dzx5VQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.105] ([79.235.143.227]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mg6Zw-1uC8U10nzK-00lZe3; Mon, 28
+ Jul 2025 23:00:43 +0200
+Message-ID: <e18ed574-e84e-4812-86c0-5cfd14860030@gmx.net>
+Date: Mon, 28 Jul 2025 23:00:41 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: HjRNMYQfB1ONe65Z1PCmXY06hXTZjGlTlS9mRg0DWDM_1753736158
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] Power Management for Raspberry Pi V3D GPU
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
+References: <20250728-v3d-power-management-v1-0-780f922b1048@igalia.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+Autocrypt: addr=wahrenst@gmx.net; keydata=
+ xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
+ IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
+ NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
+ JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
+ TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
+ f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
+ V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
+ aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
+In-Reply-To: <20250728-v3d-power-management-v1-0-780f922b1048@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:OMv3nR2OBn7j1J7/9IrOQZWL+dHJrL6Q1VJxVofqORmkzTy4gmp
+ mzZd8gfr0KkDWw1dtZtyBQv8T69cPuFkkm42liRy4Pqa4DzJcU8RoxkU1syGnfaMw6N2pY3
+ pfD11Ceg3dIdv6Y255jBBEfPZ+Mf0vpP31PdSkFdOy9P4DOyTGXCxWFYEd0YMrvzb6NKNrC
+ crpYv2Bea9bua75w8JKmw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:8RrSjGKtHYA=;MiesSgyKfKIlscGxbeexIXgBOpg
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,112 +136,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Jul 2025 16:00:10 +0300
-Leon Romanovsky <leon@kernel.org> wrote:
+Hi,
 
-> From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> 
-> There is no need to share the main device pointer (struct vfio_device *)
-> with all the feature functions as they only need the core device
-> pointer. Therefore, extract the core device pointer once in the
-> caller (vfio_pci_core_ioctl_feature) and share it instead.
-> 
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+Am 28.07.25 um 14:35 schrieb Ma=C3=ADra Canal:
+> This series introduces Runtime PM for Raspberry Pi's GPU, V3D.
+> Currently, the GPU clock stays up during the whole operation, even if
+> the GPU is idle. By introducing Runtime PM, we can now turn off the
+> clock completely during idle. For example, with this series, when
+> checking `vcgencmd measure_clock v3d` in the Raspberry Pi 5, we get:
+>
+> (idle)
+>
+> $ vcgencmd measure_clock v3d
+> frequency(0)=3D0
+>
+> (running glmark2)
+>
+> $ vcgencmd measure_clock v3d
+> frequency(0)=3D960016128
+>
+> To implement PM for V3D, it was needed to add a prepare and unprepare
+> hook to RPi's firmware clocks. Currently, they don't turn on and off,
+> nor lower the clock rate. Therefore, PATCH 1/3 addresses this issue in
+> clk/bcm/clk-raspberrypi.c.
+>
+> The other two patches are related to PM enablement in the V3D driver.
+Maybe you want to cherry-pick this older patch and integrate it into=20
+your series? [2]
+
+[2] -=20
+https://github.com/lategoodbye/linux-dev/commit/2ee5e1205922b06100206e760e=
+d8aefe0b6d322f
+>
+> To ease testing in Raspberry Pi 4 and 5, I prepared a downstream branch
+> backporting this series to rpi-6.12.y [1].
+>
+> [1] https://github.com/mairacanal/linux-rpi/tree/v3d/downstream/power-ma=
+nagement-v2
+>
+> Best Regards,
+> - Ma=C3=ADra
+>
 > ---
->  drivers/vfio/pci/vfio_pci_core.c | 30 +++++++++++++-----------------
->  1 file changed, 13 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index 1e675daab5753..5512d13bb8899 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -301,11 +301,9 @@ static int vfio_pci_runtime_pm_entry(struct vfio_pci_core_device *vdev,
->  	return 0;
->  }
->  
-> -static int vfio_pci_core_pm_entry(struct vfio_device *device, u32 flags,
-> +static int vfio_pci_core_pm_entry(struct vfio_pci_core_device *vdev, u32 flags,
->  				  void __user *arg, size_t argsz)
->  {
-> -	struct vfio_pci_core_device *vdev =
-> -		container_of(device, struct vfio_pci_core_device, vdev);
->  	int ret;
->  
->  	ret = vfio_check_feature(flags, argsz, VFIO_DEVICE_FEATURE_SET, 0);
-> @@ -322,12 +320,10 @@ static int vfio_pci_core_pm_entry(struct vfio_device *device, u32 flags,
->  }
->  
->  static int vfio_pci_core_pm_entry_with_wakeup(
-> -	struct vfio_device *device, u32 flags,
-> +	struct vfio_pci_core_device *vdev, u32 flags,
->  	struct vfio_device_low_power_entry_with_wakeup __user *arg,
->  	size_t argsz)
-
-I'm tempted to fix the line wrapping here, but I think this patch
-stands on its own.  Even if it's rather trivial, it makes sense to
-consolidate and standardize on the vfio_pci_core_device getting passed
-around within vfio_pci_core.c.  Any reason not to split this off?
-Thanks,
-
-Alex
-
->  {
-> -	struct vfio_pci_core_device *vdev =
-> -		container_of(device, struct vfio_pci_core_device, vdev);
->  	struct vfio_device_low_power_entry_with_wakeup entry;
->  	struct eventfd_ctx *efdctx;
->  	int ret;
-> @@ -378,11 +374,9 @@ static void vfio_pci_runtime_pm_exit(struct vfio_pci_core_device *vdev)
->  	up_write(&vdev->memory_lock);
->  }
->  
-> -static int vfio_pci_core_pm_exit(struct vfio_device *device, u32 flags,
-> +static int vfio_pci_core_pm_exit(struct vfio_pci_core_device *vdev, u32 flags,
->  				 void __user *arg, size_t argsz)
->  {
-> -	struct vfio_pci_core_device *vdev =
-> -		container_of(device, struct vfio_pci_core_device, vdev);
->  	int ret;
->  
->  	ret = vfio_check_feature(flags, argsz, VFIO_DEVICE_FEATURE_SET, 0);
-> @@ -1475,11 +1469,10 @@ long vfio_pci_core_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
->  }
->  EXPORT_SYMBOL_GPL(vfio_pci_core_ioctl);
->  
-> -static int vfio_pci_core_feature_token(struct vfio_device *device, u32 flags,
-> -				       uuid_t __user *arg, size_t argsz)
-> +static int vfio_pci_core_feature_token(struct vfio_pci_core_device *vdev,
-> +				       u32 flags, uuid_t __user *arg,
-> +				       size_t argsz)
->  {
-> -	struct vfio_pci_core_device *vdev =
-> -		container_of(device, struct vfio_pci_core_device, vdev);
->  	uuid_t uuid;
->  	int ret;
->  
-> @@ -1506,16 +1499,19 @@ static int vfio_pci_core_feature_token(struct vfio_device *device, u32 flags,
->  int vfio_pci_core_ioctl_feature(struct vfio_device *device, u32 flags,
->  				void __user *arg, size_t argsz)
->  {
-> +	struct vfio_pci_core_device *vdev =
-> +		container_of(device, struct vfio_pci_core_device, vdev);
-> +
->  	switch (flags & VFIO_DEVICE_FEATURE_MASK) {
->  	case VFIO_DEVICE_FEATURE_LOW_POWER_ENTRY:
-> -		return vfio_pci_core_pm_entry(device, flags, arg, argsz);
-> +		return vfio_pci_core_pm_entry(vdev, flags, arg, argsz);
->  	case VFIO_DEVICE_FEATURE_LOW_POWER_ENTRY_WITH_WAKEUP:
-> -		return vfio_pci_core_pm_entry_with_wakeup(device, flags,
-> +		return vfio_pci_core_pm_entry_with_wakeup(vdev, flags,
->  							  arg, argsz);
->  	case VFIO_DEVICE_FEATURE_LOW_POWER_EXIT:
-> -		return vfio_pci_core_pm_exit(device, flags, arg, argsz);
-> +		return vfio_pci_core_pm_exit(vdev, flags, arg, argsz);
->  	case VFIO_DEVICE_FEATURE_PCI_VF_TOKEN:
-> -		return vfio_pci_core_feature_token(device, flags, arg, argsz);
-> +		return vfio_pci_core_feature_token(vdev, flags, arg, argsz);
->  	default:
->  		return -ENOTTY;
->  	}
+> Ma=C3=ADra Canal (3):
+>        clk: bcm: rpi: Turn firmware clock on/off when preparing/unprepar=
+ing
+>        drm/v3d: Allocate all resources before enabling the clock
+>        drm/v3d: Introduce Runtime Power Management
+>
+>   drivers/clk/bcm/clk-raspberrypi.c |  41 ++++++++-
+>   drivers/gpu/drm/v3d/Makefile      |   3 +-
+>   drivers/gpu/drm/v3d/v3d_debugfs.c |  23 ++++-
+>   drivers/gpu/drm/v3d/v3d_drv.c     | 171 +++++++++++++++++++-----------=
+=2D-------
+>   drivers/gpu/drm/v3d/v3d_drv.h     |  21 ++++-
+>   drivers/gpu/drm/v3d/v3d_gem.c     |  18 +++-
+>   drivers/gpu/drm/v3d/v3d_irq.c     |  15 ++--
+>   drivers/gpu/drm/v3d/v3d_mmu.c     |  12 ++-
+>   drivers/gpu/drm/v3d/v3d_power.c   |  79 ++++++++++++++++++
+>   drivers/gpu/drm/v3d/v3d_submit.c  |  19 ++++-
+>   10 files changed, 291 insertions(+), 111 deletions(-)
+> ---
+> base-commit: a7352c849492a30b5d8491fcb9314ab376a3942f
+> change-id: 20250728-v3d-power-management-eebb2024dc96
+>
 
