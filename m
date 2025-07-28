@@ -2,131 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6F3B13630
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 10:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D2DB13638
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 10:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B8C410E49E;
-	Mon, 28 Jul 2025 08:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7250B10E49F;
+	Mon, 28 Jul 2025 08:21:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZqJ3vKw/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="szZ04/Ls";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECCCE10E49A
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:19:55 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56S4rjU1008735
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:19:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- c3/V22c4H9/4N87ToxYjpj2YTnx67TDaYm5Xeu+qWco=; b=ZqJ3vKw/3GvY4XkR
- u3CP1JJjp9JwcIxipYoHGHzZEbT+MvMBKeBaTicf7yJuUihKYUhTyE2SeRM0bA4i
- hht87B7LURdJ1xM0YJ+76Xn1V7YNMBA8ZTDupifYtDmK4sTM6vw+pZAVjHfwLRuJ
- sJQzQXG79WLFWma44upEaDxFSrKYEIhduEUkGSbeAftU1HlXVq+Bk30iF+YV7wQx
- XmN3ssE54IOxsp45/O1nmgVeLCoXXVMuF/t0lkWiDan60me4LLzjz7+wVxGsRyPU
- 2ycHzt++gelNTdIQUJe3wRptMKuSZ0kwRV2IBn38EQg3yrmTG3+uR3+++n3PAVZG
- K/RKfg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484qsk3s1x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:19:55 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-2403e631f8bso1000925ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 01:19:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753690794; x=1754295594;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=c3/V22c4H9/4N87ToxYjpj2YTnx67TDaYm5Xeu+qWco=;
- b=elWpilJQ/OzUKCjisvR1JKQ8rAp36azHwab1tAwzk3Xrob3ZWWN+EROO0+wTPdbF+0
- v6b7qWwkYSpy7bk5ABjB3BFA4yBn0/g4H/+qooHWATord0+hTZa+c2//b6BTkNVVs/D4
- AsI2G4li1s2nrID7gJV4T90doW7pwp+eKg1NUK+GS5kSBVSbS8nQRLkm2touxk63UqPf
- 0D/lu1Yd8QmoYcr1f+nl/M8dxE36vMNOzQJa32G9PpF1uH8jtqyUQlMO8Dn4P9OEwnie
- xxOTHNTh+dq/2ubgrTj7n2740DHMaAp/+zWj8qyMrDYv5RBgt5AJWMj8ePE1rNT+7BMt
- CR9A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVLRPX5RVk7yW+j0lQ4ijS15MdKIambFkstKL6bH/+x/jMTJx497WuHirNU1pSFUX/x/xulFBauKjc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqimTgD4+p9NvhdOve3lGx4VSBkbvwVJ31idO+hOq0dBo0M0df
- sYIXKNnchJpu8D+jKLcrolNcvOyeDmsLH0bahtupl/oK4lB23GIMF/nlaJy0TgS09I/SjQQFsb2
- xX20JwVCAJL1FJmybn4NTqTHQaMFEN60yiSBNRrVhBIbbyjB6velJepJXBar79h9tO3lDaNo=
-X-Gm-Gg: ASbGncs6DOTxfl+/vodPXnyncxlQR7F/jAq9EH/1AoYUFWYaEE6LPq2hXNu3aFicB4E
- UsFX03eUybpgrAx0Rz0IDf+5H33/rNLadHN9QWmtQTism21aOzpKA7nFiJwBBqQWaWcsGiw9CaN
- pUP0XKvsOeRq6o0/A6DWA9vd36T8Icxh0h3FfOUAK7UDW9Noyh/aMNwEa7x5t4BrbxxLiJvMpNs
- Av8yPI/omoJv1YesRMolxoIvxATpPos60lQaW6Y1CCJIikjzdYUrERe6Gn4JVbiqx5f3eafX7DV
- lyIf8ppcsP269rP4itioAwJM+Fv8Op2OuGNkxHVO9j9myZKad4qEh7/4RlrbqxSkfS9f2JiQAlm
- t4QiQR2edODh36hHa6tzJZlo=
-X-Received: by 2002:a17:902:ea0d:b0:240:11be:4dbe with SMTP id
- d9443c01a7336-24011be58b5mr24214905ad.8.1753690794491; 
- Mon, 28 Jul 2025 01:19:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGBHlvf/+jz4Co0OGrxgZgJllWx8x018fZVsC0zcR7Ey8G6AtlwbI1UqIOOzans4FRj4G1N0A==
-X-Received: by 2002:a17:902:ea0d:b0:240:11be:4dbe with SMTP id
- d9443c01a7336-24011be58b5mr24214525ad.8.1753690793917; 
- Mon, 28 Jul 2025 01:19:53 -0700 (PDT)
-Received: from [10.133.33.112] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23ffdd687aesm28379815ad.67.2025.07.28.01.19.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Jul 2025 01:19:53 -0700 (PDT)
-Message-ID: <c3f191f1-1b83-4284-b164-64c5b3e3fd43@oss.qualcomm.com>
-Date: Mon, 28 Jul 2025 16:19:44 +0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB85F10E49F
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:20:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8DC675C59C0;
+ Mon, 28 Jul 2025 08:20:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C07F1C4CEF7;
+ Mon, 28 Jul 2025 08:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753690857;
+ bh=AQ/gJ+i4rwtrIdkTrmIh33ppP9Uq14yzAdB+5MSlawA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=szZ04/Lsri0o11eVQhg9uaIGFpacB+rTBOpQCv2uVtpkvBEoZg+2YhYOZp79nmcJU
+ XoxJmMCUZUmmIBLPqQw01Ghgib3qFJF2cqxxKFQnPRHmmSkhZY024yjqGQNr9v9UT9
+ BGY2LIIwAdi78LeJXBYnQfJa89hv8dz1xKze3e5YhllN40EKJviX8xvuTTIK66D8ZW
+ P9eyfJefDgkFUs7jPZNyeyhP1XptEdNSZ8/g4eMOrPWMTZOdJKuMxDI5trIQNT+2dz
+ 6cHMaiAGJ9QVecJDBBEx4Z7kgL+BD3Bf75RYbnH94vnIjRILxQ9mk6VDGo2zC7yazh
+ SqcUZXeTEyFqA==
+Date: Mon, 28 Jul 2025 10:20:54 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Andrew Davis <afd@ti.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Jared Kangas <jkangas@redhat.com>, 
+ Mattijs Korpershoek <mkorpershoek@kernel.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v3] Documentation: dma-buf: heaps: Add naming guidelines
+Message-ID: <20250728-pastoral-brave-guillemot-f1a3b2@houat>
+References: <20250717-dma-buf-heap-names-doc-v3-1-d2dbb4b95ef6@kernel.org>
+ <30d4bf10-274d-485c-84dd-7cbb8157efab@ti.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/13] drm/msm/dp: Add DisplayPort support for QCS615
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
- fange.zhang@oss.qualcomm.com, quic_lliu6@quicinc.com,
- quic_yongmou@quicinc.com
-References: <20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com>
- <20250722-add-displayport-support-for-qcs615-platform-v2-12-42b4037171f8@oss.qualcomm.com>
- <bca68e7a-cb36-4903-bde9-15cb1945c71e@kernel.org>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <bca68e7a-cb36-4903-bde9-15cb1945c71e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=KdDSsRYD c=1 sm=1 tr=0 ts=688732ab cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=E4FQgNMW2-BcOtG67-8A:9 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: qMXkAACirbZtql4ygjs_qLEICdwZfDVC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI4MDA2MCBTYWx0ZWRfX0xYxdOgUHPxz
- Ay850IXXpumGgGszUnCGolHR2WDNrgucYObiFbDdSv8pMdJ/IPCjXdlSBWnzYZ7gvtiPe9LjzKy
- ZB5Hb0oHM9u4xveX/SzwP0BwoKPymyBNYVDW/wHJh99ytS/DdfsHMeYykZHnvmFH4v1d2wVI1wD
- eBVQEcRApvRzTGSRk6VtwZjHg5IWR2fyfDkQ9zb42xJOTPjQLhkDw6nSmpt4SbGMij/hs8aOiqR
- 9fXSGcVQQnpAc1+w89QBLiIvXTVIqf9cugCGkmP+yoJgIVACc3t2qy+ssYzDgoX8YEDWfFmhROI
- BJmUUDqD3mqJcxx1lV7OUK+qNapZfaMeRybLn3E2f+wScaJRAKCVFExgS2F4R7ed3F66Jo3WD9U
- o3KrO4qaBYcemwkOiOE8RR0vl/8ZD4KssSXyz6auxdDaxpvQSqyfd23E0Z45jypro4eNRzdH
-X-Proofpoint-ORIG-GUID: qMXkAACirbZtql4ygjs_qLEICdwZfDVC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-28_03,2025-07-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 mlxscore=0 spamscore=0 bulkscore=0
- adultscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 clxscore=1015 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507280060
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="whtoihy75ghtpw24"
+Content-Disposition: inline
+In-Reply-To: <30d4bf10-274d-485c-84dd-7cbb8157efab@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,31 +67,128 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 7/22/2025 5:21 PM, Krzysztof Kozlowski wrote:
-> On 22/07/2025 09:22, Xiangxu Yin wrote:
->> The Qualcomm QCS615 platform comes with a DisplayPort controller use the
->> same base offset as sc7180. add support for this in DP driver.
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->> ---
->>  drivers/gpu/drm/msm/dp/dp_display.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->> index d87d47cc7ec3eb757ac192c411000bc50b824c59..ddb22b50490035779904d4cab20e2fee7e0f9657 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -196,6 +196,7 @@ static const struct of_device_id msm_dp_dt_match[] = {
->>  	{ .compatible = "qcom,sc8280xp-dp", .data = &msm_dp_desc_sc8280xp },
->>  	{ .compatible = "qcom,sc8280xp-edp", .data = &msm_dp_desc_sc8280xp },
->>  	{ .compatible = "qcom,sdm845-dp", .data = &msm_dp_desc_sdm845 },
->> +	{ .compatible = "qcom,sm6150-dp", .data = &msm_dp_desc_sc7180 },
->
-> So devices are compatible? Why are you adding this entry instead of
-> expressing compatibility?
-SM6150 uses the same DP driver configuration as SC7180 via msm_dp_desc_sc7180, but its hardware lacks features like HBR3.
-Implicitly relying on msm_dp_desc_sc7180 may cause compatibility issues for SM6150 if the msm_dp_desc is extended in the future.
-This is consistent with how other SoCs like SM8350 are handled.
-> Best regards,
-> Krzysztof
+--whtoihy75ghtpw24
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3] Documentation: dma-buf: heaps: Add naming guidelines
+MIME-Version: 1.0
+
+Hi Andrew,
+
+Thanks for your review.
+
+On Fri, Jul 25, 2025 at 12:49:37PM -0500, Andrew Davis wrote:
+> On 7/17/25 3:10 AM, Maxime Ripard wrote:
+> > We've discussed a number of times of how some heap names are bad, but
+> > not really what makes a good heap name.
+> >=20
+> > Let's document what we expect the heap names to look like.
+> >=20
+> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> > Changes in v3:
+> > - Grammar, spelling fixes
+> > - Remove the cacheable / uncacheable name suggestion
+> > - Link to v2: https://lore.kernel.org/r/20250616-dma-buf-heap-names-doc=
+-v2-1-8ae43174cdbf@kernel.org
+> >=20
+> > Changes in v2:
+> > - Added justifications for each requirement / suggestions
+> > - Added a mention and example of buffer attributes
+> > - Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc=
+-v1-1-ab31f74809ee@kernel.org
+> > ---
+> >   Documentation/userspace-api/dma-buf-heaps.rst | 35 ++++++++++++++++++=
++++++++++
+> >   1 file changed, 35 insertions(+)
+> >=20
+> > diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentat=
+ion/userspace-api/dma-buf-heaps.rst
+> > index 535f49047ce6450796bf4380c989e109355efc05..3ee4e7961fe390ba356a212=
+5d53b060546c3e4a6 100644
+> > --- a/Documentation/userspace-api/dma-buf-heaps.rst
+> > +++ b/Documentation/userspace-api/dma-buf-heaps.rst
+> > @@ -21,5 +21,40 @@ following heaps:
+> >      usually created either through the kernel commandline through the
+> >      `cma` parameter, a memory region Device-Tree node with the
+> >      `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES`=
+ or
+> >      `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, =
+it
+> >      might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+> > +
+> > +Naming Convention
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +``dma-buf`` heaps name should meet a number of constraints:
+> > +
+> > +- The name must be stable, and must not change from one version to the=
+ other.
+> > +  Userspace identifies heaps by their name, so if the names ever chang=
+e, we
+> > +  would be likely to introduce regressions.
+> > +
+> > +- The name must describe the memory region the heap will allocate from=
+, and
+> > +  must uniquely identify it in a given platform. Since userspace appli=
+cations
+> > +  use the heap name as the discriminant, it must be able to tell which=
+ heap it
+> > +  wants to use reliably if there's multiple heaps.
+> > +
+> > +- The name must not mention implementation details, such as the alloca=
+tor. The
+> > +  heap driver will change over time, and implementation details when i=
+t was
+> > +  introduced might not be relevant in the future.
+> > +
+> > +- The name should describe properties of the buffers that would be all=
+ocated.
+> > +  Doing so will make heap identification easier for userspace. Such pr=
+operties
+> > +  are:
+> > +
+> > +  - ``contiguous`` for physically contiguous buffers;
+> > +
+> > +  - ``protected`` for encrypted buffers not accessible the OS;
+> > +
+> > +- The name may describe intended usage. Doing so will make heap identi=
+fication
+> > +  easier for userspace applications and users.
+> > +
+> > +For example, assuming a platform with a reserved memory region located=
+ at the
+> > +RAM address 0x42000000, intended to allocate video framebuffers, physi=
+cally
+> > +contiguous, and backed by the CMA kernel allocator, good names would be
+> > +``memory@42000000-cacheable-contiguous`` or ``video@42000000``, but
+>=20
+> You dropped "cacheable" but left it here in the suggested names, maybe
+> replace with "protected" here. Otherwise, LGTM,
+
+Replacing it with protected would create an example where we have CMA
+allocating protected buffers, which is pretty weird.
+
+So I've only removed the cacheable mention, and will send a new version
+shortly.
+
+> Reviewed-by: Andrew Davis <afd@ti.com>
+
+Thanks!
+Maxime
+
+--whtoihy75ghtpw24
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaIcy5gAKCRAnX84Zoj2+
+dhYMAX9S94nCvbMrRrWrQiSsbQjN1CtoUA9QMx6gY4Z657x3s2dQS/qENGFSSGyn
+rbLqeckBgO16oHKbdDr7ay/hCSD1vABF/Bud3kyewAIwiH0xa5SP0XSi6R+MYrQw
+3spHFhOTXA==
+=hsS/
+-----END PGP SIGNATURE-----
+
+--whtoihy75ghtpw24--
