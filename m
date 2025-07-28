@@ -2,58 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A28B13614
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 10:10:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6F3B13630
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 10:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F195410E496;
-	Mon, 28 Jul 2025 08:10:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B8C410E49E;
+	Mon, 28 Jul 2025 08:19:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E9QZpS4i";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZqJ3vKw/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C97EB10E496
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:10:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 76BFDA54A08;
- Mon, 28 Jul 2025 08:10:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4B7FC4CEE7;
- Mon, 28 Jul 2025 08:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753690241;
- bh=J2e+GLmMnOhCVKeoQ/p5+Rn7SWm0zUljYsTljYx8HDM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E9QZpS4iCDTg0P+RhQHM0ShEggR/T915d8YaAoGajPdrg5aHnm8DLFeDnYuFITZGH
- i2IWyH+NIGviDfj175OAg+v6RSuAo9wEmvFxuOhcSb1gqUFg2C1gFvlgjfzYADeSdg
- Oqhcn4tpNZeHphi5FDApufj2WEXcekUkVGktfuk7XDXFI3CbB/0gZ7UZ3sWzZTN5vK
- qoLEZhKwieNicqBVeY/HGwVc33ITwYNIxBbmPKkJdZibDvnazytVMNWkQeT4J/w3BS
- WMz0WO9vQpvHHe/BhXV1I6xu4P5+mAdxoW1cP+hcfhagZXgmdydy0uiLtfMcg9LE/Y
- Q0o+3/wU+IvYw==
-Date: Mon, 28 Jul 2025 10:10:38 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] samsung-dsim: move drm_bridge_add() call to probe
-Message-ID: <20250728-diligent-brainy-hyena-109dde@houat>
-References: <20250725-drm-bridge-samsung-dsim-add-in-probe-v1-1-b23d29c23fbd@bootlin.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECCCE10E49A
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:19:55 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56S4rjU1008735
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:19:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ c3/V22c4H9/4N87ToxYjpj2YTnx67TDaYm5Xeu+qWco=; b=ZqJ3vKw/3GvY4XkR
+ u3CP1JJjp9JwcIxipYoHGHzZEbT+MvMBKeBaTicf7yJuUihKYUhTyE2SeRM0bA4i
+ hht87B7LURdJ1xM0YJ+76Xn1V7YNMBA8ZTDupifYtDmK4sTM6vw+pZAVjHfwLRuJ
+ sJQzQXG79WLFWma44upEaDxFSrKYEIhduEUkGSbeAftU1HlXVq+Bk30iF+YV7wQx
+ XmN3ssE54IOxsp45/O1nmgVeLCoXXVMuF/t0lkWiDan60me4LLzjz7+wVxGsRyPU
+ 2ycHzt++gelNTdIQUJe3wRptMKuSZ0kwRV2IBn38EQg3yrmTG3+uR3+++n3PAVZG
+ K/RKfg==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484qsk3s1x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:19:55 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id
+ d9443c01a7336-2403e631f8bso1000925ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 01:19:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753690794; x=1754295594;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=c3/V22c4H9/4N87ToxYjpj2YTnx67TDaYm5Xeu+qWco=;
+ b=elWpilJQ/OzUKCjisvR1JKQ8rAp36azHwab1tAwzk3Xrob3ZWWN+EROO0+wTPdbF+0
+ v6b7qWwkYSpy7bk5ABjB3BFA4yBn0/g4H/+qooHWATord0+hTZa+c2//b6BTkNVVs/D4
+ AsI2G4li1s2nrID7gJV4T90doW7pwp+eKg1NUK+GS5kSBVSbS8nQRLkm2touxk63UqPf
+ 0D/lu1Yd8QmoYcr1f+nl/M8dxE36vMNOzQJa32G9PpF1uH8jtqyUQlMO8Dn4P9OEwnie
+ xxOTHNTh+dq/2ubgrTj7n2740DHMaAp/+zWj8qyMrDYv5RBgt5AJWMj8ePE1rNT+7BMt
+ CR9A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVLRPX5RVk7yW+j0lQ4ijS15MdKIambFkstKL6bH/+x/jMTJx497WuHirNU1pSFUX/x/xulFBauKjc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyqimTgD4+p9NvhdOve3lGx4VSBkbvwVJ31idO+hOq0dBo0M0df
+ sYIXKNnchJpu8D+jKLcrolNcvOyeDmsLH0bahtupl/oK4lB23GIMF/nlaJy0TgS09I/SjQQFsb2
+ xX20JwVCAJL1FJmybn4NTqTHQaMFEN60yiSBNRrVhBIbbyjB6velJepJXBar79h9tO3lDaNo=
+X-Gm-Gg: ASbGncs6DOTxfl+/vodPXnyncxlQR7F/jAq9EH/1AoYUFWYaEE6LPq2hXNu3aFicB4E
+ UsFX03eUybpgrAx0Rz0IDf+5H33/rNLadHN9QWmtQTism21aOzpKA7nFiJwBBqQWaWcsGiw9CaN
+ pUP0XKvsOeRq6o0/A6DWA9vd36T8Icxh0h3FfOUAK7UDW9Noyh/aMNwEa7x5t4BrbxxLiJvMpNs
+ Av8yPI/omoJv1YesRMolxoIvxATpPos60lQaW6Y1CCJIikjzdYUrERe6Gn4JVbiqx5f3eafX7DV
+ lyIf8ppcsP269rP4itioAwJM+Fv8Op2OuGNkxHVO9j9myZKad4qEh7/4RlrbqxSkfS9f2JiQAlm
+ t4QiQR2edODh36hHa6tzJZlo=
+X-Received: by 2002:a17:902:ea0d:b0:240:11be:4dbe with SMTP id
+ d9443c01a7336-24011be58b5mr24214905ad.8.1753690794491; 
+ Mon, 28 Jul 2025 01:19:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGBHlvf/+jz4Co0OGrxgZgJllWx8x018fZVsC0zcR7Ey8G6AtlwbI1UqIOOzans4FRj4G1N0A==
+X-Received: by 2002:a17:902:ea0d:b0:240:11be:4dbe with SMTP id
+ d9443c01a7336-24011be58b5mr24214525ad.8.1753690793917; 
+ Mon, 28 Jul 2025 01:19:53 -0700 (PDT)
+Received: from [10.133.33.112] (tpe-colo-wan-fw-bordernet.qualcomm.com.
+ [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23ffdd687aesm28379815ad.67.2025.07.28.01.19.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Jul 2025 01:19:53 -0700 (PDT)
+Message-ID: <c3f191f1-1b83-4284-b164-64c5b3e3fd43@oss.qualcomm.com>
+Date: Mon, 28 Jul 2025 16:19:44 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="hhxl6bbucpmtrmqw"
-Content-Disposition: inline
-In-Reply-To: <20250725-drm-bridge-samsung-dsim-add-in-probe-v1-1-b23d29c23fbd@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/13] drm/msm/dp: Add DisplayPort support for QCS615
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
+ fange.zhang@oss.qualcomm.com, quic_lliu6@quicinc.com,
+ quic_yongmou@quicinc.com
+References: <20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com>
+ <20250722-add-displayport-support-for-qcs615-platform-v2-12-42b4037171f8@oss.qualcomm.com>
+ <bca68e7a-cb36-4903-bde9-15cb1945c71e@kernel.org>
+From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+In-Reply-To: <bca68e7a-cb36-4903-bde9-15cb1945c71e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=KdDSsRYD c=1 sm=1 tr=0 ts=688732ab cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=E4FQgNMW2-BcOtG67-8A:9 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: qMXkAACirbZtql4ygjs_qLEICdwZfDVC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI4MDA2MCBTYWx0ZWRfX0xYxdOgUHPxz
+ Ay850IXXpumGgGszUnCGolHR2WDNrgucYObiFbDdSv8pMdJ/IPCjXdlSBWnzYZ7gvtiPe9LjzKy
+ ZB5Hb0oHM9u4xveX/SzwP0BwoKPymyBNYVDW/wHJh99ytS/DdfsHMeYykZHnvmFH4v1d2wVI1wD
+ eBVQEcRApvRzTGSRk6VtwZjHg5IWR2fyfDkQ9zb42xJOTPjQLhkDw6nSmpt4SbGMij/hs8aOiqR
+ 9fXSGcVQQnpAc1+w89QBLiIvXTVIqf9cugCGkmP+yoJgIVACc3t2qy+ssYzDgoX8YEDWfFmhROI
+ BJmUUDqD3mqJcxx1lV7OUK+qNapZfaMeRybLn3E2f+wScaJRAKCVFExgS2F4R7ed3F66Jo3WD9U
+ o3KrO4qaBYcemwkOiOE8RR0vl/8ZD4KssSXyz6auxdDaxpvQSqyfd23E0Z45jypro4eNRzdH
+X-Proofpoint-ORIG-GUID: qMXkAACirbZtql4ygjs_qLEICdwZfDVC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-28_03,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 impostorscore=0 mlxscore=0 spamscore=0 bulkscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 phishscore=0 clxscore=1015 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507280060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,93 +143,31 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---hhxl6bbucpmtrmqw
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] samsung-dsim: move drm_bridge_add() call to probe
-MIME-Version: 1.0
-
-Hi,
-
-On Fri, Jul 25, 2025 at 05:28:03PM +0200, Luca Ceresoli wrote:
-> This bridge driver calls drm_bridge_add() in the DSI host .attach callback
-> instead of in the probe function. This looks strange, even though
-> apparently not a problem for currently supported use cases.
->=20
-> However it is a problem for supporting hotplug of DRM bridges, which is in
-> the works [0][1][2]. The problematic case is when this DSI host is always
-> present while its DSI device is hot-pluggable. In such case with the
-> current code the DRM card will not be populated until after the DSI device
-> attaches to the host, and which could happen a very long time after
-> booting, or even not happen at all.
->=20
-> Supporting hotplug in the latest public draft is based on an ugly
-> workaround in the hotplug-bridge driver code. This is visible in the
-> hotplug_bridge_dsi_attach implementation and documentation in [3] (but
-> keeping in mind that workaround is complicated as it is also circumventing
-> another problem: updating the DSI host format when the DSI device gets
-> connected).
->=20
-> As a preliminary step to supporting hotplug in a proper way, and also make
-> this driver cleaner, move drm_bridge_add() at probe time, so that the
-> bridge is available during boot.
->=20
-> However simply moving drm_bridge_add() prevents populating the whole card
-> when the hot-pluggable addon is not present at boot, for another
-> reason. The reason is:
->=20
->  * now the encoder driver finds this bridge instead of getting
->    -EPROBE_DEFER as before
->  * but it cannot attach it because the bridge attach function in turn tri=
-es
->    to attach to the following bridge, which has not yet been hot-plugged
->=20
-> This needs to be fixed in the bridge attach function by simply returning
-> -EPROBE_DEFER ifs the following bridge (i.e. the DSI device) is not yet
-> present.
->=20
-> [0] https://lpc.events/event/18/contributions/1750/
-> [1] https://lore.kernel.org/lkml/20240924174254.711c7138@booty/
-> [2] https://lore.kernel.org/lkml/20250723-drm-bridge-alloc-getput-for_eac=
-h_bridge-v1-0-be8f4ae006e9@bootlin.com/
-> [3] https://lore.kernel.org/lkml/20240917-hotplug-drm-bridge-v4-4-bc4dfee=
-61be6@bootlin.com/
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
-There's many things lacking from that commit log to evaluate whether
-it's a good solution or not:
-
-- What is the typical sequence of probe / attach on your board?
-
-- Why moving the call to drm_bridge_attach helps?
-
-- What is the next bridge in your case? Did you try with a device
-  controlled through DCS, or with a bridge connected through I2C/SPI
-  that would typically have a lifetime disconnected from the DSI host.
-
-- If you think it's a pattern that is generic enough, we must document
-  it. If you don't, we must find something else.
-
-- Why returning EPROBE_DEFER from the attach callback helps? Also, this
-  is an undocumented behaviour, so if it does, we must document that
-  it's acceptable.
-
-Without that, unfortunately, we can't really review that patch.
-
-Maxime
-
---hhxl6bbucpmtrmqw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaIcweQAKCRAnX84Zoj2+
-diFrAX0dOWwVJpvrdGrihZ9k9sjqDwnxQlT9ParohkOH/+omSlX7TeDpDUnCGIXJ
-98XetfABf1lgG99jkFFG2UoKMqzFM3Any2hggvq6YPevVkdf8kvI/N2GVns0Hs/7
-Tj81Ojl/YA==
-=gmx9
------END PGP SIGNATURE-----
-
---hhxl6bbucpmtrmqw--
+On 7/22/2025 5:21 PM, Krzysztof Kozlowski wrote:
+> On 22/07/2025 09:22, Xiangxu Yin wrote:
+>> The Qualcomm QCS615 platform comes with a DisplayPort controller use the
+>> same base offset as sc7180. add support for this in DP driver.
+>>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+>> ---
+>>  drivers/gpu/drm/msm/dp/dp_display.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index d87d47cc7ec3eb757ac192c411000bc50b824c59..ddb22b50490035779904d4cab20e2fee7e0f9657 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -196,6 +196,7 @@ static const struct of_device_id msm_dp_dt_match[] = {
+>>  	{ .compatible = "qcom,sc8280xp-dp", .data = &msm_dp_desc_sc8280xp },
+>>  	{ .compatible = "qcom,sc8280xp-edp", .data = &msm_dp_desc_sc8280xp },
+>>  	{ .compatible = "qcom,sdm845-dp", .data = &msm_dp_desc_sdm845 },
+>> +	{ .compatible = "qcom,sm6150-dp", .data = &msm_dp_desc_sc7180 },
+>
+> So devices are compatible? Why are you adding this entry instead of
+> expressing compatibility?
+SM6150 uses the same DP driver configuration as SC7180 via msm_dp_desc_sc7180, but its hardware lacks features like HBR3.
+Implicitly relying on msm_dp_desc_sc7180 may cause compatibility issues for SM6150 if the msm_dp_desc is extended in the future.
+This is consistent with how other SoCs like SM8350 are handled.
+> Best regards,
+> Krzysztof
