@@ -2,154 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EFD2B14497
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 01:11:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0338DB144B0
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 01:29:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AACF110E59F;
-	Mon, 28 Jul 2025 23:11:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C22A10E5A1;
+	Mon, 28 Jul 2025 23:29:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="OrfHBCK2";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="cT8rtPR8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2083.outbound.protection.outlook.com [40.107.220.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E20810E59F
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 23:11:13 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2051.outbound.protection.outlook.com [40.107.223.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 854D410E05F;
+ Mon, 28 Jul 2025 23:29:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=czOuQgNXe6/6Tr29oO7jOIef1kP/XKwulX6mWK7aMkctkerguJ2m4XJQ5ep042qb5i+hgr+/VvwjzkRAVCZNrRmAQadcv38u0yldC39u2W9fw1jCsq003VA3TXxedSYg8QGBPX2nP8FPvb/0aH/pkbDN/+WkppSSJnO5UzXJkN+RIJbJD0rA/pa59YWMXLbKnllOWruGVlESBaGBBGEOWW7+dTPPBEsmgQcFuw1TbpG3xCSF0A1TkztMheUphMoWV4ZgJL/FXv2Gi4UB4G0JP7mOY203wJRKc6lUH3xRS5EhQdsfNKWB4BTo8Bm6qxd+LTVpC0VjeoGb4Y1T8mMqrg==
+ b=kdpwUuDlg1MBaWMF8Q98pY86kU96Lw3dSo8cYivAr6xA3hqmz7P+VIITLeDQ720k0MVDafS/jKVJMLyfeQtjQjTOzhGnlxOZWruc+oReyQI3WaIboybGXoaqOo0HRktuG6uj2AB07vOyePN5kftRTUvX3sc7c7dZYWHYgXELIAKjvgXUi4OTdPB5VJ+/Pjhyg7tuXi/W2s+S6J9mnFyubmQd1q+R6EwETRjjtvu2787iEZzKKsxEJ3yJXZqY1XIBwxXUDyW8ft1m7Prdn4NNMraO/Ni6GqCugdWagTRN9yFFXykyUM8xa+bQ1qPIzei+nTSeume6v6SmXYPzTo3yxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m52sxFj78e0QN5ExokcDQPmMw1vKoylYLwKN85lhdko=;
- b=Syv9CIGqKXrVzYml2QErhEVN70odYVRoHDAQ7SdkE7bYf0OjxmCbleimc3oPaRCoK0RJdTMntQgUBzD7Ccr5dtPIfctNSpgZkXMGsMXhS6FWuJFoJRkbRxWfrA7JkyrtBJkL1gqErery16/Nh+Tq7md7npJRvf1ARi/qaGmjS5P+R7/TGhQ0mTKhKRvMSXycTi5g/nT9Dr66tDjiZQAEK0OX4escU9Qq7+cbIUR/lUtnL/YtwR4Ab37FrWkul0K6+h+juI501AWMmcZsZXVNY5vH/SBxZR/oJQFot8dMBJoQ7uHx4dUqxl3IoKWxQ5dojCOdcEsanrMNBKoAHQlA6A==
+ bh=9lcoWB0v6NdM2g18WvkEHr8hdZ88TWxPZc4c1giSzYU=;
+ b=wdLa32S6+QDZ4d0KpVb512wlCZXWOAPMnIQtkgjgOZPmgAgLK3bopMdG6BFMjW8LqiGYGvp9GIGkwLqw+6Bdbt3x8NNZPs5LNa9u3bBd7I4qDxzUOjWTDBHgwj2v1RgPY/5kzXj531mIbrEVshIBR5cZ8qvqLOGYl0BzoUwqupZNLbq1GkFLwXydA9eZ+fkQ/ohpe04KO26UC+K8CnMc1cauDkdBxypZf29RdkqTp60cznSYnmUfuTqw2ehjqNMhFX4HnLaR3LQFKIEZ54XP25qS5ZrKZEl2T0/rx701/ikRXMyScbnIyT5+pj6e8jLAV4QIudFIoyOWirUW+SOp9g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m52sxFj78e0QN5ExokcDQPmMw1vKoylYLwKN85lhdko=;
- b=OrfHBCK2M2t4Th6IO0tdxAU0GCpONFfHClOl9jUa9Ig14d3VtztFOTswAhsc7kbA4ZkyJgX2JpW+M7upvuD3TbqxpWpNq8ajoDJKCJ0sDEwqI67PaHDy1ZYZZMoJWOhMXJAfMQPPY9H6aIYu9gUUs5lgjPmbPtJVenZFyO1aWsg57wheW8IqCcP1ITA8sE7qM7vSYduBH5XpimxmYa/BoxpSOUPK/0e6lW8B/Qu8NsLo7KcKO+U56Wf8jyNdZeRMLYvPYYc9S2J4U1KJgR4iNZzHlnrMuicB7hX1/zih9Ovf0YjFYUSiMN3W9ae1EPaUPrg9Ze4c9BaLh0CX4ly/gA==
+ bh=9lcoWB0v6NdM2g18WvkEHr8hdZ88TWxPZc4c1giSzYU=;
+ b=cT8rtPR8ZkppHsjHH+9sI0EGpZ1T3jqMfQq4ZF6P49qQFTm+xIwELG661JagKyjFocfXFrH7RXhvcJngUb3XBq8LH5/88y2KqE8Qz16Ik9XMYBUY8lSqraJzfU3GI1JVV7fTeJhAFG1WYcgULPaBCqrcXmonEwpgXkXMz/qrav4=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by SA5PPF530AE3851.namprd12.prod.outlook.com
- (2603:10b6:80f:fc04::8c9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.29; Mon, 28 Jul
- 2025 23:11:09 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8964.024; Mon, 28 Jul 2025
- 23:11:08 +0000
-Date: Mon, 28 Jul 2025 20:11:07 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Alex Williamson <alex.williamson@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 05/10] PCI/P2PDMA: Export pci_p2pdma_map_type() function
-Message-ID: <20250728231107.GE36037@nvidia.com>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <82e62eb59afcd39b68ae143573d5ed113a92344e.1753274085.git.leonro@nvidia.com>
- <20250724080313.GA31887@lst.de> <20250724081321.GT402218@unreal>
- <b32ae619-6c4a-46fc-a368-6ad4e245d581@deltatee.com>
- <20250727190514.GG7551@nvidia.com>
- <d69e0d74-285e-4cde-a2e4-a803accfa9e1@deltatee.com>
- <20250728164136.GD402218@unreal>
- <d3c8c573-f201-4450-9400-cc3ccafd2c04@deltatee.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d3c8c573-f201-4450-9400-cc3ccafd2c04@deltatee.com>
-X-ClientProxiedBy: YT4P288CA0014.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d4::17) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
+ by MN2PR12MB4096.namprd12.prod.outlook.com (2603:10b6:208:1dc::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Mon, 28 Jul
+ 2025 23:29:08 +0000
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2ed6:28e6:241e:7fc1%6]) with mapi id 15.20.8964.025; Mon, 28 Jul 2025
+ 23:29:08 +0000
+Message-ID: <019ca526-5bdf-4c88-a994-a6babb9963c7@amd.com>
+Date: Mon, 28 Jul 2025 17:29:05 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/14] drm/amd/display: more drm_edid to AMD display
+ driver
+To: Melissa Wen <mwen@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, airlied@gmail.com,
+ alexander.deucher@amd.com, andrzej.hajda@intel.com,
+ christian.koenig@amd.com, harry.wentland@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch,
+ sunpeng.li@amd.com, tzimmermann@suse.de
+Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20250726003816.435227-1-mwen@igalia.com>
+Content-Language: en-US
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <20250726003816.435227-1-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4P222CA0020.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:303:114::25) To DM4PR12MB8476.namprd12.prod.outlook.com
+ (2603:10b6:8:17e::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SA5PPF530AE3851:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3fa0d37c-a687-4cd4-e853-08ddce2c092f
+X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|MN2PR12MB4096:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4da5d36-6930-4237-2d06-08ddce2e8cb8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1V95ZcpNwem0nwCQE/ASgxjRPrVYfVpjDhBwb0kv1NWDntQL3QVrueOMQbLv?=
- =?us-ascii?Q?y27AgyaxmxKNYppfrjjQZAmQb09TjfWgRyGCNyJVF9N0RZFrI3Jg3mpVjDbP?=
- =?us-ascii?Q?qoGRD5pCWRFQhJv7PbsUNmKtXeqJqQ8lMGfoy7u7OgaeYdXptXhhJxaDAJZf?=
- =?us-ascii?Q?g9zKMtAKDo2e/0yR7vIdAkMd9cuYdQYx/e75c2MZUmTBbknqpGqrLl/7Swld?=
- =?us-ascii?Q?h0Y7cMRlBhpEVn61YTWb2kC2zvLAz/boMISLNBUqUL8VWKcrTq2aGoRDE0g7?=
- =?us-ascii?Q?Z6WwQxKzXxD1sJsC9Yoo/joDZMZZ342stRqx14gXTUwZoyS5wvdajoL22jqT?=
- =?us-ascii?Q?EizxFVSeeNtx4dgz5DH93Ca50gjOvKgL9TuGXNMohFuFKmIHpCuYbfTLgPgh?=
- =?us-ascii?Q?1dZ99qKbTjp8MLpRq55fLpVkz0ld5xdLYkKhuaSByhC7fwYwDH5kPWTcKa1c?=
- =?us-ascii?Q?zUxgBNB2/GrFCnv2EtbcpeiW0/irU8gccGyQSoStOQ1bg4PwHav4EF8grsHo?=
- =?us-ascii?Q?Ldv6dyrAL5De1T29huL8grcKWoIGTiCK45t4cunIUU1JUJ5g7ZZHrVCS18UM?=
- =?us-ascii?Q?H2dIiiYSKo1YaAkQ4ilA7OwuncxWOSDevqyrSGGnGWVS4teeXDw62pEZDAb+?=
- =?us-ascii?Q?rr+SrBIwCFqqjrN0WJoHO6+GrSN9UKCEGy8T+QcHw10CtHbFk3Qs5hAg0BAk?=
- =?us-ascii?Q?uj+ggfZJCSWRo1LDe0fz+m8tKzHWImz3pTcNOhf01N+KEclv9Fguobs4uY7r?=
- =?us-ascii?Q?NMtbhoqQBqsRw3joZwzK0mH1fC7kdHoMk2KW4KvZW6u9DiGVwxEdnneHbF4h?=
- =?us-ascii?Q?SA6QJpLT/c4jSf7Spus9PVQ/oIBUjWwsZlSGrIp0GEO2H2n/VYY8R34HmE+g?=
- =?us-ascii?Q?BIes/NuLu6lOKRoq+a2zGXdG6T3mv5ny42nXnVoCbyJiV1pKbZ6A7PeWoEHc?=
- =?us-ascii?Q?i1uamdRoThlbEGyA+uUrGHxC/V8BSczNa82i41B3DmHtrIHH9SGouQNZ+IQz?=
- =?us-ascii?Q?ER754XBQiivrLZ/+qfXP9O7b0lfyJQ+4UAeZZ7mgccsZeIBleOpSZ7tpRgxT?=
- =?us-ascii?Q?0tkQMIti+YxtnGqkumm4Y+X5B67AaCNRWhundHvytwwaPnotIEyQGDEL3wWT?=
- =?us-ascii?Q?zKFMLA7PjrC7JvpSEmQV+tpf7hT79ZIWuJiXYaDUeDmLltww/ox/jdE/RrAA?=
- =?us-ascii?Q?q2vXACW4iicmFRPuJKrP9hjFrT0kFM+42j7Ed01cUFvQ8j/JsK4oWMX8SgG/?=
- =?us-ascii?Q?tp5lsG83olYhdY6xbzRoM0d6xwh6T+sJdOwvNTbIT0B4og8kt4zb55hZaVqj?=
- =?us-ascii?Q?LEy2zX5rgrCnuBZmeW9FyYeWzWXJJSNVD64WA9mR6ivah3gR2ZiSFy7NwA8C?=
- =?us-ascii?Q?BtR5/rYm039JlsE55r6m2I54jbAGaHAi2rRwR8V3Yg3L8ct2iYJWdcOdzqXe?=
- =?us-ascii?Q?QrMI4crqUrE=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|921020|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ODBBVjQwYzZtVlRYZ2FJNStNVTl5UkdpNG5ZUEFGR3dJWXdFbjZ1MDc5QTlR?=
+ =?utf-8?B?c3VML1Vmbi9JR3AydnFXSzBFOGVQSnZpYndQU29HNnZOYzVJVzB4ZXc0U0M2?=
+ =?utf-8?B?L1VXUU4rQmV5WU5YQzdsdHJpK1RyVjZYYmpWbHZ2VmhHcWxXYW9WTHpEWlA1?=
+ =?utf-8?B?ME0zb3lVZWpBcks2dDBzTmhhKzk5d080QUpyeEV3YU9RdUg3M25vc0NnSEJx?=
+ =?utf-8?B?NTE2UDlKSkxTckRRenN5SHFZT3BYdzgrSXJUcWlzRWtOaXZ1cG94NGF4YXZU?=
+ =?utf-8?B?WjY5VVU0aE5yN1U3cTR5WUNaM3ZhRG9QZWRxTFhYcHB3RVladUtvZ0lzOERO?=
+ =?utf-8?B?MG94WXVJV3BpWmsrUklCM29qU3NmRE10ZFFvdElsZjZjR2VsdU4xV2xqa2pP?=
+ =?utf-8?B?OS9jOHArRGhiZ00zSDgwT3RsVEx5NnJQWi9adDVkWnV1ZmdWUFJrdDRScVhp?=
+ =?utf-8?B?UFdNUml0VVV3QTdDOUx4VmRUandFS3E2ZUJmcUJrVG1lVldrN2RZTUowYVk3?=
+ =?utf-8?B?UXN6aGJpSXVGeHZPVW16SDFRTW1zbXRrNjVYTTNoTFVzbStyd2d4ZW9VK3pQ?=
+ =?utf-8?B?QVV4Q1lqQWdCb0laTWdwYys0c2o0dW5kQXFNRkxnTHAyNTB5b25SY0N6ZHF3?=
+ =?utf-8?B?MXl3aFJNb1o2VTNrL3JjTmJGV25CWmNPVlFCayt2SndvNlJJWENQUGI2MUxF?=
+ =?utf-8?B?LzNsRW81aHcwN1BIWVQ3NnBqMWMxdGkzandvNzJsNW9hdUZOQ3BZZ0NFNUF4?=
+ =?utf-8?B?aEZtd0lsdFpmcytsenJ4cXRRVjBMUXFMbE9nWXRnWnZUYis5OHRMYk1LZjVM?=
+ =?utf-8?B?OVd1T21nM3JGWVAyOVhEYjNjVFg5MXBNMHlGQWJOVXYzSUFvaXJ1QU53ZnJH?=
+ =?utf-8?B?QkxzeVhxeU9pYWpSdTZlN05NZEp5WGlEREUwS3c0YlEreDVtS0lKSEVxV1Y0?=
+ =?utf-8?B?WExFWUo0b3RmMWM5dmdhdmlicmcrYlBhZXArTHpPQ3hWWUxIWXZoOXpNaWRR?=
+ =?utf-8?B?YWVmUlFBTG5jcUxOcnQ2VlM0cWQzcWNhT0VVWHRiMm9HOXlmMDlENUZEOTRT?=
+ =?utf-8?B?a2VoZWRuaVI5d1RlUUZqeEU4T0Z3RkVvV0hKckk4bGthcEdUckkzRi9zSVFN?=
+ =?utf-8?B?OFltSWZ3VmFsN0NIT1oxS0tkeHIvMTFRL01VNTVEL29XNTdaQXlGTTNUTEIx?=
+ =?utf-8?B?NHdDK3VNcTlnalM1Q1JUK1BoMmhKc0liU3F0VmxPbTVTeUI3QnJUNmRsQ2JE?=
+ =?utf-8?B?dnM2MmNldWJGckl6YUFBK3ZZQ0Jzb1VzQldhVXphRm1YdkU1WERld0N0UWoz?=
+ =?utf-8?B?VnlLMjNYWjRKNjFBQU5xMGtDOFV5dkJsL1dENzdyYXpML0hCY2NlWHJKL1Ar?=
+ =?utf-8?B?UDBUV082WlIrM2JyMmhOejg2UFVBbGUzdDNacE9ZaFN6YThkd1NPaW45Z3hu?=
+ =?utf-8?B?a1MydmFJeXF6SW1hdkNTMmE1ME9nZ2p6YTk2T2RLNHFKQU9pZXhxaitTTjNu?=
+ =?utf-8?B?SVRNdldPMGlselhhM0RRUERXVmVLU0dZekhERVFmbnRNMGt5ZWNjeGF6U3Jy?=
+ =?utf-8?B?bVZGQVdwSnpxOGVoM3BsRHluSm91NXRmNU9kVHQrYmNGUFo4bDdJVDExK0Zx?=
+ =?utf-8?B?NU55ei9IME80RElEVE5XQWdDYnV3eHhzZ3JIMGJKaHdSei9rVkpSdUtqRzlD?=
+ =?utf-8?B?SFQzRVFRYVozd0d4UzVjbEtOcVk3RVU5aWJUWTEzMzRlSEZQMDJQZEVBUmI1?=
+ =?utf-8?B?cWt5VDhjNDVjVFdFVkdMWEpOdm4veTZiSlUyOWVUUGU2ZGpqYlIxSmgvSTRB?=
+ =?utf-8?B?a3A4djNBMlhkcG5mdFJ5aTdJaEx4a0RpMncwUDNiTXdKUHB4NCtHNEtRUGh5?=
+ =?utf-8?B?djhzUVJWSXZtQ0psWkswTGdqSkgwM252b0Q1L2VjcWowd3RtclIxYU0wYkh4?=
+ =?utf-8?B?K0p4SzFoSEIzU1NoNURieUEyV1dZWHdtdkpidkp6SjFxczVMbGZJb2Y2Y3RJ?=
+ =?utf-8?B?cVpaOXJsdDZBPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020)(7053199007);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?x7t4llgeWUhtjbVE/SDbkijvP3QB2JXxh1NohEIZAty5latPfHzvzC8agoWW?=
- =?us-ascii?Q?4/wMweV7g9zB2h7FLPVdW3Z+MXbJ/pr7JXH6jftJlz8sJSj7wI5x1QEYWkEN?=
- =?us-ascii?Q?lY60tbQ7KrhDNhPN9h/0WXrETJMbxSDpglUjwaxoRSQzXdkrBzKsLbFEYBK7?=
- =?us-ascii?Q?vsoZtYWtIJD37qeeQY7WaduKUof9d7v+6iPl1ptFkUjc+B4U17pCYVnIObOY?=
- =?us-ascii?Q?SeXweU2bjM6uBOOpEpZz2b0DdEfA+W86kvCv13or/qQLEAGNLvUqgf0QCA77?=
- =?us-ascii?Q?HXo637tj207V9oul/hOISYMAvvqFevpyQcwC2Pm3xrGobX9Nro5kk5pO2tK5?=
- =?us-ascii?Q?evHvqXDvYMNLJUl9LOtTKdh/5w29pC7dh4Qhg3ZT9OpkxCZQS/FzNMpcPjME?=
- =?us-ascii?Q?jBbb7bEq6VjbKcMlEnjynQnTL3dDEdntsfIDho697JDLLQHkur0bjWdPKpV1?=
- =?us-ascii?Q?CRBVZ7SzXtIDcnvR0XiwJE47a6Lej8oqKKmQ0N/LJCRAleWC1UHZUhONdJrd?=
- =?us-ascii?Q?4KKHWRMYukfLYrOYG/mn4iKWSHCloENtRRNoIA4c0jun/xw4e4O5FlYUY0hM?=
- =?us-ascii?Q?pO55RYJuEiaPK7JMijOsnR8nQ2FiU/QULys6KHlCnoLcPB/kFQuJOihgKXvc?=
- =?us-ascii?Q?qZCl51/Y5vZUlh8+02Gjo1MdjNVl2CFtbaPtK8EcrLu9ybQhYtsCrKZYrTdH?=
- =?us-ascii?Q?WKW7y23+B0fvJSc7ftmihNHwNKWbqAyVT1bDuoTVB3nNxAdOrFxsfKsgVoNm?=
- =?us-ascii?Q?omX5aNvIAX7Tgn9Mgig2HDKFoHRasurtDPffVbHfBOxcgKOKnYQOVxOGpDzV?=
- =?us-ascii?Q?K/pvFU/2zWj6C3MVWNQpA09zoib3wOwSBqUPVH6PgsWchHg1ZwI7AHAazj5q?=
- =?us-ascii?Q?uzsTkWbtjwnl98PI5Vl5s2eYit2XMjK6Euk+ZgK3hYn2PCWqs3mcQoikuxKg?=
- =?us-ascii?Q?MHp+cPinxw9sxDnV2grrnC/rrbh6bOzq4KiKOiTo7ZKkU8rOYIAWJSuv6MAO?=
- =?us-ascii?Q?hTLEqHGZr6gfJ0zmRKP6uOUlLbpfoBDDGgwslZ7dTG34SldzW/1fk0cYPfH1?=
- =?us-ascii?Q?WejFcIGWlXIjBO/pFz+Ys1kAad0MtJXKk0sIeWe8SujM7tDv29FnR/EIWuk1?=
- =?us-ascii?Q?UDiKCK1WXt/R4LcrzgUfvKNsxcD3wk39BFizNsSA0AlAGA8+5ZF0czYRUZFG?=
- =?us-ascii?Q?mYfb6c1jzTKsQk+/TaJLlWXqhf3HcRl1okdfYnI7nmH3HOih4g7Tv3OaDvTq?=
- =?us-ascii?Q?drstECOsYDq2jpQtS27uiM6zm8MR6XDh7hweP9jPmD/EEmSUVAB9vxNTk+h8?=
- =?us-ascii?Q?M29REKXFWwlQCL2GVYWGwSf1uOwxQBv9F/PBZPKh2fzHRSvLRwmsrMy/eQQB?=
- =?us-ascii?Q?JB6609Yp+rDI8xXbbiqZIuqN/A58RaWIuTrdh3sReT+2n8BMnbreu3VFcDUs?=
- =?us-ascii?Q?+C2+fOr1bn5rwmORwH3F4eY7/N52UFYMbgbzQ4Vw5mpW9+fd0bsg/MN/NY2O?=
- =?us-ascii?Q?Jeos1lQ2ydFT1GC2FHEPXMQtL1h2LVEv8scn+P7SFPf6wq2xWorDtCBvOH3K?=
- =?us-ascii?Q?cj/LuNeCteSettkAbhg=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fa0d37c-a687-4cd4-e853-08ddce2c092f
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3JMU2tXRXNSdk1nanM5cDJrcXFJM2JieUpwclZjVUVtOVh2MUY0VGtCYW8x?=
+ =?utf-8?B?VVVGbzQwc215NXoyeTRzU3R6UG05bnltME5wTjk2NGg4RmEydDRQY1ptVUNE?=
+ =?utf-8?B?S1k2WlVVbmNQRzk3aXE1ekFjaCtSMkN2TnNPWTlxMkVEdDNzbUkyU004MDIz?=
+ =?utf-8?B?QzRjM0JITndmbWlRTitJRlpoWE55ODhmQmovSVZ6d0FTN3p6cm5NMmo1OVRv?=
+ =?utf-8?B?OUkzSjRCY0Eyb0RDdzNLMGQrRDUrdjJPR092THlVK3VZK0hRMHp4QzEvb2Fy?=
+ =?utf-8?B?RjNTbWVvdmkvT3dMKzJjdzJaQ2JLVDFORm1ZUllvbU9CSk5DRGJxbnFLSzNk?=
+ =?utf-8?B?Q0tpTFNZQzlUaXRyNTV6eHNJVVJwbHpCdzk5emN4aTJUVW4yNnE4d0Z4MDZC?=
+ =?utf-8?B?MXlWK1VGWEpMblpmZFF3ZmpKS0w1VUdxYTg4aUx4cWFzSk4yWUVaSmJ5SXR2?=
+ =?utf-8?B?Y1VKcHVvQm41MlF2REhabFlLdGVsZ3d5Sjd5UUR1ZjdrVjF4Nm5JSUtEdDJz?=
+ =?utf-8?B?OHR2QVloTjE2RXBZWm9RbjM0SHJLK2tkTTlCVkVkTHdRNkZzb3E0bEtrcE5Y?=
+ =?utf-8?B?WGVvNHBvMWFiSU5oNEZGZ3cxclhXeGxIT25NaVNRMms2QjdlVEViM0dGWld1?=
+ =?utf-8?B?RkpDdGNlRm1wUFo2bUhtOUloTUY5RUpQV2NjRCtJNDUvdk5qWlVVR1NkSzRS?=
+ =?utf-8?B?Q2NGVk9ZbzFlYUd6aDRKMjkralJLcllsYmU0UGFwVHBNM3ovZFlRUDUvNElj?=
+ =?utf-8?B?WTkxNE94SGlMS1lJM1NtVVFsTG13R0pHTm9ZWGlXZDIvL0ZVUnh3ems3N0VP?=
+ =?utf-8?B?THpsbjBZbjJYdTBMSTZTVzNGWXRFZW1sQ1pOVTBPcUQ4Z2pOTHVUZnlweHV3?=
+ =?utf-8?B?UkY3UXU4aU9taWwzSUJiZHdQV2Q4SmdOdkY5WFpPQllvbWd1Zk9abzViUThz?=
+ =?utf-8?B?MGlmOU8xNmNWRkx5cjU1RExMVzZNRGRXeVNzQjIxYnZMZnVNd0E4OC9TMUZ1?=
+ =?utf-8?B?bkRXL1hBMWI4Rm9LZE5DeklycFhrZHNDU01Za2owSERyVGZxQjFMWkVDbnVk?=
+ =?utf-8?B?dUp6SlNFTHZLNXNNaU0xNlgySU1mWVpEUEQwWGRSQlErN0wrSlRJOGNaYmpJ?=
+ =?utf-8?B?bVU4OWRHdVFFY3R5RU94TVp4V0h6K3lYb2RtSlFzdUZ6UlhPSWZzTjdXalNK?=
+ =?utf-8?B?T2IwY1hkSFdXSG1PTytUT0F6dDdnOTJSaHRLSG5vdTFmaGN1T2pPNEYvSnQ5?=
+ =?utf-8?B?R0hFQXhXNS9DSnFiTVkzZ2FCL0JGaFgyUW50c29USHVNR2pVNDQ1UVI3RjJP?=
+ =?utf-8?B?Uko3R1hhaWxhbko2ejJSMlByUlZqRXRrWDNNeUY0a0ppZkhvM1hYWXd2Mnov?=
+ =?utf-8?B?bW1BTWFEWS93R0VjbXRBOHF0eFhKaTRCNnlzSDduK2gyZlUwSFNhcFBWb1VI?=
+ =?utf-8?B?aEplVEp3TXphbW5jT05Hd3lzdkNHTjNnQXoxMEsxWVY1dkdyWnVVV0dWVkY1?=
+ =?utf-8?B?YW1adnBXOC9mSHFJWWhzcEY1elBZdWZiRis4S3cyaXpkYXpjQTJrUm5xSjd2?=
+ =?utf-8?B?REl6ZTJIb2pWVUZiZld5Z0dlUG1oY3VYN0ZFQ0k5d2pBTUN4Nm9BNjRYZjFm?=
+ =?utf-8?B?Ymw1eHJPUk5oRmxKL0g3OUhyWFFvWVBRM3Jzd0N1OUVLZ0dmVTNENFRuNkNq?=
+ =?utf-8?B?cFQvU0RBcnR0S1RQOThUNXNmc0ZFSXpzclRpRnVLaTJmcktVRGtsNVY3SU1F?=
+ =?utf-8?B?emIvTFdWbXlEWW52MUJqT01XNHVRMkhFdmgrWDJRUkx1S0xaU3JZNGIwQVJu?=
+ =?utf-8?B?citzRVRyRGhybEdKVkZ0OCtSVUZMMnVVL016aXFIczJKV0gvRlBSYjR2dEZj?=
+ =?utf-8?B?NmxyZmJFbTVVZHN0V2F4M1JIOUFoTFcvcXF5Sm5PeGo0QzRUQUdNdTdVaG0v?=
+ =?utf-8?B?eUJIMXRHR3FSalNzd081L3VGanpES0JNeld1S21HNzVLYkRndWxITVAveUFV?=
+ =?utf-8?B?dm1LZDNxQ1BtS3FkUG9rV0M1cTJ2bHduM2k1WEFjdXFYR29aNUxGQTk3S2Ux?=
+ =?utf-8?B?dlpJV1pJd3laYVRMKzhvamNSdlFCVTlQU1krVEYzRTErSkRXYUxnK1ZRUThV?=
+ =?utf-8?Q?gra/hewBwoh+UwJdTMvd3RH4p?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4da5d36-6930-4237-2d06-08ddce2e8cb8
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2025 23:11:08.6995 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2025 23:29:08.3283 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y8PLJwAJYurpqEqiuBcFzp/gpfXoc79RU1xbPgFRfaiy8p1KYB+Hbf/5DDpCYjX7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPF530AE3851
+X-MS-Exchange-CrossTenant-UserPrincipalName: n8N2POC/sBsIIA0qZ4I3lZgApQi2VGe7P2tRto02kkpLpbEVtEDHx9XagUnGF89slxZV+XGf7MkZB/TmYBPzag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,91 +174,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 28, 2025 at 11:07:34AM -0600, Logan Gunthorpe wrote:
+Thanks. I will send v6 to promotion test.
+
+On 7/25/25 18:33, Melissa Wen wrote:
+> Hi,
 > 
+> Siqueira and I have been working on a solution to reduce the usage of
+> drm_edid_raw in the AMD display driver, since the current guideline in
+> the DRM subsystem is to stop handling raw edid data in driver-specific
+> implementation and use opaque `drm_edid` object with common-code
+> helpers.
 > 
-> On 2025-07-28 10:41, Leon Romanovsky wrote:
-> > On Mon, Jul 28, 2025 at 10:12:31AM -0600, Logan Gunthorpe wrote:
-> >>
-> >>
-> >> On 2025-07-27 13:05, Jason Gunthorpe wrote:
-> >>> On Fri, Jul 25, 2025 at 10:30:46AM -0600, Logan Gunthorpe wrote:
-> >>>>
-> >>>>
-> >>>> On 2025-07-24 02:13, Leon Romanovsky wrote:
-> >>>>> On Thu, Jul 24, 2025 at 10:03:13AM +0200, Christoph Hellwig wrote:
-> >>>>>> On Wed, Jul 23, 2025 at 04:00:06PM +0300, Leon Romanovsky wrote:
-> >>>>>>> From: Leon Romanovsky <leonro@nvidia.com>
-> >>>>>>>
-> >>>>>>> Export the pci_p2pdma_map_type() function to allow external modules
-> >>>>>>> and subsystems to determine the appropriate mapping type for P2PDMA
-> >>>>>>> transfers between a provider and target device.
-> >>>>>>
-> >>>>>> External modules have no business doing this.
-> >>>>>
-> >>>>> VFIO PCI code is built as module. There is no way to access PCI p2p code
-> >>>>> without exporting functions in it.
-> >>>>
-> >>>> The solution that would make more sense to me would be for either
-> >>>> dma_iova_try_alloc() or another helper in dma-iommu.c to handle the
-> >>>> P2PDMA case.
-> >>>
-> >>> This has nothing to do with dma-iommu.c, the decisions here still need
-> >>> to be made even if dma-iommu.c is not compiled in.
-> >>
-> >> Doesn't it though? Every single call in patch 10 to the newly exported
-> >> PCI functions calls into the the dma-iommu functions. 
-
-Patch 10 has lots of flows, only one will end up in dma-iommu.c
-
-vfio_pci_dma_buf_map() calls pci_p2pdma_bus_addr_map(),
-dma_iova_link(), dma_map_phys().
-
-Only iova_link would call to dma-iommu.c - if dma_map_phys() is called
-we know that dma-iommu.c won't be called by it.
-
-> >> If there were non-iommu paths then I would expect the code would
-> >> use the regular DMA api directly which would then call in to
-> >> dma-iommu.
-> > 
-> > If p2p type is PCI_P2PDMA_MAP_BUS_ADDR, there will no dma-iommu and DMA
-> > at all.
+> To keep DC as an OS-agnostic component, we create a mid layer that
+> isolates `drm_edid` helpers called in the DC code, while allowing other
+> OSes to implement their specific implementation.
 > 
-> I understand that and it is completely beside my point.
+> This work is an extension of [1].
 > 
-> If the dma mapping for P2P memory doesn't need to create an iommu
-> mapping then that's fine. But it should be the dma-iommu layer to decide
-> that.
+> - Patch 1 addresses a possible leak added by previous migration to
+>    drm_edid.
+> - Patch 2 allocates a temporary drm_edid from raw edid for parsing.
+> - Patches 3-7 use common-code, drm_edid helpers to parse edid
+>    capabilities instead of driver-specific solutions. For this, patch 4
+>    introduces a new helper that gets monitor name from drm_edid.
+> - Patches 8-9 are groundwork to reduce the noise of Linux/DRM specific
+>    code in the DC shared code
+> - Patch 10 creates a mid layer to make DC embraces different ways of
+>    handling EDID by platforms.
+> - Patch 11 move open-coded management of raw EDID data to the mid
+>    layer created before.
+> - Patch 12 introduces a helper that compares EDIDs from two drm_edids.
+> - Patch 13 adds drm_edid to dc_sink struct and a mid-layer helper to
+>    free `drm_edid`.
+> - Patch 14 switch dc_edid to drm_edid across the driver in a way that
+>    the DC shared code is little affected by Linux specific stuff.
+> 
+> [v1] https://lore.kernel.org/dri-devel/20250411201333.151335-1-mwen@igalia.com/
+> Changes:
+> - fix broken approach to get monitor name from eld (Jani)
+>    - I introduced a new helper that gets monitor name from drm_edid
+> - rename drm_edid_eq to drm_edid_eq_buf and doc fixes (Jani)
+> - add NULL edid checks (Jani)
+> - fix mishandling of product_id.manufacturer_name (Michel)
+>    - I directly set it to manufacturer_id since sparse didn't complain.
+> - add Mario's r-b in the first fix patch and fix commit msg typo.
+> 
+> [v2] https://lore.kernel.org/dri-devel/20250507001712.120215-1-mwen@igalia.com/
+> Changes:
+> - kernel-doc and commit msg fixes (Jani)
+> - use drm_edid_legacy_init instead of open coded (Jani)
+> - place drm_edid new func into the right section (Jani)
+> - paramenter names fix (Jani)
+> - add Jani's r-b to the patch 12
+> - remove unnecessary include (Jani)
+> - call dc_edid_sink_edid_free in link_detection, instead of drm_edid_free
+> - rebase on top of asdn
+> 
+> [v3] https://lore.kernel.org/dri-devel/20250514202130.291324-1-mwen@igalia.com/
+> Changes:
+> - rebase to asdn
+> - some kernel-doc fixes
+> - move some changes to the right commit
+> 
+> [v4] https://lore.kernel.org/amd-gfx/20250613150015.245917-1-mwen@igalia.com/
+> Changes:
+> - fix comments and commit messages (Mario)
+> - remove unnecessary drm_edid dup and fix mem leak (Mario)
+> - add Mario's rb to patches 5-7
+> 
+> [v5] https://lore.kernel.org/amd-gfx/20250618152216.948406-1-mwen@igalia.com/
+> Changes:
+> - fix NULL pointer dereference (Alex H.) with the same approach proposed
+>    by 7c3be3ce3dfae
+> 
+ > --->
+> There are three specific points where we still use drm_edid_raw() in the
+> driver:
+> 1. raw edid data for write EDID checksum in DP_TEST_EDID_CHECKSUM via
+>     drm_dp_dpcd_write(), that AFAIK there is no common code solution yet;
+> 2. open-coded connectivity log for dc link detection, that maybe can be
+>     moved to drm (?);
+> 3. open-coded parser that I suspect is a lot of duplicated code, but
+>     needs careful examining.
+> 
+> I suggest to address those points in a next phase for regression control.
+> 
+> [1] https://lore.kernel.org/amd-gfx/20250308142650.35920-1-mwen@igalia.com/
+> 
+> Let me know yours thoughts!
+> 
+> Melissa
+> 
+> Melissa Wen (12):
+>    drm/amd/display: make sure drm_edid stored in aconnector doesn't leak
+>    drm/amd/display: start using drm_edid helpers to parse EDID caps
+>    drm/amd/display: use drm_edid_product_id for parsing EDID product info
+>    drm/edid: introduce a helper that gets monitor name from drm_edid
+>    drm/amd/display: get panel id with drm_edid helper
+>    drm/amd/display: get SAD from drm_eld when parsing EDID caps
+>    drm/amd/display: get SADB from drm_eld when parsing EDID caps
+>    drm/amd/display: simplify dm_helpers_parse_edid_caps signature
+>    drm/amd/display: change DC functions to accept private types for edid
+>    drm/edid: introduce a helper that compares edid data from two drm_edid
+>    drm/amd/display: add drm_edid to dc_sink
+>    drm/amd/display: move dc_sink from dc_edid to drm_edid
+> 
+> Rodrigo Siqueira (2):
+>    drm/amd/display: add a mid-layer file to handle EDID in DC
+>    drm/amd/display: create a function to fill dc_sink with edid data
+> 
+>   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   1 +
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  33 +++---
+>   .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 109 +++++++-----------
+>   .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  21 ++--
+>   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   |  39 +++++++
+>   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   |  15 +++
+>   .../drm/amd/display/dc/core/dc_link_exports.c |   9 +-
+>   drivers/gpu/drm/amd/display/dc/core/dc_sink.c |   3 +
+>   drivers/gpu/drm/amd/display/dc/dc.h           |  10 +-
+>   drivers/gpu/drm/amd/display/dc/dm_helpers.h   |   7 +-
+>   drivers/gpu/drm/amd/display/dc/inc/link.h     |   9 +-
+>   .../drm/amd/display/dc/link/link_detection.c  |  30 ++---
+>   .../drm/amd/display/dc/link/link_detection.h  |   9 +-
+>   drivers/gpu/drm/bridge/sil-sii8620.c          |   2 +-
+>   drivers/gpu/drm/display/drm_dp_mst_topology.c |   2 +-
+>   drivers/gpu/drm/drm_edid.c                    |  54 +++++++--
+>   include/drm/drm_edid.h                        |  10 +-
+>   17 files changed, 199 insertions(+), 164 deletions(-)
+>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+> 
 
-So above, we can't use dma-iommu.c, it might not be compiled into the
-kernel but the dma_map_phys() path is still valid.
-
-> It's not a decision that should be made by every driver doing this
-> kind of thing.
-
-Sort of, I think we are trying to get to some place where there are
-subsystem, or at least data structure specific helpers that do this
-(ie nvme has BIO helpers), but the helpers should be running this
-logic directly for performance. Leon hasn't done it but I think we
-should see helpers for DMABUF too encapsulating the logic shown in
-patch 10. I think we need to prove it out these basic points first
-before trying to go and convert a bunch of GPU drivers.
-
-The vfio in patch 10 is not the full example since it only has a
-single scatter/gather" effectively, but the generalized version loops
-over pci_p2pdma_bus_addr_map(), dma_iova_link(), dma_map_phys() for
-each page.
-
-Part of the new API design is to only do one kind of mapping operation
-at once, and part of the design is we know that the P2P type is fixed.
-It makes no performance sense to check the type inside the
-pci_p2pdma_bus_addr_map()/ dma_iova_link()/dma_map_phys() within the
-per-page loop.
-
-I do think some level of abstraction has been lost here in pursuit of
-performance. If someone does have a better way to structure this
-without a performance hit then fantastic, but thats going back and
-revising the new DMA API. This just builds on top of that, and yes, it
-is not so abstract.
-
-Jason
