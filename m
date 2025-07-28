@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B735B13697
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 10:29:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F2EB1368E
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 10:29:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 436CC10E4AE;
-	Mon, 28 Jul 2025 08:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D762B10E4A3;
+	Mon, 28 Jul 2025 08:29:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="lyvXZ+V/";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="UPOrcepx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id E674B10E058
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:29:42 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 18DBA10E4A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:29:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=c8
- TbWEVDRePQ3AnKdtwVwl22ZdGy/aRprexuwiKErqQ=; b=lyvXZ+V/sPfHYSNTdh
- SDDBlvMk2sBbWPh/jY5YGTc4zGxcOw9p9LnY9mou4arHoI35j+t3EHEMD4DhwIX4
- JPQ1dreJcYz0zdltTMvQ7eHAyf00AY5E1YXfXCYQn0AkF+0/CTL+QI2dTwlmB4IJ
- VTz3YGP2C0u78j2nL/sw2uFt4=
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Pf
+ 96EL1fdLyOPgckgwexr7VHAXtwv685XpN6hfJsmNc=; b=UPOrcepxoU6ttuA7VB
+ uukk5ZN1vrWohpNG4PaNXbtqssbYfAZsL9GCAr8sfCikiq5cAtkBzWdo0FyANFN4
+ 05lWEx7vRbt4oCfpFH4wuISe4al6tOuGqvPbI5n5bHwX5mj/eHxAMWqKY4VveLbA
+ bx43WzKHimbWeRHoTEx9RGntw=
 Received: from ProDesk.. (unknown [])
  by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id
- _____wBn0Oy_NIdoxboRIA--.27423S8; 
- Mon, 28 Jul 2025 16:29:03 +0800 (CST)
+ _____wBn0Oy_NIdoxboRIA--.27423S9; 
+ Mon, 28 Jul 2025 16:29:05 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: dmitry.baryshkov@oss.qualcomm.com,
 	heiko@sntech.de
@@ -36,22 +36,21 @@ Cc: hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, stephen@radxa.com,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
  robh@kernel.org, sebastian.reichel@collabora.com,
  Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v6 06/10] drm/birdge: simple-bridge: Add support for radxa
- ra620
-Date: Mon, 28 Jul 2025 16:28:31 +0800
-Message-ID: <20250728082846.3811429-7-andyshrk@163.com>
+Subject: [PATCH v6 07/10] arm64: dts: rockchip: Add DP0 for rk3588
+Date: Mon, 28 Jul 2025 16:28:32 +0800
+Message-ID: <20250728082846.3811429-8-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250728082846.3811429-1-andyshrk@163.com>
 References: <20250728082846.3811429-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBn0Oy_NIdoxboRIA--.27423S8
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Gw47tr48Jr4ftr4xKrWUtwb_yoWkZrg_uF
- nayryUJr45XF9YgF43Zw43A34Iv3W8urZ7Wr1vgrZxAws3Zw47W39rur9xZ34fAF10yF9F
- y3W3JFW7Ar17ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUn0zuJUUUUU==
+X-CM-TRANSID: _____wBn0Oy_NIdoxboRIA--.27423S9
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AFyxJryUuw43JrWfGry5CFg_yoW8XFW5p3
+ ZrCrZ3WrW8uF12q39xKw1ktrZ5Aan5CFZYkrnrK340kF1Sqr9rKryfKrnxA34qqr47XwsF
+ vFs3try8KFsrAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jzrWwUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMw2YXmiHLt29IAAAs5
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEhKYXmiHLyi1YAAAs7
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,40 +68,59 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The RA620 is an active DP to HDMI converter chip, basically
-no software is involved to drive it.
-
-Add it to simple bridge to make it can be find by the drm bridge chain.
+The DP0 is compliant with the DisplayPort Specification
+Version 1.4, and share the USBDP combo PHY0 with USB 3.1
+HOST0 controller.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
 ---
 
-(no changes since v3)
+(no changes since v1)
 
-Changes in v3:
-- First introduced in this version.
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 30 +++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
- drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index 3d15ddd394703..1f16d568bcc4e 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -261,6 +261,11 @@ static const struct of_device_id simple_bridge_match[] = {
- 			.timings = &default_bridge_timings,
- 			.connector_type = DRM_MODE_CONNECTOR_VGA,
- 		},
-+	}, {
-+		.compatible = "radxa,ra620",
-+		.data = &(const struct simple_bridge_info) {
-+			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
-+		},
- 	}, {
- 		.compatible = "ti,opa362",
- 		.data = &(const struct simple_bridge_info) {
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+index 51f11b9c414aa..4a54389c89d75 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+@@ -1536,6 +1536,36 @@ dsi1_out: port@1 {
+ 		};
+ 	};
+ 
++	dp0: dp@fde50000 {
++		compatible = "rockchip,rk3588-dp";
++		reg = <0x0 0xfde50000 0x0 0x4000>;
++		interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru PCLK_DP0>, <&cru CLK_AUX16M_0>,
++			 <&cru CLK_DP0>, <&cru MCLK_I2S4_8CH_TX>,
++			 <&cru MCLK_SPDIF2_DP0>;
++		clock-names = "apb", "aux", "hdcp", "i2s", "spdif";
++		assigned-clocks = <&cru CLK_AUX16M_0>;
++		assigned-clock-rates = <16000000>;
++		resets = <&cru SRST_DP0>;
++		phys = <&usbdp_phy0 PHY_TYPE_DP>;
++		power-domains = <&power RK3588_PD_VO0>;
++		#sound-dai-cells = <0>;
++		status = "disabled";
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			dp0_in: port@0 {
++				reg = <0>;
++			};
++
++			dp0_out: port@1 {
++				reg = <1>;
++			};
++		};
++	};
++
+ 	hdmi0: hdmi@fde80000 {
+ 		compatible = "rockchip,rk3588-dw-hdmi-qp";
+ 		reg = <0x0 0xfde80000 0x0 0x20000>;
 -- 
 2.43.0
 
