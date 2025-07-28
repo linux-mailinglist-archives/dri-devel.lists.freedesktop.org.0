@@ -2,69 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D033AB13A9B
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 14:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3093B13B18
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 15:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33B7010E4F5;
-	Mon, 28 Jul 2025 12:36:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF1310E50A;
+	Mon, 28 Jul 2025 13:14:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="heZDyfnv";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZcgMBbUG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F21C810E4EE
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 12:36:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=/QL6e0M1DZ4x1lbQAojsadRNSJRsaYn0TaN3fGGNycw=; b=heZDyfnvxieA3cQuH2kKmsBXab
- N9CAynMwhOtWa0//jDYluQm8uizfYoEnk1U0C6hUU+PWp5Az0l8SkKPSGkiTJbBV1jByvoWbJdl8n
- sdIVgvjNoO3K4xAz8gBKvo8eOqC++HGXd0RqoNpdu8vfYKCfuAd7a0nd/lS2tuZXJR/DJVtZDWOmi
- 44Ha5zjqTGs2feuuplltaGAJyRwgy3fjWcIM9wNAyOrzmAOn6agUVF6I1PcjDb6+76SYVHVXe16a/
- x0u3sJmNCZKt8O7HJZxwUbPFCnRpF8UWvoTy6SttxH/ZCYxHzoXFlS41+OwFyHo5gDBc6FvzhiUtZ
- Jxmrewuw==;
-Received: from [189.7.87.79]
- (helo=1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ugN5q-004u0J-Le; Mon, 28 Jul 2025 14:36:39 +0200
-From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Mon, 28 Jul 2025 09:35:40 -0300
-Subject: [PATCH 3/3] drm/v3d: Introduce Runtime Power Management
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B755310E50D
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 13:14:43 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-74b56b1d301so2882759b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 06:14:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1753708483; x=1754313283; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9Os7DNwoskb1IsKyb51IzFj8AQYOgVJlUT/2IBWZmzU=;
+ b=ZcgMBbUGzyrdGIfDaIMcjw98RxvgE0HagKCKsYEZleoT9gTOSJLVCs/hKf5Up5Miy2
+ 7gRAAwIh8GjkQXAszA2VWiWWL3PjOZ4vRFuBGH3hmxQj6bjhSqVw0Ts1MDBhpThSJP77
+ /totL+OuELSp2pOGczmpi56S/AHj04h4emcrNiK0TuKwSHtry+xyRB91rJcr6WyBT7C5
+ LYxFQ+3YpB02tUVmuuqMZSGQ2sihTGEiekRHPigh1m3XpDLCfDXlgyyXsLkfE9T1VFqG
+ jQ2gmiI++1+ZezFScTOXMrYlkPPwJXiJnE71mkMyvSKuslJixEq2/+EHLxJCZsOdiTYg
+ /u/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753708483; x=1754313283;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9Os7DNwoskb1IsKyb51IzFj8AQYOgVJlUT/2IBWZmzU=;
+ b=mjV1YoBKrzxcnvsIC5VDJFFO8QcekRDkBZHIjDBrvBk5/l4WCobrkGHIVw07JbZio9
+ PNi550X8LsZgEWUwdGuXlsoqZswmbZ+U9tn8dMg3LyR5+dzwHLhR+p44jirBvOkxJJH0
+ 9W891WhfSxB5MAXTQ7cvUK/YbCr8OAfARS3k1s213Htzs+c5HV6n3LIOidn42MUgjL8E
+ a31lYs3HkqVOjtqy8rU6SbeO8V3gJ+jtwgtTY+mzqo1WyubVR2od66UHlG2pyjJ8+Al3
+ 3j/A9dRiC13uvbCu/HXPUBlaD+sfmf55RKXNBz8TTKLjPjIFHKNqrC4jtOMOIqn74Fmp
+ Gc3g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVPLrDHAygg60Bt7IgvFyk8JTQykHQsG2lcUr1w0+hhxWCnHwbyZuQCOOLVYkUWPzdg2CWkthUNO6s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZCrOxJFJZ8B3SerDV5VX5dPpN5Hn1+rgVQWLU4ioQ4/R1+9wC
+ q3cVGz41cImAWW/RD/onn8elJj+To1ujl0cJ2JJtLJTeCfJCOik3M49W89sFGIqSFrE=
+X-Gm-Gg: ASbGnct+yVtPRjRFy2Sj2MbSjhYY6oqQ6eR5zfnT+5EW9fiAXREmCh1SLF/KcKYyREt
+ vq+4iGwzF225Q4tVwWkXJ7i6riGAknJZOwe45YkKlQwEylr4LTa2p0iBSgo7pTQGKF4XdTrwU1Y
+ Z6kJkqowBBI5JOQi0jsw32ff+/790vdbgGokHGcUGOWfHYZ4i5goJg1JXo7hTVFMouxAIxSIb9M
+ +p+xjYy5eJbZGYmkpNScFQXc52DULnsW4JDiKXJ108y8UIDpXXA5uEY+jC+CbKgDJ7YjgxG4++G
+ EUhck6Q6Kn+X8KgG/vdTlOCwPdYnmQFyOWu2cMYkrrH0toupT+ERJcIQFcUNYLUswb3TeuMuhUB
+ H7ON5hVC2yRx1eQsgiQ==
+X-Google-Smtp-Source: AGHT+IFWvBQlH2Z3eC509zBmXkklAzYfkd8XjUD1eLYuAIIy4UEMsaqX1nRZoTgcBTP6yhHZ2CXTqw==
+X-Received: by 2002:a05:6a00:3984:b0:742:aecc:c472 with SMTP id
+ d2e1a72fcca58-76332282d12mr16107023b3a.2.1753708479215; 
+ Mon, 28 Jul 2025 06:14:39 -0700 (PDT)
+Received: from [127.0.1.1] ([112.64.60.64]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-76408c0287fsm5590318b3a.47.2025.07.28.06.14.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jul 2025 06:14:38 -0700 (PDT)
+From: Jun Nie <jun.nie@linaro.org>
+Subject: [PATCH v13 00/12] drm/msm/dpu: Support quad pipe with dual-interface
+Date: Mon, 28 Jul 2025 21:14:24 +0800
+Message-Id: <20250728-v6-16-rc2-quad-pipe-upstream-v13-0-954e4917fe4f@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250728-v3d-power-management-v1-3-780f922b1048@igalia.com>
-References: <20250728-v3d-power-management-v1-0-780f922b1048@igalia.com>
-In-Reply-To: <20250728-v3d-power-management-v1-0-780f922b1048@igalia.com>
-To: Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>, 
- Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>, 
- Dom Cobley <popcornmix@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- kernel-dev@igalia.com, =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALB3h2gC/32NywrCMBBFf6Vk7UgeJhFX/od0EZpJG9AmTtqil
+ P67seDW5Tlczl1ZQYpY2KVZGeESS0xjBaEODesGN/YI0VfBJJeaW25gMSAMUCfhOTsPOWaEOZe
+ J0D1AG6609iqEU2A1kQlDfO39W1t5iGVK9N7vFiG/+le2/8t1DRyMRWWlQOvP6nqPo6N0TNSzd
+ tu2DyGdGyvMAAAA
+X-Change-ID: 20250706-v6-16-rc2-quad-pipe-upstream-560355d3ff4f
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Jun Nie <jun.nie@linaro.org>, Dmitry Baryshkov <lumag@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14624; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=aeI28XGJsId71xW1+YaLk+jkvWVfRwgtmocrkcvPgt8=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoh26+tDPvheortLoQTJS8OuXbkn8vzVlFtwzrG
- DI8KvDuvauJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaIduvgAKCRA/8w6Kdoj6
- qha1CADSWebhFHWqUAbUHE6nQdevQ2Tq93uotxFPYuyS9J47dmKkPq6Up97gfMd/QegrwcWDL5Y
- 5T49raBTt9DIUXVxkDdJ2vWKC2mg/hIchVuRFLcMYudq7uoA+Z+yEd5m0a/KfE+xcTzdjvNXU21
- DBmTWQpjKRCaPlSPko3JlqRhPkfkbYDZVtVI+kAzSZMpFaECdxVrCdOGyTvDLijMnm8tS/knlMK
- rhOLMSd4ouMNyxMdc7vMR4BmMb40RxHUUauAc3SrCKFWFjw+BNxatqN9KIf3Ww6bICFyK3wk46o
- m6dwPFMpLaizPNJ2usM4Sy4+rSQUFlQIHuuiIjmH8aPkyqqB
-X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
- fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753708472; l=7322;
+ i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
+ bh=oHnomoQNurQ262c95EUGcA9VUZC5w3vYLcl1eHD+Vq4=;
+ b=tOVnJFOn7iZ0dJfwx3coWMgmiKK4mK8kyG5CZ/cViZOucyMQnAgaLN16qxiZWONcLYwdhj4cI
+ OGKWRANEXb8AvrMGgN0lPiPehG9c+CJfVaPOK4J3Xx0zgrpWC4tJAkQ
+X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
+ pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,527 +104,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 90a64adb0876 ("drm/v3d: Get rid of pm code") removed the last
-bits of power management code that V3D had, which were actually never
-hooked. Therefore, currently, the GPU clock is enabled during probe
-and only disabled when removing the driver.
+2 or more SSPPs and dual-DSI interface are need for super wide panel.
+And 4 DSC are preferred for power optimal in this case due to width
+limitation of SSPP and MDP clock rate constrain. This patch set
+extends number of pipes to 4 and revise related mixer blending logic
+to support quad pipe. All these changes depends on the virtual plane
+feature to split a super wide drm plane horizontally into 2 or more sub
+clip. Thus DMA of multiple SSPPs can share the effort of fetching the
+whole drm plane.
 
-Implement proper power management using the kernel's Runtime PM
-framework.
+The first pipe pair co-work with the first mixer pair to cover the left
+half of screen and 2nd pair of pipes and mixers are for the right half
+of screen. If a plane is only for the right half of screen, only one
+or two of pipes in the 2nd pipe pair are valid, and no SSPP or mixer is
+assinged for invalid pipe.
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
+For those panel that does not require quad-pipe, only 1 or 2 pipes in
+the 1st pipe pair will be used. There is no concept of right half of
+screen.
+
+For legacy non virtual plane mode, the first 1 or 2 pipes are used for
+the single SSPP and its multi-rect mode.
+
+Changes in v13:
+- Fix null pointer bug SSPP sharing.
+- Modify the SSPP assignment patch for sharing SSPP among planes in
+  quad-pipe case.
+- Link to v12: https://lore.kernel.org/r/20250707-v6-16-rc2-quad-pipe-upstream-v12-0-67e3721e7d83@linaro.org
+
+Changes in v12:
+- Polish single pipe case detection in a plane. Add stage index check when
+  sharing SSPP with multi-rect mode in 2 planes.
+- Abstract SSPP assignment in a stage into a function.
+- Rebase to latest msm/msm-next.
+- Link to v11: https://lore.kernel.org/r/20250603-v6-15-quad-pipe-upstream-v11-0-c3af7190613d@linaro.org
+
+Changes in v11:
+- Change function name from dpu_plane_check_single_pipe to
+  dpu_plane_get_single_pipe.
+- Abstract SSPP assignment in stage into a function.
+- Link to v10: https://lore.kernel.org/r/20250526-v6-15-quad-pipe-upstream-v10-0-5fed4f8897c4@linaro.org
+
+Changes in v10:
+- Drop changes in drm helper side, because num_lm == 0 does not lead to
+  any issue in the first call to dpu_plane_atomic_check_nosspp() with
+  latest repo. It is initialized properly right after the call in
+  drm_atomic_helper_check_planes(), thus the later plane splitting works
+  as expected.
+- Rebase to latest msm-next branch.
+- Fix PIPES_PER_STAGE to PIPES_PER_PLANE where handling all pipes, instead
+  of stages.
+- Link to v9: https://lore.kernel.org/r/20250506-quad-pipe-upstream-v9-0-f7b273a8cc80@linaro.org
+
+Changes in v9:
+- Rebase to latest mainline and drop 3 patches as mainline already cover
+  the logic.
+  "Do not fix number of DSC"
+  "configure DSC per number in use"
+  "switch RM to use crtc_id rather than enc_id for allocation"
+- Add a patch to check crtc before checking plane in drm framework.
+- Add a patch to use dedicated WB number in an encoder to avoid regression.
+- Revise the condition to decide quad-pipe topology.
+- Link to v8: https://lore.kernel.org/r/20250303-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v8-0-eb5df105c807@linaro.org
+
+Changes in v8:
+- Fix looping pipes of a plane in _dpu_plane_color_fill()
+- Improve pipe assignment with deleting pipes loop in stage.
+- Define PIPES_PER_PLANE properly when it appears fisrt.
+- rename lms_in_pair to lms_in_stage to avoid confusion.
+- Add review tags.
+- Link to v7: https://lore.kernel.org/r/20250226-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v7-0-8d5f5f426eb2@linaro.org
+
+Changes in v7:
+- Improve pipe assignment to avoid point to invalid memory.
+- Define STAGES_PER_PLANE as 2 only when quad-pipe is introduced.
+- Polish LM number when blending pipes with min() and pull up to caller func.
+- Add review tags.
+- Link to v6: https://lore.kernel.org/r/20250217-sm8650-v6-14-hmd-deckard-mdss-quad-upstream-oldbootwrapper-36-prep-v6-0-c11402574367@linaro.org
+
+Changes in v6:
+- Replace LM number with PP number to calculate PP number per encoder.
+- Rebase to Linux v6.14-rc2.
+- Add review tags.
+- Link to v5: https://lore.kernel.org/r/20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-0-9701a16340da@linaro.org
+
+Changes in v5:
+- Iterate SSPP flushing within the required mixer pair, instead of all
+  active mixers or specific mixer.
+- Limit qaud-pipe usage case to SoC with 4 or more DSC engines and 2
+  interfaces case.
+- Remove valid flag and use width for pipe validation.
+- Polish commit messages and code comments.
+- Link to v4: https://lore.kernel.org/r/20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org
+
+Changes in v4:
+- Restrict SSPP flushing to the required mixer, instead of all active mixers.
+- Polish commit messages and code comments.
+- Rebase to latest msm/drm-next branch.
+- Move pipe checking patch to the top of patch set.
+- Link to v3: https://lore.kernel.org/dri-devel/20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org
+
+Changes in v3:
+- Split change in trace into a separate patch.
+- Rebase to latest msm-next branch.
+- Reorder patch sequence to make sure valid flag is set in earlier patch
+- Rectify rewrite patch to move logic change into other patch
+- Polish commit messages and code comments.
+- Link to v2: https://lore.kernel.org/dri-devel/20241009-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org
+
+Changes in v2:
+- Revise the patch sequence with changing to 2 pipes topology first. Then
+  prepare for quad-pipe setup, then enable quad-pipe at last.
+- Split DSI patches into other patch set.
+- Link to v1: https://lore.kernel.org/all/20240829-sm8650-v6-11-hmd-pocf-mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org
+
+Signed-off-by: Jun Nie <jun.nie@linaro.org>
 ---
- drivers/gpu/drm/v3d/Makefile      |  3 +-
- drivers/gpu/drm/v3d/v3d_debugfs.c | 23 ++++++++++-
- drivers/gpu/drm/v3d/v3d_drv.c     | 85 ++++++++++++++++++---------------------
- drivers/gpu/drm/v3d/v3d_drv.h     | 18 +++++++++
- drivers/gpu/drm/v3d/v3d_gem.c     |  6 ++-
- drivers/gpu/drm/v3d/v3d_mmu.c     | 12 +++++-
- drivers/gpu/drm/v3d/v3d_power.c   | 79 ++++++++++++++++++++++++++++++++++++
- drivers/gpu/drm/v3d/v3d_submit.c  | 19 +++++++--
- 8 files changed, 189 insertions(+), 56 deletions(-)
+Jun Nie (12):
+      drm/msm/dpu: polish log for resource allocation
+      drm/msm/dpu: decide right side per last bit
+      drm/msm/dpu: fix mixer number counter on allocation
+      drm/msm/dpu: bind correct pingpong for quad pipe
+      drm/msm/dpu: Add pipe as trace argument
+      drm/msm/dpu: handle pipes as array
+      drm/msm/dpu: split PIPES_PER_STAGE definition per plane and mixer
+      drm/msm/dpu: Use dedicated WB number definition
+      drm/msm/dpu: blend pipes per mixer pairs config
+      drm/msm/dpu: support SSPP assignment for quad-pipe case
+      drm/msm/dpu: support plane splitting in quad-pipe case
+      drm/msm/dpu: Enable quad-pipe for DSC and dual-DSI case
 
-diff --git a/drivers/gpu/drm/v3d/Makefile b/drivers/gpu/drm/v3d/Makefile
-index fcf710926057b34701792e1ee0458ae8ca5b25e3..c2d6d4b953435307f21c365e0ede1c2927407e06 100644
---- a/drivers/gpu/drm/v3d/Makefile
-+++ b/drivers/gpu/drm/v3d/Makefile
-@@ -14,7 +14,8 @@ v3d-y := \
- 	v3d_sched.o \
- 	v3d_sysfs.o \
- 	v3d_submit.o \
--	v3d_gemfs.o
-+	v3d_gemfs.o \
-+	v3d_power.o
- 
- v3d-$(CONFIG_DEBUG_FS) += v3d_debugfs.o
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_debugfs.c b/drivers/gpu/drm/v3d/v3d_debugfs.c
-index 7e789e181af0ac138044f194a29555c30ab01836..d4cd4360ad21a22ebd0d9df7a93427bdb75d2c9c 100644
---- a/drivers/gpu/drm/v3d/v3d_debugfs.c
-+++ b/drivers/gpu/drm/v3d/v3d_debugfs.c
-@@ -96,7 +96,11 @@ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
- 	struct drm_debugfs_entry *entry = m->private;
- 	struct drm_device *dev = entry->dev;
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
--	int i, core;
-+	int i, core, ret;
-+
-+	ret = v3d_pm_runtime_get(v3d);
-+	if (ret)
-+		return ret;
- 
- 	for (i = 0; i < ARRAY_SIZE(v3d_hub_reg_defs); i++) {
- 		const struct v3d_reg_def *def = &v3d_hub_reg_defs[i];
-@@ -138,6 +142,8 @@ static int v3d_v3d_debugfs_regs(struct seq_file *m, void *unused)
- 		}
- 	}
- 
-+	v3d_pm_runtime_put(v3d);
-+
- 	return 0;
- }
- 
-@@ -147,7 +153,11 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
- 	struct drm_device *dev = entry->dev;
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
- 	u32 ident0, ident1, ident2, ident3, cores;
--	int core;
-+	int core, ret;
-+
-+	ret = v3d_pm_runtime_get(v3d);
-+	if (ret)
-+		return ret;
- 
- 	ident0 = V3D_READ(V3D_HUB_IDENT0);
- 	ident1 = V3D_READ(V3D_HUB_IDENT1);
-@@ -206,6 +216,8 @@ static int v3d_v3d_debugfs_ident(struct seq_file *m, void *unused)
- 		}
- 	}
- 
-+	v3d_pm_runtime_put(v3d);
-+
- 	return 0;
- }
- 
-@@ -233,6 +245,11 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
- 	uint32_t cycles;
- 	int core = 0;
- 	int measure_ms = 1000;
-+	int ret;
-+
-+	ret = v3d_pm_runtime_get(v3d);
-+	if (ret)
-+		return ret;
- 
- 	if (v3d->ver >= V3D_GEN_41) {
- 		int cycle_count_reg = V3D_PCTR_CYCLE_COUNT(v3d->ver);
-@@ -252,6 +269,8 @@ static int v3d_measure_clock(struct seq_file *m, void *unused)
- 	msleep(measure_ms);
- 	cycles = V3D_CORE_READ(core, V3D_PCTR_0_PCTR0);
- 
-+	v3d_pm_runtime_put(v3d);
-+
- 	seq_printf(m, "cycles: %d (%d.%d Mhz)\n",
- 		   cycles,
- 		   cycles / (measure_ms * 1000),
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 6e6b830bee6587e4170fd64d354916766e59d2e5..c937d4d738313790da30294f9e094205ff0d4fc0 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -58,6 +58,7 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
- 		[DRM_V3D_PARAM_V3D_CORE0_IDENT1] = V3D_CTL_IDENT1,
- 		[DRM_V3D_PARAM_V3D_CORE0_IDENT2] = V3D_CTL_IDENT2,
- 	};
-+	int ret;
- 
- 	if (args->pad != 0)
- 		return -EINVAL;
-@@ -74,12 +75,19 @@ static int v3d_get_param_ioctl(struct drm_device *dev, void *data,
- 		if (args->value != 0)
- 			return -EINVAL;
- 
-+		ret = v3d_pm_runtime_get(v3d);
-+		if (ret)
-+			return ret;
-+
- 		if (args->param >= DRM_V3D_PARAM_V3D_CORE0_IDENT0 &&
- 		    args->param <= DRM_V3D_PARAM_V3D_CORE0_IDENT2) {
- 			args->value = V3D_CORE_READ(0, offset);
- 		} else {
- 			args->value = V3D_READ(offset);
- 		}
-+
-+		v3d_pm_runtime_put(v3d);
-+
- 		return 0;
- 	}
- 
-@@ -274,36 +282,6 @@ static const struct of_device_id v3d_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, v3d_of_match);
- 
--static void
--v3d_idle_sms(struct v3d_dev *v3d)
--{
--	if (v3d->ver < V3D_GEN_71)
--		return;
--
--	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_CLEAR_POWER_OFF);
--
--	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
--				    V3D_SMS_STATE) == V3D_SMS_IDLE), 100)) {
--		DRM_ERROR("Failed to power up SMS\n");
--	}
--
--	v3d_reset_sms(v3d);
--}
--
--static void
--v3d_power_off_sms(struct v3d_dev *v3d)
--{
--	if (v3d->ver < V3D_GEN_71)
--		return;
--
--	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_POWER_OFF);
--
--	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
--				    V3D_SMS_STATE) == V3D_SMS_POWER_OFF_STATE), 100)) {
--		DRM_ERROR("Failed to power off SMS\n");
--	}
--}
--
- static int
- map_regs(struct v3d_dev *v3d, void __iomem **regs, const char *name)
- {
-@@ -392,19 +370,26 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 		goto gem_destroy;
- 	}
- 
--	ret = clk_prepare_enable(v3d->clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Couldn't enable the V3D clock\n");
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
- 		goto gem_destroy;
--	}
- 
--	v3d_idle_sms(v3d);
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		goto gem_destroy;
-+
-+	/* If PM is disabled, we need to call v3d_power_resume() manually. */
-+	if (!IS_ENABLED(CONFIG_PM)) {
-+		ret = v3d_power_resume(dev);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
- 	mask = DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
- 	ret = dma_set_mask_and_coherent(dev, mask);
- 	if (ret)
--		goto clk_disable;
-+		goto runtime_pm_put;
- 
- 	v3d->va_width = 30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_VA_WIDTH);
- 
-@@ -423,24 +408,27 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
- 	v3d->rev = V3D_GET_FIELD(ident3, V3D_HUB_IDENT3_IPREV);
- 
- 	v3d_gem_init(drm);
--	v3d_irq_enable(v3d);
-+
-+	pm_runtime_set_autosuspend_delay(dev, 50);
-+	pm_runtime_use_autosuspend(dev);
- 
- 	ret = drm_dev_register(drm, 0);
- 	if (ret)
--		goto irq_disable;
-+		goto runtime_pm_put;
- 
- 	ret = v3d_sysfs_init(dev);
- 	if (ret)
- 		goto drm_unregister;
- 
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
- 	return 0;
- 
- drm_unregister:
- 	drm_dev_unregister(drm);
--irq_disable:
--	v3d_irq_disable(v3d);
--clk_disable:
--	clk_disable_unprepare(v3d->clk);
-+runtime_pm_put:
-+	pm_runtime_put_sync_suspend(dev);
- gem_destroy:
- 	v3d_gem_destroy(drm);
- dma_free:
-@@ -460,20 +448,25 @@ static void v3d_platform_drm_remove(struct platform_device *pdev)
- 
- 	v3d_gem_destroy(drm);
- 
--	dma_free_wc(v3d->drm.dev, 4096, v3d->mmu_scratch,
--		    v3d->mmu_scratch_paddr);
-+	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
- 
--	v3d_power_off_sms(v3d);
-+	pm_runtime_suspend(dev);
- 
--	clk_disable_unprepare(v3d->clk);
-+	/* If PM is disabled, we need to call v3d_power_suspend() manually. */
-+	if (!IS_ENABLED(CONFIG_PM))
-+		v3d_power_suspend(dev);
- }
- 
-+static DEFINE_RUNTIME_DEV_PM_OPS(v3d_pm_ops, v3d_power_suspend,
-+				 v3d_power_resume, NULL);
-+
- static struct platform_driver v3d_platform_driver = {
- 	.probe		= v3d_platform_drm_probe,
- 	.remove		= v3d_platform_drm_remove,
- 	.driver		= {
- 		.name	= "v3d",
- 		.of_match_table = v3d_of_match,
-+		.pm = pm_ptr(&v3d_pm_ops),
- 	},
- };
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index aa33dcdc6a371393576dd8c20ab1dae920039a0c..c92b5fa6066be88b8bf04ff4dfd273c5e8cd441d 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -3,6 +3,7 @@
- 
- #include <linux/delay.h>
- #include <linux/mutex.h>
-+#include <linux/pm_runtime.h>
- #include <linux/spinlock_types.h>
- #include <linux/workqueue.h>
- 
-@@ -325,6 +326,8 @@ struct v3d_job {
- 
- 	/* Callback for the freeing of the job on refcount going to 0. */
- 	void (*free)(struct kref *ref);
-+
-+	bool has_pm_ref;
- };
- 
- struct v3d_bin_job {
-@@ -602,6 +605,21 @@ int v3d_mmu_set_page_table(struct v3d_dev *v3d);
- void v3d_mmu_insert_ptes(struct v3d_bo *bo);
- void v3d_mmu_remove_ptes(struct v3d_bo *bo);
- 
-+/* v3d_power.c */
-+int v3d_power_suspend(struct device *dev);
-+int v3d_power_resume(struct device *dev);
-+
-+static __always_inline int v3d_pm_runtime_get(struct v3d_dev *v3d)
-+{
-+	return pm_runtime_resume_and_get(v3d->drm.dev);
-+}
-+
-+static __always_inline int v3d_pm_runtime_put(struct v3d_dev *v3d)
-+{
-+	pm_runtime_mark_last_busy(v3d->drm.dev);
-+	return pm_runtime_put_autosuspend(v3d->drm.dev);
-+}
-+
- /* v3d_sched.c */
- void v3d_timestamp_query_info_free(struct v3d_timestamp_query_info *query_info,
- 				   unsigned int count);
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index 4626ee6e4ac4412c293a87e8a8cc5ec84376cf24..fd2582629a431c6e41d07a9edb3608190ee23e5e 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -128,6 +128,9 @@ v3d_reset(struct v3d_dev *v3d)
- 	DRM_DEV_ERROR(dev->dev, "Resetting GPU for hang.\n");
- 	DRM_DEV_ERROR(dev->dev, "V3D_ERR_STAT: 0x%08x\n",
- 		      V3D_CORE_READ(0, V3D_ERR_STAT));
-+
-+	v3d_pm_runtime_get(v3d);
-+
- 	trace_v3d_reset_begin(dev);
- 
- 	/* XXX: only needed for safe powerdown, not reset. */
-@@ -144,6 +147,8 @@ v3d_reset(struct v3d_dev *v3d)
- 	v3d_perfmon_stop(v3d, v3d->active_perfmon, false);
- 
- 	trace_v3d_reset_end(dev);
-+
-+	v3d_pm_runtime_put(v3d);
- }
- 
- static void
-@@ -321,7 +326,6 @@ v3d_gem_init(struct drm_device *dev)
- 	struct v3d_dev *v3d = to_v3d_dev(dev);
- 
- 	v3d_init_hw_state(v3d);
--	v3d_mmu_set_page_table(v3d);
- }
- 
- void
-diff --git a/drivers/gpu/drm/v3d/v3d_mmu.c b/drivers/gpu/drm/v3d/v3d_mmu.c
-index a25d25a8ae617bf68e133e1793cd0bb930bb07f6..1699819756aadfc40f7d41ff19847d42ddf10dce 100644
---- a/drivers/gpu/drm/v3d/v3d_mmu.c
-+++ b/drivers/gpu/drm/v3d/v3d_mmu.c
-@@ -37,7 +37,13 @@ static bool v3d_mmu_is_aligned(u32 page, u32 page_address, size_t alignment)
- 
- int v3d_mmu_flush_all(struct v3d_dev *v3d)
- {
--	int ret;
-+	int ret = 0;
-+
-+	pm_runtime_get_noresume(v3d->drm.dev);
-+
-+	/* Flush the PTs only if we're already awake */
-+	if (!pm_runtime_active(v3d->drm.dev))
-+		goto pm_put;
- 
- 	V3D_WRITE(V3D_MMUC_CONTROL, V3D_MMUC_CONTROL_FLUSH |
- 		  V3D_MMUC_CONTROL_ENABLE);
-@@ -46,7 +52,7 @@ int v3d_mmu_flush_all(struct v3d_dev *v3d)
- 			 V3D_MMUC_CONTROL_FLUSHING), 100);
- 	if (ret) {
- 		dev_err(v3d->drm.dev, "MMUC flush wait idle failed\n");
--		return ret;
-+		goto pm_put;
- 	}
- 
- 	V3D_WRITE(V3D_MMU_CTL, V3D_READ(V3D_MMU_CTL) |
-@@ -57,6 +63,8 @@ int v3d_mmu_flush_all(struct v3d_dev *v3d)
- 	if (ret)
- 		dev_err(v3d->drm.dev, "MMU TLB clear wait idle failed\n");
- 
-+pm_put:
-+	pm_runtime_put_autosuspend(v3d->drm.dev);
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/v3d/v3d_power.c b/drivers/gpu/drm/v3d/v3d_power.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..33eecfd9825af90ee607fa2eae67666ba020ad27
---- /dev/null
-+++ b/drivers/gpu/drm/v3d/v3d_power.c
-@@ -0,0 +1,79 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/* Copyright (C) 2025 Raspberry Pi */
-+
-+#include <linux/clk.h>
-+#include <linux/reset.h>
-+
-+#include "v3d_drv.h"
-+#include "v3d_regs.h"
-+
-+static void
-+v3d_resume_sms(struct v3d_dev *v3d)
-+{
-+	if (v3d->ver < V3D_GEN_71)
-+		return;
-+
-+	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_CLEAR_POWER_OFF);
-+
-+	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-+				    V3D_SMS_STATE) == V3D_SMS_IDLE), 100)) {
-+		DRM_ERROR("Failed to power up SMS\n");
-+	}
-+
-+	v3d_reset_sms(v3d);
-+}
-+
-+static void
-+v3d_suspend_sms(struct v3d_dev *v3d)
-+{
-+	if (v3d->ver < V3D_GEN_71)
-+		return;
-+
-+	V3D_SMS_WRITE(V3D_SMS_TEE_CS, V3D_SMS_POWER_OFF);
-+
-+	if (wait_for((V3D_GET_FIELD(V3D_SMS_READ(V3D_SMS_TEE_CS),
-+				    V3D_SMS_STATE) == V3D_SMS_POWER_OFF_STATE), 100)) {
-+		DRM_ERROR("Failed to power off SMS\n");
-+	}
-+}
-+
-+int v3d_power_suspend(struct device *dev)
-+{
-+	struct v3d_dev *v3d = dev_get_drvdata(dev);
-+
-+	v3d_irq_disable(v3d);
-+	v3d_suspend_sms(v3d);
-+
-+	if (v3d->reset)
-+		reset_control_assert(v3d->reset);
-+
-+	clk_disable_unprepare(v3d->clk);
-+
-+	return 0;
-+}
-+
-+int v3d_power_resume(struct device *dev)
-+{
-+	struct v3d_dev *v3d = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = clk_prepare_enable(v3d->clk);
-+	if (ret)
-+		return ret;
-+
-+	if (v3d->reset) {
-+		ret = reset_control_deassert(v3d->reset);
-+		if (ret)
-+			goto clk_disable;
-+	}
-+
-+	v3d_resume_sms(v3d);
-+	v3d_mmu_set_page_table(v3d);
-+	v3d_irq_enable(v3d);
-+
-+	return 0;
-+
-+clk_disable:
-+	clk_disable_unprepare(v3d->clk);
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-index 5171ffe9012d4d0140d82d40af71ecbaf029a24a..5236d647608d4ecfc8b06d3163735f6ede5cac9f 100644
---- a/drivers/gpu/drm/v3d/v3d_submit.c
-+++ b/drivers/gpu/drm/v3d/v3d_submit.c
-@@ -102,6 +102,9 @@ v3d_job_free(struct kref *ref)
- 	if (job->perfmon)
- 		v3d_perfmon_put(job->perfmon);
- 
-+	if (job->has_pm_ref)
-+		v3d_pm_runtime_put(job->v3d);
-+
- 	kfree(job);
- }
- 
-@@ -183,13 +186,13 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 				if (copy_from_user(&in, handle++, sizeof(in))) {
- 					ret = -EFAULT;
- 					DRM_DEBUG("Failed to copy wait dep handle.\n");
--					goto fail_deps;
-+					goto fail_job_init;
- 				}
- 				ret = drm_sched_job_add_syncobj_dependency(&job->base, file_priv, in.handle, 0);
- 
- 				// TODO: Investigate why this was filtered out for the IOCTL.
- 				if (ret && ret != -ENOENT)
--					goto fail_deps;
-+					goto fail_job_init;
- 			}
- 		}
- 	} else {
-@@ -197,14 +200,22 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
- 
- 		// TODO: Investigate why this was filtered out for the IOCTL.
- 		if (ret && ret != -ENOENT)
--			goto fail_deps;
-+			goto fail_job_init;
-+	}
-+
-+	/* CPU jobs don't require hardware resources */
-+	if (queue != V3D_CPU) {
-+		ret = v3d_pm_runtime_get(v3d);
-+		if (ret)
-+			goto fail_job_init;
-+		job->has_pm_ref = true;
- 	}
- 
- 	kref_init(&job->refcount);
- 
- 	return 0;
- 
--fail_deps:
-+fail_job_init:
- 	drm_sched_job_cleanup(&job->base);
- 	return ret;
- }
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         | 120 +++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      |  43 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c        | 442 ++++++++++++++---------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h        |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c           |  29 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h        |  10 +-
+ 10 files changed, 415 insertions(+), 255 deletions(-)
+---
+base-commit: 3e2eb687837e24ef221d253625b3150137a135fd
+change-id: 20250706-v6-16-rc2-quad-pipe-upstream-560355d3ff4f
 
+Best regards,
 -- 
-2.50.0
+Jun Nie <jun.nie@linaro.org>
 
