@@ -2,65 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C649AB14080
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 18:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D188B140D0
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 18:59:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D616B10E542;
-	Mon, 28 Jul 2025 16:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D134610E180;
+	Mon, 28 Jul 2025 16:59:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B+keFTh/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g2hvpwks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8679B10E542
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 16:41:43 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C12210E193;
+ Mon, 28 Jul 2025 16:59:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 66B4CA53E34;
- Mon, 28 Jul 2025 16:41:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51E4FC4CEE7;
- Mon, 28 Jul 2025 16:41:40 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 78424601F8;
+ Mon, 28 Jul 2025 16:59:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1FDEC4CEE7;
+ Mon, 28 Jul 2025 16:59:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753720902;
- bh=7x0ZgIgFMhmGblvNn1rp9l0J3jLs/NKo357QqFEU40c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=B+keFTh/H3uyJm+2CRXywKicPx1XFBBkxeKmrZZbdSdo7TbhwSKWM+9PVaAkV/Ggd
- rdbs8jBkHbT/8OTgeGMPL4gfUOW2ABlcD8WUcg8AnFQUJTXwNmVXpc6MVeqX+1gX/B
- Hl4YyyFNqJKjrMehvwoAGQununhgEiDlRgPJ4pHhRsT2e9nnS0dUD7g029zGYqMvz0
- +n1X/yXScSmTwLjOGstVCV5NVXNowOdBanEpgP5gJZIZzUwp2PqhdbrI1ndD1ANzQ6
- U3SK+z5/iiu7H8t8oy3Nyrh+r+SHqvFdQXzv1CHbtq87l4SZmHe8/P8OoUYzv0vSLF
- T/9RjFtCR33XQ==
-Date: Mon, 28 Jul 2025 19:41:36 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Alex Williamson <alex.williamson@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 05/10] PCI/P2PDMA: Export pci_p2pdma_map_type() function
-Message-ID: <20250728164136.GD402218@unreal>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <82e62eb59afcd39b68ae143573d5ed113a92344e.1753274085.git.leonro@nvidia.com>
- <20250724080313.GA31887@lst.de> <20250724081321.GT402218@unreal>
- <b32ae619-6c4a-46fc-a368-6ad4e245d581@deltatee.com>
- <20250727190514.GG7551@nvidia.com>
- <d69e0d74-285e-4cde-a2e4-a803accfa9e1@deltatee.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d69e0d74-285e-4cde-a2e4-a803accfa9e1@deltatee.com>
+ s=k20201202; t=1753721967;
+ bh=4uq4fCRih9TVY2hZXV4zIt0fgsKRUncQeoxuKcLnVG8=;
+ h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+ b=g2hvpwksLMQsZ24HAD+tutEX4Ff14lVEpJ+qRq4TemhFpURKtnmmgXdkZjbGhHIvq
+ Jy/D6RaJv3kDwSYBx7f59VPw77lEQS4ZxEqJUSUIh+sRZ1Urh6DlKh/ueV2hHXiIM7
+ 0GAv4NJmfQvmGwSoY/qf6jbl9mNq2g4jDLvjwR//ZKG+zQfVfuFVJVH4ZF+Y0wg51A
+ IMH2Kbq2wKo6nYni8j0zbJBj0QhxPYBqnlJKfMiL0EuScsz6Xmo9n1qmH6BmcEmUuj
+ 0to3RZ1goe+xMHKzHo5W8ErWU96ArKvg0KPVzE0jQ6GBXZI8xHlPBGE7sugxIDs/OH
+ Y56uGoYYrZskA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 28 Jul 2025 18:59:21 +0200
+Message-Id: <DBNUJUSYG465.7YE1YER8B9K@kernel.org>
+To: "Lyude Paul" <lyude@redhat.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] Partially revert "rust: drm: gem: Implement
+ AlwaysRefCounted for all gem objects automatically"
+Cc: "Daniel Almeida" <daniel.almeida@collabora.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Asahi
+ Lina" <lina+kernel@asahilina.net>, "Alyssa Rosenzweig"
+ <alyssa@rosenzweig.io>, "open list" <linux-kernel@vger.kernel.org>
+References: <20250724191523.561314-1-lyude@redhat.com>
+ <DBKJYLF9E3TY.IM6UZFA0BW9I@kernel.org>
+ <e7a4cb0cc55a2d19e6eb9bf5280c68c0dd04d61d.camel@redhat.com>
+ <DBKN0VSJH3TX.2FYLW17KL0SWW@kernel.org>
+ <E9028A26-2E47-4431-B4B4-C5B416EB36E2@collabora.com>
+ <2d4f0bb1f23f89e4e5bedf6346a6c21f8b6bb29b.camel@redhat.com>
+In-Reply-To: <2d4f0bb1f23f89e4e5bedf6346a6c21f8b6bb29b.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,71 +74,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 28, 2025 at 10:12:31AM -0600, Logan Gunthorpe wrote:
-> 
-> 
-> On 2025-07-27 13:05, Jason Gunthorpe wrote:
-> > On Fri, Jul 25, 2025 at 10:30:46AM -0600, Logan Gunthorpe wrote:
-> >>
-> >>
-> >> On 2025-07-24 02:13, Leon Romanovsky wrote:
-> >>> On Thu, Jul 24, 2025 at 10:03:13AM +0200, Christoph Hellwig wrote:
-> >>>> On Wed, Jul 23, 2025 at 04:00:06PM +0300, Leon Romanovsky wrote:
-> >>>>> From: Leon Romanovsky <leonro@nvidia.com>
-> >>>>>
-> >>>>> Export the pci_p2pdma_map_type() function to allow external modules
-> >>>>> and subsystems to determine the appropriate mapping type for P2PDMA
-> >>>>> transfers between a provider and target device.
-> >>>>
-> >>>> External modules have no business doing this.
-> >>>
-> >>> VFIO PCI code is built as module. There is no way to access PCI p2p code
-> >>> without exporting functions in it.
-> >>
-> >> The solution that would make more sense to me would be for either
-> >> dma_iova_try_alloc() or another helper in dma-iommu.c to handle the
-> >> P2PDMA case.
-> > 
-> > This has nothing to do with dma-iommu.c, the decisions here still need
-> > to be made even if dma-iommu.c is not compiled in.
-> 
-> Doesn't it though? Every single call in patch 10 to the newly exported
-> PCI functions calls into the the dma-iommu functions. If there were
-> non-iommu paths then I would expect the code would use the regular DMA
-> api directly which would then call in to dma-iommu.
+On Fri Jul 25, 2025 at 9:41 PM CEST, Lyude Paul wrote:
+> a-ha, ok. I made a mistake here with misremembering where the compilation
+> issue I saw here really was.
+>
+> It's not that multiple gem object implementations are triggering it, it's=
+ that
+> it immediately breaks compilation if any other type tries to do a blanket
+> implementation with AlwaysRefCounted like this.
+>
+> Here's a properly compiling example with rvkms:
+>
+> https://gitlab.freedesktop.org/lyudess/linux/-/commits/rvkms-slim
+>
+> This builds fine because IntoGEMObject is the only one with a blanket
+> implementation of AlwaysRefCounted, and we implement AlwaysRefCounted usi=
+ng a
+> macro for refcounted Kms objects.
+>
+> But if we apply this patch which adds the second blanket impl:
+>
+> https://gitlab.freedesktop.org/lyudess/linux/-/commit/ec094d4fc209a7122b0=
+0168e7293f365fe7fc16c
+>
+> Then compilation fails:
+>
+>    =E2=9E=9C  nouveau-gsp git:(rvkms-slim) =E2=9C=97 nice make -j20
+>      DESCEND objtool
+>      DESCEND bpf/resolve_btfids
+>      CALL    scripts/checksyscalls.sh
+>      INSTALL libsubcmd_headers
+>      INSTALL libsubcmd_headers
+>      RUSTC L rust/kernel.o
+>    warning: unused import: `pin_init`
+>      --> rust/kernel/drm/driver.rs:18:5
+>       |
+>    18 | use pin_init;
+>       |     ^^^^^^^^
+>       |
+>       =3D note: `#[warn(unused_imports)]` on by default
+>   =20
+>    warning: unused import: `prelude::*`
+>     --> rust/kernel/drm/kms/modes.rs:4:13
+>      |
+>    4 | use crate::{prelude::*, types::Opaque};
+>      |             ^^^^^^^^^^
+>   =20
+>    error[E0119]: conflicting implementations of trait `types::AlwaysRefCo=
+unted`
+>       --> rust/kernel/drm/kms.rs:504:1
+>        |
+>    504 | unsafe impl<T: RcModeObject> AlwaysRefCounted for T {
+>        | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ conflicting =
+implementation
+>        |
+>       ::: rust/kernel/drm/gem/mod.rs:97:1
+>        |
+>    97  | unsafe impl<T: IntoGEMObject> AlwaysRefCounted for T {
+>        | ---------------------------------------------------- first imple=
+mentation here
+>   =20
+>    warning: unused import: `Sealed`
+>     --> rust/kernel/drm/kms/vblank.rs:7:44
+>      |
+>    7 | use super::{crtc::*, ModeObject, modes::*, Sealed};
+>      |                                            ^^^^^^
+>   =20
+>    error: aborting due to 1 previous error; 3 warnings emitted
+>   =20
+>    For more information about this error, try `rustc --explain E0119`.
+>    make[2]: *** [rust/Makefile:538: rust/kernel.o] Error 1
+>    make[1]: *** [/home/lyudess/Projects/linux/worktrees/nouveau-gsp/Makef=
+ile:1280: prepare] Error 2
+>    make: *** [Makefile:248: __sub-make] Error 2
+>
+> This is definitely part of the reason I didn't notice this problem until =
+later
+> too. My understanding is that this is a result of rust's orphan rule, whi=
+ch
+> basically just disallows trait impls where it would be ambiguous which im=
+pl
+> applies to a specific type. Here, the issue is that there's nothing stopp=
+ing a
+> type from implementing both RcModeObject and IntoGEMObject.
 
-If p2p type is PCI_P2PDMA_MAP_BUS_ADDR, there will no dma-iommu and DMA
-at all.
+Yeah, this is pretty annoying. I don't think it's related to the orphan rul=
+e
+though; see also the example in [1].
 
-+static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
-+				   struct dma_buf_attachment *attachment)
-+{
-+	struct vfio_pci_dma_buf *priv = dmabuf->priv;
-+
-+	if (!attachment->peer2peer)
-+		return -EOPNOTSUPP;
-+
-+	if (priv->revoked)
-+		return -ENODEV;
-+
-+	switch (pci_p2pdma_map_type(priv->vdev->provider, attachment->dev)) {
-+	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-+		break;
-+	case PCI_P2PDMA_MAP_BUS_ADDR:
-+		/*
-+		 * There is no need in IOVA at all for this flow.
-+		 * We rely on attachment->priv == NULL as a marker
-+		 * for this mode.
-+		 */
-+		return 0;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	attachment->priv = kzalloc(sizeof(struct dma_iova_state), GFP_KERNEL);
-+	if (!attachment->priv)
-+		return -ENOMEM;
-+
-+	dma_iova_try_alloc(attachment->dev, attachment->priv, 0, priv->phys_vec.len);
-+	return 0;
-+}
+I think in this case we should just keep the generic
+impl<T: IntoGEMObject> AlwaysRefCounted for T and not introduce the blanket=
+ one
+for T: RcModeObject.
+
+In theory it doesn't matter which one to drop, but I'd rather avoid the rev=
+ert
+and I think there's no reason for both to have the less nice macro solution=
+.
+
+[1] https://play.rust-lang.org/?version=3Dstable&mode=3Ddebug&edition=3D202=
+4&gist=3D23593da0e5e0ca0d9d2aa654e0c9bde6
