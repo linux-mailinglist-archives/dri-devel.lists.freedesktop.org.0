@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F2EB1368E
-	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 10:29:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0094B13696
+	for <lists+dri-devel@lfdr.de>; Mon, 28 Jul 2025 10:29:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D762B10E4A3;
-	Mon, 28 Jul 2025 08:29:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF96910E4A9;
+	Mon, 28 Jul 2025 08:29:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="UPOrcepx";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Rbu8qsEV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id 18DBA10E4A4
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:29:41 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D1E5210E058
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 08:29:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Pf
- 96EL1fdLyOPgckgwexr7VHAXtwv685XpN6hfJsmNc=; b=UPOrcepxoU6ttuA7VB
- uukk5ZN1vrWohpNG4PaNXbtqssbYfAZsL9GCAr8sfCikiq5cAtkBzWdo0FyANFN4
- 05lWEx7vRbt4oCfpFH4wuISe4al6tOuGqvPbI5n5bHwX5mj/eHxAMWqKY4VveLbA
- bx43WzKHimbWeRHoTEx9RGntw=
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=F5
+ Mn/v7RZ7UFx8WGpT30YpU6PJiEWQ1DE0lZ8cE+J4c=; b=Rbu8qsEVqhvPLl4m0i
+ 9VY1ww5fKyPRcU2m+Wl3lB2qnLWFbDDHcVjR/v3n8WP0kbL1UNnzCWcdYc37HQ37
+ ZEAP68kwB8EQ+12cioWwOfWh4CsQOhLbXf7MxU7QLR8JGbuQmOVPOc4laScx4E0p
+ P0gVeBqV6qrVjxHfAlW/qv5ug=
 Received: from ProDesk.. (unknown [])
  by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id
- _____wBn0Oy_NIdoxboRIA--.27423S9; 
- Mon, 28 Jul 2025 16:29:05 +0800 (CST)
+ _____wBn0Oy_NIdoxboRIA--.27423S10; 
+ Mon, 28 Jul 2025 16:29:06 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: dmitry.baryshkov@oss.qualcomm.com,
 	heiko@sntech.de
@@ -36,21 +36,21 @@ Cc: hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, stephen@radxa.com,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
  robh@kernel.org, sebastian.reichel@collabora.com,
  Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v6 07/10] arm64: dts: rockchip: Add DP0 for rk3588
-Date: Mon, 28 Jul 2025 16:28:32 +0800
-Message-ID: <20250728082846.3811429-8-andyshrk@163.com>
+Subject: [PATCH v6 08/10] arm64: dts: rockchip: Add DP1 for rk3588
+Date: Mon, 28 Jul 2025 16:28:33 +0800
+Message-ID: <20250728082846.3811429-9-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250728082846.3811429-1-andyshrk@163.com>
 References: <20250728082846.3811429-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBn0Oy_NIdoxboRIA--.27423S9
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AFyxJryUuw43JrWfGry5CFg_yoW8XFW5p3
- ZrCrZ3WrW8uF12q39xKw1ktrZ5Aan5CFZYkrnrK340kF1Sqr9rKryfKrnxA34qqr47XwsF
- vFs3try8KFsrAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: _____wBn0Oy_NIdoxboRIA--.27423S10
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrWDCry7tFWfJw17JFWDJwb_yoW8Xw4fpw
+ nrurZ3GrW8uF1aqwnxt34kXrZ8A3Z5CFZrKr1xK3W8Kr1Sqr92k34akrZ3C34UXr17XwsF
+ kFs3tryUKF4qy3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jzrWwUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEhKYXmiHLyi1YAAAs7
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEhKYXmiHLyi1YAABs6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,38 +68,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The DP0 is compliant with the DisplayPort Specification
-Version 1.4, and share the USBDP combo PHY0 with USB 3.1
-HOST0 controller.
+The DP1 is compliant with the DisplayPort Specification
+Version 1.4, and share the USBDP combo PHY1 with USB 3.1
+HOST1 controller.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 ---
 
 (no changes since v1)
 
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 30 +++++++++++++++++++
+ .../arm64/boot/dts/rockchip/rk3588-extra.dtsi | 30 +++++++++++++++++++
  1 file changed, 30 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index 51f11b9c414aa..4a54389c89d75 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -1536,6 +1536,36 @@ dsi1_out: port@1 {
- 		};
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
+index 90414486e466f..691fe941d53a1 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
+@@ -210,6 +210,36 @@ i2s10_8ch: i2s@fde00000 {
+ 		status = "disabled";
  	};
  
-+	dp0: dp@fde50000 {
++	dp1: dp@fde60000 {
 +		compatible = "rockchip,rk3588-dp";
-+		reg = <0x0 0xfde50000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clocks = <&cru PCLK_DP0>, <&cru CLK_AUX16M_0>,
-+			 <&cru CLK_DP0>, <&cru MCLK_I2S4_8CH_TX>,
-+			 <&cru MCLK_SPDIF2_DP0>;
++		reg = <0x0 0xfde60000 0x0 0x4000>;
++		interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru PCLK_DP1>, <&cru CLK_AUX16M_1>,
++			 <&cru CLK_DP1>, <&cru MCLK_I2S8_8CH_TX>,
++			 <&cru MCLK_SPDIF5_DP1>;
 +		clock-names = "apb", "aux", "hdcp", "i2s", "spdif";
-+		assigned-clocks = <&cru CLK_AUX16M_0>;
++		assigned-clocks = <&cru CLK_AUX16M_1>;
 +		assigned-clock-rates = <16000000>;
-+		resets = <&cru SRST_DP0>;
-+		phys = <&usbdp_phy0 PHY_TYPE_DP>;
++		resets = <&cru SRST_DP1>;
++		phys = <&usbdp_phy1 PHY_TYPE_DP>;
 +		power-domains = <&power RK3588_PD_VO0>;
 +		#sound-dai-cells = <0>;
 +		status = "disabled";
@@ -108,19 +108,19 @@ index 51f11b9c414aa..4a54389c89d75 100644
 +			#address-cells = <1>;
 +			#size-cells = <0>;
 +
-+			dp0_in: port@0 {
++			dp1_in: port@0 {
 +				reg = <0>;
 +			};
 +
-+			dp0_out: port@1 {
++			dp1_out: port@1 {
 +				reg = <1>;
 +			};
 +		};
 +	};
 +
- 	hdmi0: hdmi@fde80000 {
+ 	hdmi1: hdmi@fdea0000 {
  		compatible = "rockchip,rk3588-dw-hdmi-qp";
- 		reg = <0x0 0xfde80000 0x0 0x20000>;
+ 		reg = <0x0 0xfdea0000 0x0 0x20000>;
 -- 
 2.43.0
 
