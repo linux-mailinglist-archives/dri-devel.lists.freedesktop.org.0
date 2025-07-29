@@ -2,127 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90ED9B14E02
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 15:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38CDEB14E18
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 15:08:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD03A10E62B;
-	Tue, 29 Jul 2025 13:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFDE710E21D;
+	Tue, 29 Jul 2025 13:07:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ptyRps1r";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CMw3OH5l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D50610E62B
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:01:56 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56T8F5LV027638
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:01:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- juelwFjR0xLghnG+f+9iPeOqQI/44lFNaWH/bAdlNAM=; b=ptyRps1rY0xMNoXh
- EOyXS2PpTv3+wYuRo1OUBzUHolaxzWKMLyVOlWyJcSeLFMlw2EtahowaE+jQM4KY
- qmQxb+aq8T4/gR1VKVTXhKAF35ySBOXxrDowLNNUCmdITgbaGECJ8muXnRNbdekJ
- /lzn+fPoL0s5kB5DmJYNCCwJD5sBs4+EZlXWkJIkcBQkioQntrdccK2oUfvcDUVr
- FpfLdQC/ceAZwLaZGnfzGqOnzv2fM1WRQzEgzC6X4oPEycQj0dSs0KqPlDSdtzcC
- BDSyBNqSvKQOt5JtZmC/EO/9yRwSXVgiRm6CCRUsYmwrtD4pQYrx/x48SgpJfEiS
- ohJFQw==
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4860enwc55-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:01:56 +0000 (GMT)
-Received: by mail-vs1-f72.google.com with SMTP id
- ada2fe7eead31-4f9a7d407c3so80957137.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 06:01:55 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD4610E21D
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:07:57 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-32e14ce168eso61342691fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 06:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753794475; x=1754399275; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MBe2c0lwAQ20+tn4Yt0NFFbBlv0wC7hPqoyYxcY01+c=;
+ b=CMw3OH5lWpFpZySJypRQjYA8U6B5c7p3wjC/d5AEqWuP5gC1aTpec9vOfRlT8/xrK4
+ 1N03ibaUcI3bLlgPskHoxjfyzE+obH+4HPyxZrMQKm28ajV9mhDQEn7u6H9zhgSlBBi1
+ 9R7U1VQYmGRVKWMCXKCXo9QyE57izK7EJD/o6HicK+1zRQHHWuF+CsFNbkBID5gxYlou
+ zBG2hIt3meSP2e3q49ZkCj+QnEz/d6O2vRn1/boiXixkVpZxnNboKwFBabnyBSMgjJBz
+ FjeP9ONLyZ6FiigPhoK0esRjp5yG4HI52ZS4KBWZxhpMUZq/qCrtGc+lSc5xM4SV4Gwk
+ /P5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753794108; x=1754398908;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=juelwFjR0xLghnG+f+9iPeOqQI/44lFNaWH/bAdlNAM=;
- b=vOXmgZLy2GYXQzKNjLOptNyQ37+hxYPbFVGPWk1zfCTKy71Sf27muAz3BU0dndBYHm
- mQCYHnv5sHI4DQkHZCZnn+dEKCpTlwkqnUU1yW7veIyvOU/aiRbeFmUtO2ZUaAohQesQ
- KGM0DGVDHKPrbkJOXstypubfCGvc6oZM2bvouqDf26X35uE7V+RlERYJc4slIR0C7qfK
- vA09dccT5NSrlFPx7+JxFXjKdVlVADLyt5uRLBWhOcS2wEwvK8RVxLu6ALosIhSwy4/+
- boUapUrcBugJ7emy0dhNsoFcqVQddoW9DzgWor3UdKDAaoX+v0cEafAAOlSRpOUBEdlO
- H6tA==
+ d=1e100.net; s=20230601; t=1753794475; x=1754399275;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MBe2c0lwAQ20+tn4Yt0NFFbBlv0wC7hPqoyYxcY01+c=;
+ b=DdtmwEpuUKR3kGAvHE3JRdvqgSDcBwiJviyx+kKwUmHs0I4xHgvukBd2pzcTa7TNfe
+ t5E8Bq6mjZWmDBJ4nj9YVjgMLC7tzRZO0iSbTuOVEPEOkiGl5mflmqgMMZrHsVr5NxtR
+ YmSdFj0qMo31So6FrEqGZC8xwaU4U/ZZmHRcrwgta7985SuxUl4lIwxSx2Q+slMyCLc+
+ 105syQHSIvvnCAmX+3Z++LtV6EsmQnbBt6AripMiWzFO41Z6wV0iL2MlEokSchM2LqFY
+ tarjHYPNITThrRHBlXKsEkHahqCXWS9+j/URvnSYeCJ7jZN4vgfEbySIICFlfCU4ioYA
+ l7bw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUAuGBTf8ImhtxW1EhOxXN1LROudKg1F0qhQHoG7Qv7ZopwxoMUfXGgW9T+V/ZZgyfx3yJNY9q/Sls=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6K+VGkU3jI4hOSQe+OzfJu+wSIELJo4besCg5agVb4HhaFU18
- tihs7D7ZuAath7qSFQOYq/L2Tm6BhmeRHlw0ibggnQVCETUXdD1VOH5IlvBEC8GwzqPaiD6Jrn+
- l3vmDqFRZOuenP6rRyeT9rBZBqI7Pz43ik97+npveIhynN4s9YUbV1rZ7PJlRS7yOpY+OPD4BM2
- U5++4=
-X-Gm-Gg: ASbGnctn3myXJNpIV12yEDWK+pxvm9/GWHZq06LsBNyD0jwcq68dTf0Coh20ZPbWQaT
- 9n+t+fsVwlwXdZ+BoCuU2eOl7TUXZk0MoSUgZHsinPhL8Dwgg83NSxQeFvaG39nNuZamPOoOlju
- vUWLJt/3LfdivUBpye84fksmIXmMDofuHVNNmkG23z6cDIAvDu+dqgukBFTsawgZ7ywxyDxwcME
- 5D7HLljhsgA7UOA8czEBvT2b/RJ1qAVwvclFcbHsxHABhTZ8p35gyfyqESgBon7CbI0NfasMokn
- wGhuJKkd/1VEzfhzzKgxTx7u7fcaLuHij7ani2hE72HqbuTUVaCNbW/RET4ht6DYVP6VNCBSnon
- 1+T/wTQboWIETPDKaeQ==
-X-Received: by 2002:a05:6122:3642:b0:537:426e:bd0 with SMTP id
- 71dfb90a1353d-538db607c97mr1409817e0c.1.1753794108157; 
- Tue, 29 Jul 2025 06:01:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH3XZWl+BOftPeIJVe+mX7EzNQo4NU6m5CJLOb08qSGkjUakLEtnkqZAh4Nc9Ct/8TqmnlT/w==
-X-Received: by 2002:a05:6122:3642:b0:537:426e:bd0 with SMTP id
- 71dfb90a1353d-538db607c97mr1409759e0c.1.1753794107351; 
- Tue, 29 Jul 2025 06:01:47 -0700 (PDT)
-Received: from [192.168.43.17] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-af6358a0994sm585862966b.44.2025.07.29.06.01.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jul 2025 06:01:45 -0700 (PDT)
-Message-ID: <9e48ea8e-b59b-4620-9781-211cc1f7cc07@oss.qualcomm.com>
-Date: Tue, 29 Jul 2025 15:01:43 +0200
+ AJvYcCWUeSd0fGGs/3UV5d0LMYy058xoz0sXfD2nbq+0U0AnCRVmYgtsrCXY/llyrzrqLUOejHhUO7Df3v4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxovT+KkwYjjp/tyRoyy5X0TGSdnOmgOdwbvUu0ubwX7onl1iKB
+ t39Sx0W8RlxkYVZD4a4s0Y4dcSVLY1HxYqZrNevro7bilgnfTjDQJumN
+X-Gm-Gg: ASbGncsMsTSOjn/1aq87nYfhsU/r/CaWoSMH/dEpsUnDq2uaRIHYUpX6d+nli2gNfIC
+ OxaOoRhtn5n3OwAj+Plee8fI9IKnHuc2Yu5K8TE3u3zvZA5F84psUEDXKINsBFhbSYZ1vZEdYNd
+ QOQEJGdc2pKPv2f2TPq+pmCc+FroFNb4JU13OEXRxrmQv8B5WKGE1gGzuCNpeCq8VND4c0rvh7J
+ HTIAiFcxLCSke/9eeOQzs9yiM+Hc/i0N1oROG0yT/D0v9fyjbWH+3BsJLuukT1nUHjOuNgR3BAl
+ DtO+OPTpiwKAhEToRfcMJcOF4h6vFK7Ev1G801fpP7D5sZvnRmbI33ufHGx2dm+Hj333RT2H+bU
+ 4FtbB1rTNKX5+IB+y6Vc574td5F0qDfayWCDYPjl3QlK0P1qsteNblhJz4bA=
+X-Google-Smtp-Source: AGHT+IEOLM70tlkReLeYdoB11Jx9OgwXfRo2bd1DL3h+FQZIBragJKJj7iLvkRL8wVB4DF7MiS1gKA==
+X-Received: by 2002:a2e:a98a:0:b0:32a:74db:fe73 with SMTP id
+ 38308e7fff4ca-331ee733b68mr57359851fa.28.1753794475059; 
+ Tue, 29 Jul 2025 06:07:55 -0700 (PDT)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-331f40a2f3esm16323231fa.34.2025.07.29.06.07.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Jul 2025 06:07:54 -0700 (PDT)
+Date: Tue, 29 Jul 2025 15:07:52 +0200
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: Chen Ni <nichen@iscas.ac.cn>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sitronix/st7571-i2c: Remove unneeded semicolon
+Message-ID: <aIjHqAB1Kkq6Zino@gmail.com>
+References: <20250729042620.2057603-1-nichen@iscas.ac.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/17] drm/msm/adreno: Add fenced regwrite support
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
- <20250720-ifpc-support-v1-7-9347aa5bcbd6@oss.qualcomm.com>
- <tyjkwrdmsj7k7tkqqxdd65l5v5jxugr5me3ivg5onn3hbffkwp@7uhsbzolqiyd>
- <30442713-2990-490a-b076-93c3cfc3901d@oss.qualcomm.com>
- <d696e7df-7f11-4491-89ff-ba71274ae101@oss.qualcomm.com>
- <1d320aac-e928-4fd0-812c-268a3a943575@oss.qualcomm.com>
- <3f58451a-9b5f-4697-9679-d549104e8312@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <3f58451a-9b5f-4697-9679-d549104e8312@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: -1D_AulJu-OQGoL01L0vnNWOWIAXfLEr
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDEwMSBTYWx0ZWRfX7vSKdA9mtLW0
- 7eJYHiAL9yY5tjrbTX6wJG3ZVRpClazJTxLWL2p8G5/um1mVKTWGZJttiaDpBHDVYC/11ntqnXk
- ThGdwqMutlpUVcP/QtRLFYSOWl+hDAeq3gM+iLyQGtla7PzSrB/AUHJNpCgV9rfT+rGRjuoRy3U
- xmGO+JNKmYccCFi5GI7SHiMK2cvZfNocBcG9NTdtieNT/O7a2GOtsOASrgaqT2uU35Mdnmbivtw
- UlB+GVHhhqW4ggwMlaWvtDIuS7NFqOn3aboavn9oFnFPzf/HLTuK/m89LDoSknZyDipewPgIbN8
- M4j0dOWxd6ODkf+EYWvr4phQJwqyPEXoeB+K2ydTQAqh7QYQ8wibiJy7yHsRVuooPfGgSsFnMng
- AsgSuMdgnqrI2o3bu13D46Fk+vx3duwW2agsWZh7uiQK8g5YepVc5t6LJxtiv8S7ml4uVjmU
-X-Authority-Analysis: v=2.4 cv=DIWP4zNb c=1 sm=1 tr=0 ts=6888c644 cx=c_pps
- a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=9hkt72pFxozsIUrbaQoA:9
- a=QEXdDO2ut3YA:10 a=-aSRE8QhW-JAV6biHavz:22
-X-Proofpoint-ORIG-GUID: -1D_AulJu-OQGoL01L0vnNWOWIAXfLEr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-29_03,2025-07-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 bulkscore=0 mlxscore=0 mlxlogscore=999
- spamscore=0 impostorscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
- adultscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507290101
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kNrapcqmsUN3Vipw"
+Content-Disposition: inline
+In-Reply-To: <20250729042620.2057603-1-nichen@iscas.ac.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,95 +90,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/24/25 6:54 PM, Akhil P Oommen wrote:
-> On 7/24/2025 5:16 PM, Konrad Dybcio wrote:
->> On 7/23/25 11:06 PM, Akhil P Oommen wrote:
->>> On 7/22/2025 8:22 PM, Konrad Dybcio wrote:
->>>> On 7/22/25 3:39 PM, Dmitry Baryshkov wrote:
->>>>> On Sun, Jul 20, 2025 at 05:46:08PM +0530, Akhil P Oommen wrote:
->>>>>> There are some special registers which are accessible even when GX power
->>>>>> domain is collapsed during an IFPC sleep. Accessing these registers
->>>>>> wakes up GPU from power collapse and allow programming these registers
->>>>>> without additional handshake with GMU. This patch adds support for this
->>>>>> special register write sequence.
->>>>>>
->>>>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
->>>>>> ---
->>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 63 ++++++++++++++++++++++++++++++-
->>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
->>>>>>  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 20 +++++-----
->>>>>>  3 files changed, 73 insertions(+), 11 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>>> index 491fde0083a202bec7c6b3bca88d0e5a717a6560..8c004fc3abd2896d467a9728b34e99e4ed944dc4 100644
->>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>>> @@ -16,6 +16,67 @@
->>>>>>  
->>>>>>  #define GPU_PAS_ID 13
->>>>>>  
->>>>>> +static bool fence_status_check(struct msm_gpu *gpu, u32 offset, u32 value, u32 status, u32 mask)
->>>>>> +{
->>>>>> +	/* Success if !writedropped0/1 */
->>>>>> +	if (!(status & mask))
->>>>>> +		return true;
->>>>>> +
->>>>>> +	udelay(10);
->>>>>
->>>>> Why do we need udelay() here? Why can't we use interval setting inside
->>>>> gmu_poll_timeout()?
->>>>
->>>> Similarly here:
->>>>
->>>> [...]
->>>>
->>>>>> +	if (!gmu_poll_timeout(gmu, REG_A6XX_GMU_AHB_FENCE_STATUS, status,
->>>>>> +			fence_status_check(gpu, offset, value, status, mask), 0, 1000))
->>>>>> +		return 0;
->>>>>> +
->>>>>> +	dev_err_ratelimited(gmu->dev, "delay in fenced register write (0x%x)\n",
->>>>>> +			offset);
->>>>>> +
->>>>>> +	/* Try again for another 1ms before failing */
->>>>>> +	gpu_write(gpu, offset, value);
->>>>>> +	if (!gmu_poll_timeout(gmu, REG_A6XX_GMU_AHB_FENCE_STATUS, status,
->>>>>> +			fence_status_check(gpu, offset, value, status, mask), 0, 1000))
->>>>>> +		return 0;
->>>>>> +
->>>>>> +	dev_err_ratelimited(gmu->dev, "fenced register write (0x%x) fail\n",
->>>>>> +			offset);
->>>>
->>>> We may want to combine the two, so as not to worry the user too much..
->>>>
->>>> If it's going to fail, I would assume it's going to fail both checks
->>>> (unless e.g. the bus is so congested a single write can't go through
->>>> to a sleepy GPU across 2 miliseconds, but that's another issue)
->>>
->>> In case of success, we cannot be sure if the first write went through.
->>> So we should poll separately.
->>
->> You're writing to it 2 (outside fence_status_check) + 2*1000/10 (inside)
->> == 202 times, it really better go through..
-> 
-> For the following sequence:
-> 1. write reg1 <- suppose this is dropped
-> 2. write reg2 <- and this went through
-> 3. Check fence status <- This will show success
 
-What I'm saying is that fence_status_check() does the same write you
-execute inbetween the polling calls
+--kNrapcqmsUN3Vipw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Konrad
-> 
->>
->> If it's just about the write reaching the GPU, you can write it once and
->> read back the register you've written to, this way you're sure that the
->> GPU can observe the write
-> 
-> This is a very unique hw behavior. We can't do posted write.
-> 
-> -Akhil
-> 
->>
->> Konrad
-> 
+On Tue, Jul 29, 2025 at 12:26:20PM +0800, Chen Ni wrote:
+> Remove unnecessary semicolons reported by Coccinelle/coccicheck and the
+> semantic patch at scripts/coccinelle/misc/semicolon.cocci.
+>=20
+
+Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+
+> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+
+--kNrapcqmsUN3Vipw
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmiIx6EACgkQiIBOb1ld
+UjL9/g//RPodx9Aa1+1YVipIoqc7kS3ym5tzMJIo407F6n0l0yXfK8Obvnm6xxhQ
+b68Cjeg0RPG3P8cZM1Qahe6WDa/P+hm0XtbFKbwbuMoqT5TuZtfbGH2M/tUp7z8M
+ZxZQG9fpw7k1aZX8VhhqCFi64BIF+TgM/LxFFuUTkRFefc382M7I1hKrIvQZvhTG
+RWOqEIVKViY71YuWEfO4y/Y4iS87HofbAWNwZaJA2jDtxjnRFSxXhNAqCLqD2CA9
+2Q8a0d1w7M6PbmV5/V6tZmfE8+jB0pkpe4DpY8Sx991P4CDYOXCLsTfm/sqvCfnH
+bCpRgJahNEYaMP47MwYYrGDTMzR8qQU4xAKDZrXSpSBkUhr3GGRAze5TucIjuP1e
+vSCxMVQWZf+GZRigH3xim0crlNlsFQ/3WA30sdK2I/l1DGI34u+BFSSH0RDaZwJ1
+Rhk09kJmgQ1C2mIDwjaLGhgzU6DsvUp2Zh81WKc53tME/wpRCUqQutN+D9Jfrz/q
+EW94tq8aZVsuyXKWEyMzrRG3DvajjLZGjJMSeGJn/FG4A2woiaTCBRY/CNb/4j4E
+pC2UA38NtcT2O/0UQmKClKYRcdOoH3uxlGTWRMrgbbEOYqESIT03X5wmOcCZoDFN
+6bSFdF7vN5ge6/iTepuSdDqQJU0rcLCb9GnyEjflL3J+dIfCpnY=
+=FwcT
+-----END PGP SIGNATURE-----
+
+--kNrapcqmsUN3Vipw--
