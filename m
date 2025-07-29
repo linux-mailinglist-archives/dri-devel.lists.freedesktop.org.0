@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452E1B146B4
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 05:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20ACB146B5
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 05:16:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A328610E1BB;
-	Tue, 29 Jul 2025 03:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C84310E1BA;
+	Tue, 29 Jul 2025 03:16:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="c4IZCqgs";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Awj36o1f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com
- [209.85.219.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3936210E1BB
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 03:16:26 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id
- 3f1490d57ef6-e8da9b7386dso629270276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 20:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1753758985; x=1754363785;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=axHoEn3it8w+Z8bS/Ax2RI/gQKoYDGHC5+M82I7ZI7Y=;
- b=c4IZCqgsR7pewJXMN5/l/Tmm84McEf/xFyzo8avKps/9lNHWxkhbdX3/3AFSurLobv
- 5DaBGbloteV75TtCYLBP0SY+v9mrcegloKbQusBY+EnMgB9WV8yvp4zwZtVb3po2XM7Q
- lDXg2+qYIOaMO6xf0SG7NqWBaFvEV047zUDsI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753758985; x=1754363785;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=axHoEn3it8w+Z8bS/Ax2RI/gQKoYDGHC5+M82I7ZI7Y=;
- b=I93+wRpP58QwLQISY7ATS3jYRsmytJa+k1DLvZwzRBSdu0oyp11eLgztVeSfJBvxFS
- xavZROpjfqpC9oIT3Qy5udcdz+rgI2cIjNlmHLkssGlS9bf/Ag/3Ppn7krq0yIzcgKq9
- PmhuEdlPIOUNvGIlCkuMjEOeS6JkkQySNbr6Gk0TMdJPSW6tsSKeeOG9aQFNpZGcaDrw
- k+3VNYhFZ+ekjYJYVQxId+gR26SU6eP53oYkRKkY190kxfQKx3WY1qC3SBKE0l9/KPzk
- K/JQ6wjnlSr8wOJ4153VOWXsnatOUB5bKJxD3Iz16KxBcxzZuGyHIGf7yw46aOIPETSR
- 7n0Q==
-X-Gm-Message-State: AOJu0YyQ0aSPp1f0tI0n6S2G3TT+HXTN7vfRvoK10GoiVpFdgN2ZEbjj
- /c3K2/uHKSpdD4h6gi0KYPoIh55EETTwPz6cqayB0j1Y/vQkqDUPTtaC20dkM7KtvbGlIuF+Y2e
- dGozWLXMixK6btg3J7MitBbhhVtWmscRyzH+0w5ud
-X-Gm-Gg: ASbGnctb+2ovfzR9XH0Sv/7fpXhncwRC5Y8CTLIcOkFp7EmegpYXNQYJ/HiYeGF3Jvl
- yN2hpZqac0gRSrqbsdgQaCIV5m3sZ3e9yeAKXdtdgIpYDMGF7hGsEg/K5M0/1H34f6RdyF36Adg
- yqn5G2V9yg71cUsxzq3Dt1M4UMooVapi+gat3QuVUtQFIT0G9RtDjWlOAWGCsW5jzCLFVe8TuNb
- dtuAh2fr+KCKc4BfxY=
-X-Google-Smtp-Source: AGHT+IF4c0H7tJ6LLofPKdYXl2gMAo8PbEykb/fMQffVkvfPmsNnSXEV2kNvbbiqpQ/h0LD1EqVqfeyv5AZrARz8E8w=
-X-Received: by 2002:a05:6902:2186:b0:e87:b846:33b9 with SMTP id
- 3f1490d57ef6-e8e250c15demr2425489276.21.1753758984941; Mon, 28 Jul 2025
- 20:16:24 -0700 (PDT)
+Received: from mail-m32117.qiye.163.com (mail-m32117.qiye.163.com
+ [220.197.32.117])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E4710E5AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 03:16:33 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 1d8da68de;
+ Tue, 29 Jul 2025 11:16:28 +0800 (GMT+08:00)
+Message-ID: <1cf4bc1b-d7f3-4a88-b8d8-d2f681dce370@rock-chips.com>
+Date: Tue, 29 Jul 2025 11:16:27 +0800
 MIME-Version: 1.0
-References: <20250728210845.102771-1-ian.forbes@broadcom.com>
-In-Reply-To: <20250728210845.102771-1-ian.forbes@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Mon, 28 Jul 2025 23:16:12 -0400
-X-Gm-Features: Ac12FXyImmxZDT3p7uWsaYQQ5bl5kXpSZw8zkcQMk6ZiHNIve1q3RNsF-smZi1I
-Message-ID: <CABQX2QMH2-nrc+LM9MvThMrWTc+r-cLZ+e8sFAJZwGundGny8g@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Clamp the max COTable size
-To: Ian Forbes <ian.forbes@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, martin.krastev@broadcom.com, 
- maaz.mombasawala@broadcom.com, bcm-kernel-feedback-list@broadcom.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000057a975063b08d5af"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/14] Apply drm_bridge_connector and panel_bridge
+ helper for the Analogix DP driver
+From: Damon Ding <damon.ding@rock-chips.com>
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
+ hjc@rock-chips.com, andy.yan@rock-chips.com,
+ dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20250724080304.3572457-1-damon.ding@rock-chips.com>
+ <3890785.kQq0lBPeGt@diego>
+ <b0ce0d8d-4ceb-419e-a892-d39b8633aa13@rock-chips.com>
+ <6070443.MhkbZ0Pkbq@diego>
+ <c73fa024-fdd0-4f62-9c8a-11e7eee3c475@rock-chips.com>
+Content-Language: en-US
+In-Reply-To: <c73fa024-fdd0-4f62-9c8a-11e7eee3c475@rock-chips.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a98542e771803a3kunme49a881d3b3324
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUgeGFZPTE1JQktDSkxPQ09WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=Awj36o1fZIv1IG0o76X7hKYBrp5apPQb5p//ZbkLwZTnM1WGzYBl4vs64yB9BBnVNQEW/pJs6fuSc0HlYlkJNLwCrFpG/96yZMZXi6z7yaSH3Dn23+QCPXRZN4KCnyBEjKhuTqLDLLBL4y0R+I9spgBmlyoynbdCb3j/K0Yavcs=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=P30xMObD+4ZJRdzp8lAIExQtJvi4EAiA8x/rld+Y1H0=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,176 +73,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000057a975063b08d5af
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2025/7/29 11:02, Damon Ding wrote:
+> Hi Heiko,
+> 
+> On 2025/7/26 3:45, Heiko Stübner wrote:
+>> Hi Damon,
+>> Am Freitag, 25. Juli 2025, 04:15:06 Mitteleuropäische Sommerzeit 
+>> schrieb Damon Ding:
+>>> On 2025/7/24 21:10, Heiko Stübner wrote:
+>>>> Am Donnerstag, 24. Juli 2025, 10:02:50 Mitteleuropäische Sommerzeit 
+>>>> schrieb Damon Ding:
+>>>>> PATCH 1 is a small format optimization for struct analogid_dp_device.
+>>>>> PATCH 2 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
+>>>>> PATCH 3 is to apply a better API for the encoder initialization.
+>>>>> PATCH 4-7 are preparations for apply drm_bridge_connector helper.
+>>>>> PATCH 8 is to apply the drm_bridge_connector helper.
+>>>>> PATCH 9-11 are to move the panel/bridge parsing to the Analogix side.
+>>>>> PATCH 12-13 are preparations for apply panel_bridge helper.
+>>>>> PATCH 14 is to apply the panel_bridge helper.
+>>>>
+>>>> for future revisions, please provide a changelog on what changed since
+>>>> the previous version, I guess ideally here in the cover-letter.
+>>>>
+>>>>
+>>>> On my rk3588-tiger-displayport-carrier this works like a charm
+>>>> Tested-by: Heiko Stuebner <heiko@sntech.de>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>
+>>> Glad to see your review and test. :-)
+>>>
+>>> I will include the version-to-version changelogs (v2 -> v3 and v3 -> v4)
+>>> in the next iteration.
+>>
+>> I have to amend that a bit, sadly. When doing a reboot with the edp
+>> running, I see logs like:
+>>
+>> [...]
+>> [  139.614749] systemd-shutdown[1]: Syncing filesystems and block 
+>> devices.
+>> [  139.622201] systemd-shutdown[1]: Rebooting.
+>> [  139.684845] ------------[ cut here ]------------
+>> [  139.690050] WARNING: CPU: 0 PID: 110 at drivers/iommu/rockchip- 
+>> iommu.c:989 rk_iommu_identity_attach+0xac/0xbc
+>> [  139.701175] Modules linked in: panthor rockchip_vdec rocket 
+>> drm_gpuvm v4l2_vp9 v4l2_h264 drm_exec rockchip_rng drm_shmem_helper 
+>> v4l2_mem2mem gpu_sched rng_core fuse
+>> [  139.717685] CPU: 0 UID: 0 PID: 110 Comm: irq/58-HPD Not tainted 
+>> 6.16.0-rc7-00183-gd436cbe8e4b3 #1541 PREEMPT
+>> [  139.728799] Hardware name: Theobroma Systems RK3588-Q7 SoM on Tiger 
+>> Displayport Carrier v1 (DT)
+>> [  139.738548] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS 
+>> BTYPE=--)
+>> [  139.746351] pc : rk_iommu_identity_attach+0xac/0xbc
+>> [  139.751821] lr : rk_iommu_identity_attach+0x70/0xbc
+>> [  139.757290] sp : ffff800080e4b7c0
+>> [  139.761001] x29: ffff800080e4b7c0 x28: ffff0001f6f98080 x27: 
+>> ffff0001f0a4b010
+>> [  139.769006] x26: ffff0001f6f98e58 x25: 0000000000000000 x24: 
+>> 0000000000000000
+>> [  139.777010] x23: 0000000000000000 x22: ffffdbf23c0485e0 x21: 
+>> ffff0001f0e9cc10
+>> [  139.785014] x20: ffff0001f0df17a0 x19: ffff0001f0e2cb80 x18: 
+>> 0000000000000038
+>> [  139.793018] x17: 0002550800000009 x16: 0000046c0446043e x15: 
+>> 0438000008ca080c
+>> [  139.801021] x14: 07d008ca07800780 x13: 0438000008ca080c x12: 
+>> 07d0078000025508
+>> [  139.809024] x11: 0002550800000009 x10: 0000046c0446043e x9 : 
+>> ffffdbf23c137000
+>> [  139.817031] x8 : 0000000000000438 x7 : 0000000000000000 x6 : 
+>> 0000000000000000
+>> [  139.825034] x5 : ffffdbf23adbb9c0 x4 : ffff0001f0df1780 x3 : 
+>> ffff0001f0df1780
+>> [  139.833038] x2 : 0000000000000081 x1 : ffff0001f6fad500 x0 : 
+>> 00000000ffffffea
+>> [  139.841042] Call trace:
+>> [  139.843780]  rk_iommu_identity_attach+0xac/0xbc (P)
+>> [  139.849252]  rk_iommu_attach_device+0x54/0x134
+>> [  139.854236]  __iommu_device_set_domain+0x7c/0x110
+>> [  139.859510]  __iommu_group_set_domain_internal+0x60/0x134
+>> [  139.865561]  __iommu_attach_group+0x88/0x9c
+>> [  139.870250]  iommu_attach_device+0x68/0xa0
+>> [  139.874841]  rockchip_drm_dma_attach_device+0x28/0x7c
+>> [  139.880508]  vop2_crtc_atomic_enable+0x620/0xaa0
+>> [  139.885678]  drm_atomic_helper_commit_modeset_enables+0xac/0x26c
+>> [  139.892413]  drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>> [  139.898369]  commit_tail+0xa0/0x1a0
+>> [  139.902279]  drm_atomic_helper_commit+0x17c/0x1b0
+>> [  139.907552]  drm_atomic_commit+0x8c/0xcc
+>> [  139.911951]  drm_client_modeset_commit_atomic+0x228/0x298
+>> [  139.918005]  drm_client_modeset_commit_locked+0x5c/0x188
+>> [  139.923960]  drm_client_modeset_commit+0x2c/0x58
+>> [  139.929137]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xb4/0x100
+>> [  139.936164]  drm_fb_helper_hotplug_event+0xe8/0xf8
+>> [  139.941526]  drm_fbdev_client_hotplug+0x24/0xe0
+>> [  139.946605]  drm_client_hotplug+0x48/0xc4
+>> [  139.951100]  drm_client_dev_hotplug+0x9c/0xd4
+>> [  139.955984]  drm_kms_helper_connector_hotplug_event+0x20/0x30
+>> [  139.962426]  drm_bridge_connector_hpd_cb+0x88/0xa0
+>> [  139.967790]  drm_bridge_hpd_notify+0x3c/0x60
+>> [  139.972577]  display_connector_hpd_irq+0x30/0xa4
+>> [  139.978835]  irq_thread_fn+0x2c/0xb0
+>> [  139.983894]  irq_thread+0x170/0x304
+>> [  139.988833]  kthread+0x12c/0x204
+>> [  139.993468]  ret_from_fork+0x10/0x20
+>> [  139.998486] ---[ end trace 0000000000000000 ]---
+>> [  140.004737] ------------[ cut here ]------------
+>> [  140.010884] WARNING: CPU: 0 PID: 110 at drivers/iommu/rockchip- 
+>> iommu.c:1040 rk_iommu_attach_device+0x114/0x134
+>> [  140.023079] Modules linked in: panthor rockchip_vdec rocket 
+>> drm_gpuvm v4l2_vp9 v4l2_h264 drm_exec rockchip_rng drm_shmem_helper 
+>> v4l2_mem2mem gpu_sched rng_core fuse
+>> [  140.040577] CPU: 0 UID: 0 PID: 110 Comm: irq/58-HPD Tainted: 
+>> G        W           6.16.0-rc7-00183-gd436cbe8e4b3 #1541 PREEMPT
+>> [  140.054457] Tainted: [W]=WARN
+>> [  140.058804] Hardware name: Theobroma Systems RK3588-Q7 SoM on Tiger 
+>> Displayport Carrier v1 (DT)
+>> [  140.069595] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS 
+>> BTYPE=--)
+>> [  140.078454] pc : rk_iommu_attach_device+0x114/0x134
+>> [  140.084989] lr : rk_iommu_attach_device+0x98/0x134
+>> [  140.091423] sp : ffff800080e4b7e0
+>> [  140.096197] x29: ffff800080e4b7e0 x28: ffff0001f6f98080 x27: 
+>> ffff0001f0a4b010
+>> [  140.105270] x26: ffff0001f6f98e58 x25: 0000000000000000 x24: 
+>> 0000000000000000
+>> [  140.114351] x23: ffff0001f6f843e0 x22: ffffdbf23c0485e0 x21: 
+>> ffff0001f0e9cc10
+>> [  140.123425] x20: ffff0001f0e2cb80 x19: ffff0001f6f843c0 x18: 
+>> 0000000000000038
+>> [  140.132489] x17: 0002550800000009 x16: 0000046c0446043e x15: 
+>> 0438000008ca080c
+>> [  140.141552] x14: 07d008ca07800780 x13: 0438000008ca080c x12: 
+>> 07d0078000025508
+>> [  140.150623] x11: 0002550800000009 x10: 0000046c0446043e x9 : 
+>> ffffdbf23c137000
+>> [  140.159701] x8 : 0000000000000438 x7 : 0000000000000000 x6 : 
+>> 0000000000000000
+>> [  140.168772] x5 : ffffdbf23adbb9c0 x4 : ffff0001f0df1780 x3 : 
+>> ffff0001f0e2cbe0
+>> [  140.177825] x2 : 0000000000000081 x1 : ffff0001f6fad500 x0 : 
+>> 00000000ffffffea
+>> [  140.186858] Call trace:
+>> [  140.190627]  rk_iommu_attach_device+0x114/0x134 (P)
+>> [  140.197124]  __iommu_device_set_domain+0x7c/0x110
+>> [  140.203417]  __iommu_group_set_domain_internal+0x60/0x134
+>> [  140.210492]  __iommu_attach_group+0x88/0x9c
+>> [  140.216203]  iommu_attach_device+0x68/0xa0
+>> [  140.221802]  rockchip_drm_dma_attach_device+0x28/0x7c
+>> [  140.228479]  vop2_crtc_atomic_enable+0x620/0xaa0
+>> [  140.234664]  drm_atomic_helper_commit_modeset_enables+0xac/0x26c
+>> [  140.242400]  drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>> [  140.249349]  commit_tail+0xa0/0x1a0
+>> [  140.254246]  drm_atomic_helper_commit+0x17c/0x1b0
+>> [  140.260496]  drm_atomic_commit+0x8c/0xcc
+>> [  140.265866]  drm_client_modeset_commit_atomic+0x228/0x298
+>> [  140.272885]  drm_client_modeset_commit_locked+0x5c/0x188
+>> [  140.279791]  drm_client_modeset_commit+0x2c/0x58
+>> [  140.285914]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xb4/0x100
+>> [  140.293889]  drm_fb_helper_hotplug_event+0xe8/0xf8
+>> [  140.300214]  drm_fbdev_client_hotplug+0x24/0xe0
+>> [  140.306248]  drm_client_hotplug+0x48/0xc4
+>> [  140.311695]  drm_client_dev_hotplug+0x9c/0xd4
+>> [  140.317531]  drm_kms_helper_connector_hotplug_event+0x20/0x30
+>> [  140.324930]  drm_bridge_connector_hpd_cb+0x88/0xa0
+>> [  140.331248]  drm_bridge_hpd_notify+0x3c/0x60
+>> [  140.336990]  display_connector_hpd_irq+0x30/0xa4
+>> [  140.343120]  irq_thread_fn+0x2c/0xb0
+>> [  140.348081]  irq_thread+0x170/0x304
+>> [  140.352937]  kthread+0x12c/0x204
+>> [  140.357501]  ret_from_fork+0x10/0x20
+>> [  140.362453] ---[ end trace 0000000000000000 ]---
+>>
+>>
+>> After some minutes of hanging it does reboot afterall.
+>>
+>> Heiko
+>>
+>>
+> 
+> Could you please help confirm whether the same error still occurs with 
+> this patch series under the same conditions?
 
-On Mon, Jul 28, 2025 at 5:08=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com=
-> wrote:
->
-> Due to a quirk of the SVGA device the MOB that backs the COTable cannot
-> exceed SVGA_COTABLE_MAX_IDS elements. This causes issues because MOBs
-> are allocated in PAGE_SIZE chunks which means we always round up the
-> size to the next page. This causes the device to error out when we try
-> to set a COTable that can store SVGA_COTABLE_MAX_IDS but is slightly
-> over-allocated by some fraction of a page. This then leaves the device
-> in an indeterminate state.
->
-> Due to the doubling logic in vmw_cotable_create this occurs when we
-> allocate slightly more than half the available IDs. As a result the
-> validation logic in vmw_cotable_notify never trips which is what we
-> currently rely on to limit the size of the COTable indirectly.
->
-> By reducing SVGA_COTABLE_MAX_IDS to a slightly smaller value we can avoid
-> this quirk. Any application getting close to this limit is likely
-> leaking resources so reducing the size by less than 1% should not have
-> any noticeable impact on well behaving applications.
->
-> Fixes: d80efd5cb3de ("drm/vmwgfx: Initial DX support")
-> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
-> ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c b/drivers/gpu/drm/vm=
-wgfx/vmwgfx_cotable.c
-> index 98331c4c0335..366e97a95179 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cotable.c
-> @@ -74,6 +74,11 @@ struct vmw_cotable_info {
->                             bool);
->  };
->
-> +/*
-> + * Due to a quirk of SVGA device we can't actually allocate SVGA_COTABLE=
-_MAX_IDS
-> + * for all resource types. This new limit will work regardless of type.
-> + */
-> +#define SVGA_COTABLE_EFFECTIVE_MAX_IDS (SVGA_COTABLE_MAX_IDS - 510)
->
->  /*
->   * Getting the initial size right is difficult because it all depends
-> @@ -545,6 +550,7 @@ static int vmw_cotable_create(struct vmw_resource *re=
-s)
->  {
->         struct vmw_cotable *vcotbl =3D vmw_cotable(res);
->         size_t new_size =3D res->guest_memory_size;
-> +       size_t max_size =3D co_info[vcotbl->type].size * SVGA_COTABLE_EFF=
-ECTIVE_MAX_IDS;
->         size_t needed_size;
->         int ret;
+Careless, what I want to express should be '...without this patch 
+series...'. :-)
 
-I'm not sure about this one. I suspect that what we really want is to
-just properly align new_size to a page size. I think we do it (align
-sizes to a page size) in a bunch of places. In particular the buffer
-that's actually backing the cotable will be page aligned so if you
-replace res->guest_memory_size with
-res->guest_memory_bo->tbo.base.size it might fix it. But in general
-the issue is that res->guest_memory_size is pretty severely broken,
-there's a bunch of places in vmwgfx_resource.c that uses it as a
-boolean.
+> 
+> And I will also perform additional verification on my RK3588S EVB1 board.
+> 
+> Best regards,
+> Damon
+> 
+> 
+> 
 
-z
-
---00000000000057a975063b08d5af
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
-SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
-uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
-s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
-SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
-QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
-fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
-iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
-3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
-91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
-06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
-b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
-VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIB6l
-+NarkQN5ugy0CpDMufNwKWOZBGwtUOXjzFInkv87MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDcyOTAzMTYyNVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAKPnKkaXTlzfvAaLcuTLPc9rlBEdChcgGvyyQKFa
-XURFxOOi9/L/rJQUqqbqNdHcxbphhz2IJxB5wlkPA7DMpcwxk1igDyKy/LN/VIt7tTqEpu3gQUGV
-ZDJyKEsTA+dSN7wq5FB8pXP4rekMdWSU2ucxSZMWoVAicx/U2nqAM5uMFvL+1OyAPkxd4MI3y6+q
-TzL5v+uKW4FDni0olkoyNHUj6685wRDRkOVT2ypZEMCBGph5U4bJ0jpedCqqUBqiMiLB4WqQ6hc8
-4Zc+2X+IwHAuIf/aHiZ9FHepcQa4Cfo//WpBFjCYVBrHb8RPaWGXnoTilcqs/LCmTJWjNqQR0tI=
---00000000000057a975063b08d5af--
