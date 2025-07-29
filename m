@@ -2,104 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6E4B14FB6
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 16:57:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A85FB14FB9
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 16:57:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3753510E3E8;
-	Tue, 29 Jul 2025 14:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B1E010E641;
+	Tue, 29 Jul 2025 14:57:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iwrQamTT";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IiqUseA7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 467C710E3E8
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 582A210E63B
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:41 +0000 (UTC)
 Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56T96qT0023471
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:39 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56T8p1EH023457
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=r5UPSy+ehArJ0kieZ3fL0Y0tSoDuquiGCGJ
- +T2zz/U4=; b=iwrQamTTYmbGr5OuuQJyvBsvyoBJHBz7WmIenzJNu2bJlTmmqUt
- 14wBqLSUfgr3VZj6ZS7/vDOFRcQln0hnbbhSMXXMYlJePJLhCvjqeAqCyaRcHT18
- vF0eqM7eyZJEkgMZzDot1ZGpOqGhT0sEe/Vt9zqQqDfVCQuY9wvN/f5UA2fZeFg7
- wR3VV2bc8cP2zA0Auyal7KvfwJsdnTHh1Jbp3BYDyRQG6+Fr1ES6FMMmv17vWw80
- Mem4gyOpU7iLgGoUntkNLusn5OtOUMd5vMdhAi13udf7EAnCsMS9EitRv7PrfOBv
- Ax4VJQ5klh29ZlNctBDciBlm9va/9P34R1Q==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484r6qrfvs-1
+ cc:content-transfer-encoding:date:from:in-reply-to:message-id
+ :mime-version:references:subject:to; s=qcppdkim1; bh=0qBkf9JDSmf
+ FwdkCS8a187SNR+0cTRqqV9Ya3fpJH68=; b=IiqUseA7ZxZPmNVf5O8ZEZd1UjI
+ snNXRY+1zeGSC0McZYDyiy3tCUSqCWZKN5mQJbLK7Gg89m1ZgWtPV7/p5wxlq/0M
+ nUW2js4rF28MoR8IZJtfLwdB/+SxEZ89AZ+20387HNM3Kn+TtpUzc35HkkOFAIVs
+ nH1ChZ1XwEWuKW3c5gGgc3o0iB4rr6pbROPIU/K4mEft3R6ED0X+eTIEyXzIyeF7
+ VU+Nly8soc0ZPqljK5L8SNDaqD7O77bs1yKd8CMMaKukeSBWyMWe0LsrGAjgprF5
+ tMmhAUIJX1songUbbQ2tXmdkk7UJ8uc48fv8Jjua/b88SH1Qvuium1K34Ig==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484r6qrfvu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:39 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-2400b28296fso34889305ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 07:57:39 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:40 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id
+ 41be03b00d2f7-b31bc3128fcso8846771a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 07:57:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753801059; x=1754405859;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=r5UPSy+ehArJ0kieZ3fL0Y0tSoDuquiGCGJ+T2zz/U4=;
- b=rME35uYdmrKK8sREzMTLp5lOwI/UuqE3xTN3ijlT7GQrGODXr3ZnoTuich1regb5ch
- VRjpClClUzOLepdeBnKqkj8eb2yWUNmhilImgdG8VKmbhVPWlUFZVc+HrQRM3UtMCcYi
- ypMPXdBx+lGN+6sZpPat31neZLFNJTbNdNCXXsF7m5O4RytzXFNT58zzvC5tTG1H6LLu
- jW3Yvqb23k6cpbrQxrPDESpus8SvULKAcNiWf1JJvMU7wQ5rxLa7qvPPk+dnF8zr9Prh
- WLujTC0yBg18eMv8fHnZt8Ohx+Znfqz+18Kj0yncqGIksgNFQfzn5ucPGwaRS5NJczTe
- j2zw==
-X-Gm-Message-State: AOJu0Yz37Lxz87vQyOyDKO82uGv084CXmej5yy7jkx6GwdqXvYgZ8tLy
- 19Tdf9zLAFNZGQmqGCCMoSxoP59njr1lpDHTwUf5BPQiYxsvrROvnSdXIvHXVDuJpdbxArplOWM
- LPIPUrQBGqM9S+A0J9vdyhdARfFBD6ky2XSLG1yciYbjtTITDRs+7XvTH/9p+cadm48iWWKwdAa
- 24AUs=
-X-Gm-Gg: ASbGnctmfRFFzhij1KVzfc/NDsy+tUOvVabPL7uuFPoCE84/Ye9PnhVPrWR7zAY8exK
- r5ysHzG6ZbUUwE6168iWHpmrXhn5UCP7tVb+P2Zfd72Bb6M6DNcTZNlGVCq76mrYOgIzvR/5xqc
- FwOYg3gHZGSixdMZ9V2AKTTtEmUdX0+/HmLcm3GAuEDjt4pns7Kmllq9x2tlbP7wjO7dBhtQXKb
- jhe09PtI9CacLZRtro96uks4tJbEzJpSNPLeOvCwuuOup+udsDLff4BUVv7zq800omdPq8YYYTu
- NevplUnsTwpJztZXzwGzpAURpg3yvIknw+Ok2SQHMTFeCV/gno4=
-X-Received: by 2002:a17:903:283:b0:240:6740:6b11 with SMTP id
- d9443c01a7336-24067406f22mr49778135ad.40.1753801058408; 
+ d=1e100.net; s=20230601; t=1753801060; x=1754405860;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0qBkf9JDSmfFwdkCS8a187SNR+0cTRqqV9Ya3fpJH68=;
+ b=b3blGa1GiCuQrH7xFNsVrIbviAVD0LNcPYpu1r7Ip1YaBkfEc8CDWclgsjmq9SxIzi
+ Myw8BwF3aqd0DGbTRr7JhNVYZLYZdqv+9/mNU2ImdlbYkGPRP4qpQOeZEEEyPCToTbzW
+ jEexkFc+rgdwa1QbGlUUwhukOWucP2NRf5mY6cUGvY+6hiI21HaRcKSK2L+RdKKqUFdR
+ 4ct7L/2t19+YMUAMTyqSVKb2OxEsa1Tb6KLRjyHq2NUOdGRQ5BhZyPxzDF1JmKQa4MDl
+ yz2C+aT6EzKBYB15arou7rsgN+bVybJWLHu+vHl/MNddmkbifXWal4k4kz6ouXYiPp/q
+ 8V1Q==
+X-Gm-Message-State: AOJu0YwB+CFUpBxdhY0ixJOHbY4vAgdnHJgeXvLigtY12HyO4/BPEMPa
+ dQOfQGfo/KlqEeslKnJAFSFYOBQKs4mtnwTKniQAtc+X+z9juYDtB+jgIzWuTR2YbCTUSsg32Nl
+ DwatYh6GbSiTNjyuvzFgJT7eDAVsaoxnP6FGTdIkQJHBbZnZOBw8JbDjplPI7mG+SkawUrg+VOQ
+ nkx6Y=
+X-Gm-Gg: ASbGncuj9pBPgUbL9DwgiNKhE3JiTMD7Rjk8Egr6Lsi6SdGnT/KnUGcpzO07RgqRhx+
+ wiQDvkQhTX/vGyeyYekmmFaKvKb7Uj2ICKrHUuUjB3kB+HzafsdGMUoutXrdrI0HHATxf6jGzA2
+ VHLW4Ftu8cRv/JD0emixXAJxmtQUzRjwhSmsteEE6RLj2rpTuyMkByU3Vh4QyytnHk3vahpu02F
+ lVCe7ubHdD2I+07zMUlQaovfwnvGwFoLtkOAFRG1aG0KUjIQi2neGmJN/sq3sgeakKwfIPUuTH1
+ QTBVI0CYhPPSYcRVk2nitjc48s8UXAVabBzkbJFOmyMtQTDk6Ao=
+X-Received: by 2002:a17:903:ace:b0:240:1953:f9a with SMTP id
+ d9443c01a7336-24019531719mr133423295ad.2.1753801059452; 
+ Tue, 29 Jul 2025 07:57:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGD4GKtP2sJEpJJxujTV2ZRkIuCi7nOh6GWilBcpkOTveTX8D8XdwMAVNRZGCDv3ocJrDEVyw==
+X-Received: by 2002:a17:903:ace:b0:240:1953:f9a with SMTP id
+ d9443c01a7336-24019531719mr133422875ad.2.1753801058983; 
  Tue, 29 Jul 2025 07:57:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHFQovZlrhwFov5F/FdQdGq2gSTgHMjBMBeH8Fux2H9TUnRq58+154f4BSUz7QjrZqjwgo7yA==
-X-Received: by 2002:a17:903:283:b0:240:6740:6b11 with SMTP id
- d9443c01a7336-24067406f22mr49777165ad.40.1753801057121; 
- Tue, 29 Jul 2025 07:57:37 -0700 (PDT)
 Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2404483f5a0sm38202595ad.191.2025.07.29.07.57.36
+ d9443c01a7336-24029726586sm48279835ad.19.2025.07.29.07.57.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jul 2025 07:57:36 -0700 (PDT)
+ Tue, 29 Jul 2025 07:57:38 -0700 (PDT)
 From: Rob Clark <robin.clark@oss.qualcomm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  Akhil P Oommen <akhilpo@oss.qualcomm.com>,
  Connor Abbott <cwabbott0@gmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
  Konrad Dybcio <konradybcio@kernel.org>,
- linux-kernel@vger.kernel.org (open list),
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v2 0/7] drm/msm: Various snapshot fixes
-Date: Tue, 29 Jul 2025 07:57:17 -0700
-Message-ID: <20250729145729.10905-1-robin.clark@oss.qualcomm.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2 1/7] drm/msm: Add missing "location"s to devcoredump
+Date: Tue, 29 Jul 2025 07:57:18 -0700
+Message-ID: <20250729145729.10905-2-robin.clark@oss.qualcomm.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250729145729.10905-1-robin.clark@oss.qualcomm.com>
+References: <20250729145729.10905-1-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDExMyBTYWx0ZWRfXwuLQRSNDQYh2
- +PcThAJGZxGTHisqZCpqBptqQK/HhvUFfUaA9WhX0vfDBunmF2x+rgzoWWKmqhbnqIypWdl1onl
- t6ygfODt77S46KMW43eFMLiOMtZnTCyzQZmwnZbzO8m3B/egcPWtuhDvb8OWkopclQG/YP5LeuW
- uaamSUUvLvxOZMPqXjvfdzOxD/u0YWymX+gUesDC9mWrzsirz8oKu6BIV1gl4aFIsjTzRhJcp9l
- HrKI0D/+Z9kkUuIyEPLuQF8ko3hoANVgJuPegrpIQLRi/ha+B4fnxytBxAviU2SirL7FfC8davc
- K1t8GM8rTPJieXZWEKhqdT78pNWVSqjVz0F7PqpkWp3gwYZ2F1DxH5kECCUto3nghwpdYanc3qr
- mGCXaFOtuOtHkVw3Z3ziLTwc6tYp9wjbetppkUKT1BdtuKHT2nvSpQGuCbFIVgyCo87fibTO
-X-Proofpoint-ORIG-GUID: _3xEp9a4raYQle-84fgdRWSpN-j_GLki
-X-Authority-Analysis: v=2.4 cv=ea89f6EH c=1 sm=1 tr=0 ts=6888e163 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
- a=w1cFhwVCMIBtwBHhTYMA:9 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-GUID: _3xEp9a4raYQle-84fgdRWSpN-j_GLki
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDExMyBTYWx0ZWRfX3Jw0YZX8V0s4
+ D1yqPzG4zaN9TCZxH0vLsNuKcS8et9DkPrd/POdx1nBuDOrxGZXka13P7xPA69fAWIETCBEojiK
+ TuLGgnScPweIzZdHabuhzdSHTZgTgO0UOrjmmUYvVZCPTHyaZyXMWYbTKb6K45MWCSpxenjU+6m
+ SndsAFa0Qd/DELeuivFG9evNQR4RP2szggRBLzOwfB/Cu6Rq/Nz+Mm/vM/8Yu8ijWBTarRhTV/J
+ tMbopgyBa3MzuwG+zp2JtNQWdclflozxg/e1GbgDJmzjK/WiyaPHQBxpRr/csN74B7zrbw4Jayr
+ Nb5nnMMqD1L0deRklvhwodNkWyWKw276uZlFA6hg0lvxnFbqka2tqehJ0JQ2kqRyMz/nBRVzufV
+ o/sTv6S6Sniq5x+lvb4wA6qQ0EJtHKjH2JXmeUwwbjL8bhiBwLufRLQQKTkYJ8BOu5YpX+S6
+X-Proofpoint-ORIG-GUID: G1dQvhsOQfHm4kyQkMlM2Ajw8czxVA7W
+X-Authority-Analysis: v=2.4 cv=ea89f6EH c=1 sm=1 tr=0 ts=6888e164 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=EUspDBNiAAAA:8 a=YFM8xwheDJGXjHaRWHsA:9 a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-GUID: G1dQvhsOQfHm4kyQkMlM2Ajw8czxVA7W
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-29_03,2025-07-28_01,2025-03-28_01
@@ -124,26 +126,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Various fixes I've found so far while ingesting upstream devcore dumps
-into internal tools.
+This is needed to properly interpret some of the sections.
 
-Rob Clark (7):
-  drm/msm: Add missing "location"s to devcoredump
-  drm/msm: Fix section names and sizes
-  drm/msm: Fix order of selector programming in cluster snapshot
-  drm/msm: Constify snapshot tables
-  drm/msm: Fix a7xx debugbus read
-  drm/msm: Fix debugbus snapshot
-  drm/msm: Fix a7xx TPL1 cluster snapshot
+v2: Fix missing \n
 
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c   | 26 +++++++++----
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h   | 38 +++++++++----------
- .../drm/msm/adreno/adreno_gen7_0_0_snapshot.h | 19 +++++++---
- .../drm/msm/adreno/adreno_gen7_2_0_snapshot.h | 10 +++--
- .../drm/msm/adreno/adreno_gen7_9_0_snapshot.h | 34 ++++++++---------
- drivers/gpu/drm/msm/registers/adreno/a6xx.xml |  6 ++-
- 6 files changed, 78 insertions(+), 55 deletions(-)
+Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+index fe38ea9328d4..a35cec606d59 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+@@ -1800,6 +1800,7 @@ static void a7xx_show_shader(struct a6xx_gpu_state_obj *obj,
+ 
+ 	print_name(p, "  - type: ", a7xx_statetype_names[block->statetype]);
+ 	print_name(p, "    - pipe: ", a7xx_pipe_names[block->pipeid]);
++	drm_printf(p, "    - location: %d\n", block->location);
+ 
+ 	for (i = 0; i < block->num_sps; i++) {
+ 		drm_printf(p, "      - sp: %d\n", i);
+@@ -1877,6 +1878,7 @@ static void a7xx_show_dbgahb_cluster(struct a6xx_gpu_state_obj *obj,
+ 		print_name(p, "  - pipe: ", a7xx_pipe_names[dbgahb->pipe_id]);
+ 		print_name(p, "    - cluster-name: ", a7xx_cluster_names[dbgahb->cluster_id]);
+ 		drm_printf(p, "      - context: %d\n", dbgahb->context_id);
++		drm_printf(p, "      - location: %d\n", dbgahb->location_id);
+ 		a7xx_show_registers_indented(dbgahb->regs, obj->data, p, 4);
+ 	}
+ }
 -- 
 2.50.1
 
