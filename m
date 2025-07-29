@@ -2,122 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DA0B14E64
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 15:30:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C61B14E66
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 15:30:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E09A10E1F8;
-	Tue, 29 Jul 2025 13:30:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF7F10E06A;
+	Tue, 29 Jul 2025 13:30:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="e0F8kmoc";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CSxBakmP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6592710E06A
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:30:16 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56T8OROB018159
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:30:15 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C5D810E06A
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:30:46 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56T8csnL014609
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:30:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ZkVVfMqcS22T194hcW1I5vSe52GnRrmOg+MhaqqVH00=; b=e0F8kmocfkMJoXQq
- +f69DQcn3OviJUPsS1EksTyfmXysLxm4zjTmoRPyUJOSUjhEVYeAZvNlfRNE5jyM
- ZWwizMblp4PWgzlsaXvnCnUPQmJKLHtVq9d0ZFHTpRbVNF3yqSAK6J1IC3MwV8xe
- xMcLsF6gg0BRQozsjKr4L98O1ITXlDp8HdLimdLXqeMAfEj00HeS25FdxIpqNPxo
- o1fcomAbux0r8MA7gagI2yO9P4Z4DS1fO0eDZBY+GBKqB2Ycuq+U+Bzh5KzTR3K5
- NjRp+4T14Pu9NVxHtjSmxnbuzZ/f+8LW31SxfYnVUHThzEtoanDDYmgMjZ0k1sZi
- OzGVDg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484pbm052s-1
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=Pwd1Uen4tLsiNQA5gsPz+U
+ 2GfwJQb2ufYXc1ajWUN9E=; b=CSxBakmP/PTlEy/xsnBBFGXuhnKoget3Rj3OZC
+ g57G2P4woMrQGZNTalO1OEJ5hrlnQJi8BvRbFhSXJql1rBoC4/rTgX054SFlmsID
+ UV92el4Wv8tTZQ0xRODmpkqN2PoaLO93MDx7PqU+vKYN+KorwzbBZALK2kTqRyy9
+ mV4Az8xMzcZB6Dmd8Pr23Q4i7hHUXcRYJhj3nxaru3//6RCad/ElH85ucw4Vo13o
+ PPtiyfVepcyLN8I1zbhTmdFM4fZskehHRPinWpeAvsXUVUrlSbVD0A6pT48weWnY
+ dgNUIrPZ/6wnfoGzWjsoRdWZMdqlH1qjS/vY5fy79945qBXw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484q3xr6de-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:30:15 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7e34e28a640so38285885a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 06:30:15 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 13:30:43 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-2405fdb7c15so14098025ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 06:30:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753795814; x=1754400614;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZkVVfMqcS22T194hcW1I5vSe52GnRrmOg+MhaqqVH00=;
- b=HECjOjbr7P12TmAVdc6JNm9upUnztycyXwiiRQF8SMdBM9/NpRXwEwwaF0gzjGwBT8
- XeBoYOd7Peam6vntnZufZOkvZJS5oY8yTL1uptn7E3nMdI1pX4xRebBUy1PvIXTjomtI
- v3gtIY8aZV+m7vQYwqiNytos1kTA8hqMqXxANcyJREwZEASua4JTl/Qs53aomQRt+Oeg
- XQOPEyu2n353fOhiXLEyAV8/EE5I9vdTw/AU572wY2fPo6BPkRExHQXrf/Neqf9F5A4y
- hjDRzkHDECrjpgsmGSFc3J5RmGNQsef8P9k7POTQ+ie0Krmm4AwI8d0j8+Y4diQx4AtN
- BZGQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWNOyejeN93559LVeMpZqOcpD+AyvvGTaH2imce9/LxVIcm+VrFbnyV0BufdTwgvQCwde0SvZJtZd4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzImkSajyckI+CEZNuljc5kLDCtmoSSRMU27DAiCrJaJzj4P4Hm
- qKHlt19IiKEy3hF2qZHf+PhrpEXukKiTw3l+CPhyn28iiISqetiHVdU317F2ao74F/uaPVWGCF6
- TEAZqjlsquOZlB+pQrhn+KGbe3sRmv1B8MeH3GuwL6fLlX3GLgZ5qiBRWnX4hVbVuxcjfCH4=
-X-Gm-Gg: ASbGncsPGO8RsfO7FdRChDYjA0y6grmsqYYlJy8FEtYQejlMtSCwVIH7btjlrtxMZ95
- Bwa8cwJzVXd9cOciaXlG573uE+31LzQUw65FvpyeEeF2grWa/BvGsnk5jtGGizjVzJoOVdWQiRt
- GyqhhEzWqTJw/IilBPNrDcIXGKGwUyEhAWFHIqdGasXd1l6r1MN/gEtReX2AQlSLfuy1JpdxjXh
- G0k6D4L939RzLFw2JXnQRLXufvxi7RMkSlcuTJ1Azbcv0Kc6cLRxdU6Fee71sCI6EeAi65ni5CC
- Ib2u2YXLp3aLkooN/FCurD8xSyHxkjgPi3wxBBjKKMM1HXi4zWFzcfpvCNyWUog6EijutyxOhV+
- mAb+6BZGlxYEPpEDx+w==
-X-Received: by 2002:a05:620a:284c:b0:7e3:297d:ec32 with SMTP id
- af79cd13be357-7e63bfc3749mr814895985a.10.1753795814161; 
- Tue, 29 Jul 2025 06:30:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGgmtqIpfxLvIlR9V46R14lP22op8xYzy/QAirfAkHBUcpzQdLdsiTffbYJQzdMY2lRH96DEg==
-X-Received: by 2002:a05:620a:284c:b0:7e3:297d:ec32 with SMTP id
- af79cd13be357-7e63bfc3749mr814890485a.10.1753795813536; 
- Tue, 29 Jul 2025 06:30:13 -0700 (PDT)
-Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-af635a62af3sm592795066b.84.2025.07.29.06.30.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jul 2025 06:30:12 -0700 (PDT)
-Message-ID: <4a1c3cf1-9688-4275-87ac-8fffd4469889@oss.qualcomm.com>
-Date: Tue, 29 Jul 2025 15:30:10 +0200
+ d=1e100.net; s=20230601; t=1753795842; x=1754400642;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Pwd1Uen4tLsiNQA5gsPz+U2GfwJQb2ufYXc1ajWUN9E=;
+ b=nn6Aof6IXbi1ONIKnwS8wW2OlqoCUroq8gLsXp+arkPYpx4YGdTCiLxLwQ+BRcaZmD
+ Tj4dOmJE7rx/GN3u8ConKkMG0jF6+9gLIolR1g2U1yZ90UEROxGv510fdDFJK0vYnOAg
+ 5FCmnKVOs0dT3eof3XmHAT5Z4Kl8E+55ilFC0IdtBCbLjSA1J62t0G5D1o6UOYQ2HTOp
+ YM6GcQuEcUL/xE0YzWE4NnSShAiAZCtkcSATSGL6OCXy1TwOgUww5oRL/eqf78pyxXAS
+ V9rUg+1dPZo01cutTyz6vTYIdHcN4wHIKM8LIZrA9Oz3uSD1d+oyGfTxtRtRuu7LqkJC
+ IDnw==
+X-Gm-Message-State: AOJu0YxQWbs+/q2g+BgQ1k2aV8rLz0SEmxGd1zy7yLV//qqDyu/Dv295
+ 3vLGp7pg0CxyvQNahK2HMYXbbaBCAHs16LK6GAuVIjGvhWoZlqM+7QiSjiWRYtTJyR8LDqMJRkU
+ JTZddVy0ZCaklN/ONlCkLA/1FsrvCeg5ZgEKq0QNLW4fTZa5eWFdJxmGH7BAJ7eQyiySUjg==
+X-Gm-Gg: ASbGncuKec+FyDBPezocsibopkOUqcbLy6lLGwoTC7tA9ixvDoNgtHMpiWjnh9v55zy
+ b32cLlGoCDVuKRPmy/m6ZmGmuhAtAXoHHvlTP7HGZ7JiYxmZd40h0tu/+skogd02q2a2YoVkS5t
+ y5cDLPrLsvWllY6R3epBFuDlXwO76mCW3aibHdaBoG/87/L9P22V5W5qd5tSRTjRL3HdOli2joM
+ FG+kmMXVZtz5IBTWOWV2FoGps9Jj55HdmW+/CqfWXd2dUGASN5Ywy6Ar6uItpq1t2kN9fZGe1Mq
+ hbsjUuEPRZzuo3XXsYZ0xMPw7JGyhIujYCAtjmhLi5beS5iVpgmp4w0aXQUYiRaO8A==
+X-Received: by 2002:a17:903:2345:b0:23c:7c59:c74e with SMTP id
+ d9443c01a7336-23fb2f04695mr216927795ad.0.1753795842358; 
+ Tue, 29 Jul 2025 06:30:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH5t4Sc97KxWI2Rca2EtO4U71cyx1Ik2icwdj8jBwYXMK+EryFm+s1oMsxCnZGJ7OrOvhGfRw==
+X-Received: by 2002:a17:903:2345:b0:23c:7c59:c74e with SMTP id
+ d9443c01a7336-23fb2f04695mr216927395ad.0.1753795841971; 
+ Tue, 29 Jul 2025 06:30:41 -0700 (PDT)
+Received: from hu-nlaad-hyd.qualcomm.com ([202.46.22.19])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23ffa39742dsm59750175ad.101.2025.07.29.06.30.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Jul 2025 06:30:40 -0700 (PDT)
+From: Nilesh Laad <nilesh.laad@oss.qualcomm.com>
+Date: Tue, 29 Jul 2025 19:00:30 +0530
+Subject: [PATCH] drm/bridge: lt9611uxc: add support for 4K@30 resolution
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/17] drm/msm/a6xx: Switch to GMU AO counter
-To: rob.clark@oss.qualcomm.com
-Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
- <20250720-ifpc-support-v1-9-9347aa5bcbd6@oss.qualcomm.com>
- <0a2188e7-3919-48f7-b5c1-8f779f617f28@oss.qualcomm.com>
- <CACSVV02x1s9oBSV8khgPhqPJdT1igOzRSOp5wYUZowKvXsb-Dw@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CACSVV02x1s9oBSV8khgPhqPJdT1igOzRSOp5wYUZowKvXsb-Dw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=LsaSymdc c=1 sm=1 tr=0 ts=6888cce7 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=ERHQbKNnysnh4IVj_LEA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDEwNCBTYWx0ZWRfX/c/FR28YU9HB
- O+zt2QKcSp5FuW5hUZAQezVTgt90ki3Ag0osGcRE51MJZiHg9yCOMRVgzQBXm5NjWXrrbjMxyLK
- /7me0uxQzCtHyrZCWEczkiqaVI97+uPpdps7O6bHNZMWmSZS6F12jZ70kz7Xh5hoQg6EDQuabDY
- VmWReG/89jbdxQar8oQgDSe9Ep3nNmO10RtQYTdrevg5mV/RtTqlTYH67naVYhufhMd/DllLCeN
- Yz4N7uiV+d6xMeBVsYqSCb7LsL41Oo3fqddboxIvuALmN12uy50cp+I0vMrGBmqlvV0Zk5v3f3k
- c50OEI5w/71d/JvHhNK/2pOmOrFxSvBosgs0tHeFMHjVH6nWV05UeJ1fKLT8QK4bgkkCTN7jqXa
- iffJPAr1JQipU0dg65csnmlQ7bK1lB2gBoXMYaDQgzhp/NtRh5W5SwOznB+96EKULb1QrrDz
-X-Proofpoint-ORIG-GUID: vznfSV8tDAgQgI5Lw44S6aGi0EQ86NZP
-X-Proofpoint-GUID: vznfSV8tDAgQgI5Lw44S6aGi0EQ86NZP
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250729-lt9611uxc-4k30-v1-1-cacab6843f9d@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAPXMiGgC/03MQQqDMBCF4avIrBvJxMaoq96juIiatqHG1IyKI
+ N69QbvoZuAfeN8GZII1BFWyQTCLJeuHGHhJoH3p4WmY7WKD4EJyJUrWT2WOOK8tu74zznJUsmk
+ KzaXiEEefYB52PcB7fXYw4xzd6XyCM0T6cKvkp8o/1fnOEFuQIcs1Zg0WWArV3TxROs66b71za
+ TxQ7/sX0sibZ74AAAA=
+X-Change-ID: 20250729-lt9611uxc-4k30-6175bb8a0570
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ venkata.valluru@oss.qualcomm.com, jessica.zhang@oss.qualcomm.com,
+ Nilesh Laad <nilesh.laad@oss.qualcomm.com>
+X-Mailer: b4 0.15-dev-a9b2a
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753795836; l=1113;
+ i=nilesh.laad@oss.qualcomm.com; s=20250718; h=from:subject:message-id;
+ bh=VT0BBySfU+tF++/5RtcHSfwTueRpJY9UlmQzxDI6Xhk=;
+ b=77XtZgHLyDzirOWORoiop7g1Z7hh0TR8UHq6nGaG3rseh8Ykyi1JSQj3IuHuFFHhpg4QPm0Wu
+ ThT6olOUbIYBDsClU/e29rcYn9wL9MTr6tu79dyd+n2/5FpTR9lzcW+
+X-Developer-Key: i=nilesh.laad@oss.qualcomm.com; a=ed25519;
+ pk=MjLHvGipC16awutyYh0FnLpT1nPxL/Cs1dCevHMrrD4=
+X-Authority-Analysis: v=2.4 cv=JovxrN4C c=1 sm=1 tr=0 ts=6888cd03 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=J5JMw0DlW5QzuASz7ggA:9
+ a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: yEpdi-ay40wA-B2vLd2DOUMQxjY8F9Wq
+X-Proofpoint-GUID: yEpdi-ay40wA-B2vLd2DOUMQxjY8F9Wq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDEwNCBTYWx0ZWRfX0CbcjrIMTEiR
+ P/tkBdJV0hMdwIA9t8hCqH7hyJQIW6NBCipJGOQvzaP6wDutfQLrnL6PQOMbac6/XCir5jHRQ8I
+ 23aH/wGlXV+A+RxgKZbHRaTkHYcyjCyxV4v8zodMfMy8NN7CfmYjehQrlaqXIBoCTIshpspzxln
+ c2v/YWbY36xwNDzVJEvIFJhbWDE9nPAFjGNmIK//WK5Ael0RCk3hZuYmcsUxSC1EjQQvcH1BgRU
+ 1RQWhLRBvKsXWvf9zNUxfgp1B5bC2qAAbChoJ8CDAgtlpkQpiJzyOUDPYJXCHBXQQ16wEWfbPZd
+ fx/+PIUZaV3oEEfn5eXhEiPRuydFnbWfKxRNWNupCuL08iSi0ae3b5qQqzZbN8i6dOKxnuFvnmZ
+ zhvODI8Bs/IDdwug6pj1YGr9Eb18q9/BAZ0Bt/sFOEmAoLOCJnElwzc20yRBzTFp+1LccUbV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-29_03,2025-07-28_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=999 spamscore=0 phishscore=0 suspectscore=0
- impostorscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
- bulkscore=0 mlxscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507290104
+ malwarescore=0 clxscore=1015 priorityscore=1501 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=976
+ mlxscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507290104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,70 +136,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/23/25 2:15 PM, Rob Clark wrote:
-> On Wed, Jul 23, 2025 at 3:19 AM Konrad Dybcio
-> <konrad.dybcio@oss.qualcomm.com> wrote:
->>
->> On 7/20/25 2:16 PM, Akhil P Oommen wrote:
->>> CP_ALWAYS_ON counter falls under GX domain which is collapsed during
->>> IFPC. So switch to GMU_ALWAYS_ON counter for any CPU reads since it is
->>> not impacted by IFPC. Both counters are clocked by same xo clock source.
->>>
->>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
->>> ---
->>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 30 ++++++++++++++++--------------
->>>  1 file changed, 16 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> index 6770f0363e7284e4596b1188637a4615d2c0779b..f000915a4c2698a85b45bd3c92e590f14999d10d 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>> @@ -16,6 +16,19 @@
->>>
->>>  #define GPU_PAS_ID 13
->>>
->>> +static u64 read_gmu_ao_counter(struct a6xx_gpu *a6xx_gpu)
->>> +{
->>> +     u64 count_hi, count_lo, temp;
->>> +
->>> +     do {
->>> +             count_hi = gmu_read(&a6xx_gpu->gmu, REG_A6XX_GMU_ALWAYS_ON_COUNTER_H);
->>> +             count_lo = gmu_read(&a6xx_gpu->gmu, REG_A6XX_GMU_ALWAYS_ON_COUNTER_L);
->>> +             temp = gmu_read(&a6xx_gpu->gmu, REG_A6XX_GMU_ALWAYS_ON_COUNTER_H);
->>> +     } while (count_hi != temp);
->>
->> The original logic is as follows:
->>
->> static u64 gen7_read_alwayson(struct adreno_device *adreno_dev)
->> {
->>         struct kgsl_device *device = KGSL_DEVICE(adreno_dev);
->>         u32 lo = 0, hi = 0, tmp = 0;
->>
->>         /* Always use the GMU AO counter when doing a AHB read */
->>         gmu_core_regread(device, GEN7_GMU_ALWAYS_ON_COUNTER_H, &hi);
->>         gmu_core_regread(device, GEN7_GMU_ALWAYS_ON_COUNTER_L, &lo);
->>
->>         /* Check for overflow */
->>         gmu_core_regread(device, GEN7_GMU_ALWAYS_ON_COUNTER_H, &tmp);
->>
->>         if (hi != tmp) {
->>                 gmu_core_regread(device, GEN7_GMU_ALWAYS_ON_COUNTER_L,
->>                                 &lo);
->>                 hi = tmp;
->>         }
->>
->>         return (((u64) hi) << 32) | lo;
->> }
->>
->> Doing this in a while-loop almost looks like you want a lot of time to
->> pass - REG_WIDTH(u32?)/19.2 MHz
-> 
-> would:
-> 
->    } while (unlikely(count_hi != temp));
-> 
-> make it more clear?
+Add 3840x2160@30 mode in lt9611uxc modes to add support for
+4K@30 resolution.
 
-I guess so
+Signed-off-by: Nilesh Laad <nilesh.laad@oss.qualcomm.com>
+---
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Konrad
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index cfe389b4c25c..ac53da6c9711 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -100,6 +100,7 @@ struct lt9611uxc_mode {
+  * Enumerate them here to check whether the mode is supported.
+  */
+ static struct lt9611uxc_mode lt9611uxc_modes[] = {
++	{ 3840, 4400, 2160, 2250, 30 },
+ 	{ 1920, 2200, 1080, 1125, 60 },
+ 	{ 1920, 2200, 1080, 1125, 30 },
+ 	{ 1920, 2640, 1080, 1125, 25 },
+
+---
+base-commit: 9744cbe3603db5dbd6e63da9c3bed8df68a6d3ba
+change-id: 20250729-lt9611uxc-4k30-6175bb8a0570
+prerequisite-message-id: 20250725-lt9611uxc-modes-v1-1-6a13b181927d@oss.qualcomm.com
+prerequisite-patch-id: 6c7107d0c8810b85d722fd32e45f736fff81860b
+
+Best regards,
+--  
+Nilesh Laad <nilesh.laad@oss.qualcomm.com>
+
