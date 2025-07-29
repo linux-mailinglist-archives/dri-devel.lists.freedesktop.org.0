@@ -2,67 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE9EB15006
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 17:11:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078B6B15055
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 17:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99F8310E64F;
-	Tue, 29 Jul 2025 15:11:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6898C10E025;
+	Tue, 29 Jul 2025 15:43:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="PH9Y0+bJ";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="OLdVQMxD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E136F10E64F
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 15:11:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1753801866; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=I56SF7F8z0bftueuem2tXLE+H6F91SCaEV+NE9hW3wiT5EqdLzT/i/5fRw4EbdZhIBu8wVkuVNiGVfov48igPOySmhbUaeMcVKqnCEzhzz6+oTLt7SJfvj05p7f8INJMwbbbNlaiG22il07NqskLW3/GJy22Qg1PnAO/HH8pFgE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1753801866;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=1woUM6253HhOkGOXmV7WBVDROMJIvM70GbXNiLz7AlI=; 
- b=YbhPvWFI40ZiKciiAUcrc4LJf7aANyld2oVX/kSMcu/DO+ZBcnC1JFlpc5iF9owlEpNME1DTCB7TIvR6f62ZTYJdz6LaFHPdkG4GN72zu/WQbTbOjlZX3S0gawuIIT+VG01aZ1oU/17zvr4+2EZL7hKe5UHFQP+0l7T8bHeL8fY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753801866; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=1woUM6253HhOkGOXmV7WBVDROMJIvM70GbXNiLz7AlI=;
- b=PH9Y0+bJwXcLfbZFjBJfgzeJY/fpEAwyZETJV1X6XPkxdNg7c06qXhWekSfXCSBK
- BGSgiIL+038tdrFL0QLEMUxFfH83mTDMH77CAoJnEgkQ1xJFO2POlzZXKp7qQ2RFjOk
- wueHp8kwLhLWyYZ6cVqCa434bWsoeG2enepZ3Qxc=
-Received: by mx.zohomail.com with SMTPS id 1753801864766949.2085212725262;
- Tue, 29 Jul 2025 08:11:04 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
- id 02441180F0B; Tue, 29 Jul 2025 17:10:59 +0200 (CEST)
-Date: Tue, 29 Jul 2025 17:10:59 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: dmitry.baryshkov@oss.qualcomm.com, heiko@sntech.de, hjc@rock-chips.com, 
- mripard@kernel.org, naoki@radxa.com, stephen@radxa.com, 
- cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
- Laurent.pinchart@ideasonboard.com, 
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- robh@kernel.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v6 08/10] arm64: dts: rockchip: Add DP1 for rk3588
-Message-ID: <6jd6atu7q3ler2irnn5thut5thmpco6pnevkvus3rkhimebfo4@rrtqdk5xtxaw>
-References: <20250728082846.3811429-1-andyshrk@163.com>
- <20250728082846.3811429-9-andyshrk@163.com>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 935AD10E025
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 15:43:13 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-24009eeb2a7so23276865ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 08:43:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1753803792; x=1754408592;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vSpJIgrdIeIOJjhVwTw0EcGlPuzf6kCVL4Vd0HFeqjc=;
+ b=OLdVQMxD7VrKGxGptjGfRWlvH0odGZr07ZPazDqNUaFXqTvsAVJXGBPV8JH0vwmHcu
+ qf4sYYzcdPdG5SH7K4BRUhMEJnbDAsPcpw40WsONsVHO+9LuxJ5ktVh1RGtGiqleYT6O
+ 9fUdB6z5bw5zoyG6DCKnl0MdSUK0eY7lPzgos=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753803792; x=1754408592;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vSpJIgrdIeIOJjhVwTw0EcGlPuzf6kCVL4Vd0HFeqjc=;
+ b=i5m+oEjHE8GmzuJwRhkexQ9QOfgEBCDl6aiFh6w112xyveArNi9oA5D8NaiLHHt7l/
+ zHUBY7Q1mVelH1oJ4M62kpSQDQDyFzotZySxwBXc4TsNB6rqgIexpCpshm1bzlrjctW6
+ EUUG0pK95a5s8ojXfWpiPngQ6cp0dfO26F/WFZwqQCc/J0xIIICzOU1gcc1XMeHGGqFw
+ Xi0DF9jEZ4Pc8bTQlzDipW2m1ubF0cbIJnEfULqxbVf0oZootrP8y5LA2gADOmDOA1M/
+ mn0Zgx/9EMsiN9u30Gz0ainWHkEw0xqD1TW22FlR3KOb7BpeC6gAGirf3FMqTIBNNVT8
+ iWwA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVF6ZUQzC72WCvmS/APH/rRLFOPRlDMWM8puHs6jy7Kim2lIG2ZoZz5dRJtQxOn6Gsaan2OM1BbLRE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXLG0EvciOMTJlCf2e4S+JlLjLxFQKki0/TK/Rd8f4CqK0O8lz
+ vzAnniA8F1P2EweyFc0+Tlnjlz2MiFHm56yz2TDBddLtATMk/JGnKeW9WXXrjlXHaWIHPUsJqzc
+ bI3M=
+X-Gm-Gg: ASbGncvxfRDgp4mCMJtelhnePRFc50dYtBEM4MsUp3ytHxrDtu23NuNqy6g9hOPe8Dt
+ Cyk49djK9L/ZcROtxa0VSqB4XNXPLsJk0zQLg911C1lPgJ7p4xwR49/2pIP53rgVD0kjySwqYGs
+ 6YGNfOWPzFnSYG6V/OS4J3lq4Tfp8mz4R9FJeLGW9hH8xy50cJ/3WaSdAtcS/4jQRs6S6EWw2D3
+ i2sADXpp6gzlLBmRUXB+opfxo8xstQblKuC8NZSPo3+r4kggHDiIhxiQMXtj4nKSvzFUXjsIwBK
+ UETFPC+oAs6c4vIbk6kFhEfx6OE98YtK14FU6WTVyFROxpz8etJylo0ZKfDExhgbkHTHecddGqD
+ E12bj2xcf95uQwRm7YMhMveSQpcoasjausjKZoGayeLxe1ri//jbPDJDJTifkcv8gmN2MYpzQ
+X-Google-Smtp-Source: AGHT+IHUSdp+CjP1S2HPCImDiIDf1ThQ1K1gtVx5Ct5QZl1gv3KmxdXYl65GcWqCL33VSWbGV4oTlQ==
+X-Received: by 2002:a17:903:1547:b0:240:3c64:8626 with SMTP id
+ d9443c01a7336-2403c648808mr104159205ad.5.1753803791880; 
+ Tue, 29 Jul 2025 08:43:11 -0700 (PDT)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com.
+ [209.85.216.52]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2402ea85da7sm48102565ad.37.2025.07.29.08.43.10
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Jul 2025 08:43:10 -0700 (PDT)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-31ca042d3b8so4838259a91.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 08:43:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCViPZqWmx+Xxg1Y1FeFoDG7deVO9XETDjI7UNmRCDW8S9ASOG8sdwp8/tdW2PQ1AgGamVYcxhMMusY=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:4e8d:b0:31f:2558:46cb with SMTP id
+ 98e67ed59e1d1-31f25584712mr6855560a91.16.1753803789967; Tue, 29 Jul 2025
+ 08:43:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="skirinnxkmu7ofhk"
-Content-Disposition: inline
-In-Reply-To: <20250728082846.3811429-9-andyshrk@163.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.3/253.35.66
-X-ZohoMailClient: External
+References: <20250722015313.561966-1-me@brighamcampbell.com>
+In-Reply-To: <20250722015313.561966-1-me@brighamcampbell.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 29 Jul 2025 08:42:58 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vpk+sWt6n5+OFrOSa9bUf=5xbcGH6TA2D58HnDcrzArw@mail.gmail.com>
+X-Gm-Features: Ac12FXy2DrlKwozrm4Lh8eKlO3PrClRoMybwweQhMtq-dXfeG8sVqMiOcJ65aGQ
+Message-ID: <CAD=FV=Vpk+sWt6n5+OFrOSa9bUf=5xbcGH6TA2D58HnDcrzArw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/4] drm: Fix bug in panel driver,
+ update MIPI support macros
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,104 +102,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---skirinnxkmu7ofhk
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 08/10] arm64: dts: rockchip: Add DP1 for rk3588
-MIME-Version: 1.0
-
 Hi,
 
-On Mon, Jul 28, 2025 at 04:28:33PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
->=20
-> The DP1 is compliant with the DisplayPort Specification
-> Version 1.4, and share the USBDP combo PHY1 with USB 3.1
-> HOST1 controller.
->=20
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> ---
+On Mon, Jul 21, 2025 at 6:53=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
+l.com> wrote:
+>
+> This series removes the unintuitive mipi_dsi_generic_write_seq() macro
+> and related mipi_dsi_generic_write_chatty() method from the drm
+> subsystem. This is in accordance with a TODO item from Douglas Anderson
+> in the drm subsystem documentation. Tejas Vipin (among others) has
+> largely spearheaded this effort up until now, converting MIPI panel
+> drivers one at a time.
+>
+> The second patch of the series removes the last remaining references to
+> mipi_dsi_generic_write_seq() in the jdi-lpm102a188a driver and updates
+> the driver to use the undeprecated _multi variants of MIPI functions. It
+> fixes a bug in the driver's unprepare function and cleans up duplicated
+> code using the new mipi_dsi_dual* macros introduced in the first patch.
+>
+> changes to v6:
+>  - Fix various style and kerneldoc issues in patch 1/4
+>  - Fix typo mpi_dsi_dual... -> mipi_dsi_dual...
+>  - Fix incorrectly named "data" and "len" variables
+>  - Make _seq argument of mipi_dsi_dual_dcs_write_seq_multi macro
+>    variadic
+>  - Remove duplicate definition of mipi_dsi_dual_dcs_write_seq_multi
+>    macro from novatek display driver
+>
+> changes to v5:
+>  - Rework mipi_dsi_dual to explicitly not support passing macros into
+>    _func and add "dual" variants of the generic and dcs write macros.
+>  - Make jdi-lpm102a188a use the new
+>    mipi_dsi_dual_generic_write_seq_multi macro.
+>  - Make local struct variable in jdi-lpm102a188a conform to reverse
+>    christmas tree order.
+>
+> changes to v4:
+>  - Fix whitespace (I forgot to run checkpatch. Thanks for your patience
+>    as I familiarize myself with the kernel development process)
+>  - Initialize mipi_dsi_multi_context struct
+>
+> changes to v3:
+>  - Define new mipi_dsi_dual macro in drm_mipi_dsi.h to reduce code
+>    duplication.
+>  - Fix bug in lpm102a188a panel driver's unprepare function which causes
+>    it to return a nonsensical value.
+>  - Make lpm102a188a panel driver's unprepare function send "display off"
+>    and "enter sleep mode" commands to both serial interfaces regardless
+>    of whether an error occurred when sending the last command.
+>
+> changes to v2:
+>  - Remove all usages of deprecated MIPI functions from jdi-lpm102a188a
+>    driver instead of just mipi_dsi_generic_write_seq().
+>  - Update TODO item in drm documentation instead of removing it
+>    entirely.
+>
+> Brigham Campbell (4):
+>   drm: Create mipi_dsi_dual* macros
+>   drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
+>   drm: Remove unused MIPI write seq and chatty functions
+>   drm: docs: Update task from drm TODO list
+>
+>  Documentation/gpu/todo.rst                    |  22 +-
+>  drivers/gpu/drm/drm_mipi_dsi.c                |  82 +-
+>  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++---
+>  drivers/gpu/drm/panel/panel-novatek-nt36523.c | 804 +++++++++---------
+>  include/drm/drm_mipi_dsi.h                    | 118 ++-
+>  5 files changed, 614 insertions(+), 608 deletions(-)
 
-The description matches the TRM:
+Pushed all 4 to drm-misc-next. Technically one of them has a minor
+bugfix as mentioned in the commit message, but it's VERY minor (I
+didn't even think it needed a Fixes tag) so I didn't worry about
+trying to get it into drm-misc-fixes...
 
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+[1/4] drm: Create mipi_dsi_dual* macros
+      commit: d94a2a00d2b8878678607c2969fee3b4e59126cb
+[2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
+      commit: a6adf47d30cccaf3c1936ac9de94948c140e17dd
+[3/4] drm: Remove unused MIPI write seq and chatty functions
+      commit: 79b6bb18f849818140dd351f6e76a097efe99e9f
+[4/4] drm: docs: Update task from drm TODO list
+      commit: 85c23f28905cf20a86ceec3cfd7a0a5572c9eb13
 
-Greetings,
-
--- Sebastian
-
->=20
-> (no changes since v1)
->=20
->  .../arm64/boot/dts/rockchip/rk3588-extra.dtsi | 30 +++++++++++++++++++
->  1 file changed, 30 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi b/arch/arm64/=
-boot/dts/rockchip/rk3588-extra.dtsi
-> index 90414486e466f..691fe941d53a1 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-> @@ -210,6 +210,36 @@ i2s10_8ch: i2s@fde00000 {
->  		status =3D "disabled";
->  	};
-> =20
-> +	dp1: dp@fde60000 {
-> +		compatible =3D "rockchip,rk3588-dp";
-> +		reg =3D <0x0 0xfde60000 0x0 0x4000>;
-> +		interrupts =3D <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks =3D <&cru PCLK_DP1>, <&cru CLK_AUX16M_1>,
-> +			 <&cru CLK_DP1>, <&cru MCLK_I2S8_8CH_TX>,
-> +			 <&cru MCLK_SPDIF5_DP1>;
-> +		clock-names =3D "apb", "aux", "hdcp", "i2s", "spdif";
-> +		assigned-clocks =3D <&cru CLK_AUX16M_1>;
-> +		assigned-clock-rates =3D <16000000>;
-> +		resets =3D <&cru SRST_DP1>;
-> +		phys =3D <&usbdp_phy1 PHY_TYPE_DP>;
-> +		power-domains =3D <&power RK3588_PD_VO0>;
-> +		#sound-dai-cells =3D <0>;
-> +		status =3D "disabled";
-> +
-> +		ports {
-> +			#address-cells =3D <1>;
-> +			#size-cells =3D <0>;
-> +
-> +			dp1_in: port@0 {
-> +				reg =3D <0>;
-> +			};
-> +
-> +			dp1_out: port@1 {
-> +				reg =3D <1>;
-> +			};
-> +		};
-> +	};
-> +
->  	hdmi1: hdmi@fdea0000 {
->  		compatible =3D "rockchip,rk3588-dw-hdmi-qp";
->  		reg =3D <0x0 0xfdea0000 0x0 0x20000>;
-> --=20
-> 2.43.0
->=20
-
---skirinnxkmu7ofhk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmiI5IMACgkQ2O7X88g7
-+pqoyRAAnJKXg8MAqWvb5Ci4nsCz0DWsb3MIFBHOuYG/A+M6maRcDmzCxJebVcNt
-Wbp+X9x5iDrRdYG3wL2XY3QQEVhodMBQXuMSELlDaJxCjsW8T/b1gdEGQcl4+a3L
-Iy5HHi9AOzfhPqFwpu1um4fTbjx9BYycvudTUhCuCg3PdQJ8hpuRV25VXBWlOUJA
-SFpB+Z0xOvDMjAS7QIaCHWp6kRnJ2SJRo165xfMlolQJxbfSFXJpLVEA2RUE9t7A
-YQC40TvANVAASWbzHvlO5aawsisuR3qrieZSJhJHo/dPKRD6dJ7wAGSzzTAr+f9s
-N6ubB8SFzJa5e41SOykTnlBlt6dYdm5veoKzu+7SXmu9zDrtiupCP42TvvfvOShh
-FobaNilhrFORFrUIrTDVLvEobFYWDboFPp8ER+ke//8Pp2Ys4QNFS0mfEKIlEjKn
-0NNHM1SAMWdUSC8ySXLHW/lW6QQN/Uz2VycJurX/SiyGVgLjPY0oj+nrm8VXGhMx
-EkI2PkxLNoNebHL3Dz4KbprFC63gSb2IwAqs4ROonXfWM60yn0egJOr5if21dAC8
-EiP9BKuY4u6Jpb7oNeaRXikzZpVmfiV76JRBOFofTI7T3Wbyq+JM04JzlnrptY0X
-wYhT8mNt+KmTQRdv1Mfz+lAzBj7TWfZhr7zUih2rjQV8OfjciP4=
-=ZleG
------END PGP SIGNATURE-----
-
---skirinnxkmu7ofhk--
+-Doug
