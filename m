@@ -2,113 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C47B14AFC
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 11:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C3CB14C42
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 12:35:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5A0710E03F;
-	Tue, 29 Jul 2025 09:17:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC58210E60F;
+	Tue, 29 Jul 2025 10:35:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QK0ug/lh";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=dujemihanovic.xyz header.i=@dujemihanovic.xyz header.b="sNATE1mm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C96510E03F
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 09:17:13 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-45600581226so53307955e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 02:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1753780632; x=1754385432; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=d60OURvTslskqUGqUM8qPLgQLo0x++CgR9duN5Eh1VM=;
- b=QK0ug/lhpGqLAugkn0XdSce3Zwz15q9fo0diqt76FFceopHa/tX3WaxBFLeVi1uVwm
- JuPll2PhQIzt5DVIQl3HAyu+vOqFzqWQPbmb/7Eh7Q53YNMRnjjXzUmuU9hTN1uc/rNi
- 74tP2Fc8t5aHPPYE/Q8UxTUo0LFUbm2Z72VQTB8EtQ8bm7ZgusBAkYQn0wnSyhLCZY4o
- 1ktYpvF4Xbz53aQ/hwZnlJZ9Fk85UUOldgTwwf7P1olBgVmCC0wg65A7lTfkdGpFsaW/
- Jdi11MqRM/hDGtt/ePQ7B4+bITZ4pE7SPLXP2t3WWkomXSO011e3prr2ivPdNpvLWFFt
- QWzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753780632; x=1754385432;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=d60OURvTslskqUGqUM8qPLgQLo0x++CgR9duN5Eh1VM=;
- b=iot3LhB3A3ISFYm+9mGUNe4jbbnsgYoJKk3YUGGdgmZmhPNhEorUa4giJBsCjdBK/Q
- TWbYbpLNAAPqK+xgpsFZNVPY+ILdkIgKc36Ub7c69M8X8eC2pHuW1yL/AP7i20OerX1P
- NCWvyX1jfcPrwIYOU83gq+dhUOUsxLMZ/qMZ6ZtbtR+9HCnV5xI+WpoTfv73a8ntiTi7
- GsmD5VgtqCkb4IqFl2/Bu9isQ17mG1AxcupnWFoTuIR6djBuAyLF2JAnnq484tAKAsxL
- yUmUSeSbNpyxZRRf5jWbXtNwxu4cVMqOqaJRHBVH5CHT4pLbH4NVO7o7bal08zIrdYhF
- 2cKg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU6WzjpIU7reT1ugfVEpR4jbaf9OH/5FC3UOi8AEDUsFk67Go2fXkXfYCHyH7vxyudS1VnTMhAkQKM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxozRzvTb6G4aYWzmryOYggw9F9iOfK6dV0HVezfg09hKJrqWdF
- oDvosjY/nM7BLYNR6mWvMkWXuwjaQsrXPrLcky0NfweneCwdndQjdOG8w5tvlmK3/Lw=
-X-Gm-Gg: ASbGnctSkxxBJDiuRsgyhm4wXuSCEb/3zXYZy51xiQ9ourTYiUBujEDatTQW4zHpZMz
- G2Bwbbr0vlpa+JU8dmE8BxLavfEVw92znicb40TQXoOPVK917TGB1k8LWNDPaHOk2zDm+zAoN4W
- C8dx92kGKsygI57ayem7HYg3Tqf6uDyqHa28JCOOh3zvROkZBYKp9OlOGAdVMrCmNj6/1Rj6UWc
- pDArVA2NVe5Oo8QrfI/BohIXnNVKFWjl7SehVTLZKvVDkxertOhICWyfrH1HnkcPobyYmYoMwb7
- ZCp4u7cc1vVTjCCq9uLTeaX+iU+9IE6N6o50IYMaXou95gWMsC6yuBBuY+lINT6ptJpyfL0XQcA
- JCFiyxp8Os3J/7HnyGx4uZrUC+4iLdR3aJJdJf0C+Ndi0eooNwonP3m5Z3X8KjOK8PLVgo56q
-X-Google-Smtp-Source: AGHT+IHy8IlF5EsVFcN+ZeaLeXgccCzDTIMzFkralNzOHDs6W5E1jDZ+/O6pm9Q3S5ZwVCt98dtyVw==
-X-Received: by 2002:a05:600c:1c07:b0:456:2397:817 with SMTP id
- 5b1f17b1804b1-4587c530cc4mr82620185e9.13.1753780632006; 
- Tue, 29 Jul 2025 02:17:12 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:3ae8:20b:c783:9328?
- ([2a01:e0a:3d9:2080:3ae8:20b:c783:9328])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-458705376d2sm187799235e9.3.2025.07.29.02.17.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jul 2025 02:17:11 -0700 (PDT)
-Message-ID: <8cbbf5f8-84b4-43af-89b9-0ee4bc0a2591@linaro.org>
-Date: Tue, 29 Jul 2025 11:17:10 +0200
+X-Greylist: delayed 913 seconds by postgrey-1.36 at gabe;
+ Tue, 29 Jul 2025 09:35:08 UTC
+Received: from mx.olsak.net (mx.olsak.net [37.205.8.231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF43310E021
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 09:35:08 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; bh=0FX94LO7FBG853z0deALFB9wglwXmVAtfiI/k+zwf+c=; 
+ c=relaxed/relaxed; d=dujemihanovic.xyz;
+ h=Subject:Subject:Sender:To:To:Cc:Cc:From:From:Date:Date:MIME-Version:MIME-Version:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Reply-To:In-Reply-To:In-Reply-To:Message-Id:Message-Id:References:References:Autocrypt:Autocrypt:Openpgp;
+ i=@dujemihanovic.xyz; s=default; t=1753780697; v=1; x=1754212697;
+ b=sNATE1mmnB27c7gYFPLV3+i36LbmX0ue9FYHXt+9JHE+vmdbMjukkICF2pWl+KBxGIGGZGqH
+ 9BSdoRf07MgTcGVz6sGv4Lrt5RxWVV8DZwwBKwYzzPHxVN2aQOxo6M1PIiKemN/X2o2MsmOsZuI
+ jLNtltSf55f8YX1iLssgQqb4Jb7NOTOk0Ht/wr1aFStUJO6za5v0NmQP3GBPprwhNsrmwaysbGP
+ R4mKd/nW0OLZBJTR+0dDg4Z6/TgeIYXI86YndlDnB/g8E8i88b1EKLb+cqq2hk+eiJK4vsaZRPR
+ gJeH5ckWotsXmqXCdH9YcHu+qcDo5aMFn48TE9pehy/Aw==
+Received: by mx.olsak.net (envelope-sender <duje@dujemihanovic.xyz>) with
+ ESMTPS id 5e0832d2; Tue, 29 Jul 2025 11:18:17 +0200
+From: Duje =?UTF-8?B?TWloYW5vdmnEhw==?= <duje@dujemihanovic.xyz>
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ linux-leds@vger.kernel.org
+Subject: Re: linux-next: Tree for Jul 29 (BACKLIGHT_KTD2801)
+Date: Tue, 29 Jul 2025 11:18:16 +0200
+Message-ID: <5002743.GXAFRqVoOG@radijator>
+In-Reply-To: <b6c481bb-e854-405e-a428-90301789fe20@infradead.org>
+References: <20250729153510.3781ac91@canb.auug.org.au>
+ <b6c481bb-e854-405e-a428-90301789fe20@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 1/3] drm/panel: novatek-nt35560: Fix invalid return
- value
-To: Brigham Campbell <me@brighamcampbell.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, linus.walleij@linaro.org,
- jessica.zhang@oss.qualcomm.com, sam@ravnborg.org
-Cc: dianders@chromium.org, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250729054435.1209156-1-me@brighamcampbell.com>
- <20250729054435.1209156-2-me@brighamcampbell.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250729054435.1209156-2-me@brighamcampbell.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=duje@dujemihanovic.xyz; keydata=
+ mDMEZokhzhYJKwYBBAHaRw8BAQdAWJZ0hsI/ytTqHGFV8x6tzd5sB596cTeeDB4CQsTf+wC0KER
+ 1amUgTWloYW5vdmnEhyA8ZHVqZUBkdWplbWloYW5vdmljLnh5ej6ImQQTFgoAQRYhBG3/QdYN8x
+ S1t2umMK0xk1JFj60DBQJmiSHOAhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAA
+ AoJEK0xk1JFj60D1GABAJVSorZdMOlrp/oQtCSH/G53NE56x/JHA8VX+ZQBd/H3AP4/EcUf6eef
+ DUxVMh2bdkmuQKsVZGgOGiXpMksrVntWBrQpRHVqZSBNaWhhbm92acSHIDxkdWplLm1paGFub3Z
+ pY0Bza29sZS5ocj6ImQQTFgoAQRYhBG3/QdYN8xS1t2umMK0xk1JFj60DBQJmiSH/AhsDBQkJZg
+ GABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEK0xk1JFj60Dlw8A/i4lPOL7NaYoYePDq
+ l8MaJaR9qoUi+D+HtD3t0Koi7ztAQCdizXbuqP3AVNxy5Gpb1ozgp9Xqh2MRcNmJCHA1YhWAbg4
+ BGaJIc4SCisGAQQBl1UBBQEBB0DEc9JeA55OlZfWKgvmRgw6a/EpBQ8mDl6nQTBmnd1XHAMBCAe
+ IfgQYFgoAJhYhBG3/QdYN8xS1t2umMK0xk1JFj60DBQJmiSHOAhsMBQkJZgGAAAoJEK0xk1JFj6
+ 0DG5MA/iuo4l2GDEZ1Zf+XaS//8FwdXDO9nHkfbV2MHjF4NZXwAQDroMzBdMcqVvc8GABFlTTgG
+ j7KrRDz2HwWNyF8ZeprAQ==
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-Mailman-Approved-At: Tue, 29 Jul 2025 10:35:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,35 +70,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/07/2025 07:44, Brigham Campbell wrote:
-> Fix bug in nt35560_set_brightness() which causes the function to
-> erroneously report an error. mipi_dsi_dcs_write() returns either a
-> negative value when an error occurred or a positive number of bytes
-> written when no error occurred. The buggy code reports an error under
-> either condition.
-> 
-> Fixes: 7835ed6a9e86 ("drm/panel-sony-acx424akp: Modernize backlight handling")
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->   drivers/gpu/drm/panel/panel-novatek-nt35560.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35560.c b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-> index 98f0782c8411..17898a29efe8 100644
-> --- a/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-> +++ b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-> @@ -161,7 +161,7 @@ static int nt35560_set_brightness(struct backlight_device *bl)
->   		par = 0x00;
->   		ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY,
->   					 &par, 1);
-> -		if (ret) {
-> +		if (ret < 0) {
->   			dev_err(nt->dev, "failed to disable display backlight (%d)\n", ret);
->   			return ret;
->   		}
+On Tuesday, 29 July 2025 10:32:13 Central European Summer Time Randy Dunlap 
+wrote:
+> so BACKLIGHT_KTD2801 should:
+> 	depends on GPIOLIB
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Sounds good to me.
+
+> Also, in drivers/leds/Kconfig, does it need duplicate entries for this?
+> Can't the second entry be removed?
+> (asking since Duje made both entries)
+
+That's an oversight on my end, and as such the second one (the one inside the 
+"if NEW_LEDS" block) should be removed.
+
+Would you like me to send a patch to fix these?
+
+Regards,
+-- 
+Duje
+
+
