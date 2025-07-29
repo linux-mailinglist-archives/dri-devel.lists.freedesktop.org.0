@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426B3B1539D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 21:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6CEB1539A
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 21:37:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9390210E3FA;
-	Tue, 29 Jul 2025 19:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C893810E2A8;
+	Tue, 29 Jul 2025 19:37:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="UwuCrWk/";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="LNRMMDfJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f201.google.com (mail-qt1-f201.google.com
- [209.85.160.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC3210E2A1
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 19:37:33 +0000 (UTC)
-Received: by mail-qt1-f201.google.com with SMTP id
- d75a77b69052e-4ab3c757b2bso118371971cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 12:37:33 -0700 (PDT)
+Received: from mail-qt1-f202.google.com (mail-qt1-f202.google.com
+ [209.85.160.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5CDA10E3FA
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 19:37:35 +0000 (UTC)
+Received: by mail-qt1-f202.google.com with SMTP id
+ d75a77b69052e-4ab758aaaf3so232308481cf.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 12:37:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1753817852; x=1754422652;
+ d=google.com; s=20230601; t=1753817855; x=1754422655;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=lH0YiEtTpPisQaiDPehvjIr4QLjg99NBvWegBL35AWY=;
- b=UwuCrWk/Dep4hWSHcJPBdclbUjQVFgXLLEZxOK/x/zgUsDHaZ2f+ddXhshex4D7NdB
- xykUjObANVDGVG1zeIQMZDvfLDsSNJKHaorz/gYikLtwaphFyIzaNfT5b2Zow1OPhfGo
- h8gT86lTNE48FCewee6X+OVYv6Gi+SIGEIovv3wyGvQUefdhv2afBFKiA53FghIYxbsf
- KKmpPlO3tml8Dh1qOoDJikY2mvQS93PSfbAQ06pTQ5w/ENUWg33QyN/deGr/0Pe/gcri
- UWqq0kEBwqpcR9OF35KTOOrdTv0/DQiV30wd4AhpgsSKKUmObmWSWwOT0clmUW2b4TtG
- b7xQ==
+ bh=mqlb+4Olh1TwsUKHNBaNVmipEQokIfwNy2zQhwsaeKw=;
+ b=LNRMMDfJjPXMYxvMz4pDmXkWI4FRyiSlPfgXKA/068VQi0QC785yAWF5FHql89cRn/
+ rLdjZqWPFdG1P7NyqgK+nNSrv5IVrRzBuEm883que9VS+c8KrmWiPnqZQ5Joql1olvDe
+ qLU6xa9QSLAy0oRbsw+fgwqohZByCxPH5FgQFZJb9OPZSbOXIqu42H5NyyjrvaRUrF65
+ 5on/aVQob0+0e/668f/grmRNu5AUC7WIwD3yWDRYVA5WoqpzsjkPNTmmVPODuuIouPRD
+ WVifPegEziwZpu1T/3k+U3prC8mC4bPxn5fNi/B9B61m65Lc51+S2xbWfETqQiGg7vHS
+ RL6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753817852; x=1754422652;
+ d=1e100.net; s=20230601; t=1753817855; x=1754422655;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lH0YiEtTpPisQaiDPehvjIr4QLjg99NBvWegBL35AWY=;
- b=lGgCjsvww6GRFqNkG1laWMUfJXvXE04CcOQSHtfWes26qC8co2LHS+9ZzrGsecummt
- /ru9ClyimlEuY0Sme+ICmCF8PP/zsPU8A+IV7OXEK1ppkhFRELSxjlvOFLEwXZsCp9jW
- xd+99qBo/00T617JFVitts03p9HWnyvBIHhKOUp3uuRA5vOwQsduDj4bKkva/fKjLhFo
- 2utu0ybnjlHiJoFbrTfjcZ3oOl5CUSOGiXc66sZWBtvdwyH4sITVQ/0smpUNLMgc11vF
- JqQ/wxFBtFfp2F4eYLnkHlB3Y7MAKK0Il6Os8sll2a3iPn9O2hq5qmygzTBuQW9MeDPF
- 3M0g==
+ bh=mqlb+4Olh1TwsUKHNBaNVmipEQokIfwNy2zQhwsaeKw=;
+ b=YUbHif0W96aUiwyVRlurNVPWPE+0HKPOYYB0/+2pmbajNfpSL+rv1amVJzDy89QjLs
+ VWbILbem/1u8bUEqc2V7xcxzPMtsELp/4zQbOIrofBmBDGs1HjIVEVcVCk9UOCwlHG7m
+ uwps7jGcIrYbMy1TDFmUoYXcifkhtLUGyCWXlkqlq3V2W7DszQb5mzCcHgJLHb7+GYXY
+ 9ZdpqAQz/sdpH5hpKmgfk6wELLy8Lo/3N72Gars0/Vdkky2Lh7o7wbCWdY4a3F6Nic8R
+ rcRPuA9phEnlkAV+ezF3EqRhb111KO8ZP6mJzWlkwHHCIaaWELcZtftVzU1lgDesbDq0
+ aeEw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX/GbT5dyuTxdIxSai8vmVE9yT4srtl+kGEbN++QmJvLsKJTDNJoC63X6F/mMljsBxCtvglDzxBkBI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqESncgXmxVWX18lqEKWxER4MiDC2Db6XdZ0dxEnQaJUTknhCB
- yZroWWXwCQGQeRoYs2qV73qtSkFjUNQFYpQsps203FcY8sRADJAAl34EsgVDp8geRBLQDp+xoiP
- hyLKO+FiuxcRviw==
-X-Google-Smtp-Source: AGHT+IF4rZx5R4hothbrtSYCg1oepGJR2HnKEYC/ASTsC2vpdZgeCHzZM3+vnOquEKeKMB2hzjmZc5YXv+XUvg==
-X-Received: from qtbbr10.prod.google.com
- ([2002:a05:622a:1e0a:b0:4ae:713e:cb10])
+ AJvYcCXfduws4e5+kBt8N3ijjtK/Ub5SNaI8n7pLMdguS+QXHtrjNOO3dpsS1hkBCFW9CfxYW1aA6BvHQz0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz4prQ6RsjWtmsRq4bqbd4dc11t6YXXXiauWiYNN5/Bpp9p1fXQ
+ adH0MPm/sxFHUsqg/l0AFTXodtcEMPMXEI2zNKjenUOmRYqtR45KAW/+2Ez4sQQGETsRaZr47RX
+ wxbUxao9krzSmEA==
+X-Google-Smtp-Source: AGHT+IFR27oKs2zCkDtQSep4WwYS5IRJ7UhNV1P5uHsuK/x9zfXEMRZqniNBaaI394PfZErJdlbmGWKHOIGAkQ==
+X-Received: from qtbcm22.prod.google.com
+ ([2002:a05:622a:2516:b0:4ab:3fb5:ddd8])
  (user=marievic job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:622a:302:b0:4ab:5813:e8d with SMTP id
- d75a77b69052e-4aedbc739acmr14482571cf.32.1753817852434; 
- Tue, 29 Jul 2025 12:37:32 -0700 (PDT)
-Date: Tue, 29 Jul 2025 19:36:45 +0000
+ 2002:ac8:5fd3:0:b0:4ab:63b9:9bf4 with SMTP id
+ d75a77b69052e-4aedb98b2bfmr15053941cf.1.1753817854822; 
+ Tue, 29 Jul 2025 12:37:34 -0700 (PDT)
+Date: Tue, 29 Jul 2025 19:36:46 +0000
 In-Reply-To: <20250729193647.3410634-1-marievic@google.com>
 Mime-Version: 1.0
 References: <20250729193647.3410634-1-marievic@google.com>
 X-Mailer: git-send-email 2.50.1.552.g942d659e1b-goog
-Message-ID: <20250729193647.3410634-8-marievic@google.com>
-Subject: [PATCH 7/9] kunit: Add example parameterized test with shared
- resources and direct static parameter array setup
+Message-ID: <20250729193647.3410634-9-marievic@google.com>
+Subject: [PATCH 8/9] kunit: Add example parameterized test with direct dynamic
+ parameter array setup
 From: Marie Zhussupova <marievic@google.com>
 To: rmoar@google.com, davidgow@google.com, shuah@kernel.org, 
  brendan.higgins@linux.dev
@@ -87,148 +87,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add `example_params_test_with_init` to illustrate how to manage
-shared resources across parameterized KUnit tests. This example
-showcases the use of the new `param_init` function and its registration
-to a test using the `KUNIT_CASE_PARAM_WITH_INIT` macro.
-
-Additionally, the test demonstrates:
-- How to directly assign a static parameter array to a test via
-  `kunit_register_params_array`.
-- Leveraging the Resource API for test resource management.
+Introduce `example_params_test_with_init_dynamic_arr`. This new
+KUnit test demonstrates directly assigning a dynamic parameter
+array using the `kunit_register_params_array` macro. It highlights the
+use of `param_init` and `param_exit` for proper initialization and
+cleanup, and their registration to the test with
+`KUNIT_CASE_PARAM_WITH_INIT`.
 
 Signed-off-by: Marie Zhussupova <marievic@google.com>
 ---
- lib/kunit/kunit-example-test.c | 112 +++++++++++++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
+ lib/kunit/kunit-example-test.c | 95 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
 
 diff --git a/lib/kunit/kunit-example-test.c b/lib/kunit/kunit-example-test.c
-index 3056d6bc705d..5bf559e243f6 100644
+index 5bf559e243f6..3ab121d81bf6 100644
 --- a/lib/kunit/kunit-example-test.c
 +++ b/lib/kunit/kunit-example-test.c
-@@ -277,6 +277,116 @@ static void example_slow_test(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, 1 + 1, 2);
+@@ -387,6 +387,98 @@ static void example_params_test_with_init(struct kunit *test)
+ 	kunit_put_resource(res);
  }
  
 +/*
-+ * This custom function allocates memory for the kunit_resource data field.
-+ * The function is passed to kunit_alloc_resource() and executed once
-+ * by the internal helper __kunit_add_resource().
++ * Helper function to create a parameter array of Fibonacci numbers. This example
++ * highlights a parameter generation scenario that is:
++ * 1. Not feasible to fully pre-generate at compile time.
++ * 2. Challenging to implement with a standard 'generate_params' function,
++ * as it typically only provides the immediately 'prev' parameter, while
++ * Fibonacci requires access to two preceding values for calculation.
 + */
-+static int example_resource_init(struct kunit_resource *res, void *context)
++static void *make_fibonacci_params(int seq_size)
 +{
-+	int *info = kmalloc(sizeof(*info), GFP_KERNEL);
++	int *seq;
 +
-+	if (!info)
-+		return -ENOMEM;
-+	*info = *(int *)context;
-+	res->data = info;
-+	return 0;
-+}
++	if (seq_size <= 0)
++		return NULL;
 +
-+/*
-+ * This function deallocates memory for the 'kunit_resource' data field.
-+ * The function is passed to kunit_alloc_resource() and automatically
-+ * executes within kunit_release_resource() when the resource's reference
-+ * count, via kunit_put_resource(), drops to zero. KUnit uses reference
-+ * counting to ensure that resources are not freed prematurely.
-+ */
-+static void example_resource_free(struct kunit_resource *res)
-+{
-+	kfree(res->data);
-+}
++	seq = kmalloc_array(seq_size, sizeof(int), GFP_KERNEL);
 +
-+/*
-+ * This match function is invoked by kunit_find_resource() to locate
-+ * a test resource based on defined criteria. The current example
-+ * uniquely identifies the resource by its free function; however,
-+ * alternative custom criteria can be implemented. Refer to
-+ * lib/kunit/platform.c and lib/kunit/static_stub.c for further examples.
-+ */
-+static bool example_resource_alloc_match(struct kunit *test,
-+					 struct kunit_resource *res,
-+					 void *match_data)
-+{
-+	return res->data && res->free == example_resource_free;
++	if (!seq)
++		return NULL;
++
++	if (seq_size >= 1)
++		seq[0] = 0;
++	if (seq_size >= 2)
++		seq[1] = 1;
++	for (int i = 2; i < seq_size; i++)
++		seq[i] = seq[i - 1] + seq[i - 2];
++	return seq;
 +}
 +
 +/*
 + * This is an example of a function that provides a description for each of the
 + * parameters.
 + */
-+static void example_param_array_get_desc(const void *p, char *desc)
++static void example_param_dynamic_arr_get_desc(const void *p, char *desc)
 +{
-+	const struct example_param *param = p;
++	const int *fib_num = p;
 +
-+	snprintf(desc, KUNIT_PARAM_DESC_SIZE,
-+		 "example check if %d is less than or equal to 3", param->value);
++	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "fibonacci param: %d", *fib_num);
 +}
 +
 +/*
-+ * Initializes the parent kunit struct for parameterized KUnit tests.
-+ * This function enables sharing resources across all parameterized
-+ * tests by adding them to the `parent` kunit test struct. It also supports
-+ * registering either static or dynamic arrays of test parameters.
++ * Example of a parameterized test init function that registers a dynamic array.
 + */
-+static int example_param_init(struct kunit *test)
++static int example_param_init_dynamic_arr(struct kunit *test)
 +{
-+	int ctx = 3; /* Data to be stored. */
-+	int arr_size = ARRAY_SIZE(example_params_array);
++	int seq_size = 6;
++	int *fibonacci_params = make_fibonacci_params(seq_size);
++
++	if (!fibonacci_params)
++		return -ENOMEM;
 +
 +	/*
-+	 * This allocates a struct kunit_resource, sets its data field to
-+	 * ctx, and adds it to the kunit struct's resources list. Note that
-+	 * this is test managed so we don't need to have a custom exit function
-+	 * to free it.
++	 * Passes the dynamic parameter array information to the parent struct kunit.
++	 * The array and its metadata will be stored in test->parent->params_data.
++	 * The array itself will be located in params_data.params.
 +	 */
-+	void *data = kunit_alloc_resource(test, example_resource_init, example_resource_free,
-+					  GFP_KERNEL, &ctx);
-+
-+	if (!data)
-+		return -ENOMEM;
-+	/* Pass the static param array information to the parent struct kunit. */
-+	kunit_register_params_array(test, example_params_array, arr_size,
-+				    example_param_array_get_desc);
++	kunit_register_params_array(test, fibonacci_params, seq_size,
++				    example_param_dynamic_arr_get_desc);
 +	return 0;
 +}
 +
-+/*
-+ * This is an example of a parameterized test that uses shared resources
-+ * available from the struct kunit parent field of the kunit struct.
++/**
++ * Function to clean up the parameterized test's parent kunit struct if
++ * there were custom allocations.
 + */
-+static void example_params_test_with_init(struct kunit *test)
++static void example_param_exit_dynamic_arr(struct kunit *test)
 +{
-+	int threshold;
-+	struct kunit_resource *res;
-+	const struct example_param *param = test->param_value;
++	/*
++	 * We allocated this array, so we need to free it.
++	 * Since the parent parameter instance is passed here,
++	 * we can directly access the array via `test->params_data.params`
++	 * instead of `test->parent->params_data.params`.
++	 */
++	kfree(test->params_data.params);
++}
++
++/*
++ * Example of test that uses the registered dynamic array to perform assertions
++ * and expectations.
++ */
++static void example_params_test_with_init_dynamic_arr(struct kunit *test)
++{
++	const int *param = test->param_value;
++	int param_val;
 +
 +	/* By design, param pointer will not be NULL. */
 +	KUNIT_ASSERT_NOT_NULL(test, param);
 +
-+	/* Here we access the parent pointer of the test to find the shared resource. */
-+	res = kunit_find_resource(test->parent, example_resource_alloc_match, NULL);
-+
-+	KUNIT_ASSERT_NOT_NULL(test, res);
-+
-+	/* Since the data field in kunit_resource is a void pointer we need to typecast it. */
-+	threshold = *((int *)res->data);
-+
-+	/* Assert that the parameter is less than or equal to a certain threshold. */
-+	KUNIT_ASSERT_LE(test, param->value, threshold);
-+
-+	/* This decreases the reference count after calling kunit_find_resource(). */
-+	kunit_put_resource(res);
++	param_val = *param;
++	KUNIT_EXPECT_EQ(test, param_val - param_val, 0);
 +}
 +
  /*
   * Here we make a list of all the test cases we want to add to the test suite
   * below.
-@@ -296,6 +406,8 @@ static struct kunit_case example_test_cases[] = {
- 	KUNIT_CASE(example_static_stub_using_fn_ptr_test),
- 	KUNIT_CASE(example_priv_test),
+@@ -408,6 +500,9 @@ static struct kunit_case example_test_cases[] = {
  	KUNIT_CASE_PARAM(example_params_test, example_gen_params),
-+	KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init, NULL,
-+				   example_param_init, NULL),
+ 	KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init, NULL,
+ 				   example_param_init, NULL),
++	KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init_dynamic_arr, NULL,
++				   example_param_init_dynamic_arr,
++				   example_param_exit_dynamic_arr),
  	KUNIT_CASE_SLOW(example_slow_test),
  	{}
  };
