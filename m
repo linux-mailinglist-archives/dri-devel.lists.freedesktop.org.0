@@ -2,68 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A323B151D6
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 19:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B36DB151FD
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 19:19:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 922F510E12A;
-	Tue, 29 Jul 2025 17:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 045E310E3F1;
+	Tue, 29 Jul 2025 17:19:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="flWQIz7d";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=dujemihanovic.xyz header.i=@dujemihanovic.xyz header.b="RHXZcSIq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26BA210E12A
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 17:10:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1753808989; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SfxG9oyq7Xh8cTqP4vj/WMBsAVKKyJGE+kgbDuj9GfiznmFzbYCU1RFKYuJ1+PkM/MHnJiWt4bUh+cZ2fl7/Vzrszw8deKQciSfQL+emFjSlk4R2wePdVXx+SvXdQqh6KibmQVXeJDS0iZE0ib3d/Ih697a0bi1Fvx8rFrqYn/c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1753808989;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=TxY+JKrWeGH0H6xo56T1MRsEGuU0255fEPWJ+EHkpqA=; 
- b=jGKxLA38fK+Wa5kjzUZSZGRREuV//fN3TzV9QTPyK7DUAWUQgT6VVXQKS9RxRi1xfGvQ2nPhPkcOM1ujZdFRb3zSbmPCczj4CAWDz/5rbOyx00C8vaoSWqdio5MCz0mWu3WiC07ESQL7lgfcxqfgKmTNbSPCKhmfH7mUX6sDhOo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753808989; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=TxY+JKrWeGH0H6xo56T1MRsEGuU0255fEPWJ+EHkpqA=;
- b=flWQIz7djxGg2eW+E94jqszUeQMWJ/YoZmfNOdOHpqLbst6uitu0W/kUVagoSK7D
- ySTx3VwmZNGjMoVB7EmCXZZoBMqq3MB7PrJQ1vJ6JqZpBhPGWG9FF3zgSI7BX4aBwul
- jr7++GN4QedV8dLVHczmIrWPdqIhoF3uLhSdL610=
-Received: by mx.zohomail.com with SMTPS id 1753808986669159.71490156758534;
- Tue, 29 Jul 2025 10:09:46 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
- id 669AE180F0B; Tue, 29 Jul 2025 19:09:41 +0200 (CEST)
-Date: Tue, 29 Jul 2025 19:09:41 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: dmitry.baryshkov@oss.qualcomm.com, heiko@sntech.de, hjc@rock-chips.com, 
- mripard@kernel.org, naoki@radxa.com, stephen@radxa.com, 
- cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
- Laurent.pinchart@ideasonboard.com, 
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- robh@kernel.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v6 09/10] arm64: dts: rockchip: Enable DisplayPort for
- rk3588s Cool Pi 4B
-Message-ID: <hbvwlucm5mnjpve6hb6h7dusgrokvdxzbpq5zrwib4yesrdakp@v77ofq7u2vv2>
-References: <20250728082846.3811429-1-andyshrk@163.com>
- <20250728082846.3811429-10-andyshrk@163.com>
+Received: from mx.olsak.net (mx.olsak.net [37.205.8.231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E0AF10E3F1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 17:19:01 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; bh=d03/wWoZaW4ksV5PR26r4aqD4rRo/KHEvjwMt78Y6Ss=; 
+ c=relaxed/relaxed; d=dujemihanovic.xyz;
+ h=Subject:Subject:Sender:To:To:Cc:Cc:From:From:Date:Date:MIME-Version:MIME-Version:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Reply-To:In-Reply-To:Message-Id:Message-Id:References:Autocrypt:Openpgp;
+ i=@dujemihanovic.xyz; s=default; t=1753809528; v=1; x=1754241528;
+ b=RHXZcSIql0aq2ed4UX/XfOo3Elf6Bk1AsVrRZI/vaGtDxN4ne/uqY9/odZ0p8VZnnUoSW0ll
+ h13iL08zJhVIrh4SEUhaOA94ILTs9FgQE6LVGBuaa/gY1222fX4vpeoJffJjuwhUvpS1Z6IPB8r
+ dQB95de8/QXMCFihHltfJQSUFP61lbzpRyK8LfP+ti32CUtXIDJ4tZx2yMI7bXEfSambsZJLsAX
+ 0pnr5+ih3rRZhkf/gquRiDU1s6AAAUcNFv8ugFXOsUWINyHDMoFwvzsw1bj0PZd5v0hrt0dkVhS
+ cp7NAVWjGOtQdR9zTY9EoR8A3bpU0wZDa1o/MlYZwGftQ==
+Received: by mx.olsak.net (envelope-sender <duje@dujemihanovic.xyz>) with
+ ESMTPS id e1aa4e3f; Tue, 29 Jul 2025 19:18:48 +0200
+From: =?utf-8?q?Duje_Mihanovi=C4=87?= <duje@dujemihanovic.xyz>
+Subject: [PATCH 0/2] ExpressWire dependency fixes
+Date: Tue, 29 Jul 2025 19:18:28 +0200
+Message-Id: <20250729-expresswire-dep-fix-v1-0-635cd4cc746b@dujemihanovic.xyz>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="iihpr7ffgjlj4iks"
-Content-Disposition: inline
-In-Reply-To: <20250728082846.3811429-10-andyshrk@163.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.3/253.35.66
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAGQCiWgC/x2MQQqAMAwEvyI5G6gVsfoV8dBo1FxUGlCh+HeDx
+ 1lmJ4NyElboiwyJL1E5doOqLGDa4r4yymwM3vnGtb5Dfs7EqrckxplPXORBig0FihTqicCeZtj
+ 8V4fxfT9JWuo9ZQAAAA==
+X-Change-ID: 20250729-expresswire-dep-fix-ba5b8bab83cb
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+ Helge Deller <deller@gmx.de>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-leds@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, 
+ =?utf-8?q?Duje_Mihanovi=C4=87?= <duje@dujemihanovic.xyz>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=654; i=duje@dujemihanovic.xyz; 
+ s=20240706; h=from:subject:message-id;
+ bh=wjHJkN76xZ9+6Pej99kANjeJrfM+//U0Dq7FGLrDcTk=;
+ b=owGbwMvMwCW21nBykGv/WmbG02pJDBmdTOVPTn2rZ50TvW5y6lYfS0np5Nvvrd5fe7zv3DGHx
+ sOb9bbXdJSyMIhxMciKKbLk/ne8xvtZZOv27GUGMHNYmUCGMHBxCsBE/pQwMnyKXXpItnL+CVXB
+ iGiT59d+SMeseeQWmh1g/q6iYZ37bgWG/w6uhx08ilh8Lra3rTo2b+l9mU0hrjeOrj0hLl15v+r
+ BUjYA
+X-Developer-Key: i=duje@dujemihanovic.xyz; a=openpgp;
+ fpr=6DFF41D60DF314B5B76BA630AD319352458FAD03
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,141 +69,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
---iihpr7ffgjlj4iks
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 09/10] arm64: dts: rockchip: Enable DisplayPort for
- rk3588s Cool Pi 4B
-MIME-Version: 1.0
+This tiny series fixes two dependency issues with the ExpressWire
+library and the KTD2801 backlight driver. Thanks to Randy for reporting
+these.
 
-Hi,
+Signed-off-by: Duje Mihanović <duje@dujemihanovic.xyz>
+---
+Duje Mihanović (2):
+      leds: Drop duplicate LEDS_EXPRESSWIRE config
+      backlight: ktd2801: Depend on GPIOLIB
 
-On Mon, Jul 28, 2025 at 04:28:34PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
->=20
-> Enable the Mini DisplayPort on this board.
-> Note that ROCKCHIP_VOP2_EP_DP0 is defined as 10 in dt-binding header,
-> but it will trigger a dtc warning like "graph node unit address error,
-> expected "a"" if we use it directly after endpoint, so we use "a"
-> instead here.
->=20
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
+ drivers/leds/Kconfig            | 4 ----
+ drivers/video/backlight/Kconfig | 1 +
+ 2 files changed, 1 insertion(+), 4 deletions(-)
+---
+base-commit: 038d61fd642278bab63ee8ef722c50d10ab01e8f
+change-id: 20250729-expresswire-dep-fix-ba5b8bab83cb
 
-The graph currently looks like this:
+Best regards,
+-- 
+Duje Mihanović <duje@dujemihanovic.xyz>
 
-VOP <-> DP controller <-> DP Connector
-
-IIUIC this does not work for USB-C and needs to look like this,
-because the USBDP PHY handles the lane muxing and thus must be
-the thing connected to the USB-C controller/connector:
-
-VOP <-> DP controller <-> USBDP PHY <-> USB-C Connector
-
-I wonder if the simple case not involving USB-C should also have
-the USBDP PHY described in the graph as a transparent bridge?
-Note, that the USBDP PHY DT binding is currently not ready for
-this (this also affects the next patch, but should be enough to
-discuss this once :)).
-
-Greetings,
-
--- Sebastian
-
->=20
-> (no changes since v2)
->=20
-> Changes in v2:
-> - Sort in alphabetical order
->=20
->  .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   | 37 +++++++++++++++++++
->  1 file changed, 37 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts b/arch/ar=
-m64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
-> index 8b717c4017a46..5393c6cc493c3 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
-> @@ -39,6 +39,18 @@ chosen {
->  		stdout-path =3D "serial2:1500000n8";
->  	};
-> =20
-> +	dp-con {
-> +		compatible =3D "dp-connector";
-> +		label =3D "DP OUT";
-> +		type =3D "mini";
-> +
-> +		port {
-> +			dp_con_in: endpoint {
-> +				remote-endpoint =3D <&dp0_out_con>;
-> +			};
-> +		};
-> +	};
-> +
->  	hdmi-con {
->  		compatible =3D "hdmi-connector";
->  		type =3D "d";
-> @@ -215,6 +227,24 @@ &cpu_b2 {
->  	cpu-supply =3D <&vdd_cpu_big1_s0>;
->  };
-> =20
-> +&dp0 {
-> +	status =3D "okay";
-> +	pinctrl-0 =3D <&dp0m0_pins>;
-> +	pinctrl-names =3D "default";
-> +};
-> +
-> +&dp0_in {
-> +	dp0_in_vp2: endpoint {
-> +		remote-endpoint =3D <&vp2_out_dp0>;
-> +	};
-> +};
-> +
-> +&dp0_out {
-> +	dp0_out_con: endpoint {
-> +		remote-endpoint =3D <&dp_con_in>;
-> +	};
-> +};
-> +
->  &gpu {
->  	mali-supply =3D <&vdd_gpu_s0>;
->  	status =3D "okay";
-> @@ -889,3 +919,10 @@ vp0_out_hdmi0: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
->  		remote-endpoint =3D <&hdmi0_in_vp0>;
->  	};
->  };
-> +
-> +&vp2 {
-> +	vp2_out_dp0: endpoint@a {
-> +		reg =3D <ROCKCHIP_VOP2_EP_DP0>;
-> +		remote-endpoint =3D <&dp0_in_vp2>;
-> +	};
-> +};
-> --=20
-> 2.43.0
->=20
-
---iihpr7ffgjlj4iks
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmiJAEsACgkQ2O7X88g7
-+prNtg//bsKKMAA8eaI9O6lXTAxHpG5/NO6poWY5y1hlAapvyZeYfdlPRJFAPnV4
-vu3UUT2mwRQOeAE6SzjKI2DOvtKU3vDQJgf8a9OrHM3OuS3+ioutmpyhX2YyeANt
-GjC0tX7gfv7dOTzp9L3j2pEGN7bQNQLZh9doIjM1f+wdCBvgKB7pMbwDeoPoHzf0
-UwhUQ2eB4EgVZn7XNd5NnF5eL7/JosLDNrYkek0M/rfrgkV7Hfq6HmvPSTnd0w57
-sAl/zZ66VAAnEukJ2PDyZOR5vCM1qlEn4Bux919MB0ltGyHuHXBB8MLosIFVNRBA
-aesK52/wn7w4EhE4Jg+iEggmk6kqMu67wOEdWyfPZ8gL/xrFi7j7u1CYAWpaTI5R
-dBxq55fS9o/pcTQ41HDEyX4TfV+11c5TnxPGo+0NQlucZqDEO7UcddXl76IuVIUO
-pgqREMW9l9Y8+vozkUXmgTQrqk6wde/3R2i7kBSFnj1FAGsHWkO1rY9ESy+uyghZ
-PMu8pPQuNKTdX8vMI1ejrbPbbNawsMvpLhHVN1S72qK3sSy4U9BUnEjrHR5bjJor
-fmYq+pk3URBT3tsaubEmvV1TGNZnrs+8E6U8Ls6ewDEZ8OG1IezkiR2DHnj/oi4x
-I+c7X3YmyfDiEUX11MpjNVy3ROss+0q83O5mc6tmJAR7CaongWs=
-=0LrM
------END PGP SIGNATURE-----
-
---iihpr7ffgjlj4iks--
