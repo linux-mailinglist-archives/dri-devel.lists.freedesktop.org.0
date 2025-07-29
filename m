@@ -2,51 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B23B14D2D
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 13:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78478B14D38
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 13:54:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCA910E12B;
-	Tue, 29 Jul 2025 11:50:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1AD710E1F6;
+	Tue, 29 Jul 2025 11:54:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aladdin.ru header.i=@aladdin.ru header.b="kpFaaEiL";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="p1v3Xmas";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.aladdin-rd.ru (mail-out.aladdin-rd.ru [91.199.251.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F423D10E12B;
- Tue, 29 Jul 2025 11:49:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=aladdin.ru; s=mail; c=simple/simple;
- t=1753789779; h=from:subject:to:date:message-id;
- bh=Cc8ULeOyaFVbyiqOGp6lL8N5tLZAjBl15kqlBhidWg4=;
- b=kpFaaEiLsDVxz2RTAJ4kNMe/rVBDPPoBR2eNnTrjVQQu65wTFxR3AiWS3CRnQWhpOsjx3XITVaq
- QBLcSwE8mTPDcAva9iXVVMFpDge7J9O3GxwEWDicMOgtfAYAsGoDkIaVFhvOfb8TIzZp51kLQp/9b
- QGzH3BfxtZ1KtCgVMursJs+W4wSnXA80tQ0l6m7vxv2s9SzuPR9+JMZbexyeL5/vY0dOkAjWmVX8o
- YyPA36dS/oEcEnxiOvXjY80mdgsjDJkgvtQykUVfEP5CytA65+1lT3DaN0x23pLCJStsfgQz4+wkn
- 22AFt9Xp+LrvA8NZkZq2HhQ1LUQEkcV+wmIw==
-From: Daniil Dulov <d.dulov@aladdin.ru>
-To: <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Daniil Dulov <d.dulov@aladdin.ru>, Harry Wentland
- <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira
- <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, Tom Chung
- <chiahsuan.chung@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- "Roman Li" <roman.li@amd.com>, Alex Hung <alex.hung@amd.com>, Aurabindo
- Pillai <aurabindo.pillai@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
- "Srinivasan Shanmugam" <srinivasan.shanmugam@amd.com>
-Subject: [PATCH 6.1/6.6] drm/amd/display: Add null check for head_pipe in
- dcn32_acquire_idle_pipe_for_head_pipe_in_layer
-Date: Tue, 29 Jul 2025 14:49:24 +0300
-Message-ID: <20250729114924.138111-1-d.dulov@aladdin.ru>
-X-Mailer: git-send-email 2.34.1
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1EA210E1F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 11:54:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=yYnbywAQMxSgmkBg9bfzNajHDUz7u130g9a2sd9vZdU=; b=p1v3Xmask9tJwEmYfcxRWyJFFW
+ GKU4VDAtVzwsDNhPFLlPx/Z3PYhL02HcepdLmLvK2RCKgVeJ5J+ViPZUr3FniwoA3dLGj1oUpVIjF
+ Ju2XKx6otFq1ha5qM++Y3YOlfnSSKMLs3yXjvYeXHT3p80+/39R1+ozHIhva/vjfwGnlIGoG/yWa5
+ xTUZUz1EpDzNZoclzxcLDwb7pT/bAjhb1FvBimWEzWC/a7C0tP7ryhvNs5XHsU31M67TLt3Bz4Jy4
+ v9MsGJ1YzGLoqZ2GAj6wR3Lni2IlZB5fQkXHcoijgcUSo55R/cpCE8w24NQiWCmFLPyi3fzXmNbJ4
+ gT04WqyA==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1ugiu8-005Q0t-9h; Tue, 29 Jul 2025 13:54:00 +0200
+Message-ID: <1bc23ad0-7273-4ddf-a0ef-4a80186f2581@igalia.com>
+Date: Tue, 29 Jul 2025 08:53:51 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] clk: bcm: rpi: Turn firmware clock on/off when
+ preparing/unpreparing
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
+References: <20250728-v3d-power-management-v1-0-780f922b1048@igalia.com>
+ <20250728-v3d-power-management-v1-1-780f922b1048@igalia.com>
+ <20250729-tall-fluffy-grouse-f5deec@houat>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250729-tall-fluffy-grouse-f5deec@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.0.122.7]
-X-ClientProxiedBy: EXCH-2016-02.aladdin.ru (192.168.1.102) To
- EXCH-2016-01.aladdin.ru (192.168.1.101)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +72,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Hi Maxime,
 
-commit ac2140449184a26eac99585b7f69814bd3ba8f2d upstream.
+On 29/07/25 04:27, Maxime Ripard wrote:
+> Hi Maíra,
+> 
+> On Mon, Jul 28, 2025 at 09:35:38AM -0300, Maíra Canal wrote:
+>> Currently, when we prepare or unprepare RPi's clocks, we don't actually
+>> enable/disable the firmware clock. This means that
+>> `clk_disable_unprepare()` doesn't actually change the clock state at
+>> all, nor does it lowers the clock rate.
+>>
+>>  From the Mailbox Property Interface documentation [1], we can see that
+>> we should use `RPI_FIRMWARE_SET_CLOCK_STATE` to set the clock state
+>> off/on. Therefore, use `RPI_FIRMWARE_SET_CLOCK_STATE` to create a
+>> prepare and an unprepare hook for RPi's firmware clock.
+>>
+>> As now the clocks are actually turned off, some of them are now marked
+>> with CLK_IGNORE_UNUSED or CLK_IS_CRITICAL, as those are required since
+>> early boot or are required during reboot.
+> 
+> What difference is there between the CLK_IGNORE_UNUSED and
+> CLK_IS_CRITICAL clocks?
 
-This commit addresses a potential null pointer dereference issue in the
-`dcn32_acquire_idle_pipe_for_head_pipe_in_layer` function. The issue
-could occur when `head_pipe` is null.
+ From my understanding, CLK_IGNORE_UNUSED will prevent the clock to be
+gated during boot (on "clk: Disabling unused clocks"), but after it, the
+clock can be gated.
 
-The fix adds a check to ensure `head_pipe` is not null before asserting
-it. If `head_pipe` is null, the function returns NULL to prevent a
-potential null pointer dereference.
+With CLK_IS_CRITICAL, the clock will never be disabled.
 
-Reported by smatch:
-drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn32/dcn32_resource.c:2690 dcn32_acquire_idle_pipe_for_head_pipe_in_layer() error: we previously assumed 'head_pipe' could be null (see line 2681)
+For example, RPI_FIRMWARE_M2MC_CLK_ID is used by vc4. It needs to be
+enabled at boot (I tested; if not enabled, it won't boot). However,
+after vc4 is probed, we would like vc4 to have control of it and be able
+to unprepare it in `vc4_hdmi_runtime_suspend()`. If I set it as
+CLK_IS_CRITICAL, vc4 won't be able to unprepare it.
 
-Cc: Tom Chung <chiahsuan.chung@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: Roman Li <roman.li@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-[ Daniil: dcn32 was moved from drivers/gpu/drm/amd/display/dc to
-  drivers/gpu/drm/amd/display/dc/resource since commit
-  8b8eed05a1c6 ("drm/amd/display: Refactor resource into component directory").
-  The path is changed accordingly to apply the patch on 6.1.y. and 6.6.y ]
-Signed-off-by: Daniil Dulov <d.dulov@aladdin.ru>
----
-Backport fix for CVE-2024-49918
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I only set RPI_FIRMWARE_PIXEL_BVB_CLK_ID as critical, as, otherwise, the
+RPi won't reboot.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
-index 1b1534ffee9f..591c3166a468 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
-@@ -2563,8 +2563,10 @@ struct pipe_ctx *dcn32_acquire_idle_pipe_for_head_pipe_in_layer(
- 	struct resource_context *old_ctx = &stream->ctx->dc->current_state->res_ctx;
- 	int head_index;
- 
--	if (!head_pipe)
-+	if (!head_pipe) {
- 		ASSERT(0);
-+		return NULL;
-+	}
- 
- 	/*
- 	 * Modified from dcn20_acquire_idle_pipe_for_layer
--- 
-2.34.1
+Best Regards,
+- Maíra
+
+> 
+> I'm asking, because CLK_IGNORE_UNUSED is mostly useless, and
+> CLK_IS_CRITICAL is probably what you're looking for for all of them.
+> 
+> Maxime
 
