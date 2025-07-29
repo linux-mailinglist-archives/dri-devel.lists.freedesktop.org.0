@@ -2,61 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C3CB14C42
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 12:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFEE9B14C41
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 12:35:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC58210E60F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 025F710E60C;
 	Tue, 29 Jul 2025 10:35:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=dujemihanovic.xyz header.i=@dujemihanovic.xyz header.b="sNATE1mm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hwqEdA1z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 913 seconds by postgrey-1.36 at gabe;
- Tue, 29 Jul 2025 09:35:08 UTC
-Received: from mx.olsak.net (mx.olsak.net [37.205.8.231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF43310E021
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 09:35:08 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; bh=0FX94LO7FBG853z0deALFB9wglwXmVAtfiI/k+zwf+c=; 
- c=relaxed/relaxed; d=dujemihanovic.xyz;
- h=Subject:Subject:Sender:To:To:Cc:Cc:From:From:Date:Date:MIME-Version:MIME-Version:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Reply-To:In-Reply-To:In-Reply-To:Message-Id:Message-Id:References:References:Autocrypt:Autocrypt:Openpgp;
- i=@dujemihanovic.xyz; s=default; t=1753780697; v=1; x=1754212697;
- b=sNATE1mmnB27c7gYFPLV3+i36LbmX0ue9FYHXt+9JHE+vmdbMjukkICF2pWl+KBxGIGGZGqH
- 9BSdoRf07MgTcGVz6sGv4Lrt5RxWVV8DZwwBKwYzzPHxVN2aQOxo6M1PIiKemN/X2o2MsmOsZuI
- jLNtltSf55f8YX1iLssgQqb4Jb7NOTOk0Ht/wr1aFStUJO6za5v0NmQP3GBPprwhNsrmwaysbGP
- R4mKd/nW0OLZBJTR+0dDg4Z6/TgeIYXI86YndlDnB/g8E8i88b1EKLb+cqq2hk+eiJK4vsaZRPR
- gJeH5ckWotsXmqXCdH9YcHu+qcDo5aMFn48TE9pehy/Aw==
-Received: by mx.olsak.net (envelope-sender <duje@dujemihanovic.xyz>) with
- ESMTPS id 5e0832d2; Tue, 29 Jul 2025 11:18:17 +0200
-From: Duje =?UTF-8?B?TWloYW5vdmnEhw==?= <duje@dujemihanovic.xyz>
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- linux-leds@vger.kernel.org
-Subject: Re: linux-next: Tree for Jul 29 (BACKLIGHT_KTD2801)
-Date: Tue, 29 Jul 2025 11:18:16 +0200
-Message-ID: <5002743.GXAFRqVoOG@radijator>
-In-Reply-To: <b6c481bb-e854-405e-a428-90301789fe20@infradead.org>
-References: <20250729153510.3781ac91@canb.auug.org.au>
- <b6c481bb-e854-405e-a428-90301789fe20@infradead.org>
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 858FE10E1F0;
+ Tue, 29 Jul 2025 10:03:41 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-ae0dffaa8b2so1072988966b.0; 
+ Tue, 29 Jul 2025 03:03:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753783420; x=1754388220; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=D+MVLwJmF7zcQQs5GBiAvtVf89SV7MV1UDodoYOOKcM=;
+ b=hwqEdA1zdzT4H9pLnCRtzLNqKEVvASs/3KI+dAEVT3ZnZbUhAZ2rEow39/WYz6VSN/
+ 8L/ZRZ79GFejEhpvojc31jv0SSsRSfPDvVVTedLUCU1uxKstPTdbx/MAdJ6F9syKlxOf
+ bBvgj9sln/rVCX0vR+dAb9ulrBpxtYL6uwt0F9vJ92O6wq1N1NGPUtxtoeZUwVaTctkd
+ kSweStHJhkg93SnLctqLNKpTTsJYshGXUwf1X3SHYkCzZdfS/HiADHl9q0578t27TZbl
+ RoQtIN5dIU7w8dP/6Xa+NxLL1CKDm1t0NLvb7/8vPTTfIm0yMF80yfpkdz4nQMVVcLBk
+ 07bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753783420; x=1754388220;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=D+MVLwJmF7zcQQs5GBiAvtVf89SV7MV1UDodoYOOKcM=;
+ b=mSBi1Opf7dmfJApYGtS+/ngr6K3jRIAzgFPieVzDBylYzp1KWcoXWIcaJmG72wYzST
+ /8Nk61l5sWUp2fdeNqFz+bsRWNMGmBf1vyPt8tb8+G0b8OGBW1XuUQ86rc+PXATn3Kpo
+ 9TRJU2ERhpYW8DnFiROV16t4X1wojw8VMSCyofXxwuUr1IipcoxWRLRDVdtw2UEM1hQf
+ N7f+Ty6Q9RLspXdQBwBEkymdfB8wC2NI47HPVtuubCs7TTFK7B5Sf/on/XX6sk/FyKR3
+ E+gBVRuWWtpWqbQDS15bHyp1wl5D6+dLGIvJ0RYbLmFximb14VXetxO9h/ucugh4j7eA
+ so1Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUcbb3bSHHTvgflbl+53WrOUT/UFPNddqbVDIb9Q9IxObdrMbhD3THMnk5z4dcEL69e5mCdXzoD/QA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YylP6UYKEyt/i5hmKyzXMOYvrsDIkK4LjFgo7Y8Z3eSfVgJPfqn
+ Ebdgd5QcnnEbS9b+lPLc2QP+3/rPQXWR3Sw3Lm2+dS17dfksNzVTxOJdugLfDmcn3qGaYJu59OE
+ dVsC+uD00RrVeNqULk90AH4aO1x4rHkM=
+X-Gm-Gg: ASbGncsz8tkIv0pJC+yIcYCXVzUkUZswxoESMh8jhWhARHjyT69ntuo6nGTG/Y4C2GZ
+ 2C7psCaddcJVLoyjIeeyPE7x4MEUphC3DXMPsp9xng7YlMe+dVLz34Ngag+QEvEwmI3ex+UwjCZ
+ Jl42FFuABStdhIf1KAy/GSecPJgxTOEVqr5NmWSggDKpfqz8P3fbjK2Nli5tVM2lzXErbOgwCCK
+ fl2LWhh
+X-Google-Smtp-Source: AGHT+IFR5NqoKoHtBXiwuzultk2/wcc4NDM8ArexVgiStAANSbiLZ+rEDOZQAChRg5bGXQycZF4dSKht6k9SVrysExk=
+X-Received: by 2002:a17:907:6d18:b0:add:f2c8:7d3f with SMTP id
+ a640c23a62f3a-af618f02439mr1594000566b.33.1753783419635; Tue, 29 Jul 2025
+ 03:03:39 -0700 (PDT)
 MIME-Version: 1.0
-Autocrypt: addr=duje@dujemihanovic.xyz; keydata=
- mDMEZokhzhYJKwYBBAHaRw8BAQdAWJZ0hsI/ytTqHGFV8x6tzd5sB596cTeeDB4CQsTf+wC0KER
- 1amUgTWloYW5vdmnEhyA8ZHVqZUBkdWplbWloYW5vdmljLnh5ej6ImQQTFgoAQRYhBG3/QdYN8x
- S1t2umMK0xk1JFj60DBQJmiSHOAhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAA
- AoJEK0xk1JFj60D1GABAJVSorZdMOlrp/oQtCSH/G53NE56x/JHA8VX+ZQBd/H3AP4/EcUf6eef
- DUxVMh2bdkmuQKsVZGgOGiXpMksrVntWBrQpRHVqZSBNaWhhbm92acSHIDxkdWplLm1paGFub3Z
- pY0Bza29sZS5ocj6ImQQTFgoAQRYhBG3/QdYN8xS1t2umMK0xk1JFj60DBQJmiSH/AhsDBQkJZg
- GABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEK0xk1JFj60Dlw8A/i4lPOL7NaYoYePDq
- l8MaJaR9qoUi+D+HtD3t0Koi7ztAQCdizXbuqP3AVNxy5Gpb1ozgp9Xqh2MRcNmJCHA1YhWAbg4
- BGaJIc4SCisGAQQBl1UBBQEBB0DEc9JeA55OlZfWKgvmRgw6a/EpBQ8mDl6nQTBmnd1XHAMBCAe
- IfgQYFgoAJhYhBG3/QdYN8xS1t2umMK0xk1JFj60DBQJmiSHOAhsMBQkJZgGAAAoJEK0xk1JFj6
- 0DG5MA/iuo4l2GDEZ1Zf+XaS//8FwdXDO9nHkfbV2MHjF4NZXwAQDroMzBdMcqVvc8GABFlTTgG
- j7KrRDz2HwWNyF8ZeprAQ==
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+From: Andy Mindful <andy.mindful@gmail.com>
+Date: Tue, 29 Jul 2025 13:03:27 +0300
+X-Gm-Features: Ac12FXwT2AD8p3BCcLoITIH5kuPJ0_AKKpOAxOhi7hBOjcX8afUCURN2eTIOkdw
+Message-ID: <CACTEcX6oXBot1VBApOyKVMVXsAN9BsvQMLa8J0iKpNeB-eLttQ@mail.gmail.com>
+Subject: [REGRESSION] tty lockup and WWAN loss after hibernate/suspend in 6.8+
+ on ThinkPad X1 Carbon Gen 10
+To: linux-kernel@vger.kernel.org, regressions@lists.linux.dev, 
+ linux-pm@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-acpi@vger.kernel.org, rafael@kernel.org, jani.nikula@intel.com, 
+ ville.syrjala@linux.intel.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Tue, 29 Jul 2025 10:35:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,24 +83,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 29 July 2025 10:32:13 Central European Summer Time Randy Dunlap 
-wrote:
-> so BACKLIGHT_KTD2801 should:
-> 	depends on GPIOLIB
+Kernel-version: 6.8+ (confirmed in Fedora kernel 6.8.4-200.fc38.x86_64
+and above)
+Regression-from: 6.7.11 (working) to 6.8.4+ (regressed)
+Affected-hardware: Lenovo ThinkPad X1 Carbon Gen 10 (Intel Alder Lake platform)
+Affected-subsystems: TTY/Console, Power Management, WWAN Modem (Intel
+XMM7560, iosm driver), Kernel DRM/i915 stack
 
-Sounds good to me.
+Description:
+We are reporting a significant regression introduced in Linux kernel
+version 6.8 (specifically confirmed in Fedora kernel
+6.8.4-200.fc38.x86_64 and subsequent versions), affecting Lenovo
+ThinkPad X1 Carbon Gen 10 laptops. This regression manifests primarily
+as tty lockups and complete loss of WWAN modem functionality after
+hibernate cycle.
 
-> Also, in drivers/leds/Kconfig, does it need duplicate entries for this?
-> Can't the second entry be removed?
-> (asking since Duje made both entries)
+Problematic Behavior:
+1. TTY/Console: After a hibernate cycle, the console input becomes
+unresponsive. In some cases, after suspend, pressing `SysRq+R` (unraw)
+can temporarily restore keyboard functionality, but this is not
+consistent, especially after hibernation.
+2. Power Management: While S3 suspend works correctly when "Linux
+only" is set in BIOS, `suspend` causes the system to freeze upon
+resume if "Windows + Linux" mode (which implies `s2idle`) is active in
+BIOS settings.
+3. WWAN Modem (Intel XMM7560, `iosm` driver): The modem fails to
+reinitialize after hibernation, consistently showing "msg timeout"
+errors in logs. The modem works correctly after a cold boot but
+completely fails to recover after resuming from hibernate. Rescanning
+PCI devices or reloading the `iosm` module does not resolve the issue.
+Attempts to manually remove the device via
+`/sys/bus/pci/devices/.../remove` result in a system hang.
+4. Kernel DRM/i915 stack: Although GuC and HuC firmware (versions
+70.44.1 / 7.9.3) are confirmed to load correctly, logs indicate
+potential graphics driver reinitialization issues in affected kernel
+versions. This might contribute to the TTY unresponsiveness.
 
-That's an oversight on my end, and as such the second one (the one inside the 
-"if NEW_LEDS" block) should be removed.
+System Specifications:
+- Laptop: Lenovo ThinkPad X1 Carbon Gen 10
+- CPU: Intel Core i7-1260P (Alder Lake)
+- GPU: Intel iGPU (ADL GT2) - i915
+- WWAN: Intel XMM7560 (iosm driver)
+- Wi-Fi/Bluetooth: Intel AX201
+- Operating Systems tested:
+- Fedora 38 (most stable with 6.7.11)
+- Fedora 39/40/42 (exhibit regression)
+- Ubuntu 22.04, 24.10 (exhibit regression)
+- EndeavourOS_Mercury-Neo-2025.03.19 (exhibits regression)
+- Display manager: GDM/Wayland (also tested LightDM + Xfce and
+runlevel 3, problem persists).
+- Mesa Stack: Mesa 24.3.4 built with LLVM 16.0.6 (confirmed functional
+with working kernels). Vulkan, GBM, EGL, GLX render correctly with
+`iris` and `intel` drivers. Custom Mesa 24.3.4 build showed no impact
+on the hibernate issue.
 
-Would you like me to send a patch to fix these?
+Behavior Matrix:
+| Kernel Version | Hibernate Status | Resume Status | TTY
+Functionality | WWAN Functionality | Notes |
+|----------------|------------------|---------------|-------------------|--------------------|-------|
+| 6.2.9 | OK | Not tested | OK | Not Tested | Working baseline |
+| 6.3.12 | OK | Not tested | OK | Not Tested | Working baseline |
+| 6.7.11 | OK | OK(S3)/Fail(S2idle) | OK | FAIL | WWAN regression
+starts here, but hibernate/tty still OK |
+| **6.8.4+** | FAIL | OK(S3)/Fail(S2idle) | FAIL | FAIL | Major
+regression point, affects hibernate/tty/WWAN |
+| 6.14+ | FAIL | OK(S3)/Fail(S2idle) | FAIL | FAIL | Problem persists
+in newer kernels |
 
-Regards,
--- 
-Duje
+Additional Details:
+- Hibernation issues:
+- Initial `mem_sleep` was `[s2idle]` in BIOS "Windows + Linux" mode.
+- Switching BIOS to "Linux only" enabled proper S3 suspend, changing
+`/sys/power/mem_sleep` to `[s2idle] deep`. However, the hibernation
+issue (TTY lockup, WWAN loss) persists even with S3 enabled for
+suspend.
+- `Alt + SysRq + R` sometimes revives console after suspend but
+*never* after hibernate.
+- TTY related errors observed in logs are, dmesg:
+`tty_flip_buffer_push: called while buffer locked`, systemd-logind:
+`New session created but VT is not initial VT, ignoring`, GDM:
+`GdmLocalDisplayFactory: active VT is not initial VT` on kernels 6.8+.
+- WWAN issues:
+- The `iosm` driver appears loaded, and the device is visible via
+`lspci`, but the modem is not visible to `mmcli` after resume from
+hibernate.
+- The WWAN modem (iosm) only works after a cold boot.
+- Rescanning PCI or reloading `iosm` module (e.g., `modprobe -r iosm
+&& modprobe iosm`) does not resolve the issue.
+- Manual removal via `/sys/bus/pci/devices/.../remove` leads to a
+system hang, indicating a deeper issue with device state or driver
+interaction post-resume.
 
+Tested Alternatives & Current Stability:
+- Hibernate works reliably only up to kernel 6.7.11.
+- Fedora 38 with kernel 6.7.11 + GNOME 44.10 is currently the most
+stable configuration for this hardware, despite the WWAN issue already
+present there (but not the tty lockup/hibernate issue).
+- Kali Linux with 6.6.9 - hibernation works.
+- Newer distributions (e.g., Fedora 42, Ubuntu 25.04, EndeavourOS)
+inherit the same problems due to their newer kernel versions.
 
+Expected Behavior:
+The system should resume from hibernate and suspend without TTY
+lockups, and the WWAN modem should reinitialize correctly and be fully
+functional.
+
+Steps to Reproduce:
+1. Ensure system is running a kernel version 6.8.4 or newer (e.g.,
+Fedora 38 with `6.8.4-200.fc38.x86_64`).
+2. Perform a `systemctl hibernate` or `systemctl suspend`.
+3. Resume the system.
+4. Observe TTY console unresponsiveness(only in runlevel 3) and check
+WWAN modem status using `mmcli -L`.
+
+Please let me know if any further information or testing is required.
+
+Thank you.
+
+Best regards,
+Andriy
