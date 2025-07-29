@@ -2,60 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49926B1455C
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 02:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74154B145E6
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 03:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C328910E18C;
-	Tue, 29 Jul 2025 00:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6228610E1A2;
+	Tue, 29 Jul 2025 01:41:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Dw+9cwbt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eUt6F/Op";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E99910E18C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 00:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=pRk2fyCDyZx5gPYPB0wJzgS/Jl89GG2lzFDMkwucWZQ=; b=Dw+9cwbtwkgP4be0O3Z3sv/AFn
- HN+FWJpjJZfL9SNJ38SYnQjtJNlOB56SVZHz0w0ASooDsprr7l3K0brn3rQZY2OBxZ+0LACz1STEU
- HllkwmgZ8cmutXHOo+ekh8JTgXmwmCEL0npfXG4wJFbK7FvbxresHG2ltFR3A8BRmIlhAET36yDw/
- +wAKCZty68kE021wK6PYkoVUvIZxQ7fixnAMd5Tki4Qf+G1Re45y6r5LzMfc/W8khFFi1JZMu7rHB
- khu8MH8GNp2etaG6n3s4d4cywGTtL6md6ERfa4RR5Cj+czaUugNpRaOw9Co9IBv/1gtCWy/g9pqEf
- NiYZWgKg==;
-Received: from [189.7.87.79] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ugYEs-005AkZ-Sx; Tue, 29 Jul 2025 02:30:43 +0200
-Message-ID: <9b3c2cb3-736c-46a0-a734-f17ed4bc0170@igalia.com>
-Date: Mon, 28 Jul 2025 21:30:35 -0300
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+ [209.85.222.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A377A10E013
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 01:41:17 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id
+ a1e0cc1a2514c-886b2fdba07so1480846241.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 28 Jul 2025 18:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753753276; x=1754358076; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rTE78ChE+vquBrI5YrDGqyKJDHj33kW+vj6Lk06X/sU=;
+ b=eUt6F/OpVGCZxCOvJDpyQJAmcwNEGYXozxCdmctUrpisFCpHVewRsSJ/1oTwukofkb
+ 9UxSNiKRFI3+jtN5zAC+oKbxBQ4t4F4RzyVbC7sEVA8ioSG6huNO26dfzhF5tX3Jpu0y
+ SXXItrErjucB7KsmEkpcthzUPubZeUHnMWjffrNRMpfTXqdVFzaIndd4wupDbbYhhPpS
+ zI1F7YFRSpVI9t66DD8Ns27cSe8Z8MRODCwbSUBK7WhfXiT+xNZ55qi5JZYX7vKiWLYC
+ U4/kwuUeIQs2D5zuYte4a9CU8kIKcgdcGdwsp97fXpvmnrVKB0muoOlPiLCy8eQJcwT3
+ Cl9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1753753276; x=1754358076;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rTE78ChE+vquBrI5YrDGqyKJDHj33kW+vj6Lk06X/sU=;
+ b=vZN4WAJzoNgMhmECDxpfQTq27YUETZYes8oIynjgs2TULYZOgKQkx7qKYwu31EMF/i
+ pnw0P8F6D0JdrawCpTJ3rP6TXmFw3tNHWkSd4ANi8dynbBPAWKt8EOxzrWyPLcK1puLC
+ PAr3eLqIhVT8WRMwOHbEJLMBz53OubuAofIkiJoC9Dum/Y4mRfVcW+jR0zmA5qIP5ntu
+ t+QrVv5BA4YyBAe0FPwGEaZ1+xNWI+zHZ9SDuC1XVuF5pK8gxQsy0NNQfV4J0tPaoY5c
+ 50yv2d0qxLU49taDZaiL5pXcW2TpKUA+Enafk/mSgOZ60hU9w13Vmp05hbwwqD0oqbTq
+ EdxA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUYU/5751AK11zlnGw43PcHQiLlJqteHVhceYd9xaGYPOe8WXN8jCNtvD1sFrXbiUblyeC3C8OjcWI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwwE77x22iMpvi8aFE8O2/S2DCnGFj9vEu2d/ua/oy/QbblRd1i
+ taS7625vvkNMzwFC+EF3enW8P2EMbGHwirRFgzeIUM6Bn22XLNlYYDN6xMqrXnAjowRJAQD7ErF
+ 8LOg3ifN8QiFGHWI4/ojLe4I4o/J/Rvg=
+X-Gm-Gg: ASbGncu3KIeS4Wh55zUtoIkLIdew725Q3g/yJb3GYYtRmoogsZveRefvMwitELf2mw4
+ ZYlvqrhcMhzxLTNU93WOUJubY5FtzJ8NsxYdsyCgZaT0D0xb0125hW4hTuFiz3KpatYDMX7CMin
+ eZQ6fsUCLuySKXHcLpUH6AL6H9lu+28qafBG5k92c8EzaMCStSE/piNhu5CU4mRRNYVCGmaMYiq
+ pZS9Q==
+X-Google-Smtp-Source: AGHT+IH5sSaz4kLWBjYQ8xg5A6GoRN5L+Q3qFpxAbI0in2TfAspkDTFwyyOI/F2e9j59D50tjfOZG4mczSkStSE5wG4=
+X-Received: by 2002:a05:6102:8024:b0:4fa:d2c:4fe with SMTP id
+ ada2fe7eead31-4fa3fef74c9mr6797567137.26.1753753276427; Mon, 28 Jul 2025
+ 18:41:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] Power Management for Raspberry Pi V3D GPU
-To: Stefan Wahren <wahrenst@gmx.net>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
-References: <20250728-v3d-power-management-v1-0-780f922b1048@igalia.com>
- <e18ed574-e84e-4812-86c0-5cfd14860030@gmx.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <e18ed574-e84e-4812-86c0-5cfd14860030@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250706-exynosdrm-decon-v4-0-735fd215f4b3@disroot.org>
+In-Reply-To: <20250706-exynosdrm-decon-v4-0-735fd215f4b3@disroot.org>
+From: Inki Dae <daeinki@gmail.com>
+Date: Tue, 29 Jul 2025 10:40:34 +0900
+X-Gm-Features: Ac12FXy-Uc3aIGD_z-2Hmjo9PpVFm9Hawvq4wg2d1-g_c1M1SQ84nY0S7pRIJwA
+Message-ID: <CAAQKjZOLZw7e1G56i29b28L0NwOM=P4eZtcNAp2vFpe3ck958A@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] Samsung Exynos 7870 DECON driver support
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Conor Dooley <conor@kernel.org>, 
+ Ajay Kumar <ajaykumar.rs@samsung.com>, Akshu Agrawal <akshua@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,77 +95,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+Hi  Kaustabh Chakraborty,
 
-On 28/07/25 18:00, Stefan Wahren wrote:
-> Hi,
-> 
-> Am 28.07.25 um 14:35 schrieb Maíra Canal:
->> This series introduces Runtime PM for Raspberry Pi's GPU, V3D.
->> Currently, the GPU clock stays up during the whole operation, even if
->> the GPU is idle. By introducing Runtime PM, we can now turn off the
->> clock completely during idle. For example, with this series, when
->> checking `vcgencmd measure_clock v3d` in the Raspberry Pi 5, we get:
->>
->> (idle)
->>
->> $ vcgencmd measure_clock v3d
->> frequency(0)=0
->>
->> (running glmark2)
->>
->> $ vcgencmd measure_clock v3d
->> frequency(0)=960016128
->>
->> To implement PM for V3D, it was needed to add a prepare and unprepare
->> hook to RPi's firmware clocks. Currently, they don't turn on and off,
->> nor lower the clock rate. Therefore, PATCH 1/3 addresses this issue in
->> clk/bcm/clk-raspberrypi.c.
->>
->> The other two patches are related to PM enablement in the V3D driver.
-> Maybe you want to cherry-pick this older patch and integrate it into 
-> your series? [2]
+This patch series has been merged into the exynos-drm-next branch.
 
-Yeah, sure! I'll add your patch to v2.
+Thanks,
+Inki Dae
 
-Best Regards,
-- Maíra
-
-> 
-> [2] - https://github.com/lategoodbye/linux-dev/ 
-> commit/2ee5e1205922b06100206e760ed8aefe0b6d322f
->>
->> To ease testing in Raspberry Pi 4 and 5, I prepared a downstream branch
->> backporting this series to rpi-6.12.y [1].
->>
->> [1] https://github.com/mairacanal/linux-rpi/tree/v3d/downstream/power- 
->> management-v2
->>
->> Best Regards,
->> - Maíra
->>
->> ---
->> Maíra Canal (3):
->>        clk: bcm: rpi: Turn firmware clock on/off when preparing/ 
->> unpreparing
->>        drm/v3d: Allocate all resources before enabling the clock
->>        drm/v3d: Introduce Runtime Power Management
->>
->>   drivers/clk/bcm/clk-raspberrypi.c |  41 ++++++++-
->>   drivers/gpu/drm/v3d/Makefile      |   3 +-
->>   drivers/gpu/drm/v3d/v3d_debugfs.c |  23 ++++-
->>   drivers/gpu/drm/v3d/v3d_drv.c     | 171 ++++++++++++++++++ 
->> +-------------------
->>   drivers/gpu/drm/v3d/v3d_drv.h     |  21 ++++-
->>   drivers/gpu/drm/v3d/v3d_gem.c     |  18 +++-
->>   drivers/gpu/drm/v3d/v3d_irq.c     |  15 ++--
->>   drivers/gpu/drm/v3d/v3d_mmu.c     |  12 ++-
->>   drivers/gpu/drm/v3d/v3d_power.c   |  79 ++++++++++++++++++
->>   drivers/gpu/drm/v3d/v3d_submit.c  |  19 ++++-
->>   10 files changed, 291 insertions(+), 111 deletions(-)
->> ---
->> base-commit: a7352c849492a30b5d8491fcb9314ab376a3942f
->> change-id: 20250728-v3d-power-management-eebb2024dc96
->>
-> 
-
+2025=EB=85=84 7=EC=9B=94 7=EC=9D=BC (=EC=9B=94) =EC=98=A4=EC=A0=84 2:30, Ka=
+ustabh Chakraborty <kauschluss@disroot.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:
+>
+> This patch series aims at adding support for Exynos7870's DECON in the
+> Exynos7 DECON driver. It introduces a driver data struct so that support
+> for DECON on other SoCs can be added to it in the future.
+>
+> It also fixes a few bugs in the driver, such as functions receiving bad
+> pointers.
+>
+> Tested on Samsung Galaxy J7 Prime (samsung-on7xelte), Samsung Galaxy A2
+> Core (samsung-a2corelte), and Samsung Galaxy J6 (samsung-j6lte).
+>
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+> Changes in v4:
+> - Drop applied patch [v2 3/3].
+> - Correct documentation of port dt property.
+> - Add documentation of memory-region.
+> - Remove redundant ctx->suspended completely.
+> - Link to v3: https://lore.kernel.org/r/20250627-exynosdrm-decon-v3-0-5b4=
+56f88cfea@disroot.org
+>
+> Changes in v3:
+> - Add a new commit documenting iommus and ports dt properties.
+> - Link to v2: https://lore.kernel.org/r/20250612-exynosdrm-decon-v2-0-d6c=
+1d21c8057@disroot.org
+>
+> Changes in v2:
+> - Add a new commit to prevent an occasional panic under circumstances.
+> - Rewrite and redo [v1 2/6] to be a more sensible commit.
+> - Link to v1: https://lore.kernel.org/r/20240919-exynosdrm-decon-v1-0-6c5=
+861c1cb04@disroot.org
+>
+> ---
+> Kaustabh Chakraborty (2):
+>       dt-bindings: display: samsung,exynos7-decon: document iommus, memor=
+y-region, and ports
+>       drm/exynos: exynos7_drm_decon: remove ctx->suspended
+>
+>  .../display/samsung/samsung,exynos7-decon.yaml     | 21 +++++++++++++
+>  drivers/gpu/drm/exynos/exynos7_drm_decon.c         | 36 ----------------=
+------
+>  2 files changed, 21 insertions(+), 36 deletions(-)
+> ---
+> base-commit: 26ffb3d6f02cd0935fb9fa3db897767beee1cb2a
+> change-id: 20240917-exynosdrm-decon-4c228dd1d2bf
+>
+> Best regards,
+> --
+> Kaustabh Chakraborty <kauschluss@disroot.org>
+>
+>
