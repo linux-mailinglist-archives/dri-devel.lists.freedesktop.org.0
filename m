@@ -2,61 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E03B14C11
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 12:20:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7410B14D17
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 13:39:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBA1910E608;
-	Tue, 29 Jul 2025 10:20:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 356EA10E04D;
+	Tue, 29 Jul 2025 11:39:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MogjU+in";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qpcxA/u9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90EC910E607;
- Tue, 29 Jul 2025 10:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753784431; x=1785320431;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=u9g9xTirDI5BoZdPd2gtcPkZvUCKI6czZ27irfE2iIU=;
- b=MogjU+in8CINj/Jb2fL/Wfeu2+Ki0htBeI3fQtuyCM759PCHzv3KB52z
- Pl9TrLeZcI58YVl+Dl+FlTwSCSVcJrohZGfzUBE5IM/69lMRWnfilQgWz
- oNXA00OqauxLVZOfZJF9PTeeU+HEcYO38A54FX5sREqSQaFZdkVFQ56DJ
- AdafgKqOGBJFuDsGAdfjnZER38QgXJcv/La3Hhv0s5mkeq3J0E5OqdRNK
- hKBtHoe6JeyqNiA/3rHEXvSpgzrO5YmrVH6Uw6ZKjeXWkM1AigHpqzCR5
- cCwle7sEcB2ryPs317uibRhk5/nq+r2MGolUsx8M6o0MvAk3PSsskHF93 A==;
-X-CSE-ConnectionGUID: Qi6mi0ILSem9v0rWHgfnNQ==
-X-CSE-MsgGUID: EgXd59RWS5SYuiNKU+P++w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="59872761"
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; d="scan'208";a="59872761"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2025 03:20:31 -0700
-X-CSE-ConnectionGUID: RXJlBpLLQlWpDWW8k/7zRw==
-X-CSE-MsgGUID: b62qSJQPQKun17BHcYAXTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; d="scan'208";a="163006701"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.246.22])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2025 03:20:27 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Andy Mindful <andy.mindful@gmail.com>, linux-kernel@vger.kernel.org,
- regressions@lists.linux.dev, linux-pm@vger.kernel.org
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-acpi@vger.kernel.org, rafael@kernel.org,
- ville.syrjala@linux.intel.com, tglx@linutronix.de
-Subject: Re: [REGRESSION] tty lockup and WWAN loss after hibernate/suspend
- in 6.8+ on ThinkPad X1 Carbon Gen 10
-In-Reply-To: <CACTEcX6oXBot1VBApOyKVMVXsAN9BsvQMLa8J0iKpNeB-eLttQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CACTEcX6oXBot1VBApOyKVMVXsAN9BsvQMLa8J0iKpNeB-eLttQ@mail.gmail.com>
-Date: Tue, 29 Jul 2025 13:20:25 +0300
-Message-ID: <642d439ea1be8e48ee5c47fd3921a786452fb931@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD1D10E04D
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 11:39:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5F36F5C0F2E;
+ Tue, 29 Jul 2025 11:39:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D158C4CEEF;
+ Tue, 29 Jul 2025 11:39:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753789188;
+ bh=RPpvSK/8qiFnebjIGVvl4LqDX43VTor4nmtafMFjlfU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qpcxA/u9Tznj7llG4bq8FgGR6n8loB2QOxor+6SdCBhDOlGqqCbPcbo6ut4+3zXzL
+ O5B+31lN4CYNt7zw8YTEfSBOXxZFWo+0AsNmp1TdE0XL16apisn11dsrtPqTtYAHln
+ VCS+YdU5DPkiycpCq/fSNmsqkqr8kFs7KFT5s5fsNGA/S8X9xcFgGaDoBgAo4DoPRF
+ aMN7RJsq0IlBv4/1hktW6Ljb6F9jYory7s2E+kTM/3t3aXsuUFLKZRJBPZxHTdv1oc
+ KuceSjXps91R6vKXxveoKFcrxBdr11X2quBjbA9AraUBemCTyZvSzA7Y7ok9Ir4LiX
+ qadsSroZsSBiw==
+Date: Tue, 29 Jul 2025 14:39:43 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ Jens Axboe <axboe@kernel.dk>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org,
+ Logan Gunthorpe <logang@deltatee.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 02/10] PCI/P2PDMA: Introduce p2pdma_provider structure
+ for cleaner abstraction
+Message-ID: <20250729113943.GJ402218@unreal>
+References: <cover.1753274085.git.leonro@nvidia.com>
+ <c2307cb4c3f1af46da138f3410738754691fbb3d.1753274085.git.leonro@nvidia.com>
+ <20250724075145.GB30590@lst.de> <20250724075533.GR402218@unreal>
+ <20250724075922.GD30590@lst.de> <20250727185158.GE7551@nvidia.com>
+ <20250729075209.GA23823@lst.de> <20250729085336.GG402218@unreal>
+ <20250729104100.GA29053@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250729104100.GA29053@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,14 +78,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 29 Jul 2025, Andy Mindful <andy.mindful@gmail.com> wrote:
-> Please let me know if any further information or testing is required.
+On Tue, Jul 29, 2025 at 12:41:00PM +0200, Christoph Hellwig wrote:
+> On Tue, Jul 29, 2025 at 11:53:36AM +0300, Leon Romanovsky wrote:
+> > > Because the struct page is the only thing that:
+> > > 
+> > >  a) dma-mapping works on
+> > >  b) is the only place we can discover the routing information, but also
+> > >     more importantly ensure that the underlying page is still present
+> > >     and the device is not hot unplugged, or in a very theoretical worst
+> > >     case replaced by something else.
+> > 
+> > It is correct in general case, but here we are talking about MMIO
+> > memory, which is "connected" to device X and routing information is
+> > stable.
+> 
+> MMIO is literally the only thing we support to P2P to/from as that is
+> how PCIe P2P is defined.  And not, it's not stable - devices can be
+> unplugged, and BARs can be reenumerated.
 
-Likely the quickest way to find the root cause is to bisect the issue.
+I have a feeling that we are drifting from the current patchset to more
+general discussion.
 
+The whole idea of new DMA API is to provide flexibility to the callers
+(subsystems) who are perfectly aware of their data and limitations to
+implement direct addressing natively.
 
-BR,
-Jani.
+In this series, device is controlled by VFIO and DMABUF. It is not
+possible to unplug it without VFIO notices it. In such case, p2pdma_provider
+and related routing information (DMABUF) will be reevaluated.
 
--- 
-Jani Nikula, Intel
+So for VFIO + DMABUF, the pointer is very stable.
+
+For other cases (general case), the flow is not changed.
+Users  will continue to call to old and well-known pci_p2pdma_state()
+to calculate p2p type.
+
+Thanks
+
+> 
