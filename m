@@ -2,67 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7410B14D17
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 13:39:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B23B14D2D
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 13:50:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 356EA10E04D;
-	Tue, 29 Jul 2025 11:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCA910E12B;
+	Tue, 29 Jul 2025 11:50:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qpcxA/u9";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aladdin.ru header.i=@aladdin.ru header.b="kpFaaEiL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FD1D10E04D
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 11:39:49 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5F36F5C0F2E;
- Tue, 29 Jul 2025 11:39:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D158C4CEEF;
- Tue, 29 Jul 2025 11:39:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753789188;
- bh=RPpvSK/8qiFnebjIGVvl4LqDX43VTor4nmtafMFjlfU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qpcxA/u9Tznj7llG4bq8FgGR6n8loB2QOxor+6SdCBhDOlGqqCbPcbo6ut4+3zXzL
- O5B+31lN4CYNt7zw8YTEfSBOXxZFWo+0AsNmp1TdE0XL16apisn11dsrtPqTtYAHln
- VCS+YdU5DPkiycpCq/fSNmsqkqr8kFs7KFT5s5fsNGA/S8X9xcFgGaDoBgAo4DoPRF
- aMN7RJsq0IlBv4/1hktW6Ljb6F9jYory7s2E+kTM/3t3aXsuUFLKZRJBPZxHTdv1oc
- KuceSjXps91R6vKXxveoKFcrxBdr11X2quBjbA9AraUBemCTyZvSzA7Y7ok9Ir4LiX
- qadsSroZsSBiw==
-Date: Tue, 29 Jul 2025 14:39:43 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Logan Gunthorpe <logang@deltatee.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 02/10] PCI/P2PDMA: Introduce p2pdma_provider structure
- for cleaner abstraction
-Message-ID: <20250729113943.GJ402218@unreal>
-References: <cover.1753274085.git.leonro@nvidia.com>
- <c2307cb4c3f1af46da138f3410738754691fbb3d.1753274085.git.leonro@nvidia.com>
- <20250724075145.GB30590@lst.de> <20250724075533.GR402218@unreal>
- <20250724075922.GD30590@lst.de> <20250727185158.GE7551@nvidia.com>
- <20250729075209.GA23823@lst.de> <20250729085336.GG402218@unreal>
- <20250729104100.GA29053@lst.de>
+Received: from mail-out.aladdin-rd.ru (mail-out.aladdin-rd.ru [91.199.251.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F423D10E12B;
+ Tue, 29 Jul 2025 11:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; d=aladdin.ru; s=mail; c=simple/simple;
+ t=1753789779; h=from:subject:to:date:message-id;
+ bh=Cc8ULeOyaFVbyiqOGp6lL8N5tLZAjBl15kqlBhidWg4=;
+ b=kpFaaEiLsDVxz2RTAJ4kNMe/rVBDPPoBR2eNnTrjVQQu65wTFxR3AiWS3CRnQWhpOsjx3XITVaq
+ QBLcSwE8mTPDcAva9iXVVMFpDge7J9O3GxwEWDicMOgtfAYAsGoDkIaVFhvOfb8TIzZp51kLQp/9b
+ QGzH3BfxtZ1KtCgVMursJs+W4wSnXA80tQ0l6m7vxv2s9SzuPR9+JMZbexyeL5/vY0dOkAjWmVX8o
+ YyPA36dS/oEcEnxiOvXjY80mdgsjDJkgvtQykUVfEP5CytA65+1lT3DaN0x23pLCJStsfgQz4+wkn
+ 22AFt9Xp+LrvA8NZkZq2HhQ1LUQEkcV+wmIw==
+From: Daniil Dulov <d.dulov@aladdin.ru>
+To: <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Daniil Dulov <d.dulov@aladdin.ru>, Harry Wentland
+ <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira
+ <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, Tom Chung
+ <chiahsuan.chung@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ "Roman Li" <roman.li@amd.com>, Alex Hung <alex.hung@amd.com>, Aurabindo
+ Pillai <aurabindo.pillai@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ "Srinivasan Shanmugam" <srinivasan.shanmugam@amd.com>
+Subject: [PATCH 6.1/6.6] drm/amd/display: Add null check for head_pipe in
+ dcn32_acquire_idle_pipe_for_head_pipe_in_layer
+Date: Tue, 29 Jul 2025 14:49:24 +0300
+Message-ID: <20250729114924.138111-1-d.dulov@aladdin.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250729104100.GA29053@lst.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.0.122.7]
+X-ClientProxiedBy: EXCH-2016-02.aladdin.ru (192.168.1.102) To
+ EXCH-2016-01.aladdin.ru (192.168.1.101)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,41 +62,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 29, 2025 at 12:41:00PM +0200, Christoph Hellwig wrote:
-> On Tue, Jul 29, 2025 at 11:53:36AM +0300, Leon Romanovsky wrote:
-> > > Because the struct page is the only thing that:
-> > > 
-> > >  a) dma-mapping works on
-> > >  b) is the only place we can discover the routing information, but also
-> > >     more importantly ensure that the underlying page is still present
-> > >     and the device is not hot unplugged, or in a very theoretical worst
-> > >     case replaced by something else.
-> > 
-> > It is correct in general case, but here we are talking about MMIO
-> > memory, which is "connected" to device X and routing information is
-> > stable.
-> 
-> MMIO is literally the only thing we support to P2P to/from as that is
-> how PCIe P2P is defined.  And not, it's not stable - devices can be
-> unplugged, and BARs can be reenumerated.
+From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
 
-I have a feeling that we are drifting from the current patchset to more
-general discussion.
+commit ac2140449184a26eac99585b7f69814bd3ba8f2d upstream.
 
-The whole idea of new DMA API is to provide flexibility to the callers
-(subsystems) who are perfectly aware of their data and limitations to
-implement direct addressing natively.
+This commit addresses a potential null pointer dereference issue in the
+`dcn32_acquire_idle_pipe_for_head_pipe_in_layer` function. The issue
+could occur when `head_pipe` is null.
 
-In this series, device is controlled by VFIO and DMABUF. It is not
-possible to unplug it without VFIO notices it. In such case, p2pdma_provider
-and related routing information (DMABUF) will be reevaluated.
+The fix adds a check to ensure `head_pipe` is not null before asserting
+it. If `head_pipe` is null, the function returns NULL to prevent a
+potential null pointer dereference.
 
-So for VFIO + DMABUF, the pointer is very stable.
+Reported by smatch:
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn32/dcn32_resource.c:2690 dcn32_acquire_idle_pipe_for_head_pipe_in_layer() error: we previously assumed 'head_pipe' could be null (see line 2681)
 
-For other cases (general case), the flow is not changed.
-Users  will continue to call to old and well-known pci_p2pdma_state()
-to calculate p2p type.
+Cc: Tom Chung <chiahsuan.chung@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Roman Li <roman.li@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>
+Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+Reviewed-by: Tom Chung <chiahsuan.chung@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+[ Daniil: dcn32 was moved from drivers/gpu/drm/amd/display/dc to
+  drivers/gpu/drm/amd/display/dc/resource since commit
+  8b8eed05a1c6 ("drm/amd/display: Refactor resource into component directory").
+  The path is changed accordingly to apply the patch on 6.1.y. and 6.6.y ]
+Signed-off-by: Daniil Dulov <d.dulov@aladdin.ru>
+---
+Backport fix for CVE-2024-49918
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Thanks
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
+index 1b1534ffee9f..591c3166a468 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
+@@ -2563,8 +2563,10 @@ struct pipe_ctx *dcn32_acquire_idle_pipe_for_head_pipe_in_layer(
+ 	struct resource_context *old_ctx = &stream->ctx->dc->current_state->res_ctx;
+ 	int head_index;
+ 
+-	if (!head_pipe)
++	if (!head_pipe) {
+ 		ASSERT(0);
++		return NULL;
++	}
+ 
+ 	/*
+ 	 * Modified from dcn20_acquire_idle_pipe_for_layer
+-- 
+2.34.1
 
-> 
