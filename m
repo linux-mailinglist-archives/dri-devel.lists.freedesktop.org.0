@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA209B155F3
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 01:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA5EB15604
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 01:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C9310E052;
-	Tue, 29 Jul 2025 23:27:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E3610E07C;
+	Tue, 29 Jul 2025 23:32:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="tU7aTxra";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="qXY3+Dc5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3AA10E052
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 23:27:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1753831455;
- bh=6mTBlnRa8PfraSaaxyB4E03DncCpm/bdVtGK3eHDw28=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=tU7aTxranuaaz+DwfXamuiJ/PpaLzLGSReMsdUZgXmLOHRlhUihAJRQ7xeG8ET8N6
- BSjXVXF/DsVBMbT4Xtr+uziHC7jNV1ezuY9hTGjoyk23SgzBNLVuHIisuslBFUW+qo
- HNaVzs5PQzB9eAJQu6ZPsHzyz+b0E1FAEv4PW557NRP3JGnAbOVh8IS7PdqEPbLHWn
- fu6Y0VaZOvSKML3e2A0XLJPg1TlpFYzdTmV0bnCK6dJOG3pQwBh5jySLSr34HeveKh
- mjcX6P11IzxTM6EhbGULbzRkJYZrQ1J4JEFBCv2oTgXrlmC2ZopXyVx/MSP102qDi6
- P12CytnqSM31Q==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4bsBHy73Dcz4w2R;
- Wed, 30 Jul 2025 09:24:14 +1000 (AEST)
-Date: Wed, 30 Jul 2025 09:27:46 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>
-Cc: Greg KH <greg@kroah.com>, Danilo Krummrich <dakr@kernel.org>, Alexandre
- Courbot <acourbot@nvidia.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: manual merge of the driver-core tree with the
- drm-nova tree
-Message-ID: <20250730092746.1576eaa3@canb.auug.org.au>
-In-Reply-To: <20250701155159.47b914a3@canb.auug.org.au>
-References: <20250701155159.47b914a3@canb.auug.org.au>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6064210E07C
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 23:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=NjWBJG7tnyKrxfyIh+OKHLF6Inx68AtsDOyMPzd00Xo=; b=qXY3+Dc5FFgFT73FrOZTpW43H9
+ 1MOGRE3croRQW30WJYSzm3QEhT04m0KgdTav2qWvyXm/ZJbq25Oz315aMkjU5SbGI9B3e1uqmVMkA
+ h2MCi4SXAlVwRURC5p5F+6z2nRbfVU0AtFJGc4fz2oz6ErPrddFj0bwwwxPsrh45eUrlAE2jGHdhZ
+ 6+e/JM6RkgS8KWGSYj18rDkF3WkSVFnSRL9K+JsMcpBJQbbsVQuAidJMhsJtKo/bCk4UsrLgeLbj4
+ g99plku8t7MAZKXMyVHulmm/x8wgvQaHx7j2jOpWJi1a1jYJoWrIIHobDd9s+qRid9Qwvm/ToKyAZ
+ jr0/uOVA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+ by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1ugtnc-00000000IvB-0qmF; Tue, 29 Jul 2025 23:32:00 +0000
+Message-ID: <70e9842b-83dc-44f8-b27d-260ff9543b36@infradead.org>
+Date: Tue, 29 Jul 2025 16:31:59 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/AMgr8NzSUK_p=U_yMkTt9h=";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] leds: Drop duplicate LEDS_EXPRESSWIRE config
+To: =?UTF-8?Q?Duje_Mihanovi=C4=87?= <duje@dujemihanovic.xyz>,
+ Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>
+Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20250729-expresswire-dep-fix-v1-0-635cd4cc746b@dujemihanovic.xyz>
+ <20250729-expresswire-dep-fix-v1-1-635cd4cc746b@dujemihanovic.xyz>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250729-expresswire-dep-fix-v1-1-635cd4cc746b@dujemihanovic.xyz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,74 +62,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/AMgr8NzSUK_p=U_yMkTt9h=
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
 
-On Tue, 1 Jul 2025 15:51:59 +1000 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->=20
-> Today's linux-next merge of the driver-core tree got a conflict in:
->=20
->   drivers/gpu/nova-core/driver.rs
->=20
-> between commit:
->=20
->   94a08721435c ("gpu: nova-core: increase BAR0 size to 16MB")
->=20
-> from the drm-nova tree and commit:
->=20
->   f5d3ef25d238 ("rust: devres: get rid of Devres' inner Arc")
->=20
-> from the driver-core tree.
->=20
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->=20
->=20
-> diff --cc drivers/gpu/nova-core/driver.rs
-> index 518ef8739550,110f2b355db4..000000000000
-> --- a/drivers/gpu/nova-core/driver.rs
-> +++ b/drivers/gpu/nova-core/driver.rs
-> @@@ -1,6 -1,6 +1,6 @@@
->   // SPDX-License-Identifier: GPL-2.0
->  =20
-> - use kernel::{auxiliary, bindings, c_str, device::Core, pci, prelude::*,=
- sizes::SZ_16M};
->  -use kernel::{auxiliary, bindings, c_str, device::Core, pci, prelude::*,=
- sync::Arc};
-> ++use kernel::{auxiliary, bindings, c_str, device::Core, pci, prelude::*,=
- sizes::SZ_16M, sync::Arc};
->  =20
->   use crate::gpu::Gpu;
->  =20
+On 7/29/25 10:18 AM, Duje Mihanović wrote:
+> While moving said config symbol out of the "if NEW_LEDS" block, I
+> accidentally left a copy inside that block. Remove it.
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Link: https://lore.kernel.org/all/b6c481bb-e854-405e-a428-90301789fe20@infradead.org/
 
-This is now a conflict between the drm tree and Linus' tree.
+s/Link/Closes/
 
---=20
-Cheers,
-Stephen Rothwell
+> Fixes: 2cd0d1db31e7 ("leds: expresswire: Don't depend on NEW_LEDS")
+> Signed-off-by: Duje Mihanović <duje@dujemihanovic.xyz>
 
---Sig_/AMgr8NzSUK_p=U_yMkTt9h=
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
------BEGIN PGP SIGNATURE-----
+Thanks.
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmiJWPIACgkQAVBC80lX
-0Gwbcgf/RCYzMVrfgLKrYwOzn0BcMoNWMGL7Z5Ew3wMyRelaWSOrkIvFHSL6m290
-luqRdmfLxE1SPmZfD1mfW7f4sxEbzixFa0n8LCkGr+1NtfgMryLYrLAje9o1Tz5w
-QvlFxuBSifzmMV4EKTSoKW6PLc1Ay9rQgk0ACcKkZ/QGBhVwqotFzLZElwTR5y5m
-wjF0s0b8wTwqEl76qhkHRDS9ILaaA8XLQwWL3Hxy8IILm9siVQlngRsa+au1HqHf
-HazP4ciXAWVkm4kxxLPg+z/mXlln7uGozB5m7Jn137tEjtAhhjQipKqiCQsx23pj
-8wT6Jvwv/t/4+CVZJZ3GnL2nDEmiag==
-=xobR
------END PGP SIGNATURE-----
+> ---
+>  drivers/leds/Kconfig | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index 6e3dce7e35a490df050cb4cd8e98611028c8dce1..8098b7b49c9decb591a894fe514a7ee757da5b44 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -214,10 +214,6 @@ config LEDS_EL15203000
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called leds-el15203000.
+>  
+> -config LEDS_EXPRESSWIRE
+> -	bool
+> -	depends on GPIOLIB
+> -
+>  config LEDS_TURRIS_OMNIA
+>  	tristate "LED support for CZ.NIC's Turris Omnia"
+>  	depends on LEDS_CLASS_MULTICOLOR
+> 
 
---Sig_/AMgr8NzSUK_p=U_yMkTt9h=--
+-- 
+~Randy
