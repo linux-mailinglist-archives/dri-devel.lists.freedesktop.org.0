@@ -2,52 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC2DB154E9
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 23:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF67B15506
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 00:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6ECE10E2D6;
-	Tue, 29 Jul 2025 21:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6468110E2DE;
+	Tue, 29 Jul 2025 22:00:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bhULLlix";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f206.google.com (mail-il1-f206.google.com
- [209.85.166.206])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74D1B10E2D6
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 21:59:32 +0000 (UTC)
-Received: by mail-il1-f206.google.com with SMTP id
- e9e14a558f8ab-3e2c230d55dso63066875ab.2
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:59:32 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+ [209.85.128.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DC0610E2DE;
+ Tue, 29 Jul 2025 22:00:48 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-71a3f7f0addso3109367b3.2; 
+ Tue, 29 Jul 2025 15:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753826447; x=1754431247; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Bf7MCgMW3rHEy3/8Boxp0Sj1cjXi7btiouj/QL5jI6g=;
+ b=bhULLlix0zTHQkxjBaEbi1uH14s8CjalGvh/xE16oj82OE7+Pgfl13T0NzFIAZzfmP
+ PGO3/37hS9GpeY7lwa9A4eHyIN9KSbyPw13fyZL1sPTse+P0W4q94xu4NRxwoK1aeBhd
+ LL8jrOu51r8d/8MZIUhuY4UBqY1z0nRoD6YtqYv0ceu/QGhUC4juveufTC3OOhnzwdLo
+ r2e3IvvYRSj5dLM0LixixN86TlTlKIvt4C0EfHHRzb9bOYplLFrWpxLcknntddPXrpaW
+ XjYNmu/fDHfx6icPRxwCuQ3i8HGONKQoSOiJCrjJmYPBTHXRNoHYTpnHGnR72sc3g5kV
+ lw/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753826371; x=1754431171;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=w4i3DmsI+e9RvNOSMGjTmBe3p3py/apqNamFPP6nbds=;
- b=lK50gUw7Fsqj67RLX1b325eyK2Gav+6WvePRCV9Vfs4xSB5cermnJVTuljuaxnm9lH
- wCA0XcEucUBMOzbYASn25Dc7WPfFl17mOMCCzG9V0a2dQ6GfUU5QKdy5l2mDNv/+H56B
- 4f7BHcpMAf2qSDRKE1l32ZkPF9lc2eTXK6FYaV6B/xjKinSAoSJzA9do2w5lZWO6jE1f
- JLsuZ3fYpiymGas9WQeyZe0cptbASXYsTj5h8ev/HbJQIVOkhz3UzVuyaJeAuScF/7dD
- DhZWv4GU9yA8vhHYX9KhcN9mOtef0AKgeex2deDIKEq2IdjEw/aumivuvgn9Qpxbs8qC
- PwZw==
+ d=1e100.net; s=20230601; t=1753826447; x=1754431247;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Bf7MCgMW3rHEy3/8Boxp0Sj1cjXi7btiouj/QL5jI6g=;
+ b=XEN9lDlwnYl/i1cGJeSR6O5SkAGDqEtLAfuyt93MuCZ942k9KGRqLHIe3tn8LFy06D
+ mgbKFT6WuT1sm1Ft+0iph+AGcGwL1+NB61pcvZ28JfgJVM4ULH5CcLMesIqyQMiFyq/1
+ H/1TU0sC0aUy/Pl7MnQxohjSp4Mc5gvBus2m6VwDwDNcUggnqwltHAMw4M/22MQG/xqM
+ H3yWiwbhkGVXTafPj/w6zzvFqQJcZ36ikIhmmJy3/mO1U86NaEVcADmBw9nUjsXmmcgt
+ ziV8tJ/1d31JlVIQiOyle5JhT68JTybocaAzam1lG5uPcaf8tss5AnZhQ5FRSuhzsnwi
+ AlMg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXrPfHqr9W87SsB4743IQEuaKM/nsd/+ae6bxt9ZaK+NYGsqPSitQSs9G7ro7wxpEhXhyMLav6Mjig=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwOSBDHzgf7JqxKXAp6etI+h7Yv0vMhRNWJPzAxRj/pCky6UwHf
- D0Rer84yg/HQw/rdykWkIjTMBeu7Ui/jv0gIRb9NrXRwfyyJDiMZOQPWhoZU2dEnYE5EXoBqF+F
- en6d+Udnozt0hdnI6XNrGDANXs8OUWtLvTcsvr84ksYvfZGjpPhm2voGysOs=
-X-Google-Smtp-Source: AGHT+IEqWXRKyjxRWtIYrW77iYkgRU41DtQPOoB0SxD37GQqCoobMtJPcldlIoELJXkfGRF6BsNf4fFyfkYuqIGunRPhD1ZGQ/Qv
+ AJvYcCVgzQblXRLoYMaLKKsJgmF7g1uf1M2LvMbPaZsB+b1GGwU6HXBrStmb+fHBV9WoXfAm4AjYgMqy@lists.freedesktop.org,
+ AJvYcCVtCGqNuuk818xYadVd9WAVkjZpROXSWpR71U0OtDyM4fAOPW2bjdxOSuvdvGy09KnxI8ZQYAQAXUUj@lists.freedesktop.org,
+ AJvYcCWRWjS+lD1jtWbTNl6hPv3w+krePGt47vmEKpk7omSy8lKrtI71Xq4taJJLzpb+q+tdo62mD2wWqCkBFJWo7A==@lists.freedesktop.org,
+ AJvYcCWadayHuvqvIOMqThiks1FP1sLxk1iCxbeo0k6LZ2HN16b8xHxX9x1u3FJBQvo4q/T06fCMeGHFaJe/@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyKffuit3ZlP5qNGdd7+jEqkWt7qxm7Reso8/hNQ2g/fzB5ZWEF
+ fSAvsuczEp62VwodaIMAwF0BczeHQtEwo69c+YymN5qViHKUAJlkTz5ULuruEOstfu9r20MgiOm
+ vyFPVirEb5i05h2ueb/5J1Qrr4M0X9ao=
+X-Gm-Gg: ASbGncvGU8BWtHkOH/EYxW+wX26deCm2iTmBGzrw+czNSvBr3m9vamyZCGM+UVVcNJ/
+ 0R7zghSqKSgV6sOcyisjJC0iS1d8F8GIJ7M8DJKulavpZTgHONzrGFcSJLSajgBEB2MznvDZPKN
+ n8T3BUqI/lsk6tgZXME40ONJkzuY6wMNVG+osHcmDitCHRoK3ITYAanYdKU/ElNnxBzb2p9lPwW
+ CokPw==
+X-Google-Smtp-Source: AGHT+IHNQcrSkJ2HLeMBxvQ4Jv6I61m2VCJ8EIUFg+9bAEeqD9KX6+H+1UjiPC3MR4drzhvRBbsAP4dMFfchymbmwcc=
+X-Received: by 2002:a05:690c:380b:b0:719:4dab:4322 with SMTP id
+ 00721157ae682-71a4665ad33mr18638917b3.22.1753826446723; Tue, 29 Jul 2025
+ 15:00:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:b28:b0:3e3:d185:9163 with SMTP id
- e9e14a558f8ab-3e3f62b8420mr16305895ab.20.1753826371609; Tue, 29 Jul 2025
- 14:59:31 -0700 (PDT)
-Date: Tue, 29 Jul 2025 14:59:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68894443.a00a0220.26d0e1.0015.GAE@google.com>
-Subject: [syzbot] [dri?] WARNING in __ww_mutex_wound
-From: syzbot <syzbot+602c4720aed62576cd79@syzkaller.appspotmail.com>
-To: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, simona@ffwll.ch, syzkaller-bugs@googlegroups.com, 
- tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+References: <20250402174156.1246171-1-jim.cromie@gmail.com>
+ <20250402174156.1246171-29-jim.cromie@gmail.com>
+ <CAOw6vbJwbvcVARNmx3O7mTbOr+A_Vo_DaUXFfN8HFFLqdG-VPQ@mail.gmail.com>
+In-Reply-To: <CAOw6vbJwbvcVARNmx3O7mTbOr+A_Vo_DaUXFfN8HFFLqdG-VPQ@mail.gmail.com>
+From: jim.cromie@gmail.com
+Date: Tue, 29 Jul 2025 16:00:20 -0600
+X-Gm-Features: Ac12FXyWVXGFelprKK3BcySWxLEORiXBVvTHcbIZRuOv6NNRJOot3b7GOZIJq9Y
+Message-ID: <CAJfuBxw8X1w=ZkHaLbXELGt_r2Gkdzgw1FZb_tpqrRvHA7CMxA@mail.gmail.com>
+Subject: Re: [PATCH v3 28/54] dyndbg: restore classmap protection when theres
+ a controlling_param
+To: Sean Paul <seanpaul@chromium.org>
+Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org, 
+ louis.chauvet@bootlin.com, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
+ ville.syrjala@linux.intel.com
+Content-Type: multipart/alternative; boundary="0000000000005acfd0063b188a75"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,96 +92,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+--0000000000005acfd0063b188a75
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot found the following issue on:
+On Fri, Jun 20, 2025 at 8:47=E2=80=AFAM Sean Paul <seanpaul@chromium.org> w=
+rote:
 
-HEAD commit:    d086c886ceb9 Add linux-next specific files for 20250718
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=161204a2580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=69896dd7b8c4e81e
-dashboard link: https://syzkaller.appspot.com/bug?extid=602c4720aed62576cd79
-compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16fff4f0580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=111204a2580000
+> On Thu, Apr 3, 2025 at 9:48=E2=80=AFAM Jim Cromie <jim.cromie@gmail.com> =
+wrote:
+> >
+>
+> \snip
+>
+> >
+> > -static void ddebug_match_apply_kparam(const struct kernel_param *kp,
+> > -                                     const struct _ddebug_class_map
+> *map,
+> > -                                     const char *mod_name)
+> > +static struct _ddebug_class_param *
+> > +ddebug_get_classmap_kparam(const struct kernel_param *kp,
+> > +                          const struct _ddebug_class_map *map)
+> >  {
+> >         struct _ddebug_class_param *dcp;
+> >
+> >         if (kp->ops !=3D &param_ops_dyndbg_classes)
+> > -               return;
+> > +               return false;
+>
+> Return type is struct _ddebug_class_param *, should this be NULL?
+>
+>
+yes it should. thx.  will revise
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/54504fbc2437/disk-d086c886.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/b427b00abffe/vmlinux-d086c886.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5a87731b006b/bzImage-d086c886.xz
+>
+>
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+602c4720aed62576cd79@syzkaller.appspotmail.com
+--0000000000005acfd0063b188a75
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-------------[ cut here ]------------
-WARNING: ./include/linux/sched.h:2173 at __clear_task_blocked_on include/linux/sched.h:2173 [inline], CPU#1: syz.1.8698/395
-WARNING: ./include/linux/sched.h:2173 at __ww_mutex_wound+0x21a/0x2b0 kernel/locking/ww_mutex.h:346, CPU#1: syz.1.8698/395
-Modules linked in:
-CPU: 1 UID: 0 PID: 395 Comm: syz.1.8698 Not tainted 6.16.0-rc6-next-20250718-syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
-RIP: 0010:__clear_task_blocked_on include/linux/sched.h:2173 [inline]
-RIP: 0010:__ww_mutex_wound+0x21a/0x2b0 kernel/locking/ww_mutex.h:346
-Code: 5f 5d c3 cc cc cc cc cc 90 0f 0b 90 e9 89 fe ff ff 90 0f 0b 90 e9 39 ff ff ff 90 0f 0b 90 4d 85 ff 0f 85 67 ff ff ff eb 95 90 <0f> 0b 90 eb 8f 48 c7 c1 70 00 e4 8f 80 e1 07 80 c1 03 38 c1 0f 8c
-RSP: 0018:ffffc900030e7720 EFLAGS: 00010046
-RAX: ffff888024a1b000 RBX: dffffc0000000000 RCX: 8f1a7ab232ebe500
-RDX: 00000000000003ef RSI: ffffffff8de5b067 RDI: ffffffff8c04d400
-RBP: 0000000000000001 R08: ffff888024a224bf R09: 1ffff11004944497
-R10: dffffc0000000000 R11: ffffed1004944498 R12: ffff88802dee8a78
-R13: ffffc900030e7ae8 R14: ffff88802dee8000 R15: ffff888024a224b8
-FS:  00007fe6e4a7f6c0(0000) GS:ffff8881258ab000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fe6e4a5ed58 CR3: 000000003115e000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- __ww_mutex_add_waiter kernel/locking/ww_mutex.h:574 [inline]
- __mutex_lock_common kernel/locking/mutex.c:642 [inline]
- __ww_mutex_lock+0xba3/0x2930 kernel/locking/mutex.c:771
- ww_mutex_lock_interruptible+0x3f/0x1c0 kernel/locking/mutex.c:904
- modeset_lock+0x21a/0x650 drivers/gpu/drm/drm_modeset_lock.c:-1
- drm_modeset_lock drivers/gpu/drm/drm_modeset_lock.c:398 [inline]
- drm_modeset_lock_all_ctx+0x62/0x300 drivers/gpu/drm/drm_modeset_lock.c:459
- setplane_internal drivers/gpu/drm/drm_plane.c:1118 [inline]
- drm_mode_setplane+0x577/0xba0 drivers/gpu/drm/drm_plane.c:1175
- drm_ioctl_kernel+0x2cc/0x390 drivers/gpu/drm/drm_ioctl.c:796
- drm_ioctl+0x67f/0xb10 drivers/gpu/drm/drm_ioctl.c:893
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:598 [inline]
- __se_sys_ioctl+0xf9/0x170 fs/ioctl.c:584
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fe6e3b8e9a9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fe6e4a7f038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fe6e3db5fa0 RCX: 00007fe6e3b8e9a9
-RDX: 0000200000000080 RSI: 00000000c03064b7 RDI: 0000000000000003
-RBP: 00007fe6e3c10d69 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 00007fe6e3db5fa0 R15: 00007ffdf1fa90a8
- </TASK>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jun 20,=
+ 2025 at 8:47=E2=80=AFAM Sean Paul &lt;<a href=3D"mailto:seanpaul@chromium.=
+org">seanpaul@chromium.org</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">On Thu, Apr 3, 2025 at 9:48=E2=80=AFAM Jim Cromie=
+ &lt;<a href=3D"mailto:jim.cromie@gmail.com" target=3D"_blank">jim.cromie@g=
+mail.com</a>&gt; wrote:<br>
+&gt;<br>
+<br>
+\snip<br>
+<br>
+&gt;<br>
+&gt; -static void ddebug_match_apply_kparam(const struct kernel_param *kp,<=
+br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const struct=
+ _ddebug_class_map *map,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *=
+mod_name)<br>
+&gt; +static struct _ddebug_class_param *<br>
+&gt; +ddebug_get_classmap_kparam(const struct kernel_param *kp,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 const struct _ddebug_class_map *map)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct _ddebug_class_param *dcp;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kp-&gt;ops !=3D &amp;param_ops_dy=
+ndbg_classes)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<=
+br>
+<br>
+Return type is struct _ddebug_class_param *, should this be NULL?<br>
+<br></blockquote><div><br></div><div>yes it should. thx.=C2=A0 will revise<=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+</blockquote></div></div>
 
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+--0000000000005acfd0063b188a75--
