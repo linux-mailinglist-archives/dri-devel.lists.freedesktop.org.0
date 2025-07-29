@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3D9B14FC5
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 16:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40160B14FC7
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Jul 2025 16:57:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A32B410E65D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A335C10E65E;
 	Tue, 29 Jul 2025 14:57:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cwE4C6zi";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="g6wM7N4l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5AE610E65B
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:49 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56T9Kjum006590
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DAC510E65D
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:50 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56T88I1O003999
  for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=bV9napCh09s
- i1kGi9emra2vbNQVuKZFFrQKfXkn3mks=; b=cwE4C6zi1myTmBMi/zSeVDwYByp
- cSRwkxUl1oaeXRMzSaMvqhpXkRVPK7kz8kHclbNaBDupQMhj61Qp0oUo8A7W21PY
- 1v8lIH+9t+BoNHrFJR/vzp1RXA8Km3JIZF0uDZXWnS7jidqhfVTVp9/OCYuV3D7n
- 9q3Vjb3ibCyjMjyJbJUDLUFXWBoFkbM7ib1uE/+WBkRVXLPohlGS/EC/Mtz3o8iF
- z2UwZevKN/aF0lmno08TbILqcfBtX+mFS76YbbTK1+jjYjpP0hz7VW1ItKHQWdQF
- CRHhHqA74hzgTv6sA/U+9Vdj+GAOKVLS/UZPWFU+q5MzzJa/9yPAQfi0SMA==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484mcr8pdt-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=V9+fcbz7W94
+ r3G/u7UQJHN/TfdQW561mZf8p47PIeZU=; b=g6wM7N4lQvCzapGTjsB24ecQdnP
+ AZKmCtkvjBv21XGHYm8aWaC+7I76LlAa2KB9QE8lCJvj8qwgnFfprxqu86+uw/WG
+ FmQiSjoc5ug0xhf88AG5LhRtKEmAgulTy/1cn4tRNff1OvmFxN+gznutqPG9sGHF
+ x+vlR73Y1jpcIKBdTvVH6RMXS8EiSvu/Za1cARBm9L4u0XO3xM/+o1pOobtct5Vq
+ grnn4JEVp+dspPJ/18t9WcQHWDfc8zkB1b2Ye6/cAXTD4nVo9PIFr+ULuZH3agAO
+ TNLen4WvhzPmqFop6LZq102scGiPpbq3m1ltK/r2T6FAZ4QfyXNp5FbySTA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484pm2gek7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:48 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-74d15d90cdbso4882504b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 07:57:48 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 14:57:49 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-235c897d378so68754575ad.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 07:57:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753801067; x=1754405867;
+ d=1e100.net; s=20230601; t=1753801068; x=1754405868;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bV9napCh09si1kGi9emra2vbNQVuKZFFrQKfXkn3mks=;
- b=HgghO8tZG9pWMtyxAsu3KvVLfrvK/37FgJxjvOqdFXvMWAegD2Uz8UCScjwZszRVQU
- ilAsB+8okhYILw2kotDBb5VfUZECHwI5K3JZi/3N64Xeh1Zcs5mYQ+3nBbQCMRq8zY/w
- nOxP8PWxTxieVbunNQ16HKmWuWu9yjWwVGcoDU/saWc9YFX2Jst5a0qjJrWt+AmiF+BO
- ApwF/eZ4kXn3p+ZSXkvaoUQtiajaNBMkXBTMt3vOIyyxtXMaYLXzH0UdChvNZHnI4fg+
- wa4DIiCVHNSuvK40ZBJ4ZYglM9Pfqfqj9c0MC8yz/eSvqPQhzFEXbdWBj2vqEqquW+ZN
- YrBA==
-X-Gm-Message-State: AOJu0YwDfcFlG8v1Xk9p8vZDF9jcfAZmo/fuXPKAwC0UwajGKJ0VbwRY
- MGnxpsYrNI1+6hORw/eYvzhadcg9KeXa6M/l13LLq/h+Py2+pl0sdcbn8ygpgOTLjXks6OAATPz
- xdtQCRgf2xBaE7tr/MSCgRaCKblirKOVXATxMtEDzXuhxR3pFMtk6oc4NrL9oK/wlM55KBRbNHx
- B+Ra8=
-X-Gm-Gg: ASbGncuNXAVguZli7KFZDaGf03CpeXyAmPaJ23t1F7Fa9QUmZtHsduAor3tOJe51vlf
- 1MVUkYSoTKxUQEWXLX+IX4g3ne4T4i2EES7Y1zOBp1+lZ6Ia7pBZDX+a2On/nP5pd71A1uHeo1F
- DzdopM8mp/Beus/KVH2m+5VV+loegFE7wwQ72fcKLaxJKfhTAylG7Ecm1HnAWcfxKj/DRQDp630
- s3wD12SdxKJp+XiXO4HAZjRdGNayrzcJDpCzxmELh6Hi50k0BbXSHq9wNxd73DwHAu75K/gJajN
- vjmw/eQo7A5HgSJriWOohDYKoLk1eJOoxFvg4Nfkgc0ey7CzXME=
-X-Received: by 2002:a05:6a20:4322:b0:21f:d0f6:13ba with SMTP id
- adf61e73a8af0-23d6ffe8724mr25354392637.1.1753801066747; 
- Tue, 29 Jul 2025 07:57:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGkVUdWVY1jgk5W7nGQYN/xwaTvSOwMDc1T4fWKqth8CqZfG64KwyTPkn95VrDifdcVac2c4Q==
-X-Received: by 2002:a05:6a20:4322:b0:21f:d0f6:13ba with SMTP id
- adf61e73a8af0-23d6ffe8724mr25354282637.1.1753801065484; 
- Tue, 29 Jul 2025 07:57:45 -0700 (PDT)
+ bh=V9+fcbz7W94r3G/u7UQJHN/TfdQW561mZf8p47PIeZU=;
+ b=skEDUFez8kVpNJwINYuROWJIZ6bofQpeCFgb3uQu74eBCrLEEZOuTyiKzhxzi29uGJ
+ 5OTsj3BHjXbOGSwd5TxAHp47eZmdU6dQApqDlwMhHaYql+rFZBB23nWgZfPcO+3T7Bgq
+ vCW5zWvfsHvU9v8Phw1OATW5hwk+nQ1THnQLlmaYHfrkgHT+DIJfyVmecTPtok8nD8/T
+ 8/TQ4WED+yaRuHaLhxkGx/xCdOD0Zd4K20v5CaSw+mLO+4HLdGnW7zxCwcVCOMh0lwjW
+ qQ1hAXoNMk19XXrj5pG+kvEFvvv9eq/9/oZ3xlUmG9aewhsI3/zAE9uwHkJQnGxWnqEH
+ p7uA==
+X-Gm-Message-State: AOJu0Yxgx6a1BKa3BvvqtezjI1C2EKLcQmYCrAeQIJVqIQAowayJhVqk
+ xfWiJ68kijWVvbvDNNgHpbPH/y1RougFuYehlDjMGcIp+nrprnwdP9piQmLluGh777bblWa2ZAm
+ nyxRu2rShg23t1n5X34vwg855iFKd2U1GiBkSXo2+TEwgibv9ENVtSU83epqe2xd2pyt8ZObwdF
+ rF5dQ=
+X-Gm-Gg: ASbGncvZpsElK3ggtYfVnv0XV9gFVBPBrujFd2u+CnglkiDmeM7xcdUM2bZptZ9kD9A
+ 173TbRpwGWq/DoHbckDDclfA7clGCi8APQ2ZkEyMrTlKkT7mIisd6+Jan/iUEe1lL9MI1mz4+Nv
+ 1hRsFAY1Qx1HQSJm/TKV5JNqQAEfjyRJv/YfD9rGhwFAsNqhmAveidtroQEOKZEiec3h+szKmQA
+ QBIrGax0GzDN+gKjL4Y6rR00m9hTz2xa+pQ0SOawrH5eNrPiwgJhbwhBTpSrXfOxiIUZAakoRYb
+ F8VCy5wn/Ec4p94+VBuIaLKY2SyyXnJZ0UpJHGgsomKAbSb2/bc=
+X-Received: by 2002:a17:903:2451:b0:240:92d1:5cd3 with SMTP id
+ d9443c01a7336-24092d165cbmr2863275ad.20.1753801067900; 
+ Tue, 29 Jul 2025 07:57:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGjD1LFBD1KVpA0YlTQXKqialrZE77rREWeWa02W98WBwqwV+/tbJVbfbaFAXRlp8TRRBpndg==
+X-Received: by 2002:a17:903:2451:b0:240:92d1:5cd3 with SMTP id
+ d9443c01a7336-24092d165cbmr2862505ad.20.1753801067077; 
+ Tue, 29 Jul 2025 07:57:47 -0700 (PDT)
 Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b420db5d93bsm1812782a12.27.2025.07.29.07.57.45
+ d9443c01a7336-24025f5a3ecsm49977215ad.136.2025.07.29.07.57.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Jul 2025 07:57:45 -0700 (PDT)
+ Tue, 29 Jul 2025 07:57:46 -0700 (PDT)
 From: Rob Clark <robin.clark@oss.qualcomm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
@@ -82,36 +82,35 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 6/7] drm/msm: Fix debugbus snapshot
-Date: Tue, 29 Jul 2025 07:57:23 -0700
-Message-ID: <20250729145729.10905-7-robin.clark@oss.qualcomm.com>
+Subject: [PATCH v2 7/7] drm/msm: Fix a7xx TPL1 cluster snapshot
+Date: Tue, 29 Jul 2025 07:57:24 -0700
+Message-ID: <20250729145729.10905-8-robin.clark@oss.qualcomm.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250729145729.10905-1-robin.clark@oss.qualcomm.com>
 References: <20250729145729.10905-1-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDExNCBTYWx0ZWRfX2mcflXL0fD8E
- n9x35rZEu3zeHUNXO+w+mrkNQXuuDjboiIP7N9yAqAq9yFwxcymOv2VJcMF91XZdKbfJgGcSdWw
- ALp5oltNQKI3PM4ecAIvUcvkHLR6wyQaRebUup0Tysb7Aya5bC7HhdezzyyqRm+lrJCwxqZ3N53
- doCa6sJ5TiBMkgoY2brx/PVVoscwanT2qHgwGCpYm3B127xYOk0yCOwxnjgwEGlDhn4pzPsvKWG
- hkqQXDbrpmO1QDNb4XoMLsJAp4eYQbt7ZcnOMybl8+ywm0sAJt3V1xv2ya1RRxrOuJXISc9duha
- rnszEFETNiIn05Aek7Xsxyhnr83Mkb//hw+6JCAUPEhyQckAjwnoT5S6PdA1wBsrRJiEcjZm8r6
- eiidVMhfRSfufeRB3ZJvu7VfsB8aP2OK8Emuz7JTiOzF9L1QGKc7z9qE9vulaL6mqjUyw6M2
-X-Authority-Analysis: v=2.4 cv=Hth2G1TS c=1 sm=1 tr=0 ts=6888e16c cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
- a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=Q8ed3UK4sgpFGPsrdooA:9
- a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-GUID: BY_cdgJRN2L7Ueot-7m9Fn2Se_R4M7pP
-X-Proofpoint-ORIG-GUID: BY_cdgJRN2L7Ueot-7m9Fn2Se_R4M7pP
+X-Proofpoint-GUID: CgUQjtwvlk-2tyutBH41tIE2akcQnQCZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI5MDExNCBTYWx0ZWRfXxt832HetglsS
+ YZz5VDQsfyVfyS38EEpDD2/N3xx0gGgnkJ3NR7ZW3HK2g0iG7O5nPRAnNQ4yFk7VIeDvM6rcsR+
+ NwwxnKPSoWE5V64wkmoEZ+oryg+LBpe5ipSvtq5mBMb7M6s4dgJWhSA2r2IvyXYKg469oG1vkMD
+ okt9OLS8j/S1r4Ywa24VZrRyy9UYlFzvKo1ZaCFbkstJb2s7rSzup3jKNZFv7L3m/4zX3aQaUM1
+ s2BJU3wHkaRIympQsKO6BgvRGM+m9yGXntYeD0kcoz+VqT9h6uU1zbDj8e4MNbngJQfrJ28g8Uv
+ 07XmdViTz0AYHqf+cnLcspQt9fZbVzvtWi+6VFl+l5My6DFsnW3twHkiJRh9UkcVUF5PW4rvYpW
+ QfAO0G/y4SiHnbNDuwLl/K62JKqXIOmfgcuwDPnNEp8u8kF9UmXVOdTWz6qVlg5KcfSFEv31
+X-Authority-Analysis: v=2.4 cv=HfYUTjE8 c=1 sm=1 tr=0 ts=6888e16d cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=EUspDBNiAAAA:8 a=zhZQclFZcvAaLIcfx54A:9 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-ORIG-GUID: CgUQjtwvlk-2tyutBH41tIE2akcQnQCZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-29_03,2025-07-28_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 mlxscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015
- spamscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507290114
+ mlxscore=0 clxscore=1015 bulkscore=0 suspectscore=0 impostorscore=0
+ spamscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507290114
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,30 +126,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We weren't setting the # of captured debugbus blocks.
+Later gens have both a PIPE_BR and PIPE_NONE section.  The snapshot tool
+seems to expect this for x1-85 as well.  I guess this was just a bug in
+downstream kgsl, which went unnoticed?
 
-Reported-by: Connor Abbott <cwabbott0@gmail.com>
-Suggested-by: Connor Abbott <cwabbott0@gmail.com>
 Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h | 11 +++++++++--
+ drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h |  2 ++
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-index 8317e1107389..ab9b35e44778 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-@@ -430,8 +430,9 @@ static void a7xx_get_debugbus_blocks(struct msm_gpu *gpu,
- 				a6xx_state, &a7xx_debugbus_blocks[gbif_debugbus_blocks[i]],
- 				&a6xx_state->debugbus[i + debugbus_blocks_count]);
- 		}
--	}
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h b/drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h
+index afcc7498983f..04b49d385f9d 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h
+@@ -668,12 +668,19 @@ static const u32 gen7_0_0_sp_noncontext_pipe_lpac_usptp_registers[] = {
+ };
+ static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_noncontext_pipe_lpac_usptp_registers), 8));
  
-+		a6xx_state->nr_debugbus = total_debugbus_blocks;
-+	}
- }
+-/* Block: TPl1 Cluster: noncontext Pipeline: A7XX_PIPE_BR */
+-static const u32 gen7_0_0_tpl1_noncontext_pipe_br_registers[] = {
++/* Block: TPl1 Cluster: noncontext Pipeline: A7XX_PIPE_NONE */
++static const u32 gen7_0_0_tpl1_noncontext_pipe_none_registers[] = {
+ 	0x0b600, 0x0b600, 0x0b602, 0x0b602, 0x0b604, 0x0b604, 0x0b608, 0x0b60c,
+ 	0x0b60f, 0x0b621, 0x0b630, 0x0b633,
+ 	UINT_MAX, UINT_MAX,
+ };
++static_assert(IS_ALIGNED(sizeof(gen7_0_0_tpl1_noncontext_pipe_none_registers), 8));
++
++/* Block: TPl1 Cluster: noncontext Pipeline: A7XX_PIPE_BR */
++static const u32 gen7_0_0_tpl1_noncontext_pipe_br_registers[] = {
++	 0x0b600, 0x0b600,
++	 UINT_MAX, UINT_MAX,
++};
+ static_assert(IS_ALIGNED(sizeof(gen7_0_0_tpl1_noncontext_pipe_br_registers), 8));
  
- static void a6xx_get_debugbus(struct msm_gpu *gpu,
+ /* Block: TPl1 Cluster: noncontext Pipeline: A7XX_PIPE_LPAC */
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h b/drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h
+index 6569f12bf12f..772652eb61f3 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h
+@@ -573,6 +573,8 @@ static const struct gen7_sptp_cluster_registers gen7_2_0_sptp_clusters[] = {
+ 		gen7_0_0_sp_noncontext_pipe_lpac_usptp_registers, 0xaf80 },
+ 	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
+ 		gen7_0_0_tpl1_noncontext_pipe_br_registers, 0xb600 },
++	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_NONE, 0, A7XX_USPTP,
++		gen7_0_0_tpl1_noncontext_pipe_none_registers, 0xb600 },
+ 	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
+ 		gen7_0_0_tpl1_noncontext_pipe_lpac_registers, 0xb780 },
+ 	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
 -- 
 2.50.1
 
