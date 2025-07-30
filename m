@@ -2,129 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB00EB159FA
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 09:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3A8B15A07
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 09:56:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1124210E423;
-	Wed, 30 Jul 2025 07:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1A3510E41F;
+	Wed, 30 Jul 2025 07:56:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="DBvqUKWV";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="KC1syJUy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA9B10E423
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 07:49:30 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56U6DGmb031480
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 07:49:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- rTm+TZkQT/SGQGK62s6S181SpWgQH5VtRqWeAqKrzZc=; b=DBvqUKWVV6+E3hMq
- WemIAzJm3LT2m6sGOWR+cg/hJWHEaFz31nnOakfi6LAogcIilPrC6WEOO28ovgDf
- lymO0BXfeHSfbweKmBEiP8OEk7M96xynCHloyYXZ9efHUPSal3PhgUqUbFhV4Hw2
- f5nSEkFcD55Hxe4ZmtLNZgHN6IE8cTNqr8S9PLwMxHpGygxxtCOPNKVOMKUlSabi
- vjmyfeNCXocYaeRxiPu7p69i6lZbCceAd3GQ47WmZ9kOpahLV1fFHWv57Mc1W9XO
- hEKpZtR8rdl04mIETVTOFGGFQBW15B5IHvto2riCYE9zLfesedjZ7voALZdp+CAG
- U4IfbA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 485v1xgacd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 07:49:29 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4ab65611676so23120651cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 00:49:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753861768; x=1754466568;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rTm+TZkQT/SGQGK62s6S181SpWgQH5VtRqWeAqKrzZc=;
- b=vccNLqUsjFT0bhlkYnQT7qhAg+o5q1RLXR2RCGlOGYMglJ1PtKBBYCis2FJG/fSRJy
- 5FRnDsn+R1yt64nynBVTZcy2atSf8bGgzt9FoZ/jhmAfisCFVkP3cXH9AN4QfO4cgvjJ
- 0F6lt0nCf5fXg9GeobXzuUukoVuveRuv5KoPcmLtAwcpI7gmOKoAwNZebznPJVST7YSy
- 4S7A43skUDCVkpE5nCoAFXNUr5ceBB4jcTVMsx+VH9fa1u4LxZN97oBs+nuJs0yNrEBL
- gIgTzxdOnaEzYphFYgvEYDr+K+7mwkwc16SL2qXNzWUKdxMfKIBWa3v8oqAVfSY/Pa2V
- Vayg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9F5Okgf9Fi4VhcjqLwCy4YisxRHroY5x0xG4DuJ7FjYpKachN3Lf4MlPK2MvOc9GFUL+amTqDxpo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4C9nBBbi422WEDn12s65Y9j0XMy21lKz/mqAk4KbjzIge/VLN
- lBqyTH5IJqEAnAyFycmngYqQyerl8nhnTa9z5CGu1cQt4JzA8AdNDdXyoy/v+tBVuz48uK3bqFB
- QWnxkZGCmwzXXIUlP7AfWnt/R55fR+o0S7DEW4iWX1rZ1S34XLTtHQESlvtdIOxaL4I+0dqY=
-X-Gm-Gg: ASbGncvzFvkDpSn/Wz+ipDH+Z1D7uoiMMyoFgOg9jChIpsJZLKycwo3eSZtgGfP/wD+
- HLI5QPxtMnR6q1vuqpBp7f+N6psFrh8tmRsQBPIbM20LnaijCoBpgo93rRLbZyezdWH7ZaS1diL
- c6AsQFTcflohXF3muT8gv0S1ntmGLdHSttiQ+sgV8w1LIo+721mTfWXOE3kZT50hloCV7pDeOJS
- DKhQfgZh7CjM7DoXZ3ShDmz5RzUfw8tyNjGPI/El1Cq6HwvSNCjAXHbS/N28OZAQkpahs+KT+TQ
- BqA02uZoAAP/HzEMhbgHaTaEaCO1z1PKrSr4mei1LEyWEDuBIXi/ujZuZ3dkJ/20WfZAHty4Sw2
- BMpgU786zbsZRPaQtPQ==
-X-Received: by 2002:a05:622a:488:b0:4a7:bed9:524c with SMTP id
- d75a77b69052e-4aedbc144cemr18605991cf.11.1753861768333; 
- Wed, 30 Jul 2025 00:49:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGpPhh045uTi/QuFSdP8//pNs61a36JHJHwALkH8CLnoy9U2dacpk/Mha/zFLAQRC76nIkYJw==
-X-Received: by 2002:a05:622a:488:b0:4a7:bed9:524c with SMTP id
- d75a77b69052e-4aedbc144cemr18605921cf.11.1753861767853; 
- Wed, 30 Jul 2025 00:49:27 -0700 (PDT)
-Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-af9015990c4sm74181966b.128.2025.07.30.00.49.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jul 2025 00:49:27 -0700 (PDT)
-Message-ID: <7c5df7d1-6757-4cfd-b69d-46854731a119@oss.qualcomm.com>
-Date: Wed, 30 Jul 2025 09:49:23 +0200
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF5210E421;
+ Wed, 30 Jul 2025 07:56:20 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bsPfm6Qhqz9sXg;
+ Wed, 30 Jul 2025 09:56:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1753862177; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ontXPx/waFW2vwfIZhpDrxs80xPxqKi4ay9J8j5IdJo=;
+ b=KC1syJUy48BcRqN+svY6GQK8ljjnSpA06DlfPue5hKjzjG71lcZng0lgjaAwijMDItIiTx
+ 0sGs/9JAVW6TPvkUjRA01YM+OpdjKZh9lUp/7AOo85K0O03gz8p1B5ZOzrJ/SkIdJBPOjl
+ 2fLvd+1JOWCUnZ+0Z0LkOfmGWV7hTShJRwGNrdNLJtAy+ZEjQjeQ7xGDExMMFCDiVuvapz
+ OufRhfvCjmKQ8ibDztQeUmXjPUBuDl7C/Uh1t/x+QDqmKvUM5b5zZQzTiGMZfR7T9mfy18
+ vyeC30qhe/LgkZ0Bx9nsOQTCoXQgQeOelNvTwF7xIxwwIdmg1jZh7FXQ7qrICA==
+Message-ID: <dda766b27e9a7035dee2f6368b882cc628a73772.camel@mailbox.org>
+Subject: Re: [RFC v7 10/12] drm/sched: Break submission patterns with some
+ randomness
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Pierre-Eric Pelloux-Prayer
+ <pierre-eric@damsy.net>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
+ Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Date: Wed, 30 Jul 2025 09:56:11 +0200
+In-Reply-To: <0312116d-b216-4afb-bf9f-210b553fed7f@igalia.com>
+References: <20250724141921.75583-1-tvrtko.ursulin@igalia.com>
+ <20250724141921.75583-11-tvrtko.ursulin@igalia.com>
+ <fe05e8fd-d56f-4b32-a65b-46c9ef6df9c7@damsy.net>
+ <0312116d-b216-4afb-bf9f-210b553fed7f@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/17] drm/msm/adreno: Add fenced regwrite support
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
- <20250720-ifpc-support-v1-7-9347aa5bcbd6@oss.qualcomm.com>
- <tyjkwrdmsj7k7tkqqxdd65l5v5jxugr5me3ivg5onn3hbffkwp@7uhsbzolqiyd>
- <30442713-2990-490a-b076-93c3cfc3901d@oss.qualcomm.com>
- <d696e7df-7f11-4491-89ff-ba71274ae101@oss.qualcomm.com>
- <1d320aac-e928-4fd0-812c-268a3a943575@oss.qualcomm.com>
- <3f58451a-9b5f-4697-9679-d549104e8312@oss.qualcomm.com>
- <9e48ea8e-b59b-4620-9781-211cc1f7cc07@oss.qualcomm.com>
- <bd6076a5-f888-4044-8a5d-ea6e6fea28e8@oss.qualcomm.com>
- <4226ced8-411e-4cc1-be2c-4d1452c09b14@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <4226ced8-411e-4cc1-be2c-4d1452c09b14@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMwMDA1NCBTYWx0ZWRfX/DYMg5CnSPgP
- eYziXWZYjSRUmdrNESQMG6HA3sCDPxuU9zPYZasWqmYXoOEJIRvF0HRmWPN6pQV0sBlqdhWIuZN
- Z67AVmkvWriVDaZIuRBUzfEgaD+HHjkoaGSXJcz22aXxA/RAAXcdvrLJ5twKGEomDKwDJpr312c
- /ChaP0e1y/s9+mnCt7GMOornPiZRtIbcW9qUWNF4oLZXOf2DNZm8vc/xrpiYLpMd4w5oVAYG+Bc
- rgQyGIia7mWeGES5jLqU+lPWdjX0h7sKVUEuHl5YrTG8p+AjV5NslPzKAl5CCfBexcFijs1nZBu
- gycUtAZ9U4WeMmL+ZRC0/HIP+hoKFs3aJSaxCzqdkaCsNbJtcvdvLiUpdudcxroyS6I3l5rA/qE
- ax7AvJ3ETbOm670P2fxCGntkZbb4/FmaxNvcNg4DeUi9PIYdc5TbmYg+NllUujj31qDOgiEb
-X-Authority-Analysis: v=2.4 cv=JKw7s9Kb c=1 sm=1 tr=0 ts=6889ce89 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=ND-EWpZVFRsHkRg0wacA:9
- a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-ORIG-GUID: 3wbmn6h7iCLt_UDMZpicV128tc5lE2Mp
-X-Proofpoint-GUID: 3wbmn6h7iCLt_UDMZpicV128tc5lE2Mp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-30_03,2025-07-30_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 clxscore=1015
- mlxlogscore=999 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507300054
+X-MBO-RS-META: 1mzkczf3cpqwsa463waf8qbkcwfo7yts
+X-MBO-RS-ID: 2d58de4d89f905860c1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,110 +69,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/29/25 11:49 PM, Akhil P Oommen wrote:
-> On 7/30/2025 3:10 AM, Akhil P Oommen wrote:
->> On 7/29/2025 6:31 PM, Konrad Dybcio wrote:
->>> On 7/24/25 6:54 PM, Akhil P Oommen wrote:
->>>> On 7/24/2025 5:16 PM, Konrad Dybcio wrote:
->>>>> On 7/23/25 11:06 PM, Akhil P Oommen wrote:
->>>>>> On 7/22/2025 8:22 PM, Konrad Dybcio wrote:
->>>>>>> On 7/22/25 3:39 PM, Dmitry Baryshkov wrote:
->>>>>>>> On Sun, Jul 20, 2025 at 05:46:08PM +0530, Akhil P Oommen wrote:
->>>>>>>>> There are some special registers which are accessible even when GX power
->>>>>>>>> domain is collapsed during an IFPC sleep. Accessing these registers
->>>>>>>>> wakes up GPU from power collapse and allow programming these registers
->>>>>>>>> without additional handshake with GMU. This patch adds support for this
->>>>>>>>> special register write sequence.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
->>>>>>>>> ---
->>>>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 63 ++++++++++++++++++++++++++++++-
->>>>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
->>>>>>>>>  drivers/gpu/drm/msm/adreno/a6xx_preempt.c | 20 +++++-----
->>>>>>>>>  3 files changed, 73 insertions(+), 11 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>>>>>> index 491fde0083a202bec7c6b3bca88d0e5a717a6560..8c004fc3abd2896d467a9728b34e99e4ed944dc4 100644
->>>>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->>>>>>>>> @@ -16,6 +16,67 @@
->>>>>>>>>  
->>>>>>>>>  #define GPU_PAS_ID 13
->>>>>>>>>  
->>>>>>>>> +static bool fence_status_check(struct msm_gpu *gpu, u32 offset, u32 value, u32 status, u32 mask)
->>>>>>>>> +{
->>>>>>>>> +	/* Success if !writedropped0/1 */
->>>>>>>>> +	if (!(status & mask))
->>>>>>>>> +		return true;
->>>>>>>>> +
->>>>>>>>> +	udelay(10);
->>>>>>>>
->>>>>>>> Why do we need udelay() here? Why can't we use interval setting inside
->>>>>>>> gmu_poll_timeout()?
->>>>>>>
->>>>>>> Similarly here:
->>>>>>>
->>>>>>> [...]
->>>>>>>
->>>>>>>>> +	if (!gmu_poll_timeout(gmu, REG_A6XX_GMU_AHB_FENCE_STATUS, status,
->>>>>>>>> +			fence_status_check(gpu, offset, value, status, mask), 0, 1000))
->>>>>>>>> +		return 0;
->>>>>>>>> +
->>>>>>>>> +	dev_err_ratelimited(gmu->dev, "delay in fenced register write (0x%x)\n",
->>>>>>>>> +			offset);
->>
->> This print should be after the 2nd polling. Otherwise the delay due to
->> this may allow GPU to go back to IFPC.
->>
->>>>>>>>> +
->>>>>>>>> +	/* Try again for another 1ms before failing */
->>>>>>>>> +	gpu_write(gpu, offset, value);
->>>>>>>>> +	if (!gmu_poll_timeout(gmu, REG_A6XX_GMU_AHB_FENCE_STATUS, status,
->>>>>>>>> +			fence_status_check(gpu, offset, value, status, mask), 0, 1000))
->>>>>>>>> +		return 0;
->>>>>>>>> +
->>>>>>>>> +	dev_err_ratelimited(gmu->dev, "fenced register write (0x%x) fail\n",
->>>>>>>>> +			offset);
->>>>>>>
->>>>>>> We may want to combine the two, so as not to worry the user too much..
->>>>>>>
->>>>>>> If it's going to fail, I would assume it's going to fail both checks
->>>>>>> (unless e.g. the bus is so congested a single write can't go through
->>>>>>> to a sleepy GPU across 2 miliseconds, but that's another issue)
->>>>>>
->>>>>> In case of success, we cannot be sure if the first write went through.
->>>>>> So we should poll separately.
->>>>>
->>>>> You're writing to it 2 (outside fence_status_check) + 2*1000/10 (inside)
->>>>> == 202 times, it really better go through..
->>>>
->>>> For the following sequence:
->>>> 1. write reg1 <- suppose this is dropped
->>>> 2. write reg2 <- and this went through
->>>> 3. Check fence status <- This will show success
->>>
->>> What I'm saying is that fence_status_check() does the same write you
->>> execute inbetween the polling calls
->>
->> On a second thought I think it is simpler to just use a single polling
->> of 2ms and measure the time taken using ktime to print a warning if it
->> took more that 1ms.
-> 
-> But then we can't know if the higher latency measured is because this
-> thread got scheduled out just before we measure with ktime 2nd time. So
-> we should rely on gmu_poll_timeout() for accuracy.
-> 
-> We need a warn after 1ms because there is a 1ms timeout in VRM. We
-> should know if it occurs frequently enough to cause a performance issue.
+On Mon, 2025-07-28 at 12:14 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 28/07/2025 10:28, Pierre-Eric Pelloux-Prayer wrote:
+> > Le 24/07/2025 =C3=A0 16:19, Tvrtko Ursulin a =C3=A9crit=C2=A0:
+> > > GPUs generally don't implement preemption and DRM scheduler definitel=
+y
+> > > does not support it at the front end scheduling level. This means
+> > > execution quanta can be quite long and is controlled by userspace,
+> > > consequence of which is picking the "wrong" entity to run can have a
+> > > larger negative effect than it would have with a virtual runtime base=
+d=20
+> > > CPU
+> > > scheduler.
+> > >=20
+> > > Another important consideration is that rendering clients often have
+> > > shallow submission queues, meaning they will be entering and exiting =
+the
+> > > scheduler's runnable queue often.
+> > >=20
+> > > Relevant scenario here is what happens when an entity re-joins the
+> > > runnable queue with other entities already present. One cornerstone o=
+f=20
+> > > the
+> > > virtual runtime algorithm is to let it re-join at the head and depend=
+ on
+> > > the virtual runtime accounting to sort out the order after an executi=
+on
+> > > quanta or two.
+> > >=20
+> > > However, as explained above, this may not work fully reliably in the =
+GPU
+> > > world. Entity could always get to overtake the existing entities, or =
+not,
+> > > depending on the submission order and rbtree equal key insertion
+> > > behaviour.
+> > >=20
+> > > We can break this latching by adding some randomness for this specifi=
+c
+> > > corner case.
+> > >=20
+> > > If an entity is re-joining the runnable queue, was head of the queue =
+the
+> > > last time it got picked, and there is an already queued different ent=
+ity
+> > > of an equal scheduling priority, we can break the tie by randomly
+> > > choosing
+> > > the execution order between the two.
+> > >=20
+> > > For randomness we implement a simple driver global boolean which sele=
+cts
+> > > whether new entity will be first or not. Because the boolean is globa=
+l=20
+> > > and
+> > > shared between all the run queues and entities, its actual effect can=
+ be
+> > > loosely called random. Under the assumption it will not always be the=
+=20
+> > > same
+> > > entity which is re-joining the queue under these circumstances.
+> > >=20
+> > > Another way to look at this is that it is adding a little bit of limi=
+ted
+> > > random round-robin behaviour to the fair scheduling algorithm.
+> > >=20
+> > > Net effect is a significant improvemnt to the scheduling unit tests w=
+hich
+> > > check the scheduling quality for the interactive client running in
+> > > parallel with GPU hogs.
+> > >=20
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > Cc: Danilo Krummrich <dakr@kernel.org>
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Philipp Stanner <phasta@kernel.org>
+> > > Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> > > ---
+> > > =C2=A0 drivers/gpu/drm/scheduler/sched_rq.c | 10 ++++++++++
+> > > =C2=A0 1 file changed, 10 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/=
+=20
+> > > scheduler/sched_rq.c
+> > > index d16ee3ee3653..087a6bdbb824 100644
+> > > --- a/drivers/gpu/drm/scheduler/sched_rq.c
+> > > +++ b/drivers/gpu/drm/scheduler/sched_rq.c
+> > > @@ -147,6 +147,16 @@ drm_sched_entity_restore_vruntime(struct=20
+> > > drm_sched_entity *entity,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 * Higher priority can go first.
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 */
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 vruntime =3D -us_to_ktime(rq_prio - prio);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s=
+tatic const int shuffle[2] =3D { -100, 100 };
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s=
+tatic bool r =3D 0;
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /=
+*
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 * For equal priority apply some randomness to break
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 * latching caused by submission patterns.
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 */
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v=
+runtime =3D shuffle[r];
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r=
+ ^=3D 1;
+> >=20
+> > I don't understand why this is needed at all?
+> >=20
+> > I suppose this is related to how drm_sched_entity_save_vruntime saves a=
+=20
+> > relative vruntime (=3D entity rejoins with a 0 runtime would be impossi=
+ble=20
+> > otherwise) but I don't understand this either.
+>=20
+> Two things (and a bit more) to explain here for the record. And as=20
+> agreed off-line I need to add some more code comments for this are in
+> the next respin.
+>=20
+> First the saving of "vruntime - min_runtime" when entity exits the=20
+> run-queue.
+>=20
+> That is a core CFS concept AFAIU which enables the relative position of=
+=20
+> the entity to be restored once it re-enters the rq.
+>=20
+> It only applies on the scenario when the picked entity was not the head=
+=20
+> of the queue, due the actual head being not runnable due a dependency.
+>=20
+> If the picked entity then leaves the queue and re-joins, this relative=
+=20
+> vruntime is used to put it back where it was relative to the unready=20
+> entity (which may have became ready by now and so it needs to be picked=
+=20
+> next and not overtaken so easily.)
 
-VRM, as in the RPMh component?
+I'm afraid I also don't get it completely. So you're saying that with
+this jitter-mechanism we can preserve the relative order of entities?
+But the actual patch title says that it's about breaking such patterns,
+or isn't it? "Break submission patterns"
 
-Please provide more context on how it's tied together in the commit
-message, it'll be useful for people down the line (I'd assume accessing
-these special registers invokes some handler that brings GX back up
-momentarily, which is why we're polling in the first place?)
+Maybe you can help improve my understanding by us reversing the
+question:
 
-Konrad
+If that jitter-mechanism is dropped, what will be the negative
+consequence?
+
+Entities with similar vruntimes would always run in the same order,
+correct? So the patch is not so much about GPU time fairness, but about
+response / delay fairness.
+
+
+P.
+
+>=20
+> It has to be the relative vruntime that is preserved, ie. entity which=
+=20
+> re-enters cannot simply keep its previous vruntime, since by then that=
+=20
+> could lag significantly behind the vruntime of other active entities,
+> which in turn would mean the re-joining entity could be head of the=20
+> queue for a long time.
+>=20
+> Second part is the special case from the quoted patch and that only=20
+> applies to entities which are re-joining the queue after having been=20
+> picked from the head _and_ there is another entity in the rq.
+>=20
+> By the nature of the CFS algorithm the re-joining entity continues with=
+=20
+> the vruntime assigned from the current rq min_vruntime. Which puts two=
+=20
+> entities with the same vruntime at the head of the queue and the actual=
+=20
+> picking order influenced by the submit order (FIFO) and rbtree sort=20
+> order (did not check). But in any case it is not desirable for all the=
+=20
+> description of GPU scheduling weaknesses from the commit text (this patch=
+).
+>=20
+> For this special case there are three sub-paths:
+>=20
+> =C2=A0 1. Re-joining entity is higher scheduling prio -> we pull its vrun=
+time=20
+> a tiny bit ahead of the min_vruntime so it runs first.
+>=20
+> =C2=A0 2. Lower re-joining prio -> the opposite of the above - we explici=
+tly=20
+> prevent it overtaking the higher priority head.
+>=20
+> =C2=A0 3. Equal prio -> apply some randomness as to which one runs first.
+>=20
+> Idea being avoidance of any "latching" of the execution order based on=
+=20
+> submission patterns. Which kind of applies a little bit of=20
+> round/random-robin for this very specific case of equal priority entity=
+=20
+> re-joining at the top of the queue.
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+
