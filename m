@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D800B15E4D
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 12:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B0DB15E51
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 12:36:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83EBF10E2D4;
-	Wed, 30 Jul 2025 10:36:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE1E410E677;
+	Wed, 30 Jul 2025 10:36:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Rr19Hu2E";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ma3lzg1w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2238810E445;
- Wed, 30 Jul 2025 10:36:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB04610E44F;
+ Wed, 30 Jul 2025 10:36:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753871775; x=1785407775;
+ t=1753871778; x=1785407778;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=1KNPoL6jC59AwmHYy7tSYj73N3SnvwhJyHMwTY9WRo0=;
- b=Rr19Hu2E7+iDvaGmL3P+AjPs6JPdxtasctREh8nVtifzF7oaS6HuqJMU
- BuAA0H5H2SAQNtvc3waPoMskm2TYkq2vSfZyN3v6TdqQL6QJKKOgoTfjM
- ilPSO3qUSB7o7+/0sD9TzZSyYMq8tYVPEa2g10rZHHBBZ/4Zmg8Px5EsZ
- mQaVD6hka8mUwxfOje/QLPHSqkpwMOY0n5cfh7OA5kI+1vAvz9OoAQZxg
- cBnYpV+BQfFkDbcKXnIYBBSx0yaGBHbt7f8+CAuoQX4MGRROLLyAkGryt
- AqRhXnYD8OI54X4xv8d/fnFLIyp213SqR49aN/Ktcw5FkPppaNzTRtq02 A==;
-X-CSE-ConnectionGUID: oSGvlpCdQZGihpKapciRDw==
-X-CSE-MsgGUID: on+Yr9uaSnCL16+SjUvbGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="81617779"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="81617779"
+ bh=YFNGTPjePIco4WSqmjTlfkuYapRf2doVSp2QdWVcS/8=;
+ b=ma3lzg1wnwgW7yGg+1DCkOzWve4y6asDvCmW7lWnlGHLvAgmg6Cn4dEj
+ LsVh2yaArc1olJ6co5NEKm6q73wb7wfs/MFiX+lJdk9nRft/WZjXavPzk
+ U7aE4zsd9pMv6SKPrFmyi7VAJIgqpFCMF46Hr8AyqK/c8jx69hipcqMUI
+ ugz75Q5TbWjCp2e+v3IS4/bqoiXYueE1r11g1Y7YbD8JLJ/4jg8sTKNb5
+ vyv4a/Y89IxYpc2lRJnkdMQGGFjhZ03axJhm5Ru9/mdXWIebuB1kGX9IB
+ BHh2f6SrEEhmw5r8+rJSfNkAlc1Ro09lzwQvuP7Y/srVoUi+fSJmULUnV A==;
+X-CSE-ConnectionGUID: pwIq03WRTRu5kwoxyOkbjA==
+X-CSE-MsgGUID: sHzC3bBwQnuyVyi2ofEUSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="81617788"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="81617788"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2025 03:36:14 -0700
-X-CSE-ConnectionGUID: L0xF6YZBSDSjFo/sr/cd3g==
-X-CSE-MsgGUID: sfVLYtScTku8L1ox1px3MA==
+ 30 Jul 2025 03:36:18 -0700
+X-CSE-ConnectionGUID: Cse/k/hnTRWVmz/qfHYCCw==
+X-CSE-MsgGUID: ZiKYgm94TA2GWI4vxsCi3w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="162222518"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="162222527"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa006.jf.intel.com with ESMTP; 30 Jul 2025 03:36:11 -0700
+ by orviesa006.jf.intel.com with ESMTP; 30 Jul 2025 03:36:15 -0700
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Wed, 30 Jul 2025 15:46:38 +0530
-Subject: [PATCH v2 3/4] drm/atomic: Return user readable error in atomic_ioctl
+Date: Wed, 30 Jul 2025 15:46:39 +0530
+Subject: [PATCH v2 4/4] drm/i915/display: Error codes for async flip failures
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250730-atomic-v2-3-cc02ce0263dd@intel.com>
+Message-Id: <20250730-atomic-v2-4-cc02ce0263dd@intel.com>
 References: <20250730-atomic-v2-0-cc02ce0263dd@intel.com>
 In-Reply-To: <20250730-atomic-v2-0-cc02ce0263dd@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
@@ -74,117 +74,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add user readable error codes for failure cases in drm_atomic_ioctl() so
-that user can decode the error code and take corrective measurements.
+For failures in async flip atomic check/commit path return user readable
+error codes in struct drm_atomic_state.
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- drivers/gpu/drm/drm_atomic.c      |  5 +++++
- drivers/gpu/drm/drm_atomic_uapi.c | 20 +++++++++++++++-----
- 2 files changed, 20 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index cd15cf52f0c9144711da5879da57884674aea9e4..0cf73022955437260d138c6a1e2bb9a8a4eca2f0 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1513,6 +1513,8 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
- 			if (drm_atomic_crtc_needs_modeset(new_crtc_state)) {
- 				drm_dbg_atomic(dev, "[CRTC:%d:%s] requires full modeset\n",
- 					       crtc->base.id, crtc->name);
-+				state->error_code = DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET;
-+
- 				return -EINVAL;
- 			}
- 		}
-@@ -1537,8 +1539,11 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
- 		drm_dbg_atomic(dev,
- 			       "driver added CRTC to commit: requested 0x%x, affected 0x%0x\n",
- 			       requested_crtc, affected_crtc);
-+		state->error_code = DRM_MODE_ATOMIC_NEED_FULL_MODESET;
- 		WARN(!state->allow_modeset, "adding CRTC not allowed without modesets: requested 0x%x, affected 0x%0x\n",
- 		     requested_crtc, affected_crtc);
-+
-+		return -EINVAL;
- 	}
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index ecc73d52bfae41a7ef455a7e13649ec56c690b90..b96707ca23ac01878c3df25b8a4a026f6c6c31d2 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -1058,6 +1058,8 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 			ret = drm_atomic_crtc_get_property(crtc, crtc_state,
- 							   prop, &old_val);
- 			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
-+			if (ret)
-+				state->error_code = DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED;
- 			break;
- 		}
- 
-@@ -1089,6 +1091,7 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 
- 			/* ask the driver if this non-primary plane is supported */
- 			if (plane->type != DRM_PLANE_TYPE_PRIMARY) {
-+				state->error_code = DRM_MODE_ATOMIC_ASYNC_NOT_PRIMARY;
- 				ret = -EINVAL;
- 
- 				if (plane_funcs && plane_funcs->atomic_async_check)
-@@ -1400,6 +1403,11 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
- 		return -EOPNOTSUPP;
- 
-+	if (arg->reserved) {
-+		drm_dbg_atomic(dev, "commit failed: reserved field set\n");
-+		return -EINVAL;
-+	}
-+
- 	/* disallow for userspace that has not enabled atomic cap (even
- 	 * though this may be a bit overkill, since legacy userspace
- 	 * wouldn't know how to call this ioctl)
-@@ -1407,16 +1415,13 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 	if (!file_priv->atomic) {
- 		drm_dbg_atomic(dev,
- 			       "commit failed: atomic cap not enabled\n");
-+		arg->reserved = DRM_MODE_ATOMIC_CAP_NOT_ENABLED;
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 7035c1fc9033b10327be081f26715446687652c4..893e4d0eb4c3d4d2611720bc7f627b11af81ea8b 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -5944,6 +5944,7 @@ static int intel_async_flip_check_uapi(struct intel_atomic_state *state,
+ 		drm_dbg_kms(display->drm,
+ 			    "[CRTC:%d:%s] modeset required\n",
+ 			    crtc->base.base.id, crtc->base.name);
++		state->base.error_code = DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET;
  		return -EINVAL;
  	}
  
- 	if (arg->flags & ~DRM_MODE_ATOMIC_FLAGS) {
- 		drm_dbg_atomic(dev, "commit failed: invalid flag\n");
--		return -EINVAL;
--	}
--
--	if (arg->reserved) {
--		drm_dbg_atomic(dev, "commit failed: reserved field set\n");
-+		arg->reserved = DRM_MODE_ATOMIC_INVALID_FLAG;
+@@ -5955,6 +5956,7 @@ static int intel_async_flip_check_uapi(struct intel_atomic_state *state,
+ 		drm_dbg_kms(display->drm,
+ 			    "[CRTC:%d:%s] async flip disallowed with joiner\n",
+ 			    crtc->base.base.id, crtc->base.name);
++		state->base.error_code = DRM_MODE_ATOMIC_ASYNC_PIPEJOINER_NOTALLOWED;
  		return -EINVAL;
  	}
  
-@@ -1424,6 +1429,7 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 		if (!dev->mode_config.async_page_flip) {
- 			drm_dbg_atomic(dev,
- 				       "commit failed: DRM_MODE_PAGE_FLIP_ASYNC not supported\n");
-+			arg->reserved = DRM_MODE_ATOMIC_PAGE_FLIP_ASYNC;
+@@ -6013,6 +6015,7 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
+ 		drm_dbg_kms(display->drm,
+ 			    "[CRTC:%d:%s] modeset required\n",
+ 			    crtc->base.base.id, crtc->base.name);
++		state->base.error_code = DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET;
+ 		return -EINVAL;
+ 	}
+ 
+@@ -6055,6 +6058,7 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
+ 				    plane->base.base.id, plane->base.name,
+ 				    &new_plane_state->hw.fb->format->format,
+ 				    new_plane_state->hw.fb->modifier);
++			state->base.error_code = DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPPORTED;
  			return -EINVAL;
  		}
- 
-@@ -1435,6 +1441,7 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 			(arg->flags & DRM_MODE_PAGE_FLIP_EVENT)) {
- 		drm_dbg_atomic(dev,
- 			       "commit failed: page-flip event requested with test-only commit\n");
-+		arg->reserved = DRM_MODE_ATOMIC_FLIP_EVENT_WITH_CHECKONLY;
- 		return -EINVAL;
- 	}
- 
-@@ -1541,6 +1548,9 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
- 		ret = drm_atomic_commit(state);
- 	}
- 
-+	/* update the error code if any error to allow user handling it */
-+	arg->reserved = state->error_code;
-+
- out:
- 	complete_signaling(dev, state, fence_state, num_fences, !ret);
  
 
 -- 
