@@ -2,84 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54407B1686F
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 23:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929A7B164B5
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 18:30:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C5610E6E9;
-	Wed, 30 Jul 2025 21:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E1AF10E371;
+	Wed, 30 Jul 2025 16:30:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kowalczyk-ws.20230601.gappssmtp.com header.i=@kowalczyk-ws.20230601.gappssmtp.com header.b="0D76YuCQ";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="quhF3/Ao";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2D1B10E36F
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 16:11:38 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-6157ed5dc51so2799424a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 09:11:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kowalczyk-ws.20230601.gappssmtp.com; s=20230601; t=1753891897; x=1754496697;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=i2b79vf5ak+e/xCZeuA0BNxm0tT114JbbliY/uAS1iI=;
- b=0D76YuCQH38DNbGFIOq0bKpdnlXybOveACeg8M5ER+iaZNIsdnBoI9UzISaC35eZ1G
- ucmc2TkaVw9C6+nFCCvut74mAYw2EYWBpwJBGoPg7C7qu1Mn87ai4hbSUy9SdQ7IJ/a2
- 6zDPDi0h2NVr2kXhsaSe56xQ4qZFS14mtqKIZ/I0vaUptz9njh9np3P1a3R3ytfc+AWr
- g/yLnUEtQQu5XX0daDdLYGsw9siX6Y6VP0Kzn81+v6ZtrdPGYQJSA5zaPpeASbfPu2wJ
- Zz4UDZ8o6rhM7UL0auv9rNvHpmWb4eD6IsDPIddnHROvMZ9B+rHRAMlYoVptQXzxiYWg
- DUVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753891897; x=1754496697;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=i2b79vf5ak+e/xCZeuA0BNxm0tT114JbbliY/uAS1iI=;
- b=af0exIsiUw9Sft3JByg/ryKl+Cq5WAkZYZTLOgrKH888AB45W/WOl1s/mj+ml0JK54
- VzJYzgpGM7N4Fda/ieVHlW/udWujU5Wy8TRVsQ7Ey7kSm++0m79um/+n3oskeROfVwMr
- /Hy2LQP/SgtObsYDgnZCKVik7eJ4xMB7g4kzTzRuUR66eOI0UbZaNGaPuwbIWg4+PuGD
- EzTWSTfyrE3++tOUL2XpCp75PiGzBrDew9+BVgetGg9gt/2u79xzv08N0ZMap5ahJxan
- yDmaIUapioYX1MdI/a3CpHWE08R6q+CAuS2eBRX1U9NEzRWv1eExapoGXVnViMK+QHct
- dHtw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWSksAxEMZ0dAGBUZQ6LcYBTUErx7FOpJ/A+ytul3yTeFc8snw46NHgWA2MH2bG2f999P7eqUbj5ng=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxcE8v/9ig23JoO2JDuJttoqF088ZIkZ42B55Yp6M/5DubmxUBr
- kTeC0wUnrewpTqvOaY4RuqPeKHTtO/HmUUdOjMoJRDZCQaA7X/YRVVJLXa1W3l/cG+N0aN3CRbv
- JBNURg/hGkGmo2lwe8O2sV6Qxqd12j3cD5W8TgrJE
-X-Gm-Gg: ASbGnct5XalgSHYF2PaEWdpaO3BYtBSsoZg0/G5frZDn0+hLapw0gJaiFItj/Z6PC2+
- ON7XyDfXUMtDf+uvdmww4aNi4QKRU1XSmi8RUy9BzL0adq4/Iiox8xHQg+oTr47OOB08ramgR62
- TV7jLO5YPKCWJaqh0PIZAtPEpBZPpDjCCIb97WRHHgpoCfKABShIaPBbbwHcCoT2+OUUBbqx1t8
- rXV
-X-Google-Smtp-Source: AGHT+IF0RbHZTmyeGEceTHCSVk3sXAK7Fvg37ayxPFDsP6BZA0CVmeBroxYKzVp8m2JfRHhouMt2MBxOgQuv6Q7rqjU=
-X-Received: by 2002:a05:6402:2553:b0:615:8f13:6324 with SMTP id
- 4fb4d7f45d1cf-6158f1367d8mr2751996a12.1.1753891896854; Wed, 30 Jul 2025
- 09:11:36 -0700 (PDT)
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D5C10E371
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 16:30:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1753893013; x=1754497813; i=markus.elfring@web.de;
+ bh=lOMtUaYx3i8bMy9bYIr/qCsiAGICtIDD+fh3Mzcc04Y=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=quhF3/AoOkmBX/br0M11hZ5eg8gMFX/mcygzvlNwqMTL9xQ7yv5HlzIQnVx4WVkc
+ WNeSSJAvgGNtbJV41pTEPUXw0yil3N1IyLQg5tQfOIAjZckFTt3aPvzyV88rgQh1I
+ Ymh7p4CYQU4kArH9hI/cchLC4xkQ1dp5ZV9X0SKd/hGc5cTa3Q74KtCpgmTlAlgh8
+ L6Nz7WRdn3DTKYwrRM9AuaSiYb7j31VB3TwpkXTWrrpB478V+jp3J4LPWJQzL0UOz
+ /poKoHapug2iGyw0Ht19UjDWGDmmW+4dPwcy2tXEbGbLTKsiUQXHAXwdxN08nWihn
+ nR5QV8+YNpUK0ArXog==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.92.238]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MXXRF-1vAYoc0anH-00QKeu; Wed, 30
+ Jul 2025 18:30:13 +0200
+Message-ID: <20574d0a-0a8e-4b54-afe3-8a0744df9d09@web.de>
+Date: Wed, 30 Jul 2025 18:30:10 +0200
 MIME-Version: 1.0
-References: <0d734549d5ed073c80b11601da3abdd5223e1889.1753689802.git.baolin.wang@linux.alibaba.com>
- <ff93c415-7ce8-a331-9568-7543c6a37992@google.com>
- <817c59dd-ad54-47f1-ac16-9cb9583308d1@linux.alibaba.com>
-In-Reply-To: <817c59dd-ad54-47f1-ac16-9cb9583308d1@linux.alibaba.com>
-From: Patryk Kowalczyk <patryk@kowalczyk.ws>
-Date: Wed, 30 Jul 2025 18:11:25 +0200
-X-Gm-Features: Ac12FXy5SspHtr8bWKbmfyjbAMrdH8laeeJCxAogBGa40D3TbRxRNcwy2_YhjZ8
-Message-ID: <CAJCW39LLyJjOyMNreiVd+SjS3dKSXwvT6kVz-sf8y9YpsU1dTg@mail.gmail.com>
-Subject: Re: [PATCH] mm: shmem: fix the shmem large folio allocation for the
- i915 driver
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Hugh Dickins <hughd@google.com>, akpm@linux-foundation.org, 
- ville.syrjala@linux.intel.com, david@redhat.com, willy@infradead.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, jani.nikula@linux.intel.com, 
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, tursulin@ursulin.net, 
- christian.koenig@amd.com, ray.huang@amd.com, matthew.auld@intel.com, 
- matthew.brost@intel.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: Colin Ian King <colin.i.king@gmail.com>, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20250730142905.2080035-1-colin.i.king@gmail.com>
+Subject: Re: [PATCH] drm/msm: Fix dereference of pointer minor before null
+ check
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250730142905.2080035-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Wed, 30 Jul 2025 21:46:19 +0000
+X-Provags-ID: V03:K1:MYt42syjUbB2ixPRz8ILRnIR9ELZrqzsuVLn6eHJLa6anlgJgmV
+ nZbNwhXhaQsUDIHP3T+Q/3uRHlmvUntQku1SAxvO6m+4aytLlsPOuQBuxnH9Lenmoucrq55
+ zlNXLbrwq0Su/xLDO+yvbsNA27DLfJAUSI/q4hxk9ZfjDx2Fd6NbBxZ5SOLnjx4FE1MhDni
+ 1vSQZ7qVjSDwgrNU3oquQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:oCDTdeEbe28=;2hv7EIh5M27uoZTJcjCnaOb1Mpo
+ p8d+VrmlKnzY76bkcHTbpAlanDgyuBp/ZR3q5U6lo8LP3qjv4D8KFDF7au94c7utOKIjrJ+4R
+ EdUvLNaHQZpXIPXQQbT4exYbwt3bB/UexV3mluOa8oWslSaKoX13hIwMLICOPRVuCnsPs6tc+
+ A5XOolciYWgKvV/56Ig0HTRRNZN/f6Vjz9hKHJ5md52f68ukBlDdpusjw+R88+CdoxNpCiUDE
+ v2VUze72ya3IEkc1OQn591czoop+jmWvfaRHan1Z83/cxteE2RwQMjR5UGsPezCUdwU/XJjWn
+ X0l6ssmrhIuQbXf2N8K824wcQ0ht8AwD2K9/w68bMxaICpsb/tsboDFSQSCmuOhBGxWSe9JTx
+ s6H8yZCzq7MuSV6ZQLwJNkl7oxYhwtrqdKVji8mgR3YZk8Cphy3Id2+kMYSU0uATZqsRB8XS8
+ S3/GybZrDUieIgpm2DojNWJAmo6HKs1NbEtijz1r9I5rpwczWxqoLpZ7HVM8FI94oNRf7naNv
+ wCVaEx/pUinr64k65Q8LJ6XhmI++i0xtU7UTvwL8qp7KMlRwmJ2UATsEXg0VJ13p3wI99rGqO
+ Vr3zLdOXOOP9RAwKviDI31Qdqc550WOaQeGz6Ip5HpnKUWxXScvE7dn4sfB6RU7B/jvUHwjl/
+ nX15vFAU1tv3st2FUZ1DZhz3o/IJcLmcAdvMY0pmP/uR3EdRb0Gr5k/oCF5EZTpB+Iwow5U4Y
+ vpPX1dVhhCFAGp/dMPtQJd65O+Z6eYFUIbz3RlOBNFsAxUB7g6r+9bOy+pG8xyP7FbSipuEIe
+ WvwCp0Fv8EngdfADm2Y/CLKXg8pRsslqbsEEeD3GW5sjWVJsB+uAbp4YEn1bN0oGAWRBWQn7G
+ R924Qx524LCkWmZNvwL155EDNQhVcSSOWTtWlSWqAcXc/1h89SOyGvTe7IzuYytf/HPipWf2Z
+ nmJZMyudilebddJh7QEsQ0wrJbMkcQaF7xyul8Uz/WHCwMwM4wUh1xeu5h7VSB79r2YSMQsXN
+ pKR+1LZJ7/42vtqoosZssHjYxUm8DgMb88+XvSafeCXC5k4btyaBPAUu0HGwDdy14JfTrJnLz
+ XTMwxPuHH6d2Tgt0BjuIl21YZ9Cwdb7JvTrOp+27xXdXDA94su0Gb+NwPA2WWWiqvHzPSlHbu
+ lclWxOgSrVq4DddGAG5wvvoCy4CVFgoaoSiU98wTOhs8MRv14J9cWibyvjQh3xLSa6mTDcNK6
+ GowEodPY76PvOZv65XCewHKzUp0lywaXGhFBwIMOvmOtMFnV1DfUjAsvxaoTpGNu9iT1MwhL3
+ hJ2pgXLRrUJQMAwC5iQQ7bYi37B9+HiHCySnYzcHaoa6drr5/TYjGMdhBoQUyCp+0gyn2NQQ4
+ XPm2fM1ZoKqE/F3tYKFO1hH7320R5FkF6MYmmkE1mwwWogZ/UK1HUAdcbfLEfYeg5jsGD/WBD
+ ObuvEcOZRoVanZN9eDWJfFrhSwqXdtTVyhvfQ4UTYl1dM+COo/gF0O50elI070pHopF5yixsQ
+ s2gRxcpQxunScIubxM4j4fJgQi8w9jyQolT+sc225r6vCzyTOTA20AEjUGVy4pmGPsQvEUiUq
+ hjRGk3zbkIy6PRhKmP8n7Z1P7w/BReQ8QkaHwN9NLOyjKd/E4vZS4Fm8QOMNwaavUw319yeOV
+ NxkBaslMBf6HKRV07dFdovZ7himkBKuxl8qIhoBx9VkdfXSFH9cyY+J37RknKtTOMNJL9scWM
+ WnNDlRtNue5gvcdwSHTyDKIyM6PiKbMlbgv+pIvgPsulyH1y0KaEqcXogY3/cG8Oyo1/ZOsFh
+ GiXeH66wSMkEIcHJJxTC19x9Umm+zVmrpwUo3DZtvguYxZfxNYOPVDbQYsPru9um16SJsVCH7
+ cTVRb2xeQNkDJpMTCTsmb0IgvDZPmUoPbN4FbZmfRi3uQhjdRd37tNKCs82O0xJAyOZXTAseK
+ nWGYjO353tsYh9DRdq0tr8+pHUgzQfuPWoYD8G2stqBK58IzKE9gO38/wTue7QbnUMHCP5xzM
+ /Mrmp/OtlXON2yB9Xo4ta4W/W0FCmA6eobljmmBfgQTGfUe9mCFbwjRox7HyCTLrhc+ZvnXCB
+ QqcSP1LGhba6MkJWmKWV3BGwjMItf3trJYQch95TweGtrXG8KzclrntAzjqHWUsTYj2zwUNGS
+ V30Ear6ft3EzU2FYxhoYT6lg3ymIxS2A1v+IO0dlkENhgKh5dXqibFISrOUJjTo8RRlD78gUV
+ lnq4kNIWht+/i/8oUI6OVsyQrWnkMhOCUstc/JcfB8QH5QO6eKB4/b48VRm0DFygX1UPVGier
+ Y6j6qc4gJuMZz/dAgV5uYdNdO6BisQzevc8CVpQBwY2ThdZwoHuSbxre+1IX4EhzpQWZrNAtF
+ sFn8fw1976xqIsAhw+hagzeHvyMYwrsiT4mx5pVnauOoooSOMlsjPMn51Q+7u+bxObN6MMDeY
+ iEBt6j3/KW1Vrz1xTEH0gKjlHg6IVSs+yyvEU0XnW+gU4n9og9T5+DAtkYpMBzxnrkgZqr5Wx
+ TXFYmmtQXY4rI6JcnDv8r+bPZm00inEiaR0CVsshjpSxqNJS+Ke0ST50HPqKZ8keuUnAzNHqu
+ Mxk0LNP4UoNIDvs3zjBvH452PX0CIHRY2wD6bp28i17wCCcMFjZnsXe5ZSJQN8zpdSEuC0qoZ
+ HvcM2+M0Zv053A1Qgxi8vcFSkpqI5ovi5jqglV0rm7mXY0MWquwtGxH011dTlvcAg/nLgZRGN
+ 6urUMrGq8T7RIM+5BvO1yJWu+JVjJ2/QUDNQ6QNOl/4pkzPcuxXbI2X0CDmcaXd9Z3UG5NilO
+ NCaQPckZfhuyJacdYz4rMYuUedVjU/Zq2n/ECAzHkiMakBp6znbn3aUu1FcC5K/csnsUvPBDy
+ oQMnCkQAnBg6V35iH812JVUOCcT0p+IS5h+2OFnXm7qqXD3l8wVAOopkVu063JpJoOiLTMG72
+ vJMKgmw/gPNgTCiUstd6pUTnfEDrIsGDvJ7svtQ/CmMyum1hBlx/vHUIUh7K1nSLz8ZX/RoIu
+ HnUtNX1HoeyK7xmcFIkH0szrq59SYW2M4/qOdQecig5qsIzp7gosyiB5aUgwoprHIhaYh3uzL
+ xDHQcFgMuT9rHCrRI1GDwQD5xK18vSIyIk/r1LrF1v1r191LmFZUb/Onrlw1TaJQ3HbpLhfJn
+ JcUwJFNFGrvXpE25tdnmNhruleb4QAYC6VR6tIJAh0+OLfMUlZLX2RXDEG18ennB8BR3QxWmw
+ KJTcDKnrf7rd3rw1NCv9gc0/GDCn9C9tw6dB+t7moVGN9O4clIieKItM3p80gpEVqlTQVKq5s
+ khsBEKmDSP5eMBLF7R9aUpMhwkaoQWJ27Wai0wKjavjvQYYuEcc4D+ENo1nReE5fQl7+/EDlL
+ l1Grdn076mkmuFEzrSQp7USPIZnqKMY+XOYa8h2RJF0Gvv4het9Smnnldqj91JdRlrRHgYPZI
+ iY9SnvwxhD3w0jgB3DCu6KEyiwlTntXcKi9/4J87PGf0GHe24YocymHLUu/jPo3XMtGe+sPek
+ nbJ7OglrHYbPa+GbPHrrNe5NiNCMRRBATFcsf27J5Vykr1b+9e8o+c/N2ytbd2/SdQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,95 +124,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-This patch solves the performance issue very well.
-best regards,
-Patryk
+=E2=80=A6
+> by dereferencing the pointer only after it has been null checked. Also
+> Replace minor->dev with dev.
 
-=C5=9Br., 30 lip 2025 o 09:46 Baolin Wang <baolin.wang@linux.alibaba.com> n=
-apisa=C5=82(a):
->
->
->
-> On 2025/7/30 14:54, Hugh Dickins wrote:
-> > On Mon, 28 Jul 2025, Baolin Wang wrote:
-> >
-> >> After commit acd7ccb284b8 ("mm: shmem: add large folio support for tmp=
-fs"),
-> >> we extend the 'huge=3D' option to allow any sized large folios for tmp=
-fs,
-> >> which means tmpfs will allow getting a highest order hint based on the=
- size
-> >> of write() and fallocate() paths, and then will try each allowable lar=
-ge order.
-> >>
-> >> However, when the i915 driver allocates shmem memory, it doesn't provi=
-de hint
-> >> information about the size of the large folio to be allocated, resulti=
-ng in
-> >> the inability to allocate PMD-sized shmem, which in turn affects GPU p=
-erformance.
-> >>
-> >> To fix this issue, add the 'end' information for shmem_read_folio_gfp(=
-)  to help
-> >> allocate PMD-sized large folios. Additionally, use the maximum allocat=
-ion chunk
-> >> (via mapping_max_folio_size()) to determine the size of the large foli=
-os to
-> >> allocate in the i915 driver.
-> >>
-> >> Fixes: acd7ccb284b8 ("mm: shmem: add large folio support for tmpfs")
-> >> Reported-by: Patryk Kowalczyk <patryk@kowalczyk.ws>
-> >> Reported-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> >> Tested-by: Patryk Kowalczyk <patryk@kowalczyk.ws>
-> >> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> >> ---
-> >>   drivers/gpu/drm/drm_gem.c                 | 2 +-
-> >>   drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 7 ++++++-
-> >>   drivers/gpu/drm/ttm/ttm_backup.c          | 2 +-
-> >>   include/linux/shmem_fs.h                  | 4 ++--
-> >>   mm/shmem.c                                | 7 ++++---
-> >>   5 files changed, 14 insertions(+), 8 deletions(-)
-> >
-> > I know I said "I shall not object to a temporary workaround to suit the
-> > i915 driver", but really, I have to question this patch.  Why should an=
-y
-> > change be required at the drivers/gpu/drm end?
-> >
-> > And in drivers/gpu/drm/{i915,v3d} I find they are using huge=3Dwithin_s=
-ize:
-> > I had been complaining about the userspace regression in huge=3Dalways,
-> > and thought it had been changed to behave like huge=3Dwithin_size,
-> > but apparently huge=3Dwithin_size has itself regressed too.
->
-> I'm preparing a RFC patch to discuss this.
->
-> > Please explain why the below is not a better patch for i915 and v3d
-> > (but still a temporary workaround, because the root of the within_size
-> > regression must lie deeper, in the handling of write_end versus i_size)=
-.
->
-> OK. This looks good to me. Patryk, could you try Hugh's simple patch?
-> Thanks.
->
-> > ---
-> >   mm/shmem.c | 4 ++--
-> >   1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/mm/shmem.c b/mm/shmem.c
-> > index 3a5a65b1f41a..c67dfc17a819 100644
-> > --- a/mm/shmem.c
-> > +++ b/mm/shmem.c
-> > @@ -5928,8 +5928,8 @@ struct folio *shmem_read_folio_gfp(struct address=
-_space *mapping,
-> >       struct folio *folio;
-> >       int error;
-> >
-> > -     error =3D shmem_get_folio_gfp(inode, index, 0, &folio, SGP_CACHE,
-> > -                                 gfp, NULL, NULL);
-> > +     error =3D shmem_get_folio_gfp(inode, index, i_size_read(inode),
-> > +                                 &folio, SGP_CACHE, gfp, NULL, NULL);
-> >       if (error)
-> >               return ERR_PTR(error);
-> >
->
+I suggest to separate desirable changes into another patch series.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.16#n81
+
+Regards,
+Markus
