@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53413B1562A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 02:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33878B1563B
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 02:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F7BC10E0CA;
-	Wed, 30 Jul 2025 00:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6978110E0E3;
+	Wed, 30 Jul 2025 00:15:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="kPh288dK";
+	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="WYe/h8Jz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC11010E0CA
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 00:02:46 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-7425bd5a83aso5932391b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 17:02:46 -0700 (PDT)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB28710E0E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 00:15:19 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-236377f00a1so54712615ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 17:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1753833766; x=1754438566;
+ d=brighamcampbell.com; s=google; t=1753834519; x=1754439319;
  darn=lists.freedesktop.org; 
- h=in-reply-to:references:to:from:subject:cc:message-id:date
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
  :content-transfer-encoding:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Y/M5/sPM670c0P9olu2X4VtHM3mcoU/sU4qAieG2bB0=;
- b=kPh288dKOCDJ3g3mHsG8EY1DEu/7qwmvNd7jwFe9PSwgcBi15Pa8WR+CTjhXoSwIIG
- XvyIOvwS8XCTmr21XC5eyh/2/hmiH+QwFfpTjybz5L5vdaGQ2HNhLRcZR0B7S9FwCYpT
- skf/IzTr3mxNOPUT85rPMaUunVpbk3Q0r2medb0eN63hNs+LSZaRa92GLOr27CuXwCu/
- pwx1MG+cjDW1LoqguCVQYTpVkpJyIJ6VFs1ovBwQ9pvA3X431Dyu++JXavd5n3RkWYmR
- O002vwSRz7fa+CV+KJwv/N4ayPPMwAIgwDUMf93soQcgvzuAJopnHsQKIZYRz1TPMFr0
- HYSw==
+ bh=B7mZ4nEVKbGQGNfr6ook2ZXrLnFiuRpQgXmMMoue3C0=;
+ b=WYe/h8JzWPhpnZPPxzXAKFwrjyR8t2UwGClss+Yy4kzUvlh2+/WTHb35+StqgsVuQ+
+ 6dpheHfHLmg+66RleybDjNsJiADF5QOOh/yqHDBeEZtEwY+GuKAxK+ffbQ3YPlcUiekZ
+ vAZ27ivoOvAn0VBUPiLMXztTfyAZQeOFrYbNOKwwQF0daCwpxD7RwdJfBmg/XPE3UevH
+ TztDkf8E4gupiBjwz5iXEzMR4XOPpYpW4B4TteFMuTUgHEZjea8xUnH7oSrUG4jjQv8p
+ fb+pW1pAX0oKZr3OhTnDpcVnQy3vCelFzR9Wyea9bSeuZFOtIcpFOqLG5QWLNRrJRmvT
+ pTUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753833766; x=1754438566;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
+ d=1e100.net; s=20230601; t=1753834519; x=1754439319;
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
  :content-transfer-encoding:mime-version:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=Y/M5/sPM670c0P9olu2X4VtHM3mcoU/sU4qAieG2bB0=;
- b=RxqT92zM5SreQ54yQFdkN0W05EtxUXRSjjVAJy6xJ+y3tlD4Trav2X6HaUhoYBVpQx
- 4ux5LvEfR87Z/rPTBI3GI4+7z3h9NH73TUsx9J7z2o1cad0SLMBwmzeWPtbklEIh9QzT
- Qo3foV999D7I0KD7CKBCKrp5GPcEWId9xhAu4y8zS72UrUAUh/4Er1N9yDTBKSvOMxJJ
- T7l3OuuxRFTaW998DgTn/Gfsm414iCl/1dq+NipyVb+QdtKEnktNC4hrbl7QP+A2qZYH
- eS9C42lcwWR3efMsAUE9VoLuEOsGsbLOVwsYIWXPN++maS4eSyvufDv+ieMaPUWPxDmu
- FHzQ==
+ bh=B7mZ4nEVKbGQGNfr6ook2ZXrLnFiuRpQgXmMMoue3C0=;
+ b=BUSdB04I7u7lA+qVLw6tdb6vLOYxYsim9OvM+ZDQcADJc9NYrsh5W5pE85NLuF94bA
+ yvTtXCvRaESYQCuDL8+RUa7uZqR0+UdBQ/PsLohIADvO5jGuN83+E9D5j+gAw1DqUphd
+ cNl6btyhjELJCEtnB1LAK5PnShfOXKb6xptrLyYYe9M0ONiUGYqdemEjYkhTDoFPAjwr
+ 2XB82lfPkQAcoCOGonldgPqiSEoS6qMl4enJuPoHRxw+fHu1JOvt8jWta8x6/p8nH14R
+ nvu8XhLuXvGlvA5eWIA7dM/qX5rm3DmtTR4qtK/M70+maaT3qq1OcVzOU8wQgfVMlg+w
+ Lwyg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXhpP8yrHNPghwc+xF2PHRcfJ9ho/fwvUBbWJnlzLFiEiNk2UvEZC1AuQRm4WJc/LfwK7OeyaKPMPs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywn/5BUUtEdPiwjYthJaTcDgojOOEVTHgz0WMP5VPz+AJX6sAeX
- LG2KIE+fLwVYIopH9Q4axSago0QP+I/OZeKgQ68zUci0IRUTJE7bqMnVDCy/sudL+/A=
-X-Gm-Gg: ASbGncsFBJFqNVEa1jijkmSkUFzurKGHDxDb26mPPXw//uUyEDZxt53W2R2N/7rQHvi
- /iE0NtLEjG2vI79gbIjfmBSF7a0kj4wccF/wHrkX425ZhmaIiUReUXM6eYet96gcfPgVxt1Azm7
- FW+T6N2IGVnvO+kr9MYcNaFWac5HgI4MjePA7/EMzNj2YCb2foH3YgyaVb8veX7iV6BaueS5iS6
- 0pKZJDdaUkdP7VjdR8rKYwZ5MijJ+ec61Q9oqI3xL3jRNSNuYWlSyiqwELZj+/tcQBFPXaxBlqB
- /Er9HrTUwDhNZe87VTKw0bq/lrTNWQ0B7uozinVTlfC6wfMSlOB52MJ7KkTUN1m07cdv+4W7EMj
- lKtPDkj0lJB2JSfDmbrl/ax6tgw32uw==
-X-Google-Smtp-Source: AGHT+IHVlZ6q95uroEIypdpjQbCuABwWzb7jPvXq7QWXyjT6+dlzAgyJCRMwTznOfewVnzIM/Cjhyw==
-X-Received: by 2002:a05:6a00:2450:b0:74c:f1d8:c402 with SMTP id
- d2e1a72fcca58-76ab101929fmr2149656b3a.8.1753833766071; 
- Tue, 29 Jul 2025 17:02:46 -0700 (PDT)
+ AJvYcCXjAIjmMLuF3HdAvJpr6G+Oe2/9pIfUSpnly4nnz/886YgMiQXoJ+4lqPOYzuknNUieIbwZPvmb+I4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxY2gu5vuHC1Dn1ewV/Edssm4PM68fa9GzozgaYzxoVZrVrY0ih
+ pT9BIeKMOh0NMLx12OLBbmO84yvAPjvZgKLr3u1XvXX4wC9b1ZV1F07jOzbVxccr8rM=
+X-Gm-Gg: ASbGnctaaLUdsm9PW0BXXBQtxNdWay/H9kGjFwlaldlFor7etx7srKQEBNVKFnOidmb
+ d4O7uFmjHBRmF+ida++1KIfnRG8vFcv8/qmqi6WLyvMFnsTL8wTW7MdZBk9+q2LpaI2Ag0+WkXV
+ a7oaM6VKqcRNRZEzMX4DixrCay1qd0W6BPQIkvQMh8k9yfIhvlzQFxgAgmJyiV9TmNoOvRacADy
+ PxyJ2l2zKQ3Qmf0+Ctmkawxc0RUsD8y2x6Oz9o/5loiVI6J6VnBoNO1VzMrpx+WaWNGkZCJSWNG
+ ixOGGpPZXO/DMjBJndXJn7ScN0/7uN1wOALuiI4pnuekdhnosUAxWYl9CexVh86g1bSJGdtlcnk
+ qWAGfj7EPz80djnCQVUo=
+X-Google-Smtp-Source: AGHT+IFtzt5MEl0tZciB3F8o6Fc5SKFZqY4YzGuLSUPsSrha4wOb+FYTYjRMuNTxbhYmOUlCfsVqRQ==
+X-Received: by 2002:a17:903:3b8b:b0:23f:cf96:3071 with SMTP id
+ d9443c01a7336-24096b48bfcmr17839525ad.49.1753834519151; 
+ Tue, 29 Jul 2025 17:15:19 -0700 (PDT)
 Received: from localhost ([64.71.154.6]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7640b4c8516sm8967780b3a.106.2025.07.29.17.02.44
+ d9443c01a7336-23ff7044135sm69618295ad.71.2025.07.29.17.15.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jul 2025 17:02:45 -0700 (PDT)
+ Tue, 29 Jul 2025 17:15:18 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 29 Jul 2025 18:02:43 -0600
-Message-Id: <DBOY6KA7U0VE.1QR5VMO09T27H@brighamcampbell.com>
+Date: Tue, 29 Jul 2025 18:15:17 -0600
+Message-Id: <DBOYG6B6WLDT.Z096YHZGRXDS@brighamcampbell.com>
+From: "Brigham Campbell" <me@brighamcampbell.com>
+To: "Doug Anderson" <dianders@chromium.org>
 Cc: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
  <linus.walleij@linaro.org>, <neil.armstrong@linaro.org>,
  <jessica.zhang@oss.qualcomm.com>, <sam@ravnborg.org>,
  <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/3] drm/panel: novatek-nt35560: Fix invalid return
- value
-From: "Brigham Campbell" <me@brighamcampbell.com>
-To: "Doug Anderson" <dianders@chromium.org>
+Subject: Re: [PATCH v2 2/3] drm: Add MIPI support function and macros
 X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
 References: <20250729054435.1209156-1-me@brighamcampbell.com>
- <20250729054435.1209156-2-me@brighamcampbell.com>
- <CAD=FV=VUdfTT4AJk77BFXWy7q_je0EbRKWc=nUVevbgitkn0gw@mail.gmail.com>
-In-Reply-To: <CAD=FV=VUdfTT4AJk77BFXWy7q_je0EbRKWc=nUVevbgitkn0gw@mail.gmail.com>
+ <20250729054435.1209156-3-me@brighamcampbell.com>
+ <CAD=FV=VLoMenu22F_VeoHyfXwRO7JfXL8peQLEpkqeZ1tDOmEQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=VLoMenu22F_VeoHyfXwRO7JfXL8peQLEpkqeZ1tDOmEQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,19 +96,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Jul 29, 2025 at 3:33 PM MDT, Doug Anderson wrote:
->>
->> Fixes: 7835ed6a9e86 ("drm/panel-sony-acx424akp: Modernize backlight hand=
-ling")
+On Tue Jul 29, 2025 at 3:34 PM MDT, Doug Anderson wrote:
+>> +/**
+>> + * mipi_dsi_generic_write_var_seq_multi - transmit non-static data usin=
+g a
+>> + * generic write packet
 >
-> I think your Fixes tag is wrong, actually. I think it needs to be:
+> nit: "non-constant", not "non-static"
 >
-> Fixes: 8152c2bfd780 ("drm/panel: Add driver for Sony ACX424AKP panel")
+> From the caller's point of view the difference is that the data is
+> compile-time constant in one case and not compile-time constant in the
+> other case. It happens that means you can _store_ it in a "static
+> const" in one case and not in the other case, but that doesn't make
+> the parameters "static".
 
-Oh, good catch! I thought that 7835ed6a9e86 introduced that code instead
-of just reorganizing it. I'll remember to take a closer look at the git
-tree next time I add a Fixes tag to a commit and I'll address this in
-v3.
+Good point. The storage class is an important implementation detail
+within drm_mipi_dsi.h, but just that from the perspective of a panel
+driver author: an implementation detail. I'll go ahead and address this
+and other feedback in v3.
 
 Thanks,
 Brigham
