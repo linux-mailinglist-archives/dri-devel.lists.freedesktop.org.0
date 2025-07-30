@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5FCB160FD
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 15:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE27EB160FE
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 15:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE96610E683;
-	Wed, 30 Jul 2025 13:07:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3F110E6A1;
+	Wed, 30 Jul 2025 13:07:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DR8jBGJ/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eJI2hEZb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1B2810E683
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 13:07:32 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B8B810E6A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 13:07:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C8F7B4186B;
+ by tor.source.kernel.org (Postfix) with ESMTP id A52016112C;
+ Wed, 30 Jul 2025 13:07:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 228B8C4CEEB;
  Wed, 30 Jul 2025 13:07:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2909BC4CEF6;
- Wed, 30 Jul 2025 13:07:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753880852;
- bh=pxUeJv29yRg6Dx7iPk1Ji2QVfn9F9xAJgdgxpSSJiqw=;
+ s=k20201202; t=1753880857;
+ bh=F2q0GQGqh2AaMTpYDgf9tG4s1JlhvxttxPNy3dOUclY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DR8jBGJ/KsozFTtd9LNrKeQK8dpxYwyg23wiKvPFMDGFGh9C+74tsr8/hoz6iPAc1
- IYwmcYgd7iqjpW31MV/H9gXtTZhYlVTNcBEwi2IwBCUo5Je61Eq2lmojumgMx8naZo
- mbWQXxTK8AdmZSpTZ83ddmdURTVIsBGmEFEw5Jb8lRGtdqipQmV2dsq19tydBFyUCp
- N2MnJueXLfT8wKpdwyJpM/AoSgkFrnu960kO1YNF+evu6MwJNVI17l2vbvfDPg2Zdj
- URVvZ3aUYG/E8LeumNfLjBnV3HZpUhzzVAJtf917AiTzfJiYaEM3Oe8ahkClNZMhna
- O5RyRRymlOHuw==
+ b=eJI2hEZbRdIkWwyv5psUNw73Vl7DEIc0YUKNvEzN12SJAf6owCvlfTgUUOPq6Boza
+ jbE96pT/8TZLDpCi2O8yJXt8eblAqWWeXm+OS7Ks8YGuendzrNzPTr+kqVtRbRQ5wR
+ FxY7hjsQL9YOHiIBjSjWMf5wd0i9V0bhDduwpDpr/F8/I+0eD8+90yST/Q0EY/NHPz
+ /9GyDtSOhCupCC2F55a+pOGHp+R8kHeGYGsZE1O+oD+QQM4OFETa8zu0QOHjVIMA1n
+ VcWGnZM6ZJekzDArHTFjE8Zhxjc2aSS/DdMkKkUC6AVo1AlJYZ+49WXZfRy3ttRlxl
+ wEusv7wPSCEZQ==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  Andreas Hindborg <a.hindborg@kernel.org>,
@@ -44,9 +44,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  rust-for-linux@vger.kernel.org, linux-block@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  patches@lists.linux.dev
-Subject: [PATCH 1/3] rust: block: fix `srctree/` links
-Date: Wed, 30 Jul 2025 15:07:14 +0200
-Message-ID: <20250730130716.3278285-2-ojeda@kernel.org>
+Subject: [PATCH 2/3] rust: drm: fix `srctree/` links
+Date: Wed, 30 Jul 2025 15:07:15 +0200
+Message-ID: <20250730130716.3278285-3-ojeda@kernel.org>
 In-Reply-To: <20250730130716.3278285-1-ojeda@kernel.org>
 References: <20250730130716.3278285-1-ojeda@kernel.org>
 MIME-Version: 1.0
@@ -66,32 +66,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This `srctree/` link pointed to a file with an underscore, but the header
-used a dash instead.
+These `srctree/` links pointed inside `linux/`, but they are directly
+under `drm/`.
 
-Thus fix it.
+Thus fix them.
 
 This cleans a future warning that will check our `srctree/` links.
 
-Fixes: 3253aba3408a ("rust: block: introduce `kernel::block::mq` module")
+Fixes: a98a73be9ee9 ("rust: drm: file: Add File abstraction")
+Fixes: c284d3e42338 ("rust: drm: gem: Add GEM object abstraction")
+Fixes: 07c9016085f9 ("rust: drm: add driver abstractions")
+Fixes: 1e4b8896c0f3 ("rust: drm: add device abstraction")
+Fixes: 9a69570682b1 ("rust: drm: ioctl: Add DRM ioctl abstraction")
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- rust/kernel/block/mq/gen_disk.rs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ rust/kernel/drm/device.rs  | 2 +-
+ rust/kernel/drm/driver.rs  | 2 +-
+ rust/kernel/drm/file.rs    | 2 +-
+ rust/kernel/drm/gem/mod.rs | 2 +-
+ rust/kernel/drm/ioctl.rs   | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/rust/kernel/block/mq/gen_disk.rs b/rust/kernel/block/mq/gen_disk.rs
-index cd54cd64ea88..e1af0fa302a3 100644
---- a/rust/kernel/block/mq/gen_disk.rs
-+++ b/rust/kernel/block/mq/gen_disk.rs
-@@ -3,7 +3,7 @@
- //! Generic disk abstraction.
- //!
- //! C header: [`include/linux/blkdev.h`](srctree/include/linux/blkdev.h)
--//! C header: [`include/linux/blk_mq.h`](srctree/include/linux/blk_mq.h)
-+//! C header: [`include/linux/blk-mq.h`](srctree/include/linux/blk-mq.h)
+diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+index e598c4274f29..306aaa783bbc 100644
+--- a/rust/kernel/drm/device.rs
++++ b/rust/kernel/drm/device.rs
+@@ -2,7 +2,7 @@
  
- use crate::block::mq::{raw_writer::RawWriter, Operations, TagSet};
- use crate::{bindings, error::from_err_ptr, error::Result, sync::Arc};
+ //! DRM device.
+ //!
+-//! C header: [`include/linux/drm/drm_device.h`](srctree/include/linux/drm/drm_device.h)
++//! C header: [`include/drm/drm_device.h`](srctree/include/drm/drm_device.h)
+ 
+ use crate::{
+     bindings, device, drm,
+diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+index acb638086131..6381cf57fb42 100644
+--- a/rust/kernel/drm/driver.rs
++++ b/rust/kernel/drm/driver.rs
+@@ -2,7 +2,7 @@
+ 
+ //! DRM driver core.
+ //!
+-//! C header: [`include/linux/drm/drm_drv.h`](srctree/include/linux/drm/drm_drv.h)
++//! C header: [`include/drm/drm_drv.h`](srctree/include/drm/drm_drv.h)
+ 
+ use crate::{
+     bindings, device,
+diff --git a/rust/kernel/drm/file.rs b/rust/kernel/drm/file.rs
+index b9527705e551..f736cade7eb4 100644
+--- a/rust/kernel/drm/file.rs
++++ b/rust/kernel/drm/file.rs
+@@ -2,7 +2,7 @@
+ 
+ //! DRM File objects.
+ //!
+-//! C header: [`include/linux/drm/drm_file.h`](srctree/include/linux/drm/drm_file.h)
++//! C header: [`include/drm/drm_file.h`](srctree/include/drm/drm_file.h)
+ 
+ use crate::{bindings, drm, error::Result, prelude::*, types::Opaque};
+ use core::marker::PhantomData;
+diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+index 6f914ae0a5aa..95fb562cc968 100644
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@ -2,7 +2,7 @@
+ 
+ //! DRM GEM API
+ //!
+-//! C header: [`include/linux/drm/drm_gem.h`](srctree/include/linux/drm/drm_gem.h)
++//! C header: [`include/drm/drm_gem.h`](srctree/include/drm/drm_gem.h)
+ 
+ use crate::{
+     alloc::flags::*,
+diff --git a/rust/kernel/drm/ioctl.rs b/rust/kernel/drm/ioctl.rs
+index 445639404fb7..a19bc8eca029 100644
+--- a/rust/kernel/drm/ioctl.rs
++++ b/rust/kernel/drm/ioctl.rs
+@@ -2,7 +2,7 @@
+ 
+ //! DRM IOCTL definitions.
+ //!
+-//! C header: [`include/linux/drm/drm_ioctl.h`](srctree/include/linux/drm/drm_ioctl.h)
++//! C header: [`include/drm/drm_ioctl.h`](srctree/include/drm/drm_ioctl.h)
+ 
+ use crate::ioctl;
+ 
 -- 
 2.50.1
 
