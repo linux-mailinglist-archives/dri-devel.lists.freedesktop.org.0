@@ -2,120 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133C3B16841
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 23:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99017B16854
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 23:37:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EBA810E6DD;
-	Wed, 30 Jul 2025 21:22:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F45710E23A;
+	Wed, 30 Jul 2025 21:37:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="exjKs0fn";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KCcBAvni";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C463110E6DD
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:22:30 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56UCbBil001384
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:22:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- sYBqhZDEPeIr5M58HlKZvA0dzkSwUa7YKvUm9mAj+So=; b=exjKs0fnqVaIjwp1
- nO+2maFssKm8yNfs4AmLbURXATlqXBPFpjBUFbVRqF7BTz5KgryfhJak+rUL5a8P
- kFFO77HZZEnFFG/U6tyP82B0Lw7dh3cPE1U6IvZQzu+yfpykMEpi12qvhI71BlIc
- ax33FcVizqf0DmWjelfT94XEb1pA6oqGx2QWIwNsNVxNMoAZvB9csfL5JkXklHS/
- +2OzBE6235dSjtNK7JqF0Fkx3VZAQZ9Ax4UrvfhN/XhEaF8xNJ3iNedfhI12JF9i
- Ya/OMITxbM6191GkMJ71s0/ZLuddBepjweHkkMWMKcSuUxGj7LgrqpvTCMC0l1AE
- iwxO9w==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484q865jau-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:22:30 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-70744318bdfso5198466d6.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 14:22:30 -0700 (PDT)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7C6610E23A
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:37:41 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-24009eeb2a7so2851235ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 14:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1753911460; x=1754516260;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Trba2romfAqKA5pCTcTWA+7l/bmJjMmTIDHvknnQsLU=;
+ b=KCcBAvniQLhohUD7QARTSpqTJNCLJDarHRk9WUvBdfkE6q+LVxP1Lvq82RBruup+GT
+ MIvc+JxnZqwW/cEunKxu4CPUmG2hERj9XrnBQH/Vu0x8pVSOn2HZilYAsc0SQeW5iuq3
+ T4JkfDoIHTK7LVvE9Edzeq78qwBuFN9Y6d2DA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753910549; x=1754515349;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1753911460; x=1754516260;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sYBqhZDEPeIr5M58HlKZvA0dzkSwUa7YKvUm9mAj+So=;
- b=LVEi1ciu+B5srij0fNljY5W1jrPiDvWXmiuFd4XJFh6b1sjlMGY8Dam0zEsJIw9lPP
- DeRsayaI0O31txhH0slvPQVkuSghcR6AYc8EYRBKLIfNK1//YSvqSpOZEL20m7+U1WhA
- BDM/tNq5r9gMUXjGsuiSYWdnTMIAVpjQN05PBsDtOCSB9Mm0NApIqKzKdaH5vomLIt70
- C8z7rJaO4y/n3CAW1Huiy3MsmjPXV+EAS7cpOHGGRm05Dou4W2BMMR4Blxg/Y8dc3jTP
- EafrxLH472VCwcgeCRhI/Awld8Kc1n0VLNsQlRFW1tztfxsfEGJDk4BZvrBixEH8NZM8
- A4mw==
-X-Gm-Message-State: AOJu0YwoU9LxxN0NjVPhyQkpJUf3uW8VizjYTaA+5o5GbAkqH50m7BhD
- F8pPHSbO7TIeUASSc0ZbGImoeHgxdOnH70FK27osRfIEZ3NnqVMDrxgQ3TnML/s9PakfWKhMSdE
- TQSU3DGl4BirYgPwDendHv5XYRK4DH4DDlXI2gelZ0uKtY52jPceVsMq1YFGwV7BTzURwLmk=
-X-Gm-Gg: ASbGncuauNU6ZrLZK8PAX0pcvaIVtpYdZFM4PzLq95YrZ0EtB+IVTndbMwKF47/6VVv
- AmjpbMonrpKM6WkVw/pzgKWZGOHADSDo0TEl2VvHPHFVHl44uJfsSnRNyXRhbq937oKZyzpwsil
- 3ZOzZTqIbYSpGtUTW4MyMNItwEThWmFuEUJcbd/REx+cvHdZ9UJ2mv6wZsdLzETMdj83bOdpqIw
- 0gto9FirrOofKKtpdspm6BoDny8SpNQz3taVFD5J1dET1MWktmwn7fO3QEDID47q2cdJ3NWKGsh
- qWd6Q14FADOFAz3FTbcDMaTzMnPrjUIdn4cBHQdbnxHLA7/z9sGVLfwCqyOfoLoPCAF8TTPv86p
- 33chdw76V8GgJRs+u5NT3J7nxVRFnxNWj5Iwgib6pCSkiyjwE3B7y
-X-Received: by 2002:a05:6214:e4c:b0:707:885:758e with SMTP id
- 6a1803df08f44-707671da01cmr58363276d6.24.1753910548969; 
- Wed, 30 Jul 2025 14:22:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF5MV+8Iw3dWYCNnckYYEe/diduxsSrHtAVP0wYCv8aNY7TMFFQ0W7hSz7ssk9zenRhkQxqsg==
-X-Received: by 2002:a05:6214:e4c:b0:707:885:758e with SMTP id
- 6a1803df08f44-707671da01cmr58363066d6.24.1753910548547; 
- Wed, 30 Jul 2025 14:22:28 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55b876097e2sm32369e87.66.2025.07.30.14.22.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jul 2025 14:22:27 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Heidelberg <david@ixit.cz>,
- Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250730055424.6718-1-clamor95@gmail.com>
-References: <20250730055424.6718-1-clamor95@gmail.com>
-Subject: Re: [PATCH v7 0/2 RESEND] drm: bridge: add ssd2825 RGB/DSI bridge
- support
-Message-Id: <175391054743.2781548.8644345102818194567.b4-ty@oss.qualcomm.com>
-Date: Thu, 31 Jul 2025 00:22:27 +0300
+ bh=Trba2romfAqKA5pCTcTWA+7l/bmJjMmTIDHvknnQsLU=;
+ b=a7uYCdnvVUioUEND7eOe+DdKlZ9RgcVWBiRO3uvXzvHQzaRMPUeMgeYkZB/xduvAXd
+ tlbZff8s8+cOU3KH/whjg5r46giyi21FcG/WruAPp9y0pL3YsW4rX2i8nWWeCshPNpdz
+ GQyoQ5EOVlhxxXYtMgg6CQwknA3X3icJ87mJdv4FnhRBtcPbey6zecdG4JQQs8hKjHyO
+ qoMikzqm4KwJbFqY4rhxnpb8GbAcB/bwC2oInm7cHEssho4SGp4LsypzqGaq7Wqd57kF
+ DBEXvE3npZeW5lAFHTBgXEgQiVoeyomY64lJWGoWKeiofhk09cn0vCnWMAhM6EmwOxXX
+ /IDw==
+X-Gm-Message-State: AOJu0YxbaQS4zWJeklFGv5hpxzJDYXIbsXAYiD5rSc9eoDGZTeBfIUPR
+ p9PRiDQOoGq8Jy+GQwIoScFJezBKdNgJEJQW1iG4k7Itpkl8Opmaq4kn76/2KDqaIInOXOAb+g+
+ ZbT8=
+X-Gm-Gg: ASbGncteSH0FSzzXvNBYE8U8tbWvYiXsYzHvMfXaXXxyFd6O87PAg0OqkjekxBRrLFX
+ cSZxm4wqgVR6MZ80Gbhf6EGvJcHIYOAbV8sP/Q3x2xZcJBUOE3NK+/92Enm6jIcbvTnt0XZ4vGK
+ dRLtgpoeYanNNdyZg827UUF+sDzxzbJhDBXZ8EC8Q57YqdEm6rw+rmBPSwlgTLbkK6cv8wefOwC
+ J3iA9sk+wG9ns/4sij+TeR7TLrxYZBQODfbB0iyEZmD3CC++T321+WT5suXQr4cPLYfmxGObwEK
+ 5VG3hy41nRIExz+UtivCwCgTcabu/ZmvN/kPwKPyNO4Uv3QaRa2HPDXMQtEKOjrYh2TuFKfddCL
+ RXKX2SzEOBszWUTi9TsssaNU0kGQfF7x9EBjRxuN1foqusK9v+7xJbC7dxnlDrD/m1w==
+X-Google-Smtp-Source: AGHT+IEjC4+1a4rWJ5OXylZYKLoYKEkd9PGA0tplKuXUh229KvDiQSEI14mKlCmOZjQPSoJXulepVw==
+X-Received: by 2002:a17:902:f68f:b0:240:468c:83e7 with SMTP id
+ d9443c01a7336-24096a4f603mr75875355ad.3.1753911459840; 
+ Wed, 30 Jul 2025 14:37:39 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com.
+ [209.85.215.177]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-241e899adc3sm675035ad.118.2025.07.30.14.37.38
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Jul 2025 14:37:38 -0700 (PDT)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-b31e0ead80eso206386a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 14:37:38 -0700 (PDT)
+X-Received: by 2002:a17:90b:2690:b0:31f:8723:d128 with SMTP id
+ 98e67ed59e1d1-31f8723d163mr1711464a91.34.1753911457424; Wed, 30 Jul 2025
+ 14:37:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMwMDE1NiBTYWx0ZWRfXwQF5PFQ5bVpX
- vJjvN/PvL5PFF7UsZzSDuniT5+andiMNUadOAr1vPiKYu64PF+ZbNT11k+aXYNCEYD5b0furfmD
- VYISgrBdPWiYLjDoob7eEhvCcrBElpHZfIfqWm/3j+fPbYl5JdUuN91ZRz15aq4AwQEJkb7Y1d+
- AwBDpfvRjXpTO4rgMDbrPORzAJbO3YnIlYDdcsjKAonWvc1jr2iaWU69n2JuItgYLChJ8ZqYVw3
- FmsKc3oUeIIC5nfmf/aJadz0kHQARY8pm1PKAEv9MqpL4u93bk/gpjFBLmpy0gyUzY8dSzuGWTZ
- zJ1pyXCElApZWVYL4CqRU6eM7nWutiZUjKDQngUiowKlH2P6zwpVhy4u/YVqTKZ9NpiyEucgcyJ
- O9BdednRVXoZGDieHXkEW/I4gjXY65NbWbCjN2gVTYw2aGp2CoPph+/0Gic4Y7PSVO2XaxRc
-X-Authority-Analysis: v=2.4 cv=TqLmhCXh c=1 sm=1 tr=0 ts=688a8d16 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Wb1JkmetP80A:10 a=C_mFGjxryTuD8oKKfQ8A:9 a=QEXdDO2ut3YA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-ORIG-GUID: UScSg_dtgMAql3fGxfyf1OFZkA6uehkp
-X-Proofpoint-GUID: UScSg_dtgMAql3fGxfyf1OFZkA6uehkp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-30_06,2025-07-30_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
- malwarescore=0 adultscore=0 spamscore=0 priorityscore=1501 clxscore=1015
- impostorscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507300156
+References: <20250727165846.38186-1-alex.vinarskis@gmail.com>
+ <20250727165846.38186-4-alex.vinarskis@gmail.com>
+ <CAD=FV=Xd_xL=PYvVNqQWFZGmqN+Q=SvvaBTfbv9k+fDb8QwUtQ@mail.gmail.com>
+ <CAMcHhXp47zmpoNYLCVRWWBk4HcYepgWX=3kWWzW8c8+a=2kE6A@mail.gmail.com>
+In-Reply-To: <CAMcHhXp47zmpoNYLCVRWWBk4HcYepgWX=3kWWzW8c8+a=2kE6A@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 30 Jul 2025 14:37:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XT-BBRDBHVh2KBpJydSje7_eUF19OMu9e3CcRvDf7ung@mail.gmail.com>
+X-Gm-Features: Ac12FXxsWI-JqOTSi6Zqqs_uBhOIVlKslLHhjHruc_ljfiRzC80Syh2AMH_Yjow
+Message-ID: <CAD=FV=XT-BBRDBHVh2KBpJydSje7_eUF19OMu9e3CcRvDf7ung@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] drm/panel-edp: Add BOE NV140WUM-N64
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,21 +104,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 30 Jul 2025 08:54:22 +0300, Svyatoslav Ryhel wrote:
-> Solomon SSD2825 is a RGB to MIPI DSI bridge used in LG Optimus 4D P880
-> and LG Optimus Vu P895
-> 
+Hi,
 
-Applied to drm-misc-next, thanks!
+On Wed, Jul 30, 2025 at 1:38=E2=80=AFPM Aleksandrs Vinarskis
+<alex.vinarskis@gmail.com> wrote:
+>
+> On Tue, 29 Jul 2025 at 17:50, Doug Anderson <dianders@chromium.org> wrote=
+:
+> >
+> > Hi,
+> >
+> > On Sun, Jul 27, 2025 at 9:58=E2=80=AFAM Aleksandrs Vinarskis
+> > <alex.vinarskis@gmail.com> wrote:
+> > >
+> > > Timings taken from NV140WUM-N41. It is found in some arm64 laptops,
+> > > eg. Asus Zenbook A14 UX3407QA.
+> > >
+> > > The raw edid of the panel is:
+> > > 00 ff ff ff ff ff ff 00 09 e5 f6 0c 00 00 00 00
+> > > 10 22 01 04 a5 1e 13 78 07 8e 95 a6 52 4c 9d 26
+> > > 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> > > 01 01 01 01 01 01 5d 30 80 a0 70 b0 28 40 30 20
+> > > 36 00 2e bc 10 00 00 1a 00 00 00 fd 00 28 3c 4a
+> > > 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fe 00 3d
+> > > 4c 33 30 20 20 20 20 20 20 20 20 ff 00 00 00 fc
+> > > 00 4e 56 31 34 30 57 55 4d 2d 4e 36 34 0a 01 f8
+> > >
+> > > 70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
+> > > 88 66 ea 51 cc 74 9d 66 52 0f 02 35 54 40 5e 40
+> > > 5e 00 44 12 78 22 00 14 7f 5c 02 85 7f 07 9f 00
+> > > 2f 00 1f 00 af 04 27 00 02 00 05 00 2b 00 0c 27
+> > > 00 28 3b 00 00 27 00 28 2f 00 00 2e 00 06 00 44
+> > > 40 5e 40 5e 81 00 1e 72 1a 00 00 03 71 28 3c 00
+> > > 00 60 ff 60 ff 3c 00 00 00 00 e3 05 04 00 e6 06
+> > > 01 01 60 60 ff 00 00 00 00 00 00 00 00 00 de 90
+> > >
+> > > Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/panel/panel-edp.c | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/pane=
+l/panel-edp.c
+> > > index 9a56e208cbdd..b334926e96ed 100644
+> > > --- a/drivers/gpu/drm/panel/panel-edp.c
+> > > +++ b/drivers/gpu/drm/panel/panel-edp.c
+> > > @@ -1947,6 +1947,7 @@ static const struct edp_panel_entry edp_panels[=
+] =3D {
+> > >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "N=
+T140FHM-N47"),
+> > >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c93, &delay_200_500_e200, "=
+Unknown"),
+> > >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "=
+NT116WHM-N44"),
+> > > +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cf6, &delay_200_500_e50_p2e=
+80, "NV140WUM-N64"),
+> >
+> > Since this is a "guess" timing without any datasheet, I'd be more
+> > comfortable picking the most conservative of the "cousin" timings. Can
+> > you re-send with "delay_200_500_e200" instead?
+>
+> Sure.
+>
+> Do I understand correctly that more conservative delay_200_500_e200
+> will for sure not make it worse, since its more conservative? In that
+> case can re-spin right away. Otherwise I would prefer to re-test it
+> first, may take a few days as I do not own the hardware so need to
+> propagate the change and get some feedback.
 
-[1/2] dt-bindings: display: bridge: Document Solomon SSD2825
-      commit: 784c99331c8d54a51d4f3e772c81f7fb82b7a1f8
-[2/2] drm: bridge: Add support for Solomon SSD2825 RGB/DSI bridge
-      commit: 55023abe6a2921a8916b623c24208e1971b88729
+Is anything really for sure? No. :-)
 
-Best regards,
--- 
-With best wishes
-Dmitry
+...but it's _highly_ likely to not make it worse. Presumably you
+tested without ${SUBJECT} patch and things worked OK aside from the
+big warning splat in your logs about using the conservative timings.
+Those conservative timings basically give you:
+
+desc->delay.enable =3D 200;
+
+...so you probably already tested with an enable timing of 200 and
+using 200 here will give you the same conservative number for
+"enable", will avoid some other conservative timings, and will avoid
+the warning splat.
+
+...and the "p2e80" doesn't do anything useful when enable is 200.
 
 
+-Doug
