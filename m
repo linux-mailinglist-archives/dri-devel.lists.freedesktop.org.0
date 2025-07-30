@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D657BB15AFE
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 10:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE0CB15B00
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 10:57:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE1810E1A4;
-	Wed, 30 Jul 2025 08:57:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 541C610E430;
+	Wed, 30 Jul 2025 08:57:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ML0/5032";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kS7Lxf7W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2E910E1A4
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 08:57:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 511E810E42E
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 08:57:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0ED844461D;
- Wed, 30 Jul 2025 08:57:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94109C4CEE7;
- Wed, 30 Jul 2025 08:57:12 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1DAA74617C;
+ Wed, 30 Jul 2025 08:57:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A563CC4CEE7;
+ Wed, 30 Jul 2025 08:57:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753865832;
- bh=hsajDzu0lfxjqv88Cmk4ofktu32ybt7F20xywXJFamg=;
- h=From:Subject:Date:To:Cc:From;
- b=ML0/50321P4ekFv1c5FFA7LNjnsZKzik+mgq59u6o6CasVr6KRrawnu1+RvFfWN7I
- Ddl1vF6OsEBHki2b1uB06xeV0xtN7kmi8rG69Kof+bT8M+JW9HRfGXzQu0O7WkhDf8
- ZT2hV8mwKqwahw6hqUuDIM+F00Mr1GeUn9nITHid5dFtRa72uwlGFyNu4hnxSEff3i
- 6oFls6xPEmiNgelP98CLE3J3OV14mYbAHAeKTwuM3L+mq7rlSXRVN5Tn3AXrpJ98jW
- q6wlVXfoVP5kQx+r17FQQxkgtl302FwP9wgN27A+x8LyEHWFmycgpEp0ckRUYIZFxe
- xMcuIWFVVJ3tQ==
+ s=k20201202; t=1753865836;
+ bh=7M8WQ93AaEVDFJvrP9tpFEBFhyFY0X5kFY5fADadnZw=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=kS7Lxf7WKc3ULnfBuTrkt7Wb+v46BmyQvieQnusgIYqCjX8FiwcsiTla7QSs4GfOg
+ UEO0I+Wwlp9swsUV5K47l64x5JIV7BJyawp8PJGpUtCkqBiWmQcGuMqOURm+NB0foD
+ 46bMjN2xlnT8c0HpM0/pvoz5H88maCcr0PeegO0Sib+CbWj/EqOG7NIUx1o5xIaVGJ
+ kyfSvYSDVtqVwJ8sLbnHv1EdUEV4o+LV7vxCAYdPqKbWAGSu4YiiK9OhGgVZ5l8maK
+ vxF2ZdFRwM6AljzTudUa40XwYynFgvTOxFPNTKbgwY9qN7In34C84mueN3l3Sw9jJk
+ A0fvrlJJ/DK7w==
 From: Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 00/14] drm/tidss: dispc: Convert to FIELD_* API
-Date: Wed, 30 Jul 2025 10:57:00 +0200
-Message-Id: <20250730-drm-tidss-field-api-v1-0-a71ae8dd2782@kernel.org>
+Date: Wed, 30 Jul 2025 10:57:01 +0200
+Subject: [PATCH 01/14] drm/tidss: dispc: Remove unused OVR_REG_GET
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFzeiWgC/x3MQQqEMAxA0atI1hPQ2EHrVQYXZRI1oFUaGYTi3
- S2zfIv/M5gkFYOhypDkp6Z7LGheFXyXEGdB5WKgmt51Rx45bXgqm+GksjKGQ7HtybsueGLnoJR
- Hkkmv//Uz3vcD0IOS4WUAAAA=
-X-Change-ID: 20250729-drm-tidss-field-api-382947a92d44
+Message-Id: <20250730-drm-tidss-field-api-v1-1-a71ae8dd2782@kernel.org>
+References: <20250730-drm-tidss-field-api-v1-0-a71ae8dd2782@kernel.org>
+In-Reply-To: <20250730-drm-tidss-field-api-v1-0-a71ae8dd2782@kernel.org>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -49,12 +47,12 @@ To: Jyri Sarha <jyri.sarha@iki.fi>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1662; i=mripard@kernel.org;
- h=from:subject:message-id; bh=hsajDzu0lfxjqv88Cmk4ofktu32ybt7F20xywXJFamg=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmd9+Jjip81z36e/4U3taZ+7l7dX2FL6qxypFOupacwe
- k56Im3aMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACayjZGx4dC5GM7CJ+K77exv
- yHfwTzm5jsOscN7DSkXDqwq/PB8H/Ew6Ev23/NjUdA+V9ZpqhbuTGOsLp9YvuWNUGb1aW+6ix40
- Lejc4v9S6BIvPideSehEpv7Dwi9y7tccuaXxu+qyx7MvflUkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1128; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=7M8WQ93AaEVDFJvrP9tpFEBFhyFY0X5kFY5fADadnZw=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmd9xIsGLcZn3htqnv9KuPZp85BrEqz89JDEzZem+Pc6
+ 6GUftq5YyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEykw52xhkfhT4jl6jX7jDeZ
+ b4nr6EhND0278PXbM8d7866f2NjVOnsb/1WBOb9Uv0bX7/I6KHfPjrE+eH3ApcC56a9WuE503aJ
+ qsvnhw+kckkc7IgvOZgp3P9y7svvy9693s/QvNui9Z/k1gXcSAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,47 +70,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-The tidss driver rolls its own API equivalent to the FIELD_* API already
-provided the kernel.
-
-Since it's an ad-hoc implementation, it also is less convenient and
-doesn't provide some useful features like being able to share the field
-definitions that will come handy in the future.
-
-Thus, this series converts the driver to that API and drops its own
-version.
-
-Let me know what you think,
-Maxime
+The OVR_REG_GET function in the dispc driver is not used anywhere. Let's
+drop it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-Maxime Ripard (14):
-      drm/tidss: dispc: Remove unused OVR_REG_GET
-      drm/tidss: dispc: Switch to GENMASK instead of FLD_MASK
-      drm/tidss: dispc: Switch to FIELD_PREP for FLD_VAL
-      drm/tidss: dispc: Get rid of FLD_GET
-      drm/tidss: dispc: Get rid of FLD_VAL
-      drm/tidss: dispc: Switch FLD_MOD to using a mask
-      drm/tidss: dispc: Switch REG_GET to using a mask
-      drm/tidss: dispc: Switch REG_FLD_MOD to using a mask
-      drm/tidss: dispc: Switch VID_REG_GET to using a mask
-      drm/tidss: dispc: Switch VID_REG_FLD_MOD to using a mask
-      drm/tidss: dispc: Switch VP_REG_GET to using a mask
-      drm/tidss: dispc: Switch VP_REG_FLD_MOD to using a mask
-      drm/tidss: dispc: Switch OVR_REG_FLD_MOD to using a mask
-      drm/tidss: dispc: Define field masks being used
+ drivers/gpu/drm/tidss/tidss_dispc.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
- drivers/gpu/drm/tidss/tidss_dispc.c      | 249 +++++++++++++++----------------
- drivers/gpu/drm/tidss/tidss_dispc_regs.h |  76 ++++++++++
- 2 files changed, 200 insertions(+), 125 deletions(-)
----
-base-commit: fbb0210d25fde20027f86a6ca9eee75630b5ac2b
-change-id: 20250729-drm-tidss-field-api-382947a92d44
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index 975d94547c3f9d5e9ad61aefd4eeb8ada8874cb0..8ec06412cffa71512cead9725bb43440258eb1ec 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -666,17 +666,10 @@ static void VP_REG_FLD_MOD(struct dispc_device *dispc, u32 vp, u32 idx, u32 val,
+ {
+ 	dispc_vp_write(dispc, vp, idx, FLD_MOD(dispc_vp_read(dispc, vp, idx),
+ 					       val, start, end));
+ }
+ 
+-__maybe_unused
+-static u32 OVR_REG_GET(struct dispc_device *dispc, u32 ovr, u32 idx,
+-		       u32 start, u32 end)
+-{
+-	return FLD_GET(dispc_ovr_read(dispc, ovr, idx), start, end);
+-}
+-
+ static void OVR_REG_FLD_MOD(struct dispc_device *dispc, u32 ovr, u32 idx,
+ 			    u32 val, u32 start, u32 end)
+ {
+ 	dispc_ovr_write(dispc, ovr, idx,
+ 			FLD_MOD(dispc_ovr_read(dispc, ovr, idx),
 
-Best regards,
 -- 
-Maxime Ripard <mripard@kernel.org>
+2.50.1
 
