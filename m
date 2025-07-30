@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D412B16947
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 01:23:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DE3B16980
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 01:56:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E67610E159;
-	Wed, 30 Jul 2025 23:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C6310E461;
+	Wed, 30 Jul 2025 23:56:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="afX7mFn8";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t2kOSmy8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA67710E056;
- Wed, 30 Jul 2025 23:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753917810; x=1785453810;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=97Gbm9D0f3wusMe6mUOiZ+E5OPLz50mBZP+eodJOiNI=;
- b=afX7mFn8zD5nUDVMLVQDn3C59rSc+wUlb89djz3Wifh1ccjOgNt4EmT0
- 4YiFj9x/p7Gr8iQ0BZRHxQeqxA2q+jV2n9feo8dgHUQDvPmwnTBbKP+Y0
- sKOdwchmwIAAbsEfdJnMcX9/cy0lSq7GiNHdXTTc7WBoJ2wKoXP/hMb5b
- RID2KJEv4Pi7oSVxwLMUcXW6IsFPO1Fs5J/7QnAW0lk1bjkJeXaXRXqz1
- UHpmJLUqGDAqHn9LL5JPwr9vivAM70+oXS74If5837KMSSt04cRJjoAHs
- 748P246pdNp6eCDOF4tugvRlKehfBe+wqzAZUllLtfijR6fqhJmZ1AeBA A==;
-X-CSE-ConnectionGUID: b8BimLukRx6YlF42YOpBEg==
-X-CSE-MsgGUID: krFltzFqThK8l59+1Ddsfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56098815"
-X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; d="scan'208";a="56098815"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2025 16:23:29 -0700
-X-CSE-ConnectionGUID: /Few2qVnRFeFNU1Mk9juaw==
-X-CSE-MsgGUID: //L3RPHQTc+hVIEvIvOX3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; d="scan'208";a="167596178"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
- by orviesa004.jf.intel.com with ESMTP; 30 Jul 2025 16:23:26 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uhG8p-0003EK-2u;
- Wed, 30 Jul 2025 23:23:23 +0000
-Date: Thu, 31 Jul 2025 07:23:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Danilo Krummrich <dakr@redhat.com>,
- Caterina Shablia <caterina.shablia@collabora.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: Re: [PATCH v5 01/25] drm/gpuvm: Pass map arguments through a struct
-Message-ID: <202507310715.d6MBnXvv-lkp@intel.com>
-References: <20250730130050.1001648-2-himal.prasad.ghimiray@intel.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25BB710E461
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 23:56:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 43467601DC;
+ Wed, 30 Jul 2025 23:56:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C36B9C4CEE3;
+ Wed, 30 Jul 2025 23:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753919814;
+ bh=QZsdIcHWxpI9QDh/Acp10J22Rwmw8P/g++NrOm4SvtA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=t2kOSmy8UhjztMdU71mBZlIUrHgHNdE1WicfZDCRKVDj7r5Gr0Fa+cFH+0t7sYjqe
+ 0ri4igYvUEyFp35/tO5cNqpvtl8w5CF6GVDv+z9SJSCunjeJl8DqDtURRKLv7c0kbM
+ xTGc/JyWp3gbJBMQm6WNO55NVYvPVqWbtyM19f2cNwjs0b5kztu3DeMOHa6xA4f6nN
+ 2grq5qZ4F37/qft/lbiVpO5apcljhUiSdFYbQrFI+yNc4GoMAKMGMx2CDQpB/IHa8W
+ 5BIpdQxmGi6JJTwUda2/osXLUwaPh1nlkpYRSvjUFbzJJZZ9mXoKFxMcsuOgrnNmF8
+ hY9yZIOO+xKwg==
+Date: Wed, 30 Jul 2025 18:56:53 -0500
+From: Rob Herring <robh@kernel.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Benoit Parrot <bparrot@ti.com>, Lee Jones <lee@kernel.org>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Tero Kristo <kristo@kernel.org>, thomas.petazzoni@bootlin.com,
+ Jyri Sarha <jsarha@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: display: ti, am65x-dss: Add clk property
+ for data edge synchronization
+Message-ID: <20250730235653.GA1914482-robh@kernel.org>
+References: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
+ <20250730-fix-edge-handling-v1-1-1bdfb3fe7922@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250730130050.1001648-2-himal.prasad.ghimiray@intel.com>
+In-Reply-To: <20250730-fix-edge-handling-v1-1-1bdfb3fe7922@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,33 +72,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Himal,
+On Wed, Jul 30, 2025 at 07:02:44PM +0200, Louis Chauvet wrote:
+> The dt-bindings for the display, specifically ti,am65x-dss, need to
+> include a clock property for data edge synchronization. The current
+> implementation does not correctly apply the data edge sampling property.
+> 
+> To address this, synchronization of writes to two different registers is
+> required: one in the TIDSS IP (which is already described in the tidss
+> node) and one is in the Memory Mapped Control Register Modules (added by
+> the previous commit).
+> 
+> As the Memory Mapped Control Register Modules is located in a different
+> IP, we need to use a phandle to write values in its registers.
 
-kernel test robot noticed the following build warnings:
+You can always just lookup the target node by compatible. Then you don't 
+need a DT update to solve your problem.
 
-[auto build test WARNING on next-20250730]
-[cannot apply to drm-xe/drm-xe-next linus/master v6.16 v6.16-rc7 v6.16-rc6 v6.16]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Himal-Prasad-Ghimiray/drm-gpuvm-Pass-map-arguments-through-a-struct/20250731-003813
-base:   next-20250730
-patch link:    https://lore.kernel.org/r/20250730130050.1001648-2-himal.prasad.ghimiray%40intel.com
-patch subject: [PATCH v5 01/25] drm/gpuvm: Pass map arguments through a struct
-config: i386-buildonly-randconfig-002-20250731 (https://download.01.org/0day-ci/archive/20250731/202507310715.d6MBnXvv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310715.d6MBnXvv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507310715.d6MBnXvv-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/gpu/drm/drm_gpuvm.c:2471 function parameter 'req' not described in 'drm_gpuvm_sm_map_exec_lock'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> 
+> ---
+> 
+> Cc: stable@vger.kernel.org
+> ---
+>  Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index 361e9cae6896c1f4d7fa1ec47a6e3a73bca2b102..b9a373b569170332f671416eb7bbc0c83f7b5ea6 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -133,6 +133,12 @@ properties:
+>        and OLDI_CLK_IO_CTRL registers. This property is needed for OLDI
+>        interface to work.
+>  
+> +  ti,clk-ctrl:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to syscon device node mapping CFG0_CLK_CTRL registers.
+> +      This property is needed for proper data sampling edge.
+> +
+>    max-memory-bandwidth:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      description:
+> 
+> -- 
+> 2.50.1
+> 
