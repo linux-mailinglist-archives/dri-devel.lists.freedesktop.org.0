@@ -2,59 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90F5B15B11
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 10:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1F7B15B81
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 11:27:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 244B110E43A;
-	Wed, 30 Jul 2025 08:58:01 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GISXFMoG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B8F910E14C;
+	Wed, 30 Jul 2025 09:27:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C54E710E43E
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 08:57:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5D32AA5522E;
- Wed, 30 Jul 2025 08:57:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75AF2C4CEE7;
- Wed, 30 Jul 2025 08:57:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753865872;
- bh=aBoNJIvy/es7TgTc92mwscadgmWoPkqKdh1SWsMgbM8=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=GISXFMoGPWLfzI2QAS0W5H5KueEDB6inSqGYwfAY5JcnDKhYGB3k6MeMF6UJZiwq8
- Ta7qlIK6hfewUSuHxLSflDNe4E8FciLVD8OOspjfWEfvlwIRfgbwiCMhGnBbs6SVts
- vMGuhJqn7eN9yfw2U9/N2ArvbKvYzS6K5u4DdnZlrPoWG7JIiF3Z9QgzA9e/MYoru0
- 3RwmYxzDJpg33GE7bckoSdWZJWCEMTXkFspZ+MglfwIiSkQVZu/A/scQ8BupzI8gx9
- +cAy8xFWQhcYGHe2Qzg2u6VnPRods5ezz2oMlEAu/T0konOqstonUtqYrVsr7j2d/j
- wk/v1oMDyoxfQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 30 Jul 2025 10:57:14 +0200
-Subject: [PATCH 14/14] drm/tidss: dispc: Define field masks being used
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1055F10E0D8;
+ Wed, 30 Jul 2025 09:27:20 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F6A71BC0;
+ Wed, 30 Jul 2025 02:27:12 -0700 (PDT)
+Received: from [10.57.55.51] (unknown [10.57.55.51])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 855CC3F66E;
+ Wed, 30 Jul 2025 02:27:16 -0700 (PDT)
+Message-ID: <b1289f95-616f-4bb8-b408-222ce6925e21@arm.com>
+Date: Wed, 30 Jul 2025 10:27:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/19] gpu: nova-core: register: minor grammar and
+ spelling fixes
+To: Alexandre Courbot <acourbot@nvidia.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Beata Michalska <beata.michalska@arm.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+ Nouveau <nouveau-bounces@lists.freedesktop.org>
+References: <20250718-nova-regs-v2-0-7b6a762aa1cd@nvidia.com>
+ <20250718-nova-regs-v2-1-7b6a762aa1cd@nvidia.com>
+ <B1AA6359-7854-4284-B533-F5CA3C18AF34@collabora.com>
+ <DBNF8SZWLI79.1NRX9AMW5QW45@nvidia.com>
+ <d0ffb55b-690a-4a65-98b5-b83adebfd88b@arm.com>
+ <DBNNTU14VH90.25AZCJSVT4JDR@nvidia.com>
+ <ce8b4bd9-5122-4b85-b605-a1bf10556208@arm.com>
+ <DBOL3HSE1OUW.22PGYP5T6164C@nvidia.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <DBOL3HSE1OUW.22PGYP5T6164C@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250730-drm-tidss-field-api-v1-14-a71ae8dd2782@kernel.org>
-References: <20250730-drm-tidss-field-api-v1-0-a71ae8dd2782@kernel.org>
-In-Reply-To: <20250730-drm-tidss-field-api-v1-0-a71ae8dd2782@kernel.org>
-To: Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=26927; i=mripard@kernel.org;
- h=from:subject:message-id; bh=aBoNJIvy/es7TgTc92mwscadgmWoPkqKdh1SWsMgbM8=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmd91KF73yLXl8b+br//oMwHZdFkU2BdxfseZAbd1D42
- 9Z7ITLZHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAiasmMDdPSn2vNOy2+ZAXr
- ZfmPe9oFKmpbU56mPGzz07OZHp39pFqzNMF4zmLP499cZu4pmFsqzVhnYy/2bsYNIc7u2dyqjmc
- Y9uixntZnujhVMiB6+aGjAkJMy6aJzzxzNfuIVOEOsS9BEbcB
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,697 +62,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have all the accessors taking masks, we can create defines
-for them and reuse them as needed.
+On 29/07/2025 14:47, Alexandre Courbot wrote:
+> On Mon Jul 28, 2025 at 10:25 PM JST, Steven Price wrote:
+>> On 28/07/2025 12:43, Alexandre Courbot wrote:
+>>> On Mon Jul 28, 2025 at 4:51 PM JST, Steven Price wrote:
+>>>> On 28/07/2025 05:59, Alexandre Courbot wrote:
+>>>>> Hi Daniel, thanks for the review!
+>>>>>
+>>>>> On Sat Jul 26, 2025 at 1:14 AM JST, Daniel Almeida wrote:
+>>>>>> Hi Alex. Thank you and John for working on this in general. It will be useful
+>>>>>> for the whole ecosystem! :) 
+>>>>>>
+>>>>>>> On 18 Jul 2025, at 04:26, Alexandre Courbot <acourbot@nvidia.com> wrote:
+>>>>>>>
+>>>>>>> From: John Hubbard <jhubbard@nvidia.com>
+>>>>>>>
+>>>>>>> There is only one top-level macro in this file at the moment, but the
+>>>>>>> "macros.rs" file name allows for more. Change the wording so that it
+>>>>>>> will remain valid even if additional macros are added to the file.
+>>>>>>>
+>>>>>>> Fix a couple of spelling errors and grammatical errors, and break up a
+>>>>>>> run-on sentence, for clarity.
+>>>>>>>
+>>>>>>> Cc: Alexandre Courbot <acourbot@nvidia.com>
+>>>>>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>>>>>> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+>>>>>>> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+>>>>>>> ---
+>>>>>>> drivers/gpu/nova-core/regs/macros.rs | 14 +++++++-------
+>>>>>>> 1 file changed, 7 insertions(+), 7 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-core/regs/macros.rs
+>>>>>>> index cdf668073480ed703c89ffa8628f5c9de6494687..864d1e83bed2979f5661e038f4c9fd87d33f69a7 100644
+>>>>>>> --- a/drivers/gpu/nova-core/regs/macros.rs
+>>>>>>> +++ b/drivers/gpu/nova-core/regs/macros.rs
+>>>>>>> @@ -1,17 +1,17 @@
+>>>>>>> // SPDX-License-Identifier: GPL-2.0
+>>>>>>>
+>>>>>>> -//! Macro to define register layout and accessors.
+>>>>>>> +//! `register!` macro to define register layout and accessors.
+>>>>>>
+>>>>>> I would have kept this line as-is. Users will most likely know the name of the
+>>>>>> macro already. At this point, they will be looking for what it does, so
+>>>>>> mentioning "register" here is a bit redundant IMHO.
+>>>>>>
+>>>>>>> //!
+>>>>>>> //! A single register typically includes several fields, which are accessed through a combination
+>>>>>>> //! of bit-shift and mask operations that introduce a class of potential mistakes, notably because
+>>>>>>> //! not all possible field values are necessarily valid.
+>>>>>>> //!
+>>>>>>> -//! The macro in this module allow to define, using an intruitive and readable syntax, a dedicated
+>>>>>>> -//! type for each register with its own field accessors that can return an error is a field's value
+>>>>>>> -//! is invalid.
+>>>>>>> +//! The `register!` macro in this module provides an intuitive and readable syntax for defining a
+>>>>>>> +//! dedicated type for each register. Each such type comes with its own field accessors that can
+>>>>>>> +//! return an error if a field's value is invalid.
+>>>>>>>
+>>>>>>> -/// Defines a dedicated type for a register with an absolute offset, alongside with getter and
+>>>>>>> -/// setter methods for its fields and methods to read and write it from an `Io` region.
+>>>>>>> +/// Defines a dedicated type for a register with an absolute offset, including getter and setter
+>>>>>>> +/// methods for its fields and methods to read and write it from an `Io` region.
+>>>>>>
+>>>>>> +cc Steven Price,
+>>>>>>
+>>>>>> Sorry for hijacking this patch, but I think that we should be more flexible and
+>>>>>> allow for non-literal offsets in the macro.
+>>>>>>
+>>>>>> In Tyr, for example, some of the offsets need to be computed at runtime, i.e.:
+>>>>>>
+>>>>>> +pub(crate) struct AsRegister(usize);
+>>>>>> +
+>>>>>> +impl AsRegister {
+>>>>>> +    fn new(as_nr: usize, offset: usize) -> Result<Self> {
+>>>>>> +        if as_nr >= 32 {
+>>>>>> +            Err(EINVAL)
+>>>>>> +        } else {
+>>>>>> +            Ok(AsRegister(mmu_as(as_nr) + offset))
+>>>>>> +        }
+>>>>>> +    }
+>>>>>>
+>>>>>> Or:
+>>>>>>
+>>>>>> +pub(crate) struct Doorbell(usize);
+>>>>>> +
+>>>>>> +impl Doorbell {
+>>>>>> +    pub(crate) fn new(doorbell_id: usize) -> Self {
+>>>>>> +        Doorbell(0x80000 + (doorbell_id * 0x10000))
+>>>>>> +    }
+>>>>>>
+>>>>>> I don't think this will work with the current macro, JFYI.
+>>>>>
+>>>>> IIUC from the comments on the next patches, your need is covered with
+>>>>> the relative and array registers definitions, is that correct?
+>>>>
+>>>> My Rust is somewhat shaky, but I believe "non-contiguous register 
+>>>> arrays" will do what we want. Although I'll admit it would be neater for 
+>>>> the likes of the AS registers if there was a way to define a "block" of 
+>>>> registers and then use an array of blocks. Something vaguely like this 
+>>>> (excuse the poor Rust):
+>>>>
+>>>> register_block!(MMU_AS_CONTROL @ 0x2400[16 ; 64], "MMU Address Space registers" {
+>>>> 	register!(TRANSTAB @ 0x0000, "Translation table base address" {
+>>>> 		31:0	base as u32;
+>>>> 	});
+>>>> 	register!(MEMATTR @ 0x0008, "Memory attributes" {
+>>>> 		7:0	attr0 as u8;
+>>>> 		7:0	attr1 as u8;
+>>>> 		// ...
+>>>> 	});
+>>>> 	// More registers
+>>>> });
+>>>
+>>> I can think of two ways to achieve something similar using the current
+>>> patchset:
+>>>
+>>> - As you mentioned, a set of non-contiguous register arrays. This should
+>>>   work rather well, as you could just do
+>>>   `MMU_AS_CONTROL_MEMATTR::read(bar, 4)` to read the `MMU_AS_CONTROL_MEMATTR`
+>>>   register of the 5th instance, with compile-time bound validation. It's
+>>>   not what register arrays are for originally, but it does the job.
+>>
+>> Sadly we generally don't want a compile time index - the whole point is
+>> that each address space is functionally the same, so the index (address
+>> space ID) is going to be dynamic in the code. The disadvantage here is
+>> that every register access will involve a bounds check - the compiler
+>> might be able to optimise but the code will still have to deal with a
+>> potential error from every access.
+> 
+> If you can somehow constrain the index to the range that is declared for
+> the register (by checking the bounds beforehand), then the compiler
+> should be able to work with the non-try accessors. Actually that's what
+> [1] does: `ucode_idx` is checked for being in the
+> `1..=NV_FUSE_OPT_FPF_SIZE` range, which allows us to use the
+> compile-time validated `read` method.
+> 
+> [1] https://lore.kernel.org/rust-for-linux/20250718-nova-regs-v2-18-7b6a762aa1cd@nvidia.com/
 
-It makes the driver easier to read, less prone to consistency issues,
-and allows to reuse defines when needed.
+Ah, cool. If the Rust compiler is clever enough to track the bounds like
+that then as you say it shouldn't be a problem. I'd been under the
+impression that the ::read() method wouldn't be available because the
+index could be out of range. I really need to find some time to learn
+more Rust ;)
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/tidss/tidss_dispc.c      | 136 +++++++++++++++++--------------
- drivers/gpu/drm/tidss/tidss_dispc_regs.h |  76 +++++++++++++++++
- 2 files changed, 151 insertions(+), 61 deletions(-)
+>>
+>>> - As a set of relative offset registers sharing the same group. This is
+>>>   more in line with the idea of a register block, but it also means that
+>>>   each instance needs to have its own type declared, which is a bit
+>>>   cumbersome but can be mitigated with a macro. More inconvenient if the
+>>>   fact that you cannot address using a simple number anymore...
+>>
+>> Yeah this does sound cumbersome. Would you end up with a macro
+>> duplicating the code 16 times (once for each type of the 16 register
+>> blocks) and hoping the compiler can optimise it all back together?
+> 
+> Yeah, this relying on the type system I don't expect the compiler to be
+> able to optimize this away, so that's probably not the best idea for
+> your use-case.
+> 
+>>
+>>> The idea of register blocks is interesting. I wonder how that would
+>>> translate in terms of access to invididual registers, i.e. does the
+>>> block end up just being a prefix into the full register name, or is it
+>>> something else? From your example declaration I picture that accesses
+>>> would look something like `MMU_AS_CONTROL[4]::MEMATTR::read(bar)`, which
+>>> ngl looks great, but I also cannot think of a construct that would allow
+>>> such a syntax... Happy to think more about it though.
+>>
+>> Yes, that is the sort of syntax I was imagining, although I was hoping
+>> you could do something like:
+>>
+>>   let as = MMU_AS_CONTROL[as_id]::try_get(&bar)?;
+>>
+>>   let memattr = as.MEMATTR.read(&bar);
+>>   memattr.set_attr0(3).write(&bar);
+>>   as.TRANSTAB.write(&bar, 0x1000);
+>>
+>> Which I'm sure shows how little Rust I've written, but hopefully you get
+>> the idea - only the first line is a try_xxx which can fail and takes the
+>> address space ID from a variable and bounds checks it. The other
+>> accesses we already know the bounds so there's no need to deal with
+>> failure, and we don't have to consider the situation where MEMATTR is
+>> written but the TRANSTAB write fails (which couldn't actually happen
+>> with non-contiguous register arrays but the compiler wouldn't be able to
+>> tell).
+> 
+> That for sure looks elegant. Now the question is how can we implement
+> something similar using only ZSTs? `MMU_AS_CONTROL` would have to be a
+> static array. Then `as` needs to be some sort of struct?
+> 
+> The way this works looks very similar to what I suggested above with
+> register arrays and validating once that a given index is valid for the
+> register array accesses. Then the non-try accessors can be used, knowing
+> that the compiler will be able to infer that the index is valid. The
+> only drawback being that each `read` and `write` will have to carry the
+> `as_id`.
 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 088a454271d45aef4ae264c78c627c24d0ef0347..0045e8b21982883c32a7b0df24126dc84978ffb6 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -1127,11 +1127,11 @@ static void dispc_set_num_datalines(struct dispc_device *dispc,
- 		WARN_ON(1);
- 		v = 3;
- 	}
- 
- 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, v,
--		       GENMASK(10, 8));
-+		       DISPC_VP_CONTROL_DATALINES_MASK);
- }
- 
- static void dispc_enable_am65x_oldi(struct dispc_device *dispc, u32 hw_videoport,
- 				    const struct dispc_bus_format *fmt)
- {
-@@ -1151,11 +1151,11 @@ static void dispc_enable_am65x_oldi(struct dispc_device *dispc, u32 hw_videoport
- 			 __func__, fmt->data_width);
- 
- 	oldi_cfg |= BIT(7); /* DEPOL */
- 
- 	oldi_cfg = FLD_MOD(oldi_cfg, fmt->am65x_oldi_mode_reg_val,
--			   GENMASK(3, 1));
-+			   DISPC_VP_DSS_OLDI_CFG_MAP_MASK);
- 
- 	oldi_cfg |= BIT(12); /* SOFTRST */
- 
- 	oldi_cfg |= BIT(0); /* ENABLE */
- 
-@@ -1213,18 +1213,18 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
- 	vfp = mode->vsync_start - mode->vdisplay;
- 	vsw = mode->vsync_end - mode->vsync_start;
- 	vbp = mode->vtotal - mode->vsync_end;
- 
- 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_TIMING_H,
--		       FIELD_PREP(GENMASK(7, 0), hsw - 1) |
--		       FIELD_PREP(GENMASK(19, 8), hfp - 1) |
--		       FIELD_PREP(GENMASK(31, 20), hbp - 1));
-+		       FIELD_PREP(DISPC_VP_TIMING_H_SYNC_PULSE_MASK, hsw - 1) |
-+		       FIELD_PREP(DISPC_VP_TIMING_H_FRONT_PORCH_MASK, hfp - 1) |
-+		       FIELD_PREP(DISPC_VP_TIMING_H_BACK_PORCH_MASK, hbp - 1));
- 
- 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_TIMING_V,
--		       FIELD_PREP(GENMASK(7, 0), vsw - 1) |
--		       FIELD_PREP(GENMASK(19, 8), vfp) |
--		       FIELD_PREP(GENMASK(31, 20), vbp));
-+		       FIELD_PREP(DISPC_VP_TIMING_V_SYNC_PULSE_MASK, vsw - 1) |
-+		       FIELD_PREP(DISPC_VP_TIMING_V_FRONT_PORCH_MASK, vfp) |
-+		       FIELD_PREP(DISPC_VP_TIMING_V_BACK_PORCH_MASK, vbp));
- 
- 	ivs = !!(mode->flags & DRM_MODE_FLAG_NVSYNC);
- 
- 	ihs = !!(mode->flags & DRM_MODE_FLAG_NHSYNC);
- 
-@@ -1243,30 +1243,30 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
- 	/* always use DE_HIGH for OLDI */
- 	if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI_AM65X)
- 		ieo = false;
- 
- 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_POL_FREQ,
--		       FIELD_PREP(GENMASK(18, 18), align) |
--		       FIELD_PREP(GENMASK(17, 17), onoff) |
--		       FIELD_PREP(GENMASK(16, 16), rf) |
--		       FIELD_PREP(GENMASK(15, 15), ieo) |
--		       FIELD_PREP(GENMASK(14, 14), ipc) |
--		       FIELD_PREP(GENMASK(13, 13), ihs) |
--		       FIELD_PREP(GENMASK(12, 12), ivs));
-+		       FIELD_PREP(DISPC_VP_POL_FREQ_ALIGN_MASK, align) |
-+		       FIELD_PREP(DISPC_VP_POL_FREQ_ONOFF_MASK, onoff) |
-+		       FIELD_PREP(DISPC_VP_POL_FREQ_RF_MASK, rf) |
-+		       FIELD_PREP(DISPC_VP_POL_FREQ_IEO_MASK, ieo) |
-+		       FIELD_PREP(DISPC_VP_POL_FREQ_IPC_MASK, ipc) |
-+		       FIELD_PREP(DISPC_VP_POL_FREQ_IHS_MASK, ihs) |
-+		       FIELD_PREP(DISPC_VP_POL_FREQ_IVS_MASK, ivs));
- 
- 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_SIZE_SCREEN,
--		       FIELD_PREP(GENMASK(11, 0), mode->hdisplay - 1) |
--		       FIELD_PREP(GENMASK(27, 16), mode->vdisplay - 1));
-+		       FIELD_PREP(DISPC_VP_SIZE_SCREEN_HDISPLAY_MASK, mode->hdisplay - 1) |
-+		       FIELD_PREP(DISPC_VP_SIZE_SCREEN_VDISPLAY_MASK, mode->vdisplay - 1));
- 
- 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1,
--		       GENMASK(0, 0));
-+		       DISPC_VP_CONTROL_ENABLE_MASK);
- }
- 
- void dispc_vp_disable(struct dispc_device *dispc, u32 hw_videoport)
- {
- 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 0,
--		       GENMASK(0, 0));
-+		       DISPC_VP_CONTROL_ENABLE_MASK);
- }
- 
- void dispc_vp_unprepare(struct dispc_device *dispc, u32 hw_videoport)
- {
- 	if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI_AM65X) {
-@@ -1277,18 +1277,19 @@ void dispc_vp_unprepare(struct dispc_device *dispc, u32 hw_videoport)
- }
- 
- bool dispc_vp_go_busy(struct dispc_device *dispc, u32 hw_videoport)
- {
- 	return VP_REG_GET(dispc, hw_videoport, DISPC_VP_CONTROL,
--			  GENMASK(5, 5));
-+			  DISPC_VP_CONTROL_GOBIT_MASK);
- }
- 
- void dispc_vp_go(struct dispc_device *dispc, u32 hw_videoport)
- {
--	WARN_ON(VP_REG_GET(dispc, hw_videoport, DISPC_VP_CONTROL, GENMASK(5, 5)));
-+	WARN_ON(VP_REG_GET(dispc, hw_videoport, DISPC_VP_CONTROL,
-+			   DISPC_VP_CONTROL_GOBIT_MASK));
- 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1,
--		       GENMASK(5, 5));
-+		       DISPC_VP_CONTROL_GOBIT_MASK);
- }
- 
- enum c8_to_c12_mode { C8_TO_C12_REPLICATE, C8_TO_C12_MAX, C8_TO_C12_MIN };
- 
- static u16 c8_to_c12(u8 c8, enum c8_to_c12_mode mode)
-@@ -1484,29 +1485,29 @@ static void dispc_am65x_ovr_set_plane(struct dispc_device *dispc,
- 				      u32 x, u32 y, u32 layer)
- {
- 	u32 hw_id = dispc->feat->vid_info[hw_plane].hw_id;
- 
- 	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer),
--			hw_id, GENMASK(4, 1));
-+			hw_id, DISPC_OVR_ATTRIBUTES_CHANNELIN_MASK);
- 	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer), x,
--			GENMASK(17, 6));
-+			DISPC_OVR_ATTRIBUTES_POSX_MASK);
- 	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer), y,
--			GENMASK(30, 19));
-+			DISPC_OVR_ATTRIBUTES_POSY_MASK);
- }
- 
- static void dispc_j721e_ovr_set_plane(struct dispc_device *dispc,
- 				      u32 hw_plane, u32 hw_videoport,
- 				      u32 x, u32 y, u32 layer)
- {
- 	u32 hw_id = dispc->feat->vid_info[hw_plane].hw_id;
- 
- 	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer),
--			hw_id, GENMASK(4, 1));
-+			hw_id, DISPC_OVR_ATTRIBUTES_CHANNELIN_MASK);
- 	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES2(layer), x,
--			GENMASK(13, 0));
-+			DISPC_OVR_ATTRIBUTES2_POSX_MASK);
- 	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES2(layer), y,
--			GENMASK(29, 16));
-+			DISPC_OVR_ATTRIBUTES2_POSY_MASK);
- }
- 
- void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
- 			 u32 hw_videoport, u32 x, u32 y, u32 layer)
- {
-@@ -1537,11 +1538,11 @@ void dispc_ovr_enable_layer(struct dispc_device *dispc,
- {
- 	if (dispc->feat->subrev == DISPC_K2G)
- 		return;
- 
- 	OVR_REG_FLD_MOD(dispc, hw_videoport, DISPC_OVR_ATTRIBUTES(layer),
--			!!enable, GENMASK(0, 0));
-+			!!enable, DISPC_OVR_ATTRIBUTES_ENABLE_MASK);
- }
- 
- /* CSC */
- enum csc_ctm {
- 	CSC_RR, CSC_RG, CSC_RB,
-@@ -1761,11 +1762,11 @@ static void dispc_vid_csc_setup(struct dispc_device *dispc, u32 hw_plane,
- 
- static void dispc_vid_csc_enable(struct dispc_device *dispc, u32 hw_plane,
- 				 bool enable)
- {
- 	VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, !!enable,
--			GENMASK(9, 9));
-+			DISPC_VID_ATTRIBUTES_COLORCONVENABLE_MASK);
- }
- 
- /* SCALER */
- 
- static u32 dispc_calc_fir_inc(u32 in, u32 out)
-@@ -2019,23 +2020,23 @@ static void dispc_vid_set_scaling(struct dispc_device *dispc,
- 				  struct dispc_scaling_params *sp,
- 				  u32 fourcc)
- {
- 	/* HORIZONTAL RESIZE ENABLE */
- 	VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, sp->scale_x,
--			GENMASK(7, 7));
-+			DISPC_VID_ATTRIBUTES_HRESIZEENABLE_MASK);
- 
- 	/* VERTICAL RESIZE ENABLE */
- 	VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, sp->scale_y,
--			GENMASK(8, 8));
-+			DISPC_VID_ATTRIBUTES_VRESIZEENABLE_MASK);
- 
- 	/* Skip the rest if no scaling is used */
- 	if (!sp->scale_x && !sp->scale_y)
- 		return;
- 
- 	/* VERTICAL 5-TAPS  */
- 	VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, sp->five_taps,
--			GENMASK(21, 21));
-+			DISPC_VID_ATTRIBUTES_VERTICALTAPS_MASK);
- 
- 	if (dispc_fourcc_is_yuv(fourcc)) {
- 		if (sp->scale_x) {
- 			dispc_vid_write(dispc, hw_plane, DISPC_VID_FIRH2,
- 					sp->fir_xinc_uv);
-@@ -2121,11 +2122,11 @@ static void dispc_plane_set_pixel_format(struct dispc_device *dispc,
- 
- 	for (i = 0; i < ARRAY_SIZE(dispc_color_formats); ++i) {
- 		if (dispc_color_formats[i].fourcc == fourcc) {
- 			VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES,
- 					dispc_color_formats[i].dss_code,
--					GENMASK(6, 1));
-+					DISPC_VID_ATTRIBUTES_FORMAT_MASK);
- 			return;
- 		}
- 	}
- 
- 	WARN_ON(1);
-@@ -2243,11 +2244,12 @@ void dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
- 	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_EXT_0, (u64)dma_addr >> 32);
- 	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_1, dma_addr & 0xffffffff);
- 	dispc_vid_write(dispc, hw_plane, DISPC_VID_BA_EXT_1, (u64)dma_addr >> 32);
- 
- 	dispc_vid_write(dispc, hw_plane, DISPC_VID_PICTURE_SIZE,
--			(scale.in_w - 1) | ((scale.in_h - 1) << 16));
-+			FIELD_PREP(DISPC_VID_PICTURE_SIZE_MEMSIZEY_MASK, scale.in_h - 1) |
-+			FIELD_PREP(DISPC_VID_PICTURE_SIZE_MEMSIZEX_MASK, scale.in_w - 1));
- 
- 	/* For YUV422 format we use the macropixel size for pixel inc */
- 	if (fourcc == DRM_FORMAT_YUYV || fourcc == DRM_FORMAT_UYVY)
- 		dispc_vid_write(dispc, hw_plane, DISPC_VID_PIXEL_INC,
- 				pixinc(scale.xinc, cpp * 2));
-@@ -2280,12 +2282,14 @@ void dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
- 				       cpp_uv));
- 	}
- 
- 	if (!lite) {
- 		dispc_vid_write(dispc, hw_plane, DISPC_VID_SIZE,
--				(state->crtc_w - 1) |
--				((state->crtc_h - 1) << 16));
-+				FIELD_PREP(DISPC_VID_SIZE_SIZEY_MASK,
-+					   state->crtc_h - 1) |
-+				FIELD_PREP(DISPC_VID_SIZE_SIZEX_MASK,
-+					   state->crtc_w - 1));
- 
- 		dispc_vid_set_scaling(dispc, hw_plane, &scale, fourcc);
- 	}
- 
- 	/* enable YUV->RGB color conversion */
-@@ -2295,56 +2299,63 @@ void dispc_plane_setup(struct dispc_device *dispc, u32 hw_plane,
- 	} else {
- 		dispc_vid_csc_enable(dispc, hw_plane, false);
- 	}
- 
- 	dispc_vid_write(dispc, hw_plane, DISPC_VID_GLOBAL_ALPHA,
--			0xFF & (state->alpha >> 8));
-+			FIELD_PREP(DISPC_VID_GLOBAL_ALPHA_GLOBALALPHA_MASK,
-+				   state->alpha >> 8));
- 
- 	if (state->pixel_blend_mode == DRM_MODE_BLEND_PREMULTI)
- 		VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, 1,
--				GENMASK(28, 28));
-+				DISPC_VID_ATTRIBUTES_PREMULTIPLYALPHA_MASK);
- 	else
- 		VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, 0,
--				GENMASK(28, 28));
-+				DISPC_VID_ATTRIBUTES_PREMULTIPLYALPHA_MASK);
- }
- 
- void dispc_plane_enable(struct dispc_device *dispc, u32 hw_plane, bool enable)
- {
- 	VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, !!enable,
--			GENMASK(0, 0));
-+			DISPC_VID_ATTRIBUTES_ENABLE_MASK);
- }
- 
- static u32 dispc_vid_get_fifo_size(struct dispc_device *dispc, u32 hw_plane)
- {
- 	return VID_REG_GET(dispc, hw_plane, DISPC_VID_BUF_SIZE_STATUS,
--			   GENMASK(15, 0));
-+			   DISPC_VID_BUF_SIZE_STATUS_BUFSIZE_MASK);
- }
- 
- static void dispc_vid_set_mflag_threshold(struct dispc_device *dispc,
- 					  u32 hw_plane, u32 low, u32 high)
- {
- 	dispc_vid_write(dispc, hw_plane, DISPC_VID_MFLAG_THRESHOLD,
--			FIELD_PREP(GENMASK(31, 16), high) | FIELD_PREP(GENMASK(15, 0), low));
-+			FIELD_PREP(DISPC_VID_MFLAG_THRESHOLD_HT_MFLAG_MASK, high) |
-+			FIELD_PREP(DISPC_VID_MFLAG_THRESHOLD_LT_MFLAG_MASK, low));
- }
- 
- static void dispc_vid_set_buf_threshold(struct dispc_device *dispc,
- 					u32 hw_plane, u32 low, u32 high)
- {
- 	dispc_vid_write(dispc, hw_plane, DISPC_VID_BUF_THRESHOLD,
--			FIELD_PREP(GENMASK(31, 16), high) | FIELD_PREP(GENMASK(15, 0), low));
-+			FIELD_PREP(DISPC_VID_BUF_THRESHOLD_BUFHIGHTHRESHOLD_MASK,
-+				   high) |
-+			FIELD_PREP(DISPC_VID_BUF_THRESHOLD_BUFLOWTHRESHOLD_MASK,
-+				   low));
- }
- 
- static void dispc_k2g_plane_init(struct dispc_device *dispc)
- {
- 	unsigned int hw_plane;
- 
- 	dev_dbg(dispc->dev, "%s()\n", __func__);
- 
- 	/* MFLAG_CTRL = ENABLED */
--	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 2, GENMASK(1, 0));
-+	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 2,
-+		    DISPC_GLOBAL_MFLAG_ATTRIBUTE_MFLAG_CTRL_MASK);
- 	/* MFLAG_START = MFLAGNORMALSTARTMODE */
--	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, GENMASK(6, 6));
-+	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0,
-+		    DISPC_GLOBAL_MFLAG_ATTRIBUTE_MFLAG_START_MASK);
- 
- 	for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
- 		u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
- 		u32 thr_low, thr_high;
- 		u32 mflag_low, mflag_high;
-@@ -2377,11 +2388,11 @@ static void dispc_k2g_plane_init(struct dispc_device *dispc)
- 		 * Prefetch up to fifo high-threshold value to minimize the
- 		 * possibility of underflows. Note that this means the PRELOAD
- 		 * register is ignored.
- 		 */
- 		VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, 1,
--				GENMASK(19, 19));
-+				DISPC_VID_ATTRIBUTES_BUFPRELOAD_MASK);
- 	}
- }
- 
- static void dispc_k3_plane_init(struct dispc_device *dispc)
- {
-@@ -2389,17 +2400,19 @@ static void dispc_k3_plane_init(struct dispc_device *dispc)
- 	u32 cba_lo_pri = 1;
- 	u32 cba_hi_pri = 0;
- 
- 	dev_dbg(dispc->dev, "%s()\n", __func__);
- 
--	REG_FLD_MOD(dispc, DSS_CBA_CFG, cba_lo_pri, GENMASK(2, 0));
--	REG_FLD_MOD(dispc, DSS_CBA_CFG, cba_hi_pri, GENMASK(5, 3));
-+	REG_FLD_MOD(dispc, DSS_CBA_CFG, cba_lo_pri, DSS_CBA_CFG_PRI_LO_MASK);
-+	REG_FLD_MOD(dispc, DSS_CBA_CFG, cba_hi_pri, DSS_CBA_CFG_PRI_HI_MASK);
- 
- 	/* MFLAG_CTRL = ENABLED */
--	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 2, GENMASK(1, 0));
-+	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 2,
-+		    DISPC_GLOBAL_MFLAG_ATTRIBUTE_MFLAG_CTRL_MASK);
- 	/* MFLAG_START = MFLAGNORMALSTARTMODE */
--	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0, GENMASK(6, 6));
-+	REG_FLD_MOD(dispc, DISPC_GLOBAL_MFLAG_ATTRIBUTE, 0,
-+		    DISPC_GLOBAL_MFLAG_ATTRIBUTE_MFLAG_START_MASK);
- 
- 	for (hw_plane = 0; hw_plane < dispc->feat->num_vids; hw_plane++) {
- 		u32 size = dispc_vid_get_fifo_size(dispc, hw_plane);
- 		u32 thr_low, thr_high;
- 		u32 mflag_low, mflag_high;
-@@ -2428,11 +2441,11 @@ static void dispc_k3_plane_init(struct dispc_device *dispc)
- 
- 		dispc_vid_write(dispc, hw_plane, DISPC_VID_PRELOAD, preload);
- 
- 		/* Prefech up to PRELOAD value */
- 		VID_REG_FLD_MOD(dispc, hw_plane, DISPC_VID_ATTRIBUTES, 0,
--				GENMASK(19, 19));
-+				DISPC_VID_ATTRIBUTES_BUFPRELOAD_MASK);
- 	}
- }
- 
- static void dispc_plane_init(struct dispc_device *dispc)
- {
-@@ -2458,23 +2471,24 @@ static void dispc_vp_init(struct dispc_device *dispc)
- 
- 	dev_dbg(dispc->dev, "%s()\n", __func__);
- 
- 	/* Enable the gamma Shadow bit-field for all VPs*/
- 	for (i = 0; i < dispc->feat->num_vps; i++)
--		VP_REG_FLD_MOD(dispc, i, DISPC_VP_CONFIG, 1, GENMASK(2, 2));
-+		VP_REG_FLD_MOD(dispc, i, DISPC_VP_CONFIG, 1,
-+			       DISPC_VP_CONFIG_GAMMAENABLE_MASK);
- }
- 
- static void dispc_initial_config(struct dispc_device *dispc)
- {
- 	dispc_plane_init(dispc);
- 	dispc_vp_init(dispc);
- 
- 	/* Note: Hardcoded DPI routing on J721E for now */
- 	if (dispc->feat->subrev == DISPC_J721E) {
- 		dispc_write(dispc, DISPC_CONNECTIONS,
--			    FIELD_PREP(GENMASK(3, 0), 2) |		/* VP1 to DPI0 */
--			    FIELD_PREP(GENMASK(7, 4), 8)		/* VP3 to DPI1 */
-+			    FIELD_PREP(DISPC_CONNECTIONS_DPI_0_CONN_MASK, 2) |		/* VP1 to DPI0 */
-+			    FIELD_PREP(DISPC_CONNECTIONS_DPI_1_CONN_MASK, 8)		/* VP3 to DPI1 */
- 			);
- 	}
- }
- 
- static void dispc_k2g_vp_write_gamma_table(struct dispc_device *dispc,
-@@ -2692,11 +2706,11 @@ static void dispc_k2g_vp_set_ctm(struct dispc_device *dispc, u32 hw_videoport,
- 		dispc_k2g_vp_write_csc(dispc, hw_videoport, &cpr);
- 		cprenable = 1;
- 	}
- 
- 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONFIG, cprenable,
--		       GENMASK(15, 15));
-+		       DISPC_VP_CONFIG_CPR_MASK);
- }
- 
- static s16 dispc_S31_32_to_s3_8(s64 coef)
- {
- 	u64 sign_bit = 1ULL << 63;
-@@ -2758,11 +2772,11 @@ static void dispc_k3_vp_set_ctm(struct dispc_device *dispc, u32 hw_videoport,
- 		dispc_k3_vp_write_csc(dispc, hw_videoport, &csc);
- 		colorconvenable = 1;
- 	}
- 
- 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONFIG, colorconvenable,
--		       GENMASK(24, 24));
-+		       DISPC_VP_CONFIG_COLORCONVENABLE_MASK);
- }
- 
- static void dispc_vp_set_color_mgmt(struct dispc_device *dispc,
- 				    u32 hw_videoport,
- 				    const struct drm_crtc_state *state,
-@@ -2813,11 +2827,11 @@ int dispc_runtime_resume(struct dispc_device *dispc)
- {
- 	dev_dbg(dispc->dev, "resume\n");
- 
- 	clk_prepare_enable(dispc->fclk);
- 
--	if (REG_GET(dispc, DSS_SYSSTATUS, GENMASK(0, 0)) == 0)
-+	if (REG_GET(dispc, DSS_SYSSTATUS, DSS_SYSSTATUS_DISPC_FUNC_RESETDONE) == 0)
- 		dev_warn(dispc->dev, "DSS FUNC RESET not done!\n");
- 
- 	dev_dbg(dispc->dev, "OMAP DSS7 rev 0x%x\n",
- 		dispc_read(dispc, DSS_REVISION));
- 
-@@ -2832,11 +2846,11 @@ int dispc_runtime_resume(struct dispc_device *dispc)
- 			REG_GET(dispc, DSS_SYSSTATUS, GENMASK(5, 5)),
- 			REG_GET(dispc, DSS_SYSSTATUS, GENMASK(6, 6)),
- 			REG_GET(dispc, DSS_SYSSTATUS, GENMASK(7, 7)));
- 
- 	dev_dbg(dispc->dev, "DISPC IDLE %d\n",
--		REG_GET(dispc, DSS_SYSSTATUS, GENMASK(9, 9)));
-+		REG_GET(dispc, DSS_SYSSTATUS, DSS_SYSSTATUS_DISPC_IDLE_STATUS));
- 
- 	dispc_initial_config(dispc);
- 
- 	dispc->is_enabled = true;
- 
-@@ -2910,11 +2924,11 @@ static void dispc_softreset_k2g(struct dispc_device *dispc)
- 	dispc_read_and_clear_irqstatus(dispc);
- 	spin_unlock_irqrestore(&dispc->tidss->irq_lock, flags);
- 
- 	for (unsigned int vp_idx = 0; vp_idx < dispc->feat->num_vps; ++vp_idx)
- 		VP_REG_FLD_MOD(dispc, vp_idx, DISPC_VP_CONTROL, 0,
--			       GENMASK(0, 0));
-+			       DISPC_VP_CONTROL_ENABLE_MASK);
- }
- 
- static int dispc_softreset(struct dispc_device *dispc)
- {
- 	u32 val;
-@@ -2924,11 +2938,11 @@ static int dispc_softreset(struct dispc_device *dispc)
- 		dispc_softreset_k2g(dispc);
- 		return 0;
- 	}
- 
- 	/* Soft reset */
--	REG_FLD_MOD(dispc, DSS_SYSCONFIG, 1, GENMASK(1, 1));
-+	REG_FLD_MOD(dispc, DSS_SYSCONFIG, 1, DSS_SYSCONFIG_SOFTRESET_MASK);
- 	/* Wait for reset to complete */
- 	ret = readl_poll_timeout(dispc->base_common + DSS_SYSSTATUS,
- 				 val, val & 1, 100, 5000);
- 	if (ret) {
- 		dev_err(dispc->dev, "failed to reset dispc\n");
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc_regs.h b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
-index 50a3f28250efe61f1d98a456bf8907000109411c..382027dddce894b3b7d11172e23bf11883e25958 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc_regs.h
-+++ b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
-@@ -54,11 +54,16 @@ enum dispc_common_regs {
- 
- #define REG(r) (dispc_common_regmap[r ## _OFF])
- 
- #define DSS_REVISION			REG(DSS_REVISION)
- #define DSS_SYSCONFIG			REG(DSS_SYSCONFIG)
-+#define DSS_SYSCONFIG_SOFTRESET_MASK		GENMASK(1, 1)
-+
- #define DSS_SYSSTATUS			REG(DSS_SYSSTATUS)
-+#define DSS_SYSSTATUS_DISPC_IDLE_STATUS		GENMASK(9, 9)
-+#define DSS_SYSSTATUS_DISPC_FUNC_RESETDONE	GENMASK(0, 0)
-+
- #define DISPC_IRQ_EOI			REG(DISPC_IRQ_EOI)
- #define DISPC_IRQSTATUS_RAW		REG(DISPC_IRQSTATUS_RAW)
- #define DISPC_IRQSTATUS			REG(DISPC_IRQSTATUS)
- #define DISPC_IRQENABLE_SET		REG(DISPC_IRQENABLE_SET)
- #define DISPC_IRQENABLE_CLR		REG(DISPC_IRQENABLE_CLR)
-@@ -68,13 +73,19 @@ enum dispc_common_regs {
- #define DISPC_VP_IRQSTATUS(n)		(REG(DISPC_VP_IRQSTATUS) + (n) * 4)
- #define WB_IRQENABLE			REG(WB_IRQENABLE)
- #define WB_IRQSTATUS			REG(WB_IRQSTATUS)
- 
- #define DISPC_GLOBAL_MFLAG_ATTRIBUTE	REG(DISPC_GLOBAL_MFLAG_ATTRIBUTE)
-+#define DISPC_GLOBAL_MFLAG_ATTRIBUTE_MFLAG_START_MASK	GENMASK(6, 6)
-+#define DISPC_GLOBAL_MFLAG_ATTRIBUTE_MFLAG_CTRL_MASK	GENMASK(1, 0)
-+
- #define DISPC_GLOBAL_OUTPUT_ENABLE	REG(DISPC_GLOBAL_OUTPUT_ENABLE)
- #define DISPC_GLOBAL_BUFFER		REG(DISPC_GLOBAL_BUFFER)
- #define DSS_CBA_CFG			REG(DSS_CBA_CFG)
-+#define DSS_CBA_CFG_PRI_HI_MASK			GENMASK(5, 3)
-+#define DSS_CBA_CFG_PRI_LO_MASK			GENMASK(2, 0)
-+
- #define DISPC_DBG_CONTROL		REG(DISPC_DBG_CONTROL)
- #define DISPC_DBG_STATUS		REG(DISPC_DBG_STATUS)
- #define DISPC_CLKGATING_DISABLE		REG(DISPC_CLKGATING_DISABLE)
- #define DISPC_SECURE_DISABLE		REG(DISPC_SECURE_DISABLE)
- 
-@@ -86,10 +97,13 @@ enum dispc_common_regs {
- #define FBDC_REVISION_6			REG(FBDC_REVISION_6)
- #define FBDC_COMMON_CONTROL		REG(FBDC_COMMON_CONTROL)
- #define FBDC_CONSTANT_COLOR_0		REG(FBDC_CONSTANT_COLOR_0)
- #define FBDC_CONSTANT_COLOR_1		REG(FBDC_CONSTANT_COLOR_1)
- #define DISPC_CONNECTIONS		REG(DISPC_CONNECTIONS)
-+#define DISPC_CONNECTIONS_DPI_1_CONN_MASK	GENMASK(7, 4)
-+#define DISPC_CONNECTIONS_DPI_0_CONN_MASK	GENMASK(3, 0)
-+
- #define DISPC_MSS_VP1			REG(DISPC_MSS_VP1)
- #define DISPC_MSS_VP3			REG(DISPC_MSS_VP3)
- 
- /* VID */
- 
-@@ -100,17 +114,31 @@ enum dispc_common_regs {
- #define DISPC_VID_ACCUV_0		0x10
- #define DISPC_VID_ACCUV_1		0x14
- #define DISPC_VID_ACCUV2_0		0x18
- #define DISPC_VID_ACCUV2_1		0x1c
- #define DISPC_VID_ATTRIBUTES		0x20
-+#define DISPC_VID_ATTRIBUTES_PREMULTIPLYALPHA_MASK	GENMASK(28, 28)
-+#define DISPC_VID_ATTRIBUTES_VERTICALTAPS_MASK		GENMASK(21, 21)
-+#define DISPC_VID_ATTRIBUTES_BUFPRELOAD_MASK		GENMASK(19, 19)
-+#define DISPC_VID_ATTRIBUTES_COLORCONVENABLE_MASK	GENMASK(9, 9)
-+#define DISPC_VID_ATTRIBUTES_VRESIZEENABLE_MASK		GENMASK(8, 8)
-+#define DISPC_VID_ATTRIBUTES_HRESIZEENABLE_MASK		GENMASK(7, 7)
-+#define DISPC_VID_ATTRIBUTES_FORMAT_MASK		GENMASK(6, 1)
-+#define DISPC_VID_ATTRIBUTES_ENABLE_MASK		GENMASK(0, 0)
-+
- #define DISPC_VID_ATTRIBUTES2		0x24
- #define DISPC_VID_BA_0			0x28
- #define DISPC_VID_BA_1			0x2c
- #define DISPC_VID_BA_UV_0		0x30
- #define DISPC_VID_BA_UV_1		0x34
- #define DISPC_VID_BUF_SIZE_STATUS	0x38
-+#define DISPC_VID_BUF_SIZE_STATUS_BUFSIZE_MASK	GENMASK(15, 0)
-+
- #define DISPC_VID_BUF_THRESHOLD		0x3c
-+#define DISPC_VID_BUF_THRESHOLD_BUFHIGHTHRESHOLD_MASK	GENMASK(31, 16)
-+#define DISPC_VID_BUF_THRESHOLD_BUFLOWTHRESHOLD_MASK	GENMASK(15, 0)
-+
- #define DISPC_VID_CSC_COEF(n)		(0x40 + (n) * 4)
- 
- #define DISPC_VID_FIRH			0x5c
- #define DISPC_VID_FIRH2			0x60
- #define DISPC_VID_FIRV			0x64
-@@ -135,19 +163,30 @@ enum dispc_common_regs {
- #define DISPC_VID_FIR_COEF_V12(phase)	(0x17c + (phase) * 4)
- #define DISPC_VID_FIR_COEFS_V12_C	0x1bc
- #define DISPC_VID_FIR_COEF_V12_C(phase)	(0x1bc + (phase) * 4)
- 
- #define DISPC_VID_GLOBAL_ALPHA		0x1fc
-+#define DISPC_VID_GLOBAL_ALPHA_GLOBALALPHA_MASK	GENMASK(7, 0)
-+
- #define DISPC_VID_K2G_IRQENABLE		0x200 /* K2G */
- #define DISPC_VID_K2G_IRQSTATUS		0x204 /* K2G */
- #define DISPC_VID_MFLAG_THRESHOLD	0x208
-+#define DISPC_VID_MFLAG_THRESHOLD_HT_MFLAG_MASK	GENMASK(31, 16)
-+#define DISPC_VID_MFLAG_THRESHOLD_LT_MFLAG_MASK	GENMASK(15, 0)
-+
- #define DISPC_VID_PICTURE_SIZE		0x20c
-+#define DISPC_VID_PICTURE_SIZE_MEMSIZEY_MASK	GENMASK(27, 16)
-+#define DISPC_VID_PICTURE_SIZE_MEMSIZEX_MASK	GENMASK(11, 0)
-+
- #define DISPC_VID_PIXEL_INC		0x210
- #define DISPC_VID_K2G_POSITION		0x214 /* K2G */
- #define DISPC_VID_PRELOAD		0x218
- #define DISPC_VID_ROW_INC		0x21c
- #define DISPC_VID_SIZE			0x220
-+#define DISPC_VID_SIZE_SIZEY_MASK		GENMASK(27, 16)
-+#define DISPC_VID_SIZE_SIZEX_MASK		GENMASK(11, 0)
-+
- #define DISPC_VID_BA_EXT_0		0x22c
- #define DISPC_VID_BA_EXT_1		0x230
- #define DISPC_VID_BA_UV_EXT_0		0x234
- #define DISPC_VID_BA_UV_EXT_1		0x238
- #define DISPC_VID_CSC_COEF7		0x23c
-@@ -171,15 +210,31 @@ enum dispc_common_regs {
- #define DISPC_OVR_TRANS_COLOR_MAX	0x10
- #define DISPC_OVR_TRANS_COLOR_MAX2	0x14
- #define DISPC_OVR_TRANS_COLOR_MIN	0x18
- #define DISPC_OVR_TRANS_COLOR_MIN2	0x1c
- #define DISPC_OVR_ATTRIBUTES(n)		(0x20 + (n) * 4)
-+#define DISPC_OVR_ATTRIBUTES_POSY_MASK		GENMASK(30, 19)
-+#define DISPC_OVR_ATTRIBUTES_POSX_MASK		GENMASK(17, 6)
-+#define DISPC_OVR_ATTRIBUTES_CHANNELIN_MASK	GENMASK(4, 1)
-+#define DISPC_OVR_ATTRIBUTES_ENABLE_MASK	GENMASK(0, 0)
-+
- #define DISPC_OVR_ATTRIBUTES2(n)	(0x34 + (n) * 4) /* J721E */
-+#define DISPC_OVR_ATTRIBUTES2_POSY_MASK		GENMASK(29, 16)
-+#define DISPC_OVR_ATTRIBUTES2_POSX_MASK		GENMASK(13, 0)
-+
- /* VP */
- 
- #define DISPC_VP_CONFIG				0x0
-+#define DISPC_VP_CONFIG_COLORCONVENABLE_MASK		GENMASK(24, 24)
-+#define DISPC_VP_CONFIG_CPR_MASK			GENMASK(15, 15)
-+#define DISPC_VP_CONFIG_GAMMAENABLE_MASK		GENMASK(2, 2)
-+
- #define DISPC_VP_CONTROL			0x4
-+#define DISPC_VP_CONTROL_DATALINES_MASK			GENMASK(10, 8)
-+#define DISPC_VP_CONTROL_GOBIT_MASK			GENMASK(5, 5)
-+#define DISPC_VP_CONTROL_ENABLE_MASK			GENMASK(0, 0)
-+
- #define DISPC_VP_CSC_COEF0			0x8
- #define DISPC_VP_CSC_COEF1			0xc
- #define DISPC_VP_CSC_COEF2			0x10
- #define DISPC_VP_DATA_CYCLE_0			0x14
- #define DISPC_VP_DATA_CYCLE_1			0x18
-@@ -187,13 +242,32 @@ enum dispc_common_regs {
- #define DISPC_VP_K2G_IRQENABLE			0x3c /* K2G */
- #define DISPC_VP_K2G_IRQSTATUS			0x40 /* K2G */
- #define DISPC_VP_DATA_CYCLE_2			0x1c
- #define DISPC_VP_LINE_NUMBER			0x44
- #define DISPC_VP_POL_FREQ			0x4c
-+#define DISPC_VP_POL_FREQ_ALIGN_MASK			GENMASK(18, 18)
-+#define DISPC_VP_POL_FREQ_ONOFF_MASK			GENMASK(17, 17)
-+#define DISPC_VP_POL_FREQ_RF_MASK			GENMASK(16, 16)
-+#define DISPC_VP_POL_FREQ_IEO_MASK			GENMASK(15, 15)
-+#define DISPC_VP_POL_FREQ_IPC_MASK			GENMASK(14, 14)
-+#define DISPC_VP_POL_FREQ_IHS_MASK			GENMASK(13, 13)
-+#define DISPC_VP_POL_FREQ_IVS_MASK			GENMASK(12, 12)
-+
- #define DISPC_VP_SIZE_SCREEN			0x50
-+#define DISPC_VP_SIZE_SCREEN_HDISPLAY_MASK		GENMASK(11, 0)
-+#define DISPC_VP_SIZE_SCREEN_VDISPLAY_MASK		GENMASK(27, 16)
-+
- #define DISPC_VP_TIMING_H			0x54
-+#define DISPC_VP_TIMING_H_SYNC_PULSE_MASK		GENMASK(7, 0)
-+#define DISPC_VP_TIMING_H_FRONT_PORCH_MASK		GENMASK(19, 8)
-+#define DISPC_VP_TIMING_H_BACK_PORCH_MASK		GENMASK(31, 20)
-+
- #define DISPC_VP_TIMING_V			0x58
-+#define DISPC_VP_TIMING_V_SYNC_PULSE_MASK		GENMASK(7, 0)
-+#define DISPC_VP_TIMING_V_FRONT_PORCH_MASK		GENMASK(19, 8)
-+#define DISPC_VP_TIMING_V_BACK_PORCH_MASK		GENMASK(31, 20)
-+
- #define DISPC_VP_CSC_COEF3			0x5c
- #define DISPC_VP_CSC_COEF4			0x60
- #define DISPC_VP_CSC_COEF5			0x64
- #define DISPC_VP_CSC_COEF6			0x68
- #define DISPC_VP_CSC_COEF7			0x6c
-@@ -218,10 +292,12 @@ enum dispc_common_regs {
- #define DISPC_VP_SAFETY_SIZE_2			0xf8
- #define DISPC_VP_SAFETY_SIZE_3			0xfc
- #define DISPC_VP_SAFETY_LFSR_SEED		0x110
- #define DISPC_VP_GAMMA_TABLE			0x120
- #define DISPC_VP_DSS_OLDI_CFG			0x160
-+#define DISPC_VP_DSS_OLDI_CFG_MAP_MASK			GENMASK(3, 1)
-+
- #define DISPC_VP_DSS_OLDI_STATUS		0x164
- #define DISPC_VP_DSS_OLDI_LB			0x168
- #define DISPC_VP_DSS_MERGE_SPLIT		0x16c /* J721E */
- #define DISPC_VP_DSS_DMA_THREADSIZE		0x170 /* J721E */
- #define DISPC_VP_DSS_DMA_THREADSIZE_STATUS	0x174 /* J721E */
+Presumably it should be possible to implement with 'as' being a type
+which actually contains 'as_id' (as opposed to an actual ZST) so you
+don't need to explicitly pass that in. Otherwise there's a possibility
+of passing the wrong as_id in and so the compiler won't be able to infer
+that it must be valid.
 
--- 
-2.50.1
+> This would work, but if someone wants to experiment to try and implement
+> something closer to the interface you proposed, I'm very open to the
+> idea. I wonder if we could do this without any runtime overhead...
+
+Since my Rust knowledge is very limited there might be a better way of
+doing this, but that this seemed like the most natural interface to me.
+I can see how a similar approach could be used in C with minimal/no
+overhead so I would have thought this is possible in Rust.
+
+>>
+>> [And of course having written the above I realise that MEMATTR being
+>> split up as separate named fields is also broken - we want to generate
+>> it by looping over the fields.]
+> 
+> I don't understand what this means. :)
+
+Sorry, I was just realising that when I wrote the above example of the
+Mali registers I started writing out the MEMATTR register as:
+
+ 	register!(MEMATTR @ 0x0008, "Memory attributes" {
+ 		7:0	attr0 as u8;
+ 		7:0	attr1 as u8;
+
+There's two big mistakes there:
+
+ * attr1 has the wrong bit numbers (copy/paste error)
+
+ * It's not actually useful to name the fields attr0, attr1, attr2 etc.
+   They should either be an array (attr[n]), or just define it as a u32
+   and build the value manually (as the current C code does).
+
+Clearly whoever ends up writing the definitions for Mali needs to put a
+bit more thought in than I did for this example ;)
+
+Thanks,
+Steve
 
