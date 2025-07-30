@@ -2,64 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48729B15693
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 02:34:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA23EB156C0
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 02:51:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8111710E34A;
-	Wed, 30 Jul 2025 00:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA35D10E0DF;
+	Wed, 30 Jul 2025 00:51:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PdriTaZx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tybz5EJx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2F5710E354
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 00:34:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=oI1HU+X2QvkDN0X8D2sP6JUwO9r6yHAwSbZ+2hPxM+4=; b=PdriTaZxIYLp8N+JmOkJIyZ8uY
- CkZ37+ffpV6jmPXbEdlI+eP9zSei+Y1gWM5+FdVUAF5qQBJ+bSXB0Nx1LLHcfQeeCbJjB7rFn9rYg
- OoKjUvFJLXs2GQf7zl1qD0Ats7iaetNko37mLQPolyAEc8C0kzCfx0yO6xRIMNT1lm/X8p9J0ahlM
- ejKy5O13L+9maPJ0cfs+ffoSgafq7+jxftN6rHV8nGsZR9u1wwWIjcUi0tAoKLd/jboQje2Q5qyAz
- auzdMXeBeot60SrHm2RAUF8G+FFJhXoP7q1NKNpdk2AYD1t/dp3w1HPQ+J19Kdn1Gr3DandlS6PR3
- /K2iymHw==;
-Received: from [189.7.87.79] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ugulb-005gEJ-Qz; Wed, 30 Jul 2025 02:34:00 +0200
-Message-ID: <38d12f53-8c8a-4713-b1f9-0e8ffdf71f98@igalia.com>
-Date: Tue, 29 Jul 2025 21:33:50 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EFEB10E0E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 00:51:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753836708; x=1785372708;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=PRvj7/tY0gbPjZ9nvQIa9jtFtzC+d4gO88MH1ziiZgY=;
+ b=Tybz5EJxBbZ7VnH7jLO89wQiSur4un6C4Qg4VyTI5Pi6fhn93SlUVEof
+ qGnKo/FxXxEYGvOxgOzBdDOEbkPqGQQYn4uYEC8wrhsPKqX63yna2++hM
+ uCjRbKlRh1PZ4zh4IiAivQ7bBZ7XSnRZkZMWD0fKlSATK7mpDiDDGmPlC
+ Cgu/f1V8alNo+cQJY0XxSJXsz1RiNFPfiBhjqE2RiuFSL6Lt1dLARMT/A
+ wqZL9MGt0lSya/luAuSTsrLCcf07/zyjpPfulCbmObcT+i7hVz9xtT3g/
+ vNF54GOK2pQQgDIqG7OuYlduzAYII8wZ255dBaVlvGroyH43SEhb/qVyx Q==;
+X-CSE-ConnectionGUID: yicRKMcgRnaMVXNdcxzlsg==
+X-CSE-MsgGUID: HKSZ9dOPRKCLtEEoXObnww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="67566239"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="67566239"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2025 17:51:47 -0700
+X-CSE-ConnectionGUID: 1Std8N5pSHOU8Hrf9kRN4A==
+X-CSE-MsgGUID: tRwCDmk9QRGDzKVmAmsItA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="193840524"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+ by orviesa002.jf.intel.com with ESMTP; 29 Jul 2025 17:51:40 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ugv2f-0001oh-2w;
+ Wed, 30 Jul 2025 00:51:37 +0000
+Date: Wed, 30 Jul 2025 08:50:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Peter Robinson <pbrobinson@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 2/5] phy: rockchip: phy-rockchip-typec: Add
+ typec_mux/typec_switch support
+Message-ID: <202507300837.EQJOJgpi-lkp@intel.com>
+References: <20250729090032.97-3-kernel@airkyi.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] clk: bcm: rpi: Turn firmware clock on/off when
- preparing/unpreparing
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
-References: <20250728-v3d-power-management-v1-0-780f922b1048@igalia.com>
- <20250728-v3d-power-management-v1-1-780f922b1048@igalia.com>
- <20250729-tall-fluffy-grouse-f5deec@houat>
- <1bc23ad0-7273-4ddf-a0ef-4a80186f2581@igalia.com>
- <20250729-whispering-accelerated-raptor-134e8a@houat>
- <b8c0f9be-a57e-49b3-8113-cbb9307facd9@igalia.com>
-Content-Language: en-US
-In-Reply-To: <b8c0f9be-a57e-49b3-8113-cbb9307facd9@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250729090032.97-3-kernel@airkyi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,87 +90,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/07/25 13:19, Maíra Canal wrote:
-> Hi Maxime,
-> 
-> On 29/07/25 09:14, Maxime Ripard wrote:
->> On Tue, Jul 29, 2025 at 08:53:51AM -0300, Maíra Canal wrote:
->>> Hi Maxime,
->>>
->>> On 29/07/25 04:27, Maxime Ripard wrote:
->>>> Hi Maíra,
->>>>
->>>> On Mon, Jul 28, 2025 at 09:35:38AM -0300, Maíra Canal wrote:
->>>>> Currently, when we prepare or unprepare RPi's clocks, we don't 
->>>>> actually
->>>>> enable/disable the firmware clock. This means that
->>>>> `clk_disable_unprepare()` doesn't actually change the clock state at
->>>>> all, nor does it lowers the clock rate.
->>>>>
->>>>>   From the Mailbox Property Interface documentation [1], we can see 
->>>>> that
->>>>> we should use `RPI_FIRMWARE_SET_CLOCK_STATE` to set the clock state
->>>>> off/on. Therefore, use `RPI_FIRMWARE_SET_CLOCK_STATE` to create a
->>>>> prepare and an unprepare hook for RPi's firmware clock.
->>>>>
->>>>> As now the clocks are actually turned off, some of them are now marked
->>>>> with CLK_IGNORE_UNUSED or CLK_IS_CRITICAL, as those are required since
->>>>> early boot or are required during reboot.
->>>>
->>>> What difference is there between the CLK_IGNORE_UNUSED and
->>>> CLK_IS_CRITICAL clocks?
->>>
->>>  From my understanding, CLK_IGNORE_UNUSED will prevent the clock to be
->>> gated during boot (on "clk: Disabling unused clocks"), but after it, the
->>> clock can be gated.
->>>
->>> With CLK_IS_CRITICAL, the clock will never be disabled.
->>
->> Yeah, that's correct.
->>
->>> For example, RPI_FIRMWARE_M2MC_CLK_ID is used by vc4. It needs to be
->>> enabled at boot (I tested; if not enabled, it won't boot). However,
->>> after vc4 is probed, we would like vc4 to have control of it and be able
->>> to unprepare it in `vc4_hdmi_runtime_suspend()`. If I set it as
->>> CLK_IS_CRITICAL, vc4 won't be able to unprepare it.
->>
->> If the clock can be disabled by Linux, but it breaks some drivers if
->> it's not enabled during their probe, something is fishy somewhere, and
->> it's likely it would be just as broken if you compiled the driver as a
->> module.
->>
->> Even then, some of the other clocks should probably never be disabled,
->> like the CPU clock.
-> 
-> I'll mark RPI_FIRMWARE_ARM_CLK_ID and RPI_FIRMWARE_CORE_CLK_ID as
-> critical. Are there any other clocks you think should never be disabled?
-> 
->>
->>> I only set RPI_FIRMWARE_PIXEL_BVB_CLK_ID as critical, as, otherwise, the
->>> RPi won't reboot.
->>
->> Why?
-> 
-> I'll have to dig a bit into vc4 HDMI code and to investigate the reason
-> (and maybe fix the issue there).
+Hi Chaoyi,
 
-After some investigation, I believe that those display-related should be
-set to CLK_IGNORE_UNUSED. It's not that it breaks some drivers if not
-enabled, but it breaks hardware functionality and the device won't boot.
-See, for example, clk-bcm2835 in which all PLL and PLL dividers clocks
-are marked with CLK_IGNORE_UNUSED and some with CLK_IS_CRITICAL.
+kernel test robot noticed the following build errors:
 
-Maybe Dave has some input about the topic?
+[auto build test ERROR on next-20250729]
+[also build test ERROR on linus/master v6.16]
+[cannot apply to robh/for-next rockchip/for-next krzk/for-next krzk-dt/for-next v6.16 v6.16-rc7 v6.16-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-So far, I'm planing to keep CLK_IGNORE_UNUSED to the display-related
-clocks and remove CLK_IS_CRITICAL from RPI_FIRMWARE_PIXEL_BVB_CLK_ID. If
-you have any objections about it, let me know.
+url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/dt-bindings-phy-rockchip-rk3399-typec-phy-Support-mode-switch/20250729-170255
+base:   next-20250729
+patch link:    https://lore.kernel.org/r/20250729090032.97-3-kernel%40airkyi.com
+patch subject: [PATCH v3 2/5] phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
+config: powerpc-randconfig-002-20250730 (https://download.01.org/0day-ci/archive/20250730/202507300837.EQJOJgpi-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507300837.EQJOJgpi-lkp@intel.com/reproduce)
 
-Best Regards,
-- Maíra
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507300837.EQJOJgpi-lkp@intel.com/
 
-> 
-> Best Regards,
-> - Maíra
-> 
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
+>> ERROR: modpost: "drm_connector_oob_hotplug_event" [drivers/phy/rockchip/phy-rockchip-typec.ko] undefined!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
