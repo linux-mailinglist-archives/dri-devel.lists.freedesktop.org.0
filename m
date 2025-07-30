@@ -2,79 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA23EB156C0
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 02:51:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8043B156F5
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 03:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA35D10E0DF;
-	Wed, 30 Jul 2025 00:51:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8FC310E0E4;
+	Wed, 30 Jul 2025 01:27:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tybz5EJx";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="L26pIwG4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EFEB10E0E4
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 00:51:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753836708; x=1785372708;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=PRvj7/tY0gbPjZ9nvQIa9jtFtzC+d4gO88MH1ziiZgY=;
- b=Tybz5EJxBbZ7VnH7jLO89wQiSur4un6C4Qg4VyTI5Pi6fhn93SlUVEof
- qGnKo/FxXxEYGvOxgOzBdDOEbkPqGQQYn4uYEC8wrhsPKqX63yna2++hM
- uCjRbKlRh1PZ4zh4IiAivQ7bBZ7XSnRZkZMWD0fKlSATK7mpDiDDGmPlC
- Cgu/f1V8alNo+cQJY0XxSJXsz1RiNFPfiBhjqE2RiuFSL6Lt1dLARMT/A
- wqZL9MGt0lSya/luAuSTsrLCcf07/zyjpPfulCbmObcT+i7hVz9xtT3g/
- vNF54GOK2pQQgDIqG7OuYlduzAYII8wZ255dBaVlvGroyH43SEhb/qVyx Q==;
-X-CSE-ConnectionGUID: yicRKMcgRnaMVXNdcxzlsg==
-X-CSE-MsgGUID: HKSZ9dOPRKCLtEEoXObnww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="67566239"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="67566239"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2025 17:51:47 -0700
-X-CSE-ConnectionGUID: 1Std8N5pSHOU8Hrf9kRN4A==
-X-CSE-MsgGUID: tRwCDmk9QRGDzKVmAmsItA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="193840524"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
- by orviesa002.jf.intel.com with ESMTP; 29 Jul 2025 17:51:40 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ugv2f-0001oh-2w;
- Wed, 30 Jul 2025 00:51:37 +0000
-Date: Wed, 30 Jul 2025 08:50:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC8A810E0E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 01:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1753838823;
+ bh=sh9+1hvv6UwRMngtc5TSXRZC1oxTpQsSSmadqfMNyiA=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=L26pIwG47655UfL7hvcGbxBpv3OA4fWQOCkQ4PA8yrDL/3pnzXlQCPouSJs3mKw5z
+ Tlz+FmOm7e9b8ZgJpHSdSs50r6JIhT9hVUIsN+1bEoc1afuILNFpqyqRVLCIjGifd0
+ TWw9/M00Noexxh/K71u1mYkimA6DmmoTBXYLm6Xg=
+X-QQ-mid: esmtpsz20t1753838814t9a57cd4b
+X-QQ-Originating-IP: TJCihVAB9aallGYP7dENX5Iebrj2pvT0M2uwEcEmSfA=
+Received: from [172.16.12.153] ( [58.22.7.114])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Wed, 30 Jul 2025 09:26:52 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 17714488166574995387
+Message-ID: <C0B5444C2EE8051C+3877b039-f814-4f79-a9b0-44096226ce73@airkyi.com>
+Date: Wed, 30 Jul 2025 09:26:51 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/5] arm64: dts: rockchip: Add missing dp_out port for
+ RK3399 CDN-DP
+To: Diederik de Haas <didi.debian@cknow.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
  Andy Yan <andy.yan@rock-chips.com>,
  Yubing Zhang <yubing.zhang@rock-chips.com>,
  Frank Wang <frank.wang@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Amit Sunil Dhamne <amitsd@google.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Dmitry Baryshkov <lumag@kernel.org>, Peter Robinson <pbrobinson@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Robinson <pbrobinson@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 2/5] phy: rockchip: phy-rockchip-typec: Add
- typec_mux/typec_switch support
-Message-ID: <202507300837.EQJOJgpi-lkp@intel.com>
-References: <20250729090032.97-3-kernel@airkyi.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250729090032.97-3-kernel@airkyi.com>
+References: <20250729090032.97-1-kernel@airkyi.com>
+ <20250729090032.97-5-kernel@airkyi.com> <DBOSZZ7TMD2P.U0MGKUR3DXN@cknow.org>
+From: Chaoyi Chen <kernel@airkyi.com>
+In-Reply-To: <DBOSZZ7TMD2P.U0MGKUR3DXN@cknow.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+X-QQ-XMAILINFO: MjA5tsjrlPcvfX57mZ+y5mvYlm08jiJwh3td6pGsoT8JuVxJNedovtcf
+ FMarMhsIIoqbT0B46W+TPOI5UnI6gAoLrWO/+ymmdEH6TRBpF5iEa88kFt/9ihlSAEbfHSB
+ vSCT59DpAbDRiMSCOkvpLMT6b2MsfcDCln9sK/4bUSIvseAiIgtXAwiBCIKvt5TLU4Z/OO5
+ PeT1flrdF5+GOHnpacErZ47wUV0XoaRcsBxsLn74ldrPZcM7js0LmJpyLaNXWTegHagpec/
+ 3G1Sv96pmquyaVC+srELO+OegzsSMETCqGnIu/uiofcWWAqeBLdJf27cbacqHCkmPrQaJW6
+ gb7pL1hPO4c6FavmzkXsGUvx9c3vvqbey3vPU2o8OadCOjSHvvgzm58buaN+awnOiGNc3Zu
+ lVh5XeD1o/t30spIfRrKPeplIyYYELrQFKKiWciaqf6d7OvcOaAqXtchhSx2oITcG5HlIs/
+ duHQ/u33KAFAqO0EcBiMsLSoxiPzeILICIEPxZvcfsnMBDEBCQXtMK2tKridh05xsbYxaSz
+ ngUz3GCjsfp9Beea7AKJkK3BMtpUzHKJ562WAAyxhxzbXq+HcJ+INSQCNXUvicOrsCFVDLg
+ SkEZVXVkuJQcNqtiRew4DzIndzc0Rg2an6VNgg/GLVOOC2YtlLyNa+B1I174cKeVy/Q8HaH
+ pCu0XgL547tSOmZvgSpJg0Cc4/UQMaQXiVtqM7BSiWrDxckW8DsNkYtcvmdJDh1HX0VrV3S
+ SrknYkMWKWsvyZBodDwMRcESduBoREcjoAiSk06XBw6lR/ThoR1fLiqhMYdOps9agZ/GcUB
+ JKXoRY+3f2/CqhSnaQvYpklUw2V+il8pWi8NZUmApxnCIulCjHRcCnPMU2wHwHsCIvdOPYZ
+ x+4lCCcmpMbbMvWuum0uGJ3+HHPEwZU0hcBiTZ9UrtOupGDg0hUv5iU1v1U1A2EmNW/skan
+ v7cbYuzlTTnWl693BotJFrqy6aWRAe5EyY8g1kvgsMS6d2g==
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,40 +96,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chaoyi,
+On 7/30/2025 3:59 AM, Diederik de Haas wrote:
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20250729]
-[also build test ERROR on linus/master v6.16]
-[cannot apply to robh/for-next rockchip/for-next krzk/for-next krzk-dt/for-next v6.16 v6.16-rc7 v6.16-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/dt-bindings-phy-rockchip-rk3399-typec-phy-Support-mode-switch/20250729-170255
-base:   next-20250729
-patch link:    https://lore.kernel.org/r/20250729090032.97-3-kernel%40airkyi.com
-patch subject: [PATCH v3 2/5] phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
-config: powerpc-randconfig-002-20250730 (https://download.01.org/0day-ci/archive/20250730/202507300837.EQJOJgpi-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507300837.EQJOJgpi-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507300837.EQJOJgpi-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "drm_connector_oob_hotplug_event" [drivers/phy/rockchip/phy-rockchip-typec.ko] undefined!
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
-   Selected by [y]:
-   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> On Tue Jul 29, 2025 at 11:00 AM CEST, Chaoyi Chen wrote:
+>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>
+>> Let's make the ports nodes of cdn_dp in the same style as the other
+>> display interface, and match the style of ports's yaml.
+>>
+>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>> ---
+>>   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi | 12 +++++++++++-
+>>   1 file changed, 11 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+>> index 9d5f5b083e3c..edeb177bc433 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+>> +++ b/arch/arm64/boot/dts/rockchip/rk3399-base.dtsi
+>> @@ -618,7 +618,11 @@ cdn_dp: dp@fec00000 {
+>>   		status = "disabled";
+>>   
+>>   		ports {
+>> -			dp_in: port {
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +
+>> +			dp_in: port@0 {
+>> +				reg = <0>;
+>>   				#address-cells = <1>;
+>>   				#size-cells = <0>;
+>>   
+>> @@ -632,6 +636,12 @@ dp_in_vopl: endpoint@1 {
+>>   					remote-endpoint = <&vopl_out_dp>;
+>>   				};
+>>   			};
+>> +
+>> +			dp_out: port@1 {
+>> +				reg = <1>;
+>> +				#address-cells = <1>;
+>> +				#size-cells = <0>;
+>> +			};
+> Patch 5 adds a single endpoint to dp_out (without a reg property), so it
+> seems that #address/#size-cells is not needed?
+> If you run ``make CHECK_DTBS=y W=1 rockchip/rk3399-evb-ind.dtb`` it
+> should spit out a warning about that.
+Exactly! Will remove this in v4.
+>
+> Cheers,
+>    Diederik
+>
+>>   		};
+>>   	};
+>>   
