@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D941B16546
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 19:17:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB354B16549
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 19:17:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FEDB10E21C;
-	Wed, 30 Jul 2025 17:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E59210E37E;
+	Wed, 30 Jul 2025 17:17:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QrZJunuz";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="f7GHXv1l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33C6F10E37E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3372210E372
  for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 17:17:34 +0000 (UTC)
 Received: from relay15.mail.gandi.net (relay15.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::235])
- by mslow3.mail.gandi.net (Postfix) with ESMTP id 6640F583D9B
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 17:02:56 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BE0E6442A6;
- Wed, 30 Jul 2025 17:02:53 +0000 (UTC)
+ by mslow3.mail.gandi.net (Postfix) with ESMTP id C0203583DBE
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 17:02:57 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 17D92442A8;
+ Wed, 30 Jul 2025 17:02:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1753894975;
+ t=1753894976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N+xY4UZr8LvAM8jYcOJRM8hzadDR3NumATbc214IapM=;
- b=QrZJunuzAe9A32IXdLxegg+gs4exspfjaG6mJNmOBcAId+g/COu7BRFQUYml/7aUdlElg/
- 5k019XhQbOTZakt5FNPO68V8akrtj04+biWh8SQvGRQOUPgDMvbHD1fZGBeDz45Ixctlsk
- PKwvSnyHqcNG+NyrMVm1mbF9njC7cm5l8roFPbJn8DbfXqYTzQnVn3fcQrGVEc3jgAx4ky
- IT/9gKcgJqkt3+pS6TkO9nGSvJ7Q1GVdhsQLbL5V0C1FC8QqHDFaROVS3yvIFS+eiG2b2O
- 0vu2hi2xpPqRJ/GWLNBCQS1sF2qLKQ3rptTpHoRghTgJcYyXvh4I/3CBVu3rUQ==
+ bh=VkEcz9Od8lumPLGSI2mDm7zd90f2J6ysx2IIFyeMJqI=;
+ b=f7GHXv1lkyC5Z5PHrKkyeT6qbn/8ObZkq64MuI3kVq6v9CyV1NhYlJVFLHHtSITgx+Xlse
+ pAtAm8R27EtjZxv5oceulWPucQ7w+ki+9KS88kW9zdAYQCbA/fG3I/oep1o+Ju4MGZQB9d
+ moZqJVWvw5DbMycog67ggCgSpQbRgsjluKNYyiiihkDKZfIoiNTGLrlYYCOYtzqBZgewqf
+ cZqN9Ehm9Kfo0FT5Sl5QlcnKZhli2bhXS7j9T2Q/ZcFyZNZ67LlTRZNVtbkYOJ2TpKBrcL
+ /I+LSeg+q029Lk569x4SPkI2E6yoTWQPrKcoskHC8cfmDP30FJKcLQFaRxthDA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Wed, 30 Jul 2025 19:02:45 +0200
-Subject: [PATCH 2/4] dt-bindings: mfd: syscon: Add ti,am625-dss-clk-ctrl
+Date: Wed, 30 Jul 2025 19:02:46 +0200
+Subject: [PATCH 3/4] arm64: dts: ti: k3-am62-main: Add tidss clk-ctrl property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250730-fix-edge-handling-v1-2-1bdfb3fe7922@bootlin.com>
+Message-Id: <20250730-fix-edge-handling-v1-3-1bdfb3fe7922@bootlin.com>
 References: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
 In-Reply-To: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -58,21 +58,21 @@ Cc: thomas.petazzoni@bootlin.com, Jyri Sarha <jsarha@ti.com>,
  linux-arm-kernel@lists.infradead.org, stable@vger.kernel.org, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1779;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1288;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=+vQmzWOpJ3o7m/vAWofAcDWRydefU96Ll29wNpFlYIo=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoilA3M4ea0dmIilicR6aW0qGwK4i4ICkosRsvt
- d60pygWKgmJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaIpQNwAKCRAgrS7GWxAs
- 4upxD/9zxSfXLrFH5tI+71ohX67Q17YO5UDoErAp8zVlMW9VQFTihgpw0Ulexzo5d2Hj9OgZl01
- SfQPcsgnY4J6Zm3lL6584731SIlWk3xkH77d3bSotXbkLhlMcOa5GaUJlV4aHOmnGv1Q7aDbw0W
- TARRvPlLlGPRqAqTUJ53I7cUnbq6edBc2CzOD3D6v/NS3NqArH9Um9vVoi+DKZxvQWFt4IHnc2k
- 4uSQ2hl05y1oJi8uMlK2slSpysT5lwcdkj5rQ807cRw/AYXDM0Ftr3VbA+JKJj6uid/ngC9m2fY
- 2HqinTX07O3pojp4hoKrCWTPRnsGJldzqispnktmQClZpq93W0gbsfa/tLXwuzWcke1vqqdAatv
- DCsU4M1dAEHE4v3Z6Fa9ogDw/n1dxQBAZ+LuqAVVeI9NO88/cZWrPBLTXXqvdcs9B51ImzSiFeC
- AMnGnG8pJeBNiA0NxsDtYS+Lo6YeDMoJbRx5huwzaKtc8100GsB41vZoykPFixIdLgqWHGPukPI
- KGs8NJRfQQdJBfIxym3w5v2AhI5+gnjH6mXF8HPv7DT9dgJIXY/+euv8krKh5XjniHVadMeD0Fe
- MxwqXZ2VW3tU/gEIjYD2Ok3gvpoy+lGr/WbBOIusOZLGQtxluZHSAiL07boSFEil0LqxqNxw5Uv
- HkMjHdbq7Qd0qNQ==
+ bh=HLG5xT1A8odfzcfiuinlcthJrJAa5lkuCncAANUHOzY=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoilA3fOPjwvG0cZmE1+t6tNyHTDM5v1j5X4MXI
+ s7lieBu5JGJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaIpQNwAKCRAgrS7GWxAs
+ 4kN5D/4kRrkpCIavS2bJuKWAbgwtv9Mn70in9EJNplGfJRxKJK6SIYrOELlRzPDRiDfqJFWMxLw
+ On3QBUHIUvAfhBBG19FOYinL8DTawFHeCUqgkSPD3KzvTUfzqA0uJLcrJoE9ifGPyK1YjXPrHx0
+ KKmeiQHNrqBvA14SVQgXhrgnPCY82Gtm8A345ffpvnkDRH8f+qhiToeRd/xnLctCIT1ZC+yRNRk
+ fAzce1tW3zki5RzgumyzJYdJKorbep1zGd8bKNwZxA7+LtNfQI3VzuHZ31FBqQsM8q6aeuco3Pp
+ O24GeniP37W6GzFsOT3rz9Z0k+66zDU8MaLWEGCf8av7oG5Of1n1qtlLKm/NgLIERIRviM1ojjr
+ xMzPZyRhLQz+Fy/pOUXxxFFGaLjZgP5NhTc0nuLEyNlm1Z4wUxAD4cUP5L2r9wOOzI1HufQRBtA
+ 9UNsTiiuv76Y2dVR+FCwIYFsobp8/Ax5cIdp3/nJTfYxaH2Y5o3mnv+oVWyAv9SsiKXZwotbSOJ
+ QLayqbrCTaaZ4xTwnA1o06WnH1dOvF4qCWttQobHkL0BUpvuq+kkCyNAS6N6JTj1Gjc/cemHOJF
+ lpkxhaz/gh4NAHmJKMBft7eTAkC2px5FdDnHjSZeNAfy2a4Ggppek3VkiUAs38bW06SHvO0BD4c
+ FKK2cXZHMELwtQw==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-State: clean
@@ -94,12 +94,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dt-bindings for the multi-function device (mfd) syscon need to include
-ti,am625-dss-clk-ctrl. On AM625 chips, the display controller (tidss) has
-external registers to control certain clock properties. These registers
-are located in the device configuration registers, so they need to be
-declared using syscon. They will later be used with a phandle in the tidss
-node.
+For am62 processors, we need to use the newly created clk-ctrl property to
+properly handle data edge sampling configuration. Add them in the main
+device tree.
 
 Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
@@ -107,34 +104,33 @@ Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
 Cc: stable@vger.kernel.org
 ---
- Documentation/devicetree/bindings/mfd/syscon.yaml | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/ti/k3-am62-main.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
-index 27672adeb1fedb7c81b8ae86c35f4f3b26d5516f..afe4a2a19591e90c850c05ef5888f18bdb64eac9 100644
---- a/Documentation/devicetree/bindings/mfd/syscon.yaml
-+++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
-@@ -121,6 +121,7 @@ select:
-           - ti,am62-opp-efuse-table
-           - ti,am62-usb-phy-ctrl
-           - ti,am625-dss-oldi-io-ctrl
-+          - ti,am625-dss-clk-ctrl
-           - ti,am62p-cpsw-mac-efuse
-           - ti,am654-dss-oldi-io-ctrl
-           - ti,j784s4-acspcie-proxy-ctrl
-@@ -228,6 +229,7 @@ properties:
-           - ti,am62-opp-efuse-table
-           - ti,am62-usb-phy-ctrl
-           - ti,am625-dss-oldi-io-ctrl
-+          - ti,am625-dss-clk-ctrl
-           - ti,am62p-cpsw-mac-efuse
-           - ti,am654-dss-oldi-io-ctrl
-           - ti,j784s4-acspcie-proxy-ctrl
-@@ -256,4 +258,3 @@ examples:
-         compatible = "allwinner,sun8i-h3-system-controller", "syscon";
-         reg = <0x01c00000 0x1000>;
-     };
--...
+diff --git a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+index 9e0b6eee9ac77d66869915b2d7bec3e2275c03ea..d3131e6da8e70fde035d3c44716f939e8167795a 100644
+--- a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+@@ -76,6 +76,11 @@ audio_refclk1: clock-controller@82e4 {
+ 			assigned-clock-parents = <&k3_clks 157 18>;
+ 			#clock-cells = <0>;
+ 		};
++
++		dss_clk_ctrl: dss_clk_ctrl@8300 {
++			compatible = "ti,am625-dss-clk-ctrl", "syscon";
++			reg = <0x8300 0x4>;
++		};
+ 	};
+ 
+ 	dmss: bus@48000000 {
+@@ -787,6 +792,7 @@ dss: dss@30200000 {
+ 			 <&k3_clks 186 2>;
+ 		clock-names = "fck", "vp1", "vp2";
+ 		interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
++		ti,clk-ctrl = <&dss_clk_ctrl>;
+ 		status = "disabled";
+ 
+ 		dss_ports: ports {
 
 -- 
 2.50.1
