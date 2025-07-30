@@ -2,85 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33878B1563B
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 02:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48729B15693
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 02:34:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6978110E0E3;
-	Wed, 30 Jul 2025 00:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8111710E34A;
+	Wed, 30 Jul 2025 00:34:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="WYe/h8Jz";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PdriTaZx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB28710E0E3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 00:15:19 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-236377f00a1so54712615ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Jul 2025 17:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1753834519; x=1754439319;
- darn=lists.freedesktop.org; 
- h=in-reply-to:references:subject:cc:to:from:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B7mZ4nEVKbGQGNfr6ook2ZXrLnFiuRpQgXmMMoue3C0=;
- b=WYe/h8JzWPhpnZPPxzXAKFwrjyR8t2UwGClss+Yy4kzUvlh2+/WTHb35+StqgsVuQ+
- 6dpheHfHLmg+66RleybDjNsJiADF5QOOh/yqHDBeEZtEwY+GuKAxK+ffbQ3YPlcUiekZ
- vAZ27ivoOvAn0VBUPiLMXztTfyAZQeOFrYbNOKwwQF0daCwpxD7RwdJfBmg/XPE3UevH
- TztDkf8E4gupiBjwz5iXEzMR4XOPpYpW4B4TteFMuTUgHEZjea8xUnH7oSrUG4jjQv8p
- fb+pW1pAX0oKZr3OhTnDpcVnQy3vCelFzR9Wyea9bSeuZFOtIcpFOqLG5QWLNRrJRmvT
- pTUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753834519; x=1754439319;
- h=in-reply-to:references:subject:cc:to:from:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=B7mZ4nEVKbGQGNfr6ook2ZXrLnFiuRpQgXmMMoue3C0=;
- b=BUSdB04I7u7lA+qVLw6tdb6vLOYxYsim9OvM+ZDQcADJc9NYrsh5W5pE85NLuF94bA
- yvTtXCvRaESYQCuDL8+RUa7uZqR0+UdBQ/PsLohIADvO5jGuN83+E9D5j+gAw1DqUphd
- cNl6btyhjELJCEtnB1LAK5PnShfOXKb6xptrLyYYe9M0ONiUGYqdemEjYkhTDoFPAjwr
- 2XB82lfPkQAcoCOGonldgPqiSEoS6qMl4enJuPoHRxw+fHu1JOvt8jWta8x6/p8nH14R
- nvu8XhLuXvGlvA5eWIA7dM/qX5rm3DmtTR4qtK/M70+maaT3qq1OcVzOU8wQgfVMlg+w
- Lwyg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXjAIjmMLuF3HdAvJpr6G+Oe2/9pIfUSpnly4nnz/886YgMiQXoJ+4lqPOYzuknNUieIbwZPvmb+I4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxY2gu5vuHC1Dn1ewV/Edssm4PM68fa9GzozgaYzxoVZrVrY0ih
- pT9BIeKMOh0NMLx12OLBbmO84yvAPjvZgKLr3u1XvXX4wC9b1ZV1F07jOzbVxccr8rM=
-X-Gm-Gg: ASbGnctaaLUdsm9PW0BXXBQtxNdWay/H9kGjFwlaldlFor7etx7srKQEBNVKFnOidmb
- d4O7uFmjHBRmF+ida++1KIfnRG8vFcv8/qmqi6WLyvMFnsTL8wTW7MdZBk9+q2LpaI2Ag0+WkXV
- a7oaM6VKqcRNRZEzMX4DixrCay1qd0W6BPQIkvQMh8k9yfIhvlzQFxgAgmJyiV9TmNoOvRacADy
- PxyJ2l2zKQ3Qmf0+Ctmkawxc0RUsD8y2x6Oz9o/5loiVI6J6VnBoNO1VzMrpx+WaWNGkZCJSWNG
- ixOGGpPZXO/DMjBJndXJn7ScN0/7uN1wOALuiI4pnuekdhnosUAxWYl9CexVh86g1bSJGdtlcnk
- qWAGfj7EPz80djnCQVUo=
-X-Google-Smtp-Source: AGHT+IFtzt5MEl0tZciB3F8o6Fc5SKFZqY4YzGuLSUPsSrha4wOb+FYTYjRMuNTxbhYmOUlCfsVqRQ==
-X-Received: by 2002:a17:903:3b8b:b0:23f:cf96:3071 with SMTP id
- d9443c01a7336-24096b48bfcmr17839525ad.49.1753834519151; 
- Tue, 29 Jul 2025 17:15:19 -0700 (PDT)
-Received: from localhost ([64.71.154.6]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23ff7044135sm69618295ad.71.2025.07.29.17.15.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jul 2025 17:15:18 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 29 Jul 2025 18:15:17 -0600
-Message-Id: <DBOYG6B6WLDT.Z096YHZGRXDS@brighamcampbell.com>
-From: "Brigham Campbell" <me@brighamcampbell.com>
-To: "Doug Anderson" <dianders@chromium.org>
-Cc: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <linus.walleij@linaro.org>, <neil.armstrong@linaro.org>,
- <jessica.zhang@oss.qualcomm.com>, <sam@ravnborg.org>,
- <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/3] drm: Add MIPI support function and macros
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250729054435.1209156-1-me@brighamcampbell.com>
- <20250729054435.1209156-3-me@brighamcampbell.com>
- <CAD=FV=VLoMenu22F_VeoHyfXwRO7JfXL8peQLEpkqeZ1tDOmEQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=VLoMenu22F_VeoHyfXwRO7JfXL8peQLEpkqeZ1tDOmEQ@mail.gmail.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2F5710E354
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 00:34:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+ Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=oI1HU+X2QvkDN0X8D2sP6JUwO9r6yHAwSbZ+2hPxM+4=; b=PdriTaZxIYLp8N+JmOkJIyZ8uY
+ CkZ37+ffpV6jmPXbEdlI+eP9zSei+Y1gWM5+FdVUAF5qQBJ+bSXB0Nx1LLHcfQeeCbJjB7rFn9rYg
+ OoKjUvFJLXs2GQf7zl1qD0Ats7iaetNko37mLQPolyAEc8C0kzCfx0yO6xRIMNT1lm/X8p9J0ahlM
+ ejKy5O13L+9maPJ0cfs+ffoSgafq7+jxftN6rHV8nGsZR9u1wwWIjcUi0tAoKLd/jboQje2Q5qyAz
+ auzdMXeBeot60SrHm2RAUF8G+FFJhXoP7q1NKNpdk2AYD1t/dp3w1HPQ+J19Kdn1Gr3DandlS6PR3
+ /K2iymHw==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1ugulb-005gEJ-Qz; Wed, 30 Jul 2025 02:34:00 +0200
+Message-ID: <38d12f53-8c8a-4713-b1f9-0e8ffdf71f98@igalia.com>
+Date: Tue, 29 Jul 2025 21:33:50 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] clk: bcm: rpi: Turn firmware clock on/off when
+ preparing/unpreparing
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-clk@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
+References: <20250728-v3d-power-management-v1-0-780f922b1048@igalia.com>
+ <20250728-v3d-power-management-v1-1-780f922b1048@igalia.com>
+ <20250729-tall-fluffy-grouse-f5deec@houat>
+ <1bc23ad0-7273-4ddf-a0ef-4a80186f2581@igalia.com>
+ <20250729-whispering-accelerated-raptor-134e8a@houat>
+ <b8c0f9be-a57e-49b3-8113-cbb9307facd9@igalia.com>
+Content-Language: en-US
+In-Reply-To: <b8c0f9be-a57e-49b3-8113-cbb9307facd9@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,24 +75,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Jul 29, 2025 at 3:34 PM MDT, Doug Anderson wrote:
->> +/**
->> + * mipi_dsi_generic_write_var_seq_multi - transmit non-static data usin=
-g a
->> + * generic write packet
->
-> nit: "non-constant", not "non-static"
->
-> From the caller's point of view the difference is that the data is
-> compile-time constant in one case and not compile-time constant in the
-> other case. It happens that means you can _store_ it in a "static
-> const" in one case and not in the other case, but that doesn't make
-> the parameters "static".
+On 29/07/25 13:19, Maíra Canal wrote:
+> Hi Maxime,
+> 
+> On 29/07/25 09:14, Maxime Ripard wrote:
+>> On Tue, Jul 29, 2025 at 08:53:51AM -0300, Maíra Canal wrote:
+>>> Hi Maxime,
+>>>
+>>> On 29/07/25 04:27, Maxime Ripard wrote:
+>>>> Hi Maíra,
+>>>>
+>>>> On Mon, Jul 28, 2025 at 09:35:38AM -0300, Maíra Canal wrote:
+>>>>> Currently, when we prepare or unprepare RPi's clocks, we don't 
+>>>>> actually
+>>>>> enable/disable the firmware clock. This means that
+>>>>> `clk_disable_unprepare()` doesn't actually change the clock state at
+>>>>> all, nor does it lowers the clock rate.
+>>>>>
+>>>>>   From the Mailbox Property Interface documentation [1], we can see 
+>>>>> that
+>>>>> we should use `RPI_FIRMWARE_SET_CLOCK_STATE` to set the clock state
+>>>>> off/on. Therefore, use `RPI_FIRMWARE_SET_CLOCK_STATE` to create a
+>>>>> prepare and an unprepare hook for RPi's firmware clock.
+>>>>>
+>>>>> As now the clocks are actually turned off, some of them are now marked
+>>>>> with CLK_IGNORE_UNUSED or CLK_IS_CRITICAL, as those are required since
+>>>>> early boot or are required during reboot.
+>>>>
+>>>> What difference is there between the CLK_IGNORE_UNUSED and
+>>>> CLK_IS_CRITICAL clocks?
+>>>
+>>>  From my understanding, CLK_IGNORE_UNUSED will prevent the clock to be
+>>> gated during boot (on "clk: Disabling unused clocks"), but after it, the
+>>> clock can be gated.
+>>>
+>>> With CLK_IS_CRITICAL, the clock will never be disabled.
+>>
+>> Yeah, that's correct.
+>>
+>>> For example, RPI_FIRMWARE_M2MC_CLK_ID is used by vc4. It needs to be
+>>> enabled at boot (I tested; if not enabled, it won't boot). However,
+>>> after vc4 is probed, we would like vc4 to have control of it and be able
+>>> to unprepare it in `vc4_hdmi_runtime_suspend()`. If I set it as
+>>> CLK_IS_CRITICAL, vc4 won't be able to unprepare it.
+>>
+>> If the clock can be disabled by Linux, but it breaks some drivers if
+>> it's not enabled during their probe, something is fishy somewhere, and
+>> it's likely it would be just as broken if you compiled the driver as a
+>> module.
+>>
+>> Even then, some of the other clocks should probably never be disabled,
+>> like the CPU clock.
+> 
+> I'll mark RPI_FIRMWARE_ARM_CLK_ID and RPI_FIRMWARE_CORE_CLK_ID as
+> critical. Are there any other clocks you think should never be disabled?
+> 
+>>
+>>> I only set RPI_FIRMWARE_PIXEL_BVB_CLK_ID as critical, as, otherwise, the
+>>> RPi won't reboot.
+>>
+>> Why?
+> 
+> I'll have to dig a bit into vc4 HDMI code and to investigate the reason
+> (and maybe fix the issue there).
 
-Good point. The storage class is an important implementation detail
-within drm_mipi_dsi.h, but just that from the perspective of a panel
-driver author: an implementation detail. I'll go ahead and address this
-and other feedback in v3.
+After some investigation, I believe that those display-related should be
+set to CLK_IGNORE_UNUSED. It's not that it breaks some drivers if not
+enabled, but it breaks hardware functionality and the device won't boot.
+See, for example, clk-bcm2835 in which all PLL and PLL dividers clocks
+are marked with CLK_IGNORE_UNUSED and some with CLK_IS_CRITICAL.
 
-Thanks,
-Brigham
+Maybe Dave has some input about the topic?
+
+So far, I'm planing to keep CLK_IGNORE_UNUSED to the display-related
+clocks and remove CLK_IS_CRITICAL from RPI_FIRMWARE_PIXEL_BVB_CLK_ID. If
+you have any objections about it, let me know.
+
+Best Regards,
+- Maíra
+
+> 
+> Best Regards,
+> - Maíra
+> 
+
