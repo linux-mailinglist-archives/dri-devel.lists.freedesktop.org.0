@@ -2,115 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36FFFB16291
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 16:21:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2FBB162CD
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 16:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2FE10E370;
-	Wed, 30 Jul 2025 14:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B8A810E361;
+	Wed, 30 Jul 2025 14:29:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WFrqESd8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eujHvOtB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD3910E370
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 14:21:47 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3b783ea5014so2413316f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 07:21:47 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 406A510E361;
+ Wed, 30 Jul 2025 14:29:42 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-45618ddd62fso66812695e9.3; 
+ Wed, 30 Jul 2025 07:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1753885306; x=1754490106; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=wl6QWGFqf/eD1ZaqoeecpKgPsEHgZ0O15WgFpZqHFQ0=;
- b=WFrqESd8ncy+/7XF0x20+8As8pDDqlz8z6oicnAAXI5+OUwMjPtmEWbrfnf1xa6DiT
- 4JViMIlrz63ehTIong+T8CbgOMc8iTEbf/ab4h98kbOE+wd5m5R45Qep4wEmoWhtKRmc
- 9Yej7fly5OnybUQ8sfWrmyE9cxOqfbvFykJ1GmoLbQ7pGk4kMAh2Oksa6XO8Qs7BVbpX
- adBGmUGeoGXoeX6sRdO079yizkixANRzv/4p12EBnNLY3UsziO2KTcwGUqJlImpUWwSa
- uxLAm7R73kPSVDltsGeuaFDEF9a3JJlW07FkIOUeu9D1cUHNATXov3I6HcFH2uxwMLnl
- aqRA==
+ d=gmail.com; s=20230601; t=1753885781; x=1754490581; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7AlJVmOGzAKicB8PmUMEgldR0Po2jcqiFiRrgkUSQyY=;
+ b=eujHvOtBmW6pTxoFJtpieVociVCgo+kVn21YUTcCZipnQQoWN4hK7vmUBrMyzuweN/
+ bHDmSwSYpthmPq9Oneu/Bi8VmEUGkHeUoSxUlofHHXEXpax1cxgfJd6cVIdf7azafwqp
+ kVM9Kvi3hieNXFl+qsUCn1siAStC1i1MCqYVHihG7Z7wgUKme4IUzMzWoyujq6kejmo0
+ Ql9ceZiWOyWcC91aBrYXraI1/HW7LnbBF9m88HNIxG97rcEaOTBoSPGtNmco2N2zZGLi
+ 1Q1vFjvvebv7G0XyDpM/0p3Z7WiaT3cO2qJHjBP2HBOeYM0YldbAqH162Ds3t1asx+FN
+ 18ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753885306; x=1754490106;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=wl6QWGFqf/eD1ZaqoeecpKgPsEHgZ0O15WgFpZqHFQ0=;
- b=UzNmlmqwCoRDA+TZ4UTI58fsUka2qCbb2CevvcnPZmw41QvpGKBbcPUJtHaCzZ06P8
- +5nQDWDuOgd7o7ibKDJ6hEDIi36HFQBaA+6qaqTBojah8pinCoW9FqkT6+iazc+bRDDT
- szvZKVmbrBPXep+L6uGtXcWYeol3bchDK66UGo/UIWA6cmGX4N3B1jq3PuqkvlLHxqKW
- 6irkIm/xvH7TUADz9dX2rluhMpkDz3bB9yTVGE85Tii7WyFWbHdRGeAxoNLIjQSTlsmP
- X+qPBbVOVZb+x7Atinv96pCums7FaeC0VnYKL1nLqWHwsLx4oFhpeGYXSRBodqmJyJLM
- /0tA==
-X-Gm-Message-State: AOJu0Ywi3WzmLe94dI5lSF4Equ7gluupH5abVL/DaeyMjXt1eb6Z4vPT
- qN2iW/omRTdRgBIFihPSEKbWwUAqt0qFF8tm1+b3RE7nxMN53ntoOi0DBdBaIa05y90=
-X-Gm-Gg: ASbGncv+yBQGVrCEEFI9KIVWs1SL9Pv5dCDyJu97+i2uOyztK2sVb/79Y59pXLBfvzb
- Bs2bwjAIyxp7sJgL2e09IqgxThi97ms6pWprOLrPX8m+cJgeNVm7ucW8txbn+EPIbdPknCrJdNk
- D4EoN9WO17/fZCE6C9/p9QyEnc+IdSd3z7vw8K2KsCnje1vCBtxFy61HCArmgBZ5bx4kXA67pPh
- 8AiiBf59zHwcq4WsLXBhhpd2VcTC4t+waZ2owkkaajHiecKnLwdBekpkouG44mbxogXCjhd2NZw
- qPrKX1rj+Cdk+A/LavX+IoExgSgn4PshwCFdBEA8jflEQKu9H03H1Bq51rb5Y1QDXUOcpXYB9km
- 29inlVH0v+HPfoUPb0VHi6OxKd4hxRjTTEFXQvY7G8YoNeIG53cE5QnR2/6EFzfaxY0HikZZFtc
- k=
-X-Google-Smtp-Source: AGHT+IFA5qYlm5bEqedLiGYvfasaSXHztZvhGiNg4RG0SNJu3GimE97Yr6qXPi7PsXOCZn+S+k7M/Q==
-X-Received: by 2002:a05:6000:26c6:b0:3b7:8362:fed8 with SMTP id
- ffacd0b85a97d-3b794fc19dfmr3050534f8f.2.1753885305784; 
- Wed, 30 Jul 2025 07:21:45 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:5cc9:639a:a021:88ef?
- ([2a01:e0a:3d9:2080:5cc9:639a:a021:88ef])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b7883228dasm11024541f8f.50.2025.07.30.07.21.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jul 2025 07:21:45 -0700 (PDT)
-Message-ID: <1a961543-76ff-4c22-a18b-b679923fbcca@linaro.org>
-Date: Wed, 30 Jul 2025 16:21:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v7 2/2 RESEND] drm: bridge: Add support for Solomon
- SSD2825 RGB/DSI bridge
-To: Svyatoslav Ryhel <clamor95@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ d=1e100.net; s=20230601; t=1753885781; x=1754490581;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7AlJVmOGzAKicB8PmUMEgldR0Po2jcqiFiRrgkUSQyY=;
+ b=HKsNUARnsUWPIko9iieuDRQXJWRgzQ1EExt3ACoyzJHQsPP8UW2pNjvStOgh/ZWk8+
+ p61rPO7SSRjg0RAsKEE7z5jgKgwjX+KAywD3yI+P+2g1pcoJ7wBfr9nyt48J4ebwsfEc
+ uNL3JrNI03b+9pQd4fjQ8s43MovAGe3cTJxR5H7kOy2CgU5JYhVx+W4FKcB00OI2xPUh
+ A2XEr1fQwFfGoHYbNqRQ3Ddp49X8nUw9xFgZBfoL/OkCzCoj/VRqfx/FB72PVOk16ou+
+ R234jOK/bur5ts1vzx58UqL475Au1efHyWl7rpEuGHtDEgRGIk3WdYHOdOJH/++7ZxLI
+ 6caQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXV0fE6vR7q7lU8nleSPmHgH3qkCK6511j85thpMuAQ5jTwUvwbEygu3M9ZaAMBF0wTk5yyjKEyHKo=@lists.freedesktop.org,
+ AJvYcCXtybGuvV/fBnYF6HHIlQeTgGHNaX9PCSoJXP6OV2hKaoOEl79InxouBSrOjXL0kkj+Iw5Qb1jRuSAX@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxZL5eavbT9tsVHWHHEGTDusqpL380IfbDr6c1sFOSRMNoA6bBk
+ ikISyHqFxQc/Q0JMg5ONFVOgQRQ8jaXjXTV3HcwZg6oAqgAVRcFRwjMd
+X-Gm-Gg: ASbGncvRg97QLWX7zxPPnsiIb/mqSsF+2p41+bm43N5OSAQixFew1gDams/D/NRsqF0
+ 85o0LcL5Zgr+5v9rTQE7E/Rntvp32MrSoRSXRQqcQkTObBCN/WrbKWCKhQwDyGZe4n0Uwc4+zEC
+ VoSWj9/tvuIIZGswxdHklwLuwAd3Zn0SYysMctEwhHISzpDtgFv+kdDMtpULD2UZAOkOrw21Ncw
+ W1pV3GjN8Ur3CUrEC8Gqcc9UzbccQ0hfviAH0cYKim3LVC4Q1StckGI0VKGMa8Snz87PF54viLP
+ fOHzOJ8LxxCUloC3vHyMMc4n0hDh/vUyO//stV3gNIf1NsB0TeW8hUj3CefBgtmia0zRTvtzf8V
+ Oq0iqHjOzB4tLml2HjXAO
+X-Google-Smtp-Source: AGHT+IF5QJ37jWg7fCnJbb/VaKNBhipzgn5fvN5Soc3F0FylcMx9EfIgS05bdT263onDGTvzEzsZGA==
+X-Received: by 2002:a05:600c:5391:b0:456:58:1114 with SMTP id
+ 5b1f17b1804b1-45892b9d05cmr33734855e9.9.1753885780632; 
+ Wed, 30 Jul 2025 07:29:40 -0700 (PDT)
+Received: from localhost ([87.254.0.133]) by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-4588dda59cfsm38833425e9.3.2025.07.30.07.29.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Jul 2025 07:29:40 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Heidelberg <david@ixit.cz>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250730055424.6718-1-clamor95@gmail.com>
- <20250730055424.6718-3-clamor95@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250730055424.6718-3-clamor95@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/msm: Fix dereference of pointer minor before null
+ check
+Date: Wed, 30 Jul 2025 15:29:05 +0100
+Message-ID: <20250730142905.2080035-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.50.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,27 +93,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/07/2025 07:54, Svyatoslav Ryhel wrote:
-> SSD2825 is a cost-effective MIPI Bridge Chip solution targeting mainly
-> smartphones. It can convert 24bit RGB interface into 4-lane MIPI-DSI
-> interface to drive display modules of up to 800 x 1366, while supporting
-> AMOLED, a-si LCD or LTPS panel technologies for smartphone applications.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->   drivers/gpu/drm/bridge/Kconfig   |  13 +
->   drivers/gpu/drm/bridge/Makefile  |   1 +
->   drivers/gpu/drm/bridge/ssd2825.c | 775 +++++++++++++++++++++++++++++++
->   3 files changed, 789 insertions(+)
->   create mode 100644 drivers/gpu/drm/bridge/ssd2825.c
-> 
+Currently the pointer minor is being dereferenced before it is null
+checked, leading to a potential null pointer dereference issue. Fix this
+by dereferencing the pointer only after it has been null checked. Also
+Replace minor->dev with dev.
 
-<snip>
+Fixes: 4f89cf40d01e ("drm/msm: bail out late_init_minor() if it is not a GPU device")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/msm/msm_debugfs.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-LGTM
+diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
+index bbda865addae..97dc70876442 100644
+--- a/drivers/gpu/drm/msm/msm_debugfs.c
++++ b/drivers/gpu/drm/msm/msm_debugfs.c
+@@ -325,25 +325,28 @@ static struct drm_info_list msm_debugfs_list[] = {
+ 
+ static int late_init_minor(struct drm_minor *minor)
+ {
+-	struct drm_device *dev = minor->dev;
+-	struct msm_drm_private *priv = dev->dev_private;
++	struct drm_device *dev;
++	struct msm_drm_private *priv;
+ 	int ret;
+ 
+ 	if (!minor)
+ 		return 0;
+ 
++	dev = minor->dev;
++	priv = dev->dev_private;
++
+ 	if (!priv->gpu_pdev)
+ 		return 0;
+ 
+ 	ret = msm_rd_debugfs_init(minor);
+ 	if (ret) {
+-		DRM_DEV_ERROR(minor->dev->dev, "could not install rd debugfs\n");
++		DRM_DEV_ERROR(dev->dev, "could not install rd debugfs\n");
+ 		return ret;
+ 	}
+ 
+ 	ret = msm_perf_debugfs_init(minor);
+ 	if (ret) {
+-		DRM_DEV_ERROR(minor->dev->dev, "could not install perf debugfs\n");
++		DRM_DEV_ERROR(dev->dev, "could not install perf debugfs\n");
+ 		return ret;
+ 	}
+ 
+-- 
+2.50.0
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
