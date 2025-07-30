@@ -2,68 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25B7B15A21
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 10:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F321B15A87
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 10:28:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D20CF10E424;
-	Wed, 30 Jul 2025 08:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C0A10E428;
+	Wed, 30 Jul 2025 08:27:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Phq6ne8j";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lZGH6rfY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FAB10E420
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 08:03:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7CC0543D89;
- Wed, 30 Jul 2025 08:03:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C439C4CEE7;
- Wed, 30 Jul 2025 08:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753862603;
- bh=HEgPRodovJalgZ/g1kb94tmKLk2QtGEpj7zW37uzKec=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Phq6ne8jeiHRh+g/jyaIbVu24BslXtOFr5jlNeVkeq5Pd4JP4IP/urevgfTH7y8Ng
- IM4N1EVTTw6lIyVWLMQ5K0tdY5QpmQj79Qaao8gIoOMRohyP/vZ3M9ekEqXib6GZL+
- Vd2t51G/uWQd6oD58QoSzV0VWLuJ8QqSIDQStXuXWQ5G8gEHsTZDXx81LTTpzH1daZ
- ezVZXuukAwl9TGk23btBxOterY1GjPt8BN4i8ULPTxzKhdnMZ1IhejtxHnXHMC5Wo6
- rXCmw6UrvY7ectigm1BvmYyiZfOF9dlvJf0mlr92yHUxxT/i06Xv2nhdtuZ9olDn3p
- c3RNuuUGIqBAg==
-Date: Wed, 30 Jul 2025 11:03:17 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Logan Gunthorpe <logang@deltatee.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Alex Williamson <alex.williamson@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Jens Axboe <axboe@kernel.dk>,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 05/10] PCI/P2PDMA: Export pci_p2pdma_map_type() function
-Message-ID: <20250730080317.GO402218@unreal>
-References: <82e62eb59afcd39b68ae143573d5ed113a92344e.1753274085.git.leonro@nvidia.com>
- <20250724080313.GA31887@lst.de> <20250724081321.GT402218@unreal>
- <b32ae619-6c4a-46fc-a368-6ad4e245d581@deltatee.com>
- <20250727190514.GG7551@nvidia.com>
- <d69e0d74-285e-4cde-a2e4-a803accfa9e1@deltatee.com>
- <20250728164136.GD402218@unreal>
- <d3c8c573-f201-4450-9400-cc3ccafd2c04@deltatee.com>
- <20250728231107.GE36037@nvidia.com>
- <f332e2b9-151f-49ca-ac0c-8c9494c38027@deltatee.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0A9610E428
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 08:27:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753864077; x=1785400077;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=k9VUAmiSuQtGPjitlXK/hfUezbF9CE8wg1axYpvjO2E=;
+ b=lZGH6rfYS47E4OWtAJAHXh4RDHhnU2T2JNf7l2ujm3yFXJxl2qt8MvHv
+ Gfk30QF8AZAjJBuxCshGy020ixl6uN1KjJ8wO90m+HQB/dpD12IyktYp3
+ m9hjXAr+8yiCfaVcVttt5YT0RsZ7D1Zbov3Ij4vQIsObCbJBwCqsnqF3g
+ vjQGiw/qiaN2VT09QfWUo3cmXCvqn+0XKR9IuRyR8nD04lAJG1DT+a5fv
+ u7P6TRlHPBKKJ7ZCXamAnVhzFNsyiE7eGY1d4dIxPnImxOSGS2DqEMs0m
+ 7mbiJeXB/T2bUsUq94voUnCqRywcYq/Uu7OWzCDV6VN19hPh3rlYd2DpJ w==;
+X-CSE-ConnectionGUID: mKrcHRE/S6mv/kVDESskZw==
+X-CSE-MsgGUID: XFeQaVjTQtiVY0s43twoqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="78706957"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="78706957"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2025 01:27:56 -0700
+X-CSE-ConnectionGUID: eCkFfzx6Sa+OWA9Io2PEMA==
+X-CSE-MsgGUID: kIC65xZ+TX+Bp2sfYvCq+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="168225384"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.245.60])
+ ([10.245.245.60])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2025 01:27:52 -0700
+Message-ID: <8ab72592-7e16-4d79-9e26-f98a1938cb2a@linux.intel.com>
+Date: Wed, 30 Jul 2025 10:27:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f332e2b9-151f-49ca-ac0c-8c9494c38027@deltatee.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [dri?] WARNING in __ww_mutex_wound
+To: syzbot <syzbot+602c4720aed62576cd79@syzkaller.appspotmail.com>,
+ airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mripard@kernel.org, simona@ffwll.ch,
+ syzkaller-bugs@googlegroups.com, tzimmermann@suse.de,
+ Valentin Schneider <valentin.schneider@arm.com>,
+ Connor O'Brien <connoro@google.com>, John Stultz <jstultz@google.com>,
+ "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+ K Prateek Nayak <kprateek.nayak@amd.com>
+References: <68894443.a00a0220.26d0e1.0015.GAE@google.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <68894443.a00a0220.26d0e1.0015.GAE@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,30 +76,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 29, 2025 at 02:54:13PM -0600, Logan Gunthorpe wrote:
+Hey,
+
+This warning is introduced in linux-next as a4f0b6fef4b0 ("locking/mutex: Add p->blocked_on wrappers for correctness checks")
+Adding relevant people from that commit.
+
+Kind regards,
+~Maarten
+
+Den 2025-07-29 kl. 23:59, skrev syzbot:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    d086c886ceb9 Add linux-next specific files for 20250718
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=161204a2580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=69896dd7b8c4e81e
+> dashboard link: https://syzkaller.appspot.com/bug?extid=602c4720aed62576cd79
+> compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16fff4f0580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=111204a2580000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/54504fbc2437/disk-d086c886.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/b427b00abffe/vmlinux-d086c886.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/5a87731b006b/bzImage-d086c886.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+602c4720aed62576cd79@syzkaller.appspotmail.com
+> 
+> ------------[ cut here ]------------
+> WARNING: ./include/linux/sched.h:2173 at __clear_task_blocked_on include/linux/sched.h:2173 [inline], CPU#1: syz.1.8698/395
+> WARNING: ./include/linux/sched.h:2173 at __ww_mutex_wound+0x21a/0x2b0 kernel/locking/ww_mutex.h:346, CPU#1: syz.1.8698/395
+> Modules linked in:
+> CPU: 1 UID: 0 PID: 395 Comm: syz.1.8698 Not tainted 6.16.0-rc6-next-20250718-syzkaller #0 PREEMPT(full) 
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
+> RIP: 0010:__clear_task_blocked_on include/linux/sched.h:2173 [inline]
+> RIP: 0010:__ww_mutex_wound+0x21a/0x2b0 kernel/locking/ww_mutex.h:346
+> Code: 5f 5d c3 cc cc cc cc cc 90 0f 0b 90 e9 89 fe ff ff 90 0f 0b 90 e9 39 ff ff ff 90 0f 0b 90 4d 85 ff 0f 85 67 ff ff ff eb 95 90 <0f> 0b 90 eb 8f 48 c7 c1 70 00 e4 8f 80 e1 07 80 c1 03 38 c1 0f 8c
+> RSP: 0018:ffffc900030e7720 EFLAGS: 00010046
+> RAX: ffff888024a1b000 RBX: dffffc0000000000 RCX: 8f1a7ab232ebe500
+> RDX: 00000000000003ef RSI: ffffffff8de5b067 RDI: ffffffff8c04d400
+> RBP: 0000000000000001 R08: ffff888024a224bf R09: 1ffff11004944497
+> R10: dffffc0000000000 R11: ffffed1004944498 R12: ffff88802dee8a78
+> R13: ffffc900030e7ae8 R14: ffff88802dee8000 R15: ffff888024a224b8
+> FS:  00007fe6e4a7f6c0(0000) GS:ffff8881258ab000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fe6e4a5ed58 CR3: 000000003115e000 CR4: 00000000003526f0
+> Call Trace:
+>  <TASK>
+>  __ww_mutex_add_waiter kernel/locking/ww_mutex.h:574 [inline]
+>  __mutex_lock_common kernel/locking/mutex.c:642 [inline]
+>  __ww_mutex_lock+0xba3/0x2930 kernel/locking/mutex.c:771
+>  ww_mutex_lock_interruptible+0x3f/0x1c0 kernel/locking/mutex.c:904
+>  modeset_lock+0x21a/0x650 drivers/gpu/drm/drm_modeset_lock.c:-1
+>  drm_modeset_lock drivers/gpu/drm/drm_modeset_lock.c:398 [inline]
+>  drm_modeset_lock_all_ctx+0x62/0x300 drivers/gpu/drm/drm_modeset_lock.c:459
+>  setplane_internal drivers/gpu/drm/drm_plane.c:1118 [inline]
+>  drm_mode_setplane+0x577/0xba0 drivers/gpu/drm/drm_plane.c:1175
+>  drm_ioctl_kernel+0x2cc/0x390 drivers/gpu/drm/drm_ioctl.c:796
+>  drm_ioctl+0x67f/0xb10 drivers/gpu/drm/drm_ioctl.c:893
+>  vfs_ioctl fs/ioctl.c:51 [inline]
+>  __do_sys_ioctl fs/ioctl.c:598 [inline]
+>  __se_sys_ioctl+0xf9/0x170 fs/ioctl.c:584
+>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>  do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> RIP: 0033:0x7fe6e3b8e9a9
+> Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007fe6e4a7f038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 00007fe6e3db5fa0 RCX: 00007fe6e3b8e9a9
+> RDX: 0000200000000080 RSI: 00000000c03064b7 RDI: 0000000000000003
+> RBP: 00007fe6e3c10d69 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> R13: 0000000000000000 R14: 00007fe6e3db5fa0 R15: 00007ffdf1fa90a8
+>  </TASK>
 > 
 > 
-> On 2025-07-28 17:11, Jason Gunthorpe wrote:
-> >> If the dma mapping for P2P memory doesn't need to create an iommu
-> >> mapping then that's fine. But it should be the dma-iommu layer to decide
-> >> that.
-> > 
-> > So above, we can't use dma-iommu.c, it might not be compiled into the
-> > kernel but the dma_map_phys() path is still valid.
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
 > 
-> This is an easily solved problem. I did a very rough sketch below to say
-> it's really not that hard. (Note it has some rough edges that could be
-> cleaned up and I based it off Leon's git repo which appears to not be
-> the same as what was posted, but the core concept is sound).
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> 
+> If the report is already addressed, let syzbot know by replying with:
+> #syz fix: exact-commit-title
+> 
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
+> 
+> If you want to overwrite report's subsystems, reply with:
+> #syz set subsystems: new-subsystem
+> (See the list of subsystem names on the web dashboard)
+> 
+> If the report is a duplicate of another one, reply with:
+> #syz dup: exact-subject-of-another-report
+> 
+> If you want to undo deduplication, reply with:
+> #syz undup
 
-I started to prepare v2, this is why posted version is slightly
-different from dmabuf-vfio branch.
-
-In addition to what Jason wrote. there is an extra complexity with using
-state. The wrappers which operate on dma_iova_state assume that all memory,
-which is going to be mapped, is the same type: or p2p or not.
-
-This is not the cased for HMM/RDMA users, there you create state in
-advance and get mixed type of pages.
-
-Thanks
