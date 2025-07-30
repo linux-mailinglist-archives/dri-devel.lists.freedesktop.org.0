@@ -2,85 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE2FBB162CD
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 16:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF274B162D3
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 16:30:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B8A810E361;
-	Wed, 30 Jul 2025 14:29:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eujHvOtB";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7F410E6AB;
+	Wed, 30 Jul 2025 14:30:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 406A510E361;
- Wed, 30 Jul 2025 14:29:42 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-45618ddd62fso66812695e9.3; 
- Wed, 30 Jul 2025 07:29:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753885781; x=1754490581; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=7AlJVmOGzAKicB8PmUMEgldR0Po2jcqiFiRrgkUSQyY=;
- b=eujHvOtBmW6pTxoFJtpieVociVCgo+kVn21YUTcCZipnQQoWN4hK7vmUBrMyzuweN/
- bHDmSwSYpthmPq9Oneu/Bi8VmEUGkHeUoSxUlofHHXEXpax1cxgfJd6cVIdf7azafwqp
- kVM9Kvi3hieNXFl+qsUCn1siAStC1i1MCqYVHihG7Z7wgUKme4IUzMzWoyujq6kejmo0
- Ql9ceZiWOyWcC91aBrYXraI1/HW7LnbBF9m88HNIxG97rcEaOTBoSPGtNmco2N2zZGLi
- 1Q1vFjvvebv7G0XyDpM/0p3Z7WiaT3cO2qJHjBP2HBOeYM0YldbAqH162Ds3t1asx+FN
- 18ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753885781; x=1754490581;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7AlJVmOGzAKicB8PmUMEgldR0Po2jcqiFiRrgkUSQyY=;
- b=HKsNUARnsUWPIko9iieuDRQXJWRgzQ1EExt3ACoyzJHQsPP8UW2pNjvStOgh/ZWk8+
- p61rPO7SSRjg0RAsKEE7z5jgKgwjX+KAywD3yI+P+2g1pcoJ7wBfr9nyt48J4ebwsfEc
- uNL3JrNI03b+9pQd4fjQ8s43MovAGe3cTJxR5H7kOy2CgU5JYhVx+W4FKcB00OI2xPUh
- A2XEr1fQwFfGoHYbNqRQ3Ddp49X8nUw9xFgZBfoL/OkCzCoj/VRqfx/FB72PVOk16ou+
- R234jOK/bur5ts1vzx58UqL475Au1efHyWl7rpEuGHtDEgRGIk3WdYHOdOJH/++7ZxLI
- 6caQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXV0fE6vR7q7lU8nleSPmHgH3qkCK6511j85thpMuAQ5jTwUvwbEygu3M9ZaAMBF0wTk5yyjKEyHKo=@lists.freedesktop.org,
- AJvYcCXtybGuvV/fBnYF6HHIlQeTgGHNaX9PCSoJXP6OV2hKaoOEl79InxouBSrOjXL0kkj+Iw5Qb1jRuSAX@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZL5eavbT9tsVHWHHEGTDusqpL380IfbDr6c1sFOSRMNoA6bBk
- ikISyHqFxQc/Q0JMg5ONFVOgQRQ8jaXjXTV3HcwZg6oAqgAVRcFRwjMd
-X-Gm-Gg: ASbGncvRg97QLWX7zxPPnsiIb/mqSsF+2p41+bm43N5OSAQixFew1gDams/D/NRsqF0
- 85o0LcL5Zgr+5v9rTQE7E/Rntvp32MrSoRSXRQqcQkTObBCN/WrbKWCKhQwDyGZe4n0Uwc4+zEC
- VoSWj9/tvuIIZGswxdHklwLuwAd3Zn0SYysMctEwhHISzpDtgFv+kdDMtpULD2UZAOkOrw21Ncw
- W1pV3GjN8Ur3CUrEC8Gqcc9UzbccQ0hfviAH0cYKim3LVC4Q1StckGI0VKGMa8Snz87PF54viLP
- fOHzOJ8LxxCUloC3vHyMMc4n0hDh/vUyO//stV3gNIf1NsB0TeW8hUj3CefBgtmia0zRTvtzf8V
- Oq0iqHjOzB4tLml2HjXAO
-X-Google-Smtp-Source: AGHT+IF5QJ37jWg7fCnJbb/VaKNBhipzgn5fvN5Soc3F0FylcMx9EfIgS05bdT263onDGTvzEzsZGA==
-X-Received: by 2002:a05:600c:5391:b0:456:58:1114 with SMTP id
- 5b1f17b1804b1-45892b9d05cmr33734855e9.9.1753885780632; 
- Wed, 30 Jul 2025 07:29:40 -0700 (PDT)
-Received: from localhost ([87.254.0.133]) by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-4588dda59cfsm38833425e9.3.2025.07.30.07.29.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jul 2025 07:29:40 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] drm/msm: Fix dereference of pointer minor before null
- check
-Date: Wed, 30 Jul 2025 15:29:05 +0100
-Message-ID: <20250730142905.2080035-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.50.0
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26E3610E6AB
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 14:30:45 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1uh7pE-0006Et-41; Wed, 30 Jul 2025 16:30:36 +0200
+Message-ID: <e58546c244fcea7d418879edf8d899393f6bd5bb.camel@pengutronix.de>
+Subject: Re: [PATCH v2] drm/etnaviv: Fix flush sequence logic
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, Tomeu Vizoso
+ <tomeu@tomeuvizoso.net>
+Cc: linux-kernel@vger.kernel.org, Russell King
+ <linux+etnaviv@armlinux.org.uk>,  David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,  Guido
+ =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ etnaviv@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
+Date: Wed, 30 Jul 2025 16:30:34 +0200
+In-Reply-To: <CAH9NwWfMCYKFF6Z+XiV9=4BANeyPk6bgNV_8FYM0cGwXuyDSxw@mail.gmail.com>
+References: <20250507112131.3686966-1-tomeu@tomeuvizoso.net>
+ <20250508145624.4154317-1-tomeu@tomeuvizoso.net>
+ <a18f214ab0487a1c562f9e2f7f66ab1345925177.camel@pengutronix.de>
+ <CAAObsKDwVB7w0mK3qkJJ-x3sOVxbcM5pbjxJk-106baaiwM=dg@mail.gmail.com>
+ <CAH9NwWfMCYKFF6Z+XiV9=4BANeyPk6bgNV_8FYM0cGwXuyDSxw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,54 +59,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the pointer minor is being dereferenced before it is null
-checked, leading to a potential null pointer dereference issue. Fix this
-by dereferencing the pointer only after it has been null checked. Also
-Replace minor->dev with dev.
+Hi Christian,
 
-Fixes: 4f89cf40d01e ("drm/msm: bail out late_init_minor() if it is not a GPU device")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/msm/msm_debugfs.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Am Montag, dem 28.07.2025 um 00:28 +0200 schrieb Christian Gmeiner:
+> Hi Lucas,
+>=20
+> > > > We should be comparing the last submitted sequence number with that=
+ of
+> > > > the address space we may be switching to.
+> > > >=20
+> > > This isn't the relevant change here though: if we switch the address
+> > > space, the comparison is moot, as we do a full flush on AS switch
+> > > anyway. The relevant change is that with the old code we would record
+> > > the flush sequence of the AS we switch away from as the current flush
+> > > sequence, so we might miss a necessary flush on the next submission i=
+f
+> > > that one doesn't require a AS switch, but would only flush based on
+> > > sequence mismatch.
+> >=20
+> > Ah, you are right.
+> >=20
+> > > Mind if I rewrite the commit message along those lines while applying=
+?
+> >=20
+>=20
+> Now that v6.16 has been tagged, I was wondering why this patch didn=E2=80=
+=99t make
+> it into this release. From the timeline, it seemed like there was
+> enough time for it
+> to be included, so I=E2=80=99m just trying to understand if it was overlo=
+oked
+> or deferred for a reason.
+>=20
+That's 100% on me. I've applied the patch with the reworded commit
+message into my repo, but then didn't push it out as I was planning on
+batching this with some other patches. This didn't happen due to other
+tasks pushing this down in my priority list.
 
-diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-index bbda865addae..97dc70876442 100644
---- a/drivers/gpu/drm/msm/msm_debugfs.c
-+++ b/drivers/gpu/drm/msm/msm_debugfs.c
-@@ -325,25 +325,28 @@ static struct drm_info_list msm_debugfs_list[] = {
- 
- static int late_init_minor(struct drm_minor *minor)
- {
--	struct drm_device *dev = minor->dev;
--	struct msm_drm_private *priv = dev->dev_private;
-+	struct drm_device *dev;
-+	struct msm_drm_private *priv;
- 	int ret;
- 
- 	if (!minor)
- 		return 0;
- 
-+	dev = minor->dev;
-+	priv = dev->dev_private;
-+
- 	if (!priv->gpu_pdev)
- 		return 0;
- 
- 	ret = msm_rd_debugfs_init(minor);
- 	if (ret) {
--		DRM_DEV_ERROR(minor->dev->dev, "could not install rd debugfs\n");
-+		DRM_DEV_ERROR(dev->dev, "could not install rd debugfs\n");
- 		return ret;
- 	}
- 
- 	ret = msm_perf_debugfs_init(minor);
- 	if (ret) {
--		DRM_DEV_ERROR(minor->dev->dev, "could not install perf debugfs\n");
-+		DRM_DEV_ERROR(dev->dev, "could not install perf debugfs\n");
- 		return ret;
- 	}
- 
--- 
-2.50.0
+> I also haven=E2=80=99t seen any recent activity at
+> https://git.pengutronix.de/cgit/lst/linux/, which
+> made me unsure about the current status of patch queue handling.
+>=20
+Yea, the current workflow of funneling things through this repository
+doesn't work too well for the occasional small fix/patch. It works okay
+as long as there are some more patches queued, but small patches tend
+to get deferred for too long.
+I'm pondering the idea of applying small fixes directly into drm-misc
+to get them on a more predictable schedule to upstream. This will
+require some changes to my workflow and I'll probably announce this via
+a appropriate change to MAINTAINERS, as soon as I'm ready to make the
+switch.
 
+Regards,
+Lucas
