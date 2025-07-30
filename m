@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FDEB15920
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 08:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCC5B15921
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 08:51:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5907E10E40A;
-	Wed, 30 Jul 2025 06:51:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48C7910E402;
+	Wed, 30 Jul 2025 06:51:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lNegr8Ft";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kL+9d1WI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5841D10E409;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793A610E40A;
  Wed, 30 Jul 2025 06:51:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753858297; x=1785394297;
+ t=1753858298; x=1785394298;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SYEapZ0VdZXjv0/sZe2xbZo51oTAtaBidAMcpaMkJao=;
- b=lNegr8Ftq7qjgScSlzpzbcJAN93bOi9X1JUd5fO77aHU1d1zAQ8s1the
- /16PsgM4RLBVVBtrC2o6qKpNdHImmndlbdmxGn9V/NAiyVyMpObBAupP4
- GzWjdNM8FKq1RuWlezQ5JYIOOjOlkOj1t1eHJilxq6jpHJm7ojheFOA9H
- eFdZchaRERi0t83E/YwMH5L4U+4/JidpvFcMPftDNHDPlrGnXsIukVDIC
- dARGOKWdFanJCZmhn4gXiIcuCMukjyojdiXW8xyCgy8P909pVoNWkHxF9
- pEP3DHmgVYl7WzVR3AZ+gvLfNV8XAR9O4ndkKUFMyN0nsmRpK+udl/VrU Q==;
-X-CSE-ConnectionGUID: bhgpNVa5SbGRG+lSUmv4Ig==
-X-CSE-MsgGUID: ThNY8/IJROekpm7bJAjExA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="66847957"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="66847957"
+ bh=wIMfmgq1inzQUR5IBiHoJOD/UxwCy0bAGS6RjjYD/ww=;
+ b=kL+9d1WIiWMsbMLOETXPh5veIntyspUYf1gGt8dUR5uK7CDCEH4ppj4x
+ yhhnPNRwIR3QxV5+WJ9y9kDlNWBEXu2FVjDBVocgJ5Aw9B6KOLfNenIwM
+ Usug+qeQq7CNjgkzqYANVBH3G0dLOZnIatYruczCpNKBHE4VNHSh6pnrF
+ dLJB0e+0VN8S8wpxBa+b5MM98mqf4TYEFhgiSjY/bVwLktVP259+XAz2o
+ /9CDeF3bhj4HdHfHKcDpP30b+zWesARhO3Y5kUzVZq1uZ0WOHpfV50vHR
+ 4fWo1dDeIZmdq58C0p2+mXA2piDBkezlojKaDtXBIXs0O7UaWgVhTDCs2 w==;
+X-CSE-ConnectionGUID: uALMQ15aQy2vcTp0pVdSUw==
+X-CSE-MsgGUID: 0GMxkljrRkq23Eoyy+GtIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="66847974"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="66847974"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2025 23:51:31 -0700
-X-CSE-ConnectionGUID: Jim9rbW6Q2S72Z/Lws3NQQ==
-X-CSE-MsgGUID: KXOBRbyqSr6K03+1oQBkBQ==
+ 29 Jul 2025 23:51:35 -0700
+X-CSE-ConnectionGUID: hJEHgaxBSJKOTchRIpMqLQ==
+X-CSE-MsgGUID: df2Bfa/wQECCM2wLrrtGkg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="162178286"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="162178294"
 Received: from aravind-dev.iind.intel.com ([10.190.239.36])
  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2025 23:51:27 -0700
+ 29 Jul 2025 23:51:32 -0700
 From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
 To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -53,13 +53,15 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
 	Michael J <michael.j.ruhl@intel.com>,
 	Riana Tauro <riana.tauro@intel.com>,
 	Anshuman Gupta <anshuman.gupta@intel.com>
-Subject: [RFC v5 4/5] drm/netlink: Define multicast groups
-Date: Wed, 30 Jul 2025 12:19:55 +0530
-Message-Id: <20250730064956.1385855-5-aravind.iddamsetty@linux.intel.com>
+Subject: [RFC v5 5/5] drm/xe/RAS: send multicast event on occurrence of an
+ error
+Date: Wed, 30 Jul 2025 12:19:56 +0530
+Message-Id: <20250730064956.1385855-6-aravind.iddamsetty@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com>
 References: <20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,82 +78,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Netlink subsystem supports event notifications to userspace. we define
-two multicast groups for correctable and uncorrectable errors to which
-userspace can subscribe and be notified when any of those errors happen.
-The group names are local to the driver's genl netlink family.
+Whenever a correctable or an uncorrectable error happens an event is sent
+to the corresponding listeners of these groups.
 
-Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+v2: Rebase
+v3: protect with CONFIG_NET define.
+
+Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> #v2
 Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
 ---
- drivers/gpu/drm/drm_netlink.c  | 7 +++++++
- include/drm/drm_netlink.h      | 5 +++++
- include/uapi/drm/drm_netlink.h | 4 ++++
- 3 files changed, 16 insertions(+)
+ drivers/gpu/drm/xe/xe_hw_error.c | 41 ++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_netlink.c b/drivers/gpu/drm/drm_netlink.c
-index da4bfde32a22..a7c0a4401ca9 100644
---- a/drivers/gpu/drm/drm_netlink.c
-+++ b/drivers/gpu/drm/drm_netlink.c
-@@ -15,6 +15,11 @@
+diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
+index bdd9c88674b2..e6e2e6250b70 100644
+--- a/drivers/gpu/drm/xe/xe_hw_error.c
++++ b/drivers/gpu/drm/xe/xe_hw_error.c
+@@ -2,6 +2,8 @@
+ /*
+  * Copyright © 2023 Intel Corporation
+  */
++#include <net/genetlink.h>
++#include <uapi/drm/drm_netlink.h>
  
- DEFINE_XARRAY(drm_dev_xarray);
- 
-+static const struct genl_multicast_group drm_event_mcgrps[] = {
-+	[DRM_GENL_MCAST_CORR_ERR] = { .name = DRM_GENL_MCAST_GROUP_NAME_CORR_ERR, },
-+	[DRM_GENL_MCAST_UNCORR_ERR] = { .name = DRM_GENL_MCAST_GROUP_NAME_UNCORR_ERR, },
-+};
-+
- /**
-  * drm_genl_reply - response to a request
-  * @msg: socket buffer
-@@ -156,6 +161,8 @@ static void drm_genl_family_init(struct drm_device *dev)
- 	dev->drm_genl_family->ops = drm_genl_ops;
- 	dev->drm_genl_family->n_ops = ARRAY_SIZE(drm_genl_ops);
- 	dev->drm_genl_family->maxattr = DRM_ATTR_MAX;
-+	dev->drm_genl_family->mcgrps = drm_event_mcgrps;
-+	dev->drm_genl_family->n_mcgrps = ARRAY_SIZE(drm_event_mcgrps);
- 	dev->drm_genl_family->module = dev->dev->driver->owner;
+ #include "xe_gt_printk.h"
+ #include "xe_hw_error.h"
+@@ -776,6 +778,43 @@ xe_soc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err)
+ 				(HARDWARE_ERROR_MAX << 1) + 1);
  }
  
-diff --git a/include/drm/drm_netlink.h b/include/drm/drm_netlink.h
-index 4a746222337a..9e48147d0d36 100644
---- a/include/drm/drm_netlink.h
-+++ b/include/drm/drm_netlink.h
-@@ -12,6 +12,11 @@ struct drm_device;
- struct genl_info;
- struct sk_buff;
- 
-+enum mcgrps_events {
-+	DRM_GENL_MCAST_CORR_ERR,
-+	DRM_GENL_MCAST_UNCORR_ERR,
-+};
++#ifdef CONFIG_NET
++static void
++generate_netlink_event(struct xe_device *xe, const enum hardware_error hw_err)
++{
++	struct sk_buff *msg;
++	void *hdr;
 +
- struct driver_genl_ops {
- 	int		       (*doit)(struct drm_device *dev,
- 				       struct sk_buff *skb,
-diff --git a/include/uapi/drm/drm_netlink.h b/include/uapi/drm/drm_netlink.h
-index 58afb6e8d84a..c978efaab124 100644
---- a/include/uapi/drm/drm_netlink.h
-+++ b/include/uapi/drm/drm_netlink.h
-@@ -26,6 +26,8 @@
- #define _DRM_NETLINK_H_
++	if (!xe->drm.drm_genl_family)
++		return;
++
++	msg = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_ATOMIC);
++	if (!msg) {
++		drm_dbg_driver(&xe->drm, "couldn't allocate memory for error multicast event\n");
++		return;
++	}
++
++	hdr = genlmsg_put(msg, 0, 0, xe->drm.drm_genl_family, 0, DRM_RAS_CMD_ERROR_EVENT);
++	if (!hdr) {
++		drm_dbg_driver(&xe->drm, "mutlicast msg buffer is small\n");
++		nlmsg_free(msg);
++		return;
++	}
++
++	genlmsg_end(msg, hdr);
++
++	genlmsg_multicast(xe->drm.drm_genl_family, msg, 0,
++			  hw_err ?
++			  DRM_GENL_MCAST_UNCORR_ERR
++			  : DRM_GENL_MCAST_CORR_ERR,
++			  GFP_ATOMIC);
++}
++#else
++static void
++generate_netlink_event(struct xe_device *xe, const enum hardware_error hw_err)
++{}
++#endif
++
+ static void
+ xe_hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
+ {
+@@ -837,6 +876,8 @@ xe_hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_er
+ 	}
  
- #define DRM_GENL_VERSION 1
-+#define DRM_GENL_MCAST_GROUP_NAME_CORR_ERR	"drm_corr_err"
-+#define DRM_GENL_MCAST_GROUP_NAME_UNCORR_ERR	"drm_uncorr_err"
- 
- #if defined(__cplusplus)
- extern "C" {
-@@ -50,6 +52,8 @@ enum drm_genl_error_cmds {
- 	DRM_RAS_CMD_READ_BLOCK,
- 	/** @DRM_RAS_CMD_READ_ALL: Command to get counters of all errors */
- 	DRM_RAS_CMD_READ_ALL,
-+	/** @DRM_RAS_CMD_ERROR_EVENT: Command sent as part of multicast event */
-+	DRM_RAS_CMD_ERROR_EVENT,
- 
- 	__DRM_CMD_MAX,
- 	DRM_CMD_MAX = __DRM_CMD_MAX - 1,
+ 	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), errsrc);
++
++	generate_netlink_event(tile_to_xe(tile), hw_err);
+ unlock:
+ 	spin_unlock_irqrestore(&tile_to_xe(tile)->irq.lock, flags);
+ }
 -- 
 2.25.1
 
