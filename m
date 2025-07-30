@@ -2,93 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99017B16854
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 23:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2EDB1685E
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 23:42:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F45710E23A;
-	Wed, 30 Jul 2025 21:37:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE03610E387;
+	Wed, 30 Jul 2025 21:42:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KCcBAvni";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nfraprado@collabora.com header.b="RSWTzA4Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7C6610E23A
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:37:41 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-24009eeb2a7so2851235ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 14:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1753911460; x=1754516260;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Trba2romfAqKA5pCTcTWA+7l/bmJjMmTIDHvknnQsLU=;
- b=KCcBAvniQLhohUD7QARTSpqTJNCLJDarHRk9WUvBdfkE6q+LVxP1Lvq82RBruup+GT
- MIvc+JxnZqwW/cEunKxu4CPUmG2hERj9XrnBQH/Vu0x8pVSOn2HZilYAsc0SQeW5iuq3
- T4JkfDoIHTK7LVvE9Edzeq78qwBuFN9Y6d2DA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753911460; x=1754516260;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Trba2romfAqKA5pCTcTWA+7l/bmJjMmTIDHvknnQsLU=;
- b=a7uYCdnvVUioUEND7eOe+DdKlZ9RgcVWBiRO3uvXzvHQzaRMPUeMgeYkZB/xduvAXd
- tlbZff8s8+cOU3KH/whjg5r46giyi21FcG/WruAPp9y0pL3YsW4rX2i8nWWeCshPNpdz
- GQyoQ5EOVlhxxXYtMgg6CQwknA3X3icJ87mJdv4FnhRBtcPbey6zecdG4JQQs8hKjHyO
- qoMikzqm4KwJbFqY4rhxnpb8GbAcB/bwC2oInm7cHEssho4SGp4LsypzqGaq7Wqd57kF
- DBEXvE3npZeW5lAFHTBgXEgQiVoeyomY64lJWGoWKeiofhk09cn0vCnWMAhM6EmwOxXX
- /IDw==
-X-Gm-Message-State: AOJu0YxbaQS4zWJeklFGv5hpxzJDYXIbsXAYiD5rSc9eoDGZTeBfIUPR
- p9PRiDQOoGq8Jy+GQwIoScFJezBKdNgJEJQW1iG4k7Itpkl8Opmaq4kn76/2KDqaIInOXOAb+g+
- ZbT8=
-X-Gm-Gg: ASbGncteSH0FSzzXvNBYE8U8tbWvYiXsYzHvMfXaXXxyFd6O87PAg0OqkjekxBRrLFX
- cSZxm4wqgVR6MZ80Gbhf6EGvJcHIYOAbV8sP/Q3x2xZcJBUOE3NK+/92Enm6jIcbvTnt0XZ4vGK
- dRLtgpoeYanNNdyZg827UUF+sDzxzbJhDBXZ8EC8Q57YqdEm6rw+rmBPSwlgTLbkK6cv8wefOwC
- J3iA9sk+wG9ns/4sij+TeR7TLrxYZBQODfbB0iyEZmD3CC++T321+WT5suXQr4cPLYfmxGObwEK
- 5VG3hy41nRIExz+UtivCwCgTcabu/ZmvN/kPwKPyNO4Uv3QaRa2HPDXMQtEKOjrYh2TuFKfddCL
- RXKX2SzEOBszWUTi9TsssaNU0kGQfF7x9EBjRxuN1foqusK9v+7xJbC7dxnlDrD/m1w==
-X-Google-Smtp-Source: AGHT+IEjC4+1a4rWJ5OXylZYKLoYKEkd9PGA0tplKuXUh229KvDiQSEI14mKlCmOZjQPSoJXulepVw==
-X-Received: by 2002:a17:902:f68f:b0:240:468c:83e7 with SMTP id
- d9443c01a7336-24096a4f603mr75875355ad.3.1753911459840; 
- Wed, 30 Jul 2025 14:37:39 -0700 (PDT)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com.
- [209.85.215.177]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-241e899adc3sm675035ad.118.2025.07.30.14.37.38
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jul 2025 14:37:38 -0700 (PDT)
-Received: by mail-pg1-f177.google.com with SMTP id
- 41be03b00d2f7-b31e0ead80eso206386a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 14:37:38 -0700 (PDT)
-X-Received: by 2002:a17:90b:2690:b0:31f:8723:d128 with SMTP id
- 98e67ed59e1d1-31f8723d163mr1711464a91.34.1753911457424; Wed, 30 Jul 2025
- 14:37:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250727165846.38186-1-alex.vinarskis@gmail.com>
- <20250727165846.38186-4-alex.vinarskis@gmail.com>
- <CAD=FV=Xd_xL=PYvVNqQWFZGmqN+Q=SvvaBTfbv9k+fDb8QwUtQ@mail.gmail.com>
- <CAMcHhXp47zmpoNYLCVRWWBk4HcYepgWX=3kWWzW8c8+a=2kE6A@mail.gmail.com>
-In-Reply-To: <CAMcHhXp47zmpoNYLCVRWWBk4HcYepgWX=3kWWzW8c8+a=2kE6A@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 30 Jul 2025 14:37:25 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XT-BBRDBHVh2KBpJydSje7_eUF19OMu9e3CcRvDf7ung@mail.gmail.com>
-X-Gm-Features: Ac12FXxsWI-JqOTSi6Zqqs_uBhOIVlKslLHhjHruc_ljfiRzC80Syh2AMH_Yjow
-Message-ID: <CAD=FV=XT-BBRDBHVh2KBpJydSje7_eUF19OMu9e3CcRvDf7ung@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] drm/panel-edp: Add BOE NV140WUM-N64
-To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 874A810E387;
+ Wed, 30 Jul 2025 21:42:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1753911753; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=ZUq4TMpmPLGCyyUN7vfBqrygD0X+BuKEPoWTDoreS4mYfiUv4ixBQOHmVuaOLd7kbXa6Hx/WsAF7AdGUWIJtBK+oKl8CFl4np5EVHte8w64gKhS00B8NzQFstRVmpnap74h3TmQMX3nvHTNyQInuTg4xeVp+klDdEqU7PPkULOk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1753911753;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=tDwqJNnbeCGx3m5FbRR2/yW5Q9kGf4UwpcQNheNkTlo=; 
+ b=fkBRZG5k8wPnL/gwSDlKcMh3v8ewh3I9iVs3crjezs3K+WNZFZ+M2F/dajef1NlK3GiClKKM8AWJZw4Utyu9zz2qbjZ1VE/IDbM7ltRSdf5eJOIPcnlHsNmG0/rZKzd3luSAlAzETx0P2dafL9PTDc+ZjoLcVItyz/Cug63Oz2o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nfraprado@collabora.com;
+ dmarc=pass header.from=<nfraprado@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753911753; 
+ s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=tDwqJNnbeCGx3m5FbRR2/yW5Q9kGf4UwpcQNheNkTlo=;
+ b=RSWTzA4Qv+Lxrqd54eLeEr5oUZjZWiSjCuBoxXV527Lz5phCYSZi1SqHMXhOUUeo
+ SXiTkFatVjZiLIFZ8h/1sX2/nc/yFXHcgzYh2+Sp9R7f6W/UPifQpCxQFs4foqGdVMc
+ kpUCo1oIo+BK8FpH8mvzo0rc9p8sQ/xdOYf0o9U0=
+Received: by mx.zohomail.com with SMTPS id 17539117502288.545850020648345;
+ Wed, 30 Jul 2025 14:42:30 -0700 (PDT)
+Message-ID: <9183e2effaf17f7d98fbb4f18d1c8e502d8f20e4.camel@collabora.com>
+Subject: Re: [PATCH V10 18/46] drm/vkms: add 3x4 matrix in color pipeline
+From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, 
+ leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, 	contact@emersion.fr, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, 	shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, 
+ aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com,
+ daniel@ffwll.ch, 	uma.shankar@intel.com, quic_naseer@quicinc.com,
+ quic_cbraga@quicinc.com, 	quic_abhinavk@quicinc.com, marcan@marcan.st,
+ Liviu.Dudau@arm.com, 	sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, 	louis.chauvet@bootlin.com,
+ arthurgrillo@riseup.net, Daniel Stone	 <daniels@collabora.com>
+Date: Wed, 30 Jul 2025 17:42:20 -0400
+In-Reply-To: <20250617041746.2884343-19-alex.hung@amd.com>
+References: <20250617041746.2884343-1-alex.hung@amd.com>
+ <20250617041746.2884343-19-alex.hung@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
+MIME-Version: 1.0
+X-ZohoMailClient: External
+X-ZohoMail-Owner: <9183e2effaf17f7d98fbb4f18d1c8e502d8f20e4.camel@collabora.com>+zmo_0_nfraprado@collabora.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,89 +78,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, 2025-06-16 at 22:17 -0600, Alex Hung wrote:
+> From: Harry Wentland <harry.wentland@amd.com>
+>=20
+> We add two 3x4 matrices into the VKMS color pipeline. The reason
+> we're adding matrices is so that we can test that application
+> of a matrix and its inverse yields an output equal to the input
+> image.
+>=20
+> One complication with the matrix implementation has to do with
+> the fact that the matrix entries are in signed-magnitude fixed
+> point, whereas the drm_fixed.h implementation uses 2s-complement.
+> The latter one is the one that we want for easy addition and
+> subtraction, so we convert all entries to 2s-complement.
+>=20
+> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Reviewed-by: Daniel Stone <daniels@collabora.com>
+> ---
+> V9:
+> =C2=A0- Update function names by _plane_ (Chaitanya Kumar Borah)
+>=20
+> v8:
+> =C2=A0- Replace DRM_ERROR with drm_err (Louis Chauvet)
+>=20
+> v7:
+> =C2=A0- Fix checkpatch warnings
+> =C2=A0 - Change kzalloc(sizeof(struct drm_colorop) ...) to
+> kzalloc(sizeof(*ops[i]) ...)
+> =C2=A0 - Change i-1to i - 1
+> =C2=A0 - Add a new line at EOF
+>=20
+> v6:
+> =C2=A0- pre-compute colors (Louis Chauvet)
+> =C2=A0- round matrix output (Louis Chauvet)
+>=20
+> =C2=A0drivers/gpu/drm/vkms/vkms_colorop.c=C2=A0 | 34
+> +++++++++++++++++++++++++++-
+> =C2=A0drivers/gpu/drm/vkms/vkms_composer.c | 33
+> +++++++++++++++++++++++++++
+> =C2=A02 files changed, 66 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c
+> b/drivers/gpu/drm/vkms/vkms_colorop.c
+> index 2fb74b2bd001..70be35804ea9 100644
+> --- a/drivers/gpu/drm/vkms/vkms_colorop.c
+> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+> @@ -12,7 +12,7 @@ static const u64 supported_tfs =3D
+> =C2=A0	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF) |
+> =C2=A0	BIT(DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF);
+> =C2=A0
+> -#define MAX_COLOR_PIPELINE_OPS 2
+> +#define MAX_COLOR_PIPELINE_OPS 4
+> =C2=A0
+> =C2=A0static int vkms_initialize_color_pipeline(struct drm_plane *plane,
+> struct drm_prop_enum_list *list)
+> =C2=A0{
+> @@ -48,6 +48,38 @@ static int vkms_initialize_color_pipeline(struct
+> drm_plane *plane, struct drm_pr
+> =C2=A0		goto cleanup;
+> =C2=A0	}
+> =C2=A0
 
-On Wed, Jul 30, 2025 at 1:38=E2=80=AFPM Aleksandrs Vinarskis
-<alex.vinarskis@gmail.com> wrote:
->
-> On Tue, 29 Jul 2025 at 17:50, Doug Anderson <dianders@chromium.org> wrote=
-:
-> >
-> > Hi,
-> >
-> > On Sun, Jul 27, 2025 at 9:58=E2=80=AFAM Aleksandrs Vinarskis
-> > <alex.vinarskis@gmail.com> wrote:
-> > >
-> > > Timings taken from NV140WUM-N41. It is found in some arm64 laptops,
-> > > eg. Asus Zenbook A14 UX3407QA.
-> > >
-> > > The raw edid of the panel is:
-> > > 00 ff ff ff ff ff ff 00 09 e5 f6 0c 00 00 00 00
-> > > 10 22 01 04 a5 1e 13 78 07 8e 95 a6 52 4c 9d 26
-> > > 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> > > 01 01 01 01 01 01 5d 30 80 a0 70 b0 28 40 30 20
-> > > 36 00 2e bc 10 00 00 1a 00 00 00 fd 00 28 3c 4a
-> > > 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fe 00 3d
-> > > 4c 33 30 20 20 20 20 20 20 20 20 ff 00 00 00 fc
-> > > 00 4e 56 31 34 30 57 55 4d 2d 4e 36 34 0a 01 f8
-> > >
-> > > 70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
-> > > 88 66 ea 51 cc 74 9d 66 52 0f 02 35 54 40 5e 40
-> > > 5e 00 44 12 78 22 00 14 7f 5c 02 85 7f 07 9f 00
-> > > 2f 00 1f 00 af 04 27 00 02 00 05 00 2b 00 0c 27
-> > > 00 28 3b 00 00 27 00 28 2f 00 00 2e 00 06 00 44
-> > > 40 5e 40 5e 81 00 1e 72 1a 00 00 03 71 28 3c 00
-> > > 00 60 ff 60 ff 3c 00 00 00 00 e3 05 04 00 e6 06
-> > > 01 01 60 60 ff 00 00 00 00 00 00 00 00 00 de 90
-> > >
-> > > Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/panel/panel-edp.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/pane=
-l/panel-edp.c
-> > > index 9a56e208cbdd..b334926e96ed 100644
-> > > --- a/drivers/gpu/drm/panel/panel-edp.c
-> > > +++ b/drivers/gpu/drm/panel/panel-edp.c
-> > > @@ -1947,6 +1947,7 @@ static const struct edp_panel_entry edp_panels[=
-] =3D {
-> > >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c20, &delay_200_500_e80, "N=
-T140FHM-N47"),
-> > >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c93, &delay_200_500_e200, "=
-Unknown"),
-> > >         EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "=
-NT116WHM-N44"),
-> > > +       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cf6, &delay_200_500_e50_p2e=
-80, "NV140WUM-N64"),
-> >
-> > Since this is a "guess" timing without any datasheet, I'd be more
-> > comfortable picking the most conservative of the "cousin" timings. Can
-> > you re-send with "delay_200_500_e200" instead?
->
-> Sure.
->
-> Do I understand correctly that more conservative delay_200_500_e200
-> will for sure not make it worse, since its more conservative? In that
-> case can re-spin right away. Otherwise I would prefer to re-test it
-> first, may take a few days as I do not own the hardware so need to
-> propagate the change and get some feedback.
+This should also update the comment above as it still says "2nd op: 1d
+curve", but 2nd op is now a 3x4 matrix.
 
-Is anything really for sure? No. :-)
+--=20
+Thanks,
 
-...but it's _highly_ likely to not make it worse. Presumably you
-tested without ${SUBJECT} patch and things worked OK aside from the
-big warning splat in your logs about using the conservative timings.
-Those conservative timings basically give you:
+N=C3=ADcolas
 
-desc->delay.enable =3D 200;
-
-...so you probably already tested with an enable timing of 200 and
-using 200 here will give you the same conservative number for
-"enable", will avoid some other conservative timings, and will avoid
-the warning splat.
-
-...and the "p2e80" doesn't do anything useful when enable is 200.
-
-
--Doug
+> +	ret =3D drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane);
+> +	if (ret)
+> +		goto cleanup;
+> +
+> +	drm_colorop_set_next_property(ops[i - 1], ops[i]);
+> +
+> +	i++;
+> +
+> +	/* 3rd op: 3x4 matrix */
+> +	ops[i] =3D kzalloc(sizeof(*ops[i]), GFP_KERNEL);
+> +	if (!ops[i]) {
+> +		drm_err(dev, "KMS: Failed to allocate colorop\n");
+> +		ret =3D -ENOMEM;
+> +		goto cleanup;
+> +	}
+> +
+> +	ret =3D drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane);
+> +	if (ret)
+> +		goto cleanup;
+> +
+> +	drm_colorop_set_next_property(ops[i - 1], ops[i]);
+> +
+> +	i++;
+> +
+> +	/* 4th op: 1d curve */
+> +	ops[i] =3D kzalloc(sizeof(*ops[i]), GFP_KERNEL);
+> +	if (!ops[i]) {
+> +		drm_err(dev, "KMS: Failed to allocate colorop\n");
+> +		ret =3D -ENOMEM;
+> +		goto cleanup;
+> +	}
+> +
