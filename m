@@ -2,193 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 044B8B16237
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 16:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1B7B16289
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 16:20:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6C810E1F4;
-	Wed, 30 Jul 2025 14:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3238410E6B2;
+	Wed, 30 Jul 2025 14:20:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GM8nHNPC";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VZutLyes";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 256B410E1F4;
- Wed, 30 Jul 2025 14:04:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753884286; x=1785420286;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=T30o6zdxq11o7yjhcAvgglG+oB5eCEsaufeP+fwubS0=;
- b=GM8nHNPC2GyrO9L/xR6Zsmkr2I0m2pj3SF1ldWniQGhB3kOSKr2EeDKt
- EwjKdoccXBlD/ps5PHZS0CU5PTJIgGRjsTn/kg6aeyi/Mj3vqfc1xJo/J
- kIlITWjzxkgNdakjqY8yLuhr8Gx5gS0dvd3jsFeIUylG35x7Nil2tvnxb
- pnwxUrVzPn/sRtnPTyyF5uuYjsS1WOyjjJFlFru81k2yi37n9RKwRHmfl
- 9VVGpNz0MvQRPPXdJ8gDZ2q4qUwE0dWKezagsdWk7IqRHAe1fA2Sifzhs
- mVTHit+t7P4RNhbCBb8au3XfBidKAsOn/4xSKNM46sOdrHfxtCvl70B81 g==;
-X-CSE-ConnectionGUID: saA0A5dSSwaxYDQMYTs8kw==
-X-CSE-MsgGUID: d1h8G7rLTFi2mrkdgTV/0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="60000621"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="60000621"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2025 07:03:50 -0700
-X-CSE-ConnectionGUID: DQqW3CZWTeSM3CP4eSYpwQ==
-X-CSE-MsgGUID: itn1DvPGTCKhcP3DRg0cSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; d="scan'208";a="163338814"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jul 2025 07:03:49 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Wed, 30 Jul 2025 07:03:47 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Wed, 30 Jul 2025 07:03:47 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (40.107.95.51) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Wed, 30 Jul 2025 07:03:46 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2040.outbound.protection.outlook.com [40.107.100.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63A5E10E370;
+ Wed, 30 Jul 2025 14:20:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aLazbuAGNwObLZTxvFPvbeM/1UtYTy4BNsb/K48WO8YQETsbtwDQn1vWT0o66/CkaY0582wx+1M8oe49Q1yl+0akIuonE2jLRKv/eEAAIDfDB4z3eMuRPufBPG8bNedplhKvcdqSXopmiI8hJ4X6qOW7FnMpg/qG8aj3KLGG6TWs27GLH8n2u9ahN+eUTPdGIn51i3CuT98QHxTxSW3e4/pqiJdN13KGvxma3MSMCV2NzcgDSLoIOpZaFfI7W5g/4NjF+pF7fHA4we0xrxvJNtYOdfThmjnCznIyTzl7wEMOpxUwU+BDXorKc+UhsP7FUXcP5Jj5QW367751XQZJnw==
+ b=TcyENe7NBg42F5jhE/UIpPOidVd5Mjy2yhcXD+R1GXaHfe2D+Hx6CtmcwmqDNmnRVf6Qvw12uIlryWDvpoMG8R9YRuhf5jQD1biXrgjSoWqddJ+tfBax0iGTzdW5Z+c0grYopsY0J8Fn7kNG0eiP+IDmwPXQAZj9zcU89PrSCWLxp6uVOodXiVI+T3lWIC512LRTMT+KGaUOaTJ9b7o6+QU0SV7trG+tU5CeznzY4AhbmtNtzy8J7x7wmJlaU/lG2dauWgDuw4BWVhHVngvajfvJZJidgCfyPsT1T0z6feJZapGBu+cXTSyE5l0YMJgh/QDxhHueRyqroM1tTzj/dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Iqv3Azg9XYolvAwFYwteCHR3i+vAKLsV5zOxlc6YngA=;
- b=ahv52XwR5CUbdIZUDuGSFm2JrOfW2PfadxhkXzAwMlUcQ6e5hp1d6LToorLyPv7dditqqhpXp6RmFWgKXIsH0K8Mk2q6Tibay48bfJcBJ1kGIUTIpvQyTC332a4htiiv8T5zFCDAOask3HbvYiBnThm6LTeDlNQlcWyh/LgM5DMMiv3yevC/81CCVheFraYSKIjhZNFE1KcRsG2VpaLsLfjvm9vNJN7Etny0S8w6Xzut4yI1ISeZc2M4fzsf2eU5WeE0uso1XKBW9aT+UOMyFGo0bjzlR3gfQBw7ZTOcWQPB72cZdHTwsfpgLFbXJJK0sfPhk8paN8cPwpWyGCz8bg==
+ bh=LZpBK5QowW1jtn8lt+i+WZWYwNAmrHyqWCo2lTnus34=;
+ b=Ng3HhmGIzP9FviBcVRGKbrxsJTF4SljezoVc2wmnGiwzPa2gtFZIv/u1eUvVF4ttcHiDXTkJJt+Yi54bvPXyKH6ysF2z2kuDOSjoJcuG7qynBJkc0cQ+Ids7oOauWOz5Fx5e22YIhT1C4jDocnlmI7Z5YDuOVztCCprLzuTwnTxyqz43HDIYGkmUbfMGNfUOA3EngpGQjEaWRoCC9OCr6891iZ0TAPGIVRWWIQaKuLHhQlf9g23NmjkDEaoUplimKykXY8LjeGXflf6C74akqq4uFJqOLGHYj/ljo+vxxQgtV0cwgVAw38l/T2zqULLsSkRSTUaBRrBFeAY1kwnh/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LZpBK5QowW1jtn8lt+i+WZWYwNAmrHyqWCo2lTnus34=;
+ b=VZutLyesUB016GYJ/GKSCKlkjLWUTLlSL6s5Oe14iSJAx9lBsvwfeBe+xdv4gUnfChZ7dVM9apayaFVxYOUUZKpmMLk7iztUm4wUe+gW87sQX7mGmxeGa4itL2yiRHltur1KFq2Ia2HMsRGD+aAdgHSo6wN0JhCknhMAYxnio/E=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) by
- BL4PR11MB8871.namprd11.prod.outlook.com (2603:10b6:208:5a8::12) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by CY8PR12MB7634.namprd12.prod.outlook.com (2603:10b6:930:9d::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.26; Wed, 30 Jul
- 2025 14:03:12 +0000
-Received: from DS0PR11MB7958.namprd11.prod.outlook.com
- ([fe80::d3ba:63fc:10be:dfca]) by DS0PR11MB7958.namprd11.prod.outlook.com
- ([fe80::d3ba:63fc:10be:dfca%6]) with mapi id 15.20.8964.026; Wed, 30 Jul 2025
- 14:03:12 +0000
-Message-ID: <39095bd1-2dee-4bfb-bc87-ee8cecedebce@intel.com>
-Date: Wed, 30 Jul 2025 19:33:01 +0530
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.11; Wed, 30 Jul
+ 2025 14:20:00 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::1c2f:5c82:2d9c:6062%4]) with mapi id 15.20.8964.026; Wed, 30 Jul 2025
+ 14:20:00 +0000
+Message-ID: <4eda0fa6-a92f-4a26-8c9a-c7ef72becde6@amd.com>
+Date: Wed, 30 Jul 2025 10:19:56 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/9] drm: Add a vendor-specific recovery method to drm
- device wedged uevent
-To: <dri-devel@lists.freedesktop.org>, <simona.vetter@ffwll.ch>, David Airlie
- <airlied@gmail.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, =?UTF-8?Q?Andr=C3=A9_Almeida?=
- <andrealmeid@igalia.com>
-CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
- <lucas.demarchi@intel.com>, <aravind.iddamsetty@linux.intel.com>,
- <raag.jadav@intel.com>, <umesh.nerlige.ramappa@intel.com>,
- <frank.scarbrough@intel.com>, <sk.anirban@intel.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <intel-xe@lists.freedesktop.org>, <tzimmermann@suse.de>
-References: <20250728102809.502324-1-riana.tauro@intel.com>
- <20250728102809.502324-2-riana.tauro@intel.com>
+Subject: Re: [PATCH v2 3/4] drm/atomic: Return user readable error in
+ atomic_ioctl
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, naveen1.kumar@intel.com,
+ xaver.hugl@kde.org, uma.shankar@intel.com
+References: <20250730-atomic-v2-0-cc02ce0263dd@intel.com>
+ <20250730-atomic-v2-3-cc02ce0263dd@intel.com>
+ <d3362052-cb4c-423e-8598-d1f0d3618882@amd.com>
+ <006d2033-a454-4ff9-a9e5-027bee7c3804@intel.com>
 Content-Language: en-US
-From: Riana Tauro <riana.tauro@intel.com>
-In-Reply-To: <20250728102809.502324-2-riana.tauro@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <006d2033-a454-4ff9-a9e5-027bee7c3804@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA1P287CA0014.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a00:35::31) To DS0PR11MB7958.namprd11.prod.outlook.com
- (2603:10b6:8:f9::19)
+X-ClientProxiedBy: YQBPR0101CA0229.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:66::35) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7958:EE_|BL4PR11MB8871:EE_
-X-MS-Office365-Filtering-Correlation-Id: ceec0074-78e8-47b2-d376-08ddcf71d246
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|CY8PR12MB7634:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f5cf237-1711-4537-5001-08ddcf742b29
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UGN1Z1NzTVdha1IrenNjN3Budi9aTzBYWEEzMjBKYVhSSVJCU1FpWm5GZzBX?=
- =?utf-8?B?WG9nU2hqRXgzZFVkMHA3d0lLTEY3cUk5UFFzU2tvSHJWbHVUUkx0YWtBZXhK?=
- =?utf-8?B?dWhQcGJBMjBYSE1hajV2eGxNQmg3dC9uMmlmY1BvcW54VE9xRmszN05MZnk4?=
- =?utf-8?B?dytsK1paSFg3ci96c0lMNlBEMERPbHIxNGVVbk5uakJ2TU15dVNxN2crZzNo?=
- =?utf-8?B?eUYrNkV6b3lJTy9KWVVXcXRQc3FKRk1uY0VoamlId1g2dWdsUzBvMGdDRmJ0?=
- =?utf-8?B?N2ErY1dHWVJLd3FjMnZsYU1rOFlhaWZNVHMzdUlyZWNTYXNRR1kyQkM5SGty?=
- =?utf-8?B?UDZhK2MxdVh1blJib1lZQ2p1aDFQQWtudFJFNFhQYzN2dlNtbUZSWjRzY0pS?=
- =?utf-8?B?dkJleGpvRUVvcDE5VkRONzJ0ak1kL3pEL1djY3orcm1KaHJ4d2VQZlpHVUZK?=
- =?utf-8?B?dU12azcxUXNCVTg5NXUxQ01sc2k3YXhiY3daNFkrdkNMZS8xZ2tha3RkdmVi?=
- =?utf-8?B?SXdpNjk4RDEzaGVkMjlBQklXMVNaY1dwQ29LVkdtWHo0eEZWS2pPMmNsa1p2?=
- =?utf-8?B?M3RWdnZLcjF1NVBxVzF1Z2pBc0RoRm00U2FHNXRIOHZPaEdCaWVFeVk0azJI?=
- =?utf-8?B?R08wMGFrVStZUGhJSEdGaytFMUxoYjhiMUE5MDVZOGVKckwzSnRTRG96Y0NW?=
- =?utf-8?B?bWZCVjNvcWFHM1NBeUxGaWlpTFZGNXNVZzN1V0VFRmh1V3QvOWgwYitNZUdn?=
- =?utf-8?B?UlFtbUhXbXZpOHNsNFJJT1NkYmNtZUpkajRRc01CK0lGeWt4em4vNVpBVFVF?=
- =?utf-8?B?ZUFUWUtUTnlUdDRObHdpN21QMXFwZ2t5WWJFL1FaWitPWkQ3RzJYYTdDSnVs?=
- =?utf-8?B?VDVVR2pBUEJVdmhaaWxncU1OUkoveTlib1BSOGxoNDhzRjdBQTRKdStaSGp1?=
- =?utf-8?B?cHBra0tyRFNrZWdtbE8rNkNVQkM1b2pWaWF5ZnpYUTF5N0Njem1qY0Ricmxu?=
- =?utf-8?B?YnVkMnMxUDZxVzhUMlNsSFp4M1BsWTdwaExvUXJXYlR5TnVtaUJJWjJqMUJB?=
- =?utf-8?B?SERTWkpGVHVPbGpwbHFrMFFHZnA2SGVDRHUwMTBQZEhMVzhMbk54cHIvUnpG?=
- =?utf-8?B?ZGZBeklqb2lNRXpPK1c5KzFMVEZtbXlORFNvVnByRjVNZ0JWVi9jbHFVTWZY?=
- =?utf-8?B?SkVYZ3BYTndBZi9xSFZkbW9jVkE3b2haR1RMK3ZyUmpJN3JFbzUveUFkMkZr?=
- =?utf-8?B?b1c5dStRUFBta3AySlJ0MVFvc3Y5VDFEV3p5dDBZVHhJY1FjU21yUXpYSDdP?=
- =?utf-8?B?UHJYVEQvK0FJUU0rS3VaNzlkMkw2TTRIRnFYU0lCS0lQZ0lwWUNpZFNkcHd3?=
- =?utf-8?B?UERWR1VtZERtODRqemg0cXFlYXcvRGxNQ1ZiUTJUMUcvL2JyWGV5Tk5qNktr?=
- =?utf-8?B?NDNlUnQxVGd6Q0t6V2VqTGc5cU1KK3pmOW5ldlhiZHdNSmJuck9vZ2xRd3U1?=
- =?utf-8?B?RWp5cDM5VXVrQ2d6NW1hdEpKTFFMNUl4T0J1NVU1eFc0aldQTWxYV1JZSWFM?=
- =?utf-8?B?V2xNanBFVVJRaUdEOStqd2hWMlNyMjN0UFdiMWo1VEY4cVZJa2ZTS2ZQVjE1?=
- =?utf-8?B?b1dQTXZiVU1zY0xWNUhKRmY0SkZ1Q0lwcU16eVIxUndZcll6aG9IaUNldmJF?=
- =?utf-8?B?M2NrcFBiSk55YXRPTUYwd2Y5UitHdjhsdDJKQW1EU2RIMWZ0Qm9jVXVKS1pH?=
- =?utf-8?B?MHNBY0U4NG9HWVk4VStsMjY4c2hocGZLYWZGVVRwTUFkUno4ak94bHVWUllV?=
- =?utf-8?B?VkovbEczVDVKT0M1TXNoeDcyZTNvQlZCUFVleFJha3VmUnNXMHJYOFVUUkJF?=
- =?utf-8?B?dDFPQTc4V0FkVUkvTkcxd1VvUjkyZE91bktoZktUWThmekdPUXUvN2o3QnE0?=
- =?utf-8?Q?9Ts2VbDVxAM=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QVB1Y3BDamt6V1JvVVNOMm9OYSs2R01hUWVJOFdzY0FUSGIxa0JMc0Nrbkkv?=
+ =?utf-8?B?bldMNldWVituc2FBcU41SWl3M3NFaUQyOExLOTVoS1J3djJZZ2tQbFRZTFFY?=
+ =?utf-8?B?bTdOOHE5K3NMaVNMczZ1VXdYb1ZnVGpZa2lBTDE5aFR3bWgzN0wzb2ZycE1T?=
+ =?utf-8?B?MzR0Nm9CSkc0OUE1dWlXdnNBUTVHQTI0SlRHQWxsUG1TZG5vTDVXOGpCb2M4?=
+ =?utf-8?B?aCthbVBiL3hWZmhWcWhLeVN0OG5IVGZTTzk4MlJoQ0I1Yi9IV3FOalAwWGpI?=
+ =?utf-8?B?Zi80VEVCc05KL1dENXZOb0FLOS8vOStMbUN5TzJCdjBIRHpDL0tQdVMzVmF1?=
+ =?utf-8?B?dlVKakloS2E2aHZUU1ZkcDlqaWdQR0xpVTBnSEJXQmVHeTVkUUgrUkJGcFRx?=
+ =?utf-8?B?NHR4NEI0bUsvWkxGR0gvK1gwOEk1KzBqWUF6eDZjMkdTYmtiWFlGTHkxT0N0?=
+ =?utf-8?B?cFdWbTI2d3Nyb0hyOFJ3bWFNT1pkcXFrM2c0Q09jeXFPQ2hPRElkNG4vaXRT?=
+ =?utf-8?B?eHNHTWdhR2VHajAwQ1NIQk9WcnZtZlpQcUtKYVJuQkxLOW5wMXk0YmdIUVpu?=
+ =?utf-8?B?OEdvekQwTVNCMXI1OU9xTmNpUnMyVUtGTUFkV0Fwb2JCa0hnYmMxMUY2cWp1?=
+ =?utf-8?B?UkRaTTlZRnloaUNqMlBqMEJqMGNsaU9LdFlKQ0dhNkhIaE9uaHhKQTA2ZjF0?=
+ =?utf-8?B?YjQwREtWUGNFZW9YdnZ0RVFXWUYvdnZnbTJxcDZnYmRVNTY5d0dHc0thaldN?=
+ =?utf-8?B?Q1NONk9ja2xsT1EzZTFwS3kxNXQwOVJmUm5uUVZtWXdaUTd2L0tHa0FHME4v?=
+ =?utf-8?B?QkhYWkZWTnlEYkJyWTZRUnNidFpBRlRKRGRTVlRwMzNFT09IQTJQeXlMVCtW?=
+ =?utf-8?B?OFdITTRMblF6MEJycDZoa1VTVENabDhrKzd5bTNqOUw2ZjBMVEpLQlMvb0M2?=
+ =?utf-8?B?SmlWOE5zL29RTEdwNUFrZlpWQVZ2TlNUUkdvUUM1TkQzdEFnR0REcTVLekxo?=
+ =?utf-8?B?UFE3MXNkNXdxTjNjOEZpd3k4dzZXYW1GRkZZMFhPbHBWRXFhaEVrY2NOZ1dq?=
+ =?utf-8?B?TlZKNjRzcVY0QWZ0bVA4eDdCeTdtdndLbzloeXZsVW4wOWVXZlRkbzFreTdH?=
+ =?utf-8?B?M2l4UEhqN1JNK1BsRlNuZVlRbDdKWHhWN1FSVGgzN2lIdWlOTklOQWxqZlNs?=
+ =?utf-8?B?STcrRmtCVUxEWW1hWjh1dzdRZ1BwZVY0b05jK3FYdVdZeGVzM01wcjFqZC9t?=
+ =?utf-8?B?cnA3UUFPUHMzUzB5aExUTThvMVJzZUVSeUdJUCtHaHVIMHNMa3N4QzNiT0U5?=
+ =?utf-8?B?QWhkT1puOWY2N05wN3JTTmRJYkxTMzRxYkloNWxDR2toajZlc2l1aU9UUVNt?=
+ =?utf-8?B?dU5LNVNYOXA0TVRjQzd2eldSSUlEQ3JCREtxc1RxYXVrckVZYjhnZmthZlJn?=
+ =?utf-8?B?OTd1MEFGWVU2MDFPa2FTZFhGZDFVVlByN0FXdFNoNDkrWjZXbGJ0Q1ZHUzM0?=
+ =?utf-8?B?RW9jbTFEa1ZPa2dFVHRkVnBlUUpIdjBHQThzc1VjZVRUc3ZYWk5NQ0dxRFdB?=
+ =?utf-8?B?TC9BbU5VYjRKR0JLcWU4L2FDSWdBdEhrZDY4VXF3ZG1Vdi9BRjFrYk1vaEQv?=
+ =?utf-8?B?d3F4UFNYVGgyM2NDMzQvN0JCd1Y4QlJNdWtrL2FrWlBhVlVvSXhCMCtYWm5u?=
+ =?utf-8?B?MFRmRzRmT3ZDSzZNNEdXNmRrbXhCNnFjbTV4T0JtcHlYM20wMDhveFNxRXlV?=
+ =?utf-8?B?QmVaVnV0Y1BUclB6Skl3cjBwNUZka1RMUk1LQzNRK0NhZ1JUWG5FSnNNeDU2?=
+ =?utf-8?B?VFVxNURiVm9JWG5kd2NTbHJRbGliYVh2UjBYZ2ZWUkVpV1RVd2RMRnZmNWJW?=
+ =?utf-8?B?cCtZYjJnM3ZiTDhlTlBScEp1d3pnVnhYOHVwM3laZXVtejQvTnJnbzBndW9n?=
+ =?utf-8?Q?bSsQevUH4Cw=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB7958.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YjNMdjVYZnIvUCtrZlhHMDlIa2tEd2kyODNoQjNhQjNOUTkvRi9BMVhTbkFN?=
- =?utf-8?B?MVRkRjQvekoxdElyVHo3N1M1OE5HbGd2T0tnL2FhclFZNkxiNCsvSnNWaVZw?=
- =?utf-8?B?dUQ3VnA2bU0yanhCbHNYRXdiNWRQRU1yNllQOWVKU3l2VnRaeHJIYzFBcWo0?=
- =?utf-8?B?SVVPU0Yxdk8yS3JlR21ER2pkeUw4d1pjd0VaVzRpZCtzREtDcmpPOXFPbCto?=
- =?utf-8?B?UlF3d2MrWWVlVVl6TTlza2RHdUtZTUpOSnh1K1NtUG1tNXZUNjFKckUzUkhK?=
- =?utf-8?B?OUg3Zm5kMkFyZVFTdU4xYXF0ZTQ3MDBBYUtSQytvQUtqYzZHZDU1VG1Hd3hs?=
- =?utf-8?B?VS9EVkd5WndnaGkwV3QrengvZitjZVlHNU5sWnpqRm5SbHA2WjZ5RVJKWndR?=
- =?utf-8?B?WDBZdUwwb1ZqNjhwWlhna2IvYVY0KzlKYU5WVnRZam1hdGVzQjdWNG9jUU1v?=
- =?utf-8?B?cTVvMUY0b2RSeWdhVnNSc2xxaGxra0RHUFVBWE5HNGN5Ym44WWJMWE5uYmpH?=
- =?utf-8?B?MXBlNGo0ajZ3a0twdHJEWUtuUGpBOGJXMFVwTTN6SVhSTWFmVU1aYU9paTBY?=
- =?utf-8?B?NStQblEyK1Foa1lxRHVHdGNTMkpRVGNhVmVKeVdNT1RibTNjUDVndHhSektL?=
- =?utf-8?B?U29XbURoajZ3cVhrTEhlMGtqeDM2S1cxUElOZzNtd0Rya2RvZUhpZ3d5SS8r?=
- =?utf-8?B?emZRblFXenR1NTdWemlMcDVJSGd0eFhqcEpBUHhnemVLRlphRXd1RHRCeUJn?=
- =?utf-8?B?ZS91RmRaNHNyV21zSVVSQ3ZpeFlpMSszVW9rcUlDbFc1eTIzL3Z1Ry92MFlF?=
- =?utf-8?B?VFMzVnkwY0swczJmV3d2bzYvQ2Evd3lQTW55OGZFa0F5OE9RaiswTVFlSW13?=
- =?utf-8?B?OWNyWUpzMlhDMTZ0L050ZUoyRjJMWEoyZkc1eE1Pd1hQM1MrWFVxajVUZVRW?=
- =?utf-8?B?b2JlQW8zZ1hkdGRYS2lMOUIwYlU0K2ZZRUQ4N0ZHcGx4bDYxU1habDVFUFYy?=
- =?utf-8?B?LzhLY2VYTnVmQWFodHZKMko1eDVrQUFjQzE5UXVHUmM3amRtLzRUVnB0WHc0?=
- =?utf-8?B?Zm4xd001OUtTSlA1bEJmbmxFeGxwdlI0bC9KQUlDaWtrbjl2bUJQV216cjVQ?=
- =?utf-8?B?SlM0NEQ5MmFta1RndWV0QjVLVElTK2VFR2gxWWVMS0VmaGhMQ3FYeWFQaEVq?=
- =?utf-8?B?WUpycnFjTWczM1pKN3hwMGJkZUc3NU9mOWVzd3crOThoTEE4QkF6QzF3MnN6?=
- =?utf-8?B?RGhQUVlRYjRzbk9JZHFVWm1UbE9TOGFJWTNrd0JPbVdpUmtMUHZUVlFXM3JN?=
- =?utf-8?B?UEt4ekU4NTJrWC9WR2JjNnZaRTZwMXZ5dlM1cUduUWJQQTk0OEJIWVBERGpv?=
- =?utf-8?B?emZRK2FDZXA1eHBaTjhsdkZOaVUxUmdQVjVxWXd4QlRrNHBDZ0xJbGlSek1K?=
- =?utf-8?B?cUZiWEJ6OHNZNCtETzYzRnZsVytIbi9RNVhXU0c1WUFCZlZOL2xzZzBDNnFk?=
- =?utf-8?B?TnY3QXN6WGtTb2w3QWpCT2NmbS9tWHRwTUtxSVBiQk5tUXkxTnVvNDRPYm9J?=
- =?utf-8?B?YmliMCsyckdOcnRhN2sxZEVneVhiZ0VXajF3YzF1S1N5K2ZlMnhkdm5iUExB?=
- =?utf-8?B?dVY1dVhyRFlwdmxPVUhNUk0rK2EyOTNxZ05SK09jRytMekNUSDdaTWdPa0F6?=
- =?utf-8?B?NUNDK3R0R2h4YnEzYlBYUnQyQ1BEZzI5bjdINWNFRjF2QkdYUUUvajIzME1i?=
- =?utf-8?B?NTZxMFVUamRReDZBYnRobEN1eElvb2hJZEpWdklJZU5iNFlkWmNwdnQvNVZj?=
- =?utf-8?B?ZW5Mek5yK1lrd0kxMTJ3dFlXNWV2V3hjckpIRnozUU5Qd0Uwdko5MDRqRTBO?=
- =?utf-8?B?MGlpTU1Cdkprd3cvUVlXVm1MZVoyT0VBMlB6UVpsbXpXRkUvanRHQWM1YVdH?=
- =?utf-8?B?L1pON0VWWEJpRnIvYUI0cUwybGZROHpQMy9OeDhTTnlrbVFsblc3MGlNOTNr?=
- =?utf-8?B?OW1KcC9Cd3c2a2lYRW10em1WTjNPLzB3ZUFHaFUvY2hEKy85L25PRCtVTDBl?=
- =?utf-8?B?YWgrRWpadjJCaFBDNVZWMTdNSGw0TmVwTUplSmlJdmtLRllBdXY3cEl2OENq?=
- =?utf-8?Q?K5cmYAOxJs4pNB7tey9zrk8s3?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ceec0074-78e8-47b2-d376-08ddcf71d246
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7958.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aStndHhqM3dlQUY0UlVwd0ZwM3JEK1VxNHFlamZaUkpkMGJQT2piR2NUcHdw?=
+ =?utf-8?B?SmE5alFSdXdUWWdLWEZ3QVhPT3RkN1EzSUpESC91RndXS1hwaEdZU1h3emk5?=
+ =?utf-8?B?ZE0zTFZvK0RhYUo4b0Q1UFNoK2NFMGhVbEVFSmtySUpnQXN5OUsxWHcxbVhG?=
+ =?utf-8?B?N1hudm16OGVXVUFiVjZmYURMV0w5RE9iSXVNbWtuNmVVb2x5NGt6dUtnTkY3?=
+ =?utf-8?B?eUlDTDQyMFMweHRoeW9ZdVd2RVdGRERVbC91VkFLVElQczdRZHgwaERQUldM?=
+ =?utf-8?B?dVExcnF5eVBXVGthSUVLdDFmazB1UXp4d0d2N09SRWxwY3hsakxqaU1iOTRt?=
+ =?utf-8?B?ZG9ZcXJ4elhpR244bnN6Yk9sWW9MRVhJV1VsREkwUXJodjJKMDNpV1kvSXgw?=
+ =?utf-8?B?OVNpby9iUHVlL29uczNFc0xwbXpTcm5SOHhPWllSTkhydXhaL0VFdVN1MEhK?=
+ =?utf-8?B?a3BVMmdpNTcwY3lISXFzVCtETi83dnRRZ2E0bURJcWcvZmxtaXY3NUZpUUFM?=
+ =?utf-8?B?eERZeDBxajI3U0Nyb1hPaGU0a3hGOEY3VUJIWFR1NXdvL1VnMkRxREV5ZEdM?=
+ =?utf-8?B?cUJtSE16VXdlS3Rtall2TmdxTGk2ZWtjdmhRNTNFcFUwVXJoR2VBS1p0QUhI?=
+ =?utf-8?B?UTZndXIzaHBkVUt1MkNYTFFpNzdBYTJ1RVJyR3pZTC9yM0dpQUpycWxyQTl4?=
+ =?utf-8?B?OHFzU056ZW5CNWtVR1YzaE5pSjExb0F3Nlh3OW5ENHRIbVErUXZ2NnczZzhQ?=
+ =?utf-8?B?LzJVRlZyenJ0UXJzTzFQV1JpZUl2TnhibUhIc0U3ZUZyTFM0OTJ2aG15dFlG?=
+ =?utf-8?B?eXNnMWdCUnlLa2w1dS9DTHJpSlloVFF0YU5rcEZTeUpMOFhRMjhFMXVmMFVH?=
+ =?utf-8?B?VFBoUTdIdWNDS2txSHZYRkIwLzRoYzgyYlg4Yms1YXBlNVJxRElIVDQ3RzN4?=
+ =?utf-8?B?YnA3MzZYdTIvUEhyV2FLUTkyYjdzRitkak9TL0p3VlNzLzNjbWVpWGdGclJH?=
+ =?utf-8?B?YXlLTi8yRHc2a1pCQ0hMbTV3bmx3QW1QVERJbFh0K2p1M0VPclJOT0ZzYjhs?=
+ =?utf-8?B?eDFLR005TzJOMVdVZzAvUnVZa1I5VXppVlN3Qnlta21RcStYOGNBQW1sNXY5?=
+ =?utf-8?B?UUlUejg5eGxlYVJpU3dFQXN1dEhPbUgza01JUkNHMGZGY1MzT2VvUGQwb2RC?=
+ =?utf-8?B?KzRUS3gxZjE1K1VXNVM4RGtpTzBpbGFLVXFOYy9HUFcvSytOblRtY3MxMVdH?=
+ =?utf-8?B?ZFcyUkwzQ3I2RUZSaTBDZ0RrZXBzMEhaM2RNRXIwcGhnSVJzTE5RZW1rS3Qz?=
+ =?utf-8?B?bWk4Q1dwdWo3bFlrNWlXSlNrMml6WmlWd3E3TjJxeHdkSGdKSlFPRCtVNnlJ?=
+ =?utf-8?B?V3M4YStmeGUzWnpqSW1YdHNlYmpnL3hianpjeUM4N2NuWEs0K0ovUStwVUpT?=
+ =?utf-8?B?blptK3J3QUVRUWNQTGFqZTMvUTR0eFFWUGRMZVlRVEhyZkVscGRCeXFXTlA4?=
+ =?utf-8?B?UDZrSnlab2VBbTVCSUhmZHlSWDBXYUYwWFI3SVQ0dExYdjd5UEtWdTRpTmkv?=
+ =?utf-8?B?ZXZ1eVQ5dlJGUTFpK0kyUEFjdzNRVDdvL2R6aVc0YndzOFEzWHg2cmRSN0pT?=
+ =?utf-8?B?UTRrbU4zUlMzNTh6TkFxSFUvN2x1azlEcE1YNzc4Mm55QXgrVnc0RG1qc2lp?=
+ =?utf-8?B?aXlEVXptNEU3ck03UGt3bUFiL0xTa3A1bHpLV1czVG9udzJzS1owd3VLelZG?=
+ =?utf-8?B?U2t2NEpNVHAvbDNKcDYxbVc1ZVVQcElQSVlQL1dhdmNTUnZNNFJ0eWpZQTZn?=
+ =?utf-8?B?VEhTWTBRN0JHNHp1T3htRElTTmtBclJDd3hMdnVFSTh1NEpWVStRQjR1WjB2?=
+ =?utf-8?B?M0FCNG5Nb1Y2aWo3TWF2aU4zeXVsVFpVTkdaM2NMY2NTREZjd2R6TjdkVzY4?=
+ =?utf-8?B?cFNNQXBBTVFhK3F2ZDhZQ0R0bEprelZrcCtZZUdLQVltdW1DRC94NEVIeHlJ?=
+ =?utf-8?B?WkFTTkxnNWkyZ3M5aElZRTVHcFBxM3V4N2wzOXFrNVMyU09PZ1VkWGJjVzhi?=
+ =?utf-8?B?OW0wVE9QSlFkWEZ3dDNDZE1Wc3EwN1V5SzQxclQxd3pVYm9KeE54cnVCQVpV?=
+ =?utf-8?Q?NK8Y5GwJB53QZEKh2/7ux9ZuF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f5cf237-1711-4537-5001-08ddcf742b29
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2025 14:03:12.4526 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2025 14:20:00.5752 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rq24/RSr/FvyUX/ywUdN8xhrKKCtkR9g/Fjcq7JdDX9UKcohZx0o2A2N1T0RjawwVd1Ff/hSYTWEe+n62ZxE9Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR11MB8871
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: nff8OMGFFzldBMGvHJrGcOWIfJJ4VOp894n0qKma7SI4SUcD/GYqAI24Nzxci9Wtx+FCWuc4bZbBO10uMbEDOA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7634
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -206,166 +174,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/28/2025 3:57 PM, Riana Tauro wrote:
-> Address the need for a recovery method (firmware flash on Firmware errors)
-> introduced in the later patches of Xe KMD.
-> Whenever XE KMD detects a firmware error, a firmware flash is required to
-> recover the device to normal operation.
+On 2025-07-30 09:55, Murthy, Arun R wrote:
+> On 30-07-2025 18:44, Harry Wentland wrote:
+>>
+>> On 2025-07-30 06:16, Arun R Murthy wrote:
+>>> Add user readable error codes for failure cases in drm_atomic_ioctl() so
+>>> that user can decode the error code and take corrective measurements.
+>>>
+>> Thanks for doing this work.
+>>
+>>
+>>> @@ -1541,6 +1548,9 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>>>           ret = drm_atomic_commit(state);
+>>>       }
+>>>   +    /* update the error code if any error to allow user handling it */
+>>> +    arg->reserved = state->error_code;
+>> Once we do this we paint ourselves into a corner.
+>>
+>> It's nice that we have this reserved field since it allows us to
+>> extend the atomic ioctl without the need to define a new one.
+>>
+>> When we discussed this at the Display Next Hackfest [1] we came
+>> to the conclusion that we would want:
+>>
+>> - an enum to show what is the issue
+>> - a string that can be logged to display verbose information
+>>    about the failure
+>> - an optional array of KMS object IDs participating in the failure
+>>
+>> We could define these in a new struct
+>>
+>> struct drm_mode_atomic2 {
+>>     __u64 failure_reason;
+>>     __u64 failure_string;
+>>     __u32 drm_object_ids[MAX_FAILURE_OBJECT_IDS]
+>>     __u64 reserved;
+>> }
+>>
+>> that we link to via the drm_mode_atomic->reserved field.
+>>
+>> Your approach of flags, as opposed to an enum, would allow reporting
+>> of multiple failures. Do we think drivers would ever make use of it?
+>> Normally check short-circuits when a failure/limitation is hit.
+> Thanks for the feedback. As pointed it would be good to have a struct pointed by the reserved variable, so that we can further extend the scope.
+> W.r.t the enum, I feel its better to have bit notification as we can convey multiple errors if any.
 > 
-> The initial proposal to use 'firmware-flash' as a recovery method was
-> not applicable to other drivers and could cause multiple recovery
-> methods specific to vendors to be added.
-> To address this a more generic 'vendor-specific' method is introduced,
-> guiding users to refer to vendor specific documentation and system logs
-> for detailed vendor specific recovery procedure.
+> Understand that the driver at present will return on the first error but upon adding this user readable error code can extend the driver to check add the properties provided by user and report error at once, so that multiple failure iterations can be overridden.
 > 
-> Add a recovery method 'WEDGED=vendor-specific' for such errors.
-> Vendors must provide additional recovery documentation if this method
-> is used.
-> 
-> It is the responsibility of the consumer to refer to the correct vendor
-> specific documentation and usecase before attempting a recovery.
-> 
-> For example: If driver is XE KMD, the consumer must refer
-> to the documentation of 'Device Wedging' under 'Documentation/gpu/xe/'.
-> 
-> Recovery script contributed by Raag.
-> 
-> v2: fix documentation (Raag)
-> v3: add more details to commit message (Sima, Rodrigo, Raag)
->      add an example script to the documentation (Raag)
-> v4: use consistent naming (Raag)
-> v5: fix commit message
-> 
-> Cc: André Almeida <andrealmeid@igalia.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> Co-developed-by: Raag Jadav <raag.jadav@intel.com>
-> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-This patch needs an ack from drm to be merged.
-The rest of the series have RB's. Can someone please provide an ack ?
+I don't have a strong preference either way here. I'm happy with a
+set of flags so we can report multiple errors at once.
 
-Cc: drm-misc maintainers
-
-Thanks
-Riana
-
-> ---
->   Documentation/gpu/drm-uapi.rst | 42 ++++++++++++++++++++++++++++------
->   drivers/gpu/drm/drm_drv.c      |  2 ++
->   include/drm/drm_device.h       |  4 ++++
->   3 files changed, 41 insertions(+), 7 deletions(-)
+> Having obj_id would be a good one, but when the flow goes to the vendor specific driver, they may not have the link to the obj_id where a failure is occurred. But still good to have so that at the early stage in set_prop, sanity check failures can be reported with obj_id so that it would be easy for the user to correct them in the next atomic ioctl.
 > 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 843facf01b2d..5691b29acde3 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -418,13 +418,15 @@ needed.
->   Recovery
->   --------
->   
-> -Current implementation defines three recovery methods, out of which, drivers
-> +Current implementation defines four recovery methods, out of which, drivers
->   can use any one, multiple or none. Method(s) of choice will be sent in the
->   uevent environment as ``WEDGED=<method1>[,..,<methodN>]`` in order of less to
-> -more side-effects. If driver is unsure about recovery or method is unknown
-> -(like soft/hard system reboot, firmware flashing, physical device replacement
-> -or any other procedure which can't be attempted on the fly), ``WEDGED=unknown``
-> -will be sent instead.
-> +more side-effects. If recovery method is specific to vendor
-> +``WEDGED=vendor-specific`` will be sent and userspace should refer to vendor
-> +specific documentation for the recovery procedure. As an example if the driver
-> +is 'Xe' then the documentation for 'Device Wedging' of Xe driver needs to be
-> +referred for the recovery procedure. If driver is unsure about recovery or
-> +method is unknown, ``WEDGED=unknown`` will be sent instead.
->   
->   Userspace consumers can parse this event and attempt recovery as per the
->   following expectations.
-> @@ -435,6 +437,7 @@ following expectations.
->       none            optional telemetry collection
->       rebind          unbind + bind driver
->       bus-reset       unbind + bus reset/re-enumeration + bind
-> +    vendor-specific vendor specific recovery method
->       unknown         consumer policy
->       =============== ========================================
->   
-> @@ -472,8 +475,12 @@ erroring out, all device memory should be unmapped and file descriptors should
->   be closed to prevent leaks or undefined behaviour. The idea here is to clear the
->   device of all user context beforehand and set the stage for a clean recovery.
->   
-> -Example
-> --------
-> +For ``WEDGED=vendor-specific`` recovery method, it is the responsibility of the
-> +consumer to check the driver documentation and the usecase before attempting
-> +a recovery.
-> +
-> +Example - rebind
-> +----------------
->   
->   Udev rule::
->   
-> @@ -491,6 +498,27 @@ Recovery script::
->       echo -n $DEVICE > $DRIVER/unbind
->       echo -n $DEVICE > $DRIVER/bind
->   
-> +Example - vendor-specific
-> +-------------------------
-> +
-> +Udev rule::
-> +
-> +    SUBSYSTEM=="drm", ENV{WEDGED}=="vendor-specific", DEVPATH=="*/drm/card[0-9]",
-> +    RUN+="/path/to/vendor_specific_recovery.sh $env{DEVPATH}"
-> +
-> +Recovery script::
-> +
-> +    #!/bin/sh
-> +
-> +    DEVPATH=$(readlink -f /sys/$1/device)
-> +    DRIVERPATH=$(readlink -f $DEVPATH/driver)
-> +    DRIVER=$(basename $DRIVERPATH)
-> +
-> +    if [ "$DRIVER" = "xe" ]; then
-> +        # Refer XE documentation and check usecase and recovery procedure
-> +    fi
-> +
-> +
->   Customization
->   -------------
->   
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index cdd591b11488..0ac723a46a91 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -532,6 +532,8 @@ static const char *drm_get_wedge_recovery(unsigned int opt)
->   		return "rebind";
->   	case DRM_WEDGE_RECOVERY_BUS_RESET:
->   		return "bus-reset";
-> +	case DRM_WEDGE_RECOVERY_VENDOR:
-> +		return "vendor-specific";
->   	default:
->   		return NULL;
->   	}
-> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> index a33aedd5e9ec..59fd3f4d5995 100644
-> --- a/include/drm/drm_device.h
-> +++ b/include/drm/drm_device.h
-> @@ -26,10 +26,14 @@ struct pci_controller;
->    * Recovery methods for wedged device in order of less to more side-effects.
->    * To be used with drm_dev_wedged_event() as recovery @method. Callers can
->    * use any one, multiple (or'd) or none depending on their needs.
-> + *
-> + * Refer to "Device Wedging" chapter in Documentation/gpu/drm-uapi.rst for more
-> + * details.
->    */
->   #define DRM_WEDGE_RECOVERY_NONE		BIT(0)	/* optional telemetry collection */
->   #define DRM_WEDGE_RECOVERY_REBIND	BIT(1)	/* unbind + bind driver */
->   #define DRM_WEDGE_RECOVERY_BUS_RESET	BIT(2)	/* unbind + reset bus device + bind */
-> +#define DRM_WEDGE_RECOVERY_VENDOR	BIT(3)	/* vendor specific recovery method */
->   
->   /**
->    * struct drm_wedge_task_info - information about the guilty task of a wedge dev
+
+Right. This is entirely optional for scenarios where a driver (or
+DRM core) can provided this additional info. It might make sense for
+MST bandwidth failures where we could provide the MST connectors that
+are involved, i.e., ones on the same physical connector.
+
+It could possibly also be useful for movable HW blocks, which is not
+something we can express right now. Things like a LUT that can be
+assigned to any pipe. When userspace tries enabling the property that
+uses the LUT but all are in use we might be able to signal what is
+conflicting.
+
+But again, entirely optional for scenarios where a driver thinks it
+can provide better information. It also depends on how userspace will
+implement this. I'm sure compositors don't want to overcomplicate their
+failure handling.
+
+Harry
+
+
+> Will take care of these feedback in my next revision of patch set.
+> 
+> Thanks and Regards,
+> Arun R Murthy
+> --------------------
+> 
 
