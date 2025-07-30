@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428F9B1654A
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 19:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D941B16546
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Jul 2025 19:17:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8A610E37B;
-	Wed, 30 Jul 2025 17:17:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FEDB10E21C;
+	Wed, 30 Jul 2025 17:17:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Jyl9vUZJ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QrZJunuz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 329CF10E21C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C6F10E37E
  for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 17:17:34 +0000 (UTC)
 Received: from relay15.mail.gandi.net (relay15.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::235])
- by mslow3.mail.gandi.net (Postfix) with ESMTP id 26133583D4F
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 17:02:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6D617442A9;
- Wed, 30 Jul 2025 17:02:52 +0000 (UTC)
+ by mslow3.mail.gandi.net (Postfix) with ESMTP id 6640F583D9B
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 17:02:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BE0E6442A6;
+ Wed, 30 Jul 2025 17:02:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1753894973;
+ t=1753894975;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Kp/er0tAcwSGh4h0rLep0cfDaCG3r32BhF8cj5ZTgVk=;
- b=Jyl9vUZJ4ufUq1ms4UZ/7fOnDkbDMxSZhF3bF8bgP0IY+3gWu5ROhf7v96XzIsQxFlePLO
- uRLVQ0YctxEXbu8CMbFOm8VhEDWrHGNRcZ+4yQQ4tosRmF/yPKYvyNZ9vABFwPCY43lgAm
- nk2zLRmMOVq7WvXWpJAJu8Eygu3/Ua6tYjeMYiKAcXB4SM1KYoVbEWg02EK/w+XQSJGHPh
- VirFa0cl1GYVP/Kgx3zUsvWlN7d/9aaa9xLUy+1tblitRXTAiqQRPbGkccRpTjINMbg3+3
- /yreuk97z2R5Cgu5hsAQxlFN305sUYhVXdQWtVbkHe9+THgfbfoZ/K3RqKmBQg==
+ bh=N+xY4UZr8LvAM8jYcOJRM8hzadDR3NumATbc214IapM=;
+ b=QrZJunuzAe9A32IXdLxegg+gs4exspfjaG6mJNmOBcAId+g/COu7BRFQUYml/7aUdlElg/
+ 5k019XhQbOTZakt5FNPO68V8akrtj04+biWh8SQvGRQOUPgDMvbHD1fZGBeDz45Ixctlsk
+ PKwvSnyHqcNG+NyrMVm1mbF9njC7cm5l8roFPbJn8DbfXqYTzQnVn3fcQrGVEc3jgAx4ky
+ IT/9gKcgJqkt3+pS6TkO9nGSvJ7Q1GVdhsQLbL5V0C1FC8QqHDFaROVS3yvIFS+eiG2b2O
+ 0vu2hi2xpPqRJ/GWLNBCQS1sF2qLKQ3rptTpHoRghTgJcYyXvh4I/3CBVu3rUQ==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Wed, 30 Jul 2025 19:02:44 +0200
-Subject: [PATCH 1/4] dt-bindings: display: ti,am65x-dss: Add clk property
- for data edge synchronization
+Date: Wed, 30 Jul 2025 19:02:45 +0200
+Subject: [PATCH 2/4] dt-bindings: mfd: syscon: Add ti,am625-dss-clk-ctrl
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250730-fix-edge-handling-v1-1-1bdfb3fe7922@bootlin.com>
+Message-Id: <20250730-fix-edge-handling-v1-2-1bdfb3fe7922@bootlin.com>
 References: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
 In-Reply-To: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -59,21 +58,21 @@ Cc: thomas.petazzoni@bootlin.com, Jyri Sarha <jsarha@ti.com>,
  linux-arm-kernel@lists.infradead.org, stable@vger.kernel.org, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1754;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1779;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=u/DBPrrXi1YUBX587wY3HEnl0jSOb8wEheVaHESnVqk=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoilA2suPh4nRhBtWG5qKVTjCFsDGyeZE4Bq4Gd
- u0vOdgXHPSJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaIpQNgAKCRAgrS7GWxAs
- 4jDTEACExFMJe49yi3EY4yiiTXZOHCHmbi/MWe3IyQN+ciki2IfkgmVMuTsTy7rpQbH17Bif9wc
- vwhmqQUd9GLY5UuGlP6/ZT4glcRi24XWNt1/ckIagtL549N2+pymVinnz4EsmlhTXPL8u9/NSUO
- wLsqChLJutV+GEsLH7HwK5OxEB3I860UCqzasSTpQQp+61LsEBJurYYTiBR3n5nb+UwBWUvDqij
- COQGqOC4eTxHZZvLFmTiTI4NMNjsYRN0qp7mXrm8fEm6x4GOaxN9MPeZ4vdsmIFHsvJVD3bhwps
- C8Ilf7nLvXPtLNaB461Y8zi2WrSc+G1ckZi78Ru+PywCZ21uoAzZu5PbsTINnGzD1l2IxVdK4LZ
- W9RmeKNAO51b05+4og6UpqiWAVpvWxdf+hjgw/uh7I/6Ca/fGDO3NueIsOMObXZjqns96fQTdw7
- cca7cxsMWhuleKj22UjmpjUBMcU0WieUJBWghZTUPT+z5YZcsxCDW1upoORginI8Dh+8jHwZWwQ
- WHdjP7N7j0ST68qD78xlWlylKT/P/LbslrNfXJvEwC/YsTgIJoPuB5SvMS9mfL/nKXs1LI2uKlL
- lf9tAVcGVwffhm//IWarU1qK7ed/E6lxqM9ZA2kqGbBVE78pGzPIQlXp5oNhYW3cipmqKmNVMLD
- ZBNZ38Dmg1nF64Q==
+ bh=+vQmzWOpJ3o7m/vAWofAcDWRydefU96Ll29wNpFlYIo=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoilA3M4ea0dmIilicR6aW0qGwK4i4ICkosRsvt
+ d60pygWKgmJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaIpQNwAKCRAgrS7GWxAs
+ 4upxD/9zxSfXLrFH5tI+71ohX67Q17YO5UDoErAp8zVlMW9VQFTihgpw0Ulexzo5d2Hj9OgZl01
+ SfQPcsgnY4J6Zm3lL6584731SIlWk3xkH77d3bSotXbkLhlMcOa5GaUJlV4aHOmnGv1Q7aDbw0W
+ TARRvPlLlGPRqAqTUJ53I7cUnbq6edBc2CzOD3D6v/NS3NqArH9Um9vVoi+DKZxvQWFt4IHnc2k
+ 4uSQ2hl05y1oJi8uMlK2slSpysT5lwcdkj5rQ807cRw/AYXDM0Ftr3VbA+JKJj6uid/ngC9m2fY
+ 2HqinTX07O3pojp4hoKrCWTPRnsGJldzqispnktmQClZpq93W0gbsfa/tLXwuzWcke1vqqdAatv
+ DCsU4M1dAEHE4v3Z6Fa9ogDw/n1dxQBAZ+LuqAVVeI9NO88/cZWrPBLTXXqvdcs9B51ImzSiFeC
+ AMnGnG8pJeBNiA0NxsDtYS+Lo6YeDMoJbRx5huwzaKtc8100GsB41vZoykPFixIdLgqWHGPukPI
+ KGs8NJRfQQdJBfIxym3w5v2AhI5+gnjH6mXF8HPv7DT9dgJIXY/+euv8krKh5XjniHVadMeD0Fe
+ MxwqXZ2VW3tU/gEIjYD2Ok3gvpoy+lGr/WbBOIusOZLGQtxluZHSAiL07boSFEil0LqxqNxw5Uv
+ HkMjHdbq7Qd0qNQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-State: clean
@@ -95,45 +94,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dt-bindings for the display, specifically ti,am65x-dss, need to
-include a clock property for data edge synchronization. The current
-implementation does not correctly apply the data edge sampling property.
-
-To address this, synchronization of writes to two different registers is
-required: one in the TIDSS IP (which is already described in the tidss
-node) and one is in the Memory Mapped Control Register Modules (added by
-the previous commit).
-
-As the Memory Mapped Control Register Modules is located in a different
-IP, we need to use a phandle to write values in its registers.
+The dt-bindings for the multi-function device (mfd) syscon need to include
+ti,am625-dss-clk-ctrl. On AM625 chips, the display controller (tidss) has
+external registers to control certain clock properties. These registers
+are located in the device configuration registers, so they need to be
+declared using syscon. They will later be used with a phandle in the tidss
+node.
 
 Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
 ---
 
 Cc: stable@vger.kernel.org
 ---
- Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/devicetree/bindings/mfd/syscon.yaml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-index 361e9cae6896c1f4d7fa1ec47a6e3a73bca2b102..b9a373b569170332f671416eb7bbc0c83f7b5ea6 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-@@ -133,6 +133,12 @@ properties:
-       and OLDI_CLK_IO_CTRL registers. This property is needed for OLDI
-       interface to work.
- 
-+  ti,clk-ctrl:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      phandle to syscon device node mapping CFG0_CLK_CTRL registers.
-+      This property is needed for proper data sampling edge.
-+
-   max-memory-bandwidth:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     description:
+diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
+index 27672adeb1fedb7c81b8ae86c35f4f3b26d5516f..afe4a2a19591e90c850c05ef5888f18bdb64eac9 100644
+--- a/Documentation/devicetree/bindings/mfd/syscon.yaml
++++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
+@@ -121,6 +121,7 @@ select:
+           - ti,am62-opp-efuse-table
+           - ti,am62-usb-phy-ctrl
+           - ti,am625-dss-oldi-io-ctrl
++          - ti,am625-dss-clk-ctrl
+           - ti,am62p-cpsw-mac-efuse
+           - ti,am654-dss-oldi-io-ctrl
+           - ti,j784s4-acspcie-proxy-ctrl
+@@ -228,6 +229,7 @@ properties:
+           - ti,am62-opp-efuse-table
+           - ti,am62-usb-phy-ctrl
+           - ti,am625-dss-oldi-io-ctrl
++          - ti,am625-dss-clk-ctrl
+           - ti,am62p-cpsw-mac-efuse
+           - ti,am654-dss-oldi-io-ctrl
+           - ti,j784s4-acspcie-proxy-ctrl
+@@ -256,4 +258,3 @@ examples:
+         compatible = "allwinner,sun8i-h3-system-controller", "syscon";
+         reg = <0x01c00000 0x1000>;
+     };
+-...
 
 -- 
 2.50.1
