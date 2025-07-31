@@ -2,86 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98598B16F40
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 12:13:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09AAB16F52
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 12:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBA510E264;
-	Thu, 31 Jul 2025 10:13:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="SNO7QjYj";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4158E10E77B;
+	Thu, 31 Jul 2025 10:17:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
- [209.85.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06CE410E264
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 10:13:55 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id
- d2e1a72fcca58-76bd041c431so294141b3a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 03:13:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1753956834; x=1754561634;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vbmP0QkKxqA/DbyjgD1AWdfq/ymSytlBSv09DpEvJnQ=;
- b=SNO7QjYji/8+24W8pKntVN5kB68W2Ce1/6qlGXvrBReeZMTgayG+aF8OSMCmSPPqGV
- EGKMQkCCfQcXLceZOtYPSP4RpNfY28xPWhhO57616sQRqvsscLJWY+YFQebnZT+kEE4Y
- NVtlNckFfeS7PTjnpbTlyD0QuZgOUye2TpVRw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753956834; x=1754561634;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vbmP0QkKxqA/DbyjgD1AWdfq/ymSytlBSv09DpEvJnQ=;
- b=EpBmanViIUvifZJm2uMvHXrKed0mzuadKnTch4VqgBSIwF0K3VaLgcSaJpCcBYP2i3
- HJJ3iX4O8Uqw+8LiLoa1iyeqp2fQHjrbS6IgN1FBfj+3OzD5yeFbN5xDO/x4kbyub8q0
- 5qXsPyYQa7y1TmH+y7VdnaP8kaKYpuF2EUEdGJl532NZLF+X6bBr9fGz1C1x9ZANaDY8
- R/Fha0elwPQcCnK57yurWMXJFcKDjDidP98hqr1XJAnujZrmyDOGq4zkkEqyV4Ne9i2G
- PvMV5e5vs7+WCA7BDEMrGC2lGX544rVc50sVjZdu8kN+bX6s8lalx7h6/sj0CxxsccJI
- Kp3A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWdP9aDQwlULnoVxlEHRqvE1sAliLzM3Yjv/zE2n7gZrUzfoCJbzVxUk2AfaXOtf3nLyEyJJjmtyrY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywt/BY4+f8kykKG3vXDlGLQHbzlJKyx3XEdwTmJAjneqvgiucCD
- baVy0uMQcWdBeX1G5re49QKgNs09k2Q/ZxBdByCUoiTvUGcbGifVQXK5FescvskDxw==
-X-Gm-Gg: ASbGnct/zJC+yYWznqQaCtjIsj1bSNEd9lbDhYmiMzWAEIZcU0k27FHOgBlkto09Lf6
- RmYDPEcaL0s6rp8WZFctgxRBDXey53MpCsHlHzptzuepQ5CAStPqyI7BBT3+KwlIircP/iFuQwG
- 52RXpH3k5OeqH26YOM20/pXuZWAKDrlhC5bJY2NhWQiks5563TYQMNdm5XGIWQAu4oSxdWRXoEh
- jimN0WvsLZeJ8dzRrnM2AY1Qfq3zS66dvmb/MzyDQrwskSlffq+XItIwYuq/z9DxmnpFjv5hz81
- PkWSlvOIuRqC+xZ926GnVr/dQnuMTogNT84b81B+D/IcVSa3R77jPgAc73rdblczL/PzBCtOXj3
- d7PdjL4V77yjcMTIEQyyC4y35zubbQ99YkXsBM74BG1k=
-X-Google-Smtp-Source: AGHT+IHss+OJHmD0FAT3nC9RmC2MQCveb1+xJQvOEYyG7cW9OhPxDF0JmjTzbXM6LOHd95qxmTPNHw==
-X-Received: by 2002:a05:6a20:3ca8:b0:234:80f6:2b3a with SMTP id
- adf61e73a8af0-23dc0cf78ecmr10951554637.4.1753956834512; 
- Thu, 31 Jul 2025 03:13:54 -0700 (PDT)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:8177:f5a7:88a1:4ed9])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76bcce6f5f5sm1229265b3a.10.2025.07.31.03.13.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Jul 2025 03:13:54 -0700 (PDT)
-From: Pin-Yen Lin <treapking@chromium.org>
-X-Google-Original-From: Pin-Yen Lin <treapking@google.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D317710E778
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 10:17:55 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 74DAF1D13
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 03:17:47 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 411C73F673
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 03:17:55 -0700 (PDT)
+Date: Thu, 31 Jul 2025 11:17:53 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Karunika Choo <karunika.choo@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wenst@chromium.org>, Pin-Yen Lin <treapking@google.com>
-Subject: [PATCH 2/2] HID: Make elan touch controllers power on after panel is
- enabled
-Date: Thu, 31 Jul 2025 18:13:15 +0800
-Message-ID: <20250731101344.2761757-2-treapking@google.com>
-X-Mailer: git-send-email 2.50.1.552.g942d659e1b-goog
-In-Reply-To: <20250731101344.2761757-1-treapking@google.com>
-References: <20250731101344.2761757-1-treapking@google.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, Dennis Tsiang <dennis.tsiang@arm.com>
+Subject: Re: [PATCH v1] drm/panthor: Serialize GPU cache flush operations
+Message-ID: <aItC0UKB8lMMdp79@e110455-lin.cambridge.arm.com>
+References: <20250730174338.1650212-1-karunika.choo@arm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250730174338.1650212-1-karunika.choo@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,112 +53,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a new HID quirk to indicate that this device has to be enabled
-after the panel's backlight is enabled, and update the driver data for
-the elan devices to enable this quirk. This cannot be a I2C HID quirk
-because the kernel needs to acknowledge this before powering up the
-device and read the VID/PID.
+On Wed, Jul 30, 2025 at 06:43:38PM +0100, Karunika Choo wrote:
+> In certain scenarios, it is possible for multiple cache flushes to be
+> requested before the previous one completes. This patch introduces the
+> cache_flush_lock mutex to serialize these operations and ensure that
+> any requested cache flushes are completed instead of dropped.
+> 
+> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+> Co-developed-by: Dennis Tsiang <dennis.tsiang@arm.com>
 
-Signed-off-by: Pin-Yen Lin <treapking@google.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
----
+Best regards,
+Liviu
 
- drivers/hid/i2c-hid/i2c-hid-core.c    |  2 ++
- drivers/hid/i2c-hid/i2c-hid-of-elan.c | 11 ++++++++++-
- include/linux/hid.h                   |  2 ++
- 3 files changed, 14 insertions(+), 1 deletion(-)
+> ---
+>  drivers/gpu/drm/panthor/panthor_gpu.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index cb7a335e07d7..030409371037 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -35,6 +35,9 @@ struct panthor_gpu {
+>  
+>  	/** @reqs_acked: GPU request wait queue. */
+>  	wait_queue_head_t reqs_acked;
+> +
+> +	/** @cache_flush_lock: Lock to serialize cache flushes */
+> +	struct mutex cache_flush_lock;
+>  };
+>  
+>  /**
+> @@ -204,6 +207,7 @@ int panthor_gpu_init(struct panthor_device *ptdev)
+>  
+>  	spin_lock_init(&gpu->reqs_lock);
+>  	init_waitqueue_head(&gpu->reqs_acked);
+> +	mutex_init(&gpu->cache_flush_lock);
+>  	ptdev->gpu = gpu;
+>  	panthor_gpu_init_info(ptdev);
+>  
+> @@ -353,6 +357,9 @@ int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+>  	bool timedout = false;
+>  	unsigned long flags;
+>  
+> +	/* Serialize cache flush operations. */
+> +	guard(mutex)(&ptdev->gpu->cache_flush_lock);
+> +
+>  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+>  	if (!drm_WARN_ON(&ptdev->base,
+>  			 ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
+> -- 
+> 2.49.0
+> 
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index d3912e3f2f13a..8dc4d5d56d399 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -1183,6 +1183,8 @@ static int i2c_hid_core_register_panel_follower(struct i2c_hid *ihid)
- 	int ret;
- 
- 	ihid->panel_follower.funcs = &i2c_hid_core_panel_follower_funcs;
-+	if (ihid->hid->initial_quirks | HID_QUIRK_POWER_ON_AFTER_BACKLIGHT)
-+		ihid->panel_follower.after_panel_enabled = true;
- 
- 	/*
- 	 * If we're not in control of our own power up/power down then we can't
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-index 3fcff6daa0d3a..0215f217f6d86 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-@@ -8,6 +8,7 @@
- #include <linux/delay.h>
- #include <linux/device.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/hid.h>
- #include <linux/i2c.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -23,6 +24,7 @@ struct elan_i2c_hid_chip_data {
- 	unsigned int post_power_delay_ms;
- 	u16 hid_descriptor_address;
- 	const char *main_supply_name;
-+	bool power_after_backlight;
- };
- 
- struct i2c_hid_of_elan {
-@@ -97,6 +99,7 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
- {
- 	struct i2c_hid_of_elan *ihid_elan;
- 	int ret;
-+	u32 quirks = 0;
- 
- 	ihid_elan = devm_kzalloc(&client->dev, sizeof(*ihid_elan), GFP_KERNEL);
- 	if (!ihid_elan)
-@@ -131,8 +134,12 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
- 		}
- 	}
- 
-+	if (ihid_elan->chip_data->power_after_backlight)
-+		quirks = HID_QUIRK_POWER_ON_AFTER_BACKLIGHT;
-+
- 	ret = i2c_hid_core_probe(client, &ihid_elan->ops,
--				 ihid_elan->chip_data->hid_descriptor_address, 0);
-+				 ihid_elan->chip_data->hid_descriptor_address,
-+				 quirks);
- 	if (ret)
- 		goto err_deassert_reset;
- 
-@@ -150,6 +157,7 @@ static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_data = {
- 	.post_gpio_reset_on_delay_ms = 300,
- 	.hid_descriptor_address = 0x0001,
- 	.main_supply_name = "vcc33",
-+	.power_after_backlight = true,
- };
- 
- static const struct elan_i2c_hid_chip_data elan_ekth6a12nay_chip_data = {
-@@ -157,6 +165,7 @@ static const struct elan_i2c_hid_chip_data elan_ekth6a12nay_chip_data = {
- 	.post_gpio_reset_on_delay_ms = 300,
- 	.hid_descriptor_address = 0x0001,
- 	.main_supply_name = "vcc33",
-+	.power_after_backlight = true,
- };
- 
- static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data = {
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 2cc4f1e4ea963..c32425b5d0119 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -364,6 +364,7 @@ struct hid_item {
-  * | @HID_QUIRK_HAVE_SPECIAL_DRIVER:
-  * | @HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE:
-  * | @HID_QUIRK_IGNORE_SPECIAL_DRIVER
-+ * | @HID_QUIRK_POWER_ON_AFTER_BACKLIGHT
-  * | @HID_QUIRK_FULLSPEED_INTERVAL:
-  * | @HID_QUIRK_NO_INIT_REPORTS:
-  * | @HID_QUIRK_NO_IGNORE:
-@@ -391,6 +392,7 @@ struct hid_item {
- #define HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE	BIT(20)
- #define HID_QUIRK_NOINVERT			BIT(21)
- #define HID_QUIRK_IGNORE_SPECIAL_DRIVER		BIT(22)
-+#define HID_QUIRK_POWER_ON_AFTER_BACKLIGHT	BIT(23)
- #define HID_QUIRK_FULLSPEED_INTERVAL		BIT(28)
- #define HID_QUIRK_NO_INIT_REPORTS		BIT(29)
- #define HID_QUIRK_NO_IGNORE			BIT(30)
 -- 
-2.50.1.552.g942d659e1b-goog
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
