@@ -2,84 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B6CB16B76
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 07:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB106B16CA0
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 09:23:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDDB310E07A;
-	Thu, 31 Jul 2025 05:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E352C10E712;
+	Thu, 31 Jul 2025 07:23:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M2K26QpI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hXa7fcaW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C188010E07A
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 05:10:19 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-6152faff57eso686221a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 22:10:19 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37D9B10E702;
+ Thu, 31 Jul 2025 05:36:45 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3b77b8750acso231883f8f.0; 
+ Wed, 30 Jul 2025 22:36:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753938618; x=1754543418; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=tuA7w177qipht0CdytdjoNMQyoHN844GStBL0h6TTT8=;
- b=M2K26QpIYUUVUx4qOsieYaoU9Gz3AqHPM8uTjZKrjOgzilV34gZaf5P7J2i/E3qOGU
- aV/hhZFHCJhltjqyX2wGdBhlcW5XbRAymRlvhbfKiv7eGorNSD6H9Fx64aGyIA2pGQUv
- gdHF5NWxWrvIjCebYDx9X6MtOcPD3GKMN64gABahCYmXo1dlQppC+cGhDlGWcT1DxAmN
- iDV/NEJQVUBqKTI4QNltRB0bwxLPW8LhHz389cupbrWXwGnugGJ4JG5FNKxanN1hFl+e
- C0KXOQ/EnkbbiQd9cT5YZ45p+Qip9h6xPQ7KIQ5l1n8VO43YnvVRtG8xir0zsUtlpMz/
- ZEvA==
+ d=gmail.com; s=20230601; t=1753940204; x=1754545004; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9wjzRFN4mNt2Ahno1y82ZVBSbr4UOHx9K5gFPebp1jI=;
+ b=hXa7fcaWJ+2Qht1MzVCEU7Rlf6fr/ZUIIarTooDg/CZvhD+INQpPMytJiqlSKibBFp
+ RiZ6Z6aMBW1rawHdH79min+ripME/V/nAjW78jcZYQlwcrNxek3sE/CVje0GQwiii3m7
+ Vyo7XD5V4Kil5DlIeh/8iuU4gwWrXzOwxmQD3VxBdSZR83AHcgmWFgAZusVqFRDwVY/y
+ oZL65z7dsSXHmEY9vok09Z17gdY7ZpxgnkbzprRSw3xknz2/1a2MXBlnm9Pk2bLDr2m2
+ IF/b7p4378fl9/ZDuCfVevRU+q2RTJdIZNCPByFwfCf9zMwxEpbaRvvWFphmWChNO7IT
+ Sf2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753938618; x=1754543418;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1753940204; x=1754545004;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=tuA7w177qipht0CdytdjoNMQyoHN844GStBL0h6TTT8=;
- b=hHqCRo9BbYctI7IYnu5w7RWkfT/1i/N1U4Bngpmqo+erQmXavk3hDw+xnVbvvsAnE+
- oMRFlk0vDD9W4rCYvpL1bQ8qmLosqt2+mkNOmgnd4W6K8G+ToaPPUfANnofcaUf62Hc/
- MXPkmdn0hZvIC5s78l4GQqq2rkSaB5tDC8gb7UtVrhrQdU771kw+3K1CIrwsaljZFIps
- pDTEf1mOpxw3aCUuPDNcuLSjcTLpthOaRsgIPGLH/CNL/UACg2nhw981p6qxSbJkdGUc
- g7KG78flOWFP8956tYoc52RMcovriB91HDgBsJJ9nj7/pp7o0YdVHUlMJRXAqcZcpl3t
- Ysfw==
+ bh=9wjzRFN4mNt2Ahno1y82ZVBSbr4UOHx9K5gFPebp1jI=;
+ b=pcQF2de9YsOORmHCnlZvC/eB2/Le0dArO62Z2SrsAXNhBy6Uro7TX9pHksYrKS3twV
+ dPZfi08breew5Gqw78+S4z2cHkMYsIzlVybaT5cdZ5PDD4JPEze/s3SXdHQiFp2V5aiv
+ ysyWtnh0LKNV/rBc+ozcI8tR9eX63OYdWC3e2AqoUsb4WJNVvO/bDvqgItXBuzi7o3gK
+ SglPa3bD+tuopsx0ajjdiCpG3QQdJqGHwoucVJIBCAPQYEiYu7BJr1USKI6vknSsxjfU
+ RXtFQo6hCEX/7L18zNOTT0hWBTbB6LfWSFeQN+spWTmLhKmdm7i250UnwqVm2zTE7ICG
+ p05A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWFsI/ioGkuMVoFlYwsQjfMsbkjKXQJk9N9eTNzlgZ3obnCCta/vr1UpisFR92hLfYirRuKARMBpLg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwM0biWlEPuKMlUovSkNzm6jzfGVlmLkAczyxGZPbgKrxzXdjiU
- XgV0bUN6Nr2TCjjf85TY0ke5li3t/pQWjNh2sDIe3H/Gq7CPQ3h9zu4e6K5/S/jtWqr47uyWLiw
- nWzgfMsnyRgmrgSXg4vYq2KESSabD+EGPLA==
-X-Gm-Gg: ASbGncuqXMfxRKfvNgiwJpwDpIEZHSzBhA96wdfYePk3w3av4POf2i0JYvlkxiy3Igh
- QSfKbifStRJQWlxi9++CAx2rHg4A+vmIYuaqcP43tYvaYyRzc1d2EQ2aNwTbD7ryKAzv4qyOM8F
- L5POPwtGmherDbazgjmbdgsEvCEdnFRiUhmSuY4a7W0NhErS6ODnYf0E+l+2vEZBuH5qj+FkCJ+
- DVo6Q==
-X-Google-Smtp-Source: AGHT+IEdZwwZGZh5R0EM0A9nQcuU8F2sGN1Zwy698U3lAVS34NsIuSZl2ZCheD2yAxaJPeCjJ/yrFjXR9zP/EbwdtNE=
-X-Received: by 2002:a17:907:d05:b0:ad4:8ec1:8fcf with SMTP id
- a640c23a62f3a-af8fda40367mr804977666b.46.1753938618057; Wed, 30 Jul 2025
- 22:10:18 -0700 (PDT)
+ AJvYcCWtrCI352zMaYPfpc+KS3Z8QDCaXhlbHLkJ7nN3drTF0zpxwORW1eFy+CcqqiV4Jf8olnb9JRrAz8U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKRn+ZvqiOC6qT9s3zt5OSs0nJ4QnNt4g7KEOoM0nni+ZICg88
+ R8ZXaefawLd/Iy2+2efNiZDh5qJx8CfUsHnuC2JpuwWWxSGYhxR0+MkW
+X-Gm-Gg: ASbGncvnmfoC5RjVUmY6WaIrPUHzBalmgcxV7wPM6bVK0j30f0aI/9kIM9ToUije7M6
+ CSFE3LmKD/G6/t2tXMZ7oQBy7g87lGphP8lgvDIMI5+B1j/KOBqZMsOUx1A38Nuol16KqdXJkYU
+ mHKVCjRb8kKmKy5gwv5YKXAKce+0z9qRMit/i9nKcUycdjt95xDn48EnuCK0C7FLw8RC9vDmTBm
+ EDUP/d4LtwhfzG5Hnzv8A1+Q063pOA1gjz6lTG6HSj20R9CjRRFZT0JVI00VJs4YrD2V79TphvN
+ OWv9gqehYX1ltATRpOBiSR90WkVMiz4hvJAzWhxtYnbADoMbmqFeLUACgn8ZZGi4IO7rSXMIF9I
+ l/Ko7nzwftTeg2u4bcTf3iCDQe/gWjrCGKOVnJT4N/MKLouqVQa628gHVK4Ia
+X-Google-Smtp-Source: AGHT+IHZzT2X7dcyUlKwCrocUxoHjRp8HDiN+RWizQinctQQjrI6tN9tQPybT24AfCWIZ5kXsrV/ig==
+X-Received: by 2002:a05:6000:2dc2:b0:3b7:908e:e4ac with SMTP id
+ ffacd0b85a97d-3b79d42097dmr494133f8f.2.1753940203459; 
+ Wed, 30 Jul 2025 22:36:43 -0700 (PDT)
+Received: from [192.168.1.205]
+ (dynamic-176-005-138-071.176.5.pool.telefonica.de. [176.5.138.71])
+ by smtp.googlemail.com with ESMTPSA id
+ ffacd0b85a97d-3b79c3ac093sm1149137f8f.9.2025.07.30.22.36.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Jul 2025 22:36:41 -0700 (PDT)
+From: Philipp Zabel <philipp.zabel@gmail.com>
+Subject: [PATCH RFC 0/6] amdgpu: Avoid powering on the dGPU on
+ vkEnumeratePhysicalDevices()
+Date: Thu, 31 Jul 2025 07:36:33 +0200
+Message-Id: <20250731-b4-dont-wake-next-v1-0-e51bdc347fa3@gmail.com>
 MIME-Version: 1.0
-References: <CAPM=9tzVm80-v6_5nt6kko3nR+aQLZ7R98i419FV8f4-ayQWUw@mail.gmail.com>
- <CAHk-=wirxHy+KU6jmtO2dzmGQ1BwaOdd5Mjtrc40fGvZVULQQg@mail.gmail.com>
- <CAHk-=wjn5Pg2Gp=o2NVv-nRKqE=E75AxUypWCCpQ7MDXuHx+YA@mail.gmail.com>
- <CAHk-=whnuRuQEky2GsCDRQSf1dZbpoqnK+puw=qdR-D7aap9SQ@mail.gmail.com>
- <CAPM=9tygJqtbmYzB5gktxp-7fBfv_9gNq9p9+SdZ6wiYE2-6PQ@mail.gmail.com>
- <CAHk-=whB1X1c6rWbY34wZVGcnaY=yfPGLOtjd5h3mMDGV9Lbkg@mail.gmail.com>
- <CAPM=9tyb1mELymOJv62KJom4mGF0UBifbVqLJUFdS1C7Eeu3jg@mail.gmail.com>
- <CAPM=9tzDWmYBKQGB0ybDzhYHkg0p98_6PJA8OuPahRep8+QPvQ@mail.gmail.com>
- <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
- <CAHk-=wh+79KkMXsNqyPxeU+c5U2h-n13ko6J_QzwtjyYCKhrSw@mail.gmail.com>
-In-Reply-To: <CAHk-=wh+79KkMXsNqyPxeU+c5U2h-n13ko6J_QzwtjyYCKhrSw@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 31 Jul 2025 15:10:06 +1000
-X-Gm-Features: Ac12FXyj_-Sg2dQ6mpxY2mBQqpPySgzev8nc6LKsN8JY5M53So2VWDmy-mfI64o
-Message-ID: <CAPM=9tz80Lcrp7htw=RECyy6aLumX_FJjz4g_qE_jbj-V9-Hfg@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.17-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Dillon Varone <dillon.varone@amd.com>, Ivan Lipski <ivan.lipski@amd.com>, 
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Wenjing Liu <wenjing.liu@amd.com>, Simona Vetter <simona@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOEAi2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDc2MD3SQT3ZT8vBLd8sTsVN281IoSXUPztGQDI0NDE2NjQyWgvoKi1LT
+ MCrCZ0UpBbs5KsbW1ABBVMXpoAAAA
+X-Change-ID: 20250730-b4-dont-wake-next-17fc02114331
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Philipp Zabel <philipp.zabel@gmail.com>
+X-Mailer: b4 0.15-dev-a9b2a
+X-Mailman-Approved-At: Thu, 31 Jul 2025 07:23:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,34 +97,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Jul 2025 at 14:59, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Wed, 30 Jul 2025 at 21:48, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > Well, it's one of these:
-> >
-> >   3f2b24a1ef35 drm/amd/display: Monitor patch to ignore EDID audio SAB check
-> >   aef3af22a456 drm/amd/display: Add definitions to support DID Type5 descriptors
-> >   d7b618bc41ee drm/amd/display: Refactor DSC cap calculations
->
-> d7b618bc41ee3d44c070212dff93949702ede997 is the first bad commit
-> commit d7b618bc41ee3d44c070212dff93949702ede997
-> Author: Dillon Varone <dillon.varone@amd.com>
-> Date:   Fri Jun 20 16:23:43 2025 -0400
->
->     drm/amd/display: Refactor DSC cap calculations
->
-> That's the one that makes my machine no longer work.
->
-> This is a 5K monitor (ASUS ProArt) connected through a DP connection
-> to the Radeon RX 580.
+This is an attempt at fixing amd#2295 [1]:
 
-Ah yes that monitor will need dsc to make 5K work, explains why I
-won't see it here.
+  On an AMD Rembrandt laptop with 680M iGPU and 6700S dGPU, calling
+  vkEnumeratePhysicalDevices() wakes up the sleeping dGPU, even if all
+  the application wants is to find and use the iGPU. This causes a delay
+  of about 2 seconds on this system, followed by a few seconds of
+  increased power draw until runtime PM turns the dGPU back off again.
 
-If you can't revert it, it'll probably be a null ptr somewhere below
-get_dsc_enc_caps,
+[1] https://gitlab.freedesktop.org/drm/amd/-/issues/2295
 
-Dave.
+Patch 1 avoids power up on some ioctls that don't need it.
+Patch 2 avoids power up on open() by postponing fpriv initialization to
+the first ioctl() that wakes up the dGPU.
+Patches 3 and 4 add AMDGPU_INFO to the list of non-waking ioctls,
+returning cached values for some queries.
+Patch 5 works around an explicit register access from libdrm.
+Patch 6 shorts out the syncobj ioctls while fpriv is still
+uninitialized. This avoids waking up the dGPU during Vulkan syncobj
+feature detection.
+
+regards
+Philipp
+
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+Alex Deucher (1):
+      drm/amdgpu: don't wake up the GPU for some IOCTLs
+
+Philipp Zabel (5):
+      drm/amdgpu: don't wake up the GPU when opening the device
+      drm/amdgpu: don't query xclk in AMDGPU_INFO_DEV_INFO
+      drm/amdgpu: don't wake up the GPU for some AMDGPU_INFO queries
+      drm/amdgpu: don't wake up the GPU for mmGB_ADDR_CONFIG register read
+      drm/amdgpu: don't wake up the GPU for syncobj feature detection
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h         |   5 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c     |  80 +++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c  |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     | 137 +++++++++++++++++++++-------
+ 6 files changed, 194 insertions(+), 36 deletions(-)
+---
+base-commit: 6ac55eab4fc41e0ea80f9064945e4340f13d8b5c
+change-id: 20250730-b4-dont-wake-next-17fc02114331
+
+Best regards,
+--  
+Philipp Zabel <philipp.zabel@gmail.com>
+
