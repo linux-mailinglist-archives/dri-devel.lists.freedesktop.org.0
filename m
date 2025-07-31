@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DE3B16980
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 01:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACC7B1698F
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 02:17:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7C6310E461;
-	Wed, 30 Jul 2025 23:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 251B510E054;
+	Thu, 31 Jul 2025 00:17:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t2kOSmy8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SjEecx/v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25BB710E461
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 23:56:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 427BB10E054
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 00:17:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 43467601DC;
- Wed, 30 Jul 2025 23:56:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C36B9C4CEE3;
- Wed, 30 Jul 2025 23:56:53 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 6E3D760051;
+ Thu, 31 Jul 2025 00:17:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7440C4CEE3;
+ Thu, 31 Jul 2025 00:17:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753919814;
- bh=QZsdIcHWxpI9QDh/Acp10J22Rwmw8P/g++NrOm4SvtA=;
+ s=k20201202; t=1753921046;
+ bh=SdCrAcgGtnYmocw+W0qZSbGDaU5Sy9OcegMik9AZgfc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=t2kOSmy8UhjztMdU71mBZlIUrHgHNdE1WicfZDCRKVDj7r5Gr0Fa+cFH+0t7sYjqe
- 0ri4igYvUEyFp35/tO5cNqpvtl8w5CF6GVDv+z9SJSCunjeJl8DqDtURRKLv7c0kbM
- xTGc/JyWp3gbJBMQm6WNO55NVYvPVqWbtyM19f2cNwjs0b5kztu3DeMOHa6xA4f6nN
- 2grq5qZ4F37/qft/lbiVpO5apcljhUiSdFYbQrFI+yNc4GoMAKMGMx2CDQpB/IHa8W
- 5BIpdQxmGi6JJTwUda2/osXLUwaPh1nlkpYRSvjUFbzJJZZ9mXoKFxMcsuOgrnNmF8
- hY9yZIOO+xKwg==
-Date: Wed, 30 Jul 2025 18:56:53 -0500
+ b=SjEecx/vvmZS4SALcyWAoonJEPrujzYZDKvI++ulsgBGQV60FqSxx4SwUVY8eaLoJ
+ wuwfVG9/33Ft2QfbsfKLmGlittcBJ8krYRye4hNQWGkMKFmuVMKkvEZvdGGvuGsuxx
+ Psy83nLRw0Cm+5U5EEGWCA+R/6pz/BHtgUfQO2VAPMUCaDPMhicsgutD3IDnq+izHG
+ NNO+rcsGcjuXL6DLxOvvYuBzYrIm6c625iYiw3jTaw27A0AjtmQIjef0dnrpj4wVl+
+ Brg60SrZHq1bVKHh6vASLlXEZecRL4BwkO4RRHs5TdHSYzX0nYJAbhNIXe9VMMxsBo
+ T7KxvJEISu9Fw==
+Date: Wed, 30 Jul 2025 19:17:25 -0500
 From: Rob Herring <robh@kernel.org>
 To: Louis Chauvet <louis.chauvet@bootlin.com>
 Cc: Jyri Sarha <jyri.sarha@iki.fi>,
@@ -48,15 +48,15 @@ Cc: Jyri Sarha <jyri.sarha@iki.fi>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  stable@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: display: ti, am65x-dss: Add clk property
- for data edge synchronization
-Message-ID: <20250730235653.GA1914482-robh@kernel.org>
+Subject: Re: [PATCH 3/4] arm64: dts: ti: k3-am62-main: Add tidss clk-ctrl
+ property
+Message-ID: <20250731001725.GA1938112-robh@kernel.org>
 References: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
- <20250730-fix-edge-handling-v1-1-1bdfb3fe7922@bootlin.com>
+ <20250730-fix-edge-handling-v1-3-1bdfb3fe7922@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250730-fix-edge-handling-v1-1-1bdfb3fe7922@bootlin.com>
+In-Reply-To: <20250730-fix-edge-handling-v1-3-1bdfb3fe7922@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,50 +72,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 30, 2025 at 07:02:44PM +0200, Louis Chauvet wrote:
-> The dt-bindings for the display, specifically ti,am65x-dss, need to
-> include a clock property for data edge synchronization. The current
-> implementation does not correctly apply the data edge sampling property.
-> 
-> To address this, synchronization of writes to two different registers is
-> required: one in the TIDSS IP (which is already described in the tidss
-> node) and one is in the Memory Mapped Control Register Modules (added by
-> the previous commit).
-> 
-> As the Memory Mapped Control Register Modules is located in a different
-> IP, we need to use a phandle to write values in its registers.
-
-You can always just lookup the target node by compatible. Then you don't 
-need a DT update to solve your problem.
-
+On Wed, Jul 30, 2025 at 07:02:46PM +0200, Louis Chauvet wrote:
+> For am62 processors, we need to use the newly created clk-ctrl property to
+> properly handle data edge sampling configuration. Add them in the main
+> device tree.
 > 
 > Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> 
 > ---
 > 
 > Cc: stable@vger.kernel.org
 > ---
->  Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 6 ++++++
+>  arch/arm64/boot/dts/ti/k3-am62-main.dtsi | 6 ++++++
 >  1 file changed, 6 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index 361e9cae6896c1f4d7fa1ec47a6e3a73bca2b102..b9a373b569170332f671416eb7bbc0c83f7b5ea6 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -133,6 +133,12 @@ properties:
->        and OLDI_CLK_IO_CTRL registers. This property is needed for OLDI
->        interface to work.
->  
-> +  ti,clk-ctrl:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to syscon device node mapping CFG0_CLK_CTRL registers.
-> +      This property is needed for proper data sampling edge.
+> diff --git a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+> index 9e0b6eee9ac77d66869915b2d7bec3e2275c03ea..d3131e6da8e70fde035d3c44716f939e8167795a 100644
+> --- a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+> +++ b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+> @@ -76,6 +76,11 @@ audio_refclk1: clock-controller@82e4 {
+>  			assigned-clock-parents = <&k3_clks 157 18>;
+>  			#clock-cells = <0>;
+>  		};
 > +
->    max-memory-bandwidth:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description:
+> +		dss_clk_ctrl: dss_clk_ctrl@8300 {
+> +			compatible = "ti,am625-dss-clk-ctrl", "syscon";
+> +			reg = <0x8300 0x4>;
+
+H/w blocks are rarely only 4 bytes of registers... Does this belong to 
+some larger block. The problem with bindings defining single registers 
+like this is they don't get defined until needed and you have a constant 
+stream of DT updates.
+
+> +		};
+>  	};
+>  
+>  	dmss: bus@48000000 {
+> @@ -787,6 +792,7 @@ dss: dss@30200000 {
+>  			 <&k3_clks 186 2>;
+>  		clock-names = "fck", "vp1", "vp2";
+>  		interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
+> +		ti,clk-ctrl = <&dss_clk_ctrl>;
+>  		status = "disabled";
+>  
+>  		dss_ports: ports {
 > 
 > -- 
 > 2.50.1
