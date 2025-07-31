@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C430EB1743C
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 17:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D965B1743A
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 17:53:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 122AA10E7CC;
-	Thu, 31 Jul 2025 15:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E84F210E7C1;
+	Thu, 31 Jul 2025 15:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from srv01.abscue.de (abscue.de [89.58.28.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F010510E7C1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:53:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 661D710E7C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:53:03 +0000 (UTC)
 Received: from srv01.abscue.de (localhost [127.0.0.1])
- by spamfilter.srv.local (Postfix) with ESMTP id 64FE21C274F;
+ by spamfilter.srv.local (Postfix) with ESMTP id 652401C2750;
  Thu, 31 Jul 2025 17:53:01 +0200 (CEST)
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on abscue.de
 X-Spam-Level: 
@@ -21,15 +21,15 @@ X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
  autolearn_force=no version=4.0.1
 Received: from fluffy-mammal.metal.fwg-cag.de (unknown
  [IPv6:2001:9e8:cdc9:0:1347:874c:9851:58c6])
- by srv01.abscue.de (Postfix) with ESMTPSA id 7E4EC1C2728;
- Thu, 31 Jul 2025 17:52:59 +0200 (CEST)
+ by srv01.abscue.de (Postfix) with ESMTPSA id 388081C2715;
+ Thu, 31 Jul 2025 17:53:00 +0200 (CEST)
 From: =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>
-Date: Thu, 31 Jul 2025 17:51:26 +0200
-Subject: [PATCH v3 13/16] drm: sprd: always initialize DPU registers
+Date: Thu, 31 Jul 2025 17:51:27 +0200
+Subject: [PATCH v3 14/16] drm: sprd: do not access IOMMU registers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250731-ums9230-drm-v3-13-06d4f57c4b08@abscue.de>
+Message-Id: <20250731-ums9230-drm-v3-14-06d4f57c4b08@abscue.de>
 References: <20250731-ums9230-drm-v3-0-06d4f57c4b08@abscue.de>
 In-Reply-To: <20250731-ums9230-drm-v3-0-06d4f57c4b08@abscue.de>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -61,35 +61,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the Unisoc DRM driver is initialized for the first time to display
-an image on the screen, reinitialize the display controller properly
-instead of relying on the bootloader to have set up a configuration that
-also works with this driver.
+Changing the IOMMU registers results in conflicts with the sprd_iommu
+driver. Remove all references to IOMMU registers in the graphics driver.
 
 Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
 ---
- drivers/gpu/drm/sprd/sprd_dpu.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/sprd/sprd_dpu.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-index 978d4947e1bc5cd5b13b1f25719268fa08b77297..b946d015133db44d2d3d0b18803ed887b2b7ae2e 100644
+index b946d015133db44d2d3d0b18803ed887b2b7ae2e..acf28de3fd08edaad03f01104f3e6cc7c243123c 100644
 --- a/drivers/gpu/drm/sprd/sprd_dpu.c
 +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-@@ -456,6 +456,14 @@ static void sprd_dpu_init(struct sprd_dpu *dpu)
- 	}
+@@ -55,14 +55,6 @@
+ #define REG_DPI_H_TIMING	0x1F4
+ #define REG_DPI_V_TIMING	0x1F8
  
- 	writel(int_mask, ctx->base + REG_DPU_INT_EN);
-+
-+	/*
-+	 * The DPU is usually enabled by the bootloader to show
-+	 * a splash screen. Stop it here when the kernel initializes
-+	 * the display.
-+	 */
-+	if (!ctx->stopped)
-+		sprd_dpu_stop(dpu);
- }
+-/* MMU control registers */
+-#define REG_MMU_EN			0x800
+-#define REG_MMU_VPN_RANGE		0x80C
+-#define REG_MMU_PPN1			0x83C
+-#define REG_MMU_RANGE1			0x840
+-#define REG_MMU_PPN2			0x844
+-#define REG_MMU_RANGE2			0x848
+-
+ /* Global control bits */
+ #define BIT_DPU_RUN			BIT(0)
+ #define BIT_DPU_STOP			BIT(1)
+@@ -410,12 +402,6 @@ static void sprd_dpu_init(struct sprd_dpu *dpu)
+ 	u32 dpu_version = readl(ctx->base + REG_DPU_VERSION);
  
- static void sprd_dpu_fini(struct sprd_dpu *dpu)
+ 	writel(0x00, ctx->base + REG_BG_COLOR);
+-	writel(0x00, ctx->base + REG_MMU_EN);
+-	writel(0x00, ctx->base + REG_MMU_PPN1);
+-	writel(0xffff, ctx->base + REG_MMU_RANGE1);
+-	writel(0x00, ctx->base + REG_MMU_PPN2);
+-	writel(0xffff, ctx->base + REG_MMU_RANGE2);
+-	writel(0x1ffff, ctx->base + REG_MMU_VPN_RANGE);
+ 
+ 	if (ctx->if_type == SPRD_DPU_IF_DPI) {
+ 		/* use dpi as interface */
 
 -- 
 2.50.0
