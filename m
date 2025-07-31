@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25C2B172C7
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 16:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1845B172D3
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 16:07:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 942D710E796;
-	Thu, 31 Jul 2025 14:05:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB7010E7A4;
+	Thu, 31 Jul 2025 14:07:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JqD4yT9V";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=robert.mader@collabora.com header.b="JcCtnona";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA2410E796
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 14:05:11 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 05F425C60A6;
- Thu, 31 Jul 2025 14:05:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57CA4C4CEEF;
- Thu, 31 Jul 2025 14:05:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753970709;
- bh=Bp6qxWY5Vw4zchfSJZ5G0bLNb5BP1yJxoT6y6V2urbg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JqD4yT9Vqrm2eckOx+2A9avYrCot149Z0UsurX7dJM/nhns3mbj+bDeDD4xdstgkG
- uZgUPKJ6CT/y9tYR6SwFX1bw3fm981+O0oBbl6VJwXgA9Yuc2jdq7C7ApsPgIPuM9L
- HelVI9G9hy/OoUD+wsiuN6LhkRwWIKFb72YUws35jR/83ObEMa78e6FAoNnPC5Yfiu
- 8tzkxwgWUNW2M768dRfnIPyZ76OtYEbYkiCSTnmicVEK96s5qf4gFzpiwjzuiqJQ+7
- iRKxdM7+BTuFmqKeGQenmzDO4IVD8RxeVPrC4OJx4FFMWy/h1/ZN51fTxziJzeUkWQ
- 9mnv6i3zfzx9w==
-Date: Thu, 31 Jul 2025 16:05:07 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/14] drm/tidss: dispc: Convert to FIELD_* API
-Message-ID: <20250731-observant-fervent-heron-dbe833@houat>
-References: <20250730-drm-tidss-field-api-v1-0-a71ae8dd2782@kernel.org>
- <15f0b568-3d59-4f0c-b390-4e3d3623136a@bootlin.com>
- <20250731-powerful-termite-of-inspiration-13f36d@houat>
- <c5e34fed-4dc7-4288-9183-c6c076bb3b85@bootlin.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFB1610E7A4
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 14:07:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1753970861; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=faY1WeRfABtPLsRnf9wystiJYvWKthO/uIVYV71bBcoedsaYo+rgl1F8Z5DIY7gVG0cJ0+0WJbntwrpVKY/olUmnTx8T1qsOit1JAsY4Q+boNEhvI7i4AzCGDrRh4kKLTU0CIsKZRvu3Ncj68mzrhJEjkNRQu6znxb0ot6KlDNo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1753970861;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=OCgxq1Y0PbL2TKPKJXUwXJLardtEM2z/PpNYG4Xe568=; 
+ b=KAc2fVNqBLcTaf60L/DKO8eT/pIZwe/GUmsce8Pv+5+0tkQn3ySV83gZUofZ5pqvPt8OJe6dtneAAH+g8tMgnzeuP/tUkaVja0WnAZ3sKpx5vzBUfa9TfE6dbIP+pUxfbOiwjzhkzWaBjsQbZhypkr7pMZLw/7+HhjesL5SUfoU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=robert.mader@collabora.com;
+ dmarc=pass header.from=<robert.mader@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753970861; 
+ s=zohomail; d=collabora.com; i=robert.mader@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=OCgxq1Y0PbL2TKPKJXUwXJLardtEM2z/PpNYG4Xe568=;
+ b=JcCtnonaBUfdLGqpUZbJNoCGjcQeKR1BK/QHid70V64ArgsWNClnubFv5nQKnPRl
+ Mu5hEw0R2G6kDII7idm7RA2an0D7dVVWTqsBg+i8VqLhnFHtNVbEaWyofuECftAEhfr
+ NPI5urS+x4hs3N97iMc9S3yu84gQ4XTVACQ9H5OQ=
+Received: by mx.zohomail.com with SMTPS id 1753970859227369.3462994802088;
+ Thu, 31 Jul 2025 07:07:39 -0700 (PDT)
+Message-ID: <3bd77c70-82c9-4768-8034-c9c7340b8453@collabora.com>
+Date: Thu, 31 Jul 2025 16:07:36 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="etjucsgdpk7eff7t"
-Content-Disposition: inline
-In-Reply-To: <c5e34fed-4dc7-4288-9183-c6c076bb3b85@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/vkms: Add writeback encoders as possible clones
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org
+References: <20250718121442.490634-1-robert.mader@collabora.com>
+ <a1317262-fe95-4da0-96f3-d468d2bac07d@collabora.com>
+ <e82d84b9-d752-4268-a629-c62ed21e49db@bootlin.com>
+Content-Language: en-US, de-DE
+From: Robert Mader <robert.mader@collabora.com>
+In-Reply-To: <e82d84b9-d752-4268-a629-c62ed21e49db@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,123 +67,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 31.07.25 13:45, Louis Chauvet wrote:
+> Oops, sorry, I just tested it, it works
+>
+> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
---etjucsgdpk7eff7t
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 00/14] drm/tidss: dispc: Convert to FIELD_* API
-MIME-Version: 1.0
+Nice, thank a lot!
 
-On Thu, Jul 31, 2025 at 03:49:12PM +0200, Louis Chauvet wrote:
->=20
->=20
-> Le 31/07/2025 =E0 15:26, Maxime Ripard a =E9crit=A0:
-> > Hi Louis,
-> >=20
-> > On Thu, Jul 31, 2025 at 03:04:49PM +0200, Louis Chauvet wrote:
-> > > Le 30/07/2025 =E0 10:57, Maxime Ripard a =E9crit=A0:
-> > > > Hi,
-> > > >=20
-> > > > The tidss driver rolls its own API equivalent to the FIELD_* API al=
-ready
-> > > > provided the kernel.
-> > > >=20
-> > > > Since it's an ad-hoc implementation, it also is less convenient and
-> > > > doesn't provide some useful features like being able to share the f=
-ield
-> > > > definitions that will come handy in the future.
-> > > >=20
-> > > > Thus, this series converts the driver to that API and drops its own
-> > > > version.
-> > >=20
-> > > I just saw your series after sending mine [2]. I checked, there is on=
-ly one
-> > > minor conflict that can be easly fixed.
-> > >=20
-> > > But when applied on drm-misc/drm-misc-next, your series raises:
-> > >=20
-> > > In file included from <command-line>:
-> > > drivers/gpu/drm/tidss/tidss_dispc.c: In function 'FLD_MOD':
-> > > ././include/linux/compiler_types.h:568:45: error: call to
-> > > '__compiletime_assert_589' declared with attribute error: FIELD_PREP:=
- mask
-> > > is not constant
-> > >    568 |         _compiletime_assert(condition, msg, __compiletime_as=
-sert_,
-> > > __COUNTER__)
-> > >        |                                             ^
-> > > ././include/linux/compiler_types.h:549:25: note: in definition of mac=
-ro
-> > > '__compiletime_assert'
-> > >    549 |                         prefix ## suffix();         \
-> > >        |                         ^~~~~~
-> > > ././include/linux/compiler_types.h:568:9: note: in expansion of macro
-> > > '_compiletime_assert'
-> > >    568 |         _compiletime_assert(condition, msg, __compiletime_as=
-sert_,
-> > > __COUNTER__)
-> > >        |         ^~~~~~~~~~~~~~~~~~~
-> > > ./include/linux/build_bug.h:39:37: note: in expansion of macro
-> > > 'compiletime_assert'
-> > >     39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(con=
-d), msg)
-> > >        |                                     ^~~~~~~~~~~~~~~~~~
-> > > ./include/linux/bitfield.h:65:17: note: in expansion of macro
-> > > 'BUILD_BUG_ON_MSG'
-> > >     65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask=
-),
-> > > \
-> > >        |                 ^~~~~~~~~~~~~~~~
-> > > ./include/linux/bitfield.h:115:17: note: in expansion of macro
-> > > '__BF_FIELD_CHECK'
-> > >    115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_P=
-REP: ");
-> > > \
-> > >        |                 ^~~~~~~~~~~~~~~~
-> > > drivers/gpu/drm/tidss/tidss_dispc.c:599:33: note: in expansion of mac=
-ro
-> > > 'FIELD_PREP'
-> > >    599 |         return (orig & ~mask) | FIELD_PREP(mask, val);
-> > >        |                                 ^~~~~~~~~~
-> > >=20
-> > >=20
-> > > This seems to be a limitation of FIELD_PREP [1].
-> > > I think the only way to avoid this issue is to use macros and not fun=
-ctions.
-> > >=20
-> > > [1]:https://elixir.bootlin.com/linux/v6.16/source/include/linux/bitfi=
-eld.h#L65-L66
-> > > [2]:https://lore.kernel.org/all/20250730-fix-edge-handling-v1-0-1bdfb=
-3fe7922@bootlin.com/
-> >=20
-> > Weird, it compiles without warning for me here. Which compiler do you u=
-se?
->=20
->=20
-> I use this one:
->=20
-> aarch64-linux-gnu-gcc (GCC) 14.2.1 20240912 (Red Hat Cross 14.2.1-2)
-> Copyright (C) 2024 Free Software Foundation, Inc.
-> This is free software; see the source for copying conditions.  There is NO
-> warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOS=
-E.
+Quick follow-up: do you think it could already be included in 
+drm-misc-next? And if so, could you do that?
 
-I was testing with clang, but I can indeed see it with gcc. I'll fix it. Th=
-anks!
+Best regards
 
-Maxime
+>
+> Le 31/07/2025 à 12:45, Robert Mader a écrit :
+>> Hey Louis, would you be fine to add your Rb on this one? :) Would love
+>> to get it into drm-next / 6.17.
+>>
+>> On 18.07.25 14:14, Robert Mader wrote:
+>>> Since commit 41b4b11da0215 ("drm: Add valid clones check") setting
+>>> the `possible_clones` values is a hard requirement for cloning.
+>>> `vkms` supports cloning for writeback connectors in order to capture
+>>> CRTC content, however that broke with said commit.
+>>>
+>>> Writeback connectors are created on a per-CRTC basis, thus mark
+>>> every non-writeback connector that is compatible with a given CRTC
+>>> as possible clone - and vice-versa.
+>>>
+>>> Using a default configuration, the corresponding `drm_info` output
+>>> changes from:
+>>>
+>>> ├───Encoders
+>>> │   ├───Encoder 0
+>>> │   │   ├───Object ID: 40
+>>> │   │   ├───Type: virtual
+>>> │   │   ├───CRTCS: {0}
+>>> │   │   └───Clones: {0}
+>>> │   └───Encoder 1
+>>> │       ├───Object ID: 41
+>>> │       ├───Type: virtual
+>>> │       ├───CRTCS: {0}
+>>> │       └───Clones: {1}
+>>>
+>>> to:
+>>>
+>>> ├───Encoders
+>>> │   ├───Encoder 0
+>>> │   │   ├───Object ID: 44
+>>> │   │   ├───Type: virtual
+>>> │   │   ├───CRTCS: {0}
+>>> │   │   └───Clones: {0, 1}
+>>> │   └───Encoder 1
+>>> │       ├───Object ID: 50
+>>> │       ├───Type: virtual
+>>> │       ├───CRTCS: {0}
+>>> │       └───Clones: {0, 1}
+>>>
+>>> Fixes: dbd9d80c1b2e (drm/vkms: Add support for writeback)
+>>> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+>>> ---
+>>>    drivers/gpu/drm/vkms/vkms_output.c    | 13 +++++++++++++
+>>>    drivers/gpu/drm/vkms/vkms_writeback.c |  2 ++
+>>>    2 files changed, 15 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_output.c 
+>>> b/drivers/gpu/drm/vkms/vkms_output.c
+>>> index 8d7ca0cdd79f..2ee3749e2b28 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_output.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+>>> @@ -77,9 +77,22 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>>>                return ret;
+>>>            }
+>>>    +        encoder_cfg->encoder->possible_clones |=
+>>> +            drm_encoder_mask(encoder_cfg->encoder);
+>>> +
+>>> vkms_config_encoder_for_each_possible_crtc(encoder_cfg, idx, 
+>>> possible_crtc) {
+>>>                encoder_cfg->encoder->possible_crtcs |=
+>>> drm_crtc_mask(&possible_crtc->crtc->crtc);
+>>> +
+>>> +            if (vkms_config_crtc_get_writeback(possible_crtc)) {
+>>> +                struct drm_encoder *wb_encoder =
+>>> + &possible_crtc->crtc->wb_encoder;
+>>> +
+>>> +                encoder_cfg->encoder->possible_clones |=
+>>> +                    drm_encoder_mask(wb_encoder);
+>>> +                wb_encoder->possible_clones |=
+>>> + drm_encoder_mask(encoder_cfg->encoder);
+>>> +            }
+>>>            }
+>>>        }
+>>>    diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c 
+>>> b/drivers/gpu/drm/vkms/vkms_writeback.c
+>>> index fe163271d5b5..45d69a3b85f6 100644
+>>> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+>>> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+>>> @@ -174,6 +174,8 @@ int vkms_enable_writeback_connector(struct 
+>>> vkms_device *vkmsdev,
+>>>        if (ret)
+>>>            return ret;
+>>>        vkms_output->wb_encoder.possible_crtcs |= 
+>>> drm_crtc_mask(&vkms_output->crtc);
+>>> +    vkms_output->wb_encoder.possible_clones |=
+>>> +        drm_encoder_mask(&vkms_output->wb_encoder);
+>>>           drm_connector_helper_add(&wb->base, 
+>>> &vkms_wb_conn_helper_funcs);
+>>
+>
+-- 
+Robert Mader
+Consultant Software Developer
 
---etjucsgdpk7eff7t
-Content-Type: application/pgp-signature; name="signature.asc"
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaIt4DAAKCRAnX84Zoj2+
-do57AYDvOXii+U61anW+nFQRa/XAyw4Xqjo5mcgrT8Jt8GGwUHH0NQ9dcQ4huElk
-S7d+HVUBfi3pbfH1SUqIJh2nPXG4WpzJ10gwIilziA4vISMQYTNKFUDKnkan0XhB
-apZsd/59OQ==
-=zAzm
------END PGP SIGNATURE-----
-
---etjucsgdpk7eff7t--
