@@ -2,77 +2,195 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D702FB16FFC
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 12:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8B2B1703B
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 13:14:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D988110E77E;
-	Thu, 31 Jul 2025 10:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77E5310E779;
+	Thu, 31 Jul 2025 11:14:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="00lAwdhE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gjuM5V4Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
- [209.85.210.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D4810E78A
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 10:59:49 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id
- d2e1a72fcca58-748d982e97cso250058b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 03:59:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1753959589; x=1754564389; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GXJvbgHjesZpC+jSaVR00lc3EREU6v3NKG2m8cKc+mU=;
- b=00lAwdhEnIwj2rXRVGab081l8PVUz6YUUzKLjhquRl1QPiolK/IdiMzKFEnwg7OuLe
- sDaiA3ZUuUE2trVCAH7t7TqlkIfT9i1S5uaV8GAwL3Ir1W+sM+SQpChlbyrQ4/prUfVB
- a/Z9f/LDfMTx/6xOtexd8KJsTJQWvma40TyX1pwCOS5x/ysluFvAnCZ3gUiuG5z2QM30
- hsXMke0e5T1PM4ZoPNcke++as0f/6eO8yHXh7w8FAbtUO5BB428/3X0gaHLTHY4s1WCu
- IHJkD8Uv6DPQYwuL0BHxoYLRAnhop9xpEfJqwuuclPd1vgIHiuepNoO9OJOoXN0zqQaC
- fzIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753959589; x=1754564389;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GXJvbgHjesZpC+jSaVR00lc3EREU6v3NKG2m8cKc+mU=;
- b=kbEDsfVpBsd3oMsaCHYzIZNCpCzSWcGZXSPzXsV5rXv2tBCnu87vhwpkoMrp2LtiYa
- JzDmYRwlV6unj+Q+K91FwFu3OqnGSgC3zkWGvMzx3ud50jgUO3J6zReGX8rq1O6PmPwE
- 3+eZXUpNuRroxwR2ofrJaf1m/pveJbgwlQ2lsC/1wThIoqznquRH5V/fm+ludUlHdQL5
- M8YHm8PYfQdFx7KKdFinlQ8Bdl6zT93H0aMIPnc21i5J7RRnx/J3IjCwHbqeLVECXA0G
- bobiHXP8+nX71friU0ZMaOtfeASxNjB/ZKeuCwTRnsbZEVsLLJKQ7l/uohQCpWR0ILVy
- jp/A==
-X-Gm-Message-State: AOJu0YxWb9m/wPmPk9XxeDRSD27LfxN7YoH/nOebrTdVrZ7lxUlHB+Lk
- 0uwTm+2B0zQ/cTvWXCnnPhmvaYjTTLEEjbs++xd/pvBVQgMuMWtJ4N1xsWgOsCcNuGw=
-X-Gm-Gg: ASbGncuN7Lk0MpuK2VmHnZHRnHkHpJZdnHLNrZwwpB2SjjVQVwZ/c6sZg8NN6fndD0D
- G45vzC9G17l+kdt2l/X+rPDBTUi97TmT4cOeLGdaz+9bdtdwjt/JVt4S1y2VkUMH/1zRjEAeMys
- TMnkW6Ldnra8cS+wcV1r1SBGScxIgu58i39fyKxBWHrSByHJ3C2eXPRwX3a2X03bPk7octQdDqT
- PM1IGamLYvoVcYgvnCGNw64T3jAa0T4M189I+9B9NL2dWHvspJPcvMw+t1rX7uWwP0l9JyJYEMK
- 4LP+d5/6i2cgS2sL4c4HF8oP5eK4Jd/ASGXdhJ+GmkitT9/GLIaI1FQcN1TJQwyBzsnMOAYkKqe
- yqaKmet7sLA/wpGoOXjvyucK1WsCRixeddX3Sv9bRoX0mh+IzIcjf7FZzKiLst9M=
-X-Google-Smtp-Source: AGHT+IHSD6HZ4TtwA0/CmndpR6jjB/vOZJF6QlYkaD5NmrE8cMEO+NeylsRZgkYlMog8DwFz41gg+g==
-X-Received: by 2002:a05:6a00:398b:b0:757:ca2b:48a3 with SMTP id
- d2e1a72fcca58-76ab161afcbmr9144463b3a.9.1753959588315; 
- Thu, 31 Jul 2025 03:59:48 -0700 (PDT)
-Received: from yc.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76bccfd0279sm1332339b3a.98.2025.07.31.03.59.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Jul 2025 03:59:47 -0700 (PDT)
-From: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-To: dianders@chromium.org, neil.armstrong@linaro.org,
- jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, treapking@chromium.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Subject: [PATCH V2] drm/panel-edp: Add edp panels used by mt8189 Chromebooks
-Date: Thu, 31 Jul 2025 18:59:39 +0800
-Message-Id: <20250731105939.2692654-1-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E187E10E778;
+ Thu, 31 Jul 2025 11:14:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753960474; x=1785496474;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=VlhhuX2P2rQBfUbtvzpEt2LJH9fZQtvvGuZ29muzmKc=;
+ b=gjuM5V4Z3+UuEoe9WX3DWgFTfDRA/CA15Poj8B2ESTjUZGKbIfUWcw9R
+ xPMEBBsN5mdstV7P7mnystqOXtmMcGBRCM68aUbI58qXjnZANnFFexrgk
+ KE+TGpUyKWIZNP8ZNs2zW8uH2ivdd/FJX1owxW6r2O/RPMxNGr495e45l
+ b8lxxvHrn11+/wjbM6u4aLKZhe5rQ25XnvJNwxW+I9+XyaSB8R1628r20
+ l1fLbR4LG0uL6HNPMp1hMqukStkuP55ufCpaw6qlzgLFOaVkImaGslDOd
+ nAVzefD8Vx6oM9qvOMWiYRWdm+dY/vrltty91Lh4jJgSnvoC3uoPH6mXx w==;
+X-CSE-ConnectionGUID: F2nmNXBDS+Olts0+jQPahQ==
+X-CSE-MsgGUID: M03HDxVyS5a4xiISSDXMtg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="60105712"
+X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; d="scan'208";a="60105712"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2025 04:14:34 -0700
+X-CSE-ConnectionGUID: b0fEMoVGTHaczIEmXtzT/w==
+X-CSE-MsgGUID: FCi4Lk4bTuq5jQgtCajgNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; d="scan'208";a="163128611"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2025 04:14:33 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 31 Jul 2025 04:14:32 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Thu, 31 Jul 2025 04:14:32 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (40.107.102.46)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 31 Jul 2025 04:14:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZfUcL8BPjNREnL7Q58nZz0kkmSp+/6Nn6kPi/5Lqd7aiEgq11MWLyzlQEDUPVaR+ZtGYmxjWSn4lveP7I55tcuWVkiL/V4vniaZSu73HyZIORSapSllDOXKPmi019H8aGdywoRsoUtC47yhwdAKYMm7SUy4/pQmhpcwAz1TiY7TwFeGsrAAZOAp0GdNkXMJWdqkdr0Qr6BTz2Meeu7BLmU21UNEErhkYIAycn9pUGUuO64cheMa98dSwPJdfGlQhGwb+E9XTr/jPGIdzh/VAgCFrSAvW8bmItMBN0HEcw+w/yFy5nydMhs+hJdHbEBrWEWBnx59prKqmRfy3ELdRtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SNE6cywBE0BHW7bc+OfkqfDPiJMKvkBaWlK02pysy6Y=;
+ b=lvDBMd2ohs3cl1oDz9oZW76mZmddlbFbXgEuZ5m33KIfB1S5Zp3U52k2LKUJeEhE4Ba7CsQlC6W0B12KSnqLwf4anKEEtDZUWFIgWaCSuSdL+/DCPXR56hLG0YuszxAX+T9VeCHoXzXbHVBLIx6EQY7AgJVjNlor+GsJmhqEuNILhjMlvAxWcdq7hqhT9UGbv2IvdPKN+QIoUocDCBRT5Sszflq2CEwVHx74ViK3NZWJ+DLb8TshTovVKVKUi+taJoiucmWAXXaTBVzmqii0fU/oneoXs8cSg88Cx6y/N/BerCiSRrTTEyH92Mb8zne+ZwFUMok/8wouGy5rPwPkaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) by
+ PH0PR11MB7447.namprd11.prod.outlook.com (2603:10b6:510:28b::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8964.25; Thu, 31 Jul 2025 11:13:56 +0000
+Received: from DS0PR11MB7958.namprd11.prod.outlook.com
+ ([fe80::d3ba:63fc:10be:dfca]) by DS0PR11MB7958.namprd11.prod.outlook.com
+ ([fe80::d3ba:63fc:10be:dfca%6]) with mapi id 15.20.8989.013; Thu, 31 Jul 2025
+ 11:13:56 +0000
+Message-ID: <13e90893-d0dd-4f25-8541-ecfe875c52be@intel.com>
+Date: Thu, 31 Jul 2025 16:43:46 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/9] drm: Add a vendor-specific recovery method to drm
+ device wedged uevent
+To: Maxime Ripard <mripard@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <simona.vetter@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, =?UTF-8?Q?Andr=C3=A9_Almeida?=
+ <andrealmeid@igalia.com>, <anshuman.gupta@intel.com>,
+ <rodrigo.vivi@intel.com>, <lucas.demarchi@intel.com>,
+ <aravind.iddamsetty@linux.intel.com>, <raag.jadav@intel.com>,
+ <umesh.nerlige.ramappa@intel.com>, <frank.scarbrough@intel.com>,
+ <sk.anirban@intel.com>, <maarten.lankhorst@linux.intel.com>,
+ <intel-xe@lists.freedesktop.org>, <tzimmermann@suse.de>
+References: <20250728102809.502324-1-riana.tauro@intel.com>
+ <20250728102809.502324-2-riana.tauro@intel.com>
+ <39095bd1-2dee-4bfb-bc87-ee8cecedebce@intel.com>
+ <20250731-jovial-realistic-mastiff-2ef2a7@houat>
+Content-Language: en-US
+From: Riana Tauro <riana.tauro@intel.com>
+In-Reply-To: <20250731-jovial-realistic-mastiff-2ef2a7@houat>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5PR01CA0013.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:177::17) To DS0PR11MB7958.namprd11.prod.outlook.com
+ (2603:10b6:8:f9::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7958:EE_|PH0PR11MB7447:EE_
+X-MS-Office365-Filtering-Correlation-Id: a564e732-d8d2-4853-fa71-08ddd0235716
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?LzVuOXN4MWVPNXcxZElnUlFwbFJIaGtlcG1IS3ZQVmkvOWtoR1haZWR1dUc0?=
+ =?utf-8?B?UFBvWUp4RXZRZ0VJaWlHM1Jrd2ExVTd5cnV4cGF1VEk5OVFla3o1NVZoR1BL?=
+ =?utf-8?B?ck5vemE4L056cG1YQ0poQmsvRmtLL2gyY2NncHgwV3FXMktRbmt6K1lpZzN0?=
+ =?utf-8?B?bnVFYy85eTJLRm4zSVAvbTZXTEViVXFjN2VtaUpwWlR3bEVWQ2h2bitwZjVJ?=
+ =?utf-8?B?ZDlEUy9tQTUyNTZ3S1V4MFVyb1lHU05sL2dzeTYvUTVhei9iTGllN2hzOEhN?=
+ =?utf-8?B?MXVvVDhySVJCbEI1MmhDblBFY3VvaW40Mm1YWjlkMUFybHhiejhpK3U3dlBv?=
+ =?utf-8?B?MmZhb3hieVBocDVJVHZ1MW5FcCsrSWsxWkRqdDBSbmh0MXQzS3FRQllDTFpM?=
+ =?utf-8?B?WUk2WTExOHRoZUt1TGt6MGtEOFVVdWVOTWx6eTZFR1RaM3kzbGV5VE5tRHRP?=
+ =?utf-8?B?aFlyM3E4eGhYQ242K3Y1VmYrS2h3YVBWd3dwYk8vK3F5T0JZa1RqZUZHZkYy?=
+ =?utf-8?B?TG9HdlJOd2dxak9IWnlVb1dEZnlJakh0Tjg0clJJZjZaalZhUkhIdVJBQkIy?=
+ =?utf-8?B?Z2YxM0JxL2gxOGZ1WTNYN3Rid1BlTSt6UlBnN2MrSGh3TTdpTmNtQ0JESkUz?=
+ =?utf-8?B?NVhBNU9QaWlxVE94RlFEb0kzc2t2a2x6akRyVEFkSDVpNVZmQVlHZVQyVS9t?=
+ =?utf-8?B?RElaZ1JHczNFT0wxb3VrRGdUUDFBcy9IVmZ4NzFTQU14UUQ2aFlqUEtjV3BC?=
+ =?utf-8?B?R05ZQXl4aHd1dVU1cEIxNEpFVGNaZnl5KzZuRk44YmtJSjlYTUZYaUYzbjZp?=
+ =?utf-8?B?UWREbFpwU2VvWjIwbHpkNkc2UFdMNUt0aWlESSsxY0xKZmxKSG5XeVZyb3pW?=
+ =?utf-8?B?Y0w3ZVpYdkkrYWJSOXAyL0o3dWdTRG1QUUxGaVkvVHo4RktLQW9xUjdkdVVH?=
+ =?utf-8?B?ZVpyZGlBZVBOam5aYTFIYlB0dzRMYndCckgvMktHUlMwa1pNTGtYVkRmL3Q0?=
+ =?utf-8?B?T3VHYjY2ZzJKZ3htVnJvUVNsdzBJcVZOL1ZGM2ZRTnJyY3hiekZ4VWw3Nk1J?=
+ =?utf-8?B?ZXhjVFBmZjVoUjNNd3JZcTM4bVhsN20wY2k4d2E2ZFBMZlNWZ25FMEFBRlVr?=
+ =?utf-8?B?REV1Q3doQVpBbE1LeXpnZmhxeVhZWWtFbDNnNkpGMzBPU2JlYmdjZ3paM01W?=
+ =?utf-8?B?b05lNnJud3g0Z1Vpd2Vua0VhRE5TVUZ3UzNjdDBsSDFlU3lJSUwzeWhIZEpy?=
+ =?utf-8?B?a3FMT2N4NFFDcHo0R3NYd0pwcVc4YkF2bFR0am9XYW55dlI5WjlSaHdiU0Jr?=
+ =?utf-8?B?VS8rVzkvK3lLVFd1dGRFaWozclhoc3FOZWZMOTRxcjNXUGs1Qm1xWW5sbEVi?=
+ =?utf-8?B?Rk1DTVhKMEtpK2t1Z0NQSExRL1g4UjJPYW9GQ0x2TUdFSjhkcTVSUTNsR0tQ?=
+ =?utf-8?B?YUtiYTJmUjNFaDE0N2ZzcXNsZHc5eUlwaXJJcENWeG8wUHUrb0pOUmhhcXgx?=
+ =?utf-8?B?M2d5Nk9nMWlxTCt1TWFTTWNZbHplQzBXYzd5aXBiOVc5TFpaYVpuUTRyaW9Y?=
+ =?utf-8?B?WEZBTUpydGp6eXFHRHZwUlYrNTV2N3dGaUY1QVlESlA4NFZkZXVpaFVqLzgz?=
+ =?utf-8?B?OERHbkJkRklDdlFwVnJjaGlDWTNqL3dvdGdKMUduWHliUFFZUGFlV0FtdmM0?=
+ =?utf-8?B?K3BiemZJMmMvV3pGQlNEM0tIWC9oSmtucDcwY1BSN3JjWEsrNnB2UWVOVS96?=
+ =?utf-8?B?SktqMENvZkFhWUxTbVR4UlpUcTBkbG9DTk82UTlrOUtqTld3aTN6QkJYSFVm?=
+ =?utf-8?B?NGQrMkVzdkRYbFR5bnMrd3djOWovN0NrTldjSUViMTM0Mkh3NnR2WjlGQmsv?=
+ =?utf-8?B?akhNSDJTeFU1Njl0YnV3cUZnVEJ3OE5OOXlOUWd6N1NZY092Vzd6VmpFVXpZ?=
+ =?utf-8?Q?nkT9CXcTbPQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB7958.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Si9EUlJpbm56Q2VITlVkR1g0VGROQXlWdVlyTnM3cUlmOUQ0OHV4cS9GWHll?=
+ =?utf-8?B?WWFFakw4bkZ0NnFhK1RlRkorL1lpMEMvTWZIMGlSVTZTS3VvOExjN1lmVWk2?=
+ =?utf-8?B?R0tJZ1RQdEl2bXZIZ0Z6YUZyT3RaajJ6eXFLYTJ1QUdaQS9vWERqM3JHZE5S?=
+ =?utf-8?B?TmVXRUg0dWJtVnZQclpBdWx1eHdmbDFENXhQS2JxdHVrbk9oS1A2SGFYRElp?=
+ =?utf-8?B?TWp2cnlTbnFrY2djM2FUaFpaeEpkdi9tZ3JTT28xUWM5WkZzcTlra0w4bWph?=
+ =?utf-8?B?RGZBUVl3SW5YYW1ia3NpbDd4L0tmcjVwenpPWWw2djZWNHFraDIra3hTR05v?=
+ =?utf-8?B?ei9yRmw2UCtaY0lzQmkvNGh4QVZWV1hSS3FHVnVuMXhRNHUyNXZmU0FEL1BQ?=
+ =?utf-8?B?bm5tK1MxVTA4SWY4ZzJ4NGJ1ZUpBZUJ4NHAwZDZieXN1bmtoNU9QUEdFQkJN?=
+ =?utf-8?B?SHdlTWpTcUhaaTZ0U2U1eHI5VDgxb29UdzR0ZVBPRVlBSDgzQzduQ2JkM3hL?=
+ =?utf-8?B?Skl0RCttcXQyNU1seFh2aFpIMDFhS2NPcFlyL1dOdWE2cWJmcjdKOHRPUkM1?=
+ =?utf-8?B?TiswZmsyMDVSQldScnl1Wmxhazcrb291dEhIWHpmK2htdmZ6cC9zTVZiQzl6?=
+ =?utf-8?B?YzVzNFZFV0V4eDBqUTFqelFTSmxRd2s2NXNMUHZvZThCcjg1QkxMMWlYU0Vp?=
+ =?utf-8?B?Ym54VzlPRmtLbStJclh1aSt0amRna1lxeGU3SWlQUUlDbS90bG54MXdIL08v?=
+ =?utf-8?B?S0tKQ09mWWlCNElBeUJ6Nnc1Q0M0dy9vcjI3YjVpMjBoNkxEcXJtUVdyL1NL?=
+ =?utf-8?B?RTNlY3FCZWZibDF2OUowOTF1WnMzeWp1UXBodjVNU0NjdHo3M0hDRE9QbmEx?=
+ =?utf-8?B?YjUvL2lTSEZTUWpCVzVjSkZ1L2VXWUw1N010VmlYbm1XbjJhY2E2VmRSUlA0?=
+ =?utf-8?B?N2gvTjZKNi84Unpobk11eTNZRlQxK2xwc3Y0Nzh6ZWEvTGtHWmdBVE02dG9S?=
+ =?utf-8?B?N0N5RGpSTm84aUxCKzB4YzVvT3lqUzJ6L2JjcmVBeFI5eWN3S2NQYWJBNkIv?=
+ =?utf-8?B?cHA4ODJ5eTRBM3YvOWVTUWJhajdsTENSeU1ZNjk5Y3ZGWVVRenpPbTI3azJ0?=
+ =?utf-8?B?M0RwZTFYeTRtZVp4UjFCcHBuRDNueGlDL0k1N0N6cm5wMkFtTXZOd2pXVmow?=
+ =?utf-8?B?dzA0THFHcmF2azJUVUt1K0JnRUFDbmt1alBLTkFmV3NoNm1SNHVTVUpYZlBm?=
+ =?utf-8?B?RWo3WTIrTUFJWEtRb2NzbDk0aE9YbVczWHEyWWNmNUJnVnZzb3VBTDNkd29k?=
+ =?utf-8?B?T2liZWdaOGk0UWtuUzFpcUJ5b0dZR3h2V0JoVUtsclNkdEVwVWRidUlTWnlS?=
+ =?utf-8?B?cTdEaldJRHhFN3ExaWFuRGQ0aS93UEQ2S3A0SWNmZU54RmM3YUkxdmhYTGg5?=
+ =?utf-8?B?TlV0ZUlmeXVEaHF4dHRTOXR6NHQwMWdRcU80b0w1dnZkL2RHd0w0NjdGSThM?=
+ =?utf-8?B?elhnY2hobVVCRzZWM2RnRlBCT2lOYjJtQnNmZ1lyR2N1T2V6MjJ1TlVGZHpZ?=
+ =?utf-8?B?V1ZxLy8xY2xsQ01ZL2hBVUdkaFpYRlpLdElYSTZsY0VKWVR5RnhrMDNXSEtL?=
+ =?utf-8?B?VGs3TEI4bU5PS1RiK0p3RDUyVXZQblJMMloxSHV5RkpPc0NKUklmSnJGUDgr?=
+ =?utf-8?B?RWcxb2lXR3M4NXpWb3dNb3BWenh5RUQ0RG5YRi9LU0h1UlJxaTg0a0d5Z1Bj?=
+ =?utf-8?B?bCtKcXA0eXRrNHRxZHlQaDZLd1VCZHlnSTdNbWNvb05aR0ppZUZITndzN1I1?=
+ =?utf-8?B?VlQvRURQVVZVTCtYbTVxMEV1UGg1LzMyNU5nUTQ4bGtlMW93VTVLYjRubmti?=
+ =?utf-8?B?TFMzajFoMW44bDRSSVVLZDQwUlRWVCsvS0FkaTIyK1FzcVgrekhUUjJ1aWpj?=
+ =?utf-8?B?YlBNeExxTEJnUWE1UkhZK1hiMnEyU2ZsWVRBSjV5Vk1TdG9OY2xzMFpNRHJK?=
+ =?utf-8?B?ZDh3QkpNOWhCVS95dVU0QkdoUkpNMk01aGY1L2dtcitycTcxS3NoUVhqZmw1?=
+ =?utf-8?B?dEVmY01qYWJFdWpSQ0pVc2t1MXlTcnlVdmQyWm93aVJ1emVhazlXeTUyN25v?=
+ =?utf-8?Q?3SEYBH5XY1FPAk84uR50HHayJ?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a564e732-d8d2-4853-fa71-08ddd0235716
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7958.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 11:13:56.1640 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BhUxH9WOobtHAaBjI7mhfITtfFzx8esJIVN/wkaIJfu5soU8Y5rTUia3PbvCwfstFV5FybFqpe+zL+FLL5PSnw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7447
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,351 +206,183 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a few generic edp panels used by mt8189 chromebooks, most of
-them use the same general enable timing 50ms. For BOE-NV116WHM-N4B and
-BOE-NV116WHM-T01 CMN-N140JCA-ELP the enable timing required 80ms. For
-CMN-N116BCA-EAK, the enable timing required 200ms and disable timing
-required 50ms. For CMN-N116BCL-EAK and CMN-N122JCA-ENK the enable timing
-required 80ms and disable timing required 50ms. For TMA-TL140VDMS03-01,
-the enable timing required 50ms and the disable timing required 100ms.
+Hi Maxim
 
-AUO B122UAN01.0:
-edid-decode (hex):
-00 ff ff ff ff ff ff 00 06 af a4 04 00 00 00 00
-31 20 01 04 a5 1a 10 78 03 54 c5 9d 54 55 8f 25
-22 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 fa 3c 80 b8 70 b0 24 40 10 10
-3e 00 06 a4 10 00 00 18 00 00 00 fd 00 28 3c 4b
-4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 41
-55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-00 42 31 32 32 55 41 4e 30 31 2e 30 20 0a 01 7c
+On 7/31/2025 3:02 PM, Maxime Ripard wrote:
+> Hi,
+> 
+> On Wed, Jul 30, 2025 at 07:33:01PM +0530, Riana Tauro wrote:
+>> On 7/28/2025 3:57 PM, Riana Tauro wrote:
+>>> Address the need for a recovery method (firmware flash on Firmware errors)
+>>> introduced in the later patches of Xe KMD.
+>>> Whenever XE KMD detects a firmware error, a firmware flash is required to
+>>> recover the device to normal operation.
+>>>
+>>> The initial proposal to use 'firmware-flash' as a recovery method was
+>>> not applicable to other drivers and could cause multiple recovery
+>>> methods specific to vendors to be added.
+>>> To address this a more generic 'vendor-specific' method is introduced,
+>>> guiding users to refer to vendor specific documentation and system logs
+>>> for detailed vendor specific recovery procedure.
+>>>
+>>> Add a recovery method 'WEDGED=vendor-specific' for such errors.
+>>> Vendors must provide additional recovery documentation if this method
+>>> is used.
+>>>
+>>> It is the responsibility of the consumer to refer to the correct vendor
+>>> specific documentation and usecase before attempting a recovery.
+>>>
+>>> For example: If driver is XE KMD, the consumer must refer
+>>> to the documentation of 'Device Wedging' under 'Documentation/gpu/xe/'.
+>>>
+>>> Recovery script contributed by Raag.
+>>>
+>>> v2: fix documentation (Raag)
+>>> v3: add more details to commit message (Sima, Rodrigo, Raag)
+>>>       add an example script to the documentation (Raag)
+>>> v4: use consistent naming (Raag)
+>>> v5: fix commit message
+>>>
+>>> Cc: André Almeida <andrealmeid@igalia.com>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: David Airlie <airlied@gmail.com>
+>>> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+>>> Co-developed-by: Raag Jadav <raag.jadav@intel.com>
+>>> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+>>> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
+>>> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>
+>> This patch needs an ack from drm to be merged.
+>> The rest of the series have RB's. Can someone please provide an ack ?
+>>
+>> Cc: drm-misc maintainers
+>>
+>> Thanks
+>> Riana
+>>
+>>> ---
+>>>    Documentation/gpu/drm-uapi.rst | 42 ++++++++++++++++++++++++++++------
+>>>    drivers/gpu/drm/drm_drv.c      |  2 ++
+>>>    include/drm/drm_device.h       |  4 ++++
+>>>    3 files changed, 41 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+>>> index 843facf01b2d..5691b29acde3 100644
+>>> --- a/Documentation/gpu/drm-uapi.rst
+>>> +++ b/Documentation/gpu/drm-uapi.rst
+>>> @@ -418,13 +418,15 @@ needed.
+>>>    Recovery
+>>>    --------
+>>> -Current implementation defines three recovery methods, out of which, drivers
+>>> +Current implementation defines four recovery methods, out of which, drivers
+>>>    can use any one, multiple or none. Method(s) of choice will be sent in the
+>>>    uevent environment as ``WEDGED=<method1>[,..,<methodN>]`` in order of less to
+>>> -more side-effects. If driver is unsure about recovery or method is unknown
+>>> -(like soft/hard system reboot, firmware flashing, physical device replacement
+>>> -or any other procedure which can't be attempted on the fly), ``WEDGED=unknown``
+>>> -will be sent instead.
+>>> +more side-effects. If recovery method is specific to vendor
+>>> +``WEDGED=vendor-specific`` will be sent and userspace should refer to vendor
+>>> +specific documentation for the recovery procedure. As an example if the driver
+>>> +is 'Xe' then the documentation for 'Device Wedging' of Xe driver needs to be
+>>> +referred for the recovery procedure. If driver is unsure about recovery or
+>>> +method is unknown, ``WEDGED=unknown`` will be sent instead.
+>>>    Userspace consumers can parse this event and attempt recovery as per the
+>>>    following expectations.
+>>> @@ -435,6 +437,7 @@ following expectations.
+>>>        none            optional telemetry collection
+>>>        rebind          unbind + bind driver
+>>>        bus-reset       unbind + bus reset/re-enumeration + bind
+>>> +    vendor-specific vendor specific recovery method
+>>>        unknown         consumer policy
+>>>        =============== ========================================
+>>> @@ -472,8 +475,12 @@ erroring out, all device memory should be unmapped and file descriptors should
+>>>    be closed to prevent leaks or undefined behaviour. The idea here is to clear the
+>>>    device of all user context beforehand and set the stage for a clean recovery.
+>>> -Example
+>>> --------
+>>> +For ``WEDGED=vendor-specific`` recovery method, it is the responsibility of the
+>>> +consumer to check the driver documentation and the usecase before attempting
+>>> +a recovery.
+>>> +
+>>> +Example - rebind
+>>> +----------------
+>>>    Udev rule::
+>>> @@ -491,6 +498,27 @@ Recovery script::
+>>>        echo -n $DEVICE > $DRIVER/unbind
+>>>        echo -n $DEVICE > $DRIVER/bind
+>>> +Example - vendor-specific
+>>> +-------------------------
+>>> +
+>>> +Udev rule::
+>>> +
+>>> +    SUBSYSTEM=="drm", ENV{WEDGED}=="vendor-specific", DEVPATH=="*/drm/card[0-9]",
+>>> +    RUN+="/path/to/vendor_specific_recovery.sh $env{DEVPATH}"
+>>> +
+>>> +Recovery script::
+>>> +
+>>> +    #!/bin/sh
+>>> +
+>>> +    DEVPATH=$(readlink -f /sys/$1/device)
+>>> +    DRIVERPATH=$(readlink -f $DEVPATH/driver)
+>>> +    DRIVER=$(basename $DRIVERPATH)
+>>> +
+>>> +    if [ "$DRIVER" = "xe" ]; then
+>>> +        # Refer XE documentation and check usecase and recovery procedure
+>>> +    fi
+>>> +
+>>> +
+> 
+> So I guess I'm not opposed to it on principle, but the documentation
+> really needs some work.
+> 
+> You should at least list the valid vendor specific options, and what
+> each mean exactly. Ideally, it should be a link to the datasheet/manual
+> detailing the recovery procedure, 
 
-AUO B116XAK02.0:
-edid-decode (hex):
+This is added above
 
-00 ff ff ff ff ff ff 00 06 af b0 52 00 00 00 00
-2e 21 01 04 95 1a 0e 78 03 5b 35 9f 59 55 8e 26
-25 50 54 00 00 00 01 01 01 01
-01 01 01 01 01 01
-01 01 01 01 01 01 5d 1c 56 a0 50 00 19 30 30 20
-46 00 00 90 10 00 00 18 00 00 00 fd 00 28 3c 30
-30 07 01 0a 20 20 20 20 20 20 00 00 00 fe 00 41
-55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-00 42 31 31 36 58 41 4b 30 32 2e 30 20 0a 00 bd
+"If recovery method is specific to vendor ``WEDGED=vendor-specific`` 
+will be sent and userspace should refer to vendor specific documentation 
+for the recovery procedure. As an example if the driver is 'Xe' then the 
+documentation for 'Device Wedging' of Xe driver needs to be referred for 
+the recovery procedure."
 
-AUO B140UAN08.5:
-edid-decode (hex):
+The documentation of Xe is in Patch 6
 
-00 ff ff ff ff ff ff 00 06 af ba 8b 00 00 00 00
-10 23 01 04 a5 1e 13 78 03 7c f2 90 57 59 93 29
-1d 51 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 26 3d 80 b8 70 b0 28 40 10 10
-3e 00 2d bc 10 00 00 18 00 00 00 fd 00 28 3c 4b
-4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 41
-55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fc
-00 42 31 34 30 55 41 4e 30 38 2e 35 20 0a 01 29
+https://lore.kernel.org/intel-xe/20250728102809.502324-7-riana.tauro@intel.com/
 
-70 20 79 02 00 22 00 14 7b 63 02 85 7f 07 b7 00
-0f 80 0f 00 af 04 27 00 02 00 0d 00 25 01 09 7b
-63 02 7b 63 02 28 3c 80 2b 00 0c 27 00 28 3b 00
-00 27 00 28 3b 00 00 81 00 15 74 1a 00 00 03 01
-28 3c 00 00 60 51 60 51 3c 00 00 00 00 8d 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 31 90
+I'll add the link instead of just the chapter name
+> but if that's under NDA, at least a
+> reference to the document and section you need to look at to implement
+> it properly.
+> 
+> Or if that's still not doable, anything that tells you what to do
+> instead of "run a shell script we don't provide".
+> 
+> Also, we just discussed it with Sima on IRC, and she mentioned that we
+> probably want to have a vendor specific prefix for each vendor-specific
+> method.
 
-AUO B140UAX01.2:
-edid-decode (hex):
+This was discussed as part of Rev4
 
-00 ff ff ff ff ff ff 00 06 af ba cd 00 00 00 00
-32 23 01 04 a5 1e 13 78 02 ca 31 9b 5c 58 8d 26
-21 4f 52 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 60 3f 80 a0 70 b0 64 40 30 20
-96 00 2d bc 10 00 00 18 00 00 00 fd 00 28 3c 4e
-4e 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 41
-55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fc
-00 42 31 34 30 55 41 58 30 31 2e 32 20 0a 00 46
+https://lore.kernel.org/intel-xe/aG-U9JTXDah_tu1U@black.fi.intel.com/
 
-BOE NV116WHM-N4B:
-edid-decode (hex):
-00 ff ff ff ff ff ff 00 09 e5 45 0d 00 00 00 00
-1f 22 01 04 95 1a 0e 78 03 0b 55 9a 5f 58 95 28
-1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 09 1e 56 dc 50 00 28 30 30 20
-36 00 00 90 10 00 00 1a 00 00 00 fd 00 28 3c 30
-30 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
-4f 45 20 43 51 0a 20 20 20 20 20 20 00 00 00 fc
-00 4e 56 31 31 36 57 48 4d 2d 4e 34 42 0a 01 c1
+DEVPATH from uevent and driver should be able to identify the driver. 
+Shouldn't that be enough?
 
-70 20 79 02 00 81 00 15 74 1a 00 00 03 01 28 3c
-00 00 4b 51 4b 51 3c 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 65 90
+The initial method that was proposed was 'firmware-flash'. Since there
+were concerns about every vendor adding their own methods increasing the 
+number of macros for vendor specific methods. A more generic method was 
+proposed.
 
-BOE NV116WHM-T01:
-edid-decode (hex):
+Discussion: 
+https://lore.kernel.org/intel-xe/a820d534-42ef-4391-ab81-36316af4411b@igalia.com/
 
-00 ff ff ff ff ff ff 00 09 e5 df 0d 00 00 00 00
-01 1c 01 04 95 1a 0e 78 0a 81 15 96 59 5a 9a 29
-1f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 6b 1b 56 64 50 00 1e 30 26 18
-44 00 00 90 10 00 00 1a ef 15 56 64 50 00 1e 30
-26 18 44 00 00 90 10 00 00 00 00 00 00 fe 00 42
-4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
-00 4e 56 31 31 36 57 48 32 2d 4d 30 30 0a 00 83
 
-CMN N116BCL-EAK:
-edid-decode (hex):
+Thanks
+Riana
 
-00 ff ff ff ff ff ff 00 0d ae 5f 11 00 00 00 00
-08 22 01 04 95 1a 0e 78 03 46 a5 9c 5b 53 8b 24
-1d 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 e6 1e 56 e2 50 00 3c 30 30 20
-a6 00 00 90 10 00 00 1a 00 00 00 fd 00 28 3c 32
-32 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-4d 4e 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-00 4e 31 31 36 42 43 4c 2d 45 41 4b 0a 20 01 9b
-
-70 20 79 02 00 25 01 09 fc 34 01 fc 34 01 28 3c
-80 81 00 10 72 1a 00 00 03 01 28 3c 00 00 00 00
-00 00 3c 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 2f 90
-
-CMN N122JCA-ENK:
-edid-decode (hex):
-
-00 ff ff ff ff ff ff 00 0d ae 4c 12 00 00 00 00
-11 20 01 04 a5 1a 10 78 03 0a f5 9e 5c 52 8b 24
-1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
-a6 00 06 a4 10 00 00 18 00 00 00 fd 00 28 3c 4a
-4a 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-4d 4e 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-00 4e 31 32 32 4a 43 41 2d 45 4e 4b 0a 20 00 fd
-
-CMN N140JCA-ELP:
-edid-decode (hex):
-00 ff ff ff ff ff ff 00 0d ae a8 14 00 00 00 00
-1d 23 01 04 a5 1e 13 78 03 28 65 97 59 54 8e 27
-1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
-a6 00 2d bc 10 00 00 18 00 00 00 fd 00 28 3c 4a
-4a 10 01 0a 20 20 20 20 20 20 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc
-00 4e 31 34 30 4a 43 41 2d 45 4c 50 0a 20 01 c2
-
-70 20 79 02 00 25 01 09 94 5a 02 94 5a 02 28 3c
-80 81 00 15 74 1a 00 00 03 01 28 3c 00 00 00 00
-00 00 3c 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 aa 90
-
-CMN N116BCA-EAK:
-edid-decode (hex):
-00 ff ff ff ff ff ff 00 0d ae 02 74 00 00 00 00
-2a 22 01 04 95 1a 0e 78 03 67 75 98 59 53 90 27
-1c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 da 1d 56 e2 50 00 20 30 30 20
-a6 00 04 8c 10 00 00 1a 00 00 00 fd 00 28 3c 30
-30 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-4d 4e 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-00 4e 31 31 36 42 43 41 2d 45 41 4b 0a 20 00 ba
-
-CSW MNE007QS5-2:
-edid-decode (hex):
-00 ff ff ff ff ff ff 00 0e 77 62 14 00 00 00 00
-10 23 01 04 a5 1e 13 78 03 1c 2e 93 5f 58 95 28
-1f 4f 58 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 ea 3d 80 c8 70 b0 2e 40 30 20
-36 00 2e bc 10 00 00 1a 00 00 00 fd 00 28 3c 4b
-4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-53 4f 54 20 54 39 0a 20 20 20 20 20 00 00 00 fc
-00 4d 4e 45 30 30 37 51 53 35 2d 32 0a 20 01 8e
-
-70 20 79 02 00 81 00 15 74 1a 00 00 03 01 28 3c
-00 00 00 00 00 00 3c 00 00 00 00 80 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 1d 90
-
-CSW MNE007QB2-2:
-edid-decode (hex):
-00 ff ff ff ff ff ff 00 0e 77 68 14 00 00 00 00
-00 23 01 04 a5 1e 13 78 03 90 e0 90 5e 59 86 25
-14 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
-36 00 2d bc 10 00 00 18 00 00 00 fd 00 28 3c 4a
-4a 10 01 0a 20 20 20 20 20 20 00 00 00 fc 00 4d
-4e 46 33 30 37 51 42 32 2d 32 0a 20 00 00 00 fe
-00 43 53 4f 54 20 54 33 0a 20 20 20 20 20 00 9a
-
-TMA TM140VDXP01-04:
-edid-decode (hex):
-
-00 ff ff ff ff ff ff 00 51 a1 11 08 00 00 00 00
-1a 22 01 04 a5 1e 13 78 03 83 3d 98 5b 57 8d 28
-1f 4e 53 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 6d 3d 80 a0 70 b0 3c 40 30 20
-36 00 2d bc 10 00 00 1a 00 00 00 10 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 fd 00 28
-3c 4c 4c 10 01 0a 20 20 20 20 20 20 00 00 00 fc
-00 54 4d 31 34 30 56 44 58 50 30 31 0a 20 01 f7
-
-70 20 79 02 00 25 00 09 41 66 02 41 66 02 28 3c
-80 81 00 14 73 1a 00 00 03 01 28 3c 00 00 00 00
-00 00 3c 00 00 00 00 8d 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 ae 90
-
-TMA TL140VDMS03-01:
-edid-decode (hex):
-
-00 ff ff ff ff ff ff 00 51 a1 94 20 00 00 00 00
-0b 23 01 04 a5 1e 13 78 03 47 5a 9e 53 5e 8b 28
-23 54 53 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 03 3e 80 a0 70 b0 48 40 30 20
-66 0c 2e bd 10 00 00 1e 00 00 00 fd 00 28 3c 4d
-4d 10 01 0a 20 20 20 20 20 20 00 00 00 10 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc
-00 54 4c 31 34 30 56 44 4d 53 30 33 0a 20 01 9c
-
-70 20 79 02 00 20 00 0c 00 00 00 94 20 00 00 00
-00 0b 19 00 21 00 1d c8 0b 5d 07 80 07 b0 04 00
-48 c9 55 48 a5 90 7b 42 21 02 45 54 00 00 00 00
-00 00 12 78 26 00 09 02 00 00 00 00 00 01 00 00
-2b 00 06 04 00 28 3b 00 00 81 00 14 73 1a 00 00
-03 01 28 3c 00 00 00 00 00 00 3c 00 00 00 00 8d
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 ae 90
-
-Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
----
-Chage since V1:
-
-- Add edid in commit message.
-- Modiy enable and disable timing for SPEC.
-
-V1: https://lore.kernel.org/all/CAHwB_NJ3yQxf9fTMT_cQv50z8X_NKyQMOJEuqDqY-BfKX8QzXQ@mail.gmail.com
----
- drivers/gpu/drm/panel/panel-edp.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index d0aa602ecc9d..91f530e91b40 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1796,6 +1796,13 @@ static const struct panel_delay delay_200_500_e200_d10 = {
- 	.disable = 10,
- };
- 
-+static const struct panel_delay delay_200_500_e200_d50 = {
-+	.hpd_absent = 200,
-+	.unprepare = 500,
-+	.enable = 200,
-+	.disable = 50,
-+};
-+
- static const struct panel_delay delay_200_150_e200 = {
- 	.hpd_absent = 200,
- 	.unprepare = 150,
-@@ -1865,6 +1872,7 @@ static const struct panel_delay delay_200_500_e50_d100 = {
-  * Sort first by vendor, then by product ID.
-  */
- static const struct edp_panel_entry edp_panels[] = {
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0x04a4, &delay_200_500_e50, "B122UAN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x105c, &delay_200_500_e50, "B116XTN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x1062, &delay_200_500_e50, "B120XAN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x125c, &delay_200_500_e50, "Unknown"),
-@@ -1883,6 +1891,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY2('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01.0",
- 			 &auo_b116xa3_mode),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x435c, &delay_200_500_e50, "Unknown"),
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0x52b0, &delay_200_500_e50, "B116XAK02.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x582d, &delay_200_500_e50, "B133UAN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116XAN06.1"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x635c, &delay_200_500_e50, "B116XAN06.3"),
-@@ -1890,10 +1899,12 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x723c, &delay_200_500_e50, "B140XTN07.2"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x73aa, &delay_200_500_e50, "B116XTN02.3"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133UAN01.0"),
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8bba, &delay_200_500_e50, "B140UAN08.5"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xa199, &delay_200_500_e50, "B116XAN06.1"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xa7b3, &delay_200_500_e50, "B140UAN04.4"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xc4b4, &delay_200_500_e50, "B116XAT04.1"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xc9a8, &delay_200_500_e50, "B140QAN08.H"),
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0xcdba, &delay_200_500_e50, "B140UAX01.2"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xd497, &delay_200_500_e50, "B120XAN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xf390, &delay_200_500_e50, "B140XTN07.7"),
- 
-@@ -1956,7 +1967,9 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0c93, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cb6, &delay_200_500_e200, "NT116WHM-N44"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0cfa, &delay_200_500_e50, "NV116WHM-A4D"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0d45, &delay_200_500_e80, "NV116WHM-N4B"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0d73, &delay_200_500_e80, "NE140WUM-N6S"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ddf, &delay_200_500_e80, "NV116WHM-T01"),
- 
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1130, &delay_200_500_e50, "N116BGE-EB2"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1132, &delay_200_500_e80_d50, "N116BGE-EA2"),
-@@ -1974,18 +1987,22 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115b, &delay_200_500_e80_d50, "N116BCN-EB1"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115d, &delay_200_500_e80_d50, "N116BCA-EA2"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115e, &delay_200_500_e80_d50, "N116BCA-EA1"),
-+	EDP_PANEL_ENTRY('C', 'M', 'N', 0x115f, &delay_200_500_e80_d50, "N116BCL-EAK"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1160, &delay_200_500_e80_d50, "N116BCJ-EAK"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1161, &delay_200_500_e80, "N116BCP-EA2"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1163, &delay_200_500_e80_d50, "N116BCJ-EAK"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1247, &delay_200_500_e80_d50, "N120ACA-EA1"),
-+	EDP_PANEL_ENTRY('C', 'M', 'N', 0x124c, &delay_200_500_e80_d50, "N122JCA-ENK"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x142b, &delay_200_500_e80_d50, "N140HCA-EAC"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x142e, &delay_200_500_e80_d50, "N140BGA-EA4"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x144f, &delay_200_500_e80_d50, "N140HGA-EA1"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x1468, &delay_200_500_e80, "N140HGA-EA1"),
-+	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14a8, &delay_200_500_e80, "N140JCA-ELP"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14d4, &delay_200_500_e80_d50, "N140HCA-EAC"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14d6, &delay_200_500_e80_d50, "N140BGA-EA4"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x14e5, &delay_200_500_e80_d50, "N140HGA-EA1"),
- 	EDP_PANEL_ENTRY('C', 'M', 'N', 0x162b, &delay_200_500_e80_d50, "N160JCE-ELL"),
-+	EDP_PANEL_ENTRY('C', 'M', 'N', 0x7402, &delay_200_500_e200_d50, "N116BCA-EAK"),
- 
- 	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1200, &delay_200_500_e50_d50_p2e200, "MNC207QS1-1"),
- 	EDP_PANEL_ENTRY('C', 'S', 'O', 0x1413, &delay_200_500_e50_d50_p2e200, "MNE007JA1-2"),
-@@ -1995,6 +2012,8 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1104, &delay_200_500_e50_d100, "MNB601LS1-4"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1448, &delay_200_500_e50, "MNE007QS3-7"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1457, &delay_80_500_e80_p2e200, "MNE007QS3-8"),
-+	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1462, &delay_200_500_e50, "MNE007QS5-2"),
-+	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1468, &delay_200_500_e50, "MNE007QB2-2"),
- 
- 	EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200_d200_po2e335, "LP079QX1-SP0V"),
- 
-@@ -2041,6 +2060,9 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0009, &delay_200_500_e250, "116QHD024002"),
- 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081116HHD028001-51D"),
- 
-+	EDP_PANEL_ENTRY('T', 'M', 'A', 0x0811, &delay_200_500_e80_d50, "TM140VDXP01-04"),
-+	EDP_PANEL_ENTRY('T', 'M', 'A', 0x2094, &delay_200_500_e50_d100, "TL140VDMS03-01"),
-+
- 	{ /* sentinal */ }
- };
- 
--- 
-2.25.1
+> 
+> Maxime
 
