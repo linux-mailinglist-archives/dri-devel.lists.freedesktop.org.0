@@ -2,48 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B926B17259
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 15:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8D3B1725B
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 15:50:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF4310E276;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B23610E78A;
 	Thu, 31 Jul 2025 13:50:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="PlcXZZgb";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="OXdujAG0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D31210E276
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:50:22 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250731135021euoutp029e6e716c3eb55c2132d74f40e4d76108~XWkJnSI1c1416814168euoutp02C
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:50:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250731135021euoutp029e6e716c3eb55c2132d74f40e4d76108~XWkJnSI1c1416814168euoutp02C
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEE310E276
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:50:23 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250731135022euoutp0104305ed12cde8a7fb4d23251a4043b32~XWkKb_bGm0222902229euoutp01K
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:50:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20250731135022euoutp0104305ed12cde8a7fb4d23251a4043b32~XWkKb_bGm0222902229euoutp01K
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1753969821;
- bh=6W87Q1x1CQJtR6NEM1xR9BS/avezudE94uTfUvbF1vw=;
+ s=mail20170921; t=1753969822;
+ bh=VfsQJvjq5c9ev8IN+DYZ8WbeMJC6AfqTnoMPHMtlcaY=;
  h=From:Date:Subject:In-Reply-To:To:Cc:References:From;
- b=PlcXZZgbl9fevamWWHBq2+To55Ns+nxcG+AFIi5AIo9OeUsQECPbYUzyG1uM1lRC1
- 27ezTwycyDDVo35Rq/wb6OYQ0/Eok92SlkHfUdlJxVkD5MOtG1W0rlSrf34Ur3+7zb
- E+VpTV24obp9ZAIhq/d034mwkbg4+VJIDW+qfOkc=
+ b=OXdujAG0rszUmzoNdWNVeBKiT7iavVKyRxNEgjzg/1MeqvpWaC3KoXSvTpAQxjP4/
+ z8ttJZ5kSw6LOViSf+aTpNX1+Aw7TcJEYygfFuZUC/VjQS+RD4HpIfFj9ou3mCUhgF
+ nGkBAnEPLWUaU61OFQPFnVblldnWHVqlf+H6Fj+s=
 Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238~XWkI6kFKx1671816718eucas1p1R;
- Thu, 31 Jul 2025 13:50:20 +0000 (GMT)
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250731135021eucas1p22c5267e560c135038e4175fc18d135aa~XWkJ93JQs2783527835eucas1p2L;
+ Thu, 31 Jul 2025 13:50:21 +0000 (GMT)
 Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
  [106.210.136.40]) by eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250731135019eusmtip2d9c31dd3d47bb7debe5fd189ea191589~XWkH8uhaX3049130491eusmtip2R;
- Thu, 31 Jul 2025 13:50:19 +0000 (GMT)
+ 20250731135020eusmtip28dbe050b38a266a945600abb6d911d01~XWkI_fC9w2644126441eusmtip2-;
+ Thu, 31 Jul 2025 13:50:20 +0000 (GMT)
 From: Michal Wilczynski <m.wilczynski@samsung.com>
-Date: Thu, 31 Jul 2025 15:50:13 +0200
-Subject: [PATCH v9 3/5] dt-bindings: gpu: img,powervr-rogue: Add TH1520 GPU
- compatible
+Date: Thu, 31 Jul 2025 15:50:14 +0200
+Subject: [PATCH v9 4/5] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250731-apr_14_for_sending-v9-3-c242dc1ffc14@samsung.com>
+Message-Id: <20250731-apr_14_for_sending-v9-4-c242dc1ffc14@samsung.com>
 In-Reply-To: <20250731-apr_14_for_sending-v9-0-c242dc1ffc14@samsung.com>
 To: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,  Rob Herring
  <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
@@ -59,16 +58,17 @@ To: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,  Rob Herring
  Drew Fustini <fustini@kernel.org>
 Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org,  Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>
 X-Mailer: b4 0.15-dev
-X-CMS-MailID: 20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238
+X-CMS-MailID: 20250731135021eucas1p22c5267e560c135038e4175fc18d135aa
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238
+X-RootMTR: 20250731135021eucas1p22c5267e560c135038e4175fc18d135aa
 X-EPHeader: CA
-X-CMS-RootMailID: 20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238
+X-CMS-RootMailID: 20250731135021eucas1p22c5267e560c135038e4175fc18d135aa
 References: <20250731-apr_14_for_sending-v9-0-c242dc1ffc14@samsung.com>
- <CGME20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238@eucas1p1.samsung.com>
+ <CGME20250731135021eucas1p22c5267e560c135038e4175fc18d135aa@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,76 +84,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the img,powervr-rogue.yaml to include the T-HEAD TH1520 SoC's
-specific GPU compatible string.
+Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
+TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
+the GPU using the drm/imagination driver.
 
-The thead,th1520-gpu compatible, along with its full chain
-img,img-bxm-4-64, and img,img-rogue, is added to the
-list of recognized GPU types.
+By adding this node, the kernel can recognize and initialize the GPU,
+providing graphics acceleration capabilities on the Lichee Pi 4A and
+other boards based on the TH1520 SoC.
 
-While the BXM-4-64 GPU IP is designed with two distinct power domains,
-the TH1520 SoC integrates it with only a single, unified power gate that
-is controllable by the kernel.
+Add fixed clock gpu_mem_clk, as the MEM clock on the T-HEAD SoC can't be
+controlled programatically.
 
-The binding enforces this with a specific if block for the
-thead,th1520-gpu compatible that requires a single power-domains entry
-and disallows power-domain-names.
-
-The B-series GPU rule is also updated to include img,img-bxm-4-64
-and to explicitly exclude the TH1520.
-
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Reviewed-by: Drew Fustini <drew@pdp7.com>
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 ---
- .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 29 +++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+ arch/riscv/boot/dts/thead/th1520.dtsi | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index 24ce46ba0b7015fca799f045ee2ccdd258088068..e47e0f3d1b5078b3050e26f6c1ac175edec528ec 100644
---- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-+++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -21,6 +21,11 @@ properties:
-           # work with newer dts.
-           - const: img,img-axe
-           - const: img,img-rogue
-+      - items:
-+          - enum:
-+              - thead,th1520-gpu
-+          - const: img,img-bxm-4-64
-+          - const: img,img-rogue
-       - items:
-           - enum:
-               - ti,j721s2-gpu
-@@ -96,7 +101,29 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: img,img-bxs-4-64
-+            const: thead,th1520-gpu
-+    then:
-+      properties:
-+        power-domains:
-+          items:
-+            - description: The single, unified power domain for the GPU on the
-+                TH1520 SoC, integrating all internal IP power domains.
-+        power-domain-names: false
-+      required:
-+        - power-domains
+diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
+index 42724bf7e90e08fac326c464d0f080e3bd2cd59b..6ae5c632205ba63248c0a119c03bdfc084aac7a0 100644
+--- a/arch/riscv/boot/dts/thead/th1520.dtsi
++++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+@@ -225,6 +225,13 @@ aonsys_clk: clock-73728000 {
+ 		#clock-cells = <0>;
+ 	};
+ 
++	gpu_mem_clk: mem-clk {
++		compatible = "fixed-clock";
++		clock-frequency = <0>;
++		clock-output-names = "gpu_mem_clk";
++		#clock-cells = <0>;
++	};
 +
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - img,img-bxm-4-64
-+              - img,img-bxs-4-64
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              const: thead,th1520-gpu
-     then:
-       properties:
-         power-domains:
+ 	stmmac_axi_config: stmmac-axi-config {
+ 		snps,wr_osr_lmt = <15>;
+ 		snps,rd_osr_lmt = <15>;
+@@ -500,6 +507,20 @@ clk: clock-controller@ffef010000 {
+ 			#clock-cells = <1>;
+ 		};
+ 
++		gpu: gpu@ffef400000 {
++			compatible = "thead,th1520-gpu", "img,img-bxm-4-64",
++				     "img,img-rogue";
++			reg = <0xff 0xef400000 0x0 0x100000>;
++			interrupt-parent = <&plic>;
++			interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&clk_vo CLK_GPU_CORE>,
++				 <&gpu_mem_clk>,
++				 <&clk_vo CLK_GPU_CFG_ACLK>;
++			clock-names = "core", "mem", "sys";
++			power-domains = <&aon TH1520_GPU_PD>;
++			resets = <&rst TH1520_RESET_ID_GPU>;
++		};
++
+ 		rst: reset-controller@ffef528000 {
+ 			compatible = "thead,th1520-reset";
+ 			reg = <0xff 0xef528000 0x0 0x4f>;
 
 -- 
 2.34.1
