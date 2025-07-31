@@ -2,65 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60E9B16F98
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 12:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE35B16FC0
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 12:46:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2031D10E76F;
-	Thu, 31 Jul 2025 10:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0C610E765;
+	Thu, 31 Jul 2025 10:46:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="elXgdI6A";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=robert.mader@collabora.com header.b="IPycU4Ui";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE2EA10E76F
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 10:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1753957860; x=1785493860;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=cUDELXoF3mFoB8u3ji+saaQ0kHytC2R18VJBDBNpeoE=;
- b=elXgdI6ACIxyG8FKt48/rcISa9r6CQ8BxivWjJTMuFl0OxbF4pG+l+nD
- 0qESKVDv3pEXvFlQL6CmiPJenMg33u9fJupuMXHkOTPXTKfCIv/Kx2efq
- s6nVBl8Lf8Ti00RbXpqtYxa9ahsIhZhBPbFpdTC4GbiL+ESkYAHQ2AH0t
- ixVZvmJi15FDAiCgfA332zi33ggd1O0PkZuAATiJP6NOwoax1vkQbn63e
- Njh4eXzvZGWkHQ/M497qXVqrWbI+habMQb6ENfFjC96yveXGhPsl6H71I
- /hdNMMl/28hTpVhmRU0orCAYcPzKVx6nLSDGg47RhzFHWfEguWZbLnmfp A==;
-X-CSE-ConnectionGUID: 9BvAtDBbQAix2R5DmdB5lA==
-X-CSE-MsgGUID: 08AXut2tT6uwRfs04uiLFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="60098203"
-X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; d="scan'208";a="60098203"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2025 03:31:00 -0700
-X-CSE-ConnectionGUID: fMAgt8bNR7i8o5nkyRZBDQ==
-X-CSE-MsgGUID: FssnAyh0R32oWsGHQT+/mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; d="scan'208";a="162501067"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.108])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jul 2025 03:30:55 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Pin-Yen Lin <treapking@chromium.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jiri Kosina
- <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, Douglas
- Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org, Chen-Yu
- Tsai <wenst@chromium.org>, Pin-Yen Lin <treapking@google.com>
-Subject: Re: [PATCH 1/2] drm/panel: Allow powering on panel follower after
- panel is enabled
-In-Reply-To: <20250731101344.2761757-1-treapking@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250731101344.2761757-1-treapking@google.com>
-Date: Thu, 31 Jul 2025 13:30:52 +0300
-Message-ID: <1519a7c3872a59b7b5f12e99529237035499bc26@intel.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3DBD10E765
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 10:45:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1753958757; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=IX0rqFuW6AKtOeujbXGJL7dYtca2+0CGs4V4MZPCzVoRbuUj4Tp/AlTPAzL9I7XxxHookTdIiX8pbegYt52LxLTT2GJybNNH/TgMtleXynt3lrvjHLuh3SIB2XmN3SjXb4KDuADQu1r5iX+3oVBuAJJxucA+1zIoQN8AIPvFX+8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1753958757;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=KCj62mFmtZcjuNsdbw8lNFwbIS7ToIULKjH4tNirfZ8=; 
+ b=UwZNpxwaCK2/xkjzu5ht6z6N74tVR9iTlqarjUnVtDl3OC6pNVeqfpHfUNeIgZyBfppJuJ2XqWDuitgMYeH0FKOcrr5m00pvPiKlVz2kJWe8bYf8wYBdec/XWxZVuquVSA8yA0g6Y2aJE1e85eY0bD0I9lHP+RcrYjACDKmONkw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=robert.mader@collabora.com;
+ dmarc=pass header.from=<robert.mader@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753958757; 
+ s=zohomail; d=collabora.com; i=robert.mader@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=KCj62mFmtZcjuNsdbw8lNFwbIS7ToIULKjH4tNirfZ8=;
+ b=IPycU4Uixq67P4TblsB3xmTCUUUg6g43xYeSWI5xlSScxL0TuZUrqruCR89wJ8x+
+ OXCCPwestmzBgCNZ66PLStKmGW724VdctLDNJbbdyw1ddHNBjhOJGzH6w8W3q/2R/gI
+ sVhcjFodxOB/PMDL4w6wL66PpPbTxvpUHZ8axaX0=
+Received: by mx.zohomail.com with SMTPS id 1753958755531289.9960517655592;
+ Thu, 31 Jul 2025 03:45:55 -0700 (PDT)
+Message-ID: <a1317262-fe95-4da0-96f3-d468d2bac07d@collabora.com>
+Date: Thu, 31 Jul 2025 12:45:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/vkms: Add writeback encoders as possible clones
+To: louis.chauvet@bootlin.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20250718121442.490634-1-robert.mader@collabora.com>
+Content-Language: en-US, de-DE
+From: Robert Mader <robert.mader@collabora.com>
+In-Reply-To: <20250718121442.490634-1-robert.mader@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,187 +65,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Jul 2025, Pin-Yen Lin <treapking@chromium.org> wrote:
-> Some touch controllers have to be powered on after the panel's backlight
-> is enabled. To support these controllers, introduce after_panel_enabled
-> flag to the panel follower and power on the device after the panel and
-> its backlight are enabled.
+Hey Louis, would you be fine to add your Rb on this one? :) Would love 
+to get it into drm-next / 6.17.
 
-I think it's *very* confusing and error prone to call follower hooks at
-different places depending on a flag. The hook names and documentation
-say *when* they get called, and that should not change.
-
-I think the right approach would be to add .panel_enabled and
-.panel_disabling hooks to struct drm_panel_follower_funcs, and have them
-called after panel (and backlight) have been enabled and before panel
-(and backlight) are disabled, respectively.
-
-In i2c-hid-core.c, you'd then have two copies of struct
-drm_panel_follower_funcs, and use one or the other depending on the
-quirk. You can even reuse the functions.
-
-I think overall it'll be be more consistent, more flexible, and probably
-fewer lines of code too.
-
-
-BR,
-Jani.
-
-> Signed-off-by: Pin-Yen Lin <treapking@google.com>
-
-PS. Your Signed-off-by doesn't match the patch author.
-
+On 18.07.25 14:14, Robert Mader wrote:
+> Since commit 41b4b11da0215 ("drm: Add valid clones check") setting
+> the `possible_clones` values is a hard requirement for cloning.
+> `vkms` supports cloning for writeback connectors in order to capture
+> CRTC content, however that broke with said commit.
+>
+> Writeback connectors are created on a per-CRTC basis, thus mark
+> every non-writeback connector that is compatible with a given CRTC
+> as possible clone - and vice-versa.
+>
+> Using a default configuration, the corresponding `drm_info` output
+> changes from:
+>
+> ├───Encoders
+> │   ├───Encoder 0
+> │   │   ├───Object ID: 40
+> │   │   ├───Type: virtual
+> │   │   ├───CRTCS: {0}
+> │   │   └───Clones: {0}
+> │   └───Encoder 1
+> │       ├───Object ID: 41
+> │       ├───Type: virtual
+> │       ├───CRTCS: {0}
+> │       └───Clones: {1}
+>
+> to:
+>
+> ├───Encoders
+> │   ├───Encoder 0
+> │   │   ├───Object ID: 44
+> │   │   ├───Type: virtual
+> │   │   ├───CRTCS: {0}
+> │   │   └───Clones: {0, 1}
+> │   └───Encoder 1
+> │       ├───Object ID: 50
+> │       ├───Type: virtual
+> │       ├───CRTCS: {0}
+> │       └───Clones: {0, 1}
+>
+> Fixes: dbd9d80c1b2e (drm/vkms: Add support for writeback)
+> Signed-off-by: Robert Mader <robert.mader@collabora.com>
 > ---
+>   drivers/gpu/drm/vkms/vkms_output.c    | 13 +++++++++++++
+>   drivers/gpu/drm/vkms/vkms_writeback.c |  2 ++
+>   2 files changed, 15 insertions(+)
 >
->  drivers/gpu/drm/drm_panel.c | 47 +++++++++++++++++++++++++++++++++----
->  include/drm/drm_panel.h     |  8 +++++++
->  2 files changed, 51 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index 650de4da08537..58125f8418f37 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -133,6 +133,9 @@ void drm_panel_prepare(struct drm_panel *panel)
->  	panel->prepared = true;
->  
->  	list_for_each_entry(follower, &panel->followers, list) {
-> +		if (follower->after_panel_enabled)
-> +			continue;
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 8d7ca0cdd79f..2ee3749e2b28 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -77,9 +77,22 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>   			return ret;
+>   		}
+>   
+> +		encoder_cfg->encoder->possible_clones |=
+> +			drm_encoder_mask(encoder_cfg->encoder);
 > +
->  		ret = follower->funcs->panel_prepared(follower);
->  		if (ret < 0)
->  			dev_info(panel->dev, "%ps failed: %d\n",
-> @@ -178,6 +181,9 @@ void drm_panel_unprepare(struct drm_panel *panel)
->  	mutex_lock(&panel->follower_lock);
->  
->  	list_for_each_entry(follower, &panel->followers, list) {
-> +		if (follower->after_panel_enabled)
-> +			continue;
+>   		vkms_config_encoder_for_each_possible_crtc(encoder_cfg, idx, possible_crtc) {
+>   			encoder_cfg->encoder->possible_crtcs |=
+>   				drm_crtc_mask(&possible_crtc->crtc->crtc);
 > +
->  		ret = follower->funcs->panel_unpreparing(follower);
->  		if (ret < 0)
->  			dev_info(panel->dev, "%ps failed: %d\n",
-> @@ -208,6 +214,7 @@ EXPORT_SYMBOL(drm_panel_unprepare);
->   */
->  void drm_panel_enable(struct drm_panel *panel)
->  {
-> +	struct drm_panel_follower *follower;
->  	int ret;
->  
->  	if (!panel)
-> @@ -218,10 +225,12 @@ void drm_panel_enable(struct drm_panel *panel)
->  		return;
->  	}
->  
-> +	mutex_lock(&panel->follower_lock);
+> +			if (vkms_config_crtc_get_writeback(possible_crtc)) {
+> +				struct drm_encoder *wb_encoder =
+> +					&possible_crtc->crtc->wb_encoder;
 > +
->  	if (panel->funcs && panel->funcs->enable) {
->  		ret = panel->funcs->enable(panel);
->  		if (ret < 0)
-> -			return;
-> +			goto exit;
->  	}
->  	panel->enabled = true;
->  
-> @@ -229,6 +238,18 @@ void drm_panel_enable(struct drm_panel *panel)
->  	if (ret < 0)
->  		DRM_DEV_INFO(panel->dev, "failed to enable backlight: %d\n",
->  			     ret);
-> +
-> +	list_for_each_entry(follower, &panel->followers, list) {
-> +		if (!follower->after_panel_enabled)
-> +			continue;
-> +
-> +		ret = follower->funcs->panel_prepared(follower);
-> +		if (ret < 0)
-> +			dev_info(panel->dev, "%ps failed: %d\n",
-> +				 follower->funcs->panel_prepared, ret);
-> +	}
-> +exit:
-> +	mutex_unlock(&panel->follower_lock);
->  }
->  EXPORT_SYMBOL(drm_panel_enable);
->  
-> @@ -242,6 +263,7 @@ EXPORT_SYMBOL(drm_panel_enable);
->   */
->  void drm_panel_disable(struct drm_panel *panel)
->  {
-> +	struct drm_panel_follower *follower;
->  	int ret;
->  
->  	if (!panel)
-> @@ -261,6 +283,18 @@ void drm_panel_disable(struct drm_panel *panel)
->  		return;
->  	}
->  
-> +	mutex_lock(&panel->follower_lock);
-> +
-> +	list_for_each_entry(follower, &panel->followers, list) {
-> +		if (!follower->after_panel_enabled)
-> +			continue;
-> +
-> +		ret = follower->funcs->panel_unpreparing(follower);
-> +		if (ret < 0)
-> +			dev_info(panel->dev, "%ps failed: %d\n",
-> +				 follower->funcs->panel_unpreparing, ret);
-> +	}
-> +
->  	ret = backlight_disable(panel->backlight);
->  	if (ret < 0)
->  		DRM_DEV_INFO(panel->dev, "failed to disable backlight: %d\n",
-> @@ -269,9 +303,12 @@ void drm_panel_disable(struct drm_panel *panel)
->  	if (panel->funcs && panel->funcs->disable) {
->  		ret = panel->funcs->disable(panel);
->  		if (ret < 0)
-> -			return;
-> +			goto exit;
->  	}
->  	panel->enabled = false;
-> +
-> +exit:
-> +	mutex_unlock(&panel->follower_lock);
->  }
->  EXPORT_SYMBOL(drm_panel_disable);
->  
-> @@ -537,7 +574,8 @@ int drm_panel_add_follower(struct device *follower_dev,
->  	mutex_lock(&panel->follower_lock);
->  
->  	list_add_tail(&follower->list, &panel->followers);
-> -	if (panel->prepared) {
-> +	if ((panel->prepared && !follower->after_panel_enabled) ||
-> +	    (panel->enabled && follower->after_panel_enabled)) {
->  		ret = follower->funcs->panel_prepared(follower);
->  		if (ret < 0)
->  			dev_info(panel->dev, "%ps failed: %d\n",
-> @@ -566,7 +604,8 @@ void drm_panel_remove_follower(struct drm_panel_follower *follower)
->  
->  	mutex_lock(&panel->follower_lock);
->  
-> -	if (panel->prepared) {
-> +	if ((panel->prepared && !follower->after_panel_enabled) ||
-> +	    (panel->enabled && follower->after_panel_enabled)) {
->  		ret = follower->funcs->panel_unpreparing(follower);
->  		if (ret < 0)
->  			dev_info(panel->dev, "%ps failed: %d\n",
-> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index 843fb756a2950..aa9b6218702fd 100644
-> --- a/include/drm/drm_panel.h
-> +++ b/include/drm/drm_panel.h
-> @@ -183,6 +183,14 @@ struct drm_panel_follower {
->  	 * The panel we're dependent on; set by drm_panel_add_follower().
->  	 */
->  	struct drm_panel *panel;
-> +
-> +	/**
-> +	 * @after_panel_enabled
-> +	 *
-> +	 * If true then this panel follower should be powered after the panel
-> +	 * and the backlight are enabled, instead of after panel is prepared.
-> +	 */
-> +	bool after_panel_enabled;
->  };
->  
->  /**
+> +				encoder_cfg->encoder->possible_clones |=
+> +					drm_encoder_mask(wb_encoder);
+> +				wb_encoder->possible_clones |=
+> +					drm_encoder_mask(encoder_cfg->encoder);
+> +			}
+>   		}
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index fe163271d5b5..45d69a3b85f6 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -174,6 +174,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+>   	if (ret)
+>   		return ret;
+>   	vkms_output->wb_encoder.possible_crtcs |= drm_crtc_mask(&vkms_output->crtc);
+> +	vkms_output->wb_encoder.possible_clones |=
+> +		drm_encoder_mask(&vkms_output->wb_encoder);
+>   
+>   	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+>   
 
 -- 
-Jani Nikula, Intel
+Robert Mader
+Consultant Software Developer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
+
