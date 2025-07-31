@@ -1,116 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B931B17736
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 22:32:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5BCB1792A
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 00:41:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A39810E2B2;
-	Thu, 31 Jul 2025 20:32:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D9010E7F6;
+	Thu, 31 Jul 2025 22:40:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bItUczJe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eNlVtNyM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B913810E7E5
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:32:03 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56VDf8SN001318
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:32:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=95j11hbpABfVkWXAtbUrfq5oYNt/9RLXdyb6uZduDVU=; b=bI
- tUczJeCkAQYvmh2+CUG6hR+kEzUQgFzWdtxpccVFSteLEausfVNDS5ZSKCx57Juy
- HVR3KsEw8v4ONwLSXFo9oaxnw31rRQ4y3bZQK2WTG22wCY7jaw5X4dZ5WW0U7MMU
- IeMz6WKXysiTTjjKA5mslzwBOomWRjwaInq2HpIdk0DUeRtijUwuUbVkqy2x4XF6
- UVZR11p1uvgjKay4sIz3gXIpBzceuwGEZN0IJNCCUePFDtVlD20pXhG8bXUc0TpR
- +kkpHNgfHAI/kZCSPMX7tlk2pINjOXtCkteSXk9qTESDjQM0CbZ5eVkSTnI9djZZ
- t6uxz1cYvZRy7ibispdA==
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484nyu9phv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:32:03 +0000 (GMT)
-Received: by mail-oi1-f199.google.com with SMTP id
- 5614622812f47-427850a77a2so257450b6e.3
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:32:02 -0700 (PDT)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92C2C10E7E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:36:28 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id
+ ca18e2360f4ac-875acfc133dso32754039f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1753994188; x=1754598988; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4Bkzmad0FHY3Ddy5NFcMc3+By4Cx3sAMV/rP5o2AEJQ=;
+ b=eNlVtNyM+zIruVNUhv8BpxzlZJK6uTAHXpHfQGoVMvMYSoldnKldJ17OQiSBOaO0zk
+ RkjpmfkzZSDCmrLOPF/+aj2z55JndS5FuaYefTFcc8n7oz4Sfw2v8cfMjyISsJNWVJr/
+ GdMZt4wOaaS1g2er3Y0CuIRKE+XVik/HvLgY/oqnqPnGvNGpylFgoHcloWfRS6GgalV8
+ ZQifpGBRHnV2iZiRwj4tr53Npvav52+vpLsk/vkkBr/cOOXL2+mu8IYysmm5qc3TA3r6
+ VYlN/KxgTKU6eD4UVphzwlZrnG7AyzqgS8yNPXDocH/ayEtrDC81jnBeYIN+G0fsLq0q
+ yrug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753993922; x=1754598722;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=95j11hbpABfVkWXAtbUrfq5oYNt/9RLXdyb6uZduDVU=;
- b=tkdTXp8zX3HwcJhrhtjnnfPDk46DzEimOoOTSnZBanOmq2nnndjR1iHe7EgeYQaEkp
- z3IpTw1TdrjqV6gyTkfJCf/NHo42Lu7N89UqqQcq8UoJ9zunDSfOnYpYk+1kILoIxpOg
- m3XiG3a94BbfBhdwospSY9dq8C6Ygi/NSM2Merhl2LHikdjrGL4/bwKj9tWkY3AjUNdv
- blfQ16Hm3rYsVBFh3lXPoo5L7yAB0DO2Io4cnuqvtWDz8+sf82NbLPMqEyYViU59VlB3
- KUfG/KIoUlwbVHPRqEABbFgOdptljzgTjKpgifBLDr3w4eHJ+eHE4sY5+iPRWCCD4dge
- L1ow==
-X-Gm-Message-State: AOJu0YzHY06yQrGwqXKuC3IthrblqU1BDQtWV7ssjYeGnE7kynpvBULh
- s0tIDhV8evcrjnPv7YG+0v7eF3iyOEx5rSWkKLzo1bI5N8EsegALnodN2i7pOCDcSPjfuKyIHlY
- RoA0zsfXq7FiW9ESaKz1I/eL+1/reZ8jhji1gmJIYIbewbLwv0Miw0L7qS9Du0nseJwA+9MK0bR
- OzCzZTv34y5U5LMqftd9WJrslLuIxDnetFxrgNlEZ9++6t2g==
-X-Gm-Gg: ASbGncs7ygqLbS+JAZIcfe9wu5K8TOrYSeeiOyhLbQeoiZAaql99F+8c0MmNB39C8br
- dyL8YA/0vwkOelwbbzu1aOr7dfKPsSP80/D5sKhKvAfra1xO1wEB28lVhRqTSH8kL4oE38XrRdE
- Fh3Esi/Fb90qQ3/Kieh3ysLc7k3O5eO/pQ7rVrjEme/4mRes4jxYoZ
-X-Received: by 2002:a05:6808:d48:b0:40c:f698:c132 with SMTP id
- 5614622812f47-43199c82e9bmr5343036b6e.11.1753993921802; 
- Thu, 31 Jul 2025 13:32:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEB1z2a8DRYITGDp5oVp8wvyaSOT3GViM176ZVbHA0f+yokdIDGj8gjhCgpQ3jKYYoQb+mKpRMhxR6uPxgxVkQ=
-X-Received: by 2002:a05:6808:d48:b0:40c:f698:c132 with SMTP id
- 5614622812f47-43199c82e9bmr5343020b6e.11.1753993921409; Thu, 31 Jul 2025
- 13:32:01 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1753994188; x=1754598988;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4Bkzmad0FHY3Ddy5NFcMc3+By4Cx3sAMV/rP5o2AEJQ=;
+ b=MPqvW8gEb5dnrJZQ7AJdUd1cHJ50TygqNEfQCzdtLtVvDk+f+f7xSQ5sQPvlJKGsHl
+ ky1U8neFQvv1VtMno3bvmHz3q4gC2n2l/Hvm0k3FeEptXZfIsJWRF8+HjukNJ4hjtE4M
+ O5GazneBaJTh76vO2j1CBzp0QtosQPvmtjfl3Ust+oZGAIZyxnuzOWTqPLvGf/xFK+EC
+ rVim5d0SU6AINwXnKUeCNfJwvWdTyx81Fbngq4ktw2YFU8ZyTzmWS8JYF4KNG0OCyPjg
+ cDEm/FC4TGHvWo4lwHcxF41vd9DMatJeW262Z56fskisOVG016TjtSMPdOWfysBAhYGC
+ TdTw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWDqlTYbUbh96j4zWc3FD/zAp3gZg/sDyjSj3zBUWBr7oWmsLxGJW3QDhx+hS+/0e7EJwbCO3YpHxk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzshkHvJSBCg2x0Q26JMznBy9grVPdOjXkOSoSMAiskkVjdK94m
+ lgp6BPjokAlu4eadpfQIDmxLDz4tuWbH22Azt6gaNI4gAn51PFWvU67J
+X-Gm-Gg: ASbGnct5GK29JG99ji+k92+mdzaNsHGn90GOQojad6SpvHYSlUavQeTlnDCHTFGop8V
+ uBze9FwsusJihKgrhDtw/CPCFlnZ7KKuAqKc1s6RNdo4XYs6xdYX3ptiI5RO6K5t1QDpOTHFkl2
+ AMJRFQR33ybDrBCGWNx+FTp7/i9U2byNGFvSdAC99T98RDrbXQ7ASfvOJ29/IB01r7koI0bF6rt
+ c46UHraKQIUIp+TlUPxccMMWcMj0WCvBxMf5e5YOnANZKLJOhETeuf0l6QJro5HW9fQRaSeM1gg
+ WY7lC2h6uEXy1QXrNFOwbw/PPl8cruwLOJm6Eze6k2Hc+6enEvWBNG3w7/vusiNKNVvSuPghILr
+ LGPh2AJ+TeH27FnuJ2qS/HVIIJ6b7kWNe86vUnyswIWNrfbGIzk9Osjp/cH7UPvOe8dSAAZPZD7
+ G6aRzUkh0MUaKBZg81QZLtWNA=
+X-Google-Smtp-Source: AGHT+IHw6r8Lf+6zjHlaPGrM/dmdCKU/6h6oK0JKKrXD5sL3aXoHzVWp5gzJ99Itr+K+yw6WuEQuQQ==
+X-Received: by 2002:a05:6602:60ce:b0:86c:ee8b:c089 with SMTP id
+ ca18e2360f4ac-8815a870752mr15789939f.3.1753994187605; 
+ Thu, 31 Jul 2025 13:36:27 -0700 (PDT)
+Received: from localhost.localdomain (syn-035-144-110-073.res.spectrum.com.
+ [35.144.110.73]) by smtp.gmail.com with ESMTPSA id
+ ca18e2360f4ac-8814dfab231sm70312839f.28.2025.07.31.13.36.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Jul 2025 13:36:27 -0700 (PDT)
+From: Sravan Kumar Gundu <sravankumarlpu@gmail.com>
+To: deller@gmx.de,
+	daniel@ffwll.ch
+Cc: skhan@linuxfoundation.com, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Sravan Kumar Gundu <sravankumarlpu@gmail.com>,
+ syzbot+c4b7aa0513823e2ea880@syzkaller.appspotmail.com
+Subject: [PATCH] fbdev: Fix vmalloc out-of-bounds write in fast_imageblit
+Date: Thu, 31 Jul 2025 15:36:18 -0500
+Message-ID: <20250731203618.25973-1-sravankumarlpu@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250728203412.22573-1-robin.clark@oss.qualcomm.com>
- <20250728203412.22573-2-robin.clark@oss.qualcomm.com>
- <CACu1E7F=Y2oKfiWtD0VYfmLkL24e7JrZYMt8dmoGW7zrq7bd2g@mail.gmail.com>
- <CACSVV02W28L0MS32J0n1PTpEsaq_6RxEPgb_6y6G=6TryGEPQw@mail.gmail.com>
- <CACSVV02DLSM2dHUj4MiPpogF3pgjk4ex5=9_P2AKdGmtx4bd=g@mail.gmail.com>
- <CACu1E7E6QaWgjFy13qP4BS_5mdhJ2vFVsnm9WtnJE3_t7rymPQ@mail.gmail.com>
-In-Reply-To: <CACu1E7E6QaWgjFy13qP4BS_5mdhJ2vFVsnm9WtnJE3_t7rymPQ@mail.gmail.com>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Thu, 31 Jul 2025 13:31:49 -0700
-X-Gm-Features: Ac12FXxbyEjKFrDZgWUpR8ETQOQajKnWdha82A9YYrUt8UGqoYorcn4PYFKocMw
-Message-ID: <CACSVV02qk59riW4_UAZjd=NTsSLF7qsQW6hkYEz7JcttBJDWTw@mail.gmail.com>
-Subject: Re: [PATCH 1/7] drm/msm: Add missing "location"s to devcoredump
-To: Connor Abbott <cwabbott0@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: ipaQ3M5JAuPguGMiQRPXCVXVTYfnr5Z2
-X-Proofpoint-ORIG-GUID: ipaQ3M5JAuPguGMiQRPXCVXVTYfnr5Z2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMxMDE0NiBTYWx0ZWRfX4f593XU6dkiL
- d8VDG9G/Z39szAumi9hdGsDFwY6xg35SKFNdr96JhvtX3wO0E4uq/RXtKh+wRo8GajLbNv0+lbw
- Ixbz1N0wxdH0dIBVSyABOD9yeTJaouOQg8Tm1ET040oCnkhd+JH1tzXhueczuw8T/HM0gqpwJqo
- p91X5UXlzE8OoKe460NG/ShJ4pMk/En+UecN0pofRzHGrXI28Eu82cTieKX+6+3ylGn7SJ2b9qc
- P8+wIL8Ll8GGhdo84a8Aqru+Pj9ShDznU4XKuJt+tsGQFmVVfn/pQGHzf3WDjPyDKAOXwzVgbBr
- OwSF3zIA8CHWShiYdsyVVK/nH1mfMTHbnpUOh9gv7gfBGQl8LhsYhjUQWU1BwQRuMr32OhzrE/i
- pd9RSbfw+mPzJxy61GjpkUeNRa2cNqfoW4yrEvyyGkk7fH6J0OVFoIDYbY9MMHOwVI2Q9ee/
-X-Authority-Analysis: v=2.4 cv=CLoqXQrD c=1 sm=1 tr=0 ts=688bd2c3 cx=c_pps
- a=yymyAM/LQ7lj/HqAiIiKTw==:117 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=3X2iVFLOVPrzddhlX30A:9 a=QEXdDO2ut3YA:10
- a=efpaJB4zofY2dbm2aIRb:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-31_04,2025-07-31_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507310146
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 31 Jul 2025 22:40:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,87 +89,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 31, 2025 at 12:16=E2=80=AFPM Connor Abbott <cwabbott0@gmail.com=
-> wrote:
->
-> On Tue, Jul 29, 2025 at 9:40=E2=80=AFAM Rob Clark <rob.clark@oss.qualcomm=
-.com> wrote:
-> >
-> > On Mon, Jul 28, 2025 at 3:15=E2=80=AFPM Rob Clark <rob.clark@oss.qualco=
-mm.com> wrote:
-> > >
-> > > On Mon, Jul 28, 2025 at 2:04=E2=80=AFPM Connor Abbott <cwabbott0@gmai=
-l.com> wrote:
-> > > >
-> > > > On Mon, Jul 28, 2025 at 4:43=E2=80=AFPM Rob Clark <robin.clark@oss.=
-qualcomm.com> wrote:
-> > > > >
-> > > > > This is needed to properly interpret some of the sections.
-> > > > >
-> > > > > Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 2 ++
-> > > > >  1 file changed, 2 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/driver=
-s/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> > > > > index faca2a0243ab..e586577e90de 100644
-> > > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> > > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> > > > > @@ -1796,6 +1796,7 @@ static void a7xx_show_shader(struct a6xx_gp=
-u_state_obj *obj,
-> > > > >
-> > > > >         print_name(p, "  - type: ", a7xx_statetype_names[block->s=
-tatetype]);
-> > > > >         print_name(p, "    - pipe: ", a7xx_pipe_names[block->pipe=
-id]);
-> > > > > +       drm_printf(p, "    - location: %d", block->location);
-> > > >
-> > > > We should probably at least try to keep it proper YAML by indenting
-> > > > everything after another level...
-> > >
-> > > this made me realize I missed a \n... but otherwise I think the inden=
-t
-> > > is correct?  Or should location not have a leading '-'?
-> >
-> > beyond that, even without the added location field, some random online
-> > yaml checker is telling me that we were already not proper yaml.. so I
-> > guess, :shrug:?
-> >
-> > BR,
-> > -R
->
-> Before this change, it looked like this:
->
->   - pipe: A7XX_PIPE_BR
->     - cluster-name: A7XX_CLUSTER_SP_PS
->       - context: 3
->         - { offset: 0x02a718, value: 0x00000003 }
->         ...
->
-> Notice that each nested thing (pipe -> cluster -> context) has an
-> additional level of indentation. Now, it looks like this:
->
->   - pipe: A7XX_PIPE_BR
->     - cluster-name: A7XX_CLUSTER_SP_PS
->       - context: 3
->       - location: 4
->         - { offset: 0x02a718, value: 0x00000003 }
->         ...
->
-> So it looks a bit weird with the context and location not being
-> nested. Also, I think the correct nesting HW-wise is cluster ->
-> location -> context, rather than context-> location, so the location
-> should be first. But ultimately it's up to you.
+This issue triggers when a userspace program does an ioctl
+FBIOPUT_CON2FBMAP by passing console number and frame buffer number.
+Ideally this maps console to frame buffer and updates the screen if
+console is visible.
 
-In terms of nesting, type, pipe, and location are all at the same
-level, and then for that tuple there is SPs nested under that, and
-then USPTPs nested under the SPs.  Although I guess we already had
-pipe nested under type..
+As part of mapping it has to do resize of console according to frame
+buffer info. if this resize fails and returns from vc_do_resize() and
+continues further. At this point console and new frame buffer are mapped
+and sets display vars. Despite failure still it continue to proceed
+updating the screen at later stages where vc_data is related to previous
+frame buffer and frame buffer info and display vars are mapped to new
+frame buffer and eventully leading to out-of-bounds write in
+fast_imageblit(). This bheviour is excepted only when fg_console is
+equal to requested console which is a visible console and updates screen
+with invalid struct references in fbcon_putcs().
 
-BR,
--R
+Reported-and-tested-by: syzbot+c4b7aa0513823e2ea880@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c4b7aa0513823e2ea880
+Signed-off-by: Sravan Kumar Gundu <sravankumarlpu@gmail.com>
+---
+ drivers/video/fbdev/core/fbcon.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 3f7333dca508..2540d9046161 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -803,7 +803,8 @@ static void con2fb_init_display(struct vc_data *vc, struct fb_info *info,
+ 				   fg_vc->vc_rows);
+ 	}
+ 
+-	update_screen(vc_cons[fg_console].d);
++	if (fg_console != unit)
++		update_screen(vc_cons[fg_console].d);
+ }
+ 
+ /**
+@@ -1336,6 +1337,7 @@ static void fbcon_set_disp(struct fb_info *info, struct fb_var_screeninfo *var,
+ 	struct vc_data *svc;
+ 	struct fbcon_ops *ops = info->fbcon_par;
+ 	int rows, cols;
++	unsigned long ret = 0;
+ 
+ 	p = &fb_display[unit];
+ 
+@@ -1386,11 +1388,10 @@ static void fbcon_set_disp(struct fb_info *info, struct fb_var_screeninfo *var,
+ 	rows = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+ 	cols /= vc->vc_font.width;
+ 	rows /= vc->vc_font.height;
+-	vc_resize(vc, cols, rows);
++	ret = vc_resize(vc, cols, rows);
+ 
+-	if (con_is_visible(vc)) {
++	if (con_is_visible(vc) && !ret)
+ 		update_screen(vc);
+-	}
+ }
+ 
+ static __inline__ void ywrap_up(struct vc_data *vc, int count)
+-- 
+2.43.0
+
