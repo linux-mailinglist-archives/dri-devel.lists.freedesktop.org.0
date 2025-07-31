@@ -2,85 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAFD1B169C7
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 02:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC1A6B16A4E
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 04:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDDBD10E0E6;
-	Thu, 31 Jul 2025 00:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1422B10E081;
+	Thu, 31 Jul 2025 02:08:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="Byn2CyKQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SW9PqX71";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3E6B10E0E6
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 00:49:45 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-2402bbb4bf3so6523075ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 17:49:45 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B65F10E081;
+ Thu, 31 Jul 2025 02:08:16 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-4561a4a8bf2so3984315e9.1; 
+ Wed, 30 Jul 2025 19:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1753922985; x=1754527785;
- darn=lists.freedesktop.org; 
- h=in-reply-to:references:subject:cc:to:from:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1753927694; x=1754532494; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:content-disposition:mime-version
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vJDt2FYYLu2qEDdCbjucML8LgrSLjpCS+v7eTHCd5u4=;
- b=Byn2CyKQ7FtCj0ATcQ/pvNUK8lZUlho2eFL7kHHpTZCQm0CNDCDAnjzL8et4o3uVKg
- 0sFOU36OdppP3GLcOGhxqT/Hoca0OwejvVJPATamhgWS8feCmpRqSXYWdVIKdoN/4Y/R
- QxMAXGPVzqfw9HW5Fj5cB/O67xWs3BSFGewa5orJTChdyGYY/U2UBczKbG5F/Hd2yfuH
- J55Sn78gjHPWvGgB+2DfWwAEQyfENxEsQgVZWVlB7yaaOUoCbnlZH0/6J20FLNtNjub5
- 8Q6nVQ9DsHb87pyWGLv49iF2pwdbR8dYbI18MTeSti2+NNtXiglIqT7VBBTeyLjsp/YX
- B5og==
+ bh=ttbMdEkxoTUOprk+YRVdSAOn6EZRYe2hYPzeU8X5k20=;
+ b=SW9PqX71VB9evoggmb1jkRxsUgij7wqGfFWcVLSKsnf69MIpVNAj2hMsXgnNAvTMay
+ 5DXqp3fb0NdkVigMHzphsr4xvvlZANeeydFabc8GDJtNNlBk9vBXOduql7TeeQwvdnVu
+ k057XmngSt1yGZXOwvABpw+dxwIvCJAnqLsxJG2mXqJVa/tYX5I5nCJXvU2noI19LVSI
+ e83sUmuBU1KlPTsvIPMRXBA4mmBQhVIHxboGqUNbAL5roojJKNM/a5hxAtVNWiglf4Cd
+ qU1ERcoWs2BTai27ssZ5cq8rc+xqOHRPRJ+RpS3sfB/n79YxsEdES3jsnsFLe3CUJ9fB
+ dw6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753922985; x=1754527785;
- h=in-reply-to:references:subject:cc:to:from:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=vJDt2FYYLu2qEDdCbjucML8LgrSLjpCS+v7eTHCd5u4=;
- b=qbRIvDhVshsksq3w803XinJWJ2hrQfXpyS5wgf8BSTq7hDX7FERhR4DNFSM0zXKW85
- H+oWRoZ2q7D26lRrjGAl3lpeCI69DFvvY4J8gy3WGOQaaKFgDNVAAA+oomZZw0nfpJSn
- eop3FKxhPqjf3ZakgGnTnelQhZT3lpE9wN4QgdnQwbC9xVp4re9W63+YVCNec/73WaEU
- QJejB5DeA0taaZ/zhgnTg4MMZKkG/wvFCttAfgJ7v//psCsIZFYV6oryqA2pLbrDiCLC
- D3UgpoiAWnwO5IbEqbojNJDR5cMc+LWZjL0chr1gwtzy7/N7l+iBnwtuRdnscvWoJYQg
- sBjw==
+ d=1e100.net; s=20230601; t=1753927694; x=1754532494;
+ h=content-transfer-encoding:content-disposition:mime-version
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ttbMdEkxoTUOprk+YRVdSAOn6EZRYe2hYPzeU8X5k20=;
+ b=g+v5hoe64tyiOTDoRmahemCsS1FWyYAsBmiiYPeKr5ve2WSc9/rRel1UgssrZJG0X2
+ PUM4kc1c1buluZHocpkW9MyVBMoZWzNoO+9w26P0byDu/ANzAmxvZIu4FXop4SCvga6x
+ zHe9m2XA6RvD0WKs6hVed8RRero1LWAvw+7j7Rmwhp4FGZ2DsLSxbie9lHMWCnQucOdt
+ cJOMjS6577nOXVViGys+IX+D0ihcp8tgPE4lsegbdN5M9p1Sg2xKb6gFNDHD8WmjhesN
+ nYc2WfDpW+ZSTvBrJ4x7ZeedBVd9ykQ1fi/IUJGShz14KuqYqTALXmhWmrcZFPQLqkCQ
+ andg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVoC22d70mabWoj6lTQuNiG9vbqe+gsiuJ+ArouRkXK5h7wCNkfHNmpBTSyhXh01nu+kRe5xhQLlYw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUhFrJdVlvQ7J2UucLmQtaacKc3CuHRPYGruvjAfcFt6CXIv6y
- jsvHPLhle+cFwPsANIRMeCGuurt/U7eCmG+ghMYsxil2TgnxthPKzqaZ72L41JU23Hw=
-X-Gm-Gg: ASbGncslUwxzqbfNc7ZGxrgUaQS6pjBvQIxi/FBse4Rs6Zp6zPW9xUuUZ8+Pz5Qewfi
- 81SIBGHH3BtWvOvwAZvw4z97Aj9DKS4hbW/pSnY9sbloIBk+tmknCqOTyzcDTtbm0Ed+jyE1uPP
- 0dA35fy8tjhg6NDwDi4GCsJdrUP8VeePJyEprPuq1lrDA+WLAF4O4XS333trJ2NFoCokR1eDx1u
- MK7g2jN8/GOjXITYb46GnHWArpIdAbH6or+MoMu/3NfYAp1xnD8Aspvq+s7VRT3xfCTLAL16+i4
- rwzBZT0tYINCspBDF4newJxc0u2MqkYisTkGUwM6RnxkCEafyoKsB4XxHLEjKUCdJjnG2sj0ogm
- Ey44GmJBw5VbSqi4oTaE=
-X-Google-Smtp-Source: AGHT+IFRg4d14fwyDbWfm6s1XgJ9O3YqeFegbjebAyJ4PNp/hfmIOJ7UPSuIb8lsRamTPF40s9y5Jg==
-X-Received: by 2002:a17:903:238c:b0:240:150e:57ba with SMTP id
- d9443c01a7336-24096a72ffcmr57849285ad.3.1753922985361; 
- Wed, 30 Jul 2025 17:49:45 -0700 (PDT)
-Received: from localhost ([64.71.154.6]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-241d1f0e81dsm2897185ad.46.2025.07.30.17.49.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jul 2025 17:49:44 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 30 Jul 2025 18:49:42 -0600
-Message-Id: <DBPTT2WUK2CH.1V1KX11EJPIFB@brighamcampbell.com>
-From: "Brigham Campbell" <me@brighamcampbell.com>
-To: "Doug Anderson" <dianders@chromium.org>
-Cc: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <linus.walleij@linaro.org>, <neil.armstrong@linaro.org>,
- <jessica.zhang@oss.qualcomm.com>, <sam@ravnborg.org>,
- <skhan@linuxfoundation.org>, <linux-kernel-mentees@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/3] drm: Add MIPI read_multi func and two write macros
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250730061748.1227643-1-me@brighamcampbell.com>
- <20250730061748.1227643-3-me@brighamcampbell.com>
- <CAD=FV=WpbU-iuEDVRuMm87H48PKQ3pz5aBwTRyedguFQA3dvTQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=WpbU-iuEDVRuMm87H48PKQ3pz5aBwTRyedguFQA3dvTQ@mail.gmail.com>
+ AJvYcCUaaLVPIQL5XrD5BbHdTRcK85nXvxjgD/sYx8ve+6mHhBe3YUu7uPKfLO+7OMWpxmV085xF4mxf@lists.freedesktop.org,
+ AJvYcCX0e8CNp9HInF14X220TKP7mViOADbop6RxHH5js9OC+JSxlAMkvp6C05oCpiML33IUXwTlYwcTAnHI@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+ZaQRDinxLp6Plo+bXpmM1mx0jxX/ct/o1H82f9kL3gnSjbZX
+ dPhY9bzaRHXG9+oIBg6+OLIcSjNgKCmFL7HRjnS1M+bhNa0jLEuw6w/I
+X-Gm-Gg: ASbGnctnPvFdJUgtnzKRvYZG4fKGm+Z49Gg1Ed0r99FE2X2W/0s2VxO/4y1nTFBYydJ
+ /d/RyYjqfJbtCo0gZPbr1VvoQ2CbQc0jrnpqfCj0FebqCzC41HZlv3w3q0rfSepjMtkWOmObGbz
+ hS5PHZa+oTeS9QFhWAxZD6+pwZdWrYlwTuZdwZzx9wnFDBS7cdgNUQsZPshRX18qFuyR5qmNn4n
+ wypxxjU0AZbbJSPLsfjQc0w9ONiUdCfAcwMHZAGwzA45DxgYIkIG80B9ClVqOb1lXCPr3X3pIgt
+ PSeKkqS+XWk+vu1jhsOi6oKu8TpdOG/iLR9r/v4q4UmE0u7x7JqkAdCmRjW+2DhQ/0Ddq1ZZLHN
+ x0LNvDkVGe+XC36nFeXQVqg==
+X-Google-Smtp-Source: AGHT+IHsylB7+NHRuBW9mU53rbrnh3rovtARDLzE2S2cbV7OlcCzjAu5Wxz6+1u5fMJj5KOTcLkQ5g==
+X-Received: by 2002:a05:600d:108:20b0:456:26ad:46d2 with SMTP id
+ 5b1f17b1804b1-45893943cefmr25724855e9.6.1753927694491; 
+ Wed, 30 Jul 2025 19:08:14 -0700 (PDT)
+Received: from pc ([165.51.119.21]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4589ee4f239sm7657055e9.21.2025.07.30.19.08.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Jul 2025 19:08:14 -0700 (PDT)
+Date: Thu, 31 Jul 2025 03:08:11 +0100
+From: Salah Triki <salah.triki@gmail.com>
+To: Markus Elfring <Markus.Elfring@web.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc: salah.triki@gmail.com
+Subject: [PATCH V2] drm/amdgpu: check return value of xa_store()
+Message-ID: <aIrQC78VWg17Iqhf@pc>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,36 +92,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Jul 30, 2025 at 9:56 AM MDT, Doug Anderson wrote:
->> +/**
->> + * mipi_dsi_dcs_write_var_seq_multi - transmit a DCS command with non-s=
-tatic
->> + * payload
->
-> I should have been explicit, but the above "non-static" should also be
-> "non-constant". ;-)
->
-> I could probably fix that when applying, or you could send a v4. Up to yo=
-u.
+The `xa_store()` function can fail due to memory allocation issues or other
+internal errors. Currently, the return value of `xa_store()` is not
+checked, which can lead to a memory leak if it fails to store `numa_info`.
 
-Oops. This obviously needed to change as well, but I tunnel-visioned
-hard. I'll go ahead and fix it in v4.
+This patch checks the return value of `xa_store()`. If an error is
+detected, the allocated `numa_info` is freed, and NULL is returned to
+indicate the failure, preventing a memory leak and ensuring proper error
+handling.
 
-Naturally, I wouldn't be at all opposed to you or any other maintainer
-making such a small change to one of my patches as it heads upstream,
-but I'd rather not ask you to remember to make that change after a long
-vacation and a busy merge window. There's no need for me to add even a
-little more cognitive load to your job than what's necessary.
+Signed-off-by: Salah Triki <salah.triki@gmail.com>
+Fixes: 1cc823011a23f ("drm/amdgpu: Store additional numa node information")
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+---
+Changes in v2:
+    - Improve description
+    - Add tags Fixes and Cc
 
-> Speaking of applying this, I'll be on vacation next week, so I won't
-> be able to apply the patches until the week after. That will also give
-> anyone else on the list a chance to comment if they want...
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Awesome! I'll plan to sit tight and act on whatever feedback I get on
-v4.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+index f5466c592d94..b4a3e4d3e957 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -876,7 +876,7 @@ static inline uint64_t amdgpu_acpi_get_numa_size(int nid)
+ 
+ static struct amdgpu_numa_info *amdgpu_acpi_get_numa_info(uint32_t pxm)
+ {
+-	struct amdgpu_numa_info *numa_info;
++	struct amdgpu_numa_info *numa_info, *old;
+ 	int nid;
+ 
+ 	numa_info = xa_load(&numa_info_xa, pxm);
+@@ -898,7 +898,11 @@ static struct amdgpu_numa_info *amdgpu_acpi_get_numa_info(uint32_t pxm)
+ 		} else {
+ 			numa_info->size = amdgpu_acpi_get_numa_size(nid);
+ 		}
+-		xa_store(&numa_info_xa, numa_info->pxm, numa_info, GFP_KERNEL);
++		old = xa_store(&numa_info_xa, numa_info->pxm, numa_info, GFP_KERNEL);
++		if (xa_is_err(old)) {
++			kfree(numa_info);
++			return NULL;
++		}
+ 	}
+ 
+ 	return numa_info;
+-- 
+2.43.0
 
-If you happen to be flying over northern Utah to get to your
-destination, look out the window. I'll wave as you go by.
-
-Cheers,
-Brigham
