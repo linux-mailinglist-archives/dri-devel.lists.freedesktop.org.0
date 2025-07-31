@@ -2,81 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1A6B16A4E
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 04:08:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0771B16A76
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 04:35:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1422B10E081;
-	Thu, 31 Jul 2025 02:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C6710E013;
+	Thu, 31 Jul 2025 02:35:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SW9PqX71";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="RO16iif7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B65F10E081;
- Thu, 31 Jul 2025 02:08:16 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-4561a4a8bf2so3984315e9.1; 
- Wed, 30 Jul 2025 19:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753927694; x=1754532494; darn=lists.freedesktop.org;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ttbMdEkxoTUOprk+YRVdSAOn6EZRYe2hYPzeU8X5k20=;
- b=SW9PqX71VB9evoggmb1jkRxsUgij7wqGfFWcVLSKsnf69MIpVNAj2hMsXgnNAvTMay
- 5DXqp3fb0NdkVigMHzphsr4xvvlZANeeydFabc8GDJtNNlBk9vBXOduql7TeeQwvdnVu
- k057XmngSt1yGZXOwvABpw+dxwIvCJAnqLsxJG2mXqJVa/tYX5I5nCJXvU2noI19LVSI
- e83sUmuBU1KlPTsvIPMRXBA4mmBQhVIHxboGqUNbAL5roojJKNM/a5hxAtVNWiglf4Cd
- qU1ERcoWs2BTai27ssZ5cq8rc+xqOHRPRJ+RpS3sfB/n79YxsEdES3jsnsFLe3CUJ9fB
- dw6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753927694; x=1754532494;
- h=content-transfer-encoding:content-disposition:mime-version
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ttbMdEkxoTUOprk+YRVdSAOn6EZRYe2hYPzeU8X5k20=;
- b=g+v5hoe64tyiOTDoRmahemCsS1FWyYAsBmiiYPeKr5ve2WSc9/rRel1UgssrZJG0X2
- PUM4kc1c1buluZHocpkW9MyVBMoZWzNoO+9w26P0byDu/ANzAmxvZIu4FXop4SCvga6x
- zHe9m2XA6RvD0WKs6hVed8RRero1LWAvw+7j7Rmwhp4FGZ2DsLSxbie9lHMWCnQucOdt
- cJOMjS6577nOXVViGys+IX+D0ihcp8tgPE4lsegbdN5M9p1Sg2xKb6gFNDHD8WmjhesN
- nYc2WfDpW+ZSTvBrJ4x7ZeedBVd9ykQ1fi/IUJGShz14KuqYqTALXmhWmrcZFPQLqkCQ
- andg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaaLVPIQL5XrD5BbHdTRcK85nXvxjgD/sYx8ve+6mHhBe3YUu7uPKfLO+7OMWpxmV085xF4mxf@lists.freedesktop.org,
- AJvYcCX0e8CNp9HInF14X220TKP7mViOADbop6RxHH5js9OC+JSxlAMkvp6C05oCpiML33IUXwTlYwcTAnHI@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+ZaQRDinxLp6Plo+bXpmM1mx0jxX/ct/o1H82f9kL3gnSjbZX
- dPhY9bzaRHXG9+oIBg6+OLIcSjNgKCmFL7HRjnS1M+bhNa0jLEuw6w/I
-X-Gm-Gg: ASbGnctnPvFdJUgtnzKRvYZG4fKGm+Z49Gg1Ed0r99FE2X2W/0s2VxO/4y1nTFBYydJ
- /d/RyYjqfJbtCo0gZPbr1VvoQ2CbQc0jrnpqfCj0FebqCzC41HZlv3w3q0rfSepjMtkWOmObGbz
- hS5PHZa+oTeS9QFhWAxZD6+pwZdWrYlwTuZdwZzx9wnFDBS7cdgNUQsZPshRX18qFuyR5qmNn4n
- wypxxjU0AZbbJSPLsfjQc0w9ONiUdCfAcwMHZAGwzA45DxgYIkIG80B9ClVqOb1lXCPr3X3pIgt
- PSeKkqS+XWk+vu1jhsOi6oKu8TpdOG/iLR9r/v4q4UmE0u7x7JqkAdCmRjW+2DhQ/0Ddq1ZZLHN
- x0LNvDkVGe+XC36nFeXQVqg==
-X-Google-Smtp-Source: AGHT+IHsylB7+NHRuBW9mU53rbrnh3rovtARDLzE2S2cbV7OlcCzjAu5Wxz6+1u5fMJj5KOTcLkQ5g==
-X-Received: by 2002:a05:600d:108:20b0:456:26ad:46d2 with SMTP id
- 5b1f17b1804b1-45893943cefmr25724855e9.6.1753927694491; 
- Wed, 30 Jul 2025 19:08:14 -0700 (PDT)
-Received: from pc ([165.51.119.21]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4589ee4f239sm7657055e9.21.2025.07.30.19.08.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jul 2025 19:08:14 -0700 (PDT)
-Date: Thu, 31 Jul 2025 03:08:11 +0100
-From: Salah Triki <salah.triki@gmail.com>
-To: Markus Elfring <Markus.Elfring@web.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc: salah.triki@gmail.com
-Subject: [PATCH V2] drm/amdgpu: check return value of xa_store()
-Message-ID: <aIrQC78VWg17Iqhf@pc>
+X-Greylist: delayed 905 seconds by postgrey-1.36 at gabe;
+ Thu, 31 Jul 2025 02:35:09 UTC
+Received: from mail-m6092.netease.com (mail-m6092.netease.com [210.79.60.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD0D10E013
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 02:35:09 +0000 (UTC)
+Received: from [172.16.12.153]
+ (gy-adaptive-ssl-proxy-4-entmail-virt151.gy.ntes [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 1dcdf18ba;
+ Thu, 31 Jul 2025 10:19:51 +0800 (GMT+08:00)
+Message-ID: <63ec11cf-7927-431a-995e-a5fc35ef1ba7@rock-chips.com>
+Date: Thu, 31 Jul 2025 10:19:49 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] Add Type-C DP support for RK3399 EVB IND board
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+References: <20250729090032.97-1-kernel@airkyi.com>
+ <3kefqzjewmsyzfvyi33kvlgjd6jphjg3fsnixb3of7yb3xkgs2@hgi6xfkgd653>
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <3kefqzjewmsyzfvyi33kvlgjd6jphjg3fsnixb3of7yb3xkgs2@hgi6xfkgd653>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a985e475b1003abkunm77c0d17969e27b
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhpLHlZKTE5DQhgfSUsZSBlWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+ xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=RO16iif7fvE2I/NqgFVWubst7c5eff+ThID3ba+yjSGE1Deh2av4GXUdv8xcfOjIoQRF5I8v1uaoBxKb/+DD1K1YmFe3nXoNmqmLqsqYOc6GjQA/eU0CqsQeM8yRVB7HTls4tRM/6RHXOdZnkUd6HI2cIMr02K/o8X0yNF8Ofbc=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=+TiEqyL1AH0iOF6kXInInA83bu0TufgWM4xm6RFb5sQ=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,59 +77,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The `xa_store()` function can fail due to memory allocation issues or other
-internal errors. Currently, the return value of `xa_store()` is not
-checked, which can lead to a memory leak if it fails to store `numa_info`.
+Hi Dmitry,
 
-This patch checks the return value of `xa_store()`. If an error is
-detected, the allocated `numa_info` is freed, and NULL is returned to
-indicate the failure, preventing a memory leak and ensuring proper error
-handling.
+On 7/31/2025 3:13 AM, Dmitry Baryshkov wrote:
+> On Tue, Jul 29, 2025 at 05:00:27PM +0800, Chaoyi Chen wrote:
+>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>
+>> This series focuses on adding Type-C DP support for USBDP PHY and DP
+>> driver. The USBDP PHY and DP will perceive the changes in cable status
+>> based on the USB PD and Type-C state machines provided by TCPM. Before
+>> this, the USBDP PHY and DP controller of RK3399 sensed cable state
+>> changes through extcon, and devices such as the RK3399 Gru-Chromebook
+>> rely on them. This series should not break them.
+>>
+> [....]
+>
+>> ====
+>> 2. DP HPD event notify
+>>
+>> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
+>> the CDN-DP can be switched to output to one of the PHYs.
+>>
+>> USB/DP PHY0 ---+
+>>                 | <----> CDN-DP controller
+>> USB/DP PHY1 ---+
+> Could you please clarify this, can you switch DP stream between two
+> USB-C outputs? What happens if user plugs in DP dongles in both USB-C
+> ports?
 
-Signed-off-by: Salah Triki <salah.triki@gmail.com>
-Fixes: 1cc823011a23f ("drm/amdgpu: Store additional numa node information")
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
----
-Changes in v2:
-    - Improve description
-    - Add tags Fixes and Cc
+Currently, the software simply selects the first available port. So if 
+user plugs in DP dongles in both USB-C ports, the DP driver will select 
+the first port. This process is implemented in cdn_dp_connected_port() .
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-index f5466c592d94..b4a3e4d3e957 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -876,7 +876,7 @@ static inline uint64_t amdgpu_acpi_get_numa_size(int nid)
- 
- static struct amdgpu_numa_info *amdgpu_acpi_get_numa_info(uint32_t pxm)
- {
--	struct amdgpu_numa_info *numa_info;
-+	struct amdgpu_numa_info *numa_info, *old;
- 	int nid;
- 
- 	numa_info = xa_load(&numa_info_xa, pxm);
-@@ -898,7 +898,11 @@ static struct amdgpu_numa_info *amdgpu_acpi_get_numa_info(uint32_t pxm)
- 		} else {
- 			numa_info->size = amdgpu_acpi_get_numa_size(nid);
- 		}
--		xa_store(&numa_info_xa, numa_info->pxm, numa_info, GFP_KERNEL);
-+		old = xa_store(&numa_info_xa, numa_info->pxm, numa_info, GFP_KERNEL);
-+		if (xa_is_err(old)) {
-+			kfree(numa_info);
-+			return NULL;
-+		}
- 	}
- 
- 	return numa_info;
--- 
-2.43.0
 
+>
+>> BTW, one of the important things to do is to implement extcon-like
+>> notifications. I found include/drm/bridge/aux-bridge.h , but if the
+>> aux-bridge is used, the bridge chain would look like this:
+>>
+>> PHY0 aux-bridge ---+
+>>                     | ----> CDN-DP bridge
+>> PHY1 aux-bridge ---+
+>>
+>> Oh, CDN-DP bridge has two previous aux-bridge!
+>>
+>> Now, I try to use drm_connector_oob_hotplug_event() to notify HPD
+>> state between PHY and CDN-DP controller.
+> Does it actually work? The OOB HPD event will be repoted for the usb-c
+> connector's fwnode, but the DP controller isn't connected to that node
+> anyhow. If I'm not mistaken, the HPD signal will not reach DP driver in
+> this case.
+
+Yes.Â  What you mentioned is the case in 
+drivers/usb/typec/altmodes/displayport.c . I have also added a new OOB 
+event notify in the PHY driver in Patch 3, where the expected fwnode is 
+used in the PHY. So now we have two OOB HPD events, one from 
+altmodes/displayport.c and the other from PHY. Only the HPD from PHY is 
+eventually passed to the DP driver.
+
+
+
+>
+>> Patch1 add new Type-C mode switch for RK3399 USBDP phy binding.
+>> Patch2 add typec_mux and typec_switch for RK3399 USBDP PHY.
+>> Patch3 drops CDN-DP's extcon dependency when Type-C is present.
+>> Patch4 add missing dp_out port for RK3399 CDN-DP.
+>> Patch5 add Type-C DP support for RK3399 EVB IND board.
+>>
