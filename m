@@ -2,87 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3ED4B172A9
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 16:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25C2B172C7
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 16:05:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 410F810E27D;
-	Thu, 31 Jul 2025 14:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 942D710E796;
+	Thu, 31 Jul 2025 14:05:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kNyM2eDG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JqD4yT9V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
- [209.85.216.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA93D10E27D
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 14:00:58 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id
- 98e67ed59e1d1-312a806f002so141658a91.3
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 07:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753970458; x=1754575258; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8157ZS3tYeHtH6rijRBK7OcIVWChQfvpSllS+EZouUI=;
- b=kNyM2eDGi3lFXGDAofI7N4S8I83c51mLgyKQNtfI1tBF9HlNgZiFOt1TkbWr0ZeihB
- BNfEhm+syL4AwqtTp9khjOx0AJBmelpotAjf7WrFyOb2MRCil1aGrRrFVjZ7zl4qQMJc
- BlsD1NcTqwbqIalNTd61yTGcOPzCJFtt0wlEx0cRtyFIfJHIKgCWz7noVIhkPlw+mF2e
- d2Ygb1144THZviu4Xfc2V2XvboyvlqbNXk58SJ8TB2udPUKB4ZeWfovxFpsoqmI5IC3Q
- cvxGaN0meo/JeG/7ZLbsPPraK5V7ub87An6OnMS4k4P8nSTDqPMsOUTxPKeYElepnDor
- juZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753970458; x=1754575258;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8157ZS3tYeHtH6rijRBK7OcIVWChQfvpSllS+EZouUI=;
- b=onifVHA1Ii2slwV2aTG5vNIRqqpWrlVCa+0/mEQ9n+0uJNA4T6Hz21oBWRPdI/mvYf
- 3mIhz2vhoSMYY5qEDDbypQR+MW8JU2SsmB2ZDDq/PzVXJAd951/dZp3QjdDQaN7z+UUI
- 7G0N/JiAQEI0Bf8DGnDNjzRVZOUR4uk5/en9kXm0yAn+gyc2gnJu3yharbT8UfXIc/Qn
- Mc5RLWhiTnHcHuUZvD4CfCEZ/o3CUuNKzL+gm+vtfsBtkIhT7jOjt5/kEB6ha8EGPb6R
- 74f4s7IVp+cLAvUaRP+WVmq5rZMZnlbgoBhJ0vqP6DouwMXmfMDIAUrcW57X0XOZHR/V
- et6A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWuH9aUatTsu4QAvbmjSF65qRR6bcKLfO+WeNCRBfadinT2DTmpm5NoLdY+n3F1g/W+b/8ZHkLatKI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4zj0xX5v+3uWtiCLvv5DvDO4NkoZVrXwmr5fPKPQUOX45qr1T
- uj0nPzYfKf53uykf8Yfwe08NusosShbgbzUo8OYx21AE5g+yb4TtvIL3h4i5C3QbK5TfqcbmDmO
- qnOVthqXOkr52H1Qw5DRBC4a0075UdJ8=
-X-Gm-Gg: ASbGncsi3vzfsT2PB5cP4Vn7L6OQLIt7UnYsSdawonOg8GYBVhSKlMiuPaY1sN7aKCt
- jkzKkDKiY20K6/Xyb+fQOyJS5mTqbHCdYArVSXJ5DywSzAg8ub2VQLrrSLfGwJmgGol3ivbA8Hg
- E3RkOVFO4rdsvGreIbWu+Q8VTXaNEh2+kSNhU7B6idf52/Sp729ShmvqjCEDR5kTsi/w5sZs+Pd
- bAamdDN
-X-Google-Smtp-Source: AGHT+IHmeHWZpcZnnZ3kXgdMZ5YyCy7CsMUcHBLKicsRETzXtCN9pdf52HCE2POOb92QpUFR8CCNPcVZOGClLpCOnww=
-X-Received: by 2002:a17:90b:1d88:b0:312:e9d:4001 with SMTP id
- 98e67ed59e1d1-31f5de88251mr1992896a91.8.1753970458039; Thu, 31 Jul 2025
- 07:00:58 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA2410E796
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 14:05:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 05F425C60A6;
+ Thu, 31 Jul 2025 14:05:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57CA4C4CEEF;
+ Thu, 31 Jul 2025 14:05:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1753970709;
+ bh=Bp6qxWY5Vw4zchfSJZ5G0bLNb5BP1yJxoT6y6V2urbg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JqD4yT9Vqrm2eckOx+2A9avYrCot149Z0UsurX7dJM/nhns3mbj+bDeDD4xdstgkG
+ uZgUPKJ6CT/y9tYR6SwFX1bw3fm981+O0oBbl6VJwXgA9Yuc2jdq7C7ApsPgIPuM9L
+ HelVI9G9hy/OoUD+wsiuN6LhkRwWIKFb72YUws35jR/83ObEMa78e6FAoNnPC5Yfiu
+ 8tzkxwgWUNW2M768dRfnIPyZ76OtYEbYkiCSTnmicVEK96s5qf4gFzpiwjzuiqJQ+7
+ iRKxdM7+BTuFmqKeGQenmzDO4IVD8RxeVPrC4OJx4FFMWy/h1/ZN51fTxziJzeUkWQ
+ 9mnv6i3zfzx9w==
+Date: Thu, 31 Jul 2025 16:05:07 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/14] drm/tidss: dispc: Convert to FIELD_* API
+Message-ID: <20250731-observant-fervent-heron-dbe833@houat>
+References: <20250730-drm-tidss-field-api-v1-0-a71ae8dd2782@kernel.org>
+ <15f0b568-3d59-4f0c-b390-4e3d3623136a@bootlin.com>
+ <20250731-powerful-termite-of-inspiration-13f36d@houat>
+ <c5e34fed-4dc7-4288-9183-c6c076bb3b85@bootlin.com>
 MIME-Version: 1.0
-References: <CAPM=9tzVm80-v6_5nt6kko3nR+aQLZ7R98i419FV8f4-ayQWUw@mail.gmail.com>
- <CAHk-=wirxHy+KU6jmtO2dzmGQ1BwaOdd5Mjtrc40fGvZVULQQg@mail.gmail.com>
- <CAHk-=wjn5Pg2Gp=o2NVv-nRKqE=E75AxUypWCCpQ7MDXuHx+YA@mail.gmail.com>
- <CAHk-=whnuRuQEky2GsCDRQSf1dZbpoqnK+puw=qdR-D7aap9SQ@mail.gmail.com>
- <CAPM=9tygJqtbmYzB5gktxp-7fBfv_9gNq9p9+SdZ6wiYE2-6PQ@mail.gmail.com>
- <CAHk-=whB1X1c6rWbY34wZVGcnaY=yfPGLOtjd5h3mMDGV9Lbkg@mail.gmail.com>
- <CAPM=9tyb1mELymOJv62KJom4mGF0UBifbVqLJUFdS1C7Eeu3jg@mail.gmail.com>
- <CAPM=9tzDWmYBKQGB0ybDzhYHkg0p98_6PJA8OuPahRep8+QPvQ@mail.gmail.com>
- <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
- <CAHk-=wh+79KkMXsNqyPxeU+c5U2h-n13ko6J_QzwtjyYCKhrSw@mail.gmail.com>
- <CAHk-=wgEGn0azq0n5BfWg4ZStrZYanLCX1a+quug7HKmjimhpw@mail.gmail.com>
- <CADnq5_NBM1Kso==+N=1xCjF+xiS7Vy4g47uvUN7sSWs8bontZQ@mail.gmail.com>
-In-Reply-To: <CADnq5_NBM1Kso==+N=1xCjF+xiS7Vy4g47uvUN7sSWs8bontZQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 31 Jul 2025 10:00:45 -0400
-X-Gm-Features: Ac12FXxuuoZ1YWI8UmgU_FrhbQ3mMkgX2KF3Bcm21SS1tJ08teC8t0_OYzwfXfM
-Message-ID: <CADnq5_MWxd7WHi6=aY2ckHNOvRvT1e_rDPU_0xEma1cbaGa2Yg@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.17-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Dave Airlie <airlied@gmail.com>, Dillon Varone <dillon.varone@amd.com>, 
- Ivan Lipski <ivan.lipski@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, Wenjing Liu <wenjing.liu@amd.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, 
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="etjucsgdpk7eff7t"
+Content-Disposition: inline
+In-Reply-To: <c5e34fed-4dc7-4288-9183-c6c076bb3b85@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,44 +65,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 31, 2025 at 9:09=E2=80=AFAM Alex Deucher <alexdeucher@gmail.com=
-> wrote:
->
-> On Thu, Jul 31, 2025 at 3:03=E2=80=AFAM Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > On Wed, 30 Jul 2025 at 21:58, Linus Torvalds
-> > <torvalds@linux-foundation.org> wrote:
-> > >
-> > > d7b618bc41ee3d44c070212dff93949702ede997 is the first bad commit
-> > >     drm/amd/display: Refactor DSC cap calculations
-> > >
-> > > Let me go see how painful it is to just revert it from top-of-tree.
-> >
-> > So with that reverted (didn't require a lot of fixing, only minor
-> > unrelated context added nearby later), current top-of-tree works for
-> > me again.
-> >
-> > The revert I used for testing attached just so people can see exactly
-> > what I did.
-> >
-> > It's late here, I wasn't getting any more work done today anyway, so
-> > I'll leave it like this for now.
-> >
-> > I can continue to do the merge window with this revert purely local
-> > for a while, so if somebody comes up with a proper fix, I can test
-> > that out.
->
-> I think it may be fixed here:
-> https://patchwork.freedesktop.org/patch/663973/
 
-That patch is in my fixes branch that I was just about to send to Dave
-and Simona.
+--etjucsgdpk7eff7t
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 00/14] drm/tidss: dispc: Convert to FIELD_* API
+MIME-Version: 1.0
 
-Alex
+On Thu, Jul 31, 2025 at 03:49:12PM +0200, Louis Chauvet wrote:
+>=20
+>=20
+> Le 31/07/2025 =E0 15:26, Maxime Ripard a =E9crit=A0:
+> > Hi Louis,
+> >=20
+> > On Thu, Jul 31, 2025 at 03:04:49PM +0200, Louis Chauvet wrote:
+> > > Le 30/07/2025 =E0 10:57, Maxime Ripard a =E9crit=A0:
+> > > > Hi,
+> > > >=20
+> > > > The tidss driver rolls its own API equivalent to the FIELD_* API al=
+ready
+> > > > provided the kernel.
+> > > >=20
+> > > > Since it's an ad-hoc implementation, it also is less convenient and
+> > > > doesn't provide some useful features like being able to share the f=
+ield
+> > > > definitions that will come handy in the future.
+> > > >=20
+> > > > Thus, this series converts the driver to that API and drops its own
+> > > > version.
+> > >=20
+> > > I just saw your series after sending mine [2]. I checked, there is on=
+ly one
+> > > minor conflict that can be easly fixed.
+> > >=20
+> > > But when applied on drm-misc/drm-misc-next, your series raises:
+> > >=20
+> > > In file included from <command-line>:
+> > > drivers/gpu/drm/tidss/tidss_dispc.c: In function 'FLD_MOD':
+> > > ././include/linux/compiler_types.h:568:45: error: call to
+> > > '__compiletime_assert_589' declared with attribute error: FIELD_PREP:=
+ mask
+> > > is not constant
+> > >    568 |         _compiletime_assert(condition, msg, __compiletime_as=
+sert_,
+> > > __COUNTER__)
+> > >        |                                             ^
+> > > ././include/linux/compiler_types.h:549:25: note: in definition of mac=
+ro
+> > > '__compiletime_assert'
+> > >    549 |                         prefix ## suffix();         \
+> > >        |                         ^~~~~~
+> > > ././include/linux/compiler_types.h:568:9: note: in expansion of macro
+> > > '_compiletime_assert'
+> > >    568 |         _compiletime_assert(condition, msg, __compiletime_as=
+sert_,
+> > > __COUNTER__)
+> > >        |         ^~~~~~~~~~~~~~~~~~~
+> > > ./include/linux/build_bug.h:39:37: note: in expansion of macro
+> > > 'compiletime_assert'
+> > >     39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(con=
+d), msg)
+> > >        |                                     ^~~~~~~~~~~~~~~~~~
+> > > ./include/linux/bitfield.h:65:17: note: in expansion of macro
+> > > 'BUILD_BUG_ON_MSG'
+> > >     65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask=
+),
+> > > \
+> > >        |                 ^~~~~~~~~~~~~~~~
+> > > ./include/linux/bitfield.h:115:17: note: in expansion of macro
+> > > '__BF_FIELD_CHECK'
+> > >    115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_P=
+REP: ");
+> > > \
+> > >        |                 ^~~~~~~~~~~~~~~~
+> > > drivers/gpu/drm/tidss/tidss_dispc.c:599:33: note: in expansion of mac=
+ro
+> > > 'FIELD_PREP'
+> > >    599 |         return (orig & ~mask) | FIELD_PREP(mask, val);
+> > >        |                                 ^~~~~~~~~~
+> > >=20
+> > >=20
+> > > This seems to be a limitation of FIELD_PREP [1].
+> > > I think the only way to avoid this issue is to use macros and not fun=
+ctions.
+> > >=20
+> > > [1]:https://elixir.bootlin.com/linux/v6.16/source/include/linux/bitfi=
+eld.h#L65-L66
+> > > [2]:https://lore.kernel.org/all/20250730-fix-edge-handling-v1-0-1bdfb=
+3fe7922@bootlin.com/
+> >=20
+> > Weird, it compiles without warning for me here. Which compiler do you u=
+se?
+>=20
+>=20
+> I use this one:
+>=20
+> aarch64-linux-gnu-gcc (GCC) 14.2.1 20240912 (Red Hat Cross 14.2.1-2)
+> Copyright (C) 2024 Free Software Foundation, Inc.
+> This is free software; see the source for copying conditions.  There is NO
+> warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOS=
+E.
 
->
-> Alex
->
-> >
-> >             Linus
+I was testing with clang, but I can indeed see it with gcc. I'll fix it. Th=
+anks!
+
+Maxime
+
+--etjucsgdpk7eff7t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaIt4DAAKCRAnX84Zoj2+
+do57AYDvOXii+U61anW+nFQRa/XAyw4Xqjo5mcgrT8Jt8GGwUHH0NQ9dcQ4huElk
+S7d+HVUBfi3pbfH1SUqIJh2nPXG4WpzJ10gwIilziA4vISMQYTNKFUDKnkan0XhB
+apZsd/59OQ==
+=zAzm
+-----END PGP SIGNATURE-----
+
+--etjucsgdpk7eff7t--
