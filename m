@@ -2,83 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA05B1746A
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 17:58:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3136EB17505
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 18:36:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8E5710E7CD;
-	Thu, 31 Jul 2025 15:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E7B810E0BA;
+	Thu, 31 Jul 2025 16:35:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y/BGCnQ1";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vXyErkzr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
- [209.85.217.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC3510E7CD
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:58:34 +0000 (UTC)
-Received: by mail-vs1-f43.google.com with SMTP id
- ada2fe7eead31-4e9a7bfb3c8so607730137.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 08:58:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1753977513; x=1754582313; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=jKKboCZbQOuMPhW93A7UzwoZX1h4N/abO1uaKk6KKOQ=;
- b=Y/BGCnQ1Jeg06cNlpP7fkJBBLQcwymPOO6ENBfo9AUw0wG3L+KNtgJHCvb1jaQs6gQ
- T0eKPGRwDY8BQbDCLWB4iZ2B1RFYHdROTJ99YC2v3FvY7Vj14jLXTte4/vCsMBifnhcR
- 1CC8d/Qy/z6J0Ag15SWscDXounahVd6VfCo7jogZ5HXy6tkwi56ZmQyw8CeEpEu+hCjL
- IMQf/+vaHqVDgzMponCS8FefKIcQEgeYJr+h3OxiLsfn/5uz5rzZusmlMnu2TxdmfCDM
- +6ctXEDudOwCVmoSaRysRi5D8H5EhOKyHW+sz1nzbA+5t546GB1Cm1S+KC/Qqb1hQMQ8
- lBxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753977513; x=1754582313;
- h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jKKboCZbQOuMPhW93A7UzwoZX1h4N/abO1uaKk6KKOQ=;
- b=LXXaNicKpqzhrYA/72CkXZKZvPqMZYixh5wFYqEum9uFFlTmySTrbf0RCI5ypjMyEs
- sVvvu66Aefmt0KR5SvRRhE9mF2RWBCTuYxQ7lWWv6WK+kdycgNkkv4Yd1TfK+P109WJw
- GCvo+OHP9GlF+9ISFz5H+uk9IJ1u4ooqWU0g2x0jhxhvVrLhDc9lfqT7VUaw2LmP0Dno
- BNoXQyVSYr40Bx9qOPuG7W2WyBCW0WFJVt1echRMoxuRnJzkKAAcUzlepqQP1vaLDLHW
- 3D1fWAYw2Y2lVrVov4AK5zr0WfFEuIRi8GoVJ2U4LLpQ/8F5yMaGMwXwgm7iWQg5DbUk
- IdlA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVuEhab8ZbCWzzvtp31ou/7IDriC8ipvgQtz9d9EvS7kTqCMJmcE7TwH/KjXJ1/t/mR4fUYgGyY5YY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxX+qKtJiqMDmLZqbXGAFxW1yqqLqIeXIYRsYxObvwF3ufQ3iHr
- wHPIkW2pJLysv4t/WD11lskFQnfmsVCmHBAsq9TnVaQvF/LIq4Z3jMCHiuYpo8p+ltQ=
-X-Gm-Gg: ASbGnctgM4JvDJ7RwET1sR50xYxM3F5vCcMg9OJ+naQ2NYbPyCg4numxvp9wAGHLu30
- Z1CMzmwiybf9OFSa2dnaFfaYnEfHjuEsDF9P8aOVaVHOEPVbIZZ20KiKDCQpmNaERwqPXOqcX6/
- x2wxtgMqGtzbw9/FK/xhDDxCoaQVpK/IIQZJUdUmUEkePX8oA91+uJsMBt7GuZmV4gLKiuleOfn
- eX/2/3OV88dTDix/uIWC0/22yDyb/1mT5L4oMQZY47BaLtvu1iO74t715xuAQG9046Mk6IKZkxD
- Qi4B1w/CVhP+glwJ8uYUFrvYzZpMPYmOmSu+Hll58VFEnIhDypK9IdxVjuVC/31KeolbEcHdkWn
- +VYZjf53MwsAFvQdbCtNKGVEIL94=
-X-Google-Smtp-Source: AGHT+IFlKXeAtHhTk1SLO+CqePwO/w0WEyRur6i2wT7kumlydhvgPfkl/quSflZO/twV73QrziIhPg==
-X-Received: by 2002:a05:6102:5686:b0:4e7:3e76:cd21 with SMTP id
- ada2fe7eead31-4fbe7f376f5mr4909961137.9.1753977512820; 
- Thu, 31 Jul 2025 08:58:32 -0700 (PDT)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- a1e0cc1a2514c-88d8f422459sm431284241.21.2025.07.31.08.58.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Jul 2025 08:58:32 -0700 (PDT)
-Date: Thu, 31 Jul 2025 18:58:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Marie Zhussupova <marievic@google.com>,
- rmoar@google.com, davidgow@google.com, shuah@kernel.org,
- brendan.higgins@linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, elver@google.com,
- dvyukov@google.com, lucas.demarchi@intel.com,
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Marie Zhussupova <marievic@google.com>
-Subject: Re: [PATCH 6/9] kunit: Enable direct registration of parameter
- arrays to a KUnit test
-Message-ID: <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2089.outbound.protection.outlook.com [40.107.236.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDFD510E0BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 16:35:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L1Ctbur3rIIqPT/euH43LlKAYVrXyNqHdXoW8p8jAJWaFU3hCGepcbFmIAMXX8s8t3snQ+0EXLSFIG+pJR4ufbhEepN/1Xsc7Kwx6FOb8OW6+L+PsMPa7cBBxHaV3PJCG46y8G4Gfp3TWjQU+CYGscDG81a5jB3dORsbmf6GYZiXv8v4ZmMYx1i2SjUhj8j89JcaQMA9yqGw0TKhs8tUH5MlbQpbsrHLjqhA+Mp9ErIKnP1s7+uWE/pcsqs+/qHOjd5vgVSMSUu3hhGcOaNAiQu3BGtMNJIz4K7KdfvmiDvdwu6ZCCclGi+q9LwlA88wiu1oN6ESopAGfyul1wpr2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=frOOz3YiJhz7ONxFzV8lAqPd+dqAM1fdKPBpDtYxjoI=;
+ b=mjeP+bm5NfVqwTRNSvXUMUQynre6YWPwVzZbCORVJYEj7MtGqjn81Z3Kd+FNMbGNcuo9YBEOvhH9NQPmZsrFg1My3XsPOaGQ1UBRH+asaI81uQzt+r2EGBBddg7IXFu+W0y/1ULlkUQ+ED+LgARR85pT7kXKf0/4A3RVT7mCH/wXesXISUVGFlnPq1xOV4aOgMt2j9sFwvG/tzcDy+szsQANXVV1Vx8Mpu7HjoZnZGGSfd0Og0aMPRPQDyhZKqoXpy6mFxbCYAJGNE5BGvfql3neyMV2UOmPaE62i9mdrRTB8mpssLXNBa7kbpIMNsMWt+bu+P40l3QnctZ9nkOnXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=frOOz3YiJhz7ONxFzV8lAqPd+dqAM1fdKPBpDtYxjoI=;
+ b=vXyErkzrDa9kLE2sflVq2GRa2FTNqEheOvFPnGgrkBtEyybTRmIR8bJ0sv6PxmHLUKWx7PceuBMypOG4HORtHArgMHr54eMndg/3RylYQfVUX0UH/vdcaSAp+M6GnvDDiEp3jb5PLxiGDbBGKWdGkgtKpM58yZqxIoDLLjBjEKI=
+Received: from BN1PR10CA0009.namprd10.prod.outlook.com (2603:10b6:408:e0::14)
+ by CY8PR12MB7196.namprd12.prod.outlook.com (2603:10b6:930:58::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.11; Thu, 31 Jul
+ 2025 16:35:54 +0000
+Received: from BN2PEPF000055E1.namprd21.prod.outlook.com
+ (2603:10b6:408:e0:cafe::68) by BN1PR10CA0009.outlook.office365.com
+ (2603:10b6:408:e0::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8989.12 via Frontend Transport; Thu,
+ 31 Jul 2025 16:35:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN2PEPF000055E1.mail.protection.outlook.com (10.167.245.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9009.0 via Frontend Transport; Thu, 31 Jul 2025 16:35:53 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 31 Jul
+ 2025 11:35:53 -0500
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 31 Jul 2025 11:35:52 -0500
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <dri-devel@lists.freedesktop.org>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH V1] accel/amdxdna: Unify pm and rpm suspend and resume
+ callbacks
+Date: Thu, 31 Jul 2025 09:35:50 -0700
+Message-ID: <20250731163550.960686-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250729193647.3410634-7-marievic@google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055E1:EE_|CY8PR12MB7196:EE_
+X-MS-Office365-Filtering-Correlation-Id: ca4c9242-4375-4946-8e7b-08ddd050517d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|82310400026|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?3uyI80iBuKNZjFRIhZ3ChJ3d5jrHy7XqvSpFoDa3KnawMQJgC/WcYJTLcphb?=
+ =?us-ascii?Q?EAu6tRc6shwsFg+lbSZjrnX4Gc4BwaOu8gbcQFPE3gsh7yaBtna++XBkb8f9?=
+ =?us-ascii?Q?pour2gPIVlq2eLfH9DmaBDssjJ9tFfVsSh6I6UQ/dKVs8fTXyM0MRQ9oa0lW?=
+ =?us-ascii?Q?s4g/Z91TrUP5ohoR6U6CSay3IlXdHVsIoy/Yu0xg30RoGQpVraS7iWp8oA9T?=
+ =?us-ascii?Q?HKm72bCvvnsXxQSpVcFMGMH0Qrh8TEzDvCKdAOMEbX9gbtDunl6Rlt4jGS5m?=
+ =?us-ascii?Q?fn5NvKgGl6EAU3nLtGGLzTSIf14EtdWv6mvfTohc0MkAXPLSsfDTqFh3gRpb?=
+ =?us-ascii?Q?oZjKSVl0eWzyVuIOgw4LlmF5xncVXc9mJ/q1A4/hRNyGNSp3SnGNKitAb4+8?=
+ =?us-ascii?Q?PqbO6j5Ks/VhJpjI+/HUHLGKX2UTq5dSYF1UmE7gDq5pwh7RvBJLDFSE4E10?=
+ =?us-ascii?Q?0I4oOksoHINbC/6x0BptnytZKoru9ohl3Q2L+irZ7pR/xiAbeVPRkVWLaMHd?=
+ =?us-ascii?Q?MRHiCDJiJvhxZkKgaQydcb0v6AqkFnEKWGLeEnx4A23c24xb+CMzLriGIiVJ?=
+ =?us-ascii?Q?49yCxSrH35zhQEDuIxWDDAtyog0JwXcTdYy4hHxQPNcYjglRzEe5/d1K+BpG?=
+ =?us-ascii?Q?RlDBTOplb0I24B1vIyOyHlT+FhqctLpH6DOejh5rr9gI+YwgkLh4B27plCmW?=
+ =?us-ascii?Q?2ivgajuEajBMMGslaoo9i6b2sJCYfheBAcB1LhrbUCkCPAgVVcbssnNJYK13?=
+ =?us-ascii?Q?vRudefoAySN5cd2DfiuDx6ryu1LWorR1I+7PMmCqd8PTY/hLHFvIJDKObi3L?=
+ =?us-ascii?Q?T5cTjf2tlcyqH/8RrlLlaGe6AA7+xV/rIuPyoSUf73MobS772R0mYGQwAUS5?=
+ =?us-ascii?Q?3wojYV9/BJJ6Pkx5RnWQWrpuneCGuoORCd37eMN1/WiObMhiSLj/iael4W18?=
+ =?us-ascii?Q?74PYL8EKiOf0FTCgPOoI9rCsuAqaHTJg9pyTtSyjBIvKQPCOYPV2Kt9wC9iS?=
+ =?us-ascii?Q?gNHZb+3twt3wZw7qzC1IeHu/uiSb5mzV3vIG0oKc2k6aGy/FQ9ll4PU+VPLB?=
+ =?us-ascii?Q?HBxKVlixUDGuZZvJNL6jbR/2paC7Bqd8VT6m1ge9vNZIx5aJN+/Nx8vVzVbF?=
+ =?us-ascii?Q?QdLgtAe36hiFmga97oARohYHijBlx4awLNyZkL1AEMQMV4Vc7h5+Ep5FVGi7?=
+ =?us-ascii?Q?g6jZriUCygZabOy29LX4RkCv6uF3EQFMpnIOJU/xTjFI6xeieg9aiEUBcgBj?=
+ =?us-ascii?Q?ZErxNXEK+TXEAF4rjngOUDlemuW4wsEtIjSl5tOd5VNJIwbN4DOtM9v43sHz?=
+ =?us-ascii?Q?FmaBrwJhconYPpjcl2tsULSkWDPd4pEzLydx2j9KjhD/hhz2DMQGWgP8AF0K?=
+ =?us-ascii?Q?7rB7uwrATwFrDFlusbBVxIZNao15ueBVIlXCmZ0RHzr4KYgGMVRjmgnQKgvV?=
+ =?us-ascii?Q?vhoZLPOzSDmc+CO3r7UlWGBuC9+tcgJfLlg9o0WlnvEtomeoNYBPKtbhEv0o?=
+ =?us-ascii?Q?UdxeIqPdjcLg8XRfVdCyd1EbN1s9wpKjBs3c?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2025 16:35:53.9187 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca4c9242-4375-4946-8e7b-08ddd050517d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055E1.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7196
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,93 +136,331 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marie,
+The suspend and resume callbacks for pm and runtime pm should be same.
+During suspending, it needs to stop all hardware contexts first. And
+the hardware contexts will be restarted after the device is resumed.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+---
+ drivers/accel/amdxdna/aie2_ctx.c        | 32 +++++++----
+ drivers/accel/amdxdna/aie2_pci.c        | 41 ++++++++++++--
+ drivers/accel/amdxdna/aie2_pci.h        |  4 +-
+ drivers/accel/amdxdna/amdxdna_ctx.c     | 26 ---------
+ drivers/accel/amdxdna/amdxdna_ctx.h     |  2 -
+ drivers/accel/amdxdna/amdxdna_pci_drv.c | 74 +++----------------------
+ drivers/accel/amdxdna/amdxdna_pci_drv.h |  4 +-
+ 7 files changed, 69 insertions(+), 114 deletions(-)
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/kunit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
-patch link:    https://lore.kernel.org/r/20250729193647.3410634-7-marievic%40google.com
-patch subject: [PATCH 6/9] kunit: Enable direct registration of parameter arrays to a KUnit test
-config: nios2-randconfig-r072-20250731 (https://download.01.org/0day-ci/archive/20250731/202507310854.pZvIcswn-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507310854.pZvIcswn-lkp@intel.com/
-
-New smatch warnings:
-lib/kunit/test.c:723 kunit_run_tests() error: we previously assumed 'test_case->generate_params' could be null (see line 714)
-
-vim +723 lib/kunit/test.c
-
-914cc63eea6fbe Brendan Higgins     2019-09-23  681  int kunit_run_tests(struct kunit_suite *suite)
-914cc63eea6fbe Brendan Higgins     2019-09-23  682  {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  683  	char param_desc[KUNIT_PARAM_DESC_SIZE];
-914cc63eea6fbe Brendan Higgins     2019-09-23  684  	struct kunit_case *test_case;
-acd8e8407b8fcc David Gow           2021-08-03  685  	struct kunit_result_stats suite_stats = { 0 };
-acd8e8407b8fcc David Gow           2021-08-03  686  	struct kunit_result_stats total_stats = { 0 };
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  687  	const void *curr_param;
-914cc63eea6fbe Brendan Higgins     2019-09-23  688  
-c272612cb4a2f7 David Gow           2022-07-01  689  	/* Taint the kernel so we know we've run tests. */
-c272612cb4a2f7 David Gow           2022-07-01  690  	add_taint(TAINT_TEST, LOCKDEP_STILL_OK);
-c272612cb4a2f7 David Gow           2022-07-01  691  
-1cdba21db2ca31 Daniel Latypov      2022-04-29  692  	if (suite->suite_init) {
-1cdba21db2ca31 Daniel Latypov      2022-04-29  693  		suite->suite_init_err = suite->suite_init(suite);
-1cdba21db2ca31 Daniel Latypov      2022-04-29  694  		if (suite->suite_init_err) {
-1cdba21db2ca31 Daniel Latypov      2022-04-29  695  			kunit_err(suite, KUNIT_SUBTEST_INDENT
-1cdba21db2ca31 Daniel Latypov      2022-04-29  696  				  "# failed to initialize (%d)", suite->suite_init_err);
-1cdba21db2ca31 Daniel Latypov      2022-04-29  697  			goto suite_end;
-1cdba21db2ca31 Daniel Latypov      2022-04-29  698  		}
-1cdba21db2ca31 Daniel Latypov      2022-04-29  699  	}
-1cdba21db2ca31 Daniel Latypov      2022-04-29  700  
-cae56e1740f559 Daniel Latypov      2022-04-29  701  	kunit_print_suite_start(suite);
-914cc63eea6fbe Brendan Higgins     2019-09-23  702  
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  703  	kunit_suite_for_each_test_case(suite, test_case) {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  704  		struct kunit test = { .param_value = NULL, .param_index = 0 };
-acd8e8407b8fcc David Gow           2021-08-03  705  		struct kunit_result_stats param_stats = { 0 };
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  706  
-887d85a0736ff3 Rae Moar            2023-03-08  707  		kunit_init_test(&test, test_case->name, test_case->log);
-03806177fa4cbb Marie Zhussupova    2025-07-29  708  		__kunit_init_parent_test(test_case, &test);
-03806177fa4cbb Marie Zhussupova    2025-07-29  709  
-529534e8cba3e6 Rae Moar            2023-07-25  710  		if (test_case->status == KUNIT_SKIPPED) {
-529534e8cba3e6 Rae Moar            2023-07-25  711  			/* Test marked as skip */
-529534e8cba3e6 Rae Moar            2023-07-25  712  			test.status = KUNIT_SKIPPED;
-529534e8cba3e6 Rae Moar            2023-07-25  713  			kunit_update_stats(&param_stats, test.status);
-44c50ed8e59936 Marie Zhussupova    2025-07-29 @714  		} else if (!test_case->generate_params && !test.params_data.params) {
-                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Imagine ->generate_parms is NULL but test.params_data.params is
-non-NULL.
-
-37dbb4c7c7442d David Gow           2021-11-02  715  			/* Non-parameterised test. */
-529534e8cba3e6 Rae Moar            2023-07-25  716  			test_case->status = KUNIT_SKIPPED;
-37dbb4c7c7442d David Gow           2021-11-02  717  			kunit_run_case_catch_errors(suite, test_case, &test);
-37dbb4c7c7442d David Gow           2021-11-02  718  			kunit_update_stats(&param_stats, test.status);
-03806177fa4cbb Marie Zhussupova    2025-07-29  719  		} else if (test_case->status != KUNIT_FAILURE) {
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  720  			/* Get initial param. */
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  721  			param_desc[0] = '\0';
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  722  			/* TODO: Make generate_params try-catch */
-13ee0c64bd88a3 Marie Zhussupova    2025-07-29 @723  			curr_param = test_case->generate_params(&test, NULL, param_desc);
-                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
-Then this could crash.
-
-I suspect that this is fine, but I bet that in the previous
-condition, just testing one would probably have been sufficient
-or maybe we could have change && to ||.
-
-529534e8cba3e6 Rae Moar            2023-07-25  724  			test_case->status = KUNIT_SKIPPED;
-6c738b52316c58 Rae Moar            2022-11-23  725  			kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-6c738b52316c58 Rae Moar            2022-11-23  726  				  "KTAP version 1\n");
-44b7da5fcd4c99 David Gow           2021-11-02  727  			kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-44b7da5fcd4c99 David Gow           2021-11-02  728  				  "# Subtest: %s", test_case->name);
-fadb08e7c7501e Arpitha Raghunandan 2020-11-16  729  
-8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  730  			while (curr_param) {
-
+diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+index 2cff5419bd2f..7444117f0e17 100644
+--- a/drivers/accel/amdxdna/aie2_ctx.c
++++ b/drivers/accel/amdxdna/aie2_ctx.c
+@@ -141,9 +141,11 @@ static void aie2_hwctx_wait_for_idle(struct amdxdna_hwctx *hwctx)
+ 	dma_fence_put(fence);
+ }
+ 
+-void aie2_hwctx_suspend(struct amdxdna_hwctx *hwctx)
++void aie2_hwctx_suspend(struct amdxdna_client *client)
+ {
+-	struct amdxdna_dev *xdna = hwctx->client->xdna;
++	struct amdxdna_dev *xdna = client->xdna;
++	struct amdxdna_hwctx *hwctx;
++	unsigned long hwctx_id;
+ 
+ 	/*
+ 	 * Command timeout is unlikely. But if it happens, it doesn't
+@@ -151,15 +153,21 @@ void aie2_hwctx_suspend(struct amdxdna_hwctx *hwctx)
+ 	 * and abort all commands.
+ 	 */
+ 	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+-	aie2_hwctx_wait_for_idle(hwctx);
+-	aie2_hwctx_stop(xdna, hwctx, NULL);
+-	hwctx->old_status = hwctx->status;
+-	hwctx->status = HWCTX_STAT_STOP;
++	mutex_lock(&client->hwctx_lock);
++	amdxdna_for_each_hwctx(client, hwctx_id, hwctx) {
++		aie2_hwctx_wait_for_idle(hwctx);
++		aie2_hwctx_stop(xdna, hwctx, NULL);
++		hwctx->old_status = hwctx->status;
++		hwctx->status = HWCTX_STAT_STOP;
++	}
++	mutex_unlock(&client->hwctx_lock);
+ }
+ 
+-void aie2_hwctx_resume(struct amdxdna_hwctx *hwctx)
++void aie2_hwctx_resume(struct amdxdna_client *client)
+ {
+-	struct amdxdna_dev *xdna = hwctx->client->xdna;
++	struct amdxdna_dev *xdna = client->xdna;
++	struct amdxdna_hwctx *hwctx;
++	unsigned long hwctx_id;
+ 
+ 	/*
+ 	 * The resume path cannot guarantee that mailbox channel can be
+@@ -167,8 +175,12 @@ void aie2_hwctx_resume(struct amdxdna_hwctx *hwctx)
+ 	 * mailbox channel, error will return.
+ 	 */
+ 	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+-	hwctx->status = hwctx->old_status;
+-	aie2_hwctx_restart(xdna, hwctx);
++	mutex_lock(&client->hwctx_lock);
++	amdxdna_for_each_hwctx(client, hwctx_id, hwctx) {
++		hwctx->status = hwctx->old_status;
++		aie2_hwctx_restart(xdna, hwctx);
++	}
++	mutex_unlock(&client->hwctx_lock);
+ }
+ 
+ static void
+diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
+index 3474a8d4e560..8b6f17430d3a 100644
+--- a/drivers/accel/amdxdna/aie2_pci.c
++++ b/drivers/accel/amdxdna/aie2_pci.c
+@@ -440,6 +440,41 @@ static int aie2_hw_start(struct amdxdna_dev *xdna)
+ 	return ret;
+ }
+ 
++static int aie2_hw_suspend(struct amdxdna_dev *xdna)
++{
++	struct amdxdna_client *client;
++
++	mutex_lock(&xdna->dev_lock);
++	list_for_each_entry(client, &xdna->client_list, node)
++		aie2_hwctx_suspend(client);
++
++	aie2_hw_stop(xdna);
++	mutex_unlock(&xdna->dev_lock);
++
++	return 0;
++}
++
++static int aie2_hw_resume(struct amdxdna_dev *xdna)
++{
++	struct amdxdna_client *client;
++	int ret;
++
++	mutex_lock(&xdna->dev_lock);
++	ret = aie2_hw_start(xdna);
++	if (ret) {
++		XDNA_ERR(xdna, "Start hardware failed, %d", ret);
++		goto unlock;
++	}
++
++	list_for_each_entry(client, &xdna->client_list, node)
++		aie2_hwctx_resume(client);
++
++unlock:
++	mutex_unlock(&xdna->dev_lock);
++
++	return ret;
++}
++
+ static int aie2_init(struct amdxdna_dev *xdna)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(xdna->ddev.dev);
+@@ -901,8 +936,8 @@ static int aie2_set_state(struct amdxdna_client *client,
+ const struct amdxdna_dev_ops aie2_ops = {
+ 	.init           = aie2_init,
+ 	.fini           = aie2_fini,
+-	.resume         = aie2_hw_start,
+-	.suspend        = aie2_hw_stop,
++	.resume         = aie2_hw_resume,
++	.suspend        = aie2_hw_suspend,
+ 	.get_aie_info   = aie2_get_info,
+ 	.set_aie_state	= aie2_set_state,
+ 	.hwctx_init     = aie2_hwctx_init,
+@@ -910,6 +945,4 @@ const struct amdxdna_dev_ops aie2_ops = {
+ 	.hwctx_config   = aie2_hwctx_config,
+ 	.cmd_submit     = aie2_cmd_submit,
+ 	.hmm_invalidate = aie2_hmm_invalidate,
+-	.hwctx_suspend  = aie2_hwctx_suspend,
+-	.hwctx_resume   = aie2_hwctx_resume,
+ };
+diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
+index 385914840eaa..6b21909841e0 100644
+--- a/drivers/accel/amdxdna/aie2_pci.h
++++ b/drivers/accel/amdxdna/aie2_pci.h
+@@ -288,8 +288,8 @@ int aie2_sync_bo(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job,
+ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx);
+ void aie2_hwctx_fini(struct amdxdna_hwctx *hwctx);
+ int aie2_hwctx_config(struct amdxdna_hwctx *hwctx, u32 type, u64 value, void *buf, u32 size);
+-void aie2_hwctx_suspend(struct amdxdna_hwctx *hwctx);
+-void aie2_hwctx_resume(struct amdxdna_hwctx *hwctx);
++void aie2_hwctx_suspend(struct amdxdna_client *client);
++void aie2_hwctx_resume(struct amdxdna_client *client);
+ int aie2_cmd_submit(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job, u64 *seq);
+ void aie2_hmm_invalidate(struct amdxdna_gem_obj *abo, unsigned long cur_seq);
+ void aie2_restart_ctx(struct amdxdna_client *client);
+diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c b/drivers/accel/amdxdna/amdxdna_ctx.c
+index be073224bd69..b47a7f8e9017 100644
+--- a/drivers/accel/amdxdna/amdxdna_ctx.c
++++ b/drivers/accel/amdxdna/amdxdna_ctx.c
+@@ -60,32 +60,6 @@ static struct dma_fence *amdxdna_fence_create(struct amdxdna_hwctx *hwctx)
+ 	return &fence->base;
+ }
+ 
+-void amdxdna_hwctx_suspend(struct amdxdna_client *client)
+-{
+-	struct amdxdna_dev *xdna = client->xdna;
+-	struct amdxdna_hwctx *hwctx;
+-	unsigned long hwctx_id;
+-
+-	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+-	mutex_lock(&client->hwctx_lock);
+-	amdxdna_for_each_hwctx(client, hwctx_id, hwctx)
+-		xdna->dev_info->ops->hwctx_suspend(hwctx);
+-	mutex_unlock(&client->hwctx_lock);
+-}
+-
+-void amdxdna_hwctx_resume(struct amdxdna_client *client)
+-{
+-	struct amdxdna_dev *xdna = client->xdna;
+-	struct amdxdna_hwctx *hwctx;
+-	unsigned long hwctx_id;
+-
+-	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+-	mutex_lock(&client->hwctx_lock);
+-	amdxdna_for_each_hwctx(client, hwctx_id, hwctx)
+-		xdna->dev_info->ops->hwctx_resume(hwctx);
+-	mutex_unlock(&client->hwctx_lock);
+-}
+-
+ static void amdxdna_hwctx_destroy_rcu(struct amdxdna_hwctx *hwctx,
+ 				      struct srcu_struct *ss)
+ {
+diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h b/drivers/accel/amdxdna/amdxdna_ctx.h
+index f0a4a8586d85..c652229547a3 100644
+--- a/drivers/accel/amdxdna/amdxdna_ctx.h
++++ b/drivers/accel/amdxdna/amdxdna_ctx.h
+@@ -147,8 +147,6 @@ static inline u32 amdxdna_hwctx_col_map(struct amdxdna_hwctx *hwctx)
+ 
+ void amdxdna_sched_job_cleanup(struct amdxdna_sched_job *job);
+ void amdxdna_hwctx_remove_all(struct amdxdna_client *client);
+-void amdxdna_hwctx_suspend(struct amdxdna_client *client);
+-void amdxdna_hwctx_resume(struct amdxdna_client *client);
+ 
+ int amdxdna_cmd_submit(struct amdxdna_client *client,
+ 		       u32 cmd_bo_hdls, u32 *arg_bo_hdls, u32 arg_bo_cnt,
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+index f2bf1d374cc7..fbca94183f96 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+@@ -343,89 +343,29 @@ static void amdxdna_remove(struct pci_dev *pdev)
+ 	mutex_unlock(&xdna->dev_lock);
+ }
+ 
+-static int amdxdna_dev_suspend_nolock(struct amdxdna_dev *xdna)
+-{
+-	if (xdna->dev_info->ops->suspend)
+-		xdna->dev_info->ops->suspend(xdna);
+-
+-	return 0;
+-}
+-
+-static int amdxdna_dev_resume_nolock(struct amdxdna_dev *xdna)
+-{
+-	if (xdna->dev_info->ops->resume)
+-		return xdna->dev_info->ops->resume(xdna);
+-
+-	return 0;
+-}
+-
+ static int amdxdna_pmops_suspend(struct device *dev)
+ {
+ 	struct amdxdna_dev *xdna = pci_get_drvdata(to_pci_dev(dev));
+-	struct amdxdna_client *client;
+-
+-	mutex_lock(&xdna->dev_lock);
+-	list_for_each_entry(client, &xdna->client_list, node)
+-		amdxdna_hwctx_suspend(client);
+ 
+-	amdxdna_dev_suspend_nolock(xdna);
+-	mutex_unlock(&xdna->dev_lock);
++	if (!xdna->dev_info->ops->suspend)
++		return -EOPNOTSUPP;
+ 
+-	return 0;
++	return xdna->dev_info->ops->suspend(xdna);
+ }
+ 
+ static int amdxdna_pmops_resume(struct device *dev)
+ {
+ 	struct amdxdna_dev *xdna = pci_get_drvdata(to_pci_dev(dev));
+-	struct amdxdna_client *client;
+-	int ret;
+-
+-	XDNA_INFO(xdna, "firmware resuming...");
+-	mutex_lock(&xdna->dev_lock);
+-	ret = amdxdna_dev_resume_nolock(xdna);
+-	if (ret) {
+-		XDNA_ERR(xdna, "resume NPU firmware failed");
+-		mutex_unlock(&xdna->dev_lock);
+-		return ret;
+-	}
+ 
+-	XDNA_INFO(xdna, "hardware context resuming...");
+-	list_for_each_entry(client, &xdna->client_list, node)
+-		amdxdna_hwctx_resume(client);
+-	mutex_unlock(&xdna->dev_lock);
+-
+-	return 0;
+-}
+-
+-static int amdxdna_rpmops_suspend(struct device *dev)
+-{
+-	struct amdxdna_dev *xdna = pci_get_drvdata(to_pci_dev(dev));
+-	int ret;
+-
+-	mutex_lock(&xdna->dev_lock);
+-	ret = amdxdna_dev_suspend_nolock(xdna);
+-	mutex_unlock(&xdna->dev_lock);
+-
+-	XDNA_DBG(xdna, "Runtime suspend done ret: %d", ret);
+-	return ret;
+-}
+-
+-static int amdxdna_rpmops_resume(struct device *dev)
+-{
+-	struct amdxdna_dev *xdna = pci_get_drvdata(to_pci_dev(dev));
+-	int ret;
+-
+-	mutex_lock(&xdna->dev_lock);
+-	ret = amdxdna_dev_resume_nolock(xdna);
+-	mutex_unlock(&xdna->dev_lock);
++	if (!xdna->dev_info->ops->resume)
++		return -EOPNOTSUPP;
+ 
+-	XDNA_DBG(xdna, "Runtime resume done ret: %d", ret);
+-	return ret;
++	return xdna->dev_info->ops->resume(xdna);
+ }
+ 
+ static const struct dev_pm_ops amdxdna_pm_ops = {
+ 	SYSTEM_SLEEP_PM_OPS(amdxdna_pmops_suspend, amdxdna_pmops_resume)
+-	RUNTIME_PM_OPS(amdxdna_rpmops_suspend, amdxdna_rpmops_resume, NULL)
++	RUNTIME_PM_OPS(amdxdna_pmops_suspend, amdxdna_pmops_resume, NULL)
+ };
+ 
+ static struct pci_driver amdxdna_pci_driver = {
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+index ab79600911aa..40bbb3c06320 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+@@ -50,13 +50,11 @@ struct amdxdna_dev_ops {
+ 	int (*init)(struct amdxdna_dev *xdna);
+ 	void (*fini)(struct amdxdna_dev *xdna);
+ 	int (*resume)(struct amdxdna_dev *xdna);
+-	void (*suspend)(struct amdxdna_dev *xdna);
++	int (*suspend)(struct amdxdna_dev *xdna);
+ 	int (*hwctx_init)(struct amdxdna_hwctx *hwctx);
+ 	void (*hwctx_fini)(struct amdxdna_hwctx *hwctx);
+ 	int (*hwctx_config)(struct amdxdna_hwctx *hwctx, u32 type, u64 value, void *buf, u32 size);
+ 	void (*hmm_invalidate)(struct amdxdna_gem_obj *abo, unsigned long cur_seq);
+-	void (*hwctx_suspend)(struct amdxdna_hwctx *hwctx);
+-	void (*hwctx_resume)(struct amdxdna_hwctx *hwctx);
+ 	int (*cmd_submit)(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job, u64 *seq);
+ 	int (*get_aie_info)(struct amdxdna_client *client, struct amdxdna_drm_get_info *args);
+ 	int (*set_aie_state)(struct amdxdna_client *client, struct amdxdna_drm_set_state *args);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
 
