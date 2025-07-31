@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBBEB17760
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 22:51:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13172B1775D
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 22:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31C4B10E7EA;
-	Thu, 31 Jul 2025 20:51:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2136A10E7E5;
+	Thu, 31 Jul 2025 20:51:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Qu3j5fND";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="U9OFJb/W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF7210E2C3
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F28A010E2C3
  for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:51:38 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3b8d0f1fb49so398023f8f.2
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-4589968e001so8529055e9.0
  for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1753995097; x=1754599897; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ei9qPm0AghIdMsWdkzn3tm12w3Iv4T6xpOfxLvDOo54=;
- b=Qu3j5fNDDfKrHL1JAtArbtPRrPNWAKqhXXeUQBj4zfvN9ETAFmW2puC5Aefyi7Nt7h
- FM3yplECE7EM1WG51gPMSNxcFHOxLkTxJptWUBbJ5GxN/NOffwsAA/fGAS/kpe34mAyB
- zeX9hxIzcUKYp/BGAwQoyAcQIkEd1Pg6yUu7B0soNSoTbbn/zs0kvfEbMYHEP5AKgnOU
- 5ZZJDsYQMsyYkufe9h1GtRqIW62CDzZxXGeoyhxJcft1AeXM/70/TTlYzO8I1fF5JAKP
- y9LeCWLSgZVHjqRciBbKN0t1OJA+Zx/4vZ+FQOO4qLiMGfQnSsiWOvU9+dCv+kP8HVBV
- R5PA==
+ :reply-to; bh=Zf/LNXjHxtqIC/Q118TLyzaGDDqd8kl1KqYbnGndGhE=;
+ b=U9OFJb/WjxiKMFAVcXJSLX87HDMQgJPCwqjBE4/HpHgUNurztvAeWudV6DQvcOOwNA
+ oIJHb/bByTE4pPdoaGEEfhQ1cEJ4cMRNvFVkpMIARD5hBkQ3qPVXKMSWnCpq7G/cpOPJ
+ 3B+m3FDgbLVljzhgvJSuN+lhESWrZxyijtwteYT590Nl4QSrSJsAVgWMcYwrgIIXc8oG
+ eyPWPWumSh/kFCkSUa7PWZKxBDN0dcd4zD3Fbbz8deWtkL6yW1O8MAoeJgwbFkfOt8AK
+ S6JiPS6AI9H38iDgMpWx84ZF6dElvEjb9uKQxAYncRdJt8YkzaNwsYSIOtVcSMpzbkH3
+ 29nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1753995097; x=1754599897;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ei9qPm0AghIdMsWdkzn3tm12w3Iv4T6xpOfxLvDOo54=;
- b=ruQLtOhOVgTO5egSE86L2GwnszJX3I5EIR6GTnCQq6cqM5m1YF7yI0bSp/0Kb3mBEj
- 4Ify/CEIAhZW6Q4NpAO5U4jqJpnLl4uSDU23dDxsJnsRael/uuvUtCpjmKTv4dF55TJL
- 24qbo5/vy2ClirUrbSFQKiuWOcKpmndsdvocv90r9c247buBuCb3aXc1RI9fk/KTTRYG
- n+igTls5gRpRTQgyOEx27SXySzmQ0rv7HreEiziqtf6Bir6u1LbvJEYmfF5RylYEIc7x
- AL9FMS6f9riStGFpQ1UPbNSVFVdu3AqYKwrFOnq/gwr69q0pk5DFlT6ci1rPN8BcQrOJ
- y0LQ==
-X-Gm-Message-State: AOJu0Yx4zWpCsWFp00GpQraOX/bLcntCS4uTd23TIw4vGIzjotNjmDHD
- HWcon2qCJc2Mdjko3cimXzdreHXwm4S5CoLW0i+OA2dDTAdsQtm3LA6Wm0KS8XaMbZg=
-X-Gm-Gg: ASbGnctiJfHUgu53cxzgGX/V0DNMIKwBsG5HqnODLJITw7GZJ/1eEeumc3AnpBg1F74
- BFU38o/fbAENqxM4MAxMBCpIq0NRN17qc2MtKKlRJbYlt4MdE9pwkJ9HwhmB+MuDoh+EqDI0o06
- kxjDT8lcWWDS2z5O/rm/8QlIrxir/sK1PUkF394gDO2OqeGJ98F0GFW7zIGcfi27Zt3BTOO4uaA
- szEoBu3rkbMBtxmkcRtzLYF/7ER/fulwHZefw+XqhyQw0fYUYd2C0TQtPHhHn1h70+RQLjB16kN
- omK7zFsHxgDWQjBjxyNfygm0cU4f81zK+iJpbDh4Evg3YUSId+KHeormw5gnKWG2eiT5vPYMtg3
- CGG2ZlmqM1Rbl1ZIRAAdlTJxoHMrPAMCBk5xy1hrHccCoHgsGf7++Tj0WeUYD5XZD
-X-Google-Smtp-Source: AGHT+IH+KHeZWb8a1D1rLbJA4G+v1vrxTCGhfDWrNtvL4qaj8u5TYdnSOR5Qo8hrL6uX7yBxutp8wg==
-X-Received: by 2002:a05:6000:1786:b0:3a0:b84d:60cc with SMTP id
- ffacd0b85a97d-3b8d343b05dmr196772f8f.2.1753995096563; 
- Thu, 31 Jul 2025 13:51:36 -0700 (PDT)
+ bh=Zf/LNXjHxtqIC/Q118TLyzaGDDqd8kl1KqYbnGndGhE=;
+ b=dmJ0RKngIPwTqB7BAB1uuPxJbaQF5YvVb3vuf7laQKP3G48lz0yQrl7woPHikFfhJr
+ hbod+P5XA+e34HFgyeNhyXEGYFstdHRgX45uYr7K5H1WNSAP1uT8J55dXI3H36PHlATL
+ q2LmdOHWtSB9XbHNHHXLoNMffsR157gwTE6dU/LODkidcKQWDRZkRixAixZZThlvHOvB
+ 8EWsrUpHJ49ynFty2iS9E1HbPy/NO9BZRnVkh3flAik5/iNu1PA9db+yz5mce9hlmQOY
+ EH1gHCKrw5lLv1XwnMDOpH2ByCZmc8Bu8yv0p6Q8kHmMBVeYO5C3rhpsUxNlnn1NoPDl
+ Loew==
+X-Gm-Message-State: AOJu0YxF+lZPd0s8gww0g2dW4sAE1JYPRbCpWhKWmU2Dfj2XMh/mqPeU
+ EdFHEUPOMVTT3a1xw8hM0KcdSYj6OHv1mCQ0XR2mPnQqYpLoZepnZhTrbRtGKocOwmQ=
+X-Gm-Gg: ASbGncvs9O1n95HgCU+7BB5/T0c2i+UoXu3nPJJkysegSd8VeSXDmWMuJuu/sgMiyrM
+ P/lf0BFul4hxnJNGTf/QvTwthgddF2JOWnPvd2IMffZvIL7+i+8OOm6O82sKQirL0FStBqoryhv
+ 5TR/tSAY4SKGPXGOvDoQucuzwPQc6mu2NSDIAuHiyHv4lL70+aTXK0KXvCqcFFcH8BwKRomNptK
+ grEIhIW+uFb+EQw0l2kyQrcSoC05XuB9hLdD7guA2obdil+QJwtLin2OOhnYreJEeWFhQv7xUeG
+ LowQXW2P+yW48EfQzeOYhWz6ixdCv4SHSPKZrnIBBb3IKaHoE4hwKGm6U9G62GiNyz8+Wk9n9S6
+ LMqkjouGgZxGqa/qXnUzprW9OfngGfUvDsy0mFlZfnurs6+pWXU+VegmYwYg6fo5c
+X-Google-Smtp-Source: AGHT+IEBtM9baJ05rMQ8rmvvoHC3YitZQWp1OkVogVqW4nzyS+HV7tOa2ALIi9aP0/Okii1jJTR8PQ==
+X-Received: by 2002:a05:600c:138e:b0:456:1824:4808 with SMTP id
+ 5b1f17b1804b1-45892bdf9admr72814715e9.32.1753995097349; 
+ Thu, 31 Jul 2025 13:51:37 -0700 (PDT)
 Received: from localhost (dsl-217-155-193-229.zen.co.uk. [217.155.193.229])
  by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3b79c3b9160sm3534633f8f.21.2025.07.31.13.51.36
+ 5b1f17b1804b1-45895377b3csm77261535e9.13.2025.07.31.13.51.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Jul 2025 13:51:36 -0700 (PDT)
+ Thu, 31 Jul 2025 13:51:37 -0700 (PDT)
 From: Christopher Obbard <christopher.obbard@linaro.org>
-Date: Thu, 31 Jul 2025 21:51:26 +0100
-Subject: [PATCH v6 1/2] arm64: dts: qcom: x1e78100-t14s: add hpd gpio to dp
- controller
+Date: Thu, 31 Jul 2025 21:51:27 +0100
+Subject: [PATCH v6 2/2] arm64: dts: qcom: x1e78100-t14s-oled: add edp panel
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-1-4782074104d1@linaro.org>
+Message-Id: <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-2-4782074104d1@linaro.org>
 References: <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-0-4782074104d1@linaro.org>
 In-Reply-To: <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-0-4782074104d1@linaro.org>
 To: Douglas Anderson <dianders@chromium.org>, 
@@ -85,21 +84,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, 
  Christopher Obbard <christopher.obbard@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1628;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1020;
  i=christopher.obbard@linaro.org; h=from:subject:message-id;
- bh=2IIOOJv4YbwpvL/BVb0O1hrl3nXkJFZe7UmfdKaEDFw=;
- b=owEBbQKS/ZANAwAKAWNNxPBocEb4AcsmYgBoi9dWQLp6O5DslUOJC1AF4eOEKb3goQXj3m2jH
- al5BjwpQGeJAjMEAAEKAB0WIQTxi9yLbCX5CqI9UXRjTcTwaHBG+AUCaIvXVgAKCRBjTcTwaHBG
- +NbDD/9jkYDOd15vrbb49+K+c8aKuJACyRfHhbGIGM40ARYVhOG9I8RPGsIegUMP0UbubhRmVgM
- eecrT62ywMcqveEqnK6faWVwyUUt3UIsa3t3kmdLACP++xo2RcG54vZK/Kqj2v/V1CHAyqXom+w
- abNJOlMFpZwpKLrOHdnMjDXz4UCpU6RjD8dkZ/4dil25UVFhst1oZcBeq3d/vq6zrSAWQ7x0vPF
- MiiqVMgHv5RPZifkYHXtNqThKhyDQmWA+kTli//acCH0iQl+IMz34PnTKqxgeWr2FmceuDmSvwo
- 6SsJ8s0HjcpcQVxiRz2RPvew4pUmMPr8HGZpBaAZa4z6jn7N6wLZpYflIj+Mwj6ZcDLtPZopSJc
- vRhTv8rmbW1d8CayCldqITHONoXUSkwHjIHxrIWu7LKFnAlKR/BT5MYNPDiREOgG2Kkgv51GrIl
- IGCbQXOcA3jfX+OzsdT8a4lJU5KM8hlwn4nyKZN+k0dKW3Wm5C6GD2rv6J+SL5np1STH9SBrxKa
- sWzCV9P/Cf+g92czF9+CeiA2GTfRh9g31p9DFilpWHG6ehCM5atmtmhGcR+39t51sLYZafYUyoV
- CS8XGOdpAERq8xf3k3dP6pfBoI8173tNt6G7dx7zVvG3zWIzwXMX6/XlsL+Z3tIBbRFJ0T6iNaf
- cn7FU3+Z+iFkkfg==
+ bh=TzJ2JmpzdBdudyzzf/p05R89SsWQRe4dz/J8/0Kx2Ug=;
+ b=owEBbQKS/ZANAwAKAWNNxPBocEb4AcsmYgBoi9dWGuoo93gmwB77kCPGYwUlsY9B8O8a6EL6V
+ hiUNrfCis6JAjMEAAEKAB0WIQTxi9yLbCX5CqI9UXRjTcTwaHBG+AUCaIvXVgAKCRBjTcTwaHBG
+ +HVQD/4uG2m55fMJmbjfHg8fX+MUj5tsHp2hIHNB19uXmOC2pXqHksIZXlWW/vdSEWRUn2eQnym
+ p7mQYpuoIyl8Zl8uxd+tjz6mY1tNabZ3nW8llV/a3hiqrCK3CZ5fkWtcG1f0Coe1Miyc9y3gPbT
+ cqSq6w4+btRyy21R9x8yF0acSKX0RU+SlcZ1oXqAiyS/j3PNItTTzeA7L5YM4ggtMmn8XAo6B6J
+ AWpyNOQdo164fGka6KOkvCyPkNmGkzR9iLJOEvi4pV/gZbNJ7F0QT98+ReLcwwZpnwBfSiFXfq0
+ JgpU2NHwEPWKZV03M7bN6x7k35IPYJPJIk60uyZYgDW/mm14qezyRD/WaxLBLeymT0FYQwiAelg
+ WvpBlopfiUdsjNmeNazTI15wxNQVDWiN92ffx/DTGdamh8QnV6zXgpJavERvu44ujbgc76Z1Aln
+ DyeOZp/Tr0YP1SZrQD6puIC1a1BZQgZzSdUMN6XQrRCuHJ7s/twRjRXoQp6FG90m3ZnAY1WH14N
+ S/mtw90dpoUFCL7nbs+mKyuYBqZ3R0Cam97xCW6yvXeSZUuDCTzIdN4DUtKhixvv79huUee2zrh
+ CIO4s33To9p9nQfJ1BOhojulPP31ZWjDHzfO2twdbi55h+RqHaH/j+57RP3KrFaYCEm0g62hZ6Y
+ IOOb2OFxwOjqaLw==
 X-Developer-Key: i=christopher.obbard@linaro.org; a=openpgp;
  fpr=F18BDC8B6C25F90AA23D5174634DC4F0687046F8
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,46 +116,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The eDP controller has an HPD GPIO. Describe it in the device tree
-for the generic T14s model, as the HPD GPIO is used in both the
-OLED and LCD models which inherit this device tree.
+Add the Samsung ATNA40YK20 eDP panel to the device tree for the
+Snapdragon T14s OLED model.
 
 Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi | 3 +++
- arch/arm64/boot/dts/qcom/x1e80100.dtsi                      | 5 +++++
- 2 files changed, 8 insertions(+)
+ arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
-index ac1dddf27da30e6a9f7e1d1ecbd5192bf2d0671e..c33dce6fec6746cc7fe2f7a1ab5e9f99feea5535 100644
---- a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi
-@@ -1008,6 +1008,9 @@ &mdss_dp1_out {
- &mdss_dp3 {
- 	/delete-property/ #sound-dai-cells;
- 
+diff --git a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts
+index be65fafafa736a0401a5872c40f69cb20cfbbd90..d524afa12d19b2a6f22a24b9bed6b6b40248375f 100644
+--- a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts
++++ b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts
+@@ -10,3 +10,11 @@ / {
+ 	compatible = "lenovo,thinkpad-t14s-oled", "lenovo,thinkpad-t14s",
+ 		     "qcom,x1e78100", "qcom,x1e80100";
+ };
++
++&panel {
++	compatible = "samsung,atna40yk20", "samsung,atna33xc20";
++	enable-gpios = <&pmc8380_3_gpios 4 GPIO_ACTIVE_HIGH>;
++
++	pinctrl-0 = <&edp_bl_en>;
 +	pinctrl-names = "default";
-+	pinctrl-0 = <&edp_hpd_active>;
-+
- 	status = "okay";
- 
- 	aux-bus {
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-index 5e9a8fa3cf96468b12775f91192cbd779d5ce946..8efd045af778beb30831f3af5ad2b901a72d87d7 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-@@ -5779,6 +5779,11 @@ tlmm: pinctrl@f100000 {
- 			gpio-ranges = <&tlmm 0 0 239>;
- 			wakeup-parent = <&pdc>;
- 
-+			edp_hpd_active: edp-hpd-active-state {
-+				pins = "gpio119";
-+				function = "edp0_hot";
-+			};
-+
- 			qup_i2c0_data_clk: qup-i2c0-data-clk-state {
- 				/* SDA, SCL */
- 				pins = "gpio0", "gpio1";
++};
 
 -- 
 2.50.1
