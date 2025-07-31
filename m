@@ -2,65 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13E0B17064
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 13:32:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1F9B17085
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 13:45:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0D2E10E77F;
-	Thu, 31 Jul 2025 11:32:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D675F10E0B8;
+	Thu, 31 Jul 2025 11:45:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="GKkWobGP";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HKomlel1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2CBE10E776;
- Thu, 31 Jul 2025 11:32:22 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50]) (Authenticated sender: zamundaaa)
- by letterbox.kde.org (Postfix) with ESMTPSA id 8D51F33B04D;
- Thu, 31 Jul 2025 12:32:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1753961541; bh=XAS/4qXM24hKKERbo9u9vaqK7dhA946UtwGIRYc1Qxs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=GKkWobGPmyESTC+RdugnWTJpBQbzhhVIO8FYejYW2TXpOfl3NR8GfgRGD0VizvO6Z
- ot7EscSe4RntzsTAQsRr8lQG1RVjgNN9RWBVt6QrcWj79Mx1ErGuEa6VFkd4XNfhdZ
- GPUH+I2QigK5r648fr6hmWqwZNqbx8ELcTgrMDak/xDKsv8uvctyAwmzLsWEXqAkS/
- zRlHGFSw3+uxeQs+V5P54KBcRMwn22x/J3/hJ96AsGXdR9yeOdsW508b/xIvhjsMlr
- 4EIjb7roM47Hmi8tYN12dtmljmbEcJGUK4/Kezo5gIHzMC7qPtC9VmfJHCCnr+RzqR
- G0rnKGj39VggA==
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-ae0e0271d82so143563766b.3; 
- Thu, 31 Jul 2025 04:32:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV8OUnSAj3jic7PLoz9BiCJR3by184fjldbDGDbi4mRJP08XPEnwD9eEWlBJ181jsNY5sml1oV3G2k=@lists.freedesktop.org,
- AJvYcCWuBWbpUYsD1prdjZCDB/+V5OaZZLJtm5INStUvT+9e1QefbJdxlN4UXFjxVBJ9X/c8CjCENKLXe1k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLjtabPeuzh6wAre8NQZpj807DAJ5NlEdpNL5YQVtS22/Qub32
- w/BJ/vRJHE7GC0m6HcH0ZIySnNCAaGTERmfaJacNIxYd2wuvIQEPpu0Pts2Wo/6b1hxnUuQLckl
- S2uI2Z1mzi8Ms1Htpq4MfqJk/KbO2d04=
-X-Google-Smtp-Source: AGHT+IEPio9VzBrQ7Sy5U1x60dlAcQA+EEeZtHODUL5N9ynbirVa9jO12ddrXuPZY5/kRNi4EQlY6nsOLmOwqqUBTQM=
-X-Received: by 2002:a17:906:af13:b0:af9:1062:3dd6 with SMTP id
- a640c23a62f3a-af910623fecmr352340466b.17.1753961541062; Thu, 31 Jul 2025
- 04:32:21 -0700 (PDT)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3B6910E0B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 11:45:31 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 21F7E43274;
+ Thu, 31 Jul 2025 11:45:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1753962330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WQFkXzwFJTVKeMPgj4/yJInK5xttwNKb6/OManwYLxU=;
+ b=HKomlel1PlwM8wEvd80xbP2UjkGNs69D72rRFbbpO9Wg4V8Hl9OaynFLPzwkvZVZ0xQNIg
+ DhP+k2ysIWncskzPU41xX+45oxNNJBCSEgV5//7nBHNLiBROVRoCJi32hN+pMJ3Ya3s2Mt
+ ROiudl6iaqGWEFMWrgJRDbOF09hFqPThPBUw8uMncyNRuN8qRBkqMki0gaK7goB8KvKNkI
+ czUVwZBe3N4dqqTczpfPq81ai+qm+6zhDEnFZiq4CiaAKyInT4u4QOGkETfJIE73rmSzif
+ 5zJyquHEZcsd0EW8yy2nq3LY8JQEjOAqOgJSqmhYtswxaG4p5M3aGoapoQ7fyg==
+Message-ID: <e82d84b9-d752-4268-a629-c62ed21e49db@bootlin.com>
+Date: Thu, 31 Jul 2025 13:45:29 +0200
 MIME-Version: 1.0
-References: <20250730-atomic-v2-0-cc02ce0263dd@intel.com>
- <20250730-atomic-v2-1-cc02ce0263dd@intel.com>
-In-Reply-To: <20250730-atomic-v2-1-cc02ce0263dd@intel.com>
-From: Xaver Hugl <xaver.hugl@kde.org>
-Date: Thu, 31 Jul 2025 13:32:09 +0200
-X-Gmail-Original-Message-ID: <CAFZQkGzUjv761X+A0ctwhxvpFmqHwSMFbAEhurixo20w6Sxhvw@mail.gmail.com>
-X-Gm-Features: Ac12FXzYTRxakijVE81GzzfV3ifW84-QC6J7spdaBUpRbb2AtWcXGiO0YUAgEfc
-Message-ID: <CAFZQkGzUjv761X+A0ctwhxvpFmqHwSMFbAEhurixo20w6Sxhvw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm: Define user readable error codes for atomic
- ioctl
-To: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, naveen1.kumar@intel.com, 
- uma.shankar@intel.com, harry.wentland@amd.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/vkms: Add writeback encoders as possible clones
+To: Robert Mader <robert.mader@collabora.com>
+Cc: dri-devel@lists.freedesktop.org
+References: <20250718121442.490634-1-robert.mader@collabora.com>
+ <a1317262-fe95-4da0-96f3-d468d2bac07d@collabora.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <a1317262-fe95-4da0-96f3-d468d2bac07d@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutddtjedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehrohgsvghrthdrmhgruggvrhestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +117,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mi., 30. Juli 2025 um 12:36 Uhr schrieb Arun R Murthy
-<arun.r.murthy@intel.com>:
->
-> There can be multiple reasons for a failure in atomic_ioctl. Most often
-> in these error conditions -EINVAL is returned. User/Compositor would
-> have to blindly take a call on failure of this ioctl so as to use
-> ALLOW_MODESET or any. It would be good if user/compositor gets a
-> readable error code on failure so they can take proper corrections in
-> the next commit.
-> The struct drm_mode_atomic is being passed by the user/compositor which
-> holds the properties for modeset/flip. Reusing the same struct for
-> returning the error code in case of failure can save by creating a new
-> uapi/interface for returning the error code.
-> The element 'reserved' in the struct drm_mode_atomic is used for
-> returning the user readable error code.Its a 64bit variable and
-> should suffice 64 error codes that should be sufficient.
-Hi, and thanks for working on this. Harry already mentioned what we
-discussed at the hackfest, so I won't repeat that again :)
+Oops, sorry, I just tested it, it works
 
-> +/* atomic not set in the drm_file */
-> +#define DRM_MODE_ATOMIC_CAP_NOT_ENABLED                        BIT(0)
-> +/* atomic flag passed not in DRM_MODE_ATOMIC_FLAGS list */
-> +#define DRM_MODE_ATOMIC_INVALID_FLAG                   BIT(1)
-> +/* DRM_MODE_PAGE_FLIP_LEGACY not supported with atomic ioctl  */
-This should be DRM_MODE_PAGE_FLIP_ASYNC I think?
-> +#define DRM_MODE_ATOMIC_PAGE_FLIP_ASYNC                        BIT(2)
-> +/* flip event with atomic check only not supported */
-> +#define DRM_MODE_ATOMIC_FLIP_EVENT_WITH_CHECKONLY      BIT(3)
-> +/* atomic property change requested need full crtc modeset */
-> +#define DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET         BIT(4)
-> +/* atomic property change requested has impact on all connected crtc */
-> +#define DRM_MODE_ATOMIC_NEED_FULL_MODESET              BIT(5)
-> +/* async flip supported on only primary plane */
-> +#define DRM_MODE_ATOMIC_ASYNC_NOT_PRIMARY              BIT(6)
-This is a bit limiting when some but not all non-primary planes support async.
-> +/* modifier not supported by async flip */
-> +#define DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPPORTED   BIT(7)
-> +/* async flip with pipe joiner not allowed */
-> +#define DRM_MODE_ATOMIC_ASYNC_PIPEJOINER_NOTALLOWED    BIT(8)
-I feel like this error is a bit too specific, or at least it needs
-some more explanation - what will compositors do with it?
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-In general I want to mention that some of these errors are pretty
-specific and not actionable for compositor code. Ideally the enum
-would just be more generic things like
-- invalid API usage
-- needs modeset
-- plane can't do async
-- format/modifier can't do async (though with IN_FORMATS_ASYNC it's
-kind of just "invalid API usage")
-- scanout bandwidth
-- connector bandwidth
-- memory domain
-- scanin bandwidth
+Le 31/07/2025 à 12:45, Robert Mader a écrit :
+> Hey Louis, would you be fine to add your Rb on this one? :) Would love
+> to get it into drm-next / 6.17.
+> 
+> On 18.07.25 14:14, Robert Mader wrote:
+>> Since commit 41b4b11da0215 ("drm: Add valid clones check") setting
+>> the `possible_clones` values is a hard requirement for cloning.
+>> `vkms` supports cloning for writeback connectors in order to capture
+>> CRTC content, however that broke with said commit.
+>>
+>> Writeback connectors are created on a per-CRTC basis, thus mark
+>> every non-writeback connector that is compatible with a given CRTC
+>> as possible clone - and vice-versa.
+>>
+>> Using a default configuration, the corresponding `drm_info` output
+>> changes from:
+>>
+>> ├───Encoders
+>> │   ├───Encoder 0
+>> │   │   ├───Object ID: 40
+>> │   │   ├───Type: virtual
+>> │   │   ├───CRTCS: {0}
+>> │   │   └───Clones: {0}
+>> │   └───Encoder 1
+>> │       ├───Object ID: 41
+>> │       ├───Type: virtual
+>> │       ├───CRTCS: {0}
+>> │       └───Clones: {1}
+>>
+>> to:
+>>
+>> ├───Encoders
+>> │   ├───Encoder 0
+>> │   │   ├───Object ID: 44
+>> │   │   ├───Type: virtual
+>> │   │   ├───CRTCS: {0}
+>> │   │   └───Clones: {0, 1}
+>> │   └───Encoder 1
+>> │       ├───Object ID: 50
+>> │       ├───Type: virtual
+>> │       ├───CRTCS: {0}
+>> │       └───Clones: {0, 1}
+>>
+>> Fixes: dbd9d80c1b2e (drm/vkms: Add support for writeback)
+>> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+>> ---
+>>    drivers/gpu/drm/vkms/vkms_output.c    | 13 +++++++++++++
+>>    drivers/gpu/drm/vkms/vkms_writeback.c |  2 ++
+>>    2 files changed, 15 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+>> index 8d7ca0cdd79f..2ee3749e2b28 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_output.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+>> @@ -77,9 +77,22 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>>    			return ret;
+>>    		}
+>>    
+>> +		encoder_cfg->encoder->possible_clones |=
+>> +			drm_encoder_mask(encoder_cfg->encoder);
+>> +
+>>    		vkms_config_encoder_for_each_possible_crtc(encoder_cfg, idx, possible_crtc) {
+>>    			encoder_cfg->encoder->possible_crtcs |=
+>>    				drm_crtc_mask(&possible_crtc->crtc->crtc);
+>> +
+>> +			if (vkms_config_crtc_get_writeback(possible_crtc)) {
+>> +				struct drm_encoder *wb_encoder =
+>> +					&possible_crtc->crtc->wb_encoder;
+>> +
+>> +				encoder_cfg->encoder->possible_clones |=
+>> +					drm_encoder_mask(wb_encoder);
+>> +				wb_encoder->possible_clones |=
+>> +					drm_encoder_mask(encoder_cfg->encoder);
+>> +			}
+>>    		}
+>>    	}
+>>    
+>> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+>> index fe163271d5b5..45d69a3b85f6 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+>> @@ -174,6 +174,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+>>    	if (ret)
+>>    		return ret;
+>>    	vkms_output->wb_encoder.possible_crtcs |= drm_crtc_mask(&vkms_output->crtc);
+>> +	vkms_output->wb_encoder.possible_clones |=
+>> +		drm_encoder_mask(&vkms_output->wb_encoder);
+>>    
+>>    	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+>>    
+> 
 
-which (except for "invalid API usage") compositor code can
-automatically do something about, and the string that's passed to the
-compositor can give more information for debugging and logging.
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-- Xaver
