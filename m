@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C04B16B59
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 06:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA38B16B61
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 06:59:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B95A10E162;
-	Thu, 31 Jul 2025 04:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D74110E6F7;
+	Thu, 31 Jul 2025 04:59:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="du2Ajuwn";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="I2DCjokd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D5110E162
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 04:48:59 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-6153a19dddfso745955a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:48:59 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4046210E6F7
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 04:59:06 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-61521cd7be2so683836a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1753937337; x=1754542137;
+ d=linux-foundation.org; s=google; t=1753937945; x=1754542745;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=DINYJ+FM1lqJupdP3vzGFRoexFRJ9IKZ3t9dG0gHVuM=;
- b=du2AjuwnnDw2i58K9f8XP7u8Dt5QyPKBEeVgmoujla0FbpUBSZeRD/DALsccUaaCsn
- EwozOTb3f9bX4SJAEVg9DuIIfTsGP+hVC0ehLHb2+QLYRNQKF21HmuTSmkHvQqqsf9Pz
- dEx/hC9ty2IHV7Qit2H7nSK5i1MGxtzJN1ls0=
+ bh=SDR+nXsB5Eofl7XYJqQlqomL2Y+bdQehNIv6f55HHF0=;
+ b=I2DCjokd3N+JPTKyauOjP76HNXwye/JfUbaJi/I+ZOOA6u2GQiWRrdlkKR47gnH2qr
+ SXCkCrT88dNhUeFK2PQ8QmZXDmloW6MmVJYpNWzPhGXzA3i5sSorn1iqxcYODx20gSEl
+ uR0itgAPHP6d4ShdCIty4OK9OT2q5B4Db7QVs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753937337; x=1754542137;
+ d=1e100.net; s=20230601; t=1753937945; x=1754542745;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=DINYJ+FM1lqJupdP3vzGFRoexFRJ9IKZ3t9dG0gHVuM=;
- b=RRIDex6RSaxHGjSH/GzBzKraxUioWho7n37+99t6sKlqXVtVuSA56hcDDpuq9DYuZ9
- HyP4QVAeewCJu1L43CCtqpcQNJhXTgJ4OsVRywYvPz2EOU+QqaggEa0ZAMta+l2QQ0O+
- H8PTGRvjXkjIfSApZPwDI7oY8TQK7IiZ8o41Qvp+3QQEnqiiw6w/isOtzl20+1pAJ/G2
- +0iuylP2Swwna3ju/7vpcrnbcc7cvlLqPXBvchEcKhxnfsRc0uGADLJvWkr8271Sh5qG
- qbozwlTF5ZzClG2DOu6oAdk7rhTHcP80bX3GqDZZQMCdA+GOLX4v1ceIjCwu1aLFRm/I
- TcfA==
+ bh=SDR+nXsB5Eofl7XYJqQlqomL2Y+bdQehNIv6f55HHF0=;
+ b=COU14VJJjrofxv4dvf1zxxOC96/Q6R3IkPpJPrcoOqhG4KMA7L6hI6plGG8bEHJ/I5
+ kZAhI8LdRXUp1pw7M3Fhf06cFngD2YjfwrzI6fclYpx2EQ6O9Uo7JuR1JukwUy9szrxn
+ DXMJbTChRQl1IwxDXoamg9WHLr68+006eP8zOhsMs8EccFYlQcoi1rTf3SKoZXH0vyme
+ y02SbWqynXEVGXQpuU/1nCPo07I0abigwLhbeXCTBJYl0Jt6yM1i2LQYT7WgBBGJmrXC
+ MNKs6dlPquI2ctfQf74xbk9UZR+zb+zi1WRaUCCEERXm0fkx12FbYNS0AZFdH5XEk7tN
+ 8ePw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU0ZkZZesa4J0ajPDak6IuQv4AwkTIGbhgezOMEScE0Rl8ZFNfvXaKOyYsJNopkGUb6m5EIWykem44=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyk1Q/teGrkjUoWLnK1F9ZKWZqyVvpMdCzg/piV15sMaM8HpNMu
- adaWUSqk3Q3lH+jq8zlN2ediLjebrftaysUMb3wGB36NY7ALX4lNXyRYJiAfSFBmVpwgkbJynrV
- 50+/lKwA=
-X-Gm-Gg: ASbGncuuyovoiMN7i5Nsv0oxTLpi7yPlN8kRo/9RIsv/4AM6Hr7VJKiOx+J9cr4wKjb
- JNQT2RU1J1rgyg4ENVPOLWxRw4RXA2xW+Y4oPWI/b4IQIw3qJf8Ah60pk2IEBb0f+kAMzLxwZ6L
- I5SyyqMWg9oGgcGZwpCq5qjWUVbuBWh67Rm/SDb3x14uLEYIuOiMNlrl9j25dbURPYfx2iUkyYc
- bU6jwsuB50NPWdM2o62vXCYI6/SoWd7A63YZJGa56EHgorwfmzwBdsAdA49g3OJnY15LoG8fGzN
- 9G7gOtqDVsTHMxonJD6OirqGpKk+fbfFKFhSm2ve7Zcfa0GGV2OxjLDC2MRK1MQme4lYrapkO1J
- mfpPxw8umwd0TYvR6v7qhyYBU5xhSb1vtj64WGP4hgyhMe7Zia8XSQYxI2pP3kbTBLwCEH5tYN/
- q2TGjG1tk=
-X-Google-Smtp-Source: AGHT+IHn2IVXmv4TAs9ZDsM3m5TjILlKpyfLHti3kPC4gHT8ImAv/4pqmwm79OqCdZWxAy1b7wnXmQ==
-X-Received: by 2002:a05:6402:13c7:b0:615:979c:e8b2 with SMTP id
- 4fb4d7f45d1cf-615979cf015mr4353734a12.29.1753937337505; 
- Wed, 30 Jul 2025 21:48:57 -0700 (PDT)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com.
- [209.85.208.52]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-615a8f2b892sm520972a12.25.2025.07.30.21.48.55
+ AJvYcCWqz9NkB6CCbiSds+OMzu7fNMQQk5C0YKGfNuzJWk4JAigLrxrFlAbGKVg1+qJGwV9rpmjeQXl90o4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQmjsDFQ18o5x59y7rtiKzxg6VlKGVMho2d1r+M56QI7bPTS7e
+ QFRp1LaTO9SkBJojrUhpe1BBPFWZkXNVkPTr3SJ/1UYY0fqEC0szdJWW/MeFSEKmTJeZ/LZJYoS
+ Wo9auafo=
+X-Gm-Gg: ASbGncsKFeRzDoAIpqa2DY3Qt3qFqvM36zhWShIqg8ZF+bDkvqpnnKdLwG90AjBZszU
+ gHiY6CP7YGaw7FT1HhDVy3NnyC7745xto1JHTJpjy1/w2cRYrqHanLf98fVxPgqrNyvvnxs42ze
+ rGrSK+VIHXjjp2n/T3VVGjkH0wpk1jqJEpcbgSIHZ2fOSM9c0Le6mqpwQg9M1ZMqH07nsZ4EDIa
+ 70UaeVJ0+8GE99qY/8VeCjizvMBA3TyCa9wZezB22AxLe/rZ5aa23qPePw4iL7H6gdSJvxw5NGL
+ K43lInaAq7CrJIlk47mQCIypOG2/mQ3YnROAf2plALbssWWPpU/kH9u6Xt68C17ijphWLBLnJ1V
+ CKzUWkEKiTHABfovWviaakZj4Q/bOIz4ft3yIk+gRK7DN6Dd01QuyLZ8miZ7ricWxfO+O8sbR
+X-Google-Smtp-Source: AGHT+IGKqo81o1ejVkii/u7zezOfNB91g6AxtWOmSQKETMEGBkRgvigX0hNMfmKpwFBr7XUzJmU2jg==
+X-Received: by 2002:aa7:c703:0:b0:612:dc41:c622 with SMTP id
+ 4fb4d7f45d1cf-61586eebab5mr4896047a12.9.1753937945054; 
+ Wed, 30 Jul 2025 21:59:05 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com.
+ [209.85.208.48]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-615a8ffd595sm539151a12.48.2025.07.30.21.59.03
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jul 2025 21:48:55 -0700 (PDT)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-6154655c8aeso710487a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:48:55 -0700 (PDT)
+ Wed, 30 Jul 2025 21:59:03 -0700 (PDT)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-61571192c3aso585721a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:59:03 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUzimBwz9MGrfj5gv9BML1Oj3VmWStJnMH5uXHce1kFPtY1jxl0lOc83MI7jI0qxOJVWZALT8/ci1c=@lists.freedesktop.org
-X-Received: by 2002:a05:6402:42c2:b0:615:8f10:2d4c with SMTP id
- 4fb4d7f45d1cf-6158f1032c5mr4612317a12.4.1753937335353; Wed, 30 Jul 2025
- 21:48:55 -0700 (PDT)
+ AJvYcCUo1is4jk4aATJ/hgVSOvyG275+ZfDfMEUST1o99PMDORcM/ollG3TRT7B4uKoK3nfsu+SNPwwU3u0=@lists.freedesktop.org
+X-Received: by 2002:a05:6402:27c6:b0:612:b67d:c2ae with SMTP id
+ 4fb4d7f45d1cf-615870b55cbmr6258831a12.16.1753937942860; Wed, 30 Jul 2025
+ 21:59:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAPM=9tzVm80-v6_5nt6kko3nR+aQLZ7R98i419FV8f4-ayQWUw@mail.gmail.com>
  <CAHk-=wirxHy+KU6jmtO2dzmGQ1BwaOdd5Mjtrc40fGvZVULQQg@mail.gmail.com>
@@ -79,14 +78,17 @@ References: <CAPM=9tzVm80-v6_5nt6kko3nR+aQLZ7R98i419FV8f4-ayQWUw@mail.gmail.com>
  <CAHk-=whB1X1c6rWbY34wZVGcnaY=yfPGLOtjd5h3mMDGV9Lbkg@mail.gmail.com>
  <CAPM=9tyb1mELymOJv62KJom4mGF0UBifbVqLJUFdS1C7Eeu3jg@mail.gmail.com>
  <CAPM=9tzDWmYBKQGB0ybDzhYHkg0p98_6PJA8OuPahRep8+QPvQ@mail.gmail.com>
-In-Reply-To: <CAPM=9tzDWmYBKQGB0ybDzhYHkg0p98_6PJA8OuPahRep8+QPvQ@mail.gmail.com>
+ <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
+In-Reply-To: <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 30 Jul 2025 21:48:39 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
-X-Gm-Features: Ac12FXyqfcARQ-zUwGqzZGAbIHJ9CUJpqWHEZ271UfDUtdTjz1kORZjkZIzYe-s
-Message-ID: <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
+Date: Wed, 30 Jul 2025 21:58:46 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wh+79KkMXsNqyPxeU+c5U2h-n13ko6J_QzwtjyYCKhrSw@mail.gmail.com>
+X-Gm-Features: Ac12FXyKAfRuWqMYw2cQQob3MB0m_PufodiTRPWQuH_SVlJTpkXUQidf6jnttf4
+Message-ID: <CAHk-=wh+79KkMXsNqyPxeU+c5U2h-n13ko6J_QzwtjyYCKhrSw@mail.gmail.com>
 Subject: Re: [git pull] drm for 6.17-rc1
-To: Dave Airlie <airlied@gmail.com>
+To: Dave Airlie <airlied@gmail.com>, Dillon Varone <dillon.varone@amd.com>, 
+ Ivan Lipski <ivan.lipski@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, Wenjing Liu <wenjing.liu@amd.com>
 Cc: Simona Vetter <simona@ffwll.ch>,
  dri-devel <dri-devel@lists.freedesktop.org>, 
  LKML <linux-kernel@vger.kernel.org>
@@ -106,24 +108,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 30 Jul 2025 at 21:36, Dave Airlie <airlied@gmail.com> wrote:
+On Wed, 30 Jul 2025 at 21:48, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> https://lore.kernel.org/dri-devel/20250717204819.731936-1-mustela@erminea.space/
+> Well, it's one of these:
 >
-> is the only thing I can see that might not be in the merge.
+>   3f2b24a1ef35 drm/amd/display: Monitor patch to ignore EDID audio SAB check
+>   aef3af22a456 drm/amd/display: Add definitions to support DID Type5 descriptors
+>   d7b618bc41ee drm/amd/display: Refactor DSC cap calculations
 
-Well, it's one of these:
+d7b618bc41ee3d44c070212dff93949702ede997 is the first bad commit
+commit d7b618bc41ee3d44c070212dff93949702ede997
+Author: Dillon Varone <dillon.varone@amd.com>
+Date:   Fri Jun 20 16:23:43 2025 -0400
 
-  3f2b24a1ef35 drm/amd/display: Monitor patch to ignore EDID audio SAB check
-  aef3af22a456 drm/amd/display: Add definitions to support DID Type5 descriptors
-  d7b618bc41ee drm/amd/display: Refactor DSC cap calculations
+    drm/amd/display: Refactor DSC cap calculations
 
-Let's do a few more boots to see which.
+That's the one that makes my machine no longer work.
 
-The sad part is that this machine builds a kernel quickly, but then
-takes quite a while to boot, and the failure case requires me to then
-reboot again to get to a working state...
+This is a 5K monitor (ASUS ProArt) connected through a DP connection
+to the Radeon RX 580.
 
-But almost there,
+With that commit, the screen goes black with no signal at boot.
 
-            Linus
+Let me go see how painful it is to just revert it from top-of-tree.
+
+             Linus
