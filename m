@@ -2,52 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28972B171FF
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 15:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F57B1721C
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 15:34:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730C210E478;
-	Thu, 31 Jul 2025 13:26:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p5NuxDTc";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 381CB10E122;
+	Thu, 31 Jul 2025 13:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE2110E478
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:26:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9F3FB45C8D;
- Thu, 31 Jul 2025 13:26:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24B9DC4CEEF;
- Thu, 31 Jul 2025 13:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753968405;
- bh=lCLyuq53vp4e9L0JS6snSzvaxB/qbfCtw9F8FZNhjCY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p5NuxDTcXtwhVbrPCDjI9v84xzkZE1D4MgiqhNUUPu/gRixKgIWZ8nST23lDwSq8o
- NJfzQkkpEdU3WbxcjV8YHQhWXMM9deH23bMcomOQ2H1/DmZBurj+h1cU6NHA4WOPNp
- hJObCrnm3foM2HWZTF6WRJAdowTq2g4N+R8d6fVcpDjbdB5CL4a3d53MfQJDVrgOTt
- 6pHWiOkUyuKbd/MgNwm86u2zNUwKrnXpulzKa4grmf3LPESruiJ0s99GOkKBhOp5no
- +4xkPmIPkkkOqjsg8ujFPrteCybIDGn4c3WB+3cKfpFYeqhDkxjGcWrITdG6RZnbPm
- /UrMSq8zPJr2Q==
-Date: Thu, 31 Jul 2025 15:26:42 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/14] drm/tidss: dispc: Convert to FIELD_* API
-Message-ID: <20250731-powerful-termite-of-inspiration-13f36d@houat>
-References: <20250730-drm-tidss-field-api-v1-0-a71ae8dd2782@kernel.org>
- <15f0b568-3d59-4f0c-b390-4e3d3623136a@bootlin.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 007AD10E122
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:34:36 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69CDD1D13;
+ Thu, 31 Jul 2025 06:34:28 -0700 (PDT)
+Received: from [10.1.27.30] (e122027.cambridge.arm.com [10.1.27.30])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 12BAB3F66E;
+ Thu, 31 Jul 2025 06:34:33 -0700 (PDT)
+Message-ID: <927c9a00-f825-439b-bc78-03211fed4da9@arm.com>
+Date: Thu, 31 Jul 2025 14:34:32 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="livjto5renz64lpa"
-Content-Disposition: inline
-In-Reply-To: <15f0b568-3d59-4f0c-b390-4e3d3623136a@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/panthor: Serialize GPU cache flush operations
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, Dennis Tsiang <dennis.tsiang@arm.com>
+References: <20250730174338.1650212-1-karunika.choo@arm.com>
+ <63c7d33d-c475-448e-a928-570c6efe2387@arm.com>
+ <216ebb8e-c973-4306-a748-a030eae01e2d@arm.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <216ebb8e-c973-4306-a748-a030eae01e2d@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,99 +53,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 31/07/2025 13:48, Karunika Choo wrote:
+> On 31/07/2025 11:57, Steven Price wrote:
+>> On 30/07/2025 18:43, Karunika Choo wrote:
+>>> In certain scenarios, it is possible for multiple cache flushes to be
+>>> requested before the previous one completes. This patch introduces the
+>>> cache_flush_lock mutex to serialize these operations and ensure that
+>>> any requested cache flushes are completed instead of dropped.
+>>>
+>>> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+>>> Co-developed-by: Dennis Tsiang <dennis.tsiang@arm.com>
+>>
+>> A Co-Developed-By needs to have a signed-off-by too[1]
+> 
+> Oops. I can push a v2 to add those.
+> 
+>>
+>> [1]
+>> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
+>>
+>> But I also don't understand how this is happening. The only caller to
+>> panthor_gpu_flush_caches() is in panthor_sched_suspend() and that is
+>> holding the sched->lock mutex.
+> 
+> The fix is in relation to the enablement of GPU Flush caches by default
+> for all GPUs [1]. While calls from the MMU are serialized, other calls
+> i.e. from panthor_sched_suspend() are not. As such, this patch
+> explicitly serializes these operations.
 
---livjto5renz64lpa
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 00/14] drm/tidss: dispc: Convert to FIELD_* API
-MIME-Version: 1.0
+Ah, ok so this is effectively a bug fix for that patch - given we've not
+yet merged that series can we just do a v9 of the series with the fix
+rolled in? (Rather than having a commit or two where we know the bug is
+present).
 
-Hi Louis,
+I have to admit it also feels like we should have something to avoid
+doing excessive cache flushes - there's no point in queuing up multiple
+flushes back-to-back. But I don't have a neat solution, and I'm not sure
+whether this will happen often enough to worry about. So I guess we
+should probably ignore it until/unless it becomes a problem.
 
-On Thu, Jul 31, 2025 at 03:04:49PM +0200, Louis Chauvet wrote:
-> Le 30/07/2025 =E0 10:57, Maxime Ripard a =E9crit=A0:
-> > Hi,
-> >=20
-> > The tidss driver rolls its own API equivalent to the FIELD_* API already
-> > provided the kernel.
-> >=20
-> > Since it's an ad-hoc implementation, it also is less convenient and
-> > doesn't provide some useful features like being able to share the field
-> > definitions that will come handy in the future.
-> >=20
-> > Thus, this series converts the driver to that API and drops its own
-> > version.
->
-> I just saw your series after sending mine [2]. I checked, there is only o=
-ne
-> minor conflict that can be easly fixed.
->=20
-> But when applied on drm-misc/drm-misc-next, your series raises:
->=20
-> In file included from <command-line>:
-> drivers/gpu/drm/tidss/tidss_dispc.c: In function 'FLD_MOD':
-> ././include/linux/compiler_types.h:568:45: error: call to
-> '__compiletime_assert_589' declared with attribute error: FIELD_PREP: mask
-> is not constant
->   568 |         _compiletime_assert(condition, msg, __compiletime_assert_,
-> __COUNTER__)
->       |                                             ^
-> ././include/linux/compiler_types.h:549:25: note: in definition of macro
-> '__compiletime_assert'
->   549 |                         prefix ## suffix();         \
->       |                         ^~~~~~
-> ././include/linux/compiler_types.h:568:9: note: in expansion of macro
-> '_compiletime_assert'
->   568 |         _compiletime_assert(condition, msg, __compiletime_assert_,
-> __COUNTER__)
->       |         ^~~~~~~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:39:37: note: in expansion of macro
-> 'compiletime_assert'
->    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), m=
-sg)
->       |                                     ^~~~~~~~~~~~~~~~~~
-> ./include/linux/bitfield.h:65:17: note: in expansion of macro
-> 'BUILD_BUG_ON_MSG'
->    65 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),
-> \
->       |                 ^~~~~~~~~~~~~~~~
-> ./include/linux/bitfield.h:115:17: note: in expansion of macro
-> '__BF_FIELD_CHECK'
->   115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: =
-");
-> \
->       |                 ^~~~~~~~~~~~~~~~
-> drivers/gpu/drm/tidss/tidss_dispc.c:599:33: note: in expansion of macro
-> 'FIELD_PREP'
->   599 |         return (orig & ~mask) | FIELD_PREP(mask, val);
->       |                                 ^~~~~~~~~~
->=20
->=20
-> This seems to be a limitation of FIELD_PREP [1].
-> I think the only way to avoid this issue is to use macros and not functio=
-ns.
->=20
-> [1]:https://elixir.bootlin.com/linux/v6.16/source/include/linux/bitfield.=
-h#L65-L66
-> [2]:https://lore.kernel.org/all/20250730-fix-edge-handling-v1-0-1bdfb3fe7=
-922@bootlin.com/
+Steve
 
-Weird, it compiles without warning for me here. Which compiler do you use?
+> [1]
+> https://lore.kernel.org/all/20250724124210.3675094-6-karunika.choo@arm.com/
+> 
+> Kind regards,
+> Karunika Choo
+> 
+>> Steve
+>>
+>>> ---
+>>>  drivers/gpu/drm/panthor/panthor_gpu.c | 7 +++++++
+>>>  1 file changed, 7 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+>>> index cb7a335e07d7..030409371037 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+>>> @@ -35,6 +35,9 @@ struct panthor_gpu {
+>>>  
+>>>  	/** @reqs_acked: GPU request wait queue. */
+>>>  	wait_queue_head_t reqs_acked;
+>>> +
+>>> +	/** @cache_flush_lock: Lock to serialize cache flushes */
+>>> +	struct mutex cache_flush_lock;
+>>>  };
+>>>  
+>>>  /**
+>>> @@ -204,6 +207,7 @@ int panthor_gpu_init(struct panthor_device *ptdev)
+>>>  
+>>>  	spin_lock_init(&gpu->reqs_lock);
+>>>  	init_waitqueue_head(&gpu->reqs_acked);
+>>> +	mutex_init(&gpu->cache_flush_lock);
+>>>  	ptdev->gpu = gpu;
+>>>  	panthor_gpu_init_info(ptdev);
+>>>  
+>>> @@ -353,6 +357,9 @@ int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+>>>  	bool timedout = false;
+>>>  	unsigned long flags;
+>>>  
+>>> +	/* Serialize cache flush operations. */
+>>> +	guard(mutex)(&ptdev->gpu->cache_flush_lock);
+>>> +
+>>>  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+>>>  	if (!drm_WARN_ON(&ptdev->base,
+>>>  			 ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
+>>
+> 
 
-Thanks!
-Maxime
-
---livjto5renz64lpa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaItvEgAKCRAnX84Zoj2+
-doX8AYCMBVPvxu8o9TOyCn7lBbNCgS3knFU+dNmItt8BbDwrf771Slu0wBc/AS26
-rS5kbMgBgLJs0oaq3MszcBvisk3p+uCLxfQLOTUpTXrXdigK3eR7LEZz6ewrk7Gn
-ZafbXk/c4g==
-=Oj/Q
------END PGP SIGNATURE-----
-
---livjto5renz64lpa--
