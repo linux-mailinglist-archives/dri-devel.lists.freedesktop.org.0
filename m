@@ -2,59 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6527DB16B41
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 06:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C04B16B59
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 06:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C4F10E6F6;
-	Thu, 31 Jul 2025 04:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B95A10E162;
+	Thu, 31 Jul 2025 04:49:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ESH90Qc6";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="du2Ajuwn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F71B10E6F6
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 04:36:24 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-af66d49daffso77739666b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:36:24 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65D5110E162
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 04:48:59 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-6153a19dddfso745955a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:48:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753936583; x=1754541383; darn=lists.freedesktop.org;
+ d=linux-foundation.org; s=google; t=1753937337; x=1754542137;
+ darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=21OF6T2HE4ELxQs2mP8X4ESpa3O4vj0vAWBbSYVti5s=;
- b=ESH90Qc6Kl1jlWJV0F3xVcRAIAEMsGbibEjAou5cZ7Ha+lZlZOI7Kcgp9NILl5ZfP7
- zl1G9ftFPiIC7diJzcpoGY4ISpGK2R2FxUmqLISB1EGglPN//p/IPSceOVvhmIsUUSMK
- kN0q9zrrENsl+gyzfn7TBlMvl5alh0lzKLTyeyeVQVoqN/w2Df8SRRJrPtb4MK7MpJ8H
- HN7NHUJe7ZiNZb3nMmwGmf4oOCI4u9QI32yCwyLu30rv1cokA/kEcwaFpREJa0L4BOmJ
- Zd/sIEZZMHwzYRLyopJIkKv3iWpLf+6AK63aUzvPBZQlpJZowRexW0o9J5HndJB5EVx5
- o0jQ==
+ bh=DINYJ+FM1lqJupdP3vzGFRoexFRJ9IKZ3t9dG0gHVuM=;
+ b=du2AjuwnnDw2i58K9f8XP7u8Dt5QyPKBEeVgmoujla0FbpUBSZeRD/DALsccUaaCsn
+ EwozOTb3f9bX4SJAEVg9DuIIfTsGP+hVC0ehLHb2+QLYRNQKF21HmuTSmkHvQqqsf9Pz
+ dEx/hC9ty2IHV7Qit2H7nSK5i1MGxtzJN1ls0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753936583; x=1754541383;
+ d=1e100.net; s=20230601; t=1753937337; x=1754542137;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=21OF6T2HE4ELxQs2mP8X4ESpa3O4vj0vAWBbSYVti5s=;
- b=jU8E3/kfELYIbRPJaTHZIN8wDDRKl8kHDIUAqLmI19dl3c1mrlg6yxYZNAOZ1aNzMX
- b8S/z7YeGUXaVJ6yY+UNJo2b5ULo7dhCqkL8jpkC63w6XbDIHfVatpCIFZMsgqH+K2d0
- NtKOlqRKlz5O3GYA0Pt9ZYJNnX+2WXEYfys8uXbpNcpq3dCiYW6vcaC8JwzlYJYxNmgj
- DpwKjH/+WJoiQNJUgl+uaE+q0V1JjoJ+nRYvUwc4I3fUkZwXoXVCSaoajp8z3wx6AUrZ
- u+JmsEsHTj7N/ovAwUWpVmkgpj+ldyyIh0lWIuXlP1zFz0ixeNfZc9C+JkZb6UCt9HKU
- Kf5g==
+ bh=DINYJ+FM1lqJupdP3vzGFRoexFRJ9IKZ3t9dG0gHVuM=;
+ b=RRIDex6RSaxHGjSH/GzBzKraxUioWho7n37+99t6sKlqXVtVuSA56hcDDpuq9DYuZ9
+ HyP4QVAeewCJu1L43CCtqpcQNJhXTgJ4OsVRywYvPz2EOU+QqaggEa0ZAMta+l2QQ0O+
+ H8PTGRvjXkjIfSApZPwDI7oY8TQK7IiZ8o41Qvp+3QQEnqiiw6w/isOtzl20+1pAJ/G2
+ +0iuylP2Swwna3ju/7vpcrnbcc7cvlLqPXBvchEcKhxnfsRc0uGADLJvWkr8271Sh5qG
+ qbozwlTF5ZzClG2DOu6oAdk7rhTHcP80bX3GqDZZQMCdA+GOLX4v1ceIjCwu1aLFRm/I
+ TcfA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXT8UKlAoyG/oQ3dC8q8b80WfxHICuCw1NVMeHVhFTwTILfpajm52s7k4l7bM+m64Rrh32o/KbI8SM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YytacOofsrzEt6Vfzk9Ve41MuhJT/pZsfxtIyvAUTcN349FqrdX
- xRqkQwFBWyC9AVEm07yp2zLyFCmM2rfZ7MuYuMeLG4EW/FYX33xdQANf9kB3E9sS5++PKmIJqfU
- hsltNsbhScapdiLVkV9f1Qcm8NyUtG+U=
-X-Gm-Gg: ASbGnctdGI52PKO0x0CWtA0LRQExHlJJ8pL42Le4gZxxkWtaOlHmsuAUcNGFGBe1VzN
- Cvip+e7zgQB5pgYn4Ld34ARg7MTyT42cKFGGZ5V4ZxXXSCuWx9briKVLidXqlvnlpJIV0LrzkJ3
- XlkYgnEhK+es9JFDoeUz//0jyqcs4qfTCqvFKl8q2bsq6Qiy2kcX9LV5KxYFNWCAGKulHmzG6ks
- KI+SA==
-X-Google-Smtp-Source: AGHT+IHt8zXUEbU3uDBO2OBPjItSRqo+K1Uvvu2Z74SY8+04QgQzeq/5DUZSTY0K+0y5LyFUphTzmyk7hHFZdAjXVJ8=
-X-Received: by 2002:a17:906:7945:b0:ade:44f6:e3d6 with SMTP id
- a640c23a62f3a-af8fd9ad9c7mr655825266b.46.1753936582675; Wed, 30 Jul 2025
- 21:36:22 -0700 (PDT)
+ AJvYcCU0ZkZZesa4J0ajPDak6IuQv4AwkTIGbhgezOMEScE0Rl8ZFNfvXaKOyYsJNopkGUb6m5EIWykem44=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyk1Q/teGrkjUoWLnK1F9ZKWZqyVvpMdCzg/piV15sMaM8HpNMu
+ adaWUSqk3Q3lH+jq8zlN2ediLjebrftaysUMb3wGB36NY7ALX4lNXyRYJiAfSFBmVpwgkbJynrV
+ 50+/lKwA=
+X-Gm-Gg: ASbGncuuyovoiMN7i5Nsv0oxTLpi7yPlN8kRo/9RIsv/4AM6Hr7VJKiOx+J9cr4wKjb
+ JNQT2RU1J1rgyg4ENVPOLWxRw4RXA2xW+Y4oPWI/b4IQIw3qJf8Ah60pk2IEBb0f+kAMzLxwZ6L
+ I5SyyqMWg9oGgcGZwpCq5qjWUVbuBWh67Rm/SDb3x14uLEYIuOiMNlrl9j25dbURPYfx2iUkyYc
+ bU6jwsuB50NPWdM2o62vXCYI6/SoWd7A63YZJGa56EHgorwfmzwBdsAdA49g3OJnY15LoG8fGzN
+ 9G7gOtqDVsTHMxonJD6OirqGpKk+fbfFKFhSm2ve7Zcfa0GGV2OxjLDC2MRK1MQme4lYrapkO1J
+ mfpPxw8umwd0TYvR6v7qhyYBU5xhSb1vtj64WGP4hgyhMe7Zia8XSQYxI2pP3kbTBLwCEH5tYN/
+ q2TGjG1tk=
+X-Google-Smtp-Source: AGHT+IHn2IVXmv4TAs9ZDsM3m5TjILlKpyfLHti3kPC4gHT8ImAv/4pqmwm79OqCdZWxAy1b7wnXmQ==
+X-Received: by 2002:a05:6402:13c7:b0:615:979c:e8b2 with SMTP id
+ 4fb4d7f45d1cf-615979cf015mr4353734a12.29.1753937337505; 
+ Wed, 30 Jul 2025 21:48:57 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com.
+ [209.85.208.52]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-615a8f2b892sm520972a12.25.2025.07.30.21.48.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Jul 2025 21:48:55 -0700 (PDT)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-6154655c8aeso710487a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Jul 2025 21:48:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUzimBwz9MGrfj5gv9BML1Oj3VmWStJnMH5uXHce1kFPtY1jxl0lOc83MI7jI0qxOJVWZALT8/ci1c=@lists.freedesktop.org
+X-Received: by 2002:a05:6402:42c2:b0:615:8f10:2d4c with SMTP id
+ 4fb4d7f45d1cf-6158f1032c5mr4612317a12.4.1753937335353; Wed, 30 Jul 2025
+ 21:48:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAPM=9tzVm80-v6_5nt6kko3nR+aQLZ7R98i419FV8f4-ayQWUw@mail.gmail.com>
  <CAHk-=wirxHy+KU6jmtO2dzmGQ1BwaOdd5Mjtrc40fGvZVULQQg@mail.gmail.com>
@@ -63,13 +78,15 @@ References: <CAPM=9tzVm80-v6_5nt6kko3nR+aQLZ7R98i419FV8f4-ayQWUw@mail.gmail.com>
  <CAPM=9tygJqtbmYzB5gktxp-7fBfv_9gNq9p9+SdZ6wiYE2-6PQ@mail.gmail.com>
  <CAHk-=whB1X1c6rWbY34wZVGcnaY=yfPGLOtjd5h3mMDGV9Lbkg@mail.gmail.com>
  <CAPM=9tyb1mELymOJv62KJom4mGF0UBifbVqLJUFdS1C7Eeu3jg@mail.gmail.com>
-In-Reply-To: <CAPM=9tyb1mELymOJv62KJom4mGF0UBifbVqLJUFdS1C7Eeu3jg@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 31 Jul 2025 14:36:11 +1000
-X-Gm-Features: Ac12FXyggAnv_vUCzftDVLdOsUcon8a2AjoKpSc2jMLh64RtNqK26XHwib2traU
-Message-ID: <CAPM=9tzDWmYBKQGB0ybDzhYHkg0p98_6PJA8OuPahRep8+QPvQ@mail.gmail.com>
+ <CAPM=9tzDWmYBKQGB0ybDzhYHkg0p98_6PJA8OuPahRep8+QPvQ@mail.gmail.com>
+In-Reply-To: <CAPM=9tzDWmYBKQGB0ybDzhYHkg0p98_6PJA8OuPahRep8+QPvQ@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 30 Jul 2025 21:48:39 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
+X-Gm-Features: Ac12FXyqfcARQ-zUwGqzZGAbIHJ9CUJpqWHEZ271UfDUtdTjz1kORZjkZIzYe-s
+Message-ID: <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
 Subject: Re: [git pull] drm for 6.17-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
+To: Dave Airlie <airlied@gmail.com>
 Cc: Simona Vetter <simona@ffwll.ch>,
  dri-devel <dri-devel@lists.freedesktop.org>, 
  LKML <linux-kernel@vger.kernel.org>
@@ -89,36 +106,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Jul 2025 at 14:32, Dave Airlie <airlied@gmail.com> wrote:
+On Wed, 30 Jul 2025 at 21:36, Dave Airlie <airlied@gmail.com> wrote:
 >
-> On Thu, 31 Jul 2025 at 14:27, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > On Wed, 30 Jul 2025 at 21:21, Dave Airlie <airlied@gmail.com> wrote:
-> > >
-> > > Okay I don't have an rx580, but I have an rx480 which is pretty close,
-> > > but it is booting fine with your tree at least, DP and HDMI connected,
-> > > so it's not widespread AMD breakage, anything in journalctl/dmesg?
-> >
-> > The machine doesn't come up far enough to mount a filesystem - my
-> > disks are all encrypted, I never even get to the "type your password"
-> > thing.
-> >
-> > So no logs.
-> >
-> > The good news is that it's bisecting without any ambiguity. So nowhere
-> > near as painful as last merge window.
-> >
+> https://lore.kernel.org/dri-devel/20250717204819.731936-1-mustela@erminea.space/
 >
-> You can boot with modprobe.blacklist=amdgpu and then modprobe amdgpu
-> once it boots and see if dmesg
->
-> But hopefully bisect lands somewhere good,
->
-> Just seeing if there's been any NULL ptrs on old GPU reported.
+> is the only thing I can see that might not be in the merge.
 
-https://lore.kernel.org/dri-devel/20250717204819.731936-1-mustela@erminea.space/
+Well, it's one of these:
 
-is the only thing I can see that might not be in the merge.
+  3f2b24a1ef35 drm/amd/display: Monitor patch to ignore EDID audio SAB check
+  aef3af22a456 drm/amd/display: Add definitions to support DID Type5 descriptors
+  d7b618bc41ee drm/amd/display: Refactor DSC cap calculations
 
-Dave.
+Let's do a few more boots to see which.
+
+The sad part is that this machine builds a kernel quickly, but then
+takes quite a while to boot, and the failure case requires me to then
+reboot again to get to a working state...
+
+But almost there,
+
+            Linus
