@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFB8B17915
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 00:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12D4B17918
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 00:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57FBD10E2C6;
-	Thu, 31 Jul 2025 22:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF6610E7F5;
+	Thu, 31 Jul 2025 22:25:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="MeYYyphC";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NUErS4Ip";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48E9B10E2C6
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 22:25:41 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-23ffa7b3b30so2347435ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:25:41 -0700 (PDT)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7025C10E7F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 22:25:50 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-b34a8f69862so191491a12.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1754000739; x=1754605539;
+ d=chromium.org; s=google; t=1754000746; x=1754605546;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yDly6jsUjLYLpTk911qABJ1dSyDnXYYIjODUvF3M+Yc=;
- b=MeYYyphCvBuC5tRV3Jw9hYDEQZR2aIAJTTS/PVBWIP4TJURekCO7KqH4YfjnbrTygM
- w48Voh+4eiqOAjljh7OpWbR7hrIBFbDi97AvRtSxTSb65ip5QZFDmj1Gh2JAx2UjRcHz
- P8St+omOZ3YMIsxDJnos+qqM3pZGjlueU/rzM=
+ bh=2avQs/u8C93T263u55Hd3Byk2Z7uAe/YLQBzzdrt6j0=;
+ b=NUErS4IpU1TeTVH6ftIVzXecG0hSHqC7bbQrscqVNdrUypswH3IctPMJln5rjRINRs
+ Dk/K4eN7UePLptNYpCZNEwsUuRGcyRrIYwHu6OFmMOYMXqRVbWBGnpnqYHIjcW6YYean
+ OHKof+5jDIHAE8zOlp/L/IP3IcYR+uygBx0yI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754000739; x=1754605539;
+ d=1e100.net; s=20230601; t=1754000746; x=1754605546;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yDly6jsUjLYLpTk911qABJ1dSyDnXYYIjODUvF3M+Yc=;
- b=Fqvm23V9/mOazLbhwZoplqwZ2B9G5r57MVLtgSMmJqUPUl5m+BqiFKjSqHcqHzV7R1
- tvdkjpkCLP5ne+BiQ7Jv5T6r6TYt0oGYWjqW48YgTvOagq8RgPLy6FavB2olxeFmGIQI
- RJFTJ00bp9nh8vmLpBZE+MNkENlXAe0XAQk0hfx1wwob7F0J8FKyhLBFJliSbTxiH8aH
- EqScmsp1jODjd/k64bn5TjVW3bqZ5CC9HDoRhvsb34+h0nOhq2q7G0pej1yDeoNGCwEi
- nBSqvNlHvNgMfyIXpw49gcqssx784KCVz2YcQlGTTBlqwQyRD8HoA2llgUNbP81m/cTx
- xJjQ==
-X-Gm-Message-State: AOJu0YxKDWdSCCMKaLkFaQxmFjkM/S0eUFBoxCw7LTEcw+p82/eyMmqT
- ze//UQUPYewxNK1IG3HsB/mUlKDnzzKiahoJEfnV9z98wPYPoln5Ltzus4WjgsE74XNc/oIW9JA
- mWic=
-X-Gm-Gg: ASbGncsbhcyvr270pHAyxNRCq3TCEoSVsptYwIA8xOkXPhsqa5Se/Kd9wLa0QYRjUzo
- CrRGPx2N4MfqrZcEA5szebTHCuPxc34YzKqG0z9Nl8ohlLk7LEpGdAQdLpMAL/yAzHjM0a3B+zI
- FLN76g7eMJGuOF7izHx2W0xBmudssAsN8lXMlHTJUuDPsj3t0Zm3NoSaDFe5LCqALAdomrpg0vZ
- wREiq2IjvieSo8EHrgYTJh8QMf7dT1vNA9ZHn6gbpfsz2KEHQ68Fpohktl+pms06MnGQ1Ip1T4R
- 5qFCRK/VL/4t3wFbSqJzhdIJRbUaU/KYFLRnae11wRvhNJqgY6hBO9nTNhhrSZFQC3tGtMbjC2s
- p27oOEpy7C64X8hf+uvKljRhOJMBzBD+Dy2QH+1j7jCcCdeECpjfmnIXkWxFBG0HR1g==
-X-Google-Smtp-Source: AGHT+IFEkQJNYgvnddgY/s5AeDK/3daqjGHtiD1YftRxt//rVo4wkaIIyLic4jqsTfwJCv6KbVS0uw==
-X-Received: by 2002:a17:903:240c:b0:240:3ef:e17d with SMTP id
- d9443c01a7336-24096b3551bmr126179825ad.40.1754000739352; 
- Thu, 31 Jul 2025 15:25:39 -0700 (PDT)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com.
- [209.85.215.171]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-241d1f0e7d8sm26890455ad.42.2025.07.31.15.25.37
+ bh=2avQs/u8C93T263u55Hd3Byk2Z7uAe/YLQBzzdrt6j0=;
+ b=jdXIzhiJGgJK86+ppmeXWU+Dbylobb6VmDhaWeOTQUQEziJAkVsd3UOFK5LGdxbyRo
+ No0W2dc99wnIl3TwFwpWznEcDFdynoGx7UUu1JT+5ayaR6zhSnTesLznaKvGDLRWSmEc
+ PVXyacefr7ztFsKnDYSMo9yJfW6pKqXiebAz5gMG5959uAwDSkuCpo5MN0brJgImDQq0
+ tyHUDmIGXLClcK4onDrXWAlEgFzQRIAFI9Zr7Ua3Ew8RpI2ofrzhCmXOOCplUeJyA59j
+ nBWbFjQ6UE8KTt1E2AdZjlMre3bqcVvTJh96TqmO4G4PY9bBMJYgd4EBoEX2M1JEMUoO
+ vNsw==
+X-Gm-Message-State: AOJu0YzDZmdVAYHQdcg4rDC3iBQkVtAF0a0EsmTWVdxr604BPPHCz5gN
+ toNkU1Ee85/hHpe8Ltu9dQl9Rv8mQqJuAyk92cpvGX+RixvG7rKeQLj789lDTqgIb4fqh8TNTRW
+ HFxc=
+X-Gm-Gg: ASbGncsKuQyxVArvCbFMu+Tqgif5Qd1wSvM0/pTKQAKbs2RoYlkZ+lYjVH4q86QCUxZ
+ rGhOZlgx+Z3SzTmTuZHknF3VIP87PYi70uVQPBIsclvYDMm+ZL7V0ogIY+/7JG8Zb5JitGbL12S
+ LglL14JSNH/aV6TUqvYm9n1pkn3sPogDPz5kG+/TTDYJw3zIN0nrOlMQjIO1MPsmRhul1cNCUCx
+ GsMhCCYhoyMid3l79zYmEsH9OMaKnegQXM43oaroeDBqOF2yonaWxZiCs0cbZIRJOr6ZYCtoOPx
+ DjnBPpJRNp6f1o/yYFpVIv8fx7al/pecU6ufOqPTIKqPZhhzS8C7TbMwfxBvcOh+fQ7ccve47nm
+ Eqv7PzBkYyShyGcBuD0IHFo9SclsRISE5CFjSZYwW5B08a73pR3fXfvuqmmJVvg==
+X-Google-Smtp-Source: AGHT+IGStOFlH4WstCGLdvoARGEdBVXgfF6Qd6GGjnydZAxF5tQlFMxnGnRQxfNvZpitzmZ85BCTxw==
+X-Received: by 2002:a17:90b:43:b0:311:f99e:7f57 with SMTP id
+ 98e67ed59e1d1-31f5de494b0mr11392008a91.23.1754000745816; 
+ Thu, 31 Jul 2025 15:25:45 -0700 (PDT)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com.
+ [209.85.216.49]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-31f63da565bsm5707112a91.4.2025.07.31.15.25.44
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Jul 2025 15:25:38 -0700 (PDT)
-Received: by mail-pg1-f171.google.com with SMTP id
- 41be03b00d2f7-b42254ea4d5so165650a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:25:37 -0700 (PDT)
-X-Received: by 2002:a17:90b:288b:b0:31e:fac5:5d3f with SMTP id
- 98e67ed59e1d1-31f5de54b78mr12214752a91.16.1754000737144; Thu, 31 Jul 2025
- 15:25:37 -0700 (PDT)
+ Thu, 31 Jul 2025 15:25:44 -0700 (PDT)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-3190fbe8536so185947a91.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:25:44 -0700 (PDT)
+X-Received: by 2002:a17:90b:250a:b0:313:dcf4:37bc with SMTP id
+ 98e67ed59e1d1-31f5de59cf0mr7700439a91.34.1754000743815; Thu, 31 Jul 2025
+ 15:25:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250731215635.206702-1-alex.vinarskis@gmail.com>
- <20250731215635.206702-2-alex.vinarskis@gmail.com>
-In-Reply-To: <20250731215635.206702-2-alex.vinarskis@gmail.com>
+ <20250731215635.206702-3-alex.vinarskis@gmail.com>
+In-Reply-To: <20250731215635.206702-3-alex.vinarskis@gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 31 Jul 2025 15:25:23 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VbLW36hJZwQ2uS86wmvsqiAzp2RMjds=-+qXOafg-YDg@mail.gmail.com>
-X-Gm-Features: Ac12FXxFZufQJD5lK1zYZRbpN7hzBp2lfR58ugoDPco-BA4iqzwE9ZcJ34mjneA
-Message-ID: <CAD=FV=VbLW36hJZwQ2uS86wmvsqiAzp2RMjds=-+qXOafg-YDg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: panel: samsung,atna40cu11:
- document ATNA40CU11
+Date: Thu, 31 Jul 2025 15:25:31 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WBaNJ7VKmJ5oqEb_HxEKrpRWmaSCkVejvRwjMVdvUdqw@mail.gmail.com>
+X-Gm-Features: Ac12FXyO7QutJwaatVpGbTWcIaoRXNZfqpiuPLqpynloYzM1ku_IwCQ5zDIp86s
+Message-ID: <CAD=FV=WBaNJ7VKmJ5oqEb_HxEKrpRWmaSCkVejvRwjMVdvUdqw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: panel: samsung,atna40ct06:
+ document ATNA40CT06
 To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -109,30 +109,30 @@ Hi,
 On Thu, Jul 31, 2025 at 2:56=E2=80=AFPM Aleksandrs Vinarskis
 <alex.vinarskis@gmail.com> wrote:
 >
-> The Samsung ATNA40CU11 panel is a 14" AMOLED eDP panel. It is
+> The Samsung ATNA40CT06 panel is a 14" AMOLED eDP panel. It is
 > similar to the ATNA33XC20 except that it is larger and has a
 > different resolution. It is found in some arm64 laptops, eg.
-> Asus Zenbook A14 UX3407RA.
+> Asus Zenbook A14 UX3407QA.
 >
 > Raw panel edid:
 >
-> 00 ff ff ff ff ff ff 00 4c 83 9d 41 00 00 00 00
-> 00 20 01 04 b5 1e 13 78 03 cf d1 ae 51 3e b6 23
-> 0b 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 cb fe 40 64 b0 08 38 77 20 08
-> 88 00 2e bd 10 00 00 1b 00 00 00 fd 00 30 78 da
-> da 42 01 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fe
-> 00 41 54 4e 41 34 30 43 55 31 31 2d 30 20 01 2a
+> 00 ff ff ff ff ff ff 00 4c 83 0d 42 00 00 00 00
+> 00 22 01 04 b5 1e 13 78 02 0c f1 ae 52 3c b9 23
+> 0c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
+> 88 00 2e bd 10 00 00 1b 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc
+> 00 41 54 4e 41 34 30 43 54 30 36 2d 30 20 01 7d
 >
-> 70 20 79 02 00 20 00 0c 4c 83 00 9d 41 00 00 00
-> 00 00 20 00 21 00 1d b8 0b 6c 07 40 0b 08 07 00
-> ee ea 50 ec d3 b6 3d 42 0b 01 45 54 40 5e d0 60
+> 70 20 79 02 00 20 00 0c 4c 83 00 0d 42 00 00 00
+> 00 00 22 00 21 00 1d ca 0b 5e 07 80 07 b0 04 00
+> e1 fa 51 cb 13 b9 3d d2 0c 01 45 54 40 5e d0 60
 > 18 10 23 78 26 00 09 07 06 03 00 00 00 50 00 00
-> 22 00 14 e7 f3 09 85 3f 0b 63 00 1f 00 07 00 07
-> 07 17 00 07 00 07 00 81 00 1f 73 1a 00 00 03 03
-> 30 78 00 a0 74 02 60 02 78 00 00 00 00 8d e3 05
-> 80 00 e6 06 05 01 74 60 02 00 00 00 00 00 91 90
+> 22 00 14 8d 5a 02 85 7f 07 9f 00 2f 00 1f 00 af
+> 04 23 00 07 00 07 00 81 00 0b e3 05 80 00 e6 06
+> 05 01 74 60 02 2e 00 06 00 45 40 5e d0 60 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b0 90
 >
 > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > Signed-off-by: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
@@ -142,5 +142,5 @@ On Thu, Jul 31, 2025 at 2:56=E2=80=AFPM Aleksandrs Vinarskis
 
 Pushed this to drm-misc-next:
 
-[1/3] dt-bindings: display: panel: samsung,atna40cu11: document ATNA40CU11
-      commit: d680a7959b9d7cce9526b1b391cc7b13e313a096
+[2/3] dt-bindings: display: panel: samsung,atna40ct06: document ATNA40CT06
+      commit: d7c2aad1254a1b4e6d76947cbdd18813b02a0e24
