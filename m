@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED7DB17424
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 17:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE30B17438
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 17:53:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1873E10E7BA;
-	Thu, 31 Jul 2025 15:49:53 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N/X/JNrt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8A4D10E7C4;
+	Thu, 31 Jul 2025 15:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75B3410E7BA
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:49:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6E7C06020C;
- Thu, 31 Jul 2025 15:49:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C20FCC4CEF7;
- Thu, 31 Jul 2025 15:49:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753976991;
- bh=TRPn+DgynwTBU4suc4xP+QjfUEO+i9ltjPYhmhrkr2A=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N/X/JNrtyFakbTS/O9iOKZ67QuJWdk2GrjRdWBqwrDqXwaiu2XP315wrn0r0Z7bBY
- UUPrHbbI2WuDp6O0ej47Bxii1HSJW7FKIYKQTuB7tSmfB/SIwnRpAUb3zVam9ibvQ4
- mQR02O6FWGqKnPce2tJPaxVy14al1kNBVFaP2f4O6gH8Sheg2zlVb8/p4j64G9Byqx
- BocWeAFMemBYxQ99Ju4Sq5UTSJg8deTAkU7kTr3tlEpKrte3IzPFD1XXcDI955jsTm
- 1l0+ifKC7nsak++M9SE0fkaRB7svvRG8+GXEchuaHrs7ASH7lhektT3SUjeftJQx6G
- Q9IUshOilxNaA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: lorenzo.stoakes@oracle.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
- urezki@gmail.com, ojeda@kernel.org, alex.gaynor@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 4/4] rust: drm: don't pass the address of drm::Device to
- drm_dev_put()
-Date: Thu, 31 Jul 2025 17:48:09 +0200
-Message-ID: <20250731154919.4132-5-dakr@kernel.org>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250731154919.4132-1-dakr@kernel.org>
-References: <20250731154919.4132-1-dakr@kernel.org>
+Received: from srv01.abscue.de (abscue.de [89.58.28.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E0CD10E7C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:52:58 +0000 (UTC)
+Received: from srv01.abscue.de (localhost [127.0.0.1])
+ by spamfilter.srv.local (Postfix) with ESMTP id 2DB5D1C270D;
+ Thu, 31 Jul 2025 17:52:51 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on abscue.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+ autolearn_force=no version=4.0.1
+Received: from fluffy-mammal.metal.fwg-cag.de (unknown
+ [IPv6:2001:9e8:cdc9:0:1347:874c:9851:58c6])
+ by srv01.abscue.de (Postfix) with ESMTPSA id E36DF1C26E9;
+ Thu, 31 Jul 2025 17:52:49 +0200 (CEST)
+From: =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>
+Subject: [PATCH v3 00/16] drm: sprd: Make the Unisoc DRM driver usable on
+ UMS9230
+Date: Thu, 31 Jul 2025 17:51:13 +0200
+Message-Id: <20250731-ums9230-drm-v3-0-06d4f57c4b08@abscue.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPGQi2gC/22PQQ6CMBBFr0JmbU07LSKuvIdxQdtBugC0hUZDu
+ LsFXUji8k3yXv5MEMg7CnDKJvAUXXB9l0DuMjBN1d2IOZsYkGPOC1GysQ0lSs6sbxlpLAQeS10
+ bC8m4e6rdc61drokbF4bev9Z4FMv1fycKxhkpqVTFc9LSnisdzEh7S7B0Iv64iFsXk8tzhcWBD
+ IqtO39GeXqM6bPhu2ye36h+Orv3AAAA
+X-Change-ID: 20250719-ums9230-drm-eb271289bfcd
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, Kevin Tang <kevin.tang@unisoc.com>, 
+ Liviu Dudau <Liviu.Dudau@arm.com>, 
+ Russell King <rmk+kernel@arm.linux.org.uk>, Eric Anholt <eric@anholt.net>, 
+ Kevin Tang <kevin3.tang@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Otto_Pfl=C3=BCger?= <otto.pflueger@abscue.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,67 +66,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm_dev_put() call in AlwaysRefCounted::dec_ref() we rely on struct
-drm_device to be the first field in drm::Device, whereas everywhere
-else we correctly obtain the address of the actual struct drm_device.
+Fix some existing bugs that prevent the driver from working properly
+and adapt the platform-specific code to support the UMS9230 SoC.
 
-Analogous to the from_drm_device() helper, provide the
-into_drm_device() helper in order to address this.
-
-Fixes: 1e4b8896c0f3 ("rust: drm: add device abstraction")
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
 ---
- rust/kernel/drm/device.rs | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+Changes in v3:
+- Split the device tree clock name change into a separate patch
+- Add Fixes tags for all patches that fix something
+- Open-code drm_simple_encoder_init()
+- Use devm_drm_bridge_alloc for bridge allocation
+- To account for the new atomic commit order, do not rely on the DPU
+  being initialized during pre_enable
+- Correct remaining uses of drm_gem_dma/drm_fb_dma to use the custom
+  buffer object type
+- Return the sgtable instead of 0 in sprd_gem_object_get_sgtable when
+  the IOMMU is not in use
+- Reword some commit messages
+- Link to v2: https://lore.kernel.org/r/20250722-ums9230-drm-v2-0-054276ec213d@abscue.de
 
-diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index d0a9528121f1..d29c477e89a8 100644
---- a/rust/kernel/drm/device.rs
-+++ b/rust/kernel/drm/device.rs
-@@ -120,9 +120,13 @@ pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<A
-         // - `raw_data` is a valid pointer to uninitialized memory.
-         // - `raw_data` will not move until it is dropped.
-         unsafe { data.__pinned_init(raw_data) }.inspect_err(|_| {
--            // SAFETY: `__drm_dev_alloc()` was successful, hence `raw_drm` must be valid and the
-+            // SAFETY: `raw_drm` is a valid pointer to `Self`, given that `__drm_dev_alloc` was
-+            // successful.
-+            let drm_dev = unsafe { Self::into_drm_device(raw_drm) };
-+
-+            // SAFETY: `__drm_dev_alloc()` was successful, hence `drm_dev` must be valid and the
-             // refcount must be non-zero.
--            unsafe { bindings::drm_dev_put(ptr::addr_of_mut!((*raw_drm.as_ptr()).dev).cast()) };
-+            unsafe { bindings::drm_dev_put(drm_dev) };
-         })?;
- 
-         // SAFETY: The reference count is one, and now we take ownership of that reference as a
-@@ -143,6 +147,14 @@ unsafe fn from_drm_device(ptr: *const bindings::drm_device) -> *mut Self {
-         unsafe { crate::container_of!(Opaque::cast_from(ptr), Self, dev) }.cast_mut()
-     }
- 
-+    /// # Safety
-+    ///
-+    /// `ptr` must be a valid pointer to `Self`.
-+    unsafe fn into_drm_device(ptr: NonNull<Self>) -> *mut bindings::drm_device {
-+        // SAFETY: By the safety requirements of this function, `ptr` is a valid pointer to `Self`.
-+        unsafe { &raw mut (*ptr.as_ptr()).dev }.cast()
-+    }
-+
-     /// Not intended to be called externally, except via declare_drm_ioctls!()
-     ///
-     /// # Safety
-@@ -192,8 +204,11 @@ fn inc_ref(&self) {
-     }
- 
-     unsafe fn dec_ref(obj: NonNull<Self>) {
-+        // SAFETY: `obj` is a valid pointer to `Self`.
-+        let drm_dev = unsafe { Self::into_drm_device(obj) };
-+
-         // SAFETY: The safety requirements guarantee that the refcount is non-zero.
--        unsafe { bindings::drm_dev_put(obj.cast().as_ptr()) };
-+        unsafe { bindings::drm_dev_put(drm_dev) };
-     }
- }
- 
+Changes in v2:
+- Fix device tree binding syntax
+- Use more descriptive clock names
+- Keep IOMMU handle in DPU node and make the driver handle this instead
+  (otherwise the binding turns out to be incorrect for newer hardware)
+- Remove all accesses to IOMMU registers from the DPU driver (after
+  observing that sharkl3 can also use sprd_iommu, I concluded that they
+  should not be needed at all)
+- Fix container_of macros in sprd_dsi.h
+- Link to v1: https://lore.kernel.org/r/20250719-ums9230-drm-v1-0-e4344a05eb3d@abscue.de
+
+---
+Otto Pflüger (16):
+      dt-bindings: display: sprd: adapt for UMS9230 support
+      dt-bindings: display: sprd: use more descriptive clock names
+      dt-bindings: display: sprd: add memory-region property
+      dt-bindings: display: sprd: allow attaching a DSI panel
+      drm: of: try binding port parent node instead of the port itself
+      drm: sprd: remove plane and CRTC destroy callbacks
+      drm: sprd: register a DSI bridge and initialize in pre_enable
+      drm: sprd: add support for UMS9230 DSI PLL
+      drm: sprd: fix DSI rate and PLL setup code
+      drm: sprd: select REGMAP in Kconfig
+      drm: sprd: add clock gating support
+      drm: sprd: add support for newer DPU versions
+      drm: sprd: always initialize DPU registers
+      drm: sprd: do not access IOMMU registers
+      drm: sprd: implement IOMMU-based buffer management
+      drm: sprd: add fbdev support
+
+ .../bindings/display/sprd/sprd,sharkl3-dpu.yaml    |  32 +-
+ .../display/sprd/sprd,sharkl3-dsi-host.yaml        |  42 ++-
+ drivers/gpu/drm/drm_of.c                           |   2 +-
+ drivers/gpu/drm/sprd/Kconfig                       |   3 +
+ drivers/gpu/drm/sprd/Makefile                      |   3 +-
+ drivers/gpu/drm/sprd/megacores_pll.c               |  28 +-
+ drivers/gpu/drm/sprd/sprd_dpu.c                    |  72 +++--
+ drivers/gpu/drm/sprd/sprd_dpu.h                    |   1 +
+ drivers/gpu/drm/sprd/sprd_drm.c                    |  57 +++-
+ drivers/gpu/drm/sprd/sprd_drm.h                    |  10 +
+ drivers/gpu/drm/sprd/sprd_dsi.c                    | 221 ++++++++-----
+ drivers/gpu/drm/sprd/sprd_dsi.h                    |  20 +-
+ drivers/gpu/drm/sprd/sprd_gem.c                    | 343 +++++++++++++++++++++
+ drivers/gpu/drm/sprd/sprd_gem.h                    |  34 ++
+ 14 files changed, 727 insertions(+), 141 deletions(-)
+---
+base-commit: 84b92a499e7eca54ba1df6f6c6e01766025943f1
+change-id: 20250719-ums9230-drm-eb271289bfcd
+
+Best regards,
 -- 
-2.50.0
-
+Otto Pflüger <otto.pflueger@abscue.de>
