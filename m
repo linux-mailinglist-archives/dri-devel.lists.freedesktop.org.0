@@ -2,86 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF13B17668
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 21:04:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F196B1767D
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 21:16:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC32410E2BF;
-	Thu, 31 Jul 2025 19:04:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0A510E38D;
+	Thu, 31 Jul 2025 19:16:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZptMs5Ze";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CCHHQXpM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FCCE10E2BF
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 19:04:28 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-31ec291f442so180375a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 12:04:28 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 816FB10E2AA;
+ Thu, 31 Jul 2025 19:16:01 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-313336f8438so120177a91.0; 
+ Thu, 31 Jul 2025 12:16:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1753988668; x=1754593468; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1753989361; x=1754594161; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=d9hLQS1Qj2wO2t6Q4M7+LSgEvKKDPESGAJRbvOUbOkk=;
- b=ZptMs5ZeIew0SuXtnLHqBCMAa39PTW8ZH0RM3Af5MgnC8OLi4yi+Qi7afC1/whiCI1
- +649txtf/Lgcge0cUyywZE/namVAp4lNqC+JdBD1zEcl12S4RK/c9BKv6jKZP0sHrFTv
- 01aYAh+8t9YL3CkPPgVE+KUlENR6RfvzIhQpk3eSx5uGSx+JDZ6lAFuarr349aDVpDMG
- UdxPnHdhMbhwH6jyuIqkAexApYlRIcsDXvgu9HsVF85zfKl+dGTDhCOs3D5MfJZvz3AX
- jnvtjaeFFXHd3Ktzr2mJeUrhQee+sHsxoPTLX27s2lElkvJYE+Zipf7YpMILDe01k6W7
- ERvg==
+ bh=Cn8rhLd+pEEUOUPpSiZavvw/rqdfDh7ZoQlltq8FbbA=;
+ b=CCHHQXpMWbK5vkldMF2DRkQvYWWKE8g/rkfi8miAK2MckwfxVU3ivsiUulpu4e9g1D
+ xYVPIUMgroGs0KjSsHEFpdgm8kIqYwe8YRXhFOF67hZS/LRci8XBtItTOHH3iepqK1rr
+ iSgyFvJaKB6EJcsCwLlQx8DiD5FD1E4MEwobiZmQISsXRU+S3zMyJvWM16HFdYttT0eg
+ tOSNU7U1XdaOmixxLbdBaJuLqe8TQDODo4/GOm76rGbUM4srm5ARi9DvNraXeBxSxUek
+ /sHFWkxBi3/kvzsVq/JsG+yRguOQneLsuTkHZiVOxDm5f1iStTIDkyeFcl+QrFtjPOzD
+ UcIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753988668; x=1754593468;
+ d=1e100.net; s=20230601; t=1753989361; x=1754594161;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=d9hLQS1Qj2wO2t6Q4M7+LSgEvKKDPESGAJRbvOUbOkk=;
- b=IrcKxOUIvxlifWFITaPRwSSTN4eDR9YHh6DmAWm6A4MWxhoypDq9jGBCMNKt/SJWxW
- RXHQv5Pjj+EHrlkvo9KumybCRYMEPfeHxEbm13RYJxKAexG8wGeVSRBPVe1xdjMhNaxY
- Q/1os8RUjLzPJYgFBgM4bAZdQcUNv/J2al2xXVgHCFOURab47XKsQZ3eLXf54VBhaH2i
- 6+BU8iTT1byut6unqZzjpiI2YyOWwKjWxI1ZPbGFN2TrSwKzKlxnRys3+A7M+X+DSoRJ
- O5DXYnUrzsfiYuHKqQxl7SSa0u2q/WgwTBzux1N9wx1mQkTvYbIBpN/Vwe63Qm6RgyUI
- 1WHw==
+ bh=Cn8rhLd+pEEUOUPpSiZavvw/rqdfDh7ZoQlltq8FbbA=;
+ b=EB0O+JxCbgK7StsKEmcOkcbUWgNIBsFTVVSaLRKrCXSlmVMWMyVr3qxtcPUshMw9jp
+ 1ITUYIxvuTvU7QuX1w1vdtGSFgfRiFaV936f4OnAzGqvSQ5P9jQHZWLJWeO1AR9dy4OL
+ N8y2XvqOFoCQ7qBCyO1E5znODVAIZHV7y31kLUogwxRkeCNWl1ZuOJiMZ9ytNerl4PvC
+ hOpA2o/E6e8VSe60vV9c06D/lE5LX16sbsooq405Vj1fOC3Sma7e7t8A/idxfj7u/wxe
+ 3F2Dr0zjvR3XEnvOtFDRo9q+FX84flashhTzCbBSXti7Z3zhvEhBlhIe7vk4Zc5mvvzT
+ IuWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX6BdXeQ+U5zC/A7MQuU3/Y3Shk8YUxcORwAMsQJESugfJyXkNsyhrrelnsMm9nmT99qTSGHzwT4iE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YycmFuv9uFb+eSi0TdyrCCXChhY0mt7FpB28qjWQsI3ZRFTWo0X
- 4RP/yXnMg0tPFQIouXCqrefMuv9ANBnWrEawPdd9Z8reQjfVV//fa3v/+RJ7LDwExL4g8WeWFYE
- dMauX2JJDrpOO2yOjJZ0wq0+E90eQFaqvMw==
-X-Gm-Gg: ASbGncukSQOoEF8OaZ6mSNYUU0dIIaibLfTYRvEf+Jle/wW7BtowoHl4kG/JBrEqRYI
- vjKB8Q1ZEU3FieUTgTGKeB6qsLpoZxRmBFpmZcQ7vI+6sqHT5kR0cGx4ed1FXycPltpfznpwBRJ
- B6TrFsFmk7byiLlfRnN6jEev9JsnQoKQRxtp8VWcr78q7QPsVSKUtjQDS7/2aRMDl1cqQi//V9v
- 4alqZI/
-X-Google-Smtp-Source: AGHT+IF2bYEl2+BEOAeHiljf3vUKpTyZm8+ers0QVY/s0tVH7OkxrGDLUBtiEkAByU+NxHzaKfQ59C63xqQyq7UvwYc=
-X-Received: by 2002:a17:90b:380a:b0:31f:ea:ca84 with SMTP id
- 98e67ed59e1d1-31f5dda82d5mr633555a91.2.1753988667626; Thu, 31 Jul 2025
- 12:04:27 -0700 (PDT)
+ AJvYcCVSXykl5pxHnf4QBQ20HoQPVcD4PzOWRsTnZad/Fh/eOnwCzwb29/wjW1YkBXJBwWwIcbUq7X+Ap9Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1v8q8EDD7EfMsBA03ky/E0s2lf4WMsJ2G+2J5BTXmyXxshkH0
+ XzRELOdPwuxQ+sPR8GcLr4BszNJXjrBVk7QqW4HRPtWBSLhmP2JSquz5GczpYh6ZVCGWI4Jk5T/
+ 1OXd9mDM0V/fCwLXxagBFjjDEvZr48Fn6AruB
+X-Gm-Gg: ASbGncsaXF/LQTVRsjA/WxvDEUIJ2kWqH0tWt3AftLo97vApytzaLmqK/UM77OvQIUj
+ M+3OCQz8jSFjLeHFUKup+NGt2sAjGkdgKSVr8NmotqyW+yXMrXMm18j8zPPatCALTwLbDS0RoSk
+ tMUQvLX6btGjnfgAv2ktSRkEt5ryYrQWncHPoEyXCK/bJABWxDrlOgWfNzM32mmidfLA62h39Gw
+ iGdufY=
+X-Google-Smtp-Source: AGHT+IEu/ADiBuOsnU9STlGTu3rwTdJjPniO2Z9r/r425/pU8HcEQ16Nz5WPbiQltfir7tdUPXbYKhfu5V/X9mtmrKE=
+X-Received: by 2002:a17:90b:4d88:b0:313:2f9a:13c0 with SMTP id
+ 98e67ed59e1d1-31f5dd9ca39mr1287471a91.1.1753989360980; Thu, 31 Jul 2025
+ 12:16:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAPM=9tzVm80-v6_5nt6kko3nR+aQLZ7R98i419FV8f4-ayQWUw@mail.gmail.com>
- <CAHk-=wirxHy+KU6jmtO2dzmGQ1BwaOdd5Mjtrc40fGvZVULQQg@mail.gmail.com>
- <CAHk-=wjn5Pg2Gp=o2NVv-nRKqE=E75AxUypWCCpQ7MDXuHx+YA@mail.gmail.com>
- <CAHk-=whnuRuQEky2GsCDRQSf1dZbpoqnK+puw=qdR-D7aap9SQ@mail.gmail.com>
- <CAPM=9tygJqtbmYzB5gktxp-7fBfv_9gNq9p9+SdZ6wiYE2-6PQ@mail.gmail.com>
- <CAHk-=whB1X1c6rWbY34wZVGcnaY=yfPGLOtjd5h3mMDGV9Lbkg@mail.gmail.com>
- <CAPM=9tyb1mELymOJv62KJom4mGF0UBifbVqLJUFdS1C7Eeu3jg@mail.gmail.com>
- <CAPM=9tzDWmYBKQGB0ybDzhYHkg0p98_6PJA8OuPahRep8+QPvQ@mail.gmail.com>
- <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
- <CAHk-=wh+79KkMXsNqyPxeU+c5U2h-n13ko6J_QzwtjyYCKhrSw@mail.gmail.com>
- <CAHk-=wgEGn0azq0n5BfWg4ZStrZYanLCX1a+quug7HKmjimhpw@mail.gmail.com>
- <CADnq5_NBM1Kso==+N=1xCjF+xiS7Vy4g47uvUN7sSWs8bontZQ@mail.gmail.com>
- <CAHk-=wiN+0FBwxwj1UiKsfHgW=C_aWy20F6PPt5M_ACnfukehQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wiN+0FBwxwj1UiKsfHgW=C_aWy20F6PPt5M_ACnfukehQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 31 Jul 2025 15:04:16 -0400
-X-Gm-Features: Ac12FXzIgbuFXPjEc5kXfIQBbe_eDpBAwA8exmzuGM7zNQzkl_SPo-Foyl2jwFI
-Message-ID: <CADnq5_MjQbDYZYvSi5D5sVN1oeaLdxRPCQdt99LkMW=FWdcOQQ@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.17-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Dave Airlie <airlied@gmail.com>, Dillon Varone <dillon.varone@amd.com>, 
- Ivan Lipski <ivan.lipski@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, Wenjing Liu <wenjing.liu@amd.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, 
- LKML <linux-kernel@vger.kernel.org>
+References: <20250728203412.22573-1-robin.clark@oss.qualcomm.com>
+ <20250728203412.22573-2-robin.clark@oss.qualcomm.com>
+ <CACu1E7F=Y2oKfiWtD0VYfmLkL24e7JrZYMt8dmoGW7zrq7bd2g@mail.gmail.com>
+ <CACSVV02W28L0MS32J0n1PTpEsaq_6RxEPgb_6y6G=6TryGEPQw@mail.gmail.com>
+ <CACSVV02DLSM2dHUj4MiPpogF3pgjk4ex5=9_P2AKdGmtx4bd=g@mail.gmail.com>
+In-Reply-To: <CACSVV02DLSM2dHUj4MiPpogF3pgjk4ex5=9_P2AKdGmtx4bd=g@mail.gmail.com>
+From: Connor Abbott <cwabbott0@gmail.com>
+Date: Thu, 31 Jul 2025 15:15:49 -0400
+X-Gm-Features: Ac12FXxlm9JnMukSNQYaLbB4cXPsAUd9A2TtT5GgTEBC58nIMT1QTbODzdtFojo
+Message-ID: <CACu1E7E6QaWgjFy13qP4BS_5mdhJ2vFVsnm9WtnJE3_t7rymPQ@mail.gmail.com>
+Subject: Re: [PATCH 1/7] drm/msm: Add missing "location"s to devcoredump
+To: rob.clark@oss.qualcomm.com
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, Akhil P Oommen <akhilpo@oss.qualcomm.com>, 
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,30 +94,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 31, 2025 at 2:01=E2=80=AFPM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Tue, Jul 29, 2025 at 9:40=E2=80=AFAM Rob Clark <rob.clark@oss.qualcomm.c=
+om> wrote:
 >
-> On Thu, 31 Jul 2025 at 06:09, Alex Deucher <alexdeucher@gmail.com> wrote:
+> On Mon, Jul 28, 2025 at 3:15=E2=80=AFPM Rob Clark <rob.clark@oss.qualcomm=
+.com> wrote:
 > >
-> > I think it may be fixed here:
-> > https://patchwork.freedesktop.org/patch/663973/
+> > On Mon, Jul 28, 2025 at 2:04=E2=80=AFPM Connor Abbott <cwabbott0@gmail.=
+com> wrote:
+> > >
+> > > On Mon, Jul 28, 2025 at 4:43=E2=80=AFPM Rob Clark <robin.clark@oss.qu=
+alcomm.com> wrote:
+> > > >
+> > > > This is needed to properly interpret some of the sections.
+> > > >
+> > > > Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+> > > > ---
+> > > >  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 2 ++
+> > > >  1 file changed, 2 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/=
+gpu/drm/msm/adreno/a6xx_gpu_state.c
+> > > > index faca2a0243ab..e586577e90de 100644
+> > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> > > > @@ -1796,6 +1796,7 @@ static void a7xx_show_shader(struct a6xx_gpu_=
+state_obj *obj,
+> > > >
+> > > >         print_name(p, "  - type: ", a7xx_statetype_names[block->sta=
+tetype]);
+> > > >         print_name(p, "    - pipe: ", a7xx_pipe_names[block->pipeid=
+]);
+> > > > +       drm_printf(p, "    - location: %d", block->location);
+> > >
+> > > We should probably at least try to keep it proper YAML by indenting
+> > > everything after another level...
+> >
+> > this made me realize I missed a \n... but otherwise I think the indent
+> > is correct?  Or should location not have a leading '-'?
 >
-> Yes, this patch fixes the problem for me.
+> beyond that, even without the added location field, some random online
+> yaml checker is telling me that we were already not proper yaml.. so I
+> guess, :shrug:?
 >
-> I don't know if it's due to the pointer validation (ie this part):
->
-> -       if (!dsc)
-> +       if (!dsc || !dsc->ctx || !dsc->ctx->dc ||
-> dsc->ctx->dc->debug.disable_dsc)
->                 return;
->
-> or whether it's the divide-by-zero that the commit talks about.
->
-> Should I just apply this directly, or expect a pull request in the
-> next day or two?
+> BR,
+> -R
 
-Just typing up the PR now to send to Dave and Simona.
+Before this change, it looked like this:
 
-Thanks,
+  - pipe: A7XX_PIPE_BR
+    - cluster-name: A7XX_CLUSTER_SP_PS
+      - context: 3
+        - { offset: 0x02a718, value: 0x00000003 }
+        ...
 
-Alex
+Notice that each nested thing (pipe -> cluster -> context) has an
+additional level of indentation. Now, it looks like this:
+
+  - pipe: A7XX_PIPE_BR
+    - cluster-name: A7XX_CLUSTER_SP_PS
+      - context: 3
+      - location: 4
+        - { offset: 0x02a718, value: 0x00000003 }
+        ...
+
+So it looks a bit weird with the context and location not being
+nested. Also, I think the correct nesting HW-wise is cluster ->
+location -> context, rather than context-> location, so the location
+should be first. But ultimately it's up to you.
+
+Connor
