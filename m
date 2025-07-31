@@ -2,100 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BAF0B175F0
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 20:01:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BF6B17611
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 20:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23EF510E2B5;
-	Thu, 31 Jul 2025 18:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC5A510E26C;
+	Thu, 31 Jul 2025 18:17:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="IRoSEmQz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ltt21jQZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89F8410E2B5
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 18:01:48 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-6156463fae9so4038755a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 11:01:48 -0700 (PDT)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19FE210E26C
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 18:17:32 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-b391ca6146eso1036397a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 11:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1753984906; x=1754589706;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zBdevn9NOXbIq7sAbU9V62KbXTYr+p1IlAZvGXkRgm4=;
- b=IRoSEmQzkt4H1DzVYXODRxQvg32M0ZiOJLhOJNf9GOl0S9g0bWVUG3vFs3ZaUH89kx
- i4P5NAj2Y6GydSgLS19XNSgWJ4rFA9eJuJenj7M+4ftrrAaGy7kj72Cn4nefsE9dPs1G
- 2RuoO2gYCz8vW4qV2qXHxnXaaapSBARuLq1Do=
+ d=linaro.org; s=google; t=1753985851; x=1754590651; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ko+E3oR4W+9XRH6XslAZTMmOJxda8PZJ1FffJrGkJ1Y=;
+ b=ltt21jQZEa74QsiBRu4nSC7PgOAs4xPuCxfsUFCkm5AUwN1Q6CO2Ma3kk9AB0VvMkn
+ IOpdf5bNNw74eTLxY1jg+CZI/dQKWFRuDcmkDTv1lwq/fAAWWECRyHW4p/s0qky5CjRu
+ /0ku6iEALoDyIv3YYnI5aI74Mmm46p4PHfJtgmni23GAMzM8bYBPa/ENk3lyq+oIAbjl
+ XZZJnbEvvybc87dy8DRmcZgeHUeoOV9K2DRD5oeTA9+Ojte6vao8LTCL0MyaSSMT48IW
+ iP/UxexoLNu6X4TCot4/xlsItcNR7CIBMu5zhysZq2V3G1Gd13Zi3QXfO6S2412FyWUf
+ 5Edg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753984906; x=1754589706;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zBdevn9NOXbIq7sAbU9V62KbXTYr+p1IlAZvGXkRgm4=;
- b=nJXP/IPEfUorAp08rK48++/wdAfhHNZtih/XBYOjoY6Gc18gA/739N2JCUCz2jlApk
- rYza/T573SeVRmxoXCR0+VQ/9hPSXmlkJBrsgi/yBdWDoDF9yRx+kwmOHJKLBET9AtHN
- vxyriJiTN9Rwk+bclPuylZ8H5SG4xTrv6FuKyA8zKK0X31ZrxlsE02xwA+ecRzaDFO7h
- SpFSaX11cBedXD5hP74IhMClAa2RCAKTe/Q5WeKpY2+PZF97+XgdWAeyiVzIRI+I46cy
- iz2cbSLR0LKuwPaXI8HhsUI+VX8BCcLrIOKWgg6qYv35EaytAJbzZpppolHxr1dm96zM
- qM+A==
+ d=1e100.net; s=20230601; t=1753985851; x=1754590651;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ko+E3oR4W+9XRH6XslAZTMmOJxda8PZJ1FffJrGkJ1Y=;
+ b=TPiv5qgulVjw1sgKnZWTyfBcRLlGqF5P24fVMpCBDp73w2Qx5AN7eqmUarfUf4BWzl
+ 7H0dEO8B8Jpm6a8yC3SxHhF5WItyI5mLOk4t40pyjtS95WGlWKK2LBhc0o1rqWzgzNjL
+ Dch01TohAhB4ABgi8z19U7QwhNcRgqsZflUtcNpvzFqS4cYkC8vkRrgpDA/xGq/TgPSq
+ aPCAfl1ZNGWNGz/jRRp+M6xG+xwB8cVf/F2WxCkX56qCGkU6VBcNfaEVAfGwMawS3XFS
+ hS8nsR93RjrvIJemlTZcBTOPiEGyLjvu/aYcqDYzKcWvXtgDe9dOdkRqyBrEa01vxgS7
+ +tNw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVO+YBThHpF1kGAXj+pL61ohpwj1PhTyHrWKkT1G+TJIYOON9teP0VY6hLlfsyhRp/cOrUbgzX/eyc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8DuXemUUB49wvdZ23J/YSCSzsIagLFYv0CYp9Db7DwqSPxWf/
- jeoAMfduDqNLTQa/NbZzdrKml+kokmrotAckLZ2RUCSkpsYKfMAB7wwlLEpX5+APZ5fgpRDkm0a
- Sk2ilVw8=
-X-Gm-Gg: ASbGncvtv+iOP7ZkfPBFz/k6mYeF98gaMn/uFqPKCwdACIbu5qzQHVSOnbhERA55cHW
- nMiMEgieuKbMlBhGNnlXNnYK6snQ7Wa85Jcc0GQPM7wyiHSDRDNTOS96LqGXcQPNONDYHg6S1Zt
- xczgbySROelA/Z9/EYxkOcLScjTRI2Q2jk4XM7uPm1TFKpPQ9WI3uvnwXMTjH1KQ58D7TiOInXQ
- p0fCwdh5bzBgNdhUQWh/FNQ2sqJc+KnRJEy3bG9hzDYc9W0UWwyWfnVBnbxvIMU0kdPfsDYg5Ui
- 99zUOp1hEDk5k/ue+qKKIPAu4wNp4SbfKioOyqhfYAHv55ZsrK+cQkoNxFvK1yzzKp32gWnJQMs
- jvZqVwPe2PUarK5Xkt+07wC46USliOhtTKx3zp4sZPoi2zgz/JtKHmuVjASAJjib/r+e4yAKe
-X-Google-Smtp-Source: AGHT+IHLMxqzoY4pCMr8Cg2hNMOGqhiPp+srpvn1cwrr2yxkUCfeGIKl3OIyBI2Va9f7ZslfnvhcqA==
-X-Received: by 2002:a17:907:d9e:b0:af8:fef0:9b23 with SMTP id
- a640c23a62f3a-af91be35c13mr329529066b.20.1753984906461; 
- Thu, 31 Jul 2025 11:01:46 -0700 (PDT)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com.
- [209.85.208.47]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-af91a243644sm148829466b.139.2025.07.31.11.01.44
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Jul 2025 11:01:44 -0700 (PDT)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-61539e2065dso3679074a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 11:01:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4pFZle7QYRwA42aGNyIJeWQDsIeAC437pcXGS4mcaaBKgywvtZ9l4gYjangIYLiIYUHqqiLi7fkQ=@lists.freedesktop.org
-X-Received: by 2002:a17:907:2da2:b0:ae3:6dc7:1ac3 with SMTP id
- a640c23a62f3a-af91beb8135mr381488666b.15.1753984904167; Thu, 31 Jul 2025
- 11:01:44 -0700 (PDT)
+ AJvYcCWIf0uBWVulFlg0C7EsNc/ughRNYVhI1gxfVX7+Ha/PGduDppVtIB1LtNUt4GdQlrwxbSTTKp0dC1c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpRy9ersoyD2SdRqcX4nHK4D8JrfhieWNpPlm2Pb0TIOOlQnlG
+ JRoSAgfgSt1ucKjdoiIzPGyKREHxzvjxTZjTuStzO7KHH+IpE9ZRkAI9zhMQBYk+E7dT9W3d117
+ Gwt9u
+X-Gm-Gg: ASbGnct2zcI9btDU0njNned7mL13EcG9ZWZUiUEKXKG2cY74rwpxCnJ6y3XXqgIODNR
+ pgFXz2Gviw7s71P0p0ttpl1OTbEbkXt1nnoxgB/QH2Dx2SwweWWXfpd+TX/UBhR4rK9NgY35EEq
+ 8UK2GO6j1oIIbsmhztcRLciXTtVKrVEa5/s9QKoSowFBIT+ku+zkIqtOjYp+pa5Ire9Xf62eHTq
+ qIs2jhKJh2uiddio5jOjpgXbYC8+T1SiA/NrwoUSJDgDlbn39JsiAiXAkuoNfqnCisOBUBGAnN9
+ 1ZpzfvICvAVAlRZ8oOdK5RKXHGLRaYFpRiQm55MNtuOVl6lf8UmToi5a47+2QXrSAouiLZjXACU
+ b6uo6CCB/bcoB11GpVzje2LpnMPDaZg==
+X-Google-Smtp-Source: AGHT+IFptIyiPCQAr4K9I9q2LxI/H2znEXUjIk9SB8OaIyTmC1dTpj+7408uLyZUSVSamCN8Ns2kew==
+X-Received: by 2002:a17:902:e890:b0:224:910:23f0 with SMTP id
+ d9443c01a7336-24096b3d823mr127116295ad.49.1753985851577; 
+ Thu, 31 Jul 2025 11:17:31 -0700 (PDT)
+Received: from localhost ([2405:201:c00c:2854:bfcd:fa29:9fd7:ab48])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-241d1f101d1sm23488235ad.62.2025.07.31.11.17.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Jul 2025 11:17:31 -0700 (PDT)
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+To: imre.deak@intel.com
+Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ broonie@kernel.org, christian.koenig@amd.com, dakr@kernel.org,
+ dri-devel@lists.freedesktop.org, lyude@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tomi.valkeinen@ideasonboard.com, tzimmermann@suse.de,
+ ville.syrjala@linux.intel.com,
+ Linux Kernel Functional Testing <lkft@linaro.org>
+Subject: [PATCH 0/3] drm: Fix initializing format info in drm_framebuffer
+Date: Thu, 31 Jul 2025 23:47:05 +0530
+Message-ID: <20250731181705.159893-1-naresh.kamboju@linaro.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250728101603.243788-1-imre.deak@intel.com>
+References: <20250728101603.243788-1-imre.deak@intel.com>
 MIME-Version: 1.0
-References: <CAPM=9tzVm80-v6_5nt6kko3nR+aQLZ7R98i419FV8f4-ayQWUw@mail.gmail.com>
- <CAHk-=wirxHy+KU6jmtO2dzmGQ1BwaOdd5Mjtrc40fGvZVULQQg@mail.gmail.com>
- <CAHk-=wjn5Pg2Gp=o2NVv-nRKqE=E75AxUypWCCpQ7MDXuHx+YA@mail.gmail.com>
- <CAHk-=whnuRuQEky2GsCDRQSf1dZbpoqnK+puw=qdR-D7aap9SQ@mail.gmail.com>
- <CAPM=9tygJqtbmYzB5gktxp-7fBfv_9gNq9p9+SdZ6wiYE2-6PQ@mail.gmail.com>
- <CAHk-=whB1X1c6rWbY34wZVGcnaY=yfPGLOtjd5h3mMDGV9Lbkg@mail.gmail.com>
- <CAPM=9tyb1mELymOJv62KJom4mGF0UBifbVqLJUFdS1C7Eeu3jg@mail.gmail.com>
- <CAPM=9tzDWmYBKQGB0ybDzhYHkg0p98_6PJA8OuPahRep8+QPvQ@mail.gmail.com>
- <CAHk-=whOb_ebQQbnXeqb8uXf32WA32nrL3=HQ2y8hBm9hFgVOw@mail.gmail.com>
- <CAHk-=wh+79KkMXsNqyPxeU+c5U2h-n13ko6J_QzwtjyYCKhrSw@mail.gmail.com>
- <CAHk-=wgEGn0azq0n5BfWg4ZStrZYanLCX1a+quug7HKmjimhpw@mail.gmail.com>
- <CADnq5_NBM1Kso==+N=1xCjF+xiS7Vy4g47uvUN7sSWs8bontZQ@mail.gmail.com>
-In-Reply-To: <CADnq5_NBM1Kso==+N=1xCjF+xiS7Vy4g47uvUN7sSWs8bontZQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 31 Jul 2025 11:01:27 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiN+0FBwxwj1UiKsfHgW=C_aWy20F6PPt5M_ACnfukehQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwl7rfbBqibQ1OmSqpipidlA-BS-3rGgWDujbCXe9i_iXdTe6-DKoidTfo
-Message-ID: <CAHk-=wiN+0FBwxwj1UiKsfHgW=C_aWy20F6PPt5M_ACnfukehQ@mail.gmail.com>
-Subject: Re: [git pull] drm for 6.17-rc1
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Dave Airlie <airlied@gmail.com>, Dillon Varone <dillon.varone@amd.com>, 
- Ivan Lipski <ivan.lipski@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, Wenjing Liu <wenjing.liu@amd.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, 
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,23 +95,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Jul 2025 at 06:09, Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> I think it may be fixed here:
-> https://patchwork.freedesktop.org/patch/663973/
+> This patchset fixes initializing the format info in drm_framebuffer by
+> drm_helper_mode_fill_fb_struct() in the omap, nouveau, radeon drivers
+> after patch [1] in patchset [2], the latter one missing the conversion
+> of these 3 drivers. This patchset converts the 3 drivers similarly to
+> the other drivers converted by [2].
 
-Yes, this patch fixes the problem for me.
+> This patchset was only compile tested.
 
-I don't know if it's due to the pointer validation (ie this part):
+> [1] https://lore.kernel.org/all/20250701090722.13645-20-ville.syrjala@linux.intel.com
+> [2] https://lore.kernel.org/all/20250701090722.13645-1-ville.syrjala@linux.intel.com
 
--       if (!dsc)
-+       if (!dsc || !dsc->ctx || !dsc->ctx->dc ||
-dsc->ctx->dc->debug.disable_dsc)
-                return;
+Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
-or whether it's the divide-by-zero that the commit talks about.
-
-Should I just apply this directly, or expect a pull request in the
-next day or two?
-
-          Linus
+Test job,
+ - https://lkft.validation.linaro.org/scheduler/job/8377982
