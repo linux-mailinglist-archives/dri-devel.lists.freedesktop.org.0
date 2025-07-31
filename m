@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E820B17262
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 15:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B926B17259
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 15:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4A710E797;
-	Thu, 31 Jul 2025 13:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AF4310E276;
+	Thu, 31 Jul 2025 13:50:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="CQT61DjK";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="PlcXZZgb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
  [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0507810E78A
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:50:21 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D31210E276
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:50:22 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250731135019euoutp022e2dca22f7b7e82474061a783218ef11~XWkIWXauX1417014170euoutp02M
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:50:19 +0000 (GMT)
+ 20250731135021euoutp029e6e716c3eb55c2132d74f40e4d76108~XWkJnSI1c1416814168euoutp02C
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:50:21 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250731135019euoutp022e2dca22f7b7e82474061a783218ef11~XWkIWXauX1417014170euoutp02M
+ 20250731135021euoutp029e6e716c3eb55c2132d74f40e4d76108~XWkJnSI1c1416814168euoutp02C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1753969819;
- bh=GqjP+sqWnHbA9FEjGQX5W1M8XprOwuwRbOKks19Q5zo=;
+ s=mail20170921; t=1753969821;
+ bh=6W87Q1x1CQJtR6NEM1xR9BS/avezudE94uTfUvbF1vw=;
  h=From:Date:Subject:In-Reply-To:To:Cc:References:From;
- b=CQT61DjKDH9WRSh8myB97dE1/g8DAVsU9D9+ai5yjHRtsAdr/rb+D+ifmps7fwzuy
- h2Sms18vutJSLZU4zTZaibzZonCKchHN9fa647kzAaPoR4DJhLhXBbXEib6jvhX5k9
- f5YnfLF96qpbX3Fx9OiHw1bE1IDe0ikXMrCzT6DE=
+ b=PlcXZZgbl9fevamWWHBq2+To55Ns+nxcG+AFIi5AIo9OeUsQECPbYUzyG1uM1lRC1
+ 27ezTwycyDDVo35Rq/wb6OYQ0/Eok92SlkHfUdlJxVkD5MOtG1W0rlSrf34Ur3+7zb
+ E+VpTV24obp9ZAIhq/d034mwkbg4+VJIDW+qfOkc=
 Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250731135019eucas1p1239902cf5a5a8fa40ea35722e6feb965~XWkH4ziN20233102331eucas1p1O;
- Thu, 31 Jul 2025 13:50:19 +0000 (GMT)
+ 20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238~XWkI6kFKx1671816718eucas1p1R;
+ Thu, 31 Jul 2025 13:50:20 +0000 (GMT)
 Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
  [106.210.136.40]) by eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250731135018eusmtip23c074c65c850d0ecb3aa1102bd2a0903~XWkG7Qs0A2644626446eusmtip2L;
- Thu, 31 Jul 2025 13:50:18 +0000 (GMT)
+ 20250731135019eusmtip2d9c31dd3d47bb7debe5fd189ea191589~XWkH8uhaX3049130491eusmtip2R;
+ Thu, 31 Jul 2025 13:50:19 +0000 (GMT)
 From: Michal Wilczynski <m.wilczynski@samsung.com>
-Date: Thu, 31 Jul 2025 15:50:12 +0200
-Subject: [PATCH v9 2/5] dt-bindings: gpu: img,powervr-rogue: Define power
- domains per variant
+Date: Thu, 31 Jul 2025 15:50:13 +0200
+Subject: [PATCH v9 3/5] dt-bindings: gpu: img,powervr-rogue: Add TH1520 GPU
+ compatible
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250731-apr_14_for_sending-v9-2-c242dc1ffc14@samsung.com>
+Message-Id: <20250731-apr_14_for_sending-v9-3-c242dc1ffc14@samsung.com>
 In-Reply-To: <20250731-apr_14_for_sending-v9-0-c242dc1ffc14@samsung.com>
 To: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,  Rob Herring
  <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
@@ -61,14 +61,14 @@ Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.15-dev
-X-CMS-MailID: 20250731135019eucas1p1239902cf5a5a8fa40ea35722e6feb965
+X-CMS-MailID: 20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250731135019eucas1p1239902cf5a5a8fa40ea35722e6feb965
+X-RootMTR: 20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238
 X-EPHeader: CA
-X-CMS-RootMailID: 20250731135019eucas1p1239902cf5a5a8fa40ea35722e6feb965
+X-CMS-RootMailID: 20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238
 References: <20250731-apr_14_for_sending-v9-0-c242dc1ffc14@samsung.com>
- <CGME20250731135019eucas1p1239902cf5a5a8fa40ea35722e6feb965@eucas1p1.samsung.com>
+ <CGME20250731135020eucas1p1e8f286222a03ec9b63a7409ff66c3238@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,96 +84,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rework the PowerVR Rogue GPU binding to use an explicit, per variant
-style for defining power domain properties.
+Update the img,powervr-rogue.yaml to include the T-HEAD TH1520 SoC's
+specific GPU compatible string.
 
-The generic `if` block for `img,img-rogue`, is removed. It is replaced
-with self-contained `if/then` blocks for each existing GPU variant. Each
-block now explicitly defines power domain properties and requirements
-for that specific variant, making the rules easier to read and
-maintain.
+The thead,th1520-gpu compatible, along with its full chain
+img,img-bxm-4-64, and img,img-rogue, is added to the
+list of recognized GPU types.
 
-This addresses feedback from the maintainer to explicitly list items
-for each variant [1].
+While the BXM-4-64 GPU IP is designed with two distinct power domains,
+the TH1520 SoC integrates it with only a single, unified power gate that
+is controllable by the kernel.
 
-Link: https://lore.kernel.org/all/4d79c8dd-c5fb-442c-ac65-37e7176b0cdd@linaro.org/ [1]
+The binding enforces this with a specific if block for the
+thead,th1520-gpu compatible that requires a single power-domains entry
+and disallows power-domain-names.
+
+The B-series GPU rule is also updated to include img,img-bxm-4-64
+and to explicitly exclude the TH1520.
 
 Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 ---
- .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 36 ++++++++++------------
- 1 file changed, 17 insertions(+), 19 deletions(-)
+ .../devicetree/bindings/gpu/img,powervr-rogue.yaml | 29 +++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-index 4450e2e73b3ccf74d29f0e31e2e6687d7cbe5d65..24ce46ba0b7015fca799f045ee2ccdd258088068 100644
+index 24ce46ba0b7015fca799f045ee2ccdd258088068..e47e0f3d1b5078b3050e26f6c1ac175edec528ec 100644
 --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
 +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-@@ -57,10 +57,8 @@ properties:
-     maxItems: 2
- 
-   power-domain-names:
--    items:
--      - const: a
--      - const: b
-     minItems: 1
-+    maxItems: 2
- 
-   dma-coherent: true
- 
-@@ -77,18 +75,6 @@ required:
- additionalProperties: false
- 
- allOf:
--  # Constraints added alongside the new compatible strings that would otherwise
--  # create an ABI break.
--  - if:
--      properties:
--        compatible:
--          contains:
--            const: img,img-rogue
--    then:
--      required:
--        - power-domains
--        - power-domain-names
--
-   - if:
+@@ -21,6 +21,11 @@ properties:
+           # work with newer dts.
+           - const: img,img-axe
+           - const: img,img-rogue
++      - items:
++          - enum:
++              - thead,th1520-gpu
++          - const: img,img-bxm-4-64
++          - const: img,img-rogue
+       - items:
+           - enum:
+               - ti,j721s2-gpu
+@@ -96,7 +101,29 @@ allOf:
        properties:
          compatible:
-@@ -97,9 +83,14 @@ allOf:
+           contains:
+-            const: img,img-bxs-4-64
++            const: thead,th1520-gpu
++    then:
++      properties:
++        power-domains:
++          items:
++            - description: The single, unified power domain for the GPU on the
++                TH1520 SoC, integrating all internal IP power domains.
++        power-domain-names: false
++      required:
++        - power-domains
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - img,img-bxm-4-64
++              - img,img-bxs-4-64
++      not:
++        properties:
++          compatible:
++            contains:
++              const: thead,th1520-gpu
      then:
        properties:
          power-domains:
--          maxItems: 1
-+          items:
-+            - description: Power domain A
-         power-domain-names:
--          maxItems: 1
-+          items:
-+            - const: a
-+      required:
-+        - power-domains
-+        - power-domain-names
- 
-   - if:
-       properties:
-@@ -109,9 +100,16 @@ allOf:
-     then:
-       properties:
-         power-domains:
--          minItems: 2
-+          items:
-+            - description: Power domain A
-+            - description: Power domain B
-         power-domain-names:
--          minItems: 2
-+          items:
-+            - const: a
-+            - const: b
-+      required:
-+        - power-domains
-+        - power-domain-names
- 
-   - if:
-       properties:
 
 -- 
 2.34.1
