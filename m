@@ -2,82 +2,198 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286D4B176E1
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 22:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29ACFB176EC
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 22:05:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16D4E10E7DF;
-	Thu, 31 Jul 2025 20:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BAC810E7E4;
+	Thu, 31 Jul 2025 20:05:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mV9eWZNr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g1jppfdJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE6D010E0A1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:01:18 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-6156c3301ccso2666a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1753992077; x=1754596877;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j4B+Gc5g7Q5xkPte+e+rtUPltSMHyDQNEhLddUtHkKo=;
- b=mV9eWZNrpgmy8/OwiJPhXF2UBxRAflliQjpnhX3YgKtWhNrLnLNSi5USlc84pw+PF8
- ALiuxknSQEvJZXXQp/FNCwhpqxHCeC3pLukzFY04922Cuk+3iAPX/9T1BPSKJw1DQXDJ
- SggHJXqYbXCJk1ne13LwFpee3gw6osWPykJuPN+J10HjDQL/0e75ZbFitgywh3egitWP
- Y+yb/Tr8ciKPKPWw3qM2OC3oLKeCY41q/NlE9KpUUYlD5DvqHzJb8CblQeipe8xB1m+i
- pqbqTy+BUTu1+zg4/mLFG3B4QvRaou4fnXqmW5oXJzxuEKXnkJFwF3a1PCSNA6LjG9i4
- HOMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753992077; x=1754596877;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=j4B+Gc5g7Q5xkPte+e+rtUPltSMHyDQNEhLddUtHkKo=;
- b=PLmFATPRzh7Zgn6bzr3SH8DPRkKAMwn9aE0rwQ8uEghQafa3BH6WAakabz0plNXdqU
- 0Lonk4EV5RsUCPAnhT3igs78NS2QExYxrkXyoDXTK+OdtZa8iIBtuAXtXdVo4a5qvgKx
- Ili5VmUNxcJwiPUO9L+Ek7Z+v2op0asWOuldZxaxTVbY3p7BS4/jJiQyG6Eu4+KOVDP3
- KlcVUsZ+gaD2bqEaMi8z2j5BwzdzS3SJ+nxT1lWhiUZN7GBv8iqkwUISFWbcOAQdlJ3M
- ZXlw+BUEIV6jCWFGiai+SQnu92kNMK3VYoZ8FgRjZLkkp1BkGL+BYQ0B5uumSwkuvPRn
- hj4Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXjtl62unUEhZK6LCtIviersd8Fa862Ds15DMQ4sdD8Gb1z7Y5NfXj3k8VyG2wnknvJHfSsjSdjTxU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZ9UH/x4xqyM7ExaOsdx4qxp+jXN8tKup0CKrfzBgcnFfVGVPX
- I/c6UdZlUzCmGJsD9ydKVkeRm6AaTH9wRTpyZrZXmhLlldhmIKPkEl9nNJyche33gHf927MWIea
- 790urPyoGUuKJRJPkfGCtnxO0WDPMFFWoFvdwexNQ
-X-Gm-Gg: ASbGncslBrywXt86q9BssmtUqfL3t6390pVMbk/T2JaHNnvQKQfXzw/84eIY1+TH+Eg
- SCu3nDBMyX9ynBnMXzM3lkBbjPoHyt5XTaQq0eEMi7a+LWyAl7sDxmiBPfmxHNMvKVrx/DEx8Wb
- 4yxkdI+jwlgDcbGfvqBwxP/mt+lt+NYa8DsSGAN6K+lxVV0kaP4+8Uk5d4b9mDwCj2VE3wYqgfN
- 6aZGCbIztO1jnUvYM/sOu0YcG61DxofeiPCyA==
-X-Google-Smtp-Source: AGHT+IHGcwHAtHu5K2dQoF6Q1Va8xnfXD6dn1kwEfUjWrGJacU1Z7dtDAziML3bVAL5d/XMASujNYe3MyNDT/TYWX7E=
-X-Received: by 2002:a50:aa8b:0:b0:60e:2e88:13b4 with SMTP id
- 4fb4d7f45d1cf-615cba4acfbmr10864a12.3.1753992076959; Thu, 31 Jul 2025
- 13:01:16 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A253E10E0A1;
+ Thu, 31 Jul 2025 20:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1753992337; x=1785528337;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=Ueuvt3S939c38zIeTbin+WmRXxJs29uoJus8PHla2VE=;
+ b=g1jppfdJL9NVTp7nXvR9NQeIUavtFgC/VmqMjDaRIiXRyyp9PVOjrcxb
+ bXBjf0D/2isk/ZXSkl6vzCEQnRtqzfi/MreM6ZgckRstTwY3acRQrfDyZ
+ k+6iD7ITo+Jk9mWxeLxjS0UQc28lemqXx/KAoTCTpKuiet9Es7hFzCwhf
+ 0Y7JoA3xGOsTaVt/0lcuVoW4YFlYNTYiwgzPvKhDwxTHS9MsgrAEOvpNy
+ ImBoKYAuLYx1eUDeSZksxSGBNpTqFQlzrEtw9wkFFDUEI3Ov1Z6a3a9RT
+ Rlg2oTGnHuHA9JZyvtAJiO5dt3LtQ0spnFtDete2t2qB3ZfjTmD7qLc+9 g==;
+X-CSE-ConnectionGUID: d+EcOozZShK9VJHc5VrShg==
+X-CSE-MsgGUID: m2WjIyhpSLy0eN9ZOgtEYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56292686"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="56292686"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2025 13:04:09 -0700
+X-CSE-ConnectionGUID: nV6Bda5QTBeBY1LO4wDisw==
+X-CSE-MsgGUID: 6GNj9X6gR6CHUUf9/TJbDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="162931397"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2025 13:04:09 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 31 Jul 2025 13:04:08 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Thu, 31 Jul 2025 13:04:08 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.58) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 31 Jul 2025 13:04:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jNXWSi9iofBWB9l/prMrQYqV80YxEYmojCuudRlEAS/diPrZIq1Sz6Y0lqLrSQxFn90FdbUMrkF7l2WEwetgidlhNJi/smWdE6viKnuaazarYtDAeo5YDb56b2V2JPZFaFFqChFa69VOiIgLPGiB6bWsyZO0ZYwVKv8UZfQJPk2b+R8f40g8ji5YLxBt16p2rrda8TjBVHIzLPv7p4r+CryJHw7s++llVSqhosuap8yUAlzCjbp+U6+7DYWsPSsxSzTse7RKNhTkcj32rSnrr09mmHKmsLtkEv24aiF/mJ1xQOtrFXahX8rrASGT4AoRik980o8q2HMnNFBAq+WJgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ueuvt3S939c38zIeTbin+WmRXxJs29uoJus8PHla2VE=;
+ b=YP4JYn8+/eFbCJlju1CZGf5ll9qApI9BwsdzwmxwG3lswmMlc6CkmCUdsrP5NVPQzOKuNWKSIH6C4VOJdMju4mFJETOjCoSzU/yt11a6HGA+01fSNEHi797EcRUfd3qcWBrYvAQY+e+U7K1R0JKZRowvUUrwz9OEFqurdS/rqCM8d0ARZNb+8aR0cIOcNwkXtvJ25ZTzGXK4WMPSVyeX7JMtasE2IytW9aEe/9ql/NTLvfeOhh8zl1SyAqHnvYIcbXxt2YSmZhDbPXu5p85yCOSiRQmo2Q089TXiqXT3MRa5zkLx8I+mWVD1WDGj5oxWCor+q+7zLm3LV6xjmcDzEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5573.namprd11.prod.outlook.com (2603:10b6:8:3b::7) by
+ CH3PR11MB8546.namprd11.prod.outlook.com (2603:10b6:610:1ae::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8989.14; Thu, 31 Jul 2025 20:03:36 +0000
+Received: from DM8PR11MB5573.namprd11.prod.outlook.com
+ ([fe80::3f64:5280:3eb4:775b]) by DM8PR11MB5573.namprd11.prod.outlook.com
+ ([fe80::3f64:5280:3eb4:775b%3]) with mapi id 15.20.8989.013; Thu, 31 Jul 2025
+ 20:03:36 +0000
+From: "Summers, Stuart" <stuart.summers@intel.com>
+To: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Vivi, 
+ Rodrigo" <rodrigo.vivi@intel.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+CC: "Nilawar, Badal" <badal.nilawar@intel.com>, "gregkh@linuxfoundation.org"
+ <gregkh@linuxfoundation.org>, "Usyskin, Alexander"
+ <alexander.usyskin@intel.com>, "Ceraolo Spurio, Daniele"
+ <daniele.ceraolospurio@intel.com>, "Gupta, Anshuman"
+ <anshuman.gupta@intel.com>
+Subject: Re: [PATCH 8/9] drm/xe/xe_late_bind_fw: Introduce debug fs node to
+ disable late binding
+Thread-Topic: [PATCH 8/9] drm/xe/xe_late_bind_fw: Introduce debug fs node to
+ disable late binding
+Thread-Index: AQHb8ayxFAn7lvwC7k2fZblFcxS9HLRMyQoA
+Date: Thu, 31 Jul 2025 20:03:36 +0000
+Message-ID: <1f323cf45af3ba781d46d2e889f89bc26aa9b85a.camel@intel.com>
+References: <20250710150831.3018674-11-rodrigo.vivi@intel.com>
+ <20250710150831.3018674-19-rodrigo.vivi@intel.com>
+In-Reply-To: <20250710150831.3018674-19-rodrigo.vivi@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.44.4-0ubuntu2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR11MB5573:EE_|CH3PR11MB8546:EE_
+x-ms-office365-filtering-correlation-id: 4a0cb391-c015-4f88-4ac0-08ddd06d55d9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?WENZMWlKOEYwMy82dXNlTURCeVNGUlo3YVJqWjJvdzBZb01QTXdydlpsKzY3?=
+ =?utf-8?B?MkZGRDN5cG5EdHdXZ05zWGtnanhIblN6WE1JbzZ5ZFZJNjZZZmgvVGloZEkv?=
+ =?utf-8?B?MHhUY2FWMlJmRGRwclVOQjFIclJVV0V3N3NnbDdlcWlZLzZiMzBmbnRYNmFK?=
+ =?utf-8?B?ekJGWnpmMEJsOUtlcktUSmFERGRoMDYvbTY5T3JrSWUrRjJWRnpRb2szVUFT?=
+ =?utf-8?B?OVAxai9sNEFKaGdqdTY2WGZIbkQrVWhaTzEvV3JjS2xTUmx0RGt2U0tmblNN?=
+ =?utf-8?B?d0w3MkY1d01BVk1qNzlVdkwxYmk5UXpoUlVDR2dPTTZIa29zNlVkQUo2Lzhu?=
+ =?utf-8?B?bC9UR214VFJaeTVrekxIRDZ2VkFYenVhQ2dsUlgzMGpIY09xNXZuZENxYVVm?=
+ =?utf-8?B?dGJrbk5UakpnUE9iM1dDTklmcEovbGxYM2VhZ3hacUYvV2hsZ1hZSGV6RE1I?=
+ =?utf-8?B?bExlSWxmQkRiTkhWNnk5TWs5SUZGdVY4Q00zWjE4Um96NU1zbmtTNjJXaTgr?=
+ =?utf-8?B?aEpKc0libFV0Q3d3Y2gzekFTWmwzQWI4SDcrWFVhVlFaVE5PNmxBV0tPU3pD?=
+ =?utf-8?B?UEl4MS9vN2tIRjVvSE5naDZQNXpkdnBFd1dGMUhVYXVFS3RkdDN1aDZ5Nktv?=
+ =?utf-8?B?R0ZZODl1Ny9FT1VKMWJ0Wi9zeXMrVS81RXpPMlo2T0tabldUbDJKbkpSRUpJ?=
+ =?utf-8?B?RFZJckNyQk1BWVJ0RkdiWUZYYlRCekYxZzEwMFp4c0J1S3NNQTF4cXI4WE9Q?=
+ =?utf-8?B?d0RBc2R2K0RMNzVSVjVodjV2UmNJTitwa0VLdnBoL1l3WUVVK0xnSDEvazhi?=
+ =?utf-8?B?azdwYjlkL3NKdzFLUE1LZjVjdlp5WktOa1BTbk82V2VybXM2b0xWM1NzdUMy?=
+ =?utf-8?B?VVR2R1BvMUhsQmdRNE13aUIxOERqV3EzT1FoWkxKaFQwaTZ3c2N1VUVMUDZu?=
+ =?utf-8?B?dlR5VkJ3amo4UFhHbU5KL0NkTFlXTGpoenVIaGlBS2YrdG5RNHZGZHYyTldR?=
+ =?utf-8?B?bEZaV0tDUEh2cVpqOE5ZQ1FONEZmbHp0eWZPbmxlNWhIaDRSaTVzd0tpSWJY?=
+ =?utf-8?B?MS9ZQ0dOM2JZaHF5ZWN0S3I5enJMRjhHZ3ZwNlNwYTdBTFJYd3RhS3JGcnRN?=
+ =?utf-8?B?ZnlCOVBNMGYwRXVJdUhOSmN6WVROSDRZaUlCS1RacG1VT2tpdXFsRWt1VWRY?=
+ =?utf-8?B?UHRTbVpyRDJPV1U4T1lVRjZ6cDRDdTFTZk9DdXJudEVOQjUzYi8vWnZpNmZr?=
+ =?utf-8?B?Q0I5ZVRQMEdybk4wQnA4V2VEK2lMbW44TXZTZzFmbnlrelZkOEZtVWVRWDdK?=
+ =?utf-8?B?Y0VFY1ErUWRmUDNVL1lyZHZ6azZEVnpWN21WTWpoM3VjWUJCUjZhL3I2V211?=
+ =?utf-8?B?cmZXUXlSdkJUWC9nUWUyMGc4c2RSWkZHRDFlWjVVZUhDYllYT2d4T3BqSUlk?=
+ =?utf-8?B?ZXpQaDRUMDJMQkVIdUhqdGFWMU5ZUTBtaUN0dktMTWpuQmNVcm04UUVZRGti?=
+ =?utf-8?B?TXJNZDhaQWpBVC83V3cyeEE5d3hFRVdNZVJyRDduSHdlbGVoOFNiYVVWWDhm?=
+ =?utf-8?B?bncrOUZ2YkFSaE1mTWpJZGxNMFJHOXEycjNhTEJEaW83b3JSbTZFQVJZWEZa?=
+ =?utf-8?B?ei9wbmwraGxuNkhEdThXR0FRSnBrQlNYQmF5QVgwZTRXUDFBQldTSmUrNlBD?=
+ =?utf-8?B?RG5NWHd1UUJxdmJuN2NPMldwT0xPNG44c0N1Z25OSi9mMHY4enR1Zi9OQStk?=
+ =?utf-8?B?T0doR3RJVlp1dGtsQlpkZUZtY2lVSlZMTWRRSnR5VVhDUGRqNGpBVUNFaWdE?=
+ =?utf-8?B?b3ZqSjIyZUxFVUV0L2s5eEtneUxRYnUwL3hZZEpzazd3ZlhkNVlCN2ZBa0Rz?=
+ =?utf-8?B?Y2RsWEhzQmZObmFSaUFDdnk3djZNdFk2R09LYU96ZDN6R1FPZXVFYUVoQmJ4?=
+ =?utf-8?B?TGEzajc1N0xuNlNTOWNuWmlkTDl3ck4wVVFMVVNKNU4wOWV1NFBpT3MvMTBu?=
+ =?utf-8?Q?tIb0icpMhJk7FFXnm5RNGUgImojI64=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5573.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NjlOb3I5NWlGZ0dycmU3RG5SNFpmRERiYmFqT2p3b2lyM09tdHlQVzUwZG9l?=
+ =?utf-8?B?b3VrQVcyYzR6VXB1c1JRSG9QM0E5TTRkOFZRT2kxN2pJQUM4MnloRGNKdFJP?=
+ =?utf-8?B?YXptc2hMdVhoMVovQUNBRFVncEJINHFUbjYxL21hUkE5RUxqbS9jRVZWaTcx?=
+ =?utf-8?B?dDlST3FqK0ZzUGJRSWwvcFZMUVVDdStUa1JvVWZheUtVU1puTlFwRXdacE5Z?=
+ =?utf-8?B?czFReDlmUkFrbXFmUHdDRVA4TVJtWjF6cXlVK1Vna0F2U0RkZnNielJ0R3o4?=
+ =?utf-8?B?dFhiQ0ZKSnRKVEZhOCsvZ0RiUC9rNUF4UHdLR3oyUzV6bi9Nbk9VTVNzaFY0?=
+ =?utf-8?B?SUVBQ3ZqcWVRZFdWbWc0Q25ySkk3WDAraTNiVmZ5RFJsWFpneUxuYnVuaHhI?=
+ =?utf-8?B?d0pTZ3cyZ3lnYzRiTXdrdDVMOHRqa0E2OWxITCtsQTQ4REdkODFQZDR4UzdI?=
+ =?utf-8?B?MHRQMnlxSytqbTR3RjdpV2tmaUhWSTg5cEVobVFlQ0JjVGUxNllvckl0dUN4?=
+ =?utf-8?B?S0s5WUJ4bUkxOURrRURtSGJyczYzaE5oWFp1WDh0dkFSMldlN1hTbnhKY2Zr?=
+ =?utf-8?B?eG1VR0dxbXFhaEZIUVRZdmFnWXRjTVBGUkhSRWVrTDZDYmpjNXc2em5OYnJn?=
+ =?utf-8?B?VmtaYmprOENsMktjM1VmTjZlWkxLWDNFWXU2RndjSjRzaHIzUG5Ealo5T2o2?=
+ =?utf-8?B?SEEyZnFPeGp4WGJkMFAvSlltQ1ArUE82TXQwMitvNlo3ZTZuNXZ4QU5xTlhG?=
+ =?utf-8?B?RjlNL3dqMWx6Qjl4OHA5LzUwV01WRCtKUHBGRi9XdUpBd1pPUTZ1R0daWkZK?=
+ =?utf-8?B?ZVhacVhQdFMvSWk5RGptOFdtS3ZZSTlZNzEwRkplQzI2Y0NTWW50MjFXVHRs?=
+ =?utf-8?B?QUVEQ0dldkpSUnVZcWdJQjRhdjBlQ2c1ZEZZVWJKb2NtYVZ2a3hNYW5MaXNL?=
+ =?utf-8?B?a3g2cy9BQWFoYWhmSWZ6SlpGSlA1L1pOSzdPN0lpSkZNUjBuYjNqd3VKQmFW?=
+ =?utf-8?B?QWNYVU5XR3krUllOUitVaEdnTDQ1d0hCTHNlMk94eDlFSDdwOHZuOHk5OHEz?=
+ =?utf-8?B?Yzc0VWVzNTNrbVpYak1LOWF0Y3Ntdjl1R0NTMGU5OHpXMldyemxZaHJsNVBG?=
+ =?utf-8?B?VWdWbTFzTDVhcUlXZTlEMVRySDcybnZZMDkxcXZFcHg0dTBNc1BwTjFYWmtm?=
+ =?utf-8?B?MFZMdDk3NHJtTGZFSzlFVHh5SDN4T1NqRnVJczg0UmZWcWV4eEoyNWxURU4w?=
+ =?utf-8?B?VTVJV0ZJOUNBc1dLblgrT3BqSTZlNmhUVXh6L3l3aEpKL0xzTGtCblpjSTlT?=
+ =?utf-8?B?TG91eTVHTnlXc1BFZHVmanpvRUlMNmVNcU1YL0VFR0ZnQkRtWWZWbnlkWUJ6?=
+ =?utf-8?B?aEJlNlZFaTF5djRXamlxZ3IxU3BNQStKZmFXaHV2QzFGWkJEMEsreWxPdnVP?=
+ =?utf-8?B?KzRWV0lWRFZiajJQME9ZZHFrY2JEemxEVzZiUTdJV3c3L2UxMWdoeGV5cWU0?=
+ =?utf-8?B?c2huQTFmc3Z1ZVdiYzkza3hlN2RzR0xJcnllSzFsWnVYMCtLZ2hVWVdGVnpt?=
+ =?utf-8?B?OWhEWjhmbFZDdEhqM1pYTjVVSkNSTWZpSmErcGdFRkVUT3dka0VzcVIwZ2lu?=
+ =?utf-8?B?em1HbHhBT211VXlqTXRna3dBQjRuTjFlNmRYai9KWnJlTEl4TFNBREZ0ZjF2?=
+ =?utf-8?B?bFJyYlFLanpOenAwcjlCeGtPWkYwbjgxcmxsZEhQbC9SV09pWXZ5M1I2OW5J?=
+ =?utf-8?B?dCtYcFV2SENZcTY0ZVJlQ05nOVJNWkdjMlhuVjVlSHFoMHE5WFV1ZTQrenJB?=
+ =?utf-8?B?WU5yb2N2engvYTZNQVpvOXVoVXBVOC9xNElwaEVhbXh4Y1dCRXJqOW5MSzg3?=
+ =?utf-8?B?UWhDYjlRdm00dldGT2gydzJXYUtPeUlYZ2dnSW5GQnp3MlJFSEdkTDE2cEwv?=
+ =?utf-8?B?elY1VHVVNWlydkMzd29EYWtyNEtpWmhUZWlYcTM0TXRGbjBaWTJGdHQ3Wk84?=
+ =?utf-8?B?ZEplcllHdHlJc3FTZExKaVNibStubndFZU9ONDI3OGRyQmpWWnBYU1IySVg5?=
+ =?utf-8?B?M2t6WllpMEo0Y1pETEJ1YVd2S3ZhUXZQaVVpdlN5bkJaTDIzbHB0cDJ3Y3hJ?=
+ =?utf-8?B?U2VxSjVlYWE1UjB5S0ZoTFVSeXlTSUE5WFBmSHd1VjZMa0tHakwxVGpWRitY?=
+ =?utf-8?B?clE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A11D2A5983B47146A5B1A74A8F1B213B@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20250729193647.3410634-7-marievic@google.com>
- <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
-In-Reply-To: <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
-From: Marie Zhussupova <marievic@google.com>
-Date: Thu, 31 Jul 2025 16:01:04 -0400
-X-Gm-Features: Ac12FXzOGGXGhE1duhbD0s56UlVQ0g2I8y9BFv08H051qzMmNgVQAGnFiVjL2Lc
-Message-ID: <CAAkQn5JVPnN_dowQAjexom9O+2vThSOiNiY4woCgRPwGNNmt7w@mail.gmail.com>
-Subject: Re: [PATCH 6/9] kunit: Enable direct registration of parameter arrays
- to a KUnit test
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, rmoar@google.com, davidgow@google.com, 
- shuah@kernel.org, brendan.higgins@linux.dev, lkp@intel.com, 
- oe-kbuild-all@lists.linux.dev, elver@google.com, dvyukov@google.com, 
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
- rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a0cb391-c015-4f88-4ac0-08ddd06d55d9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2025 20:03:36.6764 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: M+Co6AJUwGtbKd2ROs81wZgsT9bZbwnojt/2qywwPL7KxhYfD2Z0QbbPR0TSpYZejN+IJKygZzbGaC+5ni7ADNuPKfoY8OI4ngu/dpwSqa0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8546
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,167 +209,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 31, 2025 at 11:58=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
->
-> Hi Marie,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/k=
-unit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kself=
-test.git kunit
-> patch link:    https://lore.kernel.org/r/20250729193647.3410634-7-marievi=
-c%40google.com
-> patch subject: [PATCH 6/9] kunit: Enable direct registration of parameter=
- arrays to a KUnit test
-> config: nios2-randconfig-r072-20250731 (https://download.01.org/0day-ci/a=
-rchive/20250731/202507310854.pZvIcswn-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 8.5.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202507310854.pZvIcswn-lkp@intel.com/
->
-> New smatch warnings:
-> lib/kunit/test.c:723 kunit_run_tests() error: we previously assumed 'test=
-_case->generate_params' could be null (see line 714)
->
-> vim +723 lib/kunit/test.c
->
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  681  int kunit_run_tests(s=
-truct kunit_suite *suite)
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  682  {
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  683      char param_desc[K=
-UNIT_PARAM_DESC_SIZE];
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  684      struct kunit_case=
- *test_case;
-> acd8e8407b8fcc David Gow           2021-08-03  685      struct kunit_resu=
-lt_stats suite_stats =3D { 0 };
-> acd8e8407b8fcc David Gow           2021-08-03  686      struct kunit_resu=
-lt_stats total_stats =3D { 0 };
-> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  687      const void *curr_=
-param;
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  688
-> c272612cb4a2f7 David Gow           2022-07-01  689      /* Taint the kern=
-el so we know we've run tests. */
-> c272612cb4a2f7 David Gow           2022-07-01  690      add_taint(TAINT_T=
-EST, LOCKDEP_STILL_OK);
-> c272612cb4a2f7 David Gow           2022-07-01  691
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  692      if (suite->suite_=
-init) {
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  693              suite->su=
-ite_init_err =3D suite->suite_init(suite);
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  694              if (suite=
-->suite_init_err) {
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  695                      k=
-unit_err(suite, KUNIT_SUBTEST_INDENT
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  696                       =
-         "# failed to initialize (%d)", suite->suite_init_err);
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  697                      g=
-oto suite_end;
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  698              }
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  699      }
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  700
-> cae56e1740f559 Daniel Latypov      2022-04-29  701      kunit_print_suite=
-_start(suite);
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  702
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  703      kunit_suite_for_e=
-ach_test_case(suite, test_case) {
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  704              struct ku=
-nit test =3D { .param_value =3D NULL, .param_index =3D 0 };
-> acd8e8407b8fcc David Gow           2021-08-03  705              struct ku=
-nit_result_stats param_stats =3D { 0 };
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  706
-> 887d85a0736ff3 Rae Moar            2023-03-08  707              kunit_ini=
-t_test(&test, test_case->name, test_case->log);
-> 03806177fa4cbb Marie Zhussupova    2025-07-29  708              __kunit_i=
-nit_parent_test(test_case, &test);
-> 03806177fa4cbb Marie Zhussupova    2025-07-29  709
-> 529534e8cba3e6 Rae Moar            2023-07-25  710              if (test_=
-case->status =3D=3D KUNIT_SKIPPED) {
-> 529534e8cba3e6 Rae Moar            2023-07-25  711                      /=
-* Test marked as skip */
-> 529534e8cba3e6 Rae Moar            2023-07-25  712                      t=
-est.status =3D KUNIT_SKIPPED;
-> 529534e8cba3e6 Rae Moar            2023-07-25  713                      k=
-unit_update_stats(&param_stats, test.status);
-> 44c50ed8e59936 Marie Zhussupova    2025-07-29 @714              } else if=
- (!test_case->generate_params && !test.params_data.params) {
->                                                                          =
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Imagine ->generate_parms is NULL but test.params_data.params is
-> non-NULL.
->
-> 37dbb4c7c7442d David Gow           2021-11-02  715                      /=
-* Non-parameterised test. */
-> 529534e8cba3e6 Rae Moar            2023-07-25  716                      t=
-est_case->status =3D KUNIT_SKIPPED;
-> 37dbb4c7c7442d David Gow           2021-11-02  717                      k=
-unit_run_case_catch_errors(suite, test_case, &test);
-> 37dbb4c7c7442d David Gow           2021-11-02  718                      k=
-unit_update_stats(&param_stats, test.status);
-> 03806177fa4cbb Marie Zhussupova    2025-07-29  719              } else if=
- (test_case->status !=3D KUNIT_FAILURE) {
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  720                      /=
-* Get initial param. */
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  721                      p=
-aram_desc[0] =3D '\0';
-> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  722                      /=
-* TODO: Make generate_params try-catch */
-> 13ee0c64bd88a3 Marie Zhussupova    2025-07-29 @723                      c=
-urr_param =3D test_case->generate_params(&test, NULL, param_desc);
->                                                                          =
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Then this could crash.
->
-> I suspect that this is fine, but I bet that in the previous
-> condition, just testing one would probably have been sufficient
-> or maybe we could have change && to ||.
-
-Hello Dan,
-
-My apologies for the HTML version of this email earlier. Here is the
-plain text version.
-
-As of now, test.params_data.params can only be populated in a param_init
-function, which can only be used if we register the test case with a
-KUNIT_CASE_PARAM_WITH_INIT macro. That macro auto populates
-test_case->generate_params with a function called
-kunit_get_next_param_and_desc()
-(which iterates over the parameter array) if the test user didn't provide t=
-heir
-own generator function. So, there shouldn't be a case where
-test_case->generate_params is NULL but test.params_data.params is NON-NULL.
-
-However, to be robust, we could add a NULL check  before calling
-test_case->generate_params on line 723.
-
-Thank you!
--Marie
-
->
-> 529534e8cba3e6 Rae Moar            2023-07-25  724                      t=
-est_case->status =3D KUNIT_SKIPPED;
-> 6c738b52316c58 Rae Moar            2022-11-23  725                      k=
-unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-> 6c738b52316c58 Rae Moar            2022-11-23  726                       =
-         "KTAP version 1\n");
-> 44b7da5fcd4c99 David Gow           2021-11-02  727                      k=
-unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-> 44b7da5fcd4c99 David Gow           2021-11-02  728                       =
-         "# Subtest: %s", test_case->name);
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  729
-> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  730                      w=
-hile (curr_param) {
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+T24gVGh1LCAyMDI1LTA3LTEwIGF0IDExOjA4IC0wNDAwLCBSb2RyaWdvIFZpdmkgd3JvdGU6Cj4g
+RnJvbTogQmFkYWwgTmlsYXdhciA8YmFkYWwubmlsYXdhckBpbnRlbC5jb20+Cj4gCj4gSW50cm9k
+dWNlIGEgZGVidWcgZmlsZXN5c3RlbSBub2RlIHRvIGRpc2FibGUgbGF0ZSBiaW5kaW5nIGZ3IHJl
+bG9hZAo+IGR1cmluZyB0aGUgc3lzdGVtIG9yIHJ1bnRpbWUgcmVzdW1lLiBUaGlzIGlzIGludGVu
+ZGVkIGZvciBzaXR1YXRpb25zCj4gd2hlcmUgdGhlIGxhdGUgYmluZGluZyBmdyBuZWVkcyB0byBi
+ZSBsb2FkZWQgZnJvbSB1c2VyIG1vZGUsCj4gcGVydGljdWxhcmx5IGZvciB2YWxpZGF0aW9uIHB1
+cnBvc2UuCj4gTm90ZSB0aGF0IHhlIGttZCBkb2Vzbid0IHBhcnRpY2lwYXRlIGluIGxhdGUgYmlu
+ZGluZyBmbG93IGZyb20gdXNlcgo+IHNwYWNlLiBCaW5hcnkgbG9hZGVkIGZyb20gdGhlIHVzZXJz
+cGFjZSB3aWxsIGJlIGxvc3QgdXBvbiBlbnRlcmluZyB0bwo+IEQzIGNvbGQgaGVuY2UgdXNlciBz
+cGFjZSBhcHAgbmVlZCB0byBoYW5kbGUgdGhpcyBzaXR1YXRpb24uCj4gCj4gdjI6Cj4gwqAgLSBz
+Lyh1dmFsID09IDEpID8gdHJ1ZSA6IGZhbHNlLyEhdXZhbC8gKERhbmllbGUpCj4gdjM6Cj4gwqAg
+LSBSZWZpbmUgdGhlIGNvbW1pdCBtZXNzYWdlIChEYW5pZWxlKQo+IAo+IEFja2VkLWJ5OiBSb2Ry
+aWdvIFZpdmkgPHJvZHJpZ28udml2aUBpbnRlbC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogQmFkYWwg
+TmlsYXdhciA8YmFkYWwubmlsYXdhckBpbnRlbC5jb20+Cj4gUmV2aWV3ZWQtYnk6IERhbmllbGUg
+Q2VyYW9sbyBTcHVyaW8gPGRhbmllbGUuY2VyYW9sb3NwdXJpb0BpbnRlbC5jb20+Cj4gU2lnbmVk
+LW9mZi1ieTogUm9kcmlnbyBWaXZpIDxyb2RyaWdvLnZpdmlAaW50ZWwuY29tPgoKQml0IG9mIGEg
+Zmx5YnkgY29tbWVudCBoZXJlLCBidXQgd291bGQgaXQgYmUgYmV0dGVyIGlmIHRoaXMgd2FzCmNv
+bmZpZ2ZzIHJhdGhlciB0aGFuIGRlYnVnZnMgaW4gY2FzZSB3ZSB3YW50ZWQgdG8gc2tpcCB0aGlz
+IG9uIHRoZQpmaXJzdCBwcm9iZT8KClRoYW5rcywKU3R1YXJ0Cgo+IC0tLQo+IMKgZHJpdmVycy9n
+cHUvZHJtL3hlL3hlX2RlYnVnZnMuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCA0MQo+ICsrKysr
+KysrKysrKysrKysrKysrKysKPiDCoGRyaXZlcnMvZ3B1L2RybS94ZS94ZV9sYXRlX2JpbmRfZncu
+Y8KgwqDCoMKgwqDCoCB8wqAgMyArKwo+IMKgZHJpdmVycy9ncHUvZHJtL3hlL3hlX2xhdGVfYmlu
+ZF9md190eXBlcy5oIHzCoCAyICsrCj4gwqAzIGZpbGVzIGNoYW5nZWQsIDQ2IGluc2VydGlvbnMo
+KykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3hlL3hlX2RlYnVnZnMuYwo+IGIv
+ZHJpdmVycy9ncHUvZHJtL3hlL3hlX2RlYnVnZnMuYwo+IGluZGV4IGQ4M2NkNmVkM2ZhOC4uZDFm
+NmY1NTZlZmEyIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9kZWJ1Z2ZzLmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0veGUveGVfZGVidWdmcy5jCj4gQEAgLTIyNiw2ICsyMjYs
+NDQgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMKPiBhdG9taWNfc3ZtX3Rp
+bWVzbGljZV9tc19mb3BzID0gewo+IMKgwqDCoMKgwqDCoMKgwqAud3JpdGUgPSBhdG9taWNfc3Zt
+X3RpbWVzbGljZV9tc19zZXQsCj4gwqB9Owo+IMKgCj4gK3N0YXRpYyBzc2l6ZV90IGRpc2FibGVf
+bGF0ZV9iaW5kaW5nX3Nob3coc3RydWN0IGZpbGUgKmYsIGNoYXIgX191c2VyCj4gKnVidWYsCj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzaXplX3Qgc2l6ZSwgbG9mZl90ICpwb3MpCj4gK3sKPiAr
+wqDCoMKgwqDCoMKgwqBzdHJ1Y3QgeGVfZGV2aWNlICp4ZSA9IGZpbGVfaW5vZGUoZiktPmlfcHJp
+dmF0ZTsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgeGVfbGF0ZV9iaW5kICpsYXRlX2JpbmQgPSAm
+eGUtPmxhdGVfYmluZDsKPiArwqDCoMKgwqDCoMKgwqBjaGFyIGJ1ZlszMl07Cj4gK8KgwqDCoMKg
+wqDCoMKgaW50IGxlbjsKPiArCj4gK8KgwqDCoMKgwqDCoMKgbGVuID0gc2NucHJpbnRmKGJ1Ziwg
+c2l6ZW9mKGJ1ZiksICIlZFxuIiwgbGF0ZV9iaW5kLQo+ID5kaXNhYmxlKTsKPiArCj4gK8KgwqDC
+oMKgwqDCoMKgcmV0dXJuIHNpbXBsZV9yZWFkX2Zyb21fYnVmZmVyKHVidWYsIHNpemUsIHBvcywg
+YnVmLCBsZW4pOwo+ICt9Cj4gKwo+ICtzdGF0aWMgc3NpemVfdCBkaXNhYmxlX2xhdGVfYmluZGlu
+Z19zZXQoc3RydWN0IGZpbGUgKmYsIGNvbnN0IGNoYXIKPiBfX3VzZXIgKnVidWYsCj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoHNpemVfdCBzaXplLCBsb2ZmX3QgKnBvcykKPiArewo+ICvCoMKgwqDC
+oMKgwqDCoHN0cnVjdCB4ZV9kZXZpY2UgKnhlID0gZmlsZV9pbm9kZShmKS0+aV9wcml2YXRlOwo+
+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCB4ZV9sYXRlX2JpbmQgKmxhdGVfYmluZCA9ICZ4ZS0+bGF0
+ZV9iaW5kOwo+ICvCoMKgwqDCoMKgwqDCoHUzMiB1dmFsOwo+ICvCoMKgwqDCoMKgwqDCoHNzaXpl
+X3QgcmV0Owo+ICsKPiArwqDCoMKgwqDCoMKgwqByZXQgPSBrc3RydG91aW50X2Zyb21fdXNlcih1
+YnVmLCBzaXplLCBzaXplb2YodXZhbCksICZ1dmFsKTsKPiArwqDCoMKgwqDCoMKgwqBpZiAocmV0
+KQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gcmV0Owo+ICsKPiArwqDC
+oMKgwqDCoMKgwqBpZiAodXZhbCA+IDEpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oHJldHVybiAtRUlOVkFMOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBsYXRlX2JpbmQtPmRpc2FibGUg
+PSAhIXV2YWw7Cj4gK8KgwqDCoMKgwqDCoMKgcmV0dXJuIHNpemU7Cj4gK30KPiArCj4gK3N0YXRp
+YyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIGRpc2FibGVfbGF0ZV9iaW5kaW5nX2ZvcHMg
+PSB7Cj4gK8KgwqDCoMKgwqDCoMKgLm93bmVyID0gVEhJU19NT0RVTEUsCj4gK8KgwqDCoMKgwqDC
+oMKgLnJlYWQgPSBkaXNhYmxlX2xhdGVfYmluZGluZ19zaG93LAo+ICvCoMKgwqDCoMKgwqDCoC53
+cml0ZSA9IGRpc2FibGVfbGF0ZV9iaW5kaW5nX3NldCwKPiArfTsKPiArCj4gwqB2b2lkIHhlX2Rl
+YnVnZnNfcmVnaXN0ZXIoc3RydWN0IHhlX2RldmljZSAqeGUpCj4gwqB7Cj4gwqDCoMKgwqDCoMKg
+wqDCoHN0cnVjdCB0dG1fZGV2aWNlICpiZGV2ID0gJnhlLT50dG07Cj4gQEAgLTI0OSw2ICsyODcs
+OSBAQCB2b2lkIHhlX2RlYnVnZnNfcmVnaXN0ZXIoc3RydWN0IHhlX2RldmljZSAqeGUpCj4gwqDC
+oMKgwqDCoMKgwqDCoGRlYnVnZnNfY3JlYXRlX2ZpbGUoImF0b21pY19zdm1fdGltZXNsaWNlX21z
+IiwgMDYwMCwgcm9vdCwKPiB4ZSwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgJmF0b21pY19zdm1fdGltZXNsaWNlX21zX2ZvcHMpOwo+IMKg
+Cj4gK8KgwqDCoMKgwqDCoMKgZGVidWdmc19jcmVhdGVfZmlsZSgiZGlzYWJsZV9sYXRlX2JpbmRp
+bmciLCAwNjAwLCByb290LCB4ZSwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAmZGlzYWJsZV9sYXRlX2JpbmRpbmdfZm9wcyk7Cj4gKwo+IMKg
+wqDCoMKgwqDCoMKgwqBmb3IgKG1lbV90eXBlID0gWEVfUExfVlJBTTA7IG1lbV90eXBlIDw9IFhF
+X1BMX1ZSQU0xOwo+ICsrbWVtX3R5cGUpIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoG1hbiA9IHR0bV9tYW5hZ2VyX3R5cGUoYmRldiwgbWVtX3R5cGUpOwo+IMKgCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9sYXRlX2JpbmRfZncuYwo+IGIvZHJpdmVycy9n
+cHUvZHJtL3hlL3hlX2xhdGVfYmluZF9mdy5jCj4gaW5kZXggZGY0MzUyM2U5MDQzLi44ODM1NWFk
+Y2UxZDAgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3hlL3hlX2xhdGVfYmluZF9mdy5j
+Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3hlL3hlX2xhdGVfYmluZF9mdy5jCj4gQEAgLTE2Nyw2
+ICsxNjcsOSBAQCBpbnQgeGVfbGF0ZV9iaW5kX2Z3X2xvYWQoc3RydWN0IHhlX2xhdGVfYmluZAo+
+ICpsYXRlX2JpbmQpCj4gwqDCoMKgwqDCoMKgwqDCoGlmICghbGF0ZV9iaW5kLT5jb21wb25lbnRf
+YWRkZWQpCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVOT0RFVjsK
+PiDCoAo+ICvCoMKgwqDCoMKgwqDCoGlmIChsYXRlX2JpbmQtPmRpc2FibGUpCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiAwOwo+ICsKPiDCoMKgwqDCoMKgwqDCoMKgZm9y
+IChmd19pZCA9IDA7IGZ3X2lkIDwgWEVfTEJfRldfTUFYX0lEOyBmd19pZCsrKSB7Cj4gwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBsYmZ3ID0gJmxhdGVfYmluZC0+bGF0ZV9iaW5kX2Z3
+W2Z3X2lkXTsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlmIChsYmZ3LT5wYXls
+b2FkKSB7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9sYXRlX2JpbmRfZndf
+dHlwZXMuaAo+IGIvZHJpdmVycy9ncHUvZHJtL3hlL3hlX2xhdGVfYmluZF9md190eXBlcy5oCj4g
+aW5kZXggNWMwNTc0YWZmN2I5Li4xNThkYzFhYmUwNzIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3hlL3hlX2xhdGVfYmluZF9md190eXBlcy5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3hlL3hlX2xhdGVfYmluZF9md190eXBlcy5oCj4gQEAgLTY1LDYgKzY1LDggQEAgc3RydWN0IHhl
+X2xhdGVfYmluZCB7Cj4gwqDCoMKgwqDCoMKgwqDCoHN0cnVjdCB3b3JrcXVldWVfc3RydWN0ICp3
+cTsKPiDCoMKgwqDCoMKgwqDCoMKgLyoqIEBjb21wb25lbnRfYWRkZWQ6IHdoZXRoZXIgdGhlIGNv
+bXBvbmVudCBoYXMgYmVlbiBhZGRlZCAqLwo+IMKgwqDCoMKgwqDCoMKgwqBib29sIGNvbXBvbmVu
+dF9hZGRlZDsKPiArwqDCoMKgwqDCoMKgwqAvKiogQGRpc2FibGU6IHRvIGJsb2NrIGxhdGUgYmlu
+ZGluZyByZWxvYWQgZHVyaW5nIHBtIHJlc3VtZQo+IGZsb3cqLwo+ICvCoMKgwqDCoMKgwqDCoGJv
+b2wgZGlzYWJsZTsKPiDCoH07Cj4gwqAKPiDCoCNlbmRpZgoK
