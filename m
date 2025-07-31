@@ -2,91 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1B8B176FE
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 22:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B931B17736
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 22:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEA3410E7E2;
-	Thu, 31 Jul 2025 20:15:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A39810E2B2;
+	Thu, 31 Jul 2025 20:32:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="SmQGzqak";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bItUczJe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
- [209.85.215.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A6D910E7E2
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:15:47 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id
- 41be03b00d2f7-b3bcb168fd5so121496a12.3
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:15:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1753992945; x=1754597745;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pJ4qQ5QAOwj2KG3QXsyre1rk2lllpKmvahjj4sEjzfI=;
- b=SmQGzqakeFY+YWVTajYwOelKUXPuQR0wRms4unqbASwdhcJC7zo5JL9M0WEz97bcWv
- nfaxpey9ziVJbKxduYnmP1U0jpxFvhWRHAWyMHjK4b/E4FQLqNerLzuvBrhSnnYs6qWd
- y0ZLBzaHX8XoyoiyuGMYMU/j9ZNBV08TwapJg=
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B913810E7E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:32:03 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56VDf8SN001318
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:32:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:to; s=
+ qcppdkim1; bh=95j11hbpABfVkWXAtbUrfq5oYNt/9RLXdyb6uZduDVU=; b=bI
+ tUczJeCkAQYvmh2+CUG6hR+kEzUQgFzWdtxpccVFSteLEausfVNDS5ZSKCx57Juy
+ HVR3KsEw8v4ONwLSXFo9oaxnw31rRQ4y3bZQK2WTG22wCY7jaw5X4dZ5WW0U7MMU
+ IeMz6WKXysiTTjjKA5mslzwBOomWRjwaInq2HpIdk0DUeRtijUwuUbVkqy2x4XF6
+ UVZR11p1uvgjKay4sIz3gXIpBzceuwGEZN0IJNCCUePFDtVlD20pXhG8bXUc0TpR
+ +kkpHNgfHAI/kZCSPMX7tlk2pINjOXtCkteSXk9qTESDjQM0CbZ5eVkSTnI9djZZ
+ t6uxz1cYvZRy7ibispdA==
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484nyu9phv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:32:03 +0000 (GMT)
+Received: by mail-oi1-f199.google.com with SMTP id
+ 5614622812f47-427850a77a2so257450b6e.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:32:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1753992945; x=1754597745;
+ d=1e100.net; s=20230601; t=1753993922; x=1754598722;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pJ4qQ5QAOwj2KG3QXsyre1rk2lllpKmvahjj4sEjzfI=;
- b=QGycGMqsagl6K48FzXYk1jZiLYkqcNJ3rfZs9mlC1yCjfFPgNcWJlrqOtuGFCCyqlU
- jSJoIqLvnQ1WeGU0Gy+zeAblF1Blga1wmb1jegIOwb2wDvrl9UQDB5h/RHg8vD5o81r5
- 0j0bc2sox9yyDgggU1SpU4YRsn6lZ3C5+uihHWxn2hcPxRsIMtIZdnxXteCNqym9tQfn
- CMCjUw8ujKASpdrdz1YUWDliH5Oy6UP/r8yI5ud5vIxiYiwi2YNs1kfubSednu2UBRW4
- OcnlfGTeAfMV5zv2rdVRV3zfqrThffvcEu68V4El2nNHamsuWRsMGV/WsEvOlk61Tc+v
- 8BTA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUDXpsmmRB9IcbjaB/1ocDufnzANYl5CZFK/3Y1Y6LCbWzEqZ8AM/O3xUE6bsrLp6pC+hxtUBaUiMA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz66XJBWiq1f+tlTES3wW5P+6IW1mqs1Ybs/q+7u92MAcn6ZDcl
- OBGLZlIiJb59udyNYPcv1ztnexhdJXMkzNP2eifHRvmmZBFaiPgjePwtYdxC6HH2MEyd2Ynjbb1
- ICPQ=
-X-Gm-Gg: ASbGncuZakhppneGhbFe4CocBHzb2NACpWWC9WJK/Ln2v/wUP/pKyVckr2BYclM+55P
- BuvpFQk4fsQ2VLbtFlwgzHReAOMS7xIKcv78UmHyOQ9eemAo+iBBYb/YZLffefuBrqOEWKTWoZZ
- Nbc8MZJBIuIjqQzKx715HYUA2oLtSMU8Fjy12Ort1B2cozNrTBFLr/w+lJd0ryabhY+6FEJGMcj
- DXfA10SU5qf963d6LzOeSGetVPiZ0JHxlkTR8IQdkiKBTOBSOIDmw68OwVqMtNkOGR10UnUKsM4
- TEzq1GhdZm3cion7Xtq9XL4QOip8IZbkezIk3x6Jh6AAsh+I3CkYSlMaLhtsAP0t+HOte5m/yiB
- ppiscNbRUGhSYFPVJDRTxCQ2x+VFQEbfQb8FU+x1Vq7pzW53zBShEBLYmjrN5Yw==
-X-Google-Smtp-Source: AGHT+IFW4uBzXARmweC1b+Abatg+E9OP/2/B4zOMoulyHXq5MymopG/TPrWvwJkKKJfituqOWy12Rw==
-X-Received: by 2002:a17:90a:bc8f:b0:311:ff02:3fcc with SMTP id
- 98e67ed59e1d1-31f5dde85bemr9832628a91.14.1753992944486; 
- Thu, 31 Jul 2025 13:15:44 -0700 (PDT)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com.
- [209.85.216.48]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b422bac0c89sm2044281a12.30.2025.07.31.13.15.43
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Jul 2025 13:15:43 -0700 (PDT)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-31ec651c2a1so131827a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 13:15:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5HRnsvcRKLVFn6r2M4mkVF6U1R7lRB39N7MI8EorFh4Rt+n5L1AsvWJIRf38NuQ3zHQaXLcqQLaM=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:438e:b0:31e:cb1a:3dc5 with SMTP id
- 98e67ed59e1d1-31f5dde7723mr10425027a91.11.1753992942301; Thu, 31 Jul 2025
- 13:15:42 -0700 (PDT)
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=95j11hbpABfVkWXAtbUrfq5oYNt/9RLXdyb6uZduDVU=;
+ b=tkdTXp8zX3HwcJhrhtjnnfPDk46DzEimOoOTSnZBanOmq2nnndjR1iHe7EgeYQaEkp
+ z3IpTw1TdrjqV6gyTkfJCf/NHo42Lu7N89UqqQcq8UoJ9zunDSfOnYpYk+1kILoIxpOg
+ m3XiG3a94BbfBhdwospSY9dq8C6Ygi/NSM2Merhl2LHikdjrGL4/bwKj9tWkY3AjUNdv
+ blfQ16Hm3rYsVBFh3lXPoo5L7yAB0DO2Io4cnuqvtWDz8+sf82NbLPMqEyYViU59VlB3
+ KUfG/KIoUlwbVHPRqEABbFgOdptljzgTjKpgifBLDr3w4eHJ+eHE4sY5+iPRWCCD4dge
+ L1ow==
+X-Gm-Message-State: AOJu0YzHY06yQrGwqXKuC3IthrblqU1BDQtWV7ssjYeGnE7kynpvBULh
+ s0tIDhV8evcrjnPv7YG+0v7eF3iyOEx5rSWkKLzo1bI5N8EsegALnodN2i7pOCDcSPjfuKyIHlY
+ RoA0zsfXq7FiW9ESaKz1I/eL+1/reZ8jhji1gmJIYIbewbLwv0Miw0L7qS9Du0nseJwA+9MK0bR
+ OzCzZTv34y5U5LMqftd9WJrslLuIxDnetFxrgNlEZ9++6t2g==
+X-Gm-Gg: ASbGncs7ygqLbS+JAZIcfe9wu5K8TOrYSeeiOyhLbQeoiZAaql99F+8c0MmNB39C8br
+ dyL8YA/0vwkOelwbbzu1aOr7dfKPsSP80/D5sKhKvAfra1xO1wEB28lVhRqTSH8kL4oE38XrRdE
+ Fh3Esi/Fb90qQ3/Kieh3ysLc7k3O5eO/pQ7rVrjEme/4mRes4jxYoZ
+X-Received: by 2002:a05:6808:d48:b0:40c:f698:c132 with SMTP id
+ 5614622812f47-43199c82e9bmr5343036b6e.11.1753993921802; 
+ Thu, 31 Jul 2025 13:32:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEB1z2a8DRYITGDp5oVp8wvyaSOT3GViM176ZVbHA0f+yokdIDGj8gjhCgpQ3jKYYoQb+mKpRMhxR6uPxgxVkQ=
+X-Received: by 2002:a05:6808:d48:b0:40c:f698:c132 with SMTP id
+ 5614622812f47-43199c82e9bmr5343020b6e.11.1753993921409; Thu, 31 Jul 2025
+ 13:32:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250731105939.2692654-1-yangcong5@huaqin.corp-partner.google.com>
-In-Reply-To: <20250731105939.2692654-1-yangcong5@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 31 Jul 2025 13:15:30 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XhB5+DVo3zskgriTY37V9vfCSnVz65n7smCFPSZEm3hQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwfaTf4jQ_Q6c15BHLawgglenxeYKnVJOowrbwJrI9lAxfiRjWiwoeB3aY
-Message-ID: <CAD=FV=XhB5+DVo3zskgriTY37V9vfCSnVz65n7smCFPSZEm3hQ@mail.gmail.com>
-Subject: Re: [PATCH V2] drm/panel-edp: Add edp panels used by mt8189
- Chromebooks
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, treapking@chromium.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250728203412.22573-1-robin.clark@oss.qualcomm.com>
+ <20250728203412.22573-2-robin.clark@oss.qualcomm.com>
+ <CACu1E7F=Y2oKfiWtD0VYfmLkL24e7JrZYMt8dmoGW7zrq7bd2g@mail.gmail.com>
+ <CACSVV02W28L0MS32J0n1PTpEsaq_6RxEPgb_6y6G=6TryGEPQw@mail.gmail.com>
+ <CACSVV02DLSM2dHUj4MiPpogF3pgjk4ex5=9_P2AKdGmtx4bd=g@mail.gmail.com>
+ <CACu1E7E6QaWgjFy13qP4BS_5mdhJ2vFVsnm9WtnJE3_t7rymPQ@mail.gmail.com>
+In-Reply-To: <CACu1E7E6QaWgjFy13qP4BS_5mdhJ2vFVsnm9WtnJE3_t7rymPQ@mail.gmail.com>
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Thu, 31 Jul 2025 13:31:49 -0700
+X-Gm-Features: Ac12FXxbyEjKFrDZgWUpR8ETQOQajKnWdha82A9YYrUt8UGqoYorcn4PYFKocMw
+Message-ID: <CACSVV02qk59riW4_UAZjd=NTsSLF7qsQW6hkYEz7JcttBJDWTw@mail.gmail.com>
+Subject: Re: [PATCH 1/7] drm/msm: Add missing "location"s to devcoredump
+To: Connor Abbott <cwabbott0@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: ipaQ3M5JAuPguGMiQRPXCVXVTYfnr5Z2
+X-Proofpoint-ORIG-GUID: ipaQ3M5JAuPguGMiQRPXCVXVTYfnr5Z2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzMxMDE0NiBTYWx0ZWRfX4f593XU6dkiL
+ d8VDG9G/Z39szAumi9hdGsDFwY6xg35SKFNdr96JhvtX3wO0E4uq/RXtKh+wRo8GajLbNv0+lbw
+ Ixbz1N0wxdH0dIBVSyABOD9yeTJaouOQg8Tm1ET040oCnkhd+JH1tzXhueczuw8T/HM0gqpwJqo
+ p91X5UXlzE8OoKe460NG/ShJ4pMk/En+UecN0pofRzHGrXI28Eu82cTieKX+6+3ylGn7SJ2b9qc
+ P8+wIL8Ll8GGhdo84a8Aqru+Pj9ShDznU4XKuJt+tsGQFmVVfn/pQGHzf3WDjPyDKAOXwzVgbBr
+ OwSF3zIA8CHWShiYdsyVVK/nH1mfMTHbnpUOh9gv7gfBGQl8LhsYhjUQWU1BwQRuMr32OhzrE/i
+ pd9RSbfw+mPzJxy61GjpkUeNRa2cNqfoW4yrEvyyGkk7fH6J0OVFoIDYbY9MMHOwVI2Q9ee/
+X-Authority-Analysis: v=2.4 cv=CLoqXQrD c=1 sm=1 tr=0 ts=688bd2c3 cx=c_pps
+ a=yymyAM/LQ7lj/HqAiIiKTw==:117 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=3X2iVFLOVPrzddhlX30A:9 a=QEXdDO2ut3YA:10
+ a=efpaJB4zofY2dbm2aIRb:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-31_04,2025-07-31_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ priorityscore=1501 phishscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ clxscore=1015 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507310146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,264 +123,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Jul 31, 2025 at 12:16=E2=80=AFPM Connor Abbott <cwabbott0@gmail.com=
+> wrote:
+>
+> On Tue, Jul 29, 2025 at 9:40=E2=80=AFAM Rob Clark <rob.clark@oss.qualcomm=
+.com> wrote:
+> >
+> > On Mon, Jul 28, 2025 at 3:15=E2=80=AFPM Rob Clark <rob.clark@oss.qualco=
+mm.com> wrote:
+> > >
+> > > On Mon, Jul 28, 2025 at 2:04=E2=80=AFPM Connor Abbott <cwabbott0@gmai=
+l.com> wrote:
+> > > >
+> > > > On Mon, Jul 28, 2025 at 4:43=E2=80=AFPM Rob Clark <robin.clark@oss.=
+qualcomm.com> wrote:
+> > > > >
+> > > > > This is needed to properly interpret some of the sections.
+> > > > >
+> > > > > Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 2 ++
+> > > > >  1 file changed, 2 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/driver=
+s/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> > > > > index faca2a0243ab..e586577e90de 100644
+> > > > > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> > > > > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> > > > > @@ -1796,6 +1796,7 @@ static void a7xx_show_shader(struct a6xx_gp=
+u_state_obj *obj,
+> > > > >
+> > > > >         print_name(p, "  - type: ", a7xx_statetype_names[block->s=
+tatetype]);
+> > > > >         print_name(p, "    - pipe: ", a7xx_pipe_names[block->pipe=
+id]);
+> > > > > +       drm_printf(p, "    - location: %d", block->location);
+> > > >
+> > > > We should probably at least try to keep it proper YAML by indenting
+> > > > everything after another level...
+> > >
+> > > this made me realize I missed a \n... but otherwise I think the inden=
+t
+> > > is correct?  Or should location not have a leading '-'?
+> >
+> > beyond that, even without the added location field, some random online
+> > yaml checker is telling me that we were already not proper yaml.. so I
+> > guess, :shrug:?
+> >
+> > BR,
+> > -R
+>
+> Before this change, it looked like this:
+>
+>   - pipe: A7XX_PIPE_BR
+>     - cluster-name: A7XX_CLUSTER_SP_PS
+>       - context: 3
+>         - { offset: 0x02a718, value: 0x00000003 }
+>         ...
+>
+> Notice that each nested thing (pipe -> cluster -> context) has an
+> additional level of indentation. Now, it looks like this:
+>
+>   - pipe: A7XX_PIPE_BR
+>     - cluster-name: A7XX_CLUSTER_SP_PS
+>       - context: 3
+>       - location: 4
+>         - { offset: 0x02a718, value: 0x00000003 }
+>         ...
+>
+> So it looks a bit weird with the context and location not being
+> nested. Also, I think the correct nesting HW-wise is cluster ->
+> location -> context, rather than context-> location, so the location
+> should be first. But ultimately it's up to you.
 
-On Thu, Jul 31, 2025 at 3:59=E2=80=AFAM Cong Yang
-<yangcong5@huaqin.corp-partner.google.com> wrote:
->
-> Add a few generic edp panels used by mt8189 chromebooks, most of
-> them use the same general enable timing 50ms. For BOE-NV116WHM-N4B and
-> BOE-NV116WHM-T01 CMN-N140JCA-ELP the enable timing required 80ms. For
-> CMN-N116BCA-EAK, the enable timing required 200ms and disable timing
-> required 50ms. For CMN-N116BCL-EAK and CMN-N122JCA-ENK the enable timing
-> required 80ms and disable timing required 50ms. For TMA-TL140VDMS03-01,
-> the enable timing required 50ms and the disable timing required 100ms.
->
-> AUO B122UAN01.0:
-> edid-decode (hex):
-> 00 ff ff ff ff ff ff 00 06 af a4 04 00 00 00 00
-> 31 20 01 04 a5 1a 10 78 03 54 c5 9d 54 55 8f 25
-> 22 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 fa 3c 80 b8 70 b0 24 40 10 10
-> 3e 00 06 a4 10 00 00 18 00 00 00 fd 00 28 3c 4b
-> 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 41
-> 55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-> 00 42 31 32 32 55 41 4e 30 31 2e 30 20 0a 01 7c
->
-> AUO B116XAK02.0:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 06 af b0 52 00 00 00 00
-> 2e 21 01 04 95 1a 0e 78 03 5b 35 9f 59 55 8e 26
-> 25 50 54 00 00 00 01 01 01 01
-> 01 01 01 01 01 01
-> 01 01 01 01 01 01 5d 1c 56 a0 50 00 19 30 30 20
-> 46 00 00 90 10 00 00 18 00 00 00 fd 00 28 3c 30
-> 30 07 01 0a 20 20 20 20 20 20 00 00 00 fe 00 41
-> 55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-> 00 42 31 31 36 58 41 4b 30 32 2e 30 20 0a 00 bd
->
-> AUO B140UAN08.5:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 06 af ba 8b 00 00 00 00
-> 10 23 01 04 a5 1e 13 78 03 7c f2 90 57 59 93 29
-> 1d 51 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 26 3d 80 b8 70 b0 28 40 10 10
-> 3e 00 2d bc 10 00 00 18 00 00 00 fd 00 28 3c 4b
-> 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 41
-> 55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fc
-> 00 42 31 34 30 55 41 4e 30 38 2e 35 20 0a 01 29
->
-> 70 20 79 02 00 22 00 14 7b 63 02 85 7f 07 b7 00
-> 0f 80 0f 00 af 04 27 00 02 00 0d 00 25 01 09 7b
-> 63 02 7b 63 02 28 3c 80 2b 00 0c 27 00 28 3b 00
-> 00 27 00 28 3b 00 00 81 00 15 74 1a 00 00 03 01
-> 28 3c 00 00 60 51 60 51 3c 00 00 00 00 8d 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 31 90
->
-> AUO B140UAX01.2:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 06 af ba cd 00 00 00 00
-> 32 23 01 04 a5 1e 13 78 02 ca 31 9b 5c 58 8d 26
-> 21 4f 52 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 60 3f 80 a0 70 b0 64 40 30 20
-> 96 00 2d bc 10 00 00 18 00 00 00 fd 00 28 3c 4e
-> 4e 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 41
-> 55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fc
-> 00 42 31 34 30 55 41 58 30 31 2e 32 20 0a 00 46
->
-> BOE NV116WHM-N4B:
-> edid-decode (hex):
-> 00 ff ff ff ff ff ff 00 09 e5 45 0d 00 00 00 00
-> 1f 22 01 04 95 1a 0e 78 03 0b 55 9a 5f 58 95 28
-> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 09 1e 56 dc 50 00 28 30 30 20
-> 36 00 00 90 10 00 00 1a 00 00 00 fd 00 28 3c 30
-> 30 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
-> 4f 45 20 43 51 0a 20 20 20 20 20 20 00 00 00 fc
-> 00 4e 56 31 31 36 57 48 4d 2d 4e 34 42 0a 01 c1
->
-> 70 20 79 02 00 81 00 15 74 1a 00 00 03 01 28 3c
-> 00 00 4b 51 4b 51 3c 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 65 90
->
-> BOE NV116WHM-T01:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 09 e5 df 0d 00 00 00 00
-> 01 1c 01 04 95 1a 0e 78 0a 81 15 96 59 5a 9a 29
-> 1f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 6b 1b 56 64 50 00 1e 30 26 18
-> 44 00 00 90 10 00 00 1a ef 15 56 64 50 00 1e 30
-> 26 18 44 00 00 90 10 00 00 00 00 00 00 fe 00 42
-> 4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
-> 00 4e 56 31 31 36 57 48 32 2d 4d 30 30 0a 00 83
->
-> CMN N116BCL-EAK:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 0d ae 5f 11 00 00 00 00
-> 08 22 01 04 95 1a 0e 78 03 46 a5 9c 5b 53 8b 24
-> 1d 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 e6 1e 56 e2 50 00 3c 30 30 20
-> a6 00 00 90 10 00 00 1a 00 00 00 fd 00 28 3c 32
-> 32 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-> 4d 4e 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-> 00 4e 31 31 36 42 43 4c 2d 45 41 4b 0a 20 01 9b
->
-> 70 20 79 02 00 25 01 09 fc 34 01 fc 34 01 28 3c
-> 80 81 00 10 72 1a 00 00 03 01 28 3c 00 00 00 00
-> 00 00 3c 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 2f 90
->
-> CMN N122JCA-ENK:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 0d ae 4c 12 00 00 00 00
-> 11 20 01 04 a5 1a 10 78 03 0a f5 9e 5c 52 8b 24
-> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
-> a6 00 06 a4 10 00 00 18 00 00 00 fd 00 28 3c 4a
-> 4a 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-> 4d 4e 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-> 00 4e 31 32 32 4a 43 41 2d 45 4e 4b 0a 20 00 fd
->
-> CMN N140JCA-ELP:
-> edid-decode (hex):
-> 00 ff ff ff ff ff ff 00 0d ae a8 14 00 00 00 00
-> 1d 23 01 04 a5 1e 13 78 03 28 65 97 59 54 8e 27
-> 1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 42 3c 80 a0 70 b0 24 40 30 20
-> a6 00 2d bc 10 00 00 18 00 00 00 fd 00 28 3c 4a
-> 4a 10 01 0a 20 20 20 20 20 20 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc
-> 00 4e 31 34 30 4a 43 41 2d 45 4c 50 0a 20 01 c2
->
-> 70 20 79 02 00 25 01 09 94 5a 02 94 5a 02 28 3c
-> 80 81 00 15 74 1a 00 00 03 01 28 3c 00 00 00 00
-> 00 00 3c 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 aa 90
->
-> CMN N116BCA-EAK:
-> edid-decode (hex):
-> 00 ff ff ff ff ff ff 00 0d ae 02 74 00 00 00 00
-> 2a 22 01 04 95 1a 0e 78 03 67 75 98 59 53 90 27
-> 1c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 da 1d 56 e2 50 00 20 30 30 20
-> a6 00 04 8c 10 00 00 1a 00 00 00 fd 00 28 3c 30
-> 30 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-> 4d 4e 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
-> 00 4e 31 31 36 42 43 41 2d 45 41 4b 0a 20 00 ba
->
-> CSW MNE007QS5-2:
-> edid-decode (hex):
-> 00 ff ff ff ff ff ff 00 0e 77 62 14 00 00 00 00
-> 10 23 01 04 a5 1e 13 78 03 1c 2e 93 5f 58 95 28
-> 1f 4f 58 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 ea 3d 80 c8 70 b0 2e 40 30 20
-> 36 00 2e bc 10 00 00 1a 00 00 00 fd 00 28 3c 4b
-> 4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-> 53 4f 54 20 54 39 0a 20 20 20 20 20 00 00 00 fc
-> 00 4d 4e 45 30 30 37 51 53 35 2d 32 0a 20 01 8e
->
-> 70 20 79 02 00 81 00 15 74 1a 00 00 03 01 28 3c
-> 00 00 00 00 00 00 3c 00 00 00 00 80 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 1d 90
->
-> CSW MNE007QB2-2:
-> edid-decode (hex):
-> 00 ff ff ff ff ff ff 00 0e 77 68 14 00 00 00 00
-> 00 23 01 04 a5 1e 13 78 03 90 e0 90 5e 59 86 25
-> 14 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
-> 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28 3c 4a
-> 4a 10 01 0a 20 20 20 20 20 20 00 00 00 fc 00 4d
-> 4e 46 33 30 37 51 42 32 2d 32 0a 20 00 00 00 fe
-> 00 43 53 4f 54 20 54 33 0a 20 20 20 20 20 00 9a
->
-> TMA TM140VDXP01-04:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 51 a1 11 08 00 00 00 00
-> 1a 22 01 04 a5 1e 13 78 03 83 3d 98 5b 57 8d 28
-> 1f 4e 53 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 6d 3d 80 a0 70 b0 3c 40 30 20
-> 36 00 2d bc 10 00 00 1a 00 00 00 10 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 fd 00 28
-> 3c 4c 4c 10 01 0a 20 20 20 20 20 20 00 00 00 fc
-> 00 54 4d 31 34 30 56 44 58 50 30 31 0a 20 01 f7
->
-> 70 20 79 02 00 25 00 09 41 66 02 41 66 02 28 3c
-> 80 81 00 14 73 1a 00 00 03 01 28 3c 00 00 00 00
-> 00 00 3c 00 00 00 00 8d 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ae 90
->
-> TMA TL140VDMS03-01:
-> edid-decode (hex):
->
-> 00 ff ff ff ff ff ff 00 51 a1 94 20 00 00 00 00
-> 0b 23 01 04 a5 1e 13 78 03 47 5a 9e 53 5e 8b 28
-> 23 54 53 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 03 3e 80 a0 70 b0 48 40 30 20
-> 66 0c 2e bd 10 00 00 1e 00 00 00 fd 00 28 3c 4d
-> 4d 10 01 0a 20 20 20 20 20 20 00 00 00 10 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc
-> 00 54 4c 31 34 30 56 44 4d 53 30 33 0a 20 01 9c
->
-> 70 20 79 02 00 20 00 0c 00 00 00 94 20 00 00 00
-> 00 0b 19 00 21 00 1d c8 0b 5d 07 80 07 b0 04 00
-> 48 c9 55 48 a5 90 7b 42 21 02 45 54 00 00 00 00
-> 00 00 12 78 26 00 09 02 00 00 00 00 00 01 00 00
-> 2b 00 06 04 00 28 3b 00 00 81 00 14 73 1a 00 00
-> 03 01 28 3c 00 00 00 00 00 00 3c 00 00 00 00 8d
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ae 90
->
-> Signed-off-by: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
-> ---
-> Chage since V1:
->
-> - Add edid in commit message.
-> - Modiy enable and disable timing for SPEC.
->
-> V1: https://lore.kernel.org/all/CAHwB_NJ3yQxf9fTMT_cQv50z8X_NKyQMOJEuqDqY=
--BfKX8QzXQ@mail.gmail.com
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
+In terms of nesting, type, pipe, and location are all at the same
+level, and then for that tuple there is SPs nested under that, and
+then USPTPs nested under the SPs.  Although I guess we already had
+pipe nested under type..
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-Pushed to drm-misc-next:
-
-[1/1] drm/panel-edp: Add edp panels used by mt8189 Chromebooks
-      commit: 518867b09394217d13f6e05f704450bd9d2c8eeb
+BR,
+-R
