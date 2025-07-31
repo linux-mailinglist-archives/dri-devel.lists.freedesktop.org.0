@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD87B1741F
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 17:49:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 956B8B17421
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Jul 2025 17:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7316510E48C;
-	Thu, 31 Jul 2025 15:49:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0487910E7BD;
+	Thu, 31 Jul 2025 15:49:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lSW3jS9p";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EqSTVuN2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF6310E48C
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:49:37 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E33410E7BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 15:49:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 106C7A55481;
- Thu, 31 Jul 2025 15:49:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 538FDC4CEFB;
- Thu, 31 Jul 2025 15:49:32 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AE22A5C546C;
+ Thu, 31 Jul 2025 15:49:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26D84C4CEF7;
+ Thu, 31 Jul 2025 15:49:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1753976976;
- bh=Ocb1NOgQl74B18can9Y+UZgv0q32Y4dyFqG+Vs8rtHM=;
+ s=k20201202; t=1753976981;
+ bh=r97UwXG1579xAWFCkWZJzKyFqYZzuvi9ibi+ySY8Gs0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lSW3jS9pAFF4r+5a4P3adZuyRu69mYynP+fGwHmQINZf6iHMUIV1er69DyJR+z6Xt
- IxSMgZC1paJiWDzLaVVEQXtuz/qiGXKd6dmASOWX1G/8OpTVmU2OopKUvMv3+08CA0
- 8bNqLr6t+HFS9c2VoyAtcwgR8zDE4vF+upWg7myYTFxOwgV7OleMphRm5MoBCqENx0
- /nRw8PWhwaGfXmppVBg6tt9MZ9uFBAlKUaoNcR1k5k/opaOWpCFX06HlIZu4/eIxD0
- phTbYqFklM84ioz4DQbhuL5+DqoqMhmlyet+L+Qc/gjF+RjF7ef8/OOAEXh1SDgBQp
- +bPEBOcNy900Q==
+ b=EqSTVuN2zxfwZ1frunNoQ63lBeWmPwz6UKKe2gisXeuR5NNASuWfzv4HNoKu/iLs4
+ 7tpvVxDzKyToaxJ28prMBA+9RiELT7DrqKzJCis7ex3zEEkbNVL/APlEHN3EBB+imV
+ lSMvZlQNwLxCdRHR/Qfhd5ffsDWXC1CaIsoY+U+QYmDc+84OXEXnE+UtmXS75Lgm6x
+ MXJ3RjHkqHqeykxrBTo4tfHoC9UNZYNrwbGPuWZrXsvwJL7MWaBdbcmJFewG8c5qAu
+ lLh3fs7zqYeZVM6cnUG6//29/+25RQpg7ZE3tv3nXB3tl0c7yxKJy838Tam4MSEN6s
+ MSpY6Vlh1B0/g==
 From: Danilo Krummrich <dakr@kernel.org>
 To: lorenzo.stoakes@oracle.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
  urezki@gmail.com, ojeda@kernel.org, alex.gaynor@gmail.com,
@@ -39,10 +39,9 @@ To: lorenzo.stoakes@oracle.com, vbabka@suse.cz, Liam.Howlett@oracle.com,
  tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
 Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 1/4] rust: alloc: replace aligned_size() with
- Kmalloc::aligned_layout()
-Date: Thu, 31 Jul 2025 17:48:06 +0200
-Message-ID: <20250731154919.4132-2-dakr@kernel.org>
+Subject: [PATCH 2/4] rust: drm: ensure kmalloc() compatible Layout
+Date: Thu, 31 Jul 2025 17:48:07 +0200
+Message-ID: <20250731154919.4132-3-dakr@kernel.org>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250731154919.4132-1-dakr@kernel.org>
 References: <20250731154919.4132-1-dakr@kernel.org>
@@ -63,94 +62,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aligned_size() dates back to when Rust did support kmalloc() only, but
-is now used in ReallocFunc::call() and hence for all allocators.
+drm::Device is allocated through __drm_dev_alloc() (which uses
+kmalloc()) and the driver private data, <T as drm::Driver>::Data, is
+initialized in-place.
 
-However, the additional padding applied by aligned_size() is only
-required by the kmalloc() allocator backend.
+Due to the order of fields in drm::Device
 
-Hence, replace aligned_size() with Kmalloc::aligned_layout() and use it
-for the affected allocators, i.e. kmalloc() and kvmalloc(), only.
+  pub struct Device<T: drm::Driver> {
+     dev: Opaque<bindings::drm_device>,
+     data: T::Data,
+  }
 
-While at it, make Kmalloc::aligned_layout() public, such that Rust
-abstractions, which have to call subsystem specific kmalloc() based
-allocation primitives directly, can make use of it.
+even with an arbitrary large alignment requirement of T::Data it can't
+happen that the size of Device is smaller than its alignment requirement.
 
-Fixes: 8a799831fc63 ("rust: alloc: implement `ReallocFunc`")
+However, let's not rely on this subtle circumstance and create a proper
+kmalloc() compatible Layout.
+
+Fixes: 1e4b8896c0f3 ("rust: drm: add device abstraction")
 Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
- rust/kernel/alloc/allocator.rs | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+ rust/kernel/drm/device.rs | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/rust/kernel/alloc/allocator.rs b/rust/kernel/alloc/allocator.rs
-index aa2dfa9dca4c..3331ef338f3b 100644
---- a/rust/kernel/alloc/allocator.rs
-+++ b/rust/kernel/alloc/allocator.rs
-@@ -43,17 +43,6 @@
- /// For more details see [self].
- pub struct KVmalloc;
+diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+index 3bb7c83966cf..d19410deaf6c 100644
+--- a/rust/kernel/drm/device.rs
++++ b/rust/kernel/drm/device.rs
+@@ -5,6 +5,7 @@
+ //! C header: [`include/linux/drm/drm_device.h`](srctree/include/linux/drm/drm_device.h)
  
--/// Returns a proper size to alloc a new object aligned to `new_layout`'s alignment.
--fn aligned_size(new_layout: Layout) -> usize {
--    // Customized layouts from `Layout::from_size_align()` can have size < align, so pad first.
--    let layout = new_layout.pad_to_align();
--
--    // Note that `layout.size()` (after padding) is guaranteed to be a multiple of `layout.align()`
--    // which together with the slab guarantees means the `krealloc` will return a properly aligned
--    // object (see comments in `kmalloc()` for more information).
--    layout.size()
--}
--
- /// # Invariants
- ///
- /// One of the following: `krealloc`, `vrealloc`, `kvrealloc`.
-@@ -88,7 +77,7 @@ unsafe fn call(
-         old_layout: Layout,
-         flags: Flags,
-     ) -> Result<NonNull<[u8]>, AllocError> {
--        let size = aligned_size(layout);
-+        let size = layout.size();
-         let ptr = match ptr {
-             Some(ptr) => {
-                 if old_layout.size() == 0 {
-@@ -123,6 +112,17 @@ unsafe fn call(
-     }
- }
+ use crate::{
++    alloc::allocator::Kmalloc,
+     bindings, device, drm,
+     drm::driver::AllocImpl,
+     error::from_err_ptr,
+@@ -12,7 +13,7 @@
+     prelude::*,
+     types::{ARef, AlwaysRefCounted, Opaque},
+ };
+-use core::{mem, ops::Deref, ptr, ptr::NonNull};
++use core::{alloc::Layout, mem, ops::Deref, ptr, ptr::NonNull};
  
-+impl Kmalloc {
-+    /// Returns a [`Layout`] that makes [`Kmalloc`] fulfill the requested size and alignment of
-+    /// `layout`.
-+    pub const fn aligned_layout(layout: Layout) -> Layout {
-+        // Note that `layout.size()` (after padding) is guaranteed to be a multiple of
-+        // `layout.align()` which together with the slab guarantees means that `Kmalloc` will return
-+        // a properly aligned object (see comments in `kmalloc()` for more information).
-+        layout.pad_to_align()
-+    }
-+}
+ #[cfg(CONFIG_DRM_LEGACY)]
+ macro_rules! drm_legacy_fields {
+@@ -96,6 +97,10 @@ impl<T: drm::Driver> Device<T> {
+ 
+     /// Create a new `drm::Device` for a `drm::Driver`.
+     pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<ARef<Self>> {
++        // `__drm_dev_alloc` uses `kmalloc()` to allocate memory, hence ensure a `kmalloc()`
++        // compatible `Layout`.
++        let layout = Kmalloc::aligned_layout(Layout::new::<Self>());
 +
- // SAFETY: `realloc` delegates to `ReallocFunc::call`, which guarantees that
- // - memory remains valid until it is explicitly freed,
- // - passing a pointer to a valid memory allocation is OK,
-@@ -135,6 +135,8 @@ unsafe fn realloc(
-         old_layout: Layout,
-         flags: Flags,
-     ) -> Result<NonNull<[u8]>, AllocError> {
-+        let layout = Kmalloc::aligned_layout(layout);
-+
-         // SAFETY: `ReallocFunc::call` has the same safety requirements as `Allocator::realloc`.
-         unsafe { ReallocFunc::KREALLOC.call(ptr, layout, old_layout, flags) }
-     }
-@@ -176,6 +178,10 @@ unsafe fn realloc(
-         old_layout: Layout,
-         flags: Flags,
-     ) -> Result<NonNull<[u8]>, AllocError> {
-+        // `KVmalloc` may use the `Kmalloc` backend, hence we have to enforce a `Kmalloc`
-+        // compatible layout.
-+        let layout = Kmalloc::aligned_layout(layout);
-+
-         // TODO: Support alignments larger than PAGE_SIZE.
-         if layout.align() > bindings::PAGE_SIZE {
-             pr_warn!("KVmalloc does not support alignments larger than PAGE_SIZE yet.\n");
+         // SAFETY:
+         // - `VTABLE`, as a `const` is pinned to the read-only section of the compilation,
+         // - `dev` is valid by its type invarants,
+@@ -103,7 +108,7 @@ pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<A
+             bindings::__drm_dev_alloc(
+                 dev.as_raw(),
+                 &Self::VTABLE,
+-                mem::size_of::<Self>(),
++                layout.size(),
+                 mem::offset_of!(Self, dev),
+             )
+         }
 -- 
 2.50.0
 
