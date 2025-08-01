@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57E4B17EFD
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 11:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC19B17F17
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 11:18:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15A5D10E302;
-	Fri,  1 Aug 2025 09:14:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89DAA10E0CD;
+	Fri,  1 Aug 2025 09:18:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="LARUAiPt";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Vnz6CZlA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com
- [209.85.221.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D639610E302
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 09:14:55 +0000 (UTC)
-Received: by mail-wr1-f73.google.com with SMTP id
- ffacd0b85a97d-3b78a034d25so1443389f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Aug 2025 02:14:55 -0700 (PDT)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D3E10E0CD
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 09:18:49 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-45359bfe631so8477285e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Aug 2025 02:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1754039694; x=1754644494;
+ d=google.com; s=20230601; t=1754039927; x=1754644727;
  darn=lists.freedesktop.org; 
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=IpQjiOjYgpF0fuxQTSWWz9JedYu06n/jjylXo74pt70=;
- b=LARUAiPt0nC3/jkWy54twylalIW8WJmbWfUVXMcDJ0oxwHp28FeXFUzOrQ+VbXMPg7
- L+wAmi7qsM0Y7EVWs4P69eVN4K2BCR6KcijoYh1zvGCvv5m3vAYFaCl6lIEb9aAvuTKJ
- KStQ+Ey2QaHRhFGlyEelsKYfHEmMjk21AJaTDwj7WLVz/JyiNX/jXZzSyLLNWYfOCaIZ
- I9UZ5q7Nut1lut2WTW237TBwbGmh9FBF7uOGiF9KmzNn4pBKDK+h/uV6NIg8JW6jx/hZ
- u1A6o+/j3HIXsx3xhJZf8n7Y4zB8efXp7DZg9pIbf1gFR+gnjuC8KhneqPb/vhvynQuq
- tXEQ==
+ bh=TPJ/V5RI8K47BlVRi/QYNKYG6CvA+YvGWmagXwaMydA=;
+ b=Vnz6CZlA7ObxianQpIjkiE5+a96kkEkSSilZpkgR8o4iiv5/VvYfa+bGEXGXLg0I3Q
+ 28ASuX3XfspCdInQ/qP+VFImTxEgmrStRWFtnlquzcSvUbjdfDAYCtcwGxZDBCMVkS11
+ nN8iXeEf7o68xQCgkzp0mnNRLWu4myckdaxIrMXf1+2IqHoX9vdbW529kEKSGJZb703L
+ MTUYEBo/EDYOTXKKTGmyayvEdgl4tWKrOPGq5KJMnDNYCUk3QuFjR3AE/5Bht3d2OK/L
+ /+7I8Vn9obeNxQpA/uliWxvzy8fCzeGCrjq+OccaRtZP9pw2Olz4LTUWXflTO8bcGU/L
+ fJUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754039694; x=1754644494;
+ d=1e100.net; s=20230601; t=1754039927; x=1754644727;
  h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IpQjiOjYgpF0fuxQTSWWz9JedYu06n/jjylXo74pt70=;
- b=TUeoCsH8KPdI1ebqS3BV7VutBAVx15g9cQaljYd/ClUjWtG/GtJ6LWfN70ngSkwwnb
- gMXxUVFuTKYhAfN5GLyXVLgJNxpb8Gw8BsSLpSEhrvXZ9V9XZ2FNGBeQ+Nlj8hIwCwdU
- GodOMWo/cXO4WAAdSpjwehbmPj4fZIYfjE39JlegskKrVImGnW+D7Nqi0nLzI67/5+2V
- /6vV2k2RmxtHSmvW9RPaHhLQtSXJTLrkxQDq9Cjp3cy2gfI3VPeZGXy+T2jOJmQQs/j3
- EovI8VRCvBuLn2lDkYU1thy0UfCOwxzQlZE1sN1ADIv6XSqt0m5MH1VPRolxCIDqHDyH
- Ac2g==
+ bh=TPJ/V5RI8K47BlVRi/QYNKYG6CvA+YvGWmagXwaMydA=;
+ b=j67y//BsDEi/svdDE6bQ0XmBJEiLNnVhOl9YBrwi5TgUubC9YKw9SYtHHUd5wGcnOG
+ NfHdKd1IldG9P/dEYMAGu81n4aWDvRTQFWTt0r3ivw9luO/NZd3C7wSYS4IigztIGSgl
+ FXmJFCffBkyollexv3qhVk6BSAMr9dY0eG3DcIzGnR60Tmg9sUAJoALJTod/2VmepIyv
+ NIqT2gAJJ4MI80zO2xESEZAJVg5A2jfXuLrH/656mnwP4REBJPoHq+HSZmBJn1O9d5T9
+ SIhHZ0tXYpUCiNR71PPv8kb5FIWPFeLX4qDeBEXwl0W9bsqVf1Jm6pGjRtMHhbLFdZw9
+ +EYA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWF5ivFOyZwpkA6LJoSdNGuVtrRrPlROd7z4Lc8GE5H5LzAB2iXLNbEtkKPoo/d/QE/aG28JRE7sxw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxt8kogS2E5F3C9EQ+0sJuZaac0s+FtqeqKkx3U3JTKJ9HsXfRe
- 8JuGgNxRJuGATH6LfR7bi+LHpedo1Y5RI8nrer0Q0+xKpCbMPwVUQmR19YSstZM/DYSR2AR4m+F
- b41CZTDgJanSJTgrdWA==
-X-Google-Smtp-Source: AGHT+IESDRZCEwF7SL8d5dASeF7/YHXUd7DUV9ClWEwuYXtRvBgcLkdVZT/KeZok9+iJf2HhJER5jHKLA9aDBQY=
-X-Received: from wmbhj23.prod.google.com
- ([2002:a05:600c:5297:b0:456:21f4:7a98])
+ AJvYcCVHUnn3C0NhHLKfFdT1kRkkIp9KOWRxCaiR9c8fFZ+WAARmwBXIwRvLDYCT1TzF2Y7xl4k36zNXy2Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDGhgGNCzcj/HRqQpQoN3Q3rtYjXFHfv3NpgwT2ss02kQEWKeK
+ J5f6MdI5yefkRCiMB1oHhJ0T+31sTCt2ZWbNr05E1SUTSqsZJKNzYj/Yw0YSFK8BaD6Ul1iBrR4
+ bARwiWvhGDJxZnk2adw==
+X-Google-Smtp-Source: AGHT+IG5NOG6HNujXCAaZiDz9P+DKaUO9EQNwoy/JaT1RYCYpKkIaBQBCpy2nJhwB2K8nNEaJFZ6PYv/FKhZr48=
+X-Received: from wmbhj26.prod.google.com
+ ([2002:a05:600c:529a:b0:458:a7c9:d6e5])
  (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:2907:b0:3b8:893f:a184 with SMTP id
- ffacd0b85a97d-3b8893fa74bmr4215393f8f.52.1754039694365; 
- Fri, 01 Aug 2025 02:14:54 -0700 (PDT)
-Date: Fri, 1 Aug 2025 09:14:53 +0000
-In-Reply-To: <20250731154919.4132-2-dakr@kernel.org>
+ 2002:a05:600c:1e12:b0:456:161c:3d6f with SMTP id
+ 5b1f17b1804b1-45892b9e2ecmr91292135e9.11.1754039927660; 
+ Fri, 01 Aug 2025 02:18:47 -0700 (PDT)
+Date: Fri, 1 Aug 2025 09:18:46 +0000
+In-Reply-To: <20250731154919.4132-3-dakr@kernel.org>
 Mime-Version: 1.0
 References: <20250731154919.4132-1-dakr@kernel.org>
- <20250731154919.4132-2-dakr@kernel.org>
-Message-ID: <aIyFjU67jPkK1BUt@google.com>
-Subject: Re: [PATCH 1/4] rust: alloc: replace aligned_size() with
- Kmalloc::aligned_layout()
+ <20250731154919.4132-3-dakr@kernel.org>
+Message-ID: <aIyGdr8vKV4XE6Io@google.com>
+Subject: Re: [PATCH 2/4] rust: drm: ensure kmalloc() compatible Layout
 From: Alice Ryhl <aliceryhl@google.com>
 To: Danilo Krummrich <dakr@kernel.org>
 Cc: lorenzo.stoakes@oracle.com, vbabka@suse.cz, Liam.Howlett@oracle.com, 
@@ -87,24 +86,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 31, 2025 at 05:48:06PM +0200, Danilo Krummrich wrote:
-> aligned_size() dates back to when Rust did support kmalloc() only, but
-> is now used in ReallocFunc::call() and hence for all allocators.
+On Thu, Jul 31, 2025 at 05:48:07PM +0200, Danilo Krummrich wrote:
+> drm::Device is allocated through __drm_dev_alloc() (which uses
+> kmalloc()) and the driver private data, <T as drm::Driver>::Data, is
+> initialized in-place.
 > 
-> However, the additional padding applied by aligned_size() is only
-> required by the kmalloc() allocator backend.
+> Due to the order of fields in drm::Device
 > 
-> Hence, replace aligned_size() with Kmalloc::aligned_layout() and use it
-> for the affected allocators, i.e. kmalloc() and kvmalloc(), only.
+>   pub struct Device<T: drm::Driver> {
+>      dev: Opaque<bindings::drm_device>,
+>      data: T::Data,
+>   }
+
+I'm not convinced this patch is right.
+
+Imagine this scenario: T::Data has size and alignment both equal to 16,
+and lets say that drm_device has a size that is a multiple of 8 but not
+16 such as 72. In that case, you will allocate 72+16=88 bytes for
+Device, but actually the size of Device is 96 because there is 8 bytes
+of padding between dev and data.
+
+Alice
+
+> even with an arbitrary large alignment requirement of T::Data it can't
+> happen that the size of Device is smaller than its alignment requirement.
 > 
-> While at it, make Kmalloc::aligned_layout() public, such that Rust
-> abstractions, which have to call subsystem specific kmalloc() based
-> allocation primitives directly, can make use of it.
+> However, let's not rely on this subtle circumstance and create a proper
+> kmalloc() compatible Layout.
 > 
-> Fixes: 8a799831fc63 ("rust: alloc: implement `ReallocFunc`")
+> Fixes: 1e4b8896c0f3 ("rust: drm: add device abstraction")
 > Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-
-I guess vmalloc handles alignment in a different way ... ok makes sense
-to me.
-
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> ---
+>  rust/kernel/drm/device.rs | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
+> index 3bb7c83966cf..d19410deaf6c 100644
+> --- a/rust/kernel/drm/device.rs
+> +++ b/rust/kernel/drm/device.rs
+> @@ -5,6 +5,7 @@
+>  //! C header: [`include/linux/drm/drm_device.h`](srctree/include/linux/drm/drm_device.h)
+>  
+>  use crate::{
+> +    alloc::allocator::Kmalloc,
+>      bindings, device, drm,
+>      drm::driver::AllocImpl,
+>      error::from_err_ptr,
+> @@ -12,7 +13,7 @@
+>      prelude::*,
+>      types::{ARef, AlwaysRefCounted, Opaque},
+>  };
+> -use core::{mem, ops::Deref, ptr, ptr::NonNull};
+> +use core::{alloc::Layout, mem, ops::Deref, ptr, ptr::NonNull};
+>  
+>  #[cfg(CONFIG_DRM_LEGACY)]
+>  macro_rules! drm_legacy_fields {
+> @@ -96,6 +97,10 @@ impl<T: drm::Driver> Device<T> {
+>  
+>      /// Create a new `drm::Device` for a `drm::Driver`.
+>      pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<ARef<Self>> {
+> +        // `__drm_dev_alloc` uses `kmalloc()` to allocate memory, hence ensure a `kmalloc()`
+> +        // compatible `Layout`.
+> +        let layout = Kmalloc::aligned_layout(Layout::new::<Self>());
+> +
+>          // SAFETY:
+>          // - `VTABLE`, as a `const` is pinned to the read-only section of the compilation,
+>          // - `dev` is valid by its type invarants,
+> @@ -103,7 +108,7 @@ pub fn new(dev: &device::Device, data: impl PinInit<T::Data, Error>) -> Result<A
+>              bindings::__drm_dev_alloc(
+>                  dev.as_raw(),
+>                  &Self::VTABLE,
+> -                mem::size_of::<Self>(),
+> +                layout.size(),
+>                  mem::offset_of!(Self, dev),
+>              )
+>          }
+> -- 
+> 2.50.0
+> 
