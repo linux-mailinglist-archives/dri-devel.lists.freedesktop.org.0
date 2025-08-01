@@ -2,158 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF734B1860A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 18:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F41B18B47
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 10:22:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D50B810E294;
-	Fri,  1 Aug 2025 16:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8FE110E32A;
+	Sat,  2 Aug 2025 08:22:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="J5G5ckkM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nl/fFCem";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFCB10E294
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 16:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1754067024;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=SYsDt9m5yC5GNXC3mMT2zgYZ8KAanzc8ZMb75eA5bZA=;
- b=J5G5ckkMxIkdLD8S8KtiYTEuq9urFHrRx+GY8HTUxweTJ+TxahQgnhZcV3LXN67s6FdZ20
- S55NIYTp0sUDxi40ff6NxnZ8tGcRevEbmhBnGeHZDQSBWmFtMvnnnhEfmUBb6UMtk6ROwc
- IvDvmWLSl1auMK9jhUTPITJLJaedAa8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-550-6q2aqI1JP4yyno-My-NDpg-1; Fri, 01 Aug 2025 12:50:23 -0400
-X-MC-Unique: 6q2aqI1JP4yyno-My-NDpg-1
-X-Mimecast-MFC-AGG-ID: 6q2aqI1JP4yyno-My-NDpg_1754067022
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-45624f0be48so11460255e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Aug 2025 09:50:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754067022; x=1754671822;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA34610E2EF
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 16:51:54 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-4ae73b0a891so24080301cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Aug 2025 09:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1754067114; x=1754671914; darn=lists.freedesktop.org;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
  :date:message-id:reply-to;
- bh=SYsDt9m5yC5GNXC3mMT2zgYZ8KAanzc8ZMb75eA5bZA=;
- b=lzsYBzBD2vx4g6kFyxO5JUI8JlUXqesY4gRXjBaX6qAYJVK1/TCm1ve2jMBx/W39NR
- h7BWNwmgMgr98fUR8a9XEUTNcPV9Wf9WN/xyqBC1MUU03K4B7GcqB2o3kUE/YuW+LF5s
- Ejnnrp+useSd8W/pHVdo2H4nbifPu/TI7ELcECfmk4wYhMwLHB4Yj3xYiQxqazHp6dbD
- 4/xeLVtEM3FL/x+0kobhzJDiNcxZvJ6c5gsJNh4yfX8hBSGIuR+CRvjKwInJ6sCRRGa5
- nOrxI/8yb2RVlvA8V/aZQbVkwE3vmN4K5aT/Q1ZthmkdQ1yhca6+m/XZoninBSjdZyI5
- vKKA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXunoTU/dr5F2tXwKEDcHMF02OVr0LofGEalIOJv+BYbRQu1w68nw/yiiNvohZTGKq2VOK6/QUJ9hM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0VXDG+02HgnzB5871lYQaLTFLw75XBPOozzWVG+RLl5llxbRS
- qnJ7tbvUr9UBh6Orz8wTlgDRwviRGFPDPeBFDXxXNZIB3wKYDKosFYQaRUQ1PThnsVeTmlJIgd1
- 6CrasDyTPsSncPgRBqx2zT/Na5vPafdGhvOn4A/OaTl/XjPZz4ioArTnKUCW5PWg9rXonOw==
-X-Gm-Gg: ASbGncuSqwTMuByPEU6V3f9R8Bj+R9IwDEQ1jjL+E2nwVxjCT8dutaOBYkBVR+k416W
- 5PdcBKkArxmr68iVARDLJdZxPtUPjsTDLlBFp71XY2jID+fKfIT3VXNz8Rq2cDW0nxbnLTnQ3wp
- fekM0k9gj6ixdgRy65o5YmlWh2ZopsCuQP4CxKhxCVPCxq43yX4BX1jG/PSduBFSXBO+iqg+b1e
- r5dhspjxDHYEBBiReuhAe2c8t2y5RSvykrNtws2PTfKzmn7aiflT5v4ue/HzsrMDLfRWi52H2ZU
- UBQ+HyHo6kiSKBSSrsFSix9W4uh6CJHjxmsfNmmEkksBT6pK5szf1swCZ9oFYgGYzzvGt5akot9
- Z4Grz1Oqq4pPWHZXoDL0Ih/MrGEudNdI4EXkrm8diCjnV6vggbYohG5TLlub9+Dv6
-X-Received: by 2002:a05:600c:4703:b0:456:1560:7c5f with SMTP id
- 5b1f17b1804b1-458b69dd754mr45145e9.14.1754067021758; 
- Fri, 01 Aug 2025 09:50:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGUJvJDfGtRlezSck1ccdAzkOu3spyth3+j0p67V1PzuOsPCcnJLkOSxAdJi2jdJrgCyEaJaA==
-X-Received: by 2002:a05:600c:4703:b0:456:1560:7c5f with SMTP id
- 5b1f17b1804b1-458b69dd754mr44755e9.14.1754067021341; 
- Fri, 01 Aug 2025 09:50:21 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f20:7500:5f99:9633:990e:138?
- (p200300d82f2075005f999633990e0138.dip0.t-ipconnect.de.
- [2003:d8:2f20:7500:5f99:9633:990e:138])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b79c467994sm6378420f8f.50.2025.08.01.09.50.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Aug 2025 09:50:20 -0700 (PDT)
-Message-ID: <b8009500-8b0b-4bb9-ae5e-6d2135adbfdd@redhat.com>
-Date: Fri, 1 Aug 2025 18:50:18 +0200
+ bh=y9ECYOLLAIQAbD2pEWuqYO8ZzQwp7kJcvRDUK76eRyI=;
+ b=nl/fFCemmb+vgViv7q/aPN6/5Ojya1rbMUi76A3Wpvd7EgEzyxptke4VfcorlsFnyT
+ DPVKRfSF7MhBmi2pgOt9tuJYf6b1aZ20Dvjq8CYoYhtAKF44+SElJU+s6U2Z5Dbx2dlL
+ 0zos5QMfmu9aDCE1NbecKO2DuMHL/q5+ELVdJd+w6nyMi/pCjxyENuao/x7zhGSIZrcH
+ xjmIGFCiHUY/AhsSNBunWSjbHAxbP1jx3LvxHRiJqRWc/+YQrHN8njoT7nKEP9gR7eWJ
+ fV/FPtb2bBEx6fICMLtRRXew+ms/7up7CMP2CJQfrtbraP+OtzB+B6kLX0YU2eTmvd1/
+ Hj2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754067114; x=1754671914;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=y9ECYOLLAIQAbD2pEWuqYO8ZzQwp7kJcvRDUK76eRyI=;
+ b=Eb8ALmMaS01NsoZrRd1hTEuXexIgEHTyY8k8evTrEWdIc+caQysI9zujHjlj1Q9Phi
+ RRk0heKtvLHVSEuzwRaOIRVv5/ZjoELq5sCahxy3vXFPo4BzQo/jyEK5lFKrdE0Aw8dt
+ rC5SvSh6rJ0d23batCes9rvdd8LA9IYVvhIJM/GH64fSEmzP2Xy5hVOosvZh83aFFMu9
+ +ThHWBG0LxpjfRhR3WyZBNCG2mR31k57j4Cnl6TbrOxAaDR3tRM7UR0X6C3h71NAbQoE
+ WUgao0j+NM9/NaINQCAEHqv5XxEy5FwGnTGXjT+HR5Q3SP8UMyoyLW0HLDicuhIVHV7b
+ bj6A==
+X-Gm-Message-State: AOJu0YwfQViLbYqbMDSq9vjdftRB7jIXv8rMEwqQZq7oxak8v8B9VMhd
+ pkOeJ+YXQa2KlLPuqq0Uf3dTvq8Xk9ILICPNhzCM+oOx+UZoXnOhhVTZ93q50tIcN3VtIK7WyfF
+ Di/6zF4KLQd44xUOx+RsAO6KHBango3Q1SZ1SRvGkKL8A
+X-Gm-Gg: ASbGncsO5VN0l5Xuo1p3HNKBikuIKTgwuW3tm1VE+PrzOQv8MQuGILp5ej/g7GukLxR
+ u4yLLntXXDNVslWvouIII7HdGosNWa1refOlwxaLJoyf++XXuIw85LStDWzyeZ/vwOn4rUQFCXh
+ w6ZCb5u+9OgWiV1vnVdC3gurfIq+7C2RDUPNGVBiB+TTEpY0kSZIpo8on4q8WclYkxXxaF/g0IN
+ dojlbxVoB2/0akaY8ltoj2NT7wGz7i7eD1C1Mw=
+X-Google-Smtp-Source: AGHT+IFNBDQaYwyVOhJsgRrV1wohsr8BxsVWdvuPJKQzI4fZ0Fv9LEwCZE1ezSoM15v6hOhoW3HcrRDF3qgsTdNBsZs=
+X-Received: by 2002:a05:6214:c62:b0:707:451e:2787 with SMTP id
+ 6a1803df08f44-709366d0f49mr4389766d6.28.1754067113488; Fri, 01 Aug 2025
+ 09:51:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] mm/hmm: HMM API to enable P2P DMA for device
- private pages
-To: Jason Gunthorpe <jgg@ziepe.ca>, Alistair Popple <apopple@nvidia.com>
-Cc: Matthew Wilcox <willy@infradead.org>, Yonatan Maman <ymaman@nvidia.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Leon Romanovsky
- <leon@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ben Skeggs <bskeggs@nvidia.com>,
- Michael Guralnik <michaelgur@nvidia.com>, Or Har-Toov <ohartoov@nvidia.com>,
- Daisuke Matsuda <dskmtsd@gmail.com>, Shay Drory <shayd@nvidia.com>,
- linux-mm@kvack.org, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Gal Shalom <GalShalom@nvidia.com>
-References: <20250718115112.3881129-1-ymaman@nvidia.com>
- <20250718115112.3881129-2-ymaman@nvidia.com>
- <aHpXXKTaqp8FUhmq@casper.infradead.org> <20250718144442.GG2206214@ziepe.ca>
- <aH4_QaNtIJMrPqOw@casper.infradead.org>
- <7lvduvov3rvfsgixbkyyinnzz3plpp3szxam46ccgjmh6v5d7q@zoz4k723vs3d>
- <aIBcTpC9Te7YIe4J@ziepe.ca>
- <cn7hcxskr5prkc3jnd4vzzeau5weevzumcspzfayeiwdexkkfe@ovvgraqo7svh>
- <a3f1af02-ef3f-40f8-be79-4c3929a59bb7@redhat.com>
- <i5ya3n7bhhufpczprtp2ndg7bxtykoyjtsfae6dfdqk2rfz6ix@nzwnhqfwh6rq>
- <20250801164058.GD26511@ziepe.ca>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <20250801164058.GD26511@ziepe.ca>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: itXMzOwl9UPlUwFgkImodNxY6xE6rTw2lHYyJ-KmQTs_1754067022
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Alvaro Madela <alvaromadela@gmail.com>
+Date: Fri, 1 Aug 2025 13:51:42 -0300
+X-Gm-Features: Ac12FXzaj3TojPQrLtQAiZFCRO41P6MryoHoELZLI3dFwW4FIf3JIdsHXw0AUQY
+Message-ID: <CALNP1JaK=LoavsmHcBXjr+ZboHFgteXR1pcPOSLxSvgdYHiD3A@mail.gmail.com>
+Subject: [i915] Arrow Lake [8086:7d67] - No video output with kernel 6.16
+ (Ubuntu 24.04)
+To: dri-devel@lists.freedesktop.org
+Content-Type: multipart/alternative; boundary="000000000000364c8b063b50936b"
+X-Mailman-Approved-At: Sat, 02 Aug 2025 08:22:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,37 +77,354 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01.08.25 18:40, Jason Gunthorpe wrote:
-> On Fri, Jul 25, 2025 at 10:31:25AM +1000, Alistair Popple wrote:
-> 
->> The only issue would be if there were generic code paths that somehow have a
->> raw pfn obtained from neither a page-table walk or struct page. My assumption
->> (yet to be proven/tested) is that these paths don't exist.
-> 
-> hmm does it, it encodes the device private into a pfn and expects the
-> caller to do pfn to page.
-> 
-> This isn't set in stone and could be changed..
-> 
-> But broadly, you'd want to entirely eliminate the ability to go from
-> pfn to device private or from device private to pfn.
-> 
-> Instead you'd want to work on some (space #, space index) tuple, maybe
-> encoded in a pfn_t, but absolutely and typesafely distinct. Each
-> driver gets its own 0 based space for device private information, the
-> space is effectively the pgmap.
-> 
-> And if you do this, maybe we don't need struct page (I mean the type!)
-> backing device memory at all.... Which would be a very worthwhile
-> project.
-> 
-> Do we ever even use anything in the device private struct page? Do we
-> refcount it?
+--000000000000364c8b063b50936b
+Content-Type: text/plain; charset="UTF-8"
 
-ref-counted and map-counted ...
+Hello Intel Linux Graphics Team,
 
--- 
-Cheers,
+I'm using an Intel Arrow Lake GPU (8086:7d67) on Ubuntu 24.04 (kernel 6.16)
+and facing complete lack of video output without 'nomodeset'.
 
-David / dhildenb
+Problem Description:
+- GPU: Intel Arrow Lake [8086:7d67] (Core Ultra 7 265K)
+- Kernel: 6.16.0-xx-generic (Ubuntu 24.04)
+- Issue: No display output with i915 driver, requires 'nomodeset' to boot
+- Current workaround: Using fbdev/vesa drivers at 1920x1080
 
+Steps to Reproduce:
+1. Boot system with default i915 driver
+2. Screen remains black or shows corruption
+
+Debug Data:
+=== lspci -nn | grep VGA ===
+00:02.0 VGA compatible controller [0300]: Intel Corporation Arrow Lake-U
+[Intel Graphics] [8086:7d67] (rev 06)
+80:14.5 Non-VGA unclassified device [0000]: Intel Corporation Device
+[8086:7f2f] (rev 10)
+
+=== dmesg | grep -i i915 ===
+nothing
+
+=== xrandr --verbose ===
+Screen 0: minimum 16 x 16, current 1920 x 1080, maximum 32767 x 32767
+None-1 connected primary 1920x1080+0+0 (0x41) normal (normal left inverted
+right x axis y axis) 508mm x 285mm
+Identifier: 0x21
+Timestamp:  50331
+Subpixel:   unknown
+Gamma:      1.0:1.0:1.0
+Brightness: 0.0
+Clones:
+CRTC:       0
+CRTCs:      0
+Transform:  1.000000 0.000000 0.000000
+           0.000000 1.000000 0.000000
+           0.000000 0.000000 1.000000
+          filter:
+RANDR Emulation: 1
+non-desktop: 0
+supported: 0, 1
+  1920x1080 (0x41) 173.000MHz -HSync +VSync *current +preferred
+        h: width  1920 start 2048 end 2248 total 2576 skew    0 clock
+ 67.16KHz
+        v: height 1080 start 1083 end 1088 total 1120           clock
+ 59.96Hz
+  1440x1080 (0x42) 129.000MHz -HSync +VSync
+        h: width  1440 start 1528 end 1680 total 1920 skew    0 clock
+ 67.19KHz
+        v: height 1080 start 1083 end 1087 total 1120           clock
+ 59.99Hz
+  1400x1050 (0x43) 121.750MHz -HSync +VSync
+        h: width  1400 start 1488 end 1632 total 1864 skew    0 clock
+ 65.32KHz
+        v: height 1050 start 1053 end 1057 total 1089           clock
+ 59.98Hz
+  1280x1024 (0x44) 109.000MHz -HSync +VSync
+        h: width  1280 start 1368 end 1496 total 1712 skew    0 clock
+ 63.67KHz
+        v: height 1024 start 1027 end 1034 total 1063           clock
+ 59.89Hz
+  1280x960 (0x45) 101.250MHz -HSync +VSync
+        h: width  1280 start 1360 end 1488 total 1696 skew    0 clock
+ 59.70KHz
+        v: height  960 start  963 end  967 total  996           clock
+ 59.94Hz
+  1152x864 (0x46) 81.750MHz -HSync +VSync
+        h: width  1152 start 1216 end 1336 total 1520 skew    0 clock
+ 53.78KHz
+        v: height  864 start  867 end  871 total  897           clock
+ 59.96Hz
+  1024x768 (0x47) 63.500MHz -HSync +VSync
+        h: width  1024 start 1072 end 1176 total 1328 skew    0 clock
+ 47.82KHz
+        v: height  768 start  771 end  775 total  798           clock
+ 59.92Hz
+  800x600 (0x48) 38.250MHz -HSync +VSync
+        h: width   800 start  832 end  912 total 1024 skew    0 clock
+ 37.35KHz
+        v: height  600 start  603 end  607 total  624           clock
+ 59.86Hz
+  640x480 (0x49) 23.750MHz -HSync +VSync
+        h: width   640 start  664 end  720 total  800 skew    0 clock
+ 29.69KHz
+        v: height  480 start  483 end  487 total  500           clock
+ 59.38Hz
+  320x240 (0x4a)  6.000MHz -HSync +VSync
+        h: width   320 start  336 end  360 total  400 skew    0 clock
+ 15.00KHz
+        v: height  240 start  243 end  247 total  252           clock
+ 59.52Hz
+  1680x1050 (0x4b) 146.250MHz -HSync +VSync
+        h: width  1680 start 1784 end 1960 total 2240 skew    0 clock
+ 65.29KHz
+        v: height 1050 start 1053 end 1059 total 1089           clock
+ 59.95Hz
+  1440x900 (0x4c) 106.500MHz -HSync +VSync
+        h: width  1440 start 1528 end 1672 total 1904 skew    0 clock
+ 55.93KHz
+        v: height  900 start  903 end  909 total  934           clock
+ 59.89Hz
+  1280x800 (0x4d) 83.500MHz -HSync +VSync
+        h: width  1280 start 1352 end 1480 total 1680 skew    0 clock
+ 49.70KHz
+        v: height  800 start  803 end  809 total  831           clock
+ 59.81Hz
+  1152x720 (0x4e) 66.750MHz -HSync +VSync
+        h: width  1152 start 1208 end 1320 total 1488 skew    0 clock
+ 44.86KHz
+        v: height  720 start  723 end  729 total  748           clock
+ 59.97Hz
+  960x600 (0x4f) 45.250MHz -HSync +VSync
+        h: width   960 start  992 end 1088 total 1216 skew    0 clock
+ 37.21KHz
+        v: height  600 start  603 end  609 total  624           clock
+ 59.63Hz
+  928x580 (0x50) 42.750MHz -HSync +VSync
+        h: width   928 start  968 end 1056 total 1184 skew    0 clock
+ 36.11KHz
+        v: height  580 start  583 end  589 total  603           clock
+ 59.88Hz
+  800x500 (0x51) 30.750MHz -HSync +VSync
+        h: width   800 start  824 end  896 total  992 skew    0 clock
+ 31.00KHz
+        v: height  500 start  503 end  509 total  521           clock
+ 59.50Hz
+  768x480 (0x52) 28.750MHz -HSync +VSync
+        h: width   768 start  792 end  864 total  960 skew    0 clock
+ 29.95KHz
+        v: height  480 start  483 end  489 total  500           clock
+ 59.90Hz
+  720x480 (0x53) 26.750MHz -HSync +VSync
+        h: width   720 start  744 end  808 total  896 skew    0 clock
+ 29.85KHz
+        v: height  480 start  483 end  493 total  500           clock
+ 59.71Hz
+  640x400 (0x54) 20.000MHz -HSync +VSync
+        h: width   640 start  664 end  720 total  800 skew    0 clock
+ 25.00KHz
+        v: height  400 start  403 end  409 total  417           clock
+ 59.95Hz
+  320x200 (0x55)  5.000MHz -HSync +VSync
+        h: width   320 start  336 end  360 total  400 skew    0 clock
+ 12.50KHz
+        v: height  200 start  203 end  209 total  212           clock
+ 58.96Hz
+  1600x900 (0x56) 118.250MHz -HSync +VSync
+        h: width  1600 start 1696 end 1856 total 2112 skew    0 clock
+ 55.99KHz
+        v: height  900 start  903 end  908 total  934           clock
+ 59.95Hz
+  1368x768 (0x57) 85.250MHz -HSync +VSync
+        h: width  1368 start 1440 end 1576 total 1784 skew    0 clock
+ 47.79KHz
+        v: height  768 start  771 end  781 total  798           clock
+ 59.88Hz
+  1280x720 (0x58) 74.500MHz -HSync +VSync
+        h: width  1280 start 1344 end 1472 total 1664 skew    0 clock
+ 44.77KHz
+        v: height  720 start  723 end  728 total  748           clock
+ 59.86Hz
+  1024x576 (0x59) 46.500MHz -HSync +VSync
+        h: width  1024 start 1064 end 1160 total 1296 skew    0 clock
+ 35.88KHz
+        v: height  576 start  579 end  584 total  599           clock
+ 59.90Hz
+  864x486 (0x5a) 32.500MHz -HSync +VSync
+        h: width   864 start  888 end  968 total 1072 skew    0 clock
+ 30.32KHz
+        v: height  486 start  489 end  494 total  506           clock
+ 59.92Hz
+  720x400 (0x5b) 22.250MHz -HSync +VSync
+        h: width   720 start  744 end  808 total  896 skew    0 clock
+ 24.83KHz
+        v: height  400 start  403 end  413 total  417           clock
+ 59.55Hz
+  640x350 (0x5c) 17.500MHz -HSync +VSync
+        h: width   640 start  664 end  720 total  800 skew    0 clock
+ 21.88KHz
+        v: height  350 start  353 end  363 total  366           clock
+ 59.77Hz
+
+Request:
+Please add support for Arrow Lake [8086:7d67] in future kernel releases.
+
+Thanks
+
+Alvaro Madela.
+
+--000000000000364c8b063b50936b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello Intel Linux Graphics Team, =C2=A0<br><br>I&#39;m usi=
+ng an Intel Arrow Lake GPU (8086:7d67) on Ubuntu 24.04 (kernel 6.16) and fa=
+cing complete lack of video output without &#39;nomodeset&#39;.=C2=A0=C2=A0=
+<div><br></div><div>Problem Description:<br>- GPU: Intel Arrow Lake [8086:7=
+d67] (Core Ultra 7 265K)<br>- Kernel: 6.16.0-xx-generic (Ubuntu 24.04)<br>-=
+ Issue: No display output with i915 driver, requires &#39;nomodeset&#39; to=
+ boot<br>- Current workaround: Using fbdev/vesa drivers at 1920x1080<br><br=
+>Steps to Reproduce:<br>1. Boot system with default i915 driver<br>2. Scree=
+n remains black or shows corruption<br><br>Debug Data:</div><div>=3D=3D=3D =
+lspci -nn | grep VGA =3D=3D=3D</div><div>00:02.0 VGA compatible controller =
+[0300]: Intel Corporation Arrow Lake-U [Intel Graphics] [8086:7d67] (rev 06=
+)<br>80:14.5 Non-VGA unclassified device [0000]: Intel Corporation Device [=
+8086:7f2f] (rev 10)<br></div><div><br></div><div>=3D=3D=3D dmesg | grep -i =
+i915 =3D=3D=3D<br>nothing<br><br>=3D=3D=3D xrandr --verbose =3D=3D=3D</div>=
+<div>Screen 0: minimum 16 x 16, current 1920 x 1080, maximum 32767 x 32767<=
+br>None-1 connected primary 1920x1080+0+0 (0x41) normal (normal left invert=
+ed right x axis y axis) 508mm x 285mm<br>	Identifier: 0x21<br>	Timestamp: =
+=C2=A050331<br>	Subpixel: =C2=A0 unknown<br>	Gamma: =C2=A0 =C2=A0 =C2=A01.0=
+:1.0:1.0<br>	Brightness: 0.0<br>	Clones: =C2=A0 =C2=A0<br>	CRTC: =C2=A0 =C2=
+=A0 =C2=A0 0<br>	CRTCs: =C2=A0 =C2=A0 =C2=A00<br>	Transform: =C2=A01.000000=
+ 0.000000 0.000000<br>	 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00.000000 1=
+.000000 0.000000<br>	 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00.000000 0.0=
+00000 1.000000<br>	 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 filter: <br>	RANDR E=
+mulation: 1 <br>	non-desktop: 0 <br>		supported: 0, 1<br>=C2=A0 1920x1080 (=
+0x41) 173.000MHz -HSync +VSync *current +preferred<br>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 h: width =C2=A01920 start 2048 end 2248 total 2576 skew =C2=A0 =C2=
+=A00 clock =C2=A067.16KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height 1080 sta=
+rt 1083 end 1088 total 1120 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A0=
+59.96Hz<br>=C2=A0 1440x1080 (0x42) 129.000MHz -HSync +VSync<br>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 h: width =C2=A01440 start 1528 end 1680 total 1920 skew =
+=C2=A0 =C2=A00 clock =C2=A067.19KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: heigh=
+t 1080 start 1083 end 1087 total 1120 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cl=
+ock =C2=A059.99Hz<br>=C2=A0 1400x1050 (0x43) 121.750MHz -HSync +VSync<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A01400 start 1488 end 1632 total 1=
+864 skew =C2=A0 =C2=A00 clock =C2=A065.32KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ v: height 1050 start 1053 end 1057 total 1089 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 clock =C2=A059.98Hz<br>=C2=A0 1280x1024 (0x44) 109.000MHz -HSync +VS=
+ync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A01280 start 1368 end 1496 =
+total 1712 skew =C2=A0 =C2=A00 clock =C2=A063.67KHz<br>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 v: height 1024 start 1027 end 1034 total 1063 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 clock =C2=A059.89Hz<br>=C2=A0 1280x960 (0x45) 101.250MHz -HSy=
+nc +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A01280 start 1360 end=
+ 1488 total 1696 skew =C2=A0 =C2=A00 clock =C2=A059.70KHz<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 v: height =C2=A0960 start =C2=A0963 end =C2=A0967 total =C2=
+=A0996 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.94Hz<br>=C2=A0 115=
+2x864 (0x46) 81.750MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: widt=
+h =C2=A01152 start 1216 end 1336 total 1520 skew =C2=A0 =C2=A00 clock =C2=
+=A053.78KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0864 start =C2=A0=
+867 end =C2=A0871 total =C2=A0897 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =
+=C2=A059.96Hz<br>=C2=A0 1024x768 (0x47) 63.500MHz -HSync +VSync<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 h: width =C2=A01024 start 1072 end 1176 total 1328 ske=
+w =C2=A0 =C2=A00 clock =C2=A047.82KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: hei=
+ght =C2=A0768 start =C2=A0771 end =C2=A0775 total =C2=A0798 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 clock =C2=A059.92Hz<br>=C2=A0 800x600 (0x48) 38.250MHz=
+ -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A0 800 start =C2=
+=A0832 end =C2=A0912 total 1024 skew =C2=A0 =C2=A00 clock =C2=A037.35KHz<br=
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0600 start =C2=A0603 end =C2=A0=
+607 total =C2=A0624 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.86Hz<=
+br>=C2=A0 640x480 (0x49) 23.750MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 h: width =C2=A0 640 start =C2=A0664 end =C2=A0720 total =C2=A0800 sk=
+ew =C2=A0 =C2=A00 clock =C2=A029.69KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: he=
+ight =C2=A0480 start =C2=A0483 end =C2=A0487 total =C2=A0500 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 clock =C2=A059.38Hz<br>=C2=A0 320x240 (0x4a) =C2=A06.0=
+00MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A0 320 star=
+t =C2=A0336 end =C2=A0360 total =C2=A0400 skew =C2=A0 =C2=A00 clock =C2=A01=
+5.00KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0240 start =C2=A0243 =
+end =C2=A0247 total =C2=A0252 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=
+=A059.52Hz<br>=C2=A0 1680x1050 (0x4b) 146.250MHz -HSync +VSync<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 h: width =C2=A01680 start 1784 end 1960 total 2240 ske=
+w =C2=A0 =C2=A00 clock =C2=A065.29KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: hei=
+ght 1050 start 1053 end 1059 total 1089 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+clock =C2=A059.95Hz<br>=C2=A0 1440x900 (0x4c) 106.500MHz -HSync +VSync<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A01440 start 1528 end 1672 total 1=
+904 skew =C2=A0 =C2=A00 clock =C2=A055.93KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ v: height =C2=A0900 start =C2=A0903 end =C2=A0909 total =C2=A0934 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.89Hz<br>=C2=A0 1280x800 (0x4d) 8=
+3.500MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A01280 s=
+tart 1352 end 1480 total 1680 skew =C2=A0 =C2=A00 clock =C2=A049.70KHz<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0800 start =C2=A0803 end =C2=A08=
+09 total =C2=A0831 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.81Hz<b=
+r>=C2=A0 1152x720 (0x4e) 66.750MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 h: width =C2=A01152 start 1208 end 1320 total 1488 skew =C2=A0 =C2=
+=A00 clock =C2=A044.86KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A072=
+0 start =C2=A0723 end =C2=A0729 total =C2=A0748 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 clock =C2=A059.97Hz<br>=C2=A0 960x600 (0x4f) 45.250MHz -HSync +VSyn=
+c<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A0 960 start =C2=A0992 end 10=
+88 total 1216 skew =C2=A0 =C2=A00 clock =C2=A037.21KHz<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 v: height =C2=A0600 start =C2=A0603 end =C2=A0609 total =C2=A062=
+4 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.63Hz<br>=C2=A0 928x580 =
+(0x50) 42.750MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=
+=A0 928 start =C2=A0968 end 1056 total 1184 skew =C2=A0 =C2=A00 clock =C2=
+=A036.11KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0580 start =C2=A0=
+583 end =C2=A0589 total =C2=A0603 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =
+=C2=A059.88Hz<br>=C2=A0 800x500 (0x51) 30.750MHz -HSync +VSync<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 h: width =C2=A0 800 start =C2=A0824 end =C2=A0896 tota=
+l =C2=A0992 skew =C2=A0 =C2=A00 clock =C2=A031.00KHz<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 v: height =C2=A0500 start =C2=A0503 end =C2=A0509 total =C2=A052=
+1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.50Hz<br>=C2=A0 768x480 =
+(0x52) 28.750MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=
+=A0 768 start =C2=A0792 end =C2=A0864 total =C2=A0960 skew =C2=A0 =C2=A00 c=
+lock =C2=A029.95KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0480 star=
+t =C2=A0483 end =C2=A0489 total =C2=A0500 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 clock =C2=A059.90Hz<br>=C2=A0 720x480 (0x53) 26.750MHz -HSync +VSync<br=
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A0 720 start =C2=A0744 end =C2=A0=
+808 total =C2=A0896 skew =C2=A0 =C2=A00 clock =C2=A029.85KHz<br>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 v: height =C2=A0480 start =C2=A0483 end =C2=A0493 total =
+=C2=A0500 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.71Hz<br>=C2=A0 =
+640x400 (0x54) 20.000MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: wi=
+dth =C2=A0 640 start =C2=A0664 end =C2=A0720 total =C2=A0800 skew =C2=A0 =
+=C2=A00 clock =C2=A025.00KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=
+=A0400 start =C2=A0403 end =C2=A0409 total =C2=A0417 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 clock =C2=A059.95Hz<br>=C2=A0 320x200 (0x55) =C2=A05.000MHz -=
+HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A0 320 start =C2=
+=A0336 end =C2=A0360 total =C2=A0400 skew =C2=A0 =C2=A00 clock =C2=A012.50K=
+Hz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0200 start =C2=A0203 end =
+=C2=A0209 total =C2=A0212 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A058=
+.96Hz<br>=C2=A0 1600x900 (0x56) 118.250MHz -HSync +VSync<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 h: width =C2=A01600 start 1696 end 1856 total 2112 skew =C2=
+=A0 =C2=A00 clock =C2=A055.99KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =
+=C2=A0900 start =C2=A0903 end =C2=A0908 total =C2=A0934 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 clock =C2=A059.95Hz<br>=C2=A0 1368x768 (0x57) 85.250MHz -=
+HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A01368 start 1440 =
+end 1576 total 1784 skew =C2=A0 =C2=A00 clock =C2=A047.79KHz<br>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 v: height =C2=A0768 start =C2=A0771 end =C2=A0781 total =
+=C2=A0798 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.88Hz<br>=C2=A0 =
+1280x720 (0x58) 74.500MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: w=
+idth =C2=A01280 start 1344 end 1472 total 1664 skew =C2=A0 =C2=A00 clock =
+=C2=A044.77KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0720 start =C2=
+=A0723 end =C2=A0728 total =C2=A0748 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clo=
+ck =C2=A059.86Hz<br>=C2=A0 1024x576 (0x59) 46.500MHz -HSync +VSync<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A01024 start 1064 end 1160 total 1296=
+ skew =C2=A0 =C2=A00 clock =C2=A035.88KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v:=
+ height =C2=A0576 start =C2=A0579 end =C2=A0584 total =C2=A0599 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.90Hz<br>=C2=A0 864x486 (0x5a) 32.50=
+0MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A0 864 start=
+ =C2=A0888 end =C2=A0968 total 1072 skew =C2=A0 =C2=A00 clock =C2=A030.32KH=
+z<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0486 start =C2=A0489 end =
+=C2=A0494 total =C2=A0506 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059=
+.92Hz<br>=C2=A0 720x400 (0x5b) 22.250MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 h: width =C2=A0 720 start =C2=A0744 end =C2=A0808 total =C2=A089=
+6 skew =C2=A0 =C2=A00 clock =C2=A024.83KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v=
+: height =C2=A0400 start =C2=A0403 end =C2=A0413 total =C2=A0417 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=A059.55Hz<br>=C2=A0 640x350 (0x5c) 17.50=
+0MHz -HSync +VSync<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 h: width =C2=A0 640 start=
+ =C2=A0664 end =C2=A0720 total =C2=A0800 skew =C2=A0 =C2=A00 clock =C2=A021=
+.88KHz<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 v: height =C2=A0350 start =C2=A0353 e=
+nd =C2=A0363 total =C2=A0366 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock =C2=
+=A059.77Hz<br><br>Request:<br>Please add support for Arrow Lake [8086:7d67]=
+ in future kernel releases.</div><div><br></div><div>Thanks<br><br>Alvaro M=
+adela.</div></div>
+
+--000000000000364c8b063b50936b--
