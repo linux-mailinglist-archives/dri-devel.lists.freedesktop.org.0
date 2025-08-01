@@ -2,67 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AB6B1815C
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 13:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34CAB1818A
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 14:19:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF1C10E840;
-	Fri,  1 Aug 2025 11:57:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72BFB10E070;
+	Fri,  1 Aug 2025 12:19:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TKmiGbxT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NVnzLlyA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ABC810E84C;
- Fri,  1 Aug 2025 11:57:58 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1D010E070
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 12:19:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754049478; x=1785585478;
+ t=1754050757; x=1785586757;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=k4uJWNznZjrWRAkBSWrPOnb2RYyI0II7yPHZj90bRpw=;
- b=TKmiGbxT/Ij5W7RVU0QKXGf/8ySUlDXJPlUDUrFSkNGvc6yzQqT/knce
- fWfktE0d5MephOVZdGOn1+CifQn8lqqlQkFX/Ft2NVzFIm4/8IADm5hus
- Odktr47tCf8IKVTUM1m5G6uET2+H0lV1be9cQVz549JNbaCr2Q2GTGozQ
- MJBZJBNC+kzWmGeC4Bwon7RwO0eJWj3YL9OTtH5YI/b5mKIEokTxQaNAr
- p+hOj4CjLzz8ZwKhR7mRETY/GX67rMkl7okqFeGuUBkGwMXzpuSnt7xub
- nfedzJ4gHs8qAO+qPDQ16762m8n8yFQZyXirr6zWQ0bONTSx4bSPvSPXW Q==;
-X-CSE-ConnectionGUID: +VQDQuYTS3mm038y4rax7A==
-X-CSE-MsgGUID: LtX3WRy/TROTLZW6i7Fm3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="43990993"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="43990993"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2025 04:57:57 -0700
-X-CSE-ConnectionGUID: yA34cemMQQGS/GXT4qXCTg==
-X-CSE-MsgGUID: 4X8/13uFRfCv0W0/ZV+Qog==
+ bh=XE8MwQfjcnyAnEktcaEH8sZ3y2b2AklUggRNz6+yXLA=;
+ b=NVnzLlyAi3dafByQgzZrtaLn6HXbOATOv5MMv3J9MUxhPAMjtoIpuLmP
+ Up6o3tKCbN4g/QYD/frgg8hGttXWy6znX45CZf1NOdcTr2Uw4ya87cGcB
+ DQeQKH1uNVgylRBrw0/FvsQjfTPETvAHEEbqM5Lpj1CLHc5HpdFeZeZC/
+ tVUe2UuW7259Vgq/0+YNSh2AIcoyhEjPd1Q2S5Uup4zwomp+9SwrDfpL/
+ O5+C6hote+ML+UrUf2F+QJyXdwsfr6kMCsGOjj85WRoLQnUjdQq008eKe
+ TbYq12SBw+tb5lwa6K9KEVfDGHQwdRGW8tox3GA5nCrsv1QoWM8U0LF33 A==;
+X-CSE-ConnectionGUID: D/XMFAOATGeT947BHeXgLg==
+X-CSE-MsgGUID: OJNa4VugSq6keVQ+ocGbVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="73853402"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="73853402"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2025 05:19:17 -0700
+X-CSE-ConnectionGUID: GQTlK/EEQimgihbWmH942Q==
+X-CSE-MsgGUID: 0b556gS8QJe2J2yDoVo28w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="200705685"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="163253903"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
  ([10.245.246.164])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2025 04:57:54 -0700
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2025 05:19:14 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Kandpal, Suraj"
- <suraj.kandpal@intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, "Murthy, Arun R"
- <arun.r.murthy@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>
-Subject: Re: [PATCH 03/28] drm/writeback: Define function to get
- drm_connector from writeback
-In-Reply-To: <pax7q7t6gqf4v2ots4ycdfpyecyb62eycht5vlzxodxfl5tlzv@axijwakktt2u>
+To: Marius Vlad <marius.vlad@collabora.com>, dri-devel@lists.freedesktop.org
+Cc: daniel.stone@collabora.com, tzimmermann@suse.de, simona.vetter@ffwll.ch,
+ marius.vlad@collabora.com, derek.foreman@collabora.com
+Subject: Re: [PATCH] drm/connector: hdmi: Add a link bpc property
+In-Reply-To: <20250801101750.1726-1-marius.vlad@collabora.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250725050409.2687242-1-suraj.kandpal@intel.com>
- <20250725050409.2687242-4-suraj.kandpal@intel.com>
- <ng2ps7k5h74w6zo62oqazzetunjc2psooobmh3zcrrmxesi2ua@va6z7eqjst2u>
- <DM3PPF208195D8D2676D013483985D2C3FFE358A@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <t5fmzuwiy2otubqftwdghakwmbeltavhbsvrfhgi4tc52uigys@sg2jgz6yjjk7>
- <DM3PPF208195D8D9147AC80569982DE55EBE326A@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <pax7q7t6gqf4v2ots4ycdfpyecyb62eycht5vlzxodxfl5tlzv@axijwakktt2u>
-Date: Fri, 01 Aug 2025 14:57:48 +0300
-Message-ID: <81dccfde92580d525cab5ce95d529e08c27b972c@intel.com>
+References: <20250801101750.1726-1-marius.vlad@collabora.com>
+Date: Fri, 01 Aug 2025 15:19:08 +0300
+Message-ID: <a1c36f0b76eecbb6a4e23d71da053d89f7193b0d@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,42 +69,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 01 Aug 2025, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> Thinking in OOP terms, the encoder is just a field in the struct.
-> drm_connector is a base class for drm_writeback_connector. By making it
-> optional, you are definitely semi-breaking the abstraction.
+On Fri, 01 Aug 2025, Marius Vlad <marius.vlad@collabora.com> wrote:
+> From: Derek Foreman <derek.foreman@collabora.com>
+>
+> Add a way to know the actual bpc of a running link.
+>
+> Drivers might change the current bpc link value due to changes in mode
+> line or refresh rates. For example when enabling VRR the underlying
+> hardware might not be able sustain the same bandwidth for a particular
+> mode line, and it might attempt to lower the bpc. Another example can be
+> found when switching the color output format, part of YUV420 fallback.
+>
+> This means we might be displaying a stale bpc value although it was
+> modified for different reasons -- like a refresh rate or an output
+> color format.
+>
+> This patch introduces a new property 'link bpc' that user-space can
 
-The trouble is, in OOP terms, drm_connector is the "base class" for both
-drm_writeback_connector and intel_connector. We're already stretching
-what we can do with C.
+Nitpick, s/This patch introduces/Introduce/.
 
-Currently, it's always guaranteed all drm_connectors i915 ever sees are
-embedded within intel_connector. Changing from one pointer to another is
-trivial, guaranteed to work, and is never NULL if the source pointer is
-non-NULL. This is a design that's been around for the longest time.
+> use to get the current bpc value of a running link. In the same
+> time this would allow user-space set up bpc using 'max_bpc' property.
+>
+> Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_uapi.c |  5 +++++
+>  drivers/gpu/drm/drm_connector.c   | 26 ++++++++++++++++++++++++++
+>  include/drm/drm_connector.h       |  8 ++++++++
+>  3 files changed, 39 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index ecc73d52bfae..3a2ffb957ade 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -776,6 +776,9 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+>  						   fence_ptr);
+>  	} else if (property == connector->max_bpc_property) {
+>  		state->max_requested_bpc = val;
+> +	} else if (property == connector->link_bpc_property) {
+> +		drm_dbg_kms(dev, "only drivers can set link bpc property. Use max_bpc instead\n");
+> +		return -EINVAL;
+>  	} else if (property == connector->privacy_screen_sw_state_property) {
+>  		state->privacy_screen_sw_state = val;
+>  	} else if (property == connector->broadcast_rgb_property) {
+> @@ -861,6 +864,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+>  		*val = 0;
+>  	} else if (property == connector->max_bpc_property) {
+>  		*val = state->max_requested_bpc;
+> +	} else if (property == connector->link_bpc_property) {
+> +		*val = state->hdmi.output_bpc;
+>  	} else if (property == connector->privacy_screen_sw_state_property) {
+>  		*val = state->privacy_screen_sw_state;
+>  	} else if (property == connector->broadcast_rgb_property) {
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 272d6254ea47..7ed27aec0ccc 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -542,6 +542,28 @@ int drmm_connector_init(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drmm_connector_init);
+>  
+> +static int
+> +drm_connector_attach_link_bpc_property(struct drm_connector *connector,
+> +				       int min, int max)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_property *prop;
+> +
+> +	prop = connector->link_bpc_property;
+> +	if (prop)
+> +		return 0;
+> +
+> +	prop = drm_property_create_range(dev, 0, "link bpc", min, max);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	connector->link_bpc_property = prop;
+> +
+> +	drm_object_attach_property(&connector->base, prop, max);
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * drmm_connector_hdmi_init - Init a preallocated HDMI connector
+>   * @dev: DRM device
+> @@ -618,6 +640,10 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>  	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+>  	connector->max_bpc = max_bpc;
+>  
+> +	ret = drm_connector_attach_link_bpc_property(connector, 8, max_bpc);
+> +	if (ret)
+> +		return ret;
+> +
+>  	if (max_bpc > 8)
+>  		drm_connector_attach_hdr_output_metadata_property(connector);
+>  
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 8f34f4b8183d..4a50198aa7c0 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -2079,6 +2079,14 @@ struct drm_connector {
+>  	 */
+>  	struct drm_property *max_bpc_property;
+>  
+> +	/**
+> +	 * @link_bpc_property: Current connector link bpc set by the driver
+> +	 *
+> +	 * This property can be used to retrieve the current link bpc from
+> +	 * connector_state::hdmi:output_bpc
 
-The current writeback implementation forces a different design by always
-embedding drm_connector itself. We can't use a drm_connector that's
-embedded within an intel_connector with it. If we want to have our own
-stuff, we'd need an intel_writeback_connector wrapping
-drm_writeback_connector, and it gets even more complicated with all the
-interfaces that use intel_connector. It really shouldn't have to be this
-way.
+It doesn't have to be just HDMI, does it?
 
-Using the current drm_writeback_connector in i915 requires careful
-auditing of all drm_connector <-> intel_connector conversions, NULL
-checks, and graceful error handling, also in places that have no
-convenient way to return errors at all.
-
-The OOP abstractions just break hard with C, we can't have multiple
-inheritance, and IMO the pragmatic approach is to let *drivers* do what
-they want, instead of having a midlayer helper design force something on
-them.
-
-
-BR,
-Jani.
-
+> +	 */
+> +	struct drm_property *link_bpc_property;
+> +
+>  	/** @privacy_screen: drm_privacy_screen for this connector, or NULL. */
+>  	struct drm_privacy_screen *privacy_screen;
 
 -- 
 Jani Nikula, Intel
