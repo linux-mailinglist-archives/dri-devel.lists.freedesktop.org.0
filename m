@@ -2,131 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2403AB18356
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 16:09:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826B2B18357
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 16:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86ED010E87D;
-	Fri,  1 Aug 2025 14:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF26810E880;
+	Fri,  1 Aug 2025 14:09:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cZHcldpM";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JsXNJ5Xw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D56A410E87D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 14:09:06 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 23704442F4;
- Fri,  1 Aug 2025 14:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1754057345;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1eO26JKteHxuoy1a4A2nQ0PM4JCEHGZpVMXmkOKugo8=;
- b=cZHcldpMfzXVrQHo+B8lfp/Nuq2Ys5uQaJPLBUzlBEmzmlnkwj3uvOUYnb9NiK4CgX5dwi
- veszdP4Mwy+cHfar+TijKIBuor+xQf4qTF8PfdJ+Tx82dkL4+kfKO8/VctFzO3M5ixAUZg
- LhNfUTSJ+tUXsJZrcUdCCgzC98pKRK+wsL1ESkP6IBhdP58U+hcmb+ZVzS8t0HiZH0EKyk
- /chKpMSlhF3n639ltSSEfcRrzA7Bj4UvwuwYSSXLCnUKJx1ur0hbPJPCgHAVNlGk+uAk2s
- kzv8BWJ7nqnp5iWF2VVGi4NfDcljptURLzrTb7H7FMV5HwDf4AKr6bhWO6FtAA==
-Message-ID: <b9e2dae7-6cd6-4fd2-b7e0-8869647bd72f@bootlin.com>
-Date: Fri, 1 Aug 2025 16:09:02 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 029C510E880
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 14:09:11 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5719134o018862
+ for <dri-devel@lists.freedesktop.org>; Fri, 1 Aug 2025 14:09:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=m16qCBAo/FXoS1/viYLiGi2Z
+ 0bAJV+s6Sk8oejwf8qM=; b=JsXNJ5Xw6B8UnBbppiVSkLhlCULEfpQUUh4Ll6Nl
+ rQt7cQXvKED0cI63ko2AnuuHD0pwIVls90jwfdUNmDe4MV6JrI1RbT7Gu0iArGwO
+ 7ea4Q9zh+7KfDRgTFapjiYUHJzYhwftCkMGLpwa+y5W59dyFOgOsRErMywDJAuls
+ A+uYKsrr/nsF+FI8/HcSfw3/WACvTcVREpyxFLedPsfEDAyyavCXPYBo0XMnPYJb
+ Y+myiF+MWkR4yWvimo9n6h090mdPoCRAw+/24bcqNRR6MHWso5bDs5a9m4k1p5f5
+ HsxNCRabtay9UkCe2h4Knye2khmjRYZFEx2eUAk05+Y4+Q==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484qdaby51-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Aug 2025 14:09:11 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7e1fb57a7adso81409585a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Aug 2025 07:09:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754057350; x=1754662150;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=m16qCBAo/FXoS1/viYLiGi2Z0bAJV+s6Sk8oejwf8qM=;
+ b=b4sRR2Ytwv/yFKfgr6Drlx3Z8L1k+IhoOBwm7GfOvICIpygTgFM+rXnsuWkbvWIPsQ
+ l+knj/PSOw9Z1veS3iwjYqaDMiCqM7ROplJHnHDgg+z39apJzgwuTqXYsWAimWnw44Ho
+ 1AAZUTkZX/jYWlFfFXbNYOpGcb9cRKFYBLVrU5WrdABggLEOHgjpF9dKPjAYlsaFqG54
+ Zeyw+Lp3No/eu6g+K4rdwCEf29A4e0HZ9yYdzIbRR03IoOJ1bWoT+xYcQw0vE0bYN7fI
+ 9W8AYIoK6TAUjp7H1OCRcfSWyfQnsL9Z2x9/Ccgobg5GBQUvIRPiK+QFderMZ6rQpHdP
+ kfmA==
+X-Gm-Message-State: AOJu0YzsBIM8N77mYm0koolTh6NTfQGNKSrLtDhv6obwaBDXqnClhpvH
+ VtaJbKAq4OJxujsQzkoeyEy78Y3q5MgeI5jXw2fFQSXRbA03c0Jga0jK/3pB/CcgwmhVLX6Tn9C
+ nA4vosqIQd9ix2beuaEZ81OuGoGNhlhQ0CLO6eYNZG4vBnGiZeTG6aO2JypoMnoNiveNm1HQ=
+X-Gm-Gg: ASbGnctFzJfavN9vFg2E+NeYP7BoPwJA0P1x4Dx8VQQd7hPKgt4doTzQT+a/Ks29Ios
+ 93iaf9USv8LNaXG46gtijF5dTp7KpQQ/i+IGKrtO77mHhou3ANzKcMxcFcjGauNd6tVe6kk1HLn
+ ScVo4xngJsJ8R3EQDPToyAQT5Xyg/oXORi3hXYKHI+d0kTz6a7UJCb/Sse0BVYEgvwsAakeMMXc
+ ZD60UmT+dFlvOzH+sLrQR5aVWHzjcRWBFyLApbxyPW+RiSGyiWHUOG0JmPjFhYFg8B1RgsMor6I
+ 1nNoc7E4pmF1zssyCMjvSr96gneg/6QhCF6vDxvrICZp44idHzAWshdEJABnNs/x2DDEowTHcJP
+ CXNUWKUycLtDEX8TT+ATdmcKbP6jM6qj6bW4UzGqa0gxB7L+Xc9eC
+X-Received: by 2002:a05:620a:3948:b0:7e3:47e6:a842 with SMTP id
+ af79cd13be357-7e66eed5876mr1526673385a.0.1754057349787; 
+ Fri, 01 Aug 2025 07:09:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGLyKnapj4BRMaug8dazoKuVohPZcpun2FRP/WBbB1HS4vmNMdFMYrsIyFlxHbJTYZ+GBH4Ug==
+X-Received: by 2002:a05:620a:3948:b0:7e3:47e6:a842 with SMTP id
+ af79cd13be357-7e66eed5876mr1526665485a.0.1754057349089; 
+ Fri, 01 Aug 2025 07:09:09 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55b8898bdaesm610348e87.9.2025.08.01.07.09.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Aug 2025 07:09:08 -0700 (PDT)
+Date: Fri, 1 Aug 2025 17:09:06 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Marius Vlad <marius.vlad@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniel.stone@collabora.com,
+ jani.nikula@linux.intel.com, tzimmermann@suse.de,
+ simona.vetter@ffwll.ch, derek.foreman@collabora.com
+Subject: Re: [PATCH] drm/connector: hdmi: Add a link bpc property
+Message-ID: <l6s63vlxu2lrsxcbwrxt5shcn6rnldwjdevggmipstjmluxnyn@7ynu3iygwvxf>
+References: <20250801101750.1726-1-marius.vlad@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] drm/komeda: use drmm_writeback_connector_init()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "Kandpal, Suraj" <suraj.kandpal@intel.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-References: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
- <20250801-wb-drop-encoder-v1-2-824646042f7d@oss.qualcomm.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250801-wb-drop-encoder-v1-2-824646042f7d@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdefkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeegpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhurhgrjhdrkhgrnhguphgrlhesihhnthgvlhdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnt
- hhlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdrtghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpthhtoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomh
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250801101750.1726-1-marius.vlad@collabora.com>
+X-Proofpoint-ORIG-GUID: 4SaI-mps4Ig5qsK--isy4bphKjf0-TQ3
+X-Authority-Analysis: v=2.4 cv=Pfv/hjhd c=1 sm=1 tr=0 ts=688cca87 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=QX4gbG5DAAAA:8 a=soa31aExdMOlycdhFCoA:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-GUID: 4SaI-mps4Ig5qsK--isy4bphKjf0-TQ3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAxMDEwNyBTYWx0ZWRfX/Us9MSu4zMW8
+ WLGq5L8GmKp7vMfEpFfJWWOrIjiZbx5NB0o9S0NRrp4Z/whei6rRTnmG5wqSlKaE2x9WiWh4ira
+ J4DxB7V4cU42+CpLaCZRY+//SHNTkxlxzal5BxsrHgntokVaAOKeGjZWP9eGdSqqHoRGinUwMcy
+ haMO19CL8rUAAo/SdDTBSFIDsP77iQdZjZetkg8Qe1VVQNDSOT5fblxoz2MflxpMODSZeBH1pGW
+ eccAXNAZGc5H18HHEGaTYpPVSS+N6bxmFJku8rju5keDyQYqqy1tr4peB1vt0j06iAs9lo4X+eF
+ IN2hMR0vblOPcJrztfZCVEMeRd5B8FNQElcPkUwwZs1SQKS43diadyifQFGWgZtu3H+0qzlFGVg
+ 55ykkqlT5Ar9MD/zNz2EjavE1h+sJifMQm9wScpKcVkEEBwzHQEXsuhx4iFMAYeVXhBCnCgZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-01_04,2025-08-01_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015 adultscore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2508010107
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,101 +121,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 01/08/2025 à 15:51, Dmitry Baryshkov a écrit :
-> Use drmm_plain_encoder_alloc() to allocate simple encoder and
-> drmm_writeback_connector_init() in order to initialize writeback
-> connector instance.
+On Fri, Aug 01, 2025 at 01:17:50PM +0300, Marius Vlad wrote:
+> From: Derek Foreman <derek.foreman@collabora.com>
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Add a way to know the actual bpc of a running link.
+> 
+> Drivers might change the current bpc link value due to changes in mode
+> line or refresh rates. For example when enabling VRR the underlying
+> hardware might not be able sustain the same bandwidth for a particular
+> mode line, and it might attempt to lower the bpc. Another example can be
+> found when switching the color output format, part of YUV420 fallback.
+> 
+> This means we might be displaying a stale bpc value although it was
+> modified for different reasons -- like a refresh rate or an output
+> color format.
+> 
+> This patch introduces a new property 'link bpc' that user-space can
+> use to get the current bpc value of a running link. In the same
+> time this would allow user-space set up bpc using 'max_bpc' property.
+
+Could you please point out the userspace implementation which uses this
+property?
+
+> 
+> Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
+> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
 > ---
->   .../drm/arm/display/komeda/komeda_wb_connector.c   | 30 ++++++++++++----------
->   1 file changed, 17 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/drm_atomic_uapi.c |  5 +++++
+>  drivers/gpu/drm/drm_connector.c   | 26 ++++++++++++++++++++++++++
+>  include/drm/drm_connector.h       |  8 ++++++++
+>  3 files changed, 39 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-> index 875cdbff18c9dc97e736049feaa8a1fe1bcc82ff..210841b4453abfe60cecc1cfc79a84298be3e684 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
-> @@ -5,6 +5,7 @@
->    *
->    */
->   #include <drm/drm_framebuffer.h>
-> +#include <drm/drm_managed.h>
->   #include "komeda_dev.h"
->   #include "komeda_kms.h"
->   
-> @@ -121,17 +122,10 @@ komeda_wb_connector_fill_modes(struct drm_connector *connector,
->   	return 0;
->   }
->   
-> -static void komeda_wb_connector_destroy(struct drm_connector *connector)
-> -{
-> -	drm_connector_cleanup(connector);
-> -	kfree(to_kconn(to_wb_conn(connector)));
-> -}
-> -
->   static const struct drm_connector_funcs komeda_wb_connector_funcs = {
->   	.reset			= drm_atomic_helper_connector_reset,
->   	.detect			= komeda_wb_connector_detect,
->   	.fill_modes		= komeda_wb_connector_fill_modes,
-> -	.destroy		= komeda_wb_connector_destroy,
->   	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
->   	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
->   };
-> @@ -143,13 +137,15 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
->   	struct komeda_wb_connector *kwb_conn;
->   	struct drm_writeback_connector *wb_conn;
->   	struct drm_display_info *info;
-> +	struct drm_encoder *encoder;
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index ecc73d52bfae..3a2ffb957ade 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -776,6 +776,9 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+>  						   fence_ptr);
+>  	} else if (property == connector->max_bpc_property) {
+>  		state->max_requested_bpc = val;
+> +	} else if (property == connector->link_bpc_property) {
+> +		drm_dbg_kms(dev, "only drivers can set link bpc property. Use max_bpc instead\n");
+> +		return -EINVAL;
+>  	} else if (property == connector->privacy_screen_sw_state_property) {
+>  		state->privacy_screen_sw_state = val;
+>  	} else if (property == connector->broadcast_rgb_property) {
+> @@ -861,6 +864,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+>  		*val = 0;
+>  	} else if (property == connector->max_bpc_property) {
+>  		*val = state->max_requested_bpc;
+> +	} else if (property == connector->link_bpc_property) {
+> +		*val = state->hdmi.output_bpc;
+>  	} else if (property == connector->privacy_screen_sw_state_property) {
+>  		*val = state->privacy_screen_sw_state;
+>  	} else if (property == connector->broadcast_rgb_property) {
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 272d6254ea47..7ed27aec0ccc 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -542,6 +542,28 @@ int drmm_connector_init(struct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drmm_connector_init);
+>  
+> +static int
+> +drm_connector_attach_link_bpc_property(struct drm_connector *connector,
+> +				       int min, int max)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	struct drm_property *prop;
 > +
->   	u32 *formats, n_formats = 0;
->   	int err;
->   
->   	if (!kcrtc->master->wb_layer)
->   		return 0;
->   
-> -	kwb_conn = kzalloc(sizeof(*kwb_conn), GFP_KERNEL);
-> +	kwb_conn = drmm_kzalloc(&kms->base, sizeof(*kwb_conn), GFP_KERNEL);
->   	if (!kwb_conn)
->   		return -ENOMEM;
->   
-> @@ -165,11 +161,19 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
->   		return -ENOMEM;
->   	}
->   
-> -	err = drm_writeback_connector_init(&kms->base, wb_conn,
-> -					   &komeda_wb_connector_funcs,
-> -					   &komeda_wb_encoder_helper_funcs,
-> -					   formats, n_formats,
-> -					   BIT(drm_crtc_index(&kcrtc->base)));
-> +	encoder = drmm_plain_encoder_alloc(&kms->base, NULL,
-> +					   DRM_MODE_ENCODER_VIRTUAL, NULL);
-> +	if (IS_ERR(encoder))
-> +		return PTR_ERR(encoder);
-> +
-> +	drm_encoder_helper_add(encoder, &komeda_wb_encoder_helper_funcs);
-> +
-> +	encoder->possible_crtcs = BIT(drm_crtc_index(&kcrtc->base));
+> +	prop = connector->link_bpc_property;
+> +	if (prop)
+> +		return 0;
 
-Maybe use drm_crtc_mask?
+Shouldn't it be:
 
-With this:
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+if (connector->link_bpc_property)
+	return -EBUSY;
 
 > +
-> +	err = drmm_writeback_connector_init(&kms->base, wb_conn,
-> +					    &komeda_wb_connector_funcs,
-> +					    encoder,
-> +					    formats, n_formats);
->   	komeda_put_fourcc_list(formats);
->   	if (err) {
->   		kfree(kwb_conn);
+> +	prop = drm_property_create_range(dev, 0, "link bpc", min, max);
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	connector->link_bpc_property = prop;
+> +
+> +	drm_object_attach_property(&connector->base, prop, max);
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * drmm_connector_hdmi_init - Init a preallocated HDMI connector
+>   * @dev: DRM device
+> @@ -618,6 +640,10 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>  	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+>  	connector->max_bpc = max_bpc;
+>  
+> +	ret = drm_connector_attach_link_bpc_property(connector, 8, max_bpc);
+> +	if (ret)
+> +		return ret;
+
+Is there a code which sets this property?
+
+> +
+>  	if (max_bpc > 8)
+>  		drm_connector_attach_hdr_output_metadata_property(connector);
+>  
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 8f34f4b8183d..4a50198aa7c0 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -2079,6 +2079,14 @@ struct drm_connector {
+>  	 */
+>  	struct drm_property *max_bpc_property;
+>  
+> +	/**
+> +	 * @link_bpc_property: Current connector link bpc set by the driver
+> +	 *
+> +	 * This property can be used to retrieve the current link bpc from
+> +	 * connector_state::hdmi:output_bpc
+> +	 */
+> +	struct drm_property *link_bpc_property;
+> +
+>  	/** @privacy_screen: drm_privacy_screen for this connector, or NULL. */
+>  	struct drm_privacy_screen *privacy_screen;
+>  
+> -- 
+> 2.47.2
 > 
 
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+With best wishes
+Dmitry
