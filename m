@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471A9B17F33
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 11:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268EEB17F48
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 11:29:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5A0810E821;
-	Fri,  1 Aug 2025 09:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7288110E3CD;
+	Fri,  1 Aug 2025 09:29:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="nJjz5eXA";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="327q2dIM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5D310E821
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 09:25:28 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.174])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4btgRr1wLfzPt6n;
- Fri,  1 Aug 2025 17:21:12 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
- by mail.maildlp.com (Postfix) with ESMTPS id B336B1402EB;
- Fri,  1 Aug 2025 17:25:26 +0800 (CST)
-Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 1 Aug 2025 17:25:19 +0800
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 1 Aug 2025 17:25:18 +0800
-Message-ID: <28ebf640-ab2b-483c-8aed-d681f6c6ca5e@huawei.com>
-Date: Fri, 1 Aug 2025 17:25:18 +0800
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD2BA10E3CD
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 09:29:20 +0000 (UTC)
+Date: Fri, 1 Aug 2025 11:29:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1754040556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ova+vNI28FPI82CeUH4i8eEwaxh8Bm7iD+PyNauGWGA=;
+ b=nJjz5eXA3X2ChMFpvoQzS3IZ2f6/shakOjreJFg1B91MTBn0QBf3PmDM/Cbx+/lEx/Bqwa
+ Xf7OsqF4T2FdJ10xKGDxVzRhKYThHWHIZUiqiMIuxQmwKsdLBeAg8PoWCdxm4RhDzPouIH
+ +mKqwC4I+K4uuc10vt37nSznSRv+o1twaQWPxKHLyKTW6Oob+oDztMMfjbrqbMz4Z/5fNq
+ 48hYnr0qLdpu4lvZWgNsNAmGZmKvognSMAf+yhlIFNQLHcTB0SETrNvwMLpDrSlKaWzwm2
+ bwVgMm3/saJzeWaSgZxDdhRbWOITnivatH4ehQlVg6zbEfA56gbFrJxuTOHZZw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1754040556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ova+vNI28FPI82CeUH4i8eEwaxh8Bm7iD+PyNauGWGA=;
+ b=327q2dIM7AHakBddR0i7X0tidlD4HhV2QL29/7LGORZKj1I3BhEhcMGrjfMqsYOIs6rpEc
+ HgPIZkqQYxSVpvDA==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Andrei Lalaev <andrey.lalaev@gmail.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Christian Schrefl <chrisi.schrefl@gmail.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ rust-for-linux <rust-for-linux@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/panic: Add a u64 divide by 10 for arm32
+Message-ID: <20250801111922-3af19987-9141-47a7-b67a-d10ac091ce2e@linutronix.de>
+References: <20250627123854.921704-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 drm-dp 10/11] drm/hisilicon/hibmc: adapting
- modification for the former commit
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <fengsheng5@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <jani.nikula@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <shiyongbang@huawei.com>
-References: <20250718065125.2892404-1-shiyongbang@huawei.com>
- <20250718065125.2892404-11-shiyongbang@huawei.com>
- <oxwapypy7ttxf7geysnatnowlhidioxbhfyvt5ljrhw4tjmbsr@zycqgbwmwqbc>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <oxwapypy7ttxf7geysnatnowlhidioxbhfyvt5ljrhw4tjmbsr@zycqgbwmwqbc>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemq100007.china.huawei.com (7.202.195.175)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250627123854.921704-1-jfalempe@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,46 +71,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jun 27, 2025 at 02:38:19PM +0200, Jocelyn Falempe wrote:
+> On 32bits ARM, u64 divided by a constant is not optimized to a
+> multiply by inverse by the compiler [1].
+> So do the multiply by inverse explicitly for this architecture.
+> 
+> Link: https://github.com/llvm/llvm-project/issues/37280 [1]
+> Reported-by: Andrei Lalaev <andrey.lalaev@gmail.com>
+> Closes: https://lore.kernel.org/dri-devel/c0a2771c-f3f5-4d4c-aa82-d673b3c5cb46@gmail.com/
+> Fixes: 675008f196ca ("drm/panic: Use a decimal fifo to avoid u64 by u64 divide")
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_panic_qr.rs | 22 +++++++++++++++++++++-
+>  1 file changed, 21 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
+> index dd55b1cb764d..774a17de4f2f 100644
+> --- a/drivers/gpu/drm/drm_panic_qr.rs
+> +++ b/drivers/gpu/drm/drm_panic_qr.rs
+> @@ -381,6 +381,26 @@ struct DecFifo {
+>      len: usize,
+>  }
+>  
+> +// On arm32 architecture, dividing an `u64` by a constant will generate a call
+> +// to `__aeabi_uldivmod` which is not present in the kernel.
+> +// So use the multiply by inverse method for this architecture.
 
-> On Fri, Jul 18, 2025 at 02:51:24PM +0800, Yongbang Shi wrote:
->> From: Baihan Li <libaihan@huawei.com>
->>
->> Add colorbar disable operation before reset chontroller, to make sure
->> colorbar status is clear in the DP init, so if rmmod the driver and the
->> previous colorbar configuration will not affect the next time insmod the
->> driver.
-> In this one and in the next one please fix commit subjects. Can't parse
-> them.
+I think the problem here is the u64 by u64 division. u64 by u32 should work.
+Unfortunately Rust doesn't seem to have a way to perform a mixed-type division.
+We already have optimized C/ASM helpers for u64 divisions. For example
+div_u64() does such an u64 by u32 division.
+While it may be slower than the inverse multiplication, it is less code, easier
+to understand and will work for all architectures automatically.
 
-Sorry about that, I will fix them!
-
-
->> Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
->> Signed-off-by: Baihan Li <libaihan@huawei.com>
->> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
->> ---
->> ChangeLog:
->> v2 -> v3:
->>    - fix the issue commit ID, suggested by Dmitry Baryshkov.
->>    - split into 2 commits, suggested by Dmitry Baryshkov.
->>    - add more comments in commit log, suggested by Dmitry Baryshkov.
->> ---
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> index 36daf7542d40..85499f1ace8b 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> @@ -180,6 +180,8 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
->>   	/* int init */
->>   	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
->>   	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
->> +	/* clr colorbar */
->> +	writel(0, dp_dev->base + HIBMC_DP_COLOR_BAR_CTRL);
->>   	/* rst */
->>   	writel(0, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
->>   	usleep_range(30, 50);
->> -- 
->> 2.33.0
->>
+> +fn div10(val: u64) -> u64 {
+> +    if cfg!(target_arch = "arm") {
+> +        let val_h = val >> 32;
+> +        let val_l = val & 0xFFFFFFFF;
+> +        let b_h: u64 = 0x66666666;
+> +        let b_l: u64 = 0x66666667;
+> +
+> +        let tmp1 = val_h * b_l + ((val_l * b_l) >> 32);
+> +        let tmp2 = val_l * b_h + (tmp1 & 0xffffffff);
+> +        let tmp3 = val_h * b_h + (tmp1 >> 32) + (tmp2 >> 32);
+> +
+> +        tmp3 >> 2
+> +    } else {
+> +        val / 10
+> +    }
+> +}
+> +
+>  impl DecFifo {
+>      fn push(&mut self, data: u64, len: usize) {
+>          let mut chunk = data;
+> @@ -389,7 +409,7 @@ fn push(&mut self, data: u64, len: usize) {
+>          }
+>          for i in 0..len {
+>              self.decimals[i] = (chunk % 10) as u8;
+> -            chunk /= 10;
+> +            chunk = div10(chunk);
+>          }
+>          self.len += len;
+>      }
+> 
+> base-commit: 3529cb5ab16b4f1f8bbc31dc39a1076a94bd1e38
+> -- 
+> 2.49.0
+> 
