@@ -2,61 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AEBB1814F
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 13:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AB6B1815C
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 13:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6DE510E13F;
-	Fri,  1 Aug 2025 11:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF1C10E840;
+	Fri,  1 Aug 2025 11:57:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="NqSJwMoE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TKmiGbxT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B88D510E13F;
- Fri,  1 Aug 2025 11:52:42 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49]) (Authenticated sender: zamundaaa)
- by letterbox.kde.org (Postfix) with ESMTPSA id 9981333B81B;
- Fri,  1 Aug 2025 12:52:40 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1754049160; bh=mmI05tNrK9zVCmlky/MXauCEIwzpyCIx1+VMxKf5fJ4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=NqSJwMoE+DaG6ZSstd1ZvMPXSRKKS7d6q7NVKIueoWfjrrgqyvpIgp+i12Dj/7cAf
- j2A59K15uA4nVWqwy6w2hNgUtVbfyO4S6jAn/zZ+xqLe3v2ZJt2PDuuwER/YHNUkGM
- GHMJDZ4yakSubKCnLKNIb9C449gtOCdunGqbGehH159issKW0yu+o5POj0JFPFryHA
- WcsGZ9uAkn8UUy18xKWN+4DvpTBsjfyDt8FgLF7iQzfhAeaCGzU3NqKvnBbFD0GMOl
- WJ0NjtkEw7QG5e3fCFiCqnUlFnQ5JUYhPShA2Yat8SeVLT+Dn5sgfo7xGgKe09wkRV
- 14HyV75XxwbCQ==
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-af93381a1d2so100309166b.3; 
- Fri, 01 Aug 2025 04:52:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLzVi2X89OzF261SdWJTpETm8eSyxTSQiSaRyWmkcAEsLxgX7C2TxMHH+rUJ8wOynAUasDr4eo1gXG@lists.freedesktop.org,
- AJvYcCX0W5XdmTnH7GeBNAw+gxHramAMGbtDAmneywLKWl6s6IuRXEzKfjpPTawmOiQri9AifoRuwx5d@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0auNTg1vzOoVwmjVAYasbR4tltMvZsJaZbiSJfELafQAd6fJe
- bTVs+K98NbA19JVa0d0RvuJxgJcmP3tjQHK/3IweDvIHDggo6WNoY0LTxPsSBZaSt2r+Tdqf/bY
- /ZvJwqLIn6Cz8lkK6/hX3wSL1jkflN/w=
-X-Google-Smtp-Source: AGHT+IE4S8Y53DPW/S4TQMY++oWooYOxjeHdg/kArpJg92kGLpX0eoKuozYr3sUupsziiB3vJIxQaveTcPYL9YeM0bE=
-X-Received: by 2002:a17:907:3f19:b0:ae0:de30:8569 with SMTP id
- a640c23a62f3a-af8fd69c2demr1242363166b.1.1754049160089; Fri, 01 Aug 2025
- 04:52:40 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ABC810E84C;
+ Fri,  1 Aug 2025 11:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754049478; x=1785585478;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=k4uJWNznZjrWRAkBSWrPOnb2RYyI0II7yPHZj90bRpw=;
+ b=TKmiGbxT/Ij5W7RVU0QKXGf/8ySUlDXJPlUDUrFSkNGvc6yzQqT/knce
+ fWfktE0d5MephOVZdGOn1+CifQn8lqqlQkFX/Ft2NVzFIm4/8IADm5hus
+ Odktr47tCf8IKVTUM1m5G6uET2+H0lV1be9cQVz549JNbaCr2Q2GTGozQ
+ MJBZJBNC+kzWmGeC4Bwon7RwO0eJWj3YL9OTtH5YI/b5mKIEokTxQaNAr
+ p+hOj4CjLzz8ZwKhR7mRETY/GX67rMkl7okqFeGuUBkGwMXzpuSnt7xub
+ nfedzJ4gHs8qAO+qPDQ16762m8n8yFQZyXirr6zWQ0bONTSx4bSPvSPXW Q==;
+X-CSE-ConnectionGUID: +VQDQuYTS3mm038y4rax7A==
+X-CSE-MsgGUID: LtX3WRy/TROTLZW6i7Fm3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="43990993"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="43990993"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2025 04:57:57 -0700
+X-CSE-ConnectionGUID: yA34cemMQQGS/GXT4qXCTg==
+X-CSE-MsgGUID: 4X8/13uFRfCv0W0/ZV+Qog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="200705685"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.164])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2025 04:57:54 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, "Kandpal, Suraj"
+ <suraj.kandpal@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, "Murthy, Arun R"
+ <arun.r.murthy@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>
+Subject: Re: [PATCH 03/28] drm/writeback: Define function to get
+ drm_connector from writeback
+In-Reply-To: <pax7q7t6gqf4v2ots4ycdfpyecyb62eycht5vlzxodxfl5tlzv@axijwakktt2u>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250725050409.2687242-1-suraj.kandpal@intel.com>
+ <20250725050409.2687242-4-suraj.kandpal@intel.com>
+ <ng2ps7k5h74w6zo62oqazzetunjc2psooobmh3zcrrmxesi2ua@va6z7eqjst2u>
+ <DM3PPF208195D8D2676D013483985D2C3FFE358A@DM3PPF208195D8D.namprd11.prod.outlook.com>
+ <t5fmzuwiy2otubqftwdghakwmbeltavhbsvrfhgi4tc52uigys@sg2jgz6yjjk7>
+ <DM3PPF208195D8D9147AC80569982DE55EBE326A@DM3PPF208195D8D.namprd11.prod.outlook.com>
+ <pax7q7t6gqf4v2ots4ycdfpyecyb62eycht5vlzxodxfl5tlzv@axijwakktt2u>
+Date: Fri, 01 Aug 2025 14:57:48 +0300
+Message-ID: <81dccfde92580d525cab5ce95d529e08c27b972c@intel.com>
 MIME-Version: 1.0
-References: <20250731151732.9295-1-xaver.hugl@kde.org>
- <e5e0c109-f206-47c6-b17c-661d0ea0e700@intel.com>
-In-Reply-To: <e5e0c109-f206-47c6-b17c-661d0ea0e700@intel.com>
-From: Xaver Hugl <xaver.hugl@kde.org>
-Date: Fri, 1 Aug 2025 13:52:28 +0200
-X-Gmail-Original-Message-ID: <CAFZQkGweN5LxT16khohrFFp+P0XYEdOCiLh0Ckb2AYEMsy5_UA@mail.gmail.com>
-X-Gm-Features: Ac12FXwx-1lKzC5fN0_DEf7Jf43riEbF8aRWJTarpbAdpYH2hndmeHnWM8k_YcM
-Message-ID: <CAFZQkGweN5LxT16khohrFFp+P0XYEdOCiLh0Ckb2AYEMsy5_UA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm: don't run atomic_async_check for disabled planes
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>
-Cc: dri-devel@lists.freedesktop.org, andrealmeid@igalia.com, chris@kode54.net, 
- naveen1.kumar@intel.com, ville.syrjala@linux.intel.com, mdaenzer@redhat.com,
- intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- alexdeucher@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,18 +80,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> As said in my earlier comment, this new_state->visible is not yet
-> populated. It will be viable to have these after atomic_check where
-> state->visible gets updated.
-> Instead fb can be checked to see if its changed to NULL then it means
-> disable the plane and instead of rejecting the change, can proceed.
-Oh, I assumed that visible would be set when setting the properties
-(but potentially wrong while not all properties are set yet). I
-should've checked where it's actually calculated, sorry about that,
-I'll change it to use FB_ID instead.
+On Fri, 01 Aug 2025, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> wrote:
+> Thinking in OOP terms, the encoder is just a field in the struct.
+> drm_connector is a base class for drm_writeback_connector. By making it
+> optional, you are definitely semi-breaking the abstraction.
 
-> These kind of checks will be much easier with having the proposed change
-> in RFC https://patchwork.freedesktop.org/series/150081/
-Yeah, some cleanups in this area would be amazing :)
+The trouble is, in OOP terms, drm_connector is the "base class" for both
+drm_writeback_connector and intel_connector. We're already stretching
+what we can do with C.
 
-- Xaver
+Currently, it's always guaranteed all drm_connectors i915 ever sees are
+embedded within intel_connector. Changing from one pointer to another is
+trivial, guaranteed to work, and is never NULL if the source pointer is
+non-NULL. This is a design that's been around for the longest time.
+
+The current writeback implementation forces a different design by always
+embedding drm_connector itself. We can't use a drm_connector that's
+embedded within an intel_connector with it. If we want to have our own
+stuff, we'd need an intel_writeback_connector wrapping
+drm_writeback_connector, and it gets even more complicated with all the
+interfaces that use intel_connector. It really shouldn't have to be this
+way.
+
+Using the current drm_writeback_connector in i915 requires careful
+auditing of all drm_connector <-> intel_connector conversions, NULL
+checks, and graceful error handling, also in places that have no
+convenient way to return errors at all.
+
+The OOP abstractions just break hard with C, we can't have multiple
+inheritance, and IMO the pragmatic approach is to let *drivers* do what
+they want, instead of having a midlayer helper design force something on
+them.
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
