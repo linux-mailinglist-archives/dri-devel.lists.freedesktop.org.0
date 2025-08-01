@@ -2,137 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32402B17B87
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 05:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5E8B17B8C
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 06:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F08910E2DC;
-	Fri,  1 Aug 2025 03:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D98E410E39E;
+	Fri,  1 Aug 2025 04:03:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YhrG+NMw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bS7m0n8H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D5AE10E2DC
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 03:58:03 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56VJpSgc013642
- for <dri-devel@lists.freedesktop.org>; Fri, 1 Aug 2025 03:58:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- UO0lZMJPPhDxk7mSF7iGN6/wHbR5r3yzJBCSKwUDnJ0=; b=YhrG+NMw9LnX+yZD
- fjWuVqBI0etONNwrCljiYvVBZjGAO5LegkXcnHxSO2IFXP55OMppPjMbGGo44s8j
- Q1QZ/FZZCBADYFR7s2A3LTD/iJzC42AJtTmFQ+BU4Lyq/AKUs7OnkBdBxm1ll+UV
- RxFO/5YdrSEaS8qV7ydKLbmFYrOdTmVJ1DKK+lx4/HNIMJ0eE/+zZmZpYBYUxO9z
- WSwHjubuq25wAHq6QUsbgEjo/Dmo1Q6IKpZIhGwlOBwZoT7x52r17DCrLRYabqAA
- Eo8q82YjQ/5oaLSyvUdMwCl/wrvEgyPeI5c5X3qGi8vnCHVghMFaRG1Wmcn+1kW4
- oh9DJg==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484pm2t50d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Aug 2025 03:58:01 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-24025ced9e9so4431495ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Jul 2025 20:58:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754020681; x=1754625481;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=UO0lZMJPPhDxk7mSF7iGN6/wHbR5r3yzJBCSKwUDnJ0=;
- b=XR71ikl/EzaUvZoanZ+Dufj+VvydWPO4T0RaLhsqzZwn+AVg/sFTH4vtWPatfBixyZ
- LIyKZwoTabGpMBF7m874LMcUpR5pvSLVnxMeH5tuyKLP2xQv3jHULOnqnzvEICR/ocTU
- c3N9E8EZfVBSMdAXj9HCLN+hGFksbFxbtk5Iu+Wc5J3NOlrTDY17A4U3cbiQsiDqmWzj
- btEAG/eaXg93iMZdsYAbjG3MPYQ/DoAGNRgha63zo9gAnURkWxy8H8dTIRrf+r9zYAp5
- 8tExrMShxTPiAo4vRJ4MkNvPzsozZ4lFYHL+jNXzSZmN/TKoEtnVLB7peNG84kJbaOKz
- vZYw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWR5Za5Aioew3gfEOFo7390lVYon7RS3PqY1eMiPp6VgsiUBUwSvhkmqUGgYixBUNlAHdaXwzxq1RI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyeNzoIqHLQvNtNMeH8eI5NJHPrbA34GGNpB5eEMSh89XWlSIh5
- +Azpf0cQtYpEIIs6rqGLlFhydntPVWu/Lr49bv2zQq1vPVyWLAmyIbaVB+nIadyfSvqUCvrFqo4
- lbxopoA5nGGHZaCKD+iuoDqw3aIuZZKmwG6i0Yzvg06mKqrSExYPoB5sqfwVT6DaePvIEgFY=
-X-Gm-Gg: ASbGncu/l+QqWeMqy0w6MWOMignSxVJk+DyrnJrfRTHW1Vqgsz/WC++iUyb9GtHOEjR
- JLCRpDpDz8X5za4f/kUzFmzYbCCn+Lj4JfVkF3qmEY4P2BrFwoE3F99jhppYgrRyyBQ2HktZ127
- Tfl8AUOb4wQAeQcCkIJYmCtP8Zp3fD/IM/0lxur5vLzZBQP2tHcQC2zMGsoNOoJEkiHXYRk1tJ3
- GaFfZ2OHfBUC2YDm8ZAZmA/17xy0LAg/0nSqruyBZk/8Y6cEVXh5ZHdDEFVcLtIt4Aps2Za9bGv
- Z3lE8Fv1aQ+8fu62QPqq9En4w29WAZvz4mCl1hLDDgl7Hcs1QV4ntD3GSr5iCGSUI8bf1eotKA+
- grpIpWoLeUjQ6p6CzYs53EdQquG9WIQ==
-X-Received: by 2002:a17:903:1c6:b0:240:b9c0:bc6f with SMTP id
- d9443c01a7336-240b9c0bebfmr11099945ad.10.1754020680550; 
- Thu, 31 Jul 2025 20:58:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFhXyUs6B80q8wF4GT4SaS9kVxn1ul1R0VRcy26253GED8PXnyjNS/bSUEoCCQWMZ4c4Fv3iw==
-X-Received: by 2002:a17:903:1c6:b0:240:b9c0:bc6f with SMTP id
- d9443c01a7336-240b9c0bebfmr11099775ad.10.1754020680014; 
- Thu, 31 Jul 2025 20:58:00 -0700 (PDT)
-Received: from [10.133.33.149] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-241d1f0e757sm31142185ad.55.2025.07.31.20.57.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Jul 2025 20:57:59 -0700 (PDT)
-Message-ID: <2de51bf2-baed-4bf9-a40c-1681b2efcf79@oss.qualcomm.com>
-Date: Fri, 1 Aug 2025 11:57:50 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/13] dt-bindings: phy: Add binding for QCS615
- standalone QMP DP PHY
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB3B510E2ED;
+ Fri,  1 Aug 2025 04:03:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754021009; x=1785557009;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=Jn41o/qaiiQwjnOsczSKGZvzG3xhZJVyBZHZOSjC/qk=;
+ b=bS7m0n8HfKC6u5TgqpdtX9jt2SET8+x7hcWPpSjwDlvpOMppKJY/RlIj
+ O6ehaJc9L5pmwQkUauBAepuxYatVR+tEh4LUmUNADCB8JhQwk7aQQV9T/
+ zmd9TnZXUuzsC+KVlmAU2jrqXyG/l7Pz45MsrmiY0BoBLTkZoZXfV69eT
+ siXI+dI66L0fWuROrRar07R4rjMSqGFIqyPMsUBQ9g243Z2cGBje4gFmr
+ CJPlw7HEMSrArXBTqRsZUQTRb7DVjEZ9+BOD51ssQvutJNUF8m7kAbRlH
+ TV++ghB89aNihqfloEfJZlkKIDTNh8x+mEJvt36qW7EAcvcPCqQq7cdaZ g==;
+X-CSE-ConnectionGUID: ooi370jzTMqqRIvPJ66NXg==
+X-CSE-MsgGUID: RNrBvpjMTl+N5H4tf8fYTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="81809696"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="81809696"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2025 21:03:28 -0700
+X-CSE-ConnectionGUID: D19U8wyvRra9f7fZtvnieg==
+X-CSE-MsgGUID: 2V4GDyUSTcaY0zRbv2PWoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="163149613"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Jul 2025 21:03:29 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 31 Jul 2025 21:03:28 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Thu, 31 Jul 2025 21:03:28 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (40.107.243.66)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 31 Jul 2025 21:03:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VHiVBRH01Cmd6TfuMUvj7NdEnt5LezKdHCHOkuenDRH/+q+hebLbnOOJdaveUD9mPfxad5AhjHT0xthOhus0scG22GVC9Im8y8fp22gU+AHOqvi2aiFVQqR2vihWTdAm0rMGb3A+xOYBPB+tZubWwmo5+oHzqpBrg9qE16auD0CErxSCZM6fpGe7FTw5E/ifsfgFKx8rvvr9jmMPaUqJN1vXY0RsJ+aTaq9I9ZN6OykwSMB+C0YWvQku8HLoDbYoYgtTif4pdlWvCiZfZcnwYCPJhXMwwsx7QL52DPMVljrczYJvXBLIHeogdKxEEZA/Q43ImP5M7ffiPrh5d8k+Sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VH0BjPPSXxZH/Hr1Z/UZHWnqGHonEl+k825bSoo1EH4=;
+ b=Q2SxwsD1WQvskhAqzAQFOzQUVZrtc6YHh408nTqpfbzuGobuNspKABwQGeBG618NfixwTWgIubiclWHkzqdJI19kZerUSMx5X5MPrgG7m96pv493vldRHSuhoerYpnepEL1vPkr6g/r1aRMm76HP5zcKHFExrCxZhSYFeQrlU6969ACusJM0o1BEqIrNyEPq2MiLmg60maWObG+qX1JIp7P/TI0mn3cYuea43NKKgFoDFCmM0970mSRKo8LEqSifH15xeModOT2M0rBt6dnY5xXrXXtHDNo9nlZn2VngiJRg4ml/3Vz52CDxqhikKX8w8zfDV7xBZaI+v2FUsK8nzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ (2603:10b6:f:fc00::f13) by CH3PR11MB8209.namprd11.prod.outlook.com
+ (2603:10b6:610:15d::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.14; Fri, 1 Aug
+ 2025 04:03:11 +0000
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::76e3:aa2a:a205:819f]) by DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::76e3:aa2a:a205:819f%7]) with mapi id 15.20.8989.013; Fri, 1 Aug 2025
+ 04:03:11 +0000
+From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- konrad.dybcio@oss.qualcomm.com, fange.zhang@oss.qualcomm.com,
- quic_lliu6@quicinc.com, quic_yongmou@quicinc.com
-References: <20250722-add-displayport-support-for-qcs615-platform-v2-0-42b4037171f8@oss.qualcomm.com>
- <20250722-add-displayport-support-for-qcs615-platform-v2-2-42b4037171f8@oss.qualcomm.com>
- <jemfu5sy7k4a2iar55im5bhyhxzlrwpftmpqmps3b2tco7r6a2@oodls7gi45yy>
- <e673a3a3-6924-49db-9040-e34b82199a43@oss.qualcomm.com>
- <w3rwao5wbmstdyics6qhp7beulbbp5ludqkwpfsmevgqmzz3d6@u2e533zlitkr>
- <e5a3f05f-9775-4e3d-ae7d-ebbca14b4df5@oss.qualcomm.com>
- <ffdvzupefzhqq7fqtloycc3xzu57i55ths73xcjftor2cifuzr@5vhq2hfmkvda>
- <bd8f8643-a8c8-43d7-b293-acdba5ff798a@oss.qualcomm.com>
- <ad4f53eb-2f4b-4e62-a162-461de431e3de@oss.qualcomm.com>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <ad4f53eb-2f4b-4e62-a162-461de431e3de@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: Y-z_8MvoBAGQHDeuJFhtOiLZYDb6aYNC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAxMDAyNiBTYWx0ZWRfX6S+YCaXU/HKq
- ZYRvwrGzY7RM/UqW5Gs0Dc1O6zI+fw/yYECYGFZEPJVu++ecvHtmWAJkq+NgpYKVDdX2oI4K7GN
- tClYJoFWIzX4XSSk2s+2KG+BM0RT3s/ovsp7k8G9Q9unwasJjFcfAM5+PpX4rf3Bsm/PSDF/J9L
- x3FvMjLkMxhCgyb6g1P7O6MD3xSeJwp1G5RndR1e1nSj4F8FxehUyyQnXhUj/9UBGQ8bCKCbqG5
- mFgc/m4ibmaCgZgrcjL7OnEIfRxHhhwBFQOGxM7o1bORDUx7jBuNEY9QtZXswEuZruqke739jr/
- vstBp8msN67tspyRAMeNd6GOABwHXXrcS5RAuBbudPNkH8kbwxcKeUU+t38eq6H1r0SgL7xaf+c
- JWK7D0fO4wbX7cRyNjRNtSFv+oWh5u092JgwH6nXIw7T8sPawEKRR6SRdnA/9RJdb1sOUsnE
-X-Authority-Analysis: v=2.4 cv=HfYUTjE8 c=1 sm=1 tr=0 ts=688c3b4a cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=Oh2cFVv5AAAA:8 a=EUspDBNiAAAA:8
- a=74qhCITlYKpdjXRJ2hIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22 a=7KeoIwV6GZqOttXkcoxL:22
-X-Proofpoint-ORIG-GUID: Y-z_8MvoBAGQHDeuJFhtOiLZYDb6aYNC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-31_04,2025-07-31_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015 bulkscore=0 suspectscore=0 impostorscore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999 phishscore=0
- priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2508010026
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, "Murthy, Arun R"
+ <arun.r.murthy@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>
+Subject: RE: [PATCH 01/28] drm/writeback: Add function that takes preallocated
+ connector
+Thread-Topic: [PATCH 01/28] drm/writeback: Add function that takes
+ preallocated connector
+Thread-Index: AQHb/SGYtL728s1ZVUOjuiaVyaINHbREU84AgABI7dCAAYCKAIAHGnxg
+Date: Fri, 1 Aug 2025 04:03:11 +0000
+Message-ID: <DM3PPF208195D8DC58260AE103E0627B123E326A@DM3PPF208195D8D.namprd11.prod.outlook.com>
+References: <20250725050409.2687242-1-suraj.kandpal@intel.com>
+ <20250725050409.2687242-2-suraj.kandpal@intel.com>
+ <tglzdolw5nxc7tbscpfjcvx5jiydbghvouws7fl7xqryh7q5c4@klo5yncolqah>
+ <DM3PPF208195D8DB4B4B18D41EAB4FC3CBAE358A@DM3PPF208195D8D.namprd11.prod.outlook.com>
+ <5qawf2olp7m2opwnotrzrvx7563dyqw6i3pkqzrzsqtn4l3vyf@4q5tisgxqpxf>
+In-Reply-To: <5qawf2olp7m2opwnotrzrvx7563dyqw6i3pkqzrzsqtn4l3vyf@4q5tisgxqpxf>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|CH3PR11MB8209:EE_
+x-ms-office365-filtering-correlation-id: 5d4b3ad3-92dc-406f-ad9f-08ddd0b054f3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?36NN5ERpsZzoAW5ZkNBJ7cE/qeYbiYL5ork6OXYg61cQRR+wj1uNQj4WFIPk?=
+ =?us-ascii?Q?sbgBql7UBIe1VlDGaTlgVoszDtk9Vzb9RjK9WCmvvPQP4F9uPh+va8TkRQ/A?=
+ =?us-ascii?Q?nm0jByxajV01FXnG8bRXN9MmgbKl5QoAjjQP1GsqXjmukGoeTHLVOyGNB4LC?=
+ =?us-ascii?Q?yjkT9k57gYZN2SeLXosTArJfHWPmxt6f1OERM5Q0g775hRbeTNaDbhP1ZKDH?=
+ =?us-ascii?Q?9Wn/fAG+FGdBGtHReXr8oCMBAy9HcGLOr/0fuzfpWPxol363l8Zjb43hjh7y?=
+ =?us-ascii?Q?Usq+IfIQtfzOSglGxg6BPv/CpMDpPSsUiYF5RjwzzgFiXj0AiLwJQUvT3GER?=
+ =?us-ascii?Q?TDyM5y12PIRoQnOmyNkLBgj/03LMldhLB4nq8Zt5+uk0APeLQIEnRQ64GGnY?=
+ =?us-ascii?Q?tN+bXSWl27eLx4sMarN5DOhHX6jYLEKFDI/UleM8pcqaj9NZS4vpGMgX7S3U?=
+ =?us-ascii?Q?rYexYrrOnLm7AIHLJ2UzVx+yrBSa025JP3/SlRQUa9DuxPUeW2Rc9C1BvhiG?=
+ =?us-ascii?Q?sWKyUF5Zi0VUAHPKn8WP0rcHxOJNnzrfWzpZU6tnwbHvF25kHLy88m3uwY6T?=
+ =?us-ascii?Q?UmvO/m/K89bJJtW9zPXPJv2WmK6ZYCJoMrwyQOTc5UYFItbmJ6qc/tgXSlVJ?=
+ =?us-ascii?Q?EoAjX+eh9igTrKM0UdVkLqu4BMqr7XS5OqW5z5H+P0kBNJDyafyFTP5ilnN+?=
+ =?us-ascii?Q?jhQVKnwWq4pAaByk7UTnJAfyP4ksl5a1ja2DzYySO5sTNz2Kdtm7OLKnxK3u?=
+ =?us-ascii?Q?G1px7vLu+LP9GzHin5WWIFVGHiea5n/KezdM1Ccs88aTGgCGXGIxv1gRXYKZ?=
+ =?us-ascii?Q?u2r2TM7tO+Z+1Dr2zLHiq8Q5T3rkeuUcBHc5ryDVaBEImvwjX2A2r+ASnLxM?=
+ =?us-ascii?Q?4ON7ltLZ5+IFVP7WoIk8u3sw9d8vBOfcru0p2iU/+tEyv6f2DDf5SaR4kqzF?=
+ =?us-ascii?Q?FHXiOJPO9vtchxXErWE9paV/C8JXziOven34T9gb4e0BWfqMStZ2MNBSXw5c?=
+ =?us-ascii?Q?SwRxuPArgVSqKs4YkNDejKKehHncCX3nqv+vd3Fy+pJY8Saw9F40y40Kmg0p?=
+ =?us-ascii?Q?DoraaXflPdVbSSYGjIEpij63WwKfYcXr3v4VVbny6pSORwO9atqwbfv0amwc?=
+ =?us-ascii?Q?1N+gv+/MgoDEndZkGUDqYuTMmhcVHQ63B56OyEIIPqdP45oouE1mROIAvbKa?=
+ =?us-ascii?Q?KHlkMG9d6OKdoR9N4/Y7iLnNu7p1+H0mAGec8VqbRgxqk6NE9lncM6zs/4kU?=
+ =?us-ascii?Q?baoxxEiYJwf3YgxOdwgWV4w6VjWlENQFiQvkYJz4goFOzFEjsrkwRkM7prO+?=
+ =?us-ascii?Q?I11SXPfFYMfPr1VBgLI0o5Gs0c+OfKmJ4ndBDK6r/+hajbeemor9gq4JLf3q?=
+ =?us-ascii?Q?B5rrpYYlRBJriHlKgjfCLR2rAMfXIl2Cu7iWgZMmtck48jL0/v7fsTmQ8Odn?=
+ =?us-ascii?Q?QGUUoLzFDHyQSpqMdxooyWq6AJuudTPAFJDcqFkZF8z16mNVhtWC8Q=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+oroyYpCRFrFAe6GL5g0Xczgr/5+T2YmsUkiMBPE8+TGBqlWm6Xiric8M8Ds?=
+ =?us-ascii?Q?VpNPAFr9tnYRYDusOqwaCz9tNV8nsrjcAHnf6QmP93pX8nZqBpJi6hWZwYea?=
+ =?us-ascii?Q?6IHYnNH3sgef9Vl8vLpAkEWXC5Jw9/Bmt1JMvIhImUMd+Q4vPBjAYbHUmZ7Q?=
+ =?us-ascii?Q?Bh2o6Sdm/e948qig4vq5VgwcTD92xh78CI9n9OgBSeAUCaZwAVekX9Q/1FJo?=
+ =?us-ascii?Q?AZnjBMHhrQWF50YtIQ4u3v8t1Lf9LtEEttV0Lt0j75JUs800YwAr+SK8gABl?=
+ =?us-ascii?Q?2ucairPQZQbv0DpLFuBZTrrtj5CYw6WsqZwavJNKqoOtpYBALyEwUfnvGtOh?=
+ =?us-ascii?Q?wD+T5bRirGHikEnHy6VpKNX4WL8cVRvsrf62zpm7Om1MCJ4vXjld9ui/fanB?=
+ =?us-ascii?Q?aDHel/ofwWbYFfkwPQThOkpvwepUDknm05Kl9btVIwtwC6l8s3HuazgFgmbu?=
+ =?us-ascii?Q?gGp7qhVYqL8c7TB+0CTzM/deCUjYU6JxkVynJqy71GgQjRgSDxil9e1jCqnk?=
+ =?us-ascii?Q?HO89nMKgHWghEgOhP6LiPJk+F6t9PPdYdozlqPhOTFhdAL4W02FFtf1sFuqC?=
+ =?us-ascii?Q?UQiT/u5sg5fswUO40Ee/20yF6NQmGT+9toMBiTYEmPI8fnpLk0+nOg6IULhw?=
+ =?us-ascii?Q?YZdHL9ZJ0VKMhr1bhk2/O3cbNh5Sy3WHeD1V++ZXzGYy5JHmC8v6wLyhdxR2?=
+ =?us-ascii?Q?tUHfFbs39XA5so8wyelXjZiAfj2QB07IHUE54uX7NRocAhU5nJGbgN8XsXDF?=
+ =?us-ascii?Q?++vpbueRBDeHGjMkIaa74XNwbdLWWW6JTaM/7koZ5GUFEs58IGrq/FaCMniE?=
+ =?us-ascii?Q?k1uyla96clXAiL1KrY+kp5JtqgagEAYKlIaEVsiCwXGbTlzP0Wb7IFmvXTUs?=
+ =?us-ascii?Q?lNHmyLF4qmgxeWXtPA0q9WL75bbaS2h5gsoIhDu07o7EbQQiZuNwejgiFtFJ?=
+ =?us-ascii?Q?pqQLWuQl+itZOPeEvRqK3WmINtTHyjuyHD6AokCPh0KRFwI5ZigMIi2vaPlY?=
+ =?us-ascii?Q?0M85MCzqkZQieRF8mUmzGuS2Npgq+kvePSukUgnfQ3SLYDLVBmBpgug5AMdX?=
+ =?us-ascii?Q?7vQiKKE9xNFZb39JzasnZ7aGBlXp8aa1o0D0A1gJdg98Ok+lxE4s1mWgLsrX?=
+ =?us-ascii?Q?+hHS5dmgoLzatq2ZnwHHAAxXhzp7tpfZLL/7SDwkiZjOolpaK7uGIqSYyDWx?=
+ =?us-ascii?Q?43s5KYe6SD5kzEP7TLFJfXBfYYSE21+WhWGbX/hxNtR20ofNDpl7vd8h1rRc?=
+ =?us-ascii?Q?/e01vTyyzIf/Dp2msLQDScDPj98H06tItNDvQ8h35aAbsvz/p6ZksBNjPh+q?=
+ =?us-ascii?Q?+w4k2VYUb/ET6HlfJMUoGLkqQl1l4iapcxjTZShEJZQz/0d0k0VOay7p1/B6?=
+ =?us-ascii?Q?2bkUxOYzoIeuCTKhKy9swgM0sliVyUeS9a4d527vhYyle5ddvj19w2hv2enA?=
+ =?us-ascii?Q?n9K7RJQvdmqil5Kjc3DE+Vb1pd8nejkCgfpiuu9I0iIUBIW2eNH9rv/15dTZ?=
+ =?us-ascii?Q?X61jMD7nfb0OEy2AlZicmyGuAU5kP69s6THfYV7+YtTEmCc6QWzMrOkLsbDy?=
+ =?us-ascii?Q?lR1CohnhlK5Pvl/byqsJ9EDVu5LT/jBoRP1Hwvjb?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d4b3ad3-92dc-406f-ad9f-08ddd0b054f3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2025 04:03:11.3958 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: v9hzcASmqwWes1WifeTt2KJsk0A/3kKMduCrTZb8fnmEfdyJf64nrhmHRk0l3Rbo90Y5u0C5AFP1HWGUB7JWTQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8209
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,191 +189,146 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 8/1/2025 1:13 AM, Dmitry Baryshkov wrote:
-> On 31/07/2025 08:06, Xiangxu Yin wrote:
->>
->> On 7/31/2025 2:35 AM, Dmitry Baryshkov wrote:
->>> On Wed, Jul 30, 2025 at 04:53:16PM +0800, Xiangxu Yin wrote:
->>>> On 7/22/2025 8:41 PM, Dmitry Baryshkov wrote:
->>>>> On Tue, Jul 22, 2025 at 08:05:06PM +0800, Xiangxu Yin wrote:
->>>>>> On 7/22/2025 4:38 PM, Dmitry Baryshkov wrote:
->>>>>>> On Tue, Jul 22, 2025 at 03:22:03PM +0800, Xiangxu Yin wrote:
->>>>>>>> Introduce device tree binding documentation for the Qualcomm QMP DP PHY
->>>>>>>> on QCS615 SoCs. This PHY supports DisplayPort functionality and is
->>>>>>>> designed to operate independently from the USB3 PHY.
->>>>>>>>
->>>>>>>> Unlike combo PHYs found on other platforms, the QCS615 DP PHY is
->>>>>>>> standalone and does not support USB/DP multiplexing. The binding
->>>>>>>> describes the required clocks, resets, TCSR configuration, and clock/PHY
->>>>>>>> cells for proper integration.
->>>>>>> Simply put: no, this is not correct. Even if you go to the SM6150 block
->>>>>>> diagram, it points out that DP uses the USB3 PHY, not a separate DP PHY.
->>>>>>>
->>>>>>> I thought that we have discussed it beforehand.
->>>>>>>
->>>>>>> I can quote my comment from the previous thread:
->>>>>>>
->>>>>>>>> No. It means replacing extending existing entries with bigger reg and
->>>>>>>>> #phy-cells = <1>. The driver must keep working with old node definitions
->>>>>>>>> as is to ensure backwards compatibility. New nodes should make it
->>>>>>>>> register two PHYs (USB3 and DP). On the driver side modify generic code
->>>>>>>>> paths, all platforms supported by the driver should be able to support
->>>>>>>>> USB3+DP combination.
->>>>>>> Looking at the hardware memory maps:
->>>>>>>
->>>>>>> MSM8998: USB3 PHY regs at 0xc010000, DP PHY regs at 0xc011000
->>>>>>> SDM660: USB3 PHY regs at 0xc010000, DP PHY regs at 0xc011000
->>>>>>> QCM2290: USB3 PHY regs at 0x1615000, DP PHY regs at 0x1616000
->>>>>>> SM6115: USB3 PHY regs at 0x1615000, DP PHY regs at 0x1616000
->>>>>>>
->>>>>>> Now:
->>>>>>> SM6150: USB3 PHY regs at 0x88e6000
->>>>>>>          USB3 PHY regs at 0x88e8000, DP PHY regs at 0x88e9000
->>>>>>>
->>>>>>> I do not know, why msm-4.14 didn't describe second USB3 PHY. Maybe you
->>>>>>> can comment on it.
->>>>>>>
->>>>>>> But based on that list, the only special case that we need to handle is
->>>>>>> the first USB3 PHY, which doesn't have a corresponding DP PHY block. But
->>>>>>> it will be handled anyway by the code that implements support for the
->>>>>>> existing DT entries. All other hardware blocks are combo USB+DP PHYs.
->>>>>>>
->>>>>>> Having all of that in mind, please, for v3 patchset implement USB+DP
->>>>>>> support in the phy-qcom-qmp-usbc driver and add the following logic
->>>>>>> that also was requested in v1 review:
->>>>>>>
->>>>>>>>> Not quite. Both USB3 and DP drivers should be calling power_on / _off.
->>>>>>>>> If USB3 is on, powering on DP PHY should fail. Vice versa, if DP is on,
->>>>>>>>> powering on USB should fail.
->>>>>>> I think our understanding might not be fully aligned.
->>>>> I did not write this. Please fix your mailer to quote messages properly.
->>>>> As you are using Thunderbird, I'm not sure where the issue comes from.
->>>>>
->>>>> Also please fix it to wrap your responses somwhere logically.
->>>>>
->>>>>>> Perhaps this is because I didn’t accurately update the mutual exclusion relationships and test results for the different PHYs.
->>>>>>> Let me clarify my latest findings and explain why I believe these are separate PHYs that require mutual exclusion via TCSR.
->>>>>>>
->>>>>>> 1. About the TCSR DP_PHYMODE Registers
->>>>>>>
->>>>>>> MSM8998/SDM660:
->>>>>>>     Only one TCSR_USB3_DP_PHYMODE register at 0x1FCB248.
->>>>>>> QCM2290/SM6115:
->>>>>>>     TCSR_USB3_0_DP_PHYMODE at 0x3CB248
->>>>>>>     TCSR_USB3_1_DP_PHYMODE at 0x3CB24C
->>>>>>> SM6150:
->>>>>>>     TCSR_USB3_0_DP_PHYMODE at 0x1FCB248
->>>>>>>     TCSR_USB3_1_DP_PHYMODE at 0x1FCB24C
->>>>> SM6150 has two different sets of output pins, so the first register
->>>>> covers first set of SS lanes (which are routed to the documented SS
->>>>> PHY), the second register covers the second set of SS lanes (which are
->>>>> routed to the DP and secondary USB PHY).
->>>>>
->>>>> I can only assume that the same configuration was supposed to be
->>>>> applicable to QCM2290 / SM6115, but was later removed / disabled, while
->>>>> the registers were kept in the TCSR block.
->>>>>
->>>>>>> Even though MSM8998, SDM660, QCM2290, and SM6115 all have one USB3 PHY and one DP PHY, the TCSR DP_PHYMODE register configuration is different on each platform.
->>>>>>>
->>>>>>> Additionally, I found some interesting register documentation for QCM2290/SM6115:
->>>>>>>     TCSR_USB3_0_DP_PHYMODE: “In kamorta this one is for mobile usb. DP not supported.”
->>>>>>>     TCSR_USB3_1_DP_PHYMODE: “DP mode supported for Auto usb in kamorta.”
->>>>>>> I think the reason for having two different TCSR registers is to allow both the USB3.0 and DP PHYs to be useds at the same time in certain product configurations.
->>>>> Sure. One for the first PHY (USB), one for the second PHY (USB+DP).
->>>>> If you check the memory map, you will find the second VLS CLAMP register
->>>>> for the second USB PHY.
->>>>>
->>>>>>> 2. SM6150 Test Results
->>>>>>> When TCSR_DP_PHYMODE_0 is switched to DP, the USB3 primary PHY cannot work, and the DP PHY is also not functional (possibly due to clock lack or other configuration mismatch with this TCSR setting).
->>>>>>> When TCSR_DP_PHYMODE_1 is switched to DP, both the USB3 primary PHY and the DP PHY work normally.
->>>>>>> I think "why msm-4.14 didn't describe second USB3 PHY", because TCSR_DP_PHYMODE_1 always works in DP mode.
->>>>>>> https://android.googlesource.com/kernel/msm/+/af03eef7d4c3cbd1fe26c67d4f1915b05d0c1488/drivers/gpu/drm/msm/dp/dp_catalog_v200.c
->>>>> Here it still programs the TCSR register.
->>>>>
->>>>>>> Based on these info, I believe these are separate PHYs, and only the
->>>>>>> TCSR DP_PHYMODE registers determine which USB3/DP PHYs are paired or
->>>>>>> mutually exclusive. This is why I have maintained separate private
->>>>>>> data for each PHY and implemented Power on mutex control via TCSR,
->>>>>>> rather than using a qmp_combo-like structure.
->>>>> Still, no. Check the block diagram of SM6150.
->>>>>
->>>>>>> Given the above, do you think we still need to force USB and DP to be strictly bound together like a combo PHY?
->>>>> Yes.
->>>> I checked the related PHY series and block diagrams again.
->>>>
->>>> PRI and SEC go to different nodes based on the SoC design, and there are two types of configurations: USB3-only and USB3+DP pairing.
->>>>
->>>> Before proceed the v3 patchset, I’d like to double-confirm whether the following structure is what you expect:
->>>>
->>>> usb_qmpphy_1: phy@88e6000 {
->>>>      compatible = "qcom,sm6150-qmp-usb3-prim-phy"; <== rename to PRIM
->>> No, we already have a compatible name and DT schema for this device.
->> Then current compatible name is "qcom,qcs615-qmp-usb3-phy" and shall we need update to "qcom,sm6150-qmp-usb3-phy"?
->
-> Why? You _already_ have a compatible string. You don't need to change it just to follow the SoC name. 
->
-Ok, but just to confirm — in this case, the USB3-DP PHY would use "qcom,sm6150-qmp-usb3-dp-phy" while the USB3-only PHY still uses "qcom,qcs615-qmp-usb3-phy"?
 
-Since both PHYs are on the same SoC, would it make sense to keep the naming consistent and use "qcom,qcs615-..." for both? 
+> -----Original Message-----
+> From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Sent: Sunday, July 27, 2025 9:03 PM
+> To: Kandpal, Suraj <suraj.kandpal@intel.com>
+> Cc: dri-devel@lists.freedesktop.org; intel-xe@lists.freedesktop.org; inte=
+l-
+> gfx@lists.freedesktop.org; Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>=
+;
+> Murthy, Arun R <arun.r.murthy@intel.com>; Shankar, Uma
+> <uma.shankar@intel.com>
+> Subject: Re: [PATCH 01/28] drm/writeback: Add function that takes preallo=
+cated
+> connector
+>=20
+> On Sat, Jul 26, 2025 at 04:41:29PM +0000, Kandpal, Suraj wrote:
+> >
+> >
+> > > -----Original Message-----
+> > > From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > > Sent: Saturday, July 26, 2025 5:46 PM
+> > > To: Kandpal, Suraj <suraj.kandpal@intel.com>
+> > > Cc: dri-devel@lists.freedesktop.org; intel-xe@lists.freedesktop.org;
+> > > intel- gfx@lists.freedesktop.org; Nautiyal, Ankit K
+> > > <ankit.k.nautiyal@intel.com>; Murthy, Arun R
+> > > <arun.r.murthy@intel.com>; Shankar, Uma <uma.shankar@intel.com>
+> > > Subject: Re: [PATCH 01/28] drm/writeback: Add function that takes
+> > > preallocated connector
+> > >
+> > > On Fri, Jul 25, 2025 at 10:33:42AM +0530, Suraj Kandpal wrote:
+> > > > Write a function that takes a preallocated drm_connector instead
+> > > > of using the one allocated inside the drm writeback connector init
+> > > > function.
+> > >
+> > > Please start your commit message with describing the problem.
+> > >
+> > > >
+> > > > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_writeback.c | 76
+> > > +++++++++++++++++++++++++++++++++
+> > > >  include/drm/drm_writeback.h     |  7 +++
+> > > >  2 files changed, 83 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_writeback.c
+> > > > b/drivers/gpu/drm/drm_writeback.c index 95b8a2e4bda6..fa58eb0dc7bf
+> > > > 100644
+> > > > --- a/drivers/gpu/drm/drm_writeback.c
+> > > > +++ b/drivers/gpu/drm/drm_writeback.c
+> > > > @@ -416,6 +416,82 @@ int drmm_writeback_connector_init(struct
+> > > > drm_device *dev,  }  EXPORT_SYMBOL(drmm_writeback_connector_init);
+> > > >
+> > > > +/*
+> > > > + * drm_writeback_connector_init_with_conn - Initialize a
+> > > > +writeback connector with
+> > > > + * custom encoder and connector
+> > > > + *
+> > > > + * @enc: handle to the already initialized drm encoder
+> > > > + * @con_funcs: Connector funcs vtable
+> > > > + * @formats: Array of supported pixel formats for the writeback
+> > > > +engine
+> > > > + * @n_formats: Length of the formats array
+> > > > + *
+> > > > + * This function assumes that the drm_writeback_connector's
+> > > > +encoder has already been
+> > > > + * created and initialized before invoking this function.
+> > > > + *
+> > > > + * In addition, this function also assumes that callers of this
+> > > > +API will manage
+> > > > + * assigning the encoder helper functions, possible_crtcs and any
+> > > > +other encoder
+> > > > + * specific operation.
+> > >
+> > > Why?
+> >
+> > The problem would that not every want can have a drm_connector
+> > embedded inside the drm_writeback_connector We have a restraint where
+> > all connectors need to be a intel connector and since the we are not al=
+lowed
+> to make connector Inside the drm_connector into a pointer this gives a go=
+od
+> alternative.
+>=20
+> All of this needs to go to the commit message.
 
->>>
->>>>      ...
->>>>      qcom,tcsr-reg = <&tcsr 0xb244>, <&tcsr 0xb248>;
->>>>      qcom,tcsr-names = "vls_clamp", "dp_phy_mode";
->>> No need for qcom,tcsr-names. Second TCSR register should be optional in
->>> the driver.
->> Ok.
->>>
->>>>           #clock-cells = <1>;
->>>>      #phy-cells = <1>;
->>> #clock-cells = <0>;
->>> #phy-cells = <0>;
->>>
->>>>      ...
->>>> };
->>>>
->>>> usb_qmpphy_2: phy@88e8000 {
->>>>      compatible = "qcom,sm6150-qmp-usb3dp-sec-phy"; <== SEC SS, use usb3dp to indicate DP capability
->>> qcom,sm6150-qmp-usb3-dp-phy
->> Ok, but for this part, shall we update dt-binding in "qcom,msm8998-qmp-usb3-phy.yaml" or create a new one?
->
-> I think (I might be wrong here) new ones is a better fit. We'll migrate the rest of PHYs to new bindings later on. 
->
-Ok, I’ll keep the USB3-DP PHY node definition in a separate YAML file in v3.
->>>
->>>>      reg = <0x0 0x088e8000 0x0 0x2000>; <== SS2 base address and offset define in driver config
->>>>
->>>>      clocks = <&gcc GCC_AHB2PHY_WEST_CLK>,
->>>>              <&gcc GCC_USB3_SEC_CLKREF_CLK>; <== This SoC has no USB3.0 SEC SS clk
->>>>      clock-names = "cfg_ahb",
->>>>                  "ref";
->>>>      clock-output-names = "dp_phy_link_clk",
->>>>                      "dp_phy_vco_div_clk";
->>> No need to, the driver can generate names on its own.
->> Ok.
->>>
->>>>                           resets = <&gcc GCC_USB3PHY_PHY_SEC_BCR >,
->>>>           <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
->>>>      reset-names = "phy", "phy_phy";
->>> "phy_phy", "dp_phy". Is there no GCC_USB3_PHY_SEC_BCR?
->> There are only GCC_USB2_PHY_SEC_BCR and GCC_USB3PHY_PHY_SEC_BCR, no GCC_USB3_PHY_SEC_BCR.
->
-> Ack.
->
->>>>      qcom,tcsr-reg = <&tcsr 0xbff0>, <&tcsr 0xb24c>;
->>>>      qcom,tcsr-names = "vls_clamp", "dp_phy_mode"; <== added for backward compatibility with legacy configs that only had vls_clamp
->>> No need for qcom,tcsr-names, correct otherwise.
->>>
->>>>      #clock-cells = <1>;
->>>>      #phy-cells = <1>;
->>>>
->>>>      status = "disabled";
->>>> };
->>>>
->>>>>>>> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->>>>>>>> ---
->>>>>>>>   .../bindings/phy/qcom,qcs615-qmp-dp-phy.yaml       | 111 +++++++++++++++++++++
->>>>>>>>   1 file changed, 111 insertions(+)
->>>>>>>>
->
->
+Sure will get it there in the next revision.
+
+>=20
+> >
+> > >
+> > > > + *
+> > > > + * Drivers should always use this function instead of
+> > > > +drm_connector_init() to
+> > > > + * set up writeback connectors if they want to manage themselves
+> > > > +the lifetime of the
+> > > > + * associated encoder.
+> > > > + *
+> > > > + * Returns: 0 on success, or a negative error code  */ int
+> > > > +drm_writeback_connector_init_with_conn(struct drm_device *dev,
+> > > > +struct
+> > > drm_connector *connector,
+> > > > +				       struct drm_writeback_connector
+> > > *wb_connector,
+> > > > +				       struct drm_encoder *enc,
+> > > > +				       const struct drm_connector_funcs
+> > > *con_funcs,
+> > > > +				       const u32 *formats, int n_formats) {
+> > > > +	struct drm_property_blob *blob;
+> > > > +	struct drm_mode_config *config =3D &dev->mode_config;
+> > > > +	int ret =3D create_writeback_properties(dev);
+> > > > +
+> > > > +	if (ret !=3D 0)
+> > > > +		return ret;
+> > > > +
+> > > > +	blob =3D drm_property_create_blob(dev, n_formats * sizeof(*format=
+s),
+> > > > +					formats);
+> > > > +	if (IS_ERR(blob))
+> > > > +		return PTR_ERR(blob);
+> > > > +
+> > > > +	connector->interlace_allowed =3D 0;
+> > >
+> > > This function contans a lot of copy-paste from
+> > > __drm_writeback_connector_init(), which is obviously a no-go.
+> >
+> > The whole point is the minore difference inbetween then and how it
+> > derives a lot of things from the drm_writeback_connector because of whi=
+ch
+> this looks like a similar function but is essentially different.
+>=20
+> It surely is. This means that you need to extract common code rather than
+> duplicate it.
+
+Sure will find a more efficient way to do this in the next revision.
+
+Regards,
+Suraj Kandpal
+
+>=20
+>=20
+> --
+> With best wishes
+> Dmitry
