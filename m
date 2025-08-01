@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BD4B18342
+	by mail.lfdr.de (Postfix) with ESMTPS id E3DBFB18344
 	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 16:08:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A79410E869;
-	Fri,  1 Aug 2025 14:08:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC3810E877;
+	Fri,  1 Aug 2025 14:08:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lwESAIfc";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RVbybFwo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 616CA10E869
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 14:08:10 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 86918444D0;
- Fri,  1 Aug 2025 14:08:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B8F10E877
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 14:08:19 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2F40C444CE;
+ Fri,  1 Aug 2025 14:08:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1754057289;
+ t=1754057298;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bMs8CmXxlCL5em1U2cNHyW434Syw+11/Rs9F/pxqQnc=;
- b=lwESAIfc4K1NTo02wUMiSzM0b1E3YQ7Avsfpe4bTcJKwQUJKOxQTmZIewJ5l41efE/gxbj
- 4PabRfjEvWpl8m8/2pMPsbf2DHn5coVpFkRtBLWsDtBRahqJDUPdHiK3RQBYRVP+n+zlPa
- KzjE7GZkUjvBpMjO+0ndIDkdH8/t7394EEyDIyH6FU2nQfaxJCw5jRhu2prKAX89HvxDkN
- gQwqY7uj2/WCqRoHS/Yll9Cl/WduXWD7A6Vqx8ll6l7J0DBl+zQSUOOJsFqZ3ziNcR8H+c
- YC5xvTdc91YjS5ji28HzIFYvIqj3NBbpCqbID8812z39tLu+/mfIim+pG8STVw==
-Message-ID: <bfb8a882-1179-4ba8-98eb-5da12b2edfc2@bootlin.com>
-Date: Fri, 1 Aug 2025 16:08:06 +0200
+ bh=FK/P+YFthjQUpvrQUj0Ta5tiNuVthexAyJCbxLk0lgw=;
+ b=RVbybFwoULTKjZrAcDHtZNYYtCQCwa37u+iqbwMRCl6gT3iQxHfJoMMPOHEcIbTVvzxXxm
+ 1aL7asehUal4Ig5KUWorNuGBmkcshyZekakviJWEEs7bh0yPS/MPd1xz394K1dWCeESQj4
+ bSVAW2Knu+Y3p2mai0jhhiF11ZS87vz2M3Te6e/qAHj/P+6OIiR7Ox03m8uODw0oLwHbri
+ 1bXkEIA2m4slkT/GlnSff5rARSqPIscPtsm2FAOOWznUwo1q7r+7Nxa87E+zz9FhV4EIwc
+ icep/wwqJUdNPSuoRo4QU6ukscZDlVShSJcte3kJN6UIFg8ZTxasDjGW1kNIwg==
+Message-ID: <ac554483-f892-4997-be35-7b18bf72855a@bootlin.com>
+Date: Fri, 1 Aug 2025 16:08:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] drm/amd/display: use drmm_writeback_connector_init()
+Subject: Re: [PATCH 3/8] drm/mali: use drmm_writeback_connector_init()
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  "Kandpal, Suraj" <suraj.kandpal@intel.com>,
@@ -62,7 +62,7 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
 References: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
- <20250801-wb-drop-encoder-v1-1-824646042f7d@oss.qualcomm.com>
+ <20250801-wb-drop-encoder-v1-3-824646042f7d@oss.qualcomm.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -119,12 +119,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250801-wb-drop-encoder-v1-1-824646042f7d@oss.qualcomm.com>
+In-Reply-To: <20250801-wb-drop-encoder-v1-3-824646042f7d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdefkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeegpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhurhgrjhdrkhgrnhguphgrlhesihhnthgvlhdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnt
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdefkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeegpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhurhgrjhdrkhgrnhguphgrlhesihhnthgvlhdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnt
  hhlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdrtghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpthhtoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -150,70 +150,74 @@ Le 01/08/2025 à 15:51, Dmitry Baryshkov a écrit :
 > connector instance.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
 > ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    |  2 +-
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c | 18 +++++++++++++-----
->   2 files changed, 14 insertions(+), 6 deletions(-)
+>   drivers/gpu/drm/arm/malidp_mw.c | 25 ++++++++++++++-----------
+>   1 file changed, 14 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 096b23ad4845d365dad707deed4e3e84b1f9945d..a9948e8d67a6e9556d21090b5cdd101258d62480 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -10003,7 +10003,7 @@ static void dm_set_writeback(struct amdgpu_display_manager *dm,
->   		return;
->   	}
+> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
+> index 600af5ad81b15d0c30f9f79588f40cca07437ed8..182275c0c29cd8527c85dfb3e7317561da392c46 100644
+> --- a/drivers/gpu/drm/arm/malidp_mw.c
+> +++ b/drivers/gpu/drm/arm/malidp_mw.c
+> @@ -84,11 +84,6 @@ malidp_mw_connector_detect(struct drm_connector *connector, bool force)
+>   	return connector_status_connected;
+>   }
 >   
-> -	acrtc = to_amdgpu_crtc(wb_conn->encoder.crtc);
-> +	acrtc = to_amdgpu_crtc(crtc_state->base.crtc);
->   	if (!acrtc) {
->   		drm_err(adev_to_drm(adev), "no amdgpu_crtc found\n");
->   		kfree(wb_info);
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-> index d9527c05fc878ef6916782ff9fde847813938461..80c37487ca77c0494eaf769c5b9a3c53486aa52d 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-> @@ -171,7 +171,6 @@ static const struct drm_encoder_helper_funcs amdgpu_dm_wb_encoder_helper_funcs =
->   
->   static const struct drm_connector_funcs amdgpu_dm_wb_connector_funcs = {
+> -static void malidp_mw_connector_destroy(struct drm_connector *connector)
+> -{
+> -	drm_connector_cleanup(connector);
+> -}
+> -
+>   static struct drm_connector_state *
+>   malidp_mw_connector_duplicate_state(struct drm_connector *connector)
+>   {
+> @@ -114,7 +109,6 @@ static const struct drm_connector_funcs malidp_mw_connector_funcs = {
+>   	.reset = malidp_mw_connector_reset,
+>   	.detect = malidp_mw_connector_detect,
 >   	.fill_modes = drm_helper_probe_single_connector_modes,
-> -	.destroy = drm_connector_cleanup,
->   	.reset = amdgpu_dm_connector_funcs_reset,
->   	.atomic_duplicate_state = amdgpu_dm_connector_atomic_duplicate_state,
+> -	.destroy = malidp_mw_connector_destroy,
+>   	.atomic_duplicate_state = malidp_mw_connector_duplicate_state,
 >   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> @@ -190,17 +189,26 @@ int amdgpu_dm_wb_connector_init(struct amdgpu_display_manager *dm,
->   	struct dc *dc = dm->dc;
->   	struct dc_link *link = dc_get_link_at_index(dc, link_index);
->   	int res = 0;
+>   };
+> @@ -211,6 +205,7 @@ static u32 *get_writeback_formats(struct malidp_drm *malidp, int *n_formats)
+>   int malidp_mw_connector_init(struct drm_device *drm)
+>   {
+>   	struct malidp_drm *malidp = drm_to_malidp(drm);
 > +	struct drm_encoder *encoder;
-> +
-> +	encoder = drmm_plain_encoder_alloc(&dm->adev->ddev, NULL,
-> +					   DRM_MODE_ENCODER_VIRTUAL, NULL);
+>   	u32 *formats;
+>   	int ret, n_formats;
+>   
+> @@ -224,11 +219,19 @@ int malidp_mw_connector_init(struct drm_device *drm)
+>   	if (!formats)
+>   		return -ENOMEM;
+>   
+> -	ret = drm_writeback_connector_init(drm, &malidp->mw_connector,
+> -					   &malidp_mw_connector_funcs,
+> -					   &malidp_mw_encoder_helper_funcs,
+> -					   formats, n_formats,
+> -					   1 << drm_crtc_index(&malidp->crtc));
+> +	encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_VIRTUAL,
+> +					   NULL);
 > +	if (IS_ERR(encoder))
 > +		return PTR_ERR(encoder);
 > +
-> +	drm_encoder_helper_add(encoder, &amdgpu_dm_wb_encoder_helper_funcs);
+> +	drm_encoder_helper_add(encoder, &malidp_mw_encoder_helper_funcs);
 > +
-> +	encoder->possible_crtcs = amdgpu_dm_get_encoder_crtc_mask(dm->adev);
->   
->   	wbcon->link = link;
->   
->   	drm_connector_helper_add(&wbcon->base.base, &amdgpu_dm_wb_conn_helper_funcs);
->   
-> -	res = drm_writeback_connector_init(&dm->adev->ddev, &wbcon->base,
-> +	res = drmm_writeback_connector_init(&dm->adev->ddev, &wbcon->base,
->   					    &amdgpu_dm_wb_connector_funcs,
-> -					    &amdgpu_dm_wb_encoder_helper_funcs,
+> +	encoder->possible_crtcs = 1 << drm_crtc_index(&malidp->crtc);
+
+drm_crtc_mask?
+
+With this:
+
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+> +
+> +	ret = drmm_writeback_connector_init(drm, &malidp->mw_connector,
+> +					    &malidp_mw_connector_funcs,
 > +					    encoder,
->   					    amdgpu_dm_wb_formats,
-> -					    ARRAY_SIZE(amdgpu_dm_wb_formats),
-> -					    amdgpu_dm_get_encoder_crtc_mask(dm->adev));
-> +					    ARRAY_SIZE(amdgpu_dm_wb_formats));
->   
->   	if (res)
->   		return res;
+> +					    formats, n_formats);
+>   	kfree(formats);
+>   	if (ret)
+>   		return ret;
 > 
 
 -- 
