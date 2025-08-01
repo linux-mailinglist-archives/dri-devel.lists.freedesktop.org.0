@@ -2,204 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E0BB183D3
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 16:33:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F96EB18400
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 16:37:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D55610E885;
-	Fri,  1 Aug 2025 14:33:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45AC210E889;
+	Fri,  1 Aug 2025 14:37:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GXS9wZ7O";
+	dkim=pass (2048-bit key; unprotected) header.d=siemens.com header.i=@siemens.com header.b="IziG/fVt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF6E910E863;
- Fri,  1 Aug 2025 14:33:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754058785; x=1785594785;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=s22z49TSXW1sLf+E4aHagrZnxZ6SJ0nBL3CEni4Egus=;
- b=GXS9wZ7OFanIogYwqt51OSax7hynjkNyarDG1li0PvmFpRQBRffd1Axl
- CzLGlNDCQDCskNG1WMDleRi86KiiX+lfUU6Apz6bddW/na5ha6sUa5g8o
- EljTXlTdUIQLZETiT5vD9Jo0IVab6GUETZcGWcOxKHyGClMg5Hq5ns/A7
- AdZNDij6VGnCxPcxMosGMQsaXrMdVXtNN7gJ/WyooJczvi2FTCINwlV/r
- QhFgCkhwru75nEIoAYJeAxOuXUJzuNUgQXOkET8i5Uzh0yQcQxN52UsHJ
- 1WDUkQ6U/nUfHJkqifIWOtf0wJwSxSS+jqrwxrj0ZtQIgM3nIQgk/Vort w==;
-X-CSE-ConnectionGUID: hzsRBbkcRDuMMzjRteiqhw==
-X-CSE-MsgGUID: NwDya5cxROm5yiVzyCxuKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56486679"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="56486679"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2025 07:33:04 -0700
-X-CSE-ConnectionGUID: nBJS3LqTRg+VJATt5p5obg==
-X-CSE-MsgGUID: H4Uozt3PTvCrdvD6vzR8Xg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; d="scan'208";a="163508569"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2025 07:33:03 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Fri, 1 Aug 2025 07:33:02 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Fri, 1 Aug 2025 07:33:02 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (40.107.101.42)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Fri, 1 Aug 2025 07:33:02 -0700
+Received: from DB3PR0202CU003.outbound.protection.outlook.com
+ (mail-northeuropeazon11010007.outbound.protection.outlook.com [52.101.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8711510E889;
+ Fri,  1 Aug 2025 14:37:08 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WRj54zJOtxDv6T9ENazyai6VAQqFIG5w/5C7Vpl9hd6H1m4GFrzHd3SntZm9x60nq7u5lrxkAItqzHDfeTyK4l38h7Ny3MlRSnXoVkNrZkrNX0SxokHPpLifKSOqSq9hgyMwtbFBIr7NVCk9/brjb7P20JWwSxbg9BuRQC6frfbx4PhHCPm3etNYhLgQKKP9hZWXz5BFppNsiFMCdCIv2cwmN4/6egynM/EOrHPzPBGrAwTODsp+z1GYsoqkIzv6GHMz6VOcmDPiJRfekFO0rVm3d9EAnsqziVezYcu+J14h5CSx5HczTkkUPeTc6gUf2UdTtpp6xR0A0MZvoaESqg==
+ b=JOmMhB6vgBoV52JU9E1CucgXOJNpaXbrBiVSUELf55Ge/A6fYD4ZRzTx/p6sbUnzVJRC2laSqtdJP+vuoynzTpnFuXwG+smbvQwTCqPQk7hyWm3haF2jRsx9AR3y3gJgFUgHGE3aYNEkchNvy4ZqE15c6Zc4vuJfZmwh4JoLOodpXI5YMCyJaWPUHZ/xzStBJntLPQVkMcfCWVvYy7DuI+9L1vEnBfmCTl/yEZVrjVkPEKr2dd602VitFJfgNx3J1aeAefWgh7MErJx6v9SFgOHy34+7BynZ0bYjv8zKRnDi2me8S9+xB8BjhG4OQfDtrwsNpFKmxfKTVhiX/l4BZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d1f9yA8MK/8jsGE3gs5LH+ZwV6czdLQcyLM5vhkwIyg=;
- b=qnIKs25LnbzYl0Q0Nwy9e5twA0Hit1M9QVllz84MzgR0j63F2vHOG+iR2OJHUoPrKQk3XOvBGQvTxYINYjvDzYkijveGpnG+Jowy9hifjYGtN9wVf5nmb9eZHVftzWIE/LerU+1q/vlz5N/4Y0dmhWhy0TNxbL6YYAVKCbB9A06+HO8Zy6Xn0tDM9zF7N2H8pKBPJGo9ekwZkJ6UEAZ/fYqWwzl/yw+0HpqV2RNSSG8excCTUrAKMB/jS3IBHQ0uKWX4dRZTs5cfeEOsbm7LAiJR1SV2uJP9LuCwcJFaSflMvUWJl50aILs//6OM9QucrqeCQGDbCwORBappdHp2Lw==
+ bh=NeswODzYUUmfqe5P/T/uSHeKXjQqSlFhGM5H6HglSZM=;
+ b=UD7I7YA/IeybwT7caHBrtvgrCyjEcxwj42JVmdJ8UTr41pSPbsj0B+Q9vKBAnm7uqhgPa9+jf1S4hDLa5AebkiZaDtoBth+jBBP8dCov0e1sM2A5WJVmsXaA2DbY7i7zPOe3A9sEFYsgQaYJWNpuuzoU+Q+igIASXCAr4kaKdrY9JkU/7MSUvT08+Z0upIMLMFNt4ucYjXq2vqlKt92IfmH+vFl1igO5JG99QAXPv6QTsRlCrcRbcZ2BYMul7CdR+IUkBprYREuE/Hzztgl8EvqGDmBAXd+KlXOaITOoQNfccPTsgV5PuJ1L76zEzGX7kQgVCuXkQjPbJiz930FgWA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f13) by DS4PPF2720D4410.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.16; Fri, 1 Aug
- 2025 14:32:33 +0000
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::76e3:aa2a:a205:819f]) by DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::76e3:aa2a:a205:819f%7]) with mapi id 15.20.8989.013; Fri, 1 Aug 2025
- 14:32:33 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, "Kandpal, Suraj" <suraj.kandpal@intel.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo
- Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Liviu Dudau
- <liviu.dudau@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, "Abhinav Kumar" <abhinav.kumar@linux.dev>, Jessica Zhang
- <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Tomi Valkeinen
- <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, "Dave
- Stevenson" <dave.stevenson@raspberrypi.com>, =?iso-8859-1?Q?Ma=EDra_Canal?=
- <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance
- <kernel-list@raspberrypi.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NeswODzYUUmfqe5P/T/uSHeKXjQqSlFhGM5H6HglSZM=;
+ b=IziG/fVt9GvDU4FKO7q76R9bYUmsUwD95VijEX/JP7Au2v44RNl+cRx1I2WyymRaFc6PQvDh4I7fsTzxcgW2P1/yNVWXQXaeKYWhOC3yrcWS4ohmboEfaKUO7pGhnccb5w2Ezv89PycUweh/oDUTKwo9gR+whADH1UhHEjtRPgOt/DhdZ9KbN0vGkB/7yroAimfDnMtT3KzfTAL0Vh6v+FxfwNajz111amOLv+Ca+gf4rrUi5U61CETdZzHs8cJth0+/l0LeZjjO7Bkp0abyri1c6JEE3gbeoX6WvXKCoaAX9bdeiTiZ3Tigg/VDS4BegnIW39V/m2TtDUzWemMWLA==
+Received: from DB3SPRMB0006.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:436::7) by
+ AS4PR10MB6304.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:58f::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8989.16; Fri, 1 Aug 2025 14:37:04 +0000
+Received: from DB3SPRMB0006.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::7fc6:5d80:5e9c:246c]) by DB3SPRMB0006.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::7fc6:5d80:5e9c:246c%2]) with mapi id 15.20.8964.030; Fri, 1 Aug 2025
+ 14:37:04 +0000
+From: "nicusor.huhulea@siemens.com" <nicusor.huhulea@siemens.com>
+To: "imre.deak@intel.com" <imre.deak@intel.com>
+CC: "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, "Murthy, Arun R"
- <arun.r.murthy@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>, "Jani
- Nikula" <jani.nikula@linux.intel.com>, "Nikula, Jani" <jani.nikula@intel.com>
-Subject: RE: [PATCH 03/28] drm/writeback: Define function to get drm_connector
- from writeback
-Thread-Topic: [PATCH 03/28] drm/writeback: Define function to get
- drm_connector from writeback
-Thread-Index: AQHb/SGaZSHpeNVOa06DzLV6J9usq7REWNGAgABFs8CAAYSngIAHFUdQgABoVQCAAETuAA==
-Date: Fri, 1 Aug 2025 14:32:32 +0000
-Message-ID: <DM3PPF208195D8DC63FBA1BED2E42E28671E326A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-References: <20250725050409.2687242-1-suraj.kandpal@intel.com>
- <20250725050409.2687242-4-suraj.kandpal@intel.com>
- <ng2ps7k5h74w6zo62oqazzetunjc2psooobmh3zcrrmxesi2ua@va6z7eqjst2u>
- <DM3PPF208195D8D2676D013483985D2C3FFE358A@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <t5fmzuwiy2otubqftwdghakwmbeltavhbsvrfhgi4tc52uigys@sg2jgz6yjjk7>
- <DM3PPF208195D8D9147AC80569982DE55EBE326A@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <pax7q7t6gqf4v2ots4ycdfpyecyb62eycht5vlzxodxfl5tlzv@axijwakktt2u>
-In-Reply-To: <pax7q7t6gqf4v2ots4ycdfpyecyb62eycht5vlzxodxfl5tlzv@axijwakktt2u>
+ "cip-dev@lists.cip-project.org" <cip-dev@lists.cip-project.org>,
+ "jouni.hogander@intel.com" <jouni.hogander@intel.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "joonas.lahtinen@linux.intel.com"
+ <joonas.lahtinen@linux.intel.com>, "rodrigo.vivi@intel.com"
+ <rodrigo.vivi@intel.com>, "tvrtko.ursulin@linux.intel.com"
+ <tvrtko.ursulin@linux.intel.com>, "laurentiu.palcu@oss.nxp.com"
+ <laurentiu.palcu@oss.nxp.com>, "cedric.hombourger@siemens.com"
+ <cedric.hombourger@siemens.com>, "shrikant.bobade@siemens.com"
+ <shrikant.bobade@siemens.com>
+Subject: RE: [PATCH 0/5] drm/i915: fixes for i915 Hot Plug Detection and
+ build/runtime issues
+Thread-Topic: [PATCH 0/5] drm/i915: fixes for i915 Hot Plug Detection and
+ build/runtime issues
+Thread-Index: AQHcAWzy3t50zo5SAEmpHcCyMXGHRrRLFuMAgALIj8A=
+Date: Fri, 1 Aug 2025 14:37:04 +0000
+Message-ID: <DB3SPRMB000631927D36A721EAE657F3E626A@DB3SPRMB0006.EURPRD10.PROD.OUTLOOK.COM>
+References: <20250730161106.80725-1-nicusor.huhulea@siemens.com>
+ <aIp6UgiwtDU1Ktmp@ideak-desk>
+In-Reply-To: <aIp6UgiwtDU1Ktmp@ideak-desk>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=7a45d62f-ef00-4b33-a332-ed51e405b6d6;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2025-08-01T14:32:46Z;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10, 3, 0, 1;
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
+ header.d=none;dmarc=none action=none header.from=siemens.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|DS4PPF2720D4410:EE_
-x-ms-office365-filtering-correlation-id: 6c53e986-4f17-4965-3622-08ddd1084090
+x-ms-traffictypediagnostic: DB3SPRMB0006:EE_|AS4PR10MB6304:EE_
+x-ms-office365-filtering-correlation-id: 6b3b0b62-ed43-4a16-7b7c-08ddd108e246
+x-ms-exchange-atpmessageproperties: SA
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|921020|38070700018; 
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?udotxbc3ysJe5Cc+MtrP+TbhuPVVA8LSlMbzGub0fP5m32QuqrVodKrcMK?=
- =?iso-8859-1?Q?eZ55O8iEocIdPnVQ/OmnhD5n03iel3bEA46T99HoEKz0OV2We3GGbuxKHw?=
- =?iso-8859-1?Q?ngXG2TfDfeQ7o9vuYdgYYY0Wg8oE5q+fPXDwcaEgQovt4fpe7yV8j8m97G?=
- =?iso-8859-1?Q?R9i36159xT6bXt62SMHINXA5XjoreFUVJaiTlWMPx/jGgB3yirKd5Q3nCv?=
- =?iso-8859-1?Q?5hG59e4TzGfku0HGEejREs2U5EHWKzDfzMtFfhN5NbWKoBxiVWCCZDlC3M?=
- =?iso-8859-1?Q?pfXfe6KDOkqyR1OJ/iV5NdEJ9vFP45BegdrNx1WOEov+iZqemznp4HBsnV?=
- =?iso-8859-1?Q?Kw1MKrehl3ALQ0VXM5wEZXYN6DJaJqcnlEUKlhRpeAbBw3PuWrlhED7eCk?=
- =?iso-8859-1?Q?djGROvayGSp9uasH7YDnUB0G7LMk/K1z3QBpNAMBQH5wzjMWMN4YywFAT1?=
- =?iso-8859-1?Q?CEEVfNKZxk7TWF9ap1keOHf/BrUGOmMDD6TYqAWXxiP1vColRgdwtoXJ2V?=
- =?iso-8859-1?Q?vAYtyJ54gJqYrU5KMDs3ii2ggIzridn8SLSLXANioz9m1IsCK/7R+9Ajru?=
- =?iso-8859-1?Q?ao+fzCTZm7NLkm8tNkE+ss8ygl75w1A/nHOO05kdWlEto0DOn5KbYv5FAf?=
- =?iso-8859-1?Q?fD2ywYFH2MeakxZKZsBoBaPMYDfrKLtCiZX9PuaQOTfW5xlfixzumjXMNv?=
- =?iso-8859-1?Q?YNyajsMZcV+54NW7PX3ihEtKsLiXAoJFaveCxqUn3KrK1/UcaKBWTNUJ1q?=
- =?iso-8859-1?Q?B25uwQPP4Xq+T7mkRAr5Y7+zBs05x+dOJWx0/Kr2tkK5Qp8iWYNfTWIJHe?=
- =?iso-8859-1?Q?gEQzIaKTbINDPt3267s2CONIEb2ZU1NlmiRyDFUn57pCd9z+jPIvzZg8Tl?=
- =?iso-8859-1?Q?7+dJfAttAVDw9aP4w3yrpYZhFjPUR+k6AeE3NDhefFAnLZ07vUyRnQk0f0?=
- =?iso-8859-1?Q?0HgQoU1YYVFzTQI26TAi8GC4xDlS4VfmVKd22fbS0EufBxrEIgy/5v3uj7?=
- =?iso-8859-1?Q?agvyGv/zrGkPyxRr4InP6lW0aMTlcLJ4XarMEQKdgv50AC2we/ITOzS/wI?=
- =?iso-8859-1?Q?1TgIVLPZuEjtHDHtXnWlB/+3E6JZX/0CW3sm34YtSd5KjMqbnZAOfRusUv?=
- =?iso-8859-1?Q?PaPTvEDd4y0/nqqofQHCwK5MoSx5+XZJN9wekrGSrhEI6JW0c+1l0WvgXF?=
- =?iso-8859-1?Q?zrcXG8gwDZLjSeHbJIp9QU7K5/sbUbWIa57s7zxQCH9U8L18xwYPl8P5y0?=
- =?iso-8859-1?Q?sYpkJzfIPilLbBFt1uiNd4G9DiBCyuXUpq8LoC1W+So3Hz1tJH2DasqM1L?=
- =?iso-8859-1?Q?Kgbt8+sxwzhgIsn9P0/cyPssoUQnqDzfHs2BW4cobVyWiwG5lIYCVtto1q?=
- =?iso-8859-1?Q?V7ruS7yfcfi2a3LdN4oB+K9AFOs/NHD2ykDp2yn/T5dls4HhtFDVLFE9Il?=
- =?iso-8859-1?Q?azaPDrG2Q70GsU8iIFfZNuRAzrOxK3L2XCpD9u2zuJbYuW5/Cr6kJyhLTY?=
- =?iso-8859-1?Q?f3cbhokLtkHlb3tQLE1or0hHrj4RE6qnRMdoRrS7J3XvXmNU9Yjd+ppEhO?=
- =?iso-8859-1?Q?OADewCU=3D?=
+ ARA:13230040|1800799024|376014|7416014|366016|38070700018; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?Uqp6XI/v2jXPbCbPTDYnCZ+zlTnrXd5Rem4rRb5WvW1AySfWwJ0+GsGzbGUA?=
+ =?us-ascii?Q?OfH9Q/X5Rcj4bARzCJp/nJcGztLDeiEwGcVx8tyYrUa5ok6kLt8b5fb/s2pN?=
+ =?us-ascii?Q?0Rb6mjAbxCbNvXR++1LWJMwVblWguSQB0qHRzC1gfQ4R1devcms7QXDrUiH5?=
+ =?us-ascii?Q?11RqnZvOgn09HdSfeCONye5i4ftXelU+BO6+t1ymuLV87XOueOF6u6PwqAPb?=
+ =?us-ascii?Q?b/V9MSDzq4Uf3K/MvksGVPKN1vMrostla2K3nARgwycKAf//PYf6KL9mM26F?=
+ =?us-ascii?Q?HWzQhva7w25o0/PqxfgDtq3X/47gqzCrARGFmggAUJzH2h2+flC7F4OKvdnC?=
+ =?us-ascii?Q?uKpe8QHhjO1PaKVUND6x7dshUIQFRgsdLyqI7QugmVub69rlVD+MB+PYtoQ6?=
+ =?us-ascii?Q?ztAI0mfi4jEhsrH8R01P9AA9LHFFW5fc7ErjVu1P++6Cr1PjGMDI0O79+d7n?=
+ =?us-ascii?Q?r2CDFe9On31kGLWBZf16mDn69J1ijF92jyolbo1bJA+769GSxQosAnaZCSrV?=
+ =?us-ascii?Q?cVYObNeYT/XT3bMpcgfh5pp7aOnRO4izdDvQISo+dZVjNAac+607la3dm/BX?=
+ =?us-ascii?Q?W8e5M5mYEAvQG2m7Kg9PZFOO5QlFKjpfK5HFpYtxUZ5i8jh/A56jMfEu2GQm?=
+ =?us-ascii?Q?x0ZML7LyXLlACc8qYn/wr4JJIkJzM/5bmRQd/MdyWy8bpBOaF/Gvcz7CF44U?=
+ =?us-ascii?Q?ieAHa70l2wALbDBKO/burIQ0EbEJ/O3RcBOLGiVB13aQsAkJ2S7HE7/BA4wv?=
+ =?us-ascii?Q?BKYUDv46nQ2C5/CcoUw1tpUU0B3sxUkjcO9GphRp0nLFmJ/MD0JFMe5Km6gh?=
+ =?us-ascii?Q?BWyzqLrzEu11YLMvx919DdhGI64WOsuuNxk+LmumZMWbbSxHv9QLvcWrXqGz?=
+ =?us-ascii?Q?jkkWHuG1nEV3wtmrlO9MxGEF5HruRdHu3znqSTZAXb2LtRVAjRNIHP6LPaqC?=
+ =?us-ascii?Q?Rd3yNmuhP8WFaIjot4/xVcHTJuAB5hRbnJqHt2RXyu5YLX1KQeJ8ZQ41834S?=
+ =?us-ascii?Q?LRDOxW8RkONd12MplunqmHt3u7R72xmvPTSI5iA5yVYlUWBWFeUk69uYL7Ld?=
+ =?us-ascii?Q?gOHFbdciVnAqvViEGw4SRFgmh8gfJTku2Xpoy+SY4o2JLctJEasktGtBOTwP?=
+ =?us-ascii?Q?+mAyx4m0BScJHumvy6O4UwH9Jlum1fc7xGGi/SrfqX77MwB6M9m+tDaJ+CiS?=
+ =?us-ascii?Q?MqcyNnWZeRsdpMsJomsTs37ar8qSMm4ZMtmL1Ysja/u0mQfuwKTC4nk2YjLI?=
+ =?us-ascii?Q?wjo5HWJpfO47LWlfe8IWqP8o97U/P1HmIFwp8GxCGE5pKSDJjiF58nsZ9GsZ?=
+ =?us-ascii?Q?fOHLdk2BCUJzZNwF2Ypy/nTX1JwUY9pS29v+R/uOitwvFgEfKQre6KVcmHZU?=
+ =?us-ascii?Q?cc2hYMePRzKd7RhL9whNHItzPDJHFLbes9DYjuf+xk+ha8Z+DCd4tSV9JDUm?=
+ =?us-ascii?Q?lVC7y1u7SsE=3D?=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020)(38070700018);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DB3SPRMB0006.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700018); DIR:OUT;
+ SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?GRAQ60P67vqamhkFDlVB5bEIaXmjE9IzCl/dg5Hf+sO3UG6sRu8HmE6ECg?=
- =?iso-8859-1?Q?f7hqFPXXPDRe8cvMuI//dHyzChetaaSnPbmPjMJ/HPN17hfGRMXRzgvcgS?=
- =?iso-8859-1?Q?oEoh1F+DGdRWXc0mEUQz/xCOYAAgn7gKjc3SUXDc27GI51uDLuFt3/Niix?=
- =?iso-8859-1?Q?XFDIByM60oTvgJQ/vR6XJwRqBd67YlQyLGehCSGFlDCrKb1EtJYQk4xpkI?=
- =?iso-8859-1?Q?N98mxVXdOMhDDNUpSWaoBwy1wtOc1rpgO21tSSyuSJ+V2nczg7tZS6LuuB?=
- =?iso-8859-1?Q?vHCkt18PMFVMdeVunWCE8OUeNBy3OglD9+eN6zx1i0cJ5LxRfDq/cn+oqG?=
- =?iso-8859-1?Q?84olaGsiy8A7w3VXgQ/zw30V3BTVQqoaTib9ERN3GVPv6c0WNS1sU+LLxl?=
- =?iso-8859-1?Q?rU2IqbDa36+r7Zh6ZS5b+8U2MFWXtZ1C8n1o6EjuXKx1ZljFjqBmzQir0F?=
- =?iso-8859-1?Q?ngDQqbRP9nvMH1Ur7112ItyloEoN/q0RdZV24iuiSvJuOBkDFrHTDy+BN4?=
- =?iso-8859-1?Q?VTYwH8c+Gr5xDFxS86qQsG7YBS/hOOk79cApTvz/5Z+W9Um+nmiWaecApY?=
- =?iso-8859-1?Q?Nb+oMrFVpEhYeZOpNUpBH/xl4bItS2ryAY7MwUuMHKdAvcRSy+vJuwqqxC?=
- =?iso-8859-1?Q?+y+nvbhUz2cjsqKGT7EZwu6Pj48gdzggf2tWWeTBe0f+V82aKISAZ8nqwW?=
- =?iso-8859-1?Q?0MTfMu1kaOxTKt9E1KJzbN3tsF/P40EfQt6ERAR8o7FPUI08E+z2/n8NIa?=
- =?iso-8859-1?Q?bel3IBxbCkL+R4Tn/Mzn5glsUu3IRA2xhhwIdwpxls82nAbAh0kyoBdoc+?=
- =?iso-8859-1?Q?FB2j927/D0m2qzIrqHSMr143QHZM6E1hrl2De26ELc2QyGNA6XOKbsatP3?=
- =?iso-8859-1?Q?xYXWlxlKSdb2palhHsLFOTHZnUesHm99CjXkGfdtsMqEf6R05HkGy1ZPBW?=
- =?iso-8859-1?Q?xENMb0gk8U2cCSgTjlhZf5SQraqfaBuq49MRv1yVs1PO5cTb26ZOeTcJ4j?=
- =?iso-8859-1?Q?8795/DqqtsQ4sqHdbWtIWEDLWZUPvoqJLxQSgp06I6Swdy20cFM+k8yNf3?=
- =?iso-8859-1?Q?aqYj0+fmWR7lUFORNpeaUrYOOGgehSLcgQsNBvND2UdWLSjyLx76utv/AN?=
- =?iso-8859-1?Q?mgjQe2eMpcEUC10mT0KiF3xdGB8W5qoFQbiX4ksFvB0s3FEGXqSBWfQTZY?=
- =?iso-8859-1?Q?ppIzDlwceGz3WrFZIA22i4qKJsH9358b7cQyb0pjrLOpwR40VkpkLhGtep?=
- =?iso-8859-1?Q?Fo5/LseQamvSIAaOPwUlr4LO35I6qF64uieJlq0bivcovO1xWUwdfuIl2l?=
- =?iso-8859-1?Q?cOkaFohDtXdPRsrO2ta4VEn3pLmZBZ4P3m+w8vMLs63xnhG7TDFG06g8vQ?=
- =?iso-8859-1?Q?xw2ec3CqUFtPkPKUtyixHKjqXf0GvUPoOmtW9+bIG0q77spMHAisyhJR2m?=
- =?iso-8859-1?Q?6RuGmEFsiJAY9kjFgpT2HPrLs4uiyxiKCF7+rf+spUiKYwwVtFE/SbVSd/?=
- =?iso-8859-1?Q?TahviSQ449mJwVSEPdEsJeG5+2qAUwEossGM05BaHuWHphPBnZvfn8Dag2?=
- =?iso-8859-1?Q?hzoLeTQy9sJX8T5t6kwQiYRPr+gkwybrgvg4cVpNK7G/aLo4a9WOjLFGEA?=
- =?iso-8859-1?Q?wD9l9eLGeEDVaPPz2pfUQgkpdutEjpOGXG?=
-Content-Type: text/plain; charset="iso-8859-1"
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?SeVZoxAVsSz0DMMDNaoqfNERviNmkeboBBmn3Us2W81vJMwy2qX6DWnr7h2Z?=
+ =?us-ascii?Q?k9Z8lvoG4hid5knDcQ/zz1024CEPeT4MPNpVTtedEYBAR739Qe/uckrwKcvl?=
+ =?us-ascii?Q?CfevTY3GQF7cg4mVGYPrmNyvFZmz97haAvFzSKJ0I46e+zZXMnIVXcA0tWtP?=
+ =?us-ascii?Q?SluV7DlwYLmLM6w1+FanM0SOfJkevpTH8o891O3v7T2yu01BmLQDyEIy8rqG?=
+ =?us-ascii?Q?Ip5U6tnPhauv9t3Hg/3qiaTVcbJUWpgIXgJU3TT15HVwgR48gB4tJGMOmmPH?=
+ =?us-ascii?Q?QTIOS0Bl5/+o2Mt9uLgRaOyLJO1IGYOMYwqlwUs7OLkRLQbbe03MnYS6bhX2?=
+ =?us-ascii?Q?PMKJmnSeEqWcfain7blkLAeo4N+cLO3r9vRSQ6sTcRLFYyqb04tWqSSjnq7m?=
+ =?us-ascii?Q?r9aLFiQRJHooXbI1321PtKi3vH8Htadnu9JNsCmw+6vKlDlsOWwS0qj4XUQB?=
+ =?us-ascii?Q?NNRwUQToEpaGgotSRhXDNyaUjvP/MxF8oOsOvoU620G6A4BicJBp94doa3qw?=
+ =?us-ascii?Q?9yyMg48PK6TpAFxPtvKcLuOvvwrQZ2fYuHMHyHsMDu7Q8DYRIJIoFCwuxM9j?=
+ =?us-ascii?Q?FWkaSiAZ4kqJb4Wp+rse+AClyNq1W0FQR+1sxBHu3aDdbJGhwqPC8SiqGN20?=
+ =?us-ascii?Q?xJ4D84A4hc7wClY09p/G2AMYCh4ucS/FzUIZmHVJ/lkR+aAgYOQDiHjUfO8L?=
+ =?us-ascii?Q?dfa6BIdYL/CTWRYUY8U9axxJeAIJnGFAmlYkv1UGl9Dea1xZATpVQBHZrU8R?=
+ =?us-ascii?Q?L+HD7O5yhQFaxK0/1EpkEQkpvHyk7lYXy/lbl8PyrgfcKacc1vc26rluyjSl?=
+ =?us-ascii?Q?6YuDSlRpkkf+zGQUQxjtyFbbJVwC+e2rFayL+1QMHWSry5sJTj21YuiO69mp?=
+ =?us-ascii?Q?fUPQOyS1rmFfDQCPlNyJ+8nn6haKIDK10IMtIgjtaXym+KhW5N+dFLvigCo0?=
+ =?us-ascii?Q?FhvW75i9czhXQeVynVxGzFgLbxmb/JuS2qSUKcLlOyzfDQKbLIbTrhl/I8Rd?=
+ =?us-ascii?Q?PkVH97G5TbdJfbWx+iXUvMJpTAU6X+HFt955X7LSaf+ZXTA1aHfuvS55xku1?=
+ =?us-ascii?Q?VFwZ/S4eA8AbNllylpoYZGx8KkKsIEj2he4D8I9Zv6FKNfgoDVGKVrK7cZ3/?=
+ =?us-ascii?Q?g8RgPlMTOVO9hARd5g3mdcM0vPnPOG2CenrWzlUbd+w/qKYQEHd0ll3RurWp?=
+ =?us-ascii?Q?kZI9zFrxfjSRpOj2ovi6Gq3+IGknC/u1954TNmRhFQ6cvLRVGZwjJ0xl2uHa?=
+ =?us-ascii?Q?QpNkdPExHybzfQOqFypbmg51zLMKbzu6HaD2bO0ul4Lq/p5cCGes+WSTjtch?=
+ =?us-ascii?Q?48mGi2lIILlgee53Hv9SGVeOo+UqnqvzvtDvxlZIWDYt+/9TPJ8Ai2mRIsT2?=
+ =?us-ascii?Q?oQuOthkAxyfXGmBTo9bxLZGYa2q5swFrBUchgNOOFjbcj5CF3prCpWcC0Bhz?=
+ =?us-ascii?Q?36UcfTYzNQTm+q5CLq0Z9R83xH6C+/1GUtBTu2qg5PCUnD5k8zECG/TfIYdV?=
+ =?us-ascii?Q?RJfFrMfX4JhmvQSTaPVdRDBMZKHmYgDTanhCleaviGpt8+oFDn7mdhMQqg3V?=
+ =?us-ascii?Q?4OAPihQvh22iddh0tPucNFZsxiwoiybHM2a7joBpDCYoicRZGyPtKKs3S9zo?=
+ =?us-ascii?Q?AA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c53e986-4f17-4965-3622-08ddd1084090
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2025 14:32:32.9265 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: DB3SPRMB0006.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b3b0b62-ed43-4a16-7b7c-08ddd108e246
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2025 14:37:04.2012 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fXP3gFeTubd2GrYv6qg2k0h5Xui2YWCkN/8dYXA2Yugm3tIbawsk98/Ic+WwlHLFoWkOUQN9nEo1vkRXPwcwow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF2720D4410
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-userprincipalname: HWKh0HooznNaiVWV1alyoY12F94NxSGVwIZ/wMcEg6SnLNZN/Scmgq08Zrpp+0Wc5WdlquNUDx9G4NpUq6g10CPYt0ap0uGI5HxYl0L+7Hc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB6304
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -215,219 +177,215 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Subject: Re: [PATCH 03/28] drm/writeback: Define function to get
-> drm_connector from writeback
->=20
-> > > > >
-> > > > > > Now that drm_connector may not always be embedded within
-> > > > > > drm_writeback_connector, let's define a function which either
-> > > > > > uses the writeback helper hook that returns the drm_connector
-> > > > > > associated with the drm_writeback_connector or just return the
-> > > > > > drm_connector embedded inside drm_writeback_connector if the
-> > > > > > helper hook is not present. Lets use this function and call it
-> > > > > > whenever drm_connector is required mostly when connector
-> > > > > > helper
-> > > private funcs need to be fetched.
-> > > > > >
-> > > > > > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/drm_writeback.c | 33
-> > > > > > ++++++++++++++++++++++++++-------
-> > > > > >  1 file changed, 26 insertions(+), 7 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/drm_writeback.c
-> > > > > > b/drivers/gpu/drm/drm_writeback.c index
-> > > > > > e9f7123270d6..d610cb827975
-> > > > > > 100644
-> > > > > > --- a/drivers/gpu/drm/drm_writeback.c
-> > > > > > +++ b/drivers/gpu/drm/drm_writeback.c
-> > > > > > @@ -120,6 +120,18 @@ drm_connector_to_writeback(struct
-> > > > > drm_connector
-> > > > > > *connector)  }  EXPORT_SYMBOL(drm_connector_to_writeback);
-> > > > > >
-> > > > > > +static struct drm_connector *
-> > > > > > +drm_connector_from_writeback(struct drm_writeback_connector
-> > > > > > +*wb_connector) {
-> > > > > > +	const struct drm_writeback_connector_helper_funcs *funcs =3D
-> > > > > > +		wb_connector->helper_private;
-> > > > > > +
-> > > > > > +	if (funcs && funcs->get_connector_from_writeback)
-> > > > > > +		return funcs-
-> > > > > >get_connector_from_writeback(wb_connector);
-> > > > >
-> > > > > The get_connector_from_writeback() and
-> > > > > drm_writeback_connector_helper_funcs should be moved to this patc=
-h.
-> > > >
-> > > > Want to keep them separate since they themselves introduce a lot
-> > > > of changes on of them has use introducing a new
-> > > > writeback_helper_function
-> > > structure.
-> > >
-> > > Let's see how the series will take shape.
-> > >
-> > > >
-> > > >
-> > > > >
-> > > > > However it feels really awkward to make drm_writeback_connector,
-> > > > > which is a wrapper around the drm_connector, to use some
-> > > > > external DRM
-> > > connector.
-> > > > > A quick grepping reveals API (which you missed) that expects
-> > > > > drm_writeback_connector.base to be a valid connector. And it
-> > > > > would be very hard to catch sunch an API later on.
-> > > >
-> > > > Also seems like I did miss the fence_get_driver_name one which is
-> > > > an easy fix or did you see anything else.
-> > > > Really don't see any other problematic areas
-> > >
-> > > Yes, it was that function. However it is a nice example of how easy
-> > > it is to miss a call. Likewise anybody else changing the code might
-> > > easily not notice that Intel driver uses drm_writeback_connector in a
-> strange way.
-> > > >
-> > > > >
-> > > > > If you want to use DRM framwework, while retaining
-> > > > > intel_connector for writeback connectors, I'd suggest following
-> > > > > slightly different
-> > > > > path: extract common parts of drm_writeback_connector into a
-> > > > > common structure, and use it within the DRM core. Then provide
-> > > > > functions to fetch drm_connector from that struct or fetch it fro=
-m
-> drm_connector.
-> > > >
-> > > > Causes a lot of changes in the drm_writeback_connector structure
-> > > > causing every other driver Using this to change how they
-> > > > essentially call upon drm_writeback_connector. This API was to
-> > > > provide more non
-> > > invasive way to give everyone another alternative.
-> > >
-> > > Currently drm_writeback_connector is documented and implemented as
-> > > being a wrapper around drm_connector. You are changing that contract
-> > > in a non- intuitive way. I think there are several options on how to =
-proceed:
-> > >
-> > > - Clearly and loudly document that drm_writeback_connector is no long=
-er
-> > >   a wrapper around drm_connector. Clearly document how to distinguish
-> > >   those two cases. In my opinion this is the worst option as it is
-> > >   significantly error-prone
-> > >
-> >
-> > I think this is already done when
-> > drm_writeback_connector_init_with_conn is Defined
->=20
-> No. You also need to update drm_writeback_connector documentation, etc.
->=20
-> >
-> > > - Make sure that the DRM framework can use writeback without
-> > >   drm_writeback_connector and them implement all necessary plumbing i=
-n
-> > >   the Intel driver. This can result in singnificant amount of code
-> > >   duplication, so I'd skip this option.
-> >
-> > Hmm Agreed.
-> >
-> > >
-> > > - Separate writeback parts of drm_writeback_connector into a struct,
-> > >   make drm_writeback_connector include drm_connector, new struct and
-> > >   most likely drm_encoder. Implement conversion callbacks (like you d=
-id
-> > >   in your patchset).
-> >
-> > Again a lot of changes to other drivers which everyone will resist.
-> > Something like this was tried previously with both encoder and
-> > connector which was not accepted leading the patch series towards
-> > creation of the drm_writeback_connector_init_with_encoder.
-> >
-> > >
-> > > - Rework drm_writeback_connector and drm_connector in a similar way,
-> but
-> > >   use writeback structure as a field inside drm_connector (similar to
-> > >   how we got the HDMI data). This saves you from having all conversio=
-n
-> > >   callbacks and makes it extensible for other drivers too. In fact yo=
-u
-> > >   can use an anonymous union, making sure that HDMI and writeback
-> > >   structures take the same space in memory.
-> >
-> > The idea of not having it inside drm_connector was that it's not a "rea=
-l
-> connector"
-> > and we should not be treating it like one which makes me a little
-> > doubtful on if the community will go for this.
->=20
-> Well... It is a "real" connector, otherwise e.g. Intel wouldn't have to w=
-rap it into
-> an intel_connector structure. I think this is more of the historical beha=
-viour - to
-> wrap the structure instead of adding data to it. HDMI connector showed th=
-at
-> it's much easier to add data, so I assume it would be a preferred approac=
-h.
 
-Sadly the drm_framework does not treat it as such and again as Jani had poi=
-nted out this should have used
-drm_connector and drm_encoder as pointers within drm_writeback_connector pe=
-rsonally I can go ahead with
-designing either of the 3 designs available but let us get a consensus here=
- on which design to go for since I had floated
-a RFC for this design to get an idea of which design to go for before comin=
-g to this design and doing the final work.
-Adding some more people here to get the discussion going.
 
-Regards,
-Suraj Kandpal
+>>-----Original Message-----
+>>From: Imre Deak <imre.deak@intel.com>
+>>Sent: Wednesday, July 30, 2025 11:02 PM
+>>To: Huhulea, Nicusor Liviu (FT FDS CES LX PBU 1)
+>><nicusor.huhulea@siemens.com>
+>>Cc: stable@vger.kernel.org; dri-devel@lists.freedesktop.org; intel-
+>>gfx@lists.freedesktop.org; cip-dev@lists.cip-project.org;
+>>jouni.hogander@intel.com; neil.armstrong@linaro.org; jani.nikula@linux.in=
+tel.com;
+>>maarten.lankhorst@linux.intel.com; mripard@kernel.org; tzimmermann@suse.d=
+e;
+>>airlied@gmail.com; daniel@ffwll.ch; joonas.lahtinen@linux.intel.com;
+>>rodrigo.vivi@intel.com; tvrtko.ursulin@linux.intel.com;
+>>laurentiu.palcu@oss.nxp.com; Hombourger, Cedric (FT FDS CES LX)
+>><cedric.hombourger@siemens.com>; Bobade, Shrikant Krishnarao (FT FDS CES
+>>LX PBU 1) <shrikant.bobade@siemens.com>
+>>Subject: Re: [PATCH 0/5] drm/i915: fixes for i915 Hot Plug Detection and
+>>build/runtime issues
+>>
+>>Hi Nicusor,
+>>
+>>thanks for the report and the root causing effort. The patchset itself ha=
+s a few
+>>issues:
+>>
+>>- commit cfd48ad8c4a9 ("drm/i915: Fix HPD polling, reenabling the output
+>>  poll work as needed") you backport fixes d33a54e3991d
+>>  ("drm/probe_helper: sort out poll_running vs poll_enabled"), but this
+>>  fixed commit is not part of the 6.1.y stable tree which you are
+>>  targeting.
+>>
+>>  Similarly commit d33a54e3991d fixes c8268795c9a9 ("drm/probe-helper:
+>>  enable and disable HPD on connectors"), which is not part of 6.1.y
+>>  either.
+>>
+>>  This means the issue commit cfd48ad8c4a9 is fixing is not present in
+>>  the 6.1.y tree, as the changes introducing that issue are not present
+>>  in that tree either.
+>>
+>>- The compile errors the patches in your patchset introduce would
+>>  prevent bisection, so fixing up these compile errors only at the end
+>>  of the patchset is not ok; the tree should compile without errors at
+>>  each patch/commit.
+>>
+>>Looking at v6.1.y and the patchset I suspect the actual issue is the
+>>
+>>commit 4ad8d57d902f ("drm: Check output polling initialized before
+>>disabling") backport in v6.1.y, which had the
+>>
+>>-       if (!dev->mode_config.poll_enabled || !drm_kms_helper_poll)
+>>+       if (drm_WARN_ON_ONCE(dev, !dev->mode_config.poll_enabled) ||
+>>+           !drm_kms_helper_poll || dev->mode_config.poll_running)
+>>
+>>change, not part of the original
+>>
+>>commit 5abffb66d12b ("drm: Check output polling initialized before disabl=
+ing"). i.e.
+>>the original patch didn't add the check for
+>>dev->mode_config.poll_running. So could you try on top of v6.1.147
+>>(w/o the changes in the patchset you posted):
+>>
+>>diff --git a/drivers/gpu/drm/drm_probe_helper.c
+>>b/drivers/gpu/drm/drm_probe_helper.c
+>>index 0e5eadc6d44d..a515b78f839e 100644
+>>--- a/drivers/gpu/drm/drm_probe_helper.c
+>>+++ b/drivers/gpu/drm/drm_probe_helper.c
+>>@@ -250,7 +250,7 @@ void drm_kms_helper_poll_enable(struct drm_device *de=
+v)
+>>        unsigned long delay =3D DRM_OUTPUT_POLL_PERIOD;
+>>
+>>        if (drm_WARN_ON_ONCE(dev, !dev->mode_config.poll_enabled) ||
+>>-           !drm_kms_helper_poll || dev->mode_config.poll_running)
+>>+           !drm_kms_helper_poll)
+>>                return;
+>>
+>>        drm_connector_list_iter_begin(dev, &conn_iter);
 
->=20
-> >
-> > >
-> > > My preference is shifted towards the last option, it follows current
-> > > HDMI subclassing design and it doesn't add unnecessary complexity.
-> > >
-> > > Yes, this requires reworking of all writeback drivers. Yes, it's a
-> > > price of having your own subclass of drm_connector. No, in my
-> > > optionion, leaving a semi- broken abstraction is not an option.
-> > > Whatever path gets implemented, it should be internally coherent.
-> >
-> > Well to be honest this has already been done with drm_encoder which is
-> > placed Inside drm_writeback_connector with
-> > drm_writeback_connector_init_encoder
-> > so this is not something very unintuitive. Also I feel messing with
-> > all other drivers by changing writeback structure is the more error pro=
-ne way
-> to go about it.
->=20
-> This is what we frequently have to do: change other drivers and depend on
-> developers testing them.
->=20
-> For the reference, currently only the following drivers implement writeba=
-ck. I
-> think it's a pretty manageable change:
->=20
-> - AMDGPU
-> - ARM/Komeda
-> - ARM/Mali
-> - MSM/dpu1
-> - R-Car
-> - VC4
-> - VKMS
->=20
-> Yes, it requires some effort. But I think that it's better than just maki=
-ng
-> drm_connector part optional.
->=20
-> > Also it will be understood that
-> > drm_writeback_connector does not contain drm_connector to those using
-> > this API as it will be documented. So its not really the semi-broken
-> abstraction.
->=20
-> Thinking in OOP terms, the encoder is just a field in the struct.
-> drm_connector is a base class for drm_writeback_connector. By making it
-> optional, you are definitely semi-breaking the abstraction.
->=20
->=20
->=20
-> --
-> With best wishes
-> Dmitry
+Thank you for your thorough explanation, especially regarding the bisecting=
+ issue. I hadn't anticipated that by fixing compile errors only at the end =
+of the series, I would make bisection unreliable.
+
+I have tested your idea/fix and it works. HPD polling works reliably on bot=
+h devices. I can see the polling in logs when display cable is not connecte=
+d.
+
+Since this fix is mostly your solution, would you prefer to submit yourself=
+, or would you like me to resubmit it as a v2 and credit you appropriately =
+?
+
+>>
+>>If this doesn't resolve the issue, I think we need to figure out the actu=
+al root cause,
+>>for that could you please open at a ticket at
+>>
+>>https://gitlab.freed/
+>>esktop.org%2Fdrm%2Fi915%2Fkernel%2F-
+>>%2Fissues%2Fnew&data=3D05%7C02%7Cnicusor.huhulea%40siemens.com%7Cd78
+>>e534c4c604c981c9108ddcfa41f44%7C38ae3bcd95794fd4addab42e1495d55a%7C1
+>>%7C0%7C638895025993788215%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1h
+>>cGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyf
+>>Q%3D%3D%7C0%7C%7C%7C&sdata=3Dnss8VV88cJo9qDB5YSlr1OKAYXMo6epa
+>>HcR1p355Lns%3D&reserved=3D0
+>>
+>>attaching a dmesg log booting v6.1.147 and if possible also the latest dr=
+m-tip
+>>kernel with the drm.debug=3D0xe kernel parameter?
+>>
+>>Thanks,
+>>Imre
+>>
+>>On Wed, Jul 30, 2025 at 07:11:01PM +0300, Nicusor Huhulea wrote:
+>>> Hello maintainers,
+>>>
+>>> This series addresses a defect observed on certain hardware platforms
+>>> using Linux kernel 6.1.147 with the i915 driver. The issue concerns hot=
+ plug
+>>detection (HPD) logic, leading to unreliable or missed detection events o=
+n affected
+>>hardware. This is happening on some specific devices.
+>>>
+>>> ### Background
+>>>
+>>> Issue:
+>>>     On Simatic IPC227E, we observed unreliable or missing hot plug dete=
+ction
+>>events, while on Simatic IPC227G (otherwise similar platform), expected h=
+ot plug
+>>behavior was maintained.
+>>> Affected kernel:
+>>>     This patch series is intended for the Linux 6.1.y stable tree only =
+(tested on
+>>6.1.147)
+>>>     Most of the tests were conducted on 6.1.147 (manual/standalone kern=
+el build,
+>>CIP/Isar context).
+>>> Root cause analysis:
+>>>     I do not have access to hardware signal traces or scope data to con=
+clusively
+>>prove the root cause at electrical level. My understanding is based on ob=
+served
+>>driver behavior and logs.
+>>>     Therefore my assumption as to the real cause is that on IPC227G, HP=
+D IRQ
+>>storms are apparently not occurring, so the standard HPD IRQ-based detect=
+ion
+>>works as expected. On IPC227E,
+>>>     frequent HPD interrupts trigger the i915 driver's storm detection l=
+ogic, causing
+>>it to switch to polling mode. Therefore polling does not resume correctly=
+, leading
+>>to the hotplug
+>>>     issue this series addresses. Device IPC227E's behavior triggers thi=
+s kernel
+>>edge case, likely due to slight variations in signal integrity, electrica=
+l margins, or
+>>internal component timing.
+>>>     Device IPC227G, functions as expected, possibly due to cleaner elec=
+trical
+>>signaling or more optimal timing characteristics, thus avoiding the trigg=
+ering
+>>condition.
+>>> Conclusion:
+>>>     This points to a hardware-software interaction where kernel code as=
+sumes
+>>nicer signaling or margins than IPC227E is able to provide, exposing logi=
+c gaps
+>>not visible on more robust hardware.
+>>>
+>>> ### Patches
+>>>
+>>> Patches 1-4:
+>>>     - Partial backports of upstream commits; only the relevant logic or=
+ fixes are
+>>applied, with other code omitted due to downstream divergence.
+>>>     - Applied minimal merging without exhaustive backport of all interm=
+ediate
+>>upstream changes.
+>>> Patch 5:
+>>>     - Contains cherry-picked logic plus context/compatibility amendment=
+s as
+>>needed. Ensures that the driver builds.
+>>>     - Together these fixes greatly improve reliability of hotplug detec=
+tion on both
+>>devices, with no regression detected in our setups.
+>>>
+>>> Thank you for your review,
+>>> Nicusor Huhulea
+>>>
+>>> This patch series contains the following changes:
+>>>
+>>> Dmitry Baryshkov (2):
+>>>   drm/probe_helper: extract two helper functions
+>>>   drm/probe-helper: enable and disable HPD on connectors
+>>>
+>>> Imre Deak (2):
+>>>   drm/i915: Fix HPD polling, reenabling the output poll work as needed
+>>>   drm: Add an HPD poll helper to reschedule the poll work
+>>>
+>>> Nicusor Huhulea (1):
+>>>   drm/i915: fixes for i915 Hot Plug Detection and build/runtime issues
+>>>
+>>>  drivers/gpu/drm/drm_probe_helper.c           | 127 ++++++++++++++-----
+>>>  drivers/gpu/drm/i915/display/intel_hotplug.c |   4 +-
+>>>  include/drm/drm_modeset_helper_vtables.h     |  22 ++++
+>>>  include/drm/drm_probe_helper.h               |   1 +
+>>>  4 files changed, 122 insertions(+), 32 deletions(-)
+>>>
+>>> --
+>>> 2.39.2
+>>>
