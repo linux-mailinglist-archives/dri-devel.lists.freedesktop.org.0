@@ -2,102 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1124EB1861A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 18:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A432B1862F
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 19:05:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91A4210E30D;
-	Fri,  1 Aug 2025 16:57:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B38310E3D7;
+	Fri,  1 Aug 2025 17:05:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="fYlS8lLk";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="dYo82Kz2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF94C10E30D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 16:57:51 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-7e050bd078cso93158385a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Aug 2025 09:57:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1754067471; x=1754672271; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=PDG0NiUkE6aQQh2+3vtxR81GyiRPYX8OvGtHO76jA4Q=;
- b=fYlS8lLksMOJAnVKWPHJzGUDLJY+raiWV1zVZKoFAI0eAQiUa1bo8b1n5hOBeiXZe2
- EA0y93nwTBxLZ+5G4dty4740JQzxXUTt6vSTdB7Vq6wn2uU2ZirkADP63xY3zOYcbgmS
- 0u/K/WZoG9PbD1+jTKLtgnxZ2/hKgM8f8CA0c/9prXt+lviRZsHgESeHfQXn6Yndsz0w
- TLyceu9lBTSjWUAqI7jiXRlq7m00qmtSldpbAcAbn2nrZIfKR2jl2J83YeFG1bA0SvWP
- trXRaGqbQQRuw+sJ9SpOP1qspxnGCiGTndYO5K3Fp3fg7LjAxLvVVmNc7rI0YEiNB0Qf
- QdTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754067471; x=1754672271;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PDG0NiUkE6aQQh2+3vtxR81GyiRPYX8OvGtHO76jA4Q=;
- b=Z6/Mx9+710cNBVC9e3umf/b2z8llwGfhhOWBFV58EhUfBrN78c0+zO333N+tgR1Gjs
- L1ZBne3NThmtKu1tytoW5B2pQzLZ1eMBGgE2tXPE6jx4aq0DPGXvnQTPuqWb17I7oDJL
- w7bxEQ+rnkZ7n9VDySHZOhV4B2zunyGrfQnzRl4eU8Rz5OKVjQlFhMW6qwewQY/53Wnm
- tkOsL78hE2ymy4RsevOl5i9nYNWsflF/WCzlXCHZWMjmyyhVG0poQzw7Q6GUWUf1yeVI
- JxcZMN1KKFVvfbLVLqtvU7NwHW5kZFrJTIatEBqCsdGu8KcU0iZJT7WXfuc7g+Ivz+8g
- pVoA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUKAasbGOGu7YXx5fbrZkjWcaVFVog+tX3KYQ8Kcrc9hOLe6/6M+edDwROCXPvDf85znlr44q/k2jg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YysvE84h0f0JZJQCVdXHIR2d9aa3iXDg//457k/+DJ5f2hdkb4V
- fMXu+/xdKcmZYxFfFboKBjWiH7l2fEKOJGTuna+dWWYkektX2Y9ocQ8o5it1ahr24sg=
-X-Gm-Gg: ASbGnctrs8CQA4UfaNRJ2GsXpRvEuJxAImZM0V5jKmSvxijI2k9IbJN70TbMuXlnPDz
- 9S2spus8/VhTBmZpMmon4eQXdMnSE8+XyyW9s1JLQ+EFPY/EgTwNqpVfKRsDE/A9u6HZjr4cLTo
- eKVtv4MXpDxN5HX6TPe3DbkiYyJlKvemUOBIH6Zbf4BeRRR+gwsHLsJtyOHq8nfxZC3RmnBRB1h
- xB4oVfLWmqMirXgqcE6Bw4Cz37VZS8ccOZ0QIdbjekRsBbLKpFrM9cSJ0X4uSGO38M1DlN6QAdd
- BVgHUWRt9Cht+x21WZgV8WnhKhj+zW2Ixb5xamE/dgqs1oIeyZNLzIFuAgcEGgQkTMMk3ZXHGzx
- qP0z7+ZmkVU1Vt+I+DWsahvPBAeXlyq3+CKTKf9qOYfASU7MtyL7R4fBw23QeizK8wPcR
-X-Google-Smtp-Source: AGHT+IERBfIl6+3LPr31vnFrHmPwk8v4BHZ0fVqJ0PrqlgFbKe+fN+UuB/UkeSinm2wl6jaqpYu7OQ==
-X-Received: by 2002:a05:620a:4093:b0:7e0:f7e3:7927 with SMTP id
- af79cd13be357-7e6962a98edmr81964885a.21.1754067470755; 
- Fri, 01 Aug 2025 09:57:50 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [47.55.120.4]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7e67f597e32sm234364185a.18.2025.08.01.09.57.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Aug 2025 09:57:50 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1uht4n-000000013IN-2zx7;
- Fri, 01 Aug 2025 13:57:49 -0300
-Date: Fri, 1 Aug 2025 13:57:49 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: David Hildenbrand <david@redhat.com>
-Cc: Alistair Popple <apopple@nvidia.com>, Matthew Wilcox <willy@infradead.org>,
- Yonatan Maman <ymaman@nvidia.com>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Leon Romanovsky <leon@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Ben Skeggs <bskeggs@nvidia.com>, Michael Guralnik <michaelgur@nvidia.com>,
- Or Har-Toov <ohartoov@nvidia.com>,
- Daisuke Matsuda <dskmtsd@gmail.com>, Shay Drory <shayd@nvidia.com>,
- linux-mm@kvack.org, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Gal Shalom <GalShalom@nvidia.com>
-Subject: Re: [PATCH v2 1/5] mm/hmm: HMM API to enable P2P DMA for device
- private pages
-Message-ID: <20250801165749.GF26511@ziepe.ca>
-References: <aHpXXKTaqp8FUhmq@casper.infradead.org>
- <20250718144442.GG2206214@ziepe.ca>
- <aH4_QaNtIJMrPqOw@casper.infradead.org>
- <7lvduvov3rvfsgixbkyyinnzz3plpp3szxam46ccgjmh6v5d7q@zoz4k723vs3d>
- <aIBcTpC9Te7YIe4J@ziepe.ca>
- <cn7hcxskr5prkc3jnd4vzzeau5weevzumcspzfayeiwdexkkfe@ovvgraqo7svh>
- <a3f1af02-ef3f-40f8-be79-4c3929a59bb7@redhat.com>
- <i5ya3n7bhhufpczprtp2ndg7bxtykoyjtsfae6dfdqk2rfz6ix@nzwnhqfwh6rq>
- <20250801164058.GD26511@ziepe.ca>
- <b8009500-8b0b-4bb9-ae5e-6d2135adbfdd@redhat.com>
+Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F31DD10E3D7
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 17:05:36 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 95A064422B;
+ Fri,  1 Aug 2025 17:05:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1754067935;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aD/nGiCc+YDCCx8g28qn2jStr5eOipu4kAA3wazt60A=;
+ b=dYo82Kz2g0XG37+HAIyUSe1wvU/3lqmUzqgOGOc9XPTUIlYZXzUXtV/IuhOsd6EoE5LdpW
+ /KHotDEkI8Pixvc/6UCyqmqxp/jL9YfbkF7MacTeVxn8Lx984eyNJzCXn8MY5aQuZgUCLr
+ dcjRsyaPqhVTBVy1PWbv61YJek8DpIa3MKriReGpRzPsedNf0KxQv8EvvcRab9cWnNcVOF
+ JX+3ShYH+RdKUOFnrv/zqTKRvK8DvPWfkFRURGyc53X5OaCrkzauS5PYHw0nuLEFoPoP5t
+ mYwc4VfRJZ7APdUF+Z3nEThkc7a61kyrWgSkuJ6xgANLoQ44Lvgn5C3IHJNNyA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v2 0/9] drm/bridge: get/put the bridge returned by
+ drm_bridge_get_next_bridge()
+Date: Fri, 01 Aug 2025 19:05:22 +0200
+Message-Id: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8009500-8b0b-4bb9-ae5e-6d2135adbfdd@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIANLzjGgC/6WOTQ6DIBhEr2JYlwawpcVV79EYg/zolygYoMbGe
+ Pei7Q26fG+SmVlRNAFMRFWxomBmiOBdBnYqkOql6wwGnRkxwq7kRgTWYcRtAJ0TOQxe4c6k6ZV
+ 233x9k03jzJJ+jKm2XErLGS05ysVTMBaWY/RZZ+4hJh/ex4eZ7vavuZligi93wUgrlC25eLTep
+ wHcWfkR1du2fQA+e3GR9gAAAA==
+X-Change-ID: 20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-1df6aaf62136
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Zijun Hu <quic_zijuhu@quicinc.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdegvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthekredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeejjefhgfffleevhefhfeduhedtfedttedtkefgkeeuieehtdeifeduveejffevgeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpkhgvrhhnvghlrdhorhhgnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegludelvddrudeikedrudejkedruddukegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdelpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehprdiirggsvghlsehpvghng
+ hhuthhrohhnihigrdguvgdprhgtphhtthhopehshhgrfihnghhuoheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjfhuihdrrfhusehgvghhvggrlhhthhgtrghrvgdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomh
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,41 +83,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 01, 2025 at 06:50:18PM +0200, David Hildenbrand wrote:
-> On 01.08.25 18:40, Jason Gunthorpe wrote:
-> > On Fri, Jul 25, 2025 at 10:31:25AM +1000, Alistair Popple wrote:
-> > 
-> > > The only issue would be if there were generic code paths that somehow have a
-> > > raw pfn obtained from neither a page-table walk or struct page. My assumption
-> > > (yet to be proven/tested) is that these paths don't exist.
-> > 
-> > hmm does it, it encodes the device private into a pfn and expects the
-> > caller to do pfn to page.
-> > 
-> > This isn't set in stone and could be changed..
-> > 
-> > But broadly, you'd want to entirely eliminate the ability to go from
-> > pfn to device private or from device private to pfn.
-> > 
-> > Instead you'd want to work on some (space #, space index) tuple, maybe
-> > encoded in a pfn_t, but absolutely and typesafely distinct. Each
-> > driver gets its own 0 based space for device private information, the
-> > space is effectively the pgmap.
-> > 
-> > And if you do this, maybe we don't need struct page (I mean the type!)
-> > backing device memory at all.... Which would be a very worthwhile
-> > project.
-> > 
-> > Do we ever even use anything in the device private struct page? Do we
-> > refcount it?
-> 
-> ref-counted and map-counted ...
+Note: the cover in v1 was mentioning by mistake
+drm_bridge_get_last_bridge() instead of drm_bridge_get_next_bridge().
+               ^^^^
 
-Hm, so it would turn into another struct page split up where we get
-ourselves a struct device_private and change all the places touching
-its refcount and mapcount to use the new type.
+This series adds drm_bridge_get/put() calls for DRM bridges returned by
+drm_bridge_get_next_bridge().
 
-If we could use some index scheme we could then divorce from struct
-page and strink the struct size sooner.
+This is part of the work towards removal of bridges from a still existing
+DRM pipeline without use-after-free. The grand plan was discussed in [1].
+Here's the work breakdown (➜ marks the current series):
 
-Jason
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+    (based on devm_drm_bridge_alloc() [0])
+    A. ✔ add new alloc API and refcounting (in v6.16-rc1)
+    B. ✔ convert all bridge drivers to new API (now in drm-misc-next)
+    C. ✔ kunit tests (now in drm-misc-next)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (now in drm-misc-next)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge() + add a cleanup action
+       2. ✔ drm_bridge_get_prev_bridge()
+       3. ➜ drm_bridge_get_next_bridge()
+       4. … drm_for_each_bridge_in_chain()
+       5. drm_bridge_connector_init
+       6. of_drm_find_bridge
+       7. drm_of_find_panel_or_bridge, *_of_get_bridge
+    F. debugfs improvements
+ 2. handle gracefully atomic updates during bridge removal
+ 3. … avoid DSI host drivers to have dangling pointers to DSI devices
+ 4. finish the hotplug bridge work, removing the "always-disconnected"
+    connector, moving code to the core and potentially removing the
+    hotplug-bridge itself (this needs to be clarified as points 1-3 are
+    developed)
+
+There are various users of drm_bridge_get_next_bridge() which cannot be
+converted easily. Luckily they are not really looking for the next bridge,
+but for something else, such as getting the last bridge in the encoder
+chain or checking whether a bridge is the last in the encoder chain. So
+introduce better functions for those users and use them instead of
+drm_bridge_get_next_bridge(), making the code cleaner at the same time.
+
+Finally add a drm_bridge_get() to drm_bridge_get_next_bridge() and
+drm_bridge_put() to the remaining, and legitimate, calls.
+
+[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v2:
+- Use cleanup action in patches 4, 8 and 9
+- Fix: replace get_last -> get_next in cover
+- Link to v1: https://lore.kernel.org/r/20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-0-48920b9cf369@bootlin.com
+
+---
+Luca Ceresoli (9):
+      list: add list_last_entry_or_null()
+      drm/bridge: add drm_bridge_chain_get_last_bridge()
+      drm/bridge: imx93-mipi-dsi: use drm_bridge_chain_get_last_bridge()
+      drm/omapdrm: use drm_bridge_chain_get_last_bridge()
+      drm/bridge: add drm_bridge_is_last()
+      drm/display: bridge_connector: use drm_bridge_is_last()
+      drm/bridge: get the bridge returned by drm_bridge_get_next_bridge()
+      drm/bridge: put the bridge returned by drm_bridge_get_next_bridge()
+      drm/imx: parallel-display: put the bridge returned by drm_bridge_get_next_bridge()
+
+ drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c    | 12 ++++------
+ drivers/gpu/drm/display/drm_bridge_connector.c |  5 ++--
+ drivers/gpu/drm/drm_bridge.c                   |  3 +--
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c   |  4 ++--
+ drivers/gpu/drm/omapdrm/omap_drv.c             |  6 ++---
+ include/drm/drm_bridge.h                       | 32 +++++++++++++++++++++++++-
+ include/linux/list.h                           | 14 +++++++++++
+ 7 files changed, 57 insertions(+), 19 deletions(-)
+---
+base-commit: b13c47e0f6f5a7be56ed93d596f80eb9d8e12c77
+change-id: 20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-1df6aaf62136
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
