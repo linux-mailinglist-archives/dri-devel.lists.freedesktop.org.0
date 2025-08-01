@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE5AB1863B
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA78B1863A
 	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 19:06:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A752410E8D5;
-	Fri,  1 Aug 2025 17:05:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D94AC10E8D2;
+	Fri,  1 Aug 2025 17:05:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IJlchY9P";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZVaSEqkL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBD4410E8D4
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 17:05:53 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9CD34442C7;
- Fri,  1 Aug 2025 17:05:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 027F310E8D4
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 17:05:55 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BD64C4422B;
+ Fri,  1 Aug 2025 17:05:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1754067952;
+ t=1754067954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GNrBWhh4MDjBY2LHw69O2rADHzZIUkh9utCdX0Avk0I=;
- b=IJlchY9PRhyJCUWh5AW+kb9LnbgdE6UdsDupy+Nvj5v3BlVnbEgni9N2CfIXYqbd1lX+M3
- kGPfYt6A0Qp9vl0xNTB173GKErmt6ygwiwBSBfaOtY/AYjyNE8Fu7X4ao74DqBfsYQYpNN
- e6cn9Jp/XtOSgNEuI7kKCKANcymZbLfjoroWE8hb3+R5hjCAaXeQ/VBKFzekPBdHa2580r
- AlcatWOrKwsM6J24IRz9H42O4f/H4Nto2fe9MTxiX7CMzRmph2IAwWdrjXYTLykXKXK8eC
- GCatt6wp0eal6ef10J6T2r76gHmN8Y2igNw/g/YbZnoHcrVrIo3op9Hlq7VDww==
+ bh=XcuTwTnp9hmUdkX4u4R4cvzducFsDjBGc7V31uTMxgU=;
+ b=ZVaSEqkLA5dCJMDkriICUJn0u/r70N0foxiL23r6a2Q4qlQea8L9rLuxIKdG3wapqBM0GV
+ Kk34eG8bb96YWznUrHv2xBHvNn/RBfwiIx1sJwNcRyUtGf0bTqq53y8z8rE00gYixWRGe9
+ axzPSwxEU3Fo6CfczAzJkobm84F3pF6oKjZIHTiqLiC6HVqaYr3qWJOTRu4i+yA57Jecq4
+ XVosTWbIgKaLmWDltp0xs/qm1nLHtMi3jsG74UfWx8ovISQsyIUj2b3ANa34rxkd0N25fk
+ PpNsYzYlOxJcWVnsda8o+ZDABxLOi/LISJJK7A+VEktYcKffUCLM6Zmq5tp5eQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 01 Aug 2025 19:05:30 +0200
-Subject: [PATCH v2 8/9] drm/bridge: put the bridge returned by
- drm_bridge_get_next_bridge()
+Date: Fri, 01 Aug 2025 19:05:31 +0200
+Subject: [PATCH v2 9/9] drm/imx: parallel-display: put the bridge returned
+ by drm_bridge_get_next_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-8-888912b0be13@bootlin.com>
+Message-Id: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-9-888912b0be13@bootlin.com>
 References: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
 In-Reply-To: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -60,7 +60,7 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdegvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepphdriigrsggvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvl
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdegvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpeeknecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepphdriigrsggvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvl
  hdrohhrghdprhgtphhtthhopefjuhhirdfruhesghgvhhgvrghlthhhtggrrhgvrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhm
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,30 +89,26 @@ Changed in v2:
 - use cleanup action instead of explicit drm_bridge_put(), also fixing the
   place where the ref is put
 ---
- drivers/gpu/drm/drm_bridge.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index c3bfcd735a3c426a147bf0a7427b3d2cd0df3524..ad37e27688bbfd104a95f413f6f98fecf314ade2 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1121,7 +1121,6 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
- 				      struct drm_atomic_state *state)
- {
- 	struct drm_bridge_state *bridge_state, *next_bridge_state;
+diff --git a/drivers/gpu/drm/imx/ipuv3/parallel-display.c b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+index 6d8325c766979aa3ba98970f00806e99c139d3c3..dfdeb926fe9ca395c6843ec7976c8d00791dfbd2 100644
+--- a/drivers/gpu/drm/imx/ipuv3/parallel-display.c
++++ b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+@@ -134,10 +134,10 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
+ 	struct imx_crtc_state *imx_crtc_state = to_imx_crtc_state(crtc_state);
+ 	struct drm_display_info *di = &conn_state->connector->display_info;
+ 	struct drm_bridge_state *next_bridge_state = NULL;
 -	struct drm_bridge *next_bridge;
- 	u32 output_flags = 0;
- 
- 	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
-@@ -1130,7 +1129,7 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
- 	if (!bridge_state)
- 		return;
+ 	u32 bus_flags, bus_fmt;
  
 -	next_bridge = drm_bridge_get_next_bridge(bridge);
 +	struct drm_bridge *next_bridge __free(drm_bridge_put) = drm_bridge_get_next_bridge(bridge);
- 
- 	/*
- 	 * Let's try to apply the most common case here, that is, propagate
++
+ 	if (next_bridge)
+ 		next_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+ 								    next_bridge);
 
 -- 
 2.50.1
