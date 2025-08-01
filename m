@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BA9B17CEA
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 08:28:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A305B17CF2
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 08:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 854CF10E3BB;
-	Fri,  1 Aug 2025 06:28:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 077D410E3BC;
+	Fri,  1 Aug 2025 06:32:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Blto+PeN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="efcLyhlN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8E90210E3BB
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 06:28:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=dC9KBw4sEw7jTJErqmakBD0kKQgNF16I4/sEVGhGTmY=; b=B
- lto+PeNwDpC8srkaginYB0U4gqIN9WJWFIvDk/BYFkvbLN/wEXkrGQc9WrLOEh7f
- lFA9ylmVjq8RcKzFsX8aJS4g+lnPwffLO8+9FW//6jEo2yjq6TIryofG9mNQuP6Q
- 04BwBQBgM4eH5glWunGbU7YqHVPxALQU+lnOoIS9sg=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-100 (Coremail) ; Fri, 1 Aug 2025 14:28:09 +0800 (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Fri, 1 Aug 2025 14:28:09 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Stephen Rothwell" <sfr@canb.auug.org.au>
-Cc: "Simona Vetter" <simona.vetter@ffwll.ch>,
- "Andy Yan" <andy.yan@rock-chips.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
- "Intel Graphics" <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- "Linux Next Mailing List" <linux-next@vger.kernel.org>
-Subject: Re:Re: linux-next: build warning after merge of the drm-misc tree
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250801144354.0ac00f39@canb.auug.org.au>
-References: <20250716203115.6e02e50c@canb.auug.org.au>
- <20250801144354.0ac00f39@canb.auug.org.au>
-X-NTES-SC: AL_Qu2eBvyZtk4j7yCcZekfmkcVgOw9UcO5v/Qk3oZXOJF8jCrp+T8Sd2ZaF1DE/tCJOQeHiwGOexp84/ZoY4N9R58o3UA/dpqW8flVjzX0UsNm4w==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1BE410E3BC
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 06:32:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B6601443DE;
+ Fri,  1 Aug 2025 06:32:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12ECBC4CEE7;
+ Fri,  1 Aug 2025 06:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1754029943;
+ bh=eIiFUVgGSXBHvbSvziZE19G/3P8hn7IYoFtSy10Y8v0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=efcLyhlNsbVd7SqXqitE7oWL6abcF0Eg3ZmL/kxC1QanPCyDdjF53z4dvU6BB1cL8
+ s+xVokoWHlLWz0isLkjgoM8GwNBqYhW51hA27JjcwHP24o0CGv++mZ13D/4B41mPLm
+ Kbji0kxUlO5Bv/qkvuZDTbnOABSBy3IWpZoeiOK5egmRNmbTp5cq6eIf6s3SBs4P3J
+ 5KV+Y2IMOSANKJsCrceGISXa/LwQNnXOZl5hRxzZoSC0p6GWIW+rGwFCSbOhFO7IAP
+ ayaMfGMy3m2Ee33XKCb+dgEtR4aR6SSGUFb81VH/yKjCpP6P8q/L1W7pKh7mLUUaee
+ q5Gwp7XGUTH1Q==
+Date: Fri, 1 Aug 2025 08:32:20 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
+ Pengutronix <kernel@pengutronix.de>, linux-pwm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] backlight: pwm_bl: apply the initial backlight state
+ with sane defaults
+Message-ID: <n6rltuxqwybh2mwzz3hxi3tzix2c7q3mbovscobzzmkj6puo6w@gc3qnchjlagq>
+References: <20250731-blpwm-v1-1-0171fd31bff9@pengutronix.de>
 MIME-Version: 1.0
-Message-ID: <7304e450.4ca8.198645108de.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: ZCgvCgDnT_15XoxoQz8LAA--.23127W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEgCcXmiMTk2huQACst
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2qtwimeejsuq2uv6"
+Content-Disposition: inline
+In-Reply-To: <20250731-blpwm-v1-1-0171fd31bff9@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,17 +62,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlbGxv77yMCgpBdCAyMDI1LTA4LTAxIDEyOjQzOjU0LCAiU3RlcGhlbiBSb3Rod2VsbCIgPHNm
-ckBjYW5iLmF1dWcub3JnLmF1PiB3cm90ZToKPkhpIGFsbCwKPgo+T24gV2VkLCAxNiBKdWwgMjAy
-NSAyMDozMToxNSArMTAwMCBTdGVwaGVuIFJvdGh3ZWxsIDxzZnJAY2FuYi5hdXVnLm9yZy5hdT4g
-d3JvdGU6Cj4+Cj4+IEFmdGVyIG1lcmdpbmcgdGhlIGRybS1taXNjIHRyZWUsIHRvZGF5J3MgbGlu
-dXgtbmV4dCBidWlsZCAoaHRtbGRvY3MpCj4+IHByb2R1Y2VkIHRoaXMgd2FybmluZzoKPj4gCj4+
-IGRyaXZlcnMvZ3B1L2RybS9kcm1fYnJpZGdlLmM6MTI0Mjogd2FybmluZzogRnVuY3Rpb24gcGFy
-YW1ldGVyIG9yIHN0cnVjdCBtZW1iZXIgJ2Nvbm5lY3Rvcicgbm90IGRlc2NyaWJlZCBpbiAnZHJt
-X2JyaWRnZV9kZXRlY3QnCj4+IAo+PiBJbnRyb2R1Y2VkIGJ5IGNvbW1pdAo+PiAKPj4gICA1ZDE1
-NmE5YzNkNWUgKCJkcm0vYnJpZGdlOiBQYXNzIGRvd24gY29ubmVjdG9yIHRvIGRybSBicmlkZ2Ug
-ZGV0ZWN0IGhvb2siKQo+Cj5JIGFtIHN0aWxsIHNlZWluZyB0aGF0IHdhcm5pbmcuICBUaGF0IGNv
-bW1pdCBpcyBub3cgaW4gTGludXMnIHRyZWUuCgoKVGhlIGZpeCBpcyBoZXJl77yaCgpodHRwczov
-L2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMjAyNTA3MTYxMjU2MDIuMzE2NjU3My0xLWFuZHlz
-aHJrQDE2My5jb20vCgpIb3BlIHRoYXQgYSBNYWludGFpbmVyIGNhbiByZXZpZXcgYW5kIGFwcGx5
-IGl0LgoKCj4KPi0tIAo+Q2hlZXJzLAo+U3RlcGhlbiBSb3Rod2VsbAo=
+
+--2qtwimeejsuq2uv6
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] backlight: pwm_bl: apply the initial backlight state
+ with sane defaults
+MIME-Version: 1.0
+
+Hallo Michael,
+
+On Thu, Jul 31, 2025 at 10:47:18AM +0200, Michael Grzeschik wrote:
+> diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/p=
+wm_bl.c
+> index 237d3d3f3bb1a..5924e0b9f01e7 100644
+> --- a/drivers/video/backlight/pwm_bl.c
+> +++ b/drivers/video/backlight/pwm_bl.c
+> @@ -518,13 +518,6 @@ static int pwm_backlight_probe(struct platform_devic=
+e *pdev)
+>  	if (!state.period && (data->pwm_period_ns > 0))
+>  		state.period =3D data->pwm_period_ns;
+> =20
+> -	ret =3D pwm_apply_might_sleep(pb->pwm, &state);
+> -	if (ret) {
+> -		dev_err_probe(&pdev->dev, ret,
+> -			      "failed to apply initial PWM state");
+> -		goto err_alloc;
+> -	}
+> -
+>  	memset(&props, 0, sizeof(struct backlight_properties));
+> =20
+>  	if (data->levels) {
+> @@ -582,6 +575,15 @@ static int pwm_backlight_probe(struct platform_devic=
+e *pdev)
+>  	pb->lth_brightness =3D data->lth_brightness * (div_u64(state.period,
+>  				pb->scale));
+> =20
+> +	state.duty_cycle =3D compute_duty_cycle(pb, data->dft_brightness, &stat=
+e);
+> +
+> +	ret =3D pwm_apply_might_sleep(pb->pwm, &state);
+> +	if (ret) {
+> +		dev_err_probe(&pdev->dev, ret,
+> +			      "failed to apply initial PWM state");
+> +		goto err_alloc;
+> +	}
+> +
+
+I wonder why the PWM is updated at all in .probe(). Wouldn't it be the
+natural thing to keep the PWM configured as it was (in its reset default
+state or how the bootloader set it up)?
+
+Orthogonal to your change, while looking at the driver I wondered about:
+
+        bl =3D backlight_device_register(dev_name(&pdev->dev), &pdev->dev, =
+pb,
+                                       &pwm_backlight_ops, &props);
+        if (IS_ERR(bl)) {
+                ret =3D dev_err_probe(&pdev->dev, PTR_ERR(bl),
+                                    "failed to register backlight\n");
+                goto err_alloc;
+        }
+
+        if (data->dft_brightness > data->max_brightness) {
+                dev_warn(&pdev->dev,
+                         "invalid default brightness level: %u, using %u\n",
+                         data->dft_brightness, data->max_brightness);
+                data->dft_brightness =3D data->max_brightness;
+        }
+
+        bl->props.brightness =3D data->dft_brightness;
+        bl->props.power =3D pwm_backlight_initial_power_state(pb);
+        backlight_update_status(bl);
+
+Shoudn't setting data->dft_brightness, bl->props.brightness and
+bl->props.power better happen before backlight_device_register()? Also
+calling backlight_update_status() after backlight_device_register()
+seems wrong to me, I'd claim the backend driver shouldn't call that.
+
+Best regards
+Uwe
+
+--2qtwimeejsuq2uv6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmiMX3IACgkQj4D7WH0S
+/k4ZKQf/Yc01XOQm1bWT/1IkKiUWknBWfZ5khsEyrY4ZPJkEnDgN46+6HC1kx1R1
+1MFO30rtLFO8D3OFCI8meDxfrMzMcMXivCbx7L/PKRHynX7CcwgP2kV5Tw/DPwlr
+QB++vOFZs7iy8XR4n5b9kXFChysXXI0nDL78sY9wuuTb48IdMJmceTJujlXIw7RX
+4ln69h07AIZSf7bFY0kqnqomudJuWdSveBRCU8KPcAdR56cIC3wAxiHPdn4lSuMk
+8QrojPSun2MiwEi0NJWvGC1rPcL/L09VqPk2QS3x9hUfjAgLyPOQ3lCSuOxbo4Q5
+1EO/UUw6KGnWQ5CrvEuPpK+HHCTSww==
+=s4Ev
+-----END PGP SIGNATURE-----
+
+--2qtwimeejsuq2uv6--
