@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A3EB18630
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 19:05:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2E7B18632
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 19:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D37BC10E8CA;
-	Fri,  1 Aug 2025 17:05:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A955210E8CC;
+	Fri,  1 Aug 2025 17:05:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YHHIgZMb";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="AYQB/qoX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 263EA10E8CA
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 17:05:39 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A7C98442C7;
- Fri,  1 Aug 2025 17:05:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2654B10E8CC
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 17:05:41 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 176D4442CD;
+ Fri,  1 Aug 2025 17:05:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1754067937;
+ t=1754067939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oFY8nlDD+ARccYCDmntDOf8QBduXfQ2NkUJN31l0rhU=;
- b=YHHIgZMb/bHCi7mphakXUhGLER9jocrUpi5Vv1P04+LmHesjgtkVEhS5+3jPDTnIYfphfA
- 0B15321QfXszKssPwgrU/Pm7u0nVxewSMbUYqPMd8cL/ol5gV2BjZhjbPlY/zhyisCxCRu
- BnhMSmS0+4GUtKC04/1Cmz3cnRtFLRpVLzXd18yA2pyYUT9yaVFNlkMVAH4bHPs3JYi5Qa
- gt9iM8TicgwWuCs3T+fcIiDaIAfQmL3XXUpoBV3EQi3JN54vnQR7LrLWjsRafEc/BXvCRf
- 2Qch0E8zqxycXdw6epIkMeagJI0gTqnw92tLktUO1cOJY3nkBz4WkD3woEuimA==
+ bh=5b7Ja/njtquSYHToua+2n7iQrKQp4u+2m/eij/UqS8c=;
+ b=AYQB/qoXGHzydvbgG1dHjMI/GqV++DCN0Mz9pC/0KNHnAaVb+hnOCfjmzxO6lhOguTUSXL
+ aC1Zov+ICS4rW1Th0MgSChGVBVX7HVEAVnoIPRVH3ECnszEdHZP8MQdc+LkRMGvgiw7K5y
+ bQt8HOu/TESK83r0Yie9ApduLcvE0eadhuZAnxYzL0v4/ACJTzWBsAl9lJekNuBH5f4CsJ
+ QP1q1qLh0fsJwMTd+svjuexPdjUm+G7LBQJLp70DNK5aAlUkRx3fJQJ45tsKQ/yuhJDfcw
+ bFYgYWn2dGAylw1d7LZmh0dUzbSMox4COKkaQm/pNqBLlAyCZEztuRYlRA2ZRQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 01 Aug 2025 19:05:23 +0200
-Subject: [PATCH v2 1/9] list: add list_last_entry_or_null()
+Date: Fri, 01 Aug 2025 19:05:24 +0200
+Subject: [PATCH v2 2/9] drm/bridge: add drm_bridge_chain_get_last_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-1-888912b0be13@bootlin.com>
+Message-Id: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-2-888912b0be13@bootlin.com>
 References: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
 In-Reply-To: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -55,15 +55,11 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Zijun Hu <quic_zijuhu@quicinc.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdegvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvledprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepphdriigrsggvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvl
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdegvdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieeuvdfftefgueduleehueetgffgjeeitedtteetkeeuueeuueekveevvdeuveenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdduudekngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepphdriigrsggvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvl
  hdrohhrghdprhgtphhtthhopefjuhhirdfruhesghgvhhgvrghlthhhtggrrhgvrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhm
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,46 +76,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an equivalent of list_first_entry_or_null() to obtain the last element
-of a list.
+Add an equivalent of drm_bridge_chain_get_first_bridge() to get the last
+bridge.
 
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
 ---
+ include/drm/drm_bridge.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Zijun Hu <quic_zijuhu@quicinc.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- include/linux/list.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/include/linux/list.h b/include/linux/list.h
-index e7e28afd28f8eef94ab6baec77e69ea104ba0391..7f7657e416209a2941b3f292b1334e9e0f2a3ca5 100644
---- a/include/linux/list.h
-+++ b/include/linux/list.h
-@@ -636,6 +636,20 @@ static inline void list_splice_tail_init(struct list_head *list,
- 	pos__ != head__ ? list_entry(pos__, type, member) : NULL; \
- })
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 620e119cc24c3491c2be5f08efaf51dfa8f708b3..ce51b73e323ec5e188e84c9577803bd4934daf2b 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -1358,6 +1358,24 @@ drm_bridge_chain_get_first_bridge(struct drm_encoder *encoder)
+ 						       struct drm_bridge, chain_node));
+ }
  
 +/**
-+ * list_last_entry_or_null - get the last element from a list
-+ * @ptr:	the list head to take the element from.
-+ * @type:	the type of the struct this is embedded in.
-+ * @member:	the name of the list_head within the struct.
++ * drm_bridge_chain_get_last_bridge() - Get the last bridge in the chain
++ * @encoder: encoder object
 + *
-+ * Note that if the list is empty, it returns NULL.
++ * The refcount of the returned bridge is incremented. Use drm_bridge_put()
++ * when done with it.
++ *
++ * RETURNS:
++ * the last bridge in the chain, or NULL if @encoder has no bridge attached
++ * to it.
 + */
-+#define list_last_entry_or_null(ptr, type, member) ({ \
-+	struct list_head *head__ = (ptr); \
-+	struct list_head *pos__ = READ_ONCE(head__->prev); \
-+	pos__ != head__ ? list_entry(pos__, type, member) : NULL; \
-+})
++static inline struct drm_bridge *
++drm_bridge_chain_get_last_bridge(struct drm_encoder *encoder)
++{
++	return drm_bridge_get(list_last_entry_or_null(&encoder->bridge_chain,
++						      struct drm_bridge, chain_node));
++}
 +
  /**
-  * list_next_entry - get the next element in list
-  * @pos:	the type * to cursor
+  * drm_for_each_bridge_in_chain() - Iterate over all bridges present in a chain
+  * @encoder: the encoder to iterate bridges on
 
 -- 
 2.50.1
