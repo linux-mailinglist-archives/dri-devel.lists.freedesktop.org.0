@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622ACB18634
+	by mail.lfdr.de (Postfix) with ESMTPS id 7296CB18636
 	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 19:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E249710E8D0;
-	Fri,  1 Aug 2025 17:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF27A10E8CF;
+	Fri,  1 Aug 2025 17:05:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YQ5MCVA0";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="R4KIPmXL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F15610E8CF
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 17:05:45 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2601844231;
- Fri,  1 Aug 2025 17:05:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7520010E8D2
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 17:05:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4D66E442C7;
+ Fri,  1 Aug 2025 17:05:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1754067944;
+ t=1754067946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rv+d+y0YmAy4cPKjIj08TWYT9gGm4xFaUigENnLzxpQ=;
- b=YQ5MCVA0kINjN5Fl+60t0/suNNToBhAdKw3TvO0mDbGGb+r3OpdmjihJUxQRCjUB/buk1O
- VUcPykqsTcH45tCA/ewcHISzG58uM5FSv61CT+lNInJnbaRlgAnZRdZ4T2apcul22LxKS9
- 4g4/k2DG5D6mhOKkGwMr8D17ZOugtbO7rh7nFciXguKNrK+CeEOIwRoT9MwxRmqvofTyHH
- W+1QTCpQ0Ry08iwRP0au5KTDSatRF4LqDTVw6N1EK6GKbjUdAhmPksPlCHcbNQP0WzyZe3
- Xl3SdPLwH9FEmS+DmcrAyGnms5b02HB1mjYx/WmeOZxtI+fmt5BZv1R2JceilA==
+ bh=oM95PjcRikyO3sPH9AVOKQwjpoJ/s1h7pZhmKVi6Q4M=;
+ b=R4KIPmXLfMb2D5hYOdhjbeFLTMUOBhnAi5q6APf38pqzbdicvp8iNMiwm14Yid68lqhduj
+ 4ktqdnyVbIHmA3OYfbfV88crIo/miNYH9peK656A57r7LYXygFxBmnEboKgM0+qEtYEpju
+ Z2XN5wxmlY9V7MFTLBlOEXucVlLKh2d3DQj9m04h4djEkOw1gpqV2T4z4d7O5rGCbtzyMf
+ OgKizfrTaRlnmLSm+wk2tKnnemwC21bzvkZAo18FflV8xqpU/JHgEaJolZJ1DWXnWqXWFF
+ tACPDdVrTmqsL08jwlcnq9I03eJBo70aQAlYaRmACEhO0jblZzEI+Z4gEbtKJA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 01 Aug 2025 19:05:26 +0200
-Subject: [PATCH v2 4/9] drm/omapdrm: use drm_bridge_chain_get_last_bridge()
+Date: Fri, 01 Aug 2025 19:05:27 +0200
+Subject: [PATCH v2 5/9] drm/bridge: add drm_bridge_is_last()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-4-888912b0be13@bootlin.com>
+Message-Id: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-5-888912b0be13@bootlin.com>
 References: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
 In-Reply-To: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -76,41 +76,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drm_bridge_chain_get_last_bridge() instead of open coding a loop with
-two invocations of drm_bridge_get_next_bridge() per iteration.
+Some code needing to know whether a bridge is the last in a chain currently
+call drm_bridge_get_next_bridge(). However drm_bridge_get_next_bridge()
+will soon increment the refcount of the returned bridge, which would make
+such code more annoying to write.
 
-Besides being cleaner and more efficient, this change is necessary in
-preparation for drm_bridge_get_next_bridge() to get a reference to the
-returned bridge.
+In preparation for drm_bridge_get_next_bridge() to increment the refcount,
+as well as to simplify such code, introduce a simple bool function to tell
+whether a bridge is the last in the chain.
 
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
 ---
+ include/drm/drm_bridge.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Changed in v2:
-- use cleanup action instead of explicit drm_bridge_put() for consistency
-  with other patches in the series
----
- drivers/gpu/drm/omapdrm/omap_drv.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index 054b71dba6a75b8c42198c4b102a093f43a675a2..794267f0f007850e43949f93be5c98d0e32a84ea 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -378,10 +378,8 @@ static int omap_display_id(struct omap_dss_device *output)
- 	struct device_node *node = NULL;
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index ce51b73e323ec5e188e84c9577803bd4934daf2b..7aeffb8bb3b2aeeae7a3a19435b6a1cf109a45cd 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -1269,6 +1269,11 @@ static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+ }
+ #endif
  
- 	if (output->bridge) {
--		struct drm_bridge *bridge = output->bridge;
--
--		while (drm_bridge_get_next_bridge(bridge))
--			bridge = drm_bridge_get_next_bridge(bridge);
-+		struct drm_bridge *bridge __free(drm_bridge_put) =
-+			drm_bridge_chain_get_last_bridge(output->bridge->encoder);
- 
- 		node = bridge->of_node;
- 	}
++static inline bool drm_bridge_is_last(struct drm_bridge *bridge)
++{
++	return list_is_last(&bridge->chain_node, &bridge->encoder->bridge_chain);
++}
++
+ /**
+  * drm_bridge_get_current_state() - Get the current bridge state
+  * @bridge: bridge object
 
 -- 
 2.50.1
