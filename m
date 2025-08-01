@@ -2,49 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18AA4B184B3
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 17:12:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3102BB184BD
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 17:13:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A05110E8B2;
-	Fri,  1 Aug 2025 15:12:24 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BULsacfX";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90DCC10E8A3;
+	Fri,  1 Aug 2025 15:13:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8EB910E8B2;
- Fri,  1 Aug 2025 15:12:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 88ECBA535ED;
- Fri,  1 Aug 2025 15:12:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15CAEC4CEE7;
- Fri,  1 Aug 2025 15:12:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754061142;
- bh=T0JRaAlYPGwVaZX/So46uAmuoyfpyO2EumWKx4Gi5y4=;
- h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
- b=BULsacfXSD2H8x/IZT4JCsYTNY4qzwz6L02PaOi3fuYjonBwlTNJ2g3akEI/zjUzO
- zmNhSAEHPKqcQ+DXR5pTiK/D513Oubh51m0NmFU+rkorpgmvtA3sivxaM5aDT8JI0A
- a6nbYGkWYhz64MPTDMWl40l1tl7NEbiRhACsNpbzDPhiuMxKfiHuPZGzMoPbWBBV2l
- 2BSQFXP7SY94xi7Qt9JD7TjP/2nt0nAThMowJeTJtMToMj8l6RqcFqN6dG5SFxNZ9T
- Lvv+/9o1keUCpZiWwCjCgCShotsOAYydWSrtIgWnjgF41ltt/+Py/V2bAx4AscNvLy
- 4Yq7TKBVANNUw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 01 Aug 2025 17:12:19 +0200
-Message-Id: <DBR6S322NP7E.1T932OJTX6A63@kernel.org>
-To: "Timur Tabi" <ttabi@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH] drm/nouveau: Remove surplus struct member
-Cc: "phasta@kernel.org" <phasta@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250801074531.79237-2-phasta@kernel.org>
- <809d2ff29bb87f782f7a813d67d3d604882db320.camel@nvidia.com>
-In-Reply-To: <809d2ff29bb87f782f7a813d67d3d604882db320.camel@nvidia.com>
+Received: from psionic.psi5.com (psionic.psi5.com [185.187.169.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB12D10E049;
+ Fri,  1 Aug 2025 15:13:48 +0000 (UTC)
+Received: from [IPV6:2400:2410:b120:f200:9e5c:8eff:fec0:ee40] (unknown
+ [IPv6:2400:2410:b120:f200:9e5c:8eff:fec0:ee40])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by psionic.psi5.com (Postfix) with ESMTPSA id 241D03F116;
+ Fri,  1 Aug 2025 17:13:45 +0200 (CEST)
+Message-ID: <8f8ad642-bc62-4210-be11-6a5bd64411c5@hogyros.de>
+Date: Sat, 2 Aug 2025 00:13:42 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Mark xe driver as BROKEN if kernel page size is not 4kB
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <460b95285cdf23dc6723972ba69ee726b3b3cfba.camel@linux.intel.com>
+ <20250801102130.2644-1-Simon.Richter@hogyros.de>
+ <274fefe9b46bb856e5968431ed524ebe1b8e8cd4.camel@linux.intel.com>
+ <37abb9a1a4fde174a54a9d7868d31b2615df0e47.camel@linux.intel.com>
+Content-Language: en-US
+From: Simon Richter <Simon.Richter@hogyros.de>
+In-Reply-To: <37abb9a1a4fde174a54a9d7868d31b2615df0e47.camel@linux.intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------wNpcGvIeCpp5TfJ0uKxU5349"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,38 +52,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Aug 1, 2025 at 4:50 PM CEST, Timur Tabi wrote:
-> Does mean that the TODO has been done, or that someone completely forgot =
-and now your patch is
-> remove all reminders?
->
-> If it's the format, maybe add a fixes: tag for the commit that resolved t=
-he TODO?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------wNpcGvIeCpp5TfJ0uKxU5349
+Content-Type: multipart/mixed; boundary="------------CTEnt37qgnx0gBPXTd3N0LIT";
+ protected-headers="v1"
+From: Simon Richter <Simon.Richter@hogyros.de>
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <8f8ad642-bc62-4210-be11-6a5bd64411c5@hogyros.de>
+Subject: Re: [PATCH v3] Mark xe driver as BROKEN if kernel page size is not
+ 4kB
+References: <460b95285cdf23dc6723972ba69ee726b3b3cfba.camel@linux.intel.com>
+ <20250801102130.2644-1-Simon.Richter@hogyros.de>
+ <274fefe9b46bb856e5968431ed524ebe1b8e8cd4.camel@linux.intel.com>
+ <37abb9a1a4fde174a54a9d7868d31b2615df0e47.camel@linux.intel.com>
+In-Reply-To: <37abb9a1a4fde174a54a9d7868d31b2615df0e47.camel@linux.intel.com>
 
-The TODO was introduced by commit ebb945a94bba ("drm/nouveau: port all engi=
-nes
-to new engine module format") from 2012.
+--------------CTEnt37qgnx0gBPXTd3N0LIT
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-It's a bit hard to know what exactly resolves "this will be reworked in the=
- near
-future" for a commit with the following diffstat. :)
+SGksDQoNCk9uIDgvMS8yNSAyMzo1NiwgVGhvbWFzIEhlbGxzdHLDtm0gd3JvdGU6DQoNCj4g
+V291bGQgeW91IG1pbmQgaWYgd2UgZGlkIHRoZSBmb2xsb3dpbmc6DQoNClsuLi5dDQoNCj4g
+QW5kIGluc3RlYWQgaGVyZSBhZGQNCj4gCWRlcGVuZHMgb24gUEFHRV9TSVpFXzRLQiB8fCBD
+T01QSUxFX1RFU1QgfHwgQlJPS0VODQoNClRoYXQgaXMgYSBsb3QgbmljZXIsIEkgbGlrZSBp
+dC4NCg0KICAgIFNpbW9uDQo=
 
-	146 files changed, 14219 insertions(+), 11099 deletions(-)
+--------------CTEnt37qgnx0gBPXTd3N0LIT--
 
-The last remains of accel_done were removed with commit
-4e2ec2500bfc ("drm/nouveau: Remove file nouveau_fbcon.c"), but I don't thin=
-k we
-should mention this commit, given that apparently no one knows what was int=
-ended
-to be reworked here [1].
+--------------wNpcGvIeCpp5TfJ0uKxU5349
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-We could mention the above in the commit message, though it will also be
-available through the lore link in the commit message once the patch is app=
-lied.
+-----BEGIN PGP SIGNATURE-----
 
-NIT: Please don't top post, use interleaved style [2] instead.
+iQEzBAEBCgAdFiEEtjuqOJSXmNjSiX3Tfr04e7CZCBEFAmiM2aYACgkQfr04e7CZ
+CBELugf8DqUbmek/kQtrnhBllfJ7bBzpmAmD+F0ojUiPgJS9JT+rKEvRLJYaboyK
+EbwvUNQkcks0/dWYLoo0+nSCeeabgxCmADS9qwE7Q/aS4y+m2CmgIeKqnnTsgVt9
+ImIyfH+p5XJSFAAJ0VgaYN89z0mfCkmOfN6Y7ULBGamEEyu/21qXUS/6yP1xM4e9
+1XlklQuIoekGfdpJzdrQ80zj69DU+iOvnoG0u00CsZDYBvhWZnPgMj3P6LW8E7Fu
+N88a9Lbm09KvX7f1jv0V+Q0Ip5YoipkdrAflcIkr/aFn8bW2ECzcbyYojioZZqTF
+iXNF1QKNvbPmK5Vk+phNqG1HSmmcKQ==
+=Sg8e
+-----END PGP SIGNATURE-----
 
-[1] https://lore.kernel.org/all/481a2808c235f95726d17803503b2b6dc2746dc3.ca=
-mel@mailbox.org/
-[2] https://docs.kernel.org/process/submitting-patches.html#use-trimmed-int=
-erleaved-replies-in-email-discussions
+--------------wNpcGvIeCpp5TfJ0uKxU5349--
