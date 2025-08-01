@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61575B1834B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 16:08:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816CCB1834D
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 16:08:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1952410E878;
-	Fri,  1 Aug 2025 14:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F4710E879;
+	Fri,  1 Aug 2025 14:08:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ReLIBB/U";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nqLulVtb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 162341 seconds by postgrey-1.36 at gabe;
- Fri, 01 Aug 2025 14:08:35 UTC
 Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCAFB10E878
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 14:08:35 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 53FAC44231;
- Fri,  1 Aug 2025 14:08:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E10610E879
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 14:08:42 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D9BC84427F;
+ Fri,  1 Aug 2025 14:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1754057314;
+ t=1754057321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rqvkpsa3u8eBjFb86OL5k8iG+0mAxnFGtbjvxDDOxYA=;
- b=ReLIBB/UgjeRdseK8WhHpYoaZbSHYTkSdAoRD/RkOtNQE5Vuay4aZa8UIHraif66DJBr/2
- p+1ZSEcEx3RhLOoQgCTIlvnAulVB83W1XY92G4BsYbUHpDFGQYZdZ82ZLaDWAbHTw2M7bR
- Q0Mn7tUsP3xdra8jngxiUDa8D+nV0IzNljnr9skymPDjy8Zyz27B+xlPhb6ZbKnT4zih+1
- TeC/W1mvW6Eshs3XmVGf8U9OrsxkqsKBgyTJROjCCAYdqYAOFdep8si3+eG/Fgc9EwTPmr
- 2eBZpStToqsDHkNIW/j5tjoSTsF0LIduGvVd3bz3g/1T4uLdz82S6D3zRqVkLA==
-Message-ID: <ecad509b-7abe-47b9-b0ee-d4db5c38d841@bootlin.com>
-Date: Fri, 1 Aug 2025 16:08:30 +0200
+ bh=DT/B7nWQm3jBpI4/2Q5ABPRmhE5YIV8bCYAU/9kaD8o=;
+ b=nqLulVtbz3q0HluJf/mc6ghoL2SA7xDUJBKiY94czuSax+T5tlC/HHb03wlpFnSB5j9OMr
+ uiXWCC1hIxutloDvQ+ONTdFRhQT8XSbYWlf7gU4ImG2OfLrAjs4vanEkQxPJGFSZVg5Y2X
+ JQrk8LgQOuotbxNPerYFCPupZ2GVF5gX8yT7RekPdtxADWGOQ/BnBM0s3wIiZuJbsA1Obq
+ rQIrgNDWps/EjwmbJmPQzf8u72FVQ4qz6LyS9yZpmO8M6w4hVEEeB34t+hzzDD/svTM6V8
+ hBQviIZn6ZlEE9n3A5T1xZ4EJLgLIVqarPjyfEMubQX7h0iA6GUxg0nrebWmHg==
+Message-ID: <6cbe8955-cb34-43fc-9950-0fec4b7cac3e@bootlin.com>
+Date: Fri, 1 Aug 2025 16:08:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] drm/vc4: use drmm_writeback_connector_init()
+Subject: Re: [PATCH 5/8] drm/msm/dpu: use drmm_writeback_connector_init()
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  "Kandpal, Suraj" <suraj.kandpal@intel.com>,
@@ -63,7 +61,7 @@ Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
 References: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
- <20250801-wb-drop-encoder-v1-6-824646042f7d@oss.qualcomm.com>
+ <20250801-wb-drop-encoder-v1-5-824646042f7d@oss.qualcomm.com>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -120,12 +118,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  wDN7ORknPndzxrq3CyB7b/Tk1e8Qx+6HU/pnMb4ZqwwMwZAMk24TZpsgg28o9MQiUNzad0h2
  gIszbeej9ryrtLHxMzyK8yKhHoI2i2ovxy5O+hsWeAoCPE9xwbqnAjLjOn4Jzd/pPovizrq/
  kUoX66YgvCuHfQMC/aBPLnVunZSP23J2CrkTrnsUzw==
-In-Reply-To: <20250801-wb-drop-encoder-v1-6-824646042f7d@oss.qualcomm.com>
+In-Reply-To: <20250801-wb-drop-encoder-v1-5-824646042f7d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdefkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeegpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhurhgrjhdrkhgrnhguphgrlhesihhnthgvlhdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnt
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddutdefkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeegpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehoshhsrdhquhgrlhgtohhmmhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepshhurhgrjhdrkhgrnhguphgrlhesihhnthgvlhdrtghomhdprhgtphhtthhopehhrghrrhihrdifvghnt
  hhlrghnugesrghmugdrtghomhdprhgtphhtthhopehsuhhnphgvnhhgrdhlihesrghmugdrtghomhdprhgtphhtthhopehsihhquhgvihhrrgesihhgrghlihgrrdgtohhmpdhrtghpthhtoheprghlvgigrghnuggvrhdruggvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomh
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -150,40 +148,61 @@ Le 01/08/2025 à 15:51, Dmitry Baryshkov a écrit :
 > connector instance.
 > 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-
 > ---
->   drivers/gpu/drm/vc4/vc4_txp.c | 9 ++++-----
->   1 file changed, 4 insertions(+), 5 deletions(-)
+>   .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c    | 23 +++++++++++++++-------
+>   1 file changed, 16 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-> index 42acac05fe47861ced226a4f64661f545e21ddb5..fef4e4ee47cf41d40de47c5201f0349dc36c56bd 100644
-> --- a/drivers/gpu/drm/vc4/vc4_txp.c
-> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-> @@ -377,7 +377,6 @@ vc4_txp_connector_detect(struct drm_connector *connector, bool force)
->   static const struct drm_connector_funcs vc4_txp_connector_funcs = {
->   	.detect = vc4_txp_connector_detect,
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+> index 8cd37d7b8ae281cbc1fd8cbb243c621174517e23..9986a10e8114680e9da48986f4ca3ce6ec66b8cb 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+> @@ -134,7 +134,6 @@ static void rcar_du_wb_conn_reset(struct drm_connector *connector)
+>   static const struct drm_connector_funcs rcar_du_wb_conn_funcs = {
+>   	.reset = rcar_du_wb_conn_reset,
 >   	.fill_modes = drm_helper_probe_single_connector_modes,
 > -	.destroy = drm_connector_cleanup,
->   	.reset = drm_atomic_helper_connector_reset,
->   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> @@ -601,10 +600,10 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+>   	.atomic_duplicate_state = rcar_du_wb_conn_duplicate_state,
+>   	.atomic_destroy_state = rcar_du_wb_conn_destroy_state,
+>   };
+> @@ -202,15 +201,25 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+>   {
+>   	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
 >   
->   	drm_connector_helper_add(&txp->connector.base,
->   				 &vc4_txp_connector_helper_funcs);
-> -	ret = drm_writeback_connector_init_with_encoder(drm, &txp->connector,
-> -							encoder,
-> -							&vc4_txp_connector_funcs,
-> -							drm_fmts, ARRAY_SIZE(drm_fmts));
-> +	ret = drmm_writeback_connector_init(drm, &txp->connector,
-> +					    &vc4_txp_connector_funcs,
-> +					    encoder,
-> +					    drm_fmts, ARRAY_SIZE(drm_fmts));
->   	if (ret)
->   		return ret;
+> +	struct drm_encoder *encoder;
+> +
+> +	encoder = drmm_plain_encoder_alloc(&rcdu->ddev, NULL,
+> +					   DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +	if (IS_ERR(encoder))
+> +		return PTR_ERR(encoder);
+> +
+> +	drm_encoder_helper_add(encoder, &rcar_du_wb_enc_helper_funcs);
+> +
+> +	encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+
+drm_crtc_mask?
+
+With this:
+
+Reviewed-by: Louis Chauvet <louis.chauvet>
+
+> +
+>   	drm_connector_helper_add(&wb_conn->base,
+>   				 &rcar_du_wb_conn_helper_funcs);
 >   
+> -	return drm_writeback_connector_init(&rcdu->ddev, wb_conn,
+> -					    &rcar_du_wb_conn_funcs,
+> -					    &rcar_du_wb_enc_helper_funcs,
+> -					    writeback_formats,
+> -					    ARRAY_SIZE(writeback_formats),
+> -					    1 << drm_crtc_index(&rcrtc->crtc));
+> +	return drmm_writeback_connector_init(&rcdu->ddev, wb_conn,
+> +					     &rcar_du_wb_conn_funcs,
+> +					     encoder,
+> +					     writeback_formats,
+> +					     ARRAY_SIZE(writeback_formats));
+>   }
+>   
+>   void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
 > 
 
 -- 
