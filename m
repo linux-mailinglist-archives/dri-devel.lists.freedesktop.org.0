@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77209B18637
+	by mail.lfdr.de (Postfix) with ESMTPS id 622ACB18634
 	for <lists+dri-devel@lfdr.de>; Fri,  1 Aug 2025 19:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C2D410E8CD;
-	Fri,  1 Aug 2025 17:05:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E249710E8D0;
+	Fri,  1 Aug 2025 17:05:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JQQwl83a";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YQ5MCVA0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 326C110E8CD
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 17:05:43 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1454A442CE;
- Fri,  1 Aug 2025 17:05:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F15610E8CF
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Aug 2025 17:05:45 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2601844231;
+ Fri,  1 Aug 2025 17:05:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1754067942;
+ t=1754067944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fwf5eGBZP+QoRiYaNiP4uHHT3crUyo5DSA0BmyOkwcw=;
- b=JQQwl83adF2ko4IMx6hMfbSsBnAxDY/4LcGtrzEM3JMK18PUANzNVkdY6varfpUv/5rEjU
- utDNeMtKwOLvHoZYU6Vqa2tJh++r9uYbbEFZQJWpn9vjn80tXThrCj25yQpyu1LQ9JrVeN
- JqSMSMbLNU7IVv2soxfD59JA/MWR2bZ7oFSOL9qo2XfMJxc24BgADZTBDx+93Yrl2Crqh7
- 4IHHzqg1PayexUtPUB2no2LZO0yR+BycViHIcuHwABE2oEEelklcvJRj+OJTtrXuwzvelw
- cRDNCGPrUSucErXbPLrhgd5BNPsjvA+OYxDWe/yQ8Bhd9vyAOcmAXSAS+8xuYA==
+ bh=Rv+d+y0YmAy4cPKjIj08TWYT9gGm4xFaUigENnLzxpQ=;
+ b=YQ5MCVA0kINjN5Fl+60t0/suNNToBhAdKw3TvO0mDbGGb+r3OpdmjihJUxQRCjUB/buk1O
+ VUcPykqsTcH45tCA/ewcHISzG58uM5FSv61CT+lNInJnbaRlgAnZRdZ4T2apcul22LxKS9
+ 4g4/k2DG5D6mhOKkGwMr8D17ZOugtbO7rh7nFciXguKNrK+CeEOIwRoT9MwxRmqvofTyHH
+ W+1QTCpQ0Ry08iwRP0au5KTDSatRF4LqDTVw6N1EK6GKbjUdAhmPksPlCHcbNQP0WzyZe3
+ Xl3SdPLwH9FEmS+DmcrAyGnms5b02HB1mjYx/WmeOZxtI+fmt5BZv1R2JceilA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 01 Aug 2025 19:05:25 +0200
-Subject: [PATCH v2 3/9] drm/bridge: imx93-mipi-dsi: use
- drm_bridge_chain_get_last_bridge()
+Date: Fri, 01 Aug 2025 19:05:26 +0200
+Subject: [PATCH v2 4/9] drm/omapdrm: use drm_bridge_chain_get_last_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-3-888912b0be13@bootlin.com>
+Message-Id: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-4-888912b0be13@bootlin.com>
 References: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
 In-Reply-To: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -84,36 +83,34 @@ Besides being cleaner and more efficient, this change is necessary in
 preparation for drm_bridge_get_next_bridge() to get a reference to the
 returned bridge.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-index bea8346515b8c8ce150040f58d288ac564eeb563..8f7a0d46601a41e1bfc04587398b0f1536a6a16c 100644
---- a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-@@ -492,14 +492,12 @@ static int imx93_dsi_get_phy_configure_opts(struct imx93_dsi *dsi,
- static enum drm_mode_status
- imx93_dsi_validate_mode(struct imx93_dsi *dsi, const struct drm_display_mode *mode)
- {
--	struct drm_bridge *bridge = dw_mipi_dsi_get_bridge(dsi->dmd);
-+	struct drm_bridge *dmd_bridge = dw_mipi_dsi_get_bridge(dsi->dmd);
-+	struct drm_bridge *last_bridge __free(drm_bridge_put) =
-+		drm_bridge_chain_get_last_bridge(dmd_bridge->encoder);
+---
+
+Changed in v2:
+- use cleanup action instead of explicit drm_bridge_put() for consistency
+  with other patches in the series
+---
+ drivers/gpu/drm/omapdrm/omap_drv.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index 054b71dba6a75b8c42198c4b102a093f43a675a2..794267f0f007850e43949f93be5c98d0e32a84ea 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -378,10 +378,8 @@ static int omap_display_id(struct omap_dss_device *output)
+ 	struct device_node *node = NULL;
  
--	/* Get the last bridge */
--	while (drm_bridge_get_next_bridge(bridge))
--		bridge = drm_bridge_get_next_bridge(bridge);
+ 	if (output->bridge) {
+-		struct drm_bridge *bridge = output->bridge;
 -
--	if ((bridge->ops & DRM_BRIDGE_OP_DETECT) &&
--	    (bridge->ops & DRM_BRIDGE_OP_EDID)) {
-+	if ((last_bridge->ops & DRM_BRIDGE_OP_DETECT) &&
-+	    (last_bridge->ops & DRM_BRIDGE_OP_EDID)) {
- 		unsigned long pixel_clock_rate = mode->clock * 1000;
- 		unsigned long rounded_rate;
+-		while (drm_bridge_get_next_bridge(bridge))
+-			bridge = drm_bridge_get_next_bridge(bridge);
++		struct drm_bridge *bridge __free(drm_bridge_put) =
++			drm_bridge_chain_get_last_bridge(output->bridge->encoder);
  
+ 		node = bridge->of_node;
+ 	}
 
 -- 
 2.50.1
