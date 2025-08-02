@@ -2,69 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC43DB18F13
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 16:15:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25876B18F1D
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 16:25:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8ED010E0C4;
-	Sat,  2 Aug 2025 14:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60FDF10E0F6;
+	Sat,  2 Aug 2025 14:25:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="ijQ1uh7U";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cai9xp9H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F193D10E0C4
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 14:15:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1754144126; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QaVymuHxuvn3xpOhbmyZVvJbXF+0bSSURDIvXc1FpyaI/IhN3byBNvhNQyIdpuaF+cyksJ5RD/+hTmOqW/lbYzbRvz3ZkpvakQ+zC9tCETW/cI0amM5T9BJGOO0PVgrpfztcm1YCdTDxV+OJaD6mytVYeulLcTzk07UnTSFAsGA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1754144126;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=EazKvct6W5hZA7aFxkpG2xwggdURKmc6pFVcBodVGJg=; 
- b=O9TCIQJUWH/uUujkOGdyHcyJ+lG9qd9SYfQAOoijSK2ZYuMk6VZVa19Hi2NYaWTyB1qWtDND9ledv7wVHRsKbEPo+7OEtnENFmHwCTZVGgXWNaf/wlscsjM5Pt1wk/ZaU1rhPVUSoCNf3JWPJjvmRA3HS2WDcr7RlGW9ZpwfN2Y=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754144126; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=EazKvct6W5hZA7aFxkpG2xwggdURKmc6pFVcBodVGJg=;
- b=ijQ1uh7UMh5s9Y+27pZ91XUmSW/5PU9sEFIoNxsKH4ltuJVU+D62lxpuuJZg21h/
- g3dCv/tZ8yk9775Q+N/llPqhf74QyH9Xksw243/SWyWJSF4pFHkSSc270Ou9d3709J7
- yDs8kQ5DuV80AETqLXLSrNAqbYHySE2DjNB2ijZ8=
-Received: by mx.zohomail.com with SMTPS id 1754144123849822.7763497824441;
- Sat, 2 Aug 2025 07:15:23 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
-Subject: Re: [PATCH v5 2/3] implement ww_mutex abstraction for the Rust tree
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <DBRVNP4MM5KO.3IXLMXKGK4XTS@kernel.org>
-Date: Sat, 2 Aug 2025 11:15:07 -0300
-Cc: Onur <work@onurozkan.dev>, Boqun Feng <boqun.feng@gmail.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- ojeda@kernel.org, alex.gaynor@gmail.com, gary@garyguo.net,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dakr@kernel.org, peterz@infradead.org, mingo@redhat.com, will@kernel.org,
- longman@redhat.com, felipe_life@live.com, daniel@sedlak.dev,
- bjorn3_gh@protonmail.com, dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E997DCAF-552F-4EF2-BF94-1385ECADF543@collabora.com>
-References: <20250621184454.8354-1-work@onurozkan.dev>
- <20250621184454.8354-3-work@onurozkan.dev>
- <DASY7BECFRCT.332X5ZHZMV2W@kernel.org> <aFlQ7K_mYYbrG8Cl@Mac.home>
- <DATYHYJVPL3L.3NLMH7PPHYU9@kernel.org> <aFlpFQ4ivKw81d-y@Mac.home>
- <DAU0ELV91E2Q.35FZOII18W44J@kernel.org> <20250707163913.5ffc046d@nimda.home>
- <DB5XIWGZ8U36.1VB58YBJFL7OT@kernel.org> <20250707210613.2fd5bb55@nimda.home>
- <DB62ZN1LTO31.1HVWDLAWJWVM8@kernel.org>
- <FF481535-86EF-41EB-830A-1DA2434AAEA0@collabora.com>
- <DBRVNP4MM5KO.3IXLMXKGK4XTS@kernel.org>
-To: Benno Lossin <lossin@kernel.org>
-X-Mailer: Apple Mail (2.3826.600.51.1.1)
-X-ZohoMailClient: External
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6741510E0F6;
+ Sat,  2 Aug 2025 14:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754144735; x=1785680735;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=rLWXf4ZjY6LY6pmyrlBMaxAidY0l8NF0Guckbkm/X3k=;
+ b=cai9xp9Hc66aZ+gSWL0ZJI+OSdzMdLvgEOyLV6VGWHdb7SizPfsMHp51
+ WheETb0AC247JZHsWubX999tWJtAZyrlLuyiFEf+EDgxs/k+V8/3ZBCmV
+ FACC5MbtZKJfQaks4rfUmDiVGl3lPIy2I86x7ZBvIA/LoZtQZ4C3Qn1Q2
+ 7cYvIM6KMO01GYlWclVJf83FysgJU3TNTFw4c3RIlDTWBScSbPO6dlTX2
+ 7CYccYY7ppvu3EIkr6/n+WW1CAFKEq1zwajwQFsqT6w12ocyEEGewTs22
+ UKigL994qHGwchmwKpucFI2/DCg9O4LBy/A0CdrhnasADJ8j1Ya+fAoRD A==;
+X-CSE-ConnectionGUID: DmJjyYiVQn+1TvbWyHvhxw==
+X-CSE-MsgGUID: aRR8Wb+WQsCkO03Z5RC/xQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11510"; a="60300805"
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; d="scan'208";a="60300805"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2025 07:25:34 -0700
+X-CSE-ConnectionGUID: C6OPJy2TR/uOArSpSJGfOQ==
+X-CSE-MsgGUID: 0ohjFIEWTKa4HRyggViNWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; d="scan'208";a="164251233"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2025 07:25:33 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Sat, 2 Aug 2025 07:25:32 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Sat, 2 Aug 2025 07:25:32 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.66)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Sat, 2 Aug 2025 07:25:32 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hSCNEjXgTdhTwE0AEVoLWj7ZLCRewm3KXQkbYO2Gx1OAOI/jeXjtYnQUWj/4fkcp8xDqNGP2zGXJ+3TxksJpSlNCM8saCsmmiRAY0OZNXuzlbQuJo5gvW8ThoSnEguMoNk0ZS5+uUV3xvC4jT5i52BziS6hNwBb/UbcsboflO5BcuEkr08ddT3RDhjEMW3qEFDjPCa+K4JIW2b81Wkm9RTU7VlA7TmLi0Zz4XqRIzNdYQKt76kW8T0pYduY5dIGOf9xBlZG77NFHHRaz7xSDlLkTtVXnnmQv16AtJqQBgBLBNSyIR3vfvRvhN1M3babz45TUIZfrgie9Pf5zjuYt2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YdBgqHkmwZ0MqoYXjLuXOTgbEkj8ILpGEd5Jxp/elWE=;
+ b=Nfn0RAedxJVDk3w7lnPDcR5jF3iyj4zHtxMh5Ynxhs9Gwc00l+QVaCY+2+jPXKKozVrUoAuTongLFwvTTVVIwU579EVbVJg00wA4FekLWy0es/wKxGMZ4hFvFMg/zSOlMi+EJRvdv0/wVcoD6WZ+BFm+jXt0XuD3IKC0UUYPnHk2PDfq2mjpNxiz6R9/0LBBRU+0BtMGsPNrbGbj5Q9LMhIpIYvx4jV2KY+bpgx4LM3BQgKqK4DmM2p3fFWVpJz+6AU7sBm9PeGU3o0GXI2itQISvWVCcHJBOLN+Q0I7qg8ngECcC/SvxxHvRiqVxBPw4QAdzZnRIaw+rVgNVFJhgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by DM4PR11MB6096.namprd11.prod.outlook.com (2603:10b6:8:af::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.11; Sat, 2 Aug
+ 2025 14:24:50 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%5]) with mapi id 15.20.8989.017; Sat, 2 Aug 2025
+ 14:24:49 +0000
+Date: Sat, 2 Aug 2025 17:24:38 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: James Jones <jajones@nvidia.com>
+CC: Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] drm/nouveau: Pass along the format info from
+ .fb_create() nouveau_framebuffer_new()
+Message-ID: <aI4exMOoMkskntNu@ideak-desk>
+References: <20250731234104.25243-1-jajones@nvidia.com>
+ <aIwmRwgOa3-YAhna@ideak-desk>
+ <23dc5ff9-24fd-44ae-ba98-be848e8fce78@nvidia.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <23dc5ff9-24fd-44ae-ba98-be848e8fce78@nvidia.com>
+X-ClientProxiedBy: LO4P265CA0151.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c7::6) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|DM4PR11MB6096:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10c50696-b3ac-45b4-5ef4-08ddd1d056d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|10070799003|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?pNAibdi6/PLYWb2Ujpi9fQBxqndQXWTW47jgKZtUk8PHTjJj42RgEsFOb4?=
+ =?iso-8859-1?Q?XBzLpc5TeRyzs/7bTl5XVUrMExg5bMoVDLRcuZvXnuh4ouzlpl5ICnVQDX?=
+ =?iso-8859-1?Q?OCKBGfM683YQ1/2c/iGeIuwcnjNoqeYVdLUZok+briBY+IaV4GzLWyEATq?=
+ =?iso-8859-1?Q?rWuUUvwRQBkwoVgdGTKu4mfoDfNAnrX3W28y6dsTgsezcfVel8ce3YzB/o?=
+ =?iso-8859-1?Q?oQOxHPjSx/JMoecR7my5TfsUsw7n74aaTFKW1m3fg9enzPoOI47E4Av3B5?=
+ =?iso-8859-1?Q?WXHrrl8na08PD06AOeAFweGV8jfRPlvb+hQhRgqSkc1ToFjYCopADFAx7J?=
+ =?iso-8859-1?Q?oR4ZFI9aYHV5BCT+xpPo3ju7X+AIvLXvKNo7f39x7n5gOqWlPm6DItVNlr?=
+ =?iso-8859-1?Q?e9H/4tS6/Jg+Ob3zpgC7O6nVzCoqDyYgRwTbpGOGwC0XyKH8KgKJBFv144?=
+ =?iso-8859-1?Q?VBuGmAixTMiiAXEmbt/BjvZe8DArvRhbJKbnAPUk2moRDkVBZezqpvuIK/?=
+ =?iso-8859-1?Q?ABWdSfKCPfCUUDG9vwFOiWFDWRrKfEB2eUXq/dS17zbVuVztGaDKQ2l7aH?=
+ =?iso-8859-1?Q?Jklta3SxwO2TL2gMHPOcvYI50BGyPppvzMZkiolMEetSiLYEG8WR45HIL9?=
+ =?iso-8859-1?Q?Vd4xjlFVF7OxHV7fBiRkG1gTbD/x9fNjft00KCCqJjgbnHi1h70JP+WLCC?=
+ =?iso-8859-1?Q?hOb0kLosbsybXohsoVSqYvCrE7HdmoemLYEDSznXm05pyiLs+VjCgU8b0g?=
+ =?iso-8859-1?Q?y9ucvNbtDn4qOOpBflu80iLaEiZWPw1elNeDQ9g4+n1p1XoEcdhJdw2RcH?=
+ =?iso-8859-1?Q?CsvuSTXKZ/Ojz0QqBkxcOJpUEh4w1foLZMTBsvyKJRc6gz+DByqn6qxp19?=
+ =?iso-8859-1?Q?Yqs+WmzynW2r1rCjTu4UrZmSvlG1Uyj5C6PvFrjugKnXVp3bTtWS7jPlIs?=
+ =?iso-8859-1?Q?Zvc2y53OMAmEBtjGG3895ho0zb+8WknsklPLMuaxB/gCotypgrC1dNjIdG?=
+ =?iso-8859-1?Q?fGRiTCrvS+wlCFUDTkLYp7+k8oMAsOtZS8ihOO3D5HuGvW3Z+8aRuG/WIq?=
+ =?iso-8859-1?Q?94zE+mSELGRRmRUBFAg9Q3SG8u+oMI0SUylYnEhAuztEQG7+yaFfan1K4I?=
+ =?iso-8859-1?Q?F57BP68xNcMzn0bSCdtzfxwAorwew2z7vc1dGhLTm+xuoBLndOd4rDPGdA?=
+ =?iso-8859-1?Q?YD1PicJ8f/aQ/eIMpEZCU7JjO4UpTB27tvs2kW3jl8ppg1J+KaN2hQQSEO?=
+ =?iso-8859-1?Q?9/mj1XJyml0AMCl8ROHy3eHjcqpEM9Uw20t3Mial3es/U1TnAhQf+rT5OI?=
+ =?iso-8859-1?Q?I/BtZYK29grIMBCQplx+cZsdqEiv1eRGpirL0avJR0J4hr/Q5TrBNhopeQ?=
+ =?iso-8859-1?Q?e22MaxvD5e9HKhhodPeCW6H4nWsCoT7cNUUpBKZuzXt9RU1qbO6U1rk63n?=
+ =?iso-8859-1?Q?t3+3oJQPZvaJFW5Mp4KK6bEoTRLb+i7kXQzlAPd3bulUNhYrkJYPAwNpSk?=
+ =?iso-8859-1?Q?s=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?SNTGJ5IqS76F4fI8mbhLLbjwwz+c01Cz6+s3YMqAxAc2OloQySTp7PkZQd?=
+ =?iso-8859-1?Q?ir24uh6leYGw1nbqnP9xU4uu81wkn649evnEcV+DI+nJuiImCqvk53KRG9?=
+ =?iso-8859-1?Q?0Ww+rxqLYwhPwSmqk+cikCxrB+24GISZa41X37B63IsICsLorjiJnijv6h?=
+ =?iso-8859-1?Q?mPxnehF3mTvL0uybEvTTYqUDn09rqPtOitqr7Hy11prw7PQWCn1nwvg3DE?=
+ =?iso-8859-1?Q?L99bMetbOeA1E+p25lEEm+8JdcESctDD9fgSVFq1DllMVsuKWMqut31g3i?=
+ =?iso-8859-1?Q?7OrsOnVmB20vv85RqqHKjdg42KBtWPCoIgi1KlkuAv+u77H8F6FME8QCXX?=
+ =?iso-8859-1?Q?87kNYYC1AvVJn+WUOS+zTcNTNJ4yhna4+27TMVEeaLB8EFfMM7QMIK8a6N?=
+ =?iso-8859-1?Q?6BTMz7mFV/F14nDBDXBzAotJ3ItPvybHxkE01f7AXy379AYKOpFRzO1POu?=
+ =?iso-8859-1?Q?CUtH7kp9243CM9HevSODeUKky8n4J0hHCelljiox/04cDeFEcct6OPRnVo?=
+ =?iso-8859-1?Q?ftvmt/NvW0W42Fw/Ukb8GV72gc4BIKmvcrqWKgqqJMic3xC74SdIZp9AOJ?=
+ =?iso-8859-1?Q?iV2tEWHa2n+GNjOSJhgkAbaGmZDsWy3MbxFwQUzjC7+VYaetErK4fBO6ud?=
+ =?iso-8859-1?Q?5aEeTVZwLQjTervis4AH1qbjUB8dqkjrYA3hXf4HSEgHgzUELXnLxY+vmH?=
+ =?iso-8859-1?Q?UBEm6nJTVTifrYejSo0CTdGKgliDnd3iwXZNabBc0xpynMxbH7NtGtoT6f?=
+ =?iso-8859-1?Q?rEh3bxAiF+eQ3dP8YlePzirXa6m2z/deq1jVtLReASqRhRlPVYtv7t0xGr?=
+ =?iso-8859-1?Q?u3tdDhiUagn2MXgQD/ttsAVV16o/E1yeG8jx54vWilWuEHcXp7+mDzpdzg?=
+ =?iso-8859-1?Q?fy2DGCRmtADkdZoozlHmPsJKmfbgswUgYPIBM6m+SBz81oGmFXVAhoZfMq?=
+ =?iso-8859-1?Q?CIfxCrok2KxOForGD3UgOVirA4bItbVxjQcCz/JP7qXnW19jIOuj+VPnDs?=
+ =?iso-8859-1?Q?6TxZbFWzS36aLPGtkUz8tjqIqMPa4HsxugAUPga9l86f1XvxzsLART7TJ/?=
+ =?iso-8859-1?Q?BHuRIzaaL8yBIyhO/UImzjhKDKfaMtxeOqa+CgMqpH1/KDLbpEGX2m1FnV?=
+ =?iso-8859-1?Q?PWzCsWKKYh0UuWvW63NC0TwIds/5VPJZWSZIjL4H/8DnRxO8tCpRXP5War?=
+ =?iso-8859-1?Q?XtBt3qf94+0DLulQjY65XB6UBV4hpmbsGQvGrt6GKyTU0jAgxFCNOfR17M?=
+ =?iso-8859-1?Q?CeF5LKsoWXzpE4EzZM/w5Mo3XFyXE2bzbg8UFwrA7e2bQTLkh/VVJtTtz5?=
+ =?iso-8859-1?Q?9hTx+b2UzV6Yx6ynalR+U2OG+GW50fLxOY1HX4Px/rBYtq7Bsgli1xKYDt?=
+ =?iso-8859-1?Q?x+jATSCjZ/Sxbna8/EbKobnadJ4xie3oLzCCb8sozQ93Zdj2iltmfjOQhy?=
+ =?iso-8859-1?Q?+6M0gcApg0K7cbplXlYjENyiRUFo/MyHytxjhzH2cnJafR5AM66VjyAH1q?=
+ =?iso-8859-1?Q?b1K1BEJwPyjnb8Cme9t1pmIyBqki+uxgdfaEfwJ11PCVu8Kn0VlnvkNMnx?=
+ =?iso-8859-1?Q?4UeMmf+Y31D/SE19qGCccRFIiFRI/EmIUKEUBw5zMYxfEFHnngxDcpNeM6?=
+ =?iso-8859-1?Q?eidMLi655nZFevw/0uESteEz3g11KG+iPbJpjLOBP+9tjsbQ8YhiSkCc3s?=
+ =?iso-8859-1?Q?4cjxcZOQPYu/m1/R93kBV0ppvQYiZQ9Es7Id6eR0?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10c50696-b3ac-45b4-5ef4-08ddd1d056d5
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2025 14:24:49.9047 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lq8yeCskbb5jL6mVlgN7tvfkrBg4+8oMMsQrdEz4mu/amiiPv73DAvXeRuuS7HR37PWLjF2zcsxLcKVBFxXXxg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6096
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,310 +185,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Aug 01, 2025 at 01:30:02PM -0700, James Jones wrote:
+> Apologies, I saw your changes for another chipset, but missed the nouveau
+> part.
 
+Ok, no problem, thanks for testing it and the review. The omap patch is
+still missing an ack/review, the patchset can be merged after an
+omap maintainer can provide that.
 
-> On 2 Aug 2025, at 07:42, Benno Lossin <lossin@kernel.org> wrote:
->=20
-> On Fri Aug 1, 2025 at 11:22 PM CEST, Daniel Almeida wrote:
->> Hi Benno,
->>=20
->>> On 7 Jul 2025, at 16:48, Benno Lossin <lossin@kernel.org> wrote:
->>>=20
->>> On Mon Jul 7, 2025 at 8:06 PM CEST, Onur wrote:
->>>> On Mon, 07 Jul 2025 17:31:10 +0200
->>>> "Benno Lossin" <lossin@kernel.org> wrote:
->>>>=20
->>>>> On Mon Jul 7, 2025 at 3:39 PM CEST, Onur wrote:
->>>>>> On Mon, 23 Jun 2025 17:14:37 +0200
->>>>>> "Benno Lossin" <lossin@kernel.org> wrote:
->>>>>>=20
->>>>>>>> We also need to take into consideration that the user want to
->>>>>>>> drop any lock in the sequence? E.g. the user acquires a, b and
->>>>>>>> c, and then drop b, and then acquires d. Which I think is
->>>>>>>> possible for ww_mutex.
->>>>>>>=20
->>>>>>> Hmm what about adding this to the above idea?:
->>>>>>>=20
->>>>>>>   impl<'a, Locks> WwActiveCtx<'a, Locks>
->>>>>>>   where
->>>>>>>       Locks: Tuple
->>>>>>>   {
->>>>>>>       fn custom<L2>(self, action: impl FnOnce(Locks) -> L2) ->
->>>>>>> WwActiveCtx<'a, L2>; }
->>>>>>>=20
->>>>>>> Then you can do:
->>>>>>>=20
->>>>>>>   let (a, c, d) =3D ctx.begin()
->>>>>>>       .lock(a)
->>>>>>>       .lock(b)
->>>>>>>       .lock(c)
->>>>>>>       .custom(|(a, _, c)| (a, c))
->>>>>>>       .lock(d)
->>>>>>>       .finish();
->>>>>>=20
->>>>>>=20
->>>>>> Instead of `begin` and `custom`, why not something like this:
->>>>>>=20
->>>>>> let (a, c, d) =3D ctx.init()
->>>>>>    .lock(a)
->>>>>>           .lock(b)
->>>>>>           .lock(c)
->>>>>>           .unlock(b)
->>>>>>           .lock(d)
->>>>>>           .finish();
->>>>>>=20
->>>>>> Instead of `begin`, `init` would be better naming to imply `fini`
->>>>>> on the C side, and `unlock` instead of `custom` would make the
->>>>>> intent clearer when dropping locks mid chain.
->>>=20
->>> Also, I'm not really fond of the name `init`, how about `enter`?
->>>=20
->>>>>=20
->>>>> I don't think that this `unlock` operation will work. How would =
-you
->>>>> implement it?
->>>>=20
->>>>=20
->>>> We could link mutexes to locks using some unique value, so that we =
-can
->>>> access locks by passing mutexes (though that sounds a bit odd).
->>>>=20
->>>> Another option would be to unlock by the index, e.g.,:
->>>>=20
->>>> let (a, c) =3D ctx.init()
->>>>    .lock(a)
->>>>           .lock(b)
->>>>           .unlock::<1>()
->>=20
->> Why do we need this random unlock() here? We usually want to lock =
-everything
->> and proceed, or otherwise backoff completely so that someone else can =
-proceed.
->=20
-> No the `unlock` was just to show that we could interleave locking and
-> unlocking.
->=20
->> One thing I didn=E2=80=99t understand with your approach: is it =
-amenable to loops?
->> i.e.: are things like drm_exec() implementable?
->=20
-> I don't think so, see also my reply here:
->=20
->    https://lore.kernel.org/all/DBOPIJHY9NZ7.2CU5XP7UY7ES3@kernel.org
->=20
-> The type-based approach with tuples doesn't handle dynamic number of
-> locks.
->=20
-
-This is probably the default use-case by the way.
-
->> /**
->> * drm_exec_until_all_locked - loop until all GEM objects are locked
->> * @exec: drm_exec object
->> *
->> * Core functionality of the drm_exec object. Loops until all GEM =
-objects are
->> * locked and no more contention exists. At the beginning of the loop =
-it is
->> * guaranteed that no GEM object is locked.
->> *
->> * Since labels can't be defined local to the loops body we use a jump =
-pointer
->> * to make sure that the retry is only used from within the loops =
-body.
->> */
->> #define drm_exec_until_all_locked(exec) \
->> __PASTE(__drm_exec_, __LINE__): \
->> for (void *__drm_exec_retry_ptr; ({ \
->> __drm_exec_retry_ptr =3D &&__PASTE(__drm_exec_, __LINE__);\
->> (void)__drm_exec_retry_ptr; \
->> drm_exec_cleanup(exec); \
->> });)
->=20
-> My understanding of C preprocessor macros is not good enough to parse =
-or
-> understand this :( What is that `__PASTE` thing?
-
-This macro is very useful, but also cursed :)
-
-This declares a unique label before the loop, so you can jump back to it =
-on
-contention. It is usually used in conjunction with:
-
-/**
- * drm_exec_retry_on_contention - restart the loop to grap all locks
- * @exec: drm_exec object
- *
- * Control flow helper to continue when a contention was detected and we =
-need to
- * clean up and re-start the loop to prepare all GEM objects.
- */
-#define drm_exec_retry_on_contention(exec)			\
-	do {							\
-		if (unlikely(drm_exec_is_contended(exec)))	\
-			goto *__drm_exec_retry_ptr;		\
-	} while (0)
-
-
-The termination is handled by:
-
-/**
- * drm_exec_cleanup - cleanup when contention is detected
- * @exec: the drm_exec object to cleanup
- *
- * Cleanup the current state and return true if we should stay inside =
-the retry
- * loop, false if there wasn't any contention detected and we can keep =
-the
- * objects locked.
- */
-bool drm_exec_cleanup(struct drm_exec *exec)
-{
-	if (likely(!exec->contended)) {
-		ww_acquire_done(&exec->ticket);
-		return false;
-	}
-
-	if (likely(exec->contended =3D=3D DRM_EXEC_DUMMY)) {
-		exec->contended =3D NULL;
-		ww_acquire_init(&exec->ticket, &reservation_ww_class);
-		return true;
-	}
-
-	drm_exec_unlock_all(exec);
-	exec->num_objects =3D 0;
-	return true;
-}
-EXPORT_SYMBOL(drm_exec_cleanup);
-
-The third clause in the loop is empty.
-
-For example, in amdgpu:
-
-/**
- * reserve_bo_and_vm - reserve a BO and a VM unconditionally.
- * @mem: KFD BO structure.
- * @vm: the VM to reserve.
- * @ctx: the struct that will be used in unreserve_bo_and_vms().
- */
-static int reserve_bo_and_vm(struct kgd_mem *mem,
-			      struct amdgpu_vm *vm,
-			      struct bo_vm_reservation_context *ctx)
-{
-	struct amdgpu_bo *bo =3D mem->bo;
-	int ret;
-
-	WARN_ON(!vm);
-
-	ctx->n_vms =3D 1;
-	ctx->sync =3D &mem->sync;
-	drm_exec_init(&ctx->exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
-	drm_exec_until_all_locked(&ctx->exec) {
-		ret =3D amdgpu_vm_lock_pd(vm, &ctx->exec, 2);
-		drm_exec_retry_on_contention(&ctx->exec);
-		if (unlikely(ret))
-			goto error;
-
-		ret =3D drm_exec_prepare_obj(&ctx->exec, &bo->tbo.base, =
-1);
-		drm_exec_retry_on_contention(&ctx->exec);
-		if (unlikely(ret))
-			goto error;
-	}
-        // <=E2=80=94=E2=80=94 everything is locked at this point.
-	return 0;
-
-
-So, something like:
-
-some_unique_label:
-for(void *retry_ptr;
-    ({ retry_ptr =3D &some_unique_label; drm_exec_cleanup(); });
-    /* empty *) {
-     /* user code here, which potentially jumps back to =
-some_unique_label  */
-}
-
->=20
->> In fact, perhaps we can copy drm_exec, basically? i.e.:
->>=20
->> /**
->> * struct drm_exec - Execution context
->> */
->> struct drm_exec {
->> /**
->>  * @flags: Flags to control locking behavior
->>  */
->> u32                     flags;
->>=20
->> /**
->>  * @ticket: WW ticket used for acquiring locks
->>  */
->> struct ww_acquire_ctx ticket;
->>=20
->> /**
->>  * @num_objects: number of objects locked
->>  */
->> unsigned int num_objects;
->>=20
->> /**
->>  * @max_objects: maximum objects in array
->>  */
->> unsigned int max_objects;
->>=20
->> /**
->>  * @objects: array of the locked objects
->>  */
->> struct drm_gem_object **objects;
->>=20
->> /**
->>  * @contended: contended GEM object we backed off for
->>  */
->> struct drm_gem_object *contended;
->>=20
->> /**
->>  * @prelocked: already locked GEM object due to contention
->>  */
->> struct drm_gem_object *prelocked;
->> };
->>=20
->> This is GEM-specific, but we could perhaps implement the same idea by
->> tracking ww_mutexes instead of GEM objects.
->=20
-> But this would only work for `Vec<WwMutex<T>>`, right?
-
-I=E2=80=99m not sure if I understand your point here.
-
-The list of ww_mutexes that we've managed to currently lock would be =
-something
-that we'd keep track internally in our context. In what way is a KVec an =
-issue?
-
->=20
->> Also, I=E2=80=99d appreciate if the rollback logic could be =
-automated, which is
->> what you=E2=80=99re trying to do, so +1 to your idea.
->=20
-> Good to see that it seems useful to you :)
->=20
-> ---
-> Cheers,
-> Benno
-
-Btw, I can also try to implement a proof of concept, so long as people =
-agree that
-this approach makes sense.
-
-By the way, dri-devel seems to not be on cc? Added them now.
-
-Full context at [0].
-
-=E2=80=94 Daniel
-
-[0]: =
-https://lore.kernel.org/rust-for-linux/DBPC27REX4N1.3JA4SSHDYXAHJ@kernel.o=
-rg/T/#m17a1e3a913ead2648abdff0fc2d927c8323cb8c3
-
+> I've responded to your thread now. Thanks for making the fix!
+> 
+> -James
+> 
+> On 7/31/25 19:28, Imre Deak wrote:
+> > On Thu, Jul 31, 2025 at 04:41:04PM -0700, James Jones wrote:
+> > > Plumb the format info from .fb_create() all the way to
+> > > nouveau_framebuffer_new() to avoid the redundant lookup.
+> > > Also plumb the format info from there down to
+> > > drm_helper_mode_fill_fb_struct() as required, avoiding
+> > > a WARN_ON() and failure every time this path is used,
+> > > e.g., during fbdev init.
+> > > 
+> > > Fixes: 41ab92d35ccd ("drm: Make passing of format info to drm_helper_mode_fill_fb_struct() mandatory")
+> > > Signed-off-by: James Jones <jajones@nvidia.com>
+> > > CC: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > I posted this change already:
+> > https://lore.kernel.org/all/20250728101603.243788-3-imre.deak@intel.com
+> > 
+> > > ---
+> > >   drivers/gpu/drm/nouveau/nouveau_display.c | 9 +++------
+> > >   drivers/gpu/drm/nouveau/nouveau_display.h | 1 +
+> > >   2 files changed, 4 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_display.c b/drivers/gpu/drm/nouveau/nouveau_display.c
+> > > index e1e542126310..805d0a87aa54 100644
+> > > --- a/drivers/gpu/drm/nouveau/nouveau_display.c
+> > > +++ b/drivers/gpu/drm/nouveau/nouveau_display.c
+> > > @@ -253,6 +253,7 @@ nouveau_check_bl_size(struct nouveau_drm *drm, struct nouveau_bo *nvbo,
+> > >   int
+> > >   nouveau_framebuffer_new(struct drm_device *dev,
+> > > +			const struct drm_format_info *info,
+> > >   			const struct drm_mode_fb_cmd2 *mode_cmd,
+> > >   			struct drm_gem_object *gem,
+> > >   			struct drm_framebuffer **pfb)
+> > > @@ -260,7 +261,6 @@ nouveau_framebuffer_new(struct drm_device *dev,
+> > >   	struct nouveau_drm *drm = nouveau_drm(dev);
+> > >   	struct nouveau_bo *nvbo = nouveau_gem_object(gem);
+> > >   	struct drm_framebuffer *fb;
+> > > -	const struct drm_format_info *info;
+> > >   	unsigned int height, i;
+> > >   	uint32_t tile_mode;
+> > >   	uint8_t kind;
+> > > @@ -295,9 +295,6 @@ nouveau_framebuffer_new(struct drm_device *dev,
+> > >   		kind = nvbo->kind;
+> > >   	}
+> > > -	info = drm_get_format_info(dev, mode_cmd->pixel_format,
+> > > -				   mode_cmd->modifier[0]);
+> > > -
+> > >   	for (i = 0; i < info->num_planes; i++) {
+> > >   		height = drm_format_info_plane_height(info,
+> > >   						      mode_cmd->height,
+> > > @@ -321,7 +318,7 @@ nouveau_framebuffer_new(struct drm_device *dev,
+> > >   	if (!(fb = *pfb = kzalloc(sizeof(*fb), GFP_KERNEL)))
+> > >   		return -ENOMEM;
+> > > -	drm_helper_mode_fill_fb_struct(dev, fb, NULL, mode_cmd);
+> > > +	drm_helper_mode_fill_fb_struct(dev, fb, info, mode_cmd);
+> > >   	fb->obj[0] = gem;
+> > >   	ret = drm_framebuffer_init(dev, fb, &nouveau_framebuffer_funcs);
+> > > @@ -344,7 +341,7 @@ nouveau_user_framebuffer_create(struct drm_device *dev,
+> > >   	if (!gem)
+> > >   		return ERR_PTR(-ENOENT);
+> > > -	ret = nouveau_framebuffer_new(dev, mode_cmd, gem, &fb);
+> > > +	ret = nouveau_framebuffer_new(dev, info, mode_cmd, gem, &fb);
+> > >   	if (ret == 0)
+> > >   		return fb;
+> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_display.h b/drivers/gpu/drm/nouveau/nouveau_display.h
+> > > index e45f211501f6..d569240df354 100644
+> > > --- a/drivers/gpu/drm/nouveau/nouveau_display.h
+> > > +++ b/drivers/gpu/drm/nouveau/nouveau_display.h
+> > > @@ -10,6 +10,7 @@
+> > >   int
+> > >   nouveau_framebuffer_new(struct drm_device *dev,
+> > > +			const struct drm_format_info *info,
+> > >   			const struct drm_mode_fb_cmd2 *mode_cmd,
+> > >   			struct drm_gem_object *gem,
+> > >   			struct drm_framebuffer **pfb);
+> > > -- 
+> > > 2.50.1
+> > > 
+> 
