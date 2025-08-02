@@ -2,121 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B41CB18FA2
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 20:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C158B18FC5
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 21:26:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53ADE10E180;
-	Sat,  2 Aug 2025 18:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D33E010E182;
+	Sat,  2 Aug 2025 19:26:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TCdjk5kB";
+	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="k/TLRxfT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835CF10E180
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 18:27:29 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 572EpF2i025943
- for <dri-devel@lists.freedesktop.org>; Sat, 2 Aug 2025 18:27:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- wHjJfO2eVz1RXrskPBrgz9SqYwFlP2w6be1JZyceH5A=; b=TCdjk5kBVzKXLWQd
- 2XyhncFC7KbWEH47xV/M8yKgJi/qbU6IghYNFzIXyPEtXG/qHIZB7naeeXAgo/+I
- VMJ/YAfV79fXjob0o7yQ/34Yiky43X6KHM2itWcfbi2DAaOXgaL4Y/zZmIP9elgK
- llCS1kqn585tgfZSVlkbRBBBy5FohpgIqTfMP2h3iysFvivWjBbNRMSEoi3U8VKi
- MFb863cbX1ElrHjSWXwoxk3coIiN2pljp8mvybv7XFMPa+7q0u/o1hmwFstVK4xO
- x/D0nslno8BLEJT7YpEljIeMhJyutFwcJjTPes0DXu9WVVNRgOkjjl1XPaOvf5VK
- sgZWKQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 489a91s7r6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 18:27:28 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4ab81d016c1so34111431cf.3
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 11:27:28 -0700 (PDT)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05EC910E182
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 19:26:01 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-3138b2f0249so2805405a91.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 12:26:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brighamcampbell.com; s=google; t=1754162760; x=1754767560;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Jd8Da3JQX6Y4PSybA2tHWl8SitZx9sYR2KOlV5oLUG0=;
+ b=k/TLRxfT3nmQ+Vcd5V7rBpKQj3y6sk9s5jjI5YwFWxdgouKAmzAbsI7KmiSEEhPRdF
+ 1bUixlrpcAn5SwGF8mVX8ep7cjMrhJ/B29/CeWzZiHtCEmvdJk50DfH0WZ3gprCJAt9v
+ vGkD2yp0PHTXKaI0kZcJujEy+DD3OUgBgxI/8qkCW7NDmEvuoiDwwDjbkvs/T66KvVfc
+ ttlLNHvYOlaLaxGwTa0nj0kEDqdsnoJJZq9d+WfMxA280ul4d3tfuima2DEkvkHL1bXl
+ 39orlEpALnu1KkUdGLNfu4fFeTWskXlkHGsgEzf8EoqR+pzlsXeXdCHrjOhIeAEyW2Mh
+ 5k0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754159248; x=1754764048;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wHjJfO2eVz1RXrskPBrgz9SqYwFlP2w6be1JZyceH5A=;
- b=oIFaDt+NEkElZAGs9TAjgXMoCAYOg1S2/SU1A5uHK6X5YT/MbpFdhlSeTv1622ZYJY
- SlFHU7Ob2hKqXCz0/F/yoDR4dOadW2iHDYliCU1VJ/fCcHPKHgUOdZ49FDKBqnc18Wte
- 5tglfdedoItqFiVTT43tQUsmdnAugfNYTMWAt5vHfOek8Xl4simbS3IBg6XEl+s+CFVF
- DxCnr9aG1rszpXWXbm+UTrWHMv8C2sLewAhYkvpKYolRhQFX3701p5OWT6+qNrqaWBT9
- jB4PMCe3Hp/uA1ujN+u8zjWRq5R7GaY/1Di800QFy+jR8uKNxJizzdKYUky8pNb6qzP8
- Hm3g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXsf6aoAcQvjrTJLs7Lcm7UxLmPV0LUfZ5aW8PlvWYY2JBtzhTwv9zWdKXPYQAGhAsuViRE4Udh8Zc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyQYMTU2mYoWoOYihwsQCRLwHML31vNuGXwG3O83ieQsoN/RfcM
- JPCIZmCFXqy8sWHv89s338eVu0pJLVe2GAeRA1o1IpVZ9LqSIPuvv5yyBfCKeMtaNPLOb7zD+aZ
- tqJ0H/013jo3I9X1fRh4H7dY8UllXh4fPPwvQWwc8+6hagPkUlkMJlC/x6Jo/PlA1ZGhn+iM=
-X-Gm-Gg: ASbGncsIVSJS/Av4cmVbuE+l1RXMuweE9Mbg6Ej9LjsOQ0Ss06TMpx+NqIt3qlFjwiv
- hoiBaOUa7GAci6+LgyOR2tu1wu5/TQi+V718i3Ot4Mpj03JgloTljc5sf9jb59C/9Q41jvOySrw
- TDmsspyXxY0MARWe2KNu8qj+6uK43QbG1i8N22s+RyFz15inHOPU24bbEoeNvNCkqBZMv7lI4OS
- 19E8vdixe9EcC+E7tceNWDXU7pLkW/o5aY79Q4mLhuVqizS/RX9+tKykwxM/2oAk0WESwpjZAoW
- SU2/JnZOEcg/wopu7LQnQ2SyUkWCYbRv8XgT+YR1BvlpfLMJ9TiSpchaFXXqR2aNRzZL6dz0PAQ
- spzQaU8JP36eDr+PE4ZsS5oWShTHf5hHwsLiGDE6KD5eOgF3lVc7g
-X-Received: by 2002:a05:622a:1988:b0:4a4:41a1:b944 with SMTP id
- d75a77b69052e-4af1096838amr47219071cf.1.1754159247547; 
- Sat, 02 Aug 2025 11:27:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEdwUz9W6djQbx6Jk8PlmiYRWeWMq+sa/EoP9yp8VFX0101q5L3EsmEA3Pw+flip/kig9JF8w==
-X-Received: by 2002:a05:622a:1988:b0:4a4:41a1:b944 with SMTP id
- d75a77b69052e-4af1096838amr47218801cf.1.1754159247079; 
- Sat, 02 Aug 2025 11:27:27 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ d=1e100.net; s=20230601; t=1754162760; x=1754767560;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Jd8Da3JQX6Y4PSybA2tHWl8SitZx9sYR2KOlV5oLUG0=;
+ b=JyyFGEkC0jCYRm0Nnt5un0eicWqZvVGBuReGKSS1kkyI50n3nbO1gMHD57kWwOEYNq
+ jRt/Lo/fDrjn5XxyZNIsYqQHaVHx5pLuHTc+M2oemvirQI5lEJLZkYO5UUWCMtz/odgl
+ ZCgazxM9YqC9Pgs+Uxi3AvfJ1ind0cD6WKTpAWUDNHOMIn5Czxj8nJkRg8oQyRgCKQFQ
+ flIP0a5yW62vMFHuscs/VUrAoHdBA9vxSJKs3h/33qTQKowcac82KOJr7o8USkrmTwC/
+ j4E8cOY5tk0texDCYakrxjdonGnKT1lDu73GfcOJ0b7/oip8sn+9kyXO8FQpOF9yYHqJ
+ x3+g==
+X-Gm-Message-State: AOJu0YxPIeCbzvPpXCgwydPAzfBucZm2WemAxYgBEG8sTUMh1Rv5D64X
+ +ONgLFlk7SurPg30JXuk7rT6SZ/HM4rXx8QWu6rMtQsM7GQIHlRZvqqo+MWvC2WeDxw=
+X-Gm-Gg: ASbGncty8oit6d1hZvzxlz+p//lINICfkvDt4wzRzLq5ubYihfkjvMhe6/RgwsL7oAm
+ /O1d8U2mnnj2Ntm+/0skqPccBitCrdPsEy1OSXbg7anqoAa1I9chEcNefNCiPanntA5kMN5Hkvd
+ ndkmy/T9lKgjwCFUaPJIvbpXLNCu1LZDSEWt4lVJKC7UoeSTLasKjDZf5wNV+dXOQFYyKqx+BvO
+ wwSDoeEEu/LngOivp+BEbdXyEYLDN2j+rl/k5tT19vzBuEf7EFxPegdI6tr8T3ba912zNVRXlfK
+ s4MA0sSlKPgiSS/q13PhvdTUIJfNUVb3iP2G4kBBWTRi4FhWTIT/meb0ltPhEZRRuJ/mYeo4+4S
+ BrW87YtFemP3NJdqywYvWggT+ev/aqmYfFOk=
+X-Google-Smtp-Source: AGHT+IHO/dHbjA7eIboeg3fI24euyvdKdfkdQISMXRwMVcyEDVOqzT7XWdU+bvEG1Xrt7oOpsscNCQ==
+X-Received: by 2002:a17:90b:3947:b0:2fe:85f0:e115 with SMTP id
+ 98e67ed59e1d1-321162dd19cmr6357739a91.26.1754162760525; 
+ Sat, 02 Aug 2025 12:26:00 -0700 (PDT)
+Received: from mystery-machine.local ([64.71.154.6])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55b8898bd58sm1081590e87.8.2025.08.02.11.27.25
+ 98e67ed59e1d1-3207eba6bb8sm7887583a91.4.2025.08.02.12.25.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Aug 2025 11:27:26 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Johan Hovold <johan@kernel.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250708085124.15445-1-johan@kernel.org>
-References: <20250708085124.15445-1-johan@kernel.org>
-Subject: Re: (subset) [PATCH 0/2] drm/bridge: fix OF node leaks
-Message-Id: <175415924590.3214054.15582803445369224429.b4-ty@oss.qualcomm.com>
-Date: Sat, 02 Aug 2025 21:27:25 +0300
+ Sat, 02 Aug 2025 12:25:59 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH 0/2] accel/rocket: Fix build errors and sparse warning
+Date: Sat, 02 Aug 2025 13:25:45 -0600
+Message-Id: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADlmjmgC/x2MQQqAIBAAvxJ7bsGEyvpKdDDdcilMFCOI/p50H
+ JiZBxJFpgRj9UCkixOfvkBTV2Cc9hsh28IghWyFEhJXvjGeZjeOA/qQccl8WDS6b4dFK6tFByU
+ OkYr5j6f5fT8NmHveaAAAAA==
+X-Change-ID: 20250802-fix-rockchip-npu-build-ca759ba8da06
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+ Brigham Campbell <me@brighamcampbell.com>, 
+ kernel test robot <lkp@intel.com>
 X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: OUluc_pWyF1g9XTF2W58iultzqmAnKZV
-X-Proofpoint-GUID: OUluc_pWyF1g9XTF2W58iultzqmAnKZV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAyMDE1MSBTYWx0ZWRfXzedd3ryggPS3
- 2NgT5+P7ttsNR+c4u1O6eR25W2REPfGkaRrlsiB29MkAwpJv6FHXRvNxGG5wTTkYGiS5fYYd+zG
- kwAHc/FPOk0+wfSYr46k+AG5cJPKXcpuNCcr/lSckrIljU41A0EJmvaCodWxOV4s/hv3VSKeDQJ
- OxewdUtywMEagbh8xXWY57Y5AQmOG+qh4RbpSOHqmbYct1bcRRKl9tQ+kOGXlp0/IWZJG3yZX2U
- 8/KejS4ItGlnrwnnGSGZL98yumV54otWg25T4+ALRS9AXrhtZkifWEhA5yF1kI7jFQsuqEzFmqn
- e4GXDnjfmfTmiPk1yDqcDfgoygONiONH6jO6s3PWSR10ccSXNRtWuo/nn/sLf6gv0a4nl3yxsn9
- 4vSYzNVnfr2YyUOEb5eOmgu+Cr6sxugMMl0nchDLyftBLV2t8FOKj8g4U85722RlcMHyU3Nj
-X-Authority-Analysis: v=2.4 cv=UdpRSLSN c=1 sm=1 tr=0 ts=688e5890 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=nbYGOYP4SzQJCf5zM18A:9 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-01_08,2025-08-01_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 adultscore=0 spamscore=0 mlxlogscore=999
- priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 mlxscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2508020151
+X-Developer-Signature: v=1; a=openpgp-sha256; l=805; i=me@brighamcampbell.com; 
+ h=from:subject:message-id;
+ bh=C1UaNTuACGrRkW2E3FhQG0DrBcJFu24wR9QIIxX6tno=; 
+ b=owGbwMvMwCUWLsWS0KCyxZPxtFoSQ0Zfmtv7o5uupt5bnPdMjn/f526m5kVXn/6sVQpTOp96+
+ PeaOuWgjlIWBjEuBlkxRRaVW7PUL062fnQwgn8CzBxWJpAhDFycAjCRwCmMDA/UMytqO5aUsglI
+ KG23b5S6fGmhnm7l78kzPFQjDRn2yzAy7CmRdzylbH1S+l3i1E0JX9tXmZ0Nfqj0aUIgp63bdLs
+ 4RgA=
+X-Developer-Key: i=me@brighamcampbell.com; a=openpgp;
+ fpr=24DA9A27D1933BE2C1580F90571A04608024B449
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,27 +101,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 08 Jul 2025 10:51:22 +0200, Johan Hovold wrote:
-> Make sure to drop the OF node references taken when creating bridge
-> device when the devices are later released.
-> 
-> Johan
-> 
-> 
-> Johan Hovold (2):
->   drm/bridge: fix OF node leak
->   drm/bridge: ti-sn65dsi86: fix OF node leak
-> 
-> [...]
+Fix two build errors in rockchip NPU support code which were caused by
+the integration of recent changes in the drm subsystem.
 
-Applied to drm-misc-next-fixes, thanks!
+Fix a sparse warning regarding an undeclared const, rocket_pm_ops.
 
-[1/2] drm/bridge: fix OF node leak
-      commit: be71ce9796c36517c677ab1d3c6691423dd0bdec
+I tested these changes by enabling DRM_ACCEL_ROCKET and recompiling with
+`make C=2`.
+
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+---
+Brigham Campbell (2):
+      accel/rocket: Fix Rockchip NPU compilation
+      accel/rocket: Fix undeclared const rocket_pm_ops
+
+ drivers/accel/rocket/rocket_drv.h | 2 ++
+ drivers/accel/rocket/rocket_job.c | 4 ++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+---
+base-commit: 01ac6e4e53b6351df42c97d217b0d2dbeef5c917
+change-id: 20250802-fix-rockchip-npu-build-ca759ba8da06
 
 Best regards,
 -- 
-With best wishes
-Dmitry
-
+Brigham Campbell <me@brighamcampbell.com>
 
