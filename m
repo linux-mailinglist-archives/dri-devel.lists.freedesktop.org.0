@@ -2,88 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C158B18FC5
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 21:26:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672CDB18FC6
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 21:26:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D33E010E182;
-	Sat,  2 Aug 2025 19:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5345410E48E;
+	Sat,  2 Aug 2025 19:26:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="k/TLRxfT";
+	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="BHHFuxVj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05EC910E182
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 19:26:01 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-3138b2f0249so2805405a91.2
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 12:26:01 -0700 (PDT)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+ [209.85.215.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED0B10E48E
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 19:26:02 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-b423036a317so1622259a12.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 12:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1754162760; x=1754767560;
+ d=brighamcampbell.com; s=google; t=1754162762; x=1754767562;
  darn=lists.freedesktop.org; 
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Jd8Da3JQX6Y4PSybA2tHWl8SitZx9sYR2KOlV5oLUG0=;
- b=k/TLRxfT3nmQ+Vcd5V7rBpKQj3y6sk9s5jjI5YwFWxdgouKAmzAbsI7KmiSEEhPRdF
- 1bUixlrpcAn5SwGF8mVX8ep7cjMrhJ/B29/CeWzZiHtCEmvdJk50DfH0WZ3gprCJAt9v
- vGkD2yp0PHTXKaI0kZcJujEy+DD3OUgBgxI/8qkCW7NDmEvuoiDwwDjbkvs/T66KvVfc
- ttlLNHvYOlaLaxGwTa0nj0kEDqdsnoJJZq9d+WfMxA280ul4d3tfuima2DEkvkHL1bXl
- 39orlEpALnu1KkUdGLNfu4fFeTWskXlkHGsgEzf8EoqR+pzlsXeXdCHrjOhIeAEyW2Mh
- 5k0g==
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=patF50HxwBAOhfbawHD1F2SI7QSAZ2zNgVR0o2+WGJc=;
+ b=BHHFuxVjqyuzJsRfYB22821PAL4FOrD6DEUqACLX775nAAGfqXWeVZ/O2XzJjVwRNv
+ rry2412C8A7idFXfKB2sY+tg4CwoYUR9K5vJm9qF73kULBUsR9Vs31dMeaMt6Gw+0U4P
+ cUoxn25mptLXquyHRuMaJw/diFGM7sOY2gOUXL7x/03tyQEV5l963VRWOITtvZ3iKfSM
+ OR+4y1Jv1Kcvo38quYAnmoI2kpXFcIj0VFanOUqT7BuT+G7a0gpyBHdUmP1WJJXOQk5h
+ 6dL3DexIHIKSmMg+5qtb9wv1XkckAILUc5qFtMImSK7L+86BFVXYNR/o8RUbvLuZ3e7/
+ dPGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754162760; x=1754767560;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Jd8Da3JQX6Y4PSybA2tHWl8SitZx9sYR2KOlV5oLUG0=;
- b=JyyFGEkC0jCYRm0Nnt5un0eicWqZvVGBuReGKSS1kkyI50n3nbO1gMHD57kWwOEYNq
- jRt/Lo/fDrjn5XxyZNIsYqQHaVHx5pLuHTc+M2oemvirQI5lEJLZkYO5UUWCMtz/odgl
- ZCgazxM9YqC9Pgs+Uxi3AvfJ1ind0cD6WKTpAWUDNHOMIn5Czxj8nJkRg8oQyRgCKQFQ
- flIP0a5yW62vMFHuscs/VUrAoHdBA9vxSJKs3h/33qTQKowcac82KOJr7o8USkrmTwC/
- j4E8cOY5tk0texDCYakrxjdonGnKT1lDu73GfcOJ0b7/oip8sn+9kyXO8FQpOF9yYHqJ
- x3+g==
-X-Gm-Message-State: AOJu0YxPIeCbzvPpXCgwydPAzfBucZm2WemAxYgBEG8sTUMh1Rv5D64X
- +ONgLFlk7SurPg30JXuk7rT6SZ/HM4rXx8QWu6rMtQsM7GQIHlRZvqqo+MWvC2WeDxw=
-X-Gm-Gg: ASbGncty8oit6d1hZvzxlz+p//lINICfkvDt4wzRzLq5ubYihfkjvMhe6/RgwsL7oAm
- /O1d8U2mnnj2Ntm+/0skqPccBitCrdPsEy1OSXbg7anqoAa1I9chEcNefNCiPanntA5kMN5Hkvd
- ndkmy/T9lKgjwCFUaPJIvbpXLNCu1LZDSEWt4lVJKC7UoeSTLasKjDZf5wNV+dXOQFYyKqx+BvO
- wwSDoeEEu/LngOivp+BEbdXyEYLDN2j+rl/k5tT19vzBuEf7EFxPegdI6tr8T3ba912zNVRXlfK
- s4MA0sSlKPgiSS/q13PhvdTUIJfNUVb3iP2G4kBBWTRi4FhWTIT/meb0ltPhEZRRuJ/mYeo4+4S
- BrW87YtFemP3NJdqywYvWggT+ev/aqmYfFOk=
-X-Google-Smtp-Source: AGHT+IHO/dHbjA7eIboeg3fI24euyvdKdfkdQISMXRwMVcyEDVOqzT7XWdU+bvEG1Xrt7oOpsscNCQ==
-X-Received: by 2002:a17:90b:3947:b0:2fe:85f0:e115 with SMTP id
- 98e67ed59e1d1-321162dd19cmr6357739a91.26.1754162760525; 
- Sat, 02 Aug 2025 12:26:00 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1754162762; x=1754767562;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=patF50HxwBAOhfbawHD1F2SI7QSAZ2zNgVR0o2+WGJc=;
+ b=trXY4b+Vhf+y3jKaY2SAmhNdlL4yQT2IyoYYd/KLE4emuw+pziO+ffVYdFyOZ4eJcs
+ OdZqZ6WfF3qBXb7D9uaLvz3/ot7Ghc0EaDkYuAX7Mr+KPmC7V4SvaCUFAV3dEadudAuo
+ Bg5azXpcMp4QQIBq+S+yDNuGbjsKi61gkqpULUKXqKbIIs+ekmaj5tlvUkqW8LN1IApD
+ 2e+2Od0Jr1m9Tuoj/O/p+hqXPZ5SwJrM6oB7F7sFIv3MdgaPuydPb33QRBxzLDLG+pwM
+ wBpjy0zDMNxIqHKhftbcSCBtKv9FGy5rkt2/O0Gnbj8MCFwZTGnolVtRI0zkpXXU3tlA
+ QBbg==
+X-Gm-Message-State: AOJu0YxcrPl1Nr9+sAkGQwQmfZ6Km+XO6MAuCTjVegS+4qY1IY9t6LKe
+ qa/AV3ltfu44qSC8jj1WpR/oEEEW9GkRkWnccT8YtoRdOTF0a42NU7Cy5mWA0jkJ7AY=
+X-Gm-Gg: ASbGnctjrKVbWaydf9bnegCsUzY4KYulK0qPSQI00brgE/HMvg+fNtGiC+6fqPBnGaK
+ f83hgcEET+FTPSxh82UcdUdkHG9Fzg4CbEpaHCCQlCBsmOw3fY4xUuZSxNX4wv+rRqKEkiXoyj7
+ CGC4ZPGLkEb6Kc/PtsN77U+wjo/WtgA11OLoPRfGHYKAFaahYdXLu7ziT9PMJ9xBn/UC+m+jQTR
+ c5YaGjzMke2esnKDAEztHWJcDav6u0J7gK/wTcX8zN+0D3cBOMqjbJB+j/Qy948jUmwrHXiTlID
+ SRebPboAI8Qk/H/KeWR/l6Q8OscXkJuje8Q1ZvgH5Rvsjp/YQ0mnJgcvcoWkFd87SVUVMKeQjTn
+ KAhi9EPw3hpC84ulYU7ht/V/rR5XBhZ6tyt8=
+X-Google-Smtp-Source: AGHT+IEUNY6RAxyfm2o8WI4OeBc0W8xJUgXWURl0s22NPmAoZ1ZpBLFdr2EyazqR3HO82uxLuqL2Qw==
+X-Received: by 2002:a17:90b:53c5:b0:31e:f397:b5b4 with SMTP id
+ 98e67ed59e1d1-3211629df4cmr5741060a91.22.1754162762276; 
+ Sat, 02 Aug 2025 12:26:02 -0700 (PDT)
 Received: from mystery-machine.local ([64.71.154.6])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3207eba6bb8sm7887583a91.4.2025.08.02.12.25.58
+ 98e67ed59e1d1-3207eba6bb8sm7887583a91.4.2025.08.02.12.26.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Aug 2025 12:25:59 -0700 (PDT)
+ Sat, 02 Aug 2025 12:26:01 -0700 (PDT)
 From: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH 0/2] accel/rocket: Fix build errors and sparse warning
-Date: Sat, 02 Aug 2025 13:25:45 -0600
-Message-Id: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
+Date: Sat, 02 Aug 2025 13:25:46 -0600
+Subject: [PATCH 1/2] accel/rocket: Fix Rockchip NPU compilation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADlmjmgC/x2MQQqAIBAAvxJ7bsGEyvpKdDDdcilMFCOI/p50H
- JiZBxJFpgRj9UCkixOfvkBTV2Cc9hsh28IghWyFEhJXvjGeZjeOA/qQccl8WDS6b4dFK6tFByU
- OkYr5j6f5fT8NmHveaAAAAA==
-X-Change-ID: 20250802-fix-rockchip-npu-build-ca759ba8da06
+Message-Id: <20250802-fix-rockchip-npu-build-v1-1-fb0f0dacb3fe@brighamcampbell.com>
+References: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
+In-Reply-To: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
- Brigham Campbell <me@brighamcampbell.com>, 
- kernel test robot <lkp@intel.com>
+ Brigham Campbell <me@brighamcampbell.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=805; i=me@brighamcampbell.com; 
- h=from:subject:message-id;
- bh=C1UaNTuACGrRkW2E3FhQG0DrBcJFu24wR9QIIxX6tno=; 
- b=owGbwMvMwCUWLsWS0KCyxZPxtFoSQ0Zfmtv7o5uupt5bnPdMjn/f526m5kVXn/6sVQpTOp96+
- PeaOuWgjlIWBjEuBlkxRRaVW7PUL062fnQwgn8CzBxWJpAhDFycAjCRwCmMDA/UMytqO5aUsglI
- KG23b5S6fGmhnm7l78kzPFQjDRn2yzAy7CmRdzylbH1S+l3i1E0JX9tXmZ0Nfqj0aUIgp63bdLs
- 4RgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1351;
+ i=me@brighamcampbell.com; h=from:subject:message-id;
+ bh=iYFZqe0FJwNf+ajNL5XFSo87/W08KOgeD3yFN7dsGdc=;
+ b=owGbwMvMwCUWLsWS0KCyxZPxtFoSQ0ZfmpvMtp8XL+wJKPaa55a2Y/8OLnU1fccyu3VHF0hFN
+ cWcyPreUcrCIMbFICumyKJya5b6xcnWjw5G8E+AmcPKBDKEgYtTACYycSbDP72cuKMr9q5a/+7Y
+ umopowoTD94pHJ/elRnqHa14MbHQ/C3DXwHzdV/2T5oWmCJykrmf/SEbh+R8rRXTmVs2bfRR2aN
+ 8iwsA
 X-Developer-Key: i=me@brighamcampbell.com; a=openpgp;
  fpr=24DA9A27D1933BE2C1580F90571A04608024B449
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,28 +98,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix two build errors in rockchip NPU support code which were caused by
-the integration of recent changes in the drm subsystem.
+Replace DRM_GPU_SCHED_STAT_NOMINAL with GPU_DRM_SCHED_STAT_RESET, in
+accordance with commit 0a5dc1b67ef5 ("drm/sched: Rename
+DRM_GPU_SCHED_STAT_NOMINAL to DRM_GPU_SCHED_STAT_RESET")
 
-Fix a sparse warning regarding an undeclared const, rocket_pm_ops.
-
-I tested these changes by enabling DRM_ACCEL_ROCKET and recompiling with
-`make C=2`.
+Pass extra parameter to drm_sched_job_init, as required by commit
+2956554823ce ("drm/sched: Store the drm client_id in drm_sched_fence")
 
 Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 ---
-Brigham Campbell (2):
-      accel/rocket: Fix Rockchip NPU compilation
-      accel/rocket: Fix undeclared const rocket_pm_ops
-
- drivers/accel/rocket/rocket_drv.h | 2 ++
  drivers/accel/rocket/rocket_job.c | 4 ++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
----
-base-commit: 01ac6e4e53b6351df42c97d217b0d2dbeef5c917
-change-id: 20250802-fix-rockchip-npu-build-ca759ba8da06
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Best regards,
+diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+index e731da15ebffca12e74035d2739a666a8e02d747..5d4afd69230623215e3105da7153d2d010636d52 100644
+--- a/drivers/accel/rocket/rocket_job.c
++++ b/drivers/accel/rocket/rocket_job.c
+@@ -390,7 +390,7 @@ static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_job *sched_j
+ 	atomic_set(&core->reset.pending, 1);
+ 	rocket_reset(core, sched_job);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static void rocket_reset_work(struct work_struct *work)
+@@ -552,7 +552,7 @@ static int rocket_ioctl_submit_job(struct drm_device *dev, struct drm_file *file
+ 
+ 	ret = drm_sched_job_init(&rjob->base,
+ 				 &file_priv->sched_entity,
+-				 1, NULL);
++				 1, NULL, file->client_id);
+ 	if (ret)
+ 		goto out_put_job;
+ 
+
 -- 
-Brigham Campbell <me@brighamcampbell.com>
+2.50.1
 
