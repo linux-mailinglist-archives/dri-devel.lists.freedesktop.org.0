@@ -2,65 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE21B18B1C
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 09:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB62B18B2B
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 09:49:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88B1810E0A8;
-	Sat,  2 Aug 2025 07:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C198110E0FF;
+	Sat,  2 Aug 2025 07:49:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YW5RQ5S+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EbhniN2X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11EBD10E0A8;
- Sat,  2 Aug 2025 07:38:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DDD65600B0;
- Sat,  2 Aug 2025 07:38:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 709B1C4CEEF;
- Sat,  2 Aug 2025 07:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1754120319;
- bh=2vLf14wUZIg7Aa40PWmweWyk77F53nEKWVI/sHXH0+Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YW5RQ5S+wS8w8bjrFrrmpEQxWCN1OoX0hrWQ8Qu7vDwfD69rWKN+zZ9Zw54z6T0iR
- SgpOdyyiSJBPC17LUzY6ELofT9SoWXlYJL7G5STU/V/aiAum+1Na5zwc5bF0OwiZuY
- ggfcJRwe/gRSo1kFy1e+PtTHHsbehAnqe93LsyB4=
-Date: Sat, 2 Aug 2025 08:38:36 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Imre Deak <imre.deak@intel.com>
-Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>,
- Nicusor Huhulea <nicusor.huhulea@siemens.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "cip-dev@lists.cip-project.org" <cip-dev@lists.cip-project.org>,
- "jouni.hogander@intel.com" <jouni.hogander@intel.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
- "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
- "laurentiu.palcu@oss.nxp.com" <laurentiu.palcu@oss.nxp.com>,
- "cedric.hombourger@siemens.com" <cedric.hombourger@siemens.com>,
- "shrikant.bobade@siemens.com" <shrikant.bobade@siemens.com>
-Subject: Re: [PATCH 0/5] drm/i915: fixes for i915 Hot Plug Detection and
- build/runtime issues
-Message-ID: <2025080225-attach-ravioli-3d3d@gregkh>
-References: <20250730161106.80725-1-nicusor.huhulea@siemens.com>
- <aIp6UgiwtDU1Ktmp@ideak-desk>
- <DB3SPRMB000631927D36A721EAE657F3E626A@DB3SPRMB0006.EURPRD10.PROD.OUTLOOK.COM>
- <aIzcjMgUttb1UpVt@ideak-desk>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B56F210E0FF
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 07:49:10 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-3b8de6f7556so13063f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 00:49:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1754120949; x=1754725749; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Jc41eAaTwlF+ilpjGXVXKV/B+JMC260AXywvrCae45I=;
+ b=EbhniN2XhhLpxsUdVy2QSZiKEqpq7TcE50gqbXNryECbeV7Q8f6S5oDraUdgUCtgL1
+ Dtta2QwetpNFrWKYBuzNm4T8ddNQ/KQxiBYOaO0HRoVCHU4nmVXeXtk+ZTZkN1z6NSAx
+ KmBmo+NjXZ4rPg0TNWJ3LF46MB2xjv1FKa51BWzN+3ajQz8EWrUGd/YYwpx2x16Ygoi3
+ KykGwiZSELoMPKJcbfNVx364rj4EN1w/eQ5wZGTWx63/4QyXUAhoBlwK/ZDugY/QFr+v
+ zOkCUrtanPulEwGp8cE1elH+iKQLnJ4InWlTATkS0KmAv6SlSJXszuR7j+1KnY3qyT6L
+ 9xdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754120949; x=1754725749;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Jc41eAaTwlF+ilpjGXVXKV/B+JMC260AXywvrCae45I=;
+ b=DU5GT5okQGHDUlPSAyXh4pe4GyjKcjmjG0JYMAXmorhDkPkFV0ey7cJu0qS2I1IoGg
+ FA9Nrp+kYMf0ZMV+oy/c5L2Tb3Ldrv3CSJUf9p06lkq8d8Ye94CYeh2po0FvvYnYGmG8
+ d7N6seZQjY0w6SJFijGL4tOB5phn1BZwiNAkxDKsCkCjCBb/5sLbMhYcR8aYL5ikCkgR
+ J/hcOHerQMqkfEowAWdx/t6hR6n2amWrL9YpniK+TQ2uTZYKIzuGbCeLEssJ0ZjaD+o1
+ baqezmMgsgf8htLQO/NmEVNfM5BcmFPTCPbcYPZnNb5Ll0eRrpOylcgnDpN9+OV3MGxb
+ JLHA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKXb7hG94DrKN1h5Lg5EzcPOE+O0fQOC/0hQeCY0PNy/x3g9GNRKRsZ+P/d17I4piiuCsQ6eeFcIw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx++HALNdnHWq+I+ejVF6NFJIhhGSxr+tXF1aeTEQiTUWqWPvOc
+ qMqyg7AB1RtBvDE3jFL5TfBuSCVK1XaoG26AbxUamu6dtTcpSxCXwYfAekdXKkHni5KQ2l7HOwo
+ 8SzNY
+X-Gm-Gg: ASbGncuWFRALlnQxLQq41r6Yckl/hmAEyfAX3Dyx0gpuTpQS/Tv3PI6xdDG1MCoKnkF
+ jFx8So3WnBcYG/lPe8eGEBbYWpDTZjJMVPuNybrpSS9bN9m5fOl7aGxsxuv8hgW//HvJV08vPgF
+ Fv5L6vsFfE5c4mID6SMjm6MLpcFEkX8IzVpPnpmEIomZYjLmv6WEIA5ixA6fgAORiM7y7Ac9cuO
+ qQ5lJGXF54BFWr0/KKzTmh1Ye5eGoSS1XeOqfAEtytf4rusrvzkUw98jQXJhrWH3+bqoForc0EQ
+ 89pKxQE/UyXAqFJdBgi0W2OVBvwO5cMYe4IbsefTNuT0WrVyhP8ZHlnzp6wVR3Sd4PbfIl6Qdty
+ aeGswf9prt4KWFN35XIoYx+Pkatk=
+X-Google-Smtp-Source: AGHT+IGJDg+6ps6Mjc9ekjWCPSzQ0GJRPDNUWN8QdOsqxwaMblKCLjyVVDDVhNK92I/A+0L9596+VQ==
+X-Received: by 2002:a05:6000:258a:b0:3b7:8984:5134 with SMTP id
+ ffacd0b85a97d-3b8d94708c7mr1655077f8f.16.1754120949205; 
+ Sat, 02 Aug 2025 00:49:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-458bc39e694sm9541765e9.19.2025.08.02.00.49.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 02 Aug 2025 00:49:08 -0700 (PDT)
+Date: Sat, 2 Aug 2025 10:49:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [bug report] drm/msm: Add VM_BIND ioctl
+Message-ID: <aI3C8c4iR3PmIMGE@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aIzcjMgUttb1UpVt@ideak-desk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,124 +90,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 01, 2025 at 06:26:04PM +0300, Imre Deak wrote:
-> Hi Greg and Shradha,
-> 
-> could you please check the comment below about the 4ad8d57d902f backport
-> commit in the v6.1.y stable tree and if you agree with the reasoning why
-> it has an issue, then suggest a way to resolve it?
-> 
-> Also, AFAICS, other stable trees are not affected, since the original
-> 5abffb66d12bcac commit got only backported to the above v6.1.y tree, but
-> please confirm this.
-> 
-> On Fri, Aug 01, 2025 at 02:37:04PM +0000, nicusor.huhulea@siemens.com wrote:
-> > > -----Original Message-----
-> > > From: Imre Deak <imre.deak@intel.com>
-> > > Sent: Wednesday, July 30, 2025 11:02 PM
-> > > To: Nicusor Liviu Huhulea (FT FDS CES LX PBU 1) <nicusor.huhulea@siemens.com>
-> > > Cc: stable@vger.kernel.org; dri-devel@lists.freedesktop.org;
-> > > intel-gfx@lists.freedesktop.org; cip-dev@lists.cip-project.org;
-> > > jouni.hogander@intel.com; neil.armstrong@linaro.org; jani.nikula@linux.intel.com;
-> > > maarten.lankhorst@linux.intel.com; mripard@kernel.org; tzimmermann@suse.de;
-> > > airlied@gmail.com; daniel@ffwll.ch; joonas.lahtinen@linux.intel.com;
-> > > rodrigo.vivi@intel.com; tvrtko.ursulin@linux.intel.com;
-> > > laurentiu.palcu@oss.nxp.com;
-> > > Cedric Hombourger (FT FDS CES LX) <cedric.hombourger@siemens.com>;
-> > > Shrikant Krishnarao Bobade (FT FDS CES LX PBU 1) <shrikant.bobade@siemens.com>
-> > > Subject: Re: [PATCH 0/5] drm/i915: fixes for i915 Hot Plug Detection and build/runtime issues
-> > > 
-> > > Hi Nicusor,
-> > > 
-> > > thanks for the report and the root causing effort. The patchset itself has a few
-> > > issues:
-> > > 
-> > > - commit cfd48ad8c4a9 ("drm/i915: Fix HPD polling, reenabling the output
-> > >   poll work as needed") you backport fixes d33a54e3991d
-> > >   ("drm/probe_helper: sort out poll_running vs poll_enabled"), but this
-> > >   fixed commit is not part of the 6.1.y stable tree which you are
-> > >   targeting.
-> > > 
-> > >   Similarly commit d33a54e3991d fixes c8268795c9a9 ("drm/probe-helper:
-> > >   enable and disable HPD on connectors"), which is not part of 6.1.y
-> > >   either.
-> > > 
-> > >   This means the issue commit cfd48ad8c4a9 is fixing is not present in
-> > >   the 6.1.y tree, as the changes introducing that issue are not present
-> > >   in that tree either.
-> > > 
-> > > - The compile errors the patches in your patchset introduce would
-> > >   prevent bisection, so fixing up these compile errors only at the end
-> > >   of the patchset is not ok; the tree should compile without errors at
-> > >   each patch/commit.
-> > > 
-> > > Looking at v6.1.y and the patchset I suspect the actual issue is the
-> > > 
-> > > commit 4ad8d57d902f ("drm: Check output polling initialized before
-> > > disabling") backport in v6.1.y, which had the
-> > > 
-> > > -       if (!dev->mode_config.poll_enabled || !drm_kms_helper_poll)
-> > > +       if (drm_WARN_ON_ONCE(dev, !dev->mode_config.poll_enabled) ||
-> > > +           !drm_kms_helper_poll || dev->mode_config.poll_running)
-> > > 
-> > > change, not part of the original
-> > > 
-> > > commit 5abffb66d12b ("drm: Check output polling initialized before disabling"). i.e.
-> > > the original patch didn't add the check for
-> > > dev->mode_config.poll_running. So could you try on top of v6.1.147
-> > > (w/o the changes in the patchset you posted):
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_probe_helper.c
-> > > b/drivers/gpu/drm/drm_probe_helper.c
-> > > index 0e5eadc6d44d..a515b78f839e 100644
-> > > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > > @@ -250,7 +250,7 @@ void drm_kms_helper_poll_enable(struct drm_device *dev)
-> > >         unsigned long delay = DRM_OUTPUT_POLL_PERIOD;
-> > > 
-> > >         if (drm_WARN_ON_ONCE(dev, !dev->mode_config.poll_enabled) ||
-> > > -           !drm_kms_helper_poll || dev->mode_config.poll_running)
-> > > +           !drm_kms_helper_poll)
-> > >                 return;
-> > > 
-> > >         drm_connector_list_iter_begin(dev, &conn_iter);
-> > 
-> > Thank you for your thorough explanation, especially regarding the
-> > bisecting issue. I hadn't anticipated that by fixing compile errors
-> > only at the end of the series, I would make bisection unreliable.
-> > 
-> > I have tested your idea/fix and it works. HPD polling works reliably
-> > on both devices. I can see the polling in logs when display cable is
-> > not connected.
-> > 
-> > Since this fix is mostly your solution, would you prefer to submit
-> > yourself, or would you like me to resubmit it as a v2 and credit you
-> > appropriately ?
-> 
-> Thanks again Nicusor for the effort to root cause this and for all the
-> tests.
-> 
-> Greg, Shradha, as described above I think in the 4ad8d57d902f backport
-> commit in v6.1.y it was incorrect to add the
-> 
-> 	dev->mode_config.poll_running
-> 
-> condition, as the original 5abffb66d12b commit was not the one adding
-> this, in that commit that condition was only part of the diff context.
-> OTOH, adding the check for this condition causes an issue in the i915
-> driver's IRQ storm handling in the v6.1.y stable tree: after
-> dev->mode_config.poll_running gets set (during the first connector
-> detection in drm_helper_probe_single_connector_modes()), the
-> 
-> 	drm_kms_helper_poll_enable()
-> 
-> call in intel_hpd_irq_storm_switch_to_polling() will not any more
-> schedule the output_poll_work as expected. Thus after an IRQ storm, the
-> HPD IRQs get disabled, but the HPD polling will not run and so the HPD
-> detection will not work as Nicusor described above.
-> 
-> If you agree with the above and the above proposed solution to remove
-> the dev->mode_config.poll_running check from the v6.1.y tree, then what
-> would be Greg the correct way to do this?
+Hello Rob Clark,
 
-Send whatever fix is needed please.
+Commit 2e6a8a1fe2b2 ("drm/msm: Add VM_BIND ioctl") from Jun 29, 2025
+(linux-next), leads to the following Smatch static checker warning:
+
+	drivers/gpu/drm/msm/msm_gem_vma.c:596 msm_gem_vm_sm_step_remap()
+	error: we previously assumed 'vm_bo' could be null (see line 564)
+
+drivers/gpu/drm/msm/msm_gem_vma.c
+    521 static int
+    522 msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
+    523 {
+    524         struct msm_vm_bind_job *job = ((struct op_arg *)arg)->job;
+    525         struct drm_gpuvm *vm = job->vm;
+    526         struct drm_gpuva *orig_vma = op->remap.unmap->va;
+    527         struct drm_gpuva *prev_vma = NULL, *next_vma = NULL;
+    528         struct drm_gpuvm_bo *vm_bo = orig_vma->vm_bo;
+    529         bool mapped = to_msm_vma(orig_vma)->mapped;
+    530         unsigned flags;
+    531 
+    532         vm_dbg("orig_vma: %p:%p:%p: %016llx %016llx", vm, orig_vma,
+    533                orig_vma->gem.obj, orig_vma->va.addr, orig_vma->va.range);
+    534 
+    535         if (mapped) {
+    536                 uint64_t unmap_start, unmap_range;
+    537 
+    538                 drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
+    539 
+    540                 vm_op_enqueue(arg, (struct msm_vm_op){
+    541                         .op = MSM_VM_OP_UNMAP,
+    542                         .unmap = {
+    543                                 .iova = unmap_start,
+    544                                 .range = unmap_range,
+    545                                 .queue_id = job->queue->id,
+    546                         },
+    547                         .obj = orig_vma->gem.obj,
+    548                 });
+    549 
+    550                 /*
+    551                  * Part of this GEM obj is still mapped, but we're going to kill the
+    552                  * existing VMA and replace it with one or two new ones (ie. two if
+    553                  * the unmapped range is in the middle of the existing (unmap) VMA).
+    554                  * So just set the state to unmapped:
+    555                  */
+    556                 to_msm_vma(orig_vma)->mapped = false;
+    557         }
+    558 
+    559         /*
+    560          * Hold a ref to the vm_bo between the msm_gem_vma_close() and the
+    561          * creation of the new prev/next vma's, in case the vm_bo is tracked
+    562          * in the VM's evict list:
+    563          */
+    564         if (vm_bo)
+                ^^^^^^^^^^
+NULL check
+
+    565                 drm_gpuvm_bo_get(vm_bo);
+    566 
+    567         /*
+    568          * The prev_vma and/or next_vma are replacing the unmapped vma, and
+    569          * therefore should preserve it's flags:
+    570          */
+    571         flags = orig_vma->flags;
+    572 
+    573         msm_gem_vma_close(orig_vma);
+    574 
+    575         if (op->remap.prev) {
+    576                 prev_vma = vma_from_op(arg, op->remap.prev);
+    577                 if (WARN_ON(IS_ERR(prev_vma)))
+    578                         return PTR_ERR(prev_vma);
+    579 
+    580                 vm_dbg("prev_vma: %p:%p: %016llx %016llx", vm, prev_vma, prev_vma->va.addr, prev_vma->va.range);
+    581                 to_msm_vma(prev_vma)->mapped = mapped;
+    582                 prev_vma->flags = flags;
+    583         }
+    584 
+    585         if (op->remap.next) {
+    586                 next_vma = vma_from_op(arg, op->remap.next);
+    587                 if (WARN_ON(IS_ERR(next_vma)))
+    588                         return PTR_ERR(next_vma);
+    589 
+    590                 vm_dbg("next_vma: %p:%p: %016llx %016llx", vm, next_vma, next_vma->va.addr, next_vma->va.range);
+    591                 to_msm_vma(next_vma)->mapped = mapped;
+    592                 next_vma->flags = flags;
+    593         }
+    594 
+    595         if (!mapped)
+--> 596                 drm_gpuvm_bo_evict(vm_bo, true);
+                                           ^^^^^
+Unchecked dereference.  Possibly if we're not mapped then it's non-NULL?
+If so then just ignore this warning.
+
+    597 
+    598         /* Drop the previous ref: */
+    599         drm_gpuvm_bo_put(vm_bo);
+    600 
+    601         return 0;
+    602 }
+
+regards,
+dan carpenter
