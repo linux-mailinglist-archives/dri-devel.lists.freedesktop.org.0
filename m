@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015F8B18D35
+	by mail.lfdr.de (Postfix) with ESMTPS id A4722B18D36
 	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 11:45:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5154E10E481;
-	Sat,  2 Aug 2025 09:45:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33D0710E3E0;
+	Sat,  2 Aug 2025 09:45:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="oHnqn+pQ";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="c5GW/pzB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
- [209.85.219.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C34F10E3F5
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 09:45:01 +0000 (UTC)
-Received: by mail-qv1-f52.google.com with SMTP id
- 6a1803df08f44-709287e8379so13677466d6.1
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 02:45:01 -0700 (PDT)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6739810E482
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 09:45:02 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id
+ d75a77b69052e-4af1c1b5b38so2376371cf.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 02:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1754127900; x=1754732700;
+ d=google.com; s=20230601; t=1754127901; x=1754732701;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zCZKpZ0GTQyuxqiimTL6+nlc+e/lhE5HVB+u1LPzp4k=;
- b=oHnqn+pQ7mkNAXozHK55JY2oBQDmXhBCj2cZNUGvggccdI/vQCg+w/Rb7GyPNjvkSc
- 6KvFr8Z08aVpfsS3mw5EZdVsFsF2uPb3kYZ/CAU5mpdjahI4oie3MRJFgxW7dutcynGx
- RKhMuckPohR3EWNNCRf1nassofjv3PckySgI04uq10SdQPP7VN465J0TzEiXCVOssHTD
- O80Db9otCvQPKfY0nKxB1L3VS+WCi7JytvlRHcsd4lZQoV3jCjn/VsXLL/xAB1oNPnWL
- K+vb/ihlUrSv3xSGP7B7iPpBS6+jJbgqgYYpVsKg2WE6byt/9Vy4MjHJpvCuxZintqJu
- ekDg==
+ bh=fUetSpveoV3vPQqag+ekpqz/uhElYI7an2ifd+vMn3g=;
+ b=c5GW/pzBVmzFhWtynB2tTkfHj0l5vGES74UXW8fiZSqms95yS5N+WqGwCbT/lXJJIB
+ 2eHvGi3LC/SvgbDBNuC4cjbu7KDrndjup0gsO8Q3XZhIBCW7I8d8HL8XeS3ASGddHq5R
+ Kj7lp7OpsVztceDKedJ4SzWG+s009HFUhX5sBItQ4Xv67Pzmfao0VBDj8By79ZMdXKUO
+ buO2T+7cPxScv6VX3G/meazJlZPnuCgirwK3ir4gYJvxKJfSOcIIwY5LDUZB1899l8JX
+ FYfEn6DfU9UG0Rl7gT9bAvnuURdkLsVAvDmsLcQ/3VB7abm8mGfGALZOswYEWl3mmGGU
+ +Ghg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754127900; x=1754732700;
+ d=1e100.net; s=20230601; t=1754127901; x=1754732701;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=zCZKpZ0GTQyuxqiimTL6+nlc+e/lhE5HVB+u1LPzp4k=;
- b=T8yMf0Sr9TSDQsMcr4VHneOJgnMxy5StQ/ctBlHrpaaVZHhyITUeS11GfwWp8bnWGI
- Y1gw4dv4BaNOcHUPeOzvCF5Ic5UB8c+Wc9htXcH/tCafV0Za4gShNlQsjqVA4OJiZ5Xf
- tkt4OXa0M6R5rnxDaHn2sIHuTCY+kyfojTy+/4tiTIlZHCMIQzjjhewKJkDYpAsVZWjM
- 2Rvok8QlyLkv+Txgxef4NsVA7jE/Dw6ESrmToTC70e23FvC+ziT6z4kgeuVNLkfDO6Ty
- m0TZLTVMCq09C1MgV/eqL/NezlqD5qvJuKdfHv/udyw54ayDrvyIfYvOX4VVG+jEHru9
- crpg==
+ bh=fUetSpveoV3vPQqag+ekpqz/uhElYI7an2ifd+vMn3g=;
+ b=Ia7tkoaj9MYHbDDXs3XUDy6xuACKkr6aHyE/saa7HUzbcVS0Yahsbf/nWvwjMAXp9S
+ koAdnKm/RcShu/6Y5sHqVhaf98x4oz1TSSbcTVvLXjnIBNpiVNtGo2Fn8bZ9k0ApbIfz
+ LTfVDJPUI5jusHQz+D21mXGY/CMPpskPS62zPrB/gwZk6e4FysztCNXF9TKK5g+z8Y8W
+ 2cZ+oInXN57NoxYvbnbKi+0YDKVwgHlh3T7hblyifNZXcxgcXdYzjGkPB96dtN2g/wyx
+ pgmWKPpXiVGxHeQL9XC1caaZI4VWBF2TmHBKZM85FymeS/dKRKapvjXiEEqp6mnYqCx5
+ iu9Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUsIVdXJNu9K0QZo57JgX0+AbWXQGOAHSg3cTyAvXsAPKXFkuGxWYapkd8hIs9ROO+dfJd2f5HY8aE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzV7QHAF5lY3TO/lOubkmT4k+9yHZp6SmEokUaJ/QLWoTTzNgFC
- 5dO/rx/xbR6hKgvjfV9CVFQZfd+4Iil3/omjN04OblHUFPClMnpr4Yu6cp1ja5mSRhts7HrjpKK
- nZBka1RiqYHo8ATEElj9I19THDU86b3/6O1XFEzha
-X-Gm-Gg: ASbGncuS21pe/0dDrwscdnsK3JcdMmgDXxqGFZhrfT6DUa7/mSY7kaf29ON5Dew4++6
- FEDJyyqIKY8jN3RppYadC0KI2SDEZKhT8+jUSR43k9dzfdvDxUcrQMf91Qzio1CQOP63EVc6vEV
- ITWFS09FOLWTOWjYoObX2Gn9Lux9nT8AoeGj80uaff7ZhBwxBoEUGyPcjrvqyEqsjELwB6iopnM
- 85CJj04
-X-Google-Smtp-Source: AGHT+IHMp8TOhtWnJO51eOiASE8j8eD5YHeCHNwV0d0aQUEOOq4Facj9Pb8XtEQlJJ8/5jNryw9lfnT144ajU3ORXfs=
-X-Received: by 2002:a05:6214:482:b0:707:6409:d016 with SMTP id
- 6a1803df08f44-70935f60153mr38126276d6.9.1754127900103; Sat, 02 Aug 2025
- 02:45:00 -0700 (PDT)
+ AJvYcCVvI5DEab7d0+iUfcJBVUMYMIWPYmR6gUrVvvvWrgPby+ADGb4BNmoqrUCqJObr+vxAdN29GFHWZp4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwF5LsLy5mXaQlky1t/y5jXWqTGDYuASwHIyEDso2APSDI/sa8n
+ +LbhYBxk04x9mKI/0iMKNcdVANqSYHIjL1IQHjnVLWvjLlI4+DGg+immNj1rU6GSP6UCGNC7UcV
+ yXvaWLmRIBMreLEfGg2JH3k12icxzBPgIvDlJhXr4
+X-Gm-Gg: ASbGnctl8yRi6T2uqKZ6R6MvbrRBC7CnveHSyruW+wUj58N6WnsX24Y6FqpnvFqhFDE
+ IeN/HtCtpDgVozfgX+fk64pUvyDP6Z10yG8renZIbU+NR72JU6swvrCmW6ecXR8e1oL2mMtfmlw
+ 0aoxTVUlW6a8YCEmnX8yhSRiMHIAIPxK7fyFpx7BnrP887idYryQc+pPAFkcJhm6uktp5tompu9
+ hhbKZ6fufFJ+CakaFo=
+X-Google-Smtp-Source: AGHT+IFKWTJQmvl1QWhMEQf6mucfuQgcYVwwffnxEbNhn585emjBkUjxIlURPitJRkMNHco2qPBG/rAyOOqPZ8b/j4k=
+X-Received: by 2002:ac8:5802:0:b0:4ab:6c75:620 with SMTP id
+ d75a77b69052e-4af10954c19mr47286961cf.1.1754127901186; Sat, 02 Aug 2025
+ 02:45:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250729193647.3410634-1-marievic@google.com>
- <20250729193647.3410634-5-marievic@google.com>
-In-Reply-To: <20250729193647.3410634-5-marievic@google.com>
+ <20250729193647.3410634-6-marievic@google.com>
+In-Reply-To: <20250729193647.3410634-6-marievic@google.com>
 From: David Gow <davidgow@google.com>
-Date: Sat, 2 Aug 2025 17:44:45 +0800
-X-Gm-Features: Ac12FXyD0NUtg84q97c-X3R9eBKapNZWOLNwLnhlzJzZ5xtYlZgKpFxg0pby0ik
-Message-ID: <CABVgOSnmtcjarGuZog9zKNvt9rYD2Tsox3ngVgh4pJUFMF737w@mail.gmail.com>
-Subject: Re: [PATCH 4/9] kcsan: test: Update parameter generator to new
- signature
+Date: Sat, 2 Aug 2025 17:44:48 +0800
+X-Gm-Features: Ac12FXxzj7NJuQfaw5YMY9Xgg-cu4_yvgrPf9Wxf5hDCWeBmCbl6q73Q5jmH-lY
+Message-ID: <CABVgOSmTNAOoLqLhsZq+RiBU3wj4s79hzV+WFEOS10sahZf6Mg@mail.gmail.com>
+Subject: Re: [PATCH 5/9] drm/xe: Update parameter generator to new signature
 To: Marie Zhussupova <marievic@google.com>
 Cc: rmoar@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
  elver@google.com, dvyukov@google.com, lucas.demarchi@intel.com, 
@@ -74,7 +73,7 @@ Cc: rmoar@google.com, shuah@kernel.org, brendan.higgins@linux.dev,
  kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000699c27063b5eba63"
+ micalg=sha-256; boundary="0000000000007aa519063b5eba58"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,20 +89,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000699c27063b5eba63
+--0000000000007aa519063b5eba58
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, 30 Jul 2025 at 03:37, Marie Zhussupova <marievic@google.com> wrote:
 >
-> This patch modifies `nthreads_gen_params` in kcsan_test.c
-> to accept an additional `struct kunit *test` argument.
+> This patch modifies `xe_pci_live_device_gen_param`
+> in xe_pci.c to accept an additional `struct kunit *test`
+> argument.
 >
 > Signed-off-by: Marie Zhussupova <marievic@google.com>
 > ---
 
-This is a pretty straightforward fix after patch 3. KCSAN folks, would
-you prefer this kept as a separate patch, or squashed into the
-previous one (so there's no commit where this is broken)?
+
+This is a pretty straightforward fix after patch 3. xe folks, would
+you prefer this kept as a separate patch, or squashed into patch 3
+(which changed the function signature)?
 
 Either way,
 Reviewed-by: David Gow <davidgow@google.com>
@@ -111,27 +112,28 @@ Reviewed-by: David Gow <davidgow@google.com>
 
 -- David
 
->  kernel/kcsan/kcsan_test.c | 2 +-
+
+>  drivers/gpu/drm/xe/tests/xe_pci.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
-> index c2871180edcc..fc76648525ac 100644
-> --- a/kernel/kcsan/kcsan_test.c
-> +++ b/kernel/kcsan/kcsan_test.c
-> @@ -1383,7 +1383,7 @@ static void test_atomic_builtins_missing_barrier(struct kunit *test)
->   * The thread counts are chosen to cover potentially interesting boundaries and
->   * corner cases (2 to 5), and then stress the system with larger counts.
+> diff --git a/drivers/gpu/drm/xe/tests/xe_pci.c b/drivers/gpu/drm/xe/tests/xe_pci.c
+> index 1d3e2e50c355..62c016e84227 100644
+> --- a/drivers/gpu/drm/xe/tests/xe_pci.c
+> +++ b/drivers/gpu/drm/xe/tests/xe_pci.c
+> @@ -129,7 +129,7 @@ EXPORT_SYMBOL_IF_KUNIT(xe_pci_fake_device_init);
+>   * Return: pointer to the next &struct xe_device ready to be used as a parameter
+>   *         or NULL if there are no more Xe devices on the system.
 >   */
-> -static const void *nthreads_gen_params(const void *prev, char *desc)
-> +static const void *nthreads_gen_params(struct kunit *test, const void *prev, char *desc)
+> -const void *xe_pci_live_device_gen_param(const void *prev, char *desc)
+> +const void *xe_pci_live_device_gen_param(struct kunit *test, const void *prev, char *desc)
 >  {
->         long nthreads = (long)prev;
->
+>         const struct xe_device *xe = prev;
+>         struct device *dev = xe ? xe->drm.dev : NULL;
 > --
 > 2.50.1.552.g942d659e1b-goog
 >
 
---000000000000699c27063b5eba63
+--0000000000007aa519063b5eba58
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -221,13 +223,13 @@ Vumvw5QTHe29TYxSiusovM6OD5y0I+4zaIaYDx/AtF0mMOFXb1MDyynf1CDxhtkgnrBUseHSOU2e
 MYs7IqzRap5xsgpJS+t7cp/P8fdlCNvsXss9zZa279tKwaxR0U2IzGxRGsWKGxDysn1HT6pqMDGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAUXA7LnOuRz2DvkWTeMc
-0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgXPQTK0+ipCXOMwEjmbPfX9pH7GwC
-UVAtSzbrKFbxDgwwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-ODAyMDk0NTAwWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgCW07HzC0aE661vW+3P7Bv0AG9Nbo
+KmvKergx6moXAzAwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+ODAyMDk0NTAxWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEACuCHPAr/DyWesPxG5G7lzBTPMRvbSE6a17lHmIJGH53lwLm3SwbuF2KfOuqNEfgV
-YSgKvJQrwQRRBIRy8WnaXDfFfGK5OzyGKsBB06mqFKW6I5ArVNvg2JkK+/G7Prg3a7COI+yPim+6
-JGFpPhNxCD9iKlQrllG6W/QUYPCxNZ6UQIGSPcYSkEGtp4TmreJqsLUtAcu4KnYhLkoqywnUEDVG
-PTRHXJP3dWHw4sL+0mlsPWQHFYEzbnhegu7cLhTZ/+0LQxLnVe7gkaKzfxR0NGf46e5l6c3cm/Qj
-qJJt2zwbvp0j4JMteTN44/+NZo6IcgA9/fUbEeKIq6+Tvp3mSA==
---000000000000699c27063b5eba63--
+AQEBBQAEggEAYWKXavasvHqVN7tILps3q0AelnwvSIP8Q4+OqW8nzGavNL4ngLkSY30gqlMHydBs
+lIX9FDZqZqVUDNIIHVq8EWcCRA77nHgy0WZoxfvO36LF0rAyuJYCxSmWryaxyen89bAEDecnMaEl
+zNldtXN/WY8jYbYy7D3qXDsCF2FKZUqJbXai/ccZZJb5ruxLdMVFh4S6LSzMWV0p4eV3aDgwwM4F
+42yZ6ZpjMpFxzk/yo90+d/29ZBZGXXYL9IDw3MGCvNrj8ht8x+zYIHBAfoGoxvoGHLInTUxBFDN0
+xQdRLeOvcFj0s/nMtda4xowTW0O+IP9RMxjt8jJERSj7LJJ1rg==
+--0000000000007aa519063b5eba58--
