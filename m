@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C595B18D2F
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 11:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015F8B18D35
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Aug 2025 11:45:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 041D010E3E2;
-	Sat,  2 Aug 2025 09:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5154E10E481;
+	Sat,  2 Aug 2025 09:45:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="0/ZkdNmx";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="oHnqn+pQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B355510E3EF
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 09:44:57 +0000 (UTC)
-Received: by mail-qv1-f53.google.com with SMTP id
- 6a1803df08f44-70927868edeso16969836d6.2
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 02:44:57 -0700 (PDT)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com
+ [209.85.219.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C34F10E3F5
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Aug 2025 09:45:01 +0000 (UTC)
+Received: by mail-qv1-f52.google.com with SMTP id
+ 6a1803df08f44-709287e8379so13677466d6.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Aug 2025 02:45:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1754127897; x=1754732697;
+ d=google.com; s=20230601; t=1754127900; x=1754732700;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pt50gj/ZY3pXPUMWUrbDKERXvHWHsSnXTA3eiLgLtTo=;
- b=0/ZkdNmx62q/56BZJf9jO/SHGekC8D5GvHZ17TG2ZLeeTfc93I0xrvC+xFwj22zyjl
- HIuXFIBWIqD70IvotYupRiGK/v27JQrdLHfv8zxHD97fkci0DdHD8xnYPUmoKv1nQ41f
- Y91Y9Gyto6vu1/pMyEFhu5oYzKpeUBY3Sr1vfAKVRx68p71jjyclHNC0DZBNyzRd49PN
- Smbwy0LLoVyF+QaSR7/HeogiFDVUz+58kBz9xFLduhZF1jYE4HwEc1LY9hhPRa12LO5N
- 5IXq9JmC2ZIOJ5OqZr9QkX43z8npili0+PQnffpTxfVWDcpHl/FRFICZ+BxLc+kznatL
- IBEw==
+ bh=zCZKpZ0GTQyuxqiimTL6+nlc+e/lhE5HVB+u1LPzp4k=;
+ b=oHnqn+pQ7mkNAXozHK55JY2oBQDmXhBCj2cZNUGvggccdI/vQCg+w/Rb7GyPNjvkSc
+ 6KvFr8Z08aVpfsS3mw5EZdVsFsF2uPb3kYZ/CAU5mpdjahI4oie3MRJFgxW7dutcynGx
+ RKhMuckPohR3EWNNCRf1nassofjv3PckySgI04uq10SdQPP7VN465J0TzEiXCVOssHTD
+ O80Db9otCvQPKfY0nKxB1L3VS+WCi7JytvlRHcsd4lZQoV3jCjn/VsXLL/xAB1oNPnWL
+ K+vb/ihlUrSv3xSGP7B7iPpBS6+jJbgqgYYpVsKg2WE6byt/9Vy4MjHJpvCuxZintqJu
+ ekDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754127897; x=1754732697;
+ d=1e100.net; s=20230601; t=1754127900; x=1754732700;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=pt50gj/ZY3pXPUMWUrbDKERXvHWHsSnXTA3eiLgLtTo=;
- b=xDK8LU45qHcH8w4UTH52Y/MZP5opqSmWDhKwJnO4haaB77DAH8dt1D/NM+WzkXh32E
- JW422Gd0t+OqKGH1SWh3Hw3hzxGxLXYvtHfR9Sa2W8bsA74BXm/L46g3i0kBRZuE5nUf
- VqXcq3UeyZaiTyvfLPZ8lEJ+iGzHINIzoaz9GfkwFhfsIZEF78+l97dOEOy9/xbii+Ey
- nIX/GGCTjbDNJ5hIC/TkBpGfU83hWoHKbon08v++urzh/1XEKJAPZGxQHvN2TlS3ndKr
- 5oiPiMAbJdUAsZ5adfIeODJq1FJ0FV1Az4b0vk+LmHQD0g9IxN903FTxhbCwuwKhpcp/
- QgNw==
+ bh=zCZKpZ0GTQyuxqiimTL6+nlc+e/lhE5HVB+u1LPzp4k=;
+ b=T8yMf0Sr9TSDQsMcr4VHneOJgnMxy5StQ/ctBlHrpaaVZHhyITUeS11GfwWp8bnWGI
+ Y1gw4dv4BaNOcHUPeOzvCF5Ic5UB8c+Wc9htXcH/tCafV0Za4gShNlQsjqVA4OJiZ5Xf
+ tkt4OXa0M6R5rnxDaHn2sIHuTCY+kyfojTy+/4tiTIlZHCMIQzjjhewKJkDYpAsVZWjM
+ 2Rvok8QlyLkv+Txgxef4NsVA7jE/Dw6ESrmToTC70e23FvC+ziT6z4kgeuVNLkfDO6Ty
+ m0TZLTVMCq09C1MgV/eqL/NezlqD5qvJuKdfHv/udyw54ayDrvyIfYvOX4VVG+jEHru9
+ crpg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXOupqtKtPUB8shVZ1m/2a6/Asr3Cb5l5AwxelalHhY1HQYUE8P1T9aYkCaPw90hntUrbB6DZHkkHw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzB5ZbfxdnUSI18LQ/8rPcC5P//HTu+GJ3Q0/6snt1zFY2DPDip
- iuE7jp2PBXCRs8c3mV5ADV5DFED/YjFCMNVB2TYpHrWfOIPds+jAO//j1/tOHVKyb3mGYbIajRd
- ZDge+101Jz+Z7zV2aWmzFlG3GuBPYvtDlH58d0E67
-X-Gm-Gg: ASbGnctZFjVYOJyU4Zvlf8rQw8OuZkqJIk10gln+NjpAGETSDD88lXGWAr3IAGDgqtR
- vXbkCgvOSuN6O8vnvo2fsJcQsw8YY3tEi4x53igqyIUW2gw8oqeuhZBoUepNhxyIQ1De+hJ7J6V
- tBncrkIKKrZVn5r1kArVKZJY7R+JT0bvH/lcWKJMJsNuj4fp31srEAxgFOimpFvw5X7avuGm4Pw
- IJSymbl
-X-Google-Smtp-Source: AGHT+IFREJ5flgS12DtWasIxVSyI9d3dEb+m60e/+32xdfBqDIUVvYoR1vyMrQipFY7FE4x1hshhzuwMKvrRqn9jdOI=
-X-Received: by 2002:a05:6214:dab:b0:709:31e2:465a with SMTP id
- 6a1803df08f44-70936522c7dmr49740236d6.7.1754127896464; Sat, 02 Aug 2025
- 02:44:56 -0700 (PDT)
+ AJvYcCUsIVdXJNu9K0QZo57JgX0+AbWXQGOAHSg3cTyAvXsAPKXFkuGxWYapkd8hIs9ROO+dfJd2f5HY8aE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzV7QHAF5lY3TO/lOubkmT4k+9yHZp6SmEokUaJ/QLWoTTzNgFC
+ 5dO/rx/xbR6hKgvjfV9CVFQZfd+4Iil3/omjN04OblHUFPClMnpr4Yu6cp1ja5mSRhts7HrjpKK
+ nZBka1RiqYHo8ATEElj9I19THDU86b3/6O1XFEzha
+X-Gm-Gg: ASbGncuS21pe/0dDrwscdnsK3JcdMmgDXxqGFZhrfT6DUa7/mSY7kaf29ON5Dew4++6
+ FEDJyyqIKY8jN3RppYadC0KI2SDEZKhT8+jUSR43k9dzfdvDxUcrQMf91Qzio1CQOP63EVc6vEV
+ ITWFS09FOLWTOWjYoObX2Gn9Lux9nT8AoeGj80uaff7ZhBwxBoEUGyPcjrvqyEqsjELwB6iopnM
+ 85CJj04
+X-Google-Smtp-Source: AGHT+IHMp8TOhtWnJO51eOiASE8j8eD5YHeCHNwV0d0aQUEOOq4Facj9Pb8XtEQlJJ8/5jNryw9lfnT144ajU3ORXfs=
+X-Received: by 2002:a05:6214:482:b0:707:6409:d016 with SMTP id
+ 6a1803df08f44-70935f60153mr38126276d6.9.1754127900103; Sat, 02 Aug 2025
+ 02:45:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250729193647.3410634-1-marievic@google.com>
- <20250729193647.3410634-4-marievic@google.com>
-In-Reply-To: <20250729193647.3410634-4-marievic@google.com>
+ <20250729193647.3410634-5-marievic@google.com>
+In-Reply-To: <20250729193647.3410634-5-marievic@google.com>
 From: David Gow <davidgow@google.com>
-Date: Sat, 2 Aug 2025 17:44:43 +0800
-X-Gm-Features: Ac12FXyq85JkWJa7V2n6oMNik7XR4Bcgcea9TMbgv8-h7CIIiTRnRuAYy96PX1w
-Message-ID: <CABVgOSkmQHU5ScvgG=i64Rw29yVprJBxoHwhmmrZgR4gJ95srg@mail.gmail.com>
-Subject: Re: [PATCH 3/9] kunit: Pass additional context to generate_params for
- parameterized testing
+Date: Sat, 2 Aug 2025 17:44:45 +0800
+X-Gm-Features: Ac12FXyD0NUtg84q97c-X3R9eBKapNZWOLNwLnhlzJzZ5xtYlZgKpFxg0pby0ik
+Message-ID: <CABVgOSnmtcjarGuZog9zKNvt9rYD2Tsox3ngVgh4pJUFMF737w@mail.gmail.com>
+Subject: Re: [PATCH 4/9] kcsan: test: Update parameter generator to new
+ signature
 To: Marie Zhussupova <marievic@google.com>
 Cc: rmoar@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
  elver@google.com, dvyukov@google.com, lucas.demarchi@intel.com, 
@@ -74,7 +74,7 @@ Cc: rmoar@google.com, shuah@kernel.org, brendan.higgins@linux.dev,
  kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000031afb0063b5eba19"
+ micalg=sha-256; boundary="000000000000699c27063b5eba63"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,113 +90,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000031afb0063b5eba19
+--000000000000699c27063b5eba63
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, 30 Jul 2025 at 03:37, Marie Zhussupova <marievic@google.com> wrote:
 >
-> To enable more complex parameterized test scenarios,
-> the `generate_params` function sometimes needs additional
-> context beyond just the previously generated parameter.
-> This patch modifies the `generate_params` function signature
-> to include an extra `struct kunit *test` argument, giving
-> users access to the parent kunit test's context when
-> generating subsequent parameters.
+> This patch modifies `nthreads_gen_params` in kcsan_test.c
+> to accept an additional `struct kunit *test` argument.
 >
-> The `struct kunit *test` argument was added as the first parameter
-> to the function signature as it aligns with the convention
-> of other KUnit functions that accept `struct kunit *test` first.
-> This also mirrors the "this" or "self" reference found
-> in object-oriented programming languages.
-
-This matches my prejudices well. :-)
-
 > Signed-off-by: Marie Zhussupova <marievic@google.com>
 > ---
 
-At last! This will be very useful as a way of having more complicated
-generator functions (or, indeed, any generator function which wants
-state without hacking it into an enormously complicated parameter
-object).
+This is a pretty straightforward fix after patch 3. KCSAN folks, would
+you prefer this kept as a separate patch, or squashed into the
+previous one (so there's no commit where this is broken)?
 
-The only thing worth noting is that this breaks the existing tests
-until the next two patches are accepted, which could be a pain for
-bisecting. I can live with it, since the breakage is obvious and
-confined to the span of a couple of patches in the same series and to
-test-only code, but if others prefer, we can squash these together.
-
+Either way,
 Reviewed-by: David Gow <davidgow@google.com>
 
-Cheers,
+
 -- David
 
-
->  include/kunit/test.h | 9 ++++++---
->  lib/kunit/test.c     | 5 +++--
->  2 files changed, 9 insertions(+), 5 deletions(-)
+>  kernel/kcsan/kcsan_test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index d8dac7efd745..4ba65dc35710 100644
-> --- a/include/kunit/test.h
-> +++ b/include/kunit/test.h
-> @@ -128,7 +128,8 @@ struct kunit_attributes {
->  struct kunit_case {
->         void (*run_case)(struct kunit *test);
->         const char *name;
-> -       const void* (*generate_params)(const void *prev, char *desc);
-> +       const void* (*generate_params)(struct kunit *test,
-> +                                      const void *prev, char *desc);
->         struct kunit_attributes attr;
->
->         /*
-> @@ -1701,7 +1702,8 @@ do {                                                                             \
->   * Define function @name_gen_params which uses @array to generate parameters.
+> diff --git a/kernel/kcsan/kcsan_test.c b/kernel/kcsan/kcsan_test.c
+> index c2871180edcc..fc76648525ac 100644
+> --- a/kernel/kcsan/kcsan_test.c
+> +++ b/kernel/kcsan/kcsan_test.c
+> @@ -1383,7 +1383,7 @@ static void test_atomic_builtins_missing_barrier(struct kunit *test)
+>   * The thread counts are chosen to cover potentially interesting boundaries and
+>   * corner cases (2 to 5), and then stress the system with larger counts.
 >   */
->  #define KUNIT_ARRAY_PARAM(name, array, get_desc)                                               \
-> -       static const void *name##_gen_params(const void *prev, char *desc)                      \
-> +       static const void *name##_gen_params(struct kunit *test,                                \
-> +                                            const void *prev, char *desc)                      \
->         {                                                                                       \
->                 typeof((array)[0]) *__next = prev ? ((typeof(__next)) prev) + 1 : (array);      \
->                 if (__next - (array) < ARRAY_SIZE((array))) {                                   \
-> @@ -1722,7 +1724,8 @@ do {                                                                             \
->   * Define function @name_gen_params which uses @array to generate parameters.
->   */
->  #define KUNIT_ARRAY_PARAM_DESC(name, array, desc_member)                                       \
-> -       static const void *name##_gen_params(const void *prev, char *desc)                      \
-> +       static const void *name##_gen_params(struct kunit *test,                                \
-> +                                            const void *prev, char *desc)                      \
->         {                                                                                       \
->                 typeof((array)[0]) *__next = prev ? ((typeof(__next)) prev) + 1 : (array);      \
->                 if (__next - (array) < ARRAY_SIZE((array))) {                                   \
-> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> index d80b5990d85d..f50ef82179c4 100644
-> --- a/lib/kunit/test.c
-> +++ b/lib/kunit/test.c
-> @@ -696,7 +696,7 @@ int kunit_run_tests(struct kunit_suite *suite)
->                         /* Get initial param. */
->                         param_desc[0] = '\0';
->                         /* TODO: Make generate_params try-catch */
-> -                       curr_param = test_case->generate_params(NULL, param_desc);
-> +                       curr_param = test_case->generate_params(&test, NULL, param_desc);
->                         test_case->status = KUNIT_SKIPPED;
->                         kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
->                                   "KTAP version 1\n");
-> @@ -727,7 +727,8 @@ int kunit_run_tests(struct kunit_suite *suite)
->
->                                 /* Get next param. */
->                                 param_desc[0] = '\0';
-> -                               curr_param = test_case->generate_params(curr_param, param_desc);
-> +                               curr_param = test_case->generate_params(&test, curr_param,
-> +                                                                       param_desc);
->                         }
->                 }
+> -static const void *nthreads_gen_params(const void *prev, char *desc)
+> +static const void *nthreads_gen_params(struct kunit *test, const void *prev, char *desc)
+>  {
+>         long nthreads = (long)prev;
 >
 > --
 > 2.50.1.552.g942d659e1b-goog
 >
 
---00000000000031afb0063b5eba19
+--000000000000699c27063b5eba63
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -286,13 +221,13 @@ Vumvw5QTHe29TYxSiusovM6OD5y0I+4zaIaYDx/AtF0mMOFXb1MDyynf1CDxhtkgnrBUseHSOU2e
 MYs7IqzRap5xsgpJS+t7cp/P8fdlCNvsXss9zZa279tKwaxR0U2IzGxRGsWKGxDysn1HT6pqMDGC
 Al0wggJZAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
 BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAUXA7LnOuRz2DvkWTeMc
-0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgy96xwUKo/cfvxWdCgEf8Y1F4Twi1
-KLJt5QJCgWQhfzEwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-ODAyMDk0NDU3WjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+0TANBglghkgBZQMEAgEFAKCBxzAvBgkqhkiG9w0BCQQxIgQgXPQTK0+ipCXOMwEjmbPfX9pH7GwC
+UVAtSzbrKFbxDgwwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+ODAyMDk0NTAwWjBcBgkqhkiG9w0BCQ8xTzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
 YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcN
-AQEBBQAEggEAN8qk3rEX8L8KHyPsiqaKkeL1KfuzCU6oLIjNlYlwiBglQMZlFkKcZGmJklzcMc/5
-ozY4wDcnnf4KcaSy7bPJ5ZC4dsU/trQbSV+oLhPmCPscUhhn66oRPO/YQtGMO55DGPH79/nRhT+L
-rZxds+dloxM7ypOx+sSReuaIm6rdBTjqcQdKkwMuKpsCYEkCLzQpVm9hBS+AzqduPAqoPCIESSAX
-5eSBIJpyjoeI91OCqYr/OcOZhg9CrPzCgs8w2m6FDmPmv+Uavk3XhfzIBYDKEFZiSLjgYzvqzaiG
-IEjCs4nuv9zUN0XBlAQN3XGJEOZBwQGXW1hZ2we25Zj2KzbLtw==
---00000000000031afb0063b5eba19--
+AQEBBQAEggEACuCHPAr/DyWesPxG5G7lzBTPMRvbSE6a17lHmIJGH53lwLm3SwbuF2KfOuqNEfgV
+YSgKvJQrwQRRBIRy8WnaXDfFfGK5OzyGKsBB06mqFKW6I5ArVNvg2JkK+/G7Prg3a7COI+yPim+6
+JGFpPhNxCD9iKlQrllG6W/QUYPCxNZ6UQIGSPcYSkEGtp4TmreJqsLUtAcu4KnYhLkoqywnUEDVG
+PTRHXJP3dWHw4sL+0mlsPWQHFYEzbnhegu7cLhTZ/+0LQxLnVe7gkaKzfxR0NGf46e5l6c3cm/Qj
+qJJt2zwbvp0j4JMteTN44/+NZo6IcgA9/fUbEeKIq6+Tvp3mSA==
+--000000000000699c27063b5eba63--
