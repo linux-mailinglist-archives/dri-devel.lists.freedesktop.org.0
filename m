@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1840B19483
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 18:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B43B19486
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 18:54:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA5EE10E032;
-	Sun,  3 Aug 2025 16:53:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7F210E03A;
+	Sun,  3 Aug 2025 16:54:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QDcKqE33";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OdDhpMmI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 417D710E032
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Aug 2025 16:53:25 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B4C10E03A
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Aug 2025 16:54:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0F6AC601D6;
- Sun,  3 Aug 2025 16:53:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC5EC4CEEB;
- Sun,  3 Aug 2025 16:53:23 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 0B0A2A4056C;
+ Sun,  3 Aug 2025 16:54:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91DE5C4CEEB;
+ Sun,  3 Aug 2025 16:54:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754240003;
- bh=qezdTFcR7X537i4pxy5meG/TintI1Jbhp+Yp8Rrbvn8=;
+ s=k20201202; t=1754240060;
+ bh=MBm7ZsvVwbCPe3opDnhyrGNHaw8Vwe/UA3+xsVo/aKI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QDcKqE33CcTBcv8Z+MBG0ZBWBEx5VCPWrvJtmTBUfU2xc/2nZSFDelYBDKm38ANpk
- PeijJbflJhwyEZrNj5L2fe5hNeXZu3vi36TtscWjnaPl9wG2Bxu0EcmM0mD6vvVUxY
- v2JEpin1I4WyGS7ELosG/KjPpXkGLo1ede6/NLxU8/nnDIkQQMQJXby2YJcwVN4wF6
- 1YJOLg1sez03QPzmEPMLLuwmRARlbI2lo+47TP+YRDxw2XJQg00cqZnQSzPkzbll2Y
- 9iP1KtGVIvoKHRY/vAzgMkeKFFo1LI1pNlGCaUo0DLTgGcuuZMUYtX5arS90ym1u3W
- Qi+JbcXcjoBrw==
-Date: Sun, 3 Aug 2025 11:53:22 -0500
+ b=OdDhpMmIBqHp/G+ox1idH2muGXJGz0SMy4auV88TnspXhNfNr8irsr93brC0357u4
+ tATQ0Cr7K90a/M/BfCie3lPRdIVKN3ef62MaswJkucUS3/s2eyQ87o6RVJ+DZvSaMd
+ 6XaPVzYUWuiyyaDFaWCoohod5TbcwpyvfELGrwWsqYTc/tPKn6ajQiFyhO5B5cayWX
+ iw30lFWDtNNihKYaQF3WOokaBIVGxc7Hrw83I+k00A7/r2os9c96hu1Hn5pf08M7uB
+ gqllGe54KV1dlv7I1k4hubz/JRnvLVGlCaNmhWOikyGtO+pXQNcI6onxQzSXTXPp+6
+ Xt5ymue6tTxag==
+Date: Sun, 3 Aug 2025 11:54:19 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
 To: Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Russell King <rmk+kernel@arm.linux.org.uk>,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Kevin Tang <kevin3.tang@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Kevin Tang <kevin.tang@unisoc.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Simona Vetter <simona@ffwll.ch>,
- David Airlie <airlied@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Eric Anholt <eric@anholt.net>,
+Cc: Orson Zhai <orsonzhai@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Kevin Tang <kevin3.tang@gmail.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v3 01/16] dt-bindings: display: sprd: adapt for UMS9230
- support
-Message-ID: <175424000200.522677.10470224183997281701.robh@kernel.org>
+ Conor Dooley <conor+dt@kernel.org>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, David Airlie <airlied@gmail.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ Kevin Tang <kevin.tang@unisoc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Eric Anholt <eric@anholt.net>
+Subject: Re: [PATCH v3 02/16] dt-bindings: display: sprd: use more
+ descriptive clock names
+Message-ID: <175424005938.523766.7181495703090197785.robh@kernel.org>
 References: <20250731-ums9230-drm-v3-0-06d4f57c4b08@abscue.de>
- <20250731-ums9230-drm-v3-1-06d4f57c4b08@abscue.de>
+ <20250731-ums9230-drm-v3-2-06d4f57c4b08@abscue.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250731-ums9230-drm-v3-1-06d4f57c4b08@abscue.de>
+In-Reply-To: <20250731-ums9230-drm-v3-2-06d4f57c4b08@abscue.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,16 +71,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Thu, 31 Jul 2025 17:51:14 +0200, Otto Pflüger wrote:
-> Add new compatible strings for the DPU and DSI controller found in the
-> UMS9230 SoC.
+On Thu, 31 Jul 2025 17:51:15 +0200, Otto Pflüger wrote:
+> Introduce new clock names that actually describe what the clock input is
+> used for instead of referring to a specific clock source.
+> 
+> The new clock input names are based on information from clock drivers
+> such as drivers/clk/sprd/ums512-clk.c. The 128M clock appears to be
+> CLK_DISPC0_DPI, the clock used for the DPI output from the DPU, while
+> the 384M clock is CLK_DISPC0, the actual DPU core clock. The DSI
+> controller's 96M clock is most likely CLK_DSI_APB, the APB clock used
+> for accessing its control registers.
+> 
+> Since it seems possible to configure different frequencies for these
+> clocks, the old bindings do not even accurately describe the hardware.
+> Deprecate the old clock names.
 > 
 > Signed-off-by: Otto Pflüger <otto.pflueger@abscue.de>
 > ---
->  .../devicetree/bindings/display/sprd/sprd,sharkl3-dpu.yaml         | 7 ++++++-
->  .../devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml    | 4 +++-
->  2 files changed, 9 insertions(+), 2 deletions(-)
+>  .../bindings/display/sprd/sprd,sharkl3-dpu.yaml         | 17 +++++++++++------
+>  .../bindings/display/sprd/sprd,sharkl3-dsi-host.yaml    | 11 ++++++++---
+>  2 files changed, 19 insertions(+), 9 deletions(-)
 > 
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
