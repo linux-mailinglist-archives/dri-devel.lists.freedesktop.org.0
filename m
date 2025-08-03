@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4018DB191F3
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 05:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5495AB191F5
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 05:59:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7799510E4BD;
-	Sun,  3 Aug 2025 03:59:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB1F010E4B3;
+	Sun,  3 Aug 2025 03:59:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Me58fhsj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LgmAi9ml";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
- [209.85.166.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A66BE10E4BB;
- Sun,  3 Aug 2025 03:59:13 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id
- e9e14a558f8ab-3e3e4a5715dso8643215ab.3; 
- Sat, 02 Aug 2025 20:59:13 -0700 (PDT)
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+ [209.85.166.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DE3B10E4B0;
+ Sun,  3 Aug 2025 03:59:15 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id
+ ca18e2360f4ac-87999c368e9so203763139f.0; 
+ Sat, 02 Aug 2025 20:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754193553; x=1754798353; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1754193554; x=1754798354; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=107A+iGieriBtcIEvITMI+JSyLEcyFCk4tsRW7oIEjk=;
- b=Me58fhsjLYVrZxYuELHPRAtlbhqyYr6wzF6vQjwJz9n54RRrp03r7rwL1jao8GbDn/
- htC16/AM0iIF6AtkE88MA1W4FKhqeQ4d9cvIMQWgMZk6DHJFcFdhDGntQLQ1oRVofy1k
- YjfQ9oe+RXge3KTpGv+Oqayi0Mov3erVkRvFR9BgdgRJ+bXe7FMj6f6Zdp+py/mHZMOf
- EyT9X8BRpk/gdkzx/j3rE1L+rJfGnOjV3FOCrZdAxgzyxEgefTd1Gs6HXA421wTeGtwY
- H7piWyKLGLMifE/9w6Bk7lCHC07UZunqXjKp6GRkDMGW6WLv2ODat0mYPnunvaXsZ6cQ
- rAWg==
+ bh=5JChZIjAU7+USVRGiGiVr4WOFlmx1AN0tqDn5UCQfXA=;
+ b=LgmAi9ml+HjpwfMmpQ94DXMPWt59fv0dher4F/keXFBKtseEhyDpjtoKiHLzfcTSW9
+ gi6f0Qz0VOriBftTlrwy5IvBnZUj659moEXrwcC93BFSSv86tCZJnJHR6u9aYTrRe2t3
+ Ts/ovLO6gNfhEgBqu3uGVQzWpqpQ+WiALXyZhPGDBNKmSbI+w8PcxDr/87Q7DDlvPDIc
+ ytGkPA5YDMtu2jrbtzqK7T+jVtKYjGuGR8jlNuZ5KZboSRjn9YBwG+9Q3E6+iRUZR24t
+ e06ZtnCyXHQVY9TWyNDsHaEgnMIENTdgbMG0gt5reLD76MTNKeYjQL9JNU6P4NYqesst
+ PnQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754193553; x=1754798353;
+ d=1e100.net; s=20230601; t=1754193554; x=1754798354;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=107A+iGieriBtcIEvITMI+JSyLEcyFCk4tsRW7oIEjk=;
- b=ahaa3j/qK1DGC0WFIST9dIslWXH3Mdp6uZTsHtm0t7T7Rdd/RYR36eRf+gDGiwXGC6
- PCMlJM8M2z+CgT8F3OmtULeYy9+TZ9pedd+kK+nEL+ub6LGaGUNKy7QsTW144SvWre/B
- WwWlt5b6mPQm8n48irkwYUGecMITSZbBUQU+fZSYGzODwbMQgl0Bcfubl0WjrQbtbXB9
- aqXmoj5Hpw4jwvMGh5vLAt0svs/I53ou2RRtZ6BnN0o8j57KurpYvfDUL32yoc5w7QFm
- FjqO4OGNgujLmIEjc1b5/W4pqrhKHNaJXuOubCl9NG/95phC3xPtLDPKDr8KNcUkc661
- AW5Q==
+ bh=5JChZIjAU7+USVRGiGiVr4WOFlmx1AN0tqDn5UCQfXA=;
+ b=UCbqCffG4hYzlU7Z4d5baIzIkTuAUc3w/sw4BI5+1nh1OGLHcQ278nzuZXAijRqPWA
+ nIghgw94gLiaM1e9PpQrLBlEs2p2ZdWMG5x++NzvRmtaj1nnsaxVh6D8v0WM3yRXHksA
+ 4oRhI+pY8ZRPiTuqMORUqDEyn6mc1WzhShYCSwXUELcGWJsMBanGAOIJOwuT1WC2bezz
+ oeWJQV7c6hI/FOC7tUABR2iOQs1ffJWi7HnevslS/LT2QByHR28tk/LjUCVtX2rLRoSE
+ g4HuOh/ej2atXaMyC9eGgDoiQLf17Xw1R5AC9Z38EnyP/9fQ2Gnyy6YlJPI+Or2h21dK
+ 9eVA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVwadNGen/7V7fhmqPJ1vBNn9miCJVQ0PetdWG2pjMSm7yUYs9Wf2OEArzNQJbaOQwLtXhF3bXEbSQWrfQXMg==@lists.freedesktop.org,
- AJvYcCWi4AkkBQM0wFrNNaKrwnUjiws466xlFPuWddVP+0RnZoB43nX9lRwBpeGv27IoS0ogxA+fWdvN@lists.freedesktop.org,
- AJvYcCX4jU8y34Wtb6n2UvRnhugBljyBmqRWnYdRaiRo8lh1nEniRYvcqxvAFT9TK+0MX6b4U6033pbvRyOR@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzEEYZo7mzMPGbooNEV9vdoSb5tDYgkYgqQhsg9316M5mTEf6YJ
- iSheV2jsO5FYTf4MZsphmfwosCluSyP4qrnmgmUyWAsZVZGDJUXbehwV
-X-Gm-Gg: ASbGncuwdJiu+0um7gF0LFUZ+c1erOw+0Ijj1TMupQCyQ5fnxd51eWIGva+g0yaxH3A
- /k279bZrS4d3Yk9LNblLyV2qrAGz7nPyFOG7GSObyYQfGOS0EYLq1zVl67NdO1z6qElxFFcFwGQ
- fRXFVRlZkqVxhkLFSOi1XLImsnBQAZ8Gm+yxfLEKgNONd9M9QbbL1W+bC9NuO16WpHzAqIk4aa2
- cvWV1MuqpN+eAZ9M4DWlKeofkh22zWw+4xRJIl75I8r0IhBKwlBcyJ70EaD3fTZ4N/POJPoQ9/S
- n68RHtpH2gmcXsU70P9tXVLRB5wpjwSsWwmKhhP80ytdqQS5D2Vk1HRI8b+JzjMGngEaiwHXwyt
- 3LDjefFjCTwGTVKIJIvKmZ9rA+F710/anBXVzwdgePNhTwSwvXjlUNMHc0Z06kZYWoGoweBY5No
- y9yA==
-X-Google-Smtp-Source: AGHT+IFEpYnc1XKOtvTxu6uAAxg044+wAtgG0lAGsg41AxxCrDtrtzNsUPBwA6fhtq1RSc/6sEyECQ==
-X-Received: by 2002:a05:6e02:2388:b0:3e3:e42f:279e with SMTP id
- e9e14a558f8ab-3e4161b6f2cmr101215625ab.15.1754193552837; 
- Sat, 02 Aug 2025 20:59:12 -0700 (PDT)
+ AJvYcCVs/pZ2s4D/QFDNPu6StrzdqAFvJ+kItrny5kg5WO9SE3PSuEGEJDILPTCo8Bo9ecu5ZJ6RPLe+8PLj@lists.freedesktop.org,
+ AJvYcCW7o7ab+pXImF5h9J0ApZfenppGS5BITnwpgI+opR9vlLtenROVsEENkbuJLmPXJQfABQVz8GCgDTYoNEuGqQ==@lists.freedesktop.org,
+ AJvYcCXOFhLjPPZr10ieA6OsBy463gYRc5Zx41T4zT3AI9RmM6cZbyg8zfaor0mc7uXwRBmE//XcGyCH@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgXEidM2yvkenumjwnuj+Ei21DEKIlf66TqtGDumgCeQLizfKg
+ ximOL/hnPhbaiYVRajlkqRcp9OvtSzM+s/OguJ9IXYpqV95HjMoonfUU
+X-Gm-Gg: ASbGncsw8BrgLhWrz3hJt7TMyIWgCXeMkmbibg6P6PyRo7c0udklsTsC0xlZ5Aw2TtU
+ 6hTeN6RN1j3Y0i2FKoks+/4QEbBex1GEQk+/hxV3tLNyDMnnQLUEpm4SgRBXl52MupbdqFeJfwk
+ 1DCyHwKzWTYbopwhGqFaXNoNIBoXn0Q3UuvTzEGqwvVExdVA67CX32AqL4081AwWVh+NLfLsM4+
+ MdyONH9bu7kvV+l50sFjo2n8+O28SgqkBQM4JpNNx5CZ5edcLbsr2Jqyvl1T2lnd5+4Ac95kDwE
+ zjzWyvfU1aN4KLloG/JtCj9hGw+Cvmbcz7vtG2SzKXnl33yUknED9Moy7vzp0NBTRFUzR1V+BTy
+ hYJA9nTWJjvbuyM8d4bx1MMyAnrNR6scKXElSLcSd5n7DOetp9ACF3CJBph9wiMNh2VdA5Uixd3
+ 7ldw==
+X-Google-Smtp-Source: AGHT+IEXs1RKwGF33rL3y1Nq7WtmCCzyqjf3/JqP1fnRxFHeHfpiw5ELqGV5x4Tl+RUFiy+AkiHSIg==
+X-Received: by 2002:a05:6602:6206:b0:881:7474:1b78 with SMTP id
+ ca18e2360f4ac-88174741e8dmr448868439f.8.1754193554242; 
+ Sat, 02 Aug 2025 20:59:14 -0700 (PDT)
 Received: from frodo.raven-morpho.ts.net (c-67-165-245-5.hsd1.co.comcast.net.
  [67.165.245.5]) by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-50a55df0940sm2268319173.106.2025.08.02.20.59.11
+ 8926c6da1cb9f-50a55df0940sm2268319173.106.2025.08.02.20.59.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Aug 2025 20:59:12 -0700 (PDT)
+ Sat, 02 Aug 2025 20:59:13 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org, louis.chauvet@bootlin.com
@@ -77,9 +77,10 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  will@kernel.org, catalin.marinas@arm.com, quic_psodagud@quicinc.com,
  maz@kernel.org, arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
  linux-arm-msm@vger.kernel.org, mingo@redhat.com, jim.cromie@gmail.com
-Subject: [PATCH v4 26/58] selftests-dyndbg: add test_mod_submod
-Date: Sat,  2 Aug 2025 21:57:44 -0600
-Message-ID: <20250803035816.603405-27-jim.cromie@gmail.com>
+Subject: [PATCH v4 27/58] dyndbg: drop "protection" of class'd pr_debugs from
+ legacy queries
+Date: Sat,  2 Aug 2025 21:57:45 -0600
+Message-ID: <20250803035816.603405-28-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250803035816.603405-1-jim.cromie@gmail.com>
 References: <20250803035816.603405-1-jim.cromie@gmail.com>
@@ -100,134 +101,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This new test-fn runs 3 module/submodule modprobe scenarios, variously
-using both the generic dyndbg=<queries> modprobe arg, and the
-test-module's classmap-params to manipulate the test-mod*'s pr_debugs.
-In all cases, the current flag-settings are counted and tested vs
-expectations.
+Current classmap code protects class'd pr_debugs from unintended
+changes by "legacy" unclassed queries:
 
-The 3rd scenario recapitulates the DRM_USE_DYNAMIC_DEBUG=y failure.
+  # this doesn't disable all of DRM_UT_* categories
+  echo "-p" > /proc/dynamic_debug/control
 
-1. 2 modprobes (super then sub), with separate dyndbg=class-settings
-   check module specific flag settings
+  # name the class to change it - protective but tedious
+  echo "class DRM_UT_CORE +p" > /proc/dynamic_debug/control
 
-2. modprobe submod, supermod is auto-loaded
-   set supermod class-params
-   check expected enablements in super & submod
+  # or do it the (old school) subsystem way
+  echo 1 > /sys/module/drm/parameters/debug
 
-3. modprobe super, with param=setting (like drm.debug=0x1ef)
-   modprobe submod
-   validate submod's class'd pr_debugs get properly enabled
+This "name the class to change it" behavior gave a modicum of
+protection to classmap users (ie DRM) so their debug settings aren't
+trivially and unintentionally altered underneath them.
 
-The test uses multi-queries, with both commas and percents (to avoid
-spaces and quoting).  This is the main reason the test wasn't earlier
-in the patchset, closer to the classmap patches its validating.
+And by "symmetry", if they're not picked by "class FOO", then they're
+excluded from adjustment.  This allowed all previously conceived
+queries to work the way they always had; ie select the same set of
+pr_debugs, despite the inclusion of whole new classes of pr_debugs.
 
-With some tedium, the tests could be refactored to split out early
-tests which avoid multi-cmds, and test only the class-params.
+That had 2 downsides:
 
+1. "name the class to change it" means that every class must be
+individually modified, quickly becoming long-winded and tedious to
+adjust all the classes in a map via >control.
+
+2. It made the class keyword special in some sense; the other keywords
+skip only on explicit mismatch, otherwise the code falls thru to
+adjust the pr-debug site.
+
+So this patch reverts to the traditional view, it drops protection of
+classes from default/legacy queries.
+
+But it also refactors the skip/continue choice to allow the module
+defining the classmap to protect its classes from unintended
+alterations by legacy/class-less queries.
+
+Next:
+
+Author choice: use of DYNAMIC_DEBUG_CLASSMAP_PARAM() means they want
+the drm.debug style control point.  We should presume they want it to
+reflect whats set underneath, with only "class FOO" qualified queries
+changing the callsites beneath.
+
+CC: jbaron@akamai.com
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+--
+v3- s/slctd_/selected_/
+    pitch the PARAM control of protection.
 ---
-r3 - skip test if LACK_TMOD
+ lib/dynamic_debug.c | 31 +++++++++++++++++++++++--------
+ 1 file changed, 23 insertions(+), 8 deletions(-)
 
-older
-  drop -v used in test_mod_submod(). V=1 does it for whole test
-  ifrmmod at test end (Lukasz)
-
-test-mod-tmod
----
- .../dynamic_debug/dyndbg_selftest.sh          | 73 +++++++++++++++++++
- 1 file changed, 73 insertions(+)
-
-diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-index 513f6cb1db1d8..09937dca3056d 100755
---- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-+++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-@@ -279,10 +279,83 @@ function test_percent_splitting {
-     ifrmmod test_dynamic_debug
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 73076709d169e..548a82a178d49 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -197,6 +197,17 @@ ddebug_find_valid_class(struct _ddebug_info const *di, const char *query_class,
+ 	return NULL;
  }
  
-+function test_mod_submod {
-+    echo -e "${GREEN}# TEST_MOD_SUBMOD ${NC}"
-+    if [ $LACK_TMOD -eq 1 ]; then
-+	echo "SKIP - test requires test-dynamic-debug.ko"
-+	return
-+    fi
-+    ifrmmod test_dynamic_debug_submod
-+    ifrmmod test_dynamic_debug
-+    ddcmd =_
-+
-+    # modprobe with class enablements
-+    modprobe test_dynamic_debug \
-+	dyndbg=class,D2_CORE,+pf%class,D2_KMS,+pt%class,D2_ATOMIC,+pm
-+
-+    check_match_ct '\[test_dynamic_debug\]' 23 -r
-+    check_match_ct =pf 1
-+    check_match_ct =pt 1
-+    check_match_ct =pm 1
-+
-+    modprobe test_dynamic_debug_submod
-+    check_match_ct test_dynamic_debug_submod 23 -r
-+    check_match_ct '\[test_dynamic_debug\]' 23 -r
-+    check_match_ct test_dynamic_debug 46 -r
-+
-+    # no enablements propagate here
-+    check_match_ct =pf 1
-+    check_match_ct =pt 1
-+    check_match_ct =pm 1
-+
-+    # change classes again, this time submod too
-+    ddcmd class,D2_CORE,+mf%class,D2_KMS,+lt%class,D2_ATOMIC,+ml "# add some prefixes"
-+    check_match_ct =pmf 1
-+    check_match_ct =plt 1
-+    check_match_ct =pml 1
-+    #  submod changed too
-+    check_match_ct =mf 1
-+    check_match_ct =lt 1
-+    check_match_ct =ml 1
-+
-+    # now work the classmap-params
-+    # fresh start, to clear all above flags (test-fn limits)
-+    ifrmmod test_dynamic_debug_submod
-+    ifrmmod test_dynamic_debug
-+    modprobe test_dynamic_debug_submod # get supermod too
-+
-+    echo 1 > /sys/module/test_dynamic_debug/parameters/p_disjoint_bits
-+    echo 4 > /sys/module/test_dynamic_debug/parameters/p_level_num
-+    # 2 mods * ( V1-3 + D2_CORE )
-+    check_match_ct =p 8
-+    echo 3 > /sys/module/test_dynamic_debug/parameters/p_disjoint_bits
-+    echo 0 > /sys/module/test_dynamic_debug/parameters/p_level_num
-+    # 2 mods * ( D2_CORE, D2_DRIVER )
-+    check_match_ct =p 4
-+    echo 0x16 > /sys/module/test_dynamic_debug/parameters/p_disjoint_bits
-+    echo 0 > /sys/module/test_dynamic_debug/parameters/p_level_num
-+    # 2 mods * ( D2_DRIVER, D2_KMS, D2_ATOMIC )
-+    check_match_ct =p 6
-+
-+    # recap DRM_USE_DYNAMIC_DEBUG regression
-+    ifrmmod test_dynamic_debug_submod
-+    ifrmmod test_dynamic_debug
-+    # set super-mod params
-+    modprobe test_dynamic_debug p_disjoint_bits=0x16 p_level_num=5
-+    check_match_ct =p 7
-+    modprobe test_dynamic_debug_submod
-+    # see them picked up by submod
-+    check_match_ct =p 14
-+    ifrmmod test_dynamic_debug_submod
-+    ifrmmod test_dynamic_debug
++/*
++ * classmaps-v1 protected classes from changes by legacy commands
++ * (those selecting _DPRINTK_CLASS_DFLT by omission), v2 undoes that
++ * special treatment.  State so explicitly.  Later we could give
++ * modules the choice to protect their classes or to keep v2 behavior.
++ */
++static inline bool ddebug_client_module_protects_classes(const struct ddebug_table *dt)
++{
++	return false;
 +}
 +
- tests_list=(
-     basic_tests
-+    # these require test_dynamic_debug*.ko
-     comma_terminator_tests
-     test_percent_splitting
-+    test_mod_submod
- )
+ /*
+  * Search the tables for _ddebug's which match the given `query' and
+  * apply the `flags' and `mask' to them.  Returns number of matching
+@@ -211,7 +222,7 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
+ 	unsigned int nfound = 0;
+ 	struct flagsbuf fbuf, nbuf;
+ 	struct _ddebug_class_map *map = NULL;
+-	int valid_class;
++	int selected_class;
  
- # Run tests
+ 	/* search for matching ddebugs */
+ 	mutex_lock(&ddebug_lock);
+@@ -224,21 +235,25 @@ static int ddebug_change(const struct ddebug_query *query, struct flag_settings
+ 
+ 		if (query->class_string) {
+ 			map = ddebug_find_valid_class(&dt->info, query->class_string,
+-						      &valid_class);
++						      &selected_class);
+ 			if (!map)
+ 				continue;
+ 		} else {
+-			/* constrain query, do not touch class'd callsites */
+-			valid_class = _DPRINTK_CLASS_DFLT;
++			selected_class = _DPRINTK_CLASS_DFLT;
+ 		}
+ 
+ 		for (i = 0; i < dt->info.descs.len; i++) {
+ 			struct _ddebug *dp = &dt->info.descs.start[i];
+ 
+-			/* match site against query-class */
+-			if (dp->class_id != valid_class)
+-				continue;
+-
++			if (dp->class_id != selected_class) {
++				if (query->class_string)
++					/* site.class != given class */
++					continue;
++				/* legacy query, class'd site */
++				else if (ddebug_client_module_protects_classes(dt))
++					continue;
++				/* allow change on class'd pr_debug */
++			}
+ 			/* match against the source filename */
+ 			if (query->filename &&
+ 			    !match_wildcard(query->filename, dp->filename) &&
 -- 
 2.50.1
 
