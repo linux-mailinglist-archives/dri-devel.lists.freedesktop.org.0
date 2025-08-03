@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3196CB191BD
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 05:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C691CB191BF
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 05:58:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8781610E1BD;
-	Sun,  3 Aug 2025 03:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D438C10E05F;
+	Sun,  3 Aug 2025 03:58:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fVoMk6Jv";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TuuHDprL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
- [209.85.166.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF0410E3E5;
- Sun,  3 Aug 2025 03:58:38 +0000 (UTC)
-Received: by mail-il1-f173.google.com with SMTP id
- e9e14a558f8ab-3e3fcf5b150so25029815ab.1; 
- Sat, 02 Aug 2025 20:58:38 -0700 (PDT)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
+ [209.85.166.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAB3C10E3E5;
+ Sun,  3 Aug 2025 03:58:39 +0000 (UTC)
+Received: by mail-io1-f42.google.com with SMTP id
+ ca18e2360f4ac-88120243d9cso156596539f.2; 
+ Sat, 02 Aug 2025 20:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754193517; x=1754798317; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1754193519; x=1754798319; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cT8/zmXv/UqMduSo2scBRCmGp63Q5/YeQDv4ZhdIR2c=;
- b=fVoMk6JvmnWkzPEKxp6GViJNmOF7eqyZNZttYfSOTIqlKznLXyVCRmDpFoVyfAdKd2
- GH02QP0WMjcWQML8yvvFnl4P4bZEuZhdXtOo5C+Bp7jdFgxfhJuZ4wMCBNOW3At3zavG
- 0Zvm6RgqTm1fGcnqgOJGnr2UUy0dH4MsHIT/vLez1cWcsh0H5r6w4rl6S7G9eEWuZ/Lb
- Cwq1eOrc+BJxDOahKWasXhZ1E9NQCBuvpsNI4lt/95KMq1mKLl7OgmKt/972ED0HzzoQ
- KdzMKFo3XZN0F4xInmjaDPd70csctv9pLAi8S4ny3Tyy8qmi1H0CBuMqfBgDCaZJCGOa
- cqjQ==
+ bh=HHGyuGgnpKZsaheli1wyL5zDNg4zEDBviVdaC5XZBoc=;
+ b=TuuHDprLA/PDC43dqd3L0Lzf8nFcUT8g7enBIguzrBGALrqs3dYBHtC43zl41acmFQ
+ hKrndnVZ8/pN52Dansu/TG9RrTOZfoN/ZO6PEhGzKgUIVw10xzjlboBElxRXVyUxVmsx
+ fKDyZCPkHPKlIHpHoGr3eIcpvDpK1K9UB7OEIqZatv3NSz168emKC6a3g6+EbWuaRTNT
+ 5WaclLku14m9S8GIxZePOGcVZTbRtodpw9PEJCXNoTXVi3S1MMLa7Ui+q2UR0Lpqg37/
+ eqxzenEq3OaTlde0T19+zAG3tZHPAUb0Ut+eoqf1OQeBt78KVQT575iZ4vc/yZ2RKt24
+ j+GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754193517; x=1754798317;
+ d=1e100.net; s=20230601; t=1754193519; x=1754798319;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cT8/zmXv/UqMduSo2scBRCmGp63Q5/YeQDv4ZhdIR2c=;
- b=bMdq3tZTRU+0bd11fo919fGDrMseoWjWetZgG1WT8uibpQtLVbI61EPUnYCfpcj30x
- We3ToIk3ZpYLQ5y1OJg5dKd+7x10/qmJ+P6ACsOcDY4eZicwepdJdTs6g9tM+exMiX5P
- V6ehAGUlmTIDUyVMrTqjsgM+DV3M0ikwVGbsnKE3lxZ5VtUNDw2xI1iJi+LuCfUQW4lx
- QrIFP5RL0kOdxnmRLMaI8uCA3u6eYlpxC9ndF4p1gBxteuPaJiiXUyUUofpIB3ZpyZub
- sHH4T0SLHL1ofKSTrnVGiXBn2Ap4DW7JP255wne1GpBXPHg7643YLmPU8oafTz14jhre
- VAAg==
+ bh=HHGyuGgnpKZsaheli1wyL5zDNg4zEDBviVdaC5XZBoc=;
+ b=o4ZdvbTIOl5V7dsntGh28OrKSzSDdFmgLVRNB3/PZdH2Pi8c07mmejc2LyC4eiGNrx
+ 7Ytph87PsKHqZyDYLQ0VkEMRrJC/C0JURIZq6sU0q+Bnp178US4EmEIG5OStNwW9hyXI
+ 3KWVZ+lU0pUOI1y/Wsjc//yr0i8ni9o/PMFF0LYSqwLg8kNit671He+9g4QsNkkCrzFT
+ jrezjVLPzZe7eEssi/V3LcHTwIX7V5lA0OmrLggnDTEeBLt9QJ+dtYBfZA6jyUmjzEGX
+ TDlce5KK0O302fSEdglyfc9ewP61zTzdJ9bQOV2WBHI5AeRPy4haGG1XrTK8f+O6wB5r
+ nqaA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVivaf7ZYNMTtA4Dohdia/70nnmpYsXVq4gyokQUFlRMKVylhlswgPhOWMsljraceWg26uROnZNwts9C8xHIQ==@lists.freedesktop.org,
- AJvYcCWmnQlHah0RlrttyxUP+k9lkRxZxHwxG6Fdt/xFeOXNGcLzwWzS3/KnxoB/a/LxpIha6cylUCsOjDzq@lists.freedesktop.org,
- AJvYcCXQAJe5YELIoDXT2/qlgxgpeDaAYxscV3aV7Sllrmz6TpNc+yStKN8a3wcT6+thEsmVmuiHWW/s@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxx8zP2pbtlgLJs0Yvx7KLOTgXng2vjtk3m+rQ7l9YUnW+8wNBB
- lc0u1Xlyz+PBK3lQfiaWtBMrA4Bh9gt7JmaxCjxdTYiJBDq2n1b8cUWb
-X-Gm-Gg: ASbGncvv8NkEJIoaj4oOldM3EvRZNDQOwCii3Ql7mYIe5xpruzhHuo4Wwm9XImO4s5S
- 8X1jDTy+cDZg2ly6BLn5txBtGsPPcBf3P7M2kWW/tsBB3D04bsvXnhh8ghJeZzYoC+21qmnWHJS
- 1c5bwhvKLqDEqI501zbwTNp+z+E7adxXE29xfTrej8kO7Cd9ZoJMqiVg34DLiP6VY4xdDVlkPXK
- FReLsJbw6E+e6dUUV49IgF77KCTe9E2VPSfqN5vJNL87zUo7zgJQqlrov4TZ6S3Q8+xa6UaavRQ
- P8u/ssDyiyGve7ur4Xy9HlygXdWI2BWz58ypY77kk9ekH1s3BnETC/I+5vzm6Rf6Q7voZm2Jszm
- ULGkA6NDEW/Aj8J6PPVqw+UazVWRMxlF9Gtjt5FbGyfndvQCpbi3i+i+FNp9vxcY8dmhRTg8EU2
- 7DLA==
-X-Google-Smtp-Source: AGHT+IFfI6dv+/Dwk5MRfIQvsp2r14i0lroXxft+olSfZnx9fC58ENAn+6zSkYG0IWesgfHHIjV0TA==
-X-Received: by 2002:a05:6e02:17ca:b0:3e3:ccfe:d597 with SMTP id
- e9e14a558f8ab-3e41610a07fmr100943495ab.1.1754193517393; 
- Sat, 02 Aug 2025 20:58:37 -0700 (PDT)
+ AJvYcCVy38+qQpmfN+sHr3fba4iiU55u/FjnZ/A51K3UHCUhWfig2iujzz+PmFPSDwWiAbNESG/EeDLIdjG2@lists.freedesktop.org,
+ AJvYcCWlQIREiUQ6wW0cqaeCD3bZK5s0p2Vv/sf6tNLHPkoPGSNPkarglgeSKMArOew/Hp5I6+0QL6U9@lists.freedesktop.org,
+ AJvYcCX5bwm4KPhCHyGaaF0dBz5ClGQPXyh3Jdx8l9kivXNiQtIyHE6RsVL7mMzLNcNa8coziFdrOuhrwEDy0x3odA==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwHgWUL3UaXxDY5AT6xmThp9LIdtysZIJeZC5Tw/XstXsa9TwKZ
+ n7dqEdYmL6h1FtfsTzxjCA5yiVL/gHMgIyPsHa4fix1vh1olZQst+Wnk
+X-Gm-Gg: ASbGncsalzXrpe1Gu7jo+I5a6p/Mi2wH+cSYYvZFK4/LuSRb/R349xGP8EAe9CsJrhl
+ yVpr0xeWRUDBljArqJAB6BBejk9ng2zjAMQybnifdjFi+wi/xb+uxlqiYsbaNO3NLau1NyV08eE
+ l92P/HWf3yL7NNaMRhDgvvIQGPYRl7lzTere0R6tpQ+COqNuBBzcnWPpvWwGPE7aAYaYR+Yic5T
+ yitpWq/brfOdJ5WV+7/DJGmeRRUnWu0kkoJmpvAKNC29boJ3IF0PqjIormLiBuk02+IneYzYchq
+ Ia6hpzeN/GW4c5R3y58xf32mejjmGMr+lQ4Qw8me7dOZetueiRbd49rH/TNPlcuBwSPQY4kvVkB
+ uDYmS4JFR5yog0/6Vgf/UJia5nVopIjRgt4mtBh6brhC1moHDPOQckdwm/oUch7eedgvv8M7/QS
+ NBvw==
+X-Google-Smtp-Source: AGHT+IEGWj5ry9FocCclfChHk3bFL/qs2Ye9qIuJae5+Nv+8XnL0ndSBGTCV5nBBUROVehINujYa4Q==
+X-Received: by 2002:a05:6e02:148b:b0:3e3:a1eb:4462 with SMTP id
+ e9e14a558f8ab-3e416116bfcmr104124655ab.6.1754193518936; 
+ Sat, 02 Aug 2025 20:58:38 -0700 (PDT)
 Received: from frodo.raven-morpho.ts.net (c-67-165-245-5.hsd1.co.comcast.net.
  [67.165.245.5]) by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-50a55df0940sm2268319173.106.2025.08.02.20.58.36
+ 8926c6da1cb9f-50a55df0940sm2268319173.106.2025.08.02.20.58.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Aug 2025 20:58:36 -0700 (PDT)
+ Sat, 02 Aug 2025 20:58:38 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org, louis.chauvet@bootlin.com
@@ -77,9 +77,9 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  will@kernel.org, catalin.marinas@arm.com, quic_psodagud@quicinc.com,
  maz@kernel.org, arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
  linux-arm-msm@vger.kernel.org, mingo@redhat.com, jim.cromie@gmail.com
-Subject: [PATCH v4 03/58] test-dyndbg: fixup CLASSMAP usage error
-Date: Sat,  2 Aug 2025 21:57:21 -0600
-Message-ID: <20250803035816.603405-4-jim.cromie@gmail.com>
+Subject: [PATCH v4 04/58] dyndbg: reword "class unknown, " to "class:_UNKNOWN_"
+Date: Sat,  2 Aug 2025 21:57:22 -0600
+Message-ID: <20250803035816.603405-5-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250803035816.603405-1-jim.cromie@gmail.com>
 References: <20250803035816.603405-1-jim.cromie@gmail.com>
@@ -100,42 +100,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit 6ea3bf466ac6 ("dyndbg: test DECLARE_DYNDBG_CLASSMAP, sysfs nodes")
+When a dyndbg classname is unknown to a kernel module (as before
+previous patch), the callsite is un-addressable via >control queries.
 
-A closer look at test_dynamic_debug.ko logging output reveals a macro
-usage error:
-
-lib/test_dynamic_debug.c:105 [test_dynamic_debug]do_cats =p "LOW msg\n" class:MID
-lib/test_dynamic_debug.c:106 [test_dynamic_debug]do_cats =p "MID msg\n" class:HI
-lib/test_dynamic_debug.c:107 [test_dynamic_debug]do_cats =_ "HI msg\n" class unknown, _id:13
-
-107 says: HI is unknown, and 105,106 have a LOW/MID and MID/HI skew.
-
-DECLARE_DYNDBG_CLASSMAP() _base arg must equal the enum's 1st value,
-in this case it was _base + 1.  This leaves HI class un-selectable.
-
-NB: the macro could better validate its arguments.
+The control-file displays this condition as "class unknown,"
+currently.  That spelling is sub-optimal/too-generic, so change it to
+"class:_UNKNOWN_" to loudly announce the erroneous situation, and to
+make it uniquely greppable.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Tested-by: Louis Chauvet<louis.chauvet@bootlin.com>
 ---
- lib/test_dynamic_debug.c | 2 +-
+ lib/dynamic_debug.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-index 77c2a669b6afd..396144cf351be 100644
---- a/lib/test_dynamic_debug.c
-+++ b/lib/test_dynamic_debug.c
-@@ -75,7 +75,7 @@ DD_SYS_WRAP(disjoint_bits, p);
- DD_SYS_WRAP(disjoint_bits, T);
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 5a007952f7f24..147540c57154b 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -1154,7 +1154,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
+ 		if (class)
+ 			seq_printf(m, " class:%s", class);
+ 		else
+-			seq_printf(m, " class unknown, _id:%d", dp->class_id);
++			seq_printf(m, " class:_UNKNOWN_ _id:%d", dp->class_id);
+ 	}
+ 	seq_putc(m, '\n');
  
- /* symbolic input, independent bits */
--enum cat_disjoint_names { LOW = 11, MID, HI };
-+enum cat_disjoint_names { LOW = 10, MID, HI };
- DECLARE_DYNDBG_CLASSMAP(map_disjoint_names, DD_CLASS_TYPE_DISJOINT_NAMES, 10,
- 			"LOW", "MID", "HI");
- DD_SYS_WRAP(disjoint_names, p);
 -- 
 2.50.1
 
