@@ -2,122 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B76B193F6
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 14:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08C6B1940D
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 14:45:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C37310E1D5;
-	Sun,  3 Aug 2025 12:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F20FA10E12B;
+	Sun,  3 Aug 2025 12:45:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Sqyimyfq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="la9SpDqk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4688810E1D5
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Aug 2025 12:04:21 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5737slRE025244
- for <dri-devel@lists.freedesktop.org>; Sun, 3 Aug 2025 12:04:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=RSVG3x22jZtAurZnD9aDPd//
- ucaqPbbTaj97QJ+olX4=; b=SqyimyfqPcq0Olwee4ZaY83eWZih34EYM582fDnk
- S5xv5KXjVUauGxG+WnmHELepReU38f7ztxqQquzE0fv0kiFendAuAdxk765J6L93
- E7N9ukpqaksJB7UxisfaI/wVnYHiTegq1aryJ9Pz3zpuLdV4C02O3NIzpafTpCYJ
- md9G9FBeGVbaSMgYOcII8lGCPUJVjqibuTuecYRzqTVYZZ+FPJRh2OZ9L3Y7TPN2
- 53o3Yvu+9McVMeegtZUjuqtVhIBieireU6CmQohXbFeXCiSK05J+YnW34I0YbixQ
- RKgweDipqu/kYkdQSCO7L1BU1jejPU1m2jjNYVh3m7KRWg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 489aw728eb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Aug 2025 12:04:20 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7c790dc38b4so565939985a.0
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Aug 2025 05:04:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754222659; x=1754827459;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A60DF10E12B;
+ Sun,  3 Aug 2025 12:45:19 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-af8fd1b80e5so578724666b.2; 
+ Sun, 03 Aug 2025 05:45:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1754225118; x=1754829918; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RSVG3x22jZtAurZnD9aDPd//ucaqPbbTaj97QJ+olX4=;
- b=g4O0kphjf1IwuQn+L1ZRWctKZ5Yk2UhQArWiSddABGPpK5jJ6RlWSO+5nd4oqk1giB
- IDUySLGtEuQ7YH583vY1qRvceopoeOEZS7xFhUBa2MmgKntpUfq/4roM69r/D9AS3bUC
- DaI1vhIMxPsghobwi0/tk3bgzlgk7EQJlQJ0fKUMY0THAUjyH+D36Y/xOgatnySO9+ym
- uLVWEERI44vVcDsgyeKsMk6LT+bhsx9bMl4qGgbz9T+6S8XRsqEGfKYSRXXJwMGP2KUB
- wB9LgE72DlY2uDVyEkZ8Sq2DNyev7CvOkZsT+HN44Ot/Hln4PjL/ekhgMXPzeo6qnHdn
- Vz6g==
+ bh=pxXOv0H77qu3boXS8S20sjf3H+BGpeAjIG2LP7StaE4=;
+ b=la9SpDqk8KdVzkRyQoKpSrWy0c2Ya4eWglFIo+R05DAfTwskJ25gl+/ghypt0lHZu2
+ o01RrbpaHizlq/cDe/yovcERNmWyo529fy81dNe/5GgPqjVyhv3KIqy13wgJjuKxlvXi
+ i/M9r+UG426HV9fLdc4tWN4CokBKuTBqP1a5Re5MeLimUZPK62/4NhGQmOAo51OGRxz6
+ qdnABCNvZZNOAxRggcKBA4mqNGpmuC9ia8Is6LUzgwsYXe8m5h7G5emO3u047l9NWC3i
+ AjWGSRr6/KyWyW3Xo6hZX9HvV3KZGbd8cL0H6TuWgOSdS4JJNiGTfT+NeDOK7Azro45v
+ UzeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754225118; x=1754829918;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pxXOv0H77qu3boXS8S20sjf3H+BGpeAjIG2LP7StaE4=;
+ b=KxP/mnPw2UIXMFJ5wSieUY96VLy1vT6krKVnt9iVDUV0ZyANMhkr9ZcsXjB6hoobP7
+ YJ2nZHFyME0USbq6q1ipRlUqPIrnZU1kzHJesHabtfOvKjuB9rJTb38Sgw12myH/T8kM
+ oG5/hpxulik4MdqXKYTrWbeMcs5+MUTBKcAbPOrwCOSmF8WzT+ANZcV1dFqO+lSLgwDG
+ YWRS7eR4QxiPjipvRHMmq6QmUUoUTt1RlpbIawRj+DBBAe9pU80QD6HAhvezHn8cEjGj
+ 8ZFIyF9CqvfA+YJ0PaKEmO7bQImoupWVffBPEDDlYAcMEED8uysmo63S37g3s9HE1ka0
+ BPNg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUHDasWm7sPDRiDasW4NqSezmBk1aa3OCJUKQsDs4dKfWFv07ljWlrLJvwI6os8gZIHxWGnAKrWPxE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAZNpn5qaFEGkJoNnuLfVUj7b2bqHn3vg65+SgLjGgsnp6YQOi
- o1UpJwnEJ40Atil7oSo46ip0NKw/ZHLniHeaNDllUtZ2C4G3MP6ct/BTwiGk+TbF3MO9pMkaZok
- 5eOl4lbiUNwg4XdphX/KzwS9QvPfq7h7TND1/0N9FU9Y7c+c7HABWvMisyItSEvtMqfFrLNk=
-X-Gm-Gg: ASbGncuB/WK8N2Egctd03i6jmNbc4cCa0TCiTOuLLs8KM52N1FFxrDuoTjz87LCtqeK
- b/jy36xROIKbhvlH6F9ri0hixE8YJ37i/k/4Rxq/GlzTguFytJf7aR9gX5YuvszZrzQ4RRG/ZVD
- dNC+KVbdLaL7plC38uocNsLBgwppH9OMc6MyTzCRqYi/Al0FlgXBzOkIaDfaJVpUlYD5PJg8PEY
- +Z6d00e6OOtvFCp9kfcdN5JWXTCzb0n1/pUTEG3jWMQ0N9DZbpA36lPkr9difB/OUEuxhDcI4cK
- zTld3/nH//45Pt/lr0ms/H4vz2hrDHxVMVR4s6bDxoJnwLXy9d/q8mSlqY5NqJDC0arGWiyIyks
- ygvaW8/5MmadaOMMcHvmIjd23Bfq+nuncEWeU362jaQidcZLc/m/B
-X-Received: by 2002:a05:620a:a209:b0:7e3:487c:e2c4 with SMTP id
- af79cd13be357-7e6964062aamr831535285a.0.1754222659251; 
- Sun, 03 Aug 2025 05:04:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF4XimR/Xf3sqe9EVRtQ5JwRiWC8l4whCCJYoIcIaG2M9wIVxHg4yY+a8+2Jega6gAh/0aO6Q==
-X-Received: by 2002:a05:620a:a209:b0:7e3:487c:e2c4 with SMTP id
- af79cd13be357-7e6964062aamr831528785a.0.1754222658762; 
- Sun, 03 Aug 2025 05:04:18 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55b88cabbd8sm1302925e87.149.2025.08.03.05.04.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Aug 2025 05:04:17 -0700 (PDT)
-Date: Sun, 3 Aug 2025 15:04:16 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] drm: panel: add support for Synaptics TDDI series
- DSI panels
-Message-ID: <6lecaocg6odrzqwg3t3bnw7lahxablltewapyg3ljayxalpnsv@paqencnpfeuw>
-References: <20250720-panel-synaptics-tddi-v3-0-43a5957f4b24@disroot.org>
- <20250720-panel-synaptics-tddi-v3-2-43a5957f4b24@disroot.org>
+ AJvYcCU0KB4Ws8fXoxShx4/akK2IcJo/lC4sn5jLNANFnkrJqHXdumlfC9VlLkCpEyJVTV9Aif9YNyrledc9@lists.freedesktop.org,
+ AJvYcCUha1aaPbsYzlWKi0hjNZhlrPpLcS1FvOPKoDURtjnQ5Av23QO1WEoAyXrJwgFGGsGxNxfurX4w78M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgUhBghSlXmjYuZzhN643iYjJld5kRLnGTPXezGkCGycG9r0YC
+ 0QJzYwejNCHnek3VwjvNfFX5ONO7714iBA53ExxZueefM38AWEE1wXlvrn+eFDUvEjRtxqdr0qd
+ D1RlUO5N/cbntEdoIoDCzDjPhHPlR7zE=
+X-Gm-Gg: ASbGncuuJtcH0jwcSW4QzNriSej2So/JnFtfxqZHuCa7qltMfGxJEajrwmpZnuqbUMx
+ C1CRO5UWsgxNTwN/GwRyRo8sMg1A0omJotD9Jd3jg9EfOEAc8Reo1iEyPAiJ5rFRu5lghFYB/Bg
+ MmPJCX6IUsJVN++xrOt/811TxewvSgvJX6MYA5+gw4hAIe/tYIeqVK0htOjJbSBwE09bILQOZNY
+ fsdvMo=
+X-Google-Smtp-Source: AGHT+IHFQr61biS993WpaTiLN314ukC/GGuYrmWFHzReiBI+xBUUZ2E1nmjUhmzhYsuLobiRAM+1bP/mpJx6eUe4McA=
+X-Received: by 2002:a17:907:724a:b0:ae0:aa0d:7bfa with SMTP id
+ a640c23a62f3a-af9402301f3mr558310866b.50.1754225117967; Sun, 03 Aug 2025
+ 05:45:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250720-panel-synaptics-tddi-v3-2-43a5957f4b24@disroot.org>
-X-Proofpoint-GUID: TP4B-8SgP4WvzoAdSKT8mAew606lkzmD
-X-Proofpoint-ORIG-GUID: TP4B-8SgP4WvzoAdSKT8mAew606lkzmD
-X-Authority-Analysis: v=2.4 cv=MrZS63ae c=1 sm=1 tr=0 ts=688f5044 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=LpNgXrTXAAAA:8 a=zSSJBQ5_HwqSYLKZnHAA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22 a=LqOpv0_-CX5VL_7kjZO3:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAzMDA4MiBTYWx0ZWRfX8gP9MOd1Ce2v
- 978ADzBzvhqu4VJEx2W6udDGeIsIzZNdqAyokO2/tKx3OdYXYHtxnb5jfCLDslDProYefGxkoJ2
- sHoJwRAAaw1H7kszyakoQFut8esOcgGo/4Un/Z4H87gsyS22pP5UhWYuTD2jWqgAT4TK1m550UH
- UGnIf45gVHhKfTs4wYW7TBwOV8vziowUeieiNHt4YqrSOxAL9j4xqP64s1ZuyaSvzKCrB7euNOG
- AHA2ukW+PKW41pHai2+3iLl3iA8NAIfpE8zBg+89xiLPW5KJca129B5sQ3GoZtvk43bZFDCTWFq
- rqVbNk1HYnV+/OMtwi94oA9ZfLJyHexqagfruKx10jTajvuhT4txgehtcm0Xp0EI807JWBk9Ekz
- eWB2t9yqlKQtQFwOsldzVQlXN2960PFsE/KlTe1GsydMTJUPSkWzJJ2fxhnwXOSiF+TVFkxd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-03_03,2025-08-01_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
- impostorscore=0 bulkscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501
- malwarescore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2508030082
+References: <CACTEcX6oXBot1VBApOyKVMVXsAN9BsvQMLa8J0iKpNeB-eLttQ@mail.gmail.com>
+ <642d439ea1be8e48ee5c47fd3921a786452fb931@intel.com>
+In-Reply-To: <642d439ea1be8e48ee5c47fd3921a786452fb931@intel.com>
+From: Andy Mindful <andy.mindful@gmail.com>
+Date: Sun, 3 Aug 2025 15:45:06 +0300
+X-Gm-Features: Ac12FXwQ1gQW4qwRV_K-3Velp0hCrjgNlIh5_C2All-wPbXiQ1zvu-N5hZpFRGU
+Message-ID: <CACTEcX5Y3PNXNkhnK1dGFe+k3sigOZNpj66KKGAS9XeHqRu35w@mail.gmail.com>
+Subject: Re: [REGRESSION] tty lockup and WWAN loss after hibernate/suspend in
+ 6.8+ on ThinkPad X1 Carbon Gen 10
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: linux-kernel@vger.kernel.org, regressions@lists.linux.dev, 
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org, 
+ rafael@kernel.org, ville.syrjala@linux.intel.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,178 +89,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 20, 2025 at 05:31:55PM +0530, Kaustabh Chakraborty wrote:
-> Synaptics TDDI (Touch/Display Integration) panels utilize a single chip
-> for display and touch controllers. Implement a simple device driver for
-> such panels, along with its built-in LED backlight controller, and add
-> support for TD4101 and TD4300 panels in the driver.
-> 
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
->  drivers/gpu/drm/panel/Kconfig                |  11 +
->  drivers/gpu/drm/panel/Makefile               |   1 +
->  drivers/gpu/drm/panel/panel-synaptics-tddi.c | 289 +++++++++++++++++++++++++++
->  3 files changed, 301 insertions(+)
-> 
-> +
-> +static int tddi_get_modes(struct drm_panel *panel,
-> +			  struct drm_connector *connector)
-> +{
-> +	struct tddi_ctx *ctx = to_tddi_ctx(panel);
-> +	struct drm_display_mode *mode;
-> +
-> +	mode = drm_mode_duplicate(connector->dev, &ctx->mode);
-> +	if (!mode)
-> +		return -ENOMEM;
-> +
-> +	mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> +	drm_mode_probed_add(connector, mode);
-> +	drm_mode_set_name(mode);
-> +
-> +	connector->display_info.width_mm = mode->width_mm;
-> +	connector->display_info.height_mm = mode->height_mm;
+Here what I have from bisecting, please let me know if it makes things
+clearer or not.
 
-Please use drm_connector_helper_get_modes_fixed()
+git bisect log
+git bisect start
+# status: waiting for both good and bad commits
+# good: [6fc5460ed8dd0edf29e7c5cfb1ef9b1aa04208a1] Linux 6.7.11
+git bisect good 6fc5460ed8dd0edf29e7c5cfb1ef9b1aa04208a1
+# status: waiting for bad commit, 1 good commit known
+# bad: [6613476e225e090cc9aad49be7fa504e290dd33d] Linux 6.8-rc1
+git bisect bad 6613476e225e090cc9aad49be7fa504e290dd33d
+# skip: [0dd3ee31125508cd67f7e7172247f05b7fd1753a] Linux 6.7
+git bisect skip 0dd3ee31125508cd67f7e7172247f05b7fd1753a
+# good: [ba5afb9a84df2e6b26a1b6389b98849cd16ea757] fs: rework
+listmount() implementation
+git bisect good ba5afb9a84df2e6b26a1b6389b98849cd16ea757
+# good: [61da593f4458f25c59f65cfd9ba1bda570db5db7] Merge tag
+'media/v6.8-2' of
+git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
+git bisect good 61da593f4458f25c59f65cfd9ba1bda570db5db7
+# bad: [e38f734add21d75d76dbcf7b214f4823131c1bae] Merge tag
+'staging-6.8-rc1' of
+git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging
+git bisect bad e38f734add21d75d76dbcf7b214f4823131c1bae
+# bad: [5d197e97fb106c09d3d013be341e5961fd70ec8a] Merge tag
+'hsi-for-6.8' of
+git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-hsi
+git bisect bad 5d197e97fb106c09d3d013be341e5961fd70ec8a
+# good: [1b1934dbbdcf9aa2d507932ff488cec47999cf3f] Merge tag
+'docs-6.8-2' of git://git.lwn.net/linux
+git bisect good 1b1934dbbdcf9aa2d507932ff488cec47999cf3f
+# good: [1b1934dbbdcf9aa2d507932ff488cec47999cf3f] Merge tag
+'docs-6.8-2' of git://git.lwn.net/linux
+git bisect good 1b1934dbbdcf9aa2d507932ff488cec47999cf3f
+# bad: [8c9244af4dc8680a453e759331f0c93d5bde1898] Merge tag
+'kvm-x86-svm-6.8' of https://github.com/kvm-x86/linux into HEAD
+git bisect bad 8c9244af4dc8680a453e759331f0c93d5bde1898
+# bad: [783288010035e4c250a0b6491a4642cdb8d30548] KVM: x86: add
+missing "depends on KVM"
+git bisect bad 783288010035e4c250a0b6491a4642cdb8d30548
+# bad: [783288010035e4c250a0b6491a4642cdb8d30548] KVM: x86: add
+missing "depends on KVM"
+git bisect bad 783288010035e4c250a0b6491a4642cdb8d30548
+# bad: [861deac3b092f37b2c5e6871732f3e11486f7082] Linux 6.7-rc7
+git bisect bad 861deac3b092f37b2c5e6871732f3e11486f7082
 
-> +	connector->display_info.bus_flags = ctx->bus_flags;
-> +
-> +	return 1;
-> +}
-> +
-> +static const struct backlight_ops tddi_bl_ops = {
-> +	.update_status = tddi_update_status,
-> +};
-> +
-> +static const struct drm_panel_funcs tddi_drm_panel_funcs = {
-> +	.prepare = tddi_prepare,
-> +	.unprepare = tddi_unprepare,
-> +	.enable = tddi_enable,
-> +	.disable = tddi_disable,
-> +	.get_modes = tddi_get_modes,
-> +};
-> +
-> +static int tddi_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct tddi_ctx *ctx;
-> +	int ret;
-> +
-> +	ctx = devm_drm_panel_alloc(dev, struct tddi_ctx, panel,
-> +				   &tddi_drm_panel_funcs, DRM_MODE_CONNECTOR_DSI);
-> +	if (IS_ERR(ctx))
-> +		return PTR_ERR(ctx);
-> +
-> +	ctx->data = of_device_get_match_data(dev);
-> +
-> +	ctx->dsi = dsi;
-> +	mipi_dsi_set_drvdata(dsi, ctx);
-> +
-> +	ret = devm_regulator_bulk_get_const(dev, ARRAY_SIZE(tddi_supplies),
-> +					    tddi_supplies, &ctx->supplies);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "failed to get regulators\n");
-> +
-> +	ctx->backlight_gpio = devm_gpiod_get_optional(dev, "backlight", GPIOD_ASIS);
-> +	if (IS_ERR(ctx->backlight_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->backlight_gpio),
-> +				     "failed to get backlight-gpios\n");
-> +
-> +	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS);
-> +	if (IS_ERR(ctx->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-> +				     "failed to get reset-gpios\n");
-> +
-> +	ret = of_get_drm_panel_display_mode(dev->of_node, &ctx->mode,
-> +					    &ctx->bus_flags);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "failed to get panel timings\n");
-> +
-> +	ctx->backlight = devm_backlight_device_register(dev, dev_name(dev), dev,
-> +							ctx, &tddi_bl_ops, NULL);
-> +	if (IS_ERR(ctx->backlight))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->backlight),
-> +				     "failed to register backlight device");
-> +
-> +	ctx->backlight->props.type = BACKLIGHT_PLATFORM;
-> +	ctx->backlight->props.brightness = 255;
-> +	ctx->backlight->props.max_brightness = 255;
+# being on a 861deac3b092
+git bisect bad
+The merge base ba5afb9a84df2e6b26a1b6389b98849cd16ea757 is bad.
+This means the bug has been fixed between
+ba5afb9a84df2e6b26a1b6389b98849cd16ea757 and
+[1b1934dbbdcf9aa2d507932ff488cec47999cf3f
+61da593f4458f25c59f65cfd9ba1bda570db5db7
+6fc5460ed8dd0edf29e7c5cfb1ef9b1aa04208a1
+ba5afb9a84df2e6b26a1b6389b98849cd16ea757].
 
-Props should be set before registering the backlight
+Thanks.
 
-> +
-> +	dsi->lanes = ctx->data->lanes;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> +			  MIPI_DSI_MODE_VIDEO_NO_HFP;
-> +
-> +	ctx->panel.prepare_prev_first = true;
-> +	drm_panel_add(&ctx->panel);
-> +
-> +	ret = devm_mipi_dsi_attach(dev, dsi);
-> +	if (ret < 0) {
-> +		drm_panel_remove(&ctx->panel);
-> +		return dev_err_probe(dev, ret, "failed to attach to DSI host\n");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void tddi_remove(struct mipi_dsi_device *dsi)
-> +{
-> +	struct tddi_ctx *ctx = mipi_dsi_get_drvdata(dsi);
-> +
-> +	drm_panel_remove(&ctx->panel);
-> +}
-> +
-> +static const struct tddi_panel_data td4101_panel_data = {
-> +	.lanes = 2,
-> +	/* wait timings for panel enable */
-> +	.delay_ms_sleep_exit = 100,
-> +	.delay_ms_display_on = 0,
-> +	/* wait timings for panel disable */
-> +	.delay_ms_display_off = 20,
-> +	.delay_ms_sleep_enter = 90,
-> +};
-> +
-> +static const struct tddi_panel_data td4300_panel_data = {
-> +	.lanes = 4,
-> +	/* wait timings for panel enable */
-> +	.delay_ms_sleep_exit = 100,
-> +	.delay_ms_display_on = 0,
-> +	/* wait timings for panel disable */
-> +	.delay_ms_display_off = 0,
-> +	.delay_ms_sleep_enter = 0,
-> +};
-> +
-> +static const struct of_device_id tddi_of_device_id[] = {
-> +	{
-> +		.compatible = "syna,td4101-panel",
-> +		.data = &td4101_panel_data,
-> +	}, {
-> +		.compatible = "syna,td4300-panel",
-> +		.data = &td4300_panel_data,
-> +	}, { }
-> +};
-> +MODULE_DEVICE_TABLE(of, tddi_of_device_id);
-> +
-> +static struct mipi_dsi_driver tddi_dsi_driver = {
-> +	.probe = tddi_probe,
-> +	.remove = tddi_remove,
-> +	.driver = {
-> +		.name = "panel-synaptics-tddi",
-> +		.of_match_table = tddi_of_device_id,
-> +	},
-> +};
-> +module_mipi_dsi_driver(tddi_dsi_driver);
-> +
-> +MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
-> +MODULE_DESCRIPTION("Synaptics TDDI Display Panel Driver");
-> +MODULE_LICENSE("GPL");
-> 
-> -- 
-> 2.50.0
-> 
-
--- 
-With best wishes
-Dmitry
+=D0=B2=D1=82, 29 =D0=BB=D0=B8=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 13:20 Jani=
+ Nikula <jani.nikula@intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Tue, 29 Jul 2025, Andy Mindful <andy.mindful@gmail.com> wrote:
+> > Please let me know if any further information or testing is required.
+>
+> Likely the quickest way to find the root cause is to bisect the issue.
+>
+>
+> BR,
+> Jani.
+>
+> --
+> Jani Nikula, Intel
