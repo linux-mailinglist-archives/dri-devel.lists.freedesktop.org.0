@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEA6B19207
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 05:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00650B1920A
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 05:59:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F257810E4C8;
-	Sun,  3 Aug 2025 03:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5489A10E4BE;
+	Sun,  3 Aug 2025 03:59:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QZBUBMLK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fTDW9U40";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
- [209.85.166.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC00E10E4C2;
- Sun,  3 Aug 2025 03:59:26 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id
- e9e14a558f8ab-3e3ff43383fso24797895ab.0; 
- Sat, 02 Aug 2025 20:59:26 -0700 (PDT)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
+ [209.85.166.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4007F10E4C6;
+ Sun,  3 Aug 2025 03:59:28 +0000 (UTC)
+Received: by mail-il1-f172.google.com with SMTP id
+ e9e14a558f8ab-3e3e4c564ffso20215205ab.2; 
+ Sat, 02 Aug 2025 20:59:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754193566; x=1754798366; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1754193567; x=1754798367; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wPCuAnoyt2yaK7PHqEP4KAuT17bxG8DAm/V2Pw+3mVE=;
- b=QZBUBMLKL2s0HMbASGuPN3X/1PvXvWm7vqByNQVfB6QhvKRNQ+5NQPCbSuNizWcBtm
- zUnm8rHmYSea+ko/NGnUPgi6tSik3mtai5qrbCQ5u9ifFNoBh9bziSfiiDHXfoReoseS
- dTbngDeFZK/opNkAndecTkSHRvzmk7Z/IjbpIASq4Sl4MBjFYbTIJY5wINm556jkbqjj
- K31CP+H8Y7WuzlfLV9C1Wf1fy7FNnpNBMvE2EPftdsrXfG3F1sXkOn6ZcVjO2b1m2KPQ
- W0Daip90EudvxGvidnBFMxbeGqs8QsSVFeCLBleUGVbP59r3uj0OOQjbA+VyGVaF1H3h
- 5bQw==
+ bh=hi5FRwOWbvP0Q9Jpmq/JvqKOu63Zljwrve6PAtUtdG8=;
+ b=fTDW9U403YkzHwqXQgVY23C8XDPm7G5uQEosfCZ0whY/2STsz70kH8wvpm+6nnu7Xx
+ Zzy+77D1llOXDWlpTpptnSbNrQEcQEmhx2B5p992KbYmiIgOSlQV3ceRZL9mM8u0Ao2T
+ qF4wajbB0DKadp5WqR+Khgzy0+Oh9hiZY98UM1q+aKQzJyHdcwm1DFN5rakGHGqAjapY
+ QxnNNh2+3Gpa6SLhgCqj3ZBKXUq+lvKnYR0D9QJQ09bwhViQh3eY7b3TBqnUChHhdaD7
+ TbbNyZXuXyLle4UxmNVKHMieQzU6gJzh5p4BJniK74X4j+JDQeQPNAWxvDwFZ9mfz7dK
+ EfZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754193566; x=1754798366;
+ d=1e100.net; s=20230601; t=1754193567; x=1754798367;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wPCuAnoyt2yaK7PHqEP4KAuT17bxG8DAm/V2Pw+3mVE=;
- b=QE8sGonMzRso+4xAIKu8efbAeemj6CeXVwnREbyvBr32+5EqT+1Q8NjvtWue2PUMIE
- VJbZYYoweI15KEh1LGg4ZaY3TE0hTHN+PoNcE73Ptpww+TDRlpF5FKlAVD6MoaBMVohB
- TlZC4qOZDPe8oPHawDPseF5RN62VX3lVhXrsh5FAuNAqfdr5iFFqccOiiXbo7c2ZJRDg
- YWjRmHlu1as5Y7BHyQx1rhW9/EVeQddNOHa+6UxRXZoMZEztJb8X0KftSBVbjmHu3+Ud
- tq5cT0Hsy/ja20d0Bx1RDMAOb6pnmDzAGHs1KXOrjkTSY35O3t4NTxjZvZMnKFoANCFU
- f9MA==
+ bh=hi5FRwOWbvP0Q9Jpmq/JvqKOu63Zljwrve6PAtUtdG8=;
+ b=raOTHSh5lcSkieebRGsqhqJshv29Me2Azz2FHT7Kuzzc1UjoUMrC0hsX15CVSfstj4
+ /o1znmNlOI3qMtQZQ1u2eao5PsLItq+ECZ7QmZq3gG3sK4yJ9tMbm7bWWLkj1Md6oauB
+ BtxH1Z2VIm9HmZRyQ6jNIJQ1RwljBtqJeptDVlUc2GhhLEVKCpP3t5Thb25MYmYJ2X+e
+ 4HjEhyRFHfWd3NJda6a3j3/hEfZ15sMnUs2TN7EbsUrHJkNEHattev0rE+G6mh2d9IXH
+ KAJ+1j9ZicjyUlVvn/W+cOaWY8LpeXXZSIe85XPS0wzQhr/4mjyL1NFtJ1W1mmBd4y+9
+ 4mCA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUFoTvULgBQjiJq2cO+164rfkGGkdwDzqHY1QMFost0RS6PIhvLnP3q7KcHguqzWMVT4YpmhaQs@lists.freedesktop.org,
- AJvYcCV8gggIz7OXBLjWLW+qrMmB2cDv3L8w2FbJAITzwfXsMZnzUrRmCWQeR9iOg64mi6DY7z8zfFDF8Z6A1uCUUQ==@lists.freedesktop.org,
- AJvYcCVRL1YinnR5F6SRqWaa6+SwGvXhzuC1cj1S/JavEhqJ8z4zH/h71Ukqejte8zM2AB6XQ5fkpFhtzVtG@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJOKlQenltm/gmxLcDj2JguPu8qvnwk7SxnmA9dKA5WobPLDUw
- xS+Ai6egqTvI7/rcm76UhjIcJmzA1r6cs8C3qB+kAjRYU84HL95ZkX3/
-X-Gm-Gg: ASbGncuG7FOdbTh6PYKNNrRa5w4yzaEjaBUvchRg9kpNerPSEsAXRf8Bl6+Rl/mLSsP
- pIwVneMccKWmPXd8LqbvNQnC5+U+u7nn5H/buZrqtuQ9pbCLy/Fje0g5KMBd0BSuLrphk8DBn0V
- A2z1bZ0AL5AUc8e73IEK5aR0dnCeslyDhsDHg1M42BO3HsF1+LGa2/QP+GBp7Na7V0cf5ck/4Ug
- bwRHR5HBsLmf2ip54P4EVLF7UoCVRyVawhTTAH5d63w61U+9gSHNdeLwZDDvpR5eaB7uzQngKRu
- M7onKXhEx3bUJzb6/ynPku0ns0P7Tx+FsOHzGa/R+JntXK6/up4buzSRsjlRbt6/a/WwuilfWxp
- 3/7+dUDCsgskzu18RiOsI7el8mugt4PpBgxCF/Mur96zmoT2KNL31FiMQxNoZGoWnwTU925xFmH
- 2YVAJe7cpy6IXV
-X-Google-Smtp-Source: AGHT+IGoLnVRK0ZsQUveSL4ZB3Aom5SaUMztjFiNEQTdBWyQuqxM4dmylhRHkY6dHcuDvZjPdgtOKg==
-X-Received: by 2002:a05:6e02:308a:b0:3e3:fc9e:b2d4 with SMTP id
- e9e14a558f8ab-3e416176df0mr85880415ab.10.1754193566087; 
- Sat, 02 Aug 2025 20:59:26 -0700 (PDT)
+ AJvYcCWRygPZXHAXmNDMJSzuUVmgJjL47ghT3kR0QERhjgb60MOPTCJ6oavNmoJpcMbvb9a5s9Eu/mkN/MvC5qmLnQ==@lists.freedesktop.org,
+ AJvYcCWa+Qhm6mTXLivPsiczwpJfv2JjTTK3HLF7SAl9EpLmpVUwEFdSfOS4Lq4quAnbacFaoR3SCq1UILpE@lists.freedesktop.org,
+ AJvYcCWqCbIL3Jf1oo9j3/hi4fd8Br5OGHjFgbR90Ac/BBObN1MhaMnkLZM5Uq5DgJqIOAnnBiyjwXJb@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxBoeKl9DG14JIPwA8GqCLmLR6XpN49aSojKlWb7vJWd++4c3fj
+ eKe1SGrmdil4iaYq0/35T2qNin3Ml5QVu/O8S/yTMSMmupHRF1iXtdvi
+X-Gm-Gg: ASbGnctsIZ/nQZ9tWh/+hCm6i80WcvFJTK7SH2UK9ZoLxwBJ3h+015EXEhGZYxeXavi
+ lgUx0iITIiGW3QhXrWiAFw75GXwgiZH+vVDPIdCJuqqc2DOqc+4pr9kE5X5oKX+7kPX7pFM5O5R
+ T7CLoP7c6lBRZHwOAQ/GhMRJVUig2jxmxrd4MowDsRo0QX9hxUwj0F+C+OnsXBthsB2KjjYHMp4
+ G7o1Wpap+HzMD/g9XAUCt0nHrswCk43dlUb07gPk8dluSyUbpgeTe1zy/64eJkp3c4VzjC+0+ae
+ ZFVTTJv8RUpJca37t2yvZFSqFVxCKojZlyXieH8CmO6YUslG5QCURmFjWJuJnp1Atm72AP7NTG4
+ Cs2noRNqSagwwmFbilfvQs/HG8Jf3L4UXhKl9TuX2mBNl64HKcybHlnvby5NNQaYK7djtQyTodu
+ Ef8g==
+X-Google-Smtp-Source: AGHT+IEu1fZhS4PGdMY445gHt6SyAM90kHYvE6rk3Vh6MeLyr4clbAteyYxBE5x1gS+10mLcC/WLSw==
+X-Received: by 2002:a05:6e02:967:b0:3e3:faaf:df05 with SMTP id
+ e9e14a558f8ab-3e4161ae4a2mr76953355ab.16.1754193567464; 
+ Sat, 02 Aug 2025 20:59:27 -0700 (PDT)
 Received: from frodo.raven-morpho.ts.net (c-67-165-245-5.hsd1.co.comcast.net.
  [67.165.245.5]) by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-50a55df0940sm2268319173.106.2025.08.02.20.59.24
+ 8926c6da1cb9f-50a55df0940sm2268319173.106.2025.08.02.20.59.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Aug 2025 20:59:25 -0700 (PDT)
+ Sat, 02 Aug 2025 20:59:26 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org, louis.chauvet@bootlin.com
@@ -77,10 +77,9 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  will@kernel.org, catalin.marinas@arm.com, quic_psodagud@quicinc.com,
  maz@kernel.org, arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
  linux-arm-msm@vger.kernel.org, mingo@redhat.com, jim.cromie@gmail.com
-Subject: [PATCH v4 35/58] drm-dyndbg: adapt DRM to invoke
- DYNAMIC_DEBUG_CLASSMAP_PARAM
-Date: Sat,  2 Aug 2025 21:57:53 -0600
-Message-ID: <20250803035816.603405-36-jim.cromie@gmail.com>
+Subject: [PATCH v4 36/58] drm-print: fix config-dependent unused variable
+Date: Sat,  2 Aug 2025 21:57:54 -0600
+Message-ID: <20250803035816.603405-37-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250803035816.603405-1-jim.cromie@gmail.com>
 References: <20250803035816.603405-1-jim.cromie@gmail.com>
@@ -101,56 +100,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Invoke DYNAMIC_DEBUG_CLASSMAP_PARAM to hook drm.debug (__drm_debug) to the
-DRM_UT_* classmap, replacing the ad-hoc wiring previously doing it.
+With CONFIG_DRM_USE_DYNAMIC_DEBUG=y, __drm_printfn_dbg() gets an
+unused variable warning/error on 'category', even though the usage
+follows immediately, in drm_debug_enabled(category).
 
-Add DRM_CLASSMAP_* adapter macros to selectively use
-DYNAMIC_DEBUG_CLASSMAP_* when DRM_USE_DYNAMIC_DEBUG=y is configured.
+For static-key optimized dyndbg, the macro doesn't actually check the
+category var, since the static-key patches in the proper state.  The
+compiler evidently sees this lack of reference and complains.
+
+So this drops the local var and refs the field directly in the
+macro-call, which avoids the warning/error.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/drm_print.c | 8 ++------
- include/drm/drm_print.h     | 4 ++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_print.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index a3b70d104afaa..46d53fe302047 100644
+index 46d53fe302047..41ad11247b487 100644
 --- a/drivers/gpu/drm/drm_print.c
 +++ b/drivers/gpu/drm/drm_print.c
-@@ -69,12 +69,8 @@ DRM_CLASSMAP_DEFINE(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS,
- 		    "DRM_UT_DP",
- 		    "DRM_UT_DRMRES");
+@@ -212,9 +212,8 @@ void __drm_printfn_dbg(struct drm_printer *p, struct va_format *vaf)
+ {
+ 	const struct drm_device *drm = p->arg;
+ 	const struct device *dev = drm ? drm->dev : NULL;
+-	enum drm_debug_category category = p->category;
  
--static struct ddebug_class_param drm_debug_bitmap = {
--	.bits = &__drm_debug,
--	.flags = "p",
--	.map = &drm_debug_classes,
--};
--module_param_cb(debug, &param_ops_dyndbg_classes, &drm_debug_bitmap, 0600);
-+DRM_CLASSMAP_PARAM_REF(debug, __drm_debug, drm_debug_classes, p);
-+
- #endif
+-	if (!__drm_debug_enabled(category))
++	if (!__drm_debug_enabled(p->category))
+ 		return;
  
- void __drm_puts_coredump(struct drm_printer *p, const char *str)
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 03b0a2bbf91b3..769036b2942b8 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -144,9 +144,13 @@ enum drm_debug_category {
- #ifdef CONFIG_DRM_USE_DYNAMIC_DEBUG
- #define DRM_CLASSMAP_DEFINE(...)    DYNAMIC_DEBUG_CLASSMAP_DEFINE(__VA_ARGS__)
- #define DRM_CLASSMAP_USE(name)      DYNAMIC_DEBUG_CLASSMAP_USE(name)
-+#define DRM_CLASSMAP_PARAM_REF(...) DYNAMIC_DEBUG_CLASSMAP_PARAM_REF(__VA_ARGS__)
-+#define DRM_CLASSMAP_PARAM(...)     DYNAMIC_DEBUG_CLASSMAP_PARAM(__VA_ARGS__)
- #else
- #define DRM_CLASSMAP_DEFINE(...)
- #define DRM_CLASSMAP_USE(name)
-+#define DRM_CLASSMAP_PARAM_REF(...)
-+#define DRM_CLASSMAP_PARAM(...)
- #endif
- 
- static inline bool drm_debug_enabled_raw(enum drm_debug_category category)
+ 	__drm_dev_vprintk(dev, KERN_DEBUG, p->origin, p->prefix, vaf);
 -- 
 2.50.1
 
