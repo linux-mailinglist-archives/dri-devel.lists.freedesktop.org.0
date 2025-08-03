@@ -2,76 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08C6B1940D
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 14:45:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56FFB19462
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 17:33:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F20FA10E12B;
-	Sun,  3 Aug 2025 12:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3C8D10E1EC;
+	Sun,  3 Aug 2025 15:33:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="la9SpDqk";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="KkQsQLHU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A60DF10E12B;
- Sun,  3 Aug 2025 12:45:19 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-af8fd1b80e5so578724666b.2; 
- Sun, 03 Aug 2025 05:45:19 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com
+ [209.85.128.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE3810E00E
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Aug 2025 15:33:55 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-71b76c2f903so19539627b3.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Aug 2025 08:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754225118; x=1754829918; darn=lists.freedesktop.org;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1754235234;
+ x=1754840034; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pxXOv0H77qu3boXS8S20sjf3H+BGpeAjIG2LP7StaE4=;
- b=la9SpDqk8KdVzkRyQoKpSrWy0c2Ya4eWglFIo+R05DAfTwskJ25gl+/ghypt0lHZu2
- o01RrbpaHizlq/cDe/yovcERNmWyo529fy81dNe/5GgPqjVyhv3KIqy13wgJjuKxlvXi
- i/M9r+UG426HV9fLdc4tWN4CokBKuTBqP1a5Re5MeLimUZPK62/4NhGQmOAo51OGRxz6
- qdnABCNvZZNOAxRggcKBA4mqNGpmuC9ia8Is6LUzgwsYXe8m5h7G5emO3u047l9NWC3i
- AjWGSRr6/KyWyW3Xo6hZX9HvV3KZGbd8cL0H6TuWgOSdS4JJNiGTfT+NeDOK7Azro45v
- UzeQ==
+ bh=QSwmiYk+M5RmmFXBcZY5LfJlQfD47hJoEsHcQyHy/YU=;
+ b=KkQsQLHUPIQXWvsdgu6VJFcdyhTMXptyoFqeeutx2SFZJPr77VYxWlzvh4Fs3kh4vR
+ bn0F5wiVr604SRLe3kXxX0MDjWnElcDd8C7VPjW7GX/Cg+l1LQHSeeH3XFA7XK2NbLXH
+ l7kCSTW75neJCpSTRjLOvkKpfC2RG/m0XExdou1R0tTGJRxUIj+tTBM2BnLrLPnX7gxp
+ OnzM/pu8dHBB27lLzHKUFJUPqOT1pRTElCpJWK9Ai7gq3pVz2Lnk3hJzdeZKGReJ594h
+ TG4EL9qaDhNpCG9tq+wKJ7okWog4cj7xTWkhIaaFvxfBk3ZUbKrd1rggAitimtdgRdDW
+ hNMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754225118; x=1754829918;
+ d=1e100.net; s=20230601; t=1754235234; x=1754840034;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=pxXOv0H77qu3boXS8S20sjf3H+BGpeAjIG2LP7StaE4=;
- b=KxP/mnPw2UIXMFJ5wSieUY96VLy1vT6krKVnt9iVDUV0ZyANMhkr9ZcsXjB6hoobP7
- YJ2nZHFyME0USbq6q1ipRlUqPIrnZU1kzHJesHabtfOvKjuB9rJTb38Sgw12myH/T8kM
- oG5/hpxulik4MdqXKYTrWbeMcs5+MUTBKcAbPOrwCOSmF8WzT+ANZcV1dFqO+lSLgwDG
- YWRS7eR4QxiPjipvRHMmq6QmUUoUTt1RlpbIawRj+DBBAe9pU80QD6HAhvezHn8cEjGj
- 8ZFIyF9CqvfA+YJ0PaKEmO7bQImoupWVffBPEDDlYAcMEED8uysmo63S37g3s9HE1ka0
- BPNg==
+ bh=QSwmiYk+M5RmmFXBcZY5LfJlQfD47hJoEsHcQyHy/YU=;
+ b=G6/SpJMYE0HER8n729eKjwfQf460dcTJI0XGlq3RroEbnx6ZoX/7bG5o7ggKaMiASX
+ 0YcFiIcujYo/J+dsFiVu3fSmEM3lLkB64/9ppjzdobQqxOAgoILx8eW53ECkTDl5Mnfr
+ Z6ApyoHyempxq8/682D7sOg75aVLFColJuIp1YhrUJtHYf83OsFLW7FdV7momUoq7epg
+ cAbe1UoN8o3fY8yboDdI8zozysTvQtQ++WxlZe7KDCrXgJGhUpn6v4iWARoFxCGa9JEc
+ xlDTNmWdxrCJU2wWsEadQQiyeDZzwfYd5jOSdifvYnUmRAbp/9+tWo64nsqvBLUUR8ul
+ 7NAg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU0KB4Ws8fXoxShx4/akK2IcJo/lC4sn5jLNANFnkrJqHXdumlfC9VlLkCpEyJVTV9Aif9YNyrledc9@lists.freedesktop.org,
- AJvYcCUha1aaPbsYzlWKi0hjNZhlrPpLcS1FvOPKoDURtjnQ5Av23QO1WEoAyXrJwgFGGsGxNxfurX4w78M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwgUhBghSlXmjYuZzhN643iYjJld5kRLnGTPXezGkCGycG9r0YC
- 0QJzYwejNCHnek3VwjvNfFX5ONO7714iBA53ExxZueefM38AWEE1wXlvrn+eFDUvEjRtxqdr0qd
- D1RlUO5N/cbntEdoIoDCzDjPhHPlR7zE=
-X-Gm-Gg: ASbGncuuJtcH0jwcSW4QzNriSej2So/JnFtfxqZHuCa7qltMfGxJEajrwmpZnuqbUMx
- C1CRO5UWsgxNTwN/GwRyRo8sMg1A0omJotD9Jd3jg9EfOEAc8Reo1iEyPAiJ5rFRu5lghFYB/Bg
- MmPJCX6IUsJVN++xrOt/811TxewvSgvJX6MYA5+gw4hAIe/tYIeqVK0htOjJbSBwE09bILQOZNY
- fsdvMo=
-X-Google-Smtp-Source: AGHT+IHFQr61biS993WpaTiLN314ukC/GGuYrmWFHzReiBI+xBUUZ2E1nmjUhmzhYsuLobiRAM+1bP/mpJx6eUe4McA=
-X-Received: by 2002:a17:907:724a:b0:ae0:aa0d:7bfa with SMTP id
- a640c23a62f3a-af9402301f3mr558310866b.50.1754225117967; Sun, 03 Aug 2025
- 05:45:17 -0700 (PDT)
+ AJvYcCVr4HEWwn60QfurAGV6scJBBFNLB+xalWiB14IszarlCCadRZ3M/62ePNiwRxYZDjdTxM3U2L9/buU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YywsNOi0rt+be8nLoATKn+DxLwQNTcMGgiri2RxM2KA5EsaNBgu
+ GDteRx80AarvbILITqtom73/KTxoCdrE13XbxK6c0yF7p/qHj4sKr3on4Ca+osd1JEgHb2Qer8T
+ jBazoLdQ=
+X-Gm-Gg: ASbGnctODHRIbOTe2aLng8IyGf6RM6V/Crc99D6Nf3emQbthKRMN1pR+GVtYQTJsyLp
+ EjV70eckHH34ClFrLh05lcOK6CIqC6OgAN1mSFgKCNs97405twX0wpi7ynb3DSVS8I9rShN7Ckq
+ 3A/fP9UGpeKPxIhAXHoLydouH8fSlP1MUN0+HCagD1BtWISC6C+rHTlncuuVFxEEDohF+GYzf2a
+ 7FRpIMtPtPogCh+hq2gEKfPAkxppjRLDzJTQIP8gvgc1bTNqmGXI11hH3SBG2lkyL30CjwVWwTI
+ /FN0f3yS7fh6PF5MCpGCt9Ix5+VU9S115PtQPrCit5jc7HVpprmojM7SuOzCouLiB635rilSJBN
+ qqblsUQ+2XgUXAFC8tO6Js41ipxSeNmmaAJhbL//8b9Ho/gwM63DLAu5w6KlwvbcpEQ==
+X-Google-Smtp-Source: AGHT+IFxw3GracCmpwH2PV4a46+EwV7d1uDhG5ulGcgNe2+ET4hzmGP7WV1sB8Z2EpS9BImSG+Wymg==
+X-Received: by 2002:a05:690c:6386:b0:6fb:1c5a:80ea with SMTP id
+ 00721157ae682-71b7ef85180mr88393017b3.32.1754235234474; 
+ Sun, 03 Aug 2025 08:33:54 -0700 (PDT)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com.
+ [209.85.128.177]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-71b69fd3dd2sm17186507b3.9.2025.08.03.08.33.53
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 03 Aug 2025 08:33:53 -0700 (PDT)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-7183d264e55so38533817b3.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Aug 2025 08:33:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUTk6LFe6ehPVCqgK6GyYyfxyXFWjpgWZyfL9ZApWzZhdyOQIvkfvJyzbSSZNmtPz3NryXOfFxeMAY=@lists.freedesktop.org
+X-Received: by 2002:a05:690c:7108:b0:71b:8cc6:6d41 with SMTP id
+ 00721157ae682-71b8cc66fecmr55025047b3.17.1754235232707; Sun, 03 Aug 2025
+ 08:33:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <CACTEcX6oXBot1VBApOyKVMVXsAN9BsvQMLa8J0iKpNeB-eLttQ@mail.gmail.com>
- <642d439ea1be8e48ee5c47fd3921a786452fb931@intel.com>
-In-Reply-To: <642d439ea1be8e48ee5c47fd3921a786452fb931@intel.com>
-From: Andy Mindful <andy.mindful@gmail.com>
-Date: Sun, 3 Aug 2025 15:45:06 +0300
-X-Gm-Features: Ac12FXwQ1gQW4qwRV_K-3Velp0hCrjgNlIh5_C2All-wPbXiQ1zvu-N5hZpFRGU
-Message-ID: <CACTEcX5Y3PNXNkhnK1dGFe+k3sigOZNpj66KKGAS9XeHqRu35w@mail.gmail.com>
-Subject: Re: [REGRESSION] tty lockup and WWAN loss after hibernate/suspend in
- 6.8+ on ThinkPad X1 Carbon Gen 10
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: linux-kernel@vger.kernel.org, regressions@lists.linux.dev, 
- linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org, 
- rafael@kernel.org, ville.syrjala@linux.intel.com, tglx@linutronix.de
+References: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
+In-Reply-To: <20250802-fix-rockchip-npu-build-v1-0-fb0f0dacb3fe@brighamcampbell.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Sun, 3 Aug 2025 17:33:41 +0200
+X-Gmail-Original-Message-ID: <CAAObsKCUs0yn=S1PzGDKu8nNnTOkxqMMYzep-QhG00X1CY3DjA@mail.gmail.com>
+X-Gm-Features: Ac12FXxPVQwjDAIVgxnyFNwyCiKtQqDmuUpUnwaIigvKfVmO2D9Sk5m8K7Mojy8
+Message-ID: <CAAObsKCUs0yn=S1PzGDKu8nNnTOkxqMMYzep-QhG00X1CY3DjA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] accel/rocket: Fix build errors and sparse warning
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+ skhan@linuxfoundation.org, kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,75 +103,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Here what I have from bisecting, please let me know if it makes things
-clearer or not.
+Hi Brigham,
 
-git bisect log
-git bisect start
-# status: waiting for both good and bad commits
-# good: [6fc5460ed8dd0edf29e7c5cfb1ef9b1aa04208a1] Linux 6.7.11
-git bisect good 6fc5460ed8dd0edf29e7c5cfb1ef9b1aa04208a1
-# status: waiting for bad commit, 1 good commit known
-# bad: [6613476e225e090cc9aad49be7fa504e290dd33d] Linux 6.8-rc1
-git bisect bad 6613476e225e090cc9aad49be7fa504e290dd33d
-# skip: [0dd3ee31125508cd67f7e7172247f05b7fd1753a] Linux 6.7
-git bisect skip 0dd3ee31125508cd67f7e7172247f05b7fd1753a
-# good: [ba5afb9a84df2e6b26a1b6389b98849cd16ea757] fs: rework
-listmount() implementation
-git bisect good ba5afb9a84df2e6b26a1b6389b98849cd16ea757
-# good: [61da593f4458f25c59f65cfd9ba1bda570db5db7] Merge tag
-'media/v6.8-2' of
-git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media
-git bisect good 61da593f4458f25c59f65cfd9ba1bda570db5db7
-# bad: [e38f734add21d75d76dbcf7b214f4823131c1bae] Merge tag
-'staging-6.8-rc1' of
-git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging
-git bisect bad e38f734add21d75d76dbcf7b214f4823131c1bae
-# bad: [5d197e97fb106c09d3d013be341e5961fd70ec8a] Merge tag
-'hsi-for-6.8' of
-git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-hsi
-git bisect bad 5d197e97fb106c09d3d013be341e5961fd70ec8a
-# good: [1b1934dbbdcf9aa2d507932ff488cec47999cf3f] Merge tag
-'docs-6.8-2' of git://git.lwn.net/linux
-git bisect good 1b1934dbbdcf9aa2d507932ff488cec47999cf3f
-# good: [1b1934dbbdcf9aa2d507932ff488cec47999cf3f] Merge tag
-'docs-6.8-2' of git://git.lwn.net/linux
-git bisect good 1b1934dbbdcf9aa2d507932ff488cec47999cf3f
-# bad: [8c9244af4dc8680a453e759331f0c93d5bde1898] Merge tag
-'kvm-x86-svm-6.8' of https://github.com/kvm-x86/linux into HEAD
-git bisect bad 8c9244af4dc8680a453e759331f0c93d5bde1898
-# bad: [783288010035e4c250a0b6491a4642cdb8d30548] KVM: x86: add
-missing "depends on KVM"
-git bisect bad 783288010035e4c250a0b6491a4642cdb8d30548
-# bad: [783288010035e4c250a0b6491a4642cdb8d30548] KVM: x86: add
-missing "depends on KVM"
-git bisect bad 783288010035e4c250a0b6491a4642cdb8d30548
-# bad: [861deac3b092f37b2c5e6871732f3e11486f7082] Linux 6.7-rc7
-git bisect bad 861deac3b092f37b2c5e6871732f3e11486f7082
+thanks for the fixes. Will pick them up. Hope you don't mind if I
+change the subject of the first patch to something a bit more
+specific, such as:
 
-# being on a 861deac3b092
-git bisect bad
-The merge base ba5afb9a84df2e6b26a1b6389b98849cd16ea757 is bad.
-This means the bug has been fixed between
-ba5afb9a84df2e6b26a1b6389b98849cd16ea757 and
-[1b1934dbbdcf9aa2d507932ff488cec47999cf3f
-61da593f4458f25c59f65cfd9ba1bda570db5db7
-6fc5460ed8dd0edf29e7c5cfb1ef9b1aa04208a1
-ba5afb9a84df2e6b26a1b6389b98849cd16ea757].
+accel/rocket: Adapt to changes in drm/sched API
 
-Thanks.
+Regards,
 
-=D0=B2=D1=82, 29 =D0=BB=D0=B8=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 13:20 Jani=
- Nikula <jani.nikula@intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
+Tomeu
+
+On Sat, Aug 2, 2025 at 9:25=E2=80=AFPM Brigham Campbell <me@brighamcampbell=
+.com> wrote:
 >
-> On Tue, 29 Jul 2025, Andy Mindful <andy.mindful@gmail.com> wrote:
-> > Please let me know if any further information or testing is required.
+> Fix two build errors in rockchip NPU support code which were caused by
+> the integration of recent changes in the drm subsystem.
 >
-> Likely the quickest way to find the root cause is to bisect the issue.
+> Fix a sparse warning regarding an undeclared const, rocket_pm_ops.
 >
+> I tested these changes by enabling DRM_ACCEL_ROCKET and recompiling with
+> `make C=3D2`.
 >
-> BR,
-> Jani.
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+> Brigham Campbell (2):
+>       accel/rocket: Fix Rockchip NPU compilation
+>       accel/rocket: Fix undeclared const rocket_pm_ops
 >
+>  drivers/accel/rocket/rocket_drv.h | 2 ++
+>  drivers/accel/rocket/rocket_job.c | 4 ++--
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 01ac6e4e53b6351df42c97d217b0d2dbeef5c917
+> change-id: 20250802-fix-rockchip-npu-build-ca759ba8da06
+>
+> Best regards,
 > --
-> Jani Nikula, Intel
+> Brigham Campbell <me@brighamcampbell.com>
+>
