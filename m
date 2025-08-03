@@ -2,77 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C10DB19C61
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 09:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FE1B19372
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Aug 2025 12:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3633210E035;
-	Mon,  4 Aug 2025 07:22:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39E3610E4E6;
+	Sun,  3 Aug 2025 10:24:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CGJZE+/U";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="qEY7Dve0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9170B10E0CB
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Aug 2025 09:26:41 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id
- 41be03b00d2f7-b34c068faf8so3565432a12.2
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Aug 2025 02:26:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754213201; x=1754818001; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=xf+CB48o0krzq5HXF8wTrlbGY9U2aGX2mTek/fztxU4=;
- b=CGJZE+/UCjUaWvjwmkxdrfRysoJQ/652EdMRTHWS1o71cstFLTOvt4tAyHYuRedKdZ
- hz8I8bVh8J8QaMRH36WMW/FqkhpSjhHQQJDtIigVyZCMgd/vDBpdmLIX/6WeG5ANAGix
- C+Edd5LtIz35Xf+GQz3ds4Xv0D9v+cgPm/eNBwdos6/jU33za/+qhFCXZZxOnXnj8j2G
- 66j8AJByNehQ+PS1HEg5YH4EE/CzkFB6sAY8XTNB4njtoZpKwSXVLvANA8/Zi69WGsu9
- hJL7PwUnf4FDd3ol9vgxVgIf1QyPklVxJTqcTj8Zyv/u7wLRKDjCCHX2yYhB+CbKO5qN
- I7dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754213201; x=1754818001;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xf+CB48o0krzq5HXF8wTrlbGY9U2aGX2mTek/fztxU4=;
- b=bSSUmnsUdH5UY8Mw30k9Pykb2IQUQ/csor/hgsjljaHWRITl8wW/fTdMdA7DM2IOYG
- /a//ISfohXzusX9LAAV/F1+RAYr7Ym5uYdfeDuJ/I/vH2aXLO0RMTfjarg/FgMb44x5N
- idlRpfSJE8I14iCf/AJgm4XlyMeubYuTBA9qjC9op0X6wdOovKCMzC7MM4k/uBX0S8wD
- ZhZI6OdxMKhSW4mVJRwZcZdjFH0H5SG9MB2zs9qVqu6xymPL7n02ykQA0otOfgm/UsqJ
- nIEshM69S7IXUYUtBXmzzT3mMoyaiyC9Rc+8Yw2/sFsCy/EYwIFpn09impwx5gcI1zbT
- 7kYg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX6LIZdX2D0MLVpXFv56vbPejLxuWrDz+E3FCktAu9hExsZrSjykct8GVnPIs/SIVUv1COTvXtWWI0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlbkoQZKzCym+y+Dg0C5DIHFO91NTt/RSATtjgtQlVY46HuANZ
- n8UBIMW0yqJrRJWQ/VfJF+c62aZYLaTZ4L8izh4h3RZcINtNgiJmzj2+
-X-Gm-Gg: ASbGnctSGPzHn6LgDu+nfvChe8ULFewzh45JVXk2xXD1E+m8mKDhqrscENZ4ZWogayB
- eGHs0ZQeIrh7KHsT1QtdHLZZ/VShlrKpv74OnSrn7QWOJ3J5QV0XxTNy9lbSRbvRofqdAEjiXbv
- 69NrtWMz1qco+WzWiaLRJCzrqE73g7CXMkYsofUXZGtEmv1530XQZ/JGsHyIVYO8ueuvvIFdgHD
- 3maOAwbAazMBwFPJOi1XtB7r12PlVjj6sEuEWW/3IvXPHS/q9l49UVowUn4tQtSkWAg3Wvakq4+
- WKzW/x9m57FYOs+c7+Z6kp2LoYO83z/kquMOM/ngX7mnkFxw5lIpGnPU2BeRhLGFPZ5HlSSrPcj
- ueBJARL0fjdj74wBv4kDbbouinNTVJAumgQ==
-X-Google-Smtp-Source: AGHT+IFfWcED3Joe1pUA/sM9Vt4NU6PNW1ZV+CjXMBQyJNJMXMktKo40ISTWSvawGpK7dyzxPJDdKg==
-X-Received: by 2002:a05:6a21:2d8b:b0:23f:f431:9f77 with SMTP id
- adf61e73a8af0-23ff4319ff1mr5785966637.22.1754213200742; 
- Sun, 03 Aug 2025 02:26:40 -0700 (PDT)
-Received: from server.. ([103.250.145.182]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76bccfbcee7sm8017807b3a.66.2025.08.03.02.26.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Aug 2025 02:26:40 -0700 (PDT)
-From: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/gpuvm: Fix kernel-doc formatting and typo in
- drm_gpuvm_sm_map_exec_lock
-Date: Sun,  3 Aug 2025 14:56:15 +0530
-Message-ID: <20250803092622.27532-1-reddybalavignesh9979@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-244102.protonmail.ch (mail-244102.protonmail.ch
+ [109.224.244.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C891510E0A5
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Aug 2025 10:24:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1754216663; x=1754475863;
+ bh=/p3/ye2kr/NSHR+Bb844xeICp5/llZX5W/aZ7SyK2II=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=qEY7Dve0zimP25d3pmIhhunWNUN97ul26F41KmPdg0iVfV/iAa1ziEPfMJYqZgUBS
+ /aCQiEftBzDzAkh1nrxhYIfkTsmty3VwqrOpRE+VOrBO21K/o8PGlHiAsDHEwzBsAO
+ SdNriEQc7QnesdaSChnKRgjFeHAWTMC8KAiAVuz31Xo93IEhHNsh3nOHZd+sR0z1Yh
+ ZKO88AqNuHg1oPSgqHgx3qNrhZqq6YmgQgK/gh+8osW6fTd5fwQ8ESQfGrb5VBYpHz
+ coQVj6u7tbdpeN2bZrq8qUAxgT949TxYxJk9/fftFP8SjgxwtA0l3ruRLk5IeVooaZ
+ pmAosFtOPzzrA==
+Date: Sun, 03 Aug 2025 10:24:17 +0000
+To: =?utf-8?Q?N=C3=ADcolas_=22F=2E_R=2E_A=2E_Prado=22?=
+ <nfraprado@collabora.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, mwen@igalia.com, jadahl@redhat.com,
+ sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com,
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com,
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
+ arthurgrillo@riseup.net, Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH V10 13/46] drm/colorop: Add destroy functions for color
+ pipeline
+Message-ID: <L1Z5NdAqsKKxLye8RDhCz1zWm5IgwmdJwGHfy4ctcR6fhJctxyckoaci-ir_zuDKTFsWDKfnXdbxc-oyYGCGIwXWugxZG16zIh99p3GhteA=@emersion.fr>
+In-Reply-To: <07cd16202b742b37a0d4f70ff8d3a7a3ce3b1648.camel@collabora.com>
+References: <20250617041746.2884343-1-alex.hung@amd.com>
+ <20250617041746.2884343-14-alex.hung@amd.com>
+ <07cd16202b742b37a0d4f70ff8d3a7a3ce3b1648.camel@collabora.com>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: 85d58c1602d30ea3aed636ce46367658fc6c3765
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 04 Aug 2025 07:22:19 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,40 +70,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add `.. code-block:: c` directive to resolve Sphinx parsing issues
-like "unexpected indentation" and "definition list ends without a
-blank line" during make htmldocs.
+On Friday, August 1st, 2025 at 00:12, N=C3=ADcolas "F. R. A. Prado" <nfrapr=
+ado@collabora.com> wrote:
 
-Also corrected a typo in the return section from "negative error codec"
-to "negative error code".
+> This function implies it only cleans up the colorops in the color
+> pipeline of a specific plane, but it actually cleans up all colorops in
+> the drm_mode_config of a device.
 
-Signed-off-by: Bala-Vignesh-Reddy <reddybalavignesh9979@gmail.com>
----
- drivers/gpu/drm/drm_gpuvm.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index bbc7fecb6f4a..fb46f531fe7d 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -2432,6 +2432,8 @@ static const struct drm_gpuvm_ops lock_ops = {
-  *
-  * The expected usage is:
-  *
-+ * .. code-block:: c
-+ *
-  *    vm_bind {
-  *        struct drm_exec exec;
-  *
-@@ -2473,7 +2475,7 @@ static const struct drm_gpuvm_ops lock_ops = {
-  *    required without the earlier DRIVER_OP_MAP.  This is safe because we've
-  *    already locked the GEM object in the earlier DRIVER_OP_MAP step.
-  *
-- * Returns: 0 on success or a negative error codec
-+ * Returns: 0 on success or a negative error code
-  */
- int
- drm_gpuvm_sm_map_exec_lock(struct drm_gpuvm *gpuvm,
--- 
-2.43.0
-
+Good catch! Would make more sense to take a drm_device in.
