@@ -2,185 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEFF3B19F0A
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 11:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A89B19FEA
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 12:47:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C38FB10E158;
-	Mon,  4 Aug 2025 09:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1BC010E153;
+	Mon,  4 Aug 2025 10:47:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kuydg2nv";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="aLVJ1mU/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B15410E051;
- Mon,  4 Aug 2025 09:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754301241; x=1785837241;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=DY9X1c6qproGvXv2yd9YJD3yaXoS5uSS3Co3PmyM/hc=;
- b=kuydg2nv+shlE9jva4EswDtz3VoEyBAQPnwY9KaV28UR3Yl7vEqoQ2dM
- XKg+lFF1wj0y4DQ2hfDr0PmX2xTACnKlR5ISHJOHfmvn7DDqf3SyBCRiZ
- 0pfnvsNhMgFjxhViqMajpdpBPfW3D3r7O0DZUOKIdq/j+xVFcOoFOu7KR
- 1+kuwDFMDFXtTt+PxsEz+eA/tVQ1eHhBuKY8kjxVFjTkTPFDUpKUxy4sL
- iFb4GVgyXNGqMw3YfAhlNI3veBuUjVZ2NZPJvdKyLrdszAi3XTprUr+ay
- hCFFIm+9UQC2JcFraBezS6KYBKEjeqZK/FdWJNdgKka0PnttBrJoZpeu3 Q==;
-X-CSE-ConnectionGUID: RLR+j6ZDRHWhJMDOVtiLHQ==
-X-CSE-MsgGUID: Eh1ukDkSRL+lWXtasbNtNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="82009444"
-X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; d="scan'208";a="82009444"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2025 02:54:00 -0700
-X-CSE-ConnectionGUID: qqAgt8TJQriQD0IAdCm6Zw==
-X-CSE-MsgGUID: 71DZ9SirQTa/PfAXxWoBUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; d="scan'208";a="168325514"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Aug 2025 02:54:01 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Mon, 4 Aug 2025 02:53:59 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Mon, 4 Aug 2025 02:53:59 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (40.107.243.59)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Mon, 4 Aug 2025 02:53:59 -0700
+Received: from AM0PR83CU005.outbound.protection.outlook.com
+ (mail-westeuropeazon11010029.outbound.protection.outlook.com [52.101.69.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E43C10E153
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 10:47:50 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SWtZUPMC5zDm/2JGlbaVwJIcn+/rhkdNx9dDtRdfBvLDnUr9mhdGu82KG0NiwYn/OFuEB7EIOu9zyg02xPxD5tWQbrBdNyGOvFxDUg49AAL6wHHNCorKlNEfL7zsuhHuayEIRWdHfPa/FA+M0QXb3X0U47xqVEv0Jf/AJ4CERvbecC1VQomPxu7xtAJeU2EFoXb1QeHEvJwBZDde+K0HdDMdiXCCWVfUyTFgYlgGww0FI+2d2yrqitm5fUbbBjxM4mfFMyOBIIM1SNXO/PFO7hpV0hwQhTQgrZdN4+TdpdKzMS7QNtUoQEq2NS1K28UCFpadFaplwz1lv60JQgTZhw==
+ b=Q8hq2nj6Pnh9NmFXen1yAMS+HjKB8FDDwFXtW7CM3+Do4DgstbPUcu8w0i9AOpcGcY0s3RRoezN5G2OZKohFZlCvTOL+00lg0riISmo7O1TvyY4HQA0o+7BSdmojdQVCstUJrOfDgEWUQnYGzYC7qgC2DLnWXDGB1GzTfEveRbp7ngUrKabchCraA/iIEEz/27McOCg/9m4nqbLrU85vAqvSZmLAhw7YhLxQUgFQUrAPkTyyi8lR9TFI7bpXwJ0PYpg04HpSNYAxf+GWB/qWCbAn4adA1ftI/ldvd+mhHb0CoIQI/ePEI1L+3nZvTWewTXU96NcbUQd6EWpxMakbnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fzf7vWGYC6rhf+6IntWgpgEX6Q7qrNCoxANTQXRVerI=;
- b=uFjcyGrNjn4UNyGwdDdxE7IiFdB6IrlPc4TDYYPJ1JMrjmYy22zx7p8/rYQx0utJiGgDfkrNrL0wPr9/c7rxbsB+wbfXue4ZSOtYl0ka2KkWTLL9fhgKMK3GNakWyKXXyTKv3MT7Lna2VHj3lax2gsreQsa+CtaID5GnA6ZHLi/10roqgtRX7d8eoTF+ZklEZYxTYDUHetOUx/brSuZXvkpVeV43kl+rq0kVTD7/LUYLlfgaVnXvfxWLtR610QBeEQ2Qom1/Ah0dvQRczKgn0qpQUrgGKDjZ1t/3SwhWrTK0LIM1F3LSlQ9lKu2RXxghX0g++UFZA2RoAlVHT/K0Pw==
+ bh=NQGPMjR/TB3K6MYiHEbSFCl7W/wY3No6Oj9cY/b+wlg=;
+ b=yBknj4hdrBURXtJPgR/QFpgKd41cMIPsXrKeX7zT000c/H75PEn1SBXhu7T5W5hnCClSzcN+vt2Sz0OO7qZhn4I2DKiK7KYy3qaT930DY7PJP/BGPkyArFenp2a+OvCOmnAnLigsnbRMg47fms/vqKWnKKtGqYz6u7HmBo8Ezob+aFRrDnwN4lYKcYpTaHZNSm/KVOMMpCe4OQbQnVf6XLrWsrPY4Kc2YArW+gddnKgsRAxyaezkRsipPk3Mhd7iqX4Mcud7Yj2bE0bZMiW/QRTncas0wbHQOAly+ijR0vEA5Cq9fRcG83JqEgJIzIiSZrhDxdDmkLJ7DTTPGj9+rQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NQGPMjR/TB3K6MYiHEbSFCl7W/wY3No6Oj9cY/b+wlg=;
+ b=aLVJ1mU/SdOWRgJhZOlu9qeyVazvm2odSOmSYbhoota+2L7Z1UfcP/5h6k0kMLfLI+VEmqMi39Lkr8DAe0fGdl6O02PclwWSxq1NoQlCNRrrc0RclVdalKvABdlO4GrKHz6rXlOzh3ZKb8E3F0fF1CO2mOGdm5WgtyihytP1as6dc5YLsvMmec53EdLrvpmeq2jKFhDHo84FH8Jr5JbUQafjaabUS1dcqNSfsDGQJjaxYhcDPTz9IjV8uILoGbdArzaHAAsL5bjfEsD6a/7U+CProqoPxEB3R3/cC14MAVCT/Hl4sk1ZTUzihuVOWIysXO29eEMlTrp+y3bet1iUAg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
- by CH3PR11MB7204.namprd11.prod.outlook.com (2603:10b6:610:146::21)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by PAXPR04MB9643.eurprd04.prod.outlook.com (2603:10a6:102:241::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.20; Mon, 4 Aug
- 2025 09:53:30 +0000
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843%4]) with mapi id 15.20.8989.018; Mon, 4 Aug 2025
- 09:53:30 +0000
-Message-ID: <ad9b68cc-4a33-406a-9512-ff5f5460bf99@intel.com>
-Date: Mon, 4 Aug 2025 15:23:22 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm: don't run atomic_async_check for disabled planes
-To: Xaver Hugl <xaver.hugl@kde.org>, <dri-devel@lists.freedesktop.org>
-CC: <andrealmeid@igalia.com>, <chris@kode54.net>, <naveen1.kumar@intel.com>,
- <ville.syrjala@linux.intel.com>, <mdaenzer@redhat.com>,
- <intel-gfx@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <alexdeucher@gmail.com>
-References: <20250801131053.6730-1-xaver.hugl@kde.org>
-Content-Language: en-US
-From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-In-Reply-To: <20250801131053.6730-1-xaver.hugl@kde.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ 2025 10:47:47 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891%5]) with mapi id 15.20.8989.020; Mon, 4 Aug 2025
+ 10:47:47 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
+ cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+ l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz,
+ tiwai@suse.com, linux-sound@vger.kernel.org
+Subject: [PATCH v3 0/6] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
+Date: Mon,  4 Aug 2025 18:47:16 +0800
+Message-Id: <20250804104722.601440-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA0PR01CA0041.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:81::15) To IA0PR11MB7307.namprd11.prod.outlook.com
- (2603:10b6:208:437::10)
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0040.apcprd02.prod.outlook.com
+ (2603:1096:4:196::6) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR11MB7307:EE_|CH3PR11MB7204:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39d77af2-a8a4-418b-8759-08ddd33cc430
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|PAXPR04MB9643:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86c348e8-22d5-4a56-1d9a-08ddd3445961
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NE5GUHIwZXBZOWp5MzhMenlEWVFHdUhnWU1odG9yNHVOZE9qL0Qxb1ZCcFdn?=
- =?utf-8?B?MVR6eEJSRTN3TlNMWmIwRy9jaXZaQk1RdzFCb2Z6NlFvemYvckxpZnB5cVU2?=
- =?utf-8?B?UkQrSHZvOGpGZ0lSTFFaa2grOWV1elN0OHRYdlpMRXpqU0xiekl4YVJwK3Rw?=
- =?utf-8?B?NHVaZlpuZmVnRFgwMkxTa0RqTjN0aG1zUmwwdjVobklabmY4dWl1dkVsM3pR?=
- =?utf-8?B?ank3QWNDTzNHbUl0UkFyOWRrZVF1ZHQyMGc5dkZGUnZaQ2g2VWppNDRGNW1h?=
- =?utf-8?B?Uy8wcUM2bTdYR29rNzEwL2toMTNDZUpnWjY4bU9FZ2huOXRDT01HalJ0UVpU?=
- =?utf-8?B?UHlFa2FEL2p3UWZzVzNRMjB4VXNNaVFHYVZGTFlKRGRCNmI3VHpNMldjWVcr?=
- =?utf-8?B?L3ZZZWVBRVpvN2htQ2F4ZnVrQ0lleDBRMkxxMU5mQXJWUmFWY2VzZytSL0dU?=
- =?utf-8?B?c013QkZ6ZTJRZC8yU0IwM09veW9aTDBBQ05PMCtKMzJsa1YyZXN4ZkpHQ29B?=
- =?utf-8?B?Rm1hOUJ2NWtFUU95T2JtekFnTk9QQWtoSXdBeXM3RkNhQnZESjNDSTUzdGVs?=
- =?utf-8?B?NC9yZFpiaEFtVnhPaFMyVURkRVkxREJpSFBydC9ZNHFIYnZUWG42eWQ3SFpT?=
- =?utf-8?B?SW8zSUJ5RG41MnFySkIyYnI0OVVoeGdYazRFSWQybkZwczVlRkxwbE5PaFNK?=
- =?utf-8?B?cThsYXFETDdiZS9hWUlKRE4rbndaVlRGQzJVYUdCTDkzeHZxTUI0cjU0eEd1?=
- =?utf-8?B?V1JtaytFblpZbGlIYW5ISzF1am1BMVRSdGliUllxL0tQVkJMVlJLMWdmU2Zo?=
- =?utf-8?B?SDE2RWVTbTJrSFZ2WmVtcjF2ekxISVYyaWQzV1NSSm4zSUs3MlpWZC9ZeUxE?=
- =?utf-8?B?c3dlOW5JQXo2MnFnTzJKVlc0ekEzbVR4WStBVXYwR01nVXdHOW5selZkZXlT?=
- =?utf-8?B?VHViVGxtK2VwVTFIRWlEaWVGNVpTK01HSFlFRDk4bHR1THJEZHhTZFF3bEZ1?=
- =?utf-8?B?MXFmdkZMU0srNHQwdU9xRUh0cXc3cHRaSkp4bGtqYUdiOU94dkZrUVNxLzc3?=
- =?utf-8?B?bjQzVk9RZmltZUpoanBoU1RTTVAySU1wQXJ6WlNsN0FIaUx1MzhvdHF2SkNK?=
- =?utf-8?B?QmMzcjk3aFpCbEd1L0tuNVByLzA3RnZtV042eG1WeXFjamkrN3RSZlZsRFVU?=
- =?utf-8?B?T3k1eUJ3ZUdKRzlETU03c2ZCTWwxS2djTENXR210KzdlblBMRDFUTzNaZWo5?=
- =?utf-8?B?S1ZmQzlFNW1DbE5lajhUOGx1UWYyOHBNQnM3U1l5Z2pLWlFIMk50cEV5VENo?=
- =?utf-8?B?eTNNVUExOWE0WGlQV0V4dUh6TjZHaGF4T1R2b0FPUjkrSHBjM3RabUQrMDRP?=
- =?utf-8?B?eTYveVlCbmkxUVZqd3J5VU8zVUo3T3g5b2Q1aDNxQXZBNHB3R1VzS3M2ank4?=
- =?utf-8?B?VlZkdHJjOFFGV0NZQUtPK1hZRFpvVWc1ZlE0c0ZmWkhxV3dmOWpFOXdsRTNY?=
- =?utf-8?B?dlR2K2wzcmFRdnhyb2RrbG81QndiNVVhTENTaTl5SnM0UW9Ca1FCcm5IamZj?=
- =?utf-8?B?ODBDcjdMaEovL3BxRGxqb05TbUl6T2U2elpYWTRCSUdnUHduNWcrL2szYjk0?=
- =?utf-8?B?N2QrQ2hsV2tWTllONHpZK0RiTVVRc3BTcWVZbStLYVRWaSt0cy9QYjNiVVRC?=
- =?utf-8?B?VkViSC8vemN1d21pMXpGaUFLYi9neWg2U2d0aXJNYzNCUDRPakJrVDlCM0o2?=
- =?utf-8?B?Y25aNEMvbGxMRTJNc215THFaT3FUTEtUS3Qrbmd1Vzg3d1V3R1dNZzdKd3px?=
- =?utf-8?Q?fGWFBJLeOVlPBi1kNbRIeAurYWEsD0x7LmgCc=3D?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|52116014|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dHj2suwdzxSnuZy+9/fNcqC8fC+o8YJqPekAJAUYu8Wt8xjeypHh2faPypX7?=
+ =?us-ascii?Q?TLyIZi87CbhR82RHe7kN2AXAULBwAu1j/+ecndsv1uf8IET4PrfXoPOOCVwG?=
+ =?us-ascii?Q?ie44XEeDLjKHPA+HULs5C98JucTW2l0YGNDyhi3FgxD8CAv+uA9fyOv41uSl?=
+ =?us-ascii?Q?B2uv1WhecSfWW/P+OT4M5eHMuYnWmltCTvs4Cn6OwU8r7nbvvGBv0Bd8T5Xs?=
+ =?us-ascii?Q?U3kpsGo7m62k13UJvoAhlcotDBdwjGrQNA11X+ruttT/CLy3PlzQeMvaauG1?=
+ =?us-ascii?Q?kMfAyQvfsXKt4qaKx8ZYgwPTKbVmKh6z6HNNX872Dhr6k42kM77rCYDEOCIz?=
+ =?us-ascii?Q?8AXJfyaswpJotVGpQXLn/TIogNHF10YikwlwCyE0Av70FUXsHq/0iejN3Ab8?=
+ =?us-ascii?Q?v3gcdUdkS3hwIkoZf0S3iDja3kam3qnxyYzEMfEKE6f0QtVZxrVxYODHZ6H3?=
+ =?us-ascii?Q?aB+HdTt08Am05Wf9cuDu7SZX6YI1lkUN6kICWhRfz6hg3kH4R8xMyeDvXf9C?=
+ =?us-ascii?Q?2UNn3lK2be2+UoJoUTmkG2r3/kVraUYfDTywftH+8HDKGQnQrWk33a1l2G10?=
+ =?us-ascii?Q?2XhH9VM1kloKXI3bbqwJFYb6nOGVIPsTqKfPyMD4tdiGrVsxCvJ4fTrUwXcY?=
+ =?us-ascii?Q?U+iumMqWGm8GtN75/rMMp90ty5jCHT2HpMhSRpdMGx1Q+hcIxFuCRAuVd3BS?=
+ =?us-ascii?Q?Ozwrv7YxTm9IFZt98SgwHr03t45z5uTNcR5L/U63jLwjnA3PjA+X5baIaMGo?=
+ =?us-ascii?Q?r7ngHjBlR4UtE6g7pmWlZ2lkQCRlzjD7MrI00oCSsWBO01OsP9Do+ubi0ohc?=
+ =?us-ascii?Q?1fKtWWxtK4lIPJwg8UqDkk6dsB9oa4eGnNOeDHkLKa9f3//04jzSzkkgxoEM?=
+ =?us-ascii?Q?T9T1o6dG6rgKl4DajFKCw0pjKpHfvgzvWncOt5fniAcaPltdCebwaElckitb?=
+ =?us-ascii?Q?ZtnlDyDso2n32+Mcj7X9+rUzzMaeQghPeRmHSaSf5S40PaqH98vzMpuX7Dog?=
+ =?us-ascii?Q?CM8ra845DS29qAMz62fksJxInRysp1vLmz7OG1VaWEIBgAbZa/u4CT/wbxhJ?=
+ =?us-ascii?Q?Qx7Nz8MVwDe4lOHSL7Y3OwMd8V8OWz1+I9kbpHAFz9CFVzem1AFHRV+MC1Kk?=
+ =?us-ascii?Q?brIdL++LNxQuj4Beeo1ov/u1qj7sQ8jwPCGZudRvVfOIAcTzYpQX0Dx6n+T/?=
+ =?us-ascii?Q?R3If9PnFHMM0I2YDhLsSAJgF8tzLPjOJXjgRbu8UrRDH7KOGImIRD/OPtvL2?=
+ =?us-ascii?Q?POq52W9uOFr7aJ3rCeJKyCeVPK87BeHFUMq/ygG8VetHrelfQsEhzO34ioMf?=
+ =?us-ascii?Q?7uDCWG9lqSEmcGZd8E6utxxnjBjbbVD1dEbGq2ubIezVSIiLsK/1Bv7HxKk8?=
+ =?us-ascii?Q?sDRS89WrX9nf0oOuUi9l/s2iHe7zGaWAijmvYz74VC/GCAKt48inU8oOR9Rs?=
+ =?us-ascii?Q?UmAuM/yBVUT1H/7KLzKRBpuhpsWJIZfx0XvY+0fuB460tkW+zcNGg0XXgQmi?=
+ =?us-ascii?Q?S+WTjEq3VCFr2Mo=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7053199007); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:AM0PR04MB7044.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(19092799006)(921020)(38350700014);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NWR5a282SUZkTnFDYWJ6SGp0dlZiNWJ2WDl4UnZnQ1Z0YW5pd1U2NWw2ODBW?=
- =?utf-8?B?OFkzbFN0TFV1WmxseDBrMmI5UmZFL0RQWUZLQWMvY1VJSUhGNURrNHhiNUdL?=
- =?utf-8?B?UWNzTnBtVS9XR0ZNV1QwUUlza1RFeGtPQjdWcW9UdDFrTmJEVVdscjFXbE9j?=
- =?utf-8?B?TC9KYXVoRlFwOTFBVnd6aFNNUzNQK3c4dzg0N3dlc3RRWnFNeUc0akRmN1FT?=
- =?utf-8?B?WHVDSStlWXVSZkZUcUdod0h2V3NhOUlQSnhyYUpMRWRJSWJnKzR0NlNZZUdT?=
- =?utf-8?B?dGVLdWpLQ0dXMzY2L2lhTkY1MVZzUVNUa3IxZ2EybEQvek5valArK0xHQno1?=
- =?utf-8?B?azhYUW1ScEZJWnVIVWZncnQvQVZYZFhpOTJpZWZGOGxGbGl0ZGoxVE54YkRq?=
- =?utf-8?B?Rkg1alVHeEJOb2xzbUZHOWVLaURhUWVYNWZONldGRkVNYkRNODVPUElZT0FR?=
- =?utf-8?B?VHFCWU5nNnRzRW9pMTd6VVphZDlydXVKT0txd1dZeUNuVlB3aWdaVG5VWmhw?=
- =?utf-8?B?dStHVTZsRU1md21rdFhORlFzcU94RU44aytTcWpVR3ltSVBNQU9OU0dFcjNU?=
- =?utf-8?B?bmZLYXNiV0w5VUt0c0hkeHFqSk5LTm9BVkU0RUJ2Wi9seGF3N013VkJxOWQ4?=
- =?utf-8?B?WUk2eTViZE5zV1FnUWlFN2lWRTNwVWVtT29EV2FKMW81ZW9jT3RLV3ZPcDdU?=
- =?utf-8?B?K1JaSmJhdWdISGFxMFoycnFzS2pKR0xsVFI2eDBXRi81OG9BK1JJdmxST2or?=
- =?utf-8?B?MmswdHlPU3FPbEhoRVRVdVY4UDM3UnV3RnhqbCtZVlh3Uit0c1d5dm5xSFVp?=
- =?utf-8?B?OGRYZmZqZStLbGsvTnNuV0hyRU84QlRPQ1Y3am5WVHAwQStsRnhZYXpYTEVJ?=
- =?utf-8?B?dXl0RjRrZUNadDgrbEtzakErTXFpaUY5SEFxbTk2d2k0VnpwRW1qTUNobjUw?=
- =?utf-8?B?SGhHaWlwTElibWdVT0lmcDdLU2graEYzUUM3L3ltdWhjbENCTXNhbmZaSlVy?=
- =?utf-8?B?L3cvSFd1TWdUZmFPcm1YQkxQcWRMdE41d3pudXJvcmJicWVOSXpLYlpiaWhL?=
- =?utf-8?B?c042RUJjWFFqNU1nSERtajU1cTNtaGNTSDN1eFppV1VxRTlvbXJFUk9CRzNn?=
- =?utf-8?B?eWxldlNpbzhneENFeUJrVnQyOThwcXE2VVpMRElTclgzYllETFlGNkpMQjVY?=
- =?utf-8?B?UDVsNEJsV3RZQ011RExTNGdadVpLeUtYUVZ0LzNTbzY4bFhqcUZwYjJ1bXJH?=
- =?utf-8?B?Y1hJdkdKTVVsUUd2bkdPTzliQkFiYTdyMDloeUVRYTl3RUFqbHkwenpkbUk5?=
- =?utf-8?B?aHZrdjR2bnRTOXdJb0o5U1N4QVAvcDl0andUd3BHNWhrdnJZTkxuV2xwNFRE?=
- =?utf-8?B?OFFLRitYc3BSTDB5NzlLN001ekk3VFg5S2VvK2xrRGFOaFphYmo3YWtwK1pT?=
- =?utf-8?B?UmpOSVVzUCtWVG95Q3UrT3FKaVlXT2xpVzMrdURjaHdzZ2N4Ym1kOWwzRDN1?=
- =?utf-8?B?bkRCeTdCZ1pIai9nenREaEg1NHJBeVRPNUxvY01zMlA3WnZQVllZN3ozcGVN?=
- =?utf-8?B?LzRCVXFGYUdIVGpMZ0N1bXYwYUEwbFU2Q282QlNVU01BUGMvMktmZnJhQTBw?=
- =?utf-8?B?NzVVWVBlRWpjMHhrMndSU25pOUJLQlU2UUVIVUlrRy9hZkRQWWtpMEVBZHlH?=
- =?utf-8?B?cFZMcksvdlJORkQ2YlVKM3VCNzdidmFsK3hMenBEMUxUTDRCc0tnMUZVM3kv?=
- =?utf-8?B?UHF0bngzaXUrdU1FTm1yc0NkTXNVc3F0SXNaQ2s0T0VLc0RJQkJRdTlvKzdu?=
- =?utf-8?B?enkxL3l6WjcxeXcxeFZvbEdaZngvcHpEQjg0NDY4Z1o2MzhSeEJ2KytFSVRa?=
- =?utf-8?B?MkZNY0lYMHg4SXFLWDVOakZKSTBZZ21rT2FqMlBJZjFJaWRJRUJHanNzQkVu?=
- =?utf-8?B?dmdIQkVUek1nT29iN2MvZGtIeUh2eVRncEFzVjhzM0FmN2x3eHVLcjA1YzJQ?=
- =?utf-8?B?dnIwbFJWYjJMWGx4SGozWjNGWkFSeUY3QklHWmdQNG5JQVd4cXNLMGgwQ0FM?=
- =?utf-8?B?am5lMUQ1bm1NS0F0KzNDVzBwRVhOUG5EZDFWQy95TVl6MEN2UVkzbFlsQVov?=
- =?utf-8?B?dkNsU3VSL3NMQm8ra2ZGbjZLekNKNklJNVVOMGkxZUVKUnpTTWZpUjFERERN?=
- =?utf-8?B?TGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39d77af2-a8a4-418b-8759-08ddd33cc430
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IRzQUZJ12s8GneYedWuiSJmYUdD8DaYm6lxPbD31nbYs0eEa3vE0qRNRBuyU?=
+ =?us-ascii?Q?6Ev2toOFoM4iVP+0WuCH5TVNGGRd/XHp9xmp8iMOcSM1MCXrmsqz/NA95o0G?=
+ =?us-ascii?Q?f3eZoTcDt3/kP8x6xMnT4WS5OVesVfucgrmXpYQXuRQK8i9lmJlQqZNK92kM?=
+ =?us-ascii?Q?N3DbJZLBTvLoHYLA1BkKVWDh57wJe8L097ysiSbIVX+HEYnf6cYiuGDQ4io/?=
+ =?us-ascii?Q?YmEcSlBc+rNSnRRHNX9DIhklnlK1INBeceBThr+JNMGJeMYWcXeLggf51q9Q?=
+ =?us-ascii?Q?VGpxHkPY26/txoPXM/jGVbNPZg9o/PVFLx9L091jBcFquYTIJTrn5H2CF2ea?=
+ =?us-ascii?Q?5q0899LbHECZ3dOksIlz4nGVkLRaYmnacUTQDgQqxLQGGtg5taAb2Z/uYFlY?=
+ =?us-ascii?Q?s5nbv49NmpZOC3owtdB3gIDKn4CF9CXZMbc9O7jeX8VrHYXPiamXPeKa61hm?=
+ =?us-ascii?Q?QBudAxeeoJKDVepiAxLeBnPK/TCH9UOUNzoCSQeR+LjXu4Znwzddl19HcrH0?=
+ =?us-ascii?Q?rurAd0H/Mj/OHHz6sl4cUsGEb7IcpdhFwk8tfTgERKcMByBGgkOilWO8WHI1?=
+ =?us-ascii?Q?q1+svCM5YbRIOOOnP/TzOVzYqbcOJUStneUVTlpJaokV1WmCxzzOzzF0JRXZ?=
+ =?us-ascii?Q?5xsrDpZHXlZcgEaX1xokQ93gGYgk7Mp9gDvC30k8w8PI+Nizi3H2kjS7+hDe?=
+ =?us-ascii?Q?we/gzOVCv5XmFkQ6A+qxpXBncu+8kKeePGNjUqJTDLvlMPhKUWsX7Hd9egR2?=
+ =?us-ascii?Q?InD+RrXsGcjHJD8b1E3KDEnZQ5Ymjq5opBpGx+oHf1KDPVJLDx9bOZYesM1W?=
+ =?us-ascii?Q?NFsuqUtaUsF7jIXsTavxbVuhCMTIe06mAPsmdQCxhb6vbnMFsGaDPFNfTbX7?=
+ =?us-ascii?Q?w17MC8Tm+l9kWGVUOkz34wI3VR9942PKut0MrI2xmTnqNeMFtvFZ4j2ai455?=
+ =?us-ascii?Q?PW+RaZtJ/SNeVPTzhQ6k2jWHXRqjl4G25qcWdYh136Vqe6vGh41vT6Rndwh7?=
+ =?us-ascii?Q?4XW2voPZbfVjnHhRGQ/bhHemRI0pHHsvzXWjvF5jupG6Ocxzkjvb2WZPBoRF?=
+ =?us-ascii?Q?nztX8UIMqshmKY+7oZDzk/UE395Sq65v3Igpw8HZ1aEulQEjVDetSCStcFiB?=
+ =?us-ascii?Q?GwXYbVEP1x9TUBZKkC4RcjXH4ujG5t0tM6YuK42GUuucORdaLah6NeEZ0QJQ?=
+ =?us-ascii?Q?KcpsQiy7Fxe8scDzbcZKm4EzHmucSuFC2eWUJO+L6n/Jhz3RlCjOBNK6KLOc?=
+ =?us-ascii?Q?ITEBADXVpwbx1thB6PZj+Ju3uyahulrJbW27YbLo+3iN9wner+AwShCjFLBD?=
+ =?us-ascii?Q?mFDT50k0efsR/tEBySOU6Oo/TYTFzmz4vEF1Nz7zAjx3YzDjJ3tlWrCiKnE9?=
+ =?us-ascii?Q?nh859oADoesCesZpd0dDBPChv6nPbla4SPBzZnQ89y34oo0qwfUnLyO0WCs+?=
+ =?us-ascii?Q?LHvutQiNQrwRSndZQfaLywbL9bzu3w1PTM4j+kr5UJgD1Rwz0QaxR2MtOJ4H?=
+ =?us-ascii?Q?C9h4ZQQbN6jvouzDIZDP9k7s6UXV9xXXhZiMpk71igdImKFIyDFP/ksgf8Bl?=
+ =?us-ascii?Q?EGpiRJc46GSudJhJrlXCJQPaQTuIL3+WKsJrsLmX?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86c348e8-22d5-4a56-1d9a-08ddd3445961
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2025 09:53:30.3281 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2025 10:47:47.0302 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KZd7pnkvz9oHL74L3gDt1RPrBd/NM/2FbG7/XxX3bGBF5LtRDkm/3jpwTFAaJs88LwsXMd/LdFPAg4AP2Fcyzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7204
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2HMX3BanJ38U3fRA2BwvJ7jgykZgiffrTUFPMK69ePCjIFoW+8KdwBqPk6iTuU7LLMAltcla69FbDkr1F1sF6w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9643
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -196,134 +156,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01-08-2025 18:40, Xaver Hugl wrote:
-> It's entirely valid and correct for compositors to include disabled
-> planes in the atomic commit, and doing that should not prevent async
-> flips from working. To fix that, this commit moves the plane check
-> to after all the properties of the object have been set,
-I dont think this is required. Again the plane states will have to be 
-fetched outside the set_prop()
+The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
+acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
 
-Alternate approach
-@@ -1091,8 +1091,16 @@ int drm_atomic_set_property(struct 
-drm_atomic_state *state,
+Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
 
-                         /* ask the driver if this non-primary plane is 
-supported */
-                         if (plane->type != DRM_PLANE_TYPE_PRIMARY) {
--                               ret = -EINVAL;
-+                               /*
-+                                * continue if no change in prop on 
-non-supported async planes as well
-+                                * or when disabling the plane
-+                                */
-+                               if (ret == 0 || (prop == 
-config->prop_fb_id && prop_value == 0))
-+  drm_dbg_atomic(prop->dev,
-+ "[PLANE:%d:%s] continue async as there is no prop change\n",
-+                                                      obj->id, 
-plane->name);
-+                               else
-+                                       ret = -EINVAL;
+changes in v3:
+- add space and 'U' in asoundef.h
+- add more commit message for binding doc commit
+- add bitfield.h header for fixing build error
 
-                                 if (plane_funcs && 
-plane_funcs->atomic_async_check)
+changes in v2:
+- address some comments on commit messages
+- add two more commits:
+  add definitions for the bits in IEC958 subframe
+  add API dw_hdmi_set_sample_iec958() for iec958 format
+- use component helper in hdmi_pai and hdmi_tx driver
+- use regmap in hdmi_pai driver.
+- add clocks in binding doc
 
-Thanks and Regards,
-Arun R Murthy
---------------------
+Shengjiu Wang (6):
+  dt-bindings: display: imx: add HDMI PAI for i.MX8MP
+  ALSA: Add definitions for the bits in IEC958 subframe
+  drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
+  drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
+    format
+  drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
+  arm64: dts: imx8mp: Add hdmi parallel audio interface node
 
->   and skips
-> the async checks if the plane was and still is not visible.
->
-> Fixes: fd40a63c drm/atomic (Let drivers decide which planes to async flip)
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4263
->
-> Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
-> ---
->   drivers/gpu/drm/drm_atomic_uapi.c | 51 +++++++++++++++++++++----------
->   1 file changed, 35 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index c2726af6698e..2ae41a522e92 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -1068,7 +1068,6 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
->   		struct drm_plane *plane = obj_to_plane(obj);
->   		struct drm_plane_state *plane_state;
->   		struct drm_mode_config *config = &plane->dev->mode_config;
-> -		const struct drm_plane_helper_funcs *plane_funcs = plane->helper_private;
->   
->   		plane_state = drm_atomic_get_plane_state(state, plane);
->   		if (IS_ERR(plane_state)) {
-> @@ -1084,21 +1083,8 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
->   				ret = drm_atomic_plane_get_property(plane, plane_state,
->   								    prop, &old_val);
->   				ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
-> -			}
-> -
-> -			/* ask the driver if this non-primary plane is supported */
-> -			if (plane->type != DRM_PLANE_TYPE_PRIMARY) {
-> -				ret = -EINVAL;
-> -
-> -				if (plane_funcs && plane_funcs->atomic_async_check)
-> -					ret = plane_funcs->atomic_async_check(plane, state, true);
-> -
-> -				if (ret) {
-> -					drm_dbg_atomic(prop->dev,
-> -						       "[PLANE:%d:%s] does not support async flips\n",
-> -						       obj->id, plane->name);
-> -					break;
-> -				}
-> +				if (ret)
-> +				    break;
->   			}
->   		}
->   
-> @@ -1394,6 +1380,10 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->   	int ret = 0;
->   	unsigned int i, j, num_fences;
->   	bool async_flip = false;
-> +	struct drm_plane *plane;
-> +	struct drm_plane_state *old_plane_state = NULL;
-> +	struct drm_plane_state *new_plane_state = NULL;
-> +	u64 fb_id = 0;
->   
->   	/* disallow for drivers not supporting atomic: */
->   	if (!drm_core_check_feature(dev, DRIVER_ATOMIC))
-> @@ -1521,6 +1511,35 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
->   			copied_props++;
->   		}
->   
-> +		if (async_flip && obj->type == DRM_MODE_OBJECT_PLANE &&
-> +		    obj_to_plane(obj)->type != DRM_PLANE_TYPE_PRIMARY) {
-> +			/* need to ask the driver if this plane is supported */
-> +			plane = obj_to_plane(obj);
-> +			old_plane_state = drm_atomic_get_old_plane_state(state, plane);
-> +			new_plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +			ret = drm_atomic_plane_get_property(plane, new_plane_state,
-> +							    dev->mode_config.prop_fb_id,
-> +							    &fb_id);
-> +			if (ret)
-> +				break;
-> +			/*
-> +			 * Only do the check if the plane was or is enabled.
-> +			 * Note that the new state doesn't have "visible" set yet,
-> +			 * so this uses fb_id instead.
-> +			 */
-> +			if (old_plane_state->visible || fb_id)
-> +				ret = -EINVAL;
-> +			if (ret && plane->helper_private &&
-> +			    plane->helper_private->atomic_async_check) {
-> +				ret = plane->helper_private->atomic_async_check(plane, state, true);
-> +			}
-> +			if (ret) {
-> +				drm_dbg_atomic(dev, "[PLANE:%d:%s] does not support async flips\n",
-> +						obj->id, plane->name);
-> +				break;
-> +			}
-> +		}
-> +
->   		drm_mode_object_put(obj);
->   	}
->   
+ .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 +
+ .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++
+ arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  28 ++-
+ drivers/gpu/drm/bridge/imx/Kconfig            |   8 +
+ drivers/gpu/drm/bridge/imx/Makefile           |   1 +
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 205 ++++++++++++++++++
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  55 +++++
+ .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  18 +-
+ include/drm/bridge/dw_hdmi.h                  |  11 +-
+ include/sound/asoundef.h                      |   9 +
+ 12 files changed, 422 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+ create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
+
+-- 
+2.34.1
+
