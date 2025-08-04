@@ -2,77 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8410EB1AB87
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 01:43:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD00B1AA5E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 23:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C489410E5C9;
-	Mon,  4 Aug 2025 23:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238F810E0F8;
+	Mon,  4 Aug 2025 21:32:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ErBRzOKQ";
+	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="S8hcJMbF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9DDD10E0F8
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 21:29:39 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3b783ea5014so2201912f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 14:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754342978; x=1754947778; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EnAv+EkxtMe6sOgi/X80+/azh3A8nh9nT/C3VYMPy+M=;
- b=ErBRzOKQhEWztDCa+13XA8u33qHQCuFHaup7aHko63r8LOgDMkYJxDtbMqihMvZ+pX
- dK2pLnqMq3BlesJPtduY5OuD4iz8UwzqSrQHQTjAoGWuDScagm7hJKI0q7QR0dl5BXP4
- jOiCSop6C1LfTu8jZ00YJvCd4+c21F3ReL/egICCDnvuQRvOKKBSxuRY21Lv3w+BXL0n
- FNulS22oy8dt6KinVSltiBfT+LDIPFLjGi/0sO2F9Eeg+oHT75uk9eXmlphACVwrOAFZ
- MZAOR7Lr8rjsyogDYJioVdpgQ2Guu0plS7P5UjSTw+9ABBsmObye1BrbsolIiiNLgoLu
- skfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754342978; x=1754947778;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EnAv+EkxtMe6sOgi/X80+/azh3A8nh9nT/C3VYMPy+M=;
- b=KMrFsPHZRNRpxDVBVz+bhFxtDGpdCzVTd/WoK5y9JrMaNrsQnmQjbAyFAT0yYMUG4c
- v1ZsOBtx6sqlaWYm6BcNn0X3NLdkQohCVjwCsi2RZIdwYiiL6tlLBlCSRv82S+xS91pW
- IXZNWt0HgPrje6qnin+5oP4CbhQUqDq7jC5nuhpmhEpECu2OvuLzvDpjZwgBb5sWjm4/
- epKY0ycGDdnP0jrtU+GojeEGiunZ/YWIjSREHLi16aSSi+2QJ4Rtx5hJ125LOe2KxdUP
- KdaIOjgJKtnK++I0GHvQQ8qJL8GCcOWk8tHLBQE36jpC8CY9dbEXdaxZ/6+CPfEGyvRQ
- Xjug==
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E297610E0F8;
+ Mon,  4 Aug 2025 21:32:47 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41]) (Authenticated sender: zamundaaa)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 886AC33C4C8;
+ Mon,  4 Aug 2025 22:32:43 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1754343165; bh=ri6Z3M8MrO5vhZyfkInL7BZL2j6omfZd348uMVjNNiY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=S8hcJMbFOaIWEbtqS8vzP/rsu3Sgc9IHa4nT1AiATnEr+G8SKR8iI75OKkbLlq45a
+ aP675LzQun0XSah6qnO08L2zp38G7ccApm7R2/g2sdb5gb7zWdbbHXS7uwqQytGxZY
+ l3DbTWvWpuRXi/Soh3mP3+F0poBm/HY70vIcCpCboY4ygCKBzHuFaW/kYKZ8i/wco3
+ /hSCbpi3sFSzMSLafGAkB3FVDZjHSERo/k9yytS0CMxBOlj6DcLeakkKV4m/IGQ6iv
+ f28NuJKJXYfrfItYoLk4fM9q0d1sQ5O1asa1fkgXlnlA3An4ALp1D6Ur86fDjGSIsM
+ vpD1xQxZT1lwQ==
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-af93bcaf678so415054266b.0; 
+ Mon, 04 Aug 2025 14:32:43 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVYWjkh2/tYukRJ8jJ6LniSK4epSlfSYhutQ+2gVeABL0I0DICSDroFLXPOU2RWrm8cLt1yC8sXKDw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzD2YQLxF0XosJbRAVBkzoCm0IN/peE0L9D/mALM+Lrz0Q0q9to
- JVD+RMboP2GvfqIdhMoH8A5yZLolf7fCEg4S8ll1TX8Avfin2tOW0jTi
-X-Gm-Gg: ASbGncsfq/YRqejSAmJUgJZoMPnOb+A7Y07SGYNtxxzW2gyobV4gavljMWFS0eafTVp
- KFGCSwhXEfIukGQM5WfGArRXCalzN4PAOE+poFXdmKgFJNwHmwQ3RNY9aS4LdoB7lrGO5JDdKwI
- jI3eZEeyzkrcdDDzNxa7PAzbl2xCGP/lZx0u5h+C5NLnv9o3zr8PukjKTgQUStO5BkrRaKLYs3l
- rtWOyd7aakPrKwKr6KFQdcTe17H0pbvfxGKDoxT1bD4QnBrWRD5+hQb15HDD02QeKJqffeyuUv0
- qv6tYLqYEwOxdQjrLPRz/Rom2YKA7fnFhcZDL1/32yj2vGS4X8erx+lYGlzi1uQzzin+CYlw4aK
- QoWyEJ8b+s8MatNPa3jBcVhM4xQWJAxXpLDL8A/T9wH198jZyKHl331w=
-X-Google-Smtp-Source: AGHT+IGBConCSeAXtT5CM7S11KudJt57JA5mhifRnsIXMElN7scg3DGiRYRMN/MvwC24p4tTvJ957A==
-X-Received: by 2002:a05:6000:290c:b0:3b7:97c8:da97 with SMTP id
- ffacd0b85a97d-3b8d94baa99mr8936813f8f.43.1754342978164; 
- Mon, 04 Aug 2025 14:29:38 -0700 (PDT)
-Received: from fedora.. (109.red-88-1-15.dynamicip.rima-tde.net. [88.1.15.109])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b79c3ac158sm17056704f8f.4.2025.08.04.14.29.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Aug 2025 14:29:37 -0700 (PDT)
-From: Javier Garcia <rampxxxx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: Javier Garcia <rampxxxx@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: Add directive to format code in comment
-Date: Mon,  4 Aug 2025 23:29:02 +0200
-Message-Id: <20250804212902.22554-1-rampxxxx@gmail.com>
-X-Mailer: git-send-email 2.38.1
+ AJvYcCVRxispOTn1jK86Q3JJfq1ZpJqUxFeFv8xyg2eCdwHTy00TXD2yfVcqRwXV0LnpqBW02bCBmH0QeKwk@lists.freedesktop.org,
+ AJvYcCXMVeMtRR4uNMs7Zg0pi1CmGQDMmsxZaMXu22QWNqJQ6cz+J4eEWyG9Onmes6BlQF9nCoQACjaa@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwOlJ09KJMbTk3aptLteDurCVhWYWunG8Rtu2ypwFZVa5xNFVwM
+ GkytTS2jY+8iEocyX5JMYr3Qc9hiW9DSqsAMMK8WVwH3JORrVnxjucjypW2VgLgrFfhA/HorLZj
+ soCswtV+3SHBvNiawsacpjfVb11HrOto=
+X-Google-Smtp-Source: AGHT+IF/ky9b0+aGyvxmzBA/wi9xesdjpkTkAbyZWzdSGALTO9Liu72BxrfMri8mIqXSnpI9VP4SMmyolONLGdwUBvM=
+X-Received: by 2002:a17:906:f59f:b0:ae3:6cc8:e426 with SMTP id
+ a640c23a62f3a-af93ffc9053mr941711966b.9.1754343162353; Mon, 04 Aug 2025
+ 14:32:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 04 Aug 2025 23:43:20 +0000
+References: <20250801131053.6730-1-xaver.hugl@kde.org>
+ <ad9b68cc-4a33-406a-9512-ff5f5460bf99@intel.com>
+In-Reply-To: <ad9b68cc-4a33-406a-9512-ff5f5460bf99@intel.com>
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Mon, 4 Aug 2025 23:32:31 +0200
+X-Gmail-Original-Message-ID: <CAFZQkGwviMAshk5gSF0pDmkqbfZT=6FHCfNq6PWj8srNEXjX7w@mail.gmail.com>
+X-Gm-Features: Ac12FXx3qnl-ZL78AY877KImUixgVXTZBRgwxLYn8JvgBzilUH_iYdJ6TeJ9kV4
+Message-ID: <CAFZQkGwviMAshk5gSF0pDmkqbfZT=6FHCfNq6PWj8srNEXjX7w@mail.gmail.com>
+Subject: Re: [PATCH v3] drm: don't run atomic_async_check for disabled planes
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>
+Cc: dri-devel@lists.freedesktop.org, andrealmeid@igalia.com, chris@kode54.net, 
+ naveen1.kumar@intel.com, ville.syrjala@linux.intel.com, mdaenzer@redhat.com,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ alexdeucher@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,35 +72,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the warnings:
+Am Mo., 4. Aug. 2025 um 11:54 Uhr schrieb Murthy, Arun R
+<arun.r.murthy@intel.com>:
+>
+> On 01-08-2025 18:40, Xaver Hugl wrote:
+> > It's entirely valid and correct for compositors to include disabled
+> > planes in the atomic commit, and doing that should not prevent async
+> > flips from working. To fix that, this commit moves the plane check
+> > to after all the properties of the object have been set,
+> I dont think this is required. Again the plane states will have to be
+> fetched outside the set_prop()
+>
+> Alternate approach
+> @@ -1091,8 +1091,16 @@ int drm_atomic_set_property(struct
+> drm_atomic_state *state,
+>
+>                          /* ask the driver if this non-primary plane is
+> supported */
+>                          if (plane->type != DRM_PLANE_TYPE_PRIMARY) {
+> -                               ret = -EINVAL;
+> +                               /*
+> +                                * continue if no change in prop on
+> non-supported async planes as well
+> +                                * or when disabling the plane
+> +                                */
+> +                               if (ret == 0 || (prop ==
+> config->prop_fb_id && prop_value == 0))
+This would allow disabling a plane in an async commit that was
+previously enabled, not sure that should be allowed? Also, if the
+property is fb_id, ret would be used uninitialized. But you're right,
+this should be fixable with smaller changes. Probably best to keep it
+minimal for the bugfix.
 
-  Warning: ./drivers/gpu/drm/drm_gpuvm.c:2444: Unexpected indentation.
-  Warning: ./drivers/gpu/drm/drm_gpuvm.c:2446: Block quote ends without a blank line; unexpected unindent.
-  Warning: ./drivers/gpu/drm/drm_gpuvm.c:2450: Definition list ends without a blank line; unexpected unindent.
-  Warning: ./drivers/gpu/drm/drm_gpuvm.c:2451: Definition list ends without a blank line; unexpected unindent.
-  Warning: ./drivers/gpu/drm/drm_gpuvm.c:2455: Unexpected indentation.
-  Warning: ./drivers/gpu/drm/drm_gpuvm.c:2456: Definition list ends without a blank line; unexpected unindent.
-  Warning: ./drivers/gpu/drm/drm_gpuvm.c:2457: Definition list ends without a blank line; unexpected unindent.
-  Warning: ./drivers/gpu/drm/drm_gpuvm.c:2458: Definition list ends without a blank line; unexpected unindent.
+Looking more at this code, I also notice that it currently allows you
+to change *any* property on overlay planes in an async flip, which
+doesn't seem right.
 
-Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
----
- drivers/gpu/drm/drm_gpuvm.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index bbc7fecb6f4a..74d949995a72 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -2432,6 +2432,8 @@ static const struct drm_gpuvm_ops lock_ops = {
-  *
-  * The expected usage is:
-  *
-+ * .. code-block:: c
-+ *
-  *    vm_bind {
-  *        struct drm_exec exec;
-  *
--- 
-2.38.1
-
+> +  drm_dbg_atomic(prop->dev,
+> + "[PLANE:%d:%s] continue async as there is no prop change\n",
+> +                                                      obj->id,
+> plane->name);
+> +                               else
+> +                                       ret = -EINVAL;
+>
+>                                  if (plane_funcs &&
+> plane_funcs->atomic_async_check)
+>
+> Thanks and Regards,
+> Arun R Murthy
