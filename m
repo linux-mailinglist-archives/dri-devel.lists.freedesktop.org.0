@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C80B19A0D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 04:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1267EB19A0E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 04:08:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D73EA10E210;
-	Mon,  4 Aug 2025 02:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE5C610E21E;
+	Mon,  4 Aug 2025 02:08:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E350410E210
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 02:08:01 +0000 (UTC)
-Received: from inva021.nxp.com (localhost [127.0.0.1])
- by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 707AE2001E6;
- Mon,  4 Aug 2025 04:08:00 +0200 (CEST)
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD01510E21E
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 02:08:03 +0000 (UTC)
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 8C56A1A0323;
+ Mon,  4 Aug 2025 04:08:02 +0200 (CEST)
 Received: from aprdc01srsp001v.ap-rdc01.nxp.com
  (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
- by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 28448200352;
- Mon,  4 Aug 2025 04:08:00 +0200 (CEST)
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 14C521A0306;
+ Mon,  4 Aug 2025 04:08:02 +0200 (CEST)
 Received: from lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com
  (lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com [10.52.9.99])
- by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 5C22818000AB;
- Mon,  4 Aug 2025 10:07:57 +0800 (+08)
+ by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id A272718000AF;
+ Mon,  4 Aug 2025 10:07:59 +0800 (+08)
 From: Joseph Guo <qijian.guo@nxp.com>
-Subject: [PATCH v2 0/3] Add support for Waveshare DSI2DPI unit
-Date: Mon, 04 Aug 2025 11:07:39 +0900
-Message-Id: <20250804-waveshare-v2-0-0a1b3ce92a95@nxp.com>
+Date: Mon, 04 Aug 2025 11:07:40 +0900
+Subject: [PATCH v2 1/3] dt-bindings: display: bridge: Add waveshare DSI2DPI
+ unit support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOsVkGgC/03MSw7CIBSF4a00dyyGR9DiyH2YDihchIHQgMGah
- r2LTUwc/icn3wYFc8ACl2GDjDWUkGIPfhjAeB3vSILtDZxySc9MkpeuWLzOSKy2SqBWaqQO+n/
- J6MK6W7eptw/lmfJ7pyv7rj/l9KdURigZmZmpcDOXWlzjuhxNesDUWvsAgow9yaAAAAA=
-X-Change-ID: 20250715-waveshare-dad93ea9980f
+Message-Id: <20250804-waveshare-v2-1-0a1b3ce92a95@nxp.com>
+References: <20250804-waveshare-v2-0-0a1b3ce92a95@nxp.com>
+In-Reply-To: <20250804-waveshare-v2-0-0a1b3ce92a95@nxp.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -49,11 +48,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, victor.liu@nxp.com, 
  Joseph Guo <qijian.guo@nxp.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754273277; l=1009;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754273277; l=3057;
  i=qijian.guo@nxp.com; s=20250519; h=from:subject:message-id;
- bh=WZG/25/2PwRokdOdDSxWnIPRrCKihV0abcBOwtEpyLs=;
- b=euJjIK7soNMUx2lCG9yR+87sYQ9cweH6+IJQhd5b8aLCVZwhI9mf3yHB78YflsBtrowQ3ioRC
- 96bhFj/M3DEDfzMVbgEizqhQ00dB/CD+2xmaClo5NbHilgxiDNhrkdA
+ bh=8FvrtUOnAGgo3ba+1Br9rPQoipPb1zI8c5qdiu/PVGM=;
+ b=OO8i0h8Ryb2vADcTqqbImHNc57YcSIiSJX3PgkQpzVrpMCfdlanGGBdowIRWNEhiAWTAsFDEY
+ wCdHx5XRHU2C4Jy9/ziuzgOOiH2KjZTNglt/zqNQyCUIiOBZRI8Ifx8
 X-Developer-Key: i=qijian.guo@nxp.com; a=ed25519;
  pk=VRjOOFhVecTRwBzK4mt/k3JBnHoYfuXKCm9FM+hHQhs=
 X-Virus-Scanned: ClamAV using ClamSMTP
@@ -72,32 +71,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset add support for waveshare DSI2DPI unit.
+Add dt-binding documentation for waveshare DSI2DPI unit
 
 Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 ---
-Changes in v2:
-- /s/i2c0/i2c/ in patch 1
-- Add Review tags
-- Link to v1: https://lore.kernel.org/r/20250716-waveshare-v1-0-81cb03fb25a3@nxp.com
-
+Change from v1 to v2
+- /s/i2c0/i2c/
 ---
-Joseph Guo (3):
-      dt-bindings: display: bridge: Add waveshare DSI2DPI unit support
-      dt-bindings: display: panel: Add waveshare DPI panel support
-      drm: bridge: Add waveshare DSI2DPI unit driver
+ .../bindings/display/bridge/waveshare,dsi2dpi.yaml | 103 +++++++++++++++++++++
+ 1 file changed, 103 insertions(+)
 
- .../bindings/display/bridge/waveshare,dsi2dpi.yaml | 103 ++++++++++
- .../bindings/display/panel/panel-simple.yaml       |   4 +
- drivers/gpu/drm/bridge/Kconfig                     |  11 ++
- drivers/gpu/drm/bridge/Makefile                    |   1 +
- drivers/gpu/drm/bridge/waveshare-dsi.c             | 210 +++++++++++++++++++++
- 5 files changed, 329 insertions(+)
----
-base-commit: 0952d89c3acf6590b89bcfb8505595d7c0e6f367
-change-id: 20250715-waveshare-dad93ea9980f
+diff --git a/Documentation/devicetree/bindings/display/bridge/waveshare,dsi2dpi.yaml b/Documentation/devicetree/bindings/display/bridge/waveshare,dsi2dpi.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..5e8498c8303dd7415ecca97d12ac97362db73cf5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/waveshare,dsi2dpi.yaml
+@@ -0,0 +1,103 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/waveshare,dsi2dpi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Waveshare MIPI-DSI to DPI Converter bridge
++
++maintainers:
++  - Joseph Guo <qijian.guo@nxp.com>
++
++description:
++  Waveshare bridge board is part of Waveshare panel which converts DSI to DPI.
++
++properties:
++  compatible:
++    const: waveshare,dsi2dpi
++
++  reg:
++    maxItems: 1
++    description: base I2C address of the device
++
++  power-supply: true
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description:
++          Video port for MIPI DSI input
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                description: array of physical DSI data lane indexes.
++                items:
++                  - const: 1
++                  - const: 2
++
++            required:
++              - data-lanes
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Video port for MIPI DPI output panel.
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - ports
++  - power-supply
++
++additionalProperties: false
++
++examples:
++  - |
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      bridge@45 {
++        compatible = "waveshare,dsi2dpi";
++        reg = <0x45>;
++        power-supply = <&reg_3p3v>;
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++
++            waveshare_from_dsim: endpoint {
++              data-lanes = <1 2>;
++              remote-endpoint = <&dsim_to_waveshare>;
++            };
++          };
++
++          port@1 {
++            reg = <1>;
++
++            waveshare_to_panel: endpoint {
++              remote-endpoint = <&panel_to_waveshare>;
++            };
++          };
++        };
++      };
++    };
++
++...
 
-Best regards,
 -- 
-Joseph Guo <qijian.guo@nxp.com>
+2.34.1
 
