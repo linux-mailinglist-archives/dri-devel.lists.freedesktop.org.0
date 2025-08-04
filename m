@@ -2,116 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EEAB1AA77
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 23:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1884BB1AA78
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 23:43:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74CA510E465;
-	Mon,  4 Aug 2025 21:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4457610E5BD;
+	Mon,  4 Aug 2025 21:43:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gIvPB8cF";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="J+YzSNwr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1812710E45F
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 21:43:23 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 574FTbWd019944
- for <dri-devel@lists.freedesktop.org>; Mon, 4 Aug 2025 21:43:22 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE7B10E5B8
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 21:43:24 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 574Khibr013332
+ for <dri-devel@lists.freedesktop.org>; Mon, 4 Aug 2025 21:43:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=4iMQZAqx3JH
- WA1prynQ+6hJlCX8ujFNqsZgwdOw+rDs=; b=gIvPB8cFPv1IRFNTmqYWqEWuixR
- Rwv7bmlaMzqpBylwNtRi/TG3UiM5k84mwatQE10PeUBNVzoEhsZC/kEPjRmRctDC
- +4ryya9XDg//UPR17UUtiH/UY+Becav0ePCMrFVJlEzmhGQalUXJG9cFtGnElobB
- qlSlHwe5N9O8RqWjBAnqJ8u1dxf87h6e8PXE5AZAC8ytxEBqBzKaeLCFYkRG+iXS
- ZPKaXijDwUfqLCd6gmGJkhRVPcGNg/6HUPKEFA9trUtMYvvoMAgwYgrrRcN7XsLw
- 7GLN1tfWws+oetwv6VI5XGTLxVbDC8BxqoxJmILgFmZRwmtdCQzjbkQWuKQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 489buqpb2h-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=nwBcV4Oemt5
+ w740AAje6mIColtrmwRWXKq31FSAZZI4=; b=J+YzSNwrVx5QkBv3++Hw3EluqR1
+ qWxOSWwL9oqpkBTSOLSuhyMAVAiSqYlze1z29tUONI+9grkO9n9vVIy5wHLNaPBL
+ cFx7xN3QSwN4nJDjBppse3DrOLfn0S8lKBpceSQwJI/9V0n3dd1PG56TgfT5KDe4
+ 7j1uHhvQB2VcvcYeBzo8KrlbxFvdJDUqcObF1s2WHWiOOUkDTvkcvTou4uHWx39R
+ uuMpxbt4YId8LIROoJSwDiaEQDxrFnA0bKserOJ2WggiK3MHIau8jX2OYumKmPDN
+ gOV8f30JLwQYwAov1Rl9rAYQZgkSDFErp1j4acnbHX56KAvOuzDdgg3jxEQ==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48b3j3r6c6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 21:43:22 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-24249098fd0so30288925ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 14:43:22 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 21:43:23 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-2425364e0b2so26233295ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 14:43:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754343801; x=1754948601;
+ d=1e100.net; s=20230601; t=1754343803; x=1754948603;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4iMQZAqx3JHWA1prynQ+6hJlCX8ujFNqsZgwdOw+rDs=;
- b=usYh3eiSHuSjaaYAnb9nMRFLNAiTr3MdOZOTJgAWlXmahITFgZh/1HqtxUrhSTPrTX
- SiOzamSufnTYoVGLtftb49FZLKOZqyu54xPkKWyjNi27d/9TEB/tvNWJOVqVmvPkayeX
- 3dzkNk4oo1Xq2JpO/utqw62BUOacPF96Q0VlYHYltxEEJd+5D75ATT9yGw6vQQQKM3PB
- DBgKCmJbCR3h1VIo81LCQnnrEAaP5vHKYB6XdlL4fT/MYayLtQDAG+Ugjeru2iisQBTy
- e4kdCrVyEeZd+9xf+1U1qI6horMzLHN3kl+k5sl35UZKj+VkFaSkDeQuOvb+ydpjuezW
- Aqtg==
-X-Gm-Message-State: AOJu0Yzaod5oo21WPPbXKM5JGrxnucOui7cBtnhB3wN6Y2aYj3zeh/+h
- kcV9BwNZNZihqe56scxFhydZjV07QN8oqxtV3vAW+8QhRGJoXq6+r5kOVFeIy3t8MAZm1rXABUZ
- TqQvD2H+epcF9kc2sDvr9W9Lu1ofbQTRwKFZT3HA6gOSkl/EV2dC3ivBQzWYqITBP7mvsxeR9zA
- oqYYg=
-X-Gm-Gg: ASbGncuNpwMd52fJWhpH5xA/GHRKwqgUXAtOBsWqD6JWZevehsZhU5b7yVl9Z4cDHHR
- Gxke8BmtnKZAVtZzlZ6n49CQZjiBJByTMxUvkgTWt5Vg3qtVJktlIFilWKS0rcqDdKQwzqcvOsa
- X3aRTi4YbUWm0hrr2C7NTycd+8rL61SQJh7iF0XSu6jLVP6VxiFQJjZt2NH2apkh002uyuDTS4k
- +r3sVtqQk9fo7UMCXe/iMfKC+g591vjVzjfyETiXxigHcTcLY6WOi2HF3Rz/sRHdiekwJHc67b8
- TDN+IGjjExKf1scuA7yHl0tls7FbYn350tV9Xb28v7D3J1eCLBQ=
-X-Received: by 2002:a17:902:c951:b0:240:25f3:2115 with SMTP id
- d9443c01a7336-24246f66529mr161881515ad.12.1754343801266; 
- Mon, 04 Aug 2025 14:43:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEJ42SvcJgCxFfQN88b9q64GCmdPYqi/gv07LLosxuO/N73EtGwR8zNcDRPko1iT53bOia+0w==
-X-Received: by 2002:a17:902:c951:b0:240:25f3:2115 with SMTP id
- d9443c01a7336-24246f66529mr161881165ad.12.1754343800876; 
- Mon, 04 Aug 2025 14:43:20 -0700 (PDT)
+ bh=nwBcV4Oemt5w740AAje6mIColtrmwRWXKq31FSAZZI4=;
+ b=GktICi8Ioc42HipEyz/QlBjzslCanFQjKEW1SMoN7UVvrKXE3E7R6M989O+AgZ72tO
+ jiL8PPUqI0eqcD1vOhYKnwe5lbzdLff8dm0krkhEzsGtl54H1PDLZkSogryOyVEzzKHb
+ J0Xa58WhCf1KPXy3JBgbf5xYo+UM2Dqhplb1PIs0xiuO8RWS+fvnR2x177NL0QDu0SDP
+ JpBTe3PxTF6tzuB+F7wPqDIjorafvOJxp7FKncjTSlhyeSHOGywPlDdSQnH4/CRJNqOp
+ XWZjLUdWUmkh4S8xQKI3e6iQOXnybf0nUg48V+tqShphKzy10se+JaCvK8uCePfCbgyt
+ 8wYA==
+X-Gm-Message-State: AOJu0Yz2pb4nVus2gpWMk8e3Yy42xNPgWBkZVdypaLbtZOqK84kQ6X4R
+ UDwM4ukubnOXGcjtgqiCdM7gBjdEAKsNNv0vUQZu8NnuaOqYtjNBIBsr2RO0QUYKKykPJ4yGu41
+ 3o/6Hzhz/WrukwK4FLpLxDgb6tttuzYDBFauUzfCyB8ehE8LrhmGfRpsgPjv1ggiGQJNABDbIUk
+ D6Gjk=
+X-Gm-Gg: ASbGncvY3EVKqG+tGFRuHreG2eQbTDP25l1kx7OUzyyV+7i1cAFnhZ9esJnFX3kJvC7
+ f0LSLTm/3/vmyev40sZFNpDo45yp2XxOb+z+8UgOCCt2YC6XTEbt1XxOsvODQmiOwYKSyXRGefV
+ WOwctFXcqByaYm+c8uVsQ8pMhTXjeh0Z8D48D5h2+gYfn5cC+KwE0UPe+C4CrFNhRTG63trhti5
+ haCEZxQhdXkf6rfwY8YfYhus8LFalLAluhlANCOviDNdAfiliMhl0i5k5kdlHdk7dashQ2OGLtF
+ 5iHVx3vY0UTIwdZ+YdGIzVN0WPMhHsT6WtzaNjwbi7WjVTIU4UQ=
+X-Received: by 2002:a17:902:e0d2:b0:240:49e8:1d3c with SMTP id
+ d9443c01a7336-24246fef44cmr85653375ad.35.1754343802680; 
+ Mon, 04 Aug 2025 14:43:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE6a9/8RPndKLMzz5ytDiVTCVnElsJWsamSeHzO2/TAvn6vk7dklmlUiRe8K/yjPhIcb3dkYg==
+X-Received: by 2002:a17:902:e0d2:b0:240:49e8:1d3c with SMTP id
+ d9443c01a7336-24246fef44cmr85653175ad.35.1754343802269; 
+ Mon, 04 Aug 2025 14:43:22 -0700 (PDT)
 Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-31f63da57b4sm15506076a91.5.2025.08.04.14.43.20
+ d9443c01a7336-241d1ef5fbdsm116628865ad.27.2025.08.04.14.43.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Aug 2025 14:43:20 -0700 (PDT)
+ Mon, 04 Aug 2025 14:43:21 -0700 (PDT)
 From: Rob Clark <robin.clark@oss.qualcomm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Danilo Krummrich <dakr@redhat.com>, Connor Abbott <cwabbott0@gmail.com>,
  Rob Clark <robin.clark@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- linux-kernel@vger.kernel.org (open list),
- nouveau@lists.freedesktop.org (open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO
- GPUS)
-Subject: [PATCH RESEND 1/2] drm/gpuvm: Send in-place re-maps to the driver as
- remap
-Date: Mon,  4 Aug 2025 14:43:15 -0700
-Message-ID: <20250804214317.658704-2-robin.clark@oss.qualcomm.com>
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH RESEND 2/2] drm/msm: Handle in-place remaps
+Date: Mon,  4 Aug 2025 14:43:16 -0700
+Message-ID: <20250804214317.658704-3-robin.clark@oss.qualcomm.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250804214317.658704-1-robin.clark@oss.qualcomm.com>
 References: <20250804214317.658704-1-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: lzURMlpAJ8jG-dV9szt6Y2axCzteprB5
-X-Authority-Analysis: v=2.4 cv=VZT3PEp9 c=1 sm=1 tr=0 ts=6891297a cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10
- a=EUspDBNiAAAA:8 a=-LggB1lm2EvgG5rjBn0A:9 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDEzMCBTYWx0ZWRfX6XCDAdXjsq9Z
- 8lg+uVBvpJbhu1gks04wBaW4AMt3BkMdKgxvOlMrsapq3Gft861Kv7k7l64VABhJ12fcDhQ4s0u
- sWJz8Wm0LEt2dZ+Y+2eNhjNVNoGH/i6l3byCeOZwQ3fy54hADMYRdtkmZ+iO3MTdeYYNOCdhL6u
- Ot+GgA8CxLh4eRq/VMn4D5uTa2tk840tWeR20oe3aXCoJfGEATEWfAHWQ97wzpO9X8lfZUXJ4+S
- vz4zrKg/Mqy+iPclqe3JSImXBDIY7/XZrZzlHvC3sR5NJkZh2VdPr238Rwt/lZmED+piphhDpX1
- yUXdtXBfW/tAFcQxSnm9QwG0D4p4SsWzBHF+qtVLWH9Gvd0iClfQt5C3407H9NUbPtXVeTCksTf
- fNrTARw41mEKIyq8rH5a64e+fKLWG70488VR+Gnp0FHIKyqJjToHUGNr3HuLQ8S7ZzZHPG3T
-X-Proofpoint-ORIG-GUID: lzURMlpAJ8jG-dV9szt6Y2axCzteprB5
+X-Proofpoint-GUID: Em9tulHizn2qI3dfjbYpXYKueEV0U0XO
+X-Authority-Analysis: v=2.4 cv=TZ+WtQQh c=1 sm=1 tr=0 ts=6891297b cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10
+ a=EUspDBNiAAAA:8 a=kCfvZJGldO2mi53t-5YA:9 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDEzMiBTYWx0ZWRfX3smqTbBHjKRC
+ HklCUkg+6RY4n8J+OxwxMklNHhpWJcCTpCAQegDuC4PDSfTJzLsplqzkO8SQl6LF257NXCMO3xf
+ P6kZbgZAFi+qv5eDkvXr+iiNtpdIGj+6iV1+5yPiUfUsUf3OCXoOHlgaF6lNAGykXL19ui5WKBJ
+ zpTAMk0Nui7AEO3pANQdbJi3PBCu+/XDkZjFd7u+GbWPCa9HdxhZspA2qxHSm1/qXoYNAb73ewa
+ rWLWocWWzgzRgUHa5X7+6ksR8b1yTb3obrLJV7/b9O3smlAwsTEUkbFzpoc/yO/ZCNQFb6GllqJ
+ d9XJbOR7vMZYthfhWNrpcj7oiV2d/iJhKldd7BmlTDQhR9BYvAach3fWSrSkzey4xQcQQWcA3yr
+ RhBFDxj3pGPR07ixrWjujf1khXq5x900v2dI8ShUAcdsP2KCuow+spPENnmeu1YpnfI8RmGb
+X-Proofpoint-ORIG-GUID: Em9tulHizn2qI3dfjbYpXYKueEV0U0XO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-04_09,2025-08-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0
- spamscore=0 mlxscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- lowpriorityscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2508040130
+ clxscore=1015 priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
+ spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2508040132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,62 +125,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The 'keep' hint on the unmap is only half useful, without being able to
-link it to a map cb.  Instead combine the two ops into a remap op to
-give the driver a chance to figure things out.
+Handle the special case of a MAP op simply updating the va flags by
+detecting the special case, and skip pgtable updates.
 
 Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 ---
- drivers/gpu/drm/drm_gpuvm.c            | 21 +++++++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_uvmm.c |  3 ++-
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_gem_vma.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index bbc7fecb6f4a..e21782a97fbe 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -2125,6 +2125,27 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				 offset == req_offset;
- 
- 			if (end == req_end) {
-+				if (merge) {
-+					/*
-+					 * This is an exact remap of the existing
-+					 * VA (potentially flags change)?  Pass
-+					 * this to the driver as a remap so it can
-+					 * do an in-place update:
-+					 */
-+					struct drm_gpuva_op_map n = {
-+						.va.addr = va->va.addr,
-+						.va.range = va->va.range,
-+						.gem.obj = va->gem.obj,
-+						.gem.offset = va->gem.offset,
-+					};
-+					struct drm_gpuva_op_unmap u = {
-+						.va = va,
-+						.keep = true,
-+					};
-+
-+					return op_remap_cb(ops, priv, NULL, &n, &u);
-+				}
-+
- 				ret = op_unmap_cb(ops, priv, va, merge);
- 				if (ret)
- 					return ret;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index 48f105239f42..c3e3a15eb3c8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -820,7 +820,8 @@ op_remap(struct drm_gpuva_op_remap *r,
- 	if (r->next)
- 		end = r->next->va.addr;
- 
--	op_unmap_range(u, addr, end - addr);
-+	if (!u->keep)
-+		op_unmap_range(u, addr, end - addr);
+diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
+index dc54c693b28d..d4b1cfb3aa03 100644
+--- a/drivers/gpu/drm/msm/msm_gem_vma.c
++++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+@@ -519,9 +519,10 @@ msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *arg)
  }
  
  static int
+-msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
++msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *_arg)
+ {
+-	struct msm_vm_bind_job *job = ((struct op_arg *)arg)->job;
++	struct op_arg *arg = _arg;
++	struct msm_vm_bind_job *job = arg->job;
+ 	struct drm_gpuvm *vm = job->vm;
+ 	struct drm_gpuva *orig_vma = op->remap.unmap->va;
+ 	struct drm_gpuva *prev_vma = NULL, *next_vma = NULL;
+@@ -529,6 +530,18 @@ msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
+ 	bool mapped = to_msm_vma(orig_vma)->mapped;
+ 	unsigned flags;
+ 
++	/* Special case for in-place updates: */
++	if (op->remap.unmap->keep && arg->flags &&
++	    op->remap.next && !op->remap.prev &&
++	    (orig_vma->gem.obj == op->remap.next->gem.obj) &&
++	    (orig_vma->gem.offset == op->remap.next->gem.offset) &&
++	    (orig_vma->va.addr == op->remap.next->va.addr) &&
++	    (orig_vma->va.range == op->remap.next->va.range)) {
++		/* Only flags are changing, so update that in-place: */
++		unsigned orig_flags = orig_vma->flags & (DRM_GPUVA_USERBITS - 1);
++		orig_vma->flags |= orig_flags | arg->flags;
++	}
++
+ 	vm_dbg("orig_vma: %p:%p:%p: %016llx %016llx", vm, orig_vma,
+ 	       orig_vma->gem.obj, orig_vma->va.addr, orig_vma->va.range);
+ 
 -- 
 2.50.1
 
