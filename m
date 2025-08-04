@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C3BB1A503
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 16:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAE7B1A508
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 16:34:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2436610E543;
-	Mon,  4 Aug 2025 14:33:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8465610E581;
+	Mon,  4 Aug 2025 14:34:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Dw6wZkJI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MMvhJaKy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C0910E543;
- Mon,  4 Aug 2025 14:33:48 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-312a806f002so763038a91.3; 
- Mon, 04 Aug 2025 07:33:48 -0700 (PDT)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAD3A10E562;
+ Mon,  4 Aug 2025 14:34:05 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id
+ 41be03b00d2f7-b2700de85d0so408458a12.2; 
+ Mon, 04 Aug 2025 07:34:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754318028; x=1754922828; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1754318045; x=1754922845; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=h0T5bNkjOLwUXjeJPET1PATYeweG7dwzoZgOeClfm6o=;
- b=Dw6wZkJI0YPdlMcZJ1fGFqIgHvxurPyObLGvB76U/9kIpsyLkIQenmss6ZkCL0aak/
- O7ZvXCU/T/P9lyVlCCe5++S6pKsEzshPOL+eBTB+e8AteHwjBWDEWpSfVuZA0zpwggsX
- CDBiI+QRhEqvajJEwVX3tQSzmvefBrezvnmDGK1ILFbXZq5o8cRQvFHoAGXaHO4fUVA7
- Pj27orQfYXxn9URv6JrV1yaxuSr45EsfvFXqt+deFbAftj8EejMr0IRwGP+e+z6Ijw79
- 4HzUJO3N1fYBtSkhHzPq0PwUe/B4c6BoUUjgdkLj0lQeqIjtGd7mMzOAjE4kestSB7QQ
- CBEw==
+ bh=ThPz4EG6ZmgX+GG9SQyYVrMb+M6NgBy3ZDuWSe5fSmc=;
+ b=MMvhJaKyB6pEGXDKn5iggoRVsUiV7L1sWcvrwI3OGd1ssXDh81UFVYCtc0IQBZ6fka
+ OauJgaTAbUmodZ6i4WzvLaEGDTWlBixHYIiYfdsP+frtOig2QJj+bOB5fVWxnJLtQXvO
+ MN67aOkTZOgCTsbaeKiuTm7Ty7cmFPg9tYn03sK3ZVutvoAcT9x18vKVCLlJ4vODec/2
+ cLGuAYM6cjvDEqER8HRGMgnKvHTekU8xy7n8tFmI7o+h7Nds/E3o0KXYNc7jB4hHpYZV
+ 6cD4/YtwUb8Jn/y+22nvtNI4ZP7Kk+md5vx1uHpcPotWz966r0r4joOCX6VmP/HxaUmD
+ 9r0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754318028; x=1754922828;
+ d=1e100.net; s=20230601; t=1754318045; x=1754922845;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=h0T5bNkjOLwUXjeJPET1PATYeweG7dwzoZgOeClfm6o=;
- b=NstmJWQI+pvGp1GLAJn6lVe1rle2lbXOLWmZ+f+MWRXDl5rPfsKf9FI09vrbJ+iiuQ
- WRGEgXgi7R1ISbEAfSgO5DjaPO9FZJqIjqU/xfI0HuxbrROaO9+5v2zCEmdTbAts9f7n
- K9H13IEq+glTizU3hZ+W1fjc45AFo2mMpGlbQwhX+1YzyT9vyAjN9kHJxv2A/xHxZRS1
- z5hz8ffh58ckSfg4+HTeWOWgDc3nBbjZKc9fYq9nBt/jdgR3Rdv8q8VJJ6zjQVZVtTAS
- lHxUeTjAiAj1Rf/li+hiYM8aLbbT/MO12Y1rKEFLc5kbwqW2fY/HWmSrWfD/Zo+MDoHF
- pW1g==
+ bh=ThPz4EG6ZmgX+GG9SQyYVrMb+M6NgBy3ZDuWSe5fSmc=;
+ b=bRjDm3M4z2fZ7OOyNTxT/M/b1YT78i5G0p2g5uEyXvqJEBHltBOmgY15+mqweU3rP0
+ HsPJR49NBFx3bWUvCiy/icejhfEEUFYtFAwLtqL/ekyeHY77gGkVe3SocTVsNEtZXeey
+ MdStXmrBtb9AoMVHytXvnz3NBJby0yHhfJJcIGWm1VxFbv3Z46SFmexA1/w1xNOEWovT
+ 6LE8m+suU+Te05yFYAgy3cZl7AG2Kfz3FzE+GohwISBz5pPyeruqWmx66EHHhqr1f7lI
+ GLPo5iHHYxmFlrhn9j9oyK9GwetsUWeumg0ZObEHFyNQwjFJRVV8ZDKNV0yTF5wsi36w
+ L28w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU5uOTLHRhYqWzyirLq9h7seIjtxbtBKx9Bd858H+R2JZexA7fqgzlpZ6JDkBdNf8IcnMk6SKwucdUw@lists.freedesktop.org,
- AJvYcCUrZd6X7sYPzH2szw3PR7d/3zRWBVatikCUG/Zi+y47oAArmO6GKL9hEuIfg4flA0kQSJAtyLZf@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzc/dwf6tjF7kokOupJYBvD7AJgn7/UdcoOcPq/daM0jpRq9v5o
- LuwjGtQEbt+ThkuzF622XF3rQ1XM+PQc/Z4xEPJ+h8TKl1A9IcHvzRHG0GwCalOvsnICos07wlE
- L3JadILJJmWTMawBo12lRRsbDA3TS0ac=
-X-Gm-Gg: ASbGnctJ8M1C+sC7rGqT91zAosLdY30L7cVB4LXxwExGxstsWVFijskArLWi0C14VXi
- ER3yhR8F91EeECZ4F4JD1g7TLunv02LRVkHkvD7bom0VOlRMFK034uzKC/NpYLH1gF73ybsWCjQ
- yXhL85TUXl0A9QwgMdLN6BMg06bQA8rML9DCjMLLkL7cppOzzd2453DWY9kMiHl8r5+fQGmqzG7
- CQ5PnLCH4lXrkCdOfU=
-X-Google-Smtp-Source: AGHT+IGLgrHrPD6FJJCxW/OQubfBA53Jif9CMWKpZX11VoglF2lNuXufKtAMRai10ALKftx1KRAW03kCD5zS0tZlsb8=
-X-Received: by 2002:a17:90b:4b92:b0:31e:facd:ca30 with SMTP id
- 98e67ed59e1d1-3211611c1b9mr5992708a91.0.1754318027882; Mon, 04 Aug 2025
- 07:33:47 -0700 (PDT)
+ AJvYcCUo6/ZoVbFPFsYLFPuChpC9eJse92WT6WwLxEGHdlF1BmPFbC5g50BM4ODaT8vm+FcWy/QevFAI@lists.freedesktop.org,
+ AJvYcCWtKKLgC7HJ38C94D39SgZziVgteLTo8RfS1FkxhcGcne0H0DnsP8Bt2sVQmcyrZQYpj5Jmy1JdGons@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwhS0lW91MpAXAupx4ihngNAmkQM8oGiHDfon3mrmH3UU5LedFq
+ inc4Jp9Pgv5XM2UmY+51xPpEOBP2IFlgIY7Ub2dYFBB/IFkF5AD0urReog9xNYawSnTlQcrxo8P
+ XvS3chRQceDariV0n5To+AArt77XdplI=
+X-Gm-Gg: ASbGncvMBbK6nN785Ow9ZiXEKqw6S13oW7O99NmfBJI2pEL7A2NSky+VhR8nfl9AMpF
+ NMTTll4lPOMAhUc37O7cgw1B9jL1hOZwuCenT8eUlod7JbICLly36Kb6pBOlLXXxubbkp1xcGFd
+ Pi5bvzhF3OECc0LQe2rVsNzwapkc2GOhC2GZiGPL+0JdGXfGtg/Kw8ZeOpjJqmeYD7LdG/xCnwF
+ vUuLa5T
+X-Google-Smtp-Source: AGHT+IH2SjTWTgUng0xb8MVNI07treE0Rf1uZrlyLZS28ps1VWH5GeUrd451Qm6fRobbn3ai1A5EuPF9RQCs85dAYm4=
+X-Received: by 2002:a17:90b:1804:b0:31f:55a7:6504 with SMTP id
+ 98e67ed59e1d1-321162c71c9mr6274051a91.5.1754318045294; Mon, 04 Aug 2025
+ 07:34:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250801-uartlite-redundant-v1-1-6141b97a3c7f@ethancedwards.com>
-In-Reply-To: <20250801-uartlite-redundant-v1-1-6141b97a3c7f@ethancedwards.com>
+References: <20250801-amdgfxv9-v1-1-0b9670ab5509@ethancedwards.com>
+In-Reply-To: <20250801-amdgfxv9-v1-1-0b9670ab5509@ethancedwards.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 4 Aug 2025 10:33:36 -0400
-X-Gm-Features: Ac12FXzRBElqGCC5tidrwbuqwnJHL33G6bP8oj-Ab2Z3a5A_mE7hHKx2MC4CCxQ
-Message-ID: <CADnq5_OdnxRhX74svDrrK6OtrcJKywJPvZDo=J_VArALZVUdDw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/gfx9.4.3: remove redundant repeated null checks
+Date: Mon, 4 Aug 2025 10:33:52 -0400
+X-Gm-Features: Ac12FXzEWmuF5wDSj54XY1blu563_2bdAIUexGomIzDirrtij04qOUL9B36nQoM
+Message-ID: <CADnq5_Nzia7kvqBYxVwnRASFHyWWDPPrA-qBsLH4OxP_S49L5Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu/gfx9: remove redundant repeated null checks
 To: Ethan Carter Edwards <ethan@ethancedwards.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>, 
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
@@ -89,7 +89,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 2, 2025 at 4:28=E2=80=AFAM Ethan Carter Edwards
+On Sat, Aug 2, 2025 at 4:33=E2=80=AFAM Ethan Carter Edwards
 <ethan@ethancedwards.com> wrote:
 >
 > The repeated checks on grbm_soft_reset are unnecessary. Remove them.
@@ -101,62 +101,52 @@ Alex
 
 > Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c | 24 +++++++++++-------------
+>  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 24 +++++++++++-------------
 >  1 file changed, 11 insertions(+), 13 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c b/drivers/gpu/drm/am=
-d/amdgpu/gfx_v9_4_3.c
-> index 51babf5c78c86c20ef806e31e9d0a4185ffda5b8..8ba66d4dfe86e96073f63e259=
-177ca0ca2416a6d 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
-> @@ -2461,19 +2461,17 @@ static int gfx_v9_4_3_soft_reset(struct amdgpu_ip=
-_block *ip_block)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/=
+amdgpu/gfx_v9_0.c
+> index 6a9cf3587cc6f0a0d00ab1c109fd599dd8aa2579..a6ff9a137a83a93cde0b0c9c9=
+e51db66374bcbee 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+> @@ -4175,19 +4175,17 @@ static int gfx_v9_0_soft_reset(struct amdgpu_ip_b=
+lock *ip_block)
 >                 /* Disable MEC parsing/prefetching */
->                 gfx_v9_4_3_xcc_cp_compute_enable(adev, false, 0);
+>                 gfx_v9_0_cp_compute_enable(adev, false);
 >
 > -               if (grbm_soft_reset) {
-> -                       tmp =3D RREG32_SOC15(GC, GET_INST(GC, 0), regGRBM=
-_SOFT_RESET);
+> -                       tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
 > -                       tmp |=3D grbm_soft_reset;
 > -                       dev_info(adev->dev, "GRBM_SOFT_RESET=3D0x%08X\n",=
  tmp);
-> -                       WREG32_SOC15(GC, GET_INST(GC, 0), regGRBM_SOFT_RE=
-SET, tmp);
-> -                       tmp =3D RREG32_SOC15(GC, GET_INST(GC, 0), regGRBM=
-_SOFT_RESET);
+> -                       WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
+> -                       tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
 > -
 > -                       udelay(50);
 > -
 > -                       tmp &=3D ~grbm_soft_reset;
-> -                       WREG32_SOC15(GC, GET_INST(GC, 0), regGRBM_SOFT_RE=
-SET, tmp);
-> -                       tmp =3D RREG32_SOC15(GC, GET_INST(GC, 0), regGRBM=
-_SOFT_RESET);
+> -                       WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
+> -                       tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
 > -               }
-> +               tmp =3D RREG32_SOC15(GC, GET_INST(GC, 0), regGRBM_SOFT_RE=
-SET);
+> +               tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
 > +               tmp |=3D grbm_soft_reset;
 > +               dev_info(adev->dev, "GRBM_SOFT_RESET=3D0x%08X\n", tmp);
-> +               WREG32_SOC15(GC, GET_INST(GC, 0), regGRBM_SOFT_RESET, tmp=
-);
-> +               tmp =3D RREG32_SOC15(GC, GET_INST(GC, 0), regGRBM_SOFT_RE=
-SET);
+> +               WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
+> +               tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
 > +
 > +               udelay(50);
 > +
 > +               tmp &=3D ~grbm_soft_reset;
-> +               WREG32_SOC15(GC, GET_INST(GC, 0), regGRBM_SOFT_RESET, tmp=
-);
-> +               tmp =3D RREG32_SOC15(GC, GET_INST(GC, 0), regGRBM_SOFT_RE=
-SET);
+> +               WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
+> +               tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
 >
 >                 /* Wait a little for things to settle down */
 >                 udelay(50);
 >
 > ---
 > base-commit: b9ddaa95fd283bce7041550ddbbe7e764c477110
-> change-id: 20250801-uartlite-redundant-c4cb6f87bb68
+> change-id: 20250801-amdgfxv9-30357749717e
 >
 > Best regards,
 > --
