@@ -2,89 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3AFB1A53F
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 16:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC82B1A587
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 17:09:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA20410E59A;
-	Mon,  4 Aug 2025 14:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9803389A88;
+	Mon,  4 Aug 2025 15:09:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="O7CmMmct";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RVNl8Vra";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 583BB10E592
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 14:50:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1754319044;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Th/zbNG2w/sGAVRFlv12HJ6Li/jSTJBgQ6X2ZZll/S0=;
- b=O7CmMmctRo8TFZp9kSQeC6rDb/zMSZ0HCHtbqtVv/qprOjythyKSwsXPkdGKeC+prscCG/
- iPvAZr3GrJvnAGlgdvZL1vLCszCYW18ffDvPJgI81KeCyUBP4qNSgYJg07OJPuAKMc/aCW
- n6sAfIZsr84pmte4/ictBb0pPG34+kQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-635-2hqens0YO3asLKE5yp0jfA-1; Mon, 04 Aug 2025 10:50:43 -0400
-X-MC-Unique: 2hqens0YO3asLKE5yp0jfA-1
-X-Mimecast-MFC-AGG-ID: 2hqens0YO3asLKE5yp0jfA_1754319042
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3b7961b3c82so2074084f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 07:50:43 -0700 (PDT)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9283110E213;
+ Mon,  4 Aug 2025 15:09:09 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-31f3f978cd1so750591a91.2; 
+ Mon, 04 Aug 2025 08:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1754320149; x=1754924949; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0pWmlnlbINt5DgzqX/LhMW6Smiak/fMhtF3KImHodSQ=;
+ b=RVNl8VrattZTLSWOUGE5fLpB4hxke4Ty4PdC4JsTnKghG5rluSq3KAikptrI1Y8GgH
+ /dCUr7MeZvyFfKR0MpLrmfry/uabw2mVHmfQT+K52SqmLp5d4TcMVCi1uXr4Ttyd5vU/
+ 8h1zEGijeoZOgXkh+xaDNJ2GJoPNC9tjArr+PiSEGkJOgBrgLzaqMLAooJjQuKCbow/i
+ dO9ZQkB5pqK2Yr1ire+a5Apmt6QW9yXKvpmMN09bVd/XcGLq6Hva4o5Mzdq1DuCcW4mK
+ l+97u/AmXtpGGtfz1iIXqMgvHMezIdsx5T8NKczNtiOmGKQwge1vMo72TWomc9xXblXO
+ lcoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754319042; x=1754923842;
+ d=1e100.net; s=20230601; t=1754320149; x=1754924949;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Th/zbNG2w/sGAVRFlv12HJ6Li/jSTJBgQ6X2ZZll/S0=;
- b=Ft5xY9j1CrUFIdxu6FF3udWPRr7gLMjHNekrEO8YSG6jT94LZIUj3Te6+O3xlpu7Ix
- /WOrbT++OpPzUPGaSq+n5gERlxf1pl/OYEkbQH20DtL+0+gEw+eaWrv+8AdHzStL9UF7
- TVTsMFzRtEm3DovPFpJEapHLVCIaVIV+Ds1C9O3vFf/DUwTtg4cwnhrt13Wp930cFz5I
- RlCSklkNe3AjaMVIbJR/RO1iPw4yEWCo/U3sUH9AkTSXQG0j3p0UtXtWE+mTcviXq2cf
- IV5lRJA/OFImZb+yMf9PMn8CjWMFz5Mbu2r9M24zObOG0Gmf77+y+UxzloXQdTGDsjtP
- wXjg==
+ bh=0pWmlnlbINt5DgzqX/LhMW6Smiak/fMhtF3KImHodSQ=;
+ b=j6IFuC/rMT+6S747rx9oC0noihb6gZjSYVQCsQsDZHnx+B1UVl64ljVkAgLSeNfV1D
+ HTU0cKmP2bfDqnlB5WEqQVXaUJVfsPXkG3+sJ1DPic1gnYa5/nbiWJfQuobJcfmeFc91
+ qbbgC5cqwAMTklumWnXZ22xzQkafSkEvImEFbPqJJj1tNpPb1zhvf6hE6ey0DhM8YrFT
+ TfpYsTD/OST6OccZ+TRWZTiW39VfF87oKgNVIhh/NbcCPjNxNxvgnB4PA864XUmkIfsu
+ dI56k+9puPZ+EqZce2AKCOij2YsUGJ4ojk4lfGF2564PENtbCaFbmVVrZQ099OjKMi8g
+ qITA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUysqrLKL9VGEkted/NtA4Pp4EIyPbzM26DMHpLpX7qo4Yt3Ns59v1TUoeZD2D13SENot/HaX+4tlM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmVLiyq1NW+x8ofmv9nwcAYUE0t5X5IPK34v9nGLglvP2+G420
- 7EfFEF3P+8H9OzkQtQnILGFI80lYwbCrEpT2xWQHJQIxs11mQ1OiOXEdEhon2BCnuAkXXHN5LOR
- F5RmkS+vg5Wb6avcPJOdjuDd0OJ7XSLq8jq4bpN7Q6k9TxhX8MYKSC7IBOcqs0kCimWo+27xJxs
- puvTm8pGbipDNa1qedQHjaQ+58P1dC17+w8M0C51XIFMVC
-X-Gm-Gg: ASbGnct2aDeEvijZP9VArLZjv6ScdzHXzVKNx9SgRGV+3jA10NzVo/ruZyxtlKT12OT
- +ldwR/xH2RVbqZFL7i92ttQHfzIM0hOiyrJ0A3y2FI8/bGfXrqytul896Nkto2Ai9hEb0x/rRKJ
- V9jYd3akbK+SMLD3H+cUvk
-X-Received: by 2002:a05:6000:1788:b0:3b7:94c3:2786 with SMTP id
- ffacd0b85a97d-3b8d94c1c49mr6701548f8f.34.1754319041930; 
- Mon, 04 Aug 2025 07:50:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHgsw4pwEJUoqykoSclSWi0JkSR9VtvKkMXz/zduARm+hjzykjvBGRpvCt0a+Ds377veRWW/i7OVVOUhVwFvkM=
-X-Received: by 2002:a05:6000:1788:b0:3b7:94c3:2786 with SMTP id
- ffacd0b85a97d-3b8d94c1c49mr6701520f8f.34.1754319041488; Mon, 04 Aug 2025
- 07:50:41 -0700 (PDT)
+ AJvYcCWadcynmB43irvesu/+Sq/yc/Ww4Tuyj2YPHC0NsgZ3mJ8SL2ZiawmPz+fAiDcLLBZVApmdzwuR3KeK@lists.freedesktop.org,
+ AJvYcCXQXLYLKHvAG735QsnR0Q065SFwkkV2UTAMBDuG9u9zyihaJ4ljMUO3TVDJcST5s3ByByce1XDX@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyoRuGnanH3ztWhrTq9yRvU3qlpGrysum/UP5x913BlwRhWlN3j
+ ZQ5PP/mV0iKnP72SSud4UBR+WSw+0v7g4EHGidpTILipbv/p3gbY/AZuiZ00kS6QGLMYxd2Qg7g
+ VtX5pcM4mwFy8R9Ee44a7aJheLcoxlO0=
+X-Gm-Gg: ASbGncte3Z0W5/gw+bEUR/Khk2XghLyRCwkRCV/pgcO+lrTb3wjslGfoKJgHH6IFPU/
+ mk+XJI8UJrPKiNuFBwrl6sCcwrcuAmB0Kfn7k/1apX9e+ZIa4lt3GDEJ7Q7uA+l4Q9ukKtzA+yo
+ TmU8soA3MAM2jjkPqST5xkhxR9xw9QlC+srRHg2M5bZLW06BK/tVSdFeywpzFPGnL4plZWLpPxa
+ dw4dhq6WiNPlZsVsLQ=
+X-Google-Smtp-Source: AGHT+IHMFTyHef6/XrO0koXR/RYvYL+mNs96k9z60jF3FuBiwe69QFy4KV4xUVhlsAx611Q1Vntkh6D2HZ+92HzrCTY=
+X-Received: by 2002:a17:90b:1d05:b0:31f:3d6:6d98 with SMTP id
+ 98e67ed59e1d1-321162cd943mr6369334a91.5.1754320148948; Mon, 04 Aug 2025
+ 08:09:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <CACTEcX6oXBot1VBApOyKVMVXsAN9BsvQMLa8J0iKpNeB-eLttQ@mail.gmail.com>
- <642d439ea1be8e48ee5c47fd3921a786452fb931@intel.com>
- <CACTEcX5Y3PNXNkhnK1dGFe+k3sigOZNpj66KKGAS9XeHqRu35w@mail.gmail.com>
- <0b15e33603a46f6cc7ad7d09a156044f11367169@intel.com>
- <CACTEcX47bUd2tp=LYkQnhK29Js=vLN0JfXL8Aq6mOFBVYumpzQ@mail.gmail.com>
-In-Reply-To: <CACTEcX47bUd2tp=LYkQnhK29Js=vLN0JfXL8Aq6mOFBVYumpzQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 4 Aug 2025 16:50:28 +0200
-X-Gm-Features: Ac12FXwltMgUzEEB8nqMLRA_D51YfOsfFkH1rt4nc_9cVgH_FR6V2EdEIAFZooc
-Message-ID: <CABgObfZKKeqMrAUyS8CB4ARkW_8Z9QREgpgYcq2jxoQ9ppS6MA@mail.gmail.com>
-Subject: Re: [REGRESSION] tty lockup and WWAN loss after hibernate/suspend in
- 6.8+ on ThinkPad X1 Carbon Gen 10
-To: Andy Mindful <andy.mindful@gmail.com>
-Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org, 
- rafael@kernel.org, ville.syrjala@linux.intel.com, tglx@linutronix.de, 
- Christian Brauner <brauner@kernel.org>, Jani Nikula <jani.nikula@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: dKQ0SJktOwfQOfhQ2alwfKKce8tpbDRW-fipJfjAoYU_1754319042
-X-Mimecast-Originator: redhat.com
+References: <20250801-amdgfx10-v1-1-e1dcbe18d84e@ethancedwards.com>
+ <CADnq5_N+bQppUAD-qR8QC8M6nW+oRF8+7z=Qakcxc=a6Z8q4Gg@mail.gmail.com>
+ <c82931b5-0de2-4e45-a80b-3a90b0cc98a2@suswa.mountain>
+In-Reply-To: <c82931b5-0de2-4e45-a80b-3a90b0cc98a2@suswa.mountain>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 4 Aug 2025 11:08:57 -0400
+X-Gm-Features: Ac12FXzrs51YUGCsmGY-ztatDva8cn8ius8nZTcTZJWx1B0F2phV965iupSHQcc
+Message-ID: <CADnq5_Mk3FO_tvxFo+fJgqskVc7qtGv74VM6EStx_BcVpahXEQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu/gfx10: remove redundant repeated null checks
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Ethan Carter Edwards <ethan@ethancedwards.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,32 +92,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 4, 2025 at 12:57=E2=80=AFPM Andy Mindful <andy.mindful@gmail.co=
-m> wrote:
-> Double-checked bisect, looks like I've have found broken commit:
+On Mon, Aug 4, 2025 at 10:49=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
 >
-> > > git bisect bad
-> > > The merge base ba5afb9a84df2e6b26a1b6389b98849cd16ea757 is bad.
-> > > This means the bug has been fixed between
-> > > ba5afb9a84df2e6b26a1b6389b98849cd16ea757 and
-> > > [1b1934dbbdcf9aa2d507932ff488cec47999cf3f
-> > > 61da593f4458f25c59f65cfd9ba1bda570db5db7
-> > > 6fc5460ed8dd0edf29e7c5cfb1ef9b1aa04208a1
-> > > ba5afb9a84df2e6b26a1b6389b98849cd16ea757].
+> On Mon, Aug 04, 2025 at 10:32:43AM -0400, Alex Deucher wrote:
+> > On Sat, Aug 2, 2025 at 4:22=E2=80=AFAM Ethan Carter Edwards
+> > <ethan@ethancedwards.com> wrote:
+> > >
+> > > The repeated checks on grbm_soft_reset are unnecessary. Remove them.
+> > >
+> >
+> > These are not NULL checks and they are necessary.  The code is
+> > checking if any bits are set in that register.  If not, then we can
+> > skip that code as there is nothing to do.
+> >
+>
+> It's not a null check, but it is a nested check and it's a local
+> variable so the patch is correct enough.  At this point we know that
+> grbm_soft_reset can't be zero.
 
-This skip is messing up the results:
+It can be 0 as far as I can see.  If none of the GRBM_STATUS bits are
+set, then we never set any of the bits in grbm_soft_reset.
 
-# skip: [0dd3ee31125508cd67f7e7172247f05b7fd1753a] Linux 6.7
-git bisect skip 0dd3ee31125508cd67f7e7172247f05b7fd1753a
+Alex
 
-and there are still 3858 commits in
-ba5afb9a84df2e6b26a1b6389b98849cd16ea757..{1b1934dbbdcf9aa2d507932ff488cec4=
-7999cf3f,61da593f4458f25c59f65cfd9ba1bda570db5db7,ba5afb9a84df2e6b26a1b6389=
-b98849cd16ea757}
-
-Any chance you can get 6.7 to work and restrict the range further?
-
-Thanks,
-
-Paolo
-
+>
+> regards,
+> dan carpenter
+>
