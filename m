@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7198B19CF1
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 09:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B1AB19CFC
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 09:54:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A6ED10E412;
-	Mon,  4 Aug 2025 07:50:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B85B10E146;
+	Mon,  4 Aug 2025 07:54:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="X7yZLNHL";
+	dkim=pass (2048-bit key; secure) header.d=braiins.cz header.i=@braiins.cz header.b="d9xh3gxo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE95510E40D
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 07:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1754293819;
- bh=BnROzuyXaP1UwzsNHCzraWROM8wBopZw3oc70QdaeLY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=X7yZLNHLr5r4UBsZrUZv1Fye/q81mMRCYpkb5sYPybsalpnFBh7oVBKEL22Uj+Fsv
- OAdjfNL3sn+doU+cV8IywTM0GTsdUtBTkaFYv6v8TzdkykYmFqt4QwkiHvuIt+B2Qs
- fToBWzRC9+/zfxonJUmzfUr2S6v08U0E4y9UlVdzacKGXHYF4vBYkXvfshKcJLfduy
- mJtSitKhRYiO71CMnuMvOXGLtXyc8oGbPhtsvLHVUjsJCgr7aW+kWoDbtmctSC24K6
- cYviCWyOellTh9LYIQTy7hFs3Cm8IXtlwqTkuqu+eoLw0+9ZgM0Z2qKexnnn+EYQ4Z
- F9TjvuSZUm4Rw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 12EE217E04DA;
- Mon,  4 Aug 2025 09:50:18 +0200 (CEST)
-Message-ID: <d030ed4a-bb43-4f24-82c9-6106209013b9@collabora.com>
-Date: Mon, 4 Aug 2025 09:50:17 +0200
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
+ [209.85.222.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98ADD10E146
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 07:54:40 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id
+ a1e0cc1a2514c-88bbfe763ecso894858241.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 00:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braiins.cz; s=google; t=1754294079; x=1754898879; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=VELw0d1ZO538ytGI/V/v64gnXmWpxwhgeyUPbBpA3Ok=;
+ b=d9xh3gxoLXrIAKAap+U8nXS1cxLU4S6Ce2osB3+SHbk2XNI0Zspt/B+BHOZpvhYqrY
+ TL4nu2nvYNhEIWtXMdHq98H9DD3fRtQOdjbCMB44N/Fc0ricrW+RbNeLGH6oSzjUXZgm
+ qbpy33sxMMSRPZHz5JULhFfoQBC3FFoHPSepKlR4NwtRZCyMn6VQt6DAlBVNOB31UyqL
+ 0y7Adp1OnKs6HvSk81jQuedVusklpijb8khydUO9gxh70BZOtxrLRoISCogHjwUgLlne
+ 8P7soaBBokf8xUDYHQ7bjK9qgQe7T6XMCBPjtuKdCvYue+YsPI0++GnvRZ/CJCQd8XIV
+ WQ9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754294079; x=1754898879;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VELw0d1ZO538ytGI/V/v64gnXmWpxwhgeyUPbBpA3Ok=;
+ b=jeN50auBT0aa83rY6DCqoJsTAvbBDqrvfMFZHeeYHE+K4Om6EA5ZF7nWOKUTsHRSTa
+ jfzq21t5qGTAwcY8YCERIekpDJh7qaoyj56bjJY8nrD0SwCjQ0UkKGwLj6D6Ahju0RGH
+ BnFMQ/dnrsN8I3iAFp1lAONkALXwX3xVbmAeZlNKxa2Utnz4spexS0d8WEfogP9B0b4k
+ ijnr3nIUQOa7Eh0VdQK4lqusGC3iUTaGbxOa5MajGMlJxIUQdavPEbo0hLXgyUEnmzp5
+ 9M+t5M+K/um4vAvwa3mftM/BF5gCAB8ol0YqmxL0Z1MAvv14fq52TAaUXoqrE3wzziVO
+ fC7w==
+X-Gm-Message-State: AOJu0Yz7+3cbTqxq0AqUViOuAYqYqIsqb8uZpMl0nIvApRaN5dZ/Rd4F
+ KsbqemYcPsFFllRbcEEtwS/yVy+YmnXvbUGQnRGea5MxUuDvCjvLDlUYAIeIXsxgDTKzZnj57ho
+ 7Qva+cJXne+S52qpHszu81Vae5FZ0xXdyvY3FbgBjnnMWe01v4EHRp3M=
+X-Gm-Gg: ASbGncsTTBrpntdp5JZKQ1OAP68/DUBNogjlJky1GyATTqi2zU77EMA86o1Az64JZmV
+ dU3sksXjBxhfjBaUTnypoEqWiB8CIjohBtzQ6Zg9y7xiX2h4fPxySGq+Pc7OIwlP9V328p2bFNg
+ WGoGulpPdLyKLKMDYh66gGkxXaahrOEmRtDwITv4jjho+jXB8BGDwQSsMhxuPibmz55Q0CiWqW5
+ P/LySRrki1YKU3jiZvKmdvfA2pUZh31NXgdivJ0
+X-Google-Smtp-Source: AGHT+IEu+govnR4Jd560VsjbMn6zm7jcHxNB8lVmMEiXHMeJeMnOhwdgNgmrnxGKfn8/85PwtRzHhO4Z3ivHmmiXfAw=
+X-Received: by 2002:a05:6102:41a3:b0:4f1:2ec7:af39 with SMTP id
+ ada2fe7eead31-4fdc430d567mr2717963137.18.1754294079239; Mon, 04 Aug 2025
+ 00:54:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 00/23] Add support for MT8195/88 HDMIv2 and DDCv2
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com, ck.hu@mediatek.com,
- jitao.shi@mediatek.com, jie.qiu@mediatek.com, junzhi.zhao@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
- dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
- ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
- jason-jh.lin@mediatek.com
-References: <20250415104321.51149-1-angelogioacchino.delregno@collabora.com>
- <2eq5je6xk4ly5lxijit3ufor7pmm7mgivbuigzr35lrbe2ryvr@3axnsyabigm7>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <2eq5je6xk4ly5lxijit3ufor7pmm7mgivbuigzr35lrbe2ryvr@3axnsyabigm7>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?B?Sm9zZWYgTHXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
+Date: Mon, 4 Aug 2025 09:54:28 +0200
+X-Gm-Features: Ac12FXzwLTv1ihSx1itHwXyCDwv8jLhsCgiaBXXsrjcRBl-tiZ3V0--OVJkxNkc
+Message-ID: <CACnTymakHbAH1eSP8y99_yOp08R4mV=M922ym9YGdT-V-xdKfQ@mail.gmail.com>
+Subject: GPU acceleration with SPI displays (TinyDRM)
+To: dri-devel@lists.freedesktop.org
+Cc: noralf@tronnes.org, Alex Lanzano <lanzano.alex@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,28 +76,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 03/08/25 00:23, Dmitry Baryshkov ha scritto:
-> On Tue, Apr 15, 2025 at 12:42:58PM +0200, AngeloGioacchino Del Regno wrote:
->>
->> This series adds support for the HDMI-TX v2 Encoder and DDCv2, and for
->> the direct connection DPI as found in MT8195, MT8188 and their variants.
-> 
-> Angelo, just wanted to check, what is the fate of this series? I think
-> it wasn't updated since April. It was a really good example of utilizing
-> the HDMI framework(s). Wink.
-> 
+Hello,
+is it possible to use GPU acceleration with TinyDRM drivers?
+I am testing on STM32MP157c SoC with Vivante GC400 GPU and I use
+Mesa3D 24.0.9 (rootfs generated with Buildroot 2025.02.3) and kernel
+5.10.176.
 
-Even though it was fully reviewed, everything but the actual driver was picked
-for whatever reason.
+To compare, I also have the same system but with a MIPI DSI display.
+While kmscube renders at 60 fps with the MIPI DSI display, I get only
+11 fps with the SPI display (TinyDRM driver).
 
-I am about to go on holidays for the entire month, but I asked Louis (added to the
-loop) to resend the driver while I am away... :-)
+Is there some architectural limitation, either in Mesa, kernel, or HW-related?
+I suppose both setups use kernel's KMS as renderer only (kmsro), thus
+it should render at the same framerate into framebuffer.
+The difference in HW is the peripheral the displays use - MIPI DSI
+display utilizes LTDC peripheral (kmscube loads
+/usr/lib/dri/stm_dri.so) vs. SPI display uses just SPI (ksmcube loads
+/usr/lib/dri/ili9225_dri.so). Both .so files are hard links.
+Both open /dev/dri/renderD128 (GPU).
 
-Thanks for the reminder and especially for the appreciation, btw.
+The MIPI DSI display is connected to the DSI Host peripheral which
+just transcodes the parallel RGB pixel stream from the LTDC (LCD
+Timing Display Controller) peripheral of the STM SoC.
+The display driver is drivers/gpu/drm/panel/panel-sitronix-st7703.c (DRM panel).
 
-Cheers!
-Angelo
+The SPI display driver uses the kernel's TinyDRM API and its driver is
+drivers/gpu/drm/tiny/ili9225.c , but I can change to any other driver
+if needed (eventually to the generic panel-mipi-dbi-spi).
+Could rewriting the TinyDRM driver to a panel driver in
+drivers/gpu/drm/panel/ help?
 
->>
-> 
+I also tried software rendering "softpipe" (disabled GPU in
+device-tree) and it renders 7 fps on both systems. Thus, I suppose,
+that some form of GPU acceleration is already used.
 
+Mesa reports the same loaded GL-extensions on both systems and apart
+from loaded .so files everything seems to be the same.
+
+Best regards
+Josef Lusticky
