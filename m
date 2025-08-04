@@ -2,105 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ABFDB19AC0
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 06:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0B4B19ACD
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 06:43:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEB210E28F;
-	Mon,  4 Aug 2025 04:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADEB10E29B;
+	Mon,  4 Aug 2025 04:43:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fkurjv3v";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="3+r8ee1f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 984C410E126;
- Mon,  4 Aug 2025 04:31:51 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 573No1f3011168;
- Mon, 4 Aug 2025 04:31:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- vssEbq0+ZIxOehsdS4FA8hybmmmRjis7q0tY5Oxpr/s=; b=fkurjv3vyIeeS8Eg
- jnGGX0ijMXRBKcqizFKUfx4akpuBKoOr9A+s+hM3QqsO4AJVtloomxlEGfCUmcU9
- o59l8HiQJr1mMeOHlswnvTe7PAwYxBljQ0Gf/cdjHTAQRkvj0l9bMO3fLWroaaR8
- 9hh+Tq45G1N5YoWKcEPwopBwbVUUqmaXLSyxZYyZGlPrcAnzRAqTyJsNS4G74k94
- fJHHAeIWY8r24/brYl2D4a5b9Aqb5Mhkx6zRp3yeT7SDc5483UTU8SRW1LzmrIvo
- YfXpQl3MFbGjVjGhmvFwLm3jdt1HeuDoKQnxo4StyxNMNVOVqmzOa6xidTso5km4
- /dDOfQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 489b2a3dqw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 04 Aug 2025 04:31:41 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5744Ve7x010663
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 4 Aug 2025 04:31:40 GMT
-Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Sun, 3 Aug
- 2025 21:31:34 -0700
-Message-ID: <477bebcc-2d1a-4183-8e3d-d792e876c63a@quicinc.com>
-Date: Mon, 4 Aug 2025 12:31:31 +0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2072.outbound.protection.outlook.com [40.107.236.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25A7D10E29B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 04:43:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UG4D7Nd8TChdkJtP7pNBeo2R0wbgVeZ1t0E6EkNjLSWXTuJCFEzw7sfuJsC2XwmH6E8RdQ4NhzHSql7lPG6W895vcU6QCUitpPpvjwIMrvSRr56mhVtCRnSyWSZGVZ7xvFLsRX+Nn5CiICrKszfqgFwYk0s4IZgEvPxt36jD05vYIhZDe9+GyyoPU7Q9mCYSy6pBlfTkBvO+eCI8qVsd6CVkAnh6GTFeqDwwC6S6e4iMP9GOJp2zY5gcp2VBB2MO9/E0CuJpw1U2qvRaDErqNXsAwRECfViUxVaRGSbfAB1PD8vDKWOxVsVtJjckfMrR2WM4RlnTDhjS3F0LVyg6pQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QKTW7+mtEV23nZqDXR/oPCYndwDALSfPYNOkUJHzfXI=;
+ b=j0icYVu6tAIiIsxmSM1guqt78T8sbozMeMXmGS1JYnwAe5kGYVLCIaJ+alwxAYcrlNoFqBbmFFd9zrXPFbrJ9EWdP9H6isZihjgIvCJpkM1VIj9LM6yFhx5TFHGexIlKYBgXbnZ61DqqYTElrCDWxeWSYJVlw59Fh4ajzCyXknWHmIc4dshf7lWk7vPh2I1IglSIUuPkxUY7o6qBP5FkGJuVVZ9ZUN64FDg1KfHeAUFNll+J19a3ODVqUJgXtKt4KKs2DpiJ0JIIIdShefslaQ5pSDkXpFsqwBwDLgynNl9kI6WYYYOzcw2XHLB217XJsU906bIJiDVCQriONjdPfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QKTW7+mtEV23nZqDXR/oPCYndwDALSfPYNOkUJHzfXI=;
+ b=3+r8ee1fEeMp8x8HdwtOTMbpObHspRC7jCBIDHJ3Sx0xjYoVC2Cm+kBOlM7D0trmEvD8LrVNbj9bWAwnUGNOR0H7bOg3pcKv3WNnNG9KHIpmKh05tfyI/IbCgxwutAm5lRmb7FyKmlqtmrMNOlWDpl9xgSFsdVLJGje/yQgxGEY=
+Received: from BL1PR13CA0204.namprd13.prod.outlook.com (2603:10b6:208:2be::29)
+ by DS0PR12MB9037.namprd12.prod.outlook.com (2603:10b6:8:f1::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.20; Mon, 4 Aug
+ 2025 04:43:04 +0000
+Received: from BN2PEPF000044A2.namprd02.prod.outlook.com
+ (2603:10b6:208:2be:cafe::a6) by BL1PR13CA0204.outlook.office365.com
+ (2603:10b6:208:2be::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9009.12 via Frontend Transport; Mon,
+ 4 Aug 2025 04:43:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF000044A2.mail.protection.outlook.com (10.167.243.153) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9009.8 via Frontend Transport; Mon, 4 Aug 2025 04:43:03 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sun, 3 Aug
+ 2025 23:43:00 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sun, 3 Aug
+ 2025 23:43:00 -0500
+Received: from [10.85.42.135] (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Sun, 3 Aug 2025 23:42:56 -0500
+Message-ID: <6e82f186-e059-4535-a0f5-848a055058f3@amd.com>
+Date: Mon, 4 Aug 2025 10:12:50 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/5] dt-bindings: display/msm: Document MDSS on QCS8300
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
- <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, Bjorn Andersson <andersson@kernel.org>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20250730-mdssdt_qcs8300-v5-0-bc8ea35bbed6@quicinc.com>
- <20250730-mdssdt_qcs8300-v5-3-bc8ea35bbed6@quicinc.com>
- <deefg7w3ot6cd3woexfwagetmkg4nvu37f66h4ulbdqegdgi3u@plj6puxcsil4>
+Subject: Re: [PATCH v2] locking: Fix __clear_task_blocked_on() warning from
+ __ww_mutex_wound() path
+To: John Stultz <jstultz@google.com>, LKML <linux-kernel@vger.kernel.org>
+CC: <syzbot+602c4720aed62576cd79@syzkaller.appspotmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, "Peter
+ Zijlstra" <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ "Vincent Guittot" <vincent.guittot@linaro.org>, Dietmar Eggemann
+ <dietmar.eggemann@arm.com>, Valentin Schneider <valentin.schneider@arm.com>,
+ Suleiman Souhlal <suleiman@google.com>, <airlied@gmail.com>,
+ <mripard@kernel.org>, <simona@ffwll.ch>, <tzimmermann@suse.de>,
+ <dri-devel@lists.freedesktop.org>, <kernel-team@android.com>
+References: <20250801192157.912805-1-jstultz@google.com>
 Content-Language: en-US
-From: Yongxing Mou <quic_yongmou@quicinc.com>
-In-Reply-To: <deefg7w3ot6cd3woexfwagetmkg4nvu37f66h4ulbdqegdgi3u@plj6puxcsil4>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <20250801192157.912805-1-jstultz@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=OKwn3TaB c=1 sm=1 tr=0 ts=689037ad cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=gEfo2CItAAAA:8
- a=COk6AnOGAAAA:8 a=bNVB-QMxkSv05INpNXEA:9 a=QEXdDO2ut3YA:10
- a=sptkURWiP4Gy88Gu7hUp:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: kMsO4wlwWm10GvYRcOrHi36Gavl3yD2N
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDAyMCBTYWx0ZWRfX6tB76TrhnJEn
- sP5HiVh0Zks8N8JMcAKLf6pLtUNFXBx1Y3Z6KuE3HFkYDl0Hlm2NXohu+uA+eWcXtTzAQPqecpL
- RFYCSO8qae40tx61epe/qeDiQ1rMzazejCfCExOAdQNChhpflGHGzTlqP0Nf5eiWlqrxSJwz/3L
- Yve62LFi9i2tcpY0N3oI6ueioyAvmEHmdrzSRq6nPG1FKtfBblTHqYzrVax5P2o3jQq0upqJVJi
- ToP8sVv0gxT/MSxcIXoHzF0hTpVG/va6K5TWboe6ovkDKJkVRE0LN+IDNZev13hgfhxpSn3pBiW
- 9/925dJo1wEPlMmzwbtrJnNQ1+hqER5fE9erk/e9y2LHsdG0OvvXfu8bag662imA32Q8OL8kYcT
- q0nUaX8kelQYsUs+4k14v0sx6qrvxcI12qm+lcHl6Y2COlmYjjDVh9cZO5kEQykTDv+QA6bw
-X-Proofpoint-GUID: kMsO4wlwWm10GvYRcOrHi36Gavl3yD2N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-04_02,2025-08-01_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015
- phishscore=0 impostorscore=0 priorityscore=1501 adultscore=0 mlxscore=0
- malwarescore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2508040020
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044A2:EE_|DS0PR12MB9037:EE_
+X-MS-Office365-Filtering-Correlation-Id: eef1064b-3700-4328-6724-08ddd3116618
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|82310400026|1800799024|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WHhTL2ViZ3p2RllPOTVKNWwyVUpucjE5RUtsRUpEeUJ6S2JsOFE1bVZjbTkw?=
+ =?utf-8?B?NGJkd0RNbUlpVzlnRHE4bmQ5MDg2bC9wK1ZaMUJkZkpUODNFTGZuQU42akJK?=
+ =?utf-8?B?U2FSZzh1VlZjYjZncVp5TTV3SGtsQlRYVEJINWJMajRoSUhxc2hvencvMUd2?=
+ =?utf-8?B?eENWRmFtUzV2TElBRDFIa0RuTTVVTjVMZHpnbDF4Ykl6VTNoWlpYUmxRV0RV?=
+ =?utf-8?B?QjRwd0FsSmZOVXNpU3M1Zm82YVRFSUlzb0Y1VWRMVUYvL3FtNUNPNjhPczRI?=
+ =?utf-8?B?QWkveDZ1T2NtU3I1VllIcU5rMVBqY2pQKzdqbWZvQWtMeXd2Vk5iYjJVR2lF?=
+ =?utf-8?B?eWN2L1VvcG9tV01ZNW1mTTRMWlk5ZmRkWjJ2aDhyMnNnTFNLM3kremZ6S1lp?=
+ =?utf-8?B?ajBENTVzN0tWQ1I0SjhoS0lnakpON1BKMUJKQmFEL0lzbEpRSnNwcTNVcGF6?=
+ =?utf-8?B?MTQ0R24xWDg3aWhaMnZ6UGkva3dtbm96cjB3WmhObGZzcmRsOFZyYzQ4WWhT?=
+ =?utf-8?B?OGxTNmgwM3lwWHJoZm5sQlU1S2xDOExmcWlJbS9rS2ROc0QrcDViQldGdmNP?=
+ =?utf-8?B?d3JjdUVuYjlYTWptQ3o1RHNDVlBGbHhqbDlPRWN3dWx5MFhJT3JWam9remJ3?=
+ =?utf-8?B?NWowbU41Z3BLL3VPWVI2Q3kxajNybnVMRWVFL1FKMi8yZkxXRmRsWW5sQ3hI?=
+ =?utf-8?B?VnhDb0xBK251dlJzb0d4aDcrV0x2QXRuNERoamRhMnFYRGJtU3IyV2VJVDdr?=
+ =?utf-8?B?RzJYbUpZZ0pnVCt1UktCVnd1bCttdVJqZllSVXo2bDlXSkhzUDVFUzVzQm5J?=
+ =?utf-8?B?OFBQNytZTVM3NXI1NWl6WlMrM1AzUy9EazRoV1pRRWlQSGdNUktvTnpZckNI?=
+ =?utf-8?B?R3E0cjYzbVdsU2RteXVOcW44dDQ5dSs5SnY1UHlNYThpZU9GTURTbUlxbG5Y?=
+ =?utf-8?B?MVY5NDRUTFI4UU1ISUloMStFd3ZoRVROQ090UEh4b0N4RHVMOEpHekZxRUp0?=
+ =?utf-8?B?Ym81L1dSME4zUXpqRFVYUUd6Z291akZKeWEvUzd3dERhWHVWNXI4ZjFCRE9l?=
+ =?utf-8?B?SEFiR3ZkQ3R6SkVjMjBiTmx3RU9uNzRkam9tamtodnBwYUN5ZTFvSW9tT1V0?=
+ =?utf-8?B?Z3pOYkR2SEErMzI2ZHFLMGVUQnFvNXI5WkRVQXpZbm9RcEZTY0M3Z1FBYTUv?=
+ =?utf-8?B?ZnZ0SWpnSjdrbCtrNmoxK0lidldOeldhT1Zka1NpRC85aEpaZElxTW81Y3B4?=
+ =?utf-8?B?M3VIYVJneGtJYnFVZytCdTBiOXk2YjFxWjBiUERYWXdveEVTamJKVVBHSkEz?=
+ =?utf-8?B?YlR2REtQZVNrdi9IMmhISGhHWTNueW42NVVGNHNTSzZndjdGZFdXNk8rUVYz?=
+ =?utf-8?B?ZC92NngvVFVxQWJGMTRGL2ZybWFBSGpVbVhadFdMU01KOFM0d2VqNnpwV2RU?=
+ =?utf-8?B?SjZRekxkUEV6N0VRYUlXby9RanZwd0NtdlNwNDhNK0tmS3FPVml3aHhtSnpM?=
+ =?utf-8?B?RUNLUy8wM0RWeFBKRTlPMUNRZEphZm5NWVJZdFE5R3pwazBuMjFUVGRlYytC?=
+ =?utf-8?B?bS9CTy91RmE1bm5GTEJmanhQODd2UUh4R2hIalAxb2E2MDR5U3NtQnQyaktQ?=
+ =?utf-8?B?cmQrVG9wV2tCcmZHK0tSeEZCSHd6U21uV1RXVnpnSkU3VVBKQUUyaG4xaGp1?=
+ =?utf-8?B?eXJLWTIwWGtOY016L2Z1SXdpOXowWGFBZFE3Y28yK29hTEJUL2dhQTAycEZF?=
+ =?utf-8?B?R09XcVU0WExETWdVWWY1cmY0YzVobGVhRnZoSUVQdXFiSVBaRVlWdGYxU3ls?=
+ =?utf-8?B?RnJDVlVNYzQ5Q1BhT1lPQjBxekxsNkUyVC9CTzFTcExZLzl5T0Jjbk9FbEFt?=
+ =?utf-8?B?L2tVQmVDYkhwZmNXS2t0V3R5QWgrL3FzaXp6dE53R1BHZEtmTDM3elR4OFlG?=
+ =?utf-8?B?UVQ0bjkycWRUay9LZ3h0eTZ6UmVSV0VCYUtSTlJ2dHpQK2JOVGJrYWY0S3c2?=
+ =?utf-8?B?NzJ6U1UzeTFRPT0=?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(7416014)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2025 04:43:03.6842 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: eef1064b-3700-4328-6724-08ddd3116618
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000044A2.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9037
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,107 +154,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello John,
 
+On 8/2/2025 12:51 AM, John Stultz wrote:
+> The __clear_task_blocked_on() helper added a number of sanity
+> checks ensuring we hold the mutex wait lock and that the task
+> we are clearing blocked_on pointer (if set) matches the mutex.
+> 
+> However, there is an edge case in the _ww_mutex_wound() logic
+> where we need to clear the blocked_on pointer for the task that
+> owns the mutex, not the task that is waiting on the mutex.
+> 
+> For this case the sanity checks aren't valid, so handle this
+> by allowing a NULL lock to skip the additional checks.
+> 
+> This was easier to miss, I realized, as the test-ww_mutex
+> driver only exercises the wait-die class of ww_mutexes.
+> 
+> I've got a follow up patch to extend the test so that it
+> will exercise both.
+> 
+> Fixes: a4f0b6fef4b0 ("locking/mutex: Add p->blocked_on wrappers for correctness checks")
+> Reported-by: syzbot+602c4720aed62576cd79@syzkaller.appspotmail.com
+> Reported-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Closes: https://lore.kernel.org/lkml/68894443.a00a0220.26d0e1.0015.GAE@google.com/
+> Signed-off-by: John Stultz <jstultz@google.com>
 
-On 2025/8/2 17:56, Dmitry Baryshkov wrote:
-> On Wed, Jul 30, 2025 at 05:42:28PM +0800, Yongxing Mou wrote:
->> Document the MDSS hardware found on the Qualcomm QCS8300 platform.
->>
->> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
->> ---
->>   .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 284 +++++++++++++++++++++
->>   1 file changed, 284 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcs8300-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcs8300-mdss.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..ae4bc16395326bffd6c9eff92778d9f207209526
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/msm/qcom,qcs8300-mdss.yaml
->> @@ -0,0 +1,284 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/msm/qcom,qcs8300-mdss.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm Technologies, Inc. QCS8300 Display MDSS
->> +
->> +maintainers:
->> +  - Yongxing Mou <quic_yongmou@quicinc.com>
->> +
->> +description:
->> +  QCS8300 MSM Mobile Display Subsystem(MDSS), which encapsulates sub-blocks like
->> +  DPU display controller, DP interfaces and EDP etc.
->> +
->> +$ref: /schemas/display/msm/mdss-common.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    const: qcom,qcs8300-mdss
->> +
->> +  clocks:
->> +    items:
->> +      - description: Display AHB
->> +      - description: Display hf AXI
->> +      - description: Display core
->> +
->> +  iommus:
->> +    maxItems: 1
->> +
->> +  interconnects:
->> +    maxItems: 3
->> +
->> +  interconnect-names:
->> +    maxItems: 3
->> +
->> +patternProperties:
->> +  "^display-controller@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
->> +
->> +    properties:
->> +      compatible:
->> +        items:
->> +          - const: qcom,qcs8300-dpu
->> +          - const: qcom,sa8775p-dpu
-> 
-> Use contains: instead of listing both of them
-> 
-Got it, thanks~ here we want to fallback qcs8300 to sa8775p.
-Should we update it to :
-+        contains:
-+          enum:
-+            - qcom,qcs8300-dpu
-+            - qcom,sa8775p-dpu
+I've been running this for a while and haven't seen any splats with
+syzbot's C reproducer.
 
-  above method can be validated using dt_binding_check.
->> +
->> +  "^displayport-controller@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
->> +
->> +    properties:
->> +      compatible:
->> +        items:
->> +          - const: qcom,qcs8300-dp
->> +
->> +  "^phy@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
->> +    properties:
->> +      compatible:
->> +        items:
->> +          - const: qcom,qcs8300-edp-phy
->> +          - const: qcom,sa8775p-edp-phy
+> ---
+> v2:
+> * Rewording of "lock" to "mutex" in commit and comment for
+>   clarity
+> * Rework __clear_task_blocked_on() to use READ_ONCE and WRITE_ONCE
+>   so we don't trip over the WARNING if two instances race, as suggested
+>   by K Prateek Nayak and Maarten Lankhorst
 > 
-> Use contains: instead of listing both of them
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Vincent Guittot <vincent.guittot@linaro.org>
+> Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+> Cc: Valentin Schneider <valentin.schneider@arm.com>
+> Cc: K Prateek Nayak <kprateek.nayak@amd.com>
+> Cc: Suleiman Souhlal <suleiman@google.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: airlied@gmail.com
+> Cc: mripard@kernel.org
+> Cc: simona@ffwll.ch
+> Cc: tzimmermann@suse.de
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: kernel-team@android.com
+> ---
+>  include/linux/sched.h     | 23 +++++++++++++----------
+>  kernel/locking/ww_mutex.h |  6 +++++-
+>  2 files changed, 18 insertions(+), 11 deletions(-)
 > 
-Same as above
->> +
->> +required:
->> +  - compatible
->> +
->> +unevaluatedProperties: false
->> +
-> 
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index 40d2fa90df425..700b50d29f7fe 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -2166,16 +2166,19 @@ static inline void set_task_blocked_on(struct task_struct *p, struct mutex *m)
+
+Should we consider using WRITE_ONCE() in __set_task_blocked_on() and
+use a local copy of "blocked_on" there too?
+
+I think a set_task_blocked_on() on a separate ww_mutex can still race
+with a wound on the ww_ctx which indiscriminately writes NULL to
+"owner->blocked_on" and can possibly lead to a splat for:
+
+    WARN_ON_ONCE(p->blocked_on && p->blocked_on != m);
+
+                 ^^^^^^^^^^^^^    ^^^^^^^^^^^^^
+    Sees p is blocked on "m"      Turns NULL as a result
+            already.              of a concurrent wound.
+
+A READ_ONCE() and WRITE_ONCE() in __set_task_blocked_on() should help
+solve the splat in this very unlikely case too unless I'm mistaken.
+
+Apart from that, this fix looks good. Feel free to include:
+
+Reviewed-and-tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
+
+-- 
+Thanks and Regards,
+Prateek
+
+>  
+>  static inline void __clear_task_blocked_on(struct task_struct *p, struct mutex *m)
+>  {
+> -	WARN_ON_ONCE(!m);
+> -	/* Currently we serialize blocked_on under the mutex::wait_lock */
+> -	lockdep_assert_held_once(&m->wait_lock);
+> -	/*
+> -	 * There may be cases where we re-clear already cleared
+> -	 * blocked_on relationships, but make sure we are not
+> -	 * clearing the relationship with a different lock.
+> -	 */
+> -	WARN_ON_ONCE(m && p->blocked_on && p->blocked_on != m);
+> -	p->blocked_on = NULL;
+> +	if (m) {
+> +		struct mutex *blocked_on = READ_ONCE(p->blocked_on);
+> +
+> +		/* Currently we serialize blocked_on under the mutex::wait_lock */
+> +		lockdep_assert_held_once(&m->wait_lock);
+> +		/*
+> +		 * There may be cases where we re-clear already cleared
+> +		 * blocked_on relationships, but make sure we are not
+> +		 * clearing the relationship with a different lock.
+> +		 */
+> +		WARN_ON_ONCE(blocked_on && blocked_on != m);
+> +	}
+> +	WRITE_ONCE(p->blocked_on, NULL);
+>  }
+
 
