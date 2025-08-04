@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B3EB1A3BA
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 15:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11214B1A401
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 16:01:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07ABA10E550;
-	Mon,  4 Aug 2025 13:45:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99BC810E362;
+	Mon,  4 Aug 2025 14:01:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="uQJuBgga";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="iQ5PsSPi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5843810E209
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 13:45:16 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-451d41e1ad1so30804545e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 06:45:16 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E97C10E362
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 14:01:02 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-3b78127c5d1so2552099f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 07:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1754315115; x=1754919915;
+ d=google.com; s=20230601; t=1754316061; x=1754920861;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lVxfLjqZpUxA7k2P1DVAmCagXBwL2u2PCEjKY9dcPbA=;
- b=uQJuBgga1wCdaUOmAnll8dgQsuRd1/ntYtZmJfsPsIXQUQ6aY0/RE2FDqLquuBu8Vd
- 4o+xt5HQ1ZFa8JBO+jHSSZg/RqZ/3BUcnB3LnPCfUnIFaodJjPwb2oGn3KptGQ8P4fjh
- yxM/cDZ4+7xwz/k4wR0oakmxlHLd1eay3o/0UYo5fGHAqYSx1br5kd8LMZQVFslOvUjl
- 8ics7uoIZgoqTXmoo+4cnWpRIDn2XGaToEJ9QA4Ei/8bSe39sRFRd8pRiy6rrS3j1YFA
- QR3Fzj2X5U5+w/HTIKNGIgDTAcBTyckWWpxl0Rc9SOdrTZHcyw5ZmbEZhXAEJyeuEtK9
- uREQ==
+ bh=CHAJM8FSmnytalA1wMLubAZ/HMmqzJD/2hbTKluoKzQ=;
+ b=iQ5PsSPiuc4vFB/G0f6UW351b+d4+nh/NuAvMYETguo5g/TtDQs2kfBRCgeeORzOkz
+ eIWdI+o+PE4gOu2osIvoRs+9eTor/XDfT8cpeCm7EOHXZg7RYnw4jTWlglDvR6rgzWg2
+ v95mt7r2+GzBpEALL8+MthM2U+kjleB152/Rq9uTEWeOMwC37mXC2IfjvTyE1WGaBKAU
+ GFOcPMM9+ZWwlijzgjH4/O9CCGMdWEnCrTqNH3Kpfu/3Z4F9FRmhPx7ViDfyEiJovt+L
+ p4sHKWwAw2Ytk4hJDKVSURkWe+cm4s30IfSFAwj92f2P0GaSaBbP2VgY0m9HSHc66KI9
+ q1cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754315115; x=1754919915;
+ d=1e100.net; s=20230601; t=1754316061; x=1754920861;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lVxfLjqZpUxA7k2P1DVAmCagXBwL2u2PCEjKY9dcPbA=;
- b=bw02PIhAYQjE+cQ1uX9ncpr2q7XCPX2zXeoAj+9zzzTToUspgDaPvcdwQqklQyCojW
- v4dK2G1Xj5k/Y5pmL4TWAGOF55U4iGBGzkM/SgI1ebVc5yItUrt05D18+bYzmcivK3s7
- JGh85xtAwwjIHMV5C+YGw/JPr9MMrTtZJkD7Lokha+SLJdVehEAfo55wDQqGIFGa8AqT
- aXTtdQHvSIvkRZBq5CmGBHkJSPf7WGM7UgUsbukejsu6pjmXtmYhYL0LO8iUqUCCP+wW
- TfPn0HaZNpbMCLnWjjS0hdO1nXP1lU4a1cs9X2PLv44DhTlosEWtiM+S77xpUXG/TUoD
- pj4A==
+ bh=CHAJM8FSmnytalA1wMLubAZ/HMmqzJD/2hbTKluoKzQ=;
+ b=RlCxSGDhhRndOel0GCBVMcP/I9AMoulmYYjXzvGYNV2XEmYd1sPdyx+jRhNSGiCGot
+ rqDrVwqho4m6/Z0nflTI8VTervYbsEx87Ry6muoRN9S2rc6CggppvJJ2B4/e/8Vs09SI
+ XFHXPyOKKIcIDQbVzg8roD+We/o1/ohZCh6rmPmCtqj79STbxUxnEOC7PHuRpBqhY1cS
+ fYgxov/B2kvVQP7kup9cHAuRi5LiqDCecYrcXlQ0+L138K1Z4ZoaV3UicacbUSOIOPN+
+ nZwLE140nI9XAqeJqxE4bYj7a+fX/zX+nVbQzJIo0I4xrLLN8GpqRPrAiVmhdQQAmNTP
+ Fi/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXU69nMvSl01qtK3LobuVTRqPUIeivLjLRpIopXf5vnBeeZcAAW6yTeSK/scoip6dLF6GAJ5yrE4ZI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJZHX48OrtmJyH7hqzRQ9MdvEUVvTuDzgVAWtGV3UeJwabF1iL
- v81ELUa7Y4jYy8ZaDZl4iIVSewpquVVzoJQcCeeAvyIFgaOcPss4TkzTwtBzYnRnGj8W49zA4Kn
- svc9Qvh9XH0ATCDBtrcNNhSWqNwKL5PoBTsYiqhNE
-X-Gm-Gg: ASbGncuqF41hBmQdTtcb/VwQD/nquDsv7Q+Jlk5bIHuF6qCeKioW4f/bBrzUVMfIvsn
- L5QbpD0P5nQEMJVT0mxKFq0eW3wsVZTK4RQ2Zka/n/c6O3LesfYNDFOQIYS8WnQ3/1G61JBXvra
- mMZtn59yakxUCOwQyKorSXfIKUJogf7mv0bxsVPO7dTtA/brUFYAifAWTHcI+ySmw+Y488K01Lp
- UUwm01enmoR7rJvOh57EyG5CPVq8H4qM03ml5LvlHC1xRE=
-X-Google-Smtp-Source: AGHT+IFaotM+JyQ2Vpzm4IHwFj1sDugJTvhpJmHMDtD0C27FQSVnxByFTiRHFKX89CZ7UXKQfqoZ8hHgvXXbgq0byS8=
-X-Received: by 2002:a05:600c:4692:b0:456:1a69:94fa with SMTP id
- 5b1f17b1804b1-458b69dd831mr67244495e9.13.1754315114601; Mon, 04 Aug 2025
- 06:45:14 -0700 (PDT)
+ AJvYcCW9RUB7xkwT+cOq00rWcXqGBCernO81XXo3RSljolfZ6f1KTq3cjRC5te2FJKBR2sNq/QClELm8FTM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyrvELZgRLw1mYH2J0Rt6+bp3yePBsVFonLcyoJko/Pg0WzN6fE
+ TFSNIgc5rtQqvlugUEBolrNpEYsjLbuzX5wZ5I6/fVYjXc8N8bNoysP9uaQrtDnTMmLpKxp8Zom
+ Ku+BAFhH7Ah3iNshTNhvAFyWxHXtYVhrsJewYRwxV
+X-Gm-Gg: ASbGncu9i4HUa3fJlxPF04gWbtKwOXnryTJ24dyyZRZSN0d/xXOIMfCXdiOZ95F890b
+ AMVQvdew6RPkPrKOmg8DGmdy6kwP8QVPtwSu24R25Ei1R4tlHWhR6phdYuoTOEpqva8rqOlMmk6
+ BbWuuusHWWrMxjwtZGac/Km0nWIKPbg5it6nPUicRMkZHmfj5EA2agRvBtVikwSb+L18Yh7nEhP
+ Z6U9icBfcRNRR+aiUl6dGprbfYbcG3Z95CY
+X-Google-Smtp-Source: AGHT+IFUU2uJR3FAMs1rzBe7h/KQbUHKICBqcp27KBBBta/zTdWvcJkLu5KQlclilix6YlZPh1K/rMJS83c3Dckdneg=
+X-Received: by 2002:a05:6000:4305:b0:3b8:12a6:36b8 with SMTP id
+ ffacd0b85a97d-3b8d94c1dc1mr7155506f8f.46.1754316060342; Mon, 04 Aug 2025
+ 07:01:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250731154919.4132-1-dakr@kernel.org>
  <20250731154919.4132-3-dakr@kernel.org>
- <aIyGdr8vKV4XE6Io@google.com> <DBQZHIS4VQBN.WSKBML2WYQE@kernel.org>
-In-Reply-To: <DBQZHIS4VQBN.WSKBML2WYQE@kernel.org>
+In-Reply-To: <20250731154919.4132-3-dakr@kernel.org>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 4 Aug 2025 15:44:59 +0200
-X-Gm-Features: Ac12FXwUx656MFEW5kmkNucJ1NlP5WVIBqML9iOkHHqR2MZNAaCDmASPCCRrZcU
-Message-ID: <CAH5fLgi6W0g1mp6EyR16ayk_JT8pYJUUZbWXc-hyNxSxU_VeNQ@mail.gmail.com>
+Date: Mon, 4 Aug 2025 16:00:48 +0200
+X-Gm-Features: Ac12FXwPaFFtfKIfOtRFAm4bgGywLjC6Y0YkcsOWje9_NdO2yRdOYYS_hnAnRbE
+Message-ID: <CAH5fLgh6x9FYdURedJJSB1nm9n7=HA7aK3Y741P=1g7cLKEQOg@mail.gmail.com>
 Subject: Re: [PATCH 2/4] rust: drm: ensure kmalloc() compatible Layout
 To: Danilo Krummrich <dakr@kernel.org>
 Cc: lorenzo.stoakes@oracle.com, vbabka@suse.cz, Liam.Howlett@oracle.com, 
@@ -92,42 +91,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 1, 2025 at 11:29=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> =
+On Thu, Jul 31, 2025 at 5:49=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
 wrote:
 >
-> On Fri Aug 1, 2025 at 11:18 AM CEST, Alice Ryhl wrote:
-> > On Thu, Jul 31, 2025 at 05:48:07PM +0200, Danilo Krummrich wrote:
-> >> drm::Device is allocated through __drm_dev_alloc() (which uses
-> >> kmalloc()) and the driver private data, <T as drm::Driver>::Data, is
-> >> initialized in-place.
-> >>
-> >> Due to the order of fields in drm::Device
-> >>
-> >>   pub struct Device<T: drm::Driver> {
-> >>      dev: Opaque<bindings::drm_device>,
-> >>      data: T::Data,
-> >>   }
-> >
-> > I'm not convinced this patch is right.
-> >
-> > Imagine this scenario: T::Data has size and alignment both equal to 16,
-> > and lets say that drm_device has a size that is a multiple of 8 but not
-> > 16 such as 72. In that case, you will allocate 72+16=3D88 bytes for
-> > Device, but actually the size of Device is 96 because there is 8 bytes
-> > of padding between dev and data.
+> drm::Device is allocated through __drm_dev_alloc() (which uses
+> kmalloc()) and the driver private data, <T as drm::Driver>::Data, is
+> initialized in-place.
 >
-> Are you saying that there is an issue with
+> Due to the order of fields in drm::Device
 >
->   (1) the existing implementation with uses mem::size_of::<Self>() or
+>   pub struct Device<T: drm::Driver> {
+>      dev: Opaque<bindings::drm_device>,
+>      data: T::Data,
+>   }
 >
->   (2) the proper one that uses Kmalloc::aligned_layout(Layout::new::<Self=
->())?
+> even with an arbitrary large alignment requirement of T::Data it can't
+> happen that the size of Device is smaller than its alignment requirement.
 >
-> I think neither has, because we're not allocating
-> size_of::<Opaque<bindings::drm_device>>() + size_of::<T::Data>() as you s=
-eem to
-> assume above, but size_of::<Device<T>>().
+> However, let's not rely on this subtle circumstance and create a proper
+> kmalloc() compatible Layout.
+>
+> Fixes: 1e4b8896c0f3 ("rust: drm: add device abstraction")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Yes, you're right. I misunderstood how __drm_dev_alloc works.
-
-Alice
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
