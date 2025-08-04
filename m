@@ -2,53 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D63B1AA0B
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 22:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FEFBB1AB82
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 01:43:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B063E10E096;
-	Mon,  4 Aug 2025 20:24:28 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=siemens.com header.i=nicusor.huhulea@siemens.com header.b="MNCmyQqF";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B253C10E5BE;
+	Mon,  4 Aug 2025 23:43:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 604 seconds by postgrey-1.36 at gabe;
- Mon, 04 Aug 2025 20:24:25 UTC
-Received: from mta-65-227.siemens.flowmailer.net
- (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10D6610E234
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 20:24:24 +0000 (UTC)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id
- 202508042014190a512bfb6972371a4d
- for <dri-devel@lists.freedesktop.org>;
- Mon, 04 Aug 2025 22:14:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=nicusor.huhulea@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=Eg0FnZksed8sRDakoNZ/imDBspZ54K5LuiASPUMrNYs=;
- b=MNCmyQqF8OxupdUaYm0BKKhTuulV7v/FSQAmb1H7l5SqUfCAyXGXUnGEw7MiAUtL4atBI1
- HMrzL2pzbdd2EYYtIjB6/Y5AxsjENgaMmnNKLckcepcrVeoG6kHSy6JaRw/y7Rg/fd8S3tlm
- kmgAyQ8+wmcmHpvUe3XoDIV7qnU08CC2TA5sXEcee09WaohfEZeJGIGsO8oDxV5NB2zNVJdv
- 4s0ZV950xZki7KMSV8uFSr/wfIughT2UiAYd0wETHiUCobkxDR80xLWbRyigfMcQzElZt1bl
- L1s5hM0X5I9qQvYbTOTu4icKD+0XjrFB7ahoCjQLMSYCaUKw89uQyx5w==;
-From: Nicusor Huhulea <nicusor.huhulea@siemens.com>
-To: stable@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- cip-dev@lists.cip-project.org, shradhagupta@linux.microsoft.com,
- imre.deak@intel.com, jouni.hogander@intel.com, neil.armstrong@linaro.org,
- jani.nikula@linux.intel.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- daniel@ffwll.ch, joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- laurentiu.palcu@oss.nxp.com, cedric.hombourger@siemens.com,
- shrikant.bobade@siemens.com, Nicusor Huhulea <nicusor.huhulea@siemens.com>
-Subject: [PATCH] drm/probe-helper: fix output polling not resuming after HPD
- IRQ storm
-Date: Mon,  4 Aug 2025 23:13:59 +0300
-Message-Id: <20250804201359.112764-1-nicusor.huhulea@siemens.com>
+X-Greylist: delayed 2483 seconds by postgrey-1.36 at gabe;
+ Mon, 04 Aug 2025 21:03:59 UTC
+Received: from vps-ovh.mhejs.net (vps-ovh.mhejs.net [145.239.82.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 262A010E5C5;
+ Mon,  4 Aug 2025 21:03:59 +0000 (UTC)
+Received: from MUA
+ by vps-ovh.mhejs.net with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+ (Exim 4.98.2) (envelope-from <mhej@vps-ovh.mhejs.net>)
+ id 1uj1hU-00000000QDh-438N; Mon, 04 Aug 2025 22:22:28 +0200
+Message-ID: <cfc561fb-29a9-4a19-a2e5-0f3f28e5e63a@maciej.szmigiero.name>
+Date: Mon, 4 Aug 2025 22:22:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1331196:519-21489:flowmailer
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] tty lockup and WWAN loss after hibernate/suspend in
+ 6.8+ on ThinkPad X1 Carbon Gen 10
+To: Andy Mindful <andy.mindful@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-acpi@vger.kernel.org, rafael@kernel.org, linux-kernel@vger.kernel.org,
+ regressions@lists.linux.dev, linux-pm@vger.kernel.org,
+ jani.nikula@intel.com, ville.syrjala@linux.intel.com, tglx@linutronix.de,
+ Paolo Bonzini <pbonzini@redhat.com>, Christian Brauner <brauner@kernel.org>
+References: <CACTEcX6oXBot1VBApOyKVMVXsAN9BsvQMLa8J0iKpNeB-eLttQ@mail.gmail.com>
+Content-Language: en-US, pl-PL
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Autocrypt: addr=mail@maciej.szmigiero.name; keydata=
+ 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
+In-Reply-To: <CACTEcX6oXBot1VBApOyKVMVXsAN9BsvQMLa8J0iKpNeB-eLttQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Mon, 04 Aug 2025 23:43:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,45 +93,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A regression in output polling was introduced by commit 4ad8d57d902fbc7c82507cfc1b031f3a07c3de6e
-("drm: Check output polling initialized before disabling") in the 6.1.y stable tree.
-As a result, when the i915 driver detects an HPD IRQ storm and attempts to switch
-from IRQ-based hotplug detection to polling, output polling fails to resume.
+On 29.07.2025 12:03, Andy Mindful wrote:
+> Kernel-version: 6.8+ (confirmed in Fedora kernel 6.8.4-200.fc38.x86_64
+> and above)
+> Regression-from: 6.7.11 (working) to 6.8.4+ (regressed)
+> Affected-hardware: Lenovo ThinkPad X1 Carbon Gen 10 (Intel Alder Lake platform)
+> Affected-subsystems: TTY/Console, Power Management, WWAN Modem (Intel
+> XMM7560, iosm driver), Kernel DRM/i915 stack
+> 
+> Description:
+> We are reporting a significant regression introduced in Linux kernel
+> version 6.8 (specifically confirmed in Fedora kernel
+> 6.8.4-200.fc38.x86_64 and subsequent versions), affecting Lenovo
+> ThinkPad X1 Carbon Gen 10 laptops. This regression manifests primarily
+> as tty lockups and complete loss of WWAN modem functionality after
+> hibernate cycle.
+> 
+> Problematic Behavior:
+(..)
+> 3. WWAN Modem (Intel XMM7560, `iosm` driver): The modem fails to
+> reinitialize after hibernation, consistently showing "msg timeout"
+> errors in logs. The modem works correctly after a cold boot but
+> completely fails to recover after resuming from hibernate. Rescanning
+> PCI devices or reloading the `iosm` module does not resolve the issue.
+> Attempts to manually remove the device via
+> `/sys/bus/pci/devices/.../remove` result in a system hang.
 
-The root cause is the use of dev->mode_config.poll_running. Once poll_running is set
-(during the first connector detection) the calls to drm_kms_helper_poll_enable(), such as
-intel_hpd_irq_storm_switch_to_polling() fails to schedule output_poll_work as expected.
-Therefore, after an IRQ storm disables HPD IRQs, polling does not start, breaking hotplug detection.
+Do you have this commit in your test kernel?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0b6f6593aa8c3a05f155c12fd0e7ad33a5149c31
 
-The fix is to remove the dev->mode_config.poll_running in the check condition, ensuring polling
-is always scheduled as requested.
+With this commit you should *not* see any "msg timeout" on resume
+from hibernation.
+Either the modem will reinitialize successfully OR it will be
+completely dead and the iosm driver will refuse to re-bind to its
+PCI device in this case.
 
-Notes:
- Initial analysis, assumptions, device testing details, the correct fix and detailed rationale
- were discussed here https://lore.kernel.org/stable/aI32HUzrT95nS_H9@ideak-desk/
+The root cause of these issues seems to be that some platforms
+cut the power to this modem on S3 and/or S4 entry without abstracting
+this power control using proper power management interfaces.
 
-Cc: stable@vger.kernel.org # 6.1.y
-Cc: Imre Deak <imre.deak@intel.com>
-Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>
-Suggested-by: Imre Deak <imre.deak@intel.com>
-Signed-off-by: Nicusor Huhulea <nicusor.huhulea@siemens.com>
----
- drivers/gpu/drm/drm_probe_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Some platforms won't even restore modem power on resume until a
+device-specific reset ACPI method is called.
+This means the modem device PCI configuration space data won't be
+restored correctly on resume and so the device will be effectively
+dead until reboot.
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 0e5eadc6d44d..a515b78f839e 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -250,7 +250,7 @@ void drm_kms_helper_poll_enable(struct drm_device *dev)
- 	unsigned long delay = DRM_OUTPUT_POLL_PERIOD;
- 
- 	if (drm_WARN_ON_ONCE(dev, !dev->mode_config.poll_enabled) ||
--	    !drm_kms_helper_poll || dev->mode_config.poll_running)
-+	    !drm_kms_helper_poll)
- 		return;
- 
- 	drm_connector_list_iter_begin(dev, &conn_iter);
--- 
-2.39.2
+ModemManager has a whole issue dedicated to tracking power management
+issues in a very similar Intel XMM7360 modem on various platforms:
+https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/issues/992
+
+AFAIK the major difference between XMM7360 and XMM7560 is that
+XMM7360 speaks proprietary XMMRPC protocol while XMM7560 speaks MBIM,
+but this should not make a difference here.
+
+Also, this is probably not a regression, just something that
+has never worked correctly (I mean the WWAN modem part).
+If it indeed used to work then a kernel log from a
+hibernate/restore cycle on a working kernel version would be nice
+to have.
+
+> 
+> Best regards,
+> Andriy
+> 
+Thanks,
+Maciej
 
