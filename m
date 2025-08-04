@@ -2,79 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABE7B1AB83
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 01:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338B0B1A885
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 19:15:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C52D110E5C4;
-	Mon,  4 Aug 2025 23:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1DB910E326;
+	Mon,  4 Aug 2025 17:15:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YZdVaVx4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LSExDwkA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C35BF10E36F
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 16:39:19 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-76bc61152d8so3797290b3a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 09:39:19 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 453A710E326
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 17:15:34 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3b7920354f9so4188826f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 10:15:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754325559; x=1754930359; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=cVPrmbkZ73iVJwd3+ZUBlBPewKbjKO3MTkVJSkmJKWA=;
- b=YZdVaVx4MU+xf7sEzyRgBjJzS0x3ON1n6r1aD8opZrAUYcuXwOgsJbiyP2MmGGHy1Z
- 87weNgE8eU/6/QfOvM7mWCU9C6rn8m+pb+tXYJcTMnjayhuN0n1ChFNQ7xC408fSi409
- f/EqgDHVg1JpeunCMn1pRGtCEYIS8HjAyfPfMZJcJbmXH/mFWQFoYaukBBksWC65CL3Y
- tlXbF83AMsLlOyvVSnEaneI784XHGMKvruheDBt514sNznhIk9P81WrbQQ8A1og86BU3
- xoMQw60614aLAs93COq9WsfM7Svyg6WP0RxSTbFc9LGQgrsI+Z0MPb4rtWi0368l962u
- r2FA==
+ d=linaro.org; s=google; t=1754327733; x=1754932533; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=NrTKl9K4+8vI5BzLuQ0RcuyJtwiyeqQNxpuwyBCjmjM=;
+ b=LSExDwkAq8Q8xMnIptvZ9zQ1cVVUQaKzO134Sah/CkephVgw6DKjgrhA/fMoYWJoSg
+ gPHDa1W9NIlqZpqVPV7JTzOqWp/M6/3e9iHiCTMfMwaX2SgKobFyrfU4b2nBitMsTpjr
+ 8poh1EujeI/3K0OAH6Rj0dsKO5PoInTVtOrUaNlX4Oz0pl71KrXlc44FfR9lfwx+LMZM
+ h8InnUc9ZqdpKngByDaWa5OYo+m0vvpZnvotgVVz8Fb4jAKJTgMzcr9Q1Yov/MwFfFzx
+ L8XmNMKQ6gdHp+GloBq8oQVqjZVkYvd7PbyxlSA9jsJZpEwML3F8Ww5AP74CRkmGhEGn
+ LNvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754325559; x=1754930359;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cVPrmbkZ73iVJwd3+ZUBlBPewKbjKO3MTkVJSkmJKWA=;
- b=p8NmaPDY/TirqgQJP45ErhYhKaub/2b+TIbRPiCQyCS9NGy5GGjq9J2/M57bNWPKu7
- 1GsemUS1XuF6ixB/Ou95dltBr5WSCpoyYEux4gn9yrqqHNah1JUb+q6alrqjw8yglzHe
- KGV5J8nHfesTUPPCn4GiJRh2Xc6jlBdtaEJ+KY89bLQPvBcssdJNLc9bOE2qNTAoFXYX
- te8QLC5baB0aDMzEHNnF9GiinQdyZOPhB76KrFjEBe4oMmhGD5NJLwkaVGe9y9AwERm9
- c/hkJhliPJnbTPVwAIMoltw2xTMNdSvXzY1xUohXEIt5Y444rXj4pxIE9XmZRW7H7r/k
- uBrw==
+ d=1e100.net; s=20230601; t=1754327733; x=1754932533;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NrTKl9K4+8vI5BzLuQ0RcuyJtwiyeqQNxpuwyBCjmjM=;
+ b=CnKgnccIdLwQVnxcFscMoBf3Wy3NhtyyHbmI0nnucGkqaKGAoY8CCFjpZyDu/8y7lM
+ 088erwrXz9LP9yWK/1C5uAxFpvOixoiYYiezFcuPXA+EMCtkPc2ZZsIxOMe949j6ilIG
+ TpzIY3XKoOjT4YDp61rop0oaR6Pff59I+9ZttC9EHmlqswd3Jt/KsygXu0lR4F4V4jWJ
+ 7/CqK1so7Ie9cTneB7h0ASM3qikaZUgifOmYejmEFy1N3o2uYakzVAXjLyFxGpY7m6MO
+ bB8LA1tVN9ApLm9/4UOZyMQzPQvQ4WoEPApH5GQM35nAUhY6pDTG9HhqtMzJBAA+WkK4
+ WYXQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVvQHJRXT+erjVlLR3qVukoN//QnRSKTof7+nrPRMLj3ZMLw0Z0AHFIgtjQr06SxB68/Z8aTLVrvKQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJgLynXUm4NPvGnowdeauvckmQu8m5Mc/WpUoIxo5mz5yk5i4+
- DYdc4wBNdM5sk4+aQTF7TBa6q3ruwT430nO/Ckf4IpxhLI0tLXzmF+1oLng+pZaBWXo=
-X-Gm-Gg: ASbGncujvQdNxgJQgBQE0nO+Q9Xw87RmpAn28w4S45kPsUJXV1jUVbq46Og/hJZATtE
- WXWnEaLEEVVklQXkYQ1C0By2XrzW//PngTVi8EtGsk7eHPuzAoXAWpOusBheO6zK0fceyUcparZ
- dLKHUCT+rIFR84AyQdHhv79wIBpxxpcyqsJB1gL5BxubnlRe/EfavmhYBnuIPnhFA6kJNXGZkvb
- 4uFNSFLNXw9hVnPXKC7zSrhPsvwETU6k3KOp8aSya66ar3SjJmB5MOd8KLl6u7jXv37I+bf/e9U
- icvMOanFf0lzjifxw2V89aeD4NJozfb4j46Wdjljw7i2koNKsK35T0dZylUxCk8zI7sucXYead7
- ZwCzUEmQgxcjvkg1dxNAJ6mMB9IFhFNYy
-X-Google-Smtp-Source: AGHT+IFi79lN/2bT4m6O+DU+KDLEB7fni7m9KzcUQy4aTZNiqS5EEpJ8WsqlPli1870xPayfoD6Bqw==
-X-Received: by 2002:a05:6a21:99a0:b0:240:aa7:ba66 with SMTP id
- adf61e73a8af0-2400aa7bb53mr5414989637.16.1754325559025; 
- Mon, 04 Aug 2025 09:39:19 -0700 (PDT)
-Received: from avinash ([2406:8800:9014:d938:f647:9d6a:9509:bc41])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b422bb0a4b0sm9500306a12.59.2025.08.04.09.39.15
+ AJvYcCWsWg6JutiFZ1s6euAdIioa9RhP6b1UDKkVR7Lu2SxN/SCxC0nGNp57QbXX3jERrPdvTSzD74I6cHA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YybVa6rdYexCOAjtbZF7RwO8AXDH9suTntRB3QZC80Pv9InFGnT
+ /BWMLK7YnDSMCKmztg5K86bxQwObxnKMfmbNaZkBvRgQHuJ6rBRZ9ZpM18KDnSHUJ3o=
+X-Gm-Gg: ASbGncuPKe9dp9VOFoVbELuXoBNM8O983XidDLMhOTavCzkjrkWHuofX2jWwVuiakbH
+ iaqnQad72QLaH8glY/Xpglw3MFGZ6va6dyu3VJrqwV6GOxFQx30uSsZuuWKMlgH5Nw3lxQPJKKH
+ RB/NnIHh1bStLcbAZ2SA5WrWv40Tx/62GQuvxISvLwMql4F5niK9nfl+THC2Icz0h5EJEpWuLJQ
+ BeKk4GmGeYnst0o0W7u/kpCdLbxzpZoBV02JV3TJ8TWR4Y9smBOxW2EH88yeArPD75MkpDhlt05
+ JJmltl8Yc1/bHs67aele385XqNx3QPR1D76cn1JCyH5YUwpRrBrZM1GYPavQoJR/YcDyMJNexrq
+ rRRs0iJ/Sp4y/RrWHoyaY8hTFtwlAhXKimM83lQ==
+X-Google-Smtp-Source: AGHT+IFGyZV3Lnqkd/Us0kr0C9bu01zWEPsZjgPddB7McgPHFiYC5RrBkxKNSmpQutG9nl15DFY5XA==
+X-Received: by 2002:a05:6000:1ac6:b0:3b7:8af8:b90f with SMTP id
+ ffacd0b85a97d-3b8d94c3f5dmr6949009f8f.40.1754327732649; 
+ Mon, 04 Aug 2025 10:15:32 -0700 (PDT)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b79c4a6f62sm15897981f8f.73.2025.08.04.10.15.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Aug 2025 09:39:18 -0700 (PDT)
-From: Abinash Singh <abinashsinghlalotra@gmail.com>
-To: min.ma@amd.com,
-	lizhi.hou@amd.com
-Cc: ogabbay@kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Abinash Singh <abinashsinghlalotra@gmail.com>
-Subject: [RFC PATCH] drivers/accel/amdxdna : refactor resource cleanup in
- aie2_{ctx, error} to use scope-based helpers
-Date: Mon,  4 Aug 2025 22:09:46 +0530
-Message-ID: <20250804163947.630568-1-abinashsinghlalotra@gmail.com>
-X-Mailer: git-send-email 2.50.1
+ Mon, 04 Aug 2025 10:15:32 -0700 (PDT)
+Date: Mon, 4 Aug 2025 20:15:29 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Ethan Carter Edwards <ethan@ethancedwards.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] drm/amdgpu/gfx10: remove redundant repeated null checks
+Message-ID: <fda8103d-cac8-4c00-a78e-6eb27141d9ea@suswa.mountain>
+References: <20250801-amdgfx10-v1-1-e1dcbe18d84e@ethancedwards.com>
+ <CADnq5_N+bQppUAD-qR8QC8M6nW+oRF8+7z=Qakcxc=a6Z8q4Gg@mail.gmail.com>
+ <c82931b5-0de2-4e45-a80b-3a90b0cc98a2@suswa.mountain>
+ <CADnq5_Mk3FO_tvxFo+fJgqskVc7qtGv74VM6EStx_BcVpahXEQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 04 Aug 2025 23:43:20 +0000
+In-Reply-To: <CADnq5_Mk3FO_tvxFo+fJgqskVc7qtGv74VM6EStx_BcVpahXEQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,118 +96,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This refactors the `aie2_error_async_events_alloc` function in `aie2_ctx.c`
-And `aie2_hwctx_init` function in `aie2_error.c` to replace traditional
-goto-based error handling with scope-based cleanup helpers.
+On Mon, Aug 04, 2025 at 11:08:57AM -0400, Alex Deucher wrote:
+> On Mon, Aug 4, 2025 at 10:49 AM Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> >
+> > On Mon, Aug 04, 2025 at 10:32:43AM -0400, Alex Deucher wrote:
+> > > On Sat, Aug 2, 2025 at 4:22 AM Ethan Carter Edwards
+> > > <ethan@ethancedwards.com> wrote:
+> > > >
+> > > > The repeated checks on grbm_soft_reset are unnecessary. Remove them.
+> > > >
+> > >
+> > > These are not NULL checks and they are necessary.  The code is
+> > > checking if any bits are set in that register.  If not, then we can
+> > > skip that code as there is nothing to do.
+> > >
+> >
+> > It's not a null check, but it is a nested check and it's a local
+> > variable so the patch is correct enough.  At this point we know that
+> > grbm_soft_reset can't be zero.
+> 
+> It can be 0 as far as I can see.  If none of the GRBM_STATUS bits are
+> set, then we never set any of the bits in grbm_soft_reset.
+> 
 
-No functional changes intended.
+You're missing the first check...
 
-Signed-off-by: Abinash Singh <abinashsinghlalotra@gmail.com>
----
-Hi ,
-This patch will improve code quaility and will support
-using cleanup helpers in future.
+drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+  7657          if (grbm_soft_reset) {
+                    ^^^^^^^^^^^^^^^
+Checked.
 
-Reference : https://docs.kernel.org/core-api/cleanup.html
-......
-The “goto error” pattern is notorious for introducing subtle resource leaks.
-It is tedious and error prone to add new resource acquisition constraints into 
-code paths that already have several unwind conditions. The “cleanup” helpers 
-enable the compiler to help with this tedium and can aid in maintaining
-LIFO (last in first out) unwind ordering to avoid unintentional leaks.
-...
+  7658                  /* stop the rlc */
+  7659                  gfx_v10_0_rlc_stop(adev);
+  7660  
+  7661                  /* Disable GFX parsing/prefetching */
+  7662                  gfx_v10_0_cp_gfx_enable(adev, false);
+  7663  
+  7664                  /* Disable MEC parsing/prefetching */
+  7665                  gfx_v10_0_cp_compute_enable(adev, false);
+  7666  
+  7667                  if (grbm_soft_reset) {
+                            ^^^^^^^^^^^^^^^
+Unnecessary.
 
-I will look into other places where we can use this auto cleanup feature.
-If you have any suggestion/feedback I will be happy hearing that.
+  7668                          tmp = RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
+  7669                          tmp |= grbm_soft_reset;
+  7670                          dev_info(adev->dev, "GRBM_SOFT_RESET=0x%08X\n", tmp);
+  7671                          WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
+  7672                          tmp = RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
+  7673  
+  7674                          udelay(50);
+  7675  
+  7676                          tmp &= ~grbm_soft_reset;
+  7677                          WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
+  7678                          tmp = RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
+  7679                  }
+  7680  
+  7681                  /* Wait a little for things to settle down */
+  7682                  udelay(50);
+  7683          }
+  7684          return 0;
 
-Thank You!
-Have a great day..!!
----
- drivers/accel/amdxdna/aie2_ctx.c   | 9 +++------
- drivers/accel/amdxdna/aie2_error.c | 9 +++------
- 2 files changed, 6 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
-index e04549f64d69..b860859c643d 100644
---- a/drivers/accel/amdxdna/aie2_ctx.c
-+++ b/drivers/accel/amdxdna/aie2_ctx.c
-@@ -13,7 +13,7 @@
- #include <linux/types.h>
- #include <linux/xarray.h>
- #include <trace/events/amdxdna.h>
--
-+#include <linux/cleanup.h>
- #include "aie2_msg_priv.h"
- #include "aie2_pci.h"
- #include "aie2_solver.h"
-@@ -528,7 +528,7 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
- 		.dev = xdna->ddev.dev,
- 	};
- 	struct drm_gpu_scheduler *sched;
--	struct amdxdna_hwctx_priv *priv;
-+	struct amdxdna_hwctx_priv *priv __free(kfree) = NULL;
- 	struct amdxdna_gem_obj *heap;
- 	struct amdxdna_dev_hdl *ndev;
- 	int i, ret;
-@@ -543,8 +543,7 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
- 	if (!heap) {
- 		XDNA_ERR(xdna, "The client dev heap object not exist");
- 		mutex_unlock(&client->mm_lock);
--		ret = -ENOENT;
--		goto free_priv;
-+		return -ENOENT;
- 	}
- 	drm_gem_object_get(to_gobj(heap));
- 	mutex_unlock(&client->mm_lock);
-@@ -648,8 +647,6 @@ int aie2_hwctx_init(struct amdxdna_hwctx *hwctx)
- 	amdxdna_gem_unpin(heap);
- put_heap:
- 	drm_gem_object_put(to_gobj(heap));
--free_priv:
--	kfree(priv);
- 	return ret;
- }
- 
-diff --git a/drivers/accel/amdxdna/aie2_error.c b/drivers/accel/amdxdna/aie2_error.c
-index 5ee905632a39..bea36e7fe14f 100644
---- a/drivers/accel/amdxdna/aie2_error.c
-+++ b/drivers/accel/amdxdna/aie2_error.c
-@@ -10,7 +10,7 @@
- #include <linux/dma-mapping.h>
- #include <linux/kthread.h>
- #include <linux/kernel.h>
--
-+#include <linux/cleanup.h>
- #include "aie2_msg_priv.h"
- #include "aie2_pci.h"
- #include "amdxdna_mailbox.h"
-@@ -308,7 +308,7 @@ int aie2_error_async_events_alloc(struct amdxdna_dev_hdl *ndev)
- 	struct amdxdna_dev *xdna = ndev->xdna;
- 	u32 total_col = ndev->total_col;
- 	u32 total_size = ASYNC_BUF_SIZE * total_col;
--	struct async_events *events;
-+	struct async_events *events __free(kfree) = NULL;
- 	int i, ret;
- 
- 	events = kzalloc(struct_size(events, event, total_col), GFP_KERNEL);
-@@ -318,8 +318,7 @@ int aie2_error_async_events_alloc(struct amdxdna_dev_hdl *ndev)
- 	events->buf = dma_alloc_noncoherent(xdna->ddev.dev, total_size, &events->addr,
- 					    DMA_FROM_DEVICE, GFP_KERNEL);
- 	if (!events->buf) {
--		ret = -ENOMEM;
--		goto free_events;
-+		return -ENOMEM;
- 	}
- 	events->size = total_size;
- 	events->event_cnt = total_col;
-@@ -352,7 +351,5 @@ int aie2_error_async_events_alloc(struct amdxdna_dev_hdl *ndev)
- free_buf:
- 	dma_free_noncoherent(xdna->ddev.dev, events->size, events->buf,
- 			     events->addr, DMA_FROM_DEVICE);
--free_events:
--	kfree(events);
- 	return ret;
- }
--- 
-2.50.1
+regards,
+dan carpenter
 
