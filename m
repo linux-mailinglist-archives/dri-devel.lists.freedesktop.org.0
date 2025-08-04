@@ -2,67 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E5FB1A9D2
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 21:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D63B1AA0B
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 22:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32B6B10E5C3;
-	Mon,  4 Aug 2025 19:51:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B063E10E096;
+	Mon,  4 Aug 2025 20:24:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nfraprado@collabora.com header.b="CYDRNTlL";
+	dkim=pass (2048-bit key; secure) header.d=siemens.com header.i=nicusor.huhulea@siemens.com header.b="MNCmyQqF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA67210E384;
- Mon,  4 Aug 2025 19:51:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1754337093; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Qo6ZYD5Zhao8z4Gg2R1lJVcBSxY8NlnozV4zwGF4X6EfRJtK/H9pWNumlvw7wJUJ++CSQNDIh6GqSqz9kdSp2DMMmuEHeYdPh4M9mzXIv4eY5chKeNhCA1t8H0jnsuTHw4+xZsLhUVxV9RpJeSde5EC/OEdibreFBNyH2z2ayVM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1754337093;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=CqiqV8sCny1E2rh73ue0AWfEmoU01Ps9EzAWXLaEJCE=; 
- b=md5ve6HrzrhwrICkKL7u3+Sws4cHiYrd0kW00e39MyUXelp3f77/IfYdlzrf1LHAnAkplDyf1TC5MZPwnVUJbOE0oVk22jnM7dJdLZKeioCdyiHf7WxpNG5IOrjVi8gh75b9mqA5DqmDXEyyyda57jyXHE9BAMY7A+MisQlnPww=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nfraprado@collabora.com;
- dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754337093; 
- s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=CqiqV8sCny1E2rh73ue0AWfEmoU01Ps9EzAWXLaEJCE=;
- b=CYDRNTlL1Rt6NJys858KbEYXn/JTNZ8kWZcCdtyh5ZFwrtU2XPn/MwHO4Td/OIQr
- EJccvbP32T5lfmc+7JX/7IBjRebEaYb6HHk3fp70PvOGA+L1m5CmrZ/wznsGrt+sGSZ
- KJBUWoKIfw3jHn/h8Hncf6kPMM+CQKMjN5CbNtEQ=
-Received: by mx.zohomail.com with SMTPS id 1754337085916196.59332435118563;
- Mon, 4 Aug 2025 12:51:25 -0700 (PDT)
-Message-ID: <df570128dd008a969885e82abf3644b302120170.camel@collabora.com>
-Subject: Re: [PATCH V10 43/46] drm/amd/display: add 3D LUT colorop
-From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, 
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, 	contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, 	shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, 
- aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com,
- daniel@ffwll.ch, 	uma.shankar@intel.com, quic_naseer@quicinc.com,
- quic_cbraga@quicinc.com, 	quic_abhinavk@quicinc.com, marcan@marcan.st,
- Liviu.Dudau@arm.com, 	sashamcintosh@google.com,
- chaitanya.kumar.borah@intel.com, 	louis.chauvet@bootlin.com,
- arthurgrillo@riseup.net, Daniel Stone	 <daniels@collabora.com>
-Date: Mon, 04 Aug 2025 15:51:16 -0400
-In-Reply-To: <20250617041746.2884343-44-alex.hung@amd.com>
-References: <20250617041746.2884343-1-alex.hung@amd.com>
- <20250617041746.2884343-44-alex.hung@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1 
+X-Greylist: delayed 604 seconds by postgrey-1.36 at gabe;
+ Mon, 04 Aug 2025 20:24:25 UTC
+Received: from mta-65-227.siemens.flowmailer.net
+ (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10D6610E234
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 20:24:24 +0000 (UTC)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id
+ 202508042014190a512bfb6972371a4d
+ for <dri-devel@lists.freedesktop.org>;
+ Mon, 04 Aug 2025 22:14:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=nicusor.huhulea@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=Eg0FnZksed8sRDakoNZ/imDBspZ54K5LuiASPUMrNYs=;
+ b=MNCmyQqF8OxupdUaYm0BKKhTuulV7v/FSQAmb1H7l5SqUfCAyXGXUnGEw7MiAUtL4atBI1
+ HMrzL2pzbdd2EYYtIjB6/Y5AxsjENgaMmnNKLckcepcrVeoG6kHSy6JaRw/y7Rg/fd8S3tlm
+ kmgAyQ8+wmcmHpvUe3XoDIV7qnU08CC2TA5sXEcee09WaohfEZeJGIGsO8oDxV5NB2zNVJdv
+ 4s0ZV950xZki7KMSV8uFSr/wfIughT2UiAYd0wETHiUCobkxDR80xLWbRyigfMcQzElZt1bl
+ L1s5hM0X5I9qQvYbTOTu4icKD+0XjrFB7ahoCjQLMSYCaUKw89uQyx5w==;
+From: Nicusor Huhulea <nicusor.huhulea@siemens.com>
+To: stable@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ cip-dev@lists.cip-project.org, shradhagupta@linux.microsoft.com,
+ imre.deak@intel.com, jouni.hogander@intel.com, neil.armstrong@linaro.org,
+ jani.nikula@linux.intel.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ laurentiu.palcu@oss.nxp.com, cedric.hombourger@siemens.com,
+ shrikant.bobade@siemens.com, Nicusor Huhulea <nicusor.huhulea@siemens.com>
+Subject: [PATCH] drm/probe-helper: fix output polling not resuming after HPD
+ IRQ storm
+Date: Mon,  4 Aug 2025 23:13:59 +0300
+Message-Id: <20250804201359.112764-1-nicusor.huhulea@siemens.com>
 MIME-Version: 1.0
-X-ZohoMailClient: External
-X-ZohoMail-Owner: <df570128dd008a969885e82abf3644b302120170.camel@collabora.com>+zmo_0_nfraprado@collabora.com
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1331196:519-21489:flowmailer
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,73 +64,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-06-16 at 22:17 -0600, Alex Hung wrote:
-> This adds support for a 3D LUT.
->=20
-> The color pipeline now consists of the following colorops:
-> 1. 1D curve colorop
-> 2. Multiplier
-> 3. 3x4 CTM
-> 4. 1D curve colorop
-> 5. 1D LUT
-> 6. 3D LUT
-> 7. 1D curve colorop
-> 8. 1D LUT
->=20
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> Reviewed-by: Daniel Stone <daniels@collabora.com>
-> ---
-[..]
-> +/* __set_colorop_3dlut - set DRM 3D LUT to DC stream
-> + * @drm_lut3d: user 3D LUT
-> + * @drm_lut3d_size: size of 3D LUT
-> + * @lut3d: DC 3D LUT
-> + *
-> + * Map user 3D LUT data to DC 3D LUT and all necessary bits to
-> program it
-> + * on DCN accordingly.
-> + */
-> +static void __set_colorop_3dlut(const struct drm_color_lut_32
-> *drm_lut3d,
-> +				uint32_t drm_lut3d_size,
-> +				struct dc_3dlut *lut)
-> +{
-> +	if (!drm_lut3d_size) {
-> +		lut->state.bits.initialized =3D 0;
-> +		return;
-> +	}
+A regression in output polling was introduced by commit 4ad8d57d902fbc7c82507cfc1b031f3a07c3de6e
+("drm: Check output polling initialized before disabling") in the 6.1.y stable tree.
+As a result, when the i915 driver detects an HPD IRQ storm and attempts to switch
+from IRQ-based hotplug detection to polling, output polling fails to resume.
 
-IIUC this means that setting a 3D LUT colorop with BYPASS=3D0 but not
-passing in a DATA property will result in the 3D LUT being bypassed.
-Meanwhile, in __set_dm_plane_colorop_3x4_matrix() in patch 36
-"drm/amd/display: add 3x4 matrix colorop", when DATA is not set, an
-error code will be bubbled up to atomic_check.
+The root cause is the use of dev->mode_config.poll_running. Once poll_running is set
+(during the first connector detection) the calls to drm_kms_helper_poll_enable(), such as
+intel_hpd_irq_storm_switch_to_polling() fails to schedule output_poll_work as expected.
+Therefore, after an IRQ storm disables HPD IRQs, polling does not start, breaking hotplug detection.
 
-Given that this API is aimed at being prescriptive, I would expect the
-second case, bubbling up an error to atomic_check, to happen whenever a
-required DATA property is omitted, for all of the colorop types.
+The fix is to remove the dev->mode_config.poll_running in the check condition, ensuring polling
+is always scheduled as requested.
 
-This makes me think it would be good to have a colorop validator helper
-function that could be called from the driver's atomic_check to easily
-do all such checks, such as that DATA is supplied when expected, not
-only to remove the burden on every driver to check this, but also to
-ensure consistency across them all.
+Notes:
+ Initial analysis, assumptions, device testing details, the correct fix and detailed rationale
+ were discussed here https://lore.kernel.org/stable/aI32HUzrT95nS_H9@ideak-desk/
 
---=20
-Thanks,
+Cc: stable@vger.kernel.org # 6.1.y
+Cc: Imre Deak <imre.deak@intel.com>
+Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>
+Suggested-by: Imre Deak <imre.deak@intel.com>
+Signed-off-by: Nicusor Huhulea <nicusor.huhulea@siemens.com>
+---
+ drivers/gpu/drm/drm_probe_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-N=C3=ADcolas
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 0e5eadc6d44d..a515b78f839e 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -250,7 +250,7 @@ void drm_kms_helper_poll_enable(struct drm_device *dev)
+ 	unsigned long delay = DRM_OUTPUT_POLL_PERIOD;
+ 
+ 	if (drm_WARN_ON_ONCE(dev, !dev->mode_config.poll_enabled) ||
+-	    !drm_kms_helper_poll || dev->mode_config.poll_running)
++	    !drm_kms_helper_poll)
+ 		return;
+ 
+ 	drm_connector_list_iter_begin(dev, &conn_iter);
+-- 
+2.39.2
 
-> +
-> +	/* Only supports 17x17x17 3D LUT (12-bit) now */
-> +	lut->lut_3d.use_12bits =3D true;
-> +	lut->lut_3d.use_tetrahedral_9 =3D false;
-> +
-> +	lut->state.bits.initialized =3D 1;
-> +	__drm_3dlut_32_to_dc_3dlut(drm_lut3d, drm_lut3d_size, &lut-
-> >lut_3d,
-> +				=C2=A0=C2=A0 lut->lut_3d.use_tetrahedral_9,
-> 12);
-> +
-> +}
-[..]
