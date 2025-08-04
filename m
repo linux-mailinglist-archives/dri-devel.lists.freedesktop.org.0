@@ -2,114 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1884BB1AA78
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 23:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAB8B1AAC6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 00:14:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4457610E5BD;
-	Mon,  4 Aug 2025 21:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E2210E057;
+	Mon,  4 Aug 2025 22:14:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="J+YzSNwr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ijR8oufs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE7B10E5B8
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 21:43:24 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 574Khibr013332
- for <dri-devel@lists.freedesktop.org>; Mon, 4 Aug 2025 21:43:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=nwBcV4Oemt5
- w740AAje6mIColtrmwRWXKq31FSAZZI4=; b=J+YzSNwrVx5QkBv3++Hw3EluqR1
- qWxOSWwL9oqpkBTSOLSuhyMAVAiSqYlze1z29tUONI+9grkO9n9vVIy5wHLNaPBL
- cFx7xN3QSwN4nJDjBppse3DrOLfn0S8lKBpceSQwJI/9V0n3dd1PG56TgfT5KDe4
- 7j1uHhvQB2VcvcYeBzo8KrlbxFvdJDUqcObF1s2WHWiOOUkDTvkcvTou4uHWx39R
- uuMpxbt4YId8LIROoJSwDiaEQDxrFnA0bKserOJ2WggiK3MHIau8jX2OYumKmPDN
- gOV8f30JLwQYwAov1Rl9rAYQZgkSDFErp1j4acnbHX56KAvOuzDdgg3jxEQ==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48b3j3r6c6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 21:43:23 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-2425364e0b2so26233295ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 14:43:23 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B2E810E057;
+ Mon,  4 Aug 2025 22:14:25 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-af93bcaf678so418288666b.0; 
+ Mon, 04 Aug 2025 15:14:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1754345664; x=1754950464; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wisiRrg+vvrG3KCZ6C6S2W8R36Ns6oiSgAxK06Zc3F0=;
+ b=ijR8oufsiNXRAhok/HlHIf+I2IzS6OwXUptw1qHe5Bio93R8uWdQJAKxszMtntvTiz
+ jz2WNeFYTu0VgrvMvpyQOKKyRoUWfINNlsci3ndNuExR+RUAhshXRJ/ASszw4IrUYtKd
+ MhTRCJzY7lRtoQzZydJl9iledbxyTvoSSAR1/VEKjlTjRJnKyzAe1peATDyilH5mYUEj
+ p+okC46nCCJWulQ16GuT65Nfo0jZDxyM5Lj8EadAqq8zwnFqTHvmcy5tyw7zQbLLJl63
+ f+CNQDa7xW/Va/pgIrzPMDZgKmHoMbEvLYoRPruVoPUt2tAS7E7+/UsWlnt4Ef3egJF+
+ bv0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754343803; x=1754948603;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nwBcV4Oemt5w740AAje6mIColtrmwRWXKq31FSAZZI4=;
- b=GktICi8Ioc42HipEyz/QlBjzslCanFQjKEW1SMoN7UVvrKXE3E7R6M989O+AgZ72tO
- jiL8PPUqI0eqcD1vOhYKnwe5lbzdLff8dm0krkhEzsGtl54H1PDLZkSogryOyVEzzKHb
- J0Xa58WhCf1KPXy3JBgbf5xYo+UM2Dqhplb1PIs0xiuO8RWS+fvnR2x177NL0QDu0SDP
- JpBTe3PxTF6tzuB+F7wPqDIjorafvOJxp7FKncjTSlhyeSHOGywPlDdSQnH4/CRJNqOp
- XWZjLUdWUmkh4S8xQKI3e6iQOXnybf0nUg48V+tqShphKzy10se+JaCvK8uCePfCbgyt
- 8wYA==
-X-Gm-Message-State: AOJu0Yz2pb4nVus2gpWMk8e3Yy42xNPgWBkZVdypaLbtZOqK84kQ6X4R
- UDwM4ukubnOXGcjtgqiCdM7gBjdEAKsNNv0vUQZu8NnuaOqYtjNBIBsr2RO0QUYKKykPJ4yGu41
- 3o/6Hzhz/WrukwK4FLpLxDgb6tttuzYDBFauUzfCyB8ehE8LrhmGfRpsgPjv1ggiGQJNABDbIUk
- D6Gjk=
-X-Gm-Gg: ASbGncvY3EVKqG+tGFRuHreG2eQbTDP25l1kx7OUzyyV+7i1cAFnhZ9esJnFX3kJvC7
- f0LSLTm/3/vmyev40sZFNpDo45yp2XxOb+z+8UgOCCt2YC6XTEbt1XxOsvODQmiOwYKSyXRGefV
- WOwctFXcqByaYm+c8uVsQ8pMhTXjeh0Z8D48D5h2+gYfn5cC+KwE0UPe+C4CrFNhRTG63trhti5
- haCEZxQhdXkf6rfwY8YfYhus8LFalLAluhlANCOviDNdAfiliMhl0i5k5kdlHdk7dashQ2OGLtF
- 5iHVx3vY0UTIwdZ+YdGIzVN0WPMhHsT6WtzaNjwbi7WjVTIU4UQ=
-X-Received: by 2002:a17:902:e0d2:b0:240:49e8:1d3c with SMTP id
- d9443c01a7336-24246fef44cmr85653375ad.35.1754343802680; 
- Mon, 04 Aug 2025 14:43:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE6a9/8RPndKLMzz5ytDiVTCVnElsJWsamSeHzO2/TAvn6vk7dklmlUiRe8K/yjPhIcb3dkYg==
-X-Received: by 2002:a17:902:e0d2:b0:240:49e8:1d3c with SMTP id
- d9443c01a7336-24246fef44cmr85653175ad.35.1754343802269; 
- Mon, 04 Aug 2025 14:43:22 -0700 (PDT)
-Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-241d1ef5fbdsm116628865ad.27.2025.08.04.14.43.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Aug 2025 14:43:21 -0700 (PDT)
-From: Rob Clark <robin.clark@oss.qualcomm.com>
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Danilo Krummrich <dakr@redhat.com>, Connor Abbott <cwabbott0@gmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH RESEND 2/2] drm/msm: Handle in-place remaps
-Date: Mon,  4 Aug 2025 14:43:16 -0700
-Message-ID: <20250804214317.658704-3-robin.clark@oss.qualcomm.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250804214317.658704-1-robin.clark@oss.qualcomm.com>
-References: <20250804214317.658704-1-robin.clark@oss.qualcomm.com>
+ d=1e100.net; s=20230601; t=1754345664; x=1754950464;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wisiRrg+vvrG3KCZ6C6S2W8R36Ns6oiSgAxK06Zc3F0=;
+ b=BxAxY6+sWixaVM33xfcjgX9KNV6OUtrgDfWMXxFbhTVr5BqtN97Plc60iCyS66nuGU
+ b8RS8S+Sn/0d9mjHqtTENB0vmIYAU+Qd8ZVlMSOsRhHybI+v4dDSoIBZnrElqgqoRIbt
+ BTz7pfwam6VZQzM+w/v8jjCZfN7DZdja7uDGbRiMUi+9eebL01MqkNaXJjPO0vylJx2B
+ /WRTES0grqcS+J06mUjPxMfFe/5dqcYt1L2kzs6qsGwh2DFiDfrlKUWEHe2tQ9DZ/GPe
+ F9vOg49mRh/CrvkzVYVarDpOLGXqfIwDwlkl4kT0BVF1wCxYnO9Kqpz+ifvl7FA53aq3
+ GVBQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUWwkFgDmwksFcR4Gn0Ec//2lnm9oHPWpAt3ygQT+SBe07cwaQF6JyNAzuV0Z/r4/8txz0nWqILdmyVDhNeXA==@lists.freedesktop.org,
+ AJvYcCWiC7SBkh05sxROx44HBqdNsvGk7pgJYYrQehHslXGIp4g0DiMm8FjllCflkDe444bczJQnJmWkrnO9@lists.freedesktop.org,
+ AJvYcCXspRSfQMQCS4UGZCe/XWfXGNkxbm/Z0MRSPZT223a1St50W6DuTkYqOpaYS3mk23x2YU4oYn49@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+wNoNho5KsUJCTht5hYTOE+8PaXDQcmvWtWjxlgFOFi/dnae+
+ EQ97HxjnTqBZgREbNTZXpURl8MUlLO2gPsWJA6X5+yDp7JZf74V8q3yMfF71kO8I/ERWCpFknqk
+ 8BL+ubgjuE7QNdk/9UZYDm0iPhtGmAa0=
+X-Gm-Gg: ASbGncvW9uPw7YXQW9RhtUZwr/bAwaP987BTO+VW++kcw2KK+sgvy7GDiGkTlgLWNZi
+ YMH1ak+crM/ISPqh+XCXmpTF8aEl+Hzy8/gLTU2M3jgI6loJC89gB3MegIJP7eN3nGfTIYjLEJU
+ 7jjhDELPdRyNQftwnJW2D8Vj+Zyh8ZDNgJA1/PuOcJ7gfsKqsZh9vV+WcQXtx9BKYyVm/lVJC+7
+ NcYH6H4r++CREx+RpL2m2JuZvM8/rIchMzz/k2aag==
+X-Google-Smtp-Source: AGHT+IGhcxxZW/XaxGygtgVL92+KDX0RFQp1GyDfbyswDU5I/dAg1UVhwPLtUa8+qRclx9wd1ZAky8KQTEzz9psYc7Y=
+X-Received: by 2002:a17:907:6096:b0:aec:5478:9697 with SMTP id
+ a640c23a62f3a-af9401af456mr998549166b.34.1754345663839; Mon, 04 Aug 2025
+ 15:14:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: Em9tulHizn2qI3dfjbYpXYKueEV0U0XO
-X-Authority-Analysis: v=2.4 cv=TZ+WtQQh c=1 sm=1 tr=0 ts=6891297b cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10
- a=EUspDBNiAAAA:8 a=kCfvZJGldO2mi53t-5YA:9 a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDEzMiBTYWx0ZWRfX3smqTbBHjKRC
- HklCUkg+6RY4n8J+OxwxMklNHhpWJcCTpCAQegDuC4PDSfTJzLsplqzkO8SQl6LF257NXCMO3xf
- P6kZbgZAFi+qv5eDkvXr+iiNtpdIGj+6iV1+5yPiUfUsUf3OCXoOHlgaF6lNAGykXL19ui5WKBJ
- zpTAMk0Nui7AEO3pANQdbJi3PBCu+/XDkZjFd7u+GbWPCa9HdxhZspA2qxHSm1/qXoYNAb73ewa
- rWLWocWWzgzRgUHa5X7+6ksR8b1yTb3obrLJV7/b9O3smlAwsTEUkbFzpoc/yO/ZCNQFb6GllqJ
- d9XJbOR7vMZYthfhWNrpcj7oiV2d/iJhKldd7BmlTDQhR9BYvAach3fWSrSkzey4xQcQQWcA3yr
- RhBFDxj3pGPR07ixrWjujf1khXq5x900v2dI8ShUAcdsP2KCuow+spPENnmeu1YpnfI8RmGb
-X-Proofpoint-ORIG-GUID: Em9tulHizn2qI3dfjbYpXYKueEV0U0XO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-04_09,2025-08-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
- spamscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- phishscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2508040132
+References: <20250617041746.2884343-1-alex.hung@amd.com>
+ <20250617041746.2884343-41-alex.hung@amd.com>
+ <xn27XZjdRP83I8eaTGnDdLyvppJUppZ_GVsnDJQ1wK3UINAwh4FEutAlh02CtvZoPbB4D7zhof9rGj1DsxHpccpGK7ID-S-DjGi5VRhAD8I=@emersion.fr>
+ <3f3f50e5-3a60-4d7e-855b-773c868ca14b@amd.com>
+ <u6jeWkMGEK4azl2nj_tqzX19ev7_J5wxY80sKlAalWOXesDjDhDwuPwQz5ttsqlAiSlhVwnQpyWt80cdNtUfINqaxjtSkGA4h10Qj16nl3g=@emersion.fr>
+In-Reply-To: <u6jeWkMGEK4azl2nj_tqzX19ev7_J5wxY80sKlAalWOXesDjDhDwuPwQz5ttsqlAiSlhVwnQpyWt80cdNtUfINqaxjtSkGA4h10Qj16nl3g=@emersion.fr>
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Tue, 5 Aug 2025 00:14:12 +0200
+X-Gm-Features: Ac12FXzenHZnNmlPOztYLEL_4svUHRyuto5lMln0IrH0H6NdbSLtNP9rVm3N3hY
+Message-ID: <CAFZQkGyj7=N2UcbBnjv7Az3oHSD2LXaAx5wzccpSt_UEhH3NZw@mail.gmail.com>
+Subject: Re: [PATCH V10 40/46] drm/colorop: Define LUT_1D interpolation
+To: Simon Ser <contact@emersion.fr>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org, 
+ harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com, 
+ pekka.paalanen@collabora.com, mwen@igalia.com, jadahl@redhat.com, 
+ sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com, 
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com, 
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com, 
+ arthurgrillo@riseup.net, Daniel Stone <daniels@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,50 +97,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Handle the special case of a MAP op simply updating the va flags by
-detecting the special case, and skip pgtable updates.
+> It would become mutable only for hardware that supports switching the
+> interpolation. It would remain immutable otherwise.
+Please let's avoid making (more) properties *sometimes* immutable, it
+just makes it easier to use KMS wrong, with no benefits to it.
+If a compositor is written against a driver/hardware where it's
+mutable, it's easy to assume that the property would always be
+mutable, but that same code will not work on setups where it's
+immutable - as the kernel (atm even silently, without a warning!)
+rejects every commit touching immutable properties, even if you set it
+to the one supported value.
 
-Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/msm_gem_vma.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index dc54c693b28d..d4b1cfb3aa03 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -519,9 +519,10 @@ msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *arg)
- }
- 
- static int
--msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
-+msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *_arg)
- {
--	struct msm_vm_bind_job *job = ((struct op_arg *)arg)->job;
-+	struct op_arg *arg = _arg;
-+	struct msm_vm_bind_job *job = arg->job;
- 	struct drm_gpuvm *vm = job->vm;
- 	struct drm_gpuva *orig_vma = op->remap.unmap->va;
- 	struct drm_gpuva *prev_vma = NULL, *next_vma = NULL;
-@@ -529,6 +530,18 @@ msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
- 	bool mapped = to_msm_vma(orig_vma)->mapped;
- 	unsigned flags;
- 
-+	/* Special case for in-place updates: */
-+	if (op->remap.unmap->keep && arg->flags &&
-+	    op->remap.next && !op->remap.prev &&
-+	    (orig_vma->gem.obj == op->remap.next->gem.obj) &&
-+	    (orig_vma->gem.offset == op->remap.next->gem.offset) &&
-+	    (orig_vma->va.addr == op->remap.next->va.addr) &&
-+	    (orig_vma->va.range == op->remap.next->va.range)) {
-+		/* Only flags are changing, so update that in-place: */
-+		unsigned orig_flags = orig_vma->flags & (DRM_GPUVA_USERBITS - 1);
-+		orig_vma->flags |= orig_flags | arg->flags;
-+	}
-+
- 	vm_dbg("orig_vma: %p:%p:%p: %016llx %016llx", vm, orig_vma,
- 	       orig_vma->gem.obj, orig_vma->va.addr, orig_vma->va.range);
- 
--- 
-2.50.1
-
+A property should imo only be immutable if it's truly meant to be a
+read-only API (forever), like with immutable property blobs or plane
+types.
