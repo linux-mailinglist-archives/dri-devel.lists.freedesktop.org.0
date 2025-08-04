@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B1AB19CFC
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 09:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1F6B19D45
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 10:04:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B85B10E146;
-	Mon,  4 Aug 2025 07:54:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2643210E0A2;
+	Mon,  4 Aug 2025 08:04:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=braiins.cz header.i=@braiins.cz header.b="d9xh3gxo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hu2A4myV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
- [209.85.222.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98ADD10E146
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 07:54:40 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id
- a1e0cc1a2514c-88bbfe763ecso894858241.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 00:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=braiins.cz; s=google; t=1754294079; x=1754898879; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=VELw0d1ZO538ytGI/V/v64gnXmWpxwhgeyUPbBpA3Ok=;
- b=d9xh3gxoLXrIAKAap+U8nXS1cxLU4S6Ce2osB3+SHbk2XNI0Zspt/B+BHOZpvhYqrY
- TL4nu2nvYNhEIWtXMdHq98H9DD3fRtQOdjbCMB44N/Fc0ricrW+RbNeLGH6oSzjUXZgm
- qbpy33sxMMSRPZHz5JULhFfoQBC3FFoHPSepKlR4NwtRZCyMn6VQt6DAlBVNOB31UyqL
- 0y7Adp1OnKs6HvSk81jQuedVusklpijb8khydUO9gxh70BZOtxrLRoISCogHjwUgLlne
- 8P7soaBBokf8xUDYHQ7bjK9qgQe7T6XMCBPjtuKdCvYue+YsPI0++GnvRZ/CJCQd8XIV
- WQ9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754294079; x=1754898879;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VELw0d1ZO538ytGI/V/v64gnXmWpxwhgeyUPbBpA3Ok=;
- b=jeN50auBT0aa83rY6DCqoJsTAvbBDqrvfMFZHeeYHE+K4Om6EA5ZF7nWOKUTsHRSTa
- jfzq21t5qGTAwcY8YCERIekpDJh7qaoyj56bjJY8nrD0SwCjQ0UkKGwLj6D6Ahju0RGH
- BnFMQ/dnrsN8I3iAFp1lAONkALXwX3xVbmAeZlNKxa2Utnz4spexS0d8WEfogP9B0b4k
- ijnr3nIUQOa7Eh0VdQK4lqusGC3iUTaGbxOa5MajGMlJxIUQdavPEbo0hLXgyUEnmzp5
- 9M+t5M+K/um4vAvwa3mftM/BF5gCAB8ol0YqmxL0Z1MAvv14fq52TAaUXoqrE3wzziVO
- fC7w==
-X-Gm-Message-State: AOJu0Yz7+3cbTqxq0AqUViOuAYqYqIsqb8uZpMl0nIvApRaN5dZ/Rd4F
- KsbqemYcPsFFllRbcEEtwS/yVy+YmnXvbUGQnRGea5MxUuDvCjvLDlUYAIeIXsxgDTKzZnj57ho
- 7Qva+cJXne+S52qpHszu81Vae5FZ0xXdyvY3FbgBjnnMWe01v4EHRp3M=
-X-Gm-Gg: ASbGncsTTBrpntdp5JZKQ1OAP68/DUBNogjlJky1GyATTqi2zU77EMA86o1Az64JZmV
- dU3sksXjBxhfjBaUTnypoEqWiB8CIjohBtzQ6Zg9y7xiX2h4fPxySGq+Pc7OIwlP9V328p2bFNg
- WGoGulpPdLyKLKMDYh66gGkxXaahrOEmRtDwITv4jjho+jXB8BGDwQSsMhxuPibmz55Q0CiWqW5
- P/LySRrki1YKU3jiZvKmdvfA2pUZh31NXgdivJ0
-X-Google-Smtp-Source: AGHT+IEu+govnR4Jd560VsjbMn6zm7jcHxNB8lVmMEiXHMeJeMnOhwdgNgmrnxGKfn8/85PwtRzHhO4Z3ivHmmiXfAw=
-X-Received: by 2002:a05:6102:41a3:b0:4f1:2ec7:af39 with SMTP id
- ada2fe7eead31-4fdc430d567mr2717963137.18.1754294079239; Mon, 04 Aug 2025
- 00:54:39 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE2C10E0A2
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 08:04:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 25354601F8;
+ Mon,  4 Aug 2025 08:04:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42524C4CEE7;
+ Mon,  4 Aug 2025 08:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1754294690;
+ bh=0VuAiQf0Cv59dj4webRh41zL7rvvJGbD0h50qzSBf/E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hu2A4myVOFLEZ1l+8CKNrn6eHiM+py3XVDkIXHweOcOB2xEfwRq3CnMqqMvzUeyZh
+ RHSkh/v7PvGQ3FWm9gmm3qBW6PolqxOe/KOoLCm6KMCMAWgaShAapuFroT6C7prGdL
+ cOLydI5cnPK5/NaDfNgMzwg4GpUH0B4Niz+6oOsNF/3ljrgeQDMDY3hwBifM0cPEiz
+ MHIaEgwlOREY+Eba/7cemGZvqIDkB6gaT+fLHXhi5UxykVEr1DsMGjL72OZ+2MMxZ8
+ UVMGy3wZuTB8m7Yh98z+kivQSSVMDyvq7bL0NGazUu7m9KOfAh0tWbvJAV5h40REHf
+ XyNkWWVk+eTlg==
+Date: Mon, 4 Aug 2025 10:04:48 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Benoit Parrot <bparrot@ti.com>,
+ Lee Jones <lee@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Tero Kristo <kristo@kernel.org>, thomas.petazzoni@bootlin.com,
+ Jyri Sarha <jsarha@ti.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 2/4] dt-bindings: mfd: syscon: Add ti,am625-dss-clk-ctrl
+Message-ID: <20250804-industrious-neon-gorilla-2bbde6@kuoka>
+References: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
+ <20250730-fix-edge-handling-v1-2-1bdfb3fe7922@bootlin.com>
 MIME-Version: 1.0
-From: =?UTF-8?B?Sm9zZWYgTHXFoXRpY2vDvQ==?= <josef.lusticky@braiins.cz>
-Date: Mon, 4 Aug 2025 09:54:28 +0200
-X-Gm-Features: Ac12FXzwLTv1ihSx1itHwXyCDwv8jLhsCgiaBXXsrjcRBl-tiZ3V0--OVJkxNkc
-Message-ID: <CACnTymakHbAH1eSP8y99_yOp08R4mV=M922ym9YGdT-V-xdKfQ@mail.gmail.com>
-Subject: GPU acceleration with SPI displays (TinyDRM)
-To: dri-devel@lists.freedesktop.org
-Cc: noralf@tronnes.org, Alex Lanzano <lanzano.alex@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250730-fix-edge-handling-v1-2-1bdfb3fe7922@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,42 +72,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
-is it possible to use GPU acceleration with TinyDRM drivers?
-I am testing on STM32MP157c SoC with Vivante GC400 GPU and I use
-Mesa3D 24.0.9 (rootfs generated with Buildroot 2025.02.3) and kernel
-5.10.176.
+On Wed, Jul 30, 2025 at 07:02:45PM +0200, Louis Chauvet wrote:
+> The dt-bindings for the multi-function device (mfd) syscon need to include
+> ti,am625-dss-clk-ctrl. On AM625 chips, the display controller (tidss) has
+> external registers to control certain clock properties. These registers
+> are located in the device configuration registers, so they need to be
+> declared using syscon. They will later be used with a phandle in the tidss
+> node.
 
-To compare, I also have the same system but with a MIPI DSI display.
-While kmscube renders at 60 fps with the MIPI DSI display, I get only
-11 fps with the SPI display (TinyDRM driver).
+I don't understand above commit msg. You add new compatible (new device)
+but entire commit msg describes something else - some sort of a fix.
 
-Is there some architectural limitation, either in Mesa, kernel, or HW-related?
-I suppose both setups use kernel's KMS as renderer only (kmsro), thus
-it should render at the same framerate into framebuffer.
-The difference in HW is the peripheral the displays use - MIPI DSI
-display utilizes LTDC peripheral (kmscube loads
-/usr/lib/dri/stm_dri.so) vs. SPI display uses just SPI (ksmcube loads
-/usr/lib/dri/ili9225_dri.so). Both .so files are hard links.
-Both open /dev/dri/renderD128 (GPU).
+> 
+> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
 
-The MIPI DSI display is connected to the DSI Host peripheral which
-just transcodes the parallel RGB pixel stream from the LTDC (LCD
-Timing Display Controller) peripheral of the STM SoC.
-The display driver is drivers/gpu/drm/panel/panel-sitronix-st7703.c (DRM panel).
+Heh? How? How adding a new driver needs fixes in the bindings?
 
-The SPI display driver uses the kernel's TinyDRM API and its driver is
-drivers/gpu/drm/tiny/ili9225.c , but I can change to any other driver
-if needed (eventually to the generic panel-mipi-dbi-spi).
-Could rewriting the TinyDRM driver to a panel driver in
-drivers/gpu/drm/panel/ help?
+This is just confusing.
 
-I also tried software rendering "softpipe" (disabled GPU in
-device-tree) and it renders 7 fps on both systems. Thus, I suppose,
-that some form of GPU acceleration is already used.
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+> 
+> Cc: stable@vger.kernel.org
 
-Mesa reports the same loaded GL-extensions on both systems and apart
-from loaded .so files everything seems to be the same.
+That's not the way to add stable tag. See stable-kernel docs or any git
+log history.
 
-Best regards
-Josef Lusticky
+
+> ---
+>  Documentation/devicetree/bindings/mfd/syscon.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
+> index 27672adeb1fedb7c81b8ae86c35f4f3b26d5516f..afe4a2a19591e90c850c05ef5888f18bdb64eac9 100644
+> --- a/Documentation/devicetree/bindings/mfd/syscon.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
+> @@ -121,6 +121,7 @@ select:
+>            - ti,am62-opp-efuse-table
+>            - ti,am62-usb-phy-ctrl
+>            - ti,am625-dss-oldi-io-ctrl
+> +          - ti,am625-dss-clk-ctrl
+
+Don't break the order. o > c
+
+>            - ti,am62p-cpsw-mac-efuse
+>            - ti,am654-dss-oldi-io-ctrl
+>            - ti,j784s4-acspcie-proxy-ctrl
+> @@ -228,6 +229,7 @@ properties:
+>            - ti,am62-opp-efuse-table
+>            - ti,am62-usb-phy-ctrl
+>            - ti,am625-dss-oldi-io-ctrl
+> +          - ti,am625-dss-clk-ctrl
+
+Same here
+
+I don't understand also why you are adding clock to syscon. Clock
+controllers have their own bindings.
+
+Best regards,
+Krzysztof
+
