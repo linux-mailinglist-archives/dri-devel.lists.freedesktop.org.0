@@ -2,159 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C8BB19CE6
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 09:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F347B19CED
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 09:49:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7909F10E40C;
-	Mon,  4 Aug 2025 07:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5700D10E40F;
+	Mon,  4 Aug 2025 07:49:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Iel10p1o";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nCYLKTvw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A10E110E407
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 07:48:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1754293700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=CI9V5tQa/vNbUREhWfZQik4IRoDBf2O57MsxRr5DRVg=;
- b=Iel10p1onG9IKL0ziCw46XxvYcGzz1jKn39/op41Tp1SIcxpni3jPoYNWXuQnn8rmSWKsA
- 0wZk3TzYKgYDUK8te2Of2TO+CV36l4nbX1zOk3yLOcMMHHrhnbhCtauUTCxyLRu13jgUOY
- P1wHO2Q6AyrfupLIYl1HzM5mh/DR4WY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-497--LsWEgePPGS_4LQfA07YWQ-1; Mon, 04 Aug 2025 03:48:19 -0400
-X-MC-Unique: -LsWEgePPGS_4LQfA07YWQ-1
-X-Mimecast-MFC-AGG-ID: -LsWEgePPGS_4LQfA07YWQ_1754293698
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3b8d8935418so1546857f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 00:48:19 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9900610E40F
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 07:49:31 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5745b4iC027426
+ for <dri-devel@lists.freedesktop.org>; Mon, 4 Aug 2025 07:49:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ STOBvxiI8njI7r5I7q2kaDJJR3rz10/Df51mAVUAL2M=; b=nCYLKTvwlBRCd5Y5
+ Huoer+5K+4jcqskDQy9VGJXXSx5AXdIp7RkOC71MHy11ztWmUZsYNKlQskz/k6wW
+ W1uuVX3UBnC3srBzrEcchKDgNAXWEcBB5dGm7M7pxwvDMvE0wF3alAOz7BnjD/lJ
+ HD+wjas3BDcMIYUt21AIOEOm39EqD/c9YQMCUCINBlw6YDP0y/oeTSrchQZwAK9f
+ +TGcA4Y300UYQCCqjvpp6grEyJimOlf1SIPFF5wTZPUzRVYwquXJo5+Ysdc+pID8
+ gYdHQOuI+Wc3BhJ1i4NLZinTPRf3DX4QQaR4pld2FyrRkhvU3lL8LgIyPKrG1cQI
+ HW5A/Q==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 489arwkx5p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 07:49:30 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7e69e201c51so234937085a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Aug 2025 00:49:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754293698; x=1754898498;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=CI9V5tQa/vNbUREhWfZQik4IRoDBf2O57MsxRr5DRVg=;
- b=plqqJDv5YYFaNOl9s7OaGs4bXV22ZVeGeOdlp3WDDV3FfMxKSSrGxwH8dyrJ3iE2kM
- H+2dm3W8FjNKKiI+RVqhVwVES+me5fKW35Zy/KY//f6dUc9ObFDLAJRH0hLufUzqQrRb
- uZ4zieVkKkQVbu6rs3eG9bMK3a42vSfWQM4xeFhGE0WOaZRDGuahzsciOlHZtCaPNlio
- Xp5ZvzoDWEQu2o+ZLIl2jhHhsn4o0wG8LIMdtSacxCVh1oKQlU+W+Cv5aarN6vjn7U3f
- yVt4aDYD03Mdo6I7pjq4Haab6oU547hGjUqJNeWtIFC8TT92CDsC9Nz4sDMoV5cHRWyE
- yZWw==
+ d=1e100.net; s=20230601; t=1754293770; x=1754898570;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=STOBvxiI8njI7r5I7q2kaDJJR3rz10/Df51mAVUAL2M=;
+ b=T2HZqNUjyU1xcntDFTSD70zMIdHIzEZl53zT5tCBLKXXE+TgJOtBaPSUaYNmIMzDI3
+ USZrJy6iYaxc4eEyqZkukES/X8nEHjy8X0wQhAe0o64lR4Hsx65RVnYSR3CxW8CpgIiW
+ bg4f99nt7w9BuOj7uKWhyp7d4jBUSsUAKB03U60CykvXa4TttC6IuUttGXua5vL9bkY8
+ jlfMkeiZyycZds4xIz96MbNCIikLJwPT6fKRAQv0xqlbgB+XxglJMbo2GZxqIr5rMd9Y
+ XTso16DFicyR4M8e1RhXhRI+unSJpbvApEe1bCNm2xc8rfTqZ1haeObSOUguQIpLc1b6
+ SEXQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVA59I62/H3hH28lkdGY3Rmikn1B8YOjCuf4U+H+K8RciXe7YShqL9W+nDfmu9jpvhgVkcS+Cp6Dik=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxY4LQn9wTOZLZWwe+zHUf+38bnYWTFcX9AV9uOsKdEdz7F45Q
- FEE7qiMwv/6XGsKnlZVc0feiSZysOWenftM7D0ZwhXUGC3E1Y8HRlZD4Jw21Y9kylg7/YxWossS
- TeKPcAHdpxVkrp7Ek5Qm11KlNWQ/FhptyDpRjXTGGknZh7RAzZwbmgq9vwquQzeUONImltA==
-X-Gm-Gg: ASbGncvZxwo9650yLtBuGFgLpj9tNMZV8zyIckH4IYZ+fNd3596tuxrpI36oho3Dvxk
- 6oV+t1ZTdSL2fXw7m5FS5L+QhX2j67UI20ho0BGRwClMok5WGu3/NrRnRQNUiAJ/raEaTuSI1y/
- eGTpIkgnkotbq1NoCKq6BU3BvIKqsGCS/nLxSGcf7SrnwgZHtyxumfkiznM2+zpsL6pZ59w1+We
- 3F30wF+aqHpIF7Fzz9FWUPxNxry8JVSI9iFPb5htIwMlkl4+4TikKlQqep+E1rUnePnQnb82u2Y
- Y8lUwL0+CDFARVMkvnlBpn9WpuM6Ihefu3jwSLxbRmW1myfWYlD4i8ZpA2cWAnByshsasT21xx/
- nra5OzwP9qXUpjD5l9MCqp8WWGXNy+YpNPQ4vj84M/qEtlsQQChSC2laE1uTMnD6iujI=
-X-Received: by 2002:a05:6000:2884:b0:3b7:90f3:cd8a with SMTP id
- ffacd0b85a97d-3b8d94c4a53mr6034043f8f.49.1754293698094; 
- Mon, 04 Aug 2025 00:48:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGfYT0lcXyX08bXfIENSYopKSKAxiPsmMGCtLCADlyGZAB/nU3jxTIAQ+97SAdwL4HDWRlAbw==
-X-Received: by 2002:a05:6000:2884:b0:3b7:90f3:cd8a with SMTP id
- ffacd0b85a97d-3b8d94c4a53mr6034010f8f.49.1754293697653; 
- Mon, 04 Aug 2025 00:48:17 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f0e:2c00:d6bb:8859:fbbc:b8a9?
- (p200300d82f0e2c00d6bb8859fbbcb8a9.dip0.t-ipconnect.de.
- [2003:d8:2f0e:2c00:d6bb:8859:fbbc:b8a9])
+ AJvYcCWfsJ7sopBjZc1SFLWFLQQ+3pJ+pkFT0zb18YEC0v9NZ+Iu/Vo/P6zg0jjlWRHX7cAzqu9obh+7BsY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxcV3eZdcT6WAxEqDzhIGDqBoc/Y+fRfBh+P3KaUocHiwLnSPrt
+ TWZDCChlsF3BsMhHUmYyYErS2dwKh3li+G7WFxjS1D2D1APTuxYFG70phgYMtcgrgOXD6Gu7pup
+ t6JFPGSpb3QBcGB52zgLUM9RGEnDpWBgWExy3dlqri8IR6sMUY6gy6Kzqdm4tiYEeethXl1I=
+X-Gm-Gg: ASbGnctIQi4DZASp13LIMI+sPPhVWdzT8Ljog7Ju8SAeDe0bHYc3zVyVxjmVOpGdJew
+ 80bb6RBuuqyH5IXxaiWHBhn/bbfzCKNfekoBupGHbIW9DsuD+oYiUMGzwJGczEUy+H0zscYnWcM
+ 7CPnSIt0itGGEUPZviFQNpBUPxi+4Rv1l0H4IUUaJd6YnFy07mKujnxBjq/bxHqvSI57sTJj3Sz
+ 05j6Bh3HtJ8vIq18ATNv6WwZ/vgPJxhL6jJWbSLSzq2IEPHLPaFpGWRTBxGV7XuwomqMv1yG6IO
+ XtGeQdYARI7crPPgq7tvC9Cq/RJohouTG8QhSxL47Bjt6m9Js3i3RV/d2guAX2ykJ35SpIZy4/P
+ S3/pQ6mkMgPOXVWbfdRFWdOA0wSWhbONxSFZYtzDisgvRs+wqgsPY
+X-Received: by 2002:a05:620a:8c2:b0:7e6:8751:96ae with SMTP id
+ af79cd13be357-7e696354949mr971850985a.31.1754293769756; 
+ Mon, 04 Aug 2025 00:49:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHsguIUFIUKHYWXeH9zorTXCF1lcfU5CMnhov8eyA4nrE5HjM5lQxXvbmcppBsUJW0Xd8BB2g==
+X-Received: by 2002:a05:620a:8c2:b0:7e6:8751:96ae with SMTP id
+ af79cd13be357-7e696354949mr971849085a.31.1754293769324; 
+ Mon, 04 Aug 2025 00:49:29 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b79c3b95f4sm14512834f8f.23.2025.08.04.00.48.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Aug 2025 00:48:17 -0700 (PDT)
-Message-ID: <16c98fa8-e85c-4aa2-bf53-ba070833661c@redhat.com>
-Date: Mon, 4 Aug 2025 09:48:15 +0200
+ 2adb3069b0e04-55b88c98c35sm1583782e87.97.2025.08.04.00.49.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Aug 2025 00:49:28 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: simona@ffwll.ch, sfr@canb.auug.org.au, airlied@gmail.com,
+ jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, neil.armstrong@linaro.org, rfoss@kernel.org,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250716125602.3166573-1-andyshrk@163.com>
+References: <20250716125602.3166573-1-andyshrk@163.com>
+Subject: Re: [PATCH] drm/bridge: Describe the newly introduced
+ drm_connector parameter for drm_bridge_detect
+Message-Id: <175429376814.3371239.2255431284571654871.b4-ty@oss.qualcomm.com>
+Date: Mon, 04 Aug 2025 10:49:28 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] mm/hmm: HMM API to enable P2P DMA for device
- private pages
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Alistair Popple <apopple@nvidia.com>, Matthew Wilcox
- <willy@infradead.org>, Yonatan Maman <ymaman@nvidia.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Leon Romanovsky
- <leon@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ben Skeggs <bskeggs@nvidia.com>,
- Michael Guralnik <michaelgur@nvidia.com>, Or Har-Toov <ohartoov@nvidia.com>,
- Daisuke Matsuda <dskmtsd@gmail.com>, Shay Drory <shayd@nvidia.com>,
- linux-mm@kvack.org, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Gal Shalom <GalShalom@nvidia.com>
-References: <aHpXXKTaqp8FUhmq@casper.infradead.org>
- <20250718144442.GG2206214@ziepe.ca> <aH4_QaNtIJMrPqOw@casper.infradead.org>
- <7lvduvov3rvfsgixbkyyinnzz3plpp3szxam46ccgjmh6v5d7q@zoz4k723vs3d>
- <aIBcTpC9Te7YIe4J@ziepe.ca>
- <cn7hcxskr5prkc3jnd4vzzeau5weevzumcspzfayeiwdexkkfe@ovvgraqo7svh>
- <a3f1af02-ef3f-40f8-be79-4c3929a59bb7@redhat.com>
- <i5ya3n7bhhufpczprtp2ndg7bxtykoyjtsfae6dfdqk2rfz6ix@nzwnhqfwh6rq>
- <20250801164058.GD26511@ziepe.ca>
- <b8009500-8b0b-4bb9-ae5e-6d2135adbfdd@redhat.com>
- <20250801165749.GF26511@ziepe.ca>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- g3eXuA==
-Organization: Red Hat
-In-Reply-To: <20250801165749.GF26511@ziepe.ca>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: CvsiXdwsTTO0DOuVD4sVm7hqCbBcqva0dgt9yolXQb8_1754293698
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA0MDAzOSBTYWx0ZWRfX4KFnR0UWSB07
+ QXK9z9/5JspKsW090jWrjYf4crOTsa/pjATZRMZSVpbCgPqKjbAYTiQ0AB0Cj8o7uNBnkjydwpq
+ bxLCjbz3U6d016X2fOpp6kHPLinvzwP5kxzG9fTPwa0lofuTnJEhZbJf2txJKxivZ+A0k2u/5ph
+ tAspKMWJwV4wpevsEoIQ6bMbe9uBgRi9+9pWKweVH/OB5wOTR6g1zqZ81KAuJ+YaxkDz9OifbBQ
+ wMEZ/OIX5W+cM0aY/9qsEbn8Zj3e7xNdJL9dy0wn5ip+As2mPB+9Cl5h2qikSj+KBLAfPaaRcOX
+ vrbaPCH0YzV9I0+ghUho7j2F/blFSE1IkhW6JViHgE+VeT8LoXmm03qFOI3Nsp6pLsO+OWtoOXV
+ 2tR4XTi/X6wmFltalpyNusy0COd0iF7cnxHmcGBL/feur1yYzMxsCMTRMaPhYwOZmqDhufxh
+X-Authority-Analysis: v=2.4 cv=We8Ma1hX c=1 sm=1 tr=0 ts=6890660a cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=Xx17V1t0QfcI18h7U9IA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: QLnRgbkjymlmokPzdGJUpUsKe7pgYY1L
+X-Proofpoint-ORIG-GUID: QLnRgbkjymlmokPzdGJUpUsKe7pgYY1L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-04_03,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 clxscore=1015 bulkscore=0 phishscore=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2508040039
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,52 +129,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01.08.25 18:57, Jason Gunthorpe wrote:
-> On Fri, Aug 01, 2025 at 06:50:18PM +0200, David Hildenbrand wrote:
->> On 01.08.25 18:40, Jason Gunthorpe wrote:
->>> On Fri, Jul 25, 2025 at 10:31:25AM +1000, Alistair Popple wrote:
->>>
->>>> The only issue would be if there were generic code paths that somehow have a
->>>> raw pfn obtained from neither a page-table walk or struct page. My assumption
->>>> (yet to be proven/tested) is that these paths don't exist.
->>>
->>> hmm does it, it encodes the device private into a pfn and expects the
->>> caller to do pfn to page.
->>>
->>> This isn't set in stone and could be changed..
->>>
->>> But broadly, you'd want to entirely eliminate the ability to go from
->>> pfn to device private or from device private to pfn.
->>>
->>> Instead you'd want to work on some (space #, space index) tuple, maybe
->>> encoded in a pfn_t, but absolutely and typesafely distinct. Each
->>> driver gets its own 0 based space for device private information, the
->>> space is effectively the pgmap.
->>>
->>> And if you do this, maybe we don't need struct page (I mean the type!)
->>> backing device memory at all.... Which would be a very worthwhile
->>> project.
->>>
->>> Do we ever even use anything in the device private struct page? Do we
->>> refcount it?
->>
->> ref-counted and map-counted ...
+On Wed, 16 Jul 2025 20:55:55 +0800, Andy Yan wrote:
+> This fix the make htmldocs warnings:
+> drivers/gpu/drm/drm_bridge.c:1242: warning: Function parameter or struct
+> member 'connector' not described in 'drm_bridge_detect'
 > 
-> Hm, so it would turn into another struct page split up where we get
-> ourselves a struct device_private and change all the places touching
-> its refcount and mapcount to use the new type.
+> 
 
-We're already working with folios in all cases where we modify either 
-refcount or mapcount IIUC.
+Applied to drm-misc-next-fixes, thanks!
 
-The rmap handling (try to migrate, soon folio splitting) currently 
-depends on the mapcount.
+[1/1] drm/bridge: Describe the newly introduced drm_connector parameter for drm_bridge_detect
+      commit: 584460393efbcccb6388b1cd5d37284b5326709c
 
-Not sure how that will all look like without a ... struct folio / struct 
-page.
-
+Best regards,
 -- 
-Cheers,
+With best wishes
+Dmitry
 
-David / dhildenb
 
