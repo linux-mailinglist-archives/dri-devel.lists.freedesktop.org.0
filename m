@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAE7B1A508
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 16:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45E2B1A527
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 16:43:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8465610E581;
-	Mon,  4 Aug 2025 14:34:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MMvhJaKy";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C66610E20B;
+	Mon,  4 Aug 2025 14:43:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAD3A10E562;
- Mon,  4 Aug 2025 14:34:05 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-b2700de85d0so408458a12.2; 
- Mon, 04 Aug 2025 07:34:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754318045; x=1754922845; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ThPz4EG6ZmgX+GG9SQyYVrMb+M6NgBy3ZDuWSe5fSmc=;
- b=MMvhJaKyB6pEGXDKn5iggoRVsUiV7L1sWcvrwI3OGd1ssXDh81UFVYCtc0IQBZ6fka
- OauJgaTAbUmodZ6i4WzvLaEGDTWlBixHYIiYfdsP+frtOig2QJj+bOB5fVWxnJLtQXvO
- MN67aOkTZOgCTsbaeKiuTm7Ty7cmFPg9tYn03sK3ZVutvoAcT9x18vKVCLlJ4vODec/2
- cLGuAYM6cjvDEqER8HRGMgnKvHTekU8xy7n8tFmI7o+h7Nds/E3o0KXYNc7jB4hHpYZV
- 6cD4/YtwUb8Jn/y+22nvtNI4ZP7Kk+md5vx1uHpcPotWz966r0r4joOCX6VmP/HxaUmD
- 9r0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754318045; x=1754922845;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ThPz4EG6ZmgX+GG9SQyYVrMb+M6NgBy3ZDuWSe5fSmc=;
- b=bRjDm3M4z2fZ7OOyNTxT/M/b1YT78i5G0p2g5uEyXvqJEBHltBOmgY15+mqweU3rP0
- HsPJR49NBFx3bWUvCiy/icejhfEEUFYtFAwLtqL/ekyeHY77gGkVe3SocTVsNEtZXeey
- MdStXmrBtb9AoMVHytXvnz3NBJby0yHhfJJcIGWm1VxFbv3Z46SFmexA1/w1xNOEWovT
- 6LE8m+suU+Te05yFYAgy3cZl7AG2Kfz3FzE+GohwISBz5pPyeruqWmx66EHHhqr1f7lI
- GLPo5iHHYxmFlrhn9j9oyK9GwetsUWeumg0ZObEHFyNQwjFJRVV8ZDKNV0yTF5wsi36w
- L28w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUo6/ZoVbFPFsYLFPuChpC9eJse92WT6WwLxEGHdlF1BmPFbC5g50BM4ODaT8vm+FcWy/QevFAI@lists.freedesktop.org,
- AJvYcCWtKKLgC7HJ38C94D39SgZziVgteLTo8RfS1FkxhcGcne0H0DnsP8Bt2sVQmcyrZQYpj5Jmy1JdGons@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwhS0lW91MpAXAupx4ihngNAmkQM8oGiHDfon3mrmH3UU5LedFq
- inc4Jp9Pgv5XM2UmY+51xPpEOBP2IFlgIY7Ub2dYFBB/IFkF5AD0urReog9xNYawSnTlQcrxo8P
- XvS3chRQceDariV0n5To+AArt77XdplI=
-X-Gm-Gg: ASbGncvMBbK6nN785Ow9ZiXEKqw6S13oW7O99NmfBJI2pEL7A2NSky+VhR8nfl9AMpF
- NMTTll4lPOMAhUc37O7cgw1B9jL1hOZwuCenT8eUlod7JbICLly36Kb6pBOlLXXxubbkp1xcGFd
- Pi5bvzhF3OECc0LQe2rVsNzwapkc2GOhC2GZiGPL+0JdGXfGtg/Kw8ZeOpjJqmeYD7LdG/xCnwF
- vUuLa5T
-X-Google-Smtp-Source: AGHT+IH2SjTWTgUng0xb8MVNI07treE0Rf1uZrlyLZS28ps1VWH5GeUrd451Qm6fRobbn3ai1A5EuPF9RQCs85dAYm4=
-X-Received: by 2002:a17:90b:1804:b0:31f:55a7:6504 with SMTP id
- 98e67ed59e1d1-321162c71c9mr6274051a91.5.1754318045294; Mon, 04 Aug 2025
- 07:34:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250801-amdgfxv9-v1-1-0b9670ab5509@ethancedwards.com>
-In-Reply-To: <20250801-amdgfxv9-v1-1-0b9670ab5509@ethancedwards.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 4 Aug 2025 10:33:52 -0400
-X-Gm-Features: Ac12FXzEWmuF5wDSj54XY1blu563_2bdAIUexGomIzDirrtij04qOUL9B36nQoM
-Message-ID: <CADnq5_Nzia7kvqBYxVwnRASFHyWWDPPrA-qBsLH4OxP_S49L5Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu/gfx9: remove redundant repeated null checks
-To: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DCC4789364
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 14:43:45 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82F7D22BE
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 07:43:37 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5285D3F738
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 07:43:45 -0700 (PDT)
+Date: Mon, 4 Aug 2025 15:43:12 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ "Kandpal, Suraj" <suraj.kandpal@intel.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/8] drm: writeback: clean up writeback connector
+ initialization
+Message-ID: <aJDHAF69VOEHwcKO@e110455-lin.cambridge.arm.com>
+References: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250801-wb-drop-encoder-v1-0-824646042f7d@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,66 +73,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 2, 2025 at 4:33=E2=80=AFAM Ethan Carter Edwards
-<ethan@ethancedwards.com> wrote:
->
-> The repeated checks on grbm_soft_reset are unnecessary. Remove them.
->
+Hi,
 
-Same comment as the gfx10 patch.  These are necessary.
+On Fri, Aug 01, 2025 at 04:51:08PM +0300, Dmitry Baryshkov wrote:
+> Drivers using drm_writeback_connector_init() / _with_encoder() don't
+> perform cleanup in a manner similar to drmm_writeback_connector_init()
+> (see drm_writeback_connector_cleanup()). Migrate all existing drivers
+> to use drmm_writeback_connector_init(), drop
+> drm_writeback_connector_init() and drm_writeback_connector::encoder
+> (it's unused afterwards).
+> 
+> This series leaves former drm_writeback_connector_init_with_encoder()
+> (renamed to drm_writeback_connector_init as a non-managed counterpart
+> for drmm_writeback_connector_init()). It is supposed to be used by
+> drivers which can not use drmm functions (like Intel). However I think
+> it would be better to drop it completely.
 
-Alex
+The intent of _init_with_encoder() was to be a special case for drivers
+that use their own specific encoder and the rest use the generic function
+that creates the virtual encoder inside the call. The API for
+_init_with_encoder() was actually introduced 4 years after the original
+patch, so that should give a hint.
 
-> Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+drmm_writeback_connector_init() is more like _init_with_encoder() and
+I don't remember reviewing it, so I'm not sure why that was considered
+to be the better behaviour for the managed version. Now you're moving
+all the drivers to the managed version and you have to duplicate code
+in each driver to create the ENCODER_VIRTUAL encoder.
+
+I'm not against the changes being made in the series, I just want to
+see a better justification on why _init_with_encoder() behaviour is
+better than the previous default that you're removing.
+
+Best regards,
+Liviu
+
+
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 24 +++++++++++-------------
->  1 file changed, 11 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/=
-amdgpu/gfx_v9_0.c
-> index 6a9cf3587cc6f0a0d00ab1c109fd599dd8aa2579..a6ff9a137a83a93cde0b0c9c9=
-e51db66374bcbee 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-> @@ -4175,19 +4175,17 @@ static int gfx_v9_0_soft_reset(struct amdgpu_ip_b=
-lock *ip_block)
->                 /* Disable MEC parsing/prefetching */
->                 gfx_v9_0_cp_compute_enable(adev, false);
->
-> -               if (grbm_soft_reset) {
-> -                       tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
-> -                       tmp |=3D grbm_soft_reset;
-> -                       dev_info(adev->dev, "GRBM_SOFT_RESET=3D0x%08X\n",=
- tmp);
-> -                       WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
-> -                       tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
-> -
-> -                       udelay(50);
-> -
-> -                       tmp &=3D ~grbm_soft_reset;
-> -                       WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
-> -                       tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
-> -               }
-> +               tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
-> +               tmp |=3D grbm_soft_reset;
-> +               dev_info(adev->dev, "GRBM_SOFT_RESET=3D0x%08X\n", tmp);
-> +               WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
-> +               tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
-> +
-> +               udelay(50);
-> +
-> +               tmp &=3D ~grbm_soft_reset;
-> +               WREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET, tmp);
-> +               tmp =3D RREG32_SOC15(GC, 0, mmGRBM_SOFT_RESET);
->
->                 /* Wait a little for things to settle down */
->                 udelay(50);
->
+> Dmitry Baryshkov (8):
+>       drm/amd/display: use drmm_writeback_connector_init()
+>       drm/komeda: use drmm_writeback_connector_init()
+>       drm/mali: use drmm_writeback_connector_init()
+>       drm/msm/dpu: use drmm_writeback_connector_init()
+>       drm/msm/dpu: use drmm_writeback_connector_init()
+>       drm/vc4: use drmm_writeback_connector_init()
+>       drm: writeback: drop excess connector initialization functions
+>       drm: writeback: rename drm_writeback_connector_init_with_encoder()
+> 
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  2 +-
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c   | 18 ++++--
+>  .../drm/arm/display/komeda/komeda_wb_connector.c   | 30 ++++++----
+>  drivers/gpu/drm/arm/malidp_mw.c                    | 25 ++++----
+>  drivers/gpu/drm/drm_writeback.c                    | 69 +++-------------------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      | 10 +---
+>  .../gpu/drm/renesas/rcar-du/rcar_du_writeback.c    | 23 +++++---
+>  drivers/gpu/drm/vc4/vc4_txp.c                      |  9 ++-
+>  include/drm/drm_writeback.h                        | 22 +------
+>  9 files changed, 77 insertions(+), 131 deletions(-)
 > ---
-> base-commit: b9ddaa95fd283bce7041550ddbbe7e764c477110
-> change-id: 20250801-amdgfxv9-30357749717e
->
+> base-commit: 94f208ff622b09309358abaf26d7acca0c318fae
+> change-id: 20250801-wb-drop-encoder-97a0c75bd5d7
+> 
 > Best regards,
-> --
-> Ethan Carter Edwards <ethan@ethancedwards.com>
->
+> -- 
+> With best wishes
+> Dmitry
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
