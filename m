@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1F6B19D45
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 10:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457C5B19D49
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 10:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2643210E0A2;
-	Mon,  4 Aug 2025 08:04:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A494210E14B;
+	Mon,  4 Aug 2025 08:05:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hu2A4myV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RMAGUcQo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE2C10E0A2
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 08:04:51 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 25354601F8;
- Mon,  4 Aug 2025 08:04:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42524C4CEE7;
- Mon,  4 Aug 2025 08:04:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754294690;
- bh=0VuAiQf0Cv59dj4webRh41zL7rvvJGbD0h50qzSBf/E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hu2A4myVOFLEZ1l+8CKNrn6eHiM+py3XVDkIXHweOcOB2xEfwRq3CnMqqMvzUeyZh
- RHSkh/v7PvGQ3FWm9gmm3qBW6PolqxOe/KOoLCm6KMCMAWgaShAapuFroT6C7prGdL
- cOLydI5cnPK5/NaDfNgMzwg4GpUH0B4Niz+6oOsNF/3ljrgeQDMDY3hwBifM0cPEiz
- MHIaEgwlOREY+Eba/7cemGZvqIDkB6gaT+fLHXhi5UxykVEr1DsMGjL72OZ+2MMxZ8
- UVMGy3wZuTB8m7Yh98z+kivQSSVMDyvq7bL0NGazUu7m9KOfAh0tWbvJAV5h40REHf
- XyNkWWVk+eTlg==
-Date: Mon, 4 Aug 2025 10:04:48 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Sam Ravnborg <sam@ravnborg.org>, Benoit Parrot <bparrot@ti.com>,
- Lee Jones <lee@kernel.org>, 
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Tero Kristo <kristo@kernel.org>, thomas.petazzoni@bootlin.com,
- Jyri Sarha <jsarha@ti.com>, 
- Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH 2/4] dt-bindings: mfd: syscon: Add ti,am625-dss-clk-ctrl
-Message-ID: <20250804-industrious-neon-gorilla-2bbde6@kuoka>
-References: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
- <20250730-fix-edge-handling-v1-2-1bdfb3fe7922@bootlin.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46BCC10E14B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 08:05:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754294714; x=1785830714;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=vgspxbl8UxVr3PzohpAkVXZh1F5wHQ0BCxizAeL/4LQ=;
+ b=RMAGUcQoyhypvA1dQIrzD0TMU0pFJGUMY+pABjDdR6b5lyuZi3sDNx2S
+ 7pmoJgWZAHmhBarJ9OWPNv2/QLVWueiWgrDYJhf9jrO54b9/Xgb9mMu8D
+ 5CbmVmFVV2fdx/XABm30FNlgEP9NwGjTM+rfX37XV78MMM+3dzFps21Xe
+ HY42tL5T1OPp8ChXJpQNAguFveiR0yj/61jBad1k2hQBSd0enY3INpvxk
+ h7bz/Ts15RtOLkifyBpTHn6HSc45MhzTZUb9pv0UnxUmErUHre+m8umm4
+ GlAhIGDgUBxUaVZJUsCckTEGUgB/mjJokzJs7pG4jffQr/T1uoGqvPhAx Q==;
+X-CSE-ConnectionGUID: xkXOUxvpQU24ZcziygkGfw==
+X-CSE-MsgGUID: dN1aUt92RmKuY9YEwFfSXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11511"; a="67920292"
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; d="scan'208";a="67920292"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2025 01:05:14 -0700
+X-CSE-ConnectionGUID: VRLisOH4TNmyX7at9d6+TA==
+X-CSE-MsgGUID: 0aQY5NA5Rdu23p3nRsdSgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; d="scan'208";a="169402040"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.215])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Aug 2025 01:05:13 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Alvaro Madela <alvaromadela@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [i915] Arrow Lake [8086:7d67] - No video output with kernel
+ 6.16 (Ubuntu 24.04)
+In-Reply-To: <CALNP1JaK=LoavsmHcBXjr+ZboHFgteXR1pcPOSLxSvgdYHiD3A@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CALNP1JaK=LoavsmHcBXjr+ZboHFgteXR1pcPOSLxSvgdYHiD3A@mail.gmail.com>
+Date: Mon, 04 Aug 2025 11:05:10 +0300
+Message-ID: <3345f07dda89195727b132812ae5d10db9ae680a@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250730-fix-edge-handling-v1-2-1bdfb3fe7922@bootlin.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,63 +67,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 30, 2025 at 07:02:45PM +0200, Louis Chauvet wrote:
-> The dt-bindings for the multi-function device (mfd) syscon need to include
-> ti,am625-dss-clk-ctrl. On AM625 chips, the display controller (tidss) has
-> external registers to control certain clock properties. These registers
-> are located in the device configuration registers, so they need to be
-> declared using syscon. They will later be used with a phandle in the tidss
-> node.
+On Fri, 01 Aug 2025, Alvaro Madela <alvaromadela@gmail.com> wrote:
+> Hello Intel Linux Graphics Team,
+>
+> I'm using an Intel Arrow Lake GPU (8086:7d67) on Ubuntu 24.04 (kernel 6.16)
+> and facing complete lack of video output without 'nomodeset'.
 
-I don't understand above commit msg. You add new compatible (new device)
-but entire commit msg describes something else - some sort of a fix.
+Please file a bug as described at [1].
 
-> 
-> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
+BR,
+Jani.
 
-Heh? How? How adding a new driver needs fixes in the bindings?
-
-This is just confusing.
-
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
-> 
-> Cc: stable@vger.kernel.org
-
-That's not the way to add stable tag. See stable-kernel docs or any git
-log history.
+[1] https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
 
 
-> ---
->  Documentation/devicetree/bindings/mfd/syscon.yaml | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
-> index 27672adeb1fedb7c81b8ae86c35f4f3b26d5516f..afe4a2a19591e90c850c05ef5888f18bdb64eac9 100644
-> --- a/Documentation/devicetree/bindings/mfd/syscon.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
-> @@ -121,6 +121,7 @@ select:
->            - ti,am62-opp-efuse-table
->            - ti,am62-usb-phy-ctrl
->            - ti,am625-dss-oldi-io-ctrl
-> +          - ti,am625-dss-clk-ctrl
-
-Don't break the order. o > c
-
->            - ti,am62p-cpsw-mac-efuse
->            - ti,am654-dss-oldi-io-ctrl
->            - ti,j784s4-acspcie-proxy-ctrl
-> @@ -228,6 +229,7 @@ properties:
->            - ti,am62-opp-efuse-table
->            - ti,am62-usb-phy-ctrl
->            - ti,am625-dss-oldi-io-ctrl
-> +          - ti,am625-dss-clk-ctrl
-
-Same here
-
-I don't understand also why you are adding clock to syscon. Clock
-controllers have their own bindings.
-
-Best regards,
-Krzysztof
-
+-- 
+Jani Nikula, Intel
