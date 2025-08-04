@@ -2,69 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D996CB1A16B
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 14:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EF6B1A271
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Aug 2025 15:01:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25CAE10E1E0;
-	Mon,  4 Aug 2025 12:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6765110E0C3;
+	Mon,  4 Aug 2025 13:00:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="MArvm4Y8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="snB5SB/e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDF1210E1E0
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 12:29:47 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250804122945euoutp02438a907698d22ca6f89463fee5cda2a7~YkC7kgiv92203622036euoutp02p
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 12:29:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250804122945euoutp02438a907698d22ca6f89463fee5cda2a7~YkC7kgiv92203622036euoutp02p
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1754310585;
- bh=gjGB41TXtm7EJnthNQJ5AzH/mdp0g+a0I4A+4VD5ihE=;
- h=Date:Subject:To:From:In-Reply-To:References:From;
- b=MArvm4Y87fkENJBZC/LP2iohmrSOnPIjL3Xi68nTih/jFnnezyqn6v9PvbEqpa25e
- hMD8EGUIB2A7NtKhNGKA2lpEC6yYFU6bBr0r3s8Cg5B32AI8SrLHRlchXrjIjZLxNw
- o1GWtKKqC5fgT4HJ9lp/wK6FEKDR5aTHI6kpchlI=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250804122945eucas1p2078d2152e2306b4b5fea70c11d6408e0~YkC7GTraK0290002900eucas1p2B;
- Mon,  4 Aug 2025 12:29:45 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250804122943eusmtip25bc1a12bb6a7913207f8a655cad8e263~YkC5rdxV30364903649eusmtip2Q;
- Mon,  4 Aug 2025 12:29:43 +0000 (GMT)
-Message-ID: <e0121a48-1a69-453b-b58b-8e282956165b@samsung.com>
-Date: Mon, 4 Aug 2025 14:29:43 +0200
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8A5910E0C3
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Aug 2025 13:00:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 79D6144916;
+ Mon,  4 Aug 2025 13:00:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D16C4CEE7;
+ Mon,  4 Aug 2025 13:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1754312456;
+ bh=L+bDZNrpRD6+NWnAqrJEaGTijfdyb7IbO9utRG6Adzo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=snB5SB/ehi27xLbb8aXhBb2ZiyhJ9e2m9WSnuYjDNUxyhSq9Re9sx8WnUosm/3yxL
+ SN+3fMWL37eSzIUuNZEpqvSRbpU4PmQ9ZQZ/z/4VzZJKU+kN7HvBN/F1h/BSrkWO4H
+ eehopP6+SZUepq07StYSJKXP/s6hK7iUlUNz/zLE1wzKs99j9fG2ZEivbECfeIUph9
+ mrTs+HP3dr/zmRQ7l+QB7kp63HpOLpvFMfwujRo8eiMA/fuNXqD90jHbTmSImsSBka
+ U9Vy29jyCkt6W0MVTKUgd+gmftF40ONXFbnqj01gMf7pyAukD8MzMoYkOvBk/LgfIf
+ 0LjjJU3m+NNxQ==
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+ Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org,
+ Logan Gunthorpe <logang@deltatee.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+Subject: [PATCH v1 00/10] vfio/pci: Allow MMIO regions to be exported through
+ dma-buf
+Date: Mon,  4 Aug 2025 16:00:35 +0300
+Message-ID: <cover.1754311439.git.leon@kernel.org>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH] drm/bridge: samsung-dsim: Fix potential double-free in
- TE GPIO handling
-To: Miaoqian Lin <linmq006@gmail.com>, Inki Dae <inki.dae@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Marek Vasut <marex@denx.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20250804122418.104360-1-linmq006@gmail.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250804122945eucas1p2078d2152e2306b4b5fea70c11d6408e0
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250804122429eucas1p29db20ca392de43a1d6c113dcd4b1b47d
-X-EPHeader: CA
-X-CMS-RootMailID: 20250804122429eucas1p29db20ca392de43a1d6c113dcd4b1b47d
-References: <CGME20250804122429eucas1p29db20ca392de43a1d6c113dcd4b1b47d@eucas1p2.samsung.com>
- <20250804122418.104360-1-linmq006@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,47 +69,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04.08.2025 14:24, Miaoqian Lin wrote:
-> The devm_gpiod_get_optional() function uses device-managed resources that
-> are automatically cleaned up. The
-> gpiod_put() calls in both the error path of samsung_dsim_register_te_irq()
-> and in samsung_dsim_unregister_te_irq() are redundant and may lead to
-> double-free when the device is removed.
->
-> Fixes: e7447128ca4a ("drm: bridge: Generalize Exynos-DSI driver into a Samsung DSIM bridge")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
-Reviewed-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->   drivers/gpu/drm/bridge/samsung-dsim.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index bccc88d25948..6ffaee6b7738 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1691,7 +1691,6 @@ static int samsung_dsim_register_te_irq(struct samsung_dsim *dsi, struct device
->   				   IRQF_TRIGGER_RISING | IRQF_NO_AUTOEN, "TE", dsi);
->   	if (ret) {
->   		dev_err(dsi->dev, "request interrupt failed with %d\n", ret);
-> -		gpiod_put(dsi->te_gpio);
->   		return ret;
->   	}
->   
-> @@ -1790,10 +1789,8 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
->   
->   static void samsung_dsim_unregister_te_irq(struct samsung_dsim *dsi)
->   {
-> -	if (dsi->te_gpio) {
-> +	if (dsi->te_gpio)
->   		free_irq(gpiod_to_irq(dsi->te_gpio), dsi);
-> -		gpiod_put(dsi->te_gpio);
-> -	}
->   }
->   
->   static int samsung_dsim_host_detach(struct mipi_dsi_host *host,
+Changelog:
+v1:
+ * Changed commit messages.
+ * Reused DMA_ATTR_MMIO attribute.
+ * Returned support for multiple DMA ranges per-dMABUF.
+v0: https://lore.kernel.org/all/cover.1753274085.git.leonro@nvidia.com
 
-Best regards
+---------------------------------------------------------------------------
+Based on "[PATCH v1 00/16] dma-mapping: migrate to physical address-based API"
+https://lore.kernel.org/all/cover.1754292567.git.leon@kernel.org series.
+---------------------------------------------------------------------------
+
+This series extends the VFIO PCI subsystem to support exporting MMIO regions
+from PCI device BARs as dma-buf objects, enabling safe sharing of non-struct
+page memory with controlled lifetime management. This allows RDMA and other
+subsystems to import dma-buf FDs and build them into memory regions for PCI
+P2P operations.
+
+The series supports a use case for SPDK where a NVMe device will be owned
+by SPDK through VFIO but interacting with a RDMA device. The RDMA device
+may directly access the NVMe CMB or directly manipulate the NVMe device's
+doorbell using PCI P2P.
+
+However, as a general mechanism, it can support many other scenarios with
+VFIO. This dmabuf approach can be usable by iommufd as well for generic
+and safe P2P mappings.
+
+In addition to the SPDK use-case mentioned above, the capability added
+in this patch series can also be useful when a buffer (located in device
+memory such as VRAM) needs to be shared between any two dGPU devices or
+instances (assuming one of them is bound to VFIO PCI) as long as they
+are P2P DMA compatible.
+
+The implementation provides a revocable attachment mechanism using dma-buf
+move operations. MMIO regions are normally pinned as BARs don't change
+physical addresses, but access is revoked when the VFIO device is closed
+or a PCI reset is issued. This ensures kernel self-defense against
+potentially hostile userspace.
+
+The series includes significant refactoring of the PCI P2PDMA subsystem
+to separate core P2P functionality from memory allocation features,
+making it more modular and suitable for VFIO use cases that don't need
+struct page support.
+
+-----------------------------------------------------------------------
+The series is based originally on
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
+but heavily rewritten to be based on DMA physical API.
+-----------------------------------------------------------------------
+The WIP branch can be found here:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio-v1
+
+Thanks
+
+Leon Romanovsky (8):
+  PCI/P2PDMA: Remove redundant bus_offset from map state
+  PCI/P2PDMA: Separate the mmap() support from the core logic
+  PCI/P2PDMA: Simplify bus address mapping API
+  PCI/P2PDMA: Refactor to separate core P2P functionality from memory
+    allocation
+  PCI/P2PDMA: Export pci_p2pdma_map_type() function
+  types: move phys_vec definition to common header
+  vfio/pci: Enable peer-to-peer DMA transactions by default
+  vfio/pci: Add dma-buf export support for MMIO regions
+
+Vivek Kasireddy (2):
+  vfio: Export vfio device get and put registration helpers
+  vfio/pci: Share the core device pointer while invoking feature
+    functions
+
+ block/blk-mq-dma.c                 |   7 +-
+ drivers/iommu/dma-iommu.c          |   4 +-
+ drivers/pci/p2pdma.c               | 154 ++++++++----
+ drivers/vfio/pci/Kconfig           |  20 ++
+ drivers/vfio/pci/Makefile          |   2 +
+ drivers/vfio/pci/vfio_pci_config.c |  22 +-
+ drivers/vfio/pci/vfio_pci_core.c   |  59 +++--
+ drivers/vfio/pci/vfio_pci_dmabuf.c | 390 +++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h   |  23 ++
+ drivers/vfio/vfio_main.c           |   2 +
+ include/linux/dma-buf.h            |   1 +
+ include/linux/pci-p2pdma.h         | 114 +++++----
+ include/linux/types.h              |   5 +
+ include/linux/vfio.h               |   2 +
+ include/linux/vfio_pci_core.h      |   4 +
+ include/uapi/linux/vfio.h          |  25 ++
+ kernel/dma/direct.c                |   4 +-
+ mm/hmm.c                           |   2 +-
+ 18 files changed, 715 insertions(+), 125 deletions(-)
+ create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+2.50.1
 
