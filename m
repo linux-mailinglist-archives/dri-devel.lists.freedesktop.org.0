@@ -2,92 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF14B1B45F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 15:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F7AB1B545
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 15:50:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B28610E693;
-	Tue,  5 Aug 2025 13:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B5089F08;
+	Tue,  5 Aug 2025 13:50:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.b="NdN1sd5s";
-	dkim=permerror (0-bit key) header.d=xenosoft.de header.i=@xenosoft.de header.b="HY8wyhZ6";
+	dkim=pass (1024-bit key; unprotected) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="icFgHUxt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [85.215.255.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ADE410E26A
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 13:12:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1754399546; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=YgffpZwOd0ir6vofQiAxkEVhB04XZHvZqufJZQ2k68g836FdP5L3kOe2GLEXfRYLZx
- DgmVE9HxZjko+jpAFE5z06awdztIezz6KVp5YNMHDe4bbXgFyu//6nAJwtRZNxaUFIKF
- QK9fmMNg85gorRt7oUCI5WC/Cl42Y14v1D+8j5YKJBa1Uvm/Ba4DIJBp3TbiuwQKDyWA
- 9zbyXDdqKo28II4Sqe3VVrsiq6AwRDYkCXAPO/bt3k/NfxIN3oGq4t7geuyXJWXuEisV
- gy5ShjlFa5it6RaCKdyl85GauqnD8ZCNj1/oWod1rcs05rFjFkBAHgQJJAWnwke7LYVZ
- Pm+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1754399546;
- s=strato-dkim-0002; d=strato.com;
- h=To:In-Reply-To:References:Message-Id:Date:Subject:From:Cc:Date:From:
- Subject:Sender;
- bh=UW7EfqCMh67rDWgINn+d9NsZvqdMBFWknd/HCp912Z4=;
- b=haGRjWrZymaiLcsrq8tuMmF6isGBMCdfHcf2/Y5szSolOGHS3GO6mnsg7icvgOxe9L
- LPxlD4L9AB2xfpgwksqUaFdrXtZuekYXvEwl7ztoSv/aCC7dpOQTo+uW5hxrZi8QoSVh
- CPgulw35fbtHI6u01epd6MIp2joGOBYs06iW/wjcYnm0h6JjgD52uswwAF8suIG+sujZ
- mvR3aQOSp9SF9mdcVbHK6BJ0ZTQmbiol6BDTXQ0l+GToO8kps5TEbJERmLu2lxhjaPLq
- t2gYlBoUFIiDeDE2qaXS9ccvPJpy9SY+sa01BcU+jK4TvW39dZvOV7H4lzuLj3Vvw7m3
- zItw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1754399546;
- s=strato-dkim-0002; d=xenosoft.de;
- h=To:In-Reply-To:References:Message-Id:Date:Subject:From:Cc:Date:From:
- Subject:Sender;
- bh=UW7EfqCMh67rDWgINn+d9NsZvqdMBFWknd/HCp912Z4=;
- b=NdN1sd5sj9WLw6I+RHPxIVuvxy7aHfheLYqRpimzOwcGwoweILMqHAz2SFDmd7+KB5
- jihvzSN/O20Qmbcuz3e9nmHZihySDG4l3c6qY6X7NTxnQKgnWJXBbcj0N3mskLuNkD1i
- u4baTqD5cUz+ixLb6g5C6WKTddSoGQ9iKhyhp1UoMjkoPpMf1cPePZRlGhLICGZr5mfa
- cSJxTDXodzWbOEUbvnrZ3pN+N2e1q2JUKFzDTr71jDOoliVk2CuocLA2JZEXmjfl/DM1
- bC4JGuPA8GC75Tydh5qbaeQWTy0/UFXUBRPJV9fXae++v1DbY+nIArojZaAqTBcbeee8
- Zc0Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1754399546;
- s=strato-dkim-0003; d=xenosoft.de;
- h=To:In-Reply-To:References:Message-Id:Date:Subject:From:Cc:Date:From:
- Subject:Sender;
- bh=UW7EfqCMh67rDWgINn+d9NsZvqdMBFWknd/HCp912Z4=;
- b=HY8wyhZ6fZ0zlGSyLDDShuqvgG1L55fPaQiLa2hgs1hTHGsnds0OnOrMTv4FteJEPz
- Uv6fFr832K9MHmPsDuCA==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7V7X5nns3LEXHXelTAWdgfp5X5/AypUnTpAXpdvFoA="
-Received: from smtpclient.apple by smtp.strato.de (RZmta 52.1.2 AUTH)
- with ESMTPSA id e6066c175DCQwVI
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Tue, 5 Aug 2025 15:12:26 +0200 (CEST)
-Content-Type: text/plain; charset=us-ascii
+Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net
+ [178.154.239.144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8503589F08
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 13:50:25 +0000 (UTC)
+Received: from mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
+ (mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0c:4d88:0:640:1229:0])
+ by forward500b.mail.yandex.net (Yandex) with ESMTPS id BDEEBC1362;
+ Tue, 05 Aug 2025 16:50:22 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
+ (smtp/Yandex) with ESMTPSA id Gog2NwfMuGk0-QN8z0oWJ; 
+ Tue, 05 Aug 2025 16:50:21 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
+ s=mail; t=1754401821;
+ bh=q0+nYeuyQ+6AoyDKNBeY3RHlTqfS9TyWMrZyoB3tSIg=;
+ h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
+ b=icFgHUxth2kAC0N2wx+IIUyxCIr15Pbuum+xoMEySyFqdQ/8iSfnphu6OLPHIrcy3
+ dJ2WyaJ8oNEAViHpsJ34pbTIAlb50MXDP5OtWl4XyfuXm31DtRm49CP0i704rcmmhD
+ 2MIsNGYVe8VtvN00gt5dS+fdORzfnb59zGbw9NtM=
+Authentication-Results: mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net;
+ dkim=pass header.i=@onurozkan.dev
+Date: Tue, 5 Aug 2025 16:50:14 +0300
+From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Benno Lossin <lossin@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ ojeda@kernel.org, alex.gaynor@gmail.com, gary@garyguo.net,
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+ dakr@kernel.org, peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+ longman@redhat.com, felipe_life@live.com, daniel@sedlak.dev,
+ bjorn3_gh@protonmail.com, dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v5 2/3] implement ww_mutex abstraction for the Rust tree
+Message-ID: <20250805165014.1766f8dd@nimda.home>
+In-Reply-To: <8FA1F09F-CDD0-4A95-8E9E-49A3326613A2@collabora.com>
+References: <20250621184454.8354-1-work@onurozkan.dev>
+ <20250621184454.8354-3-work@onurozkan.dev>
+ <DASY7BECFRCT.332X5ZHZMV2W@kernel.org> <aFlQ7K_mYYbrG8Cl@Mac.home>
+ <DATYHYJVPL3L.3NLMH7PPHYU9@kernel.org> <aFlpFQ4ivKw81d-y@Mac.home>
+ <DAU0ELV91E2Q.35FZOII18W44J@kernel.org>
+ <20250707163913.5ffc046d@nimda.home>
+ <DB5XIWGZ8U36.1VB58YBJFL7OT@kernel.org>
+ <20250707210613.2fd5bb55@nimda.home>
+ <DB62ZN1LTO31.1HVWDLAWJWVM8@kernel.org>
+ <FF481535-86EF-41EB-830A-1DA2434AAEA0@collabora.com>
+ <DBRVNP4MM5KO.3IXLMXKGK4XTS@kernel.org>
+ <E997DCAF-552F-4EF2-BF94-1385ECADF543@collabora.com>
+ <20250805120813.1f8714f5@nimda.home>
+ <8FA1F09F-CDD0-4A95-8E9E-49A3326613A2@collabora.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-unknown-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-Mime-Version: 1.0 (1.0)
-Subject: [Linux PPC] [X1000] [e5500] Kernel 6.17 testing and DRM issue
-Date: Tue, 5 Aug 2025 15:12:15 +0200
-Message-Id: <29E89652-6101-46CD-850B-846BB4EC59A0@xenosoft.de>
-References: <3D84DBE3-1A8B-4BBD-8663-B7B5D1B36B27@xenosoft.de>
-In-Reply-To: <3D84DBE3-1A8B-4BBD-8663-B7B5D1B36B27@xenosoft.de>
-To: Jamie Krueger <jamie@bitbybitsoftwaregroup.com>,
- =?utf-8?Q?G=C3=BCrkan_Sinan?= <sinan.amigaone@gmail.com>,
- Julian Margetson <runaway@candw.ms>,
- Darren Stevens <darren@stevens-zone.net>,
- Steven Jeffery <sajeffer@gmail.com>, Pat Wall <pjwall@mac.com>,
- Pat Wall <pjwall@me.com>, Lyle Hazelwood <lylehaze@gmail.com>,
- Steve-David Marguet <steve@esdeem.ch>, George Sokianos <walkero@gmail.com>,
- TJ Ferreira <macsociety1@gmail.com>, Christian Zigotzky <info@xenosoft.de>,
- pjs@pjsa.net, Ben Cato Malkenes <ben.cato@gmail.com>,
- Kenneth Lester <ken@five-star.com>, madskateman@gmail.com,
- Allan Cairns <acefnq@gmail.com>, "R.T.Dickinson" <rtd2@xtra.co.nz>,
- Daniel Reimann <halle_saale@arcor.de>, hypexed@yahoo.com.au,
- Alex Deucher <alexander.deucher@amd.com>,
- developers DRI <dri-devel@lists.freedesktop.org>
-X-Mailer: iPhone Mail (22G86)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,24 +80,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+On Tue, 5 Aug 2025 09:41:43 -0300
+Daniel Almeida <daniel.almeida@collabora.com> wrote:
 
-Here is the alpha5 of kernel 6.17 for X1000 and e5500 machines (X5000/20, X5=
-000/40, Mirari, and QEMU VMs).
+> Hi Onur,
+>=20
+> > On 5 Aug 2025, at 06:08, Onur =C3=96zkan <work@onurozkan.dev> wrote:
+> >=20
+> > On Sat, 2 Aug 2025 11:15:07 -0300
+> > Daniel Almeida <daniel.almeida@collabora.com> wrote:
+> >=20
+> >> Btw, I can also try to implement a proof of concept, so long as
+> >> people agree that this approach makes sense.
+> >=20
+> > It's not necessary to provide a full P.o.C but a small
+> > demonstration of the kind of ww_mutex API you would prefer would be
+> > helpful. Seeing a few sample Rust use-cases (especially in
+> > comparison to existing C implementations) would give a clearer
+> > picture for me.
+> >=20
+> > At the moment, the implementation is just a wrapper ([1]) around
+> > the C ww_mutex with no additional functionality, mostly because we
+> > don't have a solid consensus on the API design yet (we had some
+> > ideas about Tuple based approach, but seems like that isn't going
+> > to be useful for most of the ww_mutex users).
+> >=20
+> > [1]: https://github.com/onur-ozkan/linux/commits/673e01a9c309c
+> >=20
+> >> By the way, dri-devel seems to not be on cc? Added them now.
+> >=20
+> > Thanks!
+> >=20
+> > --
+> >=20
+> > Regards,
+> > Onur
+> >=20
+>=20
+> This topic is on my TODO for this week.
+>=20
+> =E2=80=94 Daniel
 
-I created kernels with and without the drm-next-2025-07-30 updates [1] becau=
-se of the issue with the Radeon graphics framebuffer device #15. [2]=20
+Awesome, thank you for doing it. :)
 
-Download and further information: https://github.com/chzigotzky/kernels/rele=
-ases/tag/v6.17.0-alpha5
-
-Please test both kernels.
-
-Thanks,
-Christian
-
-[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/c=
-ommit/?id=3D260f6f4fda93c8485c8037865c941b42b9cba5d2
-
-[2] https://github.com/chzigotzky/kernels/issues/15=
-
+Regards,
+Onur
