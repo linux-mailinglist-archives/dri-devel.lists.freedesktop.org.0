@@ -2,71 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EBCB1B750
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 17:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6ECFB1B74F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 17:19:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15FE310E6B4;
-	Tue,  5 Aug 2025 15:19:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EA2010E6AE;
+	Tue,  5 Aug 2025 15:19:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="HsJuXBiY";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="kXDBY74/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E54D10E6AD
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 15:19:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1754407156; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=iWIoVDa+wTOrQJ/dj3bgnFlDxndNvdkiL/v5MN/wUVhKQZe42OSa/R18u+TqKtBbiwpdZCmm7QBYNPkcYxIagosHjfEC8dB/KHKvvsPL19sUJaNr4prO2zvoPtjHstxoPwe6bPWAho3/WI58nHGFZ+Eo+hKrmopE8wn+zEHORXs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1754407156;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=beYGwomH+lbWL9jpEDBGEPmwoZ7gaJ8/W3aJ1x/dddw=; 
- b=jtlUEpWGOXoAagS566GxH3w2IUe/HsFkwA9I2qBti0QF4sZFdz2G+9NwLZKelEH79GkE4MCc2AOSenDizyyDqPz/Eq1XpGSQM074RfUN5x380w1lAn1p1oOSVm16ogCnpNGG7dhFbqok6X9DNMpjtQ65+k6dJ22EyS4IHmPCXuI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754407156; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=beYGwomH+lbWL9jpEDBGEPmwoZ7gaJ8/W3aJ1x/dddw=;
- b=HsJuXBiYcKPZ4jLf1RWopBpzcMLObSjqYIeD24MqPJsDbK78NtGQhAij/0h7JX67
- TpvYtrcqLAC3URwnYS5Na86QneEx8ZfDPru2tJn0eh+PdFkteU3bv1BLRzO01oqXtrW
- Iuvk2DA91GTe5Ysq8AhFw/KqoasRArLY2uzMRUPM=
-Received: by mx.zohomail.com with SMTPS id 1754407153738359.155186405833;
- Tue, 5 Aug 2025 08:19:13 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
-Subject: Re: [PATCH v5 2/3] implement ww_mutex abstraction for the Rust tree
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <DBS8REY5E82S.3937FAHS25ANA@kernel.org>
-Date: Tue, 5 Aug 2025 12:18:56 -0300
-Cc: Onur <work@onurozkan.dev>, Boqun Feng <boqun.feng@gmail.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- ojeda@kernel.org, alex.gaynor@gmail.com, gary@garyguo.net,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dakr@kernel.org, peterz@infradead.org, mingo@redhat.com, will@kernel.org,
- longman@redhat.com, felipe_life@live.com, daniel@sedlak.dev,
- bjorn3_gh@protonmail.com, dri-devel <dri-devel@lists.freedesktop.org>
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A03E10E6AE
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 15:19:18 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id
+ 6a1803df08f44-7074710a809so42687546d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 08:19:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1754407157; x=1755011957;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=il9Pck9IsIM62v468p0OkwRij0VejED4nE+yuVLG5G4=;
+ b=kXDBY74/dI6PEEBOippzq78q//KAkyfUWFPxwZPpRCXrlwIaSp9/sUXGQKKyl+KBq9
+ q9iB4BthYlmvVS/lTfoscK36rqCCcR8efLTgMEkerNlJizkpHjropxpAVLuJDQAWplun
+ sNaI/QK73O0XPqOmiZJq2g85usyzTsAPFKUb8OiFZ2Z0YixOCLqfM/2pLCS5VW8xOv1F
+ DfDRIHrnRx3h5zWLPxJzzU9uLe5ajkW5Ni9wC1gQn34AtIxYpS2tLcToRVN45ccbfq40
+ z9D4ex2vqxwDfgk+ca9YPRSonN6Zi71++ch2STzgyrqDDdJXxABhAe2KA9adGqGlmVs9
+ 0cuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754407157; x=1755011957;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=il9Pck9IsIM62v468p0OkwRij0VejED4nE+yuVLG5G4=;
+ b=HlbZyw62gUO7vRaYu9WUBfvkv52HJd1eT/rHNoHsOt7k24VDXOG2rTBAGXnuTpRTnA
+ 0AiCQgavwDBzF3Q8607UABIEB3C3ZqYQN630AnmjFyCApV+vvDMIacbXcKKegW6IEsb7
+ Ww//9IM6eNoU23daHGuG5WY1igfnX8S0VylDNvGacve0gYPH4MatGZ47+CSXMzTzeuDa
+ BmL8nWydQlUTaPN1x8BtAgb2phRiuVwFZXND+NiA66M1wrI6AnXgU0lO/0eAQtgz9mSc
+ ICxjsCSVHAuAM6mL3rvpPBUbDkXVFl6M7AAKDmIITDQhVx+apAi+tWVEhHduI0/XJf1R
+ qepQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWZwxmtSDKgbLnxxSfN6EQpmPoKUYxLTVwbI7Vq+8XDR2uoz3/r0r6s3aOLJq/3S/fQY+SUJYywk1o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywt+J1ASqhXwzq+7ZPvVyw3ZRTm8bm5KUOecvtTswHCS87rOtFJ
+ AfmA3ZM+CGgDm/mYmX2QD3J56N5EjscqDiVKcuO8dt4ukPFIQgs6KJV1d0Ivy+hh187QJnNG+/7
+ PXzHY4Rg4BKfqXW9GOdh18LTHjam0c2MGXt//aTqh
+X-Gm-Gg: ASbGncuv2czmGu/NAeHr52yVIJJlIskkCrVF1oB1QUiTtv50R3RGrEW4Zk1r7olkPHU
+ gAhPSdiz3Swp5u6buHCqp1o7rcvHhHHHcjMhgtBqcjrLfJsJ58SKzLyW0SaBBFTcwFomS8BWkJy
+ 5XDCJGMt4QiCykpPV/GvB7KBx7GWU9hGsvt6uWFZHwZhVKPfQCzRG6WTDZfNL/If8l9ZY+a25+B
+ dCjcqjqspRte8DOz3H53gKOeotMxjPz7Qo+7K5+Sw==
+X-Google-Smtp-Source: AGHT+IHsPHBMzQ2/T8+siD5ic8hE3vwnW0tBzW28yvMlPYYQ19knnUB0dJX3KDeJvl8+vhnMuDUx4SWEm9004kjEUZI=
+X-Received: by 2002:ad4:5b8f:0:b0:6fa:c81a:6231 with SMTP id
+ 6a1803df08f44-70935f3f099mr182696396d6.8.1754407156788; Tue, 05 Aug 2025
+ 08:19:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250729193647.3410634-1-marievic@google.com>
+ <20250729193647.3410634-8-marievic@google.com>
+In-Reply-To: <20250729193647.3410634-8-marievic@google.com>
+From: Rae Moar <rmoar@google.com>
+Date: Tue, 5 Aug 2025 11:19:05 -0400
+X-Gm-Features: Ac12FXwIYISejq5E32R90mOlfU2aOU_svsUKJMC2HWJWPZDH6qlcqSczsSA0db4
+Message-ID: <CA+GJov5gBEKDpB=fLwiP5VBjoMJLkDeEcPhfn=SEr+tLoYWHFA@mail.gmail.com>
+Subject: Re: [PATCH 7/9] kunit: Add example parameterized test with shared
+ resources and direct static parameter array setup
+To: Marie Zhussupova <marievic@google.com>
+Cc: davidgow@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
+ elver@google.com, dvyukov@google.com, lucas.demarchi@intel.com, 
+ thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <8B1FB608-7D43-4DD9-8737-DCE59ED74CCA@collabora.com>
-References: <20250621184454.8354-1-work@onurozkan.dev>
- <20250621184454.8354-3-work@onurozkan.dev>
- <DASY7BECFRCT.332X5ZHZMV2W@kernel.org> <aFlQ7K_mYYbrG8Cl@Mac.home>
- <DATYHYJVPL3L.3NLMH7PPHYU9@kernel.org> <aFlpFQ4ivKw81d-y@Mac.home>
- <DAU0ELV91E2Q.35FZOII18W44J@kernel.org> <20250707163913.5ffc046d@nimda.home>
- <DB5XIWGZ8U36.1VB58YBJFL7OT@kernel.org> <20250707210613.2fd5bb55@nimda.home>
- <DB62ZN1LTO31.1HVWDLAWJWVM8@kernel.org>
- <FF481535-86EF-41EB-830A-1DA2434AAEA0@collabora.com>
- <DBRVNP4MM5KO.3IXLMXKGK4XTS@kernel.org>
- <E997DCAF-552F-4EF2-BF94-1385ECADF543@collabora.com>
- <DBS8REY5E82S.3937FAHS25ANA@kernel.org>
-To: Benno Lossin <lossin@kernel.org>
-X-Mailer: Apple Mail (2.3826.600.51.1.1)
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,454 +91,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Benno,
+On Tue, Jul 29, 2025 at 3:37=E2=80=AFPM Marie Zhussupova <marievic@google.c=
+om> wrote:
+>
+> Add `example_params_test_with_init` to illustrate how to manage
+> shared resources across parameterized KUnit tests. This example
+> showcases the use of the new `param_init` function and its registration
+> to a test using the `KUNIT_CASE_PARAM_WITH_INIT` macro.
+>
+> Additionally, the test demonstrates:
+> - How to directly assign a static parameter array to a test via
+>   `kunit_register_params_array`.
+> - Leveraging the Resource API for test resource management.
+>
+> Signed-off-by: Marie Zhussupova <marievic@google.com>
 
-> On 2 Aug 2025, at 17:58, Benno Lossin <lossin@kernel.org> wrote:
->=20
-> On Sat Aug 2, 2025 at 4:15 PM CEST, Daniel Almeida wrote:
->> On 2 Aug 2025, at 07:42, Benno Lossin <lossin@kernel.org> wrote:
->>> On Fri Aug 1, 2025 at 11:22 PM CEST, Daniel Almeida wrote:
->>>> One thing I didn=E2=80=99t understand with your approach: is it =
-amenable to loops?
->>>> i.e.: are things like drm_exec() implementable?
->>>=20
->>> I don't think so, see also my reply here:
->>>=20
->>>   https://lore.kernel.org/all/DBOPIJHY9NZ7.2CU5XP7UY7ES3@kernel.org
->>>=20
->>> The type-based approach with tuples doesn't handle dynamic number of
->>> locks.
->>>=20
->>=20
->> This is probably the default use-case by the way.
->=20
-> That's an important detail. In that case, a type state won't we a good
-> idea. Unless it's also common to have a finite number of them, in =
-which
-> case we should have two API.
->=20
->>>> /**
->>>> * drm_exec_until_all_locked - loop until all GEM objects are locked
->>>> * @exec: drm_exec object
->>>> *
->>>> * Core functionality of the drm_exec object. Loops until all GEM =
-objects are
->>>> * locked and no more contention exists. At the beginning of the =
-loop it is
->>>> * guaranteed that no GEM object is locked.
->>>> *
->>>> * Since labels can't be defined local to the loops body we use a =
-jump pointer
->>>> * to make sure that the retry is only used from within the loops =
-body.
->>>> */
->>>> #define drm_exec_until_all_locked(exec) \
->>>> __PASTE(__drm_exec_, __LINE__): \
->>>> for (void *__drm_exec_retry_ptr; ({ \
->>>> __drm_exec_retry_ptr =3D &&__PASTE(__drm_exec_, __LINE__);\
->>>> (void)__drm_exec_retry_ptr; \
->>>> drm_exec_cleanup(exec); \
->>>> });)
->>>=20
->>> My understanding of C preprocessor macros is not good enough to =
-parse or
->>> understand this :( What is that `__PASTE` thing?
->>=20
->> This macro is very useful, but also cursed :)
->>=20
->> This declares a unique label before the loop, so you can jump back to =
-it on
->> contention. It is usually used in conjunction with:
->=20
-> Ahh, I missed the `:` at the end of the line. Thanks for explaining!
-> (also Miguel in the other reply!) If you don't mind I'll ask some more
-> basic C questions :)
->=20
-> And yeah it's pretty cursed...
->=20
->> /**
->> * drm_exec_retry_on_contention - restart the loop to grap all locks
->> * @exec: drm_exec object
->> *
->> * Control flow helper to continue when a contention was detected and =
-we need to
->> * clean up and re-start the loop to prepare all GEM objects.
->> */
->> #define drm_exec_retry_on_contention(exec) \
->> do { \
->> if (unlikely(drm_exec_is_contended(exec))) \
->> goto *__drm_exec_retry_ptr; \
->> } while (0)
->=20
-> The `do { ... } while(0)` is used because C doesn't have `{ ... }`
-> scopes? (& because you want to be able to have this be called from an =
-if
-> without braces?)
+Hello!
 
-do {} while (0) makes this behave as a single statement. It usually used =
-in
-macros to ensure that they can be correctly called from control =
-statements even
-when no braces are used, like you said. It also enforces that a =
-semi-colon has
-to be placed at the end when the macro is called, which makes it behave =
-a bit
-more like a function call.
+I am always happy to see a new example test. I have a few tiny
+nitpicky comments below. I would be happy for this to go in as-is or
+just include the next test in the series as David suggested.
 
-There may be other uses that I am not aware of, but it=E2=80=99s not =
-something that
-specific to =E2=80=9Cdrm_exec_retry_on_contention".
+Reviewed-by: Rae Moar <rmoar@google.com>
 
->=20
->> The termination is handled by:
->>=20
->> /**
->> * drm_exec_cleanup - cleanup when contention is detected
->> * @exec: the drm_exec object to cleanup
->> *
->> * Cleanup the current state and return true if we should stay inside =
-the retry
->> * loop, false if there wasn't any contention detected and we can keep =
-the
->> * objects locked.
->> */
->> bool drm_exec_cleanup(struct drm_exec *exec)
->> {
->> if (likely(!exec->contended)) {
->> ww_acquire_done(&exec->ticket);
->> return false;
->> }
->>=20
->> if (likely(exec->contended =3D=3D DRM_EXEC_DUMMY)) {
->> exec->contended =3D NULL;
->> ww_acquire_init(&exec->ticket, &reservation_ww_class);
->> return true;
->> }
->>=20
->> drm_exec_unlock_all(exec);
->> exec->num_objects =3D 0;
->> return true;
->> }
->> EXPORT_SYMBOL(drm_exec_cleanup);
->>=20
->> The third clause in the loop is empty.
->>=20
->> For example, in amdgpu:
->>=20
->> /**
->> * reserve_bo_and_vm - reserve a BO and a VM unconditionally.
->> * @mem: KFD BO structure.
->> * @vm: the VM to reserve.
->> * @ctx: the struct that will be used in unreserve_bo_and_vms().
->> */
->> static int reserve_bo_and_vm(struct kgd_mem *mem,
->>      struct amdgpu_vm *vm,
->>      struct bo_vm_reservation_context *ctx)
->> {
->> struct amdgpu_bo *bo =3D mem->bo;
->> int ret;
->>=20
->> WARN_ON(!vm);
->>=20
->> ctx->n_vms =3D 1;
->> ctx->sync =3D &mem->sync;
->> drm_exec_init(&ctx->exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
->> drm_exec_until_all_locked(&ctx->exec) {
->> ret =3D amdgpu_vm_lock_pd(vm, &ctx->exec, 2);
->> drm_exec_retry_on_contention(&ctx->exec);
->> if (unlikely(ret))
->> goto error;
->>=20
->> ret =3D drm_exec_prepare_obj(&ctx->exec, &bo->tbo.base, 1);
->> drm_exec_retry_on_contention(&ctx->exec);
->> if (unlikely(ret))
->> goto error;
->> }
->>        // <=E2=80=94=E2=80=94 everything is locked at this point.
->=20
-> Which function call locks the mutexes?
-
-The function below, which is indirectly called from amdgpu_vm_lock_pd() =
-in
-this particular example:
-
-```
-/**
- * drm_exec_lock_obj - lock a GEM object for use
- * @exec: the drm_exec object with the state
- * @obj: the GEM object to lock
- *
- * Lock a GEM object for use and grab a reference to it.
- *
- * Returns: -EDEADLK if a contention is detected, -EALREADY when object =
-is
- * already locked (can be suppressed by setting the =
-DRM_EXEC_IGNORE_DUPLICATES
- * flag), -ENOMEM when memory allocation failed and zero for success.
- */
-int drm_exec_lock_obj(struct drm_exec *exec, struct drm_gem_object *obj)
-{
-	int ret;
-
-	ret =3D drm_exec_lock_contended(exec);
-	if (unlikely(ret))
-		return ret;
-
-	if (exec->prelocked =3D=3D obj) {
-		drm_gem_object_put(exec->prelocked);
-		exec->prelocked =3D NULL;
-		return 0;
-	}
-
-	if (exec->flags & DRM_EXEC_INTERRUPTIBLE_WAIT)
-		ret =3D dma_resv_lock_interruptible(obj->resv, =
-&exec->ticket);
-	else
-		ret =3D dma_resv_lock(obj->resv, &exec->ticket);
-
-	if (unlikely(ret =3D=3D -EDEADLK)) {
-		drm_gem_object_get(obj);
-		exec->contended =3D obj;
-		return -EDEADLK;
-	}
-
-	if (unlikely(ret =3D=3D -EALREADY) &&
-	    exec->flags & DRM_EXEC_IGNORE_DUPLICATES)
-		return 0;
-
-	if (unlikely(ret))
-		return ret;
-
-	ret =3D drm_exec_obj_locked(exec, obj);
-	if (ret)
-		goto error_unlock;
-
-	return 0;
-
-error_unlock:
-	dma_resv_unlock(obj->resv);
-	return ret;
-}
-EXPORT_SYMBOL(drm_exec_lock_obj);
-```
-
-And the tracking of locked objects is done at:
-
-```
-/* Track the locked object in the array */
-static int drm_exec_obj_locked(struct drm_exec *exec,
-			       struct drm_gem_object *obj)
-{
-	if (unlikely(exec->num_objects =3D=3D exec->max_objects)) {
-		size_t size =3D exec->max_objects * sizeof(void *);
-		void *tmp;
-
-		tmp =3D kvrealloc(exec->objects, size + PAGE_SIZE, =
-GFP_KERNEL);
-		if (!tmp)
-			return -ENOMEM;
-
-		exec->objects =3D tmp;
-		exec->max_objects +=3D PAGE_SIZE / sizeof(void *);
-	}
-	drm_gem_object_get(obj);
-	exec->objects[exec->num_objects++] =3D obj;
-
-	return 0;
-}
-```
-
-Note that dma_resv_lock() is:
-
-```
-static inline int dma_resv_lock(struct dma_resv *obj,
-				struct ww_acquire_ctx *ctx)
-{
-	return ww_mutex_lock(&obj->lock, ctx);
-}
-```
-
-
-Again, this is GEM-specific, but the idea is to generalize it.
-
-
->=20
->> return 0;
->>=20
->>=20
->> So, something like:
->>=20
->> some_unique_label:
->> for(void *retry_ptr;
->>    ({ retry_ptr =3D &some_unique_label; drm_exec_cleanup(); });
->=20
-> Normally this should be a condition, or rather an expression =
-evaluating
-> to bool, why is this okay? Or does C just take the value of the last
-> function call due to the `({})`?
-
-This is described here [0]. As per the docs, it evaluates to bool (as
-drm_exec_cleanup() is last, and that evaluates to bool)=20
-
->=20
-> Why isn't `({})` used instead of `do { ... } while(0)` above?
-
-I=E2=80=99m not sure I understand what you=E2=80=99re trying to ask.
-
-If you=E2=80=99re asking why ({}) is being used here, then it=E2=80=99s =
-because we need
-to return (i.e. evaluate to) a value, and a do {=E2=80=A6} while(0) does =
-not do
-that.
-
->=20
->>    /* empty *) {
->>     /* user code here, which potentially jumps back to =
-some_unique_label  */
->> }
->=20
-> Thanks for the example & the macro expansion. What I gather from this =
-is
-> that we'd probably want a closure that executes the code & reruns it
-> when contention is detected.
-
-Yep, I think so, too.
-
->=20
->>>> In fact, perhaps we can copy drm_exec, basically? i.e.:
->>>>=20
->>>> /**
->>>> * struct drm_exec - Execution context
->>>> */
->>>> struct drm_exec {
->>>> /**
->>>> * @flags: Flags to control locking behavior
->>>> */
->>>> u32                     flags;
->>>>=20
->>>> /**
->>>> * @ticket: WW ticket used for acquiring locks
->>>> */
->>>> struct ww_acquire_ctx ticket;
->>>>=20
->>>> /**
->>>> * @num_objects: number of objects locked
->>>> */
->>>> unsigned int num_objects;
->>>>=20
->>>> /**
->>>> * @max_objects: maximum objects in array
->>>> */
->>>> unsigned int max_objects;
->>>>=20
->>>> /**
->>>> * @objects: array of the locked objects
->>>> */
->>>> struct drm_gem_object **objects;
->>>>=20
->>>> /**
->>>> * @contended: contended GEM object we backed off for
->>>> */
->>>> struct drm_gem_object *contended;
->>>>=20
->>>> /**
->>>> * @prelocked: already locked GEM object due to contention
->>>> */
->>>> struct drm_gem_object *prelocked;
->>>> };
->>>>=20
->>>> This is GEM-specific, but we could perhaps implement the same idea =
-by
->>>> tracking ww_mutexes instead of GEM objects.
->>>=20
->>> But this would only work for `Vec<WwMutex<T>>`, right?
->>=20
->> I=E2=80=99m not sure if I understand your point here.
->>=20
->> The list of ww_mutexes that we've managed to currently lock would be =
-something
->> that we'd keep track internally in our context. In what way is a KVec =
-an issue?
->=20
-> I saw "array of the locked objects" and thus thought so this must only
-> work for an array of locks. Looking at the type a bit closer, it
-> actually is an array of pointers, so it does work for arbitrary data
-> structures storing the locks.
->=20
-> So essentially it would amount to storing `Vec<WwMutexGuard<'_, T>>` =
-in
-> Rust IIUC. I was under the impression that we wanted to avoid that,
-> because it's an extra allocation.
-
-It=E2=80=99s the price to pay for correctness IMHO.
-
-The =E2=80=9Cexec=E2=80=9D abstraction also allocates:
-
-```
-/* Track the locked object in the array */
-static int drm_exec_obj_locked(struct drm_exec *exec,
-			       struct drm_gem_object *obj)
-{
-	if (unlikely(exec->num_objects =3D=3D exec->max_objects)) {
-		size_t size =3D exec->max_objects * sizeof(void *);
-		void *tmp;
-
-		tmp =3D kvrealloc(exec->objects, size + PAGE_SIZE, =
-GFP_KERNEL);
-		if (!tmp)
-			return -ENOMEM;
-
-		exec->objects =3D tmp;
-		exec->max_objects +=3D PAGE_SIZE / sizeof(void *);
-	}
-	drm_gem_object_get(obj);
-	exec->objects[exec->num_objects++] =3D obj;
-
-	return 0;
-}
-```
-
-
-
->=20
-> But maybe that's actually what's done on the C side.
-
-See above.
-
->=20
->> Btw, I can also try to implement a proof of concept, so long as =
-people agree that
->> this approach makes sense.
->=20
-> I'm not sure I understand what you are proposing, so I can't give a
-> recommendation yet.
->=20
-
-I am suggesting what you said above and more:
-
-a) run a user closure where the user can indicate which ww_mutexes they =
-want to lock
-b) keep track of the objects above
-c) keep track of whether a contention happened
-d) rollback if a contention happened, releasing all locks
-e) rerun the user closure from a clean slate after rolling back
-f)  run a separate user closure whenever we know that all objects have =
-been locked.
-
-That=E2=80=99s a very broad description, but I think it can work.
-
-Note that the operations above would be implemented by a separate type, =
-not by
-the ww_mutex abstraction itself. But users should probably be using the =
-API
-above unless there=E2=80=99s a strong reason not to.
+Thanks!
+-Rae
 
 > ---
-> Cheers,
-> Benno
->=20
+>  lib/kunit/kunit-example-test.c | 112 +++++++++++++++++++++++++++++++++
+>  1 file changed, 112 insertions(+)
+>
+> diff --git a/lib/kunit/kunit-example-test.c b/lib/kunit/kunit-example-tes=
+t.c
+> index 3056d6bc705d..5bf559e243f6 100644
+> --- a/lib/kunit/kunit-example-test.c
+> +++ b/lib/kunit/kunit-example-test.c
+> @@ -277,6 +277,116 @@ static void example_slow_test(struct kunit *test)
+>         KUNIT_EXPECT_EQ(test, 1 + 1, 2);
+>  }
+>
+> +/*
+> + * This custom function allocates memory for the kunit_resource data fie=
+ld.
+> + * The function is passed to kunit_alloc_resource() and executed once
+> + * by the internal helper __kunit_add_resource().
+> + */
 
-=E2=80=94 Daniel
+I don't think it is necessary to include that this function is
+executed by an internal function: __kunit_add_resource(). Especially
+since we have other example tests for the resource API.
+
+> +static int example_resource_init(struct kunit_resource *res, void *conte=
+xt)
+> +{
+> +       int *info =3D kmalloc(sizeof(*info), GFP_KERNEL);
+> +
+> +       if (!info)
+> +               return -ENOMEM;
+> +       *info =3D *(int *)context;
+> +       res->data =3D info;
+> +       return 0;
+> +}
+> +
+> +/*
+> + * This function deallocates memory for the 'kunit_resource' data field.
+> + * The function is passed to kunit_alloc_resource() and automatically
+> + * executes within kunit_release_resource() when the resource's referenc=
+e
+> + * count, via kunit_put_resource(), drops to zero. KUnit uses reference
+> + * counting to ensure that resources are not freed prematurely.
+> + */
+
+Similarly, I think this is a bit too much information since we have
+other tests for the resource API. I would maybe shorten this by
+removing the references to kunit_release_resource() and
+kunit_put_resource().
+
+> +static void example_resource_free(struct kunit_resource *res)
+> +{
+> +       kfree(res->data);
+> +}
+> +
+> +/*
+> + * This match function is invoked by kunit_find_resource() to locate
+> + * a test resource based on defined criteria. The current example
+> + * uniquely identifies the resource by its free function; however,
+> + * alternative custom criteria can be implemented. Refer to
+> + * lib/kunit/platform.c and lib/kunit/static_stub.c for further examples=
+.
+> + */
+
+Again I would consider shortening this description.
 
 
-[0]: https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html=
+
+> +static bool example_resource_alloc_match(struct kunit *test,
+> +                                        struct kunit_resource *res,
+> +                                        void *match_data)
+> +{
+> +       return res->data && res->free =3D=3D example_resource_free;
+> +}
+> +
+> +/*
+> + * This is an example of a function that provides a description for each=
+ of the
+> + * parameters.
+> + */
+> +static void example_param_array_get_desc(const void *p, char *desc)
+> +{
+> +       const struct example_param *param =3D p;
+> +
+> +       snprintf(desc, KUNIT_PARAM_DESC_SIZE,
+> +                "example check if %d is less than or equal to 3", param-=
+>value);
+> +}
+> +
+> +/*
+> + * Initializes the parent kunit struct for parameterized KUnit tests.
+> + * This function enables sharing resources across all parameterized
+> + * tests by adding them to the `parent` kunit test struct. It also suppo=
+rts
+> + * registering either static or dynamic arrays of test parameters.
+> + */
+> +static int example_param_init(struct kunit *test)
+> +{
+> +       int ctx =3D 3; /* Data to be stored. */
+> +       int arr_size =3D ARRAY_SIZE(example_params_array);
+> +
+> +       /*
+> +        * This allocates a struct kunit_resource, sets its data field to
+> +        * ctx, and adds it to the kunit struct's resources list. Note th=
+at
+> +        * this is test managed so we don't need to have a custom exit fu=
+nction
+> +        * to free it.
+> +        */
+> +       void *data =3D kunit_alloc_resource(test, example_resource_init, =
+example_resource_free,
+> +                                         GFP_KERNEL, &ctx);
+> +
+> +       if (!data)
+> +               return -ENOMEM;
+> +       /* Pass the static param array information to the parent struct k=
+unit. */
+> +       kunit_register_params_array(test, example_params_array, arr_size,
+> +                                   example_param_array_get_desc);
+> +       return 0;
+> +}
+> +
+> +/*
+> + * This is an example of a parameterized test that uses shared resources
+> + * available from the struct kunit parent field of the kunit struct.
+> + */
+> +static void example_params_test_with_init(struct kunit *test)
+> +{
+> +       int threshold;
+> +       struct kunit_resource *res;
+> +       const struct example_param *param =3D test->param_value;
+> +
+> +       /* By design, param pointer will not be NULL. */
+> +       KUNIT_ASSERT_NOT_NULL(test, param);
+> +
+> +       /* Here we access the parent pointer of the test to find the shar=
+ed resource. */
+> +       res =3D kunit_find_resource(test->parent, example_resource_alloc_=
+match, NULL);
+> +
+> +       KUNIT_ASSERT_NOT_NULL(test, res);
+> +
+> +       /* Since the data field in kunit_resource is a void pointer we ne=
+ed to typecast it. */
+> +       threshold =3D *((int *)res->data);
+> +
+> +       /* Assert that the parameter is less than or equal to a certain t=
+hreshold. */
+> +       KUNIT_ASSERT_LE(test, param->value, threshold);
+> +
+> +       /* This decreases the reference count after calling kunit_find_re=
+source(). */
+> +       kunit_put_resource(res);
+> +}
+> +
+>  /*
+>   * Here we make a list of all the test cases we want to add to the test =
+suite
+>   * below.
+> @@ -296,6 +406,8 @@ static struct kunit_case example_test_cases[] =3D {
+>         KUNIT_CASE(example_static_stub_using_fn_ptr_test),
+>         KUNIT_CASE(example_priv_test),
+>         KUNIT_CASE_PARAM(example_params_test, example_gen_params),
+> +       KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init, NULL,
+> +                                  example_param_init, NULL),
+>         KUNIT_CASE_SLOW(example_slow_test),
+>         {}
+>  };
+> --
+> 2.50.1.552.g942d659e1b-goog
+>
