@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15312B1AFA5
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 09:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDDC4B1AFD2
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 09:52:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 871B010E608;
-	Tue,  5 Aug 2025 07:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2DFC10E253;
+	Tue,  5 Aug 2025 07:52:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Yu9hQ993";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ehXN1Noy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87B2B10E604;
- Tue,  5 Aug 2025 07:49:00 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3954810E253
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 07:52:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754380141; x=1785916141;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=QXtJMi3ZyVAJtV6tOmRIQ2v1AY1U7SrTuLVtFD9bNZA=;
- b=Yu9hQ993zVYlF8oiGscHktaN2+20fnWUcC9DTJED+w84VempEU1/qqJ0
- FtxkVlrV4mMDIuBchwMLFdevgw6YdkORTdpyTWXCZwfrcWjzZo3yWrCBh
- PD4jHkFXbqFqh7KxZr4pWk0qwxOq/TRXB7J+I+StqSZnfWcMXvJU+lVFV
- M3a9b7MVSv09a7aAwmjw4a0A8W44AUWcdI2bl179VqVIhd0jFo/2DcZYN
- MC+RSSK4+phc/EJaFtmFAbzCzKhzqI2HfR5ZawGLa2GsH4PdiwSknpLTS
- LiojbuDvGWl2zLeX7/qHS+ta/Iw1P14dHLXOfcTnsMW3LpQd4c3DFF5Tx Q==;
-X-CSE-ConnectionGUID: NU9xCr+MR82mU5W1l+dCEQ==
-X-CSE-MsgGUID: eP84ziYsT2KubRRMMMQVOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="44254391"
-X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; d="scan'208";a="44254391"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2025 00:48:59 -0700
-X-CSE-ConnectionGUID: Vb6hoBIGQ5aC5WH+BN6OPQ==
-X-CSE-MsgGUID: vn5dVw1sQtG063OG+cD5yg==
+ t=1754380336; x=1785916336;
+ h=from:to:subject:in-reply-to:references:date:message-id:
+ mime-version; bh=ZxDtzQhbIvVvZp84dwGhfiyrstUOa2vcXtEDlKWH4eo=;
+ b=ehXN1Noyl7jv63mkMXsr8mJ8zX0r+gZjkCutjjMg5V9wAm+d8pnhjDU4
+ vf34b6mpKW58J0qBErH0PPzMshoE9LWuuepZ964QXqgDJ8VWKxHgb7hQc
+ mj3AK30wTD44mjAidm418oTJ0J8l9AnYwRK1iPbN5LoZ23XrVvpJeaTGE
+ kA8G19ttpVB4JgtY7A0Aba58ZHzX9ppE6uDsQG3asX3jl/J4ZyVuqSxL/
+ NYDjp5T1TSO9XH33l/ZBBJ8UpDCabLUSQ75Hf2nXG1KLR77n6ht0fPIV3
+ 6mogJ/2JYNLthIsTp0a0qe2YNzo/RNxt4NsZmCV7r4QfgMyzmwxmh8bza Q==;
+X-CSE-ConnectionGUID: ddYtRUMVSsym+PxwlHW/Tw==
+X-CSE-MsgGUID: h+2xnfzORf2mBWQqCcMpJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11512"; a="56801614"
+X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; d="scan'208";a="56801614"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2025 00:52:16 -0700
+X-CSE-ConnectionGUID: WDUPPRAkTOmyB3rkbVWD+w==
+X-CSE-MsgGUID: RgDcaYgfQGiVzMQduUd1fg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; d="scan'208";a="169685727"
+X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; d="scan'208";a="201590793"
 Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost)
  ([10.245.246.8])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2025 00:48:54 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Oded
- Gabbay <ogabbay@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-next-fixes
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2025 00:52:12 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Liao Yuanhong <liaoyuanhong@vivo.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Liao Yuanhong <liaoyuanhong@vivo.com>,
+ Nitin Gote <nitin.r.gote@intel.com>, Krzysztof Niemiec
+ <krzysztof.niemiec@intel.com>, "open list:DRM DRIVERS"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/4] drm/i915/gem: Remove goto label that are only used
+ once
+In-Reply-To: <20250805074645.625911-2-liaoyuanhong@vivo.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Tue, 05 Aug 2025 10:48:52 +0300
-Message-ID: <e1147bede8f219682419d198022cfe8d9d4edc28@intel.com>
+References: <20250805074645.625911-1-liaoyuanhong@vivo.com>
+ <20250805074645.625911-2-liaoyuanhong@vivo.com>
+Date: Tue, 05 Aug 2025 10:52:09 +0300
+Message-ID: <3c436b32da8d76df7eace4dbbde79e808058ad8b@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,47 +74,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 05 Aug 2025, Liao Yuanhong <liaoyuanhong@vivo.com> wrote:
+> Remove unnecessary goto labels to improve code readability. 
 
-Hi Dave & Sima -
+Please don't. It's fine as it is.
 
-Some fixes for the merge window.
+> Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_region.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+> index 636768d0f57e..539d1716d454 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+> @@ -92,15 +92,13 @@ __i915_gem_object_create_region(struct intel_memory_region *mem,
+>  		flags |= I915_BO_ALLOC_PM_EARLY;
+>  
+>  	err = mem->ops->init_object(mem, obj, offset, size, page_size, flags);
+> -	if (err)
+> -		goto err_object_free;
+> +	if (err) {
+> +		i915_gem_object_free(obj);
+> +		return ERR_PTR(err);
+> +	}
+>  
+>  	trace_i915_gem_object_create(obj);
+>  	return obj;
+> -
+> -err_object_free:
+> -	i915_gem_object_free(obj);
+> -	return ERR_PTR(err);
+>  }
+>  
+>  struct drm_i915_gem_object *
 
-drm-intel-next-fixes-2025-08-05:
-drm/i915 fixes for v6.17-rc1:
-- Fixes around DP LFPS (Low-Frequency Periodic Signaling)
-
-BR,
-Jani.
-
-The following changes since commit ba0f4c4c0f9d0f90300578fc8d081f43be281a71:
-
-  Merge tag 'nova-next-v6.17-2025-07-18' of https://gitlab.freedesktop.org/=
-drm/nova into drm-next (2025-07-21 12:56:39 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-fi=
-xes-2025-08-05
-
-for you to fetch changes up to 5a569ef4d4ab184a481dd8ecb58f464a89b44d2f:
-
-  drm/i915/display: Set C10_VDR_CTRL_MSGBUS_ACCESS before phy reg read (202=
-5-07-29 10:20:33 +0100)
-
-----------------------------------------------------------------
-drm/i915 fixes for v6.17-rc1:
-- Fixes around DP LFPS (Low-Frequency Periodic Signaling)
-
-----------------------------------------------------------------
-Jouni H=C3=B6gander (4):
-      drm/i915/display: Write PHY_CMN1_CONTROL only when using AUXLess ALPM
-      drm/i915/display: Avoid unnecessarily calling intel_cx0_get_owned_lan=
-e_mask
-      drm/i915/display: Ensure phy is accessible on lfps configuration
-      drm/i915/display: Set C10_VDR_CTRL_MSGBUS_ACCESS before phy reg read
-
- drivers/gpu/drm/i915/display/intel_cx0_phy.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
-
---=20
+-- 
 Jani Nikula, Intel
