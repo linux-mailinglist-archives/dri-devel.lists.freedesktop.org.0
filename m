@@ -2,79 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A21EB1B6C2
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 16:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75021B1B6DB
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 16:48:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B25810E6A3;
-	Tue,  5 Aug 2025 14:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14ACD10E6A7;
+	Tue,  5 Aug 2025 14:48:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=estudante.ufscar.br header.i=@estudante.ufscar.br header.b="JpyC9h32";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zl23PYxd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 998E810E6A2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 14:40:31 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-76bed310fa1so2588979b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 07:40:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=estudante.ufscar.br; s=google; t=1754404831; x=1755009631;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Vkf1GCmjvA7ZUzJkkGOKsxb2wo0GT0xtYS7KUQa6OWA=;
- b=JpyC9h32oCD6/OPbSnBhQrPUtZZh8kuXDCmNv7Fv/ZdDezPlHuqr30Wz6SLnYFG1og
- sBEHGN2rMEgdpxZgZcWsBmuu510Ti0TC40gC8mLRpwCIhCER8rmT0yrrLOG8S9usQ4B2
- li+GJwDj4787XRhARGQc8oyl90yv2Aslkt/6k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754404831; x=1755009631;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Vkf1GCmjvA7ZUzJkkGOKsxb2wo0GT0xtYS7KUQa6OWA=;
- b=cxFgy9VPc+6QJa7XA4LcNBnRZM61WPpKBAU5pQSoY381pbXOg/Ir4/Md4SDwFISbn4
- SKKLoOKImrtmU5W028yNauLExteL1sr0eFO5RwIY8uC/QH5Sk+ckAUbNwf5RnBPtAI+K
- Dqw8Dh0w46+bz696NKQuu68w5OYSpVpW+liTCHjquiL6ywhbcWlKd0v88QlRQc8Mysnr
- SG643W5PhrWp0VbG51Vj9XjCkISMvb/qbejKs+rgshMiNvSi3S+mNfIJonr9p6erHlBF
- cctrc+znbvmyQCxfHASEkBu0J9kxOOrJO8Tc43gqwI1OO6rGaeetVyGKbytFXCRiUbVR
- A8KA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWkXce3Zo7q4mletQnDrMtq+gXu3sifU8RZf4CADQaXm9CPbI5pbEHvUQe4FHjzJMm6NVJFmVkqcwU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxXkvEXPGkXQ+ckjBIc0IMcsg6/tRB6D+nwiCjMaFvWXBrhZmZe
- ulu5dtdSNVjU57r/605TVbyZHl02wXnoiFPdXG65KJLP+HdxwxQ7JKwQBlQPU707K+k=
-X-Gm-Gg: ASbGncsJL95T4uZhTA0uUzVD8TS5qcW318+prWf784dWavVaXAzpV79zp7Z8VgUD1Zn
- mA/nmD8Wf1jxH0rW+k1lIRdXE9rEkM2xTtsrxw/JG+C51mzcRuJa4imIvF7JFjOE+UkD210ir1t
- 76ed9ZFl/EF4ZZUpwgpGXV7503GKFvohMJ78W3puS1QpHuaDlYJVBMr1NQ0Hy7v7ITLY8f12zm0
- /vLjnpQMnHz55tOWddAh+0dopMqpBu10Hpk7utelKkdMz2uAyaDCCi4epiWr2JsxInWVDU1wyVM
- Kvb+y1B/J4nlShUKBmUaCzvRXgLygsvD1DvQdq0mM4GkguTcP/v1KYWPl755ZlQCGxzpPUOBOD8
- iXQe2hiCbnotyhwjNgzjxyHQ2zVxUuitG
-X-Google-Smtp-Source: AGHT+IF0RwvmhRKAp8YRNzje9XBNHR/ZfEzyr/psSN5hODlw4/dzMItDKHBATpxgBROPqc4abmC8mQ==
-X-Received: by 2002:a05:6a00:2394:b0:76b:f73a:4457 with SMTP id
- d2e1a72fcca58-76bf73a44d5mr14783816b3a.6.1754404831017; 
- Tue, 05 Aug 2025 07:40:31 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:4a5:8ac9::1a55])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76bf1c6d5dcsm7899757b3a.74.2025.08.05.07.40.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Aug 2025 07:40:30 -0700 (PDT)
-From: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
-To: rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, jani.nikula@linux.intel.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mairacanal@riseup.net, Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
-Subject: [PATCH 9/9] drm/i915: Remove todo and comments about struct_mutex
-Date: Tue,  5 Aug 2025 11:39:04 -0300
-Message-ID: <20250805143908.32343-10-luiz.mello@estudante.ufscar.br>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250805143908.32343-1-luiz.mello@estudante.ufscar.br>
-References: <20250805143908.32343-1-luiz.mello@estudante.ufscar.br>
-MIME-Version: 1.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7020710E6A5;
+ Tue,  5 Aug 2025 14:48:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6A0DB5C5588;
+ Tue,  5 Aug 2025 14:48:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B763C4CEF0;
+ Tue,  5 Aug 2025 14:48:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1754405285;
+ bh=yDTCqMbktP5T7/s/6qRHaUnSmDaSqNv3r3EwtVnqXMQ=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=Zl23PYxdyrbcMtf4QHnUXgEH+BAUYflh4vqk1AiWBRDYDwgmHTppBOdzdaSM9k9xx
+ WTw9QBVWN2U5SIyMqY4zMZsuJGVquhLUemjqGgDSSw7amSiyGnqrJG9koeMFUUin3e
+ 1MVL1tDp4/6oPQj2O9/u/d0JxxSOcmHYnT7V82nKx1xlmz904Fwo2snoBMi60OlVgP
+ hHXk49QPIzuMv/Vf926DbbsKu/EBXKCuFONEqQVsih2cgu9VaqwLnYl/RM7hMf33oV
+ yGv36wMeMhVs8J8zU10eLfOfMTFrGod+AFhum9ZlHlcFfh7IvaB9dxs4enM06NskHh
+ g01FNu3ce8a6w==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Tue, 05 Aug 2025 16:48:00 +0200
+Message-Id: <DBUKRNHY14ZN.95GVIGMY7RAN@kernel.org>
+Subject: Re: [PATCH RESEND 1/2] drm/gpuvm: Send in-place re-maps to the
+ driver as remap
+Cc: <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, "Danilo Krummrich" <dakr@redhat.com>,
+ "Connor Abbott" <cwabbott0@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Lyude Paul"
+ <lyude@redhat.com>, "open list" <linux-kernel@vger.kernel.org>, "open
+ list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
+ <nouveau@lists.freedesktop.org>
+To: "Rob Clark" <rob.clark@oss.qualcomm.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250804214317.658704-1-robin.clark@oss.qualcomm.com>
+ <20250804214317.658704-2-robin.clark@oss.qualcomm.com>
+ <DBUE2QU2CH9N.3C32KHT9LHMMB@kernel.org>
+ <CACSVV0270Zk4ApR_pGZ+sKgoi14kvfOo_NvzVq3-QALE0mpFsQ@mail.gmail.com>
+In-Reply-To: <CACSVV0270Zk4ApR_pGZ+sKgoi14kvfOo_NvzVq3-QALE0mpFsQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,81 +68,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch completes the removal of struct_mutex from the driver.
+On Tue Aug 5, 2025 at 4:32 PM CEST, Rob Clark wrote:
+> On Tue, Aug 5, 2025 at 2:33=E2=80=AFAM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
+>> On Mon Aug 4, 2025 at 11:43 PM CEST, Rob Clark wrote:
+>> > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+>> > index bbc7fecb6f4a..e21782a97fbe 100644
+>> > --- a/drivers/gpu/drm/drm_gpuvm.c
+>> > +++ b/drivers/gpu/drm/drm_gpuvm.c
+>> > @@ -2125,6 +2125,27 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>> >                                offset =3D=3D req_offset;
+>> >
+>> >                       if (end =3D=3D req_end) {
+>> > +                             if (merge) {
+>> > +                                     /*
+>> > +                                      * This is an exact remap of the=
+ existing
+>> > +                                      * VA (potentially flags change)=
+?  Pass
+>> > +                                      * this to the driver as a remap=
+ so it can
+>> > +                                      * do an in-place update:
+>> > +                                      */
+>> > +                                     struct drm_gpuva_op_map n =3D {
+>> > +                                             .va.addr =3D va->va.addr=
+,
+>> > +                                             .va.range =3D va->va.ran=
+ge,
+>> > +                                             .gem.obj =3D va->gem.obj=
+,
+>> > +                                             .gem.offset =3D va->gem.=
+offset,
+>> > +                                     };
+>> > +                                     struct drm_gpuva_op_unmap u =3D =
+{
+>> > +                                             .va =3D va,
+>> > +                                             .keep =3D true,
+>> > +                                     };
+>> > +
+>> > +                                     return op_remap_cb(ops, priv, NU=
+LL, &n, &u);
+>> > +                             }
+>>
+>> I don't see why this is necessary, a struct drm_gpuva_op_unmap carries t=
+he
+>> struct drm_gpuva to unmap. You can easily compare this to the original r=
+equest
+>> you gave to GPUVM, i.e. req_addr, req_range, req_obj, req_offset, etc.
+>>
+>> Which is what you have to do for any other unmap operation that has keep=
+ =3D=3D true
+>> anyways, e.g. if D is the exact same as A, B and C.
+>>
+>>         Cur
+>>         ---
+>>         1                       N
+>>         |---A---|---B---|---C---|
+>>
+>>         Req
+>>         ---
+>>         1                       N
+>>         |-----------D-----------|
+>
+> Ugg, this means carrying around more state between the unmap and map
+> callbacks, vs. just handing all the data to the driver in a single
+> callback.  For the keep=3D=3Dtrue case, nouveau just seems to skip the
+> unmap.. I guess in your case the map operation is tolerant of
+> overwriting existing mappings so this works out, which isn't the case
+> with io_pgtable.
 
-Remove the related TODO item, as the transition away from struct_mutex
-is now complete.
+There is no "your case" as far as I'm concerned. Please don't think that I =
+don't
+care about solving a problem, just because it's not relevant for any of the
+drivers or subsystems I maintain. :)
 
-Also clean up references to struct_mutex in i915.rst to avoid outdated
-documentation.
+> I guess I could handle the specific case of an exact in-place remap in
+> the driver to handle this specific case.  But the example you give
+> with multiple mappings would be harder to cope with.
+>
+> I still feel there is some room for improvement in gpuvm to make this
+> easier for drivers.  Maybe what I proposed isn't the best general
+> solution, but somehow giving the drivers info about both the unmaps
+> and maps in the same callback would make things easier (and the remap
+> callback is _almost_ that).
 
-Signed-off-by: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
----
- Documentation/gpu/i915.rst |  7 -------
- Documentation/gpu/todo.rst | 25 -------------------------
- 2 files changed, 32 deletions(-)
+I generally agree with that, my concern is more about this specific patch.
 
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index 7a469df675d8..ce0bb1a7af1f 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -352,8 +352,6 @@ Locking Guidelines
- #. All locking rules and interface contracts with cross-driver interfaces
-    (dma-buf, dma_fence) need to be followed.
- 
--#. No struct_mutex anywhere in the code
--
- #. dma_resv will be the outermost lock (when needed) and ww_acquire_ctx
-    is to be hoisted at highest level and passed down within i915_gem_ctx
-    in the call chain
-@@ -361,11 +359,6 @@ Locking Guidelines
- #. While holding lru/memory manager (buddy, drm_mm, whatever) locks
-    system memory allocations are not allowed
- 
--	* Enforce this by priming lockdep (with fs_reclaim). If we
--	  allocate memory while holding these looks we get a rehash
--	  of the shrinker vs. struct_mutex saga, and that would be
--	  real bad.
--
- #. Do not nest different lru/memory manager locks within each other.
-    Take them in turn to update memory allocations, relying on the object’s
-    dma_resv ww_mutex to serialize against other operations.
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index c57777a24e03..ff8f4ee32bee 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -173,31 +173,6 @@ Contact: Simona Vetter
- 
- Level: Intermediate
- 
--Get rid of dev->struct_mutex from GEM drivers
-----------------------------------------------
--
--``dev->struct_mutex`` is the Big DRM Lock from legacy days and infested
--everything. Nowadays in modern drivers the only bit where it's mandatory is
--serializing GEM buffer object destruction. Which unfortunately means drivers
--have to keep track of that lock and either call ``unreference`` or
--``unreference_locked`` depending upon context.
--
--Core GEM doesn't have a need for ``struct_mutex`` any more since kernel 4.8,
--and there's a GEM object ``free`` callback for any drivers which are
--entirely ``struct_mutex`` free.
--
--For drivers that need ``struct_mutex`` it should be replaced with a driver-
--private lock. The tricky part is the BO free functions, since those can't
--reliably take that lock any more. Instead state needs to be protected with
--suitable subordinate locks or some cleanup work pushed to a worker thread. For
--performance-critical drivers it might also be better to go with a more
--fine-grained per-buffer object and per-context lockings scheme. Currently only
--the ``msm`` and `i915` drivers use ``struct_mutex``.
--
--Contact: Simona Vetter, respective driver maintainers
--
--Level: Advanced
--
- Move Buffer Object Locking to dma_resv_lock()
- ---------------------------------------------
- 
--- 
-2.50.1
+There are patches on the list that replace all the req_* arguments of
+__drm_gpuvm_sm_map() with a new struct drm_gpuvm_map_req.
+
+Maybe the unmap callbacks could simply provide a pointer to this object?
+
+> BR,
+> -R
+>
+>>
+>> In this case you get three unmap ops with keep =3D=3D true, which you ca=
+n compare to
+>> your request to figure out that you can keep the corresponding PTEs.
+>>
+>> Besides that it changes the semantics that the documentation mentions an=
+d that
+>> drivers are allowed to rely on, i.e. a struct drm_gpuva_op_remap represe=
+nts
+>> an actual change and any call to __drm_gpuvm_sm_map() results in an arbi=
+trary
+>> number of unmap ops, a maximum of two remap ops and exactly one map oper=
+ation.
+>>
+>> >                               ret =3D op_unmap_cb(ops, priv, va, merge=
+);
+>> >                               if (ret)
+>> >                                       return ret;
 
