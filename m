@@ -2,92 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69247B1B2D1
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 13:53:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 086A7B1B2D3
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 13:54:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CBF710E65E;
-	Tue,  5 Aug 2025 11:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69D7710E65F;
+	Tue,  5 Aug 2025 11:54:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Tx0eZwvo";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j68Z3Qi1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6EF410E65E
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 11:53:41 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98579664;
- Tue,  5 Aug 2025 13:52:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1754394772;
- bh=zwEj2b9VP52KhJWHXFnp4NrvFbNF+yBp+Uvan4wteD8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Tx0eZwvo7mXUmnVXnEWlc0MwjSRv2BH3BZV/Fb3RABrBVhOV84fQyHACdhUfcHFVu
- xqvEeWne9OOXSg49FnwKPVyB9J6nOMLp82H5rS31S6+YSxn2tF6BoWt/uRWcXKcjUq
- Dc2Xx8+AKAKr5WjuOk/VkJ9wCBrkFyLhilifomgw=
-Message-ID: <aaa77500-c886-417f-b800-8c9cbbcc3285@ideasonboard.com>
-Date: Tue, 5 Aug 2025 14:53:36 +0300
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
+ [209.85.221.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 053FC10E65F
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 11:54:08 +0000 (UTC)
+Received: by mail-vk1-f179.google.com with SMTP id
+ 71dfb90a1353d-5392ba07940so2804362e0c.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 04:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1754394847; x=1754999647; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=nMWT2yAkC9poiQmiDG3Eme4KwKIo8NaBao5tQDa3Na0=;
+ b=j68Z3Qi1U2KhpDMWrUINtafS+ZXehCV/2e+SV7EyEUCBf5A2MF2qB4Wk1Dy5EYoyeQ
+ iqR1UvhXBqcr7G24pZDoRE0rOMFT9FkX28xLanLJuNhHrYEzl09hsPDqB7q2VW902xW1
+ 9blAzR6i5bXw4CP/bE2udmTQr/m0TYgJTKAlPbm4UspjMH8Dx3818VWqHEB07dAuEbHE
+ h2Xk/Wh1KsHnRoIAIezYqyJxkXE4S/zjiGNv1AMLceW32WIDxhqepFIFRgqrW5XSwIRo
+ GQekVCufOYGlFsIESeSkBjbdEy/5zcbt3JXTXxjvhNptlQWIn3b3w0FgBu/BoJaw1lSs
+ e82Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754394847; x=1754999647;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nMWT2yAkC9poiQmiDG3Eme4KwKIo8NaBao5tQDa3Na0=;
+ b=hFgKr3fLj6FXallrOadW481hZrWjWKWXK7qBW8bYqbIX4vC9pfCT7xqHUc719hrvem
+ IMKKUEXloiH6wqQkL+yKCDJP+Gd5cXC2DVTs61TvHp9+mMHw2pPFJOAFX6zyDxB5XW8v
+ 5iD/hrGZBOwdM+CL6hDSM4VTyK48XxOs1ADA1CyNHU3tsBclfUbC6DTicD+MEswYTYmz
+ 4vrJHWPjGgQkMO6Nds0YzDfAXWh48bJ9sho+/N24mXVZqHZn7MjNidMtDsRrGs3fJj8J
+ gXTVuea68KeIw5kryI4V32BmH2jGmVg+MrL5Q0M+qmhuLPimqiobBhXLfBGWi5/GtLd4
+ DDzg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWLE+W87cDlrNQ8f8v0AW0RMer3rLIsxZnpJrkzFtj9I5md5qnRQ1NPm8mLvBzPqCdPDzIUZcBMX7U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDJ+R2HjHxCSKOCRoQ1+kUSEyBF/eQvG26nlKaUb4nlrOencGZ
+ FjwrE2CpobalHVRVt3nMAK2aZnGbVqIi/fZUxD5UNKk50AM/kvKGaLeJEGfS4/O2S4cZ69Vc2dp
+ 4KX7LtyPvMCBePZdnRN02IhB6st/a9f8=
+X-Gm-Gg: ASbGncuaEa4edq9lnQRkKFDugyM+1qkzgmxdPZ/Qa9DDTiqtIkaxLtJhwX93SXXWEtu
+ ZpEM2UC8EZ2+db6Nx9mJKWG+9H9pRkGnaG4z57M8EEeB5wrDehnplgo+ooGX56GAxOiFggtX3of
+ 3QBtyftscyyfhlyVFstu5caGStEbqmKBpYyL9YIeYCoWSpKjZJpj5Bl5U3NpLRp0ES1UN1/3OPN
+ C/cNkAVLyg8PZY=
+X-Google-Smtp-Source: AGHT+IG2V92W0l0OwpbZeUfC3F/wkgbkb/9IsXo1nWVQk2+FSLJEs2+4PjRH84lDaaw9wrUSA24ZzgN99lkxqM+ysDk=
+X-Received: by 2002:a05:6122:3192:b0:539:58c2:1e0a with SMTP id
+ 71dfb90a1353d-5395f19a9cdmr5983593e0c.4.1754394846516; Tue, 05 Aug 2025
+ 04:54:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/omap: Pass along the format info from
- .fb_create() to drm_helper_mode_fill_fb_struct()
-To: Imre Deak <imre.deak@intel.com>, dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Mark Brown <broonie@kernel.org>
-References: <20250728101603.243788-1-imre.deak@intel.com>
- <20250728101603.243788-2-imre.deak@intel.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250728101603.243788-2-imre.deak@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250804212902.22554-1-rampxxxx@gmail.com>
+ <qf6xwtxh57jg6ico7n53ft7bepogeal5wfhthodsnf55eabgum@de2ah47jovbg>
+In-Reply-To: <qf6xwtxh57jg6ico7n53ft7bepogeal5wfhthodsnf55eabgum@de2ah47jovbg>
+From: Giant Sand Fans <rampxxxx@gmail.com>
+Date: Tue, 5 Aug 2025 13:53:54 +0200
+X-Gm-Features: Ac12FXweqU7nV9K56xaxh8ocEV9BLO_mODDYQxsm2W9z3W52maWYVlrxOG5FvRY
+Message-ID: <CABPJ0vgz6gib5LdKY1O6uhPq7Tk5GN2X_dcGBwtx3b=TRQUw-Q@mail.gmail.com>
+Subject: Re: [PATCH] drm: Add directive to format code in comment
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,163 +84,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Imre,
-
-On 28/07/2025 13:16, Imre Deak wrote:
-> Plumb the format info from .fb_create() all the way to
-> drm_helper_mode_fill_fb_struct() to avoid the redundant
-> lookup.
-> 
-> For the fbdev case a manual drm_get_format_info() lookup
-> is needed.
-> 
-> The patch is based on the driver parts of the patchset at Link:
-> below, which missed converting the omap driver.
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Fixes: 41ab92d35ccd ("drm: Make passing of format info to drm_helper_mode_fill_fb_struct() mandatory")
-> Reported-by: Mark Brown <broonie@kernel.org>
-> Closes: https://lore.kernel.org/all/98b3a62c-91ff-4f91-a58b-e1265f84180b@sirena.org.uk
-> Link: https://lore.kernel.org/all/20250701090722.13645-1-ville.syrjala@linux.intel.com
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/gpu/drm/omapdrm/omap_fb.c    | 23 ++++++++++-------------
->  drivers/gpu/drm/omapdrm/omap_fb.h    |  2 ++
->  drivers/gpu/drm/omapdrm/omap_fbdev.c |  5 ++++-
->  3 files changed, 16 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_fb.c b/drivers/gpu/drm/omapdrm/omap_fb.c
-> index 30c81e2e5d6b3..bb3105556f193 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_fb.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_fb.c
-> @@ -351,7 +351,7 @@ struct drm_framebuffer *omap_framebuffer_create(struct drm_device *dev,
->  		}
->  	}
->  
-> -	fb = omap_framebuffer_init(dev, mode_cmd, bos);
-> +	fb = omap_framebuffer_init(dev, info, mode_cmd, bos);
->  	if (IS_ERR(fb))
->  		goto error;
->  
-> @@ -365,9 +365,9 @@ struct drm_framebuffer *omap_framebuffer_create(struct drm_device *dev,
->  }
->  
->  struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
-> +		const struct drm_format_info *info,
->  		const struct drm_mode_fb_cmd2 *mode_cmd, struct drm_gem_object **bos)
->  {
-> -	const struct drm_format_info *format = NULL;
->  	struct omap_framebuffer *omap_fb = NULL;
->  	struct drm_framebuffer *fb = NULL;
->  	unsigned int pitch = mode_cmd->pitches[0];
-> @@ -377,15 +377,12 @@ struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
->  			dev, mode_cmd, mode_cmd->width, mode_cmd->height,
->  			(char *)&mode_cmd->pixel_format);
->  
-> -	format = drm_get_format_info(dev, mode_cmd->pixel_format,
-> -				     mode_cmd->modifier[0]);
-> -
->  	for (i = 0; i < ARRAY_SIZE(formats); i++) {
->  		if (formats[i] == mode_cmd->pixel_format)
->  			break;
->  	}
->  
-> -	if (!format || i == ARRAY_SIZE(formats)) {
-> +	if (i == ARRAY_SIZE(formats)) {
->  		dev_dbg(dev->dev, "unsupported pixel format: %4.4s\n",
->  			(char *)&mode_cmd->pixel_format);
->  		ret = -EINVAL;
-> @@ -399,7 +396,7 @@ struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
->  	}
->  
->  	fb = &omap_fb->base;
-> -	omap_fb->format = format;
-> +	omap_fb->format = info;
->  	mutex_init(&omap_fb->lock);
->  
->  	/*
-> @@ -407,23 +404,23 @@ struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
->  	 * that the two planes of multiplane formats need the same number of
->  	 * bytes per pixel.
->  	 */
-> -	if (format->num_planes == 2 && pitch != mode_cmd->pitches[1]) {
-> +	if (info->num_planes == 2 && pitch != mode_cmd->pitches[1]) {
->  		dev_dbg(dev->dev, "pitches differ between planes 0 and 1\n");
->  		ret = -EINVAL;
->  		goto fail;
->  	}
->  
-> -	if (pitch % format->cpp[0]) {
-> +	if (pitch % info->cpp[0]) {
->  		dev_dbg(dev->dev,
->  			"buffer pitch (%u bytes) is not a multiple of pixel size (%u bytes)\n",
-> -			pitch, format->cpp[0]);
-> +			pitch, info->cpp[0]);
->  		ret = -EINVAL;
->  		goto fail;
->  	}
->  
-> -	for (i = 0; i < format->num_planes; i++) {
-> +	for (i = 0; i < info->num_planes; i++) {
->  		struct plane *plane = &omap_fb->planes[i];
-> -		unsigned int vsub = i == 0 ? 1 : format->vsub;
-> +		unsigned int vsub = i == 0 ? 1 : info->vsub;
->  		unsigned int size;
->  
->  		size = pitch * mode_cmd->height / vsub;
-> @@ -440,7 +437,7 @@ struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
->  		plane->dma_addr  = 0;
->  	}
->  
-> -	drm_helper_mode_fill_fb_struct(dev, fb, NULL, mode_cmd);
-> +	drm_helper_mode_fill_fb_struct(dev, fb, info, mode_cmd);
-
-Isn't the fix really a one-liner, just passing "format" here instead of
-NULL?
-
- Tomi
-
->  
->  	ret = drm_framebuffer_init(dev, fb, &omap_framebuffer_funcs);
->  	if (ret) {
-> diff --git a/drivers/gpu/drm/omapdrm/omap_fb.h b/drivers/gpu/drm/omapdrm/omap_fb.h
-> index 0873f953cf1d1..e6010302a22bd 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_fb.h
-> +++ b/drivers/gpu/drm/omapdrm/omap_fb.h
-> @@ -13,6 +13,7 @@ struct drm_connector;
->  struct drm_device;
->  struct drm_file;
->  struct drm_framebuffer;
-> +struct drm_format_info;
->  struct drm_gem_object;
->  struct drm_mode_fb_cmd2;
->  struct drm_plane_state;
-> @@ -23,6 +24,7 @@ struct drm_framebuffer *omap_framebuffer_create(struct drm_device *dev,
->  		struct drm_file *file, const struct drm_format_info *info,
->  		const struct drm_mode_fb_cmd2 *mode_cmd);
->  struct drm_framebuffer *omap_framebuffer_init(struct drm_device *dev,
-> +		const struct drm_format_info *info,
->  		const struct drm_mode_fb_cmd2 *mode_cmd, struct drm_gem_object **bos);
->  int omap_framebuffer_pin(struct drm_framebuffer *fb);
->  void omap_framebuffer_unpin(struct drm_framebuffer *fb);
-> diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> index 7b63968906817..948af7ec1130b 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-> @@ -197,7 +197,10 @@ int omap_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
->  		goto fail;
->  	}
->  
-> -	fb = omap_framebuffer_init(dev, &mode_cmd, &bo);
-> +	fb = omap_framebuffer_init(dev,
-> +				   drm_get_format_info(dev, mode_cmd.pixel_format,
-> +						       mode_cmd.modifier[0]),
-> +				   &mode_cmd, &bo);
->  	if (IS_ERR(fb)) {
->  		dev_err(dev->dev, "failed to allocate fb\n");
->  		/* note: if fb creation failed, we can't rely on fb destroy
-
+On Tue, 5 Aug 2025 at 12:49, Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> On Mon, Aug 04, 2025 at 11:29:02PM +0200, Javier Garcia wrote:
+> > Fixes the warnings:
+> >
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2444: Unexpected indentation.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2446: Block quote ends without a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2450: Definition list ends without a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2451: Definition list ends without a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2455: Unexpected indentation.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2456: Definition list ends without a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2457: Definition list ends without a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2458: Definition list ends without a blank line; unexpected unindent.
+> >
+> > Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+> > ---
+> >  drivers/gpu/drm/drm_gpuvm.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>
+> Fixes tag?
+   Sorry, what do you mean?
+>
+> --
+> With best wishes
+> Dmitry
