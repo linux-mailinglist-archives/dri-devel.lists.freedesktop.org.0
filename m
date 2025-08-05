@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7AF5B1BA7F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 20:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BB0B1BA82
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 20:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09D8B10E293;
-	Tue,  5 Aug 2025 18:54:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78BC210E2AD;
+	Tue,  5 Aug 2025 18:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UWgBJMnu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q5RcZ6QH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 187D810E293
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 18:54:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CABA210E2AD
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 18:55:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D275DA56742;
- Tue,  5 Aug 2025 18:54:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB60CC4CEF0;
- Tue,  5 Aug 2025 18:54:36 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 02DC4A56745;
+ Tue,  5 Aug 2025 18:55:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01573C4CEF0;
+ Tue,  5 Aug 2025 18:55:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754420077;
- bh=Eq+8/9N21uUABn7cM82efdGCZdsKLrvvKvKVERGXrMg=;
+ s=k20201202; t=1754420128;
+ bh=USC2EESxnOmf+5Qt9CEKOEaMZtDjkRdle8CeVvzYKDY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UWgBJMnuWlhzUbBl/xwXY2/S6KDAAsIWAtTL8B3Jv7gnlle2dH7XjjHL5gN8Z2150
- z98aLTu4LzhlYe4iNYCuIxhtGqw6dfJ74sxClUSOCHA8H7t77EIFkwpb13zQbkUIo/
- BHF/iMb0I6CETWDifApRzCZBDM8r5ZVUxXF3RWWCoKsUXLFT2DEAr8ATyrVRTTKA2n
- zD7u64bLNAoG9Eiaivgbgm78glRpu7x33oSjF+xH7xmZ1N6vERvDb9t5fi+eX+BpE3
- EXkjSooG1oT5Eo2sEbfLxOVn/ouyiLn5c0doGpd4vYNv+eSqMoy60Q+TuhRsn7pGTw
- rT992c/wJsH4A==
-Message-ID: <4419fe5f-a500-4092-a1ea-32b714059c58@kernel.org>
-Date: Tue, 5 Aug 2025 13:54:35 -0500
+ b=Q5RcZ6QHUV5xlr+bghIaMGbyvF1XtVKH44DCLXVw7u48YYL0r4CNsxWwakt/ySXvz
+ o1/rBKuppFLtsZc8vJtMiAcbYrT+cx1jt1RJJlBO4YsDI9YUIwLya2+OaimSmJ+QDD
+ Adf3HAsk3yfG/iBvxe2G22K+7WzNYllIJp7h1qkiDoi9bpxKREnXLc91dyOyEh4kzq
+ CY0OsY3JCPhweIKYODY7RKPxJVuLJuelVDbDBFtjaDPO1S7xLzx/SjCWLJxZi5eSnq
+ 1dTiLJAjfJfUdgCkrZP9Kx4Fm+/xv+Fsl+FjCvSiGBux4dAgVCD85VdtPojt7EQz27
+ UQtdQhgL8i3qw==
+Message-ID: <8d877db5-3c16-44dd-8be8-eb3dd0130fc7@kernel.org>
+Date: Tue, 5 Aug 2025 13:55:27 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH V2] accel/amdxdna: Unify pm and rpm suspend and resume
@@ -68,7 +68,10 @@ On 8/3/25 2:14 PM, Lizhi Hou wrote:
 > 
 > Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org)
+(I had an email transmission mistake, sorry if this is recieved twice by 
+anyone.)
+
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
 > ---
 >   drivers/accel/amdxdna/aie2_ctx.c        | 59 ++++++++++----------
