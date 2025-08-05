@@ -2,48 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F80B1BCDF
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 00:56:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF86B1C1A2
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 09:56:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9987910E701;
-	Tue,  5 Aug 2025 22:56:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9730510E2F1;
+	Wed,  6 Aug 2025 07:56:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d+NfAI0C";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i/6rqm4z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1865210E6FC;
- Tue,  5 Aug 2025 22:56:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 45DEA5C5E74;
- Tue,  5 Aug 2025 22:56:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFED4C4CEF0;
- Tue,  5 Aug 2025 22:56:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754434562;
- bh=+al342bVs+POurrkFCVBYQ90F4lkUhb3/Od3XV/5kIk=;
- h=From:To:Cc:Subject:Date:From;
- b=d+NfAI0C7M3SIMcRYMsBp571UxwDaQUyX6t4JIy6Q6Mmc7Ar1CWpPVraFpkOuKcdH
- l2Lpw6slA1d9W/GYWNiRgqEr09524WJjUoNhm/7bBeAA9tXvO90R6RcwTVdwwttE+H
- OVJzV0wk2thXCwMK7eVO8JPcgRqtr7BxjBs2+MtHatnZktnmGiVJUwCVJT/ol+1vt8
- j+obV2Iupe9FF/QHFre/vV7K46J4mXd3bdtAVphXPlaUUNQEdpZPYACRAukm0kodCs
- n+KGf8mr4bhifvFc1lepkylJrTMhjhtj+C2sogfznQohzOZpfdftWLO/hTOqY9ck3T
- wq42afdDnnl3A==
-From: Sasha Levin <sashal@kernel.org>
-To: robin.clark@oss.qualcomm.com,
-	lumag@kernel.org
-Cc: abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- antomani103@gmail.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH] drm/msm: Fix objtool warning in submit_lock_objects()
-Date: Tue,  5 Aug 2025 18:55:57 -0400
-Message-Id: <20250805225557.593192-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0493110E107
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 23:59:47 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-458baf449cbso34966615e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 16:59:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1754438386; x=1755043186; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2xhiUEc9Kw/V714a7yfCWYYu6l+qIkZaBDMyW3CyOmw=;
+ b=i/6rqm4zhQiog9Hb3SpCcpA6ZdXCrrc+/Rl28hoDKgKVfDvJmXSszcscYDnjSQ4Hhh
+ mezpDixgN03oB2HCq+m8xjRdCPKmGjb5G3kxOxUlg37rxtwlEo86ERj5HX70xSlId09p
+ yGOtkniILS1t/xqIWBj4XI2r5OG13K4vyLztIXUMzcQ6Y/EQ0VhteNRs+fRyhOWqC7S/
+ Evd1CsdmhlKFL9BVbeR9Rjxi4xV8QwOalFmmvZ8J19YmbAzR3Xq5A5HESMj/WMSb5bK8
+ i7dVlr+uKVzMiezDP4u1NQKokP2PIgL58BWQrdllvtAWwDetylKhBUYPqUjkL2I1M/0F
+ lafg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754438386; x=1755043186;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2xhiUEc9Kw/V714a7yfCWYYu6l+qIkZaBDMyW3CyOmw=;
+ b=G1GNpEGa/iGl0eVkVhLcLFM7PvX4mLoRi7+B4JKQnpsJIZCrVOvsD9jTwnL8gjkeT6
+ Cln9rW6kAE9fS3suUlOUVeMOnIbM4FbUpIWP12Oh8yCNd1pqcHCPhRGnly6BjZzKezZH
+ 6OnK4OqmjaIiCtDWd5nvZKH+aaaPv5IOOSx1nADVPmYPkBbB8AhZ1E9kDoTmq3I+mwll
+ TgQuQYsHL39qZ28K59tZ+iNhhrTlbLB9EHk3ztnWiFqYV3Omz+ElrZLjYwQUT1tuX9jv
+ FJiqkMtgufOlcX8XtxutBgxsycx0sENiuCOHw4rqrDDnjHokIXIgundYNWF2WVIBH6T/
+ x5sQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWR3yviXGjqswLt1YC7l5W/c3nKPgKbAiSqDeeZShpQVtJ5r3ER0R0vESDWdimnjgaWvlCp3TzbFeQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywpx0oP1FMA21V4Ccsozc7s6q5XzUNA6Qx9b1RFays3XneM7B10
+ WgNDZbeKg2TL04ngd8QJ9ax5KRDjcQ434w2ln7I0OygSe/oWSXHtN3oB
+X-Gm-Gg: ASbGncuoKaRowAvZNc76ulpqocwIBtWwhu0KgkSk09BOJRVlTYc6BBe8y9B2D2pAS0O
+ xJxqTLFrjzE0EbGt8AzAK2pUcfwzVpxNRu5R+xSPcA1vTjrVaSLV9tb+WouI7dPgEDr5Xgsf+Oi
+ TSjSUXm7akbB6lD0BU5h/4RrCOzRunmWhyyXrMsbWLhZgOnkda7BBYMDFyPWuWEFzLOJ6GgdaT2
+ uME8x7eyGqPUE7AzDhuiaZa4Z8nQIz3nA2+kWaRNUzRWrgoUEhHI7JOnh/Qkt8UFw9ZWCLDbDKb
+ gxr197HW4MBhgfOy3XVCOOuNFXexOkrGeC6qrvs8AiG6R891Z8Lyi7HbqQcj0FqYmZUi7Kky0wz
+ HW5PAKXDtfOZaJMcZoR3eziwe2gTSTxsQNhqYq58EnE2I1Qmln2X9kltiVZLoBH6dlb31dh8Gcy
+ I=
+X-Google-Smtp-Source: AGHT+IFsHdG6C+dK0jpCSAVCpiWRzLZUbTx+mxWcmzk1Qn9/oqFLMmf+47R0EY18CG9DIppdXP0Hkw==
+X-Received: by 2002:a05:600c:3ba2:b0:456:1ac8:cace with SMTP id
+ 5b1f17b1804b1-459e7090ffbmr5512585e9.12.1754438386168; 
+ Tue, 05 Aug 2025 16:59:46 -0700 (PDT)
+Received: from ekhafagy-ROG-Zephyrus-M16-GU603HR-GU603HR.. ([156.204.172.189])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-458bd5a0f9bsm90322215e9.0.2025.08.05.16.59.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Aug 2025 16:59:45 -0700 (PDT)
+From: Eslam Khafagy <eslam.medhat1993@gmail.com>
+To: 
+Cc: skhan@linuxfoundation.com, Eslam Khafagy <eslam.medhat1993@gmail.com>,
+ Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Dharma Balasubiramani <dharma.b@microchip.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/1] drm: atmel-hlcdc: replace dev_* print funtions with drm_*
+Date: Wed,  6 Aug 2025 02:56:50 +0300
+Message-ID: <20250805235928.236248-1-eslam.medhat1993@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 06 Aug 2025 07:56:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,94 +97,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Restructure submit_lock_objects() to use a single loop with break
-statements to fix objtool warning:
+Hi, this patch is to replace dev_* print function for the atmel_hlcdc
+driver with more prefered drm_* variant [1].
 
-  drivers/gpu/drm/msm/msm.o: warning: objtool: submit_lock_objects+0x451:
-  sibling call from callable instruction with modified stack frame
+It's eventualy up to you the mainterner to chose to apply this patch.
+but since i am a starter to the kernel i'd appreciate it if you do.
 
-The drm_exec_until_all_locked() macro uses computed gotos internally
-for its retry loop. Having return statements inside this macro, or
-immediately after it in certain code paths, confuses objtool's static
-analysis of stack frames, causing it to incorrectly flag tail call
-optimizations.
+[1] https://docs.kernel.org/gpu/todo.html#convert-logging-to-drm-functions-with-drm-device-parameter
 
-Fixes: 92395af63a99 ("drm/msm: Add VM_BIND submitqueue")
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 43 ++++++++++++----------------
- 1 file changed, 19 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 5f8e939a5906..253347b6e328 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -276,46 +276,41 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
- {
- 	unsigned flags = DRM_EXEC_INTERRUPTIBLE_WAIT;
- 	struct drm_exec *exec = &submit->exec;
--	int ret;
-+	int ret = 0;
- 
--	if (msm_context_is_vmbind(submit->queue->ctx)) {
-+	if (msm_context_is_vmbind(submit->queue->ctx))
- 		flags |= DRM_EXEC_IGNORE_DUPLICATES;
- 
--		drm_exec_init(&submit->exec, flags, submit->nr_bos);
-+	drm_exec_init(&submit->exec, flags, submit->nr_bos);
- 
--		drm_exec_until_all_locked (&submit->exec) {
-+	drm_exec_until_all_locked (&submit->exec) {
-+		if (msm_context_is_vmbind(submit->queue->ctx)) {
- 			ret = drm_gpuvm_prepare_vm(submit->vm, exec, 1);
- 			drm_exec_retry_on_contention(exec);
- 			if (ret)
--				return ret;
-+				break;
- 
- 			ret = drm_gpuvm_prepare_objects(submit->vm, exec, 1);
- 			drm_exec_retry_on_contention(exec);
- 			if (ret)
--				return ret;
--		}
--
--		return 0;
--	}
--
--	drm_exec_init(&submit->exec, flags, submit->nr_bos);
--
--	drm_exec_until_all_locked (&submit->exec) {
--		ret = drm_exec_lock_obj(&submit->exec,
--					drm_gpuvm_resv_obj(submit->vm));
--		drm_exec_retry_on_contention(&submit->exec);
--		if (ret)
--			return ret;
--		for (unsigned i = 0; i < submit->nr_bos; i++) {
--			struct drm_gem_object *obj = submit->bos[i].obj;
--			ret = drm_exec_prepare_obj(&submit->exec, obj, 1);
-+				break;
-+		} else {
-+			ret = drm_exec_lock_obj(&submit->exec,
-+						drm_gpuvm_resv_obj(submit->vm));
- 			drm_exec_retry_on_contention(&submit->exec);
- 			if (ret)
--				return ret;
-+				break;
-+			for (unsigned i = 0; i < submit->nr_bos; i++) {
-+				struct drm_gem_object *obj = submit->bos[i].obj;
-+				ret = drm_exec_prepare_obj(&submit->exec, obj, 1);
-+				drm_exec_retry_on_contention(&submit->exec);
-+				if (ret)
-+					break;
-+			}
- 		}
- 	}
- 
--	return 0;
-+	return ret;
- }
- 
- static int submit_fence_sync(struct msm_gem_submit *submit)
+Eslam Khafagy (1):
+  drm: atmel-hlcdc: replace dev_* print funtions with drm_* variants
+
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 20 +++++++++----------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  | 14 ++++++-------
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c  |  2 +-
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   |  2 +-
+ 4 files changed, 19 insertions(+), 19 deletions(-)
+
 -- 
-2.39.5
+2.43.0
 
