@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3575FB1ADC8
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 08:00:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 167EEB1ADCB
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 08:00:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 435AB10E5A6;
-	Tue,  5 Aug 2025 06:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ADA010E5D6;
+	Tue,  5 Aug 2025 06:00:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S0eiip7V";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="naerP0tt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBFC610E5A6
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 06:00:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBF6010E5D6
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 06:00:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C8B0E5C63EA;
- Tue,  5 Aug 2025 06:00:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE26CC4CEF4;
- Tue,  5 Aug 2025 06:00:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 762A55C63EA;
+ Tue,  5 Aug 2025 06:00:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D014C4CEF4;
+ Tue,  5 Aug 2025 06:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754373621;
- bh=7wJYGKRQ3CsYmmQs2YXD+Xrpo2BPTh6Wnuu6VxGO1F8=;
+ s=k20201202; t=1754373651;
+ bh=tX+ngnuNCAVb74IqefbM7zB6jjnyUWkCQsWDQARwTDw=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=S0eiip7VYghuLuUjcut4tHQFkmCa8CHL6h71V2o+hHw3SukHO8WVQTROG8XlH2pTH
- ZzVLZBstRK9EhA3VLGWXyvT6qLOV9J3Pr/GtGpfzUmpAY1pRkwwu7U+Vd2EKzMVzVp
- lLfyzV4iKmq+OS9IPe/1v6z8+adpfzcgPlLvzRzXwkY2gOk37nPXXC25sit4Nr77Dj
- /+k0R1rteTKNnvpDMVt/eDOcj9GEvbO8YQ8Dq0qN3QW1b0LAhNOjWLIH+73LaTKi8Z
- J5yVKc3VawaNjtfkpK518xSSBoYTxLdJ+o846oAKyMdwRcBKRtga/PDFQovAE2P82t
- tFRwL3IdRA8lg==
-Message-ID: <8c8d9723-bb0e-4c4b-9fcf-3e1ec46609bd@kernel.org>
-Date: Tue, 5 Aug 2025 08:00:15 +0200
+ b=naerP0ttiD69mLYton5fom6/owqtH50KH5KE1/jXg5RiJHqD0mh39/LE/wDEjjD+i
+ OyybObWdwzkBzZvfn7tUmxbPHCa47SOYbcSOa4N5PZBHyDlEgBmiBkD6+lDJC/frux
+ CRpAharD/acv9XY+G8TpT+OGec6BzfBMC7Ae+czM1Pz908grfEBzbJ9zX72PMTz6OE
+ x1iKZ2cshebsaZ/d+xsY/jtHRWSoVy+QEpL4wOuF3kBfM3ferconccsVjjc8u+71K7
+ kmeI7KnChY6uHIUR0HeFi/QQx+eqIgLgIyHKBQNqwmtbGys/lha3BE/zIxy+kliPJ5
+ pQ9YMsUbpBJ2g==
+Message-ID: <b753e36f-e52a-4b11-a3f5-60a14d5ccac2@kernel.org>
+Date: Tue, 5 Aug 2025 08:00:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm: bridge: Add waveshare DSI2DPI unit driver
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: panel: Add waveshare DPI
+ panel support
 To: Liu Ying <victor.liu@nxp.com>, Joseph Guo <qijian.guo@nxp.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -50,8 +51,8 @@ To: Liu Ying <victor.liu@nxp.com>, Joseph Guo <qijian.guo@nxp.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20250804-waveshare-v2-0-0a1b3ce92a95@nxp.com>
- <20250804-waveshare-v2-3-0a1b3ce92a95@nxp.com>
- <9aca40c3-e22a-4d41-bac8-18a7cc8e3e96@nxp.com>
+ <20250804-waveshare-v2-2-0a1b3ce92a95@nxp.com>
+ <abe153f8-dac9-4c92-a191-3e97b5a591e8@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,7 +98,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <9aca40c3-e22a-4d41-bac8-18a7cc8e3e96@nxp.com>
+In-Reply-To: <abe153f8-dac9-4c92-a191-3e97b5a591e8@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,23 +116,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/08/2025 04:22, Liu Ying wrote:
-> Hi Joseph,
-> 
+On 05/08/2025 03:54, Liu Ying wrote:
 > On 08/04/2025, Joseph Guo wrote:
->> Waveshare touchscreen consists of a DPI panel and a driver board.
->> The waveshare driver board consists of ICN6211 and a MCU to
->> convert DSI to DPI and control the backlight.
->> This driver treats the MCU and ICN6211 board as a whole unit.
->> It can support all resolution waveshare DSI2DPI based panel,
->> the timing table should come from 'panel-dpi' panel in the device tree.
+>> Add dt-binding documentation for waveshare DPI panel
 >>
 >> Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
+>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+>> ---
+>>  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 4 ++++
+>>  1 file changed, 4 insertions(+)
 > 
-> For next version, you may add:
 > Suggested-by: Liu Ying <victor.liu@nxp.com>
 
-Why?
+What issue is being fixed here, that you suggested?
+
+> Acked-by: Liu Ying <victor.liu@nxp.com>
+
 
 Best regards,
 Krzysztof
