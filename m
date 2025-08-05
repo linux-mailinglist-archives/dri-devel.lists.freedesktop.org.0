@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F780B1AE6F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 08:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6B9B1AE81
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 08:44:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1202710E5E2;
-	Tue,  5 Aug 2025 06:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF68010E250;
+	Tue,  5 Aug 2025 06:44:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vOetwG6w";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UOWSRomr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5D4A10E5E2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 06:36:01 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BEBC10E250
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 06:44:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 01DC25C646D;
- Tue,  5 Aug 2025 06:36:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB18C4CEF4;
- Tue,  5 Aug 2025 06:35:59 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 55699A4BB3D;
+ Tue,  5 Aug 2025 06:44:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C91FC4CEF4;
+ Tue,  5 Aug 2025 06:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754375760;
- bh=sIHPITH9zG/L0PbzCUmZDWaszbXx38hkA/bHt1tkCsY=;
+ s=k20201202; t=1754376263;
+ bh=zmCWDbWtpbzzMgGs32xyb++YFUupJejY/iPWbySknCE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vOetwG6wjPaFORrkROIrDOatq5ormVU2vdtjv/cTfRt7ABu2cGpYaG7vuXplt88PO
- eKnp/n+o346f6/YG8oB0r+bYIfWKNkbsnmX+moad9d9FBnPPpmHy/EUXFx4NgLHNtx
- ucu3PxmCL14qKSC1XJlI9SENNJMRxUivtYlWFKW+ongQ7WgRYC9uAtSV41x2PE8zHP
- m/Lz5HNXUpJPaTn7ZgTHnrUFAF8qwvfwH4HGRn7Vrm+Z+7NUxXbpxVBjhaL/zzqzdc
- IQfC4RvRWmK8w2Hq2+tZKGZ9PNcDLQCQ/t08gO4s/GcwGBq4BWIthFB+6lAEzlJ+jY
- BGGAuyxnJFixg==
-Date: Tue, 5 Aug 2025 08:35:58 +0200
+ b=UOWSRomr0pF+kNq2Wqx0WlNWOK9zgM8cUY4Q8tKNvhWGi7wzFQdn2ouq4/W9+uH85
+ mzCdCgNqfZslO1QHOiHipKSZvLTfL8KESWciykzs3LDpWEmdYWFp+YItmvxl7WUBr4
+ LZU4bjSpoT3Dse6+qPk9lzuxQ1i79ZeHBY3qtTkUlaMiw42Pss9n+Wok3g4oJwxsQb
+ vttuoPPbgCp6JTHu69W+t2Mjl6Dl+xWNJIvyr/I7GOjMRd9TmlwPDeQ98JQIn44OQW
+ TqrUjW/ZeBMqSYB9xaslr0IJaWLP3EGmNFSFN4BJ0OjrszA4lrqI1jOBi/1ARtSeNW
+ 172AqkZbP6dYQ==
+Date: Tue, 5 Aug 2025 08:44:20 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, victor.liu@nxp.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, 
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, 
- p.zabel@pengutronix.de, devicetree@vger.kernel.org, l.stach@pengutronix.de, 
- shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 1/6] dt-bindings: display: imx: add HDMI PAI for i.MX8MP
-Message-ID: <20250805-realistic-hawk-of-merriment-f84ef2@kuoka>
-References: <20250804104722.601440-1-shengjiu.wang@nxp.com>
- <20250804104722.601440-2-shengjiu.wang@nxp.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rob Herring <robh@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Benoit Parrot <bparrot@ti.com>,
+ Lee Jones <lee@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Tero Kristo <kristo@kernel.org>, thomas.petazzoni@bootlin.com,
+ Jyri Sarha <jsarha@ti.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 3/4] arm64: dts: ti: k3-am62-main: Add tidss clk-ctrl
+ property
+Message-ID: <20250805-imperial-bobcat-of-improvement-5cf705@kuoka>
+References: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
+ <20250730-fix-edge-handling-v1-3-1bdfb3fe7922@bootlin.com>
+ <20250731001725.GA1938112-robh@kernel.org>
+ <8a2b1876-d1d4-4523-ae6a-bd14875772cf@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250804104722.601440-2-shengjiu.wang@nxp.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <8a2b1876-d1d4-4523-ae6a-bd14875772cf@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,26 +75,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 04, 2025 at 06:47:17PM +0800, Shengjiu Wang wrote:
-> Add binding for the i.MX8MP HDMI parallel Audio interface block.
-> 
-> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
-> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
-> This IP block is found in the HDMI subsystem of the i.MX8MP SoC.
-> 
-> Aud2htx module in Audio Subsystem, HDMI PAI module and HDMI TX
-> Controller compose the HDMI audio pipeline.
-> 
-> In fsl,imx8mp-hdmi-tx.yaml, add port@2 that is linked to pai_to_hdmi_tx.
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    | 12 ++++
->  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      | 69 +++++++++++++++++++
->  2 files changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+On Thu, Jul 31, 2025 at 11:50:16AM +0200, Louis Chauvet wrote:
+>=20
+>=20
+> Le 31/07/2025 =C3=A0 02:17, Rob Herring a =C3=A9crit=C2=A0:
+> > On Wed, Jul 30, 2025 at 07:02:46PM +0200, Louis Chauvet wrote:
+> > > For am62 processors, we need to use the newly created clk-ctrl proper=
+ty to
+> > > properly handle data edge sampling configuration. Add them in the main
+> > > device tree.
+> > >=20
+> > > Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform =
+Display SubSystem")
+> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > ---
+> > >=20
+> > > Cc: stable@vger.kernel.org
+> > > ---
+> > >   arch/arm64/boot/dts/ti/k3-am62-main.dtsi | 6 ++++++
+> > >   1 file changed, 6 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi b/arch/arm64/bo=
+ot/dts/ti/k3-am62-main.dtsi
+> > > index 9e0b6eee9ac77d66869915b2d7bec3e2275c03ea..d3131e6da8e70fde035d3=
+c44716f939e8167795a 100644
+> > > --- a/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+> > > +++ b/arch/arm64/boot/dts/ti/k3-am62-main.dtsi
+> > > @@ -76,6 +76,11 @@ audio_refclk1: clock-controller@82e4 {
+> > >   			assigned-clock-parents =3D <&k3_clks 157 18>;
+> > >   			#clock-cells =3D <0>;
+> > >   		};
+> > > +
+> > > +		dss_clk_ctrl: dss_clk_ctrl@8300 {
+> > > +			compatible =3D "ti,am625-dss-clk-ctrl", "syscon";
+> > > +			reg =3D <0x8300 0x4>;
+> >=20
+> > H/w blocks are rarely only 4 bytes of registers... Does this belong to
+> > some larger block. The problem with bindings defining single registers
+> > like this is they don't get defined until needed and you have a constant
+> > stream of DT updates.
+>=20
+> In this case, I don't think there is a "larger block". This register exis=
+ts
+> only because TI had issues in the display controller [1].
+>=20
+> Here is the extract of MMR registers ([2], page 4311):
+>=20
+> [...]
+> A2E4h AUDIO_REFCLK1_CTRL_PROXY <unrelated>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Here is clk ctrl proxy...
+
+> A300h DPI0_CLK_CTRL_PROXY <this register, 32 bits>
+
+and here as well, so pretty related. This looks also close to regular
+syscon and we do not define individual syscon registers as device nodes.
 
 Best regards,
 Krzysztof
