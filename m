@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086A7B1B2D3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 13:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4AC9B1B39D
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 14:42:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69D7710E65F;
-	Tue,  5 Aug 2025 11:54:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96F5F10E661;
+	Tue,  5 Aug 2025 12:42:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j68Z3Qi1";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="fc1kDs9z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com
- [209.85.221.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 053FC10E65F
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 11:54:08 +0000 (UTC)
-Received: by mail-vk1-f179.google.com with SMTP id
- 71dfb90a1353d-5392ba07940so2804362e0c.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 04:54:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754394847; x=1754999647; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nMWT2yAkC9poiQmiDG3Eme4KwKIo8NaBao5tQDa3Na0=;
- b=j68Z3Qi1U2KhpDMWrUINtafS+ZXehCV/2e+SV7EyEUCBf5A2MF2qB4Wk1Dy5EYoyeQ
- iqR1UvhXBqcr7G24pZDoRE0rOMFT9FkX28xLanLJuNhHrYEzl09hsPDqB7q2VW902xW1
- 9blAzR6i5bXw4CP/bE2udmTQr/m0TYgJTKAlPbm4UspjMH8Dx3818VWqHEB07dAuEbHE
- h2Xk/Wh1KsHnRoIAIezYqyJxkXE4S/zjiGNv1AMLceW32WIDxhqepFIFRgqrW5XSwIRo
- GQekVCufOYGlFsIESeSkBjbdEy/5zcbt3JXTXxjvhNptlQWIn3b3w0FgBu/BoJaw1lSs
- e82Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754394847; x=1754999647;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nMWT2yAkC9poiQmiDG3Eme4KwKIo8NaBao5tQDa3Na0=;
- b=hFgKr3fLj6FXallrOadW481hZrWjWKWXK7qBW8bYqbIX4vC9pfCT7xqHUc719hrvem
- IMKKUEXloiH6wqQkL+yKCDJP+Gd5cXC2DVTs61TvHp9+mMHw2pPFJOAFX6zyDxB5XW8v
- 5iD/hrGZBOwdM+CL6hDSM4VTyK48XxOs1ADA1CyNHU3tsBclfUbC6DTicD+MEswYTYmz
- 4vrJHWPjGgQkMO6Nds0YzDfAXWh48bJ9sho+/N24mXVZqHZn7MjNidMtDsRrGs3fJj8J
- gXTVuea68KeIw5kryI4V32BmH2jGmVg+MrL5Q0M+qmhuLPimqiobBhXLfBGWi5/GtLd4
- DDzg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLE+W87cDlrNQ8f8v0AW0RMer3rLIsxZnpJrkzFtj9I5md5qnRQ1NPm8mLvBzPqCdPDzIUZcBMX7U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDJ+R2HjHxCSKOCRoQ1+kUSEyBF/eQvG26nlKaUb4nlrOencGZ
- FjwrE2CpobalHVRVt3nMAK2aZnGbVqIi/fZUxD5UNKk50AM/kvKGaLeJEGfS4/O2S4cZ69Vc2dp
- 4KX7LtyPvMCBePZdnRN02IhB6st/a9f8=
-X-Gm-Gg: ASbGncuaEa4edq9lnQRkKFDugyM+1qkzgmxdPZ/Qa9DDTiqtIkaxLtJhwX93SXXWEtu
- ZpEM2UC8EZ2+db6Nx9mJKWG+9H9pRkGnaG4z57M8EEeB5wrDehnplgo+ooGX56GAxOiFggtX3of
- 3QBtyftscyyfhlyVFstu5caGStEbqmKBpYyL9YIeYCoWSpKjZJpj5Bl5U3NpLRp0ES1UN1/3OPN
- C/cNkAVLyg8PZY=
-X-Google-Smtp-Source: AGHT+IG2V92W0l0OwpbZeUfC3F/wkgbkb/9IsXo1nWVQk2+FSLJEs2+4PjRH84lDaaw9wrUSA24ZzgN99lkxqM+ysDk=
-X-Received: by 2002:a05:6122:3192:b0:539:58c2:1e0a with SMTP id
- 71dfb90a1353d-5395f19a9cdmr5983593e0c.4.1754394846516; Tue, 05 Aug 2025
- 04:54:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250804212902.22554-1-rampxxxx@gmail.com>
- <qf6xwtxh57jg6ico7n53ft7bepogeal5wfhthodsnf55eabgum@de2ah47jovbg>
-In-Reply-To: <qf6xwtxh57jg6ico7n53ft7bepogeal5wfhthodsnf55eabgum@de2ah47jovbg>
-From: Giant Sand Fans <rampxxxx@gmail.com>
-Date: Tue, 5 Aug 2025 13:53:54 +0200
-X-Gm-Features: Ac12FXweqU7nV9K56xaxh8ocEV9BLO_mODDYQxsm2W9z3W52maWYVlrxOG5FvRY
-Message-ID: <CABPJ0vgz6gib5LdKY1O6uhPq7Tk5GN2X_dcGBwtx3b=TRQUw-Q@mail.gmail.com>
-Subject: Re: [PATCH] drm: Add directive to format code in comment
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B942210E661
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 12:42:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1754397720; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Wx4m7as+nKB7jA3b5+YRisCwBHdKIdNNO2e90MFj5uGnJWX6bQ+XED8f4jNfukn0zv7bob5AvaD5JqIlX9I0pzNUZ6QKIbdQA5/fpFkdKaDr3WxRk3WqOpUN5Ily8iIGiM5kMoXOxEPInKU9DPEeiy6EzDL6RRMWQMUz0B/dPhs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1754397720;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=wzqHFt2lJOBN3obRMiws9twHVlcCWkgkdwKk6A+VdZI=; 
+ b=Rq+rvyFSr7jN6OdrzKqqaIAq8TkJJtFYGkeXkFdFVX9cNWmmwYtfZLS9o8OQmmLE9bLF3GqNxTgvzuyI4SlVJ8QV8ppGcYiShSBLwZGwDaNxU1A1/h50uIqruuKyavZjSmJQDGVPhZU8JdXJjjB9s5M02W+r8+u1Fl7mW0+kb3g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754397720; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=wzqHFt2lJOBN3obRMiws9twHVlcCWkgkdwKk6A+VdZI=;
+ b=fc1kDs9zdrOXsykMZgh0mDDPrmIw+dwvEsDHmfocbHFIAiXm3Z+kouRCpLCZEBpu
+ 9xNS2Ffah22lrFtsCA2fDt3OKmsvJCsB238ADf/1nb05NBXntHeu2HVmMb6PTEuZbQ4
+ zzzhvf5foM4VlEwz1yAzYqFPUe0VLOtEf2h0uEYQ=
+Received: by mx.zohomail.com with SMTPS id 1754397717740746.1533480220385;
+ Tue, 5 Aug 2025 05:41:57 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
+Subject: Re: [PATCH v5 2/3] implement ww_mutex abstraction for the Rust tree
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20250805120813.1f8714f5@nimda.home>
+Date: Tue, 5 Aug 2025 09:41:43 -0300
+Cc: Benno Lossin <lossin@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ ojeda@kernel.org, alex.gaynor@gmail.com, gary@garyguo.net,
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+ dakr@kernel.org, peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+ longman@redhat.com, felipe_life@live.com, daniel@sedlak.dev,
+ bjorn3_gh@protonmail.com, dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <8FA1F09F-CDD0-4A95-8E9E-49A3326613A2@collabora.com>
+References: <20250621184454.8354-1-work@onurozkan.dev>
+ <20250621184454.8354-3-work@onurozkan.dev>
+ <DASY7BECFRCT.332X5ZHZMV2W@kernel.org> <aFlQ7K_mYYbrG8Cl@Mac.home>
+ <DATYHYJVPL3L.3NLMH7PPHYU9@kernel.org> <aFlpFQ4ivKw81d-y@Mac.home>
+ <DAU0ELV91E2Q.35FZOII18W44J@kernel.org> <20250707163913.5ffc046d@nimda.home>
+ <DB5XIWGZ8U36.1VB58YBJFL7OT@kernel.org> <20250707210613.2fd5bb55@nimda.home>
+ <DB62ZN1LTO31.1HVWDLAWJWVM8@kernel.org>
+ <FF481535-86EF-41EB-830A-1DA2434AAEA0@collabora.com>
+ <DBRVNP4MM5KO.3IXLMXKGK4XTS@kernel.org>
+ <E997DCAF-552F-4EF2-BF94-1385ECADF543@collabora.com>
+ <20250805120813.1f8714f5@nimda.home>
+To: =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>
+X-Mailer: Apple Mail (2.3826.600.51.1.1)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,32 +82,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 5 Aug 2025 at 12:49, Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> On Mon, Aug 04, 2025 at 11:29:02PM +0200, Javier Garcia wrote:
-> > Fixes the warnings:
-> >
-> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2444: Unexpected indentation.
-> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2446: Block quote ends without a blank line; unexpected unindent.
-> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2450: Definition list ends without a blank line; unexpected unindent.
-> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2451: Definition list ends without a blank line; unexpected unindent.
-> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2455: Unexpected indentation.
-> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2456: Definition list ends without a blank line; unexpected unindent.
-> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2457: Definition list ends without a blank line; unexpected unindent.
-> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2458: Definition list ends without a blank line; unexpected unindent.
-> >
-> > Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
-> > ---
-> >  drivers/gpu/drm/drm_gpuvm.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->
-> Fixes tag?
-   Sorry, what do you mean?
->
+Hi Onur,
+
+> On 5 Aug 2025, at 06:08, Onur =C3=96zkan <work@onurozkan.dev> wrote:
+>=20
+> On Sat, 2 Aug 2025 11:15:07 -0300
+> Daniel Almeida <daniel.almeida@collabora.com> wrote:
+>=20
+>> Btw, I can also try to implement a proof of concept, so long as
+>> people agree that this approach makes sense.
+>=20
+> It's not necessary to provide a full P.o.C but a small demonstration =
+of
+> the kind of ww_mutex API you would prefer would be helpful. Seeing a =
+few
+> sample Rust use-cases (especially in comparison to existing C
+> implementations) would give a clearer picture for me.
+>=20
+> At the moment, the implementation is just a wrapper ([1]) around the C
+> ww_mutex with no additional functionality, mostly because we don't =
+have
+> a solid consensus on the API design yet (we had some ideas about Tuple
+> based approach, but seems like that isn't going to be useful for most
+> of the ww_mutex users).
+>=20
+> [1]: https://github.com/onur-ozkan/linux/commits/673e01a9c309c
+>=20
+>> By the way, dri-devel seems to not be on cc? Added them now.
+>=20
+> Thanks!
+>=20
 > --
-> With best wishes
-> Dmitry
+>=20
+> Regards,
+> Onur
+>=20
+
+This topic is on my TODO for this week.
+
+=E2=80=94 Daniel=
