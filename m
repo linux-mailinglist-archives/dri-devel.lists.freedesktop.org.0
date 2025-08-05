@@ -2,81 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EFDB1BC2D
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 23:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F80B1BCDF
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 00:56:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31B9310E117;
-	Tue,  5 Aug 2025 21:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9987910E701;
+	Tue,  5 Aug 2025 22:56:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YXX8q7Yi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d+NfAI0C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B93F10E117
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 21:55:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754430915; x=1785966915;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=M/K5gkGPUVp2DBi4KKVQbUk/OVqba8EVQEdmuAN63as=;
- b=YXX8q7YiHMDcDWLWNKgpJjLD7yVK2m+YnPv4PUIADqiyyiW+IAoCzesZ
- UgeBp/vGikOKdr6XZYykL2CpHzBsCFEw7d0JK4xO0cwbxHOQZ3mNyC4f0
- WK48bHlUwJ1Z52UGdsS6DrCzAmjOMi8vDLt9Dreuq9h2nT1LNbV/gH9TG
- i2FOVrmxHTQcW2qNWxnYELVu1SXs9Pn1s2ZGz+3o/8G36gYBVVDpt/BMv
- kYK7kqX/eQhiVZOBPBePDbYcElv7FWLY9oLHe7fdANtQ4IFp8BEG3WI8o
- Q22chkW6NOz/0dCiYBDUS3iNCm9py3JcxG7W3svtUHKJpq4FJzFzJwlJE A==;
-X-CSE-ConnectionGUID: bl8Gtd2HQAy4bNurum9kzQ==
-X-CSE-MsgGUID: DQxGZcOXT9O9eLIIDsL3Vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="74318760"
-X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; d="scan'208";a="74318760"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2025 14:55:14 -0700
-X-CSE-ConnectionGUID: h7wGwCTwTGO4NE8ICxCugQ==
-X-CSE-MsgGUID: AbNEH4ZZSMSRzb7kVk5p+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; d="scan'208";a="164942184"
-Received: from smile.fi.intel.com ([10.237.72.52])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Aug 2025 14:55:08 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1ujPcd-00000003rWR-0d6e; Wed, 06 Aug 2025 00:55:03 +0300
-Date: Wed, 6 Aug 2025 00:55:02 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Zijun Hu <quic_zijuhu@quicinc.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 1/9] list: add list_last_entry_or_null()
-Message-ID: <aJJ9ttmL7wiw41fY@smile.fi.intel.com>
-References: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-0-888912b0be13@bootlin.com>
- <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-1-888912b0be13@bootlin.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1865210E6FC;
+ Tue,  5 Aug 2025 22:56:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 45DEA5C5E74;
+ Tue,  5 Aug 2025 22:56:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFED4C4CEF0;
+ Tue,  5 Aug 2025 22:56:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1754434562;
+ bh=+al342bVs+POurrkFCVBYQ90F4lkUhb3/Od3XV/5kIk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=d+NfAI0C7M3SIMcRYMsBp571UxwDaQUyX6t4JIy6Q6Mmc7Ar1CWpPVraFpkOuKcdH
+ l2Lpw6slA1d9W/GYWNiRgqEr09524WJjUoNhm/7bBeAA9tXvO90R6RcwTVdwwttE+H
+ OVJzV0wk2thXCwMK7eVO8JPcgRqtr7BxjBs2+MtHatnZktnmGiVJUwCVJT/ol+1vt8
+ j+obV2Iupe9FF/QHFre/vV7K46J4mXd3bdtAVphXPlaUUNQEdpZPYACRAukm0kodCs
+ n+KGf8mr4bhifvFc1lepkylJrTMhjhtj+C2sogfznQohzOZpfdftWLO/hTOqY9ck3T
+ wq42afdDnnl3A==
+From: Sasha Levin <sashal@kernel.org>
+To: robin.clark@oss.qualcomm.com,
+	lumag@kernel.org
+Cc: abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ antomani103@gmail.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] drm/msm: Fix objtool warning in submit_lock_objects()
+Date: Tue,  5 Aug 2025 18:55:57 -0400
+Message-Id: <20250805225557.593192-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250801-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v2-1-888912b0be13@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,14 +59,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 01, 2025 at 07:05:23PM +0200, Luca Ceresoli wrote:
-> Add an equivalent of list_first_entry_or_null() to obtain the last element
-> of a list.
+Restructure submit_lock_objects() to use a single loop with break
+statements to fix objtool warning:
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+  drivers/gpu/drm/msm/msm.o: warning: objtool: submit_lock_objects+0x451:
+  sibling call from callable instruction with modified stack frame
 
+The drm_exec_until_all_locked() macro uses computed gotos internally
+for its retry loop. Having return statements inside this macro, or
+immediately after it in certain code paths, confuses objtool's static
+analysis of stack frames, causing it to incorrectly flag tail call
+optimizations.
+
+Fixes: 92395af63a99 ("drm/msm: Add VM_BIND submitqueue")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/msm/msm_gem_submit.c | 43 ++++++++++++----------------
+ 1 file changed, 19 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 5f8e939a5906..253347b6e328 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -276,46 +276,41 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
+ {
+ 	unsigned flags = DRM_EXEC_INTERRUPTIBLE_WAIT;
+ 	struct drm_exec *exec = &submit->exec;
+-	int ret;
++	int ret = 0;
+ 
+-	if (msm_context_is_vmbind(submit->queue->ctx)) {
++	if (msm_context_is_vmbind(submit->queue->ctx))
+ 		flags |= DRM_EXEC_IGNORE_DUPLICATES;
+ 
+-		drm_exec_init(&submit->exec, flags, submit->nr_bos);
++	drm_exec_init(&submit->exec, flags, submit->nr_bos);
+ 
+-		drm_exec_until_all_locked (&submit->exec) {
++	drm_exec_until_all_locked (&submit->exec) {
++		if (msm_context_is_vmbind(submit->queue->ctx)) {
+ 			ret = drm_gpuvm_prepare_vm(submit->vm, exec, 1);
+ 			drm_exec_retry_on_contention(exec);
+ 			if (ret)
+-				return ret;
++				break;
+ 
+ 			ret = drm_gpuvm_prepare_objects(submit->vm, exec, 1);
+ 			drm_exec_retry_on_contention(exec);
+ 			if (ret)
+-				return ret;
+-		}
+-
+-		return 0;
+-	}
+-
+-	drm_exec_init(&submit->exec, flags, submit->nr_bos);
+-
+-	drm_exec_until_all_locked (&submit->exec) {
+-		ret = drm_exec_lock_obj(&submit->exec,
+-					drm_gpuvm_resv_obj(submit->vm));
+-		drm_exec_retry_on_contention(&submit->exec);
+-		if (ret)
+-			return ret;
+-		for (unsigned i = 0; i < submit->nr_bos; i++) {
+-			struct drm_gem_object *obj = submit->bos[i].obj;
+-			ret = drm_exec_prepare_obj(&submit->exec, obj, 1);
++				break;
++		} else {
++			ret = drm_exec_lock_obj(&submit->exec,
++						drm_gpuvm_resv_obj(submit->vm));
+ 			drm_exec_retry_on_contention(&submit->exec);
+ 			if (ret)
+-				return ret;
++				break;
++			for (unsigned i = 0; i < submit->nr_bos; i++) {
++				struct drm_gem_object *obj = submit->bos[i].obj;
++				ret = drm_exec_prepare_obj(&submit->exec, obj, 1);
++				drm_exec_retry_on_contention(&submit->exec);
++				if (ret)
++					break;
++			}
+ 		}
+ 	}
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int submit_fence_sync(struct msm_gem_submit *submit)
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.5
 
