@@ -2,71 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEA7B1B267
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 13:07:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09809B1B2CA
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 13:51:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7098610E071;
-	Tue,  5 Aug 2025 11:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3041C10E267;
+	Tue,  5 Aug 2025 11:51:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="QO3VG4Co";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Re7CAhx9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m32107.qiye.163.com (mail-m32107.qiye.163.com
- [220.197.32.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66A6610E071
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 11:07:23 +0000 (UTC)
-Received: from [172.16.12.153]
- (gy-adaptive-ssl-proxy-3-entmail-virt135.gy.ntes [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 1e5e73aa8;
- Tue, 5 Aug 2025 19:07:10 +0800 (GMT+08:00)
-Message-ID: <a7988745-ea31-45cd-8ffd-905e6e4d1315@rock-chips.com>
-Date: Tue, 5 Aug 2025 19:07:09 +0800
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
+ [209.85.217.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 301F610E267
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 11:51:22 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id
+ ada2fe7eead31-4dfa2aeec86so4353466137.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 04:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1754394681; x=1754999481; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yIELNjFT4Fu0p36VR+VRRXixCVsWV6Jkn6kfP5ffsxA=;
+ b=Re7CAhx99X6re6yPffzVwfQzK+dySXdSGCKdhMstO5dXLHdEVjb1Dc0uoiL47mV+0+
+ M0AUy7wJIBYoCM6qVwAn9qxY051dCHJkLpI/NSK6rchoP3jF/PTak2VXAIsttTELhkdj
+ yC1hnJMme+lRjMJwT14XNeqEyeJRRWyqdYFaKMrkHgvuApydLnTFXJ7H28rEqt619+6y
+ kSy2KV/30PPr2ZnXpwVANPk6xODP1TUNHBGiZLYI/wZ2QIRM2k+mhzQEWqMR9VM8RQlX
+ rjiIJ14S+gZc7nGnDlMXfM/Blz9+e9Jtj5rXGFSLFfNs4dHlkbecXxgcNKLWIh0YGMdN
+ amLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754394681; x=1754999481;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yIELNjFT4Fu0p36VR+VRRXixCVsWV6Jkn6kfP5ffsxA=;
+ b=Cd2lshKt/qe8HrF9bqZndnbB9o2Z66KUdvmKth8RPas9/z3/GHc5rFWfTCrFUut8g6
+ U0A1aARApv2T2LqLrhWU2dxofByn6xxZRb4SFyVlp4refQMc/earS3qQ1t3KesFjAAUe
+ S1p1gFyTm6YqcHqRKquivcJQKg1EWe+AOVXNYdQL/VDep48n962E4o9weqT/em+XeVEw
+ kX+mVp43D35Y/EQxiE9WprXsLQzW1JYVOZ9Ov1ew1VssKWM9Yh/TaWlPEHXp2E1L8Jma
+ Xo80yrRbglcHtm+nWuZpXIhzoeg+GcOraazo4K+8qHcurKQtmhZyfpKQnk602aiOGSND
+ 3APw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWnhQmmjD3uPJgQJHJ/zSdo6OumbM+5ZncDc1xZ8FJMSpccwIVHTWM2rMAitRzGdfDu5/8RstWdQxw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YygA0Mz37rXiW+FFC8RHd6zEQhtNHzKPUQ/y5Lf/yasdWnZHWNu
+ 9nP9sgZUzQyd4JqYc6xPdbALarIGmIvq9E2iQw47G9ivOoMKa+X9RJIPV2e6OLd8LVLhbNXcbZA
+ kp5TG6CnbzEOOG4Jle5RexcwAozcJSGY=
+X-Gm-Gg: ASbGnctuHLXy16oM33vIye65ET2RZIjw7MBlfFRKA5gYf5o4ZhxDFdzYKttsWYofBLd
+ j1TRpqq/HRTb5g9qpROndHUj70TKAANZZp3NvIlyePPK8ZU0ovP+FLHgguwwAAfWycTLSNA0Wdd
+ dDPbKGQ+JvWA2WQHhhwNdVddW10brTir7qMLGGpZb8asXO01HF+Rk7MDbihYsiSHfdplhJACqa2
+ qK5
+X-Google-Smtp-Source: AGHT+IGA/IFYP5vuaO/pw+M2tTlOYQcCJhDEbEjVaelagQI0l7hPSUE5qmYk5hqSKt0B8+vTPUz92k+4aqhntjLXtu4=
+X-Received: by 2002:a05:6102:4427:b0:4e9:b8bf:17f8 with SMTP id
+ ada2fe7eead31-4fdc4314a2dmr5253651137.21.1754394681061; Tue, 05 Aug 2025
+ 04:51:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Add Type-C DP support for RK3399 EVB IND board
+References: <20250804212902.22554-1-rampxxxx@gmail.com>
+ <qf6xwtxh57jg6ico7n53ft7bepogeal5wfhthodsnf55eabgum@de2ah47jovbg>
+In-Reply-To: <qf6xwtxh57jg6ico7n53ft7bepogeal5wfhthodsnf55eabgum@de2ah47jovbg>
+From: Giant Sand Fans <rampxxxx@gmail.com>
+Date: Tue, 5 Aug 2025 13:51:08 +0200
+X-Gm-Features: Ac12FXwwnTuPdK-cdR2z1YzgSbAkDdUJZ-WCNaMI_ZPxhmwMi_HYOpaqfjMofJM
+Message-ID: <CABPJ0vjfHxsznE-2+Y0m2DL+f0ni+ZfiQyHxonHxfbA2NHpqpg@mail.gmail.com>
+Subject: Re: [PATCH] drm: Add directive to format code in comment
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-References: <20250729090032.97-1-kernel@airkyi.com>
- <3kefqzjewmsyzfvyi33kvlgjd6jphjg3fsnixb3of7yb3xkgs2@hgi6xfkgd653>
- <63ec11cf-7927-431a-995e-a5fc35ef1ba7@rock-chips.com>
- <pk5wecbbpxn7v4bdwtghhdnm76fmrmglelytljwfb4cgvpu2i6@rk5turgyt5xq>
- <0207826d-a987-4464-b306-29bdbfac45bc@rock-chips.com>
- <3e880194-5ac8-4056-929c-ac103bedc737@oss.qualcomm.com>
- <f726862a-bd18-43ee-b307-8daef2451e6b@rock-chips.com>
- <6nfmxwtwcvuyo2jaao7fele7jcgcykfpy7czbcbjmjxv7cs5sc@dmbtot73kw63>
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <6nfmxwtwcvuyo2jaao7fele7jcgcykfpy7czbcbjmjxv7cs5sc@dmbtot73kw63>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9879e9ebce03abkunm2a7119d6701883
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGksaS1YZHR1IHR8ZTUoZGRpWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
- xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=QO3VG4Co4nsteQv8Qv57Hfls+cf5t683+xOusxx1peKmZ26y3oXrzV2n1Yh8IPkMsUuZPGO92FYmZYsqJJuvr7R1Do+nJTWWLEytFOuX7IY7byJ2OCGPylXYwmvRz5z63+IDQxi0wCeE+ZhGlRNJmm2zpuZgUlf2I/6B0gWLdlA=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=DcI3MBPSj0BIlngssBgBDQc0EsKF1spVCU2qV220AlE=;
- h=date:mime-version:subject:message-id:from;
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: multipart/alternative; boundary="000000000000c2b595063b9cd70f"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,85 +84,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/5/2025 6:44 PM, Dmitry Baryshkov wrote:
+--000000000000c2b595063b9cd70f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Tue, Aug 05, 2025 at 02:32:17PM +0800, Chaoyi Chen wrote:
->> Hi Dmitry,
->>
->> On 8/5/2025 12:26 PM, Dmitry Baryshkov wrote:
->>> On 05/08/2025 09:13, Chaoyi Chen wrote:
->>>> Hi Dmitry,
->>>>
->>>> On 8/2/2025 5:55 PM, Dmitry Baryshkov wrote:
->>>>
->>>> [...]
->>>>
->>>>
->>>>>>>> BTW, one of the important things to do is to implement extcon-like
->>>>>>>> notifications. I found include/drm/bridge/aux-bridge.h , but if the
->>>>>>>> aux-bridge is used, the bridge chain would look like this:
->>>>>>>>
->>>>>>>> PHY0 aux-bridge ---+
->>>>>>>>                       | ----> CDN-DP bridge
->>>>>>>> PHY1 aux-bridge ---+
->>>>>>>>
->>>>>>>> Oh, CDN-DP bridge has two previous aux-bridge!
->>>>>>>>
->>>>>>>> Now, I try to use drm_connector_oob_hotplug_event() to notify HPD
->>>>>>>> state between PHY and CDN-DP controller.
->>>>>>> Does it actually work? The OOB HPD event will be repoted
->>>>>>> for the usb-c
->>>>>>> connector's fwnode, but the DP controller isn't
->>>>>>> connected to that node
->>>>>>> anyhow. If I'm not mistaken, the HPD signal will not
->>>>>>> reach DP driver in
->>>>>>> this case.
->>>>>> Yes.  What you mentioned is the case in
->>>>>> drivers/usb/typec/altmodes/displayport.c . I have also added
->>>>>> a new OOB event
->>>>>> notify in the PHY driver in Patch 3, where the expected
->>>>>> fwnode is used in
->>>>>> the PHY. So now we have two OOB HPD events, one from
->>>>>> altmodes/ displayport.c
->>>>>> and the other from PHY. Only the HPD from PHY is eventually
->>>>>> passed to the DP
->>>>>> driver.
->>>>> This way you will loose IRQ_HPD pulse events from the DP. They are used
->>>>> by DPRX (aka DP Sink) to signal to DPTX (DP Source) that there was a
->>>>> change on the DPRX side and the DPTX should reread link params
->>>>> and maybe
->>>>> retrain the link.
->>>> Sorry, I still don't quite understand your point. I think the entire
->>>> notification path is as follows:
->>>>
->>>> Type-C mux callback -> RK3399 USBDP PHY -> PHY calls
->>>> drm_connector_oob_hotplug_event() -> DP driver
->>>>
->>>> Are you concerned that the IRQ_HPD event is not being handled
->>>> somewhere along the path? Is it that the Type-C mux callback didn't
->>>> notify the PHY, or that after the PHY passed the event to the DP
->>>> driver via the OOB event, the DP driver didn't handle it?
->>> The IRQ_HPD is an event coming from DPRX, it is delivered as a part of
->>> the attention VDM, see DP_STATUS_IRQ_HPD. It's being handled by the
->>> altmode displayport.c driver and is then delivered as an OOB hotplug
->>> call. However, it's not a mux event, so it is not (and it should not)
->>> being broadcasted over the typec_mux devices.
->>>
->>> The way we were handling that is by having a chain of drm_aux_bridges
->>> for all interim devices, ending up with a drm_dp_hpd_bridge registered
->>> by the TCPM. This way when the DPRX triggers the IRQ_HPD event, it is
->>> being handled by the displayport.c and then delivered through that
->>> bridge to the DP driver.
->> I think the issue goes back to the beginning. The key is to reuse the logic
->> in displayport.c, and the previous approach of directly setting the fwnode
->> has already been rejected. Is it a good idea to register the aux hpd bridge
->> in displayport.c? In this way, we don't need to register it with a bunch of
->> PD drivers (such as fusb302), which seems like a more generic solution.
-> displayport.c comes into play only when you actually attach a DP dongle,
-> which is too late for bringing up the display pipeline. But your point
-> is valid, it might be worth moving drm_dp_hpd registration to
-> typec_port_register_altmode().
+El mar, 5 ago 2025, 12:49, Dmitry Baryshkov <
+dmitry.baryshkov@oss.qualcomm.com> escribi=C3=B3:
 
-Very insightful, thank you! I will try to do this in v4 :)
+> On Mon, Aug 04, 2025 at 11:29:02PM +0200, Javier Garcia wrote:
+> > Fixes the warnings:
+> >
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2444: Unexpected indentation.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2446: Block quote ends without
+> a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2450: Definition list ends
+> without a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2451: Definition list ends
+> without a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2455: Unexpected indentation.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2456: Definition list ends
+> without a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2457: Definition list ends
+> without a blank line; unexpected unindent.
+> >   Warning: ./drivers/gpu/drm/drm_gpuvm.c:2458: Definition list ends
+> without a blank line; unexpected unindent.
+> >
+> > Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+> > ---
+> >  drivers/gpu/drm/drm_gpuvm.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>
+> Fixes tag?
+>
 
+Sorry, what do you mean?
 
+>
+> --
+> With best wishes
+> Dmitry
+>
+
+--000000000000c2b595063b9cd70f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div>El mar, 5 ago 2025, 12:49, Dmitry Baryshkov &lt=
+;<a href=3D"mailto:dmitry.baryshkov@oss.qualcomm.com">dmitry.baryshkov@oss.=
+qualcomm.com</a>&gt; escribi=C3=B3:</div><div class=3D"gmail_quote gmail_qu=
+ote_container"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">On Mon, Aug 04, 2025 at 11:29=
+:02PM +0200, Javier Garcia wrote:<br>
+&gt; Fixes the warnings:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0Warning: ./drivers/gpu/drm/drm_gpuvm.c:2444: Unexpected in=
+dentation.<br>
+&gt;=C2=A0 =C2=A0Warning: ./drivers/gpu/drm/drm_gpuvm.c:2446: Block quote e=
+nds without a blank line; unexpected unindent.<br>
+&gt;=C2=A0 =C2=A0Warning: ./drivers/gpu/drm/drm_gpuvm.c:2450: Definition li=
+st ends without a blank line; unexpected unindent.<br>
+&gt;=C2=A0 =C2=A0Warning: ./drivers/gpu/drm/drm_gpuvm.c:2451: Definition li=
+st ends without a blank line; unexpected unindent.<br>
+&gt;=C2=A0 =C2=A0Warning: ./drivers/gpu/drm/drm_gpuvm.c:2455: Unexpected in=
+dentation.<br>
+&gt;=C2=A0 =C2=A0Warning: ./drivers/gpu/drm/drm_gpuvm.c:2456: Definition li=
+st ends without a blank line; unexpected unindent.<br>
+&gt;=C2=A0 =C2=A0Warning: ./drivers/gpu/drm/drm_gpuvm.c:2457: Definition li=
+st ends without a blank line; unexpected unindent.<br>
+&gt;=C2=A0 =C2=A0Warning: ./drivers/gpu/drm/drm_gpuvm.c:2458: Definition li=
+st ends without a blank line; unexpected unindent.<br>
+&gt; <br>
+&gt; Signed-off-by: Javier Garcia &lt;<a href=3D"mailto:rampxxxx@gmail.com"=
+ target=3D"_blank" rel=3D"noreferrer">rampxxxx@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 drivers/gpu/drm/drm_gpuvm.c | 2 ++<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+)<br>
+&gt; <br>
+<br>
+Reviewed-by: Dmitry Baryshkov &lt;<a href=3D"mailto:dmitry.baryshkov@oss.qu=
+alcomm.com" target=3D"_blank" rel=3D"noreferrer">dmitry.baryshkov@oss.qualc=
+omm.com</a>&gt;<br>
+<br>
+Fixes tag?<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Sorry, what do you mean?</div><div dir=3D"auto"><div class=3D"gma=
+il_quote gmail_quote_container"><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+-- <br>
+With best wishes<br>
+Dmitry<br>
+</blockquote></div></div></div>
+
+--000000000000c2b595063b9cd70f--
