@@ -2,69 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F7AB1B545
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 15:50:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 781D8B1B5E6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 16:09:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7B5089F08;
-	Tue,  5 Aug 2025 13:50:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46F2110E359;
+	Tue,  5 Aug 2025 14:09:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=onurozkan.dev header.i=@onurozkan.dev header.b="icFgHUxt";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="RSx1ldD1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net
- [178.154.239.144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8503589F08
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 13:50:25 +0000 (UTC)
-Received: from mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
- (mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
- [IPv6:2a02:6b8:c0c:4d88:0:640:1229:0])
- by forward500b.mail.yandex.net (Yandex) with ESMTPS id BDEEBC1362;
- Tue, 05 Aug 2025 16:50:22 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net
- (smtp/Yandex) with ESMTPSA id Gog2NwfMuGk0-QN8z0oWJ; 
- Tue, 05 Aug 2025 16:50:21 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
- s=mail; t=1754401821;
- bh=q0+nYeuyQ+6AoyDKNBeY3RHlTqfS9TyWMrZyoB3tSIg=;
- h=Cc:Message-ID:Subject:Date:References:To:From:In-Reply-To;
- b=icFgHUxth2kAC0N2wx+IIUyxCIr15Pbuum+xoMEySyFqdQ/8iSfnphu6OLPHIrcy3
- dJ2WyaJ8oNEAViHpsJ34pbTIAlb50MXDP5OtWl4XyfuXm31DtRm49CP0i704rcmmhD
- 2MIsNGYVe8VtvN00gt5dS+fdORzfnb59zGbw9NtM=
-Authentication-Results: mail-nwsmtp-smtp-production-main-77.iva.yp-c.yandex.net;
- dkim=pass header.i=@onurozkan.dev
-Date: Tue, 5 Aug 2025 16:50:14 +0300
-From: Onur =?UTF-8?B?w5Z6a2Fu?= <work@onurozkan.dev>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Benno Lossin <lossin@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- ojeda@kernel.org, alex.gaynor@gmail.com, gary@garyguo.net,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dakr@kernel.org, peterz@infradead.org, mingo@redhat.com, will@kernel.org,
- longman@redhat.com, felipe_life@live.com, daniel@sedlak.dev,
- bjorn3_gh@protonmail.com, dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v5 2/3] implement ww_mutex abstraction for the Rust tree
-Message-ID: <20250805165014.1766f8dd@nimda.home>
-In-Reply-To: <8FA1F09F-CDD0-4A95-8E9E-49A3326613A2@collabora.com>
-References: <20250621184454.8354-1-work@onurozkan.dev>
- <20250621184454.8354-3-work@onurozkan.dev>
- <DASY7BECFRCT.332X5ZHZMV2W@kernel.org> <aFlQ7K_mYYbrG8Cl@Mac.home>
- <DATYHYJVPL3L.3NLMH7PPHYU9@kernel.org> <aFlpFQ4ivKw81d-y@Mac.home>
- <DAU0ELV91E2Q.35FZOII18W44J@kernel.org>
- <20250707163913.5ffc046d@nimda.home>
- <DB5XIWGZ8U36.1VB58YBJFL7OT@kernel.org>
- <20250707210613.2fd5bb55@nimda.home>
- <DB62ZN1LTO31.1HVWDLAWJWVM8@kernel.org>
- <FF481535-86EF-41EB-830A-1DA2434AAEA0@collabora.com>
- <DBRVNP4MM5KO.3IXLMXKGK4XTS@kernel.org>
- <E997DCAF-552F-4EF2-BF94-1385ECADF543@collabora.com>
- <20250805120813.1f8714f5@nimda.home>
- <8FA1F09F-CDD0-4A95-8E9E-49A3326613A2@collabora.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-unknown-linux-gnu)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84A3510E22D
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 14:09:28 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-4ab63f8fb91so31881411cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 07:09:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1754402967; x=1755007767; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uzAYIR/shPSYacUrOQJo0K9+jh4P0UFNjUkTluGngLM=;
+ b=RSx1ldD1zI2ZDlYuF6Ugnz0fGbwUYM3adITZFVEiU9lekvpprDe0OypwTwKOv92AC6
+ +fzAbOMRIoRjPdH8t+1cUIem5XbQdUxIBiB1mVZ4003znfGi9QR9nFrgS96/wkmV7ufO
+ wCuWAH6qPqiDBdJULrHfaXuUoPd7nPSdVdzsoyzWM7DcEh2crS+YYEuUVNQf4lUPIt+a
+ lVKZZbNIpfwk3YkTCtGUEbv+pmyYc31vo9/+jGXPrywDKlul8Wy7V4mHrT1qJxYHZcqv
+ pWYJxFJYcCLlwdhVNKm+1rGJ+Mn2MutJrb0nceaGy14ECdaLnSGaFXRHved1kuJcOgKW
+ 78OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754402967; x=1755007767;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uzAYIR/shPSYacUrOQJo0K9+jh4P0UFNjUkTluGngLM=;
+ b=GgrxrFusgDjgurPrsT1ULtaeML0UnyGUcQh1MlsMz2XEeNWwHipD8gqFE7D+uhn9wn
+ xQU16yE5wDwi08xc4/kp8T6G+c69SqivMoo3VQA2TwtCIeZrl7DzV1k2UH7bK9GD6Ao3
+ dr8sskb3QxWNHtFJVZwJXSz7XaDMPlhWyhR33GHUZqUzkg2LRapDKfLzE3WUcoWc7IaI
+ sjg8+WX3y9VW06U1fzh4438gWOrsu7LMkX4k59egq3f0ZvojWehd2z+Fly6KuxGuP8rB
+ ZIZCl2uxj36LTb2E73GgUM1TWcT12O5lveSqdtHkbqsLVRgcG6zELRie6kEkHskKgTm7
+ kPcA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUQy0+EIkk0RGaFp94cOQXR/0Sb5gO6E7kQ/P+BVfWiZk4H7XUGdJgrOJq1UzbwD/ezUjJcolIqajY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywfp9cRGaIQb7D0TZOwAGGqzaQVvPFEu5w4Xqz/e+4RXPyRx5VC
+ pkHyDMKNt3ziq8kzGGbWfG7vxaG8MrKXfxHqGdzv/HtjWEIDaCHHw4xX+B3HE3NaOQc=
+X-Gm-Gg: ASbGncscGtHnTRMxxEOdYfyRqWCrU82hV5EobxVv9ZcM1+3gGGuYZn9XQlE5tC4q7Jg
+ rQZ6ynoUBGaeiiwS5hStq8NdsYr94wtDqc1emcVgxb/EWZWhYKwlIW7FNaezNhmjqx8WDZiwyWv
+ FJwtlgLQhF9XSS7A1i6UZnb159A8NdBW/1Aq/ug6BgHd4fYkSJE4jo4XXgQuMc/DJUvefnIihAp
+ RiOXG49INg45caYtJ5lRlVSlv5j7z0IcDPxO7lWSkSnXxB8frmRLBADh0m5vofVB6FmsjtMKEf+
+ Pe/l4zFB4Q6Ah7pXydz0fxr3rVZKRcxmDGmu6RwHwO5Vr3BiHq2KtR4E/AgMODNxMxyTG9FEe3e
+ mkP5m8x5rvCyltc7B0mkDt1uZCou3HLMwpUnM2YIHYymq7oAFIKcXxdnxCcLNthzbeuBoP4hyoi
+ nmTaA=
+X-Google-Smtp-Source: AGHT+IHL+J4sqP2SxcyYA/bm344OksrCpi3leJPwTfOOG1s5eCheuA6YOXSpbD6tw1CHk8ksExeFwQ==
+X-Received: by 2002:a05:622a:4a14:b0:4a9:a3ff:28bb with SMTP id
+ d75a77b69052e-4af10a1abd0mr240543491cf.25.1754402967223; 
+ Tue, 05 Aug 2025 07:09:27 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [47.55.120.4]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4aeeed669c0sm65687951cf.33.2025.08.05.07.09.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Aug 2025 07:09:26 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1ujIM1-00000001XVj-3WEg;
+ Tue, 05 Aug 2025 11:09:25 -0300
+Date: Tue, 5 Aug 2025 11:09:25 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Yonatan Maman <ymaman@nvidia.com>,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Leon Romanovsky <leon@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Ben Skeggs <bskeggs@nvidia.com>, Michael Guralnik <michaelgur@nvidia.com>,
+ Or Har-Toov <ohartoov@nvidia.com>,
+ Daisuke Matsuda <dskmtsd@gmail.com>, Shay Drory <shayd@nvidia.com>,
+ linux-mm@kvack.org, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Gal Shalom <GalShalom@nvidia.com>
+Subject: Re: [PATCH v2 1/5] mm/hmm: HMM API to enable P2P DMA for device
+ private pages
+Message-ID: <20250805140925.GO26511@ziepe.ca>
+References: <aH4_QaNtIJMrPqOw@casper.infradead.org>
+ <7lvduvov3rvfsgixbkyyinnzz3plpp3szxam46ccgjmh6v5d7q@zoz4k723vs3d>
+ <aIBcTpC9Te7YIe4J@ziepe.ca>
+ <cn7hcxskr5prkc3jnd4vzzeau5weevzumcspzfayeiwdexkkfe@ovvgraqo7svh>
+ <a3f1af02-ef3f-40f8-be79-4c3929a59bb7@redhat.com>
+ <i5ya3n7bhhufpczprtp2ndg7bxtykoyjtsfae6dfdqk2rfz6ix@nzwnhqfwh6rq>
+ <20250801164058.GD26511@ziepe.ca>
+ <b8009500-8b0b-4bb9-ae5e-6d2135adbfdd@redhat.com>
+ <20250801165749.GF26511@ziepe.ca>
+ <vscps6igy42u5limiigiok6y35mjx6acawi3qmvzbrpvltp4qp@mkydml7lz6fu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <vscps6igy42u5limiigiok6y35mjx6acawi3qmvzbrpvltp4qp@mkydml7lz6fu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +114,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 5 Aug 2025 09:41:43 -0300
-Daniel Almeida <daniel.almeida@collabora.com> wrote:
+On Mon, Aug 04, 2025 at 11:51:38AM +1000, Alistair Popple wrote:
+> On Fri, Aug 01, 2025 at 01:57:49PM -0300, Jason Gunthorpe wrote:
+> > On Fri, Aug 01, 2025 at 06:50:18PM +0200, David Hildenbrand wrote:
+> > > On 01.08.25 18:40, Jason Gunthorpe wrote:
+> > > > On Fri, Jul 25, 2025 at 10:31:25AM +1000, Alistair Popple wrote:
+> > > > 
+> > > > > The only issue would be if there were generic code paths that somehow have a
+> > > > > raw pfn obtained from neither a page-table walk or struct page. My assumption
+> > > > > (yet to be proven/tested) is that these paths don't exist.
+> > > > 
+> > > > hmm does it, it encodes the device private into a pfn and expects the
+> > > > caller to do pfn to page.
+> 
+> What callers need to do pfn to page when finding a device private pfn via
+> hmm_range_fault()? GPU drivers don't, they tend just to use the pfn as an offset
+> from the start of the pgmap to find whatever data structure they are using to
+> track device memory allocations.
 
-> Hi Onur,
->=20
-> > On 5 Aug 2025, at 06:08, Onur =C3=96zkan <work@onurozkan.dev> wrote:
-> >=20
-> > On Sat, 2 Aug 2025 11:15:07 -0300
-> > Daniel Almeida <daniel.almeida@collabora.com> wrote:
-> >=20
-> >> Btw, I can also try to implement a proof of concept, so long as
-> >> people agree that this approach makes sense.
-> >=20
-> > It's not necessary to provide a full P.o.C but a small
-> > demonstration of the kind of ww_mutex API you would prefer would be
-> > helpful. Seeing a few sample Rust use-cases (especially in
-> > comparison to existing C implementations) would give a clearer
-> > picture for me.
-> >=20
-> > At the moment, the implementation is just a wrapper ([1]) around
-> > the C ww_mutex with no additional functionality, mostly because we
-> > don't have a solid consensus on the API design yet (we had some
-> > ideas about Tuple based approach, but seems like that isn't going
-> > to be useful for most of the ww_mutex users).
-> >=20
-> > [1]: https://github.com/onur-ozkan/linux/commits/673e01a9c309c
-> >=20
-> >> By the way, dri-devel seems to not be on cc? Added them now.
-> >=20
-> > Thanks!
-> >=20
-> > --
-> >=20
-> > Regards,
-> > Onur
-> >=20
->=20
-> This topic is on my TODO for this week.
->=20
-> =E2=80=94 Daniel
+All drivers today must. You have no idea if the PFN returned is a
+private or CPU page. The only way to know is to check the struct page
+type, by looking inside the struct page.
 
-Awesome, thank you for doing it. :)
+> So other than adding a HMM_PFN flag to say this is really a device index I don't
+> see too many issues here.
 
-Regards,
-Onur
+Christoph suggested exactly this, and it would solve the issue. Seems
+quite easy too. Let's do it.
+
+Jason
