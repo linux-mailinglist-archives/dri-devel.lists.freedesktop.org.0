@@ -2,113 +2,182 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFE2B1B697
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 16:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F4EB1B6A7
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Aug 2025 16:37:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A98A10E47B;
-	Tue,  5 Aug 2025 14:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 150CC10E47D;
+	Tue,  5 Aug 2025 14:37:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kwAWZaWk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gE26umXJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEC8D10E478
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Aug 2025 14:32:58 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 575A9t98012864
- for <dri-devel@lists.freedesktop.org>; Tue, 5 Aug 2025 14:32:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=dcfbSdm9Ee7XiCvbdE06SqCLz4R1Y5fBAtNbrpESQsg=; b=kw
- AWZaWkierTuS1AXQ2oj4nv289QBcA0GQMngyrYHc81/b77giiMnAX+R/KpPBHdqK
- JWsAu89I3haARHRFsV3uE1oN2sihg2B14r6uNeVwNczAQ86FCWUjKRpR+iWa33Qq
- IUNoJfrzTSFUHPZEQyF1r4c9HwMAn6JopfniGNwqHu2l5d7SqGQ71tHqwNTy/IJ6
- vvmD9mkKT1fbfFv2QYgTybkdOysUfSIWlodEyoYOitz0MXmrqqTYId7EfXqcDLPT
- Fl6+Lva69KtnX9znbjEAyEK+GkxEFjUSvN0T00mViWL1bkSW41U7DMsj0jULJlGQ
- NvraCNVkSvRKh0X2Vw2Q==
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48b8ag1xst-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 14:32:57 +0000 (GMT)
-Received: by mail-oo1-f70.google.com with SMTP id
- 006d021491bc7-60eda518f7fso346239eaf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 07:32:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754404377; x=1755009177;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dcfbSdm9Ee7XiCvbdE06SqCLz4R1Y5fBAtNbrpESQsg=;
- b=qxTCVEyECqec2WBHJ02Te062NsDk175dAaOeFvWXeg9tcMgRp/llVK+yyOZV6WWq8e
- 9bZoDpjiOPzVBZLirda14e2LFT/thvdfzU4MxwOwzoJMaob32SnRZiJIjXLWUvJ2sEgj
- ysO/MWFs0C3EOBW6bCIyk+lNAkVQ4zYyehUAQeXZT60Lw/6xK93XnKlyO9Q7NXTG3ivZ
- 9IrUJXuxLq0N+nSD7k9UnbGUBHzslT5G1de/A44GbOK7YUP9qBqjj6GPnn9NLQuwliws
- sSa7Oee4IqRWL5cjlDWH4BHf5WMMtPskItxN+VvXhDyXdY+/ivzWZgUIhrUB/saU2jex
- CpYA==
-X-Gm-Message-State: AOJu0YygxHh/foKk1liF7QIzoKKuFpK6FDlrJDgB6Zbf2C/Nl1jRPRPg
- oj4P/gr0RUYlFTCFBInfo/qkdEShj5xKopXwDfQBxLwFORn1rGKsNLALdgnr2GRlfMoH1C1OeVC
- ElbWSIw/TFPwgfM7L5vzNARXzPVosP14eRyADAOKaZLDqmi87LMtNFs6rxNc2N0/uHUhvqlU3Ec
- X52h+z0PnVQycQZyQiOtHQREwj0L8xmrXbfvaf3aYcEywS4A==
-X-Gm-Gg: ASbGnctIKsx2lk+UQoHAQLjFu9f4Jd+PTmUm8Fs7e9DpZcbccpg9zl8RSJSeeO8ItK+
- MeToFtx9AQP/W5U+IUB/8OrZSaf1Noc2iYgzuDXght94BUriIOcNRMkqdtZXXQYx4hVp5KGlkN2
- 6AN5w2HrLq+4pXAHtUseNN386PJRG2fi5v87b37kQOHcyQwcbpLRi/
-X-Received: by 2002:a05:6820:1785:b0:615:9c11:a072 with SMTP id
- 006d021491bc7-6198f2b7469mr6807596eaf.8.1754404376609; 
- Tue, 05 Aug 2025 07:32:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGgTHzGv7bbHmoZCYxU0MwfB7R6TpKmYB3jhbd70O5XW2GBJ9V6PQaJ1C7650u9P3ThXFLr3niaQ6AHhJ7ErjM=
-X-Received: by 2002:a05:6820:1785:b0:615:9c11:a072 with SMTP id
- 006d021491bc7-6198f2b7469mr6807569eaf.8.1754404376188; Tue, 05 Aug 2025
- 07:32:56 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F67810E478;
+ Tue,  5 Aug 2025 14:37:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754404621; x=1785940621;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=gUQz2m6xdIVD7l8tlHLt6uGk1o8mARYPG4o6R8KpOK0=;
+ b=gE26umXJE8flvMsBuSp2Rvlj2e4v2rNsBOT1Ys8VF2OSeShGVLgHM0dc
+ ynRVdLiyimnUJVCg4dV7K/mAql8PYlqvX0ic/ldF98BhNw3O0X+F34pdt
+ ChYkr8u9gjd131UbsYZI6g9HjAE+9P6FGpp4WtUG7lYHV3+1ZMnURqDUF
+ pxxWcmvNubfuqahyPR+Dj8UJCiaw853W3LOrcfb2tr7T6SQCu86YwT7NA
+ Bk8GOZ2a2XY+dyj4u30G7hRTLVImp20AzwRgCLWCsVBp2Hqp0bPoYfmV7
+ RBH5lYqLAWqGbGhDUSPLYd/tXbv+yR2frdhslfy1bLgmqJ39K9qjiJEr+ w==;
+X-CSE-ConnectionGUID: ytKXQUVOSt2MVGCmbTZYlw==
+X-CSE-MsgGUID: dftEbzEESQeiYapg/JkJ/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="56662107"
+X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; d="scan'208";a="56662107"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2025 07:37:01 -0700
+X-CSE-ConnectionGUID: mXL1kSkHSti61HvxHaa40Q==
+X-CSE-MsgGUID: 36nqrp6zTYGEOApeXLX3AA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,265,1747724400"; d="scan'208";a="168758401"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2025 07:36:59 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Tue, 5 Aug 2025 07:36:59 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Tue, 5 Aug 2025 07:36:59 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.89)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Tue, 5 Aug 2025 07:36:57 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MHbbm0poIjaY2hGRtGZbyM715/sV9GJcmlHTl0WLsSunQuNm803ux9Fb6W84v0CV07I9rOGdQBrSwhXkl7ZOFsRxIR5LBZbRjiAfb0SM81K5kp8S94VM8vnaQsHCKJPtV8jce8N/TawejdZB9ruY2uWlicWQxKAsUGjvgQOYsN4RlOQmavzFFwwW8wX4Y67yIAM/Sdzq+ROAdCBerxJ0soUXqFmSQbihlgpwdKvU0o/DLXDaCDXbQkrU3Eedt61N1YkJoush+3d6wpf6AWnZ3ZZMIGvA/qemvSwtHUXVj2gwKHPBok0S8s9nxDbOerNj91oKVM8+cza1jU5YLWK4cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SsNK0s3q7StAUEZoeqVhu0fTMbxn/qtHuV5RPzAmZx0=;
+ b=x6cqK3UsMOSxnMGbj75xPZYk9dNEHGXUyDMi6OZyjem8wN+OWtUkWQDH+l/X0t98VIOZ39uEVIl0SXJIK8LkCbTV9dEy6CTnyf0K3p3ac2J57xV+jgpnhUZ19bRLa/u9dybokmosM6nnm45xdXeiR7QgNxFLXU5wDH4rM5dE/WZAhaV4gglJOTKCDogy1AhJWSFlTrNvCkIHx9ZuyYrw78IR4c7GGjh0imuCj60l332KYKQk/H19LuSvgBa+rXyerBDTxtDEGQztQQd1ec4y7aefvpV8VfdQG0EpdezcDglIGD8kFqrRNIyKJE/Y8Mscraj7tUBMWPL/WQ6ebLIARw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by LV8PR11MB8700.namprd11.prod.outlook.com (2603:10b6:408:201::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.20; Tue, 5 Aug
+ 2025 14:36:27 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563%5]) with mapi id 15.20.8989.018; Tue, 5 Aug 2025
+ 14:36:26 +0000
+Date: Tue, 5 Aug 2025 10:36:21 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+CC: Riana Tauro <riana.tauro@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "=?iso-8859-1?Q?Andr=E9?= Almeida" <andrealmeid@igalia.com>,
+ <anshuman.gupta@intel.com>, <lucas.demarchi@intel.com>,
+ <aravind.iddamsetty@linux.intel.com>, <raag.jadav@intel.com>,
+ <umesh.nerlige.ramappa@intel.com>, <frank.scarbrough@intel.com>,
+ <sk.anirban@intel.com>, <maarten.lankhorst@linux.intel.com>,
+ <intel-xe@lists.freedesktop.org>, <tzimmermann@suse.de>
+Subject: Re: [PATCH v7 1/9] drm: Add a vendor-specific recovery method to drm
+ device wedged uevent
+Message-ID: <aJIW5fqaglHROx8i@intel.com>
+References: <20250728102809.502324-1-riana.tauro@intel.com>
+ <20250728102809.502324-2-riana.tauro@intel.com>
+ <39095bd1-2dee-4bfb-bc87-ee8cecedebce@intel.com>
+ <20250731-jovial-realistic-mastiff-2ef2a7@houat>
+ <13e90893-d0dd-4f25-8541-ecfe875c52be@intel.com>
+ <20250731-excellent-octopus-of-acumen-ebfd30@houat>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250731-excellent-octopus-of-acumen-ebfd30@houat>
+X-ClientProxiedBy: SJ0PR03CA0284.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::19) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 MIME-Version: 1.0
-References: <20250804214317.658704-1-robin.clark@oss.qualcomm.com>
- <20250804214317.658704-2-robin.clark@oss.qualcomm.com>
- <DBUE2QU2CH9N.3C32KHT9LHMMB@kernel.org>
-In-Reply-To: <DBUE2QU2CH9N.3C32KHT9LHMMB@kernel.org>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Tue, 5 Aug 2025 07:32:45 -0700
-X-Gm-Features: Ac12FXypilQQiU00lSypaqGZbf1ZEMtpPC_1-gRbyH_0q2bmoCLhUbqnnH9WbwE
-Message-ID: <CACSVV0270Zk4ApR_pGZ+sKgoi14kvfOo_NvzVq3-QALE0mpFsQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND 1/2] drm/gpuvm: Send in-place re-maps to the driver
- as remap
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>,
- Connor Abbott <cwabbott0@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lyude Paul <lyude@redhat.com>, open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: pobwDgsXGE-X7btTdDOMAyJuTg0t6Rjw
-X-Proofpoint-GUID: pobwDgsXGE-X7btTdDOMAyJuTg0t6Rjw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDEwNSBTYWx0ZWRfXxHmc5SOKPntu
- Qn83hMdZhcWjI75xMBS/R9G5ieY9pBBDAmhLGMSP3WY137gOy3roSYgJOQbW+Ta1QelP7J9dVF2
- XIc6BKNQDosolLYz4ZZhMeEBt8km74Cjc2lN8rShbld57y2QfxjPcOoaNlhNkWLDM/4MLFssSkh
- yxfBw2V7k6g5MGb7qsQOBjQbl+mlQEBttQhvkdPYdGtXLE9zzb4pEbpqSScOnEgGoQmcAlfVD6s
- 1NyRl+exakiZw9xx0CAbDthMcIG1ggE0UsGIG0Sbvo08+VvClcqRmKHlx0GZK1tKajgHOit7wNT
- 8N6YGzcwvZktb/kn9iESGCXBVekWSplHzKjwit3w+F38VYU2I3Jeo2qgTNp8Lf32EWnJnr8/vJS
- zWJhWiVktkFGfvSaAI6nXDYDYN6YlgMNTr49Ruqg7q6c9R2NdAsD2BgDq+v/h+rkg23W7Xq1
-X-Authority-Analysis: v=2.4 cv=aJvwqa9m c=1 sm=1 tr=0 ts=68921619 cx=c_pps
- a=lkkFf9KBb43tY3aOjL++dA==:117 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=3qJefBXy7TsPhfuKpUwA:9 a=QEXdDO2ut3YA:10
- a=k4UEASGLJojhI9HsvVT1:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-05_04,2025-08-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 mlxscore=0 adultscore=0
- priorityscore=1501 mlxlogscore=999 spamscore=0 impostorscore=0 clxscore=1015
- bulkscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2508050105
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|LV8PR11MB8700:EE_
+X-MS-Office365-Filtering-Correlation-Id: 209b3c81-897e-4915-c03b-08ddd42d756a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?o5rEVcU2ClOjDvfTpW4iFdMGrkVTr/vW7O1rJm+v9QmScub93P1gHf6J4A?=
+ =?iso-8859-1?Q?hp0JWlyyfvbbGf3LKMXUrXgqI2aXlx4Z9VFqG5i0Of66dqccldLxqTCHIh?=
+ =?iso-8859-1?Q?cB7ylnV1BNgShwW4BYDaWBRiXv1L2veyLJv44ZnwPDBAhfdzfmvoECgzrQ?=
+ =?iso-8859-1?Q?WJscsOFUxc5dMK8aFkYwbIj1Tt1QyRqI8ZwuqHij/wob27p7DCE5qECCgo?=
+ =?iso-8859-1?Q?fFmPnHvDciFkeDiMVm/scPYk8KByp5F22H5ekd4QBHfZYFrAwOwfMDpayl?=
+ =?iso-8859-1?Q?/dooImsEapNot+5z432JF22nyldvOSblY8SQoaz6iqBKn2h49oJvdfTOS4?=
+ =?iso-8859-1?Q?qM3BpyhN7Bc6B7d7MolsKebcCnXi28WEE8LvxdaLRuKH5Yk6fwkNi7eS63?=
+ =?iso-8859-1?Q?hYJ35Qiy4295rtViB2haL8bOMnISfMSpRBDq57RUwOyzCUzQA6lPftS3+h?=
+ =?iso-8859-1?Q?eFKJ2jSp/fiSUsKc+Isr9Q6JVmdM/Z3mNm5d3e9SlcutnKm3m89yWv+F+3?=
+ =?iso-8859-1?Q?WvdN/VpiI/3FEhrUEA6Lg3J9AWg7Fj17WlIXIuQUTi+uscR5Jyq4ibElAr?=
+ =?iso-8859-1?Q?jdODI48Mdw+jxp6ZtkmY1w8gHwE6heAic97gZDJjCwF05wKuEdHsu+m96x?=
+ =?iso-8859-1?Q?DXNZUCmyr+ScwLc1IT2YPiIiLVhZ1Mk9fA6JtHUo11u6GJ7GeCRdkpTV6Q?=
+ =?iso-8859-1?Q?8d2TP+B0zmP4dAsl5XH97LnM6wfkzyxdliqIvVKT2tLRVvi7gQUSV99Ymi?=
+ =?iso-8859-1?Q?qdDDLTYIEdfc5uqFQfHraCl6WOd8hFbQBQ9NsFBicZPrkHDOKrBO9DxXv3?=
+ =?iso-8859-1?Q?CW0bmD6zcznuvL1XG9qmABp9d4zcESVLyNV40XoAk0oPMsWFXk+TZVD7Po?=
+ =?iso-8859-1?Q?s3+m543Mw81WWlfaoO2wpJnL+dlxdUwZ4iOJMnrqeokEXZJD3NfVtbnlVT?=
+ =?iso-8859-1?Q?ZU1TYKXxSfIUNI5Ug65PYPDj169wLfWdOZqlVzp9tc/BHQisu3eBVtlb9U?=
+ =?iso-8859-1?Q?YFhSzW3RfPHdcGFD0TK5FqjHlqJgW2qeZJZcmmXXSXD1CwN/amHbKsrAWW?=
+ =?iso-8859-1?Q?dgU6RjS/oKKyfnMRHYMGmHC17w1AzFQMCDIKeQBd+4flUJeOiAsgahOHOK?=
+ =?iso-8859-1?Q?qL7RBHhGepoKzRQKC8Oxn8nNwINgs5m4X3YepWajEYu9YgC5dTu+xbjyhg?=
+ =?iso-8859-1?Q?zJ6Db6jGPi4OQK0vk8ObA/FQ38AUE8EkzBz7PF8bWl8/RrZNcPdD4vxBEM?=
+ =?iso-8859-1?Q?1boCIRsxIKB7WL8ezNYPZlXtL2NvsPN5jm3NbtcEvVEOhANw0Z+jKAvvhy?=
+ =?iso-8859-1?Q?QCKFS4F6audJyRRXeno9HOhpoU/NuEwt33+2x7tUz4a1+h3KeHkagAgWpK?=
+ =?iso-8859-1?Q?ThWvH3p4R+MCtYskJIIung4Gqo8EEoL5FZiGwM8lRzInGDuY+flX7FfYIP?=
+ =?iso-8859-1?Q?/j0skoZeVhsYatzKFOfugk0khVEJjMmF+Rho6wuh4q8l9/DaL6w2BpE3Oq?=
+ =?iso-8859-1?Q?I=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?O2p3lLCHWLIRAzwGskCEIlxXcyHF6geDbCdfmxtNlne1OaXnNoOKrO+47D?=
+ =?iso-8859-1?Q?gGwTE3SY6k+AQAiLB31mGWDDJivjU1t6qZtPV/TjnShvpwfYJ+vHs4r3kO?=
+ =?iso-8859-1?Q?OsxbLyJxUuydQ4l+LCxlOwXKWkGH1lzcKNziHyvoNMZqzW9/8NbD4EpDch?=
+ =?iso-8859-1?Q?YYGAkySMLEbqQQ34bb0Hd68QG6vn3896VDoJ/dCgWycUPUw4js3Q6bpAUc?=
+ =?iso-8859-1?Q?3feYysy5yn0Yk/n2Tt2jIO47ZuKzBnB7jP0/MnzDFDx67NCdJfwHNwvHtb?=
+ =?iso-8859-1?Q?DmCv2IsMhdpJp3+JIyaMy7Oy/Kc0gbYt0W/RYBfcCQipPmkg0FurjyYVXQ?=
+ =?iso-8859-1?Q?kdiFNYubNnhwUHeUnx7yJVFl3sWpTQU2/OKe4KrvyKYhxjKKcBEDpjIVBE?=
+ =?iso-8859-1?Q?57tNHUxtyyJ2/lV6WC8utwD5ccCGKjX5G+NZ0D7l/5NaRTbJfzFXc6Rq2u?=
+ =?iso-8859-1?Q?4dtPhXO3fcewi9pFTAqUExVhyB6XvT9TLXiYRynUcC5CsX4nsciC/tsqIH?=
+ =?iso-8859-1?Q?dlwTpY3ZcaKTxz7T98fbxdbj/QRvug01CURTsCFjbm7hoqeX1b1S5Mty5H?=
+ =?iso-8859-1?Q?OlkBoFpEYGcqqd/to49c0dfJAH/ZYZ3yXxyTGuVf4xRQtsf0Y1+FtCx55D?=
+ =?iso-8859-1?Q?3GAwjXvESeXRwJ1N/nqe5crkNtxnA32d3iiT/IQRDqXrmQOd59cu1MiVSR?=
+ =?iso-8859-1?Q?pYoNgZaehg2UOH8W7TdNgccTFRE+X5efkD++gpfcXZV7XFWZOK7say9Ga+?=
+ =?iso-8859-1?Q?olR0F/W8X4glem8Bz/iCvRZJLXuWSwomNPMI1FV9e4LwASr+JCXETr1DUC?=
+ =?iso-8859-1?Q?NdMtHV7c3ilD1nIb0MvzuoTsQ2mTyJywFbOAa5BPvkMeo3/mbWICoZx0kO?=
+ =?iso-8859-1?Q?KIKwUjrFN7v31JUSpBu+bFoaIu0fl2wS+m+ixAIX3Sx6dBf7e2LlJHFq1Y?=
+ =?iso-8859-1?Q?kDDKKUS3SPr+OIqJ/nzEWlRiHlvt5RvVhvQ8tdzQw5mR46hbsI50xBY1fL?=
+ =?iso-8859-1?Q?tiXiA3lAV53MWiSUxP8cCLFr1nmw5Kmtr2uVcMyX2yjQMSqLKvItNX1ADa?=
+ =?iso-8859-1?Q?B2WKBHlG2We2+tV40ZMzR85J3dzIYA5UI5LpRvl+dQwgKq0qmIareAdCH0?=
+ =?iso-8859-1?Q?Joe7LGXaaZQ9YTXU2U473Xyija8I106pSSKe4bhEE5cZsWyAWlL4u1Ocws?=
+ =?iso-8859-1?Q?8U2kTQGIottWUapJ0vA1jiUIemwoayMwSxznFSzzEJLk4WFE238sRV72TO?=
+ =?iso-8859-1?Q?mswZwFDCWcu6eOwiz7GlaI0BaARm6K4QYbXY/D8X+VCr4vLDf8UoB2ywCp?=
+ =?iso-8859-1?Q?2JLwxOoTbEMIDnPDGr2xEyTj655CmaJy/keAcbDxU8bsWDcsTIE7B1pUTx?=
+ =?iso-8859-1?Q?V0JhgN1ZQd+TWpuvTnFyaZHaCfXDhp5a1wvWsyhaVna6DvLo7NePACETkg?=
+ =?iso-8859-1?Q?sp5sKBekuSLTOwLEybDZ2/kAaGLb/8/2mwbRSW0bo2famr2uQsehOw+y/b?=
+ =?iso-8859-1?Q?av4uCNrvfA9N1D6xILGmHkWi4V+9YlvZZdBitQytQ84ucMGl+jNxCYNlOj?=
+ =?iso-8859-1?Q?qrPDszzN2I0v+J5TP6Q+c2hHJzzPRgX7RGqU0AcV98v8sHQmvxPtCIQ9of?=
+ =?iso-8859-1?Q?lu9/TPjgijvlbpS+kA+x2iwFTLNW4anxP/cf4tYlPP5Ss0dr59+2VdPQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 209b3c81-897e-4915-c03b-08ddd42d756a
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2025 14:36:26.8546 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9RDAzUxkNP4jDZca4peby5TCvfnKcCmSst5mLvs9n9ORV3PayE3V3dV4T40Ck8ec9KA9/npCd2fLqJdpPUEsrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8700
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,116 +190,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 5, 2025 at 2:33=E2=80=AFAM Danilo Krummrich <dakr@kernel.org> w=
-rote:
->
-> (Cc: Thomas, Boris, Matt, Alice)
->
-> On Mon Aug 4, 2025 at 11:43 PM CEST, Rob Clark wrote:
-> > The 'keep' hint on the unmap is only half useful, without being able to
-> > link it to a map cb.  Instead combine the two ops into a remap op to
-> > give the driver a chance to figure things out.
-> >
-> > Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
-> > ---
-> >  drivers/gpu/drm/drm_gpuvm.c            | 21 +++++++++++++++++++++
-> >  drivers/gpu/drm/nouveau/nouveau_uvmm.c |  3 ++-
-> >  2 files changed, 23 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> > index bbc7fecb6f4a..e21782a97fbe 100644
-> > --- a/drivers/gpu/drm/drm_gpuvm.c
-> > +++ b/drivers/gpu/drm/drm_gpuvm.c
-> > @@ -2125,6 +2125,27 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >                                offset =3D=3D req_offset;
-> >
-> >                       if (end =3D=3D req_end) {
-> > +                             if (merge) {
-> > +                                     /*
-> > +                                      * This is an exact remap of the =
-existing
-> > +                                      * VA (potentially flags change)?=
-  Pass
-> > +                                      * this to the driver as a remap =
-so it can
-> > +                                      * do an in-place update:
-> > +                                      */
-> > +                                     struct drm_gpuva_op_map n =3D {
-> > +                                             .va.addr =3D va->va.addr,
-> > +                                             .va.range =3D va->va.rang=
-e,
-> > +                                             .gem.obj =3D va->gem.obj,
-> > +                                             .gem.offset =3D va->gem.o=
-ffset,
-> > +                                     };
-> > +                                     struct drm_gpuva_op_unmap u =3D {
-> > +                                             .va =3D va,
-> > +                                             .keep =3D true,
-> > +                                     };
-> > +
-> > +                                     return op_remap_cb(ops, priv, NUL=
-L, &n, &u);
-> > +                             }
->
-> I don't see why this is necessary, a struct drm_gpuva_op_unmap carries th=
-e
-> struct drm_gpuva to unmap. You can easily compare this to the original re=
-quest
-> you gave to GPUVM, i.e. req_addr, req_range, req_obj, req_offset, etc.
->
-> Which is what you have to do for any other unmap operation that has keep =
-=3D=3D true
-> anyways, e.g. if D is the exact same as A, B and C.
->
->         Cur
->         ---
->         1                       N
->         |---A---|---B---|---C---|
->
->         Req
->         ---
->         1                       N
->         |-----------D-----------|
+On Thu, Jul 31, 2025 at 03:01:18PM +0200, Maxime Ripard wrote:
+> On Thu, Jul 31, 2025 at 04:43:46PM +0530, Riana Tauro wrote:
+> > Hi Maxim
+> > 
+> > On 7/31/2025 3:02 PM, Maxime Ripard wrote:
+> > > Hi,
+> > > 
+> > > On Wed, Jul 30, 2025 at 07:33:01PM +0530, Riana Tauro wrote:
+> > > > On 7/28/2025 3:57 PM, Riana Tauro wrote:
+> > > > > Address the need for a recovery method (firmware flash on Firmware errors)
+> > > > > introduced in the later patches of Xe KMD.
+> > > > > Whenever XE KMD detects a firmware error, a firmware flash is required to
+> > > > > recover the device to normal operation.
+> > > > > 
+> > > > > The initial proposal to use 'firmware-flash' as a recovery method was
+> > > > > not applicable to other drivers and could cause multiple recovery
+> > > > > methods specific to vendors to be added.
+> > > > > To address this a more generic 'vendor-specific' method is introduced,
+> > > > > guiding users to refer to vendor specific documentation and system logs
+> > > > > for detailed vendor specific recovery procedure.
+> > > > > 
+> > > > > Add a recovery method 'WEDGED=vendor-specific' for such errors.
+> > > > > Vendors must provide additional recovery documentation if this method
+> > > > > is used.
+> > > > > 
+> > > > > It is the responsibility of the consumer to refer to the correct vendor
+> > > > > specific documentation and usecase before attempting a recovery.
+> > > > > 
+> > > > > For example: If driver is XE KMD, the consumer must refer
+> > > > > to the documentation of 'Device Wedging' under 'Documentation/gpu/xe/'.
+> > > > > 
+> > > > > Recovery script contributed by Raag.
+> > > > > 
+> > > > > v2: fix documentation (Raag)
+> > > > > v3: add more details to commit message (Sima, Rodrigo, Raag)
+> > > > >       add an example script to the documentation (Raag)
+> > > > > v4: use consistent naming (Raag)
+> > > > > v5: fix commit message
+> > > > > 
+> > > > > Cc: André Almeida <andrealmeid@igalia.com>
+> > > > > Cc: Christian König <christian.koenig@amd.com>
+> > > > > Cc: David Airlie <airlied@gmail.com>
+> > > > > Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> > > > > Co-developed-by: Raag Jadav <raag.jadav@intel.com>
+> > > > > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+> > > > > Signed-off-by: Riana Tauro <riana.tauro@intel.com>
+> > > > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > > 
+> > > > This patch needs an ack from drm to be merged.
+> > > > The rest of the series have RB's. Can someone please provide an ack ?
+> > > > 
+> > > > Cc: drm-misc maintainers
+> > > > 
+> > > > Thanks
+> > > > Riana
+> > > > 
+> > > > > ---
+> > > > >    Documentation/gpu/drm-uapi.rst | 42 ++++++++++++++++++++++++++++------
+> > > > >    drivers/gpu/drm/drm_drv.c      |  2 ++
+> > > > >    include/drm/drm_device.h       |  4 ++++
+> > > > >    3 files changed, 41 insertions(+), 7 deletions(-)
+> > > > > 
+> > > > > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> > > > > index 843facf01b2d..5691b29acde3 100644
+> > > > > --- a/Documentation/gpu/drm-uapi.rst
+> > > > > +++ b/Documentation/gpu/drm-uapi.rst
+> > > > > @@ -418,13 +418,15 @@ needed.
+> > > > >    Recovery
+> > > > >    --------
+> > > > > -Current implementation defines three recovery methods, out of which, drivers
+> > > > > +Current implementation defines four recovery methods, out of which, drivers
+> > > > >    can use any one, multiple or none. Method(s) of choice will be sent in the
+> > > > >    uevent environment as ``WEDGED=<method1>[,..,<methodN>]`` in order of less to
+> > > > > -more side-effects. If driver is unsure about recovery or method is unknown
+> > > > > -(like soft/hard system reboot, firmware flashing, physical device replacement
+> > > > > -or any other procedure which can't be attempted on the fly), ``WEDGED=unknown``
+> > > > > -will be sent instead.
+> > > > > +more side-effects. If recovery method is specific to vendor
+> > > > > +``WEDGED=vendor-specific`` will be sent and userspace should refer to vendor
+> > > > > +specific documentation for the recovery procedure. As an example if the driver
+> > > > > +is 'Xe' then the documentation for 'Device Wedging' of Xe driver needs to be
+> > > > > +referred for the recovery procedure. If driver is unsure about recovery or
+> > > > > +method is unknown, ``WEDGED=unknown`` will be sent instead.
+> > > > >    Userspace consumers can parse this event and attempt recovery as per the
+> > > > >    following expectations.
+> > > > > @@ -435,6 +437,7 @@ following expectations.
+> > > > >        none            optional telemetry collection
+> > > > >        rebind          unbind + bind driver
+> > > > >        bus-reset       unbind + bus reset/re-enumeration + bind
+> > > > > +    vendor-specific vendor specific recovery method
+> > > > >        unknown         consumer policy
+> > > > >        =============== ========================================
+> > > > > @@ -472,8 +475,12 @@ erroring out, all device memory should be unmapped and file descriptors should
+> > > > >    be closed to prevent leaks or undefined behaviour. The idea here is to clear the
+> > > > >    device of all user context beforehand and set the stage for a clean recovery.
+> > > > > -Example
+> > > > > --------
+> > > > > +For ``WEDGED=vendor-specific`` recovery method, it is the responsibility of the
+> > > > > +consumer to check the driver documentation and the usecase before attempting
+> > > > > +a recovery.
+> > > > > +
+> > > > > +Example - rebind
+> > > > > +----------------
+> > > > >    Udev rule::
+> > > > > @@ -491,6 +498,27 @@ Recovery script::
+> > > > >        echo -n $DEVICE > $DRIVER/unbind
+> > > > >        echo -n $DEVICE > $DRIVER/bind
+> > > > > +Example - vendor-specific
+> > > > > +-------------------------
+> > > > > +
+> > > > > +Udev rule::
+> > > > > +
+> > > > > +    SUBSYSTEM=="drm", ENV{WEDGED}=="vendor-specific", DEVPATH=="*/drm/card[0-9]",
+> > > > > +    RUN+="/path/to/vendor_specific_recovery.sh $env{DEVPATH}"
+> > > > > +
+> > > > > +Recovery script::
+> > > > > +
+> > > > > +    #!/bin/sh
+> > > > > +
+> > > > > +    DEVPATH=$(readlink -f /sys/$1/device)
+> > > > > +    DRIVERPATH=$(readlink -f $DEVPATH/driver)
+> > > > > +    DRIVER=$(basename $DRIVERPATH)
+> > > > > +
+> > > > > +    if [ "$DRIVER" = "xe" ]; then
+> > > > > +        # Refer XE documentation and check usecase and recovery procedure
+> > > > > +    fi
+> > > > > +
+> > > > > +
+> > > 
+> > > So I guess I'm not opposed to it on principle, but the documentation
+> > > really needs some work.
+> > > 
+> > > You should at least list the valid vendor specific options, and what
+> > > each mean exactly. Ideally, it should be a link to the datasheet/manual
+> > > detailing the recovery procedure,
+> > 
+> > This is added above
+> > 
+> > "If recovery method is specific to vendor ``WEDGED=vendor-specific`` will be
+> > sent and userspace should refer to vendor specific documentation for the
+> > recovery procedure. As an example if the driver is 'Xe' then the
+> > documentation for 'Device Wedging' of Xe driver needs to be referred for the
+> > recovery procedure."
+> > 
+> > The documentation of Xe is in Patch 6
+> > 
+> > https://lore.kernel.org/intel-xe/20250728102809.502324-7-riana.tauro@intel.com/
+> 
+> I'm sorry, I still don't get how, as a user, I can reimplement what that
+> tool is supposed to be doing. Or do you anticipate that there's only
+> ever be a single way to recover a Xe device, which is to reflash the
+> firmware?
 
-Ugg, this means carrying around more state between the unmap and map
-callbacks, vs. just handing all the data to the driver in a single
-callback.  For the keep=3D=3Dtrue case, nouveau just seems to skip the
-unmap.. I guess in your case the map operation is tolerant of
-overwriting existing mappings so this works out, which isn't the case
-with io_pgtable.
+Well, clearly the documentation here needs some adjustments since it is failing
+to explain everything that was previously discussed already:
 
-I guess I could handle the specific case of an exact in-place remap in
-the driver to handle this specific case.  But the example you give
-with multiple mappings would be harder to cope with.
+https://lore.kernel.org/dri-devel/aHDRyZBkw-Qa_30R@phenom.ffwll.local/
 
-I still feel there is some room for improvement in gpuvm to make this
-easier for drivers.  Maybe what I proposed isn't the best general
-solution, but somehow giving the drivers info about both the unmaps
-and maps in the same callback would make things easier (and the remap
-callback is _almost_ that).
+Since I was already familiar with the background and history, I found the
+documentation quite straightforward. However, I now believe it could be
+updated to make it clearer to anyone.
 
-BR,
--R
+> 
+> What if in ~5y, Intel comes up with a new recovery method for the newer
+> models?
 
->
-> In this case you get three unmap ops with keep =3D=3D true, which you can=
- compare to
-> your request to figure out that you can keep the corresponding PTEs.
->
-> Besides that it changes the semantics that the documentation mentions and=
- that
-> drivers are allowed to rely on, i.e. a struct drm_gpuva_op_remap represen=
-ts
-> an actual change and any call to __drm_gpuvm_sm_map() results in an arbit=
-rary
-> number of unmap ops, a maximum of two remap ops and exactly one map opera=
-tion.
->
-> >                               ret =3D op_unmap_cb(ops, priv, va, merge)=
-;
-> >                               if (ret)
-> >                                       return ret;
+the vendor-specific is by definition wedge-uevent[device-specific] + specific
+indication. Either by log or sysfs. So this design as is is flexible enough.
+
+As I stated in the previous discussions I was more in favor of the
+wedge-uevent[firmware-flash] but that was too specific, single-vendor
+and single-case. So the vendor-specific with further indication was the
+chosen one.
+
+> 
+> > I'll add the link instead of just the chapter name
+> > > but if that's under NDA, at least a
+> > > reference to the document and section you need to look at to implement
+> > > it properly.
+> > > 
+> > > Or if that's still not doable, anything that tells you what to do
+> > > instead of "run a shell script we don't provide".
+> > > 
+> > > Also, we just discussed it with Sima on IRC, and she mentioned that we
+> > > probably want to have a vendor specific prefix for each vendor-specific
+> > > method.
+> > 
+> > This was discussed as part of Rev4
+> > 
+> > https://lore.kernel.org/intel-xe/aG-U9JTXDah_tu1U@black.fi.intel.com/
+> > 
+> > DEVPATH from uevent and driver should be able to identify the driver.
+> > Shouldn't that be enough?
+> 
+> See above. What happens if we start to see systems with two Xe GPUs, one
+> with a new recovery method and one with an old recovery method?
+
+The log or device's sysfs will have the correct indication for the correct
+device. Nothing to worry here.
+
+> 
+> Maxime
+
+
