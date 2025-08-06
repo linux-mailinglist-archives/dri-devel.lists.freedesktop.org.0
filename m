@@ -2,80 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40BCB1BEDE
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 04:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E64AB1BF22
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 05:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 319B210E2D0;
-	Wed,  6 Aug 2025 02:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74DB710E713;
+	Wed,  6 Aug 2025 03:17:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QzwzZzDA";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CH4KyWXF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9286410E2D0
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 02:44:09 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-af939afe5efso632184566b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 19:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754448248; x=1755053048; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Yl+QGO/FoekIvls1YM3Wb/aWR3GhVD7gGl3r1b1iECk=;
- b=QzwzZzDAKqQ9Y0kCBcwTXZuBvF72AhByDroztgQGnsrkHPngzm19F/BydWHdVrgbr6
- +D5fy/5vFZ+uzsxqidm9zcwzt4qCzm3Y7UojGNz2OobiKYcrpn0NsixxRPlFcH17Xdxt
- VR3SDI8ipC96drpx13gOn+MJvNMITMM8SCEBORE9LVb4nQG4upEJszzzDHnzNyb1srcY
- 9b7C6mKdI5nh0/17O0ukr80xvcqFAAxuhyTXHodZB5CacyXdGrQq4uuJx5m3SIvo3rz5
- CIJTGUJXtbIe4n7GJmTrXZyqWDPjMnIDgpo1hQXUZuF1Rcy7T3/azO7fXsJ7Yn6IMuok
- fK6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754448248; x=1755053048;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Yl+QGO/FoekIvls1YM3Wb/aWR3GhVD7gGl3r1b1iECk=;
- b=PmXKDLq8/oBgbkvN8OBnYc319ShSG+/3Tz1vpc6B0oSNaTdhrvifu1z2nEcVk0Ug5k
- BigKg6kPFMwA/Zfxf6Xx1ylNMK3sevrHS09YMgDCrLn4L8yZGClH8qVuyfwkivFDJDTt
- lXtYXbysyo8uFjlHHjDvHcbVHZ2qIhl90pFOVCaEKmT3GBVPBnMk4RwbsPhkjptUCHb7
- /LoarPBqAqseWSo0d2CiPIX5ni2AQdvE0iAGnADsKjoEwqSv4VzOKkAEOTS5CA2PAqQR
- CN24zauhqrGWg+NmXDwz8C13gZ1p6+7VXBWTMZe2o/aiWnElEabUh+GmjKFSusl2USNN
- 8R1w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUUoZBc0PBgceKdNGUe+hW/Yzv+Lw+wjbqhdJbfST9jCxwGPC5mUa9vBf5KmJy8S/sWX9BpE+1zUb4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxhh1/WMvNEZbobt5sy0uP/QsN2h6hq4dUIh5e+vQxhRICewKiI
- L+sFq8XQ5WyXoG80Md1h7gXF7KjMvXT4g8ayfMXOo3WJyFSlQgOboeoByosKaHYSOWArWVGV34+
- EsJ2WQTMtVrUDHhhWgwG/sPaUT06k1x8hCA==
-X-Gm-Gg: ASbGncs2X965kUfHJxwHFSAv4uSPC1zqjf+nlztKWh4scfDAnFp89BZsuxhfnLhtUTC
- X5ea8qz7EYVlLRqD7L6bQHdl+3rrpZOo4LkEpPDjUsC63kFzrDowOedrA4FXEP5MhppzNc2zckH
- 4FHt4bdSCwcRzi0ps+0IYw0MiZXuniHdQ8aVKJY1pfaatFGX7HjdgZIEE5A7xkiaTcO3UIr+mEI
- pJdxQ==
-X-Google-Smtp-Source: AGHT+IF6gdunMuxxeD8XNnNrX3S700rIKtscM3tEiLfMAUDVgc9a/tKH7mRQBLP0x++zaPZbw+qA2m9BHuLZYyUg2SQ=
-X-Received: by 2002:a17:907:972a:b0:ae6:d94f:4326 with SMTP id
- a640c23a62f3a-af992c8337amr68053666b.57.1754448246990; Tue, 05 Aug 2025
- 19:44:06 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB6A710E184;
+ Wed,  6 Aug 2025 03:17:54 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5761ekpH008619;
+ Wed, 6 Aug 2025 03:17:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=yOT2CnCbTagf5bPAOGbBwo
+ kc8ZhH7hgxro3rWIgHyoM=; b=CH4KyWXFRAavuJiruaL9DggzB1P8ROhTfXEQId
+ 3ZIU/shjfLxNfQA2USfxSLvGr2jgTnz+XqbLCbXVV4clORtCa5zZ1sYxwIVBkeCO
+ 1YTMJBPk6D1SYdYSap7dZKw6n1RtwK3PZ8vd6e/wiuMAXAEe1W1+BibWWxR+4LwJ
+ QsDzVsa7pVxDG7AQ+jz1lmffJ6Ub9m3RmmnjkCpb55u52LRfYJfgc2xAHC7b0S0l
+ UW9t8chFsu+sQyuWDqqWNzZSlAY16vgJnjle10MeTTaiMVWLVwEfazSbMztJBCh9
+ FKgmtnvWQFMsqJSo4LrqXemEf2CfSsy9qiFBipj2EcHJE2dQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpy897tv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 Aug 2025 03:17:43 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5763HgUI028449
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 6 Aug 2025 03:17:42 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Tue, 5 Aug 2025 20:17:36 -0700
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+Subject: [PATCH v6 0/6] Display enablement changes for Qualcomm QCS8300
+ platform
+Date: Wed, 6 Aug 2025 11:16:44 +0800
+Message-ID: <20250806-mdssdt_qcs8300-v6-0-dbc17a8b86af@quicinc.com>
 MIME-Version: 1.0
-References: <20250714052243.1149732-1-airlied@gmail.com>
- <20250714052243.1149732-14-airlied@gmail.com>
- <77949b3a-201d-4e7d-a51f-e77274e4a4be@amd.com>
- <CAMwc25qP-42wMX4UYhZWiYfvf_1dBVNL9TU9i_Wq7uZPqjQL5Q@mail.gmail.com>
- <CAMwc25pyqhcq-8ubGZT5UX5AYroewBYP6oFN-JmjzEkHgFLTrg@mail.gmail.com>
- <903cbf42-2fde-4e38-89e4-2d7287b845bf@amd.com>
-In-Reply-To: <903cbf42-2fde-4e38-89e4-2d7287b845bf@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 6 Aug 2025 12:43:55 +1000
-X-Gm-Features: Ac12FXyxt1T3fE4KRr9aHM4t1lx2fuu-xcZzTkB4ybZNfSc56ewnbwyqjXQ1XGo
-Message-ID: <CAPM=9twR1S+O9G6gQMJkssTh22KRQ-rb4WsJPnXiXz+y_9oi6w@mail.gmail.com>
-Subject: Re: [PATCH 13/18] ttm/pool: enable memcg tracking and shrinker. (v2)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: David Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, 
- Johannes Weiner <hannes@cmpxchg.org>, Dave Chinner <david@fromorbit.com>, 
- Kairui Song <kasong@tencent.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACvJkmgC/23R227CMAwG4FdBvV5QEudUNE28xzRVObgQaW2hK
+ dUQ4t2XAttg5dKW/i+2cyoS9hFTsVqcih7HmGLX5kK9LAq/te0GSQy5LjjlgnEuSBNSCkO198k
+ ApYQxp42B4BV1RQ7teqzj1wV8/7jWPe4P2R2uzaLBlOzFXS1eMyupzpDmmsslEwCgskpyxFfHr
+ t003WE9FbH1S981b9MjTwimSdhVTRoqF9sQ200iIxBKNPdIDTdSU1h3KS33B/uZneYXczYhmTp
+ xWC3ylkhLFEK4wB1VFrEMrIYatQMGXlseauZcMe22jWno+uPldiO/LHc7k/x/ppHnWRj13tWA0
+ vjyfqdpiltQPQ1a7ywNTgJ4fAhOU4zw87KkjMEMmK6gvMEShCwVpXNA3AGczgAxja6MRm0EZ1z
+ OAfkH5L+cATIDLk9gQTqHQT0C5/P5G9vOJMmGAgAA
+X-Change-ID: 20241224-mdssdt_qcs8300-11b7883dc60b
+To: Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
+ <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>, Bjorn Andersson <andersson@kernel.org>, "Konrad
+ Dybcio" <konradybcio@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, Yongxing Mou <quic_yongmou@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754450254; l=4482;
+ i=quic_yongmou@quicinc.com; s=20241121; h=from:subject:message-id;
+ bh=zyEHq+SsGfd1r8KY8nj2AXUlL7cvjBDfG/yNO39pRLI=;
+ b=oiVSCXOJkKybOHTuUT9fj8sJF81hZezmmcICcPKT40MsLM9TUs3nlJ0La5kAOqDyXKARmjBTX
+ pbTdLtw/KZgBc3j5Q84qMzce+tbIguNjP+xVtr7vHfl7Uw7GEI97KLf
+X-Developer-Key: i=quic_yongmou@quicinc.com; a=ed25519;
+ pk=zeCnFRUqtOQMeFvdwex2M5o0Yf67UHYfwCyBRQ3kFbU=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 1phOKCwgY35JWdeO6CEZk4oCFbKEG7uC
+X-Proofpoint-ORIG-GUID: 1phOKCwgY35JWdeO6CEZk4oCFbKEG7uC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX52jHx08skMla
+ 5xnjfUoLlzXPTr6FNXybFpXuIWUvJAO/Qd47qAILmmkhaz99Pgr+v8AxpBYhVlJWSwZGMVZ8Axv
+ CuADYKIXuWUaRPYwsLEVVdBoSGuoiP1k2UqL94VbQjXfjjTZ5BAjj3ylWM+qxQzAqbsXLBCNMxd
+ fSwJFWddkJnY838EJqI9NSkenAAtoorbziW4SrN8YQ0S2esO6vC4Jjok5TpOzRSg7EJEsdbZPqG
+ Na029A0cfUslGw+aQ5pjv+gy2ZH1IrigXCXhfcoJqk3zusxB90JciEmZoAjTfSixYrfG1Pfdvjx
+ RBTU2VvE2fInSmbRFlFdiIzRtdCGKm0Zo0J9WBdSpfwgzLIbTK+axDyQlvkzCxQLGrn2PjIHeE3
+ N3392xi+
+X-Authority-Analysis: v=2.4 cv=GrlC+l1C c=1 sm=1 tr=0 ts=6892c957 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=iD6vXzWbp0dc2yQZ6nwA:9
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-05_05,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 bulkscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,102 +124,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 4 Aug 2025 at 19:22, Christian K=C3=B6nig <christian.koenig@amd.com=
-> wrote:
->
-> Sorry for the delayed response, just back from vacation.
->
-> On 22.07.25 01:16, David Airlie wrote:
-> >>>> @@ -162,7 +164,10 @@ static struct page *ttm_pool_alloc_page(struct =
-ttm_pool *pool, gfp_t gfp_flags,
-> >>>>               p =3D alloc_pages_node(pool->nid, gfp_flags, order);
-> >>>>               if (p) {
-> >>>>                       p->private =3D order;
-> >>>> -                     mod_node_page_state(NODE_DATA(page_to_nid(p)),=
- NR_GPU_ACTIVE, (1 << order));
-> >>>> +                     if (!mem_cgroup_charge_gpu_page(objcg, p, orde=
-r, gfp_flags, false)) {
-> >>>
-> >>> Thinking more about it that is way to late. At this point we can't fa=
-il the allocation any more.
-> >>>
-> >>
-> >> I've tested it at least works, but there is a bit of a problem with
-> >> it, because if we fail a 10 order allocation, it tries to fallback
-> >> down the order hierarchy, when there is no point since it can't
-> >> account the maximum size.
-> >>
-> >>> Otherwise we either completely break suspend or don't account system =
-allocations to the correctly any more after resume.
-> >>
-> >> When you say suspend here, do you mean for VRAM allocations, normal
-> >> system RAM allocations which are accounted here shouldn't have any
-> >> effect on suspend/resume since they stay where they are. Currently it
-> >> also doesn't try account for evictions at all.
->
-> Good point, I was not considering moves during suspend as evictions. But =
-from the code flow that should indeed work for now.
->
-> What I meant is that after resume BOs are usually not moved back into VRA=
-M immediately. Filling VRAM is rate limited to allow quick response of desk=
-top applications after resume.
->
-> So at least temporary we hopelessly overcommit system memory after resume=
-. But that problem potentially goes into the same bucked as general evictio=
-n.
->
-> > I've just traced the global swapin/out paths as well and those seem
-> > fine for memcg at this point, since they are called only after
-> > populate/unpopulate. Now I haven't addressed the new xe swap paths,
-> > because I don't have a test path, since amdgpu doesn't support those,
-> > I was thinking I'd leave it on the list for when amdgpu goes to that
-> > path, or I can spend some time on xe.
->
-> I would really prefer that before we commit this that we have patches for=
- both amdgpu and XE which at least demonstrate the functionality.
->
-> We are essentially defining uAPI here and when that goes wrong we can't c=
-hange it any more as soon as people start depending on it.
+This series introduces support to enable the Mobile Display Subsystem (MDSS)
+, Display Processing Unit (DPU), DisplayPort controller for the Qualcomm 
+QCS8300 target. It includes the addition of the hardware catalog, compatible
+string, and their YAML bindings.
 
- Maarten has supplied xe enablement patches, I'll go spend some time
-looking into this on there as well.
+Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+---
+Changes in v6: Fixed review comments from Konrad, Dmitry.
+- Rewrite commit msg in dp-controller dt-binding change.[Dmitry]
+- Optimize the description in MDSS dt-binding.[Dmitry]
+- Pass the sc8280xp_data as fallback in the UBWC change.[Konrad]
+- Add the DP controller driver change.
+- Link to v5: https://lore.kernel.org/r/20250730-mdssdt_qcs8300-v5-0-bc8ea35bbed6@quicinc.com
 
->
-> >
-> > Dave.
-> >
-> >>>
-> >>> What we need is to reserve the memory on BO allocation and commit it =
-when the TT backend is populated.
-> >>
-> >> I'm not sure what reserve vs commit is here, mem cgroup is really just
-> >> reserve until you can reserve no more, it's just a single
-> >> charge/uncharge stage. If we try and charge and we are over the limit,
-> >> bad things will happen, either fail allocation or reclaim for the
-> >> cgroup.
->
-> Yeah, exactly that is what I think is highly problematic.
->
-> When the allocation of a buffer for an application fails in the display s=
-erver you basically open up the possibility for a deny of service.
->
-> E.g. imaging that an application allocates a 4GiB BO while it's cgroup sa=
-ys it can only allocate 2GiB, that will work because the backing store is o=
-nly allocated delayed. Now send that BO to the display server and the comma=
-nd submission in the display server will fail with an -ENOMEM because we ex=
-ceed the cgroup of the application.
->
-> As far as I can see we also need to limit how much an application can ove=
-rcommit by creating BOs without backing store.
->
-> Alternatively disallow creating BOs without backing store, but that is an=
- uAPI change and will break at least some use cases.
+Changes in v5:Fixed review comments from Krzysztof, Dmitry.
+- Rebase to next-20250717.
+- Change DP compatible to qcs8300-dp due to add 4 streams support.
+- Add QCS8300 UBWC config change due to rebase.
+- Add 4 streams clk and phy in the mdss yaml.
+- Link to v4: https://lore.kernel.org/r/20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com
 
-This is interesting, because I think the same DOS could exist now if
-the system is low on memory, I could allocate a giant unbacked BO and
-pass it to the display server now, and when it goes to fill in the
-pages it could fail to allocate pages and get ENOMEM?
+Changes in v4:Fixed review comments from Krzysztof, Dmitry.
+- Use the common style for the dt-bindings commits.[Dmitry]
+- Update the commits msg for the mdss binding patch, explain why they
+  reuse different platform drivers.[Krzysztof]
+- Link to v3: https://lore.kernel.org/r/20250113-mdssdt_qcs8300-v3-0-6c8e93459600@quicinc.com
 
-Should we be considering buffer sharing should cause population?
+Changes in v3:Fixed review comments from Krzysztof, Dmitry.
+- Fix the missing space issue in commit message.[Krzysztof]
+- Separate the patch for the phy from this series.[Dmitry]
+- Remove unused dependencies and update in the cover letter.[Dmitry][Krzysztof]
+- Link to v2: https://lore.kernel.org/r/20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com
 
-Dave.
+Changes in v2:Fixed review comments from Krzysztof, Dmitry, Rob.
+- Decouple the devicetree changes from this series.[Dmitry][Krzysztof]
+- Drop the dpu driver changes and reuse SA8775P DPU driver.[Dmitry]
+- Fix compilation issues in MDSS bindings.[Rob][Krzysztof]
+- Correct formatting errors and remove unnecessary status in MDSS
+  bindings.[Krzysztof]
+- Add the the necessary information in MDSS changes commit msg.[Dmitry]
+- Rebase MDSS driver changes to https://lore.kernel.org/dri-devel/
+  20241127-msm-mdss-ubwc-v3-0-9782a7c2b023@linaro.org/.[Dmitry]
+- Package the DisplayPort controller and eDP PHY bindings document to
+  this patch series.
+- Collecting MDSS changes reviewd-by Dmitry.
+- Reuse the sa8775p eDP PHY as a fallback compat.[Dmitry]
+- Reuse the sm8650 DP controller as a fallback compat.[Dmitry]
+- Link to v1: https://lore.kernel.org/r/20241127-mdss_qcs8300-v1-0-29b2c3ee95b8@quicinc.com
+---
+This series depend on 4 pixel streams dt-binding series:
+https://lore.kernel.org/all/20250717-dp_mst_bindings-v3-0-72ce08285703@oss.qualcomm.com/
+
+and separate eDP PHY binding:
+https://lore.kernel.org/all/20250730072725.1433360-1-quic_yongmou@quicinc.com/
+
+---
+Yongxing Mou (6):
+      dt-bindings: display/msm: Document the DPU for QCS8300
+      dt-bindings: display/msm: dp-controller: document QCS8300 compatible
+      dt-bindings: display/msm: Document MDSS on QCS8300
+      drm/msm: mdss: Add QCS8300 support
+      soc: qcom: ubwc: Add QCS8300 UBWC cfg
+      drm/msm/dp: Add DisplayPort controller for QCS8300
+
+ .../bindings/display/msm/dp-controller.yaml        |   2 +
+ .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 282 +++++++++++++++++++++
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml      |  15 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |   1 +
+ drivers/gpu/drm/msm/msm_mdss.c                     |   1 +
+ drivers/soc/qcom/ubwc_config.c                     |   1 +
+ 6 files changed, 297 insertions(+), 5 deletions(-)
+---
+base-commit: 024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+change-id: 20241224-mdssdt_qcs8300-11b7883dc60b
+prerequisite-message-id: <20250730072725.1433360-1-quic_yongmou@quicinc.com>
+prerequisite-patch-id: 2ea89bba3c9c6ba37250ebd947c1d4acedc78a5d
+prerequisite-message-id: <20250717-dp_mst_bindings-v3-0-72ce08285703@oss.qualcomm.com>
+prerequisite-patch-id: 4782272bb7d2403e2f2dbf762586d4570e6b6ba6
+prerequisite-patch-id: cfdd5c37d38b2a4f1386af4021ba3920c6d8dcf8
+prerequisite-patch-id: c874bf64aec8cb2ff0bc91051620ac771cbeeeea
+prerequisite-patch-id: 63defbfb812a2f9c6365a98538421aea374e0e13
+prerequisite-patch-id: 0ffa9d544d516d4e14700229a4ab6a9c7751823f
+
+Best regards,
+-- 
+Yongxing Mou <quic_yongmou@quicinc.com>
+
