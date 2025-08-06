@@ -2,59 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3D4B1BE52
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 03:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51ABB1BE9E
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 04:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36A8E10E6F8;
-	Wed,  6 Aug 2025 01:34:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD94810E089;
+	Wed,  6 Aug 2025 02:06:33 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dIREp0Sd";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30CCA10E6F8
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 01:34:19 +0000 (UTC)
-Received: from inva020.nxp.com (localhost [127.0.0.1])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 1339F1A1D4F;
- Wed,  6 Aug 2025 03:34:18 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com
- (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id D39951A1D4A;
- Wed,  6 Aug 2025 03:34:17 +0200 (CEST)
-Received: from lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com
- (lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com [10.52.9.99])
- by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 1538818000AB;
- Wed,  6 Aug 2025 09:34:14 +0800 (+08)
-From: Joseph Guo <qijian.guo@nxp.com>
-Date: Wed, 06 Aug 2025 10:33:34 +0900
-Subject: [PATCH v3 3/3] drm: bridge: Add waveshare DSI2DPI unit driver
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E33310E089
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 02:06:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754445992; x=1785981992;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=nnBwTSC209K3q4e6ORVgVpaQQzSbHoYzuw45O30/ZkI=;
+ b=dIREp0SdEXQXE3IIaFjXjvpUjDnMGv7IfqYnQPRRL6FPNZcwLKlFuzk7
+ aZOHY5KbYmwgb0q8S+3WFPq6SLgIg1+//a1D7Wuy2CFGJHfevWjSyMVFw
+ Kg+7kuipH4Hkhn2XeK41gCnlci0snsI00geq8K9mVXf1fs7gvX6ldsN/y
+ lapCV1ZIqoQRhWlXHbu336j4fSpj2PygzODWrT46SD158I0u+iwaHCN9t
+ 3xYHVwjCu8OMccWwQJUX0cKbvMmmvX65aTznqfPsaJm/BpS+NuARUJees
+ V1RuI38S3Gl9sHHhZYlEgdzSty//6H8AIGj57T+8LfgaNDytVGTnRcqxO Q==;
+X-CSE-ConnectionGUID: NHgf1HCPRiqkx5OmA0e3sg==
+X-CSE-MsgGUID: pulcBS84SMO2FjzOxTPW0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="56898858"
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; d="scan'208";a="56898858"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2025 19:06:31 -0700
+X-CSE-ConnectionGUID: qqDZm+mbT+KUmvSFZA6eGw==
+X-CSE-MsgGUID: GAaq7cCFSDal7+AU0aSj3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; d="scan'208";a="164550223"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+ by fmviesa006.fm.intel.com with ESMTP; 05 Aug 2025 19:06:24 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ujTXp-0000uo-2R;
+ Wed, 06 Aug 2025 02:06:21 +0000
+Date: Wed, 6 Aug 2025 10:04:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Peter Robinson <pbrobinson@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 2/5] phy: rockchip: phy-rockchip-typec: Add
+ typec_mux/typec_switch support
+Message-ID: <202508060926.LBB36bfZ-lkp@intel.com>
+References: <20250729090032.97-3-kernel@airkyi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250806-waveshare-v3-3-fd28e01f064f@nxp.com>
-References: <20250806-waveshare-v3-0-fd28e01f064f@nxp.com>
-In-Reply-To: <20250806-waveshare-v3-0-fd28e01f064f@nxp.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, victor.liu@nxp.com, 
- Joseph Guo <qijian.guo@nxp.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754444048; l=8308;
- i=qijian.guo@nxp.com; s=20250519; h=from:subject:message-id;
- bh=WdFAsa0ufaMayNtK1EnOAsVxDcm3sLPL+1c7SzaBcwk=;
- b=dg6jnFh7be3vjeF8KWQ0FY0xJPXuYaLvEnpybswkUY3OwLtgu0VpHHZAE/yTogYyEGUtb7ivR
- diyvFZyoQiODfJ2/7D8GQgedjZ/5Xr/ZWe8BV9L35MR97xaXK2r/k4N
-X-Developer-Key: i=qijian.guo@nxp.com; a=ed25519;
- pk=VRjOOFhVecTRwBzK4mt/k3JBnHoYfuXKCm9FM+hHQhs=
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250729090032.97-3-kernel@airkyi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,276 +90,234 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Waveshare touchscreen consists of a DPI panel and a driver board.
-The waveshare driver board consists of ICN6211 and a MCU to
-convert DSI to DPI and control the backlight.
-This driver treats the MCU and ICN6211 board as a whole unit.
-It can support all resolution waveshare DSI2DPI based panel,
-the timing table should come from 'panel-dpi' panel in the device tree.
+Hi Chaoyi,
 
-Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
-Suggested-by: Liu Ying <victor.liu@nxp.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
----
-Change from v2 to v3
-- Sort the config names alphabetically
-- Add depends on BACKLIGHT_CLASS_DEVICE
-- Drop disable_debugfs in regmap_config
-- Sort the variables in reverse Christmas tree
-- Drop inappropriate blank line
-- Drop duplicate backlight variable
-- Change API to upstream version
----
- drivers/gpu/drm/bridge/Kconfig         |  12 ++
- drivers/gpu/drm/bridge/Makefile        |   1 +
- drivers/gpu/drm/bridge/waveshare-dsi.c | 203 +++++++++++++++++++++++++++++++++
- 3 files changed, 216 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index cb3b797fcea1c73e83c9187fef6582296b340305..0447967d125fe8c4cb7dccf3f55323086e7c6ef7 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -446,6 +446,18 @@ config DRM_TI_TPD12S015
- 	  Texas Instruments TPD12S015 HDMI level shifter and ESD protection
- 	  driver.
- 
-+config DRM_WAVESHARE_BRIDGE
-+	tristate "Waveshare DSI bridge"
-+	depends on OF
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	select DRM_PANEL_BRIDGE
-+	select DRM_KMS_HELPER
-+	select DRM_MIPI_DSI
-+	select REGMAP_I2C
-+	help
-+	  Driver for waveshare DSI to DPI bridge board.
-+	  Please say Y if you have such hardware
-+
- source "drivers/gpu/drm/bridge/analogix/Kconfig"
- 
- source "drivers/gpu/drm/bridge/adv7511/Kconfig"
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 72185bfd87e4ff6e6ef367edb9d9f52d92bc75fa..fcec44cb273eb99fce08fc924d0d86eab67356ad 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -38,6 +38,7 @@ obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
- obj-$(CONFIG_DRM_TI_TDP158) += ti-tdp158.o
- obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
- obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
-+obj-$(CONFIG_DRM_WAVESHARE_BRIDGE) += waveshare-dsi.o
- obj-$(CONFIG_DRM_NWL_MIPI_DSI) += nwl-dsi.o
- obj-$(CONFIG_DRM_ITE_IT66121) += ite-it66121.o
- 
-diff --git a/drivers/gpu/drm/bridge/waveshare-dsi.c b/drivers/gpu/drm/bridge/waveshare-dsi.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..01c70e7d3d3bd50b17b25396ed9507a2a7e96d18
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
-@@ -0,0 +1,203 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright 2025 NXP
-+ * Based on panel-raspberrypi-touchscreen by Broadcom
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
-+
-+struct ws_bridge {
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+	struct backlight_device *backlight;
-+	struct device *dev;
-+	struct regmap *reg_map;
-+};
-+
-+static const struct regmap_config ws_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0xff,
-+};
-+
-+static struct ws_bridge *bridge_to_ws_bridge(struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct ws_bridge, bridge);
-+}
-+
-+static int ws_bridge_attach_dsi(struct ws_bridge *ws)
-+{
-+	const struct mipi_dsi_device_info info = {
-+		.type = "ws-bridge",
-+		.channel = 0,
-+		.node = NULL,
-+	};
-+	struct device_node *dsi_host_node;
-+	struct device *dev = ws->dev;
-+	struct mipi_dsi_device *dsi;
-+	struct mipi_dsi_host *host;
-+	int ret;
-+
-+	dsi_host_node = of_graph_get_remote_node(dev->of_node, 0, 0);
-+	if (!dsi_host_node) {
-+		dev_err(dev, "Failed to get remote port\n");
-+		return -ENODEV;
-+	}
-+	host = of_find_mipi_dsi_host_by_node(dsi_host_node);
-+	of_node_put(dsi_host_node);
-+	if (!host)
-+		return dev_err_probe(dev, -EPROBE_DEFER, "Failed to find dsi_host\n");
-+
-+	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
-+	if (IS_ERR(dsi))
-+		return dev_err_probe(dev, PTR_ERR(dsi), "Failed to create dsi device\n");
-+
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
-+			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->lanes = 2;
-+
-+	ret = devm_mipi_dsi_attach(dev, dsi);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to attach dsi to host\n");
-+
-+	return 0;
-+}
-+
-+static int ws_bridge_bridge_attach(struct drm_bridge *bridge,
-+				   struct drm_encoder *encoder,
-+				   enum drm_bridge_attach_flags flags)
-+{
-+	struct ws_bridge *ws = bridge_to_ws_bridge(bridge);
-+	int ret;
-+
-+	ret = ws_bridge_attach_dsi(ws);
-+	if (ret)
-+		return ret;
-+
-+	return drm_bridge_attach(encoder, ws->next_bridge,
-+				 &ws->bridge, flags);
-+}
-+
-+static void ws_bridge_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct ws_bridge *ws = bridge_to_ws_bridge(bridge);
-+
-+	regmap_write(ws->reg_map, 0xad, 0x01);
-+	backlight_enable(ws->backlight);
-+}
-+
-+static void ws_bridge_bridge_disable(struct drm_bridge *bridge)
-+{
-+	struct ws_bridge *ws = bridge_to_ws_bridge(bridge);
-+
-+	backlight_disable(ws->backlight);
-+	regmap_write(ws->reg_map, 0xad, 0x00);
-+}
-+
-+static const struct drm_bridge_funcs ws_bridge_bridge_funcs = {
-+	.enable = ws_bridge_bridge_enable,
-+	.disable = ws_bridge_bridge_disable,
-+	.attach = ws_bridge_bridge_attach,
-+};
-+
-+static int ws_bridge_bl_update_status(struct backlight_device *bl)
-+{
-+	struct ws_bridge *ws = bl_get_data(bl);
-+
-+	regmap_write(ws->reg_map, 0xab, 0xff - backlight_get_brightness(bl));
-+	regmap_write(ws->reg_map, 0xaa, 0x01);
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops ws_bridge_bl_ops = {
-+	.update_status = ws_bridge_bl_update_status,
-+};
-+
-+static struct backlight_device *ws_bridge_create_backlight(struct ws_bridge *ws)
-+{
-+	const struct backlight_properties props = {
-+		.type = BACKLIGHT_RAW,
-+		.brightness = 255,
-+		.max_brightness = 255,
-+	};
-+	struct device *dev = ws->dev;
-+
-+	return devm_backlight_device_register(dev, dev_name(dev), dev, ws,
-+					      &ws_bridge_bl_ops, &props);
-+}
-+
-+static int ws_bridge_probe(struct i2c_client *i2c)
-+{
-+	struct device *dev = &i2c->dev;
-+	struct drm_panel *panel;
-+	struct ws_bridge *ws;
-+	int ret;
-+
-+	ws = devm_drm_bridge_alloc(dev, struct ws_bridge, bridge, &ws_bridge_bridge_funcs);
-+	if (!ws)
-+		return -ENOMEM;
-+
-+	ws->dev = dev;
-+
-+	ws->reg_map = devm_regmap_init_i2c(i2c, &ws_regmap_config);
-+	if (IS_ERR(ws->reg_map))
-+		return dev_err_probe(dev, PTR_ERR(ws->reg_map), "Failed to allocate regmap\n");
-+
-+	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, -1, &panel, NULL);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to find remote panel\n");
-+
-+	ws->next_bridge = devm_drm_panel_bridge_add(dev, panel);
-+	if (IS_ERR(ws->next_bridge))
-+		return PTR_ERR(ws->next_bridge);
-+
-+	ws->backlight = ws_bridge_create_backlight(ws);
-+	if (IS_ERR(ws->backlight)) {
-+		ret = PTR_ERR(ws->backlight);
-+		dev_err(dev, "Failed to create backlight: %d\n", ret);
-+		return ret;
-+	}
-+
-+	regmap_write(ws->reg_map, 0xc0, 0x01);
-+	regmap_write(ws->reg_map, 0xc2, 0x01);
-+	regmap_write(ws->reg_map, 0xac, 0x01);
-+
-+	ws->bridge.type = DRM_MODE_CONNECTOR_DPI;
-+	ws->bridge.of_node = dev->of_node;
-+	devm_drm_bridge_add(dev, &ws->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ws_bridge_of_ids[] = {
-+	{.compatible = "waveshare,dsi2dpi",},
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, ws_bridge_of_ids);
-+
-+static struct i2c_driver ws_bridge_driver = {
-+	.driver = {
-+		.name = "ws_dsi2dpi",
-+		.of_match_table = ws_bridge_of_ids,
-+	},
-+	.probe = ws_bridge_probe,
-+};
-+module_i2c_driver(ws_bridge_driver);
-+
-+MODULE_AUTHOR("Joseph Guo <qijian.guo@nxp.com>");
-+MODULE_DESCRIPTION("Waveshare DSI2DPI bridge driver");
-+MODULE_LICENSE("GPL");
+[auto build test WARNING on next-20250729]
+[also build test WARNING on linus/master v6.16]
+[cannot apply to robh/for-next rockchip/for-next krzk/for-next krzk-dt/for-next v6.16 v6.16-rc7 v6.16-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/dt-bindings-phy-rockchip-rk3399-typec-phy-Support-mode-switch/20250729-170255
+base:   next-20250729
+patch link:    https://lore.kernel.org/r/20250729090032.97-3-kernel%40airkyi.com
+patch subject: [PATCH v3 2/5] phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
+config: loongarch-randconfig-002-20250730 (https://download.01.org/0day-ci/archive/20250806/202508060926.LBB36bfZ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250806/202508060926.LBB36bfZ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508060926.LBB36bfZ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   vmlinux.o: warning: objtool: iov_iter_zero+0x1c4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: copy_folio_from_iter_atomic+0x3e8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iov_iter_advance+0xbc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iov_iter_revert+0xd4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iov_iter_single_seg_count+0x78: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iov_iter_is_aligned+0xe0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iov_iter_alignment+0xa8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iov_iter_npages+0xd8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iov_iter_extract_pages+0x1dc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rhashtable_jhash2+0x128: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: refcount_warn_saturate+0x50: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: string_unescape+0x2ac: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: string_escape_mem+0x3d4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: kstrtobool+0xa0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: vvar_fault.llvm.2652528131661753876+0x4c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: __devm_ioremap.llvm.2872827248248264962+0x78: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: zlib_inflate+0x174: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: find_poly_roots+0x5cc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: HUF_compress1X_usingCTable_internal.llvm.16785660852261606571+0x118: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_cParam_getBounds+0x84: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_CCtx_setParameter+0x144: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_CCtxParams_setParameter+0xb0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_CCtxParams_getParameter+0x8c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_CCtx_setCParams+0x184: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize+0x150: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_loadDictionaryContent+0x45c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_buildCTable+0x84: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_compressSuperBlock+0x180: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_fillDoubleHashTable+0x428: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_compressBlock_doubleFast_extDict+0x2a0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_fillHashTable+0x484: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_compressBlock_fast_extDict+0x2f4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_dedicatedDictSearch_lazy_loadDictionary+0x680: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_insertAndFindFirstIndex+0x240: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_insertBt1+0x88: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: HUF_readDTableX1_wksp+0x4d4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: HUF_decompress1X2_usingDTable_internal+0x118: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: HUF_decompress1X1_usingDTable_internal+0x128: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: HUF_decompress4X2_usingDTable_internal+0x1014: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: HUF_decompress4X1_usingDTable_internal+0xeac: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: HUF_fillDTableX2ForWeight+0x8c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: BIT_initDStream+0x104: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: BIT_initDStream+0x104: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_getFrameHeader_advanced+0x30c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_nextInputType+0x44: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_decompressContinue+0x12c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_dParam_getBounds+0x40: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_DCtx_setParameter+0x84: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_DCtx_getParameter+0x50: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_decompressStream+0x33c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_decodeLiteralsBlock+0x108: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_buildSeqTable+0x80: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_decompressSequencesLong+0x208: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_decompressSequencesSplitLitBuffer+0x1e4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ZSTD_decompressSequences+0x20c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ERR_getErrorString+0xb0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: FSE_decompress_wksp_bmi2+0x3bc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: xz_dec_run+0x100: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: xz_dec_lzma2_run+0xec: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: bcj_apply+0x8c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: xz_dec_bcj_reset+0x4c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ei_seq_show+0x50: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: stack_depot_save_flags+0x128: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: asn1_ber_decoder+0x1a4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: msi_lib_init_dev_msi_info+0x90: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rza1_irqc_set_type+0x5c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rzv2h_icu_set_type+0xe8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: lpic_get_gsi_domain_id+0x44: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: complete_irq_moving+0xbc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: liointc_set_type+0x68: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pch_pic_set_type+0x60: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mchp_eic_domain_alloc+0xc4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mchp_eic_irq_set_type+0x70: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mhi_intvec_threaded_handler+0x130: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mhi_process_ctrl_ev_ring+0x270: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: parse_xfer_event+0xf0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mhi_pm_st_worker+0x154: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mhi_async_power_up+0x14c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: phy_g12a_mipi_dphy_analog_power_on+0x8c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: brcm_sata_phy_init+0x60: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: brcm_pm_notifier+0x48: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: brcm_usb_phy_xlate+0x50: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: usb_init_xhci+0x1c0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: cdns_torrent_phy_probe+0x824: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: cdns_torrent_phy_configure_multilink+0x8f4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: cdns_sierra_get_optional+0xf4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_phy_xlate+0xe0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_phy_xlate+0xd8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_phy_init+0x28c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_phy_init+0xb4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: phy_type_show+0x4c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: u2_phy_params_write+0xd4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: u2_phy_params_show+0x60: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: u3_phy_params_write+0xd4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: u3_phy_params_show+0x58: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_xfi_tphy_set_mode+0x88: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_hdmi_pll_set_rate+0x5e8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rockchip_usb2phy_otg_sm_work+0xe0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rockchip_chg_detect_work+0x7c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rk3588_usb2phy_tuning+0x54: sibling call from callable instruction with modified stack frame
+>> vmlinux.o: warning: objtool: tcphy_typec_mux_set+0x68: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: omap_control_phy_power+0xe4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: tusb1210_chg_det_work+0x60: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: wiz_phy_reset_deassert+0x90: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: xpsgtr_xlate+0x10c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: xpsgtr_lane_set_protocol+0x50: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: amd_gpio_dbg_show+0x144: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: amd_pinconf_get+0x8c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: amd_pinconf_set+0xdc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: amd_gpio_irq_set_type+0x80: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: alt_gpio_irq_type+0x64: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: at91_pmx_set+0x230: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: at91_pinconf_dbg_show+0x33c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: aw9523_pconf_get+0xe0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: aw9523_pconf_set+0x108: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: aw9523_pcfg_param_to_reg+0x54: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: cy8c95x0_writeable_register+0xa4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: cy8c95x0_readable_register+0xa0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: cy8c95x0_volatile_register+0x3c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: cy8c95x0_irq_set_type+0x70: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: cy8c95x0_pinconf_get+0x74: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: cy8c95x0_pinconf_set+0x110: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: eqbr_pinconf_get+0x18c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: eqbr_pinconf_set+0x14c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: funcs_utils+0x1a0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: eqbr_gpio_set_irq_type+0x88: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: lpc18xx_pconf_get+0x1dc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: lpc18xx_pconf_set+0x258: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: max77620_pinconf_get+0x60: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: max77620_pinconf_set+0x160: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: max77620_set_fps_param+0x7c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pistachio_pinconf_get+0x5c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pistachio_pinconf_set+0x124: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pistachio_gpio_irq_set_type+0x60: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pcs_pinconf_set+0x1a8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: th1520_pinconf_get+0xcc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: th1520_pinconf_set+0x11c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: owl_pin_config_get+0x7c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: owl_pin_config_set+0xcc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: owl_group_config_get+0x12c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: owl_group_config_set+0x1e4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: irq_set_type+0x68: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: bcm281xx_pinctrl_pin_config_set+0x354: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: bcm2835_gpio_irq_set_type+0x140: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: bcm2835_gpio_irq_config+0x60: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: bcm6362_pinctrl_set_mux+0xfc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: bcm63268_pinctrl_set_mux+0xfc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iproc_gpio_irq_set_type+0x74: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iproc_gpio_irq_set_type+0x7c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iproc_pin_config_get+0xec: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: iproc_pin_config_set+0x174: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: nsp_gpio_irq_set_type+0xe8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: nsp_pin_config_get+0x78: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: nsp_pin_config_set+0xc4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: madera_pin_probe+0x90: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: madera_pin_conf_get+0xd8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: madera_pin_conf_set+0xe4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_pctrl_spec_pull_set_samereg+0x11c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_pconf_group_set+0xdc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_pconf_group_set+0x158: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_pinconf_bias_set_combo+0x418: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_pinconf_get+0xfc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_pinconf_get+0xd4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_pinconf_set+0x130: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: mtk_pctrl_show_one_pin+0x180: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: airoha_pinconf_get+0x6c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: airoha_pinconf_set+0x100: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: airoha_irq_unmask+0xa8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: npcm7xx_config_get+0xa0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: npcm7xx_config_set+0xf0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: npcmgpio_set_irq_type+0x6c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ma35_pinconf_get+0x84: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ma35_pinconf_set+0x1b8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: ma35_irq_irqtype+0x60: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: msm_config_group_get+0xfc: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: msm_config_group_set+0xec: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: msm_config_reg+0x58: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: msm_gpio_irq_set_type+0x430: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pm8xxx_pin_config_get+0x78: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pm8xxx_pin_config_get+0xa0: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pm8xxx_pin_config_set+0xc8: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pm8xxx_pin_config_set+0xec: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: pm8xxx_mpp_probe+0x1b4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: lpi_config_get+0x78: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: lpi_config_set+0x110: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: sh_pfc_config_mux+0x70: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: sh_pfc_pinconf_get+0x94: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: sh_pfc_pinconf_set+0xc4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: sh_pfc_pinconf_validate+0x6c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: r8a77990_pin_to_pocctrl+0x48: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: r8a7794_pin_to_pocctrl+0x84: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: r8a77970_pin_to_pocctrl+0x48: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: r8a779h0_pin_to_pocctrl+0x4c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rzg2l_pinctrl_pinconf_get+0x164: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rzg2l_pinctrl_pinconf_set+0x338: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rzv2h_hw_to_bias_param+0x3c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rzn1_pinconf_get+0xa4: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: rzn1_pinconf_set+0xec: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: s3c64xx_gpio_irq_set_type+0x5c: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: s3c64xx_eint0_irq_set_type+0x68: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: sg2042_pconf_get+0xa4: sibling call from callable instruction with modified stack frame
 
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
