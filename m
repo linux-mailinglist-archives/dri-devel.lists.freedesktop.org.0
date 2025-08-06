@@ -2,94 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D06AB1C3DF
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 11:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7FAB1C415
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 12:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D09010E745;
-	Wed,  6 Aug 2025 09:57:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Tnq8VmOQ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBFA710E2E4;
+	Wed,  6 Aug 2025 10:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB96910E745
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 09:57:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1754474220;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UnRhCBGz/g5M0sDRDevsbQoDZqubHqeSfzdgXcUdUSU=;
- b=Tnq8VmOQse3Q/kJJOWRiG4ErN2naj+oPJqQfjzEDSrVe7pLZv/u7K2RLDHtKPjeo9k/1wt
- jUjKLoDwTvlhkOknD1dQHkD0q+6KTh0RyC+I6CuUcGj/vsGpfI3cXhvwvBbn5r8jl2381s
- l2rvWTsDlY16fW61qg9fuZCqMhKJRt8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-380-CjdoxXd1OO2GwQYdmfYMSw-1; Wed, 06 Aug 2025 05:56:59 -0400
-X-MC-Unique: CjdoxXd1OO2GwQYdmfYMSw-1
-X-Mimecast-MFC-AGG-ID: CjdoxXd1OO2GwQYdmfYMSw_1754474218
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3b785aee904so2883438f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Aug 2025 02:56:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754474218; x=1755079018;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UnRhCBGz/g5M0sDRDevsbQoDZqubHqeSfzdgXcUdUSU=;
- b=HSPEUj0iL0mnuUxizHRmx1p6K19+JatNRaCl0qAU+/+SrvNqjI3bfSG5YbkBlYAXad
- GCHqW7clJodHsRIzgtzkHqHMuou5Zjqv/HXCi0M8TUpnrOOgy4WZputdNkZ3oWkE3ESL
- 1A7+w3jLExEo0e4ht4lA+vQlceKWY2FdYRPGIGwY4mXws7GkjsYCU/v6qk0jAWrzhohu
- TdS4BW1lkXH/+qMEOlrY44V+B18urw/UK8fix4ulxJpP/C3NDuecmeZ5VVYSzqYTYeeq
- rVclAnwhuIWJfmBnzEX8H01Wgh/yU9yJxWoMj0Lndq6HFeVFexyeADIGh9lywxA0pAuC
- fN1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW8EHEOxBaESV6wwKhx38aMrTO69F2AidtxVyZnGPLJN1Z9xBy9wgNeTPFPBv3H/JkNiYai20sbTJU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yws7YASSSfz0Xpki06s+qZoPZxiCuoLnhsVGpUDWSgM8AA6RUV2
- 4FkKJZAiGsC6cnZKaei2Dv4+V5LB/FwQjC0NtmUuXnoja/3MlajEsNRO+my4PsGpmNlJbxPshl+
- NIlXB1RZ9bgx31/1ZzJLs0scjyVvbUBdH0x8dA66XRWnv/o5a8RRbUoU6QsTdmyY/iqaoKp40pq
- q2Pjk/gTmpge3w08ehsiTbYqY/aJ9gDtERIoPDjJS4cxOJ
-X-Gm-Gg: ASbGnct9kFdD+sRhBnfxfamVWUawW1EMFRP9svfMbcX/XtfRAwdkMi0tkRcj5KIGrNH
- Ae9C8/xk+iF1h9KCv/GMIYZy7yb5EyEZrrEdSI0QO93dxRuwBRcprmIX/ABhi4VawXdcwEmapCL
- 4ed5lD3zbZh6JmgOjLPMjNtQ==
-X-Received: by 2002:a5d:5849:0:b0:3b7:92ec:68ec with SMTP id
- ffacd0b85a97d-3b8f41bb8c4mr1730016f8f.14.1754474218382; 
- Wed, 06 Aug 2025 02:56:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFmkIlZiBIO0pxwuhv5ZEuhlp3NbgCJIQMCznSJgwMIdEJJHMlTE317CHbrVdWmT1WXyuHGPX1pWe6egu5BZuE=
-X-Received: by 2002:a5d:5849:0:b0:3b7:92ec:68ec with SMTP id
- ffacd0b85a97d-3b8f41bb8c4mr1729994f8f.14.1754474217980; Wed, 06 Aug 2025
- 02:56:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <CACTEcX6oXBot1VBApOyKVMVXsAN9BsvQMLa8J0iKpNeB-eLttQ@mail.gmail.com>
- <642d439ea1be8e48ee5c47fd3921a786452fb931@intel.com>
- <CACTEcX5Y3PNXNkhnK1dGFe+k3sigOZNpj66KKGAS9XeHqRu35w@mail.gmail.com>
- <0b15e33603a46f6cc7ad7d09a156044f11367169@intel.com>
- <CACTEcX47bUd2tp=LYkQnhK29Js=vLN0JfXL8Aq6mOFBVYumpzQ@mail.gmail.com>
- <CABgObfZKKeqMrAUyS8CB4ARkW_8Z9QREgpgYcq2jxoQ9ppS6MA@mail.gmail.com>
- <CACTEcX7oa+Shj=uYiRMoWpng+RZXDeQrOa-VTRmzVVtXJMCgLQ@mail.gmail.com>
- <CACTEcX7hsRkzYEBg4pQd5s36p_ZXJM=dtxSGmBjfkt5sWrXP8g@mail.gmail.com>
-In-Reply-To: <CACTEcX7hsRkzYEBg4pQd5s36p_ZXJM=dtxSGmBjfkt5sWrXP8g@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 6 Aug 2025 11:56:45 +0200
-X-Gm-Features: Ac12FXxUD7IfHIB3LF4bE0A3e_MF7VVLU9X5HEvxDOG2SUB9XsZW8ohxIfMVMqA
-Message-ID: <CABgObfZagg8_w100tEnbU0_adUWPcnQYzxy8aAyUqVASjxWujQ@mail.gmail.com>
-Subject: Re: [REGRESSION] tty lockup and WWAN loss after hibernate/suspend in
- 6.8+ on ThinkPad X1 Carbon Gen 10
-To: Andy Mindful <andy.mindful@gmail.com>
-Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org, 
- rafael@kernel.org, ville.syrjala@linux.intel.com, tglx@linutronix.de, 
- Christian Brauner <brauner@kernel.org>, Jani Nikula <jani.nikula@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: dpSIkX-L066PJxxOdCB4lX8VAUQSRDEve9xgkDvVbAI_1754474218
-X-Mimecast-Originator: redhat.com
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8FF810E2E4
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 10:15:22 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1ujbAy-0002kc-Ip; Wed, 06 Aug 2025 12:15:16 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
+ helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1ujbAx-00CBzX-0r;
+ Wed, 06 Aug 2025 12:15:15 +0200
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1ujbAx-0009Bg-0a;
+ Wed, 06 Aug 2025 12:15:15 +0200
+Message-ID: <41b37595c42e4f492704a31970936d52b96dae97.camel@pengutronix.de>
+Subject: Re: [PATCH RFC 0/6] amdgpu: Avoid powering on the dGPU on
+ vkEnumeratePhysicalDevices()
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
+ Zabel <philipp.zabel@gmail.com>, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Pelloux-Prayer, Pierre-Eric" <Pierre-eric.Pelloux-prayer@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Wed, 06 Aug 2025 12:15:15 +0200
+In-Reply-To: <601a40fd-e508-4e9d-8dd3-14329f3a637b@amd.com>
+References: <20250731-b4-dont-wake-next-v1-0-e51bdc347fa3@gmail.com>
+ <601a40fd-e508-4e9d-8dd3-14329f3a637b@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,16 +65,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 6, 2025 at 10:40=E2=80=AFAM Andy Mindful <andy.mindful@gmail.co=
-m> wrote:
->
-> Hello,
->
-> Can somebody advise how to properly bisect issues in linux-stable
-> repository between v6.7.11 to v6.8-rc1 tags?
+On Mi, 2025-08-06 at 10:58 +0200, Christian K=C3=B6nig wrote:
+> On 31.07.25 07:36, Philipp Zabel wrote:
+> > This is an attempt at fixing amd#2295 [1]:
+> >=20
+> >   On an AMD Rembrandt laptop with 680M iGPU and 6700S dGPU, calling
+> >   vkEnumeratePhysicalDevices() wakes up the sleeping dGPU, even if all
+> >   the application wants is to find and use the iGPU. This causes a dela=
+y
+> >   of about 2 seconds on this system, followed by a few seconds of
+> >   increased power draw until runtime PM turns the dGPU back off again.
+> >=20
+> > [1] https://gitlab.freedesktop.org/drm/amd/-/issues/2295
+> >=20
+> > Patch 1 avoids power up on some ioctls that don't need it.
+> > Patch 2 avoids power up on open() by postponing fpriv initialization to
+> > the first ioctl() that wakes up the dGPU.
+> > Patches 3 and 4 add AMDGPU_INFO to the list of non-waking ioctls,
+> > returning cached values for some queries.
+> > Patch 5 works around an explicit register access from libdrm.
+> > Patch 6 shorts out the syncobj ioctls while fpriv is still
+> > uninitialized. This avoids waking up the dGPU during Vulkan syncobj
+> > feature detection.
+>=20
+> This idea came up multiple times now but was never completed.
+>=20
+> IIRC Pierre-Eric last worked on it, it would probably be a good idea to d=
+ig up his patches from the mailing list.
 
-If you can test 6.7 and bisect between 6.7 and 6.8-rc1 that would be
-the easiest.
+Thank you, I wasn't aware of those patches [1]. Pierre-Eric did mention
+them in https://gitlab.freedesktop.org/mesa/mesa/-/issues/13001, but I
+didn't pick up on that back then.
 
-Paolo
+[1] https://lore.kernel.org/all/20240618153003.146168-1-pierre-eric.pelloux=
+-prayer@amd.com/
 
+Is that the latest version? It looks to me like the review stalled out
+on a disagreement whether the GB_ADDR_CONFIG query should be a separate
+ioctl or whether it should be added to drm_amdgpu_info_device. The
+discussion was later continued at
+https://gitlab.freedesktop.org/mesa/libdrm/-/merge_requests/368,
+seemingly coming to the conclusion that keeping the register read (but
+cached) is the way to go? I didn't find a newer series with that
+implemented.
+
+> >=20
+> > regards
+> > Philipp
+> >=20
+> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > ---
+> > Alex Deucher (1):
+> >       drm/amdgpu: don't wake up the GPU for some IOCTLs
+> >=20
+> > Philipp Zabel (5):
+> >       drm/amdgpu: don't wake up the GPU when opening the device
+> >       drm/amdgpu: don't query xclk in AMDGPU_INFO_DEV_INFO
+> >       drm/amdgpu: don't wake up the GPU for some AMDGPU_INFO queries
+> >       drm/amdgpu: don't wake up the GPU for mmGB_ADDR_CONFIG register r=
+ead
+>=20
+> That is both unnecessary an insufficient. Unnecessary because we already =
+have a mechanism to cache register values and insufficient because IIRC you=
+ need to add a bunch of more registers to the cached list.
+
+This series was (just barely) sufficient for my purpose, which was only
+to make vkEnumeratePhysicalDevices() not wake the dGPU on my Laptop.
+I didn't realize there already was a caching mechanism in the lower
+layers.
+
+> See Pierre-Erics latest patch set, I think we already solved that but I'm=
+ not 100% sure.
+
+If I found the correct version, it seems Sima's suggestion of pushing
+runtime pm handling down from amdgpu_drm_ioctl into the amdgpu ioctl
+callbacks [2] would be the best first next step?
+
+[2] https://lore.kernel.org/amd-gfx/ZnvJHwnNAvDrRMVG@phenom.ffwll.local/
+
+regards
+Philipp
