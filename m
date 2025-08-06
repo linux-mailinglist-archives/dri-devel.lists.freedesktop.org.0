@@ -2,153 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B5CB1C5E4
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 14:32:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863E1B1C5E8
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 14:33:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C5B10E75B;
-	Wed,  6 Aug 2025 12:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D875F89C28;
+	Wed,  6 Aug 2025 12:33:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="RG65/4iq";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="g4oOWZir";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2088.outbound.protection.outlook.com [40.107.244.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CBBA10E75B;
- Wed,  6 Aug 2025 12:32:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TXM4KvvVu9UvURn8VgOLg+BwTXNEaQgMYnAwSFWGSOsEyYV5f+nUXInvWzNm+MKHvZv3HVXrC5UFLJQKdeA0OPhO076R4TlH5lsYe0XXSpnoxggUHmBFgrn4MmuNpHIKxhvphjNor4JIj4qAAvdkUcSamK2BY1lspdOSW/19X5itnSMryBSI3oqE3C80QL7K4Yuw0o3Lrg3+j+eENjPvrHfYRUwfMvWKsOSJT8zMyoiztYwEk+kyfeGd8RsiqDVG+X1MnVcwMCFYB1DZ5RY4vHdzYnZsph3E8DSGaN3nz7CQpnG3W8xrxRpWFnfAfie//xoG5a+nNu7MtcSuN3KWhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HUBcmTC6RT9vBkVgYy9O9Sa2KlcQbzGMvyK90zg9zDM=;
- b=RFHyJsg4A0uiF1EjcRfUJ31NruRNc6vd7NnMvXFvwmoA/p4ekHdDAwzc48FPAa/aEx4LsbqgOZUreNRa07jtRqV1D9lnm78CAgUYoa4djyf8oTkAgnIXWk5yPLgBo1K3gQxEYmTfL+KgKa3xZGmA1IZUXExLxo8m7n0lwMIS7dNyRuEfq6HGnlbiAg91g/EetxFeRXofWsxvWfMBxp6xgfbM4bHuDMotntI0Fhw1SU0SMvYQDkt9HtvEZ/Wd4a2UdaXg0Yokh59TQG97c3ElQiBZyBKfqK4XWFC1VBGfNkvRrMiCF3V7RkbDtdBg86KLqCFrwy3atrSYOfDP96JIDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HUBcmTC6RT9vBkVgYy9O9Sa2KlcQbzGMvyK90zg9zDM=;
- b=RG65/4iqaSoY8OmII1zOQuYW+JGwntGjysXWYY1xOaM4gIJBB/hyPf22Cepz96jcXFlhp7P3cyqS64xLP8tVJkZaK95mCRjF8uZXO4FP+aEq3B4XSpFqHzSxI2VJeiMklfz36LxqCqyeLbO0yo0RxWXGlLl3h+GalEoE1Dtk3hw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB9007.namprd12.prod.outlook.com (2603:10b6:a03:541::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.14; Wed, 6 Aug
- 2025 12:32:32 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8989.018; Wed, 6 Aug 2025
- 12:32:32 +0000
-Message-ID: <6e5b5c47-a97c-4757-ac0d-361c91fd5819@amd.com>
-Date: Wed, 6 Aug 2025 14:32:28 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: fix incorrect comment format
-To: cryolitia@uniontech.com, Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, wangyuli@uniontech.com, zhanjun@uniontech.com,
- guanwentao@uniontech.com
-References: <20250806-amdgpu_typo-v1-1-b5a3cb84ce26@uniontech.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250806-amdgpu_typo-v1-1-b5a3cb84ce26@uniontech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0395.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cf::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 610A010E762
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 12:33:56 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5765kIDb004807
+ for <dri-devel@lists.freedesktop.org>; Wed, 6 Aug 2025 12:33:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=8AHDD/NKlImoDbRQJz3VE6UP
+ Fkw5sFqhveZWLWVU0jA=; b=g4oOWZir2+MXN+X30a5yhx6F2djWrkZxWQjdgTe+
+ XPH93D1xKUiwkkMYYVEk0BQPf7Ciy+lEShcQWJk1DvBUgjT1+FvqJFO/v0IZFllx
+ Hm1wVH72eEczY3hg+ZVS/FU9RHZcnfZv5/bgJMYqjk+0OKTI4vJqWLSa1nr0Fnx6
+ KGlDvHpDdk0SSApByMt+IqW8M6+XEMStIcm2aVhOfdoIPwGgA6yCzMP21v1lnG1p
+ prC75v7RiFn3dtKc8WhhiQ6aYlPLcFmk2aa6KSAXDNpsMck46INQffM0mA2mvlKL
+ DTEx+WHAaBg6uLZolHx9XEGKlsm2S7ioUTdDoDuC+dSU/w==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpyaamhy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Aug 2025 12:33:55 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id
+ a1e0cc1a2514c-88dd41d63d4so419576241.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Aug 2025 05:33:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754483634; x=1755088434;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8AHDD/NKlImoDbRQJz3VE6UPFkw5sFqhveZWLWVU0jA=;
+ b=fkIOiy+5iYyMXzOBtMAwOVGy0TNaZ5y+p92nIoNIGPjseBCnmrHR1utJ+Yc1S1xl2S
+ 5WNYF3q3zvGe3zqVJkeW4ZX7ZjNyCnel9CpcYVJ3w3a4MJgzGDV46YdpDEBzB0QqHywr
+ ZSZz9NhKrdaJ7to5d6f3mV1K1opV/RemdnWHDiCASSlUj7s1NCZ+1MLIz9uzzzLs0ZWg
+ 8AFG6ASTzyklqpCKjLK/zKtiuKKbM0YVnOobyUFCi1R8HXw/ayVGi/RAyMkUzN25WQGJ
+ DPcRIs4HL1/snikm/N+BOs11+Bx1Cf8ubYqAlW28DltmlK+72KjyZZpWzDTC+lnOxu/Z
+ nPhQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVnAcwSZCHlip+JUiYpQjGLewXzDwQ1mwh9NfBWTdxudoDNWmNHE9KgB0AFUCnx214NX0z+gw8cJyg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTKdH6QuwpeEid9Pcv3X8zJ1Bk9n+oyUUEy8Tygr0v/A2x54Ji
+ jgtnAJcKAxRzXwLxPgQApUtA40IcXpVVuNBVgYJ25ix8BkTCFRfNYHsGKhE2FmxJSdDl0lwC66E
+ aDnwUOtgXEiZmlKPBioYodtx9DJnQfH+8vno9vWGtogyInkwNdNM2aEZKVTNvbnJCyo5fY/Y=
+X-Gm-Gg: ASbGncvi1YI7cbgAm5M/l7OoJWLImWb2/uUD0xn5YfADzAM2KXEmeZGGpagMCT1FBFG
+ E4onpRmRqK7/vXYSjWbTN0dpDKnpmQO0csKR5omPxGy87Y1JI4X7YTb6VjCHI+NJR8gJC0EAWVZ
+ U490CaiGEmSl8/I1w78AENAuglTtb0CNO2CIFLZ4sc+6FYPNAQI+UK4LbjKKWZAkFYBtpjp6GUa
+ KsHKS12VaOXEmSRB3TPW1jQMl5f32wuPiw/UZ+ymAYghBSZMxVcVwZxaex17BHqKZXozYTXUfd+
+ y1rZ/KLF4S1oStCbR08bLTgM5cVz+X7VDgMaFaT3CVyaeKy8mlbWT80DA636OayK3vsIsHidJAL
+ YwUwrHaWubzwrByfuUPu9QGvSp3JrZTcgCj3NcNS3/J7rrLB5nyAS
+X-Received: by 2002:a05:6102:510e:b0:4e2:ecd8:a27 with SMTP id
+ ada2fe7eead31-503722a411emr930588137.4.1754483634347; 
+ Wed, 06 Aug 2025 05:33:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHNJX4tx8SpHG3lADuY3nNb7/BMPnvxP9KNmFPf+zkE8bPI7eisHRRpHKlq6+Dmvm+dlyGPlw==
+X-Received: by 2002:a05:6102:510e:b0:4e2:ecd8:a27 with SMTP id
+ ada2fe7eead31-503722a411emr930555137.4.1754483633745; 
+ Wed, 06 Aug 2025 05:33:53 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55b8898bde5sm2331438e87.3.2025.08.06.05.33.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Aug 2025 05:33:52 -0700 (PDT)
+Date: Wed, 6 Aug 2025 15:33:51 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: "nicusor.huhulea@siemens.com" <nicusor.huhulea@siemens.com>
+Cc: "imre.deak@intel.com" <imre.deak@intel.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "cip-dev@lists.cip-project.org" <cip-dev@lists.cip-project.org>,
+ "shradhagupta@linux.microsoft.com" <shradhagupta@linux.microsoft.com>,
+ "jouni.hogander@intel.com" <jouni.hogander@intel.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "laurentiu.palcu@oss.nxp.com" <laurentiu.palcu@oss.nxp.com>,
+ "cedric.hombourger@siemens.com" <cedric.hombourger@siemens.com>,
+ "shrikant.bobade@siemens.com" <shrikant.bobade@siemens.com>
+Subject: Re: [PATCH] drm/probe-helper: fix output polling not resuming after
+ HPD IRQ storm
+Message-ID: <n5qe3zmeekirddlt7hff2tgdyhe5bysaubwpndtmsqmkgyc4lq@2agvowbjuvuo>
+References: <20250804201359.112764-1-nicusor.huhulea@siemens.com>
+ <z4jxkrseavbeblgji4cnbyeohkjv4ar3mbbdvothao6abfu6nf@nqlhcegwtwzf>
+ <aJIhCyP2mwaaiS22@ideak-desk>
+ <DB3PR10MB69081B925B54BB906DAD0D20E62DA@DB3PR10MB6908.EURPRD10.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB9007:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9bff6ee5-1108-426b-2760-08ddd4e550bf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N2Vub2N3OXhYY3BSdHpuSTRUeGVPb1VtaExyNXd3UkVyMWcvMERaaXpwdS9H?=
- =?utf-8?B?TytabXg0OThGbCtQM2tCam5JMWx0NFZ1cmYrK05wUURTVXBIekZqZ3JRTExD?=
- =?utf-8?B?V1NXVnJYWmhKWE1ybXM2a0Y0SnRqZHQzYncvWVJFdS9WT3dVdTdFRDlGSGJw?=
- =?utf-8?B?VkNPWDUvM3ByRXJvcjA2NjUwQVJhNDJaazY1TUltUDBhUFo3S1V6ZWhXUFRm?=
- =?utf-8?B?OFhHb25FcUZLNU5IcDlWSkVJbEhMT0VxKzdSNERWYnB3N3ZiM0JMMzBhOVk3?=
- =?utf-8?B?M0s5d0lYSmVycTk0Z0Fwamh3bFNpbnFCZVlhd21GNisxZUZrMHQvNEpzRkgx?=
- =?utf-8?B?TDRNeFIwVjF0RUQ0a0FvZVE0eURxYUZNcTVrd1ZaMWVlVnRJaEg4dE9kbkMw?=
- =?utf-8?B?Wko4b1c2MzU2SDRzRmpEc05sTVhUdHBTRG14SGd2aXBJQ1VtNlAya1NOVzc2?=
- =?utf-8?B?ZXBYaytwUlNPZlAwV0Fwa3liZitKZXZhemJHWXl3a2FKa0xmNEp5RnlRK256?=
- =?utf-8?B?L1ZicjI1NWZmeTg1YWtseXN1dzRYQ2U3VnBOMXlZTDd0NW50VHZ3SUtkdExE?=
- =?utf-8?B?SkprampaM29tVExpYlI1eTgvVTArQmZqd0V1Q285Mk1FRnByTEk4SHcvaDcv?=
- =?utf-8?B?VWpGMzM1R2hhZU1oNVQ1TFk1NGQvekRGZzVwdFh4amZ4Wnp0ZWFDaElYREdm?=
- =?utf-8?B?Wk5oWThXdW5XaW42RHc5Y3V1UkR5UVdKc1lxWENMZkd3NkMwVDZwOEppKy9t?=
- =?utf-8?B?SVVkbG0wdTcxbEZOR2dYYnZrL3EzNE56N1BqU0FqNC9FMldPU3JiYzJXNjVx?=
- =?utf-8?B?NGlPbnJsbFNlNVJ6MmhIK1N6V3IrWUU5cFZuUkIzaW5TTDQxanNkS1lqVGFv?=
- =?utf-8?B?VDBxZHR1UmNkUDZZOEtYcjUzQ0t3VHJ6R1gyazJYcnZYeHNETTd4c1FDSVln?=
- =?utf-8?B?UkdyZEZVNjNyVDVwUi9JN3hQYWxVdHRhci9ZN09PRDErdzNZVW05OVZnSFhL?=
- =?utf-8?B?cnprMFhCWHJLc0dXNkVSVUdaNGVjbm04MUx4YXo1L0RpbzVFaXpSdkpaVWh0?=
- =?utf-8?B?d3doMXFpbmlHdlBMa3FUVVp4akFEZXpWSzFOSUc5dFkrN3hnUjJqM0hmNmlJ?=
- =?utf-8?B?Z0Q4ME1RRWwxbnZ3WTJMTVBmaDNQbmw5NGlYM2NGQ3hRMnJaVTNwVDBJdWJP?=
- =?utf-8?B?S1lWYy9Ga3ZST3V2SktqVlZ4cDE1MkdWSVdSdElGbm5GTFhndzYweFgrR2Rk?=
- =?utf-8?B?RFZBYnRjTlp5c3dNTnpSejhGSFdFT0NqYjZZL2pBWCt1UE5UR01oVjZBempO?=
- =?utf-8?B?dEgrdXpuUDU2ZDQzdWgwQzArZmJ4RXQ0cW1iTjZwSXA3SVQ1eVBuZTRtM0RP?=
- =?utf-8?B?OGhWSnYzMmNwa3pBN3Fsbmx1QXR2U3ZsZTZQWWVUbzNaNHo5MWRHQ0tUbHRW?=
- =?utf-8?B?cnBid1hubnJmbVBjSkdDeS83bld2MnZDVmo3b3NGVmlxMmtoWnBUZjJ2WEZ5?=
- =?utf-8?B?Zk5kWnZXa3FYSmhyamlBcjhZMy9vaUh1MjJscjdJbXRnQjI0MGtkMWJlVGl6?=
- =?utf-8?B?TXRaTElENHQ3ZDR0ak9kakNEQm9OTnhCOGpsODBDQUFaUDdBeXpsNk42OGly?=
- =?utf-8?B?WDdnR1J4WjI5eUxaT1BGOG82RUxHS1BWWWQ2TUxDVDZ1cFdWUW44NWxWWXhW?=
- =?utf-8?B?V3VvNTR4YS84QXV0WGgvdVhiWHJmU0hoUHFYMGNWb0RmWDF2R1krdmtpZy8w?=
- =?utf-8?B?TEw1ZFU1Wi9MajJxTW4vbVhnbDk1aHlNS0o3QnFlbmc2dktCZFd5MzFYNHRC?=
- =?utf-8?B?R0VlS0VBOWRHcThORGYxQzBGMUhKOUdEcVNRTFRWMEVaT0dBYXZEOVdRdVNu?=
- =?utf-8?B?eTgxOUVrMnB2VVdTdDB3emdMdytObDRpL3lhWTl2bnNWaUR0eHVBN1dyd0Qw?=
- =?utf-8?Q?m+EdFYkw9no=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UCtxMWFDU1A4QUpEQUxpREJBanByMmh6a3BiUW5GUjd2NmI4RFlLTXJnTEtQ?=
- =?utf-8?B?aTNhTENpV291TFo4YmlXcjU2N1Z6NklVSkVmRXRZK2F1YXN5b3FlNVV4Mitl?=
- =?utf-8?B?MHBpWmJxNmZUdXlSNEFTZGFQOHp0MityaHVudDBRaDJwWWJ2aTdCeUxORERY?=
- =?utf-8?B?UWExZDcrakNGcHZVMGY4dFFJRGpCd3pFYktDWVcwR1FGckxNeW1lY1Q0enZj?=
- =?utf-8?B?TTdwMkRVS1RJRDBURDlpZ2tRRkxHaTQzTHUrd0pITkJ2Rko1d2RLZHlJVExP?=
- =?utf-8?B?Ly9ZM0UyS2ZMMjNjS0k3NVRleGtLNGFqYVBheTExYVRzaTg1VXJydlphUCtS?=
- =?utf-8?B?akE5c2JiMnorL3dTc0JGazBqeVJlMkd6V3JONU9YeTJqck1KMTFEbHRqamkr?=
- =?utf-8?B?Qm5DQVlFK2wyZUc0THp4ZlhSbUVSL0NIa2gxY1d3dkQzaEIzKzUvYnNsbDJY?=
- =?utf-8?B?YTcvMEM3NUplVjFGQzhhdHVNRitpZERmZTFPYXFQd3p1bUM1TG4rSTMzRlAy?=
- =?utf-8?B?cHU3NVhTbXVwelc5NzdqTjdXUzFuSnNFcU9MOS9aTkt0WHdVMFNockFvcFRz?=
- =?utf-8?B?L2ZWRGQzeTI3M2FpeG5BYkM0V0xnVTV2TTM5V0RnaEJrN2RXanJ5QzdpQjZW?=
- =?utf-8?B?M3R6bzFQRnVaNEJPMGhNUjJBOE1USnVzN3I5MmFvQnlDdTh5VEdWU1AyeTBQ?=
- =?utf-8?B?ZC8vcDNvQ1JTczdKSTVubTR0VkQwaWVZbk9JSUs1NjJpZTVFalYyMnF4V3Vr?=
- =?utf-8?B?Zkc5VDNqSjRZcjBtTWMzM2QzWmFuNVlqYy8ycjRjRkNqZkxOeWRXU1MrblFQ?=
- =?utf-8?B?ZjIrMlZSMmxFWXBZQ1ViMlpMTlZZZWxja3FQeUZNV094U3IxU3ZwenF0RUo2?=
- =?utf-8?B?eXlzaUs2U2E4bmRCVmg4Z2pBS1IxWVB0MytiRCtjSUlHVmJJL1pmTFJURlVp?=
- =?utf-8?B?c0xRbVhub2YyNTZva2YwTi9qUG91NFFLV2gyQ0lrclI4eXZEZldOWGc3dlpR?=
- =?utf-8?B?M1I0TjBuQ2ZPaWNJK0Q0UHlqYWFnWXZPR3dNMGYzTHFyc1BBRCtmR3RRM1dI?=
- =?utf-8?B?MldpZFRYZWNKOG1GdGtZRU5BN2RQRVArN1BSOTVIdkJVSUpWNVRjblhDSUR5?=
- =?utf-8?B?ZUZVVWYzVEoveDQ2bFYzcnVTYnMwR0VROWp1aWtIbHdHdkpmR3VSbUF5eVVS?=
- =?utf-8?B?ZlFiWjhmVWdvaDVva2lJSWJyRXMwK29NKzJZWndEMDRBZVpOMjZWaSt1UEh2?=
- =?utf-8?B?Yk9FT1hrZnI0TDJiT3F1RkZNWkNaQjJvcUYyUzZzYlJmMHFHUjZzczFua2hM?=
- =?utf-8?B?ckFYMG9WUmExczNhekJVNEpkQ3ErMkZvbTRzbHRaYVcxK2ZKKytUUkxrd3Vx?=
- =?utf-8?B?T1BsQ3NnM2o0djR4ejdXUjlqcWdlWVMydjZLeXpkaXdCM0hPZCtGbktTYWda?=
- =?utf-8?B?WmE2cGhUVHppZUpzUExQMlVKSXkwMFowZHdtZk1HelV5S3ovemswdmpVQlNs?=
- =?utf-8?B?MW42ZXZSbkNzUHNiNFlQaGRPbWJFYlFGNkpOMklXTTA2L3phTFR6U0JyUk0x?=
- =?utf-8?B?RXJjbHBTUFZoeVRCa0EvREI3YUhWaEJBK0RmV2lJRk5Ec1RKSHN1QkJXQ3Fp?=
- =?utf-8?B?UW9ZcjdKNHdTb01ua0NXQ1k4NkR1VVV6aDUvVTJRKzU2TDA3dW0yRmE0WDZO?=
- =?utf-8?B?WnZRUTVUUjFmbWZSdTFqQU4zWjFSa0pETnNZdjloZmxsejEzRTA3ZzhOeDln?=
- =?utf-8?B?QS9Rc2t3QjFTREJWZThMYW5XTWZDZ2RxZkhudlJrcEhrdThUaGFCbDVrdGRO?=
- =?utf-8?B?a2k1anl0T29TMFZKRk9FUUp0a1JIS2VSVmlRc1ExYzczSVNBdGUrNWRKU2wx?=
- =?utf-8?B?UElzeHdYZnQyUjViMUkwN1FYOTUzRVVIR0xUSVJxbjVNRDNseVJ1OFIxdVFO?=
- =?utf-8?B?ZU01dVFwa0dGOHBNRStPMUI2WUNVRDN4ZlZuRHM1Y3JVeDVpcDZqZEk3K1F4?=
- =?utf-8?B?OElRQ3hzWDNkaW5YSXRMSDRjeHlnMGcvZHBLN1N6Z3U2QlpQZ3Ivcm1vbU9O?=
- =?utf-8?B?WGtySUZiS3BDdmNFUTdyZzVPR2lxM0RsWGV3WEpFR3gvVzFQSEYxb01FWS9P?=
- =?utf-8?Q?9GPMOO24Pw+yoEuQ+x6F9VO+B?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bff6ee5-1108-426b-2760-08ddd4e550bf
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2025 12:32:32.8006 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Npmz9pqmh9Y+zb3wTsTXT064JZByNvIbAeep2b5m7LMbWZMd7te9DcMX5Visycl7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9007
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DB3PR10MB69081B925B54BB906DAD0D20E62DA@DB3PR10MB6908.EURPRD10.PROD.OUTLOOK.COM>
+X-Proofpoint-ORIG-GUID: bNFSpQcBVmgH2cC_Zh2xShzplsuWbzLi
+X-Authority-Analysis: v=2.4 cv=MrlS63ae c=1 sm=1 tr=0 ts=68934bb3 cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=a_U1oVfrAAAA:8 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=0Kn4FdKhAAAA:8 a=yMhMjlubAAAA:8
+ a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8 a=8AirrxEcAAAA:8 a=oW7bPyNFJPXsfEDiif8A:9
+ a=CjuIK1q_8ugA:10 a=o1xkdb1NAhiiM49bd1HK:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=iYA3lCpbqa-fO8tTHbho:22 a=cvBusfyB2V15izCimMoJ:22 a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX1v55iuSgak56
+ 3h7CEhyYUNjgsUa8p6owFGmaqDv7nHZ7wpymci9CdlrmxuUD+br70+UGnf7aDhyysRrr+QNzwTm
+ BJKFJOVbVndb96TFoSsTLX6MU6IDMJzDApNzpSZg7AAWc4Q5s7GQ8CT71mlROGys1MDkYGe/BR9
+ TjSnI8uRrNg1TNnWHVJ2ZExrLdYQtdM/lLO8/YlAUXiLBCCxnkhuKuJ/eOCSwatDg9DWgkpAanx
+ 5kkwEmRXmSRwi6DQcI8v7QqSx6PLQ4YjAJkSEMS1NVT04tOJeSBRxUqsY+bcSxhJ9lq8BGf1kFr
+ CGXNiQ4LQbrXy9/ICL0Yiwed7lEs1ThWD+0lwWTnssv2Gg1QYEpeCWwWkcLySuacn92qTgggnC4
+ OQNOJHny
+X-Proofpoint-GUID: bNFSpQcBVmgH2cC_Zh2xShzplsuWbzLi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-06_03,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 adultscore=0 priorityscore=1501 phishscore=0
+ spamscore=0 bulkscore=0 clxscore=1015 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,43 +145,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.08.25 05:34, Cryolitia PukNgae via B4 Relay wrote:
-> From: Cryolitia PukNgae <cryolitia@uniontech.com>
+On Wed, Aug 06, 2025 at 12:02:02PM +0000, nicusor.huhulea@siemens.com wrote:
 > 
-> Comments should not have a leading plus sign.
+> 
+> >>-----Original Message-----
+> >>From: Imre Deak <imre.deak@intel.com>
+> >>Sent: Tuesday, August 5, 2025 6:20 PM
+> >>To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> >>Cc: Huhulea, Nicusor Liviu (FT FDS CES LX PBU 1)
+> >><nicusor.huhulea@siemens.com>; stable@vger.kernel.org; dri-
+> >>devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; cip-dev@lists.cip-
+> >>project.org; shradhagupta@linux.microsoft.com; jouni.hogander@intel.com;
+> >>neil.armstrong@linaro.org; jani.nikula@linux.intel.com;
+> >>maarten.lankhorst@linux.intel.com; mripard@kernel.org; tzimmermann@suse.de;
+> >>airlied@gmail.com; daniel@ffwll.ch; joonas.lahtinen@linux.intel.com;
+> >>rodrigo.vivi@intel.com; laurentiu.palcu@oss.nxp.com; Hombourger, Cedric (FT
+> >>FDS CES LX) <cedric.hombourger@siemens.com>; Bobade, Shrikant Krishnarao
+> >>(FT FDS CES LX PBU 1) <shrikant.bobade@siemens.com>
+> >>Subject: Re: [PATCH] drm/probe-helper: fix output polling not resuming after HPD
+> >>IRQ storm
+> >>
+> >>On Tue, Aug 05, 2025 at 01:46:51PM +0300, Dmitry Baryshkov wrote:
+> >>> On Mon, Aug 04, 2025 at 11:13:59PM +0300, Nicusor Huhulea wrote:
+> >>> > A regression in output polling was introduced by commit
+> >>> > 4ad8d57d902fbc7c82507cfc1b031f3a07c3de6e
+> >>> > ("drm: Check output polling initialized before disabling") in the 6.1.y stable
+> >>tree.
+> >>> > As a result, when the i915 driver detects an HPD IRQ storm and
+> >>> > attempts to switch from IRQ-based hotplug detection to polling, output polling
+> >>fails to resume.
+> >>> >
+> >>> > The root cause is the use of dev->mode_config.poll_running. Once
+> >>> > poll_running is set (during the first connector detection) the calls
+> >>> > to drm_kms_helper_poll_enable(), such as
+> >>> > intel_hpd_irq_storm_switch_to_polling() fails to schedule output_poll_work as
+> >>expected.
+> >>> > Therefore, after an IRQ storm disables HPD IRQs, polling does not start,
+> >>breaking hotplug detection.
+> >>>
+> >>> Why doesn't disable path use drm_kms_helper_poll_disable() ?
+> >>
+> >>In general i915 doesn't disable polling as a whole after an IRQ storm and a 2
+> >>minute delay (or runtime resuming), since on some other connectors the polling
+> >>may be still required.
+> >>
+> >>Also, in the 6.1.y stable tree drm_kms_helper_poll_disable() is:
+> >>
+> >>        if (drm_WARN_ON(dev, !dev->mode_config.poll_enabled))
+> >>                return;
+> >>
+> >>        cancel_delayed_work_sync(&dev->mode_config.output_poll_work);
+> >>
+> >>so calling that wouldn't really fix the problem, which is clearly just an incorrect
+> >>backport of the upstream commit 5abffb66d12bcac8 ("drm:
+> >>Check output polling initialized before disabling") to the v6.1.y stable tree by
+> >>commit 4ad8d57d902f ("drm: Check output polling initialized before disabling") in
+> >>v6.1.y.
+> >>
+> >>The upstream commit did not add the check for
+> >>dev->mode_config.poll_running in drm_kms_helper_poll_enable(), the
+> >>condition was only part of the diff context in the commit. Hence adding the
+> >>condition in the 4ad8d57d902f backport commit was incorrect.
+> >>
+> >>> > The fix is to remove the dev->mode_config.poll_running in the check
+> >>> > condition, ensuring polling is always scheduled as requested.
+> I'm not a full-time kernel developer, but I spent some time trying to really understand both the rationale and the effects of commit "Check output polling initialized before disabling."
+> Here's how I see the issue:
+> That commit was introduced mainly as a defensive measure, to protect
+> drivers such as hyperv-drm that do not initialize connector polling.
+> In those drivers, calling drm_kms_helper_poll_disable() without proper
+> polling setup could trigger warnings or even stack traces, since there
+> are no outputs to poll and the polling helpers don't apply.  From what
+> I understand, the poll_running variable was added to prevent cases
+> where polling was accidentally disabled for drivers that were never
+> set up for it. However, this fix ended up creating a new class of
+> breakage, which I have observed and describe here.
 
-Good catch, potentially a left over from a merge conflict or similar.
+
+It was added to implement the very simple logic: If something isn't
+initialized, enabling or disabling it is an error. If something isn't
+enabled, disabling it is an error. If something isn't disabled, enabling
+it is an error.
 
 > 
-> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
-
-Acked-by: Christian König <christian.koenig@amd.com>
-
-> ---
->  drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> To me, the core logic should be simple: if polling is needed, then we should allow it to proceed (regardless of whether it's been scheduled previously).
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c b/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
-> index d5002ff931d841994ca2c70cdf5b989f5b3c59d6..860bc5cb03c81b5346743b5fb46a7dcbe5a201a4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/nbio_v7_4.c
-> @@ -151,9 +151,9 @@ static void nbio_v7_4_sdma_doorbell_range(struct amdgpu_device *adev, int instan
->  		 *   BIF_SDMA0_DOORBELL_RANGE:  0x3bc0
->  		 *   BIF_SDMA1_DOORBELL_RANGE:  0x3bc4
->  		 *   BIF_SDMA2_DOORBELL_RANGE:  0x3bd8
-> -+		 *   BIF_SDMA4_DOORBELL_RANGE:
-> -+		 *     ARCTURUS:  0x3be0
-> -+		 *     ALDEBARAN: 0x3be4
-> +		 *   BIF_SDMA4_DOORBELL_RANGE:
-> +		 *     ARCTURUS:  0x3be0
-> +		 *     ALDEBARAN: 0x3be4
->  		 */
->  		if (adev->asic_type == CHIP_ALDEBARAN && instance == 4)
->  			reg = instance + 0x4 + 0x1 +
+> Looking at the  drm_kms_helper_poll_disable()
+> if (drm_WARN_ON(dev, !dev->mode_config.poll_enabled))
+>     return;
 > 
-> ---
-> base-commit: 6bcdbd62bd56e6d7383f9e06d9d148935b3c9b73
-> change-id: 20250806-amdgpu_typo-80869b122c36
+> If the driver never enabled polling (that is, drm_kms_helper_poll_enable() was never called), then the disable operation is effectively a no-op-totally safe for drivers like hyperv-drm.
 > 
-> Best regards,
+> And in the enable function drm_kms_helper_poll_enable(..):
+>         if (drm_WARN_ON_ONCE(dev, !dev->mode_config.poll_enabled) ||
+> -           !drm_kms_helper_poll || dev->mode_config.poll_running)
+> +           !drm_kms_helper_poll)
+>                 return;
 
+Why?
+
+> The main thing being guarded here is whether polling has actually been initialized:
+> 1.For polling drivers like i915, removing poll_running from the enable path is both safe and necessary: it fixes the regression with HPD polling after IRQ storms
+
+I believe in paired calls. If you want to use
+drm_kms_helper_poll_enable(), it should be previously
+drm_kms_helper_poll_disable()d. If you have manually disabled the IRQ,
+it should also be manually enabled.
+
+Pairing the calls makes life much much easier.
+
+> 2.For non-polling drivers like hyperv-drm, the existing checks on poll_enabled in both enable and disable functions are sufficient. Removing poll_running doesn't affect these drivers-they don't go through the polling code paths, so no polling gets scheduled or canceled by mistake
+> 
+> Therefore based on my understanding and testing removing poll_running guard not only fixes a real bug but also does not introduce new regressions for drivers that don't use output polling.
+
+-- 
+With best wishes
+Dmitry
