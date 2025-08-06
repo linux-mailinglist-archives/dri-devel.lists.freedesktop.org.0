@@ -2,73 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A276B1BED4
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 04:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F40BCB1BEDE
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 04:44:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC53B10E28A;
-	Wed,  6 Aug 2025 02:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 319B210E2D0;
+	Wed,  6 Aug 2025 02:44:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="V0X3I6rX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QzwzZzDA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B84210E28A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 02:40:07 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-6154d14d6f6so8345707a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 19:40:07 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9286410E2D0
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 02:44:09 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-af939afe5efso632184566b.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 19:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754448005; x=1755052805; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4tl6AWO4NGvDLUg53CSdZNaGpmRhmHGKVlO75uYRRw4=;
- b=V0X3I6rX3FIvU0+NKXY5ss0eRGdy1vcC1DihfmL0UWe7bUBfDHuTB0AVu9ndKJNIbq
- C/drId1/lT71uhhPw8lSWtOXOBwXh/JbYnjXno0VEN0v5CvDONUBZRTgcLjx6n3r9mER
- jC6E56ubC/C8oCmAyh1XMx/S7Rmu4BzL6mzpGqL02uUGnxYRbiG0nOw2I05SBFXIe3XP
- et4b7PpPXJ+5XxQSXjVPAOkyQni1IwjPjwQTVHEv6EXv0XPHU7fRWDdi/3Jh4XB82btw
- IYjnXEeEUixme0i81Y412Me+iaEfJzIXOQiZPPK53Dv6NUR4dyhULdWf6+947dbdp/Tz
- 349w==
+ d=gmail.com; s=20230601; t=1754448248; x=1755053048; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Yl+QGO/FoekIvls1YM3Wb/aWR3GhVD7gGl3r1b1iECk=;
+ b=QzwzZzDAKqQ9Y0kCBcwTXZuBvF72AhByDroztgQGnsrkHPngzm19F/BydWHdVrgbr6
+ +D5fy/5vFZ+uzsxqidm9zcwzt4qCzm3Y7UojGNz2OobiKYcrpn0NsixxRPlFcH17Xdxt
+ VR3SDI8ipC96drpx13gOn+MJvNMITMM8SCEBORE9LVb4nQG4upEJszzzDHnzNyb1srcY
+ 9b7C6mKdI5nh0/17O0ukr80xvcqFAAxuhyTXHodZB5CacyXdGrQq4uuJx5m3SIvo3rz5
+ CIJTGUJXtbIe4n7GJmTrXZyqWDPjMnIDgpo1hQXUZuF1Rcy7T3/azO7fXsJ7Yn6IMuok
+ fK6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754448005; x=1755052805;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4tl6AWO4NGvDLUg53CSdZNaGpmRhmHGKVlO75uYRRw4=;
- b=U3RW274Tq0LjeZTLFc0BxR9Drhx+JTKcFboAM7Av1FDKaCx8pSjzIl5xLNVHN9weWm
- xiRfp0FXW8wTBSi5+g1ENAIdqoOw+bcxHm5T5GzGGWPOT6XTlfYpfgGn5LSKs8eyVszs
- BbpFkUZKOyg2U+3DK75t+/ot46o1x04VLvPYIS4RLiEd8Vibo5ngKBVkJ+zngl0FtqvC
- Z0CA6eUBqjHnzd+j56DuOoeFwyWx0cd/g+vgGBeKilTZs0UJSSZmneLSz5Gftmvp2/gY
- vmQl5AeDN2UgYpNV235+prlZsQT7cizE00l6Gsh65u8opjHQoUPGYvSUcwTKE8yCVPYV
- SRCQ==
-X-Gm-Message-State: AOJu0YwORsstVtY7gi2Sj/mbnA9dJnt6Yhk7BRS+Z0J5a/cP5HXsgXSd
- 5lKaHJYVXvCDBVASWeBB1z6YUyFA9aFk403k7q+N/+6lReAMBm90we8dl/zEJ+rZx/HDVfnvLs5
- wRotuVyd4eBdfwKDPEj1ZT+6/OSOdRIc=
-X-Gm-Gg: ASbGnctT/sdBJSR1CpyZGu4nFrKVDDKi8HYWRfLVSAq32DVyKqrziJQNjdj0joILVfr
- RG+ylJgHtu3UyH/41SX2995LaPLJylXhKWdh/5wWHVkYFLoqJMzZeez/bjIe9C76AtsWQS+Ib90
- n73c6wAJC+h2OQQzcXvrkLUY904nGfjbb9Jq9ch1+6ifxW0I7pru0XEKo0ErtyVnN15TTZpYSSW
- 78RJA==
-X-Google-Smtp-Source: AGHT+IHUzPbhB+FsQo4ANKDBYpp5HH5S5LbgXu/87fhfM0uHKzU9yHSpGAIZ6vcgqmgxjPqDBMDO8JnPWJHBL15tH/A=
-X-Received: by 2002:a17:906:4795:b0:ae3:a812:a780 with SMTP id
- a640c23a62f3a-af9904f1929mr97244466b.61.1754448005387; Tue, 05 Aug 2025
- 19:40:05 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1754448248; x=1755053048;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Yl+QGO/FoekIvls1YM3Wb/aWR3GhVD7gGl3r1b1iECk=;
+ b=PmXKDLq8/oBgbkvN8OBnYc319ShSG+/3Tz1vpc6B0oSNaTdhrvifu1z2nEcVk0Ug5k
+ BigKg6kPFMwA/Zfxf6Xx1ylNMK3sevrHS09YMgDCrLn4L8yZGClH8qVuyfwkivFDJDTt
+ lXtYXbysyo8uFjlHHjDvHcbVHZ2qIhl90pFOVCaEKmT3GBVPBnMk4RwbsPhkjptUCHb7
+ /LoarPBqAqseWSo0d2CiPIX5ni2AQdvE0iAGnADsKjoEwqSv4VzOKkAEOTS5CA2PAqQR
+ CN24zauhqrGWg+NmXDwz8C13gZ1p6+7VXBWTMZe2o/aiWnElEabUh+GmjKFSusl2USNN
+ 8R1w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUUoZBc0PBgceKdNGUe+hW/Yzv+Lw+wjbqhdJbfST9jCxwGPC5mUa9vBf5KmJy8S/sWX9BpE+1zUb4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxhh1/WMvNEZbobt5sy0uP/QsN2h6hq4dUIh5e+vQxhRICewKiI
+ L+sFq8XQ5WyXoG80Md1h7gXF7KjMvXT4g8ayfMXOo3WJyFSlQgOboeoByosKaHYSOWArWVGV34+
+ EsJ2WQTMtVrUDHhhWgwG/sPaUT06k1x8hCA==
+X-Gm-Gg: ASbGncs2X965kUfHJxwHFSAv4uSPC1zqjf+nlztKWh4scfDAnFp89BZsuxhfnLhtUTC
+ X5ea8qz7EYVlLRqD7L6bQHdl+3rrpZOo4LkEpPDjUsC63kFzrDowOedrA4FXEP5MhppzNc2zckH
+ 4FHt4bdSCwcRzi0ps+0IYw0MiZXuniHdQ8aVKJY1pfaatFGX7HjdgZIEE5A7xkiaTcO3UIr+mEI
+ pJdxQ==
+X-Google-Smtp-Source: AGHT+IF6gdunMuxxeD8XNnNrX3S700rIKtscM3tEiLfMAUDVgc9a/tKH7mRQBLP0x++zaPZbw+qA2m9BHuLZYyUg2SQ=
+X-Received: by 2002:a17:907:972a:b0:ae6:d94f:4326 with SMTP id
+ a640c23a62f3a-af992c8337amr68053666b.57.1754448246990; Tue, 05 Aug 2025
+ 19:44:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250714052243.1149732-1-airlied@gmail.com>
- <4a45548a-ad37-4778-b6de-1cda7ce258dc@linux.intel.com>
-In-Reply-To: <4a45548a-ad37-4778-b6de-1cda7ce258dc@linux.intel.com>
+ <20250714052243.1149732-14-airlied@gmail.com>
+ <77949b3a-201d-4e7d-a51f-e77274e4a4be@amd.com>
+ <CAMwc25qP-42wMX4UYhZWiYfvf_1dBVNL9TU9i_Wq7uZPqjQL5Q@mail.gmail.com>
+ <CAMwc25pyqhcq-8ubGZT5UX5AYroewBYP6oFN-JmjzEkHgFLTrg@mail.gmail.com>
+ <903cbf42-2fde-4e38-89e4-2d7287b845bf@amd.com>
+In-Reply-To: <903cbf42-2fde-4e38-89e4-2d7287b845bf@amd.com>
 From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 6 Aug 2025 12:39:51 +1000
-X-Gm-Features: Ac12FXwIIk5wOVAGQikb4QIyJi-Rq9qSLmr6bSZoudOrhD8r0vAFxIPLW0ONur0
-Message-ID: <CAPM=9twKRN=GXNhyUZEd4b7StCN8WuhG_h6BCZX+ONgSW268=g@mail.gmail.com>
-Subject: Re: drm/ttm/memcg/lru: enable memcg tracking for ttm and amdgpu
- driver (complete series v2)
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org, 
- Johannes Weiner <hannes@cmpxchg.org>,
- Christian Koenig <christian.koenig@amd.com>, 
- Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>
+Date: Wed, 6 Aug 2025 12:43:55 +1000
+X-Gm-Features: Ac12FXyxt1T3fE4KRr9aHM4t1lx2fuu-xcZzTkB4ybZNfSc56ewnbwyqjXQ1XGo
+Message-ID: <CAPM=9twR1S+O9G6gQMJkssTh22KRQ-rb4WsJPnXiXz+y_9oi6w@mail.gmail.com>
+Subject: Re: [PATCH 13/18] ttm/pool: enable memcg tracking and shrinker. (v2)
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: David Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, 
+ Johannes Weiner <hannes@cmpxchg.org>, Dave Chinner <david@fromorbit.com>, 
+ Kairui Song <kasong@tencent.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,196 +91,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 5 Aug 2025 at 20:58, Maarten Lankhorst
-<maarten.lankhorst@linux.intel.com> wrote:
+On Mon, 4 Aug 2025 at 19:22, Christian K=C3=B6nig <christian.koenig@amd.com=
+> wrote:
 >
-> Hey,
+> Sorry for the delayed response, just back from vacation.
 >
-> Den 2025-07-14 kl. 07:18, skrev Dave Airlie:
-> > Hi all,
-> >
-> > This is a repost with some fixes and cleanups.
-> >
-> > Differences since last posting:
-> > 1. Added patch 18: add a module option to allow pooled pages to not be stored in the lru per-memcg
-> >    (Requested by Christian Konig)
-> > 2. Converged the naming and stats between vmstat and memcg (Suggested by Shakeel Butt)
-> > 3. Cleaned up the charge/uncharge code and some other bits.
+> On 22.07.25 01:16, David Airlie wrote:
+> >>>> @@ -162,7 +164,10 @@ static struct page *ttm_pool_alloc_page(struct =
+ttm_pool *pool, gfp_t gfp_flags,
+> >>>>               p =3D alloc_pages_node(pool->nid, gfp_flags, order);
+> >>>>               if (p) {
+> >>>>                       p->private =3D order;
+> >>>> -                     mod_node_page_state(NODE_DATA(page_to_nid(p)),=
+ NR_GPU_ACTIVE, (1 << order));
+> >>>> +                     if (!mem_cgroup_charge_gpu_page(objcg, p, orde=
+r, gfp_flags, false)) {
+> >>>
+> >>> Thinking more about it that is way to late. At this point we can't fa=
+il the allocation any more.
+> >>>
+> >>
+> >> I've tested it at least works, but there is a bit of a problem with
+> >> it, because if we fail a 10 order allocation, it tries to fallback
+> >> down the order hierarchy, when there is no point since it can't
+> >> account the maximum size.
+> >>
+> >>> Otherwise we either completely break suspend or don't account system =
+allocations to the correctly any more after resume.
+> >>
+> >> When you say suspend here, do you mean for VRAM allocations, normal
+> >> system RAM allocations which are accounted here shouldn't have any
+> >> effect on suspend/resume since they stay where they are. Currently it
+> >> also doesn't try account for evictions at all.
+>
+> Good point, I was not considering moves during suspend as evictions. But =
+from the code flow that should indeed work for now.
+>
+> What I meant is that after resume BOs are usually not moved back into VRA=
+M immediately. Filling VRAM is rate limited to allow quick response of desk=
+top applications after resume.
+>
+> So at least temporary we hopelessly overcommit system memory after resume=
+. But that problem potentially goes into the same bucked as general evictio=
+n.
+>
+> > I've just traced the global swapin/out paths as well and those seem
+> > fine for memcg at this point, since they are called only after
+> > populate/unpopulate. Now I haven't addressed the new xe swap paths,
+> > because I don't have a test path, since amdgpu doesn't support those,
+> > I was thinking I'd leave it on the list for when amdgpu goes to that
+> > path, or I can spend some time on xe.
+>
+> I would really prefer that before we commit this that we have patches for=
+ both amdgpu and XE which at least demonstrate the functionality.
+>
+> We are essentially defining uAPI here and when that goes wrong we can't c=
+hange it any more as soon as people start depending on it.
+
+ Maarten has supplied xe enablement patches, I'll go spend some time
+looking into this on there as well.
+
+>
 > >
 > > Dave.
 > >
-> > Original cover letter:
-> > tl;dr: start using list_lru/numa/memcg in GPU driver core and amdgpu driver for now.
-> >
-> > This is a complete series of patches, some of which have been sent before and reviewed,
-> > but I want to get the complete picture for others, and try to figure out how best to land this.
-> >
-> > There are 3 pieces to this:
-> > 01->02: add support for global gpu stat counters (previously posted, patch 2 is newer)
-> > 03->07: port ttm pools to list_lru for numa awareness
-> > 08->14: add memcg stats + gpu apis, then port ttm pools to memcg aware list_lru and shrinker
-> > 15->17: enable amdgpu to use new functionality.
-> >
-> > The biggest difference in the memcg code from previously is I discovered what
-> > obj cgroups were designed for and I'm reusing the page/objcg intergration that
-> > already exists, to avoid reinventing that wheel right now.
-> >
-> > There are some igt-gpu-tools tests I've written at:
-> > https://gitlab.freedesktop.org/airlied/igt-gpu-tools/-/tree/amdgpu-cgroups?ref_type=heads
-> >
-> > One problem is there are a lot of delayed action, that probably means the testing
-> > needs a bit more robustness, but the tests validate all the basic paths.
-> >
-> > Regards,
-> > Dave.
-> >
-> Patch below to enable on xe as well, I ran into some issues though when testing.
-> After shutting down gdm3/sddm, I ran into a null dereference in mem_cgroup_uncharge_gpu_page()
-> from ttm_pool_free_page(), presumably because of the objects that were created without a
-> cgroup set. I tried to fix it in mem_cgroup_uncharge_gpu_page() by conditionally calling
-> refill_stock(), but that ran into an underflow instead.
+> >>>
+> >>> What we need is to reserve the memory on BO allocation and commit it =
+when the TT backend is populated.
+> >>
+> >> I'm not sure what reserve vs commit is here, mem cgroup is really just
+> >> reserve until you can reserve no more, it's just a single
+> >> charge/uncharge stage. If we try and charge and we are over the limit,
+> >> bad things will happen, either fail allocation or reclaim for the
+> >> cgroup.
+>
+> Yeah, exactly that is what I think is highly problematic.
+>
+> When the allocation of a buffer for an application fails in the display s=
+erver you basically open up the possibility for a deny of service.
+>
+> E.g. imaging that an application allocates a 4GiB BO while it's cgroup sa=
+ys it can only allocate 2GiB, that will work because the backing store is o=
+nly allocated delayed. Now send that BO to the display server and the comma=
+nd submission in the display server will fail with an -ENOMEM because we ex=
+ceed the cgroup of the application.
+>
+> As far as I can see we also need to limit how much an application can ove=
+rcommit by creating BOs without backing store.
+>
+> Alternatively disallow creating BOs without backing store, but that is an=
+ uAPI change and will break at least some use cases.
 
-there should be a check if memcg is not NULL before calling into
-refill, where are you seeing the underflow?
+This is interesting, because I think the same DOS could exist now if
+the system is low on memory, I could allocate a giant unbacked BO and
+pass it to the display server now, and when it goes to fill in the
+pages it could fail to allocate pages and get ENOMEM?
 
-Thanks for the patch, I've booted one of my meteorlake systems with
-this applied to forcing xe, and it seems to be working in my basic
-testing so far.
+Should we be considering buffer sharing should cause population?
 
 Dave.
-
->
-> Anyway, patch for xe below:
-> ----->8-----------
-> drm/xe: Enable memcg accounting for TT/system
->
-> Create a flag to enable memcg accounting for XE as well.
->
-> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
->
-> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> index 867087c2d1534..fd93374967c9e 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.c
-> +++ b/drivers/gpu/drm/xe/xe_bo.c
-> @@ -54,6 +54,7 @@ static const struct ttm_place sys_placement_flags = {
->         .flags = 0,
->  };
->
-> +/* TTM_PL_FLAG_MEMCG is not set, those placements are used for eviction */
->  static struct ttm_placement sys_placement = {
->         .num_placement = 1,
->         .placement = &sys_placement_flags,
-> @@ -188,6 +189,7 @@ static void try_add_system(struct xe_device *xe, struct xe_bo *bo,
->
->                 bo->placements[*c] = (struct ttm_place) {
->                         .mem_type = XE_PL_TT,
-> +                       .flags = TTM_PL_FLAG_MEMCG,
->                 };
->                 *c += 1;
->         }
-> @@ -1696,6 +1698,8 @@ static void xe_ttm_bo_destroy(struct ttm_buffer_object *ttm_bo)
->
->  static void xe_gem_object_free(struct drm_gem_object *obj)
->  {
-> +       struct xe_bo *bo = gem_to_xe_bo(obj);
-> +
->         /* Our BO reference counting scheme works as follows:
->          *
->          * The gem object kref is typically used throughout the driver,
-> @@ -1709,8 +1713,9 @@ static void xe_gem_object_free(struct drm_gem_object *obj)
->          * driver ttm callbacks is allowed to use the ttm_buffer_object
->          * refcount directly if needed.
->          */
-> -       __xe_bo_vunmap(gem_to_xe_bo(obj));
-> -       ttm_bo_put(container_of(obj, struct ttm_buffer_object, base));
-> +       __xe_bo_vunmap(bo);
-> +       obj_cgroup_put(bo->ttm.objcg);
-> +       ttm_bo_put(&bo->ttm);
->  }
->
->  static void xe_gem_object_close(struct drm_gem_object *obj,
-> @@ -1951,6 +1956,9 @@ struct xe_bo *___xe_bo_create_locked(struct xe_device *xe, struct xe_bo *bo,
->         placement = (type == ttm_bo_type_sg ||
->                      bo->flags & XE_BO_FLAG_DEFER_BACKING) ? &sys_placement :
->                 &bo->placement;
-> +
-> +       if (bo->flags & XE_BO_FLAG_ACCOUNTED)
-> +               bo->ttm.objcg = get_obj_cgroup_from_current();
->         err = ttm_bo_init_reserved(&xe->ttm, &bo->ttm, type,
->                                    placement, alignment,
->                                    &ctx, NULL, resv, xe_ttm_bo_destroy);
-> @@ -2726,7 +2734,7 @@ int xe_gem_create_ioctl(struct drm_device *dev, void *data,
->         if (XE_IOCTL_DBG(xe, args->size & ~PAGE_MASK))
->                 return -EINVAL;
->
-> -       bo_flags = 0;
-> +       bo_flags = XE_BO_FLAG_ACCOUNTED;
->         if (args->flags & DRM_XE_GEM_CREATE_FLAG_DEFER_BACKING)
->                 bo_flags |= XE_BO_FLAG_DEFER_BACKING;
->
-> diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
-> index 6134d82e80554..e44fc58d9a00f 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.h
-> +++ b/drivers/gpu/drm/xe/xe_bo.h
-> @@ -48,6 +48,7 @@
->  #define XE_BO_FLAG_GGTT2               BIT(22)
->  #define XE_BO_FLAG_GGTT3               BIT(23)
->  #define XE_BO_FLAG_CPU_ADDR_MIRROR     BIT(24)
-> +#define XE_BO_FLAG_ACCOUNTED           BIT(25)
->
->  /* this one is trigger internally only */
->  #define XE_BO_FLAG_INTERNAL_TEST       BIT(30)
-> diff --git a/drivers/gpu/drm/xe/xe_lrc.c b/drivers/gpu/drm/xe/xe_lrc.c
-> index 540f044bf4255..4db3227d65c04 100644
-> --- a/drivers/gpu/drm/xe/xe_lrc.c
-> +++ b/drivers/gpu/drm/xe/xe_lrc.c
-> @@ -1266,7 +1266,8 @@ static int xe_lrc_init(struct xe_lrc *lrc, struct xe_hw_engine *hwe,
->         bo_flags = XE_BO_FLAG_VRAM_IF_DGFX(tile) | XE_BO_FLAG_GGTT |
->                    XE_BO_FLAG_GGTT_INVALIDATE;
->         if (vm && vm->xef) /* userspace */
-> -               bo_flags |= XE_BO_FLAG_PINNED_LATE_RESTORE;
-> +               bo_flags |= XE_BO_FLAG_PINNED_LATE_RESTORE |
-> +                           XE_BO_FLAG_ACCOUNTED;
->
->         lrc->bo = xe_bo_create_pin_map(xe, tile, NULL, bo_size,
->                                        ttm_bo_type_kernel,
-> diff --git a/drivers/gpu/drm/xe/xe_oa.c b/drivers/gpu/drm/xe/xe_oa.c
-> index 5729e7d3e3356..569035630ffdf 100644
-> --- a/drivers/gpu/drm/xe/xe_oa.c
-> +++ b/drivers/gpu/drm/xe/xe_oa.c
-> @@ -885,7 +885,7 @@ static int xe_oa_alloc_oa_buffer(struct xe_oa_stream *stream, size_t size)
->
->         bo = xe_bo_create_pin_map(stream->oa->xe, stream->gt->tile, NULL,
->                                   size, ttm_bo_type_kernel,
-> -                                 XE_BO_FLAG_SYSTEM | XE_BO_FLAG_GGTT);
-> +                                 XE_BO_FLAG_SYSTEM | XE_BO_FLAG_GGTT | XE_BO_FLAG_ACCOUNTED);
->         if (IS_ERR(bo))
->                 return PTR_ERR(bo);
->
-> diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-> index 330cc0f54a3f4..efcd54ab75e92 100644
-> --- a/drivers/gpu/drm/xe/xe_pt.c
-> +++ b/drivers/gpu/drm/xe/xe_pt.c
-> @@ -120,7 +120,8 @@ struct xe_pt *xe_pt_create(struct xe_vm *vm, struct xe_tile *tile,
->                    XE_BO_FLAG_IGNORE_MIN_PAGE_SIZE |
->                    XE_BO_FLAG_NO_RESV_EVICT | XE_BO_FLAG_PAGETABLE;
->         if (vm->xef) /* userspace */
-> -               bo_flags |= XE_BO_FLAG_PINNED_LATE_RESTORE;
-> +               bo_flags |= XE_BO_FLAG_PINNED_LATE_RESTORE |
-> +                           XE_BO_FLAG_ACCOUNTED;
->
->         pt->level = level;
->         bo = xe_bo_create_pin_map(vm->xe, tile, vm, SZ_4K,
-> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-> index 10c8a1bcb86e8..fdf845bb717e0 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.c
-> +++ b/drivers/gpu/drm/xe/xe_svm.c
-> @@ -700,6 +700,7 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
->         bo = xe_bo_create_locked(vr->xe, NULL, NULL, end - start,
->                                  ttm_bo_type_device,
->                                  (IS_DGFX(xe) ? XE_BO_FLAG_VRAM(vr) : XE_BO_FLAG_SYSTEM) |
-> +                                XE_BO_FLAG_ACCOUNTED |
->                                  XE_BO_FLAG_CPU_ADDR_MIRROR);
->         if (IS_ERR(bo)) {
->                 err = PTR_ERR(bo);
->
