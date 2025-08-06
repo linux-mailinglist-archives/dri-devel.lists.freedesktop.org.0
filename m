@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409EBB1C002
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 07:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EFBB1C030
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 08:00:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 480AD10E3A9;
-	Wed,  6 Aug 2025 05:42:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB5B310E300;
+	Wed,  6 Aug 2025 06:00:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e53Jjs8s";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hon11zUq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
- [209.85.166.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1757510E3A9
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 05:42:37 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id
- ca18e2360f4ac-8811ab2b559so421197639f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 22:42:37 -0700 (PDT)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
+ [209.85.166.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F9C810E300
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 06:00:26 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id
+ ca18e2360f4ac-87c0166df31so282541139f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 23:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754458956; x=1755063756; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1754460025; x=1755064825; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QHauIS8VslQcBTCDTTdkK4LmnH1Wk0DYHNjYnbBqri4=;
- b=e53Jjs8sqhTdWQlahAdlfvJZN8CnzGM+zkOB1GlAs63sTLStju+xvm1ea4H79yQS42
- q2NI464/wt7PONCFrRHGBbJ4cw19e2RjBhWJYR6n5/YRKlSIe4x2X0AFbpt94PNEm4UF
- llNI3BxJ8NsOmyM5RQSWXifIdViM4COCVv0dSC0Rup++x2xukcKhu4HaczVJsq6bdOap
- KI5dRygsKi/SCvQpKtKvGvibPntwAduloG+locPWt5qz34g+PhuI6WvbuS8gBDec3Ci+
- uZtEGMfO0OZUjiSNhBo0oxa6zRrjMIm9EhOtqKy+/tiWRR3Qd0xGdIiX2WhpafpVZu39
- 89Ww==
+ bh=7LOjQGBKez5S1iGyBaU0i1tLauar5otkV86mmIjmqK0=;
+ b=hon11zUq3TeWm9aNjph0WqHG1kYQwIZch+q7VEVaYUhs000Tdq3JYb3SAhax/nXRGu
+ qk8BiA0JAcCxLcgyB8TU1pZ2NPBdMUjWxHRPOqs+lXQTgRDivQtqy14ZHB3rZCiIVR3R
+ i+BaxEe3MSZS/XOFwvR+gIPxBseQOpOcHgv2LZbyKmM5sq+vxWkyWgLo1LPwj6z3K8Fo
+ Lhyj1D4HB1m2s/L+Uza/7t54wSS5GtDVYRRsz29zvgITGAtPMLB1rsnEqvBqliO1WwVn
+ G0It8lQVqOzg+E1UsaIVCsdFq7Nfu5fMEGJCvtjRs5dZqmHdFVwUEgDo3HcqKOag878b
+ zeWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754458956; x=1755063756;
+ d=1e100.net; s=20230601; t=1754460025; x=1755064825;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QHauIS8VslQcBTCDTTdkK4LmnH1Wk0DYHNjYnbBqri4=;
- b=IrQOZ8NuSjI+xmIYuIhJAfj5gire5AtLmV/iqAlJZPYPVEAE7g9N2xlEHtFEQGSRUc
- 3oru+8kg5FQ7cDmtPAmVCldfGzdhBO0Wplgr82qpPU35fv9hXN5HiFNEhhka1RGHBDTX
- mvrD4PRQbKjOEz9B5Ryja8v46VbQYtvqYuf3LhoA3/5Xadf0mX/Vqu86mvzBGGObw2aC
- MH57R548u8iNCwkhZbdfV3asQZg9hh03AyTdX10b6P/HTXeWA14q/d8n6cVm5YbMrDdd
- tpncMuDywUmOCuyJw3xzBShKmibfMB/O+YLpwHEUKcdCeoLny1HbubxNTJQM8yuH4h3+
- iOLQ==
+ bh=7LOjQGBKez5S1iGyBaU0i1tLauar5otkV86mmIjmqK0=;
+ b=TAeDoj/MLpFCI0uns9wYr177xGq1rSGCYpv3l+7r0UD7O6WO55xX7KWoJtB2dbBclv
+ 0Iist/tuRjjSIrxY5fQQedG+z8/U0eb0w1d0pwL8IaNpueFET4e+Be9yaued3PwlfeN6
+ hIYgLA/IAsyy5fufW185YQ7ZB4D/nOUgsIuIIjkagq0JAN1LZK1xDoZU4AmwsbppDVvn
+ NEaWAlmMtbgFW/tFomTivJrt62OMqJZ16R1VWMWiOC7etKxGpREXqqMraCffeviiOo55
+ b3CkLh0WvbuJ3Y+tU/avAYXFgSmRbk1TtakwE/mBzaC3ksX3bBoXw/7JjrCt5Zqcf/F8
+ qXxg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXG+gihqeldGiK4ZTGIw1k9MIo3Hgmpx0YMXvJD3QJalvviGfVdMupJc3w2tuzYL/NFRrRmG0sIx5o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1uQj3foz1jJOFsZ0wafsG/t8HzdhohKWkf4UCOkkiszmWAsJj
- hL5QCZdj5qeugpQGFVG/XIY1gqq2UG3VljY3w7rTqxZpPL7RjmCUWcYBigJOyUrmRCxFyooVhto
- l5yHXYI79oxyhDZXQl6xb01/xUKsB0aM=
-X-Gm-Gg: ASbGncsk8nCKRQ8Te1HVvP5M9D9WT4m/hqSE2WItS13mwOJPlCdCygRcJ4BK6V9EYdt
- t8iS+waaQIJ9+oYruA7S+0CnQsaAz1CW+Va/EeJ5frg1XUbYgVhCL5YXEwk3agtd41nXNOOobUW
- Isg2TKbvSEBDAqmKixmg7JTPP/R0/2EySwZwFgq2KRUgDRC/epnMtVV52OIyR5GFK6/vNAVkRLd
- oJST+I=
-X-Google-Smtp-Source: AGHT+IECmzK2OYEDadcx1xb2ZQCI3OV3aypgzNJvM+m1QQlytd+LfV9SXOQitTe7El49SPBkrrzfxhGitycgVD/2o3g=
-X-Received: by 2002:a05:6602:3fd3:b0:881:9412:c917 with SMTP id
- ca18e2360f4ac-8819eda4411mr351161239f.0.1754458955859; Tue, 05 Aug 2025
- 22:42:35 -0700 (PDT)
+ AJvYcCW+ASbmznEnd4Zjp0HI31vHYp9EgmRKJb5TK2a9vRqM52julpWUkwkI4+My1d5CjYrU/tc22xKD5Qs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlFInwt+LTEeT3dNm4XxgiOPHY758CHrIcTX+sAb5UH+ttFcmJ
+ xBGDVZftkaQA5KfxyiWrLnqjz6BgOFDbmkqXXbOyCPFbxoo+nOONWt4wsdQ8ZKZF4wVntWVmrZv
+ 2DH3PL+eSffXHR4e/Xte7CYagvXSMU9M=
+X-Gm-Gg: ASbGncscp9Wvfhy0m2AabZMoUtif8cmeNtF/r7GNEZZOiWuiGAVcxd9/dmy9Z4ebz83
+ Od7a9/4ZUL2/isRKmq9iFv+YdFRvlJF+1Mznja425d30YxLnyBh4j3v+93SfvG7rm/Jjn8q+lXV
+ zYrIim1n4On2XUA2+AQk/14bYf3wDS73OP62x5V0zKWvz7GFGIucmZnretJk58U9fJ4whvrfOos
+ JGANa4=
+X-Google-Smtp-Source: AGHT+IGXTd343+VF/DxWVcdW2rLvvEJ8x/TFUG5Tpo/FEQ7fHX2BzAtVcAbQoY4hyy1ohYC0jFv/9H1yMpGG0tLM+1M=
+X-Received: by 2002:a05:6602:6c14:b0:87c:30d4:65f2 with SMTP id
+ ca18e2360f4ac-8819f2dc2f6mr259724639f.3.1754460025324; Tue, 05 Aug 2025
+ 23:00:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250804104722.601440-1-shengjiu.wang@nxp.com>
  <20250804104722.601440-6-shengjiu.wang@nxp.com>
  <fa455148-a071-4433-8c9c-26add3872604@nxp.com>
 In-Reply-To: <fa455148-a071-4433-8c9c-26add3872604@nxp.com>
 From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 6 Aug 2025 13:42:16 +0800
-X-Gm-Features: Ac12FXzE8ELOd9wvaEtNxu_4hqBHJ1GNH1m_A1__IZXWyAfic17tlm42XJMvvFE
-Message-ID: <CAA+D8AN4n0H6M_0EqX4z_37ViSCyThKbmtMgqPmipintJ8Wtwg@mail.gmail.com>
+Date: Wed, 6 Aug 2025 14:00:05 +0800
+X-Gm-Features: Ac12FXw0nnoM3OTdXQVUBKMi5kWO9s__PdvorJUHLc_FVvpTTZTj4ms-phKQiNs
+Message-ID: <CAA+D8AN9Ay8jnSS=h3G_Kepc_5WYQRAUrWmtu5N056GsnvGrTA@mail.gmail.com>
 Subject: Re: [PATCH v3 5/6] drm/bridge: imx: add driver for HDMI TX Parallel
  Audio Interface
 To: Liu Ying <victor.liu@nxp.com>
@@ -152,6 +152,10 @@ nd
 >
 > select REGMAP
 > select REGMAP_MMIO
+
+
+will add them.
+
 >
 > > +     help
 > > +       Choose this to enable support for the internal HDMI TX Parallel
@@ -192,6 +196,8 @@ ge/imx/Makefile
 > > +#include <linux/platform_device.h>
 >
 > #include <linux/regmap.h>
+
+ok,
 >
 > > +#include <drm/bridge/dw_hdmi.h>
 > > +#include <sound/asoundef.h>
@@ -206,6 +212,9 @@ ge/imx/Makefile
 >
 > Add NUM_CH(n) and use it when programming HTX_PAI_CTRL_EXT.
 > #define NUM_CH(n)                       FIELD_PREP(NUM_CH_MASK, (n - 1))
+
+Ok, will add it.
+
 >
 > > +#define   WTMK_HIGH(n)                       FIELD_PREP(WTMK_HIGH_MASK=
 , (n))
@@ -218,6 +227,9 @@ ge/imx/Makefile
 > > +#define   END_SEL                    BIT(29)
 >
 > The above 3 bits are unused.  Drop.
+
+Ok.
+
 >
 > > +#define   PRE_SEL                    GENMASK(28, 24)
 > > +#define   D_SEL                              GENMASK(23, 20)
@@ -232,6 +244,9 @@ ge/imx/Makefile
 > > +#define HTX_PAI_IRQ_MASK             0x18
 >
 > The above 4 registers are not pratically used.  Drop.
+
+They are used by regmap to make a full definition.
+
 >
 > > +
 > > +struct imx8mp_hdmi_pai {
@@ -251,6 +266,8 @@ ata->priv_audio;
 >
 > I don't think you need to convert type explicitly.  Same for the other
 > explicit conversions in this driver.
+
+ok, can be removed.
 >
 > > +     int val;
 > > +
@@ -283,6 +300,18 @@ _MASK));
 > > +             val =3D FIELD_PREP(D_SEL, width - 24);
 >
 > Why 'width - 24'?  Can it be expressed by a helper or macro?
+
+                /*
+                 * The allowed width are 24bit and 32bit, as they are
+supported by
+                 * aud2htx module.
+                 * for 24bit, D_SEL =3D 0, select all the bits.
+                 * for 32bit, D_SEL =3D 8, select the MSB.
+                 */
+will add such comments.
+
+best regards
+Shengjiu wang
 >
 > > +     }
 > > +
@@ -330,18 +359,6 @@ master, void *data)
 > > +     plat_data->priv_audio =3D NULL;
 >
 > Do you really need to set these ptrs to NULL?
-
-yes.  below code in dw-hdmi.c use the pdata->enable_audio as condition.
-
-        if (pdata->enable_audio)
-                pdata->enable_audio(hdmi,
-                                    hdmi->channels,
-                                    hdmi->sample_width,
-                                    hdmi->sample_rate,
-                                    hdmi->sample_non_pcm,
-                                    hdmi->sample_iec958);
-
-
 >
 > > +}
 > > +
@@ -426,11 +443,6 @@ tx
 all
 > the other stuff to bind() callback to avoid unnecessary things being done=
  here.
-
-component helper functions don't have such dependency that the aggregate
-driver or component driver must be probed or not.  if imx8mp-hdmi-tx is not
-enabled, there is no problem, just the bind() callback is not called.
-
 >
 > > +}
 > > +
@@ -498,10 +510,6 @@ _ops =3D {
 > As component_bind_all() would bind imx8mp-hdmi-pai and hence set
 > {enable,disable}_audio callbacks, you need to call dw_hdmi_probe() after
 > component_bind_all() instead of too early in probe() callback.
-
-There is no such dependency.
-Maybe you mixed the hdmi->enable_audio() with pdata->enable_audio().
-
 >
 > > +
 > > +     return 0;
@@ -548,9 +556,6 @@ vice *pdev)
 > > +     if (remote && of_device_is_available(remote)) {
 >
 > Doesn't of_graph_get_remote_node() ensure that remote is avaiable?
-
-No.  'remote' is the node,  not the 'device'.
-
 >
 > > +             drm_of_component_match_add(dev, &match, component_compare=
 _of, remote);
@@ -571,17 +576,6 @@ play.
 > No, since PAI node is available here, it has to be bound.  Yet you still =
 need
 > to properly handle the case where PAI node is inavailable.
-
-This is for aggregate driver registration,  not for bind()
-
-The bind() is called after both drivers have been registered.  again there =
-is no
-dependency for both aggregate driver and component driver should be
-registered or probed.
-
-best regards
-shengjiu wang
-
 >
 > > +              */
 > > +     }
