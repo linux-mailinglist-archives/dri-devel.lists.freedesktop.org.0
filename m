@@ -2,76 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0840AB1C503
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 13:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583B9B1C53A
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 13:45:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC2F10E3D0;
-	Wed,  6 Aug 2025 11:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A34B010E279;
+	Wed,  6 Aug 2025 11:45:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LJLJLzE0";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="v3Xa0oCK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F319610E3D0
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 11:40:21 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-3b786421e36so3740635f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Aug 2025 04:40:21 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA5110E279
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 11:45:41 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-459e1338565so19129125e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Aug 2025 04:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1754480420; x=1755085220;
- darn=lists.freedesktop.org; 
+ d=linaro.org; s=google; t=1754480740; x=1755085540; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=XSGyJYGmgppKdW+VxJo4QN8FcNbtIB/YCjQ/boslr30=;
- b=LJLJLzE0+hiaeWoFB6GzVe/jaYxDB+jmEXU74B7IPuns2tvfGdlNncrWdLYjlF76VJ
- D/r9jEE+QxOr3y94ZzlH/cdpJ0KuV6Llb8yrYBkt0vGIPEcQyakIcn7MAH6fphO44UFE
- e0mcMYhS4cimk2UWfJUYJQ4Ccbdz5PmOEXBMl8UvispgdEzGpTpMBg3iFUJ10FueY1Eb
- W78r72shbeFfq7J//90swxxNZacyfY6HVTx1TZXtip3xn0EZxqjr4zkoTIj/NqvtoxXn
- C1/lbYdirOg3tDWGAcb7PebJXxQfPShq/r+lDY/3L7nzFLZzyMRQUSKPvtnpBQK4sILr
- gFQg==
+ bh=9DepA2B68/EdYA4QL8eVRTLevm19pdHVt7YsUtnKFMQ=;
+ b=v3Xa0oCKO7lP+NDBRwda/13MN5elFfsTCwH+Tvg5I22yTeigz8MiwoRV3ujLIKmfoY
+ r2QIdACR1wliMbeIcriNfezhLMOqj7Fxv9vUHE+SUtGEVIEELsUU+UHcF/xgJPHyIghT
+ yARAvBzagdUXLd3NEqC87V02f0rR5KtBxHVmD4q9R2zATfPjD0BG/1DMjLCDFxo40ALg
+ lOcPYV9/xAkIqzXhHAnM+2wU3vyXvPqVnMjNQeMs9eZF8g/Uu67NwxvnBU688Ej/4Wse
+ yrAvwOXxVL4OHnWLbd0E3MsLejFJC/E9zUNbX593Gs3ntfsqOfKlMewWpu5V3/VtV/jP
+ WENg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754480420; x=1755085220;
+ d=1e100.net; s=20230601; t=1754480740; x=1755085540;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XSGyJYGmgppKdW+VxJo4QN8FcNbtIB/YCjQ/boslr30=;
- b=B73xbb0HaK+kJP0sme7McmGOldjU7gB1rh1LnDdWdk+mAcZGqz1xn2umZhxVMIax0T
- WQj3IH2J9qC4vIIWR3wDRM8y+I7g3GY1JT8gDfu1tf732ZaqXw1KEg621+5oCFkj22E+
- 8EOvpxSfCzEYEMOAoaPKAbWgx8UhRBNOkeUoDjODSbKK9TFyV+UsXJF39FAULPBYfBAU
- AjXaKkK6+bxqzPzWiHf5H65uhZGS4g9X5uiYHfTC5/2UEvr69Luyg+v1rSxqVTsMDVnz
- FqAZ/fWjN6po1EPoKisbOTTdmu1/lRgeHxxW/at3UwmNCrQCq04Q2IDdjKQFjzaNmVcC
- 0/Gw==
-X-Gm-Message-State: AOJu0YwB7kjsnLNaimmRZEDJNy/PsDshsvsjResUvICMIFqumi9CyQB9
- zf3K8IBfX+1pALtGiuq+RrjBgYiRjTN1HUs5Xk5gL13y7fRTAohgXQjziX9yKrbJysk=
-X-Gm-Gg: ASbGncvaP6QRLf9CRbWMNmCpU6jh+3ZWjZNBdYYsN4HoZx/kEbKOAmrvTAptDd+cJpq
- kh0zxBYiv9lR2CCtkXgN77YF7j3aR/XRtFEfzLGEA6xJkjbYIj//VZheMYGJEwvomxtrBgxzjvJ
- quVs3f+G4gWfmIFt3dRLXiEPuBNU4zbmpflCQD5il2O2A7uKBo7YJxCCevCFGJVt47lv28bqQ/b
- CkehgE5gIZ2pClUPy9AN8iGz3Ef7nrVn4aoO0IuGwaRsxId9T6xWnxA5+qCU8lZ4C9fiEiuKn+U
- O+ImqjAUvTvJoqLq/slacMTmxhhyPdbXlEF4jiYYp6cpUe5DdEIc+OBNNgAgE7Zog1TxKjPjouY
- XqSxOmypc/CrvL7QF1OInz3lTS7uOsDAxA5w5oXK8nhIumSHQcrESmf2HtauqeCse
-X-Google-Smtp-Source: AGHT+IGaTSevp4cnPzYyR4KMtJUUTe8IypMzAYen+0KPkM2RtXUhgdyD50zhM6uWVvl65Hfeh3Bs/A==
-X-Received: by 2002:a05:6000:1886:b0:3b7:8d80:e382 with SMTP id
- ffacd0b85a97d-3b8f41b269bmr2044590f8f.4.1754480420205; 
- Wed, 06 Aug 2025 04:40:20 -0700 (PDT)
-Received: from localhost
- (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de.
- [2003:f6:5f06:ab04::1b9]) by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3b79c3ac51asm23244777f8f.1.2025.08.06.04.40.19
+ bh=9DepA2B68/EdYA4QL8eVRTLevm19pdHVt7YsUtnKFMQ=;
+ b=sf/PM9+YeZQmrgHAHZBCHjLEJRj5Wl+Fe0pQESUepJPFKkhqHrAbp9zgPhxsRY/2Yb
+ z8govgZGGOwd2AM876e41iwKtLfNEXITBzDOKR7keWdUY9sM/mHo0nV/ydIWJOGkr77O
+ WP3gXcx1fnswJErLilxkKnEgyHy8JUcyMIYLjyMeN28kcxUCUmapsa7kbqVQqlW43mT3
+ 07gcZgnD/TMZMzxEpOSNkg1xq//DJlzEBLOxndTUTXdQQqvG9+BQ5kZA72kro1J78O+H
+ c67r7Er0MyI3Jue5NY26AlsUtoRtYNe3abDruUEMP+BsYHOpY/7gWEH0/MFIf4sLaskS
+ jx2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWhoFgFdR5yfawhnbpFD6lubcI3biUXI7WO3hS3roxZ5xp68CgHFXAhSXPj76neBRAj0LantnwhXLU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzHyxhaXWqVOTeY1q//nJfz4PcTwxmgkPSz3c9CVvvcYWqD6JAa
+ lnU7p/C2Oehc7k8FpC8g34DWBSxw4eMmj+0IhbDMH5HtdxDpa39HD2lVf38SI1a5K/Y=
+X-Gm-Gg: ASbGncs+p1GVJGb/aAYn2zmvtrBBVjZfLtdwv3xChdMoeuUNe8l6h1fwFr07KWLcMU4
+ 2mGagBk9J95bxipu8K6+zFguxdcw9cW1RN+H279lY6p9IDET1ivHX2F/jZVJekvcHW6sIi6jGRx
+ M/x9BXlHPs6raC/rmbLTE0BJBo86g3exZ9DH3sAdai3xyvR6WAm1KPlIVUhWzhmASlQapgZrf7F
+ GYJ1A6nIosz6AhCs9r4Sgrd/jDiwogdhMlYwCvn6r7LEM5VYdCUJ+B4B6IDrVCk92vfU6WY1OF/
+ iCYVH/Zlob3zpFaGphM0e5JhwQvBZY6eYl6SKvAQVc/iUfhCyiCmT4irmus38SKtDkDLmFepBlB
+ zfw10vaWrvSAhRE354pZwcWE98c/HisuyFtpM8A==
+X-Google-Smtp-Source: AGHT+IEE3g4jSi9GsUDwto+AdTCsAW5WpR+TQz9Q8Z7q9dZe8YHCctfVsvsgs8q3UFKvnWq1hWll/Q==
+X-Received: by 2002:a05:600c:1546:b0:458:a847:671e with SMTP id
+ 5b1f17b1804b1-459e74a807cmr19125025e9.23.1754480739775; 
+ Wed, 06 Aug 2025 04:45:39 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-3b79c4533e6sm23416702f8f.35.2025.08.06.04.45.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Aug 2025 04:40:19 -0700 (PDT)
-Date: Wed, 6 Aug 2025 13:40:18 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: tilcdc reliably hits warning in
- drm_atomic_helper_crtc_duplicate_state() on BeagleBone black
-Message-ID: <zctqvdcyzjzvi4fg2jhiwhb2m6jgzmote4haq5ov3rax5c2njq@nj7aij77twhf>
+ Wed, 06 Aug 2025 04:45:39 -0700 (PDT)
+Date: Wed, 6 Aug 2025 14:45:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Damon Ding <damon.ding@rock-chips.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH] drm/bridge: analogix_dp: Fix a NULL vs IS_ERR() check in
+ probe()
+Message-ID: <aJNAYCXKTaT1bjyL@stanley.mountain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4s5ue6djf753yf64"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,80 +99,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The devm_drm_bridge_alloc() function doesn't return NULL pointers, it
+returns error pointers.  Update the error checking to match.
 
---4s5ue6djf753yf64
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: tilcdc reliably hits warning in
- drm_atomic_helper_crtc_duplicate_state() on BeagleBone black
-MIME-Version: 1.0
+Fixes: 48f05c3b4b70 ("drm/bridge: analogix_dp: Use devm_drm_bridge_alloc() API")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hello,
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index ed35e567d117..4b9b444bd249 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1474,8 +1474,8 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ 
+ 	dp = devm_drm_bridge_alloc(dev, struct analogix_dp_device, bridge,
+ 				   &analogix_dp_bridge_funcs);
+-	if (!dp)
+-		return ERR_PTR(-ENOMEM);
++	if (IS_ERR(dp))
++		return dp;
+ 
+ 	dp->dev = &pdev->dev;
+ 	dp->dpms_mode = DRM_MODE_DPMS_OFF;
+-- 
+2.47.2
 
-running a plain Debian 6.16 kernel on a BeagleBone black board (with
-nothing connected to the graphics output) I reliably hit:
-
-[   91.228190] tilcdc 4830e000.lcdc: no encoders/connectors found
-[   91.343877] ------------[ cut here ]------------
-[   91.348862] WARNING: CPU: 0 PID: 325 at drivers/gpu/drm/drm_atomic_state_helper.c:174 drm_atomic_helper_crtc_duplicate_state+0x68/0x70 [drm_kms_helper]
-[   91.363362] Modules linked in: tilcdc(+) stp llc drm_dma_helper omap_aes_driver omap_sham drm_client_lib omap_crypto crypto_engine drm_kms_helper omap_rng ti_am335x_adc kfifo_buf tps65218_pwrbutton industrialio at24 leds_gpio cpufreq_dt binfmt_misc drm configfs nfnetlink ip_tables x_tables autofs4 ext4 mbcache jbd2 crc32c_cryptoapi smsc crc16 davinci_mdio mdio_bitbang mdio_devres ti_cpsw_new cpsw_common of_mdio fixed_phy fwnode_mdio libphy mdio_bus sdhci_omap omap_hwspinlock sdhci_pltfm musb_dsps sdhci musb_hdrc omap_wdt udc_core phy_gmii_sel phy_am335x usbcore ti_am335x_tscadc tps65217 phy_am335x_control cppi41 phy_generic
-[   91.421946] CPU: 0 UID: 0 PID: 325 Comm: (udev-worker) Not tainted 6.16-armmp #1 NONE  Debian 6.16-1~exp1
-[   91.421984] Hardware name: Generic AM33XX (Flattened Device Tree)
-[   91.422000] Call trace:
-[   91.422021]  unwind_backtrace from show_stack+0x18/0x1c
-[   91.422100]  show_stack from dump_stack_lvl+0x54/0x68
-[   91.422160]  dump_stack_lvl from __warn+0x88/0x11c
-[   91.422213]  __warn from warn_slowpath_fmt+0x188/0x194
-[   91.422253]  warn_slowpath_fmt from drm_atomic_helper_crtc_duplicate_state+0x68/0x70 [drm_kms_helper]
-[   91.422390]  drm_atomic_helper_crtc_duplicate_state [drm_kms_helper] from drm_atomic_get_crtc_state+0x70/0x110 [drm]
-[   91.422829]  drm_atomic_get_crtc_state [drm] from drm_atomic_helper_disable_all+0x98/0x1d0 [drm_kms_helper]
-[   91.423080]  drm_atomic_helper_disable_all [drm_kms_helper] from drm_atomic_helper_shutdown+0x98/0x150 [drm_kms_helper]
-[   91.423193]  drm_atomic_helper_shutdown [drm_kms_helper] from tilcdc_fini+0x58/0xd0 [tilcdc]
-[   91.423376]  tilcdc_fini [tilcdc] from tilcdc_init.constprop.0+0x1dc/0x60c [tilcdc]
-[   91.423498]  tilcdc_init.constprop.0 [tilcdc] from tilcdc_pdev_probe+0x58/0xac [tilcdc]
-[   91.423613]  tilcdc_pdev_probe [tilcdc] from platform_probe+0x64/0xbc
-[   91.423703]  platform_probe from really_probe+0xd8/0x3ac
-[   91.423741]  really_probe from __driver_probe_device+0x94/0x1e0
-[   91.423774]  __driver_probe_device from driver_probe_device+0x38/0xd4
-[   91.423806]  driver_probe_device from __driver_attach+0xc0/0x1b8
-[   91.423837]  __driver_attach from bus_for_each_dev+0x84/0xd4
-[   91.423868]  bus_for_each_dev from bus_add_driver+0xf8/0x21c
-[   91.423896]  bus_add_driver from driver_register+0x88/0x124
-[   91.423927]  driver_register from do_one_initcall+0x50/0x258
-[   91.423960]  do_one_initcall from do_init_module+0x5c/0x254
-[   91.423993]  do_init_module from init_module_from_file+0x9c/0xec
-[   91.424022]  init_module_from_file from sys_finit_module+0x1d0/0x334
-[   91.424052]  sys_finit_module from __sys_trace_return+0x0/0x10
-[   91.424081] Exception stack(0xe0141fa8 to 0xe0141ff0)
-[   91.424108] 1fa0:                   b56b8d73 00000000 0000001c b56bde10 00000004 02240ea0
-[   91.424133] 1fc0: b56b8d73 00000000 69828600 0000017b 022392c0 0223e780 00000000 00000000
-[   91.424151] 1fe0: bef00618 bef00608 b56b96e9 b6b13312
-[   91.638906] ---[ end trace 0000000000000000 ]---
-[   91.643839] tilcdc 4830e000.lcdc: [drm] *ERROR* Disabling all crtc's during unload failed with -12
-
-during late boot.
-
-The problem seems to be old, because 6.12 emits a very similar warning.
-
-I didn't try to debug that, but if you have things to test, I can
-probably do that.
-
-Best regards
-Uwe
-
---4s5ue6djf753yf64
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmiTPx8ACgkQj4D7WH0S
-/k4SFggAua6MltTSOPxfDA8Y010L0Jb+OJR1rXK2kQTQy+FGIT/KrbkHA8Lsxb8G
-XMqd2v1IgRARJJO1FPUhlW8IZjA6r/eN3KDiK5nAt1UUc5WNURVlEg2F7YwI/Jg/
-tLyejWtLd8ilWUIoceBKHL0w+WgrvZ9Sfzyzp6XvRtrkoI+K2cOCmrboxSFSTpOR
-w9afGrXVaa6jg7S11/Ji8N8lzkPJFhlboiLnUfjBOjNq3RLP7GPH8whdEEcXbEyj
-YXBHvu16cPUhDlYWduR7ZRee1Prg6d8J7aF9Xdkef0DisOmyKI/ptrxd083sz4I8
-3JOLC0iJFyoOE7wM+EKRS01phApGbA==
-=9v3n
------END PGP SIGNATURE-----
-
---4s5ue6djf753yf64--
