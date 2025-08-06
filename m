@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462B4B1BF25
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 05:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90EFAB1BF29
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 05:18:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94E6010E716;
-	Wed,  6 Aug 2025 03:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F224710E718;
+	Wed,  6 Aug 2025 03:18:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="j80VnhXg";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lRylZ4a9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59A2B10E714;
- Wed,  6 Aug 2025 03:18:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E29FF10E71B;
+ Wed,  6 Aug 2025 03:18:08 +0000 (UTC)
 Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5761f8fK028507;
- Wed, 6 Aug 2025 03:17:55 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5761elV8027311;
+ Wed, 6 Aug 2025 03:18:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 0LCtQJKnLzkZrdjJ+duZz5/HJJUQ9UHjm8Frh9SHbuA=; b=j80VnhXgvtk2h54e
- SzrDUyMmIMeNPgRhrMGNBr2OIL2TS51fFfSDN3fYNF/FcYUrGZlccM4VpMprD+Ls
- lscCXITbgry7SPAVKcx+EyXsl+tstuZoJTe4uzqaXhlrsAWm2hcMVWSdLiubjGM8
- JYMeVUn2++ogkmhh1S5ERZnAZhqQiKIssbPIIgUo5juaLnBFaGmdBW7YRdRNqkKv
- GWUnzemDLa7vxQYKCueHjDXw/WmQTTNeH9qlotYMdeCWL1cC6anYb+LnN0LUPyIS
- 2m+MjgvKsBfX9P0BjJYWzI2ih+vgLjQhg15Ria/v5nAfr+y7O8cEAZHpoSTR0zSP
- hDgcsw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ dNztdfw9IHb/WHWC08tUSsuuSCy5vX46GzOfe1e26Lk=; b=lRylZ4a9G2XvUumy
+ X53m88xrh9PtP0DE517SzA9jzfOaPc3LlH1SGmdfOAwVSx6mCruLxDDLP9uN+XlC
+ fSEc55wy8Y2+5c8nncbiI25lsnpITGdo/mdhSTTbZzb4ou+XSUZdSW3PExY/oenR
+ 2ke9N5bSoxfivLGFZ3cYears1sFxnjuyrftjShSb2XjHKdqWa3wr9Nq7avvdt3Pb
+ qiYsBZgBschmF3iO7q9KLHpN3Tb3RF19xLJ7aEzoipMd8zSjUwqKL4f4ayQJuGcM
+ v6lnrgOJ+17pGLp1dHMzbFMsUnOiMwVD+qXtyMY9AmHLqqUekDvDCXVnTz3pOLqE
+ ivKqPg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpy7s8ax-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpy7s8b4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 06 Aug 2025 03:17:55 +0000 (GMT)
+ Wed, 06 Aug 2025 03:18:01 +0000 (GMT)
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
  [10.47.97.35])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5763Hs3R031729
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5763I0Gu028606
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 6 Aug 2025 03:17:54 GMT
+ Wed, 6 Aug 2025 03:18:00 GMT
 Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
  nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Tue, 5 Aug 2025 20:17:48 -0700
+ 15.2.1748.10; Tue, 5 Aug 2025 20:17:55 -0700
 From: Yongxing Mou <quic_yongmou@quicinc.com>
-Date: Wed, 6 Aug 2025 11:16:46 +0800
-Subject: [PATCH v6 2/6] dt-bindings: display/msm: dp-controller: document
- QCS8300 compatible
+Date: Wed, 6 Aug 2025 11:16:47 +0800
+Subject: [PATCH v6 3/6] dt-bindings: display/msm: Document MDSS on QCS8300
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250806-mdssdt_qcs8300-v6-2-dbc17a8b86af@quicinc.com>
+Message-ID: <20250806-mdssdt_qcs8300-v6-3-dbc17a8b86af@quicinc.com>
 References: <20250806-mdssdt_qcs8300-v6-0-dbc17a8b86af@quicinc.com>
 In-Reply-To: <20250806-mdssdt_qcs8300-v6-0-dbc17a8b86af@quicinc.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
@@ -69,11 +68,11 @@ CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, Yongxing Mou <quic_yongmou@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754450255; l=1086;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754450255; l=10110;
  i=quic_yongmou@quicinc.com; s=20241121; h=from:subject:message-id;
- bh=+DOH9Fgz9YSdUryUEmue5hUEYFqNhD9QCblPu0XpAJ0=;
- b=vb/wQ09JtyFui9hPeyLiwpAMzh7bFYkJQdNgWvhsS5QV1DcN5n8aRZoa8zGJkfZ3YoNX7QQrv
- /6+sRt5VRfSDDDrf7U8LzlA9ap3Y802Bjlsik4Fihh6PsFM2rr5JmkV
+ bh=wkZJ2NL7orEs5saIdrO0MAMNzKXXT0cA37pi2w+bl0k=;
+ b=KHsieMom5m6wTmUT8r410ofYoGb0lQpa/LBizmTFsFfpNOiATIExdNMI6a4BEFh2LxPhfgcB0
+ 7jh5OUfmlUACxubegubr339LsydGL1YM31rNQFx5ym+98eJE0Uj2kQv
 X-Developer-Key: i=quic_yongmou@quicinc.com; a=ed25519;
  pk=zeCnFRUqtOQMeFvdwex2M5o0Yf67UHYfwCyBRQ3kFbU=
 X-Originating-IP: [10.80.80.8]
@@ -82,19 +81,20 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Authority-Analysis: v=2.4 cv=Mftsu4/f c=1 sm=1 tr=0 ts=6892c963 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=Mftsu4/f c=1 sm=1 tr=0 ts=6892c969 cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
- a=2t1bcwrjeadYucq94KYA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: aACmw4mcddIOMuYmzin3safGyszIQw7z
-X-Proofpoint-GUID: aACmw4mcddIOMuYmzin3safGyszIQw7z
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfXziQOm5Pkoqbc
- waj9hZA4iQcH6av1sa0Bv7ByyMuEL1QdmljcbNhHu+hqM6Pm5AsFfHLuyK04LHjqg2KWEU9+PQq
- KO918rUwCP1yB43onRnHOHopgNjuQGXvObBTK4G4qSUhvzAg2g0BiWGY3K1GxHi6WG2wWjVGVUp
- JZeneHmWcBWFu2NwiyO5oX9dBrBD6zmGLO+ecBxkHfWvy0Yg/N8+5XkeJkCY3tM0HmooIAviTUG
- bqdYkcsb/EuooTdVRJRnSul3x2mSU7IreGW3D1uYK5Y+Lbujw1l9+8pLYdCyi+rz4PMuUlIDXsS
- vbBR8GiB91Kbso9zsYw/430Tc7ZaSS+DQOjCCPmNMNPOoovwel7+c5xGOaArrZC/ku+XC95ERvA
- oowfaliC
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=gEfo2CItAAAA:8
+ a=COk6AnOGAAAA:8 a=mw5JQ2FHeNGQCEwkIB4A:9 a=x9G3774qgbUdaUce:21
+ a=QEXdDO2ut3YA:10 a=sptkURWiP4Gy88Gu7hUp:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: SlhGHPjlXY9eRjXdhJKysPGHPQvsf144
+X-Proofpoint-GUID: SlhGHPjlXY9eRjXdhJKysPGHPQvsf144
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX9gzpBsRzG+5F
+ BLBXRofpAHMGbZ7yU6B7XkXaSZfUEk9SwjfvZqNQ62rjcPg75E7GXtncF2dOL3ZBh2ft6Jktjul
+ 2umRithdfmr82R1LkwpFiuGtIMjp0pxP3SpYOsslWTL2y773eKZZQ5fRma0xs0Ot8iZesKJ8dU0
+ ILFnXQMd8i3/qVxG4KVAw7iHsZGuCLUWBswqAVc6d7cTfRX/uUzEzE6+geg8sWEFx483WhnCO2o
+ LqRzh9Mkfd8n4KZqUmM/HeNv/8ab8jKsliJPHVIkb5cnSXQ1uqmyzEUvI6REufRYpj9tMc3QISF
+ lqdGeMriNIm9UyrKnXSOXh8WtAI50Pu6+VR5eUUY8UV7AufkcB7O4E6URueOrF7p/ll6qKnoLeO
+ aazNuUw3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-05_05,2025-08-04_01,2025-03-28_01
@@ -118,34 +118,301 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible string for the DisplayPort controller found on the
-Qualcomm QCS8300 SoC.
+Document the MDSS hardware found on the Qualcomm QCS8300 platform.
 
 Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
 ---
- Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 282 +++++++++++++++++++++
+ 1 file changed, 282 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-index 2893f097df826a5f941fbb754fb4a96a1e410a70..f5930f29c91ec95e9182c7b8ee83c0549c6657cc 100644
---- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
-@@ -18,6 +18,7 @@ properties:
-   compatible:
-     oneOf:
-       - enum:
-+          - qcom,qcs8300-dp
-           - qcom,sa8775p-dp
-           - qcom,sc7180-dp
-           - qcom,sc7280-dp
-@@ -186,6 +187,7 @@ allOf:
-         compatible:
-           contains:
-             enum:
-+              - qcom,qcs8300-dp
-               - qcom,sa8775p-dp
-               - qcom,sc7280-dp
-               - qcom,sc8180x-dp
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,qcs8300-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,qcs8300-mdss.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..1cc51e286a667e956ca66955f594b7ccc9ef724f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/qcom,qcs8300-mdss.yaml
+@@ -0,0 +1,282 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/qcom,qcs8300-mdss.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm Technologies, Inc. QCS8300 Display MDSS
++
++maintainers:
++  - Yongxing Mou <quic_yongmou@quicinc.com>
++
++description:
++  QCS8300 MSM Mobile Display Subsystem(MDSS), which encapsulates sub-blocks like
++  DPU display controller, DP interfaces and EDP etc.
++
++$ref: /schemas/display/msm/mdss-common.yaml#
++
++properties:
++  compatible:
++    const: qcom,qcs8300-mdss
++
++  clocks:
++    items:
++      - description: Display AHB
++      - description: Display hf AXI
++      - description: Display core
++
++  iommus:
++    maxItems: 1
++
++  interconnects:
++    maxItems: 3
++
++  interconnect-names:
++    maxItems: 3
++
++patternProperties:
++  "^display-controller@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        contains:
++          const: qcom,qcs8300-dpu
++
++  "^displayport-controller@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        items:
++          - const: qcom,qcs8300-dp
++
++  "^phy@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++    properties:
++      compatible:
++        contains:
++          const: qcom,qcs8300-edp-phy
++
++required:
++  - compatible
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interconnect/qcom,icc.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
++    #include <dt-bindings/clock/qcom,sa8775p-dispcc.h>
++    #include <dt-bindings/interconnect/qcom,qcs8300-rpmh.h>
++    #include <dt-bindings/power/qcom,rpmhpd.h>
++    #include <dt-bindings/power/qcom-rpmpd.h>
++
++    mdss: display-subsystem@ae00000 {
++        compatible = "qcom,qcs8300-mdss";
++        reg = <0x0ae00000 0x1000>;
++        reg-names = "mdss";
++
++        interconnects = <&mmss_noc MASTER_MDP0 QCOM_ICC_TAG_ACTIVE_ONLY
++                         &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ACTIVE_ONLY>,
++                        <&mmss_noc MASTER_MDP1 QCOM_ICC_TAG_ACTIVE_ONLY
++                         &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ACTIVE_ONLY>,
++                        <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
++                         &config_noc SLAVE_DISPLAY_CFG QCOM_ICC_TAG_ACTIVE_ONLY>;
++        interconnect-names = "mdp0-mem",
++                             "mdp1-mem",
++                             "cpu-cfg";
++
++        resets = <&dispcc_core_bcr>;
++        power-domains = <&dispcc_gdsc>;
++
++        clocks = <&dispcc_ahb_clk>,
++                 <&gcc GCC_DISP_HF_AXI_CLK>,
++                 <&dispcc_mdp_clk>;
++
++        interrupts = <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-controller;
++        #interrupt-cells = <1>;
++
++        iommus = <&apps_smmu 0x1000 0x402>;
++
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        display-controller@ae01000 {
++            compatible = "qcom,qcs8300-dpu", "qcom,sa8775p-dpu";
++            reg = <0x0ae01000 0x8f000>,
++                  <0x0aeb0000 0x2008>;
++            reg-names = "mdp", "vbif";
++
++            clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_AHB_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_MDP_LUT_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_MDP_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_VSYNC_CLK>;
++            clock-names = "nrt_bus",
++                          "iface",
++                          "lut",
++                          "core",
++                          "vsync";
++
++            assigned-clocks = <&dispcc0 MDSS_DISP_CC_MDSS_VSYNC_CLK>;
++            assigned-clock-rates = <19200000>;
++            operating-points-v2 = <&mdp_opp_table>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
++
++            interrupt-parent = <&mdss>;
++            interrupts = <0>;
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++                port@0 {
++                    reg = <0>;
++
++                    dpu_intf0_out: endpoint {
++                         remote-endpoint = <&mdss_dp0_in>;
++                    };
++                };
++            };
++
++            mdp_opp_table: opp-table {
++                compatible = "operating-points-v2";
++
++                opp-375000000 {
++                    opp-hz = /bits/ 64 <375000000>;
++                    required-opps = <&rpmhpd_opp_svs_l1>;
++                };
++
++                opp-500000000 {
++                    opp-hz = /bits/ 64 <500000000>;
++                    required-opps = <&rpmhpd_opp_nom>;
++                };
++
++                opp-575000000 {
++                    opp-hz = /bits/ 64 <575000000>;
++                    required-opps = <&rpmhpd_opp_turbo>;
++                };
++
++                opp-650000000 {
++                    opp-hz = /bits/ 64 <650000000>;
++                    required-opps = <&rpmhpd_opp_turbo_l1>;
++                };
++            };
++        };
++
++        mdss_dp0_phy: phy@aec2a00 {
++            compatible = "qcom,qcs8300-edp-phy", "qcom,sa8775p-edp-phy";
++
++            reg = <0x0aec2a00 0x200>,
++                  <0x0aec2200 0xd0>,
++                  <0x0aec2600 0xd0>,
++                  <0x0aec2000 0x1c8>;
++
++            clocks = <&dispcc MDSS_DISP_CC_MDSS_DPTX0_AUX_CLK>,
++                     <&dispcc MDSS_DISP_CC_MDSS_AHB_CLK>;
++            clock-names = "aux",
++                          "cfg_ahb";
++
++            #clock-cells = <1>;
++            #phy-cells = <0>;
++
++            vdda-phy-supply = <&vreg_l1c>;
++            vdda-pll-supply = <&vreg_l4a>;
++        };
++
++        displayport-controller@af54000 {
++            compatible = "qcom,qcs8300-dp";
++
++            pinctrl-0 = <&dp_hot_plug_det>;
++            pinctrl-names = "default";
++
++            reg = <0xaf54000 0x104>,
++                  <0xaf54200 0x0c0>,
++                  <0xaf55000 0x770>,
++                  <0xaf56000 0x09c>,
++                  <0xaf57000 0x09c>;
++
++            interrupt-parent = <&mdss>;
++            interrupts = <12>;
++            clocks = <&dispcc0 MDSS_DISP_CC_MDSS_AHB_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_AUX_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL2_CLK>,
++                     <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL3_CLK>;
++            clock-names = "core_iface",
++                          "core_aux",
++                          "ctrl_link",
++                          "ctrl_link_iface",
++                          "stream_pixel",
++                          "stream_1_pixel",
++                          "stream_2_pixel",
++                          "stream_3_pixel";
++            assigned-clocks = <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
++                              <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
++                              <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>,
++                              <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL2_CLK_SRC>,
++                              <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL3_CLK_SRC>;
++            assigned-clock-parents = <&mdss_dp0_phy 0>,
++                                     <&mdss_dp0_phy 1>,
++                                     <&mdss_dp0_phy 1>,
++                                     <&mdss_dp0_phy 1>;
++            phys = <&mdss_dp0_phy>;
++            phy-names = "dp";
++            operating-points-v2 = <&dp_opp_table>;
++            power-domains = <&rpmhpd RPMHPD_MMCX>;
++
++            #sound-dai-cells = <0>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    mdss_dp0_in: endpoint {
++                        remote-endpoint = <&dpu_intf0_out>;
++                    };
++                };
++
++                port@1 {
++                   reg = <1>;
++
++                   mdss_dp_out: endpoint { };
++                };
++            };
++
++            dp_opp_table: opp-table {
++                compatible = "operating-points-v2";
++
++                opp-160000000 {
++                    opp-hz = /bits/ 64 <160000000>;
++                    required-opps = <&rpmhpd_opp_low_svs>;
++                };
++
++                opp-270000000 {
++                    opp-hz = /bits/ 64 <270000000>;
++                    required-opps = <&rpmhpd_opp_svs>;
++                };
++
++                opp-540000000 {
++                    opp-hz = /bits/ 64 <540000000>;
++                    required-opps = <&rpmhpd_opp_svs_l1>;
++                };
++
++                opp-810000000 {
++                    opp-hz = /bits/ 64 <810000000>;
++                    required-opps = <&rpmhpd_opp_nom>;
++                };
++            };
++        };
++    };
++...
 
 -- 
 2.34.1
