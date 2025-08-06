@@ -2,85 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70FEB1BF6D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 05:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BAE6B1BF7C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Aug 2025 06:08:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41B1410E2E0;
-	Wed,  6 Aug 2025 03:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B24810E721;
+	Wed,  6 Aug 2025 04:08:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hoadD4uY";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="b3FCZtiZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
- [209.85.166.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCE9810E2E0
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 03:50:17 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id
- ca18e2360f4ac-880f82dfc7fso307600839f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Aug 2025 20:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754452217; x=1755057017; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=w3i5QRO+5MfhCKu77ANJ3jBdCFtUPuCB3IIfNSEzuAM=;
- b=hoadD4uYN0TzKrFUxbhzX5ESU4+rl5KYRMIkmJ+CbDK9PexNHLweFjqDkpLJZk5bC1
- gnXXDW7Rlkh695wCWgcMZexX//SzOC4yuk8xj8duEtqjbAocVjkp2AYBOY4NT4m5Ea3B
- pEuhZ+2RV0qdY/KAethQ7NO2XaDQyp50NJC3H0ujjcetvyIINJKs9EIC//E/JyYMHvE4
- Z3wBPQ5Jmfi4931NWtcyeOa2BC1j6OXGKoY/KT5jbfzQ9SB4JLIbmNgGZUtKAqLVFXd7
- XS6c0eapSdJA2dQtFTRPp81PhWa8ayP1iEbZ2rTK/TAmdMuM+e/QUbFho4KUFNemmlfr
- uukA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754452217; x=1755057017;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=w3i5QRO+5MfhCKu77ANJ3jBdCFtUPuCB3IIfNSEzuAM=;
- b=i3ezYlO5pJYDFjyw3tOJPYrwGC5DM1QQ5G9x3JZaLydyDdfhHVvQNRBCQL+0yy2w6D
- 2SMc+3MDzOckkRGULNryFYR5/+hL4u9lZlVruWlJISSNdV3J66LssjCxjC5u/7y6QVAj
- TTFUUhB9+tYLXoxIrLThIgjtmHXb2hY9cd1Xu51SI7DGG79v+TrTfIntcXx8sR4lhpee
- NSyBRtA36xCjitA5n6LOmnpTs15JRpMhP51Vze2x5uPvVEGsMS0FNgSKVO4O6c22dCdO
- XncHuqvZ41frWRqLmCoNWlBysC4t9Rq7eGlFH+j2xDDhxtcJSfFwxQ5SSc4zb9HMwxfE
- 3T+w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2KRmbkQjdWoX7spIyHVD1j8ivaIbn3gtcsQk18WwpP/o4eoiRYHWStiJK4I8hbl6epqyMjEtVqCg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxaar/PmV89FZmRwgqAtDtb+Y4yKr6fYL5k3Og7QWxQ447MTPoF
- QEm3BaeM+bfRXFlGK9Fnjy9CtlwgNxcf55hUKY8z0yuVApimabM0ofvz6HLOuGkshN/ipC61fxm
- fiq1xtO4K4WDrGYfLQw6lPjKvWmjpv2g=
-X-Gm-Gg: ASbGnctJSYdiqux0Po2v4JpLcOzDaDPLMAjHS62pmZfBOlt7K9tuV6JF7cmpKYHyURh
- oqMA0mFic40v778EcxBZPydRns6dT2cjq+NaOr6WQef6crDuKfxkdonAMV9qSp7a0rKoFDzgaxF
- hIhUuHAuhmw1sUAMAICdS/clW1qXp8LYKe06p2ZfPCVtR+DuHGHU9/yJE4YpK5YquOY+gR+Fx3y
- r75Hgk=
-X-Google-Smtp-Source: AGHT+IFCQESUgdKuGOqs444QSzygbhrbLJwY9iG/XD2Q5CtWib3hxKckGgR3Hyw/Y4VQLjfx/NuyfuaWMxWrok5dFkc=
-X-Received: by 2002:a05:6602:2b07:b0:881:7e3a:4a37 with SMTP id
- ca18e2360f4ac-8819f065f0bmr265326839f.6.1754452216814; Tue, 05 Aug 2025
- 20:50:16 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A1C210E721;
+ Wed,  6 Aug 2025 04:08:19 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5761f8mS028507;
+ Wed, 6 Aug 2025 04:08:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 53+b4CXMniRrYsrmsIvoBPINsBu94m+zX7UjiFralyQ=; b=b3FCZtiZx44SimVn
+ p9wjH6ro2+Qo/gfDXjGutM+Lt5bJ59x7IX9DQkEQdSdE6WhnQOvdN1kRDw4CVQxx
+ DwR/g+zXKVDdnNlaESk11xydaYxEeVCyAQJr5/n4HcARjWO3sJ9BJ0Jl9h2CFXKH
+ UGfSODQdcu3IMGPg28Hpjq6LsI7tppJChg75sy8F0nOWGHpiexdtNlccVuDBAZNv
+ trSHEUtmBMF+oyM8wn41AHWOQ8n6XehIcO9qzD2jRR7vEyuaHKJkFE9FvUfUajaD
+ YPxRwe57U+rl/rePzoTo0fRqDlaQ0FOKeN1pFrGjLUcfUlCO2eQoKv4MAt2AYKcn
+ vTpI7w==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpy7sch7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 Aug 2025 04:08:05 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 576485Kf021695
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 6 Aug 2025 04:08:05 GMT
+Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 5 Aug
+ 2025 21:07:58 -0700
+Message-ID: <179982fe-ff3f-4d57-9ac9-15f0512facb3@quicinc.com>
+Date: Wed, 6 Aug 2025 12:07:55 +0800
 MIME-Version: 1.0
-References: <20250804104722.601440-1-shengjiu.wang@nxp.com>
- <20250804104722.601440-7-shengjiu.wang@nxp.com> <1932645.tdWV9SEqCh@steina-w>
-In-Reply-To: <1932645.tdWV9SEqCh@steina-w>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 6 Aug 2025 11:49:57 +0800
-X-Gm-Features: Ac12FXyh9zIEFgIR4jwpAfqlHLcCdIoWysUI9X5TL5LXhlIGHinLI0hUpNeMIog
-Message-ID: <CAA+D8AM7hEcyVaZF7MHN-jY_NOS+cdhrXGdTXeQ48-WV=bnLMA@mail.gmail.com>
-Subject: Re: [PATCH v3 6/6] arm64: dts: imx8mp: Add hdmi parallel audio
- interface node
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org, 
- l.stach@pengutronix.de, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/6] dt-bindings: display/msm: dp-controller: document
+ QCS8300 compatible
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
+ <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>, Bjorn Andersson <andersson@kernel.org>, "Konrad
+ Dybcio" <konradybcio@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20250806-mdssdt_qcs8300-v6-0-dbc17a8b86af@quicinc.com>
+ <20250806-mdssdt_qcs8300-v6-2-dbc17a8b86af@quicinc.com>
+ <b24ln55wgmjzksugbowgilxqbnp6d6mgq4cdqljrj4jftuefa5@gjcszc3t4bqg>
+Content-Language: en-US
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+In-Reply-To: <b24ln55wgmjzksugbowgilxqbnp6d6mgq4cdqljrj4jftuefa5@gjcszc3t4bqg>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=Mftsu4/f c=1 sm=1 tr=0 ts=6892d525 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
+ a=-ocwHwE4qgHzvDXnxf8A:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: xtJhhKhe_EGWwTr4DmzL74IVV86J5FL1
+X-Proofpoint-GUID: xtJhhKhe_EGWwTr4DmzL74IVV86J5FL1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX3ys30domU3sl
+ FdPnQNFu+I74ty7hQ1xNKhS5A1HzqjBsyXxIEhksB2J8kVg7lWigtJZDDuddglAimzfsD2aDTWP
+ iYF3ZEJyodelZmCySw1g3d1iE/Tt2CmrpHbsYJgfTI1t/D5tgXFLqAEtsKN216CEKwARKZQi2nV
+ IdAwqi53VTIvVlgP+t+Z6qbQLz0pU4YzqL8ZBEvU94PbNZ944aVyklMF/J1cg7N+Mx8hlKjawat
+ d/lURXBswwW0RBEBJOUZMXjWUIsPnqOE935fJCW0WOf9i9H+ofp8hyqIKed7WhtJ1L8MXgU0gJ5
+ bxY5yRkZsLzRwHBJj5neJ/CamqgejKioPyd9x8mhNG+/MrB7Anj0AyMV0X+rseG6d7xDeNQ1WmF
+ dbfHn9WC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-05_05,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015 priorityscore=1501 phishscore=0 bulkscore=0
+ spamscore=0 suspectscore=0 adultscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,118 +115,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 5, 2025 at 3:10=E2=80=AFPM Alexander Stein
-<alexander.stein@ew.tq-group.com> wrote:
->
-> Am Montag, 4. August 2025, 12:47:22 CEST schrieb Shengjiu Wang:
-> > The HDMI TX Parallel Audio Interface (HTX_PAI) is a bridge between the
-> > Audio Subsystem to the HDMI TX Controller.
-> >
-> > Shrink register map size of hdmi_pvi to avoid overlapped hdmi_pai devic=
-e.
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> >  arch/arm64/boot/dts/freescale/imx8mp-evk.dts |  4 +++
-> >  arch/arm64/boot/dts/freescale/imx8mp.dtsi    | 28 +++++++++++++++++++-
->
-> Please separate commits for SoC and board files. Thanks
 
-Ok.
 
-Best regards
-Shengjiu Wang
->
-> Best regards,
-> Alexander
->
-> >  2 files changed, 31 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts b/arch/arm64/=
-boot/dts/freescale/imx8mp-evk.dts
-> > index c0cc5611048e..cc9351a5bd65 100644
-> > --- a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-> > +++ b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-> > @@ -442,6 +442,10 @@ &flexcan2 {
-> >       status =3D "disabled";/* can2 pin conflict with pdm */
-> >  };
-> >
-> > +&hdmi_pai {
-> > +     status =3D "okay";
-> > +};
-> > +
-> >  &hdmi_pvi {
-> >       status =3D "okay";
-> >  };
-> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boo=
-t/dts/freescale/imx8mp.dtsi
-> > index 841d155685ee..00d8474bd1b1 100644
-> > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> > @@ -2066,7 +2066,7 @@ irqsteer_hdmi: interrupt-controller@32fc2000 {
-> >
-> >                       hdmi_pvi: display-bridge@32fc4000 {
-> >                               compatible =3D "fsl,imx8mp-hdmi-pvi";
-> > -                             reg =3D <0x32fc4000 0x1000>;
-> > +                             reg =3D <0x32fc4000 0x800>;
-> >                               interrupt-parent =3D <&irqsteer_hdmi>;
-> >                               interrupts =3D <12>;
-> >                               power-domains =3D <&hdmi_blk_ctrl IMX8MP_=
-HDMIBLK_PD_PVI>;
-> > @@ -2092,6 +2092,24 @@ pvi_to_hdmi_tx: endpoint {
-> >                               };
-> >                       };
-> >
-> > +                     hdmi_pai: audio-bridge@32fc4800 {
-> > +                             compatible =3D "fsl,imx8mp-hdmi-pai";
-> > +                             reg =3D <0x32fc4800 0x800>;
-> > +                             interrupt-parent =3D <&irqsteer_hdmi>;
-> > +                             interrupts =3D <14>;
-> > +                             clocks =3D <&clk IMX8MP_CLK_HDMI_APB>;
-> > +                             clock-names =3D "apb";
-> > +                             power-domains =3D <&hdmi_blk_ctrl IMX8MP_=
-HDMIBLK_PD_PAI>;
-> > +                             status =3D "disabled";
-> > +
-> > +                             port {
-> > +
-> > +                                     pai_to_hdmi_tx: endpoint {
-> > +                                             remote-endpoint =3D <&hdm=
-i_tx_from_pai>;
-> > +                                     };
-> > +                             };
-> > +                     };
-> > +
-> >                       lcdif3: display-controller@32fc6000 {
-> >                               compatible =3D "fsl,imx8mp-lcdif";
-> >                               reg =3D <0x32fc6000 0x1000>;
-> > @@ -2143,6 +2161,14 @@ port@1 {
-> >                                               reg =3D <1>;
-> >                                               /* Point endpoint to the =
-HDMI connector */
-> >                                       };
-> > +
-> > +                                     port@2 {
-> > +                                             reg =3D <2>;
-> > +
-> > +                                             hdmi_tx_from_pai: endpoin=
-t {
-> > +                                                     remote-endpoint =
-=3D <&pai_to_hdmi_tx>;
-> > +                                             };
-> > +                                     };
-> >                               };
-> >                       };
-> >
-> >
->
->
-> --
-> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
-rmany
-> Amtsgericht M=C3=BCnchen, HRB 105018
-> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
-chneider
-> http://www.tq-group.com/
->
->
+On 2025/8/6 11:46, Dmitry Baryshkov wrote:
+> On Wed, Aug 06, 2025 at 11:16:46AM +0800, Yongxing Mou wrote:
+>> Add compatible string for the DisplayPort controller found on the
+>> Qualcomm QCS8300 SoC.
+> 
+> 
+> Typical comment: you've missed the explanation, why it can not use
+> fallback.
+> 
+Hi, Dmitry, we move this explanation to DP controller patch (patch 6). 
+There we provide a detailed explanation of the DP controller,why we need 
+this compatible, and why not use fallback. Thanks.
+>>
+>> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+>> ---
+>>   Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>> index 2893f097df826a5f941fbb754fb4a96a1e410a70..f5930f29c91ec95e9182c7b8ee83c0549c6657cc 100644
+>> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+>> @@ -18,6 +18,7 @@ properties:
+>>     compatible:
+>>       oneOf:
+>>         - enum:
+>> +          - qcom,qcs8300-dp
+>>             - qcom,sa8775p-dp
+>>             - qcom,sc7180-dp
+>>             - qcom,sc7280-dp
+>> @@ -186,6 +187,7 @@ allOf:
+>>           compatible:
+>>             contains:
+>>               enum:
+>> +              - qcom,qcs8300-dp
+>>                 - qcom,sa8775p-dp
+>>                 - qcom,sc7280-dp
+>>                 - qcom,sc8180x-dp
+>>
+>> -- 
+>> 2.34.1
+>>
+> 
+
