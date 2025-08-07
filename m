@@ -2,149 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9711EB1CF99
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 02:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E10B1D016
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 03:31:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79FEB10E1A3;
-	Thu,  7 Aug 2025 00:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1805D10E06F;
+	Thu,  7 Aug 2025 01:31:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="LCS9QAOa";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="UsRTv+zf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2058.outbound.protection.outlook.com [40.107.223.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88C4E10E1A3
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 00:02:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bzJRsSkuSdwpBC20tXnUgAgWhhCanWNP72ggyGsKCGwjehvFHzKcsNA//8dX8gI+U+Rl1zNzDGVmKwCudCC8cD0HMJ2oxwHfZ4hzsSdMplHno/c0qZEnDLbT1WfY+Gq2IE5i+wOi3TqL6AzxCEUnD+TtHTlDcGuU0wpmaOrZGA/Y4RRHcZwFBb+HQTw0k6azOKoFSlF1qXTICFvoLzEtBX9ELgkpLf6X54xUzT3wSFqUZgh5b+UKCyezd9upAzGt+FFE85e/ttIcnadheSqm2uc3zCRvQgyRv59NFEUQnC2ucBduNiMhaHCnw0HnXXVKSxNn67R+hkXV4+G8uZrcaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x9BpYJU1q1VVVp9RyKtd/Sa713iezlK0JgA40wwO0EY=;
- b=XeVduyeeJn3nmTcgJIgHp6vOUWPFfvr2nZ+HwaQ/+uE1lRXn3JUenefUHx/3hzOvzAiIHpyQ+6iBEIggn0kXI/C28PlkB7BSLwZ/+4QuuqTCGELmGjUcEvhqlhAz8LvJOwjfkBZyQz9lJEp/Jq+aa9oqSOPVGsqsH3P2Fx/p4f5o9iruxF9cHFKi6rX9Dyh5pIdr5/rCr0GtzPfrDtjE+hrcJK4NQoHE/mN3vwnd1g8gVc5Vjp7HoBvHlKUK45vfTrNVflltSL2sjSkoSKuQIin/yraUu3bzfbCzLY+Zyi5Fyo89s9b9HpDHj3UI9TpVP4lfOZl/tYOiF73MaQr4pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x9BpYJU1q1VVVp9RyKtd/Sa713iezlK0JgA40wwO0EY=;
- b=LCS9QAOaqsmvX1iJ8MKZO5jDfkc1pQLnHo1RLUgkoN4Ybu39ZRweFejEhOlbCt0txkm3lDPD6QaUcgBDY1tgiE/VEAOtzKG6rQP8anjP17ByEXCsh2pWkcMA+OwRYEEsTKPbA0IoA9WrG7d2bZJ7ZDCVLD3A6sUqdFv/RLOfMtZcnyUqZjgFgWCbKvtGfNFKizvDH8+xPFZHgX15zqZF5JHyHdNMm6T5ABsmAIlwgwNqEO1YIzInCmpR9RVgfcNHEcyGyOdC42bZJtAxXLI2eV81LBJpK9Od8bISlqYB9GholBZv33FAXbw6yOE2RfPA+cnsB4sAsqb9IYpdhv+Eqw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by LV8PR12MB9109.namprd12.prod.outlook.com (2603:10b6:408:18a::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.15; Thu, 7 Aug
- 2025 00:02:09 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.013; Thu, 7 Aug 2025
- 00:02:08 +0000
-Date: Wed, 6 Aug 2025 21:02:07 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
- Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Logan Gunthorpe <logang@deltatee.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v1 04/10] PCI/P2PDMA: Refactor to separate core P2P
- functionality from memory allocation
-Message-ID: <20250807000207.GE184255@nvidia.com>
-References: <cover.1754311439.git.leon@kernel.org>
- <cab5f1bfd64becafcc887107bb4386f2c8630ef3.1754311439.git.leon@kernel.org>
- <20250806154214.1c2618e8.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250806154214.1c2618e8.alex.williamson@redhat.com>
-X-ClientProxiedBy: YT3PR01CA0121.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:83::27) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+Received: from mail-m15572.qiye.163.com (mail-m15572.qiye.163.com
+ [101.71.155.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4EA10E06F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 01:31:07 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 1e8ee5cc0;
+ Thu, 7 Aug 2025 09:31:03 +0800 (GMT+08:00)
+Message-ID: <a11db6b0-84ad-41c6-8389-b3eb4859e605@rock-chips.com>
+Date: Thu, 7 Aug 2025 09:31:02 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|LV8PR12MB9109:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8cbc89e3-d490-4494-247e-08ddd545a6f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OXo7GkDC2PvcuLcpWxpUmMCBklvVDMllEtIh6M/0IaVrAKwpnqkItAHSyNnQ?=
- =?us-ascii?Q?qOb1RJubV1NApWhapU5C5BWLmniml+DljGBCTcnS/b7mRruB+mi1kDbapZT1?=
- =?us-ascii?Q?QrfTZeNkp5CaZfH0tSbq/sHTIahh+LbYR8UaMYWceSTjVWRM/BzM8jPShMwF?=
- =?us-ascii?Q?Q9c/W4su5xZh37TcCXox7ixpjADCQd8ggawHRiFVXrH/xnyc7QIB6qqF7tDS?=
- =?us-ascii?Q?YoL+ht9BSM/aQtAf3f0WGwZIrExlP8sXXQ+E4hKO7l9g3kvv97IuUl0Ijgxq?=
- =?us-ascii?Q?5Ui/Pqa7zlyIInRGGvW4GQi6W3zLKj+pn2htg7spmHFdqL9Ho0cb4hDDP6xq?=
- =?us-ascii?Q?QQ6YcsPHoYTAMENXSK2429GmGUL53iMiA3zDf7zLllDMu6vH/CQtPLjz8si8?=
- =?us-ascii?Q?greSqlMhHacl7KDGHpwbnJNOkf2hcwVlAsFmC9VGreG4l3tRo25eJB7vghVh?=
- =?us-ascii?Q?aXEeiC/9PBpjHVPHD0ZBkrP7Vg0SDweSkyeOpi//CtQH2exjTj6OjDa8l8gy?=
- =?us-ascii?Q?po8nF41aYjo+I7FizxXhRslbnsDST0wAr1KgEPFlV+GB72R67CkGAU4WmC9+?=
- =?us-ascii?Q?G8Tf1M705ue/VvgAl/BD/XxhkBA7YiSli8YRgDLUXvpc0wM5sjC17wUp69fP?=
- =?us-ascii?Q?Bqih7+N4oh6Q7A8TA2SPVWvdnwcfbjdzDW+fpSbH2wweR0sEGD+jGzQZSJeS?=
- =?us-ascii?Q?HaZSqkP0pMRCPKdUp4ukytQvN+BqBIFNNd0udhpNHjsLxYSN/ZomnIdoXrU6?=
- =?us-ascii?Q?AY6hoxwWXuaic8eOuMtAy+hV7x5STwo+htv0JGvIs7KThkfFYxg2GXAP3Byj?=
- =?us-ascii?Q?8UdSvk2wDzzk6Mty/zyoV50zyRuZbCLuic0T09yuq4pXdzFSX8RL11vjloO7?=
- =?us-ascii?Q?9ZOEkB43sSHKJFszxhQLEhjRcw7oLckcP9bxEQBcxWgsrMvctKhiRwVNxKX6?=
- =?us-ascii?Q?FxZHu5i3WcjbHHPu8WDfsIGw5AYPbSaprmRw+Mm6qEUyCu/HVrQC66idI+lr?=
- =?us-ascii?Q?+rLn2iMeyf5RypJOhsGMU4n3tUsgKcfCVSEL3+vuGswzzPw3OtTzC9/bHV10?=
- =?us-ascii?Q?a8bebS3hbI1aOJED0+uefHYi4q6FHjt0PxQQdH6oA1+FXFTGSdCnR1ueWejv?=
- =?us-ascii?Q?+gSQl7GdFMsHtshQXyYW32kpBP53Cz+J75KsypctnIoV7fsgHxmufk+JMQS7?=
- =?us-ascii?Q?xYLXLmP9RABgbw9Q3vwZD1tU6YASAaYcUtsVvx9hwetbvH3G0lPAPtPTjz9C?=
- =?us-ascii?Q?EcjraV0OWUBHAzxnR6S5j2djTi+HOLwODy5IpYkRU4/tnPvz+HwjW4znMHe7?=
- =?us-ascii?Q?XB54W0tJZjCNEPpoRpIWlD2tSc7fgeAbbwq5HLiJEAXQ9kg3UgldzYcgrdCR?=
- =?us-ascii?Q?kHQbL2wAEy5OMF3iXPmDJIrrxLFx/El6hFRoGHlL5D5O/nFbFQQ1Chd7OgQ0?=
- =?us-ascii?Q?We/D5Enm1SU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?07yU9u29SbbgDgbaa0s0BYhIsGM65Ty9jp+rLP6Nr4LfE9StweDQ5iuoOx38?=
- =?us-ascii?Q?V3oKnFAXmpcw4PTSreyAi0DJFyu/th2tyA9Vh1rWmr//C1Btw2xWJ4nPJmQr?=
- =?us-ascii?Q?CCeXvMUWN+xmda4p7cAh7IZhMg5aSkz2GYZpwKs9JqSlYXASDLS7xcW6Lwdq?=
- =?us-ascii?Q?xnsxAq3MoG7FOhqUhU3htJMyMl0jN+CeDkP7RzjaLnPXMTZPHH/8JQvpyr1k?=
- =?us-ascii?Q?gJL03/fKQdYY4mTZPx0z8CF1YFLD2AhLDMdM3aR2ATNyizdNRaSr9WgWDskr?=
- =?us-ascii?Q?EAATlkLmB8wBXjkSXABpKgoSvCugeJI8WgH7DJ2TXWmLUQm9YNqs4t+/0ov0?=
- =?us-ascii?Q?azEE7C6d05ioj9Ch4drJ0aZac8ApxMKk3CmVfPY3awh0bk/AtWpt4dKN00uP?=
- =?us-ascii?Q?ioeOxsPAR5ZVcV/3STEptQ5tI87uwbhM2Vhqi5qfXEAVdLnHhcl/MMBSpjs9?=
- =?us-ascii?Q?DaCxMOPKb7Zw2MXR9TR7Ku591wYPNKFO8lzeHXUtlyZCq4b4Q5Ed1vlpUFwl?=
- =?us-ascii?Q?QNu0LgXYZ70sz5PUF4GdElCxJLMbLhQIS7SVZeYWt25oAqsgeGWhZADUGIK3?=
- =?us-ascii?Q?Q/BND8jrZQfZJS0pAv3cSEjGCmRgKPXec10y/2dtms/+aWbP0H+gYMjQbMM/?=
- =?us-ascii?Q?A/nJc/1UPVLK8L4urgQj6g3huFXUJnmL1u9rtIuDjA+2TBgDwxtZxvU6bAkw?=
- =?us-ascii?Q?h5ijcVTBTvwvKwrddj+j2W+U90FzQVxmoZE+4mUP6Vo+ApRfAXGVH1po9lmN?=
- =?us-ascii?Q?RTJe4Ihu32la0UGEDJoicfMSB9oSL60hHFmzgNnxLYChOM/jlIau/jfdUlFt?=
- =?us-ascii?Q?ivXwAw8vBciUoHuxGAEW9ajI0RqD8G9QwsEo7Q5glvqwFyQ3JM6G3r5Tj8kZ?=
- =?us-ascii?Q?MTKOKMf/jx9R9sls5xuPnwHeMUzNhshlhVAqUk0U4iwNhxg2QbCNSE1AwrJS?=
- =?us-ascii?Q?fIQ5VjI5m5R19b/YVhbTSWS+3q+JvwJZm/aeMYeXu1tqoYVW5d3JAw1UqUQh?=
- =?us-ascii?Q?lcxsPZTcV9H+8gYmeJGVtp+RgppGkMbAjEGJq/ZMGUfqn6pNrj1S/2SgvJMD?=
- =?us-ascii?Q?aIUyvvQRcdtfUgjMACmloXk9udLoKSCsJY33pi69iIpg+9JFPw1N9lPKo8ZY?=
- =?us-ascii?Q?b8Z/dSOIepgcXBf4KMzRvapkh5VUpFVi42jnBGbLhEQMeNHFQL/YLLsGAsj/?=
- =?us-ascii?Q?BownYATT+Re7AIQDYpPu8GN/9upzHedV/uqq8uhkZMebaFS1S6q5SSTT0URf?=
- =?us-ascii?Q?dEumJ5bmYm2cZ6C4XyQfeyAFO+f4PPqoRFGnRUx6WuGDNu/ytEE+o8DVNZ1k?=
- =?us-ascii?Q?x64T2xlIckT+WVHxPcXI83eANxCZ41CJOlnYmntwtGATHKnE4rUwj9XWj8tv?=
- =?us-ascii?Q?OA4HZiGvYtDWSKLe+ZYSYp3dgA2UEbOgHQ2fdvDmI1n5SmH7r8GVsbpBcL/C?=
- =?us-ascii?Q?p3SsKfT7XLfNXnsHOX5t5o+JTeMpAUKy7ktXxvmVrX+wppGawroV8c+QMHT0?=
- =?us-ascii?Q?e/4ZTOK5zDqVl2Ha/2Zhuq5KeoO6laKtnAD/KCnR5ne7WJj9qpH12eMWcTOv?=
- =?us-ascii?Q?TV6xg+1MVqF+Y79Kujk=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8cbc89e3-d490-4494-247e-08ddd545a6f0
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 00:02:08.8420 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2bhw1jjqSaLhKRrNCTkgHjJXt5dzSnnelSSf7LezGHuUX7YA071SoA1P6o+3ExZQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9109
+User-Agent: Mozilla Thunderbird
+From: Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v3 00/14] Apply drm_bridge_connector and panel_bridge
+ helper for the Analogix DP driver
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
+ hjc@rock-chips.com, andy.yan@rock-chips.com,
+ dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20250724080304.3572457-1-damon.ding@rock-chips.com>
+ <c73fa024-fdd0-4f62-9c8a-11e7eee3c475@rock-chips.com>
+ <1cf4bc1b-d7f3-4a88-b8d8-d2f681dce370@rock-chips.com>
+ <38992177.XM6RcZxFsP@diego>
+Content-Language: en-US
+In-Reply-To: <38992177.XM6RcZxFsP@diego>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a988227308503a3kunm2154523888200d
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0tJS1YdTkkeTE1ISklJHRhWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=UsRTv+zfM7lf/hqTDg4zcq9ZrhdAALhPnOW1L/bak2mqRkXKYFnyfa0f1MEs8zpevO1FDDYrRQuG4id5mbxhiTzpugBS/N+pnZySLev5I6AZQoPCx32euPxEyRvke2lcvA4tO4Sdh4ten5g3Yg8fId6gPD4ZzFWvMCM97JDvFP8=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=wpgkwQgFw2aLN6OHenM0dKDLmv0ONgKFKT7BXvRMIH4=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,31 +72,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 06, 2025 at 03:42:14PM -0600, Alex Williamson wrote:
-> > +	p2p->mem.owner = &pdev->dev;
-> > +	/* On all p2p platforms bus_offset is the same for all BARs */
-> > +	p2p->mem.bus_offset =
-> > +		pci_bus_address(pdev, 0) - pci_resource_start(pdev, 0);
+Hi Heiko,
+
+On 2025/8/7 3:54, Heiko Stübner wrote:
+> Hi Damon,
 > 
-> But not all devices implement BAR0, nor is BAR0 necessarily in the
-> memory space, wouldn't this calculation be wrong if BAR0 were
-> unimplemented or an IO BAR?  
+> Am Dienstag, 29. Juli 2025, 05:16:27 Mitteleuropäische Sommerzeit schrieb Damon Ding:
+>> On 2025/7/29 11:02, Damon Ding wrote:
+>>> On 2025/7/26 3:45, Heiko Stübner wrote:
+>>>> Am Freitag, 25. Juli 2025, 04:15:06 Mitteleuropäische Sommerzeit
+>>>> schrieb Damon Ding:
+>>>>> On 2025/7/24 21:10, Heiko Stübner wrote:
+>>>>>> Am Donnerstag, 24. Juli 2025, 10:02:50 Mitteleuropäische Sommerzeit
+>>>>>> schrieb Damon Ding:
+>>>>>>> PATCH 1 is a small format optimization for struct analogid_dp_device.
+>>>>>>> PATCH 2 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
+>>>>>>> PATCH 3 is to apply a better API for the encoder initialization.
+>>>>>>> PATCH 4-7 are preparations for apply drm_bridge_connector helper.
+>>>>>>> PATCH 8 is to apply the drm_bridge_connector helper.
+>>>>>>> PATCH 9-11 are to move the panel/bridge parsing to the Analogix side.
+>>>>>>> PATCH 12-13 are preparations for apply panel_bridge helper.
+>>>>>>> PATCH 14 is to apply the panel_bridge helper.
+>>>>>>
+>>>>>> for future revisions, please provide a changelog on what changed since
+>>>>>> the previous version, I guess ideally here in the cover-letter.
+>>>>>>
+>>>>>>
+>>>>>> On my rk3588-tiger-displayport-carrier this works like a charm
+>>>>>> Tested-by: Heiko Stuebner <heiko@sntech.de>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>> Glad to see your review and test. :-)
+>>>>>
+>>>>> I will include the version-to-version changelogs (v2 -> v3 and v3 -> v4)
+>>>>> in the next iteration.
+>>>>
+>>>> I have to amend that a bit, sadly. When doing a reboot with the edp
+>>>> running, I see logs like:
+>>>>
+>>>> [...]
+>>>> [  139.614749] systemd-shutdown[1]: Syncing filesystems and block
+>>>> devices.
+>>>> [  139.622201] systemd-shutdown[1]: Rebooting.
+>>>> [  139.684845] ------------[ cut here ]------------
+>>>> [  139.690050] WARNING: CPU: 0 PID: 110 at drivers/iommu/rockchip-
+>>>> iommu.c:989 rk_iommu_identity_attach+0xac/0xbc
+>>>> [  139.701175] Modules linked in: panthor rockchip_vdec rocket
+>>>> drm_gpuvm v4l2_vp9 v4l2_h264 drm_exec rockchip_rng drm_shmem_helper
+>>>> v4l2_mem2mem gpu_sched rng_core fuse
+>>>> [  139.717685] CPU: 0 UID: 0 PID: 110 Comm: irq/58-HPD Not tainted
+>>>> 6.16.0-rc7-00183-gd436cbe8e4b3 #1541 PREEMPT
+>>>> [  139.728799] Hardware name: Theobroma Systems RK3588-Q7 SoM on Tiger
+>>>> Displayport Carrier v1 (DT)
+>>>> [  139.738548] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS
+>>>> BTYPE=--)
+>>>> [  139.746351] pc : rk_iommu_identity_attach+0xac/0xbc
+>>>> [  139.751821] lr : rk_iommu_identity_attach+0x70/0xbc
+>>>> [  139.757290] sp : ffff800080e4b7c0
+>>>> [  139.761001] x29: ffff800080e4b7c0 x28: ffff0001f6f98080 x27:
+>>>> ffff0001f0a4b010
+>>>> [  139.769006] x26: ffff0001f6f98e58 x25: 0000000000000000 x24:
+>>>> 0000000000000000
+>>>> [  139.777010] x23: 0000000000000000 x22: ffffdbf23c0485e0 x21:
+>>>> ffff0001f0e9cc10
+>>>> [  139.785014] x20: ffff0001f0df17a0 x19: ffff0001f0e2cb80 x18:
+>>>> 0000000000000038
+>>>> [  139.793018] x17: 0002550800000009 x16: 0000046c0446043e x15:
+>>>> 0438000008ca080c
+>>>> [  139.801021] x14: 07d008ca07800780 x13: 0438000008ca080c x12:
+>>>> 07d0078000025508
+>>>> [  139.809024] x11: 0002550800000009 x10: 0000046c0446043e x9 :
+>>>> ffffdbf23c137000
+>>>> [  139.817031] x8 : 0000000000000438 x7 : 0000000000000000 x6 :
+>>>> 0000000000000000
+>>>> [  139.825034] x5 : ffffdbf23adbb9c0 x4 : ffff0001f0df1780 x3 :
+>>>> ffff0001f0df1780
+>>>> [  139.833038] x2 : 0000000000000081 x1 : ffff0001f6fad500 x0 :
+>>>> 00000000ffffffea
+>>>> [  139.841042] Call trace:
+>>>> [  139.843780]  rk_iommu_identity_attach+0xac/0xbc (P)
+>>>> [  139.849252]  rk_iommu_attach_device+0x54/0x134
+>>>> [  139.854236]  __iommu_device_set_domain+0x7c/0x110
+>>>> [  139.859510]  __iommu_group_set_domain_internal+0x60/0x134
+>>>> [  139.865561]  __iommu_attach_group+0x88/0x9c
+>>>> [  139.870250]  iommu_attach_device+0x68/0xa0
+>>>> [  139.874841]  rockchip_drm_dma_attach_device+0x28/0x7c
+>>>> [  139.880508]  vop2_crtc_atomic_enable+0x620/0xaa0
+>>>> [  139.885678]  drm_atomic_helper_commit_modeset_enables+0xac/0x26c
+>>>> [  139.892413]  drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>>>> [  139.898369]  commit_tail+0xa0/0x1a0
+>>>> [  139.902279]  drm_atomic_helper_commit+0x17c/0x1b0
+>>>> [  139.907552]  drm_atomic_commit+0x8c/0xcc
+>>>> [  139.911951]  drm_client_modeset_commit_atomic+0x228/0x298
+>>>> [  139.918005]  drm_client_modeset_commit_locked+0x5c/0x188
+>>>> [  139.923960]  drm_client_modeset_commit+0x2c/0x58
+>>>> [  139.929137]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xb4/0x100
+>>>> [  139.936164]  drm_fb_helper_hotplug_event+0xe8/0xf8
+>>>> [  139.941526]  drm_fbdev_client_hotplug+0x24/0xe0
+>>>> [  139.946605]  drm_client_hotplug+0x48/0xc4
+>>>> [  139.951100]  drm_client_dev_hotplug+0x9c/0xd4
+>>>> [  139.955984]  drm_kms_helper_connector_hotplug_event+0x20/0x30
+>>>> [  139.962426]  drm_bridge_connector_hpd_cb+0x88/0xa0
+>>>> [  139.967790]  drm_bridge_hpd_notify+0x3c/0x60
+>>>> [  139.972577]  display_connector_hpd_irq+0x30/0xa4
+>>>> [  139.978835]  irq_thread_fn+0x2c/0xb0
+>>>> [  139.983894]  irq_thread+0x170/0x304
+>>>> [  139.988833]  kthread+0x12c/0x204
+>>>> [  139.993468]  ret_from_fork+0x10/0x20
+>>>> [  139.998486] ---[ end trace 0000000000000000 ]---
+>>>> [  140.004737] ------------[ cut here ]------------
+>>>> [  140.010884] WARNING: CPU: 0 PID: 110 at drivers/iommu/rockchip-
+>>>> iommu.c:1040 rk_iommu_attach_device+0x114/0x134
+>>>> [  140.023079] Modules linked in: panthor rockchip_vdec rocket
+>>>> drm_gpuvm v4l2_vp9 v4l2_h264 drm_exec rockchip_rng drm_shmem_helper
+>>>> v4l2_mem2mem gpu_sched rng_core fuse
+>>>> [  140.040577] CPU: 0 UID: 0 PID: 110 Comm: irq/58-HPD Tainted:
+>>>> G        W           6.16.0-rc7-00183-gd436cbe8e4b3 #1541 PREEMPT
+>>>> [  140.054457] Tainted: [W]=WARN
+>>>> [  140.058804] Hardware name: Theobroma Systems RK3588-Q7 SoM on Tiger
+>>>> Displayport Carrier v1 (DT)
+>>>> [  140.069595] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS
+>>>> BTYPE=--)
+>>>> [  140.078454] pc : rk_iommu_attach_device+0x114/0x134
+>>>> [  140.084989] lr : rk_iommu_attach_device+0x98/0x134
+>>>> [  140.091423] sp : ffff800080e4b7e0
+>>>> [  140.096197] x29: ffff800080e4b7e0 x28: ffff0001f6f98080 x27:
+>>>> ffff0001f0a4b010
+>>>> [  140.105270] x26: ffff0001f6f98e58 x25: 0000000000000000 x24:
+>>>> 0000000000000000
+>>>> [  140.114351] x23: ffff0001f6f843e0 x22: ffffdbf23c0485e0 x21:
+>>>> ffff0001f0e9cc10
+>>>> [  140.123425] x20: ffff0001f0e2cb80 x19: ffff0001f6f843c0 x18:
+>>>> 0000000000000038
+>>>> [  140.132489] x17: 0002550800000009 x16: 0000046c0446043e x15:
+>>>> 0438000008ca080c
+>>>> [  140.141552] x14: 07d008ca07800780 x13: 0438000008ca080c x12:
+>>>> 07d0078000025508
+>>>> [  140.150623] x11: 0002550800000009 x10: 0000046c0446043e x9 :
+>>>> ffffdbf23c137000
+>>>> [  140.159701] x8 : 0000000000000438 x7 : 0000000000000000 x6 :
+>>>> 0000000000000000
+>>>> [  140.168772] x5 : ffffdbf23adbb9c0 x4 : ffff0001f0df1780 x3 :
+>>>> ffff0001f0e2cbe0
+>>>> [  140.177825] x2 : 0000000000000081 x1 : ffff0001f6fad500 x0 :
+>>>> 00000000ffffffea
+>>>> [  140.186858] Call trace:
+>>>> [  140.190627]  rk_iommu_attach_device+0x114/0x134 (P)
+>>>> [  140.197124]  __iommu_device_set_domain+0x7c/0x110
+>>>> [  140.203417]  __iommu_group_set_domain_internal+0x60/0x134
+>>>> [  140.210492]  __iommu_attach_group+0x88/0x9c
+>>>> [  140.216203]  iommu_attach_device+0x68/0xa0
+>>>> [  140.221802]  rockchip_drm_dma_attach_device+0x28/0x7c
+>>>> [  140.228479]  vop2_crtc_atomic_enable+0x620/0xaa0
+>>>> [  140.234664]  drm_atomic_helper_commit_modeset_enables+0xac/0x26c
+>>>> [  140.242400]  drm_atomic_helper_commit_tail_rpm+0x50/0xa0
+>>>> [  140.249349]  commit_tail+0xa0/0x1a0
+>>>> [  140.254246]  drm_atomic_helper_commit+0x17c/0x1b0
+>>>> [  140.260496]  drm_atomic_commit+0x8c/0xcc
+>>>> [  140.265866]  drm_client_modeset_commit_atomic+0x228/0x298
+>>>> [  140.272885]  drm_client_modeset_commit_locked+0x5c/0x188
+>>>> [  140.279791]  drm_client_modeset_commit+0x2c/0x58
+>>>> [  140.285914]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xb4/0x100
+>>>> [  140.293889]  drm_fb_helper_hotplug_event+0xe8/0xf8
+>>>> [  140.300214]  drm_fbdev_client_hotplug+0x24/0xe0
+>>>> [  140.306248]  drm_client_hotplug+0x48/0xc4
+>>>> [  140.311695]  drm_client_dev_hotplug+0x9c/0xd4
+>>>> [  140.317531]  drm_kms_helper_connector_hotplug_event+0x20/0x30
+>>>> [  140.324930]  drm_bridge_connector_hpd_cb+0x88/0xa0
+>>>> [  140.331248]  drm_bridge_hpd_notify+0x3c/0x60
+>>>> [  140.336990]  display_connector_hpd_irq+0x30/0xa4
+>>>> [  140.343120]  irq_thread_fn+0x2c/0xb0
+>>>> [  140.348081]  irq_thread+0x170/0x304
+>>>> [  140.352937]  kthread+0x12c/0x204
+>>>> [  140.357501]  ret_from_fork+0x10/0x20
+>>>> [  140.362453] ---[ end trace 0000000000000000 ]---
+>>>>
+>>>>
+>>>> After some minutes of hanging it does reboot afterall.
+>>>>
+>>>> Heiko
+>>>>
+>>>>
+>>>
+>>> Could you please help confirm whether the same error still occurs with
+>>> this patch series under the same conditions?
+>>
+>> Careless, what I want to express should be '...without this patch
+>> series...'. :-)
+> 
+> sorry this took a tad longer for me to get back to this topic, but I was
+> now able to run a number of scenarios:
+> 
+> So I ran a number of variants and interestingly as the board I do eDP
+> tests on does not have any PCIe parts, I enountered an issue with
+> the PCIe SMMU [0].
+> 
+> When I disable the SMMU node, I also cannot reproduce the error from
+> above. So I've rebooted so many times today both with and without the
+> SMMU, and encountered the log from above only ever with the dangling
+> SMMU. So I'd assume, the Analogix series is actually innocent :-) .
+> 
+> 
+> Heiko
+> 
+> 
+> 
+> [0] https://lore.kernel.org/linux-rockchip/4400329.mogB4TqSGs@diego/T/#m5901974351b7c11e34f29a02b4f7f69b6ef29b2f
+> 
+> 
 
-I think you are correct about this.
+Thanks for testing! And v4 patch series is on the way. ;-)
 
-> Even within memory BARs I can imagine different translations for 32
-> vs 64 bit, prefetch vs non-prefetch, but per the comment I guess
-> we're excluding those.  Thanks,
-
-Humm, I had thought it was consistent for the device, but I guess not:
-
-	resource_list_for_each_entry(window, &bridge->windows) {
-		if (resource_contains(window->res, res)) {
-			offset = window->offset;
-
-Seems like each window can have its own offset.
-
-So the p2p should be made per-bar, and hold the bar index from the
-constructor..
-
-Jason
+Best regards,
+Damon
