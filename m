@@ -2,163 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B932B1D9C3
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 16:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0284B1D9CE
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 16:18:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6870210E339;
-	Thu,  7 Aug 2025 14:15:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6102410E86A;
+	Thu,  7 Aug 2025 14:18:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NGZNk1gg";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="g2fOYa3B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2053.outbound.protection.outlook.com [40.107.236.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA00610E339
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 14:15:16 +0000 (UTC)
+Received: from TYDPR03CU002.outbound.protection.outlook.com
+ (mail-japaneastazon11013002.outbound.protection.outlook.com [52.101.127.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE3F10E86A;
+ Thu,  7 Aug 2025 14:18:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xlG/jX9gTgrFCODU7utU9EhetrTfzLYpP1HnsuEl03KbKlu+YvOP5jXj4w9gpaR/0SlDlZut8bgIOnwQ/dmp3Xz8cAYpzXS+duLj7WG5IkaCGZOFdPDozVxu3C2QIXO9s1uAb17MeKUUtrEMRQjZu4MaUn7poUwcrsjdmaKTs0SZhyKs0FDtJlFG1hwsz1EAkJHsST6DqRnH4ijd7d4j+2PbKZdP9G6HLD7kPghYtP5JJ5/Cm4GbumIPdcUs/9vQvc6kIfkI913REINzYqkS3SjX5s7+RiFZSCPe3rSWeiQOlCxDHUwVgKv5+j1nPQRVOH0BNHhXgqBWugImLLgonQ==
+ b=PSK6rAnLQvM0OyvuFQNlVO92xw1Mj3dttbBQBsE0hKWUIU5VcXAj5CcImbASVwHRmIOas4OruiT5Rz+nkM/HH84eTCjiWF9Ri/gLCtAaiZmUZNLDmGwABm6wDBO3PQpvTuQBPW6bho04r8Mk2nQHOSoCb3Atf5YjVWl2bBpWmMzy5nMdtznl+p+srxjOkJcA/LsdlmP+d6aQPKAyB/lLSKBiHGRBJnx/n410cljeSAamkAMi/9YlTuQ5869lKDQ9RWbj2PPTKeVuUvn081YSXOiiwkloyn3qhakiPAlZFQkFPFDwqcKOmSW2vCJITDqAUtz2RpnBCTFl/+H7PPvQMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=myy4H46A2jJHcM50tCJLGXaElsSzqN33PGdnzskVQAI=;
- b=DudT/COE7oq/q8blqBufLIy8ycoK1RGrYjde5X17Fjeq56Wgk/15s48PoAHi1wuwjINSgBXdaam4kqSQJbtsEl5zalzp2hKWcwCZB3vqVSw8BnXgPSp3YMGLgjTQ2DHdYiay327KUscNNGqCZEwfQhzk/iHrE868yWSgnrr4+eANstmnyULE1ti8o1ElF2imEKRPtt6fbOWz/ZogmizFO4LJC8tsYRyk8rZGWyrlnQdVa54r5IloVYhnp7y7pEinsUjMyzX25Fkg4kTNem+lAx2oR1JnkAzT8d7i0Dehxwi/tRi/x79Tj9913RcL/ZijyM/y38fLPHEIbc2WxP4NPg==
+ bh=UDdgPZyi/XUD8kxvRagB6G5FoaLQk20w+UFgNO6Tb8A=;
+ b=XjjlDZu1cWXra7UrZHtYpYHXJN21c05J+onfoqDzSo/8Zh5ixOGEmpIiwAGc5eMBOCxIQHy6EX5U9K3eSQISM/BxEDj1s7PgX4BE09ztoeGBxeeB4W117fiorgKc8rja3XVCeeYJCd/uXROSqjlBVSw+BJ34Jq6YSuFXB2NS7FeDVWLb6wADt4ZUPMEa61+/ZADKvqid3pme6xnlOzy9N+Q5YfERjhxX0GbA4NZZUXM+DdJjIZOB6j2s5E2+AYP9CX8hpnNiHjHD3cWJ0X1sU1q8Ncyzb4Yh8NY6wLW4jufkim2n+3t6N8VMrAV/PscAu5WDsi5Y1nlWVwi+NvipFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=myy4H46A2jJHcM50tCJLGXaElsSzqN33PGdnzskVQAI=;
- b=NGZNk1ggRhlfi3u2aoOmcLUjg8PEG1obXzRttKXcKqtioBfUbVZsskW4jbNMjOie4b5ch4KZ9HR8T1IBoIfQbsFbMusiV4oV3tWCNBIX8Mec/2/CSKcnkAm8M8Kp7ucXdfQn770Sm/fkVQ/c8U9eOPvbMX9IlFP5fXvM36IiSbQ=
+ bh=UDdgPZyi/XUD8kxvRagB6G5FoaLQk20w+UFgNO6Tb8A=;
+ b=g2fOYa3B3EqEZq/eI9+mjU5A8kRQEDODpRF3Jzx4w8i5MkqYLTGNrAyTEm4Hi431tSmKDLkF1C4gV+2Pu+z5/aWctePs/3fPdEYXFgt/bHjU7D0jSAnQI52TOeivE7IOjDQPavQ2CjrPJ6Tj9/nf05FLBJoBoKx9Mecp5yf6zFoU0YnPQVTtXa82AkdXt98L6MOFzyb1lyM1yhkMrVCSLllZctO/PrgqiZeNyca9DQioFr0ocaFjMWU7B1ntmeX6YuwtjB8a6lGDgKV61zF0E5FRyhxch5hYgEvZ0020+oKmHn65nik57CllususX4iqYj9xfJB5Fs+JcM03+7RgaA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH2PR12MB4325.namprd12.prod.outlook.com (2603:10b6:610:a9::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.13; Thu, 7 Aug
- 2025 14:15:14 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8989.018; Thu, 7 Aug 2025
- 14:15:13 +0000
-Message-ID: <9caf8709-91ef-445a-aa4e-aede1899f364@amd.com>
-Date: Thu, 7 Aug 2025 16:15:06 +0200
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ SE1PPFDC587DD38.apcprd06.prod.outlook.com (2603:1096:108:1::42c) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.29; Thu, 7 Aug
+ 2025 14:17:58 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%4]) with mapi id 15.20.9009.013; Thu, 7 Aug 2025
+ 14:17:58 +0000
+Message-ID: <063e8aa4-a571-43e7-9a8d-752b04e6dd63@vivo.com>
+Date: Thu, 7 Aug 2025 22:17:54 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Extend and update documentation
-To: Philipp Stanner <pstanner@redhat.com>, Philipp Stanner
- <phasta@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH] drm: Remove redundant __GFP_NOWARN
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250724140121.70873-2-phasta@kernel.org>
- <f064a8c305bd2f2c0684251d3cd2470699c28d5e.camel@redhat.com>
- <5fb872d0-9b0a-4398-9472-eea3fdf61940@amd.com>
- <c1f7c4adaa0ac8d1994046436da8eb64bba5e06e.camel@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <c1f7c4adaa0ac8d1994046436da8eb64bba5e06e.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org
+References: <20250807134639.555274-1-rongqianfeng@vivo.com>
+ <69a17c463c6351b4e0ee03445f59b2d245e85e97@intel.com>
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+In-Reply-To: <69a17c463c6351b4e0ee03445f59b2d245e85e97@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0053.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:93::6) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+X-ClientProxiedBy: SI2P153CA0034.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:190::17) To SI2PR06MB5140.apcprd06.prod.outlook.com
+ (2603:1096:4:1af::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH2PR12MB4325:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5f8a2182-bab2-4a5a-af04-08ddd5bcd317
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|SE1PPFDC587DD38:EE_
+X-MS-Office365-Filtering-Correlation-Id: b33d53c6-bfdb-4cd3-20d0-08ddd5bd35d2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bFZBYUtxODNhZW52YUxVbUhiY1oveTZUTmFwOW9ZbUEycWxzNWNkUU9NZW1t?=
- =?utf-8?B?M1RXWnlvelg5WlB5b2oxb2NEcGtnMW9tZDFMVjZnYjE4WnRzZXFDUit0bkNx?=
- =?utf-8?B?b1JpbElDektlN2ZqTU9pTFRHVXJmNW1nSFZ3bjVzdUVyTmNlRDZXd1pad2NB?=
- =?utf-8?B?Nkh2MVZrTVBIb2hQZ3Q4YXYxRjA2QXRNQ2lWaHBselRlNTl5NWpzWmgxaXFC?=
- =?utf-8?B?bExPa1F0b1RXSkJXdGNmWmEweExDMG1QMlRUbHdZNlVnU2FXV1VlUFVUZFoz?=
- =?utf-8?B?VGxpMnNXZkJzMzBwbksyNnQvNHNITUhYVmI1cVVCSTVXczJFdm85VUViNDN2?=
- =?utf-8?B?eTJkNDlmVFUxZ0djUDRlUlVxMk8wayt0WVFwMlVIM2VvVFl5MGorL0hQY2Vi?=
- =?utf-8?B?WTVoS0tkVDNMdFFBa0RkOTdjOFMvZUZrYThFb0drNmlkbEROR3JiM2phdG0r?=
- =?utf-8?B?Tk82QUNtT0VtRGtYaWFQVkREb2hVZ3ZhSTUxTzN6K0pTVmZGZTRvNnMybjJr?=
- =?utf-8?B?RjlvMDBMNmluOUNpdlhndi8vWmF3SGkrc0FBa3NFL1NzM0t4WlZyUHAwUHc5?=
- =?utf-8?B?eG1ESjl3TlE5aVNYUWFVV0lSYUFYOTlNK2RGeCtMejNiMVVoaTVNT2hhVTRz?=
- =?utf-8?B?TVp0TzZUTHl2UDJaeHRrRFdEdm00VEFvMm9FeEVWdzVqblAxMElJelNWUzRB?=
- =?utf-8?B?d0hDb2ZrUW9mdVIvM0RnNWo0d2MxaTFoSHlkNWJldWpUbElQa05RSEcyRXM0?=
- =?utf-8?B?Vm1lY3RpbXJleDJPM3dVNnpJc3RONVI5R1FTUjdGbFVCRkNOM2dndm90Rmxy?=
- =?utf-8?B?OEhYTVBVUUgzNHBYK3pieVhhYXQ1NzBuY3kvcDRLMk50TzVsd3VqSmZNVFk2?=
- =?utf-8?B?UTJDa05lK2RGNTNPVHVmaGtiakQrMThXTU0wdmhsSWFXdWZoODZ1cUkyZlJW?=
- =?utf-8?B?ZDFhWVp4Yjh4S0E4Tlh5dWEzd3VYcGlhRDNSeW1hQzNOUUZ0OGZvUVVxeDdl?=
- =?utf-8?B?OG1iczFxSE5QV1hKdUtnNmNZdStGLzdDZ1RkVXJBWGY3YjZhMmZ4SFBHWTM1?=
- =?utf-8?B?T2xVS2w4SW0xcjcyY25wZ3JKNTZTRmg4UytSZTVYRzMvc3VVb1Rnd2xSRHVn?=
- =?utf-8?B?dUJKaURUbjdoYXNnMXpqM3VBUGZwTkp6dmlwSVpMRTd3SEJwWkNjMjFHU2Fw?=
- =?utf-8?B?ckhNUDFyR1NmS3ppbnBjYm1pMlNNcUlRbGovNktJNC93bjFQalI5VjdZT2l1?=
- =?utf-8?B?MXhyMXc4VlcybUk4ejdIYnYrSmoyTkIveHVjNG9OSjQxQVRrUjRzZGhwcHlE?=
- =?utf-8?B?L0JqZ0pDUVhpVmYyR3lyVXlNTHZ0TVdQeittRzFvc0t5K1ZWS2xXY1E1WkFD?=
- =?utf-8?B?RlF0bnpTb3hKRkc4TVZMWDcrMnNjQThmWHdwRU5Rb1dneURvVnFpK1F3Q1pr?=
- =?utf-8?B?YTNpTWl1b1hUSlJHSnpZUzh1RlBIeWRRc2NVVmxSR3pPT0IxdHExUEFTTk9z?=
- =?utf-8?B?blR3OXBVc3BSMVVUTGYzME9lSzZRRHZrRUkvdlBXVk8xamw0bDhNUGQyZkxk?=
- =?utf-8?B?WkxWM2x1YkNNWEp0VDdnUGdOeGlYc2pad3J4eS9UQ2RmN3ZjblNqbVdEN2pm?=
- =?utf-8?B?R1I1VEx5WE02azdzeGp2VGlySUkrSklmRnpjdmtxWUFLRlN6Mm9tZ3VsZzF4?=
- =?utf-8?B?TVNzRXVsZ2lUckNjTlNacVZOSXF3SG1GcWRFRldtMXJXeGpjZGY3Nm9UZHZ3?=
- =?utf-8?B?YzRLUVR4NDlUcTBVRkNzOWFnV3grWmNieGVaSUdqMVBkVUpRQ2h4T2c2VUFU?=
- =?utf-8?B?Ni84WWxnQVhQSUZyM012amx0OVFRY2g0NUgwQkI4UlYydXFwZ0NnQ0JyYWN5?=
- =?utf-8?B?TUtKbm9vT1J4ZVdabE5sM0Vnc2piTENHbmxTL2h0RXZTT3dZamlWNURxZmpr?=
- =?utf-8?B?NWFCSWZrSGx3bXI2bHRWYWtPRE9kemVBSGYwTFRxZjQwV292eVpOQkRycE1x?=
- =?utf-8?B?NjhHQkI5dWZ3PT0=?=
+ ARA:13230040|1800799024|366016|376014|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?R1FINkZ2RCtHVWM2Q3ROelJBL3J3ODZ4ZjJTLzBOa1Y0djF4SVZxRFNGekg0?=
+ =?utf-8?B?L0dTRzI0V2FkR2g1blQyU0pIOVFrbFNBem5tWE81VEl1OTRJRFhiUEQ2bVZR?=
+ =?utf-8?B?bGgrcmUvQ2JVWUV0RW4wNmNpc21hclBhcFlIUHUzNVRrTW52NmsvZzUzMlhr?=
+ =?utf-8?B?dnllTUl3dDc0UDZBVUlmblMveVo1SG05WldzSUQwdFVXZTBZS1NyRHMzOUNM?=
+ =?utf-8?B?WkhiRWZxTWhOalRsTHhKR2VKN2EwQmF3eGJLQ0QyLzdKNjZjNU92QVM1MExM?=
+ =?utf-8?B?WWluOUZ5S1g2KzRvNlRXOTRDbDZBdlpRV1hTK2R0TkNHMjlQeFprUzRCK0Jz?=
+ =?utf-8?B?YkVqeHJCSFl5RTZkTkxvSXNXejZYLzg2MnNVSUZHY3NoOUc1YzdOVWtvdTBP?=
+ =?utf-8?B?RGlsTHpoQXRvZFlYNlNxanZEMUxYNkd3WjlKYnhUYTdYa29NMzBSa0w2NUxt?=
+ =?utf-8?B?eWFNalJHVUNDT0ZMM1Q2cHh2OFJiOVQ2cFF5UThabHU0NlhERzNiM243bDhB?=
+ =?utf-8?B?OTJOTFNjWWhvdlYwRk9TdlBUSWZOWTVPSFdsM0tHeHArMTZudWZ2ZlFGOWtM?=
+ =?utf-8?B?cXdVRHJhWmdPVE82TFFFV2JKak11cnhpKzBTSkVvMnBtcUlpUzNEWlJpT3hv?=
+ =?utf-8?B?dnc4WFJucUZmaXQ3RmowTkxlRnN2Vk1TUTMvS2VQQjZrTnZWZ3FTL2ZFN2lO?=
+ =?utf-8?B?QUk5S1dvaU5rTnM4S2JGOWR6Q0J1d2E0bVBuaG5ES0xkZk1rNmNlNkQ3WGc0?=
+ =?utf-8?B?ZGhrWis2eWZtUzFUd3pKdTM0YTdjQytmL2l0OWFLMjVwbzBUaXFoRzE2QUlT?=
+ =?utf-8?B?a3dwK1Y5N21ibEVDSzhVQ210U1p3WmZZNm55VTAycG51MzRqMkpKVlZuL092?=
+ =?utf-8?B?Rzg3c2tzV0IyL2RGNFp5NWUrdnBQa3piM2VBMFpORFZTbURSWHZJaWxHRHR6?=
+ =?utf-8?B?ajhPKy9Ib3kzcDBVVlBER3JqS0VlRHNFUGtaQm4vNFBKdUhoYXdtSkhHU0Fw?=
+ =?utf-8?B?eU9IN2RjeTFsQ05Zd2luNXFSejNOQ0hmZitsL29JT1lCc2NvMVJwM0ZCd2hK?=
+ =?utf-8?B?eHhhQmhUMTNMb3JkWVpBZnZtVWJwRi9FdVh6VlltS3lZSTlrQ1J6c2gzSDQ2?=
+ =?utf-8?B?anh5TVpXTTgxeWJDeU16QTR5NWdHNVRIdDBPSUFQWk9nZ1RNODNMckplQXZ6?=
+ =?utf-8?B?Zi83NGY2WGd4QmFWK0RzdjJQQjNvUkMxNkhzcGFXOG8reWpVSFpTb3NWNUdl?=
+ =?utf-8?B?NDRkV3NISUdiUURQTDZRR2d4NmhGdlk5MEpsNzNIY0ZWUjVJNEFlSnJNa1Va?=
+ =?utf-8?B?OUQ0enlUVXV2SGlVMGxkVjF3Y3JUNlFJSW9UMjRhUDJONWZDWThuNHU0QmNq?=
+ =?utf-8?B?QnpodFRZcStTR1pZL2oySWlRdVVIejdYbkhzVHR5QXM1bDVuOWdVRlR3VS9I?=
+ =?utf-8?B?MWVaVmtHQXcvN1RlTHdRUmRuK3ZrRDhDNmMyaWhTMk5rcmxSUUJ3UW5rSXBH?=
+ =?utf-8?B?cDVjYnFqRUZDRjhNOHg3a0twTk1laHQ4ZUpPc0trSzBFbURGNEFvZ3AzUlQ1?=
+ =?utf-8?B?c0NxY2lqdktDUmh2a3VTT2hUSUR4cEFmeUNOUHNRQ1FUQWptanZTTGw2Qm9s?=
+ =?utf-8?B?OUJWaUQ1RlZWR2V5RlN0TWlQY2RSbE9RKzN1WXhVTjdwV09nNGNYcWtjaVlB?=
+ =?utf-8?B?ZTZVRHpEeXJUU3hNNENJeGk0aitGb2RaVENyVGszeTh4NjVXOXJYZUp1SWlR?=
+ =?utf-8?B?ek9ZMExyNlJ1UkxxSTQ4MmhkVUxQd25tZGdZK2NQTldURVdGZzJJMmZBNVBC?=
+ =?utf-8?B?UWcwVm9aM2ZTclZhUW9Mcm11SGJiUERiRDc4NFZTWG5DV3FUSzBMbHVsaHlh?=
+ =?utf-8?B?Um5xbko5OTZ5bEtIc3Qzd08wQVVvZGZHRkRTcFgrYUVzUnBnUFJ4aFlpRW1k?=
+ =?utf-8?B?bUM4dXN3TDBFbFhuc1NwRkxvTmpxbU0xR2dMdGkzNGprdHhiczY5MVVyeG9q?=
+ =?utf-8?B?cW5LMWpKbUhRPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016)(921020); DIR:OUT; SFP:1101;
+ IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020); DIR:OUT; SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QTFNaFpMTU1uV2Nmb1RYem4ySUZtUXhVNGE3YnNlZnhtV0NSeURyVTR4WXRT?=
- =?utf-8?B?NVdRWXpPQmk2czRzZjFMbVVDL3BYZUltVnJ0eE4rNy9ocW5wY2JhM0lCa0wx?=
- =?utf-8?B?VDMxRlptYVZGOGZabC9YWXNHRWVBdGd6L0tkYVVKa29zZlVkdHFLM2NOaUxS?=
- =?utf-8?B?aXRZU0tDWndob0Vyb1hhMmhBbWxmdWk4UFFTTC9kS05MN3RvbTJiaUVsaVZz?=
- =?utf-8?B?Vk52L0tBaThqRWdyUVlOampFZkdDVUdzL2VTU3FUYlNYcDZEUE1rMmJPRUZn?=
- =?utf-8?B?WC9QRXBsblY2ZlBDT0xWcTBRdGk4WXN3WDZrbGdPMzZjR1FEbUNyelVHUXlK?=
- =?utf-8?B?b05mSzFtWjJ5ZGZ3N09MdGdGcjdsZDI0U0pGQTQ0ckNLcjJmc2tFdW5YV1VS?=
- =?utf-8?B?ZFB6TkgybzFlREJOMlgrK2ViYUhVSUpwYldLM1ljQ2YzdmdYL2tDL3dwaW8x?=
- =?utf-8?B?dktYOUZnQnVJVnBMU0FPY0JqeGIzWU95Qmw1OUVsTHQyeVdwdGJ5OWMyRjR6?=
- =?utf-8?B?OHdzQ003YnhwUWhxY3dIUngvWVg0S3Mvb1lleXdaUkRUZnloYmdDNlJFdmRo?=
- =?utf-8?B?L3YwL25MdjJqVlZMZWd5NTNqemVzK012N1pER0tOUGFodnEvRU16ZXB5NHZD?=
- =?utf-8?B?YUhCWlg2UHA1UXUrZXJzdzlnZW9UY1Rtbmo0cVhlR2N1aFRJR0Q3cDZDcThN?=
- =?utf-8?B?WVpwaWwxZTNCWi93MHBPZzA3MkdRekJoM3QvNFVoRWhKcWczRG5OUFY5RWNV?=
- =?utf-8?B?YkxZNlVtS01od1lGdVZaN3NsajR1QTBNSUpNK2hQamdHdTMvdTllcGNPS0I1?=
- =?utf-8?B?NWNRajVnYzlyZWZUeE9TZEdMUk1rUzJyYllRSHFSNWlNRS9tVUxnWDhhcFlv?=
- =?utf-8?B?dlFrelVEOGJQY01CRFVpYlllQldrKzF4ZUR4OVVOeXNMbXNxS2dLSUJ3L0Fr?=
- =?utf-8?B?Q2hEQlc5L2RkaE1DcTU0Mkw5b0hVV3ZyODVBektqMzdHbEJVQ1BNRE5vSGor?=
- =?utf-8?B?VzNZWTU0YW91akRCL3A4U1ZNZmp4NUlacU9uOWNTMlRTWWpvR0xVaHNQcmpP?=
- =?utf-8?B?TEJQNlRKRWx1aVFOcnB5eEpPZ3REZXJkVk44bExQWGhLSDRLYndrMnB4VGRB?=
- =?utf-8?B?TmVZTmRQbE9qTFkxWjhBQ0JGNERvWTNXY3AwTVVNRWN5VmdoUFRxTEU3b2ZY?=
- =?utf-8?B?emtSN25pV3YyQTlXem5Wci9MYmFVR2N0S2JlWDd0Mnd6UzhOYWNzSjA0Y2J5?=
- =?utf-8?B?SEhtUlJjdVRySS81cVRxRjRNdnIvOXNBeFZSY2taVGRNMERmcDZvaXloWXgy?=
- =?utf-8?B?bVRobDBpZEt6M0l6WnhyUkNLR2pIVGU5c1gzWUlDRkJJeDRJNmp2VFIvNXlW?=
- =?utf-8?B?OERGU1l6ZC83cGFxT0Rab2ptWDZoQkpDWi8waGhpdHd5Mk92NUQzdlRzdktV?=
- =?utf-8?B?V3pPKzlRdldZS05hYzF0Ny9UZVR2VC9oYjdmT1dPcEFFQXlUWjM2aE54ZGVo?=
- =?utf-8?B?SHpZT0VzUHd2MkFUNDFncTJXdTl4Yy9BbVZucTcrRkVPT2w4d0JUaHVqRHBa?=
- =?utf-8?B?dFdRRmlwS1NBWVhVQ0s5VWhLTTMyd2tXaUNXUi93cTU3U2FvS2RocDFmb2k0?=
- =?utf-8?B?dmtQUzdibk5RamZWa09sc2txNVV4Zm9ObkFvMHhJR3pkSS9VcGJERVNKYWxw?=
- =?utf-8?B?eTVBWFZ6bXBmQVdaQkUxdGFJN2NBWS9acUl4VjZUU3RJb1Y5czlYczY3bXRQ?=
- =?utf-8?B?dndIYWNBT1liMCtnay8rMWllOWZaejNyTDhvS21lZ1dNeFhUNEhJUnhEZCsx?=
- =?utf-8?B?U01wNWllcWpaMUxnZWVVS2c5Nml6TEErZ2FjRjdHQ0JZSG9TNkZ4clU5djln?=
- =?utf-8?B?dXRGbHc4RlFzSGRFb3B3ZnBTU3lwaUQ5ZzV0dHgyTnc3aStBS1p0K1JXZ0hS?=
- =?utf-8?B?UDVaakJLM0oyM01QSFZOck9mTUZTKzJnV2YxMHlESzJSYkgxbGNZOVNiNlBi?=
- =?utf-8?B?NGwvbUp0aW9oUmZlQmdCZnpFcENLVDZ2N1VzS3FXRE5sUG5BalFubC9oYjhG?=
- =?utf-8?B?WWhKSkNxdmgySkJlV3p1YWtNVVZGaDRkRGQxeGozSCtONzFCbFhPU3dXR21n?=
- =?utf-8?Q?hZ1V86wqf5DEGKtzrPK1qidcp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f8a2182-bab2-4a5a-af04-08ddd5bcd317
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXcwOEhIeEtXQUNSY1g0emROc1AveXFDRUdYMFBEYmxsM1ZielpJL2dCOC9H?=
+ =?utf-8?B?M0FMc3V3VlFTaWo4OGVuYXpaMmphTTd5K1lXY2pPUUVxVDVySVBSZ2VTSUVW?=
+ =?utf-8?B?TkRIakVWSFF4Z1BrRWhBWUxJeXJsOVBWRVNwa3U2SU1yY2hrVTQ3OXlQSk5D?=
+ =?utf-8?B?MmpFcGZsejdrTnU4NFRLOFhwWW1mL3FNOXd4RzNwTXprd1lFdExIbEdlak1C?=
+ =?utf-8?B?K29SUFBpWGcvZWxnN0Y0OFF0eHk2NG5zV2t2NmtJVUEvTDB2T1pXZWN5MVNs?=
+ =?utf-8?B?N3JTa1Z1TTc4U0hGK0VwakpBbW4vZnY2YjdnY1l4ZllKNUVqYVhMZHp4c2lx?=
+ =?utf-8?B?UWZpdEhYRkhSSGgrUW9oZmpvMXIwanhVaE8rbzZuT1h1Qjl5WFBySXdFWFY5?=
+ =?utf-8?B?WFdPMDE3aFlWQUhBV1RudG1ib2NqMWZZajRJa1ZsQjNRUVhOTXMrNEQ0dTVp?=
+ =?utf-8?B?enhWbzdUY09TcFY2NndJSnpTSTdOQXRZdFc5L1Vzb29RRlUrN0l4dmlPY2I5?=
+ =?utf-8?B?S205RTh0aDVwcHZlZm11RDBiN29Ed0FtVm1ReDlLQkVncC9mWGpQeEU0dmtr?=
+ =?utf-8?B?OEZLWHA2MnBOdWlPZFgzbk5ydkc2S0dEU09MY21DKzJRbktuNTM0MzM4bGdw?=
+ =?utf-8?B?bkJxVWN6WGh3ekFRK0FxOWJGUEp0c2pNRmhxM3dXUDE4cTZYbDczVHJOb0JJ?=
+ =?utf-8?B?Y1dOblBVVm5mNEVqUTR5Z1RjRnF3WFpJQXM4aWNmQno1SFlaK3RSQ3F5S25H?=
+ =?utf-8?B?dDhRQmY2TUI3VnI4T1BEdGJaMWlZVjBZQWNwcEFhSWhyc1hnKzF2MnQ5YURl?=
+ =?utf-8?B?NlZuelRRWFJDOE5qK2preUlBYzhSdStKcFJwdW9XUTFZSXYzU01hOENXZTdL?=
+ =?utf-8?B?MkFOaGY0TldaQmliMFVsRGlxNStFbXMwUFUvQUFjUElwbXRqdVhxNDZOZjhO?=
+ =?utf-8?B?RXVtVXo0RU1YN2tEenE3U2xMVmNLSnZEMkJ3Vy9CYjhKeEhJSlZ2VjhrUnZK?=
+ =?utf-8?B?VnJxYWpMZTlTcjZzNUJGM0FwQmVRN3p5bGh6ZHZvYXlKdHJWWENoRFNtaEJq?=
+ =?utf-8?B?MkVMWkpmaEZyUGlVbXVMeGtGWWN5N1YzWnh1WlBwbkM0cFY2UG1RVGZmcHdJ?=
+ =?utf-8?B?VzNiL2tsM2orcGkyaDRLMVZuRHRZM01iOTdpclByeFFiYUxONVhxN2hxQSt1?=
+ =?utf-8?B?QTF6eVE3RGhzSUFYQUp0VFUwOTFUb0NmSko4TzA4NExaVHdzWi9iamtQSlUx?=
+ =?utf-8?B?RnlMV05UTjJEUyt1TjBYTGZoSys0OHlvU2FwR3loRlJZMVdDRHBzOVVRa3FR?=
+ =?utf-8?B?cDN0bHhCaklIR01Tc0VMUDE1cVUwTlU4TURyVFVMdWZGRlZhUEVhbXdRTFRM?=
+ =?utf-8?B?MEhJR1pEamVWb3hzWGdsTmRMNlExL05xWmRndjVzck1xR05WQ1VCZGZBTDls?=
+ =?utf-8?B?Qnp6WnlOaWxNK01RZ2pFTXpBOWRrS3JmNDZBa0s5amtZRmZQWWEyOFZQam5V?=
+ =?utf-8?B?OFdtQzB2K0tjTjFpNzhZTWJRUFZYenpBOG9jSmU4OFNtUG9jVDZwSWhnOWFa?=
+ =?utf-8?B?OTNGUzA4eXhBYkJ2SmxYVDZxSk1RNlVINS80bGRNc0FTVFowNFphT1lDS1hI?=
+ =?utf-8?B?VkR5MVRPWlJzeE1CcHlNdHBuQ0xaeXdwbXZWK2dPWXNCbkpCbzBVS2ZIcGpn?=
+ =?utf-8?B?ZzYwblluemJTQjdyNXhKZlh1YnEvQi9GNTNxQVZPK3kvdHVzZElYNDJSd3Bp?=
+ =?utf-8?B?dkN1Q1pxVDJZUVhiWDVTYTJ1d2ZzZmVDNXFTZFNkUE1kMklJQ1kwMktpNzNZ?=
+ =?utf-8?B?cDZmQVYyaEorazcxV2l4TWNZWEV3elg3ZG90bUhFVlRoRDBqRDQrQTZVbVA0?=
+ =?utf-8?B?ZnMxS3E4WGVjSzZtaU9SZm1KcGdTTzhYNDN4eUcvWkVWaEsxMjd6TS9IV2hV?=
+ =?utf-8?B?cXRlVElBUGF2NjNtT0ExSnJHZVJoSzM3Mndaak5JODdoeVNyNzZ0UnBkWno5?=
+ =?utf-8?B?N2NZcGduVTJGMXVrM2RRSHZTTWUwZFdtLzQwcWozWGo3M3gzOC9CVFNFV3dL?=
+ =?utf-8?B?UFdaTHF2NW00VnVBcW14Z2swS3dWTnlyeEN3Z25OM3dNVXFITG9PdkZlU09v?=
+ =?utf-8?Q?3xYKdCdzfBQ/cqjzZAN0bTO+P?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b33d53c6-bfdb-4cd3-20d0-08ddd5bd35d2
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 14:15:13.2318 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 14:17:58.6659 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iQI5zHHYr0KMCk7zUt5c28VSdUEYGI5zx5+SoHrqagh0v8pDXmjyZl/tdm2LYE5J
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4325
+X-MS-Exchange-CrossTenant-UserPrincipalName: Uvnxq0oZgXNBZCcONH+fVM10C+sld+zyJ6130dNb+IFaQDydOGqdd6/7CDBFVW8djT3pjQVpMZlPyzBxXgBhqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1PPFDC587DD38
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,103 +170,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05.08.25 12:22, Philipp Stanner wrote:
-> On Tue, 2025-08-05 at 11:05 +0200, Christian König wrote:
->> On 24.07.25 17:07, Philipp Stanner wrote:
->>>> +/**
->>>> + * DOC: Scheduler Fence Object
->>>> + *
->>>> + * The scheduler fence object (&struct drm_sched_fence) encapsulates the whole
->>>> + * time from pushing the job into the scheduler until the hardware has finished
->>>> + * processing it. It is managed by the scheduler. The implementation provides
->>>> + * dma_fence interfaces for signaling both scheduling of a command submission
->>>> + * as well as finishing of processing.
->>>> + *
->>>> + * The lifetime of this object also follows normal dma_fence refcounting rules.
->>>> + */
->>>
->>> The relict I'm most unsure about is this docu for the scheduler fence.
->>> I know that some drivers are accessing the s_fence, but I strongly
->>> suspect that this is a) unncessary and b) dangerous.
+
+在 2025/8/7 22:13, Jani Nikula 写道:
+> On Thu, 07 Aug 2025, Qianfeng Rong <rongqianfeng@vivo.com> wrote:
+>> Commit 16f5dfbc851b ("gfp: include __GFP_NOWARN in GFP_NOWAIT")
+>> made GFP_NOWAIT implicitly include __GFP_NOWARN.
 >>
->> Which s_fence member do you mean? The one in the job? That should be harmless as far as I can see.
-> 
-> I'm talking about struct drm_sched_fence.
-
-Yeah that is necessary for the drivers to know about. We could potentially abstract it better but we can't really hide it completely.
-
+>> Therefore, explicit __GFP_NOWARN combined with GFP_NOWAIT
+>> (e.g., `GFP_NOWAIT | __GFP_NOWARN`) is now redundant. Let's clean
+>> up these redundant flags across subsystems.
 >>
->>> But the original draft from Christian hinted at that. So, @Christian,
->>> this would be an opportunity to discuss this matter.
->>>
->>> Otherwise I'd drop this docu section in v2. What users don't know, they
->>> cannot misuse.
+>> No functional changes.
 >>
->> I would rather like to keep that to avoid misusing the job as the object for tracking the submission lifetime.
-> 
-> Why would a driver ever want to access struct drm_sched_fence? The
-> driver knows when it signaled the hardware fence, and it knows when its
-> callbacks run_job() and free_job() were invoked.
-> 
-> I'm open to learn what amdgpu does there and why.
+>> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+>> ---
+>>   drivers/gpu/drm/drm_modeset_lock.c               | 4 ++--
+> Please separate the drm core changes...
+>
+>>   drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c | 4 ++--
+>>   drivers/gpu/drm/i915/i915_active.c               | 2 +-
+> ...from the i915 driver changes.
+>
+> Thanks,
+> Jani.
 
-The simplest use case is performance optimization. You sometimes have submissions which ideally run with others at the same time.
+Ok.
 
-So we have AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES which basically tries to cast a fence to a scheduler fence and then only waits for the dependency to be pushed to the HW instead of waiting for it to finish (see amdgpu_cs.c).
+Thanks,
+Qianfeng.
 
-Another example are gang submissions (where I still have the TODO to actually fix the code to not crash in an OOM situation).
-
-Here we have a gang leader and gang members which are guaranteed to run together on the HW at the same time.
-
-This works by adding scheduled dependencies to the gang leader so that the scheduler pushes it to the HW only after all gang members have been pushed.
-
-The first gang member pushed now triggers a dependency handling which makes sure that no other gang can be pushed until gang leader is pushed as well.
-
->>>> +/**
->>>> + * DOC: Error and Timeout handling
->>>> + *
->>>> + * Errors are signaled by using dma_fence_set_error() on the hardware fence
->>>> + * object before signaling it with dma_fence_signal(). Errors are then bubbled
->>>> + * up from the hardware fence to the scheduler fence.
->>>> + *
->>>> + * The entity allows querying errors on the last run submission using the
->>>> + * drm_sched_entity_error() function which can be used to cancel queued
->>>> + * submissions in &struct drm_sched_backend_ops.run_job as well as preventing
->>>> + * pushing further ones into the entity in the driver's submission function.
->>>> + *
->>>> + * When the hardware fence doesn't signal within a configurable amount of time
->>>> + * &struct drm_sched_backend_ops.timedout_job gets invoked. The driver should
->>>> + * then follow the procedure described in that callback's documentation.
->>>> + *
->>>> + * (TODO: The timeout handler should probably switch to using the hardware
->>>> + * fence as parameter instead of the job. Otherwise the handling will always
->>>> + * race between timing out and signaling the fence).
->>>
->>> This TODO can probably removed, too. The recently merged
->>> DRM_GPU_SCHED_STAT_NO_HANG has solved this issue.
->>
->> No, it only scratched on the surface of problems here.
->>
->> I'm seriously considering sending a RFC patch to cleanup the job lifetime and implementing this change.
->>
->> Not necessarily giving the HW fence as parameter to the timeout callback, but more generally not letting the scheduler depend on driver behavior.
-> 
-> That's rather vague. Regarding this TODO, "racing between timing out
-> and signaling the fence" can now be corrected by the driver. Are there
-> more issues? If so, we want to add a new FIXME for them.
-
-Yeah good point. We basically worked around all those issues now.
-
-It's just that I still see that we are missing a general concept. E.g. we applied workaround on top of workaround until it didn't crashed any more instead of saying ok that is the design does that work? Is it valid? etc...
-
-> That said, such an RFC would obviously be great. We can discuss the
-> paragraph above there, if you want.
-
-I will try to hack something together. Not necessarily complete but it should show the direction.
-
-Christian.
-
-> 
-> 
-> Regards
-> P.
