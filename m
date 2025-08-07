@@ -2,98 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EF5B1D41A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 10:13:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00380B1D4B8
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 11:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46AE210E800;
-	Thu,  7 Aug 2025 08:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DDA010E32A;
+	Thu,  7 Aug 2025 09:33:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ITYlz7R1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bk7dA+Ig";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 054C810E7F9
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 08:13:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 272BC61417;
- Thu,  7 Aug 2025 08:13:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC76EC4CEEB;
- Thu,  7 Aug 2025 08:13:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754554392;
- bh=A51/Rqu8ChKnnqJyQB7GXr9rO6OuMmU/1Y4g1/PZF04=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ITYlz7R1JNbfGV+hsFTvC+oIYHKQTKsVcN+CTSh231gRIlqYG7zlqdaZkU46+XC5/
- AfGpzWy+HLENLFPMgn19axIxHCk6pauDPkETYiyXBJD5QtZxjpocTcC50aeWEhbyWr
- UZhTIDhx7W3Azi2r1i9jymX+MjRIaMhQky41LiYRPO6tjA9iSlHUoe2OHoDX+jQcq8
- I0Sfb+6VmL4E260BtVsdY94BDqSoI7oeQ6hsy0xqi2rVvkgdUIRePmFTEcvymHKMsc
- gik6yBvAtLWDkeXMekyC/ZFJRwVtw5sSm5t5LSAKEbcx9E7SQm4eE/H+zfv6RHXe5S
- WH2YDY1K8d7cA==
-Message-ID: <24a5ac33-945b-4861-ac0b-94eaa647e893@kernel.org>
-Date: Thu, 7 Aug 2025 10:13:07 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8794410E0A4;
+ Thu,  7 Aug 2025 09:33:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754559231; x=1786095231;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=U0W/Ud+ztqd9qbgCgIOXl0GPLWURlsY1ZwUV6f+RAY8=;
+ b=bk7dA+IgkAwrQaTjjPUZ7QiZm5o2kd9yk1yKVYIC777caX1CSHjVzkBb
+ p9jzXz/4tIKs7qkPAtRqG1eW6ixQ2s6BbfaL7nwoFyNm5trEFTyOzYC5q
+ LyViUhCPk4qxX+B01YAz3P9eKa59+8fryJLRljJcHWC85tWpgdgpjwtHv
+ x91A0QN77i+SHOAQxzNk5uh0M+jazZFsDDLEcb3WXuu4cRN26ixcnJVhc
+ QnAMkrhbRfubffPWFqvfz3WRt2v1E0XY3RYVu6E0xCI5GL0txupVlFW3T
+ jGQQUNk+eVuD4Fl/MtJDijWCGXLtVEQMc+fKhpgG9zm//ie+rM6tdiUud Q==;
+X-CSE-ConnectionGUID: 9hbsyzHdQbSBIhovlVvXpg==
+X-CSE-MsgGUID: scnzGl83R+G3lHOYZQ/Y3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56597238"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="56597238"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2025 02:33:50 -0700
+X-CSE-ConnectionGUID: 2MpQawJyTMqy9gEnngQGrw==
+X-CSE-MsgGUID: TPfzUW0FQ6K2FvCMA3qooQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="164918504"
+Received: from nemesa.iind.intel.com ([10.190.239.22])
+ by fmviesa006.fm.intel.com with ESMTP; 07 Aug 2025 02:33:48 -0700
+From: Nemesa Garg <nemesa.garg@intel.com>
+To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Nemesa Garg <nemesa.garg@intel.com>
+Subject: [PATCH 00/10]  Introduce drm sharpness property
+Date: Thu,  7 Aug 2025 14:58:31 +0530
+Message-Id: <20250807092841.3169436-1-nemesa.garg@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] MAINTAINERS: Add entry for Sitronix ST7920 driver
-To: Iker Pedrosa <ikerpedrosam@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <20250806-st7920-v1-0-64ab5a34f9a0@gmail.com>
- <20250806-st7920-v1-3-64ab5a34f9a0@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250806-st7920-v1-3-64ab5a34f9a0@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,31 +65,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/08/2025 14:48, Iker Pedrosa wrote:
-> Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
+      Many a times images are blurred or upscaled content is also not as
+crisp as original rendered image. Traditional sharpening techniques often
+apply a uniform level of enhancement across entire image, which sometimes
+result in over-sharpening of some areas and potential loss of natural details. 
 
-Missing commit msg or just squash it with patch #2.
+Intel has come up with Display Engine based adaptive sharpening filter 
+with minimal power and performance impact. From LNL onwards, the Display
+hardware can use one of the pipe scaler for adaptive sharpness filter.
+This can be used for both gaming and non-gaming use cases like photos,
+image viewing. It works on a region of pixels depending on the tap size.
 
-> ---
->  MAINTAINERS | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5ddf37f0acc960039422ef988cadfa7176972fc5..79b8a277e38b55ebcff05450d6c565c0d87c6b51 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7861,6 +7861,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
->  F:	drivers/gpu/drm/sitronix/st7735r.c
->  
-> +DRM DRIVER FOR SITRONIX ST7920 LCD DISPLAYS
-> +M:	Iker Pedrosa <ikerpedrosam@gmail.com>
-> +S:	Maintained
-> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+This is an attempt to introduce an adaptive sharpness solution which
+helps in improving the image quality. For this new CRTC property is added.
+The user can set this property with desired sharpness strength value with
+0-255. A value of 1 representing minimum sharpening strength and 255
+representing maximum sharpness strength. A strength value of 0 means no
+sharpening or sharpening feature disabled.
+It works on a region of pixels depending on the tap size. The coefficients
+are used to generate an alpha value which is used to blend the sharpened
+image to original image.
+ 
+Middleware MR link: https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3665
+IGT patchwork link: https://patchwork.freedesktop.org/series/130218/
 
+Continuing discussions from:  https://patchwork.freedesktop.org/series/129888/
 
-Drop, unless you have commit rights there. Parent entry already covers
-this, doesn't it?
+Got ack from kwin maintainer on the UAPI patch.
 
-Best regards,
-Krzysztof
+Nemesa Garg (10):
+  drm/drm_crtc: Introduce sharpness strength property
+  drm/i915/display: Introduce HAS_CASF for sharpness support
+  drm/i915/display: Add strength and winsize register
+  drm/i915/display: Add filter lut values
+  drm/i915/display: Compute the scaler coefficients
+  drm/i915/display: Add and compute scaler parameter
+  drm/i915/display: Configure the second scaler
+  drm/i915/display: Set and get the casf config
+  drm/i915/display: Enable/disable casf
+  drm/i915/display: Expose sharpness strength property
+
+ drivers/gpu/drm/drm_atomic_uapi.c             |   4 +
+ drivers/gpu/drm/drm_crtc.c                    |  35 +++
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/display/intel_casf.c     | 293 ++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_casf.h     |  24 ++
+ .../gpu/drm/i915/display/intel_casf_regs.h    |  33 ++
+ drivers/gpu/drm/i915/display/intel_crtc.c     |   3 +
+ .../drm/i915/display/intel_crtc_state_dump.c  |   7 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  37 ++-
+ .../drm/i915/display/intel_display_device.h   |   1 +
+ .../drm/i915/display/intel_display_types.h    |  15 +
+ drivers/gpu/drm/i915/display/skl_scaler.c     |  90 +++++-
+ drivers/gpu/drm/i915/display/skl_scaler.h     |   2 +
+ drivers/gpu/drm/xe/Makefile                   |   1 +
+ include/drm/drm_crtc.h                        |  18 ++
+ 15 files changed, 551 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_casf.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_casf.h
+ create mode 100644 drivers/gpu/drm/i915/display/intel_casf_regs.h
+
+-- 
+2.25.1
+
