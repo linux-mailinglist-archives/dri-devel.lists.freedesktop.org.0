@@ -2,106 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F616B1CF75
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 01:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9711EB1CF99
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 02:02:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBAA310E7CD;
-	Wed,  6 Aug 2025 23:38:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79FEB10E1A3;
+	Thu,  7 Aug 2025 00:02:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="B4NhXMfZ";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="LCS9QAOa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3AB110E7CD
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Aug 2025 23:38:32 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 576E26DD008114
- for <dri-devel@lists.freedesktop.org>; Wed, 6 Aug 2025 23:38:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=Ac6klSnA9Mr53PX86rTjqGkchVoRjSTOCtS4mQwGPtg=; b=B4
- NhXMfZIY3KWm6jV5nbmTTOhsPk0QXzDg9ZDqfcFXdh6wYO/uesBS/3C2wsO83bFJ
- rP68H2+u/of4suW5za0If4n+6E9fC7Uaz34XB5Nzc1ipssLt297je78LzE60wx2K
- RwQ2yF9S1SQVMo+D9/J6HWQeu7grns/0tAe7jy082gJUhvMZVhAyhUQEFBxP5OGO
- iZ/jvb8vHLNklSATXeRZSX3kxIe/db8E4vKpF1bPsU5gK0MSdNVpGNP8ttjSaUlw
- UAW9C/yH6s/mbvPMflLUBFBeBOI78k4GtNJ/Ha0/IWIDPFioZATiGhx4zX3GiRJ9
- CRuq4Np6lHjjALpAKTlg==
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpy7vby2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Aug 2025 23:38:32 +0000 (GMT)
-Received: by mail-oi1-f199.google.com with SMTP id
- 5614622812f47-40ab2c50f7cso1673254b6e.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Aug 2025 16:38:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754523511; x=1755128311;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ac6klSnA9Mr53PX86rTjqGkchVoRjSTOCtS4mQwGPtg=;
- b=AfF3WqlpOYBzYIAZwYrk+doxA8kGfU/4M6UR52Lk8yCzQrcuv2uq2Ni7puxfoVrgS/
- RguYmVVi1gvUx+qaVg4VtQ+KKRGB+GcW/1yoBXPU3eqdtR9cUlL7LeQicxCw7PIOW2Wk
- okq/nqbcX88stA0lnJ638oKKzTj9VOyt7RPZ3LrzJcHXDuALtK6BuSZvF1yf4oN8llAo
- 0e0qA5EWH7ic/KoQXP9k8li1u+Uj1sdKg18lR1faBnX5O108liXg+XIVvW7OFvt7nPR/
- K5D0bdvJfgFNMzpMopJnRtTQxKowc4Xdq5YMav2orhjrZVgYf6JnHCjiU17HIf2pHSoq
- DwPg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWojQfbn4mGbQjiaco4tTvL9ZKMSU1dwdSsshq0O2Cvkkrn+DG4FuAvWTUoHEUgkktauSo5kwctPKE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1uFGewYN5PraQffXJK5xeNYSRbCrnqXGcMInidTLoqPRV5kUZ
- kalOnh1/XueQ+TPVh7fhbeHEzpEubkEaXi+Bqx1GarmHkAQpfuFGbcx6tF/MTqWVHze9VxPPaMH
- t90Fyfam33DDnwWCdm8WpkBgXL10dQnCOIx/hzcJRrnt7+8Yfm+SM7u9shIm91srjnPreBocLZ1
- tyjzuL0mnI3lGFxye01kEXWA+zNsc+oqn4Tdb4A+Bi6AxDVw==
-X-Gm-Gg: ASbGncuNpsu72xG0JW+sBqXCIORreEJH+gFI9ILiGTWuWWbvYhGS9S3Iz98YxnHsloV
- R3Agjq/EBZpEviqoDD1eQ7rNbTrb7jr9NZv30eq4Y3qZNnlcf1nIjtQw1Mk7c1nBb2/DAb3h8++
- h1uQ3g3rMSVYpNt1twwoCBf1c0SEGxJjo4960gB6FpqEI/Mol/zQvc
-X-Received: by 2002:a05:6808:188e:b0:407:a0ea:a233 with SMTP id
- 5614622812f47-43587d4aefbmr1086828b6e.10.1754523510883; 
- Wed, 06 Aug 2025 16:38:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEajvgQwj0cA40SDmJZi443/ZvRJrXgIh9b0IEiCevFL8xUX1afj5QQsW7XjUX+4Vja9Yolv8KBFejgkt9sl+0=
-X-Received: by 2002:a05:6808:188e:b0:407:a0ea:a233 with SMTP id
- 5614622812f47-43587d4aefbmr1086811b6e.10.1754523510491; Wed, 06 Aug 2025
- 16:38:30 -0700 (PDT)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2058.outbound.protection.outlook.com [40.107.223.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88C4E10E1A3
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 00:02:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bzJRsSkuSdwpBC20tXnUgAgWhhCanWNP72ggyGsKCGwjehvFHzKcsNA//8dX8gI+U+Rl1zNzDGVmKwCudCC8cD0HMJ2oxwHfZ4hzsSdMplHno/c0qZEnDLbT1WfY+Gq2IE5i+wOi3TqL6AzxCEUnD+TtHTlDcGuU0wpmaOrZGA/Y4RRHcZwFBb+HQTw0k6azOKoFSlF1qXTICFvoLzEtBX9ELgkpLf6X54xUzT3wSFqUZgh5b+UKCyezd9upAzGt+FFE85e/ttIcnadheSqm2uc3zCRvQgyRv59NFEUQnC2ucBduNiMhaHCnw0HnXXVKSxNn67R+hkXV4+G8uZrcaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x9BpYJU1q1VVVp9RyKtd/Sa713iezlK0JgA40wwO0EY=;
+ b=XeVduyeeJn3nmTcgJIgHp6vOUWPFfvr2nZ+HwaQ/+uE1lRXn3JUenefUHx/3hzOvzAiIHpyQ+6iBEIggn0kXI/C28PlkB7BSLwZ/+4QuuqTCGELmGjUcEvhqlhAz8LvJOwjfkBZyQz9lJEp/Jq+aa9oqSOPVGsqsH3P2Fx/p4f5o9iruxF9cHFKi6rX9Dyh5pIdr5/rCr0GtzPfrDtjE+hrcJK4NQoHE/mN3vwnd1g8gVc5Vjp7HoBvHlKUK45vfTrNVflltSL2sjSkoSKuQIin/yraUu3bzfbCzLY+Zyi5Fyo89s9b9HpDHj3UI9TpVP4lfOZl/tYOiF73MaQr4pA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x9BpYJU1q1VVVp9RyKtd/Sa713iezlK0JgA40wwO0EY=;
+ b=LCS9QAOaqsmvX1iJ8MKZO5jDfkc1pQLnHo1RLUgkoN4Ybu39ZRweFejEhOlbCt0txkm3lDPD6QaUcgBDY1tgiE/VEAOtzKG6rQP8anjP17ByEXCsh2pWkcMA+OwRYEEsTKPbA0IoA9WrG7d2bZJ7ZDCVLD3A6sUqdFv/RLOfMtZcnyUqZjgFgWCbKvtGfNFKizvDH8+xPFZHgX15zqZF5JHyHdNMm6T5ABsmAIlwgwNqEO1YIzInCmpR9RVgfcNHEcyGyOdC42bZJtAxXLI2eV81LBJpK9Od8bISlqYB9GholBZv33FAXbw6yOE2RfPA+cnsB4sAsqb9IYpdhv+Eqw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by LV8PR12MB9109.namprd12.prod.outlook.com (2603:10b6:408:18a::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.15; Thu, 7 Aug
+ 2025 00:02:09 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.9009.013; Thu, 7 Aug 2025
+ 00:02:08 +0000
+Date: Wed, 6 Aug 2025 21:02:07 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+ Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org,
+ Logan Gunthorpe <logang@deltatee.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v1 04/10] PCI/P2PDMA: Refactor to separate core P2P
+ functionality from memory allocation
+Message-ID: <20250807000207.GE184255@nvidia.com>
+References: <cover.1754311439.git.leon@kernel.org>
+ <cab5f1bfd64becafcc887107bb4386f2c8630ef3.1754311439.git.leon@kernel.org>
+ <20250806154214.1c2618e8.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250806154214.1c2618e8.alex.williamson@redhat.com>
+X-ClientProxiedBy: YT3PR01CA0121.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:83::27) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
-References: <20250805225557.593192-1-sashal@kernel.org>
-In-Reply-To: <20250805225557.593192-1-sashal@kernel.org>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Wed, 6 Aug 2025 16:38:19 -0700
-X-Gm-Features: Ac12FXzyXnGkvSc4Rh5FVrwgztoGD-i80tBzbFVH33Tmk6r1gudt7__afChJygA
-Message-ID: <CACSVV02Z=4Saw=-MA6zz-Dsye8T=AcARWs1AhUbWnyA8sY7fdQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Fix objtool warning in submit_lock_objects()
-To: Sasha Levin <sashal@kernel.org>
-Cc: lumag@kernel.org, abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com, 
- sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
- simona@ffwll.ch, antomani103@gmail.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=Mftsu4/f c=1 sm=1 tr=0 ts=6893e778 cx=c_pps
- a=yymyAM/LQ7lj/HqAiIiKTw==:117 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
- a=VwQbUJbxAAAA:8 a=QLtsSAfmF_M2AFDG84kA:9 a=QEXdDO2ut3YA:10
- a=efpaJB4zofY2dbm2aIRb:22
-X-Proofpoint-ORIG-GUID: pY77x5bRIqDai_jv7nhGMb3H0kR2OjaT
-X-Proofpoint-GUID: pY77x5bRIqDai_jv7nhGMb3H0kR2OjaT
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX+PxlYhJMaF3p
- 4gz40hv0xGmqoYgnfCd2tBES+JK5UouFvPPBGG0QYXl++FzLLxJkvmW7VK9u9nU/tGa9hQHtmSo
- YsfZGzyQqBjHXn+Rz01D1oetxNnQ8X8j4hNat9PQz0zp5EQSwloDm++9GyjDwVF86XWww0mArWr
- cDPaRizv0D6PAc6RsGmh2YnCrGwC0w9PNe/BrRD0fgA8TFeO4puUdz9SB0rjX3oxBpdiWqfh6Nf
- Cj4NMLhURkVOhraZZnm6xV82lsL6GENxciZXGd/TOqMKt87BhT1s8WpICce3lrQfPI5fXfCqN6U
- +T4JmVmltuZvS9mQ/43hjeIPpbnZXFdNesOb4S6qDwtUAW4vgX6swEYNx2/D395qpcw2WrZV89S
- uzDJUtFP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-06_05,2025-08-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 priorityscore=1501 phishscore=0 bulkscore=0
- spamscore=0 suspectscore=0 adultscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508060009
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|LV8PR12MB9109:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8cbc89e3-d490-4494-247e-08ddd545a6f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OXo7GkDC2PvcuLcpWxpUmMCBklvVDMllEtIh6M/0IaVrAKwpnqkItAHSyNnQ?=
+ =?us-ascii?Q?qOb1RJubV1NApWhapU5C5BWLmniml+DljGBCTcnS/b7mRruB+mi1kDbapZT1?=
+ =?us-ascii?Q?QrfTZeNkp5CaZfH0tSbq/sHTIahh+LbYR8UaMYWceSTjVWRM/BzM8jPShMwF?=
+ =?us-ascii?Q?Q9c/W4su5xZh37TcCXox7ixpjADCQd8ggawHRiFVXrH/xnyc7QIB6qqF7tDS?=
+ =?us-ascii?Q?YoL+ht9BSM/aQtAf3f0WGwZIrExlP8sXXQ+E4hKO7l9g3kvv97IuUl0Ijgxq?=
+ =?us-ascii?Q?5Ui/Pqa7zlyIInRGGvW4GQi6W3zLKj+pn2htg7spmHFdqL9Ho0cb4hDDP6xq?=
+ =?us-ascii?Q?QQ6YcsPHoYTAMENXSK2429GmGUL53iMiA3zDf7zLllDMu6vH/CQtPLjz8si8?=
+ =?us-ascii?Q?greSqlMhHacl7KDGHpwbnJNOkf2hcwVlAsFmC9VGreG4l3tRo25eJB7vghVh?=
+ =?us-ascii?Q?aXEeiC/9PBpjHVPHD0ZBkrP7Vg0SDweSkyeOpi//CtQH2exjTj6OjDa8l8gy?=
+ =?us-ascii?Q?po8nF41aYjo+I7FizxXhRslbnsDST0wAr1KgEPFlV+GB72R67CkGAU4WmC9+?=
+ =?us-ascii?Q?G8Tf1M705ue/VvgAl/BD/XxhkBA7YiSli8YRgDLUXvpc0wM5sjC17wUp69fP?=
+ =?us-ascii?Q?Bqih7+N4oh6Q7A8TA2SPVWvdnwcfbjdzDW+fpSbH2wweR0sEGD+jGzQZSJeS?=
+ =?us-ascii?Q?HaZSqkP0pMRCPKdUp4ukytQvN+BqBIFNNd0udhpNHjsLxYSN/ZomnIdoXrU6?=
+ =?us-ascii?Q?AY6hoxwWXuaic8eOuMtAy+hV7x5STwo+htv0JGvIs7KThkfFYxg2GXAP3Byj?=
+ =?us-ascii?Q?8UdSvk2wDzzk6Mty/zyoV50zyRuZbCLuic0T09yuq4pXdzFSX8RL11vjloO7?=
+ =?us-ascii?Q?9ZOEkB43sSHKJFszxhQLEhjRcw7oLckcP9bxEQBcxWgsrMvctKhiRwVNxKX6?=
+ =?us-ascii?Q?FxZHu5i3WcjbHHPu8WDfsIGw5AYPbSaprmRw+Mm6qEUyCu/HVrQC66idI+lr?=
+ =?us-ascii?Q?+rLn2iMeyf5RypJOhsGMU4n3tUsgKcfCVSEL3+vuGswzzPw3OtTzC9/bHV10?=
+ =?us-ascii?Q?a8bebS3hbI1aOJED0+uefHYi4q6FHjt0PxQQdH6oA1+FXFTGSdCnR1ueWejv?=
+ =?us-ascii?Q?+gSQl7GdFMsHtshQXyYW32kpBP53Cz+J75KsypctnIoV7fsgHxmufk+JMQS7?=
+ =?us-ascii?Q?xYLXLmP9RABgbw9Q3vwZD1tU6YASAaYcUtsVvx9hwetbvH3G0lPAPtPTjz9C?=
+ =?us-ascii?Q?EcjraV0OWUBHAzxnR6S5j2djTi+HOLwODy5IpYkRU4/tnPvz+HwjW4znMHe7?=
+ =?us-ascii?Q?XB54W0tJZjCNEPpoRpIWlD2tSc7fgeAbbwq5HLiJEAXQ9kg3UgldzYcgrdCR?=
+ =?us-ascii?Q?kHQbL2wAEy5OMF3iXPmDJIrrxLFx/El6hFRoGHlL5D5O/nFbFQQ1Chd7OgQ0?=
+ =?us-ascii?Q?We/D5Enm1SU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?07yU9u29SbbgDgbaa0s0BYhIsGM65Ty9jp+rLP6Nr4LfE9StweDQ5iuoOx38?=
+ =?us-ascii?Q?V3oKnFAXmpcw4PTSreyAi0DJFyu/th2tyA9Vh1rWmr//C1Btw2xWJ4nPJmQr?=
+ =?us-ascii?Q?CCeXvMUWN+xmda4p7cAh7IZhMg5aSkz2GYZpwKs9JqSlYXASDLS7xcW6Lwdq?=
+ =?us-ascii?Q?xnsxAq3MoG7FOhqUhU3htJMyMl0jN+CeDkP7RzjaLnPXMTZPHH/8JQvpyr1k?=
+ =?us-ascii?Q?gJL03/fKQdYY4mTZPx0z8CF1YFLD2AhLDMdM3aR2ATNyizdNRaSr9WgWDskr?=
+ =?us-ascii?Q?EAATlkLmB8wBXjkSXABpKgoSvCugeJI8WgH7DJ2TXWmLUQm9YNqs4t+/0ov0?=
+ =?us-ascii?Q?azEE7C6d05ioj9Ch4drJ0aZac8ApxMKk3CmVfPY3awh0bk/AtWpt4dKN00uP?=
+ =?us-ascii?Q?ioeOxsPAR5ZVcV/3STEptQ5tI87uwbhM2Vhqi5qfXEAVdLnHhcl/MMBSpjs9?=
+ =?us-ascii?Q?DaCxMOPKb7Zw2MXR9TR7Ku591wYPNKFO8lzeHXUtlyZCq4b4Q5Ed1vlpUFwl?=
+ =?us-ascii?Q?QNu0LgXYZ70sz5PUF4GdElCxJLMbLhQIS7SVZeYWt25oAqsgeGWhZADUGIK3?=
+ =?us-ascii?Q?Q/BND8jrZQfZJS0pAv3cSEjGCmRgKPXec10y/2dtms/+aWbP0H+gYMjQbMM/?=
+ =?us-ascii?Q?A/nJc/1UPVLK8L4urgQj6g3huFXUJnmL1u9rtIuDjA+2TBgDwxtZxvU6bAkw?=
+ =?us-ascii?Q?h5ijcVTBTvwvKwrddj+j2W+U90FzQVxmoZE+4mUP6Vo+ApRfAXGVH1po9lmN?=
+ =?us-ascii?Q?RTJe4Ihu32la0UGEDJoicfMSB9oSL60hHFmzgNnxLYChOM/jlIau/jfdUlFt?=
+ =?us-ascii?Q?ivXwAw8vBciUoHuxGAEW9ajI0RqD8G9QwsEo7Q5glvqwFyQ3JM6G3r5Tj8kZ?=
+ =?us-ascii?Q?MTKOKMf/jx9R9sls5xuPnwHeMUzNhshlhVAqUk0U4iwNhxg2QbCNSE1AwrJS?=
+ =?us-ascii?Q?fIQ5VjI5m5R19b/YVhbTSWS+3q+JvwJZm/aeMYeXu1tqoYVW5d3JAw1UqUQh?=
+ =?us-ascii?Q?lcxsPZTcV9H+8gYmeJGVtp+RgppGkMbAjEGJq/ZMGUfqn6pNrj1S/2SgvJMD?=
+ =?us-ascii?Q?aIUyvvQRcdtfUgjMACmloXk9udLoKSCsJY33pi69iIpg+9JFPw1N9lPKo8ZY?=
+ =?us-ascii?Q?b8Z/dSOIepgcXBf4KMzRvapkh5VUpFVi42jnBGbLhEQMeNHFQL/YLLsGAsj/?=
+ =?us-ascii?Q?BownYATT+Re7AIQDYpPu8GN/9upzHedV/uqq8uhkZMebaFS1S6q5SSTT0URf?=
+ =?us-ascii?Q?dEumJ5bmYm2cZ6C4XyQfeyAFO+f4PPqoRFGnRUx6WuGDNu/ytEE+o8DVNZ1k?=
+ =?us-ascii?Q?x64T2xlIckT+WVHxPcXI83eANxCZ41CJOlnYmntwtGATHKnE4rUwj9XWj8tv?=
+ =?us-ascii?Q?OA4HZiGvYtDWSKLe+ZYSYp3dgA2UEbOgHQ2fdvDmI1n5SmH7r8GVsbpBcL/C?=
+ =?us-ascii?Q?p3SsKfT7XLfNXnsHOX5t5o+JTeMpAUKy7ktXxvmVrX+wppGawroV8c+QMHT0?=
+ =?us-ascii?Q?e/4ZTOK5zDqVl2Ha/2Zhuq5KeoO6laKtnAD/KCnR5ne7WJj9qpH12eMWcTOv?=
+ =?us-ascii?Q?TV6xg+1MVqF+Y79Kujk=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cbc89e3-d490-4494-247e-08ddd545a6f0
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 00:02:08.8420 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2bhw1jjqSaLhKRrNCTkgHjJXt5dzSnnelSSf7LezGHuUX7YA071SoA1P6o+3ExZQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9109
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,124 +157,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 5, 2025 at 3:56=E2=80=AFPM Sasha Levin <sashal@kernel.org> wrot=
-e:
->
-> Restructure submit_lock_objects() to use a single loop with break
-> statements to fix objtool warning:
->
->   drivers/gpu/drm/msm/msm.o: warning: objtool: submit_lock_objects+0x451:
->   sibling call from callable instruction with modified stack frame
->
-> The drm_exec_until_all_locked() macro uses computed gotos internally
-> for its retry loop. Having return statements inside this macro, or
-> immediately after it in certain code paths, confuses objtool's static
-> analysis of stack frames, causing it to incorrectly flag tail call
-> optimizations.
+On Wed, Aug 06, 2025 at 03:42:14PM -0600, Alex Williamson wrote:
+> > +	p2p->mem.owner = &pdev->dev;
+> > +	/* On all p2p platforms bus_offset is the same for all BARs */
+> > +	p2p->mem.bus_offset =
+> > +		pci_bus_address(pdev, 0) - pci_resource_start(pdev, 0);
+> 
+> But not all devices implement BAR0, nor is BAR0 necessarily in the
+> memory space, wouldn't this calculation be wrong if BAR0 were
+> unimplemented or an IO BAR?  
 
-Maybe we should instead just split out a separate
-submit_lock_objects_vmbind() and restore the error path 'goto error'
-instead of returning from within the loop?  Ie. basically revert
-submit_lock_objects to the way it was before commit 92395af63a99
-("drm/msm: Add VM_BIND submitqueue"), and then move the rest into a
-new fxn (with 'goto error' instead of 'return ret'?  In retrospect the
-vmbind case is kinda just shoehorned into the existing fxn.
+I think you are correct about this.
 
-I can type up this version if you have better things to do.
+> Even within memory BARs I can imagine different translations for 32
+> vs 64 bit, prefetch vs non-prefetch, but per the comment I guess
+> we're excluding those.  Thanks,
 
-BR,
--R
+Humm, I had thought it was consistent for the device, but I guess not:
 
-> Fixes: 92395af63a99 ("drm/msm: Add VM_BIND submitqueue")
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  drivers/gpu/drm/msm/msm_gem_submit.c | 43 ++++++++++++----------------
->  1 file changed, 19 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/m=
-sm_gem_submit.c
-> index 5f8e939a5906..253347b6e328 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> @@ -276,46 +276,41 @@ static int submit_lock_objects(struct msm_gem_submi=
-t *submit)
->  {
->         unsigned flags =3D DRM_EXEC_INTERRUPTIBLE_WAIT;
->         struct drm_exec *exec =3D &submit->exec;
-> -       int ret;
-> +       int ret =3D 0;
->
-> -       if (msm_context_is_vmbind(submit->queue->ctx)) {
-> +       if (msm_context_is_vmbind(submit->queue->ctx))
->                 flags |=3D DRM_EXEC_IGNORE_DUPLICATES;
->
-> -               drm_exec_init(&submit->exec, flags, submit->nr_bos);
-> +       drm_exec_init(&submit->exec, flags, submit->nr_bos);
->
-> -               drm_exec_until_all_locked (&submit->exec) {
-> +       drm_exec_until_all_locked (&submit->exec) {
-> +               if (msm_context_is_vmbind(submit->queue->ctx)) {
->                         ret =3D drm_gpuvm_prepare_vm(submit->vm, exec, 1)=
-;
->                         drm_exec_retry_on_contention(exec);
->                         if (ret)
-> -                               return ret;
-> +                               break;
->
->                         ret =3D drm_gpuvm_prepare_objects(submit->vm, exe=
-c, 1);
->                         drm_exec_retry_on_contention(exec);
->                         if (ret)
-> -                               return ret;
-> -               }
-> -
-> -               return 0;
-> -       }
-> -
-> -       drm_exec_init(&submit->exec, flags, submit->nr_bos);
-> -
-> -       drm_exec_until_all_locked (&submit->exec) {
-> -               ret =3D drm_exec_lock_obj(&submit->exec,
-> -                                       drm_gpuvm_resv_obj(submit->vm));
-> -               drm_exec_retry_on_contention(&submit->exec);
-> -               if (ret)
-> -                       return ret;
-> -               for (unsigned i =3D 0; i < submit->nr_bos; i++) {
-> -                       struct drm_gem_object *obj =3D submit->bos[i].obj=
-;
-> -                       ret =3D drm_exec_prepare_obj(&submit->exec, obj, =
-1);
-> +                               break;
-> +               } else {
-> +                       ret =3D drm_exec_lock_obj(&submit->exec,
-> +                                               drm_gpuvm_resv_obj(submit=
-->vm));
->                         drm_exec_retry_on_contention(&submit->exec);
->                         if (ret)
-> -                               return ret;
-> +                               break;
-> +                       for (unsigned i =3D 0; i < submit->nr_bos; i++) {
-> +                               struct drm_gem_object *obj =3D submit->bo=
-s[i].obj;
-> +                               ret =3D drm_exec_prepare_obj(&submit->exe=
-c, obj, 1);
-> +                               drm_exec_retry_on_contention(&submit->exe=
-c);
-> +                               if (ret)
-> +                                       break;
-> +                       }
->                 }
->         }
->
-> -       return 0;
-> +       return ret;
->  }
->
->  static int submit_fence_sync(struct msm_gem_submit *submit)
-> --
-> 2.39.5
->
+	resource_list_for_each_entry(window, &bridge->windows) {
+		if (resource_contains(window->res, res)) {
+			offset = window->offset;
+
+Seems like each window can have its own offset.
+
+So the p2p should be made per-bar, and hold the bar index from the
+constructor..
+
+Jason
