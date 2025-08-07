@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C88B1D905
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 15:28:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E862B1D906
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 15:28:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 335CC10E84E;
-	Thu,  7 Aug 2025 13:28:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0F310E849;
+	Thu,  7 Aug 2025 13:28:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ZwLpU7EZ";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="OURQaiKu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41CF110E849
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 13:28:13 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-458baf449cbso9729915e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Aug 2025 06:28:13 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD6810E849
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 13:28:14 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-455fdfb5d04so5441095e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Aug 2025 06:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1754573292; x=1755178092;
+ d=raspberrypi.com; s=google; t=1754573293; x=1755178093;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=/UjLlQ+L3bIru1QWf7Opm9SNHsuB1DBkMulE4apVSC4=;
- b=ZwLpU7EZM2T/uMRypiTjJbqRecPMu9x1xia5M8ZOOeA6HLtfeHsKyexZE2eJLM2yAY
- B+ek9D80py/zkiqXE7ZSKSPChSGLcY01VEPEJ1DQwbqw/v/T3UCDmX7O3RLfaWnSRO91
- drNYUqqm4je9CH1/oFws3Vf4nSDi/EvVLEzveg/+1TriJeLzFWIg1hkq0W91nDJQtWqt
- ojF91aoXCC1Ly7lk8DsxwKFVkpWUVaq+Vlj/tQmEIhSWJWrtqsppxNEgMpDTbVp9SGZr
- IbCYuFlvkfxO8LJZUnEtM+HgGVWI/sJHO68uBp4ZDRplawAWpMR0/v8bs3Qnsb0ke7PR
- FUpg==
+ :reply-to; bh=t+JAEqxyJMDbPnLThYT5ZD9ubwa0FCXjgitIbfJ5t0A=;
+ b=OURQaiKuuGca9oiXXnoMiZ95deV1mMcv17EJozdABHSxEVO8PTRmA5VOUEZXhuY9H8
+ QQsIjSMo8rlPxHKBuw5QzlRbz0QJLpLw7r6l8KMiHJd6ObtWv+xRkjtiBnAaSqvcbyMS
+ lJb09uYViyS67kpZ4z/evO7P6l4sI0A29NRJDV0WNM0SVMi8GmBbw+w7v3MscsY07RcA
+ rqHT5suvJ6BuczU5aGZQ48omAIJwB0niP6yzf2LPx2Qu+/RuwmT+jrn4tPCUJi9e6et8
+ bs14jQsyBFbdSCHqIBvG+zpJOPhKvRhYHnqPRocjuUgbZsdE7KHY1mjgKyyQTKFbn1tn
+ Twxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754573292; x=1755178092;
+ d=1e100.net; s=20230601; t=1754573293; x=1755178093;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/UjLlQ+L3bIru1QWf7Opm9SNHsuB1DBkMulE4apVSC4=;
- b=wEqvibN/ooPGmbmI/QBWMB8YT3950R548VbAmloti3t4EQepNGzZLxWVc+PWg0Xtih
- klE9tMX8FVguc7oB3Cbf+V2DeL3I9U0yb5Wx+DshGViYuepVEQB6NtIAEea97zEzGoSm
- VJ299ZePFTrrHxedrmD1TGZ3pJjcVzZl8FyeUrseTQtnhl9/h01qufFtfhPp3wR5dbNg
- 2mLzEWlhDF5MYKPAT+ZJIlsRxSp4xoq1pBG/FCMWnZ9ENzn9nH761xF9lY3u3malj4JC
- 9PM+SHaXDdUsOlrfFOHeW9w82XYt/kurF9zX/CUQsaVHtUMh5bVZ9UHYeQx5kBz8DSjz
- Ikug==
-X-Gm-Message-State: AOJu0YwM75RACgJuEk7HAlp4lokv2AjHb2ee+RItzkF3z5TW4w0b26Uk
- uOp8YCHBWa6MmBj+jYNPO6w3/M9awpziGHUcP2lZEgT2S6kv6hrTtgA+XQCpsQ2AEqQ=
-X-Gm-Gg: ASbGncsj/0a6LxusiXnOukGA4K4gXAmku07AANGqZ0+HsiXI2WoIGc/QkJsm6oBHyRt
- cyiHt45ovWBLOuOfc3RvXO/iIRLeDLZk3RyFDm9c17sL3G7+yieaW1mE92+P8aCoGLTG6sVlVqv
- hzIUJLmpgbg4R8ZottGieRLuBpm0tbLNlmF8cc2wZkCLrv/BeeH2A6byz2xpqIo16A5oaUmMlFt
- ZAExUXoyZhpxiX3I8rOYOfkv3C9lDJ5KgbuiSRfmAArPWUvzZe8MuD6jlaMBaNvfZq40r9Ya7es
- pmZgAuX+AyVuWf0pUFzJkXd66h0U6EPcy6b2KgGdMw3gwZTb/ALdnbngj8VvI1XPrmxumoOKrcf
- SF98stOiAMym2jw==
-X-Google-Smtp-Source: AGHT+IGxJzTwYdZWDug800B5MIYEQqP61Suv+ofwMo1CfF6iLq20x7i2X3BM+SSPRKsVVznjLbxOug==
-X-Received: by 2002:a05:600c:3ba3:b0:459:e200:67e0 with SMTP id
- 5b1f17b1804b1-459f33bb3b2mr12103515e9.10.1754573291766; 
- Thu, 07 Aug 2025 06:28:11 -0700 (PDT)
+ bh=t+JAEqxyJMDbPnLThYT5ZD9ubwa0FCXjgitIbfJ5t0A=;
+ b=MoVZR5oa9DQ6hih9bSeQI8P1XnyGVK7mP/VphHgLl1RxfBtgUPDp4N4+kVBBUdjL66
+ KLa3iWwKyA18U75JxNLi5oktjJIEg79N8G7zh+MK7iqtcs5rUOo7Ihbf3TlyQsS1Qd1E
+ Y5Y18aP4XS4MTBmyWdBwc7PPtT4b83hv+9rwYDAWxjuZ+i65YeRpA6WUjgfMf+pWnFkN
+ nDktOsE2DKIP8BkZnsOuMNXEdzwzRhJXNoKqpwHo65Tre7NglL6465b54xtTbA+gvZKP
+ l3yUO7N9JrOQwngBLNPn/YVujfaD6Deu0vovTgUEAmbycKGJh2aEWrKfDtZMb7T4BBmN
+ Y+VA==
+X-Gm-Message-State: AOJu0YzIpToALvCtXiEyuIAOXAlbpHKshz3QhXu5CdzVI2G4/zmfpHmz
+ RWdZt16qWJFNR6Vk8betp78A61ocs2axnDY8F14NDH2Xi6wOwj1fQhL0bfFQgE/yBhY=
+X-Gm-Gg: ASbGnctUpXWF4qqgQTWdt7CUkHsZ6cdJr2BCXa+HOF/UFhDokwX1he9EYF7/KlSbWNI
+ 2TqLm8Cl0dpBF7VG26J5b//4FDyi5GN00efOlJaFBe+AE83hn4cRrU0kORDO9KzBoaqeSgAcG5K
+ C1rMB5niquz5XxX3G7At8YLqMdm9KhEIlEsa9aH+URkzcEB8xNf9uYhQ9ekoPv8xD4lDQtrYKOc
+ Rl/OCEk4tKMbfiqocrKbqmM8a30JtYazU8zHGky6HbwLYckSqS0Qndat1CWlJZ5DNluaeSMldty
+ /VqCcewVuBLkaDWQymIgAlaaFazdhXSDBIbRZDbG6EHz6EiJ8rm6WGcYuGRVhjey3AjFUj2t3rA
+ FXM8HrpzWoAxknw==
+X-Google-Smtp-Source: AGHT+IHF2yCsPiDOgtV17k04sYTYWqc2mssf/r9Br2mZfug3d53GNJS3UMhcMXxRDhXsMKr+AUlNKw==
+X-Received: by 2002:a05:600c:6610:b0:450:6b55:cf91 with SMTP id
+ 5b1f17b1804b1-459e70797ddmr56870985e9.6.1754573292628; 
+ Thu, 07 Aug 2025 06:28:12 -0700 (PDT)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
  5b1f17b1804b1-459e6dcdbbbsm38337875e9.7.2025.08.07.06.28.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Aug 2025 06:28:11 -0700 (PDT)
+ Thu, 07 Aug 2025 06:28:12 -0700 (PDT)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 07 Aug 2025 14:28:01 +0100
-Subject: [PATCH v2 1/2] drm/vc4: plane: Flag formats as having a minimum
- generation
+Date: Thu, 07 Aug 2025 14:28:02 +0100
+Subject: [PATCH v2 2/2] drm/vc4: plane: Add support for P01[026] and
+ S01[026] formats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250807-drm-vc4-extra-formats-v2-1-fadc93844551@raspberrypi.com>
+Message-Id: <20250807-drm-vc4-extra-formats-v2-2-fadc93844551@raspberrypi.com>
 References: <20250807-drm-vc4-extra-formats-v2-0-fadc93844551@raspberrypi.com>
 In-Reply-To: <20250807-drm-vc4-extra-formats-v2-0-fadc93844551@raspberrypi.com>
 To: Maxime Ripard <mripard@kernel.org>, 
@@ -95,77 +95,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bool hvs5_only is now mis-named as they are also supported on
-hvs6, and we're about to add formats that are only supported on
-hvs6.
+There are now formats defined for 2-plane YUV420 at 10, 12,
+and 16 bit depth using the most significant bits of the 16bit
+word (P010, P012, and P016), and 3-plane YUV420 at those
+depths using the least significant bits of the 16 bit word
+(S010, S012, and S016).
 
-Change from a bool to an enum vc4_gen giving the minimum generation
-that supports the format.
+VC4_GEN_6 can support all those formats although only using
+at most 10bits of resolution.
+Add them as supported formats for all planes, but filtered
+by hardware revision.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 42 +++++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/vc4/vc4_regs.h  |  9 +++++++++
+ 2 files changed, 51 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 056d344c5411..3bdd9466a7b0 100644
+index 3bdd9466a7b0..5fc26f705425 100644
 --- a/drivers/gpu/drm/vc4/vc4_plane.c
 +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -35,7 +35,7 @@ static const struct hvs_format {
- 	u32 hvs; /* HVS_FORMAT_* */
- 	u32 pixel_order;
- 	u32 pixel_order_hvs5;
--	bool hvs5_only;
-+	enum vc4_gen min_gen;
- } hvs_formats[] = {
- 	{
- 		.drm = DRM_FORMAT_XRGB8888,
-@@ -161,31 +161,31 @@ static const struct hvs_format {
- 		.drm = DRM_FORMAT_P030,
- 		.hvs = HVS_PIXEL_FORMAT_YCBCR_10BIT,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
--		.hvs5_only = true,
-+		.min_gen = VC4_GEN_5,
+@@ -247,6 +247,42 @@ static const struct hvs_format {
+ 		.pixel_order = HVS_PIXEL_ORDER_BGRA,
+ 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_RGBA,
  	},
- 	{
- 		.drm = DRM_FORMAT_XRGB2101010,
- 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
--		.hvs5_only = true,
-+		.min_gen = VC4_GEN_5,
- 	},
- 	{
- 		.drm = DRM_FORMAT_ARGB2101010,
- 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ARGB,
--		.hvs5_only = true,
-+		.min_gen = VC4_GEN_5,
- 	},
- 	{
- 		.drm = DRM_FORMAT_ABGR2101010,
- 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
--		.hvs5_only = true,
-+		.min_gen = VC4_GEN_5,
- 	},
- 	{
- 		.drm = DRM_FORMAT_XBGR2101010,
- 		.hvs = HVS_PIXEL_FORMAT_RGBA1010102,
- 		.pixel_order_hvs5 = HVS_PIXEL_ORDER_ABGR,
--		.hvs5_only = true,
-+		.min_gen = VC4_GEN_5,
- 	},
- 	{
- 		.drm = DRM_FORMAT_RGB332,
-@@ -2524,7 +2524,7 @@ struct drm_plane *vc4_plane_init(struct drm_device *dev,
- 	};
++	{
++		.drm = DRM_FORMAT_P010,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.min_gen = VC4_GEN_6_C,
++	},
++	{
++		.drm = DRM_FORMAT_P012,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.min_gen = VC4_GEN_6_C,
++	},
++	{
++		.drm = DRM_FORMAT_P016,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.min_gen = VC4_GEN_6_C,
++	},
++	{
++		.drm = DRM_FORMAT_S010,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_9_0_3PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.min_gen = VC4_GEN_6_C,
++	},
++	{
++		.drm = DRM_FORMAT_S012,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_11_2_3PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.min_gen = VC4_GEN_6_C,
++	},
++	{
++		.drm = DRM_FORMAT_S016,
++		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_3PLANE,
++		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
++		.min_gen = VC4_GEN_6_C,
++	},
+ };
  
- 	for (i = 0; i < ARRAY_SIZE(hvs_formats); i++) {
--		if (!hvs_formats[i].hvs5_only || vc4->gen >= VC4_GEN_5) {
-+		if (vc4->gen >= hvs_formats[i].min_gen) {
- 			formats[num_formats] = hvs_formats[i].drm;
- 			num_formats++;
- 		}
+ static const struct hvs_format *vc4_get_hvs_format(u32 drm_format)
+@@ -2490,6 +2526,12 @@ static bool vc4_format_mod_supported(struct drm_plane *plane,
+ 	case DRM_FORMAT_YVU420:
+ 	case DRM_FORMAT_NV16:
+ 	case DRM_FORMAT_NV61:
++	case DRM_FORMAT_P010:
++	case DRM_FORMAT_P012:
++	case DRM_FORMAT_P016:
++	case DRM_FORMAT_S010:
++	case DRM_FORMAT_S012:
++	case DRM_FORMAT_S016:
+ 	default:
+ 		return (modifier == DRM_FORMAT_MOD_LINEAR);
+ 	}
+diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
+index 27158be19952..4536e3c0533b 100644
+--- a/drivers/gpu/drm/vc4/vc4_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_regs.h
+@@ -1079,6 +1079,15 @@ enum hvs_pixel_format {
+ 	HVS_PIXEL_FORMAT_AYUV444_RGB = 15,
+ 	HVS_PIXEL_FORMAT_RGBA1010102 = 16,
+ 	HVS_PIXEL_FORMAT_YCBCR_10BIT = 17,
++	/* 10 bit YUV420 formats with data with various alignments */
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE = 24,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_3PLANE = 25,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_13_4_2PLANE = 26,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_13_4_3PLANE = 27,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_11_2_2PLANE = 28,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_11_2_3PLANE = 29,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_9_0_2PLANE = 30,
++	HVS_PIXEL_FORMAT_YCBCR_YUV420_9_0_3PLANE = 31,
+ };
+ 
+ /* Note: the LSB is the rightmost character shown.  Only valid for
 
 -- 
 2.34.1
