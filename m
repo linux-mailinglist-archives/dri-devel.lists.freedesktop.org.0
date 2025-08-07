@@ -2,98 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6CDB1D407
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 10:09:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B39B1D40C
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 10:09:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C8010E0C6;
-	Thu,  7 Aug 2025 08:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8628010E0FE;
+	Thu,  7 Aug 2025 08:09:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ATKap2O9";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CKN/qU05";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1D2F10E0C6
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 08:09:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3229BA55A6E;
- Thu,  7 Aug 2025 08:09:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFB1DC4CEEB;
- Thu,  7 Aug 2025 08:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754554152;
- bh=1fAo7M0jBlXKRquCCC4HBju9WC4VuWnfN1O1usBPWyU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ATKap2O9VyWyhmILaijF0q7skMYB7Iod7SixyEVAYljXmkqPTms92OfFedvUOMRGR
- OuQY1XU28xp9GG9gnEzjTJ1T0ERDXlAg0zF5f0PDl7FSZUvMTjepCiHheF5ClSo1Fe
- k0RGu1c34zyEGppAIXEJbk33V0SPD9qSYzCno4e2gIZeo6GQtzCXCmuKIn315FPLPF
- cvWzwwYZFwaTkP/Vj6lzT62D685OAkPdKgi072uj5Jt979HvqZMSpo6L8elyMnWCUW
- KqnQOAKOVsEsxBMmrnBveN1z4x0t9BzLQM5gPQSPJE4tfeV4PC+/w/NAHJNvkjuoGE
- xqmNnyYlgWzhg==
-Message-ID: <a211c028-b6f4-4f0f-9dea-842eff201c8f@kernel.org>
-Date: Thu, 7 Aug 2025 10:09:06 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2DE10E0FE
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 08:09:45 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57725iu6022167
+ for <dri-devel@lists.freedesktop.org>; Thu, 7 Aug 2025 08:09:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=8cnnTCr0BqMwDmRXCSiVDYTd
+ XzHaxhvasLyMTbeTJIc=; b=CKN/qU05FMQA+gzujiFPkSAKQUw6MA7hFbZGfL3B
+ hOfHfrjY3mla9zEmM0PjyM57K7HkoioE9acrkNfsUaBTtJge7/QBPTvcYOXIL8f1
+ QVZvtg9CUrlX6CYJLTRuuvNW880rVGXreMyKdtc44/H7VyKif3trXulIayw6wIaO
+ 0nMYOcx9hlb6Ps2NAbkacfPZAnobsaw/eYlQqkHXGWxPpHghEg1+ch/rclvVyCT1
+ E+Ol65SLHeArr0UkQD1v8tzbPVeFeLQseQYC07yB/xTsUyjSzGhtJEqt34ca+Vyd
+ Kw5gm8TEYCxoYJvmdczmncr3aJQYCyhBBsS6U2ay/g+kMA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpy8dhjf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Aug 2025 08:09:44 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4b0791a8e8dso21878731cf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Aug 2025 01:09:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754554183; x=1755158983;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8cnnTCr0BqMwDmRXCSiVDYTdXzHaxhvasLyMTbeTJIc=;
+ b=sf0POYhB1jHTBKA/JBx5ZHsI1+m4AUF8OhnncihrlSL+LNNbAEm+0+kNL8K7hU0eju
+ 1tzW+nBKwj0v3r7q2jz3HqMq5Usw8vzhePNfSF0WZ1RY5c/VWYBBIi5diGbX0k5j6BeN
+ D3eCeYu8AB11LlAPhfNCGY+hf5SsSQic8hv1eW7ReIfKyYMAtcsHkDBB3Wg0QDYaglNP
+ 6OinevagFfGou7oKb0dvmhjG+fwY6HApSOBVApINt1JuDu6MPpzs57QWTGTZEHCndsWK
+ eIAo1xx/c7TJHDCHFIMmedybAyZ33BqC/OOYk3Kg9US15tkKk7Zn5TLhVVwAl5FF+oam
+ CiOg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUPiElAKExICI1gwMcqZl7XODa6CSkLjKoExGTlcXY5nJd2RbtG1B85hmCwaCdNvkvXTfRU6BSie+w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxjit8YctU2tXHcrOSBha0CT0Uo8wEs2PHLtc9jFUDGD6TFLSYu
+ IVqC8ua657D/amLofAB7ebxwAaESN9ovLSUgxhEyg6aXLfEjwd3Q2P4Ma4j0a2a26k+Su5Dae3n
+ Gr4jgxLmxW18R+e16H2Xi9Kb4TQcmaA4mwsS9NVJFQIDEQEGBm9w28kU20cUfCqa00BAwRW4=
+X-Gm-Gg: ASbGncu//68aajiY0qxB7kA5P0lYRzpYXB0MgwPNQ7rwy4RarHA3cteTTNZy0KDDB4Z
+ uFavqquyYItZd6PI2DeXiRmfjR6CcO2sbaIb4YoxwkPKGbabvRilqYUUxYG6u6Wad55a1su9+r/
+ lYNaLp4Ndzt9FTzXrJx9zTR0t02iFQ4FrtqQXGLg0mo2umg37fR3QOKgd3ZukgyR/J2HXa5hgT7
+ 9xEjVtL2Iwhx372s2Y5S6huAgDMXnd0oTTbSsnwWWiH5TlnI4+Pv3dxPnzrVenmykHUB6/1ZK7V
+ 4WVKCsDpMmDfW8Ciik2rjYSH52GJ5bjBGCqIyqzPLf9irmgjQz/rKgil2fLGMuDPHN1NBTJ8KVW
+ ufVmKGte3FwCbaG1ZAOCXDvRr/hIQIUn8VB9X0wOYDD0WueXuNtYo
+X-Received: by 2002:a05:622a:1a93:b0:4b0:77d7:c8b4 with SMTP id
+ d75a77b69052e-4b0924fe2a8mr88796261cf.14.1754554182818; 
+ Thu, 07 Aug 2025 01:09:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEr6oBPT/KIywasjRNJMXRDMeHau1nVtpgPLjvj4ivB0nSsqqEOpEjGcFvOQTtB3vlNCloQQg==
+X-Received: by 2002:a05:622a:1a93:b0:4b0:77d7:c8b4 with SMTP id
+ d75a77b69052e-4b0924fe2a8mr88795771cf.14.1754554182037; 
+ Thu, 07 Aug 2025 01:09:42 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-332388fce24sm27550341fa.66.2025.08.07.01.09.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Aug 2025 01:09:40 -0700 (PDT)
+Date: Thu, 7 Aug 2025 11:09:38 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Nathan Chancellor <nathan@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Arnd Bergmann <arnd@arndb.de>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Jun Nie <jun.nie@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] drm/msm/dpu: avoid uninitialized variable use
+Message-ID: <ouan6tfmoefwuvs7wmhpzjdwmxfhqh3ad26j5tmwdugnq7ieda@ddw6dfqtq27g>
+References: <20250807072016.4109051-1-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: display: sitronix,st7920: Add DT schema
-To: Iker Pedrosa <ikerpedrosam@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-References: <20250806-st7920-v1-0-64ab5a34f9a0@gmail.com>
- <20250806-st7920-v1-2-64ab5a34f9a0@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250806-st7920-v1-2-64ab5a34f9a0@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250807072016.4109051-1-arnd@kernel.org>
+X-Proofpoint-GUID: GpE6kFf1qVQBpUOcDIbhl4GCQW4KSBKc
+X-Proofpoint-ORIG-GUID: GpE6kFf1qVQBpUOcDIbhl4GCQW4KSBKc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX0emi2X5agTKG
+ l7iEX18waQohixdIMa+fSX8ffNMGw8MVmrIYOZNjaKW3a45VTbtwNz+H6kivZqI96qaPFpHzDqb
+ bm9PXz5ANFM4TM6Mkl/wyo+XpFMOFZChwRRBdojyMHrOz7Zk0XwIsS+mCysonYOQT6ZpsUOCbgI
+ JpH8OdydHfw2iGonzUAgAqSlg4ZPvpuzoCY8M4Ga43c7mNPiA8vwXByopgSHGr9/0TpQJxlRV+V
+ dIQRiuCdEVErlol4gUuLx1CWlXMLgsluvns2XfSjVfHmQKndmRyLSgYe33pZrfTizAsIdqpsC2A
+ 1bw+GdYDFKxTpn5s3YmL5k2wDH6w1niCUt4OLwImF4+S42M0Nlxbz4yxsbwZR6dHc4UW68Sm9uc
+ h4NJtiwG
+X-Authority-Analysis: v=2.4 cv=GrlC+l1C c=1 sm=1 tr=0 ts=68945f48 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=qCxGkQd1JP7TPUfVb20A:9 a=CjuIK1q_8ugA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-06_05,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ phishscore=0 adultscore=0 bulkscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,82 +134,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/08/2025 14:48, Iker Pedrosa wrote:
-> +title: Sitronix ST7920 LCD Display Controllers
-> +
-> +maintainers:
-> +  - Iker Pedrosa <ikerpedrosam@gmail.com>
-> +
-> +description: |
+On Thu, Aug 07, 2025 at 09:19:48AM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> clang-21 points out a variable that is conditionally initialized
+> but then dereferenced:
+> 
+> drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:1138:6: error: variable 'crtc_state' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+>  1138 |         if (plane_state->crtc)
+>       |             ^~~~~~~~~~~~~~~~~
+> drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:1142:58: note: uninitialized use occurs here
+>  1142 |         ret = dpu_plane_atomic_check_nosspp(plane, plane_state, crtc_state);
+>       |                                                                 ^~~~~~~~~~
+> drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:1138:2: note: remove the 'if' if its condition is always true
+>  1138 |         if (plane_state->crtc)
+>       |         ^~~~~~~~~~~~~~~~~~~~~~
+>  1139 |                 crtc_state = drm_atomic_get_new_crtc_state(state,
+> drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c:1132:35: note: initialize the variable 'crtc_state' to silence this warning
+>  1132 |         struct drm_crtc_state *crtc_state;
+>       |                                          ^
+>       |                                           = NULL
+> 
+> The bug is real, but the suggestion from clang to set it to NULL is
+> unfortunately just as harmful as dereferencing a NULL pointer is little
+> better than uninitialized data.
 
-Do not need '|' unless you need to preserve formatting.
 
-> +  The Sitronix ST7920 is a controller for monochrome dot-matrix graphical LCDs,
-> +  most commonly used for 128x64 pixel displays.
-> +  This binding supports connecting the display via a standard SPI bus.
+Having no plane->crtc is a valid setting and it is handled inside
+drm_atomic_helper_check_plane_state() by setting plane_state->visible =
+false and returning early. Setting crtc_state to NULL is a correct fix.
+Could you please send it?
 
-Drop last sentence. You should write complete bindings for complete
-hardware. Binding cannot support something and should not cover only one
-bus.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: sitronix,st7920
-> +
-> +  reg:
-> +    description: The chip-select number for the device on the SPI bus.
-> +    maxItems: 1
-> +
-> +  spi-max-frequency:
-> +    description: Maximum SPI clock frequency in Hz.
-> +    maximum: 600000
-> +
-> +  spi-cs-high:
-> +    type: boolean
-> +    description: Indicates the chip select is active high.
-
-No supplies?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - spi-max-frequency
-
-Missing allOf: with ref to spi properties
-
-> +
-> +additionalProperties: false
-
-And this is unevaluatedProperties. Please look at other examples of
-devices like that.
-
-> +
-> +examples:
-> +  - |
-> +    // Example: ST7920 connected to an SPI bus
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi0 {
-
-spi {
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        display@0 {
-> +            compatible = "sitronix,st7920";
-> +            reg = <0>; // Chip select 0
-
-Drop comment, obvious.
-
-> +            spi-max-frequency = <600000>;
-> +            spi-cs-high;
-> +        };
-> +    };
+> 
+> Change the function to return an error in this case.
+> 
+> Fixes: 774bcfb73176 ("drm/msm/dpu: add support for virtual planes")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 
-
-Best regards,
-Krzysztof
+-- 
+With best wishes
+Dmitry
