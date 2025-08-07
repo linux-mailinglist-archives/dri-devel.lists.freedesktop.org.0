@@ -2,63 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB45B1DBF0
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 18:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126D4B1DC2A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 19:02:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C67B10E0E9;
-	Thu,  7 Aug 2025 16:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42BFC10E486;
+	Thu,  7 Aug 2025 17:02:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EZRNSqaU";
+	dkim=pass (1024-bit key; secure) header.d=estudante.ufscar.br header.i=@estudante.ufscar.br header.b="E06iYcOv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB3410E0E9;
- Thu,  7 Aug 2025 16:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754585274; x=1786121274;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=Ux/ln8AmTV4/dNgNp8FmkMcayM7lkTU5scnzdbSbxKc=;
- b=EZRNSqaUpCHguc3o9hmHJMqQtyM8DOANO7SMi/HmOIjSCrI6qChMNCVV
- IZKrHbHBrooPI5ttjLSRzSUPkS+0swLLGXUtKHpR5Sj6ItCu3R4ejZv+H
- wN8sHQuHJVkpChpCDnl6XPAI52QA6XjfCxvIBMLCwjJl6PrC2z9e38nxz
- O9545LD2FP/cPZKgJZqqsKkWGryQDxihL7zdhv7KOvCmObC+dh0qTO71z
- g2nl5YNeAAoYm75/lwA4+L6GOAf4Yk/VT2yePSARMWm2NlQpnKZ+5oUvY
- ybMvMJYqxJyrtx2Qr+5ZUEuyZeMt5RYPTT504pSmw5t0KH0zg4rFfGZrk w==;
-X-CSE-ConnectionGUID: yCZVyayFSNi0d7/oQcN2tA==
-X-CSE-MsgGUID: R3uNCDEhSXKXEX4USlq71g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="57062715"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="57062715"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2025 09:47:54 -0700
-X-CSE-ConnectionGUID: IGpEWrBKQgu+xzgjVJajkQ==
-X-CSE-MsgGUID: I6jnVRcMRnmUTMOJcp55tQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="202273791"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.121])
- ([10.245.245.121])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2025 09:47:52 -0700
-Message-ID: <be9d451d511f8bc4652d835a2c28fa823aaf05f1.camel@linux.intel.com>
-Subject: Re: [PATCH] drm/ttm: WIP limit the TTM pool to 32bit CPUs
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Cc: airlied@gmail.com, matthew.brost@intel.com
-Date: Thu, 07 Aug 2025 18:47:49 +0200
-In-Reply-To: <d6830af2-52aa-4ca6-85c5-2a4635ce6c7d@amd.com>
-References: <20250806132838.1831-1-christian.koenig@amd.com>
- <3ff97e0ee433817c0c071c264d3a28622d717dfa.camel@linux.intel.com>
- <d6830af2-52aa-4ca6-85c5-2a4635ce6c7d@amd.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF4D10E486
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 17:02:22 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id
+ 41be03b00d2f7-b3bcb168fd5so867672a12.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Aug 2025 10:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=estudante.ufscar.br; s=google; t=1754586141; x=1755190941;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZaO9Fe6fVJs4lLHm6b8LVPI5toPK6qa+tQOYhilxiBk=;
+ b=E06iYcOvpIBiyEUbVktmNvyKijyiHXELRnofu75B+VZNvwtbwYLdN7Gu+IU66/rklr
+ 3PsITOdkNXXf3NazO/XtFw1yvCJh+rDiyRmAVvQzrBlcMOwLifnkQ4KszRhss0efjHDB
+ mljmdVZtIYY6eIVzrNkZNmJwPU/cuECv2ID6s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754586141; x=1755190941;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ZaO9Fe6fVJs4lLHm6b8LVPI5toPK6qa+tQOYhilxiBk=;
+ b=QZRojAfmNsb4VFNd2T4ffMrLsll8b+bG8ENB0iO06ufOxgVdbmkClkjS+SJJ6kgEAS
+ EL/rHUKOMSTxzL8wprj0MDlUenZ2nUUDnWFlW9vAKaS6qFcxX4nlkmQ1rWskLFqbdcYe
+ 5aeSaDC8A9rRTe9IguUCDxVRPd5Doa16zlujO1OJQaa3oLpJXEkRrW3WtjJUdmEHTYXo
+ BgehKU5vKVWfmpJ/S1aGVzyOuDQ0BHsw2rakAWfYNjECPMXv/lOxfemlstJ5C5XHVcV7
+ I2wJnnRO+KJVa97daOIeSkEPHJIjDj5JJgQRj9k8hv0tPjFYnn1flZrYBNg4cHDazfZk
+ SXkQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWTcwo/spxKPXNwI/jLgeqxbCgXXbFKeprkvxaIV89RPDeLBzcAi0V6Ndu+HRKVhLnMvYp2OmhhclE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YybUvxX1IhzSTHC+ireA+a45La7A0xBItVn8z6gIiKZ1qsThK9B
+ SQZ0V932NqbXJhXs5tHp0Ji30KFCoZNQkgIMpdChhZUZxf+ruf5MZJ9ptE8yrauZ0fU=
+X-Gm-Gg: ASbGncvO9TbjpWNPluuH0VCr3J02U/jaKG7P8SRRzvwM0vtYKHaxRLSNY3q5ZLDa7qt
+ mDox7hlcQ6eN9Ysja3R4ZtwL5Re81JlIfNVRPmE5H8U87ot5sexfm5oEGi1lTMyp3ZtqjtpSiJL
+ AMx6reirQsQCBLtYTkmpyLWl/9oi6lQlK+D55uaURJ1Ob/g5l+To/7M8SVzpK5XERXK+AN5dsfi
+ qdUn84GsoR8oaZwKoYfH2iUx5SH4IJKrjEeR+A10gHNvKce9Bz9ftB2etb759yrk1+2PMSZRg/G
+ hNP2gsHVK58xrQbA4qWzWRKbPsyE+A1eiGHf7KnwvlO6MdBloE60XtqepLBbUC5ECNTWLubSU0J
+ qP+1UC61vgMcsL+F1x9FW8aU2ISd5DdyL
+X-Google-Smtp-Source: AGHT+IFK+ZezH+hvk9aAkXC9uQ/QHddEWIeRLOs9MEcStK4KpXlwSxFOJpVgYZH9jxVivwBafuE3HA==
+X-Received: by 2002:a17:903:1a68:b0:235:779:edfa with SMTP id
+ d9443c01a7336-242a0b3e4c6mr145222125ad.32.1754586141143; 
+ Thu, 07 Aug 2025 10:02:21 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:4a5:8ac9::1a55])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-241d1ef7c30sm188804875ad.37.2025.08.07.10.02.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Aug 2025 10:02:20 -0700 (PDT)
+From: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
+To: rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, jani.nikula@linux.intel.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net, Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
+Subject: [PATCH 0/9 v2] drm/i915: Remove legacy struct_mutex usage
+Date: Thu,  7 Aug 2025 14:01:59 -0300
+Message-ID: <20250807170212.285385-1-luiz.mello@estudante.ufscar.br>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,227 +87,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-08-07 at 11:53 +0200, Christian K=C3=B6nig wrote:
-> On 06.08.25 19:43, Thomas Hellstr=C3=B6m wrote:
-> > Hi, Christian
-> >=20
-> > On Wed, 2025-08-06 at 15:28 +0200, Christian K=C3=B6nig wrote:
-> > > On some old x86 systems we had the problem that changing the
-> > > caching
-> > > flags
-> > > of system memory requires changing the global MTRR/PAT tables.
-> > >=20
-> > > But on any modern x86 system (CPUs introduced rughly after 2004)
-> > > we
-> > > actually don't need that any more and can update the caching
-> > > flags
-> > > directly in the PTEs of the CPU mapping. It was just never
-> > > disabled
-> > > because of the fear of regressions.
-> > >=20
-> > > We already use the PTE flags for encryption on x86 64bit for
-> > > quite a
-> > > while
-> > > and all other supported platforms (Sparc, PowerPC, ARM, MIPS,
-> > > LONGARCH)
-> > > have never done anything different either.
-> >=20
-> > IIRC from my VMWARE days, changing SEV encryption mode of a page
-> > still
-> > requires changing all mappings including kernel maps?
-> > __set_memory_enc_pgtable()
->=20
-> IIRC both Intel and AMD sacrifice a bit in the page address for that,
-> e.g. for encryption the most significant bit is used to indicate if a
-> page is encrypted or not.
->=20
-> I'm not aware that we need to change all kernel mappings for
-> encryption, but could be that the hypervisor somehow depends on that.
->=20
-> > >=20
-> > > So disable the page pool completely for 64bit systems and just
-> > > insert
-> > > a
-> > > clflush to be on the safe side so that we never return memory
-> > > with
-> > > dirty
-> > > cache lines.
-> > >=20
-> > > Testing on a Ryzen 5 and 7 shows that this has absolutely no
-> > > performance
-> > > impact and of hand the AMD CI can't find a problem either.
-> > >=20
-> > > Let's see what the i915 and XE CI systems say to that.
-> > >=20
-> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >=20
-> > I don't think we can do this. First Lunar Lake can in some
-> > situations,
-> > just like the old Athlons, write-back clean cache lines which means
-> > writebacks of speculative prefetches may overwrite GPU data.
->=20
-> So a speculative prefetch because of on an access to an adjacent page
-> could causes the cache line to be fetched and then written back
-> without any change to it?
+This patch series completes the long-standing effort to eliminate usage
+of the legacy struct_mutex from i915 driver.
 
-Exactly.=20
+Historically, struct_mutex was used to serialize access to global driver
+state across the DRM subsystem. Over time, it has been gradually
+replaced by more fine-grained and localized locking mechanism. The i915
+driver was the last remaining user of this lock, and even there, its
+usage had become redundant or outdated.
 
->=20
-> Well it's surprising that even modern CPU do stuff like that. That
-> could explain some of the problems we had with uncached mappings on
-> ARM and RISC-V.
+Specifically, the mutex was only still used in two places: i915_irq.c
+and intel_guc_log.c. In both cases, the lock could either be removed or
+replaced with a more appropriate lock.
 
-Yeah. I agree. Need to double-check with HW people whether that is gone
-with Panther Lake. Don't have a confirmation yet on that.=20
+This series performs the following steps:
 
->=20
-> > LNL makes heavy use of non-coherent GPU mappings for performance.
->=20
-> That is even more surprising. At least on modern Ryzens that doesn't
-> seem to have much performance impact any more at all.
->=20
-> I mean non-cached mappings where original introduced to avoid the
-> extra overhead of going over the front side bus, but that design is
-> long gone.
+* Moves struct_mutex from drm_device to drm_i915_private, since i915 was
+  its only remaining user.
+* Removes or replaces all remaining uses of struct_mutex in i915 driver.
+* Updates or removes comments referring to struct_mutex to prevent
+  future confusion.
+* Deletes the lock entirely from the i915 driver once no longer in use.
+* Cleans up the corresponding TODO entry in Documentation/gpu/todo.rst
+  and comments about struct_mutex in Documentation/gpu/i915.rst.
 
-With LNL it's possible to set up GPU mapping to make the accesses
-coherent with CPU but that's quite slow. A tradeoff in HW design.
+Some additional notes:
 
-If it wasn't for the writeback of speculative prefetches we could've
-settled for only have TTM map the user-space mappings without changing
-the kernel map, just like the i915 driver does for older GPUS.
+* In intel_guc_log.c, a missing destructor for a lock was identified.
+  Since the series introduces a new lock in that area, this issue was
+  addressed first, to the two locks do not lack memory in kernel. 
+ 
+* Comments referencing struct_mutex were spread across various parts of
+  i915 codebase. To improve clarity, they were cleaned up across three
+  separate patches.
 
->=20
-> > Second, IIRC vm_insert_pfn_prot() on X86 will override the given
-> > caching mode with the last caching mode set for the kernel linear
-> > map,
-> > so if you try to set up a write-combined GPU mapping without a
-> > previous
-> > call to set_pages_xxxxx it will actually end up cached. see
-> > track_pfn_insert().
->=20
-> That is exactly the same incorrect assumption I made as well.
->=20
-> It's not the linear mapping where that comes from but a separate page
-> attribute table, see /sys/kernel/debug/x86/pat_memtype_list.
->=20
-> Question is why the heck should we do this? I mean we keep an extra
-> rb tree around to overwrite something the driver knows in the first
-> place?
->=20
-> That is basically just tons of extra overhead for nothing as far as I
-> can see.
+The only remianig reference to struct_mutex is in a comment in
+i915_gem_execbuffer.c, inside the eb_relocate_vma() function. It was
+kept because the intended locking mechanism for that case is unclear.
 
-IIRC it was PAT people enforcing the x86 documentation that aliased
-mappings with conflicting caching attributes were not allowed. But it
-has proven to work at least on those CPUs not suffering from the clean
-cache-line writeback mentioned above.
+Changes since v1:
+* Rebased onto latest drm-tip as requested for CI compatibility
+* No changes to code/content
 
-FWIW If I understand the code correctly, i915 bypasses this by setting
-up user-space mappings not by vm_insert_pfn_prot() but using
-apply_to_page_range(), mapping the whole bo.
+Luiz Otavio Mello (9):
+  drm/i915: Move struct_mutex to drm_i915_private
+  drm/i915: Remove struct_mutex in i915_irq.c
+  drm/i915: Change mutex initialization in intel_guc_log
+  drm/i915: Replace struct_mutex with guc_lock in intel_guc_log
+  drm/i915: change comments about legacy struct_mutex 1/3
+  drm/i915: change comments about legacy struct_mutex 2/3
+  drm/i915: change comments about legacy struct_mutex 3/3
+  Remove unused struct_mutex from drm_i915_private
+  Remove todo and comments about struct_mutex
 
-/Thomas
+ Documentation/gpu/i915.rst                    |  7 ------
+ Documentation/gpu/todo.rst                    | 25 -------------------
+ drivers/gpu/drm/drm_drv.c                     |  2 --
+ drivers/gpu/drm/i915/display/intel_fbc.c      |  6 +----
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |  4 +--
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  4 +--
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c      |  8 +++---
+ drivers/gpu/drm/i915/gt/intel_reset_types.h   |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    | 12 ++++++---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h    |  8 ++++++
+ drivers/gpu/drm/i915/i915_drv.h               |  6 +++--
+ drivers/gpu/drm/i915/i915_gem.c               |  3 +--
+ drivers/gpu/drm/i915/i915_irq.c               |  6 -----
+ include/drm/drm_device.h                      | 10 --------
+ 15 files changed, 33 insertions(+), 72 deletions(-)
 
-
->=20
-> Thanks for taking a look,
-> Christian.
->=20
-> >=20
-> > /Thomas
-> >=20
-> >=20
-> > > ---
-> > > =C2=A0drivers/gpu/drm/ttm/ttm_pool.c | 16 +++++++++++-----
-> > > =C2=A01 file changed, 11 insertions(+), 5 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c
-> > > b/drivers/gpu/drm/ttm/ttm_pool.c
-> > > index baf27c70a419..7487eac29398 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> > > @@ -38,7 +38,7 @@
-> > > =C2=A0#include <linux/highmem.h>
-> > > =C2=A0#include <linux/sched/mm.h>
-> > > =C2=A0
-> > > -#ifdef CONFIG_X86
-> > > +#ifdef CONFIG_X86_32
-> > > =C2=A0#include <asm/set_memory.h>
-> > > =C2=A0#endif
-> > > =C2=A0
-> > > @@ -46,6 +46,7 @@
-> > > =C2=A0#include <drm/ttm/ttm_pool.h>
-> > > =C2=A0#include <drm/ttm/ttm_tt.h>
-> > > =C2=A0#include <drm/ttm/ttm_bo.h>
-> > > +#include <drm/drm_cache.h>
-> > > =C2=A0
-> > > =C2=A0#include "ttm_module.h"
-> > > =C2=A0
-> > > @@ -192,7 +193,7 @@ static void ttm_pool_free_page(struct
-> > > ttm_pool
-> > > *pool, enum ttm_caching caching,
-> > > =C2=A0	struct ttm_pool_dma *dma;
-> > > =C2=A0	void *vaddr;
-> > > =C2=A0
-> > > -#ifdef CONFIG_X86
-> > > +#ifdef CONFIG_X86_32
-> > > =C2=A0	/* We don't care that set_pages_wb is inefficient here.
-> > > This
-> > > is only
-> > > =C2=A0	 * used when we have to shrink and CPU overhead is
-> > > irrelevant then.
-> > > =C2=A0	 */
-> > > @@ -218,7 +219,7 @@ static void ttm_pool_free_page(struct
-> > > ttm_pool
-> > > *pool, enum ttm_caching caching,
-> > > =C2=A0/* Apply any cpu-caching deferred during page allocation */
-> > > =C2=A0static int ttm_pool_apply_caching(struct ttm_pool_alloc_state
-> > > *alloc)
-> > > =C2=A0{
-> > > -#ifdef CONFIG_X86
-> > > +#ifdef CONFIG_X86_32
-> > > =C2=A0	unsigned int num_pages =3D alloc->pages - alloc-
-> > > > caching_divide;
-> > > =C2=A0
-> > > =C2=A0	if (!num_pages)
-> > > @@ -232,6 +233,11 @@ static int ttm_pool_apply_caching(struct
-> > > ttm_pool_alloc_state *alloc)
-> > > =C2=A0	case ttm_uncached:
-> > > =C2=A0		return set_pages_array_uc(alloc->caching_divide,
-> > > num_pages);
-> > > =C2=A0	}
-> > > +
-> > > +#elif defined(CONFIG_X86_64)
-> > > +	unsigned int num_pages =3D alloc->pages - alloc-
-> > > > caching_divide;
-> > > +
-> > > +	drm_clflush_pages(alloc->caching_divide, num_pages);
-> > > =C2=A0#endif
-> > > =C2=A0	alloc->caching_divide =3D alloc->pages;
-> > > =C2=A0	return 0;
-> > > @@ -342,7 +348,7 @@ static struct ttm_pool_type
-> > > *ttm_pool_select_type(struct ttm_pool *pool,
-> > > =C2=A0	if (pool->use_dma_alloc)
-> > > =C2=A0		return &pool->caching[caching].orders[order];
-> > > =C2=A0
-> > > -#ifdef CONFIG_X86
-> > > +#ifdef CONFIG_X86_32
-> > > =C2=A0	switch (caching) {
-> > > =C2=A0	case ttm_write_combined:
-> > > =C2=A0		if (pool->nid !=3D NUMA_NO_NODE)
-> > > @@ -980,7 +986,7 @@ long ttm_pool_backup(struct ttm_pool *pool,
-> > > struct ttm_tt *tt,
-> > > =C2=A0	=C2=A0=C2=A0=C2=A0 pool->use_dma_alloc || ttm_tt_is_backed_up(=
-tt))
-> > > =C2=A0		return -EBUSY;
-> > > =C2=A0
-> > > -#ifdef CONFIG_X86
-> > > +#ifdef CONFIG_X86_32
-> > > =C2=A0	/* Anything returned to the system needs to be cached.
-> > > */
-> > > =C2=A0	if (tt->caching !=3D ttm_cached)
-> > > =C2=A0		set_pages_array_wb(tt->pages, tt->num_pages);
-> >=20
->=20
+-- 
+2.50.1
 
