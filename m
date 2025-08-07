@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658ABB1DB7E
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 18:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB45B1DBF0
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 18:48:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE74610E880;
-	Thu,  7 Aug 2025 16:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C67B10E0E9;
+	Thu,  7 Aug 2025 16:47:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ITcuoaDN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EZRNSqaU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4F2410E87F;
- Thu,  7 Aug 2025 16:16:46 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EB3410E0E9;
+ Thu,  7 Aug 2025 16:47:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754583407; x=1786119407;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=C0OLlipL3I6d3sfvF4O87kHaRSQvwB4je8RP1ri4u5o=;
- b=ITcuoaDNbhMGf4H64JLC2K9OueLBSXeTKnrUsN+yiQuqp6YwGQg1hanW
- wmP0h426sWsAYizbZE2P/zy/4hbwERgFfjfm/bBjSYnZPX/OdxZNr2z+m
- IR8GZCVM7+RqDZmvn/hJEd0XjH1HptRhKZtk/gTxLTqn8Q/UaeHyrzwc8
- BC/De5Uy0q/xYIr3CN23+5vOhlnaOJfYVtumTxm42CsE61z7SR7gBkoMS
- Y8oICKhqG4wfZsdg+n4pp2eFtpStaMNDepC1sHCpNtMcT4zxDjisukJTF
- YJY+61hqPgaErC9e7mjXGOpf7Tf1OsLNd5pm47BUBsFfhc1cZq1VzTkSj g==;
-X-CSE-ConnectionGUID: NuuBDzLoR4+DLV9mrStc+g==
-X-CSE-MsgGUID: liM+10O9TrKBKGzWoAhwCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56845549"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="56845549"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2025 09:16:46 -0700
-X-CSE-ConnectionGUID: hHVFDQ9bS3yc26FwN4prgg==
-X-CSE-MsgGUID: 5epDC9ucQ/WSfbjjHkhzog==
+ t=1754585274; x=1786121274;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=Ux/ln8AmTV4/dNgNp8FmkMcayM7lkTU5scnzdbSbxKc=;
+ b=EZRNSqaUpCHguc3o9hmHJMqQtyM8DOANO7SMi/HmOIjSCrI6qChMNCVV
+ IZKrHbHBrooPI5ttjLSRzSUPkS+0swLLGXUtKHpR5Sj6ItCu3R4ejZv+H
+ wN8sHQuHJVkpChpCDnl6XPAI52QA6XjfCxvIBMLCwjJl6PrC2z9e38nxz
+ O9545LD2FP/cPZKgJZqqsKkWGryQDxihL7zdhv7KOvCmObC+dh0qTO71z
+ g2nl5YNeAAoYm75/lwA4+L6GOAf4Yk/VT2yePSARMWm2NlQpnKZ+5oUvY
+ ybMvMJYqxJyrtx2Qr+5ZUEuyZeMt5RYPTT504pSmw5t0KH0zg4rFfGZrk w==;
+X-CSE-ConnectionGUID: yCZVyayFSNi0d7/oQcN2tA==
+X-CSE-MsgGUID: R3uNCDEhSXKXEX4USlq71g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="57062715"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="57062715"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2025 09:47:54 -0700
+X-CSE-ConnectionGUID: IGpEWrBKQgu+xzgjVJajkQ==
+X-CSE-MsgGUID: I6jnVRcMRnmUTMOJcp55tQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="195937742"
-Received: from unknown (HELO himal-Super-Server.iind.intel.com)
- ([10.190.239.34])
- by fmviesa001.fm.intel.com with ESMTP; 07 Aug 2025 09:16:44 -0700
-From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <bbrezillon@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 04/26] drm/gpuvm: Introduce
- DRM_GPUVM_SM_MAP_OPS_FLAG_SPLIT_MADVISE flag
-Date: Thu,  7 Aug 2025 22:13:16 +0530
-Message-Id: <20250807164338.1832254-5-himal.prasad.ghimiray@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250807164338.1832254-1-himal.prasad.ghimiray@intel.com>
-References: <20250807164338.1832254-1-himal.prasad.ghimiray@intel.com>
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="202273791"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.121])
+ ([10.245.245.121])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2025 09:47:52 -0700
+Message-ID: <be9d451d511f8bc4652d835a2c28fa823aaf05f1.camel@linux.intel.com>
+Subject: Re: [PATCH] drm/ttm: WIP limit the TTM pool to 32bit CPUs
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: airlied@gmail.com, matthew.brost@intel.com
+Date: Thu, 07 Aug 2025 18:47:49 +0200
+In-Reply-To: <d6830af2-52aa-4ca6-85c5-2a4635ce6c7d@amd.com>
+References: <20250806132838.1831-1-christian.koenig@amd.com>
+ <3ff97e0ee433817c0c071c264d3a28622d717dfa.camel@linux.intel.com>
+ <d6830af2-52aa-4ca6-85c5-2a4635ce6c7d@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,247 +74,227 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- DRM_GPUVM_SM_MAP_OPS_FLAG_SPLIT_MADVISE: This flag is used by
-  drm_gpuvm_sm_map_ops_create to iterate over GPUVMA's in the
-user-provided range and split the existing non-GEM object VMA if the
-start or end of the input range lies within it. The operations can
-create up to 2 REMAPS and 2 MAPs. The purpose of this operation is to be
-used by the Xe driver to assign attributes to GPUVMA's within the
-user-defined range. Unlike drm_gpuvm_sm_map_ops_flags in default mode,
-the operation with this flag will never have UNMAPs and
-merges, and can be without any final operations.
+On Thu, 2025-08-07 at 11:53 +0200, Christian K=C3=B6nig wrote:
+> On 06.08.25 19:43, Thomas Hellstr=C3=B6m wrote:
+> > Hi, Christian
+> >=20
+> > On Wed, 2025-08-06 at 15:28 +0200, Christian K=C3=B6nig wrote:
+> > > On some old x86 systems we had the problem that changing the
+> > > caching
+> > > flags
+> > > of system memory requires changing the global MTRR/PAT tables.
+> > >=20
+> > > But on any modern x86 system (CPUs introduced rughly after 2004)
+> > > we
+> > > actually don't need that any more and can update the caching
+> > > flags
+> > > directly in the PTEs of the CPU mapping. It was just never
+> > > disabled
+> > > because of the fear of regressions.
+> > >=20
+> > > We already use the PTE flags for encryption on x86 64bit for
+> > > quite a
+> > > while
+> > > and all other supported platforms (Sparc, PowerPC, ARM, MIPS,
+> > > LONGARCH)
+> > > have never done anything different either.
+> >=20
+> > IIRC from my VMWARE days, changing SEV encryption mode of a page
+> > still
+> > requires changing all mappings including kernel maps?
+> > __set_memory_enc_pgtable()
+>=20
+> IIRC both Intel and AMD sacrifice a bit in the page address for that,
+> e.g. for encryption the most significant bit is used to indicate if a
+> page is encrypted or not.
+>=20
+> I'm not aware that we need to change all kernel mappings for
+> encryption, but could be that the hypervisor somehow depends on that.
+>=20
+> > >=20
+> > > So disable the page pool completely for 64bit systems and just
+> > > insert
+> > > a
+> > > clflush to be on the safe side so that we never return memory
+> > > with
+> > > dirty
+> > > cache lines.
+> > >=20
+> > > Testing on a Ryzen 5 and 7 shows that this has absolutely no
+> > > performance
+> > > impact and of hand the AMD CI can't find a problem either.
+> > >=20
+> > > Let's see what the i915 and XE CI systems say to that.
+> > >=20
+> > > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >=20
+> > I don't think we can do this. First Lunar Lake can in some
+> > situations,
+> > just like the old Athlons, write-back clean cache lines which means
+> > writebacks of speculative prefetches may overwrite GPU data.
+>=20
+> So a speculative prefetch because of on an access to an adjacent page
+> could causes the cache line to be fetched and then written back
+> without any change to it?
 
-v2
-- use drm_gpuvm_sm_map_ops_create with flags instead of defining new
-  ops_create (Danilo)
-- Add doc (Danilo)
+Exactly.=20
 
-v3
-- Fix doc
-- Fix unmapping check
+>=20
+> Well it's surprising that even modern CPU do stuff like that. That
+> could explain some of the problems we had with uncached mappings on
+> ARM and RISC-V.
 
-v4
-- Fix mapping for non madvise ops
+Yeah. I agree. Need to double-check with HW people whether that is gone
+with Panther Lake. Don't have a confirmation yet on that.=20
 
-v5
-- Fix mapping (Matthew Brost)
-- Rebase on top of struct changes
+>=20
+> > LNL makes heavy use of non-coherent GPU mappings for performance.
+>=20
+> That is even more surprising. At least on modern Ryzens that doesn't
+> seem to have much performance impact any more at all.
+>=20
+> I mean non-cached mappings where original introduced to avoid the
+> extra overhead of going over the front side bus, but that design is
+> long gone.
 
-v6
-- flag moved to map_req
+With LNL it's possible to set up GPU mapping to make the accesses
+coherent with CPU but that's quite slow. A tradeoff in HW design.
 
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Boris Brezillon <bbrezillon@kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>
-Signed-off-by: Himal Prasad Ghimiray<himal.prasad.ghimiray@intel.com>
----
- drivers/gpu/drm/drm_gpuvm.c | 87 +++++++++++++++++++++++++++++++------
- include/drm/drm_gpuvm.h     | 11 +++++
- 2 files changed, 84 insertions(+), 14 deletions(-)
+If it wasn't for the writeback of speculative prefetches we could've
+settled for only have TTM map the user-space mappings without changing
+the kernel map, just like the i915 driver does for older GPUS.
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index b3a01c40001b..d8f5f594a415 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -2110,6 +2110,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- {
- 	struct drm_gpuva *va, *next;
- 	u64 req_end = req->op_map.va.addr + req->op_map.va.range;
-+	bool is_madvise_ops = (req->flags & DRM_GPUVM_SM_MAP_OPS_FLAG_SPLIT_MADVISE);
-+	bool needs_map = !is_madvise_ops;
- 	int ret;
- 
- 	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req->op_map.va.addr, req->op_map.va.range)))
-@@ -2122,26 +2124,35 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 		u64 range = va->va.range;
- 		u64 end = addr + range;
- 		bool merge = !!va->gem.obj;
-+		bool skip_madvise_ops = is_madvise_ops && merge;
- 
-+		needs_map = !is_madvise_ops;
- 		if (addr == req->op_map.va.addr) {
- 			merge &= obj == req->op_map.gem.obj &&
- 				 offset == req->op_map.gem.offset;
- 
- 			if (end == req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
- 				break;
- 			}
- 
- 			if (end < req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
- 				continue;
- 			}
- 
- 			if (end > req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				struct drm_gpuva_op_map n = {
- 					.va.addr = req_end,
- 					.va.range = range - req->op_map.va.range,
-@@ -2156,6 +2167,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					needs_map = true;
- 				break;
- 			}
- 		} else if (addr < req->op_map.va.addr) {
-@@ -2173,20 +2187,45 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 			u.keep = merge;
- 
- 			if (end == req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					needs_map = true;
-+
- 				break;
- 			}
- 
- 			if (end < req_end) {
-+				if (skip_madvise_ops)
-+					continue;
-+
- 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops) {
-+					struct drm_gpuvm_map_req map_req = {
-+						.op_map.va.addr =  req->op_map.va.addr,
-+						.op_map.va.range = end - req->op_map.va.addr,
-+					};
-+
-+					ret = op_map_cb(ops, priv, &map_req);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				continue;
- 			}
- 
- 			if (end > req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				struct drm_gpuva_op_map n = {
- 					.va.addr = req_end,
- 					.va.range = end - req_end,
-@@ -2198,6 +2237,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, &p, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops)
-+					needs_map = true;
- 				break;
- 			}
- 		} else if (addr > req->op_map.va.addr) {
-@@ -2206,20 +2248,29 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 					   (addr - req->op_map.va.addr);
- 
- 			if (end == req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				break;
- 			}
- 
- 			if (end < req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
--				if (ret)
--					return ret;
-+				if (!is_madvise_ops) {
-+					ret = op_unmap_cb(ops, priv, va, merge);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				continue;
- 			}
- 
- 			if (end > req_end) {
-+				if (skip_madvise_ops)
-+					break;
-+
- 				struct drm_gpuva_op_map n = {
- 					.va.addr = req_end,
- 					.va.range = end - req_end,
-@@ -2234,12 +2285,20 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (is_madvise_ops) {
-+					struct drm_gpuvm_map_req map_req = {
-+						.op_map.va.addr =  addr,
-+						.op_map.va.range = req_end - addr,
-+					};
-+
-+					return op_map_cb(ops, priv, &map_req);
-+				}
- 				break;
- 			}
- 		}
- 	}
--
--	return op_map_cb(ops, priv, req);
-+	return needs_map ? op_map_cb(ops, priv, req) : 0;
- }
- 
- static int
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 116f77abd570..fa2b74a54534 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -1054,6 +1054,17 @@ enum drm_gpuvm_sm_map_ops_flags {
- 	  * %DRM_GPUVM_SM_MAP_OPS_FLAG_NONE: DEFAULT sm_map ops
- 	  */
- 	DRM_GPUVM_SM_MAP_OPS_FLAG_NONE = 0,
-+
-+	/**
-+	 * @DRM_GPUVM_SKIP_GEM_OBJ_VA_SPLIT_MADVISE: This flag is used by
-+	 * drm_gpuvm_sm_map_ops_create to iterate over GPUVMA's in the
-+	 * user-provided range and split the existing non-GEM object VMA if the
-+	 * start or end of the input range lies within it. The operations can
-+	 * create up to 2 REMAPS and 2 MAPs. Unlike drm_gpuvm_sm_map_ops_flags
-+	 * in default mode, the operation with this flag will never have UNMAPs
-+	 * and merges, and can be without any final operations.
-+	 */
-+	DRM_GPUVM_SM_MAP_OPS_FLAG_SPLIT_MADVISE = BIT(0),
- };
- 
- /**
--- 
-2.34.1
+>=20
+> > Second, IIRC vm_insert_pfn_prot() on X86 will override the given
+> > caching mode with the last caching mode set for the kernel linear
+> > map,
+> > so if you try to set up a write-combined GPU mapping without a
+> > previous
+> > call to set_pages_xxxxx it will actually end up cached. see
+> > track_pfn_insert().
+>=20
+> That is exactly the same incorrect assumption I made as well.
+>=20
+> It's not the linear mapping where that comes from but a separate page
+> attribute table, see /sys/kernel/debug/x86/pat_memtype_list.
+>=20
+> Question is why the heck should we do this? I mean we keep an extra
+> rb tree around to overwrite something the driver knows in the first
+> place?
+>=20
+> That is basically just tons of extra overhead for nothing as far as I
+> can see.
+
+IIRC it was PAT people enforcing the x86 documentation that aliased
+mappings with conflicting caching attributes were not allowed. But it
+has proven to work at least on those CPUs not suffering from the clean
+cache-line writeback mentioned above.
+
+FWIW If I understand the code correctly, i915 bypasses this by setting
+up user-space mappings not by vm_insert_pfn_prot() but using
+apply_to_page_range(), mapping the whole bo.
+
+/Thomas
+
+
+>=20
+> Thanks for taking a look,
+> Christian.
+>=20
+> >=20
+> > /Thomas
+> >=20
+> >=20
+> > > ---
+> > > =C2=A0drivers/gpu/drm/ttm/ttm_pool.c | 16 +++++++++++-----
+> > > =C2=A01 file changed, 11 insertions(+), 5 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > index baf27c70a419..7487eac29398 100644
+> > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > @@ -38,7 +38,7 @@
+> > > =C2=A0#include <linux/highmem.h>
+> > > =C2=A0#include <linux/sched/mm.h>
+> > > =C2=A0
+> > > -#ifdef CONFIG_X86
+> > > +#ifdef CONFIG_X86_32
+> > > =C2=A0#include <asm/set_memory.h>
+> > > =C2=A0#endif
+> > > =C2=A0
+> > > @@ -46,6 +46,7 @@
+> > > =C2=A0#include <drm/ttm/ttm_pool.h>
+> > > =C2=A0#include <drm/ttm/ttm_tt.h>
+> > > =C2=A0#include <drm/ttm/ttm_bo.h>
+> > > +#include <drm/drm_cache.h>
+> > > =C2=A0
+> > > =C2=A0#include "ttm_module.h"
+> > > =C2=A0
+> > > @@ -192,7 +193,7 @@ static void ttm_pool_free_page(struct
+> > > ttm_pool
+> > > *pool, enum ttm_caching caching,
+> > > =C2=A0	struct ttm_pool_dma *dma;
+> > > =C2=A0	void *vaddr;
+> > > =C2=A0
+> > > -#ifdef CONFIG_X86
+> > > +#ifdef CONFIG_X86_32
+> > > =C2=A0	/* We don't care that set_pages_wb is inefficient here.
+> > > This
+> > > is only
+> > > =C2=A0	 * used when we have to shrink and CPU overhead is
+> > > irrelevant then.
+> > > =C2=A0	 */
+> > > @@ -218,7 +219,7 @@ static void ttm_pool_free_page(struct
+> > > ttm_pool
+> > > *pool, enum ttm_caching caching,
+> > > =C2=A0/* Apply any cpu-caching deferred during page allocation */
+> > > =C2=A0static int ttm_pool_apply_caching(struct ttm_pool_alloc_state
+> > > *alloc)
+> > > =C2=A0{
+> > > -#ifdef CONFIG_X86
+> > > +#ifdef CONFIG_X86_32
+> > > =C2=A0	unsigned int num_pages =3D alloc->pages - alloc-
+> > > > caching_divide;
+> > > =C2=A0
+> > > =C2=A0	if (!num_pages)
+> > > @@ -232,6 +233,11 @@ static int ttm_pool_apply_caching(struct
+> > > ttm_pool_alloc_state *alloc)
+> > > =C2=A0	case ttm_uncached:
+> > > =C2=A0		return set_pages_array_uc(alloc->caching_divide,
+> > > num_pages);
+> > > =C2=A0	}
+> > > +
+> > > +#elif defined(CONFIG_X86_64)
+> > > +	unsigned int num_pages =3D alloc->pages - alloc-
+> > > > caching_divide;
+> > > +
+> > > +	drm_clflush_pages(alloc->caching_divide, num_pages);
+> > > =C2=A0#endif
+> > > =C2=A0	alloc->caching_divide =3D alloc->pages;
+> > > =C2=A0	return 0;
+> > > @@ -342,7 +348,7 @@ static struct ttm_pool_type
+> > > *ttm_pool_select_type(struct ttm_pool *pool,
+> > > =C2=A0	if (pool->use_dma_alloc)
+> > > =C2=A0		return &pool->caching[caching].orders[order];
+> > > =C2=A0
+> > > -#ifdef CONFIG_X86
+> > > +#ifdef CONFIG_X86_32
+> > > =C2=A0	switch (caching) {
+> > > =C2=A0	case ttm_write_combined:
+> > > =C2=A0		if (pool->nid !=3D NUMA_NO_NODE)
+> > > @@ -980,7 +986,7 @@ long ttm_pool_backup(struct ttm_pool *pool,
+> > > struct ttm_tt *tt,
+> > > =C2=A0	=C2=A0=C2=A0=C2=A0 pool->use_dma_alloc || ttm_tt_is_backed_up(=
+tt))
+> > > =C2=A0		return -EBUSY;
+> > > =C2=A0
+> > > -#ifdef CONFIG_X86
+> > > +#ifdef CONFIG_X86_32
+> > > =C2=A0	/* Anything returned to the system needs to be cached.
+> > > */
+> > > =C2=A0	if (tt->caching !=3D ttm_cached)
+> > > =C2=A0		set_pages_array_wb(tt->pages, tt->num_pages);
+> >=20
+>=20
 
