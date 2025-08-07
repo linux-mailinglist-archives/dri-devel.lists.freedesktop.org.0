@@ -2,188 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095AEB1DBAB
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 18:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A73B1DBC8
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 18:34:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69E2D10E893;
-	Thu,  7 Aug 2025 16:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 402F210E87D;
+	Thu,  7 Aug 2025 16:34:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="d6Pc9UnH";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="d6Pc9UnH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kQisyQxg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com
- (mail-norwayeastazon11013052.outbound.protection.outlook.com [40.107.159.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C171A10E892
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 16:28:00 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=YjiWWAv8mVEuyZua5l0dVK6rGVoZp03HRvJDHOarbAQG2jLEHAN9LEuuoe2VASWgf4n8KVwGopJfV1RHL91iQP3TcPbZP8NVLfgapjkPHOHdmSLnVcx9hf0IvHmCdAc9ddyLjG5plSQkO5LauYxOVWfj+2E48vF42ekXbE66FhYDxm6/FVAhkW8OmfsBDbJVAd1ncY7agNq59y7Sy10M3VAFDylYi1TI6FEtFst2EA6KaIfA5liyOSv/LuaQjrvY7JkZcj81iVIzvJgJUK/dlOr2wyEN2J5OJ1zXfR3o0DKwA2boLE4Z4VGkjKt2acQKErEdqwg6jhaExD3dmmSnPw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UUs28UoSJOnec1LakISrYkPOT7k6uFeYEAAL0w78y2U=;
- b=Ud8M9Pi3LxN4boJdNeUW+/G+VVeopJ+kjujJpQAhH8uoxyX6Nijj11sAyNgzZEx5kPA4YORFbmTAGOuURWKp9zfZYFOqBFzOAqZwCjYZenbCI+NQQpkDAbjfULJeg7BURKrlcy5bkBkrk2/w6VLzWOuHSO1NPnz7F0W4YlqEZPHZMCLer5XocE+fZTiyrs+sYOXLnBt/p88bTqkgu70rUFuWjinE5cjTZboFvKzXPURA/ZOgYpN6gtn68XaH28Ib9hQkUMtheEA2joz/8R1QrRFpqJlGVwuBYwDs2lSjPu7GVnr+GvOWlYhFJ6RerDV9HgUVomUNCFT2n3VsPFFfcg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UUs28UoSJOnec1LakISrYkPOT7k6uFeYEAAL0w78y2U=;
- b=d6Pc9UnHe32PKe4PV1ealuuOY+MFot5oYfKLpH73Q3L6KbDwigPc2ruzPDSLHQVLplHnA25NHrZ2pHQyRRdVBu0VrY8KXY9zfxGSEQ/O2p3Itrs4pbi9i5HzvWMgjxlvRdaXQh3Zfxu4z3yoegWTA5BMP8fOSRlJEdNQZ/8fD5I=
-Received: from AM8P251CA0013.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:21b::18)
- by DU0PR08MB9201.eurprd08.prod.outlook.com (2603:10a6:10:415::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.14; Thu, 7 Aug
- 2025 16:27:56 +0000
-Received: from AM3PEPF0000A78E.eurprd04.prod.outlook.com
- (2603:10a6:20b:21b:cafe::c8) by AM8P251CA0013.outlook.office365.com
- (2603:10a6:20b:21b::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9009.16 via Frontend Transport; Thu,
- 7 Aug 2025 16:27:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM3PEPF0000A78E.mail.protection.outlook.com (10.167.16.117) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9009.8
- via Frontend Transport; Thu, 7 Aug 2025 16:27:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OZ00DAfa3AHBLgnsZkhdwEJxqaOClTSF1X2x0m/wFyWwccgcKXy1CdqgHi4kj7HMS6GHRynPnCVtgpmwA4ggEiQ/KLAogQmn3S6lzFOVLAWSTLSeHYOC7ZOgKCi+3Si5mHPo1Nd2RbGqqMjBeaWZWsxmVXh/N0o1fpdovkdAkeMCVMbbP52wd2KDIfvFqHIMvboAe4Kc09/tOFyMg3Zxjk1MMtEG6EnD4dKo1qgKl/v0SNgX2jNsU76I2hPO7SOVD4t8oR1hp2Xt0wp7oP7IbykSIrKoSOR7B2M7bg22jAGmYJeH20qz1WN6K8uZw/D/EoobkvfeMI08/miJWLxksg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UUs28UoSJOnec1LakISrYkPOT7k6uFeYEAAL0w78y2U=;
- b=vqUshTLfjP6k4ExEzVRdxbxpESSAQHSsNG7MLE1ezKVvQ14f6WHGeJoj1Zp0Mo0SvMi9Yc+QTzfTYTKFmQxF+FyWk5n29TNVSQm/tYEJfZqpKTXQSecly1btJ3Yaa+5jba9Pst762Yb1p9K8ov+Fzp+i7B1itPxOZlQfixNcZIXv8ifjY+QUFiTkcsqXvtqhCT1SxISwpvuizY/j9QBqeYh4QrU8LzQNHNuTOz8qFPySH2GVN2AUimpQ6aWlx91J2o/aX4sCrrv52ROdUCVZV2bjxpKF2DMKqcWW0bFlXEtiwWuKnvWWL4gyznakaNu6mkU1/jqTHDbGeNZuecUNHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UUs28UoSJOnec1LakISrYkPOT7k6uFeYEAAL0w78y2U=;
- b=d6Pc9UnHe32PKe4PV1ealuuOY+MFot5oYfKLpH73Q3L6KbDwigPc2ruzPDSLHQVLplHnA25NHrZ2pHQyRRdVBu0VrY8KXY9zfxGSEQ/O2p3Itrs4pbi9i5HzvWMgjxlvRdaXQh3Zfxu4z3yoegWTA5BMP8fOSRlJEdNQZ/8fD5I=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18) by DB9PR08MB9443.eurprd08.prod.outlook.com
- (2603:10a6:10:45b::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.13; Thu, 7 Aug
- 2025 16:27:23 +0000
-Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
- ([fe80::d594:64a:dfc:db74%5]) with mapi id 15.20.9009.016; Thu, 7 Aug 2025
- 16:27:23 +0000
-From: Karunika Choo <karunika.choo@arm.com>
-To: dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 7/7] drm/panthor: Add support for Mali-Gx20 and Mali-Gx25
- GPUs
-Date: Thu,  7 Aug 2025 17:26:33 +0100
-Message-ID: <20250807162633.3666310-8-karunika.choo@arm.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250807162633.3666310-1-karunika.choo@arm.com>
-References: <20250807162633.3666310-1-karunika.choo@arm.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0129.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:193::8) To VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6671010E0E9
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 16:34:24 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5779D3I4003563
+ for <dri-devel@lists.freedesktop.org>; Thu, 7 Aug 2025 16:34:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:to; s=
+ qcppdkim1; bh=20XGyfXXNdGC7HQWVvn1/217ySdGWAG+LZsLEYNzAEc=; b=kQ
+ isyQxgZ6iPc3Dqkz5PhDNE/kGLpDsQ1ExaMUJT8FuqRF88ggtnaVwPqFhtVZbLI1
+ AVFcjII7mpAI2W74c7NZIgVunInTO6+H4l/3PPcbGd1zdz3+PjlV/nA9UhSC5Mfn
+ K66TfR6SpTM4hMitkVKpZfTd5Z+z3qyQRfLDVSwYHmhLTIKrZ8aMHXXHhvzJdYeg
+ nkGYgGCGfyMH7LIfj4GlSieIQ55NtSGy/+hdAdMUY/D6O44xp+jJMRhAoe7+4YQU
+ r3gOOygXgCN6ziP3huRubTzWKdhWF8AQ9EAiGs34kSrN7CTFbkZ0/WnH7EIJNKzf
+ IUEEUB+S4GlObvJ7EJ1Q==
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpvyy3tb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Aug 2025 16:34:22 +0000 (GMT)
+Received: by mail-oi1-f200.google.com with SMTP id
+ 5614622812f47-43589745296so1095323b6e.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Aug 2025 09:34:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754584462; x=1755189262;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=20XGyfXXNdGC7HQWVvn1/217ySdGWAG+LZsLEYNzAEc=;
+ b=P0zZ7E1mwSchaWOPMwaNafUGSrkcG1M8jqLdRRXeY8ZLJc29rfIA86oEc/trm1NE2i
+ PQf3JARYXk4YmopUtaBBqeWvSZWQPMo1E4df43ciZwIc1anxWdN4TkVl+qhVisoo6cPR
+ 6j59aZ7eVC2dwN5dJe9b5/+NcGS9l05jethjiyYtZkjXYvdGE5kn2iggbSKl3T18knvN
+ anXLU+i+nUO7M4u4yFUe1iQRjj7bDnzqalUZRTgdB1n6jEFkrLXZq7nAzl9Ac76SQej+
+ V9QqiGeg1y/FnCE/bb7bkEKJhtDQiPREl+ebeBsEavJjtA0th/iFDnRTQwswGChWXNJs
+ 9/kw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVxPyVgTNuGI717RYHoO2w9ivkmnawOoAdK7koAvk4K5LuczOHJxWc+XMsXz5cdVu3aOlTlfdS2++c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwwNEJ8CzNjFibkZwIcOnbjhJRmw1+xHUvrAaS+fjB/EiTrgSON
+ /Sgbs9sZiQuIKFkWNVZ56L3DJuR6Xc+PvBmbUq4L2hwiFKx7H1bgVoQSNTA4To3sORHtxzL1CTT
+ YxyYKSLjV/oIohTVZDOwl2ceE67kIIINqQjSZGH5g+eklW5B3Z0/rHw8kaZnM8GuB2B+Lu+0jWm
+ IgZGCpFjNs4lXfvne8bsJzu+yO3+ij1g6IP9FgkatMJZr+2Q==
+X-Gm-Gg: ASbGncsJ6M/DukthcIRebG0bCUnR5/Artv+KRQbWVkQPsELR5bnJ1mzzZUmbeBb6V1o
+ EOFpE2y9iDxiWhuZ1NovqzsyUcMY0Nt5VH5rBLpm5OgXb6TlNr6NOFBVbViGF+GB4YGrf6Huup1
+ g5rUmG3PraQ7kVy5fGNyT6IZfuDJuLlEd3kZCNGuFTJUNEfw8a/bic
+X-Received: by 2002:a05:6808:4f62:b0:435:51e3:4c32 with SMTP id
+ 5614622812f47-435949944cbmr412535b6e.22.1754584461696; 
+ Thu, 07 Aug 2025 09:34:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEyYDpEiutargwcHztd1uMH+An3wIVt+BWQAJA5PusdGM4Ay+XwJsJLRnHeGzu24XnAc+azltF8a3XWtp0hOuI=
+X-Received: by 2002:a05:6808:4f62:b0:435:51e3:4c32 with SMTP id
+ 5614622812f47-435949944cbmr412515b6e.22.1754584461239; Thu, 07 Aug 2025
+ 09:34:21 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|DB9PR08MB9443:EE_|AM3PEPF0000A78E:EE_|DU0PR08MB9201:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe910b80-ffcb-4032-2a01-08ddd5cf5d8c
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?LT9HTqCo1mYs3Y8aA/pGYHtcutU4j52oED0i3f2AeBIAbEQTxEFJE5jHQQwd?=
- =?us-ascii?Q?UlyXtt92to4jptYcCE8VRaVdxG348i/FTNPwLHtfZ3auaG8nIcpLHUFNCsVh?=
- =?us-ascii?Q?JSqd80vRZA8yVaLtTpLQ60pQ3T2HJpafNNcpZrRpJ9LfiT+C4zeqzVwwsXXQ?=
- =?us-ascii?Q?fd8ZuyrZV6D/T+pHPxXOXG2ivT6yg1AJPXlXmGdlNU02VbIQZQxREexDL1QE?=
- =?us-ascii?Q?IwrtS4exCX6/TBLOYby6AXHK1xJJB6/QXerI4TBxs0ngWy6MahtG0txaZHgP?=
- =?us-ascii?Q?u9QseVS3tOQWK7P2UmPAkYJinI1BptHaEdwKl00iF7kRbkkPlaAfD6A0Nfo4?=
- =?us-ascii?Q?AcYERQx6aY+HBfTcfmrhuPOwDfjLbwGhJeouVuReZYYFWlfZUynfPjY4qDC5?=
- =?us-ascii?Q?yWMz3ipdIIok4oQ8Oh+/wx/BS3dkGwHJl9zr1b9B1MtOym2GenO/lawwBAvK?=
- =?us-ascii?Q?IiVLMoizJY6Ed7Ox9dzf+Lrf+xq51Z6bogrIweGtNHzF/atnjupC51kZuIsz?=
- =?us-ascii?Q?ILU1qVuP59e1qx4BfNqXleEP94UUfJmm+XL6XCKuFeb2jdrI/uqHC3zHH9f+?=
- =?us-ascii?Q?aIDrF1Jx73CvRcpyV1GNsAKIlYoAcrwx2h74KOfNR5lWEi/zdwl4+3qvNLtN?=
- =?us-ascii?Q?jTvAj+YcNm7mWK+xxRin/5wPiRh9UrA4H8eIjPrOq1bLMRXeQZRiRXrUq5ug?=
- =?us-ascii?Q?dcMvGFS/INaTPA/cyghvFq45CxZtTEJ86HxotfFhdzDdJRhhfKYd0bE1Tpa3?=
- =?us-ascii?Q?9/IjdsuRGnwhvF/8H/1nOc5xWuaHGg0bA9da6YIsEbwa69Abtn8AzIT/pRnA?=
- =?us-ascii?Q?lB3dDI/Sz1ne7jBXwvpL+eYAIfbHtD+aGssC+tyfWCF1OywyQfF46urizCQd?=
- =?us-ascii?Q?HHUGqq6NvkiX0BOKkg3OQatCVsbf6RsuhcgzhngBuMXuC4t15IsQ3S61mCWi?=
- =?us-ascii?Q?J7XZWqQHItS03Nwopbs7D+crB5cMD/kjrt1FKNcr6+zVx9JGsAUYZusqRD1T?=
- =?us-ascii?Q?mwthJa9jufeA5FNs6pFf4YFdx5Q+TkpryJAKXyHglcBcJ5d41MR6Jdh4r9oM?=
- =?us-ascii?Q?Qpwj2bMbCKXgLXUx7m/c9fHjU0LpNHeLuzZPGXBCUKPkdnNexVc0LZpOcjvv?=
- =?us-ascii?Q?WWEJJxiHJcFaOmN2eIeNAdVo1scYDbWdwDiq9Gv2YMaX+kwP7s89MOwFKzux?=
- =?us-ascii?Q?yIJJEz2XhBGs0BvQK3VLC1h1dyzSC1fID2060FAKcowWa3uwqybr3zIQum6B?=
- =?us-ascii?Q?LmwT1Z9EvBm28WlaIk36RBomoWU9xNrV7u88BcMyMbTChkR2UGkch4wpfAXW?=
- =?us-ascii?Q?qTup/Aj5+HhI5oyA9gxVxbD0HNOZ8OkFTNOVg7jHPw9ZeN2ZXbGY63tuzvDk?=
- =?us-ascii?Q?wutbeEId7Rd4uTdTsiBscLsbCIkWPMAvNvv14uUk7MYEdrIbVkfJ9hOqBF8b?=
- =?us-ascii?Q?mZkytuTLBl4=3D?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB9443
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM3PEPF0000A78E.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: fb8cfa2c-9e64-4f7b-b949-08ddd5cf4a38
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|35042699022|376014|82310400026|36860700013|14060799003;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?yB1v4R9dvQoQtFJ1don8WLfL5J9B9aaAQYyfmhhWQxqVFBU/kPJnDY3sFUhb?=
- =?us-ascii?Q?7aTSK7JR3h5e6dnblodgMnuNsa775OH0mvGrTTIkXXXBBopcIhK7LJDZB06x?=
- =?us-ascii?Q?ZWFO/fQVRgbQTNk7NbVkCywWj949xhWJaBR10zYQvNvmqE0u60QlIQn/Jd8u?=
- =?us-ascii?Q?S/hcR7GYV5SlLwyyQpUQ7kcGdaZa9f/4bD60xJCCpMTzw/O+6F9t5e36kXb4?=
- =?us-ascii?Q?2OCc7o/k2CKgZleMuFYzPIdU7PAf62uSAURJEtdimbeTBSy/gtlEIo3yqbeS?=
- =?us-ascii?Q?6BcYre6mSoBV6uhs4t9KYrLg55jQkBm1Wz5PjBtXmJJbp70FqL8/fFxkWx+R?=
- =?us-ascii?Q?j9Hd9sSY8m0OiugdVptGfIEiOrKf+pD6edEnaJvAQMNmNvc4OqZhF5MKIkNB?=
- =?us-ascii?Q?eqo4ORSCiKWOMd6GUvyi1IkLE6jIQQDuQxdQnQO+ggRTMN5mgqtlBJfiyO2+?=
- =?us-ascii?Q?f/ZwyhfEM/Pi+EVGd6TtXNkVnxVtthjxKY3fKvNKCGmM8jArj/ErfHYIsgyI?=
- =?us-ascii?Q?hm8nQaO+RoZVmqdBt3iL3o1u1SLyt+lhVjD4pLQC863kiQGZIRI3BI3umVz6?=
- =?us-ascii?Q?sH30b/CYWr/t9eWGWFOQG02CKKj11Yx+SBZ8vQyBGqdn4emZ3T1ZAh824/Jf?=
- =?us-ascii?Q?DFGbBSYtSdSCsyF52k1U5VeoLB7D5/vr5UKJQwiDozwbZzLwA8GvHsGH4gCX?=
- =?us-ascii?Q?GPt0iPHhFIKIrEM+U9+s+G6DSDuhaYOMU7AlJ8LBqHSeZZ7MCa4zLheRD38e?=
- =?us-ascii?Q?8rbGMhDaeq4vARN67D8sXuCjZCuM8sD6Wn0EGrZSQgk9dRT8jsXYGSx0xnv1?=
- =?us-ascii?Q?j80QrE5BLcrtTIRjvsrbhk/tAjvsIMrhAAWuf8VBshhEFeLPod69ghQbOzmD?=
- =?us-ascii?Q?/kUnYSdFGLJrENM7vEr+RakHSNvdBPGOohjSrD/pBWmUnlp2gCPs+ljK5yiV?=
- =?us-ascii?Q?6cgq/DWBPzBs/sY9l+8OFkNW09AWWmRQFcnKpFU5xrOh/rdKOp9hUsX9FU36?=
- =?us-ascii?Q?6wJU+eLRl8oxpyNK7f9IjHSwdGkQ0fx5x/szp2Fez2pYHf7BER2Yaa2Obqpn?=
- =?us-ascii?Q?E2yqrBVY2g9k61Y2IayVd8+0hgP7n4e1oSngxyxN/0Rrqg9B/f/GxSNl2Gwb?=
- =?us-ascii?Q?c4yidCvzKLQarOV3tIbyWfvsnTjV089K5FKh0+1cNlJiVBnHhIY1rWFSqoID?=
- =?us-ascii?Q?rxhy5BHeWXEV0YwJII4SX6DwRpmGL4mpUdJX18JONLKJhsZS5Tp9xl+KpyAu?=
- =?us-ascii?Q?+C4JB3yeeIyv6NTVLN0TEwwEkVEAM+0IbBv/frY4ew/YT7FdIqSA2mtIMeTv?=
- =?us-ascii?Q?XXgzO6jZd0AwuJc+30d0TT0LduCPK8Ts9HxTkS1CYaEHSLA6HgSF8hu+8z0q?=
- =?us-ascii?Q?ylqDA1+qyNSWi93Pj9cKIJrMg68PVrvdyuA3humyn2+Gb6idm9GRFxaBRxtg?=
- =?us-ascii?Q?XxTZdNdzFqsH0YXFC5pLnuJ5UhNx3UUzI3UI2J3QZBYIIFQbIF1tNS/wlK6q?=
- =?us-ascii?Q?ErIyEVX+62ypsEQG7COp5SqdlYwp+lLNWIT9?=
-X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
- PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(35042699022)(376014)(82310400026)(36860700013)(14060799003);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 16:27:55.9972 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe910b80-ffcb-4032-2a01-08ddd5cf5d8c
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
- Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM3PEPF0000A78E.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9201
+References: <20250807131058.1013858-1-sashal@kernel.org>
+In-Reply-To: <20250807131058.1013858-1-sashal@kernel.org>
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Thu, 7 Aug 2025 09:34:09 -0700
+X-Gm-Features: Ac12FXxMSsMGvIgYDAvLfpHDoBnkFhjLk_774zLTck_kXTKHSm6n5z-AQjQuJmY
+Message-ID: <CACSVV03b+tAN4o9kFFaNVJrcO6OgaCSmajL-LpvCd_wDzWPSBQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm: Fix objtool warning in submit_lock_objects()
+To: Sasha Levin <sashal@kernel.org>
+Cc: lumag@kernel.org, abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com, 
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, antomani103@gmail.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: F5lLTOdtnFf--PGFJfKatqWVWcCR_YuC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX2deIBsjN8JSe
+ 98NXAS5TBrY0tlI1fEnMNaIla4Ql1rY7B5RvFHwKYET2AUXWHlS87VuffTrb1eHM5p7BdLFZ2yi
+ LqtL19uMYD3NzUGPRG+YCfN/bnCTNF/RzXD+CnmRVpQZhgQxat40oN8exMfyzweh9WhfI9Z62Is
+ H3Pdwtqc5GdAe4ZuMlLJRTS+B4ZEEbznU/GmF77i7ZcpBQac5cBeSOVSdzK5eVhQ7nuAvUplcRc
+ RrzNvsSG0OSFgyVH58rIo0EEr/xt/F+teS/vhMAOSXU+qanp5CdFJTiMZzkRfLZUCeu0UqHiadT
+ Ffkb/nwv8IOdjjDkcxscENJRTvewB4WmRv5GOweJRK6QOC4h9+dHp0NfUeiVk5/FL3icz+ct4PS
+ rzJNtfMc
+X-Proofpoint-ORIG-GUID: F5lLTOdtnFf--PGFJfKatqWVWcCR_YuC
+X-Authority-Analysis: v=2.4 cv=NsLRc9dJ c=1 sm=1 tr=0 ts=6894d58e cx=c_pps
+ a=AKZTfHrQPB8q3CcvmcIuDA==:117 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
+ a=VwQbUJbxAAAA:8 a=J1DvxoY-jygCTqRSKsMA:9 a=QEXdDO2ut3YA:10
+ a=pF_qn-MSjDawc0seGVz6:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-07_03,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0
+ adultscore=0 malwarescore=0 spamscore=0 suspectscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -196,59 +114,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds firmware binary and GPU model naming support for
-Mali-Gx20 and Mali-Gx25 GPUs.
+On Thu, Aug 7, 2025 at 6:11=E2=80=AFAM Sasha Levin <sashal@kernel.org> wrot=
+e:
+>
+> Split the vmbind case into a separate helper function
+> submit_lock_objects_vmbind() to fix objtool warning:
+>
+>   drivers/gpu/drm/msm/msm.o: warning: objtool: submit_lock_objects+0x451:
+>   sibling call from callable instruction with modified stack frame
+>
+> The drm_exec_until_all_locked() macro uses computed gotos internally
+> for its retry loop. Having return statements inside this macro, or
+> immediately after it in certain code paths, confuses objtool's static
+> analysis of stack frames, causing it to incorrectly flag tail call
+> optimizations.
+>
+> Fixes: 92395af63a99 ("drm/msm: Add VM_BIND submitqueue")
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Signed-off-by: Karunika Choo <karunika.choo@arm.com>
----
- drivers/gpu/drm/panthor/panthor_fw.c |  2 ++
- drivers/gpu/drm/panthor/panthor_hw.c | 18 ++++++++++++++++++
- 2 files changed, 20 insertions(+)
+Thanks, I've pushed this to my staging branch for msm-fixes
 
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index fa6e0b48a0b2..9bf06e55eaee 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -1405,3 +1405,5 @@ MODULE_FIRMWARE("arm/mali/arch10.8/mali_csffw.bin");
- MODULE_FIRMWARE("arm/mali/arch10.10/mali_csffw.bin");
- MODULE_FIRMWARE("arm/mali/arch10.12/mali_csffw.bin");
- MODULE_FIRMWARE("arm/mali/arch11.8/mali_csffw.bin");
-+MODULE_FIRMWARE("arm/mali/arch12.8/mali_csffw.bin");
-+MODULE_FIRMWARE("arm/mali/arch13.8/mali_csffw.bin");
-diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
-index 8c041e1074a1..4f2858114e5e 100644
---- a/drivers/gpu/drm/panthor/panthor_hw.c
-+++ b/drivers/gpu/drm/panthor/panthor_hw.c
-@@ -35,6 +35,24 @@ static char *get_gpu_model_name(struct panthor_device *ptdev)
- 		fallthrough;
- 	case GPU_PROD_ID_MAKE(11, 3):
- 		return "Mali-G615";
-+	case GPU_PROD_ID_MAKE(12, 0):
-+		if (shader_core_count >= 10 && ray_intersection)
-+			return "Mali-G720-Immortalis";
-+		else if (shader_core_count >= 6)
-+			return "Mali-G720";
-+
-+		fallthrough;
-+	case GPU_PROD_ID_MAKE(12, 1):
-+		return "Mali-G620";
-+	case GPU_PROD_ID_MAKE(13, 0):
-+		if (shader_core_count >= 10 && ray_intersection)
-+			return "Mali-G925-Immortalis";
-+		else if (shader_core_count >= 6)
-+			return "Mali-G725";
-+
-+		fallthrough;
-+	case GPU_PROD_ID_MAKE(13, 1):
-+		return "Mali-G625";
- 	}
- 
- 	return "(Unknown Mali GPU)";
--- 
-2.49.0
+BR,
+-R
 
+> ---
+>
+> Changes since v1:
+>  - Extract helper submit_lock_objects_vmbind() instead of refactoring
+>    single loop
+>
+>  drivers/gpu/drm/msm/msm_gem_submit.c | 49 +++++++++++++++-------------
+>  1 file changed, 27 insertions(+), 22 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/m=
+sm_gem_submit.c
+> index 5f8e939a5906..1ce90e351b7a 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -271,32 +271,37 @@ static int submit_lookup_cmds(struct msm_gem_submit=
+ *submit,
+>         return ret;
+>  }
+>
+> -/* This is where we make sure all the bo's are reserved and pin'd: */
+> -static int submit_lock_objects(struct msm_gem_submit *submit)
+> +static int submit_lock_objects_vmbind(struct msm_gem_submit *submit)
+>  {
+> -       unsigned flags =3D DRM_EXEC_INTERRUPTIBLE_WAIT;
+> +       unsigned flags =3D DRM_EXEC_INTERRUPTIBLE_WAIT | DRM_EXEC_IGNORE_=
+DUPLICATES;
+>         struct drm_exec *exec =3D &submit->exec;
+> -       int ret;
+> +       int ret =3D 0;
+>
+> -       if (msm_context_is_vmbind(submit->queue->ctx)) {
+> -               flags |=3D DRM_EXEC_IGNORE_DUPLICATES;
+> +       drm_exec_init(&submit->exec, flags, submit->nr_bos);
+>
+> -               drm_exec_init(&submit->exec, flags, submit->nr_bos);
+> +       drm_exec_until_all_locked (&submit->exec) {
+> +               ret =3D drm_gpuvm_prepare_vm(submit->vm, exec, 1);
+> +               drm_exec_retry_on_contention(exec);
+> +               if (ret)
+> +                       break;
+>
+> -               drm_exec_until_all_locked (&submit->exec) {
+> -                       ret =3D drm_gpuvm_prepare_vm(submit->vm, exec, 1)=
+;
+> -                       drm_exec_retry_on_contention(exec);
+> -                       if (ret)
+> -                               return ret;
+> +               ret =3D drm_gpuvm_prepare_objects(submit->vm, exec, 1);
+> +               drm_exec_retry_on_contention(exec);
+> +               if (ret)
+> +                       break;
+> +       }
+>
+> -                       ret =3D drm_gpuvm_prepare_objects(submit->vm, exe=
+c, 1);
+> -                       drm_exec_retry_on_contention(exec);
+> -                       if (ret)
+> -                               return ret;
+> -               }
+> +       return ret;
+> +}
+>
+> -               return 0;
+> -       }
+> +/* This is where we make sure all the bo's are reserved and pin'd: */
+> +static int submit_lock_objects(struct msm_gem_submit *submit)
+> +{
+> +       unsigned flags =3D DRM_EXEC_INTERRUPTIBLE_WAIT;
+> +       int ret =3D 0;
+> +
+> +       if (msm_context_is_vmbind(submit->queue->ctx))
+> +               return submit_lock_objects_vmbind(submit);
+>
+>         drm_exec_init(&submit->exec, flags, submit->nr_bos);
+>
+> @@ -305,17 +310,17 @@ static int submit_lock_objects(struct msm_gem_submi=
+t *submit)
+>                                         drm_gpuvm_resv_obj(submit->vm));
+>                 drm_exec_retry_on_contention(&submit->exec);
+>                 if (ret)
+> -                       return ret;
+> +                       break;
+>                 for (unsigned i =3D 0; i < submit->nr_bos; i++) {
+>                         struct drm_gem_object *obj =3D submit->bos[i].obj=
+;
+>                         ret =3D drm_exec_prepare_obj(&submit->exec, obj, =
+1);
+>                         drm_exec_retry_on_contention(&submit->exec);
+>                         if (ret)
+> -                               return ret;
+> +                               break;
+>                 }
+>         }
+>
+> -       return 0;
+> +       return ret;
+>  }
+>
+>  static int submit_fence_sync(struct msm_gem_submit *submit)
+> --
+> 2.39.5
+>
