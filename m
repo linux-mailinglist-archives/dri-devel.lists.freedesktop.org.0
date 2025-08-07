@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38250B1D416
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 10:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9EF5B1D41A
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 10:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0033910E7FE;
-	Thu,  7 Aug 2025 08:12:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46AE210E800;
+	Thu,  7 Aug 2025 08:13:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rvJ7YEah";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ITYlz7R1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B555C10E801
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 08:12:24 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 054C810E7F9
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 08:13:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id F40E2A55A82;
- Thu,  7 Aug 2025 08:12:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF77DC4CEEB;
- Thu,  7 Aug 2025 08:12:20 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 272BC61417;
+ Thu,  7 Aug 2025 08:13:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC76EC4CEEB;
+ Thu,  7 Aug 2025 08:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754554343;
- bh=ikf6ssEW+m4fXYrnJWWge9brgZ8WUunADfPrWN6Gu60=;
+ s=k20201202; t=1754554392;
+ bh=A51/Rqu8ChKnnqJyQB7GXr9rO6OuMmU/1Y4g1/PZF04=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=rvJ7YEahZ/e/rbh8/gNhPQqyW1g5Pi3rzl6b09kh21bX8LTTxWBB79j0dCP6OTAt6
- oQS/jRrXBzq3+3BOw5L4jti83m/9XscLVAFBvXTLY88cFeaWktgVKu8VTiOyyHRbB0
- mz9sPjWMWY+hfdM9VOgVywPSpd5eKM0WtotSV3gts1vHOwgUSj0kLIwqYT26bBHrEZ
- EDepLbGTAKzx5YNCsBzE/9Bf6IU2o1G6La5v37YEWuUqX0OG9EGkkQ4oJ/GPRpfQmS
- wb6zc5bXxP9J/CVKx6lstPiocnrmN8v1IL6U+O8NotgQMtjELvjouzvsuHPOXlyozj
- U9Zl0z1iUmB+g==
-Message-ID: <285eee30-58ab-4837-9fc4-ff5cd5118037@kernel.org>
-Date: Thu, 7 Aug 2025 10:12:19 +0200
+ b=ITYlz7R1JNbfGV+hsFTvC+oIYHKQTKsVcN+CTSh231gRIlqYG7zlqdaZkU46+XC5/
+ AfGpzWy+HLENLFPMgn19axIxHCk6pauDPkETYiyXBJD5QtZxjpocTcC50aeWEhbyWr
+ UZhTIDhx7W3Azi2r1i9jymX+MjRIaMhQky41LiYRPO6tjA9iSlHUoe2OHoDX+jQcq8
+ I0Sfb+6VmL4E260BtVsdY94BDqSoI7oeQ6hsy0xqi2rVvkgdUIRePmFTEcvymHKMsc
+ gik6yBvAtLWDkeXMekyC/ZFJRwVtw5sSm5t5LSAKEbcx9E7SQm4eE/H+zfv6RHXe5S
+ WH2YDY1K8d7cA==
+Message-ID: <24a5ac33-945b-4861-ac0b-94eaa647e893@kernel.org>
+Date: Thu, 7 Aug 2025 10:13:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm: Add driver for Sitronix ST7920 LCD displays
+Subject: Re: [PATCH 3/3] MAINTAINERS: Add entry for Sitronix ST7920 driver
 To: Iker Pedrosa <ikerpedrosam@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -45,7 +45,7 @@ To: Iker Pedrosa <ikerpedrosam@gmail.com>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org
 References: <20250806-st7920-v1-0-64ab5a34f9a0@gmail.com>
- <20250806-st7920-v1-1-64ab5a34f9a0@gmail.com>
+ <20250806-st7920-v1-3-64ab5a34f9a0@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +91,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250806-st7920-v1-1-64ab5a34f9a0@gmail.com>
+In-Reply-To: <20250806-st7920-v1-3-64ab5a34f9a0@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,62 +110,30 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 06/08/2025 14:48, Iker Pedrosa wrote:
-> This adds a functional DRM driver for ST7920 that communicates with the
-> display via the SPI bus.
-
-Please do not use "This commit/patch/change", but imperative mood. See
-longer explanation here:
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-
-> 
 > Signed-off-by: Iker Pedrosa <ikerpedrosam@gmail.com>
+
+Missing commit msg or just squash it with patch #2.
+
 > ---
+>  MAINTAINERS | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5ddf37f0acc960039422ef988cadfa7176972fc5..79b8a277e38b55ebcff05450d6c565c0d87c6b51 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7861,6 +7861,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+>  F:	drivers/gpu/drm/sitronix/st7735r.c
+>  
+> +DRM DRIVER FOR SITRONIX ST7920 LCD DISPLAYS
+> +M:	Iker Pedrosa <ikerpedrosam@gmail.com>
+> +S:	Maintained
+> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
 
 
-...
-
-
-> +#define BOTTOM_HORIZONTAL_ADDRESS	0x80
-> +
-> +#define CMD_SIZE			35
-> +
-> +const struct st7920_deviceinfo st7920_variants[] = {
-> +	[ST7920_ID] = {
-> +		.default_width = 128,
-> +		.default_height = 64,
-> +		.family_id = ST7920_FAMILY,
-
-Don't add dead code. This cannot be anything else than ST7920_FAMILY.
-
-Several places here can be simplified (and "possible" future code is not
-an argument here - this patch must be correct, simple and stand on its
-own because we do not write code just in case).
-
-
-...
-
-> +static int st7920_probe(struct spi_device *spi)
-> +{
-> +	struct st7920_device *st7920;
-> +	struct regmap *regmap;
-> +	struct device *dev = &spi->dev;
-> +	struct drm_device *drm;
-> +	int ret;
-> +
-> +	regmap = devm_regmap_init_spi(spi, &st7920_spi_regmap_config);
-> +	if (IS_ERR(regmap))
-> +		return PTR_ERR(regmap);
-> +
-> +	st7920 = devm_drm_dev_alloc(dev, &st7920_drm_driver,
-> +				    struct st7920_device, drm);
-> +	if (IS_ERR(st7920))
-> +		return dev_err_probe(dev, PTR_ERR(st7920),
-> +							 "Failed to allocate DRM device\n");
-
-Misaligned but also this looks like ENOMEM error and such should never
-have dev_err.
-
-
+Drop, unless you have commit rights there. Parent entry already covers
+this, doesn't it?
 
 Best regards,
 Krzysztof
