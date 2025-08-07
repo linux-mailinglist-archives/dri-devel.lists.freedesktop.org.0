@@ -2,141 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278B4B1D953
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 15:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0F6B1D95D
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 15:51:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE27410E142;
-	Thu,  7 Aug 2025 13:47:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9455410E852;
+	Thu,  7 Aug 2025 13:51:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="iO9WCwlq";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="At4XKK7p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SEYPR02CU001.outbound.protection.outlook.com
- (mail-koreacentralazon11013071.outbound.protection.outlook.com
- [40.107.44.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAB0510E142;
- Thu,  7 Aug 2025 13:47:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NMGBlQP6ga70dDqAyP6xGfcat0fjIXKSFuPgFwR+4g3z8b5zpWxhElW+VRY+wb2OkLoSiAZ/TaE4t/CGT91+a4eDBQbW0ujfnRj7c2k/l7FQtZNZAGXT5zbURFCQjka1sEYnsC2C5SNJID0iN4LRDFYT3haxrybia9+Ju1H9pggpyfLMYcCA05FP6We7+VadwdT/P5d3KX5QwHgyMLoTqYMF5FeTqA3OljD55i/eVJhCwnyanQz1caQ6ksgI8sPucPXJUjzZWRbkJeBY3INRVg8+UHMQkS62irO1DiuUySNneV9KzKF4ZRkuBo8bVRPTV1MXhjaQhQFtvzylDkEc8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aP0gdHnWiQ5XC4jj5pNk2kq8/VQPDl9jZhPCRIr5L3w=;
- b=K/Zd4wgStT5elWNidi4ojezapGsY8bp3YKILR2Ce9AqvtkcfikSnYdeMGrBcmT0cMb8wEllUdsVmHFKz0z905lTQ5jSxe2ovJ17hBf1HzXBzld2Fs/6ermiddB9JcAXgeE94ONxa/icgSM/Z5KtluowDWhOeiCgklua4urK10SUq2n/gWPVTwb7fOpNKhCuvjG9ko3lh2R/k6NfgI3RFXAoXHw4miR38XsmBeQ1no0k5f8i+C7yor7izDBxBfu031rPuelSTtP4eG6m4+fWPCIJDZGjdRX3UiIWBPV3/qtmPHvX/f8dGnGD5sUkrsoepHo3rCtJrXQfh1+M4MQHeZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aP0gdHnWiQ5XC4jj5pNk2kq8/VQPDl9jZhPCRIr5L3w=;
- b=iO9WCwlqT2H6y+gOv+REIMgXtanW7c8o0e4wMZuALZ+p0sMKC/MZMHVNEIx4Hw7VquY71PBW3gqtkqdLhy/BdFOpv33isGStnTX1Kj53NDCTElRTpXkZ/BKe0LYrs+AKerPgcyaBB76FTAbrPkFG51tzHI+4nzPzyxJJ9k8l71iwsi3skuOXyf7KMAsZyjNQRuyp6frecnAYOQiJePbiI78kYZjlSr3VT2/lFuRB0p4JQNwQ5safq4OjXKVcR6aRVxrPLui1RX3jLmg7DEkqrZebrc7exn6ssUFCTDXGI6nymtsfKJRQ8m9IJbmX9jh14k7fZeKZI4RmJMdRl849Kg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
- SEYPR06MB6614.apcprd06.prod.outlook.com (2603:1096:101:177::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9009.16; Thu, 7 Aug 2025 13:46:56 +0000
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666%4]) with mapi id 15.20.9009.013; Thu, 7 Aug 2025
- 13:46:55 +0000
-From: Qianfeng Rong <rongqianfeng@vivo.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Qianfeng Rong <rongqianfeng@vivo.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm: Remove redundant __GFP_NOWARN
-Date: Thu,  7 Aug 2025 21:46:36 +0800
-Message-Id: <20250807134639.555274-1-rongqianfeng@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYBP286CA0043.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:10a::31) To SI2PR06MB5140.apcprd06.prod.outlook.com
- (2603:1096:4:1af::9)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D06C410E852
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 13:51:07 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5779DEMw018565
+ for <dri-devel@lists.freedesktop.org>; Thu, 7 Aug 2025 13:51:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ YJaOnJPrQPzYB5QLyB82PbBYQ3YcFtLHpT0PXF3urfk=; b=At4XKK7p5ORvOQQc
+ dzZBJJx1j7ulVqMKhjIUWMmK8HwTpD1MdfEME1TAvbfys5RL9pJXXseh9Bq4rm+F
+ qXOkcwt4s78uQoGgVyCdtv6vsHLIDgI8s4WWdRC1vlHSpqtxNrIRZHCgarYmLQg3
+ lDUUshPXfXg9m+2eQP6VWtoGJWGsHC74b1anYhoS4h7Sv9WiIJvMSjEgUd3YjH49
+ ZRqAIL7IQYlMtJclt+OkcV6Meq4q3tntXFoe+ttkPiPe9FLrBpIo5B6O7A2k6VC2
+ eOGqtG+SdYT0VCnqJbXdhhi59qIZ+7MYCD8TQgg3PcJSRf3c4Orfk4n3CedGfUrL
+ q7TSOw==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48c586c2a0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Aug 2025 13:51:06 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-70941c8a17aso1908966d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Aug 2025 06:51:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754574666; x=1755179466;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YJaOnJPrQPzYB5QLyB82PbBYQ3YcFtLHpT0PXF3urfk=;
+ b=hfucPzHNPBcy3fT85ZzhbBPjCY8anSm5JR3Wf5eOuMlI62U4n0PPfH5i0m+IkC0Jsn
+ I5MKnZTppOc5nztdX+5sWFMxhHgI3EaJGpuJQpYvhOaGk2tnpOPCA4gaH78icHy8Jv5U
+ 1CwWOAazrMjbBjAkgbE8yIG1PYHPgK8GeuxHpkyVb6PdcHpcgkXe/XxPBVMKEXX3rxoj
+ myBYcYAW80uQ7S+Q7ZS2XMgj64VyPQLpNhPHvzBStU0TgjYEfMuHsc9UItRDf7xvgc8q
+ s9tolGrbrtS5kvVFAdzPzvAmMkD0BjzNdde24aORbag/HmxOoHTJ0MADFWU1a/dXHp/O
+ 5mqw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWZAQU7nqy4tb+b7pZqBH4zcytACATUCCpAO6hjO3M58+5NScoVN96+mLKG1sT5nZYqmanJt+U+xmw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwmPz0HcoV9rJj2dMmd5aj6TkYOSHO7NylFCQTu+//20N1WL4zH
+ x8E0APV9r9WJPR6PdKi4c9stmM4DLDpnskEbSwQlWuCiHLOsm8vwefD3oe717P/DGBySzgMprPD
+ QUYLlRr4ag1Fq+1o7MKFC1+59p21kDOJ2OdRb3a3hF9CWCNG5XYuOqWvyk4uuYpAocqO5C1s=
+X-Gm-Gg: ASbGncsSRFDXKzA6PMsocJ5Ag2F9mAREPOPSJZcVP/ilc+zoRNr/NEicIBmn7qboK8C
+ VGcAm+E2IVa6XiTjfZxON1R6YPNUw0mX/9FXgkCfVopF2IXFIGBT2XGN8XAfNET06Tk7PY/R8tR
+ CB4n/Q0+hEaq0FRmdM9FnE0YjijnLyrRng6QItTqXpO0hnbd7oITkpKUp0rt3aYsACmKq2Uw1QO
+ aE1IZNmxzBmLXoquqbQ00R+PunexIWW6/ueh/3+aMhx/r7hferq6AInzTRsl6D6T6RDCK/Ej16s
+ UV7Xy1cqgt/v5lXSG9uXFPIgy/fE4iFX0SoOYAwJDq40KuCV+vE0MvDYTh7H0AdPqS5w5r0sJN/
+ g5wQes3qXmMJ/tmLZ7w==
+X-Received: by 2002:ad4:596a:0:b0:707:1654:ced4 with SMTP id
+ 6a1803df08f44-7097943f2d4mr53232876d6.0.1754574665974; 
+ Thu, 07 Aug 2025 06:51:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG05izQ2F1cJL0JtNMoakn9YJ17uRV6nsijU+bcL9wSJdmVXy+nD+ZxHapPlNUdAOzNVzIiHQ==
+X-Received: by 2002:ad4:596a:0:b0:707:1654:ced4 with SMTP id
+ 6a1803df08f44-7097943f2d4mr53232626d6.0.1754574665396; 
+ Thu, 07 Aug 2025 06:51:05 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-615a8f15a66sm12009012a12.16.2025.08.07.06.51.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Aug 2025 06:51:04 -0700 (PDT)
+Message-ID: <937197e9-09dd-4f3c-bdb4-4001f5217c07@oss.qualcomm.com>
+Date: Thu, 7 Aug 2025 15:51:02 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|SEYPR06MB6614:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3e34cc3-0aea-4453-6654-08ddd5b8df5d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|52116014|7416014|376014|921020|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?VZzZC1vEoDscXtOlwzfbXiwonc9nhM+7aZcdTf5bhI4/AEwBf+uwnKnp8Xnz?=
- =?us-ascii?Q?rHMLs8eKOfHzyqriD37uNdwb0OSm9XSLLjzroKO7CU/MT705gBq5aNLPNzNu?=
- =?us-ascii?Q?Xp/waNZol4fn6Q+21ncCZy1urh953JNcAXUdwypoZDAOPfxNPWzwQfZX4xWc?=
- =?us-ascii?Q?TAO+GlC+edeIFv88+bSCYdp0K2gGIANQ2daGm2MBMD4PGB2Jo43KUCFGV1S8?=
- =?us-ascii?Q?Gy//WLz6e1DanaeqamyOMONULOSu9HbkhKkr+uks7IuZfjr37r1i86UC69ZU?=
- =?us-ascii?Q?hWSlPcxV0c4Sxqim7fsY/Yer3PKoxjI5b40AQ4vFRwfiJyjIdOnHwbObX7gl?=
- =?us-ascii?Q?ShK05gjpUor0x1pMXIorOKhn4RaMfkQ/gSqbMHZdHJtFK6gTfyn2Qw2weJNw?=
- =?us-ascii?Q?vXylv0SYpw3wRF95U7my8gmPX26lwLVkeciU8jb0fIfrh7KsBMAHZyMqpXf6?=
- =?us-ascii?Q?AN+C2t/Abz7NJoXWtUM8vr96UIbf5PHXk8vMFPURJDD7SMdo28kz6GFWVNSj?=
- =?us-ascii?Q?vzi/vfyrJJrGat3POhWYwC4ReeZEkNo9sGq9yINrQGvH/7v+AwT28UaQ4m5J?=
- =?us-ascii?Q?AoD95yTsvvgpWBvE253dtN9ucVrYYrgdk0NrE3EaC42rSRTR716cqylLoRNI?=
- =?us-ascii?Q?ETYtDV8bteQvzr1h5qsoXlrhPdMeRk3i4EWRCUmRkdIOcjslwzmPSjfVvk2P?=
- =?us-ascii?Q?GHkYiIGb5ZyvB4KzL1SGaALqD7R/JIoYIj8UUivIKCB9OVlfXd5999HUAAFe?=
- =?us-ascii?Q?keC6uXynM8HxyZ8asSDQvW33lDZwMSng6vodkPO42a1ZVnAokcIX0hKCwwcI?=
- =?us-ascii?Q?luAiLVHeoAcEE3h+Az0rq9xCb3XL2WLA04F2EerPJo6lxUqkBw52DI1amtLW?=
- =?us-ascii?Q?NZo2kSYoy9LBJJ9QPj4c8ETQyuVl91rDUuALgSfkibXWtKvGBJxs22XKjASi?=
- =?us-ascii?Q?cB/Rvk7xYdNWRYhr3opPwN44JtEnJZt4/A65+lJ5dXcZmnqnolY6zl+UstTq?=
- =?us-ascii?Q?tXNJQRobiWAeJH+presk+VEMTyc6tiaJUm6zCgDxcTxdK3wEBVTy1w2tE2i/?=
- =?us-ascii?Q?D1iu9ZsG2kHjHtXFWl0FvGbUJpzZaUrUj7rSqcy1Ge1iuNO2urqPnP5mpGIE?=
- =?us-ascii?Q?/jjo9L1pSrzNvcC37l0XplHcS9LQhGguDwl4m3NG7rLjT32RgntgRaIYbgYv?=
- =?us-ascii?Q?RSxupxp2hvmyWEn1E08tXTmeHY1ZOAw3sDsPa4l6cWG0QCEOaYiWqHj/9fNs?=
- =?us-ascii?Q?oVTeSxs6JrQvhfTUpT55sdYTR3x9aASgb1cXI5c4TvaU1OB8iPhNy6m7Lh39?=
- =?us-ascii?Q?rLrjgMenZRYQcCBr/GgYIqwfDBPKrnpuolPB8R8yW0yvZZT35JMmwmaojKOz?=
- =?us-ascii?Q?OP6FBYde4cqJPY1AVx/s4mXhvY3AdooajGBLOzRJZx0wL1vdBnwVQFRqlttz?=
- =?us-ascii?Q?f1dLRS5tkQWg7NSXNE1VSS0YuRLZWn1c3S7As4jomvmgr5vvtZ2nSbvH1YBV?=
- =?us-ascii?Q?ZHzvFlM+YxwYono=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(921020)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?43lEFtQZjzzS52c4D5UIDIrcKNbqvgQTuHaLyn1XhbKHSqhrOKSWwyyU4+lG?=
- =?us-ascii?Q?iza173tlmKPJKFOaBNOk9J/EnmC0CCF9julGkYvqszFqjoATP4krEa1fpE1O?=
- =?us-ascii?Q?IC4GOGk7MbsjeKAE/DeOqmID2Qp4ANQbU2R740ZbfxQFEx8a9QDut749NptW?=
- =?us-ascii?Q?ggHLSr1foxfrOkUk7Pz2+fZb+8+gpTgUX6UBadrCLCJ6GWwoWfyKtc7CmmB8?=
- =?us-ascii?Q?Ysx4ddeXKpa4siVne2FI3TC+TYZVyix0yZAk3YV31vvJWaup/M7Rp3Zio53j?=
- =?us-ascii?Q?pivGuIjpEEk/e32L//+q5m3kv6E9ktE9sYCmY0Vl4DCv52QU9DGkWCLMuUhh?=
- =?us-ascii?Q?7k9nTG0zV/I00yD2JLwENLY1eGn57JDhB5zPdHq7vciHvgNTBrdgcSdWjwP2?=
- =?us-ascii?Q?EoEBqeyV1KdjgZRJRkh59vxxHvl2yb7fb2erY9GGtLxu1lGFKXaAH0K3Ypp3?=
- =?us-ascii?Q?Zxb1CMb6q372MDkj+BxFiHLzk9NYdD6p/DNrnLoG2xukNzF25MYhNnkxjtxy?=
- =?us-ascii?Q?/MZJFANkIwAo2JCMDiX9FkW7Ksh7EBvfEHJd5/pgnbdLFd36c2KngI+wAnaf?=
- =?us-ascii?Q?aU47ZqLGOE/ii4AmdSgdKKQ47Az0dapQH48aQJHMVpF7UY+/KiG4LUxRJoin?=
- =?us-ascii?Q?VMXc4yTQfl2cvWhCkWHHhDTYO2pmI2Ff6ISJVnxSMNSBJqccCETCrh3rUmEO?=
- =?us-ascii?Q?ZJFhytzAGhJ2iBgWWxbqoSdi6w3N6BrWBtF3NRRDBfA3gYmjPpMLKNBd06tq?=
- =?us-ascii?Q?CyIcXT5OhG1E6QMN66RgChTIdCYpgmsXgssDzN6HfqI8664Uq1Rs0DqIXfsa?=
- =?us-ascii?Q?IjX9UDKdOQE0X9bqetvKHfr2nXVcCZ/FP8eab+tsjJRVHLYojj3jnPFBZmh4?=
- =?us-ascii?Q?IyB58g0/IOqHiC5W65M4+g1Lqm+oTrtmzx5mPFrJMh/dw7DjpUsIFzyWO71/?=
- =?us-ascii?Q?yZVRnC8sxxhAr059mOqqGh9PwL4/hiT4TTewd1NWTWUcIWrg7c3xtEs/4kav?=
- =?us-ascii?Q?Za2OJf0jFR8iGyZy4BHW1Yb49LcCT+/XiIXkHRlB7xVR277J98eidHjX36Rs?=
- =?us-ascii?Q?M6kyaOOeKzE/qOHVNpMpIReIcgOlhI+B8kV1ngMwcNE6FOxg785dVwnhCScD?=
- =?us-ascii?Q?OBBAgXFLNC4D+V3UpZhjE+dLxrUVhvpr364ZAaNozgidifSZMaTOfb4jIVDm?=
- =?us-ascii?Q?dZstYapkjP887cWXrD2Y5NhdTyCT5nevp/md5zUschMhqykkp8tmCtiONHh6?=
- =?us-ascii?Q?MLIOT8NE2JPcZOomZwOKqNScnWH0en9AcGfemoaDV1AIPKOoIdsU+1oIoOOx?=
- =?us-ascii?Q?2v2OdFGsyX9rksp5xPwWwD/6Xr8l2klW3lPZPlng9WV2k95E06XxOWe3LETp?=
- =?us-ascii?Q?1iXqxi4/e6CJroJD3GQyflU35KQKhqafVEqUbUIG5UIYs48xVoUYIs3hxl96?=
- =?us-ascii?Q?9QpFOscziVpbA5CcVWhgl3PRIrQQDQsBLNvFBVhAjH5suHMqC+0fD8HzVeXE?=
- =?us-ascii?Q?nRwsgaA/WBeenEP/w382FNH0u6AGapvoVv75Z3Dvo5+ujRodsDDZYF82b4EW?=
- =?us-ascii?Q?TiHaEoOqqHaWk7QkZ3A8LyZPqcNscJhbjUbLGTTS?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3e34cc3-0aea-4453-6654-08ddd5b8df5d
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 13:46:55.7238 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lUUBsmuiV6NSmO+IjoeerDv2eQ09MfPdlJVBAdNLp/JZgZWM4/KhDH6ejmigAeTLEr/QV4NneHbpoMRGe6Y4RA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6614
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/17] drm/msm/a6xx: Fix PDC sleep sequence
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250720-ifpc-support-v1-0-9347aa5bcbd6@oss.qualcomm.com>
+ <20250720-ifpc-support-v1-5-9347aa5bcbd6@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250720-ifpc-support-v1-5-9347aa5bcbd6@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: KHaxecdK2hXC79vDe2UPMihyL3s49GiW
+X-Authority-Analysis: v=2.4 cv=MZpsu4/f c=1 sm=1 tr=0 ts=6894af4a cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=f2c1g6THgo9BaYdya5UA:9
+ a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-ORIG-GUID: KHaxecdK2hXC79vDe2UPMihyL3s49GiW
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDA2NCBTYWx0ZWRfX6UxY6plr7GSC
+ FBXenDxYXtnFe5nGWMEc8QlQdDpPCTX2D6pwI8q066EHmEVk0anXOg5IxkIjp7usqVXJ7lvd3vY
+ smbAxyFUtFMXCmKd46hTNhh9N+aeB1hi1VlaF3qWL58CHBLJKTTbj1irV/6ef540O2D6NjTGpx+
+ UFkF7tVnoTlITFhEFImUEFl0/fGSePJgJRpbhlhVzalCEfQfhnAkeSG+OoKmoRREludcVVGH9+w
+ KsaVhRiPg81byc4kmTwhXH3ILMfFcdXSnUk22q9Mba3kFfSV0IMVWgp4CO+6MzqfpO98eTKtZhF
+ jWX4TK3F7qxo7+jcMng1TCD7Hvk6DY7nRNBo2teDa5SaJHsfyBVzC53EJwizRQUaS2i1JQHkhm2
+ 4kLAoVZ1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-07_02,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 spamscore=0 clxscore=1015 bulkscore=0
+ adultscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508060064
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,79 +130,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 16f5dfbc851b ("gfp: include __GFP_NOWARN in GFP_NOWAIT")
-made GFP_NOWAIT implicitly include __GFP_NOWARN.
+On 7/20/25 2:16 PM, Akhil P Oommen wrote:
+> Since the PDC resides out of the GPU subsystem and cannot be reset in
+> case it enters bad state, utmost care must be taken to trigger the PDC
+> wake/sleep routines in the correct order.
+> 
+> The PDC wake sequence can be exercised only after a PDC sleep sequence.
+> Additionally, GMU firmware should initialize a few registers before the
+> KMD can trigger a PDC sleep sequence. So PDC sleep can't be done if the
+> GMU firmware has not initialized. Track these dependencies using a new
+> status variable and trigger PDC sleep/wake sequences appropriately.
+> 
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> ---
 
-Therefore, explicit __GFP_NOWARN combined with GFP_NOWAIT
-(e.g., `GFP_NOWAIT | __GFP_NOWARN`) is now redundant. Let's clean
-up these redundant flags across subsystems.
+FWIW some time ago I made this patch, which tackles a similar issue,
+perhaps it's a good idea to merge both:
 
-No functional changes.
+From 7d6441fc6ec5ee7fe723e1ad86d11fdd17bee922 Mon Sep 17 00:00:00 2001
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Date: Thu, 20 Feb 2025 10:28:51 +0100
+Subject: [PATCH] drm/msm/adreno: Delay the Adreno RPMh startup to HFI init
 
-Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+There's no use in trying to power up the GX logic before we're almost
+ready to fire up the GPU. In fact, with A8xx the PDC and RSC uCode are
+loaded by the GMU firmware, so we *must* wait for the GMU to fully
+initialize before trying to do so.
+
+Move it to right before HFI init.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- drivers/gpu/drm/drm_modeset_lock.c               | 4 ++--
- drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c | 4 ++--
- drivers/gpu/drm/i915/i915_active.c               | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 12 ++----------
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  1 +
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c |  2 +-
+ 3 files changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
-index beb91a13a312..58eac20a8138 100644
---- a/drivers/gpu/drm/drm_modeset_lock.c
-+++ b/drivers/gpu/drm/drm_modeset_lock.c
-@@ -88,7 +88,7 @@ static noinline depot_stack_handle_t __drm_stack_depot_save(void)
- 
- 	n = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
- 
--	return stack_depot_save(entries, n, GFP_NOWAIT | __GFP_NOWARN);
-+	return stack_depot_save(entries, n, GFP_NOWAIT);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 28e6705c6da6..3335583ada45 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -513,7 +513,7 @@ static int a6xx_gmu_notify_slumber(struct a6xx_gmu *gmu)
+ 	return ret;
  }
  
- static void __drm_stack_depot_print(depot_stack_handle_t stack_depot)
-@@ -98,7 +98,7 @@ static void __drm_stack_depot_print(depot_stack_handle_t stack_depot)
- 	unsigned int nr_entries;
- 	char *buf;
- 
--	buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
-+	buf = kmalloc(PAGE_SIZE, GFP_NOWAIT);
- 	if (!buf)
- 		return;
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-index 8d4bb95f8424..22432912db2e 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-@@ -220,7 +220,7 @@ static void heartbeat(struct work_struct *wrk)
- 		goto out;
- 	}
- 
--	rq = heartbeat_create(ce, GFP_NOWAIT | __GFP_NOWARN);
-+	rq = heartbeat_create(ce, GFP_NOWAIT);
- 	if (IS_ERR(rq))
- 		goto unlock;
- 
-@@ -282,7 +282,7 @@ static int __intel_engine_pulse(struct intel_engine_cs *engine)
- 	GEM_BUG_ON(!intel_engine_has_preemption(engine));
- 	GEM_BUG_ON(!intel_engine_pm_is_awake(engine));
- 
--	rq = heartbeat_create(ce, GFP_NOWAIT | __GFP_NOWARN);
-+	rq = heartbeat_create(ce, GFP_NOWAIT);
- 	if (IS_ERR(rq))
- 		return PTR_ERR(rq);
- 
-diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-index 0dbc4e289300..402043cd84d5 100644
---- a/drivers/gpu/drm/i915/i915_active.c
-+++ b/drivers/gpu/drm/i915/i915_active.c
-@@ -727,7 +727,7 @@ int i915_request_await_active(struct i915_request *rq,
- static int sw_await_fence(void *arg, struct dma_fence *fence)
+-static int a6xx_rpmh_start(struct a6xx_gmu *gmu)
++int a6xx_rpmh_start(struct a6xx_gmu *gmu)
  {
- 	return i915_sw_fence_await_dma_fence(arg, fence, 0,
--					     GFP_NOWAIT | __GFP_NOWARN);
-+					     GFP_NOWAIT);
+ 	int ret;
+ 	u32 val;
+@@ -842,19 +842,11 @@ static int a6xx_gmu_fw_start(struct a6xx_gmu *gmu, unsigned int state)
+ 	else
+ 		gmu_write(gmu, REG_A6XX_GMU_GENERAL_7, 1);
+ 
+-	if (state == GMU_WARM_BOOT) {
+-		ret = a6xx_rpmh_start(gmu);
+-		if (ret)
+-			return ret;
+-	} else {
++	if (state == GMU_COLD_BOOT) {
+ 		if (WARN(!adreno_gpu->fw[ADRENO_FW_GMU],
+ 			"GMU firmware is not loaded\n"))
+ 			return -ENOENT;
+ 
+-		ret = a6xx_rpmh_start(gmu);
+-		if (ret)
+-			return ret;
+-
+ 		ret = a6xx_gmu_fw_load(gmu);
+ 		if (ret)
+ 			return ret;
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+index d1ce11131ba6..309305298a45 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+@@ -216,5 +216,6 @@ bool a6xx_gmu_gx_is_on(struct a6xx_gmu *gmu);
+ bool a6xx_gmu_sptprac_is_on(struct a6xx_gmu *gmu);
+ void a6xx_sptprac_disable(struct a6xx_gmu *gmu);
+ int a6xx_sptprac_enable(struct a6xx_gmu *gmu);
++int a6xx_rpmh_start(struct a6xx_gmu *gmu);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+index 8e69b1e84657..9ea01daf2995 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+@@ -910,7 +910,7 @@ int a6xx_hfi_start(struct a6xx_gmu *gmu, int boot_state)
+ 	if (ret)
+ 		return ret;
+ 
+-	return 0;
++	return a6xx_rpmh_start(gmu);
  }
  
- int i915_sw_fence_await_active(struct i915_sw_fence *fence,
+ void a6xx_hfi_stop(struct a6xx_gmu *gmu)
 -- 
-2.34.1
+2.50.1
 
+
+
+Konrad
