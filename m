@@ -2,61 +2,185 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E10B1D016
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 03:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923AEB1D226
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 07:51:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1805D10E06F;
-	Thu,  7 Aug 2025 01:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48A5C10E32F;
+	Thu,  7 Aug 2025 05:51:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="UsRTv+zf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QZErBddR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m15572.qiye.163.com (mail-m15572.qiye.163.com
- [101.71.155.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4EA10E06F
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 01:31:07 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 1e8ee5cc0;
- Thu, 7 Aug 2025 09:31:03 +0800 (GMT+08:00)
-Message-ID: <a11db6b0-84ad-41c6-8389-b3eb4859e605@rock-chips.com>
-Date: Thu, 7 Aug 2025 09:31:02 +0800
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1688A10E0AD;
+ Thu,  7 Aug 2025 05:51:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754545895; x=1786081895;
+ h=message-id:date:subject:to:references:from:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=KFzUzKamSG+vzyQY0gN9QYM0rZRsjf8S/APk9wcBgHs=;
+ b=QZErBddRdeL8gkXWX9nBT9fuSVr55GxmoWsia4WptZedWgfbkemE2ICo
+ E9QvDiXm3qfCCx2Ff0Q87d7Ev24Fo65ElYARtPvhxS339Xz2e6XG/HCGf
+ ICsT6avfAgYQ7jBXlVSxBu6e+8jKffBP93sGHLhIRZVTMDQSHZWp1OgKT
+ zZq4l5wOW05makONs3oRwrcbkd4SNk0Q6fYju084XlT2FcpH9pZFIkifQ
+ KYC9lAfhv5SlEOZLVtcYlA7hNKsoGO2DTZIdRaVCWwUekaxw8G9mEKJ4Q
+ SH8GgX4I/33uMbrUlwVgsQ+ULVZMGwR2RkxYw9xIu4DQsZP8rXU8donZq A==;
+X-CSE-ConnectionGUID: O93qHRJSTkWEe+VLcMZ5zw==
+X-CSE-MsgGUID: cbaCAtFeR9St7n/OvWfm5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56738521"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="56738521"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Aug 2025 22:51:34 -0700
+X-CSE-ConnectionGUID: 7IdQWVQ2S6SgEtRBpGdzDg==
+X-CSE-MsgGUID: jDfqYGcXRxyGOaktujntPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="169425597"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Aug 2025 22:51:34 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Wed, 6 Aug 2025 22:51:33 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Wed, 6 Aug 2025 22:51:33 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.77) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Wed, 6 Aug 2025 22:51:32 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yT3/a6lF+WGX79/rKpLqtReqvW44gWiUQxfIkd9mJmVo9ji2Es7zy/pSwJ+IM45BeYh0K21Rp+KjF8cZR27rsjd7CsTwifkcN8XAc+lWlXxBUtqHzIxxddd9/lfbuxH0XXfJM6eCksVCv9rjdnr5sVB5Mrm/pcbEfyT2nng7M5Is7y+DU4PTx0dphcW4Xk+ks0WaKo1EPIfIPc5b1KO3h8NSTsnrzvmmHFgPbWj/8ShEMFx3Pqc/pdSsVba9UTwVHlNhR4WBJd0Fbv5jwGEvJfNX6u5ea2JZXilGGkfFuxTz57nrSvB598n2n1iT/HoJbmiEeB9+6s0jQR5Rvwm0Og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xFm1jv0hyfBAVbpLjmSfWS/bbQY9xxHOf6Ib2tgXMQM=;
+ b=lvUWdRbr8C575hlBtyVGdx2az0KN0BociES/ejY8mG/KEbv6urHK19sDYR/xeTFOt7FwABvOiwP/9yhBSLPbpRjsonOxP2/9jsuz0crnyzxb8arJ638O/18lrQhsY6J07QjEsB4/4DGo9KsNxaSTpmEYWoycLBaPqjUL6sQRsk0K7+e6QInSpROZMc4SiyZt5u6gCHv3zGhLEZpA+ZcC4pdPqhZSsmDGdswt75hsLE3qbE72Vqiu8f04VNkMJBh9yRCpGr4VyYVB2IyQ7J2R4XTCZwK2v1v3sFdu6DLUcNoZ60KTeXVuRRk5BLwgr/qzBQI01j+wDBT50vQM6aEr+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
+ by CYXPR11MB8709.namprd11.prod.outlook.com (2603:10b6:930:dd::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.15; Thu, 7 Aug
+ 2025 05:51:30 +0000
+Received: from DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::397:7566:d626:e839]) by DM4PR11MB5341.namprd11.prod.outlook.com
+ ([fe80::397:7566:d626:e839%2]) with mapi id 15.20.8989.018; Thu, 7 Aug 2025
+ 05:51:30 +0000
+Message-ID: <ad3693fa-a8d4-4310-8522-5795d2fedc36@intel.com>
+Date: Thu, 7 Aug 2025 11:21:24 +0530
 User-Agent: Mozilla Thunderbird
-From: Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v3 00/14] Apply drm_bridge_connector and panel_bridge
- helper for the Analogix DP driver
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- hjc@rock-chips.com, andy.yan@rock-chips.com,
- dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20250724080304.3572457-1-damon.ding@rock-chips.com>
- <c73fa024-fdd0-4f62-9c8a-11e7eee3c475@rock-chips.com>
- <1cf4bc1b-d7f3-4a88-b8d8-d2f681dce370@rock-chips.com>
- <38992177.XM6RcZxFsP@diego>
+Subject: Re: [PATCH 01/10] drm/drm-crtc: Introduce sharpness strength property
+To: Nemesa Garg <nemesa.garg@intel.com>, <intel-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
+References: <20250724134544.284371-1-nemesa.garg@intel.com>
+ <20250724134544.284371-2-nemesa.garg@intel.com>
 Content-Language: en-US
-In-Reply-To: <38992177.XM6RcZxFsP@diego>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+In-Reply-To: <20250724134544.284371-2-nemesa.garg@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a988227308503a3kunm2154523888200d
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0tJS1YdTkkeTE1ISklJHRhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=UsRTv+zfM7lf/hqTDg4zcq9ZrhdAALhPnOW1L/bak2mqRkXKYFnyfa0f1MEs8zpevO1FDDYrRQuG4id5mbxhiTzpugBS/N+pnZySLev5I6AZQoPCx32euPxEyRvke2lcvA4tO4Sdh4ten5g3Yg8fId6gPD4ZzFWvMCM97JDvFP8=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=wpgkwQgFw2aLN6OHenM0dKDLmv0ONgKFKT7BXvRMIH4=;
- h=date:mime-version:subject:message-id:from;
+X-ClientProxiedBy: MA5P287CA0021.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:179::10) To DM4PR11MB5341.namprd11.prod.outlook.com
+ (2603:10b6:5:390::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|CYXPR11MB8709:EE_
+X-MS-Office365-Filtering-Correlation-Id: a25763fb-b58e-4646-ea76-08ddd5767519
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ajZJd1NLR0ptK2cvR3BrZHFFZndjS3VRem9JK3h5ODFLUmM5K0RGVmFjYXNH?=
+ =?utf-8?B?T2tiOUhWTHREc0VlV1FvL3NNNkdLczlDejBPYjZ4cjlpRVRybTFaTTluMFZo?=
+ =?utf-8?B?eVpZWHVVWFhsenN4SEZIVDhBNVVJR1pkb2JBWjNRUnB6MGtJTytYd2VZdVpW?=
+ =?utf-8?B?akdnRTQ1M0hJQm16alhGMURmaFRjNUcwS1ZWb1lhbjk4dStRdFlTNEdEZjZa?=
+ =?utf-8?B?TU9LZU1RVkkxaStiL1MzUGYrbDlWMm0rMU1xbmgzWFJqUkEzdVEydGZJNHhl?=
+ =?utf-8?B?V29FeDNSTi9NdGhLYVErSVNLbnVqU0RkRCt6aEx5dHRnUVFEOXhKQVFuS0FY?=
+ =?utf-8?B?Z2hlZ0tLd2FvdVRXK1hheG05WkVycnQwT1hXYnVpMWxkbm9WR0pCZlBOOFlU?=
+ =?utf-8?B?QXB4VWxLaThuQ2xpTk9oWVVuakw2NmVCb3o2M3hnY05GdEpHbkFrZlNkUzB3?=
+ =?utf-8?B?MTFIL3VOMGs1OUJNWHB0Yjhwa3JzTnFjbDJxSmpqRkMzYkZyb2M2NklPc3p3?=
+ =?utf-8?B?ay9BRS9xdmtkTzVJSDRITVEyeUYyZjZ6NHJ0UllnWGd2bjIrVHAzdytJWFZU?=
+ =?utf-8?B?UHdSM21FUWxxZ2htdzlXcmZtMDJZN1FIam5TQk9UUm9hak5oTVNJNXEyQU04?=
+ =?utf-8?B?V2VIMXRBN25qUklqNkdXdnI3cGRiS2pmMlVDd2x1c1dsZWNoN2JiS09NWHZF?=
+ =?utf-8?B?dDM0V2VhQUVGR1RXaHdkQlFQMCtkS1VWeEV0bWtYQnFyazA5OGE0bVc5citB?=
+ =?utf-8?B?UnlCQ2RsZmFDYVRRdHBIeU5GWXdjNnBhSXBsMCttQ0VsR0VIK2Z6MUtVeGdk?=
+ =?utf-8?B?UEhwcWR6ek1UYUdRRktCWHhFK3ZkeXh1aWJySitXRk1TNVhzRWVET1dzTlNK?=
+ =?utf-8?B?ei9tMHdzK2N4MGw3Nk93OE5mOGlXVXAweFBNUDlQdGZTYzBpamJHZ1FkNnlD?=
+ =?utf-8?B?ZnN6eWtjVENPWnBuVjZYUjFUaHZxa0tqYk9BbDd4NHFZMHo2Q1hLSGZsQ201?=
+ =?utf-8?B?d3RSSDVramo4ZXR2TElYb2l0MkZ1UEo3bXRWbUNDSU1CUEE4TWRYSE04bUp2?=
+ =?utf-8?B?clVnUFg2RmlXZ3piT3pDM1BneUdhM0o2cjRaMUo3V0tndHR4ZnRDUjJPcEZQ?=
+ =?utf-8?B?aUk1ZDl0bzVTNml3Zm4zL3VhQUVOZjZmbXFla0g4UEV4Q01kbzBCY2RDRytp?=
+ =?utf-8?B?R2t4cFYzZGJuQUI1YjY1U25UenNEU1NWb2hKWk05K295UlFVRnVMUlNNOXhW?=
+ =?utf-8?B?Z3FxTkIrVkYxQWxqNlpMcDBPZExvSjZnOGQyV1hKQnY5aUxGQSs0ZU5iWVFI?=
+ =?utf-8?B?UDZvUEpFSEtqVjZyc0VJVXp1ODFoYmpaanNnSzB6TWkzRllHMlFMRnh0Mjla?=
+ =?utf-8?B?djMvS2hJMGZLMytlQ2lvVDdVR3JDRXFFVE9OQ0pMYWZ5NG1tZ2FsREJ2ZkxT?=
+ =?utf-8?B?TkxSQVZEQjg0VTlwV05Mdi9QUHdMS2NubExCd3lEV2ZyWjd3b1NQYjZjckZK?=
+ =?utf-8?B?Z1ZaTXNoemJhZThZUExxelBUOVlCb0VZZ2w5MUwydG1NU08rU3I4bG4zemZY?=
+ =?utf-8?B?OVZpRDF3eXBhZXM5cEczckdMU2E3L1BPOEE0eDVTaVpFQ2J1N1V4cWVqMkdj?=
+ =?utf-8?B?VFVXQldpS20zUlFmR1BYQkVpaE5pMU9aN3R0OExIWlVLUzVGYVhuTHdQVzZZ?=
+ =?utf-8?B?WTBJcldZeVlZYXRjVlVCN2JpM0FxOTZlMFlkTXlNMGtUYWFzelVJNFVBazlC?=
+ =?utf-8?B?WWZub1RkWFBGYU83YmR2bktRMGF5Q0JTNlNZa2syNmJzQVZVSno4aUxkSE9s?=
+ =?utf-8?B?Q0tPYm9Fd0lMbExRazQ3NGhPTzVzNlVYdzFDaE11NkNkclJRZWdncWlzdHQx?=
+ =?utf-8?B?ZG1PK2dMV283bEs0SldHcHdIbUFpSEh6ZlBubkFvdDZkR2V4QkJoNVJUZVFs?=
+ =?utf-8?Q?jkRjOZiy3CA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXhxaWJaN2owRG54Y0c2bGNJdkxTUWhUQnd0OHl5R3pKUXF3VjFRblRLUXAx?=
+ =?utf-8?B?WlpaTTJoeUlTR25qOXZTdG5XUHhMdmhNRjBqUXZyQnpwT1lxNmlxMVljeUpC?=
+ =?utf-8?B?VHlrNktSMDNKYS9sVnZ5Qzl4MU5VWmxONnVyMkpUem1JMGxxVUg1MERRNmxl?=
+ =?utf-8?B?UGg4Rzg0OCtVWTV0dE11Si85ZGc1bEJFbGRQbmZLOHNaeHplczZuWDN1QUFO?=
+ =?utf-8?B?MDJkNlBRdllMOW1KeWlaS0tKYk5TRy9nZStDVTZjSUZBbTdJanJFVUl2aHRP?=
+ =?utf-8?B?TjM1L3Ardjhvdzg4RngvZXlwd0gyZWE0T0pKNm1QRmhiVGxKODkvK1ZJcGp0?=
+ =?utf-8?B?Z2lLemgvckNra3BORjc1WEZ5MEdWbHd0eS9VSjJya2szVFAvVzFlbU81ZGFH?=
+ =?utf-8?B?TjJUNVRoTUQ3NytQeWVVaDU5R1J2QU1FejVONjVDY3RCU2IwcHJ6Zi9hbDNO?=
+ =?utf-8?B?VUQvT3VubE1BQXhROW1tVXhyR05RSEhlZE1GeXRYUUtiSzV0Q0FjZXNCS3Mw?=
+ =?utf-8?B?TTNEd3N0YkpOUHFIa0NYRzJGeWd1M0V5SW9BYjVRMnl6NVBobUNrZzduQU0z?=
+ =?utf-8?B?VG8wRFU1M0h1Nnl3ZVM1K2F5MGFmVDJjRi9hR25LTzVRTjhwelE3U3RzbkE2?=
+ =?utf-8?B?ZEUya1RWcnlrVGNLdjRLOWVPTDI1ZnVnRWRJY1NsWENNZkRyNE9MenVYUFIv?=
+ =?utf-8?B?NEpEUCtJdEIrYy9XYXV3RUx5dzg0RVdVd0dZeGJiL0Q3VUlZNzNvYUhQODJ6?=
+ =?utf-8?B?c1dtQk1nZzNHZUxNam9rMUw1bWllSnBmZUZuRjEvc1p2U29NcjlTQjJOZ05R?=
+ =?utf-8?B?TzBadzgxSFlENlhFZ3JHUTdWYlBZNEFucloxbktqQklpUTk5TnUvdUwxeHNN?=
+ =?utf-8?B?SzlSNVdMdE0zY3FxcHA5Ykc5NHZXRndKSHJ5Wlh4aTkxNTE5VGpUZzIramJW?=
+ =?utf-8?B?NTBhQXo5WStscUozTzAydkdxeG1PTHFsanFYU2xRdGg5bGRuZ1FQajZpRlM3?=
+ =?utf-8?B?ZEpDNENFNllXZHlYRk02dDNSNDd6b29nYktFVFNCd1ZCRlNxRDF2eGVUY2Nm?=
+ =?utf-8?B?UEhRWnhOcFd3RjJxdTVNTXk2Z1RvZTY4K1RGbGxIZTdwTGV5MncxbFo1c2Nl?=
+ =?utf-8?B?R3RLUE90dHhFSndXeFBmaU5kdk1JUnBFNmUxc2pkWmxvYWNKV1VQRU5hcDJB?=
+ =?utf-8?B?bVovSWdJdkZWeWpXTm1lRGpIY2ZNMWROTjYyWjg2SG9CekhxeTVXMkdPZ3pE?=
+ =?utf-8?B?TkttSEdDdGs1MEZzMjBDVklEU1N1ZFNnUXV3Z1BFSjhjOEd2ZGVCZmdQY1FE?=
+ =?utf-8?B?TlNwelIwaFVhdlh2MGxNZWNqM3k5K2laRkRsTWliTUhJWXNtdGdIVGQxTTky?=
+ =?utf-8?B?Zmc3ZkNEZ1lOTCtTbFcxTjlVb3dxMmNRdW91bFVubTVjWXcvWnhia2xMT2Nh?=
+ =?utf-8?B?ZUkyeGg0NWJsMHFyekRwdFVvVzV3bEtjbXUvZVU3SEF1NDR4YlErMm9rQ3Qr?=
+ =?utf-8?B?TWdFYUx0d0Y4WVgwMy9NbGZkdzFHbW9PVnJDcWloZldjYXVLVWVaR2R3c0Fh?=
+ =?utf-8?B?Sm9RcXhKT1ZTcFpuQUYrY3l1OGIrZllFMlQ0aGtEZzU0R3ZzRUUxeEFpUUN6?=
+ =?utf-8?B?KytSRVp1eWorU29pT0JWVGpyZjEwcGk0N2ZNSTQrUzRvVmIya2QybHdmcW5p?=
+ =?utf-8?B?bHlUVGZLS2g1U2E4VnhQclFpc0VJaUJ4c3R3M0l5MVBjYlFrRGhXOUZMSllD?=
+ =?utf-8?B?TnJ0UWcxaUFTZEp5ZGQvWjh2QzRKMWRMTGFrYlZraTlyeTd4WHVPNTIyNE1a?=
+ =?utf-8?B?ck9jLzVOUjI1YVVrTlFWdm5qdFkrOVRpbDJHWml5R2JITXN0b3BzeU9BYU5V?=
+ =?utf-8?B?R0drQ1JpS3NWZFh2UUF3STJVNGtkSWo4ZnZHUkMyVkxFTE9NZm1hRTZTdFFN?=
+ =?utf-8?B?M3hsZm1pVHlNTTRYOWI1Tm5lQWNHTGMycGd0RCttV1ViaVlEd29XcVVmOWZE?=
+ =?utf-8?B?bmw3RUNHUGRyZmdkTllVQ0FRNmlMb05oaUVGWjFjMWhCUVFpUVRCRzVNSWJC?=
+ =?utf-8?B?TE16V0k0bWNaRlNwcWJuNVZyK1U2cTB1Q1A5RFh0MTdxZkVYcVFvbkpLTERR?=
+ =?utf-8?B?MEF3NGpNNjRrckIycDRSdmRXR3FpZlpXcGVycDhZbkRUdmliR2IrQmJ6WjQz?=
+ =?utf-8?B?R0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a25763fb-b58e-4646-ea76-08ddd5767519
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 05:51:30.7290 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gKD4OInOurG4NCRR+DPE6DBmUyrVMhy5lDmt255cyMzZNfgh6DlIFobL/SN3EYCGqHhUyv4innhbgMMVrHo45ZCGmB8i9R57XRTlDS9aluA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8709
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,219 +196,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko,
+Hi Nemesa,
 
-On 2025/8/7 3:54, Heiko Stübner wrote:
-> Hi Damon,
-> 
-> Am Dienstag, 29. Juli 2025, 05:16:27 Mitteleuropäische Sommerzeit schrieb Damon Ding:
->> On 2025/7/29 11:02, Damon Ding wrote:
->>> On 2025/7/26 3:45, Heiko Stübner wrote:
->>>> Am Freitag, 25. Juli 2025, 04:15:06 Mitteleuropäische Sommerzeit
->>>> schrieb Damon Ding:
->>>>> On 2025/7/24 21:10, Heiko Stübner wrote:
->>>>>> Am Donnerstag, 24. Juli 2025, 10:02:50 Mitteleuropäische Sommerzeit
->>>>>> schrieb Damon Ding:
->>>>>>> PATCH 1 is a small format optimization for struct analogid_dp_device.
->>>>>>> PATCH 2 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
->>>>>>> PATCH 3 is to apply a better API for the encoder initialization.
->>>>>>> PATCH 4-7 are preparations for apply drm_bridge_connector helper.
->>>>>>> PATCH 8 is to apply the drm_bridge_connector helper.
->>>>>>> PATCH 9-11 are to move the panel/bridge parsing to the Analogix side.
->>>>>>> PATCH 12-13 are preparations for apply panel_bridge helper.
->>>>>>> PATCH 14 is to apply the panel_bridge helper.
->>>>>>
->>>>>> for future revisions, please provide a changelog on what changed since
->>>>>> the previous version, I guess ideally here in the cover-letter.
->>>>>>
->>>>>>
->>>>>> On my rk3588-tiger-displayport-carrier this works like a charm
->>>>>> Tested-by: Heiko Stuebner <heiko@sntech.de>
->>>>>>
->>>>>>
->>>>>>
->>>>>>
->>>>>
->>>>> Glad to see your review and test. :-)
->>>>>
->>>>> I will include the version-to-version changelogs (v2 -> v3 and v3 -> v4)
->>>>> in the next iteration.
->>>>
->>>> I have to amend that a bit, sadly. When doing a reboot with the edp
->>>> running, I see logs like:
->>>>
->>>> [...]
->>>> [  139.614749] systemd-shutdown[1]: Syncing filesystems and block
->>>> devices.
->>>> [  139.622201] systemd-shutdown[1]: Rebooting.
->>>> [  139.684845] ------------[ cut here ]------------
->>>> [  139.690050] WARNING: CPU: 0 PID: 110 at drivers/iommu/rockchip-
->>>> iommu.c:989 rk_iommu_identity_attach+0xac/0xbc
->>>> [  139.701175] Modules linked in: panthor rockchip_vdec rocket
->>>> drm_gpuvm v4l2_vp9 v4l2_h264 drm_exec rockchip_rng drm_shmem_helper
->>>> v4l2_mem2mem gpu_sched rng_core fuse
->>>> [  139.717685] CPU: 0 UID: 0 PID: 110 Comm: irq/58-HPD Not tainted
->>>> 6.16.0-rc7-00183-gd436cbe8e4b3 #1541 PREEMPT
->>>> [  139.728799] Hardware name: Theobroma Systems RK3588-Q7 SoM on Tiger
->>>> Displayport Carrier v1 (DT)
->>>> [  139.738548] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS
->>>> BTYPE=--)
->>>> [  139.746351] pc : rk_iommu_identity_attach+0xac/0xbc
->>>> [  139.751821] lr : rk_iommu_identity_attach+0x70/0xbc
->>>> [  139.757290] sp : ffff800080e4b7c0
->>>> [  139.761001] x29: ffff800080e4b7c0 x28: ffff0001f6f98080 x27:
->>>> ffff0001f0a4b010
->>>> [  139.769006] x26: ffff0001f6f98e58 x25: 0000000000000000 x24:
->>>> 0000000000000000
->>>> [  139.777010] x23: 0000000000000000 x22: ffffdbf23c0485e0 x21:
->>>> ffff0001f0e9cc10
->>>> [  139.785014] x20: ffff0001f0df17a0 x19: ffff0001f0e2cb80 x18:
->>>> 0000000000000038
->>>> [  139.793018] x17: 0002550800000009 x16: 0000046c0446043e x15:
->>>> 0438000008ca080c
->>>> [  139.801021] x14: 07d008ca07800780 x13: 0438000008ca080c x12:
->>>> 07d0078000025508
->>>> [  139.809024] x11: 0002550800000009 x10: 0000046c0446043e x9 :
->>>> ffffdbf23c137000
->>>> [  139.817031] x8 : 0000000000000438 x7 : 0000000000000000 x6 :
->>>> 0000000000000000
->>>> [  139.825034] x5 : ffffdbf23adbb9c0 x4 : ffff0001f0df1780 x3 :
->>>> ffff0001f0df1780
->>>> [  139.833038] x2 : 0000000000000081 x1 : ffff0001f6fad500 x0 :
->>>> 00000000ffffffea
->>>> [  139.841042] Call trace:
->>>> [  139.843780]  rk_iommu_identity_attach+0xac/0xbc (P)
->>>> [  139.849252]  rk_iommu_attach_device+0x54/0x134
->>>> [  139.854236]  __iommu_device_set_domain+0x7c/0x110
->>>> [  139.859510]  __iommu_group_set_domain_internal+0x60/0x134
->>>> [  139.865561]  __iommu_attach_group+0x88/0x9c
->>>> [  139.870250]  iommu_attach_device+0x68/0xa0
->>>> [  139.874841]  rockchip_drm_dma_attach_device+0x28/0x7c
->>>> [  139.880508]  vop2_crtc_atomic_enable+0x620/0xaa0
->>>> [  139.885678]  drm_atomic_helper_commit_modeset_enables+0xac/0x26c
->>>> [  139.892413]  drm_atomic_helper_commit_tail_rpm+0x50/0xa0
->>>> [  139.898369]  commit_tail+0xa0/0x1a0
->>>> [  139.902279]  drm_atomic_helper_commit+0x17c/0x1b0
->>>> [  139.907552]  drm_atomic_commit+0x8c/0xcc
->>>> [  139.911951]  drm_client_modeset_commit_atomic+0x228/0x298
->>>> [  139.918005]  drm_client_modeset_commit_locked+0x5c/0x188
->>>> [  139.923960]  drm_client_modeset_commit+0x2c/0x58
->>>> [  139.929137]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xb4/0x100
->>>> [  139.936164]  drm_fb_helper_hotplug_event+0xe8/0xf8
->>>> [  139.941526]  drm_fbdev_client_hotplug+0x24/0xe0
->>>> [  139.946605]  drm_client_hotplug+0x48/0xc4
->>>> [  139.951100]  drm_client_dev_hotplug+0x9c/0xd4
->>>> [  139.955984]  drm_kms_helper_connector_hotplug_event+0x20/0x30
->>>> [  139.962426]  drm_bridge_connector_hpd_cb+0x88/0xa0
->>>> [  139.967790]  drm_bridge_hpd_notify+0x3c/0x60
->>>> [  139.972577]  display_connector_hpd_irq+0x30/0xa4
->>>> [  139.978835]  irq_thread_fn+0x2c/0xb0
->>>> [  139.983894]  irq_thread+0x170/0x304
->>>> [  139.988833]  kthread+0x12c/0x204
->>>> [  139.993468]  ret_from_fork+0x10/0x20
->>>> [  139.998486] ---[ end trace 0000000000000000 ]---
->>>> [  140.004737] ------------[ cut here ]------------
->>>> [  140.010884] WARNING: CPU: 0 PID: 110 at drivers/iommu/rockchip-
->>>> iommu.c:1040 rk_iommu_attach_device+0x114/0x134
->>>> [  140.023079] Modules linked in: panthor rockchip_vdec rocket
->>>> drm_gpuvm v4l2_vp9 v4l2_h264 drm_exec rockchip_rng drm_shmem_helper
->>>> v4l2_mem2mem gpu_sched rng_core fuse
->>>> [  140.040577] CPU: 0 UID: 0 PID: 110 Comm: irq/58-HPD Tainted:
->>>> G        W           6.16.0-rc7-00183-gd436cbe8e4b3 #1541 PREEMPT
->>>> [  140.054457] Tainted: [W]=WARN
->>>> [  140.058804] Hardware name: Theobroma Systems RK3588-Q7 SoM on Tiger
->>>> Displayport Carrier v1 (DT)
->>>> [  140.069595] pstate: a0400009 (NzCv daif +PAN -UAO -TCO -DIT -SSBS
->>>> BTYPE=--)
->>>> [  140.078454] pc : rk_iommu_attach_device+0x114/0x134
->>>> [  140.084989] lr : rk_iommu_attach_device+0x98/0x134
->>>> [  140.091423] sp : ffff800080e4b7e0
->>>> [  140.096197] x29: ffff800080e4b7e0 x28: ffff0001f6f98080 x27:
->>>> ffff0001f0a4b010
->>>> [  140.105270] x26: ffff0001f6f98e58 x25: 0000000000000000 x24:
->>>> 0000000000000000
->>>> [  140.114351] x23: ffff0001f6f843e0 x22: ffffdbf23c0485e0 x21:
->>>> ffff0001f0e9cc10
->>>> [  140.123425] x20: ffff0001f0e2cb80 x19: ffff0001f6f843c0 x18:
->>>> 0000000000000038
->>>> [  140.132489] x17: 0002550800000009 x16: 0000046c0446043e x15:
->>>> 0438000008ca080c
->>>> [  140.141552] x14: 07d008ca07800780 x13: 0438000008ca080c x12:
->>>> 07d0078000025508
->>>> [  140.150623] x11: 0002550800000009 x10: 0000046c0446043e x9 :
->>>> ffffdbf23c137000
->>>> [  140.159701] x8 : 0000000000000438 x7 : 0000000000000000 x6 :
->>>> 0000000000000000
->>>> [  140.168772] x5 : ffffdbf23adbb9c0 x4 : ffff0001f0df1780 x3 :
->>>> ffff0001f0e2cbe0
->>>> [  140.177825] x2 : 0000000000000081 x1 : ffff0001f6fad500 x0 :
->>>> 00000000ffffffea
->>>> [  140.186858] Call trace:
->>>> [  140.190627]  rk_iommu_attach_device+0x114/0x134 (P)
->>>> [  140.197124]  __iommu_device_set_domain+0x7c/0x110
->>>> [  140.203417]  __iommu_group_set_domain_internal+0x60/0x134
->>>> [  140.210492]  __iommu_attach_group+0x88/0x9c
->>>> [  140.216203]  iommu_attach_device+0x68/0xa0
->>>> [  140.221802]  rockchip_drm_dma_attach_device+0x28/0x7c
->>>> [  140.228479]  vop2_crtc_atomic_enable+0x620/0xaa0
->>>> [  140.234664]  drm_atomic_helper_commit_modeset_enables+0xac/0x26c
->>>> [  140.242400]  drm_atomic_helper_commit_tail_rpm+0x50/0xa0
->>>> [  140.249349]  commit_tail+0xa0/0x1a0
->>>> [  140.254246]  drm_atomic_helper_commit+0x17c/0x1b0
->>>> [  140.260496]  drm_atomic_commit+0x8c/0xcc
->>>> [  140.265866]  drm_client_modeset_commit_atomic+0x228/0x298
->>>> [  140.272885]  drm_client_modeset_commit_locked+0x5c/0x188
->>>> [  140.279791]  drm_client_modeset_commit+0x2c/0x58
->>>> [  140.285914]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xb4/0x100
->>>> [  140.293889]  drm_fb_helper_hotplug_event+0xe8/0xf8
->>>> [  140.300214]  drm_fbdev_client_hotplug+0x24/0xe0
->>>> [  140.306248]  drm_client_hotplug+0x48/0xc4
->>>> [  140.311695]  drm_client_dev_hotplug+0x9c/0xd4
->>>> [  140.317531]  drm_kms_helper_connector_hotplug_event+0x20/0x30
->>>> [  140.324930]  drm_bridge_connector_hpd_cb+0x88/0xa0
->>>> [  140.331248]  drm_bridge_hpd_notify+0x3c/0x60
->>>> [  140.336990]  display_connector_hpd_irq+0x30/0xa4
->>>> [  140.343120]  irq_thread_fn+0x2c/0xb0
->>>> [  140.348081]  irq_thread+0x170/0x304
->>>> [  140.352937]  kthread+0x12c/0x204
->>>> [  140.357501]  ret_from_fork+0x10/0x20
->>>> [  140.362453] ---[ end trace 0000000000000000 ]---
->>>>
->>>>
->>>> After some minutes of hanging it does reboot afterall.
->>>>
->>>> Heiko
->>>>
->>>>
->>>
->>> Could you please help confirm whether the same error still occurs with
->>> this patch series under the same conditions?
->>
->> Careless, what I want to express should be '...without this patch
->> series...'. :-)
-> 
-> sorry this took a tad longer for me to get back to this topic, but I was
-> now able to run a number of scenarios:
-> 
-> So I ran a number of variants and interestingly as the board I do eDP
-> tests on does not have any PCIe parts, I enountered an issue with
-> the PCIe SMMU [0].
-> 
-> When I disable the SMMU node, I also cannot reproduce the error from
-> above. So I've rebooted so many times today both with and without the
-> SMMU, and encountered the log from above only ever with the dangling
-> SMMU. So I'd assume, the Analogix series is actually innocent :-) .
-> 
-> 
-> Heiko
-> 
-> 
-> 
-> [0] https://lore.kernel.org/linux-rockchip/4400329.mogB4TqSGs@diego/T/#m5901974351b7c11e34f29a02b4f7f69b6ef29b2f
-> 
-> 
+Patch looks good to me. Just a couple of minor suggestions in the inline 
+comments for slight improvements in documentation.
 
-Thanks for testing! And v4 patch series is on the way. ;-)
+Also, IMO,  drm_crtc might be better than drm-crtc in the subject line.
 
-Best regards,
-Damon
+Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+
+
+On 7/24/2025 7:15 PM, Nemesa Garg wrote:
+> Introduces the new crtc property "SHARPNESS_STRENGTH" that allows
+> the user to set the intensity so as to get the sharpness effect.
+> The value of this property can be set from 0-255.
+> It is useful in scenario when the output is blurry and user
+> want to sharpen the pixels. User can increase/decrease the
+> sharpness level depending on the content displayed.
+>
+> v2: Rename crtc property variable [Arun]
+>      Add modeset detail in uapi doc[Uma]
+> v3: Fix build issue
+>
+> Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
+> ---
+>   drivers/gpu/drm/drm_atomic_uapi.c |  4 ++++
+>   drivers/gpu/drm/drm_crtc.c        | 35 +++++++++++++++++++++++++++++++
+>   include/drm/drm_crtc.h            | 17 +++++++++++++++
+>   3 files changed, 56 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index ecc73d52bfae..2302c2bea28a 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -419,6 +419,8 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+>   		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
+>   	} else if (property == crtc->scaling_filter_property) {
+>   		state->scaling_filter = val;
+> +	} else if (property == crtc->sharpness_strength_property) {
+> +		state->sharpness_strength = val;
+>   	} else if (crtc->funcs->atomic_set_property) {
+>   		return crtc->funcs->atomic_set_property(crtc, state, property, val);
+>   	} else {
+> @@ -456,6 +458,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
+>   		*val = 0;
+>   	else if (property == crtc->scaling_filter_property)
+>   		*val = state->scaling_filter;
+> +	else if (property == crtc->sharpness_strength_property)
+> +		*val = state->sharpness_strength;
+>   	else if (crtc->funcs->atomic_get_property)
+>   		return crtc->funcs->atomic_get_property(crtc, state, property, val);
+>   	else {
+> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+> index 46655339003d..1b7ce99cea5e 100644
+> --- a/drivers/gpu/drm/drm_crtc.c
+> +++ b/drivers/gpu/drm/drm_crtc.c
+> @@ -229,6 +229,25 @@ struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc)
+>    * 		Driver's default scaling filter
+>    * 	Nearest Neighbor:
+>    * 		Nearest Neighbor scaling filter
+> + * SHARPNESS_STRENGTH:
+> + *	Atomic property for setting the sharpness strength/intensity by userspace.
+> + *
+> + *	The value of this property is set as an integer value ranging
+> + *	from 0 - 255 where:
+> + *
+> + *	0 means feature is disabled.
+
+
+Should mention here that this is the default value.
+
+> + *
+> + *	1 means minimum sharpness.
+> + *
+> + *	255 means maximum sharpness.
+
+These can just be:
+
+0: Sharpness feature is disabled (default value).
+
+1: Minimum sharpness.
+
+255: Maximum sharpness.
+
+
+> + *
+> + *	User can gradually increase or decrease the sharpness level and can
+> + *	set the optimum value depending on content and
+
+> this value will be
+> + *	passed to kernel through the Uapi.
+
+Use UAPI. Also, this  can be a separate sentence.
+
+
+> + *	The setting of this property does not require modeset.
+> + *	The sharpness effect takes place post blending on the final composed output.
+> + *	If the feature is disabled, the content remains same without any sharpening effect
+> + *	and when this feature is applied, it enhances the clarity of the content.
+>    */
+>   
+>   __printf(6, 0)
+> @@ -940,6 +959,22 @@ int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+>   }
+>   EXPORT_SYMBOL(drm_crtc_create_scaling_filter_property);
+>   
+> +int drm_crtc_create_sharpness_strength_property(struct drm_crtc *crtc)
+> +{
+> +	struct drm_device *dev = crtc->dev;
+> +	struct drm_property *prop =
+> +		drm_property_create_range(dev, 0, "SHARPNESS_STRENGTH", 0, 255);
+> +
+> +	if (!prop)
+> +		return -ENOMEM;
+> +
+> +	crtc->sharpness_strength_property = prop;
+> +	drm_object_attach_property(&crtc->base, prop, 0);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_crtc_create_sharpness_strength_property);
+> +
+>   /**
+>    * drm_crtc_in_clone_mode - check if the given CRTC state is in clone mode
+>    *
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index caa56e039da2..2b26b90e82e6 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -317,6 +317,16 @@ struct drm_crtc_state {
+>   	 */
+>   	enum drm_scaling_filter scaling_filter;
+>   
+> +	/**
+> +	 * @sharpness_strength:
+> +	 *
+> +	 * Used by the user to set the sharpness intensity.
+> +	 * The value ranges from 0-255.
+
+Perhaps we can add about default value:
+
+Default value is 0, which disables the sharpness feature.
+
+> +	 * Any value greater than 0 means enabling the featuring
+
+can simply be: Any value greater than 0 enables sharpening with the 
+specified strength.
+
+
+Regards,
+
+Ankit
+
+> +	 * along with setting the value for sharpness.
+> +	 */
+> +	u8 sharpness_strength;
+> +
+>   	/**
+>   	 * @event:
+>   	 *
+> @@ -1088,6 +1098,12 @@ struct drm_crtc {
+>   	 */
+>   	struct drm_property *scaling_filter_property;
+>   
+> +	/**
+> +	 * @sharpness_strength_property: property to apply
+> +	 * the intensity of the sharpness requested.
+> +	 */
+> +	struct drm_property *sharpness_strength_property;
+> +
+>   	/**
+>   	 * @state:
+>   	 *
+> @@ -1324,4 +1340,5 @@ static inline struct drm_crtc *drm_crtc_find(struct drm_device *dev,
+>   int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+>   					    unsigned int supported_filters);
+>   bool drm_crtc_in_clone_mode(struct drm_crtc_state *crtc_state);
+> +int drm_crtc_create_sharpness_strength_property(struct drm_crtc *crtc);
+>   #endif /* __DRM_CRTC_H__ */
