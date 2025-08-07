@@ -2,57 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0AE0B1D4D2
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 11:34:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60759B1D532
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 11:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2785910E814;
-	Thu,  7 Aug 2025 09:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA2A410E335;
+	Thu,  7 Aug 2025 09:47:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gZAimd1b";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="d7doqlbP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 861D210E819;
- Thu,  7 Aug 2025 09:34:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754559253; x=1786095253;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=11uOjgqCwp8kLjluv7ozUJJlSlNnyn2vnFgDC3Bw3FA=;
- b=gZAimd1bdoV+wejqimreSiyRSqtWJAto7AwSX/HMFUvgKJp5fMxkg7TG
- Z4SUhHEm3c23BSIISp01wn5DREFBk1WyTs2ehXkFhAkVWEdzk12caqSM7
- H1wZlHnG8uG6G4BlCragHc1wFnRJEq4xZp19kcIHdUoe3Re4pVO3mAuVW
- 6BE+t0VA31YfDd+q5qdFUP1qVLKIgZq1WP7DXoRe+NMLyO11THYhMgGAw
- xP2gvcEWO4G7FL88htBYusorpRxjS6incvdyHKyUos5VWbD7xhu86YBtZ
- pECnmFZtxS9tnBRBXCRhOlvQdXRwtJ+JgvOZnzDz3BQALkKUWtx5BnC4l w==;
-X-CSE-ConnectionGUID: Brw/1WOSR/Cc7Mr1dYsSHw==
-X-CSE-MsgGUID: J5RYpRnISX2/XNVeoeF+mQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="56597315"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="56597315"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2025 02:34:13 -0700
-X-CSE-ConnectionGUID: KLOKs6g/SwmkzX08ErAbgg==
-X-CSE-MsgGUID: DbUpWJhzQBuH3NmjRsrAKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="164918599"
-Received: from nemesa.iind.intel.com ([10.190.239.22])
- by fmviesa006.fm.intel.com with ESMTP; 07 Aug 2025 02:34:11 -0700
-From: Nemesa Garg <nemesa.garg@intel.com>
-To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Nemesa Garg <nemesa.garg@intel.com>,
- Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: [PATCH 10/10] drm/i915/display: Expose sharpness strength property
-Date: Thu,  7 Aug 2025 14:58:41 +0530
-Message-Id: <20250807092841.3169436-11-nemesa.garg@intel.com>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 849EF10E81E
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 09:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Yu
+ 060HFp7OokvIbTOySWGWsGGcfzytPoIFqY1n1bEK8=; b=d7doqlbPLjZP9cOhIp
+ oyEjnKydTXd3Xi9ISgffSmOz8L4Ll/P4v2qDSJYrcIJp442vFq1+1jGi+9bechSL
+ uxDGZscJmF8inMQANFJBone/LNUUdTxOU5/FrlN8G5z39OED93O+6oaHJAIYjAzt
+ IZq4IfKGm9q6mx4t0PYILmO4w=
+Received: from localhost.localdomain (unknown [])
+ by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id
+ _____wB3kiYpdpRoIY9GAQ--.12087S2; 
+ Thu, 07 Aug 2025 17:47:23 +0800 (CST)
+From: oushixiong1025@163.com
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sunil Khatri <sunil.khatri@amd.com>,
+ Alexandre Demers <alexandre.f.demers@gmail.com>,
+ Boyuan Zhang <boyuan.zhang@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH] drm/amdgpu: skip disabling audio when device is unplugged
+Date: Thu,  7 Aug 2025 17:47:19 +0800
+Message-Id: <20250807094719.56145-1-oushixiong1025@163.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250807092841.3169436-1-nemesa.garg@intel.com>
-References: <20250807092841.3169436-1-nemesa.garg@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wB3kiYpdpRoIY9GAQ--.12087S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZF1DJF48Wr4xtw13ZrWxCrg_yoW5Aw18pF
+ yFya4Fkw48Zw4jqa1IyF9rXrn8A3ZFg3Wfur4kJr1a9ayDA3s0qa4rJF18u3s8JrWqvF42
+ q343J3yUZ3ZYg3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j0XdbUUUUU=
+X-Originating-IP: [116.128.244.169]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXRGZD2iI7Tg5FAACsA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,32 +62,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose the drm crtc sharpness strength property which will enable
-or disable the sharpness/casf based on user input. With this user
-can set/update the strength of the sharpness or casf filter.
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-v2: Update subject[Ankit]
+When Stopping lightdm and removing amdgpu driver are executed, the following
+error is triggered probably:
 
-Signed-off-by: Nemesa Garg <nemesa.garg@intel.com>
-Reviewed-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Unable to handle kernel paging request at virtual address 0000000000005e00
+.....
+[ 2] [T10084] Call trace:
+[ 2] [T10084]  amdgpu_device_wreg.part.0+0x58/0x110 [amdgpu]
+[ 2] [T10084]  amdgpu_device_wreg+0x20/0x38 [amdgpu]
+[ 2] [T10084]  dce_v6_0_audio_endpt_wreg+0x64/0xd8 [amdgpu]
+[ 2] [T10084]  dce_v6_0_sw_fini+0xa0/0x118 [amdgpu]
+[ 2] [T10084]  amdgpu_device_ip_fini.isra.0+0xdc/0x1e8 [amdgpu]
+[ 2] [T10084]  amdgpu_device_fini_sw+0x2c/0x220 [amdgpu]
+[ 2] [T10084]  amdgpu_driver_release_kms+0x20/0x40 [amdgpu]
+[ 2] [T10084]  devm_drm_dev_init_release+0x8c/0xc0 [drm]
+[ 2] [T10084]  devm_action_release+0x18/0x28
+[ 2] [T10084]  release_nodes+0x5c/0xc8
+[ 2] [T10084]  devres_release_all+0xa0/0x130
+[ 2] [T10084]  device_unbind_cleanup+0x1c/0x70
+[ 2] [T10084]  device_release_driver_internal+0x1e4/0x228
+[ 2] [T10084]  driver_detach+0x90/0x100
+[ 2] [T10084]  bus_remove_driver+0x74/0x100
+[ 2] [T10084]  driver_unregister+0x34/0x68
+[ 2] [T10084]  pci_unregister_driver+0x24/0x108
+[ 2] [T10084]  amdgpu_exit+0x1c/0x3270 [amdgpu]
+[ 2] [T10084]  __do_sys_delete_module.constprop.0+0x1d0/0x330
+[ 2] [T10084]  __arm64_sys_delete_module+0x18/0x28
+[ 2] [T10084]  invoke_syscall+0x4c/0x120
+[ 2] [T10084]  el0_svc_common.constprop.0+0xc4/0xf0
+[ 2] [T10084]  do_el0_svc+0x24/0x38
+[ 2] [T10084]  el0_svc+0x24/0x88
+[ 2] [T10084]  el0t_64_sync_handler+0x134/0x150
+[ 2] [T10084]  el0t_64_sync+0x14c/0x150
+[ 2] [T10084] Code: f9401bf7 f9453e60 8b150000 d50332bf (b9000016)
+[ 2] [T10084] ---[ end trace 0000000000000000 ]---
+
+The adev->rmmio has been unmmaped in amdgpu_device_fini_hw().
+
+So skip disabling audio when device is unplugged.
+
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 ---
- drivers/gpu/drm/i915/display/intel_crtc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-index a187db6df2d3..4102087aee62 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc.c
-+++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-@@ -390,6 +390,9 @@ int intel_crtc_init(struct intel_display *display, enum pipe pipe)
+diff --git a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+index 276c025c4c03..48b29990da7f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
+@@ -23,6 +23,7 @@
  
- 	drm_WARN_ON(display->drm, drm_crtc_index(&crtc->base) != crtc->pipe);
+ #include <linux/pci.h>
  
-+	if (HAS_CASF(display))
-+		drm_crtc_create_sharpness_strength_property(&crtc->base);
-+
- 	return 0;
++#include <drm/drm_drv.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_modeset_helper.h>
+@@ -1459,8 +1460,10 @@ static void dce_v6_0_audio_fini(struct amdgpu_device *adev)
+ 	if (!adev->mode_info.audio.enabled)
+ 		return;
  
- fail:
+-	for (i = 0; i < adev->mode_info.audio.num_pins; i++)
+-		dce_v6_0_audio_enable(adev, &adev->mode_info.audio.pin[i], false);
++	if (!drm_dev_is_unplugged(adev_to_drm(adev))) {
++		for (i = 0; i < adev->mode_info.audio.num_pins; i++)
++			dce_v6_0_audio_enable(adev, &adev->mode_info.audio.pin[i], false);
++	}
+ 
+ 	adev->mode_info.audio.enabled = false;
+ }
 -- 
 2.25.1
 
