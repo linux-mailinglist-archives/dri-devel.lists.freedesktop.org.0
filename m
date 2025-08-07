@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E20EB1DCDE
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 20:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45DC4B1DCE2
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Aug 2025 20:08:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1E6810E037;
-	Thu,  7 Aug 2025 18:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB5A310E193;
+	Thu,  7 Aug 2025 18:08:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RtuOsl8h";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LF9TDFPl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF20310E037
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 18:07:10 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7016A10E193
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Aug 2025 18:08:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754590031; x=1786126031;
+ t=1754590087; x=1786126087;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=xHKkV4DD2DuoLr05gEBrQk1TLxEWU/M1iyMdw4ivK30=;
- b=RtuOsl8hlcA2ieJK0xNjBSZT1UZMmjng4AOjK1iXohL7bpCD678KCaXn
- MX1uLZ8Pxf64rsJsesx/yvNg/BYn5gXmBNZ4rjka4xtjbXbC3OJBXENcr
- jmAnYf/mIPVchhzqpvxGLEh1GnOyX/yYV1RcDwm3XK0yx6mlj0bhUifGu
- rACwzQieCMTQL+HTlMzTE+zWypIN2Yp0ON4zAiqmeiOmyn8r5EvaD4KNO
- v/Y+NpV2N+14uP+nQjmPK9YZdfNfK/lpl2ctZYj0lscumM18OZ0wrKUcO
- jYtmhEdA+ncZbeZ5Zfk9r8VvccsRQbDFxrG3GfsvlzY68Db6rSNsB/RMy Q==;
-X-CSE-ConnectionGUID: OwhvwdyBTZSIJm/btp3etw==
-X-CSE-MsgGUID: sqyo3EqeRp+3dcg7gJoZIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="79489024"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="79489024"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2025 11:07:10 -0700
-X-CSE-ConnectionGUID: hanbwvowSUi97SDYIz70dA==
-X-CSE-MsgGUID: Bkhc8bHqTnm6cysL/dVeCg==
+ bh=7H1rVpWbf3l5tKQbNYZlhGFORV7o9SDgT/R+Vfl2LkU=;
+ b=LF9TDFPlukzqPr4Pdn/coeD9l1zviwk0fXlVIaqm65K5ZF3falm3yHdW
+ 2HqAZ2wIGCdEAEssdcVOTMHfi4hK1O45FVcOgCM801WhdPkHE1dMbtt/D
+ ThNVrSdqwLxNdthtZjUoCd+abRtuEBK3MJ8TIqMD0sHnkic+i2CDi9uVy
+ 8OKHP+SoZUaO4MdCjhE/d++mhVMPcQ1B6Bod1vwh0v+pY5yK6msSWJ0Mm
+ tMCFzyoO6XGRcM6hgyk6qxBfwtpcKCnUvu1xCrAlL4QnRabGJHtxic40Y
+ IY5OwfGYRQKTm4HdlVT0kvDJ60Rha3mlXIqzEo8c0ATR+JpFMYE2VnnR3 A==;
+X-CSE-ConnectionGUID: 7tUu8bX8RFS4H0jsOS9O0Q==
+X-CSE-MsgGUID: 4cCobkb9Q4yAKXmyhmhTCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="60784454"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="60784454"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2025 11:08:06 -0700
+X-CSE-ConnectionGUID: d0THkmcPS0GzEri5UiCvYw==
+X-CSE-MsgGUID: nL/tGmBzRGCk/KzsqNUFpQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="169338011"
+X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; d="scan'208";a="170381101"
 Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
  ([10.245.246.96])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2025 11:07:07 -0700
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Aug 2025 11:08:02 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Qianfeng Rong <rongqianfeng@vivo.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Qianfeng Rong <rongqianfeng@vivo.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, open list
- <linux-kernel@vger.kernel.org>
-Cc: willy@infradead.org
-Subject: Re: [PATCH v2 2/2] drm/i915: remove redundant __GFP_NOWARN
-In-Reply-To: <20250807143919.575439-3-rongqianfeng@vivo.com>
+To: Qianfeng Rong <rongqianfeng@vivo.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, "open list:DRM DRIVERS"
+ <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>
+Cc: willy@infradead.org, Qianfeng Rong <rongqianfeng@vivo.com>
+Subject: Re: [PATCH v2 1/2] drm/locking: remove redundant __GFP_NOWARN
+In-Reply-To: <20250807143919.575439-2-rongqianfeng@vivo.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20250807143919.575439-1-rongqianfeng@vivo.com>
- <20250807143919.575439-3-rongqianfeng@vivo.com>
-Date: Thu, 07 Aug 2025 21:07:03 +0300
-Message-ID: <0a744ae4266a0e240a8d6e4c3a1ab4998b7404e8@intel.com>
+ <20250807143919.575439-2-rongqianfeng@vivo.com>
+Date: Thu, 07 Aug 2025 21:07:59 +0300
+Message-ID: <2a0a178a0929dc76cd88ec840d52043cd367451d@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,45 +82,30 @@ On Thu, 07 Aug 2025, Qianfeng Rong <rongqianfeng@vivo.com> wrote:
 Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
 > ---
->  drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c | 4 ++--
->  drivers/gpu/drm/i915/i915_active.c               | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/drm_modeset_lock.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-> index 8d4bb95f8424..22432912db2e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
-> @@ -220,7 +220,7 @@ static void heartbeat(struct work_struct *wrk)
->  		goto out;
->  	}
+> diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
+> index beb91a13a312..58eac20a8138 100644
+> --- a/drivers/gpu/drm/drm_modeset_lock.c
+> +++ b/drivers/gpu/drm/drm_modeset_lock.c
+> @@ -88,7 +88,7 @@ static noinline depot_stack_handle_t __drm_stack_depot_save(void)
 >  
-> -	rq = heartbeat_create(ce, GFP_NOWAIT | __GFP_NOWARN);
-> +	rq = heartbeat_create(ce, GFP_NOWAIT);
->  	if (IS_ERR(rq))
->  		goto unlock;
+>  	n = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
 >  
-> @@ -282,7 +282,7 @@ static int __intel_engine_pulse(struct intel_engine_cs *engine)
->  	GEM_BUG_ON(!intel_engine_has_preemption(engine));
->  	GEM_BUG_ON(!intel_engine_pm_is_awake(engine));
->  
-> -	rq = heartbeat_create(ce, GFP_NOWAIT | __GFP_NOWARN);
-> +	rq = heartbeat_create(ce, GFP_NOWAIT);
->  	if (IS_ERR(rq))
->  		return PTR_ERR(rq);
->  
-> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-> index 0dbc4e289300..402043cd84d5 100644
-> --- a/drivers/gpu/drm/i915/i915_active.c
-> +++ b/drivers/gpu/drm/i915/i915_active.c
-> @@ -727,7 +727,7 @@ int i915_request_await_active(struct i915_request *rq,
->  static int sw_await_fence(void *arg, struct dma_fence *fence)
->  {
->  	return i915_sw_fence_await_dma_fence(arg, fence, 0,
-> -					     GFP_NOWAIT | __GFP_NOWARN);
-> +					     GFP_NOWAIT);
+> -	return stack_depot_save(entries, n, GFP_NOWAIT | __GFP_NOWARN);
+> +	return stack_depot_save(entries, n, GFP_NOWAIT);
 >  }
 >  
->  int i915_sw_fence_await_active(struct i915_sw_fence *fence,
+>  static void __drm_stack_depot_print(depot_stack_handle_t stack_depot)
+> @@ -98,7 +98,7 @@ static void __drm_stack_depot_print(depot_stack_handle_t stack_depot)
+>  	unsigned int nr_entries;
+>  	char *buf;
+>  
+> -	buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
+> +	buf = kmalloc(PAGE_SIZE, GFP_NOWAIT);
+>  	if (!buf)
+>  		return;
 
 -- 
 Jani Nikula, Intel
