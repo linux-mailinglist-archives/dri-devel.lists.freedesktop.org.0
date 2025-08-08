@@ -2,57 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E797B1F027
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Aug 2025 23:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742D9B1F0A8
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 00:28:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E74E410E06E;
-	Fri,  8 Aug 2025 21:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F11110E067;
+	Fri,  8 Aug 2025 22:28:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MES/jXua";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gliL782Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BC7B10E06E
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Aug 2025 21:07:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=1ZE2xvEV5PnemVdZ0MxchTi5EMFs63TGOUmJ0xYtRso=; b=MES/jXuaSiVdVDyafZmuiR4i5n
- CotnKw9PosqzLpahCNClzYJ96Bp3bDb7yvkOa7dE+PtqHUlxDzRAV1wq5lr7ceHIVuyiigocRsiHT
- efSg1gLPFgo+uf4HES3t2L+dCBZ1PaCLfJZmjuv4NhszxMUPdpQLNywqHKVBOP4i7SAR85jriTHaL
- dokXN88wJCrW8xL8RirKbrrQGqygYQHI8iKuhoMgAWWqLP36/T7sbW5X+GVW/9SbQMGN0efjEVuyc
- DNBa69qP4EIGBhdIdkpmLu2g71cm5lhG84jUhhi3rAxQhxPxT2Jr7QRB/KLSk0RPay/AWuJrqKQBq
- iWHT3LCQ==;
-Received: from [189.7.87.79] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ukUJ9-00BijS-Ay; Fri, 08 Aug 2025 23:07:23 +0200
-Message-ID: <e4fe98ba-866c-4b59-bda4-0519d585a3db@igalia.com>
-Date: Fri, 8 Aug 2025 18:07:18 -0300
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 875E610E067
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Aug 2025 22:28:36 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3b78bca0890so1248562f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Aug 2025 15:28:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1754692115; x=1755296915; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=bk4Z92vldvgPQRm+g46xxvwEKtrsTK5zc7BqRXD51dg=;
+ b=gliL782QZONljR5z2BlhWstK4oPL8aVd652pzy+L5ePHLzs7aEe/ttrJMcRS0RnZnM
+ IaD7Am9hlnBw1KxONFBecph1yANJ1CZf+SSSpC1SFPZqAQ8Jraj7Vdb35hcEIVYKninY
+ 7rjrw0QaGPoV5HPdoQdfyXcz0ShVuKClTJKtRgjXTUp5vQ7bwBpqKh8OO60Fv1ToK8Js
+ tyabgQNFuLM+TUmTJi7LPjRzYFcxZ/gOxUMa2yp9uG2CamKS4yvy0wb0G5Se5AXYS5S9
+ RGPD9i+0oj4m+KRyw8pHoH9C5m02ofPZ6xG1qLTJbxFKR+/BUe4Ki7cpBvvtWvD3rTct
+ UGbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754692115; x=1755296915;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bk4Z92vldvgPQRm+g46xxvwEKtrsTK5zc7BqRXD51dg=;
+ b=QILQpPaqmS6vh4QUiOtLfYLMEl87QWfuuXvFJQAUEMS7nLrjjJiaCyExQU09Fi74PK
+ 2KnzN/lBeRQvucqXdD30TuB2A2EhSpUzbQO9zxT5j978Y4z2XFkgBEtHi4I/LTU0wGCB
+ O0bkNU1+7H1Z8/8/p8iibbIfYtqNu47PotTDLRbDkhmv1kaDfP8J6KqXiJmBq3SNKiDh
+ ZzXnnCN1/X6sSFu6yM1dy5D5VP4Vznj4QplWo4vxHhUkoVgze1xCVmoUNinLguCO6f+/
+ qN83hwhjkTedn3q4BMaQBYqlPA95mofryaGOVsWfpVjFkyugo/VsXwth9FJErEmAaujt
+ 7ahg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUimLB6Z4a5LTSfviHIF7OLazd3wSbvV+3PGt8LskfTdvkOU1m2WYxA9uHsOYUMLYd5bw/lv7OGGzk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0DGK1gxQoaYsvqFMiSWvE++DEN5u/NICPpoZ+PWLz4iRsKu33
+ eDvcVEC2/4UzuAgLiD2+V1YStLs+EEmpHg2xNcR/GScInRiBlh+uJUPAi7oDZQip2XqP9XIbZCY
+ 4upSRP5eic/9jeZggEe2VgEvacG3NwGyzgoIU4Y78fg==
+X-Gm-Gg: ASbGncsryHDmguR/sL/jshwF6cQDieqhjggfZHl/2sjWmoAc98k9/sr3ilKlbIIFTWA
+ 0OKOhcknkwUfFdddCr4YGQCSrCfzKPQRXvS3c9LWPruFvDPy42fLFo6iei1/sCszlIJjHqqOl6A
+ 8DX1jM4I8l3HSvFmZuDLq+RKmPzU/mIvEpAZXNpPYkVB7WITNwj7rwaQVGTqum3JyJ7W9Rk9LPm
+ BXwyvRWnw==
+X-Google-Smtp-Source: AGHT+IGy+JfWioN1EZvauRq8fNVKD77kq7pV11eEmcSqXqQw+Ty2x4MuKZfeT7+cYgy3zueauhd1kIbBdcArMua29PY=
+X-Received: by 2002:a05:6000:2f85:b0:3b7:8d70:e0ad with SMTP id
+ ffacd0b85a97d-3b900b4d8c1mr3401099f8f.32.1754692114271; Fri, 08 Aug 2025
+ 15:28:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/vc4: plane: Add support for P01[026] and
- S01[026] formats
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maxime Ripard <mripard@kernel.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+References: <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-0-4782074104d1@linaro.org>
+ <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-1-4782074104d1@linaro.org>
+ <aJCyBbwNjZvTHnjT@hovoldconsulting.com>
+In-Reply-To: <aJCyBbwNjZvTHnjT@hovoldconsulting.com>
+From: Christopher Obbard <christopher.obbard@linaro.org>
+Date: Fri, 8 Aug 2025 23:28:23 +0100
+X-Gm-Features: Ac12FXwR4FUrET6jv0_EOtK5Bc-B0SWbGu_iG6JN5BJKVMzOvOl3cxeCMpqOk-Q
+Message-ID: <CACr-zFCq08Pu2=eLfe5=sYdGWEHmy7w+=Eo++9AjP96uCLCNcQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] arm64: dts: qcom: x1e78100-t14s: add hpd gpio to
+ dp controller
+To: Johan Hovold <johan@kernel.org>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Robert Mader <robert.mader@collabora.com>
-References: <20250807-drm-vc4-extra-formats-v2-0-fadc93844551@raspberrypi.com>
- <20250807-drm-vc4-extra-formats-v2-2-fadc93844551@raspberrypi.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250807-drm-vc4-extra-formats-v2-2-fadc93844551@raspberrypi.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>,
+ devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,111 +98,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Hi Johan,
 
-On 07/08/25 10:28, Dave Stevenson wrote:
-> There are now formats defined for 2-plane YUV420 at 10, 12,
-> and 16 bit depth using the most significant bits of the 16bit
-> word (P010, P012, and P016), and 3-plane YUV420 at those
-> depths using the least significant bits of the 16 bit word
-> (S010, S012, and S016).
-> 
-> VC4_GEN_6 can support all those formats although only using
-> at most 10bits of resolution.
-> Add them as supported formats for all planes, but filtered
-> by hardware revision.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Acked-by: Maíra Canal <mcanal@igalia.com>
+On Mon, 4 Aug 2025 at 14:13, Johan Hovold <johan@kernel.org> wrote:
+>
+> On Thu, Jul 31, 2025 at 09:51:26PM +0100, Christopher Obbard wrote:
+> > The eDP controller has an HPD GPIO. Describe it in the device tree
+> > for the generic T14s model, as the HPD GPIO is used in both the
+> > OLED and LCD models which inherit this device tree.
+>
+> > @@ -5779,6 +5779,11 @@ tlmm: pinctrl@f100000 {
+> >                       gpio-ranges = <&tlmm 0 0 239>;
+> >                       wakeup-parent = <&pdc>;
+> >
+> > +                     edp_hpd_active: edp-hpd-active-state {
+>
+> The node name and label needs an index as this SoC has two edp hpd pins
+> as I already pointed out.
 
-Best Regards,
-- Maíra
+Sure. After looking at the schematics this should be called
+edp0_hpd_active. I will fix this in the next revision.
 
-> ---
->   drivers/gpu/drm/vc4/vc4_plane.c | 42 +++++++++++++++++++++++++++++++++++++++++
->   drivers/gpu/drm/vc4/vc4_regs.h  |  9 +++++++++
->   2 files changed, 51 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-> index 3bdd9466a7b0..5fc26f705425 100644
-> --- a/drivers/gpu/drm/vc4/vc4_plane.c
-> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-> @@ -247,6 +247,42 @@ static const struct hvs_format {
->   		.pixel_order = HVS_PIXEL_ORDER_BGRA,
->   		.pixel_order_hvs5 = HVS_PIXEL_ORDER_RGBA,
->   	},
-> +	{
-> +		.drm = DRM_FORMAT_P010,
-> +		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE,
-> +		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
-> +		.min_gen = VC4_GEN_6_C,
-> +	},
-> +	{
-> +		.drm = DRM_FORMAT_P012,
-> +		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE,
-> +		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
-> +		.min_gen = VC4_GEN_6_C,
-> +	},
-> +	{
-> +		.drm = DRM_FORMAT_P016,
-> +		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE,
-> +		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
-> +		.min_gen = VC4_GEN_6_C,
-> +	},
-> +	{
-> +		.drm = DRM_FORMAT_S010,
-> +		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_9_0_3PLANE,
-> +		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
-> +		.min_gen = VC4_GEN_6_C,
-> +	},
-> +	{
-> +		.drm = DRM_FORMAT_S012,
-> +		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_11_2_3PLANE,
-> +		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
-> +		.min_gen = VC4_GEN_6_C,
-> +	},
-> +	{
-> +		.drm = DRM_FORMAT_S016,
-> +		.hvs = HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_3PLANE,
-> +		.pixel_order_hvs5 = HVS_PIXEL_ORDER_XYCBCR,
-> +		.min_gen = VC4_GEN_6_C,
-> +	},
->   };
->   
->   static const struct hvs_format *vc4_get_hvs_format(u32 drm_format)
-> @@ -2490,6 +2526,12 @@ static bool vc4_format_mod_supported(struct drm_plane *plane,
->   	case DRM_FORMAT_YVU420:
->   	case DRM_FORMAT_NV16:
->   	case DRM_FORMAT_NV61:
-> +	case DRM_FORMAT_P010:
-> +	case DRM_FORMAT_P012:
-> +	case DRM_FORMAT_P016:
-> +	case DRM_FORMAT_S010:
-> +	case DRM_FORMAT_S012:
-> +	case DRM_FORMAT_S016:
->   	default:
->   		return (modifier == DRM_FORMAT_MOD_LINEAR);
->   	}
-> diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
-> index 27158be19952..4536e3c0533b 100644
-> --- a/drivers/gpu/drm/vc4/vc4_regs.h
-> +++ b/drivers/gpu/drm/vc4/vc4_regs.h
-> @@ -1079,6 +1079,15 @@ enum hvs_pixel_format {
->   	HVS_PIXEL_FORMAT_AYUV444_RGB = 15,
->   	HVS_PIXEL_FORMAT_RGBA1010102 = 16,
->   	HVS_PIXEL_FORMAT_YCBCR_10BIT = 17,
-> +	/* 10 bit YUV420 formats with data with various alignments */
-> +	HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_2PLANE = 24,
-> +	HVS_PIXEL_FORMAT_YCBCR_YUV420_15_6_3PLANE = 25,
-> +	HVS_PIXEL_FORMAT_YCBCR_YUV420_13_4_2PLANE = 26,
-> +	HVS_PIXEL_FORMAT_YCBCR_YUV420_13_4_3PLANE = 27,
-> +	HVS_PIXEL_FORMAT_YCBCR_YUV420_11_2_2PLANE = 28,
-> +	HVS_PIXEL_FORMAT_YCBCR_YUV420_11_2_3PLANE = 29,
-> +	HVS_PIXEL_FORMAT_YCBCR_YUV420_9_0_2PLANE = 30,
-> +	HVS_PIXEL_FORMAT_YCBCR_YUV420_9_0_3PLANE = 31,
->   };
->   
->   /* Note: the LSB is the rightmost character shown.  Only valid for
-> 
 
+> > +                             pins = "gpio119";
+> > +                             function = "edp0_hot";
+>
+> And you also need to configure the bias somewhere as you should not rely
+> on the firmware having configured things for you (as I also pointed out
+> before).
+>
+> On my T14s the internal pull-up has been disabled.
+
+I am still unsure of what else needs to be set here. Can you help me
+with the correct settings?
+
+Thanks,
+Chris
