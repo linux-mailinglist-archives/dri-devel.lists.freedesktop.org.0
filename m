@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE72B1EAA0
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Aug 2025 16:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5813B1EAA1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Aug 2025 16:49:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFDA10E95D;
-	Fri,  8 Aug 2025 14:49:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BDDB10E95A;
+	Fri,  8 Aug 2025 14:49:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ED+pof/S";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XRpNEbZe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
  [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABBCA10E95C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Aug 2025 14:49:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 36FE843987;
- Fri,  8 Aug 2025 14:49:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E98A10E06A
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Aug 2025 14:49:42 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A19454398A;
+ Fri,  8 Aug 2025 14:49:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1754664579;
+ t=1754664581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MxTILuKlEXX8gx2CBbWGOC/3dK9iaEP97mQFbZ3GY8E=;
- b=ED+pof/Skjgct9BjsAqYpisQrGg+MT4eGYPLsICLxePz80/rpGBwuM0sZw3NqHlQ5LdoHL
- Fb94EZR1jteibT3epeD9mP2SFQMPD1eiydRNdq4ZObKxp6pp7QjH6y9UqClFOSzGMcicbY
- vGUgsrjRjtr82U9NFIlbn1n/Im4usiA2YHwQ+rir0xhMSg+rVV7Hc+7f5RbVBULds3OwMG
- DQnQfxsAP/8cVZjVpXKwIy+Nf0OVTIPmxNY0D67xZB34PE5GCZ7DK7pDfezoyMzn8LMeCM
- otGqXXgafOyE0wgoHXdJFZ8/hkTr2Q/2zXQk+Z4bOFPpgQ5A5IT6CI3dni3CSQ==
+ bh=x5FboEgCdGJLmxZMiB0i2htDNO12smggut39uay0DPM=;
+ b=XRpNEbZeUx1iZaVTHx5I6X072fTr2282hm75h3TH0KH/sCa4iyc3hZ4RjB6ZEdmNIGgY1w
+ wNMzTHumwjPDDV5B5fxBTAg6plO3A5Y8DmERubd44e32eGxz5st0WmXoUFlK7N8r0bhy7b
+ wmuUBXSag2sGh0gswudnvb+bp4Kko0UcuXLQ3a9Ps0MtERGFGTkrs7qR9bpu744z2sI3Au
+ e38LGKXZE28NpWEwADmF7dmU2Su5duxb+ddtOyTAzcehijOosKOC1kjWw+egxuPcHJM9bJ
+ epxmiEETLt/v6KFJE+dxuglHEL506ZXwPvGOoHI5GUM9+RgknB+QUbj24cDwfA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 08 Aug 2025 16:49:11 +0200
-Subject: [PATCH v2 4/9] drm/display: bridge-connector: use
- drm_for_each_bridge_in_chain_scoped()
+Date: Fri, 08 Aug 2025 16:49:12 +0200
+Subject: [PATCH v2 5/9] drm/atomic: use drm_for_each_bridge_in_chain_scoped()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-4-edb6ee81edf1@bootlin.com>
+Message-Id: <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-5-edb6ee81edf1@bootlin.com>
 References: <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com>
 In-Reply-To: <20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -83,43 +82,30 @@ refcounted.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/display/drm_bridge_connector.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_atomic.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 65d54019e5eab323ecd3dc568541ed1e1793a683..760ee00b6b02192dc1e59c213ef043a6bb9e3b60 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -136,10 +136,9 @@ static void drm_bridge_connector_hpd_notify(struct drm_connector *connector,
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index cd15cf52f0c9144711da5879da57884674aea9e4..ed5359a71f7e2cd8fa52b993e62ee65f8fed4537 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1308,7 +1308,6 @@ drm_atomic_add_encoder_bridges(struct drm_atomic_state *state,
+ 			       struct drm_encoder *encoder)
  {
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
+ 	struct drm_bridge_state *bridge_state;
 -	struct drm_bridge *bridge;
  
- 	/* Notify all bridges in the pipeline of hotplug events. */
--	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge) {
-+	drm_for_each_bridge_in_chain_scoped(bridge_connector->encoder, bridge) {
- 		if (bridge->funcs->hpd_notify)
- 			bridge->funcs->hpd_notify(bridge, status);
- 	}
-@@ -638,7 +637,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	struct drm_bridge_connector *bridge_connector;
- 	struct drm_connector *connector;
- 	struct i2c_adapter *ddc = NULL;
--	struct drm_bridge *bridge, *panel_bridge = NULL;
-+	struct drm_bridge *panel_bridge = NULL;
- 	unsigned int supported_formats = BIT(HDMI_COLORSPACE_RGB);
- 	unsigned int max_bpc = 8;
- 	int connector_type;
-@@ -665,7 +664,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	 * detection are available, we don't support hotplug detection at all.
- 	 */
- 	connector_type = DRM_MODE_CONNECTOR_Unknown;
+ 	if (!encoder)
+ 		return 0;
+@@ -1317,7 +1316,7 @@ drm_atomic_add_encoder_bridges(struct drm_atomic_state *state,
+ 		       "Adding all bridges for [encoder:%d:%s] to %p\n",
+ 		       encoder->base.id, encoder->name, state);
+ 
 -	drm_for_each_bridge_in_chain(encoder, bridge) {
 +	drm_for_each_bridge_in_chain_scoped(encoder, bridge) {
- 		if (!bridge->interlace_allowed)
- 			connector->interlace_allowed = false;
- 		if (!bridge->ycbcr_420_allowed)
+ 		/* Skip bridges that don't implement the atomic state hooks. */
+ 		if (!bridge->funcs->atomic_duplicate_state)
+ 			continue;
 
 -- 
 2.50.1
