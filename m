@@ -2,69 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA4AB1F124
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 00:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43805B1F144
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 01:22:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D62610E1FB;
-	Fri,  8 Aug 2025 22:53:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="XnWl9Ace";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29CE110E09B;
+	Fri,  8 Aug 2025 23:22:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63E5310E091;
- Fri,  8 Aug 2025 22:53:12 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53]) (Authenticated sender: zamundaaa)
- by letterbox.kde.org (Postfix) with ESMTPSA id 08B8B33DDAD;
- Fri,  8 Aug 2025 23:53:11 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1754693591; bh=A8Lw8n1IVBtwkZR7h5aK6n+Rx2v/gD7XRYiG2a6qJzY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=XnWl9AceZxoHIJHx23pk8Joivqps5OVUazrEOVKQwnIIG4e8oCZTRqNtT81TGx6c9
- pr9IcRKmiFbXfyTwGcUl6+jd1FLIU1I7mM7wCNc7ukoxgSx4EpPF2GoLNNO2YPMtDL
- XRiaNPaqe/mAl5g+PhkrS1uAVsuVjX1vkGtRtECEL6vF/fbjOVNJCBPrKJYoHaVCu8
- X6WfhwUCWK+/LFf3BB3jV31PalfXZnLEroGgez9syVQ/zp4nf2yByyewUvqUhvgm3h
- NKB7BtBf3/44hFTqqLrIrbyfXTIreBT8UaI56G8AzEE9Dfl3j/KPKoBXFxTUlF68Ul
- FU4dStY6qlygw==
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-ae0bde4d5c9so498299366b.3; 
- Fri, 08 Aug 2025 15:53:11 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D2F110E09B;
+ Fri,  8 Aug 2025 23:22:47 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-459ebb6bbdfso17175485e9.0; 
+ Fri, 08 Aug 2025 16:22:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754695366; x=1755300166;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S7hoQOlH8hdbY5KjsDkardvJrN7xlW830kjw5KEZnS4=;
+ b=Rzq38VD9NNjafZryimk3Kh/qOQBFM9v2sh4sucgJirlVRuumr2ljpzAPQ5kDsBGHIq
+ APa+NbfiFWCedcCazu8SljT6om6X4ZcEkJxHVgt0qHTEChPGl8Y9srK7XnAQi+utgUZf
+ EVXueAxhRIzY3nHQemr7zvfK6lJtfn60d+qDF6zJSuTlWK9GEgLjLyfhNXHFu5xUAaDk
+ LsJBVrYP6qfsVOnt0IuDDKcAVazlb7vOPDSlEq3FY4n+FawT0O6hvQeqQBj4+sl6Toyu
+ 3x+XKHjCSCZkhiY3NYxl8zzrYBC4hZtukRqIZBfDiBUKQmfLyy8ZLPIYaG7uRoJrUEuG
+ 9erg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUAl9pvlVLaGvQIeWaTXw+PE2PjYF4DQ8lzBE0DeUheG1jKHcjsArZY7ursESXauPp0L//oIooP@lists.freedesktop.org,
- AJvYcCXGLdO8j7Yja7mDHgoRfK5snRV7yyzR6mYG/S8QBlAKDsOiGZc5xFnYYtd0IxOOYQqQ2xTVY0OFNsAe@lists.freedesktop.org,
- AJvYcCXIgCt1gmhTmGVR/fniWPtVVpcjhiosRUs/ROIbKAkhK/CQIwAfhuFEN7C9zJqQugxSgo90rg+tQUbb@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwuktTXreHAcseFs+zgp7crdGV/PWEMGx455bAEQFmEbE99+Jhz
- vgzaRNMY+k477smjiRAhvpN2fkFxUobHaKJb6yGZp38PEfn7e46+phJMrufYghv/hfYDEYtW2dx
- 8zhJGdsEFGKUthVBqn7YCYFzHGcgiWHk=
-X-Google-Smtp-Source: AGHT+IGtYlZ5tumktZPMAHPpzXi2sV3memt8DCuUmS77VsedA/NOfqLPJBGofHGqEop0PZP4PViOqIa46ZOLRZSTFqA=
-X-Received: by 2002:a17:907:3cd3:b0:ae3:e378:159e with SMTP id
- a640c23a62f3a-af9c63d4a85mr400338766b.26.1754693590535; Fri, 08 Aug 2025
- 15:53:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250801131053.6730-1-xaver.hugl@kde.org>
- <ad9b68cc-4a33-406a-9512-ff5f5460bf99@intel.com>
- <CAFZQkGwviMAshk5gSF0pDmkqbfZT=6FHCfNq6PWj8srNEXjX7w@mail.gmail.com>
- <BN9PR11MB529028C2BFB87E7751ED42B7A722A@BN9PR11MB5290.namprd11.prod.outlook.com>
-In-Reply-To: <BN9PR11MB529028C2BFB87E7751ED42B7A722A@BN9PR11MB5290.namprd11.prod.outlook.com>
+ AJvYcCUhMWGBjY86t+2ZrQWqFldjg8HecKNgqFWZHqvy17h4YOPCgn+INiuC7mF3GUxnOkOOO81rNT/Uywi7@lists.freedesktop.org,
+ AJvYcCVa//PWLKBc8HDQhYwtdANBUBRD0KaZyu4iogROy587eEBQ5mpyoUIZ8E5jKMwuh1hACsDuv/Nm@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyC/G2QsSS6fTDnwW17qJUP5CV8Jd9lcthMARzptL/+vf1U2I/q
+ 89sDtrL3zGJm0Qx1OQrgyH+gAaeL2INBS42xJ7fBQyc+LSglkMGeY4isQiRHiIG6fCs=
+X-Gm-Gg: ASbGncvRQmOb2WjzzDIVsSc3T89M/9L0QDl4yV0JR643CsMOVXCsTTHr0t4AsRGp18h
+ RTqzOESIYiAt7bj8y1TYUMqSmPz9QJp3EMe5jEA+QPVCvCLoKUB2PNqJriHv8bqQfRAZKLcZhGG
+ ZtJK99BriSnCoIO4qHD1UgYVV53r8odrVwG/pJPKNixxYOP6u7GsO7Am24pPjZV4auj7yccujlz
+ i+MxCHdXCNYhUU2pYni5W+heXtC1oNIcUwIThTezRgvrUjAvofjQM59kpmzhXPhQ/Z8cUoZirGl
+ cEPve3Xs1aqtrmfL4DWBfTiD06brP+JtH+V1fYR9UXNAHVX0TxWBAGWmHphtsllNYfgk1qCgxPl
+ pjCFOcwC2VhXCX50HwAcE1tZLcTo0VRQZ8novxipPFuk=
+X-Google-Smtp-Source: AGHT+IGQMTo9SwesgTmq9YDU6U+20iLE8/0wLNPQ4nhjBDpCA5mQSaBryPBHNrEIgJou1IL0pvh8dw==
+X-Received: by 2002:a5d:5d0c:0:b0:3b8:b33c:b8b0 with SMTP id
+ ffacd0b85a97d-3b90092c9d2mr3675591f8f.7.1754695365632; 
+ Fri, 08 Aug 2025 16:22:45 -0700 (PDT)
+Received: from xavers-framework.fritz.box
+ ([2a04:7d84:aac5:f6d0:e6bd:56ed:1a58:b83])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b79c3abf0csm31142512f8f.14.2025.08.08.16.22.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Aug 2025 16:22:45 -0700 (PDT)
 From: Xaver Hugl <xaver.hugl@kde.org>
-Date: Sat, 9 Aug 2025 00:52:59 +0200
-X-Gmail-Original-Message-ID: <CAFZQkGx1RSZGAzZ5r2xYt2KruBvGBxagNO1J9qWV+_ip4CW6xQ@mail.gmail.com>
-X-Gm-Features: Ac12FXzkuKLZ0Xm2flbfGjDiUOoVJtLTmYudJ0B-halzCMekWKrKlnt9GxycFto
-Message-ID: <CAFZQkGx1RSZGAzZ5r2xYt2KruBvGBxagNO1J9qWV+_ip4CW6xQ@mail.gmail.com>
-Subject: Re: [PATCH v3] drm: don't run atomic_async_check for disabled planes
-To: "Kumar, Naveen1" <naveen1.kumar@intel.com>
-Cc: "Murthy, Arun R" <arun.r.murthy@intel.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "andrealmeid@igalia.com" <andrealmeid@igalia.com>,
- "chris@kode54.net" <chris@kode54.net>, 
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "mdaenzer@redhat.com" <mdaenzer@redhat.com>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, 
- "alexdeucher@gmail.com" <alexdeucher@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+To: dri-devel@lists.freedesktop.org
+Cc: andrealmeid@igalia.com, chris@kode54.net, naveen1.kumar@intel.com,
+ ville.syrjala@linux.intel.com, mdaenzer@redhat.com,
+ intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ alexdeucher@gmail.com, arun.r.murthy@intel.com,
+ Xaver Hugl <xaver.hugl@kde.org>
+Subject: [PATCH v4] drm: re-allow no-op changes on non-primary planes in async
+ flips
+Date: Sat,  9 Aug 2025 01:22:08 +0200
+Message-ID: <20250808232208.7764-1-xaver.hugl@kde.org>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,22 +78,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> As I commented earlier in the gitlab issue [1], any change of property, including disabling a plane is not allowed in the async commit.
-> We must disable a plane (e.g. HW cursor) during the first (synchronized) flip, and allowing later flips to proceed asynchronously.
-> This change should be done in the compositor.
-No change is needed there, compositors already do that.
-> As per Ville's opinion in related series [2], kernel driver should reject all these disabled
-> Planes in the drm core and driver should only get the planes which is supported with async flip. Based on his comment, I have started
-> Working and will be addressing it in the next version of my series [3].
-As long as it only filters out planes that were and still are
-disabled, I think that could work out fine - in theory they shouldn't
-have any side effects.
-Note though that my patch intends to specifically fix a regression for
-amdgpu in 6.15, which I think we can do with fewer changes.
+Commit fd40a63c63a1 unintentionally disallowed no-op changes on non-primary
+planes that the driver doesn't allow async flips on. This broke async flips
+for compositors that disable the cursor plane in every async atomic commit.
+This changes drm_atomic_set_property to again only run atomic_async_check
+if the plane would actually be changed by the atomic commit.
 
-> [1]. https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13834#note_2994595
-> [2]. https://lore.kernel.org/all/aHAg2J-uFLLWINqp@intel.com/
-> [3]. https://patchwork.freedesktop.org/series/151280/
->
-> Regards,
-> Naveen Kumar
+Fixes: fd40a63c63a1 ("drm/atomic: Let drivers decide which planes to async flip")
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4263
+
+Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
+---
+ drivers/gpu/drm/drm_atomic_uapi.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index c2726af6698e..317303cf5b8c 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -1077,19 +1077,20 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
+ 		}
+ 
+ 		if (async_flip) {
+-			/* check if the prop does a nop change */
+-			if ((prop != config->prop_fb_id &&
+-			     prop != config->prop_in_fence_fd &&
+-			     prop != config->prop_fb_damage_clips)) {
+-				ret = drm_atomic_plane_get_property(plane, plane_state,
+-								    prop, &old_val);
+-				ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
+-			}
++			/* no-op changes are always allowed */
++			ret = drm_atomic_plane_get_property(plane, plane_state,
++							    prop, &old_val);
++			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
+ 
+-			/* ask the driver if this non-primary plane is supported */
+-			if (plane->type != DRM_PLANE_TYPE_PRIMARY) {
+-				ret = -EINVAL;
++			/* fail everything that isn't no-op or a pure flip */
++			if (ret && prop != config->prop_fb_id &&
++			    prop != config->prop_in_fence_fd &&
++			    prop != config->prop_fb_damage_clips) {
++				break;
++			}
+ 
++			if (ret && plane->type != DRM_PLANE_TYPE_PRIMARY) {
++				/* ask the driver if this non-primary plane is supported */
+ 				if (plane_funcs && plane_funcs->atomic_async_check)
+ 					ret = plane_funcs->atomic_async_check(plane, state, true);
+ 
+-- 
+2.50.1
+
