@@ -2,79 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B57B20011
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 09:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB38BB1E39C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Aug 2025 09:39:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE3110E378;
-	Mon, 11 Aug 2025 07:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4247310E4DA;
+	Fri,  8 Aug 2025 07:39:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y/CInVcK";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gzAGXMMA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9688210E4DA;
- Fri,  8 Aug 2025 07:39:27 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-2402774851fso16811945ad.1; 
- Fri, 08 Aug 2025 00:39:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754638767; x=1755243567; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=yO1YpKtKP+ptfoFXdPV58S+ud0mO9FZrS4sipO+FnaU=;
- b=Y/CInVcKECFDXWA4Wf8aF/bPeT9QICxHmEEcZrOUirHUcNjpklJdYZBQQH+B3aFmtT
- BHxs+huOoBRehcPhAoeX0RDOJNXVhMO9UgsRFIgmvYHSOwecWm+6u3ldmo56oxes3odv
- i+NWG/SfGbbtkQKqS+glQBCOtBbDkv3e7HmlLUX4OSCa+KXksfK1TSEjMIP1h94E/+RH
- Q0GpSdMPjwZUOeD8wVIOp5+q+r7GrUg49lK7IAGUqQ1l8/LJAk9U8GycbG2iHCzmmHDX
- ad0Q+Kf/BB+iO5cD07rayzEtu9DeoE2iOab51aRQ4x+qUUqSy/OZNMVFPVrQiC4uFEo5
- JiMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754638767; x=1755243567;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yO1YpKtKP+ptfoFXdPV58S+ud0mO9FZrS4sipO+FnaU=;
- b=KmAtw1e0DvTjh3lFMxs1sTRnQUxc6PdF5cMZD26EkmCDNrIV9g9TyRZNMdk92iEllx
- OrGy6L392dfXK7l8djEBB3APMjz4lEBGEs1A+GYItlALrakm3bo3IVHbIau/AmsR/YaU
- A8u0DxMk/73/E/6MfmB/mNCOh8eL8HJ0pxlhkeDinGHC5QbsScj8bagKbCUiphQtzvOr
- vkdORhdSsthJ9rixNACY5Bq3x+T1cRri3sKGsks85nUYUElcQ3S27Va3zc3xVrJTE59K
- 1ElbIruHesE1dHxhakdDHT9i1St5SOgfHgPq7a8dw1+PQcG8zNFakXcYS2H8UpiNjbBj
- Wbug==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWsTFC3P990fZ7ootDjfY0hL3sd8WVgcMqJTuF2JYPGMqgRP1uWceSub9xu6hOI+XOrbJjgPVb3rOM=@lists.freedesktop.org,
- AJvYcCWvjIS4IdAucMt/bzGleKrJuqVrvoVxaO3Wkor5erofpZnUmoGW6Rh1DIlXHZrXMXmiDzhQ0yf3Zw==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx3rv/zRgPk2UIazDe8IpYHVbTsRkVCttioCAckfvxGL+s8V5IH
- IyUwxpVPAy4vKiF2QDj5tx9UBWJtaUZZ8yFa+IjTj60INag3X4pN6G5A
-X-Gm-Gg: ASbGncvbcU74Nh2xyxPNOi/Ad0iRGYEYR6r/xBmPssCW77BLMu8MVVQ+dBIgkJuSV/G
- kTyKGl/EBuqoTCv48YREIqy6fNF0K+Li/g5OnlymOr8o3SKzxvRG7dqZrJT0QMo1vpieMf+mul6
- 4oiK9VHAwDdK4a++dknoEp26edBu/dwP+dEdmSkLdAFZCrKt3RGwxR0nKDMiNoiQ48uYcREqWId
- IZ9Mk+DzkmiOj6uwK6lHAei7Sbe4RtOr85MUxggEUlsVFgwDzYBeEm8R0wO7R2YoJufTS5+WC+w
- +ZfKDB8IzhcE+zDVpWH248H1pGo4hhzI0XlhwhD4G3saG/zwvhZ73OSHWegJ7DwIMyzMxqXfD33
- tQmmPjrd6tLAhyBjaI4QGByY18A==
-X-Google-Smtp-Source: AGHT+IHJAphSCGcCrKjr0TL4KujAuKvrfgHh/ezbsFmtY7IQENr8gP6eoXWCL6JC+pybzPRmoIEHjA==
-X-Received: by 2002:a17:903:40d1:b0:240:1831:eeeb with SMTP id
- d9443c01a7336-242c22c59bemr31998535ad.40.1754638766916; 
- Fri, 08 Aug 2025 00:39:26 -0700 (PDT)
-Received: from archlinux ([2409:40d6:1b:7e6e:e637:1b70:a72e:cd3d])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2426dec66desm121202935ad.54.2025.08.08.00.39.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Aug 2025 00:39:26 -0700 (PDT)
-From: Madhur Kumar <madhurkumar004@gmail.com>
-To: lyude@redhat.com
-Cc: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- Madhur Kumar <madhurkumar004@gmail.com>
-Subject: [PATCH] drm/nouveau: fix typos in comments
-Date: Fri,  8 Aug 2025 13:08:40 +0530
-Message-ID: <20250808073840.376764-1-madhurkumar004@gmail.com>
-X-Mailer: git-send-email 2.50.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F284810E4DA
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Aug 2025 07:39:37 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFDDB129;
+ Fri,  8 Aug 2025 09:38:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1754638726;
+ bh=sbZR5Nxbi+Ge8JUMvyV+oCXoPvfh1s8vaXPlNaRcIuA=;
+ h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
+ b=gzAGXMMAq8SI2BVfuLUWT4CFUS35mobAb0oeiE7hbHjop6spIoFpl6AAXThPPWbES
+ 8wcxfJPIVwQZdy8MvgYve5CC3nHioBkug88ky1bejRTDusingW9Ca9IUi6iz40jYHq
+ FSR/12Xb91UPiJwyv4iLpFBZqiNHM2lXIGS3M32k=
+Message-ID: <3e49f780-2d12-4c61-a574-11ba60703c7c@ideasonboard.com>
+Date: Fri, 8 Aug 2025 10:39:32 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 11 Aug 2025 07:12:55 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/bridge: cdns-dsi: Remove unnecessary memset
+To: Liao Yuanhong <liaoyuanhong@vivo.com>
+References: <20250808035939.134861-1-liaoyuanhong@vivo.com>
+Content-Language: en-US
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250808035939.134861-1-liaoyuanhong@vivo.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,48 +108,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixed three spelling mistakes in nouveau_exec.c comments:
- - alloctor -> allocator
- - exectued -> executed
- - depent -> depend
+Hi,
 
-No functional changes.
+On 08/08/2025 06:59, Liao Yuanhong wrote:
+> kzalloc() has already been initialized to full 0 space, there is no need to
+> use memset() to initialize again.
+> 
+> Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
+> ---
+> Changes in v2:
+> 	Modify the subject prefix.
+> ---
+>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index a57ca8c3bdae..590f7c75744e 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -1047,7 +1047,6 @@ cdns_dsi_bridge_atomic_reset(struct drm_bridge *bridge)
+>  	if (!dsi_state)
+>  		return NULL;
+>  
+> -	memset(dsi_state, 0, sizeof(*dsi_state));
+>  	dsi_state->base.bridge = bridge;
+>  
+>  	return &dsi_state->base;
 
-Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
----
- drivers/gpu/drm/nouveau/nouveau_exec.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
-index 41b7c608c905..46294134f294 100644
---- a/drivers/gpu/drm/nouveau/nouveau_exec.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
-@@ -60,14 +60,14 @@
-  * virtual address in the GPU's VA space there is no guarantee that the actual
-  * mappings are created in the GPU's MMU. If the given memory is swapped out
-  * at the time the bind operation is executed the kernel will stash the mapping
-- * details into it's internal alloctor and create the actual MMU mappings once
-+ * details into it's internal allocator and create the actual MMU mappings once
-  * the memory is swapped back in. While this is transparent for userspace, it is
-  * guaranteed that all the backing memory is swapped back in and all the memory
-  * mappings, as requested by userspace previously, are actually mapped once the
-  * DRM_NOUVEAU_EXEC ioctl is called to submit an exec job.
-  *
-  * A VM_BIND job can be executed either synchronously or asynchronously. If
-- * exectued asynchronously, userspace may provide a list of syncobjs this job
-+ * executed asynchronously, userspace may provide a list of syncobjs this job
-  * will wait for and/or a list of syncobj the kernel will signal once the
-  * VM_BIND job finished execution. If executed synchronously the ioctl will
-  * block until the bind job is finished. For synchronous jobs the kernel will
-@@ -82,7 +82,7 @@
-  * Since VM_BIND jobs update the GPU's VA space on job submit, EXEC jobs do have
-  * an up to date view of the VA space. However, the actual mappings might still
-  * be pending. Hence, EXEC jobs require to have the particular fences - of
-- * the corresponding VM_BIND jobs they depent on - attached to them.
-+ * the corresponding VM_BIND jobs they depend on - attached to them.
-  */
- 
- static int
--- 
-2.50.1
+ Tomi
 
