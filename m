@@ -2,80 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F1DB1E836
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Aug 2025 14:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74EE2B1E8B1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Aug 2025 14:55:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9BB10E04D;
-	Fri,  8 Aug 2025 12:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DADFC10E1DA;
+	Fri,  8 Aug 2025 12:55:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="AxHJ8C85";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="m1WxlJVz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A095D10E021
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Aug 2025 12:20:35 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-61543b05b7cso10797a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Aug 2025 05:20:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1754655634; x=1755260434;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3rzYVptOKE6RcZ0qvjvmsPnga1215NKTSv+ot9kbgm8=;
- b=AxHJ8C85rnvxZh/AJ6EKIHo22yjfjCsXfqVEI/ZPAPscFlys3wYzoTPWSSe9zDO0ob
- 5yirFi5FU4jnbg4Q/pRT1rBnkAw5srtpec6ScyNLmOffl7IT6oGlTPhulSnpvXMNth3i
- iim9az5cvQDoQoVLQ0Nj3IQPgIN12UaUapesQHpi5R/J5j0OZiDCRzb/WRQuu/V5IY1t
- xi2MoEZ85uHaD3zT/vUkDcnHwxM5jNkclfHwkkC65GKyG8GYwj1sCHlnlFhuVu/Eq0fa
- 8Y5OTeQeZkaTvq9wSr1F0pqjmX4QqvC1/15AUZUNdrSpLSfnxirNx/z8wagV91KkZ4/a
- KVYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754655634; x=1755260434;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3rzYVptOKE6RcZ0qvjvmsPnga1215NKTSv+ot9kbgm8=;
- b=Pj0tZ19YyV7b9Uf7OOzc2CrqWG/W/MT5rkNwvXBjUpPAsjE5U9iQrGuEIp7WK8Y/io
- rfb0E0RzJLbDsLcgm5WH1rO8GIBSUDXCBWKe46JtQ2ZNLyWWxIXLiHUMkhK1xtkj4wrg
- bLOx+nyAheYRl7EDYOvxuce2y1OIyRzfbgkCiJMzj5Bl7eJbcsUz7RiwhYrBd0TFISix
- 2dNVy7/obobCGpJ61M/86sLcyFX8Y3Yn2lTce6CxrBBWqthpGMlKS58ubc0U8mw0+Lyu
- jL5sAF2UdDj02VtDFtxCFeCYeLDqIGgzzcyaT4WtqVTEcTA56dQH5hItIOvlK4xI9cxf
- f2Fg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW1kE9f7q+MEq/r/xd3v+5tKQOJkfL+NZyR/w1NjFfCfegIthmWMfAySlH3/b/hg+0mRZFTWICQTKM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylqckxkGjJ+kF8Y1E3tHbqO3PntuL6iTaR2HHwPsmm5tLxmcIO
- 7x0SMGpFAhHIo9vXKbwj7OhAUApiZmaejsD2sHV+wWsMaWJ1wvPEtm/8/beG09oNZhIkh6nInIH
- +rcCZTCyQ09qY2bvN+g6MgwskPu/wQwgjHKsgBXU9
-X-Gm-Gg: ASbGncula7/inrFAANLpT74z6Tq5GlnI6OOYp9sPPiKGTLhzELQgyAePG/dq6BpEIT+
- cS12a/rYSUIICwCH7XgpoJ4FA92zNxaIvWn2iThPsvL6jZkUPFW6vOJ7Hb/j/9fhBXN8NBCdM/R
- mARWFvVFWKRMKBtuVf88lAG0rmLd3sb1bbWxAFKmn+DFz9PYOvO6Z5ilgzaFiZy8h1Ql1bG2iTS
- hk9ONGB
-X-Google-Smtp-Source: AGHT+IG4063AzftLr2nNg6LP2eisixxrOm1cn9iuvLVn3oLVwkWGVefZC3UWEn6Yr/d0q/zLPSnZ+hF/HN7uvjRhvSY=
-X-Received: by 2002:a50:9351:0:b0:615:60d2:c013 with SMTP id
- 4fb4d7f45d1cf-617e48ffd8cmr60281a12.3.1754655633629; Fri, 08 Aug 2025
- 05:20:33 -0700 (PDT)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC66410E1DA
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Aug 2025 12:55:29 +0000 (UTC)
+X-UUID: f1c3c70c745611f0b33aeb1e7f16c2b6-20250808
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=K7iyex7lMfUkETiMptOjGboRhBbfG+sCbpLEqjEMdiI=; 
+ b=m1WxlJVzzUa7BZ6NdckJueYmkGs9XfvvyK9Suydgu/eES+S6HdJmvZv5Y2SOKZ/0IB0KlPiFtcSyDL/GxFKtYRt5J9+NBZVUHgpwk1kTvK5v43eyV52qDdHvoJrHL59OWOoSXKKaUQ7ZN+1zsopgQVzrcsC6RADvBfzoB0Y/qis=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.3, REQID:c2247f3f-5d15-4f69-a740-08bd1a89e696, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:f1326cf, CLOUDID:d3e635ce-1ac4-40cd-97d9-e8f32bab97d5,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:-3,IP:
+ nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
+ ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f1c3c70c745611f0b33aeb1e7f16c2b6-20250808
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
+ mailgw02.mediatek.com (envelope-from <jay.liu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1935873791; Fri, 08 Aug 2025 20:55:22 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Fri, 8 Aug 2025 20:55:19 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Fri, 8 Aug 2025 20:55:18 +0800
+From: Jay Liu <jay.liu@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, Jay Liu <jay.liu@mediatek.com>
+Subject: [PATCH v3 0/6] porting pq compnent for MT8196
+Date: Fri, 8 Aug 2025 20:53:55 +0800
+Message-ID: <20250808125512.9788-1-jay.liu@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-References: <20250729193647.3410634-1-marievic@google.com>
- <20250729193647.3410634-2-marievic@google.com>
- <CA+GJov4BQ1mRa-JaHoML+gF7rk=XY=hCRL+Shag6Aj6VbUgUeg@mail.gmail.com>
-In-Reply-To: <CA+GJov4BQ1mRa-JaHoML+gF7rk=XY=hCRL+Shag6Aj6VbUgUeg@mail.gmail.com>
-From: Marie Zhussupova <marievic@google.com>
-Date: Fri, 8 Aug 2025 08:20:20 -0400
-X-Gm-Features: Ac12FXxk_i-p3y5IMbqA_cUeg1wd-aJHm01gFGsskeUDN6bJI53lY7PD-TwOzYw
-Message-ID: <CAAkQn5JNmbuv=nj3Z5hDQNE0sAzrRNE_rJXrZVN4EqUDikV9=Q@mail.gmail.com>
-Subject: Re: [PATCH 1/9] kunit: Add parent kunit for parameterized test context
-To: Rae Moar <rmoar@google.com>
-Cc: davidgow@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
- elver@google.com, dvyukov@google.com, lucas.demarchi@intel.com, 
- thomas.hellstrom@linux.intel.com, rodrigo.vivi@intel.com, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- kasan-dev@googlegroups.com, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,215 +81,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 5, 2025 at 11:17=E2=80=AFAM Rae Moar <rmoar@google.com> wrote:
->
-> On Tue, Jul 29, 2025 at 3:37=E2=80=AFPM Marie Zhussupova <marievic@google=
-.com> wrote:
-> >
-> > Currently, KUnit parameterized tests lack a mechanism
-> > to share resources across individual test invocations
-> > because the same `struct kunit` instance is reused for
-> > each test.
-> >
-> > This patch refactors kunit_run_tests() to provide each
-> > parameterized test with its own `struct kunit` instance.
-> > A new parent pointer is added to `struct kunit`, allowing
-> > individual parameterized tests to reference a shared
-> > parent kunit instance. Resources added to this parent
-> > will then be accessible to all individual parameter
-> > test executions.
-> >
-> > Signed-off-by: Marie Zhussupova <marievic@google.com>
->
-> Hello!
->
-> Thank you so much for sending out this series. I have wanted to see an
-> update of our parameterized test framework for a while. I have a few
-> comments below for this patch. But otherwise it is looking good.
->
-> Reviewed-by: Rae Moar <rmoar@google.com>
->
-> Thanks!
-> -Rae
->
-> > ---
-> >  include/kunit/test.h | 12 ++++++++++--
-> >  lib/kunit/test.c     | 32 +++++++++++++++++++-------------
-> >  2 files changed, 29 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/include/kunit/test.h b/include/kunit/test.h
-> > index 39c768f87dc9..a42d0c8cb985 100644
-> > --- a/include/kunit/test.h
-> > +++ b/include/kunit/test.h
-> > @@ -268,14 +268,22 @@ struct kunit_suite_set {
-> >   *
-> >   * @priv: for user to store arbitrary data. Commonly used to pass data
-> >   *       created in the init function (see &struct kunit_suite).
-> > + * @parent: for user to store data that they want to shared across
-> > + *         parameterized tests.
-> >   *
->
-> As David mentioned, I would also prefer that this provides a more
-> general description of the @parent field here. Although this is
-> currently only used for parameterized tests, it could have other use
-> cases in the future.
->
+Change in v3:
+- fix dt_binding_check error
+- remove Signed-off-by: 20220315152503 created <jay.liu@mediatek.com>
+- move fix ccorr issue patch out of this series.
 
-Will edit this in v2.
+This patch series id base on [1]
+[1] Add components to support PQ in display path for MT8196
+    - https://patchwork.kernel.org/project/linux-mediatek/list/?series=955361
 
-> >   * Used to store information about the current context under which the=
- test
-> >   * is running. Most of this data is private and should only be accesse=
-d
-> > - * indirectly via public functions; the one exception is @priv which c=
-an be
-> > - * used by the test writer to store arbitrary data.
-> > + * indirectly via public functions; the two exceptions are @priv and @=
-parent
-> > + * which can be used by the test writer to store arbitrary data or dat=
-a that is
-> > + * available to all parameter test executions, respectively.
->
-> In addition, I would prefer that the call out to @parent here is also
-> changed to a more general description of the @parent field. However,
-> feel free to also include the description of the use case for the
-> parameterized tests.
->
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-I will edit this in v2, as well.
+Jay Liu (6):
+  dt-bindings: display: mediatek: gamma: Add support for MT8196
+  dt-bindings: display: mediatek: dither: Add support for MT8196
+  dt-bindings: display: mediatek: ccorr: Add support for MT8196
+  dt-bindings: display: mediatek: disp-tdshp: Add support for MT8196
+  drm/mediatek: Support multiple CCORR component
+  drm/mediatek: Add TDSHP component support for MT8196
 
-> >   */
-> >  struct kunit {
-> >         void *priv;
-> > +       /*
-> > +        * Reference to the parent struct kunit for storing shared reso=
-urces
-> > +        * during parameterized testing.
-> > +        */
->
-> I am more 50/50 on changing this description. Could change it just to:
-> "Reference to the parent struct kunit for storing shared resources."
+ .../display/mediatek/mediatek,ccorr.yaml      |  1 +
+ .../display/mediatek/mediatek,disp-tdshp.yaml | 52 +++++++++++++++++++
+ .../display/mediatek/mediatek,dither.yaml     |  1 +
+ .../display/mediatek/mediatek,gamma.yaml      |  1 +
+ drivers/gpu/drm/mediatek/mtk_crtc.c           |  5 +-
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       | 52 ++++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h       |  8 +--
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |  6 ++-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  2 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 +
+ 10 files changed, 122 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,disp-tdshp.yaml
 
-Thank you for the suggestion! The description would sound good.
+-- 
+2.46.0
 
->
-> > +       struct kunit *parent;
-> >
-> >         /* private: internal use only. */
-> >         const char *name; /* Read only after initialization! */
-> > diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> > index f3c6b11f12b8..4d6a39eb2c80 100644
-> > --- a/lib/kunit/test.c
-> > +++ b/lib/kunit/test.c
-> > @@ -647,6 +647,7 @@ int kunit_run_tests(struct kunit_suite *suite)
-> >         struct kunit_case *test_case;
-> >         struct kunit_result_stats suite_stats =3D { 0 };
-> >         struct kunit_result_stats total_stats =3D { 0 };
-> > +       const void *curr_param;
-> >
-> >         /* Taint the kernel so we know we've run tests. */
-> >         add_taint(TAINT_TEST, LOCKDEP_STILL_OK);
-> > @@ -679,36 +680,39 @@ int kunit_run_tests(struct kunit_suite *suite)
-> >                 } else {
-> >                         /* Get initial param. */
-> >                         param_desc[0] =3D '\0';
-> > -                       test.param_value =3D test_case->generate_params=
-(NULL, param_desc);
-> > +                       /* TODO: Make generate_params try-catch */
-> > +                       curr_param =3D test_case->generate_params(NULL,=
- param_desc);
-> >                         test_case->status =3D KUNIT_SKIPPED;
-> >                         kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDEN=
-T KUNIT_SUBTEST_INDENT
-> >                                   "KTAP version 1\n");
-> >                         kunit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDEN=
-T KUNIT_SUBTEST_INDENT
-> >                                   "# Subtest: %s", test_case->name);
-> >
-> > -                       while (test.param_value) {
-> > -                               kunit_run_case_catch_errors(suite, test=
-_case, &test);
-> > +                       while (curr_param) {
-> > +                               struct kunit param_test =3D {
-> > +                                       .param_value =3D curr_param,
-> > +                                       .param_index =3D ++test.param_i=
-ndex,
-> > +                                       .parent =3D &test,
-> > +                               };
-> > +                               kunit_init_test(&param_test, test_case-=
->name, test_case->log);
-> > +                               kunit_run_case_catch_errors(suite, test=
-_case, &param_test);
-> >
-> >                                 if (param_desc[0] =3D=3D '\0') {
-> >                                         snprintf(param_desc, sizeof(par=
-am_desc),
-> >                                                  "param-%d", test.param=
-_index);
->
-> This probably doesn't matter too much either way but should this be
-> param_test.param_index instead? This would cover the case where the
-> param_index is changed during the test run even though it shouldn't.
->
-
-Thank you for catching this!
-
-> >                                 }
-> >
-> > -                               kunit_print_ok_not_ok(&test, KUNIT_LEVE=
-L_CASE_PARAM,
-> > -                                                     test.status,
-> > -                                                     test.param_index =
-+ 1,
-> > +                               kunit_print_ok_not_ok(&param_test, KUNI=
-T_LEVEL_CASE_PARAM,
-> > +                                                     param_test.status=
-,
-> > +                                                     param_test.param_=
-index,
-> >                                                       param_desc,
-> > -                                                     test.status_comme=
-nt);
-> > +                                                     param_test.status=
-_comment);
-> >
-> > -                               kunit_update_stats(&param_stats, test.s=
-tatus);
-> > +                               kunit_update_stats(&param_stats, param_=
-test.status);
-> >
-> >                                 /* Get next param. */
-> >                                 param_desc[0] =3D '\0';
-> > -                               test.param_value =3D test_case->generat=
-e_params(test.param_value, param_desc);
-> > -                               test.param_index++;
-> > -                               test.status =3D KUNIT_SUCCESS;
-> > -                               test.status_comment[0] =3D '\0';
-> > -                               test.priv =3D NULL;
-> > +                               curr_param =3D test_case->generate_para=
-ms(curr_param, param_desc);
-> >                         }
-> >                 }
-> >
-> > @@ -723,6 +727,8 @@ int kunit_run_tests(struct kunit_suite *suite)
-> >
-> >                 kunit_update_stats(&suite_stats, test_case->status);
-> >                 kunit_accumulate_stats(&total_stats, param_stats);
-> > +               /* TODO: Put this kunit_cleanup into a try-catch. */
-> > +               kunit_cleanup(&test);
->
-> I might be missing something here but why not do this cleanup before
-> the printing stage and only if the test was a parent param test?
->
-
-Thank you for catching this too, it should be only for the parent param tes=
-t.
-
->
->
-> >         }
-> >
-> >         if (suite->suite_exit)
-> > --
-> > 2.50.1.552.g942d659e1b-goog
-> >
