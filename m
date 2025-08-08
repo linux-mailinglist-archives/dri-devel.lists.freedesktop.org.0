@@ -2,94 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE367B1E380
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Aug 2025 09:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B57B20011
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 09:13:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A8E10E4D9;
-	Fri,  8 Aug 2025 07:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE3110E378;
+	Mon, 11 Aug 2025 07:12:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.b="eDTuwjDp";
-	dkim=permerror (0-bit key) header.d=xenosoft.de header.i=@xenosoft.de header.b="4r7JARm8";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y/CInVcK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [81.169.146.166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0649310E4D9;
- Fri,  8 Aug 2025 07:36:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1754638579; cv=none;
- d=strato.com; s=strato-dkim-0002;
- b=lNFGPDPDPyWlkENtmbBcYkUImtRUUkhRK2lJV73EnS7yQNJ6/C4XDrDbnmf3et8XDv
- VqHUYmrDmpw7YZ5hAwLIrPdgjI60Os0O/FEJgBfN0FQKYY2X4Xplh18b6pwvvF9MFg72
- eENx5CK4Cal5T+Moni8bP2R+QG8OpPcxXnz0hBKN/VW1YkZwhIoBiqKdsMrDwxWR6v65
- 7+1PbP4vsxao9aFvRii4yoM8WTLgC7XRXrFtE53rD3L7IjjW6ThSLIOPjroy+jyu/dGp
- u2XN2/yMeSkfC73WsQaQhZ1DR20UFKO2DVLjdYSHHHVTG4TCzzj96ks1ZIjkrb3lKTUn
- MGkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1754638579;
- s=strato-dkim-0002; d=strato.com;
- h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
- From:Subject:Sender;
- bh=hEibWoeKfJI5icTt/pHJWWZJzdwlXwFgqSZtoHw9OSA=;
- b=SsYw6tz+ebCEhxv9XYJ0i9lQId1YYk7qKKWosq9ZUc216aZQVSCpze9Tmo7WU6yW/O
- xdwqYtpcSyqD5S/Onwj1w2rZWxINq8jJzFu+MWmdbSyN6kBhh0UgwEowsw+JSrr9ax8N
- 2lFK9knE44UCpUwW+GvSsRIS7IC278Sqgl/+wAV0SyqQCpXAEgIzvZHJKK0mvisBhaNJ
- 8GvEU1EtGImlEGDZO4Z959uH0nPfQoiMmqo/AqMhlJn5Khj39/xfGUwsuN3HW3M4l0HS
- yto+0qbkAaEmB/M5bhMilKIzSxbm+EgEpvwEC4lbD+LkXYicdONxjo7lhlpXBvZsEvK4
- kk9w==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1754638579;
- s=strato-dkim-0002; d=xenosoft.de;
- h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
- From:Subject:Sender;
- bh=hEibWoeKfJI5icTt/pHJWWZJzdwlXwFgqSZtoHw9OSA=;
- b=eDTuwjDp1I2+vEC0dHNxIwj2UFtw7MYrGlbkfGwKBtsKS676wYO5ZiTARWgl+VVXJg
- yd2BXK9txMDbQk7FhI2SkttKvTuoUh+j6PK/cJlAW/pLm28feZLXueBKzZRivStNvsnZ
- 3pKCk5P3GuqJewfDun/bs8tW9TgXOcLQBfJSsg2CSHJegSRccE6Nt2JfcPRoIgO/U2NM
- ZyYCV9M4bVl42wEe2k7mv5dH8tvpEViJgeHZE5mVhWthU2ugmhiiQ+KX6KoNIFkYpKeD
- bDMnGcfrRVGuvz96+eRM9l7cLlTZk/q+Nz0GlXe9kFH8nLJLgO/M9ibHnOIaW5ACFahZ
- 5tSw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1754638579;
- s=strato-dkim-0003; d=xenosoft.de;
- h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
- From:Subject:Sender;
- bh=hEibWoeKfJI5icTt/pHJWWZJzdwlXwFgqSZtoHw9OSA=;
- b=4r7JARm8pW8v67SeR9uuTEeKoERBacRf2PFvge3VdfmH4q6QOXihdcTJGyRwJDzkj0
- mCVOO+j6zTzlb0zWo9Dw==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7V7X5m2s3nHCn41v9Nkb0mWmpM67xZiJcLlItnQ0v4="
-Received: from smtpclient.apple by smtp.strato.de (RZmta 52.1.2 AUTH)
- with ESMTPSA id e6066c1787aI5lK
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Fri, 8 Aug 2025 09:36:18 +0200 (CEST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-Mime-Version: 1.0 (1.0)
-Subject: radeon_fbdev_river_fbdev: failed to initialize framebuffer and setup
- emulation
-Date: Fri, 8 Aug 2025 09:36:07 +0200
-Message-Id: <EBCB1171-0CF8-4B7A-97C9-0E7816EBA6B5@xenosoft.de>
-References: <69bac1ee-4fea-4225-b222-d7f274a8ea3c@amd.com>
-Cc: mad skateman <madskateman@gmail.com>,
- Alex Deucher <alexdeucher@gmail.com>, ville.syrjala@linux.intel.com,
- Jeff Johnson <quic_jjohnson@quicinc.com>,
- Darren Stevens <darren@stevens-zone.net>, hypexed@yahoo.com.au,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Christian Zigotzky <info@xenosoft.de>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>, Wu Hoi Pok <wuhoipok@gmail.com>,
- amd-gfx@lists.freedesktop.org,
- Alexander Deucher <Alexander.Deucher@amd.com>,
- "R.T.Dickinson" <rtd2@xtra.co.nz>, bhelgaas@google.com,
- benato.denis96@gmail.com, Yijun_Shen@dell.com,
- David Perry <David.Perry@amd.com>, rafael@kernel.org,
- dri-devel@lists.freedesktop.org
-In-Reply-To: <69bac1ee-4fea-4225-b222-d7f274a8ea3c@amd.com>
-To: Mario Limonciello <Mario.Limonciello@amd.com>
-X-Mailer: iPhone Mail (22G86)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9688210E4DA;
+ Fri,  8 Aug 2025 07:39:27 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-2402774851fso16811945ad.1; 
+ Fri, 08 Aug 2025 00:39:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1754638767; x=1755243567; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yO1YpKtKP+ptfoFXdPV58S+ud0mO9FZrS4sipO+FnaU=;
+ b=Y/CInVcKECFDXWA4Wf8aF/bPeT9QICxHmEEcZrOUirHUcNjpklJdYZBQQH+B3aFmtT
+ BHxs+huOoBRehcPhAoeX0RDOJNXVhMO9UgsRFIgmvYHSOwecWm+6u3ldmo56oxes3odv
+ i+NWG/SfGbbtkQKqS+glQBCOtBbDkv3e7HmlLUX4OSCa+KXksfK1TSEjMIP1h94E/+RH
+ Q0GpSdMPjwZUOeD8wVIOp5+q+r7GrUg49lK7IAGUqQ1l8/LJAk9U8GycbG2iHCzmmHDX
+ ad0Q+Kf/BB+iO5cD07rayzEtu9DeoE2iOab51aRQ4x+qUUqSy/OZNMVFPVrQiC4uFEo5
+ JiMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754638767; x=1755243567;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yO1YpKtKP+ptfoFXdPV58S+ud0mO9FZrS4sipO+FnaU=;
+ b=KmAtw1e0DvTjh3lFMxs1sTRnQUxc6PdF5cMZD26EkmCDNrIV9g9TyRZNMdk92iEllx
+ OrGy6L392dfXK7l8djEBB3APMjz4lEBGEs1A+GYItlALrakm3bo3IVHbIau/AmsR/YaU
+ A8u0DxMk/73/E/6MfmB/mNCOh8eL8HJ0pxlhkeDinGHC5QbsScj8bagKbCUiphQtzvOr
+ vkdORhdSsthJ9rixNACY5Bq3x+T1cRri3sKGsks85nUYUElcQ3S27Va3zc3xVrJTE59K
+ 1ElbIruHesE1dHxhakdDHT9i1St5SOgfHgPq7a8dw1+PQcG8zNFakXcYS2H8UpiNjbBj
+ Wbug==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWsTFC3P990fZ7ootDjfY0hL3sd8WVgcMqJTuF2JYPGMqgRP1uWceSub9xu6hOI+XOrbJjgPVb3rOM=@lists.freedesktop.org,
+ AJvYcCWvjIS4IdAucMt/bzGleKrJuqVrvoVxaO3Wkor5erofpZnUmoGW6Rh1DIlXHZrXMXmiDzhQ0yf3Zw==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3rv/zRgPk2UIazDe8IpYHVbTsRkVCttioCAckfvxGL+s8V5IH
+ IyUwxpVPAy4vKiF2QDj5tx9UBWJtaUZZ8yFa+IjTj60INag3X4pN6G5A
+X-Gm-Gg: ASbGncvbcU74Nh2xyxPNOi/Ad0iRGYEYR6r/xBmPssCW77BLMu8MVVQ+dBIgkJuSV/G
+ kTyKGl/EBuqoTCv48YREIqy6fNF0K+Li/g5OnlymOr8o3SKzxvRG7dqZrJT0QMo1vpieMf+mul6
+ 4oiK9VHAwDdK4a++dknoEp26edBu/dwP+dEdmSkLdAFZCrKt3RGwxR0nKDMiNoiQ48uYcREqWId
+ IZ9Mk+DzkmiOj6uwK6lHAei7Sbe4RtOr85MUxggEUlsVFgwDzYBeEm8R0wO7R2YoJufTS5+WC+w
+ +ZfKDB8IzhcE+zDVpWH248H1pGo4hhzI0XlhwhD4G3saG/zwvhZ73OSHWegJ7DwIMyzMxqXfD33
+ tQmmPjrd6tLAhyBjaI4QGByY18A==
+X-Google-Smtp-Source: AGHT+IHJAphSCGcCrKjr0TL4KujAuKvrfgHh/ezbsFmtY7IQENr8gP6eoXWCL6JC+pybzPRmoIEHjA==
+X-Received: by 2002:a17:903:40d1:b0:240:1831:eeeb with SMTP id
+ d9443c01a7336-242c22c59bemr31998535ad.40.1754638766916; 
+ Fri, 08 Aug 2025 00:39:26 -0700 (PDT)
+Received: from archlinux ([2409:40d6:1b:7e6e:e637:1b70:a72e:cd3d])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2426dec66desm121202935ad.54.2025.08.08.00.39.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Aug 2025 00:39:26 -0700 (PDT)
+From: Madhur Kumar <madhurkumar004@gmail.com>
+To: lyude@redhat.com
+Cc: dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ Madhur Kumar <madhurkumar004@gmail.com>
+Subject: [PATCH] drm/nouveau: fix typos in comments
+Date: Fri,  8 Aug 2025 13:08:40 +0530
+Message-ID: <20250808073840.376764-1-madhurkumar004@gmail.com>
+X-Mailer: git-send-email 2.50.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 11 Aug 2025 07:12:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,54 +90,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fixed three spelling mistakes in nouveau_exec.c comments:
+ - alloctor -> allocator
+ - exectued -> executed
+ - depent -> depend
 
-On 07 August 2025 at 04:21 pm, Limonciello, Mario <Mario.Limonciello@amd.com=
-> wrote:
+No functional changes.
 
-Does applying
-https://github.com/torvalds/linux/commit/907a7a2e5bf40c6a359b2f6cc53d6fdca04=
-009e0
-help?
+Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_exec.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-- - -
-
-Hello Mario,
-
-Thanks a lot for your patch.
-
-I tested it today but unfortunately it doesn=E2=80=99t solve the issue with t=
-he Radeon framebuffer.
-
-I have created two kernels with and without the drm-next-2025-07-30 updates [=
-1] because of the issue with the Radeon graphics framebuffer device #15. [2]=
-
-
-Download and further information: https://github.com/chzigotzky/kernels/rele=
-ases/tag/v6.17.0-alpha5
-
-I have tested both kernels this week and I can definitely confirm, that the i=
-ssue is somewhere in the commit drm-next-2025-07-30 updates [1].
-
-The Radeon graphics framebuffer doesn't work with the kernel with the drm-ne=
-xt-2025-07-30 updates [1]. Without these updates, the framebuffer works.
-
-I bisected yesterday. [2]
-
-There are some other user reports:
-
-- https://forum.hyperion-entertainment.com/viewtopic.php?p=3D60606#p60606
-- https://forum.hyperion-entertainment.com/viewtopic.php?p=3D60595#p60595
-
-They use other Radeon graphics chips.
-
-@All
-Please check the drm-next-2025-07-30 updates [1]
-
-Thanks,
-Christian
-
-[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/c=
-ommit/?id=3D260f6f4fda93c8485c8037865c941b42b9cba5d2
-
-[2] https://github.com/chzigotzky/kernels/issues/15=
+diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
+index 41b7c608c905..46294134f294 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_exec.c
++++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
+@@ -60,14 +60,14 @@
+  * virtual address in the GPU's VA space there is no guarantee that the actual
+  * mappings are created in the GPU's MMU. If the given memory is swapped out
+  * at the time the bind operation is executed the kernel will stash the mapping
+- * details into it's internal alloctor and create the actual MMU mappings once
++ * details into it's internal allocator and create the actual MMU mappings once
+  * the memory is swapped back in. While this is transparent for userspace, it is
+  * guaranteed that all the backing memory is swapped back in and all the memory
+  * mappings, as requested by userspace previously, are actually mapped once the
+  * DRM_NOUVEAU_EXEC ioctl is called to submit an exec job.
+  *
+  * A VM_BIND job can be executed either synchronously or asynchronously. If
+- * exectued asynchronously, userspace may provide a list of syncobjs this job
++ * executed asynchronously, userspace may provide a list of syncobjs this job
+  * will wait for and/or a list of syncobj the kernel will signal once the
+  * VM_BIND job finished execution. If executed synchronously the ioctl will
+  * block until the bind job is finished. For synchronous jobs the kernel will
+@@ -82,7 +82,7 @@
+  * Since VM_BIND jobs update the GPU's VA space on job submit, EXEC jobs do have
+  * an up to date view of the VA space. However, the actual mappings might still
+  * be pending. Hence, EXEC jobs require to have the particular fences - of
+- * the corresponding VM_BIND jobs they depent on - attached to them.
++ * the corresponding VM_BIND jobs they depend on - attached to them.
+  */
+ 
+ static int
+-- 
+2.50.1
 
