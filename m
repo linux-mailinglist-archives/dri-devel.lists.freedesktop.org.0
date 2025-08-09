@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C546B1F38C
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 11:16:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F27B1F38F
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 11:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB97B10E2A1;
-	Sat,  9 Aug 2025 09:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5402910E2B9;
+	Sat,  9 Aug 2025 09:16:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HETUexZq";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="C0OjB3f7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE6A10E2B4
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 09:16:29 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5793ULhb003012
- for <dri-devel@lists.freedesktop.org>; Sat, 9 Aug 2025 09:16:28 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1044310E2B9
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 09:16:34 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5793UGT1009156
+ for <dri-devel@lists.freedesktop.org>; Sat, 9 Aug 2025 09:16:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- cxfuy14u1nD4xI/i3c1nKgU2lIEUsDht3WPVHTU7Mno=; b=HETUexZqTVdDOGRP
- RWasJYih7V6A+xvow361DxvLJY+SHqeJbak02pkjsA+kJQtjdMd/18Vgb9uIY4Eb
- TM2viu6jTQEBxrNvN43BLhzGYkq814eQ28TKkQpwhsQvEY2X9M7zw5b1kAqPRWez
- HqNeh+Nd1/8ZSG0EMyHNVNWNV4B7IeGww0yVR4u+VKsfQcg+J7tmEeSaGnPyn2ZY
- NyO7WfeAy9v0eYEA6rI+6QijwHiemy7vPKJFco94VLx2rN93ZffGF6z5Z4x93GKd
- ecNsesXKjUHtln0854kKQyiEfyvLVRuSUh7yV7S4Fd76x+A+tGjiEAXWIfX2A4sE
- 2cXlLA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dwb70fp6-1
+ wukwq66wPKvNOpEVoTlqCM/dX5GluHetZv+gB4FYahg=; b=C0OjB3f706CYlkxv
+ cwXbx7kRj/bM0XIwbNTToqwZRPWZhWTPCp+3Mah37qeICbPpTy0U8ZmJSQ+ZCifg
+ zNiy7YCbzrDIGBtjGhiqzUXZgKNgQebivI4RKE2jPqS3FHcgzOfyhgGSnaJFxybY
+ 0pBp0XXUwlVL7zqPwFXnZdf+m49P7ybBGLOevma9W8oN4V/DELGlwWuPuYioFcqV
+ sbNyj1cWVOSrsCBF9dNzhoKByaKTBdd6PgfN3EsrqwW7yOe6BU8LC+YhVyzs3TdV
+ 4NkqrcW5RWsB7TazjODnvaACEtF2QcDiQRjhiYuMZZEVTJ2anoH2oPlWZ8ges7jn
+ h/xZbA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dupmgkds-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Aug 2025 09:16:28 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b08431923dso67865281cf.0
- for <dri-devel@lists.freedesktop.org>; Sat, 09 Aug 2025 02:16:28 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Aug 2025 09:16:34 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7e7ffe84278so576084485a.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Aug 2025 02:16:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754730987; x=1755335787;
+ d=1e100.net; s=20230601; t=1754730990; x=1755335790;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cxfuy14u1nD4xI/i3c1nKgU2lIEUsDht3WPVHTU7Mno=;
- b=eo/P/jM6jBcHFIWxysUBf2IhrKJ0CzPNAm68G2jeuoojQHEyGoj0oZm8nel027iG9N
- z2DFDQLhuualZu/bvhllu7z7xaO9n5Cq97aPRmHye8hXzo6+a+04Xw6OrbNB9404pra2
- 8Vm2ixo/z/wCCkvdmnAiTODJS7VTqDH9EC5/TfJYYp4aQAkYywjaMR7h5Ceu9PYyITmr
- sUbmvbSQYtt32GSQrsJ49ApdB6l7Wm33BzuHP+La0rBCjEwzqrtxgRq2BbEocp8Og6J7
- tk3OC4d62EougXrxo/hZWwp+Bvr21bOH9agnPE/VfyjeEYs068u+R1B6JnSOa72z7q0g
- CFtg==
+ bh=wukwq66wPKvNOpEVoTlqCM/dX5GluHetZv+gB4FYahg=;
+ b=WLrNcCcJKWSO2M51daLZNnWDN2cVgysLHgDEmqCBOOzRos4drNp1Bhq75yWsEwbIho
+ N8AeriBMFYHfcWfHg20Q+nqkNaqmjnT8UQ/Azk3Le2fuSXQKm8C63rutzZpDSUAdrmJm
+ Tg+FDxvf5WQt2OTz5mq0JZLQyXByaYcx7SG/mSMeAYb8IiJ2Gyg/4tj4xihLIWwakLGN
+ aikz0/dIq3QpsVru1KtFer/dpcbM4M01WND9mLonwMZD2ZUQOxGXnTUrRwrcbwcvdYum
+ z73OwMhNyihVuDqFdgjucWuxVhd9oLWDqqjs0vh2VV5wuFL5rL4iYk7ApW/Bsj6Dgf0F
+ W5cw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVoUBgugGadpaL570gHJeS1jNmZTJg30W8clJZGNcjvpa5TM26dEsroL05BJjB3Q03RKeud91phKkM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz9cMre5w9mU05fIQx3PgCPT/xRnkU4smZ9vrV0/PL/SKAH2aK7
- o5MTQnXZG4o77PDYl+cp5ndzsbF0uEViGG2dASGDnNuPUEz6g95de5d/7q4Ep93kLs3ZuGIgj9l
- rP0h5o8XgGgyFCCti6CmAz/Orb1IZjUrXuxFCRXWvl7svtJqtI+AFPkP+SW8ST8jmBTdSNLw=
-X-Gm-Gg: ASbGncuEYiV8KKZX3NM9X8UfMGa59M7ObIdmgMzmT4CY9lBXWZgbeJB0WzcTydLM1zx
- zcpOYoR7owD+8IyaDPW86fTqLCc3B2dBgqZwjgfLkqLJlmgZAtBDOYf9+vglvSB8oBE6W3qXCs9
- MJdJJ2CsKKKC8bzt7hTW9fNPjFooDl7a6EHvDyrFT1yPlbQqaENXhvrFrGGZk4YF7CpkiTogEaI
- RXqqAPTEW17FeCQEN2ri8ImTXtnIQNOpg9Eu6ZqQgmdpM4T4nj4y0U2azYSsOi7c+muxKQmBMNu
- ZZMuhG/lkbjcDLhHibKL9Q2lwK+Pi4qsvD6o0C9pFJV8F/qYEaMFfbxhB/kIx7j74x7yOzGmLaz
- 4w5Cot10hyjX9umK3p+Tsk6CQYl8g7FU+0jzHbn2nFvp4+WewB8Mp
-X-Received: by 2002:ac8:570f:0:b0:4b0:6c7c:a955 with SMTP id
- d75a77b69052e-4b0aedc899emr75036121cf.35.1754730987334; 
- Sat, 09 Aug 2025 02:16:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFZvWtm4YlKcaL23W+nUW97ef++KL1gDtBq38oi2j2iC9f5MjRqW8FMjd3aynm+3WxWfkZZ6w==
-X-Received: by 2002:ac8:570f:0:b0:4b0:6c7c:a955 with SMTP id
- d75a77b69052e-4b0aedc899emr75035961cf.35.1754730986918; 
- Sat, 09 Aug 2025 02:16:26 -0700 (PDT)
+ AJvYcCXp0RWYWgFwRPBn1OZmApPBPMil1w29OUgTN2c0YlkZY9MmSi+YnkW/4u7bn6Nx0j7Tl8p+Gmo33f8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywxq1cx0v3tz2SbWflGpHZccoyNi67EaICd9exaDEoEA1QhlH7+
+ MjRbkVToQ0SKe2AFjBSJFC6Leuzgm72Zhm0X16ARZovqZjXATo3YICqdWWzIuLiVEC+KqwzRyYP
+ 4jy0iuCR5jhVcpU3IEg+xpX+l/VFN124NaDT1kFEvl99Zoy9dKejdhK6jsIy9cHVPMGp7hPk=
+X-Gm-Gg: ASbGncuhScmxE2rxa7N2xw2GK0W9lzeH0VyWCBRbby8fp8xKnqrRcR5gbnzcz2QKhbX
+ 2Mg5p+fOFUmPI8DQ5mig90pbXJf9ZYD7ryaA7cTcIMjbKeV54dY+g9GWywtlfhvpCLal5+ABhHn
+ 6TcgsaDAdWzu1WuaHFbTS6b+elfJNZUGzTFbkd/1DHUAXAmmzf7Z8GDTLJPB4kopNZAm6QLAxha
+ PDvE5it5roA3F+ak7xa3eWeyk2Zy1ST8QVft8/tZg9I/s0H7pQLIAdO2HHFe64BikdJ7xFLibFk
+ 0Ycvpqo6QO042Gtu+nnTvnHVXnwcfmR1oKHbH2VBdrzKcfAMBOrLOWVclBqfKo7avCcsCxyoydC
+ BEGYFs8ynwzkFdwurN9Ue9plNofjxNglHkm+j4uLjRN8FaiTleMOZ
+X-Received: by 2002:a05:622a:2d6:b0:4ab:7cc8:1552 with SMTP id
+ d75a77b69052e-4b0aedd7d11mr84492441cf.39.1754730990067; 
+ Sat, 09 Aug 2025 02:16:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFPjyRAUyTPcM8WjrcEB+3Rkbk5GGRbERk2o3qm81l1UEMInYTDTY07fgMwvBEs7bG4cUrOlw==
+X-Received: by 2002:a05:622a:2d6:b0:4ab:7cc8:1552 with SMTP id
+ d75a77b69052e-4b0aedd7d11mr84492021cf.39.1754730989488; 
+ Sat, 09 Aug 2025 02:16:29 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55b8898beb4sm3361989e87.30.2025.08.09.02.16.25
+ 2adb3069b0e04-55b8898beb4sm3361989e87.30.2025.08.09.02.16.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 09 Aug 2025 02:16:25 -0700 (PDT)
+ Sat, 09 Aug 2025 02:16:28 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sat, 09 Aug 2025 12:16:16 +0300
-Subject: [PATCH v5 2/6] dt-bindings: display/msm: qcom,x1e80100-mdss:
- correct DP addresses
+Date: Sat, 09 Aug 2025 12:16:17 +0300
+Subject: [PATCH v5 3/6] dt-bindings: display/msm: dp-controller: add X1E80100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250809-dp_mst_bindings-v5-2-b185fe574f38@oss.qualcomm.com>
+Message-Id: <20250809-dp_mst_bindings-v5-3-b185fe574f38@oss.qualcomm.com>
 References: <20250809-dp_mst_bindings-v5-0-b185fe574f38@oss.qualcomm.com>
 In-Reply-To: <20250809-dp_mst_bindings-v5-0-b185fe574f38@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -105,40 +104,39 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1755;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1280;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=NXtQ3bomvI5JzHf8G2204y7/eJt5cmkeL6NKDMpr9gg=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBolxHiy8bk2eyMWBCLg7kj5oWCwhIy6ZQzsXJ5v
- Fg6f80aQbGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaJcR4gAKCRCLPIo+Aiko
- 1a9RCACZtDdNaFddD3qCGcB/weJbCYH+yRFlmWQ7lGHxAxSSQjfDYujPMeEaA4yIbucYI0Y4Oup
- NuNyAcq9AMWwDBUYJRiY6KKLIUTrd5tlAT9LV7qF+jAUot8QnbFw8sT3XTJFmaiNx0luXWSVfcj
- tF0NCenZp1Mr3dYPKq7kmLPkDSJb5UJItb11+ZKvjP5ibrZkOUQxKiiUpd7YUyk8vGTQiufx932
- SWyQrYNKRXzcas23G902tyZ5HlLxaM1+CJEWGOake5tBi/fbHlL/z+bl5roh/U3XeP3Fo+ufB/K
- uh9QGEy32Ll4xc1qcDI7fJGvkcynbeIW3T+iKj54CGRaUVh6
+ bh=1DHFOJ/5Vedl1A10IE8+ZyGBBk+aXq5TcrqsRnBV7aw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBolxHiSpd85CuK/DvwuBUFFI5kVBcK7LTK068hP
+ V/tFn2s5oiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaJcR4gAKCRCLPIo+Aiko
+ 1cfBB/92IEVyNDnG5Q7zSljS6tiy2BKiQ6l6UmbPq1QGjtSFEUPS3PRb/NKZx4qSoMzUL0J9kVd
+ aP4GObjTYqgE348Bv/hT0KOnue04WmqSQDXmBA+829EGsW3rVf07K0ByxGCYQb/mamYWPOrliUZ
+ pDlNty8T8N7/RNEGT1QMs0X0+H8YNhg/HAejEx+bOmCL/g4jJEb+XR37jqM/lPgP5Md7xkFAbpF
+ hnC1JpyGG6DW5t51jZ0D9+iUdaWaPrX1UzClqtNu6vo7MbZE1pHC3OMUZvOd84u8Lsc+t5AaE52
+ Jx9Vnjbo/0u5yEo55L/1D4w9AW6CdjXwOgzgWiyWhmEp3Fg/
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Authority-Analysis: v=2.4 cv=K6oiHzWI c=1 sm=1 tr=0 ts=689711ec cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=fvGZ3mk3BhhUN7shqj8A:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: 9wITMc6Uljx12aYtZruqmwE0SVRcesDM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAxMyBTYWx0ZWRfX18Utdl0Su/Z6
- dLsg2KJV+7iWLzsMbohUde/5EmIIcXQ3g0WqeNiXQgQdhJXR9qMugzf+HmZL2cdjY/1lfIQ/HiB
- PUCp4DseEBggUpT35nt0w5zy52hckGkc+m28XZs8C/6JxNjw8NtYP+PQdS1VyfIIv2BDW4/crfU
- HOXH9mv+iag5ibItvPiG+IiK4VgLrMZ6xlbV/1Cy4QHzbQVb0P+NIU00us74YlFHKwFEaSZY9ra
- Dj6OM27D3T15nqZzs4AaL/sXWPwsp6f82ygnNYxANyMxSxfsceMHipZK9aiHcpoc0AU6CHutObX
- JnN2dvWDEwBrflgMa9sTa/MNXAKxcQi8kU6Ok3sSoovj0KPb6Y3jqUBal/DMzMwIfeDL+F9eeyU
- fIg59YMc
-X-Proofpoint-ORIG-GUID: 9wITMc6Uljx12aYtZruqmwE0SVRcesDM
+X-Authority-Analysis: v=2.4 cv=bY5rUPPB c=1 sm=1 tr=0 ts=689711f2 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=LXTjkAqqvG_e-hvHT3MA:9
+ a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: Ec84PsJdiJ9HRlIsNQdYzwjDJBo9EExT
+X-Proofpoint-ORIG-GUID: Ec84PsJdiJ9HRlIsNQdYzwjDJBo9EExT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAwMCBTYWx0ZWRfX/8uC/fb4zfh/
+ kI7LJbUCzcSbwrzKMb2WOYPp3SndiLDjwLukFbC1sfdk855hbkNhS7mv9pNP+WirIPfm2h7Z4xx
+ yjI+rED11VRoX+4rG2MFSN5hG0OZVWmz4QRPfg/tacfxIdWVGwdniPmM6slnzH/OwvLYylbpIfH
+ ZQ38EaCv9lbUPP2yppoSb3USI8DPju+0fwyVXK+uRDXx5bT586bejDs6lGEdaltG4FdAM/m/53T
+ Lz5UX08vPLbvBCMeQivJ8Huy5h+Gt09ZgNwZTTEw/shJXZwqmeQmW/FGGBvH9ymntKMli83ceCY
+ 9bvc8Dc9gaMVgZI5qVRK173MgksxXiUKvl09Xc8gDHjnBXOZvOzoxG4XThVKK/Sj7eKze6bgebB
+ Kv6iAlhQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-09_03,2025-08-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 spamscore=0 phishscore=0 adultscore=0
- bulkscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508090013
+ suspectscore=0 malwarescore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ spamscore=0 clxscore=1015 phishscore=0 adultscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,41 +154,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Fix c&p error and correct example to use 32-bit addressing (as the rest
-of the example DT does) instead of 64-bit (as the platform does).  It
-got unnoticed before since DP controller node wasn't validated against
-DT schema because of the missing compatible.
+Add X1E80100 to the dp-controller bindings, it has DisplayPort
+controller similar to other platforms, but it uses its own compatible
+string.
 
-Fixes: 81de267367d4 ("dt-bindings: display/msm: Document MDSS on X1E80100")
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- .../devicetree/bindings/display/msm/qcom,x1e80100-mdss.yaml    | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.yaml
-index 3b01a0e473332c331be36f7983fb8012652a8412..e35230a864379c195600ff67820d6a39b6f73ef4 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,x1e80100-mdss.yaml
-@@ -170,11 +170,11 @@ examples:
- 
-         displayport-controller@ae90000 {
-             compatible = "qcom,x1e80100-dp";
--            reg = <0 0xae90000 0 0x200>,
--                  <0 0xae90200 0 0x200>,
--                  <0 0xae90400 0 0x600>,
--                  <0 0xae91000 0 0x400>,
--                  <0 0xae91400 0 0x400>;
-+            reg = <0xae90000 0x200>,
-+                  <0xae90200 0x200>,
-+                  <0xae90400 0x600>,
-+                  <0xae91000 0x400>,
-+                  <0xae91400 0x400>;
- 
-             interrupt-parent = <&mdss>;
-             interrupts = <12>;
+diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+index aed3bafa67e3c24d2a876acd29660378b367603a..55e37ec74591af0a1329598f6059475926fdd64e 100644
+--- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+@@ -29,6 +29,8 @@ properties:
+           - qcom,sdm845-dp
+           - qcom,sm8350-dp
+           - qcom,sm8650-dp
++          - qcom,x1e80100-dp
++
+       - items:
+           - enum:
+               - qcom,sar2130p-dp
+@@ -180,6 +182,7 @@ allOf:
+             contains:
+               enum:
+                 - qcom,sa8775p-dp
++                - qcom,x1e80100-dp
+       then:
+         oneOf:
+           - required:
 
 -- 
 2.39.5
