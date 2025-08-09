@@ -2,64 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43AB8B1F21E
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 06:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFDAB1F29D
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 08:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CF8F10E0F2;
-	Sat,  9 Aug 2025 04:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 705A910E063;
+	Sat,  9 Aug 2025 06:46:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kJcfcOEH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VmVEU8wo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63FBC10E0EE
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 04:45:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 713E45C2303
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 04:45:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AD96AC4CEF0
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 04:45:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754714701;
- bh=95BJv/06XQSuj5ZgeWBspotE8aN1RwN5vAMhcurxwY0=;
- h=From:To:Subject:Date:From;
- b=kJcfcOEH0ga0B2m1KTYVUz/Vz/yKbnwgSFk2JDFVAOAoTDz4pBgGUllz4bsSaNhDA
- geFOjbWmKw6xvw5j14eCxidTrXTjcwDKyhobxIjH8q0l7P38k/i1Fcx7DNZiX+39wf
- /FOO3vKQNhbZIoTZcrFrG5DnEJoF3ZSaiOs4ef57amUASXspg5dYICzvsabfIFXD7U
- 5Hz3xf2J48PAo0P4m2LAxYUgJvjyYP63a/flGheHYxbX6sJYsIkc5ZsgmVFSWFhOuq
- GQ3SffM6jt4DpFH2UWp6cxnBO9Xsuiyea6vgz9ptqD4LNz8XfEPDRHY2FyTSS+dBeZ
- Xt7EBkvxYPaRA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 9B3EFC433E1; Sat,  9 Aug 2025 04:45:01 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220428] New: UBSAN array-index-out-of-bounds warning in
- radeon_atombios.c on kernel 6.15.9 with AMD Radeon HD 6250
-Date: Sat, 09 Aug 2025 04:45:01 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: dutra.astro@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys bug_status bug_severity priority
- component assigned_to reporter cf_regression
-Message-ID: <bug-220428-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3ADD10E063
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 06:46:18 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5794m07R024268
+ for <dri-devel@lists.freedesktop.org>; Sat, 9 Aug 2025 06:46:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=XqIzyO03+Zog8XVeXGSU4+9P
+ xhsWU2JVSDy83gBx3+Y=; b=VmVEU8wozQFb73br1lONVGOPVLjL8QIsmsaKBUWr
+ UX55++1WzarJEEFxbE1+VxoS+FOJUoxyHKTX9CS/pbaNrBcfo3keJ/hL95DD7nHm
+ ZX0evIO1T5/C89z7BflaWGN+C0m5MNSuoBnlOZ9GGSyK0i9nW5Nra0dwKjyHuYD9
+ TKCkJ6rtiUiZtl/CZQ35iWMv/E1PnPCDagpkkyfaI+rdudoT9zH3LdK1QjZ+jjxA
+ Ou7y3XptnFeLALCxWWnfnnW64IFRR5ODzY3qDH+q/2eysyaweCYQSxhk/0/7kiCW
+ epWcBZQzqQ28PKMPdA36oJUbV42vjpMyDiFDG2Aa3c+wQg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dym9g477-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Aug 2025 06:46:18 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b08d73cc8cso70545001cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Aug 2025 23:46:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754721977; x=1755326777;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XqIzyO03+Zog8XVeXGSU4+9PxhsWU2JVSDy83gBx3+Y=;
+ b=kiIFf5frA/YlaiU05LKHdncHFNCIVk0GCl0XN/K+Ec5Byxc79zZ+OjHPYJF7Rep3S6
+ 9BO3qnoZECTyAPDRyIkzJy30jvThJ8yDuauCLdkNDH7IaXNIEd2BwPIspG/8uUO/XhF6
+ v0KQXNLvsSy340/n2AltvyltD7rjaZX9+cVkvlPiBLY3L8TBUkdpye9z2tZeCVU/bTNL
+ 0cGbJrRSSSYRPmVwKCAMrfWIqMZX1quc14GchHIyBenpTS35LrV70eGeCc73ciNfKemL
+ g2bPgsyvNJgxMIoXr6zY7NqWIIkzoAWmQbvla74/umEltof847UcJigOK3kE+zu/oJE+
+ AYPQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWRnp/wy+smcibVexi04069MIB1pKBCx3ziyvuz/w67+9fHG/S2SFpnw/pIfjDoEkEIeE/JKPrp4s8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypPji6vaepFYSYrOMxla62CENHr657jYlXh6Sx5fhop2blkcBr
+ x47kqxxbntd2cn/kL+yefGuT/3hf5wtJr/pcjsI9ohjKFeYFCcp7JSMglcGwOrb4x50OC3s/Lk7
+ WyiBUeD9ALIDWENoNZxswi0VCXqRExKZ08+oLBjH0rXf9JwCQjnpO30qBA3T1ojnP0IN5x5s=
+X-Gm-Gg: ASbGncvCs67k3ioj8MJM9ikQUsxdSkvRjiCLANwAPx6lvslD7u4Q/RYKHcRpUVZHHCn
+ PACDSg+QrjTp07PER8WhgxIqQaRcb9R7pu9hYYxNN0DuV8VLUcpF2Jnb/LVZzjZylYY5UpDxTD0
+ AxqYwsBFTXLNij/7wcz584wZ3bt/ytPdeU+4A0ceIHUOGFvVzFAwxJjHeL+hd4Kyj5z6sX7kRjJ
+ YpY3uG28ECJyFN7FJzLJL2XgpieSmO5N83+YSwZvQwlwvpk1SJOglX9+pM4BrqhfwixhUs1Hh2C
+ Xl5A9U7RtmWVai1JqTPZEmDaPPnO9GBDg14I8eoyRIqEImhaby20bK645vNfeP9wgrTml8WvX9k
+ 29sOCasNGQli28m55b7nbXwO8nGDIr5WhrlrXcM4NmdfHmm1WxHiC
+X-Received: by 2002:a05:622a:1181:b0:4b0:7620:7351 with SMTP id
+ d75a77b69052e-4b0aed29dfemr82029891cf.13.1754721976625; 
+ Fri, 08 Aug 2025 23:46:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH7uzAueb/H2T7wTR91arcTcUMFSM/xMGIdUJ3vbQ8Trxnz26AgjAqlfb42BhcAP9WpwSKUYw==
+X-Received: by 2002:a05:622a:1181:b0:4b0:7620:7351 with SMTP id
+ d75a77b69052e-4b0aed29dfemr82029661cf.13.1754721976092; 
+ Fri, 08 Aug 2025 23:46:16 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-332388fb356sm31344371fa.61.2025.08.08.23.46.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Aug 2025 23:46:14 -0700 (PDT)
+Date: Sat, 9 Aug 2025 09:46:12 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Yongxing Mou <quic_yongmou@quicinc.com>
+Subject: Re: [PATCH v2 06/12] drm/msm/dp: Use drm_bridge_hpd_notify()
+Message-ID: <6ve3hpbcki7k2erktnaxkouyxxzeuii46hgeqscqrmurya2cld@e24gp6viluhd>
+References: <20250808-hpd-refactor-v2-0-7f4e1e741aa3@oss.qualcomm.com>
+ <20250808-hpd-refactor-v2-6-7f4e1e741aa3@oss.qualcomm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250808-hpd-refactor-v2-6-7f4e1e741aa3@oss.qualcomm.com>
+X-Proofpoint-GUID: IEZs54PedeWdD5xojvQOHNvIDQRdvtvG
+X-Proofpoint-ORIG-GUID: IEZs54PedeWdD5xojvQOHNvIDQRdvtvG
+X-Authority-Analysis: v=2.4 cv=YZ+95xRf c=1 sm=1 tr=0 ts=6896eeba cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=QNbhuYZ5RTNpGKTg7GoA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAzNiBTYWx0ZWRfX6UnFvbY3xGwu
+ UW12oZfD56atzculf6Yo/vJaDGpcS+o2r/OyPfAYI1yVfIbbCKsoU2g3/inIlAN2g5eYBe5elAI
+ e33LntCXupkUk5wljnW3QTzrsQkup7K+6YrqBM0daryotM4klxKL/kZ1zYy3ZXoqd5lluUNsh3K
+ X8nau0aQCla3OdaMlnbElKJ2GVVVWXThrMh3EyDBC4tAwHDeUmlM/HcITucdgGOBr0qGXjsxzMq
+ 2aFBmi84vKiu7QnfEo2PvHpL/dFH5V/iFu8rNVw6xt+Bogd/rnSf3YYKNMaTyq2VVmhBJu0BveP
+ /qsdkcFoJJ2mBAlzTpyt7IUouNMxrK/Tu2VmzaFFA1LwXVJxzVUf1f1njO4OqJCI0KUwHpacb7w
+ VZcgDcVB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-09_02,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508090036
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,106 +128,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220428
+On Fri, Aug 08, 2025 at 05:35:18PM -0700, Jessica Zhang wrote:
+> Call drm_bridge_hpd_notify() instead of drm_helper_hpd_irq_event(). This
+> way, we can directly call hpd_notify() via the bridge connector.
 
-            Bug ID: 220428
-           Summary: UBSAN array-index-out-of-bounds warning in
-                    radeon_atombios.c on kernel 6.15.9 with AMD Radeon HD
-                    6250
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 6.15.9
-          Hardware: AMD
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: dutra.astro@gmail.com
-        Regression: No
+I can't understand the sentence.
 
-[   17.138975] ------------[ cut here ]------------
-[   17.138980] UBSAN: array-index-out-of-bounds in
-drivers/gpu/drm/radeon/radeon_atombios.c:2720:34
-[   17.138991] index 16 is out of range for type 'UCHAR [*]'
-[   17.139004] CPU: 1 UID: 0 PID: 544 Comm: (udev-worker) Not tainted
-6.15.9-201.fc42.x86_64 #1 PREEMPT(lazy)=20
-[   17.139016] Hardware name: Acer Aspire 5250/JE50-BZ, BIOS V1.08 09/26/20=
-12
-[   17.139022] Call Trace:
-[   17.139031]  <TASK>
-[   17.139041]  dump_stack_lvl+0x5d/0x80
-[   17.139060]  ubsan_epilogue+0x5/0x2b
-[   17.139070]  __ubsan_handle_out_of_bounds.cold+0x54/0x59
-[   17.139086]  radeon_atombios_parse_power_table_6+0x3bc/0x3e0 [radeon]
-[   17.139581]  radeon_atombios_get_power_modes+0x220/0x240 [radeon]
-[   17.139977]  radeon_pm_init_dpm+0x77/0x240 [radeon]
-[   17.140428]  evergreen_init+0x154/0x2b0 [radeon]
-[   17.140885]  radeon_device_init+0x484/0xa60 [radeon]
-[   17.141275]  ? pci_find_capability+0x79/0xb0
-[   17.141288]  radeon_driver_load_kms+0xa6/0x230 [radeon]
-[   17.141681]  radeon_pci_probe+0xef/0x1b0 [radeon]
-[   17.142069]  local_pci_probe+0x42/0x90
-[   17.142081]  pci_call_probe+0x5b/0x190
-[   17.142090]  ? kernfs_create_link+0x61/0xb0
-[   17.142106]  pci_device_probe+0x95/0x140
-[   17.142117]  really_probe+0xde/0x340
-[   17.142128]  ? pm_runtime_barrier+0x55/0x90
-[   17.142141]  __driver_probe_device+0x78/0x140
-[   17.142152]  driver_probe_device+0x1f/0xa0
-[   17.142164]  ? __pfx___driver_attach+0x10/0x10
-[   17.142173]  __driver_attach+0xcb/0x1e0
-[   17.142185]  bus_for_each_dev+0x85/0xd0
-[   17.142197]  bus_add_driver+0x12f/0x210
-[   17.142209]  ? __pfx_radeon_module_init+0x10/0x10 [radeon]
-[   17.142604]  driver_register+0x75/0xe0
-[   17.142613]  ? radeon_register_atpx_handler+0xe/0x30 [radeon]
-[   17.143030]  do_one_initcall+0x5b/0x300
-[   17.143052]  do_init_module+0x84/0x260
-[   17.143064]  init_module_from_file+0x8a/0xe0
-[   17.143081]  idempotent_init_module+0x114/0x310
-[   17.143095]  __x64_sys_finit_module+0x67/0xc0
-[   17.143107]  do_syscall_64+0x7b/0x160
-[   17.143119]  ? syscall_exit_to_user_mode+0x10/0x210
-[   17.143141]  ? vfs_read+0x160/0x390
-[   17.143150]  ? vfs_read+0x160/0x390
-[   17.143163]  ? ksys_read+0x73/0xe0
-[   17.143172]  ? syscall_exit_to_user_mode+0x10/0x210
-[   17.143182]  ? do_syscall_64+0x87/0x160
-[   17.143195]  ? syscall_exit_to_user_mode+0x10/0x210
-[   17.143206]  ? do_syscall_64+0x87/0x160
-[   17.143214]  ? exc_page_fault+0x7e/0x1a0
-[   17.143224]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[   17.143235] RIP: 0033:0x7f924c636a4d
-[   17.143255] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 =
-89
-f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3=
-d 01
-f0 ff ff 73 01 c3 48 8b 0d 83 53 0f 00 f7 d8 64 89 01 48
-[   17.143263] RSP: 002b:00007ffcb7ab1498 EFLAGS: 00000246 ORIG_RAX:
-0000000000000139
-[   17.143274] RAX: ffffffffffffffda RBX: 00005643357c7350 RCX:
-00007f924c636a4d
-[   17.143280] RDX: 0000000000000004 RSI: 00007f924b0ec965 RDI:
-000000000000002b
-[   17.143285] RBP: 00007ffcb7ab1550 R08: 0000000000000000 R09:
-00007ffcb7ab1500
-[   17.143290] R10: 0000000000000000 R11: 0000000000000246 R12:
-0000000000020000
-[   17.143294] R13: 00005643357ca790 R14: 00007f924b0ec965 R15:
-0000000000000000
-[   17.143306]  </TASK>
-[   17.143470] ---[ end trace ]---
+Please start by describing the problem and why do you want to perform
+the change.
 
+> 
+> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 17 +++++------------
+>  drivers/gpu/drm/msm/dp/dp_display.h |  1 +
+>  drivers/gpu/drm/msm/dp/dp_drm.c     |  2 ++
+>  3 files changed, 8 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 55fe8c95657e..8779bcd1b27c 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -333,17 +333,6 @@ static const struct component_ops msm_dp_display_comp_ops = {
+>  	.unbind = msm_dp_display_unbind,
+>  };
+>  
+> -static void msm_dp_display_send_hpd_event(struct msm_dp *msm_dp_display)
+> -{
+> -	struct msm_dp_display_private *dp;
+> -	struct drm_connector *connector;
+> -
+> -	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
+> -
+> -	connector = dp->msm_dp_display.connector;
+> -	drm_helper_hpd_irq_event(connector->dev);
+> -}
+> -
+>  static int msm_dp_display_send_hpd_notification(struct msm_dp_display_private *dp,
+>  					    bool hpd)
+>  {
+> @@ -367,7 +356,11 @@ static int msm_dp_display_send_hpd_notification(struct msm_dp_display_private *d
+>  
+>  	drm_dbg_dp(dp->drm_dev, "type=%d hpd=%d\n",
+>  			dp->msm_dp_display.connector_type, hpd);
+> -	msm_dp_display_send_hpd_event(&dp->msm_dp_display);
+> +
+> +	drm_bridge_hpd_notify(dp->msm_dp_display.bridge,
+> +			      hpd ?
+> +			      connector_status_connected :
+> +			      connector_status_disconnected);
 
-Since this is a Kernel video driver problem, I am reporting here and not
-elsewhere.
+I'd really prefer that at the end drm_bridge_hpd_notify() is called
+directly without extra wrappers.
 
-This MAY be related to https://bugzilla.kernel.org/show_bug.cgi?id=3D218435
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+> index cc6e2cab36e9..60094061c102 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+> @@ -16,6 +16,7 @@ struct msm_dp {
+>  	struct platform_device *pdev;
+>  	struct drm_connector *connector;
+>  	struct drm_bridge *next_bridge;
+> +	struct drm_bridge *bridge;
+>  	bool link_ready;
+>  	bool audio_enabled;
+>  	bool power_on;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+> index e4622c85fb66..f935093c4df4 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> @@ -340,6 +340,8 @@ int msm_dp_bridge_init(struct msm_dp *msm_dp_display, struct drm_device *dev,
+>  		}
+>  	}
+>  
+> +	msm_dp_display->bridge = bridge;
+> +
+>  	return 0;
+>  }
+>  
+> 
+> -- 
+> 2.50.1
+> 
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+With best wishes
+Dmitry
