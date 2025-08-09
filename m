@@ -2,50 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D688CB1F4A3
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 14:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EDBB20014
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 09:13:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C688410E1A6;
-	Sat,  9 Aug 2025 12:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F277810E37A;
+	Mon, 11 Aug 2025 07:12:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s3vqifkD";
+	dkim=pass (2048-bit key; unprotected) header.d=listout.xyz header.i=@listout.xyz header.b="ALKSNHEQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D532110E1A6;
- Sat,  9 Aug 2025 12:46:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 277CC601EC;
- Sat,  9 Aug 2025 12:46:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60800C4CEE7;
- Sat,  9 Aug 2025 12:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754743576;
- bh=ZWlskfAzXt4gDmDhAxEJnCXerdHuinpi0MLZYhTIO7k=;
- h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
- b=s3vqifkDcot3TGo8BXhwTg2SsTGdKXmxHj4aEX/XIVERRZH2HcgR1G+muBe/R/lrl
- NE/fTDYMMGBsleLR7Q5KsL87/5pUVcUMyjlN3CpF+/ALRhiN8UxAc8wLZjMBzmJ+qn
- CySXOo1HD8jdd7W477yIR0CdWfwh7shq8ldSeH7oexgueHh6xFhQMiPszcNz45z/Xm
- b/YwIdLchxiuEsQKOS/wwRnDzWBUyUa5D2qVuIMnz9nmMtXC6FSHqId5YB1n0mD3Aj
- HGjluEGAbbCpKpwE9MsoRSUHS4eLCrr9tRGz5Ou+wpptax9hbJaELOujHH2axVCvf1
- lB8n8rFGaWplw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 09 Aug 2025 14:46:13 +0200
-Message-Id: <DBXWOL7C9IJO.9A7IOEWNQYG2@kernel.org>
-To: "Himal Prasad Ghimiray" <himal.prasad.ghimiray@intel.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v6 03/26] drm/gpuvm: Support flags in drm_gpuvm_map_req
-Cc: <intel-xe@lists.freedesktop.org>, "Matthew Brost"
- <matthew.brost@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, "Boris Brezillon"
- <bbrezillon@kernel.org>, "Caterina Shablia"
- <caterina.shablia@collabora.com>, <dri-devel@lists.freedesktop.org>
-References: <20250807164338.1832254-1-himal.prasad.ghimiray@intel.com>
- <20250807164338.1832254-4-himal.prasad.ghimiray@intel.com>
-In-Reply-To: <20250807164338.1832254-4-himal.prasad.ghimiray@intel.com>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90AB610E1DF
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 12:55:13 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bzgq22BtXz9syH;
+ Sat,  9 Aug 2025 14:55:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
+ t=1754744110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=q46Zx2RFVQHBDUuhL7yZ0QAx1YbsPYpQ8L8DATmnhcI=;
+ b=ALKSNHEQlDZis9Wy/+VxKB/1CWmp9tp2k0i6OZFJo95Lc968aLZtVzZAoMvbYtyr+XkWLD
+ 70iBS1kTgE9LXirQxFxczD/btGCm/D3LiWlz929MbasBMrIb397Ich4XVYzEWNgHhaS00G
+ WqlHJ8SkxD4DuYLn7Ylb84rMvm170YC6+wNkirdGcW8NudWDrUgROVLQljAWnTukFpwUR2
+ 0KnIEExrywbo5dgkUKAxk1Rp5LJHZJknE3VV31Q/n9ldLoH3O8wOK6YERtJY9mwiDYovce
+ 95YM6c0uLKwtEmft4E9XgXxmswNcRSItmugGXqOfarE5aFq8tWpRxmPkwDxFJg==
+From: Brahmajit Das <listout@listout.xyz>
+To: airlied@redhat.com, kraxel@redhat.com, dmitry.osipenko@collabora.com,
+ gurchetansingh@chromium.org, olvaffe@gmail.com, simona@ffwll.ch
+Cc: linux-next@vger.kernel.org, virtualization@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/virtio: use new debugfs device-centered functions
+Date: Sat,  9 Aug 2025 18:24:43 +0530
+Message-ID: <20250809125443.4011734-1-listout@listout.xyz>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 11 Aug 2025 07:12:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +58,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Aug 7, 2025 at 6:43 PM CEST, Himal Prasad Ghimiray wrote:
-> This change adds support for passing flags to drm_gpuvm_sm_map() and
-> sm_map_ops_create(), enabling future extensions that affect split/merge
-> logic in drm_gpuvm.
->
-> v2
-> - Move flag to drm_gpuvm_map_req
->
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Boris Brezillon <bbrezillon@kernel.org>
-> Cc: Caterina Shablia <caterina.shablia@collabora.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: <dri-devel@lists.freedesktop.org>
-> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-> ---
->  include/drm/drm_gpuvm.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> index cbb9b6519462..116f77abd570 100644
-> --- a/include/drm/drm_gpuvm.h
-> +++ b/include/drm/drm_gpuvm.h
-> @@ -1049,6 +1049,13 @@ struct drm_gpuva_ops {
->   */
->  #define drm_gpuva_next_op(op) list_next_entry(op, entry)
-> =20
-> +enum drm_gpuvm_sm_map_ops_flags {
+Replace the use of drm_debugfs_create_files() with the new
+drm_debugfs_add_files() function, which centers the debugfs files
+management on the drm_device instead of drm_minor.
 
-Please also add a doc-comment for the enum type itself, explaing where thos=
-e
-flags are used, etc.
+Signed-off-by: Brahmajit Das <listout@listout.xyz>
+---
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-> +	 /**
-> +	  * %DRM_GPUVM_SM_MAP_OPS_FLAG_NONE: DEFAULT sm_map ops
+diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+index 853dd9aa397e..b7c895fe5ddc 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
++++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
+@@ -94,7 +94,7 @@ virtio_gpu_debugfs_host_visible_mm(struct seq_file *m, void *data)
+ 	return 0;
+ }
+ 
+-static struct drm_info_list virtio_gpu_debugfs_list[] = {
++static struct drm_debugfs_info virtio_gpu_debugfs_list[] = {
+ 	{ "virtio-gpu-features", virtio_gpu_features },
+ 	{ "virtio-gpu-irq-fence", virtio_gpu_debugfs_irq_info, 0, NULL },
+ 	{ "virtio-gpu-host-visible-mm", virtio_gpu_debugfs_host_visible_mm },
+@@ -105,7 +105,6 @@ static struct drm_info_list virtio_gpu_debugfs_list[] = {
+ void
+ virtio_gpu_debugfs_init(struct drm_minor *minor)
+ {
+-	drm_debugfs_create_files(virtio_gpu_debugfs_list,
+-				 VIRTIO_GPU_DEBUGFS_ENTRIES,
+-				 minor->debugfs_root, minor);
++	drm_debugfs_add_files(minor->dev, virtio_gpu_debugfs_list,
++			      VIRTIO_GPU_DEBUGFS_ENTRIES);
+ }
+-- 
+2.50.1
 
-Shouldn't this be '@DRM_GPUVM_SM_MAP_OPS_FLAG_NONE:'?
-
-> +	  */
-> +	DRM_GPUVM_SM_MAP_OPS_FLAG_NONE =3D 0,
-> +};
