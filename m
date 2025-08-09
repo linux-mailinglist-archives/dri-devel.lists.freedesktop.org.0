@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA51BB1F207
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 06:08:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AB8B1F21E
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Aug 2025 06:45:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E74810E04F;
-	Sat,  9 Aug 2025 04:08:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CF8F10E0F2;
+	Sat,  9 Aug 2025 04:45:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X3ZuOBGq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kJcfcOEH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4333110E04F;
- Sat,  9 Aug 2025 04:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754712509; x=1786248509;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=nLTH66A7etc3VgPR6sxDdDU5RW3WL7uD7qW4F3WgYcw=;
- b=X3ZuOBGqT4meGsxTK9xxLqXvuzTxoJwPcXVlUp8zHzuEGHORQPzZZUHK
- Nu0zVg7cCPLW3jIayZCL2kbLNrMpqqMcZQFazpNbE2r3Z5+wK6ol+HwvG
- w4450s792DiegWjn7mG+LHN703eaIBtbHQx6iku6SMt9o0iYUijkKjPiS
- 6cithcsTlfYlWjTXGoSFErfbLFyeN4jx7H3N6wXsfyCPB/PJl4+U/tl83
- r2twF9SlCikkiIwrHKJ4zICRI/MTDK18YoaQWF+8qXXChRPS4a1Zj4wr6
- 9REm6IPl0J5Ogr3FVYMOtHIEu8na0Tjyy5Y+CDhciyDelNd7sk5oWh4sP Q==;
-X-CSE-ConnectionGUID: /Hw2aKbjRgupkN6eC96XIA==
-X-CSE-MsgGUID: xrV4Z2XRRuS3mELexcx7CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11515"; a="59667020"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="59667020"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2025 21:08:29 -0700
-X-CSE-ConnectionGUID: uQt3nQFORbap7DXQpkIIpQ==
-X-CSE-MsgGUID: qzaLRsITRb+s0C9xrv6OxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="164699862"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
- by orviesa010.jf.intel.com with ESMTP; 08 Aug 2025 21:08:24 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ukarv-0004Uy-0o;
- Sat, 09 Aug 2025 04:07:57 +0000
-Date: Sat, 9 Aug 2025 12:07:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, airlied@gmail.com,
- thomas.hellstrom@linux.intel.com, matthew.brost@intel.com
-Subject: Re: [PATCH] drm/ttm: WIP limit the TTM pool to 32bit CPUs
-Message-ID: <202508091134.xJZroqY6-lkp@intel.com>
-References: <20250806132838.1831-1-christian.koenig@amd.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63FBC10E0EE
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 04:45:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 713E45C2303
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 04:45:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AD96AC4CEF0
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Aug 2025 04:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1754714701;
+ bh=95BJv/06XQSuj5ZgeWBspotE8aN1RwN5vAMhcurxwY0=;
+ h=From:To:Subject:Date:From;
+ b=kJcfcOEH0ga0B2m1KTYVUz/Vz/yKbnwgSFk2JDFVAOAoTDz4pBgGUllz4bsSaNhDA
+ geFOjbWmKw6xvw5j14eCxidTrXTjcwDKyhobxIjH8q0l7P38k/i1Fcx7DNZiX+39wf
+ /FOO3vKQNhbZIoTZcrFrG5DnEJoF3ZSaiOs4ef57amUASXspg5dYICzvsabfIFXD7U
+ 5Hz3xf2J48PAo0P4m2LAxYUgJvjyYP63a/flGheHYxbX6sJYsIkc5ZsgmVFSWFhOuq
+ GQ3SffM6jt4DpFH2UWp6cxnBO9Xsuiyea6vgz9ptqD4LNz8XfEPDRHY2FyTSS+dBeZ
+ Xt7EBkvxYPaRA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 9B3EFC433E1; Sat,  9 Aug 2025 04:45:01 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 220428] New: UBSAN array-index-out-of-bounds warning in
+ radeon_atombios.c on kernel 6.15.9 with AMD Radeon HD 6250
+Date: Sat, 09 Aug 2025 04:45:01 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dutra.astro@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys bug_status bug_severity priority
+ component assigned_to reporter cf_regression
+Message-ID: <bug-220428-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250806132838.1831-1-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,36 +75,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220428
 
-kernel test robot noticed the following build errors:
+            Bug ID: 220428
+           Summary: UBSAN array-index-out-of-bounds warning in
+                    radeon_atombios.c on kernel 6.15.9 with AMD Radeon HD
+                    6250
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 6.15.9
+          Hardware: AMD
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: dutra.astro@gmail.com
+        Regression: No
 
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on linus/master v6.16 next-20250808]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[   17.138975] ------------[ cut here ]------------
+[   17.138980] UBSAN: array-index-out-of-bounds in
+drivers/gpu/drm/radeon/radeon_atombios.c:2720:34
+[   17.138991] index 16 is out of range for type 'UCHAR [*]'
+[   17.139004] CPU: 1 UID: 0 PID: 544 Comm: (udev-worker) Not tainted
+6.15.9-201.fc42.x86_64 #1 PREEMPT(lazy)=20
+[   17.139016] Hardware name: Acer Aspire 5250/JE50-BZ, BIOS V1.08 09/26/20=
+12
+[   17.139022] Call Trace:
+[   17.139031]  <TASK>
+[   17.139041]  dump_stack_lvl+0x5d/0x80
+[   17.139060]  ubsan_epilogue+0x5/0x2b
+[   17.139070]  __ubsan_handle_out_of_bounds.cold+0x54/0x59
+[   17.139086]  radeon_atombios_parse_power_table_6+0x3bc/0x3e0 [radeon]
+[   17.139581]  radeon_atombios_get_power_modes+0x220/0x240 [radeon]
+[   17.139977]  radeon_pm_init_dpm+0x77/0x240 [radeon]
+[   17.140428]  evergreen_init+0x154/0x2b0 [radeon]
+[   17.140885]  radeon_device_init+0x484/0xa60 [radeon]
+[   17.141275]  ? pci_find_capability+0x79/0xb0
+[   17.141288]  radeon_driver_load_kms+0xa6/0x230 [radeon]
+[   17.141681]  radeon_pci_probe+0xef/0x1b0 [radeon]
+[   17.142069]  local_pci_probe+0x42/0x90
+[   17.142081]  pci_call_probe+0x5b/0x190
+[   17.142090]  ? kernfs_create_link+0x61/0xb0
+[   17.142106]  pci_device_probe+0x95/0x140
+[   17.142117]  really_probe+0xde/0x340
+[   17.142128]  ? pm_runtime_barrier+0x55/0x90
+[   17.142141]  __driver_probe_device+0x78/0x140
+[   17.142152]  driver_probe_device+0x1f/0xa0
+[   17.142164]  ? __pfx___driver_attach+0x10/0x10
+[   17.142173]  __driver_attach+0xcb/0x1e0
+[   17.142185]  bus_for_each_dev+0x85/0xd0
+[   17.142197]  bus_add_driver+0x12f/0x210
+[   17.142209]  ? __pfx_radeon_module_init+0x10/0x10 [radeon]
+[   17.142604]  driver_register+0x75/0xe0
+[   17.142613]  ? radeon_register_atpx_handler+0xe/0x30 [radeon]
+[   17.143030]  do_one_initcall+0x5b/0x300
+[   17.143052]  do_init_module+0x84/0x260
+[   17.143064]  init_module_from_file+0x8a/0xe0
+[   17.143081]  idempotent_init_module+0x114/0x310
+[   17.143095]  __x64_sys_finit_module+0x67/0xc0
+[   17.143107]  do_syscall_64+0x7b/0x160
+[   17.143119]  ? syscall_exit_to_user_mode+0x10/0x210
+[   17.143141]  ? vfs_read+0x160/0x390
+[   17.143150]  ? vfs_read+0x160/0x390
+[   17.143163]  ? ksys_read+0x73/0xe0
+[   17.143172]  ? syscall_exit_to_user_mode+0x10/0x210
+[   17.143182]  ? do_syscall_64+0x87/0x160
+[   17.143195]  ? syscall_exit_to_user_mode+0x10/0x210
+[   17.143206]  ? do_syscall_64+0x87/0x160
+[   17.143214]  ? exc_page_fault+0x7e/0x1a0
+[   17.143224]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[   17.143235] RIP: 0033:0x7f924c636a4d
+[   17.143255] Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 =
+89
+f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3=
+d 01
+f0 ff ff 73 01 c3 48 8b 0d 83 53 0f 00 f7 d8 64 89 01 48
+[   17.143263] RSP: 002b:00007ffcb7ab1498 EFLAGS: 00000246 ORIG_RAX:
+0000000000000139
+[   17.143274] RAX: ffffffffffffffda RBX: 00005643357c7350 RCX:
+00007f924c636a4d
+[   17.143280] RDX: 0000000000000004 RSI: 00007f924b0ec965 RDI:
+000000000000002b
+[   17.143285] RBP: 00007ffcb7ab1550 R08: 0000000000000000 R09:
+00007ffcb7ab1500
+[   17.143290] R10: 0000000000000000 R11: 0000000000000246 R12:
+0000000000020000
+[   17.143294] R13: 00005643357ca790 R14: 00007f924b0ec965 R15:
+0000000000000000
+[   17.143306]  </TASK>
+[   17.143470] ---[ end trace ]---
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-ttm-WIP-limit-the-TTM-pool-to-32bit-CPUs/20250806-212941
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250806132838.1831-1-christian.koenig%40amd.com
-patch subject: [PATCH] drm/ttm: WIP limit the TTM pool to 32bit CPUs
-config: um-randconfig-001-20250809 (https://download.01.org/0day-ci/archive/20250809/202508091134.xJZroqY6-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 3769ce013be2879bf0b329c14a16f5cb766f26ce)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250809/202508091134.xJZroqY6-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508091134.xJZroqY6-lkp@intel.com/
+Since this is a Kernel video driver problem, I am reporting here and not
+elsewhere.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+This MAY be related to https://bugzilla.kernel.org/show_bug.cgi?id=3D218435
 
->> ERROR: modpost: "set_pages_array_wc" [drivers/gpu/drm/ttm/ttm.ko] undefined!
->> ERROR: modpost: "set_pages_array_uc" [drivers/gpu/drm/ttm/ttm.ko] undefined!
->> ERROR: modpost: "set_pages_wb" [drivers/gpu/drm/ttm/ttm.ko] undefined!
->> ERROR: modpost: "set_pages_array_wb" [drivers/gpu/drm/ttm/ttm.ko] undefined!
+--=20
+You may reply to this email to add a comment.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You are receiving this mail because:
+You are watching the assignee of the bug.=
