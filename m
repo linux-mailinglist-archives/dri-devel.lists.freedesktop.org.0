@@ -2,80 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B16B1FCE7
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 00:57:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0486CB1FCEB
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 00:58:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A0710E2C3;
-	Sun, 10 Aug 2025 22:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D3F010E369;
+	Sun, 10 Aug 2025 22:58:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="STG8J45A";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YGvPqkJT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BBC910E2C3
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Aug 2025 22:57:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A79A10E373
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Aug 2025 22:57:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1754866673;
+ s=mimecast20190719; t=1754866678;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UO4UTVA/mzla0cfFiIXtkcaKSPEU88yVqzjz85er5YU=;
- b=STG8J45AD+ceA/9DBiKAsNZN1OqegcradKjcfVE0DRCgCspIbnwAdb8Kyr/hxi0ER1SG/S
- uW1ttb4V3YZXQ8XGtuLhUzcIRbPSS1DoS4mOdY4u+/JNfZxfChiOGHjIXssWbytEhs/BBp
- I6Em4q/5zIMBQQgSoUPGS4DwFy9QFwE=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dBLZ3cfmxr+kqQkwT3NrM5Of/dkFLZw54pOqr7tKcVM=;
+ b=YGvPqkJTqPF18WrxSjlm2zaooXZGPHxoUAYSyqJHo33ZuHpLuBG1QlEQGV9+nZ0PIjS4K6
+ pddYqkr/uNMUjWfUP+gIjn9z4sI9HWecPFRMb+bZCoVSmyo9bzH7vevdtjpbcXfI0BGsA7
+ szZ7cN2Y64oK9Ry2GnJECugw7HQ1/S0=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-313-96ijZHmyNDi5MfwUwhvXdw-1; Sun, 10 Aug 2025 18:57:52 -0400
-X-MC-Unique: 96ijZHmyNDi5MfwUwhvXdw-1
-X-Mimecast-MFC-AGG-ID: 96ijZHmyNDi5MfwUwhvXdw_1754866672
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7e696444d0cso928097385a.1
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Aug 2025 15:57:52 -0700 (PDT)
+ us-mta-91-KZMvz4IIO3aooV2R8YGbNQ-1; Sun, 10 Aug 2025 18:57:57 -0400
+X-MC-Unique: KZMvz4IIO3aooV2R8YGbNQ-1
+X-Mimecast-MFC-AGG-ID: KZMvz4IIO3aooV2R8YGbNQ_1754866676
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-7073b4fb53eso80772146d6.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Aug 2025 15:57:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754866672; x=1755471472;
+ d=1e100.net; s=20230601; t=1754866676; x=1755471476;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UO4UTVA/mzla0cfFiIXtkcaKSPEU88yVqzjz85er5YU=;
- b=bJLosnhijWoLkgzuZi9yPbov1PxqmZJIk4TS3yO4gd3AXcTIspLvcjuGzEFZXmVToe
- XioMgUytY9ll95w5nnGMjIy+fvwMcVAv/qFIoSrmUN+RB5Givby/lZpEm6iBOw30ufkJ
- 7wRrVm54NynLTDWDWtXvnbwON85+t2/4V0GOaFwevFFQzo35GWj5CYuAKMSZvwfT9YWj
- f2FT8CoXLLwCmhUVPrbzjnMHFRTZuM9ZoG7rYUOBxGi3Pbd6IJAXZQaviV1KQRVNJ7uN
- +7Steuc92Cvr/t4FRjizGJL2IJmvh+VQpxwGzfQUwA7qjPW4M8gBXorkdh68H6SJi46L
- L52g==
+ bh=dBLZ3cfmxr+kqQkwT3NrM5Of/dkFLZw54pOqr7tKcVM=;
+ b=GO47ekZpYp4y2YPfwBDMkgF/A+l5WjYubaQvrff+9TLRzwcQX0ZQq1+OgRMCf7ykSe
+ UwWRRyQNTAy4oDoRdYJnMAxQXtm/3K95ynLZt4yASsCcG8FvsTQKGpKGnAbrq+l/5jeO
+ Lswp53j72dCFspx7eAQnaN2rH3kS/esHPI76CaI6XaR5Vqds+KQn0O3wwqwUbsv05Gqv
+ Z+1YGEtUfFB+K2xYCjsYlcLcjzSYQUEdYqYEn48p2SajZdP58x7gu29PP1wKDNeRlWXV
+ ETTIrxrlN/q4lc4yrCiQ2WR8HH87OIt0WvtfozMk/u7+BCfZneFRC1mfEliILj358XK3
+ lqdA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX73j8fpb3bw0tOv06sO2peb0Vj2pvC/4N9B7/NkUDld+9tlJhr9bFIsNTlSTyeRsdnGBuxOoYY3uU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyrtCn/JM/bSez6MHoI+umnN5LhW3P2U3SFt/zPpQsO5UCjuP9g
- 1EFGxMWzMjCEfrpMmT23QKMlXDA6LhJv55GosEN+XB0NF6uTDFJs6lQBgOXa57poI1U6oQKmVO2
- b4spa5KPBYlZaR7tm1Id8Q+a9UO30ch9k9qlcYQuzbXmIZZeGUJZ/CG3cANH09SqBN2pviQ==
-X-Gm-Gg: ASbGnctSpLPwesi8WXcDdP9PHw9KTgEpBbdVKhJ6XlE/KwOHt9Zj3fbBqy48rqTacNV
- 1IWbSKqzlAMfZn5JhIdchbC/7zSJbf/BKOMn9pruHTSmHGMH83LW/Di7M+I4dEm/CN/pOV5dehx
- ogN94MsywCRKJ+QsVYLWrgkTDKDKLHD9ktmsjYRh9m1gOpYAEjHDA0SplfGHbkPgHV0/qvMVFtN
- xHKOwtDs2a8uoTIePozEY14+zhRpnuN+V/K3tAe9gVakiRWxb/3R33GWPWUFhwYl53yComxM8BU
- zqcDCd5oeqV6jExu6TVgUPw2Ot3++BsQX1t/95EBg4PqZmkZ4HMzHj6hx0wsLmzy7KfjKEE2N0c
- hNHDZPw==
-X-Received: by 2002:a05:6214:d02:b0:707:4b51:a490 with SMTP id
- 6a1803df08f44-7099a19aad2mr137563016d6.5.1754866671703; 
- Sun, 10 Aug 2025 15:57:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG8jqqdlU+xWojFno54cfUqsUBZEN8YO23eSx1vJ00mPnhAbDT9uCqATLlZeCwNyroK4P6n/g==
-X-Received: by 2002:a05:6214:d02:b0:707:4b51:a490 with SMTP id
- 6a1803df08f44-7099a19aad2mr137562776d6.5.1754866671327; 
- Sun, 10 Aug 2025 15:57:51 -0700 (PDT)
+ AJvYcCUSafbdjdPhZ4q3zUHlBYNYvMj0E4nQ0K8Gjw0dphH2sevrTDN/ls9CGM8Cxmk2JNlFGcIvk0bT0E4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyv6NOjXosjjkeK6uVabjpSzPr3Cd5PtKMm+kw+WTct0fwna/3h
+ YjvyGAUFDx5o5NSh6UDWx0jngoUxXDpGERZA80rWm3lmQIEmlQagOpn3dy6bDjavn0ch2Ct2gXe
+ 4iqNFYtgqIEheBdvQeR5NCzazqkySfFgqRgX31Mp7qebn2b7JwtuXayKpwZ5PLGZjJH35Dg==
+X-Gm-Gg: ASbGncuvyma4l9lMqnmU5i4HRoqOprN7Sxf6Th9/VpvX9vQTt5wKR6nkC1bhW9g6RsC
+ Ww0G5vBZoPNxSVZKL8TswrAOVag/AZc1NHyBvTqpOpif2PbAq6IPzDfjUDaF+r0cLjJ36H2GWVD
+ zzvCduCXWrWZS23xw/XOWKni+hotLTY804IEOQztFp3makRGS7OVfxTCOp64gm5QJ6qJbeTDQHJ
+ iZwEBfMj/urn7r+Mxr/8oDpGvdSghgW++NZVxk797YVLVAPN9YnzCygH8geSK/1F9piMkfsg2Gt
+ dtHwlMXffN1TEpdAkqwvocEk3Zl30UzIBhV6f3uq1Jep1FcKwGeYDN7B9K7yE/kmCnUIviAMRfx
+ S/VkKRg==
+X-Received: by 2002:a05:6214:4585:b0:709:b911:5f9a with SMTP id
+ 6a1803df08f44-709b9116168mr79859926d6.15.1754866676474; 
+ Sun, 10 Aug 2025 15:57:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGd1TtWL5ynfgJb6QbL2wAAD9tHrHovMXdTygkPUrPT2VeRi/mGn+68aKi3/k5cra2LUregkg==
+X-Received: by 2002:a05:6214:4585:b0:709:b911:5f9a with SMTP id
+ 6a1803df08f44-709b9116168mr79859716d6.15.1754866676119; 
+ Sun, 10 Aug 2025 15:57:56 -0700 (PDT)
 Received: from [10.144.145.224] (c-73-183-52-120.hsd1.pa.comcast.net.
  [73.183.52.120]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-7077cdd9916sm144266336d6.61.2025.08.10.15.57.47
+ 6a1803df08f44-7077cdd9916sm144266336d6.61.2025.08.10.15.57.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Aug 2025 15:57:50 -0700 (PDT)
+ Sun, 10 Aug 2025 15:57:55 -0700 (PDT)
 From: Brian Masney <bmasney@redhat.com>
-Date: Sun, 10 Aug 2025 18:57:27 -0400
-Subject: [PATCH v2 3/7] drm/msm/dsi_phy_28nm_8960: convert from
- round_rate() to determine_rate()
+Date: Sun, 10 Aug 2025 18:57:28 -0400
+Subject: [PATCH v2 4/7] drm/msm/dsi_phy_28nm: convert from round_rate() to
+ determine_rate()
 MIME-Version: 1.0
-Message-Id: <20250810-drm-msm-phy-clk-round-rate-v2-3-0fd1f7979c83@redhat.com>
+Message-Id: <20250810-drm-msm-phy-clk-round-rate-v2-4-0fd1f7979c83@redhat.com>
 References: <20250810-drm-msm-phy-clk-round-rate-v2-0-0fd1f7979c83@redhat.com>
 In-Reply-To: <20250810-drm-msm-phy-clk-round-rate-v2-0-0fd1f7979c83@redhat.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, 
@@ -89,15 +89,15 @@ Cc: linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org, Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754866653; l=3029;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754866653; l=2571;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=S1ThvUuOJst13Y/YlkE34LQrjuUVO54/oWHL+6E9CBo=;
- b=4rVxfvm9gI5nV5UAVPsesymzsnSyxITGfXVS5e8nQ7ETrG0DkGZDJjcM2GeRttJ1xTdECTbGI
- s8fyPCx6Vs0B/8HLHCZbs2HwuxniL7G5vx63VQcoWh5nqmwlomL+2OO
+ bh=p3ik0LUSdZ7pAUi9CZauKm9YuXyhxLdYH6tXOMz9RD8=;
+ b=R7LKKqyn/rze/YXErkV3FfpM8ZZMu5HZaOQr/tvP8aTxcbbN5RaDR0RWZNNF6WqbyaV3q+ft9
+ fhWV9Cc8U6ZAQX8LrMGjTqjByHpN1lvRTa0Cj7+2O1r3z78hDY0dUWJ
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: RPlZebzc4qpK9NW_0h2k2_kq4hiO6_z9Y4Nc6F8HfmI_1754866672
+X-Mimecast-MFC-PROC-ID: Atg0tpGNiSfsKkUnYRgEHkQdeiAYLfwwwedGYYPFFZQ_1754866676
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -123,14 +123,14 @@ done manually.
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 32 ++++++++++++-------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-index f3643320ff2f2bae5301bb94f1fe19fa03db584c..8dcce9581dc38730ab725e0e435ab93a04c527ed 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-@@ -231,21 +231,19 @@ static void dsi_pll_28nm_vco_unprepare(struct clk_hw *hw)
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+index 90348a2af3e9dac72924561b23b169a268abc3b0..d00e415b9a991cd515e01d78a48ac6fe3e830b04 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+@@ -533,21 +533,20 @@ static void dsi_pll_28nm_vco_unprepare(struct clk_hw *hw)
  	pll_28nm->phy->pll_on = false;
  }
  
@@ -148,53 +148,36 @@ index f3643320ff2f2bae5301bb94f1fe19fa03db584c..8dcce9581dc38730ab725e0e435ab93a
 -	else
 -		return rate;
 +	req->rate = clamp_t(unsigned long, req->rate,
-+			    pll_28nm->phy->cfg->min_pll_rate, pll_28nm->phy->cfg->max_pll_rate);
++			    pll_28nm->phy->cfg->min_pll_rate,
++			    pll_28nm->phy->cfg->max_pll_rate);
 +
 +	return 0;
  }
  
- static const struct clk_ops clk_ops_dsi_pll_28nm_vco = {
+ static const struct clk_ops clk_ops_dsi_pll_28nm_vco_hpm = {
 -	.round_rate = dsi_pll_28nm_clk_round_rate,
 +	.determine_rate = dsi_pll_28nm_clk_determine_rate,
  	.set_rate = dsi_pll_28nm_clk_set_rate,
  	.recalc_rate = dsi_pll_28nm_clk_recalc_rate,
- 	.prepare = dsi_pll_28nm_vco_prepare,
-@@ -296,18 +294,20 @@ static unsigned int get_vco_mul_factor(unsigned long byte_clk_rate)
- 		return 8;
- }
- 
--static long clk_bytediv_round_rate(struct clk_hw *hw, unsigned long rate,
--				   unsigned long *prate)
-+static int clk_bytediv_determine_rate(struct clk_hw *hw,
-+				      struct clk_rate_request *req)
- {
- 	unsigned long best_parent;
- 	unsigned int factor;
- 
--	factor = get_vco_mul_factor(rate);
-+	factor = get_vco_mul_factor(req->rate);
-+
-+	best_parent = req->rate * factor;
-+	req->best_parent_rate = clk_hw_round_rate(clk_hw_get_parent(hw), best_parent);
- 
--	best_parent = rate * factor;
--	*prate = clk_hw_round_rate(clk_hw_get_parent(hw), best_parent);
-+	req->rate = req->best_parent_rate / factor;
- 
--	return *prate / factor;
-+	return 0;
- }
- 
- static int clk_bytediv_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -328,7 +328,7 @@ static int clk_bytediv_set_rate(struct clk_hw *hw, unsigned long rate,
- 
- /* Our special byte clock divider ops */
- static const struct clk_ops clk_bytediv_ops = {
--	.round_rate = clk_bytediv_round_rate,
-+	.determine_rate = clk_bytediv_determine_rate,
- 	.set_rate = clk_bytediv_set_rate,
- 	.recalc_rate = clk_bytediv_recalc_rate,
+ 	.prepare = dsi_pll_28nm_vco_prepare_hpm,
+@@ -556,7 +555,7 @@ static const struct clk_ops clk_ops_dsi_pll_28nm_vco_hpm = {
  };
+ 
+ static const struct clk_ops clk_ops_dsi_pll_28nm_vco_lp = {
+-	.round_rate = dsi_pll_28nm_clk_round_rate,
++	.determine_rate = dsi_pll_28nm_clk_determine_rate,
+ 	.set_rate = dsi_pll_28nm_clk_set_rate,
+ 	.recalc_rate = dsi_pll_28nm_clk_recalc_rate,
+ 	.prepare = dsi_pll_28nm_vco_prepare_lp,
+@@ -565,7 +564,7 @@ static const struct clk_ops clk_ops_dsi_pll_28nm_vco_lp = {
+ };
+ 
+ static const struct clk_ops clk_ops_dsi_pll_28nm_vco_8226 = {
+-	.round_rate = dsi_pll_28nm_clk_round_rate,
++	.determine_rate = dsi_pll_28nm_clk_determine_rate,
+ 	.set_rate = dsi_pll_28nm_clk_set_rate,
+ 	.recalc_rate = dsi_pll_28nm_clk_recalc_rate,
+ 	.prepare = dsi_pll_28nm_vco_prepare_8226,
 
 -- 
 2.50.1
