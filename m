@@ -2,104 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FEFB1FCD9
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 00:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758DAB1FCDE
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 00:57:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 555B110E2BF;
-	Sun, 10 Aug 2025 22:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B11FE10E2CA;
+	Sun, 10 Aug 2025 22:57:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="H8XaObNz";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Eqisef1s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CACB710E2BF
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Aug 2025 22:47:17 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A79CC10E2C3
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Aug 2025 22:57:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1754866037;
+ s=mimecast20190719; t=1754866659;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9LIwrTzSIdW4XyPecxETwMmYAEX2pSsme7PIKfMfdJI=;
- b=H8XaObNzLP9X5K4QD06GcVuh+F7hbSYj8iJ4aqbA+cL32M7W0p3AxajbgFEkbQL8LAma/Y
- xkbGPBzMlvj5JmL9mXJ1Nx+D2mehSEvfxeT7GbM4Xc4ty+LfStkZhZFd4XIcP72+Az9BeE
- ZZlPSKbZbcgHjzVSc4dzNP8Rwil2ygo=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=si0D3G2RgusoFtCAx5lqtxcOAXD0FY3ZlF3b+krcW9c=;
+ b=Eqisef1s3HcQ3VxWLQ+wDNV8TE3FIuR5ct99NwX96Eo93wCEcw2fGwgk0U0Q2magKs/ze/
+ hF4wkaOVyl4AmZ/u5oXChGRIKi8smeYCqscLj/EdeprnBXmX4KrfYevdNqNWHRWYjoUlvy
+ iBikhU6jlKjujBjG377CPWmfUDwGFy8=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-159-aG5lR4EPO927Eg3J1o8aCA-1; Sun, 10 Aug 2025 18:47:15 -0400
-X-MC-Unique: aG5lR4EPO927Eg3J1o8aCA-1
-X-Mimecast-MFC-AGG-ID: aG5lR4EPO927Eg3J1o8aCA_1754866035
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b081b2a94cso130922631cf.2
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Aug 2025 15:47:15 -0700 (PDT)
+ us-mta-386-8xQt14IOOyeohYOZEY6dlg-1; Sun, 10 Aug 2025 18:57:38 -0400
+X-MC-Unique: 8xQt14IOOyeohYOZEY6dlg-1
+X-Mimecast-MFC-AGG-ID: 8xQt14IOOyeohYOZEY6dlg_1754866658
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-70771983a52so83233876d6.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Aug 2025 15:57:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754866035; x=1755470835;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9LIwrTzSIdW4XyPecxETwMmYAEX2pSsme7PIKfMfdJI=;
- b=ZTxPFEWsVVc57zT3EWB/+2Nu1gCM4Ei5Ma5q8reAVTtA5mBz9kLD+Rz4CsCNA5Ss3J
- iRoKRMAYREnh6d3N3XGY/8Nc+4LUndtQUqAtY9YH2G2pFOSzK5aJTMAXCq5Hi5Hzxz/F
- ikXhPh0XEtA1sn8hoI+zdzs0G7uJUWq6RMyyM039XUBxfzWtXjidiROpm3f/CfayZWj2
- 7C3uEQG09x1/s9FGEQqfeoyqn9in1Wm3WmOfpGYP2hsIKx1V3Q1XZtuqY7LQNHvw2oaO
- OmkX+ESIUZRrjghDuqBVab6Oc1DOdriQeVzlqH/J5yyeBKxwsao0YPiA8Ca5V1Y6fasx
- Wvvw==
+ d=1e100.net; s=20230601; t=1754866658; x=1755471458;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=si0D3G2RgusoFtCAx5lqtxcOAXD0FY3ZlF3b+krcW9c=;
+ b=iDfq9sUusjHXHHwaFaIIYZB5pbkDWtPXI0FXAyQ2oq6Nw2L8aGVn99Zy8+dYiDV+zN
+ XVgUOC/aOJuFaQqu9Lp+SDCffPhUG/oiNhlttdOEr4gVd6JLo7dB4P9/8c6sgjrOTdVn
+ WIPNRi7qKJxl4EIWd7sjBBXcOkZtavTMPrFKI7QbjV+Py4TYMC4+O0ZxhUFbxfpS+pw0
+ Wl1Laloqc1CApE8QKhS50psGWf93lnhZFwrJBueWGpeEfMjCGMLYrC6ItEb+W/H+GU8h
+ 11t/wHCrBlNcFMPccOPd2fhjIVDnUT9gmqf4vnnl8CiGwO1ETe3PGoqmoqq5h+Ts+YGM
+ PpEQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUS3TYk/oVcP6El0Uo9A99/nSctQIT2W7u3zOwuuWZb3qIYVnZaFLVKt+TA6tPdzDbeCzo3WmMJj/4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyI6NyKfZuA+4NtOrPLW6C4FVmbtArkaz0Jr+x5y+gC/HBzJODg
- iholeLtiRgWJoqlpmszLypyf2GBaw9G0dOZg3nUKiMPF6VF3tM+Sn7tZMLpA3dSEWaE7KhPqC17
- KBToJ3o1a/bPCMWPB7Q76ngP3Pi7JX1r+OJIhyvbGp3H/7xRdXHVqE/AS7Wwkn39Runv7ow==
-X-Gm-Gg: ASbGnct0fJhRzPM7+O5mYDpe/pTqi8yV3ax0jb2qQj7tMUcYvXrxwJaSDCJA5MgT+mb
- mLWv8QsvRj1o6LeXj5XQnOUsmvtWZu05afUxmVoxEiUa0Sl+QvF94PzCrH7IGerr3DILUiMWRP+
- dhik69htfy0o2D0rdEemw7IdFVpHvpfacK0ZHoHT35MkYVuEx6eM90pp9UXLwDaRuuxtgCh3FUC
- 3FfqH6mvCQD7oo4peTj7EVpgAKd05cObmaz8+sn9dwk+gbxhb5oy8SPFhMIRUK9zYrp5mcwGoeB
- /mCfy5glWP1yDvXOE1j0iRxaVeafPe4FTEjONRMzd13lGF0gjoZlTHYlPMnYUPsiyg9AkGJpeGD
- lKbhxQQ==
-X-Received: by 2002:a05:622a:400c:b0:4ae:cc29:829e with SMTP id
- d75a77b69052e-4b0aed983f4mr137421481cf.59.1754866035177; 
- Sun, 10 Aug 2025 15:47:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEI4R4FgcBh6uwgYNS05a9B+ckO+bJARHrSqSCTHnGOa6vmcxR/BVXe8/wOen8M9+MhpG9xPw==
-X-Received: by 2002:a05:622a:400c:b0:4ae:cc29:829e with SMTP id
- d75a77b69052e-4b0aed983f4mr137421231cf.59.1754866034829; 
- Sun, 10 Aug 2025 15:47:14 -0700 (PDT)
+ AJvYcCU5GuKbl1LNmsW4bk6hMVUzwdJ5L4P/cnaJovvK1tx9MXaqD7QK6WlTPtLFd2+7EHMGNzSoqP/Q+9o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzqZDf0Ipo2rG9X7n00lnaF+xsw9YiS8K+Vx0tcPix1JVLGX8Ym
+ 5kpE6zZIIfmkOMopfUuPib7wT0YfIB6sZ2X+tXJdXpHwC4Hq4Dvq2S/QICebspPFlncv6D7KHOY
+ jzSukfXGR+sECZDtodboJknxt2iTAe+jdDtWlwMo6s8WflwAvkHMhxWbquHZD5XSGWnJxdA==
+X-Gm-Gg: ASbGncvKvX54RXLvjp4dzRbK4xLd34M8xIYn1pkrHTQUgqfkTd8dInvvti/uigolnKy
+ ixLnPhovVfHFODru+4hKVnuT9OJWWehB8Y7ZS0KsgkAixK+O23f/OQZ3TZvIYu/KY1grctog+Gl
+ 3XhZLZ1yW4Vvxy+YscjIoW4pxvWXnGC/ZvFde2HmvbMYEPIeqCfTUk4Sm1EOKVsEzhbs3AyQckp
+ +LDkFi90AhIarLgqEpwZjKEExzIhKuJfi4PfWuVRSl5zJihDajE3R1sjESgjscQIuPZozQABnXf
+ oAihLo9N4gFfqqUXv1F/ML6c7KVNf415Z3tPRiXy+e9pltRjOJjGrrLBHfhhnYcvTSktW+1unmu
+ wvKyhQA==
+X-Received: by 2002:a05:6214:20a7:b0:707:3a96:9f08 with SMTP id
+ 6a1803df08f44-7099a2848a5mr126872696d6.8.1754866657764; 
+ Sun, 10 Aug 2025 15:57:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHAbaldZwTwU3XZPCaVO+4i58d5gxtzTBKTXlOSCBQfI10ooKRZRe4bhUtMWpYbhTRna4XCCA==
+X-Received: by 2002:a05:6214:20a7:b0:707:3a96:9f08 with SMTP id
+ 6a1803df08f44-7099a2848a5mr126872486d6.8.1754866657289; 
+ Sun, 10 Aug 2025 15:57:37 -0700 (PDT)
 Received: from [10.144.145.224] (c-73-183-52-120.hsd1.pa.comcast.net.
  [73.183.52.120]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4b0ad996459sm42685171cf.46.2025.08.10.15.47.07
+ 6a1803df08f44-7077cdd9916sm144266336d6.61.2025.08.10.15.57.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Aug 2025 15:47:14 -0700 (PDT)
+ Sun, 10 Aug 2025 15:57:36 -0700 (PDT)
 From: Brian Masney <bmasney@redhat.com>
-Date: Sun, 10 Aug 2025 18:45:37 -0400
-Subject: [PATCH v2 9/9] phy: ti: phy-j721e-wiz: convert from round_rate()
- to determine_rate()
+Subject: [PATCH v2 0/7] drm/msm/dsi/phy: convert from clk round_rate() to
+ determine_rate()
+Date: Sun, 10 Aug 2025 18:57:24 -0400
+Message-Id: <20250810-drm-msm-phy-clk-round-rate-v2-0-0fd1f7979c83@redhat.com>
 MIME-Version: 1.0
-Message-Id: <20250810-phy-clk-round-rate-v2-9-9162470bb9f2@redhat.com>
-References: <20250810-phy-clk-round-rate-v2-0-9162470bb9f2@redhat.com>
-In-Reply-To: <20250810-phy-clk-round-rate-v2-0-9162470bb9f2@redhat.com>
-To: Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Chunfeng Yun <chunfeng.yun@mediatek.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Heiko Stuebner <heiko@sntech.de>
-Cc: linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- Brian Masney <bmasney@redhat.com>
+X-B4-Tracking: v=1; b=H4sIANUjmWgC/x3MQQqEMAwAwK9IzgZiUZT9injQNmpwWyXdFUX8u
+ 8XjXOaCyCoc4ZNdoLxLlDUkmDwDO/dhYhSXDIZMRXVB6NSjjx63+UT7XVDXf3Co/Y/R2qEgV5X
+ cUAkp2JRHOd687e77AXsMTxNsAAAA
+X-Change-ID: 20250710-drm-msm-phy-clk-round-rate-ccb10d54e804
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maxime Ripard <mripard@kernel.org>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Brian Masney <bmasney@redhat.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754865941; l=1629;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754866653; l=5434;
  i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=PfVBnMEhY+1VXjQch+u5PcV+HyG2IR2115kG2w+VUSA=;
- b=sL0ngpJvf7ih79HfcU+J6TF8fc534hLr/WKGFEbE4MP2Jf9cX1ovwrN2LEAg3nNaEFb5Q2o2o
- 4np7Je1hPi0C73RtTCBtGYON4LSvFYcTDMVZedGa2hpQZpsBbEsg5Fg
+ bh=JaAY31vIHr1AnR/PdVT7SbRgepffO5uQ0Q3tUmIzuWo=;
+ b=T0+/U/eBiA9HzCRQ0vS4+nTHalxsy65T1JSQ6j2JLt0YaV2vLDByc8I4BgMY9dbmNykIg2GZ8
+ uMp+tXTTXzVAuSsFHzyiJCG0P6pxr7XlGyf4MT0JtKXE2za244ubNig
 X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
  pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: g82Ik4o10-EJ1nwo4FHdUKoCUumVdu9fYXeIxwbTx_Y_1754866035
+X-Mimecast-MFC-PROC-ID: 3JbojTMKkqqd905AU93hLW0YdvP8c3INVD1-8w8dFOk_1754866658
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -118,48 +117,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The round_rate() clk ops is deprecated, so migrate this driver from
-round_rate() to determine_rate() using the Coccinelle semantic patch
-on the cover letter of this series.
+The round_rate() clk ops is deprecated in the clk framework in favor
+of the determine_rate() clk ops, so let's go ahead and convert the
+drivers in the drm/msm/dsi/phy subsystem using the Coccinelle semantic
+patch posted below. I did a few minor cosmetic cleanups of the code in a
+few cases.
+
+Changes since v1:
+- Converted over to use clamp_t() (Konrad)
+
+Coccinelle semantic patch:
+
+    virtual patch
+
+    // Look up the current name of the round_rate function
+    @ has_round_rate @
+    identifier round_rate_name =~ ".*_round_rate";
+    identifier hw_param, rate_param, parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    	...
+    }
+
+    // Rename the route_rate function name to determine_rate()
+    @ script:python generate_name depends on has_round_rate @
+    round_rate_name << has_round_rate.round_rate_name;
+    new_name;
+    @@
+
+    coccinelle.new_name = round_rate_name.replace("_round_rate", "_determine_rate")
+
+    // Change rate to req->rate; also change occurrences of 'return XXX'.
+    @ chg_rate depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    identifier ERR =~ "E.*";
+    expression E;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    (
+    -return -ERR;
+    +return -ERR;
+    |
+    - return rate_param;
+    + return 0;
+    |
+    - return E;
+    + req->rate = E;
+    +
+    + return 0;
+    |
+    - rate_param
+    + req->rate
+    )
+    ...>
+    }
+
+    // Coccinelle only transforms the first occurrence of the rate parameter
+    // Run a second time. FIXME: Is there a better way to do this?
+    @ chg_rate2 depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    - rate_param
+    + req->rate
+    ...>
+    }
+
+    // Change parent_rate to req->best_parent_rate
+    @ chg_parent_rate depends on generate_name @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    @@
+
+    long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+                  unsigned long *parent_rate_param)
+    {
+    <...
+    (
+    - *parent_rate_param
+    + req->best_parent_rate
+    |
+    - parent_rate_param
+    + &req->best_parent_rate
+    )
+    ...>
+    }
+
+    // Convert the function definition from round_rate() to determine_rate()
+    @ func_definition depends on chg_rate @
+    identifier has_round_rate.round_rate_name;
+    identifier has_round_rate.hw_param;
+    identifier has_round_rate.rate_param;
+    identifier has_round_rate.parent_rate_param;
+    identifier generate_name.new_name;
+    @@
+
+    - long round_rate_name(struct clk_hw *hw_param, unsigned long rate_param,
+    -               unsigned long *parent_rate_param)
+    + int new_name(struct clk_hw *hw, struct clk_rate_request *req)
+    {
+        ...
+    }
+
+    // Update the ops from round_rate() to determine_rate()
+    @ ops depends on func_definition @
+    identifier has_round_rate.round_rate_name;
+    identifier generate_name.new_name;
+    @@
+
+    {
+        ...,
+    -   .round_rate = round_rate_name,
+    +   .determine_rate = new_name,
+        ...,
+    }
+
+Note that I used coccinelle 1.2 instead of 1.3 since the newer version
+adds unnecessary braces as described in this post.
+https://lore.kernel.org/cocci/67642477-5f3e-4b2a-914d-579a54f48cbd@intel.com/
 
 Signed-off-by: Brian Masney <bmasney@redhat.com>
 ---
- drivers/phy/ti/phy-j721e-wiz.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Brian Masney (7):
+      drm/msm/dsi_phy_10nm: convert from round_rate() to determine_rate()
+      drm/msm/dsi_phy_14nm: convert from round_rate() to determine_rate()
+      drm/msm/dsi_phy_28nm_8960: convert from round_rate() to determine_rate()
+      drm/msm/dsi_phy_28nm: convert from round_rate() to determine_rate()
+      drm/msm/dsi_phy_7nm: convert from round_rate() to determine_rate()
+      drm/msm/hdmi_phy_8996: convert from round_rate() to determine_rate()
+      drm/msm/hdmi_phy_8998: convert from round_rate() to determine_rate()
 
-diff --git a/drivers/phy/ti/phy-j721e-wiz.c b/drivers/phy/ti/phy-j721e-wiz.c
-index ab2a4f2c0a5bf3aa4b77045f4da8b0ddcc079f7a..12dafb2bd49bc33c13dd49246bc26df082e3dd40 100644
---- a/drivers/phy/ti/phy-j721e-wiz.c
-+++ b/drivers/phy/ti/phy-j721e-wiz.c
-@@ -934,12 +934,15 @@ static unsigned long wiz_clk_div_recalc_rate(struct clk_hw *hw,
- 	return divider_recalc_rate(hw, parent_rate, val, div->table, 0x0, 2);
- }
- 
--static long wiz_clk_div_round_rate(struct clk_hw *hw, unsigned long rate,
--				   unsigned long *prate)
-+static int wiz_clk_div_determine_rate(struct clk_hw *hw,
-+				      struct clk_rate_request *req)
- {
- 	struct wiz_clk_divider *div = to_wiz_clk_div(hw);
- 
--	return divider_round_rate(hw, rate, prate, div->table, 2, 0x0);
-+	req->rate = divider_round_rate(hw, req->rate, &req->best_parent_rate,
-+				       div->table, 2, 0x0);
-+
-+	return 0;
- }
- 
- static int wiz_clk_div_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -958,7 +961,7 @@ static int wiz_clk_div_set_rate(struct clk_hw *hw, unsigned long rate,
- 
- static const struct clk_ops wiz_clk_div_ops = {
- 	.recalc_rate = wiz_clk_div_recalc_rate,
--	.round_rate = wiz_clk_div_round_rate,
-+	.determine_rate = wiz_clk_div_determine_rate,
- 	.set_rate = wiz_clk_div_set_rate,
- };
- 
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      | 16 +++++-------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      | 34 ++++++++++++-------------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      | 21 ++++++++-------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 32 +++++++++++------------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       | 16 +++++-------
+ drivers/gpu/drm/msm/hdmi/hdmi_phy_8996.c        | 16 +++++-------
+ drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c        | 16 +++++-------
+ 7 files changed, 69 insertions(+), 82 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250710-drm-msm-phy-clk-round-rate-ccb10d54e804
 
+Best regards,
 -- 
-2.50.1
+Brian Masney <bmasney@redhat.com>
 
