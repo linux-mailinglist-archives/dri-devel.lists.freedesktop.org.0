@@ -2,71 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8ACB217A5
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 23:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9559BB217C0
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 23:57:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0903910E09C;
-	Mon, 11 Aug 2025 21:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DFC910E55A;
+	Mon, 11 Aug 2025 21:57:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JUfYJedu";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lQ5x6wrb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B27D10E09C;
- Mon, 11 Aug 2025 21:48:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=mxobq+JqXbXBe2Hzo2LNC32kz8JvK2swM4KfVisjjb0=; b=JUfYJedusir7qIqZbWs2Dh/Cg8
- 59SlTendiSqgn3CeIjQTBwL/7Cw6cflFM5v7yqpzA5gqMqaarA/1jGla8jjtD9tba0r9jZ1kmaREO
- 04+2unF9zw13siVrTpznFJ0rYyG2ACcZHmSJeQtNKPFy32XTplN9nD9p3i+FdzSUV9eikx+7b0Bp/
- MM4VBEzN89aNBe2G4coKZFrnuBD7zX4Yia9gk/GZJ+/sLLEydhpamchrLxOfewFF9MOKMk1PKeANW
- zEG/weXD9Yt2yBHI14QYSFP0fxfmh1UPgOoTpOgEQDu0BsDAsR6mMEGzYuD6tKoO/8/tG+FSe/V2H
- LgZwtIbg==;
-Received: from [189.6.13.79] (helo=[192.168.31.42])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ulaN9-00CyNd-Kx; Mon, 11 Aug 2025 23:48:03 +0200
-Message-ID: <36632017-d74f-40f9-bd78-c72e2ab2c65d@igalia.com>
-Date: Mon, 11 Aug 2025 18:47:54 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 00/14] drm/amd/display: more drm_edid to AMD display
- driver
-To: Harry Wentland <harry.wentland@amd.com>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "Hung, Alex" <Alex.Hung@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>, "simona@ffwll.ch" <simona@ffwll.ch>,
- "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>
-Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "kernel-dev@igalia.com" <kernel-dev@igalia.com>
-References: <20250726003816.435227-1-mwen@igalia.com>
- <019ca526-5bdf-4c88-a994-a6babb9963c7@amd.com>
- <83d8ed56-2c2b-47dd-83a1-8e8f6a49fef3@igalia.com>
- <b0511344-f654-4f91-aa1a-06d7588a5db5@amd.com>
- <4e94993a-92b3-4584-bfed-468d7606830d@amd.com>
- <c399cdf9-ec3b-4162-8175-05b34d9e5042@amd.com>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <c399cdf9-ec3b-4162-8175-05b34d9e5042@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D58FE10E0F0;
+ Mon, 11 Aug 2025 21:57:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dlarNrgR+iD+D23qeiZP8pGjVJ8e5Robtk7DvBByH5P9Y9Wb3HB2l2KGNNCYEWtFuk09av5B7bw0d5qV9GeKpFx3vgi0RSV5x46MUfszACxOWkMAsC8s0Q+aD5qeBBesvhAz0apKb5E8p7egiepPEYhdEgPuj8Pp37T//SiFo/Y7ktPaY8uGw8wd0IBON6LJl/EhlguBlBAco65TSTuHbOuPa6S0fls0T2Fu+b+RjCK4RNQiD5Jp6qnBoCdgyIWlxAuOjumqJdb6bfUWZWOsWpOreP7Irpg3Rt6D9/PLix3bxU1nj+x0oA+dQ8+yD3koG/cZ1v8wrnV2mObovPi6Ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c0s1T8Xthf5HcXFxnozQCZ9uT6HMfWI1+YDvBYUf2Bs=;
+ b=mT3SyGrwk1vZOyyS3fnj371ZEmQ7yy9OJttcnh+znKi+kZtyEbv6vgrOSDKwdvK3pdG8Ms4KKJpALFFjeKSulsjHliXlLxBVbWXgautQ44OpiTbQB6B+qQF1Ifjn9A9ZxszgCTwb65gV5T35HFAPu624RJowmN3+C/73Zjern7staFNShog2CK78PZ8pmnkJbNWhFPhLOQJl7VpUe3kWtv3pwYzE+vwdYV8Y6QdNZc3RGfU2lgJ6BpBDqTfMUSOLZce7ajdMEDveqlINJQWXA0ddK6LmK5IUhfpSE5xAddFzg55TsaEVdfZMdcCCjqlEt7h2J+aORxDAeIOdPrZ3xQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c0s1T8Xthf5HcXFxnozQCZ9uT6HMfWI1+YDvBYUf2Bs=;
+ b=lQ5x6wrbjbBEHiNMXwQiz4lN+QxzJRRNT8JPSiKanJzAKJgPWyzSCCPbOR/rq2yTdY3eEVTaBoxN3di5tvYxFoFgGlxbVz2b5rhT+SYRNiERJEZLB1XMWL/c0XrLXl9+Fm8rW/EPInvusjNZRtldYpMfldDcD0SClGKXlKtPMgfDPIPADpKNPUqg08dudA9J/TeW8eV0oGBvuYeliNrZzTFvAL7jZUpvGMYfrEI4bdMmPTDp1QwNVs15Tj6FeBv9IdOLm8QmQbXCgfK8bl0w9pdU0CtgIpHS7etImZkXqSMobmzDan2KPSDaRLFV+dHdgcW0OTgOOzfhJN0n8XRG5A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB6691.namprd12.prod.outlook.com (2603:10b6:806:271::9)
+ by MN2PR12MB4207.namprd12.prod.outlook.com (2603:10b6:208:1d9::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Mon, 11 Aug
+ 2025 21:57:07 +0000
+Received: from SN7PR12MB6691.namprd12.prod.outlook.com
+ ([fe80::d15a:729a:9a36:4376]) by SN7PR12MB6691.namprd12.prod.outlook.com
+ ([fe80::d15a:729a:9a36:4376%7]) with mapi id 15.20.9009.018; Mon, 11 Aug 2025
+ 21:57:06 +0000
+From: James Jones <jajones@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Joel Fernandes <joelagnelf@nvidia.com>,
+ James Jones <jajones@nvidia.com>
+Subject: [PATCH 0/3] drm/nouveau: Advertise correct modifiers on GB20x
+Date: Mon, 11 Aug 2025 15:00:14 -0700
+Message-ID: <20250811220017.1337-1-jajones@nvidia.com>
+X-Mailer: git-send-email 2.50.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0350.namprd03.prod.outlook.com
+ (2603:10b6:a03:39c::25) To SN7PR12MB6691.namprd12.prod.outlook.com
+ (2603:10b6:806:271::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB6691:EE_|MN2PR12MB4207:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ade4019-ee34-457a-3535-08ddd9220331
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BEKX+mK3QDJafkR7ga+BdRKmJY2TJxJCKn+o7ABduBctItj0Jj49OoIHrsBb?=
+ =?us-ascii?Q?0/LTidhXmZywHJO4BvV7/KsABqLRS2ZlM2jEwQq3RXkKWeu3zR2OK7w87YDa?=
+ =?us-ascii?Q?AnXECUm7WdupG0Hu1ALsOcYaBQOgzrq3rUw4od3JTw7EGVc8MA8zQDfw1ghV?=
+ =?us-ascii?Q?uyvzshibDCmidwx364buO0Gmcn/HT9ZnCY4Cd4F8VJ4xyG8IRsU0TnIXg29L?=
+ =?us-ascii?Q?QVO8Efy8Xo73uqb+gBJcO14degBU7NZ4Pj+bhSZaA9xFBxvfGgjXhYkrjks7?=
+ =?us-ascii?Q?QWoUQisFnFQarrs6Tz9U95jIBlqYFY5YlWMshPGTfNQ7T4mmAZaz8eKhryCA?=
+ =?us-ascii?Q?wG1rBbBafvgRC5WHLfXfgXho2dtkhh82+Y7+fKKWIx80bcnoQF5KuTANl88n?=
+ =?us-ascii?Q?NCu/TR4+XBv8wiLtBycHfgOJrAdaUxM1MlYovW5XjXjA5wNGDaiHXdS4VvEx?=
+ =?us-ascii?Q?YdkMGJmvJKI6toCq2mq2AwUJWlG8eqNwNwwqV158QyYwm67JYPOwcf6v/fQ6?=
+ =?us-ascii?Q?IaHI6RLdHtdmgS794n8sAsClltDjhOZ1oRS+RGK7CgaBbjMwHJ74hpHLvrOD?=
+ =?us-ascii?Q?W6WL/pJd7kSLt3W/Q6s4bb8M4VBqtbHDEFUY5eAiYjRWJNvpRED9AotWd8pY?=
+ =?us-ascii?Q?iSmruF7rifB/0/vzJhdJyNob7xvkdH+Mnh6XrsVrzk26Qsxi+w11KjaPpwfb?=
+ =?us-ascii?Q?5x5tTeJ28bVdeiDx+S2A9ZoTxKbp5mdJYZImUdwGkgQXQQKD6rZyf6XmigHy?=
+ =?us-ascii?Q?NWxsLqwrjbyENpt751xO1IVOyygFYf/k3MCSDXQGa3kZ8Joxd5Dt2ZV27jfF?=
+ =?us-ascii?Q?dbyXJGNyJRgborlgbYW94USD47BqWSdq0p1ZvwoM+OPulbxv5Jz1Jxl7LV0o?=
+ =?us-ascii?Q?nSjgA2Pl7wucWZ4i9HXuFsvm6vhJP0kNQbX3breahgLtvkkwOtIMeoFh6zDB?=
+ =?us-ascii?Q?q3QMkSXqN4LVVViuHgP7vcrdWLgYdRFr3oqF+LSD6qHeCYIG9BP5Hl6FaXTH?=
+ =?us-ascii?Q?lf04EqukRQ7paUSsdtLwqzO5AjhQ2qJZLe4ivIrX4cWfiEsvwh6FwSnLPpGN?=
+ =?us-ascii?Q?tN0H6SDukYqnoRFpzT13tCSDCtGkYPEP8+Ltj0IByeTkpw8S7Fs8/92dX4xw?=
+ =?us-ascii?Q?1oEoDDCBJExTga+sTcVI8gK1l+9b+4DX7nzmjemfey6ddouMw2C0eI6GEnv1?=
+ =?us-ascii?Q?pv9AHE1weD4v8woEqIjhNJTDwPKhH9tt5MkxcEI9hLw5GBIrJ5HSAWfoe/qa?=
+ =?us-ascii?Q?HSBuS67lWpT9XW33LLBAgZ6klA2adR2IcIS1t4vSkPifVROdMPUVbAhIl0UJ?=
+ =?us-ascii?Q?qTNBvRhqgnnsSJkYRUVk1Cr3vcAM9OicCOu/2TjKHYtkqGiEp94w1fd7Fvxo?=
+ =?us-ascii?Q?oNjDiHxs43BwatUhyqkx6grJ9XIUoSG6DLujEASeHp4VAtgVuiCkQ+rCBbh+?=
+ =?us-ascii?Q?yNF8nmS8ZQY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB6691.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cx/5EKndEd0dSONOUBtUVB1rgCEGWaeO6WsB5LYWa65No+Z6w/YJ8/yAPEbo?=
+ =?us-ascii?Q?wwsbQHfYycZD+LY36mabINDcsINf9/TR0dgq3B1DbIJ7Bl1lURSBjOcUTSIN?=
+ =?us-ascii?Q?4yrP+Gz/WjxRzCYGsBvB7tW7173+17csS8YjefuxFOmHcnGyPrjF+55L8Bkc?=
+ =?us-ascii?Q?ExLjimgVAw0U/H8xwGpZek0O4C2W9yJ7y837ZM2FioM4wFkPJ59HyjQOS3VB?=
+ =?us-ascii?Q?frD5e1wyxbgVp1f/glrtqfoSMLMRzi8fgkN9NaCC5Nw+TG6TprqnX4kXwJB2?=
+ =?us-ascii?Q?GAbWwAlmpoYayafbOvIMstyQhccEzmpgLnDXD+zlk7C4kGI6aMropEd30GNk?=
+ =?us-ascii?Q?Z5Z5unczY8/u0JkKDH5pqTRmuWNZV6bao4Zv4YiZS77rlnWi6g9cyCT9E006?=
+ =?us-ascii?Q?2ozWGMagBt3kYPxNx1cDUNqu27Xx4w5iAtyMdBcOl/05jAmh9Im0N4D3z41E?=
+ =?us-ascii?Q?U3NfaZTjvXRlblvVQc9zX0E0eeFdNp4WhpkxvxPizEHngUGVJLZw7OfwhFCB?=
+ =?us-ascii?Q?97y89TGudknXrmYyfoDeanRa9uSpStYyIZb+m7Na+rmllpPugVJpVYvcDgnF?=
+ =?us-ascii?Q?9i8qqrfsbevUlKghoQTVQlQQRgwme+vlsZh9eLnPBdPHkHpPTGMAyc4mb1cg?=
+ =?us-ascii?Q?xONlMQ4wcHR5DqhBmUS7qnoC6LIC+YZHy677AGFN0srneFJsQMLciVXETSZH?=
+ =?us-ascii?Q?n4j1vSLNV5rssQFonVvx8Gc6nHBTdpaq2oH/WshHwS+UBWEJypSmPKO+MFdT?=
+ =?us-ascii?Q?5Yf6Xen3LvPJK0Nd3qYdSxYHAUbGKc0gbDkBxArJZdxjxMBCxNb3Bq2BFazh?=
+ =?us-ascii?Q?fEv/eUUMDljlQkJXmX2/jQpRW3SPwoxmDPNRgJj07GC9rZ8sKa4Bc9ss6KrT?=
+ =?us-ascii?Q?IatnBgket3TFn8wjjr6APPPZeetn/gqesscqEYBYBcrVsZsetBaKm9BHVy6Y?=
+ =?us-ascii?Q?CHE7P6H+2rIESxRiZPwVhhPOB+jHuN5X/cYSDAsKpyywhRRFee6Al8j5Zh3R?=
+ =?us-ascii?Q?wvUdUmR54a/AEiL7wJovs1wEDPb+JZrbmUQQpYm1YZPNYYc9HUkNRGX9e0Vx?=
+ =?us-ascii?Q?bEJQwNErhyp67OhWDsKDkjAPOQokakEQ3iOsipyyyALM2+bXoFeQU3o0WN7F?=
+ =?us-ascii?Q?1IJwDj2M1JRAOvuyOpFOhN5wik6E+lB+yFhNn7JeyGdFLK4EK8j0P6LJkgnA?=
+ =?us-ascii?Q?kaERqMBA4EGK4OnD2jom0GpI/VD4CChJd4lk4KJf7+1lQI+J4W06J/ZiHw1C?=
+ =?us-ascii?Q?rls95oDMZDyZSgqBLOZLMDKydpybvuXL4V4TzXNAZtT22hhnRDmDNlaj2O3z?=
+ =?us-ascii?Q?gbZXnNMnmPUYw4XJBi5Pm9onjfidAbDtULn5zP9MfMjBtIXq7SjlgSxECGpJ?=
+ =?us-ascii?Q?tKMB3B4goX4ItPJTjf8950NH1+mznOD/8YukD6ZyuyurJ9F01UotmHP3BZuA?=
+ =?us-ascii?Q?QnKd7KMALqxecS35dlYxy0LSfIHNIusGWbeBkMpFQCzJmmk/IGaKVw38l43P?=
+ =?us-ascii?Q?BXUgO0Pj1Mm2mMscwR3p6M3m13Jr1e2h8gYUZreQhc07ijcoU801q/I/fKNq?=
+ =?us-ascii?Q?23FJHj++OC/RZF+7QP+RM4Ki79IZLKa6xPM10gMp?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ade4019-ee34-457a-3535-08ddd9220331
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB6691.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 21:57:06.5400 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uZJTdb5AFdicOsBZwaBOJ2+L2RSFdFGUo7P6jxWoiezjOBtdzedwxZXqwJDs5ngXXw9AIOx/UdSe0of3kCQdUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4207
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,219 +146,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series adds new format modifiers for 8 and 16-bit formats on GB20x
+GPUs, preventing them from mistakenly sharing block-linear surfaces
+using these formats with prior GPUs that use a different layout.
 
+There are a few ways the parameteric format modifier definition
+could have been altered to handle the new layouts:
 
-On 11/08/2025 18:26, Harry Wentland wrote:
->
-> On 2025-08-11 17:09, Limonciello, Mario wrote:
->> On 8/11/25 4:08 PM, Hung, Alex wrote:
->>> Melissa,
->>>
->>> The patchset passed promotion and CI.
->>>
->>> However, since our DC code is shared with the other OS, calling drm_*
->>> functions in DC won't work for us. For example, calling
->>> dc_edid_copy_edid_to_sink from dc/link/link_detection.c in patch 14.
->>>
->>> I don't have a good way to handle it. Does it make sense not to touch DC
->>> code for now?
->> What about if we have a set of compatibility macros in DC code?
->>
->> Something like this:
->>
->> #ifndef drm_dbg
->> #define drm_dbg ....
->> #endif
-> DC should stay OS-agnostic. No DRM concepts in DC please.
+-The GOB Height and Page Kind field has a reserved value that could
+ have been used. However, the GOB height and page kind enums did
+ not change relative to prior chips, so this is sort of a lie.
+ However, this is the least-invasive change.
 
-Yes, and that is exactly the reason for "[PATCH v6 10/14] 
-drm/amd/display: add a mid-layer file to handle EDID in DC" 
-(https://lore.kernel.org/amd-gfx/20250726003816.435227-11-mwen@igalia.com/).
+-An entirely new field could have been added. This seems
+ inappropriate given the presence of an existing appropriate field.
+ The advantage here is it avoids splitting the sector layout field
+ across two bitfields.
 
-DC code still handles raw EDID data and drivers handling raw EDID is 
-exactly what we are trying to remove from DRM. But with the current 
-implementation of the AMD driver, we cannot remove it without touching 
-DC code. The thing is, if we stop handle raw EDID in the DM layer, we 
-cannot pass this data to DC and vice-versa.
-So the proposal with patch 10 (and follow-up patches) is creating 
-different dc_edid files, one for linux and another for different platforms.
->
-> Why the need to change dc_edid_is_same_edid?
+The chosen approach is the logically consistent one, but has the
+downside of being the most complex, and that it causes the
+DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D() macro to evaluate its 's'
+parameter twice. However, utilizing simple helper functions in
+client code when accessing the parameteric format modifier fields
+easily addresses the complexity, and I have audited the relevant code
+and do not believe the double evaluation should cause any problems in
+practice.
 
-The linux file is done in this series by reimplementing the DC functions 
-that handles raw EDID, like dc_edid_is_same_edid, with drm_edid helpers. 
-The file for other platforms can be the original functions without these 
-changes.
-In fact, there is a step that should be done by AMD people because we 
-don't handle other platforms. It should be somewhat similar to the DC 
-FPU isolation code.
+Tested on GB20x and TU10x cards using the following:
 
-If it's not possible for any reasons, could you share with us some 
-suggestions on how to address this issue?
+-kmscube w/NVK+Zink built with these patches applied:
 
-Thanks in advance,
+   https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36336
 
-Melissa
+ with various manually specified formats
+ and both manually specified and automatically
+ selected modifiers.
 
->
-> I'll comment directly on the patch.
->
-> Harry
->
->>> On 8/11/25 13:40, Melissa Wen wrote:
->>>>
->>>> On 28/07/2025 20:29, Alex Hung wrote:
->>>>> Thanks. I will send v6 to promotion test.
->>>> Hi Alex,
->>>>
->>>> Any news about this round of tests?
->>>>
->>>> BR,
->>>>
->>>> Melissa
->>>>
->>>>> On 7/25/25 18:33, Melissa Wen wrote:
->>>>>> Hi,
->>>>>>
->>>>>> Siqueira and I have been working on a solution to reduce the usage of
->>>>>> drm_edid_raw in the AMD display driver, since the current guideline in
->>>>>> the DRM subsystem is to stop handling raw edid data in driver-specific
->>>>>> implementation and use opaque `drm_edid` object with common-code
->>>>>> helpers.
->>>>>>
->>>>>> To keep DC as an OS-agnostic component, we create a mid layer that
->>>>>> isolates `drm_edid` helpers called in the DC code, while allowing other
->>>>>> OSes to implement their specific implementation.
->>>>>>
->>>>>> This work is an extension of [1].
->>>>>>
->>>>>> - Patch 1 addresses a possible leak added by previous migration to
->>>>>>     drm_edid.
->>>>>> - Patch 2 allocates a temporary drm_edid from raw edid for parsing.
->>>>>> - Patches 3-7 use common-code, drm_edid helpers to parse edid
->>>>>>     capabilities instead of driver-specific solutions. For this, patch 4
->>>>>>     introduces a new helper that gets monitor name from drm_edid.
->>>>>> - Patches 8-9 are groundwork to reduce the noise of Linux/DRM specific
->>>>>>     code in the DC shared code
->>>>>> - Patch 10 creates a mid layer to make DC embraces different ways of
->>>>>>     handling EDID by platforms.
->>>>>> - Patch 11 move open-coded management of raw EDID data to the mid
->>>>>>     layer created before.
->>>>>> - Patch 12 introduces a helper that compares EDIDs from two drm_edids.
->>>>>> - Patch 13 adds drm_edid to dc_sink struct and a mid-layer helper to
->>>>>>     free `drm_edid`.
->>>>>> - Patch 14 switch dc_edid to drm_edid across the driver in a way that
->>>>>>     the DC shared code is little affected by Linux specific stuff.
->>>>>>
->>>>>> [v1] https://lore.kernel.org/dri-devel/20250411201333.151335-1-
->>>>>> mwen@igalia.com/
->>>>>> Changes:
->>>>>> - fix broken approach to get monitor name from eld (Jani)
->>>>>>     - I introduced a new helper that gets monitor name from drm_edid
->>>>>> - rename drm_edid_eq to drm_edid_eq_buf and doc fixes (Jani)
->>>>>> - add NULL edid checks (Jani)
->>>>>> - fix mishandling of product_id.manufacturer_name (Michel)
->>>>>>     - I directly set it to manufacturer_id since sparse didn't complain.
->>>>>> - add Mario's r-b in the first fix patch and fix commit msg typo.
->>>>>>
->>>>>> [v2] https://lore.kernel.org/dri-devel/20250507001712.120215-1-
->>>>>> mwen@igalia.com/
->>>>>> Changes:
->>>>>> - kernel-doc and commit msg fixes (Jani)
->>>>>> - use drm_edid_legacy_init instead of open coded (Jani)
->>>>>> - place drm_edid new func into the right section (Jani)
->>>>>> - paramenter names fix (Jani)
->>>>>> - add Jani's r-b to the patch 12
->>>>>> - remove unnecessary include (Jani)
->>>>>> - call dc_edid_sink_edid_free in link_detection, instead of
->>>>>> drm_edid_free
->>>>>> - rebase on top of asdn
->>>>>>
->>>>>> [v3] https://lore.kernel.org/dri-devel/20250514202130.291324-1-
->>>>>> mwen@igalia.com/
->>>>>> Changes:
->>>>>> - rebase to asdn
->>>>>> - some kernel-doc fixes
->>>>>> - move some changes to the right commit
->>>>>>
->>>>>> [v4] https://lore.kernel.org/amd-gfx/20250613150015.245917-1-
->>>>>> mwen@igalia.com/
->>>>>> Changes:
->>>>>> - fix comments and commit messages (Mario)
->>>>>> - remove unnecessary drm_edid dup and fix mem leak (Mario)
->>>>>> - add Mario's rb to patches 5-7
->>>>>>
->>>>>> [v5] https://lore.kernel.org/amd-gfx/20250618152216.948406-1-
->>>>>> mwen@igalia.com/
->>>>>> Changes:
->>>>>> - fix NULL pointer dereference (Alex H.) with the same approach
->>>>>> proposed
->>>>>>     by 7c3be3ce3dfae
->>>>>>
->>>>>> --->
->>>>>> There are three specific points where we still use drm_edid_raw() in
->>>>>> the
->>>>>> driver:
->>>>>> 1. raw edid data for write EDID checksum in DP_TEST_EDID_CHECKSUM via
->>>>>>      drm_dp_dpcd_write(), that AFAIK there is no common code solution
->>>>>> yet;
->>>>>> 2. open-coded connectivity log for dc link detection, that maybe can be
->>>>>>      moved to drm (?);
->>>>>> 3. open-coded parser that I suspect is a lot of duplicated code, but
->>>>>>      needs careful examining.
->>>>>>
->>>>>> I suggest to address those points in a next phase for regression
->>>>>> control.
->>>>>>
->>>>>> [1] https://lore.kernel.org/amd-gfx/20250308142650.35920-1-
->>>>>> mwen@igalia.com/
->>>>>>
->>>>>> Let me know yours thoughts!
->>>>>>
->>>>>> Melissa
->>>>>>
->>>>>> Melissa Wen (12):
->>>>>>     drm/amd/display: make sure drm_edid stored in aconnector doesn't
->>>>>> leak
->>>>>>     drm/amd/display: start using drm_edid helpers to parse EDID caps
->>>>>>     drm/amd/display: use drm_edid_product_id for parsing EDID product
->>>>>> info
->>>>>>     drm/edid: introduce a helper that gets monitor name from drm_edid
->>>>>>     drm/amd/display: get panel id with drm_edid helper
->>>>>>     drm/amd/display: get SAD from drm_eld when parsing EDID caps
->>>>>>     drm/amd/display: get SADB from drm_eld when parsing EDID caps
->>>>>>     drm/amd/display: simplify dm_helpers_parse_edid_caps signature
->>>>>>     drm/amd/display: change DC functions to accept private types for
->>>>>> edid
->>>>>>     drm/edid: introduce a helper that compares edid data from two
->>>>>> drm_edid
->>>>>>     drm/amd/display: add drm_edid to dc_sink
->>>>>>     drm/amd/display: move dc_sink from dc_edid to drm_edid
->>>>>>
->>>>>> Rodrigo Siqueira (2):
->>>>>>     drm/amd/display: add a mid-layer file to handle EDID in DC
->>>>>>     drm/amd/display: create a function to fill dc_sink with edid data
->>>>>>
->>>>>>    .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   1 +
->>>>>>    .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  33 +++---
->>>>>>    .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 109 ++++++
->>>>>> +-----------
->>>>>>    .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  21 ++--
->>>>>>    .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   |  39 +++++++
->>>>>>    .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   |  15 +++
->>>>>>    .../drm/amd/display/dc/core/dc_link_exports.c |   9 +-
->>>>>>    drivers/gpu/drm/amd/display/dc/core/dc_sink.c |   3 +
->>>>>>    drivers/gpu/drm/amd/display/dc/dc.h           |  10 +-
->>>>>>    drivers/gpu/drm/amd/display/dc/dm_helpers.h   |   7 +-
->>>>>>    drivers/gpu/drm/amd/display/dc/inc/link.h     |   9 +-
->>>>>>    .../drm/amd/display/dc/link/link_detection.c  |  30 ++---
->>>>>>    .../drm/amd/display/dc/link/link_detection.h  |   9 +-
->>>>>>    drivers/gpu/drm/bridge/sil-sii8620.c          |   2 +-
->>>>>>    drivers/gpu/drm/display/drm_dp_mst_topology.c |   2 +-
->>>>>>    drivers/gpu/drm/drm_edid.c                    |  54 +++++++--
->>>>>>    include/drm/drm_edid.h                        |  10 +-
->>>>>>    17 files changed, 199 insertions(+), 164 deletions(-)
->>>>>>    create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->>>>>>    create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
->>>>>>
+-drmfmtmods, a tiny test program that lists modifiers:
+
+   https://github.com/cubanismo/drmfmtmods
+
+Changes since the RFC version here:
+
+  https://lore.kernel.org/nouveau/20250703223658.1457-1-jajones@nvidia.com/
+
+-Dropped the helper macros & static inlines in
+ drm_fourcc.h as requested by Faith Ekstrand,
+ who noted these aren't helpful for UMD code,
+ which is all written in rust now. I may re-
+ introduce some of these in a subsequent series,
+ but we both agreed we do not want to delay
+ progress on the modifiers themselves while we
+ debate the details of those cometic details.
+
+-Reserved an extra bit for future sector
+ layouts.
+
+-Fixed handling of linear modifiers on GB20x
+ and NV5x/G8x/G9x/GT2xx chips.
+
+James Jones (3):
+  drm: define NVIDIA DRM format modifiers for GB20x
+  drm/nouveau/disp: Always accept linear modifier
+  drm/nouveau: Advertise correct modifiers on GB20x
+
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     |  3 ++
+ drivers/gpu/drm/nouveau/dispnv50/disp.h     |  1 +
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c     | 25 ++++++++++++++--
+ drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c | 33 +++++++++++++++++++++
+ include/uapi/drm/drm_fourcc.h               | 25 ++++++++++------
+ 5 files changed, 76 insertions(+), 11 deletions(-)
+
+-- 
+2.50.1
 
