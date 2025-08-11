@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1CBBB2035D
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5E8B20364
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:28:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3F6910E3BB;
-	Mon, 11 Aug 2025 09:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80F7810E3BE;
+	Mon, 11 Aug 2025 09:27:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jLxdILoe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nQeKudt9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B22010E3B7;
- Mon, 11 Aug 2025 09:27:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F79C10E3AC;
+ Mon, 11 Aug 2025 09:27:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754904467; x=1786440467;
+ t=1754904477; x=1786440477;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xZRDvFI/h1XsPkkG0EgE3BdZNi3nIhnVkdTx1q+0bvY=;
- b=jLxdILoehxKJLfv1NmRumCgqiyDciDb+J5q/7OpsbusdaVfoemjnl1OQ
- PnvRQmtDCAUkqwC0pxWUXpt5LDRqY8wGl+I9gSCEmGdoC8CVMA3KFUW7D
- /yaUbemdP2KN47sKanUVl/ZdQSR0lA01vXYwG/QOrPqAQP2+0g7Up5zud
- CZO19LVXN/koA77Rd+VO7S/Myqt7PE2DY87wDzHegztDYJgstUbpJG+gM
- 17EKRDKmJVJOoRPcFhLVvvHaq56dk96WN6VKTQq92YoqsniizstB2LfUt
- 1bIiegMLf+H5e+iywrkmZFGGY80qgGw64gTAqoPDiXf84GkmD32OGdpC0 A==;
-X-CSE-ConnectionGUID: 5h4cFP/+SEuHQWtET6Lekg==
-X-CSE-MsgGUID: 4gaVOAPdTe2UCt0nLa2SpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57217932"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="57217932"
+ bh=G1V8plHg1BJ8oXiT7TSBNCbbRE6SOMQJZJHiO6f/pko=;
+ b=nQeKudt9YixOkR65YoN5VK7haU7XJMiGkPKeCsNuaqqcd3TYS8AruVZh
+ lIG+0s23iJ3f9RCwsdwzQFITsJqX0vNjcvSsA/LBcs2GPmADTzXmKxesy
+ 5wplEVki7GFfW18UX5UL9YrOYpCTzinVJF2dnEFoDYhMbeDBjWEguB5bB
+ +dUHbmInxcw52xo3sAueLC9jBBPUNmJHmKb0owmrKDDpvq5zzxcEiwFAq
+ H/zKQthfq/tLkoe8zWILkE1snfD2+f6L3ORTEAiTVHjYTwbQYmriwqS1+
+ wRAULO69Qwf6wqLg3A6HrV9R4X7B9WuDL3R4vWMez/udf1dkE0ghrKQBQ w==;
+X-CSE-ConnectionGUID: PdmwX8hHS86oJvruehwg8w==
+X-CSE-MsgGUID: aDMfIkHwRW+1xdREG6+elQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57217948"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="57217948"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2025 02:27:47 -0700
-X-CSE-ConnectionGUID: mCgCOl6pReSie7XKk/kxkw==
-X-CSE-MsgGUID: RUTqBuzZRLKvxdKvph0kPw==
+ 11 Aug 2025 02:27:56 -0700
+X-CSE-ConnectionGUID: iH4II6ZZRcmahcl0VlfUxA==
+X-CSE-MsgGUID: Lt1mzx4cSZuWJ6bP8ZadDQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="165860299"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="165860329"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by orviesa007.jf.intel.com with ESMTP; 11 Aug 2025 02:27:37 -0700
+ by orviesa007.jf.intel.com with ESMTP; 11 Aug 2025 02:27:47 -0700
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
@@ -58,10 +58,10 @@ Cc: ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com, uma.shankar@intel.com,
  tomi.valkeinen+renesas@ideasonboard.com,
  kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com,
  Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-Date: Mon, 11 Aug 2025 14:57:00 +0530
-Message-Id: <20250811092707.3986802-2-suraj.kandpal@intel.com>
+Subject: [RFC PATCH 2/8] drm/amd/display: Adapt amd writeback to new
+ drm_writeback_connector
+Date: Mon, 11 Aug 2025 14:57:01 +0530
+Message-Id: <20250811092707.3986802-3-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250811092707.3986802-1-suraj.kandpal@intel.com>
 References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
@@ -82,287 +82,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some drivers cannot work with the current design where the connector
-is embedded within the drm_writeback_connector such as intel and
-some drivers that can get it working end up adding a lot of checks
-all around the code to check if it's a writeback conenctor or not.
-To solve this we move the drm_writeback_connector within the
-drm_connector and remove the drm_connector base which was in
-drm_writeback_connector. We do all other required
-modifications that come with these changes along with addition
-of new function which returns the drm_connector when
-drm_writeback_connector is present.
-All drivers will be expected to allocate the drm_connector.
+Now that drm_writeback_connector is embedded with the drm_connector
+adapt the amd writeback functionality to this changes. This includes
+changing the drm_writeback_connector to be changed to drm_connector
+within the amdgpu_dm_wb_connector. Some other changes are done which
+are a result of the all the above changes mentioned.
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/drm_writeback.c | 33 ++++++++++------
- include/drm/drm_connector.h     | 60 +++++++++++++++++++++++++++++
- include/drm/drm_writeback.h     | 68 ++++-----------------------------
- 3 files changed, 89 insertions(+), 72 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 4 +---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h    | 2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c | 8 ++++----
+ 3 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index ec2575c4c21b..198b8c488056 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -89,8 +89,10 @@ static const char *drm_writeback_fence_get_driver_name(struct dma_fence *fence)
- {
- 	struct drm_writeback_connector *wb_connector =
- 		fence_to_wb_connector(fence);
-+	struct drm_connector *connector =
-+		drm_writeback_to_connector(wb_connector);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 5e260b275082..d4628dadf55a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6915,11 +6915,9 @@ create_stream_for_sink(struct drm_connector *connector,
+ 		aconnector = to_amdgpu_dm_connector(connector);
+ 		link = aconnector->dc_link;
+ 	} else {
+-		struct drm_writeback_connector *wbcon = NULL;
+ 		struct amdgpu_dm_wb_connector *dm_wbcon = NULL;
  
--	return wb_connector->base.dev->driver->name;
-+	return connector->dev->driver->name;
- }
- 
- static const char *
-@@ -187,7 +189,8 @@ static int __drm_writeback_connector_init(struct drm_device *dev,
- 					  struct drm_encoder *enc, const u32 *formats,
- 					  int n_formats)
- {
--	struct drm_connector *connector = &wb_connector->base;
-+	struct drm_connector *connector =
-+		drm_writeback_to_connector(wb_connector);
- 	struct drm_mode_config *config = &dev->mode_config;
- 	struct drm_property_blob *blob;
- 	int ret = create_writeback_properties(dev);
-@@ -269,7 +272,8 @@ int drm_writeback_connector_init(struct drm_device *dev,
- 				 struct drm_encoder *enc,
- 				 const u32 *formats, int n_formats)
- {
--	struct drm_connector *connector = &wb_connector->base;
-+	struct drm_connector *connector =
-+		drm_writeback_to_connector(wb_connector);
- 	int ret;
- 
- 	ret = drm_connector_init(dev, connector, con_funcs,
-@@ -339,7 +343,8 @@ int drmm_writeback_connector_init(struct drm_device *dev,
- 				  struct drm_encoder *enc,
- 				  const u32 *formats, int n_formats)
- {
--	struct drm_connector *connector = &wb_connector->base;
-+	struct drm_connector *connector =
-+		drm_writeback_to_connector(wb_connector);
- 	int ret;
- 
- 	ret = drmm_connector_init(dev, connector, con_funcs,
-@@ -382,13 +387,15 @@ int drm_writeback_set_fb(struct drm_connector_state *conn_state,
- 
- int drm_writeback_prepare_job(struct drm_writeback_job *job)
- {
--	struct drm_writeback_connector *connector = job->connector;
-+	struct drm_writeback_connector *wb_connector = job->connector;
-+	struct drm_connector *connector
-+		= drm_writeback_to_connector(wb_connector);
- 	const struct drm_connector_helper_funcs *funcs =
--		connector->base.helper_private;
-+		connector->helper_private;
- 	int ret;
- 
- 	if (funcs->prepare_writeback_job) {
--		ret = funcs->prepare_writeback_job(connector, job);
-+		ret = funcs->prepare_writeback_job(wb_connector, job);
- 		if (ret < 0)
- 			return ret;
+-		wbcon = drm_connector_to_writeback(connector);
+-		dm_wbcon = to_amdgpu_dm_wb_connector(wbcon);
++		dm_wbcon = to_amdgpu_dm_wb_connector(connector);
+ 		link = dm_wbcon->link;
  	}
-@@ -434,12 +441,14 @@ EXPORT_SYMBOL(drm_writeback_queue_job);
  
- void drm_writeback_cleanup_job(struct drm_writeback_job *job)
- {
--	struct drm_writeback_connector *connector = job->connector;
-+	struct drm_writeback_connector *wb_connector = job->connector;
-+	struct drm_connector *connector
-+		= drm_writeback_to_connector(wb_connector);
- 	const struct drm_connector_helper_funcs *funcs =
--		connector->base.helper_private;
-+		connector->helper_private;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index b937da0a4e4a..dbcdc8595e76 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -809,7 +809,7 @@ static inline void amdgpu_dm_set_mst_status(uint8_t *status,
+ #define to_amdgpu_dm_connector(x) container_of(x, struct amdgpu_dm_connector, base)
  
- 	if (job->prepared && funcs->cleanup_writeback_job)
--		funcs->cleanup_writeback_job(connector, job);
-+		funcs->cleanup_writeback_job(wb_connector, job);
- 
- 	if (job->fb)
- 		drm_framebuffer_put(job->fb);
-@@ -521,8 +530,10 @@ struct dma_fence *
- drm_writeback_get_out_fence(struct drm_writeback_connector *wb_connector)
- {
- 	struct dma_fence *fence;
-+	struct drm_connector *connector =
-+		drm_writeback_to_connector(wb_connector);
- 
--	if (WARN_ON(wb_connector->base.connector_type !=
-+	if (WARN_ON(connector->connector_type !=
- 		    DRM_MODE_CONNECTOR_WRITEBACK))
- 		return NULL;
- 
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 8f34f4b8183d..da63fdafd9f2 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1882,6 +1882,61 @@ struct drm_connector_cec {
- 	void *data;
+ struct amdgpu_dm_wb_connector {
+-	struct drm_writeback_connector base;
++	struct drm_connector base;
+ 	struct dc_link *link;
  };
  
-+/**
-+ * struct drm_writeback_connector - DRM writeback connector
-+ */
-+struct drm_writeback_connector {
-+	/**
-+	 * @pixel_formats_blob_ptr:
-+	 *
-+	 * DRM blob property data for the pixel formats list on writeback
-+	 * connectors
-+	 * See also drm_writeback_connector_init()
-+	 */
-+	struct drm_property_blob *pixel_formats_blob_ptr;
-+
-+	/** @job_lock: Protects job_queue */
-+	spinlock_t job_lock;
-+
-+	/**
-+	 * @job_queue:
-+	 *
-+	 * Holds a list of a connector's writeback jobs; the last item is the
-+	 * most recent. The first item may be either waiting for the hardware
-+	 * to begin writing, or currently being written.
-+	 *
-+	 * See also: drm_writeback_queue_job() and
-+	 * drm_writeback_signal_completion()
-+	 */
-+	struct list_head job_queue;
-+
-+	/**
-+	 * @fence_context:
-+	 *
-+	 * timeline context used for fence operations.
-+	 */
-+	unsigned int fence_context;
-+	/**
-+	 * @fence_lock:
-+	 *
-+	 * spinlock to protect the fences in the fence_context.
-+	 */
-+	spinlock_t fence_lock;
-+	/**
-+	 * @fence_seqno:
-+	 *
-+	 * Seqno variable used as monotonic counter for the fences
-+	 * created on the connector's timeline.
-+	 */
-+	unsigned long fence_seqno;
-+	/**
-+	 * @timeline_name:
-+	 *
-+	 * The name of the connector's fence timeline.
-+	 */
-+	char timeline_name[32];
-+};
-+
- /**
-  * struct drm_connector - central DRM connector control structure
-  *
-@@ -2305,6 +2360,11 @@ struct drm_connector {
- 	 * @cec: CEC-related data.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
+index 80c37487ca77..8fea29720989 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
+@@ -202,9 +202,9 @@ int amdgpu_dm_wb_connector_init(struct amdgpu_display_manager *dm,
+ 
+ 	wbcon->link = link;
+ 
+-	drm_connector_helper_add(&wbcon->base.base, &amdgpu_dm_wb_conn_helper_funcs);
++	drm_connector_helper_add(&wbcon->base, &amdgpu_dm_wb_conn_helper_funcs);
+ 
+-	res = drmm_writeback_connector_init(&dm->adev->ddev, &wbcon->base,
++	res = drmm_writeback_connector_init(&dm->adev->ddev, &wbcon->base.writeback,
+ 					    &amdgpu_dm_wb_connector_funcs,
+ 					    encoder,
+ 					    amdgpu_dm_wb_formats,
+@@ -216,8 +216,8 @@ int amdgpu_dm_wb_connector_init(struct amdgpu_display_manager *dm,
+ 	 * Some of the properties below require access to state, like bpc.
+ 	 * Allocate some default initial connector state with our reset helper.
  	 */
- 	struct drm_connector_cec cec;
-+
-+	/**
-+	 * @writeback: Writeback related valriables.
-+	 */
-+	struct drm_writeback_connector writeback;
- };
+-	if (wbcon->base.base.funcs->reset)
+-		wbcon->base.base.funcs->reset(&wbcon->base.base);
++	if (wbcon->base.funcs->reset)
++		wbcon->base.funcs->reset(&wbcon->base);
  
- #define obj_to_connector(x) container_of(x, struct drm_connector, base)
-diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-index 958466a05e60..2a52b6761797 100644
---- a/include/drm/drm_writeback.h
-+++ b/include/drm/drm_writeback.h
-@@ -15,66 +15,6 @@
- #include <drm/drm_encoder.h>
- #include <linux/workqueue.h>
- 
--/**
-- * struct drm_writeback_connector - DRM writeback connector
-- */
--struct drm_writeback_connector {
--	/**
--	 * @base: base drm_connector object
--	 */
--	struct drm_connector base;
--
--	/**
--	 * @pixel_formats_blob_ptr:
--	 *
--	 * DRM blob property data for the pixel formats list on writeback
--	 * connectors
--	 * See also drm_writeback_connector_init()
--	 */
--	struct drm_property_blob *pixel_formats_blob_ptr;
--
--	/** @job_lock: Protects job_queue */
--	spinlock_t job_lock;
--
--	/**
--	 * @job_queue:
--	 *
--	 * Holds a list of a connector's writeback jobs; the last item is the
--	 * most recent. The first item may be either waiting for the hardware
--	 * to begin writing, or currently being written.
--	 *
--	 * See also: drm_writeback_queue_job() and
--	 * drm_writeback_signal_completion()
--	 */
--	struct list_head job_queue;
--
--	/**
--	 * @fence_context:
--	 *
--	 * timeline context used for fence operations.
--	 */
--	unsigned int fence_context;
--	/**
--	 * @fence_lock:
--	 *
--	 * spinlock to protect the fences in the fence_context.
--	 */
--	spinlock_t fence_lock;
--	/**
--	 * @fence_seqno:
--	 *
--	 * Seqno variable used as monotonic counter for the fences
--	 * created on the connector's timeline.
--	 */
--	unsigned long fence_seqno;
--	/**
--	 * @timeline_name:
--	 *
--	 * The name of the connector's fence timeline.
--	 */
--	char timeline_name[32];
--};
--
- /**
-  * struct drm_writeback_job - DRM writeback job
-  */
-@@ -131,10 +71,16 @@ struct drm_writeback_job {
- 	void *priv;
- };
- 
-+static inline struct drm_connector *
-+drm_writeback_to_connector(struct drm_writeback_connector *wb_connector)
-+{
-+	return container_of(wb_connector, struct drm_connector, writeback);
-+}
-+
- static inline struct drm_writeback_connector *
- drm_connector_to_writeback(struct drm_connector *connector)
- {
--	return container_of(connector, struct drm_writeback_connector, base);
-+	return &connector->writeback;
+ 	return 0;
  }
- 
- int drm_writeback_connector_init(struct drm_device *dev,
 -- 
 2.34.1
 
