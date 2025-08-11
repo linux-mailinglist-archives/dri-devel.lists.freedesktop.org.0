@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C52B20377
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B665FB2037A
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:28:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6379810E3E6;
-	Mon, 11 Aug 2025 09:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0558F10E3E8;
+	Mon, 11 Aug 2025 09:28:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fxC3VAvb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K8T+Njk8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3158910E3C3;
- Mon, 11 Aug 2025 09:28:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF8410E3E7;
+ Mon, 11 Aug 2025 09:28:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754904505; x=1786440505;
+ t=1754904516; x=1786440516;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Ki1GGkw71tIKyIVaIjMUwdhb3Let70cJ4O4/ULs294k=;
- b=fxC3VAvbwRO6rnkjAq82NoVNoeSH+Bk0j1XbxVnbHT/vOuYdGTESkIm0
- p5abiLj9oi6UtgyCIR9EHwp1x6sHoU6TzwdZ2SRaO0L3YtypduGxuUxrC
- Euy8HMdQ8ElR+M0zzez2TWpmh8HgM8MRm+TH5XZ7fLOkmNY5HX2hhnr2u
- zBDE6gy7cBLuuXkV8wAD+KqtYopKUX1AY4OkOwTLGpMiTk/afVd332EgA
- kpkQGkkK4dXgC0KiB7RrBw243ui/p1b+WUlHKapL0R8kxjEOcv49EpBKr
- s+34zPJcXgFbR80B2GfxXmKrXi2nlKc/CHY3vemizQb433de4PubN5fz6 w==;
-X-CSE-ConnectionGUID: atd9F0XLTFyHPAdjnKPzbQ==
-X-CSE-MsgGUID: ixPzPUh5Rf6ZaA8GsfujLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57218048"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="57218048"
+ bh=1wt9TGKVHpEOGWtUwQvSvwHMqVCuk5olmwKqlio6imU=;
+ b=K8T+Njk88DEMKkuVJeAS4KmPU4nATxPO2Vm84APYZqwBaQl67fUIvbHf
+ NXrVztZ96rkmKn8mJxXiwYGg9k65j2eCbUbp4sDhTg/mOAvJMysrqTblU
+ g3j++9MKI3WQj4EuI1Y4LxGoEhAJpdE0skQ9shdnfagMqgvJ9iF9L8wof
+ cgtKYGNPHPysua5SnX/Vc1T18tiKR2f7Aompoi1sb/BdF5UibpqBNw+N8
+ kTZh2GbevjDfSknioducRFi0n0amXTYBvAF0rGg3PDr1+FGWWWMPjljoI
+ B8yUAFbIhHUy2WgbSDaCvtd8vPFU8T9jWsqmcoj3JXp4/PEXMS2iME0hQ w==;
+X-CSE-ConnectionGUID: BVKuqGFMTpuZO8WunvvXSA==
+X-CSE-MsgGUID: qAnuYAXLR7mT1DQs+y8bpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57218086"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="57218086"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2025 02:28:25 -0700
-X-CSE-ConnectionGUID: hSQMHheTT5eQzr4ASK6TyQ==
-X-CSE-MsgGUID: s4igVi6RSW6SQ+NVnHFQ9g==
+ 11 Aug 2025 02:28:35 -0700
+X-CSE-ConnectionGUID: b6XwttqyRhq1/Pa2QhuxWg==
+X-CSE-MsgGUID: CV794O3JQbKX4G/bQVO+gA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="165860428"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="165860484"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by orviesa007.jf.intel.com with ESMTP; 11 Aug 2025 02:28:16 -0700
+ by orviesa007.jf.intel.com with ESMTP; 11 Aug 2025 02:28:25 -0700
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
@@ -58,10 +58,10 @@ Cc: ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com, uma.shankar@intel.com,
  tomi.valkeinen+renesas@ideasonboard.com,
  kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com,
  Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [RFC PATCH 5/8] drm/vc4: Adapt vc4 writeback to new
+Subject: [RFC PATCH 6/8] drm/vkms: Adapt vkms writeback to new
  drm_writeback_connector
-Date: Mon, 11 Aug 2025 14:57:04 +0530
-Message-Id: <20250811092707.3986802-6-suraj.kandpal@intel.com>
+Date: Mon, 11 Aug 2025 14:57:05 +0530
+Message-Id: <20250811092707.3986802-7-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250811092707.3986802-1-suraj.kandpal@intel.com>
 References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
@@ -83,77 +83,97 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Now that drm_writeback_connector is embedded with the drm_connector
-adapt the vc4 writeback functionality to this changes. This
-includes changing the drm_writeback_connector to be changed to drm_connector
-within the vc4_txp.Some other changes are done which are a
-result of the all the above changes mentioned.
+adapt the vkms writeback functionality to this changes. This
+includes changing the drm_writeback_connector to be changed to
+drm_connector within the vkms_output.
+Some other changes are done which are a result of the all the above
+changes mentioned.
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/vc4/vc4_txp.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vkms/vkms_composer.c  |  2 +-
+ drivers/gpu/drm/vkms/vkms_drv.h       |  2 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c | 15 +++++++++------
+ 3 files changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index fef4e4ee47cf..2428807e9714 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -167,7 +167,7 @@ struct vc4_txp {
- 	struct platform_device *pdev;
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index fa269d279e25..b5f20637121c 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -543,7 +543,7 @@ void vkms_composer_worker(struct work_struct *work)
+ 		return;
  
- 	struct vc4_encoder encoder;
--	struct drm_writeback_connector connector;
+ 	if (wb_pending) {
+-		drm_writeback_signal_completion(&out->wb_connector, 0);
++		drm_writeback_signal_completion(&out->connector.writeback, 0);
+ 		spin_lock_irq(&out->composer_lock);
+ 		crtc_state->wb_pending = false;
+ 		spin_unlock_irq(&out->composer_lock);
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 8013c31efe3b..2e58a06c9ad8 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -213,7 +213,7 @@ struct vkms_crtc_state {
+  */
+ struct vkms_output {
+ 	struct drm_crtc crtc;
+-	struct drm_writeback_connector wb_connector;
 +	struct drm_connector connector;
- 
- 	void __iomem *regs;
- };
-@@ -176,7 +176,7 @@ struct vc4_txp {
- 	container_of_const(_encoder, struct vc4_txp, encoder.base)
- 
- #define connector_to_vc4_txp(_connector)				\
--	container_of_const(_connector, struct vc4_txp, connector.base)
-+	container_of_const(_connector, struct vc4_txp, connector)
- 
- static const struct debugfs_reg32 txp_regs[] = {
- 	VC4_REG32(TXP_DST_PTR),
-@@ -356,7 +356,7 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
- 
- 	TXP_WRITE(TXP_DST_CTRL, ctrl);
- 
--	drm_writeback_queue_job(&txp->connector, conn_state);
-+	drm_writeback_queue_job(&txp->connector.writeback, conn_state);
- 
- 	drm_dev_exit(idx);
+ 	struct drm_encoder wb_encoder;
+ 	struct hrtimer vblank_hrtimer;
+ 	ktime_t period_ns;
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index 45d69a3b85f6..13c2a5c8f57a 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -102,13 +102,16 @@ static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
+ 	return ret;
  }
-@@ -504,7 +504,7 @@ static irqreturn_t vc4_txp_interrupt(int irq, void *data)
- 	 */
- 	TXP_WRITE(TXP_DST_CTRL, TXP_READ(TXP_DST_CTRL) & ~TXP_EI);
- 	vc4_crtc_handle_vblank(vc4_crtc);
--	drm_writeback_signal_completion(&txp->connector, 0);
-+	drm_writeback_signal_completion(&txp->connector.writeback, 0);
  
- 	return IRQ_HANDLED;
- }
-@@ -598,9 +598,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
- 
--	drm_connector_helper_add(&txp->connector.base,
-+	drm_connector_helper_add(&txp->connector,
- 				 &vc4_txp_connector_helper_funcs);
--	ret = drmm_writeback_connector_init(drm, &txp->connector,
-+	ret = drmm_writeback_connector_init(drm, &txp->connector.writeback,
- 					    &vc4_txp_connector_funcs,
- 					    encoder,
- 					    drm_fmts, ARRAY_SIZE(drm_fmts));
-@@ -622,7 +622,7 @@ static void vc4_txp_unbind(struct device *dev, struct device *master,
+-static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
++static void vkms_wb_cleanup_job(struct drm_writeback_connector *wb_connector,
+ 				struct drm_writeback_job *job)
  {
- 	struct vc4_txp *txp = dev_get_drvdata(dev);
+ 	struct vkms_writeback_job *vkmsjob = job->priv;
++	struct drm_connector *connector = container_of(wb_connector,
++						       struct drm_connector,
++						       writeback);
+ 	struct vkms_output *vkms_output = container_of(connector,
+ 						       struct vkms_output,
+-						       wb_connector);
++						       connector);
  
--	drm_connector_cleanup(&txp->connector.base);
-+	drm_connector_cleanup(&txp->connector);
- }
+ 	if (!job->fb)
+ 		return;
+@@ -127,8 +130,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+ 	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
+ 											 conn);
+ 	struct vkms_output *output = drm_crtc_to_vkms_output(connector_state->crtc);
+-	struct drm_writeback_connector *wb_conn = &output->wb_connector;
+-	struct drm_connector_state *conn_state = wb_conn->base.state;
++	struct drm_writeback_connector *wb_conn = &output->connector.writeback;
++	struct drm_connector_state *conn_state = output->connector.state;
+ 	struct vkms_crtc_state *crtc_state = output->composer_state;
+ 	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
+ 	u16 crtc_height = crtc_state->base.mode.vdisplay;
+@@ -166,7 +169,7 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
+ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+ 				    struct vkms_output *vkms_output)
+ {
+-	struct drm_writeback_connector *wb = &vkms_output->wb_connector;
++	struct drm_writeback_connector *wb = &vkms_output->connector.writeback;
+ 	int ret;
  
- static const struct component_ops vc4_txp_ops = {
+ 	ret = drmm_encoder_init(&vkmsdev->drm, &vkms_output->wb_encoder,
+@@ -177,7 +180,7 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+ 	vkms_output->wb_encoder.possible_clones |=
+ 		drm_encoder_mask(&vkms_output->wb_encoder);
+ 
+-	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
++	drm_connector_helper_add(&vkms_output->connector, &vkms_wb_conn_helper_funcs);
+ 
+ 	return drmm_writeback_connector_init(&vkmsdev->drm, wb,
+ 					     &vkms_wb_connector_funcs,
 -- 
 2.34.1
 
