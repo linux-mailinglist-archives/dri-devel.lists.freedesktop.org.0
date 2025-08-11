@@ -2,93 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC082B20EEF
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 17:28:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D96C1B20F03
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 17:28:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7DD810E505;
-	Mon, 11 Aug 2025 15:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B5C510E1DB;
+	Mon, 11 Aug 2025 15:28:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="M43VXjSm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fgc0iaYF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M43VXjSm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fgc0iaYF";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="u3l5Xx7f";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cn7QAdb5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u3l5Xx7f";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cn7QAdb5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD75C10E1DB
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 15:28:01 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B13F10E1DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 15:28:44 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 839A833E19;
- Mon, 11 Aug 2025 15:28:00 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 24AB61F460;
+ Mon, 11 Aug 2025 15:28:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1754926080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1754926123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=L+NtoWTbMfsMHBwJQUBBefarWJjB1nEu2Nq7A9yXI10=;
- b=M43VXjSms4cq8wtdwCfrVvjGnnsDBMqNyzJPso2wSsFHxnR9LrXsN2QIq093J/BLbQ93DA
- ByN3x8ukVmErSZRFfM+HGedVMbEf/LfunTZ0RntSfzjUHFx80pdjIIh38O71Ys3pp+8LMl
- KIhrziXzgyNHB2iQQjH/hTatj4h88tY=
+ bh=5DZ4tuyFJQLZXRPQVeVCDKXSBZt5Eva1A2iGtDgdvS4=;
+ b=u3l5Xx7fHip7r5u6WQNaCcytXGF6LctH3+LRuIxfaCJhCmGltLGcmXcNiI3KKmr4qxEB9k
+ lQiWrxuTAMSDX+EGt28AzzDosWXM9GfWfXW7uSoSNY/pn+X5u+aoEoFtV0UKxe8smw7VcW
+ dQblRAyMedL4GWgP7auP8jEfSvPBDXQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1754926080;
+ s=susede2_ed25519; t=1754926123;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=L+NtoWTbMfsMHBwJQUBBefarWJjB1nEu2Nq7A9yXI10=;
- b=Fgc0iaYFsNcHsTdbwPI02yyINRXh8Lx7h0jLWvAXPXmTB5yO95fIW394k5myt502XN9Tpr
- XSoo0oJEsUszdoBw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=M43VXjSm;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Fgc0iaYF
+ bh=5DZ4tuyFJQLZXRPQVeVCDKXSBZt5Eva1A2iGtDgdvS4=;
+ b=cn7QAdb5nUuszXF1xhrXi15XNjCEYp1sZ1ki7wD0L9avK7V4hgwNamX18gokbcIzvzM+xK
+ +wE6aPMxCXd8YHCA==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1754926080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1754926123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=L+NtoWTbMfsMHBwJQUBBefarWJjB1nEu2Nq7A9yXI10=;
- b=M43VXjSms4cq8wtdwCfrVvjGnnsDBMqNyzJPso2wSsFHxnR9LrXsN2QIq093J/BLbQ93DA
- ByN3x8ukVmErSZRFfM+HGedVMbEf/LfunTZ0RntSfzjUHFx80pdjIIh38O71Ys3pp+8LMl
- KIhrziXzgyNHB2iQQjH/hTatj4h88tY=
+ bh=5DZ4tuyFJQLZXRPQVeVCDKXSBZt5Eva1A2iGtDgdvS4=;
+ b=u3l5Xx7fHip7r5u6WQNaCcytXGF6LctH3+LRuIxfaCJhCmGltLGcmXcNiI3KKmr4qxEB9k
+ lQiWrxuTAMSDX+EGt28AzzDosWXM9GfWfXW7uSoSNY/pn+X5u+aoEoFtV0UKxe8smw7VcW
+ dQblRAyMedL4GWgP7auP8jEfSvPBDXQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1754926080;
+ s=susede2_ed25519; t=1754926123;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=L+NtoWTbMfsMHBwJQUBBefarWJjB1nEu2Nq7A9yXI10=;
- b=Fgc0iaYFsNcHsTdbwPI02yyINRXh8Lx7h0jLWvAXPXmTB5yO95fIW394k5myt502XN9Tpr
- XSoo0oJEsUszdoBw==
+ bh=5DZ4tuyFJQLZXRPQVeVCDKXSBZt5Eva1A2iGtDgdvS4=;
+ b=cn7QAdb5nUuszXF1xhrXi15XNjCEYp1sZ1ki7wD0L9avK7V4hgwNamX18gokbcIzvzM+xK
+ +wE6aPMxCXd8YHCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4AE2713A55;
- Mon, 11 Aug 2025 15:28:00 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DBE7F13A55;
+ Mon, 11 Aug 2025 15:28:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 3LT/DgAMmmghaAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 11 Aug 2025 15:28:00 +0000
-Message-ID: <75f747d5-9c1b-4a3e-85c4-a0c9bd47e7b0@suse.de>
-Date: Mon, 11 Aug 2025 17:27:59 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id vnA8NCoMmmiBaAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 11 Aug 2025 15:28:42 +0000
+Message-ID: <15d8a106-62f8-489c-83d7-3ae0d1fcbfbd@suse.de>
+Date: Mon, 11 Aug 2025 17:28:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iosys-map: Fix undefined behavior in iosys_map_clear()
-To: "Gote, Nitin R" <nitin.r.gote@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Shyti, Andi" <andi.shyti@intel.com>
-References: <20250718105051.2709487-1-nitin.r.gote@intel.com>
- <aHpelIVPhfR74SUH@ashyti-mobl2.lan>
- <598098e1-f5fa-46cb-a7e6-589f75ce7234@suse.de>
- <IA3PR11MB8987884A53D81CADB5C088DFD05EA@IA3PR11MB8987.namprd11.prod.outlook.com>
- <IA3PR11MB89876C8B13B2126DC25C0B77D024A@IA3PR11MB8987.namprd11.prod.outlook.com>
+Subject: Re: [PATCH 2/2] drm/tests: Fix drm_test_fb_xrgb8888_to_xrgb2101010()
+ on big-endian
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+ simona@ffwll.ch, lumag@kernel.org, cristian.ciocaltea@collabora.com,
+ gcarlos@disroot.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250630090054.353246-1-jose.exposito89@gmail.com>
+ <20250630090054.353246-2-jose.exposito89@gmail.com>
+ <9467c5f1-fb70-4698-a611-80f9be499b22@suse.de> <aJnE6Uu_WutFA06X@fedora>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -115,35 +111,26 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <IA3PR11MB89876C8B13B2126DC25C0B77D024A@IA3PR11MB8987.namprd11.prod.outlook.com>
+In-Reply-To: <aJnE6Uu_WutFA06X@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 839A833E19
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_DN_SOME(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TAGGED_RCPT(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[gmail.com]; MID_RHS_MATCH_FROM(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- TO_DN_EQ_ADDR_SOME(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[6];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -4.51
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,collabora.com,disroot.org,lists.freedesktop.org,vger.kernel.org];
+ RCPT_COUNT_SEVEN(0.00)[10]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,116 +148,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 30.07.25 um 14:51 schrieb Gote, Nitin R:
-> Hi,
+Am 11.08.25 um 12:24 schrieb José Expósito:
+> Hi Thomas,
 >
-> The patch has been reviewed and approved.
-> Could someone please help to merge it?
+> On Mon, Jun 30, 2025 at 01:37:58PM +0200, Thomas Zimmermann wrote:
+>>
+>> Am 30.06.25 um 11:00 schrieb José Expósito:
+>>> Fix failures on big-endian architectures on tests cases
+>>> single_pixel_source_buffer, single_pixel_clip_rectangle,
+>>> well_known_colors and destination_pitch.
+>>>
+>>> Fixes: 15bda1f8de5d ("drm/tests: Add calls to drm_fb_blit() on supported format conversion tests")
+>>> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Just a friendly reminder about this patches. Can I merge them?
+> They have been in the ML for a while and it doesn't look like
+> there are concerns.
 
-Merged into drm-misc-fixes now, sorry for the delay.
+Merged into drm-misc-fixes now. Sorry for the delay.
 
 Best regards
 Thomas
 
 >
-> Thank you,
-> Nitin
->
->> -----Original Message-----
->> From: Gote, Nitin R
->> Sent: Thursday, July 24, 2025 10:36 AM
->> To: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Shyti, Andi
->> <Andi.Shyti@intel.com>
->> Subject: RE: [PATCH] iosys-map: Fix undefined behavior in iosys_map_clear()
+> Best wishes,
+> Jose
+>   
+>>> ---
+>>>    drivers/gpu/drm/tests/drm_format_helper_test.c | 1 +
+>>>    1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+>>> index 86829e1cb7f0..981dada8f3a8 100644
+>>> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+>>> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+>>> @@ -1040,6 +1040,7 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
+>>>    	memset(buf, 0, dst_size);
+>>>    	drm_fb_xrgb8888_to_xrgb2101010(&dst, dst_pitch, &src, &fb, &params->clip, &fmtcnv_state);
+>>> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
+>>>    	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>>>    }
+>> -- 
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Frankenstrasse 146, 90461 Nuernberg, Germany
+>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+>> HRB 36809 (AG Nuernberg)
 >>
->> Hi Thomas,
->>
->>> Hi
->>>
->>> Am 18.07.25 um 16:47 schrieb Andi Shyti:
->>>> Hi Nitin,
->>>>
->>>> On Fri, Jul 18, 2025 at 04:20:51PM +0530, Nitin Gote wrote:
->>>>> The current iosys_map_clear() implementation reads the potentially
->>>>> uninitialized 'is_iomem' boolean field to decide which union member
->>>>> to clear. This causes undefined behavior when called on
->>>>> uninitialized structures, as 'is_iomem' may contain garbage values like 0xFF.
->>>>>
->>>>> UBSAN detects this as:
->>>>>       UBSAN: invalid-load in include/linux/iosys-map.h:267
->>>>>       load of value 255 is not a valid value for type '_Bool'
->>>>>
->>>>> Fix by unconditionally clearing the entire structure with memset(),
->>>>> eliminating the need to read uninitialized data and ensuring all
->>>>> fields are set to known good values.
->>>>>
->>>>> Closes:
->>>>> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14639
->>>>> Fixes: 01fd30da0474 ("dma-buf: Add struct dma-buf-map for storing
->>>>> struct dma_buf.vaddr_ptr")
->>>>> Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
->>>> +Thomas and the dri-devel mailing list.
->>>>
->>>> In any case, your patch makes sense to me:
->>> The call to iosys_map_clear() is at
->>>
->>> https://elixir.bootlin.com/linux/v6.15.6/source/drivers/dma-buf/dma-
->>> buf.c#L1571
->>>
->>> It's a defensive measure for cases where the caller reads the returned
->>> map address when it was never initialized by the vmap implementation.
->>> I'm not a big fan of memset(), but OK. Preferably, iosys_map_clear()
->>> would simply set vaddr = NULL and is_iomem = false. Anyway,
->>>
->>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>
->>> Best regards
->>> Thomas
->>>
->> Thank you for the review.
->> Could you please help to merge this patch?
->>
->> - Nitin
->>
->>>> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->>>>
->>>> Andi
->>>>
->>>>> ---
->>>>>    include/linux/iosys-map.h | 7 +------
->>>>>    1 file changed, 1 insertion(+), 6 deletions(-)
->>>>>
->>>>> diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
->>>>> index 4696abfd311c..3e85afe794c0 100644
->>>>> --- a/include/linux/iosys-map.h
->>>>> +++ b/include/linux/iosys-map.h
->>>>> @@ -264,12 +264,7 @@ static inline bool iosys_map_is_set(const
->>>>> struct
->>> iosys_map *map)
->>>>>     */
->>>>>    static inline void iosys_map_clear(struct iosys_map *map)
->>>>>    {
->>>>> -	if (map->is_iomem) {
->>>>> -		map->vaddr_iomem = NULL;
->>>>> -		map->is_iomem = false;
->>>>> -	} else {
->>>>> -		map->vaddr = NULL;
->>>>> -	}
->>>>> +	memset(map, 0, sizeof(*map));
->>>>>    }
->>>>>
->>>>>    /**
->>>>> --
->>>>> 2.25.1
->>> --
->>> --
->>> Thomas Zimmermann
->>> Graphics Driver Developer
->>> SUSE Software Solutions Germany GmbH
->>> Frankenstrasse 146, 90461 Nuernberg, Germany
->>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman HRB
->>> 36809 (AG Nuernberg)
 
 -- 
 --
