@@ -2,39 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAC4B204AD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE05B204F9
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 12:13:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC7F10E0CD;
-	Mon, 11 Aug 2025 09:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 492FE10E303;
+	Mon, 11 Aug 2025 10:13:41 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FDwP+B0O";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5D57F10E0CD
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 09:59:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CDF62152B
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 02:59:05 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B525D3F738
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 02:59:13 -0700 (PDT)
-Date: Mon, 11 Aug 2025 10:59:06 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Rahul Kumar <rk0006818@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Subject: Re: [PATCH] drm/komeda: Convert logging in komeda_crtc.c to drm_*
- with drm_device parameter
-Message-ID: <aJm-6pbrllD56Cx8@e110455-lin.cambridge.arm.com>
-References: <20250811054459.15851-1-rk0006818@gmail.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A61110E106
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:13:40 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57B9dAEv000640
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:13:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ tQBekwLY985lR0kL588BU9IYUYSsm3EJi76WLENqjaQ=; b=FDwP+B0OX5UBuh1A
+ yaBnSgBA4PZ6KYN6UyxgXDpyNLwikqLtNO6NVZchMnFrdq1fHAr9zI3JLW/AKlB5
+ nxIdKbXb87PbAZ2UiPni3kloNPTITgFmGv6lF1CH2AdwpxGy6DNhc7/lMRaa26ok
+ AXFCp45EK0v4y/nT5fwiGnPWYU5wcC6mTKy1VYu3ol63+TOPdiuiJhcv9r7YqKYs
+ RQyuqXukejuJ37d/tRE8V2Cn/2VVJ0n0OTxLwyvmy5rBgwi3p4b6oJM3S+Eqe5Zd
+ 9GSCTxs/jeBsJi5cJ0uWNqxOvHZKxGtVOz3gUSCF+MmelO9zM2JtUXFL9SlErhyO
+ 3BHiYQ==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dym9kwur-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:13:39 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-70739ef4ab4so95115346d6.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 03:13:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754907218; x=1755512018;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tQBekwLY985lR0kL588BU9IYUYSsm3EJi76WLENqjaQ=;
+ b=kOpC/hGsC0srQJZ6Gk/xLsDW4N2ZbFil/3m6oY7PCevw/+NcsVIxEdj/amIbyjk8qn
+ xjHeLqXlDNqoFGC4ZqBSUlFu6UiwqsD4AvQO8SJdb6X40bvMqbJA4kiiZLBYPyjTuJqi
+ uSx228+sHE75QPj1z5bpXiL3CKcEerXBFhE86f29A4i3KghXXLx6x1nHdInXm+Et8+c2
+ 8h14+jEpfwq70PbQXDOc6038vzPvqZUYnPfxC9iYgs7t8RmS2SS9Gq9Ixe7NAtJFbrnd
+ 0deKrIP8oJVhClhzqVAiwtY1fBx7gViCxjTOj3IEtJUU23B1i4/OJnbQmQpXus/8GsB0
+ 4hJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW8VdQz7vYU0qOlOWUEBl+P7BAATXKH027zu2AOi21++qrpD0Hq33LtRDGN+Ff0+wilgjj66x1Hb7k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzULwB8yQNbTpyhQ2h8lZS3TPx9NtMWjFs3s4IxRLTU93Am4qSK
+ AFCiVIroRkZm7rnYgR3iMs0oOVkzMXky3yt2MG6J2tEdtrHQwVQ8jFBCY7LLKxu30jLOpx/+uRi
+ bh0RPiVkI0DmPRJ2OHIpEWsV6vlcc8V7Or5nd7cO4bGPVBnM7dDMn3q7tI536gtN4miSQFH0=
+X-Gm-Gg: ASbGncsDBq6PLJRPmClqzNUZvaT4LFmIpOKKdtqKPzvPEfXfqnO/vpcMyBQbQGDECLp
+ wHBa1G7DHxcRXz1jNVzG/wFAz6Sxes4XtNAZwBTGlQU3o6pp3kTaZa1dmViIbSnyzJIk+eB3kpr
+ YaVLuMbzU4i5vwb83mbpDuK5JC/U0loLqA3Sy1BP0ctUYwtw+13a1qcZIw0JD4I0U6XhDVh2ZWP
+ jlmMYIZckjHeFOHKprgGKwEfSh9N70XnRtO0PLVIm4qgDMy/gl5g6F+evQ/c+dYDK1WlyYfYkn/
+ +ZGbLPsjsuD+lKwn9vXAArdAYELRqhACwAhvIETOka1NP8ubHF74m1g8fbrRY87MBOgcjGGt5fl
+ Z9/twlMlqI5xdR52p/q08KaP9+uQJmnDEKFm4JyAdtRbHCmatpOtB
+X-Received: by 2002:a05:6214:2422:b0:707:6409:d001 with SMTP id
+ 6a1803df08f44-7098943a0camr242700166d6.21.1754907218049; 
+ Mon, 11 Aug 2025 03:13:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH9BY/zT1y+b3ji4GZxhC3ZVhQrv/r/mWPNZE1y3jpndTSli2Cjg/bMQSHGPbSf9yhMaetFWQ==
+X-Received: by 2002:a05:6214:2422:b0:707:6409:d001 with SMTP id
+ 6a1803df08f44-7098943a0camr242699906d6.21.1754907217606; 
+ Mon, 11 Aug 2025 03:13:37 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-332382a905fsm41770471fa.21.2025.08.11.03.13.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Aug 2025 03:13:36 -0700 (PDT)
+Date: Mon, 11 Aug 2025 13:13:34 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>
+Cc: kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
+ arun.r.murthy@intel.com, uma.shankar@intel.com, jani.nikula@intel.com,
+ harry.wentland@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, robin.clark@oss.qualcomm.com,
+ abhinav.kumar@linux.dev, tzimmermann@suse.de,
+ jessica.zhang@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org,
+ laurent.pinchart+renesas@ideasonboard.com, mcanal@igalia.com,
+ dave.stevenson@raspberrypi.com, tomi.valkeinen+renesas@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com
+Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
+ structure
+Message-ID: <gvshpndrbnojzwewwa3icd5fjwecqj57jj6gfgoips5xq2oo3l@3dsebzcjwr7t>
+References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
+ <20250811092707.3986802-2-suraj.kandpal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250811054459.15851-1-rk0006818@gmail.com>
+In-Reply-To: <20250811092707.3986802-2-suraj.kandpal@intel.com>
+X-Proofpoint-GUID: LFHYjCZWfdIX862h6IDreDO8qRZXyhRq
+X-Proofpoint-ORIG-GUID: LFHYjCZWfdIX862h6IDreDO8qRZXyhRq
+X-Authority-Analysis: v=2.4 cv=YZ+95xRf c=1 sm=1 tr=0 ts=6899c253 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=QyXUC8HyAAAA:8 a=JhAXgKmwuo5aGy_CkLIA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAzNiBTYWx0ZWRfX/kcd7YAkn+MF
+ 9HWCtsILl1HSLndyC0MDaPC5tzUNe/zM4UxiPYXMMS5HvNir7VmCeyBjJR4QRfYerLYiEhWLZr3
+ ke4xpV7P2Gz+mnpCnVrxcfiMz3i/PkkTYEMNeHf+YEzlZNEUFC5ND+eEuJC6SjhGvoJ49XTsIvq
+ 52iEr934RzlWGzf0Hx3I/RRMQQH0KqC/ucfV0khEgmwPKZsOQ6E6q7AIOSJRwSE354/t5ohHrlt
+ 6bKusWiBq5qvk0tSkU8A3RDtesjIYttZPsi3BkGdMmr5VWNT0H4agVUYJyIJOUeFXW/b0khIV6+
+ BK5Zl1tzX+BAaaN7bp9iFHDkfs9QTp9VTTjWAI5+tQBjf9X75IaieSULXgavn6Ip9IyJ7x9LHi5
+ I8g46c+s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-11_01,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508090036
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,193 +139,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, Aug 11, 2025 at 11:14:59AM +0530, Rahul Kumar wrote:
-> Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
-> calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
-> corresponding drm_err(), drm_warn(), and drm_info() helpers.
+On Mon, Aug 11, 2025 at 02:57:00PM +0530, Suraj Kandpal wrote:
+> Some drivers cannot work with the current design where the connector
+> is embedded within the drm_writeback_connector such as intel and
+> some drivers that can get it working end up adding a lot of checks
+> all around the code to check if it's a writeback conenctor or not.
+> To solve this we move the drm_writeback_connector within the
+> drm_connector and remove the drm_connector base which was in
+> drm_writeback_connector. We do all other required
+> modifications that come with these changes along with addition
+> of new function which returns the drm_connector when
+> drm_writeback_connector is present.
+> All drivers will be expected to allocate the drm_connector.
 > 
-> The new drm_*() logging functions take a struct drm_device * as the
-> first argument. This allows the DRM core to prefix log messages with
-> the specific DRM device name and instance, which is essential for
-> distinguishing logs when multiple GPUs or display controllers are present.
-> 
-> This change aligns komeda with the DRM TODO item: "Convert logging to
-> drm_* functions with drm_device parameter".
-> 
-> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 > ---
->  .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 37 +++++++++++--------
->  1 file changed, 21 insertions(+), 16 deletions(-)
+>  drivers/gpu/drm/drm_writeback.c | 33 ++++++++++------
+>  include/drm/drm_connector.h     | 60 +++++++++++++++++++++++++++++
+>  include/drm/drm_writeback.h     | 68 ++++-----------------------------
+>  3 files changed, 89 insertions(+), 72 deletions(-)
+
+This patch breaks building of drivers:
+
+drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c: In function ‘dpu_encoder_phys_wb_prepare_for_kickoff’:
+drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c:487:36: error: ‘struct drm_writeback_connector’ has no member named ‘base’
+  487 |         drm_conn = &wb_enc->wb_conn->base;
+      |                                    ^~
+
+Please perform step-by-step modifications, making sure that on each
+step all the drivers can be built and function as expected.
+
 > 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> index 2ad33559a33a..b50ce3653ff6 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> @@ -111,6 +111,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,
->  static int
->  komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  {
-> +	struct drm_device *drm = kcrtc->base.dev;
->  	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
->  	struct komeda_pipeline *master = kcrtc->master;
->  	struct komeda_crtc_state *kcrtc_st = to_kcrtc_st(kcrtc->base.state);
-> @@ -128,8 +129,8 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  
->  	err = mdev->funcs->change_opmode(mdev, new_mode);
->  	if (err) {
-> -		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
-> -			  mdev->dpmode, new_mode);
-> +		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-> +			mdev->dpmode, new_mode);
->  		goto unlock;
->  	}
->  
-> @@ -142,18 +143,18 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  	if (new_mode != KOMEDA_MODE_DUAL_DISP) {
->  		err = clk_set_rate(mdev->aclk, komeda_crtc_get_aclk(kcrtc_st));
->  		if (err)
-> -			DRM_ERROR("failed to set aclk.\n");
-> +			drm_err(drm, "failed to set aclk.\n");
->  		err = clk_prepare_enable(mdev->aclk);
->  		if (err)
-> -			DRM_ERROR("failed to enable aclk.\n");
-> +			drm_err(drm, "failed to enable aclk.\n");
->  	}
->  
->  	err = clk_set_rate(master->pxlclk, mode->crtc_clock * 1000);
->  	if (err)
-> -		DRM_ERROR("failed to set pxlclk for pipe%d\n", master->id);
-> +		drm_err(drm, "failed to set pxlclk for pipe%d\n", master->id);
->  	err = clk_prepare_enable(master->pxlclk);
->  	if (err)
-> -		DRM_ERROR("failed to enable pxl clk for pipe%d.\n", master->id);
-> +		drm_err(drm, "failed to enable pxl clk for pipe%d.\n", master->id);
->  
->  unlock:
->  	mutex_unlock(&mdev->lock);
-> @@ -164,6 +165,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
->  static int
->  komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
->  {
-> +	struct drm_device *drm = kcrtc->base.dev;
->  	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
->  	struct komeda_pipeline *master = kcrtc->master;
->  	u32 new_mode;
-> @@ -180,8 +182,8 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
->  
->  	err = mdev->funcs->change_opmode(mdev, new_mode);
->  	if (err) {
-> -		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
-> -			  mdev->dpmode, new_mode);
-> +		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
-> +			mdev->dpmode, new_mode);
->  		goto unlock;
->  	}
->  
-> @@ -200,6 +202,7 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
->  void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
->  			      struct komeda_events *evts)
->  {
-> +	struct drm_device *drm = kcrtc->base.dev;
->  	struct drm_crtc *crtc = &kcrtc->base;
->  	u32 events = evts->pipes[kcrtc->master->id];
->  
-> @@ -212,7 +215,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
->  		if (wb_conn)
->  			drm_writeback_signal_completion(&wb_conn->base, 0);
->  		else
-> -			DRM_WARN("CRTC[%d]: EOW happen but no wb_connector.\n",
-> +			drm_warn(drm, "CRTC[%d]: EOW happen but no wb_connector.\n",
->  				 drm_crtc_index(&kcrtc->base));
->  	}
->  	/* will handle it together with the write back support */
-> @@ -236,7 +239,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
->  			crtc->state->event = NULL;
->  			drm_crtc_send_vblank_event(crtc, event);
->  		} else {
-> -			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
-> +			drm_warn(drm, "CRTC[%d]: FLIP happened but no pending commit.\n",
->  				 drm_crtc_index(&kcrtc->base));
->  		}
->  		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
-> @@ -309,7 +312,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
->  
->  	/* wait the flip take affect.*/
->  	if (wait_for_completion_timeout(flip_done, HZ) == 0) {
-> -		DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
-> +		drm_err(drm, "wait pipe%d flip done timeout\n", kcrtc->master->id);
->  		if (!input_flip_done) {
->  			unsigned long flags;
->  
-> @@ -562,6 +565,7 @@ static const struct drm_crtc_funcs komeda_crtc_funcs = {
->  int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
->  			   struct komeda_dev *mdev)
->  {
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_crtc *crtc;
->  	struct komeda_pipeline *master;
->  	char str[16];
-> @@ -581,7 +585,7 @@ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
->  		else
->  			sprintf(str, "None");
->  
-> -		DRM_INFO("CRTC-%d: master(pipe-%d) slave(%s).\n",
-> +		drm_info(drm, "CRTC-%d: master(pipe-%d) slave(%s).\n",
->  			 kms->n_crtcs, master->id, str);
->  
->  		kms->n_crtcs++;
-> @@ -609,10 +613,11 @@ get_crtc_primary(struct komeda_kms_dev *kms, struct komeda_crtc *crtc)
->  	return NULL;
->  }
->  
-> -static int komeda_attach_bridge(struct device *dev,
-> -				struct komeda_pipeline *pipe,
-> +static int komeda_attach_bridge(struct komeda_pipeline *pipe,
->  				struct drm_encoder *encoder)
->  {
-> +	struct drm_device *drm = pipe->mdev->drm;
+> @@ -2305,6 +2360,11 @@ struct drm_connector {
+>  	 * @cec: CEC-related data.
+>  	 */
+>  	struct drm_connector_cec cec;
+> +
+> +	/**
+> +	 * @writeback: Writeback related valriables.
+> +	 */
+> +	struct drm_writeback_connector writeback;
 
-As the kernel build bot has already said, there is no struct drm_device in komeda_dev. Not
-sure what you're getting by trying to remove that parameter though.
+I will respond to this in another thread.
 
-Best regards,
-Liviu
-
-
-> +	struct device *dev = drm->dev;
->  	struct drm_bridge *bridge;
->  	int err;
+>  };
 >  
-> @@ -624,7 +629,7 @@ static int komeda_attach_bridge(struct device *dev,
->  
->  	err = drm_bridge_attach(encoder, bridge, NULL, 0);
->  	if (err)
-> -		dev_err(dev, "bridge_attach() failed for pipe: %s\n",
-> +		drm_err(drm, "bridge_attach() failed for pipe: %s\n",
->  			of_node_full_name(pipe->of_node));
->  
->  	return err;
-> @@ -658,7 +663,7 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
->  		return err;
->  
->  	if (pipe->of_output_links[0]) {
-> -		err = komeda_attach_bridge(base->dev, pipe, encoder);
-> +		err = komeda_attach_bridge(pipe, encoder);
->  		if (err)
->  			return err;
->  	}
-> -- 
-> 2.43.0
-> 
+>  #define obj_to_connector(x) container_of(x, struct drm_connector, base)
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+With best wishes
+Dmitry
