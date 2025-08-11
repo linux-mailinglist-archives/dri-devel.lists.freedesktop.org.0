@@ -2,79 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECEEB20500
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 12:15:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED029B20522
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 12:20:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29EE810E420;
-	Mon, 11 Aug 2025 10:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EBED10E106;
+	Mon, 11 Aug 2025 10:20:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lR4JFVdB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eh8e9UXZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8592610E419
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:15:41 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-459ddf8acf1so34917255e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 03:15:41 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5512C10E106
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:20:30 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-455b00339c8so26073725e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 03:20:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754907340; x=1755512140; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=InWEj8yfNZNXn9Ghid4W7lwyxvfYCt3pMVPvqhpg8n4=;
- b=lR4JFVdBaK/IYQ1+NtSAL/zsxS1ItMQ7X65ubvmNwDDWkA7ldbsNSJuIzRh2TPDnvy
- eLIr5cym9tGIcAK6uytrC5vdEf2b8as7LSg5Q9um2v8OkiTcWpbHHck3kTR9uyh8y4M4
- Ew5acEqg9Mkz99v4IzO9zJ/xn3NUbGqNloUmm7pecTFxv4cjLEIP1h69p0M+9clRSag0
- RpJGh9aTkMvHe3QYKPHYEXnDOnyPfhuiph9INxN7wIJL5j/MBGLvP1/Ip9I2XiF+P1tW
- Io2C2QeDo37F6XRQ7dW+H1ymKEDaL4rv4RCnFbahZn7cPrGbDVwHZzLlDb2jdaDhCGwg
- 3GHg==
+ d=gmail.com; s=20230601; t=1754907629; x=1755512429; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=NZpTdvjjMejLLhaYHvyR2raa5LMl9BHUnCARklYUP+o=;
+ b=eh8e9UXZfvQRiBckuGgaZebziKHwAzUwSEhZp9J/cpKO1F5cQfucnkCfhG1bvIft7b
+ 8tx7ExYRVPYe9F4jZfGmLn/T06yXP8Iy09qizWttubxxdeXAr5gopJEYvZgaewDrU1Sy
+ 7lIUoHxfSofm8auhRftn5XOWSamSKRetb1lBoztMb2Dld2LxooC7IsQNwV+HDSInhTyB
+ WLG0ElgGL58VNyiBwueN1jqUAwBEeL9At8pGig8DudyrQm1N/pdGYEgaZUIW1f1dHMbw
+ tBmE5tMT9aDei04hudC29F0pzmoGeWY77P4DhgqrGcUVP8IQVkVnMbZfrrDkdnM3xsUU
+ VfrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754907340; x=1755512140;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=InWEj8yfNZNXn9Ghid4W7lwyxvfYCt3pMVPvqhpg8n4=;
- b=fhHTvKwCvKBBO7Rme+tKesCEGEe9WgwWsmMryUG/Hiq2yeW/Ae/3G5BL2Tf4y+6n4T
- 5iwE3Wg0e+RB0wiMWJQrYqbU8h5YOzk/wN3oZUybM/4ZTksQIfnQrCC3IyKG6Jvrxu0M
- zb3aAIXnAJaTHD/cRUjSkY0T+uBHwHJlxR+mnO59OrfVb/mMkqVKE3LCis5GV2piRPGs
- fuw4yw+W2JvqydC61sEaJCVqUIajRU4+3BQnM432bWtADyZs9KVvCl+sYNDkMZPy2RIF
- mqsx0lINHi3vIy1hmtaHWoqDFLHqlYDkOxVt59K/Qn1omF2gSR5on2q+7ujLFnObcIhF
- xBsA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhBPGBp36KoyfvJOs0+2xAP7lBFnEfeaUw0GehYy5CiMFtLbqUQ6pdkTpoh5uLg1MsuRXTehoGReg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/hNgTD2U4ObF2ikuHjO8V+TI0SnzO8vNECMkz/b8BH7hk1RF3
- P0lR9cVNVwhTpoIxZjR5P5fLnbHiHTC3lfAxG7IijalpodeCNepWyAPt
-X-Gm-Gg: ASbGnctb09Y340zq5f61r8eK1NKP/v0b6P1dle1rdZDsgoe1F+vW6gAl8MdsKy/PPMu
- 1OGXDk+4QeCvs7zM+f9ANqs8PXDzUoymueq4IG2mpr414Bgzy5qHkevCuCl4YabJqkb5y0Pzrrr
- SEG6BiwOODQRnNVHeRFjATjM3K6bobcn1BqO81VwarASQ2kLYwrCTN/RGoFxSPyiciCxV6ekwvC
- DGyXvIKCtB5ZrD6V10aWErSNJLlduAq0g71+DdqjnjWo9dVD4+vv2H1Mmq0lTMMhEOc2gX5ABfP
- 1bQs/8zoML5r3lcb7VbpHKnuWdv4vLaLrcL/oMrXK2pEe4xj+2uBaQm9IaTuqojnzaA0X03XFtc
- vflonaq69Q//iLdcWgbI=
-X-Google-Smtp-Source: AGHT+IGCO5Yz/McpdLbvstrjp9ON3bvmgmsZGX9z/NKfsYRx7kZ/KBKj5mqJ1Hqz+AjQN6N+krHxDA==
-X-Received: by 2002:a05:6000:402a:b0:3b8:ffd1:80d2 with SMTP id
- ffacd0b85a97d-3b900b4d494mr10608677f8f.24.1754907339468; 
- Mon, 11 Aug 2025 03:15:39 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1754907629; x=1755512429;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NZpTdvjjMejLLhaYHvyR2raa5LMl9BHUnCARklYUP+o=;
+ b=R+UvdwkeLHWPQI53kieorRQgXQY8iRFzBMQsRYFy0xso3Cp95AU95ym0e6T0s08p/c
+ R5oBpPo0fo9DTgB+ph85TD+S8ZI6mMEug2G+x+N+oEwTAd049BYU1tHwqBMlnTS7eCmw
+ aj5oeOczcurios/eWSKzilGYu+7YJGmhU7Z+flQhMGQJxSZFgBiqrIKHoeNLmkL+DqX/
+ g7NFjyJEkmE/WKUEOdR0a7wvwPpkC+GTiGWocaECRj4nCZuCVTRTLkAeQBwuKPE6zLRB
+ 1+iKHT42MhqOuch5QPLtnxW3gZspvhScklLy5vhbbORD9G7nZHdCKxD3A2FVZBvH4YPL
+ viQQ==
+X-Gm-Message-State: AOJu0Yw2slPiO4LNLx1hHttGcBAMpnbJmtHeZVU5Vb3uWL+uQXGtuUXB
+ 3l5T0GgQS5XAy6B+3/T0PSsYJyf36BZvf4M4ZMp5axbg0iDiLUEz+e7KF7/4XQ==
+X-Gm-Gg: ASbGnctv0tBwPTTIUMLZzkE7rlGhAX3S+bgUlapnvFN5sysD9XysCyWlwu4tspDZ68v
+ q7cHtViy12cqb+7QVPA1+DHv5RsYRRzh5hEgku6zCpGkpJwElv/mkpLt8fIiH6O4rFa19OD9rV6
+ ltewfJq1l5G/bpgpAb3DJeHeWGCp4BZNLdsPTb/oR59hclNcA6iPvItTPTkILtNMHn5ca5uRQmJ
+ F9e2/MflFetoeNnzOZRwIjJ18v2dp/Hb8yshrABI6Mq6wRm+7F+2QxMo9yqfmZSpdi8ipkrzNG+
+ EHmRliNJm9gptvH9YJ05JLX/i8O/kHPm7VB79vPsibaIOjBiuyHQ+zclLo6xoVna1KscHEhpY2g
+ wZD8KcUh8vS0AkByMAOA=
+X-Google-Smtp-Source: AGHT+IEs4Lq9BOGpVc2btlMMqynUJQn4kWFGLeZFivMk+A/tSvqhdDW6A+kL+397aUF8uNTTsBcnSQ==
+X-Received: by 2002:a05:600c:45c7:b0:458:c002:6888 with SMTP id
+ 5b1f17b1804b1-459f4fc0ee2mr86755375e9.32.1754907628494; 
+ Mon, 11 Aug 2025 03:20:28 -0700 (PDT)
 Received: from fedora ([94.73.32.0]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b79c3c4d02sm38989438f8f.33.2025.08.11.03.15.37
+ ffacd0b85a97d-3b79c453328sm42111649f8f.46.2025.08.11.03.20.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Aug 2025 03:15:38 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: louis.chauvet@bootlin.com
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH] drm/vkms: Assert if vkms_config_create_*() fails
-Date: Mon, 11 Aug 2025 12:15:17 +0200
-Message-ID: <20250811101529.150716-1-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.50.1
+ Mon, 11 Aug 2025 03:20:27 -0700 (PDT)
+Date: Mon, 11 Aug 2025 12:20:26 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
+Subject: Re: [bug report] drm/vkms: Allow to configure multiple CRTCs
+Message-ID: <aJnD6sUjrYQh9j0Y@fedora>
+References: <aJTL6IFEBaI8gqtH@stanley.mountain> <aJXcN52fxSF3XLeE@fedora>
+ <aJYDP-VFlrCdSVU3@stanley.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aJYDP-VFlrCdSVU3@stanley.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,246 +87,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Check that the value returned by the vkms_config_create_*() functions is
-valid. Otherwise, assert and finish the KUnit test.
+Hi Dan,
 
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/dri-devel/aJTL6IFEBaI8gqtH@stanley.mountain/
-Signed-off-by: Jos√© Exp√≥sito <jose.exposito89@gmail.com>
----
- drivers/gpu/drm/vkms/tests/vkms_config_test.c | 51 +++++++++++++++++--
- 1 file changed, 46 insertions(+), 5 deletions(-)
+On Fri, Aug 08, 2025 at 05:01:35PM +0300, Dan Carpenter wrote:
+> On Fri, Aug 08, 2025 at 01:15:03PM +0200, JosÈ ExpÛsito wrote:
+> > > drivers/gpu/drm/vkms/tests/vkms_config_test.c
+> > >     231 static void vkms_config_test_get_crtcs(struct kunit *test)
+> > >     232 {
+> > >     233         struct vkms_config *config;
+> > >     234         struct vkms_config_crtc *crtc_cfg;
+> > >     235         struct vkms_config_crtc *crtc_cfg1, *crtc_cfg2;
+> > >     236 
+> > >     237         config = vkms_config_create("test");
+> > >     238         KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+> > >     239 
+> > >     240         KUNIT_ASSERT_EQ(test, vkms_config_get_num_crtcs(config), 0);
+> > >     241         vkms_config_for_each_crtc(config, crtc_cfg)
+> > >     242                 KUNIT_FAIL(test, "Unexpected CRTC");
+> > >     243 
+> > >     244         crtc_cfg1 = vkms_config_create_crtc(config);
+> > >                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > This file has no error checking.
+> > > 
+> > > I didn't send an email about it at first because this is just test code so
+> > > who cares, but I was recently burned by ignoring errors so now I'm going
+> > > through a bunch of old warnings to say that, "Hey, if the author ignores the
+> > > error checking that's fine, but I'm in the clear."
+> > > 
+> > >     245         KUNIT_ASSERT_EQ(test, vkms_config_get_num_crtcs(config), 1);
+> > 
+> > While the "crtc_cfg1" pointer is not checked, we check that the	number 
+> > of CRTCs matches the expected value and...
+> > 
+> 
+> Ah yes.  That does work...  Sorry for the noise.
 
-diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-index ff4566cf9925..b0d78a81d2df 100644
---- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-+++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-@@ -200,6 +200,7 @@ static void vkms_config_test_get_planes(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, n_planes, 0);
- 
- 	plane_cfg1 = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg1);
- 	vkms_config_for_each_plane(config, plane_cfg) {
- 		n_planes++;
- 		if (plane_cfg != plane_cfg1)
-@@ -209,6 +210,7 @@ static void vkms_config_test_get_planes(struct kunit *test)
- 	n_planes = 0;
- 
- 	plane_cfg2 = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg2);
- 	vkms_config_for_each_plane(config, plane_cfg) {
- 		n_planes++;
- 		if (plane_cfg != plane_cfg1 && plane_cfg != plane_cfg2)
-@@ -242,6 +244,7 @@ static void vkms_config_test_get_crtcs(struct kunit *test)
- 		KUNIT_FAIL(test, "Unexpected CRTC");
- 
- 	crtc_cfg1 = vkms_config_create_crtc(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg1);
- 	KUNIT_ASSERT_EQ(test, vkms_config_get_num_crtcs(config), 1);
- 	vkms_config_for_each_crtc(config, crtc_cfg) {
- 		if (crtc_cfg != crtc_cfg1)
-@@ -249,6 +252,7 @@ static void vkms_config_test_get_crtcs(struct kunit *test)
- 	}
- 
- 	crtc_cfg2 = vkms_config_create_crtc(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg2);
- 	KUNIT_ASSERT_EQ(test, vkms_config_get_num_crtcs(config), 2);
- 	vkms_config_for_each_crtc(config, crtc_cfg) {
- 		if (crtc_cfg != crtc_cfg1 && crtc_cfg != crtc_cfg2)
-@@ -280,6 +284,7 @@ static void vkms_config_test_get_encoders(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, n_encoders, 0);
- 
- 	encoder_cfg1 = vkms_config_create_encoder(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg1);
- 	vkms_config_for_each_encoder(config, encoder_cfg) {
- 		n_encoders++;
- 		if (encoder_cfg != encoder_cfg1)
-@@ -289,6 +294,7 @@ static void vkms_config_test_get_encoders(struct kunit *test)
- 	n_encoders = 0;
- 
- 	encoder_cfg2 = vkms_config_create_encoder(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg2);
- 	vkms_config_for_each_encoder(config, encoder_cfg) {
- 		n_encoders++;
- 		if (encoder_cfg != encoder_cfg1 && encoder_cfg != encoder_cfg2)
-@@ -324,6 +330,7 @@ static void vkms_config_test_get_connectors(struct kunit *test)
- 	KUNIT_ASSERT_EQ(test, n_connectors, 0);
- 
- 	connector_cfg1 = vkms_config_create_connector(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg1);
- 	vkms_config_for_each_connector(config, connector_cfg) {
- 		n_connectors++;
- 		if (connector_cfg != connector_cfg1)
-@@ -333,6 +340,7 @@ static void vkms_config_test_get_connectors(struct kunit *test)
- 	n_connectors = 0;
- 
- 	connector_cfg2 = vkms_config_create_connector(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg2);
- 	vkms_config_for_each_connector(config, connector_cfg) {
- 		n_connectors++;
- 		if (connector_cfg != connector_cfg1 &&
-@@ -370,7 +378,7 @@ static void vkms_config_test_invalid_plane_number(struct kunit *test)
- 
- 	/* Invalid: Too many planes */
- 	for (n = 0; n <= 32; n++)
--		vkms_config_create_plane(config);
-+		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vkms_config_create_plane(config));
- 
- 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
- 
-@@ -395,6 +403,7 @@ static void vkms_config_test_valid_plane_type(struct kunit *test)
- 
- 	/* Invalid: No primary plane */
- 	plane_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
- 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
- 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
- 	KUNIT_EXPECT_EQ(test, err, 0);
-@@ -402,11 +411,13 @@ static void vkms_config_test_valid_plane_type(struct kunit *test)
- 
- 	/* Invalid: Multiple primary planes */
- 	plane_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
- 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
- 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
- 	KUNIT_EXPECT_EQ(test, err, 0);
- 
- 	plane_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
- 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
- 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
- 	KUNIT_EXPECT_EQ(test, err, 0);
-@@ -419,11 +430,13 @@ static void vkms_config_test_valid_plane_type(struct kunit *test)
- 
- 	/* Invalid: Multiple cursor planes */
- 	plane_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
- 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
- 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
- 	KUNIT_EXPECT_EQ(test, err, 0);
- 
- 	plane_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
- 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
- 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
- 	KUNIT_EXPECT_EQ(test, err, 0);
-@@ -437,12 +450,16 @@ static void vkms_config_test_valid_plane_type(struct kunit *test)
- 	/* Invalid: Second CRTC without primary plane */
- 	crtc_cfg = vkms_config_create_crtc(config);
- 	encoder_cfg = vkms_config_create_encoder(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg);
-+
- 	err = vkms_config_encoder_attach_crtc(encoder_cfg, crtc_cfg);
- 	KUNIT_EXPECT_EQ(test, err, 0);
- 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
- 
- 	/* Valid: Second CRTC with a primary plane */
- 	plane_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
- 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
- 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
- 	KUNIT_EXPECT_EQ(test, err, 0);
-@@ -486,7 +503,7 @@ static void vkms_config_test_invalid_crtc_number(struct kunit *test)
- 
- 	/* Invalid: Too many CRTCs */
- 	for (n = 0; n <= 32; n++)
--		vkms_config_create_crtc(config);
-+		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vkms_config_create_crtc(config));
- 
- 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
- 
-@@ -509,7 +526,7 @@ static void vkms_config_test_invalid_encoder_number(struct kunit *test)
- 
- 	/* Invalid: Too many encoders */
- 	for (n = 0; n <= 32; n++)
--		vkms_config_create_encoder(config);
-+		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vkms_config_create_encoder(config));
- 
- 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
- 
-@@ -531,12 +548,15 @@ static void vkms_config_test_valid_encoder_possible_crtcs(struct kunit *test)
- 
- 	/* Invalid: Encoder without a possible CRTC */
- 	encoder_cfg = vkms_config_create_encoder(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg);
- 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
- 
- 	/* Valid: Second CRTC with shared encoder */
- 	crtc_cfg2 = vkms_config_create_crtc(config);
--
- 	plane_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg2);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
-+
- 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
- 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg2);
- 	KUNIT_EXPECT_EQ(test, err, 0);
-@@ -577,7 +597,7 @@ static void vkms_config_test_invalid_connector_number(struct kunit *test)
- 
- 	/* Invalid: Too many connectors */
- 	for (n = 0; n <= 32; n++)
--		connector_cfg = vkms_config_create_connector(config);
-+		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vkms_config_create_connector(config));
- 
- 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
- 
-@@ -669,13 +689,19 @@ static void vkms_config_test_plane_attach_crtc(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
- 
- 	overlay_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, overlay_cfg);
- 	vkms_config_plane_set_type(overlay_cfg, DRM_PLANE_TYPE_OVERLAY);
-+
- 	primary_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, primary_cfg);
- 	vkms_config_plane_set_type(primary_cfg, DRM_PLANE_TYPE_PRIMARY);
-+
- 	cursor_cfg = vkms_config_create_plane(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cursor_cfg);
- 	vkms_config_plane_set_type(cursor_cfg, DRM_PLANE_TYPE_CURSOR);
- 
- 	crtc_cfg = vkms_config_create_crtc(config);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg);
- 
- 	/* No primary or cursor planes */
- 	KUNIT_EXPECT_NULL(test, vkms_config_crtc_primary_plane(config, crtc_cfg));
-@@ -735,6 +761,11 @@ static void vkms_config_test_plane_get_possible_crtcs(struct kunit *test)
- 	crtc_cfg1 = vkms_config_create_crtc(config);
- 	crtc_cfg2 = vkms_config_create_crtc(config);
- 
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg1);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg2);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg1);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg2);
-+
- 	/* No possible CRTCs */
- 	vkms_config_plane_for_each_possible_crtc(plane_cfg1, idx, possible_crtc)
- 		KUNIT_FAIL(test, "Unexpected possible CRTC");
-@@ -799,6 +830,11 @@ static void vkms_config_test_encoder_get_possible_crtcs(struct kunit *test)
- 	crtc_cfg1 = vkms_config_create_crtc(config);
- 	crtc_cfg2 = vkms_config_create_crtc(config);
- 
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg1);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg2);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg1);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg2);
-+
- 	/* No possible CRTCs */
- 	vkms_config_encoder_for_each_possible_crtc(encoder_cfg1, idx, possible_crtc)
- 		KUNIT_FAIL(test, "Unexpected possible CRTC");
-@@ -863,6 +899,11 @@ static void vkms_config_test_connector_get_possible_encoders(struct kunit *test)
- 	encoder_cfg1 = vkms_config_create_encoder(config);
- 	encoder_cfg2 = vkms_config_create_encoder(config);
- 
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg1);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg2);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg1);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg2);
-+
- 	/* No possible encoders */
- 	vkms_config_connector_for_each_possible_encoder(connector_cfg1, idx,
- 							possible_encoder)
--- 
-2.50.1
+No noise at all, there were other places were the check made sense.
 
+I sent a patch fixing them:
+https://lore.kernel.org/dri-devel/20250811101529.150716-1-jose.exposito89@gmail.com/T/#u
+
+Thanks a lot for reporting this issue!!
+Jose
+
+> 
+> regards,
+> dan carpenter
+> 
