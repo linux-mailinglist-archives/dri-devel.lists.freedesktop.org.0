@@ -2,64 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55546B20454
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1BEB20461
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:51:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8D1910E2EA;
-	Mon, 11 Aug 2025 09:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1A3C10E3F9;
+	Mon, 11 Aug 2025 09:51:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Wkrx+IHy";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kDkleRp9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D37B10E2EA
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 09:50:32 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4c0qd1209Mz9snJ;
- Mon, 11 Aug 2025 11:50:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1754905829; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6CAA10E3F9
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 09:51:22 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5FD9C42EF5;
+ Mon, 11 Aug 2025 09:51:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1754905880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6iVG8v6eSQ1zc21xzNcw5sM6wDtRT0rY/n/n6Z+C8FE=;
- b=Wkrx+IHyKbbOJmC8iU8W9ukEvuRhdtur1R9/nZciQk4jzZnE9v6m/rjLcMr/chaQutwRCz
- J5Zq6THUqQhMIvIQjzFaCIuzByqmqrpr1kVyyQHpBOpg0/+mLg1XiUBnEKwgPiYUMUEbKO
- OKMXZk52DcDluNgBOCN+lLmua214RMscl8LZxhPT6j5aaD5NeSl4bdtOWmTKp+u/ETYeVf
- qz7zmGj4rthvYB2Rm57PjLUW88g7uPbmJh5tyiEaz1/P2EsDM3JLJPsPsIFrXmvNlh8DX2
- +00EG2ojp/hGz+srPydbvotFy3694J1yotjdFNuyvTOT6BnkB4kD5515rttmoQ==
-Message-ID: <90c89caeb8ec3ac0fcae583df722bad20fa72827.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: Extend and update documentation
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
- Stanner <phasta@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Matthew
- Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Date: Mon, 11 Aug 2025 11:50:22 +0200
-In-Reply-To: <9caf8709-91ef-445a-aa4e-aede1899f364@amd.com>
-References: <20250724140121.70873-2-phasta@kernel.org>
- <f064a8c305bd2f2c0684251d3cd2470699c28d5e.camel@redhat.com>
- <5fb872d0-9b0a-4398-9472-eea3fdf61940@amd.com>
- <c1f7c4adaa0ac8d1994046436da8eb64bba5e06e.camel@redhat.com>
- <9caf8709-91ef-445a-aa4e-aede1899f364@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ATZgIzZqa81JTLzClnQDVHSuvQlypIxL4qy51wWr8tI=;
+ b=kDkleRp9ulx5espGtq0ahjUY0Ad5IOiRCFdjMEoP9VP3pCgl7KquPE/WQ4r1rB+G0AtT9r
+ VL4ej5WlJ2hQhK5XNpLfBNw39SOpcdzUuchwBaDbU1Ge0u78LEBgrXqS86jXdYXZx+2Zie
+ cr9ScWp9vO14nFlKtJeDrrtm5UcVdamYIMOVo5v4IP9oeS7xY5FcIijyCcAryn6PyJv5c/
+ qrhTJ6odZWWBlCCQMVA9AeKn+N12R+euo1/I23Xin+ZrwkGNpLvZa14nzOB4X1C35jNeES
+ CFySSEXXeKgLZ9CtG55BcQflddldfEh4/yOvtDVrpl7yIoZ4C+8yfSfwtWL+zQ==
+Message-ID: <28e1e51b-759c-4470-aef7-6ccb116e3920@bootlin.com>
+Date: Mon, 11 Aug 2025 11:51:16 +0200
 MIME-Version: 1.0
-X-MBO-RS-ID: 523bad2c5c6675e8adc
-X-MBO-RS-META: 6sssz3gmcc77kzux9pogddxatqmafe6o
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 6/8] drm/vkms: Adapt vkms writeback to new
+ drm_writeback_connector
+To: Suraj Kandpal <suraj.kandpal@intel.com>, kernel-list@raspberrypi.com,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com,
+ uma.shankar@intel.com, jani.nikula@intel.com,
+ dmitry.baryshkov@oss.qualcomm.com, harry.wentland@amd.com,
+ siqueira@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, liviu.dudau@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ robin.clark@oss.qualcomm.com, abhinav.kumar@linux.dev, tzimmermann@suse.de,
+ jessica.zhang@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, laurent.pinchart+renesas@ideasonboard.com,
+ mcanal@igalia.com, dave.stevenson@raspberrypi.com,
+ tomi.valkeinen+renesas@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com
+References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
+ <20250811092707.3986802-7-suraj.kandpal@intel.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20250811092707.3986802-7-suraj.kandpal@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddufedvudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehpdhhvghloheplgfkrfggieemvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefhedprhgtphhtthhopehsuhhrrghjrdhkrghnughprghlsehinhhtvghlrdgtohhmpdhrtghpthhtohepkhgvrhhnv
+ ghlqdhlihhsthesrhgrshhpsggvrhhrhihpihdrtghomhdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfhhrvggvughrvghnoheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,184 +131,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-08-07 at 16:15 +0200, Christian K=C3=B6nig wrote:
-> On 05.08.25 12:22, Philipp Stanner wrote:
-> > On Tue, 2025-08-05 at 11:05 +0200, Christian K=C3=B6nig wrote:
-> > > On 24.07.25 17:07, Philipp Stanner wrote:
-> > > > > +/**
-> > > > > + * DOC: Scheduler Fence Object
-> > > > > + *
-> > > > > + * The scheduler fence object (&struct drm_sched_fence) encapsul=
-ates the whole
-> > > > > + * time from pushing the job into the scheduler until the hardwa=
-re has finished
-> > > > > + * processing it. It is managed by the scheduler. The implementa=
-tion provides
-> > > > > + * dma_fence interfaces for signaling both scheduling of a comma=
-nd submission
-> > > > > + * as well as finishing of processing.
-> > > > > + *
-> > > > > + * The lifetime of this object also follows normal dma_fence ref=
-counting rules.
-> > > > > + */
-> > > >=20
-> > > > The relict I'm most unsure about is this docu for the scheduler fen=
-ce.
-> > > > I know that some drivers are accessing the s_fence, but I strongly
-> > > > suspect that this is a) unncessary and b) dangerous.
-> > >=20
-> > > Which s_fence member do you mean? The one in the job? That should be =
-harmless as far as I can see.
-> >=20
-> > I'm talking about struct drm_sched_fence.
->=20
-> Yeah that is necessary for the drivers to know about. We could potentiall=
-y abstract it better but we can't really hide it completely.
->=20
-> > >=20
-> > > > But the original draft from Christian hinted at that. So, @Christia=
-n,
-> > > > this would be an opportunity to discuss this matter.
-> > > >=20
-> > > > Otherwise I'd drop this docu section in v2. What users don't know, =
-they
-> > > > cannot misuse.
-> > >=20
-> > > I would rather like to keep that to avoid misusing the job as the obj=
-ect for tracking the submission lifetime.
-> >=20
-> > Why would a driver ever want to access struct drm_sched_fence? The
-> > driver knows when it signaled the hardware fence, and it knows when its
-> > callbacks run_job() and free_job() were invoked.
-> >=20
-> > I'm open to learn what amdgpu does there and why.
->=20
-> The simplest use case is performance optimization. You sometimes have sub=
-missions which ideally run with others at the same time.
->=20
-> So we have AMDGPU_CHUNK_ID_SCHEDULED_DEPENDENCIES which basically tries t=
-o cast a fence to a scheduler fence and then only waits for the dependency =
-to be pushed to the HW instead of waiting for it to finish (see amdgpu_cs.c=
-).
-
-But the driver recognizes that a certain fence got / gets pushed right
-now through backend_ops.run_job(), doesn't it?
-
->=20
-> Another example are gang submissions (where I still have the TODO to actu=
-ally fix the code to not crash in an OOM situation).
->=20
-> Here we have a gang leader and gang members which are guaranteed to run t=
-ogether on the HW at the same time.
->=20
-> This works by adding scheduled dependencies to the gang leader so that th=
-e scheduler pushes it to the HW only after all gang members have been pushe=
-d.
->=20
-> The first gang member pushed now triggers a dependency handling which mak=
-es sure that no other gang can be pushed until gang leader is pushed as wel=
-l.
-
-You mean amdgpu registers callbacks to drm_sched_fence?
-
->=20
-> > > > > +/**
-> > > > > + * DOC: Error and Timeout handling
-> > > > > + *
-> > > > > + * Errors are signaled by using dma_fence_set_error() on the har=
-dware fence
-> > > > > + * object before signaling it with dma_fence_signal(). Errors ar=
-e then bubbled
-> > > > > + * up from the hardware fence to the scheduler fence.
-> > > > > + *
-> > > > > + * The entity allows querying errors on the last run submission =
-using the
-> > > > > + * drm_sched_entity_error() function which can be used to cancel=
- queued
-> > > > > + * submissions in &struct drm_sched_backend_ops.run_job as well =
-as preventing
-> > > > > + * pushing further ones into the entity in the driver's submissi=
-on function.
-> > > > > + *
-> > > > > + * When the hardware fence doesn't signal within a configurable =
-amount of time
-> > > > > + * &struct drm_sched_backend_ops.timedout_job gets invoked. The =
-driver should
-> > > > > + * then follow the procedure described in that callback's docume=
-ntation.
-> > > > > + *
-> > > > > + * (TODO: The timeout handler should probably switch to using th=
-e hardware
-> > > > > + * fence as parameter instead of the job. Otherwise the handling=
- will always
-> > > > > + * race between timing out and signaling the fence).
-> > > >=20
-> > > > This TODO can probably removed, too. The recently merged
-> > > > DRM_GPU_SCHED_STAT_NO_HANG has solved this issue.
-> > >=20
-> > > No, it only scratched on the surface of problems here.
-> > >=20
-> > > I'm seriously considering sending a RFC patch to cleanup the job life=
-time and implementing this change.
-> > >=20
-> > > Not necessarily giving the HW fence as parameter to the timeout callb=
-ack, but more generally not letting the scheduler depend on driver behavior=
-.
-> >=20
-> > That's rather vague. Regarding this TODO, "racing between timing out
-> > and signaling the fence" can now be corrected by the driver. Are there
-> > more issues? If so, we want to add a new FIXME for them.
->=20
-> Yeah good point. We basically worked around all those issues now.
->=20
-> It's just that I still see that we are missing a general concept. E.g. we=
- applied workaround on top of workaround until it didn't crashed any more i=
-nstead of saying ok that is the design does that work? Is it valid? etc...
-
-Yes, that seems to have been our destiny for a while now :) :(
-
-What I'm afraid of right now is that with the callbacks vs.
-drm_sched_fence we now potentially have several distinct mechanisms for
-doing things. The hardware fence is clearly the relevant
-synchronization object for telling when a job is completed; yet, we
-also have s_fence->finished.
-
-Using it (for what?) is even encouraged by the docu:
-
-        /**
-         * @finished: this fence is what will be signaled by the scheduler
-         * when the job is completed.
-         *
-         * When setting up an out fence for the job, you should use
-         * this, since it's available immediately upon
-         * drm_sched_job_init(), and the fence returned by the driver
-         * from run_job() won't be created until the dependencies have
-         * resolved.
-         */
 
 
-Anyways.
-I think this is a big topic very suitable for our work shop at XDC. I
-also have some ideas about paths forward that I want to present.
+Le 11/08/2025 à 11:27, Suraj Kandpal a écrit :
+> Now that drm_writeback_connector is embedded with the drm_connector
+> adapt the vkms writeback functionality to this changes. This
+> includes changing the drm_writeback_connector to be changed to
+> drm_connector within the vkms_output.
+> Some other changes are done which are a result of the all the above
+> changes mentioned.
+> 
+> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> ---
+>   drivers/gpu/drm/vkms/vkms_composer.c  |  2 +-
+>   drivers/gpu/drm/vkms/vkms_drv.h       |  2 +-
+>   drivers/gpu/drm/vkms/vkms_writeback.c | 15 +++++++++------
+>   3 files changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+> index fa269d279e25..b5f20637121c 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -543,7 +543,7 @@ void vkms_composer_worker(struct work_struct *work)
+>   		return;
+>   
+>   	if (wb_pending) {
+> -		drm_writeback_signal_completion(&out->wb_connector, 0);
+> +		drm_writeback_signal_completion(&out->connector.writeback, 0);
+>   		spin_lock_irq(&out->composer_lock);
+>   		crtc_state->wb_pending = false;
+>   		spin_unlock_irq(&out->composer_lock);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 8013c31efe3b..2e58a06c9ad8 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -213,7 +213,7 @@ struct vkms_crtc_state {
+>    */
+>   struct vkms_output {
+>   	struct drm_crtc crtc;
+> -	struct drm_writeback_connector wb_connector;
+> +	struct drm_connector connector;
 
+Can you keep wb_connector here?
 
-P.
+>   	struct drm_encoder wb_encoder;
+>   	struct hrtimer vblank_hrtimer;
+>   	ktime_t period_ns;
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index 45d69a3b85f6..13c2a5c8f57a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -102,13 +102,16 @@ static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connector,
+>   	return ret;
+>   }
+>   
+> -static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
+> +static void vkms_wb_cleanup_job(struct drm_writeback_connector *wb_connector,
+>   				struct drm_writeback_job *job)
+>   {
+>   	struct vkms_writeback_job *vkmsjob = job->priv;
+> +	struct drm_connector *connector = container_of(wb_connector,
+> +						       struct drm_connector,
+> +						       writeback);
+>   	struct vkms_output *vkms_output = container_of(connector,
+>   						       struct vkms_output,
+> -						       wb_connector);
+> +						       connector);
+>   
+>   	if (!job->fb)
+>   		return;
+> @@ -127,8 +130,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
+>   	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
+>   											 conn);
+>   	struct vkms_output *output = drm_crtc_to_vkms_output(connector_state->crtc);
+> -	struct drm_writeback_connector *wb_conn = &output->wb_connector;
+> -	struct drm_connector_state *conn_state = wb_conn->base.state;
+> +	struct drm_writeback_connector *wb_conn = &output->connector.writeback;
+> +	struct drm_connector_state *conn_state = output->connector.state;
+>   	struct vkms_crtc_state *crtc_state = output->composer_state;
+>   	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
+>   	u16 crtc_height = crtc_state->base.mode.vdisplay;
+> @@ -166,7 +169,7 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
+>   int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+>   				    struct vkms_output *vkms_output)
+>   {
+> -	struct drm_writeback_connector *wb = &vkms_output->wb_connector;
+> +	struct drm_writeback_connector *wb = &vkms_output->connector.writeback;
+>   	int ret;
+>   
+>   	ret = drmm_encoder_init(&vkmsdev->drm, &vkms_output->wb_encoder,
+> @@ -177,7 +180,7 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+>   	vkms_output->wb_encoder.possible_clones |=
+>   		drm_encoder_mask(&vkms_output->wb_encoder);
+>   
+> -	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+> +	drm_connector_helper_add(&vkms_output->connector, &vkms_wb_conn_helper_funcs);
+>   
+>   	return drmm_writeback_connector_init(&vkmsdev->drm, wb,
+>   					     &vkms_wb_connector_funcs,
 
->=20
-> > That said, such an RFC would obviously be great. We can discuss the
-> > paragraph above there, if you want.
->=20
-> I will try to hack something together. Not necessarily complete but it sh=
-ould show the direction.
->=20
-> Christian.
->=20
-> >=20
-> >=20
-> > Regards
-> > P.
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
