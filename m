@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56848B20105
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 10:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53474B20291
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6A0A10E39D;
-	Mon, 11 Aug 2025 08:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F33310E3A0;
+	Mon, 11 Aug 2025 09:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="WmT/tBEu";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="qEkpcc5y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E29710E39E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 08:00:03 +0000 (UTC)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57B7xnsO1495658;
- Mon, 11 Aug 2025 02:59:49 -0500
+X-Greylist: delayed 3930 seconds by postgrey-1.36 at gabe;
+ Mon, 11 Aug 2025 09:05:19 UTC
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB2310E2F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 09:05:19 +0000 (UTC)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+ by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57B7xu411564151;
+ Mon, 11 Aug 2025 02:59:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1754899189;
- bh=ts5ub4oKhxUB/GkeQn0dDeXELr5sbbPBU+j4PIA4u+k=;
+ s=ti-com-17Q1; t=1754899197;
+ bh=7PfiPykHsTbwLkTcmOnffcGjkDy3xo0UuxzokO5rkK8=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=WmT/tBEus+/FlbJVqnjNH0a3PzrKbwFJLySgoiCMmKi4hF6xUPte1t4pl/PAzAuEG
- 1egrHsJv7P78dfv00smN2JchljwI/yYrV+mKsw2PFB5mNS5vP2F1lmZuwYyLDpL+zz
- sZ28fIeutLh4BJhZHe/c2IpT+77YXOQuBofybUak=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57B7xnVr3526447
+ b=qEkpcc5ym9E/+sTPiKbpwNWFx+aOzHKrRuRzH+no/ya1rwhG8FqPuAlJj2Evhhi7B
+ 83Medxk0/dr4xA5ZunsWLQ0wFRWMG0vBBr7DXEuqXNnJPXHS/9+m8WJnQO2IIu5tEn
+ vBkf2rwR4/jlPAhSC8UbFdh6jQaLLX8cgQa/Mn+M=
+Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
+ by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57B7xuph2515611
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 11 Aug 2025 02:59:49 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 11 Aug 2025 02:59:56 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 11
- Aug 2025 02:59:49 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2025 02:59:56 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 11 Aug 2025 02:59:49 -0500
+ Frontend Transport; Mon, 11 Aug 2025 02:59:56 -0500
 Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57B7x5Cx2817433;
- Mon, 11 Aug 2025 02:59:42 -0500
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57B7x5D02817433;
+ Mon, 11 Aug 2025 02:59:49 -0500
 From: Harikrishna Shenoy <h-shenoy@ti.com>
 To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
  <Laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>,
@@ -53,10 +55,10 @@ CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
  <linux-kernel@vger.kernel.org>, <devarsht@ti.com>,
  <j-choudhary@ti.com>, <u-kumar1@ti.com>, <h-shenoy@ti.com>,
  <s-jain1@ti.com>
-Subject: [PATCH v5 5/6] drm/bridge: cadence: cdns-mhdp8546-core: Reduce log
- level for DPCD read/write
-Date: Mon, 11 Aug 2025 13:29:03 +0530
-Message-ID: <20250811075904.1613519-6-h-shenoy@ti.com>
+Subject: [PATCH v5 6/6] drm/bridge: cadence: cdns-mhdp8546-core: Handle HDCP
+ state in bridge atomic check
+Date: Mon, 11 Aug 2025 13:29:04 +0530
+Message-ID: <20250811075904.1613519-7-h-shenoy@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250811075904.1613519-1-h-shenoy@ti.com>
 References: <20250811075904.1613519-1-h-shenoy@ti.com>
@@ -79,44 +81,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jayesh Choudhary <j-choudhary@ti.com>
+Now that we have DBANC framework and legacy connector functions removed,
+handle the HDCP disabling in bridge atomic check rather than in connector
+atomic check previously.
 
-Reduce the log level for cdns_mhdp_dpcd_read and cdns_mhdp_dpcd_write
-errors in cdns_mhdp_transfer function as in case of failure, there is
-flooding of these prints along with other indicators like EDID failure
-logs which are fairly intuitive in themselves rendering these error logs
-useless.
-Also, the caller functions for the cdns_mhdp_transfer in drm_dp_helper.c
-(which calls it 32 times), has debug log level in case transfer fails.
-So having a superseding log level in cdns_mhdp_transfer seems bad.
-
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 47c657237c37..4fb1db3e030c 100644
+index 4fb1db3e030c..af41b2908a74 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -778,7 +778,7 @@ static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
- 			if (!ret)
- 				continue;
+@@ -1960,6 +1960,10 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+ {
+ 	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+ 	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
++	struct drm_connector_state *old_state, *new_state;
++	struct drm_atomic_state *state = crtc_state->state;
++	struct drm_connector *conn = mhdp->connector;
++	u64 old_cp, new_cp;
  
--			dev_err(mhdp->dev,
-+			dev_dbg(mhdp->dev,
- 				"Failed to write DPCD addr %u\n",
- 				msg->address + i);
+ 	mutex_lock(&mhdp->link_mutex);
  
-@@ -788,7 +788,7 @@ static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
- 		ret = cdns_mhdp_dpcd_read(mhdp, msg->address,
- 					  msg->buffer, msg->size);
- 		if (ret) {
--			dev_err(mhdp->dev,
-+			dev_dbg(mhdp->dev,
- 				"Failed to read DPCD addr %u\n",
- 				msg->address);
+@@ -1979,6 +1983,25 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+ 	if (mhdp->info)
+ 		bridge_state->input_bus_cfg.flags = *mhdp->info->input_bus_flags;
  
++	if (conn && mhdp->hdcp_supported) {
++		old_state = drm_atomic_get_old_connector_state(state, conn);
++		new_state = drm_atomic_get_new_connector_state(state, conn);
++		old_cp = old_state->content_protection;
++		new_cp = new_state->content_protection;
++
++		if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
++		    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
++			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
++			crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
++			crtc_state->mode_changed = true;
++		}
++
++		if (!new_state->crtc) {
++			if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
++				new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
++		}
++	}
++
+ 	mutex_unlock(&mhdp->link_mutex);
+ 	return 0;
+ }
 -- 
 2.34.1
 
