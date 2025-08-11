@@ -2,83 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F26EEB2053C
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 12:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6946DB20544
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 12:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ABC410E41D;
-	Mon, 11 Aug 2025 10:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5697C10E421;
+	Mon, 11 Aug 2025 10:26:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="noUxyBNj";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pWvBRDlF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51C1C10E41D
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:24:45 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-458c063baeaso23196505e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 03:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754907884; x=1755512684; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=HBe9czUDzx4VIYaunJNZUgByUfhVqy3wgTZDB39K9Kw=;
- b=noUxyBNjChINIIsyhf6wZ+XEPHeb92YAaJL0CWZXSOJrNYGJMrcEAEHzy5YJppyLiB
- 3f54UcQjWa3Ww1VrXSBVAhGERqzkmoz545ZCnBWLsQa4DDokn0ZzTjN8dRQnytoio6PZ
- tH/tamczxfwl0d7hga3xX50kQkbMAPRLtROEmbAwJNBmLbowj4HNp/HMfMV/Rx+MeEB3
- PMUuDtcxeXnvvNWHvWL2BNCJEXLyKsAWIALks9MeZlV51A/YDz3f7WEWZnQIywSHypS5
- DKXkJhlW5KYgEtIQmKqM4IR74ZZKlinJsJVd1BsVKlP3H4ZNEZI+/9KvTFvB6xi1CCdx
- 11cA==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67C2910E421
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:26:35 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57B9dBcO013103
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:26:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=/4tDhgxFTFm32rKj8OsdQCqN
+ y65/pv1+di1cZhSEdpw=; b=pWvBRDlFziWWj5HuLW6H45HJTcZttvz9ESkLk0uM
+ NtbaIchPIMRUyLPnyIR695bRbOQWNCjwWRwgAk98kCYBnBk2qh5jQ9es6go3Dgpg
+ SX0ssCGAI/alg9bRIIxq88G2InB6hzr1moD5U2QhV8hcyL7P2ZOnVtuws4dAJudD
+ P4Vl5Qf8a60HnW3Xrnv7Nj+bn70KreoYJvyxCBy2nKp1EHBjp1VEjRzZoYaV7NRR
+ wr8dg/RegWDNJIexQISYO07Ju5oRebJOEov79b/yNy4tD2rXH16OGqiewyhKLbnP
+ XhaGft8cga81AclHPne3cWxWUUNOydlCvoPt9MBVsTVZ1A==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dupmm4u2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:26:34 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b0a3557d05so87815771cf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 03:26:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754907884; x=1755512684;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HBe9czUDzx4VIYaunJNZUgByUfhVqy3wgTZDB39K9Kw=;
- b=G6BDoSj5KrJavAz7bbUL3oOV/VKp1oT0twE1GfjeD4A6HdF5Vvqbsthu4gJ8nVcu03
- yGoYZZi9bCWoFhJdMpvxZPCUKKWh+7SV7nyRXBY2cz4e9nNEjC5xemqx+RQKLJ9jVAqC
- evuO/5PkPJ0w5n1oO8Rt1qCOOeDt8HyjOIAwpuscyBs9wytWXu9CS705uDyi9Zogwgz0
- CCk52uLX9d0smjS4XRpZFehvxnETO+AyxPxKF2lV+DSrHNnmYNmfWS5iSPVijEuC+BDz
- OWYfaWExQDOmUaPbJWm7JaNzRK/+GmSODthZvBfqIoqvO+cwNahmSZ1w2+2kCxPBcJom
- dmKg==
+ d=1e100.net; s=20230601; t=1754907994; x=1755512794;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/4tDhgxFTFm32rKj8OsdQCqNy65/pv1+di1cZhSEdpw=;
+ b=ZMzGtxsgClwF0WacpDFC4ezHZMvPji5kURxd3ynHRj1s9vad+ttqVkKCq7t1c4yybb
+ Z2syd4laIDuEiG9gho9c7KLmXY1jfJf9J4RA1VbdgXBJy2gI4wL2FQKy82ysM4qZU/1H
+ nzTIWj1JF3tMYVhACCA1zmy1NbplIjTqMtb1HsNWICB6o28nBs64jajLC+HVWGrt1YT/
+ nGkU9bFbbJsV4X/L/XpPaE9hUPK3ZRBKxIo1vWhPLKoejS3Os+bPQ+qzGTUb5AE1w844
+ qRtlAIbVx2kEc/7t6MQxzpHSqbhNSesSUOmup+IEhhV9hAG7agXsdtZhgTxvnunR3oB0
+ Pofg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVWOoh9R/RBPsfSXMlQaOWb6yNuELwm9MTGG3SPMeUD7tm+SSZ/FwHFKgL6JaujTnzs6Dz5E/TsVXQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5jK2CyPcpuXsRZEg1E3b8cnHLsQQixVbdBZ9+bK/EMtU6lQpu
- KrkUrbctWI4vr+h2Ct/7DAqXiC11dCIo0NYHGicxPEOf8nm5iBgBFGRErpCQOw5K
-X-Gm-Gg: ASbGnct5k0cQR6HFCZnkTUvcymME7svhDRV+/SEADFnwUf4iIel2ePr1xzbPtrfQJku
- dn9GGISkkHkEigyBDlqbsuOBw9Qh2FJvDiveJLV8iahGWADvHSh4a8zk8li/xBrNDI3L6p8nNIs
- kcmt1tn61v6vm0+4EySJBoeuCRWg+A0GaqmYMdT/oOTMb+bqIxg60egrRtXUb3Hj7qMOzkNGU7C
- 7mdpGkYX4XiJ1qNQRTOmAGdbRxcxeSU2piU8uOnV31bENkAe8I+gNP1vhWXc/KRJIL+tWEBuj5L
- 4R43JStjcpJ7DudcYAAngHOKA8dlmwV3aX4G2ZICj6tyQRaV5J5rl+LVQWh5HsxqEG809pl+DA9
- Pe+0fc2MAywAVMfmrZMs=
-X-Google-Smtp-Source: AGHT+IFUPHEEiAr26JDbR4Tv1T2rbVTYYcdhOCQ0HeIDjGQzbNBbDgyPBzabITYI3btFT1OS8u/kKg==
-X-Received: by 2002:a05:600c:1912:b0:456:18ca:68db with SMTP id
- 5b1f17b1804b1-459f4eb3ce1mr109619375e9.8.1754907883569; 
- Mon, 11 Aug 2025 03:24:43 -0700 (PDT)
-Received: from fedora ([94.73.32.0]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-459e5873c43sm268177675e9.22.2025.08.11.03.24.42
+ AJvYcCVHqA+v1Tim/pszbslmOQzcldiY7fqzCu3wv1tzL2QXhp+H9foYHWuUkR7HkZKz9gzwXLnZXa7bF+I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3Z376UXpT7gmkyC42LHgEKI/F0Agrdln6EKuUAEksw+wb61n7
+ jIpsryKC69Qz9IuDWDB4deo/z5JhGiegP25/b5HTd7ySmcUnGG7fO5qKq7r/tDwhpGH9aWUkmu4
+ t2WSPoBk2TZG6WUb2fYjTn7C/dPMtKOfmVoika3XMIW9xnQByTDf/LTKBQLjj3up38HGOXdg=
+X-Gm-Gg: ASbGncuP3lxkFB/FzYlBHBKWWs1UJAe93grZtv6va0VckbqmAjjJnjnsOsvWDfvwmM+
+ mGop5QS3zbDlTFWowEp+PgagJmLWgiEbj+NB+/IcpN/vptSBG3A+g61PZLYv1uAEBgvDMXjD+rS
+ oT3lRffz+lYGLjaOY15CJnhmVhOfx7DdoKC1SDB58bE0/9CarHpSAPaDsb+e+5znt9MSt0Kw+nc
+ pzoI/beQrRFv7nafqIMZ2R9sTW1XE3h9clcirj6RqgHAczl2fpPgZpY+EOZw3rgNsr7qN/Vf+69
+ eSNtCg4J3uL174LiIxNo9weHCC8thEzWuMRu+k7gy01dgH3fvPtyexHZUV75MpbnCk4SowsxZLo
+ cDCxSCEs9IahLAegkORU8saJkG13I+Nd0qDdfX6nv4OtN+54wCGgE
+X-Received: by 2002:a05:622a:ca:b0:4b0:80c2:6674 with SMTP id
+ d75a77b69052e-4b0aec9df57mr160251251cf.26.1754907993654; 
+ Mon, 11 Aug 2025 03:26:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEBtZfXQ4QunBGnECg8IgNPTThfg2oORkBUD9GYQsf+7kkjIYq2XXmXZ3mbOFg4UkIpF+IRdA==
+X-Received: by 2002:a05:622a:ca:b0:4b0:80c2:6674 with SMTP id
+ d75a77b69052e-4b0aec9df57mr160250851cf.26.1754907993170; 
+ Mon, 11 Aug 2025 03:26:33 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-332388fef31sm41894971fa.70.2025.08.11.03.26.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Aug 2025 03:24:43 -0700 (PDT)
-Date: Mon, 11 Aug 2025 12:24:41 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org,
- cristian.ciocaltea@collabora.com, gcarlos@disroot.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/tests: Fix drm_test_fb_xrgb8888_to_xrgb2101010()
- on big-endian
-Message-ID: <aJnE6Uu_WutFA06X@fedora>
-References: <20250630090054.353246-1-jose.exposito89@gmail.com>
- <20250630090054.353246-2-jose.exposito89@gmail.com>
- <9467c5f1-fb70-4698-a611-80f9be499b22@suse.de>
+ Mon, 11 Aug 2025 03:26:32 -0700 (PDT)
+Date: Mon, 11 Aug 2025 13:26:30 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>
+Cc: kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
+ arun.r.murthy@intel.com, uma.shankar@intel.com, jani.nikula@intel.com,
+ harry.wentland@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, robin.clark@oss.qualcomm.com,
+ abhinav.kumar@linux.dev, tzimmermann@suse.de,
+ jessica.zhang@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org,
+ laurent.pinchart+renesas@ideasonboard.com, mcanal@igalia.com,
+ dave.stevenson@raspberrypi.com, tomi.valkeinen+renesas@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com
+Subject: Re: [RFC PATCH 8/8] drm/msm/dpu: Adapt dpu writeback to new
+ drm_writeback_connector
+Message-ID: <ag34es6qm4b22qti4hbsju6sk5ny7ixq5fiwtni22vf7tvx5ba@ficntlx6i2hs>
+References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
+ <20250811092707.3986802-9-suraj.kandpal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9467c5f1-fb70-4698-a611-80f9be499b22@suse.de>
+In-Reply-To: <20250811092707.3986802-9-suraj.kandpal@intel.com>
+X-Authority-Analysis: v=2.4 cv=bY5rUPPB c=1 sm=1 tr=0 ts=6899c55a cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=QyXUC8HyAAAA:8 a=Fxrl8DOH8qgm06HfJ5gA:9 a=CjuIK1q_8ugA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: FXyBU6-qQn-kIM9qmR7Ncqa1aAdstTfR
+X-Proofpoint-ORIG-GUID: FXyBU6-qQn-kIM9qmR7Ncqa1aAdstTfR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAwMCBTYWx0ZWRfX7+qR2GwJFJoU
+ kapcQ5GhW35I8lDbXvnBIPYiEsGflj2TH7uwRb++Pi56kst8MI3r78ENk2y0ud4nEZROM91EwsI
+ oHUvCl0u5j6V/lL303SAKOQrkFiCskfC+jDYShfSVnw66MjI6HkwyoscumeTrcGemkU6bomLrjv
+ WzGDDUMun+ASHMETpkkznlYW3Q4rX365QsH6pRsmTH5Umxm6f4RbPHQplhEpj5b9KJ9AbdZ/OOC
+ ooT8yNvqcglJTTpPxEyQNc7buq81vYvzq+c+lvSgaO1wf/jv4Zv4Svrs3FFxrrJUmXc+5qwpQ5W
+ KsU6hSsQcWcHFgymJ9wvsH0shzmSALAt3h/SOo40Azt0NyBl/pwah8FvhTNBrNLxMv1axc4hzOq
+ i5HFsXCe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-11_01,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ spamscore=0 clxscore=1015 phishscore=0 adultscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,49 +137,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Mon, Aug 11, 2025 at 02:57:07PM +0530, Suraj Kandpal wrote:
+> Now that drm_writeback_connector is embedded with the drm_connector
+> adapt the dpu writeback functionality to this changes. This
+> includes changing the drm_writeback_connector to be changed to
+> drm_connector within the dpu_wb_connector.
+> Some other changes are done which are a result of the all the above
+> changes mentioned.
+> 
+> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> ---
+>  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c  |  3 ++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c    | 16 +++++++++-------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h    |  4 ++--
+>  3 files changed, 13 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> index 56a5b596554d..0e60c1ac07c5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> @@ -484,7 +484,8 @@ static void dpu_encoder_phys_wb_prepare_for_kickoff(
+>  		return;
+>  	}
+>  
+> -	drm_conn = &wb_enc->wb_conn->base;
+> +	drm_conn =
+> +		container_of(wb_enc->wb_conn, struct drm_connector, writeback);
 
-On Mon, Jun 30, 2025 at 01:37:58PM +0200, Thomas Zimmermann wrote:
-> 
-> 
-> Am 30.06.25 um 11:00 schrieb José Expósito:
-> > Fix failures on big-endian architectures on tests cases
-> > single_pixel_source_buffer, single_pixel_clip_rectangle,
-> > well_known_colors and destination_pitch.
-> > 
-> > Fixes: 15bda1f8de5d ("drm/tests: Add calls to drm_fb_blit() on supported format conversion tests")
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Just store drm_connector in dpu_encoder_phys_wb instead of
+drm_writeback_connector.
 
-Just a friendly reminder about this patches. Can I merge them?
-They have been in the ML for a while and it doesn't look like
-there are concerns.
+>  	state = drm_conn->state;
+>  
+>  	if (wb_enc->wb_conn && wb_enc->wb_job)
 
-Best wishes,
-Jose
- 
-> > ---
-> >   drivers/gpu/drm/tests/drm_format_helper_test.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> > index 86829e1cb7f0..981dada8f3a8 100644
-> > --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> > +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> > @@ -1040,6 +1040,7 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
-> >   	memset(buf, 0, dst_size);
-> >   	drm_fb_xrgb8888_to_xrgb2101010(&dst, dst_pitch, &src, &fb, &params->clip, &fmtcnv_state);
-> > +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
-> >   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
-> >   }
-> 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-> 
+-- 
+With best wishes
+Dmitry
