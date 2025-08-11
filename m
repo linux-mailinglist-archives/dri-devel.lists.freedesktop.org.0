@@ -2,146 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC80B20D49
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 17:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0D7B20D4B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 17:16:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D261A10E4F2;
-	Mon, 11 Aug 2025 15:15:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5114810E4F9;
+	Mon, 11 Aug 2025 15:16:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="abngW76O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RyrjT9gE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="abngW76O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RyrjT9gE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gkjgyhv/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B94210E4F2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 15:15:57 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AC9C633718;
- Mon, 11 Aug 2025 15:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1754925355; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mkghdF9d0qyQgX/i3cSkmhXA0OmU15xAwLK/GfThnq0=;
- b=abngW76O/tdPF7Fbj4VI7yXrq/gYuoq9xD49/lvYNXJTQ1q51e+X74ciYpDPsMHH7MiPHT
- j4ltKE129a0l5MUYmvz34Mot6evuJOmJN6zYmEyfNKia3LdrgheT3lpfTi1AdBNxpwJH8z
- DX4HXNfCGy1MVigQVmJM8FLpcm5F9Ho=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1754925355;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mkghdF9d0qyQgX/i3cSkmhXA0OmU15xAwLK/GfThnq0=;
- b=RyrjT9gEgyOcAGW/8GAtAuxtwOMk/2+ZM/OT3M8sV4ADr6lxZ0AOZV/TNRmtr050hulu4C
- M3+Bqm4Su74AArCw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=abngW76O;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RyrjT9gE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1754925355; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mkghdF9d0qyQgX/i3cSkmhXA0OmU15xAwLK/GfThnq0=;
- b=abngW76O/tdPF7Fbj4VI7yXrq/gYuoq9xD49/lvYNXJTQ1q51e+X74ciYpDPsMHH7MiPHT
- j4ltKE129a0l5MUYmvz34Mot6evuJOmJN6zYmEyfNKia3LdrgheT3lpfTi1AdBNxpwJH8z
- DX4HXNfCGy1MVigQVmJM8FLpcm5F9Ho=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1754925355;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mkghdF9d0qyQgX/i3cSkmhXA0OmU15xAwLK/GfThnq0=;
- b=RyrjT9gEgyOcAGW/8GAtAuxtwOMk/2+ZM/OT3M8sV4ADr6lxZ0AOZV/TNRmtr050hulu4C
- M3+Bqm4Su74AArCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 77CCB13A55;
- Mon, 11 Aug 2025 15:15:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ynnGGysJmmhtZAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 11 Aug 2025 15:15:55 +0000
-Message-ID: <6a9b84ad-f2aa-4073-9318-8c2e6b2edb26@suse.de>
-Date: Mon, 11 Aug 2025 17:15:55 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27D3B10E4F7;
+ Mon, 11 Aug 2025 15:16:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754925376; x=1786461376;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=GRA8UruL7C31U0Qi7hvdh7lKTtsA/KbEXNjxN8VCpEc=;
+ b=gkjgyhv/YS1Ax8mVQvRT6XCWfAjUTHpCAUvMCRzSMAwXe5akKT18nN2O
+ jhmV6PzzsblC6xzEWdeHUxe7AXsyR+Bnba6dVRfaP8FHLCHObgslPfSBo
+ DgpA0Ku0Sa1apq8MtbgRbFOzrPdGavLdDlzi0KZri/LbpGn72suPOL7Jc
+ KixFgNssv9pYNpBboGLXkzjKCyo45IJX3/+2KCaeuYtvboYOVo84EnSTy
+ YgB+7E5BFRnM8Aa0yvnVo7jDUgRRAw6lbVHZQGoYjuHYJ7bttPtlWUdZw
+ XGKxiODNap1vTels0laaZ+pTNK+At8dE73Uh+bm7RWP8SUfOKlx0khGCc g==;
+X-CSE-ConnectionGUID: ZZmYgrq4RPalscxrbYTQbw==
+X-CSE-MsgGUID: 4WjdTRMqQQG7ANVVdfheAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="68635867"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="68635867"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2025 08:16:15 -0700
+X-CSE-ConnectionGUID: Ut5T+zOGRiaYdNkFNiifpw==
+X-CSE-MsgGUID: wIk+109zQu+LbeXgptT9NQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="165148605"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.244.228])
+ ([10.245.244.228])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2025 08:16:13 -0700
+Message-ID: <a0bf9d3ab00bf18783c75e453324e232633501f8.camel@linux.intel.com>
+Subject: Re: [PATCH] drm/ttm: WIP limit the TTM pool to 32bit CPUs
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: airlied@gmail.com, matthew.brost@intel.com
+Date: Mon, 11 Aug 2025 17:16:10 +0200
+In-Reply-To: <76b287bf-9698-4df2-ac20-70b178a3a7c1@amd.com>
+References: <20250806132838.1831-1-christian.koenig@amd.com>
+ <3ff97e0ee433817c0c071c264d3a28622d717dfa.camel@linux.intel.com>
+ <d6830af2-52aa-4ca6-85c5-2a4635ce6c7d@amd.com>
+ <be9d451d511f8bc4652d835a2c28fa823aaf05f1.camel@linux.intel.com>
+ <76b287bf-9698-4df2-ac20-70b178a3a7c1@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gud: Remove unnecessary logging
-To: Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250721232210.12578-1-rubenru09.ref@aol.com>
- <20250721232210.12578-1-rubenru09@aol.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250721232210.12578-1-rubenru09@aol.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[7]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:dkim, suse.de:email,
- imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: AC9C633718
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,54 +76,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Mon, 2025-08-11 at 13:51 +0200, Christian K=C3=B6nig wrote:
+> On 07.08.25 18:47, Thomas Hellstr=C3=B6m wrote:
+> > > Well it's surprising that even modern CPU do stuff like that.
+> > > That
+> > > could explain some of the problems we had with uncached mappings
+> > > on
+> > > ARM and RISC-V.
+> >=20
+> > Yeah. I agree. Need to double-check with HW people whether that is
+> > gone
+> > with Panther Lake. Don't have a confirmation yet on that.
+>=20
+> Going to ask around AMD internally as well.
+>=20
+> > If it wasn't for the writeback of speculative prefetches we
+> > could've
+> > settled for only have TTM map the user-space mappings without
+> > changing
+> > the kernel map, just like the i915 driver does for older GPUS.
+>=20
+> We should probably come up with a CPU whitelist or blacklist where
+> that is actually needed.
+>=20
+> > > > Second, IIRC vm_insert_pfn_prot() on X86 will override the
+> > > > given
+> > > > caching mode with the last caching mode set for the kernel
+> > > > linear
+> > > > map,
+> > > > so if you try to set up a write-combined GPU mapping without a
+> > > > previous
+> > > > call to set_pages_xxxxx it will actually end up cached. see
+> > > > track_pfn_insert().
+> > >=20
+> > > That is exactly the same incorrect assumption I made as well.
+> > >=20
+> > > It's not the linear mapping where that comes from but a separate
+> > > page
+> > > attribute table, see /sys/kernel/debug/x86/pat_memtype_list.
+> > >=20
+> > > Question is why the heck should we do this? I mean we keep an
+> > > extra
+> > > rb tree around to overwrite something the driver knows in the
+> > > first
+> > > place?
+> > >=20
+> > > That is basically just tons of extra overhead for nothing as far
+> > > as I
+> > > can see.
+> >=20
+> > IIRC it was PAT people enforcing the x86 documentation that aliased
+> > mappings with conflicting caching attributes were not allowed. But
+> > it
+> > has proven to work at least on those CPUs not suffering from the
+> > clean
+> > cache-line writeback mentioned above.
+>=20
+> Makes sense. With the PAT handling even accessing things through
+> /dev/mem gives you the right caching.
+>=20
+> Do you have a list of Intel CPUs where it works?
 
-Am 22.07.25 um 01:22 schrieb Ruben Wauters:
+AFAIK LNL is the only one so far where it doesn't work. I need to get
+more information internally.
 
-I've been on vacation, hence the delay.
+>=20
+> > FWIW If I understand the code correctly, i915 bypasses this by
+> > setting
+> > up user-space mappings not by vm_insert_pfn_prot() but using
+> > apply_to_page_range(), mapping the whole bo.
+>=20
+> Yeah, that's probably not something we can do. Even filling in 2MiB
+> of address space at a time caused performance problems for TTM.
 
-> The debug logging in gud_disconnect() adds zero detail and is
-> unnecessary, as it only prints the function name.
->
-> The same functionality can be achieved by using ftrace, and is
-> highlighted by checkpatch, stating the same.
->
-> This patch removes the debug log in the gud_disconnect() function.
->
-> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+Wasn't that because of repeated calls to vmf_insert_pfn_prot(),
+repeating the caching checks and page-table walk all the time?=C2=A0
+I think apply_to_page_range() should be pretty fast. Also, to avoid
+regressions due to changing the number of prefaulted pages, we could
+perhaps honor the MADV_RANDOM and MADV_SEQUENTIAL advises for UMD to
+use; one faulting a single page only, one faulting the whole bo, but
+also see below:
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> We should probably just drop overriding the attributes in
+> vmf_insert_pfn_prot().
 
-Thanks for the patch. I'll add it to drm-misc-next.
+I think either solution will see resistance with arch people. We should
+probably involve them in the discussion.
 
-Best regards
-Thomas
+Thanks,
 
-> ---
->   drivers/gpu/drm/gud/gud_drv.c | 2 --
->   1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/gud/gud_drv.c b/drivers/gpu/drm/gud/gud_drv.c
-> index 5385a2126e45..b52a12cbba3e 100644
-> --- a/drivers/gpu/drm/gud/gud_drv.c
-> +++ b/drivers/gpu/drm/gud/gud_drv.c
-> @@ -620,8 +620,6 @@ static void gud_disconnect(struct usb_interface *interface)
->   	struct gud_device *gdrm = usb_get_intfdata(interface);
->   	struct drm_device *drm = &gdrm->drm;
->   
-> -	drm_dbg(drm, "%s:\n", __func__);
-> -
->   	drm_kms_helper_poll_fini(drm);
->   	drm_dev_unplug(drm);
->   	drm_atomic_helper_shutdown(drm);
+/Thomas
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
 
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > /Thomas
+> >=20
+> >=20
+> > >=20
+> > > Thanks for taking a look,
+> > > Christian.
+> > >=20
+> > > >=20
+> > > > /Thomas
+> > > >=20
+> > > >=20
+> > > > > ---
+> > > > > =C2=A0drivers/gpu/drm/ttm/ttm_pool.c | 16 +++++++++++-----
+> > > > > =C2=A01 file changed, 11 insertions(+), 5 deletions(-)
+> > > > >=20
+> > > > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > index baf27c70a419..7487eac29398 100644
+> > > > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > > @@ -38,7 +38,7 @@
+> > > > > =C2=A0#include <linux/highmem.h>
+> > > > > =C2=A0#include <linux/sched/mm.h>
+> > > > > =C2=A0
+> > > > > -#ifdef CONFIG_X86
+> > > > > +#ifdef CONFIG_X86_32
+> > > > > =C2=A0#include <asm/set_memory.h>
+> > > > > =C2=A0#endif
+> > > > > =C2=A0
+> > > > > @@ -46,6 +46,7 @@
+> > > > > =C2=A0#include <drm/ttm/ttm_pool.h>
+> > > > > =C2=A0#include <drm/ttm/ttm_tt.h>
+> > > > > =C2=A0#include <drm/ttm/ttm_bo.h>
+> > > > > +#include <drm/drm_cache.h>
+> > > > > =C2=A0
+> > > > > =C2=A0#include "ttm_module.h"
+> > > > > =C2=A0
+> > > > > @@ -192,7 +193,7 @@ static void ttm_pool_free_page(struct
+> > > > > ttm_pool
+> > > > > *pool, enum ttm_caching caching,
+> > > > > =C2=A0	struct ttm_pool_dma *dma;
+> > > > > =C2=A0	void *vaddr;
+> > > > > =C2=A0
+> > > > > -#ifdef CONFIG_X86
+> > > > > +#ifdef CONFIG_X86_32
+> > > > > =C2=A0	/* We don't care that set_pages_wb is inefficient
+> > > > > here.
+> > > > > This
+> > > > > is only
+> > > > > =C2=A0	 * used when we have to shrink and CPU overhead is
+> > > > > irrelevant then.
+> > > > > =C2=A0	 */
+> > > > > @@ -218,7 +219,7 @@ static void ttm_pool_free_page(struct
+> > > > > ttm_pool
+> > > > > *pool, enum ttm_caching caching,
+> > > > > =C2=A0/* Apply any cpu-caching deferred during page allocation */
+> > > > > =C2=A0static int ttm_pool_apply_caching(struct
+> > > > > ttm_pool_alloc_state
+> > > > > *alloc)
+> > > > > =C2=A0{
+> > > > > -#ifdef CONFIG_X86
+> > > > > +#ifdef CONFIG_X86_32
+> > > > > =C2=A0	unsigned int num_pages =3D alloc->pages - alloc-
+> > > > > > caching_divide;
+> > > > > =C2=A0
+> > > > > =C2=A0	if (!num_pages)
+> > > > > @@ -232,6 +233,11 @@ static int ttm_pool_apply_caching(struct
+> > > > > ttm_pool_alloc_state *alloc)
+> > > > > =C2=A0	case ttm_uncached:
+> > > > > =C2=A0		return set_pages_array_uc(alloc-
+> > > > > >caching_divide,
+> > > > > num_pages);
+> > > > > =C2=A0	}
+> > > > > +
+> > > > > +#elif defined(CONFIG_X86_64)
+> > > > > +	unsigned int num_pages =3D alloc->pages - alloc-
+> > > > > > caching_divide;
+> > > > > +
+> > > > > +	drm_clflush_pages(alloc->caching_divide, num_pages);
+> > > > > =C2=A0#endif
+> > > > > =C2=A0	alloc->caching_divide =3D alloc->pages;
+> > > > > =C2=A0	return 0;
+> > > > > @@ -342,7 +348,7 @@ static struct ttm_pool_type
+> > > > > *ttm_pool_select_type(struct ttm_pool *pool,
+> > > > > =C2=A0	if (pool->use_dma_alloc)
+> > > > > =C2=A0		return &pool-
+> > > > > >caching[caching].orders[order];
+> > > > > =C2=A0
+> > > > > -#ifdef CONFIG_X86
+> > > > > +#ifdef CONFIG_X86_32
+> > > > > =C2=A0	switch (caching) {
+> > > > > =C2=A0	case ttm_write_combined:
+> > > > > =C2=A0		if (pool->nid !=3D NUMA_NO_NODE)
+> > > > > @@ -980,7 +986,7 @@ long ttm_pool_backup(struct ttm_pool
+> > > > > *pool,
+> > > > > struct ttm_tt *tt,
+> > > > > =C2=A0	=C2=A0=C2=A0=C2=A0 pool->use_dma_alloc || ttm_tt_is_backed=
+_up(tt))
+> > > > > =C2=A0		return -EBUSY;
+> > > > > =C2=A0
+> > > > > -#ifdef CONFIG_X86
+> > > > > +#ifdef CONFIG_X86_32
+> > > > > =C2=A0	/* Anything returned to the system needs to be
+> > > > > cached.
+> > > > > */
+> > > > > =C2=A0	if (tt->caching !=3D ttm_cached)
+> > > > > =C2=A0		set_pages_array_wb(tt->pages, tt-
+> > > > > >num_pages);
+> > > >=20
+> > >=20
+> >=20
+>=20
 
