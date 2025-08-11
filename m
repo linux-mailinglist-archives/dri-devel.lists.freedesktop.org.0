@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5E8B20364
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F41E5B20368
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F7810E3BE;
-	Mon, 11 Aug 2025 09:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F77310E3C2;
+	Mon, 11 Aug 2025 09:28:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nQeKudt9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KmVzPBnX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F79C10E3AC;
- Mon, 11 Aug 2025 09:27:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2695710E3BF;
+ Mon, 11 Aug 2025 09:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1754904477; x=1786440477;
+ t=1754904486; x=1786440486;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=G1V8plHg1BJ8oXiT7TSBNCbbRE6SOMQJZJHiO6f/pko=;
- b=nQeKudt9YixOkR65YoN5VK7haU7XJMiGkPKeCsNuaqqcd3TYS8AruVZh
- lIG+0s23iJ3f9RCwsdwzQFITsJqX0vNjcvSsA/LBcs2GPmADTzXmKxesy
- 5wplEVki7GFfW18UX5UL9YrOYpCTzinVJF2dnEFoDYhMbeDBjWEguB5bB
- +dUHbmInxcw52xo3sAueLC9jBBPUNmJHmKb0owmrKDDpvq5zzxcEiwFAq
- H/zKQthfq/tLkoe8zWILkE1snfD2+f6L3ORTEAiTVHjYTwbQYmriwqS1+
- wRAULO69Qwf6wqLg3A6HrV9R4X7B9WuDL3R4vWMez/udf1dkE0ghrKQBQ w==;
-X-CSE-ConnectionGUID: PdmwX8hHS86oJvruehwg8w==
-X-CSE-MsgGUID: aDMfIkHwRW+1xdREG6+elQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57217948"
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="57217948"
+ bh=+I09g7mEbT3RCiVSU9B/ew3Su1p++k/MeQyf+c1pCkA=;
+ b=KmVzPBnX8tJXll23tHg1xKMmms7anr3OeICgwUYIRp9g4NOaOcUD62Jm
+ +JMX5npN+cnY4tC+4vjSazNyPOW9+1ClxdCvfLNtPU97CJGVonPwxdAl8
+ vrxzJtGpBkzaHHUGC0zpg4XyDyOq88CvhfwMJN1w9U1JSLALihuqsD9fv
+ 8C5TKr8LxQi0IsUfzfhzUMiFd95fQ9sC4HHdofHUrNkNscB6aW19dn38p
+ 9WCMwaP7w0SJdx1+O5u43hNzih9ourXVn8Gq8zPgRBOflEMe9Zq3nUHw2
+ 2NABnJtW54wbxJPpUcOzajt2HnbZ9GYW8eT5ZC9Rc7LQJCcniJEgOhEEX A==;
+X-CSE-ConnectionGUID: JsJiMZ7UTVymvzd25d8pYA==
+X-CSE-MsgGUID: iBwtUnSsSISX+of8x4foTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57217985"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="57217985"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Aug 2025 02:27:56 -0700
-X-CSE-ConnectionGUID: iH4II6ZZRcmahcl0VlfUxA==
-X-CSE-MsgGUID: Lt1mzx4cSZuWJ6bP8ZadDQ==
+ 11 Aug 2025 02:28:06 -0700
+X-CSE-ConnectionGUID: 2Etn9NvEQNiMYjv425kg7g==
+X-CSE-MsgGUID: Z/dDFyvCRMStFDeFBN+ucQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="165860329"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="165860361"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by orviesa007.jf.intel.com with ESMTP; 11 Aug 2025 02:27:47 -0700
+ by orviesa007.jf.intel.com with ESMTP; 11 Aug 2025 02:27:57 -0700
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
@@ -58,10 +58,10 @@ Cc: ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com, uma.shankar@intel.com,
  tomi.valkeinen+renesas@ideasonboard.com,
  kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com,
  Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [RFC PATCH 2/8] drm/amd/display: Adapt amd writeback to new
+Subject: [RFC PATCH 3/8] drm/arm/komeda: Adapt komeda writeback to new
  drm_writeback_connector
-Date: Mon, 11 Aug 2025 14:57:01 +0530
-Message-Id: <20250811092707.3986802-3-suraj.kandpal@intel.com>
+Date: Mon, 11 Aug 2025 14:57:02 +0530
+Message-Id: <20250811092707.3986802-4-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250811092707.3986802-1-suraj.kandpal@intel.com>
 References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
@@ -83,75 +83,102 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Now that drm_writeback_connector is embedded with the drm_connector
-adapt the amd writeback functionality to this changes. This includes
+adapt the komeda writeback functionality to this changes. This includes
 changing the drm_writeback_connector to be changed to drm_connector
-within the amdgpu_dm_wb_connector. Some other changes are done which
-are a result of the all the above changes mentioned.
+within the komeda_wb_connector.
+Some other changes are done which are a result of the all the above
+changes mentioned.
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 4 +---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h    | 2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c | 8 ++++----
- 3 files changed, 6 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c         | 6 +++---
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.h          | 6 +++---
+ drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c | 8 ++++----
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 5e260b275082..d4628dadf55a 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6915,11 +6915,9 @@ create_stream_for_sink(struct drm_connector *connector,
- 		aconnector = to_amdgpu_dm_connector(connector);
- 		link = aconnector->dc_link;
- 	} else {
--		struct drm_writeback_connector *wbcon = NULL;
- 		struct amdgpu_dm_wb_connector *dm_wbcon = NULL;
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+index 2ad33559a33a..1c2ba6eeb0e5 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+@@ -210,7 +210,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+ 		struct komeda_wb_connector *wb_conn = kcrtc->wb_conn;
  
--		wbcon = drm_connector_to_writeback(connector);
--		dm_wbcon = to_amdgpu_dm_wb_connector(wbcon);
-+		dm_wbcon = to_amdgpu_dm_wb_connector(connector);
- 		link = dm_wbcon->link;
+ 		if (wb_conn)
+-			drm_writeback_signal_completion(&wb_conn->base, 0);
++			drm_writeback_signal_completion(&wb_conn->base.writeback, 0);
+ 		else
+ 			DRM_WARN("CRTC[%d]: EOW happen but no wb_connector.\n",
+ 				 drm_crtc_index(&kcrtc->base));
+@@ -266,9 +266,9 @@ komeda_crtc_do_flush(struct drm_crtc *crtc,
+ 	if (slave && has_bit(slave->id, kcrtc_st->affected_pipes))
+ 		komeda_pipeline_update(slave, old->state);
+ 
+-	conn_st = wb_conn ? wb_conn->base.base.state : NULL;
++	conn_st = wb_conn ? wb_conn->base.state : NULL;
+ 	if (conn_st && conn_st->writeback_job)
+-		drm_writeback_queue_job(&wb_conn->base, conn_st);
++		drm_writeback_queue_job(&wb_conn->base.writeback, conn_st);
+ 
+ 	/* step 2: notify the HW to kickoff the update */
+ 	mdev->funcs->flush(mdev, master->id, kcrtc_st->active_pipes);
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+index 83e61c4080c2..9c34302782c0 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+@@ -53,8 +53,8 @@ struct komeda_plane_state {
+  * struct komeda_wb_connector
+  */
+ struct komeda_wb_connector {
+-	/** @base: &drm_writeback_connector */
+-	struct drm_writeback_connector base;
++	/** @base: &drm_connector */
++	struct drm_connector base;
+ 
+ 	/** @wb_layer: represents associated writeback pipeline of komeda */
+ 	struct komeda_layer *wb_layer;
+@@ -139,7 +139,7 @@ struct komeda_kms_dev {
+ static inline bool is_writeback_only(struct drm_crtc_state *st)
+ {
+ 	struct komeda_wb_connector *wb_conn = to_kcrtc(st->crtc)->wb_conn;
+-	struct drm_connector *conn = wb_conn ? &wb_conn->base.base : NULL;
++	struct drm_connector *conn = wb_conn ? &wb_conn->base : NULL;
+ 
+ 	return conn && (st->connector_mask == BIT(drm_connector_index(conn)));
+ }
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+index 210841b4453a..69822b9be574 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+@@ -53,7 +53,7 @@ komeda_wb_encoder_atomic_check(struct drm_encoder *encoder,
+ 		return -EINVAL;
  	}
  
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index b937da0a4e4a..dbcdc8595e76 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -809,7 +809,7 @@ static inline void amdgpu_dm_set_mst_status(uint8_t *status,
- #define to_amdgpu_dm_connector(x) container_of(x, struct amdgpu_dm_connector, base)
+-	wb_layer = to_kconn(to_wb_conn(conn_st->connector))->wb_layer;
++	wb_layer = to_kconn(conn_st->connector)->wb_layer;
  
- struct amdgpu_dm_wb_connector {
--	struct drm_writeback_connector base;
-+	struct drm_connector base;
- 	struct dc_link *link;
- };
+ 	/*
+ 	 * No need for a full modested when the only connector changed is the
+@@ -151,7 +151,7 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
  
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-index 80c37487ca77..8fea29720989 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-@@ -202,9 +202,9 @@ int amdgpu_dm_wb_connector_init(struct amdgpu_display_manager *dm,
+ 	kwb_conn->wb_layer = kcrtc->master->wb_layer;
  
- 	wbcon->link = link;
+-	wb_conn = &kwb_conn->base;
++	wb_conn = &kwb_conn->base.writeback;
  
--	drm_connector_helper_add(&wbcon->base.base, &amdgpu_dm_wb_conn_helper_funcs);
-+	drm_connector_helper_add(&wbcon->base, &amdgpu_dm_wb_conn_helper_funcs);
+ 	formats = komeda_get_layer_fourcc_list(&mdev->fmt_tbl,
+ 					       kwb_conn->wb_layer->layer_type,
+@@ -180,9 +180,9 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
+ 		return err;
+ 	}
  
--	res = drmm_writeback_connector_init(&dm->adev->ddev, &wbcon->base,
-+	res = drmm_writeback_connector_init(&dm->adev->ddev, &wbcon->base.writeback,
- 					    &amdgpu_dm_wb_connector_funcs,
- 					    encoder,
- 					    amdgpu_dm_wb_formats,
-@@ -216,8 +216,8 @@ int amdgpu_dm_wb_connector_init(struct amdgpu_display_manager *dm,
- 	 * Some of the properties below require access to state, like bpc.
- 	 * Allocate some default initial connector state with our reset helper.
- 	 */
--	if (wbcon->base.base.funcs->reset)
--		wbcon->base.base.funcs->reset(&wbcon->base.base);
-+	if (wbcon->base.funcs->reset)
-+		wbcon->base.funcs->reset(&wbcon->base);
+-	drm_connector_helper_add(&wb_conn->base, &komeda_wb_conn_helper_funcs);
++	drm_connector_helper_add(&kwb_conn->base, &komeda_wb_conn_helper_funcs);
  
- 	return 0;
- }
+-	info = &kwb_conn->base.base.display_info;
++	info = &kwb_conn->base.display_info;
+ 	info->bpc = __fls(kcrtc->master->improc->supported_color_depths);
+ 	info->color_formats = kcrtc->master->improc->supported_color_formats;
+ 
 -- 
 2.34.1
 
