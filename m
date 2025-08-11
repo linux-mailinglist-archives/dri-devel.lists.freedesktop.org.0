@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89911B20103
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 10:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56848B20105
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 10:00:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0E9110E392;
-	Mon, 11 Aug 2025 07:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6A0A10E39D;
+	Mon, 11 Aug 2025 08:00:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="aYe5uAgk";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="WmT/tBEu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9DF10E392
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 07:59:57 +0000 (UTC)
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E29710E39E
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 08:00:03 +0000 (UTC)
 Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57B7xgLW1065170;
- Mon, 11 Aug 2025 02:59:42 -0500
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57B7xnsO1495658;
+ Mon, 11 Aug 2025 02:59:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1754899182;
- bh=RSmI+NHoxMfFhR1/XRrkfHDuZineC0cdECqcY0nrHKA=;
+ s=ti-com-17Q1; t=1754899189;
+ bh=ts5ub4oKhxUB/GkeQn0dDeXELr5sbbPBU+j4PIA4u+k=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=aYe5uAgkUQ9YUd+Wm26Rv8lmJJvJoIlBgQVXJ5Xuw/01Sl4MLwFq+n6x1veP7aObT
- H49PRUKJBBePArh7ZxvCEQJ81M4NiixJlMvC0pGpfCgEzOM4FTXl4if8197nxX4ROS
- ZVCSVrjf+WB0HW+6NwwI7dSqZdzZI/pmfJTq+MDI=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57B7xgsk3526416
+ b=WmT/tBEus+/FlbJVqnjNH0a3PzrKbwFJLySgoiCMmKi4hF6xUPte1t4pl/PAzAuEG
+ 1egrHsJv7P78dfv00smN2JchljwI/yYrV+mKsw2PFB5mNS5vP2F1lmZuwYyLDpL+zz
+ sZ28fIeutLh4BJhZHe/c2IpT+77YXOQuBofybUak=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+ by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57B7xnVr3526447
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 11 Aug 2025 02:59:42 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 11 Aug 2025 02:59:49 -0500
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 11
- Aug 2025 02:59:41 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2025 02:59:49 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 11 Aug 2025 02:59:41 -0500
+ Frontend Transport; Mon, 11 Aug 2025 02:59:49 -0500
 Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57B7x5Cw2817433;
- Mon, 11 Aug 2025 02:59:35 -0500
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57B7x5Cx2817433;
+ Mon, 11 Aug 2025 02:59:42 -0500
 From: Harikrishna Shenoy <h-shenoy@ti.com>
 To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
  <Laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>,
@@ -53,10 +53,10 @@ CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
  <linux-kernel@vger.kernel.org>, <devarsht@ti.com>,
  <j-choudhary@ti.com>, <u-kumar1@ti.com>, <h-shenoy@ti.com>,
  <s-jain1@ti.com>
-Subject: [PATCH v5 4/6] drm/bridge: cadence: cdns-mhdp8546-core: Add
- mode_valid hook to drm_bridge_funcs
-Date: Mon, 11 Aug 2025 13:29:02 +0530
-Message-ID: <20250811075904.1613519-5-h-shenoy@ti.com>
+Subject: [PATCH v5 5/6] drm/bridge: cadence: cdns-mhdp8546-core: Reduce log
+ level for DPCD read/write
+Date: Mon, 11 Aug 2025 13:29:03 +0530
+Message-ID: <20250811075904.1613519-6-h-shenoy@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250811075904.1613519-1-h-shenoy@ti.com>
 References: <20250811075904.1613519-1-h-shenoy@ti.com>
@@ -81,55 +81,42 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jayesh Choudhary <j-choudhary@ti.com>
 
-Add cdns_mhdp_bridge_mode_valid() to check if specific mode is valid for
-this bridge or not. In the legacy !(DBANC) usecase, we were using the hook
-from drm_connector_helper_funcs but with removal of legacy code, we need
-to have mode_valid() in drm_bridge_funcs.
+Reduce the log level for cdns_mhdp_dpcd_read and cdns_mhdp_dpcd_write
+errors in cdns_mhdp_transfer function as in case of failure, there is
+flooding of these prints along with other indicators like EDID failure
+logs which are fairly intuitive in themselves rendering these error logs
+useless.
+Also, the caller functions for the cdns_mhdp_transfer in drm_dp_helper.c
+(which calls it 32 times), has debug log level in case transfer fails.
+So having a superseding log level in cdns_mhdp_transfer seems bad.
 
-Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
 Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 ---
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index b2f5a48cac2d..47c657237c37 100644
+index 47c657237c37..4fb1db3e030c 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -1999,6 +1999,25 @@ static const struct drm_edid *cdns_mhdp_bridge_edid_read(struct drm_bridge *brid
- 	return cdns_mhdp_edid_read(mhdp, connector);
- }
+@@ -778,7 +778,7 @@ static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
+ 			if (!ret)
+ 				continue;
  
-+static enum drm_mode_status
-+cdns_mhdp_bridge_mode_valid(struct drm_bridge *bridge,
-+			    const struct drm_display_info *info,
-+			    const struct drm_display_mode *mode)
-+{
-+	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
-+
-+	mutex_lock(&mhdp->link_mutex);
-+
-+	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
-+				    mhdp->link.rate)) {
-+		mutex_unlock(&mhdp->link_mutex);
-+		return MODE_CLOCK_HIGH;
-+	}
-+
-+	mutex_unlock(&mhdp->link_mutex);
-+	return MODE_OK;
-+}
-+
- static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
- 	.atomic_enable = cdns_mhdp_atomic_enable,
- 	.atomic_disable = cdns_mhdp_atomic_disable,
-@@ -2013,6 +2032,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
- 	.edid_read = cdns_mhdp_bridge_edid_read,
- 	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
- 	.hpd_disable = cdns_mhdp_bridge_hpd_disable,
-+	.mode_valid = cdns_mhdp_bridge_mode_valid,
- };
+-			dev_err(mhdp->dev,
++			dev_dbg(mhdp->dev,
+ 				"Failed to write DPCD addr %u\n",
+ 				msg->address + i);
  
- static bool cdns_mhdp_detect_hpd(struct cdns_mhdp_device *mhdp, bool *hpd_pulse)
+@@ -788,7 +788,7 @@ static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
+ 		ret = cdns_mhdp_dpcd_read(mhdp, msg->address,
+ 					  msg->buffer, msg->size);
+ 		if (ret) {
+-			dev_err(mhdp->dev,
++			dev_dbg(mhdp->dev,
+ 				"Failed to read DPCD addr %u\n",
+ 				msg->address);
+ 
 -- 
 2.34.1
 
