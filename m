@@ -2,171 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B82B21750
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 23:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73042B21755
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 23:28:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6A1610E315;
-	Mon, 11 Aug 2025 21:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9F1A10E54B;
+	Mon, 11 Aug 2025 21:28:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="u9hxThiK";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="HUrhwFYu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2072.outbound.protection.outlook.com [40.107.244.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 658A210E315;
- Mon, 11 Aug 2025 21:26:39 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8911710E54A;
+ Mon, 11 Aug 2025 21:28:03 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XBzo3OO8FskAeoAqSrSDcJ63+O9HwmTAcBiQtrGyX7QfHpdvTsoGhraFX/ySFdo88GASogkM3/oLo0rG83acaZmQ1JQVAf+gdiv4QvUpmenYTlBalNElUAgyHs8ln7fN+QsRnZFNTh7CiaDrls51Bpo318LGH+9GTi3SD0mukb7gFJQHAIU5UXSjN+W8FE2j0H59HOHZtq/zZxEZ2Q7kRoNn/aawUDZ6m1LopN4LGM10+LeGr15falw9c74Tlik5PT1M8esJ41MvhnL6maAUjCw+u8L1tdjo6PcS1UTBwbM3wusX5PfpE9ekfRwxdXCSy2QhkDLwAT4AtEoUQ56mIg==
+ b=L2pT4zj63OMkBRIRqtJE6CtIHX36tjxfwm2RgHXfxz4wLAsnNVhvJ3AkMmGxIHgRV54hHdEQT9okEWSMbCgGFpxVsMaI2Xrzlq5m/Csq3SN3o2A9y2lysdqbEXKqfgkGm5NbToOiKEpSbk6qfFMJ8XVTxS6viwOcuhqWGXfehk0DNy24vkOZecxbA683HDFGhFIj434LbEM3qIw1HQ+2KP76ibJysX4FawzJdqoLVO9ca+0cSCCPeJ6SrgcKPOyK3VmoxYZ/O87EIZgvjYsCjLu/oAKWGYiUsFa72kHljqrcYAEI2jndvwN2pPXvUMP3slridUx7uixF9EE1cRSx+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1cZ65EPinmRxKZ7cqMkjlx4rxENaMS+RhszSd4MNgRQ=;
- b=u0m4iFx5zeQSLD9KL1TH8jEIhDa21CrOLR07enjnAWQ9eQTMweQsGXIB/oOdq3W+5Z2sSUqVWRJN0VMQL1w1cSr8o1Ak2PHj6h2Hjd2PhK0NY2nTmP5TyUadggJ8PlnmIma3tPmU3mC9VRGRAew5vUhpeKrWQMuHkojXK8yCwjl9QmYWU5mV6iMnOml0RvtEtdhAueYXw0bhhhy6f1t4ddH8ueOgD/n8VOua8kwkkfUb86xEBpJMHogGtf6cV/5TNJ+w3mRV+SSJ9dMUQM0xqSjM+OfoJaHauJNc6XGrzf/viITx2vyS1k8gMiEydoDtsZTyupbheuyXfeQGh+iWRA==
+ bh=BuzmUttsVVsUClXWoLfK8nCFedQ3VLp2AQhsFa6qkVM=;
+ b=h0KvxDQ3iRw3L2B6O7VpKW09zwKJsTGA/tD2FaYsxH4VvAjWt1dxFye2bXHzR06wYi1KK2kcAjUA+R0gFtylRyIfpajDlkPjbJlgQALBcxHfNQHWEc6JqeEt5rUbHlwFDAOd9MFC1Bmvm/wBBLlkS/WB8aXhGy7GV6Lqx1Y9R9lNPWUboLdQNUTQ6Nvj/6VUjwe8rJ/DqPbvnjwCx+JsMoTYrkI1kQZWrQeqMxfcygu3NKmS6ocu8bGYazGCX0LFEZBW3CZ0XYEm2NeODveO0MIeocFscLB2FW28vieWUqgf5WZai/XNYpl7a9kGbeGQ+KhFFJkrU1Vw8n4xiu1DXQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1cZ65EPinmRxKZ7cqMkjlx4rxENaMS+RhszSd4MNgRQ=;
- b=u9hxThiKOd5jA2Yoa1STm0fFUso6JJeeO3oEbhrbQ/08b07ya3n1YpZaSDblgjShBt7AX1/9nonrF2HV2jvaKHSioAboI207caGo6gaw7gz8HhbGm4MVJoCy71Qb/cymnGcouH/rfnJoIHElgZbVWn2ndYfLyCHNstR5Rky5F9Y=
+ bh=BuzmUttsVVsUClXWoLfK8nCFedQ3VLp2AQhsFa6qkVM=;
+ b=HUrhwFYu+v5K2Djzr1b/V+9lQk8Vle6QLunS5aBUvMYM3H5S6vz2m84zMTOqZQj/GL3XkQOs736Gmj2s8DMFZzHZtVtSmfpFJTVjNr7eSRVcG6XRMTpCJ7BouCVGz3Ul9IG6IVtInsG3fi4jJgm1H957GMHRlgcjE1aFjExOqBQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
  by SJ2PR12MB8848.namprd12.prod.outlook.com (2603:10b6:a03:537::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Mon, 11 Aug
- 2025 21:26:35 +0000
+ 2025 21:28:01 +0000
 Received: from CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
  ([fe80::1c2f:5c82:2d9c:6062%4]) with mapi id 15.20.9009.021; Mon, 11 Aug 2025
- 21:26:35 +0000
-Message-ID: <c399cdf9-ec3b-4162-8175-05b34d9e5042@amd.com>
-Date: Mon, 11 Aug 2025 17:26:28 -0400
+ 21:28:01 +0000
+Message-ID: <3c8e02c5-023e-451d-958e-4f86e9df1495@amd.com>
+Date: Mon, 11 Aug 2025 17:27:54 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 00/14] drm/amd/display: more drm_edid to AMD display
- driver
-To: "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "Hung, Alex" <Alex.Hung@amd.com>, Melissa Wen <mwen@igalia.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, "airlied@gmail.com"
- <airlied@gmail.com>, "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>, "simona@ffwll.ch" <simona@ffwll.ch>,
- "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>
+Subject: Re: [PATCH v6 13/14] drm/amd/display: add drm_edid to dc_sink
+To: Melissa Wen <mwen@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Alex Hung
+ <alex.hung@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ sunpeng.li@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
 Cc: Michel Daenzer <michel.daenzer@mailbox.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "kernel-dev@igalia.com" <kernel-dev@igalia.com>
+ Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
 References: <20250726003816.435227-1-mwen@igalia.com>
- <019ca526-5bdf-4c88-a994-a6babb9963c7@amd.com>
- <83d8ed56-2c2b-47dd-83a1-8e8f6a49fef3@igalia.com>
- <b0511344-f654-4f91-aa1a-06d7588a5db5@amd.com>
- <4e94993a-92b3-4584-bfed-468d7606830d@amd.com>
+ <20250726003816.435227-14-mwen@igalia.com>
 Content-Language: en-US
 From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <4e94993a-92b3-4584-bfed-468d7606830d@amd.com>
+In-Reply-To: <20250726003816.435227-14-mwen@igalia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQZPR01CA0038.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:86::9) To CO6PR12MB5427.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQZPR01CA0029.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:86::26) To CO6PR12MB5427.namprd12.prod.outlook.com
  (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SJ2PR12MB8848:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17555f6c-9d0e-4f91-788e-08ddd91dbfb2
+X-MS-Office365-Filtering-Correlation-Id: ec688a41-616b-4368-c164-08ddd91df2a9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RExVZm1UU2VmOC9UaEdkTVlwcUYyL2UxZ0FJWnpkaHV6VzFHbmtnYjZIR3Jy?=
- =?utf-8?B?NVhGb0hLeklkWDYyQXppeE9wMERJK25GTTJSOWVxWnA5ZDhvenYwbktyd013?=
- =?utf-8?B?ZWp3bTljSlNhZzBuR0pkSnNkUVpjclR3YU1qYjV4R1kza1QvdDAwN2owRGJB?=
- =?utf-8?B?dWNQY0dhMy9RNkg5U2ZzdExiOXRrTXozNERMMDBWR0xpYlhxWXlNQUpXcjRs?=
- =?utf-8?B?d0N2aURsdlNGYSt5WHo4a1Npd2haMGZMd3B4eWRXR1lKUHNRbXh1MXh1THI4?=
- =?utf-8?B?Nkx5YjN6S3orWmNWalFDU3U5VGpub012MURjSnhMNlZWdWhwcDVnOHdBUkJH?=
- =?utf-8?B?Q2xBdGw5L0VtVHNUK29SR2EzRUpmdFZLUVhObkJVRDZGOGsyNnU3Y2QzUDVX?=
- =?utf-8?B?emJVNFNxTk0xNThtditLbm5wYWg1ekhMbEsvL1NZb2gvNWFxdXhsMXNOcHJp?=
- =?utf-8?B?MWJlYWd6YnIwUHVaMjllaXJDZGt6WW1sUURHWmJ3V1pxaEV4U3pwRUh6L0Ru?=
- =?utf-8?B?MlBXK2VaQ2x6Y3NPWW5VRWlEaE5ZVTE4a003SXBOMnZVZ0MwakEva1pzNnh6?=
- =?utf-8?B?MzhTVElXS29tbnREZ2hZcit5NSs5bC96ZjU2T2JSZ2d6TENNWnh2WXM4dnJ3?=
- =?utf-8?B?QTRUMXFoSXdNZFBPVlVHNHltNnY2bkU5M2VkQmlKYTlkOUhvdEJham0rZWtu?=
- =?utf-8?B?U2kzZkdBUmRoaVVDTmVpaWNTc3BoQzE2ZWxLcXdQemRtQWxRTkZXTGd6a09J?=
- =?utf-8?B?bVNHV0pEcWI2Tk1RUTMwYXB5ZVRlQWFkRlhESDZlSlRPQlpUNWJWVmVNdW82?=
- =?utf-8?B?eG1kK0tKcjFWODdsNzV5anhPZjFoUXhMa3NZYkUrS0FaaDZMdjU0MytXWldD?=
- =?utf-8?B?QmpSK21wa0ZveU8wNEFPQ1ZBbkkrSEVWekNtMWRmOUhOM1NnYmp2N1BXWUxl?=
- =?utf-8?B?UlYyZlVjbk0wRUVUNStuNVVsb1VzRFZhcWRTRU9LSC9pbGNSRE0wM3lGLzds?=
- =?utf-8?B?TWU0WjNlM0oyZHh4Q2dzWEJkWVBZbDBGamJIUFNxS1BHOEs0R2RHdFA5eTY2?=
- =?utf-8?B?ZVM0Q2VwaE93L2JJYXQvazNEcXI1cEZCSVNJUkdKNXV4WEdFTC9pNlFQSjd4?=
- =?utf-8?B?NituQzZSbG9kR2Rtdi9xR1JaTXg1cnU4b2FhM0tYdlowSzRyRlV1YkhUaHZ0?=
- =?utf-8?B?V2l0bmtISG53cXFaQTJUNGQ4WXg0MVRhcXJucUZVMXRWMEZNV005cGl4QVdF?=
- =?utf-8?B?bzdQZW14MHdaYVVWaGdvVWFoaTZlc1VCZ3BVZ3RRYUZodEdSVU42Wml2TzlC?=
- =?utf-8?B?bWZBRFMxM05vLzBZZEhoNFdTeFN6Rm1iaVhpQVgzQzRncHNxY2puS3NUaktn?=
- =?utf-8?B?c0RVY0NGVU5laFZhR1BrU0lhUGk0eXhibGcvcWxSZG5BWVAzcXlqYVdWQmJr?=
- =?utf-8?B?TExOdXNUQ3o5dy93QlhWcTdMUEhhcmtSUjRWcnJCRjJXVnZiQ0F3V1NOMjZJ?=
- =?utf-8?B?QnIyNERHamNXNXZHNnZmK3lXOEIyb1NScXdOSmhqU0gzWU9pMmtnZ285QVcy?=
- =?utf-8?B?TWxIUkowWEJydXNiK0dURzFnRjJrbkxwTzhDaERCWWZpMStEUFJNRXdoSGFa?=
- =?utf-8?B?c1N1TGpYUHJWMXdRbGVpMnFHbXNJRG5GRXEySUxEWnZaaElXTzhtR2hqTlND?=
- =?utf-8?B?cXVVUU13SjZienFmSHJLenA4aEE4T3M0Q3FIUEM3dEV3aC8rN1FIQ3FlSjdo?=
- =?utf-8?B?VnJ0NHR5eGFyV1JwUkp4VXRrRmlydzU0ZnpBdk9mYlNjd1FIeVYxbURmZ3du?=
- =?utf-8?B?N2kyM1R4UWRPQmluU016REVORDkrUzJRanlnWTdZSTMzMHM4Mk5xY3E3UmxR?=
- =?utf-8?B?cGYxYTR5MnZaaDZSeHJhY3U0R2p4UjJaWFpMaGk3WXcyUWdBRFp5NnFiN3hK?=
- =?utf-8?B?WnhMRHNIRmpCbWVxUklFS1RXbE5jdE5NTXo3VitIckhRdDh2MlFoM3NkWXpC?=
- =?utf-8?B?cVl2Q21XUVRRPT0=?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Mmd1dGFHajQrRk9UUHllVndVRGtxSmt5bitOWFRiT0ZWYmJMNk4vODFSUCti?=
+ =?utf-8?B?Y1lXK096MWE0STc0R0R4U2I4ckpnQnNzdjFtZTYrMXFpNytiR2l3elg5NDJN?=
+ =?utf-8?B?Q2laY3RMSXZNTjIyVTcrenk4UVN6QUtvNGVqbzFWMlpuMHowRWtDdTlsRzYv?=
+ =?utf-8?B?TEhJM3VVZFltSTR2LzMxR0ppR24reCt2WTVva1VabG5wdEZodEFoSmp5WVBE?=
+ =?utf-8?B?QTYwQXhnZHMrOUtETjZaRnhWMXlQalJ0bWRUQ05QaGlMNXBDMVZEdVBEbytx?=
+ =?utf-8?B?dUQrYk00d1EvYndDOVhSdnFwZ0ljbGY3S1k5ZTVOSThadHN3bjQxdTBqN0xS?=
+ =?utf-8?B?OEQvOFB0cjJvSkp0TngwWkxkbWlMWGorVVBrWS9XTGFVU2ZrMzVETkhWUXhN?=
+ =?utf-8?B?djhmWlYwaGgyRnRxdjBHRmliekhkL3czY2tZQmxrS0YwdVVOc3BjOVdGKzU2?=
+ =?utf-8?B?RVB3c0FUNFRvWnFjUXBWYXVTTG5nSWxtbDhBRHVWdkRNNDl5YS9wMVNFcTFD?=
+ =?utf-8?B?cHZmNXJ3bDkvZkd6WXMwOC8wKzdOUDF4RHMvblNpOW1aRjZHL1NlR00rZFRT?=
+ =?utf-8?B?akVKUTVCb0drMkZ0QUFxNE9nQXpGaUEyTCs3QS9sUEE2WElLRWwvUEc0UkEz?=
+ =?utf-8?B?TTZKbDlEcHd3b1o1bmRSOGRoTVhuOWdONDY0S1ZSaXVLcDRhU3JGdEtVNEpI?=
+ =?utf-8?B?Vm5RUWd2UUNDcDZvblpBaWhodW1pQ1RBQlVaWjNDcm5OVEFlUmFvY1BFWEFR?=
+ =?utf-8?B?SjVCdFBOV2VRQldUaDk0VkpOOFVrMTkvOXR2WlhEdUdlUEJSQkdVdnhDcE5D?=
+ =?utf-8?B?WWc0MGJKbVVmbVZETGIraEFpWFNoY3htVFplRThydlliNS9pdmdRYnZRL1la?=
+ =?utf-8?B?eEJsRzNNeWtyc1FHUnJzNUhrRFJXYkViTiswazcwYkc4Z1hGMlRNRFpzWmpV?=
+ =?utf-8?B?V0hUTW8vU2hjNURiZFRjMWVUTGgrQWJoQlRmMTRSR04zN25UYk9lUWxTVkVk?=
+ =?utf-8?B?VmRZS2JlTXJ4aWgyMnNWQVdZOTNkUFlRWUVxcFhmTFhuckJhcjVCR2NzUlZx?=
+ =?utf-8?B?QnZJR2dMdWhJOThycG5vQXBqMXY5NmdUMWltUVVkbWlVWkx6QlkwNjIyVXZP?=
+ =?utf-8?B?NjZ1VnZNeUxqdnh0aUhTSjg3UDVhalNjU2RtNGxTSGJhVDZpZWRzbUdzenQ0?=
+ =?utf-8?B?VGVYNk10WUwvK2xLaG5Fa2JNNmhHT1cyb3MrT3BlRm9kdTdjdVppVnloMzIx?=
+ =?utf-8?B?SFFNU1BRcWVHcFUvKzhENjhpdWt3Wjl2MFgwSGVnNHpLcjM2ZWlOTTd4MEZm?=
+ =?utf-8?B?N1Z0N1hvL0NlK2R1SlREYVNoZ2h5TTQwTzlTRytaY1RuL0RtQndzTEkzNEFi?=
+ =?utf-8?B?QTd2RkxCaDdtcFhJMUIxSGw3eVg0ZlFEQzZldDg1WlpOanRiQ3hZTXZ5dFVJ?=
+ =?utf-8?B?bTcxSVpJVTZsR2F0TVpoTDBnci9jYzQ4cnhheXB6UE44cklrcktVR3IzRzEx?=
+ =?utf-8?B?dmhOQTdvVWVzNWIvdzZLaDlvVjgwMExMWUJwWVhwYS9LaEpZWFJoT0NmTitS?=
+ =?utf-8?B?dllKalFEV1NVYU5hVXdWd3dJY0NrbVJuelZUNDgxdzVtdlBTK2NhdW9zNitG?=
+ =?utf-8?B?b24zRVZoVDh4L25GeGRXMXdESUhOakR4K0FKYkx0aitkdkx5VWl2Nmw1bWJt?=
+ =?utf-8?B?aGt3RGNwTFJpWWh0NFZVS3JsUzhtN1BFb3Q5Tk9VQnc5bkszaTllQ0tXUFJm?=
+ =?utf-8?B?djN5Y1hVa3pYTkp1UnBHbmlnZmF5VE5UOFZZcUtwaU10WlkyUnpNU0pmWmpn?=
+ =?utf-8?B?Tm9kVjBlVXpvQkhPL0hnZStESi9wejN6TGY2VzlFaG9RVm1sVi9pRTFQdTRx?=
+ =?utf-8?B?SGJTcXVkL1IvWVlzS2w3RnFaTm1LOTkvaHRudzN4SHNCWThodzZPNVpJNWxK?=
+ =?utf-8?Q?R9NNgwoDtHg=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020); DIR:OUT; SFP:1101;
+ SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UDcrT0lkS010U2l3dVBQaGwra3QrL3UyYzNDbk9Vc3BsQVd4eDEyTzhGV0x2?=
- =?utf-8?B?aG1hS1QxSUx2NzIrYjBpTEFDaUt6YXhmc2pqNmw4S2RUbWlYbElzUHdjV0xy?=
- =?utf-8?B?d0lrdDU1V2NINm16RzZmbStXajlVUUhPYVpRNlJHcVFlRjJQUHl1ZGN4ZGJY?=
- =?utf-8?B?Qkd0YnBlc3g2Q2cyamhGTDJRVlNxM0daTiszSjNmeUtCeDVTQlREd3FNNEF5?=
- =?utf-8?B?aXd3eGlwTnBNVnVFSWJhR3pWYWpJVDZ0QWNLczk5MTkrZndoeTNTajJYeTFx?=
- =?utf-8?B?M1lhUm96b21wb0dXTlJtSGxzQThtUlF0RnducnpMTzEwQnpTb21nN0M4N0Nq?=
- =?utf-8?B?RVhnVHdacnRpVFhEeTJRdWJEanNrbUNPbzBuaXBhRjJEZFhPc2pMVmlORDNh?=
- =?utf-8?B?N3c5N0ExbFNpc0Z5TE15Vi9HVmwrcXZsSmZDUEd0S0dTU2x4QXJPemRFd1ZX?=
- =?utf-8?B?SmtPMWRWR21kdGQ0bnR2S2xlUFduTjl2V1hOanIyMzJFczZtTmFXNGFpa2pt?=
- =?utf-8?B?Y3A2R0FzbmhUQ0pjYzdtUzR0VDg1RDIyZG9VNEJDQ2NSaStOWGtVdHZYaWlq?=
- =?utf-8?B?ZlVhV3FsZlFVdlh2Y0xRSUtsdkh3TEU2Rjg3TnNNdUhXQXpIaWRmSUs2bDZx?=
- =?utf-8?B?dUFBRm5EeFVxUTI5Z3ZtUjQ4TExrRE1oNGgxNWVPRTZBbzNtQXJYcUFnUjV0?=
- =?utf-8?B?Q2QzaXJDZUNxSWFUaEZ4VUZOdG9CVnUwaDl6aEhGalZHMUphVTNVcEZCZFF1?=
- =?utf-8?B?TGtZTFp0ZG41SGRLaElNQzFBV0xFK0xLSm5naDJRRTIxdzZkbTVGaWhoWGs0?=
- =?utf-8?B?ZW1MZmROOHNLN080MEtuL2hXRXEyZ3I1ZUZlbHlxNFpIVi9xRG0vS3JrZzZK?=
- =?utf-8?B?ZGpveGo4V3h1WTNFL21vd3E5YWVOWm9hcmZvQkZHQy9NMC9lcXd5UElQai94?=
- =?utf-8?B?VHBWNTdiazVTQVM1N0ZvM0FLL3lLSHNCUE1VcnVFTHRLMkhXWmR5UlZxSVhV?=
- =?utf-8?B?Z044bHAyb09URHEwY2ZTWWJDeXZ3bjhpallpVUVoc1kwbkNzOFFvTHVZdUlR?=
- =?utf-8?B?QXEvYmdkRG1vWCtRdHJ6SUNjOVJEdmNuVk5qTGZGbyt5dXoxcW9nUWZkKytz?=
- =?utf-8?B?U0d5VzZPUjhIamJhdDNxem5PLys1S0VoQ1NRZXJKT3BQd3dJd254dlNWRkpk?=
- =?utf-8?B?TFVtRFVKKzdoQVBjS2k5LzE4bFI3MGJBbndMMGNqcWhzcDZjR0xDM2Q2WVNH?=
- =?utf-8?B?czdrWXdkR05LQ0l2OTRWR0ZHbnBkSnZSOHY1M2hoaTI4RXM2d2JKQUU5Qllq?=
- =?utf-8?B?Vkc2K0ZsUmRLS0c2dVAvTGJrZWFlQk1XMVlCaTlWL3ZJc3p3dnJRRnYyeGZz?=
- =?utf-8?B?cDBXNDgraU0wY0pBOGxka0VlQjZVK1BiS2srMnNKek94dVV4R3VYbzV4bTNy?=
- =?utf-8?B?ZFlieDgxZDBBalcvMngrczg2SXNBSnRUM0FCaXZIQ0l5SVAySmViN1IvMVJI?=
- =?utf-8?B?L0N6aXRESkt1RWFTbVh0RExFbkNXYXhZRkhtQ3lRQzZNSXJSd0JWNkhjSDcz?=
- =?utf-8?B?RGI2QlpidkljT0p2ZHVoVHZIY3FUS3c0YWVXUTRTVFV5Wm53MS9nbVp0Mk1a?=
- =?utf-8?B?WktVWVRWM0NGUkdndmFUTmxBR0hIODRrMjh6ZkFQNHkzWGV0MTk2ZWVCTlpv?=
- =?utf-8?B?SXZYQjJlU1ZCc0pMclVPQUJzRmJ2Q3BCem95eWZWUXI1S3lES0ZXcVA1ZkFX?=
- =?utf-8?B?SjVvWFNHaG9makorV3dTWTZIcVZtTlpyNml5WEt0a1FjQkFRRzdUL3MvNzRs?=
- =?utf-8?B?eWY5b1J4WFR3UGZSSzNSck9QcnhZcnIxUlFNbTZoRVRMeGt5bWxKeEJLN3ZY?=
- =?utf-8?B?c2R3YjZLN1NTSVNURG9rZGdqUlJiS2pqNGcyNGlqYUROMEpNNFdiUnl2Z0hm?=
- =?utf-8?B?VzRkU0FNUm5rT0sySVlKc1RDejV0Wm5FTEhJVUEyektBWnJQV21mWS81NlJL?=
- =?utf-8?B?RFF5ektUM3RiaHNqQmJ6UTc1RUtsNzZydkx5L0JyTWM5T2JjWXJDREFTQVhH?=
- =?utf-8?B?Z0pPRXEwNkoyV1JHOUlVMEdnRVlXdjY4ZUdXb2N4c2kvR0gwci9pbDBEMGFa?=
- =?utf-8?Q?RyIX3+PR/10pU4NZTHlVqjWt+?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q09lQ2VnYzkzdndzMzl0aENxdTZvRWhmYVJrNS9HZ2c3TVZ2YmkwNlhVZ2g5?=
+ =?utf-8?B?UUtrcWh0NEFObzl3K3p2NUZLSnlnTGluK1BGQk1KWnJKZ3JiVENIRktoNFcy?=
+ =?utf-8?B?MStBaEdsVTNCT2RnNTdhVm04UkU5bktmR0M5TEtNM3ZySEtFck81TmJEclFx?=
+ =?utf-8?B?QmRnalRET2NBV1NydklhaTE5ai9UZU5FalRPUmRSQnhxRXJoZHFvazJ3U0F4?=
+ =?utf-8?B?eHRkRG82eC9WMWFsbkxyODF5RmlSZWdvMlpuNTc3MTRReTJOdTBsTktBVkFZ?=
+ =?utf-8?B?Ly9xVTV1RDJ3ZllqSzE4Y2ZWNmh6dDJ1S3pjZThMc1h5dHFWOHFZOHZLZGRw?=
+ =?utf-8?B?TzBvbmJvYVNlSGIxdXZIVjF5bTlrSUg0WjBGNFV6Zzd4VFQ0Y2tsdUpYeDZI?=
+ =?utf-8?B?LzQxK1oxR0RETFYzUmY5dVBIMm90M1FRMzRxT2VIeTgxTlhDVGJNT1ZmTEM3?=
+ =?utf-8?B?YUZDVE5wazNIRWRnYmhqM0VPcmhQRHN2VzJYNGFCWU40UzBmb0N2cTFrUnZ5?=
+ =?utf-8?B?OGpUcTZMSk1PazRBZ0dmYVpXSHM4ZndLVk1tdDhoTEZCVmt3akhKRDA4NlJB?=
+ =?utf-8?B?MVRvcTIwRnBBZ3dwV2NEMzVteHIreFR0a09IMWNDOUxqUC9NVEExUHBLeThU?=
+ =?utf-8?B?Z1ZpaVR2TklkOVZsT2R1WW9Ma2pKNnNjRGRtaDg2VnNleWxuTHZRRjZibUl2?=
+ =?utf-8?B?dStXUTR6WWxnREpwYXpHTnBmaFhPQmE1b1BXUFVCV0l6bGgyeG1wT2xSd0pY?=
+ =?utf-8?B?ZmRPTVVybG84RlBrd2dBWUcySWV0QlFBWHVidWJzdVh5aFRTM0l2QUllOVY0?=
+ =?utf-8?B?K0syeTFvbzRZQmNkc0t4enVMZkU4NG4wNVJ3VmliUFhnc1B4OXJTQkEzNVE3?=
+ =?utf-8?B?VUZiYURXcG5ZVGp3SUdsT0RvRjdGRllXRWlhWUpDZDRlWUo5ZHRuYkJDR2dr?=
+ =?utf-8?B?bFRXTVpxNjhZN3RKQi9VRXJFbXNncGEybTlYZElNeE96WFg5QUN3N2J4cXhq?=
+ =?utf-8?B?c2xIQmc0TDlIcHA0YUZBUlVRaU8yd1VFOFh4Y2VYbzJucWs0RFJUaG00Q2Fj?=
+ =?utf-8?B?b0trMjBqbzJQa3R6RWtNc2lNSncyOXdhVzZEc0h5dE5iV3NzQmdOWnZ3M1Ir?=
+ =?utf-8?B?U0lvb2ErZnNZTkNsV2IzRkg1MDhzQTNlV1M3a0NBakFQVGRId1I2OWRpWXNs?=
+ =?utf-8?B?aENmQUlBcGtZWHMwV2FMcE80amsxOGNPR1hpMWJtNUxNUTVraTVtN2h3Vm9I?=
+ =?utf-8?B?RUEzZjRnaGJXcFM1Uk9KVm4yS1hpdjJjZWRzM1JaUGxMNG9LMUx0cWlRTjIv?=
+ =?utf-8?B?ZTlNMG1Wb0FjcHFSWVIwUWpNaklSSlc1RXJkY3U4TWNjTTZTbnYvNFhGTTlu?=
+ =?utf-8?B?TVEwY0ZDUTNxc3MxMW5kVSswU2Fwblo0N0sxY0NSQ1ZMeTgzSDFBekdUK0pN?=
+ =?utf-8?B?UlNRSE1zR04waWQvQlQzSkw4SzA0K01yQVJWNmV1STRQOXh2T2ZrMGUyNENS?=
+ =?utf-8?B?c3FiazdEODhuSzhrRzRhYWZOTUpWTWI2dURtTDFLSEwxb0czODM1UCtSQ29O?=
+ =?utf-8?B?V09mTXVjQy9qWnJ6TVBWUFRaQjB1MHE4cTZzcFZ4K201QmZERlNxUlh0b2RJ?=
+ =?utf-8?B?N1IwZDcxZVJKSXVGRkw5dzhNSkJLUWZPbDdCT2IxYW1Id3FXRGVDc2ZLaGUy?=
+ =?utf-8?B?WFdaZkFRYVArUW9CNitZbFh1T1VFNFlxYWN1SkY3Vm44Q21jaGJDaHRsSTNH?=
+ =?utf-8?B?THlERmhYL1hIdVYyLzBOdVZMNHBsajlFVzFYR0o4eDZhMXo2d3c3OGdzcG1u?=
+ =?utf-8?B?UFl1bmJDL01QaTVNdDQwUU5XSkhnK1MzaHBnZ1RZN3lneUlHSzg2UE1uRU0v?=
+ =?utf-8?B?L212b1FaSDJzbTNLUFdPd25tOFZHYUcvcVNSdGluVkZ5U1pwdEw5UXJoR05K?=
+ =?utf-8?B?T3RiZjl4QlVGOFFiS3E4YVBFWlNNYnQxUmNjd1Uxd1NNY0JmcFVPdXlEa2NO?=
+ =?utf-8?B?UnFrdkEzQ0poZDlFS0QyVWxHSHBzUzRoZlFTc1ZYVi96b0ZPRldtc21oRVMx?=
+ =?utf-8?B?ZHkzb1FpOSs0bFREL2NtWDlWNEhEMUQxa21pUUlkRFBuTzVnanNMaG84K01R?=
+ =?utf-8?Q?jIP1D5RW3to15rhxdEqebAndR?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17555f6c-9d0e-4f91-788e-08ddd91dbfb2
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec688a41-616b-4368-c164-08ddd91df2a9
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 21:26:35.2299 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 21:28:00.7539 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OQIdkpJiZINt2rKocK16O0BBApEUfb9Yd8SuM2IX0Scb9RSBRbHsS87QgWlz/WlkOfX0veH5IweM9Dzx7WrxQw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 011j9EfOS3iDz7yAySIl3xkQdi76jliKZd+7cZvg1EXdHx2hg5Wny52j3pjbpKiZA9ITTuc2Yx5wUU5RDkOO4Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8848
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -185,196 +170,88 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2025-08-11 17:09, Limonciello, Mario wrote:
-> On 8/11/25 4:08 PM, Hung, Alex wrote:
->> Melissa,
->>
->> The patchset passed promotion and CI.
->>
->> However, since our DC code is shared with the other OS, calling drm_* 
->> functions in DC won't work for us. For example, calling 
->> dc_edid_copy_edid_to_sink from dc/link/link_detection.c in patch 14.
->>
->> I don't have a good way to handle it. Does it make sense not to touch DC 
->> code for now?
+On 2025-07-25 20:33, Melissa Wen wrote:
+> Add Linux opaque object to dc_sink for storing EDID data cross driver,
+> drm_edid. Also include the Linux call to free this object, the
+> drm_edid_free()
 > 
-> What about if we have a set of compatibility macros in DC code?
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c | 6 ++++++
+>  drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h | 1 +
+>  drivers/gpu/drm/amd/display/dc/core/dc_sink.c   | 3 +++
+>  drivers/gpu/drm/amd/display/dc/dc.h             | 1 +
+>  4 files changed, 11 insertions(+)
 > 
-> Something like this:
-> 
-> #ifndef drm_dbg
-> #define drm_dbg ....
-> #endif
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+> index b4ccc111fa08..493815829aa5 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: MIT
+>  #include "dc.h"
+>  #include "dc_edid.h"
+> +#include <drm/drm_edid.h>
+>  
+>  bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+>  			  struct dc_sink *current_sink)
+> @@ -25,3 +26,8 @@ void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
+>  	memmove(dc_sink->dc_edid.raw_edid, edid, len);
+>  	dc_sink->dc_edid.length = len;
+>  }
+> +
+> +void dc_edid_sink_edid_free(struct dc_sink *sink)
+> +{
+> +	drm_edid_free(sink->drm_edid);
+> +}
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+> index f42cd5bbc730..2c76768be459 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+> @@ -9,5 +9,6 @@ bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+>  			  struct dc_sink *current_sink);
+>  void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
+>  			     const void *edid, int len);
+> +void dc_edid_sink_edid_free(struct dc_sink *sink);
+>  
+>  #endif /* __DC_EDID_H__ */
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c b/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+> index 455fa5dd1420..3774a3245506 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+> @@ -26,6 +26,7 @@
+>  #include "dm_services.h"
+>  #include "dm_helpers.h"
+>  #include "core_types.h"
+> +#include "dc_edid.h"
+>  
+>  /*******************************************************************************
+>   * Private functions
+> @@ -65,6 +66,8 @@ void dc_sink_retain(struct dc_sink *sink)
+>  static void dc_sink_free(struct kref *kref)
+>  {
+>  	struct dc_sink *sink = container_of(kref, struct dc_sink, refcount);
+> +
+> +	dc_edid_sink_edid_free(sink);
+>  	kfree(sink->dc_container_id);
+>  	kfree(sink);
+>  }
+> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+> index 233d73f9f19f..215d3901480a 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dc.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
+> @@ -2493,6 +2493,7 @@ struct scdc_caps {
+>  struct dc_sink {
+>  	enum signal_type sink_signal;
+>  	struct dc_edid dc_edid; /* raw edid */
+> +	const struct drm_edid *drm_edid; /* Linux DRM EDID */
 
-DC should stay OS-agnostic. No DRM concepts in DC please.
-
-Why the need to change dc_edid_is_same_edid?
-
-I'll comment directly on the patch.
+DC is OS agnostic code and shouldn't deal with DRM
+structs. amdgpu_dm is the one to deal with that.
 
 Harry
 
->>
->> On 8/11/25 13:40, Melissa Wen wrote:
->>>
->>>
->>> On 28/07/2025 20:29, Alex Hung wrote:
->>>> Thanks. I will send v6 to promotion test.
->>> Hi Alex,
->>>
->>> Any news about this round of tests?
->>>
->>> BR,
->>>
->>> Melissa
->>>
->>>>
->>>> On 7/25/25 18:33, Melissa Wen wrote:
->>>>> Hi,
->>>>>
->>>>> Siqueira and I have been working on a solution to reduce the usage of
->>>>> drm_edid_raw in the AMD display driver, since the current guideline in
->>>>> the DRM subsystem is to stop handling raw edid data in driver-specific
->>>>> implementation and use opaque `drm_edid` object with common-code
->>>>> helpers.
->>>>>
->>>>> To keep DC as an OS-agnostic component, we create a mid layer that
->>>>> isolates `drm_edid` helpers called in the DC code, while allowing other
->>>>> OSes to implement their specific implementation.
->>>>>
->>>>> This work is an extension of [1].
->>>>>
->>>>> - Patch 1 addresses a possible leak added by previous migration to
->>>>>    drm_edid.
->>>>> - Patch 2 allocates a temporary drm_edid from raw edid for parsing.
->>>>> - Patches 3-7 use common-code, drm_edid helpers to parse edid
->>>>>    capabilities instead of driver-specific solutions. For this, patch 4
->>>>>    introduces a new helper that gets monitor name from drm_edid.
->>>>> - Patches 8-9 are groundwork to reduce the noise of Linux/DRM specific
->>>>>    code in the DC shared code
->>>>> - Patch 10 creates a mid layer to make DC embraces different ways of
->>>>>    handling EDID by platforms.
->>>>> - Patch 11 move open-coded management of raw EDID data to the mid
->>>>>    layer created before.
->>>>> - Patch 12 introduces a helper that compares EDIDs from two drm_edids.
->>>>> - Patch 13 adds drm_edid to dc_sink struct and a mid-layer helper to
->>>>>    free `drm_edid`.
->>>>> - Patch 14 switch dc_edid to drm_edid across the driver in a way that
->>>>>    the DC shared code is little affected by Linux specific stuff.
->>>>>
->>>>> [v1] https://lore.kernel.org/dri-devel/20250411201333.151335-1- 
->>>>> mwen@igalia.com/
->>>>> Changes:
->>>>> - fix broken approach to get monitor name from eld (Jani)
->>>>>    - I introduced a new helper that gets monitor name from drm_edid
->>>>> - rename drm_edid_eq to drm_edid_eq_buf and doc fixes (Jani)
->>>>> - add NULL edid checks (Jani)
->>>>> - fix mishandling of product_id.manufacturer_name (Michel)
->>>>>    - I directly set it to manufacturer_id since sparse didn't complain.
->>>>> - add Mario's r-b in the first fix patch and fix commit msg typo.
->>>>>
->>>>> [v2] https://lore.kernel.org/dri-devel/20250507001712.120215-1- 
->>>>> mwen@igalia.com/
->>>>> Changes:
->>>>> - kernel-doc and commit msg fixes (Jani)
->>>>> - use drm_edid_legacy_init instead of open coded (Jani)
->>>>> - place drm_edid new func into the right section (Jani)
->>>>> - paramenter names fix (Jani)
->>>>> - add Jani's r-b to the patch 12
->>>>> - remove unnecessary include (Jani)
->>>>> - call dc_edid_sink_edid_free in link_detection, instead of 
->>>>> drm_edid_free
->>>>> - rebase on top of asdn
->>>>>
->>>>> [v3] https://lore.kernel.org/dri-devel/20250514202130.291324-1- 
->>>>> mwen@igalia.com/
->>>>> Changes:
->>>>> - rebase to asdn
->>>>> - some kernel-doc fixes
->>>>> - move some changes to the right commit
->>>>>
->>>>> [v4] https://lore.kernel.org/amd-gfx/20250613150015.245917-1- 
->>>>> mwen@igalia.com/
->>>>> Changes:
->>>>> - fix comments and commit messages (Mario)
->>>>> - remove unnecessary drm_edid dup and fix mem leak (Mario)
->>>>> - add Mario's rb to patches 5-7
->>>>>
->>>>> [v5] https://lore.kernel.org/amd-gfx/20250618152216.948406-1- 
->>>>> mwen@igalia.com/
->>>>> Changes:
->>>>> - fix NULL pointer dereference (Alex H.) with the same approach 
->>>>> proposed
->>>>>    by 7c3be3ce3dfae
->>>>>
->>>>> --->
->>>>> There are three specific points where we still use drm_edid_raw() in 
->>>>> the
->>>>> driver:
->>>>> 1. raw edid data for write EDID checksum in DP_TEST_EDID_CHECKSUM via
->>>>>     drm_dp_dpcd_write(), that AFAIK there is no common code solution 
->>>>> yet;
->>>>> 2. open-coded connectivity log for dc link detection, that maybe can be
->>>>>     moved to drm (?);
->>>>> 3. open-coded parser that I suspect is a lot of duplicated code, but
->>>>>     needs careful examining.
->>>>>
->>>>> I suggest to address those points in a next phase for regression 
->>>>> control.
->>>>>
->>>>> [1] https://lore.kernel.org/amd-gfx/20250308142650.35920-1- 
->>>>> mwen@igalia.com/
->>>>>
->>>>> Let me know yours thoughts!
->>>>>
->>>>> Melissa
->>>>>
->>>>> Melissa Wen (12):
->>>>>    drm/amd/display: make sure drm_edid stored in aconnector doesn't 
->>>>> leak
->>>>>    drm/amd/display: start using drm_edid helpers to parse EDID caps
->>>>>    drm/amd/display: use drm_edid_product_id for parsing EDID product 
->>>>> info
->>>>>    drm/edid: introduce a helper that gets monitor name from drm_edid
->>>>>    drm/amd/display: get panel id with drm_edid helper
->>>>>    drm/amd/display: get SAD from drm_eld when parsing EDID caps
->>>>>    drm/amd/display: get SADB from drm_eld when parsing EDID caps
->>>>>    drm/amd/display: simplify dm_helpers_parse_edid_caps signature
->>>>>    drm/amd/display: change DC functions to accept private types for 
->>>>> edid
->>>>>    drm/edid: introduce a helper that compares edid data from two 
->>>>> drm_edid
->>>>>    drm/amd/display: add drm_edid to dc_sink
->>>>>    drm/amd/display: move dc_sink from dc_edid to drm_edid
->>>>>
->>>>> Rodrigo Siqueira (2):
->>>>>    drm/amd/display: add a mid-layer file to handle EDID in DC
->>>>>    drm/amd/display: create a function to fill dc_sink with edid data
->>>>>
->>>>>   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   1 +
->>>>>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  33 +++---
->>>>>   .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 109 ++++++ 
->>>>> +-----------
->>>>>   .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  21 ++--
->>>>>   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   |  39 +++++++
->>>>>   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   |  15 +++
->>>>>   .../drm/amd/display/dc/core/dc_link_exports.c |   9 +-
->>>>>   drivers/gpu/drm/amd/display/dc/core/dc_sink.c |   3 +
->>>>>   drivers/gpu/drm/amd/display/dc/dc.h           |  10 +-
->>>>>   drivers/gpu/drm/amd/display/dc/dm_helpers.h   |   7 +-
->>>>>   drivers/gpu/drm/amd/display/dc/inc/link.h     |   9 +-
->>>>>   .../drm/amd/display/dc/link/link_detection.c  |  30 ++---
->>>>>   .../drm/amd/display/dc/link/link_detection.h  |   9 +-
->>>>>   drivers/gpu/drm/bridge/sil-sii8620.c          |   2 +-
->>>>>   drivers/gpu/drm/display/drm_dp_mst_topology.c |   2 +-
->>>>>   drivers/gpu/drm/drm_edid.c                    |  54 +++++++--
->>>>>   include/drm/drm_edid.h                        |  10 +-
->>>>>   17 files changed, 199 insertions(+), 164 deletions(-)
->>>>>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->>>>>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
->>>>>
->>>>
->>>
->>
-> 
+>  	struct dc_edid_caps edid_caps; /* parse display caps */
+>  	struct dc_container_id *dc_container_id;
+>  	uint32_t dongle_max_pix_clk;
 
