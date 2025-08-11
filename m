@@ -2,135 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D96C1B20F03
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 17:28:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE37B20FDA
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 17:34:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B5C510E1DB;
-	Mon, 11 Aug 2025 15:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5A810E2A4;
+	Mon, 11 Aug 2025 15:34:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="u3l5Xx7f";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cn7QAdb5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u3l5Xx7f";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cn7QAdb5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Yi92qlt3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B13F10E1DB
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 15:28:44 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 24AB61F460;
- Mon, 11 Aug 2025 15:28:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1754926123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5DZ4tuyFJQLZXRPQVeVCDKXSBZt5Eva1A2iGtDgdvS4=;
- b=u3l5Xx7fHip7r5u6WQNaCcytXGF6LctH3+LRuIxfaCJhCmGltLGcmXcNiI3KKmr4qxEB9k
- lQiWrxuTAMSDX+EGt28AzzDosWXM9GfWfXW7uSoSNY/pn+X5u+aoEoFtV0UKxe8smw7VcW
- dQblRAyMedL4GWgP7auP8jEfSvPBDXQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1754926123;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5DZ4tuyFJQLZXRPQVeVCDKXSBZt5Eva1A2iGtDgdvS4=;
- b=cn7QAdb5nUuszXF1xhrXi15XNjCEYp1sZ1ki7wD0L9avK7V4hgwNamX18gokbcIzvzM+xK
- +wE6aPMxCXd8YHCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1754926123; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5DZ4tuyFJQLZXRPQVeVCDKXSBZt5Eva1A2iGtDgdvS4=;
- b=u3l5Xx7fHip7r5u6WQNaCcytXGF6LctH3+LRuIxfaCJhCmGltLGcmXcNiI3KKmr4qxEB9k
- lQiWrxuTAMSDX+EGt28AzzDosWXM9GfWfXW7uSoSNY/pn+X5u+aoEoFtV0UKxe8smw7VcW
- dQblRAyMedL4GWgP7auP8jEfSvPBDXQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1754926123;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5DZ4tuyFJQLZXRPQVeVCDKXSBZt5Eva1A2iGtDgdvS4=;
- b=cn7QAdb5nUuszXF1xhrXi15XNjCEYp1sZ1ki7wD0L9avK7V4hgwNamX18gokbcIzvzM+xK
- +wE6aPMxCXd8YHCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DBE7F13A55;
- Mon, 11 Aug 2025 15:28:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id vnA8NCoMmmiBaAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 11 Aug 2025 15:28:42 +0000
-Message-ID: <15d8a106-62f8-489c-83d7-3ae0d1fcbfbd@suse.de>
-Date: Mon, 11 Aug 2025 17:28:42 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/tests: Fix drm_test_fb_xrgb8888_to_xrgb2101010()
- on big-endian
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
- simona@ffwll.ch, lumag@kernel.org, cristian.ciocaltea@collabora.com,
- gcarlos@disroot.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250630090054.353246-1-jose.exposito89@gmail.com>
- <20250630090054.353246-2-jose.exposito89@gmail.com>
- <9467c5f1-fb70-4698-a611-80f9be499b22@suse.de> <aJnE6Uu_WutFA06X@fedora>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aJnE6Uu_WutFA06X@fedora>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- TAGGED_RCPT(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[gmail.com]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,collabora.com,disroot.org,lists.freedesktop.org,vger.kernel.org];
- RCPT_COUNT_SEVEN(0.00)[10]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FC9610E2A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 15:34:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 70576A56D7E;
+ Mon, 11 Aug 2025 15:34:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 313C0C4CEED;
+ Mon, 11 Aug 2025 15:34:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1754926480;
+ bh=b+CtGPWnyV0+pPc9/6HHuFwoMZ+ZtvyIYiKK+XG6h5k=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=Yi92qlt3N9HhwGd59rlbZ+nzPmM6J2yGsbYmW79ZlhOb3kRIuWBuD2fyEQ685iodf
+ zOgIEVdl93AD/ekJhNpRgXtrP4SISzJjSeL2LxYAANOtamqqvaKN9d4QIdeBIeECU9
+ dbNAyUBlPl1ai6UQM1lXnC0O5iyACMdLIm4vH9gOkBUyNGfZUWhyrVjQAR1wj+IcLg
+ c0l7JnAMtOyO3oj5cFiSyRrzsiaHodHtyn+NA62eD/E6m40X/OCkHjUwbu3x51yFNj
+ c0lA4zIKpKKCVvAiRgYToNh5sPIv844UCmQfN7P/Gx1b+ifdqIu9mrY/Ipo6OqPF3+
+ M5etnV6svCzTQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 11 Aug 2025 17:34:36 +0200
+Message-Id: <DBZPILHT9NCS.BKD2RJX01TK6@kernel.org>
+Subject: Re: [PATCH] MAINTAINERS: entry for DRM GPUVM
+Cc: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
+To: <boris.brezillon@collabora.com>, <matthew.brost@intel.com>,
+ <thomas.hellstrom@linux.intel.com>, <aliceryhl@google.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250808092432.461250-1-dakr@kernel.org>
+In-Reply-To: <20250808092432.461250-1-dakr@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,65 +59,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 11.08.25 um 12:24 schrieb José Expósito:
-> Hi Thomas,
+On Fri Aug 8, 2025 at 11:20 AM CEST, Danilo Krummrich wrote:
+> GPUVM deserves a bit more coordination, also given the upcoming Rust
+> work for GPUVM, hence add a dedicated maintainers entry for DRM GPUVM.
 >
-> On Mon, Jun 30, 2025 at 01:37:58PM +0200, Thomas Zimmermann wrote:
->>
->> Am 30.06.25 um 11:00 schrieb José Expósito:
->>> Fix failures on big-endian architectures on tests cases
->>> single_pixel_source_buffer, single_pixel_clip_rectangle,
->>> well_known_colors and destination_pitch.
->>>
->>> Fixes: 15bda1f8de5d ("drm/tests: Add calls to drm_fb_blit() on supported format conversion tests")
->>> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Just a friendly reminder about this patches. Can I merge them?
-> They have been in the ML for a while and it doesn't look like
-> there are concerns.
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Cc: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Merged into drm-misc-fixes now. Sorry for the delay.
-
-Best regards
-Thomas
-
->
-> Best wishes,
-> Jose
->   
->>> ---
->>>    drivers/gpu/drm/tests/drm_format_helper_test.c | 1 +
->>>    1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
->>> index 86829e1cb7f0..981dada8f3a8 100644
->>> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
->>> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
->>> @@ -1040,6 +1040,7 @@ static void drm_test_fb_xrgb8888_to_xrgb2101010(struct kunit *test)
->>>    	memset(buf, 0, dst_size);
->>>    	drm_fb_xrgb8888_to_xrgb2101010(&dst, dst_pitch, &src, &fb, &params->clip, &fmtcnv_state);
->>> +	buf = le32buf_to_cpu(test, (__force const __le32 *)buf, dst_size / sizeof(u32));
->>>    	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
->>>    }
->> -- 
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->>
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
-
+Applied to drm-misc-fixes, thanks!
