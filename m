@@ -2,129 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E091B20A1A
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 15:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF5DB20B73
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 16:15:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB6B710E46B;
-	Mon, 11 Aug 2025 13:26:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF8C10E3E1;
+	Mon, 11 Aug 2025 14:15:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="p8f6b7Kw";
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="gv/YSYBh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1383A10E10E
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 13:26:23 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57B9dCdX029204
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 13:26:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=vRikIynOffv5hukm3CKQ6SgT
- vsP8Ryyr+lMrwvSQIzY=; b=p8f6b7KwJiYJ1X2hf94LyRPBUQyawbhk9VSvJzGE
- DcS0zOtYY2HjC5TEq5XRYFGd5ZmWt2OniURI87DtmkMygR94tLhXxzwXev1O7sGM
- wsnL8Uct1JMYVLGowrnGkSpgkpzztPyGRQ/l6RrB4EQ/ZU87Pfn4saIFdqqWNQvw
- 0jmZ9nrljs7UUKQDs3hC5RJ71aqmfRcMwozM5IlDwOWBowpH9tKj/JmmgZrhQyqg
- CutdLldAKoUXN5szorjHp7uTnYgn3AFufDl9qK7gZs3Cu+KcQp7ZWP+bD+kY3qHg
- Xom/m64tqGBryAwEH7hMeuLe2b9WBcvSctNuyWxldJyHdQ==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dw9smp2m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 13:26:22 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-7073f12d826so5686136d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 06:26:22 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA17C10E3E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 14:15:29 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-459d4d7c745so41139685e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 07:15:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1754921728; x=1755526528;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=AZVyTjQ1s1YKbSECOiTy2rLTyEmtWvVLTZ+8yGWPUNs=;
+ b=gv/YSYBh6ht1DYR6uh7Ywzw/duCAt7YyTwklxTxJWTS35116foGoF1gmRvi65CVd42
+ WI45xN6ba1tmhPM0FXKXS1yK1wzLq8XZDnWt65bqsMvkGiGPDixLd26WdqaCwafPe0Vj
+ lsVRdAQ+isGOqNQUU060JB+rVTTkCk4WukG9hvOtW7OfmyaViSPCMKcZlYcKlOPSAVhu
+ LApbW8+8hV1KedXLQkwuZsposXeKy9otmX2loGU6OOXz7otB5wzA0tVKAOlzbaIrKlAZ
+ 9OmX9ndH7Agaj5aSsd9es75PZ6p4zG5Pvz0Uj2nwEhk6Dz1SGOcvYFYHfh4hr6jBQsfK
+ oF2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754918781; x=1755523581;
+ d=1e100.net; s=20230601; t=1754921728; x=1755526528;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vRikIynOffv5hukm3CKQ6SgTvsP8Ryyr+lMrwvSQIzY=;
- b=UtYqGScn8wAYHEjnJdbdiYlpX5k3D8VQbE5yruzYEHt3lZ7hDoOV16P9U7aVWi8v2C
- rAlv8LKp0aV8V4EvLlDj0SO7SBuL1GRRLOAxGQAERgkuGi/JxQUwXoYl9QOGzTMn77qe
- 2ttc5w3gqLSEiFugKPKxmnOg366KsSbMgIhqrMMy1UBficEo+YAUBq/t9FjZuH1vGZ34
- 837mSJJO2yEaPRmNYmTrrSy32RhvYK7TzJGADvgiOrEjHcWN/myd3G/OkiKOWuktOYd8
- bJVGANYSt5vepj45pIvgnSLWEh8Jswt79sbmQOIqd67yCcR3z01znjSjjWUHqH2dgOiu
- vlOg==
+ bh=AZVyTjQ1s1YKbSECOiTy2rLTyEmtWvVLTZ+8yGWPUNs=;
+ b=LcLDz0c9nT3CWRaPikhzMhog563qbpoqzPeguOrh296wppLXsmgy0I6V0cV5eozVn+
+ Mw5NoM7V5miznijCyOfGLBlOm/qADoxQ96506axVzWnUE5hOvqaAWIIjg5GJ/PdwjqpQ
+ Rt96tbyaJO9fRMPLeXgv0j1VBi3gJtADRWSa+jboq2kbuhkEAIq6TW5DWiRhQLA55VLI
+ mLGahYh0QKwc63t1u+ySS+wZmDFi3fsn+MWrjjh2BJrUQlgDStVs+A6J/wQdgLzf7GgW
+ bSgj78iDSPKfG1DUy2M1YAronTaVEopqDYvnS0dVkPw6wlfpNJIF4wk2vfNkikDU6iOv
+ 1QTw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6iJgNadEzMcqNHrI3+ahcfqVdTWt0hbYpWJvoWi4YePt8z0scGoMyLDpbuwKpVppJYCklCOw4FE0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzl/BySNWyidsxKZsrGR2yszMFUUzs6jbkmMb6PXnT9qcD8DgQA
- IWqZ+6Ngb4/f8TwaIoQcjMGE5BQ7nO5ShfAUhM7s9idkWBWPtVyLPmm9nv2NOS8DlHDTrdyOdpK
- 1KttgLNKcfdLVJveXFrAf60R2STsvvNhQckdzfZ6Ut6f6y+r6L6gn4AHGdtUIFXp/zEJEz8Y=
-X-Gm-Gg: ASbGncsaJHCj3wTeA+oOGuPjXO34agh/cLeLTP61BBC327vFkkTP/0giByrXhfbdsnA
- dsPaLgVf7qGBrxPbTJkOkjf3hk5g9jSrd6gYtcXA+Ah8kbUsEmMUigR7ZopuXdHWz8v/fDJ9hUz
- E3MDIaw4487IUygIBVmR/eFZhUG+LC00ps+c2JhiXXsXJiQSP0RpBvL7HdiktM+DkyZwSNVhA+k
- xc6LXB2tO8f/f45e2IzfRRytfeuWjJIl0f5CHZW3SvSLM+tRb6SbzuXjCh/CvKeB4vnmTg8MWFR
- D9pOO5GR5Z5Ut01WTwur9REqfMkGMoKLmBTW/lgwRExVVrqiqLROWfPkTxkY5W80LlpNFT6QJah
- cV22bV/aD8sJk78RXja1/KA3Lq1YM902xMC1Zd6IO/LkxcUiLTgC4
-X-Received: by 2002:a05:622a:58c6:b0:4b0:75f1:4cd5 with SMTP id
- d75a77b69052e-4b0aed5ec14mr139029481cf.44.1754918780922; 
- Mon, 11 Aug 2025 06:26:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH0wKTLCLx4/yIBgQvD8Ue94ZiVJ7wpTEfZ89QbuRpyBiuJsOKla4drlyaZDIdLWLJCAt0VIQ==
-X-Received: by 2002:a05:622a:58c6:b0:4b0:75f1:4cd5 with SMTP id
- d75a77b69052e-4b0aed5ec14mr139028901cf.44.1754918780301; 
- Mon, 11 Aug 2025 06:26:20 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ AJvYcCW4OBPal2pBbDV/DC9SXQI/v0egIES+f+oVeyOlwHOixr0ZoFa1HeLLITtyiAv8iED8lx74iogGKsY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxlziwKUagkuNteLiclujI0jq/Bhw8i1g8CfMlB1JjVtnjpRNlJ
+ nd41U5i1z/M/GnuZ9l0MGcH/LyCqvR09u82VC2eFk7YshxU/6NkEeHam9gcMTZuNg+Q=
+X-Gm-Gg: ASbGnctsNl9A0zAwHx+9gBWywzGR2v9hYcj3MgGE7/Y/+XgBrOUATSlLkVnT/Qmq5TS
+ tD6uyqFeqgQq+6u/kA4juocv7dtqGJl7/aOkjtNsoBbxdb4guYsS6rPwCP2IxJ/UWBxpLYZEoBJ
+ a5PLHRhvvDS9HkEgGcJKRWaZRAL/hD8BNV7NSmGTR9XNtsO8P6nXZlX8IR43gft7frwGpJf149s
+ STuxSKMlkOZylUD2LF4lV6t/dFXvFIOWZ1SmBR/VuphsTq1WCyeM4w1DOwY61MX2yqyru+duv0m
+ vFZe1F8eHkG3KEzqC8kSv74rQw2RXasuxoPs25wm8M+yy7wDm6fYdU2hfbeZt22nVVvmGCMhpKz
+ pQ+eV33GubY3+op3e+IBw+BQrtbmCrsiyFsz1z4l8zTMEjJG820jRfuMT0swSEeQkbCoL2injUW
+ JRI6J0pA==
+X-Google-Smtp-Source: AGHT+IH5e2VguXl/NE7RsmXIN0XcgUI7a0EiWf4IGX+6mTIqnY80BhVdae2lcK8a/X1KcW2Wv39mgg==
+X-Received: by 2002:a05:600c:1d09:b0:456:1bca:7faf with SMTP id
+ 5b1f17b1804b1-459f4f04237mr121012195e9.16.1754921727691; 
+ Mon, 11 Aug 2025 07:15:27 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55cc7c67a5asm1192051e87.77.2025.08.11.06.26.18
+ 5b1f17b1804b1-459e586ad64sm254198625e9.20.2025.08.11.07.15.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Aug 2025 06:26:19 -0700 (PDT)
-Date: Mon, 11 Aug 2025 16:26:17 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Suraj Kandpal <suraj.kandpal@intel.com>, kernel-list@raspberrypi.com,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com,
- uma.shankar@intel.com, jani.nikula@intel.com, harry.wentland@amd.com,
- siqueira@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, robin.clark@oss.qualcomm.com,
- abhinav.kumar@linux.dev, tzimmermann@suse.de,
- jessica.zhang@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org, mcanal@igalia.com,
- dave.stevenson@raspberrypi.com, tomi.valkeinen+renesas@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-Message-ID: <2ah3pau7p7brgw7huoxznvej3djct76vgfwtc72n6uub7sjojd@zzaebjdcpdwf>
-References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
- <20250811092707.3986802-2-suraj.kandpal@intel.com>
- <20250811094429.GE21313@pendragon.ideasonboard.com>
- <awtqznhquyn7etojonmjn7karznefsb7fdudawcjsj5g2bok3u@2iqcdviuiz2s>
- <20250811111546.GA30760@pendragon.ideasonboard.com>
+ Mon, 11 Aug 2025 07:15:27 -0700 (PDT)
+Date: Mon, 11 Aug 2025 15:15:25 +0100
+From: Daniel Thompson <daniel@riscstar.com>
+To: maudspierings@gocontroll.com
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ MaudSpieringsmaudspierings@gocontroll.com
+Subject: Re: [PATCH 2/4] backlight: add max25014atg backlight
+Message-ID: <aJn6_c79tvy_1dhU@aspen.lan>
+References: <20250725-max25014-v1-0-0e8cce92078e@gocontroll.com>
+ <20250725-max25014-v1-2-0e8cce92078e@gocontroll.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250811111546.GA30760@pendragon.ideasonboard.com>
-X-Authority-Analysis: v=2.4 cv=J+Wq7BnS c=1 sm=1 tr=0 ts=6899ef7e cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=QyXUC8HyAAAA:8 a=4yu1Or5Oec3-_3BIJ7kA:9 a=CjuIK1q_8ugA:10
- a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-ORIG-GUID: zmSmZCAwUoQ-RKvC0h0sJ3p1wLX3nTMN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAxNSBTYWx0ZWRfX3jASd2Bt0VEP
- xKwRSoRcLxNSN5povZwylPPFLhyDCf7rb42qDJisEulrGHR2jHL2F+d7nPt7PiVTdVSw1vXM07L
- EmVEMSUk/zKiBEdGZNW9phHR0gUWzlZQ2IoF8pFHJEApJ0rW3HATr7jFcP+V1f13PG6wpV9kg3m
- oHE5BVFDfKntbwmtT13fA9bCqZyI6G++lE8htZ32qBB4A5ERWMYdpARZO4CgUysk6W0yYa1z/Vd
- 57Ejz5G5LeeUHzDVHSSMJGr/38SRncCZBGfe+d3nqqblnpHrZ0qDX92Ii2XRzE2erm22mnkG+h0
- wffTgD0X+TBaWtyCvHmhZUb2rAUqbe8/zW3c4ooGqeD/aUIdrcPjBWJujyIuIkS/fVOnjaCpTuL
- 5QUPS9hw
-X-Proofpoint-GUID: zmSmZCAwUoQ-RKvC0h0sJ3p1wLX3nTMN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-11_02,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- phishscore=0 suspectscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508090015
+In-Reply-To: <20250725-max25014-v1-2-0e8cce92078e@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,96 +101,380 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 11, 2025 at 02:15:46PM +0300, Laurent Pinchart wrote:
-> On Mon, Aug 11, 2025 at 01:22:30PM +0300, Dmitry Baryshkov wrote:
-> > On Mon, Aug 11, 2025 at 12:44:29PM +0300, Laurent Pinchart wrote:
-> > > On Mon, Aug 11, 2025 at 02:57:00PM +0530, Suraj Kandpal wrote:
-> > > > Some drivers cannot work with the current design where the connector
-> > > > is embedded within the drm_writeback_connector such as intel and
-> > > > some drivers that can get it working end up adding a lot of checks
-> > > > all around the code to check if it's a writeback conenctor or not.
-> > > > To solve this we move the drm_writeback_connector within the
-> > > > drm_connector and remove the drm_connector base which was in
-> > > > drm_writeback_connector. We do all other required
-> > > > modifications that come with these changes along with addition
-> > > > of new function which returns the drm_connector when
-> > > > drm_writeback_connector is present.
-> > > > All drivers will be expected to allocate the drm_connector.
-> > > > 
-> > > > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_writeback.c | 33 ++++++++++------
-> > > >  include/drm/drm_connector.h     | 60 +++++++++++++++++++++++++++++
-> > > >  include/drm/drm_writeback.h     | 68 ++++-----------------------------
-> > > >  3 files changed, 89 insertions(+), 72 deletions(-)
-> > > > 
-> > > > @@ -2305,6 +2360,11 @@ struct drm_connector {
-> > > >  	 * @cec: CEC-related data.
-> > > >  	 */
-> > > >  	struct drm_connector_cec cec;
-> > > > +
-> > > > +	/**
-> > > > +	 * @writeback: Writeback related valriables.
-> > > > +	 */
-> > > > +	struct drm_writeback_connector writeback;
-> > > 
-> > > No, sorry, that's a bad idea. Most connectors have nothing to do with
-> > > writeback, you shouldn't introduce writeback-specific fields here.
-> > > drm_writeback_connector happens to be a drm_connector because of
-> > > historical reasons (it was decided to reuse the connector API exposed to
-> > > userspace instead of exposing a completely separate API in order to
-> > > simplify the implementation), but that does not mean that every
-> > > connector is related to writeback.
-> > > 
-> > > I don't know what issues the Intel driver(s) have with
-> > > drm_writeback_connector, but you shouldn't make things worse for
-> > > everybody due to a driver problem.
-> > 
-> > Suraj is trying to solve a problem that in Intel code every drm_connector
-> > must be an intel_connector too. His previous attempt resulted in a loose
-> > abstraction where drm_writeback_connector.base wasn't initialized in
-> > some cases (which is a bad idea IMO).
-> > 
-> > I know the historical reasons for drm_writeback_connector, but I think
-> > we can do better now.
-> > 
-> > So, I think, a proper approach would be:
-> > 
-> > struct drm_connector {
-> >     // other fields
-> > 
-> >     union {
-> >         struct drm_connector_hdmi hdmi; // we already have it
-> >         struct drm_connector_wb wb;  // this is new
-> >     };
-> > 
-> >     // rest of the fields.
-> > };
-> 
-> I still don't like that. This really doesn't belong here. If anything,
-> the drm_connector for writeback belongs to drm_crtc.
+On Fri, Jul 25, 2025 at 01:09:24PM +0200, Maud Spierings via B4 Relay wrote:
+> From: Maud Spierings <maudspierings@gocontroll.com>
+>
+> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+> with intgrated boost controller.
+>
+> Signed-off-by: Maud Spierings maudspierings@gocontroll.com
+> ---
+>  MAINTAINERS                            |   2 +
+>  drivers/video/backlight/Kconfig        |   7 +
+>  drivers/video/backlight/Makefile       |   1 +
+>  drivers/video/backlight/max25014.c     | 449 +++++++++++++++++++++++++++++++++
+>  include/linux/platform_data/max25014.h |  24 ++
 
-Why? We already have generic HDMI field inside drm_connector. I am
-really hoping to be able to land DP parts next to it. In theory we can
-have a DVI-specific entry there (e.g. with the subconnector type).
-The idea is not to limit how the drivers subclass those structures.
+Who else included this header file? Can the code here simply be included
+in the C file?
 
-I don't see a good case why WB should deviate from that design.
 
-> If the issue is that some drivers need a custom drm_connector subclass,
-> then I'd rather turn the connector field of drm_writeback_connector into
-> a pointer.
+> diff --git a/drivers/video/backlight/max25014.c b/drivers/video/backlight/max25014.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..371b6017953ae5955f4dfef921980dfdedd65d85
+> --- /dev/null
+> +++ b/drivers/video/backlight/max25014.c
+> @@ -0,0 +1,449 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Backlight driver for Maxim MAX25014
+> + *
+> + * Copyright (C) 2025 GOcontroll B.V.
+> + * Author: Maud Spierings <maudspierings@gocontroll.com>
+> + */
+> +
+> +#include <linux/backlight.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/platform_data/max25014.h>
+> +#include <linux/regmap.h>
+> +#include <linux/slab.h>
+> +
+> +#define MAX25014_ISET_DEFAULT_100 11U
+> +#define MAX_BRIGHTNESS (100U)
+> +#define MIN_BRIGHTNESS (0U)
+> +#define TON_MAX (130720U) /* @153Hz */
+> +#define TON_STEP (1307U) /* @153Hz */
+> +#define TON_MIN (0U)
+> +
+> +#define MAX25014_DEV_ID         (0x00U)
+> +#define MAX25014_REV_ID         (0x01U)
+> +#define MAX25014_ISET           (0x02U)
+> +#define MAX25014_IMODE          (0x03U)
+> +#define MAX25014_TON1H          (0x04U)
+> +#define MAX25014_TON1L          (0x05U)
+> +#define MAX25014_TON2H          (0x06U)
+> +#define MAX25014_TON2L          (0x07U)
+> +#define MAX25014_TON3H          (0x08U)
+> +#define MAX25014_TON3L          (0x09U)
+> +#define MAX25014_TON4H          (0x0AU)
+> +#define MAX25014_TON4L          (0x0BU)
+> +#define MAX25014_TON_1_4_LSB    (0x0CU)
+> +#define MAX25014_SETTING        (0x12U)
+> +#define MAX25014_DISABLE        (0x13U)
+> +#define MAX25014_BSTMON         (0x14U)
+> +#define MAX25014_IOUT1          (0x15U)
+> +#define MAX25014_IOUT2          (0x16U)
+> +#define MAX25014_IOUT3          (0x17U)
+> +#define MAX25014_IOUT4          (0x18U)
+> +#define MAX25014_OPEN           (0x1BU)
+> +#define MAX25014_SHORT_GND      (0x1CU)
+> +#define MAX25014_SHORT_LED      (0x1DU)
+> +#define MAX25014_MASK           (0x1EU)
+> +#define MAX25014_DIAG           (0x1FU)
 
-Having a pointer requires additional ops in order to get drm_connector
-from WB code and vice versa. Having drm_connector_wb inside
-drm_connector saves us from those ops (which don't manifest for any
-other kind of structure). Nor will it take any more space since union
-will reuse space already taken up by HDMI part.
+Forcing all these constants to be unsigned is unusual. Is it really
+needed?
 
-> 
-> > I plan to add drm_connector_dp in a similar way, covering DP needs
-> > (currently WIP).
 
--- 
-With best wishes
-Dmitry
+> +#define MAX25014_IMODE_HDIM     BIT(2)
+> +#define MAX25014_ISET_ENABLE    BIT(5)
+> +#define MAX25014_ISET_PSEN      BIT(4)
+> +#define MAX25014_DIAG_HW_RST    BIT(2)
+> +#define MAX25014_SETTING_FPWM   GENMASK(6, 4)
+> +
+> +struct max25014;
+
+This is redundant. Remove.
+> +
+> +struct max25014 {
+> +	const char *chipname;
+
+Why keep this value around? It is only used during the probe.
+
+> +	struct i2c_client *client;
+> +	struct backlight_device *bl;
+> +	struct device *dev;
+
+It is necessary to cache this, is it just a copy of client->dev)?
+
+
+> +	struct regmap *regmap;
+> +	struct max25014_platform_data *pdata;
+> +	struct gpio_desc *enable;
+> +	struct regulator *vin; /* regulator for boost converter Vin rail */
+> +};
+> +
+> +static const struct regmap_config max25014_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.max_register = MAX25014_DIAG,
+> +};
+> +
+> +/**
+> + * @brief get the bit mask for the DISABLE register.
+> + *
+> + * @param strings the led string configuration array.
+> + * @return uint8_t bits to set in the register.
+> + */
+> +static uint8_t strings_mask(struct max25014 *maxim)
+> +{
+> +	uint8_t res, i;
+> +
+> +	for (i = 0; i < 4; i++) {
+> +		if (maxim->pdata->strings[i] == 0)
+> +			res |= 1 << i;
+> +	}
+> +	return res;
+
+Could this converison have happened during DT parsing?
+> +}
+> +
+> +/**
+> + * @brief control the brightness with i2c registers
+> + *
+> + * @param regmap trivial
+> + * @param brt brightness
+> + * @return int
+> + */
+> +static int max25014_register_control(struct regmap *regmap, uint32_t brt)
+> +{
+> +	uint32_t reg = TON_STEP * brt;
+> +	int ret;
+> +	/*
+> +	 * 18 bit number lowest, 2 bits in first register,
+> +	 * next lowest 8 in the L register, next 8 in the H register
+> +	 * Seemingly setting the strength of only one string controls all of
+> +	 * them, individual settings don't affect the outcome.
+> +	 */
+> +
+> +	ret = regmap_write(regmap, MAX25014_TON_1_4_LSB, reg & 0b00000011);
+> +	if (ret != 0)
+> +		return ret;
+> +	ret = regmap_write(regmap, MAX25014_TON1L, (reg >> 2) & 0b11111111);
+> +	if (ret != 0)
+> +		return ret;
+> +	return regmap_write(regmap, MAX25014_TON1H, (reg >> 10) & 0b11111111);
+> +}
+> +
+> +static int max25014_check_errors(struct max25014 *maxim)
+> +{
+> +	uint8_t i;
+> +	int ret;
+> +	uint32_t val;
+> +
+> +	ret = regmap_read(maxim->regmap, MAX25014_OPEN, &val);
+> +	if (ret != 0)
+> +		return ret;
+> +	if (val > 0) {
+> +		dev_err(maxim->dev, "Open led strings detected on:\n");
+> +		for (i = 0; i < 4; i++) {
+> +			if (val & 1 << i)
+> +				dev_err(maxim->dev, "string %d\n", i + 1);
+> +		}
+> +		return -EIO;
+> +	}
+> +
+> +	ret = regmap_read(maxim->regmap, MAX25014_SHORT_GND, &val);
+> +	if (ret != 0)
+> +		return ret;
+> +	if (val > 0) {
+> +		dev_err(maxim->dev, "Short to ground detected on:\n");
+> +		for (i = 0; i < 4; i++) {
+> +			if (val & 1 << i)
+> +				dev_err(maxim->dev, "string %d\n", i + 1);
+> +		}
+> +		return -EIO;
+> +	}
+> +
+> +	ret = regmap_read(maxim->regmap, MAX25014_SHORT_GND, &val);
+> +	if (ret != 0)
+> +		return ret;
+> +	if (val > 0) {
+> +		dev_err(maxim->dev, "Shorted led detected on:\n");
+> +		for (i = 0; i < 4; i++) {
+> +			if (val & 1 << i)
+> +				dev_err(maxim->dev, "string %d\n", i + 1);
+> +		}
+> +		return -EIO;
+> +	}
+> +
+> +	ret = regmap_read(maxim->regmap, MAX25014_DIAG, &val);
+> +	if (ret != 0)
+> +		return ret;
+> +	/*
+> +	 * The HW_RST bit always starts at 1 after power up.
+> +	 * It is reset on first read, does not indicate an error.
+> +	 */
+> +	if (val > 0 && val != MAX25014_DIAG_HW_RST) {
+> +		if (val & 0b1)
+> +			dev_err(maxim->dev, "Overtemperature shutdown\n");
+> +		if (val & 0b10)
+> +			dev_warn(maxim->dev,
+> +				 "Chip is getting too hot (>125C)\n");
+> +		if (val & 0b1000)
+> +			dev_err(maxim->dev, "Boost converter overvoltage\n");
+> +		if (val & 0b10000)
+> +			dev_err(maxim->dev, "Boost converter undervoltage\n");
+> +		if (val & 0b100000)
+> +			dev_err(maxim->dev, "IREF out of range\n");
+> +		return -EIO;
+> +	}
+> +	return 0;
+> +}
+> +
+> +/*
+> + * 1. disable unused strings
+> + * 2. set dim mode
+> + * 3. set initial brightness
+> + * 4. set setting register
+> + * 5. enable the backlight
+> + */
+> +static int max25014_configure(struct max25014 *maxim)
+> +{
+> +	int ret;
+> +	uint32_t val;
+> +
+> +	ret = regmap_write(maxim->regmap, MAX25014_DISABLE,
+> +			   strings_mask(maxim));
+> +	if (ret != 0)
+> +		return ret;
+> +
+> +	ret = regmap_write(maxim->regmap, MAX25014_IMODE, MAX25014_IMODE_HDIM);
+> +	if (ret != 0)
+> +		return ret;
+> +
+> +	max25014_register_control(maxim->regmap,
+> +				  maxim->pdata->initial_brightness);
+> +
+> +	ret = regmap_read(maxim->regmap, MAX25014_SETTING, &val);
+> +	if (ret != 0)
+> +		return ret;
+> +
+> +	ret = regmap_write(
+> +		maxim->regmap, MAX25014_SETTING,
+> +		val & ~MAX25014_SETTING_FPWM);
+> +	if (ret != 0)
+> +		return ret;
+> +
+> +	ret = regmap_write(maxim->regmap, MAX25014_ISET,
+> +			   maxim->pdata->iset | MAX25014_ISET_ENABLE | MAX25014_ISET_PSEN);
+> +	return ret;
+> +}
+> +
+> +static int max25014_update_status(struct backlight_device *bl_dev)
+> +{
+> +	struct max25014 *maxim = bl_get_data(bl_dev);
+> +
+> +	if (bl_dev->props.state & BL_CORE_SUSPENDED)
+> +		bl_dev->props.brightness = 0;
+> +
+> +	return max25014_register_control(maxim->regmap, bl_dev->props.brightness);
+> +}
+> +
+> +static const struct backlight_ops max25014_bl_ops = {
+> +	.options = BL_CORE_SUSPENDRESUME,
+> +	.update_status = max25014_update_status,
+> +};
+> +
+> +static int max25014_backlight_register(struct max25014 *maxim)
+> +{
+> +	struct backlight_device *bl;
+> +	struct backlight_properties props;
+> +	struct max25014_platform_data *pdata = maxim->pdata;
+> +
+> +	memset(&props, 0, sizeof(props));
+> +	props.type = BACKLIGHT_PLATFORM;
+> +	props.max_brightness = MAX_BRIGHTNESS;
+> +
+> +	if (pdata->initial_brightness > props.max_brightness)
+> +		pdata->initial_brightness = props.max_brightness;
+
+Handle this during DT parsing.
+
+> +
+> +	props.brightness = pdata->initial_brightness;
+> +
+> +	bl = devm_backlight_device_register(maxim->dev, maxim->chipname, maxim->dev,
+> +					    maxim, &max25014_bl_ops, &props);
+> +	if (IS_ERR(bl))
+> +		return PTR_ERR(bl);
+> +
+> +	maxim->bl = bl;
+> +
+> +	return 0;
+> +}
+
+Can max25014_backlight_register() be moved into the probe function?
+There is no special control flow here so this function doesn't make the
+probe function any simpler.
+
+> +
+> +#ifdef CONFIG_OF
+> +static int max25014_parse_dt(struct max25014 *maxim)
+> +{
+> +	struct device *dev = maxim->dev;
+> +	struct device_node *node = dev->of_node;
+> +	struct max25014_platform_data *pdata;
+> +
+> +	int res;
+> +
+> +	if (!node) {
+> +		dev_err(dev, "no platform data\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+> +	if (!pdata)
+> +		return -ENOMEM;
+> +
+> +	res = of_property_count_u32_elems(node, "maxim,strings");
+> +	if (res == 4) {
+> +		of_property_read_u32_array(node, "maxim,strings", pdata->strings, 4);
+> +	} else {
+> +		dev_err(dev, "strings property not correctly defined\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	pdata->initial_brightness = 50U;
+> +	of_property_read_u32(node, "default-brightness", &pdata->initial_brightness);
+> +	pdata->iset = MAX25014_ISET_DEFAULT_100;
+> +	of_property_read_u32(node, "maxim,iset", &pdata->iset);
+> +
+> +	if (pdata->iset < 0 || pdata->iset > 15) {
+> +		dev_err(dev,
+> +			"Invalid iset, should be a value from 0-15, entered was %d\n",
+> +			pdata->iset);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (pdata->initial_brightness < 0 || pdata->initial_brightness > 100) {
+> +		dev_err(dev,
+> +			"Invalid initial brightness, should be a value from 0-100, entered was %d\n",
+> +			pdata->initial_brightness);
+> +		return -EINVAL;
+> +	}
+> +
+> +	maxim->pdata = pdata;
+> +
+> +	return 0;
+> +}
+> +#else
+> +static int max25014_parse_dt(struct max25014 *maxim)
+> +{
+> +	dev_err(maxim->dev,
+> +		"CONFIG_OF not configured, unable to parse devicetree");
+> +	return -EINVAL;
+> +}
+
+What is the point of this method? New drivers shouldn't support platform
+data so CONFIG_OF is required for this driver to work at all.
+
+
+> +#endif
+> +
+> +static int max25014_probe(struct i2c_client *cl)
+> ...
+
+
+Daniel.
