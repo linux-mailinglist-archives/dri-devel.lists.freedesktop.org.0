@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9721DB2158C
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 21:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33919B2158F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 21:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1FCB10E313;
-	Mon, 11 Aug 2025 19:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0DC10E52F;
+	Mon, 11 Aug 2025 19:41:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ab0NlJoX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nLkNcNgk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 890DE10E30E;
- Mon, 11 Aug 2025 19:41:16 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74D7110E30E;
+ Mon, 11 Aug 2025 19:41:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5EDA5A57628;
+ by sea.source.kernel.org (Postfix) with ESMTP id 58C154181D;
+ Mon, 11 Aug 2025 19:41:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48ADCC4CEF7;
  Mon, 11 Aug 2025 19:41:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E69CC4CEF6;
- Mon, 11 Aug 2025 19:41:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754941275;
- bh=0L8ILI5VlxDH9DgDwEiUXlzII6qULtClGxRZoPNq2oQ=;
+ s=k20201202; t=1754941277;
+ bh=HTV3snpdmcP6Mud0jkIwCjWzdQa1pqtX9rikadZrNdo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ab0NlJoXBfYciB8ekCwVl3p63Ad0qow/dGnB7GivnFrgy+sbD0jVVYZvnTJAKnOb9
- Vhp6kiL7Q6lwIbrMvNykUjlSnChXsgCKmYZm/QRE+4cf+Yg2mVRQeVaAWhB05swYrZ
- fSNtjdwC7OT2uMDasW/qIWnHwWBtLCzhtrlNygaNPA99ABwxKnoCLWNmHBqdxCnBlt
- r42rFWzr98AARfMnLoYu/BfKHiUV6+3RZ3BLkhmaHkgJ/0u75HMgFe06Ra3V96Pjc8
- CG13OaxAmDvv0znxJekABY6xdn3JZujuxTeplRkbQfMyfQDLuHG/cwSYC7qNyM1GCm
- MKmNaHReBkfBQ==
+ b=nLkNcNgkJPyU2mnxfvpnzYnVLF3QgMcHszeZVZS2aL1hFgcIY0OKFB1pXfH3WrVYt
+ rcu4kzCAZoo34VWJHrZOnPU8/GjkkJChoRa4su9CbHHL8/35WziZ175dDmlEuuRvEu
+ INrxme+W9fc7t1/Gya3W4MRFBK4xaE9hZ/b09YetAi5J4pclMK36Zw2fp/VxV/R/PF
+ InEa+RPjXOwmQrNNWLEY0st2Us/jy1O0EPjxCXYGcyPRzDH2YeFtueJ3CM6V6PBvIz
+ OWxsvupmqwa6+PVvHv63YL5nQbjSU6NyORz48IBlC4P16vUzbOVFrag8/+jJksUBgN
+ 7fqExoKlCPqlw==
 From: "Mario Limonciello (AMD)" <superm1@kernel.org>
 To: "Rafael J . Wysocki" <rafael@kernel.org>,
  Bjorn Helgaas <bhelgaas@google.com>
@@ -53,10 +53,10 @@ Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
  =?UTF-8?q?Merthan=20Karaka=C5=9F?= <m3rthn.k@gmail.com>,
  Eric Naim <dnaim@cachyos.org>,
  "Mario Limonciello (AMD)" <superm1@kernel.org>
-Subject: [PATCH v5 03/11] usb: sl811-hcd: Add PM_EVENT_POWEROFF into suspend
- callbacks
-Date: Mon, 11 Aug 2025 14:40:54 -0500
-Message-ID: <20250811194102.864225-4-superm1@kernel.org>
+Subject: [PATCH v5 04/11] USB: Pass PMSG_POWEROFF event to suspend_common()
+ for poweroff with S4 flow
+Date: Mon, 11 Aug 2025 14:40:55 -0500
+Message-ID: <20250811194102.864225-5-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250811194102.864225-1-superm1@kernel.org>
 References: <20250811194102.864225-1-superm1@kernel.org>
@@ -77,34 +77,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the ACPI core uses hibernation callbacks for shutdown drivers
-will receive PM_EVENT_POWEROFF and should handle it the same as
-PM_EVENT_HIBERNATE would have been used.
+If powering off the system with the S4 flow USB wakeup sources should
+be ignored. Add a new callback hcd_pci_poweroff() which will differentiate
+whether target state is S5 and pass PMSG_POWEROFF as the message so that
+suspend_common() will avoid doing wakeups.
 
-Tested-by: Eric Naim <dnaim@cachyos.org>
 Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 ---
 v5:
- * Re-order
- * Add tags
+ * New patch
 v4:
  * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
 ---
- drivers/usb/host/sl811-hcd.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/core/hcd-pci.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/sl811-hcd.c b/drivers/usb/host/sl811-hcd.c
-index ea3cab99c5d40..5d6dba681e503 100644
---- a/drivers/usb/host/sl811-hcd.c
-+++ b/drivers/usb/host/sl811-hcd.c
-@@ -1748,6 +1748,7 @@ sl811h_suspend(struct platform_device *dev, pm_message_t state)
- 		break;
- 	case PM_EVENT_SUSPEND:
- 	case PM_EVENT_HIBERNATE:
-+	case PM_EVENT_POWEROFF:
- 	case PM_EVENT_PRETHAW:		/* explicitly discard hw state */
- 		port_power(sl811, 0);
- 		break;
+diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+index cd223475917ef..bfbd715c8cae9 100644
+--- a/drivers/usb/core/hcd-pci.c
++++ b/drivers/usb/core/hcd-pci.c
+@@ -6,6 +6,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/pm.h>
+ #include <linux/usb.h>
+ #include <linux/usb/hcd.h>
+ 
+@@ -531,6 +532,13 @@ static int hcd_pci_freeze(struct device *dev)
+ 	return suspend_common(dev, PMSG_FREEZE);
+ }
+ 
++static int hcd_pci_poweroff(struct device *dev)
++{
++	if (system_state == SYSTEM_HALT || system_state == SYSTEM_POWER_OFF)
++		return suspend_common(dev, PMSG_POWEROFF);
++	return suspend_common(dev, PMSG_SUSPEND);
++}
++
+ static int hcd_pci_suspend_noirq(struct device *dev)
+ {
+ 	struct pci_dev		*pci_dev = to_pci_dev(dev);
+@@ -639,7 +647,7 @@ const struct dev_pm_ops usb_hcd_pci_pm_ops = {
+ 	.freeze_noirq	= check_root_hub_suspended,
+ 	.thaw_noirq	= NULL,
+ 	.thaw		= hcd_pci_resume,
+-	.poweroff	= hcd_pci_suspend,
++	.poweroff	= hcd_pci_poweroff,
+ 	.poweroff_late	= hcd_pci_poweroff_late,
+ 	.poweroff_noirq	= hcd_pci_suspend_noirq,
+ 	.restore_noirq	= hcd_pci_resume_noirq,
 -- 
 2.43.0
 
