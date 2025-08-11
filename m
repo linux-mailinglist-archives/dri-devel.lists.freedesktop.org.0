@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550D2B2137B
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 19:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04DAEB21460
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 20:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D18610E1B5;
-	Mon, 11 Aug 2025 17:40:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8B910E132;
+	Mon, 11 Aug 2025 18:30:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UstHmftV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AY6KtuB0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC46010E196
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 17:40:41 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D421E10E044;
+ Mon, 11 Aug 2025 18:30:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D43A95C5D0A;
- Mon, 11 Aug 2025 17:40:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 853A5C4CEED;
- Mon, 11 Aug 2025 17:40:39 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id B982760051;
+ Mon, 11 Aug 2025 18:30:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6AD5C4CEED;
+ Mon, 11 Aug 2025 18:30:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754934040;
- bh=vNeEGZtQOxuFBJ03hCHxJ0zqee0UqgJZnTvwQUQSHrQ=;
+ s=k20201202; t=1754937027;
+ bh=ToeU378XNa7mcFjM8LmFCjP4twLYSzkkMioVIdczQs0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UstHmftVxCQTMDVIZqfzPXOXwi8NsvUVZuh7gnMbMAJO75iNtUapyN9pt3lojXddG
- 2JFtVrEKDxONVM+YH8C2IvIIA7hW9k5x3y+nGBYfkkHsZivSgcckFrYyrVvKG794QY
- d0LyZfmVRfv+7aJfjat6kooL3o32XbPKKfYad6koOc1zZFJ2NmE/n9yhm6hJx68cX6
- svvQSl1PR4JA1TF76TO0BNZLm7vS2M/gL0QirKfeX5ZQ5DFqSd15GwcwnI9ZX51jTQ
- +gGpSQCL4epXTgu32ZuurDjucscXI+fHhDm4gWOzEAkYGWOdBkaU6vkk42hgZU0bAO
- ome+ZBHH2RKAA==
-Date: Mon, 11 Aug 2025 23:10:35 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
- Viken Dadhaniya <quic_vdadhani@quicinc.com>,
- Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <aJorE6bL2d8se6E4@vaman>
-References: <CAO9ioeVuAO6mYpBSpiTW0jhFRPtkubZ5eEskd1yLBHVdR8_YMA@mail.gmail.com>
- <1b55d9d4-f3ff-4cd9-8906-5f370da55732@quicinc.com>
- <28d26c70-178f-413b-b7f8-410c508cfdd7@quicinc.com>
- <CAO9ioeXBwFYL8q7x7_fHvx5YO+qyAXk4wpnfPrku4iY9yBsk0Q@mail.gmail.com>
- <cac5e84b-fbdb-47a9-860d-16a7fa4dc773@quicinc.com>
- <4q3vlydi5xgltd3pcez54alxgrehhfn4pppg47ngwp6y5k7n33@d4d4htntj64k>
- <53dd18ec-9a65-4bf7-8490-ca3eb56ce2a5@quicinc.com>
- <iang2jpe4s6wmbypmtq5uswcm6n6xntqdulyhekcz5k6zxddu3@re3rrr4dso5p>
- <aICMDROkyjzBZFHo@vaman>
- <8a149580-5044-4744-b432-9f0eef0a0d31@quicinc.com>
+ b=AY6KtuB04J369OsmZY5WPLLMHlWxEKtMRYDNHKEnd69l2I5cg7SmoWrcxrGAViOEq
+ YqI0agLeXYlF3Vmd7NeIr8m7C64aA2w/pNGvA+XRIEeTDGbVZjediEj9D/Ia3tujcf
+ kMg5sGrj+B2PYD4KDGOVFPWa9PoP283rRMlIf8fu1111PhpuyGPenM2Vaaw/H8F/LD
+ yX9Vfq2ZY9OPHCmHInwtoJC67o2teJIMv6QBO5ut5FI2i5DTKwNIru8AUKMRki/COv
+ Y2ZE+WIMCX5yvK0Nq3Sl7ZV7pbEP8fjyWO0Ts2IwtEi2uC+TnVR7GwaVM3gMwLF/1W
+ jxS6lDg0lU9sg==
+Date: Mon, 11 Aug 2025 13:30:24 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Yongxing Mou <quic_yongmou@quicinc.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 5/6] soc: qcom: ubwc: Add QCS8300 UBWC cfg
+Message-ID: <aw6epwnox2shu6tb2btsgnewnhs7ifmur2o7fyuz7ucegtzl4u@57r7q35fxh3n>
+References: <20250806-mdssdt_qcs8300-v6-0-dbc17a8b86af@quicinc.com>
+ <20250806-mdssdt_qcs8300-v6-5-dbc17a8b86af@quicinc.com>
+ <xfhxrzrzct6n25jtoaacptf2grd44gazfm7fkiyqlhq5bjqujz@bjvacutguagv>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8a149580-5044-4744-b432-9f0eef0a0d31@quicinc.com>
+In-Reply-To: <xfhxrzrzct6n25jtoaacptf2grd44gazfm7fkiyqlhq5bjqujz@bjvacutguagv>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,56 +73,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25-07-25, 16:20, Jyothi Kumar Seerapu wrote:
-> 
-> 
-> On 7/23/2025 12:45 PM, Vinod Koul wrote:
-> > On 22-07-25, 15:46, Dmitry Baryshkov wrote:
-> > > On Tue, Jul 22, 2025 at 05:50:08PM +0530, Jyothi Kumar Seerapu wrote:
-> > > > On 7/19/2025 3:27 PM, Dmitry Baryshkov wrote:
-> > > > > On Mon, Jul 07, 2025 at 09:58:30PM +0530, Jyothi Kumar Seerapu wrote:
-> > > > > > On 7/4/2025 1:11 AM, Dmitry Baryshkov wrote:
-> > > > > > > On Thu, 3 Jul 2025 at 15:51, Jyothi Kumar Seerapu
+On Wed, Aug 06, 2025 at 06:32:20AM +0300, Dmitry Baryshkov wrote:
+> On Wed, Aug 06, 2025 at 11:16:49AM +0800, Yongxing Mou wrote:
+> > The QCS8300 supports UBWC 4.0 and 4 channels LP5 memory interface. Use
+> > the SC8280XP as fallback for QCS8300 according to the specification.
 > > 
-> > [Folks, would be nice to trim replies]
+> > Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> > ---
+> >  drivers/soc/qcom/ubwc_config.c | 1 +
+> >  1 file changed, 1 insertion(+)
 > > 
-> > > > > > Could you please confirm if can go with the similar approach of unmap the
-> > > > > > processed TREs based on a fixed threshold or constant value, instead of
-> > > > > > unmapping them all at once?
-> > > > > 
-> > > > > I'd still say, that's a bad idea. Please stay within the boundaries of
-> > > > > the DMA API.
-> > > > > 
-> > > > I agree with the approach you suggested—it's the GPI's responsibility to
-> > > > manage the available TREs.
-> > > > 
-> > > > However, I'm curious whether can we set a dynamic watermark value perhaps
-> > > > half the available TREs) to trigger unmapping of processed TREs ? This would
-> > > > allow the software to prepare the next set of TREs while the hardware
-> > > > continues processing the remaining ones, enabling better parallelism and
-> > > > throughput.
-> > > 
-> > > Let's land the simple implementation first, which can then be improved.
-> > > However I don't see any way to return 'above the watermark' from the DMA
-> > > controller. You might need to enhance the API.
-> > 
-> > Traditionally, we set the dma transfers for watermark level and we get a
-> > interrupt. So you might want to set the callback for watermark level
-> > and then do mapping/unmapping etc in the callback. This is typical model
-> > for dmaengines, we should follow that well
-> > 
-> > BR
 > 
-> Thanks Dmitry and Vinod, I will work on V7 patch for submitting the I2C
-> messages until they fit and and unmap all processed messages together for
-> now.
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > 
-> Regarding the watermark mechanism, looks GENI SE DMA supports watermark
-> interrupts but it appears that GPI DMA doesn't have such provision of
-> watermark.
+> Bjorn, is there a chance that you'd ack merging this through the msm
+> tree?
 
-What is the mechanism to get interrupts from the GPI? If you submit 10
-txn, can you ask it to interrupt when half of them are done?
+Acked-by: Bjorn Andersson <andersson@kernel.org>
 
--- 
-~Vinod
+Regards,
+Bjorn
+
+> 
+> -- 
+> With best wishes
+> Dmitry
