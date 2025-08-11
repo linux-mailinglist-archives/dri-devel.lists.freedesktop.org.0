@@ -2,158 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B01B20892
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 14:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5ADB208A4
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 14:21:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6551710E398;
-	Mon, 11 Aug 2025 12:16:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB6010E3D0;
+	Mon, 11 Aug 2025 12:21:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="DA0aw+dE";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="V/MIdt+u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2042.outbound.protection.outlook.com [40.107.243.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3083210E398
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 12:16:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VdCyNDhTYtq1wHMiRovtY0kOiHHaAc9FUrIqI88sCpkOcaNLIZxSHZsArfFowXSvoW0mzM44O6w3ptJ8DC3U54akLbNSQtVvu2tvRrInbx236yH2clTmsP1KbaRAZGgbyj9bmhZdgDaJ6VH7kgkN69NA7NEVfbByEJ+w7DSE+nj+AgR8Y80/0R1rrqRg/N7kOeMl8urkeDyzTiiNwMMYrfJGWY6tLH6rkz1RUy+sciakRI3QLj8/fAa3DyXG0KV7fOPd15DG1PQB0RuGVOTSsc0rrblfkVys5nRlKBu2yeXS6AT9nn0yUmBuSNnJmxl5JTj4h+L7z96yjcc/6BSzPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hDqvUg2m634gCXopa1qtgRR8o3aYb0osgVA+7PbLlv0=;
- b=dgPfInEGSMeTsi6UGvjDx+J8zl9oP+YJFNCPDZYmPqSMQkmteAkl/URSGxVYl0sUqi1CvYt+YuJo7VaaFs+/KGZgqG7NNnAkCdMNdCtL3r6s76wKBLg72stTZVcWPWG4/JFR63HZRgtyOgJamXR4yPkIGdNher5EaEovSCvawcjln0AIlpFFmIuWTWRd53hviHksjzV8PT1djkbLnSfe64xqzTem7NAP1xsrYrh3rpRCkMleLZWm9q87KFCodmQW7VREHWmeERgeYFqzxk3nk2GQCby9JAiHI06orEZUbsP3ENabuf4yRKenIAWALmnjjqxPI6Ciu8zLrNj2OSFy7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hDqvUg2m634gCXopa1qtgRR8o3aYb0osgVA+7PbLlv0=;
- b=DA0aw+dErmWCWDr4eo8KepCNBZHxMlFn6A//+4nupzHK7jltLL8QdXMqtesGDi5irzM2gkHKHKBv/TdAn0bZc5ta/MfS44mRaRedFthlQIH96GFMWd/aSs7bvdGQs9v50XW6ToTDtaymb2hSsfAyQ1POCxG3gBTH2DgNbQann8o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY1PR12MB9649.namprd12.prod.outlook.com (2603:10b6:930:106::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Mon, 11 Aug
- 2025 12:16:37 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9009.018; Mon, 11 Aug 2025
- 12:16:37 +0000
-Message-ID: <323722ba-257a-4808-b369-5b9e35435fda@amd.com>
-Date: Mon, 11 Aug 2025 14:16:32 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: fix task hang from failed job submission
- during process kill
-To: "Liu01, Tong (Esther)" <Tong.Liu01@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: "phasta@kernel.org" <phasta@kernel.org>, "dakr@kernel.org"
- <dakr@kernel.org>, "matthew.brost@intel.com" <matthew.brost@intel.com>,
- "Ba, Gang" <Gang.Ba@amd.com>,
- "matthew.schwartz@linux.dev" <matthew.schwartz@linux.dev>,
- "cao, lin" <lin.cao@amd.com>
-References: <20250811072050.3838241-1-Tong.Liu01@amd.com>
- <b2e02500-0d50-4d84-8ec5-fb8cb753c91a@amd.com>
- <DM4PR12MB613427A4B81ED0A910B530B59028A@DM4PR12MB6134.namprd12.prod.outlook.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <DM4PR12MB613427A4B81ED0A910B530B59028A@DM4PR12MB6134.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0126.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b9::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3A7610E3D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 12:21:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1754914886; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=c3nDaH7pjPL8FETLyZ432f8sZtj8VuNSjNtlF17IYaTv/gdygzF88RCM/MejX7mcNZ9mVdMBbzaO9Tj3ynezhBlaLlUEj0/iXKjO+4UwD4SSuNQ3m23ZwrTuAr33bmiHP3SF3GqxI3+TEdFgxz0/Dshx/r/YHYY/96kYHid4mmk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1754914886;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=6YPyznItPeL8QP2QJ0jPFy87s095al91cloDpCuZVPM=; 
+ b=WhGBdx/C8V/PpPgCEeko5UxOdG+0MBg2tKbbtA45pj6r3t0QTCHHW+h/nVD6NT+rgVV35hyvq6MV5Dyzi+k0D8i6T6R+gxcL0Jb/p5bqRc2/lp7GERyEDtumsxXZ74OfC4noQ+fHJLzl/pysEjigoDndCM6FuyypTeagVzk+Eak=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754914886; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+ bh=6YPyznItPeL8QP2QJ0jPFy87s095al91cloDpCuZVPM=;
+ b=V/MIdt+uYUo2qbC8K4DQALC4JMnBOfRnZZDcvgBPJaLUPSelekraMPbHFkrNrG0/
+ WMtbKMu9ZmOrl6TpzCMI9+bT+Wwca7eZBkKXQmMsthBhDpEIroZuuS5/lWr+xEJG1gR
+ ta1rbis/Mz9lDGYcN3EG8O+BIk9T9xnXggCL8l4s=
+Received: by mx.zohomail.com with SMTPS id 1754914884915123.2055238353555;
+ Mon, 11 Aug 2025 05:21:24 -0700 (PDT)
+Date: Mon, 11 Aug 2025 13:21:20 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Lukas Zapolskas <lukas.zapolskas@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com, 
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/7] drm/panthor: Add DEV_QUERY.PERF_INFO handling for
+ Gx10
+Message-ID: <bpfe3i2ffk3jcezkhdsbf2jlencdeevkqbtzi36wxgsg5jhiky@czttx7r2i7wh>
+References: <cover.1753449448.git.lukas.zapolskas@arm.com>
+ <8925f2211994f1a4b34f0ba8c61bd0ae2af7d397.1753449448.git.lukas.zapolskas@arm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY1PR12MB9649:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6dc5cf10-1adf-4131-852a-08ddd8d0eb9d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NDF2cTZFWDEvVnUrZlRWcFZzTXpzdnJlcHJuL2ZOMmFOUzNJaVM0NkZGZ1M4?=
- =?utf-8?B?NG52YUI2czlES1FwKzRXSzc2dlYzS0xXemtxV3JQRzNwMFE1c0NJV1ZFcGlS?=
- =?utf-8?B?STY4MHljMDRBejBxbitLcXVEczZjZGpBRm53c1lyTzhCSENNYkt3WGZ3SXcw?=
- =?utf-8?B?MjRNcmdQNXlmY204VHk5MGM3VGx5ajNmWWxIeng1aXpiS0JVUWZmbE5VcFJi?=
- =?utf-8?B?Q3Z4NG10TXNEZ3NwTTNyQ2E2LyswS3ovcnVwTFEwdFhOVTV5UFhYZERvZkpx?=
- =?utf-8?B?c3RyN1hrWHpQU1YzMnl6cTg3R1BhUmM4Z05vdWZBMHVJV2lQTk5WTjJvWUkz?=
- =?utf-8?B?dm1ya1d2K2NRRGRhRk91Vm83U2piQytkOEpvSU52SkxmT0pqdTdIaVkwejht?=
- =?utf-8?B?aFNUczlrVW40Z0ZIR29Ca2dDRmN2Q3BrdTlLYjllSmxneXo2YkpHQVZYRjhV?=
- =?utf-8?B?eHdNakcrcGdmVGNiSjE3aFdxT0hJdFFWaGFFWHpqNFQrc0p6Z3dmUWIwdXg4?=
- =?utf-8?B?dnFXY09ZejdDOWdSamhwV21WTDlNTHA4WEdwK3FNaDk4d2IxY1J1VmVjMmd1?=
- =?utf-8?B?bW1vNWVwcTlQbEtPeGRiRWNmSFRwV0NtZy9hUFZlY3ArV1JKNWhLMEY0azZk?=
- =?utf-8?B?QlRvTEcrakg1OTdFRGl1RWtOTElldVd0eFRReVp3bktzeDFjM2d3RG5nY3h5?=
- =?utf-8?B?TmZDVVlFVk9tdXZQSi9vSTU1N2RRWWd4MnBZTU5EUEs5Y1pGVGVLQm82UTBB?=
- =?utf-8?B?V1VIRW1NdVNwWlArRTNnWU1Vc2hKZnpQKzduemxiV05ZVFJ2aXFJYVFxUnZu?=
- =?utf-8?B?Skk2dEpsN01CSVYyb2MreG5URnAySTJPN3VJTVNJMDcxajI5WGFxQlhNU3U1?=
- =?utf-8?B?eDRqV0hTWXEwYWdaMWxKeklnTmdXNHRKQXc0L0FYOUY3L0lLdzc3bU51U3NC?=
- =?utf-8?B?Tm01YWIyVy9UNHJqRXF3dVhyZ3VKamM3Q3Z1cWdjRmlLazJPWG9vZE5tekts?=
- =?utf-8?B?MElkQ3BDY3dJRDU2NGpSVmQxZWRkcmp3MmxoZVlvamdMSkhTdGZueGNKcWN3?=
- =?utf-8?B?bUQ5SWNYM0wzU29XbURoY1U4dXhQUklJUmh0bFB1K2pmQTJ5MEVSWlhOdnpV?=
- =?utf-8?B?QWUzSkxaOVRyV053S2VJQ2VmcUZ5bWZReUVwSXAydng1Um9KQmZuSUFmNnFv?=
- =?utf-8?B?bVNYbTRFS1EyZ0haOXZaTkQ1d29BUEpjaktoOFRveVlPblliV1V3Qnl6Vk9G?=
- =?utf-8?B?V3d6aGRJbXBOck9rS1ltaUJlRGkvVVdVdlpOY2dPTWN4bEV4Y1IzWDdDOUk3?=
- =?utf-8?B?b2RodFk2VlFXODBWY3pqV2svL014MTg1aHRJcnRyK0FlS1l6S3RHRUtBejRL?=
- =?utf-8?B?RXFJOExtQkROcjdpWGxKK3BxM1o3Zjh0SkJ3MDBGOXFONG9PSjhTN3drN3Ry?=
- =?utf-8?B?SlRmZjdiN2YycFZuNXNUV1hHYXdRSnkrVWhKRStEZW5mcWdSME9CTVhUQUUv?=
- =?utf-8?B?OFJKVmlDYkZ0TmdpNk1NcDFJNjRrNCs1VnpPSUhZNmJrUnR0WnJPbjN1M2E4?=
- =?utf-8?B?OS9LcFhGV1NLSjU4MkNJR016MUFVZytjQnlEMmJ0K0h6N2U3OS9QVXdzUmo5?=
- =?utf-8?B?SGdtcFZXcXdhSU9jTysxakpNT2g0bjZsR2kwZHN6NFZCdFQ4RGRmY1NtRVVC?=
- =?utf-8?B?WlpUd1F4eTM3djhKbGZlSm1sbm9YTnhwQzh4bFQyZ1dtMHJDRzhJYXZ0TlMx?=
- =?utf-8?B?OUljakxqV0tjOGZlQXVVQTFleWhXZ20zS3dnOFhNd09kQTFTRDIwOGVhbmFF?=
- =?utf-8?B?c2o5TUZJd2IvNUEwb1QvSFJOcG1JNWZuTUlrRkdXZ3FoRzhJOFF0RlJlbXZP?=
- =?utf-8?B?aVlqT1BoelcvTURYTXJHaHJaMkdzVUtzQlMzUGpTVFY1NFVzUFVBaXJhZ3pJ?=
- =?utf-8?Q?h+kBM7UX88I=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QkFUV2tuaWFLZ1lNQmRmVmVwVy9vbGFXMUVjd3pkQ1EwVUFETXBXSENjSmFn?=
- =?utf-8?B?bzAzelVJZmw5Q0ZCMUpzb1R2bGR6UFl1SHMxeEZ3WHhsbTk5OWx5dlF6SWxN?=
- =?utf-8?B?VnN0NFI0eWhSTGhocGFuVEk1cEVTZmZJQVRwY2JMTFRXNnFYSkNrMFI3b2xG?=
- =?utf-8?B?RkVZRFNGZGFjMHJVNGl1WThRVlhzbFo3Q1lzZnBnRmkwb0hKakQ0RXNtTzN3?=
- =?utf-8?B?Y3NPMndYQ1NFYkNwR1I2aGVKWUxoSjZYTWJ3TFpCNUVqTzdrOU9NVnBHSWc2?=
- =?utf-8?B?bUhWNFlWM3crbVBMR3N5b3FnU3prOThNYzBYa1NTWTNBSzlCZk9jTlZML1ZZ?=
- =?utf-8?B?MEtxaTViRkdJdWgrUytWd0ZZc3plY3UxdU9YZXA5dzNiZ01mVlFQRm93Q3R0?=
- =?utf-8?B?cFJiMDVHRWtXa2I2ZDhMd2krbE41VzVqK2dKMlphNStPL3l3Z01iM0l0S3Vn?=
- =?utf-8?B?UDlwNjg1ckhobndtM084cTlza0hDRnV6Sk8yQXlQUmxnWWtBZkVpRy9EM2Fw?=
- =?utf-8?B?bm14bjNGL1RnSUhrZHRtdWZ0aFNuNVNMcWQrNkQ2YXZLV21KZ3B0M0J4Sndh?=
- =?utf-8?B?bXFPNFVQYmNoT3NCc0ZHVmFHdGt3dmNjZEZ5RzlJemVzb2UxR0NMbXpocWUy?=
- =?utf-8?B?QmpJSlVLYXJWL1REaHYwTXVsVWphWWJxSmpWckw4aFhKQkJVbjZrbWU0Vm1w?=
- =?utf-8?B?bXhJV1d6aEQvZnh2R2d5OGFERG9jajlBODB0bjBZUjVNY0daQWRFSUhRUlVN?=
- =?utf-8?B?Vyt0QThSL2RleE1xNjFodU5IeU4vclFiMFZPNCtuRE1yK1Fmb0RCd1IxRFh0?=
- =?utf-8?B?ZktUVnE3a2xPNnlLK1BvdCtJRmZpSG5LLzJVTkFtbHFIT0poV0xYb0JMRS8v?=
- =?utf-8?B?VUFYTHhqbVk2TUpaK3Q2STJNWTRqNjd1Y2F1SUFRaGYyaDBvQStNVUxVcEdN?=
- =?utf-8?B?cEt2Uy95K1NraUx3R052d1psemlLbGVBUnFPbVBsVjFENVk2TytWNDQ0UmE3?=
- =?utf-8?B?dmRER09oa0h1Q0kwU3NiVjQySkJmOS8rek5QNGpIbmlLMlVIdDlmcVVuVzdq?=
- =?utf-8?B?VTBJbnNub0VPdlVIQnI1N29kZ1k5blN1dGhkL2VmUHNHZG16MDF0aG5FS2o2?=
- =?utf-8?B?M1RkTTYzMFVJdG1xN3g4elZ3WUcvVnRLSGp0elQwbmFjUnA1S1RTUHQ1cVFS?=
- =?utf-8?B?RHZUNW1rekM0VmdUYlpIdVI1SmZISVB4cDFlbnQvbjJxWXkyMnFYYjU1Smwy?=
- =?utf-8?B?Q2RzUkJWWHdhK2phVE9RUkp1MFFtcEZGbjFNVjByM2sva0hQenVQR1IyS0xj?=
- =?utf-8?B?VGhuRE1BVENaQXQ2RXRmQkNBR2pFOENhbFNGaWJNaUhyeVZpTHRhWEpxQ3lN?=
- =?utf-8?B?d1JsRnJwNktySkZIWjhLUlhiY0NOcmNrMXlGdWh2YVQ2dzdROE9HdHNwOTJP?=
- =?utf-8?B?MTgwbUo2bEMvOHVxS0JBSWhVRnMvYnY2MS9pZWhINy8rNVN5SHZVNGp4dExw?=
- =?utf-8?B?WEFlY1R5TFp4R21iODdwZ1R6M1N1Lys3YXlwUGNtbDBNcmpSQk4zSk1Uc01B?=
- =?utf-8?B?aXljbEYvOVlEOU0xRkkxNzczNWNFdldzNjQ0Sm9uREFacnB5bko2VmtRSmxa?=
- =?utf-8?B?b0NFejlaeE4wVkt1S3NYaEFjZUZBKy84K0xSZU1jejB4akZ1Mm9UNmUwNWdx?=
- =?utf-8?B?S2s0V0c0OTA2VVRTSWw1QiticTlpVERwdWREbWN6cHRZRWhqZDBMR0ducUN4?=
- =?utf-8?B?MGxxbVVpc1ZHZU9PaGdKVnYwV2VjZDl2Q2xIbGdud1poR0h0bVZUcERnQVFE?=
- =?utf-8?B?TXVJUXVzb2hSWkltSXcyTGZGaUdseXZCYUExL25UU3Z4MjV1a1VoZ1JjNjlZ?=
- =?utf-8?B?K01yVUxoOWhRUVN3ZVpVa3I3Ymo3Q2Z3S3JnQk9TVXozVFUrdDdIbHQ3NHRK?=
- =?utf-8?B?M1djOEc1dlE3WVNGcnlGVm5uU2ZEbTQ1d3lRMG5ZWHQyam9aMVhadDk5YUor?=
- =?utf-8?B?S3dTdExQM3JFRXJzUm9oQmxGQ3JUcWNVVTB6eTFKRlZLNDdnbk1TdHlERnU1?=
- =?utf-8?B?cE5ac3kxcUl5bE45b3Zmd3dPUTYxTkMvb0ZKOFlrazg0YUdNdmkzOXlCeHNi?=
- =?utf-8?Q?Hm/yH79WEwf9PfJBd0pFUlxoC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6dc5cf10-1adf-4131-852a-08ddd8d0eb9d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 12:16:37.5965 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rupel3GxAoLYqn6rNl8tZ7QvrZl5Hj5ieGbqABVmLUeEkUDq6zodaWN0edRjfcxs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9649
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8925f2211994f1a4b34f0ba8c61bd0ae2af7d397.1753449448.git.lukas.zapolskas@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,112 +72,263 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Esther,
+Hi Lukas,
 
-but that is harmless and potentially only gives a warning in the system log.
+On 25.07.2025 15:57, Lukas Zapolskas wrote:
+> This change adds the IOCTL to query data about the performance counter
+> setup. Some of this data was available via previous DEV_QUERY calls,
+> for instance for GPU info, but exposing it via PERF_INFO
+> minimizes the overhead of creating a single session to just the one
+> aggregate IOCTL.
+>
+> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
+> Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/Makefile         |  1 +
+>  drivers/gpu/drm/panthor/panthor_device.c |  7 +++
+>  drivers/gpu/drm/panthor/panthor_device.h |  3 +
+>  drivers/gpu/drm/panthor/panthor_drv.c    | 10 ++-
+>  drivers/gpu/drm/panthor/panthor_fw.h     |  3 +
+>  drivers/gpu/drm/panthor/panthor_perf.c   | 77 ++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_perf.h   | 15 +++++
+>  drivers/gpu/drm/panthor/panthor_regs.h   |  1 +
+>  8 files changed, 116 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_perf.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_perf.h
+>
+> diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
+> index 15294719b09c..0df9947f3575 100644
+> --- a/drivers/gpu/drm/panthor/Makefile
+> +++ b/drivers/gpu/drm/panthor/Makefile
+> @@ -9,6 +9,7 @@ panthor-y := \
+>  	panthor_gpu.o \
+>  	panthor_heap.o \
+>  	panthor_mmu.o \
+> +	panthor_perf.o \
+>  	panthor_sched.o
+>
+>  obj-$(CONFIG_DRM_PANTHOR) += panthor.o
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index f0b2da5b2b96..15ab329722cc 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -19,6 +19,7 @@
+>  #include "panthor_fw.h"
+>  #include "panthor_gpu.h"
+>  #include "panthor_mmu.h"
+> +#include "panthor_perf.h"
+>  #include "panthor_regs.h"
+>  #include "panthor_sched.h"
+>
+> @@ -264,6 +265,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		goto err_unplug_fw;
+>
+> +	ret = panthor_perf_init(ptdev);
+> +	if (ret)
+> +		goto err_unplug_sched;
+> +
+>  	/* ~3 frames */
+>  	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
+>  	pm_runtime_use_autosuspend(ptdev->base.dev);
+> @@ -277,6 +282,8 @@ int panthor_device_init(struct panthor_device *ptdev)
+>
+>  err_disable_autosuspend:
+>  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
+> +
+> +err_unplug_sched:
+>  	panthor_sched_unplug(ptdev);
+>
+>  err_unplug_fw:
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index 4fc7cf2aeed5..720d39b9e783 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -120,6 +120,9 @@ struct panthor_device {
+>  	/** @csif_info: Command stream interface information. */
+>  	struct drm_panthor_csif_info csif_info;
+>
+> +	/** @perf_info: Performance counter interface information. */
+> +	struct drm_panthor_perf_info perf_info;
+> +
+>  	/** @gpu: GPU management data. */
+>  	struct panthor_gpu *gpu;
+>
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 9256806eb662..8b1e3e38b12e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -175,7 +175,8 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+> -		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs))
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks))
+>
+>  /**
+>   * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
+> @@ -835,6 +836,10 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
+>  			args->size = sizeof(priorities_info);
+>  			return 0;
+>
+> +		case DRM_PANTHOR_DEV_QUERY_PERF_INFO:
+> +			args->size = sizeof(ptdev->perf_info);
+> +			return 0;
+> +
+>  		default:
+>  			return -EINVAL;
+>  		}
+> @@ -859,6 +864,9 @@ static int panthor_ioctl_dev_query(struct drm_device *ddev, void *data, struct d
+>  		panthor_query_group_priorities_info(file, &priorities_info);
+>  		return PANTHOR_UOBJ_SET(args->pointer, args->size, priorities_info);
+>
+> +	case DRM_PANTHOR_DEV_QUERY_PERF_INFO:
+> +		return PANTHOR_UOBJ_SET(args->pointer, args->size, ptdev->perf_info);
+> +
+>  	default:
+>  		return -EINVAL;
+>  	}
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
+> index 6598d96c6d2a..8bcb933fa790 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.h
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.h
+> @@ -197,8 +197,11 @@ struct panthor_fw_global_control_iface {
+>  	u32 output_va;
+>  	u32 group_num;
+>  	u32 group_stride;
+> +#define GLB_PERFCNT_FW_SIZE(x) ((((x) >> 16) << 8))
+>  	u32 perfcnt_size;
+>  	u32 instr_features;
+> +#define PERFCNT_FEATURES_MD_SIZE(x) (((x) & GENMASK(3, 0)) << 8)
+> +	u32 perfcnt_features;
+>  };
+>
+>  struct panthor_fw_global_input_iface {
+> diff --git a/drivers/gpu/drm/panthor/panthor_perf.c b/drivers/gpu/drm/panthor/panthor_perf.c
+> new file mode 100644
+> index 000000000000..e58a62ad7988
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_perf.c
+> @@ -0,0 +1,77 @@
+> +// SPDX-License-Identifier: GPL-2.0 or MIT
+> +/* Copyright 2023 Collabora Ltd */
+> +/* Copyright 2025 Arm ltd. */
+> +
+> +#include <linux/bitops.h>
+> +#include <drm/panthor_drm.h>
+> +
+> +#include "panthor_device.h"
+> +#include "panthor_fw.h"
+> +#include "panthor_perf.h"
+> +#include "panthor_regs.h"
+> +
+> +struct panthor_perf_counter_block {
+> +	struct drm_panthor_perf_block_header header;
+> +	u64 counters[];
+> +};
+> +
+> +static size_t get_annotated_block_size(size_t counters_per_block)
+> +{
+> +	return struct_size_t(struct panthor_perf_counter_block, counters, counters_per_block);
+> +}
+> +
+> +static size_t session_get_user_sample_size(const struct drm_panthor_perf_info *const info)
+> +{
+> +	const size_t block_size = get_annotated_block_size(info->counters_per_block);
+> +	const size_t block_nr = info->cshw_blocks + info->fw_blocks +
+> +		info->tiler_blocks + info->memsys_blocks + info->shader_blocks;
+> +
+> +	return info->sample_header_size + (block_size * block_nr);
+> +}
+> +
+> +/**
+> + * PANTHOR_PERF_COUNTERS_PER_BLOCK - On CSF architectures pre-11.x, the number of counters
+> + * per block was hardcoded to be 64. Arch 11.0 onwards supports the PRFCNT_FEATURES GPU register,
+> + * which indicates the same information.
+> + */
+> +#define PANTHOR_PERF_COUNTERS_PER_BLOCK (64)
+> +
+> +static void panthor_perf_info_init(struct panthor_device *const ptdev)
+> +{
+> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +	struct drm_panthor_perf_info *const perf_info = &ptdev->perf_info;
+> +
+> +	if (PERFCNT_FEATURES_MD_SIZE(glb_iface->control->perfcnt_features))
+> +		perf_info->flags |= DRM_PANTHOR_PERF_BLOCK_STATES_SUPPORT;
+> +
+> +	perf_info->counters_per_block = PANTHOR_PERF_COUNTERS_PER_BLOCK;
 
-You could adjust amdgpu_vm_ready() if necessary.
+I might've mentioned this in a previous review, but maybe we could add PRFCNT_FEATURES register
+access in this commit, and both ways of retrieving the number of counters per block depending
+in the CSF firmware version?
 
-Regards,
-Christian.
+Other than that:
 
-On 11.08.25 11:05, Liu01, Tong (Esther) wrote:
-> [AMD Official Use Only - AMD Internal Distribution Only]
-> 
-> Hi Christian,
-> 
-> The real issue is a race condition during process exit after patch https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1f02f2044bda1db1fd995bc35961ab075fa7b5a2. This patch changed amdgpu_vm_wait_idle to use drm_sched_entity_flush instead of dma_resv_wait_timeout. Here is what happens:
-> 
-> do_exit
->     |
->     exit_files(tsk) ... amdgpu_flush ... amdgpu_vm_wait_idle ... drm_sched_entity_flush (kills entity)
->     ...
->     exit_task_work(tsk) ...amdgpu_gem_object_close  ...  amdgpu_vm_clear_freed (tries to submit to killed entity)
-> 
-> The entity gets killed in amdgpu_vm_wait_idle(), but amdgpu_vm_clear_freed() called by exit_task_work() still tries to submit jobs.
-> 
-> Kind regards,
-> Esther
-> 
-> -----Original Message-----
-> From: Koenig, Christian <Christian.Koenig@amd.com>
-> Sent: Monday, August 11, 2025 4:25 PM
-> To: Liu01, Tong (Esther) <Tong.Liu01@amd.com>; dri-devel@lists.freedesktop.org
-> Cc: phasta@kernel.org; dakr@kernel.org; matthew.brost@intel.com; Ba, Gang <Gang.Ba@amd.com>; matthew.schwartz@linux.dev; cao, lin <lin.cao@amd.com>; cao, lin <lin.cao@amd.com>
-> Subject: Re: [PATCH] drm/amdgpu: fix task hang from failed job submission during process kill
-> 
-> On 11.08.25 09:20, Liu01 Tong wrote:
->> During process kill, drm_sched_entity_flush() will kill the vm
->> entities. The following job submissions of this process will fail
-> 
-> Well when the process is killed how can it still make job submissions?
-> 
-> Regards,
-> Christian.
-> 
->> , and
->> the resources of these jobs have not been released, nor have the
->> fences  been signalled, causing tasks to hang.
->>
->> Fix by not doing job init when the entity is stopped. And when the job
->> is already submitted, free the job resource if the entity is stopped.
->>
->> Signed-off-by: Liu01 Tong <Tong.Liu01@amd.com>
->> Signed-off-by: Lin.Cao <lincao12@amd.com>
->> ---
->>  drivers/gpu/drm/scheduler/sched_entity.c | 13 +++++++------
->>  drivers/gpu/drm/scheduler/sched_main.c   |  5 +++++
->>  2 files changed, 12 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
->> b/drivers/gpu/drm/scheduler/sched_entity.c
->> index ac678de7fe5e..1e744b2eb2db 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -570,6 +570,13 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>       bool first;
->>       ktime_t submit_ts;
->>
->> +     if (entity->stopped) {
->> +             DRM_ERROR("Trying to push job to a killed entity\n");
->> +             INIT_WORK(&sched_job->work, drm_sched_entity_kill_jobs_work);
->> +             schedule_work(&sched_job->work);
->> +             return;
->> +     }
->> +
->>       trace_drm_sched_job(sched_job, entity);
->>       atomic_inc(entity->rq->sched->score);
->>       WRITE_ONCE(entity->last_user, current->group_leader); @@ -589,12
->> +596,6 @@ void drm_sched_entity_push_job(struct drm_sched_job
->> *sched_job)
->>
->>               /* Add the entity to the run queue */
->>               spin_lock(&entity->lock);
->> -             if (entity->stopped) {
->> -                     spin_unlock(&entity->lock);
->> -
->> -                     DRM_ERROR("Trying to push to a killed entity\n");
->> -                     return;
->> -             }
->>
->>               rq = entity->rq;
->>               sched = rq->sched;
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->> b/drivers/gpu/drm/scheduler/sched_main.c
->> index bfea608a7106..c15b17d9ffe3 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -795,6 +795,11 @@ int drm_sched_job_init(struct drm_sched_job *job,
->>               return -ENOENT;
->>       }
->>
->> +     if (unlikely(entity->stopped)) {
->> +             pr_err("*ERROR* %s: entity is stopped!\n", __func__);
->> +             return -EINVAL;
->> +     }
->> +
->>       if (unlikely(!credits)) {
->>               pr_err("*ERROR* %s: credits cannot be 0!\n", __func__);
->>               return -EINVAL;
-> 
+Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
+> +
+> +	perf_info->sample_header_size = sizeof(struct drm_panthor_perf_sample_header);
+> +	perf_info->block_header_size = sizeof(struct drm_panthor_perf_block_header);
+> +
+> +	if (GLB_PERFCNT_FW_SIZE(glb_iface->control->perfcnt_size))
+> +		perf_info->fw_blocks = 1;
+> +
+> +	perf_info->cshw_blocks = 1;
+> +	perf_info->tiler_blocks = 1;
+> +	perf_info->memsys_blocks = GPU_MEM_FEATURES_L2_SLICES(ptdev->gpu_info.mem_features);
+> +	perf_info->shader_blocks = hweight64(ptdev->gpu_info.shader_present);
+> +
+> +	perf_info->sample_size = session_get_user_sample_size(perf_info);
+> +}
+> +
+> +/**
+> + * panthor_perf_init - Initialize the performance counter subsystem.
+> + * @ptdev: Panthor device
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +int panthor_perf_init(struct panthor_device *ptdev)
+> +{
+> +	if (!ptdev)
+> +		return -EINVAL;
+> +
+> +	panthor_perf_info_init(ptdev);
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_perf.h b/drivers/gpu/drm/panthor/panthor_perf.h
+> new file mode 100644
+> index 000000000000..3c32c24c164c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_perf.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* Copyright 2025 Collabora Ltd */
+> +/* Copyright 2025 Arm ltd. */
+> +
+> +#ifndef __PANTHOR_PERF_H__
+> +#define __PANTHOR_PERF_H__
+> +
+> +#include <linux/types.h>
+> +
+> +struct panthor_device;
+> +
+> +int panthor_perf_init(struct panthor_device *ptdev);
+> +
+> +#endif /* __PANTHOR_PERF_H__ */
+> +
+> diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+> index 48bbfd40138c..d613ce723981 100644
+> --- a/drivers/gpu/drm/panthor/panthor_regs.h
+> +++ b/drivers/gpu/drm/panthor/panthor_regs.h
+> @@ -27,6 +27,7 @@
+>  #define GPU_TILER_FEATURES				0xC
+>  #define GPU_MEM_FEATURES				0x10
+>  #define   GROUPS_L2_COHERENT				BIT(0)
+> +#define   GPU_MEM_FEATURES_L2_SLICES(x)			((((x) & GENMASK(11, 8)) >> 8) + 1)
+>
+>  #define GPU_MMU_FEATURES				0x14
+>  #define  GPU_MMU_FEATURES_VA_BITS(x)			((x) & GENMASK(7, 0))
+> --
+> 2.33.0.dirty
