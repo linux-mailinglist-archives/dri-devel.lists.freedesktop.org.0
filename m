@@ -2,59 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B83B20413
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D649B20428
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:46:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3D010E3F7;
-	Mon, 11 Aug 2025 09:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F01110E2F3;
+	Mon, 11 Aug 2025 09:46:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qmUN6l41";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="WjvEYiRA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1484E10E306;
- Mon, 11 Aug 2025 09:44:49 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id AD4A74A4;
- Mon, 11 Aug 2025 11:43:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1754905436;
- bh=UPWf30ZMlvogYjQ/MI9+xpo9+6mFRrRtQPnIp/bW4SE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qmUN6l41QzLaqgRP8EvPL7HiBYQTQhDj35OzSZSqDxirRD/vdal5O6kvdCkBoe/NA
- WuOobkLmX/G5SwiKWSAxg+zWkCzB9Wpfnt3nJAfbPYzAx/bD9dEs0qAeLv7xq/3vk/
- MIvFrRCtzCJeDzQLS5Pf7r8FCA0caunSMJHdMVDA=
-Date: Mon, 11 Aug 2025 12:44:29 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>
-Cc: kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
- arun.r.murthy@intel.com, uma.shankar@intel.com,
- jani.nikula@intel.com, dmitry.baryshkov@oss.qualcomm.com,
- harry.wentland@amd.com, siqueira@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com,
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80EC210E2F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 09:46:29 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8AF744327C;
+ Mon, 11 Aug 2025 09:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1754905587;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CvDR1lz19o0o9cINspVaDb6fr209Fw79mhQXFIrLWGE=;
+ b=WjvEYiRA+G2JvOacAceQjoT1jdvOMCW5Lpwt6OaFKBukLq1rRtWOwRce0Rs3McNK2hmSA1
+ JBDg48/n0au+/X0Mc1X4Jut5L2j8zh9iUDz05lTFpprY+I7RUf2YNgxmHuwJUu9LW5oqX9
+ F93TseV1JY0uWf7ob1+DAlrMNBYq5GWIsMoJ55ZGsNFZ55zPOtf8AZX3vwszs/gfJg2HYR
+ lEoJInd1ZaXsBqiSlVkGOuRtsduQZArw+NQnSY6bLxAj9PkwRWI0s2uxCSGoxgnvQmHc7L
+ +iDxqsqvv7OLWeXbPY44in6s3+8P69Larb6YmLWMy5wXSYSvPDAD7oSWW8K5wQ==
+Message-ID: <d52ac9f1-616b-427b-8742-781c4f5144d5@bootlin.com>
+Date: Mon, 11 Aug 2025 11:46:21 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 7/8] drm/rcar_du: Adapt vkms writeback to new
+ drm_writeback_connector
+To: Suraj Kandpal <suraj.kandpal@intel.com>, kernel-list@raspberrypi.com,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Cc: ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com,
+ uma.shankar@intel.com, jani.nikula@intel.com,
+ dmitry.baryshkov@oss.qualcomm.com, harry.wentland@amd.com,
+ siqueira@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
  airlied@gmail.com, simona@ffwll.ch, liviu.dudau@arm.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- robin.clark@oss.qualcomm.com, abhinav.kumar@linux.dev,
- tzimmermann@suse.de, jessica.zhang@oss.qualcomm.com,
- sean@poorly.run, marijn.suijten@somainline.org, mcanal@igalia.com,
- dave.stevenson@raspberrypi.com, tomi.valkeinen+renesas@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-Message-ID: <20250811094429.GE21313@pendragon.ideasonboard.com>
+ robin.clark@oss.qualcomm.com, abhinav.kumar@linux.dev, tzimmermann@suse.de,
+ jessica.zhang@oss.qualcomm.com, sean@poorly.run,
+ marijn.suijten@somainline.org, laurent.pinchart+renesas@ideasonboard.com,
+ mcanal@igalia.com, dave.stevenson@raspberrypi.com,
+ tomi.valkeinen+renesas@ideasonboard.com,
+ kieran.bingham+renesas@ideasonboard.com
 References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
- <20250811092707.3986802-2-suraj.kandpal@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250811092707.3986802-2-suraj.kandpal@intel.com>
+ <20250811092707.3986802-8-suraj.kandpal@intel.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20250811092707.3986802-8-suraj.kandpal@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddufedvudefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehpdhhvghloheplgfkrfggieemvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefhedprhgtphhtthhopehsuhhrrghjrdhkrghnughprghlsehinhhtvghlrdgtohhmpdhrtghpthhtohepkhgvrhhnv
+ ghlqdhlihhsthesrhgrshhpsggvrhhrhihpihdrtghomhdprhgtphhtthhopegrmhguqdhgfhigsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhmshhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfhhrvggvughrvghnoheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,303 +134,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 11, 2025 at 02:57:00PM +0530, Suraj Kandpal wrote:
-> Some drivers cannot work with the current design where the connector
-> is embedded within the drm_writeback_connector such as intel and
-> some drivers that can get it working end up adding a lot of checks
-> all around the code to check if it's a writeback conenctor or not.
-> To solve this we move the drm_writeback_connector within the
-> drm_connector and remove the drm_connector base which was in
-> drm_writeback_connector. We do all other required
-> modifications that come with these changes along with addition
-> of new function which returns the drm_connector when
-> drm_writeback_connector is present.
-> All drivers will be expected to allocate the drm_connector.
+I think the commit title is wrong.
+
+Le 11/08/2025 à 11:27, Suraj Kandpal a écrit :
+> Now that drm_writeback_connector is embedded with the drm_connector
+> adapt the rcar-du writeback functionality to this changes. This
+> includes changing the drm_writeback_connector to be changed to drm_connector
+> within the rcar_du_crtc.
+> Some other changes are done which are a result of the all the above
+> changes mentioned.
 > 
 > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 > ---
->  drivers/gpu/drm/drm_writeback.c | 33 ++++++++++------
->  include/drm/drm_connector.h     | 60 +++++++++++++++++++++++++++++
->  include/drm/drm_writeback.h     | 68 ++++-----------------------------
->  3 files changed, 89 insertions(+), 72 deletions(-)
+>   .../gpu/drm/renesas/rcar-du/rcar_du_crtc.h    |  4 ++--
+>   .../drm/renesas/rcar-du/rcar_du_writeback.c   | 22 +++++++++++--------
+>   2 files changed, 15 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-> index ec2575c4c21b..198b8c488056 100644
-> --- a/drivers/gpu/drm/drm_writeback.c
-> +++ b/drivers/gpu/drm/drm_writeback.c
-> @@ -89,8 +89,10 @@ static const char *drm_writeback_fence_get_driver_name(struct dma_fence *fence)
->  {
->  	struct drm_writeback_connector *wb_connector =
->  		fence_to_wb_connector(fence);
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
+> index d0f38a8b3561..457c803d75bc 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.h
+> @@ -72,11 +72,11 @@ struct rcar_du_crtc {
+>   	const char *const *sources;
+>   	unsigned int sources_count;
+>   
+> -	struct drm_writeback_connector writeback;
+> +	struct drm_connector connector;
+>   };
+>   
+>   #define to_rcar_crtc(c)		container_of(c, struct rcar_du_crtc, crtc)
+> -#define wb_to_rcar_crtc(c)	container_of(c, struct rcar_du_crtc, writeback)
+> +#define connector_to_rcar_crtc(c)	container_of(c, struct rcar_du_crtc, connector)
+>   
+>   /**
+>    * struct rcar_du_crtc_state - Driver-specific CRTC state
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+> index 9986a10e8114..95e6810612c2 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_writeback.c
+> @@ -47,10 +47,12 @@ static int rcar_du_wb_conn_get_modes(struct drm_connector *connector)
+>   				    dev->mode_config.max_height);
+>   }
+>   
+> -static int rcar_du_wb_prepare_job(struct drm_writeback_connector *connector,
+> +static int rcar_du_wb_prepare_job(struct drm_writeback_connector *wb_connector,
+>   				  struct drm_writeback_job *job)
+>   {
+> -	struct rcar_du_crtc *rcrtc = wb_to_rcar_crtc(connector);
 > +	struct drm_connector *connector =
-> +		drm_writeback_to_connector(wb_connector);
->  
-> -	return wb_connector->base.dev->driver->name;
-> +	return connector->dev->driver->name;
->  }
->  
->  static const char *
-> @@ -187,7 +189,8 @@ static int __drm_writeback_connector_init(struct drm_device *dev,
->  					  struct drm_encoder *enc, const u32 *formats,
->  					  int n_formats)
->  {
-> -	struct drm_connector *connector = &wb_connector->base;
+> +		container_of(wb_connector, struct drm_connector, writeback);
+> +	struct rcar_du_crtc *rcrtc = connector_to_rcar_crtc(connector);
+>   	struct rcar_du_wb_job *rjob;
+>   	int ret;
+>   
+> @@ -72,10 +74,12 @@ static int rcar_du_wb_prepare_job(struct drm_writeback_connector *connector,
+>   	return 0;
+>   }
+>   
+> -static void rcar_du_wb_cleanup_job(struct drm_writeback_connector *connector,
+> +static void rcar_du_wb_cleanup_job(struct drm_writeback_connector *wb_connector,
+>   				   struct drm_writeback_job *job)
+>   {
+> -	struct rcar_du_crtc *rcrtc = wb_to_rcar_crtc(connector);
 > +	struct drm_connector *connector =
-> +		drm_writeback_to_connector(wb_connector);
->  	struct drm_mode_config *config = &dev->mode_config;
->  	struct drm_property_blob *blob;
->  	int ret = create_writeback_properties(dev);
-> @@ -269,7 +272,8 @@ int drm_writeback_connector_init(struct drm_device *dev,
->  				 struct drm_encoder *enc,
->  				 const u32 *formats, int n_formats)
->  {
-> -	struct drm_connector *connector = &wb_connector->base;
-> +	struct drm_connector *connector =
-> +		drm_writeback_to_connector(wb_connector);
->  	int ret;
->  
->  	ret = drm_connector_init(dev, connector, con_funcs,
-> @@ -339,7 +343,8 @@ int drmm_writeback_connector_init(struct drm_device *dev,
->  				  struct drm_encoder *enc,
->  				  const u32 *formats, int n_formats)
->  {
-> -	struct drm_connector *connector = &wb_connector->base;
-> +	struct drm_connector *connector =
-> +		drm_writeback_to_connector(wb_connector);
->  	int ret;
->  
->  	ret = drmm_connector_init(dev, connector, con_funcs,
-> @@ -382,13 +387,15 @@ int drm_writeback_set_fb(struct drm_connector_state *conn_state,
->  
->  int drm_writeback_prepare_job(struct drm_writeback_job *job)
->  {
-> -	struct drm_writeback_connector *connector = job->connector;
-> +	struct drm_writeback_connector *wb_connector = job->connector;
-> +	struct drm_connector *connector
-> +		= drm_writeback_to_connector(wb_connector);
->  	const struct drm_connector_helper_funcs *funcs =
-> -		connector->base.helper_private;
-> +		connector->helper_private;
->  	int ret;
->  
->  	if (funcs->prepare_writeback_job) {
-> -		ret = funcs->prepare_writeback_job(connector, job);
-> +		ret = funcs->prepare_writeback_job(wb_connector, job);
->  		if (ret < 0)
->  			return ret;
->  	}
-> @@ -434,12 +441,14 @@ EXPORT_SYMBOL(drm_writeback_queue_job);
->  
->  void drm_writeback_cleanup_job(struct drm_writeback_job *job)
->  {
-> -	struct drm_writeback_connector *connector = job->connector;
-> +	struct drm_writeback_connector *wb_connector = job->connector;
-> +	struct drm_connector *connector
-> +		= drm_writeback_to_connector(wb_connector);
->  	const struct drm_connector_helper_funcs *funcs =
-> -		connector->base.helper_private;
-> +		connector->helper_private;
->  
->  	if (job->prepared && funcs->cleanup_writeback_job)
-> -		funcs->cleanup_writeback_job(connector, job);
-> +		funcs->cleanup_writeback_job(wb_connector, job);
->  
->  	if (job->fb)
->  		drm_framebuffer_put(job->fb);
-> @@ -521,8 +530,10 @@ struct dma_fence *
->  drm_writeback_get_out_fence(struct drm_writeback_connector *wb_connector)
->  {
->  	struct dma_fence *fence;
-> +	struct drm_connector *connector =
-> +		drm_writeback_to_connector(wb_connector);
->  
-> -	if (WARN_ON(wb_connector->base.connector_type !=
-> +	if (WARN_ON(connector->connector_type !=
->  		    DRM_MODE_CONNECTOR_WRITEBACK))
->  		return NULL;
->  
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 8f34f4b8183d..da63fdafd9f2 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1882,6 +1882,61 @@ struct drm_connector_cec {
->  	void *data;
->  };
->  
-> +/**
-> + * struct drm_writeback_connector - DRM writeback connector
-> + */
-> +struct drm_writeback_connector {
-> +	/**
-> +	 * @pixel_formats_blob_ptr:
-> +	 *
-> +	 * DRM blob property data for the pixel formats list on writeback
-> +	 * connectors
-> +	 * See also drm_writeback_connector_init()
-> +	 */
-> +	struct drm_property_blob *pixel_formats_blob_ptr;
-> +
-> +	/** @job_lock: Protects job_queue */
-> +	spinlock_t job_lock;
-> +
-> +	/**
-> +	 * @job_queue:
-> +	 *
-> +	 * Holds a list of a connector's writeback jobs; the last item is the
-> +	 * most recent. The first item may be either waiting for the hardware
-> +	 * to begin writing, or currently being written.
-> +	 *
-> +	 * See also: drm_writeback_queue_job() and
-> +	 * drm_writeback_signal_completion()
-> +	 */
-> +	struct list_head job_queue;
-> +
-> +	/**
-> +	 * @fence_context:
-> +	 *
-> +	 * timeline context used for fence operations.
-> +	 */
-> +	unsigned int fence_context;
-> +	/**
-> +	 * @fence_lock:
-> +	 *
-> +	 * spinlock to protect the fences in the fence_context.
-> +	 */
-> +	spinlock_t fence_lock;
-> +	/**
-> +	 * @fence_seqno:
-> +	 *
-> +	 * Seqno variable used as monotonic counter for the fences
-> +	 * created on the connector's timeline.
-> +	 */
-> +	unsigned long fence_seqno;
-> +	/**
-> +	 * @timeline_name:
-> +	 *
-> +	 * The name of the connector's fence timeline.
-> +	 */
-> +	char timeline_name[32];
-> +};
-> +
->  /**
->   * struct drm_connector - central DRM connector control structure
->   *
-> @@ -2305,6 +2360,11 @@ struct drm_connector {
->  	 * @cec: CEC-related data.
->  	 */
->  	struct drm_connector_cec cec;
-> +
-> +	/**
-> +	 * @writeback: Writeback related valriables.
-> +	 */
-> +	struct drm_writeback_connector writeback;
-
-No, sorry, that's a bad idea. Most connectors have nothing to do with
-writeback, you shouldn't introduce writeback-specific fields here.
-drm_writeback_connector happens to be a drm_connector because of
-historical reasons (it was decided to reuse the connector API exposed to
-userspace instead of exposing a completely separate API in order to
-simplify the implementation), but that does not mean that every
-connector is related to writeback.
-
-I don't know what issues the Intel driver(s) have with
-drm_writeback_connector, but you shouldn't make things worse for
-everybody due to a driver problem.
-
->  };
->  
->  #define obj_to_connector(x) container_of(x, struct drm_connector, base)
-> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-> index 958466a05e60..2a52b6761797 100644
-> --- a/include/drm/drm_writeback.h
-> +++ b/include/drm/drm_writeback.h
-> @@ -15,66 +15,6 @@
->  #include <drm/drm_encoder.h>
->  #include <linux/workqueue.h>
->  
-> -/**
-> - * struct drm_writeback_connector - DRM writeback connector
-> - */
-> -struct drm_writeback_connector {
-> -	/**
-> -	 * @base: base drm_connector object
-> -	 */
-> -	struct drm_connector base;
-> -
-> -	/**
-> -	 * @pixel_formats_blob_ptr:
-> -	 *
-> -	 * DRM blob property data for the pixel formats list on writeback
-> -	 * connectors
-> -	 * See also drm_writeback_connector_init()
-> -	 */
-> -	struct drm_property_blob *pixel_formats_blob_ptr;
-> -
-> -	/** @job_lock: Protects job_queue */
-> -	spinlock_t job_lock;
-> -
-> -	/**
-> -	 * @job_queue:
-> -	 *
-> -	 * Holds a list of a connector's writeback jobs; the last item is the
-> -	 * most recent. The first item may be either waiting for the hardware
-> -	 * to begin writing, or currently being written.
-> -	 *
-> -	 * See also: drm_writeback_queue_job() and
-> -	 * drm_writeback_signal_completion()
-> -	 */
-> -	struct list_head job_queue;
-> -
-> -	/**
-> -	 * @fence_context:
-> -	 *
-> -	 * timeline context used for fence operations.
-> -	 */
-> -	unsigned int fence_context;
-> -	/**
-> -	 * @fence_lock:
-> -	 *
-> -	 * spinlock to protect the fences in the fence_context.
-> -	 */
-> -	spinlock_t fence_lock;
-> -	/**
-> -	 * @fence_seqno:
-> -	 *
-> -	 * Seqno variable used as monotonic counter for the fences
-> -	 * created on the connector's timeline.
-> -	 */
-> -	unsigned long fence_seqno;
-> -	/**
-> -	 * @timeline_name:
-> -	 *
-> -	 * The name of the connector's fence timeline.
-> -	 */
-> -	char timeline_name[32];
-> -};
-> -
->  /**
->   * struct drm_writeback_job - DRM writeback job
->   */
-> @@ -131,10 +71,16 @@ struct drm_writeback_job {
->  	void *priv;
->  };
->  
-> +static inline struct drm_connector *
-> +drm_writeback_to_connector(struct drm_writeback_connector *wb_connector)
-> +{
-> +	return container_of(wb_connector, struct drm_connector, writeback);
-> +}
-> +
->  static inline struct drm_writeback_connector *
->  drm_connector_to_writeback(struct drm_connector *connector)
->  {
-> -	return container_of(connector, struct drm_writeback_connector, base);
-> +	return &connector->writeback;
->  }
->  
->  int drm_writeback_connector_init(struct drm_device *dev,
+> +		container_of(wb_connector, struct drm_connector, writeback);
+> +	struct rcar_du_crtc *rcrtc = connector_to_rcar_crtc(connector);
+>   	struct rcar_du_wb_job *rjob = job->priv;
+>   
+>   	if (!job->fb)
+> @@ -199,7 +203,7 @@ static const u32 writeback_formats[] = {
+>   int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+>   			   struct rcar_du_crtc *rcrtc)
+>   {
+> -	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
+> +	struct drm_writeback_connector *wb_conn = &rcrtc->connector.writeback;
+>   
+>   	struct drm_encoder *encoder;
+>   
+> @@ -212,7 +216,7 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+>   
+>   	encoder->possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+>   
+> -	drm_connector_helper_add(&wb_conn->base,
+> +	drm_connector_helper_add(&rcrtc->connector,
+>   				 &rcar_du_wb_conn_helper_funcs);
+>   
+>   	return drmm_writeback_connector_init(&rcdu->ddev, wb_conn,
+> @@ -231,7 +235,7 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
+>   	struct drm_framebuffer *fb;
+>   	unsigned int i;
+>   
+> -	state = rcrtc->writeback.base.state;
+> +	state = rcrtc->connector.state;
+>   	if (!state || !state->writeback_job)
+>   		return;
+>   
+> @@ -246,10 +250,10 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
+>   		cfg->mem[i] = sg_dma_address(rjob->sg_tables[i].sgl)
+>   			    + fb->offsets[i];
+>   
+> -	drm_writeback_queue_job(&rcrtc->writeback, state);
+> +	drm_writeback_queue_job(&rcrtc->connector.writeback, state);
+>   }
+>   
+>   void rcar_du_writeback_complete(struct rcar_du_crtc *rcrtc)
+>   {
+> -	drm_writeback_signal_completion(&rcrtc->writeback, 0);
+> +	drm_writeback_signal_completion(&rcrtc->connector.writeback, 0);
+>   }
 
 -- 
-Regards,
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Laurent Pinchart
