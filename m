@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37E1B21F96
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 09:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442A6B21F9A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 09:33:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93CC910E5A9;
-	Tue, 12 Aug 2025 07:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39F8510E5AD;
+	Tue, 12 Aug 2025 07:33:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=listout.xyz header.i=@listout.xyz header.b="Pj/pccSS";
+	dkim=pass (2048-bit key; unprotected) header.d=listout.xyz header.i=@listout.xyz header.b="XiDB561x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 319EB10E10E;
- Mon, 11 Aug 2025 13:11:49 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4365910E10E;
+ Mon, 11 Aug 2025 13:11:52 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4c0w5D5vn9z9slH;
- Mon, 11 Aug 2025 15:11:44 +0200 (CEST)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4c0w5K2YKqz9snW;
+ Mon, 11 Aug 2025 15:11:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
- t=1754917904;
+ t=1754917909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nn7J5B2Aq1IDeL4KLSwsL1A7sTtX38IT2nssYyCR2Hg=;
- b=Pj/pccSSXFpsAeFaoXQdP4xi95b2D8/Lrnk3ADAfSu9xaqbTEEFaTjiyu7hz9Kszb5je5e
- bzXcvxB6yt+DAP1A1hcWrymIBx9a7kDVD42WinC40b+MmghsnlQcG0RkTthtN15SweynMo
- Fo9ZNScmCnTRlc+DA84/C6xOZX+jDHRV8fF2x4qnB8SUeoV1PtSwGDyOx3zWgrhE7eTrIu
- 8XDJDDZcOmNFhyztRNrI4vCH20TvwpmLebkARK3Xh1hwC0aTDzrqbI1zKDUrTZ7yj86yfO
- xIoNpD0CN1QGK1XD+WsyNZp6jza4a7oKXtTKaeu7jMYdJ/3JNQyXs2xLOKVPYA==
-Authentication-Results: outgoing_mbo_mout; dkim=none;
- spf=pass (outgoing_mbo_mout: domain of listout@listout.xyz designates
- 2001:67c:2050:b231:465::102 as permitted sender)
- smtp.mailfrom=listout@listout.xyz
+ bh=+H2ZqlQ2Jh2MhyNBjLJU7iks+MBvU2kShwz8Ja2mpHA=;
+ b=XiDB561xAW0IlYlKP6duqbY5ECPR9xxcsgehRM+K4TRrCjoD4pNkS598Bqh/BjaCDNoBMn
+ pvxB8DP07kZycr71gl05Khcq50WNXLZCYh2mY17qIb+aXH8ti/FwEVHfdncczIuplYNSkE
+ 6dOvfoe4cngSICuSNcjHeRUTE8NN12qGFeSwjWMJdDinoqb3FJnhsMnS++K9twaVRLPYzG
+ slwiQZGr7yWPeCRwThadTCiXyJyc1OPOsP4o0ma5Cm5WKS86neNTyfujPLKW7YMD1eT3os
+ I3C+Xe2lVQoT/xVZh2zjNp2sfIDkWq0ynZC/hyHsLmn8vXHy9TZdt1uASftr1g==
 From: Brahmajit Das <listout@listout.xyz>
 To: jani.nikula@linux.intel.com
 Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, joonas.lahtinen@linux.intel.com,
  linux-next@vger.kernel.org, listout@listout.xyz, rodrigo.vivi@intel.com,
  simona@ffwll.ch, tursulin@ursulin.net
-Subject: [RFC PATCH 0/2] use new debugfs device-centered functions
-Date: Mon, 11 Aug 2025 18:41:24 +0530
-Message-ID: <20250811131126.71883-1-listout@listout.xyz>
-In-Reply-To: <32c55ab0b1452a1fd8ef49e8a1ca640ad5bd9d76@intel.com>
+Subject: [RFC PATCH 1/2] drm/i915/debugfs: use new debugfs device-centered
+ functions
+Date: Mon, 11 Aug 2025 18:41:25 +0530
+Message-ID: <20250811131126.71883-2-listout@listout.xyz>
+In-Reply-To: <20250811131126.71883-1-listout@listout.xyz>
 References: <32c55ab0b1452a1fd8ef49e8a1ca640ad5bd9d76@intel.com>
+ <20250811131126.71883-1-listout@listout.xyz>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4c0w5D5vn9z9slH
 X-Mailman-Approved-At: Tue, 12 Aug 2025 07:33:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,19 +66,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Replace the use of drm_debugfs_create_files() with the new
 drm_debugfs_add_files() function, which centers the debugfs files
-management on the drm_device.
+management on the drm_device instead of drm_minor.
 
-Refer:
-https://docs.kernel.org/gpu/todo.html#clean-up-the-debugfs-support
+Signed-off-by: Brahmajit Das <listout@listout.xyz>
+---
+ drivers/gpu/drm/i915/i915_debugfs.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Brahmajit Das (2):
-  drm/i915/debugfs: use new debugfs device-centered functions
-  drm/i915: use new debugfs device-centered functions
-
- drivers/gpu/drm/i915/display/intel_display_debugfs.c | 7 +++----
- drivers/gpu/drm/i915/i915_debugfs.c                  | 7 +++----
- 2 files changed, 6 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+index 23fa098c4479..e411ff3ac1fd 100644
+--- a/drivers/gpu/drm/i915/i915_debugfs.c
++++ b/drivers/gpu/drm/i915/i915_debugfs.c
+@@ -699,7 +699,7 @@ static const struct file_operations i915_forcewake_fops = {
+ 	.release = i915_forcewake_release,
+ };
+ 
+-static const struct drm_info_list i915_debugfs_list[] = {
++static const struct drm_debugfs_info i915_debugfs_list[] = {
+ 	{"i915_capabilities", i915_capabilities, 0},
+ 	{"i915_gem_objects", i915_gem_object_info, 0},
+ 	{"i915_frequency_info", i915_frequency_info, 0},
+@@ -735,9 +735,8 @@ void i915_debugfs_register(struct drm_i915_private *i915)
+ 				    i915_debugfs_files[i].fops);
+ 	}
+ 
+-	drm_debugfs_create_files(i915_debugfs_list,
+-				 ARRAY_SIZE(i915_debugfs_list),
+-				 debugfs_root, i915->drm.primary);
++	drm_debugfs_add_files(&i915->drm, i915_debugfs_list,
++			      ARRAY_SIZE(i915_debugfs_list));
+ 
+ 	i915_gpu_error_debugfs_register(i915);
+ }
 -- 
 2.50.1
 
