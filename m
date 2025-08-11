@@ -2,136 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48460B217C7
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 23:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F788B217F3
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 00:10:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6367210E561;
-	Mon, 11 Aug 2025 21:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B21B610E562;
+	Mon, 11 Aug 2025 22:10:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HgzQnRt9";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="E05nT3MS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2068.outbound.protection.outlook.com [40.107.93.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D040010E561;
- Mon, 11 Aug 2025 21:57:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=v3VRfJ5N/Ucr3XCxzhvqWQKN+T65L002j/fgadejPrjebOC8ZrtytIP8k8dOHDRzFeM/HKHA1ArbkXxJj11fX8oJdIk+mIUvJSds0KoqH1GZpk45FxM4BqL86t7s+iGwhs24g1NWFU88VTkUlLy2YRVcbfpAyldvZWduvY840rLiWJfXw5ZhoUBcuzIz4H0c8jJzp03LQZFWx6d4hnLHLV+5BjsBMfdAVVAX9jq84agP2G9XqVUjMMR75hC0kFiOi8cnaMYq8qVFZj+3xR/nFOgTVPANbeZ0A1GhaEacemZ4V5i29lDojdYqCx1rgxhAlApiXkHCHC6/fWWWbjpN4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P0KnV2xp1HsfYq54AuIE4WEprUYaKC6a3xpsR4ZhJSs=;
- b=sBxI1XgjOc1ztfMTSkbtpkKJthEQlkf3GGQFPCt+srWmasAotHb3hgi7f1LS2AKd0bEaZezQiBBdIh+08vj2JVgsB68PpJ+p/Sd+sQN1LAgHAlV4jkvvNgnh74rST1qNV4Targso34GSJVXeBprKtjIk9UWa6XDc2Y4mxnEnw4W77ph7ApfflBzzutP2xhGQ7QJo/fwxAomCWALYJnLYh17JzqdoYorSOL57HowtduCQ6FZfkx37okjTaWoUkVabNnwCNfGgbahl4l9nrZbQQur069FHr0s/JfFn5GPNjxzlbj3PPhpYBWUTaluBzSfoHPVr2Aq0eBbWN691t9qW/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P0KnV2xp1HsfYq54AuIE4WEprUYaKC6a3xpsR4ZhJSs=;
- b=HgzQnRt99i+2uzpLHCfzDraUcg4FQjeIxm8DMcEu3pLgSPm3qaKLGWMzncjb3e+yk0UGCZRN8A1uZveLelq4zRYaY/WIPaNENq9tS28gMxCFZIST1UAqqEWMgLnNfAATCz2aPe1sqSscx3JkrpLf1YQ8izoJOlYr6vyUq5od3YoRlKR+j9s4+FjIyYtnGFWH4JtP9htoWXRcuWkPqd3NSZSF6x/cZDFGaHKawXEkv0RX7ZsnjLiquHoGqZqrrHgGe+41aDaCWqO1J4b8T/l354zXqbCO6+ayjxGfD/VElfzFrhCsoS37x8Z0wnQypjCBQMqVZTeAB7sX7F1hvWBrZA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB6691.namprd12.prod.outlook.com (2603:10b6:806:271::9)
- by MN2PR12MB4207.namprd12.prod.outlook.com (2603:10b6:208:1d9::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Mon, 11 Aug
- 2025 21:57:18 +0000
-Received: from SN7PR12MB6691.namprd12.prod.outlook.com
- ([fe80::d15a:729a:9a36:4376]) by SN7PR12MB6691.namprd12.prod.outlook.com
- ([fe80::d15a:729a:9a36:4376%7]) with mapi id 15.20.9009.018; Mon, 11 Aug 2025
- 21:57:18 +0000
-From: James Jones <jajones@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Joel Fernandes <joelagnelf@nvidia.com>,
- James Jones <jajones@nvidia.com>
-Subject: [PATCH 3/3] drm/nouveau: Advertise correct modifiers on GB20x
-Date: Mon, 11 Aug 2025 15:00:17 -0700
-Message-ID: <20250811220017.1337-4-jajones@nvidia.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250811220017.1337-1-jajones@nvidia.com>
-References: <20250811220017.1337-1-jajones@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ2PR07CA0002.namprd07.prod.outlook.com
- (2603:10b6:a03:505::25) To SN7PR12MB6691.namprd12.prod.outlook.com
- (2603:10b6:806:271::9)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCB2C10E18F
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 22:10:12 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-76aea119891so5638546b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 15:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1754950209; x=1755555009;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FKoHHjT8yFfyfYeN+QtJgAeYV97GirwWW9p34VHnmmA=;
+ b=E05nT3MSFWFd//PopegF3QvPZY56GhrM8uO6pL01i9gXVjiF4CQDNrchgyZ0iK5R4j
+ U4kLTwEiheoeHLHUxxlUEmLzZI1/ntRWODvPKxe5DfC0cR3meLfAoTu98SOXFxreQJ6E
+ FnPPKRUrbF8/CcGegIUTbMnfRx2nw1Z+z4G6A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754950209; x=1755555009;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FKoHHjT8yFfyfYeN+QtJgAeYV97GirwWW9p34VHnmmA=;
+ b=vVaqR5uu1+fMF4fMbFY2GPlvwwEe73hcNhUBcK17IlYAkacBARW/EsSkTb6uCPjklj
+ mo+8jI9VzAGXsrfVZJpzx5crZ2+qzNmJU+8wPrMfqs+CJKYBeYIRfBcTKfXrF3H8mO+c
+ 1a25PR671EkefFnYZDYqNRekpMZLzNCLwWx42twm2GzGv9YPcBZBfWAw9WX5u8kG3NRA
+ nSAzlRavYnp4+nOdve2hg5VyFcrvHdhmg6rC2vXyh6ORKVDY8SV+O0rbL7VIWidTJs5R
+ gD3ExR29EpQvuwjUVl2AxrHi3v9h9wmzinOnxFdFmNPTldunMWefAFZ4Tmh2gCqbWhzg
+ 3S0g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWV82Luo/7SXhLcjoAif169rd/EYyJ93917cGjVFutdCxHZOXyHAageKAx22120n+dl0+51sr+FPi4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyFZKo6kq6/5EIvXLaZ89UIRno9L+EUrXAmsSGVTsy5kVqc/dEk
+ Sa1UBYCKWfurQbVJhIpFHTRilTZUv3ruu5CeGzssNd3VvIqpIny+uDdWbzzkumFn+REVZxaqBrg
+ 9c5A=
+X-Gm-Gg: ASbGncvBxO0TMHLUq4ndIT6BpgbR7+q9xRoIuQae7aMoM9KTugxGCk7IM9X4/FuqKFB
+ Ix7t/HMLfIYRdxx2lXM8rV6OvOq9cl26Sljd8YsZ0VLfYSc7yBBOdX5Y62VTkmR5yx9Ahuc8/Za
+ PVb+bXmOO6Qli1i1MKtZaaIM6Rc0Co2a0uKG6MxSZGUHz0aA9c+jQ6JeTydi6s2ydRVMF/U2oVo
+ xIrUgpu/uqowLX0KYTef5XE9vP7ouU8OJgpDjG7117UIaLWJyX+WjXrkPExpCB1wUGjnSfcB9HS
+ 3/VNicrzoBecyhKiDCXf1PlESAtsQOsw8rxPHtwcz/3yDp8hWtFaQb9UfEstnUXs3qZCzRstfuy
+ +y+GXLw78LfTARyw5OMAY2PoeEr8EUXlIMWk6B4cri3Ec0rKHz+xslZdTV6mEZI1d0NfPH4RNAT
+ Sz
+X-Google-Smtp-Source: AGHT+IFC4aG2HQwQY0+JEU8AcgO0j4fD9A6W/ayazASdO1xSG8b7GLx78Z8rPX5IgOWaztgpG5tVkQ==
+X-Received: by 2002:a05:6a20:6a0c:b0:240:26e:a976 with SMTP id
+ adf61e73a8af0-2409a3b9a8bmr2257925637.1.1754950208744; 
+ Mon, 11 Aug 2025 15:10:08 -0700 (PDT)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com.
+ [209.85.215.178]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b428ba4cf35sm10998940a12.14.2025.08.11.15.10.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Aug 2025 15:10:07 -0700 (PDT)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-b4233f86067so2890270a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 15:10:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVfeHQ++9DchPFQ20EJwJyun5UARspW7zbpiCwoMHXY6fzGobPJOqV17f9j3j1/1MG8mZoOVLU+QDY=@lists.freedesktop.org
+X-Received: by 2002:a17:903:22c1:b0:240:ac96:e054 with SMTP id
+ d9443c01a7336-242fc39c707mr16059165ad.23.1754950206336; Mon, 11 Aug 2025
+ 15:10:06 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB6691:EE_|MN2PR12MB4207:EE_
-X-MS-Office365-Filtering-Correlation-Id: 58daf08b-2ff7-445a-ff3e-08ddd9220a40
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Z7RzuHOJydQhT2OX3j9aX08lcXhJZWt50bL3R03GM9aVks4jw6D3ZM7eflEZ?=
- =?us-ascii?Q?j/D8199EtI4e0u1JaIKBEy6ikxqybUX4Ap2VHBxHj34wZifsALLKXxX1KM4C?=
- =?us-ascii?Q?tF0RWs8Dm4E7NORNcaRdInYCGPL2xS4lr+m8caFgcxgkkL3KlIoaeGpSoCbx?=
- =?us-ascii?Q?fJClK4Uc71KAkAzHQECTQQU7TVRMwq3nbCHwEyqgqotjwT5mrWzzIKQHiK+X?=
- =?us-ascii?Q?MH1oHoQKScZVhN1yJUPly5407Ic77wuF5Z6K7cDEHnLTLHcUIw/XD3VS0Wmn?=
- =?us-ascii?Q?Hw1mhHi/1Ku1W7w8gVj+1SG0QdKS81J/Vi3DngGugF6dnEqGs017JHEchKt4?=
- =?us-ascii?Q?aKE4qPVJTfv9xvZsMPhAxRa5LuzlGcokToKjETIDckcuONyw2rgrJuj+XsUn?=
- =?us-ascii?Q?RpOYW1sp075/ltGL7r5frr5KxDGY5WlNGuw/vWqTciRPsATWTt/ii3V4W3Co?=
- =?us-ascii?Q?DyUUFzVmzkmbNDEbiO1Hl85s4/r5vTtreVVUxvv97kLQfv2uAJbUkwyqITgw?=
- =?us-ascii?Q?myyThqvuY5usxrDJWMrABdBvpRLiXJ1uckH5sk7GBpH59g9GFKeNAXv4Xy7A?=
- =?us-ascii?Q?Aa4oxOE+r1fqVBr/CinUOQd9MEHI8cliyeGLjSnkMQlke1bEW26W5q0mqpzK?=
- =?us-ascii?Q?QjnschzVj/rDB6rG5xNxJColJXI7ibKEOBS4wDTXw9Btqif6GKdgknJrftGa?=
- =?us-ascii?Q?sW8TnVB5fc4QQyTicEN0vgt+vnfmhgK3pBMROv1PWmzs3GkN2aJHDh/ynEMw?=
- =?us-ascii?Q?FNy/2ZSCaSQ26oHfGx3mp59MS+sQXXI+qV5aiMPdgBnjMbVYMEwMTpxu35tL?=
- =?us-ascii?Q?6N/oH34jtbcpj4gFp9fSXhQqNqcD2mQLzvy4qsv7dd6DvCbXLhPOb9fdqzaL?=
- =?us-ascii?Q?eyDAOrljSt6QkVd9aP6wsSY8AcZ5DCgUKlLHCurJ4N4lOuq0xaFwSSaPlAfI?=
- =?us-ascii?Q?TSp1L0tNpF/tWJK2CKNwnlELcRd6dGiqjJbhD5tek+PDGQhrnTfvLC0lNd7W?=
- =?us-ascii?Q?LVMSBNNohxK2jkPc+XX89ifYG5Gu0OUczdJH4DvkNdKmX7FVxK6NmPWqSqan?=
- =?us-ascii?Q?vt5Yz9im+RO2pkm1YXxyVlJrXSVPL2rk2FOCP6zZ/EB8VWwCACOhXxmDH6y9?=
- =?us-ascii?Q?Sl7AxfvnlaOljsDHskw6zJ9p72WF0iZNyeVSIm9YiDkGI8jq6qDrHI/Nv2As?=
- =?us-ascii?Q?lCZoTWqn7ZQ1z9F7yD5DQ1UuvZloRer92fItaOkTklj2nMitCZ9OXNYV4Kv0?=
- =?us-ascii?Q?HmcQ1S2Iwlf/rcu0eawAMktKvjYPn8FId7fPI7F8irVui6HlkUI3QTwD8kwx?=
- =?us-ascii?Q?wWWdo6VnRf524xdjxT0uVTZgSbBfeUwnFmxRybmPaZooGHYziPQVRulNXCm3?=
- =?us-ascii?Q?tTECHhj7IoP4wMdixqug6YzMyKD66SCycqEPgJnB70e6I1Y9SQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB6691.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gsG5M3+4tF6J9Kzs7iJK5CYeKqD9GimQ9IIDYHl4y1aN7bKi8A799wRuadb/?=
- =?us-ascii?Q?+jHKKb2WLs0PLKknWOfb6UhkFQQeH4YuouSjhYmopHjFdHeJsXWisb5CLZ/r?=
- =?us-ascii?Q?LCvKvofhh3c4b+AdWfOewFblXFxpAE0l6Jtfv/45etrCCAac845s6X+XLuWJ?=
- =?us-ascii?Q?Bt1/WfKtLCAqUaKclFOCctn76zy9XJnTUOrusEiVCeLJBVvXVfjWViF03/Pv?=
- =?us-ascii?Q?iAmO+C2WvZowluRdp/tNEwr3Dtc587RsQEXrC6j+c3hpfiZtCp5mvqzuoDdl?=
- =?us-ascii?Q?pbHS8sb0dD6bT5Ruz66ElWRXQGh7iGY8HY9QxWklbtxS/MvMcpwn2IJD/T6C?=
- =?us-ascii?Q?YpnZNQJkatt1ie6WXMxp/rDr1O7PWkgMzwpVNuS792A5B+nkeOFu1lyEy8n5?=
- =?us-ascii?Q?HzyNZJRPVwOkasDAuEaSjc+ejvY+ILWB7bQXuePyAl1Ec7ytVaJkQaf21+jl?=
- =?us-ascii?Q?R3rIo34I+Hye1wvcxKYJ2Ai9ZUm5NW6E5hubAFOd8J4+8CRyzlHH642/Qn/8?=
- =?us-ascii?Q?BW7gLNPf7XxmKlH4X7ZTY6IPc7qEhqoVm+Ebbm3+NzQcxJHh4IY+pRDV2Q4z?=
- =?us-ascii?Q?FYBrrfOt34tL4XObh1Qe1seL+IiYKoUuHh+0gDam+BismKPGXwu30JwcuKXb?=
- =?us-ascii?Q?nEPDbnhCmi9AV32D7WVyIwbDeqQ+olYQVnOJdWSgupiYUCT2BdjSoa9t+dIF?=
- =?us-ascii?Q?jCleDVsHx38kD1s06tg2lJDlQxc4l7rzxrivVf4OTRuZz8qY+/WG2BWld8ml?=
- =?us-ascii?Q?cmJ/3WV7MaQUHcrZkN7bd25H+rD/hBWmVI3mM5WpAeahWSXl+iQeQqxyJtyS?=
- =?us-ascii?Q?iNpOT2S23TvuirsD0AmWGvoXwLkA2Op/IkAd/TefT5M9XV/HzBSYLxW2+BNK?=
- =?us-ascii?Q?E8+RHFCmmdx0+9nMKfsTl/4+BTL2OGDsGzkKuiL4oI8IOTxID4Eimdr/3qYB?=
- =?us-ascii?Q?C+qJ3gYUQy78IrGKAxZFjDTG8lTDINd14DhYrz2rz5t3LJHYmsMx+Tjpr6y7?=
- =?us-ascii?Q?Ebvy9mhxqp4N2RIGK/CHYep3Xl9AjLP74ns4QYg600l7uB1ABfKDxXaaNIqy?=
- =?us-ascii?Q?pUrOAUY+VTIytP6xNdKTjO8VWkVP+TFmpyblRG2TVoaNgDrQDQfNceTaW5wL?=
- =?us-ascii?Q?oIEJMa8VaNCmliRbTLtgY4Rt/i/nGOvSFuodok+bQs6cQdQ/poQKxrj/s9hI?=
- =?us-ascii?Q?Pe366H5gE9FJB7h4D37QFli8+q+JyqIk/jIe7P9GUzXq7B93hX2Ajk5G5g3Z?=
- =?us-ascii?Q?TMoDYXJvl+/6NweOWy01IQa2RoOfUR8qWfbkYNDGyP9dUsyr8ZJS5oCk2hFP?=
- =?us-ascii?Q?jEJb+m+VVUUejpBGdlegla4T1Tur725zaR1lX9WbW5T4TmWOLVaWrl33FzRK?=
- =?us-ascii?Q?cdqg7+9QttIwATsl+26sKgWYIjcisLcPeYzSpZI18TuCafssjxc6YvUHwjmc?=
- =?us-ascii?Q?PRbajrmapavokkKkshdHZWIxyfABRaaaXSZJFityak7s1RxXJK56B8IrJJvq?=
- =?us-ascii?Q?7JWiG1xTXjCl4PmNh1oTHm8Z3n1NMAhKcQ9e1J//qUNqMhrFmLGd1Od8XX18?=
- =?us-ascii?Q?sTnmK1yfAsavJPVK4Hc7gjXoftFpLflJw324XMKP?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58daf08b-2ff7-445a-ff3e-08ddd9220a40
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB6691.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2025 21:57:18.2127 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gqxMHwaPARKYun8mf2oCrOxi4/lcptzExWMuAUUs3bjEtLejVgWaDaHBJ725/ejGTAsWnF0mIbS/zDnHDdRB3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4207
+References: <aJKvm3SlhLGHW4qn@jander>
+In-Reply-To: <aJKvm3SlhLGHW4qn@jander>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 11 Aug 2025 15:09:54 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UGVi0q2Vgp_JALjcBJMzw+C9uOfzfzGGE_YnJOgYVjAg@mail.gmail.com>
+X-Gm-Features: Ac12FXyJsKrTSQ36G9lHnh52Fq9-wqIdM2Q0ZgO3RGoXAGLXCYzUVarebSqfLfA
+Message-ID: <CAD=FV=UGVi0q2Vgp_JALjcBJMzw+C9uOfzfzGGE_YnJOgYVjAg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add SHP LQ134Z1 panel for Dell XPS 9345
+To: Christopher Orr <chris.orr@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,149 +105,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-8 and 16 bit formats use a different layout on
-GB20x than they did on prior chips. Add the
-corresponding DRM format modifiers to the list of
-modifiers supported by the display engine on such
-chips, and filter the supported modifiers for each
-format based on its bytes per pixel in
-nv50_plane_format_mod_supported().
+Hi,
 
-Note this logic will need to be updated when GB10
-support is added, since it is a GB20x chip that
-uses the pre-GB20x sector layout for all formats.
+On Tue, Aug 5, 2025 at 6:28=E2=80=AFPM Christopher Orr <chris.orr@gmail.com=
+> wrote:
+>
+> Introduce high-res OLED panel for the Dell XPS 9345
+>
+> These timings were selected based on Alex Vinarkskis' commit,
+> (6b3815c6815f07acc7eeffa8ae734d1a1c0ee817) for the LQ134N1
+> and seem to work fine for the high-res OLED panel on the 9345.
+>
+> The raw edid for this SHP panel is:
+>
+> 00 ff ff ff ff ff ff 00 4d 10 8f 15 00 00 00 00
+> 2e 21 01 04 b5 1d 12 78 03 0f 95 ae 52 43 b0 26
+> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 fd d7 00 a0 a0 40 fc 66 30 20
+> 36 00 20 b4 10 00 00 18 00 00 00 fd 00 1e 78 cc
+> cc 38 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
+> 37 31 4d 31 81 4c 51 31 33 34 5a 31 00 00 00 00
+> 00 02 41 0c 32 01 01 00 00 0b 41 0a 20 20 01 ea
+>
+> 70 20 79 02 00 20 00 13 8c 52 19 8f 15 00 00 00
+> 00 2e 17 07 4c 51 31 33 34 5a 31 21 00 1d 40 0b
+> 08 07 00 0a 40 06 88 e1 fa 51 3d a4 b0 66 62 0f
+> 02 45 54 d0 5f d0 5f 00 34 13 78 26 00 09 06 00
+> 00 00 00 00 41 00 00 22 00 14 d9 6f 08 05 ff 09
+> 9f 00 2f 00 1f 00 3f 06 5d 00 02 00 05 00 25 01
+> 09 d9 6f 08 d9 6f 08 1e 78 80 81 00 0b e3 05 80
+> 00 e6 06 05 01 6a 6a 39 00 00 00 00 00 00 58 90
+>
+> Signed-off-by: Christopher Orr <chris.orr@gmail.com>
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Signed-off-by: James Jones <jajones@nvidia.com>
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c     |  4 ++-
- drivers/gpu/drm/nouveau/dispnv50/disp.h     |  1 +
- drivers/gpu/drm/nouveau/dispnv50/wndw.c     | 24 +++++++++++++--
- drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c | 33 +++++++++++++++++++++
- 4 files changed, 59 insertions(+), 3 deletions(-)
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index e97e39abf3a2..12b1dba8e05d 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -2867,7 +2867,9 @@ nv50_display_create(struct drm_device *dev)
- 	}
- 
- 	/* Assign the correct format modifiers */
--	if (disp->disp->object.oclass >= TU102_DISP)
-+	if (disp->disp->object.oclass >= GB202_DISP)
-+		nouveau_display(dev)->format_modifiers = wndwca7e_modifiers;
-+	else if (disp->disp->object.oclass >= TU102_DISP)
- 		nouveau_display(dev)->format_modifiers = wndwc57e_modifiers;
- 	else
- 	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_FERMI)
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.h b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-index 15f9242b72ac..5d998f0319dc 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.h
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.h
-@@ -104,4 +104,5 @@ struct nouveau_encoder *nv50_real_outp(struct drm_encoder *encoder);
- extern const u64 disp50xx_modifiers[];
- extern const u64 disp90xx_modifiers[];
- extern const u64 wndwc57e_modifiers[];
-+extern const u64 wndwca7e_modifiers[];
- #endif
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index e2c55f4b9c5a..ef9e410babbf 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -786,13 +786,14 @@ nv50_wndw_destroy(struct drm_plane *plane)
- }
- 
- /* This function assumes the format has already been validated against the plane
-- * and the modifier was validated against the device-wides modifier list at FB
-+ * and the modifier was validated against the device-wide modifier list at FB
-  * creation time.
-  */
- static bool nv50_plane_format_mod_supported(struct drm_plane *plane,
- 					    u32 format, u64 modifier)
- {
- 	struct nouveau_drm *drm = nouveau_drm(plane->dev);
-+	const struct drm_format_info *info = drm_format_info(format);
- 	uint8_t i;
- 
- 	/* All chipsets can display all formats in linear layout */
-@@ -800,13 +801,32 @@ static bool nv50_plane_format_mod_supported(struct drm_plane *plane,
- 		return true;
- 
- 	if (drm->client.device.info.chipset < 0xc0) {
--		const struct drm_format_info *info = drm_format_info(format);
- 		const uint8_t kind = (modifier >> 12) & 0xff;
- 
- 		if (!format) return false;
- 
- 		for (i = 0; i < info->num_planes; i++)
- 			if ((info->cpp[i] != 4) && kind != 0x70) return false;
-+	} else if (drm->client.device.info.chipset >= 0x1b2) {
-+		const uint8_t slayout = ((modifier >> 22) & 0x1) |
-+			((modifier >> 25) & 0x6);
-+
-+		if (!format)
-+			return false;
-+
-+		/*
-+		 * Note in practice this implies only formats where cpp is equal
-+		 * for each plane, or >= 4 for all planes, are supported.
-+		 */
-+		for (i = 0; i < info->num_planes; i++) {
-+			if (((info->cpp[i] == 2) && slayout != 3) ||
-+			    ((info->cpp[i] == 1) && slayout != 2) ||
-+			    ((info->cpp[i] >= 4) && slayout != 1))
-+				return false;
-+
-+			/* 24-bit not supported. It has yet another layout */
-+			WARN_ON(info->cpp[i] == 3);
-+		}
- 	}
- 
- 	return true;
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c b/drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c
-index 0d8e9a9d1a57..2cec8cfbd546 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c
-@@ -179,6 +179,39 @@ wndwca7e_ntfy_set(struct nv50_wndw *wndw, struct nv50_wndw_atom *asyw)
- 	return 0;
- }
- 
-+/****************************************************************
-+ *            Log2(block height) ----------------------------+  *
-+ *            Page Kind ----------------------------------+  |  *
-+ *            Gob Height/Page Kind Generation ------+     |  |  *
-+ *                          Sector layout -------+  |     |  |  *
-+ *                          Compression ------+  |  |     |  |  */
-+const u64 wndwca7e_modifiers[] = { /*         |  |  |     |  |  */
-+	/* 4cpp+ modifiers */
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 0),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 1),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 2),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 3),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 4),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 1, 2, 0x06, 5),
-+	/* 1cpp/8bpp modifiers */
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 0),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 1),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 2),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 3),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 4),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 2, 2, 0x06, 5),
-+	/* 2cpp/16bpp modifiers */
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 0),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 1),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 2),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 3),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 4),
-+	DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D(0, 3, 2, 0x06, 5),
-+	/* All formats support linear */
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID
-+};
-+
- static const struct nv50_wndw_func
- wndwca7e = {
- 	.acquire = wndwc37e_acquire,
--- 
-2.50.1
+Pushed to drm-misc-next:
 
+[1/1] drm/panel-edp: Add SHP LQ134Z1 panel for Dell XPS 9345
+      commit: 754dbf164acd4d22dd7a5241b1880f54546d68f2
