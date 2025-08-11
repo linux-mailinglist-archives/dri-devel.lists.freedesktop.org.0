@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5EAB20932
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 14:49:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D37E1B21F96
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 09:33:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E43510E467;
-	Mon, 11 Aug 2025 12:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93CC910E5A9;
+	Tue, 12 Aug 2025 07:33:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="A33YU2N3";
+	dkim=pass (2048-bit key; unprotected) header.d=listout.xyz header.i=@listout.xyz header.b="Pj/pccSS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B270A10E45F;
- Mon, 11 Aug 2025 12:49:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=C/ouciPejbKLferniMXIWd7m5vVLOMUZSc6dDmeKvLA=; b=A33YU2N3016jHl2pg9+J58I34w
- Juf2goOUa+yDYqfG/lbEa71pLiEVFfeZymppZtBvom9MgNKdNWHBks181gqGWGTwcWISk20XPrbnn
- u3nuAljzB5jLlcMv25Of1Cp2ALnkVNfoEFHuARkvNwfXz8hXgBRq+44lkJfHFHGqIdwWRED+1Sn0J
- Y9L/YkY1Ry7yD/uozyMH1C0oRcsH2Nbq+LkkF0h4Jgvih3Uz7zWKqX/5OsNYQqh8kERuLy5D6fPuv
- 6PnSGhx3WLioTy4FZp9tf0ZMA0l4qcN9gH4rAeJj/tX90nnx9YUqPzl+ZJ2Rnx7TEFmYLhCmmIRNE
- eMqKPyZQ==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1ulRxR-00CmFD-It; Mon, 11 Aug 2025 14:48:57 +0200
-Message-ID: <60cba603-7a18-4fc9-a1d7-376012ff30ec@igalia.com>
-Date: Mon, 11 Aug 2025 13:48:56 +0100
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 319EB10E10E;
+ Mon, 11 Aug 2025 13:11:49 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4c0w5D5vn9z9slH;
+ Mon, 11 Aug 2025 15:11:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
+ t=1754917904;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nn7J5B2Aq1IDeL4KLSwsL1A7sTtX38IT2nssYyCR2Hg=;
+ b=Pj/pccSSXFpsAeFaoXQdP4xi95b2D8/Lrnk3ADAfSu9xaqbTEEFaTjiyu7hz9Kszb5je5e
+ bzXcvxB6yt+DAP1A1hcWrymIBx9a7kDVD42WinC40b+MmghsnlQcG0RkTthtN15SweynMo
+ Fo9ZNScmCnTRlc+DA84/C6xOZX+jDHRV8fF2x4qnB8SUeoV1PtSwGDyOx3zWgrhE7eTrIu
+ 8XDJDDZcOmNFhyztRNrI4vCH20TvwpmLebkARK3Xh1hwC0aTDzrqbI1zKDUrTZ7yj86yfO
+ xIoNpD0CN1QGK1XD+WsyNZp6jza4a7oKXtTKaeu7jMYdJ/3JNQyXs2xLOKVPYA==
+Authentication-Results: outgoing_mbo_mout; dkim=none;
+ spf=pass (outgoing_mbo_mout: domain of listout@listout.xyz designates
+ 2001:67c:2050:b231:465::102 as permitted sender)
+ smtp.mailfrom=listout@listout.xyz
+From: Brahmajit Das <listout@listout.xyz>
+To: jani.nikula@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, joonas.lahtinen@linux.intel.com,
+ linux-next@vger.kernel.org, listout@listout.xyz, rodrigo.vivi@intel.com,
+ simona@ffwll.ch, tursulin@ursulin.net
+Subject: [RFC PATCH 0/2] use new debugfs device-centered functions
+Date: Mon, 11 Aug 2025 18:41:24 +0530
+Message-ID: <20250811131126.71883-1-listout@listout.xyz>
+In-Reply-To: <32c55ab0b1452a1fd8ef49e8a1ca640ad5bd9d76@intel.com>
+References: <32c55ab0b1452a1fd8ef49e8a1ca640ad5bd9d76@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v7 10/12] drm/sched: Break submission patterns with some
- randomness
-To: phasta@kernel.org, Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-References: <20250724141921.75583-1-tvrtko.ursulin@igalia.com>
- <20250724141921.75583-11-tvrtko.ursulin@igalia.com>
- <fe05e8fd-d56f-4b32-a65b-46c9ef6df9c7@damsy.net>
- <0312116d-b216-4afb-bf9f-210b553fed7f@igalia.com>
- <dda766b27e9a7035dee2f6368b882cc628a73772.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <dda766b27e9a7035dee2f6368b882cc628a73772.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4c0w5D5vn9z9slH
+X-Mailman-Approved-At: Tue, 12 Aug 2025 07:33:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,212 +68,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Replace the use of drm_debugfs_create_files() with the new
+drm_debugfs_add_files() function, which centers the debugfs files
+management on the drm_device.
 
-On 30/07/2025 08:56, Philipp Stanner wrote:
-> On Mon, 2025-07-28 at 12:14 +0100, Tvrtko Ursulin wrote:
->>
->> On 28/07/2025 10:28, Pierre-Eric Pelloux-Prayer wrote:
->>> Le 24/07/2025 à 16:19, Tvrtko Ursulin a écrit :
->>>> GPUs generally don't implement preemption and DRM scheduler definitely
->>>> does not support it at the front end scheduling level. This means
->>>> execution quanta can be quite long and is controlled by userspace,
->>>> consequence of which is picking the "wrong" entity to run can have a
->>>> larger negative effect than it would have with a virtual runtime based
->>>> CPU
->>>> scheduler.
->>>>
->>>> Another important consideration is that rendering clients often have
->>>> shallow submission queues, meaning they will be entering and exiting the
->>>> scheduler's runnable queue often.
->>>>
->>>> Relevant scenario here is what happens when an entity re-joins the
->>>> runnable queue with other entities already present. One cornerstone of
->>>> the
->>>> virtual runtime algorithm is to let it re-join at the head and depend on
->>>> the virtual runtime accounting to sort out the order after an execution
->>>> quanta or two.
->>>>
->>>> However, as explained above, this may not work fully reliably in the GPU
->>>> world. Entity could always get to overtake the existing entities, or not,
->>>> depending on the submission order and rbtree equal key insertion
->>>> behaviour.
->>>>
->>>> We can break this latching by adding some randomness for this specific
->>>> corner case.
->>>>
->>>> If an entity is re-joining the runnable queue, was head of the queue the
->>>> last time it got picked, and there is an already queued different entity
->>>> of an equal scheduling priority, we can break the tie by randomly
->>>> choosing
->>>> the execution order between the two.
->>>>
->>>> For randomness we implement a simple driver global boolean which selects
->>>> whether new entity will be first or not. Because the boolean is global
->>>> and
->>>> shared between all the run queues and entities, its actual effect can be
->>>> loosely called random. Under the assumption it will not always be the
->>>> same
->>>> entity which is re-joining the queue under these circumstances.
->>>>
->>>> Another way to look at this is that it is adding a little bit of limited
->>>> random round-robin behaviour to the fair scheduling algorithm.
->>>>
->>>> Net effect is a significant improvemnt to the scheduling unit tests which
->>>> check the scheduling quality for the interactive client running in
->>>> parallel with GPU hogs.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>> Cc: Philipp Stanner <phasta@kernel.org>
->>>> Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->>>> ---
->>>>    drivers/gpu/drm/scheduler/sched_rq.c | 10 ++++++++++
->>>>    1 file changed, 10 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/
->>>> scheduler/sched_rq.c
->>>> index d16ee3ee3653..087a6bdbb824 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_rq.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
->>>> @@ -147,6 +147,16 @@ drm_sched_entity_restore_vruntime(struct
->>>> drm_sched_entity *entity,
->>>>                 * Higher priority can go first.
->>>>                 */
->>>>                vruntime = -us_to_ktime(rq_prio - prio);
->>>> +        } else {
->>>> +            static const int shuffle[2] = { -100, 100 };
->>>> +            static bool r = 0;
->>>> +
->>>> +            /*
->>>> +             * For equal priority apply some randomness to break
->>>> +             * latching caused by submission patterns.
->>>> +             */
->>>> +            vruntime = shuffle[r];
->>>> +            r ^= 1;
->>>
->>> I don't understand why this is needed at all?
->>>
->>> I suppose this is related to how drm_sched_entity_save_vruntime saves a
->>> relative vruntime (= entity rejoins with a 0 runtime would be impossible
->>> otherwise) but I don't understand this either.
->>
->> Two things (and a bit more) to explain here for the record. And as
->> agreed off-line I need to add some more code comments for this are in
->> the next respin.
->>
->> First the saving of "vruntime - min_runtime" when entity exits the
->> run-queue.
->>
->> That is a core CFS concept AFAIU which enables the relative position of
->> the entity to be restored once it re-enters the rq.
->>
->> It only applies on the scenario when the picked entity was not the head
->> of the queue, due the actual head being not runnable due a dependency.
->>
->> If the picked entity then leaves the queue and re-joins, this relative
->> vruntime is used to put it back where it was relative to the unready
->> entity (which may have became ready by now and so it needs to be picked
->> next and not overtaken so easily.)
-> 
-> I'm afraid I also don't get it completely. So you're saying that with
-> this jitter-mechanism we can preserve the relative order of entities?
-> But the actual patch title says that it's about breaking such patterns,
-> or isn't it? "Break submission patterns"
-> 
-> Maybe you can help improve my understanding by us reversing the
-> question:
-> 
-> If that jitter-mechanism is dropped, what will be the negative
-> consequence?
+Refer:
+https://docs.kernel.org/gpu/todo.html#clean-up-the-debugfs-support
 
-Some workloads would suffer. Or to better say, make smaller gains 
-compared to the current FIFO. With this they can bridge the gap to RR 
-much more.
+Brahmajit Das (2):
+  drm/i915/debugfs: use new debugfs device-centered functions
+  drm/i915: use new debugfs device-centered functions
 
-> Entities with similar vruntimes would always run in the same order,
-> correct? So the patch is not so much about GPU time fairness, but about
-> response / delay fairness.
+ drivers/gpu/drm/i915/display/intel_display_debugfs.c | 7 +++----
+ drivers/gpu/drm/i915/i915_debugfs.c                  | 7 +++----
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-Not similar vruntimes, but it is about the _identical_. This identical 
-case happens by CFS design when idle entity (re-)joins the run queue. It 
-inherits the current min vruntime of the rq and from then on CFS relies 
-on timeslicing (preemption) to balance them out. And because with GPUs 
-time slices are long, even controlled by userspace because preemption is 
-not universally present (not at all with DRM scheduler at the frontend 
-level), making a wrong choice of what to run first can hurt us much more 
-than in the CPU world.
-
-So for example when two entities enter the rq 1ns apart, and the second 
-one was picked from head of the queue in its last activity period, the 
-new pick order is determined by the rbtree traversal order for nodes 
-with identical keys. Whether in practice or by contract that ends up 
-being FIFO. Ie. above entities which entered the rq 1ns apart will 
-always run in FIFO order.
-
-And FIFO is quite bad with light to medium usage interactive clients 
-running in parallel to GPU hogs. Regardless if the hog as a queue depth 
-or more than one job deep, or just happened to submit its long single 
-job 1ns earlier than the interactive client.
-
-This patch therefore mixes things up a bit for this specific case and 
-that seems to work quite well in practice:
-
-https://people.igalia.com/tursulin/drm-sched-fair/4-heavy-vs-interactive.png
-
-https://people.igalia.com/tursulin/drm-sched-fair/4-very-heavy-vs-interactive.png
-
-With two competing clients it ends up a bit like RR (again, for this 
-specific set of pre-requisites, not RR for everyone and everything), 
-where the two alternate as to who gets to run first.
-
-With more than two clients it all becomes much more random (compared to 
-alternating) because the "randomizer" is a one bit toggle shared across 
-the whole system. So different GPU engines, different GPUs, different 
-entities, they all toggle it and combined with the time domain I think 
-is safer from any latching behaviour induced by submission timings, 
-patterns or interactions with the CPU scheduler.
-
-Regards,
-
-Tvrtko
-
->> It has to be the relative vruntime that is preserved, ie. entity which
->> re-enters cannot simply keep its previous vruntime, since by then that
->> could lag significantly behind the vruntime of other active entities,
->> which in turn would mean the re-joining entity could be head of the
->> queue for a long time.
->>
->> Second part is the special case from the quoted patch and that only
->> applies to entities which are re-joining the queue after having been
->> picked from the head _and_ there is another entity in the rq.
->>
->> By the nature of the CFS algorithm the re-joining entity continues with
->> the vruntime assigned from the current rq min_vruntime. Which puts two
->> entities with the same vruntime at the head of the queue and the actual
->> picking order influenced by the submit order (FIFO) and rbtree sort
->> order (did not check). But in any case it is not desirable for all the
->> description of GPU scheduling weaknesses from the commit text (this patch).
->>
->> For this special case there are three sub-paths:
->>
->>    1. Re-joining entity is higher scheduling prio -> we pull its vruntime
->> a tiny bit ahead of the min_vruntime so it runs first.
->>
->>    2. Lower re-joining prio -> the opposite of the above - we explicitly
->> prevent it overtaking the higher priority head.
->>
->>    3. Equal prio -> apply some randomness as to which one runs first.
->>
->> Idea being avoidance of any "latching" of the execution order based on
->> submission patterns. Which kind of applies a little bit of
->> round/random-robin for this very specific case of equal priority entity
->> re-joining at the top of the queue.
->>
->> Regards,
->>
->> Tvrtko
->>
-> 
+-- 
+2.50.1
 
