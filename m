@@ -2,60 +2,223 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E23B20757
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 13:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7402B20765
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 13:19:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A358910E44B;
-	Mon, 11 Aug 2025 11:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70B7510E453;
+	Mon, 11 Aug 2025 11:19:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="JMkMhpLp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="by/SvY5T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A86DB10E44B
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 11:18:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1754911106; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=H+XhHPSkbbhL9hEz1jJqSmUNIvuA0JAggLaCtCnzYCPqdrI/zWOZWa2zgD0ZSrgkGkKNXZJ1bSGO98BoobCBOfsAh5LUxeBAe39pioRjwa5WgEjipOoe1+aPMy9XHyHqn1g3/QfFnIj0SMdAwbw4TgD6L28xFDSQeqV+iF4S+UM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1754911106;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=epVpgvKSi81oM2W/QSFNQYrF9MqxnzmHOIRj4iQ65DY=; 
- b=GheG7kucs0iZQDFRb2EFh5NL5ylS54/Ho0xZVhxOZa+8F22EsaKMF4/Lx9j2CtLKPb6rEedcl9OINH/dtODwrpNcigBjAR5/lWZ/IlJUICxTUq8djV0R2sY7BD0Msnw+0aDGlgMpljrC1qY+3JNDEFVLpH8vhsOmDnZd1sSWN20=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754911106; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=epVpgvKSi81oM2W/QSFNQYrF9MqxnzmHOIRj4iQ65DY=;
- b=JMkMhpLpbChUjAiUNO9rPAnUR2caRpdKrleYZYKoi16UZPDc4Y34Ed9gWeMZl1dC
- VKBe485xq/Xv5sblrnlhfCxMMftBa29Y7lKre6ZOiPjlbxGPzK1Z2+3ZyhkjKelpAd+
- wQuwTvY10e/IFwkY1NtxozggSLFMtyb5B4DJ2Y8c=
-Received: by mx.zohomail.com with SMTPS id 1754911103616723.0363632413092;
- Mon, 11 Aug 2025 04:18:23 -0700 (PDT)
-Date: Mon, 11 Aug 2025 12:18:18 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, Mihail Atanassov <mihail.atanassov@arm.com>
-Subject: Re: [PATCH v5 1/7] drm/panthor: Add performance counter uAPI
-Message-ID: <55jldi5juqago77cm2pgvohekfmnyglzal53j7ldnebmjuhaja@ysadebgv47su>
-References: <cover.1753449448.git.lukas.zapolskas@arm.com>
- <f8d45068a7d602872e7ced6953619e1abf5edb3c.1753449448.git.lukas.zapolskas@arm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB99310E451;
+ Mon, 11 Aug 2025 11:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1754911170; x=1786447170;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=8bpewh5qrdXMZLJrguI8TsHYnr/9d45RS+bSJJpct5M=;
+ b=by/SvY5T5z0b0T0wIXyRr0f4SAjDh8ZghJAb7cPmFXDt4ByNgHC49DmT
+ JIPZHRM9kEyRt8eyHiOG0EQdHEp+h725nr/Bz1kcT+gWWD/TGxunjdPqj
+ voof6SMdI6bhtwu/SNvfA8gM3ke2jKzvRUSpvALI9KXI9vXVMvtqYOMce
+ yYmy3wC/ff1T3p8DIh6BSdQ7cX+8LYrdTzaSovA7ALKiwjIALGv26lSVZ
+ KSCGf6i5X77PKhCX+sfLqFVR8YaL6QvLTYGK7+r0lW6F7G/Pd12VT9Okf
+ Q42O5ZzrpmvXhL5jVro/sp018Bm4XcUpFjdqgucH/oCGz3kJoNVXnpnnd w==;
+X-CSE-ConnectionGUID: Jgxvyx7MTJaW2anze+LJdA==
+X-CSE-MsgGUID: 2rVUwhPERR6liJaP9xUGLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11518"; a="57081657"
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="57081657"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2025 04:19:29 -0700
+X-CSE-ConnectionGUID: 1+1eSvgSRs+0qDGuxCRGHw==
+X-CSE-MsgGUID: 0ntWQ38rThqj2STjcuMlwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,278,1747724400"; d="scan'208";a="165097206"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Aug 2025 04:19:29 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Mon, 11 Aug 2025 04:19:28 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Mon, 11 Aug 2025 04:19:28 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (40.107.243.43)
+ by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Mon, 11 Aug 2025 04:19:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uaHxgBZ2+e/m566nnsQZmGcCjtXpgxyr78oWbf8g8wrq9K87eEIiZ4Q+z7jlSrncD8gChs9JgBZYkd2svCwap5B27s/GzXexQOnMmUlVBwcYoPPQionmSDbWGL2A+WlSqIlXtotQgxf1/VFRZdhKKZokNXWcEI7bZpc+QRORG3k6Qm5AjCBPyI6y6OSjbzjlU96mMHymT+WXunxHSHDj5U79c5Po8D2xIK/58mLyWr5azG3Mqu58DVCU8iLuOjgyBSilhtCg2VFgHIxHQToa6zwk/K2ryFB/MEVMJXs2j5ePZjkIA0kaymp0gFVhvJCnn0fkDOwDqa4UtUC4jXLnXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8bpewh5qrdXMZLJrguI8TsHYnr/9d45RS+bSJJpct5M=;
+ b=B/DJV/S0C6J2d6U2AraJ5GkM4qQjZLqLraWmv+u1VYHejRCa05mFl+8stTu7xwn6EI9uEVYKtTfp7zqHKo9T9oWko/sw5IAFkyKSzO4yNP+lSvIpPpFLGRTY21JIykLjdNQUJ3bjU45deFDG4amJEH5cURb0ROqCidxlizyD5aNXF9MOyJCPF0YFdBhWc43E0vcGQ+5+0Zs4J4XxWPOCwUnonMymSLUq7F4x7CBzTCiiSoPPy/LWsxEAnBP9byP++q+nhcZRoxc0MnHfHFxKNvHNkKvSpHPMQkru4mavCfQaU6tenRSAmCLsq5PxR/c8jw9ODM+C/Ko4malCjR/5Kg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ (2603:10b6:f:fc00::f13) by SJ0PR11MB5816.namprd11.prod.outlook.com
+ (2603:10b6:a03:427::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.16; Mon, 11 Aug
+ 2025 11:19:26 +0000
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::7aab:2a1f:f728:eb01]) by DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::7aab:2a1f:f728:eb01%5]) with mapi id 15.20.9009.018; Mon, 11 Aug 2025
+ 11:19:26 +0000
+From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>
+CC: "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, "Murthy, Arun R"
+ <arun.r.murthy@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>, "Nikula,
+ Jani" <jani.nikula@intel.com>, "harry.wentland@amd.com"
+ <harry.wentland@amd.com>, "siqueira@igalia.com" <siqueira@igalia.com>,
+ "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "airlied@gmail.com"
+ <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "liviu.dudau@arm.com" <liviu.dudau@arm.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "robin.clark@oss.qualcomm.com"
+ <robin.clark@oss.qualcomm.com>, "abhinav.kumar@linux.dev"
+ <abhinav.kumar@linux.dev>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
+ "sean@poorly.run" <sean@poorly.run>, "marijn.suijten@somainline.org"
+ <marijn.suijten@somainline.org>, "mcanal@igalia.com" <mcanal@igalia.com>,
+ "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
+ "tomi.valkeinen+renesas@ideasonboard.com"
+ <tomi.valkeinen+renesas@ideasonboard.com>,
+ "kieran.bingham+renesas@ideasonboard.com"
+ <kieran.bingham+renesas@ideasonboard.com>, "louis.chauvet@bootlin.com"
+ <louis.chauvet@bootlin.com>
+Subject: RE: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
+ structure
+Thread-Topic: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
+ structure
+Thread-Index: AQHcCqI6AGKw1/GB0USjdMcIW4UewrRdM8uAgAAKoACAAA7iAIAAAG7Q
+Date: Mon, 11 Aug 2025 11:19:26 +0000
+Message-ID: <DM3PPF208195D8D7513998A044E1A54B6D1E328A@DM3PPF208195D8D.namprd11.prod.outlook.com>
+References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
+ <20250811092707.3986802-2-suraj.kandpal@intel.com>
+ <20250811094429.GE21313@pendragon.ideasonboard.com>
+ <awtqznhquyn7etojonmjn7karznefsb7fdudawcjsj5g2bok3u@2iqcdviuiz2s>
+ <20250811111546.GA30760@pendragon.ideasonboard.com>
+In-Reply-To: <20250811111546.GA30760@pendragon.ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|SJ0PR11MB5816:EE_
+x-ms-office365-filtering-correlation-id: f98bd1fb-28f3-4602-44f6-08ddd8c8ee7c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|7416014|376014|366016|1800799024|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?WXZTZmtiT3k3d0h4R1B6L2FSTFYzWDR1SUlKdm4zY1pNeWw2WFpsa2x1NU50?=
+ =?utf-8?B?eVd6UFRxZStrMkc1NnE3TFE1MTdRaVVZSFRjSUVOTWtHbUhScC9WMG9LTFcv?=
+ =?utf-8?B?WXZXd3gvZW1NTzkvc3dzbXRudFVnYyt2eGNYaVZybXk1M3pVQnJFdXdjVUVC?=
+ =?utf-8?B?YWIrNmF1d3V0QVB5bXp3OHpFbHVsVk5BQmg1STNFd2FHMld3MWYvZlFmTU5N?=
+ =?utf-8?B?Q0Jlbjg1MUJoOENSbWhkZGFJeXQwS1ZoQnhVUUNNKzgvUHVlV01EbjVxMElD?=
+ =?utf-8?B?Y2Q0bWpjZzhTQUxNNGVGc29FUGdtNjdGVHFHSFVjalhZOWVxZytHYncyUkFB?=
+ =?utf-8?B?VytXdFZ1S3pLa251RWRpeHEzSkNGVFByMXc2WVdTQmt4akZNT0U1N1AzK29S?=
+ =?utf-8?B?dEFBcU9jOXRrTk1tQndGV3ZTYUpqSGcvQ002YUV0dksrSkhzVUVoZVVvc3R4?=
+ =?utf-8?B?VHF1NzZscnY1eHlOM0kyYjRSdjBlT2p2UVYvcHhVSk9TTVhrdTRhYytuOVJY?=
+ =?utf-8?B?MFRVR1JscXpvZm8vUEFObXF0WWZ1eWxKZFNIbmUwZmF0QUtIMkFBWFJCRThQ?=
+ =?utf-8?B?a3JWQnBHdXowUlVLSkR6dVArZnBMbVp0T2FkZDBQNVVDS2RoNE1zOUlGNFBU?=
+ =?utf-8?B?blZPdk9OVlloNlRlbGkraVYvWldOVEdTS0V5QitFTi9wcnBWaUx6c2tCQkxF?=
+ =?utf-8?B?Ly94Q2RtcUNtRnVLNEhFU0grWWRmRDN1Z0lGWG1hV2V3OHdBaTAxNWI2bzFs?=
+ =?utf-8?B?amNHcytESWQrZjhGaFpySHowNkhnNFowMm9sNksvMEFWaW1oNE01U00vS256?=
+ =?utf-8?B?WkdKUzNyOG5rdTJRT2dyaXoxYy9kcHJyZGh4QW5oTkhTU28zYTNPb0Z4aEE5?=
+ =?utf-8?B?VlpEYVFWWGtiaXd6bkw2aG5pMTI4bm1peDBvQ3FNd3pEK3hGRnQrWWxSSU0z?=
+ =?utf-8?B?NkZLNlhCamhRN1VVbSs2S3pqdk1NaDRVVHlXNm03N0Q2QW9JdC90M2hTK05Y?=
+ =?utf-8?B?NnBabkNubVBDVWJ0b3FQSUhHUm9SMGFCMHdmZmVYRGpSWXZIMFZkMXBiMHBX?=
+ =?utf-8?B?VExtY2N2TDE4QmhraVg3Qkl3MzdDZDJnVDZaWUZFQ05vTEZ5bks4YXRja3Iz?=
+ =?utf-8?B?aGc2cDhHOUFiVTZnakM0dFhQYlF1SVNBcGVORWcycUdONDhUWEJhTElubFVm?=
+ =?utf-8?B?UktpTGU0Q1RpVUlTVXRNUElRc3Rua3ZFWGFsTmt2T3FjZGZYRVZMOHY3SXFa?=
+ =?utf-8?B?Zlo4elhqcGhvZ3lEZGRTZThZenREVGxGQUV2WUxFbUZjODJoVThIbzBwQjd0?=
+ =?utf-8?B?ZVRiTmdhTW5qSlFPT2ZlM0F2TUVsMno1eVo4TERsVURGZWUraGdQaFRCMVV3?=
+ =?utf-8?B?a0pmdzFWTXhlMVh0Q3J2cW9FN1lDcWYyUmNRQ1M5WHB4bjZ0cGpQaGRBSlNw?=
+ =?utf-8?B?QWQzTFhOeC82TEhMM085bFRJV2RnemFlUjRhSFVGcXprNm00QXdtNUE1VHVo?=
+ =?utf-8?B?NnFDZHhmMVdTbFc1bUhSWTZSL3hObTdVNnBTR3dYeHZoa0IyMTM4Q3N2OENQ?=
+ =?utf-8?B?UzZRQjN6cWczN3VPRjh4TmNlWGtyNlZDMEpJMHR4Sk5SVkpQQTgxbmpXV1NE?=
+ =?utf-8?B?MWcxcitReDcrQUk2UzRZemwyd3FFcy9EZ28xQjFySDNGNEl4RmJyTG5aNjFQ?=
+ =?utf-8?B?WXF6VSs3cCtCeWR5L2d6Yk41STV4UzZKSjhkbFBYSDlhdlBZb1F3WnlsL25Y?=
+ =?utf-8?B?a0ZkMkFFcXFVZVpYd2xaUnJmNUZwR2F6NVcvdU9XSG5qaDZkM3pFdzJBVkZw?=
+ =?utf-8?B?aSs0R0pxZnN0ckYvYlpjajU5SFFFZy9aclYybzNQMUU0TU9RY2QreGp6dEdN?=
+ =?utf-8?B?Ylp1VUVaYWVpc1hzQ3NSaDB3cHBUaWJwMHV2TDBtYWQzZzFMa0RweC9kL0hR?=
+ =?utf-8?B?U0tDb3pBa0VlSTlFbmRodldoR3QvTER6N3c5WVhsSVVzQlF6UnVPRnlxNmRE?=
+ =?utf-8?B?eXlaKzdtTHpBPT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T3c3RFQ5SDB4eXhRQ3R0bDNkaE05dUNDRnR6MGZtS2l5eWxhY1BVRm1zUGlL?=
+ =?utf-8?B?MHN1Q1daTVFGOHJiSVlER3dNbzdKdFZNY3drZFo0b0kvWER5WU9lVlZOYnJ6?=
+ =?utf-8?B?SHVaNkVxWkFpRDRIRmlzRjdVbW53WGZEVzJLZFJKTlBtVkltVi8zVmpGa0du?=
+ =?utf-8?B?OVpPZm1aT0x3NDZoQW1SRVJzVFhndzVkVHJPbjliTGxtbkluSnQySTdzakJ5?=
+ =?utf-8?B?QS9sb24wK2Z4blFGVHhGY2IzekEyT1BaMVQ1ci9uVGFWeDJsZGtsM0E5WVVa?=
+ =?utf-8?B?dVNSMVZuSUFhcGo5SHdVblpkTklONXhvRTJnaFpTcUFIazNjbmtlZWlDNlN5?=
+ =?utf-8?B?ckdoSFp6SU9rYWJ2bDdNT0xGZWRxTStwSWsrQ2ppQmt5b0RLR0Y1MkZQQkpQ?=
+ =?utf-8?B?am1oMWNrNFVUcVZacWJma0VjSU1FUTV0dGc2cWlsT3NiSDBDSFIzOWFWWkl2?=
+ =?utf-8?B?OFNMSVlva0EzTEtsdGxUbUVBMFgvSWE0OGYydkgwWkN5amlLMmpDMTR2ZTE5?=
+ =?utf-8?B?eXBPSldmcGluUk9zUkhVK0J6cXdLaFhWMThMQzUyQ2dVOStyMTVMdngzNjRF?=
+ =?utf-8?B?Z2hoR0MvZmJ6cHJHVHJSSHkrVmFmSHR4UWtyVG5RTzREdnlRQ21DREI0MlVs?=
+ =?utf-8?B?UE1NSERicWIzTjhhd3MwK3VGMDF3K1E1UktoY05TU0xyOEx4eWlGUmRPY2ZV?=
+ =?utf-8?B?N3ZOcUR6aUtDQytnVXREbjRQS05KSXl5SzlremlQZDNteHpzWk85Nlg4R2Fq?=
+ =?utf-8?B?SDA2dmdQWTJSV3BWYXNPSWRvbVFrS2dBN3FxZlNrakF3K2hESm1ZQ0pBS1NB?=
+ =?utf-8?B?azJHTERiOWZ0VGNxc2d3ZTYxS3BROEVKdUkzVnhhWHJLVklLQit1RkNZVFpY?=
+ =?utf-8?B?QW15OGw3RitXVXcxc3F5ZDZ4RFRqNXdMU1VyRlVlcG9sZXJDOHFWbEZFT1g4?=
+ =?utf-8?B?bGIxdXJSZkwrdkdoWVp2RWN6RUpRcW1uc25LR1kycW40S29DYXNkQWZIZmRP?=
+ =?utf-8?B?TElCRFVuQ09FUGZxVW4zM0RFZWVlWlAvOUl6K2E4b0FDOENxYjVEbzI0Mk90?=
+ =?utf-8?B?eHBjRE8wT3JyQ256aE5jaDB4ZnQzVWxEbDNrTW9YQWt6Y3F1dlJKNDdCNVR0?=
+ =?utf-8?B?MTNHTTR4djZaS29zWEV1YmZMY0VpcjdIQmJRcDZQNzQ0dzdCTlFLZFBKY0tM?=
+ =?utf-8?B?ZFBsTzFNRy90VjZGay9YRS8zMUNNMElBTi9WKzRhVjBHUlAyK0N3dGpqZDFm?=
+ =?utf-8?B?dzI4MjJGMDl3VDdiVVdqdnQ5dko0SFEvYUwzNFZkU2tJNkp4VzlBL1JEaE5w?=
+ =?utf-8?B?MTg5WTVwb3kvZ3JoZnRsei9La2RQR0plOE5xQWhxVUJHRkdyWEZzbHVwK1dD?=
+ =?utf-8?B?WGQ3V0pGbldkUDVzaTRxVGtKRnBWeFIxQmthYTVGK3lPSDA0dFRtLzYvUVZV?=
+ =?utf-8?B?dVYwTWNlY1locEVKSzZRYzNiYW9oVlkzb1hQK0tQaXhaRFBiYTA5VDlTUTB3?=
+ =?utf-8?B?NzRWMW1idkRWY2xFWEEvaWtSb3lWVGI2NnluVGZ4bm1EdWhoT3p1UXlnL3Zy?=
+ =?utf-8?B?Y1dpOXVFNmRpU2UwY3kyL2hkOVY2QkFqc256aTB1Y1NQc2xFWmRwUGZxTkNh?=
+ =?utf-8?B?VmpwNjlNQkN6RXo3UnRETkExK0I4aTlJdnBnNFlCai9QVHNycUE5dGNUYjdo?=
+ =?utf-8?B?Y3RxRGMwOWIxai92R0JxUTRPcStyeUJiU0ZwbXgxbE03WkhnVHNvWDlNZGhN?=
+ =?utf-8?B?R1BaVEVhQ0tPNE5qcGp4N3NmOXJCYkZCYWd1RDlYbVI2NXp6eGRBUkMwcnFp?=
+ =?utf-8?B?YUZEZ3hUU3FlYTR1aWhmVzNGSGlzOFAzUTdrb3RzVW5hMEpNSzIxcEt2cjIv?=
+ =?utf-8?B?UjYyTzh3VnBHbThwb1ppdHZZOU9EWmFrU1ZMeHcxMXR4TnVuWE11MjRvQ0p1?=
+ =?utf-8?B?TElTTVI0UVZxd3Z1NmN5VENxOHJhSk13aytDeW9nMDI2dEhuWkZzOXhpcENY?=
+ =?utf-8?B?dlBFNGhwTGl1K1dHSkh2NngvNWxPazVsUmlLTGltOE56VjF0UHBBVjJReU9M?=
+ =?utf-8?B?RTlMNy9WaU9aMnRacVJITDdDTWlReCthZmNTTWpyWkE2RklIQklia1dCczA4?=
+ =?utf-8?Q?8lpWQsK4TywCTkIayaCC3ucJq?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f8d45068a7d602872e7ced6953619e1abf5edb3c.1753449448.git.lukas.zapolskas@arm.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f98bd1fb-28f3-4602-44f6-08ddd8c8ee7c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Aug 2025 11:19:26.2202 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: z+iM1Ff0Yabv57Im3r1i+kdhZq2NHv7UGMzVgnEgBbIWY1gZSs2sPajo/gXEnX+28HQNanzirIAks4srTkUEAw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5816
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,646 +234,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.07.2025 15:57, Lukas Zapolskas wrote:
-> This patch extends the DEV_QUERY ioctl to return information about the
-> performance counter setup for userspace, and introduces the new
-> ioctl DRM_PANTHOR_PERF_CONTROL in order to allow for the sampling of
-> performance counters.
->
-> The new design is inspired by the perf aux ringbuffer [0], with the
-> insert and extract indices being mapped to userspace, allowing
-> multiple samples to be exposed at any given time. To avoid pointer
-> chasing, the sample metadata and block metadata are inline with
-> the elements they describe.
->
-> Userspace is responsible for passing in resources for samples to be
-> exposed, including the event file descriptor for notification of new
-> sample availability, the ringbuffer BO to store samples, and the
-> control BO along with the offset for mapping the insert and extract
-> indices. Though these indices are only a total of 8 bytes, userspace
-> can then reuse the same physical page for tracking the state of
-> multiple buffers by giving different offsets from the BO start to
-> map them.
->
-> [0]: https://docs.kernel.org/userspace-api/perf_ring_buffer.html
->
-> Co-developed-by: Mihail Atanassov <mihail.atanassov@arm.com>
-> Signed-off-by: Mihail Atanassov <mihail.atanassov@arm.com>
-> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
-> ---
->  include/uapi/drm/panthor_drm.h | 565 +++++++++++++++++++++++++++++++++
->  1 file changed, 565 insertions(+)
->
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index e1f43deb7eca..f05e4757de0e 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -144,6 +144,9 @@ enum drm_panthor_ioctl_id {
->  	 * pgoff_t size.
->  	 */
->  	DRM_PANTHOR_SET_USER_MMIO_OFFSET,
-> +
-> +	/** @DRM_PANTHOR_PERF_CONTROL: Control a performance counter session. */
-> +	DRM_PANTHOR_PERF_CONTROL,
->  };
->
->  /**
-> @@ -243,6 +246,9 @@ enum drm_panthor_dev_query_type {
->  	 * @DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO: Query allowed group priorities information.
->  	 */
->  	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
-> +
-> +	/** @DRM_PANTHOR_DEV_QUERY_PERF_INFO: Query performance counter interface information. */
-> +	DRM_PANTHOR_DEV_QUERY_PERF_INFO,
->  };
->
->  /**
-> @@ -399,6 +405,135 @@ struct drm_panthor_group_priorities_info {
->  	__u8 pad[3];
->  };
->
-> +/**
-> + * enum drm_panthor_perf_feat_flags - Performance counter configuration feature flags.
-> + */
-> +enum drm_panthor_perf_feat_flags {
-> +	/** @DRM_PANTHOR_PERF_BLOCK_STATES_SUPPORT: Coarse-grained block states are supported. */
-> +	DRM_PANTHOR_PERF_BLOCK_STATES_SUPPORT = 1 << 0,
-> +};
-> +
-> +/**
-> + * enum drm_panthor_perf_block_type - Performance counter supported block types.
-> + */
-> +enum drm_panthor_perf_block_type {
-> +	/** @DRM_PANTHOR_PERF_BLOCK_METADATA: Internal use only. */
-> +	DRM_PANTHOR_PERF_BLOCK_METADATA = 0,
-> +
-> +	/** @DRM_PANTHOR_PERF_BLOCK_FW: The FW counter block. */
-> +	DRM_PANTHOR_PERF_BLOCK_FW,
-> +
-> +	/** @DRM_PANTHOR_PERF_BLOCK_CSHW: The CSHW counter block. */
-> +	DRM_PANTHOR_PERF_BLOCK_CSHW,
-> +
-> +	/** @DRM_PANTHOR_PERF_BLOCK_TILER: The tiler counter block. */
-> +	DRM_PANTHOR_PERF_BLOCK_TILER,
-> +
-> +	/** @DRM_PANTHOR_PERF_BLOCK_MEMSYS: A memsys counter block. */
-> +	DRM_PANTHOR_PERF_BLOCK_MEMSYS,
-> +
-> +	/** @DRM_PANTHOR_PERF_BLOCK_SHADER: A shader core counter block. */
-> +	DRM_PANTHOR_PERF_BLOCK_SHADER,
-> +
-> +	/** @DRM_PANTHOR_PERF_BLOCK_FIRST: Internal use only. */
-> +	DRM_PANTHOR_PERF_BLOCK_FIRST = DRM_PANTHOR_PERF_BLOCK_FW,
-> +
-> +	/** @DRM_PANTHOR_PERF_BLOCK_LAST: Internal use only. */
-> +	DRM_PANTHOR_PERF_BLOCK_LAST = DRM_PANTHOR_PERF_BLOCK_SHADER,
-> +
-> +	/** @DRM_PANTHOR_PERF_BLOCK_MAX: Internal use only. */
-> +	DRM_PANTHOR_PERF_BLOCK_MAX = DRM_PANTHOR_PERF_BLOCK_LAST + 1,
-> +};
-> +
-> +/**
-> + * enum drm_panthor_perf_clock - Identifier of the clock used to produce the cycle count values
-> + * in a given block.
-> + *
-> + * Since the integrator has the choice of using one or more clocks, there may be some confusion
-> + * as to which blocks are counted by which clock values unless this information is explicitly
-> + * provided as part of every block sample. Not every single clock here can be used: in the simplest
-> + * case, all cycle counts will be associated with the top-level clock.
-> + */
-> +enum drm_panthor_perf_clock {
-> +	/** @DRM_PANTHOR_PERF_CLOCK_TOPLEVEL: Top-level CSF clock. */
-> +	DRM_PANTHOR_PERF_CLOCK_TOPLEVEL,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_CLOCK_COREGROUP: Core group clock, responsible for the MMU, L2
-> +	 * caches and the tiler.
-> +	 */
-> +	DRM_PANTHOR_PERF_CLOCK_COREGROUP,
-> +
-> +	/** @DRM_PANTHOR_PERF_CLOCK_SHADER: Clock for the shader cores. */
-> +	DRM_PANTHOR_PERF_CLOCK_SHADER,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_perf_info - Performance counter interface information
-> + *
-> + * Structure grouping all queryable information relating to the performance counter
-> + * interfaces.
-> + */
-> +struct drm_panthor_perf_info {
-> +	/**
-> +	 * @counters_per_block: The number of 8-byte counters available in a block.
-> +	 */
-> +	__u32 counters_per_block;
-> +
-> +	/**
-> +	 * @sample_header_size: The size of the header struct available at the beginning
-> +	 * of every sample.
-> +	 */
-> +	__u32 sample_header_size;
-> +
-> +	/**
-> +	 * @block_header_size: The size of the header struct inline with the counters for a
-> +	 * single block.
-> +	 */
-> +	__u32 block_header_size;
-> +
-> +	/**
-> +	 * @sample_size: The size of a fully annotated sample, starting with a sample header
-> +	 *               of size @sample_header_size bytes, and all available blocks for the current
-> +	 *               configuration, each comprised of @counters_per_block 64-bit counters and
-> +	 *               a block header of @block_header_size bytes.
-> +	 *
-> +	 *               The user must use this field to allocate size for the ring buffer. In
-> +	 *               the case of new blocks being added, an old userspace can always use
-> +	 *               this field and ignore any blocks it does not know about.
-> +	 */
-> +	__u32 sample_size;
-> +
-> +	/** @flags: Combination of drm_panthor_perf_feat_flags flags. */
-> +	__u32 flags;
-> +
-> +	/**
-> +	 * @supported_clocks: Bitmask of the clocks supported by the GPU.
-> +	 *
-> +	 * Each bit represents a variant of the enum drm_panthor_perf_clock.
-> +	 *
-> +	 * For the same GPU, different implementers may have different clocks for the same hardware
-> +	 * block. At the moment, up to three clocks are supported, and any clocks that are present
-> +	 * will be reported here.
-> +	 */
-> +	__u32 supported_clocks;
-> +
-> +	/** @fw_blocks: Number of FW blocks available. */
-> +	__u32 fw_blocks;
-> +
-> +	/** @cshw_blocks: Number of CSHW blocks available. */
-> +	__u32 cshw_blocks;
-> +
-> +	/** @tiler_blocks: Number of tiler blocks available. */
-> +	__u32 tiler_blocks;
-> +
-> +	/** @memsys_blocks: Number of memsys blocks available. */
-> +	__u32 memsys_blocks;
-> +
-> +	/** @shader_blocks: Number of shader core blocks available. */
-> +	__u32 shader_blocks;
-> +};
-> +
->  /**
->   * struct drm_panthor_dev_query - Arguments passed to DRM_PANTHOR_IOCTL_DEV_QUERY
->   */
-> @@ -1037,6 +1172,434 @@ struct drm_panthor_set_user_mmio_offset {
->  	__u64 offset;
->  };
->
-> +/**
-> + * DOC: Performance counter decoding in userspace.
-> + *
-> + * Each sample will be exposed to userspace in the following manner:
-> + *
-> + * +--------+--------+------------------------+--------+-------------------------+-----+
-> + * | Sample | Block  |        Block           | Block  |         Block           | ... |
-> + * | header | header |        counters        | header |         counters        |     |
-> + * +--------+--------+------------------------+--------+-------------------------+-----+
-> + *
-> + * Each sample will start with a sample header of type @struct drm_panthor_perf_sample header,
-> + * providing sample-wide information like the start and end timestamps, the counter set currently
-> + * configured, and any errors that may have occurred during sampling.
-> + *
-> + * After the fixed size header, the sample will consist of blocks of
-> + * 64-bit @drm_panthor_dev_query_perf_info::counters_per_block counters, each prefaced with a
-> + * header of its own, indicating source block type, as well as the cycle count needed to normalize
-> + * cycle values within that block, and a clock source identifier.
-> + */
-> +
-> +/**
-> + * enum drm_panthor_perf_block_state - Bitmask of the power and execution states that an individual
-> + * hardware block went through in a sampling period.
-> + *
-> + * Because the sampling period is controlled from userspace, the block may undergo multiple
-> + * state transitions, so this must be interpreted as one or more such transitions occurring.
-> + */
-> +enum drm_panthor_perf_block_state {
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_BLOCK_STATE_UNKNOWN: The state of this block was unknown during
-> +	 * the sampling period.
-> +	 */
-> +	DRM_PANTHOR_PERF_BLOCK_STATE_UNKNOWN = 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_BLOCK_STATE_ON: This block was powered on for some or all of
-> +	 * the sampling period.
-> +	 */
-> +	DRM_PANTHOR_PERF_BLOCK_STATE_ON = 1 << 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_BLOCK_STATE_OFF: This block was powered off for some or all of the
-> +	 * sampling period.
-> +	 */
-> +	DRM_PANTHOR_PERF_BLOCK_STATE_OFF = 1 << 1,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_BLOCK_STATE_AVAILABLE: This block was available for execution for
-> +	 * some or all of the sampling period.
-> +	 */
-> +	DRM_PANTHOR_PERF_BLOCK_STATE_AVAILABLE = 1 << 2,
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_BLOCK_STATE_UNAVAILABLE: This block was unavailable for execution for
-> +	 * some or all of the sampling period.
-> +	 */
-> +	DRM_PANTHOR_PERF_BLOCK_STATE_UNAVAILABLE = 1 << 3,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_BLOCK_STATE_NORMAL: This block was executing in normal mode
-> +	 * for some or all of the sampling period.
-> +	 */
-> +	DRM_PANTHOR_PERF_BLOCK_STATE_NORMAL = 1 << 4,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_BLOCK_STATE_PROTECTED: This block was executing in protected mode
-> +	 * for some or all of the sampling period.
-> +	 */
-> +	DRM_PANTHOR_PERF_BLOCK_STATE_PROTECTED = 1 << 5,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_perf_block_header - Header present before every block in the
-> + * sample ringbuffer.
-> + */
-> +struct drm_panthor_perf_block_header {
-> +	/** @block_type: Type of the block. */
-> +	__u8 block_type;
-> +
-> +	/** @block_idx: Block index. */
-> +	__u8 block_idx;
-> +
-> +	/**
-> +	 * @block_states: Coarse-grained block transitions, bitmask of enum
-> +	 * drm_panthor_perf_block_states.
-> +	 */
-> +	__u8 block_states;
-> +
-> +	/**
-> +	 * @clock: Clock used to produce the cycle count for this block, taken from
-> +	 * enum drm_panthor_perf_clock. The cycle counts are stored in the sample header.
-> +	 */
-> +	__u8 clock;
-> +
-> +	/** @pad: MBZ. */
-> +	__u8 pad[4];
-> +
-> +	/** @enable_mask: Bitmask of counters requested during the session setup. */
-> +	__u64 enable_mask[2];
-> +};
-> +
-> +/**
-> + * enum drm_panthor_perf_sample_flags - Sample-wide events that occurred over the sampling
-> + * period.
-> + */
-> +enum drm_panthor_perf_sample_flags {
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_SAMPLE_OVERFLOW: This sample contains overflows due to the duration
-> +	 * of the sampling period.
-> +	 */
-> +	DRM_PANTHOR_PERF_SAMPLE_OVERFLOW = 1 << 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_SAMPLE_ERROR: This sample encountered an error condition during
-> +	 * the sample duration.
-> +	 */
-> +	DRM_PANTHOR_PERF_SAMPLE_ERROR = 1 << 1,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_perf_sample_header - Header present before every sample.
-> + */
-> +struct drm_panthor_perf_sample_header {
-> +	/**
-> +	 * @timestamp_start_ns: Earliest timestamp that values in this sample represent, in
-> +	 * nanoseconds. Derived from CLOCK_MONOTONIC_RAW.
-> +	 */
-> +	__u64 timestamp_start_ns;
-> +
-> +	/**
-> +	 * @timestamp_end_ns: Latest timestamp that values in this sample represent, in
-> +	 * nanoseconds. Derived from CLOCK_MONOTONIC_RAW.
-> +	 */
-> +	__u64 timestamp_end_ns;
-> +
-> +	/** @block_set: Set of performance counter blocks. */
-> +	__u8 block_set;
-> +
-> +	/** @pad: MBZ. */
-> +	__u8 pad[3];
-> +
-> +	/** @flags: Current sample flags, combination of drm_panthor_perf_sample_flags. */
-> +	__u32 flags;
-> +
-> +	/**
-> +	 * @user_data: User data provided as part of the command that triggered this sample.
-> +	 *
-> +	 * - Automatic samples (periodic ones or those around non-counting periods or power state
-> +	 * transitions) will be tagged with the user_data provided as part of the
-> +	 * DRM_PANTHOR_PERF_COMMAND_START call.
-> +	 * - Manual samples will be tagged with the user_data provided with the
-> +	 * DRM_PANTHOR_PERF_COMMAND_SAMPLE call.
-> +	 * - A session's final automatic sample will be tagged with the user_data provided with the
-> +	 * DRM_PANTHOR_PERF_COMMAND_STOP call.
-> +	 */
-> +	__u64 user_data;
-> +
-> +	/**
-> +	 * @toplevel_clock_cycles: The number of cycles elapsed between
-> +	 * drm_panthor_perf_sample_header::timestamp_start_ns and
-> +	 * drm_panthor_perf_sample_header::timestamp_end_ns on the top-level clock if the
-> +	 * corresponding bit is set in drm_panthor_perf_info::supported_clocks.
-> +	 */
-> +	__u64 toplevel_clock_cycles;
-> +
-> +	/**
-> +	 * @coregroup_clock_cycles: The number of cycles elapsed between
-> +	 * drm_panthor_perf_sample_header::timestamp_start_ns and
-> +	 * drm_panthor_perf_sample_header::timestamp_end_ns on the coregroup clock if the
-> +	 * corresponding bit is set in drm_panthor_perf_info::supported_clocks.
-> +	 */
-> +	__u64 coregroup_clock_cycles;
-> +
-> +	/**
-> +	 * @shader_clock_cycles: The number of cycles elapsed between
-> +	 * drm_panthor_perf_sample_header::timestamp_start_ns and
-> +	 * drm_panthor_perf_sample_header::timestamp_end_ns on the shader core clock if the
-> +	 * corresponding bit is set in drm_panthor_perf_info::supported_clocks.
-> +	 */
-> +	__u64 shader_clock_cycles;
-> +};
-> +
-> +/**
-> + * enum drm_panthor_perf_command - Command type passed to the DRM_PANTHOR_PERF_CONTROL
-> + * IOCTL.
-> + */
-> +enum drm_panthor_perf_command {
-> +	/** @DRM_PANTHOR_PERF_COMMAND_SETUP: Create a new performance counter sampling context. */
-> +	DRM_PANTHOR_PERF_COMMAND_SETUP,
-> +
-> +	/** @DRM_PANTHOR_PERF_COMMAND_TEARDOWN: Teardown a performance counter sampling context. */
-> +	DRM_PANTHOR_PERF_COMMAND_TEARDOWN,
-> +
-> +	/** @DRM_PANTHOR_PERF_COMMAND_START: Start a sampling session on the indicated context. */
-> +	DRM_PANTHOR_PERF_COMMAND_START,
-> +
-> +	/** @DRM_PANTHOR_PERF_COMMAND_STOP: Stop the sampling session on the indicated context. */
-> +	DRM_PANTHOR_PERF_COMMAND_STOP,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_COMMAND_SAMPLE: Request a manual sample on the indicated context.
-> +	 *
-> +	 * When the sampling session is configured with a non-zero sampling frequency, any
-> +	 * DRM_PANTHOR_PERF_CONTROL calls with this command will be ignored and return an
-> +	 * -EINVAL.
-> +	 */
-> +	DRM_PANTHOR_PERF_COMMAND_SAMPLE,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_perf_control - Arguments passed to DRM_PANTHOR_IOCTL_PERF_CONTROL.
-> + */
-> +struct drm_panthor_perf_control {
-> +	/** @cmd: Command from enum drm_panthor_perf_command. */
-> +	__u32 cmd;
-> +
-> +	/**
-> +	 * @handle: session handle.
-> +	 *
-> +	 * Returned by the DRM_PANTHOR_PERF_COMMAND_SETUP call.
-> +	 * It must be used in subsequent commands for the same context.
-> +	 */
-> +	__u32 handle;
-> +
-> +	/**
-> +	 * @size: size of the command structure.
-> +	 *
-> +	 * If the pointer is NULL, the size is updated by the driver to provide the size of the
-> +	 * output structure. If the pointer is not NULL, the driver will only copy min(size,
-> +	 * struct_size) to the pointer and update the size accordingly.
-> +	 */
-> +	__u64 size;
-> +
-> +	/**
-> +	 * @pointer: user pointer to a command type struct, such as
-> +	 *            @struct drm_panthor_perf_cmd_start.
-> +	 */
-> +	__u64 pointer;
-> +};
-> +
-> +/**
-> + * enum drm_panthor_perf_counter_set - The counter set to be requested from the hardware.
-> + *
-> + * The hardware supports a single performance counter set at a time, so requesting any set other
-> + * than the primary may fail if another process is sampling at the same time.
-> + *
-> + * If in doubt, the primary counter set has the most commonly used counters and requires no
-> + * additional permissions to open.
-> + */
-> +enum drm_panthor_perf_counter_set {
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_SET_PRIMARY: The default set configured on the hardware.
-> +	 *
-> +	 * This is the only set for which all counters in all blocks are defined.
-> +	 */
-> +	DRM_PANTHOR_PERF_SET_PRIMARY,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_SET_SECONDARY: The secondary performance counter set.
-> +	 *
-> +	 * Some blocks may not have any defined counters for this set, and the block will
-> +	 * have the UNAVAILABLE block state permanently set in the block header.
-> +	 *
-> +	 * Accessing this set requires the calling process to have the CAP_PERFMON capability.
-> +	 */
-> +	DRM_PANTHOR_PERF_SET_SECONDARY,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_PERF_SET_TERTIARY: The tertiary performance counter set.
-> +	 *
-> +	 * Some blocks may not have any defined counters for this set, and the block will have
-> +	 * the UNAVAILABLE block state permanently set in the block header. Note that the
-> +	 * tertiary set has the fewest defined counter blocks.
-> +	 *
-> +	 * Accessing this set requires the calling process to have the CAP_PERFMON capability.
-> +	 */
-> +	DRM_PANTHOR_PERF_SET_TERTIARY,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_perf_ringbuf_control - Struct used to map in the ring buffer control indices
-> + *                                           into memory shared between user and kernel.
-> + *
-> + */
-> +struct drm_panthor_perf_ringbuf_control {
-> +	/**
-> +	 * @extract_idx: The index of the latest sample that was processed by userspace. Only
-> +	 *               modifiable by userspace.
-> +	 */
-> +	__u64 extract_idx;
-> +
-> +	/**
-> +	 * @insert_idx: The index of the latest sample emitted by the kernel. Only modiable by
-> +	 *               modifiable by the kernel.
-> +	 */
-
-Nit: s/modiable//
-
-Other than this,
-
-Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-
-> +	__u64 insert_idx;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_perf_cmd_setup - Arguments passed to DRM_PANTHOR_IOCTL_PERF_CONTROL
-> + * when the DRM_PANTHOR_PERF_COMMAND_SETUP command is specified.
-> + */
-> +struct drm_panthor_perf_cmd_setup {
-> +	/**
-> +	 * @block_set: Set of performance counter blocks, member of
-> +	 *             enum drm_panthor_perf_block_set.
-> +	 *
-> +	 * This is a global configuration and only one set can be active at a time. If
-> +	 * another client has already requested a counter set, any further requests
-> +	 * for a different counter set will fail and return an -EBUSY.
-> +	 *
-> +	 * If the requested set does not exist, the request will fail and return an -EINVAL.
-> +	 *
-> +	 * Some sets have additional requirements to be enabled, and the setup request will
-> +	 * fail with an -EACCES if these requirements are not satisfied.
-> +	 */
-> +	__u8 block_set;
-> +
-> +	/** @pad: MBZ. */
-> +	__u8 pad[7];
-> +
-> +	/** @fd: eventfd for signalling the availability of a new sample. */
-> +	__u32 fd;
-> +
-> +	/** @ringbuf_handle: Handle to the BO to write perf counter sample to. */
-> +	__u32 ringbuf_handle;
-> +
-> +	/**
-> +	 * @control_handle: Handle to the BO containing a contiguous 16 byte range, used for the
-> +	 * insert and extract indices for the ringbuffer.
-> +	 */
-> +	__u32 control_handle;
-> +
-> +	/**
-> +	 * @sample_slots: The number of slots available in the userspace-provided BO. Must be
-> +	 * a power of 2.
-> +	 *
-> +	 * If sample_slots * sample_size does not match the BO size, the setup request will fail.
-> +	 */
-> +	__u32 sample_slots;
-> +
-> +	/**
-> +	 * @control_offset: Offset into the control BO where the insert and extract indices are
-> +	 * located.
-> +	 */
-> +	__u64 control_offset;
-> +
-> +	/**
-> +	 * @sample_freq_ns: Period between automatic counter sample collection in nanoseconds. Zero
-> +	 * disables automatic collection and all collection must be done through explicit calls
-> +	 * to DRM_PANTHOR_PERF_CONTROL.SAMPLE. Non-zero values will disable manual counter sampling
-> +	 * via the DRM_PANTHOR_PERF_COMMAND_SAMPLE command.
-> +	 *
-> +	 * This disables software-triggered periodic sampling, but hardware will still trigger
-> +	 * automatic samples on certain events, including shader core power transitions, and
-> +	 * entries to and exits from non-counting periods. The final stop command will also
-> +	 * trigger a sample to ensure no data is lost.
-> +	 */
-> +	__u64 sample_freq_ns;
-> +
-> +	/**
-> +	 * @fw_enable_mask: Bitmask of counters to request from the FW counter block. Any bits
-> +	 * past the first drm_panthor_perf_info.counters_per_block bits will be ignored. Bit 0
-> +	 * corresponds to counter 0.
-> +	 */
-> +	__u64 fw_enable_mask[2];
-> +
-> +	/**
-> +	 * @cshw_enable_mask: Bitmask of counters to request from the CSHW counter block. Any bits
-> +	 * past the first drm_panthor_perf_info.counters_per_block bits will be ignored. Bit 0
-> +	 * corresponds to counter 0.
-> +	 */
-> +	__u64 cshw_enable_mask[2];
-> +
-> +	/**
-> +	 * @tiler_enable_mask: Bitmask of counters to request from the tiler counter block. Any
-> +	 * bits past the first drm_panthor_perf_info.counters_per_block bits will be ignored. Bit
-> +	 * 0 corresponds to counter 0.
-> +	 */
-> +	__u64 tiler_enable_mask[2];
-> +
-> +	/**
-> +	 * @memsys_enable_mask: Bitmask of counters to request from the memsys counter blocks. Any
-> +	 * bits past the first drm_panthor_perf_info.counters_per_block bits will be ignored. Bit 0
-> +	 * corresponds to counter 0.
-> +	 */
-> +	__u64 memsys_enable_mask[2];
-> +
-> +	/**
-> +	 * @shader_enable_mask: Bitmask of counters to request from the shader core counter blocks.
-> +	 * Any bits past the first drm_panthor_perf_info.counters_per_block bits will be ignored.
-> +	 * Bit 0 corresponds to counter 0.
-> +	 */
-> +	__u64 shader_enable_mask[2];
-> +};
-> +
-> +/**
-> + * struct drm_panthor_perf_cmd_start - Arguments passed to DRM_PANTHOR_IOCTL_PERF_CONTROL
-> + * when the DRM_PANTHOR_PERF_COMMAND_START command is specified.
-> + */
-> +struct drm_panthor_perf_cmd_start {
-> +	/**
-> +	 * @user_data: User provided data that will be attached to automatic samples collected
-> +	 * until the next DRM_PANTHOR_PERF_COMMAND_STOP.
-> +	 */
-> +	__u64 user_data;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_perf_cmd_stop - Arguments passed to DRM_PANTHOR_IOCTL_PERF_CONTROL
-> + * when the DRM_PANTHOR_PERF_COMMAND_STOP command is specified.
-> + */
-> +struct drm_panthor_perf_cmd_stop {
-> +	/**
-> +	 * @user_data: User provided data that will be attached to the automatic sample collected
-> +	 * at the end of this sampling session.
-> +	 */
-> +	__u64 user_data;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_perf_cmd_sample - Arguments passed to DRM_PANTHOR_IOCTL_PERF_CONTROL
-> + * when the DRM_PANTHOR_PERF_COMMAND_SAMPLE command is specified.
-> + */
-> +struct drm_panthor_perf_cmd_sample {
-> +	/** @user_data: User provided data that will be attached to the sample.*/
-> +	__u64 user_data;
-> +};
-> +
->  /**
->   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
->   * @__access: Access type. Must be R, W or RW.
-> @@ -1083,6 +1646,8 @@ enum {
->  		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
->  	DRM_IOCTL_PANTHOR_SET_USER_MMIO_OFFSET =
->  		DRM_IOCTL_PANTHOR(WR, SET_USER_MMIO_OFFSET, set_user_mmio_offset),
-> +	DRM_IOCTL_PANTHOR_PERF_CONTROL =
-> +		DRM_IOCTL_PANTHOR(WR, PERF_CONTROL, perf_control)
->  };
->
->  #if defined(__cplusplus)
-> --
-> 2.33.0.dirty
+PiA+ID4gPiBAQCAtMjMwNSw2ICsyMzYwLDExIEBAIHN0cnVjdCBkcm1fY29ubmVjdG9yIHsNCj4g
+PiA+ID4gIAkgKiBAY2VjOiBDRUMtcmVsYXRlZCBkYXRhLg0KPiA+ID4gPiAgCSAqLw0KPiA+ID4g
+PiAgCXN0cnVjdCBkcm1fY29ubmVjdG9yX2NlYyBjZWM7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKwkv
+KioNCj4gPiA+ID4gKwkgKiBAd3JpdGViYWNrOiBXcml0ZWJhY2sgcmVsYXRlZCB2YWxyaWFibGVz
+Lg0KPiA+ID4gPiArCSAqLw0KPiA+ID4gPiArCXN0cnVjdCBkcm1fd3JpdGViYWNrX2Nvbm5lY3Rv
+ciB3cml0ZWJhY2s7DQo+ID4gPg0KPiA+ID4gTm8sIHNvcnJ5LCB0aGF0J3MgYSBiYWQgaWRlYS4g
+TW9zdCBjb25uZWN0b3JzIGhhdmUgbm90aGluZyB0byBkbw0KPiA+ID4gd2l0aCB3cml0ZWJhY2ss
+IHlvdSBzaG91bGRuJ3QgaW50cm9kdWNlIHdyaXRlYmFjay1zcGVjaWZpYyBmaWVsZHMgaGVyZS4N
+Cj4gPiA+IGRybV93cml0ZWJhY2tfY29ubmVjdG9yIGhhcHBlbnMgdG8gYmUgYSBkcm1fY29ubmVj
+dG9yIGJlY2F1c2Ugb2YNCj4gPiA+IGhpc3RvcmljYWwgcmVhc29ucyAoaXQgd2FzIGRlY2lkZWQg
+dG8gcmV1c2UgdGhlIGNvbm5lY3RvciBBUEkNCj4gPiA+IGV4cG9zZWQgdG8gdXNlcnNwYWNlIGlu
+c3RlYWQgb2YgZXhwb3NpbmcgYSBjb21wbGV0ZWx5IHNlcGFyYXRlIEFQSQ0KPiA+ID4gaW4gb3Jk
+ZXIgdG8gc2ltcGxpZnkgdGhlIGltcGxlbWVudGF0aW9uKSwgYnV0IHRoYXQgZG9lcyBub3QgbWVh
+bg0KPiA+ID4gdGhhdCBldmVyeSBjb25uZWN0b3IgaXMgcmVsYXRlZCB0byB3cml0ZWJhY2suDQo+
+ID4gPg0KPiA+ID4gSSBkb24ndCBrbm93IHdoYXQgaXNzdWVzIHRoZSBJbnRlbCBkcml2ZXIocykg
+aGF2ZSB3aXRoDQo+ID4gPiBkcm1fd3JpdGViYWNrX2Nvbm5lY3RvciwgYnV0IHlvdSBzaG91bGRu
+J3QgbWFrZSB0aGluZ3Mgd29yc2UgZm9yDQo+ID4gPiBldmVyeWJvZHkgZHVlIHRvIGEgZHJpdmVy
+IHByb2JsZW0uDQo+ID4NCj4gPiBTdXJhaiBpcyB0cnlpbmcgdG8gc29sdmUgYSBwcm9ibGVtIHRo
+YXQgaW4gSW50ZWwgY29kZSBldmVyeQ0KPiA+IGRybV9jb25uZWN0b3IgbXVzdCBiZSBhbiBpbnRl
+bF9jb25uZWN0b3IgdG9vLiBIaXMgcHJldmlvdXMgYXR0ZW1wdA0KPiA+IHJlc3VsdGVkIGluIGEg
+bG9vc2UgYWJzdHJhY3Rpb24gd2hlcmUgZHJtX3dyaXRlYmFja19jb25uZWN0b3IuYmFzZQ0KPiA+
+IHdhc24ndCBpbml0aWFsaXplZCBpbiBzb21lIGNhc2VzICh3aGljaCBpcyBhIGJhZCBpZGVhIElN
+TykuDQo+ID4NCj4gPiBJIGtub3cgdGhlIGhpc3RvcmljYWwgcmVhc29ucyBmb3IgZHJtX3dyaXRl
+YmFja19jb25uZWN0b3IsIGJ1dCBJIHRoaW5rDQo+ID4gd2UgY2FuIGRvIGJldHRlciBub3cuDQo+
+ID4NCj4gPiBTbywgSSB0aGluaywgYSBwcm9wZXIgYXBwcm9hY2ggd291bGQgYmU6DQo+ID4NCj4g
+PiBzdHJ1Y3QgZHJtX2Nvbm5lY3RvciB7DQo+ID4gICAgIC8vIG90aGVyIGZpZWxkcw0KPiA+DQo+
+ID4gICAgIHVuaW9uIHsNCj4gPiAgICAgICAgIHN0cnVjdCBkcm1fY29ubmVjdG9yX2hkbWkgaGRt
+aTsgLy8gd2UgYWxyZWFkeSBoYXZlIGl0DQo+ID4gICAgICAgICBzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
+cl93YiB3YjsgIC8vIHRoaXMgaXMgbmV3DQo+ID4gICAgIH07DQo+ID4NCj4gPiAgICAgLy8gcmVz
+dCBvZiB0aGUgZmllbGRzLg0KPiA+IH07DQo+IA0KPiBJIHN0aWxsIGRvbid0IGxpa2UgdGhhdC4g
+VGhpcyByZWFsbHkgZG9lc24ndCBiZWxvbmcgaGVyZS4gSWYgYW55dGhpbmcsIHRoZQ0KPiBkcm1f
+Y29ubmVjdG9yIGZvciB3cml0ZWJhY2sgYmVsb25ncyB0byBkcm1fY3J0Yy4NCj4gDQo+IElmIHRo
+ZSBpc3N1ZSBpcyB0aGF0IHNvbWUgZHJpdmVycyBuZWVkIGEgY3VzdG9tIGRybV9jb25uZWN0b3Ig
+c3ViY2xhc3MsIHRoZW4NCj4gSSdkIHJhdGhlciB0dXJuIHRoZSBjb25uZWN0b3IgZmllbGQgb2Yg
+ZHJtX3dyaXRlYmFja19jb25uZWN0b3IgaW50byBhIHBvaW50ZXIuDQo+IA0KDQpUaGlzIGRlc2ln
+biBvciB0dXJuaW5nIGRybV9jb25uZWN0b3IgdG8gaW5zaWRlIGRybV93cml0ZWJhY2tfY29ubmVj
+dG9yIHRvIGEgcG9pbnRlcg0KSSBhbSBva2F5IGVpdGhlciB3YXkuDQoNClJlZ2FyZHMsDQpTdXJh
+aiBLYW5kcGFsDQoNCj4gPiBJIHBsYW4gdG8gYWRkIGRybV9jb25uZWN0b3JfZHAgaW4gYSBzaW1p
+bGFyIHdheSwgY292ZXJpbmcgRFAgbmVlZHMNCj4gPiAoY3VycmVudGx5IFdJUCkuDQo+IA0KPiAt
+LQ0KPiBSZWdhcmRzLA0KPiANCj4gTGF1cmVudCBQaW5jaGFydA0K
