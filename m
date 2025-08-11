@@ -2,122 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD66EB20499
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBAC4B204AD
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 11:59:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A51310E3C5;
-	Mon, 11 Aug 2025 09:57:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RPcK0nYt";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC7F10E0CD;
+	Mon, 11 Aug 2025 09:59:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F152310E400
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 09:57:00 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5B74143A0E;
- Mon, 11 Aug 2025 09:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1754906219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=KMjZD5VxWbI8Z4lMAYHBGs1IrVjbsBvn1MA7lBTaNNI=;
- b=RPcK0nYtnkFXJZtlDo5cV33Pxtg7L5bIdQ1gGiNb+34lBM5ySQc5dROKdRMyEKnouembfu
- aGuQW4geABLqVUPGRjzDWIIsGkbweMmwYsaupn9Il/JQGnfaPkuw84KJN4mqddQnCnmMDU
- D3xUFD5aBRq8bcwOphdSqa3Zro84Ohy0m/Kgasljt7gptzBxLmc8+H9+b0LuOBvKgkXn5e
- PkPbZtiENQ+K+ECBJnERKpCtvpEGWveAE6wiwpN3G4YNkYyJo0x0qnpb+vLqMLojycTHaB
- D5yVgIa9807DdrvUlLAORYAbOC5h+B+P/EditMQqdQBNnkJQ+5t98oVCbDAt+w==
-Message-ID: <e9df67f0-8fce-4fbf-8fff-c499c4a2efaf@bootlin.com>
-Date: Mon, 11 Aug 2025 11:56:57 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5D57F10E0CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 09:59:14 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CDF62152B
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 02:59:05 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B525D3F738
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 02:59:13 -0700 (PDT)
+Date: Mon, 11 Aug 2025 10:59:06 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Rahul Kumar <rk0006818@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Subject: Re: [PATCH] drm/komeda: Convert logging in komeda_crtc.c to drm_*
+ with drm_device parameter
+Message-ID: <aJm-6pbrllD56Cx8@e110455-lin.cambridge.arm.com>
+References: <20250811054459.15851-1-rk0006818@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/tidss: Fix sampling edge configuration
-To: Swamil Jain <s-jain1@ti.com>, devarsh <devarsht@ti.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
- Benoit Parrot <bparrot@ti.com>, Lee Jones <lee@kernel.org>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Tero Kristo <kristo@kernel.org>
-Cc: thomas.petazzoni@bootlin.com, Jyri Sarha <jsarha@ti.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, stable@vger.kernel.org
-References: <20250730-fix-edge-handling-v1-0-1bdfb3fe7922@bootlin.com>
- <20250730-fix-edge-handling-v1-4-1bdfb3fe7922@bootlin.com>
- <71ef3203-e11d-4244-8d2d-8e47e8ba6140@ti.com>
- <f15779ad-788a-4dc6-b5a6-4187b9a9c986@ti.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <f15779ad-788a-4dc6-b5a6-4187b9a9c986@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddufedvudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehpdhhvghloheplgfkrfggieemvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedviedprhgtphhtthhopehsqdhjrghinhdusehtihdrtghomhdprhgtphhtthhopeguvghvrghrshhhthesthhirdgto
- hhmpdhrtghpthhtohepjhihrhhirdhsrghrhhgrsehikhhirdhfihdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <20250811054459.15851-1-rk0006818@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,117 +50,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-Le 08/08/2025 à 18:26, Swamil Jain a écrit :
+On Mon, Aug 11, 2025 at 11:14:59AM +0530, Rahul Kumar wrote:
+> Replace all dev_err(), dev_warn(), dev_info() and DRM_ERROR/WARN/INFO()
+> calls in drivers/gpu/drm/arm/display/komeda/komeda_crtc.c with the
+> corresponding drm_err(), drm_warn(), and drm_info() helpers.
 > 
+> The new drm_*() logging functions take a struct drm_device * as the
+> first argument. This allows the DRM core to prefix log messages with
+> the specific DRM device name and instance, which is essential for
+> distinguishing logs when multiple GPUs or display controllers are present.
 > 
-> On 8/8/25 19:16, devarsh wrote:
->> Hi Louis,
->>
->> Thanks for the patch.
->>
->> On 30/07/25 22:32, Louis Chauvet wrote:
->>> As stated in the AM62x Technical Reference Manual (SPRUIV7B), the data
->>> sampling edge needs to be configured in two distinct registers: one in the
->>> TIDSS IP and another in the memory-mapped control register modules.
->>
->> I don't think AM62x is thee only one which requires this and on the
->> contrary not all SoCs require this extra setting. We had been waiting on
->> confirmations from hardware team and very recently they gave a list of
->> SoCs which require this, as per that I think we need to limit this to
->> AM62x and AM62A per current supported SoCs.
->>
->> Swamil,
->> Please confirm on this and share if any additional details required here.
->>
+> This change aligns komeda with the DRM TODO item: "Convert logging to
+> drm_* functions with drm_device parameter".
 > 
-> Yeah Devarsh, as you mentioned, this is valid for AM62X, AM62A and
-> AM62P. We would have upstreamed this feature, but there are some
-> corrections in Technical Reference Manual for these SoCs regarding
-> programming CTRL_MMR_DPI_CLK_CTRL register fields, we are in loop with
-> H/W team, waiting for their official confirmation regarding this issue.
+> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+> ---
+>  .../gpu/drm/arm/display/komeda/komeda_crtc.c  | 37 +++++++++++--------
+>  1 file changed, 21 insertions(+), 16 deletions(-)
 > 
-> Thanks Louis for working on this patch, but we should wait for H/W
-> team's confirmation.
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> index 2ad33559a33a..b50ce3653ff6 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> @@ -111,6 +111,7 @@ komeda_crtc_atomic_check(struct drm_crtc *crtc,
+>  static int
+>  komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+>  {
+> +	struct drm_device *drm = kcrtc->base.dev;
+>  	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
+>  	struct komeda_pipeline *master = kcrtc->master;
+>  	struct komeda_crtc_state *kcrtc_st = to_kcrtc_st(kcrtc->base.state);
+> @@ -128,8 +129,8 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+>  
+>  	err = mdev->funcs->change_opmode(mdev, new_mode);
+>  	if (err) {
+> -		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
+> -			  mdev->dpmode, new_mode);
+> +		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
+> +			mdev->dpmode, new_mode);
+>  		goto unlock;
+>  	}
+>  
+> @@ -142,18 +143,18 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+>  	if (new_mode != KOMEDA_MODE_DUAL_DISP) {
+>  		err = clk_set_rate(mdev->aclk, komeda_crtc_get_aclk(kcrtc_st));
+>  		if (err)
+> -			DRM_ERROR("failed to set aclk.\n");
+> +			drm_err(drm, "failed to set aclk.\n");
+>  		err = clk_prepare_enable(mdev->aclk);
+>  		if (err)
+> -			DRM_ERROR("failed to enable aclk.\n");
+> +			drm_err(drm, "failed to enable aclk.\n");
+>  	}
+>  
+>  	err = clk_set_rate(master->pxlclk, mode->crtc_clock * 1000);
+>  	if (err)
+> -		DRM_ERROR("failed to set pxlclk for pipe%d\n", master->id);
+> +		drm_err(drm, "failed to set pxlclk for pipe%d\n", master->id);
+>  	err = clk_prepare_enable(master->pxlclk);
+>  	if (err)
+> -		DRM_ERROR("failed to enable pxl clk for pipe%d.\n", master->id);
+> +		drm_err(drm, "failed to enable pxl clk for pipe%d.\n", master->id);
+>  
+>  unlock:
+>  	mutex_unlock(&mdev->lock);
+> @@ -164,6 +165,7 @@ komeda_crtc_prepare(struct komeda_crtc *kcrtc)
+>  static int
+>  komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+>  {
+> +	struct drm_device *drm = kcrtc->base.dev;
+>  	struct komeda_dev *mdev = kcrtc->base.dev->dev_private;
+>  	struct komeda_pipeline *master = kcrtc->master;
+>  	u32 new_mode;
+> @@ -180,8 +182,8 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+>  
+>  	err = mdev->funcs->change_opmode(mdev, new_mode);
+>  	if (err) {
+> -		DRM_ERROR("failed to change opmode: 0x%x -> 0x%x.\n,",
+> -			  mdev->dpmode, new_mode);
+> +		drm_err(drm, "failed to change opmode: 0x%x -> 0x%x.\n,",
+> +			mdev->dpmode, new_mode);
+>  		goto unlock;
+>  	}
+>  
+> @@ -200,6 +202,7 @@ komeda_crtc_unprepare(struct komeda_crtc *kcrtc)
+>  void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+>  			      struct komeda_events *evts)
+>  {
+> +	struct drm_device *drm = kcrtc->base.dev;
+>  	struct drm_crtc *crtc = &kcrtc->base;
+>  	u32 events = evts->pipes[kcrtc->master->id];
+>  
+> @@ -212,7 +215,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+>  		if (wb_conn)
+>  			drm_writeback_signal_completion(&wb_conn->base, 0);
+>  		else
+> -			DRM_WARN("CRTC[%d]: EOW happen but no wb_connector.\n",
+> +			drm_warn(drm, "CRTC[%d]: EOW happen but no wb_connector.\n",
+>  				 drm_crtc_index(&kcrtc->base));
+>  	}
+>  	/* will handle it together with the write back support */
+> @@ -236,7 +239,7 @@ void komeda_crtc_handle_event(struct komeda_crtc   *kcrtc,
+>  			crtc->state->event = NULL;
+>  			drm_crtc_send_vblank_event(crtc, event);
+>  		} else {
+> -			DRM_WARN("CRTC[%d]: FLIP happened but no pending commit.\n",
+> +			drm_warn(drm, "CRTC[%d]: FLIP happened but no pending commit.\n",
+>  				 drm_crtc_index(&kcrtc->base));
+>  		}
+>  		spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+> @@ -309,7 +312,7 @@ komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+>  
+>  	/* wait the flip take affect.*/
+>  	if (wait_for_completion_timeout(flip_done, HZ) == 0) {
+> -		DRM_ERROR("wait pipe%d flip done timeout\n", kcrtc->master->id);
+> +		drm_err(drm, "wait pipe%d flip done timeout\n", kcrtc->master->id);
+>  		if (!input_flip_done) {
+>  			unsigned long flags;
+>  
+> @@ -562,6 +565,7 @@ static const struct drm_crtc_funcs komeda_crtc_funcs = {
+>  int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
+>  			   struct komeda_dev *mdev)
+>  {
+> +	struct drm_device *drm = &kms->base;
+>  	struct komeda_crtc *crtc;
+>  	struct komeda_pipeline *master;
+>  	char str[16];
+> @@ -581,7 +585,7 @@ int komeda_kms_setup_crtcs(struct komeda_kms_dev *kms,
+>  		else
+>  			sprintf(str, "None");
+>  
+> -		DRM_INFO("CRTC-%d: master(pipe-%d) slave(%s).\n",
+> +		drm_info(drm, "CRTC-%d: master(pipe-%d) slave(%s).\n",
+>  			 kms->n_crtcs, master->id, str);
+>  
+>  		kms->n_crtcs++;
+> @@ -609,10 +613,11 @@ get_crtc_primary(struct komeda_kms_dev *kms, struct komeda_crtc *crtc)
+>  	return NULL;
+>  }
+>  
+> -static int komeda_attach_bridge(struct device *dev,
+> -				struct komeda_pipeline *pipe,
+> +static int komeda_attach_bridge(struct komeda_pipeline *pipe,
+>  				struct drm_encoder *encoder)
+>  {
+> +	struct drm_device *drm = pipe->mdev->drm;
 
-Hello all,
+As the kernel build bot has already said, there is no struct drm_device in komeda_dev. Not
+sure what you're getting by trying to remove that parameter though.
 
-Thanks for the feedback. I was not aware of this current work.
-Do you plan to send the fix yourself? Should I wait your HW team 
-feedback and send a v2?
-
-I also have a very similar patch ready for u-boot (depending on the same 
-DT modifications), do you plan to fix u-boot too?
-
-Thanks,
-Louis Chauvet
+Best regards,
+Liviu
 
 
-> Regards,
-> Swamil.
+> +	struct device *dev = drm->dev;
+>  	struct drm_bridge *bridge;
+>  	int err;
+>  
+> @@ -624,7 +629,7 @@ static int komeda_attach_bridge(struct device *dev,
+>  
+>  	err = drm_bridge_attach(encoder, bridge, NULL, 0);
+>  	if (err)
+> -		dev_err(dev, "bridge_attach() failed for pipe: %s\n",
+> +		drm_err(drm, "bridge_attach() failed for pipe: %s\n",
+>  			of_node_full_name(pipe->of_node));
+>  
+>  	return err;
+> @@ -658,7 +663,7 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>  		return err;
+>  
+>  	if (pipe->of_output_links[0]) {
+> -		err = komeda_attach_bridge(base->dev, pipe, encoder);
+> +		err = komeda_attach_bridge(pipe, encoder);
+>  		if (err)
+>  			return err;
+>  	}
+> -- 
+> 2.43.0
 > 
->> Regards
->> Devarsh
->>
->>    Since
->>> the latter is not within the same address range, a phandle to a syscon
->>> device is used to access the regmap.
->>>
->>> Fixes: 32a1795f57ee ("drm/tidss: New driver for TI Keystone platform Display SubSystem")
->>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>
->>> ---
->>>
->>> Cc: stable@vger.kernel.org
->>> ---
->>>    drivers/gpu/drm/tidss/tidss_dispc.c | 14 ++++++++++++++
->>>    1 file changed, 14 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> index c0277fa36425ee1f966dccecf2b69a2d01794899..65ca7629a2e75437023bf58f8a1bddc24db5e3da 100644
->>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
->>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
->>> @@ -498,6 +498,7 @@ struct dispc_device {
->>>    	const struct dispc_features *feat;
->>>    
->>>    	struct clk *fclk;
->>> +	struct regmap *clk_ctrl;
->>>    
->>>    	bool is_enabled;
->>>    
->>> @@ -1267,6 +1268,11 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
->>>    		       FLD_VAL(mode->vdisplay - 1, 27, 16));
->>>    
->>>    	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1, 0, 0);
->>> +
->>> +	if (dispc->clk_ctrl) {
->>> +		regmap_update_bits(dispc->clk_ctrl, 0, 0x100, ipc ? 0x100 : 0x000);
->>> +		regmap_update_bits(dispc->clk_ctrl, 0, 0x200, rf ? 0x200 : 0x000);
->>> +	}
->>>    }
->>>    
->>>    void dispc_vp_disable(struct dispc_device *dispc, u32 hw_videoport)
->>> @@ -3012,6 +3018,14 @@ int dispc_init(struct tidss_device *tidss)
->>>    
->>>    	dispc_init_errata(dispc);
->>>    
->>> +	dispc->clk_ctrl = syscon_regmap_lookup_by_phandle_optional(tidss->dev->of_node,
->>> +								   "ti,clk-ctrl");
->>> +	if (IS_ERR(dispc->clk_ctrl)) {
->>> +		r = dev_err_probe(dispc->dev, PTR_ERR(dispc->clk_ctrl),
->>> +				  "DISPC: syscon_regmap_lookup_by_phandle failed.\n");
->>> +		return r;
->>> +	}
->>> +
->>>    	dispc->fourccs = devm_kcalloc(dev, ARRAY_SIZE(dispc_color_formats),
->>>    				      sizeof(*dispc->fourccs), GFP_KERNEL);
->>>    	if (!dispc->fourccs)
->>>
->>
 
 -- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
