@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB46B21589
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 21:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9721DB2158C
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 21:41:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E05110E309;
-	Mon, 11 Aug 2025 19:41:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1FCB10E313;
+	Mon, 11 Aug 2025 19:41:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MhQyYrQi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ab0NlJoX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE5BF10E308;
- Mon, 11 Aug 2025 19:41:13 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 890DE10E30E;
+ Mon, 11 Aug 2025 19:41:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 385BD5C61D0;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5EDA5A57628;
+ Mon, 11 Aug 2025 19:41:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E69CC4CEF6;
  Mon, 11 Aug 2025 19:41:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7352C4CEF7;
- Mon, 11 Aug 2025 19:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1754941272;
- bh=nP9n5VGF2FskJeZ1oNEb2BbawXh/NPFp8tsiOD47chk=;
+ s=k20201202; t=1754941275;
+ bh=0L8ILI5VlxDH9DgDwEiUXlzII6qULtClGxRZoPNq2oQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MhQyYrQigt3OL6Zz1HRengUExhq4vCXulgBVfZ/yv+evmV/L9bbmFhvXsDhwdq3cO
- Fguj6CyvunoXuvDmg6/dbWNW0G+trkddAm2Q1YvGSKJ3ML76l2DNQAr4WL1WCF1mdL
- EmlXLV0NKPuMYvmco8glPTcEZshIJ/sJLZIKRqlquy+vrfUpoIv9+bShxrDYridzlQ
- 5pHfEbQDE2/b8gSXv8Bdf9C/hmOv3xPdye+8V9Xl5QeCko+B9s7v/7VrNv2Ce6WmfI
- XP0sUf8Jv6HHEO+zIw6rlbkbqPzCzf1FN5cY3DCBSiLtVrgh+CV4gxZTuL5pbP90Ng
- Mr0dI33vIggXg==
+ b=ab0NlJoXBfYciB8ekCwVl3p63Ad0qow/dGnB7GivnFrgy+sbD0jVVYZvnTJAKnOb9
+ Vhp6kiL7Q6lwIbrMvNykUjlSnChXsgCKmYZm/QRE+4cf+Yg2mVRQeVaAWhB05swYrZ
+ fSNtjdwC7OT2uMDasW/qIWnHwWBtLCzhtrlNygaNPA99ABwxKnoCLWNmHBqdxCnBlt
+ r42rFWzr98AARfMnLoYu/BfKHiUV6+3RZ3BLkhmaHkgJ/0u75HMgFe06Ra3V96Pjc8
+ CG13OaxAmDvv0znxJekABY6xdn3JZujuxTeplRkbQfMyfQDLuHG/cwSYC7qNyM1GCm
+ MKmNaHReBkfBQ==
 From: "Mario Limonciello (AMD)" <superm1@kernel.org>
 To: "Rafael J . Wysocki" <rafael@kernel.org>,
  Bjorn Helgaas <bhelgaas@google.com>
@@ -53,9 +53,10 @@ Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
  =?UTF-8?q?Merthan=20Karaka=C5=9F?= <m3rthn.k@gmail.com>,
  Eric Naim <dnaim@cachyos.org>,
  "Mario Limonciello (AMD)" <superm1@kernel.org>
-Subject: [PATCH v5 02/11] scsi: Add PM_EVENT_POWEROFF into suspend callbacks
-Date: Mon, 11 Aug 2025 14:40:53 -0500
-Message-ID: <20250811194102.864225-3-superm1@kernel.org>
+Subject: [PATCH v5 03/11] usb: sl811-hcd: Add PM_EVENT_POWEROFF into suspend
+ callbacks
+Date: Mon, 11 Aug 2025 14:40:54 -0500
+Message-ID: <20250811194102.864225-4-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250811194102.864225-1-superm1@kernel.org>
 References: <20250811194102.864225-1-superm1@kernel.org>
@@ -85,37 +86,25 @@ Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 ---
 v5:
  * Re-order
+ * Add tags
 v4:
  * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
 ---
- drivers/scsi/mesh.c | 1 +
- drivers/scsi/stex.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/usb/host/sl811-hcd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/scsi/mesh.c b/drivers/scsi/mesh.c
-index 1c15cac41d805..768b85eecc8fd 100644
---- a/drivers/scsi/mesh.c
-+++ b/drivers/scsi/mesh.c
-@@ -1762,6 +1762,7 @@ static int mesh_suspend(struct macio_dev *mdev, pm_message_t mesg)
- 	case PM_EVENT_SUSPEND:
- 	case PM_EVENT_HIBERNATE:
- 	case PM_EVENT_FREEZE:
-+	case PM_EVENT_POWEROFF:
+diff --git a/drivers/usb/host/sl811-hcd.c b/drivers/usb/host/sl811-hcd.c
+index ea3cab99c5d40..5d6dba681e503 100644
+--- a/drivers/usb/host/sl811-hcd.c
++++ b/drivers/usb/host/sl811-hcd.c
+@@ -1748,6 +1748,7 @@ sl811h_suspend(struct platform_device *dev, pm_message_t state)
  		break;
- 	default:
- 		return 0;
-diff --git a/drivers/scsi/stex.c b/drivers/scsi/stex.c
-index 63ed7f9aaa937..ee9372e1f7f07 100644
---- a/drivers/scsi/stex.c
-+++ b/drivers/scsi/stex.c
-@@ -1965,6 +1965,7 @@ static int stex_choice_sleep_mic(struct st_hba *hba, pm_message_t state)
  	case PM_EVENT_SUSPEND:
- 		return ST_S3;
  	case PM_EVENT_HIBERNATE:
 +	case PM_EVENT_POWEROFF:
- 		hba->msi_lock = 0;
- 		return ST_S4;
- 	default:
+ 	case PM_EVENT_PRETHAW:		/* explicitly discard hw state */
+ 		port_power(sl811, 0);
+ 		break;
 -- 
 2.43.0
 
