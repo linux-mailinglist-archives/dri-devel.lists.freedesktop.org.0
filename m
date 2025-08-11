@@ -2,128 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE05B204F9
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 12:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECEEB20500
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Aug 2025 12:15:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 492FE10E303;
-	Mon, 11 Aug 2025 10:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29EE810E420;
+	Mon, 11 Aug 2025 10:15:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FDwP+B0O";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lR4JFVdB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A61110E106
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:13:40 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57B9dAEv000640
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:13:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- tQBekwLY985lR0kL588BU9IYUYSsm3EJi76WLENqjaQ=; b=FDwP+B0OX5UBuh1A
- yaBnSgBA4PZ6KYN6UyxgXDpyNLwikqLtNO6NVZchMnFrdq1fHAr9zI3JLW/AKlB5
- nxIdKbXb87PbAZ2UiPni3kloNPTITgFmGv6lF1CH2AdwpxGy6DNhc7/lMRaa26ok
- AXFCp45EK0v4y/nT5fwiGnPWYU5wcC6mTKy1VYu3ol63+TOPdiuiJhcv9r7YqKYs
- RQyuqXukejuJ37d/tRE8V2Cn/2VVJ0n0OTxLwyvmy5rBgwi3p4b6oJM3S+Eqe5Zd
- 9GSCTxs/jeBsJi5cJ0uWNqxOvHZKxGtVOz3gUSCF+MmelO9zM2JtUXFL9SlErhyO
- 3BHiYQ==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dym9kwur-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:13:39 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-70739ef4ab4so95115346d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 03:13:39 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8592610E419
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 10:15:41 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-459ddf8acf1so34917255e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 03:15:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1754907340; x=1755512140; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=InWEj8yfNZNXn9Ghid4W7lwyxvfYCt3pMVPvqhpg8n4=;
+ b=lR4JFVdBaK/IYQ1+NtSAL/zsxS1ItMQ7X65ubvmNwDDWkA7ldbsNSJuIzRh2TPDnvy
+ eLIr5cym9tGIcAK6uytrC5vdEf2b8as7LSg5Q9um2v8OkiTcWpbHHck3kTR9uyh8y4M4
+ Ew5acEqg9Mkz99v4IzO9zJ/xn3NUbGqNloUmm7pecTFxv4cjLEIP1h69p0M+9clRSag0
+ RpJGh9aTkMvHe3QYKPHYEXnDOnyPfhuiph9INxN7wIJL5j/MBGLvP1/Ip9I2XiF+P1tW
+ Io2C2QeDo37F6XRQ7dW+H1ymKEDaL4rv4RCnFbahZn7cPrGbDVwHZzLlDb2jdaDhCGwg
+ 3GHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754907218; x=1755512018;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tQBekwLY985lR0kL588BU9IYUYSsm3EJi76WLENqjaQ=;
- b=kOpC/hGsC0srQJZ6Gk/xLsDW4N2ZbFil/3m6oY7PCevw/+NcsVIxEdj/amIbyjk8qn
- xjHeLqXlDNqoFGC4ZqBSUlFu6UiwqsD4AvQO8SJdb6X40bvMqbJA4kiiZLBYPyjTuJqi
- uSx228+sHE75QPj1z5bpXiL3CKcEerXBFhE86f29A4i3KghXXLx6x1nHdInXm+Et8+c2
- 8h14+jEpfwq70PbQXDOc6038vzPvqZUYnPfxC9iYgs7t8RmS2SS9Gq9Ixe7NAtJFbrnd
- 0deKrIP8oJVhClhzqVAiwtY1fBx7gViCxjTOj3IEtJUU23B1i4/OJnbQmQpXus/8GsB0
- 4hJw==
+ d=1e100.net; s=20230601; t=1754907340; x=1755512140;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=InWEj8yfNZNXn9Ghid4W7lwyxvfYCt3pMVPvqhpg8n4=;
+ b=fhHTvKwCvKBBO7Rme+tKesCEGEe9WgwWsmMryUG/Hiq2yeW/Ae/3G5BL2Tf4y+6n4T
+ 5iwE3Wg0e+RB0wiMWJQrYqbU8h5YOzk/wN3oZUybM/4ZTksQIfnQrCC3IyKG6Jvrxu0M
+ zb3aAIXnAJaTHD/cRUjSkY0T+uBHwHJlxR+mnO59OrfVb/mMkqVKE3LCis5GV2piRPGs
+ fuw4yw+W2JvqydC61sEaJCVqUIajRU4+3BQnM432bWtADyZs9KVvCl+sYNDkMZPy2RIF
+ mqsx0lINHi3vIy1hmtaHWoqDFLHqlYDkOxVt59K/Qn1omF2gSR5on2q+7ujLFnObcIhF
+ xBsA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW8VdQz7vYU0qOlOWUEBl+P7BAATXKH027zu2AOi21++qrpD0Hq33LtRDGN+Ff0+wilgjj66x1Hb7k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzULwB8yQNbTpyhQ2h8lZS3TPx9NtMWjFs3s4IxRLTU93Am4qSK
- AFCiVIroRkZm7rnYgR3iMs0oOVkzMXky3yt2MG6J2tEdtrHQwVQ8jFBCY7LLKxu30jLOpx/+uRi
- bh0RPiVkI0DmPRJ2OHIpEWsV6vlcc8V7Or5nd7cO4bGPVBnM7dDMn3q7tI536gtN4miSQFH0=
-X-Gm-Gg: ASbGncsDBq6PLJRPmClqzNUZvaT4LFmIpOKKdtqKPzvPEfXfqnO/vpcMyBQbQGDECLp
- wHBa1G7DHxcRXz1jNVzG/wFAz6Sxes4XtNAZwBTGlQU3o6pp3kTaZa1dmViIbSnyzJIk+eB3kpr
- YaVLuMbzU4i5vwb83mbpDuK5JC/U0loLqA3Sy1BP0ctUYwtw+13a1qcZIw0JD4I0U6XhDVh2ZWP
- jlmMYIZckjHeFOHKprgGKwEfSh9N70XnRtO0PLVIm4qgDMy/gl5g6F+evQ/c+dYDK1WlyYfYkn/
- +ZGbLPsjsuD+lKwn9vXAArdAYELRqhACwAhvIETOka1NP8ubHF74m1g8fbrRY87MBOgcjGGt5fl
- Z9/twlMlqI5xdR52p/q08KaP9+uQJmnDEKFm4JyAdtRbHCmatpOtB
-X-Received: by 2002:a05:6214:2422:b0:707:6409:d001 with SMTP id
- 6a1803df08f44-7098943a0camr242700166d6.21.1754907218049; 
- Mon, 11 Aug 2025 03:13:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH9BY/zT1y+b3ji4GZxhC3ZVhQrv/r/mWPNZE1y3jpndTSli2Cjg/bMQSHGPbSf9yhMaetFWQ==
-X-Received: by 2002:a05:6214:2422:b0:707:6409:d001 with SMTP id
- 6a1803df08f44-7098943a0camr242699906d6.21.1754907217606; 
- Mon, 11 Aug 2025 03:13:37 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-332382a905fsm41770471fa.21.2025.08.11.03.13.36
+ AJvYcCWhBPGBp36KoyfvJOs0+2xAP7lBFnEfeaUw0GehYy5CiMFtLbqUQ6pdkTpoh5uLg1MsuRXTehoGReg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/hNgTD2U4ObF2ikuHjO8V+TI0SnzO8vNECMkz/b8BH7hk1RF3
+ P0lR9cVNVwhTpoIxZjR5P5fLnbHiHTC3lfAxG7IijalpodeCNepWyAPt
+X-Gm-Gg: ASbGnctb09Y340zq5f61r8eK1NKP/v0b6P1dle1rdZDsgoe1F+vW6gAl8MdsKy/PPMu
+ 1OGXDk+4QeCvs7zM+f9ANqs8PXDzUoymueq4IG2mpr414Bgzy5qHkevCuCl4YabJqkb5y0Pzrrr
+ SEG6BiwOODQRnNVHeRFjATjM3K6bobcn1BqO81VwarASQ2kLYwrCTN/RGoFxSPyiciCxV6ekwvC
+ DGyXvIKCtB5ZrD6V10aWErSNJLlduAq0g71+DdqjnjWo9dVD4+vv2H1Mmq0lTMMhEOc2gX5ABfP
+ 1bQs/8zoML5r3lcb7VbpHKnuWdv4vLaLrcL/oMrXK2pEe4xj+2uBaQm9IaTuqojnzaA0X03XFtc
+ vflonaq69Q//iLdcWgbI=
+X-Google-Smtp-Source: AGHT+IGCO5Yz/McpdLbvstrjp9ON3bvmgmsZGX9z/NKfsYRx7kZ/KBKj5mqJ1Hqz+AjQN6N+krHxDA==
+X-Received: by 2002:a05:6000:402a:b0:3b8:ffd1:80d2 with SMTP id
+ ffacd0b85a97d-3b900b4d494mr10608677f8f.24.1754907339468; 
+ Mon, 11 Aug 2025 03:15:39 -0700 (PDT)
+Received: from fedora ([94.73.32.0]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b79c3c4d02sm38989438f8f.33.2025.08.11.03.15.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Aug 2025 03:13:36 -0700 (PDT)
-Date: Mon, 11 Aug 2025 13:13:34 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>
-Cc: kernel-list@raspberrypi.com, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, ankit.k.nautiyal@intel.com,
- arun.r.murthy@intel.com, uma.shankar@intel.com, jani.nikula@intel.com,
- harry.wentland@amd.com, siqueira@igalia.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, robin.clark@oss.qualcomm.com,
- abhinav.kumar@linux.dev, tzimmermann@suse.de,
- jessica.zhang@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org,
- laurent.pinchart+renesas@ideasonboard.com, mcanal@igalia.com,
- dave.stevenson@raspberrypi.com, tomi.valkeinen+renesas@ideasonboard.com,
- kieran.bingham+renesas@ideasonboard.com, louis.chauvet@bootlin.com
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-Message-ID: <gvshpndrbnojzwewwa3icd5fjwecqj57jj6gfgoips5xq2oo3l@3dsebzcjwr7t>
-References: <20250811092707.3986802-1-suraj.kandpal@intel.com>
- <20250811092707.3986802-2-suraj.kandpal@intel.com>
+ Mon, 11 Aug 2025 03:15:38 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: louis.chauvet@bootlin.com
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Subject: [PATCH] drm/vkms: Assert if vkms_config_create_*() fails
+Date: Mon, 11 Aug 2025 12:15:17 +0200
+Message-ID: <20250811101529.150716-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250811092707.3986802-2-suraj.kandpal@intel.com>
-X-Proofpoint-GUID: LFHYjCZWfdIX862h6IDreDO8qRZXyhRq
-X-Proofpoint-ORIG-GUID: LFHYjCZWfdIX862h6IDreDO8qRZXyhRq
-X-Authority-Analysis: v=2.4 cv=YZ+95xRf c=1 sm=1 tr=0 ts=6899c253 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=QyXUC8HyAAAA:8 a=JhAXgKmwuo5aGy_CkLIA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAzNiBTYWx0ZWRfX/kcd7YAkn+MF
- 9HWCtsILl1HSLndyC0MDaPC5tzUNe/zM4UxiPYXMMS5HvNir7VmCeyBjJR4QRfYerLYiEhWLZr3
- ke4xpV7P2Gz+mnpCnVrxcfiMz3i/PkkTYEMNeHf+YEzlZNEUFC5ND+eEuJC6SjhGvoJ49XTsIvq
- 52iEr934RzlWGzf0Hx3I/RRMQQH0KqC/ucfV0khEgmwPKZsOQ6E6q7AIOSJRwSE354/t5ohHrlt
- 6bKusWiBq5qvk0tSkU8A3RDtesjIYttZPsi3BkGdMmr5VWNT0H4agVUYJyIJOUeFXW/b0khIV6+
- BK5Zl1tzX+BAaaN7bp9iFHDkfs9QTp9VTTjWAI5+tQBjf9X75IaieSULXgavn6Ip9IyJ7x9LHi5
- I8g46c+s
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-11_01,2025-08-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 clxscore=1015
- malwarescore=0 adultscore=0 impostorscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508090036
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,53 +90,246 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 11, 2025 at 02:57:00PM +0530, Suraj Kandpal wrote:
-> Some drivers cannot work with the current design where the connector
-> is embedded within the drm_writeback_connector such as intel and
-> some drivers that can get it working end up adding a lot of checks
-> all around the code to check if it's a writeback conenctor or not.
-> To solve this we move the drm_writeback_connector within the
-> drm_connector and remove the drm_connector base which was in
-> drm_writeback_connector. We do all other required
-> modifications that come with these changes along with addition
-> of new function which returns the drm_connector when
-> drm_writeback_connector is present.
-> All drivers will be expected to allocate the drm_connector.
-> 
-> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> ---
->  drivers/gpu/drm/drm_writeback.c | 33 ++++++++++------
->  include/drm/drm_connector.h     | 60 +++++++++++++++++++++++++++++
->  include/drm/drm_writeback.h     | 68 ++++-----------------------------
->  3 files changed, 89 insertions(+), 72 deletions(-)
+Check that the value returned by the vkms_config_create_*() functions is
+valid. Otherwise, assert and finish the KUnit test.
 
-This patch breaks building of drivers:
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/dri-devel/aJTL6IFEBaI8gqtH@stanley.mountain/
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c | 51 +++++++++++++++++--
+ 1 file changed, 46 insertions(+), 5 deletions(-)
 
-drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c: In function ‘dpu_encoder_phys_wb_prepare_for_kickoff’:
-drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c:487:36: error: ‘struct drm_writeback_connector’ has no member named ‘base’
-  487 |         drm_conn = &wb_enc->wb_conn->base;
-      |                                    ^~
-
-Please perform step-by-step modifications, making sure that on each
-step all the drivers can be built and function as expected.
-
-> 
-> @@ -2305,6 +2360,11 @@ struct drm_connector {
->  	 * @cec: CEC-related data.
->  	 */
->  	struct drm_connector_cec cec;
-> +
-> +	/**
-> +	 * @writeback: Writeback related valriables.
-> +	 */
-> +	struct drm_writeback_connector writeback;
-
-I will respond to this in another thread.
-
->  };
->  
->  #define obj_to_connector(x) container_of(x, struct drm_connector, base)
-
+diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+index ff4566cf9925..b0d78a81d2df 100644
+--- a/drivers/gpu/drm/vkms/tests/vkms_config_test.c
++++ b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+@@ -200,6 +200,7 @@ static void vkms_config_test_get_planes(struct kunit *test)
+ 	KUNIT_ASSERT_EQ(test, n_planes, 0);
+ 
+ 	plane_cfg1 = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg1);
+ 	vkms_config_for_each_plane(config, plane_cfg) {
+ 		n_planes++;
+ 		if (plane_cfg != plane_cfg1)
+@@ -209,6 +210,7 @@ static void vkms_config_test_get_planes(struct kunit *test)
+ 	n_planes = 0;
+ 
+ 	plane_cfg2 = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg2);
+ 	vkms_config_for_each_plane(config, plane_cfg) {
+ 		n_planes++;
+ 		if (plane_cfg != plane_cfg1 && plane_cfg != plane_cfg2)
+@@ -242,6 +244,7 @@ static void vkms_config_test_get_crtcs(struct kunit *test)
+ 		KUNIT_FAIL(test, "Unexpected CRTC");
+ 
+ 	crtc_cfg1 = vkms_config_create_crtc(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg1);
+ 	KUNIT_ASSERT_EQ(test, vkms_config_get_num_crtcs(config), 1);
+ 	vkms_config_for_each_crtc(config, crtc_cfg) {
+ 		if (crtc_cfg != crtc_cfg1)
+@@ -249,6 +252,7 @@ static void vkms_config_test_get_crtcs(struct kunit *test)
+ 	}
+ 
+ 	crtc_cfg2 = vkms_config_create_crtc(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg2);
+ 	KUNIT_ASSERT_EQ(test, vkms_config_get_num_crtcs(config), 2);
+ 	vkms_config_for_each_crtc(config, crtc_cfg) {
+ 		if (crtc_cfg != crtc_cfg1 && crtc_cfg != crtc_cfg2)
+@@ -280,6 +284,7 @@ static void vkms_config_test_get_encoders(struct kunit *test)
+ 	KUNIT_ASSERT_EQ(test, n_encoders, 0);
+ 
+ 	encoder_cfg1 = vkms_config_create_encoder(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg1);
+ 	vkms_config_for_each_encoder(config, encoder_cfg) {
+ 		n_encoders++;
+ 		if (encoder_cfg != encoder_cfg1)
+@@ -289,6 +294,7 @@ static void vkms_config_test_get_encoders(struct kunit *test)
+ 	n_encoders = 0;
+ 
+ 	encoder_cfg2 = vkms_config_create_encoder(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg2);
+ 	vkms_config_for_each_encoder(config, encoder_cfg) {
+ 		n_encoders++;
+ 		if (encoder_cfg != encoder_cfg1 && encoder_cfg != encoder_cfg2)
+@@ -324,6 +330,7 @@ static void vkms_config_test_get_connectors(struct kunit *test)
+ 	KUNIT_ASSERT_EQ(test, n_connectors, 0);
+ 
+ 	connector_cfg1 = vkms_config_create_connector(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg1);
+ 	vkms_config_for_each_connector(config, connector_cfg) {
+ 		n_connectors++;
+ 		if (connector_cfg != connector_cfg1)
+@@ -333,6 +340,7 @@ static void vkms_config_test_get_connectors(struct kunit *test)
+ 	n_connectors = 0;
+ 
+ 	connector_cfg2 = vkms_config_create_connector(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg2);
+ 	vkms_config_for_each_connector(config, connector_cfg) {
+ 		n_connectors++;
+ 		if (connector_cfg != connector_cfg1 &&
+@@ -370,7 +378,7 @@ static void vkms_config_test_invalid_plane_number(struct kunit *test)
+ 
+ 	/* Invalid: Too many planes */
+ 	for (n = 0; n <= 32; n++)
+-		vkms_config_create_plane(config);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vkms_config_create_plane(config));
+ 
+ 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+ 
+@@ -395,6 +403,7 @@ static void vkms_config_test_valid_plane_type(struct kunit *test)
+ 
+ 	/* Invalid: No primary plane */
+ 	plane_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
+ 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_OVERLAY);
+ 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+@@ -402,11 +411,13 @@ static void vkms_config_test_valid_plane_type(struct kunit *test)
+ 
+ 	/* Invalid: Multiple primary planes */
+ 	plane_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
+ 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
+ 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+ 
+ 	plane_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
+ 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
+ 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+@@ -419,11 +430,13 @@ static void vkms_config_test_valid_plane_type(struct kunit *test)
+ 
+ 	/* Invalid: Multiple cursor planes */
+ 	plane_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
+ 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
+ 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+ 
+ 	plane_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
+ 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_CURSOR);
+ 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+@@ -437,12 +450,16 @@ static void vkms_config_test_valid_plane_type(struct kunit *test)
+ 	/* Invalid: Second CRTC without primary plane */
+ 	crtc_cfg = vkms_config_create_crtc(config);
+ 	encoder_cfg = vkms_config_create_encoder(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg);
++
+ 	err = vkms_config_encoder_attach_crtc(encoder_cfg, crtc_cfg);
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+ 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+ 
+ 	/* Valid: Second CRTC with a primary plane */
+ 	plane_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
+ 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
+ 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg);
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+@@ -486,7 +503,7 @@ static void vkms_config_test_invalid_crtc_number(struct kunit *test)
+ 
+ 	/* Invalid: Too many CRTCs */
+ 	for (n = 0; n <= 32; n++)
+-		vkms_config_create_crtc(config);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vkms_config_create_crtc(config));
+ 
+ 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+ 
+@@ -509,7 +526,7 @@ static void vkms_config_test_invalid_encoder_number(struct kunit *test)
+ 
+ 	/* Invalid: Too many encoders */
+ 	for (n = 0; n <= 32; n++)
+-		vkms_config_create_encoder(config);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vkms_config_create_encoder(config));
+ 
+ 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+ 
+@@ -531,12 +548,15 @@ static void vkms_config_test_valid_encoder_possible_crtcs(struct kunit *test)
+ 
+ 	/* Invalid: Encoder without a possible CRTC */
+ 	encoder_cfg = vkms_config_create_encoder(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg);
+ 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+ 
+ 	/* Valid: Second CRTC with shared encoder */
+ 	crtc_cfg2 = vkms_config_create_crtc(config);
+-
+ 	plane_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg2);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg);
++
+ 	vkms_config_plane_set_type(plane_cfg, DRM_PLANE_TYPE_PRIMARY);
+ 	err = vkms_config_plane_attach_crtc(plane_cfg, crtc_cfg2);
+ 	KUNIT_EXPECT_EQ(test, err, 0);
+@@ -577,7 +597,7 @@ static void vkms_config_test_invalid_connector_number(struct kunit *test)
+ 
+ 	/* Invalid: Too many connectors */
+ 	for (n = 0; n <= 32; n++)
+-		connector_cfg = vkms_config_create_connector(config);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, vkms_config_create_connector(config));
+ 
+ 	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+ 
+@@ -669,13 +689,19 @@ static void vkms_config_test_plane_attach_crtc(struct kunit *test)
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+ 
+ 	overlay_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, overlay_cfg);
+ 	vkms_config_plane_set_type(overlay_cfg, DRM_PLANE_TYPE_OVERLAY);
++
+ 	primary_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, primary_cfg);
+ 	vkms_config_plane_set_type(primary_cfg, DRM_PLANE_TYPE_PRIMARY);
++
+ 	cursor_cfg = vkms_config_create_plane(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cursor_cfg);
+ 	vkms_config_plane_set_type(cursor_cfg, DRM_PLANE_TYPE_CURSOR);
+ 
+ 	crtc_cfg = vkms_config_create_crtc(config);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg);
+ 
+ 	/* No primary or cursor planes */
+ 	KUNIT_EXPECT_NULL(test, vkms_config_crtc_primary_plane(config, crtc_cfg));
+@@ -735,6 +761,11 @@ static void vkms_config_test_plane_get_possible_crtcs(struct kunit *test)
+ 	crtc_cfg1 = vkms_config_create_crtc(config);
+ 	crtc_cfg2 = vkms_config_create_crtc(config);
+ 
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg1);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane_cfg2);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg1);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg2);
++
+ 	/* No possible CRTCs */
+ 	vkms_config_plane_for_each_possible_crtc(plane_cfg1, idx, possible_crtc)
+ 		KUNIT_FAIL(test, "Unexpected possible CRTC");
+@@ -799,6 +830,11 @@ static void vkms_config_test_encoder_get_possible_crtcs(struct kunit *test)
+ 	crtc_cfg1 = vkms_config_create_crtc(config);
+ 	crtc_cfg2 = vkms_config_create_crtc(config);
+ 
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg1);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg2);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg1);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_cfg2);
++
+ 	/* No possible CRTCs */
+ 	vkms_config_encoder_for_each_possible_crtc(encoder_cfg1, idx, possible_crtc)
+ 		KUNIT_FAIL(test, "Unexpected possible CRTC");
+@@ -863,6 +899,11 @@ static void vkms_config_test_connector_get_possible_encoders(struct kunit *test)
+ 	encoder_cfg1 = vkms_config_create_encoder(config);
+ 	encoder_cfg2 = vkms_config_create_encoder(config);
+ 
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg1);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, connector_cfg2);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg1);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, encoder_cfg2);
++
+ 	/* No possible encoders */
+ 	vkms_config_connector_for_each_possible_encoder(connector_cfg1, idx,
+ 							possible_encoder)
 -- 
-With best wishes
-Dmitry
+2.50.1
+
