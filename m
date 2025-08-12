@@ -2,81 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E298B23BD7
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 00:24:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C65B23C06
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 00:52:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0924610E650;
-	Tue, 12 Aug 2025 22:24:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED3E10E069;
+	Tue, 12 Aug 2025 22:52:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="CGmYmU4K";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="NkfJf2Sz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08ECE10E650
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 22:24:09 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-7074bad0523so58094906d6.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 15:24:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1755037448; x=1755642248;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gw0M5wI3UQLYJEOgNKt701AgY1nledSuuefZUpN8Q/g=;
- b=CGmYmU4KDTKjVlk/y4tyu6iBM8ZChNe0WRwXuJ5ZCseU3YsrqDXXEGQIP4vMv0TxqV
- Y7Y365dDJtILO49WWmrTQdLTjNhG6LoGiQxte7xGVWs9RJCzhVsBulspDrYXb4WzXn0Z
- HEAK9IJTgMrJTuI9JRO090QpXlUsPXUUJj39A/79SH9Vfgcr0PLHI6bMpQclCykzxMoh
- F31/AhYc81sQwauPDzEXDnt265M+i6YMRTsLDKP44CuAYs+sUz0xLRWKsy86lv/XV015
- t1s4m17UdGvWcXXjEWNoZJIWDf7xwHCD59fROT7XOwKecf9P3/Je0DbMfMkYgzjvg+bu
- vlgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755037448; x=1755642248;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gw0M5wI3UQLYJEOgNKt701AgY1nledSuuefZUpN8Q/g=;
- b=rZ+dOllsBqmstLQuaP4UH9hPGKTawiTRh9TAxjfuGuSgkEO47q7Tyny0nmz2MQSrCP
- eLSWqVoleVXpe6OOOJYS+1GrSYzU1/7nd5OnoxmVS4Rd5Uq96ASkfkWht+uOf9578I6D
- CAvcnMzxWHaQmyjCsnWRYzXpPIxO9hg1u+9+wKq3ZtaWmhu9GmajdAmHdy4CfWqswJFA
- 6/HZLRsvlrD/lp+8XcW265z8ZIivGfspdItgAFsi04hVY3i+YmK9HpdOXif6ccV1Zypg
- DkmbU/T0HUfF67T3qMqqRlTXcAP+xToKyyZtSCIpG4vLMGi+C0DVu2pdNe0KPd5f2GEe
- E4WA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUv+CJATpr2ECXeGLymsCzMjyPv14Oc9Tt2nypCi1umtDX0SPc1z1WRtBu6xNND2QiujudsJ6R1hRg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywr76Gq+sRpa4RlxtE3UlZyUZFQCI6sZb5AokMPjlkO/aW0e+iJ
- 9zGoD/yJgl3e5ZjYN1DlkJt4CqLApkMSH12T9Z806r8kumNbD8y0P8pqvvufu5awUxZYkova+6b
- +qPYxwQ5yZFav6m1Fvpdvbq2kEAAkXOVlD/l0g1YH
-X-Gm-Gg: ASbGncsipkq5sBmkxMNjVBsv+5DrtVXfqEJMEBWAlrK0fXaxYt4KEQ9SF+Y3ECbAXPg
- 8CxAwhc4nJtj/g7pGddQJAesgOnlf5BEMyjLlD0N3gShrC/yDSXoVdvqLss817W0Xsep75lAh7K
- MES58qfnlEMPr+AoH9r2FrUz6/gS/qxS75quX51/Lv91hxGvj6RJx41O0Nm16TiW28OKCb3LY3u
- a9i2g==
-X-Google-Smtp-Source: AGHT+IEcJjrNzIG177IIyACc07B5jchMwTkGLEyvU1JdcpdUV8ZaqyJg9ZCtPQty4nfYIwDSQIlM/oJv3OEGCMxbPO8=
-X-Received: by 2002:ad4:5e85:0:b0:707:4f43:eed6 with SMTP id
- 6a1803df08f44-709e881f1f7mr11824886d6.19.1755037447536; Tue, 12 Aug 2025
- 15:24:07 -0700 (PDT)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2060.outbound.protection.outlook.com [40.107.237.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56A8E10E069;
+ Tue, 12 Aug 2025 22:52:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ow3ajn7T8V4EMh8rISeY80KbzoETmAX3Rhuub3IQZ+UqoBHdwnR1djLAr5Qxr14+eDIqbmuuTRWxJBbuSyr0ctMnOi7SO8bRjljrKusWkkxSE0xPgGl/bG35FKmh12m3sVdYGnjw/r5cCkaBiqXk3biglh+1yHJuaHPxEwPckZ7a5QiWmiMvHDnWslm+gO0Y1cVjSCWXRth+/ygdUEWX0j9CzNv8yq1MFzT/AmSZwV9OWlWcffup74D5yrZ3BaiqrzWNiaCjCH87iXRakF2uAHvC1Qtio/ghE/OajXdqHK3z0/TRPthWswrbWogH9e2bpdKYekSlKMNh9OsIOCbJ8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w8N7N4fbivta/IZ9ySHGmm1J5WZwkvu970RO3hXFWoY=;
+ b=h6N0QxULUx3GxQQs3vRZayukMTij5hi6gkCIFC8W41Om8ExL6fmfqrf5hrqBRc1BqFff7t7FMvBLJIIk15hcSH8W3+xj8g/QpBdhlqIzdsnUTgA5J7mR234vr0r1t2ScCyiCJ39or3I+Nw1eJ95PoayeR+VegfD/3PsLg3Jaw36ASXIlxNhKUcaMxPJ0Y5Fg6xXDKBP+/ykbW5l5x6fjLxUAISUfdg0nnKXK2VuA19/jRLP6dRg2CC3uh1oeiA/W463KayJ6NRxkK1HyX+gOVliWR40fQvQWA3IKnrJ+nZy/eTtQXjOzKxaIN+w3FchEb/TwhGhCcP3RQipPN/El4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w8N7N4fbivta/IZ9ySHGmm1J5WZwkvu970RO3hXFWoY=;
+ b=NkfJf2SzFh/ba2poRVM+Va2TbqbJkcaTl76xT3NIi0J4bkMU26zxyPNIREC5/bEK+TUSMrJw/uVIwAEtcW7iT52kcYkfjXDNZB7UohSsr65HF+T1T06qxYYUIM+87zKRTw4JRv9KaESOMYjWrrLpQu0en2DHQivOhAHT8kgucbUxybhZOinvJh22i3uFH9dsPbtLF3eTGD4CcyOrNL4AfIES8DpqEFOQ0yEyggyKaA/5AW8n1m7DQvGuqWkSgOWinNJjFMhf+BaY86DquWcs3q79pbtZg/29pHDj6TJx8UtI9xyeC4IS9rZXqC4r1agZZL0VuVywqzgFZ0Bomg9KgQ==
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com (2603:10b6:930:31::20)
+ by LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Tue, 12 Aug
+ 2025 22:52:07 +0000
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::e420:4e37:166:9c56]) by CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::e420:4e37:166:9c56%6]) with mapi id 15.20.9031.012; Tue, 12 Aug 2025
+ 22:52:07 +0000
+From: Timur Tabi <ttabi@nvidia.com>
+To: "rongqianfeng@vivo.com" <rongqianfeng@vivo.com>, "airlied@redhat.com"
+ <airlied@redhat.com>, "simona@ffwll.ch" <simona@ffwll.ch>, "lyude@redhat.com"
+ <lyude@redhat.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, Zhi Wang <zhiw@nvidia.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dakr@kernel.org" <dakr@kernel.org>
+Subject: Re: [PATCH] drm/nouveau/gsp: fix mismatched alloc/free for kvmalloc()
+Thread-Topic: [PATCH] drm/nouveau/gsp: fix mismatched alloc/free for kvmalloc()
+Thread-Index: AQHcCqELx/TD/+F6+0iCA7EUtlzm0rRfojCA
+Date: Tue, 12 Aug 2025 22:52:07 +0000
+Message-ID: <4ca70a236502a2359b8ba332919b1fe4f9f09010.camel@nvidia.com>
+References: <20250811091910.404659-1-rongqianfeng@vivo.com>
+In-Reply-To: <20250811091910.404659-1-rongqianfeng@vivo.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR12MB6526:EE_|LV3PR12MB9356:EE_
+x-ms-office365-filtering-correlation-id: 4daaab87-504c-4f66-d910-08ddd9f2dd12
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?MmszTTN5RGJpdVVGSzlJN09IeFcwcU8zbW9DaTRmNWxpYW16VVFtUVZsY1py?=
+ =?utf-8?B?Qk1FYjl3OFY2cUJhc3hHandsQTJQTHJ6UmJtd3g5S3JJeklkdW9ZcmJvZ0Jx?=
+ =?utf-8?B?SHNxL2JjaTMxdmwwYXd0eWxOS0w3THFNanZkbVd1dmFlNDNGK04zWElxVFdl?=
+ =?utf-8?B?UERuVGQraTJkaW4wL3Y1N1UwMXZlbHBYcjVaM2RLdHFDTzd4d0hNaXNxQmEv?=
+ =?utf-8?B?cHRZUTgxZWFJVTNNTzEzZEQrZE55QTdkZXpLMG5rV1owdU8zdWNRZWpCS0wx?=
+ =?utf-8?B?YmhUSlA2WGhLREZPUlNZQThZM21iRVhjelFNUzFScjEzWVhGNFhVSnBFaGQ3?=
+ =?utf-8?B?RFZKc0J1QkRWc2V6bmNteDFUdklOeGorL2s1aWsyRldnSURUeTlpbWpPMmZr?=
+ =?utf-8?B?YnowbUkrWVh0empqa21yVzBucEY1SjVVdVpDbU9HMldnSW9RaVUzRGYyU0Nt?=
+ =?utf-8?B?cG5KNHRMNlpCMXFFMkJRWmRkQmF6MU55eXQ2QUUwVCtNTzh3OHBVdXlZTmRp?=
+ =?utf-8?B?MzZjZmVna2hralpMK2IxNDh4bkUxa3lNWkZ5cEEwcVdsRUczMEI5REp5TDVy?=
+ =?utf-8?B?VmtFNG5pMjNyRXc3SUxTOEhhWVdjRmRKc0xqKzhJWG9tdTZwN0ZaMWxqNVh6?=
+ =?utf-8?B?b2VZQzMxTGMxdlZENW11dSt4ZWtwNy9DUVVXL0pPSWw1OWRyaGJiSHU5V1FX?=
+ =?utf-8?B?KzNnZjZCeHZvZ0lQN1R0UmdzYWJ3VHpDam1sM2VRMm5iN0pldktsZm1JaUhM?=
+ =?utf-8?B?TGt2cEEzNyt1eVVSK2MwZW9ZN3R6c1ozczBRYWVPUmRWeEhIdnFjVWhTL3dx?=
+ =?utf-8?B?Ylgzb3k3Z3FJaHZrUElMMm9ENkx2Q1FCbE5ubk5Ha1U0NzRGYlhRWHB4aG1H?=
+ =?utf-8?B?MExLcTY2cERBaG53NFpZb0c0ZjBhVzdGZ3N1ajM0SmZ6bGRMVEM2djFLWWFU?=
+ =?utf-8?B?ZmEwdjVCTVpjRmVxV1MxK0k0MmRJMklBZ2VaeWxQSXB5YmJQbjhOZ2F4eFlj?=
+ =?utf-8?B?eGY3ME03RFRBRWlKODg4REZ3T0pnUXJOdWFqSkxwVzQ1cGZJaVg5Y3MrZEVa?=
+ =?utf-8?B?T1F4TVFOT2JySllRZjhtbFJyWjc3R3Y1bEgzSnd5WlFBcVhjR1RsRlQ2Tm5k?=
+ =?utf-8?B?VzZXdG1wQXliczhGTmJTZzBXYXFlSWwvNWFXK2pkY204MXMxOTEwd3JDcmk4?=
+ =?utf-8?B?YnBSdVMxRVhJY0hDYkluUWQ1ejlXZXp4WTUzcGpZNndETVNsRHpMakFRSTJI?=
+ =?utf-8?B?VUhZMGM4ZGI1ZE1pRWdpQ3RXSDFYd1BlSTZmT0JRVUhlZHN3THROTlFPcVJi?=
+ =?utf-8?B?NWpUaytTVFBhN3ozR3hlRWZBUlc4cmliUUpESGFCeFZ0TVUwalU0K0d3Q1FC?=
+ =?utf-8?B?T1ROUTNIRVJHbnJUelJJNjZXR3dGVyt6ek5sNWU4U1ZsUjhQZEk4OGRNSGJX?=
+ =?utf-8?B?N0NhTXdYTHh2NTZob1hjc0NvMlFvM2J0VnBDTXBvc2lGMmRVQVliMFVxdnpE?=
+ =?utf-8?B?K240QTh3WGZaMXVORURrWEgvRDBaN3RhTmlRUjJtaTdnVUtGVUdtY2tCRWtL?=
+ =?utf-8?B?a1g2QnB4bm9Xb2xXZGRCSnUyeGhWY0diaWdab0tEZTIyK1JSRmx3anRONVNW?=
+ =?utf-8?B?UFFVbDZGT3RtbFgxMGpPYkRUOURoTDNpOGJQN2VUa2Z5R3NzRnNudFdQVXB0?=
+ =?utf-8?B?anNtNEx6dTNQc1hzdHl2M09FbGZtK3pQMmQwODBqVXZXbm4vdDhtKzJYb3lK?=
+ =?utf-8?B?QlFCOUg3NTZIZlhKcUlJNWVRc2JGZy9ua29ZOUhyUTYwb0UwUkgyeFRjeWk2?=
+ =?utf-8?B?NHJnOWRsNW9jQlRJaFdwQ2lFQWZsejJxS0d4d0pzL3FTT25OTklMQmdUclZZ?=
+ =?utf-8?B?aW9aZFBsK0F4aWJKSXNYbXFDTW44QUNKRnordFgweTV4d0dFYVQ4U1Y4RUxV?=
+ =?utf-8?B?a3BsWDVSK2tJTWpLb1BzNnQ5S3NSaVBsOVl1VytkTUg1K3lKRHBCMm1qMjVu?=
+ =?utf-8?Q?ICRmcvhuM2sIaOf6ByfUJcLGKywY+E=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR12MB6526.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZGcybVNoRkgzV3VoRnJwam1oZHMzT3FzTmZoTWVpaUpueUswR1F1WmU3dHFV?=
+ =?utf-8?B?Q0d5TEJ3NEE3T1M0akUzNGNVdUo4elgrMzFZWUJobmpLZjRuUGRLc2JGb211?=
+ =?utf-8?B?azhlUExKc2laRjFZaEgzOEI1cTlKS1gzTys4czdmRFFTZDFVdEhzRFhmSlEy?=
+ =?utf-8?B?ZFk3eU9LbUk0eWlVSHlxWVVucW1VMzAvUWxuSGpKKzV3Unk1cDdaKzF6Q1J6?=
+ =?utf-8?B?TVFYcXlDK1ZWZTFjazM3RDdHbVVEelBqWHNMNFZDcWpRckdxQVBiMnpMNmZr?=
+ =?utf-8?B?TGRqNlBkWS9VQnhtZEVFd0F1ZGRPUHVwYUs1UkRGamc0TUx0d1pvSEJZWHdT?=
+ =?utf-8?B?UnVaYmdGYVJqTUdkemVlQy9GVXFEejh2am5BaHR5RnBiQW1wOTRoNjR5THo5?=
+ =?utf-8?B?Z2lwTkZkYjdJWEt2UzUvSUhYQ0NZNmt3REt5cHBPSXJQSGxiazBLZC9sQVY4?=
+ =?utf-8?B?L1Zwckl3M2VTNFlTZUhMM0ZVZUNjbm9sK3dMTHI4MFFJRTg1RENZV0Z3S2lv?=
+ =?utf-8?B?cmxOVXRiRDZOZUZJUnBXWEVTQ1llbVRFOGRFYlF5aHZ1K21LRDNoU0FFODE0?=
+ =?utf-8?B?cnh4cTFLVFRLYTVaYldyNEVIZDRRc0VEZncwL1dFWmxiTmM5clBpbTBNVzhS?=
+ =?utf-8?B?dG5hRUJDSVprcCt2M2hCZDBJdkNUNCtnSGxlbG9LUXFqNTA5ak9zTHRNQlgv?=
+ =?utf-8?B?N1dBOHhtS3FqcklYalcvL3MxZ3dKWnQyNFVVZit6c3JCRDNsM1BXTW0yVWc3?=
+ =?utf-8?B?M2g5alF3Z2UwcllUZ0Rud2xqS3R0dVk0SWJhSGVYRUFwWjlMMnJLM25uZDRp?=
+ =?utf-8?B?N21pczlCWEFJUU94ZDI3RWpKT3ZxNUVaRnE2ZC8xRXNTMEM5S0NmMUs1eDZ5?=
+ =?utf-8?B?TmlXYUFUZ3BFK0tPMXBKTjIvemFXM3V0N3VBcmtla20zSFNtTlQvaHFrbEhL?=
+ =?utf-8?B?T1JJZnc4RmxLdEtvZUxSR2JyQXE1WXBZalZTQklFZVk2SUllUytFaGkrODUx?=
+ =?utf-8?B?OEhUMGdyS2tpcVBla1M2aGxnWkd4blJkVXBkYlBlZmJEMTIwY2FqM3R2VXJH?=
+ =?utf-8?B?WnVtdy94NEVMUFRlRGgrQTRzUWhrKzBndzREcDZtTGJUcXlrdS9DVzBaZElS?=
+ =?utf-8?B?VGx0OVNiRzR5TGwzNFRUSnpVSXJqWnprT2h1dVlRbXVBM3lHTWt2ZjY3MmYw?=
+ =?utf-8?B?dmw5cnVLZkc2M2tPZGdCZGNrS3JXYXVPLzBIeGdxN0JKUEx4VkR0WWlpbkZP?=
+ =?utf-8?B?SFR6bVVwd3NYNnh1ZjhFbmZZVmZ0aVJMakJJSnY5cFNuRmhrSno2eXBmTzhV?=
+ =?utf-8?B?WmdrZTNIY1A5cUIyNmc0Q2hVakUwUTUxTHZIOG5KTG1sRldHZnNMQTdLUFdG?=
+ =?utf-8?B?YVlVSHFCbmJsVER5QnNwa1lLTVNSRUJCRENxc3h3Y21jM28rbWpCUmsvbmZs?=
+ =?utf-8?B?OXkyLzg5Vkl0VE1ic0lpTHE0YzU4OE9reXBXMHgyTDMzYlFwNkNRZlJMaTh1?=
+ =?utf-8?B?ZlVNK0Q4c05zYXFwWVlWem0yWHhNN2ZLMHFKM1VETnhzaHk1Y09WNlluRDdu?=
+ =?utf-8?B?cWdCWno3c3BQVlljTWJRUzRpdFJYWGkwSFZaa1paODNZMkVBUUJBWEFWNDlZ?=
+ =?utf-8?B?UUNJK05IT00xMzZSN2lYM3V1bklYSXlJdUFrQ0VNcVkxMEJQbEdleGwvYSt4?=
+ =?utf-8?B?bG95Z3lkdXoyYzd2eU1MZzhpb0pjM0UyNEovdnJBVzUwNmltK3lvd2dUY2Z2?=
+ =?utf-8?B?Q29hdmMwb3dWUlg0R3FjNURwMXZQcDJFYXZFeWNaUDQzTm1rTXNPbWJ2MnZW?=
+ =?utf-8?B?TkpicjlMSTNKMVAybkdrbFRCdWlGNEowNkR6THptdHduM3YzdElMNU9vM1ZE?=
+ =?utf-8?B?L2pLQXczWFptWXVXYXVzVWpoeXpFOTVmMUtLN0ljV2FjdTliWlRQZ28zRmpz?=
+ =?utf-8?B?RGYwRkZ2WkJmMk03NVJCVVlkSWppdlFNTzRmWG13aDJ4QUFqUEdIcStMUlVU?=
+ =?utf-8?B?WEp6MENvMC9qSVZlQWZGYTN0cHF6VGt1WlNFZXNyUU5CaVMwUWkvZEhiOTlL?=
+ =?utf-8?B?WUc4TUdMTzdDT0c4RnUyRkl5Qmt0KytCNWJ3RTZ3eHcxaGViZlZXbkdkYWM2?=
+ =?utf-8?Q?Zj/5/BMYlxzHA7r8Sf/qf69MY?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <27DF362227DFFB47AD766B402C336D45@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20250811221739.2694336-1-marievic@google.com>
- <20250811221739.2694336-8-marievic@google.com>
-In-Reply-To: <20250811221739.2694336-8-marievic@google.com>
-From: Rae Moar <rmoar@google.com>
-Date: Tue, 12 Aug 2025 18:23:56 -0400
-X-Gm-Features: Ac12FXwTra0WMZYWLdGULPxe1JGuotd8Jb883BcWC58YqpPZjgUY2pOTUgm9BrI
-Message-ID: <CA+GJov5bDn4qgWXo=xwmrkQ6-cw8BizkG2h20sCRgaSmQhV6jw@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] Documentation: kunit: Document new parameterized
- test features
-To: Marie Zhussupova <marievic@google.com>
-Cc: davidgow@google.com, shuah@kernel.org, brendan.higgins@linux.dev, 
- mark.rutland@arm.com, elver@google.com, dvyukov@google.com, 
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
- rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6526.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4daaab87-504c-4f66-d910-08ddd9f2dd12
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Aug 2025 22:52:07.0710 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UvaCtYYaG+e7Gnaf42umAAipBdQ8Ao6bHthWGSPEXnn+aHOeiHmyibYQEmeDuDse0b/OWI6Jui8oq/6c0pK8Sg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9356
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,547 +171,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 11, 2025 at 6:18=E2=80=AFPM Marie Zhussupova <marievic@google.c=
-om> wrote:
->
-> This patch updates the KUnit docs to show how to use the new
-> parameterized test context to share resources
-> between parameter runs. It documents and show examples
-> of different ways the test user can pass parameter
-> arrays to a parameterized test. Finally, it specifies the
-> parameterized testing terminology.
->
-> Signed-off-by: Marie Zhussupova <marievic@google.com>
-> ---
-
-Hello!
-
-This mostly looks good to me. I would be happy for this to go in as
-is. However, I do have comments about adding links below.
-
-Reviewed-by: Rae Moar <rmoar@google.com>
-
-Thanks!
--Rae
-
->
-> Changes in v2:
->
-> - The documentation was updated to establish the parameterized
->   testing terminology and reflect all the patch series changes.
-> - The references to other parts of the KUnit Documentation were
->   not changed from being "Documentation/dev-tools/kunit/api/test.rst"
->   to ":ref:`kunit-resource`" links as originally planned. This is
->   because the existing way shows up as a link to a webpage and it
->   would be hard for people reading the documentation as an .rst
->   file to find the referred section without having the file path.
-> - The code examples were made more concise.
-> - Minor edits to titles and formatting.
->
-> ---
->  Documentation/dev-tools/kunit/usage.rst | 342 +++++++++++++++++++++++-
->  1 file changed, 336 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-=
-tools/kunit/usage.rst
-> index 066ecda1dd98..b236bb07aaca 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -542,11 +542,29 @@ There is more boilerplate code involved, but it can=
-:
->  Parameterized Testing
->  ~~~~~~~~~~~~~~~~~~~~~
->
-> -The table-driven testing pattern is common enough that KUnit has special
-> -support for it.
-> -
-> -By reusing the same ``cases`` array from above, we can write the test as=
- a
-> -"parameterized test" with the following.
-> +To run a test case against multiple inputs, KUnit provides a parameteriz=
-ed
-> +testing framework. This feature formalizes and extends the concept of
-> +table-driven tests discussed previously. A KUnit test is determined to b=
-e
-> +parameterized if a parameter generator function is provided when registe=
-ring
-> +the test case.
-> +
-> +To establish the terminology, "parameterized test" refers to the group o=
-f all
-> +runs of a single test function with different parameters. "Parameter run=
-" refers
-> +to the execution of the test case function with a single parameter.
-> +"Parameterized test context" is the ``struct kunit`` that holds the
-> +context for the entire parameterized test. Finally, "parameter run conte=
-xt" is
-> +the ``struct kunit`` that holds the context of the individual parameter =
-run.
-> +
-> +Passing Parameters to a Test
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +There are three ways to provide the parameters to a test:
-> +
-> +Array Parameter Macros:
-> +
-> +   KUnit provides special support for the common table-driven testing pa=
-ttern.
-> +   By applying either ``KUNIT_ARRAY_PARAM`` or ``KUNIT_ARRAY_PARAM_DESC`=
-` to the
-> +   ``cases`` array from the previous section, we can create a parameteri=
-zed test
-> +   as shown below:
->
->  .. code-block:: c
->
-> @@ -555,7 +573,7 @@ By reusing the same ``cases`` array from above, we ca=
-n write the test as a
->                 const char *str;
->                 const char *sha1;
->         };
-> -       const struct sha1_test_case cases[] =3D {
-> +       static const struct sha1_test_case cases[] =3D {
->                 {
->                         .str =3D "hello world",
->                         .sha1 =3D "2aae6c35c94fcfb415dbe95f408b9ce91ee846=
-ed",
-> @@ -590,6 +608,318 @@ By reusing the same ``cases`` array from above, we =
-can write the test as a
->                 {}
->         };
->
-> +Custom Parameter Generator Function:
-> +
-> +   The generator function is responsible for generating parameters one-b=
-y-one
-> +   and has the following signature:
-> +   ``const void* (*)(struct kunit *test, const void *prev, char *desc)``=
-.
-> +   You can pass the generator function to the ``KUNIT_CASE_PARAM``
-> +   or ``KUNIT_CASE_PARAM_WITH_INIT`` macros.
-> +
-> +   The function receives the previously generated parameter as the ``pre=
-v`` argument
-> +   (which is ``NULL`` on the first call) and can also access the paramet=
-erized
-> +   test context passed as the ``test`` argument. KUnit calls this functi=
-on
-> +   repeatedly until it returns ``NULL``, which signifies that a paramete=
-rized
-> +   test ended.
-> +
-> +   Below is an example of how it works:
-> +
-> +.. code-block:: c
-> +
-> +       #define MAX_TEST_BUFFER_SIZE 8
-> +
-> +       // Example generator function. It produces a sequence of buffer s=
-izes that
-> +       // are powers of two, starting at 1 (e.g., 1, 2, 4, 8).
-> +       static const void *buffer_size_gen_params(struct kunit *test, con=
-st void *prev, char *desc)
-> +       {
-> +               long prev_buffer_size =3D (long)prev;
-> +               long next_buffer_size =3D 1; // Start with an initial siz=
-e of 1.
-> +
-> +               // Stop generating parameters if the limit is reached or =
-exceeded.
-> +               if (prev_buffer_size >=3D MAX_TEST_BUFFER_SIZE)
-> +                       return NULL;
-> +
-> +               // For subsequent calls, calculate the next size by doubl=
-ing the previous one.
-> +               if (prev)
-> +                       next_buffer_size =3D prev_buffer_size << 1;
-> +
-> +               return (void *)next_buffer_size;
-> +       }
-> +
-> +       // Simple test to validate that kunit_kzalloc provides zeroed mem=
-ory.
-> +       static void buffer_zero_test(struct kunit *test)
-> +       {
-> +               long buffer_size =3D (long)test->param_value;
-> +               // Use kunit_kzalloc to allocate a zero-initialized buffe=
-r. This makes the
-> +               // memory "parameter run managed," meaning it's automatic=
-ally cleaned up at
-> +               // the end of each parameter run.
-> +               int *buf =3D kunit_kzalloc(test, buffer_size * sizeof(int=
-), GFP_KERNEL);
-> +
-> +               // Ensure the allocation was successful.
-> +               KUNIT_ASSERT_NOT_NULL(test, buf);
-> +
-> +               // Loop through the buffer and confirm every element is z=
-ero.
-> +               for (int i =3D 0; i < buffer_size; i++)
-> +                       KUNIT_EXPECT_EQ(test, buf[i], 0);
-> +       }
-> +
-> +       static struct kunit_case buffer_test_cases[] =3D {
-> +               KUNIT_CASE_PARAM(buffer_zero_test, buffer_size_gen_params=
-),
-> +               {}
-> +       };
-> +
-> +Runtime Parameter Array Registration in the Init Function:
-> +
-> +   For more complex scenarios, you can directly register a parameter arr=
-ay
-> +   to the parameterized test context.
-> +
-> +   To do this, you must pass the parameterized test context, the array i=
-tself,
-> +   the array size, and a ``get_description()`` function to the
-> +   ``kunit_register_params_array()`` macro. This macro populates
-> +   ``struct kunit_params`` within the parameterized test context, effect=
-ively
-> +   storing a parameter array object. The ``get_description()`` function =
-will
-> +   be used for populating parameter descriptions and has the following s=
-ignature:
-> +   ``void (*)(struct kunit *test, const void *param, char *desc)``. Note=
- that it
-> +   also has access to the parameterized test context.
-> +
-> +      .. important::
-> +         When using this way to register a parameter array, you will nee=
-d to
-> +         manually pass ``kunit_array_gen_params()`` as the generator fun=
-ction to
-> +         ``KUNIT_CASE_PARAM_WITH_INIT``. ``kunit_array_gen_params()`` is=
- a KUnit
-> +         helper that will use the registered array to generate the param=
-eters.
-> +
-> +        If needed, instead of passing the KUnit helper, you can also pas=
-s your
-> +        own custom generator function that utilizes the parameter array.=
- To
-> +        access the parameter array from within the parameter generator
-> +        function use ``test->params_array.params``.
-> +
-> +   The ``kunit_register_params_array()`` macro should be called within a
-> +   ``param_init()`` function that initializes the parameterized test and=
- has
-> +   the following signature ``int (*)(struct kunit *test)``. For a detail=
-ed
-> +   explanation of this mechanism please refer to the "Adding Shared Reso=
-urces"
-> +   section that is after this one. This method supports registering both
-> +   dynamically built and static parameter arrays.
-> +
-> +   The code snippet below shows the ``example_param_init_dynamic_arr`` t=
-est that
-> +   utilizes ``make_fibonacci_params()`` to create a dynamic array, which=
- is then
-> +   registered using ``kunit_register_params_array()``. To see the full c=
-ode
-> +   please refer to lib/kunit/kunit-example-test.c starting at line 396.
-
-It would be great if this could be a bootlin link that takes you right
-to this file at line 396. You can use external links with this
-documentation: https://sublime-and-sphinx-guide.readthedocs.io/en/latest/re=
-ferences.html.
-
-> +
-> +.. code-block:: c
-> +
-> +       /*
-> +       * Example of a parameterized test param_init() function that regi=
-sters a dynamic
-> +       * array of parameters.
-> +       */
-> +       static int example_param_init_dynamic_arr(struct kunit *test)
-> +       {
-> +               size_t seq_size;
-> +               int *fibonacci_params;
-> +
-> +               kunit_info(test, "initializing parameterized test\n");
-> +
-> +               seq_size =3D 6;
-> +               fibonacci_params =3D make_fibonacci_params(test, seq_size=
-);
-> +               if (!fibonacci_params)
-> +                       return -ENOMEM;
-> +               /*
-> +               * Passes the dynamic parameter array information to the p=
-arameterized test
-> +               * context struct kunit. The array and its metadata will b=
-e stored in
-> +               * test->parent->params_array. The array itself will be lo=
-cated in
-> +               * params_data.params.
-> +               */
-> +               kunit_register_params_array(test, fibonacci_params, seq_s=
-ize,
-> +                                       example_param_dynamic_arr_get_des=
-c);
-> +               return 0;
-> +       }
-> +
-> +       static struct kunit_case example_test_cases[] =3D {
-> +               /*
-> +                * Note how we pass kunit_array_gen_params() to use the a=
-rray we
-> +                * registered in example_param_init_dynamic_arr() to gene=
-rate
-> +                * parameters.
-> +                */
-> +               KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init_=
-dynamic_arr,
-> +                                          kunit_array_gen_params,
-> +                                          example_param_init_dynamic_arr=
-,
-> +                                          example_param_exit_dynamic_arr=
-),
-> +               {}
-> +       };
-> +
-> +Adding Shared Resources
-> +^^^^^^^^^^^^^^^^^^^^^^^
-> +All parameter runs in this framework hold a reference to the parameteriz=
-ed test
-> +context, which can be accessed using the parent ``struct kunit`` pointer=
-. The
-> +parameterized test context is not used to execute any test logic itself;=
- instead,
-> +it serves as a container for shared resources.
-> +
-> +It's possible to add resources to share between parameter runs within a
-> +parameterized test by using ``KUNIT_CASE_PARAM_WITH_INIT``, to which you=
- pass
-> +custom ``param_init()`` and ``param_exit()`` functions. These functions =
-run once
-> +before and once after the parameterized test, respectively.
-> +
-> +The ``param_init()`` function, with the signature ``int (*)(struct kunit=
- *test)``,
-> +can be used for adding resources to the ``resources`` or ``priv`` fields=
- of
-> +the parameterized test context, registering the parameter array, and any=
- other
-> +initialization logic.
-> +
-> +The ``param_exit()`` function, with the signature ``void (*)(struct kuni=
-t *test)``,
-> +can be used to release any resources that were not parameterized test ma=
-naged (i.e.
-> +not automatically cleaned up after the parameterized test ends) and for =
-any other
-> +exit logic.
-> +
-> +Both ``param_init()`` and ``param_exit()`` are passed the parameterized =
-test
-> +context behind the scenes. However, the test case function receives the =
-parameter
-> +run context. Therefore, to manage and access shared resources from withi=
-n a test
-> +case function, you must use ``test->parent``.
-> +
-> +For instance, finding a shared resource allocated by the Resource API re=
-quires
-> +passing ``test->parent`` to ``kunit_find_resource()``. This principle ex=
-tends to
-> +all other APIs that might be used in the test case function, including
-> +``kunit_kzalloc()``, ``kunit_kmalloc_array()``, and others (see
-> +Documentation/dev-tools/kunit/api/test.rst and the
-> +Documentation/dev-tools/kunit/api/resource.rst).
-
-It would be great if these references could be links to those pages in
-the kernel docs.
-
-> +
-> +.. note::
-> +   The ``suite->init()`` function, which executes before each parameter =
-run,
-> +   receives the parameter run context. Therefore, any resources set up i=
-n
-> +   ``suite->init()`` are cleaned up after each parameter run.
-> +
-> +The code below shows how you can add the shared resources. Note that thi=
-s code
-> +utilizes the Resource API, which you can read more about here:
-> +Documentation/dev-tools/kunit/api/resource.rst. To see the full version =
-of this
-> +code please refer to lib/kunit/kunit-example-test.c starting at line 280=
-.
-
-Same here with the reference to this rst file and this file and line
-number in the code.
-
-
-> +
-> +.. code-block:: c
-> +
-> +       static int example_resource_init(struct kunit_resource *res, void=
- *context)
-> +       {
-> +               ... /* Code that allocates memory and stores context in r=
-es->data. */
-> +       }
-> +
-> +       /* This function deallocates memory for the kunit_resource->data =
-field. */
-> +       static void example_resource_free(struct kunit_resource *res)
-> +       {
-> +               kfree(res->data);
-> +       }
-> +
-> +       /* This match function locates a test resource based on defined c=
-riteria. */
-> +       static bool example_resource_alloc_match(struct kunit *test, stru=
-ct kunit_resource *res,
-> +                                                void *match_data)
-> +       {
-> +               return res->data && res->free =3D=3D example_resource_fre=
-e;
-> +       }
-> +
-> +       /* Function to initialize the parameterized test. */
-> +       static int example_param_init(struct kunit *test)
-> +       {
-> +               int ctx =3D 3; /* Data to be stored. */
-> +               void *data =3D kunit_alloc_resource(test, example_resourc=
-e_init,
-> +                                                 example_resource_free,
-> +                                                 GFP_KERNEL, &ctx);
-> +               if (!data)
-> +                       return -ENOMEM;
-> +               kunit_register_params_array(test, example_params_array,
-> +                                           ARRAY_SIZE(example_params_arr=
-ay));
-> +               return 0;
-> +       }
-> +
-> +       /* Example test that uses shared resources in test->resources. */
-> +       static void example_params_test_with_init(struct kunit *test)
-> +       {
-> +               int threshold;
-> +               const struct example_param *param =3D test->param_value;
-> +               /*  Here we pass test->parent to access the parameterized=
- test context. */
-> +               struct kunit_resource *res =3D kunit_find_resource(test->=
-parent,
-> +                                                                example_=
-resource_alloc_match,
-> +                                                                NULL);
-> +
-> +               threshold =3D *((int *)res->data);
-> +               KUNIT_ASSERT_LE(test, param->value, threshold);
-> +               kunit_put_resource(res);
-> +       }
-> +
-> +       static struct kunit_case example_test_cases[] =3D {
-> +               KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init,=
- kunit_array_gen_params,
-> +                                          example_param_init, NULL),
-> +               {}
-> +       };
-> +
-> +As an alternative to using the KUnit Resource API for sharing resources,=
- you can
-> +place them in ``test->parent->priv``. This serves as a more lightweight =
-method
-> +for resource storage, best for scenarios where complex resource manageme=
-nt is
-> +not required.
-> +
-> +As stated previously ``param_init()`` and ``param_exit()`` get the param=
-eterized
-> +test context. So, you can directly use ``test->priv`` within ``param_ini=
-t/exit``
-> +to manage shared resources. However, from within the test case function,=
- you must
-> +navigate up to the parent ``struct kunit`` i.e. the parameterized test c=
-ontext.
-> +Therefore, you need to use ``test->parent->priv`` to access those same
-> +resources.
-> +
-> +The resources placed in ``test->parent->priv`` will need to be allocated=
- in
-> +memory to persist across the parameter runs. If memory is allocated usin=
-g the
-> +KUnit memory allocation APIs (described more in the "Allocating Memory" =
-section
-> +below), you won't need to worry about deallocation. The APIs will make t=
-he memory
-> +parameterized test 'managed', ensuring that it will automatically get cl=
-eaned up
-> +after the parameterized test concludes.
-> +
-> +The code below demonstrates example usage of the ``priv`` field for shar=
-ed
-> +resources:
-> +
-> +.. code-block:: c
-> +
-> +       static const struct example_param {
-> +               int value;
-> +       } example_params_array[] =3D {
-> +               { .value =3D 3, },
-> +               { .value =3D 2, },
-> +               { .value =3D 1, },
-> +               { .value =3D 0, },
-> +       };
-> +
-> +       /* Initialize the parameterized test context. */
-> +       static int example_param_init_priv(struct kunit *test)
-> +       {
-> +               int ctx =3D 3; /* Data to be stored. */
-> +               int arr_size =3D ARRAY_SIZE(example_params_array);
-> +
-> +               /*
-> +                * Allocate memory using kunit_kzalloc(). Since the `para=
-m_init`
-> +                * function receives the parameterized test context, this=
- memory
-> +                * allocation will be scoped to the lifetime of the param=
-eterized test.
-> +                */
-> +               test->priv =3D kunit_kzalloc(test, sizeof(int), GFP_KERNE=
-L);
-> +
-> +               /* Assign the context value to test->priv.*/
-> +               *((int *)test->priv) =3D ctx;
-> +
-> +               /* Register the parameter array. */
-> +               kunit_register_params_array(test, example_params_array, a=
-rr_size, NULL);
-> +               return 0;
-> +       }
-> +
-> +       static void example_params_test_with_init_priv(struct kunit *test=
-)
-> +       {
-> +               int threshold;
-> +               const struct example_param *param =3D test->param_value;
-> +
-> +               /* By design, test->parent will not be NULL. */
-> +               KUNIT_ASSERT_NOT_NULL(test, test->parent);
-> +
-> +               /* Here we use test->parent->priv to access the shared re=
-source. */
-> +               threshold =3D *(int *)test->parent->priv;
-> +
-> +               KUNIT_ASSERT_LE(test, param->value, threshold);
-> +       }
-> +
-> +       static struct kunit_case example_tests[] =3D {
-> +               KUNIT_CASE_PARAM_WITH_INIT(example_params_test_with_init_=
-priv,
-> +                                          kunit_array_gen_params,
-> +                                          example_param_init_priv, NULL)=
-,
-> +               {}
-> +       };
-> +
->  Allocating Memory
->  -----------------
->
-> --
-> 2.51.0.rc0.205.g4a044479a3-goog
->
+T24gTW9uLCAyMDI1LTA4LTExIGF0IDE3OjE5ICswODAwLCBRaWFuZmVuZyBSb25nIHdyb3RlOg0K
+PiBSZXBsYWNlIGtmcmVlKCkgd2l0aCBrdmZyZWUoKSBmb3IgbWVtb3J5IGFsbG9jYXRlZCBieSBr
+dm1hbGxvYygpLg0KPiANCj4gQ29tcGlsZS10ZXN0ZWQgb25seS4NCj4gDQo+IFNpZ25lZC1vZmYt
+Ynk6IFFpYW5mZW5nIFJvbmcgPHJvbmdxaWFuZmVuZ0B2aXZvLmNvbT4NCg0KUmV2aWV3ZWQtYnk6
+IFRpbXVyIFRhYmkgPHR0YWJpQG52aWRpYS5jb20+DQoNClRoaXMgZG9lcyBmaXggYSByZWFsIGJ1
+Zy4NCg0KSG93ZXZlciwgSSB0aGluayB0aGUgcmVhbCBwcm9ibGVtIGlzIHRoYXQgaXQncyByZWFs
+bHkgY29uZnVzaW5nIHRoYXQNCnI1MzVfZ3NwX21zZ3FfcmVjdl9vbmVfZWxlbShnc3AsICZpbmZv
+KSByZXR1cm5zIGluZm8uZ3NwX3JwY19idWYgaW5zdGVhZCBvZiBqdXN0IHN1Y2Nlc3MvZmFpbHVy
+ZS4gDQpyNTM1X2dzcF9tc2dxX3JlY3YoKSBkb2VzIHRoaXM6DQoNCglidWYgPSBrdm1hbGxvYyht
+YXhfdCh1MzIsIHJwYy0+bGVuZ3RoLCBleHBlY3RlZCksIEdGUF9LRVJORUwpOw0KLi4uDQoJaW5m
+by5nc3BfcnBjX2J1ZiA9IGJ1ZjsNCi4uLiANCglidWYgPSByNTM1X2dzcF9tc2dxX3JlY3Zfb25l
+X2VsZW0oZ3NwLCAmaW5mbyk7DQoNCllvdSB3b3VsZG4ndCBrbm93IGl0LCBidXQgdGhpcyBkb2Vz
+IG5vdCBjaGFuZ2UgdGhlIHZhbHVlIG9mICdidWYnIHVubGVzcw0KcjUzNV9nc3BfbXNncV9yZWN2
+X29uZV9lbGVtKCkgZmFpbHMuICBJZiBpdCBkb2VzIGZhaWwsIHRoZSBjb2RlIGRvZXMgdGhpczoN
+Cg0KCWlmIChJU19FUlIoYnVmKSkgew0KCQlrdmZyZWUoaW5mby5nc3BfcnBjX2J1Zik7DQoNCkl0
+IHdvdWxkIGJlIGEgbG90IGNsZWFyZXIgaWYgd2UgY291bGQga3ZmcmVlKGJ1ZikgaGVyZSwgYnV0
+IHdlIGNhbid0IGJlY2F1c2UgJ2J1Zicgbm8gbG9uZ2VyIHBvaW50cw0KdG8gdGhlIGJ1ZmZlciwg
+ZXZlbiB0aG91Z2ggdGhlIGJ1ZmZlciBzdGlsbCBleGlzdHMuDQoNCg0K
