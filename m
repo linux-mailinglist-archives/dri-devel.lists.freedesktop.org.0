@@ -2,141 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087F8B22108
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 10:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599A0B2215A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 10:40:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C8310E5C1;
-	Tue, 12 Aug 2025 08:32:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFE9710E0FF;
+	Tue, 12 Aug 2025 08:40:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="iJqoUHc/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kxpgntL+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYPPR03CU001.outbound.protection.outlook.com
- (mail-japaneastazon11012033.outbound.protection.outlook.com [52.101.126.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F96510E5BC;
- Tue, 12 Aug 2025 08:32:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uW1dnEUaZa61RcNERL66s9+pgpm8BPgaWQuZT9+oHkwugLyhdKX5itDuCLi23zxw9YS4Cf8MmkEwGdfkPFewQqOwl+vhiVxOufswQxrHPE7tXOxwh2ZcFrlATiM2mMmc+5upLq6cTlqdZtBcQGi0NAHyhAaAIUmNRzXuFC2jQzXVjqLj/uBSe1hd5FlnQwnk/7ykehu688blHT6fZbFn53YMU377zL3g1/+I/711BsT8j1+AQjoU8P/wR54MOkLksUmDeXcgw5Qf4fYSpYQ9N+YpGBzIN1zbDpnX0pwIng+L6jFSoVLSTb0vhoGmDvkXZ1XHgvWhdl/vIfEC+UOSrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9uHsdIe3m2ri47Gibuqpe4BxsymeWEIxeu6s15XyQI8=;
- b=wVbmpoJI1Xpn53JrW+++eAHxwXWkY7wEHUVNZ0Oeg5WykFaCdn2YWZ29VeJWpcGTRlNEs7qNrApOQRBUK9iJMydVrwCxw2wv14S7sMlVHbjRhAgnbL3thzIZv/F4wIcxeNBSMWVsffoNoDze17al/2BAW68c61DtNRZTa5ubAnKzWfRhpNBqAFCsfmyoafciaf4nTZOQMLKhe/v7X9kaXe0S8kuS04R1My6hwLD0/FynfYT3l8Sf6dqNvDvB+NRE/CkOPUwonYzCT8sc6Rd8Jyat9APL7aR9AzgNAz6Tb8VV02L189ks9xz0hJi4hlGJWVEva7p9J5znLsv+KwW7sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9uHsdIe3m2ri47Gibuqpe4BxsymeWEIxeu6s15XyQI8=;
- b=iJqoUHc/LIpCXfNEQatOs4DnVSH0uZMfug6curgbtprcAL4LVLxMfSEPJbY8PB71huboDyOz8srV2KcswVa00q+ryKyyt1A9xt4VZjDnMLHUz/cIi1p9Y/+sb9WHO7RzDIFwyu2OSWIt3A8AvdQmgMEuSl5nDMOl3TK/3CQYk9q3UgDeUqtJZX/pfu90RoF9hDk29swIcGEQvA46OW0mU1u3h1K695XHo4o9OoO+HxJYT1LztQ+GzS6bXzs4JdP/wBhH4oMI7bMtNzZ4a08bvg0iZrl9e0dBvKguOAhpYdGxMptzkUCSnJyEX02H4v+/3WxFXwwAQBJr3MV3t7mZQQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
- TY0PR06MB5102.apcprd06.prod.outlook.com (2603:1096:400:1ba::5) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9009.22; Tue, 12 Aug 2025 08:32:21 +0000
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666%4]) with mapi id 15.20.9009.018; Tue, 12 Aug 2025
- 08:32:21 +0000
-From: Qianfeng Rong <rongqianfeng@vivo.com>
-To: Austin Zheng <austin.zheng@amd.com>, Jun Lei <jun.lei@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dillon Varone <dillon.varone@amd.com>,
- Qianfeng Rong <rongqianfeng@vivo.com>, Alvin Lee <alvin.lee2@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, amd-gfx@lists.freedesktop.org,
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7146D10E0FF
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 08:39:59 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-459ddada9b1so48257625e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 01:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1754987998; x=1755592798; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=PfCe+Hab0EGiwiSh46Us94InqOs3PEdCxahZrUvq8fY=;
+ b=kxpgntL+fH1UQA2oVMgoH/fkCh/JK1uzY+dtdjdm5bBXgn8LLQZJJ6xLnWHTmDoRy6
+ ZP+cxM+5O800xNtqOzepA/2ADPp927VxkQivRIoXmKBI6GNUDieQiPPYqvA5soBmWVTp
+ 6z2nNj3rwcmxAhgsyA2PjqkZ6uaFVPfr3SCjPyOJcbL2tKv0APmqjHPzkyUt/qcZMXsX
+ +J/SGoUXxEj8kaUNRq4gRI5dxTRA0JW9y2Hi2rMF2p+oE/mWEd5Uwi3qzoIO+bB/BTIJ
+ /2qxI1bYOFI3FZmLt/u7MOhTO8l7Xi6o8Azgs5ckRCw/YUl0KPh4gxi7oS/uoouHvw0R
+ n9+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1754987998; x=1755592798;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PfCe+Hab0EGiwiSh46Us94InqOs3PEdCxahZrUvq8fY=;
+ b=qZLNizkcvsuKhCiyxBIjCiWROwdoZKvA5ZGUq/cNGE0OfSKB8m2hiGC4LdPaBSR6Op
+ 1f9eUkRMG5x98uX7xpOhYSADcEdkUEek+LgLzyedDuO6EYRxWPFtQRnCEQBSany37VLb
+ sSwofbYcJVYRyV4XIL3Ht58T0gsFR9FhrW0I4r+YAIdc9Lu4Moyvj+z33r3KxE5r5dxl
+ gC1/JChPvAn0qvGLCzyhdpzupGWCM5ESHGxFGbQzgnZlKIXlvcvYRuKdx7t4pulF80Sf
+ P1BxbqcJABcZNU/+IkE5dtAK0L5AqEfmfhEmThU/s7j8ZF8SUYM/FqJ+n0NKDsIP5XG0
+ ktoA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU5EKdjcsn9Gt8Tn+w+7VSpSRRM5l7Ejl9WZ/Nd3NtnexrII6isoadBQxKkR0A8ZGPAcYgUvztybp4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLjdKgpzBmzej1+3VdYBOKgCguqwqK43cigiWY7KxU6ceroe0L
+ ynEwqJJY/YnjdXNaFvYTMICu/fTYr3e/d9o25eSZtc+QhXOg+32udsuL9CNgc/wW+Ek=
+X-Gm-Gg: ASbGnctojG3w9b3gnYhpUN3TSQcI/1DKg0ZASlUVN/OSU4aHh+0u7qkvN5v19F2MxRq
+ LgIhgvFeIjJQCSda1rR172IKqLUnUaz9AAIO0WhCSLwcOqLcWdPbOZjzCKDa21nBcLYS5AzbE1V
+ 4NEXNK3z1jIOmOTzXGD0b80Bty9WUP6vrhXG7TyJFPV+srxOEVEeqmKGyhhb5Irh9so151NDD0P
+ i+Ja6IQB5ITsSpAsfVSyX7TN4mr2uEBMo5HfxjIR9LB5hJCZGsA9n2UMgydNEDSv0GPbIlrHiW5
+ M/swuz73MM8QisOvUQVIoU+uw5vbWuShHFqqOqG2KcyiBg9x+ilWR5kUkse27tb3FdfG5B9zI+a
+ lrq8foUW6aDbqv0qvhtoBtxnpIsKE+cpNYoFvYKC3dJvMZLivD+kyBQ==
+X-Google-Smtp-Source: AGHT+IE8bA/wEEcwiHAKiaf7wSlcuwAOC59hiKgi/SIS6TbVIxNjim6ybFDyEh6Rbupki1OUm1hb0g==
+X-Received: by 2002:a05:600c:1caa:b0:456:e39:ec1a with SMTP id
+ 5b1f17b1804b1-459f4ec3a43mr156381895e9.14.1754987997836; 
+ Tue, 12 Aug 2025 01:39:57 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 5b1f17b1804b1-459d712c386sm370853285e9.23.2025.08.12.01.39.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Aug 2025 01:39:57 -0700 (PDT)
+Date: Tue, 12 Aug 2025 11:39:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
+ hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amd/display: Use boolean context for pointer null checks
-Date: Tue, 12 Aug 2025 16:31:49 +0800
-Message-Id: <20250812083208.53809-1-rongqianfeng@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0184.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::13) To SI2PR06MB5140.apcprd06.prod.outlook.com
- (2603:1096:4:1af::9)
+Subject: Re: [PATCH] drm/vkms: Assert if vkms_config_create_*() fails
+Message-ID: <aJr92bN5iQnIzTbP@stanley.mountain>
+References: <20250811101529.150716-1-jose.exposito89@gmail.com>
+ <91587a35-f884-46ad-9869-126d3efbfc61@bootlin.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|TY0PR06MB5102:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9cd21128-9ddb-49a4-204e-08ddd97ac1a3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|52116014|1800799024|366016|921020|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ASZQVgpXIZyhSoMYSsRo1sjmL1hWu7x+onh+/1kV98l3FI6mQ2gqaU36UAS2?=
- =?us-ascii?Q?NL+UFf5EHWCJ74C3HpOyhBE2Nsp3srVi6Aw/wxkQxJDlJtxolKuZwY3aF2+R?=
- =?us-ascii?Q?NCpDabRZ3mR/eOpNK0ZtTBdp4JlDbhvcUObJ9k0wNFI9tGt3Bh2IlNS2Ycr2?=
- =?us-ascii?Q?apVVhjvRXq5IvH6ezKJ0TMCxFflNTYs1s5fTirmmvjur1TGfsvtb+7PT+ceQ?=
- =?us-ascii?Q?d6kCMOP9vGvzEmbjjmqjFt8hYF7bU3GUSrZWis1Zh9+aOF+YTINcm0cn/rbY?=
- =?us-ascii?Q?sgSLehVq8caeQyskPrvJVd+7oQwJlGJeNS30kuEGmfZEA6K4N7/iQMXJTcKo?=
- =?us-ascii?Q?K6rK11uxJfH1XYlNFTARYq2zRbWGjDLPmzmUbpxn+dM9s4KCixNw8F1dT7Fs?=
- =?us-ascii?Q?XFmv1jcjBDJWXLxunwJMJVW5kocEfIx9X+ciitPOJ9o3HUVAOLNms9H9Y75F?=
- =?us-ascii?Q?qXFBMVDP1OKNXZPDOYNm5Qtnay3r3ZQ6IDBE4Aq4jrl52W5Qu1F6f5EUXAzs?=
- =?us-ascii?Q?+50QQg9KWZytwHm5FX64TOsmNvtjMZXlCZJcU+a9M90HaNyC7cUCN0EjW9Wu?=
- =?us-ascii?Q?1gYh+3JgNTn6iXY3S/LtZyAMZzpxWXa+VPxf7s0/fh2w3T3jU8hCAcbQEDAH?=
- =?us-ascii?Q?q4gaVPu15zQ225kXZYbS1PVZv/hj88G0uqUW668vY/g0qb4O3Z0ojzlaxxpo?=
- =?us-ascii?Q?iuqYgPS769EDJO16VnWQ/4vMILXjwrT/zdPon46PPzPUu0hjc90RGq8/c6Cw?=
- =?us-ascii?Q?v+222+9k8vqq4SscwA3AauQi4eAaPkZCMcTlraJZ4A3SGgEErI5gmfv2UHvv?=
- =?us-ascii?Q?opzIzutnC2Q20V6DytcOWBkB4Z79dK6OKNSozHDbcPsJCFXbSlDyoe+hlU1y?=
- =?us-ascii?Q?3ZbPZgftLDQ6lo/3bEwpkh/qruzwJVFC6A3TaFtmEelDMIdOdOFUZH0041Vn?=
- =?us-ascii?Q?SaTtIHBL0mXFGj1yVFenKyLvzJ7QN/HwciLRYmNQvCRF9MW3Ll4RC7AZe2g3?=
- =?us-ascii?Q?KvidXXkBpO5V3eniKHcm5IN7MiuyaDi2d31COQG/X0EZWpwRpU6p5p2wjWRR?=
- =?us-ascii?Q?+va7rceVux913rjqEWH3YJkGTusdP3CqA6aZOtFUR2bv9UxmV/dXTmCuXQuo?=
- =?us-ascii?Q?xrvua9n9ozi6+mSOebHtABX27M0lAv0xPTO1gSbvsW5tDAPqK4qCdin50smp?=
- =?us-ascii?Q?9kFDaRZQ4kmyzrv94kmpj8EFJ2X+GTLV5GFpF28Y4X6/MlvyFYXT0oKXalv0?=
- =?us-ascii?Q?EeRNQhG+SiALqhWZRECvgb2ABwpb/7eRF7f19LQSDqPRaZbkBn8sha/sSG74?=
- =?us-ascii?Q?LWEkG3jYRpod/qkeNxBiuD3VAU5VHodIXh+3jYEFjvKq2k+3ETar9uyEZJAh?=
- =?us-ascii?Q?ypTk+mEentDvr6YHFvb3P/waVIItZmdgWHtEsn0IO66lhZYgPiggKcCpmrC2?=
- =?us-ascii?Q?ZaRwBqwTryVqMQ/tAhSs9DRo5rj92Hu4jRTtw4CfkIjhpwtebol86vvz/Gnj?=
- =?us-ascii?Q?ayBYykEsaF3WRew=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(921020)(38350700014);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CIJ9hhU69a/hCVPZKXU+lcV4h9xJ5djL0JVBP0Eetm+Z5gWOFS8zCdFWP8wc?=
- =?us-ascii?Q?kwUf6iuhGv3lJSxwB/rKWRdEw+XJMyy13zS89EcXMkKWSWd2YUphDN+lpgcq?=
- =?us-ascii?Q?+XYMCMm4Q2LDCyi2z9My4+QMg0ON9wU2XXOYJD77W4ciGKhlGmeJ+VcDegFS?=
- =?us-ascii?Q?qToHoH1vF3Iyju/zIN7BcJpGp4YqF2yM/tjooG9dS8ymBko5Z1OCtFJPPmjX?=
- =?us-ascii?Q?8H7w+c6U/CrtPsKQDw6niFcbvL4T74iwCSnv/qyJjYPTy4ZHcNTRIWA2Hal+?=
- =?us-ascii?Q?qUbe/H87PZW9v5D3Xti08B+hLioE/7rXPgELCOqy36agmAOoZ2q5GghDDJvQ?=
- =?us-ascii?Q?seVTJ+MHA/K6No8qWhEATwG27H/1sY4M92GIPuajc74CPYbhbNUCohyPg+Vn?=
- =?us-ascii?Q?H6z6g0WSfuravxlRcsMhTcaWKt6CVoTn+hkGsgzI6/wD/NfNaRYScEUeoaYE?=
- =?us-ascii?Q?3cjroroOSlQQU/4wSf8wonhjDvV8bmGukaIC4+8IwG7UxigjLN2qBUVnTQI0?=
- =?us-ascii?Q?KDpm7mVTvGCNa2mBWMM0A+KH/+cRGCuZgtH/4QIsWtLzenRb0gZ3BAP1Qg94?=
- =?us-ascii?Q?dfL48Qi31l4bCbglZQpkecpwggNsWLEPIaAt2t48x/4Nt89DQ/0JwFAf7k+9?=
- =?us-ascii?Q?jjty+9kYlwbAYNoaNVnFtiOR5dLssn7fiTAo3TijtWP7rQsQOYak/loEDWdj?=
- =?us-ascii?Q?gBLEHFsUjn4POlbGyU3em6aZkiZdoFSYkH5FyAhb0smwXNlgGlO1UMw+L6OL?=
- =?us-ascii?Q?gsV7sdX/LX9/fKpztbRkC3O33XJSe8WLRPEUm08ba36oExSbqXzMX4WNdBQp?=
- =?us-ascii?Q?B7bopGqc+uju/gZtBXwSVpD9WZVyP3PaFLenneZ+9e/QFb0tehNmTqMkvFxS?=
- =?us-ascii?Q?ya+Zc1LxluAIABUJMo11w75zyAjmtVEcT5KB9vsu/HGDZLMSqabk9OI01HG7?=
- =?us-ascii?Q?hlzOi9+q3GcFvdRfKWyxsF9dW+EEq2MgqjmvdQADmqK8qUg+E74T3nzp+gSh?=
- =?us-ascii?Q?YbJs+X3IzsqadajBtpaStg2L+n11lysCZwqnYOw+BaJ/PPFUAXcf2UBxHVPH?=
- =?us-ascii?Q?a1GMkb62lliAKBI2w+xOLA/y71XQssCKfz91tx/hlPu9kt8hcT7XcWJ5A9Zm?=
- =?us-ascii?Q?R8ZhsY/vg3zf9aVw3cjyTpgoAGgoZh1wT+bGNPe1Mlb/dxkJw+PRwT5jIF0f?=
- =?us-ascii?Q?+h6Bjq9HhePLsKqOib/Q2NKkan4Yq74cxfkpIiMFwtkDuubE0J1a/byi/F8q?=
- =?us-ascii?Q?KwYA8LdWnfSXrxM81p/m4xaaStm19xHlk+u2375GPxCTbMU5KPwZbRGajaDs?=
- =?us-ascii?Q?PZ3zatIsY5jwq4e05u3YBTGPA2gbJHwKFwE1c/ueMuwh5tmyWYCNQbi3Wq17?=
- =?us-ascii?Q?g+HOnbFHaTyQ/XViRFkcXNMnOd7qW6HNkZqAZHAR3k3uyp9cAlx0KbxGWn3i?=
- =?us-ascii?Q?HdRJa3WYneaIzhpkDhqaT2V5k4fqzxcMireYVpQtz0GWmN8s21om/xJvJhrc?=
- =?us-ascii?Q?30OfehnvOI9MZKEN75ZzRAS+2YP+X64DjsL3nNlpNfBa0gAv47xQVFC/Cd4K?=
- =?us-ascii?Q?ezho8zhrNkxGrkiHDhpGuR/+MZSZVOCnx3MWXyvd?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cd21128-9ddb-49a4-204e-08ddd97ac1a3
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2025 08:32:21.5904 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FN3ouiyoYwj6sxOvOdT9XI3/KrmvqavCJtrYtjsTB7piszMFGziUgykePMcXtHc8elbtrMc/YweFenmRY1GxQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5102
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <91587a35-f884-46ad-9869-126d3efbfc61@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,69 +94,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace "out == 0" with "!out" for pointer comparison to improve code
-readability and conform to coding style.
+On Mon, Aug 11, 2025 at 07:21:18PM +0200, Louis Chauvet wrote:
+> 
+> 
+> Le 11/08/2025 à 12:15, José Expósito a écrit :
+> > Check that the value returned by the vkms_config_create_*() functions is
+> > valid. Otherwise, assert and finish the KUnit test.
+> > 
+> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Closes: https://lore.kernel.org/dri-devel/aJTL6IFEBaI8gqtH@stanley.mountain/
+> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> 
+> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> 
+> I am not sure on how to use smach, I don't have any warning at all for the
+> whole kernel, so I will wait for Dan Carpenter review before applying.
+> 
 
-Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
----
- .../amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_factory.c | 2 +-
- .../amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_factory.c | 2 +-
- .../amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_factory.c   | 2 +-
- .../amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_factory.c   | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+Looks good.  Thanks!
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_factory.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_factory.c
-index 28394de02885..640087e862f8 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_factory.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_factory.c
-@@ -10,7 +10,7 @@ bool dml2_core_create(enum dml2_project_id project_id, struct dml2_core_instance
- {
- 	bool result = false;
- 
--	if (out == 0)
-+	if (!out)
- 		return false;
- 
- 	memset(out, 0, sizeof(struct dml2_core_instance));
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_factory.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_factory.c
-index 3861bc6c9621..dfd01440737d 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_factory.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_dpmm/dml2_dpmm_factory.c
-@@ -20,7 +20,7 @@ bool dml2_dpmm_create(enum dml2_project_id project_id, struct dml2_dpmm_instance
- {
- 	bool result = false;
- 
--	if (out == 0)
-+	if (!out)
- 		return false;
- 
- 	memset(out, 0, sizeof(struct dml2_dpmm_instance));
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_factory.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_factory.c
-index cd3fbc0591d8..c60b8fe90819 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_factory.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_mcg/dml2_mcg_factory.c
-@@ -15,7 +15,7 @@ bool dml2_mcg_create(enum dml2_project_id project_id, struct dml2_mcg_instance *
- {
- 	bool result = false;
- 
--	if (out == 0)
-+	if (!out)
- 		return false;
- 
- 	memset(out, 0, sizeof(struct dml2_mcg_instance));
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_factory.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_factory.c
-index 7ed0242a4b33..55d2464365d0 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_factory.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_pmo/dml2_pmo_factory.c
-@@ -26,7 +26,7 @@ bool dml2_pmo_create(enum dml2_project_id project_id, struct dml2_pmo_instance *
- {
- 	bool result = false;
- 
--	if (out == 0)
-+	if (!out)
- 		return false;
- 
- 	memset(out, 0, sizeof(struct dml2_pmo_instance));
--- 
-2.34.1
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+
+> Side question: should we use __must_check in this case to warn at compile
+> time?
+
+We wouldn't normally...  It turns out the existing code was already
+checking for errors so this is really just a "silence the checker"
+patch.
+
+regards,
+dan carpenter
 
