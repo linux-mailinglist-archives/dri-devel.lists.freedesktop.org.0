@@ -2,53 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7DCB239A2
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 22:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82807B239CE
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 22:12:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65C8510E648;
-	Tue, 12 Aug 2025 20:05:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B64010E488;
+	Tue, 12 Aug 2025 20:12:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hCFrqtwE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZGx+xezg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD78810E606
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 20:05:46 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5C9AAE92;
- Tue, 12 Aug 2025 22:04:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1755029092;
- bh=r2MRlbk1kIx88/c/bzIYa/Yagm5IegF7cUQ/EQvsU28=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hCFrqtwE/uchlElOaDvUvNX+Vzxp6TlIwxcGMlLuyesQp1CcjHw7dwJvjTORs5AW7
- Fx51dtQachZfn/e8OxPlXHbB/UdLQrwVxybDotnIqZsESRjVrAH9pfinUtX4IOMNoq
- ATPwjFKfl+NPH5rX/Lrqwy8oDTp6iSFxmwQDj6Zw=
-Date: Tue, 12 Aug 2025 23:05:26 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/4] drm/rcar-du: dsi: Convert register bits to BIT() macro
-Message-ID: <20250812200526.GA12797@pendragon.ideasonboard.com>
-References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-2-marek.vasut+renesas@mailbox.org>
- <bc31d938-847d-46a5-af1e-29de3ac21504@ideasonboard.com>
- <7dc2c17d-9879-41c8-b90d-19f92a2d9c1e@mailbox.org>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB0AB10E488
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 20:12:26 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-2400a0c3cf7so8617815ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 13:12:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755029546; x=1755634346; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LdMwsRNMhr3RdlfS1sg03g0GGfVON6z2LjlOFlQzz/w=;
+ b=ZGx+xezgIfBMxBj169alrxKLkrLZsIK5xZuwOJc1RQhK/Sjk/YF0b6dvEv3bLVAYM2
+ oHE1oygb2TxalI2fDYBIS6hW4nm6gPRTrhUDMZWHHqLQ9v139CkxC8GD1jv37fCGMsCp
+ wKCcLyaI8OODV9Dt7D8VQFGlbraO0wtkEOdK63jwuAj9aPSvSaiT6GDytSJohMtUYiZV
+ gGvuM9e9djfxDz58ymJwRGM+YLWoWl3JG+/baAY7aS1Ifm6j2qnjL5R2SUB1iAgr4Qf9
+ WfUzJUsaf7BUHZjBg8C5enPjMNlxGczXl0KRTQXmyZU/FEHvIiUNcoIC7dFbyqDhE6hH
+ ChGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755029546; x=1755634346;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LdMwsRNMhr3RdlfS1sg03g0GGfVON6z2LjlOFlQzz/w=;
+ b=CvaHCelmCirCOwOwUzeGvtNrqVLhO5sI9Oc+SwOYjpkcJdCSz/Mub8GJGffuFGX7nr
+ iHzVW+UdellBCC0itEzpeOmEZw1e8vpYszczqVGYhFsxqfLBaK75WZFFohIZK4EQiYI+
+ lYL7IGlCjLMAcr7HuRfwEUY4DJ3ouOxS9zOec8KjYpORFmXWw7+CCWNvQgEU6rgZbtCA
+ WeA+5Owgm/gRxp6b4L/F8roye3SYtave0rX0E5ORmGUcoCfm94nBob6++cahurdhpOc/
+ TNNEOnX0Z9sagTiunmDwHr/ExgR+0mCUqrW8stYptQY0aJ4wkJMAaRhF9sfF9KwDEvn1
+ YEbw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVtQcMUtbpLIECJpCGy/eD3Ah1wDnUnjdqkh3DjwaSyRXHokdCx8xlBQzbbruC4oL5alqfRZvKk/VA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxxFnWfriEWoSqTI/o2mkuPYDj3oylyIeRv6Ejdp/sQE3UUFrey
+ KSHm69IVW7RVwsU6MLz/u8RE37jbnZqQBV1omsERLy7yIqwFl9GDRkTQSi4iOZh0a3naWCfcUx8
+ VWcdguwuIeoryH0ysOl2HoiKComCROdE=
+X-Gm-Gg: ASbGnctirp0H8cdK1osVDdO3EA9lofV7hxDEdspv/HdkGQCJ3fm1CLsgPn7ciWVy4Fl
+ iD4ocMtqlRp7txatfn4RgI8byX8xf51AzWARYBY6SQqYt2ZHrEVgCW2b+TiU0iUogmbVoxmaTfO
+ xUPPK6iwt++ZyPy98gmwYt/wkCW+OrWn9MVWljtDcuvMvUjbJTruBrS7ruojI/UQ9drafxmZ4HV
+ 8QlI6x2wAFYDGpbc94=
+X-Google-Smtp-Source: AGHT+IEvmTEfhYgDEcmoTdFN/im+6O1T6OckAAjt4c2JWcP23ebcCH33w4iQbi5CmkutIrqX+H/I09EqUXavPgjNsec=
+X-Received: by 2002:a17:902:d2d0:b0:240:25f3:5be9 with SMTP id
+ d9443c01a7336-2430d263d94mr3422375ad.10.1755029546192; Tue, 12 Aug 2025
+ 13:12:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7dc2c17d-9879-41c8-b90d-19f92a2d9c1e@mailbox.org>
+References: <20250731154919.4132-1-dakr@kernel.org>
+ <20250731154919.4132-2-dakr@kernel.org>
+ <CANiq72mWVmso1yMYGYih-NDwjB9E1iVE=_oSpPiSvqTu5mkE0g@mail.gmail.com>
+ <DC0PSDBCPGVO.38EGYXRFQVM8N@kernel.org>
+In-Reply-To: <DC0PSDBCPGVO.38EGYXRFQVM8N@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 12 Aug 2025 22:12:13 +0200
+X-Gm-Features: Ac12FXx3JqohsxItEiz0vXv8AeDOYSWVWda9zJanptt2JqBNAGTufcd5lRCQvPQ
+Message-ID: <CANiq72nfpecn3qQqNJiXGDX_Veg1Q9yQF0BZzCk68Ue_i3qtVg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] rust: alloc: replace aligned_size() with
+ Kmalloc::aligned_layout()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: lorenzo.stoakes@oracle.com, vbabka@suse.cz, Liam.Howlett@oracle.com, 
+ urezki@gmail.com, ojeda@kernel.org, alex.gaynor@gmail.com, 
+ boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
+ lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com, 
+ tmgross@umich.edu, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +94,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 12, 2025 at 09:32:36PM +0200, Marek Vasut wrote:
-> On 8/12/25 3:26 PM, Tomi Valkeinen wrote:
-> 
-> Hi,
-> 
-> >> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> >> index a6b276f1d6ee..b3e57217ae63 100644
-> >> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> >> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-> 
-> [...]
-> 
-> >> @@ -51,11 +51,11 @@
-> >>   
-> >>   #define TXVMVPRMSET0R			0x1d0
-> >>   #define TXVMVPRMSET0R_HSPOL_HIG		(0 << 17)
-> >> -#define TXVMVPRMSET0R_HSPOL_LOW		(1 << 17)
-> >> +#define TXVMVPRMSET0R_HSPOL_LOW		BIT(17)
-> > 
-> > I'm not sure about this (and below). We have two defines for the HSPOL,
-> > high and low. If one of them is (x << y), shouldn't the other one be of
-> > that style too?
-> 
-> It is inconsistent, but one macro describes bit set to 0 and the other 
-> bit set to 1 (i.e. the actual bit) which is converted to BIT(n) macro. I 
-> would be tempted to remove the bits set to 0, that's probably the real 
-> discussion that should happen here. But that would also be a much bigger 
-> patch. What do you think ?
+On Tue, Aug 12, 2025 at 10:00=E2=80=AFPM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
+>
+> I don't think so, it just lead to pad to the alignment for Vmalloc too.
+>
+> Technically, this makes no difference, since Vmalloc is always PAGE_SIZE =
+aligned
+> and the size always a multiple of PAGE_SIZE.
 
-For what it's worth, for single-bit register fields, I usually define a
-single macro. I understand it's usually a coding style preference.
+Got it, thanks for the quick reply! Then I guess we could have skipped
+the Fixes in this one, but it is not a big deal and as usual it
+depends on how one defines "fix".
 
--- 
-Regards,
-
-Laurent Pinchart
+Cheers,
+Miguel
