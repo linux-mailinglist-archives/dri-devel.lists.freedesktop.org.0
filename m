@@ -2,80 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ACD7B220A6
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 10:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8DFB220CD
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 10:28:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88A4A10E5BB;
-	Tue, 12 Aug 2025 08:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D280110E0F5;
+	Tue, 12 Aug 2025 08:28:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="kB2VM+Rd";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="M0Rz5yfZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QAbmnvcD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M0Rz5yfZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QAbmnvcD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C3310E5BB
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 08:23:20 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-76bde897110so4239979b3a.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 01:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1754987000; x=1755591800;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=P3fGk8RPNzlwTE0goRde9z6mNNC5qXPF4Mfc5wZS3Lc=;
- b=kB2VM+Rdlm6zeGqFq3FNoPmJTfbNI12f5LZohjMxvLPHo4WE9Pdt2oVSx2UN0awdLt
- VasPrGHpvnq//4izyv08Mi0SmaFOL8WAoA/tTVz71gu5edKTvUJ4GngljPvVjiVBsoBo
- GCnz9jrWwVoD02wTcNgUL5WIoQHPlK77Hfiaw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754987000; x=1755591800;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=P3fGk8RPNzlwTE0goRde9z6mNNC5qXPF4Mfc5wZS3Lc=;
- b=BktlrwIo2kE9sJDUPAj5tnz8UsfIU5urwqr8jswUGQap6B4LVQBcqbZHvadU+ZrGHp
- 86lG/+b4fTMxXdtK/kGYkNFxg+Ju6E7Z4x7KGOOnjuhY1bfh3IWMPRqPs5MLiaWdEKUs
- 0XJ9wpiF0Aei5fbfyS7qLk2T7jkjyf4FRTM0kyEiAmGXmlu03pPJ4OaseQ1dQIbP6E6c
- s3eh1BsK/8shl6XgoqabGZNos31/8NmTew0BSbqCuVWJdTmOhFyi0kdeH0c+1+cWox0W
- n1sLgL2Y0+eehBSx1SHvmVBpuoLiTI56MUrvHTddLtLHL7q0NI8qLJY1+uQlyOkTfEim
- 4ZqQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnqT0VARDJ/kdtMdJ4meqq/sOWd1e1q0gmidSOLVwIqrBo6cZn9QRs4ukYdHTgPLjKjN86jzXfjsY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1tqFfg0+JNu21S/7vm8bCtLBCEKq8hSucADdRyn5gPAEjLdtI
- 2mpkGKHhS1r5oMiESY9As36ST6YeHELCwxyeEYa2FonPyI0KafPeim2fPMGwDBgCqiVALKlYOgN
- GySI=
-X-Gm-Gg: ASbGncvqLoPeDh/ub5qHyG+rhstlLxFfUsN2lAVUU6uTXZbVjvTCZWX4tJK8o2qsGPg
- nupfOJXao25UkAzj/RhmIHTJG804BW+PFzZ6KeYdLQF23WOntJ8pihaUUw8xl2+HKMq7ZlLiDox
- THsyAolQRyu0ydqUvy+/zrG4jZgZHcpkj4sxL3zxq+Ff+5jRSAllWpH9A/WUzJ3r8AnZKHDn0M0
- JuQyqmVHMXKkwQLvjF63dWIHrn3bpy+wgf80FR0SJsrOZ0mymnU7ItFI8QVJM7G5DNfB5Fm0llJ
- Li6qFEywp6Ted6Cqr43QY/QeOKqHZajKg80Ij2Pgo7uy4alPYF72/8PnUmEC5S9ayXvipOFIa+c
- cUbRXu5zLbR4v4aX0gEo1gzPBLSsnMMxEAoSvOFMr
-X-Google-Smtp-Source: AGHT+IFIaVxtQml0iOhHXxPcsA5eLK+goYa9RCC9q5Wljt2PSVohymFqS5Fc861BFUfuo2dZnQ70DQ==
-X-Received: by 2002:a05:6a00:1491:b0:740:aa31:fe66 with SMTP id
- d2e1a72fcca58-76c460d2c66mr20874497b3a.4.1754986999650; 
- Tue, 12 Aug 2025 01:23:19 -0700 (PDT)
-Received: from fshao-p620.tpe.corp.google.com
- ([2401:fa00:1:10:8e8:f5ef:865c:a4fa])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76bf77210aesm22722064b3a.113.2025.08.12.01.23.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Aug 2025 01:23:19 -0700 (PDT)
-From: Fei Shao <fshao@chromium.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Hubert Mazur <hmazur@google.com>, Sean Paul <seanpaul@chromium.org>,
- Fei Shao <fshao@chromium.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v8 2/2] drm/bridge: anx7625: register content protect property
-Date: Tue, 12 Aug 2025 16:17:59 +0800
-Message-ID: <20250812082135.3351172-3-fshao@chromium.org>
-X-Mailer: git-send-email 2.51.0.rc0.205.g4a044479a3-goog
-In-Reply-To: <20250812082135.3351172-1-fshao@chromium.org>
-References: <20250812082135.3351172-1-fshao@chromium.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEDF110E0F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 08:28:05 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 01B5621CE2;
+ Tue, 12 Aug 2025 08:28:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1754987284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sO1V+49Pq0Rp5UnpJl49reGM5xjEAqSCPnLkFjCt0Yk=;
+ b=M0Rz5yfZPPDTUcUeUZThHN3KIoVoMnV4S34B95IGqt1hKHbzsXBk1S3fiviqVOjWLOh8p4
+ FS1GMsiiQpolua8G4AFrwIAFcqa3NAvErSF23xR77dF6FjAuH6v7hru+5EfNYLk7ZQHhWr
+ gp1dGeK3o0B8qwarRfk79gcVGTxah84=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1754987284;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sO1V+49Pq0Rp5UnpJl49reGM5xjEAqSCPnLkFjCt0Yk=;
+ b=QAbmnvcDnegjDsu6sDIS7nFFMUWDglC0h0O9d0ylIuDEghyAwNrVuURaiPzYUFk+yiteVU
+ ANJkOEBvvTKXEyAw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=M0Rz5yfZ;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QAbmnvcD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1754987284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sO1V+49Pq0Rp5UnpJl49reGM5xjEAqSCPnLkFjCt0Yk=;
+ b=M0Rz5yfZPPDTUcUeUZThHN3KIoVoMnV4S34B95IGqt1hKHbzsXBk1S3fiviqVOjWLOh8p4
+ FS1GMsiiQpolua8G4AFrwIAFcqa3NAvErSF23xR77dF6FjAuH6v7hru+5EfNYLk7ZQHhWr
+ gp1dGeK3o0B8qwarRfk79gcVGTxah84=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1754987284;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sO1V+49Pq0Rp5UnpJl49reGM5xjEAqSCPnLkFjCt0Yk=;
+ b=QAbmnvcDnegjDsu6sDIS7nFFMUWDglC0h0O9d0ylIuDEghyAwNrVuURaiPzYUFk+yiteVU
+ ANJkOEBvvTKXEyAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C47DE1351A;
+ Tue, 12 Aug 2025 08:28:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id w72FLhP7mmiXZQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 12 Aug 2025 08:28:03 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: neil.armstrong@linaro.org,
+	jessica.zhang@oss.qualcomm.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/panel: panel-samsung-s6e88a0-ams427ap24: Fix includes
+Date: Tue, 12 Aug 2025 10:25:09 +0200
+Message-ID: <20250812082509.227879-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 01B5621CE2
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_THREE(0.00)[4];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,34 +116,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hsin-Yi Wang <hsinyi@chromium.org>
+Include <linux/property.h> to declare device_property_read_bool() and
+<linux/mod_devicetable.h> to declare struct of_device_id. Avoids the
+dependency on the backlight header to include both.
 
-Set the `support_hdcp` bit to enable the connector to register content
-protection during initialization.
-
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Signed-off-by: Fei Shao <fshao@chromium.org>
-Reviewed-by: Sean Paul <seanpaul@chromium.org>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
+ drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes in v8:
-- rebase on top of next-20250731
-
- drivers/gpu/drm/bridge/analogix/anx7625.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index c0ad8f59e483..609cdb9d371e 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2604,6 +2604,7 @@ static int anx7625_link_bridge(struct drm_dp_aux *aux)
- 	platform->bridge.type = platform->pdata.panel_bridge ?
- 				    DRM_MODE_CONNECTOR_eDP :
- 				    DRM_MODE_CONNECTOR_DisplayPort;
-+	platform->bridge.support_hdcp = true;
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
+index e91f50662997..7e2f4e043d62 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
+@@ -7,7 +7,9 @@
+ #include <linux/backlight.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
++#include <linux/property.h>
+ #include <linux/regulator/consumer.h>
  
- 	drm_bridge_add(&platform->bridge);
- 
+ #include <video/mipi_display.h>
 -- 
-2.51.0.rc0.205.g4a044479a3-goog
+2.50.1
 
