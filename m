@@ -2,108 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B60B21E75
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 08:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0D4B21E3C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 08:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A02A010E59A;
-	Tue, 12 Aug 2025 06:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBECC10E066;
+	Tue, 12 Aug 2025 06:25:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="Hxp4Qaj4";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VzoQapHo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f100.google.com (mail-io1-f100.google.com
- [209.85.166.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4094B10E59A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 06:37:17 +0000 (UTC)
-Received: by mail-io1-f100.google.com with SMTP id
- ca18e2360f4ac-879c737bc03so124133639f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 23:37:17 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21FFD10E066
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 06:25:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1754979935;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4b1h5it7hQAfk6co/FTWaAEG6kVFNfYsnIT5BpGkOXc=;
+ b=VzoQapHorX/OX2jOqbtpcRjc9bfb9RhteZJi9mtcBuGh2Kn7CeikEUCHYAE+5cIhdbfVsz
+ 9TKUaL+qPvtCgc269B1QQPxXfk0NIb4YIwH6wVNTvdq9xN8FyaWiPIl/CSgrX3z0p9PJG7
+ xXpy3lWAqckACDRDRdVcMUpPAW4hXUE=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-401-YqLUE8FtNs6zuOxvvnCYfg-1; Tue, 12 Aug 2025 02:25:33 -0400
+X-MC-Unique: YqLUE8FtNs6zuOxvvnCYfg-1
+X-Mimecast-MFC-AGG-ID: YqLUE8FtNs6zuOxvvnCYfg_1754979932
+Received: by mail-lf1-f72.google.com with SMTP id
+ 2adb3069b0e04-55b91b8f858so3470749e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 23:25:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754980636; x=1755585436;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:dkim-signature:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Vnf9J8D/lbhMrAAVySeXBqauE+p5C7GABrpw1C+CN+M=;
- b=q8csfBm2ist4DHDurumSytQzPizJsmNRJF5Mjs2qIzWJ9TZOCFLGtlqzJ97vvgWUY4
- V1Ex78Lezz2PWyYAYoSh/D/07URKc59xlVZTMWewTK6w+RSJZVIQayRabToP0IVg/uOU
- d/EwUUqPd8ET6LVkgfAMI9D15vd0w3gU1YbU76q4bBjQmi+GlTgEhefP6/0HcrMVN2bl
- XHiug4Xs68lGOwNmYq5kpZCSB+lWG0plHuBqgS/XXRDKhHIbkIoOevLiFJwgfZFI9QxP
- 1QwB2oDTn6aUYqHZcJzooaU99Ge7XPPWU2uGMurgx5lO7nCiZiYt2NEe2V833AO2/CvZ
- epTw==
+ d=1e100.net; s=20230601; t=1754979932; x=1755584732;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4b1h5it7hQAfk6co/FTWaAEG6kVFNfYsnIT5BpGkOXc=;
+ b=qxhLTyYFQusW7FFKgLH7MNdknymoaoWdCGpqOIHkuLCwmyo8vRsEBvUo7fj0KTvFSA
+ BO6WQM48bebiA+rdYroSnEcQelBPEnuTQoBb9iMHC+k54j8fK+qPKImhqGemDg10t/6G
+ 11SW5D7O2bemVhjoTj1tqc0epM/BqY5+YkM51SseKQqxiuNhCR9FMOz/BNqeigTaB86n
+ UOdNIAqrgPS7ULPQTUCQauYGeqQl9BgKQvsInuo95cXOhAd+Mcgt92mwAkxhiItQ5uNi
+ lA3Y01Sv4ladrKSsMRH+IGMTtIync/pqVstCyE7onXdZ9ViAvN+5FMbJ5fFbEK+nw2Hv
+ d1MQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUGsM9ruXJixCmIc7tBxAXE9HgATNj9lmlyPMP2ELYTqFhkD+x/SJprt5WhX1/07vzWVwLm5rilrZ0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzxHA87ueYnswgW+K7s3LnfRn6oih3U15NuIqB+kkeJO61HxQoU
- R2fRryBk8K/S/baZOsjZE9VmeYVdso7QbMA1Myei39Jz/31CmT7lpso12p7dXi2vbzWlrrEXMMU
- JvPNbqUQghUnZsqWMzOeo4gAPZCNY/0fUt4Ck94rI8iOk/QsM0NM5e23TRUd/2WZY+AbyratfNv
- YV63vF0QiHWTUc/pSpcbWTjB7LqYMj339k3xOaJMVJOJu8VFTj5hgHyJSRPzVbJ2LZ74tYNa9/+
- KLovmgNw5Qf794brADtFjZvf8/6Pw==
-X-Gm-Gg: ASbGnctLT4Fdr/Oc1LYUxoDm1IoJoDifV8MVhSlyRzD0OnTPBvVDSyJmNdeBwpZm855
- 28thLtdZvdecPm4I4IVjWERK07U/sKp4IzHAsypDw9qBOhV2GAMHxzXeCaylYfeWbVlT2dMOdCW
- f/T96bTEeqznB9F5iCF+CxEKJe6vGZQ93f+o2DwTCvSSefeom3tm2QfRpr+ECb/6kn53lFKlVwd
- ym6Q+kO0h/j+lM/yIPjl1PnMMhClTHX8AzoVup/m+C4AxdCj9GMIgUwgTLkiscgvsGO/xrWfLgu
- a+UVyor2rau9fjSz6+WmmDJSgiXKCfjnO332Qlc2hWw5a9WYVe3eLP/lwX2Izg2mzkmF3JKUOlL
- yPfupj9zFLiPW3DE4KW5dVlz+hyYTOtevzqZm+rzAdMv9zM/S9pkXQcTAZOsN3SjBjEZSAsEVxT
- N6EJ0bwQ==
-X-Google-Smtp-Source: AGHT+IF7aNlFHmtAqBbuJUG16rWGdxBB/5a1M1IqqmMwmIOUpzYndxNnKqp9HR1uXF27paOH2ZgmpJP0a0YJ
-X-Received: by 2002:a6b:e708:0:b0:87c:1542:8abc with SMTP id
- ca18e2360f4ac-883f11d2eeemr2450557339f.4.1754980636213; 
- Mon, 11 Aug 2025 23:37:16 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
- (address-144-49-247-122.dlp.protect.broadcom.com. [144.49.247.122])
- by smtp-relay.gmail.com with ESMTPS id
- 8926c6da1cb9f-50ae9c492edsm686448173.50.2025.08.11.23.37.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 11 Aug 2025 23:37:16 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4af22e50c00so125997111cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 23:37:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1754980635; x=1755585435;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Vnf9J8D/lbhMrAAVySeXBqauE+p5C7GABrpw1C+CN+M=;
- b=Hxp4Qaj4R1FNh05nGbzX1e4LetY451hy1Kb1bRwOUErkitrheU09tsTsg/gcN6c6VT
- 0IFa4wCOdPKuhmbeGbkwI4eFw0WzuhEMbd5uJBCTUfIsQ4Gsy7sTv6USv0IRp7SSvT38
- B3obv8SA81RwBlEDU65IR35KyWTMUXicOJ7jA=
-X-Forwarded-Encrypted: i=1;
- AJvYcCVz1F35KpEu7ZQ5yP7Rg1cqi1zlKxAmffrfOIm9KofdrjsTo2PHiGvQQOprSlwGGhZlrQl9ACp1sBk=@lists.freedesktop.org
-X-Received: by 2002:a05:622a:3c7:b0:4b0:641a:ddde with SMTP id
- d75a77b69052e-4b0aed86506mr214213981cf.59.1754980635083; 
- Mon, 11 Aug 2025 23:37:15 -0700 (PDT)
-X-Received: by 2002:a05:622a:3c7:b0:4b0:641a:ddde with SMTP id
- d75a77b69052e-4b0aed86506mr214213721cf.59.1754980634597; 
- Mon, 11 Aug 2025 23:37:14 -0700 (PDT)
-Received: from shivania.lvn.broadcom.net ([192.19.161.250])
+ AJvYcCUQiTH0UTQ6SgZtjOukGgkhG99urozLzPsAd+69ONmko3QVATiiiiAyOBGm/U/MWdsgBsjAyi03ToQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyIaGEHRO24WDmBFTBLvfJwGoXt4VooEm1E0oSDCrU7TRE/37aR
+ Bf+NMM26QQdkFhLUn4yVoogL/gn1Qmf83u2h2PEcD+Km+Hc8vCtUp9fvpYc77zQm8pISCJ4Lzq/
+ xB3a+K/T3pQL4doRk2RgwT6411M9MYM20m91/VCqupR2DyojX0KY/CMBJ8fIsCMgfSuOS
+X-Gm-Gg: ASbGnct8OqBJSb9/JGRBrS9geQ44COym2iKiYcb2ounVFK9W5D20by4cEXS7s661xVH
+ oXWDEsgLxvNz9FH6XhO+QwfuIQPTnIN+hJjWFe0XfZtf9W3i8IWMZuEC/OqNkKQ05f5q5T00IUp
+ 2nCiN9bs30aVtE4V4OhD/mS5PJzPxSEG5g+2nang8TH3rjhHOPmATIy67pNYgEuvraT65N0CtXG
+ BqkoyHEJzNvuTG+K5kWaXVga0xGWRegc3HLmECQ7BHAD6bp7PX5eegXnPwG0VbXt8AjPqvy6BZ/
+ JJNuJe4P7ZzX+ypGTPUqLJbgmvenISMPft6umHnU5Gkt0BzMkhzGF2WQd2JdSMdMSA==
+X-Received: by 2002:ac2:4e0f:0:b0:55b:930b:3582 with SMTP id
+ 2adb3069b0e04-55cd75b47f1mr570119e87.10.1754979931855; 
+ Mon, 11 Aug 2025 23:25:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFk46MpSuFsVM6NcIYAx6Ghd9M8yiLeUsRPho78aVmCFUaIH2LPtZcHS1lt9FMxW7jXl4YUIw==
+X-Received: by 2002:ac2:4e0f:0:b0:55b:930b:3582 with SMTP id
+ 2adb3069b0e04-55cd75b47f1mr570097e87.10.1754979931310; 
+ Mon, 11 Aug 2025 23:25:31 -0700 (PDT)
+Received: from [192.168.1.86] (85-23-48-6.bb.dnainternet.fi. [85.23.48.6])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4b095e6c7d4sm85319621cf.54.2025.08.11.23.37.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Aug 2025 23:37:14 -0700 (PDT)
-From: Shivani Agarwal <shivani.agarwal@broadcom.com>
-To: stable@vger.kernel.org,
-	gregkh@linuxfoundation.org
-Cc: bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
- ajay.kaher@broadcom.com, alexey.makhalov@broadcom.com,
- tapas.kundu@broadcom.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
- lijo.lazar@amd.com, mario.limonciello@amd.com, sunil.khatri@amd.com,
- srinivasan.shanmugam@amd.com, siqueira@igalia.com, cesun102@amd.com,
- linux@treblig.org, zhangzekun11@huawei.com, andrey.grodzovsky@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Guchun Chen <guchun.chen@amd.com>, Sasha Levin <sashal@kernel.org>,
- Shivani Agarwal <shivani.agarwal@broadcom.com>
-Subject: [PATCH v5.10] drm/amdgpu: handle the case of pci_channel_io_frozen
- only in amdgpu_pci_resume
-Date: Mon, 11 Aug 2025 23:23:49 -0700
-Message-Id: <20250812062349.149549-1-shivani.agarwal@broadcom.com>
-X-Mailer: git-send-email 2.25.1
+ 2adb3069b0e04-55ccb356d87sm1421100e87.89.2025.08.11.23.25.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Aug 2025 23:25:30 -0700 (PDT)
+Message-ID: <3df6fbed-7587-44f5-bd12-29e59ecde123@redhat.com>
+Date: Tue, 12 Aug 2025 09:25:29 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v3 03/11] mm/migrate_device: THP migration of zone device pages
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Balbir Singh <balbirs@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20250812024036.690064-1-balbirs@nvidia.com>
+ <20250812024036.690064-4-balbirs@nvidia.com>
+ <81ca37d5-b1ff-46de-8dcc-b222af350c77@redhat.com>
+ <aJrW/JUBhdlL2Kur@lstrano-desk.jf.intel.com>
+From: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>
+In-Reply-To: <aJrW/JUBhdlL2Kur@lstrano-desk.jf.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: kwzFs3EcNSgkmqqd43caUYpgUF6iahqFxyRaThwm9u0_1754979932
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,71 +118,364 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guchun Chen <guchun.chen@amd.com>
 
-[ Upstream commit 248b061689a40f4fed05252ee2c89f87cf26d7d8 ]
+On 8/12/25 08:54, Matthew Brost wrote:
 
-In current code, when a PCI error state pci_channel_io_normal is detectd,
-it will report PCI_ERS_RESULT_CAN_RECOVER status to PCI driver, and PCI
-driver will continue the execution of PCI resume callback report_resume by
-pci_walk_bridge, and the callback will go into amdgpu_pci_resume
-finally, where write lock is releasd unconditionally without acquiring
-such lock first. In this case, a deadlock will happen when other threads
-start to acquire the read lock.
+> On Tue, Aug 12, 2025 at 08:35:49AM +0300, Mika Penttilä wrote:
+>> Hi,
+>>
+>> On 8/12/25 05:40, Balbir Singh wrote:
+>>
+>>> MIGRATE_VMA_SELECT_COMPOUND will be used to select THP pages during
+>>> migrate_vma_setup() and MIGRATE_PFN_COMPOUND will make migrating
+>>> device pages as compound pages during device pfn migration.
+>>>
+>>> migrate_device code paths go through the collect, setup
+>>> and finalize phases of migration.
+>>>
+>>> The entries in src and dst arrays passed to these functions still
+>>> remain at a PAGE_SIZE granularity. When a compound page is passed,
+>>> the first entry has the PFN along with MIGRATE_PFN_COMPOUND
+>>> and other flags set (MIGRATE_PFN_MIGRATE, MIGRATE_PFN_VALID), the
+>>> remaining entries (HPAGE_PMD_NR - 1) are filled with 0's. This
+>>> representation allows for the compound page to be split into smaller
+>>> page sizes.
+>>>
+>>> migrate_vma_collect_hole(), migrate_vma_collect_pmd() are now THP
+>>> page aware. Two new helper functions migrate_vma_collect_huge_pmd()
+>>> and migrate_vma_insert_huge_pmd_page() have been added.
+>>>
+>>> migrate_vma_collect_huge_pmd() can collect THP pages, but if for
+>>> some reason this fails, there is fallback support to split the folio
+>>> and migrate it.
+>>>
+>>> migrate_vma_insert_huge_pmd_page() closely follows the logic of
+>>> migrate_vma_insert_page()
+>>>
+>>> Support for splitting pages as needed for migration will follow in
+>>> later patches in this series.
+>>>
+>>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>>> Cc: David Hildenbrand <david@redhat.com>
+>>> Cc: Zi Yan <ziy@nvidia.com>
+>>> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+>>> Cc: Rakie Kim <rakie.kim@sk.com>
+>>> Cc: Byungchul Park <byungchul@sk.com>
+>>> Cc: Gregory Price <gourry@gourry.net>
+>>> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+>>> Cc: Alistair Popple <apopple@nvidia.com>
+>>> Cc: Oscar Salvador <osalvador@suse.de>
+>>> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+>>> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+>>> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+>>> Cc: Nico Pache <npache@redhat.com>
+>>> Cc: Ryan Roberts <ryan.roberts@arm.com>
+>>> Cc: Dev Jain <dev.jain@arm.com>
+>>> Cc: Barry Song <baohua@kernel.org>
+>>> Cc: Lyude Paul <lyude@redhat.com>
+>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>> Cc: David Airlie <airlied@gmail.com>
+>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>> Cc: Ralph Campbell <rcampbell@nvidia.com>
+>>> Cc: Mika Penttilä <mpenttil@redhat.com>
+>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>> Cc: Francois Dugast <francois.dugast@intel.com>
+>>>
+>>> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+>>> ---
+>>>  include/linux/migrate.h |   2 +
+>>>  mm/migrate_device.c     | 457 ++++++++++++++++++++++++++++++++++------
+>>>  2 files changed, 396 insertions(+), 63 deletions(-)
+>>>
+>>> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+>>> index acadd41e0b5c..d9cef0819f91 100644
+>>> --- a/include/linux/migrate.h
+>>> +++ b/include/linux/migrate.h
+>>> @@ -129,6 +129,7 @@ static inline int migrate_misplaced_folio(struct folio *folio, int node)
+>>>  #define MIGRATE_PFN_VALID	(1UL << 0)
+>>>  #define MIGRATE_PFN_MIGRATE	(1UL << 1)
+>>>  #define MIGRATE_PFN_WRITE	(1UL << 3)
+>>> +#define MIGRATE_PFN_COMPOUND	(1UL << 4)
+>>>  #define MIGRATE_PFN_SHIFT	6
+>>>  
+>>>  static inline struct page *migrate_pfn_to_page(unsigned long mpfn)
+>>> @@ -147,6 +148,7 @@ enum migrate_vma_direction {
+>>>  	MIGRATE_VMA_SELECT_SYSTEM = 1 << 0,
+>>>  	MIGRATE_VMA_SELECT_DEVICE_PRIVATE = 1 << 1,
+>>>  	MIGRATE_VMA_SELECT_DEVICE_COHERENT = 1 << 2,
+>>> +	MIGRATE_VMA_SELECT_COMPOUND = 1 << 3,
+>>>  };
+>>>  
+>>>  struct migrate_vma {
+>>> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+>>> index 0ed337f94fcd..6621bba62710 100644
+>>> --- a/mm/migrate_device.c
+>>> +++ b/mm/migrate_device.c
+>>> @@ -14,6 +14,7 @@
+>>>  #include <linux/pagewalk.h>
+>>>  #include <linux/rmap.h>
+>>>  #include <linux/swapops.h>
+>>> +#include <asm/pgalloc.h>
+>>>  #include <asm/tlbflush.h>
+>>>  #include "internal.h"
+>>>  
+>>> @@ -44,6 +45,23 @@ static int migrate_vma_collect_hole(unsigned long start,
+>>>  	if (!vma_is_anonymous(walk->vma))
+>>>  		return migrate_vma_collect_skip(start, end, walk);
+>>>  
+>>> +	if (thp_migration_supported() &&
+>>> +		(migrate->flags & MIGRATE_VMA_SELECT_COMPOUND) &&
+>>> +		(IS_ALIGNED(start, HPAGE_PMD_SIZE) &&
+>>> +		 IS_ALIGNED(end, HPAGE_PMD_SIZE))) {
+>>> +		migrate->src[migrate->npages] = MIGRATE_PFN_MIGRATE |
+>>> +						MIGRATE_PFN_COMPOUND;
+>>> +		migrate->dst[migrate->npages] = 0;
+>>> +		migrate->npages++;
+>>> +		migrate->cpages++;
+>>> +
+>>> +		/*
+>>> +		 * Collect the remaining entries as holes, in case we
+>>> +		 * need to split later
+>>> +		 */
+>>> +		return migrate_vma_collect_skip(start + PAGE_SIZE, end, walk);
+>>> +	}
+>>> +
+>>>  	for (addr = start; addr < end; addr += PAGE_SIZE) {
+>>>  		migrate->src[migrate->npages] = MIGRATE_PFN_MIGRATE;
+>>>  		migrate->dst[migrate->npages] = 0;
+>>> @@ -54,57 +72,151 @@ static int migrate_vma_collect_hole(unsigned long start,
+>>>  	return 0;
+>>>  }
+>>>  
+>>> -static int migrate_vma_collect_pmd(pmd_t *pmdp,
+>>> -				   unsigned long start,
+>>> -				   unsigned long end,
+>>> -				   struct mm_walk *walk)
+>>> +/**
+>>> + * migrate_vma_collect_huge_pmd - collect THP pages without splitting the
+>>> + * folio for device private pages.
+>>> + * @pmdp: pointer to pmd entry
+>>> + * @start: start address of the range for migration
+>>> + * @end: end address of the range for migration
+>>> + * @walk: mm_walk callback structure
+>>> + *
+>>> + * Collect the huge pmd entry at @pmdp for migration and set the
+>>> + * MIGRATE_PFN_COMPOUND flag in the migrate src entry to indicate that
+>>> + * migration will occur at HPAGE_PMD granularity
+>>> + */
+>>> +static int migrate_vma_collect_huge_pmd(pmd_t *pmdp, unsigned long start,
+>>> +					unsigned long end, struct mm_walk *walk,
+>>> +					struct folio *fault_folio)
+>>>  {
+>>> +	struct mm_struct *mm = walk->mm;
+>>> +	struct folio *folio;
+>>>  	struct migrate_vma *migrate = walk->private;
+>>> -	struct folio *fault_folio = migrate->fault_page ?
+>>> -		page_folio(migrate->fault_page) : NULL;
+>>> -	struct vm_area_struct *vma = walk->vma;
+>>> -	struct mm_struct *mm = vma->vm_mm;
+>>> -	unsigned long addr = start, unmapped = 0;
+>>>  	spinlock_t *ptl;
+>>> -	pte_t *ptep;
+>>> +	swp_entry_t entry;
+>>> +	int ret;
+>>> +	unsigned long write = 0;
+>>>  
+>>> -again:
+>>> -	if (pmd_none(*pmdp))
+>>> +	ptl = pmd_lock(mm, pmdp);
+>>> +	if (pmd_none(*pmdp)) {
+>>> +		spin_unlock(ptl);
+>>>  		return migrate_vma_collect_hole(start, end, -1, walk);
+>>> +	}
+>>>  
+>>>  	if (pmd_trans_huge(*pmdp)) {
+>>> -		struct folio *folio;
+>>> -
+>>> -		ptl = pmd_lock(mm, pmdp);
+>>> -		if (unlikely(!pmd_trans_huge(*pmdp))) {
+>>> +		if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM)) {
+>>>  			spin_unlock(ptl);
+>>> -			goto again;
+>>> +			return migrate_vma_collect_skip(start, end, walk);
+>>>  		}
+>>>  
+>>>  		folio = pmd_folio(*pmdp);
+>>>  		if (is_huge_zero_folio(folio)) {
+>>>  			spin_unlock(ptl);
+>>> -			split_huge_pmd(vma, pmdp, addr);
+>>> -		} else {
+>>> -			int ret;
+>>> +			return migrate_vma_collect_hole(start, end, -1, walk);
+>>> +		}
+>>> +		if (pmd_write(*pmdp))
+>>> +			write = MIGRATE_PFN_WRITE;
+>>> +	} else if (!pmd_present(*pmdp)) {
+>>> +		entry = pmd_to_swp_entry(*pmdp);
+>>> +		folio = pfn_swap_entry_folio(entry);
+>>> +
+>>> +		if (!is_device_private_entry(entry) ||
+>>> +			!(migrate->flags & MIGRATE_VMA_SELECT_DEVICE_PRIVATE) ||
+>>> +			(folio->pgmap->owner != migrate->pgmap_owner)) {
+>>> +			spin_unlock(ptl);
+>>> +			return migrate_vma_collect_skip(start, end, walk);
+>>> +		}
+>>>  
+>>> -			folio_get(folio);
+>>> +		if (is_migration_entry(entry)) {
+>>> +			migration_entry_wait_on_locked(entry, ptl);
+>>>  			spin_unlock(ptl);
+>>> -			/* FIXME: we don't expect THP for fault_folio */
+>>> -			if (WARN_ON_ONCE(fault_folio == folio))
+>>> -				return migrate_vma_collect_skip(start, end,
+>>> -								walk);
+>>> -			if (unlikely(!folio_trylock(folio)))
+>>> -				return migrate_vma_collect_skip(start, end,
+>>> -								walk);
+>>> -			ret = split_folio(folio);
+>>> -			if (fault_folio != folio)
+>>> -				folio_unlock(folio);
+>>> -			folio_put(folio);
+>>> -			if (ret)
+>>> -				return migrate_vma_collect_skip(start, end,
+>>> -								walk);
+>>> +			return -EAGAIN;
+>>>  		}
+>>> +
+>>> +		if (is_writable_device_private_entry(entry))
+>>> +			write = MIGRATE_PFN_WRITE;
+>>> +	} else {
+>>> +		spin_unlock(ptl);
+>>> +		return -EAGAIN;
+>>> +	}
+>>> +
+>>> +	folio_get(folio);
+>>> +	if (folio != fault_folio && unlikely(!folio_trylock(folio))) {
+>>> +		spin_unlock(ptl);
+>>> +		folio_put(folio);
+>>> +		return migrate_vma_collect_skip(start, end, walk);
+>>> +	}
+>>> +
+>>> +	if (thp_migration_supported() &&
+>>> +		(migrate->flags & MIGRATE_VMA_SELECT_COMPOUND) &&
+>>> +		(IS_ALIGNED(start, HPAGE_PMD_SIZE) &&
+>>> +		 IS_ALIGNED(end, HPAGE_PMD_SIZE))) {
+>>> +
+>>> +		struct page_vma_mapped_walk pvmw = {
+>>> +			.ptl = ptl,
+>>> +			.address = start,
+>>> +			.pmd = pmdp,
+>>> +			.vma = walk->vma,
+>>> +		};
+>>> +
+>>> +		unsigned long pfn = page_to_pfn(folio_page(folio, 0));
+>>> +
+>>> +		migrate->src[migrate->npages] = migrate_pfn(pfn) | write
+>>> +						| MIGRATE_PFN_MIGRATE
+>>> +						| MIGRATE_PFN_COMPOUND;
+>>> +		migrate->dst[migrate->npages++] = 0;
+>>> +		migrate->cpages++;
+>>> +		ret = set_pmd_migration_entry(&pvmw, folio_page(folio, 0));
+>>> +		if (ret) {
+>>> +			migrate->npages--;
+>>> +			migrate->cpages--;
+>>> +			migrate->src[migrate->npages] = 0;
+>>> +			migrate->dst[migrate->npages] = 0;
+>>> +			goto fallback;
+>>> +		}
+>>> +		migrate_vma_collect_skip(start + PAGE_SIZE, end, walk);
+>>> +		spin_unlock(ptl);
+>>> +		return 0;
+>>> +	}
+>>> +
+>>> +fallback:
+>>> +	spin_unlock(ptl);
+>>> +	if (!folio_test_large(folio))
+>>> +		goto done;
+>>> +	ret = split_folio(folio);
+>>> +	if (fault_folio != folio)
+>>> +		folio_unlock(folio);
+>>> +	folio_put(folio);
+>>> +	if (ret)
+>>> +		return migrate_vma_collect_skip(start, end, walk);
+>>> +	if (pmd_none(pmdp_get_lockless(pmdp)))
+>>> +		return migrate_vma_collect_hole(start, end, -1, walk);
+>>> +
+>>> +done:
+>>> +	return -ENOENT;
+>>> +}
+>>> +
+>>> +static int migrate_vma_collect_pmd(pmd_t *pmdp,
+>>> +				   unsigned long start,
+>>> +				   unsigned long end,
+>>> +				   struct mm_walk *walk)
+>>> +{
+>>> +	struct migrate_vma *migrate = walk->private;
+>>> +	struct vm_area_struct *vma = walk->vma;
+>>> +	struct mm_struct *mm = vma->vm_mm;
+>>> +	unsigned long addr = start, unmapped = 0;
+>>> +	spinlock_t *ptl;
+>>> +	struct folio *fault_folio = migrate->fault_page ?
+>>> +		page_folio(migrate->fault_page) : NULL;
+>>> +	pte_t *ptep;
+>>> +
+>>> +again:
+>>> +	if (pmd_trans_huge(*pmdp) || !pmd_present(*pmdp)) {
+>>> +		int ret = migrate_vma_collect_huge_pmd(pmdp, start, end, walk, fault_folio);
+>>> +
+>>> +		if (ret == -EAGAIN)
+>>> +			goto again;
+>>> +		if (ret == 0)
+>>> +			return 0;
+>>>  	}
+>>>  
+>>>  	ptep = pte_offset_map_lock(mm, pmdp, addr, &ptl);
+>>> @@ -222,8 +334,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+>>>  			mpfn |= pte_write(pte) ? MIGRATE_PFN_WRITE : 0;
+>>>  		}
+>>>  
+>>> -		/* FIXME support THP */
+>>> -		if (!page || !page->mapping || PageTransCompound(page)) {
+>>> +		if (!page || !page->mapping) {
+>>>  			mpfn = 0;
+>>>  			goto next;
+>>>  		}
+>>> @@ -394,14 +505,6 @@ static bool migrate_vma_check_page(struct page *page, struct page *fault_page)
+>>>  	 */
+>>>  	int extra = 1 + (page == fault_page);
+>>>  
+>>> -	/*
+>>> -	 * FIXME support THP (transparent huge page), it is bit more complex to
+>>> -	 * check them than regular pages, because they can be mapped with a pmd
+>>> -	 * or with a pte (split pte mapping).
+>>> -	 */
+>>> -	if (folio_test_large(folio))
+>>> -		return false;
+>>> -
+>> You cannot remove this check unless support normal mTHP folios migrate to device, 
+>> which I think this series doesn't do, but maybe should?
+>>
+> Currently, mTHP should be split upon collection, right? The only way a
+> THP should be collected is if it directly maps to a PMD. If a THP or
+> mTHP is found in PTEs (i.e., in migrate_vma_collect_pmd outside of
+> migrate_vma_collect_huge_pmd), it should be split there. I sent this
+> logic to Balbir privately, but it appears to have been omitted.
 
-To fix this, add a member in amdgpu_device strucutre to cache
-pci_channel_state, and only continue the execution in amdgpu_pci_resume
-when it's pci_channel_io_frozen.
+I think currently if mTHP is found byte PTEs folio just isn't migrated.
+Yes maybe they should be just split while collected now. Best would of course
+to migrate (like as order-0 pages for device) for not to split all mTHPs.
+And yes maybe this all controlled by different flag.
 
-Fixes: c9a6b82f45e2 ("drm/amdgpu: Implement DPC recovery")
-Suggested-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-[Shivani: Modified to apply on 5.10.y]
-Signed-off-by: Shivani Agarwal <shivani.agarwal@broadcom.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h        | 1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 6 ++++++
- 2 files changed, 7 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index ff5555353eb4..683bbefc39c1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -997,6 +997,7 @@ struct amdgpu_device {
- 
- 	bool                            in_pci_err_recovery;
- 	struct pci_saved_state          *pci_state;
-+	pci_channel_state_t		pci_channel_state;
- };
- 
- static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 40d2f0ed1c75..8efd3ee2621f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4944,6 +4944,8 @@ pci_ers_result_t amdgpu_pci_error_detected(struct pci_dev *pdev, pci_channel_sta
- 		return PCI_ERS_RESULT_DISCONNECT;
- 	}
- 
-+	adev->pci_channel_state = state;
-+
- 	switch (state) {
- 	case pci_channel_io_normal:
- 		return PCI_ERS_RESULT_CAN_RECOVER;
-@@ -5079,6 +5081,10 @@ void amdgpu_pci_resume(struct pci_dev *pdev)
- 
- 	DRM_INFO("PCI error: resume callback!!\n");
- 
-+	/* Only continue execution for the case of pci_channel_io_frozen */
-+	if (adev->pci_channel_state != pci_channel_io_frozen)
-+		return;
-+
- 	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
- 		struct amdgpu_ring *ring = adev->rings[i];
- 
--- 
-2.40.4
+> I’m quite sure this missing split is actually an upstream bug, but it
+> has been suppressed by PMDs being split upon device fault. I have a test
+> that performs a ton of complete mremap—nonsense no one would normally
+> do, but which should work—that exposed this. I can rebase on this series
+> and see if the bug appears, or try the same nonsense without the device
+> faulting first and splitting the pages, to trigger the bug.
+>
+> Matt
+>
+>> --Mika
+>>
+--Mika
 
