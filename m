@@ -2,54 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B781DB2287A
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 15:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B9EB22925
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 15:51:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B78110E5F6;
-	Tue, 12 Aug 2025 13:30:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D6EF10E5E7;
+	Tue, 12 Aug 2025 13:51:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FjxyJ7xO";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="PmKbGT2T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 101E510E5EC
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 13:30:48 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 830383DC;
- Tue, 12 Aug 2025 15:29:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1755005394;
- bh=pxwoVk/OivdQvSju0vl3PSqNn2XM16MYOQDZs9qQ87o=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=FjxyJ7xOIiBWKwsmANFN4LZiW/v2Lr1GA/BrN1/qDJRq4IqVtMjYyr4waJxIEtM2U
- IJLKwogD8LqTVZoRIMcRYciXeslc3irsQv7J153guW57ZowTqEl2bznIviMNhDQ3Vq
- mTAhgW974TK9CVoKcJV/XOxM7sxe/bAHNclwidzc=
-Message-ID: <87cc32a7-fe1d-4d8d-b793-e3bb7e12fb7d@ideasonboard.com>
-Date: Tue, 12 Aug 2025 16:30:42 +0300
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C6FC10E5E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 13:51:14 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CDPppH020872;
+ Tue, 12 Aug 2025 15:50:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=selector1; bh=BzZrYKJ719TbfYyFhu6sPQ
+ e5KNJvUX1XlD0RKATByZ4=; b=PmKbGT2TzkhAh88PnD4Anecg5M6xIqDTmv8LQL
+ SrWNvir8a1v67es6iyr0qfdyrJlWgbF2zHdRWrjveb4Px4X5xGaVaWEs8pJlpu8t
+ GQTPpuZz8lArUDB+AfacacPIoPLiQ1Oz85zdmtJJXSKrMwG6PDeQn9vcuOyjYIQY
+ HL8UGlMr8kFwN/+tgOUPPr1ZdxxQ0ptz/1Y5DAKQnnF7YsTxDLz1Zb2qSN92q81j
+ svAPuKUi5m0ONvfqTFD9TN+NuZ+8Vg27wMx2RIT8jENHK/ciEYHcVHLqPQTrFa61
+ mMsAvX34JMpDtuSL3wyjr0Zi0y/oHwg3p7rZmo7SGtPW5HqQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48dwp1tvsw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 Aug 2025 15:50:55 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 6C6BD40048;
+ Tue, 12 Aug 2025 15:49:24 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C98E37835C8;
+ Tue, 12 Aug 2025 15:48:59 +0200 (CEST)
+Received: from localhost (10.130.74.180) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 12 Aug
+ 2025 15:48:59 +0200
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Subject: [PATCH v2 00/13] Enable display support for STM32MP25
+Date: Tue, 12 Aug 2025 15:48:57 +0200
+Message-ID: <20250812-drm-misc-next-v2-0-132fd84463d7@foss.st.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] drm/rcar-du: dsi: Remove fixed PPI lane count setup
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-3-marek.vasut+renesas@mailbox.org>
- <64b49da6-15ae-45e1-a4af-c1f08f80cf3a@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <64b49da6-15ae-45e1-a4af-c1f08f80cf3a@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAElGm2gC/13MywqDMBCF4VeRWXckCYmXrnyP4kLipM5CUzIiF
+ vHdm9pdl/+B8x0glJgE7sUBiTYWjksOcyvAT8PyJOQxNxhlnKp0jWOacWbxuNC+oh2CVZXX3ro
+ A+fNKFHi/vEefe2JZY3pf/Ka/60+qjfuTNo0KB9c2tqHK+NB2IYqUspY+ztCf5/kBvG0dVKwAA
+ AA=
+X-Change-ID: 20250617-drm-misc-next-4af406c1c45f
+To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Christophe Roullier
+ <christophe.roullier@foss.st.com>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+X-Mailer: b4 0.14.2
+X-Originating-IP: [10.130.74.180]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_07,2025-08-11_01,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,73 +90,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This series aims to add and enable sufficient LVDS display support for
+STM32MP257F-EV1 board.
 
-On 12/08/2025 16:18, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 08/06/2025 17:24, Marek Vasut wrote:
->> The R-Car DSI host is capable of operating in 1..4 DSI lane mode.
->> Remove hard-coded 4-lane configuration from PPI register settings
->> and instead configure the PPI lane count according to lane count
->> information already obtained by this driver instance.
->>
->> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->> ---
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
->> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Magnus Damm <magnus.damm@gmail.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Simona Vetter <simona@ffwll.ch>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: linux-renesas-soc@vger.kernel.org
->> ---
->>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 2 +-
->>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 5 +----
->>  2 files changed, 2 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
->> index 7ab8be46c7f6..373bd0040a46 100644
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
->> @@ -576,7 +576,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
->>  	udelay(10);
->>  	rcar_mipi_dsi_clr(dsi, CLOCKSET1, CLOCKSET1_UPDATEPLL);
->>  
->> -	ppisetr = PPISETR_DLEN_3 | PPISETR_CLEN;
->> +	ppisetr = ((BIT(dsi->lanes) - 1) & PPISETR_DLEN_MASK) | PPISETR_CLEN;
->>  	rcar_mipi_dsi_write(dsi, PPISETR, ppisetr);
->>  
->>  	rcar_mipi_dsi_set(dsi, PHYSETUP, PHYSETUP_SHUTDOWNZ);
->> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->> index b3e57217ae63..cefa7e92b5b8 100644
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->> @@ -80,10 +80,7 @@
->>   * PHY-Protocol Interface (PPI) Registers
->>   */
->>  #define PPISETR				0x700
->> -#define PPISETR_DLEN_0			(0x1 << 0)
->> -#define PPISETR_DLEN_1			(0x3 << 0)
->> -#define PPISETR_DLEN_2			(0x7 << 0)
->> -#define PPISETR_DLEN_3			(0xf << 0)
->> +#define PPISETR_DLEN_MASK		(0xf << 0)
->>  #define PPISETR_CLEN			BIT(8)
-> 
-> Looks fine, but do you know what the TXSETR register does? It also has
-> LANECNT, but I don't see the driver touching that register at all.
-> TXSETR:LANECNT default value is 3 (4 lanes), which matches with the old
-> hardcoded behavior for PPISETR... So I wonder if that register should
-> also be set?
+LVDS is the default use case to drive a display panel on STM32MP257F-EV,
+even though DSI panels will be supported in the near future.
 
-Ah, never mind, I now saw the patch 3 =). But should it be before patch
-2? Hmm, I guess that ordering is no better. Should they be combined into
-"support 1,2,3 datalanes" patch?
+The LTDC needs a pixel rate in sync with the bridge currently in use.
+For that both DSI and LVDS bridges need to declare an internal clock and
+become clock provider to the mux. The mux then selects the reference
+clock for the LTDC pixel rate generation.
 
- Tomi
+For now this mux is handled internally in the LTDC, while waiting for
+the STM32 clock framework to merge a 'clk-mux' based on the SYSCFG.
+This explains the link done in the patch [7/8] between the LVDS,
+providing the reference clock for the LTDC internals.
+
+  +----------+              |\
+  |  DSI PHY |------------->| \           +------------+
+  |          |ck_dsi_phy    |  |          |            |
+  +----------+              |  |--------->|    LTDC    |
+  +----------+              |  |pixel_clk |            |
+  | LVDS PHY |------------->|  |          +------------+
+  |          |clk_pix_lvds  |  |
+  +----------+              |  |
+                            |  |
+   ck_ker_ltdc ------------>| /
+                            |/|
+                              └- SYSCFG
+
+Clock selection applies as follow:
+- 0b00: Selects ck_dsi_phy
+- 0b01: Selects clk_pix_lvds
+- 0b10: Selects ck_ker_ltdc (for parallel or DSI display).
+- 0b11: Reserved
+
+The reset value of the register controlling the mux is 0b01, meaning
+that the default clock assigned is the clk_pix_lvds.  This causes two
+things:
+
+- In order to get basic display on the LVDS encoder, like intended,
+nothing has to be done on this mux within the LTDC driver (which for now
+explains the unused syscfg phandle on the LTDC node in the device-tree).
+
+- 'pixel_clk' is dependent from 'clk_pix_lvds' because of the LTDC clock
+domains.  They also need to be sync to get a coherent pixel rate though
+the display clock tree (which explains the LVDS phandle on the LTDC node
+in the device-tree).
+
+Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+---
+Changes in v2:
+- Documentation:
+  - Add support for new compatible "st,stm32mp255-lvds"
+  - Change LTDC compatible for SoC compliant one
+  - Make clearer LTDC clock-names property
+- Devicetree:
+  - Change compatible according to the documentation
+  - Change clock and clock-names order to match documentation (and avoid
+    warnings)
+- Drivers:
+  - Change LTDC compatible
+- Add Rob's trailer where relevant
+- Link to v1: https://lore.kernel.org/r/20250725-drm-misc-next-v1-0-a59848e62cf9@foss.st.com
+
+---
+Raphael Gallais-Pou (11):
+      dt-bindings: display: st: add new compatible to LTDC device
+      dt-bindings: display: st,stm32-ltdc: add access-controllers property
+      dt-bindings: display: st: add new compatible to LVDS device
+      dt-bindings: display: st,stm32mp25-lvds: add access-controllers property
+      dt-bindings: display: st,stm32mp25-lvds: add power-domains property
+      dt-bindings: arm: stm32: add required #clock-cells property
+      arm64: dts: st: add ltdc support on stm32mp251
+      arm64: dts: st: add lvds support on stm32mp255
+      arm64: dts: st: add clock-cells to syscfg node on stm32mp251
+      arm64: dts: st: enable display support on stm32mp257f-ev1 board
+      arm64: dts: st: add loopback clocks on LTDC node
+
+Yannick Fertre (2):
+      drm/stm: ltdc: support new hardware version for STM32MP25 SoC
+      drm/stm: ltdc: handle lvds pixel clock
+
+ .../bindings/arm/stm32/st,stm32-syscon.yaml        | 31 ++++++---
+ .../devicetree/bindings/display/st,stm32-ltdc.yaml | 33 ++++++++-
+ .../bindings/display/st,stm32mp25-lvds.yaml        | 14 +++-
+ arch/arm64/boot/dts/st/stm32mp251.dtsi             | 19 ++++++
+ arch/arm64/boot/dts/st/stm32mp255.dtsi             | 19 +++++-
+ arch/arm64/boot/dts/st/stm32mp257f-ev1.dts         | 79 ++++++++++++++++++++++
+ drivers/gpu/drm/stm/drv.c                          | 11 ++-
+ drivers/gpu/drm/stm/ltdc.c                         | 57 +++++++++++++++-
+ drivers/gpu/drm/stm/ltdc.h                         |  6 ++
+ 9 files changed, 251 insertions(+), 18 deletions(-)
+---
+base-commit: e48123c607a0db8b9ad02f83c8c3d39918dbda06
+change-id: 20250617-drm-misc-next-4af406c1c45f
+
+Best regards,
+-- 
+Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 
