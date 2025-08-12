@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A57B2291D
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 15:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCDAB2291E
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 15:51:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3AE810E15F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC25110E5E8;
 	Tue, 12 Aug 2025 13:51:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="POrNRj9F";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="ovvKccAU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
  [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0557F10E5E8
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F40F310E5E7
  for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 13:51:05 +0000 (UTC)
 Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CBcDjQ006947;
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CDerQ7007652;
  Tue, 12 Aug 2025 15:50:55 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=selector1; bh=
- aFYMkA0K6tDAgcHyB9Wj66tbmvVVtG7fB1onxc1P39U=; b=POrNRj9F49xve7it
- y6yk295IPLtBvCh/K2NZX2Y+D5AWaw4DwLU5Jiek5Y94VvfrbmH2xbaqePJKEgio
- LTMEn49LHWj609K0HLQMqHJaoGRcHVSWky1/vD9TMSecST4jiWfqP4mQVRv8hZZN
- AipkpoW+AQy0r1h5Q2aTDW/xNFkd/EOhJZQOoOfGpZw87+u/WSBwedrPaICkkT2R
- gBmv0XX27iL/QqVrOYx1P707TNZALtJ8nFmQGSW7my+5XwwUaxb0oMDPHcjzmpNF
- vF8nCKRsCJYOjmLQM5q8IXzHqRhT7DE7/tL+RYO2W7Ky1P8ZxuCM06cl9QWTi6bQ
- V0TH5Q==
+ 2VFU9Ls0RBEdLvBJfd8qPbFuQCB6ojs0BpLanUuJxB8=; b=ovvKccAUp/J/wlm/
+ K9rcrxnnja/YavEwQ3kI0qGV7JAOhAkOq44MGW6EfHXjndgcmwLdznuyf326QMVc
+ PPi/vc0Kv9fmgMiSpQaPVknjdC2qeZhDjppbfHkhaZPU8WySzMxsVsY8utUM2NKh
+ qC7578HpQNsGXFP65d2CUsl10eHWT9NekF9yO55IBhrZ4eU5QH/YTt43iaLsUTV3
+ hHI+y8rW247ZULLgtsEwIKwf67zn2k7m0LFa8kSn1EdCT/4Gf9xfVyWCW7jTbUd5
+ oegd8nGfOrnXNc/aEf0RZDJ26s7leHe9QBSqbzcDtY0huYe8HtsgINWeUUmb5hvB
+ G0+caw==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48duf8tmft-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48duf8tmfv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 12 Aug 2025 15:50:55 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 65DD640044;
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id EC7D840071;
  Tue, 12 Aug 2025 15:49:24 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B48C878C456;
- Tue, 12 Aug 2025 15:49:01 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5A66078BFD2;
+ Tue, 12 Aug 2025 15:49:02 +0200 (CEST)
 Received: from localhost (10.130.74.180) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 12 Aug
- 2025 15:49:01 +0200
+ 2025 15:49:02 +0200
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Date: Tue, 12 Aug 2025 15:49:00 +0200
-Subject: [PATCH v2 03/13] dt-bindings: display: st: add new compatible to
- LVDS device
+Date: Tue, 12 Aug 2025 15:49:01 +0200
+Subject: [PATCH v2 04/13] dt-bindings: display: st,stm32mp25-lvds: add
+ access-controllers property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250812-drm-misc-next-v2-3-132fd84463d7@foss.st.com>
+Message-ID: <20250812-drm-misc-next-v2-4-132fd84463d7@foss.st.com>
 References: <20250812-drm-misc-next-v2-0-132fd84463d7@foss.st.com>
 In-Reply-To: <20250812-drm-misc-next-v2-0-132fd84463d7@foss.st.com>
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
@@ -89,34 +89,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the compatible to accept both "st,stm32mp255-lvds" and
-st,stm32mp25-lvds" respectively.  Default will fall back to
-"st,stm32mp25-lvds".
+access-controllers is an optional property that allows a peripheral to
+refer to one or more domain access controller(s).
 
+This property is added when the peripheral is under the STM32 firewall
+controller.  It allows an accurate representation of the hardware, where
+the peripheral is connected to a firewall bus.  The firewall can then
+check the peripheral accesses before allowing its device to probe.
+
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
- Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml b/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
-index 6736f93256b5cebb558cda5250369ec4b1b3033c..b777c55626e4b322d77ef411ad9e4a3afb6c9131 100644
+index b777c55626e4b322d77ef411ad9e4a3afb6c9131..96fa0cb5cb86c41d978c4093448afa3bb2a946fa 100644
 --- a/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
 +++ b/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
-@@ -31,7 +31,13 @@ description: |
+@@ -60,6 +60,9 @@ properties:
+   resets:
+     maxItems: 1
  
- properties:
-   compatible:
--    const: st,stm32mp25-lvds
-+    oneOf:
-+      - items:
-+          - enum:
-+              - st,stm32mp255-lvds
-+          - const: st,stm32mp25-lvds
-+      - items:
-+          - const: st,stm32mp25-lvds
++  access-controllers:
++    maxItems: 1
++
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
  
-   "#clock-cells":
-     const: 0
 
 -- 
 2.25.1
