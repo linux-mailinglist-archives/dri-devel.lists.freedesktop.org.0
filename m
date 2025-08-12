@@ -2,79 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12E7B23A48
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 22:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CBAB23A7B
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 23:15:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3A7A10E028;
-	Tue, 12 Aug 2025 20:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18CA110E012;
+	Tue, 12 Aug 2025 21:15:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="zSeGqx/+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nw3MqJJD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1767410E493
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 20:58:00 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-61553a028dfso7855559a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 13:57:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1755032278;
- x=1755637078; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yrV4F3ggfLONJKJPHxiw7oTtdul8n2s16wFaeOsH0aA=;
- b=zSeGqx/+KqUpBwS3Ah6+0ZVUjP/v0gxcJNrUbmEjeT+fPOgL3JZx+vZFdT/KUXerHq
- 8FHIaZtaUFMAZAM++Dvv+3LkpXBBgc5yAEzKpX3JWICKbzl2MHUzxSaVBH6iHONQlnT/
- QnwWohvJujQcMjzP/fNzESBdvQMku+xvvCyn0UK+640rld/1aIHbYwZYOv6PCzC4NXTd
- e2z3Z96mGZa9T1tJwsw/rI8njkK3Ax7yAApWtjqgizmEcer3/54X2QTyIchw9L9URPya
- W138+1FVYZbeXWIcxw4LDheIazmkl3bEpPuf6vFCmtQTvMCPEo/q2t3tt6R5GgtVkVBi
- rPjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755032278; x=1755637078;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yrV4F3ggfLONJKJPHxiw7oTtdul8n2s16wFaeOsH0aA=;
- b=mQsVNCdHctDrlD1G42EYAZoVzq3zD/V4ERvTPoP5/e/T2LeAKVQanFhEOnm0fpTLtK
- KamYzWE4inIXuLlv9Ni+frPA4PvxfJhaZakyTyoRq/7RlRxlPStAfb99M2K2G3vLlvyP
- idJI4em5wIVfc63WDW7lFkL8FltEdspo56vnRx/lUJlCkooO+2tUqSkH6t371OW1ACgd
- /Qz4v9EYjdSgJ1W59qUBaEQks+q/DeU+Ss+crMOQ521VT2YC6oAVQWBf7WI0CNY/VqVO
- mfpjgsWtmKFY3ZHOH+pwccun2vOuadZs+jNh6sMbKrKb1qljzsf5tjbXkL273T7EJXPA
- zpHA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVlt6fJcbOaPpJGhQkuRQ5uau2raTZFWyP4kzwDRjuG9tW62AHt6pvBajaOYL8xK7PmDOZ9pk27w8A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzixCuhSkPvb18hkbg0uBB44QKDay1t/xVq45yThkiEM5t8ONE
- FyGIjgZoC+557XIQjjbvDuuvZhfxuj49YgeiUAInqy+ry5Dvf6ht83DFEbowkPa5+eMQDL2F+v5
- WQVlqFeyee5yiB5C32PST4/gpTf484aWkjx88GQFozg==
-X-Gm-Gg: ASbGncvBd/FUNt6fqXJ61uGulyqTOiwsa8DjH6dPiZstUrfTuDxG3KMYGXC1WNlPHDH
- wKCD/TX4G2NeWY8K5j1QAQqtQtcoV2aqyuEgnbsW9WqukvDkvNXkMcxYMNUgZx5CxvNWngepAPc
- GA842h/PgujyJ4VQZkCCOVXJDEvxEnfxST+tNy3ykimD8XSSCZIHzoiXKrlpEFha+kdV0hYAw/k
- CDfAnVs
-X-Google-Smtp-Source: AGHT+IHXenokGDPc7c+8AH3VQpKGDsLvDZhkCKEmxn5Bfy4MOrgqGlHyzXk2gIBnArM7BAOgBhV3oZF9xry4JlFgUu8=
-X-Received: by 2002:a05:6402:5201:b0:618:1835:24ad with SMTP id
- 4fb4d7f45d1cf-6186b74ffc5mr259423a12.3.1755032278274; Tue, 12 Aug 2025
- 13:57:58 -0700 (PDT)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4EDC10E012
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 21:15:51 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id B6F5FA57A22;
+ Tue, 12 Aug 2025 21:15:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2865CC4CEF5;
+ Tue, 12 Aug 2025 21:15:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755033350;
+ bh=5mNbdpt5q9TT98oGMkwzue+Mu9ER5hM0os1oH28oc/w=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=nw3MqJJDL6QM31RSIqJfWv86MH9SR/VBi6Xssr6IRHTstRGO7E3wfnmSGAwmsFTR8
+ YILqFFKV4zWkX7Yy3eLAfoR0ZaWxmfhtp0U8D9TQQRpONglsi3jAGU5hahn+c1C8Bm
+ sk0/sKtuViuIgnwcfZhmeuw/ESQBD85i/JRL7x6/iR3M/2w4QRJsvyThkUgMT+hvgv
+ bRm+3cK17i/PU9pifdtnIzbNzaeBHwlK6qCEK/3K5NeX3PCgZ3kTBOhDg4QIokbVzh
+ Fptt3kSm2V+nr9UsLQXaGNX1MUBwE1IK1XZ8KYrJA+VdcCaa6Rda+DN8crUlshigZu
+ veaXWaWzbStoQ==
+From: Bjorn Andersson <andersson@kernel.org>
+To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Luca Weiss <luca@lucaweiss.eu>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: (subset) [PATCH v4 0/4] Add display support for Fairphone 3
+ smartphone
+Date: Tue, 12 Aug 2025 16:13:46 -0500
+Message-ID: <175503322851.231048.5166314447920112542.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250611-fp3-display-v4-0-ef67701e7687@lucaweiss.eu>
+References: <20250611-fp3-display-v4-0-ef67701e7687@lucaweiss.eu>
 MIME-Version: 1.0
-References: <20250811213843.4294-1-mhenning@darkrefraction.com>
- <e4d721185bb0e9304f685f99103e63105fb80103.camel@redhat.com>
-In-Reply-To: <e4d721185bb0e9304f685f99103e63105fb80103.camel@redhat.com>
-From: M Henning <mhenning@darkrefraction.com>
-Date: Tue, 12 Aug 2025 16:57:32 -0400
-X-Gm-Features: Ac12FXxsUM0d30wXYjK2Hx0QCx-YAjMVgZSnrBeTiZQsLkUfMCMOw-lFErNABec
-Message-ID: <CAAgWFh0yvFsns=7YuR89R1Bq1SUMGPxq7AT6Mn=R2aaHMAQQyA@mail.gmail.com>
-Subject: Re: [PATCH V2 RESEND 0/3] drm/nouveau: Remove DRM_NOUVEAU_GSP_DEFAULT
- config
-To: Lyude Paul <lyude@redhat.com>
-Cc: Karol Herbst <kherbst@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
- Faith Ekstrand <faith.ekstrand@collabora.com>, ttabi@nvidia.com,
- bskeggs@nvidia.com, 
- martin.peres@free.fr, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,11 +71,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 12, 2025 at 4:27=E2=80=AFPM Lyude Paul <lyude@redhat.com> wrote=
-:
->
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
->
-> I assume you need someone to push this for you?
 
-Yes, please.
+On Wed, 11 Jun 2025 18:33:14 +0200, Luca Weiss wrote:
+> Add a driver for the HX83112B-based panel, and enable it on Fairphone 3
+> to enable display output, and enable GPU as well.
+> 
+> 
+
+Applied, thanks!
+
+[4/4] arm64: dts: qcom: sdm632-fairphone-fp3: Enable display and GPU
+      commit: 4ea55ecb4990aa4142ddae5f713289f4101f046f
+
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
