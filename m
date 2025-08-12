@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EE2B2306A
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 19:52:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC09BB23095
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 19:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FDD610E628;
-	Tue, 12 Aug 2025 17:52:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F1F10E622;
+	Tue, 12 Aug 2025 17:54:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RQPtjajp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G3zUKaUV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 067E910E61F;
- Tue, 12 Aug 2025 17:52:24 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1158710E622;
+ Tue, 12 Aug 2025 17:54:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755021145; x=1786557145;
+ t=1755021283; x=1786557283;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=HI3Sxm8U7p3KJEoS1O1r5sSNmy5706o1qUAfqWDM4eE=;
- b=RQPtjajpbZyepWQnXVEio/fNSHMBmec43zYB6jZrCFI0TNC5gFCHylpw
- y+PirRG79EQizLvV8BV4iLX+Y71/qUL30AeA0GD4BReukbWW5Yy/VwRyj
- nfa7pvCGj7YwjrR9NitfIp4pVUSj7EzDG/3deDudhdKhcEIpe75OJhWv5
- rx+wYQKF4H7VOv1zRvEXu4qRH6g6R+RDjkMKykhvDuqDzkeAr/SYjRYbs
- Pgl6ANJB6nuo3R7h4t0nEGCt5OsJMo2q6fuZoq+rLf5sDezJud3tHKO/b
- fgxI+OXNDcDRVtt2uUdLJq5fuN3vBkxqg0GhzC3fJu9T5X58HyFN945MI w==;
-X-CSE-ConnectionGUID: g2KaNW9CQUmZHa8nA1u02A==
-X-CSE-MsgGUID: jcw4tp7qRZmGWuBcP1dCgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57263833"
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; d="scan'208";a="57263833"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2025 10:52:24 -0700
-X-CSE-ConnectionGUID: gUxBHX5jS6mzGFhq3pOOBw==
-X-CSE-MsgGUID: xf4TkCYmRgSxc0TNtlUWeA==
+ bh=INOvCD+gf8UQ9I0DOxCliS6NZF1QMuxTsqr+9TPeWb0=;
+ b=G3zUKaUVn0qA4Q3OlD2nhrOmWlU7O66dmhWoEJTTFJ9NWvqtApXmvzEe
+ JtPLQp1MCi4A1rEKHVkEuRckr9LVieJM2n49ma9E28pn5zOgaFWHWJNdQ
+ l6aVXKqNbWA8h+LFUdOYPLKmR2kTkicyt1d/4Ml8F2TkrkkOzHrUzKn1O
+ M3aoU2bHPvF1pt1tD7ZMwdqudgjC3FXbYoLPIWcv2JphWDdqbyamFYyfu
+ m2rTopF6XjpYtIStjBcvZs5GHqB/M5+cQtJXd9tT3nCGlSAm32xl4wNyh
+ 221RhqqaeADs5F1t6puxR2rpMoJU//Trcm7x794JkVbv08NNnZyb1cHHi w==;
+X-CSE-ConnectionGUID: 0PLYq0Z+RaK+NWrekPArCA==
+X-CSE-MsgGUID: QGO7l1iYTBePu/S+9i3hPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="44882706"
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; d="scan'208";a="44882706"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2025 10:54:42 -0700
+X-CSE-ConnectionGUID: Rs4+GtpaSZONtJk4U/a8ag==
+X-CSE-MsgGUID: GpnfjtDgRv6eLNKRsEb16g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; d="scan'208";a="170707907"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2025 10:52:25 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Tue, 12 Aug 2025 10:52:24 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+X-IronPort-AV: E=Sophos;i="6.17,284,1747724400"; d="scan'208";a="165760106"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Aug 2025 10:54:42 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
  ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Tue, 12 Aug 2025 10:52:24 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.52)
+ 15.2.2562.17; Tue, 12 Aug 2025 10:54:41 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Tue, 12 Aug 2025 10:54:41 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.86)
  by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Tue, 12 Aug 2025 10:52:24 -0700
+ 15.2.1748.26; Tue, 12 Aug 2025 10:54:41 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FeA6xgHabw7WFLFR9Gsvrck8JvmjAtse9skOdNJJGacyZLD1j5irozUQGmfmcFOGdsLlOfnLgtD4fPWUukgqig9m2qjlvs1R4jCk3c1obmp0LpOWXbSll9X3iFsyoY282VZO2ZulUfJriEzbT3m7mYy04rzLE1OTVlboh1KG28YlWrS4yJsP8mHZiLWiYYDhamiDWyMgoj8gYy20x5Q2lMKI3pC6yLR9t8Xro5r+lCLz+koDKHKr8cBo+DujJw++y+WZQu+Tt7S5VREMhN0wxUNOjM1NM6pu1pDz7IHj2GgWrGTOGgebK7Ft/t5Sa+HR8IaABsBV5kyw4JAhPg+lDg==
+ b=NM3SHqAr5QF+MMJ61wF/8Zuhkp0SNBTfAGFjcvtsR1f7mzdjrnM033qXdOlJMjSxHjho02rNqoSrbTYebtI+zyJak6FPQR2KBPtZ58SxxlzGm4s3vALdGckUZsdEII90sZZ6EJOJm7y2QKPZRYl6PC2Hf26dNNdc935InUFHiPiF67YyvbHiecvjoWW5SrvlQLNc8z1qraBz+Et/9JjwnXt9MlNnZYIqCtVS6QLAVkMccYHchra9E6vmiIP7j+1oY/dt0qYl/eyVw6C8scQSg7iW+xV6YxtifF0zMOi8qqiN+usy938aYtd4FOhE/WnScWUMKocsZLchq/yjbxlsKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ax1nlBjTCDy4Cd3g5ldCSG95J5xKr+j7mtvxQFVc8wY=;
- b=Tk4uPfy1WGAmpMFC8bbMfzZEbpQ3/6Qv0Y2OcWF36Etfz9leJhN5nkzYOl5MvJRCCzNTFB9tFz1iD/vyXin3Ag4W+d+RynpjB/kMrMP4IxKw9VPJ3h0aWDKXNHFsbPxZqzKdxL3q/uKD5SMRj/NOX23Y/5RlEyYVIpOGReaVoQYHzHloJdWk88DMnRCKrXXmfCxGcGJPA0dnOjPCbBt/cWW6DgeJO1yhwACW1xMDLBLWFswl+IBZcKWvrT0mfzn2Umf2lpPwzroI2ps5koZ+72ZsTTincBTpFYVT9yslA6o5AycFwhoZ4gtXCPDW15QvYrUMluAcuMiCqtz+UojEqw==
+ bh=as3OkYdCggvIVtiBqarSouqId8eu2RrlWd6wMUAYdv4=;
+ b=mVpPzqPrURZf3HAvJljAEn7CoBmVGlVnSPWYZY/v5MNg2ig2a0xR0NKumL+bVjRPV9O2bicNxnFHLjJsf5exKDsaP8uyZGeh3m2j2kJEZ+sLzkC0lvVURy19QsZYAekTax/gcSw0jzujmGaZaVgfrqvAFD2YpKTOg8QiXKvYfPPVYLm0eSiKM/ED40ol1z1LPfBlH6gFJXgyVeQcb4ep+BA1k4efLibToZWsVZdxZ7SEClTcFSQvFU6+TH5fuEt6BSTT+j8wT2MFBabfAuNMmYqBQq0TSUj22Ddp3Ba7s1+4jRL7ltQxcuDMW1jHIj3K69PBDpp6KGQPhXC9G/gFNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,13 +69,13 @@ Received: from DS4PPF691668CDD.namprd11.prod.outlook.com
  (2603:10b6:f:fc02::2a) by SA1PR11MB6783.namprd11.prod.outlook.com
  (2603:10b6:806:25f::15) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.13; Tue, 12 Aug
- 2025 17:52:21 +0000
+ 2025 17:54:39 +0000
 Received: from DS4PPF691668CDD.namprd11.prod.outlook.com
  ([fe80::e40a:ca86:8d29:b2ab]) by DS4PPF691668CDD.namprd11.prod.outlook.com
  ([fe80::e40a:ca86:8d29:b2ab%5]) with mapi id 15.20.9031.012; Tue, 12 Aug 2025
- 17:52:20 +0000
-Message-ID: <5e3e2518-cbd0-49ee-8c8a-ca2bd464272c@intel.com>
-Date: Tue, 12 Aug 2025 23:22:13 +0530
+ 17:54:39 +0000
+Message-ID: <b27f5d01-52a4-4b9f-baa0-bcb0fe68626c@intel.com>
+Date: Tue, 12 Aug 2025 23:24:31 +0530
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 04/26] drm/gpuvm: Introduce
  DRM_GPUVM_SM_MAP_OPS_FLAG_SPLIT_MADVISE flag
@@ -86,104 +86,104 @@ CC: <intel-xe@lists.freedesktop.org>, Matthew Brost <matthew.brost@intel.com>,
  Brezillon" <bbrezillon@kernel.org>, <dri-devel@lists.freedesktop.org>
 References: <20250807164338.1832254-1-himal.prasad.ghimiray@intel.com>
  <20250807164338.1832254-5-himal.prasad.ghimiray@intel.com>
- <DBXXHBNTM105.2DTBKIO95D5UI@kernel.org>
- <f5d6e986-abc7-476c-b27b-ba22e5d114a2@intel.com>
- <DC0KTIPCIM2X.YRWQ3K2RLHIG@kernel.org>
+ <DC0LXQF855NM.1ODUF3CKB5X4K@kernel.org>
 Content-Language: en-US
 From: "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>
-In-Reply-To: <DC0KTIPCIM2X.YRWQ3K2RLHIG@kernel.org>
+In-Reply-To: <DC0LXQF855NM.1ODUF3CKB5X4K@kernel.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA1P287CA0016.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a00:35::33) To DS4PPF691668CDD.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0105.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:af::19) To DS4PPF691668CDD.namprd11.prod.outlook.com
  (2603:10b6:f:fc02::2a)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS4PPF691668CDD:EE_|SA1PR11MB6783:EE_
-X-MS-Office365-Filtering-Correlation-Id: 89ec6a64-f175-4c20-e770-08ddd9c8fc54
+X-MS-Office365-Filtering-Correlation-Id: a7c9bbc3-714d-4824-7330-08ddd9c94e98
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OUNWNTVqOW9DM1FHWElRMXhsYjBDTUs5Q21vM3JGdDEwWUFNRTVHZ2Z0akhX?=
- =?utf-8?B?SVh3K05yTUMzaFJ6WVdvOGVMZU5GRmRqekJmK0poUW9Zdi9QUzRNRVhqTU9I?=
- =?utf-8?B?SVg4NTloeXNUbTVEeU1NUTR0TXprbTVtQnNIbU9Wc0VBRnpJWkpuSnQ3bkd0?=
- =?utf-8?B?K3FzR2trSExlWFo3dk5GdjlEUXkxNHEyVjZ2bTlZd3JPVWNaY0pROFNScytR?=
- =?utf-8?B?a3NSaitVNjZMeXVQUmhVb0N2azVOTmtZZ2d0T2RzWkNyQW81UWwyY2NIVFdO?=
- =?utf-8?B?TFhXaG9OKzBDQmJuakt5bER1bjNmVUZiaGRGWGJJT1R3RnA1cWpjYnI0U0Vp?=
- =?utf-8?B?NjI5blVXRlNPZVVvWE5OVTRsVjBvMTVIU3g5b2xPQW9DemRHWXNMSmw2ZnFw?=
- =?utf-8?B?VFc4eEJCWG5NWU9mYkM3NTRVODB0K1N1ZElzUmhvbHlncGlxdzJwNFk0ZWdM?=
- =?utf-8?B?RGZSdVRlZDVkL2lLWlpqdGhBTDJSTVRYWmwveGlOWFVacjBnMFFlS0xxTWVs?=
- =?utf-8?B?NWdMMy9hbG9OYmNoejZsTmZ0cHppbE5wUnhhOFpWbXVZTFpxcTRSaWFIL0t6?=
- =?utf-8?B?SjkzOU5ZQkRFbzY1d05WSVh0ZExJemthV1NQbW1tQjM3WXJkTDkydVpIQ0lH?=
- =?utf-8?B?NG5OUzVUR1FHYkVDRVJmT0s5a1l0MnpHaGtEUzhNSGZHSjJyRlZuUnAyVnFG?=
- =?utf-8?B?TWRLdFZWc29RSUk3Unh3TUhtTjhtMzZhT2hYOXNncGNSTUYyZlUrN3hhUEZH?=
- =?utf-8?B?eTE0MGIvV2k1eDNsTlo2V2tlUEhobitHOHhES0E4K1JrZ0dBNVNlTldKaDhH?=
- =?utf-8?B?cHcxRStyQi9rSEJFaFIwNFIvZm50eEtVUm5zS1cyekw5WWMrUW14TlYzUHdC?=
- =?utf-8?B?cmRjV2xIS2FOZlhCdnpmM2Jjb3dsbGRUYm05NmlXWDVtWnNURjFVbDZPYnpZ?=
- =?utf-8?B?eHJvbjdOb2ZWcUNTZE9tVVhaSGlSdEFaZCt1clVwZ0ZYSjlwaG5XeGFiUUZo?=
- =?utf-8?B?Vkdlbjh1OHpGbUxZcThPQUFySW9DQkxzTzBqMlpyOUZxKytISStPYUx5blZF?=
- =?utf-8?B?dDFVUXMzVWhSWGdUN2pXeWRkY2FSQ3JVM2p0UXZ5RlNHV3lHVnVaS1pyajMv?=
- =?utf-8?B?bUY5cWN2WWJrOUtaYnFRNEgyby9GUGlDN2FlUlAzMjEzeTc0RnVOdjEwTkVX?=
- =?utf-8?B?cEZXanJ4SGNhaWkybHJIZ0lha1VqVU1CcjBxdkZqWjlqQWhIT3dZQi9YVXR4?=
- =?utf-8?B?Vm9wU0ptNVUrd0JkNm0wZVpBaUwwUlVuWEpMeFRCeGhhVGlraVA3eThTVWhj?=
- =?utf-8?B?K0hXQjJtaE1QbE5OZENJYVNaUVJUd2JpN2NCalVnWU5BU0thMXNyemxlUmN3?=
- =?utf-8?B?SW9PMmRvb3lSV3BuNWM2bEYzQXVkRU10YXpqVEVreWVHOElpMTJNMEFSLy82?=
- =?utf-8?B?dHNicWptVllDVk9HNUJqeHd4dGhiWERscUFxTmY5SnpiT1VmeE45WlB0c1NN?=
- =?utf-8?B?aFFMenQveStoQkFjSXU5UFFzdmxLMndPc3oxM1BPRHZ0YUV5a3JHdjdlY0Q5?=
- =?utf-8?B?V29CSW43OWdKUEdpNUhjYVhEclZPbWE0VDJRaGZ0ckxnTlE4Vk1jVVRkbUlP?=
- =?utf-8?B?NCtQdmdSVUR2YlRwZ1I2VmxNaEN5RGI3TDNXWXdsbW9HeWsvbDRGU3AzUDl2?=
- =?utf-8?B?WEtqNGQ0TDdtVVNRdWdxZGNCdE11Y0dKZkJNTlNlakRFL2VncEw4aFAvcnNX?=
- =?utf-8?B?RExpMlVLTGQ2VFJ5cm1mMkRYa1NWdmtjUlFucXRWOGxCUFppenZzNndIYTV3?=
- =?utf-8?Q?RpHgx08xxI7NjUyP+Rv8M35KzcmRvA+95Py58=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eFpqYXFQcEdRa2paS0Y1YzRuUFdqNGxNRGRDUnJOL09ma3Y3SVI5WkpWQmN5?=
+ =?utf-8?B?NnJKMCt0aThBM0Y1alRRY2djUC8zOGJ2V1AwcWtYWEM5QWNPWjR2elBFWGNm?=
+ =?utf-8?B?OTUxQlBXeUlQeWlneFRIRFpPVm1YOGtTbjdQUzdGbFYra3NjUUYwclpRRkJP?=
+ =?utf-8?B?OUJhdS90dVkwaUpSYmV3S2l2OXFRK09VNDc0S253d1BBR2ZuUjljU0xhdEpO?=
+ =?utf-8?B?cjlKUVVYYyt6WE9zRlNyY1g5cFNxZUZad0NiQ1hGenQ2UHhJdGpVV0lTTldN?=
+ =?utf-8?B?ajE2NHJCN0ZGcVc1a0J0elh5SWdHeE5ETFFQSFFxMGRFR0VYbENxMXFSNUxp?=
+ =?utf-8?B?UExvTWg3UFBYdVpiRjY5T1VkK2xzREg4OVBWRXJ1UkZpMUVCcnFkNkNsRGg4?=
+ =?utf-8?B?WGpwM0tYendERFRoOUFJSkhsQ1NFREphZ01vYUo4dVBQZFJlRWxVeUxUUFli?=
+ =?utf-8?B?YjhQZUFZQkJGWXhpbFRUemF0YVBFTDVBMi9Mc1k1Z21LbHZvQmlzd2wrTjZ5?=
+ =?utf-8?B?cHJpTXRUR0xNWFZQR0RxUkhHeDlUdmpZZW90dDM1clBlU1dOb2JiV1ozY2Fs?=
+ =?utf-8?B?L1NGYlJ4c3J6V0FzTnlISnNpbHJ4WGp2SHo0YnBEczE4RExPdkNFMTJHZlRY?=
+ =?utf-8?B?Y25kT2tpMzVrdk0vV3FNaUZ0bWpUc0tyUTRndnE0QWo4VStoaWdpeDBjYmEr?=
+ =?utf-8?B?MS9NQ2R0N0hwOVlJd25GS2JhU0tKY2drdTZNWFNhd056ZW9aeGU1dXI3djZT?=
+ =?utf-8?B?T0hoSTBScE92V0hVUW52cTFMci9OQmhUeC9ud2cyMTBWU0w0WG9aS2l5ZlVx?=
+ =?utf-8?B?VG0wMGN1ZjRGUnFGejdubFZ4OEhMNW80MDRHZFpSY3lpaktPK0t6RnBoYUNL?=
+ =?utf-8?B?eHBUKzg3VFdVU1FSMHVibFovV3hPd09iUGtGaEhXY2M2SHcvZ1ZLOUxreHVU?=
+ =?utf-8?B?RE1LaEZmcDAxUndkNmNROGlLeWl5UDE5VEYvMWUxWFRwcy9YbmRVTGZGbURj?=
+ =?utf-8?B?SWZDdGxhMVBicU5FLzNYK1VaT3RCSVRmMjFROVZjSlBCYnlURk9jalVYMHE2?=
+ =?utf-8?B?emRWTXlXVjZVYnBqTjJFaStLU00wTVdrMVVMZW1vWXRpdUdTZEQzM0Q1NTI4?=
+ =?utf-8?B?RlFNalpGdHN3VFhiWURPNElrODhpSmRZVlhnYUZadXhjUTZsUXhrdDQ4Z001?=
+ =?utf-8?B?NHFNU3RNcTIrK09vWGhYcW5Sd0psYXNDZCtUR1NzbjFLdTJ0Zk1HMmJYdG85?=
+ =?utf-8?B?OGJuUXNPWWdHOUVaeDNwY3Y3aG9WUWdpV0t5cEFweXVTY1JmTGZvaGQxUHc4?=
+ =?utf-8?B?YlBVZlppTHg2dlBFNWphYi8vcFhuTHgvRnJVM3M4L0NMRXdMMnYrSW5XREpL?=
+ =?utf-8?B?OG5UVXhvNllMdU43V2I1VGtUNmE1ZWZ5eHdhb2crM2ZaeWl0bmpmZEZoc0F6?=
+ =?utf-8?B?Zm1JK2dJVmc4UnErRE5UbmhudG9PREhoVU84SmxMQzlKTjRCaWNiWG5vaXpI?=
+ =?utf-8?B?bEZIRElxcnlCbkxrWlZoa3p4a09jSWd6em5JVUk4Q2Y5Z3B4WTlVQytNNnlZ?=
+ =?utf-8?B?L01TK2JFVldNTE1aMjlBSXVBS3RpbTRXaDl4L1Q1WUZseVpxaUNIVTZqbG1D?=
+ =?utf-8?B?MUM2bEcwYnhhU0p0V09CTEl6RjVLSWNKQkNZL0FmR0dNZUlQZG9WQWhvL1I5?=
+ =?utf-8?B?RC9sRzA4MjdzSWs4UVNwc1pPWVN2eHRBV21wYy9tYlQwZFhmNHUvay9ZUTJZ?=
+ =?utf-8?B?NlZnL1ZFc0Q3dnZ3clZldWdrUFpqU010VTIvZ3lZWENtMk5TWVRvMmgwTVdS?=
+ =?utf-8?B?b2FzZHVhTmdKck9aVk9RcnNTZ1ppWXdRNTVxdnpDY0x4MHV3ZGtDMmcxV0hY?=
+ =?utf-8?B?a0pQWEdGSFNTaWV0ZnZaa3ByUjExN2NQZ3ZjbGd1QlVPRFpRN09YeTFmUU9n?=
+ =?utf-8?Q?3dfGG8Y473E=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS4PPF691668CDD.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RTJ1amRSVGN0YzNhN25yMmUyZDhkZHJ2bFlvNWwvdXkzdDM1czBLWDhqZHNw?=
- =?utf-8?B?L1ZHQkg1V09yOTFNYTdYazErZDFXckc5SGk1ZGszTVFxaFR3aStNSllhcnhp?=
- =?utf-8?B?OWYxTDAxeVN2dUxIY3FMVmx5SHNvaW9sdGhBS0JORWtEUjY4OHJMclg1blQ1?=
- =?utf-8?B?WE0wNjZYZm9vLy9sVW8wdUkrcFBHV2NxQ1VkOUlJZUxpVitpOFljUG1sVEkv?=
- =?utf-8?B?NTV6Tkk1U2cvaGcvZ1gzZThMdkJoeEVDYU5RY3ZhTS9UdzZBNzdvUXNuV1lL?=
- =?utf-8?B?blFPOWdObVBtMDE4VVYxSlN3dWFhLytkS1k4U0QrN25LUDBPS3RldHd4TXRw?=
- =?utf-8?B?K0tET3J0dmxzcFpZelpFVFp4S2FkY0pidS9mK205MFFiYS9zMjFHY29US2pO?=
- =?utf-8?B?dXJmdjFrNWIyQ1ladzdQZEdQcjEvYzhvN0VSaTlRTUhDOTFJR2FDaW1JNGdU?=
- =?utf-8?B?L0dCS2tMckdVdmIydEF5V3p0SlJ0RGsxMmZNOVhUNm56UVVqdGlFWlVVTTVT?=
- =?utf-8?B?R0N3NkxCT0pDblNtWjUxVld1MlFScC9VbUNyU1U5aW5RaGEzYUFPYnNqdFpB?=
- =?utf-8?B?ZzkwY2NVUHRrUDlUMmJoWWdBQzRONzd0TE5sL240WmRtQlNEK0FlVS9WN0ND?=
- =?utf-8?B?b1pLODVJYVZKcEFsYWZyM1IzNXFmY09hd21kV09TRnAxbUh5UzBxT25kZUh0?=
- =?utf-8?B?S3JnOXZlZ1BtRUhqbHRxT2JrYUtMVlh0NENDSGlYaGZxeXZjT0R0ZFpjd3k2?=
- =?utf-8?B?V0dlLzBNQUxMclNpM2xuV1NjV0Y0b3F6Mkt3OTFIL1hUSkZjTW5zMWpGbVpp?=
- =?utf-8?B?bG9nTzRDV05ZRjhaOGFrZnRUVzMxOU53dFVBU2lYOVlZTXVHWlNnMHZxVHlJ?=
- =?utf-8?B?L0tUOE05OGFzQythMmR4V21zZEI5M2V0UGIxdDVpR2hnVjBlZFN2UlZFUHFH?=
- =?utf-8?B?dTZHdmgyQUVOU3RRb2EwcTI4bkpMK1NXY0krU2RKbTdlN0kwQnhCd1FHV21z?=
- =?utf-8?B?ZTc0UTliR2MySndjcHI4d2Ntd21OMzVUWGZJQStndmNmMjFTbVpHYUNIaVlp?=
- =?utf-8?B?TWtKL2ZmdlB2NUJobWo1SzJla0NCeSsvODJ5Zlk2K0t6TVJRdVpOcThQN3Mx?=
- =?utf-8?B?TTg5TlVNaHBnc2lPc3FpSGNVVWNOOW5aMDRNVUlhd2I0bTZTSzZ5ejJjQlp4?=
- =?utf-8?B?MWMzQlRCV1VxeUhqSGd4bGZ6dktFc3F1TkpJdmRoTXVIVk5iMWM1R2NLV1JR?=
- =?utf-8?B?SzJSS3pDOWpwSWUySDduRVRqZmNRRXhjdGNTUWlobWlhc1FvOEN6TVJFTzlp?=
- =?utf-8?B?UGg4NklBUjVIalh5QnFERVMwcjZuN0Jrbkp4SEs1QlhwY1YwNW1sTmtaOC9H?=
- =?utf-8?B?NEF6SHhHZmNNWmFLTi96cm56b3VEdTN5dFYxaU9wVHA3ODJPSkoyQS9RY2ZO?=
- =?utf-8?B?TUdtVlZMeG1GRHR5SFRNN29KMVVCbVlJMjFidXhuV0w3VTJMT1pUNE1USUVL?=
- =?utf-8?B?VFdOTTdRSi9wOE56bXhnMWZCb3VmdlNaYTFXZjljdncwSkFWN1IxbUI0bzRW?=
- =?utf-8?B?SmljK2lEbzRpRHVQdDJGRVZieDZCNGdCamRLVmJKSTNJQURmNTA3alJWNmRj?=
- =?utf-8?B?OUpsdG5Iak5mRmRCdjRVeGFSZTFBMHYzV21OeE4xNkFGNmhYSG9KT3YzSTBw?=
- =?utf-8?B?ckoyY3BIZy9qS05RU243bjl2OE1tUGE2aDhjZStxZ092UE5uT2pJWHdYcm9x?=
- =?utf-8?B?aVdqdkYwdlFTNWovZEVYZjZDVVdrRlhNZjlia2ZZQkdmR0tINi90S0s3ZUZW?=
- =?utf-8?B?WHA0bW5mZldXMURhYWxFQ1k4bkxmR3BCcFRBV3ZxcFVGeU5TLzZFYzNodkhr?=
- =?utf-8?B?K0NVdlpxMkpIbCtBSGFDVFlNUGxkY0hFTWRSb2wvamNVZ0FTbEd5ck0xTG4z?=
- =?utf-8?B?VlBiZnBqbXh6K0V2K203Zmd4bU85Z0pXVVhVQklFSHRhMjVoNFpnVlRrcHor?=
- =?utf-8?B?SXE2Y29tWkdoOVhHajFXVmwwS1hTT2FhQlY3VlhXUGNVSktLY1JKU0w5M2Fx?=
- =?utf-8?B?THJwMUxTUkpkODhrbXk2WUZyNmExMW9WU1NieGw1MWFMd3RBNHNtaitDYjNW?=
- =?utf-8?B?dHlpekpjcUFFcG1ZM2RqeU1sU1IwdUczR3hTU1QvWUdaM2Z3M1JWTFlvKzhj?=
- =?utf-8?Q?VT9LOKJdw7U1kKec0XXhZx8=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89ec6a64-f175-4c20-e770-08ddd9c8fc54
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UHBaYWt3M3hjU1pNaTNTam4xSGRaZFNqd2h2VFN6UWhZU1dZZ2l1YnI3RExz?=
+ =?utf-8?B?c29EQ2w0dnZxc1d0Q2pHSWg1Q1c0M3FoVDhoZ2dlZXpsbiswTit6YkFUa0l3?=
+ =?utf-8?B?VEVEb3BPRkJvY0Z3S09hb0xHV1oxYnBOdEZoaGViK0hPcmZIcmc2TFJwUnd4?=
+ =?utf-8?B?K2VKaTVFc0RRaUxGOHpUT2R0cGNBZ25BamNZb3F1WTFmUmpIT1VkTXo2VWM2?=
+ =?utf-8?B?OERhWlJ4dW4wNGswdjRBb3ZYZ2VMbWMwdTJYYXdUY1NVQXRRTk42K2JqbnJP?=
+ =?utf-8?B?QmszTjU1d25OVHFrYzJmTWtHSzVjOG5qaGU2QjM0Qkd3UVNxYk1DWituYTNp?=
+ =?utf-8?B?T0JtMmp3TzkvK0VMYW1mcThQWTdSdEE2b2xOV0RPV1FhTUU5M2RvVlo1ZDds?=
+ =?utf-8?B?VVpqSnl3bEtocCsxMDVyTFUwOW0vb2l4WFlEQ0tUMllmdnFyTmUwZWlLckp4?=
+ =?utf-8?B?dWpsWUJNcWJnWDM1OTFVKzBqNER2LytOZ3BSUmR0MjU1YVpwYnFJVWs3OTJ2?=
+ =?utf-8?B?b0VvWDlOeUtKbkg1c2x5YjNXV1VaME9kWUhjaXJ0bWozQ0svSnJGU1d2ZGVp?=
+ =?utf-8?B?dlZKYXYwMEdJSHp3cVdOSkZ5L1lYS0QyUDJsOUVsL0Iwa2dzaGJobHBNWE9J?=
+ =?utf-8?B?QzFONDEvUmJzVFBFZEdvVFZaYWRCRHRKWDl3TSs0Vmc3b3IybHdUVndseVpv?=
+ =?utf-8?B?YzFJQlp5dUNWeEZvOUI4b3FqL1lTbVkzRmpGL0NWQVFac01kcm9rdkNTTWts?=
+ =?utf-8?B?Q29hTXozVEQ5ZEZ0MTdaclI0emJiZ1hHblB1YW1Hb0JFQVA3R0xUNWs2eWo5?=
+ =?utf-8?B?TWxrR3Qwbm5mVkVHb3pxeXVSVzdLSlkxcEFpMzNDMmxxSSt5T0J2NTdZWlFn?=
+ =?utf-8?B?QXJQTDNES1I3SWlwOVNseHBVMnJrUXlqbTVFSnZZd0JnZ2N2VnZHK1oxQ1Y0?=
+ =?utf-8?B?NjNQcmxxMXRMNXlqZXBLR3ZJSXFkWHFOTml0a2FudFZUR2VnTFcxYW41VWpp?=
+ =?utf-8?B?cXF5TFdzU1NGalQ4WUNkckhFODBscHVlSU0rTFpNN3YyZC9HN1V6ckN5RjNp?=
+ =?utf-8?B?M1NQNGEwMXhra2lHcHNQRjJobS92eFkvKzFqdExMQ0JOVFpjVmV5dDBIZ1RK?=
+ =?utf-8?B?S1VXMWdrTEcweUpGVzVaT21lRDU4TXc2WW9kcVh5TzUyZWNIdmZTTUNlSU8w?=
+ =?utf-8?B?UExUSnBCOGlZWDVaYVR3cGZlZ2d1VE9kQUh1WHpZVmhPV3JoSlN6N2dvWFF4?=
+ =?utf-8?B?bnArL05yZmZDdEc0eHhzOGg2L1BSOWNRcEQ4Y3hjR0U0bkJSelVodWRjcVhM?=
+ =?utf-8?B?WWJhNXZiUXJhalJIWUN3V0szZzdocUFZSXpoNnpteWF4ZW1paktvSkdoRW5k?=
+ =?utf-8?B?eExRMVFpQ3F3UTdyWkJiM1o1bVZDdUUxWXdVMW5TN2tkZzBTbFd6ZXdpTWZ4?=
+ =?utf-8?B?ZENSRWFnN0ZyanlzeE5VRUhWNTNIbHhSa3BoeWZKRW5ja0ZkOWRmVlZoaFJh?=
+ =?utf-8?B?NitESk1GYjJlbVN1di94MjJ1ZWdYOXJJMjJ5QWI2U3RtVmYxOGQvajZ1REoy?=
+ =?utf-8?B?M3hGRkd1bEJlNXpSaUpEL0F0RDlubytORkhVR1Z1NklqNE5rejBqK1hBQ2JH?=
+ =?utf-8?B?S05LNnRvVTkwYkhRNC9WMC9wWmlnM21tNzNxdVkvVlRBQ1BYWTc0QTBFbzhn?=
+ =?utf-8?B?aWF0OXFrZ28waE9EZDNZOVBwaGEvU0daTmxTK0l0bmZGZFdXM3hxZzErM1Nv?=
+ =?utf-8?B?Vld0M1VwZHUzdE9sOU9ZNzRkVy9WcGhBY2h2b0tGTGxXMHgrUkJnSW91RGFT?=
+ =?utf-8?B?MHozN0NUS2lWV3VPS0tmcnhTMTFpWHRESVVRdWczRis4Qk55S0hmb2lPSHlT?=
+ =?utf-8?B?YVovbnFpaVkzNHM2MFlybmxYSEdyR0tlYldrb1lLbTNPSmVqYmx3MzUxWmts?=
+ =?utf-8?B?U3RKS2YzcjZTLzdMUEJyN2NNM2N6eW41OE9CREYzRytMdFlReU91b3ZIRDkv?=
+ =?utf-8?B?RUh3RXg0c3dRRUt4RnBuK1ZmVWxHYXAxTEViTjNwK1lWVi9QeGxOQWRHbUlN?=
+ =?utf-8?B?VGlLK1E3SDRFeFV0YUJOYTdtdFQ5MzVEYWdIcEo5bFZKaTh4MUdoeWNucjAy?=
+ =?utf-8?B?VnQ4NUJGcHRJWDZkMyt0Sy9DenpIV01ac0VGWklRMlU3bUJ1SWhWbzBjYU1S?=
+ =?utf-8?Q?v7SO6JiQkz0dVw6N4kuXWaU=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7c9bbc3-714d-4824-7330-08ddd9c94e98
 X-MS-Exchange-CrossTenant-AuthSource: DS4PPF691668CDD.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2025 17:52:20.8379 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2025 17:54:39.1058 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aeDXlDfKMHXSvc6loRexamlcaRazCwQFP5BEOro+VFuBWdewc3u93nPquBH/tBdkQmY6sPoiUx+klT2Itm6dpTEIovDY3uQlpdFqrWvG/kc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: jPl8pY5Auosr4g7YXugL30WASxxLi3VMb0PENf0nRm2aKX5QCIlGnoYyig2eTqGYFO2+O28Ia1v1XV9SCU1/dnvlipXswr1rKqKQMiZYr0I=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6783
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -203,109 +203,120 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12-08-2025 21:36, Danilo Krummrich wrote:
-> On Mon Aug 11, 2025 at 8:52 AM CEST, Himal Prasad Ghimiray wrote:
->> On 09-08-2025 18:53, Danilo Krummrich wrote:
->> Possible scenarios for ops functionality based on input start and end
->> address from user:
->>
->> a) User-provided range is a subset of an existing drm_gpuva
->> Expected Result: Same behavior as the default sm_map logic.
->> Reference: Case 1 from [1].
->>
->> b) Either start or end (but not both) is not aligned with a drm_gpuva
->> boundary
->> Expected Result: One REMAP and one MAP operation.
->> Reference: Case 3 from [1].
->>
->> Existing GPUVMAs:
->>
->>            drm_gpuva1                        drm_gpuva2
->> 	[a----------------------------b-1][b-------------------c-1]
->>
->> User Input to ops:
->>     start = inside drm_gpuva1
->>     end   = exactly at c-1 (end of drm_gpuva2)
->>
->> Resulting Mapping:
->> 	drm_gpuva1:pre       drm_gpuva:New map     drm_gpuva2
->> 	[a---------start-1][start------- b-1] [b------------c-1]
->>
->> Ops Created:
->>     REMAP:UNMAP drm_gpuva1 a to b
->>     REMAP:PREV a to start - 1
->>     MAP: start to b-1
->>
->> Note: No unmap of drm_gpuvma2 and no merging of New map and drm_gpuva2.
->>
->> c) Both start and end are not aligned with drm_gpuva boundaries, and
->> they fall within different drm_gpuva regions
->> Expected Result: Two REMAP operations and two MAP operations.
->> Reference: Case 2 from [1].
->>
->>
->> d) User-provided range does not overlap with any existing drm_gpuva
->> Expected Result: No operations.
->> start and end exactly match the boundaries of one or more existing
->> drm_gpuva regions
->>
->> e) This includes cases where start is at the beginning of drm_gpuva1 and
->> end is at the end of drm_gpuva2 (drm_gpuva1 and drm_gpuva2 can be same
->> or different).
->> Expected Result: No operations
->>
->> [1]
->> https://lore.kernel.org/intel-xe/4203f450-4b49-401d-81a8-cdcca02035f9@intel.com/
+On 12-08-2025 22:28, Danilo Krummrich wrote:
+> On Thu Aug 7, 2025 at 6:43 PM CEST, Himal Prasad Ghimiray wrote:
+>> @@ -2110,6 +2110,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>>   {
+>>   	struct drm_gpuva *va, *next;
+>>   	u64 req_end = req->op_map.va.addr + req->op_map.va.range;
+>> +	bool is_madvise_ops = (req->flags & DRM_GPUVM_SM_MAP_OPS_FLAG_SPLIT_MADVISE);
 > 
-> <snip>
-> 
->> I’ve tried to explain the behavior/usecase with madvise and expected
->> outcomes of the ops logic in detail in [1]. Could you please take a
->> moment to review that and let me know if the explanation is sufficient
->> or if any part needs further clarification?
-> 
-> Thanks a lot for writing this up!
-> 
-> I think this clarifies everything, the examples from [1] are good (sorry that
-> your reply from the RFC got lost somehow on my end).
-> 
->>> Please add a separate section about madvise operations to the documentation at
->>> the beginning of the drivers/gpu/drm/drm_gpuvm.c file.
->>
->> Sure will do that.
-> 
-> Great, this will help users (as well as reviewers) a lot. Please also add your
-> examples from [1] to this entry, similar to the existing examples for sm_map.
-> 
->>>> v2
->>>> - use drm_gpuvm_sm_map_ops_create with flags instead of defining new
->>>>     ops_create (Danilo)
->>>
->>> If this turns out not to be what I thought semantically and we still agree it's
->>> the correct approach, I think I have to take this back and it should indeed be
->>> an entirely separate code path. But let's wait for your answers above.
-> 
-> Having the correct understanding of how this is supposed to work (and seeing how
-> the code turns out) I think it's still OK to integrate it into sm_map().
-> 
-> However, it probably makes sense to factor out the code into a common function
-> and then build the madvise() and sm_map() functions on top of it.
+> Let's just call this 'madvise'.
 
-__drm_gpuvm_sm_map is that common function, and does 
-drm_gpuvm_madvise_ops_create sound OK? With separate functions for 
-sm_map and madvise, I see there's no need to add a flag to 
-drm_gpuvm_map_req at this moment. I will drop [1] in the next version.
+Sure.
 
-[1] https://patchwork.freedesktop.org/patch/667561/?series=149550&rev=6
+> 
+>> +	bool needs_map = !is_madvise_ops;
+>>   	int ret;
+>>   
+>>   	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req->op_map.va.addr, req->op_map.va.range)))
+>> @@ -2122,26 +2124,35 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>>   		u64 range = va->va.range;
+>>   		u64 end = addr + range;
+>>   		bool merge = !!va->gem.obj;
+>> +		bool skip_madvise_ops = is_madvise_ops && merge;
+> 
+> IIUC, you're either going for continue or break in this case. I think continue
+> would always be correct and break is an optimization if end <= req_end?
+> 
+> If that's correct, please just do either
+> 
+> 	if (madvise && va->gem.obj)
+> 		continue;
 
-Thanks
+Will use this.>
+> or
 > 
-> Please also find some more comments on the patch itself.
+> 	if (madvise && va->gem.obj) {
+> 		if (end > req_end)
+> 			break;
+> 		else
+> 			continue;
+> 	}
 > 
->>> Again, I really think this needs some proper documentation like in the
->>> "DOC: Split and Merge" documentation section.
->>
->> Sure
+> instead of sprinkling the skip_madvise_ops checks everywhere.
+
+True, recommended checks make it cleaner.
+
 > 
-> Thanks!
+>>   
+>> +		needs_map = !is_madvise_ops;
+>>   		if (addr == req->op_map.va.addr) {
+>>   			merge &= obj == req->op_map.gem.obj &&
+>>   				 offset == req->op_map.gem.offset;
+>>   
+>>   			if (end == req_end) {
+>> -				ret = op_unmap_cb(ops, priv, va, merge);
+>> -				if (ret)
+>> -					return ret;
+>> +				if (!is_madvise_ops) {
+>> +					ret = op_unmap_cb(ops, priv, va, merge);
+>> +					if (ret)
+>> +						return ret;
+>> +				}
+>>   				break;
+>>   			}
+>>   
+>>   			if (end < req_end) {
+>> -				ret = op_unmap_cb(ops, priv, va, merge);
+>> -				if (ret)
+>> -					return ret;
+>> +				if (!is_madvise_ops) {
+>> +					ret = op_unmap_cb(ops, priv, va, merge);
+> 
+> I think we should pass madvise as argument to op_unmap_cb() and make it a noop
+> internally rather than having all the conditionals.
+
+Makes sense. Will modify in next version.
+
+> 
+>> +					if (ret)
+>> +						return ret;
+>> +				}
+>>   				continue;
+>>   			}
+>>   
+>>   			if (end > req_end) {
+>> +				if (skip_madvise_ops)
+>> +					break;
+>> +
+>>   				struct drm_gpuva_op_map n = {
+>>   					.va.addr = req_end,
+>>   					.va.range = range - req->op_map.va.range,
+>> @@ -2156,6 +2167,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>>   				ret = op_remap_cb(ops, priv, NULL, &n, &u);
+>>   				if (ret)
+>>   					return ret;
+>> +
+>> +				if (is_madvise_ops)
+>> +					needs_map = true;
+> 
+> I don't like this needs_map state...
+> 
+> Maybe we could have
+> 
+> 	struct drm_gpuvm_map_req *op_map = madvise ? NULL : req;
+> 
+> at the beginning of the function and then change this line to
+> 
+> 	if (madvise)
+> 		op_map = req;
+> 
+> and op_map_cb() can just handle a NULL pointer.
+> 
+> Yeah, I feel like that's better.
+
+Agreed.
+
+Thanks for the review.
 
