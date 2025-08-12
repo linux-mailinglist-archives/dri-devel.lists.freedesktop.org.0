@@ -2,80 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65607B21DBC
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 07:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 665FCB21DC1
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 07:59:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD9E710E328;
-	Tue, 12 Aug 2025 05:59:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD6B210E596;
+	Tue, 12 Aug 2025 05:59:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="U04R24ph";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JjfgSUic";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ABC910E328
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 05:59:07 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57C5Z04L021591
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 05:59:07 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB04F10E598
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 05:59:32 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57BJqe8P008272
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 05:59:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- eOXE9MNO11AvtJ2FCkQ+sRifjq8EJjmsltwKqyVWBgU=; b=U04R24ph26eR964c
- RMgEF7qoJsTaXhMNacIpqZP9Tw2valxJYBdGsLjaKLRH897v0rU2TFkXkj+fZGAl
- RMKN4DXcCjsObsNUc8PcSd0gUfAW1Gm9/Www96nl34S1FbpWhh3Anc/7ZysK3yJo
- NZz0R3XcwXWedq9CZa8cDsaqBKTPzvzJGczykBIWCy6OWiyCn+PHpzo9AGmq+VZp
- vflXx869uti571WUarpN9HAKhIW3isuoLfY2BSkYspyBEsdLZnmLhcaSPYuAEqdp
- jnZOxyZRtz19BhLAcnaIMODynbZVTgh0waQ9B+RGmLV4C3iF2MUcWQzw0X61zkci
- ZoudmQ==
+ UVs1qOUwwZ9Ygbyop1f7a1vL6vie0gD3Yyv8YMlSSUg=; b=JjfgSUicPYhkaNMH
+ ta2JmlpPCCMD7Nf8UnH93O46VdDpISPs86GqyO4AXno7PTVVdKGd0s9gzw8grMKa
+ YtXrbqCmURAsIkJTK4hnGDJtDJZKUlkrMgAqwggCB0/Oyi0aoSXAI8srDYa1AqI6
+ 2IKrDcOw1xHqxWcW8RHBx9CiHvoB9OzIFOFLOLZVjJHkKNAv5hB+JZqLnzqwkBQL
+ 1GxKrXH6TpWkslxGINc1KqfJP7H/24TJaNGAc4rWht4OdZFiuPqb9UYnQ9F3etfx
+ yudSr4l3RQI+OcUsDef+akAwr3VMf2d7tFANHZPKYv/j+N0/5xG3UkEDDCFGxfn2
+ Tlf2Hw==
 Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
  [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dxj4700h-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ffhjjtcg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 05:59:06 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 05:59:32 +0000 (GMT)
 Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-243049e6e1dso1159565ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 22:59:06 -0700 (PDT)
+ d9443c01a7336-243049e6e1dso1163975ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Aug 2025 22:59:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754978346; x=1755583146;
+ d=1e100.net; s=20230601; t=1754978371; x=1755583171;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eOXE9MNO11AvtJ2FCkQ+sRifjq8EJjmsltwKqyVWBgU=;
- b=QxIgDMkyPgZDEPrzQi9uPoCOGSb2XKBQ9SMEXv3jIYP0Ba882DZaMyx0uhpI8Xl0dn
- /j1U+ZMSoy0toTLYjGUnIS24tNEOM1b/T1Rz4i5jNO+V6cHY3UvGz3dRf0wfnp9H2/m0
- 6MEXEfj3AeieKlgSXsfdGTbVb1uR13tDY0AjVepLu4QM+CpeKlOb15YU698nH0CVOF2k
- y4uKG/EtNWDL6yz2qxmLpXPX8OlNXVOP7hQ9iKqQS/RjOjeHiThr+yajHjivmzXpY+qv
- 3Sg0eFdUhODgFkt/kE8ojMlplZxWi82yhyDZjhKI0Wu8QcZKKeI9yWF+hYC+7rbgYg5W
- JgNA==
+ bh=UVs1qOUwwZ9Ygbyop1f7a1vL6vie0gD3Yyv8YMlSSUg=;
+ b=SEzOLd/cAgkOslLAj96WfS6LCWtHVQNeUBMOQ+zjfhAKIR9dcMOClKnvSvHj1RHLeQ
+ LTo9uuz7yyJbkyiqZavLmVGg5xkdcITkhwaMkPrL00MOt9yPRzkaC98P3A4svZ/nZoBV
+ atx7g9qvv7RgRHMoykNupbaD2GYLGaHk8rcNddJMs3cB3IP6+Eo9kxMcyeNIKCWcJOtp
+ czg2AMSWaRNpmhq1kT6y6oWzhbqwpXIPotZt9F2aEyEajY6JDX1WPtlZJf4l3OkCP/M7
+ yx3NXmbi2b5yuTkT3zXUlPuHDbXGAwCAx3N5JjluzjELVfVy2OjKdLyoFwbNCG0tdNVa
+ 6lbA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2241rXlLyWiLzC4ugH2hJKiRdUSjU8B9DKxCIJdbQ6ijRgkBvbWZ+BfuQfsXUw7iqATYrUNZhrdE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy3vRoRLP8bm9Eeo0pPUdWLeVlw/JlD/fIFs39tD5UL9sMs/SkY
- wzmTSzaHSDjd6GTZ2D1oSnkrefCfuktEJX3ws2g2oh/mrO4pn9h1g4QJFUDBqJcGfS8cc8Eq/+0
- rH0kWBM/GC6NnwjrYHzsK5guiS3Y9TrNl9aJqzuu690Up5he/4uSIDhC0J4YQbdeMwGhVAv0=
-X-Gm-Gg: ASbGncsqIFMRsleL32/BKCExyKIv9F7l1P9hVu1r7n+Bc7Zsaz2wymkJHUtDUz8I671
- wExitcJMMMDMsuae4avXusvp6sGAe/zYomKisEqMiO4uYPDHVkgO7DaRmlTPDJxONQWnwTjDyd5
- +X9p+vE7pi1GDYxOZOnosVIwm54PenB1SfR6Nd21FB0NyRKpMszBEH1JiQuHXaWEwtQK/eaAViu
- rFdqUth6EP0IknCz4HtVlU1kdXiUVNF4rwl9hrXLvxATGiWDwMnVbzDcY3oIIicop337j4Xf9N+
- GT+r108mC4RsTb0LeTzQODKjDbUlfmKzKwjPOBdBX2o7jdmCNQf+gKK6gJnuZ6I8KbxhGJU=
-X-Received: by 2002:a17:902:dacd:b0:240:5549:7094 with SMTP id
- d9443c01a7336-242c200e82emr224518165ad.18.1754978346002; 
- Mon, 11 Aug 2025 22:59:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEX0c7+1zMTIBtfK/B52VR4L4RdKkG5Jv47XKjyW5YwjgzPLE/21ZmRClHXGIpYpgq6/G5jkA==
-X-Received: by 2002:a17:902:dacd:b0:240:5549:7094 with SMTP id
- d9443c01a7336-242c200e82emr224517935ad.18.1754978345535; 
- Mon, 11 Aug 2025 22:59:05 -0700 (PDT)
+ AJvYcCU5fhOHRuk150mC1Lm6mcKhuPHcmvTBEomkqJG0QCRLtApRVc5K0K5o4ca+AdxOPXVTViGydDj5oyA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKZi9a6F5WJRLUfgBZfzMdbQBYrsNBTFWbub2oTV7LuRTsoML7
+ bxJF0+1dj2oU5pe/20LE7rGfYI2qi+0k3GWKkXlbCGcQIeQviPSQeFQa5tFjNULmOH9kSYDwHhb
+ 5U+b8hfW/InMZkxU2YvB2ieJrzZdUG4IZZ3FcDexujAPAu5R+x6ekxVEszbOPBF5E+5vBJmk=
+X-Gm-Gg: ASbGnctm7vEAVxUppGvcjOiM8VJKd+nBVGvhU8DoLIwBHvbD8JoJyprkbNQtXRp3D8D
+ 2CHUR9yGs1k54x705zYP3LoKSF8rZ8Sq8K0pEeqV7OEfZpta21OXtAsa3o9WgBaBIv3fgd4T8Le
+ KZ+ST1mY9l93cbjq8j12bRKCLwa7DGglyI8HecQkMS9wzwJIZVdxTawjL0wkNYj5YBnG5mAWARv
+ ZRqCxf1RYUeoKGGMkr8EEfZ5O1JzuwRQSIL/IMWkOeAa7srSlxst/LRMd7S2xq/aHLs3knLEabZ
+ EZ73s1xMTEkGadGp+3DK5VRmBOgZ8l2TW6GzEufbHJh0Vo10OQuIq3FRgnF7uxqqW2YFWtU=
+X-Received: by 2002:a17:903:3b8c:b0:240:3909:5359 with SMTP id
+ d9443c01a7336-242c222c92cmr223933815ad.40.1754978370742; 
+ Mon, 11 Aug 2025 22:59:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGn6qxc6dEvtwqsdAG3FWWRuYtHLzpWr8RjIwuXy8tAJXkzisuhVTlP6xpTp/Z157QjqC6fXw==
+X-Received: by 2002:a17:903:3b8c:b0:240:3909:5359 with SMTP id
+ d9443c01a7336-242c222c92cmr223933365ad.40.1754978370317; 
+ Mon, 11 Aug 2025 22:59:30 -0700 (PDT)
 Received: from [10.206.107.125] ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-242fea29f1fsm8786145ad.99.2025.08.11.22.59.00
+ d9443c01a7336-241e899b5bbsm286877015ad.128.2025.08.11.22.59.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Aug 2025 22:59:05 -0700 (PDT)
-Message-ID: <4b190271-095e-4c6d-b823-e4d3c9e15fed@oss.qualcomm.com>
-Date: Tue, 12 Aug 2025 11:28:59 +0530
+ Mon, 11 Aug 2025 22:59:29 -0700 (PDT)
+Message-ID: <beba23d3-b7e6-4368-b2bc-b802bde4166c@oss.qualcomm.com>
+Date: Tue, 12 Aug 2025 11:29:24 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 4/5] misc: fastrpc: Cleanup the domain names
+Subject: Re: [PATCH v9 5/5] misc: fastrpc: add support for gdsp remoteproc
 To: Ling Xu <quic_lxu5@quicinc.com>, srini@kernel.org,
  amahesh@qti.qualcomm.com, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
@@ -83,36 +83,36 @@ To: Ling Xu <quic_lxu5@quicinc.com>, srini@kernel.org,
 Cc: quic_kuiw@quicinc.com, devicetree@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 References: <20250716132836.1008119-1-quic_lxu5@quicinc.com>
- <20250716132836.1008119-5-quic_lxu5@quicinc.com>
+ <20250716132836.1008119-6-quic_lxu5@quicinc.com>
 Content-Language: en-US
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <20250716132836.1008119-5-quic_lxu5@quicinc.com>
+In-Reply-To: <20250716132836.1008119-6-quic_lxu5@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAyNyBTYWx0ZWRfXywUmHK77lSv8
- z2fl69dyU5Kevgv0Dt7a1K7pHAuMSl4u6E1o32oiL5juklGx3Go4JI1C12xrnltDa6lkWMs/yj9
- gA4XlemtfSqY0C0aksqN77QPmksuswA3j5yeHOYNRNv3Fq1gFkf2QnTsim2J4lpOiDtdIKiC+vU
- nxQ1MNHSnjufwyZDCfs0hxpzzwF5WjtD/2f6SFYtkLKF/kou6sahJ4SjoUE14YV6gCEtu0N+MSt
- TGsL9t91pTKBjN4gUMFp1GsggdDnyGs3QU9kbrcKUfezHLdTWFZKYtkq5nS8Bq7RpEv1EkBcpmL
- YbdL85m1/xE4SJ4gSTW/xv9heu9mt4+W3Dt5t22lDhVnKoIEAYPaPui0TxcZn6oPouXvHn8cVlG
- dKVe45/n
-X-Authority-Analysis: v=2.4 cv=fvDcZE4f c=1 sm=1 tr=0 ts=689ad82b cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA3NCBTYWx0ZWRfX19L8keWWlGWm
+ SyNu2o8Xb5Rp1wQql/qqfS6uvfZEMB9OGsQiYoSHgW8RTnD+PHONvPyav+n7GcHuFV/ghB3HFgG
+ oV35IcaiT1Y/aTbQQ7gFp1HWfanytQGkiuOwrgkcSIFA5NvuzqcD4BSbpDocNTgfcIizwSZSvY1
+ ZcDhULrpjF9uWvZS2e58RJbFOdzvBhwZapgaHryznsMt724EE70uooJt/72wgQQ3Sviy3oebvAC
+ ZB3xZ/WjFJDoXV1r7YEMmTONQ4qdZbUvU3kBqzMgC4wpjjgtom7+o5r11HOVVZk5kqZMyGo5cay
+ o8h6ThrbM3AiQoHWADTUrqws+nbKHipVt/AOHXTbp3zYaRA1YLKgHAUWgUYOh7Le6+Hx8h9n15K
+ XTHdxvgq
+X-Proofpoint-GUID: PRzyC2R6-DedsqUi9oYWn0H9XjtCvRSA
+X-Authority-Analysis: v=2.4 cv=TJFFS0la c=1 sm=1 tr=0 ts=689ad844 cx=c_pps
  a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
- a=EUspDBNiAAAA:8 a=XdWXSf2iVvfrRCFRniIA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: -XIsu12y8mHTfwvxpNvE9TBvTNpQ99-L
-X-Proofpoint-GUID: -XIsu12y8mHTfwvxpNvE9TBvTNpQ99-L
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=OU-qGZapnvjOigiI56EA:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: PRzyC2R6-DedsqUi9oYWn0H9XjtCvRSA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-12_02,2025-08-11_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- clxscore=1015 phishscore=0 bulkscore=0 impostorscore=0 classifier=typeunknown
+ priorityscore=1501 suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 classifier=typeunknown
  authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508090027
+ engine=8.19.0-2507300000 definitions=main-2508110074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,104 +131,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 7/16/2025 6:58 PM, Ling Xu wrote:
-> Currently the domain ids are added for each instance of domains, this is
-> totally not scalable approach. Clean this mess and create domain ids for
-> only domains not its instances.
+> Some platforms (like sa8775p) feature one or more GPDSPs (General
+> Purpose DSPs). Similar to other kinds of Hexagon DSPs, they provide
+> a FastRPC implementation, allowing code execution in both signed and
+> unsigned protection domains. Extend the checks to allow domain names
+> starting with "gdsp" (possibly followed by an index).
 >
-> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
 > ---
->  drivers/misc/fastrpc.c | 36 ++++++++++++++++++++----------------
->  1 file changed, 20 insertions(+), 16 deletions(-)
+>  drivers/misc/fastrpc.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 495ac47e7f90..85b6eb16b616 100644
+> index 85b6eb16b616..d05969de406e 100644
 > --- a/drivers/misc/fastrpc.c
 > +++ b/drivers/misc/fastrpc.c
-> @@ -27,8 +27,6 @@
+> @@ -27,6 +27,7 @@
 >  #define MDSP_DOMAIN_ID (1)
 >  #define SDSP_DOMAIN_ID (2)
 >  #define CDSP_DOMAIN_ID (3)
-> -#define CDSP1_DOMAIN_ID (4)
-> -#define FASTRPC_DEV_MAX		5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
+> +#define GDSP_DOMAIN_ID (4)
 >  #define FASTRPC_MAX_SESSIONS	14
 >  #define FASTRPC_MAX_VMIDS	16
 >  #define FASTRPC_ALIGN		128
-> @@ -106,8 +104,6 @@
+> @@ -2249,6 +2250,8 @@ static int fastrpc_get_domain_id(const char *domain)
+>  		return MDSP_DOMAIN_ID;
+>  	else if (!strncmp(domain, "sdsp", 4))
+>  		return SDSP_DOMAIN_ID;
+> +	else if (!strncmp(domain, "gdsp", 4))
+> +		return GDSP_DOMAIN_ID;
 >  
->  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->  
-> -static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
-> -						"sdsp", "cdsp", "cdsp1" };
->  struct fastrpc_phy_page {
->  	u64 addr;		/* physical address */
->  	u64 size;		/* size of contiguous region */
-> @@ -2243,6 +2239,20 @@ static int fastrpc_device_register(struct device *dev, struct fastrpc_channel_ct
->  	return err;
+>  	return -EINVAL;
 >  }
->  
-> +static int fastrpc_get_domain_id(const char *domain)
-> +{
-> +	if (!strncmp(domain, "adsp", 4))
-> +		return ADSP_DOMAIN_ID;
-> +	else if (!strncmp(domain, "cdsp", 4))
-> +		return CDSP_DOMAIN_ID;
-> +	else if (!strncmp(domain, "mdsp", 4))
-> +		return MDSP_DOMAIN_ID;
-> +	else if (!strncmp(domain, "sdsp", 4))
-> +		return SDSP_DOMAIN_ID;
-> +
-> +	return -EINVAL;
-> +}
-> +
->  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  {
->  	struct device *rdev = &rpdev->dev;
-> @@ -2260,15 +2270,10 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  		return err;
->  	}
->  
-> -	for (i = 0; i < FASTRPC_DEV_MAX; i++) {
-> -		if (!strcmp(domains[i], domain)) {
-> -			domain_id = i;
-> -			break;
-> -		}
-> -	}
-> +	domain_id = fastrpc_get_domain_id(domain);
->  
->  	if (domain_id < 0) {
-> -		dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
-> +		dev_info(rdev, "FastRPC Domain %s not supported\n", domain);
->  		return -EINVAL;
->  	}
->  
-> @@ -2318,21 +2323,20 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+> @@ -2323,13 +2326,14 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
 >  	case ADSP_DOMAIN_ID:
 >  	case MDSP_DOMAIN_ID:
 >  	case SDSP_DOMAIN_ID:
-> -		/* Unsigned PD offloading is only supported on CDSP and CDSP1 */
-> +		/* Unsigned PD offloading is only supported on CDSP */
+> -		/* Unsigned PD offloading is only supported on CDSP */
+> +		/* Unsigned PD offloading is only supported on CDSP and GDSP */
 >  		data->unsigned_support = false;
-> -		err = fastrpc_device_register(rdev, data, secure_dsp, domains[domain_id]);
-> +		err = fastrpc_device_register(rdev, data, secure_dsp, domain);
+>  		err = fastrpc_device_register(rdev, data, secure_dsp, domain);
 >  		if (err)
 >  			goto err_free_data;
 >  		break;
 >  	case CDSP_DOMAIN_ID:
-> -	case CDSP1_DOMAIN_ID:
+> +	case GDSP_DOMAIN_ID:
 >  		data->unsigned_support = true;
 >  		/* Create both device nodes so that we can allow both Signed and Unsigned PD */
-> -		err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
-> +		err = fastrpc_device_register(rdev, data, true, domain);
->  		if (err)
->  			goto err_free_data;
->  
-> -		err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
-> +		err = fastrpc_device_register(rdev, data, false, domain);
->  		if (err)
->  			goto err_deregister_fdev;
->  		break;
+>  		err = fastrpc_device_register(rdev, data, true, domain);
 
 Reviewed-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 
