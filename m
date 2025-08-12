@@ -2,80 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0D1B22D83
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 18:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBE9B22D96
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Aug 2025 18:30:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3EDF10E615;
-	Tue, 12 Aug 2025 16:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AEE210E61B;
+	Tue, 12 Aug 2025 16:30:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TXNuTYLG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VNne9xsM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C31D10E60B;
- Tue, 12 Aug 2025 16:28:51 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-23ffa774f00so5246655ad.1; 
- Tue, 12 Aug 2025 09:28:51 -0700 (PDT)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+ [209.85.210.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD2D010E61B;
+ Tue, 12 Aug 2025 16:30:31 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id
+ d2e1a72fcca58-76c03c6ded2so544833b3a.0; 
+ Tue, 12 Aug 2025 09:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755016131; x=1755620931; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1755016231; x=1755621031; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=m8XXWc2SnRetJzdkycaLv1Sy6oktVrYdWqBPT/1g+j4=;
- b=TXNuTYLGeF6nS5zNBl43Ta8s60oyv3PXHueTryXKOIW3+E7nRWaZ1rP4v6nCTskA7O
- +a3E1QrCBWsr2+6j7M+VvlIbR/aiH3i/e1xZPrj5DVYiitsVff1318jE2WpDjG1eOlCy
- h/vPTln9cZlxEMJw9ZgE/kNrCRXrNLYD0Sh0vkOAIJRvWGLPUUIhCQwpdRlU+a/5eOU5
- eQSq8yXO7d8flwnAC8tqJ1cIuJpywwutQpGf6KfS40QcSXVt9aij76FhNPxwujCY2TAG
- /dubmf9Kshek13YpyNn8Mhyy7+bAUhdOws/kiorfqcUH8SycC7Gn+YQ1+srMn0FJ+b0r
- 6hxQ==
+ bh=8T/1xH98koL02eKJOzZQVca6m36I5E4mnDKNc4f/Gc0=;
+ b=VNne9xsMsXksONcO3ooscMRhcAttFz0i36sGpdYIFyfObpswzNSuHMWt2zjQb/47Tg
+ e+rb6em9KqEJz4GH5w6MVPZji7OVoSTQNf9uzG7CrsWE5Nq9mMgt256vgZ0vPN7zRFUg
+ OS+qpbicRUfOSW3LfwZnWf/YhzifYA1eFqq5WZ/MlzdkR/kHey87dYTISfJ7C1cMCDTP
+ K9mBCwKXfSB7eO4i5jU+xL7FfnlvawoIzNs+luxQNE1VCTqPGi5eJhXo95ZX1Kg9RKoy
+ x2Wsz9Yz9V5qtFgZWRi0mCfD2e08BRyIJBqb8q5MXDczotK14wFaDFddRMM+3OfjEDn0
+ YNMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755016131; x=1755620931;
+ d=1e100.net; s=20230601; t=1755016231; x=1755621031;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=m8XXWc2SnRetJzdkycaLv1Sy6oktVrYdWqBPT/1g+j4=;
- b=gLqaIZiGMbbxKLs3NhVGdBwld5RbeF3ml3M6xz+U5sX7UiyuBf5YFrJCWTBYZ7WlRp
- 0i+iXUJDPY0acn6hOt9wAfOm3KvUwSl9HfvmmowChT0e1Xbq0cR6mkjp733TFUs+4Kmc
- 70BKuBnEzk1GHYxLTtW9OSZ05rHRj9q1RuX8v5SyvQW3he0IHnpzBudT4kPp7+G+Qofj
- leuVR/dPaXOFI0WNEM1YXULhdOB19dBvPJV0lWzmAaicjf9a7Nq7TIVYgsHqvLPdAkTZ
- B8aiQZKyETcwCpTIt0E7dfOcLmlod5NfrEDd+QB20zXR7/BCMKVFDMeAgCeuOts6kJgv
- esyw==
+ bh=8T/1xH98koL02eKJOzZQVca6m36I5E4mnDKNc4f/Gc0=;
+ b=ITpL/2qJmkbU0cFwoc8SlIkzI/dhPP2riNQboqSzq3F3MW9+H+GqoTfbYkunJB/hOT
+ w/DgySs/sjz2ipllu0hvrwPGhNct5hRMQzNPQ8YVfHpaF/EXqMDyFu+KHbf8koFWTM0q
+ yRBEP3hr8KhZsdCftxWunTrGMPoCtIo4EMSm3LhCFs34p1dGTcTnWjQW9y1FPjoF9VIr
+ He+d6lkFfOCcP5IjMxXuV9N1O2KfZPEwJG4+nThjmDxL24tsn1ObFcaaXPbvhp7tZney
+ AF4ighBFxBP2HJMLPHWMR6wCvIiy6GFkGtO6enmPL6UsA9lYMTITB7ZgiT3fOOI2HYhe
+ +5YQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVU0DhDZG38etqxDFSD6oHSFPcBLAL0Ux5jz0QYtMcGxHp0T5mWlzzQhLVEXxtGvTbuV1Lg2cNCbKm3@lists.freedesktop.org,
- AJvYcCWe2ypafnxDEZI95FwQn7HsBMeQD0vcgOyaVcnLfxzy+sBrbhtiIwn2iJrmi51T8BjjEfga7b1R@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwDkSbzB+GNowLTLQRKTftf5jS1Qq7doYfTf3IJRyWuOC8J8D7w
- YG9Gf0bLfMl4YZegdr2/D7f8jA4EdAj+Z7OaJRdf4l2Z5SH28cjxwMh3kiUo26SSY1LJA6emQjN
- vBF3E7jXhiMsk4AkdX73lv/9O4owKI6ksQA==
-X-Gm-Gg: ASbGncsoWd4J+T0NAIxyeI2I7q9kBQXg9JuCjxy88clesCA0NjCh405G56+q7gRlnQW
- MkQcCLYwgIMXwjQkJqlWuuFKNj1kfFo157X3GaSfWS1q9AG67dlunL70mLFfWqIgO/lSLHa5cxh
- yRugYQrLBVa0RtfUsyNpGW0x8FY9ImCDCYReFzd3Rc5a7SdILUrDh2mppw+OniflhoTsNk1cLPu
- 7+lG1U=
-X-Google-Smtp-Source: AGHT+IF7UGNoWHAY2HBfAfn8v6UyctnQGA9lFULx5VpBJUqJiWlcxTy5uqrxR2lo6+lp5MVHHbDGSUwHdQbO0yPEfQk=
-X-Received: by 2002:a17:902:e841:b0:235:737:7a8 with SMTP id
- d9443c01a7336-2430c1033bfmr2211895ad.3.1755016130853; Tue, 12 Aug 2025
- 09:28:50 -0700 (PDT)
+ AJvYcCV7cNK280twtxxVxhzP0OqitZ+mBVEWXck/ddBkIdf0IHeCAdn9Ip+6w4wSRb6bAtJJEvUNmj3KQKeo@lists.freedesktop.org,
+ AJvYcCXz+UaMB14yTNZxBKY+3xjSL/upqxxuzoKL30k+zjI4I5p3Sac/q9xoeDr3ym4GGBMqSO30BZzR@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwB6rYL6zih2sJiix4fGIWiQuTPAPPVhSf/yGufJ6pWod7aI10p
+ JNJnFwY1XCveTs330k6ykSS/TxdODn6caiGPlHfDxcICzHJx5rDZ6kHpQ6bViji4sVaRcG87rAU
+ mcEO5XooOaM3CeyeJawAaF3Dl+hjJIq4=
+X-Gm-Gg: ASbGncvyl/aNaFKTtlAGZ9e4h4DwBd6LJ1Cg/GinIWNTLhGEu7cxPMOdZzXfK9j4nK0
+ +9HSvuvdMbw824bE64tHgQAdYpfyk9cknunPpqDTzYQeh2uzHIt8tyrc3HhQFBd/8Oic+KaM3LH
+ PZb3FUVP96dtmxrnVi0FNavWLs7qaORokJxcPlz3oblbH7VKwOBl947FKcy25zLCUALmHm0cySO
+ 08SoLo=
+X-Google-Smtp-Source: AGHT+IF6LenLB7j3sb0DjrhGCwQFdll3J05cq7yX/orGvMVj4rpQ84UCdUaSMteeycXpCZf2PJiFy6FVwOGq6PrKN7s=
+X-Received: by 2002:a17:903:2281:b0:240:711f:2068 with SMTP id
+ d9443c01a7336-24306d87e8cmr13447905ad.7.1755016231149; Tue, 12 Aug 2025
+ 09:30:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250812075017.5370-1-liaoyuanhong@vivo.com>
-In-Reply-To: <20250812075017.5370-1-liaoyuanhong@vivo.com>
+References: <20250812031603.463355-1-zhao.xichao@vivo.com>
+ <0811e8e8-5990-4880-a2cc-f9bd6b3ec4bd@amd.com>
+In-Reply-To: <0811e8e8-5990-4880-a2cc-f9bd6b3ec4bd@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 12 Aug 2025 12:28:39 -0400
-X-Gm-Features: Ac12FXxy3-M_wzEetsEfVe6DFeHMxdgLbCQg5APkZ-SqZKW-POTop_GS7uBXzuE
-Message-ID: <CADnq5_OAdOx5s-76uyVFRZbsStpvRh=rngJ=uKcpjb4HYaJz1w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove redundant semicolons
-To: Liao Yuanhong <liaoyuanhong@vivo.com>
-Cc: Austin Zheng <austin.zheng@amd.com>, Jun Lei <jun.lei@amd.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Aurabindo Pillai <aurabindo.pillai@amd.com>, 
- "open list:AMD DISPLAY CORE" <amd-gfx@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
+Date: Tue, 12 Aug 2025 12:30:19 -0400
+X-Gm-Features: Ac12FXwysyVxVP_3MLSXv30V9nQuvTxCQ2luc4NpmdCvnL8zlEQC9gaSc1twh5g
+Message-ID: <CADnq5_ON4rM2LRAw88iyBCTVJ+nB61-EZy2vxLVc48oxk=Gbew@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: replace min/max nesting with clamp()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Xichao Zhao <zhao.xichao@vivo.com>, alexander.deucher@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,32 +89,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Tue, Aug 12, 2025 at 3:58=E2=80=AFAM Liao Yuanhong <liaoyuanhong@vivo.co=
-m> wrote:
+Alex
+
+On Tue, Aug 12, 2025 at 2:49=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> Remove unnecessary semicolons.
+> On 12.08.25 05:16, Xichao Zhao wrote:
+> > The clamp() macro explicitly expresses the intent of constraining
+> > a value within bounds.Therefore, replacing min(max(a, b), c) and
+> > max(min(a,b),c) with clamp(val, lo, hi) can improve code readability.
+> >
+> > Signed-off-by: Xichao Zhao <zhao.xichao@vivo.com>
 >
-> Fixes: dda4fb85e433f ("drm/amd/display: DML changes for DCN32/321")
-> Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
-> ---
->  .../gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.c    | 1 -
->  1 file changed, 1 deletion(-)
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc=
-_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.c
-> index 9ba6cb67655f..6c75aa82327a 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.c
-> @@ -139,7 +139,6 @@ void dml32_rq_dlg_get_rq_reg(display_rq_regs_st *rq_r=
-egs,
->         if (dual_plane) {
->                 unsigned int p1_pte_row_height_linear =3D get_dpte_row_he=
-ight_linear_c(mode_lib, e2e_pipe_param,
->                                 num_pipes, pipe_idx);
-> -               ;
->                 if (src->sw_mode =3D=3D dm_sw_linear)
->                         ASSERT(p1_pte_row_height_linear >=3D 8);
->
-> --
-> 2.34.1
+> > ---
+> >  drivers/gpu/drm/radeon/radeon_display.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/=
+radeon/radeon_display.c
+> > index b4bf5dfeea2d..d66c1a30df95 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_display.c
+> > +++ b/drivers/gpu/drm/radeon/radeon_display.c
+> > @@ -926,10 +926,10 @@ static void avivo_get_fb_ref_div(unsigned nom, un=
+signed den, unsigned post_div,
+> >                                unsigned *fb_div, unsigned *ref_div)
+> >  {
+> >       /* limit reference * post divider to a maximum */
+> > -     ref_div_max =3D max(min(100 / post_div, ref_div_max), 1u);
+> > +     ref_div_max =3D clamp(100 / post_div, 1u, ref_div_max);
+> >
+> >       /* get matching reference and feedback divider */
+> > -     *ref_div =3D min(max(den/post_div, 1u), ref_div_max);
+> > +     *ref_div =3D clamp(den / post_div, 1u, ref_div_max);
+> >       *fb_div =3D DIV_ROUND_CLOSEST(nom * *ref_div * post_div, den);
+> >
+> >       /* limit fb divider to its maximum */
 >
