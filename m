@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9E9B246D2
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 12:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D4FB246D3
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 12:15:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E448A10E6DC;
-	Wed, 13 Aug 2025 10:15:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 984E310E6DE;
+	Wed, 13 Aug 2025 10:15:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cZzAQ49r";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lSK7LeJ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9E9A10E334
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 11:05:07 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-61860a739a3so90063a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 04:05:07 -0700 (PDT)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C80D310E335
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 11:08:16 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id
+ 4fb4d7f45d1cf-6156463fae9so10035270a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 04:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1754996706; x=1755601506; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1754996895; x=1755601695; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
  :date:message-id:reply-to;
  bh=LTgEWAbzj7JPyTIv1pPqi1BWuVKR7rG/7+oZh/5JWL0=;
- b=cZzAQ49r2jyHVySFPlT4AxFQBO6i+aFsA/Rtp2o3MtqRqPgCXjH9GyaOEcgKD81W7X
- b3DYKadzKpzVzM8/MqpJ+MDAtG1YbKJAZ63sNGjGYLCbI/kwuRS6+Ln3uYMmJ5JDUAPU
- Em5786xRgnToOhsWR+ZX0NU+iznzLFsqKeB8oyx6+sAAc5YpryvXMTdjKDFXVksZOP09
- eqO3g+FVqph8izGdxjqWpUYUP1S6qwGAQ2eawiFcB4A/KHXjyHTwk+zW2SZ2MZd3bcdE
- 9zuLrIJHbBE/Hzb9+UjzrwI8g5X3kbfWIw4nfwaPTbAsfKX8GnPCJ5Y+rehiqR+pogD1
- hXVg==
+ b=lSK7LeJ8ZNVeM87SdLaZ/Fn1uAaMELRUjoLOn7GULC9Tbt/qFvL3jE1gPwthST8tjF
+ U/6YVuo5szMC13szwTxkU4gNB5xUIhTJqBrIF+plpYECoUE+OeUoBNmZiys9AzwBhd33
+ HhkfitOrJLYpwIoRB7IT8ew++dOkM0nsDo26pVflRT1pSR6pUiIvMXCUJw6y0HVmFIMn
+ a+EAaTSCFyZ02TGfjbuoWcRFoPKLkYi0sht70NX8gctZ0Qsb17obhJat+mM0/FjR4ncV
+ w38BQ/3LZRimeUnYIM4iJc6dzckLPjHa/aFd5Wgj7x4fC9KDnsn4UVIqZW/jqyKehDj3
+ +qSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1754996706; x=1755601506;
+ d=1e100.net; s=20230601; t=1754996895; x=1755601695;
  h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
  bh=LTgEWAbzj7JPyTIv1pPqi1BWuVKR7rG/7+oZh/5JWL0=;
- b=BREpl6XdbYLknjoakAQL3CMwNmGuZPScfuK1WQPuA2WFbuKvNg4uGHkNzvyzHRp3M+
- 2l8Bo9Z7b0J7UEAR9rCkZnATt2epe7j8V+W35XCWFJn2Y9T2KY91KdvemJVFsknadK1E
- wt/cQCdvkABNn3vHf+cc1wvY8HJ9zyObyK1r8Cos+xrtODz8hVHpXX1Y8+6zZPxbO2D1
- KxZ68xdlXFsYNqMKqBK+ME7cY0cKwtzigd5jc1tX1Z2x2r7V6SreNVRNcojFHm+cPLKI
- +Nz+bD8cs/qULHsPdiyyla2q5G/nFdiakhGHZmCTS1OyUeNcn7vQdClserP98wYA4OCn
- vqEg==
+ b=cnszbfXGji/fDZB1JvAmZmPKpSu/AJcyk9tzFrh45xL+gJDnE3S/tKYRoa4E8UYyBV
+ E8YM6K+h+UhkQIw7vIlC8WPfzp7Wg16naVGvgyjtbRC+84t1+iFYlnI8q12O5HfpvDwm
+ QsbT1MPEUIqzSmFvXJsUJOgrOFdrwua3Cl90/DcEf2LSxsV5rI1ymwCaYU1uy+c9Yz7M
+ yE3Ma3kstZq5cyC/+rHEXvRnZUay3ziqfplnPILt2lyq8yAxCcnu8jKxP6PqMNCf/zl8
+ ajUj5eFe6i8gdJdDC4PxRDGjPLDp3w3QS/W5aE5ZqiaqJDQ8nRpj3rSe1q/YfnHWFitC
+ fseQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUmxyzFGfx1ljz4c80oyGz8T44CQY5j3yrzezmcewVddBscjYQ1gtT9JumUrVHGrg0NF/OqkHOCQhw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxXioKUn7ZF87EK9c7Kzz4CIjPavL0oV9qc442dmwTA69k30Xth
- FtsxhEE5COV8w7CB6W7oZUcBcNUUx+/oCjjLuigsxpkiyENP544uf26hi4qBTO22eiMCn6iiPCd
- buT7eFx1YVFXApQ8/RHFoDK5wHfbSGq0=
-X-Gm-Gg: ASbGncu0pDiiYWHDVMQuRtGOCyMOeHKXViFgYiSbaNhhNg8ofNdeIntKNIozN+cgY0J
- w2BcWr050VHF+I3EDVnnDXUxANvJ/netiGVISIdocduJguCjLSm1S2FtHgznwq2GAh8DjdKGFYq
- AOplDk6gg+UugcFoTXvJsdYggKWRGrrJ7Q3HlalCwDStdySA0IQat5Cvsdu0Od/CUW3vK1emQvc
- tC/xbCUp+E4oKU8zlfjlTZ2sWp3ADh5rK1FjjWl3A==
-X-Google-Smtp-Source: AGHT+IFwCX8cSL/K5d1OkSs/amd4E4PzWthVAvldLYypTrj80aYqfdyZ3wAP/PQS7kmhOiZdLlNQjCLN3W5vZCz3Fxo=
-X-Received: by 2002:aa7:d284:0:b0:617:c586:9bca with SMTP id
- 4fb4d7f45d1cf-6184d8476eamr2062234a12.4.1754996705945; Tue, 12 Aug 2025
- 04:05:05 -0700 (PDT)
+ AJvYcCXfrM/JGWwSi58rcLmtW3V6D9NJPF/a3vq07ypEeNZo0sLhC7cK0R7TvyhQ1twZG4SIMst5TOG5Cy0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxkJG0GHI68mkuP4MDJ7rZcI3uXBko5ACpT+V4erTDhyToC4R8g
+ u/ugKIjAfr7UQuJ0je8YncTnQjoi/CPbBXusALOti4MqOCnhbttviLZS4ORaeho8XM/f7ROIULt
+ lzWr/l/R9HzO8rwLV2v1qfsv8AEQeSlM=
+X-Gm-Gg: ASbGncs+jjHYauqR7YRcJAp4Jje6GRCDgqKEnkvqsgaWCQbF3IF2FOig8ZfiL+IFjUb
+ hrDHVpVZKfqFyIp1IH8ROW1rm1TsY3A5tuoRFrV02jdXe3rhAboFpmaIdYFFLDbfaDGAE8Qzv7j
+ +x3k0li91BZRatXC/LiWVlLwBhVtAfmIR+XUf6c8YvAxoEDNTMa3A2YBxZy2LLulZLkzeNawzsA
+ Xv9JZsw9kM5XbTdRQ71mscSqXBtsYNOhiIEVvjpyA==
+X-Google-Smtp-Source: AGHT+IHNU7Nayd8cKcsevhjDcXSTfzZwnW3FVMp0z8Z3tLfRUrfW102ZgXl3R4dCLfl2OZbwoLSXaqpW5vrLbTFcFIk=
+X-Received: by 2002:a17:907:968e:b0:af9:c53a:f997 with SMTP id
+ a640c23a62f3a-afa1d935ad1mr265621566b.26.1754996895079; Tue, 12 Aug 2025
+ 04:08:15 -0700 (PDT)
 MIME-Version: 1.0
 From: Sidharth Seela <sidharthseela@gmail.com>
-Date: Tue, 12 Aug 2025 16:34:54 +0530
-X-Gm-Features: Ac12FXy0gZZlCyJyZEADicRtKiztGgeswBceSj6HyHFkNiH5cnlrTffObFwDLfs
-Message-ID: <CAJE-K+DV4U4vnTxYNusn21T0Zx2n9-=r6=az+ouEjPgvo8HeHQ@mail.gmail.com>
+Date: Tue, 12 Aug 2025 16:38:03 +0530
+X-Gm-Features: Ac12FXz7Sd7HPIKyCydbx6sni0vczgqm6DqsSe08xKHJBxuQ6xvoeGi4CRXKRpQ
+Message-ID: <CAJE-K+BcU2vQPXyK9bdWTkRD_jreEcmD6zmnKrwut_7mCNv7bw@mail.gmail.com>
 Subject: PATCH[1/1] DRM_GPUVM.C : htmldoc error due to multi-line code inside
  comment
-To: dakr@kernel.com
+To: "dakr@redhat.com" <dakr@redhat.com>
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org
