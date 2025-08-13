@@ -2,85 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B5BB24321
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 09:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB03B24359
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 09:56:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 920DE10E4CB;
-	Wed, 13 Aug 2025 07:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6CD10E4CE;
+	Wed, 13 Aug 2025 07:56:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JkKncQoy";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="oHQT/PaA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
- [209.85.161.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE4810E4CB
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 07:49:40 +0000 (UTC)
-Received: by mail-oo1-f46.google.com with SMTP id
- 006d021491bc7-619a603b7cdso1885478eaf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 00:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755071379; x=1755676179; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wfeJn6OXLOSd2GklhvEK2KXBF/te/QhNlLJRLLpT6NU=;
- b=JkKncQoyJGZrtPV/w93NP9XnnnJcmgrpJ3cFupndF1xQXwWFEDRzMGbTfn5jAac/tK
- nnQcPQkXTUpZBQqr8ISAZsPeenUQgHXMqMgix/u9fKdYf+719OY0vBv7CrF6+UtbHdHC
- nB8mL/sZ38zhCZiDhTKoWXU40EMW07M4MUusRf4CQejlS6XMfpp6vo/Esj+Nmm6G8wWC
- OaNlZvzAgdr7Ab31zprwKd4zOjvuceBt6TiEjRaboy1MUc5oVoTWBe2/jpn50OlkcvET
- eR5lBX3NeKMfwFF8hM3gE/nkAs1JWqP7oQAJ6AYhnF2LJcaMm9NkbG9xJOBBM3gIldv6
- JUpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755071379; x=1755676179;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wfeJn6OXLOSd2GklhvEK2KXBF/te/QhNlLJRLLpT6NU=;
- b=dQNJBC3SY9FJi+UFe0tpqySy8nWaBRwPLJAyzFiCmQxvl+lOL6onkf0ZGZe/V23lo7
- uIfHwVbe+DfbipCC5DbmBdfyi1GuHEfb2HNOHnLWvvUbblDbwlLLqRQVDL6dYC8vA37A
- YZ/iKZqborn/wjd3LKOrsqlnLahXLMnUPllh1SJpY0dDTSFPRmsanU/cnmoiT+hZqMjw
- A15cF3dJTbTgWyO2tA+JXOTFSp08rEQbsNwctIMhTU1ZL9cz2toqK3gZJ86Iqc6ehD0Q
- I+/FAVnw4e6HJ9C92fgwUWPwNP3VXRJ5hd+NfI0VOKr7pCVJCbOyDKmBOrl0bEgR6AVD
- r1Mw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXkB95s8XU8o/3D8wLyP5o1o6AMDGHMq38P5zxx5iHPWXZjEb4zdafnMe6/jF3OGozZePOD9gYSgm0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwcJDklwbYqwcYXlPEAGGI01D9hpHuL5MOnSEPvONZihSnRnvEl
- 6GFDgV29aocnqsMs1YK7ONyMeWnk2g6S6gcf7SKHiVl6qxC8yA+uaKS4V3oWogU7Lsld6bu1R80
- fkoSZkqMLQIeIJeVeuCIQpFfUM12hcSgjF+8orPGbTA==
-X-Gm-Gg: ASbGncsItJ04NzgXR9eOdKVMeRm0Uzg1sruckn80Q1Nd7HZ1VzQklpvaQVM67XDC90B
- qUlqdlv7gzFcuFrDBe7wONsm8dLOQeBFJEGLMcizdsnJqIHLtxqVWo3K6QL4jCbDNJH3u57trCm
- XTrojRIwWO/i3y+Tle8/rP4DBA9yGiOgGlalTTDS8YSWjGG1ubJtULjLm8tsVhGvJfCyFxxmAs/
- T72BMJ4SVXHGeCXZ+4=
-X-Google-Smtp-Source: AGHT+IFAfPPXVnV/fIsv8KnI8b8Bl+IOsf+U5t0pmvRJM0gZ8xG3AukFt3DXdXVb9aF/gWZVqDSUuTyRuSP2uDtgU3s=
-X-Received: by 2002:a05:6820:1ac1:b0:619:a6c0:b4b with SMTP id
- 006d021491bc7-61bc758538amr1013523eaf.5.1755071379266; Wed, 13 Aug 2025
- 00:49:39 -0700 (PDT)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9B17010E4CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 07:56:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=jECFwx4pIXRDwOe+aduX16A+fUFcM2/6HU7bohWUDGc=; b=o
+ HQT/PaAi8pUOtZeKPMoV7Wot/s3ouebC+zCZPU2UR41IMCP3i+L5X75P8LgyASSz
+ ZenaPO3rY86qVXiN6hzJEyPGoMC2drGTLvfLGh9HU+7nIhfxMokXV/Xtw46umWmA
+ kX3JdYbIpVWHSyUv82eNg23SSkOP+gW4oNvcBEJcv4=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-102 (Coremail) ; Wed, 13 Aug 2025 15:56:12 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Wed, 13 Aug 2025 15:56:12 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Heiko Stuebner" <heiko@sntech.de>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, hjc@rock-chips.com, andy.yan@rock-chips.com,
+ nicolas.frattaroli@collabora.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ "Guochun Huang" <hero.huang@rock-chips.com>
+Subject: Re:[PATCH 09/13] drm/rockchip: dsi2: add support rk3576
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <20250707164906.1445288-10-heiko@sntech.de>
+References: <20250707164906.1445288-1-heiko@sntech.de>
+ <20250707164906.1445288-10-heiko@sntech.de>
+X-NTES-SC: AL_Qu2eB/ycvk8s5CedYukfmUkTh+o2Xca5uf0j3YBWOZh+jCzp0xowU31TOHjf/9CDICOtkAiHbAN808N6QrN4UbkoF22nqegBGsuYjTtBtlFcOQ==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
-In-Reply-To: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Wed, 13 Aug 2025 09:49:27 +0200
-X-Gm-Features: Ac12FXyfvHrDtrackOzZC99WcBb71C_WC3_DT2d5Ppi_3YWKQtwtthH808vWulI
-Message-ID: <CAHUa44FJ9iRMyDHffRBwgxxX27vTwsAwNiCCEGQ8fMQPZS_D+g@mail.gmail.com>
-Subject: Re: [PATCH v7 00/11] Trusted Execution Environment (TEE) driver for
- Qualcomm TEE (QTEE)
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
-Cc: Sumit Garg <sumit.garg@kernel.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org, 
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
- Sumit Garg <sumit.garg@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <2cef60be.5f55.198a26df85a.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: ZigvCgD3H+AcRZxoWT8ZAA--.1718W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEhqoXmicQps+AAABss
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,23 +67,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Amir,
-
-On Wed, Aug 13, 2025 at 2:37=E2=80=AFAM Amirreza Zarrabi
-<amirreza.zarrabi@oss.qualcomm.com> wrote:
->
-> This patch series introduces a Trusted Execution Environment (TEE)
-> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
-> and services to run securely. It uses an object-based interface, where
-> each service is an object with sets of operations. Clients can invoke
-> these operations on objects, which can generate results, including other
-> objects. For example, an object can load a TA and return another object
-> that represents the loaded TA, allowing access to its services.
->
-
-There are some build errors/warnings for arm and x86_64, see
-https://tuxapi.tuxsuite.com/v1/groups/linaro/projects/jens/plans/31DmCOn1pF=
-2JGVDk3otBOXOL6kV
-
-Thanks,
-Jens
+CkhlbGxvIEhlaWtvLAoKQXQgMjAyNS0wNy0wOCAwMDo0OTowMiwgIkhlaWtvIFN0dWVibmVyIiA8
+aGVpa29Ac250ZWNoLmRlPiB3cm90ZToKPkZyb206IEd1b2NodW4gSHVhbmcgPGhlcm8uaHVhbmdA
+cm9jay1jaGlwcy5jb20+Cj4KPkFkZCB0aGUgbmVjZXNzYXJ5IHNwZWNpZmljIGJpdHMgdG8gc3Vw
+cG9ydCB0aGUgcmszNTc2LXZhcmlhbnQgb2YgdGhlCj5EVy1EU0kyIGNvbnRyb2xsZXIuCj4KPlNp
+Z25lZC1vZmYtYnk6IEd1b2NodW4gSHVhbmcgPGhlcm8uaHVhbmdAcm9jay1jaGlwcy5jb20+Cj5b
+YWRhcHRlZCBmcm9tIHRoZSB2ZW5kb3Ita2VybmVsIGZvciBtYWlubGluZV0KPlNpZ25lZC1vZmYt
+Ynk6IEhlaWtvIFN0dWVibmVyIDxoZWlrb0BzbnRlY2guZGU+CgoKUmV2aWV3ZWQtYnk6IEFuZHkg
+WWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KCgpUaGFua3MuCgo+LS0tCj4gLi4uL2dwdS9k
+cm0vcm9ja2NoaXAvZHctbWlwaS1kc2kyLXJvY2tjaGlwLmMgIHwgMjEgKysrKysrKysrKysrKysr
+KysrKwo+IDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspCj4KPmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHctbWlwaS1kc2kyLXJvY2tjaGlwLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vcm9ja2NoaXAvZHctbWlwaS1kc2kyLXJvY2tjaGlwLmMKPmluZGV4IGNkZDQ5MDc3
+ODc1Ni4uMGFlYTc2NGUyOWIyIDEwMDY0NAo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
+L2R3LW1pcGktZHNpMi1yb2NrY2hpcC5jCj4rKysgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
+ZHctbWlwaS1kc2kyLXJvY2tjaGlwLmMKPkBAIC00MzcsNiArNDM3LDE1IEBAIHN0YXRpYyB2b2lk
+IGR3X21pcGlfZHNpMl9yb2NrY2hpcF9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRl
+dikKPiAJZHdfbWlwaV9kc2kyX3JlbW92ZShkc2kyLT5kbWQpOwo+IH0KPiAKPitzdGF0aWMgY29u
+c3Qgc3RydWN0IGRzaWdyZl9yZWcgcmszNTc2X2RzaV9ncmZfcmVnX2ZpZWxkc1tNQVhfRklFTERT
+XSA9IHsKPisJW1RYUkVRQ0xLSFNfRU5dCQk9IHsgMHgwMDI4LCAxLCAgMSB9LAo+KwlbR0FUSU5H
+X0VOXQkJPSB7IDB4MDAyOCwgMCwgIDAgfSwKPisJW0lQSV9TSFVURE5dCQk9IHsgMHgwMDI4LCAz
+LCAgMyB9LAo+KwlbSVBJX0NPTE9STV0JCT0geyAweDAwMjgsIDIsICAyIH0sCj4rCVtJUElfQ09M
+T1JfREVQVEhdCT0geyAweDAwMjgsIDgsIDExIH0sCj4rCVtJUElfRk9STUFUXQkJPSB7IDB4MDAy
+OCwgNCwgIDcgfSwKPit9Owo+Kwo+IHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHNpZ3JmX3JlZyByazM1
+ODhfZHNpMF9ncmZfcmVnX2ZpZWxkc1tNQVhfRklFTERTXSA9IHsKPiAJW1RYUkVRQ0xLSFNfRU5d
+CQk9IHsgMHgwMDAwLCAxMSwgMTEgfSwKPiAJW0dBVElOR19FTl0JCT0geyAweDAwMDAsIDEwLCAx
+MCB9LAo+QEAgLTQ1NSw2ICs0NjQsMTUgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkc2lncmZfcmVn
+IHJrMzU4OF9kc2kxX2dyZl9yZWdfZmllbGRzW01BWF9GSUVMRFNdID0gewo+IAlbSVBJX0ZPUk1B
+VF0JCT0geyAweDAwMDQsICAwLCAgMyB9LAo+IH07Cj4gCj4rc3RhdGljIGNvbnN0IHN0cnVjdCBy
+b2NrY2hpcF9kd19kc2kyX2NoaXBfZGF0YSByazM1NzZfY2hpcF9kYXRhW10gPSB7Cj4rCXsKPisJ
+CS5yZWcgPSAweDI3ZDgwMDAwLAo+KwkJLmdyZl9yZWdzID0gcmszNTc2X2RzaV9ncmZfcmVnX2Zp
+ZWxkcywKPisJCS5tYXhfYml0X3JhdGVfcGVyX2xhbmUgPSAyNTAwMDAwVUxMLAo+Kwl9LAo+Kwl7
+IC8qIHNlbnRpbmVsICovIH0KPit9Owo+Kwo+IHN0YXRpYyBjb25zdCBzdHJ1Y3Qgcm9ja2NoaXBf
+ZHdfZHNpMl9jaGlwX2RhdGEgcmszNTg4X2NoaXBfZGF0YVtdID0gewo+IAl7Cj4gCQkucmVnID0g
+MHhmZGUyMDAwMCwKPkBAIC00NzAsNiArNDg4LDkgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCByb2Nr
+Y2hpcF9kd19kc2kyX2NoaXBfZGF0YSByazM1ODhfY2hpcF9kYXRhW10gPSB7Cj4gCj4gc3RhdGlj
+IGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgZHdfbWlwaV9kc2kyX3JvY2tjaGlwX2R0X2lkc1td
+ID0gewo+IAl7Cj4rCQkuY29tcGF0aWJsZSA9ICJyb2NrY2hpcCxyazM1NzYtbWlwaS1kc2kyIiwK
+PisJCS5kYXRhID0gJnJrMzU3Nl9jaGlwX2RhdGEsCj4rCX0sIHsKPiAJCS5jb21wYXRpYmxlID0g
+InJvY2tjaGlwLHJrMzU4OC1taXBpLWRzaTIiLAo+IAkJLmRhdGEgPSAmcmszNTg4X2NoaXBfZGF0
+YSwKPiAJfSwKPi0tIAo+Mi40Ny4yCg==
