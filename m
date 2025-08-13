@@ -2,119 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8F9B25230
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 19:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEEC2B252A1
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 19:56:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C97B510E03A;
-	Wed, 13 Aug 2025 17:40:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2541110E025;
+	Wed, 13 Aug 2025 17:56:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WZHLL5AQ";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="AQ2BoV+Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C702410E034
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 17:40:29 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DBLeP7012182
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 17:40:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- SGOnx8wASardlLmh6F+MJ3xLLydD3abWl/e37ujFDdw=; b=WZHLL5AQnirT0KJQ
- 1IJe83vJhzUs/s44Jt9JxckEh+IY5kC5OixiGT+CLmR1z37ANq7EwwVaiUeN+4S7
- 0aCWLW4gZJkrqSdxLm1dQp7XYaWcSEvEw+vjMzimZHhiZeW2P/ZV7inhrnFo7dKI
- G7vZgD+2LFYLvqtx0kcx5FVmksOKvN03zMDNFXecKKnLlikeQci8YdlkLyDi4SVF
- ib7JdMiyEGZpH4tssw7jZ5qP6Vb3eb8xB2wkzCiaktGdyjDzAbdr1AV3Apocvv96
- MRGcpOT7wjh8Aa24mo9X3wRXSdfRqUP6ue3UUQ71yiuF2Gd39D60epy5GvpZYZjT
- zGbLKw==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48eqhxauqg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 17:40:28 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b10993f679so2463011cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 10:40:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755106828; x=1755711628;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SGOnx8wASardlLmh6F+MJ3xLLydD3abWl/e37ujFDdw=;
- b=T9aXMrNjFSj23/icnQI/BVZjI9yFfAprwqyj9Gq5F981oKn5cx0bRs0OfynHVkTuxN
- UBxu9RkGDgc0raSyfPlJsFOUVtCO7zbPKEiVHSE0oxnmZNNn4cJitBepj3DjTnYqHHtA
- R41ZR22noZyBZwJvRGWVVJBkB6Jp5LhV41rKQ7bxrPyY3kMBtKQzxpfcbHviNWWlTH1I
- +R8KBDkpTdIQjA5azNqgCDhcfQ1giDd0IXEUjC0f8a168pzUKs1wqidHe3QZrtyUOZba
- Cgdf0gPr1FsHIzX8P+6B0OFRkDoLvJZ7qAci4mZzcuYHBa+0mKKv9ZnqwygW8aTS9wBZ
- w71w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWy+1FAPFWHOfbycjp1AxyjPFRC1lS9vuH5Fwu85FZwD5jsfaarhjDy/vMXZ8fd85QWIhMxjhuuC+I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4Yqso48CmFUr11KK2fRtQTqeNh5ue6rVtk2oEZET5TWSDBYI2
- 7uLpJzrdaKBlVMRjgXLWErFOszU5j/2PNC7tE6N9TVF/29GMnmLhvwxgo4nsMCJcsMrvOo/A037
- Aa/pDnwhkSc9n5lJoic0ocpWGytsNGwT5qUghy86KBifa2dU230PMFJgK8xH628Sc7PKxFfw=
-X-Gm-Gg: ASbGncv7XWKFXXzKx7b6lxjO1O9eF0eRxpVCIdjE4i3Rulyhuu1rnpJEufcy/uVCN3E
- Xg52lMrqSX2W91cVyPi8r7gho3vPKbxJPx2Lu9tfbAXxNkDhxT+3UEFfNwMNREZ7mxZD4quWmu6
- KOXYTSl5DME3N8hRf7vlJV8YtGdPHmN0cgGYltKYsAR+TTiSVznnAUe+IhgmqrhYyQOtjoR+Ti4
- xB8/y1glKGu06yYyon3sOuRl2B+/9WjWcr5bm+Z7P+w07hObgIowZOo6be8DQ6LdM1O43i14ckA
- jLDfE+Q9PSzSo096DWOKOWAmiVDUuyTUaeJ1YQ0OHZaTb6z/25/E3cPRP9MEQDBN0/RFLHai92z
- UblaNTMotOiQ+KSsFZWVCMCivTenuGLKv/A3zP/8Wgvtyq8WHWXGG
-X-Received: by 2002:a05:622a:1826:b0:4b0:80c7:ba32 with SMTP id
- d75a77b69052e-4b10aa6b551mr698321cf.38.1755106827893; 
- Wed, 13 Aug 2025 10:40:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFGSYwB2jPhXDGF7QnvYQoWrDeEZN5VgRz2fGxMg00AQDFPHwe889FhEH4ieuMEs9en12IG6Q==
-X-Received: by 2002:a05:622a:1826:b0:4b0:80c7:ba32 with SMTP id
- d75a77b69052e-4b10aa6b551mr697831cf.38.1755106827256; 
- Wed, 13 Aug 2025 10:40:27 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55b8898bd63sm5375446e87.20.2025.08.13.10.40.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Aug 2025 10:40:26 -0700 (PDT)
-Date: Wed, 13 Aug 2025 20:40:24 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chenyuan Yang <chenyuan0y@gmail.com>
-Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
- jessica.zhang@oss.qualcomm.com, sean@poorly.run,
- marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
- tglx@linutronix.de, krzysztof.kozlowski@linaro.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dpu: Add a null ptr check for
- dpu_encoder_needs_modeset
-Message-ID: <2rtdf7azwluus757f3azwjacoiqussnoxfqqxtr3p3l4l7rkrt@dbk5pfdglugu>
-References: <20250722211740.3697191-1-chenyuan0y@gmail.com>
- <ciawdvjevycjjuowmykfux2v25lvr66kzey4jklq7t5cjzqalj@qfcva77k2bvr>
- <CALGdzurR2XPoai8qshTX6hzgF-zLQ-FrsWxu5NGjrkjNzWaHaQ@mail.gmail.com>
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBDDE10E025
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 17:56:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1755107798; x=1755712598; i=markus.elfring@web.de;
+ bh=6A6owKl0e8HWDp37m50TwvyylqFVijy9Z30GbhwAZb8=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=AQ2BoV+YykwYv0odO6vRbs9iYehYqcDoeeO9ZIlEzp/OoF6HV2tm+Y0AqwcGwIV0
+ pE+fg1WxuTwzKUzaXcUVt2fJBiJgFOGoIx7tYCd54Pq4ozJLSWb6BYUgdiWBySe5j
+ bq9FVHR+t8w1+oYh1jWrkqM0MuGFHnGwLHROxVdbCmGijOdOIDWXWPKa2S8wwZw2A
+ 8c2iL+FXAHgqMMzx+KnAgty+EXXNvgLiKNhySbsG73jM8zEpSoeafwIVcynfW8Imh
+ 09AQfRaUWkyfymMzp16tC1qpp/1fu1qgG96JmxBWnvJzRYw0TWsKEwRwUPAAg29JM
+ ravbKxL9gRSM6g80Vg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.246]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Myv70-1uQa7r44eo-00tYwd; Wed, 13
+ Aug 2025 19:56:38 +0200
+Message-ID: <65769f0a-af9f-4e96-93d4-8594e76d8e73@web.de>
+Date: Wed, 13 Aug 2025 19:56:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALGdzurR2XPoai8qshTX6hzgF-zLQ-FrsWxu5NGjrkjNzWaHaQ@mail.gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEwMDA1NyBTYWx0ZWRfX4/VbyJns77Jb
- Kxjnz/SocwGYlo3+K6G+JIqJCzMVcfHxwCyrTpcghxFgFIWpoRG90R0Ghuj98hakT/pMIResvKF
- EZjoFVbIB12eZnmfFpThWJa06ycx3TNotwyiOsAmF3ZNk+pSXTwO9hiAOwhYrl9xSTFhdnAHGhi
- iHddG6Plvpvojn2a5uDMugyAK/12LJjYR3Agmfw0kLDWlRMaclqtWzWFaREDB4zCxI8dZru/hkq
- etQ7rjYdVrs9iun7nK8MRjmaNj9IRM1hUEduWV7xVS7xILs/5MwnkMFrCoFFEP2zzNESYYJioCe
- Gxi5up9KRcw9vJ0GZgWy78vff/0SpY7krvE27z6Hak5o4JNwYK/RVozV7dCGPZWRL0jIUUxntoO
- vlW6y4JQ
-X-Proofpoint-GUID: KO_5e5QUObtDd7p4HfZJABjOpIQ22MU3
-X-Authority-Analysis: v=2.4 cv=aYNhnQot c=1 sm=1 tr=0 ts=689cce0c cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=jpGDCbsBDmrldJ3tXloA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-ORIG-GUID: KO_5e5QUObtDd7p4HfZJABjOpIQ22MU3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0 phishscore=0
- impostorscore=0 bulkscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508100057
+User-Agent: Mozilla Thunderbird
+To: Brigham Campbell <me@brighamcampbell.com>,
+ dri-devel@lists.freedesktop.org, lkp@intel.com
+Cc: LKML <linux-kernel@vger.kernel.org>, Julia Lawall
+ <julia.lawall@inria.fr>, Oded Gabbay <ogabbay@kernel.org>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+References: <20250813-rocket-free-fix-v1-1-51f00a7a1271@brighamcampbell.com>
+Subject: Re: [PATCH] accel/rocket: Fix usages of kfree() and sizeof()
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250813-rocket-free-fix-v1-1-51f00a7a1271@brighamcampbell.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mRvjSfon63yuuB/07VHtw2H1/p8sOLnrIfgzT18KftjfuzYvOtK
+ Qc67yoFo8LZ68Bzyt3TxqpVMSPVDIBxmdmaxrBvU971gzpzMkA81w8uZ0Xt6X32hZSKftBk
+ RxhdcuHqYPJ9CF5yAKxobSnpym7N4NtTCn50G5bqlm1skpe8SDZU0mNDAOUGDNzZNY7aT3G
+ mK/1afhl9MeIAw0MowcsA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:LjSYrUWW7Ac=;lpTIpvNzL+AYk1dUMlMj5NtlhEP
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,56 +117,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 23, 2025 at 12:43:06PM -0700, Chenyuan Yang wrote:
-> On Wed, Jul 23, 2025 at 12:05 PM Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> >
-> > On Tue, Jul 22, 2025 at 04:17:40PM -0500, Chenyuan Yang wrote:
-> > > The drm_atomic_get_new_connector_state() can return NULL if the
-> > > connector is not part of the atomic state. Add a check to prevent
-> > > a NULL pointer dereference.
-> > >
-> > > This follows the same pattern used in dpu_encoder_update_topology()
-> > > within the same file, which checks for NULL before using conn_state.
-> > >
-> > > Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-> > > Fixes: 1ce69c265a53 ("drm/msm/dpu: move resource allocation to CRTC")
-> > > ---
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > index c0ed110a7d30..4bddb9504796 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > @@ -729,6 +729,8 @@ bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_st
-> > >               return false;
-> > >
-> > >       conn_state = drm_atomic_get_new_connector_state(state, connector);
-> > > +     if (!conn_state)
-> > > +             return false;
-> >
-> > Did this happen in a real case or is it just
-> > yet-another-static-analysys?
-> 
-> This is a static-analysis detected bug.
+> Replace usages of kfree() with kvfree() for pointers which were
+> allocated using kvmalloc(), as required by the kernel memory management
+> API.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
+=E2=80=9CCc=E2=80=9D) accordingly?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.17-rc1#n145
 
 
+> Use sizeof() on the type that a pointer references instead of =E2=80=A6
 
-> 
-> > >
-> > >       /**
-> > >        * These checks are duplicated from dpu_encoder_update_topology() since
-> > > --
-> > > 2.34.1
-> > >
-> >
-> > --
-> > With best wishes
-> > Dmitry
+Would it be helpful to offer desirable changes by separate update steps?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.17-rc1#n81
 
--- 
-With best wishes
-Dmitry
+Regards,
+Markus
