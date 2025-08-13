@@ -2,198 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E469B24605
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21DAB2460B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:52:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58FAE10E6C0;
-	Wed, 13 Aug 2025 09:51:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE3F610E6C1;
+	Wed, 13 Aug 2025 09:52:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jyfjO0mm";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LSob99fV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD7C10E6C0;
- Wed, 13 Aug 2025 09:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755078681; x=1786614681;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:mime-version;
- bh=JmHlTf60jkbSSX0vREi2B54/Q0k/K0D8p8LrE3wqQI4=;
- b=jyfjO0mmj03AcNbwf8Jwz0WGI8+Rv0VATZshyH2ftw1tqq0rbzlmmcaJ
- 9VJqPwZUkgrX7Hhf6aD0B5IOxq5JY539+1O6oNvhrz1VLaANMv776WTQG
- djbfpMmj1ItHygdSMtgyZqA7QQQnOuKLZSVeh9YsMV+ZNS5PP+OsqJW4M
- i4o2qZSiLpHtDjDHd2g/i2gBlAL2PXhF+C+Vj4wIfLGbTzZJKnH8n3BgI
- +Ln73/g8mXO55I/hPgfZvJVlZ4KxlT3ZGr/AWQFerjIfroqHR9HK2Xtjg
- QbPQv+SiH/12/5R0CrB7j70BgHHDRX1F1Q/c1qKRlMrOCMldv9BcjjEJo A==;
-X-CSE-ConnectionGUID: kzsnHatTRY6dhDoIYM+W7w==
-X-CSE-MsgGUID: ovkBjjwnRV6do3otZaboBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57483894"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; d="scan'208,217";a="57483894"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2025 02:51:20 -0700
-X-CSE-ConnectionGUID: LfZkgObGSL+78C6MQHrGdg==
-X-CSE-MsgGUID: KMUfoOsxRd2ksFN3ABXwIg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
- d="scan'208,217";a="165615095"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2025 02:51:21 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 13 Aug 2025 02:51:20 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Wed, 13 Aug 2025 02:51:20 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.89)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Wed, 13 Aug 2025 02:51:19 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S/YJOqbyNcwOpplR9LrTzJEx8eE0xPLnLrdbLql37kJFViKllVbsUxdgbfrtDkixA7/+zEky41AWd54ULXIgnYoB0NuO6Uhi2EcUVnv9R7kVTOF93gt+CU5sI+DAhSa2kFFidnrQ6f0wDCpfocONLoEy91PTls+dErY1yAfA2JX4ausHoaUmHcp2uaE2Q9JHMC5enMeM8gc6OsqZ24QUJRe1ihcU3JqfCf5cxRBzpVw31azQFmrYOh/NdjzockW2jFnZ8dkuJf1hx5KEKdnznF4EJDB15f87w6wCFanlOZOWqXrp4xWXEU7s7mq/qjs4FxmKkqAMcZuBvXcdM+QdiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LfWwNqaq96AQvtO8SPXLWfaGRBnlW1WZ9JinMR5cTEw=;
- b=pqxNX7G41ofmIw6v0ME/Tkpu1U6n4U5hXQZYFQlpShO0yaNFZ0I/CuNpS46IfhoWQJNAOypKxFr/tl71n6OmsH8HE5O+gaVAhW2Gfdgxcm7Z0o5719OqOboMnf6ueoE+spIJNrwi00chmaZmEiukVGRaNcBEL2eMP2tGpfeubVEcs2b8P9741Widc40/VlkoGwMAmZl18+ZdVFDs5+bSzQsd003iZCZlwl1GCOe5Nt/OjA3vZ0edEJmu7h6+NLOJJHvZdGFAS8O+z3Ojma83xHPh2pq4RDMxzjiTp6kW+SWIOJYmObRNXoHin3+k3yqSgQJTRiMBTUjPT6FcWpGz1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
- by CH3PR11MB8095.namprd11.prod.outlook.com (2603:10b6:610:154::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.15; Wed, 13 Aug
- 2025 09:51:18 +0000
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::13bd:eb49:2046:32a9]) by BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::13bd:eb49:2046:32a9%7]) with mapi id 15.20.9031.012; Wed, 13 Aug 2025
- 09:51:18 +0000
-Content-Type: multipart/alternative;
- boundary="------------g1HiTFqHyYpvKQcMbeZLh5fT"
-Message-ID: <7aa74159-a9a8-4ca7-9635-a806c57bf7f4@intel.com>
-Date: Wed, 13 Aug 2025 15:21:09 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] mei: late_bind: add late binding component driver
-To: "Usyskin, Alexander" <alexander.usyskin@intel.com>, Greg KH
- <gregkh@linuxfoundation.org>
-CC: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "Ceraolo Spurio, Daniele"
- <daniele.ceraolospurio@intel.com>, "Gupta, Anshuman"
- <anshuman.gupta@intel.com>
-References: <20250710150831.3018674-11-rodrigo.vivi@intel.com>
- <20250710150831.3018674-13-rodrigo.vivi@intel.com>
- <2025071611-decode-hastiness-df63@gregkh>
- <CY5PR11MB63666310C54B48FB3624D9E0ED56A@CY5PR11MB6366.namprd11.prod.outlook.com>
- <2025071603-guide-definite-70e3@gregkh>
- <CY5PR11MB636646E936C800D689BFBEEBED56A@CY5PR11MB6366.namprd11.prod.outlook.com>
- <2025071619-sterile-skiing-e64b@gregkh>
- <CY5PR11MB6366AF03A73910CED71C7E37ED5BA@CY5PR11MB6366.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: "Nilawar, Badal" <badal.nilawar@intel.com>
-In-Reply-To: <CY5PR11MB6366AF03A73910CED71C7E37ED5BA@CY5PR11MB6366.namprd11.prod.outlook.com>
-X-ClientProxiedBy: MA0PR01CA0121.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:11d::11) To BN9PR11MB5530.namprd11.prod.outlook.com
- (2603:10b6:408:103::8)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CE6610E6C1;
+ Wed, 13 Aug 2025 09:52:15 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57D6mJsQ025986;
+ Wed, 13 Aug 2025 09:52:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ /d2pP3eikutOq1UWe80VMn/eSPyNptjb0CHW7cqF0gk=; b=LSob99fVcCZ2Aj9T
+ SSQZnH2hIt9aC+wlUW8jS7TFoAHBHVnZV16GOsKyIH90kzyVaPst/7qpF9p6Xw6D
+ IYg/qX+xYCc+vJEElYoV9iHCxVuJ78rcJd3kO21hfwHYj3mdcgzqxzrvxOU0RiCM
+ k6mMGMmGrFkjwGSBqiitOheScK/sdZJZkO/XlwLA0LDMF5WMx64Y6u27gDAfBO4k
+ XTAWlMzBFndYz94dzNNJ8Pi5GQ5BpxdX3c9uMMwcVP+JSk0F5xoQ0ygY6pT8n29N
+ 0AD4rqa+f8tHn+NmkdHxkoTPiJphL4x773cnxBV9JAKLRA2pQpVmsEpGLmzE3Cx5
+ cnLy/w==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dw9suhy4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Aug 2025 09:52:11 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57D9qAMD027415
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Aug 2025 09:52:10 GMT
+Received: from [10.133.33.43] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 13 Aug
+ 2025 02:52:06 -0700
+Message-ID: <61834162-7e73-4467-9dd7-bfb1dcbd0afb@quicinc.com>
+Date: Wed, 13 Aug 2025 17:52:04 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|CH3PR11MB8095:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61de01f0-47b5-4c7c-35e1-08ddda4ef333
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|8096899003;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YnpIcVpxYjl6LzE0TFBENlM4L243Qy9KWXZxV2NjdnlSSjltNlVCdEdZdWVa?=
- =?utf-8?B?enkwUUlaK29HM3dOZFVlQWxWazRZdVI1UndVMVNjRmNkU3daSk5aZUg4MGxo?=
- =?utf-8?B?Ly9rSlVubFJacndDNE9PZEhUUEt4TTQ0bk91OVQyekdBcUVDSGx4eUExREFi?=
- =?utf-8?B?MXJwenhnWXUxRFBvUXAzV0xEZG1RL2NqYWpvWTdGcXRWU1p3bWtObVpETWJu?=
- =?utf-8?B?eWNST2tzbGhOREFOWEMwczZYZzMvR2I3aXVSUEtsclp1RUdQcmRyMUg5c081?=
- =?utf-8?B?MVlRcmduNHJseDdZN1BQMkg1TGhTVUd2dHQ3RHNXLzhWOUx5R29kY205QnEw?=
- =?utf-8?B?RFJnazdvN0dPR0w2UjZkeUtFNE5mbm4zUU43WUxIMkFkUEwwSW5sdnp1cFhC?=
- =?utf-8?B?RFpuZnBXZW5vTExtWk1FNW42Qlc2bE5Ma1dsM1J2UTByVzg4Qi94eU1iSVpR?=
- =?utf-8?B?N09hZFRDemtqemo2QzYwNUV0YjlsQTVyWUVKbVVlRk1mR1hmMlhkaXA5c2Yx?=
- =?utf-8?B?d3M1dnEyL2c3T0c0MmF0UXZlS1FjR2JENGZtWGZsSjZFZWJSQWZ4NXdPbXBy?=
- =?utf-8?B?RDlDcmJ3QnJvUGw5NHdBOGwvRnRZVXBHUytvQ0VvS05mNll5Z3B1MkRNQlpB?=
- =?utf-8?B?a3BhTXlmeWpWazVDeUJKVUVqSmJlaWFrRGVOSGE1cFFkbEZBVmRLT200SzNw?=
- =?utf-8?B?bHUvRW9rcGVuaHU2YVZVbEx5Rlo5OHJXcjVxWmI2N1piTjVHdmF1QjdyMEs2?=
- =?utf-8?B?dlI2Rld4KzJZdFFpZkNDM25UbVVGM0xIV28vdDFmeHhnZmZpU1JLUnFIeFVr?=
- =?utf-8?B?VkgxK2VCUllHV0V2QW5kUlZtNEJ0dU45N2xoWHZDRm5sYjJST24rVExnZ0xz?=
- =?utf-8?B?OWdjUndMQVZrQjc4eXVLcWt6NWJSbGp2N3cwbjQ0RUowdVRUOXd2Ty9nbGRP?=
- =?utf-8?B?WlpWRVVvaW9tS3IvVUxrVFVSR05pbVI4UjV5SmJ5MmxPR3ltTWtQeVh0THpU?=
- =?utf-8?B?MlFiT2syUDRlUENnYmNYOVRwckhZb1Zka21kTTliQzNNU0NPSWNYb09DSWFt?=
- =?utf-8?B?b0swVnBINUFpbGZhb1A5cVZMV3N6emRtajgwbVVSYWlFNCtva2FWeHNQdW05?=
- =?utf-8?B?N0dISzhPamdZM0RydUJTWkRLbSsyVVRBcmlOYktQNVNuMk9keTlXbzBRQk9r?=
- =?utf-8?B?ZFpJWFdyMWJ0ZXhqbFNJWXNMcWVVODBNa1c0QVZyRmN3MTY4MHVBTjhVZnZL?=
- =?utf-8?B?cmhMMDk4TkV3TUtJMDVGeHQramVNSnZmNXl0R21mRjBaUXZRUGFnUmQwZDR6?=
- =?utf-8?B?RXFHVUdtTFBBVXhoSDhjT05DVHhHREtRSDhkRWV0OE81RXFmTGt1TjViTmhU?=
- =?utf-8?B?MzM1dWRoT005NnBoS0ZyeHZla2FVR3hUTWJhVVpYRExyek9HL2xEWDRVdWFB?=
- =?utf-8?B?L0ZjQ3RyT1p6eWdodlE1aFBZbkNjTXZ5SGU1Ykl0a1A2VEZneUNwbk43c3Ax?=
- =?utf-8?B?bnJRczdET09WQzZsV3FuRGRvdlZpM1c2Ylc5WmRKdTNwZ3pQcXdNV2NmbnhK?=
- =?utf-8?B?a01zbFdXQkxheDQxcjlhNWZIamdQQnVFK1BhUWk2eitsMXZ0M3ZkanR2TXNh?=
- =?utf-8?B?clJLdmtmTjlsK00rUi9lS1JmbFZrR1NiWlFjSUNjMTZiWVlBamtmVSt4dDZU?=
- =?utf-8?B?dW5TTDBLUFpWVGIyY0RtMG5FZGdwNFZOUkZqSWNTRXlHQzdBUEhqNVM3Mzll?=
- =?utf-8?B?b3BWRWRTUjQ3ajRaelFId25NOVdhd0YvWm9WV1VPRHZ1VWpxcHNDMUZFMlE5?=
- =?utf-8?B?V28yb2FXZ0VwMFplcTJGRjdaYnZ0ZTN0Rmg4NkhlYVJyU2NhT29qaVhHQmwr?=
- =?utf-8?B?TUVWR1l2T3E2NUNCVSs5Q3pNK2gwanpjZTZKdHA3cFh6MWV5WTlPN3pPNjVo?=
- =?utf-8?Q?NaEp1bqIYIk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(8096899003); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WHBmU0habkdkU3d0YXRFVDhFUHRnYUxMejcydWU4Z3RlQitLQ0oyOWZBU0xK?=
- =?utf-8?B?eE1ucG5PVnFFMW9QblpqVjA1SjM2VjU3bTlsOHd4YWxteFdSQmtsQzJMTlQr?=
- =?utf-8?B?ZXYwME9zWWVibUdXUThpWDI1WE5rc2I3V3VUWXNia09mTDdWT1NFN0hRSjB6?=
- =?utf-8?B?cm5RZGZlcW1Ud09CWlIxY3FWdzhCRCtIcVZDYmRyemVMQWpkWUwwM3Bua1hY?=
- =?utf-8?B?dEVjL09IYmJZWkZBelEzVmJNa0pjNHlpWm5QVCtwN0R6eU05NzRMMjdpSVhv?=
- =?utf-8?B?a3hHWG56Rll6RzgwNzdxcnpoQUU5RjBwZW9CbThwbWFna092Tko3OGM3WkEv?=
- =?utf-8?B?bnJPSy9rRG45Wk51c2dhV09hT24wdFZ6bmdBUnFKcTYxTkl0bmthOHpOckdF?=
- =?utf-8?B?eGc0VkFxdnhoaE8rbjVPdnhRWUxUWW1GYXc3MWd0UzhpNlN6UmZiQUlpbnlr?=
- =?utf-8?B?bEVwTjVYdVE1UWp4Y1pIenlabVBWa2ZxR0xCSWJvMTFFcGRmOGYxbUo3UjQx?=
- =?utf-8?B?bmZIQU5wa3ZFbGMrWXgrU0dqcFU5eFBkMDBTQ3BiNVNtQU5KS0IwcVdyamxO?=
- =?utf-8?B?c1EraTA4QVpyNTdKYlVGZXFDMmk2WEtIekQyS2FIbkxTTE1WMmZRUHJDSElp?=
- =?utf-8?B?ZXlTdzc0UU5tQ2tycVdRcy81YzJlS0FMY1JNdXZ1QXVJNDRXRmRBa0d4RTdE?=
- =?utf-8?B?d24rR0JHdFhtMkt4QjdGRXQrUWQvOTVjL0NsanhiVE10aS9nT1NISmJnSHl1?=
- =?utf-8?B?aEpTUjBDZVlOc0NOcVpVeWlXcm1OeUltU2IrNGRoSXM2emRSR2hlcGg0OHFs?=
- =?utf-8?B?dGl4ejZxYjBROEdBKzBxNjgybkgzNlZjWnVzRjk0eDN6NUJHWDFvL3U0YkJm?=
- =?utf-8?B?ZmxDUmFYek1DMm4yZVR6dndFQW9xMUsySzVyL1ZvekJQTEJVVzhNZklLNVIv?=
- =?utf-8?B?RHUwRWtrTE8zZ2VzVlp1ZS80TVFOLzFYT2VwcTM0eHZuRUR2QW5pT3VReWt0?=
- =?utf-8?B?ZkxseWdlcCtadW1HeXpGdlAwb281NDJNZlZmeXZiQlBMZGI1RzkyRWZacWJv?=
- =?utf-8?B?VTY0V0JpNEV0akEwc0FIRnJMOEZpWit6blZRak1nY2pzb1M1aTFLSUFDVVRO?=
- =?utf-8?B?UE1sQkN5eDlGSkE1VVZwME9iNmpsYkdHNTUzR2lBc29FZU9aMmlsa1pQTno5?=
- =?utf-8?B?bFFBWXhEZjA0enRYTjNxU3FqZFl4ZlZsZjFHWDJjeHdoUnVNUmhIcVF5SXox?=
- =?utf-8?B?TmgwRmtkVTVoemdTN0g0czFhU0ZMSmVqWTI4aHM2eTkzV2kvQ044TUtBUDNB?=
- =?utf-8?B?UXhaSnZ6M201L1FaQ2ZKWXczMndvbTlTNE9zTnd2eTlKOFJyNlhZUGtyMkMr?=
- =?utf-8?B?UHQzUXlnNVNXb2U2MnFTSlJGby9OUytBM2gvZnRJQkZaQ1BUY0Q3ZDdTWjRX?=
- =?utf-8?B?NWZmeXpnL0cvMlVrUVIrTW9ibHlFdDlQZHRJWHhxMDZWclBGYkNkTGl3c2dG?=
- =?utf-8?B?SXMxa293enhMY1VQcTVoU0R1bDVIaDJJUWsvWEJrejVWY3VUREw0WC9lWWY1?=
- =?utf-8?B?N1RISi9xanUwUURZMVFZN1A2ZjhXSEwvbkRPSkpYQmlZbGF5VWRMUTdXaFYv?=
- =?utf-8?B?QmpMajNBcVo3eW1wVy91VnpPbHo2U1FJNUdnRnlSS3ExamQrd1hUN3owS1hx?=
- =?utf-8?B?NmRYVEdBTVM3QXYzcStOaTZOa1dLL0lCbWhjQnJVOUVjYkkxbVF3OG1wVDhY?=
- =?utf-8?B?NnVZaEFiT1JLWWxxOEFKTlpnWXcyRHRXZjQvZDM3c1lueW5MWnJJdHhjMlRi?=
- =?utf-8?B?bHJMRE9PY2hzdHhheGtMQzNGU2pIZklkTnhMNExFN2lCTGlUbW5FTXlaOEtE?=
- =?utf-8?B?dG82bGR0RGNWa28wbnFhb3NRbmhoOXlUSm8wMm9Cb0lFRnZ6OUVZeWZsVEVi?=
- =?utf-8?B?RzUvSjRSKzdZQkNhNUQwL05RRURpNTN4YkIwVUNCS2dmbXJIQ3crc2hFU2ZX?=
- =?utf-8?B?enRlQ2tGbTdabC8yTEZsZWNVREtRK2xtSzZuMnhjTWRmeEZVamRlL0UwbUVV?=
- =?utf-8?B?MlZtUkF4cnNWVFd1Z29xMHI5SWNTelpnbjdjWHVmZWVDOVdhQWtsR09xTk4w?=
- =?utf-8?B?Ui8yVjVkbFY5dFRaWTI5aVVoelJuUVhPS0xKUE1GNVBCVTNDWjI1aWR5dzlR?=
- =?utf-8?B?eEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61de01f0-47b5-4c7c-35e1-08ddda4ef333
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 09:51:18.2527 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GjEyLSxznZ1yCHySSw2l7iKFqcXamxUupzaqWcO/aiOKvvYXOX3hiUZdN0gqfGfiZUBcxcAmViL6mpVJyj378w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8095
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/38] drm/msm/dp: allow dp_ctrl stream APIs to use any
+ panel passed to it
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: Rob Clark <robin.clark@oss.qualcomm.com>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>
+References: <20250609-msm-dp-mst-v2-0-a54d8902a23d@quicinc.com>
+ <20250609-msm-dp-mst-v2-5-a54d8902a23d@quicinc.com>
+ <5emeno6zpefewmysmmfb6s64mme32pzatgpzeu6hnuzgfi3q4t@i6zpgj5am3ie>
+Content-Language: en-US
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+In-Reply-To: <5emeno6zpefewmysmmfb6s64mme32pzatgpzeu6hnuzgfi3q4t@i6zpgj5am3ie>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=J+Wq7BnS c=1 sm=1 tr=0 ts=689c604b cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
+ a=OfSDUUBKtISxzcSHUPkA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: SRDXNu8u84Es_D1A1GKQUbyd49YvZ4mw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAxNSBTYWx0ZWRfX8JBF8/npCHTC
+ TZqUScWbE06e6FTKxynDSopYo6ByTRIMJgIpKLdqrweUdFnHUBzYk0ggTCBMK+k7bYchdc8UbRL
+ /+qquySH0ANA+BgwW25iFhc2++qxjbjzEzaBfeWdb0pfzrtj8UW8ViMR1tT+TCgm0WRubziy+Y3
+ QoVhQ0bkqf6/1+0PWh96QSBIpw81Li0RtdK2c0JY2Y5J8T9KLOEHB40CVTSulaD1aFRQaYygNUN
+ 23eM75+LWsc+REk3ZKRQmVrdMR7lP+r3ntqXOSfn39PMgFaK3d1er+txRIRWRCS7OYac5zLCuUO
+ 713DPW4ubtjdD+OCQra+c1YoWY1UmNXAfe5HkS3RentIZ7C62jR83J65f844QEw0tz3pqfFq7xy
+ lyG5ipjN
+X-Proofpoint-GUID: SRDXNu8u84Es_D1A1GKQUbyd49YvZ4mw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
+ phishscore=0 suspectscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090015
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -209,305 +108,237 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------g1HiTFqHyYpvKQcMbeZLh5fT
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Hi Greg,
 
-On 27-07-2025 20:16, Usyskin, Alexander wrote:
->> Subject: Re: [PATCH 2/9] mei: late_bind: add late binding component driver
+On 2025/6/9 21:12, Dmitry Baryshkov wrote:
+> On Mon, Jun 09, 2025 at 08:21:24PM +0800, Yongxing Mou wrote:
+>> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 >>
->> On Wed, Jul 16, 2025 at 02:26:26PM +0000, Usyskin, Alexander wrote:
->>>>>>> +	if (bytes < sizeof(rsp)) {
->>>>>>> +		dev_err(dev, "bad response from the firmware: size
->> %zd <
->>>>>> %zu\n",
->>>>>>> +			bytes, sizeof(rsp));
->>>>>>> +		ret = -EPROTO;
->>>>>>> +		goto end;
->>>>>>> +	}
->>>>>> Why not check this above when you check against the size of the
->> header?
->>>>>> You only need one size check, not 2.
->>>>> Firmware may return only header with result field set without the data.
->>>> Then the firmware is broken :)
->>>>
->>>>> We are parsing the header first and then starting to parse data.
->>>>> If we check for whole message size at the beginning we'll miss the result
->>>> data.
->>>>
->>>> You mean you will make it harder to debug the firmware, as you will not
->>>> be printing out the header information?  Or something else?  The
->>>> bytes variable HAS to match the full structure size, not just the header
->>>> size, according to this code.  So just test for that and be done with
->>>> it!
->>> The CSME firmware returns only command header if, like, command is not
->> recognised.
->>> This may happen because of firmware bug or for firmware is
->> configured/compiled
->>> that way.
->>> This seems reasonable for the complex protocols where firmware may not be
->>> aware of this particular command at all and have no idea what the data size
->> it
->>> should send in reply.
->>> Printing result from the header will allow us to understand either this is the
->> firmware
->>> problem or driver sent something wrong.
->> Then make it obvious in your checking and in your error messages as to
->> what you are doing here.  Checking the size of the buffer in two
->> different places, with different values is very odd, and deserves a lot
->> of explaination.
+>> Currently, the dp_ctrl stream APIs operate on their own dp_panel
+>> which is cached inside the dp_ctrl's private struct. However with MST,
+>> the cached panel represents the fixed link and not the sinks which
+>> are hotplugged. Allow the stream related APIs to work on the panel
+>> which is passed to them rather than the cached one. For SST cases,
+>> this shall continue to use the cached dp_panel.
 >>
-> Is this addition
->         /*
->          * Received message size may be smaller than the full message size when
->          * reply contains only MKHI header with result field set to the error code.
->          * Check the header size and content first to output exact error, if needed,
->          * and then process to the whole message.
->          */
->
-> and remodelling error messages like "received less then header size from the firmware"
-> made it clean for people not involved with our firmware?
-> I'm too deep in this to judge the wording.
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 37 ++++++++++++++++++++-----------------
+>>   drivers/gpu/drm/msm/dp/dp_ctrl.h    |  5 +++--
+>>   drivers/gpu/drm/msm/dp/dp_display.c |  4 ++--
+>>   3 files changed, 25 insertions(+), 21 deletions(-)
+> 
+> I think previous review comments got ignored. Please step back and
+> review them. Maybe I should ask you to go back to v1 and actually check
+> all the review comments there?
+> 
+Sorry for that.. i will check all the comments again.. thanks
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> index 1ce3cca121d0c56b493e282c76eb9202371564cf..aee8e37655812439dfb65ae90ccb61b14e6e261f 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> @@ -135,7 +135,8 @@ void msm_dp_ctrl_push_idle(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   	drm_dbg_dp(ctrl->drm_dev, "mainlink off\n");
+>>   }
+>>   
+>> -static void msm_dp_ctrl_config_ctrl(struct msm_dp_ctrl_private *ctrl)
+>> +static void msm_dp_ctrl_config_ctrl(struct msm_dp_ctrl_private *ctrl,
+>> +				    struct msm_dp_panel *msm_dp_panel)
+>>   {
+>>   	u32 config = 0, tbd;
+>>   	const u8 *dpcd = ctrl->panel->dpcd;
+>> @@ -143,7 +144,7 @@ static void msm_dp_ctrl_config_ctrl(struct msm_dp_ctrl_private *ctrl)
+>>   	/* Default-> LSCLK DIV: 1/4 LCLK  */
+>>   	config |= (2 << DP_CONFIGURATION_CTRL_LSCLK_DIV_SHIFT);
+>>   
+>> -	if (ctrl->panel->msm_dp_mode.out_fmt_is_yuv_420)
+>> +	if (msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420)
+>>   		config |= DP_CONFIGURATION_CTRL_RGB_YUV; /* YUV420 */
+>>   
+>>   	/* Scrambler reset enable */
+>> @@ -151,7 +152,7 @@ static void msm_dp_ctrl_config_ctrl(struct msm_dp_ctrl_private *ctrl)
+>>   		config |= DP_CONFIGURATION_CTRL_ASSR;
+>>   
+>>   	tbd = msm_dp_link_get_test_bits_depth(ctrl->link,
+>> -			ctrl->panel->msm_dp_mode.bpp);
+>> +			msm_dp_panel->msm_dp_mode.bpp);
+>>   
+>>   	config |= tbd << DP_CONFIGURATION_CTRL_BPC_SHIFT;
+>>   
+>> @@ -174,20 +175,21 @@ static void msm_dp_ctrl_config_ctrl(struct msm_dp_ctrl_private *ctrl)
+>>   	msm_dp_catalog_ctrl_config_ctrl(ctrl->catalog, config);
+>>   }
+>>   
+>> -static void msm_dp_ctrl_configure_source_params(struct msm_dp_ctrl_private *ctrl)
+>> +static void msm_dp_ctrl_configure_source_params(struct msm_dp_ctrl_private *ctrl,
+>> +						struct msm_dp_panel *msm_dp_panel)
+>>   {
+>>   	u32 cc, tb;
+>>   
+>>   	msm_dp_catalog_ctrl_lane_mapping(ctrl->catalog);
+>>   	msm_dp_catalog_setup_peripheral_flush(ctrl->catalog);
+>>   
+>> -	msm_dp_ctrl_config_ctrl(ctrl);
+>> +	msm_dp_ctrl_config_ctrl(ctrl, msm_dp_panel);
+>>   
+>>   	tb = msm_dp_link_get_test_bits_depth(ctrl->link,
+>> -		ctrl->panel->msm_dp_mode.bpp);
+>> +		msm_dp_panel->msm_dp_mode.bpp);
+>>   	cc = msm_dp_link_get_colorimetry_config(ctrl->link);
+>>   	msm_dp_catalog_ctrl_config_misc(ctrl->catalog, cc, tb);
+>> -	msm_dp_panel_timing_cfg(ctrl->panel);
+>> +	msm_dp_panel_timing_cfg(msm_dp_panel);
+>>   }
+>>   
+>>   /*
+>> @@ -1317,7 +1319,7 @@ static int msm_dp_ctrl_link_train(struct msm_dp_ctrl_private *ctrl,
+>>   	u8 assr;
+>>   	struct msm_dp_link_info link_info = {0};
+>>   
+>> -	msm_dp_ctrl_config_ctrl(ctrl);
+>> +	msm_dp_ctrl_config_ctrl(ctrl, ctrl->panel);
+> 
+> Could you please explain, when is it fine to use ctrl->panel and when it
+> is not? Here you are passing msm_dp_panel to configure DP link for link
+> training. I don't think we need the panel for that, so just using
+> ctrl->panel here is incorrect too.
+> 
+Emm, If we need to program registers related to the pixel clock or DP 
+link with MST(all of them need pass the stream_id to determine the 
+register address), we should pass in msm_dp_panel. If we're only 
+programming the other parts not related to the stream_id, passing in 
+ctrl->panel is sufficient.
+here in link tranning, it's right, we actually don't need to pass in the 
+panel. But since in msm_dp_ctrl_config_ctrl, we will write config to 
+DP0/DP1 CONFIGURATION_CTRL, even mst2/mst3 link CONFIGURATION_CTRL. and 
+this func will also been called in msm_dp_ctrl_configure_source_params. 
+so we need add ctrl->panel here.
+>>   
+>>   	link_info.num_lanes = ctrl->link->link_params.num_lanes;
+>>   	link_info.rate = ctrl->link->link_params.rate;
+>> @@ -1735,7 +1737,8 @@ static bool msm_dp_ctrl_send_phy_test_pattern(struct msm_dp_ctrl_private *ctrl)
+>>   	return success;
+>>   }
+>>   
+>> -static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl)
+>> +static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl,
+>> +						struct msm_dp_panel *msm_dp_panel)
+>>   {
+>>   	int ret;
+>>   	unsigned long pixel_rate;
+>> @@ -1759,7 +1762,7 @@ static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl
+>>   		return ret;
+>>   	}
+>>   
+>> -	pixel_rate = ctrl->panel->msm_dp_mode.drm_mode.clock;
+>> +	pixel_rate = msm_dp_panel->msm_dp_mode.drm_mode.clock;
+>>   	ret = clk_set_rate(ctrl->pixel_clk, pixel_rate * 1000);
+>>   	if (ret) {
+>>   		DRM_ERROR("Failed to set pixel clock rate. ret=%d\n", ret);
+>> @@ -1797,7 +1800,7 @@ void msm_dp_ctrl_handle_sink_request(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   
+>>   	if (sink_request & DP_TEST_LINK_PHY_TEST_PATTERN) {
+>>   		drm_dbg_dp(ctrl->drm_dev, "PHY_TEST_PATTERN request\n");
+>> -		if (msm_dp_ctrl_process_phy_test_request(ctrl)) {
+>> +		if (msm_dp_ctrl_process_phy_test_request(ctrl, ctrl->panel)) {
+>>   			DRM_ERROR("process phy_test_req failed\n");
+>>   			return;
+>>   		}
+>> @@ -2015,7 +2018,7 @@ int msm_dp_ctrl_prepare_stream_on(struct msm_dp_ctrl *msm_dp_ctrl, bool force_li
+>>   	return ret;
+>>   }
+>>   
+>> -int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl)
+>> +int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *msm_dp_panel)
+>>   {
+>>   	int ret = 0;
+>>   	bool mainlink_ready = false;
+>> @@ -2028,9 +2031,9 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   
+>>   	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
+>>   
+>> -	pixel_rate = pixel_rate_orig = ctrl->panel->msm_dp_mode.drm_mode.clock;
+>> +	pixel_rate = pixel_rate_orig = msm_dp_panel->msm_dp_mode.drm_mode.clock;
+>>   
+>> -	if (msm_dp_ctrl->wide_bus_en || ctrl->panel->msm_dp_mode.out_fmt_is_yuv_420)
+>> +	if (msm_dp_ctrl->wide_bus_en || msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420)
+>>   		pixel_rate >>= 1;
+>>   
+>>   	drm_dbg_dp(ctrl->drm_dev, "pixel_rate=%lu\n", pixel_rate);
+>> @@ -2058,12 +2061,12 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   	 */
+>>   	reinit_completion(&ctrl->video_comp);
+>>   
+>> -	msm_dp_ctrl_configure_source_params(ctrl);
+>> +	msm_dp_ctrl_configure_source_params(ctrl, msm_dp_panel);
+>>   
+>>   	msm_dp_catalog_ctrl_config_msa(ctrl->catalog,
+>>   		ctrl->link->link_params.rate,
+>>   		pixel_rate_orig,
+>> -		ctrl->panel->msm_dp_mode.out_fmt_is_yuv_420);
+>> +		msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420);
+>>   
+>>   	msm_dp_ctrl_setup_tr_unit(ctrl);
+>>   
+>> @@ -2081,7 +2084,7 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   	return ret;
+>>   }
+>>   
+>> -void msm_dp_ctrl_clear_vsc_sdp_pkt(struct msm_dp_ctrl *msm_dp_ctrl)
+>> +void msm_dp_ctrl_clear_vsc_sdp_pkt(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *dp_panel)
+>>   {
+>>   	struct msm_dp_ctrl_private *ctrl;
+>>   
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>> index edbe5766db74c4e4179141d895f9cb85e514f29b..fbe458c5a17bda0586097a61d925f608d99f9224 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>> @@ -18,7 +18,7 @@ struct msm_dp_ctrl {
+>>   struct phy;
+>>   
+>>   int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl);
+>> -int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl);
+>> +int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *msm_dp_panel);
+>>   int msm_dp_ctrl_prepare_stream_on(struct msm_dp_ctrl *dp_ctrl, bool force_link_train);
+>>   void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl);
+>>   void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl);
+>> @@ -41,7 +41,8 @@ void msm_dp_ctrl_config_psr(struct msm_dp_ctrl *msm_dp_ctrl);
+>>   int msm_dp_ctrl_core_clk_enable(struct msm_dp_ctrl *msm_dp_ctrl);
+>>   void msm_dp_ctrl_core_clk_disable(struct msm_dp_ctrl *msm_dp_ctrl);
+>>   
+>> -void msm_dp_ctrl_clear_vsc_sdp_pkt(struct msm_dp_ctrl *msm_dp_ctrl);
+>> +void msm_dp_ctrl_clear_vsc_sdp_pkt(struct msm_dp_ctrl *msm_dp_ctrl,
+>> +				   struct msm_dp_panel *msm_dp_panel);
+>>   void msm_dp_ctrl_psm_config(struct msm_dp_ctrl *msm_dp_ctrl);
+>>   void msm_dp_ctrl_reinit_phy(struct msm_dp_ctrl *msm_dp_ctrl);
+>>   
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index a5ca498cb970d0c6a4095b0b7fc6269c2dc3ad31..17ccea4047500848c4fb3eda87a10e29b18e0cfb 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -872,7 +872,7 @@ static int msm_dp_display_enable(struct msm_dp_display_private *dp)
+>>   		return 0;
+>>   	}
+>>   
+>> -	rc = msm_dp_ctrl_on_stream(dp->ctrl);
+>> +	rc = msm_dp_ctrl_on_stream(dp->ctrl, dp->panel);
+>>   	if (!rc)
+>>   		msm_dp_display->power_on = true;
+>>   
+>> @@ -925,7 +925,7 @@ static int msm_dp_display_disable(struct msm_dp_display_private *dp)
+>>   	if (!msm_dp_display->power_on)
+>>   		return 0;
+>>   
+>> -	msm_dp_ctrl_clear_vsc_sdp_pkt(dp->ctrl);
+>> +	msm_dp_ctrl_clear_vsc_sdp_pkt(dp->ctrl, dp->panel);
+>>   
+>>   	/* dongle is still connected but sinks are disconnected */
+>>   	if (dp->link->sink_count == 0) {
+>>
+>> -- 
+>> 2.34.1
+>>
+> 
 
-I'm planning to include the following code in the next revision. Does 
-this change align with your recommendation?
-
-    +      /*
-    +        * Received message size may be smaller than the full
-    message size when
-    +        * reply contains only MKHI header with result field set to
-    the error code.
-    +        * Check the header size and content first to output exact
-    error, if needed,
-    +        * and then process to the whole message.
-    +        */
-             if (bytes < sizeof(rsp.header)) {
-    -               dev_err(dev, "bad response header from the firmware:
-    size %zd < %zu\n",
-    +               dev_err(dev, "received less than header size from
-    the firmware: %zd < %zu\n",
-                             bytes, sizeof(rsp.header));
-                     ret = -EPROTO;
-                     goto end;
-             }
-             if (mei_lb_check_response(dev, &rsp.header)) {
-    -               dev_err(dev, "bad result response from the firmware:
-    0x%x\n",
-    +               dev_err(dev, "bad response from the firmware:
-    header: 0x%x\n",
-                             *(uint32_t *)&rsp.header);
-                     ret = -EPROTO;
-                     goto end;
-             }
-             if (bytes < sizeof(rsp)) {
-    -               dev_err(dev, "bad response from the firmware: size
-    %zd < %zu\n",
-    +               dev_err(dev, "received less than message size from
-    the firmware: %zd < %zu\n",
-                             bytes, sizeof(rsp));
-                     ret = -EPROTO;
-                     goto end;
-
-Thanks,
-Badal
-
->
-> - -
-> Thanks,
-> Sasha
->
->
---------------g1HiTFqHyYpvKQcMbeZLh5fT
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p>Hi Greg,</p>
-    <div class="moz-cite-prefix">On 27-07-2025 20:16, Usyskin, Alexander
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:CY5PR11MB6366AF03A73910CED71C7E37ED5BA@CY5PR11MB6366.namprd11.prod.outlook.com">
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">Subject: Re: [PATCH 2/9] mei: late_bind: add late binding component driver
-
-On Wed, Jul 16, 2025 at 02:26:26PM +0000, Usyskin, Alexander wrote:
-</pre>
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <blockquote type="cite">
-              <blockquote type="cite">
-                <blockquote type="cite">
-                  <pre wrap="" class="moz-quote-pre">+	if (bytes &lt; sizeof(rsp)) {
-+		dev_err(dev, &quot;bad response from the firmware: size
-</pre>
-                </blockquote>
-              </blockquote>
-            </blockquote>
-          </blockquote>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">%zd &lt;
-</pre>
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <blockquote type="cite">
-              <blockquote type="cite">
-                <pre wrap="" class="moz-quote-pre">%zu\n&quot;,
-</pre>
-                <blockquote type="cite">
-                  <pre wrap="" class="moz-quote-pre">+			bytes, sizeof(rsp));
-+		ret = -EPROTO;
-+		goto end;
-+	}
-</pre>
-                </blockquote>
-                <pre wrap="" class="moz-quote-pre">
-Why not check this above when you check against the size of the
-</pre>
-              </blockquote>
-            </blockquote>
-          </blockquote>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">header?
-</pre>
-        <blockquote type="cite">
-          <blockquote type="cite">
-            <blockquote type="cite">
-              <blockquote type="cite">
-                <pre wrap="" class="moz-quote-pre">You only need one size check, not 2.
-</pre>
-              </blockquote>
-              <pre wrap="" class="moz-quote-pre">Firmware may return only header with result field set without the data.
-</pre>
-            </blockquote>
-            <pre wrap="" class="moz-quote-pre">
-Then the firmware is broken :)
-
-</pre>
-            <blockquote type="cite">
-              <pre wrap="" class="moz-quote-pre">We are parsing the header first and then starting to parse data.
-If we check for whole message size at the beginning we'll miss the result
-</pre>
-            </blockquote>
-            <pre wrap="" class="moz-quote-pre">data.
-
-You mean you will make it harder to debug the firmware, as you will not
-be printing out the header information?  Or something else?  The
-bytes variable HAS to match the full structure size, not just the header
-size, according to this code.  So just test for that and be done with
-it!
-</pre>
-          </blockquote>
-          <pre wrap="" class="moz-quote-pre">
-The CSME firmware returns only command header if, like, command is not
-</pre>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">recognised.
-</pre>
-        <blockquote type="cite">
-          <pre wrap="" class="moz-quote-pre">This may happen because of firmware bug or for firmware is
-</pre>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">configured/compiled
-</pre>
-        <blockquote type="cite">
-          <pre wrap="" class="moz-quote-pre">that way.
-This seems reasonable for the complex protocols where firmware may not be
-aware of this particular command at all and have no idea what the data size
-</pre>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">it
-</pre>
-        <blockquote type="cite">
-          <pre wrap="" class="moz-quote-pre">should send in reply.
-Printing result from the header will allow us to understand either this is the
-</pre>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">firmware
-</pre>
-        <blockquote type="cite">
-          <pre wrap="" class="moz-quote-pre">problem or driver sent something wrong.
-</pre>
-        </blockquote>
-        <pre wrap="" class="moz-quote-pre">
-Then make it obvious in your checking and in your error messages as to
-what you are doing here.  Checking the size of the buffer in two
-different places, with different values is very odd, and deserves a lot
-of explaination.
-
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-Is this addition
-       /*
-        * Received message size may be smaller than the full message size when
-        * reply contains only MKHI header with result field set to the error code.
-        * Check the header size and content first to output exact error, if needed,
-        * and then process to the whole message.
-        */
-
-and remodelling error messages like &quot;received less then header size from the firmware&quot;
-made it clean for people not involved with our firmware?
-I'm too deep in this to judge the wording.</pre>
-    </blockquote>
-    <p><span style="color: rgb(66, 66, 66); font-family: &quot;Segoe Sans&quot;, &quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(250, 250, 250); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">I'm
-        planning to include the following code in the next revision.
-        Does this change align with your recommendation?</span></p>
-    <blockquote>
-      <p><span style="color: rgb(66, 66, 66); font-family: &quot;Segoe Sans&quot;, &quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(250, 250, 250); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">+&nbsp;
-          &nbsp; &nbsp; &nbsp;/*<br>
-          +&nbsp; &nbsp; &nbsp; &nbsp; * Received message size may be smaller than the full
-          message size when<br>
-          +&nbsp; &nbsp; &nbsp; &nbsp; * reply contains only MKHI header with result field
-          set to the error code.<br>
-          +&nbsp; &nbsp; &nbsp; &nbsp; * Check the header size and content first to output
-          exact error, if needed,<br>
-          +&nbsp; &nbsp; &nbsp; &nbsp; * and then process to the whole message.<br>
-          +&nbsp; &nbsp; &nbsp; &nbsp; */<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; if (bytes &lt; sizeof(rsp.header)) {<br>
-          -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;bad response header from the
-          firmware: size %zd &lt; %zu\n&quot;,<br>
-          +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;received less than header size
-          from the firmware: %zd &lt; %zu\n&quot;,<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bytes, sizeof(rsp.header));<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret = -EPROTO;<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; goto end;<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; }<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; if (mei_lb_check_response(dev, &amp;rsp.header)) {<br>
-          -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;bad result response from the
-          firmware: 0x%x\n&quot;,<br>
-          +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;bad response from the firmware:
-          header: 0x%x\n&quot;,<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; *(uint32_t *)&amp;rsp.header);<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret = -EPROTO;<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; goto end;<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; }<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; if (bytes &lt; sizeof(rsp)) {<br>
-          -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;bad response from the firmware:
-          size %zd &lt; %zu\n&quot;,<br>
-          +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;received less than message size
-          from the firmware: %zd &lt; %zu\n&quot;,<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bytes, sizeof(rsp));<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret = -EPROTO;<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; goto end;</span></p>
-    </blockquote>
-    <p>Thanks,<br>
-      Badal</p>
-    <blockquote type="cite" cite="mid:CY5PR11MB6366AF03A73910CED71C7E37ED5BA@CY5PR11MB6366.namprd11.prod.outlook.com">
-      <pre wrap="" class="moz-quote-pre">
-
-- - 
-Thanks,
-Sasha
-
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------g1HiTFqHyYpvKQcMbeZLh5fT--
