@@ -2,157 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB23B2488A
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 13:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3469DB248E9
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 13:57:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A94B10E1E1;
-	Wed, 13 Aug 2025 11:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A1E10E4EF;
+	Wed, 13 Aug 2025 11:57:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="Rn29RJHz";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="loiZe62l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS8PR02CU002.outbound.protection.outlook.com
- (mail-japanwestazon11012011.outbound.protection.outlook.com [40.107.75.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9E8B10E1E1;
- Wed, 13 Aug 2025 11:37:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wTFBrDgJxaINNrnbfJodlmDOgMvJNJOJY1bAQbXbBULhY342camovx89ECDv/VykFi0UFu55cpRFkBeg7/ft4gmaIqr4RzAePjK44iuZoN5rwuGHQyPOv4X1EQRx2rEfIbGxixvezvXiZFVRvoYpvqQNQHKb1TWzvhhpML263SIF+MZ5PQK00r2Kd1pm/1QildYWgqOWZrwT4tbswK9C1XA2VhQh92vbyPuF7iTgcYGWIjUXE55r3ijwlzeug8fXBsxYcencsVAYSMgBiDZlQF69MPcv3E4wJvV/j3lG40G5U+Raqhuooyy2Us83TjoMGWzSV67DuATYEBK7Yvq3BQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hBeVkaKjyGLwDpMJaocqPF1bbKlxN6S9W0uCDt7Tn2s=;
- b=IvcidOo0A2bymsMusDLs2hiHVuLZfllkcTWDc7q3LenKRx69vMDZSmqTYCRBkaf5jVBdEd/dDssFdpINrMjJA4URlzZm272CU1viE28kt/PYQEYRmHnog0nfV/Hz1Q7NpFbdhU3S3uYHxVyKtUNDp+AnZEBpUy2LqCQzH3L7zVzs8lzoJ5YSqdMfUwnnNLtSx/5h9k5wYdOP1leraNzr0Z5ZS86aIUKtUa+5+dAb3RwT/JrcaTQfeOAC8MlV1BeZcj5LoHNZ/+5HUWed3GfP6wkBQCw/t6sMzPzY+WKg7oCz97jYPZghoV8r69ehDXofyF6IAG+Dn9Nf1TYX5pidsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hBeVkaKjyGLwDpMJaocqPF1bbKlxN6S9W0uCDt7Tn2s=;
- b=Rn29RJHzUEsJ7zkwrFAyRqTz0SfDEKzIeqerKi3CYgoMLPt3QtIe67Aw2croMO1jzWX+b7KEU0W53tgfzVJcgxhnDphNHmjEOaMtitjbvDMHG0w8klEat6BXKilhLEXZ+6g0KUyDLVtqBZPcUFy0l/ZRrbFveqBiB+bGu5RRT77I/kiz1BGn2JEm0wVEopicFepSmDd6b87VsXzV24X6DzOEijMcytZml6NoufvEsr4NRhz4pzASzZUX2UK0gUDO2eJvvD07HUZGO9NzTU/bfr8O2DwSc/sI55lIM8ukfq88cpVAbSsiWANc9/br3nxD58U5s85mPRVBR9WiKLAl2w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
- TY0PR06MB5595.apcprd06.prod.outlook.com (2603:1096:400:31e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.14; Wed, 13 Aug
- 2025 11:37:04 +0000
-Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
- ([fe80::468a:88be:bec:666%4]) with mapi id 15.20.9009.018; Wed, 13 Aug 2025
- 11:37:03 +0000
-Message-ID: <fd8310b0-7265-434a-acb8-23f98d110e6e@vivo.com>
-Date: Wed, 13 Aug 2025 19:37:00 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/nouveau/gsp: fix mismatched alloc/free for kvmalloc()
-Content-Language: en-US
-To: Danilo Krummrich <dakr@kernel.org>, Zhi Wang <zhiw@nvidia.com>
-Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
- Ben Skeggs <bskeggs@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250811091910.404659-1-rongqianfeng@vivo.com>
- <20250813134622.000069a0@nvidia.com> <DC18YY6U37ZD.16KGMXOUG43RO@kernel.org>
-From: Qianfeng Rong <rongqianfeng@vivo.com>
-In-Reply-To: <DC18YY6U37ZD.16KGMXOUG43RO@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR01CA0018.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::7) To SI2PR06MB5140.apcprd06.prod.outlook.com
- (2603:1096:4:1af::9)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE71810E4EE;
+ Wed, 13 Aug 2025 11:56:59 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DBLhio020736;
+ Wed, 13 Aug 2025 11:56:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ ScSNKkjpVNqkt8xw0KExEZDqJCC3ogyqFs0kGjXvUNs=; b=loiZe62lb9RT6XMg
+ ikGdyrAHtIOgkGWlLPXUHA69P0IWhp6nMoHkAsP+AUYyuTmDv59PTaD6WsCNKFGl
+ COiMAwqgQszDY0gPMkVUY21o/9pl/5+0jQNKAzeXokRJW2B6BiJrar3uJuyCHD6j
+ xIgyvIojSWJLjffXMulBqlLs3W26dzG7uWQHgvRz1Uu9o//jNI0kQQvvlgF9X0H3
+ LXyvT+9OxePSrQCWVdib9izxGGDevGC2lbfcgQImZeaYCB20Oz/l21lx3N+B2CUx
+ 6QG/eLnSXy7G0k5Pavu1wWavo6KFrVwFbZeiNPGtedKaxe/yB5kUNqF74aS7Wg7r
+ fXMyhw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dw9suvj8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Aug 2025 11:56:48 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57DBum66030166
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 Aug 2025 11:56:48 GMT
+Received: from [10.133.33.43] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 13 Aug
+ 2025 04:56:44 -0700
+Message-ID: <552ce804-1aa2-48ca-a68c-8a98621e7363@quicinc.com>
+Date: Wed, 13 Aug 2025 19:56:41 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|TY0PR06MB5595:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35a8f2fb-74e0-4fa4-de46-08ddda5db9a3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MnhnbnBFd0hKODViS3ZnL2V5MllBbVVXditmc0dhRDQxYnBRTk1JYXIxZXdO?=
- =?utf-8?B?VFR3MjY2S2I1S2Qzb2dhT09yS2lrR0xSdEQ5MERNUjlTcXg0RmxvVFhLUVhx?=
- =?utf-8?B?UTFqSUh4VldQcWt6OWNBR1hXd1k0a0NDdTVDZm82Q0tvUVl5cEE3cHpWTVhM?=
- =?utf-8?B?N0xWTVZNeFIxYUVoeDB6eGlqWU84QkRLdE1ON2UwU2tRRjhtZDl6aGxNWTZL?=
- =?utf-8?B?TXQxODF6MDdROXlOYmJEZjBPWWtJWThlc0RqVWVLOUprSDZxamdIOUdIcUJ6?=
- =?utf-8?B?VEI2ZTBxQVVYbTlEaHoxUUtsWGpVQ1BhUmsybmJ2clBZYWZicDc4NS96Rkpv?=
- =?utf-8?B?emVlelZ3Y2YvemZEeFhiQzRBOUJQZS9VNUxNdkxjcDM3RlFsVy9ZSUpyMTY3?=
- =?utf-8?B?UTBCVFlFdEUwWG5wbTE3NWYzSU5Vb2I5SlJyTE96SGhjMnY1OHpUM3lWbUdO?=
- =?utf-8?B?bGplVWJDdVQyK05VS2VzekpmWEhZOGNXS1pyY3NINEpFSmlRMHI5NTV5VnN4?=
- =?utf-8?B?MkN1YjJNcHVWckxsZEZiNGpCRnBJaXlhYXI1SDMyT1IrSXo1WDNYQ29DN0JF?=
- =?utf-8?B?UWRySzJCTnNTQ3RXVkdzNzZzN1JkU2ZVQnprTkI0b3dtWFdVNVZLbGhOcHJi?=
- =?utf-8?B?TUQ0MlFMaVkzdmVqNTBwSDlRKytHRGdBbVVGRlg3cUw1aUZya3pWVTdUZXho?=
- =?utf-8?B?UzZXTGhaWnh2QTVScEt0TSsyR2Z2cWpCeUk2UE5TbXQ0N2RjUkIrNS9SWlA2?=
- =?utf-8?B?eFZrckJwVDVHMG4rSmVMc1krSUJIa3BzR09YZHNNQ0M1QWVMT2xTWlorV2I0?=
- =?utf-8?B?c0tSWmxua2NjeUNzdDBKTS9TMDJ1RzBVcmgwdnBjZnREOVYyekI0cG9EWUxj?=
- =?utf-8?B?cWJvMklXZHVTT1NsQTV5NklZbUNBVjdtcTR6MWJRN0tZRHEwdXcwYlRVSDRQ?=
- =?utf-8?B?bk5jcE14K0lSVm5ldTVTaHJTVTVwSUVSd281V01RQndoTm9QQVFuVXVxTDFr?=
- =?utf-8?B?NW9NQUNYd3dQUEhjazUxSTFIb280NmFyY2lNUHhRNkNBQTdmZ3VMVTcrbDlD?=
- =?utf-8?B?dUNPVy9xSi9VbUd2WUZ1ZlhrZXpFaFowRldyNFVTUkkraHBpeUVhenltMzla?=
- =?utf-8?B?L3RncUJNTmlPSm5CaEtkMGdmUXd5WXYyRVBUYmRuN0VhQngyZFRTSVdLRkhx?=
- =?utf-8?B?dFI4SWVrUk95SHgzL2ExSGQ4M0RUZ091dkZndmhzcHZkS3pkQW16QjZJS253?=
- =?utf-8?B?cGRtSktjZzN1YlNNRUhvWnZVUitDc2tTaHNHSzRVUXJKUW1RY3Bsc1J5THNP?=
- =?utf-8?B?M2dGUmE2NGY0cGcrc3dlNEZnSFRqYzJtbFNyVVFzSktUSnpMQWR5RkJRMDdk?=
- =?utf-8?B?WUI0clNkMUV1dEMyN2F3U2dhVGJ2NkxXOUZyWGNwNjZzMEYvMnZKNkFvV1JO?=
- =?utf-8?B?RGZya05WN2FXWkR4ak9HUERsaUh5OGRnelVWd1I5Rk1Za3l0M0xFZGNtMThL?=
- =?utf-8?B?ZDFBM29KT2d0ZVE2N2xYSDlBcjF5WVVwbnhtMFNmZDcyUUtmWEVpZTN5Smoy?=
- =?utf-8?B?N0VxVXd4dHQyeWh1eE9BMDJMbGI5ZG1mdE1IZGwvbVpLWjJqOHcwbVBqYmFu?=
- =?utf-8?B?emlXdlI5SUtrcjJqc1VzaHE2eWFRREYyK3EwYVdlTTJrQWFGOUZxaHZuYlp4?=
- =?utf-8?B?TTZ1QzNCay9EdmlwdDN0N1dJbXFwODJlWWFNbll1T1JxbGUvR0NzeVMvbGRE?=
- =?utf-8?B?NTlsZCs1Y3orOUJ6Rm1aYm5vT08xMmNPYzJvUmFPUEcxcFVLa2s4clRpRkFx?=
- =?utf-8?B?bDQwcVc4aFVmbG42ZFZFc0tkTzNQa3VJUlVrYjk3MUNEeGJMN3drRkZPb1JZ?=
- =?utf-8?B?RTMremNZaHRIaHFGYW9oWk94dFQvTElWYVFSOWJrMUpXVDJhRmJZczBDVmNi?=
- =?utf-8?Q?P/CxmiffTFc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SI2PR06MB5140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QnR0WUhhSnhmSmxuQnZPajU5NVhiS3ZMTk1TcDJBSGtoY1ZSNWkwd3JTZmlp?=
- =?utf-8?B?Ty9EdFdRdW1IUERodlk1ZlkzOTRWK2NGRVZQbXM2U3c0eHZHc0NaUTAza3VL?=
- =?utf-8?B?RXlpZGNYelhnR1cvVDRya1cwTlR2NXAyWGFZc1ltNjZzbFlBUHpGcTQyWDJR?=
- =?utf-8?B?cStNRHhjajY1L0xpalNZMER2YTNvdkhzODg0NlVsWk5Fc2lEY0RQMFp6M1A5?=
- =?utf-8?B?UkJxbUwyYWJGUFZyaXpZQ1VFclBLS1BrNUFGVFBQeTUvd2t5d1pxNHptSm9Z?=
- =?utf-8?B?Q1dtSkQyVC9LZUpFdUM0dWh0VHlaKy9yTnNZUnoyMDN2QVhocC8yL3d2cmcv?=
- =?utf-8?B?ZWtSMHMvTCtMSXFuZEFsWnpsVnAwb1QzTEhYRWVaYmcwOGRQbmt5eDVsNjFK?=
- =?utf-8?B?S3B6WTUvemF4Qk5wN2VyOWVBVThtbEUzMkFMQkVnNHhBYzdLZytleHdiUHlR?=
- =?utf-8?B?UnBkZlVibk82YkJnR1ZNbVBJVzdEWGRrd2NmcTUyM0p2aEgvQUFTR2dhMG9R?=
- =?utf-8?B?RHpwYlRVR3A1TlRubDQ4WmMyVEFPVzdrL2hoT0xiaVhkdG9aM2NZZkJGOXp4?=
- =?utf-8?B?YjZIMk5TTkpzOG1MQ0JQV3VSOXI3K3liOElkQ29ma1FEZjlnSXJCT2ViTHJp?=
- =?utf-8?B?MUVINERRSE84S3paTEdXaDFtVEM5blZyRmowdTB3NGFYcWhBaDNiU3YzaDRm?=
- =?utf-8?B?YjI0LzRmL3hYVFB5THRiNjV4TllnZXUwbzFMRkFwVzVrMGV2cmh5SXVlb2Ex?=
- =?utf-8?B?RWhET3BOZnpmYUVHek56UUh2UTBvVmV5bXFpMGtSKy95eTRyK1A5TUxGYjRj?=
- =?utf-8?B?RlZ0RmpGWDd1dTVHaFZBMUFINHEveVJLbkwyZ3ZueDJKR3BsS2xya0hwZFhT?=
- =?utf-8?B?UVV5ZVhvMEZsRXVMbWJTcGYvM3hvZFdGdnIxaEo0OG9UZ2R1RCtYODJGVG5L?=
- =?utf-8?B?N1lrd2krU2xQSFBlMlFqcHplejhnT053MjI5YVhRV0lYWEJJcXNmd2psK1hT?=
- =?utf-8?B?V0FINk1IUTNyeUxIQzVkc2c0YnRvZlRVNHdvRitMbjBraTVCSEpmWDdSUmRO?=
- =?utf-8?B?Q1NXNExMNkJnTG5JVHdBckMwRlFoQzZab1FwT2V2ZVVCVlh0WEhzeFhxVUly?=
- =?utf-8?B?M25hR05zQXhSVUJGZ3NqZmNDbFRXSXViUkdQVm9JQjhHKzB2YzFRK3M2U0J4?=
- =?utf-8?B?R2pDY2s1NTVWQmVnWk9MQlEvRnMzQ1lNaUZTdE1CWUVGbEU3RlptaVZERjhT?=
- =?utf-8?B?ZE0zSmpaeWZYSHg5QUNhSFh4anVVNS9RZlNCenZWQ1kvb1dmNWhaM0VOQ01y?=
- =?utf-8?B?NkdYd2RvYitPRVcvQXFDMnZjQUlaUDdlRTdaRTQ2VFExbkJLbHZGRjVQd0s3?=
- =?utf-8?B?c0ZnREFuODVmYld6bmhheWovbHkycjZXUWJ0Tml1bHpocmpWSWlvNTgxbERw?=
- =?utf-8?B?QVVFVENKR3V3NmZock1HZ3VYNzZQNTE5NnFFRFV5T2F3ZTRsWlNlem5GeWpm?=
- =?utf-8?B?SjNLY1VHdXVOcStSbitlMVZjem5lRGZpM1hIcEFyRENOOGdsY0ExVTJKVEJo?=
- =?utf-8?B?MkR5R3pVWHdzb3dJK3lrN0FxbmJMa2JtTGt6Y016S2tFTzNLVlJWTEFwTnlL?=
- =?utf-8?B?Z2hQK2ZwZ1pOREs4ZzgrcklHenk1aEVTbW5GcERFWTVHZ0dXaExXNkFYOTI4?=
- =?utf-8?B?TUJMOFp2Ry9ySkZkOXJwOWZtUGpFYWV4bkN3WFdOS0YzYnI3ZFkwYXc4N3VH?=
- =?utf-8?B?WWNJcXBBNUhFUUxURVJ6NkFWTnpLNkJ6MSt5Yk5zM2pxOFI5WW53SjJwMFFO?=
- =?utf-8?B?cEFWRmkvNCt3REF3cVBOMXZTYVBMV2tpb05CekdlOGZkdEh2a0Z3QUNhZm94?=
- =?utf-8?B?ZXZjMFNJZHpVbFVsd1BQUEhkcjdPbDJHNTRKNGdhZEp1ais5R0hVUk9Ca3ZQ?=
- =?utf-8?B?WjRpQ2tKNDFLb24xd1N0R3pqYjZ3TWVwdXU1ZnNCWGxkdUJBVWlZRUFKYnRq?=
- =?utf-8?B?TWhXbE42QkNxMUx1S3R6aWdSQ3g1am1iR3Z4R2VQb0JXYlp1R2kwcUVxbFFI?=
- =?utf-8?B?UUk1d0ZEUHNoa0dmb056YkRlSXdzWVA0VjZkakRsTStQNUZFSnRmSktDeVVB?=
- =?utf-8?Q?V+nIKOmkJouq9UIquocye3uqq?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35a8f2fb-74e0-4fa4-de46-08ddda5db9a3
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 11:37:03.8996 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: J9kkdg0VPJDQERn8PgzjY8/Ij64xh3rLqwYrx1rOyexDzu76bjZMD2monP0ql/QNMo8SxxqmlPqBqtjg0sDHIA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5595
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/38] drm/msm/dp: move the pixel clock control to its
+ own API
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: Rob Clark <robin.clark@oss.qualcomm.com>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>
+References: <20250609-msm-dp-mst-v2-0-a54d8902a23d@quicinc.com>
+ <20250609-msm-dp-mst-v2-6-a54d8902a23d@quicinc.com>
+ <5b2lpjd2raqmowi466avustasdjsssl2tjwogd3ixjg7gi3dxv@cqtkbtcijnlc>
+Content-Language: en-US
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+In-Reply-To: <5b2lpjd2raqmowi466avustasdjsssl2tjwogd3ixjg7gi3dxv@cqtkbtcijnlc>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=J+Wq7BnS c=1 sm=1 tr=0 ts=689c7d80 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
+ a=hdPSHQnkDWgsf_opGwoA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: eIzyrElTwVyFL53DnzA7DeRQUIEXl9uy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAxNSBTYWx0ZWRfX8xjwgCvuPyM/
+ ag8VIySIzHToY+rMiF8YbYYdh6AT4lmP013p8+DUjVjwJiH6rzn5T4pQiWxTG3SvjQzT/m8uM6p
+ xSOTE4qJOCFquS56rareFRBvJNDq/L8XKibJGEHJvuRmBJWwFd/h2fSLwR0Gvmz93AsudWkwJ76
+ NGmASpibpBtBEOMYiIC9dlhHVmITkXN8Zem1+NFxvz+uSFP7zqj++cjDKaWa1qX6pNvZBicMuhE
+ Dt9n1TREbPYQt/jZ8f8/uC7fsJQeLFDDs2xcacBRmWRVnAJZ+74YyE7K6ROoixTQGVzXNzUSlEZ
+ l2QYjCgOdfLFs96L9ff0HlJqmiGkhF1cmEUWjrq3bR5HzfPBj6I3IkEEEuL1te27FMn7sGwpZ7I
+ rMI5g5eh
+X-Proofpoint-GUID: eIzyrElTwVyFL53DnzA7DeRQUIEXl9uy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 malwarescore=0 impostorscore=0 bulkscore=0
+ phishscore=0 suspectscore=0 spamscore=0 clxscore=1015 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090015
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,15 +109,215 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-在 2025/8/13 19:01, Danilo Krummrich 写道:
-> [You don't often get email from dakr@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> On Wed Aug 13, 2025 at 12:46 PM CEST, Zhi Wang wrote:
->> On Mon, 11 Aug 2025 17:19:00 +0800
->> Qianfeng Rong <rongqianfeng@vivo.com> wrote:
+
+On 2025/6/9 21:16, Dmitry Baryshkov wrote:
+> On Mon, Jun 09, 2025 at 08:21:25PM +0800, Yongxing Mou wrote:
+>> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 >>
->> Acked-by: Zhi Wang <zhiw@nvidia.com>
+>> Enable/Disable of DP pixel clock happens in multiple code paths
+>> leading to code duplication. Move it into individual helpers so that
+>> the helpers can be called wherever necessary.
 >>
->> Please add a Fixes: tag.
-> And please also add "Cc: stable@vger.kernel.org", thanks!
-Ok,  Will do in the next version.
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_ctrl.c | 98 +++++++++++++++++++++-------------------
+>>   1 file changed, 52 insertions(+), 46 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> index aee8e37655812439dfb65ae90ccb61b14e6e261f..ed00dd2538d98ddbc6bdcbd5fa154fd7043c48d6 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> @@ -97,7 +97,7 @@ struct msm_dp_ctrl_private {
+>>   
+>>   	bool core_clks_on;
+>>   	bool link_clks_on;
+>> -	bool stream_clks_on;
+>> +	bool pixel_clks_on;
+> 
+> As you are touching this part, how many paths lead to pixel clock being
+> enabled and/or disabled? Can we sort them out and drop this flag, making
+> sure that the clock can be enabled only in one place and disabled in
+> another one (hopefully)?
+> 
+Here we only have 2 paths to enable/disable pixel, 
+1.msm_dp_ctrl_process_phy_test_request 2.msm_dp_display_enable/disable.
+both of them are in pairs. Maybe we can keep this state to make it 
+easier to access the on/off status of each of them in the case of 4 MST 
+streams. when we get the snapshot of the pixel clk, we can visit here.
+>>   };
+>>   
+>>   static int msm_dp_aux_link_configure(struct drm_dp_aux *aux,
+>> @@ -1406,8 +1406,8 @@ int msm_dp_ctrl_core_clk_enable(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   	ctrl->core_clks_on = true;
+>>   
+>>   	drm_dbg_dp(ctrl->drm_dev, "enable core clocks \n");
+>> -	drm_dbg_dp(ctrl->drm_dev, "stream_clks:%s link_clks:%s core_clks:%s\n",
+>> -		   str_on_off(ctrl->stream_clks_on),
+>> +	drm_dbg_dp(ctrl->drm_dev, "pixel_clks:%s link_clks:%s core_clks:%s\n",
+>> +		   str_on_off(ctrl->pixel_clks_on),
+>>   		   str_on_off(ctrl->link_clks_on),
+>>   		   str_on_off(ctrl->core_clks_on));
+>>   
+>> @@ -1425,8 +1425,8 @@ void msm_dp_ctrl_core_clk_disable(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   	ctrl->core_clks_on = false;
+>>   
+>>   	drm_dbg_dp(ctrl->drm_dev, "disable core clocks \n");
+>> -	drm_dbg_dp(ctrl->drm_dev, "stream_clks:%s link_clks:%s core_clks:%s\n",
+>> -		   str_on_off(ctrl->stream_clks_on),
+>> +	drm_dbg_dp(ctrl->drm_dev, "pixel_clks:%s link_clks:%s core_clks:%s\n",
+>> +		   str_on_off(ctrl->pixel_clks_on),
+>>   		   str_on_off(ctrl->link_clks_on),
+>>   		   str_on_off(ctrl->core_clks_on));
+>>   }
+>> @@ -1456,8 +1456,8 @@ static int msm_dp_ctrl_link_clk_enable(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   	ctrl->link_clks_on = true;
+>>   
+>>   	drm_dbg_dp(ctrl->drm_dev, "enable link clocks\n");
+>> -	drm_dbg_dp(ctrl->drm_dev, "stream_clks:%s link_clks:%s core_clks:%s\n",
+>> -		   str_on_off(ctrl->stream_clks_on),
+>> +	drm_dbg_dp(ctrl->drm_dev, "pixel_clks:%s link_clks:%s core_clks:%s\n",
+>> +		   str_on_off(ctrl->pixel_clks_on),
+>>   		   str_on_off(ctrl->link_clks_on),
+>>   		   str_on_off(ctrl->core_clks_on));
+>>   
+>> @@ -1475,8 +1475,8 @@ static void msm_dp_ctrl_link_clk_disable(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   	ctrl->link_clks_on = false;
+>>   
+>>   	drm_dbg_dp(ctrl->drm_dev, "disabled link clocks\n");
+>> -	drm_dbg_dp(ctrl->drm_dev, "stream_clks:%s link_clks:%s core_clks:%s\n",
+>> -		   str_on_off(ctrl->stream_clks_on),
+>> +	drm_dbg_dp(ctrl->drm_dev, "pixel_clks:%s link_clks:%s core_clks:%s\n",
+>> +		   str_on_off(ctrl->pixel_clks_on),
+>>   		   str_on_off(ctrl->link_clks_on),
+>>   		   str_on_off(ctrl->core_clks_on));
+>>   }
+>> @@ -1737,6 +1737,42 @@ static bool msm_dp_ctrl_send_phy_test_pattern(struct msm_dp_ctrl_private *ctrl)
+>>   	return success;
+>>   }
+>>   
+>> +static int msm_dp_ctrl_on_pixel_clk(struct msm_dp_ctrl_private *ctrl, unsigned long pixel_rate)
+>> +{
+>> +	int ret;
+>> +
+>> +	ret = clk_set_rate(ctrl->pixel_clk, pixel_rate * 1000);
+>> +	if (ret) {
+>> +		DRM_ERROR("Failed to set pixel clock rate. ret=%d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	if (ctrl->pixel_clks_on) {
+>> +		drm_dbg_dp(ctrl->drm_dev, "pixel clks already enabled\n");
+>> +	} else {
+>> +		ret = clk_prepare_enable(ctrl->pixel_clk);
+>> +		if (ret) {
+>> +			DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
+>> +			return ret;
+>> +		}
+>> +		ctrl->pixel_clks_on = true;
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static void msm_dp_ctrl_off_pixel_clk(struct msm_dp_ctrl *msm_dp_ctrl)
+>> +{
+>> +	struct msm_dp_ctrl_private *ctrl;
+>> +
+>> +	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
+>> +
+>> +	if (ctrl->pixel_clks_on) {
+>> +		clk_disable_unprepare(ctrl->pixel_clk);
+>> +		ctrl->pixel_clks_on = false;
+>> +	}
+>> +}
+>> +
+>>   static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl,
+>>   						struct msm_dp_panel *msm_dp_panel)
+>>   {
+>> @@ -1763,22 +1799,7 @@ static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl
+>>   	}
+>>   
+>>   	pixel_rate = msm_dp_panel->msm_dp_mode.drm_mode.clock;
+>> -	ret = clk_set_rate(ctrl->pixel_clk, pixel_rate * 1000);
+>> -	if (ret) {
+>> -		DRM_ERROR("Failed to set pixel clock rate. ret=%d\n", ret);
+>> -		return ret;
+>> -	}
+>> -
+>> -	if (ctrl->stream_clks_on) {
+>> -		drm_dbg_dp(ctrl->drm_dev, "pixel clks already enabled\n");
+>> -	} else {
+>> -		ret = clk_prepare_enable(ctrl->pixel_clk);
+>> -		if (ret) {
+>> -			DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
+>> -			return ret;
+>> -		}
+>> -		ctrl->stream_clks_on = true;
+>> -	}
+>> +	ret = msm_dp_ctrl_on_pixel_clk(ctrl, pixel_rate);
+>>   
+>>   	msm_dp_ctrl_send_phy_test_pattern(ctrl);
+>>   
+>> @@ -1998,8 +2019,8 @@ int msm_dp_ctrl_prepare_stream_on(struct msm_dp_ctrl *msm_dp_ctrl, bool force_li
+>>   		   ctrl->link->link_params.num_lanes);
+>>   
+>>   	drm_dbg_dp(ctrl->drm_dev,
+>> -		   "core_clk_on=%d link_clk_on=%d stream_clk_on=%d\n",
+>> -		   ctrl->core_clks_on, ctrl->link_clks_on, ctrl->stream_clks_on);
+>> +		   "core_clk_on=%d link_clk_on=%d pixel_clks_on=%d\n",
+>> +		   ctrl->core_clks_on, ctrl->link_clks_on, ctrl->pixel_clks_on);
+>>   
+>>   	if (!ctrl->link_clks_on) { /* link clk is off */
+>>   		ret = msm_dp_ctrl_enable_mainlink_clocks(ctrl);
+>> @@ -2038,21 +2059,10 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
+>>   
+>>   	drm_dbg_dp(ctrl->drm_dev, "pixel_rate=%lu\n", pixel_rate);
+>>   
+>> -	ret = clk_set_rate(ctrl->pixel_clk, pixel_rate * 1000);
+>> +	ret = msm_dp_ctrl_on_pixel_clk(ctrl, pixel_rate);
+>>   	if (ret) {
+>> -		DRM_ERROR("Failed to set pixel clock rate. ret=%d\n", ret);
+>> -		goto end;
+>> -	}
+>> -
+>> -	if (ctrl->stream_clks_on) {
+>> -		drm_dbg_dp(ctrl->drm_dev, "pixel clks already enabled\n");
+>> -	} else {
+>> -		ret = clk_prepare_enable(ctrl->pixel_clk);
+>> -		if (ret) {
+>> -			DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
+>> -			goto end;
+>> -		}
+>> -		ctrl->stream_clks_on = true;
+>> +		DRM_ERROR("failed to enable pixel clk\n");
+>> +		return ret;
+>>   	}
+>>   
+>>   	/*
+>> @@ -2080,7 +2090,6 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
+>>   	drm_dbg_dp(ctrl->drm_dev,
+>>   		"mainlink %s\n", mainlink_ready ? "READY" : "NOT READY");
+>>   
+>> -end:
+>>   	return ret;
+>>   }
+>>   
+>> @@ -2154,10 +2163,7 @@ void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl)
+>>   
+>>   	msm_dp_catalog_ctrl_reset(ctrl->catalog);
+>>   
+>> -	if (ctrl->stream_clks_on) {
+>> -		clk_disable_unprepare(ctrl->pixel_clk);
+>> -		ctrl->stream_clks_on = false;
+>> -	}
+>> +	msm_dp_ctrl_off_pixel_clk(msm_dp_ctrl);
+>>   
+>>   	dev_pm_opp_set_rate(ctrl->dev, 0);
+>>   	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
+>>
+>> -- 
+>> 2.34.1
+>>
+> 
+
