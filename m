@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98BBB24DBA
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 17:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A5AB24DBC
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 17:42:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 280A110E75E;
-	Wed, 13 Aug 2025 15:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0688710E762;
+	Wed, 13 Aug 2025 15:42:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P7UPLU70";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WviT0/vR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5D1610E75D
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 15:42:17 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id
- d75a77b69052e-4b109bcba7eso26081cf.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 08:42:17 -0700 (PDT)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2747210E75D
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 15:42:19 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-7e86f90d162so4039485a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 08:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755099737; x=1755704537; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1755099738; x=1755704538; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=LnFW2npqKBPmKFjbk42rHSD2L60lz3bDYGogNM7LVaY=;
- b=P7UPLU70KqNRpwExr/NHzNXe3Gzy5Yz5HVApZnE3ucy9t7XPRoH1ZTyD/yTW9l9NiQ
- Y0tnezNLcTRS3v/G+TOBZYpzJZeEU36XxNCe0z/NjLmJIK6kvgBBBX6nt3P0p68En/lO
- UjVRIK6NnfmzSUmlApXtnz6oSaCPpXdY93R0G58uneUZx7DJlJ+rxUInwBppJv53uKua
- sgdnlCPOlnLyiNVdsiXIKNMmIshkBkPCR6fLf4jaePlfh8iisdYQN0wR9yfw/yQ5HIQK
- bwXIVCTYTT8Cufkv4PzJVwo8EL8EUALw1/e9P4TqGT6oeO/TDqVpfwqgj4vDt1Awh7WK
- TetQ==
+ :reply-to; bh=VsQSV1TsJHp2MU2Wdr4GjJINpBOVW2jeex8g0hu/Fho=;
+ b=WviT0/vRbf0pDD5pcV2To6rbH9fF6Iz+xc0wi6bdmILOiE7Zm8Wu3AKXMIXoPN/42Q
+ m3UDmbnlhgbcTxIHLKU/8UsIvxHV9yJKoHxhQth1NN2WT3NGwpfzO1Rdj8tJfGajgBRQ
+ X8lgo3ZJ4exUki9IfMIWknG5rVsbiRc8BicBix3KQsQSQv4GBzzGo4isoU4ExwU+Mhrr
+ THUpRwZyEaGYnqgTEBstF4w2bFBHhSOCju67FNfy6n80kySbui+e8NrkqlXrS5uXxUIw
+ PHNNh2nj5OMeayNZK0uAY1nyhQDXtWCev89qlSrHAQ5OpOpiI22X9gW2cdotEBxfqwoD
+ N78A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755099737; x=1755704537;
+ d=1e100.net; s=20230601; t=1755099738; x=1755704538;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LnFW2npqKBPmKFjbk42rHSD2L60lz3bDYGogNM7LVaY=;
- b=GkcgdVzLX8d3w1NN0JF6Gj996b1/+HL17NilQxvU7p1BjjeZ0aLIjNbeA2qrgoPq3I
- 2S2txJs9ZPQidNvxDM91lAG+1Y5pnqMRzcmUbJBmfgdb79xjCdQEo1DhwWfhYKx8wagV
- mOV02e48L1yWgeCysAatW5GJ0XnE86TsL1iQqkckBgcyJjlsudYfoGM1lKNBw/JwpTKe
- g2DD3XXeoVYAnZLI3GLaVf2TdMpSO2mcLj43U3C6yEGY8B0ZxhgVoZVYA97SrtF1DlM+
- RbgRURv/DWaO5/FvRYZqLneoJsogr35cCqAqSWRtjU6NO4aasakPX57tzv/vMwnM4ZRb
- sFbg==
-X-Gm-Message-State: AOJu0YzmgPckuilCln2RS4332gempdcETRmIQI/E7eXbh14tVoudu7Xj
- Nxq+8zZcEGkhqA5W+ruFWltwvU2htWxpkED/xUYALMIUhwrbjhVnYgx9
-X-Gm-Gg: ASbGnctFTNaNz3MVj03RWWs7VE+gQdwpd0rbi3uemUiv5XzN5vo7EAfri+p3tcrcwd5
- pGBm5R5ofBq1urX8MURc9V3tnoh29pvjP/99mGA3LL5dv00stXAqQ0tpNdgFWOk+vVVFcVI55E/
- ddcQEFzg15xeIfgC6IwDSiJx14AYF215tMdL+PBuT1NzgCCKui9PdnYLeYcQjgHYk0GHinPu7Ct
- pp/zGmauoaNPAfRJEECQ235qP74KeCL1KcBMxrk/Z2yyViIGbmqqdM2j+Q4BFd+EluaEG6rHPH5
- FOUWVhzdpWSNl/MhOu3jJRZde7ohhyv0esv81+hmZkoMJhJ0N3mV2sVlJlqZSpGA/tYKjXNIYpI
- lKbuBY0JV8oMSIwZuwL3+Kw7V9ekSvSesQUnacB7R5E9rfEMUV/TrY53AFKPb7wyOBrDZTr5yh4
- Q60i2c8hj9xSUOMCMjky3LXOHIiDaOJuOQrgUcM9++YYRPWQT6MBkNORo=
-X-Google-Smtp-Source: AGHT+IGst0K+bBIR1JPA1xxoo3PWJCWm9KLNl2+l1dIS1R4SJG8m1vtEDh/5FFkaiXywh2WmF6+IQA==
-X-Received: by 2002:a05:622a:8a:b0:4b0:7f2c:b27d with SMTP id
- d75a77b69052e-4b0fc7589bcmr51851161cf.22.1755099735338; 
- Wed, 13 Aug 2025 08:42:15 -0700 (PDT)
+ bh=VsQSV1TsJHp2MU2Wdr4GjJINpBOVW2jeex8g0hu/Fho=;
+ b=pwlrAlWWN8qSlabOzcXH306JGx0Yo8u7USs48Wug9B8xnKJ/6NyckEDyUd0/WCtfSC
+ rxxZxdu4FF/AxmcjTK02rpDNiCrh8iC+CXlapaI87hjMoh7SmGEh1MBRXVTYC9Eojb4E
+ gZBahfb+Up/TB91kFv2huh1OGYdfAi+lg0VlYxnuQs88KTRJBttwf6+6cJEiYT9k8Dno
+ m5HDCPzsD+OioelShuD4wkB66mrPvWhpp8TzrNul53LTpvUcT8M6tafl4iLhECqdSPdD
+ 4wrdBLoGWs+4P7d5Dr39lzAnWaTbZ0UDXrv0zU487I+uHfK2qGKwV3H8DKiG4dWLcJ15
+ Ah+w==
+X-Gm-Message-State: AOJu0Ywq+4PE3UgvQi3RKXN/OJUztVOh3EHE8gs52NE5pZW9/KvBoWwR
+ SZooS+sZ+kmX4XEavMofUGKBOQkGGwaPK3RJBE37hDRKyimvRJOT04Lr
+X-Gm-Gg: ASbGnctByGoV1yEY+13ze+fMHTSO1OiIUvzC9BHk5Lr+FAl2l1Rx9tuUo94rm8lZkJx
+ 4llXbjpCPkK60speBWDd4mPAftFV2ImGlsLQWpFz5PkdW1M6kxsz1ERwu6kk+6AjkTFTEq8EvAZ
+ cpjaXbgzGaU+h05YufGqfj1KB1hGA5P9HOjnb7wp/9wOIiN8fnuYa77VJ6OQ2RTJPXrW/QglYGc
+ 4Ik+NGyZkqpUJFIZCe0sbH1Y4sP+Q9Mje6yWsYNeGruNWqVLKQNor9k80rm+tlnvZTxCRFRnlRn
+ Ipq7gH4NHTjSnr6eRBt3uA406qfjhasovoPRSWTywuU0lVJyIUO3BKOYcdSpAvTA26v7fMvwWWE
+ C6o3FHBmpm2DroAHmMyxgk26ru5IJUhMlMWt7u7P22VhY8a33oTtlERK8+GBWYELnYOcL4Ih4w5
+ fvy0+jLq2ZTza0zF/QCph9P+nzyfMEx0s88w==
+X-Google-Smtp-Source: AGHT+IHar27jS0NGlUqrQQodPkOf9R/CEtXClMPngwLeK8GX4mWCN5I6VofPi0UAtSwiPNgZ+ssZBg==
+X-Received: by 2002:a05:620a:4494:b0:7e8:594f:d3d3 with SMTP id
+ af79cd13be357-7e86fd3a817mr233185a.31.1755099737954; 
+ Wed, 13 Aug 2025 08:42:17 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([2600:4808:6353:5c00:d445:7694:2051:518c])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7e81bc7a1e3sm1180019685a.74.2025.08.13.08.42.13
+ af79cd13be357-7e81bc7a1e3sm1180019685a.74.2025.08.13.08.42.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Aug 2025 08:42:14 -0700 (PDT)
+ Wed, 13 Aug 2025 08:42:17 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 13 Aug 2025 11:41:58 -0400
-Subject: [PATCH v3 07/11] rust: kunit: use `core::ffi::CStr` method names
+Date: Wed, 13 Aug 2025 11:41:59 -0400
+Subject: [PATCH v3 08/11] rust: miscdevice: use `core::ffi::CStr` method names
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250813-core-cstr-fanout-1-v3-7-545c14bc44ff@gmail.com>
+Message-Id: <20250813-core-cstr-fanout-1-v3-8-545c14bc44ff@gmail.com>
 References: <20250813-core-cstr-fanout-1-v3-0-545c14bc44ff@gmail.com>
 In-Reply-To: <20250813-core-cstr-fanout-1-v3-0-545c14bc44ff@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -99,13 +99,13 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  netdev@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-acpi@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1755099715; l=1753;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1755099716; l=1185;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=Jy20RMjEgUasphU37v4mL3N9otH67wOqCSEUfHDoaEc=;
+ bh=g75m/R+Sh3HJx/9egwyo7hbMlFO3MjnMF3dWtcOVjYY=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QK0mI8nizkbrqOlHVa/VZhAD5k+yfK1PeJ19bjxmLttJOSY1NKjCbDi2AQMIgqX63yg7JVa2YpU
- JwmcNQ286qAo=
+ QORcYxs8+PgEi2jdhGN+iGN1na6Boa7otjXeI3vPhu4m4soJQFoRy8+xvO+XTxKLuuC5OO4cIX/
+ esCvjMEqV7w8=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -132,37 +132,22 @@ Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Benno Lossin <lossin@kernel.org>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/kunit.rs | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ rust/kernel/miscdevice.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rust/kernel/kunit.rs b/rust/kernel/kunit.rs
-index 41efd87595d6..5866cff072f9 100644
---- a/rust/kernel/kunit.rs
-+++ b/rust/kernel/kunit.rs
-@@ -102,12 +102,12 @@ unsafe impl Sync for Location {}
-             unsafe impl Sync for UnaryAssert {}
- 
-             static LOCATION: Location = Location($crate::bindings::kunit_loc {
--                file: FILE.as_char_ptr(),
-+                file: $crate::str::as_char_ptr_in_const_context(FILE),
-                 line: LINE,
-             });
-             static ASSERTION: UnaryAssert = UnaryAssert($crate::bindings::kunit_unary_assert {
-                 assert: $crate::bindings::kunit_assert {},
--                condition: CONDITION.as_char_ptr(),
-+                condition: $crate::str::as_char_ptr_in_const_context(CONDITION),
-                 expected_true: true,
-             });
- 
-@@ -202,7 +202,7 @@ pub const fn kunit_case(
- ) -> kernel::bindings::kunit_case {
-     kernel::bindings::kunit_case {
-         run_case: Some(run_case),
--        name: name.as_char_ptr(),
-+        name: kernel::str::as_char_ptr_in_const_context(name),
-         attr: kernel::bindings::kunit_attributes {
-             speed: kernel::bindings::kunit_speed_KUNIT_SPEED_NORMAL,
-         },
+diff --git a/rust/kernel/miscdevice.rs b/rust/kernel/miscdevice.rs
+index 6373fe183b27..d3aa7d25afad 100644
+--- a/rust/kernel/miscdevice.rs
++++ b/rust/kernel/miscdevice.rs
+@@ -34,7 +34,7 @@ pub const fn into_raw<T: MiscDevice>(self) -> bindings::miscdevice {
+         // SAFETY: All zeros is valid for this C type.
+         let mut result: bindings::miscdevice = unsafe { MaybeUninit::zeroed().assume_init() };
+         result.minor = bindings::MISC_DYNAMIC_MINOR as ffi::c_int;
+-        result.name = self.name.as_char_ptr();
++        result.name = crate::str::as_char_ptr_in_const_context(self.name);
+         result.fops = MiscdeviceVTable::<T>::build();
+         result
+     }
 
 -- 
 2.50.1
