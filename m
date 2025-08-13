@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B08B254B9
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 22:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE33B254F6
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 23:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46D4510E00A;
-	Wed, 13 Aug 2025 20:51:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 335E010E02F;
+	Wed, 13 Aug 2025 21:06:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="YI0gnFPq";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Q9DQ8kKO";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="cdPGPxSN";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NuBoddv9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6281210E00A
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 20:51:43 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F82910E02F
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 21:06:36 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4c2LC14xT0z9tcl;
- Wed, 13 Aug 2025 22:51:41 +0200 (CEST)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4c2LXB3dC4z9t9l;
+ Wed, 13 Aug 2025 23:06:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1755118301;
+ s=mail20150812; t=1755119194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gFwAKu0hoiLVfmAEDUQusobP3JXVMfwhrQTManzOjQw=;
- b=YI0gnFPq9U0dE56ndTCi1Ql7CnK9zaLfbwuNOijMVP5VC94z0LAhyEyKC6XMuU4Dlq0rrk
- u7CaRzUoJBbxi+eofJ+Fjo+MiRXSYCtdDgwL5zyKmxttaMTMLawVNVbyQZ9mHLltJXZ70T
- T26qqZ5SU3x6dd84aG7ypv8cy4MEj4zArVsGxVuas4Fg/cfq7KsE4R5Jg5eJBSRuNzyZdv
- d4bLUM1gFfFG2Z0P/WjhoY2zk0Q6zkdB0LHlCV4vPdaHuNNjp6rocGe5doxgqB/eUzBdeN
- GWM8KZBudvbKiNAK9bom/jQGsGK5LxmxCZX5qKEJcxpBBTlHaHao8HVl+HgGuw==
-Message-ID: <b65941e4-6e34-46b3-aac0-0bb8f323187b@mailbox.org>
+ bh=LXUYdiyOFdWb2xcTIWDWLT2Bvo7KGxD/FsHoRDWMjLQ=;
+ b=cdPGPxSN2bER0nXzKHvZgZefGZWQgoAbHSxl8ASZl+c8udBVeCwBg7oKcUKa4Zjx12bLQO
+ CuYa67LCGUYzEryg0gAoGR9mb0Wb69v3BINLBUPZvxcLVa1f8OXrLL4S6Q8U7rMKwxs6kW
+ j2r+uHU/JEavJrbmHBOcGSny7UOqS/GcufH6xOWI/ZCKUrg1s8kc6PwXjDM4tGJQc06fd8
+ nLYeptwsne2ygZHj481tUtCnpRzUZjya5LNbSczQ0PFG21AnHhVW8KezybrtDHQppd4ZFt
+ lT58LxyFsiV6XxDu+/iRyArPOdFXdhQ1tP5u01RyWF69DlVXEeX1KQDGTzDefg==
+Authentication-Results: outgoing_mbo_mout;
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=NuBoddv9;
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates
+ 2001:67c:2050:b231:465::1 as permitted sender)
+ smtp.mailfrom=marek.vasut@mailbox.org
+Message-ID: <58109767-145b-414f-a20e-aee651e9e4d5@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1755118299;
+ s=mail20150812; t=1755119192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gFwAKu0hoiLVfmAEDUQusobP3JXVMfwhrQTManzOjQw=;
- b=Q9DQ8kKOmxFIUQq3J6k91ZaDAlrcbu6XfI0BXbmfrT9OVaYVGO66bhVM3E/IjyGHEGmEjf
- MuAccuTsUrZdzDOF1KbnMbcCR833s3ixv2kb4yXUZgm1VQsl5p18XI4erN4iEMJt/op8KL
- 5qAaOXNVAafHpd0Q4wRapr1OQSO976nWAH2WAqpKUd7Ky54ZVg82gtKgAEU7+B+EJQsCPl
- ihXBBq2YyDimkikEHAp2hFMHF1k5TbKvr5m4/qGFryu8W7pZ8habToadHabIEBWTG6fNhu
- BtkAMWcBXlXJlt9zEc2I6xpMSFhFPkAwjC18ePOR2LAKpA+oBIvr/Cpr7cAgfA==
-Date: Wed, 13 Aug 2025 22:51:36 +0200
+ bh=LXUYdiyOFdWb2xcTIWDWLT2Bvo7KGxD/FsHoRDWMjLQ=;
+ b=NuBoddv9AmQnPes2jc96mrnsseP+r/5e9ocN8z9av21vKWoJzMeY16g6hn867p1gLz02L9
+ 0r9F6E1vp46jzcQ02gA/5UmLrxTRIMrQ3QihBEVRkIGy4b0achV8a2HPaVk2L2KzbNLRcx
+ XFyeN/7ZNJFdmWRcHfNcdpq+VnOFcNWHANtDo7IESjT3cq7BaX43BDstVmYm71XZUiERtE
+ XsjDXrUVOliJELUOESeXh0c5GoBcyR0nTTlmHpqhTRqr7mcwAqzXJFeeHAaSY8Nh6SvGKU
+ jBSZ9TIFLsVUhwvjc37jyENQIYNs4AraOVWHFEoIym/do7XVAsJ6R/uVhwiWeA==
+Date: Wed, 13 Aug 2025 23:06:29 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] drm/rcar-du: dsi: Convert register bits to BIT() macro
+Subject: Re: [PATCH 2/4] drm/rcar-du: dsi: Remove fixed PPI lane count setup
 To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  Marek Vasut <marek.vasut+renesas@mailbox.org>,
  dri-devel@lists.freedesktop.org
@@ -62,17 +68,19 @@ Cc: David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  linux-renesas-soc@vger.kernel.org
 References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-2-marek.vasut+renesas@mailbox.org>
- <bc31d938-847d-46a5-af1e-29de3ac21504@ideasonboard.com>
- <7dc2c17d-9879-41c8-b90d-19f92a2d9c1e@mailbox.org>
- <205c11a3-4794-416b-b287-76c853ca4fd2@ideasonboard.com>
+ <20250608142636.54033-3-marek.vasut+renesas@mailbox.org>
+ <64b49da6-15ae-45e1-a4af-c1f08f80cf3a@ideasonboard.com>
+ <87cc32a7-fe1d-4d8d-b793-e3bb7e12fb7d@ideasonboard.com>
+ <1ae735be-3d07-4520-8013-c4b7a1b1c26a@mailbox.org>
+ <c83317d5-53f1-440e-b854-c75d283ed746@ideasonboard.com>
 Content-Language: en-US
 From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <205c11a3-4794-416b-b287-76c853ca4fd2@ideasonboard.com>
+In-Reply-To: <c83317d5-53f1-440e-b854-c75d283ed746@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: oojfx7jocnnkx1coq9cq1gnwitdi8w95
-X-MBO-RS-ID: aa5deff07e13164b504
+X-MBO-RS-META: b8gk49p5fhsj1kx4fjuty8it7smzhqd3
+X-MBO-RS-ID: 5623dcfe4c04eeb44dd
+X-Rspamd-Queue-Id: 4c2LXB3dC4z9t9l
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,49 +96,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/13/25 9:42 AM, Tomi Valkeinen wrote:
+On 8/13/25 9:34 AM, Tomi Valkeinen wrote:
 
 Hi,
 
->>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/
->>>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->>>> index a6b276f1d6ee..b3e57217ae63 100644
->>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->>
->> [...]
->>
->>>> @@ -51,11 +51,11 @@
->>>>      #define TXVMVPRMSET0R            0x1d0
->>>>    #define TXVMVPRMSET0R_HSPOL_HIG        (0 << 17)
->>>> -#define TXVMVPRMSET0R_HSPOL_LOW        (1 << 17)
->>>> +#define TXVMVPRMSET0R_HSPOL_LOW        BIT(17)
+>>>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/
+>>>>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>>> index b3e57217ae63..cefa7e92b5b8 100644
+>>>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>>> @@ -80,10 +80,7 @@
+>>>>>     * PHY-Protocol Interface (PPI) Registers
+>>>>>     */
+>>>>>    #define PPISETR                0x700
+>>>>> -#define PPISETR_DLEN_0            (0x1 << 0)
+>>>>> -#define PPISETR_DLEN_1            (0x3 << 0)
+>>>>> -#define PPISETR_DLEN_2            (0x7 << 0)
+>>>>> -#define PPISETR_DLEN_3            (0xf << 0)
+>>>>> +#define PPISETR_DLEN_MASK        (0xf << 0)
+>>>>>    #define PPISETR_CLEN            BIT(8)
+>>>>
+>>>> Looks fine, but do you know what the TXSETR register does? It also has
+>>>> LANECNT, but I don't see the driver touching that register at all.
+>>>> TXSETR:LANECNT default value is 3 (4 lanes), which matches with the old
+>>>> hardcoded behavior for PPISETR... So I wonder if that register should
+>>>> also be set?
 >>>
->>> I'm not sure about this (and below). We have two defines for the HSPOL,
->>> high and low. If one of them is (x << y), shouldn't the other one be of
->>> that style too?
->> It is inconsistent, but one macro describes bit set to 0 and the other
->> bit set to 1 (i.e. the actual bit) which is converted to BIT(n) macro. I
->> would be tempted to remove the bits set to 0, that's probably the real
->> discussion that should happen here. But that would also be a much bigger
->> patch. What do you think ?
+>>> Ah, never mind, I now saw the patch 3 =). But should it be before patch
+>>> 2? Hmm, I guess that ordering is no better. Should they be combined into
+>>> "support 1,2,3 datalanes" patch?
+>> I think each patch fixes slighly different issue, even if the issues are
+>> related. I tried to keep the issue description in each patch commit
+>> message for posterity. I can squash them if you think that's better, I
+>> don't mind either way.
 > 
-> In my mind if you have defines for both HIGH and LOW, you have a
-> bitfield with a value, the values being 0 and 1, and for values you use
-> (0 << 17) and (1 << 17). It just happens here that the bitfield value is
-> only one bit long.
+> I was thinking about this the user's or backporting point of view.
+> Neither of the commits (clearly) say that they add support for 1/2/3
+> lane modes.
 
-I am not a big fan of that, it seems overcomplicated, hence this clean up.
+The 1/2/3 lane mode was already implemented in the driver, except it was 
+broken.
 
-> But I'm also fine with having only "TXVMVPRMSET0R_HSPOL_LOW
-> BIT(17)", and then the interpretation is that we have a enable/disable
-> style bit.
+> You say they "fix", but they're not quite fixes either. The
+> patch 3 could be considered a fix, but at the moment it just writes the
+> default value to the register, so no point in marking it as a fix to be
+> backported.
 
-I think this would work, yes.
+3/4 does write the DSI lane count into TXSETR , not the default value.
 
-> In the end, I'm fine with any of these, or the current one in the patch.
-> Although the current one does rub me the wrong way just enough for me to
-> comment about it =).
-I can also drop this patch from the series and do full conversion of the 
-driver to TXVMVPRMSET0R_HSPOL_LOW BIT(17) style afterward. This patch is 
-not strictly necessary for the follow up patches.
+> So... I don't have a strong opinion, but I think a single patch that
+> adds support to 1, 2,3 lanes makes most sense.
+
+Lemme send a single patch with Fixes tag then. The combined patch does 
+not look too great though.
