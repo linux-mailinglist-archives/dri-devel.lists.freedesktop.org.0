@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B999DB23D9E
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 03:12:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223A9B23E03
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 03:59:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D339910E187;
-	Wed, 13 Aug 2025 01:11:58 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="lFnuuemf";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 254D510E19A;
+	Wed, 13 Aug 2025 01:59:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C941E10E187;
- Wed, 13 Aug 2025 01:11:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1755047514;
- bh=gAWKRyEL+/Tiia1fu4YyHdUUo9jpnANXpvBktpAOSPs=;
- h=Date:From:To:Cc:Subject:From;
- b=lFnuuemfleU9qAq1ZIo+LK9UL26SCpovfLckVgBFG6SctXdL7fQNLQn5NIztNxob5
- 5WVeBsKKd4C72PKI6oPa8D5g/KOe4jA3/vO+RFADI1Hu45N4haKGQFQmuxDoRKs5CT
- d/EhSv73B6DQgVv482rfoxOpYzzgaSh9085oKMbe8XSAIelrIrQWWghrthkdtkk/CW
- AVKUy47EqT8Ozjp2zruGoDfTf6gZnvXngxFZvXacmXKPHvNtwngKziryQ7SONosLKI
- yYnQ5FGu9ziBqrVdKnSKxpexx4/u36GcQ77zMUQiVAhx/XCbffrjD6P3ToptAo8GYL
- +ByflAu6C49sw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4c1r1h65Qvz4x43;
- Wed, 13 Aug 2025 11:11:52 +1000 (AEST)
-Date: Wed, 13 Aug 2025 11:11:51 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Andrew Morton <akpm@linux-foundation.org>, Simona Vetter
- <simona.vetter@ffwll.ch>
-Cc: Danilo Krummrich <dakr@kernel.org>, Vitaly Wool
- <vitaly.wool@konsulko.se>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: manual merge of the mm-unstable tree with the
- drm-misc-fixes tree
-Message-ID: <20250813111151.6a261ca1@canb.auug.org.au>
+Received: from mail-vip.corpemail.net (mail-vip.corpemail.net
+ [162.243.126.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4F5010E19A
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 01:59:19 +0000 (UTC)
+Received: from Jtjnmail201614.home.langchao.com
+ by ssh248.corpemail.net ((D)) with ASMTP (SSL) id 202508130938445172;
+ Wed, 13 Aug 2025 09:38:44 +0800
+Received: from Jtjnmail201618.home.langchao.com (10.100.2.18) by
+ Jtjnmail201614.home.langchao.com (10.100.2.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.57; Wed, 13 Aug 2025 09:38:44 +0800
+Received: from Jtjnmail201618.home.langchao.com ([fe80::e8a5:9069:4c1e:2304])
+ by Jtjnmail201618.home.langchao.com ([fe80::e8a5:9069:4c1e:2304%10])
+ with mapi id 15.01.2507.057; Wed, 13 Aug 2025 09:38:44 +0800
+From: =?utf-8?B?R2FyeSBDaHUo5qWa5YWJ5bqGKQ==?= <chuguangqing@inspur.com>
+To: "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
+ <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ =?utf-8?B?R2FyeSBDaHUo5qWa5YWJ5bqGKQ==?= <chuguangqing@inspur.com>
+Subject: Re: [PATCH 1/1] gpu: drm: fix compilation errors in drm_vram_helper
+Thread-Topic: [PATCH 1/1] gpu: drm: fix compilation errors in drm_vram_helper
+Thread-Index: AdwL8vDUZJsVsPvWGUG6xf+62139XQ==
+Date: Wed, 13 Aug 2025 01:38:44 +0000
+Message-ID: <5863c61a424545119df8ccb28dc1dbf8@inspur.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-originating-ip: [182.45.253.54]
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature";
+ micalg=SHA1; boundary="----=_NextPart_000_005F_01DC0C36.0DD98A00"
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/THJw_ljfmIy6_QDMWDq2NBc";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+tUid: 2025813093844534e90f04f7dbd728239cde6c5e78c56
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,149 +64,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/THJw_ljfmIy6_QDMWDq2NBc
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+------=_NextPart_000_005F_01DC0C36.0DD98A00
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+Hi Thomas
 
-Today's linux-next merge of the mm-unstable tree got a conflict in:
+This is what I've done in the yhgch_drm driver.
+See the link below:
+https://lore.kernel.org/all/20250808053508.52202-1-chuguangqing@inspur.com/T/#t
 
-  rust/kernel/alloc/allocator.rs
+In fact, through modifications in Patch v2, it allows only the selection of 
+DRM_VRAM_HELPER in the driver.
+See the link below:
+https://lore.kernel.org/all/20250729060728.82402-1-chuguangqing@inspur.com/T/#m3e33f8e155275ea548223c21777c191ecd392159
 
-between commit:
+Best regards
+Chuguangqing
 
-  fde578c86281 ("rust: alloc: replace aligned_size() with Kmalloc::aligned_=
-layout()")
+> From: Thomas Zimmermann <tzimmermann@suse.de>
+> To:chuguangqing <chuguangqing@inspur.com>; Maarten Lankhorst
+> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
+> David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH 1/1] gpu: drm: fix compilation errors in drm_vram_helper
+>
+> Hi
+>
+> Am 29.07.25 um 08:07 schrieb chuguangqing:
+> > We encountered the following errors while compiling drm_vram_helper.ko
+> >
+> > ERROR: modpost: "drm_gem_ttm_print_info"
+> [drivers/gpu/drm/drm_vram_helper.ko] undefined!
+> > ERROR: modpost: "drm_gem_ttm_mmap"
+> [drivers/gpu/drm/drm_vram_helper.ko] undefined!
+> >
+> > The functions drm_gem_ttm_mmap and drm_gem_ttm_print_info are
+> defined in drm_gem_ttm_helper.c. This patch adds drm_gem_ttm_helper.o to
+> DRM_VRAM_HELPER to resolve the undefined symbol errors.
+>
+> You need to select DRM_TTM_HELPER for your driver.
+>
+> Best regards
+> Thomas
+>
+> >
+> > Signed-off-by: chuguangqing <chuguangqing@inspur.com>
+> > ---
+> >   drivers/gpu/drm/Makefile | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile index
+> > 4dafbdc8f86a..abbe32ddf6d0 100644
+> > --- a/drivers/gpu/drm/Makefile
+> > +++ b/drivers/gpu/drm/Makefile
+> > @@ -125,7 +125,7 @@ drm_suballoc_helper-y := drm_suballoc.o
+> >   obj-$(CONFIG_DRM_SUBALLOC_HELPER) += drm_suballoc_helper.o
+> >
+> >   drm_vram_helper-y := drm_gem_vram_helper.o
+> > -obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
+> > +obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
+> > +drm_gem_ttm_helper.o
+> >
+> >   drm_ttm_helper-y := drm_gem_ttm_helper.o
+> >   drm_ttm_helper-$(CONFIG_DRM_FBDEV_EMULATION) +=
+> drm_fbdev_ttm.o
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman HRB
+> 36809 (AG Nuernberg)
+>
 
-from the drm-misc-fixes tree and commit:
 
-  cda097b07bce ("rust: support large alignments in allocations")
+------=_NextPart_000_005F_01DC0C36.0DD98A00
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
 
-from the mm-unstable tree.
+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
+SIb3DQMHMB0GA1UdDgQWBBQRC/IegXfBTn5cZmp9COa0bolxUDAfBgNVHSMEGDAWgBReWQOmtExY
+YJFO9h61pTmmMsE1ajCCAQ8GA1UdHwSCAQYwggECMIH/oIH8oIH5hoG6bGRhcDovLy9DTj1JTlNQ
+VVItQ0EsQ049SlRDQTIwMTIsQ049Q0RQLENOPVB1YmxpYyUyMEtleSUyMFNlcnZpY2VzLENOPVNl
+cnZpY2VzLENOPUNvbmZpZ3VyYXRpb24sREM9aG9tZSxEQz1sYW5nY2hhbyxEQz1jb20/Y2VydGlm
+aWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlP29iamVjdENsYXNzPWNSTERpc3RyaWJ1dGlvblBvaW50
+hjpodHRwOi8vSlRDQTIwMTIuaG9tZS5sYW5nY2hhby5jb20vQ2VydEVucm9sbC9JTlNQVVItQ0Eu
+Y3JsMIIBLAYIKwYBBQUHAQEEggEeMIIBGjCBsQYIKwYBBQUHMAKGgaRsZGFwOi8vL0NOPUlOU1BV
+Ui1DQSxDTj1BSUEsQ049UHVibGljJTIwS2V5JTIwU2VydmljZXMsQ049U2VydmljZXMsQ049Q29u
+ZmlndXJhdGlvbixEQz1ob21lLERDPWxhbmdjaGFvLERDPWNvbT9jQUNlcnRpZmljYXRlP2Jhc2U/
+b2JqZWN0Q2xhc3M9Y2VydGlmaWNhdGlvbkF1dGhvcml0eTBkBggrBgEFBQcwAoZYaHR0cDovL0pU
+Q0EyMDEyLmhvbWUubGFuZ2NoYW8uY29tL0NlcnRFbnJvbGwvSlRDQTIwMTIuaG9tZS5sYW5nY2hh
+by5jb21fSU5TUFVSLUNBKDEpLmNydDApBgNVHSUEIjAgBggrBgEFBQcDAgYIKwYBBQUHAwQGCisG
+AQQBgjcKAwQwNQYJKwYBBAGCNxUKBCgwJjAKBggrBgEFBQcDAjAKBggrBgEFBQcDBDAMBgorBgEE
+AYI3CgMEMEsGA1UdEQREMEKgJwYKKwYBBAGCNxQCA6AZDBdjaHVndWFuZ3FpbmdAaW5zcHVyLmNv
+bYEXY2h1Z3VhbmdxaW5nQGluc3B1ci5jb20wUAYJKwYBBAGCNxkCBEMwQaA/BgorBgEEAYI3GQIB
+oDEEL1MtMS01LTIxLTE2MDY5ODA4NDgtNzA2Njk5ODI2LTE4MDE2NzQ1MzEtNTYwNDA2MA0GCSqG
+SIb3DQEBCwUAA4IBAQBDRhwc9Cfe5n65yxddOeEDQbNITPIjt/Q+Mf0KqzH+d4IcHt7HNA8ZhrOp
+YQJiFgjJY9eOo4+lABBfQTWVK3MrIiBTzf1MB8MRXnLKR1+FhZkDj+NRQdKDV6L1rcO+RsCJrLM2
+1MGkhqFlpXCHxlyPt+T18YSXSD0ceJ5QpQ3A+/N2p+OTxezHL5GqPSJT051H43ikZC5xCpZMWafu
+B0GyyrLlvvzet4Ko76Y4jWDL61EEakexUR9RgPcPhYFHiNf9f3wi3fc1AW0J1smh+3rm9INI+6Xx
+/g6gEHmIeBWZfODTrhP6FGMlMMJlLQoSAZbPBadhUnssKKTWgy5rT4qUMYIDkzCCA48CAQEwcDBZ
+MRMwEQYKCZImiZPyLGQBGRYDY29tMRgwFgYKCZImiZPyLGQBGRYIbGFuZ2NoYW8xFDASBgoJkiaJ
+k/IsZAEZFgRob21lMRIwEAYDVQQDEwlJTlNQVVItQ0ECE34AAkSWdsZNK1EPE5IAAQACRJYwCQYF
+Kw4DAhoFAKCCAfgwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
+ODEzMDEzODQxWjAjBgkqhkiG9w0BCQQxFgQUM9r+5oFD35dAisBthhT+2JHCSxowfwYJKwYBBAGC
+NxAEMXIwcDBZMRMwEQYKCZImiZPyLGQBGRYDY29tMRgwFgYKCZImiZPyLGQBGRYIbGFuZ2NoYW8x
+FDASBgoJkiaJk/IsZAEZFgRob21lMRIwEAYDVQQDEwlJTlNQVVItQ0ECE34AAkSWdsZNK1EPE5IA
+AQACRJYwgYEGCyqGSIb3DQEJEAILMXKgcDBZMRMwEQYKCZImiZPyLGQBGRYDY29tMRgwFgYKCZIm
+iZPyLGQBGRYIbGFuZ2NoYW8xFDASBgoJkiaJk/IsZAEZFgRob21lMRIwEAYDVQQDEwlJTlNQVVIt
+Q0ECE34AAkSWdsZNK1EPE5IAAQACRJYwgZMGCSqGSIb3DQEJDzGBhTCBgjALBglghkgBZQMEASow
+CwYJYIZIAWUDBAEWMAoGCCqGSIb3DQMHMAsGCWCGSAFlAwQBAjAOBggqhkiG9w0DAgICAIAwDQYI
+KoZIhvcNAwICAUAwBwYFKw4DAhowCwYJYIZIAWUDBAIDMAsGCWCGSAFlAwQCAjALBglghkgBZQME
+AgEwDQYJKoZIhvcNAQEBBQAEggEAKfH83KW4U5/TTcAoGnATJ1CnmrFGn4kxlekMGC5t+ezGjXam
++hT5NSIIXckxtdB5V6mGamsLOa7qCXORSQ5ALn095U6R3VhiexCkV1XOU/kenXqATGad3mcbcdNG
+A/m32ECtPA+ZB8gqV1QbHvUqZvKQG6jH7Z4FC6gQ3tWLlliBFxs2xU3+e1JxZs8JQLbWmuJa7clq
+R+LJFv9Xu90ZpLXMPTISCQtNlAUG0BdSfE8Y9Fv6KKXcEDycaCTHOtSX6nwMVWIg5CSvmdh74X6J
+FoW3n1tDN6aeZJQpBuw6qsKlO8LPRUH5yoDXcYm9SmwtI1JMsyRLEpzULH0rM3y9mQAAAAAAAA==
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc rust/kernel/alloc/allocator.rs
-index 2692cf90c948,63f271624428..000000000000
---- a/rust/kernel/alloc/allocator.rs
-+++ b/rust/kernel/alloc/allocator.rs
-@@@ -43,11 -42,28 +42,17 @@@ pub struct Vmalloc
-  /// For more details see [self].
-  pub struct KVmalloc;
- =20
- -/// Returns a proper size to alloc a new object aligned to `new_layout`'s=
- alignment.
- -fn aligned_size(new_layout: Layout) -> usize {
- -    // Customized layouts from `Layout::from_size_align()` can have size =
-< align, so pad first.
- -    let layout =3D new_layout.pad_to_align();
- -
- -    // Note that `layout.size()` (after padding) is guaranteed to be a mu=
-ltiple of `layout.align()`
- -    // which together with the slab guarantees means the `krealloc` will =
-return a properly aligned
- -    // object (see comments in `kmalloc()` for more information).
- -    layout.size()
- -}
- -
-  /// # Invariants
-  ///
-- /// One of the following: `krealloc`, `vrealloc`, `kvrealloc`.
-+ /// One of the following: `krealloc_node_align`, `vrealloc_node_align`, `=
-kvrealloc_node_align`.
-  struct ReallocFunc(
--     unsafe extern "C" fn(*const crate::ffi::c_void, usize, u32) -> *mut c=
-rate::ffi::c_void,
-+     unsafe extern "C" fn(
-+         *const crate::ffi::c_void,
-+         usize,
-+         crate::ffi::c_ulong,
-+         u32,
-+         crate::ffi::c_int,
-+     ) -> *mut crate::ffi::c_void,
-  );
- =20
-  impl ReallocFunc {
-@@@ -76,8 -92,9 +81,9 @@@
-          layout: Layout,
-          old_layout: Layout,
-          flags: Flags,
-+         nid: NumaNode,
-      ) -> Result<NonNull<[u8]>, AllocError> {
- -        let size =3D aligned_size(layout);
- +        let size =3D layout.size();
-          let ptr =3D match ptr {
-              Some(ptr) =3D> {
-                  if old_layout.size() =3D=3D 0 {
-@@@ -134,11 -140,10 +140,12 @@@ unsafe impl Allocator for Kmalloc=20
-          layout: Layout,
-          old_layout: Layout,
-          flags: Flags,
-+         nid: NumaNode,
-      ) -> Result<NonNull<[u8]>, AllocError> {
- +        let layout =3D Kmalloc::aligned_layout(layout);
- +
-          // SAFETY: `ReallocFunc::call` has the same safety requirements a=
-s `Allocator::realloc`.
--         unsafe { ReallocFunc::KREALLOC.call(ptr, layout, old_layout, flag=
-s) }
-+         unsafe { ReallocFunc::KREALLOC.call(ptr, layout, old_layout, flag=
-s, nid) }
-      }
-  }
- =20
-@@@ -177,19 -177,10 +179,14 @@@ unsafe impl Allocator for KVmalloc=20
-          layout: Layout,
-          old_layout: Layout,
-          flags: Flags,
-+         nid: NumaNode,
-      ) -> Result<NonNull<[u8]>, AllocError> {
- +        // `KVmalloc` may use the `Kmalloc` backend, hence we have to enf=
-orce a `Kmalloc`
- +        // compatible layout.
- +        let layout =3D Kmalloc::aligned_layout(layout);
- +
--         // TODO: Support alignments larger than PAGE_SIZE.
--         if layout.align() > bindings::PAGE_SIZE {
--             pr_warn!("KVmalloc does not support alignments larger than PA=
-GE_SIZE yet.\n");
--             return Err(AllocError);
--         }
--=20
-          // SAFETY: If not `None`, `ptr` is guaranteed to point to valid m=
-emory, which was previously
-          // allocated with this `Allocator`.
--         unsafe { ReallocFunc::KVREALLOC.call(ptr, layout, old_layout, fla=
-gs) }
-+         unsafe { ReallocFunc::KVREALLOC.call(ptr, layout, old_layout, fla=
-gs, nid) }
-      }
-  }
-
---Sig_/THJw_ljfmIy6_QDMWDq2NBc
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmib5lcACgkQAVBC80lX
-0Gx5mgf9EZwkGr0JW0BfDMvjOnKHi8qtoXToiSdr0Xlg9SePZp8c6Y7Nr62jhlVz
-LCQyYVUaVNrAbnRKRe1AVwAzmsRZfebSYBjMKdRBM4X+f0F0vHaNsxa6CESieLcA
-JqZDDUkmz5VNvF3t2mG8A4VojPpEhfWX9cDApxGIarnjw7BjjQv8qw7VXawnXjK4
-2vRO0JiR0DujJo+UuK3RXn+S33yBFR4utsb5BdzDrBB6W/8x7xA9mJR/oCO3V+25
-7ypqpfFOXRGmuP7EFn2+7KAIHX86Vpf0TXkPVgMqKhD6l6t2WPNYTj/UkPkZtL1g
-nsgJ9hOa14OstNPhGygEgnchEFJj1w==
-=LP5i
------END PGP SIGNATURE-----
-
---Sig_/THJw_ljfmIy6_QDMWDq2NBc--
+------=_NextPart_000_005F_01DC0C36.0DD98A00--
