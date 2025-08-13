@@ -2,86 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A491EB249F4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 14:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05EBB249FB
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 14:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0497B10E709;
-	Wed, 13 Aug 2025 12:58:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E28510E70A;
+	Wed, 13 Aug 2025 12:58:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VuL3S83B";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="batDg6bZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA1610E707;
- Wed, 13 Aug 2025 12:58:10 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-24286ed4505so12155565ad.3; 
- Wed, 13 Aug 2025 05:58:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755089890; x=1755694690; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yhZ15xnNJ8Bsb5/U+nfBs12IH7lId86EXWsj3N0wAEw=;
- b=VuL3S83B5HrQW2zbCeMRVrEjwL9O1Px0H5M7NuI90DU/r6mY2fsZt6uFns8TQMp6me
- eOPesgrgdxA1sGvMbWYHHvlnjZW6rcQbSk6i+ID/mBoLvAR6zas6NxMoWSBdRBFV0Rx/
- caWGj0TExctWXowwDEap7QHClgf/IIk3uiET4LfrFGGinirbkl8mVX2dhkg+sjht0QTi
- U9kQbDHUtGSL7WyFQyjjO3FXEqOi4DHtJNSLpwVFw04URlpapO9mBPGGFev1Y37+Yd6h
- HQQcxx4rMQSqT9E3Nth1Tbtlq1WKkU2F4DwlnG8x6G7EzpzOrOrMVjNhYDcppzrWldtf
- b4Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755089890; x=1755694690;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yhZ15xnNJ8Bsb5/U+nfBs12IH7lId86EXWsj3N0wAEw=;
- b=LaRzsLWhPNMTxsTPqGtcznbsC8EjcuUEN/lUl71qhE5aC4upr5Rsqo6Zmco0M4TT7p
- r7SDQw3D+TjI9/VY+Hxz/tW6zKm5iUP/AL+9sODgSbfKasdVFfyo/UxCj41D4ziva+41
- tTBBhcXaBKH5BcNmqu73ztlHkS8KDxW/CsqPq0mZo5g8ubO6MYAb/ngYPuwisg6Ig6CJ
- 6vxbc89RVe3vxYHdIVmlttf4FjQqFdORzH8kdoaZPaOG9HgAw/2GeYgI617l/KI6IRDW
- Y8BFvSn2VZ7GPcdrMLej0ztdJbYY+4noxXx0QyhLnuuPoJOJniM57t9ib+ZAkBVyNcQV
- 1BZw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPXz/IdwZ4hiYJHb6fvtVeASFd6QSNl4XdXvlF684G+GUI4Xsdoa2jXMG+K4M3yHXW8fn2yRsM@lists.freedesktop.org,
- AJvYcCWXDWPAB6qTMYLmUyvqhaqah1mXx3Em5N8NI0lZzgHYSEsDo1eozCYIXmWixMXBO7fCCrcmMmPTxyZC@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAmhoj1KDiSGagYxjLflMv3uX2ZRT1DQQDvEbZoS1rcjBZiz5C
- I6vpAlPMwA4xhseOi6DoYtI8zA+2/wBCAdBZNcnogiokHJy7+IJSG4mtJkMENMo2woC6VJ9YI3A
- 7UFTlJb8Pud4+uZcKiZfMYyTIpCjTjRs=
-X-Gm-Gg: ASbGncsvzdxDAE3qXoh2aO94s67PeC6vHWaETNB8J3CBW92rZsn+YNAa67p4/7Gkijp
- 4x8GCuyVFirfAtaoxzCQIogi92OWdg+F6swQ/bq0yDnj57fayya95iU2Y2aRcUHsQyqOUwC7tPV
- oCn1iy/8Y/1/AohtovvA6yrk2KhNSneGqGgxmIfI0py1FyHmweeg1lbfPfj3aH5qJYx5RY2dSmq
- v4GUUhfsTiI66NCKQ==
-X-Google-Smtp-Source: AGHT+IHxKxef7KDAWgS57IBEethaxaid8oH0xBLj3YbbIW+PZKZlovPj9KRyOv5FJHyzY2EunVMbuo8q9l8uWKWf3Bg=
-X-Received: by 2002:a17:902:d487:b0:240:280a:5443 with SMTP id
- d9443c01a7336-2430d0fb768mr20500475ad.3.1755089889907; Wed, 13 Aug 2025
- 05:58:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <Z678TNhCbTk363Tw@kspp>
- <864c7dd5-0deb-4adb-a1cf-c8a809514d7e@embeddedor.com>
- <217b00f5-d03d-4624-9ba9-d838199ef7b9@embeddedor.com>
- <CADnq5_M5Jv4A5CXAKY2Qd-dhrfmecnauRtVY_ghSsut7i=KNww@mail.gmail.com>
- <d07b4edc-6048-4c10-b8ac-dcccd5a932d3@embeddedor.com>
- <d43dac3e-122d-4c16-9c1e-760eac91b8da@embeddedor.com>
-In-Reply-To: <d43dac3e-122d-4c16-9c1e-760eac91b8da@embeddedor.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 13 Aug 2025 08:57:58 -0400
-X-Gm-Features: Ac12FXwFErwxayzzgdklN7bkoaoY4WArV4IyBD4hoWJZTycIfvcToKy2nH1H0nY
-Message-ID: <CADnq5_Mqa2HWWKrAYTAfjdvEQTMUeB1MBnhtRxJZjXLWcz1nmg@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amd/pm: Avoid multiple
- -Wflex-array-member-not-at-end warnings
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Kenneth Feng <kenneth.feng@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01B9A10E70A
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 12:58:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id DB044A57CDA;
+ Wed, 13 Aug 2025 12:58:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D2BC4CEEB;
+ Wed, 13 Aug 2025 12:58:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755089929;
+ bh=RkV4BeWFbdxMx75LQHna92WI+HaPKkvSdiwARMtLxig=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=batDg6bZttXznkMLUheH+SDQRcG2HSzhJ8UNOxc1aKM5VzP9TCS5rjJlclqHJPLTC
+ 8PnkuJAd7ZumcpWcNGTCl72GoleiGzeiZcVEB4tk4GqoTLW4GwfSMwVca7JrEQIJZY
+ RZMDXsA+D3ab7O9N6Ent0wYMiHTTevZ3yQ6DX3X5FTa2HnBYtArOT+s7wto06u0EGt
+ jBkiPzJ72cZIkIW/cEGu0rgEbjANrdw2efoc656292Xr/XBLPiH0j1f8Fz9jPwEBIg
+ E21HTdDGp5Q/FBX+QgyDazLvqUCGAWVbbtlGvu5XLmAewD3Y39TuiQsuNWzEm+3T3q
+ gTVOG5Oa0mqEg==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 13 Aug 2025 14:58:45 +0200
+Message-Id: <DC1BGCY1JPKJ.7BHDGBYZDYMZ@kernel.org>
+Subject: Re: [PATCH v2] drm/sched: Document race condition in drm_sched_fini()
+Cc: "Matthew Brost" <matthew.brost@intel.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "James
+ Flowers" <bold.zone2373@fastmail.com>
+To: "Philipp Stanner" <phasta@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250813085654.102504-2-phasta@kernel.org>
+In-Reply-To: <20250813085654.102504-2-phasta@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,35 +62,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 13, 2025 at 1:12=E2=80=AFAM Gustavo A. R. Silva
-<gustavo@embeddedor.com> wrote:
+On Wed Aug 13, 2025 at 10:56 AM CEST, Philipp Stanner wrote:
+> In drm_sched_fini() all entities are marked as stopped - without taking
+> the appropriate lock, because that would deadlock. That means that
+> drm_sched_fini() and drm_sched_entity_push_job() can race against each
+> other.
 >
-> Hi!
+> This should most likely be fixed by establishing the rule that all
+> entities associated with a scheduler must be torn down first. Then,
+> however, the locking should be removed from drm_sched_fini() alltogether
+> with an appropriate comment.
 >
-> On 22/04/25 23:58, Gustavo A. R. Silva wrote:
-> >
-> >
-> > On 16/04/25 09:04, Alex Deucher wrote:
-> >> Can you resend, I can't seem to find the original emails.
-> >> Additionally, all of the NISLANDS structures are unused in amdgpu, so
-> >> those could be removed.
+> Reported-by: James Flowers <bold.zone2373@fastmail.com>
+> Link: https://lore.kernel.org/dri-devel/20250720235748.2798-1-bold.zone23=
+73@fastmail.com/
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+> Changes in v2:
+>   - Fix typo.
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 >
-> I'm taking a look at this, and it seems that those NISLANDS structs are a=
-ctually
-> needed in amdgpu code. For instance, `struct si_power_info` contains a me=
-mber
-> of the type of `struct ni_power_info`, and this latter struct contains a
-> member of the type of `NISLANDS_SMC_STATETABLE`, thus `NISLANDS_SMC_SWSTA=
-TE`
-> and `NISLANDS_SMC_HW_PERFORMANCE_LEVEL` are needed, and so on.
->
-> So, it seems that all those structs should stay. What do you think?
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 5a550fd76bf0..46119aacb809 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1424,6 +1424,22 @@ void drm_sched_fini(struct drm_gpu_scheduler *sche=
+d)
+>  			 * Prevents reinsertion and marks job_queue as idle,
+>  			 * it will be removed from the rq in drm_sched_entity_fini()
+>  			 * eventually
+> +			 *
+> +			 * FIXME:
+> +			 * This lacks the proper spin_lock(&s_entity->lock) and
+> +			 * is, therefore, a race condition. Most notably, it
+> +			 * can race with drm_sched_entity_push_job(). The lock
+> +			 * cannot be taken here, however, because this would
+> +			 * lead to lock inversion -> deadlock.
+> +			 *
+> +			 * The best solution probably is to enforce the life
+> +			 * time rule of all entities having to be torn down
+> +			 * before their scheduler. Then, however, locking could
+> +			 * be dropped alltogether from this function.
 
-They are not used for programming the hardware.  They were just
-inherited from radeon.  All of the NI SMC stuff can be dropped.
+"Enforce the rule" is correct, since factually it's there, as a dependency =
+in
+the code.
 
-Alex
+Do we know which drivers violate this lifetime rule?
 
->
-> Thanks!
-> -Gustavo
+@Christian: What about amdgpu (for which the below was added to begin with)=
+?
+
+> +			 * For now, this remains a potential race in all
+> +			 * drivers that keep entities alive for longer than
+> +			 * the scheduler.
+>  			 */
+>  			s_entity->stopped =3D true;
+>  		spin_unlock(&rq->lock);
+> --=20
+> 2.49.0
+
