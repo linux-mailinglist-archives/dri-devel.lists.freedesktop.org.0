@@ -2,95 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8919B243D3
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 10:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CFCCB243F1
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 10:16:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 451F610E4DA;
-	Wed, 13 Aug 2025 08:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE10610E0DC;
+	Wed, 13 Aug 2025 08:16:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iSZXyhNg";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="f0nQY9eu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 910BF10E4D7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 08:12:20 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE867346;
- Wed, 13 Aug 2025 10:11:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1755072686;
- bh=IuK7NqjqtaEwmVLDqzxqyl6mbH09praIlwh5iyiem20=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=iSZXyhNgMC6PWxQV6F5V9YpCxy/0Lt0lbF+YbjZImju0RW/FNXhLiV/qexGLIoAg7
- MYeecPOrQDOXndGzymtzKcXjdJbFQpQfirfZMW3yRu8qbfiDZPv+hInaqXebJloV4U
- hg3m+Q6RQNGtdCB+MKp9PuqneOU4wpkNl62JBxH4=
-Message-ID: <6b33d1cf-077d-44db-b671-bedc8198be0c@ideasonboard.com>
-Date: Wed, 13 Aug 2025 11:12:16 +0300
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5414C10E0DC
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 08:16:27 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4c21RW5rXhz9sNt;
+ Wed, 13 Aug 2025 10:16:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1755072983; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xbZQK/zeT/2elRvBh5ml84/ca45KuDEfKO34jKPUQwY=;
+ b=f0nQY9euicKbXrFIPze9gFKpAQcL4k4njInBPePvZ8ioj0umXgdXMFpbjsln5vfqRzD+vf
+ Rb+HBKJVhfJXDpFWhS1NpfmrMPbUAjId93OfkXQuyvlHIbzAjxT2zZ/xBFwupVzFMHMiCS
+ rt8N2gw1iwDaArmx/8oZjiMor3QeBZRxRRw7uYvGQQhll4xA/sfLqIVcfdN5deBFrHSYRt
+ 17+ruOLra1kGOXDAVjuJvoZ74dnO6x95ivdqKKonKvNIVkWPtCPuuuwN+FnuA/qvgo52bZ
+ fJ1bzLxtMGK4EwO5iXL06wmwtxMmYX83wbIncVJg2STLkuezlAkvCgauLWAkqg==
+Message-ID: <76e9e1644fd9c9cb19b7da3626cd0a579ccf3d4a.camel@mailbox.org>
+Subject: Re: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled
+ from IOCTL
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ simona.vetter@ffwll.ch, tvrtko.ursulin@igalia.com, airlied@gmail.com, 
+ dakr@kernel.org, sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org
+Date: Wed, 13 Aug 2025 10:16:19 +0200
+In-Reply-To: <20250812143402.8619-2-christian.koenig@amd.com>
+References: <20250812143402.8619-1-christian.koenig@amd.com>
+ <20250812143402.8619-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/tidss: Remove early fb
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250416-tidss-splash-v1-0-4ff396eb5008@ideasonboard.com>
- <20250416-tidss-splash-v1-2-4ff396eb5008@ideasonboard.com>
- <87h5zkfe8y.fsf@minerva.mail-host-address-is-not-set>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <87h5zkfe8y.fsf@minerva.mail-host-address-is-not-set>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: e19c1b2daa7bf6ca345
+X-MBO-RS-META: 9mzgtzati6httbm5u433tbnc4frkgeys
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,28 +63,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, 2025-08-12 at 16:34 +0200, Christian K=C3=B6nig wrote:
+> From: Christian K=C3=B6nig <ckoenig@able.fritz.box>
 
-On 10/07/2025 14:59, Javier Martinez Canillas wrote:
-> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> writes:
-> 
-> Hello Tomi,
-> 
->> Add a call to drm_aperture_remove_framebuffers() to drop the possible
->> early fb (simplefb).
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
-> 
-> This patch can be picked and is independant of how the other one.
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Is this the correct mail addr? :)
 
-Indeed, I'll apply this one. Thanks!
+>=20
+> We have the re-occurring problem that people try to invent a
+> DMA-fences implementation which signals fences based on an userspace
+> IOCTL.
+>=20
+> This is well known as source of hard to track down crashes and is
+> documented to be an invalid approach. The problem is that it seems
+> to work during initial testing and only long term tests points out
+> why this can never work correctly.
+>=20
+> So give at least a warning when people try to signal a fence from
+> task context and not from interrupts or a work item. This check is
+> certainly not perfect but better than nothing.
+>=20
+> Signed-off-by: Christian K=C3=B6nig <ckoenig@able.fritz.box>
+> ---
+> =C2=A0drivers/dma-buf/dma-fence.c | 59 +++++++++++++++++++++++++++-------=
+---
+> =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0 |=C2=A0 9 ++++--
+> =C2=A02 files changed, 51 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 3f78c56b58dc..2bce620eacac 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -345,33 +345,23 @@ void __dma_fence_might_wait(void)
+> =C2=A0}
+> =C2=A0#endif
+> =C2=A0
+> -
+> =C2=A0/**
+> - * dma_fence_signal_timestamp_locked - signal completion of a fence
+> + * dma_fence_signal_internal - internal signal completion of a fence
+> =C2=A0 * @fence: the fence to signal
+> =C2=A0 * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC t=
+ime domain
+> =C2=A0 *
+> - * Signal completion for software callbacks on a fence, this will unbloc=
+k
+> - * dma_fence_wait() calls and run all the callbacks added with
+> - * dma_fence_add_callback(). Can be called multiple times, but since a f=
+ence
+> - * can only go from the unsignaled to the signaled state and not back, i=
+t will
+> - * only be effective the first time. Set the timestamp provided as the f=
+ence
+> - * signal timestamp.
+> - *
+> - * Unlike dma_fence_signal_timestamp(), this function must be called wit=
+h
+> - * &dma_fence.lock held.
+> + * Internal signal the dma_fence without error checking. Should *NEVER* =
+be used
+> + * by drivers or external code directly.
 
- Tomi
+s/Internal/Internally
 
+> =C2=A0 *
+> =C2=A0 * Returns 0 on success and a negative error value when @fence has =
+been
+> =C2=A0 * signalled already.
+> =C2=A0 */
+> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp)
+> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp=
+)
+> =C2=A0{
+> =C2=A0	struct dma_fence_cb *cur, *tmp;
+> =C2=A0	struct list_head cb_list;
+> =C2=A0
+> =C2=A0	lockdep_assert_held(fence->lock);
+> -
+> =C2=A0	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->flags)))
+> =C2=A0		return -EINVAL;
+> @@ -390,7 +380,46 @@ int dma_fence_signal_timestamp_locked(struct dma_fen=
+ce *fence,
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> -EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
+> +EXPORT_SYMBOL(dma_fence_signal_internal);
+
+If it must only be used internally, can it be kept private, without
+exporting the symbol?
+
+> +
+> +/**
+> + * dma_fence_signal_timestamp_locked - signal completion of a fence
+> + * @fence: the fence to signal
+> + * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time d=
+omain
+> + *
+> + * Signal completion for software callbacks on a fence, this will unbloc=
+k
+> + * dma_fence_wait() calls and run all the callbacks added with
+> + * dma_fence_add_callback(). Can be called multiple times, but since a f=
+ence
+> + * can only go from the unsignaled to the signaled state and not back, i=
+t will
+> + * only be effective the first time. Set the timestamp provided as the f=
+ence
+> + * signal timestamp.
+> + *
+> + * Unlike dma_fence_signal_timestamp(), this function must be called wit=
+h
+> + * &dma_fence.lock held.
+> + *
+> + * Returns 0 on success and a negative error value when @fence has been
+> + * signalled already.
+> + */
+> +int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp)
+> +{
+> +	/*
+> +	 * We have the re-occurring problem that people try to invent a
+> +	 * DMA-fences implementation which signals fences based on an userspace
+> +	 * IOCTL.
+> +	 *
+> +	 * This is well known as source of hard to track down crashes and is
+> +	 * documented to be an invalid approach. The problem is that it seems
+> +	 * to work during initial testing and only long term tests points out
+> +	 * why this can never work correctly.
+> +	 *
+> +	 * So give at least a warning when people try to signal a fence from
+> +	 * task context and not from interrupts or a work item. This check is
+> +	 * certainly not perfect but better than nothing.
+> +	 */
+> +	WARN_ON_ONCE(!in_interrupt() && !current_work());
+> +	return dma_fence_signal_internal(fence, timestamp);
+> +}
+
+So this now is the point to decide what we want: do you want to *allow*
+drivers to do it, or want to *prohibit* it?
+
+If you want to prohibit it, then (additionally) returning an error code
+here would make sense.
+
+
+P.
+
+> =C2=A0
+> =C2=A0/**
+> =C2=A0 * dma_fence_signal_timestamp - signal completion of a fence
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 64639e104110..8dbcd66989b8 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -369,6 +369,7 @@ int dma_fence_signal_locked(struct dma_fence *fence);
+> =C2=A0int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t tim=
+estamp);
+> =C2=A0int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp);
+> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp=
+);
+> =C2=A0signed long dma_fence_default_wait(struct dma_fence *fence,
+> =C2=A0				=C2=A0=C2=A0 bool intr, signed long timeout);
+> =C2=A0int dma_fence_add_callback(struct dma_fence *fence,
+> @@ -422,7 +423,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+> =C2=A0		return true;
+> =C2=A0
+> =C2=A0	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> -		dma_fence_signal_locked(fence);
+> +		dma_fence_signal_internal(fence, ktime_get());
+> =C2=A0		return true;
+> =C2=A0	}
+> =C2=A0
+> @@ -448,11 +449,15 @@ dma_fence_is_signaled_locked(struct dma_fence *fenc=
+e)
+> =C2=A0static inline bool
+> =C2=A0dma_fence_is_signaled(struct dma_fence *fence)
+> =C2=A0{
+> +	unsigned long flags;
+> +
+> =C2=A0	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> =C2=A0		return true;
+> =C2=A0
+> =C2=A0	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> -		dma_fence_signal(fence);
+> +		spin_lock_irqsave(fence->lock, flags);
+> +		dma_fence_signal_internal(fence, ktime_get());
+> +		spin_unlock_irqrestore(fence->lock, flags);
+> =C2=A0		return true;
+> =C2=A0	}
+> =C2=A0
 
