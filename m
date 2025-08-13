@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796F7B24616
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:53:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D34B2461D
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:53:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20BA310E6C4;
-	Wed, 13 Aug 2025 09:53:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C685410E6CC;
+	Wed, 13 Aug 2025 09:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A772410E6C4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8D5510E6C6
  for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 09:53:06 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.163])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4c23Wq1j5rz1R92X;
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4c23Wq2rFXz1R92h;
  Wed, 13 Aug 2025 17:50:15 +0800 (CST)
 Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
- by mail.maildlp.com (Postfix) with ESMTPS id 32FE3180044;
+ by mail.maildlp.com (Postfix) with ESMTPS id 5DCEB140159;
  Wed, 13 Aug 2025 17:53:05 +0800 (CST)
 Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
  dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 13 Aug 2025 17:53:04 +0800
+ 15.2.1544.11; Wed, 13 Aug 2025 17:53:05 +0800
 Received: from localhost.huawei.com (10.169.71.169) by
  kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -35,10 +35,10 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <fengsheng5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 drm-dp 03/11] drm/hisilicon/hibmc: fix irq_request()'s irq
- name variable is local
-Date: Wed, 13 Aug 2025 17:42:30 +0800
-Message-ID: <20250813094238.3722345-4-shiyongbang@huawei.com>
+Subject: [PATCH v4 drm-dp 04/11] drm/hisilicon/hibmc: fix the hibmc loaded
+ failed bug
+Date: Wed, 13 Aug 2025 17:42:31 +0800
+Message-ID: <20250813094238.3722345-5-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20250813094238.3722345-1-shiyongbang@huawei.com>
 References: <20250813094238.3722345-1-shiyongbang@huawei.com>
@@ -65,62 +65,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Baihan Li <libaihan@huawei.com>
 
-The local variable is passed in request_irq (), and there will be use
-after free problem, which will make request_irq failed. Using the global
-irq name instead of it to fix.
+When hibmc loaded failed, the driver use hibmc_unload to free the
+resource, but the mutexes in mode.config are not init, which will
+access an NULL pointer. Just change goto statement to return, because
+hibnc_hw_init() doesn't need to free anything.
 
-Fixes: b11bc1ae4658 ("drm/hisilicon/hibmc: Add MSI irq getting and requesting for HPD")
+Fixes: b3df5e65cc03 ("drm/hibmc: Drop drm_vblank_cleanup")
 Signed-off-by: Baihan Li <libaihan@huawei.com>
 Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 768b97f9e74a..4cdcc34070ee 100644
+index 4cdcc34070ee..ac552c339671 100644
 --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
 +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -32,7 +32,7 @@
+@@ -319,13 +319,13 @@ static int hibmc_load(struct drm_device *dev)
  
- DEFINE_DRM_GEM_FOPS(hibmc_fops);
+ 	ret = hibmc_hw_init(priv);
+ 	if (ret)
+-		goto err;
++		return ret;
  
--static const char *g_irqs_names_map[HIBMC_MAX_VECTORS] = { "vblank", "hpd" };
-+static const char *g_irqs_names_map[HIBMC_MAX_VECTORS] = { "hibmc-vblank", "hibmc-hpd" };
+ 	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
+ 				    pci_resource_len(pdev, 0));
+ 	if (ret) {
+ 		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+-		goto err;
++		return ret;
+ 	}
  
- static irqreturn_t hibmc_interrupt(int irq, void *arg)
- {
-@@ -277,7 +277,6 @@ static void hibmc_unload(struct drm_device *dev)
- static int hibmc_msi_init(struct drm_device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	char name[32] = {0};
- 	int valid_irq_num;
- 	int irq;
- 	int ret;
-@@ -292,9 +291,6 @@ static int hibmc_msi_init(struct drm_device *dev)
- 	valid_irq_num = ret;
- 
- 	for (int i = 0; i < valid_irq_num; i++) {
--		snprintf(name, ARRAY_SIZE(name) - 1, "%s-%s-%s",
--			 dev->driver->name, pci_name(pdev), g_irqs_names_map[i]);
--
- 		irq = pci_irq_vector(pdev, i);
- 
- 		if (i)
-@@ -302,10 +298,10 @@ static int hibmc_msi_init(struct drm_device *dev)
- 			ret = devm_request_threaded_irq(&pdev->dev, irq,
- 							hibmc_dp_interrupt,
- 							hibmc_dp_hpd_isr,
--							IRQF_SHARED, name, dev);
-+							IRQF_SHARED, g_irqs_names_map[i], dev);
- 		else
- 			ret = devm_request_irq(&pdev->dev, irq, hibmc_interrupt,
--					       IRQF_SHARED, name, dev);
-+					       IRQF_SHARED, g_irqs_names_map[i], dev);
- 		if (ret) {
- 			drm_err(dev, "install irq failed: %d\n", ret);
- 			return ret;
+ 	ret = hibmc_kms_init(priv);
 -- 
 2.33.0
 
