@@ -2,126 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E734B25693
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 00:24:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7605B256C9
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 00:40:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E123510E7DC;
-	Wed, 13 Aug 2025 22:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6331710E7D4;
+	Wed, 13 Aug 2025 22:40:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="K9Rmk/HK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AKvhfwLo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8347810E090
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 22:24:33 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DMGmjS027429
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 22:24:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- q7gth1q5wXt2kbolj7dWwKraNNmPxnZCoAelNEomImI=; b=K9Rmk/HKt+36obya
- M7UIbbgfRjSYDDYDWA3EMZ/BOIvwNdm2eFMRYEt3okNQRPA0cpkcWri3lnn2208z
- b57DhfPUBmsM/a71CsC8D0O0AGP4VNVIBDndA7NCLVIzbv38FMJIAfi+yQht2xNc
- VSuQDiWxyoC+8D1qos/8AaQZjYj43EmBU0CdXTGnrPwt10R0byL6SP7n2tRHtW4e
- MsTJ/Yw/hRfq5eyXk2PmPRIR41v/3ydboLU2mE6ABUihzo1eKQ5uTw2fr3QnZz06
- ecyaMqZzanckeqGnfFNvxfTg4ooITRU5EAIh1v9QvRicXdAvrfMU8kKF4NuFc7QW
- G8R6UA==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ffhjs8u4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 22:24:32 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id
- d2e1a72fcca58-76e2e614e73so349399b3a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 15:24:32 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88BE610E7D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 22:40:10 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-3b9e4148134so159186f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 15:40:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755124808; x=1755729608; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LJ0jpiugHLgI/5Z1g0NOk55lz83PPv65RbA/jaeoNyA=;
+ b=AKvhfwLoPN0WE4vzZQXaZC+Zc7QoPrOSjo2KPu3/s6K7W51TaEiU7b7jT/pSmYLRIT
+ hdRyHILVx6SAoVj9kWC3X+ulr5ufCkylRpxEbjzus8HXkB5o7a8+CHXDnMRmogxDsFrO
+ f7JoBai2RoO1Gqu/55UuQB9m/Hs1hlmk8RuRmI7sNEhSw42dfjbZ0GfgWVfQcuFMwtDO
+ 03hz0fPB9y4TgpDs66TMcD2ue612iFdqIb7XIW0suBdgvaKJ3dJbITiwNVw5dHCELqOy
+ pGZRCXs/fwUiM0X3a9QH7n/BjXNGi/cCq6iHqpUMcFpMDEAvy6QZu1SFK/yDMRlOqpbN
+ nOyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755123871; x=1755728671;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=q7gth1q5wXt2kbolj7dWwKraNNmPxnZCoAelNEomImI=;
- b=my32Krs+4DCJ5gZ9nxVP2cRq7lir77u3Cb8L0Ge7NjPpb0cBNyGZOIaQCAy3viefcj
- ZqZo7IbfEJViTenjLCuxcMzmwDAwnjOWu1HEPhCUKLEM3PX3IkdiNsO+icw4q870roG6
- 8506yp1kPHnzRMc1tnlubIciujSXYfRg6BGetLTKhVT3yr35qy1bCCHJEM7y0dy5gSHL
- 2OQXcRwLIbJNh3EIjsJDklLVTY5JxZgJGLUSiqX/dRk/fu+m+viCXRmxUtQ/DQPHUDKm
- AuX9m2jyu5NSXFf41dB3V9SzPST4MwW53ZZpV6A+GX3n/vgQ/pxtcCKVBJCLcFlKYugc
- mKvg==
+ d=1e100.net; s=20230601; t=1755124808; x=1755729608;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LJ0jpiugHLgI/5Z1g0NOk55lz83PPv65RbA/jaeoNyA=;
+ b=s03VlXe2cZWAxANf8+zsZ3gnMJxW8kyEzNJzI8QxJEXREmD7O+3AZXmg1hRF0AbpfY
+ Lul5WSAkEB5lKHV3sMebzHrykuoDj2Z5H4L6DdF7qS8tD5z+35a33RuapF5RXZgrBeLF
+ OyqdvqFEQWihnzbWFA64dChrBWRP9GxgA1NGGSqyCIwTZay7PV0SAoTiuRctHp2hJaaF
+ WLWOxPeQpJ2iD6a5+p6OgoQuuo0KAP0y+LD2xqMUWlyo9NZXtu/naYeL47vZfqiuAD/n
+ Lb08BLkoPY2gTdu2aDcC8JjKOtPgsLJ+48vRFK+z632otwBsiyIhtRz6iCx2cfsur0K4
+ IppA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWk6OyQd/GSCiH5KsUxroYOlbsAgbhczc2BFWiO/4n4ObhOnzoSkBBUfBCCjKl4pULyAbBg867yyLQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzh4udjkd5cbtTG0hiXnHpde0F9YCiXXnQ5JgFSGZAQNh4RtQUz
- KSFAHZbavRVD7KE9jcLv/JT77fWxkYSrI/LGPlQzCBBv+YeQLrZ5/E97IRD5RglUmpXxyiskniY
- UesDd3++NIKUfn3s61wSIG4vr3vvRTZPhIpq18bZ61uPt/6T18QQweDfwEcGiwqV8Bm9juA==
-X-Gm-Gg: ASbGncs2IGrNtkvZY3VcNBhrT04ELKQ0pPTx8SRDGtiYGikzsMk7g0Y1PT+hmiH5S1X
- uOi5DOBA8dj7wOdpPgLjjs9GRWuLN26Ua9BfgjvAZABCRFf1j/gwEtAPmHoZy8EC0os0gQLosrv
- WyUryAtsDuYbH0C1UEuebHuCWglLoFRRHKAR/c4PKI4v/u2AvYrLRl5w6IsDLGEA2Qxd130EBN0
- Ga+yBQh+COJ0fbU7fQNyxFobwXDt5zdevsZCI4fu+Y5zS7l3wrqvciTOweeMvLZM6Bh9U4JcpXk
- +lX92+mY2TgL5M2TXay85duDs6r7qMZtkfhWGzNVWHYT6ZY5+fAJavcUOQr+tapRnLx1bU63ACP
- K8w+LjsGiO892fuRj5CKjcAaeJzvFVn9dUH3jIA==
-X-Received: by 2002:a05:6a00:3e24:b0:76b:f1c9:4ec9 with SMTP id
- d2e1a72fcca58-76e2fc23e59mr1085317b3a.6.1755123870899; 
- Wed, 13 Aug 2025 15:24:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHrd6YX7PSuR1I0NvscqCwDnSHruYilibycjxTioyww4LMs5uJhtMWQp7pwAdosrJAlaZ3ajA==
-X-Received: by 2002:a05:6a00:3e24:b0:76b:f1c9:4ec9 with SMTP id
- d2e1a72fcca58-76e2fc23e59mr1085287b3a.6.1755123870379; 
- Wed, 13 Aug 2025 15:24:30 -0700 (PDT)
-Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au.
- [1.41.240.65]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76bccfd8ebbsm33032684b3a.102.2025.08.13.15.24.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Aug 2025 15:24:29 -0700 (PDT)
-Message-ID: <d81abdef-18fa-496d-8493-e8f336c43800@oss.qualcomm.com>
-Date: Thu, 14 Aug 2025 08:24:21 +1000
+ AJvYcCXXSG8Gsgjvwu1k9TauFrIhE5ssgbVEqmEuYCox06OH1plfravB4t/xIREnPWcA2IImNxiAf5Y2D+g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGbfDanDI9f8QTfriJ7qfCayTiiE+XXqIC8yzUMd16w2x+ZP5b
+ WMidQ6E6QXymFZ2yI7MpczRTcoqAFOZ1d4A+eUKHA5jpsMMPhttPoj/w
+X-Gm-Gg: ASbGncup7hfFATvQxUOfT+3TznPC22lU3pEUuNxoZjXkMnuk0UPqi+nrZt5u3nfIvoG
+ FegQnvQbV8lRzPM/oqAkut70GnOTXurgcRHN/ozKS0xnI3t/fJntqrJSwK6emYKkEQrLuFqCMfl
+ wCZk31+65QVdZl6mqX4KLtahMImhskyT5E3MIDQZVz+HhRliq3jtaHhRIhofA2tGgHPK0UweD26
+ 3GQdlXv67K4RDnadDaAeqrqUsNhtXACqfTAJX7DEoTH7b9XPkXfw3k/61+tX4V1rxAAj5YFcsmu
+ rbCy3FyGqJFf5lY7qC5igN3ZdIgJV+m0eCH3+J8Fd8L0CCBKpTW8xWoSzUpgKUhVYiINn0OJD+T
+ zFgr+s4Z8I2ORwmGfwmc5GW1xvsHBrk06nqk14jc1QN/JWDA5Zex/yDw5N71ZDgOcU+gvj0QhqD
+ WPrrd24xkX
+X-Google-Smtp-Source: AGHT+IHoUgJngPB4year933qgBkg1hDcTIbk0ko+wffW2kEKlhvVPX96a6fiNTTXlbNSCzCTKhjEOA==
+X-Received: by 2002:a05:6000:2311:b0:3a3:7593:818b with SMTP id
+ ffacd0b85a97d-3b9edfb6e7dmr643402f8f.21.1755124808309; 
+ Wed, 13 Aug 2025 15:40:08 -0700 (PDT)
+Received: from ekhafagy-ROG-Zephyrus-M16-GU603HR-GU603HR.. ([156.204.193.65])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45a1a541c3bsm16550085e9.29.2025.08.13.15.40.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Aug 2025 15:40:07 -0700 (PDT)
+From: Eslam Khafagy <eslam.medhat1993@gmail.com>
+To: Manikandan Muralidharan <manikandan.m@microchip.com>,
+ Dharma Balasubiramani <dharma.b@microchip.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: skhan@linuxfoundation.com,
+	eslam.medhat1993@gmail.com
+Subject: [PATCH v4] drm: atmel-hlcdc: replace dev_* print functions with drm_*
+ variants
+Date: Thu, 14 Aug 2025 01:39:52 +0300
+Message-ID: <20250813224000.130292-1-eslam.medhat1993@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 10/11] qcomtee: enable TEE_IOC_SHM_ALLOC ioctl
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Jens Wiklander <jens.wiklander@linaro.org>,
- Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
- op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sumit Garg <sumit.garg@oss.qualcomm.com>
-References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
- <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-10-ce7a1a774803@oss.qualcomm.com>
- <3ec0a8d0-7900-45bd-b0d3-90ee8ca7730c@oss.qualcomm.com>
-Content-Language: en-US
-From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-In-Reply-To: <3ec0a8d0-7900-45bd-b0d3-90ee8ca7730c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA3NCBTYWx0ZWRfX3s3kHIy5qrc3
- xZ+IUeYY1o+sHCiqlFCGIpkHGhKcTfMu1PgKUDn9lSPZ8ZTby3+27BfV/KiS7apiB/y4FEvuG5I
- CMpOg3HHhhKXwfpv2slPcZH4cY5uAmRcpTO6/bz7nc64tjCH3qrslePTIRCbMthAX+ky1flbvl+
- dJCs6LrefiDCK4bhmUB8fmsHA1FClW9D5rUNRnvmu0gNWx3J4r2EujozaVCyrx2AaPeBxh/cGWe
- YdtddEBQwRSdNdz0p7phgVZY75VhoLTpHz78lcjAklzQv/t3I88BItBh9ZnmU6D066TmrqyE9/U
- VjUH6/8nWtqmvEtsuR/7M06hJ26rRJPOKXZc5/4ZOK9WOaba7IARw6RyeaeHioR9Gc84aCJfH6O
- OTGxLDKS
-X-Proofpoint-GUID: s7MOr_Yonvj46Mr3m-65C3SAGUXquNFe
-X-Authority-Analysis: v=2.4 cv=TJFFS0la c=1 sm=1 tr=0 ts=689d10a0 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=COk6AnOGAAAA:8 a=ShNZIzb07UMatG3o2d8A:9 a=QEXdDO2ut3YA:10
- a=IoOABgeZipijB_acs4fv:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: s7MOr_Yonvj46Mr3m-65C3SAGUXquNFe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0
- phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508110074
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,43 +97,222 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Update the Atmel HLCDC code to use DRM print macros drm_*() instead of
+dev_warn() and dev_err(). This change ensures consistency with DRM
+subsystem logging conventions [1].
 
+[1]
+Link: https://docs.kernel.org/gpu/todo.html#convert-logging-to-drm-functions-with-drm-device-parameter
 
-On 8/13/2025 8:00 PM, Konrad Dybcio wrote:
-> On 8/13/25 2:35 AM, Amirreza Zarrabi wrote:
->> Enable userspace to allocate shared memory with QTEE. Since
->> QTEE handles shared memory as object, a wrapper is implemented
->> to represent tee_shm as an object. The shared memory identifier,
->> obtained through TEE_IOC_SHM_ALLOC, is transferred to the driver using
->> TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT.
->>
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
->> Acked-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
->> Tested-by: Harshal Dev <quic_hdev@quicinc.com>
->> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
->> ---
-> 
-> [...]
-> 
->> +/* Mapping information format as expected by QTEE. */
->> +struct qcomtee_mapping_info {
->> +	u64 paddr;
->> +	u64 len;
->> +	u32 perms;
->> +} __packed;
-> 
-> Please use types with explicit endianness, e.g. __le32. I'm assuming
-> TZ will always be little-endian, regardless of the host OS
-> 
+Signed-off-by: Eslam Khafagy <eslam.medhat1993@gmail.com>
+---
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    | 21 ++++++++++---------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  | 14 ++++++-------
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c  |  3 ++-
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c   |  6 +++---
+ 4 files changed, 23 insertions(+), 21 deletions(-)
 
-I'm not entirely sure how this point is relevant. As I understand it,
-the core that populates this struct is the same one that accesses it in TZ.
-Your argument would absolutely make sense if the host and TZ were operating
-on different cores with distinct architectures -- such as one being
-little-endian and the other big-endian, which is not the case.
-
-Regards,
-Amir
-
-> Konrad
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+index 0f7ffb3ced20..e0efc7309b1b 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+@@ -20,6 +20,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
+ 
+@@ -215,32 +216,32 @@ static void atmel_hlcdc_crtc_atomic_disable(struct drm_crtc *c,
+ 		if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 					     !(status & ATMEL_XLCDC_CM),
+ 					     10, 1000))
+-			dev_warn(dev->dev, "Atmel LCDC status register CMSTS timeout\n");
++			drm_warn(dev, "Atmel LCDC status register CMSTS timeout\n");
+ 
+ 		regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_XLCDC_SD);
+ 		if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 					     status & ATMEL_XLCDC_SD,
+ 					     10, 1000))
+-			dev_warn(dev->dev, "Atmel LCDC status register SDSTS timeout\n");
++			drm_warn(dev, "Atmel LCDC status register SDSTS timeout\n");
+ 	}
+ 
+ 	regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_DISP);
+ 	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 				     !(status & ATMEL_HLCDC_DISP),
+ 				    10, 1000))
+-		dev_warn(dev->dev, "Atmel LCDC status register DISPSTS timeout\n");
++		drm_warn(dev, "Atmel LCDC status register DISPSTS timeout\n");
+ 
+ 	regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_SYNC);
+ 	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 				     !(status & ATMEL_HLCDC_SYNC),
+ 				    10, 1000))
+-		dev_warn(dev->dev, "Atmel LCDC status register LCDSTS timeout\n");
++		drm_warn(dev, "Atmel LCDC status register LCDSTS timeout\n");
+ 
+ 	regmap_write(regmap, ATMEL_HLCDC_DIS, ATMEL_HLCDC_PIXEL_CLK);
+ 	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 				     !(status & ATMEL_HLCDC_PIXEL_CLK),
+ 				    10, 1000))
+-		dev_warn(dev->dev, "Atmel LCDC status register CLKSTS timeout\n");
++		drm_warn(dev, "Atmel LCDC status register CLKSTS timeout\n");
+ 
+ 	clk_disable_unprepare(crtc->dc->hlcdc->sys_clk);
+ 	pinctrl_pm_select_sleep_state(dev->dev);
+@@ -269,32 +270,32 @@ static void atmel_hlcdc_crtc_atomic_enable(struct drm_crtc *c,
+ 	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 				     status & ATMEL_HLCDC_PIXEL_CLK,
+ 				     10, 1000))
+-		dev_warn(dev->dev, "Atmel LCDC status register CLKSTS timeout\n");
++		drm_warn(dev, "Atmel LCDC status register CLKSTS timeout\n");
+ 
+ 	regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_SYNC);
+ 	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 				     status & ATMEL_HLCDC_SYNC,
+ 				     10, 1000))
+-		dev_warn(dev->dev, "Atmel LCDC status register LCDSTS timeout\n");
++		drm_warn(dev, "Atmel LCDC status register LCDSTS timeout\n");
+ 
+ 	regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_HLCDC_DISP);
+ 	if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 				     status & ATMEL_HLCDC_DISP,
+ 				     10, 1000))
+-		dev_warn(dev->dev, "Atmel LCDC status register DISPSTS timeout\n");
++		drm_warn(dev, "Atmel LCDC status register DISPSTS timeout\n");
+ 
+ 	if (crtc->dc->desc->is_xlcdc) {
+ 		regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_XLCDC_CM);
+ 		if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 					     status & ATMEL_XLCDC_CM,
+ 					     10, 1000))
+-			dev_warn(dev->dev, "Atmel LCDC status register CMSTS timeout\n");
++			drm_warn(dev, "Atmel LCDC status register CMSTS timeout\n");
+ 
+ 		regmap_write(regmap, ATMEL_HLCDC_EN, ATMEL_XLCDC_SD);
+ 		if (regmap_read_poll_timeout(regmap, ATMEL_HLCDC_SR, status,
+ 					     !(status & ATMEL_XLCDC_SD),
+ 					     10, 1000))
+-			dev_warn(dev->dev, "Atmel LCDC status register SDSTS timeout\n");
++			drm_warn(dev, "Atmel LCDC status register SDSTS timeout\n");
+ 	}
+ 
+ 	pm_runtime_put_sync(dev->dev);
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+index fa8ad94e431a..acb017a2486b 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
+@@ -724,19 +724,19 @@ static int atmel_hlcdc_dc_modeset_init(struct drm_device *dev)
+ 
+ 	ret = atmel_hlcdc_create_outputs(dev);
+ 	if (ret) {
+-		dev_err(dev->dev, "failed to create HLCDC outputs: %d\n", ret);
++		drm_err(dev, "failed to create HLCDC outputs: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+ 	ret = atmel_hlcdc_create_planes(dev);
+ 	if (ret) {
+-		dev_err(dev->dev, "failed to create planes: %d\n", ret);
++		drm_err(dev, "failed to create planes: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+ 	ret = atmel_hlcdc_crtc_create(dev);
+ 	if (ret) {
+-		dev_err(dev->dev, "failed to create crtc\n");
++		drm_err(dev, "failed to create crtc\n");
+ 		return ret;
+ 	}
+ 
+@@ -778,7 +778,7 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+ 
+ 	ret = clk_prepare_enable(dc->hlcdc->periph_clk);
+ 	if (ret) {
+-		dev_err(dev->dev, "failed to enable periph_clk\n");
++		drm_err(dev, "failed to enable periph_clk\n");
+ 		return ret;
+ 	}
+ 
+@@ -786,13 +786,13 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+ 
+ 	ret = drm_vblank_init(dev, 1);
+ 	if (ret < 0) {
+-		dev_err(dev->dev, "failed to initialize vblank\n");
++		drm_err(dev, "failed to initialize vblank\n");
+ 		goto err_periph_clk_disable;
+ 	}
+ 
+ 	ret = atmel_hlcdc_dc_modeset_init(dev);
+ 	if (ret < 0) {
+-		dev_err(dev->dev, "failed to initialize mode setting\n");
++		drm_err(dev, "failed to initialize mode setting\n");
+ 		goto err_periph_clk_disable;
+ 	}
+ 
+@@ -802,7 +802,7 @@ static int atmel_hlcdc_dc_load(struct drm_device *dev)
+ 	ret = atmel_hlcdc_dc_irq_install(dev, dc->hlcdc->irq);
+ 	pm_runtime_put_sync(dev->dev);
+ 	if (ret < 0) {
+-		dev_err(dev->dev, "failed to install IRQ handler\n");
++		drm_err(dev, "failed to install IRQ handler\n");
+ 		goto err_periph_clk_disable;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
+index 50fee6a93964..0b8a86afb096 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
+@@ -15,6 +15,7 @@
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_encoder.h>
+ #include <drm/drm_of.h>
++#include <drm/drm_print.h>
+ #include <drm/drm_simple_kms_helper.h>
+ 
+ #include "atmel_hlcdc_dc.h"
+@@ -92,7 +93,7 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
+ 	output->bus_fmt = atmel_hlcdc_of_bus_fmt(ep);
+ 	of_node_put(ep);
+ 	if (output->bus_fmt < 0) {
+-		dev_err(dev->dev, "endpoint %d: invalid bus width\n", endpoint);
++		drm_err(dev, "endpoint %d: invalid bus width\n", endpoint);
+ 		return -EINVAL;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+index 4a7ba0918eca..817284509b57 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+@@ -1034,7 +1034,7 @@ static void atmel_hlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
+ 	if (isr &
+ 	    (ATMEL_HLCDC_LAYER_OVR_IRQ(0) | ATMEL_HLCDC_LAYER_OVR_IRQ(1) |
+ 	     ATMEL_HLCDC_LAYER_OVR_IRQ(2)))
+-		dev_dbg(plane->base.dev->dev, "overrun on plane %s\n",
++		drm_dbg(plane->base.dev, "overrun on plane %s\n",
+ 			desc->name);
+ }
+ 
+@@ -1051,7 +1051,7 @@ static void atmel_xlcdc_irq_dbg(struct atmel_hlcdc_plane *plane,
+ 	if (isr &
+ 	    (ATMEL_XLCDC_LAYER_OVR_IRQ(0) | ATMEL_XLCDC_LAYER_OVR_IRQ(1) |
+ 	     ATMEL_XLCDC_LAYER_OVR_IRQ(2)))
+-		dev_dbg(plane->base.dev->dev, "overrun on plane %s\n",
++		drm_dbg(plane->base.dev, "overrun on plane %s\n",
+ 			desc->name);
+ }
+ 
+@@ -1140,7 +1140,7 @@ static void atmel_hlcdc_plane_reset(struct drm_plane *p)
+ 	if (state) {
+ 		if (atmel_hlcdc_plane_alloc_dscrs(p, state)) {
+ 			kfree(state);
+-			dev_err(p->dev->dev,
++			drm_err(p->dev,
+ 				"Failed to allocate initial plane state\n");
+ 			return;
+ 		}
+-- 
+2.43.0
 
