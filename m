@@ -2,64 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A888B2549A
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 22:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E0DB254AC
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 22:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24A7910E7BF;
-	Wed, 13 Aug 2025 20:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DABB10E1F3;
+	Wed, 13 Aug 2025 20:47:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="M0EFtFBG";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="R8Sfv67j";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xb/2IQWa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70D1910E0A7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 20:41:17 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57DKfAWI1779738;
- Wed, 13 Aug 2025 15:41:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1755117670;
- bh=vFvShJKmb9MFgjZhNt/VbQnwnmM/LO1s48lIt5T65+U=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=M0EFtFBGuR/l7EG5+al4fp4bCx0a2yAkkkMpy4HRgAKCsOLQQNNtDXafCQTp3sUyw
- PvSJkDzoPzf/DbhWXdS4Mxx6tHFrjRf3+sex4cSVIxGS8FQHQBfkjd7aLBgVoRle1U
- 8fwZNpAQYWfuvrbtCG/ek4BGzmVc5uSSUSZQuKZw=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57DKfA7v644855
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Wed, 13 Aug 2025 15:41:10 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 13
- Aug 2025 15:41:09 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 13 Aug 2025 15:41:09 -0500
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57DKf9TN2853526;
- Wed, 13 Aug 2025 15:41:09 -0500
-From: Nishanth Menon <nm@ti.com>
-To: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, David Airlie
- <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
- <neil.armstrong@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, Robert Nelson <robertcnelson@gmail.com>,
- Jason Kridner <jkridner@beagleboard.org>, <afd@ti.com>, Nishanth Menon
- <nm@ti.com>
-Subject: [PATCH V2 3/3] drm/bridge: it66121: Add it66122 support
-Date: Wed, 13 Aug 2025 15:41:06 -0500
-Message-ID: <20250813204106.580141-4-nm@ti.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20250813204106.580141-1-nm@ti.com>
-References: <20250813204106.580141-1-nm@ti.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A37610E1F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 20:47:31 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4c2L686ZDtz9tRC;
+ Wed, 13 Aug 2025 22:47:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1755118049;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VN9+BGPmCHjfhk0B+8aUNVaC320YFcLZHluWvv4S2W4=;
+ b=R8Sfv67jWWLwVuncQIGJDZKwJ1g6sqDZR9nWfCFcawKFLiOJa3+YXKDRczLnh/XRIla/Dr
+ prz1BtDNy9fVk5joq1lIYnUul4WO4ZCNZ2mi9wtr97xXHDGYc/lTCXg4Ab9TjV2wfiU2T2
+ q1lii5NwpgN41tviP1Jnqa00iOuIDwm7M+OBQBnmHCYVIeqA0Ywnz8MHS/MRCI7qklphzH
+ R0w9g1y6MIVFJPTQpIgXjMjQIv5pXC0U07Pah1hToyrf7l1RQWzmdhPxWbS5IcLjsAE1JX
+ efk8iXTz9V7YzO8czsXfg0qb/EBMqcZWu57R9QqI8odFZcHyjnECql3upvmAiA==
+Message-ID: <b8e7a563-52c5-49c1-9117-2d91c6aa7ade@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1755118047;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VN9+BGPmCHjfhk0B+8aUNVaC320YFcLZHluWvv4S2W4=;
+ b=xb/2IQWagm5yZ1E82I6e9kaH6RdM+STHnX8vyUFgB+RLDXqYAkVGrnMNCbEAfW/e88Ww6M
+ o52yJNockuJTJk+YNLF4fVPY4LPKfcTmSEgJPunuCsKeEMLrlfecPHa/y9C1B/kioWMAms
+ qHt6MNGaq0vn6d/03hjeMV8/LmbHhUKkzo61eD+Xn5Q2EoUHxjdMPhDxCOVFoyneYY07vL
+ O9/xe0+JM4oiiQGdhlEemJnbxqz8BPKby97MGwRgRcSrilZtS9cLZrQq7trMNKz3DW/lgU
+ 4i0czj2Elmu1UH9Kv0X9py4UU95/ETxUlmi7yv+tWur31qF/B8nU6dRyYSC7TQ==
+Date: Wed, 13 Aug 2025 22:47:23 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Subject: Re: [PATCH 1/4] drm/rcar-du: dsi: Convert register bits to BIT() macro
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
+ <20250608142636.54033-2-marek.vasut+renesas@mailbox.org>
+ <bc31d938-847d-46a5-af1e-29de3ac21504@ideasonboard.com>
+ <7dc2c17d-9879-41c8-b90d-19f92a2d9c1e@mailbox.org>
+ <20250812200526.GA12797@pendragon.ideasonboard.com>
+ <CAMuHMdVQxEpxgpedHHZguncCjaapLo9t9+OQN0o8CVe774PQnw@mail.gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <CAMuHMdVQxEpxgpedHHZguncCjaapLo9t9+OQN0o8CVe774PQnw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: 8911e1q5fi4taopfb5p4c5qycp4en6w8
+X-MBO-RS-ID: 400cebdfd8656f0f227
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,56 +89,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IT66122 is a drop in replacement for the IT66122. The part is
-register compatible with what we use of the IT66121. The only relevant
-change being the PID is now 0x0622 vs 0x0612. Add this extra PID so
-probe does not fail during the PID check with these new parts.
+On 8/13/25 8:59 AM, Geert Uytterhoeven wrote:
+> On Tue, 12 Aug 2025 at 22:05, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+>> On Tue, Aug 12, 2025 at 09:32:36PM +0200, Marek Vasut wrote:
+>>> On 8/12/25 3:26 PM, Tomi Valkeinen wrote:
+>>>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>>> index a6b276f1d6ee..b3e57217ae63 100644
+>>>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+>>>
+>>> [...]
+>>>
+>>>>> @@ -51,11 +51,11 @@
+>>>>>
+>>>>>    #define TXVMVPRMSET0R                    0x1d0
+>>>>>    #define TXVMVPRMSET0R_HSPOL_HIG          (0 << 17)
+>>>>> -#define TXVMVPRMSET0R_HSPOL_LOW           (1 << 17)
+>>>>> +#define TXVMVPRMSET0R_HSPOL_LOW           BIT(17)
+>>>>
+>>>> I'm not sure about this (and below). We have two defines for the HSPOL,
+>>>> high and low. If one of them is (x << y), shouldn't the other one be of
+>>>> that style too?
+>>>
+>>> It is inconsistent, but one macro describes bit set to 0 and the other
+>>> bit set to 1 (i.e. the actual bit) which is converted to BIT(n) macro. I
+>>> would be tempted to remove the bits set to 0, that's probably the real
+>>> discussion that should happen here. But that would also be a much bigger
+>>> patch. What do you think ?
+>>
+>> For what it's worth, for single-bit register fields, I usually define a
+>> single macro. I understand it's usually a coding style preference.
+> 
+> An alternative would be to define 3 macros:
+> 
+>      #define TXVMVPRMSET0R_HSPOL        BIT(17)
+>      #define TXVMVPRMSET0R_HSPOL_HIG    0
+>      #define TXVMVPRMSET0R_HSPOL_LOW    1
+> 
+> and use FIELD_PREP(TXVMVPRMSET0R_HSPOL, TXVMVPRMSET0R_HSPOL_{HIG,LOW}).
+> But I agree a single definition is fine for a single-bit register field.
 
-For new platforms that do explicitly use IT66122, they can use the
-appropriate compatible as well.
-
-Signed-off-by: Nishanth Menon <nm@ti.com>
----
-Changes since V1:
-- I think this is a more pragmatic approach with both compatibles
-  functional and the option of being able to split this up at a later
-  point if required in driver.
-
-NOTE: I still retain the checkpatch --strict warning as v1 here.
-
-V1: https://lore.kernel.org/all/20250813190835.344563-3-nm@ti.com/
-
- drivers/gpu/drm/bridge/ite-it66121.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 208e118df0e2..dcbbf7578046 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -1625,6 +1625,7 @@ static const struct it66121_chip_info it66121_chip_info = {
- 	.id = ID_IT66121,
- 	.device_id = {
- 		{.vid = 0x4954, .pid = 0x0612 },
-+		{.vid = 0x4954, .pid = 0x0622 },
- 		{ }
- 	},
- };
-@@ -1639,6 +1640,7 @@ static const struct it66121_chip_info it6610_chip_info = {
- 
- static const struct of_device_id it66121_dt_match[] = {
- 	{ .compatible = "ite,it66121", &it66121_chip_info },
-+	{ .compatible = "ite,it66122", &it66121_chip_info },
- 	{ .compatible = "ite,it6610", &it6610_chip_info },
- 	{ }
- };
-@@ -1646,6 +1648,7 @@ MODULE_DEVICE_TABLE(of, it66121_dt_match);
- 
- static const struct i2c_device_id it66121_id[] = {
- 	{ "it66121", (kernel_ulong_t) &it66121_chip_info },
-+	{ "it66122", (kernel_ulong_t) &it66121_chip_info },
- 	{ "it6610", (kernel_ulong_t) &it6610_chip_info },
- 	{ }
- };
--- 
-2.47.0
-
+I think single bit macro for single register bit is just about the right 
+amount of complexity .
