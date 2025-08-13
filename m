@@ -2,106 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEC2B252A1
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 19:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC049B252E8
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 20:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2541110E025;
-	Wed, 13 Aug 2025 17:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE9D610E7B9;
+	Wed, 13 Aug 2025 18:20:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="AQ2BoV+Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KvpBCAZv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBDDE10E025
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 17:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1755107798; x=1755712598; i=markus.elfring@web.de;
- bh=6A6owKl0e8HWDp37m50TwvyylqFVijy9Z30GbhwAZb8=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=AQ2BoV+YykwYv0odO6vRbs9iYehYqcDoeeO9ZIlEzp/OoF6HV2tm+Y0AqwcGwIV0
- pE+fg1WxuTwzKUzaXcUVt2fJBiJgFOGoIx7tYCd54Pq4ozJLSWb6BYUgdiWBySe5j
- bq9FVHR+t8w1+oYh1jWrkqM0MuGFHnGwLHROxVdbCmGijOdOIDWXWPKa2S8wwZw2A
- 8c2iL+FXAHgqMMzx+KnAgty+EXXNvgLiKNhySbsG73jM8zEpSoeafwIVcynfW8Imh
- 09AQfRaUWkyfymMzp16tC1qpp/1fu1qgG96JmxBWnvJzRYw0TWsKEwRwUPAAg29JM
- ravbKxL9gRSM6g80Vg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.246]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Myv70-1uQa7r44eo-00tYwd; Wed, 13
- Aug 2025 19:56:38 +0200
-Message-ID: <65769f0a-af9f-4e96-93d4-8594e76d8e73@web.de>
-Date: Wed, 13 Aug 2025 19:56:35 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B5A410E795
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 18:20:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 28C7D601F4;
+ Wed, 13 Aug 2025 18:20:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 813F4C4CEEF;
+ Wed, 13 Aug 2025 18:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755109204;
+ bh=fx2taVZ5xjW8Do9nHaFsVYCdHcr+JOY5ZQch8MkH4BI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KvpBCAZv+uSlob2VReCQpMJE9J4RjQU7GmjcREdhPTpNa5BhMj+hdfFj1NLn3S2fv
+ bmcuoq3rY0B9WFIQXbFKsoEyemNG8usUQsNniNzNgiHWXn/b57MxI5QPPurr9Zt6fY
+ yICPkAPBznwoeFHxd3auZvwvH3o9ATcxm9VqSbmUGYF6HIG3FUa5EH2PRxE/BZ+q89
+ GAUOYAsllld0KCzTeeiJoD/IqNYJofcEu76FuSbQ7nt5IRwFKF6FDUUTOAhAOYHakH
+ 6VkWSH97LPe9i4m0zr17O1uNwhU/02xo1Nf4Qe5ZtjxhALaWD2Az8yRUBIPrK0DKsQ
+ sYkDcJedwsCtw==
+Message-ID: <faafcc6f-d5f5-449b-bb43-81bf496bdbb0@kernel.org>
+Date: Wed, 13 Aug 2025 20:19:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Brigham Campbell <me@brighamcampbell.com>,
- dri-devel@lists.freedesktop.org, lkp@intel.com
-Cc: LKML <linux-kernel@vger.kernel.org>, Julia Lawall
- <julia.lawall@inria.fr>, Oded Gabbay <ogabbay@kernel.org>,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-References: <20250813-rocket-free-fix-v1-1-51f00a7a1271@brighamcampbell.com>
-Subject: Re: [PATCH] accel/rocket: Fix usages of kfree() and sizeof()
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250813-rocket-free-fix-v1-1-51f00a7a1271@brighamcampbell.com>
+Subject: Re: [RFC PATCH 2/3] drm/imagination: fix clock control on the J722S
+To: Michael Walle <mwalle@kernel.org>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Stephan Gerhold <stephan.gerhold@linaro.org>,
+ Abel Vesa <abel.vesa@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Stephen Boyd <sboyd@kernel.org>
+References: <20250716134717.4085567-1-mwalle@kernel.org>
+ <20250716134717.4085567-3-mwalle@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250716134717.4085567-3-mwalle@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mRvjSfon63yuuB/07VHtw2H1/p8sOLnrIfgzT18KftjfuzYvOtK
- Qc67yoFo8LZ68Bzyt3TxqpVMSPVDIBxmdmaxrBvU971gzpzMkA81w8uZ0Xt6X32hZSKftBk
- RxhdcuHqYPJ9CF5yAKxobSnpym7N4NtTCn50G5bqlm1skpe8SDZU0mNDAOUGDNzZNY7aT3G
- mK/1afhl9MeIAw0MowcsA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:LjSYrUWW7Ac=;lpTIpvNzL+AYk1dUMlMj5NtlhEP
- 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
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,21 +113,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Replace usages of kfree() with kvfree() for pointers which were
-> allocated using kvmalloc(), as required by the kernel memory management
-> API.
+On 16/07/2025 15:47, Michael Walle wrote:
+> The J722S won't let you set the clock frequency if there is no device
+> using it. Thus, the assigned-clocks property won't work per se.
+> 
+> As a workaround, set the clock again during the probing of the driver.
+> 
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> ---
+>  drivers/gpu/drm/imagination/pvr_device.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
+> index 8b9ba4983c4c..e7a7cc1bdf93 100644
+> --- a/drivers/gpu/drm/imagination/pvr_device.c
+> +++ b/drivers/gpu/drm/imagination/pvr_device.c
+> @@ -16,6 +16,7 @@
+>  
+>  #include <linux/bitfield.h>
+>  #include <linux/clk.h>
+> +#include <linux/clk/clk-conf.h>
+>  #include <linux/compiler_attributes.h>
+>  #include <linux/compiler_types.h>
+>  #include <linux/dma-mapping.h>
+> @@ -641,6 +642,14 @@ pvr_device_init(struct pvr_device *pvr_dev)
+>  	if (err)
+>  		return err;
+>  
+> +	/* Set any 'assigned-clocks' properties again. This is a workaround for
+> +	 * the clock handling on k3 platforms. There, one cannot set the clock
+> +	 * frequency until there is at least one (enabled) user if it.
+> +	 */
+> +	err = of_clk_set_defaults(drm_dev->dev->of_node, true);
+> +	if (err)
+> +		return err;
 
-How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
-=E2=80=9CCc=E2=80=9D) accordingly?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.17-rc1#n145
++Cc Abel, Bjorn, Konrad, Stephan G. and Stephen B.,
 
+Interesting stuff. This touches a bit similar problems we have (and had)
+for Qualcomm Display PHYs, where assigned-clock-parents were called too
+early - before the block (PHY) is being enabled.
 
-> Use sizeof() on the type that a pointer references instead of =E2=80=A6
+The workaround we implemented so far was - last patch hook in:
+https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=80dd5911cbfdc2f6ae904341d41a7a8bd8cc546c
 
-Would it be helpful to offer desirable changes by separate update steps?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.17-rc1#n81
+I know Stephan G. is working on something better, so probably he will Cc
+you once this is ready.
 
-Regards,
-Markus
+Best regards,
+Krzysztof
