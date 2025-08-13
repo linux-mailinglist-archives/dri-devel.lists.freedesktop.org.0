@@ -2,61 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E03B24730
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 12:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEC0B247A9
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 12:46:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C61A210E6E7;
-	Wed, 13 Aug 2025 10:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6203810E0CB;
+	Wed, 13 Aug 2025 10:46:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LpGjggQF";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="uEYqNj/p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADDA10E6E7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 10:30:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755081003; x=1786617003;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=j3Ij/D9ZpkmmRNFHLOaVAdlMNcqm5zU5MngdWRiz1Zc=;
- b=LpGjggQFQWdYev2RsqkinSBuzTWOfFWfwYCHXqv+9AOx3EoKzZRfjJ4f
- AseV150HnAsp4gFbkpGYM5gocY1oUTiX4lcgvvPDYBd838u8gqy/YBkcY
- 2NPTDCgMyxFU6XgzXVQlnZjl/e3gJTvfvfxSXFhwkn6I7rKjKawxMgy9H
- aP/IlWlbrQ3TFm4a/+LTNFeBQV0aQPJIYyHyJKJkFv2b5xfobnDC66mo2
- OtHjXXVaYWbQaxGFEj6f0I+gLLLD48qLmk9vkAzwh8RuShz0gawOxzw5y
- 5L6X9P1XC/eyVKfyzLQXPZ+5nLMnCLqWFTH2rHHizyjU/fPJkJ3rV0D4k g==;
-X-CSE-ConnectionGUID: ZVtQPWUUTEuNhvLmGIuf7A==
-X-CSE-MsgGUID: a4PK36gWQmqW2l9r6p7qRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="44948023"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; d="scan'208";a="44948023"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2025 03:30:03 -0700
-X-CSE-ConnectionGUID: SY7FOdOjQCKVJQ2/h+Ov7Q==
-X-CSE-MsgGUID: wvNwCnpESqiqlOqkT7dtGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; d="scan'208";a="166704386"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.61])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Aug 2025 03:29:59 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sidharth Seela <sidharthseela@gmail.com>, "dakr@redhat.com"
- <dakr@redhat.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: PATCH[1/1] DRM_GPUVM.C : htmldoc error due to multi-line code
- inside comment
-In-Reply-To: <CAJE-K+BcU2vQPXyK9bdWTkRD_jreEcmD6zmnKrwut_7mCNv7bw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CAJE-K+BcU2vQPXyK9bdWTkRD_jreEcmD6zmnKrwut_7mCNv7bw@mail.gmail.com>
-Date: Wed, 13 Aug 2025 13:29:55 +0300
-Message-ID: <854286215216fe5242f3232032625b4fbe62074e@intel.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2061.outbound.protection.outlook.com [40.107.237.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3949710E0CB;
+ Wed, 13 Aug 2025 10:46:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CkdXH6fYMwn2rshPmrI2E5gePsKHGM6A7UvFQuNvoMH5H6bnjVHHniR26ISblZkcLugLzatpYSFruyXlfC2XSW/ejrtHNwTFu/Tv2+aG8eNyq/UGCayFcU1wmQZ1yMBq8uvv+pWQQAvcVE+yIOWrUFoN0cHM4amh5G5wJIZp+TOcugjtHGNsnnSnbPSs/0KM1LczKD5xhV9e27/DEAwXTbk/7Fl3OZn8NulIENQLhWDkWDQfftid2I042fUH6JPp3pf1+UclUDczzB5/uXuSyBtT+g9eC30pCnm/tOxg+cgyMKomAwCNF7Tjo+W8Cvig2BTTEpPolMQ4iukER7uG0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wi6IbE1tsa5FQAI3D5l0OyfcvUdsv0FxooZijSMQZkU=;
+ b=E2k7u4lIU/ynZ7zx2k7DAEUjOrLDHinJUBhWkogDJAXLhcS+9nCCaqhdhtfXXc0uMXzP4kl/SHYDfDxZJJLfaE0xI9zyZaTiu5GAd4QDq78P8e8F4FmoIMPTvdPotUx/8Nb09zFn/RklEXkIujt67/Y9ozryt7HyWhgAFBM+czSvw01dKJ+fSvI7tiMyzhQ7syWL9vFqv3acTrzY3KVgOyghIvbZdQEj7732WRleVkhmqra4fdcur0ED2CX8axGhvEA34pFEMhPzKq4q8/HB4Lec3jWXysZaniDGfmTZ8//qq4U0bBMPV3UcQ62PVArS+SuIsbVzS18Z2UyFOI0jcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=vivo.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wi6IbE1tsa5FQAI3D5l0OyfcvUdsv0FxooZijSMQZkU=;
+ b=uEYqNj/p0jhpFHY4+qdePwmaZig2b7MY0GM0Utf3F4nKFhbRn4diBRxy8NSLJPgbo46P3Js0wjcQoYmbC23juMeXB8pldQOago2WxLuiU51NrOpuYvT5VbujVfwuUg5nr/X29Vz1QAVD3jMauhCo17VPeRjE21UQbByhnilc7WqhSoXhMHQPIj5gfSWKaEpHXKMM+9fIzUIk3WQnQuFz0AqvRpe7dnv+GZ+90sZdV4lcxiIHSIqtXUrhpt+K/HuZaoN82gC+6YqbXvbC1Xh6g/rYSvd/IosFYTeUwtg9GnQjgY49OEGtoAE7O4H27QDqCVG3N9v6qePJmrBRyaeLHg==
+Received: from IA1P220CA0001.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:461::15)
+ by BL1PR12MB5851.namprd12.prod.outlook.com (2603:10b6:208:396::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.16; Wed, 13 Aug
+ 2025 10:46:41 +0000
+Received: from BN3PEPF0000B076.namprd04.prod.outlook.com
+ (2603:10b6:208:461:cafe::3f) by IA1P220CA0001.outlook.office365.com
+ (2603:10b6:208:461::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.18 via Frontend Transport; Wed,
+ 13 Aug 2025 10:46:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BN3PEPF0000B076.mail.protection.outlook.com (10.167.243.121) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9031.11 via Frontend Transport; Wed, 13 Aug 2025 10:46:41 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 13 Aug
+ 2025 03:46:27 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 13 Aug
+ 2025 03:46:26 -0700
+Received: from localhost (10.127.8.9) by mail.nvidia.com (10.129.68.9) with
+ Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Wed, 13 Aug
+ 2025 03:46:24 -0700
+Date: Wed, 13 Aug 2025 13:46:22 +0300
+From: Zhi Wang <zhiw@nvidia.com>
+To: Qianfeng Rong <rongqianfeng@vivo.com>
+CC: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, "David
+ Airlie" <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Dave Airlie
+ <airlied@redhat.com>, Ben Skeggs <bskeggs@nvidia.com>, Timur Tabi
+ <ttabi@nvidia.com>, <dri-devel@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/nouveau/gsp: fix mismatched alloc/free for kvmalloc()
+Message-ID: <20250813134622.000069a0@nvidia.com>
+In-Reply-To: <20250811091910.404659-1-rongqianfeng@vivo.com>
+References: <20250811091910.404659-1-rongqianfeng@vivo.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B076:EE_|BL1PR12MB5851:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8bea0430-6a3e-465e-2752-08ddda56b021
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|82310400026|36860700013|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cNh3Am7leWWOzjFEyBXlwB1N9wjXpW92joBgPR7ScvVQdl2Ppp3/9CercSFk?=
+ =?us-ascii?Q?kk3tyoamqMHdHZL7TVpRxlRBB3nPF1inS2BdKtgSBqnrayGEI6yZTuNZKB8a?=
+ =?us-ascii?Q?AI5bT7OP4dmwk4zfPD7ERLMo1V9HyMFIbdO5yJBdSLmA5QZ26y1ULHciOzL1?=
+ =?us-ascii?Q?VsMy+JqtFCG5eNEg8Hz/gA1PT/tgt6pbyFy6StANuN/uwYw33iJ3wnoEWGKG?=
+ =?us-ascii?Q?zshLOgzh8s0IR9mwZ4OeORFvqrmgktnm5Y55e/t89Ul8FevVh8ddxal8WS8F?=
+ =?us-ascii?Q?4O0iG51RCBJzhcEiWsoZVbAOdxjMm9MY3xuh3Uf2bHsUY+hHHl+/SKhfyLoy?=
+ =?us-ascii?Q?fx78CTmgyf+dQNTw5WfG68B6oOH6OLEreo051njFzgKytq85hoBPuHe4KhGH?=
+ =?us-ascii?Q?PE6JT+cKtZaoeFbdb95f+0Zf5K/IKWf53VJCTwC3cVxTzEO8P+2HWkXx+U6i?=
+ =?us-ascii?Q?IU3xnTxnbvazuFJwkKxkhhCh8/Hr6kJVyIkg91c1lLTBPTV22e33HqJehW8N?=
+ =?us-ascii?Q?TBznfSoOhO/ZGTsdvsOovcHQHYjQ2LnvguPB4OqZsnwbduC3kfyEby/C4IOi?=
+ =?us-ascii?Q?lfB9nReP+mqFQxZqIL7GXh2b3RCyZqYuJwQeY33jfoXIDY0XT5GZS2co4Z48?=
+ =?us-ascii?Q?bIWzrehCvkkwodecNd52x0sb68na3Ld+f8uPHmY1z58Yyjpy3icOTF1HSJKy?=
+ =?us-ascii?Q?3Zq8X2WsR58hHCzriujL4zO44FozDoxkWp6DR5SByCwTFbwcoktg/RszbzhS?=
+ =?us-ascii?Q?2V2HamRnwF/2XLyoka16B4gDrXW5cWTNfHWZzkajDNGGSQAnjQVQZy9Gp9bs?=
+ =?us-ascii?Q?v0+AuDWHkiiCq3x0h1ZDFx6a0AmHN+AvMg2OdUMsuD7KRc9yMFoV8O1mdQUb?=
+ =?us-ascii?Q?7SrPET/gMLtGrDEYaWgn5o77c68Cqc43IdfWeVhCNS1zj10C4qdk3g8+XywE?=
+ =?us-ascii?Q?A+3liQoiPscjU6JVMkdsYO1frCTvVRx6dosLZqUN3lDFIPDsKGDLKvRL5eyO?=
+ =?us-ascii?Q?bUV3aP8zncitJnXDLe04dmHA0/77xj7CTAh/49RadzcNX9DEumIylipAD5U8?=
+ =?us-ascii?Q?DCtQyODv4Scm6YVsheEYpGNRmbjXIkqj+4285S61VoqKnsacVEHiL1IOcpiF?=
+ =?us-ascii?Q?lMhJknsRA96OXFH2rJ2IIxqrwaAPVYogToNRLy73wKv72bVXiTkZHfW988jW?=
+ =?us-ascii?Q?UTqYQEM0GS/RycVuUXex8G8VA3A/u1XUa7WnTYtToSLpYyCEOo0FzU29gQWJ?=
+ =?us-ascii?Q?ZquEis+HpGNZj8W+0RyLmGzQ8SpSBIcfJQlZjPG+s+lPdLfB5Vb/NwW756j5?=
+ =?us-ascii?Q?3YlKmcqkTm9llMduxHbYze960GtM+LG//XrWiqkhwuLKcq4GC2A0xhtiRZml?=
+ =?us-ascii?Q?xtgIE0aDMJmfPxhJ2sizTOK6oJfHdnFPQkH1UTa4OjGVIPO7bn3KuXHm5uhz?=
+ =?us-ascii?Q?5oxs3lCwEqUWcyffLUWX+9NfeDtybdRKe5Ds3PDGhY/eCUxWVpiFuSv/y0/s?=
+ =?us-ascii?Q?N8Bg42TqKwhzVoRqjCtORbW+9Ijnox7CVGNF?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 10:46:41.1533 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bea0430-6a3e-465e-2752-08ddda56b021
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B076.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5851
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,100 +144,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Aug 2025, Sidharth Seela <sidharthseela@gmail.com> wrote:
-> Dear Maintainers,
-> This is my first patch, please bear with me.
-> I request you to suggest if it can be better.
-> Your time is appreciated.
+On Mon, 11 Aug 2025 17:19:00 +0800
+Qianfeng Rong <rongqianfeng@vivo.com> wrote:
 
-A simpler fix is already on the list [1].
+Acked-by: Zhi Wang <zhiw@nvidia.com>
 
-BR,
-Jani.
+Please add a Fixes: tag.
 
-
-[1] https://lore.kernel.org/r/20250810150706.305040-1-rampxxxx@gmail.com
-
-> ---------------------------------------------------------------------------
-> commit 4ed9c00376c616cdbfb978b5fd76911cccd63b26
-> Author:     Sidharth Seela <sid@y740.local>
-> AuthorDate: Tue Aug 12 15:56:03 2025 +0530
-> Commit:     Sidharth Seela <sid@y740.local>
-> CommitDate: Tue Aug 12 15:56:03 2025 +0530
->
->     cleaned up errors stemming for multiline text
+> Replace kfree() with kvfree() for memory allocated by kvmalloc().
+> 
+> Compile-tested only.
+> 
+> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
 > ---
->  drivers/gpu/drm/drm_gpuvm.c | 50 ++++++++++++++++++-------------------
->  1 file changed, 25 insertions(+), 25 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index bbc7fecb6f4a..cf49dbfcec91 100644
-> --- a/drivers/gpu/drm/drm_gpuvm.c
-> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -2432,31 +2432,31 @@ static const struct drm_gpuvm_ops lock_ops = {
->   *
->   * The expected usage is:
->   *
-> - *    vm_bind {
-> - *        struct drm_exec exec;
-> - *
-> - *        // IGNORE_DUPLICATES is required, INTERRUPTIBLE_WAIT is recommended:
-> - *        drm_exec_init(&exec, IGNORE_DUPLICATES | INTERRUPTIBLE_WAIT, 0);
-> - *
-> - *        drm_exec_until_all_locked (&exec) {
-> - *            for_each_vm_bind_operation {
-> - *                switch (op->op) {
-> - *                case DRIVER_OP_UNMAP:
-> - *                    ret = drm_gpuvm_sm_unmap_exec_lock(gpuvm,
-> &exec, op->addr, op->range);
-> - *                    break;
-> - *                case DRIVER_OP_MAP:
-> - *                    ret = drm_gpuvm_sm_map_exec_lock(gpuvm, &exec,
-> num_fences,
-> - *                                                     op->addr, op->range,
-> - *                                                     obj, op->obj_offset);
-> - *                    break;
-> - *                }
-> - *
-> - *                drm_exec_retry_on_contention(&exec);
-> - *                if (ret)
-> - *                    return ret;
-> - *            }
-> - *        }
-> - *    }
-> + * *   vm_bind {
-> + * *       struct drm_exec exec;
-> + * *
-> + * *       // IGNORE_DUPLICATES is required, INTERRUPTIBLE_WAIT is recommended:
-> + * *       drm_exec_init(&exec, IGNORE_DUPLICATES | INTERRUPTIBLE_WAIT, 0);
-> + * *
-> + * *       drm_exec_until_all_locked (&exec) {
-> + * *           for_each_vm_bind_operation {
-> + * *               switch (op->op) {
-> + * *               case DRIVER_OP_UNMAP:
-> + * *                   ret = drm_gpuvm_sm_unmap_exec_lock(gpuvm,
-> &exec, op->addr, op->range);
-> + * *                   break;
-> + * *               case DRIVER_OP_MAP:
-> + * *                   ret = drm_gpuvm_sm_map_exec_lock(gpuvm, &exec,
-> num_fences,
-> + * *                                                    op->addr, op->range,
-> + * *                                                    obj, op->obj_offset);
-> + * *                   break;
-> + * *               }
-> + * *
-> + * *               drm_exec_retry_on_contention(&exec);
-> + * *               if (ret)
-> + * *                   return ret;
-> + * *           }
-> + * *       }
-> + * *   }
->   *
->   * This enables all locking to be performed before the driver begins modifying
->   * the VM.  This is safe to do in the case of overlapping DRIVER_VM_BIND_OPs,
-> --
-> 2.39.5
-> signed-off-by:Sidharth Seela<sidharthseela@gmail.com>
+>  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c
+> index 9d06ff722fea..0dc4782df8c0 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c
+> @@ -325,7 +325,7 @@ r535_gsp_msgq_recv(struct nvkm_gsp *gsp, u32 gsp_rpc_len, int *retries)
+>  
+>  		rpc = r535_gsp_msgq_peek(gsp, sizeof(*rpc), info.retries);
+>  		if (IS_ERR_OR_NULL(rpc)) {
+> -			kfree(buf);
+> +			kvfree(buf);
+>  			return rpc;
+>  		}
+>  
+> @@ -334,7 +334,7 @@ r535_gsp_msgq_recv(struct nvkm_gsp *gsp, u32 gsp_rpc_len, int *retries)
+>  
+>  		rpc = r535_gsp_msgq_recv_one_elem(gsp, &info);
+>  		if (IS_ERR_OR_NULL(rpc)) {
+> -			kfree(buf);
+> +			kvfree(buf);
+>  			return rpc;
+>  		}
+>  
 
--- 
-Jani Nikula, Intel
