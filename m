@@ -2,141 +2,198 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C87B245C2
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E469B24605
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:51:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2F8710E1D0;
-	Wed, 13 Aug 2025 09:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58FAE10E6C0;
+	Wed, 13 Aug 2025 09:51:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="c3cWyFWk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jyfjO0mm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYPPR03CU001.outbound.protection.outlook.com
- (mail-japaneastazon11012035.outbound.protection.outlook.com [52.101.126.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D24710E1D0;
- Wed, 13 Aug 2025 09:43:41 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD7C10E6C0;
+ Wed, 13 Aug 2025 09:51:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755078681; x=1786614681;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:mime-version;
+ bh=JmHlTf60jkbSSX0vREi2B54/Q0k/K0D8p8LrE3wqQI4=;
+ b=jyfjO0mmj03AcNbwf8Jwz0WGI8+Rv0VATZshyH2ftw1tqq0rbzlmmcaJ
+ 9VJqPwZUkgrX7Hhf6aD0B5IOxq5JY539+1O6oNvhrz1VLaANMv776WTQG
+ djbfpMmj1ItHygdSMtgyZqA7QQQnOuKLZSVeh9YsMV+ZNS5PP+OsqJW4M
+ i4o2qZSiLpHtDjDHd2g/i2gBlAL2PXhF+C+Vj4wIfLGbTzZJKnH8n3BgI
+ +Ln73/g8mXO55I/hPgfZvJVlZ4KxlT3ZGr/AWQFerjIfroqHR9HK2Xtjg
+ QbPQv+SiH/12/5R0CrB7j70BgHHDRX1F1Q/c1qKRlMrOCMldv9BcjjEJo A==;
+X-CSE-ConnectionGUID: kzsnHatTRY6dhDoIYM+W7w==
+X-CSE-MsgGUID: ovkBjjwnRV6do3otZaboBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57483894"
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; d="scan'208,217";a="57483894"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2025 02:51:20 -0700
+X-CSE-ConnectionGUID: LfZkgObGSL+78C6MQHrGdg==
+X-CSE-MsgGUID: KMUfoOsxRd2ksFN3ABXwIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+ d="scan'208,217";a="165615095"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2025 02:51:21 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Wed, 13 Aug 2025 02:51:20 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Wed, 13 Aug 2025 02:51:20 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.89)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Wed, 13 Aug 2025 02:51:19 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QUu8jDj4PEEV3WaS8KN8k9c9HbPOYJn91MTHG+a7QORiqz9/rksbmatohhSm5OulEedvXXEmT1od3RrMaMNqeCL4j8UPykPW36TEb8Yg4P2ZkwH1UD+IU8od9Yhl+1wlvtcqeiGeEB5GB/zyDFRIaU4RKzn8hCZNAO80Gm+8W5uV2OkMxq8KYMx36AqToFEDJddYfp7UM5mqevCZjgJd9ztlnh/pTJd+QGNQTwVlIWZMXD/5gw/2r7DEv9Apib+wGs72WwSYvs9T8mlH1X2f7QY4CKGiRmvHWvoU3fIZxkaCs1M1cYP1Bp6oxkKYkvuv1RmRea2OmxjNq20xMRB33w==
+ b=S/YJOqbyNcwOpplR9LrTzJEx8eE0xPLnLrdbLql37kJFViKllVbsUxdgbfrtDkixA7/+zEky41AWd54ULXIgnYoB0NuO6Uhi2EcUVnv9R7kVTOF93gt+CU5sI+DAhSa2kFFidnrQ6f0wDCpfocONLoEy91PTls+dErY1yAfA2JX4ausHoaUmHcp2uaE2Q9JHMC5enMeM8gc6OsqZ24QUJRe1ihcU3JqfCf5cxRBzpVw31azQFmrYOh/NdjzockW2jFnZ8dkuJf1hx5KEKdnznF4EJDB15f87w6wCFanlOZOWqXrp4xWXEU7s7mq/qjs4FxmKkqAMcZuBvXcdM+QdiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lOz+3Ln3dJGVBRCDNNXRuy46iTmND03+zmIRErzeuyw=;
- b=YtDKoLeX6/woWB90D32ICr7M2lCNy7UHr2koiw4WppxtVaqllqvBe4jM18lL8c/OV2RVkhLtONDpiSTS7JphlPl4I7IQ4sV0bM1CxcWYsFtRW9NSp1E4hYA2wWbytlac9YxBRBHBWrmMS7pIBOQQHX6PSsN6ka/BUkF9bI0cvlmFckAdMypQzXi8PKJ8djTfOmccJPEvJSlYGbqnkpyw+11+TOuvbCYu7ZUPtITWXHxwJjR+PelQHxRPxRRDYY01xtC9NdBzKWQs5UHvTD8ULiWgDKJ62ICLOl+Ff3hReSXSkvv4Wy5Z3PWWs5kbNH0TORqcZgoooyd31J60PNCouw==
+ bh=LfWwNqaq96AQvtO8SPXLWfaGRBnlW1WZ9JinMR5cTEw=;
+ b=pqxNX7G41ofmIw6v0ME/Tkpu1U6n4U5hXQZYFQlpShO0yaNFZ0I/CuNpS46IfhoWQJNAOypKxFr/tl71n6OmsH8HE5O+gaVAhW2Gfdgxcm7Z0o5719OqOboMnf6ueoE+spIJNrwi00chmaZmEiukVGRaNcBEL2eMP2tGpfeubVEcs2b8P9741Widc40/VlkoGwMAmZl18+ZdVFDs5+bSzQsd003iZCZlwl1GCOe5Nt/OjA3vZ0edEJmu7h6+NLOJJHvZdGFAS8O+z3Ojma83xHPh2pq4RDMxzjiTp6kW+SWIOJYmObRNXoHin3+k3yqSgQJTRiMBTUjPT6FcWpGz1Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lOz+3Ln3dJGVBRCDNNXRuy46iTmND03+zmIRErzeuyw=;
- b=c3cWyFWkIADV66TjGkhDh1/6ROpolGnACEVhnrwluV1RVHGiGO8OYtwas5TdprK4FKe8By0XuzGE4uIfS0fpyxNuEkrxF/rdCIqFNaOtkSbM2rIE9bu5+6jMnluezteKMRDQIgr2d9Kf3kWXPOuhEko45Djua61U4KM21XT3FiEIgmClmRGSt6+NDf8jAaHqWoY3bo2gLGVc65hAGPmfx5JEB18tOaenzGZrXkNTROP2sMMrQizvpwdwPQCGQiC9I0MGlpIO2NawklphQ2gqyVNotak5ycRVgtTxS9pCnh9WN+BAjJkd1STTqN9NxJzgCiVJR++cLJ6zlxcqcH22lQ==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
- by KU2PPF4166F2409.apcprd06.prod.outlook.com (2603:1096:d18::491)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
+ by CH3PR11MB8095.namprd11.prod.outlook.com (2603:10b6:610:154::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.18; Wed, 13 Aug
- 2025 09:43:37 +0000
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::5c0a:2748:6a72:99b6]) by SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::5c0a:2748:6a72:99b6%5]) with mapi id 15.20.9031.014; Wed, 13 Aug 2025
- 09:43:37 +0000
-From: Liao Yuanhong <liaoyuanhong@vivo.com>
-To: Austin Zheng <austin.zheng@amd.com>, Jun Lei <jun.lei@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- amd-gfx@lists.freedesktop.org (open list:AMD DISPLAY CORE),
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list)
-Cc: Liao Yuanhong <liaoyuanhong@vivo.com>
-Subject: [PATCH] drm/amd/display: Remove redundant semicolons
-Date: Wed, 13 Aug 2025 17:43:06 +0800
-Message-Id: <20250813094308.554035-1-liaoyuanhong@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0039.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::16) To SEZPR06MB5576.apcprd06.prod.outlook.com
- (2603:1096:101:c9::14)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.15; Wed, 13 Aug
+ 2025 09:51:18 +0000
+Received: from BN9PR11MB5530.namprd11.prod.outlook.com
+ ([fe80::13bd:eb49:2046:32a9]) by BN9PR11MB5530.namprd11.prod.outlook.com
+ ([fe80::13bd:eb49:2046:32a9%7]) with mapi id 15.20.9031.012; Wed, 13 Aug 2025
+ 09:51:18 +0000
+Content-Type: multipart/alternative;
+ boundary="------------g1HiTFqHyYpvKQcMbeZLh5fT"
+Message-ID: <7aa74159-a9a8-4ca7-9635-a806c57bf7f4@intel.com>
+Date: Wed, 13 Aug 2025 15:21:09 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/9] mei: late_bind: add late binding component driver
+To: "Usyskin, Alexander" <alexander.usyskin@intel.com>, Greg KH
+ <gregkh@linuxfoundation.org>
+CC: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "intel-xe@lists.freedesktop.org"
+ <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "Ceraolo Spurio, Daniele"
+ <daniele.ceraolospurio@intel.com>, "Gupta, Anshuman"
+ <anshuman.gupta@intel.com>
+References: <20250710150831.3018674-11-rodrigo.vivi@intel.com>
+ <20250710150831.3018674-13-rodrigo.vivi@intel.com>
+ <2025071611-decode-hastiness-df63@gregkh>
+ <CY5PR11MB63666310C54B48FB3624D9E0ED56A@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <2025071603-guide-definite-70e3@gregkh>
+ <CY5PR11MB636646E936C800D689BFBEEBED56A@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <2025071619-sterile-skiing-e64b@gregkh>
+ <CY5PR11MB6366AF03A73910CED71C7E37ED5BA@CY5PR11MB6366.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: "Nilawar, Badal" <badal.nilawar@intel.com>
+In-Reply-To: <CY5PR11MB6366AF03A73910CED71C7E37ED5BA@CY5PR11MB6366.namprd11.prod.outlook.com>
+X-ClientProxiedBy: MA0PR01CA0121.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:11d::11) To BN9PR11MB5530.namprd11.prod.outlook.com
+ (2603:10b6:408:103::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|KU2PPF4166F2409:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1c771fe-4ad9-47e2-7a49-08ddda4de086
+X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|CH3PR11MB8095:EE_
+X-MS-Office365-Filtering-Correlation-Id: 61de01f0-47b5-4c7c-35e1-08ddda4ef333
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|52116014|1800799024|38350700014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?J4njlZD9oXCJ/bP8RroMO7PkLOeK5S5GT+UHThlNTf3HMBo8+4oarN6nfOFz?=
- =?us-ascii?Q?XFhKXPGORHPooY9oYGBfOkfb86C7ngaKL/RGI1m7QAUIs/v7wqgpk2U6k/xB?=
- =?us-ascii?Q?rLayvXofVCv+oKJRn8/CirwKYXcEZB9e+w9NLnaI9UQ48c6jIvuSrS7UXSeX?=
- =?us-ascii?Q?E+lsQJs3HnvG+ShfK3hoovrfbF9hp+SLfNTBFVw/9UjXMPLvRZl9aWZeuxYl?=
- =?us-ascii?Q?UqGKVevH9fn+CMixmoZG8iKroSJ3ll8AgQiq4yaUI5vOJut1zyHKNcQpBomQ?=
- =?us-ascii?Q?6cpiaV5vA8ekMhrTKJc53obRRjmonp4hrw7VoFWX1l0pmjTHF2oz3Kcx64t4?=
- =?us-ascii?Q?bCdE2X/E/WmaUA0DWApwcJBSm8NIimZj/C0YZT1LDdkRBIHWlGbZfs5ZkPyi?=
- =?us-ascii?Q?sxgAsdIGxujeCb6xnFpSRReuu9RH5c9Q3l1AKHyj0tmWgqigH1FOthp8NXwL?=
- =?us-ascii?Q?ADOrDG77VejuCmXVyk7PxibWSbfVI7bRa9P3BlsIO8lIZgo9U5I3byNaeW+O?=
- =?us-ascii?Q?WAnbrOOJaT+jikgCBlpbl4eRw3DLRIV36GrdCg8l+UEG7R/lZGV1J5lQoXNO?=
- =?us-ascii?Q?GW/j+13NLqHj96XcxAACXYZOz4ZbPnMl6Vva5ePYdJuidwybA3KE9dqdSjMP?=
- =?us-ascii?Q?iCma9UlrSr3f9nGFJvQqjdO0ZU56UxkDLcn+Y2S5CK0XmOU/4KZl8RWBKnhS?=
- =?us-ascii?Q?jEdfRJFZlDiswQSf5VcC5NPSJWAUIaFPdmTAxiSgivOh4fguGxCnlUemqb5r?=
- =?us-ascii?Q?sdUMCHtYHYVxF9eHtx1/dZzrRjOGT3+EOrCbnjB50d6+DNxdHTMSgrTSwOv0?=
- =?us-ascii?Q?aHIG1/IAH1DuDxAya0Ccym89vhKHxRy7e29wcADTpjYT3yFxNU8Guso+GyBD?=
- =?us-ascii?Q?Ss44o3tBmKllp9H8/Ep4d1RFTh1X4X/h9j5qWH/8fsPlTixJ49cezTaO5TXR?=
- =?us-ascii?Q?TzoQsEEfEEAQMjmqa/hOdSR6i1bJxp/2DTAIYsy4PfzZEUMH645dPJmBRBgE?=
- =?us-ascii?Q?6BxIZ4RzNFdAvA96X2xxK1a4apvePA+7ii7zItZvKDhA/Jh/U4MrYzijj0tq?=
- =?us-ascii?Q?8SCF0xDIuo6Qv5T2c/TA/hK/9KOmu9x6X9BCg2d5bHfrbbxdzNy/Yo3BmhdA?=
- =?us-ascii?Q?52KuYGiTYHDmlaGfmQjdVpNVrT2Gy88Z+gPqP4SGxpiZlSje5xiYgdiysTgr?=
- =?us-ascii?Q?ty8fo/cY4qjXGDq/kqzwjoGkni47qByr5RhvC4PN9uGnQ+1+ThkfiOz56qSv?=
- =?us-ascii?Q?JgG59nHOXWsyTZpdJCYZtwOM3DiD4cI2rd0SP6Bri8Y10eiRjBQglg8sMzTy?=
- =?us-ascii?Q?crkUmK7auNC+OqPXsR5hJL8iPEcGSU7hQU9PHIynJxR0DDurf7zowqLCQQZD?=
- =?us-ascii?Q?WOKfdjgbDSShnVNj7vVI5AR2E4ebyYmIvg4UGl0O2gOnucPcqOWP7J3GH3A+?=
- =?us-ascii?Q?LfEDwy7X+boSe5XHYC5E9aEv/dSghTxsEEQoaZPx3Du1/B7GxdlKSitCi5nB?=
- =?us-ascii?Q?Gznd1OHzNNP7IRU=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|8096899003;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YnpIcVpxYjl6LzE0TFBENlM4L243Qy9KWXZxV2NjdnlSSjltNlVCdEdZdWVa?=
+ =?utf-8?B?enkwUUlaK29HM3dOZFVlQWxWazRZdVI1UndVMVNjRmNkU3daSk5aZUg4MGxo?=
+ =?utf-8?B?Ly9rSlVubFJacndDNE9PZEhUUEt4TTQ0bk91OVQyekdBcUVDSGx4eUExREFi?=
+ =?utf-8?B?MXJwenhnWXUxRFBvUXAzV0xEZG1RL2NqYWpvWTdGcXRWU1p3bWtObVpETWJu?=
+ =?utf-8?B?eWNST2tzbGhOREFOWEMwczZYZzMvR2I3aXVSUEtsclp1RUdQcmRyMUg5c081?=
+ =?utf-8?B?MVlRcmduNHJseDdZN1BQMkg1TGhTVUd2dHQ3RHNXLzhWOUx5R29kY205QnEw?=
+ =?utf-8?B?RFJnazdvN0dPR0w2UjZkeUtFNE5mbm4zUU43WUxIMkFkUEwwSW5sdnp1cFhC?=
+ =?utf-8?B?RFpuZnBXZW5vTExtWk1FNW42Qlc2bE5Ma1dsM1J2UTByVzg4Qi94eU1iSVpR?=
+ =?utf-8?B?N09hZFRDemtqemo2QzYwNUV0YjlsQTVyWUVKbVVlRk1mR1hmMlhkaXA5c2Yx?=
+ =?utf-8?B?d3M1dnEyL2c3T0c0MmF0UXZlS1FjR2JENGZtWGZsSjZFZWJSQWZ4NXdPbXBy?=
+ =?utf-8?B?RDlDcmJ3QnJvUGw5NHdBOGwvRnRZVXBHUytvQ0VvS05mNll5Z3B1MkRNQlpB?=
+ =?utf-8?B?a3BhTXlmeWpWazVDeUJKVUVqSmJlaWFrRGVOSGE1cFFkbEZBVmRLT200SzNw?=
+ =?utf-8?B?bHUvRW9rcGVuaHU2YVZVbEx5Rlo5OHJXcjVxWmI2N1piTjVHdmF1QjdyMEs2?=
+ =?utf-8?B?dlI2Rld4KzJZdFFpZkNDM25UbVVGM0xIV28vdDFmeHhnZmZpU1JLUnFIeFVr?=
+ =?utf-8?B?VkgxK2VCUllHV0V2QW5kUlZtNEJ0dU45N2xoWHZDRm5sYjJST24rVExnZ0xz?=
+ =?utf-8?B?OWdjUndMQVZrQjc4eXVLcWt6NWJSbGp2N3cwbjQ0RUowdVRUOXd2Ty9nbGRP?=
+ =?utf-8?B?WlpWRVVvaW9tS3IvVUxrVFVSR05pbVI4UjV5SmJ5MmxPR3ltTWtQeVh0THpU?=
+ =?utf-8?B?MlFiT2syUDRlUENnYmNYOVRwckhZb1Zka21kTTliQzNNU0NPSWNYb09DSWFt?=
+ =?utf-8?B?b0swVnBINUFpbGZhb1A5cVZMV3N6emRtajgwbVVSYWlFNCtva2FWeHNQdW05?=
+ =?utf-8?B?N0dISzhPamdZM0RydUJTWkRLbSsyVVRBcmlOYktQNVNuMk9keTlXbzBRQk9r?=
+ =?utf-8?B?ZFpJWFdyMWJ0ZXhqbFNJWXNMcWVVODBNa1c0QVZyRmN3MTY4MHVBTjhVZnZL?=
+ =?utf-8?B?cmhMMDk4TkV3TUtJMDVGeHQramVNSnZmNXl0R21mRjBaUXZRUGFnUmQwZDR6?=
+ =?utf-8?B?RXFHVUdtTFBBVXhoSDhjT05DVHhHREtRSDhkRWV0OE81RXFmTGt1TjViTmhU?=
+ =?utf-8?B?MzM1dWRoT005NnBoS0ZyeHZla2FVR3hUTWJhVVpYRExyek9HL2xEWDRVdWFB?=
+ =?utf-8?B?L0ZjQ3RyT1p6eWdodlE1aFBZbkNjTXZ5SGU1Ykl0a1A2VEZneUNwbk43c3Ax?=
+ =?utf-8?B?bnJRczdET09WQzZsV3FuRGRvdlZpM1c2Ylc5WmRKdTNwZ3pQcXdNV2NmbnhK?=
+ =?utf-8?B?a01zbFdXQkxheDQxcjlhNWZIamdQQnVFK1BhUWk2eitsMXZ0M3ZkanR2TXNh?=
+ =?utf-8?B?clJLdmtmTjlsK00rUi9lS1JmbFZrR1NiWlFjSUNjMTZiWVlBamtmVSt4dDZU?=
+ =?utf-8?B?dW5TTDBLUFpWVGIyY0RtMG5FZGdwNFZOUkZqSWNTRXlHQzdBUEhqNVM3Mzll?=
+ =?utf-8?B?b3BWRWRTUjQ3ajRaelFId25NOVdhd0YvWm9WV1VPRHZ1VWpxcHNDMUZFMlE5?=
+ =?utf-8?B?V28yb2FXZ0VwMFplcTJGRjdaYnZ0ZTN0Rmg4NkhlYVJyU2NhT29qaVhHQmwr?=
+ =?utf-8?B?TUVWR1l2T3E2NUNCVSs5Q3pNK2gwanpjZTZKdHA3cFh6MWV5WTlPN3pPNjVo?=
+ =?utf-8?Q?NaEp1bqIYIk=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SEZPR06MB5576.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(52116014)(1800799024)(38350700014)(921020);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(8096899003); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pdXQreQAgQ591UZq8+HHWL4nUgCh7MqdRz+vIS+KcBZCyVx6JXssRDXJcIj6?=
- =?us-ascii?Q?lgvPrMhZ6CWAU3nnAPFaKs6goqrfabvKA18TwY/xCCsYzm2GXllkcWbld82n?=
- =?us-ascii?Q?b8D5hFDT91q1KpYqId6jDFddhX9zK7RH1pawE5eIz/0nQWyID0VfSrQdrlmf?=
- =?us-ascii?Q?VOY44zgPwEH2hMR3Nljmtxn3dhILx0txYmm0MlDl/TuUvyMP2OfitvPirWfB?=
- =?us-ascii?Q?t0wkM4nF9BJFdipUAK1k4O7GixyR/njgHIwDncVJnNKgX5084I82yE8DX+u6?=
- =?us-ascii?Q?Lc6xFs0iSynn1qcR0evEe4Cl/hZ6ed0MtaG6VnughVU0AGROzJe/ORX0rcq6?=
- =?us-ascii?Q?BB/Bhg79J3biVrGfQJp2oppsqxTD0tG9byWTtzVmPeETYQQFuXWvju9MpIZK?=
- =?us-ascii?Q?WTEIHodpVQN5rKqoGHjZp4ShMzPKCPVW7GrSljrurLloUH3igrhcLMoUvrT5?=
- =?us-ascii?Q?ADUMq9sJRDlGzN+zxXldbF8cGsbNJsrGtM3LKOSkDfdEXL82S9C67wm3RVA7?=
- =?us-ascii?Q?RjIed1vnfyA1N2gmHQ+VqFKqUESM1onakCW3T035yVP+V/USf+B/N6ZOmkJ4?=
- =?us-ascii?Q?B9cMgeAOu2A3vwsuMyW9BKOc83NNv/pAhfR4F1rpyv/11iFsyEM1raJVHQhQ?=
- =?us-ascii?Q?y9b2BeN0mlaaF4jf97x+iEXeFtfzyMP1JHYaxi1HvLpXKulX2nOzvCRskcBk?=
- =?us-ascii?Q?dG7/GmZDWAxTg6rHuuXh6XEjWyzwTSQWcE1mp+mFMK7rzR5/6E+wcJTL8drV?=
- =?us-ascii?Q?k2+d4b97d/lcQgp4IpA/1ktfWIJF+wTHepUVo2kyj0mh+pk5kaC7wBtyAyKp?=
- =?us-ascii?Q?PJ6qRU7JW/FNNhTO4TRBUrEiujooXcaUiFZEDonlXrpzzHyL/oBLsOS+c+Mo?=
- =?us-ascii?Q?38LHTjjFnlSKZZySukf6no4NayZYcY3hgS6uk3iuD//nMc+5lIkMa9Ls1lca?=
- =?us-ascii?Q?6Hf5bOTj8AI1vu53WSsUI/cWuOjswz4vdorndvdB1AaF2ooQ636e3WF0d7A8?=
- =?us-ascii?Q?MSRRr9W9zDiFCGVH8gJzxG0cvt7MuNndrkDE8Oy8rOTSV2yowTGgjdpgzBzc?=
- =?us-ascii?Q?aeoaoKxMOByorDnjI2wnue0H0mL7r+tWfc/KCA8OcrOftnOvQIbQkTfTxJsF?=
- =?us-ascii?Q?baWDZID21aqE6o/EgLKkbvQjUZrvYqCc84160X/BouMHb43LXZXwL+aV5iLr?=
- =?us-ascii?Q?rm0D7ZlDuqf1BYNZO+XjzaCw62XMKVM3QyBcRjlkb6916qQH4PDP9MzHMafq?=
- =?us-ascii?Q?Rh+iMbsDStsTwyweOIgkUMu7/zZkUTimWfeqK2cRPrl2Coh/Yn7ALi+YRa32?=
- =?us-ascii?Q?9zssywkQHeq+dFudntoeHNmDoeUpe0Z1SebyELNK3FgJlHf0qbvi3MJGDEoj?=
- =?us-ascii?Q?a5YgeR5EeznR6UsAx7rER/KKlqOjRgAR/Bm7Y3jkmW/tBtGJ5oDXaMHHyTA5?=
- =?us-ascii?Q?NU5Zl6mVysDfVIooWRLA1zfO6TfzhFjvo9+LnMeMalf+GWb146u4VCJWHNhq?=
- =?us-ascii?Q?JQJlDcJvuUqlkFYAWATyDSHcR3MKqa1PDZ/B9uAcjWzJldoJ6QrkjXnRsOHS?=
- =?us-ascii?Q?JYHEU9xDb+0apEuwtJ1mA6k9G3ra6h1DN3YDPmuf?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1c771fe-4ad9-47e2-7a49-08ddda4de086
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WHBmU0habkdkU3d0YXRFVDhFUHRnYUxMejcydWU4Z3RlQitLQ0oyOWZBU0xK?=
+ =?utf-8?B?eE1ucG5PVnFFMW9QblpqVjA1SjM2VjU3bTlsOHd4YWxteFdSQmtsQzJMTlQr?=
+ =?utf-8?B?ZXYwME9zWWVibUdXUThpWDI1WE5rc2I3V3VUWXNia09mTDdWT1NFN0hRSjB6?=
+ =?utf-8?B?cm5RZGZlcW1Ud09CWlIxY3FWdzhCRCtIcVZDYmRyemVMQWpkWUwwM3Bua1hY?=
+ =?utf-8?B?dEVjL09IYmJZWkZBelEzVmJNa0pjNHlpWm5QVCtwN0R6eU05NzRMMjdpSVhv?=
+ =?utf-8?B?a3hHWG56Rll6RzgwNzdxcnpoQUU5RjBwZW9CbThwbWFna092Tko3OGM3WkEv?=
+ =?utf-8?B?bnJPSy9rRG45Wk51c2dhV09hT24wdFZ6bmdBUnFKcTYxTkl0bmthOHpOckdF?=
+ =?utf-8?B?eGc0VkFxdnhoaE8rbjVPdnhRWUxUWW1GYXc3MWd0UzhpNlN6UmZiQUlpbnlr?=
+ =?utf-8?B?bEVwTjVYdVE1UWp4Y1pIenlabVBWa2ZxR0xCSWJvMTFFcGRmOGYxbUo3UjQx?=
+ =?utf-8?B?bmZIQU5wa3ZFbGMrWXgrU0dqcFU5eFBkMDBTQ3BiNVNtQU5KS0IwcVdyamxO?=
+ =?utf-8?B?c1EraTA4QVpyNTdKYlVGZXFDMmk2WEtIekQyS2FIbkxTTE1WMmZRUHJDSElp?=
+ =?utf-8?B?ZXlTdzc0UU5tQ2tycVdRcy81YzJlS0FMY1JNdXZ1QXVJNDRXRmRBa0d4RTdE?=
+ =?utf-8?B?d24rR0JHdFhtMkt4QjdGRXQrUWQvOTVjL0NsanhiVE10aS9nT1NISmJnSHl1?=
+ =?utf-8?B?aEpTUjBDZVlOc0NOcVpVeWlXcm1OeUltU2IrNGRoSXM2emRSR2hlcGg0OHFs?=
+ =?utf-8?B?dGl4ejZxYjBROEdBKzBxNjgybkgzNlZjWnVzRjk0eDN6NUJHWDFvL3U0YkJm?=
+ =?utf-8?B?ZmxDUmFYek1DMm4yZVR6dndFQW9xMUsySzVyL1ZvekJQTEJVVzhNZklLNVIv?=
+ =?utf-8?B?RHUwRWtrTE8zZ2VzVlp1ZS80TVFOLzFYT2VwcTM0eHZuRUR2QW5pT3VReWt0?=
+ =?utf-8?B?ZkxseWdlcCtadW1HeXpGdlAwb281NDJNZlZmeXZiQlBMZGI1RzkyRWZacWJv?=
+ =?utf-8?B?VTY0V0JpNEV0akEwc0FIRnJMOEZpWit6blZRak1nY2pzb1M1aTFLSUFDVVRO?=
+ =?utf-8?B?UE1sQkN5eDlGSkE1VVZwME9iNmpsYkdHNTUzR2lBc29FZU9aMmlsa1pQTno5?=
+ =?utf-8?B?bFFBWXhEZjA0enRYTjNxU3FqZFl4ZlZsZjFHWDJjeHdoUnVNUmhIcVF5SXox?=
+ =?utf-8?B?TmgwRmtkVTVoemdTN0g0czFhU0ZMSmVqWTI4aHM2eTkzV2kvQ044TUtBUDNB?=
+ =?utf-8?B?UXhaSnZ6M201L1FaQ2ZKWXczMndvbTlTNE9zTnd2eTlKOFJyNlhZUGtyMkMr?=
+ =?utf-8?B?UHQzUXlnNVNXb2U2MnFTSlJGby9OUytBM2gvZnRJQkZaQ1BUY0Q3ZDdTWjRX?=
+ =?utf-8?B?NWZmeXpnL0cvMlVrUVIrTW9ibHlFdDlQZHRJWHhxMDZWclBGYkNkTGl3c2dG?=
+ =?utf-8?B?SXMxa293enhMY1VQcTVoU0R1bDVIaDJJUWsvWEJrejVWY3VUREw0WC9lWWY1?=
+ =?utf-8?B?N1RISi9xanUwUURZMVFZN1A2ZjhXSEwvbkRPSkpYQmlZbGF5VWRMUTdXaFYv?=
+ =?utf-8?B?QmpMajNBcVo3eW1wVy91VnpPbHo2U1FJNUdnRnlSS3ExamQrd1hUN3owS1hx?=
+ =?utf-8?B?NmRYVEdBTVM3QXYzcStOaTZOa1dLL0lCbWhjQnJVOUVjYkkxbVF3OG1wVDhY?=
+ =?utf-8?B?NnVZaEFiT1JLWWxxOEFKTlpnWXcyRHRXZjQvZDM3c1lueW5MWnJJdHhjMlRi?=
+ =?utf-8?B?bHJMRE9PY2hzdHhheGtMQzNGU2pIZklkTnhMNExFN2lCTGlUbW5FTXlaOEtE?=
+ =?utf-8?B?dG82bGR0RGNWa28wbnFhb3NRbmhoOXlUSm8wMm9Cb0lFRnZ6OUVZeWZsVEVi?=
+ =?utf-8?B?RzUvSjRSKzdZQkNhNUQwL05RRURpNTN4YkIwVUNCS2dmbXJIQ3crc2hFU2ZX?=
+ =?utf-8?B?enRlQ2tGbTdabC8yTEZsZWNVREtRK2xtSzZuMnhjTWRmeEZVamRlL0UwbUVV?=
+ =?utf-8?B?MlZtUkF4cnNWVFd1Z29xMHI5SWNTelpnbjdjWHVmZWVDOVdhQWtsR09xTk4w?=
+ =?utf-8?B?Ui8yVjVkbFY5dFRaWTI5aVVoelJuUVhPS0xKUE1GNVBCVTNDWjI1aWR5dzlR?=
+ =?utf-8?B?eEE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61de01f0-47b5-4c7c-35e1-08ddda4ef333
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 09:43:37.3022 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 09:51:18.2527 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qvmq3vehSgieLPsGeB682fEdPdkWffvS9dqkCWPzcXUgaYpFqPvuskLxCUN68DulvSyJWlDxfz5ez/TEJUHNNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KU2PPF4166F2409
+X-MS-Exchange-CrossTenant-UserPrincipalName: GjEyLSxznZ1yCHySSw2l7iKFqcXamxUupzaqWcO/aiOKvvYXOX3hiUZdN0gqfGfiZUBcxcAmViL6mpVJyj378w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8095
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,26 +209,305 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unnecessary semicolons.
+--------------g1HiTFqHyYpvKQcMbeZLh5fT
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
----
- .../gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.c   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Greg,
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.c
-index 9ba6cb67655f..2c7a86bd7938 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_rq_dlg_calc_32.c
-@@ -139,7 +139,7 @@ void dml32_rq_dlg_get_rq_reg(display_rq_regs_st *rq_regs,
- 	if (dual_plane) {
- 		unsigned int p1_pte_row_height_linear = get_dpte_row_height_linear_c(mode_lib, e2e_pipe_param,
- 				num_pipes, pipe_idx);
--		;
-+
- 		if (src->sw_mode == dm_sw_linear)
- 			ASSERT(p1_pte_row_height_linear >= 8);
- 
--- 
-2.34.1
+On 27-07-2025 20:16, Usyskin, Alexander wrote:
+>> Subject: Re: [PATCH 2/9] mei: late_bind: add late binding component driver
+>>
+>> On Wed, Jul 16, 2025 at 02:26:26PM +0000, Usyskin, Alexander wrote:
+>>>>>>> +	if (bytes < sizeof(rsp)) {
+>>>>>>> +		dev_err(dev, "bad response from the firmware: size
+>> %zd <
+>>>>>> %zu\n",
+>>>>>>> +			bytes, sizeof(rsp));
+>>>>>>> +		ret = -EPROTO;
+>>>>>>> +		goto end;
+>>>>>>> +	}
+>>>>>> Why not check this above when you check against the size of the
+>> header?
+>>>>>> You only need one size check, not 2.
+>>>>> Firmware may return only header with result field set without the data.
+>>>> Then the firmware is broken :)
+>>>>
+>>>>> We are parsing the header first and then starting to parse data.
+>>>>> If we check for whole message size at the beginning we'll miss the result
+>>>> data.
+>>>>
+>>>> You mean you will make it harder to debug the firmware, as you will not
+>>>> be printing out the header information?  Or something else?  The
+>>>> bytes variable HAS to match the full structure size, not just the header
+>>>> size, according to this code.  So just test for that and be done with
+>>>> it!
+>>> The CSME firmware returns only command header if, like, command is not
+>> recognised.
+>>> This may happen because of firmware bug or for firmware is
+>> configured/compiled
+>>> that way.
+>>> This seems reasonable for the complex protocols where firmware may not be
+>>> aware of this particular command at all and have no idea what the data size
+>> it
+>>> should send in reply.
+>>> Printing result from the header will allow us to understand either this is the
+>> firmware
+>>> problem or driver sent something wrong.
+>> Then make it obvious in your checking and in your error messages as to
+>> what you are doing here.  Checking the size of the buffer in two
+>> different places, with different values is very odd, and deserves a lot
+>> of explaination.
+>>
+> Is this addition
+>         /*
+>          * Received message size may be smaller than the full message size when
+>          * reply contains only MKHI header with result field set to the error code.
+>          * Check the header size and content first to output exact error, if needed,
+>          * and then process to the whole message.
+>          */
+>
+> and remodelling error messages like "received less then header size from the firmware"
+> made it clean for people not involved with our firmware?
+> I'm too deep in this to judge the wording.
 
+I'm planning to include the following code in the next revision. Does 
+this change align with your recommendation?
+
+    +      /*
+    +        * Received message size may be smaller than the full
+    message size when
+    +        * reply contains only MKHI header with result field set to
+    the error code.
+    +        * Check the header size and content first to output exact
+    error, if needed,
+    +        * and then process to the whole message.
+    +        */
+             if (bytes < sizeof(rsp.header)) {
+    -               dev_err(dev, "bad response header from the firmware:
+    size %zd < %zu\n",
+    +               dev_err(dev, "received less than header size from
+    the firmware: %zd < %zu\n",
+                             bytes, sizeof(rsp.header));
+                     ret = -EPROTO;
+                     goto end;
+             }
+             if (mei_lb_check_response(dev, &rsp.header)) {
+    -               dev_err(dev, "bad result response from the firmware:
+    0x%x\n",
+    +               dev_err(dev, "bad response from the firmware:
+    header: 0x%x\n",
+                             *(uint32_t *)&rsp.header);
+                     ret = -EPROTO;
+                     goto end;
+             }
+             if (bytes < sizeof(rsp)) {
+    -               dev_err(dev, "bad response from the firmware: size
+    %zd < %zu\n",
+    +               dev_err(dev, "received less than message size from
+    the firmware: %zd < %zu\n",
+                             bytes, sizeof(rsp));
+                     ret = -EPROTO;
+                     goto end;
+
+Thanks,
+Badal
+
+>
+> - -
+> Thanks,
+> Sasha
+>
+>
+--------------g1HiTFqHyYpvKQcMbeZLh5fT
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p>Hi Greg,</p>
+    <div class="moz-cite-prefix">On 27-07-2025 20:16, Usyskin, Alexander
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:CY5PR11MB6366AF03A73910CED71C7E37ED5BA@CY5PR11MB6366.namprd11.prod.outlook.com">
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">Subject: Re: [PATCH 2/9] mei: late_bind: add late binding component driver
+
+On Wed, Jul 16, 2025 at 02:26:26PM +0000, Usyskin, Alexander wrote:
+</pre>
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <blockquote type="cite">
+              <blockquote type="cite">
+                <blockquote type="cite">
+                  <pre wrap="" class="moz-quote-pre">+	if (bytes &lt; sizeof(rsp)) {
++		dev_err(dev, &quot;bad response from the firmware: size
+</pre>
+                </blockquote>
+              </blockquote>
+            </blockquote>
+          </blockquote>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">%zd &lt;
+</pre>
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <blockquote type="cite">
+              <blockquote type="cite">
+                <pre wrap="" class="moz-quote-pre">%zu\n&quot;,
+</pre>
+                <blockquote type="cite">
+                  <pre wrap="" class="moz-quote-pre">+			bytes, sizeof(rsp));
++		ret = -EPROTO;
++		goto end;
++	}
+</pre>
+                </blockquote>
+                <pre wrap="" class="moz-quote-pre">
+Why not check this above when you check against the size of the
+</pre>
+              </blockquote>
+            </blockquote>
+          </blockquote>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">header?
+</pre>
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <blockquote type="cite">
+              <blockquote type="cite">
+                <pre wrap="" class="moz-quote-pre">You only need one size check, not 2.
+</pre>
+              </blockquote>
+              <pre wrap="" class="moz-quote-pre">Firmware may return only header with result field set without the data.
+</pre>
+            </blockquote>
+            <pre wrap="" class="moz-quote-pre">
+Then the firmware is broken :)
+
+</pre>
+            <blockquote type="cite">
+              <pre wrap="" class="moz-quote-pre">We are parsing the header first and then starting to parse data.
+If we check for whole message size at the beginning we'll miss the result
+</pre>
+            </blockquote>
+            <pre wrap="" class="moz-quote-pre">data.
+
+You mean you will make it harder to debug the firmware, as you will not
+be printing out the header information?  Or something else?  The
+bytes variable HAS to match the full structure size, not just the header
+size, according to this code.  So just test for that and be done with
+it!
+</pre>
+          </blockquote>
+          <pre wrap="" class="moz-quote-pre">
+The CSME firmware returns only command header if, like, command is not
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">recognised.
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">This may happen because of firmware bug or for firmware is
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">configured/compiled
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">that way.
+This seems reasonable for the complex protocols where firmware may not be
+aware of this particular command at all and have no idea what the data size
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">it
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">should send in reply.
+Printing result from the header will allow us to understand either this is the
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">firmware
+</pre>
+        <blockquote type="cite">
+          <pre wrap="" class="moz-quote-pre">problem or driver sent something wrong.
+</pre>
+        </blockquote>
+        <pre wrap="" class="moz-quote-pre">
+Then make it obvious in your checking and in your error messages as to
+what you are doing here.  Checking the size of the buffer in two
+different places, with different values is very odd, and deserves a lot
+of explaination.
+
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+Is this addition
+       /*
+        * Received message size may be smaller than the full message size when
+        * reply contains only MKHI header with result field set to the error code.
+        * Check the header size and content first to output exact error, if needed,
+        * and then process to the whole message.
+        */
+
+and remodelling error messages like &quot;received less then header size from the firmware&quot;
+made it clean for people not involved with our firmware?
+I'm too deep in this to judge the wording.</pre>
+    </blockquote>
+    <p><span style="color: rgb(66, 66, 66); font-family: &quot;Segoe Sans&quot;, &quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(250, 250, 250); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">I'm
+        planning to include the following code in the next revision.
+        Does this change align with your recommendation?</span></p>
+    <blockquote>
+      <p><span style="color: rgb(66, 66, 66); font-family: &quot;Segoe Sans&quot;, &quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(250, 250, 250); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">+&nbsp;
+          &nbsp; &nbsp; &nbsp;/*<br>
+          +&nbsp; &nbsp; &nbsp; &nbsp; * Received message size may be smaller than the full
+          message size when<br>
+          +&nbsp; &nbsp; &nbsp; &nbsp; * reply contains only MKHI header with result field
+          set to the error code.<br>
+          +&nbsp; &nbsp; &nbsp; &nbsp; * Check the header size and content first to output
+          exact error, if needed,<br>
+          +&nbsp; &nbsp; &nbsp; &nbsp; * and then process to the whole message.<br>
+          +&nbsp; &nbsp; &nbsp; &nbsp; */<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; if (bytes &lt; sizeof(rsp.header)) {<br>
+          -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;bad response header from the
+          firmware: size %zd &lt; %zu\n&quot;,<br>
+          +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;received less than header size
+          from the firmware: %zd &lt; %zu\n&quot;,<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bytes, sizeof(rsp.header));<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret = -EPROTO;<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; goto end;<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; }<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; if (mei_lb_check_response(dev, &amp;rsp.header)) {<br>
+          -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;bad result response from the
+          firmware: 0x%x\n&quot;,<br>
+          +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;bad response from the firmware:
+          header: 0x%x\n&quot;,<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; *(uint32_t *)&amp;rsp.header);<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret = -EPROTO;<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; goto end;<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; }<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; if (bytes &lt; sizeof(rsp)) {<br>
+          -&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;bad response from the firmware:
+          size %zd &lt; %zu\n&quot;,<br>
+          +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;dev_err(dev, &quot;received less than message size
+          from the firmware: %zd &lt; %zu\n&quot;,<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; bytes, sizeof(rsp));<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ret = -EPROTO;<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; goto end;</span></p>
+    </blockquote>
+    <p>Thanks,<br>
+      Badal</p>
+    <blockquote type="cite" cite="mid:CY5PR11MB6366AF03A73910CED71C7E37ED5BA@CY5PR11MB6366.namprd11.prod.outlook.com">
+      <pre wrap="" class="moz-quote-pre">
+
+- - 
+Thanks,
+Sasha
+
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------g1HiTFqHyYpvKQcMbeZLh5fT--
