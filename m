@@ -2,101 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C47B246BC
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 12:11:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E03B24730
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 12:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58C2110E6D8;
-	Wed, 13 Aug 2025 10:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C61A210E6E7;
+	Wed, 13 Aug 2025 10:30:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IvYpBxFL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LpGjggQF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEA7410E6D8
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 10:11:35 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57D6mJHN020480;
- Wed, 13 Aug 2025 10:11:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- SDdsL8W7SZHCUhYBCtKZ6SyWWtrmiQbBOrfuoJ+zh/I=; b=IvYpBxFLcMorq6Jh
- XfFLNNsbPWEySKC+0CzBSxk4bupQgiIteemi/QbAVZGpaeOf0Rp9dD81e6lvUwgH
- oJZOuqh+HxmnBGlzXjh2q2cMkL665YFJOvre1dWecum8BJC7ZAxjy63VMhisl//J
- u/niOZLqitpofNQbIiZbb3OBtJxZJKBU8VnyfQURa75uAPLJrgtWLPX+XGslQ33t
- TjbP4q4y0WiAJcQWSbP3qLY30rLHb9ZNEax7aI6cu8OTLGawJTarWbky1cue2k97
- UW4RY2Q5kkHD/qEv5/kh0pvHevUa7m0Mzvx9tdVWx+JwiQg4YZD11q46huwoPsD7
- 7O45Sg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48eqhx9hcn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Aug 2025 10:11:30 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57DABSnT012777
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Aug 2025 10:11:28 GMT
-Received: from [10.216.12.250] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 13 Aug
- 2025 03:11:21 -0700
-Message-ID: <aff2522e-4bd6-40ad-9c2e-33164ce0ece1@quicinc.com>
-Date: Wed, 13 Aug 2025 15:41:18 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADDA10E6E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 10:30:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755081003; x=1786617003;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=j3Ij/D9ZpkmmRNFHLOaVAdlMNcqm5zU5MngdWRiz1Zc=;
+ b=LpGjggQFQWdYev2RsqkinSBuzTWOfFWfwYCHXqv+9AOx3EoKzZRfjJ4f
+ AseV150HnAsp4gFbkpGYM5gocY1oUTiX4lcgvvPDYBd838u8gqy/YBkcY
+ 2NPTDCgMyxFU6XgzXVQlnZjl/e3gJTvfvfxSXFhwkn6I7rKjKawxMgy9H
+ aP/IlWlbrQ3TFm4a/+LTNFeBQV0aQPJIYyHyJKJkFv2b5xfobnDC66mo2
+ OtHjXXVaYWbQaxGFEj6f0I+gLLLD48qLmk9vkAzwh8RuShz0gawOxzw5y
+ 5L6X9P1XC/eyVKfyzLQXPZ+5nLMnCLqWFTH2rHHizyjU/fPJkJ3rV0D4k g==;
+X-CSE-ConnectionGUID: ZVtQPWUUTEuNhvLmGIuf7A==
+X-CSE-MsgGUID: a4PK36gWQmqW2l9r6p7qRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="44948023"
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; d="scan'208";a="44948023"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2025 03:30:03 -0700
+X-CSE-ConnectionGUID: SY7FOdOjQCKVJQ2/h+Ov7Q==
+X-CSE-MsgGUID: wvNwCnpESqiqlOqkT7dtGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; d="scan'208";a="166704386"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.61])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Aug 2025 03:29:59 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sidharth Seela <sidharthseela@gmail.com>, "dakr@redhat.com"
+ <dakr@redhat.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: Re: PATCH[1/1] DRM_GPUVM.C : htmldoc error due to multi-line code
+ inside comment
+In-Reply-To: <CAJE-K+BcU2vQPXyK9bdWTkRD_jreEcmD6zmnKrwut_7mCNv7bw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CAJE-K+BcU2vQPXyK9bdWTkRD_jreEcmD6zmnKrwut_7mCNv7bw@mail.gmail.com>
+Date: Wed, 13 Aug 2025 13:29:55 +0300
+Message-ID: <854286215216fe5242f3232032625b4fbe62074e@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 07/11] firmware: qcom: tzmem: export shm_bridge
- create/delete
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>, Jens Wiklander
- <jens.wiklander@linaro.org>, Sumit Garg <sumit.garg@kernel.org>, "Bjorn
- Andersson" <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Apurupa Pattapu
- <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-CC: Harshal Dev <quic_hdev@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <op-tee@lists.trustedfirmware.org>, <linux-kernel@vger.kernel.org>,
- <linux-hardening@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
- <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-7-ce7a1a774803@oss.qualcomm.com>
-Content-Language: en-US
-From: Kuldeep Singh <quic_kuldsing@quicinc.com>
-In-Reply-To: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-7-ce7a1a774803@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEwMDA1NyBTYWx0ZWRfX3nuO0Ki1uVpt
- JEmwS5OUQDDLUSH+QO6zOLdfDt7IF3F3DUpv4kSI2uikvrV0lyuPIhEa266kmPvpywiDOA08tWd
- 9t4b8cgt2cUJBzZ/80hwPbqSecFPeN8K33oDhs8iHWmjFwiDgVM/4Ag3eFeCpawMtXEPJcWtzYk
- mVqXPVHoiaHOE1Eedizl+hs11OiH2x+Lk8Plyoq17OFZXIZQ7O1TXHwMZVF2LMbEf4/zape0tOK
- cCYl2iUCexq5+XcFW4SfUolyZRo/w5yGWhrIR6muUVMH31SAgzEEeI/BFupgzlrTgCUYcmtYbjR
- yjk4+6P13EVAXVzQErdjwn4mrTtIWvXkK+TjRN5YoMRIdILWpHtdeF/mbRgbo67fIBaeVoOK/qN
- qEd1m/qs
-X-Proofpoint-GUID: 6ardTYuiCnCBogxGxjA7hF6rwOCf87V7
-X-Authority-Analysis: v=2.4 cv=aYNhnQot c=1 sm=1 tr=0 ts=689c64d2 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=sWKEhP36mHoA:10
- a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=K2HPmFf91DVsvopL9hQA:9
- a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10 a=cvBusfyB2V15izCimMoJ:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: 6ardTYuiCnCBogxGxjA7hF6rwOCf87V7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0 phishscore=0
- impostorscore=0 bulkscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508100057
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,19 +72,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 12 Aug 2025, Sidharth Seela <sidharthseela@gmail.com> wrote:
+> Dear Maintainers,
+> This is my first patch, please bear with me.
+> I request you to suggest if it can be better.
+> Your time is appreciated.
+
+A simpler fix is already on the list [1].
+
+BR,
+Jani.
 
 
-On 8/13/2025 6:05 AM, Amirreza Zarrabi wrote:
-> Anyone with access to contiguous physical memory should be able to
-> share memory with QTEE using shm_bridge.
-> 
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Tested-by: Harshal Dev <quic_hdev@quicinc.com>
-> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+[1] https://lore.kernel.org/r/20250810150706.305040-1-rampxxxx@gmail.com
 
-Reviewed-by: Kuldeep Singh <quic_kuldsing@quicinc.com>
+> ---------------------------------------------------------------------------
+> commit 4ed9c00376c616cdbfb978b5fd76911cccd63b26
+> Author:     Sidharth Seela <sid@y740.local>
+> AuthorDate: Tue Aug 12 15:56:03 2025 +0530
+> Commit:     Sidharth Seela <sid@y740.local>
+> CommitDate: Tue Aug 12 15:56:03 2025 +0530
+>
+>     cleaned up errors stemming for multiline text
+> ---
+>  drivers/gpu/drm/drm_gpuvm.c | 50 ++++++++++++++++++-------------------
+>  1 file changed, 25 insertions(+), 25 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index bbc7fecb6f4a..cf49dbfcec91 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -2432,31 +2432,31 @@ static const struct drm_gpuvm_ops lock_ops = {
+>   *
+>   * The expected usage is:
+>   *
+> - *    vm_bind {
+> - *        struct drm_exec exec;
+> - *
+> - *        // IGNORE_DUPLICATES is required, INTERRUPTIBLE_WAIT is recommended:
+> - *        drm_exec_init(&exec, IGNORE_DUPLICATES | INTERRUPTIBLE_WAIT, 0);
+> - *
+> - *        drm_exec_until_all_locked (&exec) {
+> - *            for_each_vm_bind_operation {
+> - *                switch (op->op) {
+> - *                case DRIVER_OP_UNMAP:
+> - *                    ret = drm_gpuvm_sm_unmap_exec_lock(gpuvm,
+> &exec, op->addr, op->range);
+> - *                    break;
+> - *                case DRIVER_OP_MAP:
+> - *                    ret = drm_gpuvm_sm_map_exec_lock(gpuvm, &exec,
+> num_fences,
+> - *                                                     op->addr, op->range,
+> - *                                                     obj, op->obj_offset);
+> - *                    break;
+> - *                }
+> - *
+> - *                drm_exec_retry_on_contention(&exec);
+> - *                if (ret)
+> - *                    return ret;
+> - *            }
+> - *        }
+> - *    }
+> + * *   vm_bind {
+> + * *       struct drm_exec exec;
+> + * *
+> + * *       // IGNORE_DUPLICATES is required, INTERRUPTIBLE_WAIT is recommended:
+> + * *       drm_exec_init(&exec, IGNORE_DUPLICATES | INTERRUPTIBLE_WAIT, 0);
+> + * *
+> + * *       drm_exec_until_all_locked (&exec) {
+> + * *           for_each_vm_bind_operation {
+> + * *               switch (op->op) {
+> + * *               case DRIVER_OP_UNMAP:
+> + * *                   ret = drm_gpuvm_sm_unmap_exec_lock(gpuvm,
+> &exec, op->addr, op->range);
+> + * *                   break;
+> + * *               case DRIVER_OP_MAP:
+> + * *                   ret = drm_gpuvm_sm_map_exec_lock(gpuvm, &exec,
+> num_fences,
+> + * *                                                    op->addr, op->range,
+> + * *                                                    obj, op->obj_offset);
+> + * *                   break;
+> + * *               }
+> + * *
+> + * *               drm_exec_retry_on_contention(&exec);
+> + * *               if (ret)
+> + * *                   return ret;
+> + * *           }
+> + * *       }
+> + * *   }
+>   *
+>   * This enables all locking to be performed before the driver begins modifying
+>   * the VM.  This is safe to do in the case of overlapping DRIVER_VM_BIND_OPs,
+> --
+> 2.39.5
+> signed-off-by:Sidharth Seela<sidharthseela@gmail.com>
 
 -- 
-Regards
-Kuldeep
-
+Jani Nikula, Intel
