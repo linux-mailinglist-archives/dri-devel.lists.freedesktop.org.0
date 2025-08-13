@@ -2,85 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE33B254F6
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 23:06:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24392B254FA
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 23:09:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 335E010E02F;
-	Wed, 13 Aug 2025 21:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3571A10E7C8;
+	Wed, 13 Aug 2025 21:09:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="cdPGPxSN";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NuBoddv9";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="jyjkGtO3";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BhYFMZlw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F82910E02F
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 21:06:36 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82F6F10E7C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 21:09:02 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4c2LXB3dC4z9t9l;
- Wed, 13 Aug 2025 23:06:34 +0200 (CEST)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4c2Lb10xYjz9t8m;
+ Wed, 13 Aug 2025 23:09:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1755119194;
+ s=mail20150812; t=1755119341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LXUYdiyOFdWb2xcTIWDWLT2Bvo7KGxD/FsHoRDWMjLQ=;
- b=cdPGPxSN2bER0nXzKHvZgZefGZWQgoAbHSxl8ASZl+c8udBVeCwBg7oKcUKa4Zjx12bLQO
- CuYa67LCGUYzEryg0gAoGR9mb0Wb69v3BINLBUPZvxcLVa1f8OXrLL4S6Q8U7rMKwxs6kW
- j2r+uHU/JEavJrbmHBOcGSny7UOqS/GcufH6xOWI/ZCKUrg1s8kc6PwXjDM4tGJQc06fd8
- nLYeptwsne2ygZHj481tUtCnpRzUZjya5LNbSczQ0PFG21AnHhVW8KezybrtDHQppd4ZFt
- lT58LxyFsiV6XxDu+/iRyArPOdFXdhQ1tP5u01RyWF69DlVXEeX1KQDGTzDefg==
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EUfrWGCGD4p5G0KOP57f8prhWUk222Vzv6EEzQPIn98=;
+ b=jyjkGtO3FMlWDQKquRRK5TnEz3Z9++QSMio3Wet5zLpoNfjVR3qqMHTW6pG43fV7oulnJ6
+ 0aIZc81/LetFpdk+iIU47X87SorE6wrSN6gJHmnrUFMtTuQ2vmesx9wkd4dd1RQAK/efAB
+ 2xXsqqhzxSqzQ9nMqA+fNs4KQZ9tjqtpOMn80ghZOEd18/btrIKf64pRhmKLgqCZqZzC6Z
+ 6sD6vQw3B/+kg6jhYi2RdIeyqMFgqtIjA9FDWZkLBWSiEKTqPa/t7qEEE97mFcWwLzvxp2
+ CPVyIvSZeIPSP8InMAomWonKqD26XqfLvaZ3C1RB6QdY10qpT48Lp2vJMs40Vw==
 Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=NuBoddv9;
- spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates
- 2001:67c:2050:b231:465::1 as permitted sender)
- smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <58109767-145b-414f-a20e-aee651e9e4d5@mailbox.org>
+ dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=BhYFMZlw;
+ spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org
+ designates 2001:67c:2050:b231:465::202 as permitted sender)
+ smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1755119192;
+ s=mail20150812; t=1755119339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LXUYdiyOFdWb2xcTIWDWLT2Bvo7KGxD/FsHoRDWMjLQ=;
- b=NuBoddv9AmQnPes2jc96mrnsseP+r/5e9ocN8z9av21vKWoJzMeY16g6hn867p1gLz02L9
- 0r9F6E1vp46jzcQ02gA/5UmLrxTRIMrQ3QihBEVRkIGy4b0achV8a2HPaVk2L2KzbNLRcx
- XFyeN/7ZNJFdmWRcHfNcdpq+VnOFcNWHANtDo7IESjT3cq7BaX43BDstVmYm71XZUiERtE
- XsjDXrUVOliJELUOESeXh0c5GoBcyR0nTTlmHpqhTRqr7mcwAqzXJFeeHAaSY8Nh6SvGKU
- jBSZ9TIFLsVUhwvjc37jyENQIYNs4AraOVWHFEoIym/do7XVAsJ6R/uVhwiWeA==
-Date: Wed, 13 Aug 2025 23:06:29 +0200
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/4] drm/rcar-du: dsi: Remove fixed PPI lane count setup
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>,
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EUfrWGCGD4p5G0KOP57f8prhWUk222Vzv6EEzQPIn98=;
+ b=BhYFMZlwFUakbr6RRMkT93qtuJ6N+EPpwqEIbBlMtxX+oW+8bGq2sOH4ckS+vyfoTeCucI
+ lr3nHsYfY7n0Zjj7yeQDC+5GKF1s+FzuhS4uWgmwTT9z9SJS4TLC4EGBF5PnO7s/RWuLXs
+ nil0jYFsdEfrlA7yY/j0CMVQw+PjIHrN100KSLecQCF+c9uHUcS73uQEVqdZcN+so2dsyt
+ j0T3zMPS7UL3U4+VU8vCYCjcVzHKCpY+R2wIKk/MYc9TNS9gaAQblEmu/nahaJStdw69kY
+ wqI3C5H7+xAu+SLk4lmPufGk/NrrQG6OYn3XFudyuTKR5PeNKmtUGaOweUReEw==
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>, stable@vger.kernel.org,
+ David Airlie <airlied@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
  Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
  linux-renesas-soc@vger.kernel.org
-References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-3-marek.vasut+renesas@mailbox.org>
- <64b49da6-15ae-45e1-a4af-c1f08f80cf3a@ideasonboard.com>
- <87cc32a7-fe1d-4d8d-b793-e3bb7e12fb7d@ideasonboard.com>
- <1ae735be-3d07-4520-8013-c4b7a1b1c26a@mailbox.org>
- <c83317d5-53f1-440e-b854-c75d283ed746@ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <c83317d5-53f1-440e-b854-c75d283ed746@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: [PATCH v2] drm/rcar-du: dsi: Fix 1/2/3 lane support
+Date: Wed, 13 Aug 2025 23:08:13 +0200
+Message-ID: <20250813210840.97621-1-marek.vasut+renesas@mailbox.org>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: b8gk49p5fhsj1kx4fjuty8it7smzhqd3
-X-MBO-RS-ID: 5623dcfe4c04eeb44dd
-X-Rspamd-Queue-Id: 4c2LXB3dC4z9t9l
+X-MBO-RS-ID: d02abf8b371a1b8450d
+X-MBO-RS-META: 1y5d7be7378ug8qyj8gn47c1ghc9t7x5
+X-Rspamd-Queue-Id: 4c2Lb10xYjz9t8m
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,56 +85,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/13/25 9:34 AM, Tomi Valkeinen wrote:
+Remove fixed PPI lane count setup. The R-Car DSI host is capable
+of operating in 1..4 DSI lane mode. Remove the hard-coded 4-lane
+configuration from PPI register settings and instead configure
+the PPI lane count according to lane count information already
+obtained by this driver instance.
 
-Hi,
+Configure TXSETR register to match PPI lane count. The R-Car V4H
+Reference Manual R19UH0186EJ0121 Rev.1.21 section 67.2.2.3 Tx Set
+Register (TXSETR), field LANECNT description indicates that the
+TXSETR register LANECNT bitfield lane count must be configured
+such, that it matches lane count configuration in PPISETR register
+DLEN bitfield. Make sure the LANECNT and DLEN bitfields are
+configured to match.
 
->>>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/
->>>>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->>>>> index b3e57217ae63..cefa7e92b5b8 100644
->>>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->>>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
->>>>> @@ -80,10 +80,7 @@
->>>>>     * PHY-Protocol Interface (PPI) Registers
->>>>>     */
->>>>>    #define PPISETR                0x700
->>>>> -#define PPISETR_DLEN_0            (0x1 << 0)
->>>>> -#define PPISETR_DLEN_1            (0x3 << 0)
->>>>> -#define PPISETR_DLEN_2            (0x7 << 0)
->>>>> -#define PPISETR_DLEN_3            (0xf << 0)
->>>>> +#define PPISETR_DLEN_MASK        (0xf << 0)
->>>>>    #define PPISETR_CLEN            BIT(8)
->>>>
->>>> Looks fine, but do you know what the TXSETR register does? It also has
->>>> LANECNT, but I don't see the driver touching that register at all.
->>>> TXSETR:LANECNT default value is 3 (4 lanes), which matches with the old
->>>> hardcoded behavior for PPISETR... So I wonder if that register should
->>>> also be set?
->>>
->>> Ah, never mind, I now saw the patch 3 =). But should it be before patch
->>> 2? Hmm, I guess that ordering is no better. Should they be combined into
->>> "support 1,2,3 datalanes" patch?
->> I think each patch fixes slighly different issue, even if the issues are
->> related. I tried to keep the issue description in each patch commit
->> message for posterity. I can squash them if you think that's better, I
->> don't mind either way.
-> 
-> I was thinking about this the user's or backporting point of view.
-> Neither of the commits (clearly) say that they add support for 1/2/3
-> lane modes.
+Fixes: 155358310f01 ("drm: rcar-du: Add R-Car DSI driver")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: David Airlie <airlied@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+---
+V2: - Split this out of a series, update commit message, combine from
+      drm/rcar-du: dsi: Remove fixed PPI lane count setup
+      drm/rcar-du: dsi: Configure TXSETR register to match PPI lane count
+    - add Fixes tag, CC stable
+---
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 5 ++++-
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 8 ++++----
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-The 1/2/3 lane mode was already implemented in the driver, except it was 
-broken.
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+index 1af4c73f7a88..952c3efb74da 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+@@ -576,7 +576,10 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+ 	udelay(10);
+ 	rcar_mipi_dsi_clr(dsi, CLOCKSET1, CLOCKSET1_UPDATEPLL);
+ 
+-	ppisetr = PPISETR_DLEN_3 | PPISETR_CLEN;
++	rcar_mipi_dsi_clr(dsi, TXSETR, TXSETR_LANECNT_MASK);
++	rcar_mipi_dsi_set(dsi, TXSETR, dsi->lanes - 1);
++
++	ppisetr = ((BIT(dsi->lanes) - 1) & PPISETR_DLEN_MASK) | PPISETR_CLEN;
+ 	rcar_mipi_dsi_write(dsi, PPISETR, ppisetr);
+ 
+ 	rcar_mipi_dsi_set(dsi, PHYSETUP, PHYSETUP_SHUTDOWNZ);
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+index a6b276f1d6ee..a54c7eb4113b 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+@@ -12,6 +12,9 @@
+ #define LINKSR_LPBUSY			(1 << 1)
+ #define LINKSR_HSBUSY			(1 << 0)
+ 
++#define TXSETR				0x100
++#define TXSETR_LANECNT_MASK		(0x3 << 0)
++
+ /*
+  * Video Mode Register
+  */
+@@ -80,10 +83,7 @@
+  * PHY-Protocol Interface (PPI) Registers
+  */
+ #define PPISETR				0x700
+-#define PPISETR_DLEN_0			(0x1 << 0)
+-#define PPISETR_DLEN_1			(0x3 << 0)
+-#define PPISETR_DLEN_2			(0x7 << 0)
+-#define PPISETR_DLEN_3			(0xf << 0)
++#define PPISETR_DLEN_MASK		(0xf << 0)
+ #define PPISETR_CLEN			(1 << 8)
+ 
+ #define PPICLCR				0x710
+-- 
+2.47.2
 
-> You say they "fix", but they're not quite fixes either. The
-> patch 3 could be considered a fix, but at the moment it just writes the
-> default value to the register, so no point in marking it as a fix to be
-> backported.
-
-3/4 does write the DSI lane count into TXSETR , not the default value.
-
-> So... I don't have a strong opinion, but I think a single patch that
-> adds support to 1, 2,3 lanes makes most sense.
-
-Lemme send a single patch with Fixes tag then. The combined patch does 
-not look too great though.
