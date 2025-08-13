@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EBBB2508A
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 19:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD40B2508C
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 19:01:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F65C10E786;
-	Wed, 13 Aug 2025 17:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C231B10E787;
+	Wed, 13 Aug 2025 17:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9637910E77E;
- Wed, 13 Aug 2025 17:01:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3F0DA10E77B;
+ Wed, 13 Aug 2025 17:01:48 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 17EBF1BF3;
- Wed, 13 Aug 2025 10:01:35 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93BEC1C00;
+ Wed, 13 Aug 2025 10:01:39 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
  [10.1.196.50])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 002723F738;
- Wed, 13 Aug 2025 10:01:38 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7CB223F738;
+ Wed, 13 Aug 2025 10:01:43 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
  mark.rutland@arm.com, acme@kernel.org, namhyung@kernel.org,
@@ -38,9 +38,9 @@ Cc: linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
  iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
  linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-riscv@lists.infradead.org
-Subject: [PATCH 04/19] perf/starfive: Fix group validation
-Date: Wed, 13 Aug 2025 18:00:56 +0100
-Message-Id: <6b9c9cf887c102c9154a1f28aea643a66787858f.1755096883.git.robin.murphy@arm.com>
+Subject: [PATCH 05/19] iommu/vt-d: Fix perfmon group validation
+Date: Wed, 13 Aug 2025 18:00:57 +0100
+Message-Id: <fcc4a9091ff02606df9495fd16b00094216a933e.1755096883.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.39.2.101.g768bb238c484.dirty
 In-Reply-To: <cover.1755096883.git.robin.murphy@arm.com>
 References: <cover.1755096883.git.robin.murphy@arm.com>
@@ -61,47 +61,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The group validation code here is superficially the right shape, but
-is failing to count the group leader, while also erroneously counting
-software siblings. Just correctly count the events which belong to our
-PMU, and let perf core worry about the rest.
+The group validation here has a few issues to fix: firstly, failing to
+count the group leader or the event being opened itself. Secondly it
+appears wrong not to count disabled sibling events given that they could
+be enabled later. Finally there's the subtlety that we should avoid racy
+access to the sibling list when the event is its own group leader.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/perf/starfive_starlink_pmu.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ drivers/iommu/intel/perfmon.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/perf/starfive_starlink_pmu.c b/drivers/perf/starfive_starlink_pmu.c
-index 5e5a672b4229..e185f307e639 100644
---- a/drivers/perf/starfive_starlink_pmu.c
-+++ b/drivers/perf/starfive_starlink_pmu.c
-@@ -347,19 +347,15 @@ static bool starlink_pmu_validate_event_group(struct perf_event *event)
+diff --git a/drivers/iommu/intel/perfmon.c b/drivers/iommu/intel/perfmon.c
+index 75f493bcb353..c3a1ac14cb2b 100644
+--- a/drivers/iommu/intel/perfmon.c
++++ b/drivers/iommu/intel/perfmon.c
+@@ -258,21 +258,25 @@ static int iommu_pmu_validate_group(struct perf_event *event)
+ {
+ 	struct iommu_pmu *iommu_pmu = iommu_event_to_pmu(event);
  	struct perf_event *sibling;
- 	int counter = 1;
+-	int nr = 0;
++	int nr = 1;
  
--	/*
--	 * Ensure hardware events in the group are on the same PMU,
--	 * software events are acceptable.
--	 */
--	if (event->group_leader->pmu != event->pmu &&
--	    !is_software_event(event->group_leader))
--		return false;
-+	if (leader == event)
-+		return true;
-+
-+	if (leader->pmu == event->pmu)
-+		counter++;
++	if (event == event->group_leader)
++		return 0;
+ 	/*
+ 	 * All events in a group must be scheduled simultaneously.
+ 	 * Check whether there is enough counters for all the events.
+ 	 */
+-	for_each_sibling_event(sibling, event->group_leader) {
+-		if (!is_iommu_pmu_event(iommu_pmu, sibling) ||
+-		    sibling->state <= PERF_EVENT_STATE_OFF)
+-			continue;
++	if (is_iommu_pmu_event(iommu_pmu, event->group_leader))
++		++nr;
  
- 	for_each_sibling_event(sibling, leader) {
--		if (sibling->pmu != event->pmu && !is_software_event(sibling))
--			return false;
--
--		counter++;
-+		if (sibling->pmu == event->pmu)
-+			counter++;
+-		if (++nr > iommu_pmu->num_cntr)
+-			return -EINVAL;
++	for_each_sibling_event(sibling, event->group_leader) {
++		if (is_iommu_pmu_event(iommu_pmu, sibling))
++			++nr;
  	}
  
- 	return counter <= STARLINK_PMU_NUM_COUNTERS;
++	if (nr > iommu_pmu->num_cntr)
++		return -EINVAL;
++
+ 	return 0;
+ }
+ 
 -- 
 2.39.2.101.g768bb238c484.dirty
 
