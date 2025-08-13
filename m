@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8A3B255D0
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 23:47:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E734B25693
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 00:24:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E78210E10F;
-	Wed, 13 Aug 2025 21:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E123510E7DC;
+	Wed, 13 Aug 2025 22:24:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LCJShcCJ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="K9Rmk/HK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C237810E10F
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 21:47:25 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DBLfBb023999
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 21:47:25 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8347810E090
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 22:24:33 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DMGmjS027429
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 22:24:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PoxP7tG7pCID580yMt9K2LXcQBndbjiv/lE6hcV18C4=; b=LCJShcCJqrQ7J/v4
- GUKejkcaQxV4s9YPZgV8B6+bo/RivOwQyJyJEdjsoQF0qnCkgT7sy1D6zqHnV1vO
- s48+BESFy59JftqMeDl8n2SDCymjYh5aSnCrr1TbCWVG7Kb8IsVjxSZcByDlSHAN
- 8IrmNbu000mwJy7GjCPp4kET5WaJXICZmjJntGnTE0eEMzog/jpTZ5T/46QLADsE
- i+pm0N50cbRTQcgWZjzDqVKjtbuQQq4wnqRI9wswOhQOehQ0zOZXm+n7HzJlHfhZ
- 1MBWBsL0LP9EGj1Y6HMPq1rsJoFE8RUKzy8jCWnsHUV/YTgwCMYi2dS0hOqO/jCB
- TFDVQQ==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48gr9rt0se-1
+ q7gth1q5wXt2kbolj7dWwKraNNmPxnZCoAelNEomImI=; b=K9Rmk/HKt+36obya
+ M7UIbbgfRjSYDDYDWA3EMZ/BOIvwNdm2eFMRYEt3okNQRPA0cpkcWri3lnn2208z
+ b57DhfPUBmsM/a71CsC8D0O0AGP4VNVIBDndA7NCLVIzbv38FMJIAfi+yQht2xNc
+ VSuQDiWxyoC+8D1qos/8AaQZjYj43EmBU0CdXTGnrPwt10R0byL6SP7n2tRHtW4e
+ MsTJ/Yw/hRfq5eyXk2PmPRIR41v/3ydboLU2mE6ABUihzo1eKQ5uTw2fr3QnZz06
+ ecyaMqZzanckeqGnfFNvxfTg4ooITRU5EAIh1v9QvRicXdAvrfMU8kKF4NuFc7QW
+ G8R6UA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ffhjs8u4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 21:47:25 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id
- 41be03b00d2f7-b4716fa1e59so167958a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 14:47:25 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 22:24:32 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-76e2e614e73so349399b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 15:24:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755121644; x=1755726444;
+ d=1e100.net; s=20230601; t=1755123871; x=1755728671;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PoxP7tG7pCID580yMt9K2LXcQBndbjiv/lE6hcV18C4=;
- b=Ev2eUa13TPUvHeLWXCvuSbOnrhz/uCK6i6wLuKjD2Sq9sM1/Pz2RP+kJh0wNzg8I4C
- F225QIALJPMFi/xoMKcx1Ls3Q7slo+FB4FzB0IMiV5DKBdIQ9wo2kh+1s2HOCKTI6Yk8
- D74PO5CHsGdOd5609Rn6Qo4gD4+taPUHthU7Nf/AgCqEe8d9dNAOqv2gcKd3BiwHcwuT
- ITRkQ9OVF7FllGjzVKSYJIEHwPKI+UHe0y3ZJc14NcBXtO1dF3Vdei+acPJ/yWmU5Hjx
- /MWYEC8cJ32yfJQB4M4L2HQkZt6LWrJ/CIE9il/ogCIUjA2u+QmS2cRMpI2P5XFfxxQ4
- UZ6A==
+ bh=q7gth1q5wXt2kbolj7dWwKraNNmPxnZCoAelNEomImI=;
+ b=my32Krs+4DCJ5gZ9nxVP2cRq7lir77u3Cb8L0Ge7NjPpb0cBNyGZOIaQCAy3viefcj
+ ZqZo7IbfEJViTenjLCuxcMzmwDAwnjOWu1HEPhCUKLEM3PX3IkdiNsO+icw4q870roG6
+ 8506yp1kPHnzRMc1tnlubIciujSXYfRg6BGetLTKhVT3yr35qy1bCCHJEM7y0dy5gSHL
+ 2OQXcRwLIbJNh3EIjsJDklLVTY5JxZgJGLUSiqX/dRk/fu+m+viCXRmxUtQ/DQPHUDKm
+ AuX9m2jyu5NSXFf41dB3V9SzPST4MwW53ZZpV6A+GX3n/vgQ/pxtcCKVBJCLcFlKYugc
+ mKvg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU7LxOLM0DOwY+srzNEPv/jGUmxoUq11OtFqx3T6cLJkRw+j4Uh19zf35+O6KnfP4s+MH/aSgamNuU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwjH5NOecR1QdTrZuRuKNdmZS7bNwuf4n5N3rw2EYTMEpS5AyRY
- XYE1k3golKpyyHICqUG401g/1SI0kZag+WCXMI9JcRF5QymM9uKVrP7HU/MI/1QO3kY+ku6BFRr
- wol+qYMOGItbEHaSTu1JFID4RxAnD9Fnge00C9sk4VeThrP/XG3laSnEHEu7FB1mgtxnDtg==
-X-Gm-Gg: ASbGncudjG5U6LIOeEohkzkvEd77Unnc8iZfM0gx44se936XT6Y0HnZpR1/YcGnWKNc
- KXar0EdYlNGpUQygZoiBB+KeoTgwN976gPXhgf1arp5mMKToVOI1bVZc/ooNx7ZqJWFYezrPCh+
- tjoB1KnKkxWiBF7hnl0cjpnXdeJJF8CDbOW5PR7IbBJW7ijbBjtmS+42G/khDJCID32RI05016N
- IMgUpQVD1WEueRsIu/6D8T8rV3JCV9oLZe1h6LUOwuyr0WnUFnVHKWDksZJY1YLzxmS60nR42AO
- QfRwNCgqCKsKE4e1JmXXGZWvu3G7k6CkwuIKJfULl0fyz4UyrupS7O7U30cmoAvp35xdU5R721w
- VNlPGClxQyYSQkbpOjrGpX6EZn//QIyBIYUHCsw==
-X-Received: by 2002:a17:902:d482:b0:242:9bc4:f1c8 with SMTP id
- d9443c01a7336-244586e1b69mr7940595ad.55.1755121644285; 
- Wed, 13 Aug 2025 14:47:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFgjyhLi16jIYpZ8EHZqnYQaA0dKD8mdlmwaED7WOs0d7tmfiyJiuh/7q2M1HKFCS2ese9Jpw==
-X-Received: by 2002:a17:902:d482:b0:242:9bc4:f1c8 with SMTP id
- d9443c01a7336-244586e1b69mr7940215ad.55.1755121643848; 
- Wed, 13 Aug 2025 14:47:23 -0700 (PDT)
+ AJvYcCWk6OyQd/GSCiH5KsUxroYOlbsAgbhczc2BFWiO/4n4ObhOnzoSkBBUfBCCjKl4pULyAbBg867yyLQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzh4udjkd5cbtTG0hiXnHpde0F9YCiXXnQ5JgFSGZAQNh4RtQUz
+ KSFAHZbavRVD7KE9jcLv/JT77fWxkYSrI/LGPlQzCBBv+YeQLrZ5/E97IRD5RglUmpXxyiskniY
+ UesDd3++NIKUfn3s61wSIG4vr3vvRTZPhIpq18bZ61uPt/6T18QQweDfwEcGiwqV8Bm9juA==
+X-Gm-Gg: ASbGncs2IGrNtkvZY3VcNBhrT04ELKQ0pPTx8SRDGtiYGikzsMk7g0Y1PT+hmiH5S1X
+ uOi5DOBA8dj7wOdpPgLjjs9GRWuLN26Ua9BfgjvAZABCRFf1j/gwEtAPmHoZy8EC0os0gQLosrv
+ WyUryAtsDuYbH0C1UEuebHuCWglLoFRRHKAR/c4PKI4v/u2AvYrLRl5w6IsDLGEA2Qxd130EBN0
+ Ga+yBQh+COJ0fbU7fQNyxFobwXDt5zdevsZCI4fu+Y5zS7l3wrqvciTOweeMvLZM6Bh9U4JcpXk
+ +lX92+mY2TgL5M2TXay85duDs6r7qMZtkfhWGzNVWHYT6ZY5+fAJavcUOQr+tapRnLx1bU63ACP
+ K8w+LjsGiO892fuRj5CKjcAaeJzvFVn9dUH3jIA==
+X-Received: by 2002:a05:6a00:3e24:b0:76b:f1c9:4ec9 with SMTP id
+ d2e1a72fcca58-76e2fc23e59mr1085317b3a.6.1755123870899; 
+ Wed, 13 Aug 2025 15:24:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHrd6YX7PSuR1I0NvscqCwDnSHruYilibycjxTioyww4LMs5uJhtMWQp7pwAdosrJAlaZ3ajA==
+X-Received: by 2002:a05:6a00:3e24:b0:76b:f1c9:4ec9 with SMTP id
+ d2e1a72fcca58-76e2fc23e59mr1085287b3a.6.1755123870379; 
+ Wed, 13 Aug 2025 15:24:30 -0700 (PDT)
 Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au.
  [1.41.240.65]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-323257aa89esm1010760a91.23.2025.08.13.14.47.17
+ d2e1a72fcca58-76bccfd8ebbsm33032684b3a.102.2025.08.13.15.24.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Aug 2025 14:47:23 -0700 (PDT)
-Message-ID: <0af9ac59-9b91-4a0b-92fb-b44e0e008431@oss.qualcomm.com>
-Date: Thu, 14 Aug 2025 07:47:14 +1000
+ Wed, 13 Aug 2025 15:24:29 -0700 (PDT)
+Message-ID: <d81abdef-18fa-496d-8493-e8f336c43800@oss.qualcomm.com>
+Date: Thu, 14 Aug 2025 08:24:21 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 07/11] firmware: qcom: tzmem: export shm_bridge
- create/delete
+Subject: Re: [PATCH v7 10/11] qcomtee: enable TEE_IOC_SHM_ALLOC ioctl
 To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  Jens Wiklander <jens.wiklander@linaro.org>,
  Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
@@ -91,38 +90,38 @@ Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
  op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
  linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>
 References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
- <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-7-ce7a1a774803@oss.qualcomm.com>
- <f10f1602-972a-491f-9c11-95e5e7bd80f8@oss.qualcomm.com>
+ <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-10-ce7a1a774803@oss.qualcomm.com>
+ <3ec0a8d0-7900-45bd-b0d3-90ee8ca7730c@oss.qualcomm.com>
 Content-Language: en-US
 From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-In-Reply-To: <f10f1602-972a-491f-9c11-95e5e7bd80f8@oss.qualcomm.com>
+In-Reply-To: <3ec0a8d0-7900-45bd-b0d3-90ee8ca7730c@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEzMDA5NCBTYWx0ZWRfX8dF6LaW/4raJ
- WI4BwhLMsoy5q0jPcoJmYLS7LipTdR5Hr1QoP2KDXVCuQ29gD8FaqED2VG+li9aCQThBIxrSsm5
- mDlIkTcbR8mNM8Wwww57X74D7MJOqEdr9DGc/nXZfpXWsDWIqLk61QvBbxfzHOuJvul6Sf6UY8g
- GvFZB3gKzh9urSy3U3UQj25CEhHLDtdYGAzIfU1QEfdIw99umJLSR3sYM+jsAq4H0qU7zvDvfOO
- gbGKIGdsM2QSg2EMvvqRNiwkVNZtduoQNikOUsqWo3gPXsLPqgcxe1WmkvQIXvfIh1TqvwqZv7Z
- Dt6EMyi+yc22P1yVaaX+xbmWcyFvaeTKVFciz3daR7GGo21/gQj3WkrkTf3HDUfWdyofA1ZyRT6
- A1eIWPFh
-X-Authority-Analysis: v=2.4 cv=NIrV+16g c=1 sm=1 tr=0 ts=689d07ed cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=sWKEhP36mHoA:10 a=KKAkSRfTAAAA:8
- a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=dTt1GwfqUVNo7j6m3doA:9 a=QEXdDO2ut3YA:10
- a=zZCYzV9kfG8A:10 a=x9snwWr2DeNwDh03kgHS:22 a=cvBusfyB2V15izCimMoJ:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: hvywjHO-otpKWIVmjyBNi7_Li3ZOti1T
-X-Proofpoint-GUID: hvywjHO-otpKWIVmjyBNi7_Li3ZOti1T
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA3NCBTYWx0ZWRfX3s3kHIy5qrc3
+ xZ+IUeYY1o+sHCiqlFCGIpkHGhKcTfMu1PgKUDn9lSPZ8ZTby3+27BfV/KiS7apiB/y4FEvuG5I
+ CMpOg3HHhhKXwfpv2slPcZH4cY5uAmRcpTO6/bz7nc64tjCH3qrslePTIRCbMthAX+ky1flbvl+
+ dJCs6LrefiDCK4bhmUB8fmsHA1FClW9D5rUNRnvmu0gNWx3J4r2EujozaVCyrx2AaPeBxh/cGWe
+ YdtddEBQwRSdNdz0p7phgVZY75VhoLTpHz78lcjAklzQv/t3I88BItBh9ZnmU6D066TmrqyE9/U
+ VjUH6/8nWtqmvEtsuR/7M06hJ26rRJPOKXZc5/4ZOK9WOaba7IARw6RyeaeHioR9Gc84aCJfH6O
+ OTGxLDKS
+X-Proofpoint-GUID: s7MOr_Yonvj46Mr3m-65C3SAGUXquNFe
+X-Authority-Analysis: v=2.4 cv=TJFFS0la c=1 sm=1 tr=0 ts=689d10a0 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=ShNZIzb07UMatG3o2d8A:9 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: s7MOr_Yonvj46Mr3m-65C3SAGUXquNFe
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 impostorscore=0 adultscore=0 suspectscore=0
- spamscore=0 malwarescore=0 phishscore=0 bulkscore=0 classifier=typeunknown
+ priorityscore=1501 suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 classifier=typeunknown
  authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508130094
+ engine=8.19.0-2507300000 definitions=main-2508110074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,27 +139,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 8/13/2025 8:06 PM, Konrad Dybcio wrote:
+On 8/13/2025 8:00 PM, Konrad Dybcio wrote:
 > On 8/13/25 2:35 AM, Amirreza Zarrabi wrote:
->> Anyone with access to contiguous physical memory should be able to
->> share memory with QTEE using shm_bridge.
+>> Enable userspace to allocate shared memory with QTEE. Since
+>> QTEE handles shared memory as object, a wrapper is implemented
+>> to represent tee_shm as an object. The shared memory identifier,
+>> obtained through TEE_IOC_SHM_ALLOC, is transferred to the driver using
+>> TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT.
 >>
 >> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> Acked-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 >> Tested-by: Harshal Dev <quic_hdev@quicinc.com>
 >> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
 >> ---
 > 
-> Hm, I thought the idea for the tzmem allocator was to abstract
-> these operations to prevent users from shooting themselves in
-> the foot, and this seems to be circumventing that..
+> [...]
+> 
+>> +/* Mapping information format as expected by QTEE. */
+>> +struct qcomtee_mapping_info {
+>> +	u64 paddr;
+>> +	u64 len;
+>> +	u32 perms;
+>> +} __packed;
+> 
+> Please use types with explicit endianness, e.g. __le32. I'm assuming
+> TZ will always be little-endian, regardless of the host OS
 > 
 
-Yes and no. The TEE subsystem has its own memory management code, and
-the qcomtee backed driver will utilize it. In other words, qcomtee will
-manage its own memory, and tzmem will only be used for drivers that
-communicate with QTEE without involving the TEE subsystem.
-
-This aligns with future extensions for FFA memory sharing.
+I'm not entirely sure how this point is relevant. As I understand it,
+the core that populates this struct is the same one that accesses it in TZ.
+Your argument would absolutely make sense if the host and TZ were operating
+on different cores with distinct architectures -- such as one being
+little-endian and the other big-endian, which is not the case.
 
 Regards,
 Amir
