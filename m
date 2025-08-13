@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A55B24E77
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 17:59:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A34B24E78
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 17:59:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD5C10E77F;
-	Wed, 13 Aug 2025 15:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475FC10E772;
+	Wed, 13 Aug 2025 15:59:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RwlW1T/X";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cmm2iPzA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C23E710E774;
- Wed, 13 Aug 2025 15:59:34 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-4b109c5ac7bso222421cf.3; 
- Wed, 13 Aug 2025 08:59:34 -0700 (PDT)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6F9210E77C;
+ Wed, 13 Aug 2025 15:59:37 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id
+ af79cd13be357-7e6399d0654so503407685a.0; 
+ Wed, 13 Aug 2025 08:59:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755100774; x=1755705574; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1755100777; x=1755705577; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=PQkqhCR+X2AcT/u+sPVE1u8ILZHP3FwYk8GsseoCqig=;
- b=RwlW1T/XjROoniD+z5MyXqLYillJ5FK9j6Tbi1Xbgl9H8MofybWNVdueM7ZhUE45u5
- cgXH+Wn1wUaK3eTTYxULp9vJHhMzJVggZ9mPS8t/y1J9YDb5M+m1We7XVGXBn51e23FY
- qiqdMQqxKMrN1yHG8TyRsJ08KP/eJPO+UIpScdDIfdPb/flArKRzgGDAZpTXGZ/M3HRz
- r2RriUwimDsLOKWgZHPIy81AZFkK5k68IWjFGD8ezn7Z/7b20SqpMiV7CChRa9EqCKk+
- 5KdZhWK3nWB4ZOIDiUAp7emkJQq43WRgPkZvs5jqLsc9ViV1ZFKA+cX4f9fUl+3m63jJ
- dpnw==
+ :reply-to; bh=0B/Rl80M2RF+JrMNdMpIaLoO99EqPe4tcyPYcOz885g=;
+ b=cmm2iPzAr1Gzr8uf45UcWByr65+GXX7APnnQQDLX3sWprlG82jr0pM8Wzm+SWWD06o
+ ahb9XOTQW9a7BXl2VKOV913bym360Yl0WAergyyFvmy1AKNBKcFPGdBalmjHWRNe8EhW
+ sAqGR2vUhXpdE0djtA00f6mX0XVVllUg0ciB6wl0Ehfj4pYilQETk6+oXcszBfjtGvzY
+ 5ElFEH7EwWQqftZn/9Jq/a753sR5hj9kcb2p03FGinc6SVBSvmlYaIO+JHFnBIlaXVNf
+ +5mIDP3panTWhFY/JIbi/i3JAx1XRt57h83UEPadR9UJLxRfT9Q+ZEEvZ7ddLAxzM060
+ Kf3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755100774; x=1755705574;
+ d=1e100.net; s=20230601; t=1755100777; x=1755705577;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PQkqhCR+X2AcT/u+sPVE1u8ILZHP3FwYk8GsseoCqig=;
- b=K2cMecVXHFna3HyziYrPHn7n02DuF1+XDBnQZzSO6EwN+q7ZUnpWkXKVihoUxDaTHb
- NJU3CsgBg9IWMolk8SoRbGpIE76aE3b/FCrTEkF1QQ/g2Uwnfa5GkdjVnEpMYtFaZgz1
- 2W56yZLaG4SBmt2TggGqpLkE7htRO4X1Owjr4DFqM4/32L+ZQFEP9GHJroRnvoqk9/aQ
- 0YgV/Mo5VReueJfiOMYdTCnCqprcCRK/apLrW6PB75xs9ylqC4VFzwTv+tNixUabCdJg
- RGxxqUf5f9ENrSQuExCRieKYw738O0/BtQDt12taIkx7Ck05vfeS8NwLF05+pYMyHgf4
- W7ZQ==
+ bh=0B/Rl80M2RF+JrMNdMpIaLoO99EqPe4tcyPYcOz885g=;
+ b=e7KjFpDo7eS3cPmQdSALoHtq5NFOU0p1+bsyg/Ov07FwgGU5+FpKngf9RWsqlify8k
+ yrTWbHvAlpjmQEfVc7S2Xj6nhPOUpwtz9AS9cZo3C3Tms4i8WTuS5BW93ZjwNcfdtlrV
+ Hqpu53xhkX0FEcxboxOF+u2Rg6J/ljjuU9FMgmquk8/Evi+AyDi/iwm+m01i9RT6m2GL
+ za/KCXam1myt0b8OjojoGVdwuOBJQ84QYUxqVsa3HbUFx2U1K2Y9o/CG13npkFf6Sxa4
+ YXF0ZE9GD+ov6NvPpNvGz2HXRobtWqPkgfG4v222b0M6BwT99J7HIF1iQB2LwsGjgdip
+ iXYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWbN0htTzOSHNF7b3s86l7uTdOAmSgmfBc0sZTsHaFeYvaVzCBBCUGmYAqNt8GNcqintMSvUmm9vA==@lists.freedesktop.org,
- AJvYcCX4KgGGpoACgG93bEoi7w1EwtWOWIy6OIjswd671Z3tRzvVBXZ8tOgIkbRTaIMfZ8cUEQ10fqCQkjY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLuDwn4E9WsJWoVtknCG0HYWHpAHcaxgo/HV+tkOJX2qZTNkJn
- I8yq9YV61xYGtqrKzB8obc92+VXlu5UpsMaTkHfeJxGcuAeRMXrZdltMawUopKMkc8c=
-X-Gm-Gg: ASbGncsGlnVoNgAKiku85UcjeRZp6TK1ZpFxveiBn1nIlbu9JPByKALHcg6frem28gm
- ib949LmnNmzrn2IO9fvne8Dcuxl0WGLhEiRx5VwVqapaq5d3tOnPITV2ddFA2L+Dmxn3x5d11vU
- 72OwPngQ3haBcorShg82XsTsFRO0lXUL3/xSN/YOJbQqhy/SgINXMaYepJmA/YhyHdpFHKivk6h
- R7JSYXzybc8FIwffrQBNfR9QyENbZV+mK1PSIF1XWu/RP26ymHqIDznZAjW2G2DKoBuGNiK79FT
- sNvhQbtO7Ceh3obiG2kc3LrNzNhXJnUpW2PyRJ9AXQl2/TulSSpuI1109SgqWfVVcQ0wmNvC8Tv
- WmAk8wmxK+BMTJ4vl6giJEwxH5x2zN24Nmeqfr3bR87sg1zaVtBwrsHZ5Og4l8hhz9t22iKDisF
- o7j+FdEzFfTIXULBj+B66UjPHaFnAv
-X-Google-Smtp-Source: AGHT+IHZq3i1a9XTbFXQTxJJeihLgQb42x6jyJXFxK6dZtNdBD0dLMgXlffMglfu4O/TMFdzQ1T2Rw==
-X-Received: by 2002:a05:622a:549:b0:4b0:83b4:5965 with SMTP id
- d75a77b69052e-4b0fc6ba555mr47290341cf.14.1755100773657; 
- Wed, 13 Aug 2025 08:59:33 -0700 (PDT)
+ AJvYcCUrIoX4L/tj0O9usm5VtW65rsl5herGhxesEpEzcvg0f/RxV0i57hyqRL4Hx2VLsdNvO1ZP2WOwIPU=@lists.freedesktop.org,
+ AJvYcCXdJS2GkWLMcfCLCIoBpWHRCHyLZTY96b63nb3uVBKquTUihF/wAkN/kVC/Nms3gMuRCWuZN8l4rw==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxVjiqV0uBiMa1dG8uKSe2QYN3o+H2ZIRMrQsQulAKlCplCps5L
+ DP7ZputXuynaI9zvTIinM5AXBQkcEy6CF/+i04/pONsf86d6ZzHtMMpy
+X-Gm-Gg: ASbGncsD/nCif18Lj/KVatzEsXtdS+H6vwmgbIIzaIeh5y/i0s8orbgBk0loGp0nKsL
+ 8ASlu+Wq/inKuGLbZqOzUkm2a9mXgL6eymzSpioU+uOLByWSipwfQlK7chDmHU61oak5MkHVPEM
+ N4NmKRpldZvxL2msItZx97yPW40kUymxyHRobOYyGjiwkDS9h3RAwGmYI/kaOJEha5elPrKaqbb
+ jTwlRleGErBIV0R8tEfaWqsWJ8CSfzz708StvLlpjhsN0C+0CvR1q+X+p178f2rIVhVjmQAv/eW
+ n+Pw8zZA9UdCVkco9LFCqYl28hGn5yRU7PmK7o+i9CzL2lxKp99jTfCv5noC0tyM6139JwlJ7eE
+ sfLkdrbay72gQ3xpxTqLpKUD00ock+9IdB30ZFelwQRVVzCPLMFVh6QRl4wvY77YH4K17xne0Yc
+ 4X4Ipv1j837Su4EguS1A4rZ0qL+6TlvYxWqPvBpmE=
+X-Google-Smtp-Source: AGHT+IGXAuHbm5U1Y4n3fl9DFmAOsvOkx0F/inmIBEc5qoVGXJ6UExGE17RCyI2F88NmRNkKJHgt9g==
+X-Received: by 2002:a05:620a:46a9:b0:7e8:6551:64e3 with SMTP id
+ af79cd13be357-7e86551689cmr488086185a.56.1755100776729; 
+ Wed, 13 Aug 2025 08:59:36 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([2600:4808:6353:5c00:d445:7694:2051:518c])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4b085ad7d08sm124482211cf.53.2025.08.13.08.59.30
+ d75a77b69052e-4b085ad7d08sm124482211cf.53.2025.08.13.08.59.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Aug 2025 08:59:33 -0700 (PDT)
+ Wed, 13 Aug 2025 08:59:36 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 13 Aug 2025 11:59:13 -0400
-Subject: [PATCH v2 03/19] rust: auxiliary: replace `kernel::c_str!` with
+Date: Wed, 13 Aug 2025 11:59:14 -0400
+Subject: [PATCH v2 04/19] rust: clk: replace `kernel::c_str!` with
  C-Strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250813-core-cstr-cstrings-v2-3-00be80fc541b@gmail.com>
+Message-Id: <20250813-core-cstr-cstrings-v2-4-00be80fc541b@gmail.com>
 References: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
 In-Reply-To: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -112,13 +112,13 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1755100759; l=1276;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1755100759; l=1737;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=F2nw+1+uvnPsEnvQVrrTk2VbbpWrYF1uYr4G8N1u7x4=;
+ bh=kr82Gyb3wJcxQA+MDJPetUwZA3ndNFP5TJoRT0zX8oM=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QGMx/5kaMnlNTrXaGDrsiX78ZIRKLC+Iqyye94EgnMxhSsrGEv9tVHC8fuvWEciKzlDqn7iENLx
- rBu+o34IoWwg=
+ QIlIhhB4BGisD/SuihGvNGHWqLUmAuy/tzhcAeWkBxzWuNh9scLQItFeaGY7gyP1Qw+o3qXno4q
+ 0C9ZKgq+ekgw=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -142,32 +142,46 @@ C-String literals were added in Rust 1.77. Replace instances of
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Benno Lossin <lossin@kernel.org>
-Acked-by: Danilo Krummrich <dakr@kernel.org>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
 ---
- samples/rust/rust_driver_auxiliary.rs | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ rust/kernel/clk.rs | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/samples/rust/rust_driver_auxiliary.rs b/samples/rust/rust_driver_auxiliary.rs
-index f2a820683fc3..7c916eb11b64 100644
---- a/samples/rust/rust_driver_auxiliary.rs
-+++ b/samples/rust/rust_driver_auxiliary.rs
-@@ -5,13 +5,13 @@
- //! To make this driver probe, QEMU must be run with `-device pci-testdev`.
- 
- use kernel::{
--    auxiliary, bindings, c_str, device::Core, driver, error::Error, pci, prelude::*, InPlaceModule,
-+    auxiliary, bindings, device::Core, driver, error::Error, pci, prelude::*, InPlaceModule,
- };
- 
- use pin_init::PinInit;
- 
- const MODULE_NAME: &CStr = <LocalModule as kernel::ModuleMetadata>::NAME;
--const AUXILIARY_NAME: &CStr = c_str!("auxiliary");
-+const AUXILIARY_NAME: &CStr = c"auxiliary";
- 
- struct AuxiliaryDriver;
- 
+diff --git a/rust/kernel/clk.rs b/rust/kernel/clk.rs
+index 1e6c8c42fb3a..09469277e95b 100644
+--- a/rust/kernel/clk.rs
++++ b/rust/kernel/clk.rs
+@@ -104,13 +104,12 @@ mod common_clk {
+     /// The following example demonstrates how to obtain and configure a clock for a device.
+     ///
+     /// ```
+-    /// use kernel::c_str;
+     /// use kernel::clk::{Clk, Hertz};
+     /// use kernel::device::Device;
+     /// use kernel::error::Result;
+     ///
+     /// fn configure_clk(dev: &Device) -> Result {
+-    ///     let clk = Clk::get(dev, Some(c_str!("apb_clk")))?;
++    ///     let clk = Clk::get(dev, Some(c"apb_clk"))?;
+     ///
+     ///     clk.prepare_enable()?;
+     ///
+@@ -272,13 +271,12 @@ fn drop(&mut self) {
+     /// device. The code functions correctly whether or not the clock is available.
+     ///
+     /// ```
+-    /// use kernel::c_str;
+     /// use kernel::clk::{OptionalClk, Hertz};
+     /// use kernel::device::Device;
+     /// use kernel::error::Result;
+     ///
+     /// fn configure_clk(dev: &Device) -> Result {
+-    ///     let clk = OptionalClk::get(dev, Some(c_str!("apb_clk")))?;
++    ///     let clk = OptionalClk::get(dev, Some(c"apb_clk"))?;
+     ///
+     ///     clk.prepare_enable()?;
+     ///
 
 -- 
 2.50.1
