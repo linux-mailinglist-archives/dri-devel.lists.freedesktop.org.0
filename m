@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA73B25091
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 19:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 672E5B25095
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 19:02:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5570110E783;
-	Wed, 13 Aug 2025 17:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAE8010E78D;
+	Wed, 13 Aug 2025 17:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D31A310E78A;
- Wed, 13 Aug 2025 17:01:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3F26010E78B;
+ Wed, 13 Aug 2025 17:01:57 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29D641C01;
- Wed, 13 Aug 2025 10:01:44 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A7DB41C14;
+ Wed, 13 Aug 2025 10:01:48 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
  [10.1.196.50])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 074E03F738;
- Wed, 13 Aug 2025 10:01:47 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8F4993F738;
+ Wed, 13 Aug 2025 10:01:52 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
  mark.rutland@arm.com, acme@kernel.org, namhyung@kernel.org,
@@ -38,9 +38,9 @@ Cc: linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
  iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
  linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-riscv@lists.infradead.org
-Subject: [PATCH 06/19] ARM: l2x0: Fix group validation
-Date: Wed, 13 Aug 2025 18:00:58 +0100
-Message-Id: <925c34a4b7f0defc3582a9fcccb6af1c21279a86.1755096883.git.robin.murphy@arm.com>
+Subject: [PATCH 07/19] ARM: imx: Fix MMDC PMU group validation
+Date: Wed, 13 Aug 2025 18:00:59 +0100
+Message-Id: <12766b2e16939ed97df8c410a994c730bede8298.1755096883.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.39.2.101.g768bb238c484.dirty
 In-Reply-To: <cover.1755096883.git.robin.murphy@arm.com>
 References: <cover.1755096883.git.robin.murphy@arm.com>
@@ -61,43 +61,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The group validation here is almost right, but fails to count the new
-event itself. While we fix that, also adopt the standard pattern to
-avoid racy access the sibling list and drop checks that are redundant
-with core code.
+The group validation here gets the event and its group leader mixed up,
+such that if the group leader belongs to a different PMU, the set_bit()
+may go wildly out of bounds. While we fix that, also adopt the standard
+pattern to avoid racy access the sibling list and drop checks that are
+redundant with core code.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- arch/arm/mm/cache-l2x0-pmu.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ arch/arm/mach-imx/mmdc.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm/mm/cache-l2x0-pmu.c b/arch/arm/mm/cache-l2x0-pmu.c
-index 93ef0502b7ff..6fc1171031a8 100644
---- a/arch/arm/mm/cache-l2x0-pmu.c
-+++ b/arch/arm/mm/cache-l2x0-pmu.c
-@@ -274,18 +274,17 @@ static bool l2x0_pmu_group_is_valid(struct perf_event *event)
- 	struct pmu *pmu = event->pmu;
- 	struct perf_event *leader = event->group_leader;
- 	struct perf_event *sibling;
--	int num_hw = 0;
-+	int num_hw = 1;
-+
-+	if (leader == event)
+diff --git a/arch/arm/mach-imx/mmdc.c b/arch/arm/mach-imx/mmdc.c
+index 94e4f4a2f73f..f9d432b385a2 100644
+--- a/arch/arm/mach-imx/mmdc.c
++++ b/arch/arm/mach-imx/mmdc.c
+@@ -238,11 +238,8 @@ static bool mmdc_pmu_group_event_is_valid(struct perf_event *event,
+ {
+ 	int cfg = event->attr.config;
+ 
+-	if (is_software_event(event))
+-		return true;
+-
+ 	if (event->pmu != pmu)
+-		return false;
 +		return true;
  
- 	if (leader->pmu == pmu)
- 		num_hw++;
--	else if (!is_software_event(leader))
--		return false;
+ 	return !test_and_set_bit(cfg, used_counters);
+ }
+@@ -260,12 +257,12 @@ static bool mmdc_pmu_group_is_valid(struct perf_event *event)
+ 	struct perf_event *sibling;
+ 	unsigned long counter_mask = 0;
+ 
+-	set_bit(leader->attr.config, &counter_mask);
++	if (event == leader)
++		return true;
+ 
+-	if (event != leader) {
+-		if (!mmdc_pmu_group_event_is_valid(event, pmu, &counter_mask))
+-			return false;
+-	}
++	set_bit(event->attr.config, &counter_mask);
++	if (!mmdc_pmu_group_event_is_valid(leader, pmu, &counter_mask))
++		return false;
  
  	for_each_sibling_event(sibling, leader) {
- 		if (sibling->pmu == pmu)
- 			num_hw++;
--		else if (!is_software_event(sibling))
--			return false;
- 	}
- 
- 	return num_hw <= PMU_NR_COUNTERS;
+ 		if (!mmdc_pmu_group_event_is_valid(sibling, pmu, &counter_mask))
 -- 
 2.39.2.101.g768bb238c484.dirty
 
