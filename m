@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985D4B24DB5
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 17:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B427BB24DB6
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 17:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6EB910E75B;
-	Wed, 13 Aug 2025 15:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB22D10E759;
+	Wed, 13 Aug 2025 15:42:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NYXeZ5Kh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TPE1Rei9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC65010E759
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 15:42:04 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id
- af79cd13be357-7e817450f7eso679177885a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 08:42:04 -0700 (PDT)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com
+ [209.85.219.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0634A10E75D
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 15:42:07 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id
+ 6a1803df08f44-70a9f5d4d97so406636d6.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 08:42:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755099724; x=1755704524; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1755099726; x=1755704526; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Hp+fCas9Zrtl4wezHGHT/3mKuibllRBTEu6ZN90ulnU=;
- b=NYXeZ5KhzaNLoKoo+Xqi8P7KtixtkJUArPYV46UbyZJ96tgTQiQPdyrTzDIBXO7lm/
- MwVLPhZ+lg+Fu7/pHvbHd4iMSt2aNzAtK5DY/4lcb9R8ENBDVpupbZSz8FElg61L58Bn
- mAU0LKY3lkiTT7y8U47Rf86Xt9ro4ild04TOY+OeqaSX3r9mV+seImb6PZy/1dspWvR3
- ok9rva+iJASYGVXUtENkTetltORoss1B2VtPUA1xiZqiLAgEc0qdDrY3TlG3UT7CH0jZ
- EVYuP9CQh3eQ94L87NpOcIEcshjxOJvh7PnCGj6rN1QFkO8bfCqrMJ484TYq35q33kU7
- A5jw==
+ :reply-to; bh=xeUhMEGs9wuRsft8g3SDqk5wc2QhmGlWOcjaI9cl8qw=;
+ b=TPE1Rei9xnG4LTjkwcFn4pZ3/hbp4cnsJHS+aAjbkrl19eWxdt3loNmcHBTuTIjsGr
+ 72M4YKNMO4iYSKHhuuiVZMDs88v/DKKJN8523Oqwbktzmm2IHQS/7mhc0W95xDfMqs9Q
+ AMGuLjAJH5P3p/K0+76lYCfGijt/3lVHp82lLyN4N6o4aJRTBrD7jHPnJWYmaccAH50F
+ fK9teJV70wgYF1uHHAOBYLiLiO6pX0FGNLjvJMJvfPzXoHkjin2WuMTt3zOrY9UOc44E
+ LMv56xBnapqLGJUUbE1KvDXrQkDa9j40EzcnjXcW5Hdokg3vvCNoSCwfmbsXLpVA+388
+ D+gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755099724; x=1755704524;
+ d=1e100.net; s=20230601; t=1755099726; x=1755704526;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Hp+fCas9Zrtl4wezHGHT/3mKuibllRBTEu6ZN90ulnU=;
- b=kxoOZC4/flc4/Fixdt5juZDrPb2rxN9FMh0bp3utl2h4dpeybkjQhby5aDiymnnA8E
- hmm2aNwja1Yn7eXH7Xi8Sd4Ve7op6FjjM6LK6W8mRy3Op1S1WvkbhbLZz5h5VNddVCLM
- zdTMF9rZ19FmeiS7Ni9/8pEfodaYKPb/ZqhgyOSV7MoOj3Bg5E+WMdan4b5pOLVSPuC7
- DdCcitcgk28ENo8TO0fVTr5+YAFgSntlvVy4I4PK68UNuufLtN9E6U/CWeovOm6UzMHL
- CBag4mEWUV81YbhN0xJYJgsQ5wt9G7GTrXAAD1ZZ7HDJlqspw0TwJl3zhXKNtNP7oy4W
- DbPQ==
-X-Gm-Message-State: AOJu0YxIFgl4QemCKRNCbYnA+mLMnvqCvm1Th/nTiFZMc6JP0eby9ozX
- RYsZguLWtTIlvyc33kXYLPf/JX1+R3msh+z+2jH15kn97jQ91zuybXou
-X-Gm-Gg: ASbGncvvOAuHq931K4klbEUzrcvFLDqejSeTTw1xSFVf9P25UYGY+YUrj8hLMr99HwM
- y4PlidXPEgAX6eQ5sPWZpR92M+5gdAHie6EVz+eCKw83GUcOMgQD2sp6e5yagpJKo7cof6q0imm
- +ISxHL1U6GSH+6e/mPH6fPplOeBrlNkAQQVVYt3D95pGJlmVnofKSNOAAs/rqEEUqYBgBoGDvTs
- 6kEUIvO7zSVmqb4yxfWeawrw/hFyVy6Gxdqja9q2O2OQP3gkcDGiQwWzdo+s7l71xQQL6vKCKwh
- KLwbvPRQpLCoTNivxhtYL0RCUY0arjatIk9+30mzN/iDub8XIJjBh7PKNxNX8pRME7Fd2SzPkp0
- hK08u6qzYeyT28TV87N6snuQ+hFrXaEw3DVKdaubfB8+6OKz16wZQnK8Ut7lN/F8r3Y7/pJKC5O
- ZcbBwoFps3H3qDsYrIsiCIwOESmKTRzKGsBA==
-X-Google-Smtp-Source: AGHT+IH3Gyl1PAf9LZipxoIqItiIsX5gN76gMdGUlBsOjA++2YXjpKyARkzqrf4A5usSLWq1CNBAvw==
-X-Received: by 2002:a05:620a:484e:b0:7e6:9c12:f0ce with SMTP id
- af79cd13be357-7e86537b611mr412290785a.66.1755099723511; 
- Wed, 13 Aug 2025 08:42:03 -0700 (PDT)
+ bh=xeUhMEGs9wuRsft8g3SDqk5wc2QhmGlWOcjaI9cl8qw=;
+ b=vZO9K4nnBoPzQCT5LDTNNy0Xn1Bxr8uloUdNi13GKqTsfo7HojspkBTk8SgiO1P6zj
+ IREcDnOz+v6RbxnZ4YiWNNt/bnE/E/AGAZCsKfSm1tM5xBLuBDFm7Qg3S4PIrkwhXU9I
+ XHaWVn1nY+vTSJhOdfTa4o9N5TnMWUbBN4TYb1nRKczl+wtEEovQeVlAULtxFTogSGXL
+ 27yluX8GOTA74Waqv41nOnVPVNhS/S87uk/nlQhHT4lmPdTsogFah9f974jaGFa07Oqd
+ /uZGsfI5ARwrhNrtqWcNgUKlGO1d50mdGAvLOJIrv1j6Olf/412morc1EVDNCx0CnrhY
+ fztA==
+X-Gm-Message-State: AOJu0YzTzboHhTf5w0O7Z5bRqA14fh+tKlIk7VhCwr2RChHg6Mls3uFU
+ USftbjKCQrR5v2XJBPB+pyWb0d+igZ/dnmcO1lJQYecr/8uISDWmOne9
+X-Gm-Gg: ASbGncs/mVycamHJsIOqP2wPpEK5GaYYP7uu9fczsmseRhP8CqtiqUFvYIBhb9rhVNa
+ sM9cZmDPJ5dKyI/MFSzLLgBV+UTwgzPQyXpvIVUi5EsCu6j3xLy+vVph9hd03zrF8frnmTDantt
+ OKa6ZWaWyZs+aMKv+Mit8eWeHszSvBxpUrLYIocdpaVIXGiMS60Kfa8qsslLqForWl6of0TQtV2
+ iDwuFp6BocsNhK3M3ui9KiX7kdEXWFol7gC2OFFCZKKXOLag1cTM0GDnDIY2Zw5irPLcLoRAhwz
+ 15Ec26a+xq2GVQ8Sk6otu4MIrMnPvtEaZvhGy8lkFLwlpCbaCYay7vkn2vm7PF8vggWYNSBzvQ/
+ 4Yh80GQ/kpUHKkZdf4rXrItFo0jF6UcEntyWOaOj+TGZaJvksYE/CtZ54igrXl3IqOlbCEvME7Q
+ u8OkxSQsuBI7WC7Q2Y5Mm+Swedw9dQy9k8OTjr1vdcnOnf
+X-Google-Smtp-Source: AGHT+IG1mIF6487HtOxJkAPPuPzh2mMUjp+Xc46MEr7/bKJq4m3Tp1y7THXr+TXxripZV2FXg2KGdA==
+X-Received: by 2002:a05:620a:a008:b0:7e8:6fa1:338e with SMTP id
+ af79cd13be357-7e86fa1347fmr16087185a.30.1755099725938; 
+ Wed, 13 Aug 2025 08:42:05 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([2600:4808:6353:5c00:d445:7694:2051:518c])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7e81bc7a1e3sm1180019685a.74.2025.08.13.08.42.01
+ af79cd13be357-7e81bc7a1e3sm1180019685a.74.2025.08.13.08.42.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Aug 2025 08:42:02 -0700 (PDT)
+ Wed, 13 Aug 2025 08:42:05 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 13 Aug 2025 11:41:53 -0400
-Subject: [PATCH v3 02/11] rust: auxiliary: use `core::ffi::CStr` method names
+Date: Wed, 13 Aug 2025 11:41:54 -0400
+Subject: [PATCH v3 03/11] rust: configfs: use `core::ffi::CStr` method
+ names
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250813-core-cstr-fanout-1-v3-2-545c14bc44ff@gmail.com>
+Message-Id: <20250813-core-cstr-fanout-1-v3-3-545c14bc44ff@gmail.com>
 References: <20250813-core-cstr-fanout-1-v3-0-545c14bc44ff@gmail.com>
 In-Reply-To: <20250813-core-cstr-fanout-1-v3-0-545c14bc44ff@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -99,13 +100,13 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  netdev@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-acpi@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1755099715; l=1235;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1755099715; l=2429;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=fm0qgPhMLwhXVUuwviW+AbdgNwUfh/gp/dzymaCtTqo=;
+ bh=kg6DNzoNrYf0nrR1AgMnV/J34mmfXDSDe/reyUaD9+0=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QNI3dWTWVNva1ClYJUkm/ax4LvCecBNot1IU85Wq7cotQ2nzszw6MVgFO7DYjRRwPjXruczaFwK
- yVy6EkaASMgM=
+ QLQbWrxVox3vhWtRI0GbehTSVJ4dOxqZCxMx5W5R2TVPGaDV2mg94i8oRtKtBHDHKVzZj0gCPJ1
+ hi57xW1V/LQI=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,31 +127,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Prepare for `core::ffi::CStr` taking the place of `kernel::str::CStr` by
 avoid methods that only exist on the latter.
 
+Also avoid `Deref<Target=BStr> for CStr` as that impl doesn't exist on
+`core::ffi::CStr`.
+
 Link: https://github.com/Rust-for-Linux/linux/issues/1075
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Benno Lossin <lossin@kernel.org>
-Acked-by: Danilo Krummrich <dakr@kernel.org>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+Acked-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
- rust/kernel/auxiliary.rs | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ rust/kernel/configfs.rs       | 4 ++--
+ samples/rust/rust_configfs.rs | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/auxiliary.rs b/rust/kernel/auxiliary.rs
-index 4749fb6bffef..58be09871397 100644
---- a/rust/kernel/auxiliary.rs
-+++ b/rust/kernel/auxiliary.rs
-@@ -105,8 +105,8 @@ macro_rules! module_auxiliary_driver {
- impl DeviceId {
-     /// Create a new [`DeviceId`] from name.
-     pub const fn new(modname: &'static CStr, name: &'static CStr) -> Self {
--        let name = name.as_bytes_with_nul();
--        let modname = modname.as_bytes_with_nul();
-+        let name = name.to_bytes_with_nul();
-+        let modname = modname.to_bytes_with_nul();
+diff --git a/rust/kernel/configfs.rs b/rust/kernel/configfs.rs
+index 2736b798cdc6..9fb5ef825e41 100644
+--- a/rust/kernel/configfs.rs
++++ b/rust/kernel/configfs.rs
+@@ -263,7 +263,7 @@ pub fn new(
+         try_pin_init!(Self {
+             group <- pin_init::init_zeroed().chain(|v: &mut Opaque<bindings::config_group>| {
+                 let place = v.get();
+-                let name = name.as_bytes_with_nul().as_ptr();
++                let name = name.to_bytes_with_nul().as_ptr();
+                 // SAFETY: It is safe to initialize a group once it has been zeroed.
+                 unsafe {
+                     bindings::config_group_init_type_name(place, name.cast(), item_type.as_ptr())
+@@ -613,7 +613,7 @@ impl<const ID: u64, O, Data> Attribute<ID, O, Data>
+     pub const fn new(name: &'static CStr) -> Self {
+         Self {
+             attribute: Opaque::new(bindings::configfs_attribute {
+-                ca_name: name.as_char_ptr(),
++                ca_name: crate::str::as_char_ptr_in_const_context(name),
+                 ca_owner: core::ptr::null_mut(),
+                 ca_mode: 0o660,
+                 show: Some(Self::show),
+diff --git a/samples/rust/rust_configfs.rs b/samples/rust/rust_configfs.rs
+index af04bfa35cb2..5005453f874d 100644
+--- a/samples/rust/rust_configfs.rs
++++ b/samples/rust/rust_configfs.rs
+@@ -94,7 +94,7 @@ impl configfs::AttributeOperations<0> for Configuration {
  
-         // TODO: Replace with `bindings::auxiliary_device_id::default()` once stabilized for
-         // `const`.
+     fn show(container: &Configuration, page: &mut [u8; PAGE_SIZE]) -> Result<usize> {
+         pr_info!("Show message\n");
+-        let data = container.message;
++        let data = container.message.to_bytes();
+         page[0..data.len()].copy_from_slice(data);
+         Ok(data.len())
+     }
 
 -- 
 2.50.1
