@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40043B24E79
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 17:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A71B24E7A
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 17:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98DDF10E766;
-	Wed, 13 Aug 2025 15:59:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFB1210E76A;
+	Wed, 13 Aug 2025 15:59:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UfBRAMjT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WFoAzLLp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC27910E77B;
- Wed, 13 Aug 2025 15:59:40 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id
- d75a77b69052e-4b109be3726so265801cf.2; 
- Wed, 13 Aug 2025 08:59:40 -0700 (PDT)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E18FF10E783;
+ Wed, 13 Aug 2025 15:59:43 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-4b109bd63d0so275521cf.2; 
+ Wed, 13 Aug 2025 08:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755100780; x=1755705580; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1755100783; x=1755705583; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=/uSi0/KFXiiCYmcIUU0pjTetKZWsYlG+no8vKmb84iA=;
- b=UfBRAMjTWbyhzCcdrgjVaivlf4Pix7OcehNscT/nziW31GX3TpeN8YUpnoF8cefEKw
- D0XU8Kn/u+vsFiziQPiil3Ot+Dv+aFAI3YWnGDdKFGPnnfx/Ghm6aVOtTBdEYoyAozWi
- gNxV68wTPU4cb+XsNEtxFyLuM8kz4f6iZXaUmyE4l0RvDa20BplHbNA82sqqpK2HIVNu
- 7EQlMS4+JkdXT/ei3u32f5Zg/iUaK18apDHxLBjO0kAyNod59r3fXlackV4vqGG4aJtt
- YwR8TpAWIOpHNTAAGdHCi5me9TenQitINdTgKbxqHZvywJRD/nVZbOZF6qmdxNr2SiTr
- FjTA==
+ :reply-to; bh=Z3htc3xdxBwju1wGSUcBXvP8f+eCEVOm7Du1GidEXHQ=;
+ b=WFoAzLLpruE74SDljYrTSPrfllDcntGlhdsxgaRwa3A3kfIYqZ47FtAgkP8K9DZr7w
+ YuQOit7jgZTFPZoi0uglNhm1mchBB0C+3/+w6spFyLkW9jF0vXe1rlRQv7yd/G1dvDQc
+ +idZ9vSNLaGmBy3E2+OALjMiWR2Q2wIM3y48eQhhdtTYJVlapOUYYlu8x0SUirbRxS/p
+ NULEI09kcginvYfIgVq0EksiNvVOSoVS1O/1soVmh/nkDsFncfHAewoGimeeJ9HSLCT5
+ A4K9sktEld6zVXJvUpS7kIDijJnx5M77pmEI7Sm2hHr4B1G5+59HZFYTL2cyWCgPh6La
+ 3v0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755100780; x=1755705580;
+ d=1e100.net; s=20230601; t=1755100783; x=1755705583;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/uSi0/KFXiiCYmcIUU0pjTetKZWsYlG+no8vKmb84iA=;
- b=AizoA0NZGCPpIe2lCN+9EnqBq/pZ0Vh6K8crtPwH3zphRFhlMAPThTHUeJuGl7sveJ
- PmwvbYpS1eWZTMXmpbPeMbzdU2XUczFc8y17ApK2jx4fp9Y4LOgY5JwCQkMgCx6tsGwo
- WU+OWpCeaWhxUH5EdffxcyyNfIsYsyr4PWbja6EUwfPln1LQyBFFpOc//qpwmh2dpZwL
- MSBTfjA5vzOFWEcABNd6Jw40gxK8O3NINI+zVKUCPB53KjjkxeMEwOO6odKVjJw5dC/K
- bDTsjN31g2M60+1FotnuPx3LZFefBzFvAS0rsMP4xUInsvxJ6arWlYJ+qP5uXYCwmrPC
- dw1A==
+ bh=Z3htc3xdxBwju1wGSUcBXvP8f+eCEVOm7Du1GidEXHQ=;
+ b=HX7QBs2q6ZWdD1lDnr8FAA1gfBQNlrUNwH9kIv4lWW1pCcbvSU4r0fhhNrbBEhTM0y
+ sh5zQUdIh2yiRByeUTR54RM166OsMFAcEiELxJU0v4B8HxvzLtJdH8bC0VpZIydlJxhu
+ eSsaNPwFqtu/wdRsdBE4RwoBSt0s7aEbs5tsQNgOadcgapTckrEeGy6/XYiwgOh86t1w
+ HQzyEA73YVedmjN2ceUEVpTYEG6/DF5SJJQkOrWphO+C29DuiWadAbjBjaUjTNTSL25+
+ JxTZ9MlGbrPVVD+qPDNW8IfXzNhAhHVgP6YLGWG8+MT8d/0n0UFuMQmkVXrNut9fLTno
+ /Dbg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUj4ptv95RGchymNV5bisF9HYFoFkrgDgOh3+p4uvNqXaJMcMP/5cKA/PcZ5/e+esrzveHQAGhuIg==@lists.freedesktop.org,
- AJvYcCX7bzdRpmMhqOGJPjnM0zwVc7sx54a6cGlfpc7OapccqLJj3K8dU2dXZJGc1obEM6H+NLk1Mv+wOw4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywb4fCEWB91jZW/yumEZCzAEb9TME962oV58Ti+k5R2aKJf+SIw
- KuG0PcJoeyaF/2pZ11mhklrM0zQeSMjHaXzPC4TsxOpMm5T11766mO9t
-X-Gm-Gg: ASbGncu48ScwW+cYuztSbL3IjCz5LLOccQD+XEbBuREurj/74aIr1UGe8BnU8+0GPHl
- l+G2MKWS2dnnXg3lsD+VZm11r2nB7VsDIyQotIkayCHo2VZeWbIZm26A+u3GV0GHN7MU0SndgF9
- l6AX1hs5X38gRW6jG8NNywIrY7qlBVG+zaRY2zFYD8Hu55r27LDvyK8UHUW6sNK3rH7UsxL0slQ
- qh+2D5Vb8iDL6moU9PbcjYvVM7Dk0ZZgEwH7YIAV7yMh/HKwcwDnejMENjd+HivACgsLUkreJlm
- FLNbsSmRanJvw0QrTt4wABomnGK5qp/ba0idGsbKQ0o0/IxCk8fkVX2BP3nQMTyeMGRYlHkV2/c
- ZOtFamy/PkC8L3NfdPoQ4LMDcwbHpW8k6ph2wL8+yR77U1r4UDUY0BoXYWeZdzqa8z68lKmp70o
- JcQDoJqJ0X5wchZGmBBN8qDONPOt+QksjojQdEZqI=
-X-Google-Smtp-Source: AGHT+IEAmj18QhxLoJhKv5gl7oxN5rOUOYsu7xtf/ad0LtVX2HZm2WUPSGMiEf/0bbq/rLPvLyA/eg==
-X-Received: by 2002:a05:622a:4811:b0:4af:230a:dadb with SMTP id
- d75a77b69052e-4b0fc6be691mr50407091cf.5.1755100779635; 
- Wed, 13 Aug 2025 08:59:39 -0700 (PDT)
+ AJvYcCV25Xq3nFm6h/bhlcRm5cPaUjbKD8h4iGHHtjCB3VDkte0Uh9Icz0OgM2PUoyjDHTmFQrUf7GUTsQM=@lists.freedesktop.org,
+ AJvYcCXCsD0Fp9DYJoRP1PeoJj+uPNoVTuehnWogEdiYC7bASYrXMvu1hZanOHCJwvUChQN23Sb/Mlf+Fw==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzyptECbHGHBeFRKvhLYFyKAuP+6tSeL8CHI1oD/1t9/WJTtl3o
+ KNySF2WAh69u5eLZX8QRdO1+SC8RreZ9S1gDvq0fb6lYEC9ATlFt/cND
+X-Gm-Gg: ASbGncuDFZx9Ra/1jpJkZJEVPt9NHk0VQRazgTVCP+Ecx6EWpXZicdzqW42qk2YOhvA
+ Biny023xO0hxKwsYcQBze9Vcx6yk+zmn3KGalkB0rriI7AGLoUSkh1//U4OXHfLKyIpSHx1lUP8
+ DxSC0/t8gXkmNhdLTsCkcY7WabbrLT8jz9bIWoTB0ngM6BfZFy3C0UzqxY9b2nwPJxEX69yzGs1
+ uPMs8Z/Ex26B73A4Su9hf3i2DGd8vH8uK92tX250a92l+pGdTwgQYjtsaec6alfnFf2kxu8LPcN
+ ZZyox59oDX0HHJPpfTSzUvw4oVv3JTVrIfVgamrLJLbVbp7mMTpL5HguSErKFN6VSWjUfiJMW2j
+ eqWqoiC3VFovJjR/uIvSjPW9GZp3/5Wvjro9gnIvcyR/bOlwBV2GVwBLVgTSZexjOFPCliBislx
+ KSS1KSTXlwnfIbs4/pj0dpvLv/QqctbXvx1e8/LXo=
+X-Google-Smtp-Source: AGHT+IGmsxX0kELWnIl4AOAgAiKMupAmKqdo33fAGQtEH9G6dj1HBj58ZUP7RvHy9vaNQjbbVuIMtw==
+X-Received: by 2002:ac8:7d55:0:b0:4b0:f1f3:dd71 with SMTP id
+ d75a77b69052e-4b0fc8b9d5emr46748261cf.52.1755100782714; 
+ Wed, 13 Aug 2025 08:59:42 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([2600:4808:6353:5c00:d445:7694:2051:518c])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4b085ad7d08sm124482211cf.53.2025.08.13.08.59.36
+ d75a77b69052e-4b085ad7d08sm124482211cf.53.2025.08.13.08.59.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Aug 2025 08:59:39 -0700 (PDT)
+ Wed, 13 Aug 2025 08:59:42 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 13 Aug 2025 11:59:15 -0400
-Subject: [PATCH v2 05/19] rust: configfs: replace `kernel::c_str!` with
+Date: Wed, 13 Aug 2025 11:59:16 -0400
+Subject: [PATCH v2 06/19] rust: cpufreq: replace `kernel::c_str!` with
  C-Strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250813-core-cstr-cstrings-v2-5-00be80fc541b@gmail.com>
+Message-Id: <20250813-core-cstr-cstrings-v2-6-00be80fc541b@gmail.com>
 References: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
 In-Reply-To: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -112,13 +112,13 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1755100759; l=3197;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1755100759; l=2329;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=EQZo1upB9M1x1JFdTpaV8Cq+trhQfkvbEQ0ucCR/Veg=;
+ bh=PmSJIKP9ITH0el/dadPamYsnQlMWQ/txa9zC2kGqUps=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QMestgupOVA5qzlqQPukztYt1+taScdgyyamOqF0bRx/0xpl4F7OS1NMKmSJTbYBoooWukzcpGj
- E2jFgDmWmiQs=
+ QMb7Tw5E0tWRPzZFQNf3SQWWA+44VvrTatP7kJQXzTcRJm+H4iMDqWaOwYFfKj0pe0olEYL99jK
+ yP22+o0xYZgQ=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -143,83 +143,62 @@ Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Benno Lossin <lossin@kernel.org>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-Acked-by: Andreas Hindborg <a.hindborg@kernel.org>
 ---
- rust/kernel/configfs.rs       | 9 +++++----
- samples/rust/rust_configfs.rs | 5 ++---
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/cpufreq/rcpufreq_dt.rs | 5 ++---
+ rust/kernel/cpufreq.rs         | 3 +--
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/rust/kernel/configfs.rs b/rust/kernel/configfs.rs
-index 9fb5ef825e41..69bb1fb53543 100644
---- a/rust/kernel/configfs.rs
-+++ b/rust/kernel/configfs.rs
-@@ -21,7 +21,6 @@
- //!
- //! ```ignore
- //! use kernel::alloc::flags;
--//! use kernel::c_str;
- //! use kernel::configfs_attrs;
- //! use kernel::configfs;
- //! use kernel::new_mutex;
-@@ -50,7 +49,7 @@
- //!
- //!         try_pin_init!(Self {
- //!             config <- configfs::Subsystem::new(
--//!                 c_str!("rust_configfs"), item_type, Configuration::new()
-+//!                 c"rust_configfs", item_type, Configuration::new()
- //!             ),
- //!         })
- //!     }
-@@ -66,7 +65,7 @@
- //! impl Configuration {
- //!     fn new() -> impl PinInit<Self, Error> {
- //!         try_pin_init!(Self {
--//!             message: c_str!("Hello World\n"),
-+//!             message: c"Hello World\n",
- //!             bar <- new_mutex!((KBox::new([0; PAGE_SIZE], flags::GFP_KERNEL)?, 0)),
- //!         })
- //!     }
-@@ -1000,7 +999,9 @@ macro_rules! configfs_attrs {
-                     static [< $data:upper _ $name:upper _ATTR >]:
-                         $crate::configfs::Attribute<$attr, $data, $data> =
-                             unsafe {
--                                $crate::configfs::Attribute::new(c_str!(::core::stringify!($name)))
-+                                $crate::configfs::Attribute::new(
-+                                    $crate::c_str!(::core::stringify!($name)),
-+                                )
-                             };
-                 )*
- 
-diff --git a/samples/rust/rust_configfs.rs b/samples/rust/rust_configfs.rs
-index 5005453f874d..ea84c23b784b 100644
---- a/samples/rust/rust_configfs.rs
-+++ b/samples/rust/rust_configfs.rs
+diff --git a/drivers/cpufreq/rcpufreq_dt.rs b/drivers/cpufreq/rcpufreq_dt.rs
+index 7e1fbf9a091f..1120a8f5edd7 100644
+--- a/drivers/cpufreq/rcpufreq_dt.rs
++++ b/drivers/cpufreq/rcpufreq_dt.rs
 @@ -3,7 +3,6 @@
- //! Rust configfs sample.
+ //! Rust based implementation of the cpufreq-dt driver.
  
- use kernel::alloc::flags;
--use kernel::c_str;
- use kernel::configfs;
- use kernel::configfs_attrs;
- use kernel::new_mutex;
-@@ -35,7 +34,7 @@ struct Configuration {
- impl Configuration {
-     fn new() -> impl PinInit<Self, Error> {
-         try_pin_init!(Self {
--            message: c_str!("Hello World\n"),
-+            message: c"Hello World\n",
-             bar <- new_mutex!((KBox::new([0; PAGE_SIZE], flags::GFP_KERNEL)?, 0)),
-         })
-     }
-@@ -61,7 +60,7 @@ fn init(_module: &'static ThisModule) -> impl PinInit<Self, Error> {
+ use kernel::{
+-    c_str,
+     clk::Clk,
+     cpu, cpufreq,
+     cpumask::CpumaskVar,
+@@ -56,7 +55,7 @@ impl opp::ConfigOps for CPUFreqDTDriver {}
  
-         try_pin_init!(Self {
-             config <- configfs::Subsystem::new(
--                c_str!("rust_configfs"), item_type, Configuration::new()
-+                c"rust_configfs", item_type, Configuration::new()
-             ),
-         })
-     }
+ #[vtable]
+ impl cpufreq::Driver for CPUFreqDTDriver {
+-    const NAME: &'static CStr = c_str!("cpufreq-dt");
++    const NAME: &'static CStr = c"cpufreq-dt";
+     const FLAGS: u16 = cpufreq::flags::NEED_INITIAL_FREQ_CHECK | cpufreq::flags::IS_COOLING_DEV;
+     const BOOST_ENABLED: bool = true;
+ 
+@@ -201,7 +200,7 @@ fn register_em(policy: &mut cpufreq::Policy) {
+     OF_TABLE,
+     MODULE_OF_TABLE,
+     <CPUFreqDTDriver as platform::Driver>::IdInfo,
+-    [(of::DeviceId::new(c_str!("operating-points-v2")), ())]
++    [(of::DeviceId::new(c"operating-points-v2"), ())]
+ );
+ 
+ impl platform::Driver for CPUFreqDTDriver {
+diff --git a/rust/kernel/cpufreq.rs b/rust/kernel/cpufreq.rs
+index 2bdf9ae00ffe..c59b84820684 100644
+--- a/rust/kernel/cpufreq.rs
++++ b/rust/kernel/cpufreq.rs
+@@ -841,7 +841,6 @@ fn register_em(_policy: &mut Policy) {
+ /// ```
+ /// use kernel::{
+ ///     cpufreq,
+-///     c_str,
+ ///     device::{Core, Device},
+ ///     macros::vtable,
+ ///     of, platform,
+@@ -854,7 +853,7 @@ fn register_em(_policy: &mut Policy) {
+ ///
+ /// #[vtable]
+ /// impl cpufreq::Driver for SampleDriver {
+-///     const NAME: &'static CStr = c_str!("cpufreq-sample");
++///     const NAME: &'static CStr = c"cpufreq-sample";
+ ///     const FLAGS: u16 = cpufreq::flags::NEED_INITIAL_FREQ_CHECK | cpufreq::flags::IS_COOLING_DEV;
+ ///     const BOOST_ENABLED: bool = true;
+ ///
 
 -- 
 2.50.1
