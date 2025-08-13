@@ -2,92 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63768B24280
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 09:22:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21B9B24292
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 09:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBBA110E4BF;
-	Wed, 13 Aug 2025 07:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2246310E4C6;
+	Wed, 13 Aug 2025 07:25:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Wn4mjGro";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xu2sy9er";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wn4mjGro";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xu2sy9er";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="aEz7XU/9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cYfZSvjy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aEz7XU/9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cYfZSvjy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E8E010E4BF
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 07:22:53 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ECBF10E6A8
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 07:25:11 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B57E41F44E;
- Wed, 13 Aug 2025 07:22:51 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 10B3B1F44E;
+ Wed, 13 Aug 2025 07:25:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755069771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1755069910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=v6hS9FMp+fvANVjHDgtFRJRfOYDfEc9uJJItFEZThmk=;
- b=Wn4mjGrobRueYLtmFPHa3OLzyaWxv37GMyL+wS2pvoxQ4SltJm7cgHd3VOx8X3QpD5s7Qm
- RYV/pj1CFl6KdcgLCFv47FIfYng65mCwGkeNIo1EIsn/wtGtWsLHO3yj8BcuTi6YxyuH6l
- dYfi+oukNJ8G0/GlNSkhGLwqPItdDiI=
+ bh=3z05Xnkx+T4BhCc0vWIjj4OY8qCGW3NOwl0opHt1ReY=;
+ b=aEz7XU/9bFRhF/XcgjjMxbImh4Of8W8V9vm3R5nbOFIBiRaSe70eX0tLyWe16fJeqHe9kd
+ WjlU9ErKscAlihkKY0quFmGCrrBRZHF/ALEQRTIneI+4a0IHILmHF9NWkIGmx54wUBBoBy
+ Y89eWI0rPjePDfPPueD92p/oUepSgN8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755069771;
+ s=susede2_ed25519; t=1755069910;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=v6hS9FMp+fvANVjHDgtFRJRfOYDfEc9uJJItFEZThmk=;
- b=Xu2sy9erb/vzFu9q8FYjOuq6dBrATess/NTv+4LqQJg45v3OPAHB1QTN1lqoDbcgMqTscY
- fGVKYo/jlL3Rs4Cw==
+ bh=3z05Xnkx+T4BhCc0vWIjj4OY8qCGW3NOwl0opHt1ReY=;
+ b=cYfZSvjyE2yxg7HWFNBz/zo26qpWmgW/q7pVQA8XWLq7FijyN5y98F9bwAqgg6vraU8WDI
+ vTOH2pJGhVZ+XKCA==
 Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Wn4mjGro;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Xu2sy9er
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755069771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1755069910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=v6hS9FMp+fvANVjHDgtFRJRfOYDfEc9uJJItFEZThmk=;
- b=Wn4mjGrobRueYLtmFPHa3OLzyaWxv37GMyL+wS2pvoxQ4SltJm7cgHd3VOx8X3QpD5s7Qm
- RYV/pj1CFl6KdcgLCFv47FIfYng65mCwGkeNIo1EIsn/wtGtWsLHO3yj8BcuTi6YxyuH6l
- dYfi+oukNJ8G0/GlNSkhGLwqPItdDiI=
+ bh=3z05Xnkx+T4BhCc0vWIjj4OY8qCGW3NOwl0opHt1ReY=;
+ b=aEz7XU/9bFRhF/XcgjjMxbImh4Of8W8V9vm3R5nbOFIBiRaSe70eX0tLyWe16fJeqHe9kd
+ WjlU9ErKscAlihkKY0quFmGCrrBRZHF/ALEQRTIneI+4a0IHILmHF9NWkIGmx54wUBBoBy
+ Y89eWI0rPjePDfPPueD92p/oUepSgN8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755069771;
+ s=susede2_ed25519; t=1755069910;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=v6hS9FMp+fvANVjHDgtFRJRfOYDfEc9uJJItFEZThmk=;
- b=Xu2sy9erb/vzFu9q8FYjOuq6dBrATess/NTv+4LqQJg45v3OPAHB1QTN1lqoDbcgMqTscY
- fGVKYo/jlL3Rs4Cw==
+ bh=3z05Xnkx+T4BhCc0vWIjj4OY8qCGW3NOwl0opHt1ReY=;
+ b=cYfZSvjyE2yxg7HWFNBz/zo26qpWmgW/q7pVQA8XWLq7FijyN5y98F9bwAqgg6vraU8WDI
+ vTOH2pJGhVZ+XKCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 70B9713479;
- Wed, 13 Aug 2025 07:22:51 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C059F13479;
+ Wed, 13 Aug 2025 07:25:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id K3pwGUs9nGibdgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 13 Aug 2025 07:22:51 +0000
-Message-ID: <57ec4e5a-64a9-4e44-9304-d41e6148da01@suse.de>
-Date: Wed, 13 Aug 2025 09:22:50 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id rYx9LdU9nGg9dwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 13 Aug 2025 07:25:09 +0000
+Message-ID: <e2d1fb66-642b-46e1-a5ef-527ae21855c3@suse.de>
+Date: Wed, 13 Aug 2025 09:25:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] gpu: drm: fix compilation errors in drm_vram_helper
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?B?R2FyeSBDaHUo5qWa5YWJ5bqGKQ==?= <chuguangqing@inspur.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <5863c61a424545119df8ccb28dc1dbf8@inspur.com>
- <8e1f2b36-58b8-41fb-b514-e39c4d5081b9@suse.de>
+Subject: Re: [PATCH 2/3] drm/nouveau: Pass along the format info from
+ .fb_create() to drm_helper_mode_fill_fb_struct()
+To: Danilo Krummrich <dakr@kernel.org>, imre.deak@intel.com
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20250728101603.243788-1-imre.deak@intel.com>
+ <20250728101603.243788-3-imre.deak@intel.com>
+ <cab8be18-1cb3-49d8-a967-767174b0dc79@kernel.org>
+ <4abed396-5225-4b5c-a538-ced4f4619239@kernel.org>
+ <aJt2-wXhhYojy7Hy@ideak-desk>
+ <85623d31-000c-4ca1-aa2c-2c059534eb99@kernel.org>
 Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
  XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
@@ -112,36 +115,25 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <8e1f2b36-58b8-41fb-b514-e39c4d5081b9@suse.de>
+In-Reply-To: <85623d31-000c-4ca1-aa2c-2c059534eb99@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: B57E41F44E
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[inspur.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- TO_DN_EQ_ADDR_SOME(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[7]; DKIM_TRACE(0.00)[suse.de:+];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
  RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
- imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid, suse.de:email]
-X-Spam-Score: -4.51
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_SEVEN(0.00)[7];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,110 +151,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 13.08.25 um 08:58 schrieb Thomas Zimmermann:
-> Hi
->
-> Am 13.08.25 um 03:38 schrieb Gary Chu(楚光庆):
->> Hi Thomas
+Am 12.08.25 um 19:24 schrieb Danilo Krummrich:
+> On 8/12/25 7:16 PM, Imre Deak wrote:
+>> The fix is in drm-misc-next-fixes atm and Thomas has sent already
 >>
->> This is what I've done in the yhgch_drm driver.
->> See the link below:
->> https://lore.kernel.org/all/20250808053508.52202-1-chuguangqing@inspur.com/T/#t 
+>> https://lore.kernel.org/all/20250812064712.GA14554@2a02-2454-fd5e-fd00-2c49-c639-c55f-a125.dyn6.pyur.net 
 >>
 >
-> I see. I thought it was for an existing driver. In new drivers, please 
-> don't use VRAM helpers any longer. VRAM helpers are based on TTM and 
-> new drivers should use TTM directly. If you integrate the code from 
-> VRAM helpers into your driver, you should be good.
->
-> Note that for reliably using TTM, your hardware requires at least 3 
-> times the memory as the largest resolution+depth requires. The driver 
-> says 1920*1200@32bpp, which amounts to ~9 MiB of VRAM. For TTM usage, 
-> your device requires at least 32 MiB of VRAM available.
->
-> If your devices have smaller VRAM, rather use GEM SHMEM helpers instead.
+> Ok, that's great! (No further action needed AFAIC. :)
 
-And with TTM, buffer sharing is fairly hard to impossible. Shmem or DMA 
-helpers provide it out of the box.
+Please don't cherry-pick across trees unless absolutely necessary. It's 
+a hassle for later backporting and merging.
 
 Best regards
 Thomas
 
-
->
-> Best regards
-> Thomas
->
->>
->> In fact, through modifications in Patch v2, it allows only the 
->> selection of
->> DRM_VRAM_HELPER in the driver.
->> See the link below:
->> https://lore.kernel.org/all/20250729060728.82402-1-chuguangqing@inspur.com/T/#m3e33f8e155275ea548223c21777c191ecd392159 
->>
->>
->> Best regards
->> Chuguangqing
->>
->>> From: Thomas Zimmermann <tzimmermann@suse.de>
->>> To:chuguangqing <chuguangqing@inspur.com>; Maarten Lankhorst
->>> <maarten.lankhorst@linux.intel.com>; Maxime Ripard 
->>> <mripard@kernel.org>;
->>> David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>
->>> Cc: dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org
->>> Subject: Re: [PATCH 1/1] gpu: drm: fix compilation errors in 
->>> drm_vram_helper
->>>
->>> Hi
->>>
->>> Am 29.07.25 um 08:07 schrieb chuguangqing:
->>>> We encountered the following errors while compiling drm_vram_helper.ko
->>>>
->>>> ERROR: modpost: "drm_gem_ttm_print_info"
->>> [drivers/gpu/drm/drm_vram_helper.ko] undefined!
->>>> ERROR: modpost: "drm_gem_ttm_mmap"
->>> [drivers/gpu/drm/drm_vram_helper.ko] undefined!
->>>> The functions drm_gem_ttm_mmap and drm_gem_ttm_print_info are
->>> defined in drm_gem_ttm_helper.c. This patch adds 
->>> drm_gem_ttm_helper.o to
->>> DRM_VRAM_HELPER to resolve the undefined symbol errors.
->>>
->>> You need to select DRM_TTM_HELPER for your driver.
->>>
->>> Best regards
->>> Thomas
->>>
->>>> Signed-off-by: chuguangqing <chuguangqing@inspur.com>
->>>> ---
->>>>    drivers/gpu/drm/Makefile | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile index
->>>> 4dafbdc8f86a..abbe32ddf6d0 100644
->>>> --- a/drivers/gpu/drm/Makefile
->>>> +++ b/drivers/gpu/drm/Makefile
->>>> @@ -125,7 +125,7 @@ drm_suballoc_helper-y := drm_suballoc.o
->>>>    obj-$(CONFIG_DRM_SUBALLOC_HELPER) += drm_suballoc_helper.o
->>>>
->>>>    drm_vram_helper-y := drm_gem_vram_helper.o
->>>> -obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
->>>> +obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
->>>> +drm_gem_ttm_helper.o
->>>>
->>>>    drm_ttm_helper-y := drm_gem_ttm_helper.o
->>>>    drm_ttm_helper-$(CONFIG_DRM_FBDEV_EMULATION) +=
->>> drm_fbdev_ttm.o
->>>
->>> -- 
->>> -- 
->>> Thomas Zimmermann
->>> Graphics Driver Developer
->>> SUSE Software Solutions Germany GmbH
->>> Frankenstrasse 146, 90461 Nuernberg, Germany
->>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman HRB
->>> 36809 (AG Nuernberg)
->>>
->
 
 -- 
 --
