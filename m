@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75AECB24E80
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 17:59:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B92B252A2
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 19:56:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D74AD10E770;
-	Wed, 13 Aug 2025 15:59:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD4710E1D9;
+	Wed, 13 Aug 2025 17:56:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GlHw8qSw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="JvopyWmO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A85710E774;
- Wed, 13 Aug 2025 15:59:56 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-4b109bd8b09so273331cf.2; 
- Wed, 13 Aug 2025 08:59:56 -0700 (PDT)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9729510E1D9;
+ Wed, 13 Aug 2025 17:56:56 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id
+ 41be03b00d2f7-b47174beccfso124a12.2; 
+ Wed, 13 Aug 2025 10:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755100795; x=1755705595; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1755107816; x=1755712616; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=g4l8i2sEeNyD3uPILdjK+jaPwYgeKMm+ZntjpvS529I=;
- b=GlHw8qSw+uv0SwTjKALu54F9leQUOIVghTUSc/YOUm+pYdfxZ/0Q41aakf7D7+SvaH
- utG0y6Dxik8OHUFI0aWLbcMEXXoyVl/cahRXGXPFcT64pgFdcf0CSTTrRGSBV+OIAqhI
- vcApYN3tUz3JeXhhSkkVS/glW760rDBsEr1sxLt5uUfuu6uLrxdmseRG38jls8ZFTO8n
- uAN/Of1tqzCJES5cD64dW3dW0FEp+HXgQA+jvcGu6zF74lhzzGpbo9LPd4BMtpOx9fSs
- j2z4YzwGALjp7qh3+KSsWDZPaoGF8UVl8dAnD5F9I/vesKZh6MS7eMMo3OrLzkyZE75a
- SxJQ==
+ :reply-to; bh=g6QEvKbWqHKl56z7lqO1CQDa/mVnlY0njSFi7H7FEMM=;
+ b=JvopyWmOL+WdjC+BHOWnKneSUoJEtmQvq2IDYwT359H05j+H0B38atm2y74qfMR1+h
+ LgLdDNw/PxcJ65JBtSRLpckMrd4dH2u9MSCp9pDjz2AarQ45O5Fh1O9lDjzdk6tvR4nA
+ t81Gq1S66HLkWlgETkYe932Rt/J+qPY3ek5zK2u1cxdu8xkV7FJhAyG6K5N/pgCAUOou
+ fpbuxGNbqgb0oOr8zA7UzN+4w1627TRuVEMoUUJAMrqluRfCuW9C49Hryg6rJpwIb0Gh
+ ZSH44IJ/kpmH8msCcfoMvQ4U/qtyGYImRTsIcxdhwWBmkuZ2guRH7nXzNw5lnsLlNIUM
+ Fxbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755100795; x=1755705595;
+ d=1e100.net; s=20230601; t=1755107816; x=1755712616;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=g4l8i2sEeNyD3uPILdjK+jaPwYgeKMm+ZntjpvS529I=;
- b=Z5jqGLJWReUzrCdAEtFxOrgejQ5NbEpBKJh20MCGVztTZ2kPyGO3wZzwSDDj4CX02n
- B0xieKsQSM0TjZT61yJK42XN6v66y8jUJU5DYVVDRaBRg4A422uPXHO+WIJvZe5Eq3JH
- M3o5xtPXibLFOC8IPT3mFkjQtDVK2ye1wM/VhyMWdAT8Ynba+pTppZDBYdPiGF3BZ1/z
- MWiFuqS2zqR4qCPMRCaCy5lKateyzNeSIcE50GzKocSJTtyKP2LCiZKuK+g03zgBKK5u
- 7qlBuWy85VRbLENItC31bsdl21+MnrcnjLIJN7dxO2azfm6RnawXMThIhNniZmDxfso1
- aZrg==
+ bh=g6QEvKbWqHKl56z7lqO1CQDa/mVnlY0njSFi7H7FEMM=;
+ b=j6fRNPLBtXv5+u99B26taOtoR2ZjQ300Hh8/g+TkYvBQW5uArRsVHxCtJ7BienCQuL
+ bd2/lO5ASLIQTucJlapnY0sGLeEPHYhzLQcEKAPftn3xMC+xzfL1tz0zDmmopoPGLTe9
+ HsXUtfdatu6aE8L4frAmyAN5XzPH0xR8GiLMm+fPXvl/5xVK1iAKOWS7YnoT4I0REyPV
+ 9amx/TvhZnJA8xleNxaOZ/CHpAU91eoG2pwACDEUS3Rs60AbpjsnuinCKBQrUD+qqVau
+ Duvl5E6B02CdwW/6xPwfnzmJfvV5oKe8KR2XMhYtoBz09eCv+depne8B5PfyEY8/T8eS
+ yh6A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUTP50VBaghdGJCnjEm8W517ACNTkqik9ImlvgA8OEhnFUn01wxNM/nZahZoel+itcbFIbI/6dtwCw=@lists.freedesktop.org,
- AJvYcCV25YnSz6URavIrOHVE33m9x9KMRMhPWDHzredMHX1EkzbP+iigRp6zmrBq2ZN3qV7EEDtQZvgLfQ==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwHHWBQtiaE27RbQYD8D0FF09w8X2o7D1rAXQskLZ2dOTq+O3gf
- 5ba1oW88n4ImjE7S4XHFhIepUo7IXGiijWokGcxc8rZw+qwzXGJawR1B
-X-Gm-Gg: ASbGncuY7tQPmTN7pSfPwxZC7Ih2qPA3fHSOMttjVRg4W0tfYj+dKv1k/kfM3oBOhkV
- JZH4jgShxCBAybwvBNcTz7Cct/CKo/su/Y0pXLrrzoRVXGTTsmvpq703rF1lgd97QqDD3u+L/aF
- SiAxPEVtNRw03IlxhTGfTSjVgtJsDRHhnZV06PmvyU9NDGs4RMVbAGnfQMISpbwu56WtpkxpgtF
- m6ORqHP1yE4FR7tvWCKxy5LUmt8ii7EU4lePjHRwjbxGBK868O1nbiVwAXKcOeUloCsErJGuSX7
- IVYuOZPSHJeBWM2i3xutataAupaa70RY4+XjGE+J+bQtE8wICgaRg6b78jVsf3StnB34m3R3bdB
- pFbbPZQaNAmIjM2oniP9NgrwiM4tq9Ea62SeB4DQg4EuBAdILPxW7fUftldgwaN3Bz8xI91Jw/G
- FvVcBRR/BBskxcS/HHA3AQyOew9dCmb8aGTek45gk=
-X-Google-Smtp-Source: AGHT+IE9yYjN8Lj7sjrBb5G5y7e+9Lkv3po6+5dMllJMdJnuYbEDB7N8jixA+pC4n6efn+2e5Jn5CQ==
-X-Received: by 2002:a05:622a:5986:b0:4b0:89c2:68fe with SMTP id
- d75a77b69052e-4b0fc8b7decmr54119151cf.52.1755100794976; 
- Wed, 13 Aug 2025 08:59:54 -0700 (PDT)
+ AJvYcCWdza78eqP7ZQVIN+jwqXj8bYp5aJsbDcNOVTEG98QIFvvouxj+BkxV+GIO/C61ZIzfjZlv9i5Rd4o=@lists.freedesktop.org,
+ AJvYcCXOSXS+HCF9INaAlzEKCQzvcNvSjwVAckGJu1NHNNNW8VYWL6Ra11AJnUUDp4nnuKtK+j3w3yS2aQ==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxFSMGmAJQHy73FoJy1YHgUdn23RXihyy7draRPOX6who1gkYwK
+ iZyZ4LCd5ZykZviwf6KeH/LurVHrfHIzYtWYIa1K4DVJ3xRo/P8NwtdlmRPCYOvb
+X-Gm-Gg: ASbGnctsGo/MaZ+cZijzLOITGm+b+94N4WHyksgZy6hmMuc2oVrJoTNLsmVSzt5hLHy
+ 0q3eUObDTRIk7QIj4l4xhP/EnCdQH7XAroS6+Afm9XACggsXahQrUUP9RY/KFVmw1m0J5w7qp5v
+ jGWohFVo7rnwEpsxX1RrBAlDYcIk80FZR/1IEc7J0R2XvV9FajKUWudvireNXl6fnJj/Nfxmio5
+ BfjNZSoieY4H9aT08ZQT8HtIz2Wqt6jXOfHUh9BOgxmE9WU7QkSlKZ62T49G/jXyISp/AeU0O5S
+ tD5/5N4VrlkIBb0bnNi9wM1ORtsF0phBAx8Y4LKVGIJIUJbHi3Ml80AHTON5UW7BPiIn3JKoM6I
+ iZcAPFHd5MFzLhrYsSNY4XLAr5qJoiwt6uawNTKRK2xDPakIrn80HoGNG9Vyj2EedCEK/Ki1Gnb
+ hfvQP9/MMCDkjSz6C5diERi/+devfq
+X-Google-Smtp-Source: AGHT+IHzxOT0e51q9GMbCoQJQmA1iOf0AGvoQCtni9f1rWQqIeUQheFiN4hAfvpXA6DN5Xlkg8xgDQ==
+X-Received: by 2002:a05:622a:1f96:b0:4b0:e6d1:ef60 with SMTP id
+ d75a77b69052e-4b0fc88d5e7mr42154561cf.59.1755100798179; 
+ Wed, 13 Aug 2025 08:59:58 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([2600:4808:6353:5c00:d445:7694:2051:518c])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4b085ad7d08sm124482211cf.53.2025.08.13.08.59.52
+ d75a77b69052e-4b085ad7d08sm124482211cf.53.2025.08.13.08.59.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Aug 2025 08:59:54 -0700 (PDT)
+ Wed, 13 Aug 2025 08:59:57 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 13 Aug 2025 11:59:20 -0400
-Subject: [PATCH v2 10/19] rust: macros: replace `kernel::c_str!` with C-Strings
+Date: Wed, 13 Aug 2025 11:59:21 -0400
+Subject: [PATCH v2 11/19] rust: miscdevice: replace `kernel::c_str!` with
+ C-Strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250813-core-cstr-cstrings-v2-10-00be80fc541b@gmail.com>
+Message-Id: <20250813-core-cstr-cstrings-v2-11-00be80fc541b@gmail.com>
 References: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
 In-Reply-To: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -111,13 +112,13 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1755100760; l=1049;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1755100760; l=1136;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=aFmL2NR8fBnSS0Eo3JlIIR2kUEbvCMcpyoIscPmgPvI=;
+ bh=kInu3WpIUa5ivvSUVJDySAyzqDy8m7u4hXMISKjVg1o=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QIIKVbMeN5Cnbru1lYfayjvN18lKhXLa6k9p0y4VX9OuLzFcCKlTUNU/VwLz/Ibsog4LzZdADpB
- 02WR8TJkCYgI=
+ QLPeBqFF3G2/b3iHg82noX65chkInTWyugikz/odK+rtAeYGjZ0XZ8DXrV1KFAOJaqwd30EdnIK
+ Svg+beZiy3Ak=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -143,22 +144,30 @@ Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Reviewed-by: Benno Lossin <lossin@kernel.org>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/macros/module.rs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ samples/rust/rust_misc_device.rs | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/rust/macros/module.rs b/rust/macros/module.rs
-index 5ee54a00c0b6..8cef6cc958b5 100644
---- a/rust/macros/module.rs
-+++ b/rust/macros/module.rs
-@@ -228,7 +228,7 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
-             type LocalModule = {type_};
+diff --git a/samples/rust/rust_misc_device.rs b/samples/rust/rust_misc_device.rs
+index e7ab77448f75..60ab10b02574 100644
+--- a/samples/rust/rust_misc_device.rs
++++ b/samples/rust/rust_misc_device.rs
+@@ -98,7 +98,6 @@
+ use core::pin::Pin;
  
-             impl ::kernel::ModuleMetadata for {type_} {{
--                const NAME: &'static ::kernel::str::CStr = ::kernel::c_str!(\"{name}\");
-+                const NAME: &'static ::kernel::str::CStr = c\"{name}\";
-             }}
+ use kernel::{
+-    c_str,
+     device::Device,
+     fs::File,
+     ioctl::{_IO, _IOC_SIZE, _IOR, _IOW},
+@@ -133,7 +132,7 @@ fn init(_module: &'static ThisModule) -> impl PinInit<Self, Error> {
+         pr_info!("Initialising Rust Misc Device Sample\n");
  
-             // Double nested modules, since then nobody can access the public items inside.
+         let options = MiscDeviceOptions {
+-            name: c_str!("rust-misc-device"),
++            name: c"rust-misc-device",
+         };
+ 
+         try_pin_init!(Self {
 
 -- 
 2.50.1
