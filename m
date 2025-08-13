@@ -2,117 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10EBAB25D1D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 09:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1AFB24F8B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 18:25:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 305CA10E801;
-	Thu, 14 Aug 2025 07:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1BDE10E064;
+	Wed, 13 Aug 2025 16:24:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QCJ48aON";
+	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="chhraYuh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 401 seconds by postgrey-1.36 at gabe;
- Wed, 13 Aug 2025 16:22:39 UTC
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0826F10E739
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 16:22:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68C0A10E064
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 16:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  sang-engineering.com; h=from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding; s=k1; bh=8r/LCX9rzyog3y
- rylwFjwRMpIaemTxzslMXi3Wwcda8=; b=QCJ48aONHnHPI67IOJ/3D8OQB3Cd/k
- va3dqQAxVecMFTPLNQfZkeRCBnr21f5AP85A+ko/Co2kn3d1vUsGdjjGnQSoqHT/
- XhtDURAzo7LNMG2Hw6aJkJP1nHKCJDt/I4UFOhqYSkFA3npSGKStA4S5hsN3gfb8
- C8iP/CLkf5T/WRnlry5E/M4rY/ikuUABioRBeFix0sZAgPzikWKDzZXwcrM/PlZn
- 9QF5GBzn0iIdqib/tI3qtiZXmnTMTK2djC7YMTKPNRHBv7OXt7TeyHMZFzQFHHD9
- 4yuXLJeM/fwFHXJlvGUnp8QGyn4bljRJZaBZSVKQgiNlixK49bkom2HA==
-Received: (qmail 694422 invoked from network); 13 Aug 2025 18:15:54 +0200
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ s=k1; bh=rscZdjzTgJUz3a4ulIohYT16Ky1iRHb8vU8CbuiEAr8=; b=chhraY
+ uh/3c4VVm9mVdF1HCsLk4fzgNFY07jnXOJdMstzCTZsjz21F3ZHHwvIT1geOTMP4
+ rvs500bmH5X/qcdPN+qshRgTGQx9pkBt2/6zdZ8xxD42gCZd7UbXybBtAvDNVLNR
+ hwS/eOPhraUjsS/ikE9c7cpxHL48h4HDSLJK3xPsEBCDs/6FdFeTbF/iCfsU1CK3
+ TA21zQ0qpuWZ+o9DRfDQrld8xA/mHWksgxBrRCv/BLbwt1akZoiA0/bTRAQxQFQc
+ CMzzG/k8dDrjb8wirxizHSJtgK7/vr/B07cRRWLcnRHe2nx60V+/RYMYCmGZh7Vr
+ nQ/2YhnvWDglODYA==
+Received: (qmail 694707 invoked from network); 13 Aug 2025 18:16:04 +0200
 Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 13 Aug 2025 18:15:54 +0200
-X-UD-Smtp-Session: l3s3148p1@6vOVeEE8NodtKLKq
+ authenticated); 13 Aug 2025 18:16:04 +0200
+X-UD-Smtp-Session: l3s3148p1@VvoxeUE8JpVtKLKq
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-kernel@vger.kernel.org
 Cc: Mark Brown <broonie@kernel.org>,
  Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Andrea della Porta <andrea.porta@suse.com>,
- =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Andy Shevchenko <andy@kernel.org>,
- Andy Yan <andy.yan@rock-chips.com>, Avi Fishman <avifishman70@gmail.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Benjamin Fair <benjaminfair@google.com>,
- Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- David Airlie <airlied@gmail.com>, David Lechner <dlechner@baylibre.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Drew Fustini <fustini@kernel.org>, dri-devel@lists.freedesktop.org,
- Fabio Estevam <festevam@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Fu Wei <wefu@redhat.com>,
- Guo Ren <guoren@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>, imx@lists.linux.dev,
- Iwona Winiarska <iwona.winiarska@intel.com>,
- Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jerome Brunet <jbrunet@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- linux-actions@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-pwm@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-rtc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- Liu Ying <victor.liu@nxp.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
  Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Nancy Yuen <yuenn@google.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolin Chen <nicoleotsuka@gmail.com>,
- =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>, openbmc@lists.ozlabs.org,
- Patrick Venture <venture@google.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Liu Ying <victor.liu@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Samuel Holland <samuel.holland@sifive.com>,
- Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Stephen Boyd <sboyd@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Tali Perry <tali.perry1@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomer Maimon <tmaimon77@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Yangtao Li <tiny.windzz@gmail.com>, Zhang Rui <rui.zhang@intel.com>
-Subject: [PATCH 00/21] treewide: remove unneeded 'fast_io' parameter in
+ Fabio Estevam <festevam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Subject: [PATCH 04/21] drm: remove unneeded 'fast_io' parameter in
  regmap_config
-Date: Wed, 13 Aug 2025 18:14:46 +0200
-Message-ID: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+Date: Wed, 13 Aug 2025 18:14:50 +0200
+Message-ID: <20250813161517.4746-5-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 14 Aug 2025 07:25:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,132 +73,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While working on a driver using regmap with MMIO, I wondered if I need
-to set 'fast_io' in the config. Turned out I don't need to, so I added
-documentation for it with commit ffc72771ff6e ("regmap: Annotate that
-MMIO implies fast IO").
+When using MMIO with regmap, fast_io is implied. No need to set it
+again.
 
-This series fixes the existing users in the tree which needlessly set
-the flag. They have been found using this coccinelle script:
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+No dependencies, can be applied directly to the subsystem tree. Buildbot is
+happy, too.
 
-===
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c   | 1 -
+ drivers/gpu/drm/imx/dc/dc-cf.c                   | 1 -
+ drivers/gpu/drm/imx/dc/dc-de.c                   | 1 -
+ drivers/gpu/drm/imx/dc/dc-ed.c                   | 2 --
+ drivers/gpu/drm/imx/dc/dc-fg.c                   | 1 -
+ drivers/gpu/drm/imx/dc/dc-fl.c                   | 1 -
+ drivers/gpu/drm/imx/dc/dc-fw.c                   | 2 --
+ drivers/gpu/drm/imx/dc/dc-ic.c                   | 1 -
+ drivers/gpu/drm/imx/dc/dc-lb.c                   | 2 --
+ drivers/gpu/drm/imx/dc/dc-tc.c                   | 1 -
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c              | 2 --
+ drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c | 1 -
+ 12 files changed, 16 deletions(-)
 
-@ match @
-expression dev, clk, regs;
-identifier config;
-@@
-
-(
-	regmap_init_mmio(dev, regs, &config)
-|
-	devm_regmap_init_mmio(dev, regs, &config)
-|
-	regmap_init_mmio_clk(dev, clk, regs, &config)
-|
-	devm_regmap_init_mmio_clk(dev, clk, regs, &config)
-)
-
-@ fix depends on match @
-identifier match.config;
-@@
-
-	struct regmap_config config = {
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+index 5926a3a05d79..d046740a1d57 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+@@ -903,7 +903,6 @@ static const struct regmap_config dw_mipi_dsi2_regmap_config = {
+ 	.reg_bits = 32,
+ 	.val_bits = 32,
+ 	.reg_stride = 4,
 -	.fast_io = true,
-	};
-
-===
-
-It misses occasions where 'config' is an expression and not an
-identifier. These are rare, though, I can fix them manually later. The
-advantage of this approach is that it produces no false positives to the
-best of my knowledge.
-
-Please apply individually per subsystem. There are no dependencies and
-buildbot is happy. Patches are based on 6.17-rc1
-
-Happy hacking,
-
-   Wolfram
-
-
-Wolfram Sang (21):
-  bus: remove unneeded 'fast_io' parameter in regmap_config
-  clk: remove unneeded 'fast_io' parameter in regmap_config
-  gpio: remove unneeded 'fast_io' parameter in regmap_config
-  drm: remove unneeded 'fast_io' parameter in regmap_config
-  iio: remove unneeded 'fast_io' parameter in regmap_config
-  Input: remove unneeded 'fast_io' parameter in regmap_config
-  mailbox: remove unneeded 'fast_io' parameter in regmap_config
-  media: remove unneeded 'fast_io' parameter in regmap_config
-  mfd: remove unneeded 'fast_io' parameter in regmap_config
-  mmc: remove unneeded 'fast_io' parameter in regmap_config
-  peci: remove unneeded 'fast_io' parameter in regmap_config
-  phy: remove unneeded 'fast_io' parameter in regmap_config
-  pinctrl: remove unneeded 'fast_io' parameter in regmap_config
-  pmdomain: remove unneeded 'fast_io' parameter in regmap_config
-  regulator: remove unneeded 'fast_io' parameter in regmap_config
-  reset: remove unneeded 'fast_io' parameter in regmap_config
-  rtc: remove unneeded 'fast_io' parameter in regmap_config
-  soc: remove unneeded 'fast_io' parameter in regmap_config
-  spi: remove unneeded 'fast_io' parameter in regmap_config
-  thermal: remove unneeded 'fast_io' parameter in regmap_config
-  ASoC: remove unneeded 'fast_io' parameter in regmap_config
-
- drivers/bus/bt1-apb.c                             | 1 -
- drivers/clk/actions/owl-common.c                  | 1 -
- drivers/clk/clk-axm5516.c                         | 1 -
- drivers/clk/nxp/clk-lpc32xx.c                     | 1 -
- drivers/clk/qcom/a53-pll.c                        | 1 -
- drivers/clk/qcom/a7-pll.c                         | 1 -
- drivers/clk/qcom/apss-ipq-pll.c                   | 1 -
- drivers/clk/qcom/clk-cbf-8996.c                   | 1 -
- drivers/clk/qcom/clk-cpu-8996.c                   | 1 -
- drivers/clk/qcom/hfpll.c                          | 1 -
- drivers/clk/qcom/ipq-cmn-pll.c                    | 1 -
- drivers/clk/thead/clk-th1520-ap.c                 | 1 -
- drivers/gpio/gpio-mvebu.c                         | 1 -
- drivers/gpio/gpio-sifive.c                        | 1 -
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c    | 1 -
- drivers/gpu/drm/imx/dc/dc-cf.c                    | 1 -
- drivers/gpu/drm/imx/dc/dc-de.c                    | 1 -
- drivers/gpu/drm/imx/dc/dc-ed.c                    | 2 --
- drivers/gpu/drm/imx/dc/dc-fg.c                    | 1 -
- drivers/gpu/drm/imx/dc/dc-fl.c                    | 1 -
- drivers/gpu/drm/imx/dc/dc-fw.c                    | 2 --
- drivers/gpu/drm/imx/dc/dc-ic.c                    | 1 -
- drivers/gpu/drm/imx/dc/dc-lb.c                    | 2 --
- drivers/gpu/drm/imx/dc/dc-tc.c                    | 1 -
- drivers/gpu/drm/imx/ipuv3/imx-tve.c               | 2 --
- drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  | 1 -
- drivers/iio/adc/sun4i-gpadc-iio.c                 | 1 -
- drivers/input/touchscreen/fsl-imx25-tcq.c         | 1 -
- drivers/mailbox/qcom-apcs-ipc-mailbox.c           | 1 -
- drivers/media/cec/platform/stm32/stm32-cec.c      | 1 -
- drivers/mfd/exynos-lpass.c                        | 1 -
- drivers/mfd/fsl-imx25-tsadc.c                     | 1 -
- drivers/mfd/stm32-lptimer.c                       | 1 -
- drivers/mfd/sun4i-gpadc.c                         | 1 -
- drivers/mmc/host/sdhci_am654.c                    | 1 -
- drivers/peci/controller/peci-npcm.c               | 1 -
- drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 1 -
- drivers/phy/rockchip/phy-rockchip-usbdp.c         | 1 -
- drivers/phy/ti/phy-am654-serdes.c                 | 1 -
- drivers/phy/ti/phy-j721e-wiz.c                    | 1 -
- drivers/pinctrl/pinctrl-rp1.c                     | 1 -
- drivers/pmdomain/imx/gpc.c                        | 1 -
- drivers/regulator/qcom-refgen-regulator.c         | 1 -
- drivers/reset/reset-intel-gw.c                    | 1 -
- drivers/reset/reset-qcom-pdc.c                    | 1 -
- drivers/reset/reset-th1520.c                      | 1 -
- drivers/rtc/rtc-meson.c                           | 1 -
- drivers/soc/qcom/llcc-qcom.c                      | 1 -
- drivers/soc/qcom/ramp_controller.c                | 1 -
- drivers/spi/spi-altera-platform.c                 | 1 -
- drivers/thermal/armada_thermal.c                  | 1 -
- drivers/thermal/sun8i_thermal.c                   | 1 -
- sound/soc/fsl/fsl_sai.c                           | 1 -
- 53 files changed, 57 deletions(-)
-
+ };
+ 
+ static struct dw_mipi_dsi2 *
+diff --git a/drivers/gpu/drm/imx/dc/dc-cf.c b/drivers/gpu/drm/imx/dc/dc-cf.c
+index 2f077161e912..6431ecd442c9 100644
+--- a/drivers/gpu/drm/imx/dc/dc-cf.c
++++ b/drivers/gpu/drm/imx/dc/dc-cf.c
+@@ -45,7 +45,6 @@ static const struct regmap_config dc_cf_cfg_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_cf_regmap_access_table,
+ 	.rd_table = &dc_cf_regmap_access_table,
+ 	.max_register = CONSTANTCOLOR,
+diff --git a/drivers/gpu/drm/imx/dc/dc-de.c b/drivers/gpu/drm/imx/dc/dc-de.c
+index 5a3125596fdf..7a93dda20c59 100644
+--- a/drivers/gpu/drm/imx/dc/dc-de.c
++++ b/drivers/gpu/drm/imx/dc/dc-de.c
+@@ -37,7 +37,6 @@ static const struct regmap_config dc_de_top_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_de_regmap_access_table,
+ 	.rd_table = &dc_de_regmap_access_table,
+ 	.max_register = POLARITYCTRL,
+diff --git a/drivers/gpu/drm/imx/dc/dc-ed.c b/drivers/gpu/drm/imx/dc/dc-ed.c
+index 86ecc22d0a55..4d86a886d47e 100644
+--- a/drivers/gpu/drm/imx/dc/dc-ed.c
++++ b/drivers/gpu/drm/imx/dc/dc-ed.c
+@@ -77,7 +77,6 @@ static const struct regmap_config dc_ed_pec_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_ed_pec_regmap_write_table,
+ 	.rd_table = &dc_ed_pec_regmap_read_table,
+ 	.volatile_table = &dc_ed_pec_regmap_volatile_table,
+@@ -99,7 +98,6 @@ static const struct regmap_config dc_ed_cfg_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_ed_regmap_access_table,
+ 	.rd_table = &dc_ed_regmap_access_table,
+ 	.max_register = CONTROL,
+diff --git a/drivers/gpu/drm/imx/dc/dc-fg.c b/drivers/gpu/drm/imx/dc/dc-fg.c
+index 7f6c1852bf72..24826d676c5c 100644
+--- a/drivers/gpu/drm/imx/dc/dc-fg.c
++++ b/drivers/gpu/drm/imx/dc/dc-fg.c
+@@ -122,7 +122,6 @@ static const struct regmap_config dc_fg_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_fg_regmap_write_table,
+ 	.rd_table = &dc_fg_regmap_read_table,
+ 	.max_register = FGCHSTATCLR,
+diff --git a/drivers/gpu/drm/imx/dc/dc-fl.c b/drivers/gpu/drm/imx/dc/dc-fl.c
+index 3ce24c72aa13..003476ac2fa1 100644
+--- a/drivers/gpu/drm/imx/dc/dc-fl.c
++++ b/drivers/gpu/drm/imx/dc/dc-fl.c
+@@ -49,7 +49,6 @@ static const struct regmap_config dc_fl_cfg_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_fl_regmap_access_table,
+ 	.rd_table = &dc_fl_regmap_access_table,
+ 	.max_register = FRAMEDIMENSIONS,
+diff --git a/drivers/gpu/drm/imx/dc/dc-fw.c b/drivers/gpu/drm/imx/dc/dc-fw.c
+index acb2d4d9e2ec..96bc3c7c8f9b 100644
+--- a/drivers/gpu/drm/imx/dc/dc-fw.c
++++ b/drivers/gpu/drm/imx/dc/dc-fw.c
+@@ -51,7 +51,6 @@ static const struct regmap_config dc_fw_pec_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_fw_pec_regmap_access_table,
+ 	.rd_table = &dc_fw_pec_regmap_access_table,
+ 	.max_register = PIXENGCFG_DYNAMIC,
+@@ -72,7 +71,6 @@ static const struct regmap_config dc_fw_cfg_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_fw_regmap_access_table,
+ 	.rd_table = &dc_fw_regmap_access_table,
+ 	.max_register = CONTROL,
+diff --git a/drivers/gpu/drm/imx/dc/dc-ic.c b/drivers/gpu/drm/imx/dc/dc-ic.c
+index a270ae4030cd..f1c371a95cae 100644
+--- a/drivers/gpu/drm/imx/dc/dc-ic.c
++++ b/drivers/gpu/drm/imx/dc/dc-ic.c
+@@ -76,7 +76,6 @@ static const struct regmap_config dc_ic_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_ic_regmap_write_table,
+ 	.rd_table = &dc_ic_regmap_read_table,
+ 	.volatile_table = &dc_ic_regmap_volatile_table,
+diff --git a/drivers/gpu/drm/imx/dc/dc-lb.c b/drivers/gpu/drm/imx/dc/dc-lb.c
+index 38f966625d38..9fd39f824f11 100644
+--- a/drivers/gpu/drm/imx/dc/dc-lb.c
++++ b/drivers/gpu/drm/imx/dc/dc-lb.c
+@@ -92,7 +92,6 @@ static const struct regmap_config dc_lb_pec_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_lb_pec_regmap_access_table,
+ 	.rd_table = &dc_lb_pec_regmap_access_table,
+ 	.max_register = PIXENGCFG_DYNAMIC,
+@@ -112,7 +111,6 @@ static const struct regmap_config dc_lb_cfg_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_lb_regmap_access_table,
+ 	.rd_table = &dc_lb_regmap_access_table,
+ 	.max_register = POSITION,
+diff --git a/drivers/gpu/drm/imx/dc/dc-tc.c b/drivers/gpu/drm/imx/dc/dc-tc.c
+index 0bfd381b2cea..54b56dadbe36 100644
+--- a/drivers/gpu/drm/imx/dc/dc-tc.c
++++ b/drivers/gpu/drm/imx/dc/dc-tc.c
+@@ -44,7 +44,6 @@ static const struct regmap_config dc_tc_regmap_config = {
+ 	.reg_bits = 32,
+ 	.reg_stride = 4,
+ 	.val_bits = 32,
+-	.fast_io = true,
+ 	.wr_table = &dc_tc_regmap_access_table,
+ 	.rd_table = &dc_tc_regmap_access_table,
+ 	.max_register = MAPBIT31_28,
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+index c5629e155d25..b34037d0d7a8 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
++++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+@@ -457,8 +457,6 @@ static struct regmap_config tve_regmap_config = {
+ 
+ 	.readable_reg = imx_tve_readable_reg,
+ 
+-	.fast_io = true,
+-
+ 	.max_register = 0xdc,
+ };
+ 
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
+index cdd490778756..a30d973f925f 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
+@@ -368,7 +368,6 @@ static const struct regmap_config dw_mipi_dsi2_rockchip_regmap_config = {
+ 	.reg_bits = 32,
+ 	.val_bits = 32,
+ 	.reg_stride = 4,
+-	.fast_io = true,
+ };
+ 
+ static int dw_mipi_dsi2_rockchip_probe(struct platform_device *pdev)
 -- 
 2.47.2
 
