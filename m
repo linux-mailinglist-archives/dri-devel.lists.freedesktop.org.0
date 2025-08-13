@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3662FB2461A
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0829B24618
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:53:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7555510E6C7;
-	Wed, 13 Aug 2025 09:53:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FFC510E6C6;
+	Wed, 13 Aug 2025 09:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C4E910E6C5
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 09:53:06 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.234])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4c23Wp10p9z1R92H;
- Wed, 13 Aug 2025 17:50:14 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
- by mail.maildlp.com (Postfix) with ESMTPS id 1E45A1401F0;
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4754510E6C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 09:53:07 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4c23W83FLKz13N9J;
+ Wed, 13 Aug 2025 17:49:40 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+ by mail.maildlp.com (Postfix) with ESMTPS id A987614027A;
  Wed, 13 Aug 2025 17:53:04 +0800 (CST)
 Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 13 Aug 2025 17:53:03 +0800
+ 15.2.1544.11; Wed, 13 Aug 2025 17:53:04 +0800
 Received: from localhost.huawei.com (10.169.71.169) by
  kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -35,10 +35,10 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <fengsheng5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 drm-dp 01/11] drm/hisilicon/hibmc: fix the i2c device
- resource leak when vdac init failed
-Date: Wed, 13 Aug 2025 17:42:28 +0800
-Message-ID: <20250813094238.3722345-2-shiyongbang@huawei.com>
+Subject: [PATCH v4 drm-dp 02/11] drm/hisilicon/hibmc: fix dp probabilistical
+ detect errors after HPD irq
+Date: Wed, 13 Aug 2025 17:42:29 +0800
+Message-ID: <20250813094238.3722345-3-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20250813094238.3722345-1-shiyongbang@huawei.com>
 References: <20250813094238.3722345-1-shiyongbang@huawei.com>
@@ -65,85 +65,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Baihan Li <libaihan@huawei.com>
 
-Currently the driver missed to clean the i2c adapter when vdac init failed.
-It may cause resource leak.
+The debouncing when HPD pulled out still remains sometimes, 200ms still can
+not ensure helper_detect() is correct. So add a flag to hold the sink
+status, and changed detect_ctx() functions by using flag to check status.
 
-Fixes: a0d078d06e516 ("drm/hisilicon: Features to support reading resolutions from EDID")
+Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
 Signed-off-by: Baihan Li <libaihan@huawei.com>
 Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  1 +
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c  |  5 +++++
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 11 ++++++++---
- 3 files changed, 14 insertions(+), 3 deletions(-)
+ChangeLog:
+v3 -> v4:
+  - remove link training process in hibmc_dp_detect(), suggested by Dmitry Baryshkov.
+  - remove if (dev->registered), suggested by Dmitry Baryshkov.
+---
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  1 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 19 ++++++++++++-------
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 274feabe7df0..ca8502e2760c 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -69,6 +69,7 @@ int hibmc_de_init(struct hibmc_drm_private *priv);
- int hibmc_vdac_init(struct hibmc_drm_private *priv);
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+index 665f5b166dfb..68867475508c 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
++++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+@@ -50,6 +50,7 @@ struct hibmc_dp {
+ 	struct drm_dp_aux aux;
+ 	struct hibmc_dp_cbar_cfg cfg;
+ 	u32 irq_status;
++	int hpd_status;
+ };
  
- int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_vdac *connector);
-+void hibmc_ddc_del(struct hibmc_vdac *vdac);
- 
- int hibmc_dp_init(struct hibmc_drm_private *priv);
- 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
-index 99b3b77b5445..44860011855e 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
-@@ -95,3 +95,8 @@ int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_vdac *vdac)
- 
- 	return i2c_bit_add_bus(&vdac->adapter);
- }
-+
-+void hibmc_ddc_del(struct hibmc_vdac *vdac)
-+{
-+	i2c_del_adapter(&vdac->adapter);
-+}
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index e8a527ede854..841e81f47b68 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -53,7 +53,7 @@ static void hibmc_connector_destroy(struct drm_connector *connector)
+ int hibmc_dp_hw_init(struct hibmc_dp *dp);
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+index d06832e62e96..ded38530ecda 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+@@ -34,9 +34,12 @@ static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
+ static int hibmc_dp_detect(struct drm_connector *connector,
+ 			   struct drm_modeset_acquire_ctx *ctx, bool force)
  {
- 	struct hibmc_vdac *vdac = to_hibmc_vdac(connector);
+-	mdelay(200);
++	struct hibmc_dp *dp = to_hibmc_dp(connector);
  
--	i2c_del_adapter(&vdac->adapter);
-+	hibmc_ddc_del(vdac);
- 	drm_connector_cleanup(connector);
+-	return drm_connector_helper_detect_from_ddc(connector, ctx, force);
++	if (dp->hpd_status)
++		return connector_status_connected;
++	else
++		return connector_status_disconnected;
  }
  
-@@ -110,7 +110,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 	ret = drmm_encoder_init(dev, encoder, NULL, DRM_MODE_ENCODER_DAC, NULL);
- 	if (ret) {
- 		drm_err(dev, "failed to init encoder: %d\n", ret);
--		return ret;
-+		goto err;
+ static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
+@@ -115,21 +118,23 @@ irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg)
+ {
+ 	struct drm_device *dev = (struct drm_device *)arg;
+ 	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
++	struct hibmc_dp *dp = &priv->dp;
+ 	int idx;
+ 
+ 	if (!drm_dev_enter(dev, &idx))
+ 		return -ENODEV;
+ 
+-	if (priv->dp.irq_status & DP_MASKED_SINK_HPD_PLUG_INT) {
++	if (((dp->irq_status & DP_MASKED_SINK_HPD_PLUG_INT) && !dp->hpd_status)) {
+ 		drm_dbg_dp(&priv->dev, "HPD IN isr occur!\n");
+-		hibmc_dp_hpd_cfg(&priv->dp);
++		hibmc_dp_hpd_cfg(dp);
++		dp->hpd_status = 1;
+ 	} else {
+ 		drm_dbg_dp(&priv->dev, "HPD OUT isr occur!\n");
+-		hibmc_dp_reset_link(&priv->dp);
++		hibmc_dp_reset_link(dp);
++		dp->hpd_status = 0;
  	}
  
- 	drm_encoder_helper_add(encoder, &hibmc_encoder_helper_funcs);
-@@ -121,7 +121,7 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 					  &vdac->adapter);
- 	if (ret) {
- 		drm_err(dev, "failed to init connector: %d\n", ret);
--		return ret;
-+		goto err;
- 	}
+-	if (dev->registered)
+-		drm_connector_helper_hpd_irq_event(&priv->dp.connector);
++	drm_connector_helper_hpd_irq_event(&priv->dp.connector);
  
- 	drm_connector_helper_add(connector, &hibmc_connector_helper_funcs);
-@@ -131,4 +131,9 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv)
- 	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+ 	drm_dev_exit(idx);
  
- 	return 0;
-+
-+err:
-+	hibmc_ddc_del(vdac);
-+
-+	return ret;
- }
 -- 
 2.33.0
 
