@@ -2,157 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C08FB244E4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68A3B244F2
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 11:06:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1264310E6AC;
-	Wed, 13 Aug 2025 09:03:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 977FD10E6A4;
+	Wed, 13 Aug 2025 09:06:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fdNaJdSH";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Gw4A60S0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RVhlVVVY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="topybgz3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9B5FwsJl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2083.outbound.protection.outlook.com [40.107.237.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A62A210E6A6
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 09:03:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rpl5/WQ/8oZyoaApxBwEWGW+d/f48OcjnImg2CFMHXV9tTeTouNcNi/8cSHlT7X9Dfzcdw2tmLkwo12PRIeYDAUA2MgjT/9OaIv58NdB9uyPENl51AoBFX7OEOvFW581MbsqdQ21FcvZXy3YEAdit2Pc1RodMnVpkHQk1f1YkrKO43px4S9jYtkaD6KC4BaF3kdKkoyKRIPbbvLrdm8XvvDEJYc1I2VWgFV1N7Dcrx1j1qFBLlyEBduUDZLpwv9zgExnrzlGH6kErJ1VvInBd5j9uzN/e0FvEq4gx71x7fru2NHwSNYy5HgcsFBMJ+Li5y9vbi+OCQBBNMYC8HxLMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3fKkahLt9C6Vt16hydKrtz6PkxghzWq2t9ExZ7HM/ZQ=;
- b=jSrvIU7qQdSPqoIfVjdszTLkeXAKMfG6tSnx3S4pVYSjKhOKfTPjiMpkMoDziUOzN6iNSYTBrKMkceZrZ82DySxno0mRnLGvgEgfmWsLPsU1jO5REyMxC3xZfRBZOSsLuN7FAjT8uqEJwFqzmQTdPCDNXEK9OssxBmOY3iqh129J1/2zkCQEuYJnvnTvaL2kIFUNwtqHOSxV53thZDN3WoI/PAfYSlKq8oXAuwdKNNOc3PkmAG1QA7Qc4Vrku5mKSn1DITQqcGODKDfCH9hYYwpeiMTcTLY2iDqRyBJwPpkHrFELvu/zKVynpu9bgibMrACraRRTT/vAbQW8SKwXpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3fKkahLt9C6Vt16hydKrtz6PkxghzWq2t9ExZ7HM/ZQ=;
- b=fdNaJdSH8noisQymIPQZe1v51dFmg8DT0jDl86arEsdylc9YSFGldxf56N7TDBS4MJp2TYoiiWYQqS8RQu5P1K6tQxa/KgrOJEx9i0mpH2vb1edZ87LOSg3zDlMFMBWkutxtBIMlzDlZIf4sRvWLwyK1eS9vj8I7ITqAbh78sV4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB8787.namprd12.prod.outlook.com (2603:10b6:8:14e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.22; Wed, 13 Aug
- 2025 09:03:15 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9031.014; Wed, 13 Aug 2025
- 09:03:15 +0000
-Message-ID: <36f76e46-580f-43d9-8726-fe13e0c1bba1@amd.com>
-Date: Wed, 13 Aug 2025 11:03:09 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/sched: Document race condition in drm_sched_fini()
-To: Philipp Stanner <phasta@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- James Flowers <bold.zone2373@fastmail.com>
-References: <20250813085654.102504-2-phasta@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250813085654.102504-2-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAPR03CA0070.namprd03.prod.outlook.com
- (2603:10b6:208:329::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F8AC10E6A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 09:06:20 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D11E1219BE;
+ Wed, 13 Aug 2025 09:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1755075979; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wzPfss0Yx81jm9T9+iN5ZthUeT7U2XD4wjBOjc1Dsnw=;
+ b=Gw4A60S0hTXkXfeFH2xcZAMc40qN3iZr9CcHEx9ycD3OnUKHU4DmqHwHcy4aP6CurW/uMK
+ CGpS4frnBZxw5OFue9T7hgZjGoxPCKloSdhn9rkQ9hPnJgtBrrrKSUGAPo4wDi/50F1/g6
+ aD8K/qYaU3fgaM5zkrzcUfStMbv0XcY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1755075979;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wzPfss0Yx81jm9T9+iN5ZthUeT7U2XD4wjBOjc1Dsnw=;
+ b=RVhlVVVYaOE6dzETfyqdm4YXHqLJWpSw2caDrnnYjJ9+Jn4w3H6fwWiOLLo3Sz05YdhXxM
+ G5NJ+Htttui+sVCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1755075978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wzPfss0Yx81jm9T9+iN5ZthUeT7U2XD4wjBOjc1Dsnw=;
+ b=topybgz3V4ZL1tf3jXFyvDYIqy+rSBo669MRUOv4KK6GRFVqMTsY2NFBMZBgjYWk8EuxH2
+ Gg304KAH1NouwSpMtAd+5VH72pAgYxePiUrhdo1p5nlKmmfi6/muFt63+6kskkLkrDfUfY
+ i9kspoWq+tUsAFeAYz0LQu0moijhTQM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1755075978;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wzPfss0Yx81jm9T9+iN5ZthUeT7U2XD4wjBOjc1Dsnw=;
+ b=9B5FwsJlCcAx0wZ1G7OnXQAFvXyQ1xD8YM0oj6V7YHq+sM1HVRqCBS4nVL1r4Bvig8fO7m
+ VRxjDReqRvc50kBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 780A113479;
+ Wed, 13 Aug 2025 09:06:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id NVOzG4pVnGhEFAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 13 Aug 2025 09:06:18 +0000
+Message-ID: <a0325fe4-90ce-45d4-91ad-881c7900a7d5@suse.de>
+Date: Wed, 13 Aug 2025 11:06:18 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB8787:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe01e5a7-9ae2-4eac-c62e-08ddda483caa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M1NsKzVCWGpNOU1Oc0JnZTdNNGJjZnhrT0cwZ2ZNZXZ1Ui9TNURPYmI3K3hz?=
- =?utf-8?B?TVdZd2RxanR2K2Z6TGZOeFpxcThFQVl0bTdDeHpBK2ZpYjczU0duMEpFdEl0?=
- =?utf-8?B?UWRySThZZGtTNnEydFVRS1V0UUg0cFc2Q3o4YXc4MUhmZXppblVOZm91dmxl?=
- =?utf-8?B?YTU5aklWbUwzTDJnRWxWUDAvbmFkK3JYamR3MS9yMzljNHR6RUR2bzQreXdV?=
- =?utf-8?B?emlxZmtGSmhNa29rejFIWkpTMWhIaTZ2cmt4a01UQ0plNnVIeEYvdmhJSDFw?=
- =?utf-8?B?RW5mMk9pamYranIzdTlKVjJjVjJmZzhGb2hmR3RvM1lneXlEUFpDU1hHNVh1?=
- =?utf-8?B?OVZwZDhLWEp0WXpqZ2NCaUQ5VmdOc2hTM3Mzc1VJcUZjVjZFZzdEUzNvQWdK?=
- =?utf-8?B?bUgxTGEzUlhETVBXQ2Q5cllublREYTk5NHp5ZkRSb0hhNDA5YXc2NUNYNCtv?=
- =?utf-8?B?R3cwaWR0YmtFVWd0azc3K3B6Q2NzYVJ3ZDc0SVZONVI2MHc0bUpYNElSdER3?=
- =?utf-8?B?Zlh0ODIrcVBSd1RqRnJTSEdQN2l6MllJRG9JVHBqa2IxZWw2eU9hK0NQczJE?=
- =?utf-8?B?SGluekdEcFVPYmdMLzhLcUdIS252TXRjVktGSWFTQWZxUlRlcUVqeENhRlNV?=
- =?utf-8?B?UlUzc3pHdk5BcVlLVW5vck54SXhFeGdHZGk1S3JaL2M5R1BSbnEzbUF5SHdp?=
- =?utf-8?B?TXRJV3FkNC9VVzFSWmw2dGJEbXZLTVdNTWNJbDFlZEp4QWNBbC9maFhCOUYy?=
- =?utf-8?B?K3hTbFBzZEN0b1hCQUlYemFIN3FCa3Q3VzhzL0YrSVZyaTJDOFJuMnN3dzV2?=
- =?utf-8?B?VklXeWZrQ2lyOE9JSTJyK3pRNWxrU0xyVU1XZjVxU0d1M3NuWTFtQVRTcVpt?=
- =?utf-8?B?L3dwNDFIRWZnNW9hRmxadGpPNjB2dXUrMXR4QlRTQ211NmJBbXVOQWZ3dUxB?=
- =?utf-8?B?MkxJQmpOSzlMQXJZL1NMVURWM2pnS0lOWmVGR3ZRUWYreENEcGk1Mk8vL08x?=
- =?utf-8?B?eDY4NjI5MENkV2F5TEdjVzI0aEJHaHZCN0lGRDhKN2tyUnlHWmNQOWVCOXZZ?=
- =?utf-8?B?MFprbFBMTDUybndoME96VjFpUXg3WUtDelF4Z2gyWEFNcGRHWmM5MUVHdjVT?=
- =?utf-8?B?TWQybWlLbk5iNjA5eGhXYkFoVlR0d0dJR3djUGVhQUZ1S0hGa2FUMFdWalJS?=
- =?utf-8?B?TS9VYU1aeUJEQ1lCVWxHdG94SXkyTlZISCtHQ0ZGMk9vbFRLNEVCOEFoZDl4?=
- =?utf-8?B?TldpSzZjNWNzc05MYnA3Q09Idi93YkEwalQzdHZHTURvMEc0Y3lrS1Q3U1VM?=
- =?utf-8?B?aUxnRi9ET2QySTVnSVRWZmNQOWFtVzhzMjNEeU1vczRjVGZweXBXSXc0aHZV?=
- =?utf-8?B?ckcyVmd2b0R2TXJoUTZ4YjU4SFlqaWpHNWRYcm1MTU5ZM0JqVDI4aVVYMDJR?=
- =?utf-8?B?SW9sT284Y2QwYUJ3VCtKS0tIYlFYVCtMUkhvY0cxMGk4K2x0bGFWSGk3cFN0?=
- =?utf-8?B?Q2szVWhycjk0WEFQN2FJRmJhVnNDK0F1RFJzMWVwUTNIR2lUcWxOYWhCUExQ?=
- =?utf-8?B?cHgyYkVKclowMHo4dk8wUHhCWG92a0dHbUpiRC8rQ2FUK0NYUU4xV3FSVlJp?=
- =?utf-8?B?UGpiZDJuTlk2RGNYRWRyMEJvOGRBd2NYWlFRMjRzT0Y3RVhSY0FnYXdaT0ph?=
- =?utf-8?B?RndPcGpxczFyNkF2RHhpZzdMUHdHeW82UXlIbWMzRlBOa20xOHJwc3BscG91?=
- =?utf-8?B?SVZheGVpM2YrM1lVenF4aDRlZ3I1U0kvdklVZGd0WjNieVFIZU5iOGlrQUNm?=
- =?utf-8?B?N1pUY3B3RDZocEE1YWZ1cUJPeE8xTVVnZTdWN2dXMzBTc0NtcHJKNnFGbzJx?=
- =?utf-8?B?aS9ERVlSVmJnWHdJSmpBcmFNc1Q5ZjBlRVlTMm8xNFprU3NoSlA4YkhCMStz?=
- =?utf-8?Q?uBPS33mPlG8=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aVUyWGF5N0p1TFY3K2lWWllxSzZYUlRDbmFaTERCODVKcXk5a0I4a2hWS0RD?=
- =?utf-8?B?MDRMYVQ4RVZYQ1RycE0wRWhRODBuWWpJQ2YyM2w5TXp4M2RDS2R0WDdpMC9a?=
- =?utf-8?B?ZXhDbXh2Qy9pZUJLY2wzY29VQ0lpUGFSdFFnR1NSWFB3MVowYXdOSGRRd2Fa?=
- =?utf-8?B?bzJIQVRvTUp6MTJURW1wN00rWEhEK0M3TG5ZY1lDRjhDeExKUEJ5a2xzeFBE?=
- =?utf-8?B?SDlDNVdNT085eG1FejNmTzdzSnFDTmNCQUY1SGFVejN2ZDVRV3Y3dmM0c3lp?=
- =?utf-8?B?Y29ubVJndUxDTTJoZ3VoRHJxMkVYeUVBam9LTE4ybjR4dE90aVY1QU0xenNx?=
- =?utf-8?B?bmdxUURYMEtpOGtaWDNkY00wS0kwc2lmUUxvbVdTR2w3RkJaRW9jelAxdmF3?=
- =?utf-8?B?WDRBeG9vMnZrWUtJUmRxK21WUEwwVElJcjMxS2cxWWgzMjlJVHdESy9QaFBs?=
- =?utf-8?B?YXltL3pTVkVMb3BabmVya2F3RFh2c252NndRalplZlBtTXl4TE1Bc1FVWjJI?=
- =?utf-8?B?SEdvWHFzQTQ2MitwdldkNlFIKyt4bXc2Zk1MY2h6QUxaMlN4eUtOUU1jSFd4?=
- =?utf-8?B?TnY3U0trenVPeXlMZDN6NHZYS0xhbW5jSnNIK0xUS1R6RGZDZnhMMlNrUlFY?=
- =?utf-8?B?VEp1ZmFUYUdDTFByMXNZQ1dCd1FQRkM5Y09DZnVDa3BVZExpdHZzMmlFSjlE?=
- =?utf-8?B?YU9wSjQyOHJURE1lVEZna1psTitvbFJudUg4elF5OEsxYU9EME9IV2NxeGZt?=
- =?utf-8?B?VXVPakVGNU91R3pmTlVpNGI2bDlROC8yT3N5a28yNmpzVkpGMlorZ0JoaXo1?=
- =?utf-8?B?TDF6K3VYS2NZRmdGYzlpdFp4NllMRVE0UVRaWmFQdmJxQnp1WjRWOFdMeGF2?=
- =?utf-8?B?OFNPdE9XSjhJdk1xMDM2d1BQVGFZRWhIV3AremFPekhDSEFsVEh6M1VRblRp?=
- =?utf-8?B?Z1RGTGZFQ1VHYTQ0aUpQSHJRWHdzUGJNbmxLWjgwejBvTG5pZmEyOUQ5RTE0?=
- =?utf-8?B?MzJZRDdEbXVOL0h1YTBtSVdNVnc5OGdRNlE3ajNyOThFKzFUOCtOWkx5WWhy?=
- =?utf-8?B?Y0laSTI5NDJPWE0yRnRhVjBRWmRHbTVNdTNrZEh4cFhiYTJXc1kzMzVGZzYz?=
- =?utf-8?B?dlcrc1VGZDVoUnIwTXNlTGNVMWh5TW1FTlhYdmh2dlp6Z1NmK1l3ZXhFTHp3?=
- =?utf-8?B?anFGQzlKN0RCbUtjWE9sRGEyTHJFdjJkbk9aWkh4czlETnRuT2xlaUxRbGxl?=
- =?utf-8?B?YllQVDdrYnA1Z0lrbXpBUjBKN2RNd0xsWU1xT2YzWXRMUlU3ZkhEcUx6WW4x?=
- =?utf-8?B?enBWaDdWNDd3UDQ5MlE1RDJrQXlJTkF0cTNHTFBwRXNBWkdadlZreWZxcnJx?=
- =?utf-8?B?bHV5UVpybUwyVWdRdjBPNVlTdnp4ZllzTXJ2aXhaQUkxeFB6OHFCbWFHdGxV?=
- =?utf-8?B?eXJaZXVHVkVUTEFHVVdnRVVzeVd3UmFiMkVoeWtJVXFtUFVoSEpieERRM0ZQ?=
- =?utf-8?B?SEZhcXFXaExwRDZZRERjNU9QS2hyWCtXTXZrSnVmUHh4aW9ld1JwY3h5aHE1?=
- =?utf-8?B?RjBJWUhRU2w2MERGejluWEI5dG0vMzQ1Y3h3c1hUdmo0WjVZYVB2MTdXa3Jh?=
- =?utf-8?B?QXlVQTBpWVludlpYeVRRUVhJdzNRc0dlK0JmYWh6dlU0Z2FQRjRVdkxLMWh1?=
- =?utf-8?B?MkFSVGp5bk5kUVZCQUxVVW4vODVzQ2xDTXRrb1k3Nm9GeUNGa25DZzBJUDVN?=
- =?utf-8?B?Nitsc3lUTlBoeHozRUMvYUNuWXpXNnNQNTRMVjRFZmRPMittUm9Pd2cweG1Y?=
- =?utf-8?B?UDdzRG9oWktIRHZERmFVeEswM2ErU3gzdUt1YnkyZzF5Vlo4VEF2QnJ2aWZP?=
- =?utf-8?B?YklERytuYit3cnBaVEFyaGJkbTM5L2VQVTNrTFJzaHQ3TytTY2VERnhuUHhy?=
- =?utf-8?B?L2twZnE5Q3FqM0FJclRTek5VV0dEWXZwcjQvaGRyVHRhU3hNSXdJZHFNQzZU?=
- =?utf-8?B?U1FyYUs0WU5PNGNnQ0lGVWQ4eG9jM2lnMldiYVhYVnVCZHg0ZDBHanQrV2JW?=
- =?utf-8?B?a3YrNmhGREs4UktpelcxY25IYXM1dnhPRWZMNDd1dFA2VTBHSjJMRkkvVXVL?=
- =?utf-8?Q?/Pi+9CxCV5lXbUdS1OesLYnfP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe01e5a7-9ae2-4eac-c62e-08ddda483caa
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 09:03:14.9603 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6zWtctjQZxspwUITfmUZPILoCQ/aHZaPa/q0NUf/BcrJWaMgrzY4wXKa4hwhrxvn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8787
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION][BISECTED] kernel panic is not displayed correctly in
+ qemu (CONFIG_DRM_BOCHS)
+To: Askar Safin <safinaskar@zohomail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?=
+ <noralf@tronnes.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ virtualization <virtualization@lists.linux.dev>,
+ ryasuoka <ryasuoka@redhat.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ qemu-devel <qemu-devel@nongnu.org>, regressions
+ <regressions@lists.linux.dev>, Ben Hutchings <benh@debian.org>
+References: <197f290e30b.eaadc7bc7913.7315623184036672946@zohomail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <197f290e30b.eaadc7bc7913.7315623184036672946@zohomail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_GOOD(-0.10)[text/plain];
+ ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; TO_DN_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[11]; MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
+ suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,55 +145,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13.08.25 10:56, Philipp Stanner wrote:
-> In drm_sched_fini() all entities are marked as stopped - without taking
-> the appropriate lock, because that would deadlock. That means that
-> drm_sched_fini() and drm_sched_entity_push_job() can race against each
-> other.
-> 
-> This should most likely be fixed by establishing the rule that all
-> entities associated with a scheduler must be torn down first. Then,
-> however, the locking should be removed from drm_sched_fini() alltogether
-> with an appropriate comment.
-> 
-> Reported-by: James Flowers <bold.zone2373@fastmail.com>
-> Link: https://lore.kernel.org/dri-devel/20250720235748.2798-1-bold.zone2373@fastmail.com/
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Hi
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Am 10.07.25 um 06:21 schrieb Askar Safin:
+> Steps to reproduce:
+>
+> - Build Linux v6.16-rc5 so:
+>
+> $ cat mini
+> CONFIG_64BIT=y
+>
+> CONFIG_EXPERT=y
+> CONFIG_EMBEDDED=y
+>
+> CONFIG_PRINTK=y
+> CONFIG_PRINTK_TIME=y
+>
+> CONFIG_PCI=y
+>
+> CONFIG_TTY=y
+> CONFIG_VT=y
+> CONFIG_VT_CONSOLE=y
+> CONFIG_DRM=y
+> CONFIG_DRM_FBDEV_EMULATION=y
+> CONFIG_DRM_BOCHS=y
+> CONFIG_FRAMEBUFFER_CONSOLE=y
+> CONFIG_PROC_FS=y
+> $ make KCONFIG_ALLCONFIG=mini allnoconfig
+> $ make
+>
+> - Then boot this Linux image in Qemu so:
+>
+> $ qemu-system-x86_64 -enable-kvm -m 1024 -daemonize -kernel arch/x86_64/boot/bzImage
+>
+> Kernel will (predictably) panic (because it has no initramfs, nor real disk), but actual panic message will not be shown!
+>
+> Last shown line is "Run /bin/sh as init process"
+>
+> My host OS is Debian Trixie. "uname -a":
+>
+> Linux receipt 6.12.33+deb13-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.12.33-1 (2025-06-19) x86_64 GNU/Linux
+>
+> Qemu version is:
+>
+> QEMU emulator version 10.0.2 (Debian 1:10.0.2+ds-1)
+>
+> Guest kernel is v6.16-rc5 x86_64.
+>
+> The problem doesn't reproduce on old guest kernels. I. e. old guest kernels actually show panic message.
+>
+> I did bisect, and bisect showed the following two commits:
+>
+> ===
+>
+> commit a6c3464f69cf5a8a31eb31cc436e7dbd325b8ff9
+> Author: Thomas Zimmermann <tzimmermann@suse.de>
+> Date:   Thu Jun 13 09:30:33 2019 +0200
+>
+>      drm/gem-vram: Support pinning buffers to current location
+>      
+>      Pinning a buffer prevents it from being moved to a different memory
+>      location. For some operations, such as buffer updates, it is not
+>      important where the buffer is located. Setting the pin function's
+>      pl_flag argument to 0 will pin the buffer to whereever it is stored.
+>      
+>      v2:
+>              * document pin flags in PRIME pin helper
+>      
+>      Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>      Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+>      Link: https://patchwork.freedesktop.org/patch/msgid/20190613073041.29350-2-tzimmermann@suse.de
+>
+> commit 58540594570778fd149cd8c9b2bff61f2cefa8c9
+> Author: Thomas Zimmermann <tzimmermann@suse.de>
+> Date:   Wed Jul 3 09:58:34 2019 +0200
+>
+>      drm/bochs: Use shadow buffer for bochs framebuffer console
+>      
+>      The bochs driver (and virtual hardware) requires buffer objects to
+>      reside in video ram to display them to the screen. So it can not
+>      display the framebuffer console because the respective buffer object
+>      is permanently pinned in system memory.
+>      
+>      Using a shadow buffer for the console solves this problem. The console
+>      emulation will pin the buffer object only during updates from the shadow
+>      buffer. Otherwise, the bochs driver can freely relocated the buffer
+>      between system memory and video ram.
+>      
+>      v2:
+>              * select shadow FB via struct drm_mode_config.prefer_shadow_fbdev
+>      
+>      Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>      Acked-by: Noralf Trønnes <noralf@tronnes.org>
+>      Link: https://patchwork.freedesktop.org/patch/315833/
+>      Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>
+> ===
+>
+> Commit a6c3464f69cf5a8a31e changed good behavior to absolutely wrong: after a6c3464f69cf5a8a31e I see just black screen.
+> Then (after many commits) 58540594570778fd149 made screen working again, but now panics are not shown.
+>
+> So, result: all commits in range a6c3464f69cf5a8a31e .. 58540594570778fd149 are not testable (black screen), all commits before a6c3464f69cf5a8a31e
+> are "good" (panic is shown) and all commits after 58540594570778fd149 (inclusive) (including v6.16-rc5) are "bad" (panic is not shown).
 
-> ---
-> Changes in v2:
->   - Fix typo.
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 5a550fd76bf0..46119aacb809 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1424,6 +1424,22 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
->  			 * Prevents reinsertion and marks job_queue as idle,
->  			 * it will be removed from the rq in drm_sched_entity_fini()
->  			 * eventually
-> +			 *
-> +			 * FIXME:
-> +			 * This lacks the proper spin_lock(&s_entity->lock) and
-> +			 * is, therefore, a race condition. Most notably, it
-> +			 * can race with drm_sched_entity_push_job(). The lock
-> +			 * cannot be taken here, however, because this would
-> +			 * lead to lock inversion -> deadlock.
-> +			 *
-> +			 * The best solution probably is to enforce the life
-> +			 * time rule of all entities having to be torn down
-> +			 * before their scheduler. Then, however, locking could
-> +			 * be dropped alltogether from this function.
-> +			 *
-> +			 * For now, this remains a potential race in all
-> +			 * drivers that keep entities alive for longer than
-> +			 * the scheduler.
->  			 */
->  			s_entity->stopped = true;
->  		spin_unlock(&rq->lock);
+The bochs driver uses a shadow framebuffer. It's apparently not being 
+flushed to VRAM on kernel panics. You could try the new DRM panic screen 
+to make that happen.
+
+Best regards
+Thomas
+
+>
+> The next commit after 58540594570778fd149 is 5fd5d2b7c53de5a1290d82, thus correct regzbot instruction is:
+>
+> #regzbot introduced: a6c3464f69cf5a8a31e..5fd5d2b7c53de5a1290d82
+>
+> Config above is not special. It is result of minimizing standard Debian config.
+>
+> The bug is reproducible with standard Debian kernels (if we use them as guests).
+>
+> Reproduction steps are so:
+> - Install Debian Trixie to Qemu VM
+> - Boot it with "init=/bin/true" added (to cause kernel panic)
+>
+> You will not see panic message.
+>
+> I minimized this Debian bug to small config shown in the beginning of this letter.
+>
+> --
+> Askar Safin
+> https://types.pl/@safinaskar
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
