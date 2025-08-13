@@ -2,94 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8197CB240F2
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 08:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F279FB246D0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 12:15:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7DAF10E4B7;
-	Wed, 13 Aug 2025 06:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B911210E6D9;
+	Wed, 13 Aug 2025 10:15:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VqGLQqjd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DLXB3mh9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
- [209.85.208.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CAFE10E4AE
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 06:04:11 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id
- 4fb4d7f45d1cf-605b9488c28so10767909a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 23:04:11 -0700 (PDT)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 060FE10E1C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 06:21:39 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-74264d1832eso7901151b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 23:21:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755065050; x=1755669850; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YMyd1M5LZgFUuwfgUjsWaWr5cxJRx+F31yZrIJB0d8c=;
- b=VqGLQqjdFknYgXU1vQ8P/KUEArEKwygBYEVrHdpVqSu/gL3bWyRNAl78+Y9Rrus/nH
- ivApsRbQg04O0aCoRscHBtluovxDICay3NiOEN+ysHaxWZIoSMUi80W9eJr27FK6MoGY
- vd/SsuDA3UJV7qcO9XK/jAX70TRV1vuvPcqd65qu+G25t+ocGne1NfueEzmSTAzqFSlZ
- Bp1Ee6frCm09L7+T1SXKSBx7n6jlDkMq1MEKx0boo+5LJcTJXP+wePrdc+bll+wPx77z
- L2wwMaDK4NgGwyNEOIHVwkbAT1T+4+R+X1QMbW+Z8EqNviJOTX7sJbMrImqN0hJLIXco
- kUdQ==
+ d=gmail.com; s=20230601; t=1755066099; x=1755670899; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9ST3OBHUDmupawOhRPYNVodoxTLlNYfnl/2sDqaHKqM=;
+ b=DLXB3mh9kELptlQHZ6lo9X/BoiksRkMryb9rSUFSpjmICLDxmNoFjs8YEcCKjiP5OK
+ cOW3MH58N97Z244s2uPaBn7EBM0S+bIw6tuOkjG94skZKYkk6B5OIQhgf4XHN61FGFBL
+ gupue+8klW/BV4yfdI5bzbLnXZpBQSEOptTQ4MgOXf5Z0rRwUIUjWEGDts7InndI9WCP
+ h2hZE7OKpS9gI0Wr8SlcAM8w4F3rvTE088Ka/9K9jBOCNXtDp7xsKnLbMeOKMqu5bO7K
+ /67YSlznI6bmDE8shhLiScYMYW8xLJfEcuKWwQ5NYx6qM2jelEukkz4TaS1N8Yw/IWyt
+ u/cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755065050; x=1755669850;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YMyd1M5LZgFUuwfgUjsWaWr5cxJRx+F31yZrIJB0d8c=;
- b=Bgc3MStO1L3Bv4CXBBoPi20bhBgutLfaggGd9/W0RX6xwP3POc2c1e5Q0DTu/TkYvz
- 6OmSPJTe2NWbeaiNUaz5F+W3OgsP2ws78t2OGToSD/74CcrUp9NNWf0rWd0cqxIJVrnT
- 3PeZsWOc1VR8nj4KDonS2cf13uLWeXTvUTImuW3vM5wmkIz+Nuil/cZjE7telymaOo4c
- AVmj+LGooe1HPwt7SF3mY1WuOJ+jgbdCVHC0XReng5iMsa4Ob7JbnOKVMwvWYFxsGCS0
- 3B2L5nSx4OF9ABRh/raA9ngFqff6lSFyekuEhdFaVmZHttFxJ9M3/eCsk3RyaZu4ETp1
- LIJA==
+ d=1e100.net; s=20230601; t=1755066099; x=1755670899;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9ST3OBHUDmupawOhRPYNVodoxTLlNYfnl/2sDqaHKqM=;
+ b=CwDwpW4DcGsT/fPsfDEMBkq8j9rO1nJ9HxPQPPaF59hAwhgnRaNRrO1MbFLSw3eayp
+ VZiu/ulty6CI9NwX+9L/ZAhDWYtfEikBSMOPeRuMnDT1x7R+lpcJMa5DBfH7bLTA5rLA
+ IgoY3tssJzlDMOPX62QAVrTK0wsEeFWM42iFcNZ/kAQbhbAkTr/eM7a9KPM1FaMznKg5
+ ypNp9yiZuXIwtGfWH32Uyyb8MLg2AMHqIPl3T7vl001Q2oNHoxsADozjzlTWmgGBhxTv
+ 8yB+iK20/Xxf9DHEZigMaE59xUSIcKTLycGymUSvsA6CbmbDjMJCCLMbXZREfhTwSSS8
+ pJoQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXQpRIgqXYuDeSRACXjiASwx6KfolyN9+FnP4iQW9OHipmtmY6Swppp/MoNmBRrkBdkN/+r9vnJDb4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwZ6bru/RAwvy+lgZlKnP8ePR5FVCfrdtK+l9DqM+P4mE3BzrU2
- TWm3GaEhHN6mx+OGw4yRjJVHLmw7vnNhN77V/SbrNNy1hqVKyvAOu5TvYaa/KqtKbbM=
-X-Gm-Gg: ASbGnctfEWq/EeW/3Bp+h2gfjO0ZtTIf6/unDdFjG9lWZnSTCKPGzgc92S/RJp99NHW
- yQs2gj7wahrFHpOroYDDRH5wyOpMG6w2p2ZsXiN6DeI3LqPqyTwVm7UkXRk0nBXHOdKzdhI/XoG
- CRWss4fdcOsF2hJo+FWThmTManC9VbhXb01KPxJ7S5S3Wu9gjEc9v+vHUcEtOUg5hc3HmYUO8ms
- nVgXkyzwu4Yb4zW2eYp96TJcD5AxMXL/KSk7RrkCCWvgKYuoZqUW7ylfRj2Mlg1fj8tQOwlHSRk
- V9nu7UqYjpauOd2TXhBullkBIMO+B6gr76p/VOAqnJiicRkJEPH+eysRCftVbBaujkUg4zBBzsW
- WRNvvK8QOrEefeR9SiXnJxTEf2fpFJ7pUT+WZEqD/uj/e232cb8R7e/f3TjMRpoMyQ3NHF9V+AI
- Y=
-X-Google-Smtp-Source: AGHT+IGl+zk2kZ7dGtXoXvUAogPksLb/KD4WUBLmDCFuz3Yjsb2gUsdZ4PxNJjaVjkahgiQaR0qEBw==
-X-Received: by 2002:a05:6402:2753:b0:615:38e6:b739 with SMTP id
- 4fb4d7f45d1cf-6186bb8e5damr1297264a12.10.1755065049472; 
- Tue, 12 Aug 2025 23:04:09 -0700 (PDT)
-Received: from rayden.urgonet (h-37-123-177-177.A175.priv.bahnhof.se.
- [37.123.177.177]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-615a8f2b892sm21498679a12.25.2025.08.12.23.04.06
+ AJvYcCWIqaolFmMn6wKcfis0SwkjF0+L6WAfRv0v2pWOV089N40V64ceShzj0IE5f13tvQjk5fRJtFBu21E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlwYXPxCOzUtWzhcxjxz0SLBBb4SqwQznEKTn5LtAEG3rqDjEW
+ A/4kFt1V0GLuAPSpsqB7Eu2E2cscYbX1YSzoWK1P3OmkLmnaFtfzLrgF
+X-Gm-Gg: ASbGncs9sHXInt6xOHbsDFOj+HLLrv2FvhI8asNArxeO2lRfGOgY9SX9cQBvdNiFaVg
+ Ehuzdnx6Pcv9SJL0Y8JDP8hL+Zd+/AvDhjGicqCEbxmXZC0FL39g/XsJAGPRPPyhL8Rqn2ufTZe
+ es3KllRdfI/x0k2axXwnf/xmWkX2AkRkfTBnzmoKyE420lVrJZt7tuu8/SCYtoPL1xcNdJxjH6D
+ tENzoa521ljZ3Xawo544mR8VaLc5/Ts6IjJcdULv1jPdZoW/8WJhmepohvskkYCPJGaaj1P1U2s
+ fDF2iuELoWZDM9iHNqoeEVdO0q+Evuww1GG8aFL5fBkRQ2qCczBt1xfSe5XHmZfyZPRPFS+auaL
+ BtCTdiut33zLHmfrtJuM=
+X-Google-Smtp-Source: AGHT+IEcTztVLi+UwZHZ0a2lGY69Y011yXfIdJLL6J3nKQcw2Coh7E6JYmUMTFdAFtBh6CYhcaokWw==
+X-Received: by 2002:a05:6a20:244b:b0:240:7ed:402b with SMTP id
+ adf61e73a8af0-240a8b76ba5mr3616066637.33.1755066099386; 
+ Tue, 12 Aug 2025 23:21:39 -0700 (PDT)
+Received: from Terra ([2001:df0:b240:417c:391a:2d23:2970:dee9])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-76bcce89132sm31303296b3a.29.2025.08.12.23.21.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Aug 2025 23:04:08 -0700 (PDT)
-From: Jens Wiklander <jens.wiklander@linaro.org>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org
-Cc: Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Sumit Garg <sumit.garg@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com,
- Jens Wiklander <jens.wiklander@linaro.org>,
- Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: [PATCH v11 9/9] optee: smc abi: dynamic protected memory allocation
-Date: Wed, 13 Aug 2025 08:02:58 +0200
-Message-ID: <20250813060339.2977604-10-jens.wiklander@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250813060339.2977604-1-jens.wiklander@linaro.org>
-References: <20250813060339.2977604-1-jens.wiklander@linaro.org>
+ Tue, 12 Aug 2025 23:21:39 -0700 (PDT)
+From: Athul Raj Kollareth <krathul3152@gmail.com>
+To: airlied@redhat.com, kraxel@redhat.com, dmitry.osipenko@collabora.com,
+ gurchetansingh@chromium.org
+Cc: Athul Raj Kollareth <krathul3152@gmail.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/virtio: clean up minor codestyle issues
+Date: Wed, 13 Aug 2025 11:51:05 +0530
+Message-ID: <20250813062109.5326-1-krathul3152@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 13 Aug 2025 10:15:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,123 +90,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support in the OP-TEE backend driver for dynamic protected memory
-allocation using the SMC ABI.
+Fix codestyle warnings and errors generated by CHECKPATCH in virtio
+source files.
 
-Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
 ---
- drivers/tee/optee/smc_abi.c | 78 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 75 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_display.c |  3 +--
+ drivers/gpu/drm/virtio/virtgpu_kms.c     | 20 ++++++++++----------
+ drivers/gpu/drm/virtio/virtgpu_object.c  |  4 ++--
+ drivers/gpu/drm/virtio/virtgpu_plane.c   |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_vq.c      |  2 ++
+ 5 files changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-index b4c007ed3b94..0be663fcd52b 100644
---- a/drivers/tee/optee/smc_abi.c
-+++ b/drivers/tee/optee/smc_abi.c
-@@ -965,6 +965,70 @@ static int optee_smc_do_call_with_arg(struct tee_context *ctx,
- 	return rc;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index e5805ca646c7..c3315935d8bc 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -131,9 +131,8 @@ static void virtio_gpu_crtc_atomic_flush(struct drm_crtc *crtc,
+ 	 * in the plane update callback, and here we just check
+ 	 * whenever we must force the modeset.
+ 	 */
+-	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
++	if (drm_atomic_crtc_needs_modeset(crtc_state))
+ 		output->needs_modeset = true;
+-	}
  }
  
-+static int optee_smc_lend_protmem(struct optee *optee, struct tee_shm *protmem,
-+				  u32 *mem_attrs, unsigned int ma_count,
-+				  u32 use_case)
-+{
-+	struct optee_shm_arg_entry *entry;
-+	struct optee_msg_arg *msg_arg;
-+	struct tee_shm *shm;
-+	u_int offs;
-+	int rc;
+ static const struct drm_crtc_helper_funcs virtio_gpu_crtc_helper_funcs = {
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 7dfb2006c561..1c15cbf326b7 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -162,18 +162,18 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_VIRGL))
+ 		vgdev->has_virgl_3d = true;
+ #endif
+-	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EDID)) {
++	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EDID))
+ 		vgdev->has_edid = true;
+-	}
+-	if (virtio_has_feature(vgdev->vdev, VIRTIO_RING_F_INDIRECT_DESC)) {
 +
-+	msg_arg = optee_get_msg_arg(optee->ctx, 2, &entry, &shm, &offs);
-+	if (IS_ERR(msg_arg))
-+		return PTR_ERR(msg_arg);
++	if (virtio_has_feature(vgdev->vdev, VIRTIO_RING_F_INDIRECT_DESC))
+ 		vgdev->has_indirect = true;
+-	}
+-	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_UUID)) {
 +
-+	msg_arg->cmd = OPTEE_MSG_CMD_LEND_PROTMEM;
-+	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
-+	msg_arg->params[0].u.value.a = use_case;
-+	msg_arg->params[1].attr = OPTEE_MSG_ATTR_TYPE_TMEM_INPUT;
-+	msg_arg->params[1].u.tmem.buf_ptr = protmem->paddr;
-+	msg_arg->params[1].u.tmem.size = protmem->size;
-+	msg_arg->params[1].u.tmem.shm_ref = (u_long)protmem;
++	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_UUID))
+ 		vgdev->has_resource_assign_uuid = true;
+-	}
+-	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_BLOB)) {
 +
-+	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-+	if (rc)
-+		goto out;
-+	if (msg_arg->ret != TEEC_SUCCESS) {
-+		rc = -EINVAL;
-+		goto out;
-+	}
-+	protmem->sec_world_id = (u_long)protmem;
++	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_BLOB))
+ 		vgdev->has_resource_blob = true;
+-	}
 +
-+out:
-+	optee_free_msg_arg(optee->ctx, entry, offs);
-+	return rc;
-+}
+ 	if (virtio_get_shm_region(vgdev->vdev, &vgdev->host_visible_region,
+ 				  VIRTIO_GPU_SHM_ID_HOST_VISIBLE)) {
+ 		if (!devm_request_mem_region(&vgdev->vdev->dev,
+@@ -193,9 +193,9 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 			    (unsigned long)vgdev->host_visible_region.addr,
+ 			    (unsigned long)vgdev->host_visible_region.len);
+ 	}
+-	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_CONTEXT_INIT)) {
 +
-+static int optee_smc_reclaim_protmem(struct optee *optee,
-+				     struct tee_shm *protmem)
-+{
-+	struct optee_shm_arg_entry *entry;
-+	struct optee_msg_arg *msg_arg;
-+	struct tee_shm *shm;
-+	u_int offs;
-+	int rc;
-+
-+	msg_arg = optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs);
-+	if (IS_ERR(msg_arg))
-+		return PTR_ERR(msg_arg);
-+
-+	msg_arg->cmd = OPTEE_MSG_CMD_RECLAIM_PROTMEM;
-+	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_RMEM_INPUT;
-+	msg_arg->params[0].u.rmem.shm_ref = (u_long)protmem;
-+
-+	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-+	if (rc)
-+		goto out;
-+	if (msg_arg->ret != TEEC_SUCCESS)
-+		rc = -EINVAL;
-+
-+out:
-+	optee_free_msg_arg(optee->ctx, entry, offs);
-+	return rc;
-+}
-+
- /*
-  * 5. Asynchronous notification
-  */
-@@ -1216,6 +1280,8 @@ static const struct optee_ops optee_ops = {
- 	.do_call_with_arg = optee_smc_do_call_with_arg,
- 	.to_msg_param = optee_to_msg_param,
- 	.from_msg_param = optee_from_msg_param,
-+	.lend_protmem = optee_smc_lend_protmem,
-+	.reclaim_protmem = optee_smc_reclaim_protmem,
- };
++	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_CONTEXT_INIT))
+ 		vgdev->has_context_init = true;
+-	}
  
- static int enable_async_notif(optee_invoke_fn *invoke_fn)
-@@ -1627,14 +1693,20 @@ static struct tee_protmem_pool *static_protmem_pool_init(struct optee *optee)
+ 	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible",
+ 		 vgdev->has_virgl_3d    ? '+' : '-',
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 5517cff8715c..e6363c887500 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -47,6 +47,7 @@ int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev, uint32_t *resid)
+ 		*resid = handle + 1;
+ 	} else {
+ 		int handle = ida_alloc(&vgdev->resource_ida, GFP_KERNEL);
++
+ 		if (handle < 0)
+ 			return handle;
+ 		*resid = handle + 1;
+@@ -56,9 +57,8 @@ int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev, uint32_t *resid)
  
- static int optee_protmem_pool_init(struct optee *optee)
+ static void virtio_gpu_resource_id_put(struct virtio_gpu_device *vgdev, uint32_t id)
  {
-+	bool protm = optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM;
-+	bool dyn_protm = optee->smc.sec_caps &
-+			 OPTEE_SMC_SEC_CAP_DYNAMIC_PROTMEM;
- 	enum tee_dma_heap_id heap_id = TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
- 	struct tee_protmem_pool *pool = ERR_PTR(-EINVAL);
--	int rc;
-+	int rc = -EINVAL;
+-	if (!virtio_gpu_virglrenderer_workaround) {
++	if (!virtio_gpu_virglrenderer_workaround)
+ 		ida_free(&vgdev->resource_ida, id - 1);
+-	}
+ }
  
--	if (!(optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_PROTMEM))
-+	if (!protm && !dyn_protm)
- 		return 0;
+ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index 698ea7adb951..29e4b458ae57 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -120,7 +120,7 @@ static int virtio_gpu_plane_atomic_check(struct drm_plane *plane,
+ 	crtc_state = drm_atomic_get_crtc_state(state,
+ 					       new_plane_state->crtc);
+ 	if (IS_ERR(crtc_state))
+-                return PTR_ERR(crtc_state);
++		return PTR_ERR(crtc_state);
  
--	pool = static_protmem_pool_init(optee);
-+	if (protm)
-+		pool = static_protmem_pool_init(optee);
-+	if (dyn_protm && IS_ERR(pool))
-+		pool = optee_protmem_alloc_dyn_pool(optee, heap_id);
- 	if (IS_ERR(pool))
- 		return PTR_ERR(pool);
- 
+ 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+ 						  DRM_PLANE_NO_SCALING,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 55a15e247dd1..8181b22b9b46 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -248,6 +248,7 @@ void virtio_gpu_dequeue_ctrl_func(struct work_struct *work)
+ 		if (resp->type != cpu_to_le32(VIRTIO_GPU_RESP_OK_NODATA)) {
+ 			if (le32_to_cpu(resp->type) >= VIRTIO_GPU_RESP_ERR_UNSPEC) {
+ 				struct virtio_gpu_ctrl_hdr *cmd;
++
+ 				cmd = virtio_gpu_vbuf_ctrl_hdr(entry);
+ 				DRM_ERROR_RATELIMITED("response 0x%x (command 0x%x)\n",
+ 						      le32_to_cpu(resp->type),
+@@ -468,6 +469,7 @@ static int virtio_gpu_queue_fenced_ctrl_buffer(struct virtio_gpu_device *vgdev,
+ 	if (vbuf->data_size) {
+ 		if (is_vmalloc_addr(vbuf->data_buf)) {
+ 			int sg_ents;
++
+ 			sgt = vmalloc_to_sgt(vbuf->data_buf, vbuf->data_size,
+ 					     &sg_ents);
+ 			if (!sgt) {
 -- 
-2.43.0
+2.50.1
 
