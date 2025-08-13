@@ -2,77 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15368B23E2C
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 04:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1691FB23EB4
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 05:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA01210E4AD;
-	Wed, 13 Aug 2025 02:25:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E19910E195;
+	Wed, 13 Aug 2025 03:01:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K+bRCs5L";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ivGvaABW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9099B10E195
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 02:25:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755051903; x=1786587903;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=TO08Bxdjs6CXgwQaNnTK3VsCDBnZs98H7CvXOF1PSiw=;
- b=K+bRCs5LzNAQRvW3E5KpMo8i6rjdDW3FbhcxbVCoQo96bBPAv9Fj9qvO
- OCowivAueK2zfhn+0fukleJ4EZ9ztYPbll1ztj6/5SluRwFiewgSzWG+v
- QFhu96KO04BHLAR5PL6YbS/9XNT6FKdUiWaYjm2wUSJU8PemiZv7VHfTp
- E1uFXlGq9mcWpq1RG1nfp6cmDk3xXXAp4QE0Ie+y2a0zm4sotRDHqzPn/
- rHcNz/6Bi65Cq3MgDLeW4RQ8y63AOl8zAaWme/wYK9vUrWnal3Spt6DCG
- DG/ECi0nBe9/ijhiHbQH9RYc2z7HT3h5p7kOhhODeR/rcX3ax9VaxMFK/ Q==;
-X-CSE-ConnectionGUID: WLnzdVMxQUemwWjzVYz35g==
-X-CSE-MsgGUID: MDR/RiAURVKXspOzwYeWRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="57416214"
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; d="scan'208";a="57416214"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Aug 2025 19:25:02 -0700
-X-CSE-ConnectionGUID: R7Jgn4tkRgOyjuOYDP9Yvw==
-X-CSE-MsgGUID: 3weZF238QHG4vGIuMOZAOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; d="scan'208";a="165571477"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
- by orviesa010.jf.intel.com with ESMTP; 12 Aug 2025 19:24:55 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1um1Aa-0009T2-1I;
- Wed, 13 Aug 2025 02:24:52 +0000
-Date: Wed, 13 Aug 2025 10:23:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Balbir Singh <balbirs@nvidia.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Balbir Singh <balbirs@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Ralph Campbell <rcampbell@nvidia.com>,
- Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [v3 10/11] gpu/drm/nouveau: add THP migration support
-Message-ID: <202508130923.0VGA41Zv-lkp@intel.com>
-References: <20250812024036.690064-11-balbirs@nvidia.com>
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
+ [209.85.217.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88CAB10E195
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 03:01:14 +0000 (UTC)
+Received: by mail-vs1-f53.google.com with SMTP id
+ ada2fe7eead31-50e29b4fd2cso228570137.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 20:01:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1755054073; x=1755658873;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Mwogx+eS89jOrYozXKAzAp0ij0rBCaM80NxlzPyEOCk=;
+ b=ivGvaABWlHhf80wh/3AeziZwMkVerwcJ0d3mWcTlmyxwlmlVDs7582tkHRcSEcf9LG
+ vnVGYVVUncEfM6lSHNpnF3feAZfDbgd/HcemZCEAAY4K4e9L/umDo+6kvOfFJf4C7OKW
+ XnkRjWY8kq8WfEKi7xD+D3Qunj4wGspHLD6cQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755054073; x=1755658873;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Mwogx+eS89jOrYozXKAzAp0ij0rBCaM80NxlzPyEOCk=;
+ b=IKyB5Srap4lh5+5qe6I5FhoEJVtfefNgK4WD+f+A0DAWbw4LTH1VfsvVWtBRfsAxfW
+ FSxTVM+FbfRGP6qCkQLq3vEB99fNXhyop2E3RF8Q8B3IE5wMfm9xGDOBZ+f5TuH7JYXb
+ VCHxrE1uX+yW8ZklTZ3TBuG3eurlqcE75r0Tmp3SpoEjB1p+o3qkEAIJUto4QIPvH/8Z
+ 1oY6CbW5AjgQcg1jZnRDGFagW9PKqf0NsfQ1+PXjJ/4AMpfd2gwlHeOWmvjEj6NGqEA0
+ SjemdosGBNj5QWmDx8hMDIRYHSl1VtwiKwl3uCzpzXn61MAhC9iYYKRPGIYspSGH8nPx
+ SFZQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWFFRY07cu1+53XjKrqR0gHp5dxhduH6fQNXbathkE8X3uIjGUw88kA3g3b8yHDotAvk5koAcRcWFE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkIlIfajEDUoSId2SUXMR9fqWg1LkT90THe5ibXoNdX1Vpxfgb
+ r2hSyTrjJ61VWQsswj2PjR86StmKTfVNHQ528sOb47pfgTm1atio8FVL07pckHCvg7IXJVF9Sl/
+ GU/qoEA==
+X-Gm-Gg: ASbGncsFLuKt9c11SnRNxFfxZuiexezJaRmUPKogHqQdSN0kjGy60kaA8Oz/bHBex+G
+ DfWObMmq7bfEi+zzORePBJTZSHrhu8oWzqTseP6UzCRw3tKemKa+sXQABr4iisjdTnEAkDWtCcf
+ oxFtPmWcKQ+VJtRax/5+dByTtKU/o8/T+Z9GPBnP8gNnk8kq9wozJOZFCaKgRHKA3nu/q8C7TX3
+ Z7WBk+P3ZVn1RelcfIgAOvBX4Cod/jHC8lExutiWd52kvtktzxTM4HHvEx4NAyUp0elWLKB29q9
+ mPBwA93ib67CyDQeVjcy7rRliIILFPyWgT+gOZjJUfLwo1ccPgRgJxlmV3DjCg+De5jxNe9hLhL
+ p18rZ+IqANivX06iykRvgUVAx71+6vlqF2MUWAyKeE6w+19ojrSwSxWt5J18zN9o3IINa
+X-Google-Smtp-Source: AGHT+IH6XZr+lCf01v+i3t9WRxTssJfawLTPA/PzSBJ9asU6Twv8ev14/ZGkbAotIzmR//5Z4eIMKQ==
+X-Received: by 2002:a05:6102:54a2:b0:4e2:e5ec:fa09 with SMTP id
+ ada2fe7eead31-50e783b5ee8mr292005137.6.1755054072913; 
+ Tue, 12 Aug 2025 20:01:12 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com.
+ [209.85.222.48]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-507dcae5200sm2042829137.0.2025.08.12.20.01.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Aug 2025 20:01:12 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id
+ a1e0cc1a2514c-88db52e94feso360766241.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 20:01:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWizd+BpO1B5j1MUKbJuM9wYsHwW9kbsAPau3e7mcOSoGndZCgp46zlsVvfwKNHPOKA2ybll/NeKvU=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:14a8:b0:4e2:a235:24d1 with SMTP id
+ ada2fe7eead31-50e782c12b7mr322781137.4.1755054071440; Tue, 12 Aug 2025
+ 20:01:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250812024036.690064-11-balbirs@nvidia.com>
+References: <20250812082135.3351172-1-fshao@chromium.org>
+ <20250812082135.3351172-2-fshao@chromium.org>
+ <CAD=FV=X_CiSoXyKkg8jBJLPKe3WDBpLEOAngQJNnN8yZfaC+qw@mail.gmail.com>
+In-Reply-To: <CAD=FV=X_CiSoXyKkg8jBJLPKe3WDBpLEOAngQJNnN8yZfaC+qw@mail.gmail.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Wed, 13 Aug 2025 11:00:35 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nhXO4mHkxGbLzja2au7RAfDR+-yRoGAkuMCKCc69N4rng@mail.gmail.com>
+X-Gm-Features: Ac12FXyWFCZPXff1Dk6BrxbwFMsSYp_Qp3kx0qOfMjgPafXKsWbyukfoMR55OCE
+Message-ID: <CAC=S1nhXO4mHkxGbLzja2au7RAfDR+-yRoGAkuMCKCc69N4rng@mail.gmail.com>
+Subject: Re: [PATCH v8 1/2] drm_bridge: register content protect property
+To: Doug Anderson <dianders@chromium.org>
+Cc: Hubert Mazur <hmazur@google.com>, Sean Paul <seanpaul@chromium.org>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,101 +102,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Balbir,
+On Wed, Aug 13, 2025 at 2:07=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Tue, Aug 12, 2025 at 1:23=E2=80=AFAM Fei Shao <fshao@chromium.org> wro=
+te:
+> >
+> > From: Hsin-Yi Wang <hsinyi@chromium.org>
+> >
+> > Some bridges can update HDCP status based on userspace requests if they
+> > support HDCP.
+> >
+> > The HDCP property is created after connector initialization and before
+> > registration, just like other connector properties.
+> >
+> > Add the content protection property to the connector if a bridge
+> > supports HDCP.
+> >
+> > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > Signed-off-by: Fei Shao <fshao@chromium.org>
+> > Reviewed-by: Sean Paul <seanpaul@chromium.org>
+>
+> nit: your Signed-off-by should always be moved to the bottom when
+> posting patches. I wouldn't bother re-posting just for that, though...
 
-kernel test robot noticed the following build errors:
+Ah sorry, I didn't notice that..
+Could you rearrange the tag order for me when applying these patches?
 
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm-zone_device-support-large-zone-device-private-folios/20250812-105145
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250812024036.690064-11-balbirs%40nvidia.com
-patch subject: [v3 10/11] gpu/drm/nouveau: add THP migration support
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20250813/202508130923.0VGA41Zv-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250813/202508130923.0VGA41Zv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508130923.0VGA41Zv-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   drivers/gpu/drm/nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_vma':
->> include/linux/compiler_types.h:572:45: error: call to '__compiletime_assert_706' declared with attribute error: max((1<<((16 + __pte_index_size)-16)), max) signedness error
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:553:25: note: in definition of macro '__compiletime_assert'
-     553 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:112:25: note: in expansion of macro '__careful_cmp'
-     112 | #define max(x, y)       __careful_cmp(max, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nouveau_dmem.c:811:23: note: in expansion of macro 'max'
-     811 |                 max = max(HPAGE_PMD_NR, max);
-         |                       ^~~
---
-   In file included from <command-line>:
-   nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_vma':
->> include/linux/compiler_types.h:572:45: error: call to '__compiletime_assert_706' declared with attribute error: max((1<<((16 + __pte_index_size)-16)), max) signedness error
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:553:25: note: in definition of macro '__compiletime_assert'
-     553 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
-     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:112:25: note: in expansion of macro '__careful_cmp'
-     112 | #define max(x, y)       __careful_cmp(max, x, y)
-         |                         ^~~~~~~~~~~~~
-   nouveau/nouveau_dmem.c:811:23: note: in expansion of macro 'max'
-     811 |                 max = max(HPAGE_PMD_NR, max);
-         |                       ^~~
-
-
-vim +/__compiletime_assert_706 +572 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  559  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  560  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  561  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  562  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  567   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  568   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  569   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  570   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  571  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @572  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  573  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Fei
