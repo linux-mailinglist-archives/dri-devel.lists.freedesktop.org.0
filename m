@@ -2,64 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA63B253F8
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 21:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8DBB25D1B
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 09:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC1E10E798;
-	Wed, 13 Aug 2025 19:32:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="S1eTEko5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id F179B10E7FE;
+	Thu, 14 Aug 2025 07:25:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B785E10E798
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 19:32:55 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57DJWmAU1716526;
- Wed, 13 Aug 2025 14:32:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1755113568;
- bh=DP9g1YaqAXl0Ni9gsYFNtLPP9+dGOYc408wFaAfyNxk=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=S1eTEko5c2sZbfSUg6KnuhOl17TYUJOCUJlWkOy0ytuw1KEQtzWIYVR/17Zm52U/Y
- Z4XCh/E1/DuCFmzHizFEZYlEIELlYyR2Fssp6Tbb0E4rAFr6bja9ZlIIgAX3trhAeE
- PXLDnKHbXe5AaAeWlOWwJID8gzemcIMIqp1SskWU=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57DJWlfB612929
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Wed, 13 Aug 2025 14:32:48 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 13
- Aug 2025 14:32:47 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 13 Aug 2025 14:32:47 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57DJWkYE2476900;
- Wed, 13 Aug 2025 14:32:46 -0500
-Message-ID: <4c6a7db0-dc75-4ed1-aeae-418fa004ea53@ti.com>
-Date: Wed, 13 Aug 2025 14:32:45 -0500
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5424410E0BC;
+ Wed, 13 Aug 2025 20:12:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id F27F8A57F1C;
+ Wed, 13 Aug 2025 20:12:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4096C4CEEF;
+ Wed, 13 Aug 2025 20:11:53 +0000 (UTC)
+Date: Wed, 13 Aug 2025 21:11:51 +0100
+From: Mark Brown <broonie@debian.org>
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Breno Leitao <leitao@debian.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ Dave Ertman <david.m.ertman@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+ Jens Axboe <axboe@kernel.dk>, Alexandre Courbot <acourbot@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, linux-block@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 00/19] rust: replace `kernel::c_str!` with C-Strings
+Message-ID: <34d384af-6123-4602-bde0-85ca3d14fe09@sirena.org.uk>
+References: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] drm/bridge: it66121: Add it66122 support
-To: Nishanth Menon <nm@ti.com>, Conor Dooley <conor+dt@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, David Airlie
- <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
- <neil.armstrong@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, Robert Nelson <robertcnelson@gmail.com>,
- Jason Kridner <jkridner@beagleboard.org>
-References: <20250813190835.344563-1-nm@ti.com>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250813190835.344563-1-nm@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="6FVk2V0LrGBjdKpm"
+Content-Disposition: inline
+In-Reply-To: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
+X-Cookie: Turn the other cheek.
+X-Mailman-Approved-At: Thu, 14 Aug 2025 07:25:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,39 +83,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/13/25 2:08 PM, Nishanth Menon wrote:
-> Hi,
-> 
-> Add support for IT66122, which for all practical purposes is
-> drop in replacement for IT66121 except for the ID register
-> definition.
-> 
-> BeagleY-AI uses this new part as the old part is no longer in production
-> as far as I understand.
-> 
-> Now, BeaglePlay uses it66121 at the moment, but at some point, it might
-> end up flipping over to the new part.
-> 
-> An alternate implementation could be to drop the revision check or make
-> it66121 check include alternate ID check.. but that seems a little
-> non-standard.. Anyways, I suppose mediatek platforms will face this
-> problem as well at some point.
-> 
 
-Hmmm, since these boards will probably have to switch parts mid-production
-it would cause us to need to have a new DT with the updated compatible
-just for a otherwise transparent revision. Might be better to just
-loosen the PID check so the alternative part work just the same.
+--6FVk2V0LrGBjdKpm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Andrew
+On Wed, Aug 13, 2025 at 11:59:10AM -0400, Tamir Duberstein wrote:
+> This series depends on step 3[0] which depends on steps 2a[1] and 2b[2]
+> which both depend on step 1[3].
+>=20
+> This series also has a minor merge conflict with a small change[4] that
+> was taken through driver-core-testing. This series is marked as
+> depending on that change; as such it contains the post-conflict patch.
+>=20
+> Subsystem maintainers: I would appreciate your `Acked-by`s so that this
+> can be taken through Miguel's tree (where the previous series must go).
 
-> Nishanth Menon (2):
->    dt-bindings: display: bridge: it66121: Add compatible string for
->      IT66122
->    drm/bridge: it66121: Add it66122 support
-> 
->   .../devicetree/bindings/display/bridge/ite,it66121.yaml   | 1 +
->   drivers/gpu/drm/bridge/ite-it66121.c                      | 8 ++++++++
->   2 files changed, 9 insertions(+)
-> 
+Something seems to have gone wrong with your posting, both my mail
+server and the mail archives stop at patch 15.  If it were just rate
+limiting or greylisting I'd have expected things to have sorted
+themselves out by now for one or the other.
 
+--6FVk2V0LrGBjdKpm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmic8YYACgkQJNaLcl1U
+h9Cumwf/YkCiNa2FUFyl0xap34GT0uNu8Xh2QH5gQa+2jI19lL8u1OybvUdzWI8N
+dryQmdo4BgnkEFiIeCiAWIUh8fHachIQqfAZfj8yJRexfSk3R0S/Nrg8CfGa9myh
+jkwom0F4sUSvZpsacG1c/oCya64UwN/bCgC+Yw2fivCPjjw/vz1JE5gtarpJEQly
+EJBbiexaSe0XYdtZ3cIT4wm0YElZqekk8U953MglLhWOOLXzt59bkslAam/8fori
+si1u/uVgWv1vyziB8dYHRa26Gsgy9OkgjCD0P64YWkoAV/uSnxsEo5wtWBx2ys1n
+pZ4kmgo8dh16iRQ7pqHeV2g3wE9HiQ==
+=xgNk
+-----END PGP SIGNATURE-----
+
+--6FVk2V0LrGBjdKpm--
