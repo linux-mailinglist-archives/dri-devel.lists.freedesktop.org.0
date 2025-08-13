@@ -2,115 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE60DB25347
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 20:48:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978F6B253C0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 21:14:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 406ED10E07B;
-	Wed, 13 Aug 2025 18:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A70E110E055;
+	Wed, 13 Aug 2025 19:14:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ENkavh0m";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Qxs9WYze";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3AAB10E792
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 18:48:46 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DBLtYG031245
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 18:48:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=nzjG887+TpcpPmgncHFaqwjK
- 5tO/uMDuLQd9TmbYrLA=; b=ENkavh0mabML7ff8x/WXpVF6Riy7+2enLJ8T1NJb
- f8uueFqvBSa01rTEoC0t7WxQjJ6Odt+KNaFJzAzxPlgkAWczkZOdmiNcMFeqdc7v
- 8fb9kW5J5lR4XGmWrJ6/IOa936ttVF3KS6/zdSIY3djLlUZnQEBJR55gEDlp5y0U
- acTf9upXDmjmmYM6DksSt4GroChBSNB54XQwQXeXFAD2b7eEYYCax6yMjYffMj5S
- EyK6MhcMf6pPOveP/sp5L4MQBICW0/eGSB2OLNx38pq/tDAOcXLZ4Q1Qklf2hFUL
- Feadq950mZF2wA8vy3Bzt+jNQQcyWFSjOLxW9icf84fRFQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fm3vqv1t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 18:48:45 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4b1098f924bso5108941cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 11:48:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755110925; x=1755715725;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nzjG887+TpcpPmgncHFaqwjK5tO/uMDuLQd9TmbYrLA=;
- b=nT5uak8yB8suW1KOiNJmBiXoscnoZnrfSg6aCqcmE3dGS6W8jUBL7Iq9OUJZaEfx/6
- q9yZI5igUOJ4One3vdapuNzUXsil41TAXEza5qeUeqxomzS0URukJ7rTCDMfXMpPC7E9
- M3LdPdrbhx7CPTUtUCS+3S8FFFWuBd1ix8csibzc2hlG0V4XizNlMobuy2uwv+7i/7Q2
- 2+pgKjnVwYLbKA/eHIa1zNs9UVnoaM6M9lpT4AR/1du+oKHvtPoR8tugL9H0my9RBY75
- TYRhYVtG/mcCW0SqhYvJ8nNUr60/D0tDz0hMw0zTs+cYXwsu0kZFtQV1zmtuhdfnkKX1
- oLMA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV33y930oxHj/MtMFDUCZWBHySaVEGJTWgkkWle/t0k2lYrgV1xuGtDD1v86wVSv64HVRuImEYdb7c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzlZo1N/1m34nogmnGFUzWM+IJ+W3LCc+IBBgyw/v8mG6B1vEfZ
- xjTJ4c4go4kodBvpMCvx76hr0yZhhk1WhkEQOh8WQDggQhhUsdPx1MY0sP+srJ3MRQNEMchrxXG
- PTGA3icyfQeRYfcA6u5sHU2PyZ8J53d+S5dmhjx9eQfKMMiYwUg7lpg60vel0iq7fCiiEhBY=
-X-Gm-Gg: ASbGncvJPEa+45BhOsBi2/BLpO/h+4WdUq4NlptmExKuLMaVeGAC8DAoSQvEAaCYOf6
- dCejyA+cffFb9iKegWlCJ20AGiqYW2qj88RrYDF2r3TgXKWH95380Z5ulknuxwDQJVSRJKc9fl6
- 8rrzKiPYfwA4sBVeSs2s5SLaYMm/ZiZ1HgVvATKP7lX9Dn/pTGU4NPSb+hXjw62Q1p3n4tU0B2G
- lu9SnzKDetIyAuFSK34XobNh7AgPV06QSUM1B3uoLAdjATG168CCyzKSAbG41oPoCSaNC5ioH7z
- tY4ilgB1vl9FNIMcAftcgf4VbkEJP4pDqRP1ioA2W0WBldQxo4rfAllVNMbryrtYlZaBmKTIM/e
- VHhK96njThLjxSng/n1hegr/BhNzT2WUWg7X7Ga48B6qTFEVy55Pl
-X-Received: by 2002:a05:622a:1f18:b0:4ab:4d30:564f with SMTP id
- d75a77b69052e-4b10ac25797mr3389721cf.47.1755110924657; 
- Wed, 13 Aug 2025 11:48:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEtZj7q2ie90roefmuQxk12/j/f20h198XGmN/KkyYOEK/ni5a3exApphv1+GAMIRNZyzAErQ==
-X-Received: by 2002:a05:622a:1f18:b0:4ab:4d30:564f with SMTP id
- d75a77b69052e-4b10ac25797mr3389131cf.47.1755110923983; 
- Wed, 13 Aug 2025 11:48:43 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-333f8cb9cdesm316421fa.6.2025.08.13.11.48.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Aug 2025 11:48:43 -0700 (PDT)
-Date: Wed, 13 Aug 2025 21:48:41 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] drm/dp: remove redundant check on ret and return
- statement
-Message-ID: <l67rsnpd74uge4lz2tm4jbrwmn3acxt6cbrj5yasz3x26mt4su@2oqljbabkj2a>
-References: <20250813151243.2055798-1-colin.i.king@gmail.com>
+X-Greylist: delayed 335 seconds by postgrey-1.36 at gabe;
+ Wed, 13 Aug 2025 19:14:24 UTC
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0EF910E047
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 19:14:24 +0000 (UTC)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57DJ8a8L1712667;
+ Wed, 13 Aug 2025 14:08:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1755112116;
+ bh=TaPk+ccuvMGmv9TIdYwFz87jfaQlmzkZCZgAz6btmAE=;
+ h=From:To:CC:Subject:Date;
+ b=Qxs9WYzeQZkspsZ6ea/JKNDr015J3WHJtw25wJgyFpX+6gn+kZgtHzAEQHAEVjlSk
+ ZbGBsSVstcrsR0THMphxkk5w1xN1YBan2b9WgifTxTz0CSc0sLQ24i9rZjmHpfJwmC
+ bLkbu/OsAyvkjbKgYfVxNsn7f1ptTdu4nmFlX3ek=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+ by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57DJ8aaa601290
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 13 Aug 2025 14:08:36 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 13
+ Aug 2025 14:08:35 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 13 Aug 2025 14:08:35 -0500
+Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57DJ8ZaH2756631;
+ Wed, 13 Aug 2025 14:08:35 -0500
+From: Nishanth Menon <nm@ti.com>
+To: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, David Airlie
+ <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Robert Nelson <robertcnelson@gmail.com>,
+ Jason Kridner <jkridner@beagleboard.org>, Nishanth Menon <nm@ti.com>
+Subject: [PATCH 0/2] drm/bridge: it66121: Add it66122 support
+Date: Wed, 13 Aug 2025 14:08:33 -0500
+Message-ID: <20250813190835.344563-1-nm@ti.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250813151243.2055798-1-colin.i.king@gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDEwNyBTYWx0ZWRfXy1+s3GMyL6pz
- sMERBs1ZsqOVsAgGYZxzy2IO/mQV1e9+PZgYgu6+0zqcdm9ZlK10H24ooOS70zFuiTSDgmgOjpc
- kRrJ31qM9n3YAPNnrzau/zC3HecAfUtg9pwne/IDdd2+ZBs1gJ07gndsFTLmwUpw332GnvvtZyk
- /OUlGE8TlThET0zELqyYaGC2ZgIwfzOVPh6+m/lXJPE7UQ1bORVfVRSr4B7TRiy8GE9ZcLtcM4u
- cAz2o8r0pW8vIIJysP+Y7+kbHO0px1VBArD3hUSbtVlg+r8ClslsXjR2dX+Z2Vg9IzoKZugepFR
- 4YkgsBETOfKwWXYvqjBXMCZP+asDUGxEAMS5uJmIWw10DskydJyWcNJoYJ5YbAAPunL7Wd7Jrfj
- 1wL+LhwK
-X-Proofpoint-GUID: HoscxfmnHau2lV3atGmFG-97gZgkwj7R
-X-Authority-Analysis: v=2.4 cv=A+1sP7WG c=1 sm=1 tr=0 ts=689cde0d cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=HYx7VuEMISGMiPhQd08A:9
- a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-ORIG-GUID: HoscxfmnHau2lV3atGmFG-97gZgkwj7R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_01,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- phishscore=0 clxscore=1015 adultscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508110107
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,21 +74,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 13, 2025 at 04:12:43PM +0100, Colin Ian King wrote:
-> There is a redundant check on return and a return statement after
-> a previous return statement from the call to drm_dp_dpcd_write_byte.
-> These statements are redundant and can be removed. Remove the
-> statements and the now unused variable ret.
-> 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 5 -----
->  1 file changed, 5 deletions(-)
-> 
+Hi,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Add support for IT66122, which for all practical purposes is
+drop in replacement for IT66121 except for the ID register
+definition.
 
+BeagleY-AI uses this new part as the old part is no longer in production
+as far as I understand.
+
+Now, BeaglePlay uses it66121 at the moment, but at some point, it might
+end up flipping over to the new part.
+
+An alternate implementation could be to drop the revision check or make
+it66121 check include alternate ID check.. but that seems a little
+non-standard.. Anyways, I suppose mediatek platforms will face this
+problem as well at some point.
+
+Nishanth Menon (2):
+  dt-bindings: display: bridge: it66121: Add compatible string for
+    IT66122
+  drm/bridge: it66121: Add it66122 support
+
+ .../devicetree/bindings/display/bridge/ite,it66121.yaml   | 1 +
+ drivers/gpu/drm/bridge/ite-it66121.c                      | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
 -- 
-With best wishes
-Dmitry
+2.47.0
