@@ -2,53 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223A9B23E03
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 03:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F852B23DF3
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Aug 2025 03:52:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 254D510E19A;
-	Wed, 13 Aug 2025 01:59:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0882510E192;
+	Wed, 13 Aug 2025 01:52:15 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="B6K/66g3";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vip.corpemail.net (mail-vip.corpemail.net
- [162.243.126.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4F5010E19A
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 01:59:19 +0000 (UTC)
-Received: from Jtjnmail201614.home.langchao.com
- by ssh248.corpemail.net ((D)) with ASMTP (SSL) id 202508130938445172;
- Wed, 13 Aug 2025 09:38:44 +0800
-Received: from Jtjnmail201618.home.langchao.com (10.100.2.18) by
- Jtjnmail201614.home.langchao.com (10.100.2.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.57; Wed, 13 Aug 2025 09:38:44 +0800
-Received: from Jtjnmail201618.home.langchao.com ([fe80::e8a5:9069:4c1e:2304])
- by Jtjnmail201618.home.langchao.com ([fe80::e8a5:9069:4c1e:2304%10])
- with mapi id 15.01.2507.057; Wed, 13 Aug 2025 09:38:44 +0800
-From: =?utf-8?B?R2FyeSBDaHUo5qWa5YWJ5bqGKQ==?= <chuguangqing@inspur.com>
-To: "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "airlied@gmail.com"
- <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?utf-8?B?R2FyeSBDaHUo5qWa5YWJ5bqGKQ==?= <chuguangqing@inspur.com>
-Subject: Re: [PATCH 1/1] gpu: drm: fix compilation errors in drm_vram_helper
-Thread-Topic: [PATCH 1/1] gpu: drm: fix compilation errors in drm_vram_helper
-Thread-Index: AdwL8vDUZJsVsPvWGUG6xf+62139XQ==
-Date: Wed, 13 Aug 2025 01:38:44 +0000
-Message-ID: <5863c61a424545119df8ccb28dc1dbf8@inspur.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [182.45.253.54]
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature";
- micalg=SHA1; boundary="----=_NextPart_000_005F_01DC0C36.0DD98A00"
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 434A310E192
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 01:52:13 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57CLaSR7002367
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 01:52:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:to; s=
+ qcppdkim1; bh=azzIjnnFrhGZepf8cF63On31tVI6l+R0n7SE8DktVtY=; b=B6
+ K/66g3ltbZTioLlekcBRWaDkXKx5FaDf29+mwd6bhANi2CiCGfU/pSSR0t1FwC+p
+ /iEKACkRvSPcaiJVxDDu/SPP+qLBEp5+AMSbbXX4sldx6dqBLx/lgwIpVEcunWOQ
+ 4Tti/eM8A9U/rqgDs9cBWNgzx4qvIVFYPlxWvZeOK6Ck1qfR/2Z/C72SPPNDJIl7
+ m5BVknnQhhKkwz+82zvQ3Bwmht0Yq3ci2NIIMJ/8RGgI6jgUJ4KtLUfGU2te+jha
+ YQ2161nV9Z1wFmmaSQpvez/7MQ6k3qgPbM+cdUedVBrdTtr1PNEqasPezSRk2hfr
+ f7UQIuTY4HYiHLgx/bMw==
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dxj4a34m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 01:52:12 +0000 (GMT)
+Received: by mail-ot1-f72.google.com with SMTP id
+ 46e09a7af769-741ab0f2e82so1060340a34.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Aug 2025 18:52:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755049931; x=1755654731;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=azzIjnnFrhGZepf8cF63On31tVI6l+R0n7SE8DktVtY=;
+ b=g3Hf05oY0Zsc5ksBhOACYNGRNW+aYrR1FfzFZnh+JYGusFb3wzEGbZ8xO/XMYUQp1E
+ 9lyUKQNN4LUQyPmg6ckC/ajFcvljUyXBDe9L4dRdhc0Ytoq+LAbfFKq7mPLf1sFvsMOa
+ q3L+W2pnc6nXLmlousVNBcKpUKajqXXgpTusfxH3Cek0jUIDzkSLM2uOvMMo2SGW2Pys
+ UATf6OEg8Wo9aPfvavpuSTZpLfkmtQt8S6FJasZL99MHBSfD/OZCXMBC9pnRfri+s5Ii
+ cNS2ZhEGT+uarBtqrtiRC0RCUzfSS2x9ljm3noVsF9k/1OaaB7JgK82D7gtvEVr/c29t
+ 6Ebg==
+X-Gm-Message-State: AOJu0YwRNlf+pt+BC7O9r270rkrr7DieCFssBV7fKAlVAWnEU+4AFkdF
+ kevzzpc2CknxySt0jZOpnwtES/uWDRGr9HEMMX5AunvQ81herjWtgClMxxDrRj0v5uZamT/kxxt
+ dnVuoAVfRhY+6TtRILNMniWJfg5ZnzLH1pEQGt27ZP28d4K4AQJJilGAv4ygH2uTR3GShwf2Bl8
+ HLoIcHiMIv7mrSopVEeCudC9pGDkfjlbqmcTYlaweh/vcauw==
+X-Gm-Gg: ASbGncsS2aXyugwoN5P+rdr9Bs3jOroLnJM3iqUuOIfFZLy6hCjqcgOq1OQPLQoxcAr
+ YKPysobfADasxLDpZ96ZWEBBF132wAbLjS1U4s2WqscUuOCB4tZyaG/ai4rohwc7KcKHwCcJMn6
+ 5FIu8owE+CDY2I4ikcmtg=
+X-Received: by 2002:a05:6808:22a9:b0:435:7090:b652 with SMTP id
+ 5614622812f47-435d42a2575mr1191302b6e.34.1755049931468; 
+ Tue, 12 Aug 2025 18:52:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG+oxwqW5ocHWrqoj/uh9nhQTzkltL6bf5O3y495PvLUQY65I8XhC+SpjSkN+0X4azk5mUzEknXbe5Iorw4nT8=
+X-Received: by 2002:a05:6808:22a9:b0:435:7090:b652 with SMTP id
+ 5614622812f47-435d42a2575mr1191273b6e.34.1755049931074; Tue, 12 Aug 2025
+ 18:52:11 -0700 (PDT)
 MIME-Version: 1.0
-tUid: 2025813093844534e90f04f7dbd728239cde6c5e78c56
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
+References: <20250629201530.25775-1-robin.clark@oss.qualcomm.com>
+ <20250629201530.25775-15-robin.clark@oss.qualcomm.com>
+ <b0a36f3d-706a-4622-89a1-f88c6255e4fb@dakr.org>
+In-Reply-To: <b0a36f3d-706a-4622-89a1-f88c6255e4fb@dakr.org>
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Tue, 12 Aug 2025 18:52:00 -0700
+X-Gm-Features: Ac12FXxxd6WCPyXXb8MbyAX1gkPmIUnWgdFOtYCj3v3CcVsNgXCk29Md82IFzps
+Message-ID: <CACSVV02+hE1j9vN_BU5pwz_4cnJjj==j-L5oPeFWCvEr+1HiFQ@mail.gmail.com>
+Subject: Re: [PATCH v9 14/42] drm/msm: Convert vm locking
+To: Danilo Krummrich <kernel@dakr.org>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Connor Abbott <cwabbott0@gmail.com>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ Danilo Krummrich <dakr@redhat.com>, Rob Clark <robdclark@chromium.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linux-media@vger.kernel.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAyNyBTYWx0ZWRfXwsfxA3HL/xha
+ wCGm4z0JRUrp157BV7C9eXPxmimAF3ZvguTC36jDQBbB64iLLyt8xcD3BGXV2KXbNoX/JX/7nAD
+ PU/18A5uamKbHwE42K63R/LJ00ZzdzxEMumBgZENGIi4rHvGeTkS1A9uaosfuVqX0rjnMb2ETy8
+ Gt5SyataY4EejdpambKLPm8C/uikoIylduVslSuCx4GqjSz3YcOa946WhY7B5dBHlkpbywR3Hdx
+ hYx9B/yLTUd+uYs7CFw0/ZxK0dZF3OER9didryxxUaMRm45Nmo6IUsIfQUxkC7drJ6UlCWuma0Y
+ NNe3kY9PMIW2EsNvoNk08f2HTqmQvoVtVUNQpHblORz7fowOGAxqpDFkGa8sn5isUyBTJ/lTBl+
+ 26tKNqYa
+X-Authority-Analysis: v=2.4 cv=fvDcZE4f c=1 sm=1 tr=0 ts=689befcc cx=c_pps
+ a=+3WqYijBVYhDct2f5Fivkw==:117 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
+ a=P-IC7800AAAA:8 a=pbUkqq1XAAAA:8 a=Dc8E7AEoan46jiKjpnQA:9 a=QEXdDO2ut3YA:10
+ a=eYe2g0i6gJ5uXG_o6N4q:22 a=d3PnA9EDa4IxuAV0gXij:22 a=F7rrpbw-2xKc1p48v2RB:22
+X-Proofpoint-ORIG-GUID: ZC1lTLtAStQVWg182y7EJr0S5OlRNG9W
+X-Proofpoint-GUID: ZC1lTLtAStQVWg182y7EJr0S5OlRNG9W
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-12_08,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ clxscore=1015 phishscore=0 bulkscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508090027
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,160 +126,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-------=_NextPart_000_005F_01DC0C36.0DD98A00
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-Hi Thomas
-
-This is what I've done in the yhgch_drm driver.
-See the link below:
-https://lore.kernel.org/all/20250808053508.52202-1-chuguangqing@inspur.com/T/#t
-
-In fact, through modifications in Patch v2, it allows only the selection of 
-DRM_VRAM_HELPER in the driver.
-See the link below:
-https://lore.kernel.org/all/20250729060728.82402-1-chuguangqing@inspur.com/T/#m3e33f8e155275ea548223c21777c191ecd392159
-
-Best regards
-Chuguangqing
-
-> From: Thomas Zimmermann <tzimmermann@suse.de>
-> To:chuguangqing <chuguangqing@inspur.com>; Maarten Lankhorst
-> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
-> David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH 1/1] gpu: drm: fix compilation errors in drm_vram_helper
+On Tue, Aug 12, 2025 at 1:58=E2=80=AFAM Danilo Krummrich <kernel@dakr.org> =
+wrote:
 >
-> Hi
+> On 6/29/25 10:12 PM, Rob Clark wrote:
+> > +     /*
+> > +      * We mostly want to use DRM_GPUVM_RESV_PROTECTED, except that
+> > +      * makes drm_gpuvm_bo_evict() a no-op for extobjs (ie. we loose
+> > +      * tracking that an extobj is evicted) :facepalm:
+> > +      */
 >
-> Am 29.07.25 um 08:07 schrieb chuguangqing:
-> > We encountered the following errors while compiling drm_vram_helper.ko
-> >
-> > ERROR: modpost: "drm_gem_ttm_print_info"
-> [drivers/gpu/drm/drm_vram_helper.ko] undefined!
-> > ERROR: modpost: "drm_gem_ttm_mmap"
-> [drivers/gpu/drm/drm_vram_helper.ko] undefined!
-> >
-> > The functions drm_gem_ttm_mmap and drm_gem_ttm_print_info are
-> defined in drm_gem_ttm_helper.c. This patch adds drm_gem_ttm_helper.o to
-> DRM_VRAM_HELPER to resolve the undefined symbol errors.
+> Yeah, it's a consequence of this locking scheme and I really hate it. How=
+ever,
+> you don't entirely loose tracking:
 >
-> You need to select DRM_TTM_HELPER for your driver.
+> The next time you call drm_gpuvm_prepare_objects() it will be added to th=
+e list
+> [1] and hence picked up by subsequent validation through drm_gpuvm_valida=
+te().
 >
-> Best regards
-> Thomas
->
-> >
-> > Signed-off-by: chuguangqing <chuguangqing@inspur.com>
-> > ---
-> >   drivers/gpu/drm/Makefile | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile index
-> > 4dafbdc8f86a..abbe32ddf6d0 100644
-> > --- a/drivers/gpu/drm/Makefile
-> > +++ b/drivers/gpu/drm/Makefile
-> > @@ -125,7 +125,7 @@ drm_suballoc_helper-y := drm_suballoc.o
-> >   obj-$(CONFIG_DRM_SUBALLOC_HELPER) += drm_suballoc_helper.o
-> >
-> >   drm_vram_helper-y := drm_gem_vram_helper.o
-> > -obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
-> > +obj-$(CONFIG_DRM_VRAM_HELPER) += drm_vram_helper.o
-> > +drm_gem_ttm_helper.o
-> >
-> >   drm_ttm_helper-y := drm_gem_ttm_helper.o
-> >   drm_ttm_helper-$(CONFIG_DRM_FBDEV_EMULATION) +=
-> drm_fbdev_ttm.o
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman HRB
-> 36809 (AG Nuernberg)
->
+> [1] https://elixir.bootlin.com/linux/v6.16/source/drivers/gpu/drm/drm_gpu=
+vm.c#L1154
 
+Hmm, maybe the issue was with legacy (non-vm_bind) contexts, which use
+drm_exec directly for locking?  I guess I can try to revisit that..
 
-------=_NextPart_000_005F_01DC0C36.0DD98A00
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-
-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
-SIb3DQMHMB0GA1UdDgQWBBQRC/IegXfBTn5cZmp9COa0bolxUDAfBgNVHSMEGDAWgBReWQOmtExY
-YJFO9h61pTmmMsE1ajCCAQ8GA1UdHwSCAQYwggECMIH/oIH8oIH5hoG6bGRhcDovLy9DTj1JTlNQ
-VVItQ0EsQ049SlRDQTIwMTIsQ049Q0RQLENOPVB1YmxpYyUyMEtleSUyMFNlcnZpY2VzLENOPVNl
-cnZpY2VzLENOPUNvbmZpZ3VyYXRpb24sREM9aG9tZSxEQz1sYW5nY2hhbyxEQz1jb20/Y2VydGlm
-aWNhdGVSZXZvY2F0aW9uTGlzdD9iYXNlP29iamVjdENsYXNzPWNSTERpc3RyaWJ1dGlvblBvaW50
-hjpodHRwOi8vSlRDQTIwMTIuaG9tZS5sYW5nY2hhby5jb20vQ2VydEVucm9sbC9JTlNQVVItQ0Eu
-Y3JsMIIBLAYIKwYBBQUHAQEEggEeMIIBGjCBsQYIKwYBBQUHMAKGgaRsZGFwOi8vL0NOPUlOU1BV
-Ui1DQSxDTj1BSUEsQ049UHVibGljJTIwS2V5JTIwU2VydmljZXMsQ049U2VydmljZXMsQ049Q29u
-ZmlndXJhdGlvbixEQz1ob21lLERDPWxhbmdjaGFvLERDPWNvbT9jQUNlcnRpZmljYXRlP2Jhc2U/
-b2JqZWN0Q2xhc3M9Y2VydGlmaWNhdGlvbkF1dGhvcml0eTBkBggrBgEFBQcwAoZYaHR0cDovL0pU
-Q0EyMDEyLmhvbWUubGFuZ2NoYW8uY29tL0NlcnRFbnJvbGwvSlRDQTIwMTIuaG9tZS5sYW5nY2hh
-by5jb21fSU5TUFVSLUNBKDEpLmNydDApBgNVHSUEIjAgBggrBgEFBQcDAgYIKwYBBQUHAwQGCisG
-AQQBgjcKAwQwNQYJKwYBBAGCNxUKBCgwJjAKBggrBgEFBQcDAjAKBggrBgEFBQcDBDAMBgorBgEE
-AYI3CgMEMEsGA1UdEQREMEKgJwYKKwYBBAGCNxQCA6AZDBdjaHVndWFuZ3FpbmdAaW5zcHVyLmNv
-bYEXY2h1Z3VhbmdxaW5nQGluc3B1ci5jb20wUAYJKwYBBAGCNxkCBEMwQaA/BgorBgEEAYI3GQIB
-oDEEL1MtMS01LTIxLTE2MDY5ODA4NDgtNzA2Njk5ODI2LTE4MDE2NzQ1MzEtNTYwNDA2MA0GCSqG
-SIb3DQEBCwUAA4IBAQBDRhwc9Cfe5n65yxddOeEDQbNITPIjt/Q+Mf0KqzH+d4IcHt7HNA8ZhrOp
-YQJiFgjJY9eOo4+lABBfQTWVK3MrIiBTzf1MB8MRXnLKR1+FhZkDj+NRQdKDV6L1rcO+RsCJrLM2
-1MGkhqFlpXCHxlyPt+T18YSXSD0ceJ5QpQ3A+/N2p+OTxezHL5GqPSJT051H43ikZC5xCpZMWafu
-B0GyyrLlvvzet4Ko76Y4jWDL61EEakexUR9RgPcPhYFHiNf9f3wi3fc1AW0J1smh+3rm9INI+6Xx
-/g6gEHmIeBWZfODTrhP6FGMlMMJlLQoSAZbPBadhUnssKKTWgy5rT4qUMYIDkzCCA48CAQEwcDBZ
-MRMwEQYKCZImiZPyLGQBGRYDY29tMRgwFgYKCZImiZPyLGQBGRYIbGFuZ2NoYW8xFDASBgoJkiaJ
-k/IsZAEZFgRob21lMRIwEAYDVQQDEwlJTlNQVVItQ0ECE34AAkSWdsZNK1EPE5IAAQACRJYwCQYF
-Kw4DAhoFAKCCAfgwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjUw
-ODEzMDEzODQxWjAjBgkqhkiG9w0BCQQxFgQUM9r+5oFD35dAisBthhT+2JHCSxowfwYJKwYBBAGC
-NxAEMXIwcDBZMRMwEQYKCZImiZPyLGQBGRYDY29tMRgwFgYKCZImiZPyLGQBGRYIbGFuZ2NoYW8x
-FDASBgoJkiaJk/IsZAEZFgRob21lMRIwEAYDVQQDEwlJTlNQVVItQ0ECE34AAkSWdsZNK1EPE5IA
-AQACRJYwgYEGCyqGSIb3DQEJEAILMXKgcDBZMRMwEQYKCZImiZPyLGQBGRYDY29tMRgwFgYKCZIm
-iZPyLGQBGRYIbGFuZ2NoYW8xFDASBgoJkiaJk/IsZAEZFgRob21lMRIwEAYDVQQDEwlJTlNQVVIt
-Q0ECE34AAkSWdsZNK1EPE5IAAQACRJYwgZMGCSqGSIb3DQEJDzGBhTCBgjALBglghkgBZQMEASow
-CwYJYIZIAWUDBAEWMAoGCCqGSIb3DQMHMAsGCWCGSAFlAwQBAjAOBggqhkiG9w0DAgICAIAwDQYI
-KoZIhvcNAwICAUAwBwYFKw4DAhowCwYJYIZIAWUDBAIDMAsGCWCGSAFlAwQCAjALBglghkgBZQME
-AgEwDQYJKoZIhvcNAQEBBQAEggEAKfH83KW4U5/TTcAoGnATJ1CnmrFGn4kxlekMGC5t+ezGjXam
-+hT5NSIIXckxtdB5V6mGamsLOa7qCXORSQ5ALn095U6R3VhiexCkV1XOU/kenXqATGad3mcbcdNG
-A/m32ECtPA+ZB8gqV1QbHvUqZvKQG6jH7Z4FC6gQ3tWLlliBFxs2xU3+e1JxZs8JQLbWmuJa7clq
-R+LJFv9Xu90ZpLXMPTISCQtNlAUG0BdSfE8Y9Fv6KKXcEDycaCTHOtSX6nwMVWIg5CSvmdh74X6J
-FoW3n1tDN6aeZJQpBuw6qsKlO8LPRUH5yoDXcYm9SmwtI1JMsyRLEpzULH0rM3y9mQAAAAAAAA==
-
-------=_NextPart_000_005F_01DC0C36.0DD98A00--
+BR,
+-R
