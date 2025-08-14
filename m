@@ -2,125 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B3EB26CA5
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 18:38:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131CEB26CAE
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 18:41:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90F1710E8BB;
-	Thu, 14 Aug 2025 16:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E252310E8B9;
+	Thu, 14 Aug 2025 16:41:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="DgD3YFgW";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="isWE0l3K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D42A10E8B9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 16:38:35 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57E8l1wR027013
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 16:38:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- jaTQfIJ1yVIsO9S61XfkZRmWT+mBRLlhDRy6dXJpoxk=; b=DgD3YFgWJFQFRh1m
- hGf1+FIo04Co6vUTW+fhtdIbSuyhnAGxW33sLBlzoDM7UglZcHUvJOG9+3DmxE9/
- 8WKWrvmWg60Q17oFHxtnY9Wvqm98uZnTDd7/IFscWIwC9Mv67pqmfNKMocrL1MhT
- DDSFiZAOLvv3nPg/OMRJJlVqaHhOLZ0XC09/Z1WrWrXdQPb8h6T+9XxKkOBl71s5
- ASLQPsYfyMZdbGIeGJSyy/5Ksc7dvyNsatzr6cRVqr3hJ6ZeSvn2ndrWF1uEUh6p
- O27e9tRl4i/oTTApczcM1e3J4c33c/iw+/GXyK5F45RmtpAaTIrXOLmatCmftUUN
- V82GWQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ffhjv93h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 16:38:34 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-2430c5d4d73so24672315ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 09:38:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755189513; x=1755794313;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jaTQfIJ1yVIsO9S61XfkZRmWT+mBRLlhDRy6dXJpoxk=;
- b=ceDb8PkjeX5BPiVENB65ISCuNSf2KhKvluRQBvz0A3F9Kv2ENevkAoxs5mMVpzW80J
- TAveEdZQHoK4Bx3D+r9tirjuXNqq3OZKJ0PaQyCxR8XXSwcKNTkNJ3pGmqkBqc4WCtNH
- UlTe1sVyYi9/GBVnWC2FIlBs/k0mzPTDz3wtuZLgDsytf+cABYSFqyZhzSMp2pJXgjt0
- XxaVbCu2IZn7RyoKUHouUDGdHjDoGLgofkHwttgzH5KauN9Ewue1/2jrcCU56/45w5P0
- UX7cEx05oSyavgW2/PXUtpVWWE0h+nyjdCVARfV+IbM4CjztqFCHlxoQ2D/7i5jjlp4g
- Yn7A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQIjPj0sASzLI+r87cgSlNDRQC2MPMU3nPNg+tGWUCDFTn2RTPUfbc3h0fNRor9KuThJJvWSc6LUY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YymdSIsixfAy5kvKma8BGzyvD73+6gbMKlJNRgnM8fI0Bv1Sinh
- ck4F/Nb/JnKbbDvmoSvxLyjFQntG5CMgBzIkvRl8o3vW9NV7GDnWqAHGus1CyIEoqyl1FlO0cEO
- KWCQyzL0+nAdRBoy8XY7DdoAiYU8n6N8h/off3J2MC5iyw/cSQfrQ2IYjfXdhV8oLTEnKIqM=
-X-Gm-Gg: ASbGncszQkPKxUSo+Csxs9XlY1LGaRIoWk/xOc6eACFMoaF07e2+PmplReTKlSOXfeH
- y3aP3PeWeDjcM2hAIebNzg/Rcrhju9pwnHGxzkZr3Fg8o1YYnO+NjNIf8v/+P7VqwwhNZD3tt6/
- EnWtAQzBiDkIta/MCq50hpArJ6/eq2aPwygeOb2XjuOVhNdoH8FlS91eFqptNH3SCG1JT55Ls0s
- QC8D0Q9vEdDBMPb23DXJfmnp7AS93yj/49VmoT7d/QldBqb/8V31CoX+4iJbdzwnQNruAiXR1dC
- 44E8siX/H2kU03mmsBzLGlE4Ztg7CB0dP9gXUiRpi4uY9Uz2bTxZdKQ3um49vGY=
-X-Received: by 2002:a17:902:d483:b0:234:1e11:95a3 with SMTP id
- d9443c01a7336-2445978c8ccmr56761485ad.13.1755189512861; 
- Thu, 14 Aug 2025 09:38:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFA5KjhREwZxocKHlp81qbREqS5IgYM2U1497mlRdma3ow5tbSm83x7BFjlpFu8sePsAp2J/g==
-X-Received: by 2002:a17:902:d483:b0:234:1e11:95a3 with SMTP id
- d9443c01a7336-2445978c8ccmr56760915ad.13.1755189512299; 
- Thu, 14 Aug 2025 09:38:32 -0700 (PDT)
-Received: from [192.168.1.5] ([106.222.235.33])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-24300f8c9d1sm71788655ad.129.2025.08.14.09.38.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Aug 2025 09:38:31 -0700 (PDT)
-Message-ID: <1727374d-0461-4442-ab35-9acb8ef7f666@oss.qualcomm.com>
-Date: Thu, 14 Aug 2025 22:08:26 +0530
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70E5610E8B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 16:41:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1755189675; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=MFiMSUFBzcPyJQfzfi3I/S6DML4BVSDvoL9Lsw/UeEKe8k5sCXoaHuuedjScG4EJf2D3lNqbM6jx1K3uZi8KTmhZ4N4Pv8QAKhx5m+DUGu8dYExELWznw8RA1yKJJ8SLIeZiu1ZtFivZRGDy/hZyIAMcVj8vs8aJ5ZceEue8pis=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1755189675;
+ h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=tYr5jhJDJkvIw+fj7xDK3ZbOSE4uzShS1SUkkize5pw=; 
+ b=IvV/GLDmncNbKjqCJ8zUTlKZNqiRlXsI7sO5LWhwADqI9QG9zV7/DO1T51TLbqEBvx3Hsyn/bXeNK0WRPVfDQW63z4hEEZsdhDAKqInFi7EytqwHgV6ECSNWVWWcNJnbh0Tj+5HEJKksT4B5X9v0q5Rwua/8B5dbzcPZtIE0dD4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755189675; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=tYr5jhJDJkvIw+fj7xDK3ZbOSE4uzShS1SUkkize5pw=;
+ b=isWE0l3Kx6NoGeGN/PVwYi6mz11STftVqqGqBZebJoSZ99B3NQ1ezb+q2dMBnPkY
+ AsVOaLSLCdmebhGGR7Zz9nLJGlbLis9Ji9xivSXisipUpwXLjIhuPbVBJjdZxaUuvuK
+ Zs7eyRbzO+qdAlBqzuuBXNtCBrp2IiUl3qllb2IBZ6p7979fRe1Jo8uy1evUcvLBDmJ
+ Y+0r66XphheK8h9ERmonRSLUB5pmU05VrMfJtETv4A7IFBW51d323HlsaIIdsqDeJM+
+ 0r+cphiRSZOM7p0RQdHD+avsvjzhvda8iP+KnAH9Usn205tu2rg0rxQRV8Qm7jxzeq2
+ sFLb26XyZg==
+Received: by mx.zohomail.com with SMTPS id 1755189674180753.6754186286712;
+ Thu, 14 Aug 2025 09:41:14 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Icenowy Zheng <uwu@icenowy.me>
+Subject: [RFC PATCH 0/8] Verisilicon DC8200 driver (and adaption to TH1520)
+Date: Fri, 15 Aug 2025 00:40:40 +0800
+Message-ID: <20250814164048.2336043-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/msm: adreno: a6xx: enable GMU bandwidth voting for
- x1e80100 GPU
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250725-topic-x1e80100-gpu-bwvote-v2-1-58d2fbb6a127@linaro.org>
- <e7ddfe18-d2c7-4201-a271-81be7c814011@oss.qualcomm.com>
- <33442cc4-a205-46a8-a2b8-5c85c236c8d4@oss.qualcomm.com>
- <b4f283ce-5be1-4d2f-82e2-e9c3be22a37f@oss.qualcomm.com>
- <269506b6-f51b-45cc-b7cc-7ad0e5ceea47@linaro.org>
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <269506b6-f51b-45cc-b7cc-7ad0e5ceea47@linaro.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA3NCBTYWx0ZWRfX0DvRYBTVwcDy
- PgHpwYN9PoTR/OgDn495uYWL18xnIGs4byRXAcWBe0iKiLwmd3lWtkzCrngeIZ4kPSp4BvS9gQE
- /AW75KaULYVUjh9ITtSYAtEO87Y86zAbDt2mkvqIt0YMnIpW7kpfSOlVvcDW2C/a5hWVxL4J1tj
- LSJmylgG1uvsH91NAadvz6HacpQjsfEbBUIqhsBxR80cvewAacjVp8OC5ZqQIam06VunZTRwC2S
- ajHJY1ggXgPxMLJOGuXrYgY3m0pCcGCV20ifG1m1LEe1E6ZVtmmkawQ1Dxr9FgL8/9v9uHshpC/
- Fi6ubjynIxXbn6oXTrO6svEns/Eo4hUfI7vtwHTZOMjmDt6GmehBhkTiltcMFRXBf42CnHtDJT6
- CAhXai9g
-X-Proofpoint-GUID: XeFfzXBTsyrMbkpxt4vVtIfpL7IK-pzW
-X-Authority-Analysis: v=2.4 cv=TJFFS0la c=1 sm=1 tr=0 ts=689e110a cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=geSN8yY6MFID4zSGlH7RRw==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=KKAkSRfTAAAA:8 a=7lXMnOvvf2IE2kTxY-AA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: XeFfzXBTsyrMbkpxt4vVtIfpL7IK-pzW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_02,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0
- phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508110074
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,75 +80,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/14/2025 7:56 PM, Neil Armstrong wrote:
-> Hi,
-> 
-> On 14/08/2025 13:22, Konrad Dybcio wrote:
->> On 8/14/25 1:21 PM, Konrad Dybcio wrote:
->>> On 7/31/25 12:19 PM, Konrad Dybcio wrote:
->>>> On 7/25/25 10:35 AM, Neil Armstrong wrote:
->>>>> The Adreno GPU Management Unit (GMU) can also scale DDR Bandwidth
->>>>> along
->>>>> the Frequency and Power Domain level, but by default we leave the
->>>>> OPP core scale the interconnect ddr path.
->>>>>
->>>>> Declare the Bus Control Modules (BCMs) and the corresponding
->>>>> parameters
->>>>> in the GPU info struct to allow the GMU to vote for the bandwidth.
->>>>>
->>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>> ---
->>>>> Changes in v2:
->>>>> - Used proper ACV perfmode bit/freq
->>>>> - Link to v1: https://lore.kernel.org/r/20250721-topic-x1e80100-
->>>>> gpu-bwvote-v1-1-946619b0f73a@linaro.org
->>>>> ---
->>>>>   drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 11 +++++++++++
->>>>>   1 file changed, 11 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/
->>>>> gpu/drm/msm/adreno/a6xx_catalog.c
->>>>> index
->>>>> 00e1afd46b81546eec03e22cda9e9a604f6f3b60..892f98b1f2ae582268adebd758437ff60456cdd5 100644
->>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>>> @@ -1440,6 +1440,17 @@ static const struct adreno_info a7xx_gpus[] = {
->>>>>               .pwrup_reglist = &a7xx_pwrup_reglist,
->>>>>               .gmu_chipid = 0x7050001,
->>>>>               .gmu_cgc_mode = 0x00020202,
->>>>> +            .bcms = (const struct a6xx_bcm[]) {
->>>>> +                { .name = "SH0", .buswidth = 16 },
->>>>> +                { .name = "MC0", .buswidth = 4 },
->>>>> +                {
->>>>> +                    .name = "ACV",
->>>>> +                    .fixed = true,
->>>>> +                    .perfmode = BIT(3),
->>>>> +                    .perfmode_bw = 16500000,
->>>>
->>>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>>
->>> Actually no, BIT(3) is for the CPU (OS), GPU should use BIT(2)
+This patchset tries to add a driver for Verisilicon DC8200 driver, and
+demonstrates the driver on T-Head TH1520 with its HDMI output.
 
-You are right that BIT(2) is GPU specific, but that support was
-commercialized from A7XX_GEN3. Anyway, the Win KMD uses BIT(2), so lets
-use that in Linux too.
+This display controller IP is used on StarFive JH7110 too, but as the
+HDMI controller used there isn't as common as the DesignWare one, I
+choose to use TH1520 in this patchset.
 
-I know some docs show BIT(2) support, but lets not bring in untested
-configurations.
+The DC driver is written with other DC-series (mainly DC8000, which is
+known to be used on Eswin EIC7700 SoC) display controllers in mind, and
+uses the identification registers available on all Vivante branded IPs.
+A known exception is DCNano display controller, which is unlikely to be
+supported by this driver because of totally different register map and
+no known identification registers. (P.S. the in-tree loongson DRM driver
+seems to be for some DCNano instances based on the register map.)
 
--Akhil.
+The HDMI controller seems to come with some common PHY by Synopsys, the
+DesignWare HDMI TX 2.0 PHY. By searching a few register names from the
+BSP driver of that PHY, that PHY seems to be used by a in-tree dw-hdmi
+glue, rcar_dw_hdmi -- an updated downstream version of rcar_dw_hdmi
+contains all 6 registers set here in the th1520-dw-hdmi driver. Some
+more suprising thing is that RK3288 uses the same PHY too, but the
+in-tree dw_hdmi-rockchip driver writes the configuration data array in a
+weird way to reuse the HDMI 3D TX PHY configuring function. It might be
+valuable to add common configuring function and configuration data
+definition for this HDMI 2.0 PHY too, but the current driver in this
+patchset simply duplicated most configuration logic from rcar_dw_hdmi
+driver (but with 3 extra configuration registers configured).
 
->>
->> This is *very* platform-dependent, goes without saying..
->>
->> I see BIT(2) is also valid for X1P4
-> 
-> 
-> I'm confused, Akhil can you confirm ?
-> 
-> Neil>
->>
->> Konrad
-> 
+This patchset depends on a TH1520 clock fix patchset at [1] and a TH1520
+VOSYS reset addition patchset at [2]. The reset addition patchset is
+just applied to reset/next, so it might appear in linux-next/master or
+not.
+
+[1] https://lore.kernel.org/linux-riscv/20250813072702.2176993-1-uwu@icenowy.me/
+[2] https://lore.kernel.org/linux-riscv/20250813081716.2181843-1-uwu@icenowy.me/
+
+Icenowy Zheng (8):
+  dt-bindings: vendor-prefixes: add verisilicon
+  dt-bindings: display: add versilicon,dc
+  drm: verisilicon: add a driver for Verisilicon display controllers
+  dt-bindings: display/bridge: add binding for TH1520 HDMI controller
+  drm/bridge: add a driver for T-Head TH1520 HDMI controller
+  riscv: dts: thead: add DPU and HDMI device tree nodes
+  riscv: dts: thead: lichee-pi-4a: enable HDMI
+  MAINTAINERS: assign myself as maintainer for verislicon DC driver
+
+ .../display/bridge/thead,th1520-dw-hdmi.yaml  | 120 +++++++
+ .../bindings/display/verisilicon,dc.yaml      | 127 +++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   8 +
+ .../boot/dts/thead/th1520-lichee-pi-4a.dts    |  25 ++
+ arch/riscv/boot/dts/thead/th1520.dtsi         |  70 ++++
+ drivers/gpu/drm/Kconfig                       |   2 +
+ drivers/gpu/drm/Makefile                      |   1 +
+ drivers/gpu/drm/bridge/Kconfig                |  10 +
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/th1520-dw-hdmi.c       | 170 +++++++++
+ drivers/gpu/drm/verisilicon/Kconfig           |  15 +
+ drivers/gpu/drm/verisilicon/Makefile          |   5 +
+ drivers/gpu/drm/verisilicon/vs_bridge.c       | 330 ++++++++++++++++++
+ drivers/gpu/drm/verisilicon/vs_bridge.h       |  40 +++
+ drivers/gpu/drm/verisilicon/vs_bridge_regs.h  |  47 +++
+ drivers/gpu/drm/verisilicon/vs_crtc.c         | 217 ++++++++++++
+ drivers/gpu/drm/verisilicon/vs_crtc.h         |  29 ++
+ drivers/gpu/drm/verisilicon/vs_crtc_regs.h    |  60 ++++
+ drivers/gpu/drm/verisilicon/vs_dc.c           | 233 +++++++++++++
+ drivers/gpu/drm/verisilicon/vs_dc.h           |  39 +++
+ drivers/gpu/drm/verisilicon/vs_dc_top_regs.h  |  27 ++
+ drivers/gpu/drm/verisilicon/vs_drm.c          | 177 ++++++++++
+ drivers/gpu/drm/verisilicon/vs_drm.h          |  29 ++
+ drivers/gpu/drm/verisilicon/vs_hwdb.c         | 150 ++++++++
+ drivers/gpu/drm/verisilicon/vs_hwdb.h         |  29 ++
+ drivers/gpu/drm/verisilicon/vs_plane.c        | 102 ++++++
+ drivers/gpu/drm/verisilicon/vs_plane.h        |  68 ++++
+ .../gpu/drm/verisilicon/vs_primary_plane.c    | 166 +++++++++
+ .../drm/verisilicon/vs_primary_plane_regs.h   |  53 +++
+ 30 files changed, 2352 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/thead,th1520-dw-hdmi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+ create mode 100644 drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+ create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
+ create mode 100644 drivers/gpu/drm/verisilicon/Makefile
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_bridge_regs.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc_regs.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_top_regs.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_drm.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_hwdb.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_primary_plane.c
+ create mode 100644 drivers/gpu/drm/verisilicon/vs_primary_plane_regs.h
+
+-- 
+2.50.1
 
