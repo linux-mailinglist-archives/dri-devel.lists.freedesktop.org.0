@@ -2,71 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C47B26974
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 16:33:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333A5B2697A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 16:34:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C05310E2D6;
-	Thu, 14 Aug 2025 14:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 968A110E329;
+	Thu, 14 Aug 2025 14:34:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="e7jfXMEt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qxUP2eCn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D3B10E2D6
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:33:42 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250814143341euoutp020b71b22903426dbd1868fe414f1cf8bd~bqL-HlddK0705507055euoutp02I
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:33:41 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250814143341euoutp020b71b22903426dbd1868fe414f1cf8bd~bqL-HlddK0705507055euoutp02I
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1755182021;
- bh=HYTbEJeXrofpbs+IrmDrCBkyO0qBISpuRD07yukoC3M=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=e7jfXMEtbajFgUjwRBhcTLRIVblrZOpnEbsCSf3WAKB1weUW7mUHDy9TxhLX2WjL+
- kHFZv4Xci0Ot/45YURj7O/2bNOx4+5EINW25i7mU557c2szi1xkvgufLUGo2E3ntEz
- 34/Z2FghVovoMJr9w84HVH3KRqE89Cp0FhfBmgUc=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250814143340eucas1p24ef13c4a8a272a5830bc0adbbc8206a2~bqL_iNFfu0056100561eucas1p2Y;
- Thu, 14 Aug 2025 14:33:40 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250814143338eusmtip29e7b2dc498b358fdadaba0c0c10331ce~bqL7__0l03070130701eusmtip20;
- Thu, 14 Aug 2025 14:33:37 +0000 (GMT)
-Message-ID: <a3a2f8be-2c3c-49e7-b27a-72364ea48b06@samsung.com>
-Date: Thu, 14 Aug 2025 16:33:36 +0200
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9101010E329
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:34:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 2D65945D11
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:34:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDAB7C4CEF9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:34:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755182073;
+ bh=v5M0Qos1gNG9BhySlvlZJoHLGeHj6L3mYrNuRgeHmNM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=qxUP2eCn3qKY6NOyD8svceAte2FegBshWIsRko3Ux1blTnu4NN9ug4GSR+RaS9Z2z
+ 68rvKMf8bwLL7TCRgbQHI+/XbZ7cmy/sjLO77MpmjxDJyt5V7RFtQJ/AR8mHfdKgUK
+ kk5jHQM5FNeayZmns4y02Ds3yf5JUgSDgO9xY9bZHx5DUfCjCms+dSjlipCHPAweKV
+ Kt+juAErKW9xRxnNFLb10vFZBMb03KelsfvdXZv8sh1y0Ysx+8UvGnxG0CejFqAjAn
+ m9dFxfmUpjZ/MajlVIENiSbtOHwWe6/osutZxx3jJ6FZ2ZMxdJUiFHPTL6DZ0V+kfc
+ ZF7c43t1zgqMg==
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-b47173a03ffso600109a12.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:34:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWtE82Ga9lSjLcqnPQOl91mr4dWguh9o0wtcBA8f7eM/Tw2r/p+c6wcuC4hSAE79pMFYvllLKC5alo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz4Jl4bM/NZowSSHHGEoCdlZp3pVeRrT8D0n6BR73eN7aDQ0yGT
+ eH9/R3hPTwHxzyxb/pjr+t4jPRStieqirVehU9xLcLsE7pckhS2m4DR63hwUxS0hSBfp95TY/a3
+ tuthYjNsdPIu6dgL+8HvsXnG2yKk0jQ==
+X-Google-Smtp-Source: AGHT+IFZBGHiyx4R8I0ZtPt03HyzJ/h+SHoNTrWb26RWZtlcu/LuBo3basMRoZchAXRPaCN5XUhmJgnvc08y4GlhQHw=
+X-Received: by 2002:a17:903:1ae4:b0:23d:f986:6472 with SMTP id
+ d9443c01a7336-24458a65075mr40000145ad.25.1755182072478; Thu, 14 Aug 2025
+ 07:34:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v4 00/13] Apply drm_bridge_connector and panel_bridge
- helper for the Analogix DP driver
-To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20250814104753.195255-1-damon.ding@rock-chips.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250814143340eucas1p24ef13c4a8a272a5830bc0adbbc8206a2
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264
-X-EPHeader: CA
-X-CMS-RootMailID: 20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264
-References: <CGME20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264@eucas1p2.samsung.com>
- <20250814104753.195255-1-damon.ding@rock-chips.com>
+References: <c8a64686-f1a2-44f1-9d13-fd5b4f923e0f@molgen.mpg.de>
+In-Reply-To: <c8a64686-f1a2-44f1-9d13-fd5b4f923e0f@molgen.mpg.de>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 14 Aug 2025 22:35:41 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8vLqU30L3+ijYJPLrioRsUwVwJAeumtVYfRJ9e5tjp4A@mail.gmail.com>
+X-Gm-Features: Ac12FXy0NDb8BGMAM7k-PNcb_9DgKIcM0T0DGazslGHWEE6YexmPG9CoPZcHXNE
+Message-ID: <CAAOTY_8vLqU30L3+ijYJPLrioRsUwVwJAeumtVYfRJ9e5tjp4A@mail.gmail.com>
+Subject: Re: MT8183: Only maximum resolution 1280x720?
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,88 +76,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14.08.2025 12:47, Damon Ding wrote:
-> PATCH 1 is a small format optimization for struct analogid_dp_device.
-> PATCH 2 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
-> PATCH 3-6 are preparations for apply drm_bridge_connector helper.
-> PATCH 7 is to apply the drm_bridge_connector helper.
-> PATCH 8-10 are to move the panel/bridge parsing to the Analogix side.
-> PATCH 11-12 are preparations for apply panel_bridge helper.
-> PATCH 13 is to apply the panel_bridge helper.
-
-This series lacks 'select DRM_BRIDGE_CONNECTOR' in ExynosDP's Kconfig, 
-so it causes build break:
-
-drivers/gpu/drm/exynos/exynos_dp.c:177: undefined reference to 
-`drm_bridge_connector_init'
-make[2]: *** [scripts/Makefile.vmlinux:91: vmlinux] Error 1
-
-After adding this dependency, the Exynos DP driver stops working. On 
-Samsung Snow Chromebook I observed following issue:
-
-[    4.534220] exynos-dp 145b0000.dp-controller: failed to attach 
-following panel or bridge (-16)
-[    4.543428] exynos-drm exynos-drm: failed to bind 
-145b0000.dp-controller (ops exynos_dp_ops): -16
-[    4.551775] exynos-drm exynos-drm: adev bind failed: -16
-[    4.556559] exynos-dp 145b0000.dp-controller: probe with driver 
-exynos-dp failed with error -16
-
-I will investigate details later in the evening.
-
-> Damon Ding (13):
->    drm/bridge: analogix_dp: Formalize the struct analogix_dp_device
->    drm/bridge: analogix_dp: Move &drm_bridge_funcs.mode_set to
->      &drm_bridge_funcs.atomic_enable
->    drm/bridge: analogix_dp: Add &analogix_dp_plat_data.next_bridge
->    drm/exynos: exynos_dp: Remove &exynos_dp_device.ptn_bridge
->    drm/bridge: exynos_dp: Remove unused &exynos_dp_device.connector
->    drm/bridge: analogix_dp: Remove redundant
->      &analogix_dp_plat_data.skip_connector
->    drm/bridge: analogix_dp: Apply drm_bridge_connector helper
->    drm/bridge: analogix_dp: Add new API analogix_dp_finish_probe()
->    drm/rockchip: analogix_dp: Apply analogix_dp_finish_probe()
->    drm/exynos: exynos_dp: Apply analogix_dp_finish_probe()
->    drm/bridge: analogix_dp: Remove panel disabling and enabling in
->      analogix_dp_set_bridge()
->    drm/bridge: analogix_dp: Remove bridge disabing and panel unpreparing
->      in analogix_dp_unbind()
->    drm/bridge: analogix_dp: Apply panel_bridge helper
+Paul Menzel <pmenzel@molgen.mpg.de> =E6=96=BC 2025=E5=B9=B45=E6=9C=8825=E6=
+=97=A5 =E9=80=B1=E6=97=A5 =E4=B8=8B=E5=8D=882:01=E5=AF=AB=E9=81=93=EF=BC=9A
 >
->   .../drm/bridge/analogix/analogix_dp_core.c    | 384 ++++++++++--------
->   .../drm/bridge/analogix/analogix_dp_core.h    |   5 +-
->   drivers/gpu/drm/exynos/exynos_dp.c            |  48 +--
->   .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  49 +--
->   include/drm/bridge/analogix_dp.h              |   7 +-
->   5 files changed, 248 insertions(+), 245 deletions(-)
+> Dear Linux folks,
 >
-> ---
 >
-> Changes in v2:
-> - Update Exynos DP driver synchronously.
-> - Move the panel/bridge parsing to the Analogix side.
+> On the older MT8183 device Lenovo IdeaPad Duet Chromebook, running
+> ChromeOS with their Linux 5.10.x, connecting a 1920x1080 Dell monitor to
+> a USB-C adapter using HDMI, only the resolution of 1280x720 is
+> configured, although the adapter also support 1920x1080. It happens with
+> all adapters, for example, LMP USB-C mini Dock [1].
 >
-> Changes in v3:
-> - Rebase for the existing devm_drm_bridge_alloc() applying commit.
-> - Fix the typographical error of panel/bridge check in exynos_dp_bind().
-> - Squash all commits related to skip_connector deletion in both Exynos and
->    Analogix code into one.
-> - Apply panel_bridge helper to make the codes more concise.
-> - Fix the handing of bridge in analogix_dp_bridge_get_modes().
-> - Remove unnecessary parameter struct drm_connector* for callback
->    &analogix_dp_plat_data.attach().
-> - In order to decouple the connector driver and the bridge driver, move
->    the bridge connector initilization to the Rockchip and Exynos sides.
+> I reported it to the Chromium OS issue tracker [1], and the last comment =
+is:
 >
-> Changes in v4:
-> - Rebase for the applied &drm_bridge_funcs.detect() modification commit.
-> - Rename analogix_dp_find_panel_or_bridge() to analogix_dp_finish_probe().
-> - Drop the drmm_encoder_init() modification commit.
-> - Rename the &analogix_dp_plat_data.bridge to
->    &analogix_dp_plat_data.next_bridge.
+> > It seems the display pipeline for the internal display (DSI) has
+> > higher clock rate. Also, the resolution support depends on the
+> > refresh rate as well, so the claimed 2400x1080 might only work on
+> > lower refresh rate.
+> >
+> > For the external display, the display modes are mostly rejected by
+> > the pre-defined max_clock_khz in mtk_dpi.c:
+> > https://elixir.bootlin.com/linux/v6.11.4/source/drivers/gpu/drm/mediate=
+k/mtk_dpi.c#L940
 >
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+> Can you confirm this? The font rendering seems not so good in the lower
+> resolution, and strangely, playing movies these seem to be rendered in
+> higher resolution (or the monitor or hardware does a good job in
+> up-scaling).
 
+8183 max_clock_khz is defined in patch [3] by Rex, but this is a
+prepare patch for mt8192 [4].
+I'm not sure that Rex has test it for mt8183.
+Maybe you could try to enlarge 8183 max_clock_khz and see.
+
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/drivers/gpu/drm/mediatek/mtk_dpi.c?h=3Dv6.17-rc1&id=3D44b07120291c4b7a67=
+22ccb7149f6b9d938cf5a2
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/drivers/gpu/drm/mediatek/mtk_dpi.c?h=3Dv6.17-rc1&id=3D38eaef2dca4ec8dfb9=
+ea84d9dde0f76da5c8caaa
+
+Regards,
+CK
+
+>
+>
+> Kind regards,
+>
+> Paul
+>
+>
+> [1]: https://lmp-adapter.com/product/lmp-usb-c-mini-dock/
+> [2]: https://issuetracker.google.com/issues/295666708
