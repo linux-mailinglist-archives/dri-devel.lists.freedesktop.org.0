@@ -2,55 +2,192 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3B9B262FE
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 12:42:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E053EB26306
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 12:43:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BECE510E84B;
-	Thu, 14 Aug 2025 10:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37C9A10E84D;
+	Thu, 14 Aug 2025 10:43:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WCJmN5yH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DK7CCcNe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12D2E10E84B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 10:42:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lzNkoTK8jNRy8Sns5LfCBbkMbmoCTQMDRBvRCKy89e4=; b=WCJmN5yHWDCXlRCOpg9eArOyxC
- ycSkOvgT1DPTMGIYH/uwojw/t+tQ1orLwkHbZuauaKVWHW3/J1Uxb64Nv23xApB+MWiekDbLnUOFk
- 7D6tYsx8BXxLw9X0ws4b5LkHI8tkQC4HvU32D8OI2CdDag0E/kFJnfZffQ1gQhBGgcfG8Nwufu9Ld
- ymyuIHxaVF9yzR91FTOpWnmSdvnIVfgZ2fXT2IilZaODdii0PH8rYiOzvLVHfJQB/pFGwfsz1ipH9
- dvwvMi6LuE5xmxq3iTLUfTsbLCNWFT47ffUhDs8VPs2XayYkls39r0fOh0qtazSWhjXLY9TptqnBy
- q4zpUGwQ==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1umVPI-00E4ky-6l; Thu, 14 Aug 2025 12:42:04 +0200
-Message-ID: <67c6a43a-a18b-4b5c-bb43-ba3aea2df05f@igalia.com>
-Date: Thu, 14 Aug 2025 11:42:02 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF32410E84D
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 10:43:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755168205; x=1786704205;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=4g+vBg4+IdzIBU2n+Mwo+/Vsg2dGq7XPfsMfUAZEnhc=;
+ b=DK7CCcNeruWvBtma3wPsHJC0UvOvWPpHANJ2fcchIZaROR19EeOdfVhD
+ qAEXD62nm2JBH3EY6sXSHMUKEZl85lJd24asvsDuZ5fy3mYue29OSAZmC
+ 8tLKJ48A2h0W1d5guKRJ06DxsRg8F9u8xDuZ33149LY5p78jz3a2xuCNP
+ M3rBKiI261njYlgz4cjaztZMal8aBVcFdnMnrH5cQhHvLNabhjRZd1z/p
+ KJ8vEDaNGxU3jqyxGhkPvXoQOKSNmdSkorp+wE6ufHdsrz+dc0CIqSxg0
+ utYZdYwez9NkB4BhgqGUDhbchC7a+DXm5vl5xU1zFVFbIdtCaAx6QBHtP A==;
+X-CSE-ConnectionGUID: 3uf97CalRaiFRX5mgyH4Ng==
+X-CSE-MsgGUID: Tf5GIoA6TZqfPhWAV2EQuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68084851"
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="68084851"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2025 03:43:21 -0700
+X-CSE-ConnectionGUID: TSQpzF7qSyqQnc1T2EtXkg==
+X-CSE-MsgGUID: Ixv2Vga7TqSfmmKOzNN6fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="197581055"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2025 03:43:20 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 14 Aug 2025 03:43:19 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Thu, 14 Aug 2025 03:43:19 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.58)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 14 Aug 2025 03:43:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yc+JmdZhPcL73vt5/CjIbO++Jce79BFvZjUm5nIzdrRzkAab0ZTDXsEJ5/xu7h1VnuFkCJcKGYaxS33rVEmu+beQXerEo4RlLDY1SuLRs3rynOWoKJuUbtOXptim2n5HXQlfHSQ+TnIkspQQOOpxb8S4qyz5IysKj8Qeo0Qlfk/55OZOCTA2XQryzUbcf3o3N4yCT5Es6C3FBC2uK8ZGXe28a/eM3YGWplSF543K309uq5rUSH9Q2mnxpA99OoGXbUBidEgql3i+RdamNQmDe2GfufEz6jnNvgO7O1Gx/9Mcr4zgqr03GQMaW1ZCxXK/oXtdCjhfqhBQlMmATLL+3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4g+vBg4+IdzIBU2n+Mwo+/Vsg2dGq7XPfsMfUAZEnhc=;
+ b=WivE6eEtRhgrERPHUASq/I66ZZDFVPF7V978By1PSgaAoB3eK1FcRq6zmi2fOEvzh0QmPKObKC/vYuKp65xv7BoAXJayktyA3laHGVNsAfa0qWzoQprq9zRVb8M0SHdMzBbtDYdXyKrQ/NAG36JHBa4IGrYf1B2GNCBLk2D5ITz7p+/UHgvhFMBs5ebrvEnwsFqC/pljLcOn6X3z1UbxlJv9y8+Yl0E+G1+LhOWrB1a4slb0ovoXaIIALVO9TZS+jBHbq7tA0Q501gGrQ0Qlw/wrUtRKQI1Xr41H15B46uOACNs+jeJqOM5tL9hVwg2d29bfT/PbbsO2TJoc5FMXDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com (2603:10b6:5:388::7) by
+ PH3PPF8517B3F27.namprd11.prod.outlook.com (2603:10b6:518:1::d35) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.13; Thu, 14 Aug
+ 2025 10:43:17 +0000
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::6c31:ab8a:d70:2555]) by DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::6c31:ab8a:d70:2555%5]) with mapi id 15.20.9031.012; Thu, 14 Aug 2025
+ 10:43:17 +0000
+From: "Avizrat, Yaron" <yaron.avizrat@intel.com>
+To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>
+CC: "jgg@nvidia.com" <jgg@nvidia.com>, "Elbaz, Koby" <koby.elbaz@intel.com>,
+ "Sinyuk, Konstantin" <konstantin.sinyuk@intel.com>, "Levi, Ilia"
+ <ilia.levi@intel.com>
+Subject: [PATCH 0/1] Update on habanalabs maintainer status
+Thread-Topic: [PATCH 0/1] Update on habanalabs maintainer status
+Thread-Index: AQHcDQGuFYWWQofOfkmwCOpv2RhuSrRh6oIAgAAL9TA=
+Date: Thu, 14 Aug 2025 10:43:17 +0000
+Message-ID: <DM4PR11MB5549E031DEBC4B6BAA004470E935A@DM4PR11MB5549.namprd11.prod.outlook.com>
+References: <20250814095556.5424-1-koby.elbaz@intel.com>
+ <DS0PR11MB77675F904CE71124954DD8B58E35A@DS0PR11MB7767.namprd11.prod.outlook.com>
+In-Reply-To: <DS0PR11MB77675F904CE71124954DD8B58E35A@DS0PR11MB7767.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB5549:EE_|PH3PPF8517B3F27:EE_
+x-ms-office365-filtering-correlation-id: 9f45d21f-e4ef-44ba-7d04-08dddb1f613d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?R3BxVExkaHFIZkNxYm55K1FBNWdUWnA0T2U3dGtZRmFYWk05NlgvcXVQZG02?=
+ =?utf-8?B?SklJVTdjWVpzUmFjcXZRWTJ0RHh3WXBJaWNZVzE3VFpJMjdZanNvSE5LMUdh?=
+ =?utf-8?B?b3BmMVA2dHhnZFhUWVFmZi9lSXlMQVJTM3huclhWd25waGdudHh3MkFpSnVi?=
+ =?utf-8?B?RVJIU1NKSzRlRkYyV0dKUkNSQlJsTUp2STM1KzdRS1JUN0VNWnVLeUx1UnhU?=
+ =?utf-8?B?SzJOYWRPZTdEUjdWL1paRGhTM3hYVUI1NWlaOVJPSzZiWlJuMmpEamg3OHly?=
+ =?utf-8?B?ZDVRdVg2UUVCODBkb3VLcjZJbTlXV3N2WnZmSGQvVUR3Wm9wRExwbit3dU9t?=
+ =?utf-8?B?UXFlb3QzejZXWjdwSVdYcUdPTy9TRjhaZmo5dlNhalI3cEVZMnVmNk5abDNu?=
+ =?utf-8?B?ZDJ3bnMzMFpHeUxXaVBML2RqUFY4cG5zWm9hQm1RWUhacFVJVHhpZ283NzhX?=
+ =?utf-8?B?b0tYM3hYendjamt5dFNvU3NiV1RqZGpLSzdwQVdxVG5tMFYzdWVSeUt6Z3pt?=
+ =?utf-8?B?T3BiUGIvS0w1TzNvWVRlcGtGazIwZFREOXNnQ014dEV3YktwWUdMeU10SzNn?=
+ =?utf-8?B?V1lCb05ldnN1NzFCRk5MYWdud3hIUUt1Z2k3LzM3bzV4UHlwNTNmL2lLaWhu?=
+ =?utf-8?B?ejlBbmFjS1I5WWRtTmV3eEFnUUVoVGk2NWtrcXRZRE05cWRFV3BQSWNBVFkr?=
+ =?utf-8?B?SDYzdnZqZXBVSkR4ajJhR2thbTR6dW9GRnY0WVlrMFJqbklxNnlKZFl3aTgz?=
+ =?utf-8?B?N1NxMHVaOWVQUTVhVlpUSnFpV2Rhdm5UTDdiUzBsYlFZSElYdjVUWjFDdGRt?=
+ =?utf-8?B?UU1ia0wwZFc0ckxTcHVhZDJnY2tKSjY1QW03OHRSWFpXUEl0a3JSZDdYcDds?=
+ =?utf-8?B?S2xyeVNzTklSZnl6QXhoZEozdlBrOFJMdWhDMlJwSkdZOFN2ZGJ6ZHBRRUxS?=
+ =?utf-8?B?UWZxbEJoM1ZxaUV0VURaZ3Zzd3lVMnQzTEZuYm5vVUhLQWRHMHdPUkV0SnBO?=
+ =?utf-8?B?VmZML1ZPOVE0ZFdRWkhqRWZ6Z2ZoMFVZckIxaDNlR05icjJoblAzL1c4TW5K?=
+ =?utf-8?B?d3gxWTA2OVRIcnhtekNqNU03TmJubVRzZkJjWGpjeWwzb05Fb3dVcXBGYkc1?=
+ =?utf-8?B?L1BubWVubmRnUGRpdkdTdTdaNTNsR0IzSFg4NkV4a3Q4MklmZjhhcXVQZ1Nm?=
+ =?utf-8?B?ZzFwbzZzNG9yWGswYjBDTWtOaXhIUjV0R0diZTBwVGZzUllpQlNYVHpMekFC?=
+ =?utf-8?B?d0R2NGdaMFRLZFlQc0Q5M1dYSkdjVVA0QzVsWXZxVGw5d0s3ak1ZMWdMR1di?=
+ =?utf-8?B?UGloaE5MSDgzb1lMNU9YMzhiOU1lWk9nVStWMnVISDg5c3BzZVR4TVc3dHM5?=
+ =?utf-8?B?Q21XblBzMTVWZjdNTHprZ2t1eGhCWkM5U1ozWE03S2U5b2xqZi9tbWhEeTUy?=
+ =?utf-8?B?TnpBL1hjL2RHZmtjbEd6dGNzaW15RkQ1TU02NWphdlNVQjIxMGhvajViZ2JD?=
+ =?utf-8?B?WXl4SGRiM29tVTVpWjBwSng2L20yZElDODJJQUVqc3RSd0wySWNUdUVJMnlG?=
+ =?utf-8?B?RnloZVBZWjhWaWhWeFJtMGczTWQ5YWJBcjFpN0dqVE81SnZwMDdrdDhnd1pJ?=
+ =?utf-8?B?TXdmNWsyc3g5M3JWYWt4V29QaE81TlpZOE9lQUZCdE9jUFhGRWxlcmltQzlF?=
+ =?utf-8?B?dWE0b3ZsYTFROS9IQmNrV3FwVnZWR1JvaWVTaVp5MmNEcjVVa0ZhOTBxSDUx?=
+ =?utf-8?B?eHV0L1U4N05JWHdxb0tRRlZGVUtWWGFxZW1kc1ZWcE1xb2t2YktVYkI0dTdF?=
+ =?utf-8?B?aEJNNUdaczNDZmVPcWV2VGZ5aUc5YURkWkZiRDVvVGlMdE9YNmpwOE1TMWVN?=
+ =?utf-8?B?WVhSdG9xOU54WjN3aXdYS1orSEIvbTZCSCt3WXBkbnRSNkJBT1M0Q1ZlTm05?=
+ =?utf-8?B?SE1YTm93ZXN4dUcrZFRHMWpGUDFRbzR2R3NSZUs0bjBneGoxekR1ZU52a2w5?=
+ =?utf-8?B?eWlzM0gwT21RPT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5549.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RkFLajJ1c1hRd0kwM29RNEEzeU9ZZVY4eW5lWWhLSW1pV1QwTmFWTVRwZVR6?=
+ =?utf-8?B?V1VBQ2lrektkREdJZGhKb3NXY2F0QjVWR1dVOTZqblM5WVJzK2kvYndkeHdK?=
+ =?utf-8?B?dW92bzBhVjUxVStZcFVuVVhPZVVvN0dNN2lxTXBlMTNDY1BNTW1mV0l0K1Y4?=
+ =?utf-8?B?TW1JMWdvdmdZL0tpZ21vbGZ4amo4SXAxWFM3c2dGcjBoT1hZcHpmbkZ1N1BR?=
+ =?utf-8?B?Y2hwWi9HRU1vdU9BcWkvNENwSnJuUVZGOTJaTk1uMFpFUWJaVjBJOVZuUVB4?=
+ =?utf-8?B?dFVpb0xoL0ZsTTM5cEphNHFQNFpEMTlqeXgrd0wvRi91MTRWMjVwTFZTckxm?=
+ =?utf-8?B?U0ZwV0svWVl0MGI0VFRFUTRjcm9sZGRpR1Ftc3dQT0hLbUhnVUlwTTdSK3Bm?=
+ =?utf-8?B?TWV5NTB4eTlyMUVKbDRqbFRsY0JxR0tYQ1FpaTZKdVBtMGFidGEzYlgvVm0y?=
+ =?utf-8?B?K0M2bENUYWhvQjM4bEhOWUsrUmxFTW1rRjFnTFFhM3c2T2tGOUFlZDllR3c2?=
+ =?utf-8?B?em5XUnJUNkQ1bFRVNVZZcTJyU0sxeVAyeHd4bStHWVJienN2TDZXWENsU0xZ?=
+ =?utf-8?B?aVpVY0NaTDhxcXNCeE82RWZvbzFuUnJBWU91UmFqenduU3VsM2pobyt3ekYw?=
+ =?utf-8?B?bGRUdE03alBLaHZtdlBnNzZSMkxZSGNsWHVwSUExZkd1NU9Ua0pucnhxVVFu?=
+ =?utf-8?B?NnBDU1RDcm9EQXBVLzU2SjVMUXQ5bHRJbTF5WlpqVUVJRjRVdXA2SU44cWd0?=
+ =?utf-8?B?UWNUSDhSaHIyZDJKZmxkZFdTMWRpWFJvd1BRL3pEc1cvQ2JSR2RLMER1MDI1?=
+ =?utf-8?B?NFhPeXFBRXVXZTUyY2tuVFVVbklpMzEweGVOZnRqeGhXZnhvOGVlLzZHUHU5?=
+ =?utf-8?B?Y0ppS0R5WXRZZlRycGVJUHhITHFDM1BzNVVQMDRYcGZzRHBNQ3NJZUgvRzhF?=
+ =?utf-8?B?RVQxalZkWkRVeXJuSFVMZS9HR1lPTDQ3WGV1RXV0cklEQjBQaER3S0diYjUr?=
+ =?utf-8?B?djhDVUZ4QmhYamVhMmVHN1NXY3ltVlZJWGNrcWlTdWtJMVJWZG1yWnF5NHJw?=
+ =?utf-8?B?cDRlQUZ5TlIvOERpWXFTZ1E4WUNHZ1hhL3hmVDVLeXhDVjk3bjlwYWcralps?=
+ =?utf-8?B?TWlJb0d4Z2NKWkppQ214SndKbUVJWHlLU09kUml3cFM4bWJIREc2SEZZTGEz?=
+ =?utf-8?B?dW1KaE50QWh6V3I3amlTZnNJRTdNdG5qWXRMcXBjODNTYnBvNmZyK3BuczVX?=
+ =?utf-8?B?NE5yVlgvZGl4NlpQMXhwcmhzUHdrUXVOQ2xrVXFYTzk4UE9oTlA5aE10NVNp?=
+ =?utf-8?B?UmVNMWllNTZTVTJYbksvLzVONDJyeHdkbVA2d3JvSlVUR1JjZ2cwZ1JtTVVE?=
+ =?utf-8?B?NnRWSURCZllEWU1yNzdBMU5zSExWTUdmbnhLV2lnVnVmaCtQd1BQeUdZVzU3?=
+ =?utf-8?B?MWh3end4dTNqWTU3Uk9NUnpzQXh0d0JkK2FwM3htc2VaN2Y1cVNPTDVvcnpr?=
+ =?utf-8?B?TzlHNkNXK3BGQzJ1VkFHZ3ZnNEtQejV0c1NMaG1SY2diWHNRUnFjWUNjd2VC?=
+ =?utf-8?B?bDM4cEpHSHJJR0tMTXpMWmtubERpMXVucnNPdTk1Y3E2RHpiWlRrUFYzZThU?=
+ =?utf-8?B?ak04Zm9uZmpWQTRXWVNYNWRYTW1md3Jjb3VLM2k0L0xjbW5oajdURU5uRkZw?=
+ =?utf-8?B?Vi9IeS8xcUVjNllwTEVVSjg4WmdBTnlSVW5BLy9mQ3NEc0h4djdWcy9IbzJ0?=
+ =?utf-8?B?RjhsQkRBd1dMRnYvRDhPSXovb05vWXp0dlUyYU9WR2d0b0YxejJZUVN3SFA1?=
+ =?utf-8?B?WmU1RWc4aDQ3dnA2aEVtVTY0VHZ1d2N0OS8vTmZsOWFqc1VlY2IzQnMvNzMv?=
+ =?utf-8?B?cXIvUStEN3hGaVJCWlQzYWQvUS8vZ1dwUlNLNkJUUXpFM2pxQTQvK3lQd3gz?=
+ =?utf-8?B?bGNqT2xxK3VlWk9IUzFUSlFVcm5qTkwyVnpzNFdqV3NWQWFwdlRGTXVTaDlI?=
+ =?utf-8?B?dmxjNWREbzlXRHpnZjNld28vSEtFRlZFU0xrcXpnL3c2cEhmRUJpN3dLbnN5?=
+ =?utf-8?B?ZDRJUzFNa2NzWFRuSTlrZUhNbXNQMGdmd25HRjR1KzgxeVVmL0lVQitSVElQ?=
+ =?utf-8?Q?1L/4z/kc8S6npCa/W2JLizp1Z?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Prevent stopped entities from being added to
- the run queue.
-To: phasta@kernel.org, James Flowers <bold.zone2373@fastmail.com>,
- matthew.brost@intel.com, dakr@kernel.org, ckoenig.leichtzumerken@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, skhan@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev
-References: <20250720235748.2798-1-bold.zone2373@fastmail.com>
- <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <66a14b005fa3dc874f4f3261b93901af1292bde9.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5549.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f45d21f-e4ef-44ba-7d04-08dddb1f613d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2025 10:43:17.8069 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: M1qZ9hog1AFmGMn76eGYB9aE/YMsVDN1uy4MTd0TzWged+shOIsYV+bNf6F0QzJscU3zP0il4DJ1i25zoNrcrw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF8517B3F27
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,619 +203,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 21/07/2025 08:52, Philipp Stanner wrote:
-> +Cc Tvrtko, who's currently reworking FIFO and RR.
-> 
-> On Sun, 2025-07-20 at 16:56 -0700, James Flowers wrote:
->> Fixes an issue where entities are added to the run queue in
->> drm_sched_rq_update_fifo_locked after being killed, causing a
->> slab-use-after-free error.
->>
->> Signed-off-by: James Flowers <bold.zone2373@fastmail.com>
->> ---
->> This issue was detected by syzkaller running on a Steam Deck OLED.
->> Unfortunately I don't have a reproducer for it. I've
-> 
-> Well, now that's kind of an issue – if you don't have a reproducer, how
-> can you know that your patch is correct? How can we?
-> 
-> It would certainly be good to know what the fuzz testing framework
-> does.
-> 
->> included the KASAN reports below:
-> 
-> 
-> Anyways, KASAN reports look interesting. But those might be many
-> different issues. Again, would be good to know what the fuzzer has been
-> testing. Can you maybe split this fuzz test into sub-tests? I suspsect
-> those might be different faults.
-> 
-> 
-> Anyways, taking a first look…
-> 
-> 
->>
->> ==================================================================
->> BUG: KASAN: slab-use-after-free in rb_next+0xda/0x160 lib/rbtree.c:505
->> Read of size 8 at addr ffff8881805085e0 by task kworker/u32:12/192
->> CPU: 3 UID: 0 PID: 192 Comm: kworker/u32:12 Not tainted 6.14.0-flowejam-+ #1
->> Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
->> Workqueue: sdma0 drm_sched_run_job_work [gpu_sched]
->> Call Trace:
->>   <TASK>
->>   __dump_stack lib/dump_stack.c:94 [inline]
->>   dump_stack_lvl+0xd2/0x130 lib/dump_stack.c:120
->>   print_address_description.constprop.0+0x88/0x380 mm/kasan/report.c:408
->>   print_report+0xfc/0x1ff mm/kasan/report.c:521
->>   kasan_report+0xdd/0x1b0 mm/kasan/report.c:634
->>   rb_next+0xda/0x160 lib/rbtree.c:505
->>   drm_sched_rq_select_entity_fifo drivers/gpu/drm/scheduler/sched_main.c:332 [inline] [gpu_sched]
->>   drm_sched_select_entity+0x497/0x720 drivers/gpu/drm/scheduler/sched_main.c:1081 [gpu_sched]
->>   drm_sched_run_job_work+0x2e/0x710 drivers/gpu/drm/scheduler/sched_main.c:1206 [gpu_sched]
->>   process_one_work+0x9c0/0x17e0 kernel/workqueue.c:3238
->>   process_scheduled_works kernel/workqueue.c:3319 [inline]
->>   worker_thread+0x734/0x1060 kernel/workqueue.c:3400
->>   kthread+0x3fd/0x810 kernel/kthread.c:464
->>   ret_from_fork+0x53/0x80 arch/x86/kernel/process.c:148
->>   ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
->>   </TASK>
->> Allocated by task 73472:
->>   kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
->>   kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->>   poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
->>   __kasan_kmalloc+0x9a/0xb0 mm/kasan/common.c:394
->>   kmalloc_noprof include/linux/slab.h:901 [inline] [amdgpu]
->>   kzalloc_noprof include/linux/slab.h:1037 [inline] [amdgpu]
->>   amdgpu_driver_open_kms+0x151/0x660 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1402 [amdgpu]
->>   drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
->>   drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
->>   drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
->>   drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
->>   chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
->>   do_dentry_open+0x743/0x1bf0 fs/open.c:956
->>   vfs_open+0x87/0x3f0 fs/open.c:1086
->>   do_open+0x72f/0xf80 fs/namei.c:3830
->>   path_openat+0x2ec/0x770 fs/namei.c:3989
->>   do_filp_open+0x1ff/0x420 fs/namei.c:4016
->>   do_sys_openat2+0x181/0x1e0 fs/open.c:1428
->>   do_sys_open fs/open.c:1443 [inline]
->>   __do_sys_openat fs/open.c:1459 [inline]
->>   __se_sys_openat fs/open.c:1454 [inline]
->>   __x64_sys_openat+0x149/0x210 fs/open.c:1454
->>   do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->>   do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> Freed by task 73472:
->>   kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
->>   kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->>   kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:576
->>   poison_slab_object mm/kasan/common.c:247 [inline]
->>   __kasan_slab_free+0x52/0x70 mm/kasan/common.c:264
->>   kasan_slab_free include/linux/kasan.h:233 [inline]
->>   slab_free_hook mm/slub.c:2353 [inline]
->>   slab_free mm/slub.c:4609 [inline]
->>   kfree+0x14f/0x4d0 mm/slub.c:4757
->>   amdgpu_driver_postclose_kms+0x43d/0x6b0 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1538 [amdgpu]
->>   drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
->>   drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
->>   drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:278
->>   drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
->>   __fput+0x402/0xb50 fs/file_table.c:464
->>   task_work_run+0x155/0x250 kernel/task_work.c:227
->>   get_signal+0x1be/0x19d0 kernel/signal.c:2809
->>   arch_do_signal_or_restart+0x96/0x3a0 arch/x86/kernel/signal.c:337
->>   exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
->>   exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
->>   __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
->>   syscall_exit_to_user_mode+0x1fc/0x290 kernel/entry/common.c:218
->>   do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> The buggy address belongs to the object at ffff888180508000
->> The buggy address is located 1504 bytes inside of
->> The buggy address belongs to the physical page:
->> page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x180508
->> head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
->> flags: 0x17ffffc0000040(head|node=0|zone=2|lastcpupid=0x1fffff)
->> page_type: f5(slab)
->> raw: 0017ffffc0000040 ffff888100043180 dead000000000100 dead000000000122
->> raw: 0000000000000000 0000000080020002 00000000f5000000 0000000000000000
->> head: 0017ffffc0000040 ffff888100043180 dead000000000100 dead000000000122
->> head: 0000000000000000 0000000080020002 00000000f5000000 0000000000000000
->> head: 0017ffffc0000003 ffffea0006014201 ffffffffffffffff 0000000000000000
->> head: 0000000000000008 0000000000000000 00000000ffffffff 0000000000000000
->> page dumped because: kasan: bad access detected
->> Memory state around the buggy address:
->>   ffff888180508480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>   ffff888180508500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>> ffff888180508580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>                                                         ^
->>   ffff888180508600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>   ffff888180508680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->> ==================================================================
->> ==================================================================
->> BUG: KASAN: slab-use-after-free in rb_set_parent_color include/linux/rbtree_augmented.h:191 [inline]
->> BUG: KASAN: slab-use-after-free in __rb_erase_augmented include/linux/rbtree_augmented.h:312 [inline]
->> BUG: KASAN: slab-use-after-free in rb_erase+0x157c/0x1b10 lib/rbtree.c:443
->> Write of size 8 at addr ffff88816414c5d0 by task syz.2.3004/12376
->> CPU: 7 UID: 65534 PID: 12376 Comm: syz.2.3004 Not tainted 6.14.0-flowejam-+ #1
->> Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
->> Call Trace:
->>   <TASK>
->>   __dump_stack lib/dump_stack.c:94 [inline]
->>   dump_stack_lvl+0xd2/0x130 lib/dump_stack.c:120
->>   print_address_description.constprop.0+0x88/0x380 mm/kasan/report.c:408
->>   print_report+0xfc/0x1ff mm/kasan/report.c:521
->>   kasan_report+0xdd/0x1b0 mm/kasan/report.c:634
->>   rb_set_parent_color include/linux/rbtree_augmented.h:191 [inline]
->>   __rb_erase_augmented include/linux/rbtree_augmented.h:312 [inline]
->>   rb_erase+0x157c/0x1b10 lib/rbtree.c:443
->>   rb_erase_cached include/linux/rbtree.h:126 [inline] [gpu_sched]
->>   drm_sched_rq_remove_fifo_locked drivers/gpu/drm/scheduler/sched_main.c:154 [inline] [gpu_sched]
->>   drm_sched_rq_remove_entity+0x2d3/0x480 drivers/gpu/drm/scheduler/sched_main.c:243 [gpu_sched]
->>   drm_sched_entity_kill.part.0+0x82/0x5e0 drivers/gpu/drm/scheduler/sched_entity.c:237 [gpu_sched]
->>   drm_sched_entity_kill drivers/gpu/drm/scheduler/sched_entity.c:232 [inline] [gpu_sched]
->>   drm_sched_entity_fini+0x4c/0x290 drivers/gpu/drm/scheduler/sched_entity.c:331 [gpu_sched]
->>   amdgpu_vm_fini_entities drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:529 [inline] [amdgpu]
->>   amdgpu_vm_fini+0x862/0x1180 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2752 [amdgpu]
->>   amdgpu_driver_postclose_kms+0x3db/0x6b0 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1526 [amdgpu]
->>   drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
->>   drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
->>   drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:278
->>   drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
->>   __fput+0x402/0xb50 fs/file_table.c:464
->>   task_work_run+0x155/0x250 kernel/task_work.c:227
->>   exit_task_work include/linux/task_work.h:40 [inline]
->>   do_exit+0x841/0xf60 kernel/exit.c:938
->>   do_group_exit+0xda/0x2b0 kernel/exit.c:1087
->>   get_signal+0x171f/0x19d0 kernel/signal.c:3036
->>   arch_do_signal_or_restart+0x96/0x3a0 arch/x86/kernel/signal.c:337
->>   exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
->>   exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
->>   __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
->>   syscall_exit_to_user_mode+0x1fc/0x290 kernel/entry/common.c:218
->>   do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> RIP: 0033:0x7f2d90da36ed
->> Code: Unable to access opcode bytes at 0x7f2d90da36c3.
->> RSP: 002b:00007f2d91b710d8 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
->> RAX: 0000000000000000 RBX: 00007f2d90fe6088 RCX: 00007f2d90da36ed
->> RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007f2d90fe6088
->> RBP: 00007f2d90fe6080 R08: 0000000000000000 R09: 0000000000000000
->> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f2d90fe608c
->> R13: 0000000000000000 R14: 0000000000000002 R15: 00007ffc34a67bd0
->>   </TASK>
->> Allocated by task 12381:
->>   kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
->>   kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->>   poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
->>   __kasan_kmalloc+0x9a/0xb0 mm/kasan/common.c:394
->>   kmalloc_noprof include/linux/slab.h:901 [inline] [amdgpu]
->>   kzalloc_noprof include/linux/slab.h:1037 [inline] [amdgpu]
->>   amdgpu_driver_open_kms+0x151/0x660 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1402 [amdgpu]
->>   drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
->>   drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
->>   drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
->>   drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
->>   chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
->>   do_dentry_open+0x743/0x1bf0 fs/open.c:956
->>   vfs_open+0x87/0x3f0 fs/open.c:1086
->>   do_open+0x72f/0xf80 fs/namei.c:3830
->>   path_openat+0x2ec/0x770 fs/namei.c:3989
->>   do_filp_open+0x1ff/0x420 fs/namei.c:4016
->>   do_sys_openat2+0x181/0x1e0 fs/open.c:1428
->>   do_sys_open fs/open.c:1443 [inline]
->>   __do_sys_openat fs/open.c:1459 [inline]
->>   __se_sys_openat fs/open.c:1454 [inline]
->>   __x64_sys_openat+0x149/0x210 fs/open.c:1454
->>   do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->>   do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> Freed by task 12381:
->>   kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
->>   kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->>   kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:576
->>   poison_slab_object mm/kasan/common.c:247 [inline]
->>   __kasan_slab_free+0x52/0x70 mm/kasan/common.c:264
->>   kasan_slab_free include/linux/kasan.h:233 [inline]
->>   slab_free_hook mm/slub.c:2353 [inline]
->>   slab_free mm/slub.c:4609 [inline]
->>   kfree+0x14f/0x4d0 mm/slub.c:4757
->>   amdgpu_driver_postclose_kms+0x43d/0x6b0 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1538 [amdgpu]
->>   drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
->>   drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
->>   drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:278
->>   drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
->>   __fput+0x402/0xb50 fs/file_table.c:464
->>   task_work_run+0x155/0x250 kernel/task_work.c:227
->>   get_signal+0x1be/0x19d0 kernel/signal.c:2809
->>   arch_do_signal_or_restart+0x96/0x3a0 arch/x86/kernel/signal.c:337
->>   exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
->>   exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
->>   __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
->>   syscall_exit_to_user_mode+0x1fc/0x290 kernel/entry/common.c:218
->>   do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> The buggy address belongs to the object at ffff88816414c000
->> The buggy address is located 1488 bytes inside of
->> The buggy address belongs to the physical page:
->> page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x164148
->> head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
->> flags: 0x17ffffc0000040(head|node=0|zone=2|lastcpupid=0x1fffff)
->> page_type: f5(slab)
->> raw: 0017ffffc0000040 ffff88810005c8c0 dead000000000122 0000000000000000
->> raw: 0000000000000000 0000000080020002 00000000f5000000 0000000000000000
->> head: 0017ffffc0000040 ffff88810005c8c0 dead000000000122 0000000000000000
->> head: 0000000000000000 0000000080020002 00000000f5000000 0000000000000000
->> head: 0017ffffc0000003 ffffea0005905201 ffffffffffffffff 0000000000000000
->> head: 0000000000000008 0000000000000000 00000000ffffffff 0000000000000000
->> page dumped because: kasan: bad access detected
->> Memory state around the buggy address:
->>   ffff88816414c480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>   ffff88816414c500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>> ffff88816414c580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>                                                   ^
->>   ffff88816414c600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>   ffff88816414c680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->> ==================================================================
->> ==================================================================
->> BUG: KASAN: slab-use-after-free in __rb_erase_augmented include/linux/rbtree_augmented.h:259 [inline]
->> BUG: KASAN: slab-use-after-free in rb_erase+0xf5d/0x1b10 lib/rbtree.c:443
->> Read of size 8 at addr ffff88812ebcc5e0 by task syz.1.814/6553
->> CPU: 0 UID: 65534 PID: 6553 Comm: syz.1.814 Not tainted 6.14.0-flowejam-+ #1
->> Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
->> Call Trace:
->>   <TASK>
->>   __dump_stack lib/dump_stack.c:94 [inline]
->>   dump_stack_lvl+0xd2/0x130 lib/dump_stack.c:120
->>   print_address_description.constprop.0+0x88/0x380 mm/kasan/report.c:408
->>   print_report+0xfc/0x1ff mm/kasan/report.c:521
->>   kasan_report+0xdd/0x1b0 mm/kasan/report.c:634
->>   __rb_erase_augmented include/linux/rbtree_augmented.h:259 [inline]
->>   rb_erase+0xf5d/0x1b10 lib/rbtree.c:443
->>   rb_erase_cached include/linux/rbtree.h:126 [inline] [gpu_sched]
->>   drm_sched_rq_remove_fifo_locked drivers/gpu/drm/scheduler/sched_main.c:154 [inline] [gpu_sched]
->>   drm_sched_rq_remove_entity+0x2d3/0x480 drivers/gpu/drm/scheduler/sched_main.c:243 [gpu_sched]
->>   drm_sched_entity_kill.part.0+0x82/0x5e0 drivers/gpu/drm/scheduler/sched_entity.c:237 [gpu_sched]
->>   drm_sched_entity_kill drivers/gpu/drm/scheduler/sched_entity.c:232 [inline] [gpu_sched]
->>   drm_sched_entity_fini+0x4c/0x290 drivers/gpu/drm/scheduler/sched_entity.c:331 [gpu_sched]
->>   amdgpu_vm_fini_entities drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:529 [inline] [amdgpu]
->>   amdgpu_vm_fini+0x862/0x1180 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2752 [amdgpu]
->>   amdgpu_driver_postclose_kms+0x3db/0x6b0 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1526 [amdgpu]
->>   drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
->>   drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
->>   drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:278
->>   drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
->>   __fput+0x402/0xb50 fs/file_table.c:464
->>   task_work_run+0x155/0x250 kernel/task_work.c:227
->>   resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
->>   exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
->>   exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
->>   __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
->>   syscall_exit_to_user_mode+0x26b/0x290 kernel/entry/common.c:218
->>   do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> RIP: 0033:0x7fd23eba36ed
->> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
->> RSP: 002b:00007ffc2943a358 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
->> RAX: 0000000000000000 RBX: 00007ffc2943a428 RCX: 00007fd23eba36ed
->> RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
->> RBP: 00007fd23ede7ba0 R08: 0000000000000001 R09: 0000000c00000000
->> R10: 00007fd23ea00000 R11: 0000000000000246 R12: 00007fd23ede5fac
->> R13: 00007fd23ede5fa0 R14: 0000000000059ad1 R15: 0000000000059a8e
->>   </TASK>
->> Allocated by task 6559:
->>   kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
->>   kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->>   poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
->>   __kasan_kmalloc+0x9a/0xb0 mm/kasan/common.c:394
->>   kmalloc_noprof include/linux/slab.h:901 [inline] [amdgpu]
->>   kzalloc_noprof include/linux/slab.h:1037 [inline] [amdgpu]
->>   amdgpu_driver_open_kms+0x151/0x660 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1402 [amdgpu]
->>   drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
->>   drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
->>   drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
->>   drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
->>   chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
->>   do_dentry_open+0x743/0x1bf0 fs/open.c:956
->>   vfs_open+0x87/0x3f0 fs/open.c:1086
->>   do_open+0x72f/0xf80 fs/namei.c:3830
->>   path_openat+0x2ec/0x770 fs/namei.c:3989
->>   do_filp_open+0x1ff/0x420 fs/namei.c:4016
->>   do_sys_openat2+0x181/0x1e0 fs/open.c:1428
->>   do_sys_open fs/open.c:1443 [inline]
->>   __do_sys_openat fs/open.c:1459 [inline]
->>   __se_sys_openat fs/open.c:1454 [inline]
->>   __x64_sys_openat+0x149/0x210 fs/open.c:1454
->>   do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->>   do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> Freed by task 6559:
->>   kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
->>   kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->>   kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:576
->>   poison_slab_object mm/kasan/common.c:247 [inline]
->>   __kasan_slab_free+0x52/0x70 mm/kasan/common.c:264
->>   kasan_slab_free include/linux/kasan.h:233 [inline]
->>   slab_free_hook mm/slub.c:2353 [inline]
->>   slab_free mm/slub.c:4609 [inline]
->>   kfree+0x14f/0x4d0 mm/slub.c:4757
->>   amdgpu_driver_postclose_kms+0x43d/0x6b0 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1538 [amdgpu]
->>   drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
->>   drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
->>   drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:278
->>   drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
->>   __fput+0x402/0xb50 fs/file_table.c:464
->>   task_work_run+0x155/0x250 kernel/task_work.c:227
->>   get_signal+0x1be/0x19d0 kernel/signal.c:2809
->>   arch_do_signal_or_restart+0x96/0x3a0 arch/x86/kernel/signal.c:337
->>   exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
->>   exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
->>   __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
->>   syscall_exit_to_user_mode+0x1fc/0x290 kernel/entry/common.c:218
->>   do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> The buggy address belongs to the object at ffff88812ebcc000
->> The buggy address is located 1504 bytes inside of
->> The buggy address belongs to the physical page:
->> page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x12ebc8
->> head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
->> flags: 0x17ffffc0000040(head|node=0|zone=2|lastcpupid=0x1fffff)
->> page_type: f5(slab)
->> raw: 0017ffffc0000040 ffff888100058780 dead000000000122 0000000000000000
->> raw: 0000000000000000 0000000000020002 00000000f5000000 0000000000000000
->> head: 0017ffffc0000040 ffff888100058780 dead000000000122 0000000000000000
->> head: 0000000000000000 0000000000020002 00000000f5000000 0000000000000000
->> head: 0017ffffc0000003 ffffea0004baf201 ffffffffffffffff 0000000000000000
->> head: 0000000000000008 0000000000000000 00000000ffffffff 0000000000000000
->> page dumped because: kasan: bad access detected
->> Memory state around the buggy address:
->>   ffff88812ebcc480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>   ffff88812ebcc500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>> ffff88812ebcc580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>                                                         ^
->>   ffff88812ebcc600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>   ffff88812ebcc680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->> ==================================================================
->> ==================================================================
->> BUG: KASAN: slab-use-after-free in drm_sched_entity_compare_before drivers/gpu/drm/scheduler/sched_main.c:147 [inline] [gpu_sched]
->> BUG: KASAN: slab-use-after-free in rb_add_cached include/linux/rbtree.h:174 [inline] [gpu_sched]
->> BUG: KASAN: slab-use-after-free in drm_sched_rq_update_fifo_locked+0x47b/0x540 drivers/gpu/drm/scheduler/sched_main.c:175 [gpu_sched]
->> Read of size 8 at addr ffff8881208445c8 by task syz.1.49115/146644
->> CPU: 7 UID: 65534 PID: 146644 Comm: syz.1.49115 Not tainted 6.14.0-flowejam-+ #1
->> Hardware name: Valve Galileo/Galileo, BIOS F7G0112 08/01/2024
->> Call Trace:
->>   <TASK>
->>   __dump_stack lib/dump_stack.c:94 [inline]
->>   dump_stack_lvl+0xd2/0x130 lib/dump_stack.c:120
->>   print_address_description.constprop.0+0x88/0x380 mm/kasan/report.c:408
->>   print_report+0xfc/0x1ff mm/kasan/report.c:521
->>   kasan_report+0xdd/0x1b0 mm/kasan/report.c:634
->>   drm_sched_entity_compare_before drivers/gpu/drm/scheduler/sched_main.c:147 [inline] [gpu_sched]
->>   rb_add_cached include/linux/rbtree.h:174 [inline] [gpu_sched]
->>   drm_sched_rq_update_fifo_locked+0x47b/0x540 drivers/gpu/drm/scheduler/sched_main.c:175 [gpu_sched]
->>   drm_sched_entity_push_job+0x509/0x5d0 drivers/gpu/drm/scheduler/sched_entity.c:623 [gpu_sched]
-> 
-> This might be a race between entity killing and the push_job. Let's
-> look at your patch below…
-> 
->>   amdgpu_job_submit+0x1a4/0x270 drivers/gpu/drm/amd/amdgpu/amdgpu_job.c:314 [amdgpu]
->>   amdgpu_vm_sdma_commit+0x1f9/0x7d0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c:122 [amdgpu]
->>   amdgpu_vm_pt_clear+0x540/0x6b0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c:422 [amdgpu]
->>   amdgpu_vm_init+0x9c2/0x12f0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2609 [amdgpu]
->>   amdgpu_driver_open_kms+0x274/0x660 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1418 [amdgpu]
->>   drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
->>   drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
->>   drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
->>   drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
->>   chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
->>   do_dentry_open+0x743/0x1bf0 fs/open.c:956
->>   vfs_open+0x87/0x3f0 fs/open.c:1086
->>   do_open+0x72f/0xf80 fs/namei.c:3830
->>   path_openat+0x2ec/0x770 fs/namei.c:3989
->>   do_filp_open+0x1ff/0x420 fs/namei.c:4016
->>   do_sys_openat2+0x181/0x1e0 fs/open.c:1428
->>   do_sys_open fs/open.c:1443 [inline]
->>   __do_sys_openat fs/open.c:1459 [inline]
->>   __se_sys_openat fs/open.c:1454 [inline]
->>   __x64_sys_openat+0x149/0x210 fs/open.c:1454
->>   do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->>   do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> RIP: 0033:0x7feb303a36ed
->> Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
->> RSP: 002b:00007feb3123c018 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
->> RAX: ffffffffffffffda RBX: 00007feb305e5fa0 RCX: 00007feb303a36ed
->> RDX: 0000000000000002 RSI: 0000200000000140 RDI: ffffffffffffff9c
->> RBP: 00007feb30447722 R08: 0000000000000000 R09: 0000000000000000
->> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
->> R13: 0000000000000001 R14: 00007feb305e5fa0 R15: 00007ffcfd0a3460
->>   </TASK>
->> Allocated by task 146638:
->>   kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
->>   kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->>   poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
->>   __kasan_kmalloc+0x9a/0xb0 mm/kasan/common.c:394
->>   kmalloc_noprof include/linux/slab.h:901 [inline] [amdgpu]
->>   kzalloc_noprof include/linux/slab.h:1037 [inline] [amdgpu]
->>   amdgpu_driver_open_kms+0x151/0x660 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1402 [amdgpu]
->>   drm_file_alloc+0x5d0/0xa00 drivers/gpu/drm/drm_file.c:171
->>   drm_open_helper+0x1fe/0x540 drivers/gpu/drm/drm_file.c:323
->>   drm_open+0x1a7/0x400 drivers/gpu/drm/drm_file.c:376
->>   drm_stub_open+0x21a/0x390 drivers/gpu/drm/drm_drv.c:1149
->>   chrdev_open+0x23b/0x6b0 fs/char_dev.c:414
->>   do_dentry_open+0x743/0x1bf0 fs/open.c:956
->>   vfs_open+0x87/0x3f0 fs/open.c:1086
->>   do_open+0x72f/0xf80 fs/namei.c:3830
->>   path_openat+0x2ec/0x770 fs/namei.c:3989
->>   do_filp_open+0x1ff/0x420 fs/namei.c:4016
->>   do_sys_openat2+0x181/0x1e0 fs/open.c:1428
->>   do_sys_open fs/open.c:1443 [inline]
->>   __do_sys_openat fs/open.c:1459 [inline]
->>   __se_sys_openat fs/open.c:1454 [inline]
->>   __x64_sys_openat+0x149/0x210 fs/open.c:1454
->>   do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->>   do_syscall_64+0x92/0x180 arch/x86/entry/common.c:83
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> Freed by task 146638:
->>   kasan_save_stack+0x30/0x50 mm/kasan/common.c:47
->>   kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->>   kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:576
->>   poison_slab_object mm/kasan/common.c:247 [inline]
->>   __kasan_slab_free+0x52/0x70 mm/kasan/common.c:264
->>   kasan_slab_free include/linux/kasan.h:233 [inline]
->>   slab_free_hook mm/slub.c:2353 [inline]
->>   slab_free mm/slub.c:4609 [inline]
->>   kfree+0x14f/0x4d0 mm/slub.c:4757
->>   amdgpu_driver_postclose_kms+0x43d/0x6b0 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:1538 [amdgpu]
->>   drm_file_free.part.0+0x72d/0xbc0 drivers/gpu/drm/drm_file.c:255
->>   drm_file_free drivers/gpu/drm/drm_file.c:228 [inline]
->>   drm_close_helper.isra.0+0x197/0x230 drivers/gpu/drm/drm_file.c:278
->>   drm_release+0x1b0/0x3d0 drivers/gpu/drm/drm_file.c:426
->>   __fput+0x402/0xb50 fs/file_table.c:464
->>   task_work_run+0x155/0x250 kernel/task_work.c:227
->>   resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
->>   exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
->>   exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
->>   __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
->>   syscall_exit_to_user_mode+0x26b/0x290 kernel/entry/common.c:218
->>   do_syscall_64+0x9f/0x180 arch/x86/entry/common.c:89
->>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->> The buggy address belongs to the object at ffff888120844000
->> The buggy address is located 1480 bytes inside of
->> The buggy address belongs to the physical page:
->> page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x120840
->> head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
->> flags: 0x17ffffc0000040(head|node=0|zone=2|lastcpupid=0x1fffff)
->> page_type: f5(slab)
->> raw: 0017ffffc0000040 ffff88810005c8c0 ffffea0005744c00 dead000000000002
->> raw: 0000000000000000 0000000000020002 00000000f5000000 0000000000000000
->> head: 0017ffffc0000040 ffff88810005c8c0 ffffea0005744c00 dead000000000002
->> head: 0000000000000000 0000000000020002 00000000f5000000 0000000000000000
->> head: 0017ffffc0000003 ffffea0004821001 ffffffffffffffff 0000000000000000
->> head: 0000000000000008 0000000000000000 00000000ffffffff 0000000000000000
->> page dumped because: kasan: bad access detected
->> Memory state around the buggy address:
->>   ffff888120844480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>   ffff888120844500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>> ffff888120844580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>                                                ^
->>   ffff888120844600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>   ffff888120844680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->> ==================================================================
->>
->>   drivers/gpu/drm/scheduler/sched_main.c | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index bfea608a7106..997a2cc1a635 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -172,8 +172,10 @@ void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
->>   
->>   	entity->oldest_job_waiting = ts;
->>   
->> -	rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
->> -		      drm_sched_entity_compare_before);
->> +	if (!entity->stopped) {
->> +		rb_add_cached(&entity->rb_tree_node, &rq->rb_tree_root,
->> +			      drm_sched_entity_compare_before);
->> +	}
-> 
-> If this is a race, then this patch here is broken, too, because you're
-> checking the 'stopped' boolean as the callers of that function do, too
-> – just later. :O
-> 
-> Could still race, just less likely.
-> 
-> The proper way to fix it would then be to address the issue where the
-> locking is supposed to happen. Let's look at, for example,
-> drm_sched_entity_push_job():
-> 
-> 
-> void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
-> {
-> 	(Bla bla bla)
-> 
->   	…………
-> 
-> 	/* first job wakes up scheduler */
-> 	if (first) {
-> 		struct drm_gpu_scheduler *sched;
-> 		struct drm_sched_rq *rq;
-> 
-> 		/* Add the entity to the run queue */
-> 		spin_lock(&entity->lock);
-> 		if (entity->stopped) {                  <---- Aha!
-> 			spin_unlock(&entity->lock);
-> 
-> 			DRM_ERROR("Trying to push to a killed entity\n");
-> 			return;
-> 		}
-> 
-> 		rq = entity->rq;
-> 		sched = rq->sched;
-> 
-> 		spin_lock(&rq->lock);
-> 		drm_sched_rq_add_entity(rq, entity);
-> 
-> 		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> 			drm_sched_rq_update_fifo_locked(entity, rq, submit_ts); <---- bumm!
-> 
-> 		spin_unlock(&rq->lock);
-> 		spin_unlock(&entity->lock);
-> 
-> But the locks are still being hold. So that "shouldn't be happening"(tm).
-> 
-> Interesting. AFAICS only drm_sched_entity_kill() and drm_sched_fini()
-> stop entities. The former holds appropriate locks, but drm_sched_fini()
-> doesn't. So that looks like a hot candidate to me. Opinions?
-> 
-> On the other hand, aren't drivers prohibited from calling
-> drm_sched_entity_push_job() after calling drm_sched_fini()? If the
-> fuzzer does that, then it's not the scheduler's fault.
-> 
-> Could you test adding spin_lock(&entity->lock) to drm_sched_fini()?
-> 
-> Would be cool if Tvrtko and Christian take a look. Maybe we even have a
-> fundamental design issue.
-
-It would be nice to have a reproducer and from this thread I did not 
-manage to figure out if the syzkaller snipper James posted was it, or 
-not quite it.
-
-In either case, I think one race I see relates to the early exit 
-!entity->rq check before setting entity->stopped in drm_sched_entity_kill().
-
-If the entity was not submitted at all yet (at the time of process exit 
-/ entity kill), entity->stopped will therefore not be set. A parallel 
-job submit can then re-add the entity to the tree, as process exit / 
-file close / entity kill is continuing and is about to kfree the entity 
-(in the case of amdgpu report there are two entities embedded in file_priv).
-
-One way to make this more robust is to make the entity->rq check in 
-drm_sched_entity_kill() stronger. Or actually to remove it altogether. 
-But I think it also requires checking for entity->stopped in 
-drm_sched_entity_select_rq() and propagating the error code all the way 
-out from drm_sched_job_arm().
-
-That was entity->stopped is properly serialized and acted upon early 
-enough to avoid dereferencing a freed entity and avoid creating jobs not 
-attached to anything (but only have a warning from push job).
-
-Disclaimer I haven't tried to experiment with this yet, so I may be 
-missing something. At least writing a reproducer for the race I 
-described sounds easy so unless someone shouts I am talking nonsense I 
-can do that and also sketch out a fix. *If* the theory will hold water 
-after I write the test case.
-
-Regards,
-
-Tvrtko
-
-> 
->>   }
->>   
->>   /**
-> 
-
+SGkgRGF2ZSwgU2ltYS4NCg0KQXMgSSBhbSBhYm91dCB0byBsZWF2ZSBJbnRlbCwgSSdtIHN0ZXBw
+aW5nIGRvd24gZnJvbSB0aGUgbWFpbnRhaW5lciByb2xlIG9mIHRoZSBoYWJhbmFsYWJzIGRyaXZl
+ci4NCg0KS29ieSBFbGJheiAmIEtvbnN0YW50aW4gU2lueXVrIGZyb20gSW50ZWwgd2lsbCByZXBs
+YWNlIG1lIGFzIHRoZSBuZXcgbWFpbnRhaW5lcnMuDQoNCllhcm9uIEF2aXpyYXQgKDEpOg0KICBN
+QUlOVEFJTkVSUzogQ2hhbmdlIGhhYmFuYWxhYnMgbWFpbnRhaW5lcnMNCg0KIE1BSU5UQUlORVJT
+IHwgMyArKy0NCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
+DQoNCi0tDQoyLjQzLjANCg0K
