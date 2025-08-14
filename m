@@ -2,130 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4DA0B2576D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 01:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60753B259DA
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 05:29:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4660A88EFF;
-	Wed, 13 Aug 2025 23:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C0E110E0E5;
+	Thu, 14 Aug 2025 03:29:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TOlzgTDK";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="LKJggS/W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 275DE10E7DF
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 23:23:57 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DBLdaM030062
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 23:23:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- iA6096032O8eraf5ErblJhkD3Z0jA/+vFYM4Vm1Ntuw=; b=TOlzgTDKGLoL6c3W
- 60rRpgi2e6BWCynvvUsTJimxfrH1Jx8J+fCpYryKmW7KR/hvmWWF2Jfo4T2p6uCN
- noWNhlxOve1trqDf6IhHj/SMuv0NQfd/FHIVd8oi+iG7+QYRck3i+NtVgSXpU977
- MD2t/VBfUroL47SCDqUCaAGSnHVsr4viZcuBVwSig7q1InVKvA/MDVALiwsF0ME4
- JICcAwhzADnlR0Vr0LDHRdy6A9LPxvYsnxI2o9CO4yneATGRz5mwmSljp6/IeV3f
- q8IFZw4KKqV8sRseqjUy2KqIZEHjqEIXbf7mOOIirlaYQ7B6bEVevDhviQwWLwdh
- 9inxbw==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fm3vrevm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 23:23:56 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-244581ce388so5584745ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 16:23:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755127435; x=1755732235;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iA6096032O8eraf5ErblJhkD3Z0jA/+vFYM4Vm1Ntuw=;
- b=XDNt0d9ZHtesppjL76qDWBx36bAG9GuhLlsgxIfVK8w3bK63LrJIpPAkJlHQ7KV5sT
- 6G/RWKqQt1uFmcnnJwZOgMe4ySjjGDTjDnqGhV1uysM/ktLfUXK8ULc1yKPTvcLnUFUJ
- biLypCfVI1TPvUluAIQGgDAQWst3Vte27BnhAGYtEB5LmjNBOSt9FXyQJWZqZ083c1X3
- iyBNiDBEpRtN5HV1IxFFioL0FNCL50e/87y7yfS2JaDHa2tLLzReEhwLIGIe0VfUhkSL
- f755U99wJfawNuJKg0NxBHgWBAcNl7GqpRrFEeIzpwSMR3uu3OOhdMsiZGkmOsw4pja+
- LCig==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUsNuQ8A+5uZXpDMoRYcbpf/3Qy4yqCj/XUYlHP2emp0qd7og+JvEXK73/gbFl2UgMhSIkMtvuz8EE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBTdHTG+qahhd+eXSAxkDcx4VLw91frWJxu2s8efXFKk6O9S2D
- E0BLYFI2sO76g5N6JKiz5UEp5rn/QzBVtPCmO/NJa2bii3GUSMNJkgDt7vlZC7eo+XpeLN+IlSx
- JwYY8b2DHEWiY2D/8TLcxXoG93FC8Sv0Gv/hMcY7RAOHmWR3+rijWNrWz6Ydg4ohQTISPBQ==
-X-Gm-Gg: ASbGncvnLWafNEXAV23TrsrTaXwvPngBD7A4GVCQvxEDylvk6dQKgMl4jJM/CFxYAp+
- 6/bE5BEVRV10iQjRfFTsmief9FIlHSxAC0n8xL+hH2pYVNPwGUNuHzywzwXumN0psuDIyD75OdF
- rsa3IH7NrigvPI+YvQLMXsHtV1otgaDO493un4YVIoQFjjlSC1hfqxGdz8h/aHAciCtco6HwB3W
- c42h8eQN2A+TfjiUJ9PHagQJn81CZiGYRUbB9i4GPmJq4uqaNjAVoQjQiBVlDGo0JFznnNIoTPT
- 2Bm/VFBk9+qNbHPc9bZ3in0rxg/ryfrJ3yhv++SALrGNb9/9zEy67OvQBog9PEpp7sjWPM4p1r2
- 9VrO8bF10ItsNMH+OApqn5JOVKVNwp6VzBkEPvg==
-X-Received: by 2002:a17:903:1c8:b0:23e:22dc:665c with SMTP id
- d9443c01a7336-244586c46fbmr13119905ad.33.1755127434799; 
- Wed, 13 Aug 2025 16:23:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHHDCnRh0Js6W0SOu+on6VKjPDQGJcgj0Cg2MJ13k4MfvzHuV5x1VI5U3usKguIYljIv3YAFA==
-X-Received: by 2002:a17:903:1c8:b0:23e:22dc:665c with SMTP id
- d9443c01a7336-244586c46fbmr13119515ad.33.1755127434369; 
- Wed, 13 Aug 2025 16:23:54 -0700 (PDT)
-Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au.
- [1.41.240.65]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b422b77f33asm28118326a12.5.2025.08.13.16.23.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Aug 2025 16:23:53 -0700 (PDT)
-Message-ID: <0cc814ae-ea8a-44cd-b502-1f89876e61b9@oss.qualcomm.com>
-Date: Thu, 14 Aug 2025 09:23:45 +1000
+X-Greylist: delayed 439 seconds by postgrey-1.36 at gabe;
+ Thu, 14 Aug 2025 03:29:36 UTC
+Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com
+ [51.81.35.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ED2D10E0E5;
+ Thu, 14 Aug 2025 03:29:36 +0000 (UTC)
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com
+ [159.100.248.207])
+ by relay-us1.mymailcheap.com (Postfix) with ESMTPS id DB7EB223BE;
+ Thu, 14 Aug 2025 03:22:15 +0000 (UTC)
+Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [151.80.165.199])
+ by relay5.mymailcheap.com (Postfix) with ESMTPS id 6FDA92618F;
+ Thu, 14 Aug 2025 03:22:12 +0000 (UTC)
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+ by relay2.mymailcheap.com (Postfix) with ESMTPS id E06F03E891;
+ Thu, 14 Aug 2025 03:22:09 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ by nf1.mymailcheap.com (Postfix) with ESMTPSA id A006240086;
+ Thu, 14 Aug 2025 03:22:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+ t=1755141728; bh=Euf7RGfdcRTByFbTluvA/RIw6+MZ44J8dHtq9uOZQdI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=LKJggS/WzySivrjP27Hzljd0PMhw8AlnDl04Vq+4nCkQ/e85ipxJFnQeVDppiGw8R
+ m547Mh1ywTjS29poQpJpjbE/jBzTjX1pUFrYAyNDTQRP0XjkYwuRcJodA0qBBN7NeM
+ WY6qEbAztAXET33Cf/JCHgBiZ9ZeQa30/hhm6BB4=
+Received: from JellyZhongke (unknown [223.76.243.206])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 1BB034069D;
+ Thu, 14 Aug 2025 03:22:02 +0000 (UTC)
+From: Mingcong Bai <jeffbai@aosc.io>
+To: linux-kernel@vger.kernel.org
+Cc: Wentao Guan <guanwentao@uniontech.com>, WangYuli <wangyuli@uniontech.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Kexy Biscuit <kexybiscuit@aosc.io>,
+ Mingcong Bai <jeffbai@aosc.io>, Zhang Yuhao <xinmu@xinmu.moe>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [RFC PATCH] drm/amdkfd: disable HSA_AMD_SVM on LoongArch and AArch64
+Date: Thu, 14 Aug 2025 11:21:36 +0800
+Message-ID: <20250814032153.227285-1-jeffbai@aosc.io>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 10/11] qcomtee: enable TEE_IOC_SHM_ALLOC ioctl
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Jens Wiklander <jens.wiklander@linaro.org>,
- Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
- op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Sumit Garg <sumit.garg@oss.qualcomm.com>
-References: <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-0-ce7a1a774803@oss.qualcomm.com>
- <20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-10-ce7a1a774803@oss.qualcomm.com>
- <3ec0a8d0-7900-45bd-b0d3-90ee8ca7730c@oss.qualcomm.com>
- <d81abdef-18fa-496d-8493-e8f336c43800@oss.qualcomm.com>
- <d74404ec-44ad-412f-98ef-eed288ecf1bf@oss.qualcomm.com>
- <87c884ed-0975-4ac2-a0fa-16e830a57c72@oss.qualcomm.com>
- <8bcb37ed-2885-4f4d-abed-5dd5ec6a254c@oss.qualcomm.com>
-Content-Language: en-US
-From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-In-Reply-To: <8bcb37ed-2885-4f4d-abed-5dd5ec6a254c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDEwNyBTYWx0ZWRfX6cqGO4jlgJI8
- KPzYWVa/Np6lBzFU1RlOUbRxwNTba+cj9/bYbqhdR8m6NqsqYq7o0yaih7lj8/k0/MBqGGd6bYt
- cYfoCTvnzBgE0tJFQuGdXTUPxDkuloy6XrA35oRztOKvZTBLrEJ+MrUKzGAFHARht36CGlcfi7h
- BIl4ON/yQES15JMIGP/mx4u+Byw+UGOvK8xPWusOYpiI4NZf7hMywQi3EJGTBSxGY4fh9ZokpcV
- I3L2rUwMESUL64c6/ThQQ31piw6aDW37SHOJ3dSmfI/FiCGKC8ToSUPfFaWRHXlYPwf69fBDHbW
- vRCglUX9Gd5tMsPsnUADR1imP4wC8BqSAlZnUaybGghJa1T1hb6iM4LG5JN5uo6VpdhyDZp8nwB
- GEo1zOi3
-X-Proofpoint-GUID: QBXW44ej4CMhSslrRcWkFLvmJH2OKaQp
-X-Authority-Analysis: v=2.4 cv=A+1sP7WG c=1 sm=1 tr=0 ts=689d1e8c cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=COk6AnOGAAAA:8 a=pGb8jkpG1LKJgODn460A:9 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: QBXW44ej4CMhSslrRcWkFLvmJH2OKaQp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 priorityscore=1501 malwarescore=0 spamscore=0
- phishscore=0 clxscore=1015 adultscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508110107
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [1.40 / 10.00]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[]; MIME_GOOD(-0.10)[text/plain];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[14];
+ ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+ RCVD_COUNT_ONE(0.00)[1]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ SPFBL_URIBL_EMAIL_FAIL(0.00)[jeffbai.aosc.io:server
+ fail,xinmu.xinmu.moe:server fail]; 
+ FREEMAIL_CC(0.00)[uniontech.com,kernel.org,aosc.io,xinmu.moe,amd.com,gmail.com,ffwll.ch,lists.freedesktop.org];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[]
+X-Rspamd-Server: nf1.mymailcheap.com
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: A006240086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,60 +89,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+While testing my ROCm port for LoongArch and AArch64 (patches pending) on
+the following platforms:
 
+- LoongArch ...
+  - Loongson AC612A0_V1.1 (Loongson 3C6000/S) + AMD Radeon RX 6800
+- AArch64 ...
+  - FD30M51 (Phytium FT-D3000) + AMD Radeon RX 7600
+  - Huawei D920S10 (Huawei Kunpeng 920) + AMD Radeon RX 7600
 
-On 8/14/2025 9:20 AM, Konrad Dybcio wrote:
-> On 8/14/25 1:19 AM, Amirreza Zarrabi wrote:
->>
->>
->> On 8/14/2025 8:49 AM, Konrad Dybcio wrote:
->>> On 8/14/25 12:24 AM, Amirreza Zarrabi wrote:
->>>>
->>>>
->>>> On 8/13/2025 8:00 PM, Konrad Dybcio wrote:
->>>>> On 8/13/25 2:35 AM, Amirreza Zarrabi wrote:
->>>>>> Enable userspace to allocate shared memory with QTEE. Since
->>>>>> QTEE handles shared memory as object, a wrapper is implemented
->>>>>> to represent tee_shm as an object. The shared memory identifier,
->>>>>> obtained through TEE_IOC_SHM_ALLOC, is transferred to the driver using
->>>>>> TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT.
->>>>>>
->>>>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>>> Acked-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
->>>>>> Tested-by: Harshal Dev <quic_hdev@quicinc.com>
->>>>>> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
->>>>>> ---
->>>>>
->>>>> [...]
->>>>>
->>>>>> +/* Mapping information format as expected by QTEE. */
->>>>>> +struct qcomtee_mapping_info {
->>>>>> +	u64 paddr;
->>>>>> +	u64 len;
->>>>>> +	u32 perms;
->>>>>> +} __packed;
->>>>>
->>>>> Please use types with explicit endianness, e.g. __le32. I'm assuming
->>>>> TZ will always be little-endian, regardless of the host OS
->>>>>
->>>>
->>>> I'm not entirely sure how this point is relevant. As I understand it,
->>>> the core that populates this struct is the same one that accesses it in TZ.
->>>> Your argument would absolutely make sense if the host and TZ were operating
->>>> on different cores with distinct architectures -- such as one being
->>>> little-endian and the other big-endian, which is not the case.
->>>
->>> CONFIG_CPU_BIG_ENDIAN=y exists on arm64
->>>
->>
->> Or, you are saying we may have a configuration where host is big-endian
->> but TZ is little-endian?
-> 
-> I was indeed about to say that.. I believe our tz is always little-endian
-> but you can run the HLOS of either endianness
+When HSA_AMD_SVM is enabled, amdgpu would fail to initialise at all on
+LoongArch (no output):
 
-Ok, I'll update them.
+  amdgpu 0000:0d:00.0: amdgpu: kiq ring mec 2 pipe 1 q 0
+  CPU 0 Unable to handle kernel paging request at virtual address ffffffffff800034, era == 9000000001058044, ra == 9000000001058660
+  Oops[#1]:
+  CPU: 0 UID: 0 PID: 202 Comm: kworker/0:3 Not tainted 6.16.0+ #103 PREEMPT(full)
+  Hardware name: To be filled by O.E.M.To be fill To be filled by O.E.M.To be fill/To be filled by O.E.M.To be fill, BIOS Loongson-UDK2018-V4.0.
+  Workqueue: events work_for_cpu_fn
+  pc 9000000001058044 ra 9000000001058660 tp 9000000101500000 sp 9000000101503aa0
+  a0 ffffffffff800000 a1 0000000ffffe0000 a2 0000000000000000 a3 90000001207c58e0
+  a4 9000000001a4c310 a5 0000000000000001 a6 0000000000000000 a7 0000000000000001
+  t0 000003ffff800000 t1 0000000000000001 t2 0000040000000000 t3 03ffff0000002000
+  t4 0000000000000000 t5 0001010101010101 t6 ffff800000000000 t7 0001000000000000
+  t8 000000000000002f u0 0000000000800000 s9 9000000002026000 s0 90000001207c58e0
+  s1 0000000000000001 s2 9000000001935c40 s3 0000001000000000 s4 0000000000000001
+  s5 0000000ffffe0000 s6 0000000000000040 s7 0001000000000001 s8 0001000000000000
+     ra: 9000000001058660 memmap_init_zone_device+0x120/0x1b0
+    ERA: 9000000001058044 __init_zone_device_page.constprop.0+0x4/0x1a0
+   CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+   PRMD: 00000004 (PPLV0 +PIE -PWE)
+   EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
+   ECFG: 00071c1d (LIE=0,2-4,10-12 VS=7)
+  ESTAT: 00020000 [PIS] (IS= ECode=2 EsubCode=0)
+   BADV: ffffffffff800034
+   PRID: 0014d010 (Loongson-64bit, Loongson-3C6000/S)
+  Modules linked in: amdgpu(+) vfat fat cfg80211 rfkill 8021q garp stp mrp llc snd_hda_codec_atihdmi snd_hda_codec_hdmi snd_hda_codec_conexant snd_hda_codec_generic drm_client_lib drm_ttm_helper syscopyarea ttm sysfillrect sysimgblt fb_sys_fops drm_panel_backlight_quirks video drm_exec drm_suballoc_helper amdxcp mfd_core drm_buddy gpu_sched drm_display_helper drm_kms_helper cec snd_hda_intel ipmi_ssif snd_intel_dspcfg snd_hda_codec snd_hda_core acpi_ipmi snd_hwdep snd_pcm fb loongson3_cpufreq lcd igc snd_timer ipmi_si spi_loongson_pci spi_loongson_core snd ipmi_devintf soundcore ipmi_msghandler binfmt_misc fuse drm drm_panel_orientation_quirks backlight dm_mod dax nfnetlink
+  Process kworker/0:3 (pid: 202, threadinfo=00000000eb7cd5d6, task=000000004ca22b1b)
+  Stack : 0000000000001440 0000000000000000 ffffffffff800000 0000000000000001
+          90000000020b5978 9000000101503b38 0000000000000001 0000000000000001
+          0000000000000000 90000000020b5978 90000000020b3f48 0000000000001440
+          0000000000000000 90000001207c58e0 90000001207c5970 9000000000575e20
+          90000000010e2e00 90000000020b3f48 900000000205c238 0000000000000000
+          00000000000001d3 90000001207c58e0 9000000001958f28 9000000120790848
+          90000001207b3510 0000000000000000 9000000120780000 9000000120780010
+          90000001207d6000 90000001207c58e0 90000001015660c8 9000000120780000
+          0000000000000000 90000000005763a8 90000001207c58e0 00000003ff000000
+          9000000120780000 ffff80000296b820 900000012078f968 90000001207c6000
+          ...
+  Call Trace:
+  [<9000000001058044>] __init_zone_device_page.constprop.0+0x4/0x1a0
+  [<900000000105865c>] memmap_init_zone_device+0x11c/0x1b0
+  [<9000000000575e1c>] memremap_pages+0x24c/0x7b0
+  [<90000000005763a4>] devm_memremap_pages+0x24/0x80
+  [<ffff80000296b81c>] kgd2kfd_init_zone_device+0x11c/0x220 [amdgpu]
+  [<ffff80000265d09c>] amdgpu_device_init+0x27dc/0x2bf0 [amdgpu]
+  [<ffff80000265ece8>] amdgpu_driver_load_kms+0x18/0x90 [amdgpu]
+  [<ffff800002651fbc>] amdgpu_pci_probe+0x22c/0x890 [amdgpu]
+  [<9000000000916adc>] local_pci_probe+0x3c/0xb0
+  [<90000000002976c8>] work_for_cpu_fn+0x18/0x30
+  [<900000000029aeb4>] process_one_work+0x164/0x320
+  [<900000000029b96c>] worker_thread+0x37c/0x4a0
+  [<90000000002a695c>] kthread+0x12c/0x220
+  [<9000000001055b64>] ret_from_kernel_thread+0x24/0xc0
+  [<9000000000237524>] ret_from_kernel_thread_asm+0xc/0x88
 
-> 
-> Konrad
+  Code: 00000000  00000000  0280040d <2980d08d> 02bffc0e  2980c08e  02c0208d  29c0208d  1400004f
+
+  ---[ end trace 0000000000000000 ]---
+
+Or lock up and/or driver reset during computate tasks, such as when
+running llama.cpp over ROCm, at which point the compute process must be
+killed before the reset could complete:
+
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  amdgpu 0000:0a:00.0: amdgpu: failed to remove hardware queue from MES, doorbell=0x1202
+  amdgpu 0000:0a:00.0: amdgpu: MES might be in unrecoverable state, issue a GPU reset
+  amdgpu 0000:0a:00.0: amdgpu: Failed to evict queue 3
+  amdgpu 0000:0a:00.0: amdgpu: GPU reset begin!
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  amdgpu 0000:0a:00.0: amdgpu: failed to remove hardware queue from MES, doorbell=0x1004
+  amdgpu 0000:0a:00.0: amdgpu: MES might be in unrecoverable state, issue a GPU reset
+  amdgpu 0000:0a:00.0: amdgpu: Failed to evict queue 2
+  amdgpu 0000:0a:00.0: amdgpu: Failed to evict queue 1
+  amdgpu 0000:0a:00.0: amdgpu: Failed to evict queue 0
+  amdgpu: Failed to quiesce KFD
+  amdgpu 0000:0a:00.0: amdgpu: Dumping IP State
+  amdgpu 0000:0a:00.0: amdgpu: Dumping IP State Completed
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
+  amdgpu 0000:0a:00.0: amdgpu: MES failed to respond to msg=REMOVE_QUEUE
+  [drm:amdgpu_mes_unmap_legacy_queue [amdgpu]] *ERROR* failed to unmap legacy queue
+  amdgpu 0000:0a:00.0: amdgpu: MODE1 reset
+  amdgpu 0000:0a:00.0: amdgpu: GPU mode1 reset
+  amdgpu 0000:0a:00.0: amdgpu: GPU smu mode1 reset
+  amdgpu 0000:0a:00.0: amdgpu: GPU reset succeeded, trying to resume
+
+Disabling the aforementioned option makes the issue go away, though it is
+unclear whether this is a platform-specific issue or one that lies within
+the amdkfd code.
+
+This patch has been tested on all the aforementioned platform
+combinations, and sent as an RFC to encourage discussion.
+
+Signed-off-by: Zhang Yuhao <xinmu@xinmu.moe>
+Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
+Tested-by: Mingcong Bai <jeffbai@aosc.io>
+---
+ drivers/gpu/drm/amd/amdkfd/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/Kconfig b/drivers/gpu/drm/amd/amdkfd/Kconfig
+index 16e12c9913f94..5d2fa86f60bf8 100644
+--- a/drivers/gpu/drm/amd/amdkfd/Kconfig
++++ b/drivers/gpu/drm/amd/amdkfd/Kconfig
+@@ -14,7 +14,7 @@ config HSA_AMD
+ 
+ config HSA_AMD_SVM
+ 	bool "Enable HMM-based shared virtual memory manager"
+-	depends on HSA_AMD && DEVICE_PRIVATE
++	depends on HSA_AMD && DEVICE_PRIVATE && !LOONGARCH && !ARM64
+ 	default y
+ 	select HMM_MIRROR
+ 	select MMU_NOTIFIER
+-- 
+2.50.1
 
