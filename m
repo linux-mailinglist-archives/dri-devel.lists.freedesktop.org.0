@@ -2,113 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3F2B25BFC
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 08:41:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6E6B25C15
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 08:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B15D10E7F1;
-	Thu, 14 Aug 2025 06:41:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9011A10E7F6;
+	Thu, 14 Aug 2025 06:44:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="T2VGHng1";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="fVpwz3ku";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0E5410E7F1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 06:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1755153704;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S9gfDC3XT5JH5+UXZeFk4ANri2tI0Wf8QHIFMwTkbME=;
- b=T2VGHng17F5SY6iCp5pK+euKwcgnV75cVj4baojPFzjz9NmI+R7mlZ7n1UzWGj511OtLK8
- 7z1YBI36XXY4fVLjgeyBc1lxOMqLUtEVSH3gEHxMTsYpGgXvaxrIKYaPV4XMJXk5xy5CyH
- A6U4txTsIM4BLbL2RyrGIBIXbPnVeqY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-662-4me4kWkdN6ulqreR2DF7fA-1; Thu, 14 Aug 2025 02:41:42 -0400
-X-MC-Unique: 4me4kWkdN6ulqreR2DF7fA-1
-X-Mimecast-MFC-AGG-ID: 4me4kWkdN6ulqreR2DF7fA_1755153701
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-45a1b0cfbafso3421595e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 23:41:42 -0700 (PDT)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3505510E7F6
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 06:44:43 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-45a1b05a59fso4009915e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 23:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1755153882; x=1755758682;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cc498I+j1YOWceGut+z2RkLYjN1WkXnttkUY56LCj5U=;
+ b=fVpwz3kuAaQZuGPh+WT1jdzw0yhB9PHXbfn5XSVgz3fr8+/mID4s+Cy7fzFH7EVlcv
+ 0HNvIIxUwd7MkIXrWfOriCx23seUgDYWASF9JYZoNk9JvT9ybYE7gH7SEd9CunsCZzZb
+ 5VsqA7tT5ocBqO0RxF0Bk1CTVYOy8Y9EAwaX7zVOd3H5uXPv4273bHuaOV+lEzBO/Czb
+ h4bxV2jKVRr1VbIbuWew/h64KdNEaX/tim5HBqpiZC0qZ0zO4jhEGaEwKmKwfkY3qgy4
+ 9hK7fYg3OXM8WHQ5y114Ws6jQq114h/2mf+58/rxcDxvR+ZKXfARiHVN91W9sLikvF4K
+ EnSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755153701; x=1755758501;
+ d=1e100.net; s=20230601; t=1755153882; x=1755758682;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=S9gfDC3XT5JH5+UXZeFk4ANri2tI0Wf8QHIFMwTkbME=;
- b=WlWojSYnjAYMYh4ecp/wu/IRBTzNg06fNs1nsTocrDQiErluPUvA1wbhJEuRlXNFfL
- KaznLb9Sx60lLlO3opQVmbfvHMzorncvWVfWOj8rISIIaQxWGrY2O1J4rAe3yope2pWF
- wCirpwYmjMahMtYsEQTgXqNjYYD1zhx1gQlaEZMabrh2fclggdkRjy5pN20q82YMldZp
- eI/wEKkt2pbuRIXsbpKVXkddXpNlpmgT0UAzFpQnEsBi7Lgv7CB8j2mAPHecghJBmg21
- TGiivV00jEVHn0jbOWT/vAOARrnWrGXPfX/+QDAps8yc3j+z2esSO+j6iO+n57itOjdH
- UHbg==
-X-Gm-Message-State: AOJu0YxBIhcRQaJP9DAsVDODjKIkviUYYUWuspi5NCBEw2E575ku6G15
- oILmYqFKl8Fa6keXX4kgXRmlCcCxDt3xEe5KGi+yoSBSHZGuD1UyR/AGXMZ0b50BDQJNZdvKiC1
- KR0b0AU08PCAcAR1nACT325GmZZIZPwPkQO333WAvDbdnwqLSM5VBwHJBDMIEUgVWkfvWRQ==
-X-Gm-Gg: ASbGncs/pxVNnP5L0m17E9R54BvLoXAvKxIvbT/1pLugMpjJsLWuWeWsot8ElhWHdit
- FkfRs+wn52QOi5WSgLaRU8azJ4B8kYtBVrtOsUEZjsz9ybsuWsErspR7ckP7R9yPl68xt+l0r6L
- SH1HtglPZnSh0S5eRslJg5jegiz+rCzn8iwoJTh2Kw0siHcRrifhaTU592RJ33PLr9xb3NhcitH
- R0IAG3E6vhDhEtBQ8O5IGZv2McD4HCJEf2QgfEbF2o6o0INNlwGIwz6Bs8fDsP/pHrOrnuRDYXQ
- kTvxlqsIGX25ClnINUbhQzN0rlno0KImBJbKD+Ef8YuJToOFueR1r361TipmwAYIyZEq7L0AOWs
- MXIQ=
-X-Received: by 2002:a05:6000:40c7:b0:3b7:8a49:eed0 with SMTP id
- ffacd0b85a97d-3b9f1a13965mr1378466f8f.22.1755153701042; 
- Wed, 13 Aug 2025 23:41:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFpLaxNWs2oFsAZSrN9kqR+39ayEAZmpXcMUMLGDC+7HLlsr/ah//p96eCfa0Qd8T4sw00vYQ==
-X-Received: by 2002:a05:6000:40c7:b0:3b7:8a49:eed0 with SMTP id
- ffacd0b85a97d-3b9f1a13965mr1378416f8f.22.1755153700568; 
- Wed, 13 Aug 2025 23:41:40 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
+ bh=cc498I+j1YOWceGut+z2RkLYjN1WkXnttkUY56LCj5U=;
+ b=GcGyHZ3rkFectYp4R9o4njQmbgKIJaNk0V1bzUF3iebLCjmdAhQ2e3h9WwmK8/cf0E
+ zFgFznApwEmXQExwGRL/MMChEh2XzbwUR0OBCNIpBXGiU7A/AwNi8fF/eUX+q2aj5LPi
+ GBtElVlXtID7XNNFvco04oYh4St0T5GSNeT5XbxiWT+iOA8+di4LUgoNUtmAvFkAWlX1
+ 24FQrUHN0G4/Wa90GIin3oaxATHztBixgEJ9PJEYxidEgKKP866unaOzw4NaWHPR9Y5Y
+ uoF/jaQ+SLKZSI5cev7RJtyGUWDrcVcTcgNWGxn8vxuf0GnRMa4PIdcJpaK93wKzEpzf
+ qjBQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0fNkFmz8WpC5qazBJQvRYe+S8Zo0LeZ/79KkEJq43zt2nv01XH7wBL2Jq4lRmdXAXOKxckp5NoLg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yydeuj+Ok6HKE6V30imZ/k6HYEsJTKo/A/VwIXTslZkiyMslTLf
+ A/x5G+E+W2DWZD4DRmRxA24QxhelFWvGHCNhidTxvD60xh7OAdw6KTBtdtH8pODCjAM=
+X-Gm-Gg: ASbGncuEeFZYl3zgKsMiML+y6tRTxf+Ij4Zabr7vGRFbWKOQJtnF1dMcJoLgUO6nnTF
+ 2UNJy7+Tbuvk1TR3FOen9OzHsNcpymUCmaKCWnJzYNMD+BYHQI4cibOh/QVVjt7JT+qvF50uW/K
+ BxFiacVi0gTkCNNe3JuMdkSyfTZ7wOlNaygf91WIdiaYnQVVTpOSGy7WU0KNmRJ01hU6pjjM7ov
+ 4V8KJ/Si5swzr0Ez4ToO+xyfSfBQdj2fgyNasayPi+Vy+3duiwWHf1fQHmCtgMGRrYc+smHfrnZ
+ XY9lzQST+UDx7336K1OHkpyv5Go5N2b6p9GrylSLG0N7RzPz9VGl6xp33AkFr8qEWleJdFzncj/
+ Jb9RTjr/xKfVD+6RfKt5uuFU+ek2MQ5khXo5rOYoT9PFYRg==
+X-Google-Smtp-Source: AGHT+IF8l0U9o5tnd3mzmSDQchRPhxwSlrS3PKFKAywoFUAe6DOgztRr7W+afUTUWc9q0QSWOk3RFg==
+X-Received: by 2002:a05:6000:22c5:b0:3b6:b020:9956 with SMTP id
+ ffacd0b85a97d-3b9edfe35dcmr1327501f8f.43.1755153881336; 
+ Wed, 13 Aug 2025 23:44:41 -0700 (PDT)
+Received: from [192.168.0.101] ([84.66.36.92])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45a1c6bc932sm9252735e9.3.2025.08.13.23.41.38
+ ffacd0b85a97d-3b8ff860acbsm23593149f8f.51.2025.08.13.23.44.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Aug 2025 23:41:39 -0700 (PDT)
-Message-ID: <0f3a72c0-f52f-4ccc-acd8-861824fb762d@redhat.com>
-Date: Thu, 14 Aug 2025 08:41:36 +0200
+ Wed, 13 Aug 2025 23:44:40 -0700 (PDT)
+Message-ID: <ceb80fde-dae5-478e-840c-9b949396d904@ursulin.net>
+Date: Thu, 14 Aug 2025 07:44:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/11] drm/panic: use `core::ffi::CStr` method names
-To: Tamir Duberstein <tamird@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Leon Romanovsky <leon@kernel.org>, Breno Leitao <leitao@debian.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow
- <davidgow@google.com>, Rae Moar <rmoar@google.com>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@google.com>,
- Javier Martinez Canillas <javierm@redhat.com>, Arnd Bergmann
- <arnd@arndb.de>, Len Brown <lenb@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-acpi@vger.kernel.org
-References: <20250813-core-cstr-fanout-1-v3-0-545c14bc44ff@gmail.com>
- <20250813-core-cstr-fanout-1-v3-1-545c14bc44ff@gmail.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250813-core-cstr-fanout-1-v3-1-545c14bc44ff@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: zpwibbSPoUWCE6Z3gIloyWpBYBlC9Vv4hdoNI49kSY8_1755153701
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH] drm/i915/active: Use try_cmpxchg64() in __active_lookup()
+To: Uros Bizjak <ubizjak@gmail.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+References: <20250725072727.68486-1-ubizjak@gmail.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20250725072727.68486-1-ubizjak@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,37 +95,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/08/2025 17:41, Tamir Duberstein wrote:
-> Prepare for `core::ffi::CStr` taking the place of `kernel::str::CStr` by
-> avoid methods that only exist on the latter.
 
-Thanks, it looks good to me.
+Hi,
 
-Acked-by: Jocelyn Falempe <jfalempe@redhat.com>
-
+On 25/07/2025 08:26, Uros Bizjak wrote:
+> Replace this pattern in __active_lookup():
 > 
-> Link: https://github.com/Rust-for-Linux/linux/issues/1075
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-> Reviewed-by: Benno Lossin <lossin@kernel.org>
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+>      cmpxchg64(*ptr, old, new) == old
+> 
+> ... with the simpler and faster:
+> 
+>      try_cmpxchg64(*ptr, &old, new)
+> 
+> The x86 CMPXCHG instruction returns success in the ZF flag,
+> so this change saves a compare after the CMPXCHG.
+> 
+> The patch also improves the explanation of what the code really
+> does. cmpxchg64() will *succeed* for the winner of the race and
+> try_cmpxchg64() nicely documents this fact.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
 > ---
->   drivers/gpu/drm/drm_panic_qr.rs | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/i915/i915_active.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-> index 09a9b452e8b7..10bc5bb16992 100644
-> --- a/drivers/gpu/drm/drm_panic_qr.rs
-> +++ b/drivers/gpu/drm/drm_panic_qr.rs
-> @@ -948,7 +948,7 @@ fn draw_all(&mut self, data: impl Iterator<Item = u8>) {
->           // nul-terminated string.
->           let url_cstr: &CStr = unsafe { CStr::from_char_ptr(url) };
->           let segments = &[
-> -            &Segment::Binary(url_cstr.as_bytes()),
-> +            &Segment::Binary(url_cstr.to_bytes()),
->               &Segment::Numeric(&data_slice[0..data_len]),
->           ];
->           match EncodedMsg::new(segments, tmp_slice) {
-> 
+> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+> index 0dbc4e289300..6b0c1162505a 100644
+> --- a/drivers/gpu/drm/i915/i915_active.c
+> +++ b/drivers/gpu/drm/i915/i915_active.c
+> @@ -257,10 +257,9 @@ static struct active_node *__active_lookup(struct i915_active *ref, u64 idx)
+>   		 * claimed the cache and we know that is does not match our
+>   		 * idx. If, and only if, the timeline is currently zero is it
+>   		 * worth competing to claim it atomically for ourselves (for
+> -		 * only the winner of that race will cmpxchg return the old
+> -		 * value of 0).
+> +		 * only the winner of that race will cmpxchg succeed).
+>   		 */
+> -		if (!cached && !cmpxchg64(&it->timeline, 0, idx))
+> +		if (!cached && try_cmpxchg64(&it->timeline, &cached, idx))
+>   			return it;
+>   	}
+>   
+
+Patch looks fine, thank you!
+
+I've sent it for a CI pass (see 
+https://patchwork.freedesktop.org/series/152185/) before merging.
+
+Regards,
+
+Tvrtko
 
