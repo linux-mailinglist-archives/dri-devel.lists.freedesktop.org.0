@@ -2,119 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCE7B2692B
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 16:26:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C47B26974
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 16:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9781F10E05A;
-	Thu, 14 Aug 2025 14:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C05310E2D6;
+	Thu, 14 Aug 2025 14:33:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NOHcGZ7w";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="e7jfXMEt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCE6310E2D4
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:26:03 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-45a1b0c8867so7545095e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755181562; x=1755786362; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=cUV3fUJR8K/LNtQMHHFa+NVRtvkhhAA1yMnYl/5MEqg=;
- b=NOHcGZ7wv8N41L+auR8Wdt7Dmp/vHkBCaIMKPDkUVqoERymanE7Tnql43L3hk1HgE9
- E9K+KnQ4p9/cKS0mvj1ntFHaXqZ4C6ZsnzpXtRb1gSvZKm8D6S7cBtWreWhWdGMWvP6I
- MBjwAtEPCtErYQSUoj9VtLus3O4bnqcKc9F9+9wchWR+HIbEfaLflyO7m+uYfG2o8s5O
- tCulr09xL4GuXZBTyyVEH1o4y+h/MDwYAbhg6Xde7foWZXMuH77603dtUG8EEV0DsFMY
- atnMl3msbHKre9WsME3EVQAh4QH2tzRpErYCUWd/buect+m5OrtigzUomcYF5B9iUqPl
- 46eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755181562; x=1755786362;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=cUV3fUJR8K/LNtQMHHFa+NVRtvkhhAA1yMnYl/5MEqg=;
- b=NvrSpSCaTB4EFycTih+g7xG4FAnjTn0Z8Yhy+hHoL/EPXbYflA0/y940qbfAvq2FSb
- Wl416YYbbtYlstM2WTnzj137uKeCZI0AmiVwCx4DYVQNngroGlQkvYMbsJgUv0wkRrm4
- h1CH15A1m3Xgy+Gy83alH3sPCTOGWQIv/o/JRyJH272Fn20mGR19JoLPeVBLqtl01R/h
- /SLR1fjjV+caMty1SG/zyWdJ9EFWd61F6WU5Z8eKNr9X5XVgNHBprN75pBAgXFBWVUDe
- XWPblw7BihFUwf3SQZZmZAUpvjMpfhZDU2g6Z8gH2wU5eG8irxLCjohwaXxGYo4Q0Yon
- WuYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWTPFUn2sMViBQhMcRB+NrovtN1J4lnNvcbiS1YChYB3sk/ut1efrtT9qMRV2t5UMy3uPKfKhFNejw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YymwBi3uF5+QrJvYsrPak82Mr50r/L7cO8CLBfq5aq60dXvF+ez
- R+w5Pu9YNRvlHwJZ+rZSNMOgZH8y4SQSbeWmBarvKgkJtjJV853VheH5Eex4rQ6FX74=
-X-Gm-Gg: ASbGncucxhLJmW7HVxjT6ryyqcGHfMJPyFqnaBKz9nPEu4Kq/zG11mfarfJK2wW/Lwh
- LSTIoMufFcJry3bfdZ4tPYsEMczIT+u0NBNp+VkmikxRtm8uv58Pa3DivxGKkxkiN6rgKxOcyfv
- 5mCvLbAIAMSyjG+qofxH+ZfG20xVbo9dkZVRohMEHMrRjziOQufB3fwcj9hZ0Eg756De762BZTV
- yinbNMbxaLkn5CfIpufech1qFg8TNMg8hE7pFETmaQ6gv5jNDFe/GV8Je60+hZuaW7GmaLihyGQ
- uUX6Cb6tqH6OiTb8FTbvdvx9bphigXBmUSBuHs/Bv0H2mQPw8neFu0JdTE2UDEmaLzBNwOyT5CB
- QnfanTu+ULwGb2AhiSA0r5fLyHdnSZsIRA8yApwWTqwLRdP1CdrOegaTwPVCO9mtjaadye8gy
-X-Google-Smtp-Source: AGHT+IH26+hLzQJtX2ss5voCJMw3O/X67D5ManbVwKM2eqgig1E2QKvsougttThvAf89+ZGPYwzR0Q==
-X-Received: by 2002:a05:600c:4587:b0:456:302:6dc3 with SMTP id
- 5b1f17b1804b1-45a1b65585bmr25542325e9.26.1755181562146; 
- Thu, 14 Aug 2025 07:26:02 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:7336:e60:7f9e:21e6?
- ([2a01:e0a:3d9:2080:7336:e60:7f9e:21e6])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b91b05b28fsm4802655f8f.21.2025.08.14.07.26.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Aug 2025 07:26:01 -0700 (PDT)
-Message-ID: <269506b6-f51b-45cc-b7cc-7ad0e5ceea47@linaro.org>
-Date: Thu, 14 Aug 2025 16:26:01 +0200
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22D3B10E2D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:33:42 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250814143341euoutp020b71b22903426dbd1868fe414f1cf8bd~bqL-HlddK0705507055euoutp02I
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:33:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250814143341euoutp020b71b22903426dbd1868fe414f1cf8bd~bqL-HlddK0705507055euoutp02I
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1755182021;
+ bh=HYTbEJeXrofpbs+IrmDrCBkyO0qBISpuRD07yukoC3M=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=e7jfXMEtbajFgUjwRBhcTLRIVblrZOpnEbsCSf3WAKB1weUW7mUHDy9TxhLX2WjL+
+ kHFZv4Xci0Ot/45YURj7O/2bNOx4+5EINW25i7mU557c2szi1xkvgufLUGo2E3ntEz
+ 34/Z2FghVovoMJr9w84HVH3KRqE89Cp0FhfBmgUc=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250814143340eucas1p24ef13c4a8a272a5830bc0adbbc8206a2~bqL_iNFfu0056100561eucas1p2Y;
+ Thu, 14 Aug 2025 14:33:40 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250814143338eusmtip29e7b2dc498b358fdadaba0c0c10331ce~bqL7__0l03070130701eusmtip20;
+ Thu, 14 Aug 2025 14:33:37 +0000 (GMT)
+Message-ID: <a3a2f8be-2c3c-49e7-b27a-72364ea48b06@samsung.com>
+Date: Thu, 14 Aug 2025 16:33:36 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2] drm/msm: adreno: a6xx: enable GMU bandwidth voting for
- x1e80100 GPU
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250725-topic-x1e80100-gpu-bwvote-v2-1-58d2fbb6a127@linaro.org>
- <e7ddfe18-d2c7-4201-a271-81be7c814011@oss.qualcomm.com>
- <33442cc4-a205-46a8-a2b8-5c85c236c8d4@oss.qualcomm.com>
- <b4f283ce-5be1-4d2f-82e2-e9c3be22a37f@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <b4f283ce-5be1-4d2f-82e2-e9c3be22a37f@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v4 00/13] Apply drm_bridge_connector and panel_bridge
+ helper for the Analogix DP driver
+To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
+ hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20250814104753.195255-1-damon.ding@rock-chips.com>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250814143340eucas1p24ef13c4a8a272a5830bc0adbbc8206a2
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264
+X-EPHeader: CA
+X-CMS-RootMailID: 20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264
+References: <CGME20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264@eucas1p2.samsung.com>
+ <20250814104753.195255-1-damon.ding@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,63 +79,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 14.08.2025 12:47, Damon Ding wrote:
+> PATCH 1 is a small format optimization for struct analogid_dp_device.
+> PATCH 2 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
+> PATCH 3-6 are preparations for apply drm_bridge_connector helper.
+> PATCH 7 is to apply the drm_bridge_connector helper.
+> PATCH 8-10 are to move the panel/bridge parsing to the Analogix side.
+> PATCH 11-12 are preparations for apply panel_bridge helper.
+> PATCH 13 is to apply the panel_bridge helper.
 
-On 14/08/2025 13:22, Konrad Dybcio wrote:
-> On 8/14/25 1:21 PM, Konrad Dybcio wrote:
->> On 7/31/25 12:19 PM, Konrad Dybcio wrote:
->>> On 7/25/25 10:35 AM, Neil Armstrong wrote:
->>>> The Adreno GPU Management Unit (GMU) can also scale DDR Bandwidth along
->>>> the Frequency and Power Domain level, but by default we leave the
->>>> OPP core scale the interconnect ddr path.
->>>>
->>>> Declare the Bus Control Modules (BCMs) and the corresponding parameters
->>>> in the GPU info struct to allow the GMU to vote for the bandwidth.
->>>>
->>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>> ---
->>>> Changes in v2:
->>>> - Used proper ACV perfmode bit/freq
->>>> - Link to v1: https://lore.kernel.org/r/20250721-topic-x1e80100-gpu-bwvote-v1-1-946619b0f73a@linaro.org
->>>> ---
->>>>   drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 11 +++++++++++
->>>>   1 file changed, 11 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>> index 00e1afd46b81546eec03e22cda9e9a604f6f3b60..892f98b1f2ae582268adebd758437ff60456cdd5 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>>> @@ -1440,6 +1440,17 @@ static const struct adreno_info a7xx_gpus[] = {
->>>>   			.pwrup_reglist = &a7xx_pwrup_reglist,
->>>>   			.gmu_chipid = 0x7050001,
->>>>   			.gmu_cgc_mode = 0x00020202,
->>>> +			.bcms = (const struct a6xx_bcm[]) {
->>>> +				{ .name = "SH0", .buswidth = 16 },
->>>> +				{ .name = "MC0", .buswidth = 4 },
->>>> +				{
->>>> +					.name = "ACV",
->>>> +					.fixed = true,
->>>> +					.perfmode = BIT(3),
->>>> +					.perfmode_bw = 16500000,
->>>
->>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>
->> Actually no, BIT(3) is for the CPU (OS), GPU should use BIT(2)
-> 
-> This is *very* platform-dependent, goes without saying..
-> 
-> I see BIT(2) is also valid for X1P4
+This series lacks 'select DRM_BRIDGE_CONNECTOR' in ExynosDP's Kconfig, 
+so it causes build break:
 
+drivers/gpu/drm/exynos/exynos_dp.c:177: undefined reference to 
+`drm_bridge_connector_init'
+make[2]: *** [scripts/Makefile.vmlinux:91: vmlinux] Error 1
 
-I'm confused, Akhil can you confirm ?
+After adding this dependency, the Exynos DP driver stops working. On 
+Samsung Snow Chromebook I observed following issue:
 
-Neil
+[    4.534220] exynos-dp 145b0000.dp-controller: failed to attach 
+following panel or bridge (-16)
+[    4.543428] exynos-drm exynos-drm: failed to bind 
+145b0000.dp-controller (ops exynos_dp_ops): -16
+[    4.551775] exynos-drm exynos-drm: adev bind failed: -16
+[    4.556559] exynos-dp 145b0000.dp-controller: probe with driver 
+exynos-dp failed with error -16
 
-> 
-> Konrad
+I will investigate details later in the evening.
+
+> Damon Ding (13):
+>    drm/bridge: analogix_dp: Formalize the struct analogix_dp_device
+>    drm/bridge: analogix_dp: Move &drm_bridge_funcs.mode_set to
+>      &drm_bridge_funcs.atomic_enable
+>    drm/bridge: analogix_dp: Add &analogix_dp_plat_data.next_bridge
+>    drm/exynos: exynos_dp: Remove &exynos_dp_device.ptn_bridge
+>    drm/bridge: exynos_dp: Remove unused &exynos_dp_device.connector
+>    drm/bridge: analogix_dp: Remove redundant
+>      &analogix_dp_plat_data.skip_connector
+>    drm/bridge: analogix_dp: Apply drm_bridge_connector helper
+>    drm/bridge: analogix_dp: Add new API analogix_dp_finish_probe()
+>    drm/rockchip: analogix_dp: Apply analogix_dp_finish_probe()
+>    drm/exynos: exynos_dp: Apply analogix_dp_finish_probe()
+>    drm/bridge: analogix_dp: Remove panel disabling and enabling in
+>      analogix_dp_set_bridge()
+>    drm/bridge: analogix_dp: Remove bridge disabing and panel unpreparing
+>      in analogix_dp_unbind()
+>    drm/bridge: analogix_dp: Apply panel_bridge helper
+>
+>   .../drm/bridge/analogix/analogix_dp_core.c    | 384 ++++++++++--------
+>   .../drm/bridge/analogix/analogix_dp_core.h    |   5 +-
+>   drivers/gpu/drm/exynos/exynos_dp.c            |  48 +--
+>   .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  49 +--
+>   include/drm/bridge/analogix_dp.h              |   7 +-
+>   5 files changed, 248 insertions(+), 245 deletions(-)
+>
+> ---
+>
+> Changes in v2:
+> - Update Exynos DP driver synchronously.
+> - Move the panel/bridge parsing to the Analogix side.
+>
+> Changes in v3:
+> - Rebase for the existing devm_drm_bridge_alloc() applying commit.
+> - Fix the typographical error of panel/bridge check in exynos_dp_bind().
+> - Squash all commits related to skip_connector deletion in both Exynos and
+>    Analogix code into one.
+> - Apply panel_bridge helper to make the codes more concise.
+> - Fix the handing of bridge in analogix_dp_bridge_get_modes().
+> - Remove unnecessary parameter struct drm_connector* for callback
+>    &analogix_dp_plat_data.attach().
+> - In order to decouple the connector driver and the bridge driver, move
+>    the bridge connector initilization to the Rockchip and Exynos sides.
+>
+> Changes in v4:
+> - Rebase for the applied &drm_bridge_funcs.detect() modification commit.
+> - Rename analogix_dp_find_panel_or_bridge() to analogix_dp_finish_probe().
+> - Drop the drmm_encoder_init() modification commit.
+> - Rename the &analogix_dp_plat_data.bridge to
+>    &analogix_dp_plat_data.next_bridge.
+>
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
