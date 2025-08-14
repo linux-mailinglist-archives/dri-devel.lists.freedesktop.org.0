@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C79B26034
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 11:08:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA63DB2603C
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 11:09:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0794710E28F;
-	Thu, 14 Aug 2025 09:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC3C10E29B;
+	Thu, 14 Aug 2025 09:09:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IEhar6bM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eLuUBGtd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58EB010E28F
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 09:08:51 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9916910E29B
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 09:09:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 265916020E;
- Thu, 14 Aug 2025 09:08:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 441AFC4CEED;
- Thu, 14 Aug 2025 09:08:49 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 78E72A5213D;
+ Thu, 14 Aug 2025 09:09:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 887F0C4CEEF;
+ Thu, 14 Aug 2025 09:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755162529;
- bh=SrgIKHyQzZsNRjZjaedpryVUikg6Qu1TuEDXZ4F66GY=;
+ s=k20201202; t=1755162583;
+ bh=4haXZhUQhwWTQfAUzZvN0UDYTjKDPWIQ5LTd46KE9Xo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IEhar6bMklvfkyPidpHaCkPhVHC2IBI1dey6oRukc416ApLx9OQoXpnokam4Iu3IO
- 3EhE8j6+HI4tbeLxI0Jo5xc4UpYECb8jj0Xa0GKvLoUxlR6d8ueXSFChmDOuF/7H/e
- iFVDPVV3Y53BKP6ribAcTfPkS/Lf/9N63cEIYz7ZaZQIYG6iXdk6SPhQI2OT8cjEDV
- Krs1Zlt5macbMAGdvULwB1vLxE3+8jZehLY42zDEHBoE1XxG4FVWmE/WWqdriKWj+6
- DSAmRogyfDzfzNltXHf4B5+cT89ZfHionEfAof148q7RynLlADN8wBpD/T8pLCZKwi
- 0JqK1RQh7lJvw==
-Date: Thu, 14 Aug 2025 11:08:47 +0200
+ b=eLuUBGtdppkgsKgis3nVC/Avqik7RnCYzK9KO7reriPcUJPTO57YUPt85/HgWATYX
+ v9Xpj+vF0aZsc18rDuptx7cW4VFNjpbBXuNKNF/BdANIEzLtY2wqZNZ7MAAWQMDBK/
+ IWS+cH7eNxDp8JNHuyoSSiJQXAgvWF3CDzn0gZFUCptj/TB3sQ5f+WPhrzRnCOuIbk
+ JwiFm7oLFMdZfFut8BL+1nbFQ3pzVMsXxnVW5fgtoDEPzWfSIFLmm187pl+w1OmZHW
+ 26Enk7S0sOkxJuXinXiwvqCjBvF6QqFEZ+mGMqIuZQ+iY/PBBNMU+lgeMhR2MoVCxl
+ MQSCILYYJFxRQ==
+Date: Thu, 14 Aug 2025 11:09:40 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 Cc: Yannick Fertre <yannick.fertre@foss.st.com>, 
@@ -47,15 +47,15 @@ Cc: Yannick Fertre <yannick.fertre@foss.st.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/13] dt-bindings: display: st: add new compatible to
- LTDC device
-Message-ID: <20250814-resolute-lime-raven-de4fa5@kuoka>
+Subject: Re: [PATCH v2 03/13] dt-bindings: display: st: add new compatible to
+ LVDS device
+Message-ID: <20250814-dancing-nautilus-of-camouflage-ebb441@kuoka>
 References: <20250812-drm-misc-next-v2-0-132fd84463d7@foss.st.com>
- <20250812-drm-misc-next-v2-1-132fd84463d7@foss.st.com>
+ <20250812-drm-misc-next-v2-3-132fd84463d7@foss.st.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250812-drm-misc-next-v2-1-132fd84463d7@foss.st.com>
+In-Reply-To: <20250812-drm-misc-next-v2-3-132fd84463d7@foss.st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +71,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 12, 2025 at 03:48:58PM +0200, Raphael Gallais-Pou wrote:
-> +else:
-> +  properties:
-> +    clocks:
-> +      maxItems: 4
+On Tue, Aug 12, 2025 at 03:49:00PM +0200, Raphael Gallais-Pou wrote:
+> Update the compatible to accept both "st,stm32mp255-lvds" and
+> st,stm32mp25-lvds" respectively.  Default will fall back to
+> "st,stm32mp25-lvds".
+> 
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> ---
+>  Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml b/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
+> index 6736f93256b5cebb558cda5250369ec4b1b3033c..b777c55626e4b322d77ef411ad9e4a3afb6c9131 100644
+> --- a/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
+> +++ b/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
+> @@ -31,7 +31,13 @@ description: |
+>  
+>  properties:
+>    compatible:
+> -    const: st,stm32mp25-lvds
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - st,stm32mp255-lvds
+> +          - const: st,stm32mp25-lvds
+> +      - items:
 
-minItems instead
+Drop. This should be just enum or const, no need for items.
 
-> +    clock-names:
-> +      maxItems: 4
-
-minItems instead
-
-> +
->  additionalProperties: false
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
