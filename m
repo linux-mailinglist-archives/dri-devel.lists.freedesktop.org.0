@@ -2,45 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C698B272B5
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 00:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A407B272C2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 01:09:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C45610E22A;
-	Thu, 14 Aug 2025 22:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12E0610E22B;
+	Thu, 14 Aug 2025 23:09:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="mhOGUnRF";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id BE9FF10E22A
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 22:58:37 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0B7721691
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 15:58:29 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EBF4E3F5A1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 15:58:36 -0700 (PDT)
-Date: Thu, 14 Aug 2025 23:58:33 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org,
- nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, Chia-I Wu <olvaffe@gmail.com>
-Subject: Re: [PATCH v9 6/7] drm/panthor: Make MMU cache maintenance use
- FLUSH_CACHES command
-Message-ID: <aJ5qGWlbxihLTHkB@e110455-lin.cambridge.arm.com>
-References: <20250807162633.3666310-1-karunika.choo@arm.com>
- <20250807162633.3666310-7-karunika.choo@arm.com>
- <CAPj87rP9pETnxr_mVJ4OAwj_Vhh2yS75iQ5LDT7ddC5=a-kXkA@mail.gmail.com>
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B494D10E22B
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 23:09:15 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-244581caca6so11165875ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 16:09:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1755212950; x=1755817750;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wS3pe34+blEX5syRHqDIoKBEMxv5qKslIftcYANOZlI=;
+ b=mhOGUnRFsu0RX/+PM0kI72J9Mf/ML1qtFRdktdp3n5Yibp1m42PazeWBgLBFV+SXUD
+ ew+KhUk72QHn921BypyrheSiiZDsU6GKvjBNdaELuJxTM09gqh5LTwM3cohHNRhTf9OS
+ zQDG3pw0kKasWZj9VI4Lmpda5K1E6wZiirOR8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755212950; x=1755817750;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wS3pe34+blEX5syRHqDIoKBEMxv5qKslIftcYANOZlI=;
+ b=vlmD+WWR10+s8V1/4C2SiBk/fdVCHH6KEg1J4UQ5Ml0fnOFftX+BjtCutQEs1bNBnj
+ Lb8cRJASh925bAQZFC7RmAWL/aza84LcI/NibGiENCpcyiOEIMUKwNmYit+4M416O4Lh
+ Wn9iR8uB9BZ0Fk0W7nY8CAt/UseddXHhbgPVJJJgLAqJa5QBIt9PbDeogETOSACY/A23
+ YYU9gVZ3EH8aGCbq2F+1u80F0aDTFUl7zLb/vbwxtUm4SmPswf7XDpw5RI3iy2nbl17q
+ 5mt/3jH4GjALKhVxgp5R5A5dmHMAjklvLA/Pl/epIRYt1bqMqnbiJgh2Eaun8OxdWqS/
+ Jz2Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVSSS5Y7XL55M0ZUuxWn0PNVxfo1eoEVDlCdhz8vJq2Wt/2w9b/60a+15u6ZGPcLtah1MdCAmoclfw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxfQp3w2kPKE6G1lynk42/rnVrK1tAO15RwrhtmugwcBmKvxArh
+ e99AkiMoUQDYlnVRxrve344R/BLtQAxwZFIO0wCFhAz+PT0f61uGxKKZ/09+zk7GgmFVQjjEIQb
+ 7eS0=
+X-Gm-Gg: ASbGnctob4PulTnyYwK2YBNE6gpCqDHcBmZjhyuTEZPcX/3iUJdlpfHHHycsoV+XSJs
+ TIpJYc1UCo4KkT0qhH5ipwqs7HTtA8BpKOGI2RZIGbKhezUAXJkyuFjdSzIWKn14VnIFdGiOpJg
+ jjg/nbPHCHjBx+rNA4DtRtnnvooEQC/bYES603PY4W/jSgGC2hDZJkAEh3PqPDUEvd5SmpZsUBu
+ 8Vaen8gpqqRQOy7XsmavTmVRbdTatV20iKRjcAJfnqwiDMYCbH/s1kPIDltrovn7ZsSW1t7yZSS
+ masJcOpXIOhvKZsY3YEtXpI+vZ7nbLQGH4n9Di7y8XP9N+T6qmy5pXdX6H5m3Qz5fphRvNoI4pl
+ PbrpPeIZu1oOXozoAKhLNWKOyacs50ZOu252PTBvKlX/kZWMsjjeZMeGoNA0w+CU2kA==
+X-Google-Smtp-Source: AGHT+IH1Tr4UYtssU0kBHnBO427na/hHk9+TPu9+vY351pda1cptIJE9uz+1i6/AHiO9UpVhW5eznA==
+X-Received: by 2002:a17:902:f788:b0:240:3f4d:b9b1 with SMTP id
+ d9443c01a7336-244586c404cmr67167975ad.29.1755212950198; 
+ Thu, 14 Aug 2025 16:09:10 -0700 (PDT)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com.
+ [209.85.214.174]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2446ca9ef54sm38765ad.26.2025.08.14.16.09.08
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Aug 2025 16:09:08 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-2445826fd9dso16123655ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 16:09:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXHvAMi8MRzDfaedNYyO2qG+s1PjZWGIS0cYxxRovVy47sh2x1E7EHumuCcy0JiK+tB3EwnJwM4dlM=@lists.freedesktop.org
+X-Received: by 2002:a17:902:d2c1:b0:240:a430:91d with SMTP id
+ d9443c01a7336-244584ed485mr70762725ad.10.1755212947590; Thu, 14 Aug 2025
+ 16:09:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPj87rP9pETnxr_mVJ4OAwj_Vhh2yS75iQ5LDT7ddC5=a-kXkA@mail.gmail.com>
+References: <20250731032343.1258366-1-me@brighamcampbell.com>
+ <20250731032343.1258366-3-me@brighamcampbell.com>
+In-Reply-To: <20250731032343.1258366-3-me@brighamcampbell.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 14 Aug 2025 16:08:55 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V7wxe81Oi+SZdT0ym1FTz94+=_2r25x3Ju3aS4YsW7JQ@mail.gmail.com>
+X-Gm-Features: Ac12FXxHx_giTOx_CEoA9_jVJzsA_CjD1xiP9IJHbCl-KW_M3haonEOgwpAIZVU
+Message-ID: <CAD=FV=V7wxe81Oi+SZdT0ym1FTz94+=_2r25x3Ju3aS4YsW7JQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] drm: Add MIPI read_multi func and two write macros
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, linus.walleij@linaro.org, 
+ neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, sam@ravnborg.org, 
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,42 +103,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 08, 2025 at 11:50:27AM +0100, Daniel Stone wrote:
-> Hi Karunika,
-> 
-> 
-> On Thu, 7 Aug 2025 at 17:27, Karunika Choo <karunika.choo@arm.com> wrote:
-> > @@ -585,6 +615,9 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
-> >         if (op != AS_COMMAND_UNLOCK)
-> >                 lock_region(ptdev, as_nr, iova, size);
-> >
-> > +       if (op == AS_COMMAND_FLUSH_MEM || op == AS_COMMAND_FLUSH_PT)
-> > +               return mmu_hw_do_flush_on_gpu_ctrl(ptdev, as_nr, op);
-> 
-> Given that FLUSH_MEM and FLUSH_PT are the only ops which are ever
-> used, the below becomes dead code. Could you please just inline these,
-> so it's more clear what's actually going on? The (op !=
-> AS_COMMAND_UNLOCK) branch can also become unconditional, perhaps with
-> a WARN_ON() around unknown ops.
+Hi,
 
-Hmm, the commit message says that FLUSH_MEM and FLUSH_PT are going to be
-deprecated and replaced with FLUSH_CACHES so the first are clearly not the
-only ones ever used (at least not in the future). I'm not sure why you
-think this code is not correct.
+On Wed, Jul 30, 2025 at 8:23=E2=80=AFPM Brigham Campbell <me@brighamcampbel=
+l.com> wrote:
+>
+> Create mipi_dsi_dcs_read_multi(), which accepts a mipi_dsi_multi_context
+> struct for improved error handling and cleaner panel driver code.
+>
+> Create mipi_dsi_dcs_write_var_seq_multi() and
+> mipi_dsi_generic_write_var_seq_multi() macros which allow MIPI panel
+> drivers to write non-constant data to display controllers.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+>  drivers/gpu/drm/drm_mipi_dsi.c | 37 ++++++++++++++++++++++++++++++++++
+>  include/drm/drm_mipi_dsi.h     | 35 ++++++++++++++++++++++++++++++++
+>  2 files changed, 72 insertions(+)
 
-Best regards,
-Liviu
+I resolved a context conflict with the other recent patch we landed
+from you and then landed. Pushed to drm-misc-next:
 
-> 
-> Cheers,
-> Daniel
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+[2/3] drm: Add MIPI read_multi func and two write macros
+      commit: ffc23a204a5f2e763a8cc8a8cfefe0027a6f0ec3
