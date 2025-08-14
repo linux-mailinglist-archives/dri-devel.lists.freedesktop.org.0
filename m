@@ -2,73 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C89CB267A8
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 15:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90903B26814
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 15:53:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99F9C10E198;
-	Thu, 14 Aug 2025 13:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C5110E1B6;
+	Thu, 14 Aug 2025 13:53:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jl1P9oiY";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="v8QWYd7Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A8B10E198
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 13:39:01 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-24458051ac6so1701665ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 06:39:01 -0700 (PDT)
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52AE410E1B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 13:53:27 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-45a15f10f31so10657105e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 06:53:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755178741; x=1755783541; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/u5aHQcTs7K0PgEM3VVNTcP1zRLDKAIIOHRIdyyBD8M=;
- b=jl1P9oiY5Am5ysQafkVA8Cg5HzHTO4D4yOzqfrhA0sM35BDrrwNvltqIvHoKx1tsSs
- shP/btQkWkr6n66pfjZ3hId9zCj+MJAdT0BHo2aPajCiilb8SZlt+96if6nUCqKQLaly
- jDwoG1oImPPkBSbwa8fReYVmGnmtfjyBmGW0BSq3FA90/JyljHbjP+MjM/lVYEoQat5C
- +tK9mpbLI9PRGdoK9j93eQuVrT2ida+mg3i+/8Qw8Ye+b+AJCEq/2mHCgNxtNEgXjXrL
- kdub5loDevLo11sNtnw0NSZnVWBEiXUcMY7jV5dykNzo+drnl119pUlz9VSODoTZiXek
- k6yw==
+ d=google.com; s=20230601; t=1755179606; x=1755784406;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=VeEzkQgYmIMtzyp7xMy2bVRBv2zDb/Ov8v16nUBQdMU=;
+ b=v8QWYd7YVcsR0VykRVltN0nUhuWx883CH/Z/Wv4dqVaq5yTVTgLmXqZmHdf1vk9JAT
+ UDxWRIAlGMgKekOx70LerFMAW6TSaJ6wErFFU51Br1VqdPGnJsKAnFkLOEQaVbFKEBeB
+ fBXUyLeoaUGZLlO2yBZ8MMPOn1X0Su8j44Bl1O54tl3VCiKMsQ/b5HHTWmLZRHl7pZ3E
+ SYUhNsjM+IgODp24MOTflWAXS6iDFj8lhCylgRxi6KgpE3XXJsH392IaDlK/si9BBZD0
+ GweejFLa3Coi8tQuFjFOgTjc0OFj2OM6SCFkM8EI8gpA2Qhn+I2n3nVKa/gSAiLidt0I
+ TnMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755178741; x=1755783541;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/u5aHQcTs7K0PgEM3VVNTcP1zRLDKAIIOHRIdyyBD8M=;
- b=H3yBV2ibNfolTeFlAkM9blC16VyGGlXX17WM6hOI7ekQJ1zxS8YRxVkKHOtkykXKjg
- fbxt0D5sF9vxtWQmB5ZDsTphIEc0P33PqzVU1fSWc/hCCIf4VObZwet28tXasCwtEDtQ
- 2PoXJJ7aeVcgflwxZkxNUN/evHWU1R8Vxnp9amg/7lorE4Vjxk5oTP8zAMt6IH5zjjt0
- IBidXteTsGDyJLXPWuhbT5mVGvFkKgl/Va+WEzbPKP6m5h4mmYIwaIGPKa7raGxmag6z
- iu9agOpI71AS7z9O1dXDB9g5PwPMmMOSz33sXlha/ApfWeU8UTlE01w1j2yhNaiGbfIp
- TEAA==
-X-Gm-Message-State: AOJu0YwL/dLHzpymnpCjeQg7WB03H2RuEPEHfn19Jmihm9zAJ/g0OzhM
- 1gB+h7ly+mQsGZdjZVPIYjAuuWB7e4gtkcPvwwM3L0ziv6z3TQ8auUS4eSH3c2JrFUzJV0f51gM
- JH1dRt3Rz9+8FUtwjO3M4ZK8gGhk8m3s=
-X-Gm-Gg: ASbGnctj3zeBPzny+5ZoRLrr/M1nxfAzKPtZ2vk+Qa1lA4gcThC5Y8LHr6jIZWi9e7R
- XKbyRkNdbpvHxudZ+ENOTcVxyBqnjVFDl1/m9tZg6Jv33ElJ5OgJaM3nJK/z5Wwx6+BPSDs+hEc
- mBHjxy0+AdjIC2V/h8KCqlFFpazUbQgzIPUN/sZCwwqJdPunTXiq4i8+yBcxRU/iy0w7EGX/1fB
- AOkslI=
-X-Google-Smtp-Source: AGHT+IEE6SLVxncvxl+vxNgFr6rWvNTasMqB1K+VRaRB8pFaxkjSJTQaVr+JnH4yOfCAmtL8iBQ0eE99CNpVa0HFjo4=
-X-Received: by 2002:a17:903:2352:b0:240:3c1d:cbe3 with SMTP id
- d9443c01a7336-24458556985mr21949965ad.4.1755178741113; Thu, 14 Aug 2025
- 06:39:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250814133627.2550-1-tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250814133627.2550-1-tvrtko.ursulin@igalia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 14 Aug 2025 09:38:49 -0400
-X-Gm-Features: Ac12FXygtmLi4eOrUp7Mci2tD94rVRPaFm6Y6RuCcHm8YFRdK9HKtH7geFPuAZc
-Message-ID: <CADnq5_PmQS=BVv6bp_CNxK8M5Rbti3nbr5jm_19RhBQ7zxWgqg@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: Remove mention of indirect buffers
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Danilo Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
- Philipp Stanner <phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ d=1e100.net; s=20230601; t=1755179606; x=1755784406;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VeEzkQgYmIMtzyp7xMy2bVRBv2zDb/Ov8v16nUBQdMU=;
+ b=Exd2wgM3IgASMyRAE8Qcy3hxrpV63cvBYznqj9A+wZZz6p6dUlSZRV0EkY+75MBfgW
+ VGYiRmtdhr9BeNbsjFtPUCObzlMQw+5qPbF9Hk1KLnJfTMCjKU1XEEsm+qH7kUfP9CT5
+ mpmoKYZowst7qces7r0TdY3+dXM7NSNV9yVP7Xk7/pFHeNPJ4Jg0Wq4bxOZ3A/1Q3DaO
+ LRjKMa5GCWYhe9Aq5MNejYw9mgGmmiQu62tIwfjZotY3gE/W9I5mS/fj5is0Fjw6bnEe
+ DuLUOhyM9rxE68gnKNyK3cPumdqRp44Tk2YsJ6T+06/fU6KTTQlbpfDWhwGSnr8XczRt
+ W84g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU3ZzZ+YZ9Yjour2AU2pkxEtVDmzwQw5wwYPG5fz8xlDgGYvIYimExjg3WucWlLYmlK4fshrg+UKRU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxGi/pBJNu6ATS05VBRzh445z6M3t10d2GiNl2InktQV+uKe9tF
+ BESnWi6+0Hh4Avl21CPVT3R4Fiel+x68HqLNOIPaTYUNOWocXs63v/d3tyzLXnba2uEbNf5hPUI
+ 0zPA9zJYOrHXm+o/13A==
+X-Google-Smtp-Source: AGHT+IESfdeJeKr09jw5WbnVm2g2GYGGRoae20RO82NBmgfW5Xq4wFMtQ8ks4BUMu22uttfxn9AvnmK+x6a4z2c=
+X-Received: from wmqa18.prod.google.com ([2002:a05:600c:3492:b0:459:dc99:51e4])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1907:b0:456:2139:456a with SMTP id
+ 5b1f17b1804b1-45a1b7bf046mr24221705e9.15.1755179605642; 
+ Thu, 14 Aug 2025 06:53:25 -0700 (PDT)
+Date: Thu, 14 Aug 2025 13:53:13 +0000
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAEnqnWgC/x3MQQqAIBBA0avErBvQrJCuEi2sJpuFFloiRHdPW
+ r7F/w9ECkwRhuqBQIkjH75A1hUsu/GWkNdiaETTCS1btOedDLr7oozs0ZJD0wttZqVa6iSU8Ay
+ 0cf6n4/S+H59RtYRkAAAA
+X-Change-Id: 20250814-gpuva-mutex-in-gem-a608ab334e51
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
+ fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=727; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=abS007O1u+hwW9gFpKL4+LBBc2SxxpNq5FxcSBGjtYw=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBonepM08eUWZmldgb0RLPzTFzkATvv5oCAc12Q/
+ f71nkR2gpKJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaJ3qTAAKCRAEWL7uWMY5
+ RnTAEACTN/BeQv66T5iOnfFiSziogfTb6vockzGSNafTl2E43jlEbAw5YvB1WPhAKmRJeF49A5X
+ 4v7d8lkN0XTbAWpyO0w3fP6Z1GKmPqcVMyGNXf6+/KnipfQ+lTpDgsqg/x4T9FKfUYt0y8MyJ/P
+ bUCDQA/A1Luu00AgK5xn2Q19D5EVrMUfYjtKCF8ZuQ9t7Czzk7A+c9ngKeurnOeOXmHHejDXfka
+ imnHWZLc3orir0I/UpeJWxAPbvocBj7zOY5VhuLQkST534a/9w0FcEzhQ15QGpoLo5VvVapclnb
+ V7MCIXSyVPHkQhchZ4LsMlOth333nUy6WOrHwZ0AlUfsKDlldf0gM7Kn/oF98EYo8OX5RiUayGz
+ osju1k6YX80i0+llYWrvOKBPwk2wYE8DBVKi3GGsNqrkmAA+2kWkCkvTCkSDp0q/NeKXpbUq49d
+ eUqhGpYT/VYFfcFpM52D3FAcXPJ4PeeJinrN1vOLnyoHqd3Rtr7l6ak81fHf9MJ/Yn5/JFWDBG3
+ BKN/fsRTCupANwL5AWQwIUO4m3ou9/Pp0PuwyXj0Wkk5rO3LYcWdZYTxwVTsKklD0xABeb9RmfF
+ 8kpRpBF2SvfItVhpng8d9n0EVInxqduT0KafbkArhdZOH8EvLvi0wBaQmgM3iH8eL1j6SJMQXQw
+ zP6j5xbOkjx39vQ==
+X-Mailer: b4 0.14.2
+Message-ID: <20250814-gpuva-mutex-in-gem-v1-0-e202cbfe6d77@google.com>
+Subject: [PATCH 0/2] Add mutex to drm_gem_object.gpuva list
+From: Alice Ryhl <aliceryhl@google.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Steven Price <steven.price@arm.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Rob Herring <robh@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,74 +111,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 14, 2025 at 9:36=E2=80=AFAM Tvrtko Ursulin
-<tvrtko.ursulin@igalia.com> wrote:
->
-> Indirect buffers are an AMD term describing essentialy a job submitted to
-> the scheduler, just a lower level one. Since scheduler was promoted to be
-> generic long ago, lets replace those references with jobs.
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
+See the first patch for motivation.
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Alice Ryhl (2):
+      drm_gem: add mutex to drm_gem_object.gpuva
+      panthor: use drm_gem_object.gpuva.lock instead of gpuva_list_lock
 
-> ---
->  drivers/gpu/drm/scheduler/sched_entity.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/s=
-cheduler/sched_entity.c
-> index 8867b95ab089..254932b9050e 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -285,9 +285,9 @@ long drm_sched_entity_flush(struct drm_sched_entity *=
-entity, long timeout)
->                 return 0;
->
->         sched =3D entity->rq->sched;
-> -       /**
-> -        * The client will not queue more IBs during this fini, consume e=
-xisting
-> -        * queued IBs or discard them on SIGKILL
-> +       /*
-> +        * The client will not queue more jobs during this fini - consume
-> +        * existing queued ones, or discard them on SIGKILL.
->          */
->         if (current->flags & PF_EXITING) {
->                 if (timeout)
-> @@ -300,7 +300,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *=
-entity, long timeout)
->                                     drm_sched_entity_is_idle(entity));
->         }
->
-> -       /* For killed process disable any more IBs enqueue right now */
-> +       /* For a killed process disallow further enqueueing of jobs. */
->         last_user =3D cmpxchg(&entity->last_user, current->group_leader, =
-NULL);
->         if ((!last_user || last_user =3D=3D current->group_leader) &&
->             (current->flags & PF_EXITING) && (current->exit_code =3D=3D S=
-IGKILL))
-> @@ -324,9 +324,9 @@ EXPORT_SYMBOL(drm_sched_entity_flush);
->  void drm_sched_entity_fini(struct drm_sched_entity *entity)
->  {
->         /*
-> -        * If consumption of existing IBs wasn't completed. Forcefully re=
-move
-> -        * them here. Also makes sure that the scheduler won't touch this=
- entity
-> -        * any more.
-> +        * If consumption of existing jobs wasn't completed forcefully re=
-move
-> +        * them. Also makes sure that the scheduler won't touch this enti=
-ty any
-> +        * more.
->          */
->         drm_sched_entity_kill(entity);
->
-> --
-> 2.48.0
->
+ drivers/gpu/drm/drm_gem.c             |  2 ++
+ drivers/gpu/drm/panthor/panthor_gem.c |  4 +---
+ drivers/gpu/drm/panthor/panthor_gem.h | 12 ------------
+ drivers/gpu/drm/panthor/panthor_mmu.c | 16 ++++++++--------
+ include/drm/drm_gem.h                 |  4 +++-
+ 5 files changed, 14 insertions(+), 24 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250814-gpuva-mutex-in-gem-a608ab334e51
+
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
+
