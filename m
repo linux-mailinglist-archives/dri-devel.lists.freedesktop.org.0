@@ -2,94 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E7DBB269EB
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 16:47:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C7CB26A44
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 16:59:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB1F10E206;
-	Thu, 14 Aug 2025 14:47:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5383710E89F;
+	Thu, 14 Aug 2025 14:59:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="w0bmz1gv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HwJY7R5Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F30CF10E206
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:47:32 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-45a1b0c82eeso7041875e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:47:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755182851; x=1755787651; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=fZAqDF3XnpGXDPLOHIJz9Ec4YzJw9DgnDjI6cQZHRtQ=;
- b=w0bmz1gv9PfmBwiQPey1gtLkXIeN95eDsjV+FqkjuKrfdVqNCvQFHxvflttn8Z8Vsa
- Qr6KLQaJycjWT4cKCs6Pn9dUFGd3Yxb4pW15U0VM67IdHTzt3ROBPCQGR0khiU2Ct1wX
- zUjCDRKlvn0OI0lzPOOwo9YZF7j8TfsHgj1XR/dXflKd28915yVOUs5C3pgZXKQC2k8J
- Mkj8v3i/BDWYJ1y4LZQLA1F9X60Saxw2KV7kepOA3lW4kn6fCw06re71x0bZqYWfmLUb
- 8vNFAjqDJxGLqw2yuKJlF2aXhmU9ZR1D36n47+/M2J4Cwka+Losom5hjaz8a5aYsunil
- IvLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755182851; x=1755787651;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fZAqDF3XnpGXDPLOHIJz9Ec4YzJw9DgnDjI6cQZHRtQ=;
- b=IsAs38NK6p/akeBbecAKk3ZqW20qveVKyv+MWsAtwzTwjFBhrwQmw5nwyIxLWEXdPh
- yY0/cy6aoHxlJT5/+1t0Eop+lC7oFKv6qB08ChB1wUsAO8k/V/yK5BhkBlhgmzfUH5wH
- FogSUMe8W/sDNVHv4S/+PzsZXRshSC/OIMCoPws406bNUHpLc4gUpULftlLwWLQHL6rj
- xBatJEfEWZrBJ3ythAIgG2kqp2nQ47XDLkY00JmJbTuzqQEVw7OiSZqUHYJRlMtZuON9
- +/O3GNTYV7idxTyugwc9JOKCWf+Q2OpssVlVOFRnS4ZSNMf3NrWSfoefiddYTpr2S+/C
- J7mQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV4BfLrnSd960+A7RK4AMt2Exat6OB7x6R7QHifuz6BS1qsKYeJjwMh04UX/dcJAP98acw4/d960A4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBQzoLAtNFC2wML1x16IH8JrByk75VcUJMJyKzwDuRuTnMxx26
- 6HRI7MXXEnIUSWhNjCNlz/GwENA0Th70GBWf147sd2zRVfE8K+3WXyDtdyMgyHhO2/8=
-X-Gm-Gg: ASbGncuj9gfiN3W3c9Fv71ylM4EH5Fud9/LTl3JE0nyO/Zi7l1SKqzBsQpm6vtzs3/m
- iWymKMRZVed1qIfcQHodepAnsWY99w2cU8xyM31SB6+KM5QraDFFnZpu18JXgiiiEttpXP7OC3T
- dssqtfFl5TSd+gThxNXwTUjzacYCi4sBe+qfNgJ2gJJZmoBKuIFiSS4TIzfiYQO/RZLK1CQfi8S
- 3vz1YrgkeIdM4h+PA0zxmlqF0w/CXWOYj3WiDftVP/IL09/HYq4mxjRSsLPnJl5wxPA5VMlMwBt
- ZypgbgcgzI5+HqN2eL17rUw9AEr7tfCxsOjgEu3IdDyXm8GmS4zbXv3xutq57w1wuFWF4wNSxzi
- 6KWV4Azmd9f2x1apvbznOZuS8+VIIbBVP
-X-Google-Smtp-Source: AGHT+IFhoWtHYN9QFJ0tW1CKBLQo56CkK5ldL2L/K77pZLZH70ja4pUfhvkjKDkzC2VxincZw5xstA==
-X-Received: by 2002:a05:600c:3b87:b0:456:2a9:f815 with SMTP id
- 5b1f17b1804b1-45a1b615307mr29980105e9.4.1755182851303; 
- Thu, 14 Aug 2025 07:47:31 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:1e8b:1779:ed5:b6f])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45a1c74ad27sm25133535e9.18.2025.08.14.07.47.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Aug 2025 07:47:30 -0700 (PDT)
-Date: Thu, 14 Aug 2025 16:47:25 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Christopher Obbard <christopher.obbard@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>, Douglas Anderson <dianders@chromium.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Rui Miguel Silva <rui.silva@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] arm64: dts: qcom: x1e78100-t14s: add hpd gpio to
- dp controller
-Message-ID: <aJ325wUrBjydnc1m@linaro.org>
-References: <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-0-4782074104d1@linaro.org>
- <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-1-4782074104d1@linaro.org>
- <aJCyBbwNjZvTHnjT@hovoldconsulting.com>
- <CACr-zFCq08Pu2=eLfe5=sYdGWEHmy7w+=Eo++9AjP96uCLCNcQ@mail.gmail.com>
- <536dd237-e668-4a88-ac2b-3bc88dca8a3e@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <536dd237-e668-4a88-ac2b-3bc88dca8a3e@linaro.org>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6456310E89F
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:59:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 16FD544623;
+ Thu, 14 Aug 2025 14:59:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEC0AC4CEED;
+ Thu, 14 Aug 2025 14:59:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755183588;
+ bh=nhCkSzRoamaC2x6YatM8AEEAlKpcan3l13anynVtDVs=;
+ h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+ b=HwJY7R5YAC0+cWuEW9IFGPuZ262x7OjBrTIbVN0pPGtIcJ7DR8tQEVn+khZflTm9R
+ XIHsEG4IVQmAUeK64NTGVkFV9GX6RwpNjdEU9J48Z6IAujyEc3s5baikGQPqi2upgu
+ puZAdm3EQEV2HmByevPQPy6tpSqBoJY5FBGQ9k4w+AA33Ctcd9USN5U7auncolSa2e
+ wSltFxJf1P/WCvSapNAZDZPQevT382REwfSRcfy0sSYpsJUN8/eFjNPqZRAz9I4ME1
+ x6YHN2/9e/wkxwKHgd7R5Yk4DUVEQxAd2gOorEbQAVS6MmYfTu+CAoRg5z2zu9g8NU
+ sL2O+KCX7t19A==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 14 Aug 2025 16:59:42 +0200
+Message-Id: <DC28NIMIPF5I.2P17OZFA06GXL@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH 1/2] drm_gem: add mutex to drm_gem_object.gpuva
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Boris
+ Brezillon" <boris.brezillon@collabora.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Steven Price" <steven.price@arm.com>,
+ "Liviu Dudau" <liviu.dudau@arm.com>, "Rob Clark"
+ <robin.clark@oss.qualcomm.com>, "Rob Herring" <robh@kernel.org>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>
+References: <20250814-gpuva-mutex-in-gem-v1-0-e202cbfe6d77@google.com>
+ <20250814-gpuva-mutex-in-gem-v1-1-e202cbfe6d77@google.com>
+In-Reply-To: <20250814-gpuva-mutex-in-gem-v1-1-e202cbfe6d77@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,53 +69,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 14, 2025 at 04:21:09PM +0200, Neil Armstrong wrote:
-> On 09/08/2025 00:28, Christopher Obbard wrote:
-> > On Mon, 4 Aug 2025 at 14:13, Johan Hovold <johan@kernel.org> wrote:
-> > > 
-> > > On Thu, Jul 31, 2025 at 09:51:26PM +0100, Christopher Obbard wrote:
-> > > > The eDP controller has an HPD GPIO. Describe it in the device tree
-> > > > for the generic T14s model, as the HPD GPIO is used in both the
-> > > > OLED and LCD models which inherit this device tree.
-> > > 
-> > > > @@ -5779,6 +5779,11 @@ tlmm: pinctrl@f100000 {
-> > > >                        gpio-ranges = <&tlmm 0 0 239>;
-> > > >                        wakeup-parent = <&pdc>;
-> > > > 
-> > > > +                     edp_hpd_active: edp-hpd-active-state {
-> > > 
-> > > The node name and label needs an index as this SoC has two edp hpd pins
-> > > as I already pointed out.
-> > 
-> > Sure. After looking at the schematics this should be called
-> > edp0_hpd_active. I will fix this in the next revision.
-> > 
-> > 
-> > > > +                             pins = "gpio119";
-> > > > +                             function = "edp0_hot";
-> > > 
-> > > And you also need to configure the bias somewhere as you should not rely
-> > > on the firmware having configured things for you (as I also pointed out
-> > > before).
-> > > 
-> > > On my T14s the internal pull-up has been disabled.
-> > 
-> > I am still unsure of what else needs to be set here. Can you help me
-> > with the correct settings?
-> 
-> Just add bias-disable;
-> 
+On Thu Aug 14, 2025 at 3:53 PM CEST, Alice Ryhl wrote:
+> There are two main ways that GPUVM might be used:
+>
+> * staged mode, where VM_BIND ioctls update the GPUVM immediately so that
+>   the GPUVM reflects the state of the VM *including* staged changes that
+>   are not yet applied to the GPU's virtual address space.
+> * immediate mode, where the GPUVM state is updated during run_job(),
+>   i.e., in the DMA fence signalling critical path, to ensure that the
+>   GPUVM and the GPU's virtual address space has the same state at all
+>   times.
+>
+> Currently, only Panthor uses GPUVM in immediate mode, but the Rust
+> drivers Tyr and Nova will also use GPUVM in immediate mode, so it is
+> worth to support both staged and immediate mode well in GPUVM. To use
+> immediate mode, the GEMs gpuva list must be modified during the fence
+> signalling path, which means that it must be protected by a lock that is
+> fence signalling safe.
+>
+> For this reason, a mutex is added to struct drm_gem_object that is
+> intended to achieve this purpose. Adding it directly in the GEM object
+> both makes it easier to use GPUVM in immediate mode, but also makes it
+> possible to take the gpuva lock from core drm code.
+>
+> As a follow-up, another change that should probably be made to support
+> immediate mode is a mechanism to postpone cleanup of vm_bo objects, as
+> dropping a vm_bo object in the fence signalling path is problematic for
+> two reasons:
+>
+> * When using DRM_GPUVM_RESV_PROTECTED, you cannot remove the vm_bo from
+>   the extobj/evicted lists during the fence signalling path.
+> * Dropping a vm_bo could lead to the GEM object getting destroyed.
+>   The requirement that GEM object cleanup is fence signalling safe is
+>   dubious and likely to be violated in practice.
+>
+> Panthor already has its own custom implementation of postponing vm_bo
+> cleanup.
+>
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> ---
+>  drivers/gpu/drm/drm_gem.c | 2 ++
+>  include/drm/drm_gem.h     | 4 +++-
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 6a44351e58b7741c358406c8a576b6660b5ca904..24c109ab3fadd5af2e5d9de3f=
+e330b105217a9ce 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -187,6 +187,7 @@ void drm_gem_private_object_init(struct drm_device *d=
+ev,
+>  	kref_init(&obj->refcount);
+>  	obj->handle_count =3D 0;
+>  	obj->size =3D size;
+> +	mutex_init(&obj->gpuva.lock);
+>  	dma_resv_init(&obj->_resv);
+>  	if (!obj->resv)
+>  		obj->resv =3D &obj->_resv;
+> @@ -1057,6 +1058,7 @@ drm_gem_object_free(struct kref *kref)
+>  	if (WARN_ON(!obj->funcs->free))
+>  		return;
+> =20
+> +	mutex_destroy(&obj->gpuva.lock);
+>  	obj->funcs->free(obj);
 
-I sent a patch fixing this for all the X1 devices upstream earlier [1],
-so you could also just send v7 with just the second patch of your
-series.
+I really can't think of a valid case where we need to access this mutex fro=
+m the
+GEM's free() callback, yet it probably doesn't hurt to mention it in the
+documentation of struct drm_gem_object_funcs.
 
-The bias-disable is really somewhat device-specific (what if there is no
-pull down on the device side and someone disconnects the panel
-entirely?), so I put it into each board DT separately like Johan
-requested on v5. We have the same for the PCIe pinctrl.
+>  }
+>  EXPORT_SYMBOL(drm_gem_object_free);
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index d3a7b43e2c637b164eba5af7cc2fc8ef09d4f0a4..5934d8dc267a65aaf62d2d025=
+869221cd110b325 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -403,11 +403,13 @@ struct drm_gem_object {
+>  	 * Provides the list of GPU VAs attached to this GEM object.
+>  	 *
+>  	 * Drivers should lock list accesses with the GEMs &dma_resv lock
+> -	 * (&drm_gem_object.resv) or a custom lock if one is provided.
+> +	 * (&drm_gem_object.resv) or a custom lock if one is provided. The
+> +	 * mutex inside this struct may be used as the custom lock.
+>  	 */
+>  	struct {
+>  		struct list_head list;
+> =20
+> +		struct mutex lock;
+>  #ifdef CONFIG_LOCKDEP
+>  		struct lockdep_map *lock_dep_map;
+>  #endif
 
-Thanks,
-Stephan
-
-[1]: https://lore.kernel.org/linux-arm-msm/20250814-x1e80100-add-edp-hpd-v1-0-a52804db53f6@linaro.org/T/
+We should remove this and the corresponding functions (i.e.
+drm_gem_gpuva_set_lock(), drm_gem_gpuva_assert_lock_held()) in a subsequent
+patch and let GPUVM assert for this mutex directly rather than for the
+lockdep_map.
