@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CABAB25C80
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 09:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF44B25C91
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 09:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A869510E7F7;
-	Thu, 14 Aug 2025 07:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2045C10E7F8;
+	Thu, 14 Aug 2025 07:04:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="n1cxzIob";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bNNdrRpQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C25310E7F7
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:03:48 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DMHTj1002874
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:03:47 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE1210E7F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:04:46 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DMDObu027018
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:04:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=LF4IE+UwqtQfgx5vOm9pwD60
- Wb8Rm7zswbtxjHM+xig=; b=n1cxzIob5U5KJR2OWy/pE3dMoARe+ewMjBiKHBbx
- SzWOvMOscxaJTezwTN4nlDLQWVJab1jOhoNFyuaknnh8vT+ZvKNLQLo6fVIJCjtC
- SP0VN19y+Bo4SoM8ig2Fw/2K8OB8T/UAng0+68LGzVFUK0cGDYj5yBk21RY5jQT4
- 4sTEfSB1wAdFhMW7GVTzXHm98SdGPe0c08yxa+NUMAO02QFLdSzhLLB/ImqKQuy1
- D7ZSqUiH/3o0az8ItkSnpOUTP2Q6HJIuR69ttfj9u39kIFoFcjjZAJgaMcyp3EG/
- fgDjsXv4u3fDWQmpmQXReqMNm5F0ztFcgP2uONlTJOIeQw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dxdv6q2r-1
+ :references:subject:to; s=qcppdkim1; bh=ZmTgSJksSvRsRHlh4lCCGxN6
+ MG1QDdCZK4fWrb5z4Xo=; b=bNNdrRpQzXYPs/ayMZz46oM2FkiixC5Y6AUFBN6+
+ Kdm5eGANHD1XRmxt5Mxt06M6At9w1ezphHaBefnK4/CVWQPlL4VjNtTdDzevnpaW
+ BsVtgQ+kpAgX1HpSb51ttdWyDiYIedwu09WV7DEVwWnW6q2wyV43XAGH51nwlkGh
+ aAqTzsJi8hJv31PJybLHtZpbkU/S0HD0UDub0I34pGIo08kQ1gjUXV3JcHI/ISNm
+ q7WgS77xRtdkfzdGvlkutBiV0B0jjClIgIhL4SJSx9iSxdAJ1U+/wWGcsZ+cD4B1
+ 7qJQ9PVKO+Qk1uAp+n7boW4xV8uh5WZ8Dtl1gJHHDZ9iPw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ffhjtj73-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:03:46 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7e8702fb9e1so143584885a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 00:03:46 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:04:45 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b1099142e0so18043621cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 00:04:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755155026; x=1755759826;
+ d=1e100.net; s=20230601; t=1755155084; x=1755759884;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LF4IE+UwqtQfgx5vOm9pwD60Wb8Rm7zswbtxjHM+xig=;
- b=TrmYg8Vl798FvECI6Y/HTbnmjdhmqNTwzvDakXsBcc7G52YD3VnXBRG2Akk9fZGNrn
- d0iDZITR9CA+b+jLE7COgpyQ5sT6j0BOHPA5DpixZ7B9YLSajjVUctYRZCB1NuhNuQ+Q
- qU4bUMtbSti/ylJKIu8VTqCQP/m/paMzMqMFmnxKhJ4+A975sTGOqzPLgHPlk2skrQdm
- zoJ0XpmmE9xyB2JQrTqtl3s5gtiTFFgC8WY3WgXRaamNBXbDtZo3jHk4OwaUeyy5BPPX
- CzbrBkE8H65ELhyIewinsxU+UeaDDw3r4o0lcEnwOGG3taA3JQE4myl3KagL/ZvPBJXv
- dmbA==
+ bh=ZmTgSJksSvRsRHlh4lCCGxN6MG1QDdCZK4fWrb5z4Xo=;
+ b=D9yZbYNLQrkM4J0doKOKVJqp4FXWCoKL+5PoYKUXSKWDkzOcoNhIMMscgybqdnFwC5
+ 9W4rHOj0EwwqwrVPYZK99SAIPm6TuQNCRR8usf/zV5mGPgsu2vGnudLAP1JLPe9Mn6G6
+ /K7+adaxBKTtZd1IhPD+keqCSo55ahjVai3fj8SgZ3xJ1cSuHPOPEqjjDM9yH6Sq7KHM
+ 1wxJhIVx++eQLF+IBP9efxuHb1v6dAsB1Zz6cP0QnN87ZIfVcIH5GgGq1EV3yiIhPRVS
+ g2pG1MngLt0e16RbW/BMpFhq+pAoEgOYdgfvOyAw4mqE7veXsRGPSr50C/fD7t7eUEOc
+ +ADA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWJCk4h2Q9ZFWR6AOns80KL/MuMynooUJiXuT/uiUXBfXF8grR/3x2QrvqgWD9UUF11MjViO8DFGNw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyg21PRaV5ZQoAzyecVeNgwuAzPY+LPUkr397NhELPYn0X3V8na
- +Fr6Uqz96rNDwk1NMCKMSMuDvuXIbS1xvwg2BEsyb3lr0sEmtVW2W4o/TKVNPe10r7MJR8rZmWR
- VdlOS2neTCqpG+cSdigBh7Q9DBKphIgG9IJPGQQfdhQLClz8b6J7NWrhj+VkCqMO0NAoU/8s=
-X-Gm-Gg: ASbGnctUki76BgGrm+fkTmKvFuoqI6IijutKMu3HavIEtlPVR0Mhx7aUVXhLFQH+Zer
- jTl1RzI0MwjNm8+wN6/b10I/EOX9XHS7fijqpaYH0cdNGtlcyviWZ3oZaF3lhjycQk+26BQSCrZ
- HwHfia6buYFMb2bDFRxHGdJRRNWhA882AUb2ncEFXX1dfxiLSxlnilKMBgB+qs53mQgKy3Z6H7T
- Rqm4uGUKvlGQuDB7NGKxaE7lSpP0yU6PSEFDzQnje7iW9gDCIUZzBwHWozMsH6A6SeHFzExrEje
- bIYaqa+DM3aVgtsT/LXhQFAZvgpLltIP70WGnvRkqy66rozj65dL5mYtayZ+tcXueM9XwJ0LfMy
- tNwKOrbSgGtijy2T7xk91K0LzjRgeKsdhBHAksPwVK+gp1b4mPIgI
-X-Received: by 2002:ac8:7e95:0:b0:4ab:b1d5:3b77 with SMTP id
- d75a77b69052e-4b10ac12fb0mr31956291cf.45.1755155026237; 
- Thu, 14 Aug 2025 00:03:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGb9AznY1bE/2T3os5xRxJ28Ngs1U0GfsgKPw61bINS+BdKmMzoT7z6J2yBVZFHfwcAp5+2vg==
-X-Received: by 2002:ac8:7e95:0:b0:4ab:b1d5:3b77 with SMTP id
- d75a77b69052e-4b10ac12fb0mr31955861cf.45.1755155025816; 
- Thu, 14 Aug 2025 00:03:45 -0700 (PDT)
+ AJvYcCUfL/Lx/5wUcwGbK3QluX3KnhWTwqMAUW6lVr7HmYSgcu8SHG/n3MYHzZopzMwWkGpFemp5UXIlwBw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxrrum4sgdXdPD03LuPIKyKQKJMPtXnvChhaGAL/hharfwXsXqG
+ TLRo1SWNbwLYe9YOQ2NyZi/t8tMZYlrvIF2spjHmeNfTstukXIKcxKwOkuUX7WfdWG44fGJ2Uex
+ eY9IfaZ81GSMWu9qX2gULUl4FlWNEFOYmVXwvT39AJxGIYoVFXA2dbxq3V4bl5UmxwaMYK4A=
+X-Gm-Gg: ASbGncvtguL9dC0bFeEXJld1RFnyj1g/SQSXxNeIrbBqohynHtn/IC2riPTz0m+gUK1
+ 3/c4ik4rvoc9zJtcyt8SxfepJopKDBaqRNGzzPn9lPglLnRzF5ECcCjlMmihKBpPH+6XAUxQvjL
+ KcGQk2PLE6N0yYIRDPchncyrY6HS92qjlLV22RaxtFQ2Jnm9s2g9+5ZYjyP9T2QQLhpNRILp8F0
+ 594wnj7YPzgVmyTOBICI++cEK1gk357ZH+Cqvmw/7zuT01zu6DdvKuLNhhY22aCRIEf/RskZ+JO
+ twOVA87HNlZKCZKAI2UA3H3+4h1JJqfVxEDUC5eJMfGkwWlEM6zyvNoLywgo6GxvjkvXalPT5Md
+ 5rDr+4IeT0Kv4dnzwmEXHZaJMWg3/xkQdUIM5i41U7A9k26j5OVbX
+X-Received: by 2002:a05:622a:50:b0:4b0:863b:f4e6 with SMTP id
+ d75a77b69052e-4b10c3d1082mr18771191cf.14.1755155084595; 
+ Thu, 14 Aug 2025 00:04:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFf4GMEnU9+DKPNr9nEosmOJfrXRZRGgqiLTRtxITAX9r7U1qxrwlquD8TRJWARcRaI1vnUOw==
+X-Received: by 2002:a05:622a:50:b0:4b0:863b:f4e6 with SMTP id
+ d75a77b69052e-4b10c3d1082mr18770701cf.14.1755155084097; 
+ Thu, 14 Aug 2025 00:04:44 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55cca1ae1acsm2393274e87.4.2025.08.14.00.03.44
+ 2adb3069b0e04-55cc8592678sm2433329e87.31.2025.08.14.00.04.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Aug 2025 00:03:44 -0700 (PDT)
-Date: Thu, 14 Aug 2025 10:03:43 +0300
+ Thu, 14 Aug 2025 00:04:43 -0700 (PDT)
+Date: Thu, 14 Aug 2025 10:04:41 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Ling Xu <quic_lxu5@quicinc.com>
 Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
@@ -84,36 +84,36 @@ Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
  linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
  stable@kernel.org
-Subject: Re: [PATCH v3 4/4] misc: fastrpc: Skip reference for DMA handles
-Message-ID: <eyqm52g3oymidbylo2jp4uihp7luwhoet2sj5oxoz52bcsnhhx@vusta6qaws3t>
+Subject: Re: [PATCH v3 2/4] misc: fastrpc: Fix fastrpc_map_lookup operation
+Message-ID: <nmipsdulp2roagr5g2emrijonc4xkupoqm3vdelaiihy547qlk@yvg4qmg2qgwj>
 References: <20250807100420.1163967-1-quic_lxu5@quicinc.com>
- <20250807100420.1163967-5-quic_lxu5@quicinc.com>
+ <20250807100420.1163967-3-quic_lxu5@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250807100420.1163967-5-quic_lxu5@quicinc.com>
-X-Authority-Analysis: v=2.4 cv=IuYecK/g c=1 sm=1 tr=0 ts=689d8a53 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <20250807100420.1163967-3-quic_lxu5@quicinc.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA3NCBTYWx0ZWRfX4AXv3lDDp6YJ
+ cB7SQv6814mny4maaNiBZrEQnp+Ux/RvGTnxVYkK4pdvDEs2vj2w6PptYdTdMJp/4os+tbb6de1
+ c33LhTcKj+domt57TaF4bRSZ/2u1RC2iBkt4coQ7yGq9y3naEoaF/33OtaWcNtAvOYk+5HFgZBw
+ 2MJjsLNfe1hiNyqISddyeZVcble1dgqAy9oUMMnQSrw3ge5mnc0vRG8Dsl+WLaKbuNO+fCE9QQh
+ oiKPF6zKwQYHJrlO8xP4lkDVDmgDyOXsAdJTTMSqN00FWqDREYKel/6c3d36iosEYERMtCSeG/y
+ 7/kD3leV4TAnZ3fsvNL18/61BUzn3KJPBqTg6OJ1+jaEBl1qks9nsEHFigyzJ3UB18+MyNL7932
+ +lmBK6Mo
+X-Proofpoint-GUID: 0oE4PNDxxw547bXTCJLrMg6JvRHpMNMe
+X-Authority-Analysis: v=2.4 cv=TJFFS0la c=1 sm=1 tr=0 ts=689d8a8d cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
- a=7U_eyDcXjddG1dUirncA:9 a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: K0_JF15v8apYKvFOTctRW0VyfBPNRaV5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAyNSBTYWx0ZWRfX+yzfE/O/EcRy
- IIA3x32nYi+xXHiB68Ur9xYV8WOMZdXHaPF8O1Kg/KDjSNtRHoAX9edbWGy9XhUc1vY7GP+9De9
- GxJGZhYBCapNC/R/m9KIZ8f1iu7xjcduJh2yPUzL8UId7iZvypkv4g5KuYMN0lz6CRewu/u0Y4E
- Y13SIax+tVLNYA+GpxOHsjWy1yAJPAoY4zQZjbDf+UHpwPTlB9Rty4C127arRZrHbph6xzdKRIF
- doOB7MVLMvLSqUU6TzLe0agDE1nCA1HokLIMc6kqDzQMmAp5DbK+7qIe08J08zOVNazCAtV50CR
- IMnLJxx583sSkiTm1nHQNVYrMbuUyOHQiz++kBI/vksWSUYqjiPGrx74xcglFRWi1BQz00w1Q8m
- p4tNtPTu
-X-Proofpoint-GUID: K0_JF15v8apYKvFOTctRW0VyfBPNRaV5
+ a=4xMk_dLyLN26lIRFNMoA:9 a=CjuIK1q_8ugA:10 a=zgiPjhLxNE0A:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: 0oE4PNDxxw547bXTCJLrMg6JvRHpMNMe
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501 adultscore=0
- clxscore=1015 phishscore=0 suspectscore=0 bulkscore=0 classifier=typeunknown
+ priorityscore=1501 suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ phishscore=0 clxscore=1015 spamscore=0 bulkscore=0 classifier=typeunknown
  authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508090025
+ engine=8.19.0-2507300000 definitions=main-2508110074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,23 +129,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 07, 2025 at 03:34:20PM +0530, Ling Xu wrote:
-> If multiple dma handles are passed with same fd over a remote call
-> the kernel driver takes a reference and expects that put for the
-> map will be called as many times to free the map. But DSP only
-> updates the fd one time in the fd list when the DSP refcount
-> goes to zero and hence kernel make put call only once for the
-> fd. This can cause SMMU fault issue as the same fd can be used
-> in future for some other call.
+On Thu, Aug 07, 2025 at 03:34:18PM +0530, Ling Xu wrote:
+> Fastrpc driver creates maps for user allocated fd buffers. Before
+> creating a new map, the map list is checked for any already existing
+> maps using map fd. Checking with just map fd is not sufficient as the
+> user can pass offsetted buffer with less size when the map is created
+> and then a larger size the next time which could result in memory
+> issues. Check for dma_buf object also when looking up for the map.
 > 
-> Fixes: 35a82b87135d ("misc: fastrpc: Add dma handle implementation")
+> Fixes: c68cfb718c8f ("misc: fastrpc: Add support for context Invoke method")
 > Cc: stable@kernel.org
 > Co-developed-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 > Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 > Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
 > ---
->  drivers/misc/fastrpc.c | 45 +++++++++++++++++++++++++-----------------
->  1 file changed, 27 insertions(+), 18 deletions(-)
+>  drivers/misc/fastrpc.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
