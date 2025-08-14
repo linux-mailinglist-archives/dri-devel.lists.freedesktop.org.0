@@ -2,62 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4C7B25B7D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 08:03:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F44B25B87
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 08:04:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7064710E7EF;
-	Thu, 14 Aug 2025 06:03:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2F0B10E7EC;
+	Thu, 14 Aug 2025 06:04:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oXcIRmbm";
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="HIt5glWy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CFBC10E7EF
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 06:03:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 9E3AFA4F072;
- Thu, 14 Aug 2025 06:03:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0DC5C4CEEF;
- Thu, 14 Aug 2025 06:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755151402;
- bh=8EKk4Xw7VwzxxEJxQKhC4NtiY9g+vxyPs5oc5M5f27E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oXcIRmbmH611HxPBJ16ayYXCwh/f3OX6xihUMZUY5BxoJM/BAHDUwtGS8uff5vakB
- SgxhZMyh+cRuZep0oKfMc3HbFd93ucJU0hT+7HvF35U7RaGve9idaQUHxeF+rXC0fb
- cP6IK3PK9KYBiNqVacCqSVmMcxk5YtkDUxqvsQXKCFnLivc6MNzg0cFF5cqp+XvmjZ
- kXyWQ7hGmYufk5Wirp/sPdsWvbxXSUwPfry7NXRzZyaJMNG9Vxv4QN+/nt+3xc4o+e
- fu3pawPjzQXhlVTsNJqHEvqvfRMQZ4rP2kkU9XEOanb5sSH/QLQFtN5/unRrZWeVfo
- fhqJ6XQWXjx0g==
-Date: Thu, 14 Aug 2025 11:32:58 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com,
- Etienne Carriere <etienne.carriere@foss.st.com>
-Subject: Re: [PATCH v11 5/9] tee: new ioctl to a register tee_shm from a
- dmabuf file descriptor
-Message-ID: <aJ18En7EV1fGc4V_@sumit-X1>
-References: <20250813060339.2977604-1-jens.wiklander@linaro.org>
- <20250813060339.2977604-6-jens.wiklander@linaro.org>
+Received: from TY3P286CU002.outbound.protection.outlook.com
+ (mail-japaneastazon11010069.outbound.protection.outlook.com [52.101.229.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEA4810E7EC
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 06:04:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aimdxuRBqsfs7O9pRoIb+ARYMULXbSe/LqXLBNy/LV/WuOFaPq4ytXszKjUxWFJZn9NCiHE9oZ4U9XKTg9EKXVwWpyJl+ooz/BcdW7tvr/rIDdDij1BUiAQJ26HuqGYOZqQBk35xW0uMJsLzCi3Xt+N8Kh9PvHOYCsVIQU2OHExZ5cNl0q3qrVIU497ZpGP8e8SOG2ZZC8tyuF93+ux1gqjuewMxZyLof20JAoCXSPzIlr8j9JtZsG2dfsbDCDozcs3je65SR/HTHFETPd/FcJdbR1zT8E3cLYSMiW2jLOd5fJDJCejk+TCO2hH1YFTYDmb+Z2DRAgSCD8fPeg6Faw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EH03MKiTdODG6l4SfzYgf5MxpuaCCZpGCxSj+cFbsh4=;
+ b=EyqvMHM8tY8MPPMrmSOzlwq1pn8hpaTx80QHr21lTKlsFLvzKWLLmvSHnz94P7TXLATLvQ5+fbZYJliKDVFlCJy9B/AHoQYqRlV9SGhVh17aVEURWQne6zACPk0mjmvlnmlq+eUOMpEX8u0fG6+FpuGQQHLyqkIGfpwkfPQNJpZS5UVvgJdDbBvDMThtbxuyFTOeTbPmF0Ixmm1elt6QAXw57LxzFRQykXQjGdDMIBqB6ZdCyD7E9qFeieZnvVIE8TXu3XczJ+MeaRhoZsNZPhVxJKkB1qK650nLNDwOUmnd8YAqwCrSFUkVG2qe8HdGsf07U2nw1ftvakT+fB1teQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EH03MKiTdODG6l4SfzYgf5MxpuaCCZpGCxSj+cFbsh4=;
+ b=HIt5glWy49uyvfiUQ5veJTbyZRJqkwG3hpNfQXZA/Lc7uAMnSnriPIvSWCd7TYL2y4rEbHhnfhYcRyIrKxb0Rism3ITmEG0gLOSmNLncIFWkXDySClhGd6ZD7OxsY77uJ+WfrPnAyKRYiKWguZRzTeZMsud1Uyr38Q5VCkzdseQ=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TYCPR01MB9909.jpnprd01.prod.outlook.com (2603:1096:400:20f::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.16; Thu, 14 Aug
+ 2025 06:04:26 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::86ef:ca98:234d:60e1%7]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
+ 06:04:26 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to RUNTIME_PM_OPS()
+Thread-Topic: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to
+ RUNTIME_PM_OPS()
+Thread-Index: AQHb8QFhNutWp9A0X06pg/ebOf+IWLRh3xWw
+Date: Thu, 14 Aug 2025 06:04:26 +0000
+Message-ID: <TY3PR01MB11346A6EADCCCA3C7E510CB7A8635A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <cdfc1b8ec9e62553654639b9e9026bfed8dd07d1.1752086582.git.geert+renesas@glider.be>
+In-Reply-To: <cdfc1b8ec9e62553654639b9e9026bfed8dd07d1.1752086582.git.geert+renesas@glider.be>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYCPR01MB9909:EE_
+x-ms-office365-filtering-correlation-id: 3fd43556-9c43-4ef5-a367-08dddaf86c88
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?42WgpWGvxUsipz40lJcyP9O98QUv+sVpV3AYm10/KDHFOsFGod/Xi5I53cLQ?=
+ =?us-ascii?Q?lyzzSbLzei0gR8HpgcPudrq7W+cDEAUMQCZgDHqbYLRyLsKH7hQ/A2N6C98+?=
+ =?us-ascii?Q?+x8js1bcHuCtiuL6NBlJMI4RCHql0SwjVJeDLSNFAtIjlP3r8v4CfiO1pWh+?=
+ =?us-ascii?Q?eJR+TG3wlQeL14wBGt3JSsWCx2uQEy6O17rA1Aa+nDtUHTU6PwqxI9zSVV2l?=
+ =?us-ascii?Q?3poSJJqqWEIWN1q9Xcy4RaP9u2ejSLkFoC6z9ENi27RiuUw38ODVvVH9+cAF?=
+ =?us-ascii?Q?7c86AdswuNRdrTutVmDKr9Js1LWdJ68JW5NnHCfhKRXM6EO/bpjCfgjpR/YL?=
+ =?us-ascii?Q?X6nmybpzcnCFssyMESrYNPPbgi/2GE9ESkMQcYBKQ08n6gSMNDOeDxH054QC?=
+ =?us-ascii?Q?psL3GJBmVHUxReeF0Jfz3seRlPQIApaitxC/kExAkT9VGScwmLJOKFFTDU8r?=
+ =?us-ascii?Q?6KZvSjZxWOVlEuYVlTaHZHfbGZU1AWbG5bOcJn/LO0p0lHM3VDPa1/0hgpWa?=
+ =?us-ascii?Q?PZUF2lx+aO39tC7KLmKD3cd047EiQdJNCPtfhhh3ZLb3hkL/g/JeffOZIT3T?=
+ =?us-ascii?Q?jZ5MuNuL/+5CCO56oyqcyig3W12X18z84UufFGjx5R/sflHfqvCexFYoRRvW?=
+ =?us-ascii?Q?HJBLSCZ93ubeF64LWRDdA7L7AVMsrKHTwTpFrHucTr4+m2mXL8FZj6Vt0qdt?=
+ =?us-ascii?Q?iAqXr880SkPO9JbKaOhVo0aszqiEGbSbapsYglijIoTKgpWJYc0E0Qig6wv9?=
+ =?us-ascii?Q?s7NHGXVO/96nlbJ2GFCNjjJ3wl3u0Lfa2QWWMwhS15yOWvZDR0ZBE1IdAlIB?=
+ =?us-ascii?Q?OpDjyP8LFthaQdalTYO9aK+Jb8m5DYtWPQqQ6I8vnp3EJGlpC3HyvF/0anAh?=
+ =?us-ascii?Q?uDRFOTDemcFeQjB2SEHASc91aTZIGX0tMCFH+DgzixOXNNFF+M/LP4mfUw/q?=
+ =?us-ascii?Q?A0ZaqlUBW+MgXH+lrDA5svL4wstWasmRW36JDCmJJsKdwdWYf10MTddPl4mc?=
+ =?us-ascii?Q?VWxLgfjQXC/QgCeOVudzHIQY7fm8TBZUhoR9NI7AM+ag5FWx0d7etD+7trHr?=
+ =?us-ascii?Q?yN59zB5fLricg+g/xA8eSDu5JnMjU9JBCYCjD6p+7PULIjynk0v8GArXKtW1?=
+ =?us-ascii?Q?GY9/dA2y7NLtozkGyVBt9wRKW/Us8x7yxKxPdame9xrcT2U7/kfiqdkKzhUQ?=
+ =?us-ascii?Q?QDP4ZYVDZg65z7qDMoLBYia4UvPiR4h7IZaII8R//JakNK1V299MdlMfSI+g?=
+ =?us-ascii?Q?5mNVGYIitUWtR9jO0br8F8htSpCQa0H7W4fI4rnhAAE+1sbXkinodN1C1F8G?=
+ =?us-ascii?Q?2E4xCPypH8YCyXbulniRDufiiHwbgyqLe4Ovxle2Fw4e+c6CoxkwrNuUfdtB?=
+ =?us-ascii?Q?4FEkjWkGzsKsePqi18L+7EhOZEOe0RwNtAhYCcVlrNn5n68yCOviLtSPmZKa?=
+ =?us-ascii?Q?wAIxH/KUrtOS3nyFoxoH+Joh2fP1Z/gIDqZ3xqmM5okIPsWGklYt1g=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?BmhlDIYNvHZ7On+j9I9bQumoFafUUAZ7BRJrpyAgq/t7rHg90wQ4gNDvAVKY?=
+ =?us-ascii?Q?pOVh396FAV6ziMJj66MQfYRjYGR2GpQJlXGJoGYZCC2IGnwsBvQvaLSres/n?=
+ =?us-ascii?Q?K2/Nvd5ZhgXcBLSj0cpAUddQluWpIEifkRr1/T2JX8NzlG5ODmBTVsGkc34a?=
+ =?us-ascii?Q?lUqxXf54C9PxyFiz/4lk9GfSYxDsFvGtKLd/gCToK9Lb/nDjGSTBlb8Nhgkx?=
+ =?us-ascii?Q?XPRdhCswd1WqQ8Q/FiaNDHrHvYpnqzFPO5kU28kyIH22Vu31uRB/M+WfPyWY?=
+ =?us-ascii?Q?gR03x3r0oQLKmEhYi4ELRMQHHu0j4VdyyEBKyIYTdsWI/Q7326nYZ8e9IDJC?=
+ =?us-ascii?Q?H+K5TwJbEQZz1CU4kJYKTeSJznZam0/6BH86YCUT6+p7eZ7koHA1lvZzt2xz?=
+ =?us-ascii?Q?zQnb8Td9owBZpTCHvRv1QIpJDS2xJVz8mcFS6t5sjAP1FKXoGLbpHA/LwSkC?=
+ =?us-ascii?Q?QOPT/XDQNd2zK3SUuEZJRDfYX4056my9qP1EERcR8A+1AlY3ZkKDsIDXF0Ga?=
+ =?us-ascii?Q?Jj9vZ3HVluD+3ZxIqWsfKHUj3v9e4yC4cBPsiZbEiPLc7Cfezyy0VaDAGfX7?=
+ =?us-ascii?Q?I6I9fada4zxYqeRUiNJ71rwGJjSNgcg8mqqwnu/81pu7z3ES/weZagPA0xN2?=
+ =?us-ascii?Q?n6NKR7Jggp1h2WhSR3CMy+22pWGpJXHAgKJC5Pak9kEcPVT7Z/TpVfvkx1xj?=
+ =?us-ascii?Q?qLcdItbnlDhXJen1S8+Dq9Bk8HvBeQgM8vpPkNlNDYcGSPz3+M8UwLnkW/up?=
+ =?us-ascii?Q?s9u+UVhkykhgG396bAqWfGpzzKq0H4Mgu7sDrtudG6Nuzgr6u2tzg8hhPiaZ?=
+ =?us-ascii?Q?4O2iJCmKctoZkSAAP8YJ5qYd2bMxey0vSkz+WR+BH4+Jq53820j1aS1MRJ/x?=
+ =?us-ascii?Q?XbUfnt7z1w4JKAF2q1sIBiEgvLGfJUMBzdlXZu2m5rO/R1B7gxUrRStItWQG?=
+ =?us-ascii?Q?kopx99UBDUEV+6FYBvYglXgITHs2o5xHrhxCbZO97b9hs9Yqc2JaKUKe5IXy?=
+ =?us-ascii?Q?IkM+E2wdZ2/eW22mz8TOWW4m/PCiG/V80e/RE08n7hC6UnThFllOJmaA+vDC?=
+ =?us-ascii?Q?kBXVmAWgDjK2zG/2eoUDDKyEmeD9h9DrODg052J2tkYsxJ/0elhYi6Ccs2MC?=
+ =?us-ascii?Q?PN0kOmgY8AEQRWHUAwxMpunHXzAksR3/as5efhFXcWZXlOtQ6YwM3OpJtcgD?=
+ =?us-ascii?Q?AN2Bh2CEtSxZFV0rEX3pVv7GAwXSQHjyDyRe2eultHBzizYM4x4wCl46dhQa?=
+ =?us-ascii?Q?Vi2pWAUHAkCtJ6sbNTziK/RQlUaOoAxCpjHTjYqGQtkt5TkkjN5G4Su0149C?=
+ =?us-ascii?Q?dEmsg/gGpCzN2O3aEqML18diqK8xidUvNLOQrfnodhzA7uGQr4HN1d44fszI?=
+ =?us-ascii?Q?6+AuIvDjtTGHH6bQVQFIfd48BHDiEDXJMGQwDcK5QUaSS8xcaO4wX1VZdT1q?=
+ =?us-ascii?Q?18YBN5gWTVVS6SQ5vm8g9m81h+aO2xbnF49VakhM/BE8hey7kWtvBjGKfjgm?=
+ =?us-ascii?Q?AFsZqJzyC/JXZZO9HRwCznBlwDEsInn2ePcBNiErCyH67j4Bw6OnZbhwGkwn?=
+ =?us-ascii?Q?TSHbWm++n5NG9W07YYAbqTXthli4h9ARn+MT49I8sbIjy9kRK/bvKkz0CAmH?=
+ =?us-ascii?Q?ew=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250813060339.2977604-6-jens.wiklander@linaro.org>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fd43556-9c43-4ef5-a367-08dddaf86c88
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Aug 2025 06:04:26.3626 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fIDEW5jKlkszw7+eGN600yEWm2TyYaGmazNdw9Nx+0cOosY9j8cu4Kch1CFmRRfiz38I0X3uRjZM02c/OGgRuXjYL8y/sMVZVYE5JLUgtM0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9909
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,366 +152,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 13, 2025 at 08:02:54AM +0200, Jens Wiklander wrote:
-> From: Etienne Carriere <etienne.carriere@foss.st.com>
-> 
-> Add a userspace API to create a tee_shm object that refers to a dmabuf
-> reference.
-> 
-> Userspace registers the dmabuf file descriptor as in a tee_shm object.
-> The registration is completed with a tee_shm returned file descriptor.
-> 
-> Userspace is free to close the dmabuf file descriptor after it has been
-> registered since all the resources are now held via the new tee_shm
-> object.
-> 
-> Closing the tee_shm file descriptor will eventually release all
-> resources used by the tee_shm object when all references are released.
-> 
-> The new IOCTL, TEE_IOC_SHM_REGISTER_FD, supports dmabuf references to
-> physically contiguous memory buffers. Dmabuf references acquired from
-> the TEE DMA-heap can be used as protected memory for Secure Video Path
-> and such use cases. It depends on the TEE and the TEE driver if dmabuf
-> references acquired by other means can be used.
-> 
-> A new tee_shm flag is added to identify tee_shm objects built from a
-> registered dmabuf, TEE_SHM_DMA_BUF.
-> 
-> Signed-off-by: Etienne Carriere <etienne.carriere@foss.st.com>
-> Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  drivers/tee/tee_core.c    | 63 ++++++++++++++++++++++++++++++++-
->  drivers/tee/tee_private.h |  8 +++++
->  drivers/tee/tee_shm.c     | 74 +++++++++++++++++++++++++++++++++++++--
->  include/linux/tee_core.h  |  1 +
->  include/linux/tee_drv.h   | 10 ++++++
->  include/uapi/linux/tee.h  | 31 ++++++++++++++++
->  6 files changed, 183 insertions(+), 4 deletions(-)
 
-Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 
--Sumit
+> -----Original Message-----
+> From: Geert Uytterhoeven <geert+renesas@glider.be>
+> Sent: 09 July 2025 19:43
+> Subject: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to RUNTIME_PM_OPS=
+()
+>=20
+> Convert the Renesas RZ/G2L MIPI DSI Encoder driver from
+> SET_RUNTIME_PM_OPS() to RUNTIME_PM_OPS() and pm_ptr().  This lets us drop=
+ the __maybe_unused
+> annotations from its runtime suspend and resume callbacks, and reduces ke=
+rnel size in case CONFIG_PM is
+> disabled.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> 
-> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> index b89f93b1f8f2..fe414595fc2c 100644
-> --- a/drivers/tee/tee_core.c
-> +++ b/drivers/tee/tee_core.c
-> @@ -354,11 +354,49 @@ tee_ioctl_shm_register(struct tee_context *ctx,
->  	return ret;
->  }
->  
-> +static int
-> +tee_ioctl_shm_register_fd(struct tee_context *ctx,
-> +			  struct tee_ioctl_shm_register_fd_data __user *udata)
-> +{
-> +	struct tee_ioctl_shm_register_fd_data data;
-> +	struct tee_shm *shm;
-> +	long ret;
-> +
-> +	if (copy_from_user(&data, udata, sizeof(data)))
-> +		return -EFAULT;
-> +
-> +	/* Currently no input flags are supported */
-> +	if (data.flags)
-> +		return -EINVAL;
-> +
-> +	shm = tee_shm_register_fd(ctx, data.fd);
-> +	if (IS_ERR(shm))
-> +		return -EINVAL;
-> +
-> +	data.id = shm->id;
-> +	data.flags = shm->flags;
-> +	data.size = shm->size;
-> +
-> +	if (copy_to_user(udata, &data, sizeof(data)))
-> +		ret = -EFAULT;
-> +	else
-> +		ret = tee_shm_get_fd(shm);
-> +
-> +	/*
-> +	 * When user space closes the file descriptor the shared memory
-> +	 * should be freed or if tee_shm_get_fd() failed then it will
-> +	 * be freed immediately.
-> +	 */
-> +	tee_shm_put(shm);
-> +	return ret;
-> +}
-> +
->  static int param_from_user_memref(struct tee_context *ctx,
->  				  struct tee_param_memref *memref,
->  				  struct tee_ioctl_param *ip)
->  {
->  	struct tee_shm *shm;
-> +	size_t offs = 0;
->  
->  	/*
->  	 * If a NULL pointer is passed to a TA in the TEE,
-> @@ -389,6 +427,26 @@ static int param_from_user_memref(struct tee_context *ctx,
->  			tee_shm_put(shm);
->  			return -EINVAL;
->  		}
-> +
-> +		if (shm->flags & TEE_SHM_DMA_BUF) {
-> +			struct tee_shm_dmabuf_ref *ref;
-> +
-> +			ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
-> +			if (ref->parent_shm) {
-> +				/*
-> +				 * The shm already has one reference to
-> +				 * ref->parent_shm so we are clear of 0.
-> +				 * We're getting another reference since
-> +				 * this shm will be used in the parameter
-> +				 * list instead of the shm we got with
-> +				 * tee_shm_get_from_id() above.
-> +				 */
-> +				refcount_inc(&ref->parent_shm->refcount);
-> +				tee_shm_put(shm);
-> +				shm = ref->parent_shm;
-> +				offs = ref->offset;
-> +			}
-> +		}
->  	} else if (ctx->cap_memref_null) {
->  		/* Pass NULL pointer to OP-TEE */
->  		shm = NULL;
-> @@ -396,7 +454,7 @@ static int param_from_user_memref(struct tee_context *ctx,
->  		return -EINVAL;
->  	}
->  
-> -	memref->shm_offs = ip->a;
-> +	memref->shm_offs = ip->a + offs;
->  	memref->size = ip->b;
->  	memref->shm = shm;
->  
-> @@ -842,6 +900,8 @@ static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
->  		return tee_ioctl_shm_alloc(ctx, uarg);
->  	case TEE_IOC_SHM_REGISTER:
->  		return tee_ioctl_shm_register(ctx, uarg);
-> +	case TEE_IOC_SHM_REGISTER_FD:
-> +		return tee_ioctl_shm_register_fd(ctx, uarg);
->  	case TEE_IOC_OPEN_SESSION:
->  		return tee_ioctl_open_session(ctx, uarg);
->  	case TEE_IOC_INVOKE:
-> @@ -1303,3 +1363,4 @@ MODULE_AUTHOR("Linaro");
->  MODULE_DESCRIPTION("TEE Driver");
->  MODULE_VERSION("1.0");
->  MODULE_LICENSE("GPL v2");
-> +MODULE_IMPORT_NS("DMA_BUF");
-> diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
-> index 6c6ff5d5eed2..a9b5e4a6a8f7 100644
-> --- a/drivers/tee/tee_private.h
-> +++ b/drivers/tee/tee_private.h
-> @@ -13,6 +13,14 @@
->  #include <linux/mutex.h>
->  #include <linux/types.h>
->  
-> +/* extra references appended to shm object for registered shared memory */
-> +struct tee_shm_dmabuf_ref {
-> +	struct tee_shm shm;
-> +	size_t offset;
-> +	struct dma_buf *dmabuf;
-> +	struct tee_shm *parent_shm;
-> +};
-> +
->  int tee_shm_get_fd(struct tee_shm *shm);
->  
->  bool tee_device_get(struct tee_device *teedev);
-> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-> index daf6e5cfd59a..76195a398c89 100644
-> --- a/drivers/tee/tee_shm.c
-> +++ b/drivers/tee/tee_shm.c
-> @@ -4,6 +4,7 @@
->   */
->  #include <linux/anon_inodes.h>
->  #include <linux/device.h>
-> +#include <linux/dma-buf.h>
->  #include <linux/idr.h>
->  #include <linux/io.h>
->  #include <linux/mm.h>
-> @@ -45,7 +46,15 @@ static void release_registered_pages(struct tee_shm *shm)
->  
->  static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
->  {
-> -	if (shm->flags & TEE_SHM_POOL) {
-> +	void *p = shm;
-> +
-> +	if (shm->flags & TEE_SHM_DMA_BUF) {
-> +		struct tee_shm_dmabuf_ref *ref;
-> +
-> +		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
-> +		p = ref;
-> +		dma_buf_put(ref->dmabuf);
-> +	} else if (shm->flags & TEE_SHM_POOL) {
->  		teedev->pool->ops->free(teedev->pool, shm);
->  	} else if (shm->flags & TEE_SHM_DYNAMIC) {
->  		int rc = teedev->desc->ops->shm_unregister(shm->ctx, shm);
-> @@ -59,7 +68,7 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
->  
->  	teedev_ctx_put(shm->ctx);
->  
-> -	kfree(shm);
-> +	kfree(p);
->  
->  	tee_device_put(teedev);
->  }
-> @@ -169,7 +178,7 @@ struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, size_t size)
->   * tee_client_invoke_func(). The memory allocated is later freed with a
->   * call to tee_shm_free().
->   *
-> - * @returns a pointer to 'struct tee_shm'
-> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on failure
->   */
->  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size)
->  {
-> @@ -179,6 +188,62 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size)
->  }
->  EXPORT_SYMBOL_GPL(tee_shm_alloc_kernel_buf);
->  
-> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd)
-> +{
-> +	struct tee_shm_dmabuf_ref *ref;
-> +	int rc;
-> +
-> +	if (!tee_device_get(ctx->teedev))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	teedev_ctx_get(ctx);
-> +
-> +	ref = kzalloc(sizeof(*ref), GFP_KERNEL);
-> +	if (!ref) {
-> +		rc = -ENOMEM;
-> +		goto err_put_tee;
-> +	}
-> +
-> +	refcount_set(&ref->shm.refcount, 1);
-> +	ref->shm.ctx = ctx;
-> +	ref->shm.id = -1;
-> +	ref->shm.flags = TEE_SHM_DMA_BUF;
-> +
-> +	ref->dmabuf = dma_buf_get(fd);
-> +	if (IS_ERR(ref->dmabuf)) {
-> +		rc = PTR_ERR(ref->dmabuf);
-> +		goto err_kfree_ref;
-> +	}
-> +
-> +	rc = tee_heap_update_from_dma_buf(ctx->teedev, ref->dmabuf,
-> +					  &ref->offset, &ref->shm,
-> +					  &ref->parent_shm);
-> +	if (rc)
-> +		goto err_put_dmabuf;
-> +
-> +	mutex_lock(&ref->shm.ctx->teedev->mutex);
-> +	ref->shm.id = idr_alloc(&ref->shm.ctx->teedev->idr, &ref->shm,
-> +				1, 0, GFP_KERNEL);
-> +	mutex_unlock(&ref->shm.ctx->teedev->mutex);
-> +	if (ref->shm.id < 0) {
-> +		rc = ref->shm.id;
-> +		goto err_put_dmabuf;
-> +	}
-> +
-> +	return &ref->shm;
-> +
-> +err_put_dmabuf:
-> +	dma_buf_put(ref->dmabuf);
-> +err_kfree_ref:
-> +	kfree(ref);
-> +err_put_tee:
-> +	teedev_ctx_put(ctx);
-> +	tee_device_put(ctx->teedev);
-> +
-> +	return ERR_PTR(rc);
-> +}
-> +EXPORT_SYMBOL_GPL(tee_shm_register_fd);
-> +
->  /**
->   * tee_shm_alloc_priv_buf() - Allocate shared memory for a privately shared
->   *			      kernel buffer
-> @@ -442,6 +507,9 @@ static int tee_shm_fop_mmap(struct file *filp, struct vm_area_struct *vma)
->  	/* Refuse sharing shared memory provided by application */
->  	if (shm->flags & TEE_SHM_USER_MAPPED)
->  		return -EINVAL;
-> +	/* Refuse sharing registered DMA_bufs with the application */
-> +	if (shm->flags & TEE_SHM_DMA_BUF)
-> +		return -EINVAL;
->  
->  	/* check for overflowing the buffer's size */
->  	if (vma->vm_pgoff + vma_pages(vma) > shm->size >> PAGE_SHIFT)
-> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> index 28b65010b9ed..b6c54b34a8b5 100644
-> --- a/include/linux/tee_core.h
-> +++ b/include/linux/tee_core.h
-> @@ -28,6 +28,7 @@
->  #define TEE_SHM_USER_MAPPED	BIT(1)  /* Memory mapped in user space */
->  #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
->  #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
-> +#define TEE_SHM_DMA_BUF		BIT(4)	/* Memory with dma-buf handle */
->  
->  #define TEE_DEVICE_FLAG_REGISTERED	0x1
->  #define TEE_MAX_DEV_NAME_LEN		32
-> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> index a54c203000ed..824f1251de60 100644
-> --- a/include/linux/tee_drv.h
-> +++ b/include/linux/tee_drv.h
-> @@ -116,6 +116,16 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size);
->  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
->  					    void *addr, size_t length);
->  
-> +/**
-> + * tee_shm_register_fd() - Register shared memory from file descriptor
-> + *
-> + * @ctx:	Context that allocates the shared memory
-> + * @fd:		Shared memory file descriptor reference
-> + *
-> + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR on failure
-> + */
-> +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int fd);
-> +
->  /**
->   * tee_shm_free() - Free shared memory
->   * @shm:	Handle to shared memory to free
-> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> index d0430bee8292..d843cf980d98 100644
-> --- a/include/uapi/linux/tee.h
-> +++ b/include/uapi/linux/tee.h
-> @@ -378,6 +378,37 @@ struct tee_ioctl_shm_register_data {
->  	__s32 id;
->  };
->  
-> +/**
-> + * struct tee_ioctl_shm_register_fd_data - Shared memory registering argument
-> + * @fd:		[in] File descriptor identifying dmabuf reference
-> + * @size:	[out] Size of referenced memory
-> + * @flags:	[in] Flags to/from allocation.
-> + * @id:		[out] Identifier of the shared memory
-> + *
-> + * The flags field should currently be zero as input. Updated by the call
-> + * with actual flags as defined by TEE_IOCTL_SHM_* above.
-> + * This structure is used as argument for TEE_IOC_SHM_REGISTER_FD below.
-> + */
-> +struct tee_ioctl_shm_register_fd_data {
-> +	__s64 fd;
-> +	__u64 size;
-> +	__u32 flags;
-> +	__s32 id;
-> +};
-> +
-> +/**
-> + * TEE_IOC_SHM_REGISTER_FD - register a shared memory from a file descriptor
-> + *
-> + * Returns a file descriptor on success or < 0 on failure
-> + *
-> + * The returned file descriptor refers to the shared memory object in the
-> + * kernel. The supplied file deccriptor can be closed if it's not needed
-> + * for other purposes. The shared memory is freed when the descriptor is
-> + * closed.
-> + */
-> +#define TEE_IOC_SHM_REGISTER_FD	_IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 8, \
-> +				     struct tee_ioctl_shm_register_fd_data)
-> +
->  /**
->   * TEE_IOC_SHM_REGISTER - Register shared memory argument
->   *
-> -- 
-> 2.43.0
-> 
+Applied to drm-misc-next.
+
+Thanks,
+Biju
