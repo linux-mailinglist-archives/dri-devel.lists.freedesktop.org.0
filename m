@@ -2,63 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0D8B2616A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 11:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC858B25EA1
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 10:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E68810E827;
-	Thu, 14 Aug 2025 09:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E880C10E2A0;
+	Thu, 14 Aug 2025 08:23:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lzIDCjbd";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fzdUpndw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3311210E83B;
- Thu, 14 Aug 2025 09:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755164949; x=1786700949;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=QkPxUdpuqr1DUVmmOcH04Inx+a3RZmbXnCVVRgnM76I=;
- b=lzIDCjbdP+qGy95hJCWu/kZzb9EOXKNC4GS27FAowwm/unV4ai0OFV5/
- KaCN+Dj4d82hN+r5Stv9Zx7HzS3W9XgrN+ugYJmkaU+yMRI9KBPWTrRYX
- 8CEneg9aRcau0jAxdcruQVd1R1iVRUN5YwzHkEMa7fYHM0+O2iu9o3y19
- 3+Y2Fo1+YEnR7brDc1nV3IQG/vrW7G89OW6+yyLBVtl/6kbkwePnhJS1i
- nHZvkhpP9zutCKQgc1SwLsqqAY5aeKH8cQnm8/u08FbunI98a4sUcVchn
- 4n/IGNuswHQI9z1fFuYapjgHpOPIbhU0oV40KTRYfj8udPyU4udG2bz4H Q==;
-X-CSE-ConnectionGUID: rURr2hYXSMmRTpb+tZoGxA==
-X-CSE-MsgGUID: BgSrmcMHQDO9NJFgerll+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67746991"
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="67746991"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2025 02:49:09 -0700
-X-CSE-ConnectionGUID: Rs2vrowXQQyB6UfU1Y+Jjw==
-X-CSE-MsgGUID: MVSGJjwDRbG3McwsLsRftw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="166980981"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.244.150])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2025 02:49:05 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH 4/4] dma-buf/fence-chain: Speed up processing of rearmed
- callbacks
-Date: Thu, 14 Aug 2025 10:16:15 +0200
-Message-ID: <20250814094824.217142-10-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250814094824.217142-6-janusz.krzysztofik@linux.intel.com>
-References: <20250814094824.217142-6-janusz.krzysztofik@linux.intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C01810E2A0;
+ Thu, 14 Aug 2025 08:23:02 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DMxFWo023986;
+ Thu, 14 Aug 2025 08:22:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 21u6GHncD1qmZgE3QDHrS+U+JosoC2ENVBFuXbIqbs0=; b=fzdUpndwgPHJxNqw
+ /upag5MfItrA8otjChTYrHZmwvJt/AxU2sbrm+amrmWuTQsXxjoVWqQhWdoYWWCS
+ O0lbVZwEjkOSotkrsGIHdrmp8QwX08ajo2wgIHKPrl+b2Gq5UP2deb0G2wXYgm/w
+ okl66xRfIDBaqmSMFurG7kCeol2H9/hNotMHimrOq5PMJgHe7+yFW7v7X6/uFBPj
+ tZPP+l1/CJBxENC2enYo76ivf6PhBZe6mQLY28RdjoqFdcftM+BD3DtzqCXfsEKA
+ KfMncMlnaOYCxtaTbRjNSra8p2N5OkmA1/wmf1k3Xlfgbd1manvrlv87wB6Gw+v4
+ dtkxfg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48gr9ruk2r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Aug 2025 08:22:52 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57E8Mqtv028839
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Aug 2025 08:22:52 GMT
+Received: from [10.133.33.43] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 14 Aug
+ 2025 01:22:47 -0700
+Message-ID: <e3b5721d-cf37-4b35-9851-5e822fa16c09@quicinc.com>
+Date: Thu, 14 Aug 2025 16:22:44 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 26/38] drm/msm/dp: skip reading the EDID for MST cases
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: Rob Clark <robin.clark@oss.qualcomm.com>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Abhinav
+ Kumar" <quic_abhinavk@quicinc.com>
+References: <20250609-msm-dp-mst-v2-0-a54d8902a23d@quicinc.com>
+ <20250609-msm-dp-mst-v2-26-a54d8902a23d@quicinc.com>
+ <lusd35wv2pj5sy6mdiw7axqxnei2wqo57pf6ju5ys2ibfrkidu@63lkbckuu2n6>
+Content-Language: en-US
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+In-Reply-To: <lusd35wv2pj5sy6mdiw7axqxnei2wqo57pf6ju5ys2ibfrkidu@63lkbckuu2n6>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEzMDA5NCBTYWx0ZWRfXz0R48Ozax+dY
+ YeUVoGep7qlHG84sm/Y+fX22S3bxTTpET41A3br5EZ+on/hF1dBKlsYxdXApN1AZ00T3qobecFN
+ Jb3BPp/XqRFlaaO6dKL23ljz6ye8YzLqCmFcdcksJtfjj8XSFuk8ZmwzCi2iIZ3nKQUe/8Yuwqo
+ pSLOEx+YP5IFjc/zIU3UPDCxJVH/fjI4zQhNvhX6T+m9Cht9ynUNM5bNtAPWiofuRuqZslw5FYJ
+ pRHbD10EjBmcK8JxQe22rNruwOj1nEFaKXcjyeFJ1DF0P10cS0ILmmTqoFV2W1H63h84vP39hhp
+ 4QrOqrEL+rjppMW6GwIlUaqUJ4cQqvkdtQTjpS3gkxVXGK3mJhc1B9Q7Yuxnp60RAJM3rg2/UD4
+ bK0peKeN
+X-Authority-Analysis: v=2.4 cv=NIrV+16g c=1 sm=1 tr=0 ts=689d9cdc cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
+ a=iVGnFgL3FlcK6foRaNUA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: rzjTHFpEi3Ufbeh180Q_9_FpJu5CfPRI
+X-Proofpoint-GUID: rzjTHFpEi3Ufbeh180Q_9_FpJu5CfPRI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 impostorscore=0 adultscore=0 suspectscore=0
+ spamscore=0 malwarescore=0 phishscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508130094
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,170 +107,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When first user starts waiting on a not yet signaled fence of a chain
-link, a dma_fence_chain callback is added to a user fence of that link.
-When the user fence of that chain link is then signaled, the chain is
-traversed in search for a first not signaled link and the callback is
-rearmed on a user fence of that link.
 
-Since chain fences may be exposed to user space, e.g. over drm_syncobj
-IOCTLs, users may start waiting on any link of the chain, then many links
-of a chain may have signaling enabled and their callbacks added to their
-user fences.  Once an arbitrary user fence is signaled, all
-dma_fence_chain callbacks added to it so far must be rearmed to another
-user fence of the chain.  In extreme scenarios, when all N links of a
-chain are awaited and then signaled in reverse order, the dma_fence_chain
-callback may be called up to N * (N + 1) / 2 times (an arithmetic series).
 
-To avoid that potential excessive accumulation of dma_fence_chain
-callbacks, rearm a trimmed-down, signal only callback version to the base
-fence of a previous link, if not yet signaled, otherwise just signal the
-base fence of the current link instead of traversing the chain in search
-for a first not signaled link and moving all callbacks collected so far to
-a user fence of that link.
-
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12904
-Suggested-by: Chris Wilson <chris.p.wilson@linux.intel.com>
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- drivers/dma-buf/dma-fence-chain.c | 101 +++++++++++++++++++++++++-----
- 1 file changed, 84 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-index a8a90acf4f34d..90eff264ee05c 100644
---- a/drivers/dma-buf/dma-fence-chain.c
-+++ b/drivers/dma-buf/dma-fence-chain.c
-@@ -119,46 +119,113 @@ static const char *dma_fence_chain_get_timeline_name(struct dma_fence *fence)
-         return "unbound";
- }
- 
--static void dma_fence_chain_irq_work(struct irq_work *work)
-+static void signal_irq_work(struct irq_work *work)
- {
- 	struct dma_fence_chain *chain;
- 
- 	chain = container_of(work, typeof(*chain), work);
- 
--	/* Try to rearm the callback */
--	if (!dma_fence_chain_enable_signaling(&chain->base))
--		/* Ok, we are done. No more unsignaled fences left */
--		dma_fence_signal(&chain->base);
-+	dma_fence_signal(&chain->base);
- 	dma_fence_put(&chain->base);
- }
- 
--static void dma_fence_chain_cb(struct dma_fence *f, struct dma_fence_cb *cb)
-+static void signal_cb(struct dma_fence *f, struct dma_fence_cb *cb)
-+{
-+	struct dma_fence_chain *chain;
-+
-+	chain = container_of(cb, typeof(*chain), cb);
-+	init_irq_work(&chain->work, signal_irq_work);
-+	irq_work_queue(&chain->work);
-+}
-+
-+static void rearm_irq_work(struct irq_work *work)
-+{
-+	struct dma_fence_chain *chain;
-+	struct dma_fence *prev;
-+
-+	chain = container_of(work, typeof(*chain), work);
-+
-+	rcu_read_lock();
-+	prev = rcu_dereference(chain->prev);
-+	if (prev && dma_fence_add_callback(prev, &chain->cb, signal_cb))
-+		prev = NULL;
-+	rcu_read_unlock();
-+	if (prev)
-+		return;
-+
-+	/* Ok, we are done. No more unsignaled fences left */
-+	signal_irq_work(work);
-+}
-+
-+static inline bool fence_is_signaled__nested(struct dma_fence *fence)
-+{
-+	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-+		return true;
-+
-+	if (fence->ops->signaled && fence->ops->signaled(fence)) {
-+		unsigned long flags;
-+
-+		spin_lock_irqsave_nested(fence->lock, flags, SINGLE_DEPTH_NESTING);
-+		dma_fence_signal_locked(fence);
-+		spin_unlock_irqrestore(fence->lock, flags);
-+
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+static bool prev_is_signaled(struct dma_fence_chain *chain)
-+{
-+	struct dma_fence *prev;
-+	bool result;
-+
-+	rcu_read_lock();
-+	prev = rcu_dereference(chain->prev);
-+	result = !prev || fence_is_signaled__nested(prev);
-+	rcu_read_unlock();
-+
-+	return result;
-+}
-+
-+static void rearm_or_signal_cb(struct dma_fence *f, struct dma_fence_cb *cb)
- {
- 	struct dma_fence_chain *chain;
- 
- 	chain = container_of(cb, typeof(*chain), cb);
--	init_irq_work(&chain->work, dma_fence_chain_irq_work);
-+	if (prev_is_signaled(chain)) {
-+		/* Ok, we are done. No more unsignaled fences left */
-+		init_irq_work(&chain->work, signal_irq_work);
-+	} else {
-+		/* Try to rearm the callback */
-+		init_irq_work(&chain->work, rearm_irq_work);
-+	}
-+
- 	irq_work_queue(&chain->work);
--	dma_fence_put(f);
- }
- 
- static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
- {
- 	struct dma_fence_chain *head = to_dma_fence_chain(fence);
-+	int err = -ENOENT;
- 
--	dma_fence_get(&head->base);
--	dma_fence_chain_for_each(fence, &head->base) {
--		struct dma_fence *f = dma_fence_chain_contained(fence);
-+	if (WARN_ON(!head))
-+		return false;
- 
--		dma_fence_get(f);
--		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
-+	dma_fence_get(fence);
-+	if (head->fence)
-+		err = dma_fence_add_callback(head->fence, &head->cb, rearm_or_signal_cb);
-+	if (err) {
-+		if (prev_is_signaled(head)) {
- 			dma_fence_put(fence);
--			return true;
-+		} else {
-+			init_irq_work(&head->work, rearm_irq_work);
-+			irq_work_queue(&head->work);
-+			err = 0;
- 		}
--		dma_fence_put(f);
- 	}
--	dma_fence_put(&head->base);
--	return false;
-+
-+	return !err;
- }
- 
- static bool dma_fence_chain_signaled(struct dma_fence *fence)
--- 
-2.50.1
+On 2025/6/9 23:58, Dmitry Baryshkov wrote:
+> On Mon, Jun 09, 2025 at 08:21:45PM +0800, Yongxing Mou wrote:
+>> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>
+>> For MST cases, EDID is handled through AUX sideband messaging.
+>> Skip the EDID read during hotplug handle for MST cases.
+> 
+> Why? It makes sense to read it during the HPD processing, ping HDMI
+> codec, update CEC info, etc.
+> 
+For MST case to read EDID. we will use drm_dp_mst_edid_read when MST 
+connetors .get_modes() called.
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 8 +++++---
+>>   1 file changed, 5 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 88cae0ca66015377e59bee757462edeae5ae91bf..b1b025d1d356046f8f9e3d243fc774185df24318 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -438,9 +438,11 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
+>>   	if (rc)
+>>   		goto end;
+>>   
+>> -	rc = msm_dp_panel_read_edid(dp->panel, connector);
+>> -	if (rc)
+>> -		goto end;
+>> +	if (!dp->mst_supported || !drm_dp_read_mst_cap(dp->aux, dp->panel->dpcd)) {
+>> +		rc = msm_dp_panel_read_edid(dp->panel, connector);
+>> +		if (rc)
+>> +			goto end;
+>> +	}
+>>   
+>>   	msm_dp_link_process_request(dp->link);
+>>   
+>>
+>> -- 
+>> 2.34.1
+>>
+> 
 
