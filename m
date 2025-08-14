@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE13B261A4
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 11:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234B3B261B6
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 12:03:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE48C10E2B9;
-	Thu, 14 Aug 2025 09:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57D9010E832;
+	Thu, 14 Aug 2025 10:03:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="IqgK6gjJ";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="EeSaIcX8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB74910E2B9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 09:58:05 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-32326e66dbaso556148a91.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 02:58:05 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABFE410E832
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 10:03:15 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-32326e20aadso984026a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 03:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1755165485; x=1755770285;
+ d=fooishbar.org; s=google; t=1755165795; x=1755770595;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OV7DVTyFPhUCuQuYofau3QDCmeiUSER83ivGh+XhTb8=;
- b=IqgK6gjJUyqyZeARgUkdODRtdjuPcPlxldA269N0EwaZQqyuPabuMqqf3WY6hVxdWQ
- EdnAeytP66VEVwb3T71wef3Slkyd3n0eb+U+zgrsk+P0N1q1+SylIRV6krax/c+jp/w+
- 86B/LYHI9m0j894de93Ilhv0qw/3P8lvLbFhdb517tsRo2+CWTUjQPDrmvsx8TyJt/GP
- ZSdXToRdbENQQ0hCYkP4lxIqK2TOSeYa7Vq3V/7BV4rcXCXS5cQrmkKB1WcQbXFh8uT5
- SM3IXniYj6qriFngdlSt8BzavS9OMykxV4+XaFNigbAmmFOyVOlNVIsmnhiuwDMfdlMr
- ntug==
+ bh=qEOB2W90rXksOFaGu/9jDWwkFfwmR8WI4O4PlmDtgps=;
+ b=EeSaIcX8G7LD1wxugCayfpSUfLECkrkKL8ntIasMuusxw5AsD1xKXFctM9AL8bPbZ7
+ BnsHu5VN+eZdT1dz3kr0SJ7BuHeXpNWFxbaI1Eq1klGu/aTrNJiIrEN4tzIxNrYVUYsQ
+ nwQlo3lI+g61F/y2CktkqCKvz2sG8omC3ASskB1rtf06kwKMryNYzm3zlmtGz1MEWemB
+ eQwFHMdFCaXVgk6MrMZUbDdstUOClX5GZjUK5mT6JikurcxsfF5xTxNM3EfTmx4L/lXf
+ WtAZTjm28DKldAyGDjmB29Hs66qnNs2LQ5d0ZkuHCh5z/Z4Lf/sNkhXUx1/RSfKPZCT9
+ XlyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755165485; x=1755770285;
+ d=1e100.net; s=20230601; t=1755165795; x=1755770595;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OV7DVTyFPhUCuQuYofau3QDCmeiUSER83ivGh+XhTb8=;
- b=vnQXFD1DkqP1Ju6TMSiyCKPCdYpH25xszUfJ2xfP12tDHnFc9p1gYSFMaRMCHI0qjm
- sEbEONRoRb5YXs8NEK240tv4aL/QHn6iYH3uASRnOrQtgDQfSBochx77vg5M9yEcIUn4
- qNFImGIpKAuniNNZLGcg8YTb8RHZt6GyVeU/6stC9FAalFdcAJDsLdVy2g8gQSXHtGTA
- j+oLB39GG6dEVIT6upFQrfyIgD78YDGljRVTX2YT4Ev7vSlSDCzWB5Z3e2WDwKAxb3N0
- vw8N3laaAbDbKb1pKQUZjIcpLTsaR/Kmm4Sri1dqO/PvlK2v3ffJ97QYtoE0f/SZmnjH
- VF5w==
-X-Gm-Message-State: AOJu0YxOvK5WFngs1J92nZIJXCUNcWYrimEkqN2cy1raHxFWjrlXNh4Q
- vPTIB3LY8xyjuGC55DuSpUxhDOpFMzc1r7+e5r6jnS8skHuGjdTJnWDO1N9wnmxYVbcK8iaq39s
- DUcjmjM2rnjSDxlJBL5qqLYtTpv3+P28mYKuKwSZWXQ==
-X-Gm-Gg: ASbGncsRYfMT4tl8ljtn62BxT4C+FmCfNO+bt+gch0VDpBQIKc1zqRVGeZ6x2N8Evh/
- ORwRhi1KIgCUQOyQIhvN4yjZHuicQRy5ZIIKYSzvT2HLq//zQNiMAbkHfeux/C3ZaMl7Bxz19r1
- MxRtQECUSvlnw0P7PIwLhT0UGFKCiOM8PH12Tjixj3JWM+dOUdWSaykXctPaPxeHH/ixSA4lUJ8
- qYsusWcDlC5qvGgFyrZI6ZAcbYS0/MKvGW06FTSho5OMFN9otqJ
-X-Google-Smtp-Source: AGHT+IETKzyYC4gK5t3T4Um5FyBie2JDSo9bC6y7Hbj3sXj+nFH3RLXfiBK/vl0KIyNyXOaQzWQ/47PgbCZpkXTjgas=
-X-Received: by 2002:a17:90b:5783:b0:31f:1744:e7fd with SMTP id
- 98e67ed59e1d1-32327aa63b2mr3107238a91.31.1755165485293; Thu, 14 Aug 2025
- 02:58:05 -0700 (PDT)
+ bh=qEOB2W90rXksOFaGu/9jDWwkFfwmR8WI4O4PlmDtgps=;
+ b=ElIJZrbPwufPm77nyCdUMiI/CGmiWMLp5ycx9F2plk34mv4tjbNQuwIXRLSDcGHUt6
+ Xv91bsVN8xOM07VNJ3DK5apeknCR8X7RCcemREJEJAWrF1aLZyjwggz3nHCV1apQhz27
+ 2h8NhIq19Cd9G63D57EOTx1VqWn8seW5Xp/C9YGSWtR3sD7V3BrUAkXX1sGSUlx+ZcCc
+ r46zyc/uAAGr/i+Yuf1ADgYgCPf8kJbVZbkduJRY5Av9six8LPHvUSJsiaccV3it3pp+
+ 67csN12RYyFj41yuHUN45yXzCj6ckEB4gTiNrYAD2uAs6y8lGNAVAkXGlhiTPgK+01IT
+ VFwA==
+X-Gm-Message-State: AOJu0Yzaj6c+tZQbDJ7wqDOgkyKprD0YxdbwZ4AHTtj5MgL5EDkKPtH/
+ SsSH4dCYsUoct+lDAOOPhI/r8YYDQsX/Z04RpSbnApl8XHZuqlaq6bUQz/DcZOwGpRdcRT1a9fC
+ mEnzvg7Zvn64/BpRQCaRWwqEhJY78/W8h0Cb7cG0yPw==
+X-Gm-Gg: ASbGncsiceixGlh6EHE8wN+BeGECDN/g11p49mQsOeLNZuWY8NtMEWvH3FbsqOWxPv4
+ rhNAccxrmS3OjbERJqWZOPSS8dYFnlseB898D6sTRy0qTN8bqQBWogZxHzO6u+nkj4H5dVsIrHZ
+ ACfd0vVKwPbOZLeNsTAgN/2p8v7zOqhq+7sQvnMXk8tEmVeEOP5M3N8Ez/M7ILiQNsvDKwyZLmk
+ XnIE3YRMBY6Lt6KzfNBOXPY+eSSIocLvqXQijNKXw==
+X-Google-Smtp-Source: AGHT+IGq0iuvcuowtm8ET/jccUdzqV8iUXS1Y+csgeAsvZbTW155MIoBUP1CH9wGRBQrA3BJhu6/kGlkau3DMPsPGiE=
+X-Received: by 2002:a17:90b:3a45:b0:312:1d2d:18df with SMTP id
+ 98e67ed59e1d1-32327a86d2cmr3842904a91.23.1755165795078; Thu, 14 Aug 2025
+ 03:03:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250813170542.331206-1-robert.mader@collabora.com>
- <20250813170542.331206-3-robert.mader@collabora.com>
-In-Reply-To: <20250813170542.331206-3-robert.mader@collabora.com>
+ <20250813170542.331206-4-robert.mader@collabora.com>
+In-Reply-To: <20250813170542.331206-4-robert.mader@collabora.com>
 From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 14 Aug 2025 10:57:53 +0100
-X-Gm-Features: Ac12FXz9uUiqN_Q5nVeEpB3WfsXKzW9kGF_PJ1N9G50cKHUx-xYOV6dIVWWh_RM
-Message-ID: <CAPj87rP4_0Py3Ko1=MtwXm7o3T1Javj-h8Qv9Bov_9er3URgBg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/5] drm/vkms: Add RGB to YUV conversion matrices
+Date: Thu, 14 Aug 2025 11:03:03 +0100
+X-Gm-Features: Ac12FXzEgVA847APuGOktkZDcoOuwiYpoTqv6OSV89crcPR0hpZMSr51I0IF-TE
+Message-ID: <CAPj87rNUg6m70Na_6NCuJ2kY4ofUaS10gZWr-vmmPQwKj68SbA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/5] drm/vkms: Add WRITEBACK_COLOR_ENCODING and
+ WRITEBACK_COLOR_RANGE properties
 To: Robert Mader <robert.mader@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, Louis Chauvet <louis.chauvet@bootlin.com>,
  Daniel Stone <daniels@collabora.com>, Melissa Wen <melissa.srw@gmail.com>, 
@@ -91,16 +92,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Rob,
 
 On Wed, 13 Aug 2025 at 18:06, Robert Mader <robert.mader@collabora.com> wrote:
-> +       switch (format) {
-> +       case DRM_FORMAT_YVU420:
-> +       case DRM_FORMAT_YVU422:
-> +       case DRM_FORMAT_YVU444:
-> +       case DRM_FORMAT_NV21:
-> +       case DRM_FORMAT_NV61:
-> +       case DRM_FORMAT_NV42:
+> @@ -60,6 +71,21 @@ static int vkms_wb_atomic_check(struct drm_connector *connector,
+>         if (ret < 0)
+>                 return ret;
+>
+> +       if (conn_state->writeback_color_encoding != DRM_COLOR_YCBCR_BT601 &&
+> +           conn_state->writeback_color_encoding != DRM_COLOR_YCBCR_BT709 &&
+> +           conn_state->writeback_color_encoding != DRM_COLOR_YCBCR_BT2020) {
+> +               DRM_DEBUG_KMS("Invalid color encoding %u\n",
+> +                             conn_state->writeback_color_encoding);
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (conn_state->writeback_color_range != DRM_COLOR_YCBCR_LIMITED_RANGE &&
+> +           conn_state->writeback_color_range != DRM_COLOR_YCBCR_FULL_RANGE) {
+> +               DRM_DEBUG_KMS("Invalid color range %u\n",
+> +                             conn_state->writeback_color_range);
+> +               return -EINVAL;
+> +       }
 
-I wonder if this could use a drm_format_info field for chroma order,
-instead of open-coding a list here?
+I didn't think you needed this check, as the core property code should
+already disallow setting an enum not in the supported list?
+
+As this only takes effect on YUV, I suspect you might be better off
+adding a PASSTHROUGH or NOOP or similar value, which would be required
+to be used for RGB framebuffers, with it being required to specify the
+range and primaries for YUV formats.
+
+That being said, I don't think these are specific to YUV, as RGB can
+also have the same 16-235 squash applied to it. So maybe it is better
+off being generic?
 
 Cheers,
 Daniel
