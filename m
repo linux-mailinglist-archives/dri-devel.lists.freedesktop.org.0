@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE531B271D0
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 00:43:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A752FB271ED
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 00:46:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC6D410E228;
-	Thu, 14 Aug 2025 22:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E03110E0B5;
+	Thu, 14 Aug 2025 22:46:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jqDCwQKK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DzwUkoTq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC3010E11D;
- Thu, 14 Aug 2025 22:43:00 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A596C10E0B5;
+ Thu, 14 Aug 2025 22:46:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 00EC5A56E64;
- Thu, 14 Aug 2025 22:42:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E49AC4CEED;
- Thu, 14 Aug 2025 22:42:58 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 4019B44F52;
+ Thu, 14 Aug 2025 22:46:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1540C4CEF1;
+ Thu, 14 Aug 2025 22:46:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755211378;
- bh=EXYID1DQZNvp8ko5yQcdAojT8GVsj+vCFjSTUgEPMYc=;
+ s=k20201202; t=1755211574;
+ bh=eVKCvuZBdo7sTzDK9mufFyxVjNlpGmchq+d/D5GmycM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jqDCwQKKodWGi2aoDMhh4VFfJsfX8z/ZGVwIOlYWLGfU8N8dLiOnw8aPUDtK33ozn
- XHYlwVqQEYDbLW8NC1CfTqjOBylIseYqtVX5MmQEncKUTcUIEWnr2/NSqBamGdiXMo
- 9r9/BZ8aD2hMEsC7VFF4YViy3Udb1coCl+bS3j/87SPV1atLQ0/CokiXkcMYdli/8f
- kGTg1WYK3O0UqGzB/5WNRFl9PfoygHeQ9BbRE21tzjrr8CVe/BmzIZL7A5ShiplyLK
- /SwsFS+TKTl/xMtMDlWWQLUeoAFGQqij+S+IwQGOiMZ3k9cUAZa5auaiP/eLN8Dj7k
- t1WHglpeot+IA==
-Date: Thu, 14 Aug 2025 17:42:57 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
+ b=DzwUkoTqwUMyNSWMdTnnC7kDdMAhoIBXxmxUvHpoKQ3lHJzR15QCFXYIkslS5771z
+ np5vqUeJLkSaucizKdOw+Qodlq6CX3ORVE1aeEDNZuZHAijeEhJGuUiJBXaPbAznRx
+ d3fPFHHjU8QmSiNrXeQ/yNn0dcLrAI+skVOImTGRxtwDMqHsyoOLLC7uhUVsHP+85M
+ bShH9tgKuPo1B+Xh4owWq1mKrO8fDgq7LEcHJHTYMehJZrFM0ntCtZo2FoH5nPUbFq
+ aWNUrZM2aw8YNuIW1VxjCFifU+QIbhfxh/EzqiwMFaApPX/RYxntHnC6rsP1gEgYfb
+ /Zdp9OI2Pw16w==
+Date: Thu, 14 Aug 2025 17:46:13 -0500
+From: Rob Herring <robh@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>,
- Abel Vesa <abel.vesa@linaro.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mahadevan <quic_mahap@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>, devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>, freedreno@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Sean Paul <sean@poorly.run>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robin.clark@oss.qualcomm.com>
-Subject: Re: [PATCH v5 4/6] dt-bindings: display/msm: drop
- assigned-clock-parents for dp controller
-Message-ID: <175521137747.4052414.4732058801340253621.robh@kernel.org>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Abel Vesa <abel.vesa@linaro.org>, Mahadevan <quic_mahap@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v5 5/6] dt-bindings: display/msm: add stream pixel clock
+ bindings for MST
+Message-ID: <20250814224613.GA4052689-robh@kernel.org>
 References: <20250809-dp_mst_bindings-v5-0-b185fe574f38@oss.qualcomm.com>
- <20250809-dp_mst_bindings-v5-4-b185fe574f38@oss.qualcomm.com>
+ <20250809-dp_mst_bindings-v5-5-b185fe574f38@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250809-dp_mst_bindings-v5-4-b185fe574f38@oss.qualcomm.com>
+In-Reply-To: <20250809-dp_mst_bindings-v5-5-b185fe574f38@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,28 +77,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Sat, 09 Aug 2025 12:16:18 +0300, Dmitry Baryshkov wrote:
+On Sat, Aug 09, 2025 at 12:16:19PM +0300, Dmitry Baryshkov wrote:
 > From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > 
-> DP controller schema documents assigned-clocks and
-> assigned-clock-parents. However these assignments should not be a part
-> of the ABI: there are no actual requirements on the order of the
-> assignments, MST cases require different number of clocks to be
-> assigned, etc.
+> On a vast majority of Qualcomm chipsets DisplayPort controller can
+> support several MST streams (up to 4x). To support MST these chipsets
+> use up to 4 stream pixel clocks for the DisplayPort controller. Expand
+> corresponding clock bindings for these platforms and fix example
+> schema files to follow updated bindings.
 > 
-> Instead of fixing up the documentation, drop the assigned-clock-parents
-> and assigned-clocks from the bindings. The generic clock/clock.yaml
-> already covers these properties.
+> Note: On chipsets that do support MST, the number of streams supported
+> can vary between controllers. For example, SA8775P supports 4 MST
+> streams on mdss_dp0 but only 2 streams on mdss_dp1.
 > 
-> Suggested-by: Krzysztof Kozlowski <krzk@kernel.org>
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  .../devicetree/bindings/display/msm/dp-controller.yaml         | 10 ----------
->  1 file changed, 10 deletions(-)
+>  .../bindings/display/msm/dp-controller.yaml        | 72 +++++++++++++++++++++-
+>  .../bindings/display/msm/qcom,sa8775p-mdss.yaml    | 20 ++++--
+>  .../bindings/display/msm/qcom,sar2130p-mdss.yaml   | 10 ++-
+>  .../bindings/display/msm/qcom,sm8750-mdss.yaml     | 10 ++-
+>  .../bindings/display/msm/qcom,x1e80100-mdss.yaml   | 10 ++-
+>  5 files changed, 108 insertions(+), 14 deletions(-)
 > 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index 352824c245224d7b5e096770684795625fc9f146..0122592a3ef5fcfe5a5ff8364b2cb6540a37a8ab 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -58,20 +58,28 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> +    minItems: 5
+>      items:
+>        - description: AHB clock to enable register access
+>        - description: Display Port AUX clock
+>        - description: Display Port Link clock
+>        - description: Link interface clock between DP and PHY
+> -      - description: Display Port Pixel clock
+> +      - description: Display Port stream 0 Pixel clock
+> +      - description: Display Port stream 1 Pixel clock
+> +      - description: Display Port stream 2 Pixel clock
+> +      - description: Display Port stream 3 Pixel clock
+>  
+>    clock-names:
+> +    minItems: 5
+>      items:
+>        - const: core_iface
+>        - const: core_aux
+>        - const: ctrl_link
+>        - const: ctrl_link_iface
+>        - const: stream_pixel
+> +      - const: stream_1_pixel
+> +      - const: stream_2_pixel
+> +      - const: stream_3_pixel
+>  
+>    phys:
+>      maxItems: 1
+> @@ -187,6 +195,68 @@ allOf:
+>          required:
+>            - "#sound-dai-cells"
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,sc7180-dp
+> +              - qcom,sc7280-dp
+> +              - qcom,sc7280-edp
+> +              - qcom,sc8180x-edp
+> +              - qcom,sc8280xp-edp
+> +              - qcom,sm6350-dp
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 5
+> +          maxItems: 5
+> +    else:
+> +      if:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                # some of SA8775P DP controllers support 4 streams MST,
+> +                # others just 2 streams MST
+> +                - qcom,sa8775p-dp
+> +      then:
+> +        oneOf:
+> +          - properties:
+> +              clocks:
+> +                minItems: 8
+> +                maxItems: 8
+> +          - properties:
+> +              clocks:
+> +                minItems: 6
+> +                maxItems: 6
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+I don't really care if we catch someone putting in 7 clocks. So just 
+do:
 
+clocks:
+  minItems: 6
+  maxItems: 8
+
+> +      else:
+> +        if:
+> +          properties:
+> +            compatible:
+> +              contains:
+> +                enum:
+> +                  # on these platforms some DP controllers support 2 streams
+> +                  # MST, others are SST only
+> +                  - qcom,sc8280xp-dp
+> +                  - qcom,x1e80100-dp
+> +        then:
+> +          oneOf:
+> +            - properties:
+> +                clocks:
+> +                  minItems: 6
+> +                  maxItems: 6
+> +            - properties:
+> +                clocks:
+> +                  minItems: 5
+> +                  maxItems: 5
+
+And here you really didn't need the oneOf.
+
+> +        else:
+> +          properties:
+> +            clocks:
+> +              minItems: 6
+> +              maxItems: 6
+> +
+> +
+>  additionalProperties: false
+>  
+>  examples:
