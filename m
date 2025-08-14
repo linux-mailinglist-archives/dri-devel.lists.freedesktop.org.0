@@ -2,72 +2,177 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3612B26CBB
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 18:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D35B26CD7
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 18:47:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AF1A10E8C4;
-	Thu, 14 Aug 2025 16:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00B7710E8C3;
+	Thu, 14 Aug 2025 16:47:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="FFckGQ8P";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aBmJjaXL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B66910E8C4
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 16:43:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1755189791; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZFVoaYb0BqXsCSXiY7Nt3GjCO/emmFJtWURWBkSKPzSG28oW6RH69rPSaZLEPwsBdDAqQrR0Up7jwRCAmiMl+2tU25UZAbWkoZdbAf0d1YLJZ/dxy+w/gDQxMmGe1fllk+bsh5aAJFEGM7RR4HHlOQpOztflo8BjSwxpEryCudc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1755189791;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=1/iclKhHRrvz1RndiLfggvb+V2P6DE4+wzZACrQdYXQ=; 
- b=PR74O+iTV635aQ+9dTX6kbR3SQUxshF5pVxH2ZoRFmXbNFB/f5F4ryJxgoNSNUuHCe8UvVCrIrrNeWtKFG3ME/3dZR/ojgkpaK+E6ego3V7Tv+0Ciri7O2ri8nz81hi9Kt+EmO8yYixXcGvsy/VznJrHqXgZ3lQgBgKPM8EyWvo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755189791; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=1/iclKhHRrvz1RndiLfggvb+V2P6DE4+wzZACrQdYXQ=;
- b=FFckGQ8PrNiZ2CQY/GtDz7o2T+13e1b9kz3693PfFhJTAf1Scpp2WQqKMew0Gwh0
- Zx6zCs4lzMXSy35XGn++MTl5eWVl8H+NIMf6+rmvyreNA9xoEwy8XTgVK1OvuBOFiWT
- 9vVZvGYqDNNvREeFxtxaqTyfNBLC0mUCgw0XQawDjTFpPyrUMIUxN8Twe9JR6sznWQE
- p4tD4Its+W4UyqIF4G7S8nSGBcDQD0q2xzrEH6BctKxO4nZn/HI3r7Z1QsMgdo1wTNf
- uj8NdBewPIsFR35vmaBgiXKZtxRsg7QmiU+l/Usvf3MwCFMPpOYZ6EGX/MaLeUFu0GI
- X+5kxT5bpQ==
-Received: by mx.zohomail.com with SMTPS id 1755189789177857.0751333859133;
- Thu, 14 Aug 2025 09:43:09 -0700 (PDT)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- Icenowy Zheng <uwu@icenowy.me>
-Subject: [RFC PATCH 8/8] MAINTAINERS: assign myself as maintainer for
- verislicon DC driver
-Date: Fri, 15 Aug 2025 00:40:48 +0800
-Message-ID: <20250814164048.2336043-9-uwu@icenowy.me>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250814164048.2336043-1-uwu@icenowy.me>
-References: <20250814164048.2336043-1-uwu@icenowy.me>
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 266BF10E8C3;
+ Thu, 14 Aug 2025 16:47:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755190047; x=1786726047;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=CajMbCDe9Z2Z1VmB/1zpaEZfV5SFb/pbMiWYspp1nZ8=;
+ b=aBmJjaXLi1NznWSUEzxSXYA7nCfxJtJQbt+4sVwAlpWCjOwqCeYReqlS
+ ILV7xTcU54MY+WZeOAK+GZbBaRxKbiZODNk0RzgwOQHbZjRPlxNW5J4ic
+ h71ZmkloMWUJYVTJi5sgy+3IkHakBnzkoKr7frGfveejX8M5oCpIDOj3t
+ 2G5lD3KT5VL8HqqWzmP27vQA6gmCq8qYh1nellbuqMi24o4K177nn3hu4
+ QG37DaZ6Q3cSMwAH88JTN+NSewv75en6MwrLwkbPfLcRCEwaSHq/SJzOQ
+ 6jjfI9HZGvo1jEZRgZWIYosn3nH0pAB1oaA//5TMq+8Ql5iXrMCQJomE3 A==;
+X-CSE-ConnectionGUID: b4NjgyvzRMu86AsJ8FSQAg==
+X-CSE-MsgGUID: A247W38JR9m+AIO6Syz12w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="74963465"
+X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; d="scan'208";a="74963465"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2025 09:47:26 -0700
+X-CSE-ConnectionGUID: CFzeckW7Q8iuBk60neHcJA==
+X-CSE-MsgGUID: 2ysBvNspSf6qi7aiK7SomQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,290,1747724400"; d="scan'208";a="167068424"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2025 09:47:25 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 14 Aug 2025 09:47:25 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Thu, 14 Aug 2025 09:47:25 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (40.107.102.59)
+ by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 14 Aug 2025 09:47:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pbYLSoqZDE1U+0c46C2JPeSNem9o/GLRp5KMZ43o7m3QRQaucpvjYpabmdw96Q5FEiiRYBPGA+JjEARqMb5HLBQiVShQRs/p1mO7IwWLMzxc5W7HRGFm25n4q0AlTLzZVQH+Gi9u9OPzvrEA8t0k6fSluye/w2brMyjNgWNzbnE2FyE43d4l/pfHXJ7fJuYcmp50fSuc1QtJIk89paOg2frLV+3bON07vcLOlMXOponpJm84VyUqQj60TnBtF/SR50opXpe7GWeMh/ZqGbIjAl7CfjvPeY8Z/8ciso0F/8w82gmYwo6f5wu4cjZQezOUFaDPd8vSnUHQaw2Ev5rPSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ij7z76dOv+6BwNtSn/PgYdyia1iQh8gd5NaZC6O2tbk=;
+ b=Knmtmr/bRroIAhw9+TDposLueyR8JXP6NV0fRJ6Hno4554JpNsNzDEza1N4xS1ewjwnjpaVR2Y1cCEN6kACi5vnWk606VyoBrc6559dcuoU6zTXKTFsdl9KqJtgO69ONe2rPeSHuIk6Uo0y1URJMeSRofaciiu35Z6S61q6jMt5tjRDDRrHa9vuhzf+hFqb07L7pnYv9vcoK0TqNPvv7+Uj1f9DJcMYYYbeLXx1Ni0Av1jFgoThHkTsSnaVPPtjqqVGk0PPvH41pGLJTvqqg3NczEj4ZnbmwHBeG33y5C0yt1BEM1WoeZ8PLCTj0LCWhnnlZwkbA+/fxU8awatAN4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by IA3PR11MB9062.namprd11.prod.outlook.com (2603:10b6:208:577::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Thu, 14 Aug
+ 2025 16:47:23 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%5]) with mapi id 15.20.9031.012; Thu, 14 Aug 2025
+ 16:47:23 +0000
+Date: Thu, 14 Aug 2025 19:47:11 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Tvrtko Ursulin <tursulin@igalia.com>
+CC: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: Re: [PULL] drm-intel-fixes
+Message-ID: <aJ4TAUsmjO_nFDrx@ideak-desk>
+References: <aJ0HAh06VHWVdv63@linux>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+In-Reply-To: <aJ0HAh06VHWVdv63@linux>
+X-ClientProxiedBy: DUZPR01CA0123.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bc::8) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|IA3PR11MB9062:EE_
+X-MS-Office365-Filtering-Correlation-Id: 04ab2d2e-327d-493c-c6e8-08dddb523dcf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|10070799003|1800799024|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?tEbtKQRh+DsEFScuGvjiYyHwhTMkaqr1SiTPXwK6uvAb5E6Fr7CwCPOHCV?=
+ =?iso-8859-1?Q?PF+gSg7PdxjX/XIYU8oB0MzNhkkBAJoK0eMy2x7VdyZzN1O4Lr5XTYn0EG?=
+ =?iso-8859-1?Q?7rRSCivl+3FQtOH4uGEJrCvUajgGi0zzg2dpZ6PtwUh84AYFRZp2DwHQv6?=
+ =?iso-8859-1?Q?opJU+4rbvPyHC/TMzmM0hLlH9uQI7WnWsXngK97Ok99uHCEolowBe7sfcc?=
+ =?iso-8859-1?Q?/N9OVAG+nLN/Htp7nMlsWM2weegR/N7o3rg16SVL7z6uWRuTBpB0ZOgZ6c?=
+ =?iso-8859-1?Q?eWyN1aiKtCcL2Nh/i8tNZ0+klhV5rSMqhnN2nMb3YfeekpdhyKM8ce/+gM?=
+ =?iso-8859-1?Q?L1ZWMRyh7zr2+i+AELH1xhZ9Uf/dWZKfScZPHrGijG0UdaxK9A+tts6Sf7?=
+ =?iso-8859-1?Q?7hc4jSG/Hb4Fnt/htsPJHiXAAhsIpzDvV7hwGn/iTH+keHlt2wIS3bbDBE?=
+ =?iso-8859-1?Q?VrcIPbPUK17SlgvB9SBrxCBzd0DNc0iflQQr+zKtSPnhaH2AxZqcBs2vyH?=
+ =?iso-8859-1?Q?4zKVg909sn0IY+3dd0z/k1tE0Zfur5iYT510EUunMj5Hbf6ngh3CyUjQe8?=
+ =?iso-8859-1?Q?rvKvA5BTvLLaz6j6/kK1VZpy22cE4eSfjocymw/sRNSDGnsRGiXzijKn+Z?=
+ =?iso-8859-1?Q?UcmvTekI5J8ayMzsP5fDyvFg1uYE2UpOUgMPclWg9Wr3zJr70dw40FkaMC?=
+ =?iso-8859-1?Q?kTwdngsx2X8S261jUDwSCwvcr8jrFwVP0en31rG3tdd1luGD1fZ0UkoGyA?=
+ =?iso-8859-1?Q?s40Aa5DBnRDItjh/EfF8cd/ia1tnv5+xVJerXgnKbEzFCHr0BB3hiZRxSY?=
+ =?iso-8859-1?Q?j4heCZ2kgSMyym8LeNBRxRlAX/i4qB8G1ucHv4RzZFPW3iAJDGn1zffzGR?=
+ =?iso-8859-1?Q?zf5Ep/j19EGCXPrKC9FgAFkNoV+ZMowBZHvMAaIDZKRj1wQ/ipGYBOIbnZ?=
+ =?iso-8859-1?Q?dT6xkzPar70h1X2C8M2ixsGYTKM3Y/5WkXd/PcI/JVumH8bto4qLePZIbK?=
+ =?iso-8859-1?Q?AkdGk+KscgQaemVSS/X3D9w131X0+MfxYmz9LFDCXw56oDO1JbuY5BRsYG?=
+ =?iso-8859-1?Q?I0V6TR0uclygZsKXtaNYzmuqy1kaC2RKTopgFhY6XXRA5kqEgDVs3ObCUs?=
+ =?iso-8859-1?Q?aLL4Jjx9P5LkcVR6JXO6PM/YAm0qrWq+Z82FbLYVUeSErlDjK+n9R/WkmF?=
+ =?iso-8859-1?Q?+Cc7NAZ95Qi0gNb65V1J70i6G5sygvqt0MuT6o3qnQQdRSw39awiR6Jj38?=
+ =?iso-8859-1?Q?CHLWeloR9aitspO7pHHfjjzhFT1hb9dNu1ggPq7+UsfgO/5wXQXCH0KVEG?=
+ =?iso-8859-1?Q?H9J+8MAOkdsdxkftJ409zpv4Wcv4RU31VXnciCGJiAzunHSKSKKtBgsdc9?=
+ =?iso-8859-1?Q?so6z8DHF03fzhXn8veJ5VUaf8otoL4PNV/HX6PnArdE17wjy0RWzs=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(10070799003)(1800799024)(7416014)(376014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?m8P/KUL9xzzV7GB0j7uoiHaYczDQnsaZ8cNiEaC/vkB2NlN5ZXR5ornfPf?=
+ =?iso-8859-1?Q?10bPpMIzHriWRuua5tzJt+0CCzHhrDYNvj9tc96TS3PFQCkjtoOsTbJXgJ?=
+ =?iso-8859-1?Q?kd6H43uT1BnfQKAX77DQFOuQp0KxqXSpDcYbx1eMwCkCmhrB6IvkVRjf3N?=
+ =?iso-8859-1?Q?bCYAQPC0Vvk5HKydwjYYL/p1gJzHQp2OHw6oxnvAkkeZW+cM9JaCevJNpU?=
+ =?iso-8859-1?Q?gnABppgboLEc/SiRJzZPxhnCdty5BGnpQXtHBWznHASANIlqy50y2uer3u?=
+ =?iso-8859-1?Q?/Ov9tpdPMj3HVYWJVtXek2XvLbHGK9PQKSXxYHVA29ulPGE+ZjWk09QxHk?=
+ =?iso-8859-1?Q?J4VKm5rQOW7ln8fnKjdu/6LOaa1QprXyhDQMGCaHpG0Ranp+dGni358+RT?=
+ =?iso-8859-1?Q?6fmqJJ/qXeEbX3K6JOdXvsTmKDPaViYQTPkpCj+1CGMoxunDZkGj+Y1Tth?=
+ =?iso-8859-1?Q?XyT4Rnn1giMDQ73MqgoI3a3Vq/PCSeWfisvBBCLhyV3TogfQ5VDxRu4ymu?=
+ =?iso-8859-1?Q?Ou3YGX9Ay0BZe5RSX5g328Qqfakh954nNDTBmYqUebeXWqROh9lCuGp1EB?=
+ =?iso-8859-1?Q?ryCvyuPcjlP90GMguI+hy+Vcav398ovJL5bD2OzZJr3PqBFpFxu/btJKnM?=
+ =?iso-8859-1?Q?UxQv6HHmyL+Z8EOocmGhlHuS0X1sozuFYSSs6JRI4fovA186psT0VzAo6C?=
+ =?iso-8859-1?Q?P7T53j0MDi1YOyuasJ3BiO59G/wRe/FduQFdI6h9LxED5S83C/sam2pkrx?=
+ =?iso-8859-1?Q?U0j900SZJZ5GS/5bftY5g/SRcpvZVEE/ngWjqkpynJZeOffTNUkuDuaV9g?=
+ =?iso-8859-1?Q?fj1Elus2SW9acc13WgHi4O5iaYm9bsoBTYllfhNSZLRjifgjJozPBPg5vl?=
+ =?iso-8859-1?Q?TYvRhzvfHWN6e73o9V1uJcSZDkgcsUS507poHnai9eXOIRP5wM5OLEbF5W?=
+ =?iso-8859-1?Q?9uCWsU8v8zoCqDkDnuJAlK87oKmX71CkSCjRa8GP762zDMrXq6JnhEnRun?=
+ =?iso-8859-1?Q?4eRfzlvVCt6PHoYOptr6aJ9Z9nPaIvZ3QnMEI3oiPhZRsE06NXRQSPXaGW?=
+ =?iso-8859-1?Q?r2K6zsct97Ds7KQE6mHRAUwYXzwllyUMA8Kvf7bzMjUSAT+o4Q1lWOc38s?=
+ =?iso-8859-1?Q?/0cvZNK3KXxYgCvA75iuA0kzyYqXh0YKjTAeqDQQdI05CTgJzgS2slAnnm?=
+ =?iso-8859-1?Q?DVEVlM2GgwQ06cv4tvYnHhmJtxQieDnk9JRAiXZwGSEIsmWRbyytIT4g9v?=
+ =?iso-8859-1?Q?iSnAl3Va5ei/2cZtqgQ8AUZuP5Uhz50AIi+KVzE8d1HU2PlGoIVlNNBTQR?=
+ =?iso-8859-1?Q?8P7GRJQWxnlF+nedTEf2ZTYPfCj8MpMcH6B7WAmYH1XUn5BO/Z5QePl4eC?=
+ =?iso-8859-1?Q?Ki5Cb4Ox0z0WCdE+1mh7AZ2ZSVRPP+ENc4wryHmxnmI8ppSJ9EtGHEtpXF?=
+ =?iso-8859-1?Q?SSR/a95V88I9S/jJ3Aq/rFxWJYDKgxiiUCUEu4NDt7UT45ge1qvCGJxpxl?=
+ =?iso-8859-1?Q?ibSWIK9JHXDRAm0lwYm9Jha9OV0tlsYPkVGbddQy6bEOSi1g9g1MV/1pyu?=
+ =?iso-8859-1?Q?i/jU87gEG0ofRqIBURRZl9H7U7lisVGwkd/nlmtmwNmeruAqp9puV2YkIC?=
+ =?iso-8859-1?Q?XOSCSZ4onSzd1mB7x39i6NwtoWzX3N8YG3GCKc2WX74WE6XXhYikTBWpoD?=
+ =?iso-8859-1?Q?c20JaFljqAfOlrCd5WjEh55gv62ohIWfzpleiEQB?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04ab2d2e-327d-493c-c6e8-08dddb523dcf
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 16:47:23.0992 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AroFDtcKmLSuFjFgxphdVKsW5lMi2J3NOoQ3bOmThJnzAu5VMK1MB59eXscKR6fyzk8+HyuB/f9fGpRXlFz80w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9062
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,37 +185,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As I am the author of this rewritten driver, it makes sense for me to be
-the maintainer.
+Hi Tvrtko,
 
-Confirm this in MAINTAINERS file.
+On Wed, Aug 13, 2025 at 10:43:30PM +0100, Tvrtko Ursulin wrote:
+> Hi Dave, Sima,
+> 
+> Two display fixes for the RC cycle this week - one for FBC and one for PSR
+> handling.
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+The following commits in drm-intel-next are for stable, so should be
+also sent for -rc:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index eb84e36ded6d5..8c604de979680 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8385,6 +8385,13 @@ F:	Documentation/devicetree/bindings/display/brcm,bcm2835-*.yaml
- F:	drivers/gpu/drm/vc4/
- F:	include/uapi/drm/vc4_drm.h
- 
-+DRM DRIVERS FOR VERISILICON DISPLAY CONTROLLER IP
-+M:	Icenowy Zheng <uwu@icenowy.me>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/verisilicon,dc.yaml
-+F:	drivers/gpu/drm/verisilicon/
-+
- DRM DRIVERS FOR VIVANTE GPU IP
- M:	Lucas Stach <l.stach@pengutronix.de>
- R:	Russell King <linux+etnaviv@armlinux.org.uk>
--- 
-2.50.1
+6cb52cba474b drm/i915/icl+/tc: Convert AUX powered WARN to a debug message
+afc4e8438807 drm/i915/lnl+/tc: Use the cached max lane count value
+33cf70bc0fe7 drm/i915/lnl+/tc: Fix max lane count HW readout
+3e32438fc406 drm/i915/icl+/tc: Cache the max lane count value
+89f4b196ee4b drm/i915/lnl+/tc: Fix handling of an enabled/disconnected dp-alt sink
 
+--Imre
+
+> Regards,
+> 
+> Tvrtko
+> 
+> drm-intel-fixes-2025-08-13:
+> - Fix the implementation of wa_18038517565 [fbc] (Vinod Govindapillai)
+> - Do not trigger Frame Change events from frontbuffer flush [psr] (Jouni Högander)
+> The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+> 
+>   Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2025-08-13
+> 
+> for you to fetch changes up to 184889dfe0568528fd6d14bba864dd57ed45bbf2:
+> 
+>   drm/i915/psr: Do not trigger Frame Change events from frontbuffer flush (2025-08-12 09:05:11 +0100)
+> 
+> ----------------------------------------------------------------
+> - Fix the implementation of wa_18038517565 [fbc] (Vinod Govindapillai)
+> - Do not trigger Frame Change events from frontbuffer flush [psr] (Jouni Högander)
+> 
+> ----------------------------------------------------------------
+> Jouni Högander (1):
+>       drm/i915/psr: Do not trigger Frame Change events from frontbuffer flush
+> 
+> Vinod Govindapillai (1):
+>       drm/i915/fbc: fix the implementation of wa_18038517565
+> 
+>  drivers/gpu/drm/i915/display/intel_fbc.c |  8 ++++----
+>  drivers/gpu/drm/i915/display/intel_psr.c | 14 +++++++++-----
+>  2 files changed, 13 insertions(+), 9 deletions(-)
