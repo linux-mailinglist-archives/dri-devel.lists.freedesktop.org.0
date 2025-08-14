@@ -2,72 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45631B270A6
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 23:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05777B27169
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 00:04:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AC9810E096;
-	Thu, 14 Aug 2025 21:17:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A15EB10E224;
+	Thu, 14 Aug 2025 22:04:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="aif0DMJN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="g8/5OuAD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F86810E096
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 21:17:06 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250814211704euoutp0151cd121a86511c0931ff87acade13743~bvsMJN_iv3218132181euoutp014
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 21:17:04 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250814211704euoutp0151cd121a86511c0931ff87acade13743~bvsMJN_iv3218132181euoutp014
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1755206224;
- bh=cSEixDLE7xsPsFz7NBwxP7uK65MZGZKF8ZUmhrV1huw=;
- h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
- b=aif0DMJNDGGyAVppTHMk6Yf+pUZiOWU0ER6evHyGiNIC4x5MUx2Uk4BrgOCHG32br
- v0vqia2Zf89eZKmw901sVlL+ul/Lzc6Y3ALfe83DhoHRPHhcp/U1Zx/XW7ya5K/4HA
- EyAA1M0g09bPOExExj4/J1IFPfi27LIby9z7wyEY=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250814211703eucas1p253cb95d05d46ff9f84c21d549f0f0098~bvsK_rr3M1788217882eucas1p2V;
- Thu, 14 Aug 2025 21:17:03 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250814211700eusmtip10f43f1f50846dd52289fb97bdd649f18~bvsIPXpgd2313023130eusmtip1d;
- Thu, 14 Aug 2025 21:17:00 +0000 (GMT)
-Message-ID: <7cb50c9c-ac41-43b6-8c69-5f184e7c94cf@samsung.com>
-Date: Thu, 14 Aug 2025 23:16:59 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CCC710E224
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 22:04:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A5A985C5D0C;
+ Thu, 14 Aug 2025 22:04:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31BE0C4CEED;
+ Thu, 14 Aug 2025 22:04:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755209085;
+ bh=gHu78kUOor8hxYgQbCL2CU5u8RDiVxrUTQKMzNK+XDw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=g8/5OuADXwVKBkCbfeV0TU4cs5i6vUp0l+zU4dWyEGqaVUQYAkqc9vSxTBvkEtCGD
+ XF2CEfdZ+q3dBPIabPAU0Kkn4zgUW/D9BmTKTj30iDL24MJX1T6XyoHfHW9tsvIJPD
+ CqyQ5qgTZ7q1Xk74I2jYRy8QpfoAPmAL6UTvXxsIZzF8KH4HuMzBCDbbq+e2/bujYh
+ l6qQ1FNqioSQkdZCxLYz6G8H68Fv9TMrrZ8EBdJpycyadg9st04G4Ygu2ShEo1xRF3
+ liSKFljiXhGhIzGljseTUa4YIePXyBzds3AUg8AWkd7OvxDY3XnFG6L7UWWzkFbPCx
+ Q1FgPeg3xihZw==
+Date: Thu, 14 Aug 2025 17:04:44 -0500
+From: Rob Herring <robh@kernel.org>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michal Wilczynski <m.wilczynski@samsung.com>,
+ Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [RFC PATCH 2/8] dt-bindings: display: add versilicon,dc
+Message-ID: <20250814220444.GA3988176-robh@kernel.org>
+References: <20250814164048.2336043-1-uwu@icenowy.me>
+ <20250814164048.2336043-3-uwu@icenowy.me>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v4 00/13] Apply drm_bridge_connector and panel_bridge
- helper for the Analogix DP driver
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-Content-Language: en-US
-In-Reply-To: <a3a2f8be-2c3c-49e7-b27a-72364ea48b06@samsung.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250814211703eucas1p253cb95d05d46ff9f84c21d549f0f0098
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264
-X-EPHeader: CA
-X-CMS-RootMailID: 20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264
-References: <CGME20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264@eucas1p2.samsung.com>
- <20250814104753.195255-1-damon.ding@rock-chips.com>
- <a3a2f8be-2c3c-49e7-b27a-72364ea48b06@samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250814164048.2336043-3-uwu@icenowy.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,43 +72,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Aug 15, 2025 at 12:40:42AM +0800, Icenowy Zheng wrote:
+> Verisilicon has a series of display controllers prefixed with DC and
+> with self-identification facility like their GC series GPUs.
+> 
+> Add a device tree binding for it.
+> 
+> Depends on the specific DC model, it can have either one or two display
+> outputs, and each display output could be set to DPI signal or "DP"
+> signal (which seems to be some plain parallel bus to HDMI controllers).
+> 
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> ---
+>  .../bindings/display/verisilicon,dc.yaml      | 127 ++++++++++++++++++
+>  1 file changed, 127 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/verisilicon,dc.yaml b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> new file mode 100644
+> index 0000000000000..2f71a811786aa
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> @@ -0,0 +1,127 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/verisilicon,dc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Verisilicon DC-series display controllers
+> +
+> +maintainers:
+> +  - Icenowy Zheng <uwu@icenowy.me>
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^display@[0-9a-f]+$"
+> +
+> +  compatible:
+> +    const: verisilicon,dc
 
-On 14.08.2025 16:33, Marek Szyprowski wrote:
-> On 14.08.2025 12:47, Damon Ding wrote:
->> PATCH 1 is a small format optimization for struct analogid_dp_device.
->> PATCH 2 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
->> PATCH 3-6 are preparations for apply drm_bridge_connector helper.
->> PATCH 7 is to apply the drm_bridge_connector helper.
->> PATCH 8-10 are to move the panel/bridge parsing to the Analogix side.
->> PATCH 11-12 are preparations for apply panel_bridge helper.
->> PATCH 13 is to apply the panel_bridge helper.
->
-> This series lacks 'select DRM_BRIDGE_CONNECTOR' in ExynosDP's Kconfig, 
-> so it causes build break:
->
-> drivers/gpu/drm/exynos/exynos_dp.c:177: undefined reference to 
-> `drm_bridge_connector_init'
-> make[2]: *** [scripts/Makefile.vmlinux:91: vmlinux] Error 1
->
-> After adding this dependency, the Exynos DP driver stops working. On 
-> Samsung Snow Chromebook I observed following issue:
->
-> [    4.534220] exynos-dp 145b0000.dp-controller: failed to attach 
-> following panel or bridge (-16)
-> [    4.543428] exynos-drm exynos-drm: failed to bind 
-> 145b0000.dp-controller (ops exynos_dp_ops): -16
-> [    4.551775] exynos-drm exynos-drm: adev bind failed: -16
-> [    4.556559] exynos-dp 145b0000.dp-controller: probe with driver 
-> exynos-dp failed with error -16
->
-> I will investigate details later in the evening.
+If the clocks or resets varies by platform, then you need an SoC 
+specific compatible still. If these clocks/resets are straight from the 
+RTL and any other number of clocks/resets is wrong, then we can stick 
+with just this compatible.
 
-The failure is caused by trying to add plat_data->next_bridge twice 
-(from exynos_dp's .attach callback, and from analogix' ->bind callback).
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: DC Core clock
+> +      - description: DMA AXI bus clock
+> +      - description: Configuration AHB bus clock
+> +      - description: Pixel clock of output 0
+> +      - description: Pixel clock of output 1
+> +    minItems: 4
 
+Generally we put this before 'items'.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+> +
+> +  clock-names:
+> +    items:
+> +      - const: core
+> +      - const: axi
+> +      - const: ahb
+> +      - const: pix0
+> +      - const: pix1
+> +    minItems: 4
+> +
+> +  resets:
+> +    items:
+> +      - description: DC Core reset
+> +      - description: DMA AXI bus reset
+> +      - description: Configuration AHB bus reset
+> +
+> +  reset-names:
+> +    items:
+> +      - const: core
+> +      - const: axi
+> +      - const: ahb
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: The first output channel, endpoint 0 should be
+> +          used for DPI format output and endpoint 1 should be used
+> +          for DP format output.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: The second output channel if the DC variant
+> +          supports and used. Follow the same endpoint addressing
+> +          rule with the first port.
+> +
+> +    required:
+> +      - port@0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/thead,th1520-clk-ap.h>
+> +    #include <dt-bindings/reset/thead,th1520-reset.h>
+> +    soc {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      display@ffef600000 {
+> +        compatible = "verisilicon,dc";
+> +        reg = <0xff 0xef600000 0x0 0x100000>;
+> +        interrupts = <93 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&clk_vo CLK_DPU_CCLK>,
+> +           <&clk_vo CLK_DPU_ACLK>,
+> +           <&clk_vo CLK_DPU_HCLK>,
+> +           <&clk_vo CLK_DPU_PIXELCLK0>,
+> +           <&clk_vo CLK_DPU_PIXELCLK1>;
+> +        clock-names = "core", "axi", "ahb", "pix0", "pix1";
+> +        resets = <&rst TH1520_RESET_ID_DPU_CORE>,
+> +           <&rst TH1520_RESET_ID_DPU_AXI>,
+> +           <&rst TH1520_RESET_ID_DPU_AHB>;
+> +        reset-names = "core", "axi", "ahb";
+> +
+> +        ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +          port@0 {
+> +            reg = <0>;
+> +          };
+> +
+> +          port@1 {
+> +            reg = <1>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            dpu_out_dp1: endpoint@1 {
+> +              reg = <1>;
+> +              remote-endpoint = <&hdmi_in>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+> -- 
+> 2.50.1
+> 
