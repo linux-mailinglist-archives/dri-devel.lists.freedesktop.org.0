@@ -2,60 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A02B262CA
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 12:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F36B263CA
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 13:06:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08EC810E84A;
-	Thu, 14 Aug 2025 10:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4747710E841;
+	Thu, 14 Aug 2025 11:06:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AlbkiSH9";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="GXBZcrUX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1D8610E844;
- Thu, 14 Aug 2025 10:32:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755167568; x=1786703568;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4xzu1fh9e9zN/zxwoqspq+UFfoLurFMySP5vKThPIwU=;
- b=AlbkiSH96GVPjqXpXkEzsqymvKO2+K1ZtG1FydDoprm3ec7uPe3GOzjT
- 2ljKpMu8JWh2ZKmT1crlbYokP5K4ntHXXPBeuhowCzGEhWx/Na95KwhkL
- BB4Gyw4+WqtDpgvYYpYfBYv97GNkgGnnftm/KJwVa/NbDkN7g9Chv6klf
- EVLOZ4hx/1MhT/pDclPZN7nTrtZ+rzT2DxDwArB+WvD8liyVLrC1l05OM
- wwTlhrB/xViVzp8XklX+b7bZT04wUBJ1aXvzbUkFQ7U1bL0u0Moo4P94b
- LDpKs8TcyP19vnyJevS6obEQyhQUjbR0CWp/fya4usHfzwokbQnWTjwGN w==;
-X-CSE-ConnectionGUID: ZlMHXmuXTdWV7eYLYvwKlQ==
-X-CSE-MsgGUID: 34UdLn1pSGmTJuazex/QSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="68083742"
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="68083742"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2025 03:32:48 -0700
-X-CSE-ConnectionGUID: OaWtkWHLROShnobtyDKAVg==
-X-CSE-MsgGUID: kj67QBzkSNKEt00SY0UfFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="197579260"
-Received: from unknown (HELO himal-Super-Server.iind.intel.com)
- ([10.190.239.34])
- by fmviesa001.fm.intel.com with ESMTP; 14 Aug 2025 03:32:46 -0700
-From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <bbrezillon@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 03/24] drm/gpuvm: Introduce drm_gpuvm_madvise_ops_create
-Date: Thu, 14 Aug 2025 16:29:29 +0530
-Message-Id: <20250814105950.2177480-4-himal.prasad.ghimiray@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250814105950.2177480-1-himal.prasad.ghimiray@intel.com>
-References: <20250814105950.2177480-1-himal.prasad.ghimiray@intel.com>
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7F2A10E841
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 11:06:24 +0000 (UTC)
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57EB6ERR1866430;
+ Thu, 14 Aug 2025 06:06:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1755169575;
+ bh=eXx4QX6GlD1ye8FFz2m4mlJAlk6n+EGxro0PcZGIkPw=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=GXBZcrUXGbzBJoBc6Y76HkE6W6wG2F8A4R4wVqO2nO8Z0pBUdThZ8Uj7nLXM3WilB
+ CnLYuzm/hs57jA1nA48D1u4WAfArhwZTD53LdimriHiaoWIL9k6qo/WmEzCuc9htvf
+ nbLRGP6IKsOt0NWly2fis7w1lcrynndCIdCyT3AU=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+ by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57EB6E541669453
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Thu, 14 Aug 2025 06:06:14 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 14
+ Aug 2025 06:06:14 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Thu, 14 Aug 2025 06:06:14 -0500
+Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57EB6EsG3819943;
+ Thu, 14 Aug 2025 06:06:14 -0500
+Date: Thu, 14 Aug 2025 06:06:14 -0500
+From: Nishanth Menon <nm@ti.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Robert Nelson <robertcnelson@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Rob Herring <robh@kernel.org>, David Airlie <airlied@gmail.com>, Maxime
+ Ripard <mripard@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>,
+ Jason Kridner <jkridner@beagleboard.org>, <afd@ti.com>
+Subject: Re: [PATCH V2 3/3] drm/bridge: it66121: Add it66122 support
+Message-ID: <20250814110614.ziwsadnrxuoxknpk@oxidation>
+References: <20250813204106.580141-1-nm@ti.com>
+ <20250813204106.580141-4-nm@ti.com>
+ <0c684542-aacb-4e8c-a1c0-7fc0da78c733@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <0c684542-aacb-4e8c-a1c0-7fc0da78c733@ideasonboard.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,437 +77,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This ops is used to iterate over GPUVA's in the user-provided range
-and split the existing sparse VMA's if the start or end of the input
-range lies within it. The operations can create up to 2 REMAPS and 2 MAPs.
+On 13:32-20250814, Tomi Valkeinen wrote:
 
-The primary use case is for drivers to assign attributes to GPU VAs in
-the specified range without performing unmaps or merging mappings,
-supporting fine-grained control over sparse va's.
+Thanks for looking at this closer, Tomi.
 
-v2
-- use drm_gpuvm_sm_map_ops_create with flags instead of defining new
-  ops_create (Danilo)
-- Add doc (Danilo)
+> 
+> On 13/08/2025 23:41, Nishanth Menon wrote:
+> > The IT66122 is a drop in replacement for the IT66122. The part is
+                                                      ^^
 
-v3
-- Fix doc
-- Fix unmapping check
+Uggh.. I just realized I made a typo here -> should have stated: "
+"The IT66122 is a drop in replacement for the IT66121."
 
-v4
-- Fix mapping for non madvise ops
+> > register compatible with what we use of the IT66121. The only relevant
+> 
+> The intro letter said "practical purposes is drop in replacement for
+> IT66121". Here you say "with what we use of the IT66121".
+> 
+> What does that mean? Are they identical, except the IDs? Or are they
 
-v5
-- Fix mapping (Matthew Brost)
-- Rebase on top of struct changes
+The only difference we had been told at the time about is that they are
+identical from operation perspective except for the ID register (I
+understand it is some sort of manufacturing change or something that is
+not visible to s/w - Robert/Jason could add more).
 
-v6
-- flag moved to map_req
+> different, but the features and registers this driver uses are
+> identical? Or different, but only identical wrt. the driver's features
+> TI uses?
 
-v7 (Danilo)
-- Use different functions
-- Add kernel-doc
-- Modify op_unmap_cb and op_map_cb to handle madvise and NULL ptr
-- use gem_obj check in single place
+Minor clarification: This is used on BeagleBoard.org foundation boards
+BeagleY-AI to be specific and not on Texas Instruments EVMs/SK.
 
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Boris Brezillon <bbrezillon@kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>
-Signed-off-by: Himal Prasad Ghimiray<himal.prasad.ghimiray@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com> #v6
----
- drivers/gpu/drm/drm_gpuvm.c | 225 ++++++++++++++++++++++++++++++------
- include/drm/drm_gpuvm.h     |   3 +
- 2 files changed, 191 insertions(+), 37 deletions(-)
+Personally, I have just looked at the features that BeagleY-AI platform
+uses. Though, searching via llms tells me there may be additional
+features, but I don't have the specific details to confirm beyond what
+the BeagleY-AI platform does.
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index 6c18cec70f11..d6bea8a4fffd 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -420,6 +420,71 @@
-  *	 new: |-----------|-----| (b.bo_offset=m,a.bo_offset=n+2)
-  */
- 
-+/**
-+ * DOC: Madvise Logic - Splitting and Traversal
-+ *
-+ * This logic handles GPU VA range updates by generating remap and map operations
-+ * without performing unmaps or merging existing mappings.
-+ *
-+ * 1) The requested range lies entirely within a single drm_gpuva. The logic splits
-+ * the existing mapping at the start and end boundaries and inserts a new map.
-+ *
-+ * ::
-+ *              a      start    end     b
-+ *         pre: |-----------------------|
-+ *                     drm_gpuva1
-+ *
-+ *              a      start    end     b
-+ *         new: |-----|=========|-------|
-+ *               remap   map      remap
-+ *
-+ * one REMAP and one MAP : Same behaviour as SPLIT and MERGE
-+ *
-+ * 2) The requested range spans multiple drm_gpuva regions. The logic traverses
-+ * across boundaries, remapping the start and end segments, and inserting two
-+ * map operations to cover the full range.
-+ *
-+ * ::           a       start      b              c        end       d
-+ *         pre: |------------------|--------------|------------------|
-+ *                    drm_gpuva1      drm_gpuva2         drm_gpuva3
-+ *
-+ *              a       start      b              c        end       d
-+ *         new: |-------|==========|--------------|========|---------|
-+ *                remap1   map1       drm_gpuva2    map2     remap2
-+ *
-+ * two REMAPS and two MAPS
-+ *
-+ * 3) Either start or end lies within a drm_gpuva. A single remap and map operation
-+ * are generated to update the affected portion.
-+ *
-+ *
-+ * ::           a/start            b              c        end       d
-+ *         pre: |------------------|--------------|------------------|
-+ *                    drm_gpuva1      drm_gpuva2         drm_gpuva3
-+ *
-+ *              a/start            b              c        end       d
-+ *         new: |------------------|--------------|========|---------|
-+ *                drm_gpuva1         drm_gpuva2     map1     remap1
-+ *
-+ * ::           a       start      b              c/end              d
-+ *         pre: |------------------|--------------|------------------|
-+ *                    drm_gpuva1      drm_gpuva2         drm_gpuva3
-+ *
-+ *              a       start      b              c/end              d
-+ *         new: |-------|==========|--------------|------------------|
-+ *                remap1   map1       drm_gpuva2        drm_gpuva3
-+ *
-+ * one REMAP and one MAP
-+ *
-+ * 4) Both start and end align with existing drm_gpuva boundaries. No operations
-+ * are needed as the range is already covered.
-+ *
-+ * 5) No existing drm_gpuvas. No operations.
-+ *
-+ * Unlike drm_gpuvm_sm_map_ops_create, this logic avoids unmaps and merging,
-+ * focusing solely on remap and map operations for efficient traversal and update.
-+ */
-+
- /**
-  * DOC: Locking
-  *
-@@ -2063,6 +2128,9 @@ op_map_cb(const struct drm_gpuvm_ops *fn, void *priv,
- {
- 	struct drm_gpuva_op op = {};
- 
-+	if (!req)
-+		return 0;
-+
- 	op.op = DRM_GPUVA_OP_MAP;
- 	op.map.va.addr = req->map.va.addr;
- 	op.map.va.range = req->map.va.range;
-@@ -2092,10 +2160,13 @@ op_remap_cb(const struct drm_gpuvm_ops *fn, void *priv,
- 
- static int
- op_unmap_cb(const struct drm_gpuvm_ops *fn, void *priv,
--	    struct drm_gpuva *va, bool merge)
-+	    struct drm_gpuva *va, bool merge, bool madvise)
- {
- 	struct drm_gpuva_op op = {};
- 
-+	if (madvise)
-+		return 0;
-+
- 	op.op = DRM_GPUVA_OP_UNMAP;
- 	op.unmap.va = va;
- 	op.unmap.keep = merge;
-@@ -2106,11 +2177,12 @@ op_unmap_cb(const struct drm_gpuvm_ops *fn, void *priv,
- static int
- __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 		   const struct drm_gpuvm_ops *ops, void *priv,
--		   const struct drm_gpuvm_map_req *req)
-+		   const struct drm_gpuvm_map_req *req,
-+		   bool madvise)
- {
- 	struct drm_gem_object *req_obj = req->map.gem.obj;
-+	const struct drm_gpuvm_map_req *op_map = madvise ? NULL : req;
- 	struct drm_gpuva *va, *next;
--
- 	u64 req_offset = req->map.gem.offset;
- 	u64 req_range = req->map.va.range;
- 	u64 req_addr = req->map.va.addr;
-@@ -2128,19 +2200,22 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 		u64 end = addr + range;
- 		bool merge = !!va->gem.obj;
- 
-+		if (madvise && obj)
-+			continue;
-+
- 		if (addr == req_addr) {
- 			merge &= obj == req_obj &&
- 				 offset == req_offset;
- 
- 			if (end == req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
-+				ret = op_unmap_cb(ops, priv, va, merge, madvise);
- 				if (ret)
- 					return ret;
- 				break;
- 			}
- 
- 			if (end < req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
-+				ret = op_unmap_cb(ops, priv, va, merge, madvise);
- 				if (ret)
- 					return ret;
- 				continue;
-@@ -2161,6 +2236,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (madvise)
-+					op_map = req;
- 				break;
- 			}
- 		} else if (addr < req_addr) {
-@@ -2181,6 +2259,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (madvise)
-+					op_map = req;
- 				break;
- 			}
- 
-@@ -2188,6 +2269,18 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, &p, NULL, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (madvise) {
-+					struct drm_gpuvm_map_req map_req = {
-+						.map.va.addr =  req_addr,
-+						.map.va.range = end - req_addr,
-+					};
-+
-+					ret = op_map_cb(ops, priv, &map_req);
-+					if (ret)
-+						return ret;
-+				}
-+
- 				continue;
- 			}
- 
-@@ -2203,6 +2296,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, &p, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (madvise)
-+					op_map = req;
- 				break;
- 			}
- 		} else if (addr > req_addr) {
-@@ -2211,16 +2307,18 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 					   (addr - req_addr);
- 
- 			if (end == req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
-+				ret = op_unmap_cb(ops, priv, va, merge, madvise);
- 				if (ret)
- 					return ret;
-+
- 				break;
- 			}
- 
- 			if (end < req_end) {
--				ret = op_unmap_cb(ops, priv, va, merge);
-+				ret = op_unmap_cb(ops, priv, va, merge, madvise);
- 				if (ret)
- 					return ret;
-+
- 				continue;
- 			}
- 
-@@ -2239,12 +2337,20 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
- 					return ret;
-+
-+				if (madvise) {
-+					struct drm_gpuvm_map_req map_req = {
-+						.map.va.addr =  addr,
-+						.map.va.range = req_end - addr,
-+					};
-+
-+					return op_map_cb(ops, priv, &map_req);
-+				}
- 				break;
- 			}
- 		}
- 	}
--
--	return op_map_cb(ops, priv, req);
-+	return op_map_cb(ops, priv, op_map);
- }
- 
- static int
-@@ -2296,7 +2402,7 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
- 			if (ret)
- 				return ret;
- 		} else {
--			ret = op_unmap_cb(ops, priv, va, false);
-+			ret = op_unmap_cb(ops, priv, va, false, false);
- 			if (ret)
- 				return ret;
- 		}
-@@ -2345,7 +2451,7 @@ drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
- 		       ops->sm_step_unmap)))
- 		return -EINVAL;
- 
--	return __drm_gpuvm_sm_map(gpuvm, ops, priv, req);
-+	return __drm_gpuvm_sm_map(gpuvm, ops, priv, req, false);
- }
- EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map);
- 
-@@ -2483,7 +2589,7 @@ drm_gpuvm_sm_map_exec_lock(struct drm_gpuvm *gpuvm,
- 			return ret;
- 	}
- 
--	return __drm_gpuvm_sm_map(gpuvm, &lock_ops, exec, req);
-+	return __drm_gpuvm_sm_map(gpuvm, &lock_ops, exec, req, false);
- 
- }
- EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map_exec_lock);
-@@ -2602,6 +2708,38 @@ static const struct drm_gpuvm_ops gpuvm_list_ops = {
- 	.sm_step_unmap = drm_gpuva_sm_step,
- };
- 
-+static struct drm_gpuva_ops *
-+__drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
-+			      const struct drm_gpuvm_map_req *req,
-+			      bool madvise)
-+{
-+	struct drm_gpuva_ops *ops;
-+	struct {
-+		struct drm_gpuvm *vm;
-+		struct drm_gpuva_ops *ops;
-+	} args;
-+	int ret;
-+
-+	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
-+	if (unlikely(!ops))
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_LIST_HEAD(&ops->list);
-+
-+	args.vm = gpuvm;
-+	args.ops = ops;
-+
-+	ret = __drm_gpuvm_sm_map(gpuvm, &gpuvm_list_ops, &args, req, madvise);
-+	if (ret)
-+		goto err_free_ops;
-+
-+	return ops;
-+
-+err_free_ops:
-+	drm_gpuva_ops_free(gpuvm, ops);
-+	return ERR_PTR(ret);
-+}
-+
- /**
-  * drm_gpuvm_sm_map_ops_create() - creates the &drm_gpuva_ops to split and merge
-  * @gpuvm: the &drm_gpuvm representing the GPU VA space
-@@ -2635,34 +2773,47 @@ struct drm_gpuva_ops *
- drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
- 			    const struct drm_gpuvm_map_req *req)
- {
--	struct drm_gpuva_ops *ops;
--	struct {
--		struct drm_gpuvm *vm;
--		struct drm_gpuva_ops *ops;
--	} args;
--	int ret;
--
--	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
--	if (unlikely(!ops))
--		return ERR_PTR(-ENOMEM);
--
--	INIT_LIST_HEAD(&ops->list);
--
--	args.vm = gpuvm;
--	args.ops = ops;
--
--	ret = __drm_gpuvm_sm_map(gpuvm, &gpuvm_list_ops, &args, req);
--	if (ret)
--		goto err_free_ops;
--
--	return ops;
--
--err_free_ops:
--	drm_gpuva_ops_free(gpuvm, ops);
--	return ERR_PTR(ret);
-+	return __drm_gpuvm_sm_map_ops_create(gpuvm, req, false);
- }
- EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map_ops_create);
- 
-+/**
-+ * drm_gpuvm_madvise_ops_create() - creates the &drm_gpuva_ops to split
-+ * @gpuvm: the &drm_gpuvm representing the GPU VA space
-+ * @req: map request arguments
-+ *
-+ * This function creates a list of operations to perform splitting
-+ * of existent mapping(s) at start or end, based on the request map.
-+ *
-+ * The list can be iterated with &drm_gpuva_for_each_op and must be processed
-+ * in the given order. It can contain map and remap operations, but it
-+ * also can be empty if no operation is required, e.g. if the requested mapping
-+ * already exists is the exact same way.
-+ *
-+ * There will be no unmap operations, a maximum of two remap operations and two
-+ * map operations. The two map operations correspond to: one from start to the
-+ * end of drm_gpuvaX, and another from the start of drm_gpuvaY to end.
-+ *
-+ * Note that before calling this function again with another mapping request it
-+ * is necessary to update the &drm_gpuvm's view of the GPU VA space. The
-+ * previously obtained operations must be either processed or abandoned. To
-+ * update the &drm_gpuvm's view of the GPU VA space drm_gpuva_insert(),
-+ * drm_gpuva_destroy_locked() and/or drm_gpuva_destroy_unlocked() should be
-+ * used.
-+ *
-+ * After the caller finished processing the returned &drm_gpuva_ops, they must
-+ * be freed with &drm_gpuva_ops_free.
-+ *
-+ * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
-+ */
-+struct drm_gpuva_ops *
-+drm_gpuvm_madvise_ops_create(struct drm_gpuvm *gpuvm,
-+			     const struct drm_gpuvm_map_req *req)
-+{
-+	return __drm_gpuvm_sm_map_ops_create(gpuvm, req, true);
-+}
-+EXPORT_SYMBOL_GPL(drm_gpuvm_madvise_ops_create);
-+
- /**
-  * drm_gpuvm_sm_unmap_ops_create() - creates the &drm_gpuva_ops to split on
-  * unmap
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 05347ac6cc73..4a22b9d848f7 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -1062,6 +1062,9 @@ struct drm_gpuvm_map_req {
- struct drm_gpuva_ops *
- drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
- 			    const struct drm_gpuvm_map_req *req);
-+struct drm_gpuva_ops *
-+drm_gpuvm_madvise_ops_create(struct drm_gpuvm *gpuvm,
-+			     const struct drm_gpuvm_map_req *req);
- 
- struct drm_gpuva_ops *
- drm_gpuvm_sm_unmap_ops_create(struct drm_gpuvm *gpuvm,
+I am hoping BeagleBoard.org Foundation folks OR anyone on the list who
+have contacts with ITE Tech. INC. could probably add information.
+
 -- 
-2.34.1
-
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+https://ti.com/opensource
