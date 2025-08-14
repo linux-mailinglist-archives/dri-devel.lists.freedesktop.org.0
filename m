@@ -2,65 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D69B269CE
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 16:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E7DBB269EB
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 16:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F76E10E898;
-	Thu, 14 Aug 2025 14:43:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB1F10E206;
+	Thu, 14 Aug 2025 14:47:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VBBSO794";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="w0bmz1gv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC10810E898
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:43:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755182627; x=1786718627;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=ImfWFpqxk78jwCRF3tUjgfT7mMjVQU0+44DPDXfrbiE=;
- b=VBBSO794m4W9FRMLx+1xRKDTYSX4EjeCyF/0jFvJfvepOxzlpmhfJv57
- +q8JpUWGW7TW6K7DzmtLghLnB7ANMR2/+tuhh0AxylRpd1GpUD5RbUOOJ
- VhTEVwU8WcCR+5R070rplwEJ4pIfTOYs+euuNfhY1EgYbIuFD3hngxBgz
- St39VSQDxo/Xfz6tipSbDdHnFqv+6ymlQ1HCwiYCwnCLYBzJoIzgIsXSA
- LtNrQSgwiMOa0GDtFl4U6fg7codWrzlRDF7qA6OSvsFu/XZGWF4QFnvjd
- x2taUFNHXOv0+3+7Hq6UbjQh6pKdG8852s7znQSSOv5mz5fYfkDyqym0u Q==;
-X-CSE-ConnectionGUID: 7ky8duTsQaCmsdiqD4h1IQ==
-X-CSE-MsgGUID: EvRT4SkYQJ2eY6ixswRI/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="57451145"
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="57451145"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2025 07:43:46 -0700
-X-CSE-ConnectionGUID: RtUbSgG0RH+6gccEUxqsJw==
-X-CSE-MsgGUID: DHvBsYiUQyeiMeAseRGcvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="203951147"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.100])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Aug 2025 07:43:42 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sidharth Seela <sidharthseela@gmail.com>
-Cc: "dakr@redhat.com" <dakr@redhat.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, "airlied@gmail.com"
- <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: Re: PATCH[1/1] DRM_GPUVM.C : htmldoc error due to multi-line code
- inside comment
-In-Reply-To: <CAJE-K+AgxF-n5bg8++NcKphPBb4xHYeg-wBzAYNHUzM+KhpUHA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CAJE-K+BcU2vQPXyK9bdWTkRD_jreEcmD6zmnKrwut_7mCNv7bw@mail.gmail.com>
- <854286215216fe5242f3232032625b4fbe62074e@intel.com>
- <CAJE-K+Ca95Qx_6sbj2S=PfwXbMoaK5A97yWqQutTVN4aKQdu+Q@mail.gmail.com>
- <CAJE-K+AgxF-n5bg8++NcKphPBb4xHYeg-wBzAYNHUzM+KhpUHA@mail.gmail.com>
-Date: Thu, 14 Aug 2025 17:43:38 +0300
-Message-ID: <ac039b0fc2c59bcd3d313c2fbe014a657d58bbb7@intel.com>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F30CF10E206
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 14:47:32 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-45a1b0c82eeso7041875e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:47:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1755182851; x=1755787651; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=fZAqDF3XnpGXDPLOHIJz9Ec4YzJw9DgnDjI6cQZHRtQ=;
+ b=w0bmz1gv9PfmBwiQPey1gtLkXIeN95eDsjV+FqkjuKrfdVqNCvQFHxvflttn8Z8Vsa
+ Qr6KLQaJycjWT4cKCs6Pn9dUFGd3Yxb4pW15U0VM67IdHTzt3ROBPCQGR0khiU2Ct1wX
+ zUjCDRKlvn0OI0lzPOOwo9YZF7j8TfsHgj1XR/dXflKd28915yVOUs5C3pgZXKQC2k8J
+ Mkj8v3i/BDWYJ1y4LZQLA1F9X60Saxw2KV7kepOA3lW4kn6fCw06re71x0bZqYWfmLUb
+ 8vNFAjqDJxGLqw2yuKJlF2aXhmU9ZR1D36n47+/M2J4Cwka+Losom5hjaz8a5aYsunil
+ IvLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755182851; x=1755787651;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fZAqDF3XnpGXDPLOHIJz9Ec4YzJw9DgnDjI6cQZHRtQ=;
+ b=IsAs38NK6p/akeBbecAKk3ZqW20qveVKyv+MWsAtwzTwjFBhrwQmw5nwyIxLWEXdPh
+ yY0/cy6aoHxlJT5/+1t0Eop+lC7oFKv6qB08ChB1wUsAO8k/V/yK5BhkBlhgmzfUH5wH
+ FogSUMe8W/sDNVHv4S/+PzsZXRshSC/OIMCoPws406bNUHpLc4gUpULftlLwWLQHL6rj
+ xBatJEfEWZrBJ3ythAIgG2kqp2nQ47XDLkY00JmJbTuzqQEVw7OiSZqUHYJRlMtZuON9
+ +/O3GNTYV7idxTyugwc9JOKCWf+Q2OpssVlVOFRnS4ZSNMf3NrWSfoefiddYTpr2S+/C
+ J7mQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV4BfLrnSd960+A7RK4AMt2Exat6OB7x6R7QHifuz6BS1qsKYeJjwMh04UX/dcJAP98acw4/d960A4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzBQzoLAtNFC2wML1x16IH8JrByk75VcUJMJyKzwDuRuTnMxx26
+ 6HRI7MXXEnIUSWhNjCNlz/GwENA0Th70GBWf147sd2zRVfE8K+3WXyDtdyMgyHhO2/8=
+X-Gm-Gg: ASbGncuj9gfiN3W3c9Fv71ylM4EH5Fud9/LTl3JE0nyO/Zi7l1SKqzBsQpm6vtzs3/m
+ iWymKMRZVed1qIfcQHodepAnsWY99w2cU8xyM31SB6+KM5QraDFFnZpu18JXgiiiEttpXP7OC3T
+ dssqtfFl5TSd+gThxNXwTUjzacYCi4sBe+qfNgJ2gJJZmoBKuIFiSS4TIzfiYQO/RZLK1CQfi8S
+ 3vz1YrgkeIdM4h+PA0zxmlqF0w/CXWOYj3WiDftVP/IL09/HYq4mxjRSsLPnJl5wxPA5VMlMwBt
+ ZypgbgcgzI5+HqN2eL17rUw9AEr7tfCxsOjgEu3IdDyXm8GmS4zbXv3xutq57w1wuFWF4wNSxzi
+ 6KWV4Azmd9f2x1apvbznOZuS8+VIIbBVP
+X-Google-Smtp-Source: AGHT+IFhoWtHYN9QFJ0tW1CKBLQo56CkK5ldL2L/K77pZLZH70ja4pUfhvkjKDkzC2VxincZw5xstA==
+X-Received: by 2002:a05:600c:3b87:b0:456:2a9:f815 with SMTP id
+ 5b1f17b1804b1-45a1b615307mr29980105e9.4.1755182851303; 
+ Thu, 14 Aug 2025 07:47:31 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff21:ef30:1e8b:1779:ed5:b6f])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45a1c74ad27sm25133535e9.18.2025.08.14.07.47.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Aug 2025 07:47:30 -0700 (PDT)
+Date: Thu, 14 Aug 2025 16:47:25 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Christopher Obbard <christopher.obbard@linaro.org>
+Cc: Johan Hovold <johan@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Rui Miguel Silva <rui.silva@linaro.org>,
+ Abel Vesa <abel.vesa@linaro.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] arm64: dts: qcom: x1e78100-t14s: add hpd gpio to
+ dp controller
+Message-ID: <aJ325wUrBjydnc1m@linaro.org>
+References: <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-0-4782074104d1@linaro.org>
+ <20250731-wip-obbardc-qcom-t14s-oled-panel-v6-1-4782074104d1@linaro.org>
+ <aJCyBbwNjZvTHnjT@hovoldconsulting.com>
+ <CACr-zFCq08Pu2=eLfe5=sYdGWEHmy7w+=Eo++9AjP96uCLCNcQ@mail.gmail.com>
+ <536dd237-e668-4a88-ac2b-3bc88dca8a3e@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <536dd237-e668-4a88-ac2b-3bc88dca8a3e@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,260 +105,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 14 Aug 2025, Sidharth Seela <sidharthseela@gmail.com> wrote:
-> [PATCH 2/2] @ drivers/gpu/drm/drm_gpuvm.c :  Used '..' to escape the
-> block of comments starting at line 2435.
->
-> Changes from 1/2: As the previous patch involved too many line
-> changes, this patch keeps it a bit clean by just having 4 changes.
->
-> Please Note that I think mentioned in [1] "..code-block :: c" is to be
-> used for rst pages, but as we are dealing with a c file,
-> we don't want sphinx to parse the comments as c code, we just want the
-> comments to be parsed as just comments.
-> and hence [1] needs to be disregarded.
+On Thu, Aug 14, 2025 at 04:21:09PM +0200, Neil Armstrong wrote:
+> On 09/08/2025 00:28, Christopher Obbard wrote:
+> > On Mon, 4 Aug 2025 at 14:13, Johan Hovold <johan@kernel.org> wrote:
+> > > 
+> > > On Thu, Jul 31, 2025 at 09:51:26PM +0100, Christopher Obbard wrote:
+> > > > The eDP controller has an HPD GPIO. Describe it in the device tree
+> > > > for the generic T14s model, as the HPD GPIO is used in both the
+> > > > OLED and LCD models which inherit this device tree.
+> > > 
+> > > > @@ -5779,6 +5779,11 @@ tlmm: pinctrl@f100000 {
+> > > >                        gpio-ranges = <&tlmm 0 0 239>;
+> > > >                        wakeup-parent = <&pdc>;
+> > > > 
+> > > > +                     edp_hpd_active: edp-hpd-active-state {
+> > > 
+> > > The node name and label needs an index as this SoC has two edp hpd pins
+> > > as I already pointed out.
+> > 
+> > Sure. After looking at the schematics this should be called
+> > edp0_hpd_active. I will fix this in the next revision.
+> > 
+> > 
+> > > > +                             pins = "gpio119";
+> > > > +                             function = "edp0_hot";
+> > > 
+> > > And you also need to configure the bias somewhere as you should not rely
+> > > on the firmware having configured things for you (as I also pointed out
+> > > before).
+> > > 
+> > > On my T14s the internal pull-up has been disabled.
+> > 
+> > I am still unsure of what else needs to be set here. Can you help me
+> > with the correct settings?
+> 
+> Just add bias-disable;
+> 
 
-Really the only two alternatives here are adding ".. code-block:: c" or
-adding double-colon at the end of the "The expected usage is::" as
-suggested in [2].
+I sent a patch fixing this for all the X1 devices upstream earlier [1],
+so you could also just send v7 with just the second patch of your
+series.
 
-[2] https://lore.kernel.org/r/20250720152401.70720-2-luis.hernandez093@gmai=
-l.com
+The bias-disable is really somewhat device-specific (what if there is no
+pull down on the device side and someone disconnects the panel
+entirely?), so I put it into each board DT separately like Johan
+requested on v5. We have the same for the PCIe pinctrl.
 
-> Refs: [1] https://lore.kernel.org/all/20250810150706.305040-1-rampxxxx@gm=
-ail.com/
-> signed-off-by:Sidharth Seela<sidharthseela@gmail.com>
-> -------------------------------------------------------------------------=
----------------------------------------------------------------------------=
-----
-> commit 8c6b6943261764bdfeeebfc358aa0f34e30fb6b5
-> Author:     Sidharth Seela <sidharthseela@gmail.com>
-> AuthorDate: Thu Aug 14 19:11:44 2025 +0530
-> Commit:     Sidharth Seela <sidharthseela@gmail.com>
-> CommitDate: Thu Aug 14 19:11:44 2025 +0530
->
->     '..' used as escape. New-lines removed to take code as a block.
+Thanks,
+Stephan
 
-Please read [3] on how to format and send patches.
-
-Use git send-email possibly with git format-patch. The AuthorDate and
-CommitDate stuff from --pretty=3Dfuller do not belong here.
-
-Separate mailing list discussions from patch emails. Possibly add a
-cover letter for the explanatory texts.
-
-Use 'git commit -s' to add the Signed-off-by trailer properly.
-
-Please look at git log for proper Subject prefix, subject, and commit
-message formatting.
-
-[3] https://docs.kernel.org/process/submitting-patches.html
-
-> ---
->  drivers/gpu/drm/drm_gpuvm.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index bbc7fecb6f4a..d01eaa353f72 100644
-> --- a/drivers/gpu/drm/drm_gpuvm.c
-> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -2432,12 +2432,10 @@ static const struct drm_gpuvm_ops lock_ops =3D {
->   *
->   * The expected usage is:
->   *
-> - *    vm_bind {
-> + *..  vm_bind {
-
-This won't do what we want.
-
->   *        struct drm_exec exec;
-> - *
-
-We'll want to keep the newlines.
-
-BR,
-Jani.
-
->   *        // IGNORE_DUPLICATES is required, INTERRUPTIBLE_WAIT is recomm=
-ended:
->   *        drm_exec_init(&exec, IGNORE_DUPLICATES | INTERRUPTIBLE_WAIT, 0=
-);
-> - *
->   *        drm_exec_until_all_locked (&exec) {
->   *            for_each_vm_bind_operation {
->   *                switch (op->op) {
-> @@ -2450,7 +2448,6 @@ static const struct drm_gpuvm_ops lock_ops =3D {
->   *                                                     obj, op->obj_offs=
-et);
->   *                    break;
->   *                }
-> - *
->   *                drm_exec_retry_on_contention(&exec);
->   *                if (ret)
->   *                    return ret;
-> --
-> 2.39.5 (Apple Git-154)
->
->
-> On Thu, Aug 14, 2025 at 6:02=E2=80=AFPM Sidharth Seela <sidharthseela@gma=
-il.com> wrote:
->>
->> Thank you Jani
->> [BUG: Comment parsing error]
->> What I did -> Applied the patch, you referred [1]
->> https://lore.kernel.org/r/20250810150706.305040-1-rampxxxx@gmail.com.
->> What I got-> error message pasted below.
->> What I think might be the problem -> I believe ampersand's are being
->> parsed as ':c:type:' while document generation
->>
->> --------ERROR MESSAGE START:---------
->> linux/Documentation/gpu/drm-mm:506:
->> ./drivers/gpu/drm/drm_gpuvm.c:2434: WARNING: Lexing literal_block
->> 'vm_bind {\n    struct drm_exec exec;\n\n    // IGNORE_DUPLICATES is
->> required, INTERRUPTIBLE_WAIT is recommended:\n
->> drm_exec_init(:c:type:`exec`, IGNORE_DUPLICATES | INTERRUPTIBLE_WAIT,
->> 0);\n\n    drm_exec_until_all_locked (:c:type:`exec`) {\n
->> for_each_vm_bind_operation {\n            switch (op->op) {\n
->>   case DRIVER_OP_UNMAP:\n                ret =3D
->> drm_gpuvm_sm_unmap_exec_lock(gpuvm, :c:type:`exec`, op->addr,
->> op->range);\n                break;\n            case DRIVER_OP_MAP:\n
->>                ret =3D drm_gpuvm_sm_map_exec_lock(gpuvm, :c:type:`exec`,
->> num_fences,\n
->> op->addr, op->range,\n
->> obj, op->obj_offset);\n                break;\n            }\n\n
->>      drm_exec_retry_on_contention(:c:type:`exec`);\n            if
->> (ret)\n                return ret;\n        }\n    }\n}' as "c"
->> resulted in an error at token: '`'. Retrying in relaxed mode.
->> [misc.highlighting_failure]
->> --------ERROR MESSAGE END:---------
->> PS: reporting this first, to give heads up, parallely trying to debug.
->>
->>
->> On Wed, Aug 13, 2025 at 4:00=E2=80=AFPM Jani Nikula <jani.nikula@linux.i=
-ntel.com> wrote:
->> >
->> > On Tue, 12 Aug 2025, Sidharth Seela <sidharthseela@gmail.com> wrote:
->> > > Dear Maintainers,
->> > > This is my first patch, please bear with me.
->> > > I request you to suggest if it can be better.
->> > > Your time is appreciated.
->> >
->> > A simpler fix is already on the list [1].
->> >
->> > BR,
->> > Jani.
->> >
->> >
->> > [1] https://lore.kernel.org/r/20250810150706.305040-1-rampxxxx@gmail.c=
-om
->> >
->> > > --------------------------------------------------------------------=
--------
->> > > commit 4ed9c00376c616cdbfb978b5fd76911cccd63b26
->> > > Author:     Sidharth Seela <sid@y740.local>
->> > > AuthorDate: Tue Aug 12 15:56:03 2025 +0530
->> > > Commit:     Sidharth Seela <sid@y740.local>
->> > > CommitDate: Tue Aug 12 15:56:03 2025 +0530
->> > >
->> > >     cleaned up errors stemming for multiline text
->> > > ---
->> > >  drivers/gpu/drm/drm_gpuvm.c | 50 ++++++++++++++++++----------------=
----
->> > >  1 file changed, 25 insertions(+), 25 deletions(-)
->> > >
->> > > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm=
-.c
->> > > index bbc7fecb6f4a..cf49dbfcec91 100644
->> > > --- a/drivers/gpu/drm/drm_gpuvm.c
->> > > +++ b/drivers/gpu/drm/drm_gpuvm.c
->> > > @@ -2432,31 +2432,31 @@ static const struct drm_gpuvm_ops lock_ops =
-=3D {
->> > >   *
->> > >   * The expected usage is:
->> > >   *
->> > > - *    vm_bind {
->> > > - *        struct drm_exec exec;
->> > > - *
->> > > - *        // IGNORE_DUPLICATES is required, INTERRUPTIBLE_WAIT is r=
-ecommended:
->> > > - *        drm_exec_init(&exec, IGNORE_DUPLICATES | INTERRUPTIBLE_WA=
-IT, 0);
->> > > - *
->> > > - *        drm_exec_until_all_locked (&exec) {
->> > > - *            for_each_vm_bind_operation {
->> > > - *                switch (op->op) {
->> > > - *                case DRIVER_OP_UNMAP:
->> > > - *                    ret =3D drm_gpuvm_sm_unmap_exec_lock(gpuvm,
->> > > &exec, op->addr, op->range);
->> > > - *                    break;
->> > > - *                case DRIVER_OP_MAP:
->> > > - *                    ret =3D drm_gpuvm_sm_map_exec_lock(gpuvm, &ex=
-ec,
->> > > num_fences,
->> > > - *                                                     op->addr, op=
-->range,
->> > > - *                                                     obj, op->obj=
-_offset);
->> > > - *                    break;
->> > > - *                }
->> > > - *
->> > > - *                drm_exec_retry_on_contention(&exec);
->> > > - *                if (ret)
->> > > - *                    return ret;
->> > > - *            }
->> > > - *        }
->> > > - *    }
->> > > + * *   vm_bind {
->> > > + * *       struct drm_exec exec;
->> > > + * *
->> > > + * *       // IGNORE_DUPLICATES is required, INTERRUPTIBLE_WAIT is =
-recommended:
->> > > + * *       drm_exec_init(&exec, IGNORE_DUPLICATES | INTERRUPTIBLE_W=
-AIT, 0);
->> > > + * *
->> > > + * *       drm_exec_until_all_locked (&exec) {
->> > > + * *           for_each_vm_bind_operation {
->> > > + * *               switch (op->op) {
->> > > + * *               case DRIVER_OP_UNMAP:
->> > > + * *                   ret =3D drm_gpuvm_sm_unmap_exec_lock(gpuvm,
->> > > &exec, op->addr, op->range);
->> > > + * *                   break;
->> > > + * *               case DRIVER_OP_MAP:
->> > > + * *                   ret =3D drm_gpuvm_sm_map_exec_lock(gpuvm, &e=
-xec,
->> > > num_fences,
->> > > + * *                                                    op->addr, o=
-p->range,
->> > > + * *                                                    obj, op->ob=
-j_offset);
->> > > + * *                   break;
->> > > + * *               }
->> > > + * *
->> > > + * *               drm_exec_retry_on_contention(&exec);
->> > > + * *               if (ret)
->> > > + * *                   return ret;
->> > > + * *           }
->> > > + * *       }
->> > > + * *   }
->> > >   *
->> > >   * This enables all locking to be performed before the driver begin=
-s modifying
->> > >   * the VM.  This is safe to do in the case of overlapping DRIVER_VM=
-_BIND_OPs,
->> > > --
->> > > 2.39.5
->> > > signed-off-by:Sidharth Seela<sidharthseela@gmail.com>
->> >
->> > --
->> > Jani Nikula, Intel
->>
->>
->>
->> --
->> Thanks,
->> Sidharth Seela
->> +91 - 8826248419
->> www.realtimedesign.org
-
---=20
-Jani Nikula, Intel
+[1]: https://lore.kernel.org/linux-arm-msm/20250814-x1e80100-add-edp-hpd-v1-0-a52804db53f6@linaro.org/T/
