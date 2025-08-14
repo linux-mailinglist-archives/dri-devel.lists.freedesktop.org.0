@@ -2,60 +2,186 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E578B26C4D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 18:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3A0B26C54
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 18:17:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79FFA10E8B0;
-	Thu, 14 Aug 2025 16:17:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E725210E8B2;
+	Thu, 14 Aug 2025 16:17:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pio9G6wb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e/AyrWVT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9EB10E8B0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 16:17:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id CC345A56E9F;
- Thu, 14 Aug 2025 16:17:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 537E7C4CEED;
- Thu, 14 Aug 2025 16:17:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755188239;
- bh=t1D6JoRLNosJcvcAajcvRlnrHWGxzsuS/lzNJzOW0hI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pio9G6wbquRvNu83KBNo2X4ztLrxi/r01Yra2kDpuajo7CBkUHYYdvK4faGGh0HAb
- rjx5Jgv7eKKlNVHsDBdwh6KVPR/H86dc/0jE4Ulqbyw2S9fQgN/GnAbwPsbeyMyOwh
- Chfx2v5gw69odeDgxyQhKNpeonaJFTYVzkOrmTP0ZtQraFQBTrcxusI+woyhb3Mu2X
- KOQEiRaxdyE0Vkl5ywCpafmAZVj8+ZlCmDK2W9tI8bja1kwi6xsM2NdYTCv+aZ8bva
- 3+GYCvPHocaHi8HN9R6QSONg6DmD7PBKMBCGQ+nBxRsAEyuM6T6HEnlxupBmmEUjU1
- sRjtoDvFgxQow==
-Date: Thu, 14 Aug 2025 11:17:18 -0500
-From: Rob Herring <robh@kernel.org>
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Steven Price <steven.price@arm.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 2/2] accel: Add Arm Ethos-U NPU driver
-Message-ID: <20250814161718.GA3117411-robh@kernel.org>
-References: <20250811-ethos-v2-0-a219fc52a95b@kernel.org>
- <20250811-ethos-v2-2-a219fc52a95b@kernel.org>
- <CAPj87rNG8gT-Wk+rQnFMsbCBqX6pL=qZY--_5=Z4XchLNsM5Ng@mail.gmail.com>
- <CAPj87rNDPQqTqj1LAdFYmd4Y12UHXWi5+65i0RepkcOX3wvEyA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3D8C10E8B2;
+ Thu, 14 Aug 2025 16:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755188267; x=1786724267;
+ h=date:from:to:cc:subject:message-id:
+ content-transfer-encoding:mime-version;
+ bh=EgZ0s9WBvu/elgo15YRZkcnJQRxEcYzhh1O3n5IU55w=;
+ b=e/AyrWVTL7mlJPcVMp9/wZE84crA6Dq7mrTQR7ELKxpvHwT1LMvqzUPP
+ 4faAS6rUJCYumSyHkmsFHjxnj1suIjX0o82FhtF63NzMBqRFKjxID/WpY
+ 4AlpIqlY+RoSPF9p5oYwYIT9/lD6nAG+QaRYhnJTTP9xOHhU6UwGCW1TU
+ prTAhQ12lBWeYbmQzwbctosJ4MbcAJx61+yENtHRqtuDmXmwtnSQq77PL
+ LXQfla1MYZBJueRkDbgWOPzA4n4hB5hNNYRycMZur7dEIHJlJYyb63N2B
+ PHgEZ+z9FyIcHqo+COwhTH6D8/AO29CM3TYlIQj1jNrLRd9zkXi4HqLfO w==;
+X-CSE-ConnectionGUID: x0UOS5qIQY+zgchYJDjciA==
+X-CSE-MsgGUID: TErKtIP8Sd26k11ZPvKw7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11522"; a="75081116"
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="75081116"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2025 09:17:46 -0700
+X-CSE-ConnectionGUID: N44sSaDkQxeKVUKwFLxCqQ==
+X-CSE-MsgGUID: 9XfPgHCrQYmpSGNnzrVpvg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,287,1747724400"; d="scan'208";a="203980581"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Aug 2025 09:17:46 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 14 Aug 2025 09:17:45 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Thu, 14 Aug 2025 09:17:45 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.56)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 14 Aug 2025 09:17:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TjJxyPSDR/YijNf4wIEEQlqRH3NneX4w0L1nXe4qUu+rmmz3tNddOo+6Ekbrxca88IicH3EE2YQU6PJHFD6y/tO49sPwjRWKV5i1ypbhK3crY9mxBCPPey8+1V1HUkcdJFFMTutMDP7Tmw/iYhxH1tFWfnIS4PpE5iM9cX2UHVZDoRxaUrS6swPGnd0mFcK0hZXPcvVeb7unEy2fO77Fq/aEeqdqn0tbazeIb7+CMDohvPpkwCuKhvrvJOE19kfGdpAYPb9kMBW9EDPNrW8q+otzA89Cz4ZEPsK6+PACqEcKzKPOeigix8GaDpoLCu7Ou0UoQPWm65PU5fk/h9WN6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=82V0cZ8KTLyfKAgOwPiEYE9OgV1TFFDvvWvS+vf03pQ=;
+ b=Y2hKyZwY/8OqHjGX7vxR73bnHzCmrOhDAtgPTHS+OTxqV6n7sGfad71Bq8Y8Byx2c0MyBOgl38xJBfBomRyHx+aqpPkdvwA4mgO1GKcVYUeXadbZc8Q+cwNzRqOevhbS/yGmlr8XY+Um27pl8kRe4r/YHd7eF6XQeI/WmVksFkwi3eWv/d47qJRgDDMcA/ctsrdogBn7IL/dCH6OXHEa9bn3AoHpdFWMvcPKv0erLawSMvFGx6oExe/TMLcfumi6LmtbGnkqI1ZNU2aYd3NJb5bfSO21ToFbvepT2F5y7WJOKA0wJsgnrYUkxp8Xwj7I+xOeRNKnkYAKTGOJkZjn5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by PH7PR11MB8551.namprd11.prod.outlook.com (2603:10b6:510:30d::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Thu, 14 Aug
+ 2025 16:17:43 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563%5]) with mapi id 15.20.9031.014; Thu, 14 Aug 2025
+ 16:17:43 +0000
+Date: Thu, 14 Aug 2025 12:17:37 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-fixes
+Message-ID: <aJ4MIZQurSo0uNxn@intel.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <CAPj87rNDPQqTqj1LAdFYmd4Y12UHXWi5+65i0RepkcOX3wvEyA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0123.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::8) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|PH7PR11MB8551:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92d4a236-d50b-44ca-6d9e-08dddb4e1904
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dUd2TU9SQm12SHV3Q2lKbkhRcm1sZUx4SytOdGxWNnJLRHBtS2F2dTZKdlZh?=
+ =?utf-8?B?SThoTHZMQTF0aXlZVzA5MlhrZitPQW9HeUFhcUZWU0VXNFovSTBaeVZ1bEhT?=
+ =?utf-8?B?allVWUhTTjc5TXppOW5DVkxLZXV4WnVaekVqem1Ha015cnJGdVdtTHpsWWYx?=
+ =?utf-8?B?NDBPZDhiY0VZYTU5MCtDR3ZWcnlvdkZ0STdUV0tta0lyT3BsR3RWQmF0Z3J2?=
+ =?utf-8?B?aFhQcFp5RTA0SlpKK3BMWmRtOXVFRFhhWjlWU1VJeDNWLytIUTZwS1hPcDlJ?=
+ =?utf-8?B?MmNObmJTQytFaVhQVVdacFVXRzNORWtoQW1FTHJMSWw5cDN5cTBwZjhqUHJx?=
+ =?utf-8?B?azNtN2FYSnRBUFMvbElTbmY3SnpEZWlJMEFhKzV6TjlCTEEwTkZKcTNZWU1H?=
+ =?utf-8?B?MDN1Y2FJdWw1dm04UkhRSmoxeXZOWHAyeExMd0RNOWpXQkxIdzRvSEgyeWY1?=
+ =?utf-8?B?REI5cjJRYjdGWmpUVHVkdzNxbnFBRzQxUk4xZlIvbVlLYWFselE2ckxTNkFr?=
+ =?utf-8?B?QnFMVGpXL1VVOEVudTFJV3lVci8rS1QrUkhRM01RVWRETmFNT2dBWDZiYXQy?=
+ =?utf-8?B?cHFsUk5yL1dubGkwNFNnWUd3d1Zyc281SFU1Q2FuRUd6Zk1yUjA0L0JCd2lI?=
+ =?utf-8?B?MHpJcng3RjhZRGNGNVEvMTl6MmdSYnQxTTdQT0tudVBnSmg5QnhZR1o4T3dO?=
+ =?utf-8?B?Ry9RWi92RGN0bTBIR3BuZUxwVHZ4VzlCc0tZVk1SS21ROGxJYVpZRVhVTCsz?=
+ =?utf-8?B?WXlZVWdGWTlFMC81clVJSy9kUXlINnRwb2FBVm9KYm00NHVSdGgreWM2NEVU?=
+ =?utf-8?B?R01PbER1bE1BSEZXU3UwaFhkTW5rS3lQOWJpblR4QXV0Y0QrQzJ5N04vOWZK?=
+ =?utf-8?B?Q1hRTUJGbFAyUTlrcDJSeGM0bDBCSmNvb2JkS2llbEdId1pJUk9VdU9rQnkz?=
+ =?utf-8?B?S3hKUjIybzVuaTcxMWwrZGhoMS9FeFJubTUyRTRoYVc2WFdxSk9URzZ2ZTFr?=
+ =?utf-8?B?SFpsSUxTeWdGTVI3ei9rN2UwYmRuVk9xeVlnUnZlbkhKbUFPNUFQaVo3ZHk1?=
+ =?utf-8?B?WjBvUUxENnZ2K3NvV1RILzJ2ZWxHUkQ4VVdRbUNTUGxtWGptMzZHcEJqSlBK?=
+ =?utf-8?B?UHFsSXBZS25pMmxqNnE0d3hqVnZSRG5ZQWhEVGlMRmFOTEV6TmpFazZuNStG?=
+ =?utf-8?B?dmVKYU5xZU91Z1hETXJpY0tvaWh0L09rdS9raUwwUlJKS2dDZjdBbW9vR2NE?=
+ =?utf-8?B?Q1ZVc3dKYW0wT0hYdkswaTlNMWwwRUp4cGMrUlRxc2JwaTVBbm44OVM5MGZT?=
+ =?utf-8?B?TjZmbVFsaXdFVWIxbzMyUTZUUE4zN3lVNE1pWjBjU05sZWFDV294b0QzWEZa?=
+ =?utf-8?B?Z25aaEdYWTV2b09laHFxdzJhd3lUK1gwQUhrZURteVMwSEtzc0NFUnZ2SVBl?=
+ =?utf-8?B?N29XRTE1TW9VNmlteTFGRFhQS24raENwUlVrM0hOTnpobjdRM3k3Z0dkL1Fo?=
+ =?utf-8?B?Zy92OTdraVprSkgxVUxZejh5THlEbUVRbzlRT2REeTlLYnpkcVNZc0Q5Nkhq?=
+ =?utf-8?B?Nk9zdU1hSEYwTzBJWCtmamp2RHJ1cExycWR3cU4raCtIUEpQMDFIL1FLTUpT?=
+ =?utf-8?B?QzRPMUIzK3lxdTBubTl2YU5ZR2RtaTVqTzdlelFab3BOc3dpYUZQVDh3UW10?=
+ =?utf-8?B?ZHUyY25ta1BIaTdUV1JoR2p3dGVSSWNaWThoY3hSTW03aVFBSVZLd0hFSUJh?=
+ =?utf-8?B?dFRoNnNrUVpJVGdremRVL2d3eVZhcm9MMGlhb1hCVjhUVWFCUWVHQ1pEbFZC?=
+ =?utf-8?Q?0cFKXHBrncQt0xgOjZbpFCAmYXOd6pOv4ogXM=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVV6ZGIvUlpDcVNHZ0dhS2Y4WDgvYjZIN28yVStrZWhtSDlRQkE1bG83NnpM?=
+ =?utf-8?B?VHJtNXNmQ1JrTUdERkZQZHZlakVldnFnZ0hPN1lnWjZyNXFYUUY4L096VEhS?=
+ =?utf-8?B?aWJocVUvZnVoYjU0TFJTL2t5ZHNZaExLQzBpRXNFN0VUbkR2TjZFamNtbXdp?=
+ =?utf-8?B?MXB3d3dnZGpveXdta1paYm1vVjBDY3c2cDluWEJTdElZeWp3alRjdk5rOFpp?=
+ =?utf-8?B?MjhqSkhTVDU4cmFDOGFwZnJFbFdiZjBDbHpJak1NSHRSdXFRdGM1ZHB4STRv?=
+ =?utf-8?B?ZUNuZ1VoNEpVRGlLK1BEVjdOZk9JQi94VHpYeWtuQTJIcEcrSEtiWU9YTDQr?=
+ =?utf-8?B?Nkhyd01GTEhxejIvSW11K2NwZUtMYnQyVnhoVXhHQnY4MG9DTkNWOFV2dDRT?=
+ =?utf-8?B?L0F0alo2cGlFNXBORXRTeFI5ZUkxZ1RFdHNjS0pTczlKVmtXUjZSSmZIYlZy?=
+ =?utf-8?B?NzJQeXRWVUpzbmJMQ2VCam5IeURLY29pdDlxVVkyamh6Z3ErQ293V3YrUHdO?=
+ =?utf-8?B?ckd1RjNESlREUDczQ214cjB2RlJQOXJENHpEUG9NeWtmSXRaL21WaTZFWVhp?=
+ =?utf-8?B?elZ6NHpBR0hrVWFKY2JkMk5lMU5CR09jNGRUNStLRUR1a1JWTlJ0TGFzRG1H?=
+ =?utf-8?B?cGkwM0E0bStob3R5VUFHT0dnWXJrRlRTRUxicmpSK1RyVFlyQ3V6VWFGbXcw?=
+ =?utf-8?B?L1pQMTFsT0NrOWRpcHlZM0gxNDNWc2ZVK1lqNytuNklMdGRZdjlCZHQ4cmlS?=
+ =?utf-8?B?dHZuck1VbE1pNGQ5dmFpMzJ2WVNYSGpkTlF3S1ArNzdZZmRudkUyLytNekhW?=
+ =?utf-8?B?V0pGcnZ6aG9qRm1HUG1WQmRweENTMEpEOTFuSmV0Q29vVEtxMFZQcnUrRWhR?=
+ =?utf-8?B?Q3ZxTko1TzU4Rk5kN2FLQU5XZ2I0N2JVbUFHMkFVMUJoWkFhRjBaSXhXOEZx?=
+ =?utf-8?B?MnF6Q0xCYWZlelZ2QmlPYmpjQTBQemxleldvYkdMaFI0eXFuWjhaKzZmTk9p?=
+ =?utf-8?B?RHo5bTEvY1RSUGpnSnVaSldra3QwQkppS3o2N2lWS2hCRU5TczhMWEp1UFVB?=
+ =?utf-8?B?Q3ZEQi9NbGgzVnQxbUNIS2Q5a2xUZ3dyaEFKWDlEdW04YkxHRXdMQmJDRzFQ?=
+ =?utf-8?B?QmE1MjRQVEpraUJQdFRGRTY5YUw1Z0JQSEs1S25aU1VCZXFtY0t6R0Y5SjZo?=
+ =?utf-8?B?L00xYUVtdU9SUmVYbmUzcnp6NTBHYzQyZEE2UWhuSm45U21CNnNMd0EwZk12?=
+ =?utf-8?B?bkV6QmNDRWovVkJzRnV5R2pCNDU3THF4d056eUx4bjIxY0hKWWZqVldxT0N3?=
+ =?utf-8?B?Vlk1aXFqRGVwWjVBeHBCbHB1bXVIYnFuR2JwN1dPVkhSUzJJZ1ZMTlJtZHp4?=
+ =?utf-8?B?eElJVVptT0daWlpsRUIwck96azlza0t5RjlnM2c4ZE91akZGMWxLLzkxZkFo?=
+ =?utf-8?B?cGE0V3c4VFJyMEtqajlGUlJqcTBjSTZ1WVVoUUxGMTlVV0xDbmN6L1diUElL?=
+ =?utf-8?B?VWtSQjZ3aXFtdDdjcXczOUpNRzVYbmtURjRtcURHUmFSZ3d6TGNUVFhZYkVa?=
+ =?utf-8?B?K1FCa2dUYVV0TlNKL2RHejNXVlpDcUxYcUJxVWpmczZ6UTllZDlMZktCRjEy?=
+ =?utf-8?B?ZmRETVdvd09yWS9VQ0VIMW1TSHJvT0xUa1FUOEVZQXJxOEExMVJSOFRSRnZq?=
+ =?utf-8?B?SlIrczNmMlFzR2N4TEZndjFFVlAxZ0lPK0RzRUs3anBRL0tLYytlVFNwM2Na?=
+ =?utf-8?B?anVGc21JaWlETytmS3JHM3U5a2I3dG1ZT3d0Wkh2RzhqUkpIZWl0T3c5UjJ5?=
+ =?utf-8?B?RUdMNUppanNXSkRMZ2dxYXUwOVlqSEdVenZ0Y3JqMktqcElLUG50S3VVNVF2?=
+ =?utf-8?B?M1Z0bmtIVEJNM0ZXVkhGUEZ6YTE4TWZpK0IrbU84ZkIxalNHVm9iczVyZmJI?=
+ =?utf-8?B?VkRBcnlpdUUya2xnOFNMZUxUNEI3ZVJkNTFzdGdhbUZQQUc5M0l0ODdwbE50?=
+ =?utf-8?B?RUNpOGw5K3V4U1Zkcm91RmNJZ1lWNHJhN2xCWVA3QjdCanprakZ6aStSeHMr?=
+ =?utf-8?B?KzY3a2xBK2JmWEpEOXdLUzNzOTloM0w2Y1BmanVJZkJDbnlETjJrWHBhWURW?=
+ =?utf-8?Q?W0Uy9SCSLZLySusSUScWhj7H3?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92d4a236-d50b-44ca-6d9e-08dddb4e1904
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 16:17:43.3408 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: d17lnXyu0ZYZwOQdbtEEhio9ZdlOB+9f7HqkhfeQIwfWqHM4eyhdnVTpkqyYv1Zdmvv0MsGmWrvNKpO6uMOeIw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8551
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,151 +197,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 14, 2025 at 11:51:44AM +0100, Daniel Stone wrote:
-> Hi Rob,
+Hi Dave and Sima,
 
-Thanks for the review.
+Here goes our first round for 6.17 fixes.
 
-> 
-> On Tue, 12 Aug 2025 at 13:53, Daniel Stone <daniel@fooishbar.org> wrote:
-> > On Mon, 11 Aug 2025 at 22:05, Rob Herring (Arm) <robh@kernel.org> wrote:
-> > > +static int ethos_ioctl_submit_job(struct drm_device *dev, struct drm_file *file,
-> > > +                                  struct drm_ethos_job *job)
-> > > +{
-> > > +       [...]
-> > > +       ejob->cmd_bo = drm_gem_object_lookup(file, job->cmd_bo);
-> > > +       cmd_info = to_ethos_bo(ejob->cmd_bo)->info;
-> > > +       if (!ejob->cmd_bo)
-> > > +               goto out_cleanup_job;
-> >
-> > NULL deref here if this points to a non-command BO. Which is better
-> > than wild DMA, but hey.
-> 
-> Sorry this wasn't more clear. There are two NULL derefs here. If you
-> pass an invalid BO, ejob->cmd_bo is dereferenced before the NULL
-> check, effectively neutering it and winning you a mail from the other
-> Dan when he runs sparse on it. Secondly you pass a BO which is valid
-> but not a command BO, cmd_info gets unconditionally dereferenced so it
-> will fall apart there too.
+The SRIOV setting for VF LMEM BAR size is critical and will cause
+trouble for people using SRIOV if not there. But we couldn't send
+it earlier because the dependency on PCI patches that just landed
+in the  last merge-window:
+https://lore.kernel.org/intel-xe/20250702093522.518099-1-michal.winiarski@intel.com/ 
 
-Yep. And there's a 3rd issue that I'm not setting 'ret' to an error 
-value.
+I hope it is okay.
 
-> 
-> > > +       for (int i = 0; i < NPU_BASEP_REGION_MAX; i++) {
-> > > +               struct drm_gem_object *gem;
-> > > +
-> > > +               if (job->region_bo_handles[i] == 0)
-> > > +                       continue;
-> > > +
-> > > +               /* Don't allow a region to point to the cmd BO */
-> > > +               if (job->region_bo_handles[i] == job->cmd_bo) {
-> > > +                       ret = -EINVAL;
-> > > +                       goto out_cleanup_job;
-> > > +               }
-> >
-> > And here I suppose you want to check if the BO's info pointer is
-> > non-NULL, i.e. disallow use of _any_ command BO instead of only
-> > disallowing this job's own command BO.
-> 
-> This is the main security issue, since it would allow writes a
-> cmdstream BO which has been created but is not _the_ cmdstream BO for
-> this job. Fixing that is pretty straightforward, but given that
-> someone will almost certainly try to add dmabuf support to this
-> driver, it's also probably worth a comment in the driver flags telling
-> anyone who tries to add DRIVER_PRIME that they need to disallow export
-> of cmdbuf BOs.
+Other than that, there's a series of xe_migrate_access_memory fixes,
+a xe_bo_validate slowness fix targeting stable (v6.15+) and an hwmon
+max cap fix.
 
-What would be the usecase for exporting BOs here?
+Thanks,
+Rodrigo.
 
-I suppose if one wants to feed in camera data and we need to do the 
-allocation in the ethos driver since it likely has more constraints 
-(i.e. must be contiguous). (Whatever happened on the universal allocator 
-or constraint solver? I haven't been paying attention for a while...)
+drm-xe-fixes-2025-08-14:
+- Some more xe_migrate_access_memory fixes (Auld)
+- Defer buffer object shrinker write-backs and GPU waits (Thomas)
+- HWMON fix for clamping limits (Karthik)
+- SRIOV-PF: Set VF LMEM BAR size (Michal)
+The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
 
-> Relatedly, I think there's missing validity checks around the regions.
-> AFAICT it would be possible to do wild memory access:
-> * create a cmdstream BO which accesses one region
-> * submit a job using that cmdstream with one data BO correctly
-> attached to the region, execute the job and wait for completion
-> * free the data BO
-> * resubmit that job but declare zero BO handles
-> 
-> The first issue is that the job will be accepted by the processing
-> ioctl, because it doesn't check that all the regions specified by the
-> cmdstream are properly filled in by the job, which is definitely one
-> to fix for validation. The second issue is that region registers are
-> not cleared in any way, so in the above example, the second job will
-> reuse the region configuration from the first. I'm not sure if
-> clearing out unused job fields would be helpful defence in depth or
-> not; your call.
+  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
 
-I had considered clearing unused the region registers. That really has 
-little effect. There's not any way to disable regions. And region 
-offsets are a full 64-bits, so even if one set base address to 0 or some 
-faulting region, a cmdstream can still get to any address.
+are available in the Git repository at:
 
-The other issue is just whether there's leftover cmdstream state from 
-prior jobs. That's why the cmd_info is initialized to all 1s so that the 
-cmdstream has to setup all the state.
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-08-14
 
-> > (There's also a NULL deref if an invalid GEM handle is specified.)
-> 
-> This one is similar to the first; drm_gem_object_lookup() return isn't
-> checked so it gets dereferenced unconditionally.
+for you to fetch changes up to 94eae6ee4c2df2031bca586405e9ec36e0b9ccf8:
 
-Here's the reworked (but not yet tested) code which I think should solve 
-all of the above issues. There was also an issue with the cleanup path 
-that we wouldn't do a put on the last BO if there was a size error. We 
-just need to set ejob->region_bo[ejob->region_cnt] and increment 
-region_cnt before any checks.
+  drm/xe/pf: Set VF LMEM BAR size (2025-08-14 10:30:53 -0400)
 
-	ejob->cmd_bo = drm_gem_object_lookup(file, job->cmd_bo);
-	if (!ejob->cmd_bo) {
-		ret = -ENOENT;
-		goto out_cleanup_job;
-	}
-	cmd_info = to_ethos_bo(ejob->cmd_bo)->info;
-	if (!cmd_info) {
-		ret = -EINVAL;
-		goto out_cleanup_job;
-	}
+----------------------------------------------------------------
+- Some more xe_migrate_access_memory fixes (Auld)
+- Defer buffer object shrinker write-backs and GPU waits (Thomas)
+- HWMON fix for clamping limits (Karthik)
+- SRIOV-PF: Set VF LMEM BAR size (Michal)
 
-	for (int i = 0; i < NPU_BASEP_REGION_MAX; i++) {
-		struct drm_gem_object *gem;
+----------------------------------------------------------------
+Karthik Poosa (1):
+      drm/xe/hwmon: Add SW clamp for power limits writes
 
-		/* Can only omit a BO handle if the region is not used or used for SRAM */
-		if (!job->region_bo_handles[i] &&
-		    (!cmd_info->region_size[i] || (i == ETHOS_SRAM_REGION && job->sram_size)))
-			continue;
+Matthew Auld (3):
+      drm/xe/migrate: prevent infinite recursion
+      drm/xe/migrate: don't overflow max copy size
+      drm/xe/migrate: prevent potential UAF
 
-		gem = drm_gem_object_lookup(file, job->region_bo_handles[i]);
-		if (!gem) {
-			dev_err(dev->dev,
-				"Invalid BO handle %d for region %d\n",
-				job->region_bo_handles[i], i);
-			ret = -ENOENT;
-			goto out_cleanup_job;
-		}
+Michał Winiarski (1):
+      drm/xe/pf: Set VF LMEM BAR size
 
-		ejob->region_bo[ejob->region_cnt] = gem;
-		ejob->region_bo_num[ejob->region_cnt] = i;
-		ejob->region_cnt++;
+Thomas Hellström (1):
+      drm/xe: Defer buffer object shrinker write-backs and GPU waits
 
-		if (to_ethos_bo(gem)->info) {
-			dev_err(dev->dev,
-				"Cmdstream BO handle %d used for region %d\n",
-				job->region_bo_handles[i], i);
-			ret = -EINVAL;
-			goto out_cleanup_job;
-		}
-
-		/* Verify the command stream doesn't have accesses outside the BO */
-		if (cmd_info->region_size[i] > gem->size) {
-			dev_err(dev->dev,
-				"cmd stream region %d size greater than BO size (%llu > %zu)\n",
-				i, cmd_info->region_size[i], gem->size);
-			ret = -EOVERFLOW;
-			goto out_cleanup_job;
-		}
-	}
+ drivers/gpu/drm/xe/regs/xe_bars.h |  1 +
+ drivers/gpu/drm/xe/xe_hwmon.c     | 29 ++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_migrate.c   | 42 ++++++++++++++++++++------------
+ drivers/gpu/drm/xe/xe_pci_sriov.c | 22 +++++++++++++++++
+ drivers/gpu/drm/xe/xe_shrinker.c  | 51 ++++++++++++++++++++++++++++++++++++---
+ 5 files changed, 126 insertions(+), 19 deletions(-)
