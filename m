@@ -2,84 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6E6B25C15
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 08:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96036B25C7A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 09:02:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9011A10E7F6;
-	Thu, 14 Aug 2025 06:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 784B310E7F4;
+	Thu, 14 Aug 2025 07:02:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="fVpwz3ku";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VTt6dHxM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3505510E7F6
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 06:44:43 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-45a1b05a59fso4009915e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 23:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1755153882; x=1755758682;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cc498I+j1YOWceGut+z2RkLYjN1WkXnttkUY56LCj5U=;
- b=fVpwz3kuAaQZuGPh+WT1jdzw0yhB9PHXbfn5XSVgz3fr8+/mID4s+Cy7fzFH7EVlcv
- 0HNvIIxUwd7MkIXrWfOriCx23seUgDYWASF9JYZoNk9JvT9ybYE7gH7SEd9CunsCZzZb
- 5VsqA7tT5ocBqO0RxF0Bk1CTVYOy8Y9EAwaX7zVOd3H5uXPv4273bHuaOV+lEzBO/Czb
- h4bxV2jKVRr1VbIbuWew/h64KdNEaX/tim5HBqpiZC0qZ0zO4jhEGaEwKmKwfkY3qgy4
- 9hK7fYg3OXM8WHQ5y114Ws6jQq114h/2mf+58/rxcDxvR+ZKXfARiHVN91W9sLikvF4K
- EnSg==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6968C10E7F4
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:02:13 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DMRIJ6011340
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:02:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=Iy5XjLJ55RnUenJqnrBHZVwS
+ VIhZcPvSxAiSS+k4+Ww=; b=VTt6dHxMQ5uJCZ26BA7BTEZ8Yb5u5ySn5pbhKa9C
+ w0GVXirFEI2J9FgwVdQd562ooU+7hjBn2SHIh5nyOgyaK+P21VQikgA0r+mmejbU
+ W3Kg5AvMNxsZotpCQ/x63kbx7Zon3nl1+SzElpFWiUO6vmRxnmAPz8doYLwIQ5Y9
+ lViJIdCsasV482a4StmPS5QcDNCiMxHkVTYYGqnyWPkInqIMSgVBRZF4PixGfmoU
+ WSWT+lQw4IIBiVoX7NCaIQ38D8jBRzz6yJEOejA7KwePbZc4YivFWVc/drlj0BRp
+ UsyGclWX07v5EVC84OWJeqQcRwBXoznhdkxqNpzQypv4sw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48fjxbhuqy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 07:02:12 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4b109a92dddso18382341cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 00:02:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755153882; x=1755758682;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cc498I+j1YOWceGut+z2RkLYjN1WkXnttkUY56LCj5U=;
- b=GcGyHZ3rkFectYp4R9o4njQmbgKIJaNk0V1bzUF3iebLCjmdAhQ2e3h9WwmK8/cf0E
- zFgFznApwEmXQExwGRL/MMChEh2XzbwUR0OBCNIpBXGiU7A/AwNi8fF/eUX+q2aj5LPi
- GBtElVlXtID7XNNFvco04oYh4St0T5GSNeT5XbxiWT+iOA8+di4LUgoNUtmAvFkAWlX1
- 24FQrUHN0G4/Wa90GIin3oaxATHztBixgEJ9PJEYxidEgKKP866unaOzw4NaWHPR9Y5Y
- uoF/jaQ+SLKZSI5cev7RJtyGUWDrcVcTcgNWGxn8vxuf0GnRMa4PIdcJpaK93wKzEpzf
- qjBQ==
+ d=1e100.net; s=20230601; t=1755154931; x=1755759731;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Iy5XjLJ55RnUenJqnrBHZVwSVIhZcPvSxAiSS+k4+Ww=;
+ b=rhSp9eK17d1l7AfjIvPu2V5i5CWFovCEmgXPTDgOdmlYxNjblCZxzReTvp8U1u9I7b
+ AcDGgw/+xAn4gMh1+q1L5t1uvM8ndvBtgiFoLdOQdAy1/iXLk4Vhd24AfB5GuHri5Ck4
+ dK2sbxO78ToxiXm6VknFY7PhxdX02EZ0cBGAnwbNR+bLw9qT9ymf/+UvY7Ye4FNRCiEV
+ 2ovkGIe3fTxvHcyNhtfaaC/azvvNBT2/4neyKGKdebRXufqIZuObDlJwg1SspIFXP9vZ
+ FbCsV1x7OHpfDFRqN6GB/rcXdWz3gzEg8zRzYxj7y8Tjk6mGxRtXfnl0EGm3lGthIsqV
+ tC7g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU0fNkFmz8WpC5qazBJQvRYe+S8Zo0LeZ/79KkEJq43zt2nv01XH7wBL2Jq4lRmdXAXOKxckp5NoLg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yydeuj+Ok6HKE6V30imZ/k6HYEsJTKo/A/VwIXTslZkiyMslTLf
- A/x5G+E+W2DWZD4DRmRxA24QxhelFWvGHCNhidTxvD60xh7OAdw6KTBtdtH8pODCjAM=
-X-Gm-Gg: ASbGncuEeFZYl3zgKsMiML+y6tRTxf+Ij4Zabr7vGRFbWKOQJtnF1dMcJoLgUO6nnTF
- 2UNJy7+Tbuvk1TR3FOen9OzHsNcpymUCmaKCWnJzYNMD+BYHQI4cibOh/QVVjt7JT+qvF50uW/K
- BxFiacVi0gTkCNNe3JuMdkSyfTZ7wOlNaygf91WIdiaYnQVVTpOSGy7WU0KNmRJ01hU6pjjM7ov
- 4V8KJ/Si5swzr0Ez4ToO+xyfSfBQdj2fgyNasayPi+Vy+3duiwWHf1fQHmCtgMGRrYc+smHfrnZ
- XY9lzQST+UDx7336K1OHkpyv5Go5N2b6p9GrylSLG0N7RzPz9VGl6xp33AkFr8qEWleJdFzncj/
- Jb9RTjr/xKfVD+6RfKt5uuFU+ek2MQ5khXo5rOYoT9PFYRg==
-X-Google-Smtp-Source: AGHT+IF8l0U9o5tnd3mzmSDQchRPhxwSlrS3PKFKAywoFUAe6DOgztRr7W+afUTUWc9q0QSWOk3RFg==
-X-Received: by 2002:a05:6000:22c5:b0:3b6:b020:9956 with SMTP id
- ffacd0b85a97d-3b9edfe35dcmr1327501f8f.43.1755153881336; 
- Wed, 13 Aug 2025 23:44:41 -0700 (PDT)
-Received: from [192.168.0.101] ([84.66.36.92])
+ AJvYcCWZ0vOwixu0nri/dI55Ph4eFbodcEIXaKhBFHs4Nf77QEfHVoYMjQ9FkM19PVrgqupaHVFDrdy+XbI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwyC8gugW40iL1FQuGpVRR113nfm9NeM+WhWqAadYPK0lkKxE60
+ AgaU7/jSe1eHO/uIrx52PcgBtRhzhBLNnDTOi0htrV9+l1ZaXfdG+0Cp26aaCFDRVQuZUFNwasT
+ MFWUn8drrdpw+tTc1xJYcbiwEjo2xg2KUvzPRDOeeWc9xZaVsWNGd2OJeutyt39NR4uI4t4k=
+X-Gm-Gg: ASbGncsuaD0ofLz/T0t3QaXCLbQjTnFXZx2tEB8oZXVZ10/hiXwFp0kshjpQ/YGAtvg
+ xSAxtbxT1WcrZ7+47hAADCBC4DaD3tEKYlk7xacQHvTC7wPG73FyRhcvBuP555YUchwtAMhIgZF
+ 9gqulGxk7RwEnlAD0kWWWOOiOBENJBYrOApM7c0qBQ+ADk96vU3LYM8qHYTXFC4Fr1fKL0kmhq8
+ Y3p2SxQOmrq8A8LEJ85asJRlH93DD+4m8YNI/FyyA0LWRQ1/JixDxNwCzDEthF7auCLpT2kSdwk
+ BS37rA1ZN71BnoDJ0cuE/Lv8ExA0rxtkeF+/M2au6ztBOkNm3je5CQgwsGWXl7fxmDF+cs3dV8s
+ VPEKtz5SvFZuw9AoPA2JS0soBpnQbxWJK/vFCfkJXdc7yWoZEQEwL
+X-Received: by 2002:a05:622a:738d:b0:4b0:8338:30ee with SMTP id
+ d75a77b69052e-4b10a920d45mr22488971cf.11.1755154931330; 
+ Thu, 14 Aug 2025 00:02:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHHNJhcD6JQ708YwPrqw+PAvDxzp0+x7FgcO77yGZpD5y7vEB02eM4qqc2J0t07nBTkfxfSOA==
+X-Received: by 2002:a05:622a:738d:b0:4b0:8338:30ee with SMTP id
+ d75a77b69052e-4b10a920d45mr22488551cf.11.1755154930800; 
+ Thu, 14 Aug 2025 00:02:10 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b8ff860acbsm23593149f8f.51.2025.08.13.23.44.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Aug 2025 23:44:40 -0700 (PDT)
-Message-ID: <ceb80fde-dae5-478e-840c-9b949396d904@ursulin.net>
-Date: Thu, 14 Aug 2025 07:44:40 +0100
+ 2adb3069b0e04-55b88c99078sm5481193e87.102.2025.08.14.00.02.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Aug 2025 00:02:09 -0700 (PDT)
+Date: Thu, 14 Aug 2025 10:02:08 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ling Xu <quic_lxu5@quicinc.com>
+Cc: srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ gregkh@linuxfoundation.org, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, thierry.escande@linaro.org,
+ quic_vgattupa@quicinc.com, quic_kuiw@quicinc.com,
+ ekansh.gupta@oss.qualcomm.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ stable@kernel.org
+Subject: Re: [PATCH v3 3/4] misc: fastrpc: fix possible map leak in
+ fastrpc_put_args
+Message-ID: <7gen36c5as6fxpgeinc6if7ysex4ieswh2uhqqjtqlt37tj7or@ngpiqfyg2p56>
+References: <20250807100420.1163967-1-quic_lxu5@quicinc.com>
+ <20250807100420.1163967-4-quic_lxu5@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915/active: Use try_cmpxchg64() in __active_lookup()
-To: Uros Bizjak <ubizjak@gmail.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-References: <20250725072727.68486-1-ubizjak@gmail.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250725072727.68486-1-ubizjak@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250807100420.1163967-4-quic_lxu5@quicinc.com>
+X-Authority-Analysis: v=2.4 cv=G6EcE8k5 c=1 sm=1 tr=0 ts=689d89f4 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=7U_eyDcXjddG1dUirncA:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODExMDA5NyBTYWx0ZWRfXw+NDOySQ/Aof
+ kwWKUPd7SE2YE+C7gkM/W7/1bMf6ogxHy5rDEf68teAEiQFC58eBDVEZVqnez+4NBAZGRRAXtDy
+ Q11M8nctkF+RYp/Lz2NCIDD4ToYvXVc3wDO8AXxjH4t7YGxOE1CCgqUwwhGQz6kNp2SM4Go5XCn
+ xaR6LJru8qsL98mPFU5xvhl8HNt0VhkhGAsDVTZzl38yqseQo++0gbZh1GHJGL+8ZZNWqtCp3rP
+ pAMdDugBrNMzbu+2sKCAS4Si/0rEWSxAZamF82O6qEMbiKggM65dBsXktXJ5L47jfMo/4Km1Ib5
+ F3hHgy/GzxyL62sCBrus3mpJj1ND4+zeaAA57UrklHXior1VZVWYnHCJv3s5kmJl3URk/nKXVjB
+ DwoDNExS
+X-Proofpoint-ORIG-GUID: yDY_hBpxvVTgYAbJ8kvGIHrGBwBBtOEW
+X-Proofpoint-GUID: yDY_hBpxvVTgYAbJ8kvGIHrGBwBBtOEW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0
+ malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508110097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,62 +130,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hi,
-
-On 25/07/2025 08:26, Uros Bizjak wrote:
-> Replace this pattern in __active_lookup():
+On Thu, Aug 07, 2025 at 03:34:19PM +0530, Ling Xu wrote:
+> copy_to_user() failure would cause an early return without cleaning up
+> the fdlist, which has been updated by the DSP. This could lead to map
+> leak. Fix this by redirecting to a cleanup path on failure, ensuring
+> that all mapped buffers are properly released before returning.
 > 
->      cmpxchg64(*ptr, old, new) == old
-> 
-> ... with the simpler and faster:
-> 
->      try_cmpxchg64(*ptr, &old, new)
-> 
-> The x86 CMPXCHG instruction returns success in the ZF flag,
-> so this change saves a compare after the CMPXCHG.
-> 
-> The patch also improves the explanation of what the code really
-> does. cmpxchg64() will *succeed* for the winner of the race and
-> try_cmpxchg64() nicely documents this fact.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Uros Bizjak <ubizjak@gmail.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
+> Fixes: c68cfb718c8f ("misc: fastrpc: Add support for context Invoke method")
+> Cc: stable@kernel.org
+> Co-developed-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
 > ---
->   drivers/gpu/drm/i915/i915_active.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/misc/fastrpc.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-> index 0dbc4e289300..6b0c1162505a 100644
-> --- a/drivers/gpu/drm/i915/i915_active.c
-> +++ b/drivers/gpu/drm/i915/i915_active.c
-> @@ -257,10 +257,9 @@ static struct active_node *__active_lookup(struct i915_active *ref, u64 idx)
->   		 * claimed the cache and we know that is does not match our
->   		 * idx. If, and only if, the timeline is currently zero is it
->   		 * worth competing to claim it atomically for ourselves (for
-> -		 * only the winner of that race will cmpxchg return the old
-> -		 * value of 0).
-> +		 * only the winner of that race will cmpxchg succeed).
->   		 */
-> -		if (!cached && !cmpxchg64(&it->timeline, 0, idx))
-> +		if (!cached && try_cmpxchg64(&it->timeline, &cached, idx))
->   			return it;
->   	}
->   
 
-Patch looks fine, thank you!
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-I've sent it for a CI pass (see 
-https://patchwork.freedesktop.org/series/152185/) before merging.
 
-Regards,
-
-Tvrtko
-
+-- 
+With best wishes
+Dmitry
