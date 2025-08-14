@@ -2,97 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B552B25EA7
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 10:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE74B25EAE
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 10:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A020E10E81D;
-	Thu, 14 Aug 2025 08:24:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDA5210E81C;
+	Thu, 14 Aug 2025 08:24:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IEayfplB";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="br94YOue";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35FB910E81C;
- Thu, 14 Aug 2025 08:24:16 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57DMK63Z002802;
- Thu, 14 Aug 2025 08:24:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- szT/7VYEBT/i5GUPMjZjxaNeVR3yEWoylClLnLJqr60=; b=IEayfplBxKjeaews
- /zUHucINY3YUc96+ar4knPO5acsNRdG+JDpWRWiJm7pLFVmVJKH/1SWiXGe6fa+G
- KYq8VrIiOLDH+unWPVt1tfemahWjO9lV9ERbyb50ho7ejrkm8oraZDQK3+o6nNo7
- xf1FAVdU6O4FuyFsAa1aVWCTQR9LkscUPWbgxY91LaIvJLu8fl7vOkV/7Pr8NeRT
- 0+kBSY380UXaPGBFk1b+Jr5eDy8iilzvBbM7g078aWEhyGpJ8KXP6hIK8npIuvr/
- 5F5nm6YyUTmTFRJzNrzeDMv6mjviFEKQEDEKH5o9yN9yprEu8CQc2wHgQpOEpCjX
- F2KT5g==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48dxdv6xq1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Aug 2025 08:24:12 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57E8OBJM013091
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Aug 2025 08:24:11 GMT
-Received: from [10.133.33.43] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 14 Aug
- 2025 01:24:07 -0700
-Message-ID: <93c5b8c8-891b-4643-9da6-c669eaa34750@quicinc.com>
-Date: Thu, 14 Aug 2025 16:24:05 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 31/38] drm/msm/dp: propagate MST state changes to dp
- mst module
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: Rob Clark <robin.clark@oss.qualcomm.com>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>
-References: <20250609-msm-dp-mst-v2-0-a54d8902a23d@quicinc.com>
- <20250609-msm-dp-mst-v2-31-a54d8902a23d@quicinc.com>
- <4w6rtzhetxrco5ncynr52qeveypfpqkclh24kcdpfcn5u3v5at@evxsz3xdxfio>
-Content-Language: en-US
-From: Yongxing Mou <quic_yongmou@quicinc.com>
-In-Reply-To: <4w6rtzhetxrco5ncynr52qeveypfpqkclh24kcdpfcn5u3v5at@evxsz3xdxfio>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=IuYecK/g c=1 sm=1 tr=0 ts=689d9d2d cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
- a=5dxOTwhkvzhATaH7nOcA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: hvg2gk1y84MVIM3NTfVYHMKjpKaxTJys
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA5MDAyNSBTYWx0ZWRfX9z2K+JQ6amlS
- VGgMpx8TyAffQcJfm1yHwZ985kGjfDamTmjV3hzlpeWNZaWPNtuYrDJwFDpLU2NNuJQhKrej57Y
- V1jbFeXPtEJfU8y60P4VBPlR4fXKN/RuVTUfLhLb8RwK+lWmIzaRwjb0cixs9iqecR65GMG76fU
- ObOAZirYAR7Mq5As3o8ck7v2qkTee6x0NyRLercJboxgCloxR7o1K4/SKOSk5fVzLiGga+/2fSy
- JGO3CiZeAPp2/4N7gzPhyE/HuwI0R5uAeiXHa4jPnOrSs2rfj3z3Q9c9gUAgu+WSiS1rfAdebik
- Fb2MMueBSj7akiiDgdkWKbOwFgPIYtbgnGANxooApqzPA34psuLaFTCImOoz+INcgI4+UcRsXD2
- OcOL6R/y
-X-Proofpoint-GUID: hvg2gk1y84MVIM3NTfVYHMKjpKaxTJys
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 spamscore=0 priorityscore=1501 adultscore=0
- clxscore=1015 phishscore=0 suspectscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508090025
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD65810E81C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 08:24:43 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-45a1b04f817so2620585e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 01:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1755159882; x=1755764682;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=XjZ/eR6SQYjR+SXWKMp+2N2e/5Kxjm09W05WAM7WjMU=;
+ b=br94YOueVmso4x2j8T9sa/8Uqz/oM/C+X5i5K4M8wMJhzmlUDjwX6ij6nEzOOkpgAi
+ 5exRF/KyG3gG3k57NspU+EaCSDDPRRgt7I8XQ1P5xY4fxm+RGwIaJvM4VRLhL1tUK/o5
+ vEohKnH/8jxJIqWnkJsFA/lZXkUIGu2mlxu0UC+M04cT1l57Tuirp73VlzsUamlNdDLW
+ VwWCgW/4Qoc0Y6HoxVB6zuqtq1hPCpRCQARvQMH47Iwt7rl2A69NEBdI/HkFrPYrkdLW
+ PgDd5DXMX6jwkHDBPB1S4opsGnRzshN39csstM8BVuLJxLYpNOcIUeYa7kZHnLGjB/r4
+ yzrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755159882; x=1755764682;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XjZ/eR6SQYjR+SXWKMp+2N2e/5Kxjm09W05WAM7WjMU=;
+ b=A4HhjvTmVoGLjVrRvBHu298voqypQIWThAqbPnKtaY33pxGdokJucUszKkEWZ0VKrC
+ cMb4Q2YIsYqOnIu5dAF87ezh1bVXHbhqxqB+S9uPAtbG6F2MRF2j/iY1BbJ4xuWfCK6R
+ U9npyrm6hn4U3hhiL82bWHYqO6aiE1Jx82+Tvnqby7pAZRTZBhCRcOSct+cdUWNzx25b
+ on8XHLB0ZSqQCJSa4r92ndhA42+KrnTtmN4SfUWzQQnDoreEe5Ur+gYAip1bzJGxYslz
+ og98NhEBht56uZxJS97pgKQRxC9eQgUeTlGMTbTmUBxCohRbfeZwjkFmaT2VIZ9YxmtG
+ /PmQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXoYu6B8b+EjiIiE8NjRpvWNMpG4sS7iCSUEXicPiOOw6d+Y9OC4dB/HP274Febrm2OJflmefVvbvo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyd648xjuCodBIp6uSDTNW/B7jBKYYlCJBTzLLAevD2soxvAuUD
+ 80tsK7YGTl6ghenT0pd1kQEAAzJ5URtgInUZ4sSEIdW/28mqlG4eJHC7sz/Ng4Gm0Aj/eXhzJf0
+ jDs/V7mCbgoDFydTO+Q==
+X-Google-Smtp-Source: AGHT+IEGivgrzos4CoGDHY7uH0CTjOvIWOyqPK2uMv3U+POUyDq1mhFpmt0OotkxsQj2w6KHcsTz1JVeOL0tM4c=
+X-Received: from wmbjg12.prod.google.com
+ ([2002:a05:600c:a00c:b0:458:a7ae:4acf])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:190a:b0:459:d6a6:792 with SMTP id
+ 5b1f17b1804b1-45a1b67a1ddmr13345765e9.29.1755159881981; 
+ Thu, 14 Aug 2025 01:24:41 -0700 (PDT)
+Date: Thu, 14 Aug 2025 08:24:41 +0000
+In-Reply-To: <34d384af-6123-4602-bde0-85ca3d14fe09@sirena.org.uk>
+Mime-Version: 1.0
+References: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
+ <34d384af-6123-4602-bde0-85ca3d14fe09@sirena.org.uk>
+Message-ID: <aJ2dST9C8QLUcftA@google.com>
+Subject: Re: [PATCH v2 00/19] rust: replace `kernel::c_str!` with C-Strings
+From: Alice Ryhl <aliceryhl@google.com>
+To: Mark Brown <broonie@debian.org>
+Cc: Tamir Duberstein <tamird@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Breno Leitao <leitao@debian.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ "Krzysztof =?utf-8?Q?Wilczy=C5=84ski?=" <kwilczynski@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+ Rae Moar <rmoar@google.com>, Jens Axboe <axboe@kernel.dk>, 
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
+ linux-clk@vger.kernel.org, linux-pci@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,58 +115,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Aug 13, 2025 at 09:11:51PM +0100, Mark Brown wrote:
+> On Wed, Aug 13, 2025 at 11:59:10AM -0400, Tamir Duberstein wrote:
+> > This series depends on step 3[0] which depends on steps 2a[1] and 2b[2]
+> > which both depend on step 1[3].
+> > 
+> > This series also has a minor merge conflict with a small change[4] that
+> > was taken through driver-core-testing. This series is marked as
+> > depending on that change; as such it contains the post-conflict patch.
+> > 
+> > Subsystem maintainers: I would appreciate your `Acked-by`s so that this
+> > can be taken through Miguel's tree (where the previous series must go).
+> 
+> Something seems to have gone wrong with your posting, both my mail
+> server and the mail archives stop at patch 15.  If it were just rate
+> limiting or greylisting I'd have expected things to have sorted
+> themselves out by now for one or the other.
 
+Tamir mentioned to me that he ran into a daily limit on the number of
+emails he could send.
 
-On 2025/6/9 22:56, Dmitry Baryshkov wrote:
-> On Mon, Jun 09, 2025 at 08:21:50PM +0800, Yongxing Mou wrote:
->> Introduce APIs to update the MST state change to MST framework when
->> device is plugged/unplugged.
->>
->> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> Hmm, who is the author of the patch?
-> 
-Sorry for that. will update it . author is Abhinav
->> ---
->>   drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++++++++++
->>   drivers/gpu/drm/msm/dp/dp_mst_drm.c | 15 +++++++++++++++
->>   drivers/gpu/drm/msm/dp/dp_mst_drm.h |  1 +
->>   3 files changed, 36 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 323d1c0a9efa4fa30ce97317e873607c54409a11..9dbcf4553cad70c9e3722160a87403fc815765d7 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -29,6 +29,7 @@
->>   #include "dp_drm.h"
->>   #include "dp_audio.h"
->>   #include "dp_debug.h"
->> +#include "dp_mst_drm.h"
->>   
->>   static bool psr_enabled = false;
->>   module_param(psr_enabled, bool, 0);
->> @@ -420,6 +421,17 @@ static void msm_dp_display_mst_init(struct msm_dp_display_private *dp)
->>   	msm_dp->mst_active = true;
->>   }
->>   
->> +static void msm_dp_display_set_mst_mgr_state(struct msm_dp_display_private *dp,
->> +					     bool state)
->> +{
->> +	if (!dp->msm_dp_display.mst_active)
->> +		return;
->> +
->> +	msm_dp_mst_display_set_mgr_state(&dp->msm_dp_display, state);
->> +
->> +	drm_dbg_dp(dp->drm_dev, "mst_mgr_state: %d\n", state);
-> 
-> Yet-another-oneliner? Noooo. Really, no.
-> 
-Got it. Will remove it and call msm_dp_mst_display_set_mgr_state directly.
->> +}
->> +
->>   static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
->>   {
->>   	struct drm_connector *connector = dp->msm_dp_display.connector;
-> 
-
+Alice
