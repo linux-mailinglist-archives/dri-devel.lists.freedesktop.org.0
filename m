@@ -2,95 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764C3B26092
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 11:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1593EB260D5
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 11:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A85F10E82A;
-	Thu, 14 Aug 2025 09:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8163310E0A2;
+	Thu, 14 Aug 2025 09:27:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ssEY77i1";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oBLjGASS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5BDA10E82B
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 09:18:21 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-45a1b097037so3841145e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 02:18:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755163100; x=1755767900; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Sw1jsJRwABde2QJUqyand4FN1Jn1+zxeyEdBFH61xAc=;
- b=ssEY77i1iCfFccyTVBMEd6dzVkE9HwhJKPqhb9DS8wxg2qQA5twcpW5Kj6T7YliZ8p
- w9h5LCIu2GzDK1KdS1MUxnBMlnudti+O9t/68yp6b3/SPK3uwfDdalrhEHkZo6teIIWA
- U57NNWhzBgGbrfxEfsIXKRhgM6/GL3aDUF9Evh13Xb81Zn/9Pk3VwffbngoCa0iZjsS+
- s0P81xFjJZVD1E4QZZ/+yxlLuNPzjUQ5ighcll+RTzlhuQ94SFINcFbsh9XAT6gLQHna
- Yj4Yvz00j9hCiOHFcECCdZkuL93U4dnY4krS3GX8uVOQOYntZpdLtsZCTT96xXnAmRtL
- UL2A==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9158510E0A2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 09:27:16 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57E9CAAb028898
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 09:27:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=zvxCWSRBlZv5hDIRk34myOM8
+ a1Wew5iutKQ7yJWvhmc=; b=oBLjGASSkhi5Jx8pEoMRu8jNPs+eaB126S8Gjm3X
+ KdDVYScRqmwQidLE5b7vEvkYaf/ckR6NA4AXwrJhSayXjTcSUyQbXixsLFGHHS1V
+ kuTV4/iOsA/Um0A82sgfwGsAk1wrV0b6MayHVJNjms8MT9UwJAz/wivsewOl4Cc0
+ vVZmFIN420+NFp7rHESUjcGEciqdNVlTZoCnumRrAPm7h7arbtwyvCFM1Tb4Ic2r
+ G1xh69Dlz5YgN7xB6gnnj6YGzb4DQZ9jqYUact+8wsaFULzWEDyQFEFsaZemaQWH
+ 0E3pYh701SdXkF2SRrR+XJdHZoA53rKMYFw60QARpr6b6g==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48g9q9x72r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 09:27:16 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4b10946ab41so21215171cf.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 02:27:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755163100; x=1755767900;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Sw1jsJRwABde2QJUqyand4FN1Jn1+zxeyEdBFH61xAc=;
- b=OHVq4HSgifTT+D4HK7ZCXLrrQw26hbFLSWh2Bsc0HKjcwFsKq6J8eK4Y1c4dhW1d3c
- j9bzWcYIXCqe3Jr/q3Q6SO80rgb1JYfgxoAZ4rADclWP2qOu13x1CV9IoXs6srXkIfNV
- AZFk4jhD9irYwkGzLSK9wVktAIqu9ZUDHi9A95otgS+wRiS8CIK9jrnb8oYfvP0C/z+z
- zfU8CbKXqEKzTsf5U7Ue3/oxq7Mf84lRtyUA2fQ3+qO+2D/1DHCQqRgm8Bsg5BBSfSCv
- j1Jv168Vc37WtiuFHCRQVNiiftr9/Nx6P0zIOGP/1fP4uakLClscX/gttDH4k7bWY4wW
- HPAg==
+ d=1e100.net; s=20230601; t=1755163635; x=1755768435;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zvxCWSRBlZv5hDIRk34myOM8a1Wew5iutKQ7yJWvhmc=;
+ b=O9v0JFkUVsZ+E8rvFo7mRAR86cEKXuDCFDBla5OXo0yPyp6EqOfTWIOiXyf876fH+q
+ gcv/qQ5oYumr/51nUct2E1VmWQgRPyChs8VpZltOttikXKgxFPh7TUvy6i9cOQCn3Oxl
+ gAvvHSxk9TazcZL3WffmnOwN+qXie2g9twFqMou15YFd8H/+oa7EPEDP2BMaqfcZPdSf
+ YzsQXxnxVzDRLFQPXiPRa6+Q/odieXTaQS02EGG+X4JPjDREhQet4kicUF2u9x7T6Qwe
+ 2QlELcPyY/vSKe37oX3tWa98ZOs5AgSnaHhJGDSL65EDYYr3Ztx65KhECwUge6fifEjS
+ c3sA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW5DEZSHjxiaJuLBjsEjqCfR5mlm+pnoWk8+sQFj3PE0IqGcT5hXvhGzroFvOLwVSFvTMtvw6+q3eA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRqMH1xBArWYL0Yy880l8FaftDiHoiuBr0Nhp8usb7y+3Ffw7R
- EY8KBW5L3SqHbLEIYZPfYOGX2qdnHx9ix64UA+2vWAv7/Qm6rbNgRtRWqlUpbXSR53Q=
-X-Gm-Gg: ASbGncu9xVZosooh3OQ8Qdi8QXXgEQurBwltiZwN78qEynV+0mRpjcDeNwLGBhRFQxn
- tnYC0D+75/6Ea1okcUKvbRnWEDK+ifXLZ1wQUJmMdT6JgcS+kJm3V/TvLmNadW/Atbr527MEKYg
- /+aW8QkN/hASWEar39+7Ib8JGmIOiA8C034BtAcD8Wlj9hVx0VZrwLlcvQWHvyymIwk16JC7Z8U
- 0o0Fb+iUHGbfnYuyaOU+H+E11AODaJJhkaOhXYnVniUdgM2KcXG+fq2II+3VoSPHILxxU/iXST8
- L1nYRh/XaY1Qh9/4utFwysXK4pJufYeh4+AI1KeawH4SbMD5TySKbFu2UClhNSrg7R+29VTAs1B
- hOK0FEYsUJKenB1onpXP4kndKCS0UzO8g3lLV
-X-Google-Smtp-Source: AGHT+IHgCKHrKmlG0XE5ASsl3flO7xdPvj24GpGqa+EV9hH/V/JZ27mTKnghzyA1i5XsC1PyFXNpXg==
-X-Received: by 2002:a05:600c:3151:b0:459:e3f8:92ec with SMTP id
- 5b1f17b1804b1-45a1b60e2e8mr20488895e9.10.1755163100162; 
- Thu, 14 Aug 2025 02:18:20 -0700 (PDT)
-Received: from [127.0.0.2] ([2a02:2454:ff21:ef41:ea13:2485:4711:708])
+ AJvYcCW+kgVfSBcXBAEhSUZalp8kE53oiGBkUusVH1nIJKZpwLm9hy1ru0RazHbWkl7A2k7nK9AvD2NSbso=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwmrfL+3U0brShmBbUgJWW2gwVzgTugqoE+DEMalgxHM6OZN251
+ 73DrOXR5/qsjmebLAIR+KjzKIyykkOhi7dDcWiTKdvbAI+QWQzRJ1T9+1iw3CLCHy2uxVLY+wmV
+ bw7k55+r57iKNenRPcih2tYGkQOoRALzLKHP8lyEIu4tseyna3QIsdHxw4gdsmRjkemvnZ40=
+X-Gm-Gg: ASbGncvCdPmj6Bl5hEWVFmk4UYALgv1NiPYeZ0gqUw7uVFUirmt2NKpfPnfLSWz4aeb
+ RWKUFcjM1Q6Jbl0fegYQ84OP7BECATzMN8frSkILWjeSzLSzDnQLIttxy28eBFF6owC2v8CTpxT
+ Y8OurpKm9rzBot564OcL3y+/AuZb21uDs7CwJzhk991dKNxDEB5pNohYzP69WcF8TutHfoxdBY9
+ RQYYou/8z98ZNi3P6Rd2TWNcuymlFTMAkPzHal+QfdaFe1zt4Pm+atCTnuLZhbv0u9WTn5TOhkk
+ A2Hs1FLxAfpBN78xJts0hm6lYiacqJuDxvHoDGIhN6wor6VLCysQSdVr9kOEC71HZBYGKdESsU/
+ NWaP6MqvVqTNU25uuTeI2/lTvXaZvPBhJrDGrNGCteI0CagAr1Asy
+X-Received: by 2002:ac8:7d8a:0:b0:4b0:69ef:8209 with SMTP id
+ d75a77b69052e-4b10c03f7e8mr20699811cf.26.1755163634719; 
+ Thu, 14 Aug 2025 02:27:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGBjVvw/Dh9L2WDNaCrSVxcKNewmCQ7QcEKe6lAOLf6M3q1psXddyfkwfj70vcyEZ6Y9oS9JQ==
+X-Received: by 2002:ac8:7d8a:0:b0:4b0:69ef:8209 with SMTP id
+ d75a77b69052e-4b10c03f7e8mr20699641cf.26.1755163634235; 
+ Thu, 14 Aug 2025 02:27:14 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45a1c74876csm13861925e9.14.2025.08.14.02.18.18
+ 38308e7fff4ca-333f8cbc6f4sm2275421fa.9.2025.08.14.02.27.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Aug 2025 02:18:19 -0700 (PDT)
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-Date: Thu, 14 Aug 2025 11:18:07 +0200
-Subject: [PATCH 2/2] drm/msm: dp: Delay applying clock defaults until PHY
- is fully enabled
+ Thu, 14 Aug 2025 02:27:13 -0700 (PDT)
+Date: Thu, 14 Aug 2025 12:27:11 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yongxing Mou <quic_yongmou@quicinc.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v2 26/38] drm/msm/dp: skip reading the EDID for MST cases
+Message-ID: <pbbisppntd7fntghbjbyjmdvbxqc7uux42kiuryau4trgf3w47@4d5fi6zpcdf5>
+References: <20250609-msm-dp-mst-v2-0-a54d8902a23d@quicinc.com>
+ <20250609-msm-dp-mst-v2-26-a54d8902a23d@quicinc.com>
+ <lusd35wv2pj5sy6mdiw7axqxnei2wqo57pf6ju5ys2ibfrkidu@63lkbckuu2n6>
+ <e3b5721d-cf37-4b35-9851-5e822fa16c09@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250814-platform-delay-clk-defaults-v1-2-4aae5b33512f@linaro.org>
-References: <20250814-platform-delay-clk-defaults-v1-0-4aae5b33512f@linaro.org>
-In-Reply-To: <20250814-platform-delay-clk-defaults-v1-0-4aae5b33512f@linaro.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Abel Vesa <abel.vesa@linaro.org>, Michael Walle <mwalle@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e3b5721d-cf37-4b35-9851-5e822fa16c09@quicinc.com>
+X-Authority-Analysis: v=2.4 cv=CNMqXQrD c=1 sm=1 tr=0 ts=689dabf4 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=jWxsxo1frd0NMcvgwksA:9 a=CjuIK1q_8ugA:10
+ a=dawVfQjAaf238kedN5IG:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: lHHyHjVFALfoVdtoh8aKh8nhJCDpKcjY
+X-Proofpoint-ORIG-GUID: lHHyHjVFALfoVdtoh8aKh8nhJCDpKcjY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEyMDE2NCBTYWx0ZWRfX8Sn4cJO26V9O
+ HJ/XiDCAQU9sIGertJAIfUAQwKtjrkWHArsLWx2KjO4ap3Wy8WOw30MVR5MotLyxrJjReL1a5ry
+ lhfoAxNFrBuWTZoQ/FCyHtrkIWjwZVNRJGQk4x3lODWdzLnSZ0VmdRomnYiHBOw+19ELuuLur1S
+ SjcOUJhqUoDFa6suMS3o6cueg3Fk2aHsbZP5wtr5nSvcaE+qS5pJ5lGvGZToppuRNXnyaKsrrp4
+ xJuFvOcXSd1eI99SfQ9Jl1dUMOO4BsE0hCzgIHrNPFRAnwgTIqEGtnTgOl+WwGAvNe6IExJInpl
+ sTOQaOicHX0Ur8F+2482eb9x0U9t/h1B1Rl5YC5+Qbk54MYJFTZWV2LF9BfqHxE9zQPs6JT1of8
+ ilkUp4l0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-13_02,2025-08-11_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 phishscore=0 bulkscore=0 clxscore=1015
+ malwarescore=0 impostorscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508120164
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,109 +131,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some Qualcomm platforms, we cannot safely reparent clocks when the new
-parent is not already powered up. This problem occurs for the DP and DSI
-controller when we try to reparent the link clocks using the standard
-"assigned-clock-parents" property to the clock source provided by the PHY.
-We often bypass this problem, because the clocks are already assigned to
-the correct parent by the boot firmware. Without that, there is an error
-during boot in the kernel log and DP/DSI is not functional.
+On Thu, Aug 14, 2025 at 04:22:44PM +0800, Yongxing Mou wrote:
+> 
+> 
+> On 2025/6/9 23:58, Dmitry Baryshkov wrote:
+> > On Mon, Jun 09, 2025 at 08:21:45PM +0800, Yongxing Mou wrote:
+> > > From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > 
+> > > For MST cases, EDID is handled through AUX sideband messaging.
+> > > Skip the EDID read during hotplug handle for MST cases.
+> > 
+> > Why? It makes sense to read it during the HPD processing, ping HDMI
+> > codec, update CEC info, etc.
+> > 
+> For MST case to read EDID. we will use drm_dp_mst_edid_read when MST
+> connetors .get_modes() called.
 
-For example, the following error occurs on X1E if the &mdss_dp3 controller
-was not initialized by the boot firmware:
+I see that other MST drivers indeed read EDID from get_modes(). The only
+issue that I can foresee is the audio handling. We've discussed that
+some time ago (for the HDMI implementation) and it's generally expected
+that we notify ASoC (and provide ELD) from the HPD (detect) path rather
+than the get_modes() or e.g. atomic_enable().
 
-  clk: failed to reparent disp_cc_mdss_dptx3_link_clk_src to aec5a00.phy::link_clk: -16
-  disp_cc_mdss_dptx3_link_clk_src: rcg didn't update its configuration.
-  WARNING: CPU: 0 PID: 77 at drivers/clk/qcom/clk-rcg2.c:136 update_config+0xd4/0xe8
-  pc : update_config+0xd4/0xe8
-  Call trace:
-   update_config+0xd4/0xe8 (P)
-   clk_rcg2_set_parent+0x58/0x68
-   __clk_set_parent+0x4c/0x214
-   clk_core_set_parent_nolock+0xe8/0x1f4
-   clk_set_parent+0xa4/0x13c
-   of_clk_set_defaults+0x15c/0x4a8
-   platform_probe+0x3c/0xc4
-   ...
-  clk: failed to reparent disp_cc_mdss_dptx3_pixel0_clk_src to aec5a00.phy::vco_div_clk: -16
-  disp_cc_mdss_dptx3_pixel0_clk_src: rcg didn't update its configuration.
-  WARNING: CPU: 0 PID: 77 at drivers/clk/qcom/clk-rcg2.c:136 update_config+0xd4/0xe8
-  ...
+Note: AMD / Radeon, Nouveau and Intel drivers don't have this problem
+since they don't use ASoC and hdmi_codec ops.
 
-In the current implementation, it is tricky to solve this from any of the
-involved drivers, because the call to clk_set_parent() happens from the
-platform driver core (before the probe() function of the DP driver is
-called). Similarly, the PHY/clock driver cannot solve this alone, because
-it doesn't know which clock rate and configuration to use for the PHY.
-
-For DSI on SM8750, we solved this by avoiding use of assigned-clock-parents
-and calling clk_set_parent() separately from the DSI controller driver (see
-commit 80dd5911cbfd ("drm/msm/dsi: Add support for SM8750")). We could do
-that for the DP controller as well, but this would require changing the
-existing DT bindings for a number of platforms, just to workaround a
-limitation in the Linux driver model. The DT does not specify when to apply
-the assigned-clock-parents, so there is nothing wrong with the current
-hardware description.
-
-Instead, fix this by using the new "driver_managed_clk_defaults" option in
-the platform_driver struct. Delay the call to of_clk_set_defaults() until
-we have set up the PHY to avoid the error shown above.
-
-Signed-off-by: Stephan Gerhold <stephan.gerhold@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_ctrl.c    | 10 ++++++++++
- drivers/gpu/drm/msm/dp/dp_display.c |  2 ++
- 2 files changed, 12 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index c42fd2c17a328f6deae211c9cd57cc7416a9365a..21249d2b85b308ef2437f1c7a309c795103599f6 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/types.h>
- #include <linux/clk.h>
-+#include <linux/clk/clk-conf.h>
- #include <linux/completion.h>
- #include <linux/delay.h>
- #include <linux/iopoll.h>
-@@ -140,6 +141,7 @@ struct msm_dp_ctrl_private {
- 	bool core_clks_on;
- 	bool link_clks_on;
- 	bool stream_clks_on;
-+	bool clk_defaults_set;
- };
- 
- static inline u32 msm_dp_read_ahb(const struct msm_dp_ctrl_private *ctrl, u32 offset)
-@@ -1789,6 +1791,14 @@ static int msm_dp_ctrl_enable_mainlink_clocks(struct msm_dp_ctrl_private *ctrl)
- 	phy_configure(phy, &ctrl->phy_opts);
- 	phy_power_on(phy);
- 
-+	if (!ctrl->clk_defaults_set) {
-+		ret = of_clk_set_defaults(ctrl->dev->of_node, false);
-+		if (ret)
-+			return ret;
-+
-+		ctrl->clk_defaults_set = true;
-+	}
-+
- 	dev_pm_opp_set_rate(ctrl->dev, ctrl->link->link_params.rate * 1000);
- 	ret = msm_dp_ctrl_link_clk_enable(&ctrl->msm_dp_ctrl);
- 	if (ret)
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index d87d47cc7ec3eb757ac192c411000bc50b824c59..b8a0e61b806e6e386980f9c6ad6f58b487a68c7e 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1487,6 +1487,8 @@ static struct platform_driver msm_dp_display_driver = {
- 		.suppress_bind_attrs = true,
- 		.pm = &msm_dp_pm_ops,
- 	},
-+	/* Apply clock parents after PHY is fully initialized */
-+	.driver_managed_clk_defaults = true,
- };
- 
- int __init msm_dp_register(void)
+> > > 
+> > > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> > > ---
+> > >   drivers/gpu/drm/msm/dp/dp_display.c | 8 +++++---
+> > >   1 file changed, 5 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > index 88cae0ca66015377e59bee757462edeae5ae91bf..b1b025d1d356046f8f9e3d243fc774185df24318 100644
+> > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > @@ -438,9 +438,11 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
+> > >   	if (rc)
+> > >   		goto end;
+> > > -	rc = msm_dp_panel_read_edid(dp->panel, connector);
+> > > -	if (rc)
+> > > -		goto end;
+> > > +	if (!dp->mst_supported || !drm_dp_read_mst_cap(dp->aux, dp->panel->dpcd)) {
+> > > +		rc = msm_dp_panel_read_edid(dp->panel, connector);
+> > > +		if (rc)
+> > > +			goto end;
+> > > +	}
+> > >   	msm_dp_link_process_request(dp->link);
+> > > 
+> > > -- 
+> > > 2.34.1
+> > > 
+> > 
+> 
 
 -- 
-2.50.1
-
+With best wishes
+Dmitry
