@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8069B25A58
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 06:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60880B25A62
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 06:15:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDA410E201;
-	Thu, 14 Aug 2025 04:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0F7010E205;
+	Thu, 14 Aug 2025 04:15:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BgqhXEDS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IQvcdyWG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F32710E0EA
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 04:15:11 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-24458263458so4230175ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 21:15:11 -0700 (PDT)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88B810E205
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 04:15:38 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-76e2eb20a64so700772b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Aug 2025 21:15:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755144911; x=1755749711; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1755144938; x=1755749738; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sWxfCtON1zed9A8C3GYhEYa8VInQ0SpyFdE2rQUbX1c=;
- b=BgqhXEDSSHqsKpjTjuvxtJp1oVNhTa5/AOqYO2CTTY5C577rKx7lvVAq7mtR4VEGwS
- Y56MqnpQsHuVSYnn4qwuwYSrXVXXFI5j+rPCETuaW3Lu1faZLU0z4YdYNazJ0ZoeUnd5
- 0QHPmwTEZOJrVUfNVStAwfLJrY3ML7eZOnV0o5zao15Wjv8bOGgH8kaSx38XQ53UzbpP
- PC9vFgFUJtKuoo4ouQIy3sMe5AWkdd0UIHmNKs2znPA+I/AaBHzCm2q58H1wTsrEWohx
- HSiSpsA1k5KNVob+m1RsQwW2fGjcOpCZDmvPO9PhjOulDfiTExMgO8VT9nHRzlQu7SbM
- rWjw==
+ bh=34KWmLyAieUzqtSrdM5jM6hi2YW8C3abPtgGolrQZzs=;
+ b=IQvcdyWGyYFC9QsnOOC9BVPx3ikASsy/5vFQzdPitdY054pWOEEVoyU6tJiOEZKme1
+ ICxKnQRVA4YTgOC8RMMVl3QMUUX9fS3ixN7hmvZ2cRx+dvorHQ/WXql12wz4Ppjy4geD
+ t8weVQW0XnYQf/94mRPbKsNyHgGWy/HBI0/36YjuXYQFNSnnWvu35RPtLZwaz3XaiH2R
+ HbwqcAHIxM+8h5KjPlPFhc0tykCN9NO8yxXnWbglOckRkFvvABOZsqTbfbyR4u7tomnC
+ IV3oaDGjsPzYbv09pf+LFpeiQLpkbwpFIR8awei6NP4wJOrfUQDKfsaLFML4DjTiFpZd
+ 7LRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755144911; x=1755749711;
+ d=1e100.net; s=20230601; t=1755144938; x=1755749738;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sWxfCtON1zed9A8C3GYhEYa8VInQ0SpyFdE2rQUbX1c=;
- b=tsiQOGo1uGhkUikhlrKxtZj9tYc7Qxo3JzpaVIhQBopde+WI97cc7d4trDC2Yt2MCp
- B7moS2N7f1z44UbJAKfW/hLuRBHBkmTrHe0+pERefFigkserco419AFgqswqYuw5xtmb
- nDGaaTlIfCpHpFjULVcmjKxEKkOa9TqkL0l98NrOeXsy+Ju9wzZ85sUvwo6MPVywdT6m
- hOuE8Q0EO4wPtBvx9mdqT4Rb1fFpQhFeAzRlAspKwOdfF8cN8u2wKbqx56qDbAvYIXfa
- 5uINkRnsUAr6ctE39irTLzx3piBjyt+Qyhbj5KBpQAM7GblV0fCiAMisdEp1FCQRaHht
- Gq+g==
+ bh=34KWmLyAieUzqtSrdM5jM6hi2YW8C3abPtgGolrQZzs=;
+ b=eV3le7pl4BXoVDocl1QsUVZEJ3XaIwpGQ2RiMaUYZSODitD0r8cIcyUceHMjykwZz5
+ UvODIm2uPEZOVW5ccQRbdMVls+lrf/EUql2HG96oiUVqiLt0QhG/Z8PE1GNVsrxwuNF1
+ neyv1H8AkJIITVcD0NOCjp48L0qskR2BNdRFUPahoF/av6nfRhK1LHSnS1kNbDas2zj+
+ /lnSSuP6zOIBW5KZjZ9YRrnEVxmwl04RDnwOEL5XYTay3zgj8OxFmor8enejc9YXtO6X
+ wp8uGquYGtTuqagIlKA4BrEUVXqX1Qn5aNWPcbAYyR3hoJKT3L1wxhsMU2hoRJj4+TG+
+ CGSw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWACkpvafpwpnRxLm1zlWbLuJpUtzeOKgaurJxTJlFpzjVHrJCYXlMoCfK+GCdNgeiVrPbs801TAik=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVlCUokYmUcZflzURCZ9mu4I7fzTEEbZPkk1KRnnR5ash4uUeu
- WpjIIZrfVxdVxL6MGSFluP5DZeBnj7vMNtAxS7qqumej4TGKNrZ50KYGNTdvOH3ixj8=
-X-Gm-Gg: ASbGnctPoFspg8zqIEPuufHNz5GqizjFkr/fpO9ZBDXtgCGKDcGtrVikbXke2C3t80q
- wXRSW68pWG9OG/D1mixkUf769Rs8BkZ4aIMrJQ+c104I/PvXkR1sa8mjYTQgv8XDercRgzOT4gz
- +rDsINvw+WtEnfk66wCDwhHBYnXGGU0df7Y2fD+LO6QJ/+LQHexjAkpA9iXvsfL3jY9RvkzlMoU
- aNtJQ0Zaoqt1GNoULZKKTxauKHl9V6p1648d3hDdubcLxfUMvWCejyYSGaqAVUcurLYov+Dhxm3
- RMwlw/HXEg5FapDHTZEhBDAhnWxEyPyv5NX3D58i1EyXUwcMlICABNtnrBB2M8gLEeUuvFku/Hw
- zF+FTHbmxJarl8dmXFDXZEF7q
-X-Google-Smtp-Source: AGHT+IHt40bX0FwSrzcBQt9NOrie8YIvE0Bd/aZbf1eDUrCgWfF/cOlo6cUv942myCO6XkFRZpWJjg==
-X-Received: by 2002:a17:902:ef46:b0:243:80d:c513 with SMTP id
- d9443c01a7336-244584c278amr22862505ad.4.1755144910690; 
- Wed, 13 Aug 2025 21:15:10 -0700 (PDT)
+ AJvYcCVfRvNt7D7jUGIFpf4N9S1h0vWyrdVhmL4PQdXQE2z2eKd3SUPpEvF2cyzm/t7thUhK3aXQ5wXoxZo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2+IKYk6ZC/kwq5+6BJdnH8PLf9hQqVaqIskLejOPyT70ilhfH
+ NQ3II1e8N99nEaWRXzID6GZA8VpgRMHtraj9tuE/vTe0vkWDcbFK87K4f1Xjc3Z4iFI=
+X-Gm-Gg: ASbGnctlGmChlZdHxB90gIhfusC2LtGFi2eZAfnVO9wQn6Z7TZsIKJ+JL0XWYeynQAP
+ F/HC525lGUv9uKtDOOXfnbHfOwSMpnnwJGbUMZ6mRBA5ivNPTIn86tk2zsEr5u3hYTYhZsFMMp/
+ XX/mWQbx0zLOQbk8Ip1ZXpe5ejBN4Liv6uq/2upYbx60NyW70TPnotN6Jh/BYt9GmA3VIhTeknL
+ t6LaudBb+1V7TLR4NIYtOssUzR4QAAp/tiWPiQoaFihgTkYj5U/ppVDL0uJfSFXEpGCiDmF4ztn
+ MV2/6IzP+armeFNLWbRcGyo3lCFEGJHCwkHbB18CJ0k86cgq/bxGb7kTlsIIe3N6xSI46BZ7FRq
+ 0lDA5vioSeHXMcAU65by2dyngUq+mxac5Hy4=
+X-Google-Smtp-Source: AGHT+IFKmQVKtrRTGaZ8hTWhd7nE8H1E8AgUXml21TmSiOXRMbfiiTxpX/j+26/xYc1Zfc3ne6Vv/g==
+X-Received: by 2002:a05:6a20:7d8b:b0:240:1204:dd5 with SMTP id
+ adf61e73a8af0-240bcfbba85mr2301691637.8.1755144938050; 
+ Wed, 13 Aug 2025 21:15:38 -0700 (PDT)
 Received: from localhost ([122.172.87.165]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-241d1ef6e45sm337724835ad.22.2025.08.13.21.15.08
+ d2e1a72fcca58-76bd9795200sm31652911b3a.114.2025.08.13.21.15.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Aug 2025 21:15:09 -0700 (PDT)
-Date: Thu, 14 Aug 2025 09:45:07 +0530
+ Wed, 13 Aug 2025 21:15:37 -0700 (PDT)
+Date: Thu, 14 Aug 2025 09:45:35 +0530
 From: Viresh Kumar <viresh.kumar@linaro.org>
 To: Tamir Duberstein <tamird@gmail.com>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
@@ -101,15 +101,15 @@ Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
  linux-pci@vger.kernel.org, linux-kselftest@vger.kernel.org,
  kunit-dev@googlegroups.com, linux-block@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 06/19] rust: cpufreq: replace `kernel::c_str!` with
+Subject: Re: [PATCH v2 04/19] rust: clk: replace `kernel::c_str!` with
  C-Strings
-Message-ID: <20250814041507.sqkdumgaxfcalkhb@vireshk-i7>
+Message-ID: <20250814041535.l7yj2wm4ae3l4k7p@vireshk-i7>
 References: <20250813-core-cstr-cstrings-v2-0-00be80fc541b@gmail.com>
- <20250813-core-cstr-cstrings-v2-6-00be80fc541b@gmail.com>
+ <20250813-core-cstr-cstrings-v2-4-00be80fc541b@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250813-core-cstr-cstrings-v2-6-00be80fc541b@gmail.com>
+In-Reply-To: <20250813-core-cstr-cstrings-v2-4-00be80fc541b@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,10 +133,10 @@ On 13-08-25, 11:59, Tamir Duberstein wrote:
 > Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 > Reviewed-by: Benno Lossin <lossin@kernel.org>
 > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> Acked-by: Stephen Boyd <sboyd@kernel.org>
 > ---
->  drivers/cpufreq/rcpufreq_dt.rs | 5 ++---
->  rust/kernel/cpufreq.rs         | 3 +--
->  2 files changed, 3 insertions(+), 5 deletions(-)
+>  rust/kernel/clk.rs | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 
 Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 
