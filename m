@@ -2,124 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CD9B26424
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 13:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0391DB26431
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 13:26:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBD1810E0EB;
-	Thu, 14 Aug 2025 11:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6FE610E84C;
+	Thu, 14 Aug 2025 11:26:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GGcXKh22";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="A+DhvwE+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A25F410E0EB
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 11:23:02 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57E947xC021036
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 11:23:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- hQ5Wn1+6Fv1oHRCInTDg/1OC1hdkSifC03+smNxA01M=; b=GGcXKh22d5t6Y/hu
- Vnko01d0Da6qxSaAjur0KGPPQda6XnxoR7i+LibZQajlTvkayG5Wc7HFJ1yjfmFd
- P+W/841Ql8xanTNz3ENCTyRRifmykpfzP6oB3e4yFIADz5Nh5j7V/uK4JBNsgTk9
- juvSCflvG6GmuryIbM0ogM84mVsle2Am5+lNiVtNpMIk0CTCbnEhm+ZOXdCjghLv
- VSBKbFJqR3J0FRxNTW5iKOBWTXA9CAHqzDmgdmuDh5kApFQOSYbrXGSDOp1gNsZY
- KDuPH1v/y9ZayTBIgPT0coD5MU592ju6lWDtjG4e7ezbn9488KW3+f8h21L4Vz4i
- G7mnLw==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48g5hmff77-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 11:23:01 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b109cb7ca0so2567441cf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 04:23:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755170581; x=1755775381;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hQ5Wn1+6Fv1oHRCInTDg/1OC1hdkSifC03+smNxA01M=;
- b=okFRvcwwFMbh98+K1eLskoSaKZXhMdlcCQqZXlgwz+hxLKK7m3D3DeryhvbZ3AQNQV
- +2TFokH5fO05wUC9Lk8bIW7dxsyOpQ6MxZ8PH7CPqZLlUovtbyGbLp3OgfRaqXWvXJ8W
- zkGBeXx+QzxD4E3iSOpj+7JHXcOoWCaCWj3SvN51j6qljaxiT8/7pDgWKC7qJjDGpjIX
- JZIhPnxVaaBGuqiDEJNmdoL4NMPrgRCRnOOMIfXwbA6xiq6uYN0LkLty8rwM/eHn4Gvx
- Av6g4zAiKDuXZzZG/wENkXOjcESdI2iudlkFXNcPA3XMcWPs1EGS+o92P+w2ra+8k9Dg
- mWDg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVt0gO5eb5vDvo0FJQpt+JkxwRkjWvIG/9fIMll/l9AU0KsrBr6GsyGyFFUt7X1FLHeMnvLpxxd7nU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHqGon6b1VNngu7JZAv90M+Zs92VZQ9K+D7yRIkZV9GlkN/3VN
- /iNyDS0RTJ/v+PhFRFDv2kLg1GqktGaAzaq/P5kRz/wFvkDqo5sDR1aa3lLXS8CjubPKoMTz0R/
- HD9Llu6aAFVRj/0HcKiGaWo8+USz9qC/9pAa6MOdk6uyDiCqsd0Jx+wahb5Ho4Q7nUN1Mxlo3f+
- sUsTs=
-X-Gm-Gg: ASbGncugDNkdw+zHRnq1CptNfIPFsur+LFSoP8KgdzF7TE/801dtoRVYFIWz1eMJqmn
- co1TeFKvRIWvdG4O2b61Z4I/AhnOU+pP+JlDI8Oq7IRMtjoVqgPNFOLIBDjlYBz1yTx4lvymndE
- yBFfQwUcOQGBON4/E+MMGeSp93ejF55zxHhdG+iqtsp8ScQWPV53hgYeYIs8uybUnwFBLGsBz1V
- +81bcPE0+DEIQeVFOAgSbh5ISvUF6ii0RwxH3xlRKlMiERp9FhM1h14AvVgexrolT2KmVoNGGOB
- rHUucYqhNAsg7LAl30sLKM0X5neN6KBzPZxwL4Ze41hMcWJe/dJsv8baAuov53Q7PXwwKHBCtPV
- Od6g4xsgLORn35AJaBQ==
-X-Received: by 2002:ac8:574a:0:b0:4ab:6d02:c061 with SMTP id
- d75a77b69052e-4b10aa79245mr17184331cf.6.1755170580415; 
- Thu, 14 Aug 2025 04:23:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEBEqH1INBenomIkNEpLsnsD1vmfMViwj5vT13W7Lz3WQ/KCQYzoIaA6pCulkVk2wkfvE/B5Q==
-X-Received: by 2002:ac8:574a:0:b0:4ab:6d02:c061 with SMTP id
- d75a77b69052e-4b10aa79245mr17183881cf.6.1755170579781; 
- Thu, 14 Aug 2025 04:22:59 -0700 (PDT)
-Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-615a8fe7995sm22946026a12.36.2025.08.14.04.22.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Aug 2025 04:22:59 -0700 (PDT)
-Message-ID: <b4f283ce-5be1-4d2f-82e2-e9c3be22a37f@oss.qualcomm.com>
-Date: Thu, 14 Aug 2025 13:22:57 +0200
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 335D410E84C
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 11:26:38 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250814112636euoutp028ae6ec40a91a1b2bbfed9bc1497b27fd~bnopHzimv1577415774euoutp020
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 11:26:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250814112636euoutp028ae6ec40a91a1b2bbfed9bc1497b27fd~bnopHzimv1577415774euoutp020
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1755170796;
+ bh=+OXY5MBEwk0jrYJZN16GlrQS4PB2GzTe0j9NScg3+/A=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=A+DhvwE++uOVIyVb32AbTkLnS0oSjjeRky46vJGRu7TzHyQkqfXMTCOt9SMdCc/RV
+ 8963aRXVrqn98Sj0lbI/3dG6oCvYZNijxAvU4+h9z23V0E3wC1u6sLqhWvxLuy8fpu
+ FqNuc1KECR1VvvwWfi/odeq+7I3K+kjRlJ4RnIWY=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250814112636eucas1p206b752b35c984c7eac2d87eb14dfb270~bnoos_SS51872218722eucas1p2G;
+ Thu, 14 Aug 2025 11:26:36 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250814112634eusmtip2866c82989b01dc30cd17f669701e5f35~bnonZXT4g2264922649eusmtip2c;
+ Thu, 14 Aug 2025 11:26:34 +0000 (GMT)
+Message-ID: <1840a54c-c03a-42e3-a3a8-52e38919df38@samsung.com>
+Date: Thu, 14 Aug 2025 13:26:33 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/msm: adreno: a6xx: enable GMU bandwidth voting for
- x1e80100 GPU
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250725-topic-x1e80100-gpu-bwvote-v2-1-58d2fbb6a127@linaro.org>
- <e7ddfe18-d2c7-4201-a271-81be7c814011@oss.qualcomm.com>
- <33442cc4-a205-46a8-a2b8-5c85c236c8d4@oss.qualcomm.com>
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v2 3/3] drm/bridge: sii9234: use extcon cable detection
+ logic to detect MHL
+To: Henrik Grimler <henrik@grimler.se>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org,
+ linux-kernel@vger.kernel.org
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <33442cc4-a205-46a8-a2b8-5c85c236c8d4@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODEyMDExOSBTYWx0ZWRfXyHIm88C/ipo0
- HSrAyz8KNWRWFLw0CfnKTdcGvIg4+Kysq0JWNcic5bFf6rGFpKIIKqlTT1YAuvXvaDt6W7rIAj0
- /OG8xzLwzCQpoP16oPi/+c7Cncd18gqRJPTHh6Lb0AEJT4cpYZQWJqh4LqqjOtu5GORf/kMJXp6
- ASZ8guFanAftBrUZ/njjYXu/1vcvFvQf4VUXpaBzwu9ZzHzKQsD+ZnD+69y6L/rys/nyWN+dIR/
- uCdev5CQO2Vi9UDufH2uQiNP7YOzZFKXsXPXgefBnpfAqshwaJ5eMTURx6suoP7fytE3hpy/XyY
- yjnv6MTi6yX2KpUB8fHWhS3gtvQlCJHp23lhsq5R/hLFkXSQ4bMq01a4TOFwDQHToXIbmw0g6pn
- lUWFSZdJ
-X-Proofpoint-GUID: UzBcVitJS-xSF6WLIP09dOs0xILnEVc8
-X-Proofpoint-ORIG-GUID: UzBcVitJS-xSF6WLIP09dOs0xILnEVc8
-X-Authority-Analysis: v=2.4 cv=d4b1yQjE c=1 sm=1 tr=0 ts=689dc715 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=w8v9NIqJ3aMQWT92luIA:9 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-13_02,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 spamscore=0 phishscore=0 adultscore=0
- bulkscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508120119
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20250724-exynos4-sii9234-driver-v2-3-faee244f1d40@grimler.se>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20250814112636eucas1p206b752b35c984c7eac2d87eb14dfb270
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250724185204eucas1p1d699db3abebc702ea8261b2e41a77c52
+X-EPHeader: CA
+X-CMS-RootMailID: 20250724185204eucas1p1d699db3abebc702ea8261b2e41a77c52
+References: <20250724-exynos4-sii9234-driver-v2-0-faee244f1d40@grimler.se>
+ <CGME20250724185204eucas1p1d699db3abebc702ea8261b2e41a77c52@eucas1p1.samsung.com>
+ <20250724-exynos4-sii9234-driver-v2-3-faee244f1d40@grimler.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,49 +82,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/14/25 1:21 PM, Konrad Dybcio wrote:
-> On 7/31/25 12:19 PM, Konrad Dybcio wrote:
->> On 7/25/25 10:35 AM, Neil Armstrong wrote:
->>> The Adreno GPU Management Unit (GMU) can also scale DDR Bandwidth along
->>> the Frequency and Power Domain level, but by default we leave the
->>> OPP core scale the interconnect ddr path.
->>>
->>> Declare the Bus Control Modules (BCMs) and the corresponding parameters
->>> in the GPU info struct to allow the GMU to vote for the bandwidth.
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>> ---
->>> Changes in v2:
->>> - Used proper ACV perfmode bit/freq
->>> - Link to v1: https://lore.kernel.org/r/20250721-topic-x1e80100-gpu-bwvote-v1-1-946619b0f73a@linaro.org
->>> ---
->>>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 11 +++++++++++
->>>  1 file changed, 11 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>> index 00e1afd46b81546eec03e22cda9e9a604f6f3b60..892f98b1f2ae582268adebd758437ff60456cdd5 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
->>> @@ -1440,6 +1440,17 @@ static const struct adreno_info a7xx_gpus[] = {
->>>  			.pwrup_reglist = &a7xx_pwrup_reglist,
->>>  			.gmu_chipid = 0x7050001,
->>>  			.gmu_cgc_mode = 0x00020202,
->>> +			.bcms = (const struct a6xx_bcm[]) {
->>> +				{ .name = "SH0", .buswidth = 16 },
->>> +				{ .name = "MC0", .buswidth = 4 },
->>> +				{
->>> +					.name = "ACV",
->>> +					.fixed = true,
->>> +					.perfmode = BIT(3),
->>> +					.perfmode_bw = 16500000,
->>
->> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> 
-> Actually no, BIT(3) is for the CPU (OS), GPU should use BIT(2)
+On 24.07.2025 20:50, Henrik Grimler wrote:
+> To use MHL we currently need the MHL chip to be permanently on, which
+> consumes unnecessary power. Let's use extcon attached to MUIC to enable
+> the MHL chip only if it detects an MHL cable.
+>
+> Signed-off-by: Henrik Grimler <henrik@grimler.se>
+> ---
+> v2: add dependency on extcon. Issue reported by kernel test robot
+>      <lkp@intel.com>
+> ---
+>   drivers/gpu/drm/bridge/Kconfig   |  1 +
+>   drivers/gpu/drm/bridge/sii9234.c | 89 ++++++++++++++++++++++++++++++++++++++--
+>   2 files changed, 87 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index b9e0ca85226a603a24f90c6879d1499f824060cb..f18a083f6e1c6fe40bde5e65a1548acc61a162ae 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -303,6 +303,7 @@ config DRM_SII902X
+>   config DRM_SII9234
+>   	tristate "Silicon Image SII9234 HDMI/MHL bridge"
+>   	depends on OF
+> +	select EXTCON
+>   	help
+>   	  Say Y here if you want support for the MHL interface.
+>   	  It is an I2C driver, that detects connection of MHL bridge
+> diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
+> index 0e0bb1bf71fdcef788715cfd6fa158a6992def33..4d84ba01ea76816bebdbc29d48a041c9c6cd508e 100644
+> --- a/drivers/gpu/drm/bridge/sii9234.c
+> +++ b/drivers/gpu/drm/bridge/sii9234.c
+> @@ -19,6 +19,7 @@
+>   
+>   #include <linux/delay.h>
+>   #include <linux/err.h>
+> +#include <linux/extcon.h>
+>   #include <linux/gpio/consumer.h>
+>   #include <linux/i2c.h>
+>   #include <linux/interrupt.h>
+> @@ -26,6 +27,7 @@
+>   #include <linux/kernel.h>
+>   #include <linux/module.h>
+>   #include <linux/mutex.h>
+> +#include <linux/of_graph.h>
+>   #include <linux/regulator/consumer.h>
+>   #include <linux/slab.h>
+>   
+> @@ -170,8 +172,12 @@ struct sii9234 {
+>   	struct drm_bridge bridge;
+>   	struct device *dev;
+>   	struct gpio_desc *gpio_reset;
+> -	int i2c_error;
+>   	struct regulator_bulk_data supplies[4];
+> +	struct extcon_dev *extcon;
+> +	struct notifier_block extcon_nb;
+> +	struct work_struct extcon_wq;
+> +	int cable_state;
+> +	int i2c_error;
+>   
+>   	struct mutex lock; /* Protects fields below and device registers */
+>   	enum sii9234_state state;
+> @@ -864,6 +870,70 @@ static int sii9234_init_resources(struct sii9234 *ctx,
+>   	return 0;
+>   }
+>   
+> +static void sii9234_extcon_work(struct work_struct *work)
+> +{
+> +	struct sii9234 *ctx =
+> +		container_of(work, struct sii9234, extcon_wq);
+> +	int state = extcon_get_state(ctx->extcon, EXTCON_DISP_MHL);
+> +
+> +	if (state == ctx->cable_state)
+> +		return;
+> +
+> +	ctx->cable_state = state;
+> +
+> +	if (state > 0)
+> +		sii9234_cable_in(ctx);
+> +	else
+> +		sii9234_cable_out(ctx);
+> +}
+> +
+> +static int sii9234_extcon_notifier(struct notifier_block *self,
+> +			unsigned long event, void *ptr)
+> +{
+> +	struct sii9234 *ctx =
+> +		container_of(self, struct sii9234, extcon_nb);
+> +
+> +	schedule_work(&ctx->extcon_wq);
+> +
+> +	return NOTIFY_DONE;
+> +}
+> +
+> +static int sii9234_extcon_init(struct sii9234 *ctx)
+> +{
+> +	struct extcon_dev *edev;
+> +	struct device_node *musb, *muic;
+> +	int ret;
+> +
+> +	/* Get micro-USB connector node */
+> +	musb = of_graph_get_remote_node(ctx->dev->of_node, 1, -1);
+> +	/* Then get micro-USB Interface Controller node */
+> +	muic = of_get_next_parent(musb);
+> +
+> +	if (!muic) {
+> +		dev_info(ctx->dev,
+> +			 "no extcon found, switching to 'always on' mode\n");
+> +		return 0;
+> +	}
+> +
+> +	edev = extcon_find_edev_by_node(muic);
+> +	of_node_put(muic);
+> +	if (IS_ERR(edev)) {
+> +		dev_err_probe(ctx->dev, PTR_ERR(edev),
+> +			      "invalid or missing extcon\n");
+> +	}
 
-This is *very* platform-dependent, goes without saying..
+It looks that the original logic got lost somehow in the above code 
+block, what causes kernel oops if compiled as module and loaded before 
+extcon provider. Please handle -EPROBE_DEFER and propagate error value, 
+like the original code did in sii8620 driver:
 
-I see BIT(2) is also valid for X1P4
+         if (IS_ERR(edev)) {
+                 if (PTR_ERR(edev) == -EPROBE_DEFER)
+                         return -EPROBE_DEFER;
+                 dev_err(ctx->dev, "Invalid or missing extcon\n");
+                 return PTR_ERR(edev);
+         }
 
-Konrad
+
+> +
+> +	ctx->extcon = edev;
+> +	ctx->extcon_nb.notifier_call = sii9234_extcon_notifier;
+> +	INIT_WORK(&ctx->extcon_wq, sii9234_extcon_work);
+> +	ret = extcon_register_notifier(edev, EXTCON_DISP_MHL, &ctx->extcon_nb);
+> +	if (ret) {
+> +		dev_err(ctx->dev, "failed to register notifier for MHL\n");
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static enum drm_mode_status sii9234_mode_valid(struct drm_bridge *bridge,
+>   					 const struct drm_display_info *info,
+>   					 const struct drm_display_mode *mode)
+> @@ -916,12 +986,17 @@ static int sii9234_probe(struct i2c_client *client)
+>   	if (ret < 0)
+>   		return ret;
+>   
+> +	ret = sii9234_extcon_init(ctx);
+> +	if (ret < 0)
+> +		return ret;
+> +
+>   	i2c_set_clientdata(client, ctx);
+>   
+>   	ctx->bridge.of_node = dev->of_node;
+>   	drm_bridge_add(&ctx->bridge);
+>   
+> -	sii9234_cable_in(ctx);
+> +	if (!ctx->extcon)
+> +		sii9234_cable_in(ctx);
+>   
+>   	return 0;
+>   }
+> @@ -930,7 +1005,15 @@ static void sii9234_remove(struct i2c_client *client)
+>   {
+>   	struct sii9234 *ctx = i2c_get_clientdata(client);
+>   
+> -	sii9234_cable_out(ctx);
+> +	if (ctx->extcon) {
+> +		extcon_unregister_notifier(ctx->extcon, EXTCON_DISP_MHL,
+> +					   &ctx->extcon_nb);
+> +		flush_work(&ctx->extcon_wq);
+> +		if (ctx->cable_state > 0)
+> +			sii9234_cable_out(ctx);
+> +	} else {
+> +		sii9234_cable_out(ctx);
+> +	}
+>   	drm_bridge_remove(&ctx->bridge);
+>   }
+>   
+>
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
