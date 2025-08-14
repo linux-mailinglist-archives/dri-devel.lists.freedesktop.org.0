@@ -2,118 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBCC6B27014
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 22:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89BF6B2702E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Aug 2025 22:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 691A110E00F;
-	Thu, 14 Aug 2025 20:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93B0210E213;
+	Thu, 14 Aug 2025 20:29:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KKOMJ5vV";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="FvplTijl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CF5110E00F
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 20:16:29 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-45a1b0990b2so8611435e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 13:16:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755202588; x=1755807388; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=StF1WS7dXjSG3S8YqRGzKbn6lYD1sTo1AD3uQFyFIgM=;
- b=KKOMJ5vVWvx6PdBq3lN9g6vIopXB73mc6V2DxCStJxg+PJ0zImFPoNRAvNB9VofDm2
- w/kxLMuajYN4/iO04ogcx7AZXjouvmi232XpyQSN15WXRopWenQLDWTNu8bcBWc4JEvk
- DREonaxbqmhYsZpfL8/nTLWNciSbM/l46hgE46rUIxKJ1+HxhLJ+cl653V11vIHpHOke
- 3mNMBibNm5SSpXb25u3DhkNssI/y+8AE3OPqzko7nZ2OqiGjRQx+UmDa8vv/1T9Nmpiy
- kcE1gyTTv+b5nOmwnmyREXYqB+Olo7gprRRC0yTbeRYhBgnuad4iKEmxXtyX3+ZQOX/t
- nmNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755202588; x=1755807388;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=StF1WS7dXjSG3S8YqRGzKbn6lYD1sTo1AD3uQFyFIgM=;
- b=ZqqS58sewZA40SI3pn2JPUtkqfzHqr8bRYvCMw9bxDF08K/iToIq2NjXWIPvy8pfgg
- x22/VPUcMYWc3dfG+UBp+lOrvCx7AwBCUJgdPiHLNC3FFHTr2E0sG/Ee62FqR131ZmBJ
- WhTIH07F6yN6zpHXuqVTTcZYjp7dcZF0kXMeIJjkSm/PEFzPQWIsS5rAC0OPl5Gm293X
- Cb70q2dpzxzsWAevFglbCIg3AajNDbfyJ5wLUbTcVrpgaF2qMRU/7dGWyRfMlo9E01Qf
- DmYDk4emdTL8CBccW2+HPQJr4Blds92J2fBpWxpglOOu4zqm7hKd9JBP6fvr6XFc0URp
- TsuA==
-X-Gm-Message-State: AOJu0YzNr/kVMWxrUed+rxNy1stds1giEksfb1dFz8zQ6OEMJnmiDYC6
- 8JQ7dRUrGBbSNPgfFK64aHhF5hCU+RK2apGPGuOnvGlxcEXlH4F/bcASRMFeFxm5Ul8=
-X-Gm-Gg: ASbGncuMvrxz6X9e+DpdngsKV6S+a2JRgnVQTeTQ2of3rIrOZTG9CxmfgjGYvjBu4r1
- oPSrw/zF2oKDuiSpQVMLpez8be6vRNB+wBbrPbfk+ihGuiT1IcMU2g/hUtwhWgOVqGvuKaRv9h2
- gfYHFjxZE47G59lyC4VXWnHlqiNySbvuSjhG8e5lKj2gHY2uduesTM9+Q1dE1aQxAPfUexsAy/y
- 4dMvW44pqSqb/9Q9NqsOkBHunezf1hq+P9VBbBMiiHB3++ahxbx/2H/J370AyZeUudYlLbVO83M
- xwuU01Shh/xEwV4sYb6oyjahZxtGDvWb3SncZPWRQWFZTrCERWpcpeURJdBCaz8Hfxqqta9gyZA
- fXaCO1ntRyfA3Vjahdzs5P4VgQcWCr8NsCljIfWsQXb+TNDfo+9mk62XPUfuUibvS
-X-Google-Smtp-Source: AGHT+IG35AXneNLp2XhORujrrZpLj8xQqQ2QwFH2vSV8MBkrs2SaDDuC4gX/ZVreUWWAHMpD2a2gXQ==
-X-Received: by 2002:a05:600c:35ce:b0:440:6a1a:d89f with SMTP id
- 5b1f17b1804b1-45a20f3de1bmr867585e9.4.1755202587833; 
- Thu, 14 Aug 2025 13:16:27 -0700 (PDT)
-Received: from localhost (dsl-217-155-193-229.zen.co.uk. [217.155.193.229])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3b79c4533e6sm53091106f8f.35.2025.08.14.13.16.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Aug 2025 13:16:27 -0700 (PDT)
-From: Christopher Obbard <christopher.obbard@linaro.org>
-Date: Thu, 14 Aug 2025 21:16:19 +0100
-Subject: [PATCH v7] arm64: dts: qcom: x1e78100-t14s-oled: Add eDP panel
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2045.outbound.protection.outlook.com [40.107.244.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCF4310E213
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 20:29:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MhR+RNm5sbjtRfYQdkcQ2LSDIh/yLA4aiNUHyW0rE37Nx+VCt5TbweNSa1PeqYQn6tP2GTlwTHIuRjypsAW1Ry3w3+slisxMhEhuRlW/CiFrFFppc/6hTATr1PcHKbFEfFiex6TWIxqizZivrSlo0MM5U34G08nvqo8/jn3+FnQ2Emk5FFuiPMboWiX6aJPQNfl060j/nFeyMTjfymRHqMyHWwwGb8Yfmg/I+KfUCzpFragc5pHUT2mvkhczijb6PMSk1/V757Q698fqKlDrjlqTMzgckiPfvPKNKpXJ4JHYxPDZ35WlnFi8YPfradIn1MopOAazujOVELUFHp7DIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wx5jX6JuuiMhkQoqEirQRwsr6KiCTdbPlXc2hbFmjtc=;
+ b=WmOF+tDu7AyO1MhzegEZc0LqpsCjO78qDCqpQbc4HoTxZQIW4OgLfCxCVLqhUCNVA/RRwEltCcLM0QmXicTtY2yAEK2zOYABaS+rfbJuDLT4SKAJfaYTmPkHag+uVxgzytQbMknhRxXcfKAbHfCov4hN1kXMBcWQlUsuK4FTh1NCYED+JHanHm2gNHNo5OR3w1TUf/LuZi4poVvU9LirI3n6TpmpA1b7RY+InEvM//JP56Id5L5qYuofR8QFFCBfYJO0TOTBWF5wfcLF6TlyB5+BT6KvrJhF6jTEzCCyK49Ul2Q9ammxCA+9ZJdATSvMkg9KnOPjuxoBwVtXKe8+Aw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wx5jX6JuuiMhkQoqEirQRwsr6KiCTdbPlXc2hbFmjtc=;
+ b=FvplTijlgmYd3rlsBzWNZkS1r7UrgKcXjz/AxBMKz+iRDNCqqsd1IWHlY9kTJtbFufGuSEyzt81iG073Rp02nJ66Rsw9THcvPOp1P2564+5LpE624mWAKIpjB9ffINE2iDrFjGdCfGKWSnVTSNKzNG6pZKcArUL99+Sqqc0zGPA=
+Received: from MW4PR03CA0224.namprd03.prod.outlook.com (2603:10b6:303:b9::19)
+ by DS0PR12MB7677.namprd12.prod.outlook.com (2603:10b6:8:136::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.15; Thu, 14 Aug
+ 2025 20:29:32 +0000
+Received: from CY4PEPF0000EE3B.namprd03.prod.outlook.com
+ (2603:10b6:303:b9:cafe::b7) by MW4PR03CA0224.outlook.office365.com
+ (2603:10b6:303:b9::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.18 via Frontend Transport; Thu,
+ 14 Aug 2025 20:29:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CY4PEPF0000EE3B.mail.protection.outlook.com (10.167.242.14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9031.11 via Frontend Transport; Thu, 14 Aug 2025 20:29:31 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 14 Aug
+ 2025 15:29:31 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Thu, 14 Aug
+ 2025 13:29:30 -0700
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 14 Aug 2025 15:29:30 -0500
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <dri-devel@lists.freedesktop.org>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH V1] accel/amdxdna: Add a function to walk hardware contexts
+Date: Thu, 14 Aug 2025 13:29:24 -0700
+Message-ID: <20250814202924.3335547-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250814-wip-obbardc-qcom-t14s-oled-panel-v7-1-89966ae886a3@linaro.org>
-X-B4-Tracking: v=1; b=H4sIABJEnmgC/5XSzW7bMAwH8FcJfB4H6suyg2HYexQ7SCKVCEhsV
- /bcDkXffXR6SLbskB5JQD+S0P+tmbkWnpv97q2pvJa5jIMU/suuSccwHBgKSd1o1A6NRngpE4w
- xhkoJntN4hkXZGcYTE0xh4BNEbzOTVtQiNsJMlXN5vYx4+in1sczLWH9fJq5q634CXxUoQBeTj
- ZSo0+HHqQyhjl/Hemg2fdW3ontA1IDAfUw+9WQwpTvR3Ir+AdGIaB25rL31pu/uRHsVLeoHRLu
- JKgaTjYCEd6L7rOhEzNmYbAlRY74T26vojXpAbLcdfafRW4WW1F/i+0cQKj//kogtH2lozjzP4
- RKx/e7bZVSnLLwq7lAhQiACpgmOE20fLw2nO6GjM7m94b9vMfu/tYxTSVfxurSwsZbDcRnkHax
- eYhUN+Wgpc5fcv3oMM4OcfS7LfmdMkHiHqPpolLMoTyK2RIyanVO6DwoDJytnv/8Bw20bEGEDA
- AA=
-X-Change-ID: 20250320-wip-obbardc-qcom-t14s-oled-panel-b74fed21d600
-To: Douglas Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Aleksandrs Vinarskis <alex.vinarskis@gmail.com>, 
- Sibi Sankar <quic_sibis@quicinc.com>, 
- Rajendra Nayak <quic_rjendra@quicinc.com>, Xilin Wu <wuxilin123@gmail.com>, 
- Jens Glathe <jens.glathe@oldschoolsolutions.biz>, 
- Srinivas Kandagatla <srini@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
- Rui Miguel Silva <rui.silva@linaro.org>, Abel Vesa <abel.vesa@linaro.org>, 
- devicetree@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Konrad Dybcio <quic_kdybcio@quicinc.com>, 
- Christopher Obbard <christopher.obbard@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4495;
- i=christopher.obbard@linaro.org; h=from:subject:message-id;
- bh=UR9CJlGOumdJ6XViY9zdrJ+sX5v7q5Zz8QVakTaN6rI=;
- b=owEBbQKS/ZANAwAKAWNNxPBocEb4AcsmYgBonkQXkHvdTdtW1hWVTgwYf8EIVO/OKf9tODqNi
- bvdOga9eEeJAjMEAAEKAB0WIQTxi9yLbCX5CqI9UXRjTcTwaHBG+AUCaJ5EFwAKCRBjTcTwaHBG
- +PuQD/9sK95C2XdA/EEsCiT3Ps7+7zUhKnAbN1s8hpqYwoj/1Cr9X52aG3q1UvDUO+gcRuUQ8co
- 4iBolnzoLiGK7ElyNQicV33hsgi1W3Stpfz9+9I7OYmXgan2w+yj2eNSdym2dIaNXzpm5gOC/nb
- bnZLJd5m6Upf+iquJJiwX8iscq20Q+G/l2I6gU5dhjA+KIFQphSTlsr00h0WsahMsbbBSg1gKIr
- c2OQT0195OHJGBfH9EGqXvg3KWbu+3lVa102nt0zb2sCFW6x3OcpiPcB/l+H1iAaDRLAHgaS4ey
- iPPMDiS6ftgD+c7Dsr2C2aNtkROtoHLv0pImAEdcF31p8YmL5shn8ab/0aAimwkgb5aqqMrdSoo
- 5ixxDmO9OtQSH0RO+IdD+S+SIO8lXx0EkSrv9p9fBuVxDHB0nY2gqIDxjoCVJ7pKRtcRsFZAreS
- h/JgGb6p3roLUCd70vCvX/A3VKGEf+1O8svSWQufHjEmB9aS1gwphmiZHm8PtlBQH1SAeoESNcB
- YgqMdoAIgKdlHr9flvF1L9z5Pjut9DozRfumxCEbLvUh+2mdbeoL83ntJ0oFKAjpp8XoUrsx+o5
- 9/NVT00hKFAdm0pNzryap2rhXZeGwf78s0LNcEfFAC5jMXyFdZoivdRtDk/XXVJblv0CHXgektq
- UsewMI9Rv06Fd+Q==
-X-Developer-Key: i=christopher.obbard@linaro.org; a=openpgp;
- fpr=F18BDC8B6C25F90AA23D5174634DC4F0687046F8
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3B:EE_|DS0PR12MB7677:EE_
+X-MS-Office365-Filtering-Correlation-Id: beb28a4f-0875-48d4-e3af-08dddb71469b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Yjp+Q5Fe+qzNk4AZamO3YvLbryk4RY3yBkGoPsfFcWvsHMskQx3nD5manjYt?=
+ =?us-ascii?Q?/R0Jzswpjw6lU1ywnW10RAnx7s5YWnNezkFoKB4FsagFwEZ7TIiZ98i2VfMp?=
+ =?us-ascii?Q?sE2XgfnTa1mAvEON37NcJaJoIJh49/FPYzKZE+t/0w4ZFJp4n7yK6ZA3x+KQ?=
+ =?us-ascii?Q?OWsPHv4xGZDvFCRQ2YgMM/OZ9APqqFZ+ozVaTpHFzBRRht2yS5PHkA40ulYP?=
+ =?us-ascii?Q?aTbV6I215kDHx6e8H6rynHSQjcqX9AWAlHRIf8foPB1hXt1nDyDdQ0yuLwrx?=
+ =?us-ascii?Q?YhmO5wg+/UtfUwZaFhXqFtq0iCIFsNUjaWvoYp00JhLNn2n84GNOBmnFy2+T?=
+ =?us-ascii?Q?oIXfj+VWeSqTxPvBBKr1YLzybG4Mcpl0YNlf8++OEOhDi+qpVRcWMU1CI+mQ?=
+ =?us-ascii?Q?J0m7qlTH/c8IFXclKLf906DcGsqmmeKo2FFkpk4KbUm5hlpwHmOc7OFAyi/J?=
+ =?us-ascii?Q?L+e1RmrGHrsFYD7JJoM/X4B2f3+2jlFE+Mgm2txkZFm582qN/iJH+RnDXqyo?=
+ =?us-ascii?Q?QuG/GhdhS5kNr044YJC2MZPSa7RES6GFj7ZifyqH35JBvxB0X8mc+YQz9Yll?=
+ =?us-ascii?Q?zzawJYz7dBZKtgIjH83KYtqu/lN0K3Lpnr6H12NCp1xPWYHLgGC4FlBd9U2d?=
+ =?us-ascii?Q?krYOojFr22SjTopDDjb926vZA4p8wXbeTCoRmcyP871+NzYBpySm04GJLn7z?=
+ =?us-ascii?Q?mvBlMbYVDAh/JxwZVIpNtZqdR0+XcFXwS+KetDLaW1SMUExAyf6Stbm7plSo?=
+ =?us-ascii?Q?VA7uvQRuFrrZVYS7Dyi8OmkwAVkxdtmFtisH8XlPMVK/TcfMfz+GAtVK6tu/?=
+ =?us-ascii?Q?bNHGnIB+81b7f5d4kqA136H+05jM0/uHcrL6PzNmA9uuxeUXLQ2svcCLGmcU?=
+ =?us-ascii?Q?Cb8AW1c61FP/DJlGbCak0PAdp6Byv8KyjgkSMGRUIe+aRiBi5MTm8L4q7tA9?=
+ =?us-ascii?Q?GfVaq6PBdOFDsV6yewdBw5lDMvcz561OJXv0CEPmv5sSok4NJ/ZzYGwPsTbE?=
+ =?us-ascii?Q?VmKZAykGfM1uT8IYYnG1mCIBKFVO+6O0PnWu3B22k9WBH82AkjZ7A4Jf36gv?=
+ =?us-ascii?Q?WHScs79u17i6VxSYLWSOElc6OlfcU0OMXu6h+CbrmUh3MKrBs2lplDwwRg4r?=
+ =?us-ascii?Q?MdoKlNtbC+96nH2JulIlE6mIQ8Mejhx3SCHzZ6CRDNQCv5BoGBAI9WNkULjB?=
+ =?us-ascii?Q?ArySjqse04lIoGcS/paGf4wwhmDdf1zTbh2aQFp6Q4Yck4dbvlkXmAiJVr/r?=
+ =?us-ascii?Q?whmnvglD7IRADmQQ8QlztsE47X8v73iltUwq3DO4W9e0j9ypR8WWrfoQ4XOn?=
+ =?us-ascii?Q?aNb6PMPzolDjP6y9X7zvojEM6qEwmoSqQ3wkbDMKPBuOqhNDnp7JA1C84gUs?=
+ =?us-ascii?Q?ga1jZbL+qhvE9Cb90ZgsIilJrhGsaR9XTfI6stAwDeS4c0GTvJF3HdHLl/CE?=
+ =?us-ascii?Q?VF8XUABta/QFNFjy7ebRKMRTDKAW3u5yveKRZr9chnF2zL0ABwrkBc8LDM/3?=
+ =?us-ascii?Q?Q9o5+rKuSu9u2SkCn3juOeLC04+tXl0kspbH?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2025 20:29:31.8002 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: beb28a4f-0875-48d4-e3af-08dddb71469b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE3B.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7677
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,98 +137,404 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the Samsung ATNA40YK20 eDP panel to the device tree for the
-Snapdragon T14s OLED model.
+Walking hardware contexts created by a process is duplicated in multiple
+spots. Add a function, amdxdna_hwctx_walk(), and replace all spots.
 
-Signed-off-by: Christopher Obbard <christopher.obbard@linaro.org>
+hwctx_srcu and dev_lock are good enough to protect hardware context list.
+Remove hwctx_lock.
+
+Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 ---
-The Snapdragon Lenovo T14s Gen6 can be bought with a number of different
-panels. This patch series adds support for the OLED model which has a
-Samsung ATNA40YK20 panel.
+ drivers/accel/amdxdna/aie2_ctx.c        | 38 ++++++-----
+ drivers/accel/amdxdna/aie2_message.c    | 21 +++---
+ drivers/accel/amdxdna/aie2_pci.c        | 86 +++++++++++--------------
+ drivers/accel/amdxdna/amdxdna_ctx.c     | 26 ++++++--
+ drivers/accel/amdxdna/amdxdna_ctx.h     |  8 +--
+ drivers/accel/amdxdna/amdxdna_pci_drv.c |  7 +-
+ drivers/accel/amdxdna/amdxdna_pci_drv.h |  2 -
+ 7 files changed, 97 insertions(+), 91 deletions(-)
 
-This series depends on [0] which adds the edp_hpd_active pinctrl node.
-
-With this patch series the backlight of the OLED eDP panel does not
-illuminate since the brightness is incorrectly read from the eDP panel
-as (to be clear this is not a regression). This is fixed in [1].
-
-[0]: https://lore.kernel.org/linux-arm-msm/20250814-x1e80100-add-edp-hpd-v1-0-a52804db53f6@linaro.org/
-[1]: https://lore.kernel.org/all/20250814-topic-x1e80100-t14s-oled-dp-brightness-v7-1-b3d7b4dfe8c5@linaro.org/
----
-Changes in v7:
-- Remove patch adding edp_hpd_active since now handled in Stephan's series [0].
-- Properly add OLED brighness patch as dependency [1].
-- Link to v6: https://lore.kernel.org/r/20250731-wip-obbardc-qcom-t14s-oled-panel-v6-0-4782074104d1@linaro.org
-
-Changes in v6:
-- Squash patches adding "edp_hpd_active" node & its user (Johan).
-- Sort new pinctrl node correctly by name (Johan).
-- Use correct function "edp0_hot" instead of "edp_hot" (Johan).
-- Drop review tags.
-- Link to v5: https://lore.kernel.org/r/20250402-wip-obbardc-qcom-t14s-oled-panel-v5-0-ff33f4d0020f@linaro.org
-
-Changes in v5:
-- Move edp_hpd_active from T14s DTS into SoC DTSI (Dmitry).
-- Link to v4: https://lore.kernel.org/r/20250402-wip-obbardc-qcom-t14s-oled-panel-v4-0-41ba3f3739d0@linaro.org
-
-Changes in v4:
-- Rework HPD GPIO into eDP device rather than panel (Johan).
-- Drop review tags for HPD GPIO patch.
-- Link to v3: https://lore.kernel.org/r/20250327-wip-obbardc-qcom-t14s-oled-panel-v3-0-45d5f2747398@linaro.org
-
-Changes in v3:
-- Added review trailers from v2.
-- Dropped dt-binding documentation patch (applied by Douglas Anderson into
-  drm-misc-next).
-- Dropped eDP maximum brightness patch (will be sent in separate
-  series).
-- Removed duplicate nodes in T14s OLED device tree.
-- Reworked WIP comments from commit messages.
-- Link to v2: https://lore.kernel.org/r/20250325-wip-obbardc-qcom-t14s-oled-panel-v2-0-e9bc7c9d30cc@linaro.org
-
-Changes in v2:
-- Use the existing atna33xc20 driver rather than panel-edp.
-- Add eDP panel into OLED devicetree.
-- Add patch to read the correct maximum brightness from the eDP panel.
-- Link to v1: https://lore.kernel.org/r/20250320-wip-obbardc-qcom-t14s-oled-panel-v1-1-05bc4bdcd82a@linaro.org
----
- arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts
-index be65fafafa736a0401a5872c40f69cb20cfbbd90..d524afa12d19b2a6f22a24b9bed6b6b40248375f 100644
---- a/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts
-+++ b/arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s-oled.dts
-@@ -10,3 +10,11 @@ / {
- 	compatible = "lenovo,thinkpad-t14s-oled", "lenovo,thinkpad-t14s",
- 		     "qcom,x1e78100", "qcom,x1e80100";
- };
+diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+index 910ffb7051f4..b76877179b62 100644
+--- a/drivers/accel/amdxdna/aie2_ctx.c
++++ b/drivers/accel/amdxdna/aie2_ctx.c
+@@ -133,11 +133,20 @@ static void aie2_hwctx_wait_for_idle(struct amdxdna_hwctx *hwctx)
+ 	dma_fence_put(fence);
+ }
+ 
++static int aie2_hwctx_suspend_cb(struct amdxdna_hwctx *hwctx, void *arg)
++{
++	struct amdxdna_dev *xdna = hwctx->client->xdna;
 +
-+&panel {
-+	compatible = "samsung,atna40yk20", "samsung,atna33xc20";
-+	enable-gpios = <&pmc8380_3_gpios 4 GPIO_ACTIVE_HIGH>;
++	aie2_hwctx_wait_for_idle(hwctx);
++	aie2_hwctx_stop(xdna, hwctx, NULL);
++	aie2_hwctx_status_shift_stop(hwctx);
 +
-+	pinctrl-0 = <&edp_bl_en>;
-+	pinctrl-names = "default";
-+};
-
----
-base-commit: 33a21dab19b31540dfeb06dde02e55129a10aec4
-change-id: 20250320-wip-obbardc-qcom-t14s-oled-panel-b74fed21d600
-prerequisite-message-id: <20250814-x1e80100-add-edp-hpd-v1-0-a52804db53f6@linaro.org>
-prerequisite-patch-id: 658fd45e0cb953e3c667a30f2cf78cfd3582d552
-prerequisite-patch-id: fc665d8cdd099464e6fa4401489fde70b65bed30
-prerequisite-patch-id: 13ff38b40f2dcb283be82485e88ca4efc249599b
-prerequisite-patch-id: 7d02075f074ad8f32eeaf5ee8833d0c6a230cea8
-prerequisite-patch-id: 380fed6c07ca1ecdb73768054454e47c984d00e9
-prerequisite-patch-id: 1f8b24fc983fa23abc97512e15626394ce760ffe
-prerequisite-patch-id: 7d29e2fee2b19cf2d12d54cca052b1c1fb808c9d
-prerequisite-patch-id: c5bf1706ecf4df7782707bbf0d18a0568842b562
-prerequisite-patch-id: 34889448fd92cdc916e7e19eac8446710d2a646a
-prerequisite-message-id: <20250814-topic-x1e80100-t14s-oled-dp-brightness-v7-1-b3d7b4dfe8c5@linaro.org>
-prerequisite-patch-id: ceed93f46ae27c7980c5b57022068daaad8dc8c9
-
-Best regards,
++	return 0;
++}
++
+ void aie2_hwctx_suspend(struct amdxdna_client *client)
+ {
+ 	struct amdxdna_dev *xdna = client->xdna;
+-	struct amdxdna_hwctx *hwctx;
+-	unsigned long hwctx_id;
+ 
+ 	/*
+ 	 * Command timeout is unlikely. But if it happens, it doesn't
+@@ -145,19 +154,22 @@ void aie2_hwctx_suspend(struct amdxdna_client *client)
+ 	 * and abort all commands.
+ 	 */
+ 	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+-	guard(mutex)(&client->hwctx_lock);
+-	amdxdna_for_each_hwctx(client, hwctx_id, hwctx) {
+-		aie2_hwctx_wait_for_idle(hwctx);
+-		aie2_hwctx_stop(xdna, hwctx, NULL);
+-		aie2_hwctx_status_shift_stop(hwctx);
+-	}
++	amdxdna_hwctx_walk(client, NULL, aie2_hwctx_suspend_cb);
++}
++
++static int aie2_hwctx_resume_cb(struct amdxdna_hwctx *hwctx, void *arg)
++{
++	struct amdxdna_dev *xdna = hwctx->client->xdna;
++
++	aie2_hwctx_status_restore(hwctx);
++	aie2_hwctx_restart(xdna, hwctx);
++
++	return 0;
+ }
+ 
+ void aie2_hwctx_resume(struct amdxdna_client *client)
+ {
+ 	struct amdxdna_dev *xdna = client->xdna;
+-	struct amdxdna_hwctx *hwctx;
+-	unsigned long hwctx_id;
+ 
+ 	/*
+ 	 * The resume path cannot guarantee that mailbox channel can be
+@@ -165,11 +177,7 @@ void aie2_hwctx_resume(struct amdxdna_client *client)
+ 	 * mailbox channel, error will return.
+ 	 */
+ 	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+-	guard(mutex)(&client->hwctx_lock);
+-	amdxdna_for_each_hwctx(client, hwctx_id, hwctx) {
+-		aie2_hwctx_status_restore(hwctx);
+-		aie2_hwctx_restart(xdna, hwctx);
+-	}
++	amdxdna_hwctx_walk(client, NULL, aie2_hwctx_resume_cb);
+ }
+ 
+ static void
+diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
+index 82412eec9a4b..9caad083543d 100644
+--- a/drivers/accel/amdxdna/aie2_message.c
++++ b/drivers/accel/amdxdna/aie2_message.c
+@@ -290,18 +290,25 @@ int aie2_map_host_buf(struct amdxdna_dev_hdl *ndev, u32 context_id, u64 addr, u6
+ 	return 0;
+ }
+ 
++static int amdxdna_hwctx_col_map(struct amdxdna_hwctx *hwctx, void *arg)
++{
++	u32 *bitmap = arg;
++
++	*bitmap |= GENMASK(hwctx->start_col + hwctx->num_col - 1, hwctx->start_col);
++
++	return 0;
++}
++
+ int aie2_query_status(struct amdxdna_dev_hdl *ndev, char __user *buf,
+ 		      u32 size, u32 *cols_filled)
+ {
+ 	DECLARE_AIE2_MSG(aie_column_info, MSG_OP_QUERY_COL_STATUS);
+ 	struct amdxdna_dev *xdna = ndev->xdna;
+ 	struct amdxdna_client *client;
+-	struct amdxdna_hwctx *hwctx;
+-	unsigned long hwctx_id;
+ 	dma_addr_t dma_addr;
+ 	u32 aie_bitmap = 0;
+ 	u8 *buff_addr;
+-	int ret, idx;
++	int ret;
+ 
+ 	buff_addr = dma_alloc_noncoherent(xdna->ddev.dev, size, &dma_addr,
+ 					  DMA_FROM_DEVICE, GFP_KERNEL);
+@@ -309,12 +316,8 @@ int aie2_query_status(struct amdxdna_dev_hdl *ndev, char __user *buf,
+ 		return -ENOMEM;
+ 
+ 	/* Go through each hardware context and mark the AIE columns that are active */
+-	list_for_each_entry(client, &xdna->client_list, node) {
+-		idx = srcu_read_lock(&client->hwctx_srcu);
+-		amdxdna_for_each_hwctx(client, hwctx_id, hwctx)
+-			aie_bitmap |= amdxdna_hwctx_col_map(hwctx);
+-		srcu_read_unlock(&client->hwctx_srcu, idx);
+-	}
++	list_for_each_entry(client, &xdna->client_list, node)
++		amdxdna_hwctx_walk(client, &aie_bitmap, amdxdna_hwctx_col_map);
+ 
+ 	*cols_filled = 0;
+ 	req.dump_buff_addr = dma_addr;
+diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
+index 6fc3191c3097..b3ae03d05fb0 100644
+--- a/drivers/accel/amdxdna/aie2_pci.c
++++ b/drivers/accel/amdxdna/aie2_pci.c
+@@ -10,6 +10,7 @@
+ #include <drm/drm_managed.h>
+ #include <drm/drm_print.h>
+ #include <drm/gpu_scheduler.h>
++#include <linux/cleanup.h>
+ #include <linux/errno.h>
+ #include <linux/firmware.h>
+ #include <linux/iommu.h>
+@@ -779,65 +780,56 @@ static int aie2_get_clock_metadata(struct amdxdna_client *client,
+ 	return ret;
+ }
+ 
++static int aie2_hwctx_status_cb(struct amdxdna_hwctx *hwctx, void *arg)
++{
++	struct amdxdna_drm_query_hwctx __user *buf, *tmp __free(kfree) = NULL;
++	struct amdxdna_drm_get_info *get_info_args = arg;
++
++	if (get_info_args->buffer_size < sizeof(*tmp))
++		return -EINVAL;
++
++	tmp = kzalloc(sizeof(*tmp), GFP_KERNEL);
++	if (!tmp)
++		return -ENOMEM;
++
++	tmp->pid = hwctx->client->pid;
++	tmp->context_id = hwctx->id;
++	tmp->start_col = hwctx->start_col;
++	tmp->num_col = hwctx->num_col;
++	tmp->command_submissions = hwctx->priv->seq;
++	tmp->command_completions = hwctx->priv->completed;
++
++	buf = u64_to_user_ptr(get_info_args->buffer);
++
++	if (copy_to_user(buf, tmp, sizeof(*tmp)))
++		return -EFAULT;
++
++	get_info_args->buffer += sizeof(*tmp);
++	get_info_args->buffer_size -= sizeof(*tmp);
++
++	return 0;
++}
++
+ static int aie2_get_hwctx_status(struct amdxdna_client *client,
+ 				 struct amdxdna_drm_get_info *args)
+ {
+-	struct amdxdna_drm_query_hwctx __user *buf;
+ 	struct amdxdna_dev *xdna = client->xdna;
+-	struct amdxdna_drm_query_hwctx *tmp;
++	struct amdxdna_drm_get_info info_args;
+ 	struct amdxdna_client *tmp_client;
+-	struct amdxdna_hwctx *hwctx;
+-	unsigned long hwctx_id;
+-	bool overflow = false;
+-	u32 req_bytes = 0;
+-	u32 hw_i = 0;
+-	int ret = 0;
+-	int idx;
++	int ret;
+ 
+ 	drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
+ 
+-	tmp = kzalloc(sizeof(*tmp), GFP_KERNEL);
+-	if (!tmp)
+-		return -ENOMEM;
++	info_args.buffer = args->buffer;
++	info_args.buffer_size = args->buffer_size;
+ 
+-	buf = u64_to_user_ptr(args->buffer);
+ 	list_for_each_entry(tmp_client, &xdna->client_list, node) {
+-		idx = srcu_read_lock(&tmp_client->hwctx_srcu);
+-		amdxdna_for_each_hwctx(tmp_client, hwctx_id, hwctx) {
+-			req_bytes += sizeof(*tmp);
+-			if (args->buffer_size < req_bytes) {
+-				/* Continue iterating to get the required size */
+-				overflow = true;
+-				continue;
+-			}
+-
+-			memset(tmp, 0, sizeof(*tmp));
+-			tmp->pid = tmp_client->pid;
+-			tmp->context_id = hwctx->id;
+-			tmp->start_col = hwctx->start_col;
+-			tmp->num_col = hwctx->num_col;
+-			tmp->command_submissions = hwctx->priv->seq;
+-			tmp->command_completions = hwctx->priv->completed;
+-
+-			if (copy_to_user(&buf[hw_i], tmp, sizeof(*tmp))) {
+-				ret = -EFAULT;
+-				srcu_read_unlock(&tmp_client->hwctx_srcu, idx);
+-				goto out;
+-			}
+-			hw_i++;
+-		}
+-		srcu_read_unlock(&tmp_client->hwctx_srcu, idx);
+-	}
+-
+-	if (overflow) {
+-		XDNA_ERR(xdna, "Invalid buffer size. Given: %u Need: %u.",
+-			 args->buffer_size, req_bytes);
+-		ret = -EINVAL;
++		ret = amdxdna_hwctx_walk(tmp_client, &info_args, aie2_hwctx_status_cb);
++		if (ret)
++			break;
+ 	}
+ 
+-out:
+-	kfree(tmp);
+-	args->buffer_size = req_bytes;
++	args->buffer_size = (u32)(info_args.buffer - args->buffer);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c b/drivers/accel/amdxdna/amdxdna_ctx.c
+index b47a7f8e9017..4bfe4ef20550 100644
+--- a/drivers/accel/amdxdna/amdxdna_ctx.c
++++ b/drivers/accel/amdxdna/amdxdna_ctx.c
+@@ -68,14 +68,30 @@ static void amdxdna_hwctx_destroy_rcu(struct amdxdna_hwctx *hwctx,
+ 	synchronize_srcu(ss);
+ 
+ 	/* At this point, user is not able to submit new commands */
+-	mutex_lock(&xdna->dev_lock);
+ 	xdna->dev_info->ops->hwctx_fini(hwctx);
+-	mutex_unlock(&xdna->dev_lock);
+ 
+ 	kfree(hwctx->name);
+ 	kfree(hwctx);
+ }
+ 
++int amdxdna_hwctx_walk(struct amdxdna_client *client, void *arg,
++		       int (*walk)(struct amdxdna_hwctx *hwctx, void *arg))
++{
++	struct amdxdna_hwctx *hwctx;
++	unsigned long hwctx_id;
++	int ret = 0, idx;
++
++	idx = srcu_read_lock(&client->hwctx_srcu);
++	amdxdna_for_each_hwctx(client, hwctx_id, hwctx) {
++		ret = walk(hwctx, arg);
++		if (ret)
++			break;
++	}
++	srcu_read_unlock(&client->hwctx_srcu, idx);
++
++	return ret;
++}
++
+ void *amdxdna_cmd_get_payload(struct amdxdna_gem_obj *abo, u32 *size)
+ {
+ 	struct amdxdna_cmd *cmd = abo->mem.kva;
+@@ -126,16 +142,12 @@ void amdxdna_hwctx_remove_all(struct amdxdna_client *client)
+ 	struct amdxdna_hwctx *hwctx;
+ 	unsigned long hwctx_id;
+ 
+-	mutex_lock(&client->hwctx_lock);
+ 	amdxdna_for_each_hwctx(client, hwctx_id, hwctx) {
+ 		XDNA_DBG(client->xdna, "PID %d close HW context %d",
+ 			 client->pid, hwctx->id);
+ 		xa_erase(&client->hwctx_xa, hwctx->id);
+-		mutex_unlock(&client->hwctx_lock);
+ 		amdxdna_hwctx_destroy_rcu(hwctx, &client->hwctx_srcu);
+-		mutex_lock(&client->hwctx_lock);
+ 	}
+-	mutex_unlock(&client->hwctx_lock);
+ }
+ 
+ int amdxdna_drm_create_hwctx_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+@@ -225,6 +237,7 @@ int amdxdna_drm_destroy_hwctx_ioctl(struct drm_device *dev, void *data, struct d
+ 	if (!drm_dev_enter(dev, &idx))
+ 		return -ENODEV;
+ 
++	mutex_lock(&xdna->dev_lock);
+ 	hwctx = xa_erase(&client->hwctx_xa, args->handle);
+ 	if (!hwctx) {
+ 		ret = -EINVAL;
+@@ -241,6 +254,7 @@ int amdxdna_drm_destroy_hwctx_ioctl(struct drm_device *dev, void *data, struct d
+ 
+ 	XDNA_DBG(xdna, "PID %d destroyed HW context %d", client->pid, args->handle);
+ out:
++	mutex_unlock(&xdna->dev_lock);
+ 	drm_dev_exit(idx);
+ 	return ret;
+ }
+diff --git a/drivers/accel/amdxdna/amdxdna_ctx.h b/drivers/accel/amdxdna/amdxdna_ctx.h
+index c652229547a3..7cd7a55936f0 100644
+--- a/drivers/accel/amdxdna/amdxdna_ctx.h
++++ b/drivers/accel/amdxdna/amdxdna_ctx.h
+@@ -139,14 +139,10 @@ amdxdna_cmd_get_state(struct amdxdna_gem_obj *abo)
+ void *amdxdna_cmd_get_payload(struct amdxdna_gem_obj *abo, u32 *size);
+ int amdxdna_cmd_get_cu_idx(struct amdxdna_gem_obj *abo);
+ 
+-static inline u32 amdxdna_hwctx_col_map(struct amdxdna_hwctx *hwctx)
+-{
+-	return GENMASK(hwctx->start_col + hwctx->num_col - 1,
+-		       hwctx->start_col);
+-}
+-
+ void amdxdna_sched_job_cleanup(struct amdxdna_sched_job *job);
+ void amdxdna_hwctx_remove_all(struct amdxdna_client *client);
++int amdxdna_hwctx_walk(struct amdxdna_client *client, void *arg,
++		       int (*walk)(struct amdxdna_hwctx *hwctx, void *arg));
+ 
+ int amdxdna_cmd_submit(struct amdxdna_client *client,
+ 		       u32 cmd_bo_hdls, u32 *arg_bo_hdls, u32 arg_bo_cnt,
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+index fbca94183f96..8ef5e4f27f5e 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+@@ -81,7 +81,6 @@ static int amdxdna_drm_open(struct drm_device *ddev, struct drm_file *filp)
+ 		ret = -ENODEV;
+ 		goto unbind_sva;
+ 	}
+-	mutex_init(&client->hwctx_lock);
+ 	init_srcu_struct(&client->hwctx_srcu);
+ 	xa_init_flags(&client->hwctx_xa, XA_FLAGS_ALLOC);
+ 	mutex_init(&client->mm_lock);
+@@ -116,7 +115,6 @@ static void amdxdna_drm_close(struct drm_device *ddev, struct drm_file *filp)
+ 
+ 	xa_destroy(&client->hwctx_xa);
+ 	cleanup_srcu_struct(&client->hwctx_srcu);
+-	mutex_destroy(&client->hwctx_lock);
+ 	mutex_destroy(&client->mm_lock);
+ 	if (client->dev_heap)
+ 		drm_gem_object_put(to_gobj(client->dev_heap));
+@@ -142,8 +140,8 @@ static int amdxdna_flush(struct file *f, fl_owner_t id)
+ 
+ 	mutex_lock(&xdna->dev_lock);
+ 	list_del_init(&client->node);
+-	mutex_unlock(&xdna->dev_lock);
+ 	amdxdna_hwctx_remove_all(client);
++	mutex_unlock(&xdna->dev_lock);
+ 
+ 	drm_dev_exit(idx);
+ 	return 0;
+@@ -330,11 +328,8 @@ static void amdxdna_remove(struct pci_dev *pdev)
+ 					  struct amdxdna_client, node);
+ 	while (client) {
+ 		list_del_init(&client->node);
+-		mutex_unlock(&xdna->dev_lock);
+-
+ 		amdxdna_hwctx_remove_all(client);
+ 
+-		mutex_lock(&xdna->dev_lock);
+ 		client = list_first_entry_or_null(&xdna->client_list,
+ 						  struct amdxdna_client, node);
+ 	}
+diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+index 40bbb3c06320..b6b3b424d1d5 100644
+--- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
++++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
+@@ -116,8 +116,6 @@ struct amdxdna_device_id {
+ struct amdxdna_client {
+ 	struct list_head		node;
+ 	pid_t				pid;
+-	struct mutex			hwctx_lock; /* protect hwctx */
+-	/* do NOT wait this srcu when hwctx_lock is held */
+ 	struct srcu_struct		hwctx_srcu;
+ 	struct xarray			hwctx_xa;
+ 	u32				next_hwctxid;
 -- 
-Christopher Obbard <christopher.obbard@linaro.org>
+2.34.1
 
