@@ -2,41 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 274C4B27D7E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 11:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED92B27D8D
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 11:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B60510E8DA;
-	Fri, 15 Aug 2025 09:50:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 941EB10E8FB;
+	Fri, 15 Aug 2025 09:53:25 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="dGiTHQlJ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E31D110E8DA
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 09:50:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49C3F1655;
- Fri, 15 Aug 2025 02:50:24 -0700 (PDT)
-Received: from [10.1.29.14] (e122027.cambridge.arm.com [10.1.29.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1484E3F63F;
- Fri, 15 Aug 2025 02:50:29 -0700 (PDT)
-Message-ID: <f7ea81af-398f-4a58-8193-1681ebafa678@arm.com>
-Date: Fri, 15 Aug 2025 10:50:28 +0100
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
+ [136.143.188.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE6A10E8FB
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 09:53:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1755251602; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=koHlOkAgBWsUbUj+b24o/ctUd2mqOBqSeG4hv5l5rm+kkMCxaBfgD8KyfJGwIblmsj8SbL5UP6lbO/cyGtSNFmvJYwfXiO5zcDsRP4GTvaJ3HPAkNqdpPadOuNDiioSPAnQrI0l8iPOmqfc3wqiuhgFNu43E0tBase2P0TwBilE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1755251602;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=4R7tfCuYW4ZartBCW5YVMr9XfWVj465U64fgiTEkXis=; 
+ b=ZiJTO94CyuhBtoV18GI/qII0uRZ5oGao6SZwUEzQQbC0mN4oapdpdlNxUQ2tNzD3w4JIu1wQtM0QnyM7CY8Qjv9b5rtXKF07FDb/8LIpZx3WjSfN3jXF4z4hJ0cADjAyM9kiVCKVdYfTFUYnwDNVwsJ7YYYaNUmwwpE0udlCI3I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755251602; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=4R7tfCuYW4ZartBCW5YVMr9XfWVj465U64fgiTEkXis=;
+ b=dGiTHQlJXwDfK3pjDKBjJBKsOC68jlD1/jjKV8gxOixvhk8FxYn2D1xZeR8o56xq
+ DR9yBVRnAQkFWf+oFZ7eh7+qjNnfpXlly8RlnClnL3viSri4Hnd1HEiDhOjcu9K5rMO
+ lWFbQwWEFWUAoPhmKzH8MCtMy+p40PtYnv31E6mI56V1oPaxsc37t0hRyDa9eqWSkpp
+ IGzja9J56MTPWH2+Rbctn7WEC0ldB2Za/6Z6WPkNWmCiG8yUFhGci9u1y7zD9fQZimY
+ 2XbTcVLeSLL9NJkpCyc/bqQ+WKJajubKPav4XqNU0JV1+FmxHh6xhzN5UD6XRqDZIr6
+ ovEjMhg0Pg==
+Received: by mx.zohomail.com with SMTPS id 1755251600358465.4611508627105;
+ Fri, 15 Aug 2025 02:53:20 -0700 (PDT)
+Message-ID: <4655d43b17c732947246f0e0deac14265fa07ca1.camel@icenowy.me>
+Subject: Re: [RFC PATCH 2/8] dt-bindings: display: add versilicon,dc
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Drew Fustini
+ <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
+ <wefu@redhat.com>,  Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner
+ <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>,  Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Michal
+ Wilczynski <m.wilczynski@samsung.com>, Han Gao <rabenda.cn@gmail.com>, Yao
+ Zi <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+Date: Fri, 15 Aug 2025 17:53:10 +0800
+In-Reply-To: <5af90b60-d65b-4e80-9a27-44938bbd450b@kernel.org>
+References: <20250814164048.2336043-1-uwu@icenowy.me>
+ <20250814164048.2336043-3-uwu@icenowy.me>
+ <20250814220444.GA3988176-robh@kernel.org>
+ <5af90b60-d65b-4e80-9a27-44938bbd450b@kernel.org>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 5/7] drm/panthor: Serialize GPU cache flush operations
-To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, Dennis Tsiang <dennis.tsiang@arm.com>
-References: <20250807162633.3666310-1-karunika.choo@arm.com>
- <20250807162633.3666310-6-karunika.choo@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250807162633.3666310-6-karunika.choo@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,53 +85,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/08/2025 17:26, Karunika Choo wrote:
-> In certain scenarios, it is possible for multiple cache flushes to be
-> requested before the previous one completes. This patch introduces the
-> cache_flush_lock mutex to serialize these operations and ensure that
-> any requested cache flushes are completed instead of dropped.
-> 
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> Co-developed-by: Dennis Tsiang <dennis.tsiang@arm.com>
-> Signed-off-by: Dennis Tsiang <dennis.tsiang@arm.com>
-> Signed-off-by: Karunika Choo <karunika.choo@arm.com>
+=E5=9C=A8 2025-08-15=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 11:09 +0200=EF=BC=
+=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
+> On 15/08/2025 00:04, Rob Herring wrote:
+> > > +
+> > > +maintainers:
+> > > +=C2=A0 - Icenowy Zheng <uwu@icenowy.me>
+> > > +
+> > > +properties:
+> > > +=C2=A0 $nodename:
+> > > +=C2=A0=C2=A0=C2=A0 pattern: "^display@[0-9a-f]+$"
+> > > +
+> > > +=C2=A0 compatible:
+> > > +=C2=A0=C2=A0=C2=A0 const: verisilicon,dc
+> >=20
+> > If the clocks or resets varies by platform, then you need an SoC=20
+> > specific compatible still. If these clocks/resets are straight from
+> > the=20
+> > RTL and any other number of clocks/resets is wrong, then we can
+> > stick=20
+> > with just this compatible.
+>=20
+> Shouldn't we have here always SoC compatible? Can it be ever used
+> alone,
+> outside of given SoC?
+>=20
+> I could imagine now:
+>=20
+> items:
+> =C2=A0 - {}
+> =C2=A0 - const: verisilicon,dc
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+I followed the `vivante,gc` situation here, because the registers
+before 0x1400 (where real display-related things start) seems to follow
+the same scheme with GC-series GPUs, including the identification
+registers.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_gpu.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 5e2c3173ae27..db69449a5be0 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -35,6 +35,9 @@ struct panthor_gpu {
->  
->  	/** @reqs_acked: GPU request wait queue. */
->  	wait_queue_head_t reqs_acked;
-> +
-> +	/** @cache_flush_lock: Lock to serialize cache flushes */
-> +	struct mutex cache_flush_lock;
->  };
->  
->  #define GPU_INTERRUPTS_MASK	\
-> @@ -110,6 +113,7 @@ int panthor_gpu_init(struct panthor_device *ptdev)
->  
->  	spin_lock_init(&gpu->reqs_lock);
->  	init_waitqueue_head(&gpu->reqs_acked);
-> +	mutex_init(&gpu->cache_flush_lock);
->  	ptdev->gpu = gpu;
->  
->  	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
-> @@ -258,6 +262,9 @@ int panthor_gpu_flush_caches(struct panthor_device *ptdev,
->  	bool timedout = false;
->  	unsigned long flags;
->  
-> +	/* Serialize cache flush operations. */
-> +	guard(mutex)(&ptdev->gpu->cache_flush_lock);
-> +
->  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
->  	if (!drm_WARN_ON(&ptdev->base,
->  			 ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
+>=20
+>=20
+> Best regards,
+> Krzysztof
 
