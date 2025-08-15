@@ -2,84 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8757DB28073
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 15:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E8BB2808E
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 15:22:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D163510E944;
-	Fri, 15 Aug 2025 13:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 136B910E930;
+	Fri, 15 Aug 2025 13:22:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cr9qae90";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="UinPBhZJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9kPkoRsz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UinPBhZJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9kPkoRsz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A0C210E261;
- Fri, 15 Aug 2025 13:17:28 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-2445806ca1aso3432365ad.1; 
- Fri, 15 Aug 2025 06:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755263848; x=1755868648; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SaYq3BXdk4W0mHcECsikypLL83w7vWxWky4B3sTN/+4=;
- b=cr9qae90lSvtuuv8MxzikhHv5BGzGn49SvmSf89IGZQZLdznFuK/wocT2YzLJ5cKtJ
- ADX+m8Bqslg4Z8le19pYrIy61kMsYJSU2qCvSBwvgB0T7P+C5W5tQYlJ8Wl/oPIVa9uu
- F1Mq46DZZGSGU7qRb/kex5jI7b1xDrN7ZoJVZdh5ngCBbsAqbs44TX0/LiLgOEFxAxw7
- b/lqGILUL/Eu8XaMaTqJMBZhATb9YiM4DW1/6bcSwk2cSCdRPPRxrT7l8IRZ463m5Zjw
- 2sc8oXgj+/dBHsqanKqPcy1Uoo7P8VptksxzTlpWmcf4RVFwcNae7/s6o0TXIOBdoR3T
- oRaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755263848; x=1755868648;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SaYq3BXdk4W0mHcECsikypLL83w7vWxWky4B3sTN/+4=;
- b=B4qOLkKeYJK5emKved83Q4r6fP2mDC6M+dZQaMpjhs9CfR9SsiW2Oi0z1JrXUMVSH5
- ZPRZsNm50J6pDI0e1MlPePp2Nn7bXb+9wHb0dze/2sDOdyLFl/EbACYfs0LtsAorrnT3
- f/ihN6qyHb2jzsLHPHL8bQ9c2Qi1e131WqoUzEKJ8VCHJ+NAx7+e0EEY+2bbXFubHL1t
- DnQLOn50Lox5UhioOV/Te5WaTC/GzEbhQibpqIzwhLrSh6U4xdfH1iFMsipfgpsKtSyj
- zezqgUQNXrZ08Wv4WhmxbmQMOLG1w7DVJnKZ7NANsgI6jvAd5DYToUqB62IvdM6K5H7C
- F1nA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXK+Nkq3LaQIS2h5zHNJNR4qMnsrKn2wGXQ65cHVquI7jqFPeMp0zXL1N9D6pQkMoZTmtfIDnbe1wiT@lists.freedesktop.org,
- AJvYcCXNB/P5U0m2b1ynngsVHA9dMzUOIH+AMu4wjbfkq7ncA51gJmWnFa+tPV8moiO+nLo18zhT7P7f@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz42jUb/FLXmFikZMtbwKr5DpwATdkKPvvuxhqWoywD826K9PO7
- pMpnB0AYiuvAWuq1XaTZwpCqcxal62r22RKH8XwH8gNIBesPDXQp8bQI1fMYSWhtB00NbpJl1mf
- DEJXe/MA6iYerFyflaR9H7X7k2lbenCs=
-X-Gm-Gg: ASbGnctn5nKdSq2uuHN7Zq0xcIzADIaInAHSwJjFpGBGoDFrHkviW9xl1GqCZ4ftnjC
- Hd9hTMpbSPGVUFFXoDAwhbgbCe+fJSDvSt6Gc7XS6xUKW3CFCMhwOwQpMWxwdz99mBfEabZuonB
- W++8UPZY2nzylM+ZArBg4xrnuknWAEknoKL+D7wJwgsk+N8Xiyxep3eFmDQ70G35rhPY908daIZ
- HZDazU=
-X-Google-Smtp-Source: AGHT+IH7GHehAz6jm+OtbdZ0QKOtENqBBWnWMR4t4Y41KMeIuGO5yD01p1LE69N5aApixlKWoR59osKT+tonZYwGWls=
-X-Received: by 2002:a17:902:f541:b0:240:9ab5:4cae with SMTP id
- d9443c01a7336-2446d5d6193mr13616705ad.1.1755263847339; Fri, 15 Aug 2025
- 06:17:27 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4E9810E930
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 13:22:48 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 44CDA1F83C;
+ Fri, 15 Aug 2025 13:22:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1755264167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=1qQ1254Ap3/WW0iY+sdiEc8dXhmzmHRdetubI5rVH3w=;
+ b=UinPBhZJa3iCCyDb2Nt4i5l2NRu3zRw3pDkxmLNjPgpd/CZ43UTAeT3KWo/n2QiE7gKZnV
+ tooxIYbQnggh+t79XmqnNDjuvezJYEFHoiexl7/l1AjFGtORwpqZqR50NfKBhCiJGP53Co
+ xH/8tqhJUQ2tl2KlY8AELpfm5NkbCV4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1755264167;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=1qQ1254Ap3/WW0iY+sdiEc8dXhmzmHRdetubI5rVH3w=;
+ b=9kPkoRszDqB7OKs3mGvyE+Dzn3Ohx+i9DU2RbWVO3JmCcU2dRhPM+TYbQbXEt11B0ERgCX
+ 2UV0NO5RO/cLX9Cw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=UinPBhZJ;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9kPkoRsz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1755264167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=1qQ1254Ap3/WW0iY+sdiEc8dXhmzmHRdetubI5rVH3w=;
+ b=UinPBhZJa3iCCyDb2Nt4i5l2NRu3zRw3pDkxmLNjPgpd/CZ43UTAeT3KWo/n2QiE7gKZnV
+ tooxIYbQnggh+t79XmqnNDjuvezJYEFHoiexl7/l1AjFGtORwpqZqR50NfKBhCiJGP53Co
+ xH/8tqhJUQ2tl2KlY8AELpfm5NkbCV4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1755264167;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=1qQ1254Ap3/WW0iY+sdiEc8dXhmzmHRdetubI5rVH3w=;
+ b=9kPkoRszDqB7OKs3mGvyE+Dzn3Ohx+i9DU2RbWVO3JmCcU2dRhPM+TYbQbXEt11B0ERgCX
+ 2UV0NO5RO/cLX9Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D42671368C;
+ Fri, 15 Aug 2025 13:22:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id OrAXMqY0n2gzcgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 15 Aug 2025 13:22:46 +0000
+Message-ID: <f9177443-9704-48a8-847a-8eb59b01d36e@suse.de>
+Date: Fri, 15 Aug 2025 15:22:46 +0200
 MIME-Version: 1.0
-References: <20250619125507.54384-1-kode54@gmail.com>
- <DARA1U86AS72.QOIEVZWCFPYC@kode54.net>
- <DATUOZZD8316.2INSL3KL5RA80@kode54.net> <DATV4CAOHVGV.1UJ803EX21II6@gmail.com>
- <DATYCMWH1X28.NE3M8KJ3SPV9@kode54.net>
- <CADnq5_OjUp+YpXSdvWrYN+6ofFfyES9Jvwkswf3JmTTMGL=MVQ@mail.gmail.com>
-In-Reply-To: <CADnq5_OjUp+YpXSdvWrYN+6ofFfyES9Jvwkswf3JmTTMGL=MVQ@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 15 Aug 2025 09:17:16 -0400
-X-Gm-Features: Ac12FXw5jexccg-BAvytZLhI7_WZrN0ERbOBSkiAjGcPSkTJBUCUIwILhlAKSTc
-Message-ID: <CADnq5_MdosN34TH=L3Zv1K2_Lroa8Y69JK1wy_zbBFRDT-Q=4Q@mail.gmail.com>
-Subject: Re: [RFC PATCH] drm/amdgpu: Enable async flip for cursor planes
-To: Christopher Snowhill <chris@kode54.net>, "Wentland,
- Harry" <Harry.Wentland@amd.com>, "Leo (Sunpeng) Li" <Sunpeng.Li@amd.com>
-Cc: Christopher Snowhill <kode54@gmail.com>, amd-gfx@lists.freedesktop.org, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 9/9 v3] drm/i915: Remove todo and comments about
+ struct_mutex
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maxime Ripard <mripard@kernel.org>
+Cc: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ simona@ffwll.ch, airlied@gmail.com, tursulin@ursulin.net,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net
+References: <20250813135035.144762-1-luiz.mello@estudante.ufscar.br>
+ <20250813135035.144762-10-luiz.mello@estudante.ufscar.br>
+ <aJ8wNzS_W--oTxGe@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <aJ8wNzS_W--oTxGe@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 44CDA1F83C
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_TLS_ALL(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_TWELVE(0.00)[12];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,ffwll.ch,gmail.com,ursulin.net,lists.freedesktop.org,riseup.net];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,132 +156,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-@Wentland, Harry
-, @Leo (Sunpeng) Li Can you guys take a look?  This patch fixes a regressio=
-n.
 
-Thanks,
 
-Alex
+Am 15.08.25 um 15:03 schrieb Rodrigo Vivi:
+> On Wed, Aug 13, 2025 at 10:50:33AM -0300, Luiz Otavio Mello wrote:
+>> This patch completes the removal of struct_mutex from the driver.
+>>
+>> Remove the related TODO item, as the transition away from struct_mutex
+>> is now complete.
+>>
+>> Also clean up references to struct_mutex in i915.rst to avoid outdated
+>> documentation.
+>>
+>> Signed-off-by: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
+>> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> ---
+>>   Documentation/gpu/i915.rst |  7 -------
+>>   Documentation/gpu/todo.rst | 25 -------------------------
+> drm,drm-misc maintainers, ack to merge this through drm-intel-next?
 
-On Mon, Jun 23, 2025 at 11:33=E2=80=AFAM Alex Deucher <alexdeucher@gmail.co=
-m> wrote:
+Sure, ack.
+
 >
-> + Harry, Leo
->
-> On Mon, Jun 23, 2025 at 9:38=E2=80=AFAM Christopher Snowhill <chris@kode5=
-4.net> wrote:
-> >
-> > On Mon Jun 23, 2025 at 4:06 AM PDT, Christopher Snowhill wrote:
-> > > On Mon Jun 23, 2025 at 3:46 AM PDT, Christopher Snowhill wrote:
-> > >> On Fri Jun 20, 2025 at 3:10 AM PDT, Christopher Snowhill wrote:
-> > >>> Here's another alternative change, which may be more thorough. It d=
-oes
-> > >>> seem to fix the issue, at least. The issue does indeed appear to be
-> > >>> no-op plane changes sent to the cursor plane.
-> > >>>
-> > >>> If anyone wants to propose style changes, and suggest a proper comm=
-it
-> > >>> message, if this is indeed a welcome fix for the problem, please le=
-t me
-> > >>> know.
-> > >>>
-> > >>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/dr=
-m_atomic_uapi.c
-> > >>> index c2726af6698e..b741939698e8 100644
-> > >>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> > >>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> > >>> @@ -1087,17 +1087,22 @@ int drm_atomic_set_property(struct drm_atom=
-ic_state *state,
-> > >>>                     }
-> > >>>
-> > >>>                     /* ask the driver if this non-primary plane is =
-supported */
-> > >>> -                   if (plane->type !=3D DRM_PLANE_TYPE_PRIMARY) {
-> > >>> -                           ret =3D -EINVAL;
-> > >>> +                   else if (plane->type !=3D DRM_PLANE_TYPE_PRIMAR=
-Y) {
-> > >>> +                           ret =3D drm_atomic_plane_get_property(p=
-lane, plane_state,
-> > >>> +                                                               pro=
-p, &old_val);
-> > >>> +
-> > >>> +                           if (ret || old_val !=3D prop_value) {
-> > >>> +                                   ret =3D -EINVAL;
-> > >>>
-> > >>> -                           if (plane_funcs && plane_funcs->atomic_=
-async_check)
-> > >>> -                                   ret =3D plane_funcs->atomic_asy=
-nc_check(plane, state, true);
-> > >>> +                                   if (plane_funcs && plane_funcs-=
->atomic_async_check)
-> > >>> +                                           ret =3D plane_funcs->at=
-omic_async_check(plane, state, true);
-> > >>>
-> > >>> -                           if (ret) {
-> > >>> -                                   drm_dbg_atomic(prop->dev,
-> > >>> -                                                  "[PLANE:%d:%s] d=
-oes not support async flips\n",
-> > >>> -                                                  obj->id, plane->=
-name);
-> > >>> -                                   break;
-> > >>> +                                   if (ret) {
-> > >>> +                                           drm_dbg_atomic(prop->de=
-v,
-> > >>> +                                                          "[PLANE:=
-%d:%s] does not support async flips\n",
-> > >>> +                                                          obj->id,=
- plane->name);
-> > >>> +                                           break;
-> > >>> +                                   }
-> > >>>                             }
-> > >>>                     }
-> > >>>             }
-> > >>
-> > >> Upon further testing and reflection, I have come to the conclusion t=
-hat
-> > >> this is indeed best handled by a kernel fix, rather than breaking us=
-er
-> > >> space.
-> > >>
-> > >> I attempted to work around this in wlroots, adjusting 0.18, 0.19, an=
-d
-> > >> 0.20 git with similar patches. First I attempted to stash all the
-> > >> written properties for the atomic code, storing an initial value of =
-all
-> > >> 0xFE so it was always likely to write the first time, and only setti=
-ng a
-> > >> property if it changed from the last commit.
-> > >>
-> > >> This resulted in whole commits breaking for one or both framebuffers
-> > >> until I ctrl-alt-fx switched to a tty and back again, and this would
-> > >> work again temporarily.
-> > >>
-> > >> So I went back to the drawing board and only withheld seemingly
-> > >> duplicate plane properties. This "worked", until I attempted to play=
- a
-> > >> game, and then it started glitching spectacularly, and not updating =
-at
-> > >> all if the game was doing direct scanout and vrr.
-> > >>
-> > >> Clearly this is wrong.
-> > >>
-> > >> The wlroots library queues up properties for each commit. On every
-> > >> commit where the cursor is disabled, it queues up both fb_id=3D0 and
-> > >> crtc_id=3D0. Every commit. Is this wrong? Should it only be queueing=
- up
-> > >> the disablement properties once? It also queues up the full plane an=
-d
-> > >> hotspot properties when enabled, even if the cursor doesn't change
-> > >> position or appearance.
-> > >
-> > > Probably should have CC'd the drm misc maintainers when I started pok=
-ing
-> > > drm misc instead of amdgpu. Pity there isn't a list for that...
-> >
-> > I am a dumbass, I didn't notice get_maintainer.pl. Added more people,
-> > and the correct list. Not sure if I should remove amd-gfx, since this
-> > affects them, somewhat...
-> >
-> > However, the intention of this thread was to seek commentary on the
-> > situation as it is.
+>>   2 files changed, 32 deletions(-)
+>>
+>> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+>> index 72932fa31b8d..eba09c3ddce4 100644
+>> --- a/Documentation/gpu/i915.rst
+>> +++ b/Documentation/gpu/i915.rst
+>> @@ -358,8 +358,6 @@ Locking Guidelines
+>>   #. All locking rules and interface contracts with cross-driver interfaces
+>>      (dma-buf, dma_fence) need to be followed.
+>>   
+>> -#. No struct_mutex anywhere in the code
+>> -
+>>   #. dma_resv will be the outermost lock (when needed) and ww_acquire_ctx
+>>      is to be hoisted at highest level and passed down within i915_gem_ctx
+>>      in the call chain
+>> @@ -367,11 +365,6 @@ Locking Guidelines
+>>   #. While holding lru/memory manager (buddy, drm_mm, whatever) locks
+>>      system memory allocations are not allowed
+>>   
+>> -	* Enforce this by priming lockdep (with fs_reclaim). If we
+>> -	  allocate memory while holding these looks we get a rehash
+>> -	  of the shrinker vs. struct_mutex saga, and that would be
+>> -	  real bad.
+>> -
+>>   #. Do not nest different lru/memory manager locks within each other.
+>>      Take them in turn to update memory allocations, relying on the object’s
+>>      dma_resv ww_mutex to serialize against other operations.
+>> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+>> index 92db80793bba..b5f58b4274b1 100644
+>> --- a/Documentation/gpu/todo.rst
+>> +++ b/Documentation/gpu/todo.rst
+>> @@ -173,31 +173,6 @@ Contact: Simona Vetter
+>>   
+>>   Level: Intermediate
+>>   
+>> -Get rid of dev->struct_mutex from GEM drivers
+>> ----------------------------------------------
+>> -
+>> -``dev->struct_mutex`` is the Big DRM Lock from legacy days and infested
+>> -everything. Nowadays in modern drivers the only bit where it's mandatory is
+>> -serializing GEM buffer object destruction. Which unfortunately means drivers
+>> -have to keep track of that lock and either call ``unreference`` or
+>> -``unreference_locked`` depending upon context.
+>> -
+>> -Core GEM doesn't have a need for ``struct_mutex`` any more since kernel 4.8,
+>> -and there's a GEM object ``free`` callback for any drivers which are
+>> -entirely ``struct_mutex`` free.
+>> -
+>> -For drivers that need ``struct_mutex`` it should be replaced with a driver-
+>> -private lock. The tricky part is the BO free functions, since those can't
+>> -reliably take that lock any more. Instead state needs to be protected with
+>> -suitable subordinate locks or some cleanup work pushed to a worker thread. For
+>> -performance-critical drivers it might also be better to go with a more
+>> -fine-grained per-buffer object and per-context lockings scheme. Currently only
+>> -the ``msm`` and `i915` drivers use ``struct_mutex``.
+>> -
+>> -Contact: Simona Vetter, respective driver maintainers
+>> -
+>> -Level: Advanced
+>> -
+>>   Move Buffer Object Locking to dma_resv_lock()
+>>   ---------------------------------------------
+>>   
+>> -- 
+>> 2.50.1
+>>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+
