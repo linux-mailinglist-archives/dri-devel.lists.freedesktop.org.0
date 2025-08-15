@@ -2,35 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94691B27E34
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 12:26:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047F9B27E52
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 12:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4A7510E255;
-	Fri, 15 Aug 2025 10:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77F3110E916;
+	Fri, 15 Aug 2025 10:36:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="rwgSazUw";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E8C0C10E255
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 10:25:57 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A0511691;
- Fri, 15 Aug 2025 03:25:49 -0700 (PDT)
-Received: from e122027.cambridge.arm.com (e122027.cambridge.arm.com
- [10.1.29.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 155723F738;
- Fri, 15 Aug 2025 03:25:55 -0700 (PDT)
-From: Steven Price <steven.price@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Daniel Stone <daniel@fooishbar.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Karunika Choo <karunika.choo@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
- Steven Price <steven.price@arm.com>
-Subject: [PATCH] drm/panthor: Remove dead code in mmu_hw_do_operation_locked
-Date: Fri, 15 Aug 2025 11:25:39 +0100
-Message-ID: <20250815102539.39711-1-steven.price@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mail-qk1-f201.google.com (mail-qk1-f201.google.com
+ [209.85.222.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD99810E918
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 10:36:09 +0000 (UTC)
+Received: by mail-qk1-f201.google.com with SMTP id
+ af79cd13be357-7e8702fb9e1so435518785a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 03:36:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1755254169; x=1755858969;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=eFpXxq44oeslvizqCF8Bv0M0ZVaQrSB155EOLBMECVQ=;
+ b=rwgSazUwvY2Mpsh8bL2R59z7n5qeUKqsqC4DEQyvojN+fhvz93kaOYPlSGjzGaq3wy
+ GDXixCw0HIA0Ks8ZgFPc4m4GKXd55cuNU7ZWsQ14vxglrDaOPXSl4hB1G7EBziPheTrT
+ 9uVZdIMzh/9K6eepSnb3SYE40Njf64RV5gmFRxowk8znZGeD7vx+fPhxEGAnwWGksjAf
+ ZBq6IrJp4fSZUa32SU0bwfAri2nWskCiVSPJ+bmlITT+C65nEjmRP7fIud/dzJTL4w2O
+ CRqGLEC/cfzqjQpQvBIh/zKNISa3MQzmS2FSDxjaRQfXL6FwBkATaPae3Wt/Op0dVx7Q
+ 2qHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755254169; x=1755858969;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eFpXxq44oeslvizqCF8Bv0M0ZVaQrSB155EOLBMECVQ=;
+ b=YoVbWrBSo1P4+ufQUaTKa9rj+nRSQyoASvN2FGkh3B49pTPW/1pgNeGTFKIgwqiZYm
+ bnALmz2U+y/zChIypRV64Y7KnAMZvYSEngjGIgTXWrrtH6T1nW30SRHJwQKhHeVEBs1t
+ PfuZvPyukc8fO7q4uScO1guRvwmj5bjMClzqWif+wTce+DeDo5Q1XMpZjCxOjpZUszi6
+ u31qMv/CZhqiJtqqVuD/+d9fR9XQQcVAPRpAnYOza+Bjn42nla6zSYLvqVmriMqFUlca
+ CPlz/dxsub5Tc2JjRtiRsp7nHrXGColQ2a5zJfgKmkY5JVTsyvDysbl48z5kyV/bO375
+ 1o/A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUMxLibAUhmdYDizl7U5kITVNDABwxjBq/VwWcXipR99IR7a5d9MniiHWd6CnYLyR+L6eoU8SOMdoY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7ds+DxjZJQiMKhZXFlLRUACqOsdd0A1QaKUNlQwHUA32N6gjE
+ V7uKkj0TXrPq/6YOI5U3JHjVcSrZgnHEadneflTINKE40haQ4XTcFQQXULLMl489Sg0X7xBTunl
+ xWyj4srkVlKWvbQ==
+X-Google-Smtp-Source: AGHT+IGqwcNa0muVNYMhfJnNR56U34U3LHWpaKq2hOoZwkS5Io63dT+8xTEkaJe22M4TB6v424ec54WU5OMILA==
+X-Received: from qkpg1.prod.google.com ([2002:a05:620a:2781:b0:7e8:14fd:d2c9])
+ (user=marievic job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:620a:1a17:b0:7e1:9c2d:a862 with SMTP id
+ af79cd13be357-7e87e06b8dbmr185880085a.39.1755254168517; 
+ Fri, 15 Aug 2025 03:36:08 -0700 (PDT)
+Date: Fri, 15 Aug 2025 10:35:57 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.rc1.167.g924127e9c0-goog
+Message-ID: <20250815103604.3857930-1-marievic@google.com>
+Subject: [PATCH v3 0/7] kunit: Refactor and extend KUnit's parameterized
+ testing framework
+From: Marie Zhussupova <marievic@google.com>
+To: rmoar@google.com, davidgow@google.com, shuah@kernel.org, 
+ brendan.higgins@linux.dev
+Cc: mark.rutland@arm.com, elver@google.com, dvyukov@google.com, 
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
+ rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Marie Zhussupova <marievic@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,43 +84,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The only callers to mmu_hw_do_operation_locked() pass an 'op' of either
-AS_COMAND_FLUSH_MEM or AS_COMMAND_FLUSH_PT. So remove the code paths
-that test for other operations and add a drm_WARN_ON() to catch the
-posibility of others appearing the future.
+Hello!
 
-Suggested-by: Daniel Stone <daniel@fooishbar.org>
-Signed-off-by: Steven Price <steven.price@arm.com>
+KUnit offers a parameterized testing framework, where tests can be
+run multiple times with different inputs. However, the current
+implementation uses the same `struct kunit` for each parameter run.
+After each run, the test context gets cleaned up, which creates
+the following limitations:
+
+a. There is no way to store resources that are accessible across
+   the individual parameter runs.
+b. It's not possible to pass additional context, besides the previous
+   parameter (and potentially anything else that is stored in the current
+   test context), to the parameter generator function.
+c. Test users are restricted to using pre-defined static arrays
+   of parameter objects or generate_params() to define their
+   parameters. There is no flexibility to make a custom dynamic
+   array without using generate_params(), which can be complex if
+   generating the next parameter depends on more than just the single
+   previous parameter.
+
+This patch series resolves these limitations by:
+
+1. [P 1] Giving each parameterized run its own `struct kunit`. It will
+   remove the need to manage state, such as resetting the `test->priv`
+   field or the `test->status_comment` after every parameter run.
+
+2. [P 1] Introducing parameterized test context available to all
+   parameter runs through the parent pointer of type `struct kunit`.
+   This context won't be used to execute any test logic, but will
+   instead be used for storing shared resources. Each parameter run
+   context will have a reference to that parent instance and thus,
+   have access to those resources.
+
+3. [P 2] Introducing param_init() and param_exit() functions that can
+   initialize and exit the parameterized test context. They will run once
+   before and after the parameterized test. param_init() can be used to add
+   resources to share between parameter runs, pass parameter arrays, and
+   any other setup logic. While param_exit() can be used to clean up
+   resources that were not managed by the parameterized test, and
+   any other teardown logic.
+
+4. [P 3] Passing the parameterized test context as an additional argument
+   to generate_params(). This provides generate_params() with more context,
+   making parameter generation much more flexible. The generate_params()
+   implementations in the KCSAN and drm/xe tests have been adapted to match
+   the new function pointer signature.
+
+5. [P 4] Introducing a `params_array` field in `struct kunit`. This will
+   allow the parameterized test context to have direct storage of the
+   parameter array, enabling features like using dynamic parameter arrays
+   or using context beyond just the previous parameter. This will also
+   enable outputting the KTAP test plan for a parameterized test when the
+   parameter count is available.
+
+Patches 5 and 6 add examples tests to lib/kunit/kunit-example-test.c to
+showcase the new features and patch 7 updates the KUnit documentation
+to reflect all the framework changes.
+
+Thank you!
+-Marie
+
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 367c89aca558..b16f44aec725 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -612,17 +612,12 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
- 	 * power it up
- 	 */
- 
--	if (op != AS_COMMAND_UNLOCK)
--		lock_region(ptdev, as_nr, iova, size);
-+	drm_WARN_ON(&ptdev->base,
-+		    op != AS_COMMAND_FLUSH_MEM && op != AS_COMMAND_FLUSH_PT);
- 
--	if (op == AS_COMMAND_FLUSH_MEM || op == AS_COMMAND_FLUSH_PT)
--		return mmu_hw_do_flush_on_gpu_ctrl(ptdev, as_nr, op);
-+	lock_region(ptdev, as_nr, iova, size);
- 
--	/* Run the MMU operation */
--	write_cmd(ptdev, as_nr, op);
--
--	/* Wait for the flush to complete */
--	return wait_ready(ptdev, as_nr);
-+	return mmu_hw_do_flush_on_gpu_ctrl(ptdev, as_nr, op);
- }
- 
- static int mmu_hw_do_operation(struct panthor_vm *vm,
+Changes in v3:
+
+Link to v2 of this patch series:
+https://lore.kernel.org/all/20250811221739.2694336-1-marievic@google.com/
+
+- Added logic for skipping the parameter runs and updating the test statistics
+  when parameterized test initialization fails.
+- Minor changes to the documentation.
+- Commit message formatting.
+
+Changes in v2:
+
+Link to v1 of this patch series:
+https://lore.kernel.org/all/20250729193647.3410634-1-marievic@google.com/
+
+- Establish parameterized testing terminology:
+   - "parameterized test" will refer to the group of all runs of a single test
+     function with different parameters.
+   - "parameter run" will refer to the execution of the test case function with
+     a single parameter.
+   - "parameterized test context" is the `struct kunit` that holds the context
+     for the entire parameterized test.
+   - "parameter run context" is the `struct kunit` that holds the context of the
+     individual parameter run.
+   - A test is defined to be a parameterized tests if it was registered with a
+     generator function.
+- Make comment edits to reflect the established terminology.
+- Require users to manually pass kunit_array_gen_params() to
+  KUNIT_CASE_PARAM_WITH_INIT() as the generator function, unless they want to
+  provide their own generator function, if the parameter array was registered
+  in param_init(). This is to be consistent with the definition of a
+  parameterized test, i.e. generate_params() is never NULL if it's
+  a parameterized test.
+- Change name of kunit_get_next_param_and_desc() to
+  kunit_array_gen_params().
+- Other minor function name changes such as removing the "__" prefix in front
+  of internal functions.
+- Change signature of get_description() in `struct params_array` to accept
+  the parameterized test context, as well.
+- Output the KTAP test plan for a parameterized test when the parameter count
+  is available.
+- Cover letter was made more concise.
+- Edits to the example tests.
+- Fix bug of parameterized test init/exit logic being done outside of the
+  parameterized test check.
+- Fix bugs identified by the kernel test robot.
+
+---
+
+Marie Zhussupova (7):
+  kunit: Add parent kunit for parameterized test context
+  kunit: Introduce param_init/exit for parameterized test context
+    management
+  kunit: Pass parameterized test context to generate_params()
+  kunit: Enable direct registration of parameter arrays to a KUnit test
+  kunit: Add example parameterized test with shared resource management
+    using the Resource API
+  kunit: Add example parameterized test with direct dynamic parameter
+    array setup
+  Documentation: kunit: Document new parameterized test features
+
+ Documentation/dev-tools/kunit/usage.rst | 342 +++++++++++++++++++++++-
+ drivers/gpu/drm/xe/tests/xe_pci.c       |   2 +-
+ include/kunit/test.h                    |  95 ++++++-
+ kernel/kcsan/kcsan_test.c               |   2 +-
+ lib/kunit/kunit-example-test.c          | 217 +++++++++++++++
+ lib/kunit/test.c                        |  94 +++++--
+ rust/kernel/kunit.rs                    |   4 +
+ 7 files changed, 728 insertions(+), 28 deletions(-)
+
 -- 
-2.39.5
+2.51.0.rc1.167.g924127e9c0-goog
 
