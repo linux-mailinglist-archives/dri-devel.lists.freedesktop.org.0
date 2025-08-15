@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB30B28572
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 20:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BDAB285FD
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 20:49:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD2610E359;
-	Fri, 15 Aug 2025 18:00:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B92610E278;
+	Fri, 15 Aug 2025 18:49:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="BdYhSOg6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SB2Eg6K7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9B9F10E359
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 18:00:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1755280843; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=NlbByFuhXezVODUStqQ84WvMGy+5YsDPBL0TKQQe4bOJ44hdUPmGFkqP/C5av+VhyVcYF/2FfVMm1YwAXWs2qVD/Q/0JxkJkxYdPWJWPuem3Q2O5LwvkKSVyjHQlrzcGu5h8gDJU57UdrriPjViyqdKb5fHJYB7xx8B1PmCYav0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1755280843;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=h6WWDsR1xkHievKSbr8PoalxXKVtmn2ufWXDQEvTs+o=; 
- b=Suh3tTS5T5LP6oKAr347zBroRiVDrqH0kptirEwqvIl+XoJMnVcBSR5HC4eMGw86h8yjbz3ZLvfc/L9ahvb4YNSsjaHbeWRk3j/uxet+9R2kMdhdbt43IziKti4tPU5J+d9RfGdQKsB6F2Dj+dHwyqfbkpiqERYGles2H0y9NBk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755280843; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=h6WWDsR1xkHievKSbr8PoalxXKVtmn2ufWXDQEvTs+o=;
- b=BdYhSOg6YW1MJKsvAoDqN9fVKJXyPo9eERlXwyI/MrIxnKWLdh25YWMnZUTzviPt
- kN5sqMK+2cvjeL+Hc8AtkwhRaNJFLMgMiZWxAFZeAUByqrZUgkpdcuXVe56cCHJPsDx
- 9E7ioB1GPTNUnVpj14wulRpNUylptS11YXjvrZ0Y=
-Received: by mx.zohomail.com with SMTPS id 1755280840867964.6365292186097;
- Fri, 15 Aug 2025 11:00:40 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
- id B581A180FE9; Fri, 15 Aug 2025 20:00:35 +0200 (CEST)
-Date: Fri, 15 Aug 2025 20:00:35 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: dmitry.baryshkov@oss.qualcomm.com, neil.armstrong@linaro.org, 
- heiko@sntech.de, stephen@radxa.com, dri-devel@lists.freedesktop.org, 
- hjc@rock-chips.com, mripard@kernel.org, linux-kernel@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
- yubing.zhang@rock-chips.com, 
- naoki@radxa.com, Laurent.pinchart@ideasonboard.com, 
- Andy Yan <andy.yan@rock-chips.com>, krzk+dt@kernel.org, robh@kernel.org, 
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 09/10] arm64: dts: rockchip: Enable DisplayPort for
- rk3588s Cool Pi 4B
-Message-ID: <xhoi2lqzef5qeissr6oboxp6bqgxrk5hzkrgs5wrv3kjuiausm@3ypollf6gdme>
-References: <20250728082846.3811429-1-andyshrk@163.com>
- <20250728082846.3811429-10-andyshrk@163.com>
- <hbvwlucm5mnjpve6hb6h7dusgrokvdxzbpq5zrwib4yesrdakp@v77ofq7u2vv2>
- <5deac95c.8ec2.1985b428b0b.Coremail.andyshrk@163.com>
- <6c84556c.29cb.1985e658afb.Coremail.andyshrk@163.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 996A010E031;
+ Fri, 15 Aug 2025 18:49:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755283775; x=1786819775;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=DlE/fj8sPL0XMQlCBdjMpSx6Fc4oW5PoWJ6kRKHY17Y=;
+ b=SB2Eg6K7RHG6NSm7sG9kpcadFvGKLLmohVbIC80lHw8kkFXnnuQwxOIK
+ wdQbjd0lO87a5nFZvt6A4jO++F5vMRwaUVNzz4gLE6T4moLMOlYgpO8Qs
+ URtwD3qhnf0k4uwRNiA6iMblC3Xza7brojuKIFMVR3wmzuftdbjtICw/8
+ IZ9EppBwEyKzJ2h6IxhJr/tufj4XvZPHnPSg7hPwgQl0RxcvPwT/QUXoG
+ TLn0YslsVplm0wkDn+zWj8jKLflPGAlWNTSuosHwmsJS1t9reXJz9cN7v
+ zHEH6fMumYfd6vKYu80tAqc8nK455Bwg6uafWqtrcNJLqVv+MSp3ZZIDc Q==;
+X-CSE-ConnectionGUID: nlj+vfNiRN6J+py/Dceebg==
+X-CSE-MsgGUID: 61OoSm1cTAKryfV7l0Rr0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="68210778"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="68210778"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2025 11:49:34 -0700
+X-CSE-ConnectionGUID: 2OcuY8pMR6u9WtT9jKZxmA==
+X-CSE-MsgGUID: 2SB3rMFORvOw+ylIle5nHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="166290707"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+ by orviesa010.jf.intel.com with ESMTP; 15 Aug 2025 11:49:27 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1umzU8-000CFY-11;
+ Fri, 15 Aug 2025 18:49:12 +0000
+Date: Sat, 16 Aug 2025 02:48:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, wayland-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, alex.hung@amd.com, leo.liu@amd.com,
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
+ contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com,
+ sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com,
+ aleixpol@kde.org, xaver.hugl@gmail.com, victoria@system76.com,
+ daniel@ffwll.ch, uma.shankar@intel.com, quic_naseer@quicinc.com,
+ quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
+ mcanal@igalia.com
+Subject: Re: [PATCH V11 02/47] drm/vkms: Add kunit tests for VKMS LUT handling
+Message-ID: <202508160245.qVEHX6YB-lkp@intel.com>
+References: <20250815035047.3319284-3-alex.hung@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="woxxqm7gbt6grmgk"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6c84556c.29cb.1985e658afb.Coremail.andyshrk@163.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.3/255.239.27
-X-ZohoMailClient: External
+In-Reply-To: <20250815035047.3319284-3-alex.hung@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,206 +81,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Alex,
 
---woxxqm7gbt6grmgk
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 09/10] arm64: dts: rockchip: Enable DisplayPort for
- rk3588s Cool Pi 4B
-MIME-Version: 1.0
+kernel test robot noticed the following build errors:
 
-Hi,
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on linus/master v6.17-rc1 next-20250815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Thu, Jul 31, 2025 at 10:52:49AM +0800, Andy Yan wrote:
->=20
-> Hello Sebastian=EF=BC=8C
->=20
-> =E5=9C=A8 2025-07-30 20:15:44=EF=BC=8C"Andy Yan" <andyshrk@163.com> =E5=
-=86=99=E9=81=93=EF=BC=9A
-> >
-> >
-> >Hello Sebastian=EF=BC=8C
-> >
-> >At 2025-07-30 01:09:41, "Sebastian Reichel" <sebastian.reichel@collabora=
-=2Ecom> wrote:
-> >>Hi,
-> >>
-> >>On Mon, Jul 28, 2025 at 04:28:34PM +0800, Andy Yan wrote:
-> >>> From: Andy Yan <andy.yan@rock-chips.com>
-> >>>=20
-> >>> Enable the Mini DisplayPort on this board.
-> >>> Note that ROCKCHIP_VOP2_EP_DP0 is defined as 10 in dt-binding header,
-> >>> but it will trigger a dtc warning like "graph node unit address error,
-> >>> expected "a"" if we use it directly after endpoint, so we use "a"
-> >>> instead here.
-> >>>=20
-> >>> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> >>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> >>> ---
-> >>
-> >>The graph currently looks like this:
-> >>
-> >>VOP <-> DP controller <-> DP Connector
-> >>
-> >>IIUIC this does not work for USB-C and needs to look like this,
-> >>because the USBDP PHY handles the lane muxing and thus must be
-> >>the thing connected to the USB-C controller/connector:
-> >
-> >I previously tests USB-C Altmode on Linux 5.15 using Rock 5b,  this func=
-tion works well.=20
-> >However, when the same dts configuration is used on Linux 6.16 and teste=
-d with Rock 5b in USB-C Altmode,=20
-> >the HPD interrupt of DP cannot be triggered. I'm not sure yet what chang=
-es have occurred between them.
-> >Moreover, I noticed that on your test branch[1], the DTS configuration h=
-as also changed compared to before.
-> >I would greatly appreciate it if you could share some details.
->=20
-> Some updates:
->       After comment out pd-version(Your previous DTS didn't include this =
-property.) on linux 6.16[2]
->      //pd-revision =3D /bits/ 8 <0x2 0x0 0x1 0x2>;
->     The USB-C Alt Mode output can work as before=E3=80=82
->     I still have relatively limited knowledge about USB-C, so I hope to h=
-ear more of your opinions.
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Hung/drm-Add-helper-for-conversion-from-signed-magnitude/20250815-120435
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250815035047.3319284-3-alex.hung%40amd.com
+patch subject: [PATCH V11 02/47] drm/vkms: Add kunit tests for VKMS LUT handling
+config: arc-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508160245.qVEHX6YB-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160245.qVEHX6YB-lkp@intel.com/reproduce)
 
-I got a bit distracted by some regressions introduced during the
-merge window. It does not really make sense, that limiting the
-pd-revision breaks DP AltMode. I did get it working once, but I
-think there is some race condition involved in the USB-PD area.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508160245.qVEHX6YB-lkp@intel.com/
 
-I'm pretty sure this is in the USB-C PD/AltMode handling and thus
-more or less independent of this series. Also my question regarding
-the proper DT binding effectively affects the USBDP PHY binding, so
-I'm fine to see this series merged (It looks like all necessary
-Reviewed-by have been collected) and having a closer look at the
-USBDP PHY binding separately in the next step.
+All error/warnings (new ones prefixed by >>):
 
-Greetings,
+   In file included from drivers/gpu/drm/vkms/vkms_composer.c:15:
+>> drivers/gpu/drm/vkms/vkms_composer.h:10:32: warning: 'struct vkms_color_lut' declared inside parameter list will not be visible outside of this definition or declaration
+    s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
+                                   ^~~~~~~~~~~~~~
+>> drivers/gpu/drm/vkms/vkms_composer.c:76:22: error: conflicting types for 'get_lut_index'
+    VISIBLE_IF_KUNIT s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
+                         ^~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/vkms/vkms_composer.c:15:
+   drivers/gpu/drm/vkms/vkms_composer.h:10:5: note: previous declaration of 'get_lut_index' was here
+    s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
+        ^~~~~~~~~~~~~
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/preempt.h:10,
+                    from include/linux/spinlock.h:56,
+                    from include/drm/drm_crtc.h:28,
+                    from include/drm/drm_atomic.h:31,
+                    from drivers/gpu/drm/vkms/vkms_composer.c:5:
+   drivers/gpu/drm/vkms/vkms_composer.c:82:24: error: conflicting types for 'get_lut_index'
+    EXPORT_SYMBOL_IF_KUNIT(get_lut_index);
+                           ^~~~~~~~~~~~~
+   include/linux/export.h:76:21: note: in definition of macro '__EXPORT_SYMBOL'
+     extern typeof(sym) sym;     \
+                        ^~~
+   include/kunit/visibility.h:27:44: note: in expansion of macro 'EXPORT_SYMBOL_NS'
+        #define EXPORT_SYMBOL_IF_KUNIT(symbol) EXPORT_SYMBOL_NS(symbol, "EXPORTED_FOR_KUNIT_TESTING")
+                                               ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/vkms/vkms_composer.c:82:1: note: in expansion of macro 'EXPORT_SYMBOL_IF_KUNIT'
+    EXPORT_SYMBOL_IF_KUNIT(get_lut_index);
+    ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/vkms/vkms_composer.c:15:
+   drivers/gpu/drm/vkms/vkms_composer.h:10:5: note: previous declaration of 'get_lut_index' was here
+    s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
+        ^~~~~~~~~~~~~
 
--- Sebastian
 
->=20
->=20
-> >
-> >
-> >
-> >[0]https://github.com/andyshrk/linux/commit/b9f87a562d431fb59b664b7aed41=
-869a8f184de3
-> >[1]https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/=
--/commit/0e7e90494482cf77d5bb058a47583b6747b140f4
->   [2]https://github.com/andyshrk/linux/tree/rk3588-dp-upstream-v6
->=20
-> >>
-> >>VOP <-> DP controller <-> USBDP PHY <-> USB-C Connector
-> >>
-> >>I wonder if the simple case not involving USB-C should also have
-> >>the USBDP PHY described in the graph as a transparent bridge?
-> >>Note, that the USBDP PHY DT binding is currently not ready for
-> >>this (this also affects the next patch, but should be enough to
-> >>discuss this once :)).
-> >>
-> >>Greetings,
-> >>
-> >>-- Sebastian
-> >>
-> >>>=20
-> >>> (no changes since v2)
-> >>>=20
-> >>> Changes in v2:
-> >>> - Sort in alphabetical order
-> >>>=20
-> >>>  .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   | 37 +++++++++++++++++=
-++
-> >>>  1 file changed, 37 insertions(+)
-> >>>=20
-> >>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts b/arc=
-h/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
-> >>> index 8b717c4017a46..5393c6cc493c3 100644
-> >>> --- a/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
-> >>> +++ b/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
-> >>> @@ -39,6 +39,18 @@ chosen {
-> >>>  		stdout-path =3D "serial2:1500000n8";
-> >>>  	};
-> >>> =20
-> >>> +	dp-con {
-> >>> +		compatible =3D "dp-connector";
-> >>> +		label =3D "DP OUT";
-> >>> +		type =3D "mini";
-> >>> +
-> >>> +		port {
-> >>> +			dp_con_in: endpoint {
-> >>> +				remote-endpoint =3D <&dp0_out_con>;
-> >>> +			};
-> >>> +		};
-> >>> +	};
-> >>> +
-> >>>  	hdmi-con {
-> >>>  		compatible =3D "hdmi-connector";
-> >>>  		type =3D "d";
-> >>> @@ -215,6 +227,24 @@ &cpu_b2 {
-> >>>  	cpu-supply =3D <&vdd_cpu_big1_s0>;
-> >>>  };
-> >>> =20
-> >>> +&dp0 {
-> >>> +	status =3D "okay";
-> >>> +	pinctrl-0 =3D <&dp0m0_pins>;
-> >>> +	pinctrl-names =3D "default";
-> >>> +};
-> >>> +
-> >>> +&dp0_in {
-> >>> +	dp0_in_vp2: endpoint {
-> >>> +		remote-endpoint =3D <&vp2_out_dp0>;
-> >>> +	};
-> >>> +};
-> >>> +
-> >>> +&dp0_out {
-> >>> +	dp0_out_con: endpoint {
-> >>> +		remote-endpoint =3D <&dp_con_in>;
-> >>> +	};
-> >>> +};
-> >>> +
-> >>>  &gpu {
-> >>>  	mali-supply =3D <&vdd_gpu_s0>;
-> >>>  	status =3D "okay";
-> >>> @@ -889,3 +919,10 @@ vp0_out_hdmi0: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
-> >>>  		remote-endpoint =3D <&hdmi0_in_vp0>;
-> >>>  	};
-> >>>  };
-> >>> +
-> >>> +&vp2 {
-> >>> +	vp2_out_dp0: endpoint@a {
-> >>> +		reg =3D <ROCKCHIP_VOP2_EP_DP0>;
-> >>> +		remote-endpoint =3D <&dp0_in_vp2>;
-> >>> +	};
-> >>> +};
-> >>> --=20
-> >>> 2.43.0
-> >>>=20
-> >_______________________________________________
-> >Linux-rockchip mailing list
-> >Linux-rockchip@lists.infradead.org
-> >http://lists.infradead.org/mailman/listinfo/linux-rockchip
+vim +/get_lut_index +76 drivers/gpu/drm/vkms/vkms_composer.c
 
---woxxqm7gbt6grmgk
-Content-Type: application/pgp-signature; name="signature.asc"
+    14	
+  > 15	#include "vkms_composer.h"
+    16	#include "vkms_drv.h"
+    17	
+    18	static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
+    19	{
+    20		u32 new_color;
+    21	
+    22		new_color = (src * 0xffff + dst * (0xffff - alpha));
+    23	
+    24		return DIV_ROUND_CLOSEST(new_color, 0xffff);
+    25	}
+    26	
+    27	/**
+    28	 * pre_mul_alpha_blend - alpha blending equation
+    29	 * @stage_buffer: The line with the pixels from src_plane
+    30	 * @output_buffer: A line buffer that receives all the blends output
+    31	 * @x_start: The start offset
+    32	 * @pixel_count: The number of pixels to blend
+    33	 *
+    34	 * The pixels [@x_start;@x_start+@pixel_count) in stage_buffer are blended at
+    35	 * [@x_start;@x_start+@pixel_count) in output_buffer.
+    36	 *
+    37	 * The current DRM assumption is that pixel color values have been already
+    38	 * pre-multiplied with the alpha channel values. See more
+    39	 * drm_plane_create_blend_mode_property(). Also, this formula assumes a
+    40	 * completely opaque background.
+    41	 */
+    42	static void pre_mul_alpha_blend(const struct line_buffer *stage_buffer,
+    43					struct line_buffer *output_buffer, int x_start, int pixel_count)
+    44	{
+    45		struct pixel_argb_u16 *out = &output_buffer->pixels[x_start];
+    46		const struct pixel_argb_u16 *in = &stage_buffer->pixels[x_start];
+    47	
+    48		for (int i = 0; i < pixel_count; i++) {
+    49			out[i].a = (u16)0xffff;
+    50			out[i].r = pre_mul_blend_channel(in[i].r, out[i].r, in[i].a);
+    51			out[i].g = pre_mul_blend_channel(in[i].g, out[i].g, in[i].a);
+    52			out[i].b = pre_mul_blend_channel(in[i].b, out[i].b, in[i].a);
+    53		}
+    54	}
+    55	
+    56	
+    57	static void fill_background(const struct pixel_argb_u16 *background_color,
+    58				    struct line_buffer *output_buffer)
+    59	{
+    60		for (size_t i = 0; i < output_buffer->n_pixels; i++)
+    61			output_buffer->pixels[i] = *background_color;
+    62	}
+    63	
+    64	// lerp(a, b, t) = a + (b - a) * t
+    65	VISIBLE_IF_KUNIT u16 lerp_u16(u16 a, u16 b, s64 t)
+    66	{
+    67		s64 a_fp = drm_int2fixp(a);
+    68		s64 b_fp = drm_int2fixp(b);
+    69	
+    70		s64 delta = drm_fixp_mul(b_fp - a_fp, t);
+    71	
+    72		return drm_fixp2int_round(a_fp + delta);
+    73	}
+    74	EXPORT_SYMBOL_IF_KUNIT(lerp_u16);
+    75	
+  > 76	VISIBLE_IF_KUNIT s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
+    77	{
+    78		s64 color_channel_fp = drm_int2fixp(channel_value);
+    79	
+    80		return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
+    81	}
+    82	EXPORT_SYMBOL_IF_KUNIT(get_lut_index);
+    83	
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmifdb8ACgkQ2O7X88g7
-+ppMng/7BSgjHXMbR9F6+FVwbXlrvZPBmAugkwFvgOVM1xA2L7WMzhAH4zSKHrCp
-FUaVyLUsmwwmhl4oFFUxiC5iqM3t5DVt8bYFX/vaRVdWzqss+Eo3/wG2Bye4EBF4
-TQhtAxaLSZbUR+Trk1WMJoSAQi0Wi/KeuBe52nIoW+TTLrr/REJCwDCEeKhxJk+w
-Vnhv2wHGC1lkSxbDv0ejHuUulZaeUpBeq9fqDkNgfo/pTOWWnqGESuaUCEJp5SxL
-JtLd9vvMG7jj051QZjp4WIgy4DhFOCzXDIqMrCesWXo/z/MbP+9QLEBPE9JbtfoL
-6+mTn6gGOrsqxt9PHecW9s73urPiNpGMkHC1xQPU9Y57XE/UY9UMJqbj4Snuee2A
-O6u+FMq4xFLOvAIFwfiqyNDA4XQ7jFPvwDKmlPHWrCcScNtkbXE+xUkXiXx1jlz2
-W5icc7ybnf//1ULy2NqGz2Xe9cXPPZPkCisVHymM/Lv/gHV0IitBehFz7kaLY25T
-Spj4ROPpXVl35pj8REYCulS5yF83JV0hiCztVKhcZNFjE5CLgUm0B0GIMiLfTurc
-/9vKllwnUmZ8XgYSsdRXh1z8y72ia68yoibVFOyPNTiqe2PHj7iC4HYx0LAWVmhb
-rjklRqwtwofHHMJquecoSDUXBrxC/ngidR8Y78c1jQMjU9oQjDw=
-=pYFV
------END PGP SIGNATURE-----
-
---woxxqm7gbt6grmgk--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
