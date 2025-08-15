@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBA8B2766C
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 04:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB55AB276ED
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 05:41:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0DF10E0E6;
-	Fri, 15 Aug 2025 02:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 870EA10E34B;
+	Fri, 15 Aug 2025 03:41:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="CbGPxtlS";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="k5zVo/Iv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m15581.qiye.163.com (mail-m15581.qiye.163.com
- [101.71.155.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1E7D10E0E6
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 02:59:36 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 1f749d277;
- Fri, 15 Aug 2025 10:59:31 +0800 (GMT+08:00)
-Message-ID: <1ccd3889-5f13-4609-9bd8-2c208e17fc96@rock-chips.com>
-Date: Fri, 15 Aug 2025 10:59:32 +0800
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E36010E348
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 03:41:16 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57F3f9ut2075234;
+ Thu, 14 Aug 2025 22:41:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1755229269;
+ bh=6DoGU6fuw7kJKhPDT31ltrAucunWKXI/LWYZ8mc01u8=;
+ h=From:To:CC:Subject:Date;
+ b=k5zVo/IvPEcf3R5BW+mc8Sdi5MddnE56WB1RVceIAYonW8Cj6ZAUScJtHi4HjBUuX
+ 85BTMlkwodfCGLvPJ0KlFg/DWzs7RNKCA7BgOKanujkpYGdy/0YYcIo+DJSE7ypUrP
+ C4xatAJnSZGoRImKGqB6vFrTe3FBTADaUv8t3yV0=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57F3f8mt2307931
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Thu, 14 Aug 2025 22:41:08 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 14
+ Aug 2025 22:41:08 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Thu, 14 Aug 2025 22:41:08 -0500
+Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57F3f895419038;
+ Thu, 14 Aug 2025 22:41:08 -0500
+From: Nishanth Menon <nm@ti.com>
+To: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, David Airlie
+ <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Robert Nelson <robertcnelson@gmail.com>,
+ Jason Kridner <jkridner@beagleboard.org>, <afd@ti.com>,
+ <tomi.valkeinen@ideasonboard.com>, <devarsht@ti.com>, Nishanth Menon
+ <nm@ti.com>
+Subject: [PATCH V3 0/4] drm/bridge: it66121: Add initial it66122 support
+Date: Thu, 14 Aug 2025 22:41:01 -0500
+Message-ID: <20250815034105.1276548-1-nm@ti.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/13] Apply drm_bridge_connector and panel_bridge
- helper for the Analogix DP driver
-To: Marek Szyprowski <m.szyprowski@samsung.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <CGME20250814104818eucas1p2c5029f6d5997f4fafd6370f9e7fb2264@eucas1p2.samsung.com>
- <20250814104753.195255-1-damon.ding@rock-chips.com>
- <a3a2f8be-2c3c-49e7-b27a-72364ea48b06@samsung.com>
- <7cb50c9c-ac41-43b6-8c69-5f184e7c94cf@samsung.com>
-Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <7cb50c9c-ac41-43b6-8c69-5f184e7c94cf@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a98abab119c03a3kunm1448aade49cd3b
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0NOGFZMTE5DH0hLGEtOSR5WFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=CbGPxtlSAL/bz4Zd0Ffltqa0Et/5QfhcDj9ONLF/N0BH5Nd3FmkMlOM/fCYPP+WBERcgKBR2GT0GvbeEuF7VcEpbgbJ7lCVd6UWPEqJYJfLy9NxLPr6VwgWWd7sgGngPT67y3E/PUMauppDgp/23XAPPqK27RCVKhmw8BHpFn64=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=dg6E2ecDLCPyC2BxxmXmYEeUBWon1a9PjvZIHATCs4k=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,166 +74,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi,
 
-On 2025/8/15 5:16, Marek Szyprowski wrote:
-> 
-> On 14.08.2025 16:33, Marek Szyprowski wrote:
->> On 14.08.2025 12:47, Damon Ding wrote:
->>> PATCH 1 is a small format optimization for struct analogid_dp_device.
->>> PATCH 2 is to perform mode setting in &drm_bridge_funcs.atomic_enable.
->>> PATCH 3-6 are preparations for apply drm_bridge_connector helper.
->>> PATCH 7 is to apply the drm_bridge_connector helper.
->>> PATCH 8-10 are to move the panel/bridge parsing to the Analogix side.
->>> PATCH 11-12 are preparations for apply panel_bridge helper.
->>> PATCH 13 is to apply the panel_bridge helper.
->>
->> This series lacks 'select DRM_BRIDGE_CONNECTOR' in ExynosDP's Kconfig,
->> so it causes build break:
->>
->> drivers/gpu/drm/exynos/exynos_dp.c:177: undefined reference to
->> `drm_bridge_connector_init'
->> make[2]: *** [scripts/Makefile.vmlinux:91: vmlinux] Error 1
->>
->> After adding this dependency, the Exynos DP driver stops working. On
->> Samsung Snow Chromebook I observed following issue:
->>
->> [    4.534220] exynos-dp 145b0000.dp-controller: failed to attach
->> following panel or bridge (-16)
->> [    4.543428] exynos-drm exynos-drm: failed to bind
->> 145b0000.dp-controller (ops exynos_dp_ops): -16
->> [    4.551775] exynos-drm exynos-drm: adev bind failed: -16
->> [    4.556559] exynos-dp 145b0000.dp-controller: probe with driver
->> exynos-dp failed with error -16
->>
->> I will investigate details later in the evening.
-> 
-> The failure is caused by trying to add plat_data->next_bridge twice
-> (from exynos_dp's .attach callback, and from analogix' ->bind callback).
-> 
-> 
-> Best regards
+Add initial support for IT66122, which seems to be compatible to it66121
+but probably has additional functionality.
 
-I see. The bridge attachment for the next bridge was not well thought 
-out. It may be better to move panel_bridge addition a little forward and 
-remove next_bridge attachment on the Analogix side. Then, the Rockchip 
-side and Exynos side can do their own next_bridge attachment in 
-&analogix_dp_plat_data.attach() as they want.
+BeagleY-AI uses this it66122 as the old part is no longer in production
+as far as I understand.
 
-Could you please help test the following modifications(they have been 
-tested on my RK3588S EVB1 Board) on the Samsung Snow Chromebook? ;-)
+Now, BeaglePlay uses it66121 at the moment, but at some point, it might
+end up flipping over to the new part. Additionally, it also looks like
+Revision D of BeagleBone Black switched over to it66122 as well.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c 
-b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 0529bfb02884..8a9ce1f31678 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1573,6 +1573,15 @@ int analogix_dp_bind(struct analogix_dp_device 
-*dp, struct drm_device *drm_dev)
-                 return ret;
-         }
+Changes in V3:
+Based on Tomi's and Devarsh's reviews, and searching online (and failing
+to find) for a public data sheet, I have refactored the series to:
+a) Detect the ID by matching vid/pid
+b) Introduce it66122 basic support which seems to work based on
+   empirical testing evidence on BeagleY-AI. This allows incremental
+   patches in the future by someone who might have access to the data
+   sheet to add additional features for the chip.
+c) Irritated by checkpatch --strict warnings, added a patch to fix
+   existing warnings as part of this series, but it could probably go
+   in independent of everything else.
+d) Stopped claiming it66122 is drop in replacement of it66121 :)
 
-+       if (dp->plat_data->panel) {
-+               dp->plat_data->next_bridge = 
-devm_drm_panel_bridge_add(dp->dev,
-+ 
-dp->plat_data->panel);
-+               if (IS_ERR(dp->plat_data->next_bridge)) {
-+                       ret = PTR_ERR(bridge);
-+                       goto err_unregister_aux;
-+               }
-+       }
-+
-         bridge->ops = DRM_BRIDGE_OP_DETECT |
-                       DRM_BRIDGE_OP_EDID |
-                       DRM_BRIDGE_OP_MODES;
-@@ -1588,22 +1597,6 @@ int analogix_dp_bind(struct analogix_dp_device 
-*dp, struct drm_device *drm_dev)
-                 goto err_unregister_aux;
-         }
+Changes in V2:
+* Picked up Krystoff's binding ack
+* Switched over to a vid/pid list
 
--       if (dp->plat_data->panel) {
--               dp->plat_data->next_bridge = 
-devm_drm_panel_bridge_add(dp->dev,
-- 
-dp->plat_data->panel);
--               if (IS_ERR(dp->plat_data->next_bridge)) {
--                       ret = PTR_ERR(bridge);
--                       goto err_unregister_aux;
--               }
--       }
--
--       ret = drm_bridge_attach(dp->encoder, dp->plat_data->next_bridge, 
-bridge,
--                               DRM_BRIDGE_ATTACH_NO_CONNECTOR);
--       if (ret) {
--               dev_err(dp->dev, "failed to attach following panel or 
-bridge (%d)\n", ret);
--               goto err_unregister_aux;
--       }
--
-         return 0;
+V1: https://lore.kernel.org/all/20250813190835.344563-1-nm@ti.com/
+V2: https://lore.kernel.org/all/20250813204106.580141-1-nm@ti.com/
 
-  err_unregister_aux:
-diff --git a/drivers/gpu/drm/exynos/exynos_dp.c 
-b/drivers/gpu/drm/exynos/exynos_dp.c
-index 80ba700d2964..d0422f940249 100644
---- a/drivers/gpu/drm/exynos/exynos_dp.c
-+++ b/drivers/gpu/drm/exynos/exynos_dp.c
-@@ -104,7 +104,7 @@ static int exynos_dp_bridge_attach(struct 
-analogix_dp_plat_data *plat_data,
-         /* Pre-empt DP connector creation if there's a bridge */
-         if (plat_data->next_bridge) {
-                 ret = drm_bridge_attach(&dp->encoder, 
-plat_data->next_bridge, bridge,
--                                       0);
-+                                       DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-                 if (ret)
-                         return ret;
-         }
-diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c 
-b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-index 0862b09a8be2..dfd32a79b94f 100644
---- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-@@ -164,6 +164,24 @@ static int rockchip_dp_powerdown(struct 
-analogix_dp_plat_data *plat_data)
-         return 0;
-  }
+Nishanth Menon (4):
+  dt-bindings: display: bridge: it66121: Add compatible string for
+    IT66122
+  drm/bridge: it66121: Drop ftrace like dev_dbg() prints
+  drm/bridge: it66121: Use vid/pid to detect the type of chip
+  drm/bridge: it66121: Add minimal it66122 support
 
-+static int rockchip_dp_attach(struct analogix_dp_plat_data *plat_data,
-+                                    struct drm_bridge *bridge)
-+{
-+       struct rockchip_dp_device *dp = pdata_encoder_to_dp(plat_data);
-+       int ret;
-+
-+       if (plat_data->next_bridge) {
-+               ret = drm_bridge_attach(&dp->encoder.encoder, 
-plat_data->next_bridge, bridge,
-+                                       DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+               if (ret) {
-+                       dev_err(dp->dev, "failed to attach following 
-panel or bridge (%d)\n", ret);
-+                       return ret;
-+               }
-+       }
-+
-+       return 0;
-+}
-+
-  static int rockchip_dp_get_modes(struct analogix_dp_plat_data *plat_data,
-                                  struct drm_connector *connector)
-  {
-@@ -478,6 +496,7 @@ static int rockchip_dp_probe(struct platform_device 
-*pdev)
-         dp->plat_data.dev_type = dp->data->chip_type;
-         dp->plat_data.power_on = rockchip_dp_poweron;
-         dp->plat_data.power_off = rockchip_dp_powerdown;
-+       dp->plat_data.attach = rockchip_dp_attach;
-         dp->plat_data.get_modes = rockchip_dp_get_modes;
-         dp->plat_data.ops = &rockchip_dp_component_ops;
+ .../bindings/display/bridge/ite,it66121.yaml  |  1 +
+ drivers/gpu/drm/bridge/ite-it66121.c          | 63 +++++++++----------
+ 2 files changed, 32 insertions(+), 32 deletions(-)
 
-
-Best regards,
-Damon
+-- 
+2.47.0
 
