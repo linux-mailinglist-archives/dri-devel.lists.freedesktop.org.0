@@ -2,160 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A8CB27831
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 07:14:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24EAB278BB
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 08:02:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D00A10E1AA;
-	Fri, 15 Aug 2025 05:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 226CF10E10A;
+	Fri, 15 Aug 2025 06:02:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="s28UjF0n";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Xn8wxahO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pN1r1fmu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xn8wxahO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pN1r1fmu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU011.outbound.protection.outlook.com
- (mail-japanwestazon11010026.outbound.protection.outlook.com [52.101.228.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C542C10E1AA
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 05:14:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BOMH1GHetunyMhOpfARZ8P6tUZWct6HDpZE2aWwO5j13wcBUKnbsA1JbAitCg5OJcNAa19VZmhwXV5TxuLXvuGSXjAKAR8m8inW+EobPsW6J9nLM6y/VVBXBFSB3ztkxwSBBG7f1kwOVK1eFo8xW7IfGsoa53wtRRuStC+sYvxLmVGGE6OhQe80Q6dbOKAFtxvIAf8jvGUGAP5QfYitiI/njNsSvvC27CYrr3SgmmcjoxxkmMGGMA/IdEkpTSUVrY6wEbq3ZnvyMy1GkMIxVYlc9d0I3awB+CF5Bt2m0lfHs6p54IsgFGbFzjhGEs5Mmxj2pXoNCpK1JJG3TkX1IuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=08UPekhG2Qhn4wcCKSpu5E2Bo4nWuXvUCshRQ1M0NJk=;
- b=etZ4BZgXTeLXvqluCsNd5b/Y6KvmqYUSeCG1Nbw5gUEskb9eGxst4atFuzINP+jCFjbOv0dsLkv4gMuIvQENwr6/e3rw8VXTfR14N24XkaqoW4wtwPEzPkhS8BQgt7gjM2vFN6nMVv4wJNpgH4NyxnOiywyQanKWeQo5QDJ5qd7E69baZzs0qA/4+8jDNNUY3/PSFjBl7nlH2qcJiqLc+LuhyJBWZhhgIsmqTeQ92XK2Fc3nFyGDVOUEoD3n5OYP/kMYx24QI5E752tr/fwhWOxmyPRzhTdm780RnhTg8dBhVk6C6keulYMFhu6JEjvr4gOWHjwkTpGuk6XFB5Ie5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=08UPekhG2Qhn4wcCKSpu5E2Bo4nWuXvUCshRQ1M0NJk=;
- b=s28UjF0nY9I3Fea6zIKkEMfIleQKycCgcZffQ6gmOPwFCYtcISHesnH6Xqup7fRU0KFMf0hKAdm8e0tFo4CtT02JlzwM/J+blfrotC5NHkImwReAOx9v1v/ipfDvSQ2LmXXg2CptJao8uZcBjGuq7c69ByAHNWtxQf9c750JUXs=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYRPR01MB15136.jpnprd01.prod.outlook.com (2603:1096:405:224::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Fri, 15 Aug
- 2025 05:14:39 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%7]) with mapi id 15.20.9031.014; Fri, 15 Aug 2025
- 05:14:39 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- laurent.pinchart <laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- magnus.damm <magnus.damm@gmail.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, Fabrizio Castro
- <fabrizio.castro.jz@renesas.com>, Tommaso Merciai
- <tommaso.merciai.xr@bp.renesas.com>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v7 3/6] clk: renesas: r9a09g057: Add clock and reset
- entries for DSI and LCDC
-Thread-Topic: [PATCH v7 3/6] clk: renesas: r9a09g057: Add clock and reset
- entries for DSI and LCDC
-Thread-Index: AQHb//xDhyd9VrNCk02PvKHkdjXVXLRjRqyg
-Date: Fri, 15 Aug 2025 05:14:39 +0000
-Message-ID: <TY3PR01MB11346FBB4598B008FB1FC0CDF8634A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250728201435.3505594-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250728201435.3505594-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250728201435.3505594-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYRPR01MB15136:EE_
-x-ms-office365-filtering-correlation-id: 099d557e-6539-4ddd-acde-08dddbbaa28b
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|38070700018|921020; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?/7Bcz1ih0IlqSdhWb+3j+qUbl1MWx5t8vsuaRvQJafzvRhdd8z5B9yWS93ne?=
- =?us-ascii?Q?RyPHpxIIGJhp4RkW+BrHqsE+P3ZZ5SO/N3VSOw9EcM3ggH3Yg6EomcwnhF1r?=
- =?us-ascii?Q?Ku3FpfIEOHIQSPO/isbOsiUYDihcDZXEHkDYRdfKYDTGg+oeYCdoDPrlyTNg?=
- =?us-ascii?Q?WQSKob0t6pLfXunDlG7Ukj9SE9G6598bQFPsq0V7ftU60/0QHrmDy/DWRhnT?=
- =?us-ascii?Q?bkiJoZhC767JjvhwiBANgyndSvEGOQGWOQx69Mk1Rn9QSz6dtEIsq0ygCz8s?=
- =?us-ascii?Q?6pB62GTfoty1WR2UBWj+fd4ltXTtLj6VAV4Y5UWpVjIZ2JXadRpK1qgBYJtl?=
- =?us-ascii?Q?hEC/w0kSIrH/RvQNqVBdmC1wRuFJ/6k1131EAxzvIOkBvJG/8MUC4fkOHd7T?=
- =?us-ascii?Q?9bVRsK/VEbiNFaJA7xFcMXGLFxkSwm78DBKhpq2vCGfOwiUS9hr8SCrNRRce?=
- =?us-ascii?Q?8xj3XhZLbSF7hBRMYcf6uEmegly/wJJz01Mp9jwU0nmkndZiiVAgknIqShq0?=
- =?us-ascii?Q?Bo1zlrAa+zQ43h4tS8vX7vOQ7tlMxnTQZN/1JGO0JS1GpM9gM9W9EGoKvCkN?=
- =?us-ascii?Q?U781uP1TeakEOeurP9JBo9sqR5Ym4WSqXnu9zbdA2cGitopAtosFXAY2zIs+?=
- =?us-ascii?Q?xLAgAYKUm9E5zJ7DeRnYiiKpiVoV9LP77YqhcPUJYBgO5NWd093pVdyYeoTb?=
- =?us-ascii?Q?ACTibsGins8S8+aPNNGNOegxdWqXtlwhXcoDtJoI8yEpqLRDiw0CKAsedfPt?=
- =?us-ascii?Q?qJkiXazNxo6O9YMukTAuRX0wpWJxIQwZa72BmfW8B2KkhluLOgqrANUXGQVd?=
- =?us-ascii?Q?yJcFu8qKFgCc401b/vvi+MU9LxS910aNLV6yPO4z4553puU9fpKIztXRggkg?=
- =?us-ascii?Q?He6faJtDQRNbcimQg4KPq9nT0frv7+9PWZzeaBDEZrfWDBoUXlMhwiAaJ0pR?=
- =?us-ascii?Q?XiakDbGNBNuJlsLFNXkebUf2OEgHNnuZcdOYYeRA8xdNHjPqXNz09eja33yf?=
- =?us-ascii?Q?CZGwqpxej8a5Pnrr34Y4L5Z/HjAwTpv+hDbFCe65c7yjPE343U4ffTowgE48?=
- =?us-ascii?Q?NPKqPQlJ3huEhCk45WD0+MJ9ZmgfCCRZLNPj1b1Cy1I94qYjEkcQ0NfvxeyW?=
- =?us-ascii?Q?5yiri4wIWuNCj1vCfXfY6f0G2Wrp2h6nIprSjh2h7b00VYRhbj1ktcHmJ/MM?=
- =?us-ascii?Q?Jk3xucm4G6a9TIw9UxMJzig/VfetHXxWwTWwA92caVvRuKCvhjFnFRduj2Oi?=
- =?us-ascii?Q?X36pIJ17wSjW9IpIUEG5elmk6uJbaBzz0DOfmn7/J2QfHVFjt59sX/BQsFCn?=
- =?us-ascii?Q?5eL7qoTo8hNIbEfgNOCFYoIbHDTZ1vnXyRcIKxAH3eLJp0G1CqHBAfK2/ERB?=
- =?us-ascii?Q?E2O4oIUZA0rfaiYekDqZDG0/+LmSYuhKzSFA24G/HICOsWoPDRw1tg+O7V0s?=
- =?us-ascii?Q?rFYXdOvFip7FrPR+wFD2go6gDqmGnRlOg7zLfHzVQk8qX/nN5llU5rQ7hkSN?=
- =?us-ascii?Q?rnEE54yvC8ZvH3E=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700018)(921020);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?hw2PF6m1v9g+KTRG/KhQ9ZKSm04BAqTAguAlHz/QjUCn5MQZDK5rcMLjOQDP?=
- =?us-ascii?Q?BmjZI5tJvTmvjR1RYw4WwS8qXMzzhnA7BiffS3P/oFpJAjUxekXB0BTQIp2X?=
- =?us-ascii?Q?3iBafztzsDpIeClVJMAJ4hpYKSP/gwcWeWKykRd7LgTWX3jBrEfeFg8fW99A?=
- =?us-ascii?Q?1w9z/IRmM285vAZWHcH67EYVnij4MwF31EntRSTIoycUF1m26vhZv4b+XlQh?=
- =?us-ascii?Q?SWEoi3ie0RQtsZMZIc8ck0xkp6SawlqLAzUuzaLUKa1z2SsV/kaS+CjnRQkg?=
- =?us-ascii?Q?OGXElbEJdwyMOLhgY33XYJnAe81wIwS5r1Kv+XeAx3ilJM4FojuGxGv/TZFJ?=
- =?us-ascii?Q?tann6DBnuwi1NmfOHEQNCJNDakCb/gQ+J4PI4R21pQzzi3bcC5y1H+N9UpGC?=
- =?us-ascii?Q?dTFaV0s/QKW/x2cmySKW6ds17byR4qfID8xYvBRH0YGui/vZgKCYRUptV82+?=
- =?us-ascii?Q?jjZaYxnd5AcLGNCSDA6/8n8GDkeo9sW2QxsfiaWg1Ldv1jSI1yyQ0GQrOFGx?=
- =?us-ascii?Q?e6VO202bi44vStnI12QwDTBTwZVchSrOP2GJffWxDUpHEqw3y+RVrY7yqURA?=
- =?us-ascii?Q?f13j0JstF72ADxFolqAAd5WYtrCnOhbr8R8hE96KgAuNCo7gbMYW5sz3b2zh?=
- =?us-ascii?Q?arChhCfGQhg7P1L5E/N/Qpc3Rs41Vyn5FEiQ0ffAzATzl4iugB8FtmzCwn8b?=
- =?us-ascii?Q?yV4caCM5kxFd7RcwBvuMsJbmmku/llgt0Y65R2bsUCRJr1GfP/vnepZ2ME4W?=
- =?us-ascii?Q?ug0j1ypuKpkhtjmcm1HIUK1Ml+h3LRKmEPB6b0qePsyuZaALNMGZQ6AJraLe?=
- =?us-ascii?Q?Mu1fSslpDSx27ddC8yn4kdaaGe0oxsWeZgDHw3L9c3d16kHp04yj8OZz2fab?=
- =?us-ascii?Q?FIY3Prf40Imamv/aJ2GSgbpRBN5+XyBIxNDmJ0y2R3xn0qPs3ev7eobSCJI6?=
- =?us-ascii?Q?0hsfx0vlT/L8jNeHXFkktS0N0Rgb1pmk/uRF+vTLQ+eoguBFsLI+mWlVH84b?=
- =?us-ascii?Q?aZM7FlSJIVStdwkLImPX48DW15Q6bAKcOO/WBQVUeVOuPBvZTcjNK7oxantU?=
- =?us-ascii?Q?q150tDqj/Qxr3SkySWUhh/zetFxkk8xHveQd0tDjSBst0HPxt2EwYxrNfeCl?=
- =?us-ascii?Q?ucsz7e/FO3OXAlEMlpouhjVk6WiBZovaa61Z5mfadEQAYK/e9e6/mspY9OqW?=
- =?us-ascii?Q?r5ZNzC8kbyv4AqCabKEjnDXUcp9gooV68tTFP1lIkv9wNcnhRacZtKA7puw4?=
- =?us-ascii?Q?jVl2s3veOICIpNt36bPVRXd3iuhRQ0LyUZyk++rUYJOzsZGodEq9u6rHXWZ8?=
- =?us-ascii?Q?IUglpL5k75updo6wfr9mfhO/dIRjohXgsIVZ4iSJyZKyS0PDjmipAESyFdzZ?=
- =?us-ascii?Q?EgR86xhteF/a58HqYr7Cm5/8r2GmM2/JQVdKBwjnsjDYlDgoT+LFrvaV4Ynk?=
- =?us-ascii?Q?ULlYSw5g3cjE2deKyu0EYgfsrwIirrShnZe581/ba2iLkkCvEBv8UvW65ow7?=
- =?us-ascii?Q?D2AlocSNn3MlSRzrOnh8Zs7ztIRnqzYVfplUK2OImvPyIfsVrIdBNyzeO6C/?=
- =?us-ascii?Q?oDFj8MOlZAC7UWjU9/pHdPkfW3sDZXsv9XFby9t4DySgSx41EqqGI2pWBY6x?=
- =?us-ascii?Q?zg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9B6F10E10A
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 06:02:29 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1D1E7218F6;
+ Fri, 15 Aug 2025 06:02:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1755237748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5fdVPJgjqgMwrHBwrguMhkMv5hR5ga0ejFIXl+W9T+Q=;
+ b=Xn8wxahOXtVLdIbiSjfB+XV7fyDB1+Nrfi6qXO2jJFH6lWshs8JK7v2qkADa+hh2+9C6Sm
+ 3X0u2yDCUtyu2M3Q0eGOKPD2JusxrV+iAytgOcQKqSaFvD/XXIZ4YurlESTGjDCPvfpr0C
+ SzwLZg2pc0/E5SsPFisU1wwRMgdiCrk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1755237748;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5fdVPJgjqgMwrHBwrguMhkMv5hR5ga0ejFIXl+W9T+Q=;
+ b=pN1r1fmuu/8O2/KItQTm2KrgQOUJEmwODXixqXfrN3t3TdZ0cHcJ045hRMHBK6KGr2QlQG
+ NU0cLtSKOGj/zNCg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xn8wxahO;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pN1r1fmu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1755237748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5fdVPJgjqgMwrHBwrguMhkMv5hR5ga0ejFIXl+W9T+Q=;
+ b=Xn8wxahOXtVLdIbiSjfB+XV7fyDB1+Nrfi6qXO2jJFH6lWshs8JK7v2qkADa+hh2+9C6Sm
+ 3X0u2yDCUtyu2M3Q0eGOKPD2JusxrV+iAytgOcQKqSaFvD/XXIZ4YurlESTGjDCPvfpr0C
+ SzwLZg2pc0/E5SsPFisU1wwRMgdiCrk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1755237748;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5fdVPJgjqgMwrHBwrguMhkMv5hR5ga0ejFIXl+W9T+Q=;
+ b=pN1r1fmuu/8O2/KItQTm2KrgQOUJEmwODXixqXfrN3t3TdZ0cHcJ045hRMHBK6KGr2QlQG
+ NU0cLtSKOGj/zNCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA1D013876;
+ Fri, 15 Aug 2025 06:02:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id TtQkMHPNnmhYcgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 15 Aug 2025 06:02:27 +0000
+Message-ID: <790da31e-b20c-4ad3-a534-de55cd741519@suse.de>
+Date: Fri, 15 Aug 2025 08:02:27 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 099d557e-6539-4ddd-acde-08dddbbaa28b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2025 05:14:39.3715 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FXEnBw5ZozUa9tCXi4yAn5Qyh0nTwnhDyMt7KwYNwXuaZL/BCvDw2NsLWQuiJDc7UPsUo4jCic3OlI0+WZruEvEE/jHMXMzqd1ikcyjDJ2I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB15136
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/gem-shmem: Pin and unpin buffers when importing w/o
+ S/G table
+To: sumit.semwal@linaro.org, christian.koenig@amd.com, oushixiong@kylinos.cn, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20250814073507.18587-1-tzimmermann@suse.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250814073507.18587-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 1D1E7218F6
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCPT_COUNT_SEVEN(0.00)[11];
+ MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[linaro.org,amd.com,kylinos.cn,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ TO_DN_NONE(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,26 +152,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prabhakar,
+FYI this patch got feedback at
 
-Thanks for the patch.
+https://lore.kernel.org/dri-devel/805acaca-3b91-438d-b842-25c055fd898c@amd.com/
 
-> -----Original Message-----
-> From: Prabhakar <prabhakar.csengg@gmail.com>
-> Sent: 28 July 2025 21:15
-> Subject: [PATCH v7 3/6] clk: renesas: r9a09g057: Add clock and reset entr=
-ies for DSI and LCDC
->=20
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Add clock and reset entries for the DSI and LCDC peripherals.
->=20
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Preferably the problem should be addressed on GEM/PRIME code instead of 
+dma-buf.
 
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+Best regards
+Thomas
 
-Cheers,
-Biju
+Am 14.08.25 um 09:34 schrieb Thomas Zimmermann:
+> Imported dma-buf objects need to be pinned while being vmap'ed into
+> kernel address space. This used to be done before while creating an
+> S/G table.
+>
+> GEM-SHMEN can import dma-buf objects without creating the S/G table,
+> but the pin/unpin is now missing. Leads to page-mapping errors such
+> as the one shown below.
+>
+> [  102.101726] BUG: unable to handle page fault for address: ffffc90127000000
+> [...]
+> [  102.157102] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
+> [...]
+> [  102.243250] Call Trace:
+> [  102.245695]  <TASK>
+> [  102.2477V95]  ? validate_chain+0x24e/0x5e0
+> [  102.251805]  ? __lock_acquire+0x568/0xae0
+> [  102.255807]  udl_render_hline+0x165/0x341 [udl]
+> [  102.260338]  ? __pfx_udl_render_hline+0x10/0x10 [udl]
+> [  102.265379]  ? local_clock_noinstr+0xb/0x100
+> [  102.269642]  ? __lock_release.isra.0+0x16c/0x2e0
+> [  102.274246]  ? mark_held_locks+0x40/0x70
+> [  102.278177]  udl_primary_plane_helper_atomic_update+0x43e/0x680 [udl]
+> [  102.284606]  ? __pfx_udl_primary_plane_helper_atomic_update+0x10/0x10 [udl]
+> [  102.291551]  ? lockdep_hardirqs_on_prepare.part.0+0x92/0x170
+> [  102.297208]  ? lockdep_hardirqs_on+0x88/0x130
+> [  102.301554]  ? _raw_spin_unlock_irq+0x24/0x50
+> [  102.305901]  ? wait_for_completion_timeout+0x2bb/0x3a0
+> [  102.311028]  ? drm_atomic_helper_calc_timestamping_constants+0x141/0x200
+> [  102.317714]  ? drm_atomic_helper_commit_planes+0x3b6/0x1030
+> [  102.323279]  drm_atomic_helper_commit_planes+0x3b6/0x1030
+> [  102.328664]  drm_atomic_helper_commit_tail+0x41/0xb0
+> [  102.333622]  commit_tail+0x204/0x330
+> [...]
+> [  102.529946] ---[ end trace 0000000000000000 ]---
+> [  102.651980] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
+>
+> Support pin/unpin in drm_buf_map_attachment() without creating an S/G
+> table. Passing DMA_NONE for the DMA direction will only pin. Do the
+> inverse for unmap_attachment(). Modify GEM-SHMEM accordingly, so that
+> it pins the imported dma-buf.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 660cd44659a0 ("drm/shmem-helper: Import dmabuf without mapping its sg_table")
+> Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Closes: https://lore.kernel.org/dri-devel/ba1bdfb8-dbf7-4372-bdcb-df7e0511c702@suse.de/
+> Cc: Shixiong Ou <oushixiong@kylinos.cn>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> ---
+>   drivers/dma-buf/dma-buf.c              | 16 +++++++++++++---
+>   drivers/gpu/drm/drm_gem_shmem_helper.c | 11 ++++++++++-
+>   drivers/gpu/drm/drm_prime.c            |  2 ++
+>   3 files changed, 25 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 2bcf9ceca997..f1e1385ce630 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1086,7 +1086,8 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_unpin, "DMA_BUF");
+>    * @direction:	[in]	direction of DMA transfer
+>    *
+>    * Returns sg_table containing the scatterlist to be returned; returns ERR_PTR
+> - * on error. May return -EINTR if it is interrupted by a signal.
+> + * on error. May return -EINTR if it is interrupted by a signal. Returns NULL
+> + * on success iff direction is DMA_NONE.
+>    *
+>    * On success, the DMA addresses and lengths in the returned scatterlist are
+>    * PAGE_SIZE aligned.
+> @@ -1122,6 +1123,8 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>   		if (ret)
+>   			return ERR_PTR(ret);
+>   	}
+> +	if (!valid_dma_direction(direction))
+> +		return NULL; /* only pin; don't map */
+>   
+>   	sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
+>   	if (!sg_table)
+> @@ -1216,14 +1219,21 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
+>   {
+>   	might_sleep();
+>   
+> -	if (WARN_ON(!attach || !attach->dmabuf || !sg_table))
+> +	if (WARN_ON(!attach || !attach->dmabuf))
+>   		return;
+>   
+>   	dma_resv_assert_held(attach->dmabuf->resv);
+>   
+> +	if (!valid_dma_direction(direction))
+> +		goto unpin;
+> +
+> +	if (WARN_ON(!sg_table))
+> +		return;
+> +
+>   	mangle_sg_table(sg_table);
+>   	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+>   
+> +unpin:
+>   	if (dma_buf_pin_on_map(attach))
+>   		attach->dmabuf->ops->unpin(attach);
+>   }
+> @@ -1245,7 +1255,7 @@ void dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
+>   {
+>   	might_sleep();
+>   
+> -	if (WARN_ON(!attach || !attach->dmabuf || !sg_table))
+> +	if (WARN_ON(!attach || !attach->dmabuf))
+>   		return;
+>   
+>   	dma_resv_lock(attach->dmabuf->resv, NULL);
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 5d1349c34afd..1b66501420d3 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -817,6 +817,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+>   							 struct dma_buf *dma_buf)
+>   {
+>   	struct dma_buf_attachment *attach;
+> +	struct sg_table *sgt;
+>   	struct drm_gem_shmem_object *shmem;
+>   	struct drm_gem_object *obj;
+>   	size_t size;
+> @@ -838,12 +839,18 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+>   
+>   	get_dma_buf(dma_buf);
+>   
+> +	sgt = dma_buf_map_attachment_unlocked(attach, DMA_NONE);
+> +	if (IS_ERR(sgt)) {
+> +		ret = PTR_ERR(sgt);
+> +		goto fail_detach;
+> +	}
+> +
+>   	size = PAGE_ALIGN(attach->dmabuf->size);
+>   
+>   	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
+>   	if (IS_ERR(shmem)) {
+>   		ret = PTR_ERR(shmem);
+> -		goto fail_detach;
+> +		goto fail_unmap;
+>   	}
+>   
+>   	drm_dbg_prime(dev, "size = %zu\n", size);
+> @@ -853,6 +860,8 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+>   
+>   	return &shmem->base;
+>   
+> +fail_unmap:
+> +	dma_buf_unmap_attachment_unlocked(attach, sgt, DMA_NONE);
+>   fail_detach:
+>   	dma_buf_detach(dma_buf, attach);
+>   	dma_buf_put(dma_buf);
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 43a10b4af43a..b3b070868e3b 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -1109,6 +1109,8 @@ void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table *sg)
+>   	attach = obj->import_attach;
+>   	if (sg)
+>   		dma_buf_unmap_attachment_unlocked(attach, sg, DMA_BIDIRECTIONAL);
+> +	else
+> +		dma_buf_unmap_attachment_unlocked(attach, NULL, DMA_NONE);
+>   	dma_buf = attach->dmabuf;
+>   	dma_buf_detach(attach->dmabuf, attach);
+>   	/* remove the reference */
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
