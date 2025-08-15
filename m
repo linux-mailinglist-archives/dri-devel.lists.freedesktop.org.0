@@ -2,68 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7484B28551
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 19:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43223B2856B
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 19:54:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2988610E27C;
-	Fri, 15 Aug 2025 17:45:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8836410E283;
+	Fri, 15 Aug 2025 17:54:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="dYKNdhto";
+	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="l/1Emkos";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD93210E27C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 17:45:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1755279879; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Q7pch6apSr5AesBiUf0pINUsFHqspMe841vPZv2JEoFskxAIJpF/FDubHFnry1ZOaAzhHTqhc7lDkXM9MCB8KlPZbQQH6WhR0woq15iYQmgTfnPyEqXYRe5jE6YHl2JsCaiAVqEfC+NSBZR1jEL7Z5vddzOjM/hcgEL/qcjItHo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1755279879;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Iy3o9QZ1MNriu77l3z/+gs+zzwr4rEpwKVYM9CWEkss=; 
- b=Mc5KLLXMd3Ywg+iZikKPJ5X0AIfakX7uW+XptaYP8IUg86jmJVzYgNmM8RcilKrL+/2aoZrlqwwySibkuy/PPcHaZKx6fFwaWzNPUywGJrWD5GAhr0MFkvC8IDO6vye91bHv85AbfclOrJ9xwNYuDPWWzNSOBJcJgLeGpQ5pa5w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755279879; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=Iy3o9QZ1MNriu77l3z/+gs+zzwr4rEpwKVYM9CWEkss=;
- b=dYKNdhtoIDTweqf0nVM3sDEzVwlbBJwTseEJFP4rmIlYR11ctBzlCcF25dFGXiAO
- Oh6r7CK8NEJ18nLfBGdhVc222vhDe4ZcWZDmUlK10isvbnZ68+R6LAGIFREtr/H/3Ew
- TEHwaAMg3tLtX/MVK5KmBZqYHBMCrajCNBXiS8ew=
-Received: by mx.zohomail.com with SMTPS id 1755279876582259.0858631656009;
- Fri, 15 Aug 2025 10:44:36 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
- id C7555180FE9; Fri, 15 Aug 2025 19:44:30 +0200 (CEST)
-Date: Fri, 15 Aug 2025 19:44:30 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: dmitry.baryshkov@oss.qualcomm.com, heiko@sntech.de, hjc@rock-chips.com, 
- mripard@kernel.org, naoki@radxa.com, stephen@radxa.com, 
- cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
- Laurent.pinchart@ideasonboard.com, 
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- robh@kernel.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v6 02/10] drm/bridge: synopsys: Add DW DPTX Controller
- support library
-Message-ID: <cdh3hvma7xqgr3lpyv6od6ms7hdqtp5kyxldvu2nfc2vxci4rm@6u4grjoqjynd>
-References: <20250728082846.3811429-1-andyshrk@163.com>
- <20250728082846.3811429-3-andyshrk@163.com>
+Received: from TY3P286CU002.outbound.protection.outlook.com
+ (mail-japaneastazolkn19010003.outbound.protection.outlook.com [52.103.43.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9926910E27D;
+ Fri, 15 Aug 2025 17:54:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CQjA1HFhQUZ9cvbZJOQ3xyzaJbKqg7Lrnah2KHbFBemiihgBC5E4HLxOoZIHkgIj96a1UL3ibRuILqO0wBnpGieq0D2mtGIajMH9tUvmymB4hkHcJtus4CTachChRvnLvq5rGtnIrume738tlJZedOT9EP1T0v3yVjOdJCD3nRf07Xc9zXDJjUlP1/W20eCFCrIbP8ox9EPVYWxqOEQwOmvI0NMNefBF9m57wMOJBY4MXKnJjIYo8E7Cx8hvdi86VLdRI81QhWgCP/9N1fw0hOLcZ3U94YmX1NzRNL9GZktnta4pYb9NeYQkyTKiYTYu9+2mEsguhCRv7mdpTFIZGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pnAmOCxKFnnGzvPHCUoIgLkYpgT1auGN2E28YMivlEw=;
+ b=ckDvvLbMMm4O/PP+8vVE9u8uDjXNXsvLxqx5csMJV4rHwaBmKOjU3d3zmJsaSZdIt87gl0MhCepyuZIWO5xE6a0v0xPxopsPf9iS97+m+ZCoLxPzKgHrPM5HuylmKkjCieQ/+kbS1iwrwmMTWaBKtmNsR79o9HFzcIusLOkgDwwCxTXFxJ+3GWdJUS3h9Gcv2KRL8Xtx2Z8CZgHwWTF3Gok55pwibS3cdK/8D7wi1BK4wmtA6oyFrOxWS3h8Rzrdv2+rbZYLyHmD5uWouwsaMWXMBw1DhUFKfd0KPtN9vrAtXfl9R5umqWfXrvoce2WWedtZndyFDxmzHB+AdR339A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pnAmOCxKFnnGzvPHCUoIgLkYpgT1auGN2E28YMivlEw=;
+ b=l/1EmkosNsgikhJMvFY6FqjBuorhuOtXskfPY/56h/KrqP+u24eFqQIIVH1wcnDx2VNFKE0+JLH12t0XRkbg+ztEIZ1ZDHth2orzHWFxcLr1c7DKmgBXCETxvA7iGtir2tJecBXhm8UrW+18u+8HkMwKXgM0cod+1pxSjy5lf5zlY45VxF1xIoAHPK3qjdwCI69EMDVWY9Xo3jVKk05jkES/huZi65TFPm4kT7IEMv3+65SvPdaQG/O1RVynDqegT/mQ8vbaLP3vFgK2P+wru3kTG5QCLbL6lIzoBjHf1odmlr6FeyCzI9s8fxBQZYUzxNA60zUloMXladcxZzBoEg==
+Received: from TY4PR01MB14432.jpnprd01.prod.outlook.com
+ (2603:1096:405:235::10) by TYWPR01MB10630.jpnprd01.prod.outlook.com
+ (2603:1096:400:2a2::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Fri, 15 Aug
+ 2025 17:54:43 +0000
+Received: from TY4PR01MB14432.jpnprd01.prod.outlook.com
+ ([fe80::7679:e9eb:aeb2:f12f]) by TY4PR01MB14432.jpnprd01.prod.outlook.com
+ ([fe80::7679:e9eb:aeb2:f12f%7]) with mapi id 15.20.9031.014; Fri, 15 Aug 2025
+ 17:54:43 +0000
+From: Qu Shengyu <wiagn233@outlook.com>
+To: Alex Hung <alex.hung@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+CC: "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, "harry.wentland@amd.com"
+ <harry.wentland@amd.com>, "alex.hung@amd.com" <alex.hung@amd.com>,
+ "leo.liu@amd.com" <leo.liu@amd.com>, "ville.syrjala@linux.intel.com"
+ <ville.syrjala@linux.intel.com>, "pekka.paalanen@collabora.com"
+ <pekka.paalanen@collabora.com>, "contact@emersion.fr" <contact@emersion.fr>,
+ "mwen@igalia.com" <mwen@igalia.com>, "jadahl@redhat.com" <jadahl@redhat.com>, 
+ "sebastian.wick@redhat.com" <sebastian.wick@redhat.com>,
+ "shashank.sharma@amd.com" <shashank.sharma@amd.com>, "agoins@nvidia.com"
+ <agoins@nvidia.com>, "joshua@froggi.es" <joshua@froggi.es>,
+ "mdaenzer@redhat.com" <mdaenzer@redhat.com>, "aleixpol@kde.org"
+ <aleixpol@kde.org>, "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>,
+ "victoria@system76.com" <victoria@system76.com>, "daniel@ffwll.ch"
+ <daniel@ffwll.ch>, "uma.shankar@intel.com" <uma.shankar@intel.com>,
+ "quic_naseer@quicinc.com" <quic_naseer@quicinc.com>,
+ "quic_cbraga@quicinc.com" <quic_cbraga@quicinc.com>,
+ "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>, "marcan@marcan.st"
+ <marcan@marcan.st>, "Liviu.Dudau@arm.com" <Liviu.Dudau@arm.com>,
+ "sashamcintosh@google.com" <sashamcintosh@google.com>,
+ "chaitanya.kumar.borah@intel.com" <chaitanya.kumar.borah@intel.com>,
+ "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>, "mcanal@igalia.com"
+ <mcanal@igalia.com>, "nfraprado@collabora.com" <nfraprado@collabora.com>,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH V11 31/47] drm/colorop: add BT2020/BT709 OETF and Inverse
+ OETF
+Thread-Topic: [PATCH V11 31/47] drm/colorop: add BT2020/BT709 OETF and Inverse
+ OETF
+Thread-Index: AQHcDcECURG+hvA2l0O++80PCL2lArRj/pjj
+Date: Fri, 15 Aug 2025 17:54:41 +0000
+Message-ID: <TY4PR01MB14432C77EDFD80D2075FFCC2A9834A@TY4PR01MB14432.jpnprd01.prod.outlook.com>
+References: <20250815035047.3319284-1-alex.hung@amd.com>
+ <20250815035047.3319284-32-alex.hung@amd.com>
+In-Reply-To: <20250815035047.3319284-32-alex.hung@amd.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-reactions: allow
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY4PR01MB14432:EE_|TYWPR01MB10630:EE_
+x-ms-office365-filtering-correlation-id: a40bf3ab-7aa2-4d65-7694-08dddc24cf76
+x-ms-exchange-slblob-mailprops: YfhX3sd/0TVWrg+fxRScxfg9v9HXnUFlDHpcWTKvP9hpsfY9wDplAGbA52ZQAA21x2VCR9hYSOXp0zEhN4y3NawjTTjJLp4pd3TQCEz3Pwk9D3oObo0ia6K1iruIH/oR98iIPuxYrN3RUvYlx7ihS4JY7O7LFNmMyGEGrG5qvvHwLElwGzXPrdionYa7/BOZnkS/wAtM4Kxhr7nQBjqPTpwJ6Q3upQuVayp39XPXnXTjVe0h5/4XqHhADAPjxgPXNZKcsN3M+EmXAghkYJL8zNAr+0fCSQz+w8XaRr4lW1o3390Yaq2b/UfMxlN5W9shfmAFywkGL08yQIu6F/I7lIRX2pcf9DeCKLSuGM/0sA1UwAAJyQLx5CurkOWO947DnDGyU+zGw0KjPlLROTYLJ8mtdXYpK+W4HW6/PjjyjiiLRh9JAlmKVmKTiEXStraydPWZ/tJH6t65dCSMiO7IBGNf2Kg3g2LBHDhbEbTBVEJCfZ9orD+Nigah8rZCqg0pbrlmkyInM0xe0XtpPUZkh0pUZ+jOfwlhh8qC/H1QautV/ttN7adY4LWkLcrjgElg9gW9ZL/AjpMVjMuNsd5iMfCtfqnvC0f/25qLhO7bRkbyh+yH+n15VUOpPY+47Injkd+DrhAxbi4v3P1IboKxGffUpyC1zAbTntPq8zW/gYfU65i8gF9yzAgmierEoVNp9F4njU+8LSzph2RyLGEQVWbnG7nKF+6byWlG/Y0pjIkrNown8SgSlx2kpUh7RGDhUqAwOrdKeclS0rB1irIGD0srBF+MPkR1aLZFwfX8tOc=
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|15080799012|461199028|31061999003|19110799012|14030799003|8062599012|8060799015|3412199025|440099028|40105399003|26104999006|102099032;
+x-microsoft-antispam-message-info: =?gb2312?B?b21WQWprNVRMY3dweEc4UDRkNzc0VHpQWWtSaVdQU2Q5ZU9WTlV5OUtrdnZr?=
+ =?gb2312?B?VnRzMUFwU1lZZDYwT2paOXhCbHdWQTVKOTRrN3JKNVpjUHBLcmZRcWhCSnNo?=
+ =?gb2312?B?MUNhZmdoL2ZDOE0zZzJabW5yOWZYT1N3d083dktoUWdPZlJpMnBIMjZBRHhw?=
+ =?gb2312?B?Ny82RnJwV0U4YjRiNURFdVJ4TUc2MmE5ZUpXa2xDdVVNK3Z0ZkNqcmJTMUtJ?=
+ =?gb2312?B?cG1kMDRsME1QY1FjWWFJT2EyRXFCQUR5RVhieTgwWkVmaVRpZFI4bG50WkpL?=
+ =?gb2312?B?Uk15ZnZLM3VWamZGdU5YUkJvUFBZRGJBT1VYTHBjVmszVzhjNi93ZUZzczF1?=
+ =?gb2312?B?L3R2MWp0OFlGd0pTUEhUbzR3N1Jwamx5RWZWdXpGckdZVE9mbzJRb1Jsak04?=
+ =?gb2312?B?NXVFeURBMjRKc3JWVGNURHRDaXNNR1ZZZjlJbEp4c3hFUlVxRGVWTmNkc2xu?=
+ =?gb2312?B?YWJHWDFsV29rUStjSTZGLzlVZzhhSFpiaDBZeWNNTHUxcThJQXpyVnZtcW5z?=
+ =?gb2312?B?V09RRklVVktnck1FZE4xeXNTVm9ycCt3aG1WTXBFS280VU5ad0ZON0Z4TmR0?=
+ =?gb2312?B?TmxBOEhFK001YnY4WWlreWFpVkxONzdZTzBFYWI2L20yZGZncFlnZlJMNFlF?=
+ =?gb2312?B?aWFlbi9ZYkNFc2lNRzFxQTdEWjhWcGpnV043aENJbyttc0YwV3dVVE1WY1ll?=
+ =?gb2312?B?WlN0WU15MHJ2OVRzMUttN1VqeUhIdUNxUVBwNnpTM2NxaitFMzlpenlEb3lJ?=
+ =?gb2312?B?M1RCWjV4R1YwcEJVTTRCeTV3S2JJYnV4NXhxZ3JJOU1zTWgwYXFPMGI2cHN6?=
+ =?gb2312?B?dUUwbWNaY29HYmpoZmZVU20rVEhWVDZSMGNNSnRid2U2NyttUnhheFozOEFk?=
+ =?gb2312?B?akhmWGt2amIzZjlZMjVRMkw1WlNudDhLVmFWQnR5bVVGM0Ftek1oclcvR084?=
+ =?gb2312?B?cm9jdCtnanZaVWM3MVdXeHdhUzhrYmFyQUpjYWNYR0tsT0Q4L0VYYnZPQ1NY?=
+ =?gb2312?B?cytYdkVDcnBBd0VvUHhLQ09GVGY3MFF3bGxJSzZVNkcyVUl3RWZGZVpzWW01?=
+ =?gb2312?B?QUFlTVk4YTZzZHdnN1pwalZnTHdxWUxpTG10THBlOFc1T2E3a2RTWVZhU2Ju?=
+ =?gb2312?B?d3kwR1ZVa3RuRnB4TnFFWVRlcFA2b1djT3VndnhPa3ZUVDZab2RiOFRXMnVr?=
+ =?gb2312?B?MjlId1Z5V2tCY05HTDd6T0pJS2ppSEJvMWRLNGZxZlU1LzJYc216YitHRHFj?=
+ =?gb2312?B?dE1HWE5IRFNCZU9ROWJ2cGxxcmt3cC8xNlJUdUhQSWUrUDJjblQ0RDhGRm9T?=
+ =?gb2312?B?VExDZ0pSSEpqeE1IdnFyNUt4NFY2UWVzYkg2N1ZPckFQVXplaDJ6d0p2bGtX?=
+ =?gb2312?B?QXZjMkorNGJEeHJ4ODdaZEc0SU95R2Qrd25VNFRMMHhnSVE2OUNiY08reGpY?=
+ =?gb2312?B?Q2lZYU1OalNVVjhJT0tJekE3amlUeWJXOG4vZFBhdDY3WU83OTl3cWFrck5R?=
+ =?gb2312?B?YVR6UjhKTHR6ekEwNEZ2TE1hRHpySkdVRkxhL1ViaGw3Z1dDOXVGL3d3ZHlh?=
+ =?gb2312?B?V0NVMUlEd09VNEVwNzVucndabk02R1ZvanBoRTVlb2NrdG5lS2tKWThDaHUw?=
+ =?gb2312?B?UHlSQ0JLY0V4WStqMENNWHBmaHVPMkE9PQ==?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?gb2312?B?VDFJcThpNHBRV3FGV080NkFhMW5KbFpXcFRBbllwL09vVzBqZTh1NldKeXlN?=
+ =?gb2312?B?bjk1ODhoemRXcUR5N2xzbFVWN2oxc2pTcEluTVRoYzFyOGdJMHB3T3BoYjV1?=
+ =?gb2312?B?cmt2dmdteE5GcjRDaHZ4eTJDYklSeFJhVDh2b1lLeXRvamYrbVJMTXZodk8y?=
+ =?gb2312?B?bFlkVnhRRDZlWHNyREoyOHY5WlVmL2ZsTEdpVGMyeHpjZmpPT1BoL3RYb2g0?=
+ =?gb2312?B?clVqaUVrMDFDampKejdXVFlOQjNjejhLOWpvbjE4b2d4eHR3a2hSMktsSVgv?=
+ =?gb2312?B?M1pFKzhCeFdNMVI1NVRrMzFialMzM1kyTU5ndFJzNUhZM1VjdVRhaXZaTzJG?=
+ =?gb2312?B?UHVxc3JMNlBsVW5vazNCWW5PZitGTGdtS2s0RFlpV2g2eDl2ZkIvSEZ4Vi9D?=
+ =?gb2312?B?ZGFBc0gvR1M2VHFPMDRDcGN6bDM4dlZCOVJ6cGNTMElwRUFTWHpCd2QwYTJJ?=
+ =?gb2312?B?SWRYY0krUW5ZaXdIK3BlSFdENFJFbS9HU1B1a2o3ZmNiOFdTWXZ6RXJJK3Fl?=
+ =?gb2312?B?TzY3eVpGQ09NRi9BVnpjQ2x1YittYzlyMkxzUXgycHRGV0lsR1E4V2Radk5U?=
+ =?gb2312?B?QU9WWTduWnVDTmhteE1hSnNDeFpyYlpWQUpNK1VLdWN4OFZ2aDVYQWxYczBH?=
+ =?gb2312?B?NExmM0Y1dkJWaHo0TWtEV0tNSVljV2N0SDZsaG9ZdWg0NkorT1YvY2pwWTdQ?=
+ =?gb2312?B?Z0gxWEt0eDdZVUl3Qm1BYWl6dlJFMDQrV0dIa3Rya1BIZzJwTGhNaXRVc09I?=
+ =?gb2312?B?eUxwVEF0Uy8wcm8zK2RlVG1xNlZGdVJtN2VkQTB3SVpuY0Z5MjZ6ZlZkdDFZ?=
+ =?gb2312?B?S2s5Qm9VS2RwVmlOdTN3eklDSytNTDhYYnkxUmEvTTR3ZVU3M0JPbElnYWoz?=
+ =?gb2312?B?S0g4bzZtZmFQajk2a2YyTkgwUjNpU3hKd0FNZzkzWEJPbURYSGM4MTNEbmtl?=
+ =?gb2312?B?b0k1b3kwTGg1Z0R0TzRaK0VUN1pIQXRya25QV2M2T1dDYXZMdXBMS3FjYVFK?=
+ =?gb2312?B?NHcza3NyME0rdG1JU3BQc1BHYS9hT2p3QUEwYTUyWkhDOWVIZ3IyT3FhN0Ew?=
+ =?gb2312?B?ZzdwM014M0RWQXFLZnFJRWtVOEFQUUxCT0lyQmZaUnY4b1NCUXNYZWlEM0w0?=
+ =?gb2312?B?RFhxQnE5cEw1NWZEYkVxODhpa2g4MitMbm91cW9OL1M5MmtRckNrbHAzQ3B4?=
+ =?gb2312?B?d1ludklvbzlhd3crbThOOXZGY0c2MnVueHptamYvRCtwb08xMlE3TVl1ella?=
+ =?gb2312?B?THRzbmR0b05aVTFVZ1h0SGlzZmcrNmZCZW5HL0kzUVQ5RndXV3BwaGRaTk1t?=
+ =?gb2312?B?L2ZIdzZzVkV3ZEd2NmRqV1VuWnQzN1gybG03QlJ1QWI1elFlQXo3MTJibkhl?=
+ =?gb2312?B?c25IV1ZlZDFDOS9FS0dzOWVZbUs1WUFoaEYzMnhMZWpsKzRwM2NFODkrTnJ4?=
+ =?gb2312?B?S25admh3Z0F1Ujh5KzhoTFY5WXpINkxYRlpla1IrSlFDVzlnUXFjM0wwdU1v?=
+ =?gb2312?B?WHhCdFIrdThlVWR0eFlEd2tQaDFyRmdNTVBzZllBWHdVVXZDQk5sRXNQOXpz?=
+ =?gb2312?B?NjlwWVhHZUdraFRGdVlvUlpBYTN2Rllvelh5QlVGQkhndVVoWWJudThnZExC?=
+ =?gb2312?B?VGxYaHZqaFl1UnNuQ2tXZ1c0ZVluenEyOEdzQjQyRjR0QU9rbzROR2IrdlM3?=
+ =?gb2312?B?ME1yZGNRc3dtN2pPOUxia2kxZ0dzS3BlVWhmRm8wb2pxQ1U2VE5hRHVDN2xo?=
+ =?gb2312?Q?51I579PQmbUI3wl6yG4i/I3z1fr46cX3fkTtz3x?=
+Content-Type: multipart/alternative;
+ boundary="_000_TY4PR01MB14432C77EDFD80D2075FFCC2A9834ATY4PR01MB14432jp_"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="whufnd26xyiydlxf"
-Content-Disposition: inline
-In-Reply-To: <20250728082846.3811429-3-andyshrk@163.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.3/255.239.27
-X-ZohoMailClient: External
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY4PR01MB14432.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: a40bf3ab-7aa2-4d65-7694-08dddc24cf76
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2025 17:54:41.3554 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10630
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,2305 +175,264 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--_000_TY4PR01MB14432C77EDFD80D2075FFCC2A9834ATY4PR01MB14432jp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
---whufnd26xyiydlxf
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+SGVsbG8sDQoNCldoYXQgYWN0dWFsbHkgaXMgdGhpcyBPRVRGPyBJcyBpdCBwb3dlciAxLzIuND8g
+T3IgcmV2ZXJzZWQgQlQuMTg4Nj8NCg0KQmVzdCByZWdhcmRzLA0KU2hlbmd5dQ0KDQpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXw0Kt6K8/sjLOiBhbWQtZ2Z4IDxhbWQtZ2Z4LWJvdW5j
+ZXNAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPiC0+rHtIEFsZXggSHVuZyA8YWxleC5odW5nQGFtZC5j
+b20+DQq3osvNyrG85DogRnJpZGF5LCBBdWd1c3QgMTUsIDIwMjUgMTE6NTA6MjAgQU0NCsrVvP7I
+yzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyA8ZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZz47IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIDxhbWQtZ2Z4QGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZz4NCrOty806IHdheWxhbmQtZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnIDx3YXlsYW5kLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz47IGhhcnJ5LndlbnRsYW5k
+QGFtZC5jb20gPGhhcnJ5LndlbnRsYW5kQGFtZC5jb20+OyBhbGV4Lmh1bmdAYW1kLmNvbSA8YWxl
+eC5odW5nQGFtZC5jb20+OyBsZW8ubGl1QGFtZC5jb20gPGxlby5saXVAYW1kLmNvbT47IHZpbGxl
+LnN5cmphbGFAbGludXguaW50ZWwuY29tIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT47
+IHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5jb20gPHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5j
+b20+OyBjb250YWN0QGVtZXJzaW9uLmZyIDxjb250YWN0QGVtZXJzaW9uLmZyPjsgbXdlbkBpZ2Fs
+aWEuY29tIDxtd2VuQGlnYWxpYS5jb20+OyBqYWRhaGxAcmVkaGF0LmNvbSA8amFkYWhsQHJlZGhh
+dC5jb20+OyBzZWJhc3RpYW4ud2lja0ByZWRoYXQuY29tIDxzZWJhc3RpYW4ud2lja0ByZWRoYXQu
+Y29tPjsgc2hhc2hhbmsuc2hhcm1hQGFtZC5jb20gPHNoYXNoYW5rLnNoYXJtYUBhbWQuY29tPjsg
+YWdvaW5zQG52aWRpYS5jb20gPGFnb2luc0BudmlkaWEuY29tPjsgam9zaHVhQGZyb2dnaS5lcyA8
+am9zaHVhQGZyb2dnaS5lcz47IG1kYWVuemVyQHJlZGhhdC5jb20gPG1kYWVuemVyQHJlZGhhdC5j
+b20+OyBhbGVpeHBvbEBrZGUub3JnIDxhbGVpeHBvbEBrZGUub3JnPjsgeGF2ZXIuaHVnbEBnbWFp
+bC5jb20gPHhhdmVyLmh1Z2xAZ21haWwuY29tPjsgdmljdG9yaWFAc3lzdGVtNzYuY29tIDx2aWN0
+b3JpYUBzeXN0ZW03Ni5jb20+OyBkYW5pZWxAZmZ3bGwuY2ggPGRhbmllbEBmZndsbC5jaD47IHVt
+YS5zaGFua2FyQGludGVsLmNvbSA8dW1hLnNoYW5rYXJAaW50ZWwuY29tPjsgcXVpY19uYXNlZXJA
+cXVpY2luYy5jb20gPHF1aWNfbmFzZWVyQHF1aWNpbmMuY29tPjsgcXVpY19jYnJhZ2FAcXVpY2lu
+Yy5jb20gPHF1aWNfY2JyYWdhQHF1aWNpbmMuY29tPjsgcXVpY19hYmhpbmF2a0BxdWljaW5jLmNv
+bSA8cXVpY19hYmhpbmF2a0BxdWljaW5jLmNvbT47IG1hcmNhbkBtYXJjYW4uc3QgPG1hcmNhbkBt
+YXJjYW4uc3Q+OyBMaXZpdS5EdWRhdUBhcm0uY29tIDxMaXZpdS5EdWRhdUBhcm0uY29tPjsgc2Fz
+aGFtY2ludG9zaEBnb29nbGUuY29tIDxzYXNoYW1jaW50b3NoQGdvb2dsZS5jb20+OyBjaGFpdGFu
+eWEua3VtYXIuYm9yYWhAaW50ZWwuY29tIDxjaGFpdGFueWEua3VtYXIuYm9yYWhAaW50ZWwuY29t
+PjsgbG91aXMuY2hhdXZldEBib290bGluLmNvbSA8bG91aXMuY2hhdXZldEBib290bGluLmNvbT47
+IG1jYW5hbEBpZ2FsaWEuY29tIDxtY2FuYWxAaWdhbGlhLmNvbT47IG5mcmFwcmFkb0Bjb2xsYWJv
+cmEuY29tIDxuZnJhcHJhZG9AY29sbGFib3JhLmNvbT47IERhbmllbCBTdG9uZSA8ZGFuaWVsc0Bj
+b2xsYWJvcmEuY29tPg0K1vfM4jogW1BBVENIIFYxMSAzMS80N10gZHJtL2NvbG9yb3A6IGFkZCBC
+VDIwMjAvQlQ3MDkgT0VURiBhbmQgSW52ZXJzZSBPRVRGDQoNCkZyb206IEhhcnJ5IFdlbnRsYW5k
+IDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPg0KDQpUaGUgQlQuNzA5IGFuZCBCVC4yMDIwIE9FVEZz
+IGFyZSB0aGUgc2FtZSwgdGhlIG9ubHkgZGlmZmVyZW5jZQ0KYmVpbmcgdGhhdCB0aGUgQlQuMjAy
+MCB2YXJpYW50IGlzIGRlZmluZWQgd2l0aCBtb3JlIHByZWNpc2lvbg0KZm9yIDEwIGFuZCAxMi1i
+aXQgcGVyIGNvbG9yIGVuY29kaW5ncy4NCg0KQm90aCBhcmUgdXNlZCBhcyBlbmNvZGluZyBmdW5j
+dGlvbnMgZm9yIHZpZGVvIGNvbnRlbnQsIGFuZCBhcmUNCnRoZXJlZm9yZSBkZWZpbmVkIGFzIE9F
+VEYgKG9wdG8tZWxlY3Ryb25pYyB0cmFuc2ZlciBmdW5jdGlvbikNCmluc3RlYWQgb2YgYXMgRU9U
+RiAoZWxlY3Ryby1vcHRpY2FsIHRyYW5zZmVyIGZ1bmN0aW9uKS4NCg0KU2lnbmVkLW9mZi1ieTog
+QWxleCBIdW5nIDxhbGV4Lmh1bmdAYW1kLmNvbT4NClNpZ25lZC1vZmYtYnk6IEhhcnJ5IFdlbnRs
+YW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPg0KUmV2aWV3ZWQtYnk6IERhbmllbCBTdG9uZSA8
+ZGFuaWVsc0Bjb2xsYWJvcmEuY29tPg0KUmV2aWV3ZWQtYnk6IFNpbW9uIFNlciA8Y29udGFjdEBl
+bWVyc2lvbi5mcj4NCi0tLQ0Kdjk6DQogLSBNb3ZlIERSTV9DT0xPUk9QXzFEX0NVUlZFX0JUMjAy
+MF8qIGZyb20gbWlkZGxlIHRvIGVuZCAoU2ltb24gU2VyKQ0KDQogZHJpdmVycy9ncHUvZHJtL2Ry
+bV9jb2xvcm9wLmMgfCAgMiArKw0KIGluY2x1ZGUvZHJtL2RybV9jb2xvcm9wLmggICAgIHwgMjMg
+KysrKysrKysrKysrKysrKysrKysrKysNCiAyIGZpbGVzIGNoYW5nZWQsIDI1IGluc2VydGlvbnMo
+KykNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29sb3JvcC5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9jb2xvcm9wLmMNCmluZGV4IDViYjQ1OTYzZmExZi4uYzI0NWEzZmY0NWQz
+IDEwMDY0NA0KLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9jb2xvcm9wLmMNCisrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fY29sb3JvcC5jDQpAQCAtNzIsNiArNzIsOCBAQCBzdGF0aWMgY29uc3Qg
+Y2hhciAqIGNvbnN0IGNvbG9yb3BfY3VydmVfMWRfdHlwZV9uYW1lc1tdID0gew0KICAgICAgICAg
+W0RSTV9DT0xPUk9QXzFEX0NVUlZFX1NSR0JfSU5WX0VPVEZdID0gInNSR0IgSW52ZXJzZSBFT1RG
+IiwNCiAgICAgICAgIFtEUk1fQ09MT1JPUF8xRF9DVVJWRV9QUV8xMjVfRU9URl0gPSAiUFEgMTI1
+IEVPVEYiLA0KICAgICAgICAgW0RSTV9DT0xPUk9QXzFEX0NVUlZFX1BRXzEyNV9JTlZfRU9URl0g
+PSAiUFEgMTI1IEludmVyc2UgRU9URiIsDQorICAgICAgIFtEUk1fQ09MT1JPUF8xRF9DVVJWRV9C
+VDIwMjBfSU5WX09FVEZdID0gIkJULjIwMjAgSW52ZXJzZSBPRVRGIiwNCisgICAgICAgW0RSTV9D
+T0xPUk9QXzFEX0NVUlZFX0JUMjAyMF9PRVRGXSA9ICJCVC4yMDIwIE9FVEYiLA0KIH07DQoNCg0K
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jb2xvcm9wLmggYi9pbmNsdWRlL2RybS9kcm1f
+Y29sb3JvcC5oDQppbmRleCBhMzhjOTBmNjFkYzYuLmM2ZDJiMjg5ZTNjZiAxMDA2NDQNCi0tLSBh
+L2luY2x1ZGUvZHJtL2RybV9jb2xvcm9wLmgNCisrKyBiL2luY2x1ZGUvZHJtL2RybV9jb2xvcm9w
+LmgNCkBAIC04Myw2ICs4MywyOSBAQCBlbnVtIGRybV9jb2xvcm9wX2N1cnZlXzFkX3R5cGUgew0K
+ICAgICAgICAgICovDQogICAgICAgICBEUk1fQ09MT1JPUF8xRF9DVVJWRV9QUV8xMjVfSU5WX0VP
+VEYsDQoNCisgICAgICAgLyoqDQorICAgICAgICAqIEBEUk1fQ09MT1JPUF8xRF9DVVJWRV9CVDIw
+MjBfSU5WX09FVEY6DQorICAgICAgICAqDQorICAgICAgICAqIGVudW0gc3RyaW5nICJCVC4yMDIw
+IEludmVyc2UgT0VURiINCisgICAgICAgICoNCisgICAgICAgICogVGhlIGludmVyc2Ugb2YgJkRS
+TV9DT0xPUk9QXzFEX0NVUlZFX0JUMjAyMF9PRVRGDQorICAgICAgICAqLw0KKyAgICAgICBEUk1f
+Q09MT1JPUF8xRF9DVVJWRV9CVDIwMjBfSU5WX09FVEYsDQorDQorICAgICAgIC8qKg0KKyAgICAg
+ICAgKiBARFJNX0NPTE9ST1BfMURfQ1VSVkVfQlQyMDIwX09FVEY6DQorICAgICAgICAqDQorICAg
+ICAgICAqIGVudW0gc3RyaW5nICJCVC4yMDIwIE9FVEYiDQorICAgICAgICAqDQorICAgICAgICAq
+IFRoZSBCVC4yMDIwL0JULjcwOSB0cmFuc2ZlciBmdW5jdGlvbi4gVGhlIEJULjcwOSBhbmQgQlQu
+MjAyMA0KKyAgICAgICAgKiB0cmFuc2ZlciBmdW5jdGlvbnMgYXJlIHRoZSBzYW1lLCB0aGUgb25s
+eSBkaWZmZXJlbmNlIGlzIHRoYXQNCisgICAgICAgICogQlQuMjAyMCBpcyBkZWZpbmVkIHdpdGgg
+bW9yZSBwcmVjaXNpb24gZm9yIDEwIGFuZCAxMi1iaXQNCisgICAgICAgICogZW5jb2RpbmdzLg0K
+KyAgICAgICAgKg0KKyAgICAgICAgKg0KKyAgICAgICAgKi8NCisgICAgICAgRFJNX0NPTE9ST1Bf
+MURfQ1VSVkVfQlQyMDIwX09FVEYsDQorDQogICAgICAgICAvKioNCiAgICAgICAgICAqIEBEUk1f
+Q09MT1JPUF8xRF9DVVJWRV9DT1VOVDoNCiAgICAgICAgICAqDQotLQ0KMi40My4wDQoNCg==
+
+--_000_TY4PR01MB14432C77EDFD80D2075FFCC2A9834ATY4PR01MB14432jp_
+Content-Type: text/html; charset="gb2312"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 02/10] drm/bridge: synopsys: Add DW DPTX Controller
- support library
-MIME-Version: 1.0
 
-Hi,
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+</head>
+<body>
+<div style=3D"font-family: Aptos, -apple-system, HelveticaNeue, sans-serif;=
+font-size: 12pt">
+<div dir=3D"ltr" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-s=
+ystem, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt;">
+Hello,</div>
+<div dir=3D"ltr" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-s=
+ystem, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt;">
+<br>
+</div>
+<div dir=3D"ltr" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-s=
+ystem, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt;">
+What actually is this OETF? Is it power 1/2.4? Or reversed BT.1886?</div>
+<div dir=3D"ltr" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-s=
+ystem, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt;">
+<br>
+</div>
+<div dir=3D"ltr" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-s=
+ystem, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt;">
+Best regards,</div>
+<div dir=3D"ltr" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-s=
+ystem, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt;">
+Shengyu&nbsp;</div>
+</div>
+<div id=3D"ms-outlook-mobile-body-separator-line" style=3D"font-family: Apt=
+os, -apple-system, HelveticaNeue, sans-serif;font-size: 12pt" dir=3D"auto">
+<br>
+</div>
+<div id=3D"ms-outlook-mobile-signature" style=3D"font-family: Aptos, -apple=
+-system, HelveticaNeue, sans-serif;font-size: 12pt">
+<div></div>
+</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>=B7=A2=BC=FE=C8=CB:</b> amd-gfx=
+ &lt;amd-gfx-bounces@lists.freedesktop.org&gt; =B4=FA=B1=ED Alex Hung &lt;a=
+lex.hung@amd.com&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> Friday, August 15, 2025 11:50:20 AM<br>
+<b>=CA=D5=BC=FE=C8=CB:</b> dri-devel@lists.freedesktop.org &lt;dri-devel@li=
+sts.freedesktop.org&gt;; amd-gfx@lists.freedesktop.org &lt;amd-gfx@lists.fr=
+eedesktop.org&gt;<br>
+<b>=B3=AD=CB=CD:</b> wayland-devel@lists.freedesktop.org &lt;wayland-devel@=
+lists.freedesktop.org&gt;; harry.wentland@amd.com &lt;harry.wentland@amd.co=
+m&gt;; alex.hung@amd.com &lt;alex.hung@amd.com&gt;; leo.liu@amd.com &lt;leo=
+.liu@amd.com&gt;; ville.syrjala@linux.intel.com &lt;ville.syrjala@linux.int=
+el.com&gt;;
+ pekka.paalanen@collabora.com &lt;pekka.paalanen@collabora.com&gt;; contact=
+@emersion.fr &lt;contact@emersion.fr&gt;; mwen@igalia.com &lt;mwen@igalia.c=
+om&gt;; jadahl@redhat.com &lt;jadahl@redhat.com&gt;; sebastian.wick@redhat.=
+com &lt;sebastian.wick@redhat.com&gt;; shashank.sharma@amd.com
+ &lt;shashank.sharma@amd.com&gt;; agoins@nvidia.com &lt;agoins@nvidia.com&g=
+t;; joshua@froggi.es &lt;joshua@froggi.es&gt;; mdaenzer@redhat.com &lt;mdae=
+nzer@redhat.com&gt;; aleixpol@kde.org &lt;aleixpol@kde.org&gt;; xaver.hugl@=
+gmail.com &lt;xaver.hugl@gmail.com&gt;; victoria@system76.com &lt;victoria@=
+system76.com&gt;;
+ daniel@ffwll.ch &lt;daniel@ffwll.ch&gt;; uma.shankar@intel.com &lt;uma.sha=
+nkar@intel.com&gt;; quic_naseer@quicinc.com &lt;quic_naseer@quicinc.com&gt;=
+; quic_cbraga@quicinc.com &lt;quic_cbraga@quicinc.com&gt;; quic_abhinavk@qu=
+icinc.com &lt;quic_abhinavk@quicinc.com&gt;; marcan@marcan.st
+ &lt;marcan@marcan.st&gt;; Liviu.Dudau@arm.com &lt;Liviu.Dudau@arm.com&gt;;=
+ sashamcintosh@google.com &lt;sashamcintosh@google.com&gt;; chaitanya.kumar=
+.borah@intel.com &lt;chaitanya.kumar.borah@intel.com&gt;; louis.chauvet@boo=
+tlin.com &lt;louis.chauvet@bootlin.com&gt;; mcanal@igalia.com
+ &lt;mcanal@igalia.com&gt;; nfraprado@collabora.com &lt;nfraprado@collabora=
+.com&gt;; Daniel Stone &lt;daniels@collabora.com&gt;<br>
+<b>=D6=F7=CC=E2:</b> [PATCH V11 31/47] drm/colorop: add BT2020/BT709 OETF a=
+nd Inverse OETF</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">From: Harry Wentland &lt;harry.wentland@amd.com&gt=
+;<br>
+<br>
+The BT.709 and BT.2020 OETFs are the same, the only difference<br>
+being that the BT.2020 variant is defined with more precision<br>
+for 10 and 12-bit per color encodings.<br>
+<br>
+Both are used as encoding functions for video content, and are<br>
+therefore defined as OETF (opto-electronic transfer function)<br>
+instead of as EOTF (electro-optical transfer function).<br>
+<br>
+Signed-off-by: Alex Hung &lt;alex.hung@amd.com&gt;<br>
+Signed-off-by: Harry Wentland &lt;harry.wentland@amd.com&gt;<br>
+Reviewed-by: Daniel Stone &lt;daniels@collabora.com&gt;<br>
+Reviewed-by: Simon Ser &lt;contact@emersion.fr&gt;<br>
+---<br>
+v9:<br>
+&nbsp;- Move DRM_COLOROP_1D_CURVE_BT2020_* from middle to end (Simon Ser)<b=
+r>
+<br>
+&nbsp;drivers/gpu/drm/drm_colorop.c |&nbsp; 2 ++<br>
+&nbsp;include/drm/drm_colorop.h&nbsp;&nbsp;&nbsp;&nbsp; | 23 ++++++++++++++=
++++++++++<br>
+&nbsp;2 files changed, 25 insertions(+)<br>
+<br>
+diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c<=
+br>
+index 5bb45963fa1f..c245a3ff45d3 100644<br>
+--- a/drivers/gpu/drm/drm_colorop.c<br>
++++ b/drivers/gpu/drm/drm_colorop.c<br>
+@@ -72,6 +72,8 @@ static const char * const colorop_curve_1d_type_names[] =
+=3D {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [DRM_COLOROP_1D_CURVE_SRGB=
+_INV_EOTF] =3D &quot;sRGB Inverse EOTF&quot;,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [DRM_COLOROP_1D_CURVE_PQ_1=
+25_EOTF] =3D &quot;PQ 125 EOTF&quot;,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [DRM_COLOROP_1D_CURVE_PQ_1=
+25_INV_EOTF] =3D &quot;PQ 125 Inverse EOTF&quot;,<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [DRM_COLOROP_1D_CURVE_BT2020_INV_OETF=
+] =3D &quot;BT.2020 Inverse OETF&quot;,<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [DRM_COLOROP_1D_CURVE_BT2020_OETF] =
+=3D &quot;BT.2020 OETF&quot;,<br>
+&nbsp;};<br>
+&nbsp;<br>
+&nbsp;<br>
+diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h<br>
+index a38c90f61dc6..c6d2b289e3cf 100644<br>
+--- a/include/drm/drm_colorop.h<br>
++++ b/include/drm/drm_colorop.h<br>
+@@ -83,6 +83,29 @@ enum drm_colorop_curve_1d_type {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DRM_COLOROP_1D_CURVE_PQ_12=
+5_INV_EOTF,<br>
+&nbsp;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * @DRM_COLOROP_1D_CURVE_BT2020_=
+INV_OETF:<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * enum string &quot;BT.2020 Inv=
+erse OETF&quot;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * The inverse of &amp;DRM_COLOR=
+OP_1D_CURVE_BT2020_OETF<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DRM_COLOROP_1D_CURVE_BT2020_INV_OETF,=
+<br>
++<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * @DRM_COLOROP_1D_CURVE_BT2020_=
+OETF:<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * enum string &quot;BT.2020 OET=
+F&quot;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * The BT.2020/BT.709 transfer f=
+unction. The BT.709 and BT.2020<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * transfer functions are the sa=
+me, the only difference is that<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * BT.2020 is defined with more =
+precision for 10 and 12-bit<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * encodings.<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DRM_COLOROP_1D_CURVE_BT2020_OETF,<br>
++<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * @DRM_COLOROP_1D_CU=
+RVE_COUNT:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *<br>
+-- <br>
+2.43.0<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
 
-On Mon, Jul 28, 2025 at 04:28:27PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
->=20
-> The DW DP TX Controller is compliant with the DisplayPort Specification
-> Version 1.4 with the following features:
->=20
-> * DisplayPort 1.4a
-> * Main Link: 1/2/4 lanes
-> * Main Link Support 1.62Gbps, 2.7Gbps, 5.4Gbps and 8.1Gbps
-> * AUX channel 1Mbps
-> * Single Stream Transport(SST)
-> * Multistream Transport (MST)
-> * Type-C support (alternate mode)
-> * HDCP 2.2, HDCP 1.3
-> * Supports up to 8/10 bits per color component
-> * Supports RBG, YCbCr4:4:4, YCbCr4:2:2, YCbCr4:2:0
-> * Pixel clock up to 594MHz
-> * I2S, SPDIF audio interface
->=20
-> Add library with common helpers to make it can be shared with
-> other SoC.
->=20
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-
-The bridge code itself looks sane and works fine on Rock 5B+, iff
-the USB-C PD handshake bits do work (I'm still fighting with getting
-that part stable, but that issue is on the USB-PD side).
-
-Tested-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
--- Sebastian
-
-> ---
->=20
-> Changes in v6:
-> - Use drm_dp_vsc_sdp_supported
-> - Store bpc/bpp/color format in dw_dp_bridge_state
->=20
-> Changes in v5:
-> - Use drm_dp_read_sink_count_cap instead of the private implementation.
->=20
-> Changes in v4:
-> - Drop unnecessary header files
-> - Switch to devm_drm_bridge_alloc
->=20
-> Changes in v3:
-> - Rebase on drm-misc-next
-> - Switch to common helpers to power up/down dp link
-> - Only pass parameters to phy that should be set
->=20
-> Changes in v2:
-> - Fix compile error when build as module
-> - Add phy init
-> - Only use one dw_dp_link_train_set
-> - inline dw_dp_phy_update_vs_emph
-> - Use dp_sdp
-> - Check return value of drm_modeset_lock
-> - Merge code in atomic_pre_enable/mode_fixup to atomic_check
-> - Return NULL if can't find a supported output format
-> - Fix max_link_rate from plat_data
->=20
->  drivers/gpu/drm/bridge/synopsys/Kconfig  |    7 +
->  drivers/gpu/drm/bridge/synopsys/Makefile |    1 +
->  drivers/gpu/drm/bridge/synopsys/dw-dp.c  | 2094 ++++++++++++++++++++++
->  include/drm/bridge/dw_dp.h               |   20 +
->  4 files changed, 2122 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-dp.c
->  create mode 100644 include/drm/bridge/dw_dp.h
->=20
-> diff --git a/drivers/gpu/drm/bridge/synopsys/Kconfig b/drivers/gpu/drm/br=
-idge/synopsys/Kconfig
-> index 99878f051067e..a46df7583bcf9 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/Kconfig
-> +++ b/drivers/gpu/drm/bridge/synopsys/Kconfig
-> @@ -1,4 +1,11 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> +config DRM_DW_DP
-> +	tristate
-> +	select DRM_DISPLAY_HELPER
-> +	select DRM_DISPLAY_DP_HELPER
-> +	select DRM_KMS_HELPER
-> +	select REGMAP_MMIO
-> +
->  config DRM_DW_HDMI
->  	tristate
->  	select DRM_DISPLAY_HDMI_HELPER
-> diff --git a/drivers/gpu/drm/bridge/synopsys/Makefile b/drivers/gpu/drm/b=
-ridge/synopsys/Makefile
-> index 9dc376d220ad7..4dada44029acf 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/Makefile
-> +++ b/drivers/gpu/drm/bridge/synopsys/Makefile
-> @@ -1,4 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> +obj-$(CONFIG_DRM_DW_DP) +=3D dw-dp.o
->  obj-$(CONFIG_DRM_DW_HDMI) +=3D dw-hdmi.o
->  obj-$(CONFIG_DRM_DW_HDMI_AHB_AUDIO) +=3D dw-hdmi-ahb-audio.o
->  obj-$(CONFIG_DRM_DW_HDMI_GP_AUDIO) +=3D dw-hdmi-gp-audio.o
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-dp.c b/drivers/gpu/drm/br=
-idge/synopsys/dw-dp.c
-> new file mode 100644
-> index 0000000000000..373cd4b4423b0
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-dp.c
-> @@ -0,0 +1,2094 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Synopsys DesignWare Cores DisplayPort Transmitter Controller
-> + *
-> + * Copyright (c) 2025 Rockchip Electronics Co., Ltd.
-> + *
-> + * Author: Andy Yan <andy.yan@rock-chips.com>
-> + */
-> +#include <linux/bitfield.h>
-> +#include <linux/clk.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/irq.h>
-> +#include <linux/media-bus-format.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/reset.h>
-> +#include <linux/phy/phy.h>
-> +#include <linux/unaligned.h>
-> +
-> +#include <drm/bridge/dw_dp.h>
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_bridge_connector.h>
-> +#include <drm/display/drm_dp_helper.h>
-> +#include <drm/drm_edid.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#define DW_DP_VERSION_NUMBER			0x0000
-> +#define DW_DP_VERSION_TYPE			0x0004
-> +#define DW_DP_ID				0x0008
-> +
-> +#define DW_DP_CONFIG_REG1			0x0100
-> +#define DW_DP_CONFIG_REG2			0x0104
-> +#define DW_DP_CONFIG_REG3			0x0108
-> +
-> +#define DW_DP_CCTL				0x0200
-> +#define FORCE_HPD				BIT(4)
-> +#define DEFAULT_FAST_LINK_TRAIN_EN		BIT(2)
-> +#define ENHANCE_FRAMING_EN			BIT(1)
-> +#define SCRAMBLE_DIS				BIT(0)
-> +#define DW_DP_SOFT_RESET_CTRL			0x0204
-> +#define VIDEO_RESET				BIT(5)
-> +#define AUX_RESET				BIT(4)
-> +#define AUDIO_SAMPLER_RESET			BIT(3)
-> +#define HDCP_MODULE_RESET			BIT(2)
-> +#define PHY_SOFT_RESET				BIT(1)
-> +#define CONTROLLER_RESET			BIT(0)
-> +
-> +#define DW_DP_VSAMPLE_CTRL			0x0300
-> +#define PIXEL_MODE_SELECT			GENMASK(22, 21)
-> +#define VIDEO_MAPPING				GENMASK(20, 16)
-> +#define VIDEO_STREAM_ENABLE			BIT(5)
-> +
-> +#define DW_DP_VSAMPLE_STUFF_CTRL1		0x0304
-> +
-> +#define DW_DP_VSAMPLE_STUFF_CTRL2		0x0308
-> +
-> +#define DW_DP_VINPUT_POLARITY_CTRL		0x030c
-> +#define DE_IN_POLARITY				BIT(2)
-> +#define HSYNC_IN_POLARITY			BIT(1)
-> +#define VSYNC_IN_POLARITY			BIT(0)
-> +
-> +#define DW_DP_VIDEO_CONFIG1			0x0310
-> +#define HACTIVE					GENMASK(31, 16)
-> +#define HBLANK					GENMASK(15, 2)
-> +#define I_P					BIT(1)
-> +#define R_V_BLANK_IN_OSC			BIT(0)
-> +
-> +#define DW_DP_VIDEO_CONFIG2			0x0314
-> +#define VBLANK					GENMASK(31, 16)
-> +#define VACTIVE					GENMASK(15, 0)
-> +
-> +#define DW_DP_VIDEO_CONFIG3			0x0318
-> +#define H_SYNC_WIDTH				GENMASK(31, 16)
-> +#define H_FRONT_PORCH				GENMASK(15, 0)
-> +
-> +#define DW_DP_VIDEO_CONFIG4			0x031c
-> +#define V_SYNC_WIDTH				GENMASK(31, 16)
-> +#define V_FRONT_PORCH				GENMASK(15, 0)
-> +
-> +#define DW_DP_VIDEO_CONFIG5			0x0320
-> +#define INIT_THRESHOLD_HI			GENMASK(22, 21)
-> +#define AVERAGE_BYTES_PER_TU_FRAC		GENMASK(19, 16)
-> +#define INIT_THRESHOLD				GENMASK(13, 7)
-> +#define AVERAGE_BYTES_PER_TU			GENMASK(6, 0)
-> +
-> +#define DW_DP_VIDEO_MSA1			0x0324
-> +#define VSTART					GENMASK(31, 16)
-> +#define HSTART					GENMASK(15, 0)
-> +
-> +#define DW_DP_VIDEO_MSA2			0x0328
-> +#define MISC0					GENMASK(31, 24)
-> +
-> +#define DW_DP_VIDEO_MSA3			0x032c
-> +#define MISC1					GENMASK(31, 24)
-> +
-> +#define DW_DP_VIDEO_HBLANK_INTERVAL		0x0330
-> +#define HBLANK_INTERVAL_EN			BIT(16)
-> +#define HBLANK_INTERVAL				GENMASK(15, 0)
-> +
-> +#define DW_DP_AUD_CONFIG1			0x0400
-> +#define AUDIO_TIMESTAMP_VERSION_NUM		GENMASK(29, 24)
-> +#define AUDIO_PACKET_ID				GENMASK(23, 16)
-> +#define AUDIO_MUTE				BIT(15)
-> +#define NUM_CHANNELS				GENMASK(14, 12)
-> +#define HBR_MODE_ENABLE				BIT(10)
-> +#define AUDIO_DATA_WIDTH			GENMASK(9, 5)
-> +#define AUDIO_DATA_IN_EN			GENMASK(4, 1)
-> +#define AUDIO_INF_SELECT			BIT(0)
-> +
-> +#define DW_DP_SDP_VERTICAL_CTRL			0x0500
-> +#define EN_VERTICAL_SDP				BIT(2)
-> +#define EN_AUDIO_STREAM_SDP			BIT(1)
-> +#define EN_AUDIO_TIMESTAMP_SDP			BIT(0)
-> +#define DW_DP_SDP_HORIZONTAL_CTRL		0x0504
-> +#define EN_HORIZONTAL_SDP			BIT(2)
-> +#define DW_DP_SDP_STATUS_REGISTER		0x0508
-> +#define DW_DP_SDP_MANUAL_CTRL			0x050c
-> +#define DW_DP_SDP_STATUS_EN			0x0510
-> +
-> +#define DW_DP_SDP_REGISTER_BANK			0x0600
-> +#define SDP_REGS				GENMASK(31, 0)
-> +
-> +#define DW_DP_PHYIF_CTRL			0x0a00
-> +#define PHY_WIDTH				BIT(25)
-> +#define PHY_POWERDOWN				GENMASK(20, 17)
-> +#define PHY_BUSY				GENMASK(15, 12)
-> +#define SSC_DIS					BIT(16)
-> +#define XMIT_ENABLE				GENMASK(11, 8)
-> +#define PHY_LANES				GENMASK(7, 6)
-> +#define PHY_RATE				GENMASK(5, 4)
-> +#define TPS_SEL					GENMASK(3, 0)
-> +
-> +#define DW_DP_PHY_TX_EQ				0x0a04
-> +#define DW_DP_CUSTOMPAT0			0x0a08
-> +#define DW_DP_CUSTOMPAT1			0x0a0c
-> +#define DW_DP_CUSTOMPAT2			0x0a10
-> +#define DW_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET	0x0a14
-> +#define DW_DP_PHYIF_PWRDOWN_CTRL		0x0a18
-> +
-> +#define DW_DP_AUX_CMD				0x0b00
-> +#define AUX_CMD_TYPE				GENMASK(31, 28)
-> +#define AUX_ADDR				GENMASK(27, 8)
-> +#define I2C_ADDR_ONLY				BIT(4)
-> +#define AUX_LEN_REQ				GENMASK(3, 0)
-> +
-> +#define DW_DP_AUX_STATUS			0x0b04
-> +#define AUX_TIMEOUT				BIT(17)
-> +#define AUX_BYTES_READ				GENMASK(23, 19)
-> +#define AUX_STATUS				GENMASK(7, 4)
-> +
-> +#define DW_DP_AUX_DATA0				0x0b08
-> +#define DW_DP_AUX_DATA1				0x0b0c
-> +#define DW_DP_AUX_DATA2				0x0b10
-> +#define DW_DP_AUX_DATA3				0x0b14
-> +
-> +#define DW_DP_GENERAL_INTERRUPT			0x0d00
-> +#define VIDEO_FIFO_OVERFLOW_STREAM0		BIT(6)
-> +#define AUDIO_FIFO_OVERFLOW_STREAM0		BIT(5)
-> +#define SDP_EVENT_STREAM0			BIT(4)
-> +#define AUX_CMD_INVALID				BIT(3)
-> +#define HDCP_EVENT				BIT(2)
-> +#define AUX_REPLY_EVENT				BIT(1)
-> +#define HPD_EVENT				BIT(0)
-> +
-> +#define DW_DP_GENERAL_INTERRUPT_ENABLE		0x0d04
-> +#define HDCP_EVENT_EN				BIT(2)
-> +#define AUX_REPLY_EVENT_EN			BIT(1)
-> +#define HPD_EVENT_EN				BIT(0)
-> +
-> +#define DW_DP_HPD_STATUS			0x0d08
-> +#define HPD_STATE				GENMASK(11, 9)
-> +#define HPD_STATUS				BIT(8)
-> +#define HPD_HOT_UNPLUG				BIT(2)
-> +#define HPD_HOT_PLUG				BIT(1)
-> +#define HPD_IRQ					BIT(0)
-> +
-> +#define DW_DP_HPD_INTERRUPT_ENABLE		0x0d0c
-> +#define HPD_UNPLUG_ERR_EN			BIT(3)
-> +#define HPD_UNPLUG_EN				BIT(2)
-> +#define HPD_PLUG_EN				BIT(1)
-> +#define HPD_IRQ_EN				BIT(0)
-> +
-> +#define DW_DP_HDCP_CFG				0x0e00
-> +#define DPCD12PLUS				BIT(7)
-> +#define CP_IRQ					BIT(6)
-> +#define BYPENCRYPTION				BIT(5)
-> +#define HDCP_LOCK				BIT(4)
-> +#define ENCRYPTIONDISABLE			BIT(3)
-> +#define ENABLE_HDCP_13				BIT(2)
-> +#define ENABLE_HDCP				BIT(1)
-> +
-> +#define DW_DP_HDCP_OBS				0x0e04
-> +#define HDCP22_RE_AUTHENTICATION_REQ		BIT(31)
-> +#define HDCP22_AUTHENTICATION_FAILED		BIT(30)
-> +#define HDCP22_AUTHENTICATION_SUCCESS		BIT(29)
-> +#define HDCP22_CAPABLE_SINK			BIT(28)
-> +#define HDCP22_SINK_CAP_CHECK_COMPLETE		BIT(27)
-> +#define HDCP22_STATE				GENMASK(26, 24)
-> +#define HDCP22_BOOTED				BIT(23)
-> +#define HDCP13_BSTATUS				GENMASK(22, 19)
-> +#define REPEATER				BIT(18)
-> +#define HDCP_CAPABLE				BIT(17)
-> +#define STATEE					GENMASK(16, 14)
-> +#define STATEOEG				GENMASK(13, 11)
-> +#define STATER					GENMASK(10, 8)
-> +#define STATEA					GENMASK(7, 4)
-> +#define SUBSTATEA				GENMASK(3, 1)
-> +#define HDCPENGAGED				BIT(0)
-> +
-> +#define DW_DP_HDCP_APIINTCLR			0x0e08
-> +#define DW_DP_HDCP_APIINTSTAT			0x0e0c
-> +#define DW_DP_HDCP_APIINTMSK			0x0e10
-> +#define HDCP22_GPIOINT				BIT(8)
-> +#define HDCP_ENGAGED				BIT(7)
-> +#define HDCP_FAILED				BIT(6)
-> +#define KSVSHA1CALCDONEINT			BIT(5)
-> +#define AUXRESPNACK7TIMES			BIT(4)
-> +#define AUXRESPTIMEOUT				BIT(3)
-> +#define AUXRESPDEFER7TIMES			BIT(2)
-> +#define KSVACCESSINT				BIT(0)
-> +
-> +#define DW_DP_HDCP_KSVMEMCTRL			0x0e18
-> +#define KSVSHA1STATUS				BIT(4)
-> +#define KSVMEMACCESS				BIT(1)
-> +#define KSVMEMREQUEST				BIT(0)
-> +
-> +#define DW_DP_HDCP_REG_BKSV0			0x3600
-> +#define DW_DP_HDCP_REG_BKSV1			0x3604
-> +#define DW_DP_HDCP_REG_ANCONF			0x3608
-> +#define AN_BYPASS				BIT(0)
-> +
-> +#define DW_DP_HDCP_REG_AN0			0x360c
-> +#define DW_DP_HDCP_REG_AN1			0x3610
-> +#define DW_DP_HDCP_REG_RMLCTL			0x3614
-> +#define ODPK_DECRYPT_ENABLE			BIT(0)
-> +
-> +#define DW_DP_HDCP_REG_RMLSTS			0x3618
-> +#define IDPK_WR_OK_STS				BIT(6)
-> +#define	IDPK_DATA_INDEX				GENMASK(5, 0)
-> +#define DW_DP_HDCP_REG_SEED			0x361c
-> +#define DW_DP_HDCP_REG_DPK0			0x3620
-> +#define DW_DP_HDCP_REG_DPK1			0x3624
-> +#define DW_DP_HDCP22_GPIOSTS			0x3628
-> +#define DW_DP_HDCP22_GPIOCHNGSTS		0x362c
-> +#define DW_DP_HDCP_REG_DPK_CRC			0x3630
-> +
-> +#define DW_DP_MAX_REGISTER			DW_DP_HDCP_REG_DPK_CRC
-> +
-> +#define SDP_REG_BANK_SIZE			16
-> +
-> +struct dw_dp_link_caps {
-> +	bool enhanced_framing;
-> +	bool tps3_supported;
-> +	bool tps4_supported;
-> +	bool fast_training;
-> +	bool channel_coding;
-> +	bool ssc;
-> +};
-> +
-> +struct dw_dp_link_train_set {
-> +	unsigned int voltage_swing[4];
-> +	unsigned int pre_emphasis[4];
-> +	bool voltage_max_reached[4];
-> +	bool pre_max_reached[4];
-> +};
-> +
-> +struct dw_dp_link_train {
-> +	struct dw_dp_link_train_set adjust;
-> +	bool clock_recovered;
-> +	bool channel_equalized;
-> +};
-> +
-> +struct dw_dp_link {
-> +	u8 dpcd[DP_RECEIVER_CAP_SIZE];
-> +	unsigned char revision;
-> +	unsigned int rate;
-> +	unsigned int lanes;
-> +	u8 sink_count;
-> +	u8 vsc_sdp_supported;
-> +	struct dw_dp_link_caps caps;
-> +	struct dw_dp_link_train train;
-> +	struct drm_dp_desc desc;
-> +};
-> +
-> +struct dw_dp_bridge_state {
-> +	struct drm_bridge_state base;
-> +	struct drm_display_mode mode;
-> +	u8 video_mapping;
-> +	u8 color_format;
-> +	u8 bpc;
-> +	u8 bpp;
-> +};
-> +
-> +struct dw_dp_sdp {
-> +	struct dp_sdp base;
-> +	unsigned long flags;
-> +};
-> +
-> +struct dw_dp_hotplug {
-> +	bool long_hpd;
-> +};
-> +
-> +struct dw_dp {
-> +	struct drm_bridge bridge;
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	struct phy *phy;
-> +	struct clk *apb_clk;
-> +	struct clk *aux_clk;
-> +	struct clk *i2s_clk;
-> +	struct clk *spdif_clk;
-> +	struct clk *hdcp_clk;
-> +	struct reset_control *rstc;
-> +	struct completion complete;
-> +	int irq;
-> +	struct work_struct hpd_work;
-> +	struct dw_dp_hotplug hotplug;
-> +	struct mutex irq_lock;
-> +
-> +	struct drm_dp_aux aux;
-> +
-> +	struct dw_dp_link link;
-> +	struct dw_dp_plat_data plat_data;
-> +	u8 pixel_mode;
-> +
-> +	DECLARE_BITMAP(sdp_reg_bank, SDP_REG_BANK_SIZE);
-> +};
-> +
-> +enum {
-> +	DW_DP_RGB_6BIT,
-> +	DW_DP_RGB_8BIT,
-> +	DW_DP_RGB_10BIT,
-> +	DW_DP_RGB_12BIT,
-> +	DW_DP_RGB_16BIT,
-> +	DW_DP_YCBCR444_8BIT,
-> +	DW_DP_YCBCR444_10BIT,
-> +	DW_DP_YCBCR444_12BIT,
-> +	DW_DP_YCBCR444_16BIT,
-> +	DW_DP_YCBCR422_8BIT,
-> +	DW_DP_YCBCR422_10BIT,
-> +	DW_DP_YCBCR422_12BIT,
-> +	DW_DP_YCBCR422_16BIT,
-> +	DW_DP_YCBCR420_8BIT,
-> +	DW_DP_YCBCR420_10BIT,
-> +	DW_DP_YCBCR420_12BIT,
-> +	DW_DP_YCBCR420_16BIT,
-> +};
-> +
-> +enum {
-> +	DW_DP_MP_SINGLE_PIXEL,
-> +	DW_DP_MP_DUAL_PIXEL,
-> +	DW_DP_MP_QUAD_PIXEL,
-> +};
-> +
-> +enum {
-> +	DW_DP_SDP_VERTICAL_INTERVAL =3D BIT(0),
-> +	DW_DP_SDP_HORIZONTAL_INTERVAL =3D BIT(1),
-> +};
-> +
-> +enum {
-> +	DW_DP_HPD_STATE_IDLE,
-> +	DW_DP_HPD_STATE_UNPLUG,
-> +	DP_DP_HPD_STATE_TIMEOUT =3D 4,
-> +	DW_DP_HPD_STATE_PLUG =3D 7
-> +};
-> +
-> +enum {
-> +	DW_DP_PHY_PATTERN_NONE,
-> +	DW_DP_PHY_PATTERN_TPS_1,
-> +	DW_DP_PHY_PATTERN_TPS_2,
-> +	DW_DP_PHY_PATTERN_TPS_3,
-> +	DW_DP_PHY_PATTERN_TPS_4,
-> +	DW_DP_PHY_PATTERN_SERM,
-> +	DW_DP_PHY_PATTERN_PBRS7,
-> +	DW_DP_PHY_PATTERN_CUSTOM_80BIT,
-> +	DW_DP_PHY_PATTERN_CP2520_1,
-> +	DW_DP_PHY_PATTERN_CP2520_2,
-> +};
-> +
-> +struct dw_dp_output_format {
-> +	u32 bus_format;
-> +	u32 color_format;
-> +	u8 video_mapping;
-> +	u8 bpc;
-> +	u8 bpp;
-> +};
-> +
-> +#define to_dw_dp_bridge_state(s) container_of(s, struct dw_dp_bridge_sta=
-te, base)
-> +
-> +static const struct dw_dp_output_format dw_dp_output_formats[] =3D {
-> +	{ MEDIA_BUS_FMT_RGB101010_1X30, DRM_COLOR_FORMAT_RGB444, DW_DP_RGB_10BI=
-T, 10, 30 },
-> +	{ MEDIA_BUS_FMT_RGB888_1X24, DRM_COLOR_FORMAT_RGB444, DW_DP_RGB_8BIT, 8=
-, 24 },
-> +	{ MEDIA_BUS_FMT_YUV10_1X30, DRM_COLOR_FORMAT_YCBCR444, DW_DP_YCBCR444_1=
-0BIT, 10, 30 },
-> +	{ MEDIA_BUS_FMT_YUV8_1X24, DRM_COLOR_FORMAT_YCBCR444, DW_DP_YCBCR444_8B=
-IT, 8, 24},
-> +	{ MEDIA_BUS_FMT_YUYV10_1X20, DRM_COLOR_FORMAT_YCBCR422, DW_DP_YCBCR422_=
-10BIT, 10, 20 },
-> +	{ MEDIA_BUS_FMT_YUYV8_1X16, DRM_COLOR_FORMAT_YCBCR422, DW_DP_YCBCR422_8=
-BIT, 8, 16 },
-> +	{ MEDIA_BUS_FMT_UYYVYY10_0_5X30, DRM_COLOR_FORMAT_YCBCR420, DW_DP_YCBCR=
-420_10BIT, 10, 15 },
-> +	{ MEDIA_BUS_FMT_UYYVYY8_0_5X24, DRM_COLOR_FORMAT_YCBCR420, DW_DP_YCBCR4=
-20_8BIT, 8, 12 },
-> +	{ MEDIA_BUS_FMT_RGB666_1X24_CPADHI, DRM_COLOR_FORMAT_RGB444, DW_DP_RGB_=
-6BIT, 6, 18 },
-> +};
-> +
-> +static const struct dw_dp_output_format *dw_dp_get_output_format(u32 bus=
-_format)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(dw_dp_output_formats); i++)
-> +		if (dw_dp_output_formats[i].bus_format =3D=3D bus_format)
-> +			return &dw_dp_output_formats[i];
-> +
-> +	return NULL;
-> +}
-> +
-> +static inline struct dw_dp *bridge_to_dp(struct drm_bridge *b)
-> +{
-> +	return container_of(b, struct dw_dp, bridge);
-> +}
-> +
-> +static struct dw_dp_bridge_state *dw_dp_get_bridge_state(struct dw_dp *d=
-p)
-> +{
-> +	struct dw_dp_bridge_state *dw_bridge_state;
-> +	struct drm_bridge_state *state;
-> +
-> +	state =3D drm_priv_to_bridge_state(dp->bridge.base.state);
-> +	if (!state)
-> +		return  NULL;
-> +
-> +	dw_bridge_state =3D to_dw_dp_bridge_state(state);
-> +	if (!dw_bridge_state)
-> +		return NULL;
-> +
-> +	return dw_bridge_state;
-> +}
-> +
-> +static inline void dw_dp_phy_set_pattern(struct dw_dp *dp, u32 pattern)
-> +{
-> +	regmap_update_bits(dp->regmap, DW_DP_PHYIF_CTRL, TPS_SEL,
-> +			   FIELD_PREP(TPS_SEL, pattern));
-> +}
-> +
-> +static void dw_dp_phy_xmit_enable(struct dw_dp *dp, u32 lanes)
-> +{
-> +	u32 xmit_enable;
-> +
-> +	switch (lanes) {
-> +	case 4:
-> +	case 2:
-> +	case 1:
-> +		xmit_enable =3D GENMASK(lanes - 1, 0);
-> +		break;
-> +	case 0:
-> +	default:
-> +		xmit_enable =3D 0;
-> +		break;
-> +	}
-> +
-> +	regmap_update_bits(dp->regmap, DW_DP_PHYIF_CTRL, XMIT_ENABLE,
-> +			   FIELD_PREP(XMIT_ENABLE, xmit_enable));
-> +}
-> +
-> +static bool dw_dp_bandwidth_ok(struct dw_dp *dp,
-> +			       const struct drm_display_mode *mode, u32 bpp,
-> +			       unsigned int lanes, unsigned int rate)
-> +{
-> +	u32 max_bw, req_bw;
-> +
-> +	req_bw =3D mode->clock * bpp / 8;
-> +	max_bw =3D lanes * rate;
-> +	if (req_bw > max_bw)
-> +		return false;
-> +
-> +	return true;
-> +}
-> +
-> +static bool dw_dp_hpd_detect(struct dw_dp *dp)
-> +{
-> +	u32 value;
-> +
-> +	regmap_read(dp->regmap, DW_DP_HPD_STATUS, &value);
-> +
-> +	return FIELD_GET(HPD_STATE, value) =3D=3D DW_DP_HPD_STATE_PLUG;
-> +}
-> +
-> +static void dw_dp_link_caps_reset(struct dw_dp_link_caps *caps)
-> +{
-> +	caps->enhanced_framing =3D false;
-> +	caps->tps3_supported =3D false;
-> +	caps->tps4_supported =3D false;
-> +	caps->fast_training =3D false;
-> +	caps->channel_coding =3D false;
-> +}
-> +
-> +static void dw_dp_link_reset(struct dw_dp_link *link)
-> +{
-> +	link->vsc_sdp_supported =3D 0;
-> +	link->sink_count =3D 0;
-> +	link->revision =3D 0;
-> +	link->rate =3D 0;
-> +	link->lanes =3D 0;
-> +
-> +	dw_dp_link_caps_reset(&link->caps);
-> +	memset(link->dpcd, 0, sizeof(link->dpcd));
-> +}
-> +
-> +static int dw_dp_link_parse(struct dw_dp *dp, struct drm_connector *conn=
-ector)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	int ret;
-> +
-> +	dw_dp_link_reset(link);
-> +
-> +	ret =3D drm_dp_read_dpcd_caps(&dp->aux, link->dpcd);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	drm_dp_read_desc(&dp->aux, &link->desc, drm_dp_is_branch(link->dpcd));
-> +
-> +	if (drm_dp_read_sink_count_cap(connector, link->dpcd, &link->desc)) {
-> +		ret =3D drm_dp_read_sink_count(&dp->aux);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		link->sink_count =3D ret;
-> +
-> +		/* Dongle connected, but no display */
-> +		if (!link->sink_count)
-> +			return -ENODEV;
-> +	}
-> +
-> +	link->vsc_sdp_supported =3D drm_dp_vsc_sdp_supported(&dp->aux, link->dp=
-cd);
-> +
-> +	link->revision =3D link->dpcd[DP_DPCD_REV];
-> +	link->rate =3D min_t(u32, min(dp->plat_data.max_link_rate,
-> +				    dp->phy->attrs.max_link_rate * 100),
-> +			   drm_dp_max_link_rate(link->dpcd));
-> +	link->lanes =3D min_t(u8, phy_get_bus_width(dp->phy),
-> +			    drm_dp_max_lane_count(link->dpcd));
-> +
-> +	link->caps.enhanced_framing =3D drm_dp_enhanced_frame_cap(link->dpcd);
-> +	link->caps.tps3_supported =3D drm_dp_tps3_supported(link->dpcd);
-> +	link->caps.tps4_supported =3D drm_dp_tps4_supported(link->dpcd);
-> +	link->caps.fast_training =3D drm_dp_fast_training_cap(link->dpcd);
-> +	link->caps.channel_coding =3D drm_dp_channel_coding_supported(link->dpc=
-d);
-> +	link->caps.ssc =3D !!(link->dpcd[DP_MAX_DOWNSPREAD] & DP_MAX_DOWNSPREAD=
-_0_5);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_dp_link_train_update_vs_emph(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	struct dw_dp_link_train_set *train_set =3D &link->train.adjust;
-> +	unsigned int lanes =3D dp->link.lanes;
-> +	union phy_configure_opts phy_cfg;
-> +	unsigned int *vs, *pe;
-> +	int i, ret;
-> +	u8 buf[4];
-> +
-> +	vs =3D train_set->voltage_swing;
-> +	pe =3D train_set->pre_emphasis;
-> +
-> +	for (i =3D 0; i < lanes; i++) {
-> +		phy_cfg.dp.voltage[i] =3D vs[i];
-> +		phy_cfg.dp.pre[i] =3D pe[i];
-> +	}
-> +
-> +	phy_cfg.dp.set_lanes =3D false;
-> +	phy_cfg.dp.set_rate =3D false;
-> +	phy_cfg.dp.set_voltages =3D true;
-> +
-> +	ret =3D phy_configure(dp->phy, &phy_cfg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (i =3D 0; i < lanes; i++) {
-> +		buf[i] =3D (vs[i] << DP_TRAIN_VOLTAGE_SWING_SHIFT) |
-> +			 (pe[i] << DP_TRAIN_PRE_EMPHASIS_SHIFT);
-> +		if (train_set->voltage_max_reached[i])
-> +			buf[i] |=3D DP_TRAIN_MAX_SWING_REACHED;
-> +		if (train_set->pre_max_reached[i])
-> +			buf[i] |=3D DP_TRAIN_MAX_PRE_EMPHASIS_REACHED;
-> +	}
-> +
-> +	ret =3D drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, buf, lanes);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_dp_phy_configure(struct dw_dp *dp, unsigned int rate,
-> +			       unsigned int lanes, bool ssc)
-> +{
-> +	union phy_configure_opts phy_cfg;
-> +	int ret;
-> +
-> +	/* Move PHY to P3 */
-> +	regmap_update_bits(dp->regmap, DW_DP_PHYIF_CTRL, PHY_POWERDOWN,
-> +			   FIELD_PREP(PHY_POWERDOWN, 0x3));
-> +
-> +	phy_cfg.dp.lanes =3D lanes;
-> +	phy_cfg.dp.link_rate =3D rate / 100;
-> +	phy_cfg.dp.ssc =3D ssc;
-> +	phy_cfg.dp.set_lanes =3D true;
-> +	phy_cfg.dp.set_rate =3D true;
-> +	phy_cfg.dp.set_voltages =3D false;
-> +	ret =3D phy_configure(dp->phy, &phy_cfg);
-> +	if (ret)
-> +		return ret;
-> +
-> +	regmap_update_bits(dp->regmap, DW_DP_PHYIF_CTRL, PHY_LANES,
-> +			   FIELD_PREP(PHY_LANES, lanes / 2));
-> +
-> +	/* Move PHY to P0 */
-> +	regmap_update_bits(dp->regmap, DW_DP_PHYIF_CTRL, PHY_POWERDOWN,
-> +			   FIELD_PREP(PHY_POWERDOWN, 0x0));
-> +
-> +	dw_dp_phy_xmit_enable(dp, lanes);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_dp_link_configure(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	u8 buf[2];
-> +	int ret;
-> +
-> +	ret =3D dw_dp_phy_configure(dp, link->rate, link->lanes, link->caps.ssc=
-);
-> +	if (ret)
-> +		return ret;
-> +
-> +	buf[0] =3D drm_dp_link_rate_to_bw_code(link->rate);
-> +	buf[1] =3D link->lanes;
-> +
-> +	if (link->caps.enhanced_framing) {
-> +		buf[1] |=3D DP_LANE_COUNT_ENHANCED_FRAME_EN;
-> +		regmap_update_bits(dp->regmap, DW_DP_CCTL, ENHANCE_FRAMING_EN,
-> +				   FIELD_PREP(ENHANCE_FRAMING_EN, 1));
-> +	} else {
-> +		regmap_update_bits(dp->regmap, DW_DP_CCTL, ENHANCE_FRAMING_EN,
-> +				   FIELD_PREP(ENHANCE_FRAMING_EN, 0));
-> +	}
-> +
-> +	ret =3D drm_dp_dpcd_write(&dp->aux, DP_LINK_BW_SET, buf, sizeof(buf));
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	buf[0] =3D link->caps.ssc ? DP_SPREAD_AMP_0_5 : 0;
-> +	buf[1] =3D link->caps.channel_coding ? DP_SET_ANSI_8B10B : 0;
-> +
-> +	ret =3D drm_dp_dpcd_write(&dp->aux, DP_DOWNSPREAD_CTRL, buf, sizeof(buf=
-));
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static void dw_dp_link_train_init(struct dw_dp_link_train *train)
-> +{
-> +	struct dw_dp_link_train_set *adj =3D &train->adjust;
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < 4; i++) {
-> +		adj->voltage_swing[i] =3D 0;
-> +		adj->pre_emphasis[i] =3D 0;
-> +		adj->voltage_max_reached[i] =3D false;
-> +		adj->pre_max_reached[i] =3D false;
-> +	}
-> +
-> +	train->clock_recovered =3D false;
-> +	train->channel_equalized =3D false;
-> +}
-> +
-> +static bool dw_dp_link_train_valid(const struct dw_dp_link_train *train)
-> +{
-> +	return train->clock_recovered && train->channel_equalized;
-> +}
-> +
-> +static int dw_dp_link_train_set_pattern(struct dw_dp *dp, u32 pattern)
-> +{
-> +	u8 buf =3D 0;
-> +	int ret;
-> +
-> +	if (pattern && pattern !=3D DP_TRAINING_PATTERN_4) {
-> +		buf |=3D DP_LINK_SCRAMBLING_DISABLE;
-> +
-> +		regmap_update_bits(dp->regmap, DW_DP_CCTL, SCRAMBLE_DIS,
-> +				   FIELD_PREP(SCRAMBLE_DIS, 1));
-> +	} else {
-> +		regmap_update_bits(dp->regmap, DW_DP_CCTL, SCRAMBLE_DIS,
-> +				   FIELD_PREP(SCRAMBLE_DIS, 0));
-> +	}
-> +
-> +	switch (pattern) {
-> +	case DP_TRAINING_PATTERN_DISABLE:
-> +		dw_dp_phy_set_pattern(dp, DW_DP_PHY_PATTERN_NONE);
-> +		break;
-> +	case DP_TRAINING_PATTERN_1:
-> +		dw_dp_phy_set_pattern(dp, DW_DP_PHY_PATTERN_TPS_1);
-> +		break;
-> +	case DP_TRAINING_PATTERN_2:
-> +		dw_dp_phy_set_pattern(dp, DW_DP_PHY_PATTERN_TPS_2);
-> +		break;
-> +	case DP_TRAINING_PATTERN_3:
-> +		dw_dp_phy_set_pattern(dp, DW_DP_PHY_PATTERN_TPS_3);
-> +		break;
-> +	case DP_TRAINING_PATTERN_4:
-> +		dw_dp_phy_set_pattern(dp, DW_DP_PHY_PATTERN_TPS_4);
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret =3D drm_dp_dpcd_writeb(&dp->aux, DP_TRAINING_PATTERN_SET,
-> +				 buf | pattern);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static u8 dw_dp_voltage_max(u8 preemph)
-> +{
-> +	switch (preemph & DP_TRAIN_PRE_EMPHASIS_MASK) {
-> +	case DP_TRAIN_PRE_EMPH_LEVEL_0:
-> +		return DP_TRAIN_VOLTAGE_SWING_LEVEL_3;
-> +	case DP_TRAIN_PRE_EMPH_LEVEL_1:
-> +		return DP_TRAIN_VOLTAGE_SWING_LEVEL_2;
-> +	case DP_TRAIN_PRE_EMPH_LEVEL_2:
-> +		return DP_TRAIN_VOLTAGE_SWING_LEVEL_1;
-> +	case DP_TRAIN_PRE_EMPH_LEVEL_3:
-> +	default:
-> +		return DP_TRAIN_VOLTAGE_SWING_LEVEL_0;
-> +	}
-> +}
-> +
-> +static bool dw_dp_link_get_adjustments(struct dw_dp_link *link,
-> +				       u8 status[DP_LINK_STATUS_SIZE])
-> +{
-> +	struct dw_dp_link_train_set *adj =3D &link->train.adjust;
-> +	unsigned int i;
-> +	bool changed =3D false;
-> +	u8 v =3D 0;
-> +	u8 p =3D 0;
-> +
-> +	for (i =3D 0; i < link->lanes; i++) {
-> +		v =3D drm_dp_get_adjust_request_voltage(status, i);
-> +		v >>=3D DP_TRAIN_VOLTAGE_SWING_SHIFT;
-> +		p =3D drm_dp_get_adjust_request_pre_emphasis(status, i);
-> +		p >>=3D DP_TRAIN_PRE_EMPHASIS_SHIFT;
-> +
-> +		if ((v !=3D adj->voltage_swing[i]) || (p !=3D adj->pre_emphasis[i]))
-> +			changed =3D true;
-> +
-> +		if (p >=3D  (DP_TRAIN_PRE_EMPH_LEVEL_3 >> DP_TRAIN_PRE_EMPHASIS_SHIFT)=
-) {
-> +			adj->pre_emphasis[i] =3D DP_TRAIN_PRE_EMPH_LEVEL_3 >>
-> +					       DP_TRAIN_PRE_EMPHASIS_SHIFT;
-> +			adj->pre_max_reached[i] =3D true;
-> +		} else {
-> +			adj->pre_emphasis[i] =3D p;
-> +			adj->pre_max_reached[i] =3D false;
-> +		}
-> +
-> +		v =3D min(v, dw_dp_voltage_max(p));
-> +		if (v >=3D (DP_TRAIN_VOLTAGE_SWING_LEVEL_3 >> DP_TRAIN_VOLTAGE_SWING_S=
-HIFT)) {
-> +			adj->voltage_swing[i] =3D DP_TRAIN_VOLTAGE_SWING_LEVEL_3 >>
-> +						DP_TRAIN_VOLTAGE_SWING_SHIFT;
-> +			adj->voltage_max_reached[i] =3D true;
-> +		} else {
-> +			adj->voltage_swing[i] =3D v;
-> +			adj->voltage_max_reached[i] =3D false;
-> +		}
-> +	}
-> +
-> +	return changed;
-> +}
-> +
-> +static int dw_dp_link_clock_recovery(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	u8 status[DP_LINK_STATUS_SIZE];
-> +	unsigned int tries =3D 0;
-> +	int ret;
-> +	bool adj_changed;
-> +
-> +	ret =3D dw_dp_link_train_set_pattern(dp, DP_TRAINING_PATTERN_1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (;;) {
-> +		ret =3D dw_dp_link_train_update_vs_emph(dp);
-> +		if (ret)
-> +			return ret;
-> +
-> +		drm_dp_link_train_clock_recovery_delay(&dp->aux, link->dpcd);
-> +
-> +		ret =3D drm_dp_dpcd_read_link_status(&dp->aux, status);
-> +		if (ret < 0) {
-> +			dev_err(dp->dev, "failed to read link status: %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		if (drm_dp_clock_recovery_ok(status, link->lanes)) {
-> +			link->train.clock_recovered =3D true;
-> +			break;
-> +		}
-> +
-> +		/*
-> +		 * According to DP spec 1.4, if current ADJ is the same
-> +		 * with previous REQ, we need to retry 5 times.
-> +		 */
-> +		adj_changed =3D dw_dp_link_get_adjustments(link, status);
-> +		if (!adj_changed)
-> +			tries++;
-> +		else
-> +			tries =3D 0;
-> +
-> +		if (tries =3D=3D 5)
-> +			break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_dp_link_channel_equalization(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	u8 status[DP_LINK_STATUS_SIZE], pattern;
-> +	unsigned int tries;
-> +	int ret;
-> +
-> +	if (link->caps.tps4_supported)
-> +		pattern =3D DP_TRAINING_PATTERN_4;
-> +	else if (link->caps.tps3_supported)
-> +		pattern =3D DP_TRAINING_PATTERN_3;
-> +	else
-> +		pattern =3D DP_TRAINING_PATTERN_2;
-> +	ret =3D dw_dp_link_train_set_pattern(dp, pattern);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (tries =3D 1; tries < 5; tries++) {
-> +		ret =3D dw_dp_link_train_update_vs_emph(dp);
-> +		if (ret)
-> +			return ret;
-> +
-> +		drm_dp_link_train_channel_eq_delay(&dp->aux, link->dpcd);
-> +
-> +		ret =3D drm_dp_dpcd_read_link_status(&dp->aux, status);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		if (!drm_dp_clock_recovery_ok(status, link->lanes)) {
-> +			dev_err(dp->dev, "clock recovery lost while equalizing channel\n");
-> +			link->train.clock_recovered =3D false;
-> +			break;
-> +		}
-> +
-> +		if (drm_dp_channel_eq_ok(status, link->lanes)) {
-> +			link->train.channel_equalized =3D true;
-> +			break;
-> +		}
-> +
-> +		dw_dp_link_get_adjustments(link, status);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_dp_link_downgrade(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	struct dw_dp_bridge_state *state;
-> +
-> +	state =3D dw_dp_get_bridge_state(dp);
-> +
-> +	switch (link->rate) {
-> +	case 162000:
-> +		return -EINVAL;
-> +	case 270000:
-> +		link->rate =3D 162000;
-> +		break;
-> +	case 540000:
-> +		link->rate =3D 270000;
-> +		break;
-> +	case 810000:
-> +		link->rate =3D 540000;
-> +		break;
-> +	}
-> +
-> +	if (!dw_dp_bandwidth_ok(dp, &state->mode, state->bpp, link->lanes,
-> +				link->rate))
-> +		return -E2BIG;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_dp_link_train_full(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	int ret;
-> +
-> +retry:
-> +	dw_dp_link_train_init(&link->train);
-> +
-> +	dev_dbg(dp->dev, "full-training link: %u lane%s at %u MHz\n",
-> +		link->lanes, (link->lanes > 1) ? "s" : "", link->rate / 100);
-> +
-> +	ret =3D dw_dp_link_configure(dp);
-> +	if (ret < 0) {
-> +		dev_err(dp->dev, "failed to configure DP link: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret =3D dw_dp_link_clock_recovery(dp);
-> +	if (ret < 0) {
-> +		dev_err(dp->dev, "clock recovery failed: %d\n", ret);
-> +		goto out;
-> +	}
-> +
-> +	if (!link->train.clock_recovered) {
-> +		dev_err(dp->dev, "clock recovery failed, downgrading link\n");
-> +
-> +		ret =3D dw_dp_link_downgrade(dp);
-> +		if (ret < 0)
-> +			goto out;
-> +		else
-> +			goto retry;
-> +	}
-> +
-> +	dev_dbg(dp->dev, "clock recovery succeeded\n");
-> +
-> +	ret =3D dw_dp_link_channel_equalization(dp);
-> +	if (ret < 0) {
-> +		dev_err(dp->dev, "channel equalization failed: %d\n", ret);
-> +		goto out;
-> +	}
-> +
-> +	if (!link->train.channel_equalized) {
-> +		dev_err(dp->dev, "channel equalization failed, downgrading link\n");
-> +
-> +		ret =3D dw_dp_link_downgrade(dp);
-> +		if (ret < 0)
-> +			goto out;
-> +		else
-> +			goto retry;
-> +	}
-> +
-> +	dev_dbg(dp->dev, "channel equalization succeeded\n");
-> +
-> +out:
-> +	dw_dp_link_train_set_pattern(dp, DP_TRAINING_PATTERN_DISABLE);
-> +	return ret;
-> +}
-> +
-> +static int dw_dp_link_train_fast(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	int ret;
-> +	u8 status[DP_LINK_STATUS_SIZE];
-> +	u8 pattern;
-> +
-> +	dw_dp_link_train_init(&link->train);
-> +
-> +	dev_dbg(dp->dev, "fast-training link: %u lane%s at %u MHz\n",
-> +		link->lanes, (link->lanes > 1) ? "s" : "", link->rate / 100);
-> +
-> +	ret =3D dw_dp_link_configure(dp);
-> +	if (ret < 0) {
-> +		dev_err(dp->dev, "failed to configure DP link: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret =3D dw_dp_link_train_set_pattern(dp, DP_TRAINING_PATTERN_1);
-> +	if (ret)
-> +		goto out;
-> +
-> +	usleep_range(500, 1000);
-> +
-> +	if (link->caps.tps4_supported)
-> +		pattern =3D DP_TRAINING_PATTERN_4;
-> +	else if (link->caps.tps3_supported)
-> +		pattern =3D DP_TRAINING_PATTERN_3;
-> +	else
-> +		pattern =3D DP_TRAINING_PATTERN_2;
-> +	ret =3D dw_dp_link_train_set_pattern(dp, pattern);
-> +	if (ret)
-> +		goto out;
-> +
-> +	usleep_range(500, 1000);
-> +
-> +	ret =3D drm_dp_dpcd_read_link_status(&dp->aux, status);
-> +	if (ret < 0) {
-> +		dev_err(dp->dev, "failed to read link status: %d\n", ret);
-> +		goto out;
-> +	}
-> +
-> +	if (!drm_dp_clock_recovery_ok(status, link->lanes)) {
-> +		dev_err(dp->dev, "clock recovery failed\n");
-> +		ret =3D -EIO;
-> +		goto out;
-> +	}
-> +
-> +	if (!drm_dp_channel_eq_ok(status, link->lanes)) {
-> +		dev_err(dp->dev, "channel equalization failed\n");
-> +		ret =3D -EIO;
-> +		goto out;
-> +	}
-> +
-> +out:
-> +	dw_dp_link_train_set_pattern(dp, DP_TRAINING_PATTERN_DISABLE);
-> +	return ret;
-> +}
-> +
-> +static int dw_dp_link_train(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	int ret;
-> +
-> +	if (link->caps.fast_training) {
-> +		if (dw_dp_link_train_valid(&link->train)) {
-> +			ret =3D dw_dp_link_train_fast(dp);
-> +			if (ret < 0)
-> +				dev_err(dp->dev, "fast link training failed: %d\n", ret);
-> +			else
-> +				return 0;
-> +		}
-> +	}
-> +
-> +	ret =3D dw_dp_link_train_full(dp);
-> +	if (ret < 0) {
-> +		dev_err(dp->dev, "full link training failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_dp_send_sdp(struct dw_dp *dp, struct dw_dp_sdp *sdp)
-> +{
-> +	const u8 *payload =3D sdp->base.db;
-> +	u32 reg;
-> +	int i, nr;
-> +
-> +	nr =3D find_first_zero_bit(dp->sdp_reg_bank, SDP_REG_BANK_SIZE);
-> +	if (nr < SDP_REG_BANK_SIZE)
-> +		set_bit(nr, dp->sdp_reg_bank);
-> +	else
-> +		return -EBUSY;
-> +
-> +	reg =3D DW_DP_SDP_REGISTER_BANK + nr * 9 * 4;
-> +
-> +	/* SDP header */
-> +	regmap_write(dp->regmap, reg, get_unaligned_le32(&sdp->base.sdp_header)=
-);
-> +
-> +	/* SDP data payload */
-> +	for (i =3D 1; i < 9; i++, payload +=3D 4)
-> +		regmap_write(dp->regmap, reg + i * 4,
-> +			     FIELD_PREP(SDP_REGS, get_unaligned_le32(payload)));
-> +
-> +	if (sdp->flags & DW_DP_SDP_VERTICAL_INTERVAL)
-> +		regmap_update_bits(dp->regmap, DW_DP_SDP_VERTICAL_CTRL,
-> +				   EN_VERTICAL_SDP << nr,
-> +				   EN_VERTICAL_SDP << nr);
-> +
-> +	if (sdp->flags & DW_DP_SDP_HORIZONTAL_INTERVAL)
-> +		regmap_update_bits(dp->regmap, DW_DP_SDP_HORIZONTAL_CTRL,
-> +				   EN_HORIZONTAL_SDP << nr,
-> +				   EN_HORIZONTAL_SDP << nr);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_dp_send_vsc_sdp(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_bridge_state *state;
-> +	struct dw_dp_sdp sdp =3D {};
-> +	struct drm_dp_vsc_sdp vsc =3D {};
-> +
-> +	state =3D dw_dp_get_bridge_state(dp);
-> +	if (!state)
-> +		return -EINVAL;
-> +
-> +	vsc.bpc =3D state->bpc;
-> +
-> +	vsc.sdp_type =3D DP_SDP_VSC;
-> +	vsc.revision =3D 0x5;
-> +	vsc.length =3D 0x13;
-> +	vsc.content_type =3D DP_CONTENT_TYPE_NOT_DEFINED;
-> +
-> +	sdp.flags =3D DW_DP_SDP_VERTICAL_INTERVAL;
-> +
-> +	switch (state->color_format) {
-> +	case DRM_COLOR_FORMAT_YCBCR444:
-> +		vsc.pixelformat =3D DP_PIXELFORMAT_YUV444;
-> +		break;
-> +	case DRM_COLOR_FORMAT_YCBCR420:
-> +		vsc.pixelformat =3D DP_PIXELFORMAT_YUV420;
-> +		break;
-> +	case DRM_COLOR_FORMAT_YCBCR422:
-> +		vsc.pixelformat =3D DP_PIXELFORMAT_YUV422;
-> +		break;
-> +	case DRM_COLOR_FORMAT_RGB444:
-> +	default:
-> +		vsc.pixelformat =3D DP_PIXELFORMAT_RGB;
-> +		break;
-> +	}
-> +
-> +	if (state->color_format =3D=3D DRM_COLOR_FORMAT_RGB444) {
-> +		vsc.colorimetry =3D DP_COLORIMETRY_DEFAULT;
-> +		vsc.dynamic_range =3D DP_DYNAMIC_RANGE_VESA;
-> +	} else {
-> +		vsc.colorimetry =3D DP_COLORIMETRY_BT709_YCC;
-> +		vsc.dynamic_range =3D DP_DYNAMIC_RANGE_CTA;
-> +	}
-> +
-> +	drm_dp_vsc_sdp_pack(&vsc, &sdp.base);
-> +
-> +	return dw_dp_send_sdp(dp, &sdp);
-> +}
-> +
-> +static int dw_dp_video_set_pixel_mode(struct dw_dp *dp)
-> +{
-> +	switch (dp->pixel_mode) {
-> +	case DW_DP_MP_SINGLE_PIXEL:
-> +	case DW_DP_MP_DUAL_PIXEL:
-> +	case DW_DP_MP_QUAD_PIXEL:
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	regmap_update_bits(dp->regmap, DW_DP_VSAMPLE_CTRL, PIXEL_MODE_SELECT,
-> +			   FIELD_PREP(PIXEL_MODE_SELECT, dp->pixel_mode));
-> +
-> +	return 0;
-> +}
-> +
-> +static bool dw_dp_video_need_vsc_sdp(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	struct dw_dp_bridge_state *state;
-> +
-> +	state =3D dw_dp_get_bridge_state(dp);
-> +	if (!state)
-> +		return -EINVAL;
-> +
-> +	if (!link->vsc_sdp_supported)
-> +		return false;
-> +
-> +	if (state->color_format =3D=3D DRM_COLOR_FORMAT_YCBCR420)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
-> +static int dw_dp_video_set_msa(struct dw_dp *dp, u8 color_format, u8 bpc,
-> +			       u16 vstart, u16 hstart)
-> +{
-> +	u16 misc =3D 0;
-> +
-> +	if (dw_dp_video_need_vsc_sdp(dp))
-> +		misc |=3D DP_MSA_MISC_COLOR_VSC_SDP;
-> +
-> +	switch (color_format) {
-> +	case DRM_COLOR_FORMAT_RGB444:
-> +		misc |=3D DP_MSA_MISC_COLOR_RGB;
-> +		break;
-> +	case DRM_COLOR_FORMAT_YCBCR444:
-> +		misc |=3D DP_MSA_MISC_COLOR_YCBCR_444_BT709;
-> +		break;
-> +	case DRM_COLOR_FORMAT_YCBCR422:
-> +		misc |=3D DP_MSA_MISC_COLOR_YCBCR_422_BT709;
-> +		break;
-> +	case DRM_COLOR_FORMAT_YCBCR420:
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	switch (bpc) {
-> +	case 6:
-> +		misc |=3D DP_MSA_MISC_6_BPC;
-> +		break;
-> +	case 8:
-> +		misc |=3D DP_MSA_MISC_8_BPC;
-> +		break;
-> +	case 10:
-> +		misc |=3D DP_MSA_MISC_10_BPC;
-> +		break;
-> +	case 12:
-> +		misc |=3D DP_MSA_MISC_12_BPC;
-> +		break;
-> +	case 16:
-> +		misc |=3D DP_MSA_MISC_16_BPC;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	regmap_write(dp->regmap, DW_DP_VIDEO_MSA1,
-> +		     FIELD_PREP(VSTART, vstart) | FIELD_PREP(HSTART, hstart));
-> +	regmap_write(dp->regmap, DW_DP_VIDEO_MSA2, FIELD_PREP(MISC0, misc));
-> +	regmap_write(dp->regmap, DW_DP_VIDEO_MSA3, FIELD_PREP(MISC1, misc >> 8)=
-);
-> +
-> +	return 0;
-> +}
-> +
-> +static void dw_dp_video_disable(struct dw_dp *dp)
-> +{
-> +	regmap_update_bits(dp->regmap, DW_DP_VSAMPLE_CTRL, VIDEO_STREAM_ENABLE,
-> +			   FIELD_PREP(VIDEO_STREAM_ENABLE, 0));
-> +}
-> +
-> +static int dw_dp_video_enable(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	struct dw_dp_bridge_state *state;
-> +	struct drm_display_mode *mode;
-> +	u8 color_format, bpc, bpp;
-> +	u8 init_threshold, vic;
-> +	u32 hstart, hactive, hblank, h_sync_width, h_front_porch;
-> +	u32 vstart, vactive, vblank, v_sync_width, v_front_porch;
-> +	u32 peak_stream_bandwidth, link_bandwidth;
-> +	u32 average_bytes_per_tu, average_bytes_per_tu_frac;
-> +	u32 ts, hblank_interval;
-> +	u32 value;
-> +	int ret;
-> +
-> +	state =3D dw_dp_get_bridge_state(dp);
-> +	if (!state)
-> +		return -EINVAL;
-> +
-> +	bpc =3D state->bpc;
-> +	bpp =3D state->bpp;
-> +	color_format =3D state->color_format;
-> +	mode =3D &state->mode;
-> +
-> +	vstart =3D mode->vtotal - mode->vsync_start;
-> +	hstart =3D mode->htotal - mode->hsync_start;
-> +
-> +	ret =3D dw_dp_video_set_pixel_mode(dp);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D dw_dp_video_set_msa(dp, color_format, bpc, vstart, hstart);
-> +	if (ret)
-> +		return ret;
-> +
-> +	regmap_update_bits(dp->regmap, DW_DP_VSAMPLE_CTRL, VIDEO_MAPPING,
-> +			   FIELD_PREP(VIDEO_MAPPING, state->video_mapping));
-> +
-> +	/* Configure DW_DP_VINPUT_POLARITY_CTRL register */
-> +	value =3D 0;
-> +	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
-> +		value |=3D FIELD_PREP(HSYNC_IN_POLARITY, 1);
-> +	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
-> +		value |=3D FIELD_PREP(VSYNC_IN_POLARITY, 1);
-> +	regmap_write(dp->regmap, DW_DP_VINPUT_POLARITY_CTRL, value);
-> +
-> +	/* Configure DW_DP_VIDEO_CONFIG1 register */
-> +	hactive =3D mode->hdisplay;
-> +	hblank =3D mode->htotal - mode->hdisplay;
-> +	value =3D FIELD_PREP(HACTIVE, hactive) | FIELD_PREP(HBLANK, hblank);
-> +	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
-> +		value |=3D FIELD_PREP(I_P, 1);
-> +	vic =3D drm_match_cea_mode(mode);
-> +	if (vic =3D=3D 5 || vic =3D=3D 6 || vic =3D=3D 7 ||
-> +	    vic =3D=3D 10 || vic =3D=3D 11 || vic =3D=3D 20 ||
-> +	    vic =3D=3D 21 || vic =3D=3D 22 || vic =3D=3D 39 ||
-> +	    vic =3D=3D 25 || vic =3D=3D 26 || vic =3D=3D 40 ||
-> +	    vic =3D=3D 44 || vic =3D=3D 45 || vic =3D=3D 46 ||
-> +	    vic =3D=3D 50 || vic =3D=3D 51 || vic =3D=3D 54 ||
-> +	    vic =3D=3D 55 || vic =3D=3D 58 || vic  =3D=3D 59)
-> +		value |=3D R_V_BLANK_IN_OSC;
-> +	regmap_write(dp->regmap, DW_DP_VIDEO_CONFIG1, value);
-> +
-> +	/* Configure DW_DP_VIDEO_CONFIG2 register */
-> +	vblank =3D mode->vtotal - mode->vdisplay;
-> +	vactive =3D mode->vdisplay;
-> +	regmap_write(dp->regmap, DW_DP_VIDEO_CONFIG2,
-> +		     FIELD_PREP(VBLANK, vblank) | FIELD_PREP(VACTIVE, vactive));
-> +
-> +	/* Configure DW_DP_VIDEO_CONFIG3 register */
-> +	h_sync_width =3D mode->hsync_end - mode->hsync_start;
-> +	h_front_porch =3D mode->hsync_start - mode->hdisplay;
-> +	regmap_write(dp->regmap, DW_DP_VIDEO_CONFIG3,
-> +		     FIELD_PREP(H_SYNC_WIDTH, h_sync_width) |
-> +		     FIELD_PREP(H_FRONT_PORCH, h_front_porch));
-> +
-> +	/* Configure DW_DP_VIDEO_CONFIG4 register */
-> +	v_sync_width =3D mode->vsync_end - mode->vsync_start;
-> +	v_front_porch =3D mode->vsync_start - mode->vdisplay;
-> +	regmap_write(dp->regmap, DW_DP_VIDEO_CONFIG4,
-> +		     FIELD_PREP(V_SYNC_WIDTH, v_sync_width) |
-> +		     FIELD_PREP(V_FRONT_PORCH, v_front_porch));
-> +
-> +	/* Configure DW_DP_VIDEO_CONFIG5 register */
-> +	peak_stream_bandwidth =3D mode->clock * bpp / 8;
-> +	link_bandwidth =3D (link->rate / 1000) * link->lanes;
-> +	ts =3D peak_stream_bandwidth * 64 / link_bandwidth;
-> +	average_bytes_per_tu =3D ts / 1000;
-> +	average_bytes_per_tu_frac =3D ts / 100 - average_bytes_per_tu * 10;
-> +	if (dp->pixel_mode =3D=3D DW_DP_MP_SINGLE_PIXEL) {
-> +		if (average_bytes_per_tu < 6)
-> +			init_threshold =3D 32;
-> +		else if (hblank <=3D 80 && color_format !=3D DRM_COLOR_FORMAT_YCBCR420)
-> +			init_threshold =3D 12;
-> +		else if (hblank <=3D 40 && color_format =3D=3D DRM_COLOR_FORMAT_YCBCR4=
-20)
-> +			init_threshold =3D 3;
-> +		else
-> +			init_threshold =3D 16;
-> +	} else {
-> +		u32 t1 =3D 0, t2 =3D 0, t3 =3D 0;
-> +
-> +		switch (bpc) {
-> +		case 6:
-> +			t1 =3D (4 * 1000 / 9) * link->lanes;
-> +			break;
-> +		case 8:
-> +			if (color_format =3D=3D DRM_COLOR_FORMAT_YCBCR422) {
-> +				t1 =3D (1000 / 2) * link->lanes;
-> +			} else {
-> +				if (dp->pixel_mode =3D=3D DW_DP_MP_DUAL_PIXEL)
-> +					t1 =3D (1000 / 3) * link->lanes;
-> +				else
-> +					t1 =3D (3000 / 16) * link->lanes;
-> +			}
-> +			break;
-> +		case 10:
-> +			if (color_format =3D=3D DRM_COLOR_FORMAT_YCBCR422)
-> +				t1 =3D (2000 / 5) * link->lanes;
-> +			else
-> +				t1 =3D (4000 / 15) * link->lanes;
-> +			break;
-> +		case 12:
-> +			if (color_format =3D=3D DRM_COLOR_FORMAT_YCBCR422) {
-> +				if (dp->pixel_mode =3D=3D DW_DP_MP_DUAL_PIXEL)
-> +					t1 =3D (1000 / 6) * link->lanes;
-> +				else
-> +					t1 =3D (1000 / 3) * link->lanes;
-> +			} else {
-> +				t1 =3D (2000 / 9) * link->lanes;
-> +			}
-> +			break;
-> +		case 16:
-> +			if (color_format !=3D DRM_COLOR_FORMAT_YCBCR422 &&
-> +			    dp->pixel_mode =3D=3D DW_DP_MP_DUAL_PIXEL)
-> +				t1 =3D (1000 / 6) * link->lanes;
-> +			else
-> +				t1 =3D (1000 / 4) * link->lanes;
-> +			break;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (color_format =3D=3D DRM_COLOR_FORMAT_YCBCR420)
-> +			t2 =3D (link->rate / 4) * 1000 / (mode->clock / 2);
-> +		else
-> +			t2 =3D (link->rate / 4) * 1000 / mode->clock;
-> +
-> +		if (average_bytes_per_tu_frac)
-> +			t3 =3D average_bytes_per_tu + 1;
-> +		else
-> +			t3 =3D average_bytes_per_tu;
-> +		init_threshold =3D t1 * t2 * t3 / (1000 * 1000);
-> +		if (init_threshold <=3D 16 || average_bytes_per_tu < 10)
-> +			init_threshold =3D 40;
-> +	}
-> +
-> +	regmap_write(dp->regmap, DW_DP_VIDEO_CONFIG5,
-> +		     FIELD_PREP(INIT_THRESHOLD_HI, init_threshold >> 6) |
-> +		     FIELD_PREP(AVERAGE_BYTES_PER_TU_FRAC, average_bytes_per_tu_frac) |
-> +		     FIELD_PREP(INIT_THRESHOLD, init_threshold) |
-> +		     FIELD_PREP(AVERAGE_BYTES_PER_TU, average_bytes_per_tu));
-> +
-> +	/* Configure DW_DP_VIDEO_HBLANK_INTERVAL register */
-> +	hblank_interval =3D hblank * (link->rate / 4) / mode->clock;
-> +	regmap_write(dp->regmap, DW_DP_VIDEO_HBLANK_INTERVAL,
-> +		     FIELD_PREP(HBLANK_INTERVAL_EN, 1) |
-> +		     FIELD_PREP(HBLANK_INTERVAL, hblank_interval));
-> +
-> +	/* Video stream enable */
-> +	regmap_update_bits(dp->regmap, DW_DP_VSAMPLE_CTRL, VIDEO_STREAM_ENABLE,
-> +			   FIELD_PREP(VIDEO_STREAM_ENABLE, 1));
-> +
-> +	if (dw_dp_video_need_vsc_sdp(dp))
-> +		dw_dp_send_vsc_sdp(dp);
-> +
-> +	return 0;
-> +}
-> +
-> +static void dw_dp_hpd_init(struct dw_dp *dp)
-> +{
-> +	/* Enable all HPD interrupts */
-> +	regmap_update_bits(dp->regmap, DW_DP_HPD_INTERRUPT_ENABLE,
-> +			   HPD_UNPLUG_EN | HPD_PLUG_EN | HPD_IRQ_EN,
-> +			   FIELD_PREP(HPD_UNPLUG_EN, 1) |
-> +			   FIELD_PREP(HPD_PLUG_EN, 1) |
-> +			   FIELD_PREP(HPD_IRQ_EN, 1));
-> +
-> +	/* Enable all top-level interrupts */
-> +	regmap_update_bits(dp->regmap, DW_DP_GENERAL_INTERRUPT_ENABLE,
-> +			   HPD_EVENT_EN, FIELD_PREP(HPD_EVENT_EN, 1));
-> +}
-> +
-> +static void dw_dp_aux_init(struct dw_dp *dp)
-> +{
-> +	regmap_update_bits(dp->regmap, DW_DP_GENERAL_INTERRUPT_ENABLE,
-> +			   AUX_REPLY_EVENT_EN, FIELD_PREP(AUX_REPLY_EVENT_EN, 1));
-> +}
-> +
-> +static void dw_dp_init_hw(struct dw_dp *dp)
-> +{
-> +	regmap_update_bits(dp->regmap, DW_DP_CCTL, DEFAULT_FAST_LINK_TRAIN_EN,
-> +			   FIELD_PREP(DEFAULT_FAST_LINK_TRAIN_EN, 0));
-> +
-> +	dw_dp_hpd_init(dp);
-> +	dw_dp_aux_init(dp);
-> +}
-> +
-> +static int dw_dp_aux_write_data(struct dw_dp *dp, const u8 *buffer, size=
-_t size)
-> +{
-> +	size_t i, j;
-> +
-> +	for (i =3D 0; i < DIV_ROUND_UP(size, 4); i++) {
-> +		size_t num =3D min_t(size_t, size - i * 4, 4);
-> +		u32 value =3D 0;
-> +
-> +		for (j =3D 0; j < num; j++)
-> +			value |=3D buffer[i * 4 + j] << (j * 8);
-> +
-> +		regmap_write(dp->regmap, DW_DP_AUX_DATA0 + i * 4, value);
-> +	}
-> +
-> +	return size;
-> +}
-> +
-> +static int dw_dp_aux_read_data(struct dw_dp *dp, u8 *buffer, size_t size)
-> +{
-> +	size_t i, j;
-> +
-> +	for (i =3D 0; i < DIV_ROUND_UP(size, 4); i++) {
-> +		size_t num =3D min_t(size_t, size - i * 4, 4);
-> +		u32 value;
-> +
-> +		regmap_read(dp->regmap, DW_DP_AUX_DATA0 + i * 4, &value);
-> +
-> +		for (j =3D 0; j < num; j++)
-> +			buffer[i * 4 + j] =3D value >> (j * 8);
-> +	}
-> +
-> +	return size;
-> +}
-> +
-> +static ssize_t dw_dp_aux_transfer(struct drm_dp_aux *aux,
-> +				  struct drm_dp_aux_msg *msg)
-> +{
-> +	struct dw_dp *dp =3D container_of(aux, struct dw_dp, aux);
-> +	unsigned long timeout =3D msecs_to_jiffies(10);
-> +	u32 status, value;
-> +	ssize_t ret =3D 0;
-> +
-> +	if (WARN_ON(msg->size > 16))
-> +		return -E2BIG;
-> +
-> +	switch (msg->request & ~DP_AUX_I2C_MOT) {
-> +	case DP_AUX_NATIVE_WRITE:
-> +	case DP_AUX_I2C_WRITE:
-> +	case DP_AUX_I2C_WRITE_STATUS_UPDATE:
-> +		ret =3D dw_dp_aux_write_data(dp, msg->buffer, msg->size);
-> +		if (ret < 0)
-> +			return ret;
-> +		break;
-> +	case DP_AUX_NATIVE_READ:
-> +	case DP_AUX_I2C_READ:
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (msg->size > 0)
-> +		value =3D FIELD_PREP(AUX_LEN_REQ, msg->size - 1);
-> +	else
-> +		value =3D FIELD_PREP(I2C_ADDR_ONLY, 1);
-> +	value |=3D FIELD_PREP(AUX_CMD_TYPE, msg->request);
-> +	value |=3D FIELD_PREP(AUX_ADDR, msg->address);
-> +	regmap_write(dp->regmap, DW_DP_AUX_CMD, value);
-> +
-> +	status =3D wait_for_completion_timeout(&dp->complete, timeout);
-> +	if (!status) {
-> +		dev_err(dp->dev, "timeout waiting for AUX reply\n");
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	regmap_read(dp->regmap, DW_DP_AUX_STATUS, &value);
-> +	if (value & AUX_TIMEOUT)
-> +		return -ETIMEDOUT;
-> +
-> +	msg->reply =3D FIELD_GET(AUX_STATUS, value);
-> +
-> +	if (msg->size > 0 && msg->reply =3D=3D DP_AUX_NATIVE_REPLY_ACK) {
-> +		if (msg->request & DP_AUX_I2C_READ) {
-> +			size_t count =3D FIELD_GET(AUX_BYTES_READ, value) - 1;
-> +
-> +			if (count !=3D msg->size)
-> +				return -EBUSY;
-> +
-> +			ret =3D dw_dp_aux_read_data(dp, msg->buffer, count);
-> +			if (ret < 0)
-> +				return ret;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +/*
-> + * Limits for the video timing for DP:
-> + * 1. the hfp should be 2 pixels aligned;
-> + * 2. the minimum hsync should be 9 pixel;
-> + * 3. the minimum hbp should be 16 pixel;
-> + */
-> +static int dw_dp_bridge_atomic_check(struct drm_bridge *bridge,
-> +				     struct drm_bridge_state *bridge_state,
-> +				     struct drm_crtc_state *crtc_state,
-> +				     struct drm_connector_state *conn_state)
-> +{
-> +	struct drm_display_mode *adjusted_mode =3D &crtc_state->adjusted_mode;
-> +	struct dw_dp *dp =3D bridge_to_dp(bridge);
-> +	struct dw_dp_bridge_state *state;
-> +	const struct dw_dp_output_format *fmt;
-> +	struct drm_display_mode *mode;
-> +	int min_hbp =3D 16;
-> +	int min_hsync =3D 9;
-> +
-> +	state =3D to_dw_dp_bridge_state(bridge_state);
-> +	mode =3D &state->mode;
-> +
-> +	fmt =3D dw_dp_get_output_format(bridge_state->output_bus_cfg.format);
-> +	if (!fmt)
-> +		return -EINVAL;
-> +
-> +	state->video_mapping =3D fmt->video_mapping;
-> +	state->color_format =3D fmt->color_format;
-> +	state->bpc =3D fmt->bpc;
-> +	state->bpp =3D fmt->bpp;
-> +
-> +	if ((adjusted_mode->hsync_start - adjusted_mode->hdisplay) & 0x1) {
-> +		adjusted_mode->hsync_start +=3D 1;
-> +		dev_warn(dp->dev, "hfp is not 2 pixeel aligned, fixup to aligned hfp\n=
-");
-> +	}
-> +
-> +	if (adjusted_mode->hsync_end - adjusted_mode->hsync_start < min_hsync) {
-> +		adjusted_mode->hsync_end =3D adjusted_mode->hsync_start + min_hsync;
-> +		dev_warn(dp->dev, "hsync is too narrow, fixup to min hsync:%d\n", min_=
-hsync);
-> +	}
-> +
-> +	if (adjusted_mode->htotal - adjusted_mode->hsync_end < min_hbp) {
-> +		adjusted_mode->htotal =3D adjusted_mode->hsync_end + min_hbp;
-> +		dev_warn(dp->dev, "hbp is too narrow, fixup to min hbp:%d\n", min_hbp);
-> +	}
-> +
-> +	drm_mode_copy(mode, adjusted_mode);
-> +
-> +	return 0;
-> +}
-> +
-> +static enum drm_mode_status dw_dp_bridge_mode_valid(struct drm_bridge *b=
-ridge,
-> +						    const struct drm_display_info *info,
-> +						    const struct drm_display_mode *mode)
-> +{
-> +	struct dw_dp *dp =3D bridge_to_dp(bridge);
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	u32 min_bpp;
-> +
-> +	if (info->color_formats & DRM_COLOR_FORMAT_YCBCR420 &&
-> +	    link->vsc_sdp_supported &&
-> +	    (drm_mode_is_420_only(info, mode) || drm_mode_is_420_also(info, mod=
-e)))
-> +		min_bpp =3D 12;
-> +	else if (info->color_formats & DRM_COLOR_FORMAT_YCBCR422)
-> +		min_bpp =3D 16;
-> +	else if (info->color_formats & DRM_COLOR_FORMAT_RGB444)
-> +		min_bpp =3D 18;
-> +	else
-> +		min_bpp =3D 24;
-> +
-> +	if (!link->vsc_sdp_supported &&
-> +	    drm_mode_is_420_only(info, mode))
-> +		return MODE_NO_420;
-> +
-> +	if (!dw_dp_bandwidth_ok(dp, mode, min_bpp, link->lanes, link->rate))
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	return MODE_OK;
-> +}
-> +
-> +static bool dw_dp_needs_link_retrain(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	u8 link_status[DP_LINK_STATUS_SIZE];
-> +
-> +	if (!dw_dp_link_train_valid(&link->train))
-> +		return false;
-> +
-> +	if (drm_dp_dpcd_read_link_status(&dp->aux, link_status) < 0)
-> +		return false;
-> +
-> +	/* Retrain if Channel EQ or CR not ok */
-> +	return !drm_dp_channel_eq_ok(link_status, dp->link.lanes);
-> +}
-> +
-> +static void dw_dp_link_disable(struct dw_dp *dp)
-> +{
-> +	struct dw_dp_link *link =3D &dp->link;
-> +
-> +	if (dw_dp_hpd_detect(dp))
-> +		drm_dp_link_power_down(&dp->aux, dp->link.revision);
-> +
-> +	dw_dp_phy_xmit_enable(dp, 0);
-> +
-> +	phy_power_off(dp->phy);
-> +
-> +	link->train.clock_recovered =3D false;
-> +	link->train.channel_equalized =3D false;
-> +}
-> +
-> +static int dw_dp_link_enable(struct dw_dp *dp)
-> +{
-> +	int ret;
-> +
-> +	ret =3D phy_power_on(dp->phy);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D drm_dp_link_power_up(&dp->aux, dp->link.revision);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret =3D dw_dp_link_train(dp);
-> +
-> +	return ret;
-> +}
-> +
-> +static void dw_dp_bridge_atomic_enable(struct drm_bridge *bridge,
-> +				       struct drm_atomic_state *state)
-> +{
-> +	struct dw_dp *dp =3D bridge_to_dp(bridge);
-> +	struct drm_connector *connector;
-> +	struct drm_connector_state *conn_state;
-> +	int ret;
-> +
-> +	connector =3D drm_atomic_get_new_connector_for_encoder(state, bridge->e=
-ncoder);
-> +	if (!connector) {
-> +		dev_err(dp->dev, "failed to get connector\n");
-> +		return;
-> +	}
-> +
-> +	conn_state =3D drm_atomic_get_new_connector_state(state, connector);
-> +	if (!conn_state) {
-> +		dev_err(dp->dev, "failed to get connector state\n");
-> +		return;
-> +	}
-> +
-> +	set_bit(0, dp->sdp_reg_bank);
-> +
-> +	ret =3D dw_dp_link_enable(dp);
-> +	if (ret < 0) {
-> +		dev_err(dp->dev, "failed to enable link: %d\n", ret);
-> +		return;
-> +	}
-> +
-> +	ret =3D dw_dp_video_enable(dp);
-> +	if (ret < 0) {
-> +		dev_err(dp->dev, "failed to enable video: %d\n", ret);
-> +		return;
-> +	}
-> +}
-> +
-> +static void dw_dp_reset(struct dw_dp *dp)
-> +{
-> +	int val;
-> +
-> +	disable_irq(dp->irq);
-> +	regmap_update_bits(dp->regmap, DW_DP_SOFT_RESET_CTRL, CONTROLLER_RESET,
-> +			   FIELD_PREP(CONTROLLER_RESET, 1));
-> +	udelay(10);
-> +	regmap_update_bits(dp->regmap, DW_DP_SOFT_RESET_CTRL, CONTROLLER_RESET,
-> +			   FIELD_PREP(CONTROLLER_RESET, 0));
-> +
-> +	dw_dp_init_hw(dp);
-> +	regmap_read_poll_timeout(dp->regmap, DW_DP_HPD_STATUS, val,
-> +				 FIELD_GET(HPD_HOT_PLUG, val), 200, 200000);
-> +	regmap_write(dp->regmap, DW_DP_HPD_STATUS, HPD_HOT_PLUG);
-> +	enable_irq(dp->irq);
-> +}
-> +
-> +static void dw_dp_bridge_atomic_disable(struct drm_bridge *bridge,
-> +					struct drm_atomic_state *state)
-> +{
-> +	struct dw_dp *dp =3D bridge_to_dp(bridge);
-> +
-> +	dw_dp_video_disable(dp);
-> +	dw_dp_link_disable(dp);
-> +	bitmap_zero(dp->sdp_reg_bank, SDP_REG_BANK_SIZE);
-> +	dw_dp_reset(dp);
-> +}
-> +
-> +static bool dw_dp_hpd_detect_link(struct dw_dp *dp, struct drm_connector=
- *connector)
-> +{
-> +	int ret;
-> +
-> +	ret =3D phy_power_on(dp->phy);
-> +	if (ret < 0)
-> +		return false;
-> +	ret =3D dw_dp_link_parse(dp, connector);
-> +	phy_power_off(dp->phy);
-> +
-> +	return !ret;
-> +}
-> +
-> +static enum drm_connector_status dw_dp_bridge_detect(struct drm_bridge *=
-bridge,
-> +						     struct drm_connector *connector)
-> +{
-> +	struct dw_dp *dp =3D bridge_to_dp(bridge);
-> +
-> +	if (!dw_dp_hpd_detect(dp))
-> +		return connector_status_disconnected;
-> +
-> +	if (!dw_dp_hpd_detect_link(dp, connector))
-> +		return connector_status_disconnected;
-> +
-> +	return connector_status_connected;
-> +}
-> +
-> +static const struct drm_edid *dw_dp_bridge_edid_read(struct drm_bridge *=
-bridge,
-> +						     struct drm_connector *connector)
-> +{
-> +	struct dw_dp *dp =3D bridge_to_dp(bridge);
-> +	const struct drm_edid *edid;
-> +	int ret;
-> +
-> +	ret =3D phy_power_on(dp->phy);
-> +	if (ret)
-> +		return NULL;
-> +
-> +	edid =3D drm_edid_read_ddc(connector, &dp->aux.ddc);
-> +
-> +	phy_power_off(dp->phy);
-> +
-> +	return edid;
-> +}
-> +
-> +static u32 *dw_dp_bridge_atomic_get_output_bus_fmts(struct drm_bridge *b=
-ridge,
-> +						    struct drm_bridge_state *bridge_state,
-> +						    struct drm_crtc_state *crtc_state,
-> +						    struct drm_connector_state *conn_state,
-> +						    unsigned int *num_output_fmts)
-> +{
-> +	struct dw_dp *dp =3D bridge_to_dp(bridge);
-> +	struct dw_dp_link *link =3D &dp->link;
-> +	struct drm_display_info *di =3D &conn_state->connector->display_info;
-> +	struct drm_display_mode mode =3D crtc_state->mode;
-> +	const struct dw_dp_output_format *fmt;
-> +	u32 i, j =3D 0;
-> +	u32 *output_fmts;
-> +
-> +	*num_output_fmts =3D 0;
-> +
-> +	output_fmts =3D kcalloc(ARRAY_SIZE(dw_dp_output_formats), sizeof(*outpu=
-t_fmts), GFP_KERNEL);
-> +	if (!output_fmts)
-> +		return NULL;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(dw_dp_output_formats); i++) {
-> +		fmt =3D &dw_dp_output_formats[i];
-> +
-> +		if (fmt->bpc > conn_state->max_bpc)
-> +			continue;
-> +
-> +		if (!(fmt->color_format & di->color_formats))
-> +			continue;
-> +
-> +		if (fmt->color_format =3D=3D DRM_COLOR_FORMAT_YCBCR420 &&
-> +		    !link->vsc_sdp_supported)
-> +			continue;
-> +
-> +		if (fmt->color_format !=3D DRM_COLOR_FORMAT_YCBCR420 &&
-> +		    drm_mode_is_420_only(di, &mode))
-> +			continue;
-> +
-> +		if (!dw_dp_bandwidth_ok(dp, &mode, fmt->bpp, link->lanes, link->rate))
-> +			continue;
-> +
-> +		output_fmts[j++] =3D fmt->bus_format;
-> +	}
-> +
-> +	*num_output_fmts =3D j;
-> +
-> +	return output_fmts;
-> +}
-> +
-> +static struct drm_bridge_state *dw_dp_bridge_atomic_duplicate_state(stru=
-ct drm_bridge *bridge)
-> +{
-> +	struct dw_dp_bridge_state *state;
-> +
-> +	state =3D kzalloc(sizeof(*state), GFP_KERNEL);
-> +	if (!state)
-> +		return NULL;
-> +
-> +	__drm_atomic_helper_bridge_duplicate_state(bridge, &state->base);
-> +
-> +	return &state->base;
-> +}
-> +
-> +static const struct drm_bridge_funcs dw_dp_bridge_funcs =3D {
-> +	.atomic_duplicate_state =3D dw_dp_bridge_atomic_duplicate_state,
-> +	.atomic_destroy_state =3D drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset =3D drm_atomic_helper_bridge_reset,
-> +	.atomic_get_input_bus_fmts =3D drm_atomic_helper_bridge_propagate_bus_f=
-mt,
-> +	.atomic_get_output_bus_fmts =3D dw_dp_bridge_atomic_get_output_bus_fmts,
-> +	.atomic_check =3D dw_dp_bridge_atomic_check,
-> +	.mode_valid =3D dw_dp_bridge_mode_valid,
-> +	.atomic_enable =3D dw_dp_bridge_atomic_enable,
-> +	.atomic_disable =3D dw_dp_bridge_atomic_disable,
-> +	.detect =3D dw_dp_bridge_detect,
-> +	.edid_read =3D dw_dp_bridge_edid_read,
-> +};
-> +
-> +static int dw_dp_link_retrain(struct dw_dp *dp)
-> +{
-> +	struct drm_device *dev =3D dp->bridge.dev;
-> +	struct drm_modeset_acquire_ctx ctx;
-> +	int ret;
-> +
-> +	if (!dw_dp_needs_link_retrain(dp))
-> +		return 0;
-> +
-> +	dev_dbg(dp->dev, "Retraining link\n");
-> +
-> +	drm_modeset_acquire_init(&ctx, 0);
-> +	for (;;) {
-> +		ret =3D drm_modeset_lock(&dev->mode_config.connection_mutex, &ctx);
-> +		if (ret !=3D -EDEADLK)
-> +			break;
-> +
-> +		drm_modeset_backoff(&ctx);
-> +	}
-> +
-> +	if (!ret)
-> +		ret =3D dw_dp_link_train(dp);
-> +
-> +	drm_modeset_drop_locks(&ctx);
-> +	drm_modeset_acquire_fini(&ctx);
-> +
-> +	return ret;
-> +}
-> +
-> +static void dw_dp_hpd_work(struct work_struct *work)
-> +{
-> +	struct dw_dp *dp =3D container_of(work, struct dw_dp, hpd_work);
-> +	bool long_hpd;
-> +	int ret;
-> +
-> +	mutex_lock(&dp->irq_lock);
-> +	long_hpd =3D dp->hotplug.long_hpd;
-> +	mutex_unlock(&dp->irq_lock);
-> +
-> +	dev_dbg(dp->dev, "[drm] Get hpd irq - %s\n", long_hpd ? "long" : "short=
-");
-> +
-> +	if (!long_hpd) {
-> +		if (dw_dp_needs_link_retrain(dp)) {
-> +			ret =3D dw_dp_link_retrain(dp);
-> +			if (ret)
-> +				dev_warn(dp->dev, "Retrain link failed\n");
-> +		}
-> +	} else {
-> +		drm_helper_hpd_irq_event(dp->bridge.dev);
-> +	}
-> +}
-> +
-> +static void dw_dp_handle_hpd_event(struct dw_dp *dp)
-> +{
-> +	u32 value;
-> +
-> +	mutex_lock(&dp->irq_lock);
-> +	regmap_read(dp->regmap, DW_DP_HPD_STATUS, &value);
-> +
-> +	if (value & HPD_IRQ) {
-> +		dev_dbg(dp->dev, "IRQ from the HPD\n");
-> +		dp->hotplug.long_hpd =3D false;
-> +		regmap_write(dp->regmap, DW_DP_HPD_STATUS, HPD_IRQ);
-> +	}
-> +
-> +	if (value & HPD_HOT_PLUG) {
-> +		dev_dbg(dp->dev, "Hot plug detected\n");
-> +		dp->hotplug.long_hpd =3D true;
-> +		regmap_write(dp->regmap, DW_DP_HPD_STATUS, HPD_HOT_PLUG);
-> +	}
-> +
-> +	if (value & HPD_HOT_UNPLUG) {
-> +		dev_dbg(dp->dev, "Unplug detected\n");
-> +		dp->hotplug.long_hpd =3D true;
-> +		regmap_write(dp->regmap, DW_DP_HPD_STATUS, HPD_HOT_UNPLUG);
-> +	}
-> +	mutex_unlock(&dp->irq_lock);
-> +
-> +	schedule_work(&dp->hpd_work);
-> +}
-> +
-> +static irqreturn_t dw_dp_irq(int irq, void *data)
-> +{
-> +	struct dw_dp *dp =3D data;
-> +	u32 value;
-> +
-> +	regmap_read(dp->regmap, DW_DP_GENERAL_INTERRUPT, &value);
-> +	if (!value)
-> +		return IRQ_NONE;
-> +
-> +	if (value & HPD_EVENT)
-> +		dw_dp_handle_hpd_event(dp);
-> +
-> +	if (value & AUX_REPLY_EVENT) {
-> +		regmap_write(dp->regmap, DW_DP_GENERAL_INTERRUPT, AUX_REPLY_EVENT);
-> +		complete(&dp->complete);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static const struct regmap_range dw_dp_readable_ranges[] =3D {
-> +	regmap_reg_range(DW_DP_VERSION_NUMBER, DW_DP_ID),
-> +	regmap_reg_range(DW_DP_CONFIG_REG1, DW_DP_CONFIG_REG3),
-> +	regmap_reg_range(DW_DP_CCTL, DW_DP_SOFT_RESET_CTRL),
-> +	regmap_reg_range(DW_DP_VSAMPLE_CTRL, DW_DP_VIDEO_HBLANK_INTERVAL),
-> +	regmap_reg_range(DW_DP_AUD_CONFIG1, DW_DP_AUD_CONFIG1),
-> +	regmap_reg_range(DW_DP_SDP_VERTICAL_CTRL, DW_DP_SDP_STATUS_EN),
-> +	regmap_reg_range(DW_DP_PHYIF_CTRL, DW_DP_PHYIF_PWRDOWN_CTRL),
-> +	regmap_reg_range(DW_DP_AUX_CMD, DW_DP_AUX_DATA3),
-> +	regmap_reg_range(DW_DP_GENERAL_INTERRUPT, DW_DP_HPD_INTERRUPT_ENABLE),
-> +};
-> +
-> +static const struct regmap_access_table dw_dp_readable_table =3D {
-> +	.yes_ranges     =3D dw_dp_readable_ranges,
-> +	.n_yes_ranges   =3D ARRAY_SIZE(dw_dp_readable_ranges),
-> +};
-> +
-> +static const struct regmap_config dw_dp_regmap_config =3D {
-> +	.reg_bits =3D 32,
-> +	.reg_stride =3D 4,
-> +	.val_bits =3D 32,
-> +	.fast_io =3D true,
-> +	.max_register =3D DW_DP_MAX_REGISTER,
-> +	.rd_table =3D &dw_dp_readable_table,
-> +};
-> +
-> +static void dw_dp_phy_exit(void *data)
-> +{
-> +	struct dw_dp *dp =3D data;
-> +
-> +	phy_exit(dp->phy);
-> +}
-> +
-> +struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
-> +			 const struct dw_dp_plat_data *plat_data)
-> +{
-> +	struct platform_device *pdev =3D to_platform_device(dev);
-> +	struct dw_dp *dp;
-> +	struct drm_bridge *bridge;
-> +	void __iomem *res;
-> +	int ret;
-> +
-> +	dp =3D devm_kzalloc(dev, sizeof(*dp), GFP_KERNEL);
-> +	if (!dp)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	dp =3D devm_drm_bridge_alloc(dev, struct dw_dp, bridge, &dw_dp_bridge_f=
-uncs);
-> +	if (IS_ERR(dp))
-> +		return ERR_CAST(dp);
-> +
-> +	dp->dev =3D dev;
-> +	dp->pixel_mode =3D DW_DP_MP_QUAD_PIXEL;
-> +
-> +	dp->plat_data.max_link_rate =3D plat_data->max_link_rate;
-> +	bridge =3D &dp->bridge;
-> +	mutex_init(&dp->irq_lock);
-> +	INIT_WORK(&dp->hpd_work, dw_dp_hpd_work);
-> +	init_completion(&dp->complete);
-> +
-> +	res =3D devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(res))
-> +		return ERR_CAST(res);
-> +
-> +	dp->regmap =3D devm_regmap_init_mmio(dev, res, &dw_dp_regmap_config);
-> +	if (IS_ERR(dp->regmap)) {
-> +		dev_err_probe(dev, PTR_ERR(dp->regmap), "failed to create regmap\n");
-> +		return ERR_CAST(dp->regmap);
-> +	}
-> +
-> +	dp->phy =3D devm_of_phy_get(dev, dev->of_node, NULL);
-> +	if (IS_ERR(dp->phy)) {
-> +		dev_err_probe(dev, PTR_ERR(dp->phy), "failed to get phy\n");
-> +		return ERR_CAST(dp->phy);
-> +	}
-> +
-> +	dp->apb_clk =3D devm_clk_get_enabled(dev, "apb");
-> +	if (IS_ERR(dp->apb_clk)) {
-> +		dev_err_probe(dev, PTR_ERR(dp->apb_clk), "failed to get apb clock\n");
-> +		return ERR_CAST(dp->apb_clk);
-> +	}
-> +
-> +	dp->aux_clk =3D devm_clk_get_enabled(dev, "aux");
-> +	if (IS_ERR(dp->aux_clk)) {
-> +		dev_err_probe(dev, PTR_ERR(dp->aux_clk), "failed to get aux clock\n");
-> +		return ERR_CAST(dp->aux_clk);
-> +	}
-> +
-> +	dp->i2s_clk =3D devm_clk_get(dev, "i2s");
-> +	if (IS_ERR(dp->i2s_clk)) {
-> +		dev_err_probe(dev, PTR_ERR(dp->i2s_clk), "failed to get i2s clock\n");
-> +		return ERR_CAST(dp->i2s_clk);
-> +	}
-> +
-> +	dp->spdif_clk =3D devm_clk_get(dev, "spdif");
-> +	if (IS_ERR(dp->spdif_clk)) {
-> +		dev_err_probe(dev, PTR_ERR(dp->spdif_clk), "failed to get spdif clock\=
-n");
-> +		return ERR_CAST(dp->spdif_clk);
-> +	}
-> +
-> +	dp->hdcp_clk =3D devm_clk_get(dev, "hdcp");
-> +	if (IS_ERR(dp->hdcp_clk)) {
-> +		dev_err_probe(dev, PTR_ERR(dp->hdcp_clk), "failed to get hdcp clock\n"=
-);
-> +		return ERR_CAST(dp->hdcp_clk);
-> +	}
-> +
-> +	dp->rstc =3D devm_reset_control_get(dev, NULL);
-> +	if (IS_ERR(dp->rstc)) {
-> +		dev_err_probe(dev, PTR_ERR(dp->rstc), "failed to get reset control\n");
-> +		return ERR_CAST(dp->rstc);
-> +	}
-> +
-> +	bridge->of_node =3D dev->of_node;
-> +	bridge->ops =3D DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID | DRM_BRIDGE_=
-OP_HPD;
-> +	bridge->type =3D DRM_MODE_CONNECTOR_DisplayPort;
-> +	bridge->ycbcr_420_allowed =3D true;
-> +
-> +	dp->aux.dev =3D dev;
-> +	dp->aux.drm_dev =3D encoder->dev;
-> +	dp->aux.name =3D dev_name(dev);
-> +	dp->aux.transfer =3D dw_dp_aux_transfer;
-> +	ret =3D drm_dp_aux_register(&dp->aux);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "Aux register failed\n");
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	ret =3D drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_C=
-ONNECTOR);
-> +	if (ret)
-> +		dev_err_probe(dev, ret, "Failed to attach bridge\n");
-> +
-> +	dw_dp_init_hw(dp);
-> +
-> +	ret =3D phy_init(dp->phy);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "phy init failed\n");
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	ret =3D devm_add_action_or_reset(dev, dw_dp_phy_exit, dp);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	dp->irq =3D platform_get_irq(pdev, 0);
-> +	if (dp->irq < 0)
-> +		return ERR_PTR(ret);
-> +
-> +	ret =3D devm_request_threaded_irq(dev, dp->irq, NULL, dw_dp_irq,
-> +					IRQF_ONESHOT, dev_name(dev), dp);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "failed to request irq\n");
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	return dp;
-> +}
-> +EXPORT_SYMBOL_GPL(dw_dp_bind);
-> +
-> +MODULE_AUTHOR("Andy Yan <andyshrk@163.com>");
-> +MODULE_DESCRIPTION("DW DP Core Library");
-> +MODULE_LICENSE("GPL");
-> diff --git a/include/drm/bridge/dw_dp.h b/include/drm/bridge/dw_dp.h
-> new file mode 100644
-> index 0000000000000..d05df49fd8846
-> --- /dev/null
-> +++ b/include/drm/bridge/dw_dp.h
-> @@ -0,0 +1,20 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Copyright (c) 2025 Rockchip Electronics Co., Ltd.
-> + */
-> +
-> +#ifndef __DW_DP__
-> +#define __DW_DP__
-> +
-> +#include <linux/device.h>
-> +
-> +struct drm_encoder;
-> +struct dw_dp;
-> +
-> +struct dw_dp_plat_data {
-> +	u32 max_link_rate;
-> +};
-> +
-> +struct dw_dp *dw_dp_bind(struct device *dev, struct drm_encoder *encoder,
-> +			 const struct dw_dp_plat_data *plat_data);
-> +#endif /* __DW_DP__ */
-> --=20
-> 2.43.0
->=20
-
---whufnd26xyiydlxf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmifcfcACgkQ2O7X88g7
-+pqjJRAAlCCQ9HZB5GHuW9o0vtuaEuwmxTxtzfn/9eW+bvGU277t73dW/ky3JwGy
-KS/RceSiTjk9ZejZ+Vf9+GzGdEJsuqC5Wb3gGh5B//3EYFeBMEoLb5kGrJggDaHG
-+4laVwOYvPRc9ZTeL1C+cZABeoD1mPt7N32IDdrnJPOjX2H11XrCkDhYmxFl23vu
-9g3XHHRT9CkW42/e9aQLHjNd4KgHlWyFlko3yhL/E9ZrVNqIskfUSN/v17TteKeh
-8R8v/PydS9mcIRmyx651vGI/R5C+gAfQolPLMfMY9hOm6uWwcadm6tG15tY3WMjB
-giOak1XlRNp3HbHEDj8TxZB0Fjh7mqxt9Z1QHn+MMOoOjzbt6tY12QLXPY/5IBza
-dF96wgWK325HnjfTsaHqmFbiDsxL+pqtcnUtKbVeu3IugDOSoGGjjCuAGobW+4eW
-NMnDsWoH6301BwvLQMCeaxZbWrsGNj8RcCKeNC8gZiZKzP9s113uxSLdFI0LgLH0
-ZH8ZCdZCiN3VRaRkl9uXD7KP4JZPc68rDH+jOR+X9EmjDDNsnMoHXMQbyI2l3CLC
-7KdLUnJFyT9bQGI9I9NKlBvBeeVjM7ZkON053o7cbGg2Js6vGcXv95Vm8bkdlWpk
-Hr6PFCgP8tiPAcSc7BozkA/YXU89hgWqRhPHlmvZvkB86hvjkNk=
-=k/ST
------END PGP SIGNATURE-----
-
---whufnd26xyiydlxf--
+--_000_TY4PR01MB14432C77EDFD80D2075FFCC2A9834ATY4PR01MB14432jp_--
