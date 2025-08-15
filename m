@@ -2,67 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9C8B2867F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 21:40:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CABB286C5
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 21:59:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D64810E26C;
-	Fri, 15 Aug 2025 19:40:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1B4810E289;
+	Fri, 15 Aug 2025 19:59:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="WrPu03M4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TD3EfHCi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F292610E26C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 19:40:26 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57FJeHx32669592;
- Fri, 15 Aug 2025 14:40:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1755286817;
- bh=LfyjrME+xUKDBHxkGHQrFTfPrNu4/XhTDGMxhaMKngg=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=WrPu03M4QFirNu0si7nztZ4btKN3s2k4VEqyW6v2n8DfX/v5NQQYzlsMh+wHyVqun
- kcDWHrU60AMRZpdD2yCxi1a9geof6v7VSzkaMv1lvBjXNcFOLcv1qQzeW6JQ5lrYU2
- dEplDBLww9wpcixVmqELUJN7Kj4ZldOp6Em1TQsU=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57FJeH4t2806871
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Fri, 15 Aug 2025 14:40:17 -0500
-Received: from DLEE207.ent.ti.com (157.170.170.95) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 15
- Aug 2025 14:40:17 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE207.ent.ti.com
- (157.170.170.95) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.1748.24; Fri, 15 Aug
- 2025 14:40:16 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 15 Aug 2025 14:40:16 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57FJeG811752389;
- Fri, 15 Aug 2025 14:40:16 -0500
-Message-ID: <008f6004-dcf0-42e8-b2df-f97c0ee5ba66@ti.com>
-Date: Fri, 15 Aug 2025 14:40:16 -0500
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D53EF10E286
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 19:59:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=50VYbSIrOLNLJ+3w+PxBnnE8IpQCnNiwuLSa53UmHfM=; b=TD3EfHCiLL7ZrfjBQWx58WsirG
+ oASF4F25OTnPnTCGbIaEhigOtkSOhMkOiqJWGCTWEgggbolpirTLrPJcN46CvneW2jSMchGHxGUAW
+ fKc2OhyJt3Q7Viurc5SLPgVqYQ1udfvGlBlzYmkaTfILpDeHUXlUOuj3iLsfJnwTrOJDOCoQQiQlO
+ kJGNwCe1uUcXQIgFh2uU1ahulo+LXmzMalw3GwElKguHe3EVR8edMzr2kI0q8UT2yYuXuvbnuq9Yv
+ NiiZpDBipuNkYh1+bXQY8Wq6u+5K+FZmHDq4NyFml8seX4fPy2zoHusnmrkR9nLg+DjKmIbkEn209
+ E2A+8PWQ==;
+Received: from [177.191.196.76] (helo=[192.168.0.165])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1un0Zm-00EoI4-TM; Fri, 15 Aug 2025 21:58:59 +0200
+From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Subject: [PATCH v2 0/6] drm/v3d: General job locking improvements +
+ race-condition fixes
+Date: Fri, 15 Aug 2025 16:58:39 -0300
+Message-Id: <20250815-v3d-queue-lock-v2-0-ce37258ffb53@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] udmabuf: Sync to attached devices
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Gerd Hoffmann
- <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, Paul Cercueil
- <paul@crapouillou.net>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
- "Daniel Vetter" <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
-References: <20250814161049.678672-1-afd@ti.com>
- <0b963b02-dec0-4bf5-aea9-dbe3050716ee@amd.com>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <0b963b02-dec0-4bf5-aea9-dbe3050716ee@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-B4-Tracking: v=1; b=H4sIAG+Rn2gC/13MQQ6CMBCF4auQWTumrVbBlfcwLNoywESk2kqjI
+ dzdSuLG5f+S980QKTBFOBUzBEoc2Y851KYA15uxI+QmNyihtDjKEtOuwcdEE+Hg3RV1ZY1trd6
+ X1kE+3QO1/FrBS5275/j04b36SX7XH1X9U0miQOvcQSopWkn6zJ0Z2Gydv0G9LMsHSHcBrK0AA
+ AA=
+X-Change-ID: 20250718-v3d-queue-lock-59babfb548bc
+To: Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>, 
+ Jose Maria Casanova Crespo <jmcasanova@igalia.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1972; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=sehh7sLqthK26iyxILASKNQ4rCeVLb/v0UQE5b3oOP4=;
+ b=owEBbQGS/pANAwAKAT/zDop2iPqqAcsmYgBon5FzQyLzkqQR6M+WNJEKbhe2KEa1bdMSK5ZEb
+ tOouTE9EBCJATMEAAEKAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaJ+RcwAKCRA/8w6Kdoj6
+ qm1pCADRfs+a3F/PnvigjY+wTnMEBrBd2B2pthckKyCnS6snEqTv+KmYQ8F5y1pKVzFORwE6j47
+ za/j0XwzWIAeFvoexMkltRI2lB9dssa32ZO9dnTDUYl69nAXjiybRNDQyy417mVVdjggdIslz6u
+ oNhA/INgu+toHXMlYLWOWO5HmMfGKPNs/sVlyfrU1RQHV0f4rZAunN6MukXiiYGEc9sHtZKAMFm
+ p/HCoP2ReMGsbWTmEDvEDgLp2Ubpr3m9zjU42rFXh7VanUXONVI0G+7gVMXyddEYSNVT0ZU8gzc
+ MonK7Rhj+QdHIz5942VHYoES4AdP0feDKpLHjahPndFLoX84
+X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
+ fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,70 +77,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/15/25 4:41 AM, Christian König wrote:
-> On 14.08.25 18:10, Andrew Davis wrote:
->> Hello all,
->>
->> This series makes it so the udmabuf will sync the backing buffer
->> with the set of attached devices as required for DMA-BUFs when
->> doing {begin,end}_cpu_access.
-> 
-> Yeah the reason why we didn't do that is that this doesn't even work 100% reliable in theory. So this patchset here might make your use case work but is a bit questionable in general.
-> 
-> udmabuf is about turning a file descriptor created by memfd_create() into a DMA-buf. Mapping that memory can happen through the memfd as well and so it is perfectly valid to skip the DMA-buf begin_access and end_access callbacks.
-> 
+This patch series was initially motivated by a race condition (exposed
+in PATCH 4/6) where we lacked synchronization for `job->file` access.
+This led to use-after-free issues when a file descriptor was closed
+while a job was still running.
 
-If someone maps the memory backed by the DMA-buf outside of the DMA-APIs then we cannot really
-control that, but in this case if they do map with the DMA-API then it is *not* valid to skip
-these begin_access and end_access callbacks. And that is the case I am addressing here.
+However, beyond fixing this specific race, the series introduces
+broader improvements to active job management and locking. While PATCH
+1/6, 2/6, and 5/6 are primarily code refactors, PATCH 3/6 brings a
+significant change to the locking scheme. Previously, all queues shared
+the same spinlock, which caused unnecessary contention during high GPU
+usage across different queues. PATCH 3/6 allows queues to operate more
+independently.
 
-Right now we are not syncing the mapping for any attached device, we just zap it from
-the CPU caches using some hacky loopback and hope that is enough for the devices :/
+Finally, PATCH 6/6 addresses a similar race condition to PATCH 4/6, but
+this time, on the per-file descriptor reset counter.
 
-> Additional to that when CONFIG_DMABUF_DEBUG is enabled the DMA-buf code mangles the page addresses in the sg table to prevent importers from abusing it. That makes dma_sync_sgtable_for_cpu() and dma_sync_sgtable_for_device() on the exporter side crash.
-> 
+Best Regards,
+- Maíra
 
-I was not aware of this mangle_sg_table() hack, must have been added while I was not looking :)
+---
+v1 -> v2:
 
-Seems very broken TBH, taking a quick look, I see on this line[0] you call it, then
-just a couple lines later you use that same mangled page_link to walk the SG table[1]..
+- Rebase on top of drm-misc-next.
+- Link to v1: https://lore.kernel.org/r/20250719-v3d-queue-lock-v1-0-bcc61210f1e5@igalia.com
 
-If anyone enables DMA_API_DEBUG and tried to attach/map a non-contiguous DMA-BUF with
-a chained sg I don't see how that doesn't crash out.
+---
+Maíra Canal (6):
+      drm/v3d: Store a pointer to `struct v3d_file_priv` inside each job
+      drm/v3d: Store the active job inside the queue's state
+      drm/v3d: Replace a global spinlock with a per-queue spinlock
+      drm/v3d: Address race-condition between per-fd GPU stats and fd release
+      drm/v3d: Synchronous operations can't timeout
+      drm/v3d: Protect per-fd reset counter against fd release
 
-> That's the reason why DMA-buf heaps uses a copy of the sg table for calling dma_sync_sgtable_for_cpu()/dma_sync_sgtable_for_device().
-> 
-
-Could you point me to where Heaps uses a copy of the SG table? I see it using the
-exact same SG table for dma_sync_sgtable_for_*() that we created when mapping the
-device attachments.
-
-Thanks,
-Andrew
-
-[0] https://github.com/torvalds/linux/blob/master/drivers/dma-buf/dma-buf.c#L1142
-[1] https://github.com/torvalds/linux/blob/master/drivers/dma-buf/dma-buf.c#L1151
-
-> It's basically a hack and should be removed, but for this we need to change all clients which is tons of work.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Thanks
->> Andrew
->>
->> Changes for v2:
->>   - fix attachment table use-after-free
->>   - rebased on v6.17-rc1
->>
->> Andrew Davis (3):
->>    udmabuf: Keep track current device mappings
->>    udmabuf: Sync buffer mappings for attached devices
->>    udmabuf: Use module_misc_device() to register this device
->>
->>   drivers/dma-buf/udmabuf.c | 133 +++++++++++++++++++-------------------
->>   1 file changed, 67 insertions(+), 66 deletions(-)
->>
-> 
+ drivers/gpu/drm/v3d/v3d_drv.c    | 14 ++++++-
+ drivers/gpu/drm/v3d/v3d_drv.h    | 22 ++++-------
+ drivers/gpu/drm/v3d/v3d_fence.c  | 11 +++---
+ drivers/gpu/drm/v3d/v3d_gem.c    | 10 ++---
+ drivers/gpu/drm/v3d/v3d_irq.c    | 68 +++++++++++++-------------------
+ drivers/gpu/drm/v3d/v3d_sched.c  | 83 +++++++++++++++++++++-------------------
+ drivers/gpu/drm/v3d/v3d_submit.c |  2 +-
+ 7 files changed, 104 insertions(+), 106 deletions(-)
+---
+base-commit: f9c67b019bc3c0324ee42c0dbfbb2d55726d751e
+change-id: 20250718-v3d-queue-lock-59babfb548bc
 
