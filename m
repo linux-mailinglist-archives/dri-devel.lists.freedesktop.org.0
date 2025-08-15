@@ -2,37 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA03DB2814D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 16:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FAE9B2818C
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 16:22:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14C4D10E963;
-	Fri, 15 Aug 2025 14:10:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 710A610E038;
+	Fri, 15 Aug 2025 14:22:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 18DDF10E963
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 14:10:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 969C910E038
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 14:22:45 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1EACE1691;
- Fri, 15 Aug 2025 07:09:58 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE0B81691;
+ Fri, 15 Aug 2025 07:22:36 -0700 (PDT)
 Received: from [10.1.29.14] (e122027.cambridge.arm.com [10.1.29.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7241A3F738;
- Fri, 15 Aug 2025 07:10:04 -0700 (PDT)
-Message-ID: <7e495e8f-26a0-4a82-8888-b8f1e512ebef@arm.com>
-Date: Fri, 15 Aug 2025 15:10:02 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0DB2E3F738;
+ Fri, 15 Aug 2025 07:22:42 -0700 (PDT)
+Message-ID: <4825140d-a03e-4b22-a7ed-1de17b07714e@arm.com>
+Date: Fri, 15 Aug 2025 15:22:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/panthor: Simplify mmu_hw_do_operation_locked
-To: Karunika Choo <karunika.choo@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Daniel Stone <daniel@fooishbar.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chia-I Wu <olvaffe@gmail.com>, nd@arm.com
-References: <20250815134226.57703-1-steven.price@arm.com>
- <ee996a62-bcbf-4702-837e-85f93feb7240@arm.com>
+Subject: Re: [PATCH 19/80] drm/panfrost: Remove redundant
+ pm_runtime_mark_last_busy() calls
 From: Steven Price <steven.price@arm.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+ <20250704075411.3218059-1-sakari.ailus@linux.intel.com>
+ <eee19dfc-c8ee-44d4-b9d7-9335ec3ad73e@arm.com>
 Content-Language: en-GB
-In-Reply-To: <ee996a62-bcbf-4702-837e-85f93feb7240@arm.com>
+In-Reply-To: <eee19dfc-c8ee-44d4-b9d7-9335ec3ad73e@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,134 +54,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/08/2025 15:01, Karunika Choo wrote:
-> On 15/08/2025 14:42, Steven Price wrote:
->> The only callers to mmu_hw_do_operation_locked() pass an 'op' of either
->> AS_COMAND_FLUSH_MEM or AS_COMMAND_FLUSH_PT. This means the code paths
->> after that are dead. Removing those paths means the
->> mmu_hw_do_flush_on_gpu_ctrl() function might has well be inlined.
+On 04/07/2025 10:18, Steven Price wrote:
+> On 04/07/2025 08:54, Sakari Ailus wrote:
+>> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+>> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+>> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+>> pm_runtime_mark_last_busy().
 >>
->> Simplify everything by having a switch statement for the type of 'op'
->> (warning if we get an unexpected value) and removing the dead cases.
->>
->> Suggested-by: Daniel Stone <daniel@fooishbar.org>
->> Signed-off-by: Steven Price <steven.price@arm.com>
->> ---
->> Changes from v1:
->>  * As well as removing dead code, inline mmu_hw_do_flush_on_gpu_ctrl
->>
->>  drivers/gpu/drm/panthor/panthor_mmu.c | 57 ++++++++++++---------------
->>  1 file changed, 26 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
->> index 367c89aca558..9d77e7c16ed2 100644
->> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
->> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
->> @@ -569,15 +569,37 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
->>  	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
->>  }
->>  
->> -static int mmu_hw_do_flush_on_gpu_ctrl(struct panthor_device *ptdev, int as_nr,
->> -				       u32 op)
->> +static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
->> +				      u64 iova, u64 size, u32 op)
->>  {
->>  	const u32 l2_flush_op = CACHE_CLEAN | CACHE_INV;
->> -	u32 lsc_flush_op = 0;
->> +	u32 lsc_flush_op;
->>  	int ret;
->>  
->> -	if (op == AS_COMMAND_FLUSH_MEM)
->> +	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
->> +
->> +	switch (op) {
->> +	case AS_COMMAND_FLUSH_MEM:
->>  		lsc_flush_op = CACHE_CLEAN | CACHE_INV;
->> +		break;
->> +	case AS_COMMAND_FLUSH_PT:
->> +		lsc_flush_op = 0;
->> +		break;
->> +	default:
->> +		drm_WARN(&ptdev->base, 1, "Unexpected AS_COMMAND: %d", op);
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (as_nr < 0)
->> +		return 0;
->> +
+>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > 
-> Hi Steve,
+> Reviewed-by: Steven Price <steven.price@arm.com>
 > 
-> Thanks for pushing this patch. I was planning to address Daniel's
-> comment next week.
-> 
-> One small nit, would it be better to move the (as_nr < 0) check just
-> after the lockdep_assert_held() (above the switch case)?
+> But this can't be merged via drm-misc until the PM changes have hit
+> Linus' tree and been backmerged to drm-misc-next.
 
-I'm not sure it makes much difference, but there was a minor reason for
-my ordering:
-
-By having it after the switch statement then if someone adds a call with
-an invalid op value it will always fail (with a warning). Whereas if we
-move the (as_nr < 0) check earlier then there's a chance they won't
-notice if their testing doesn't trigger that case.
-
-Obviously there might be a (theoretical) performance impact, but I don't
-think the one extra check would be noticeable - this isn't exactly a
-major fast path. Is there something else I've missed which would justify
-switching it around?
+The back merged of -rc1 happened, so I've now merged this to drm-misc-next.
 
 Thanks,
 Steve
 
-> Looks good to me otherwise.
+> Thanks,
+> Steve
 > 
-> Kind regards,
-> Karunika
-> 
->> +	/*
->> +	 * If the AS number is greater than zero, then we can be sure
->> +	 * the device is up and running, so we don't need to explicitly
->> +	 * power it up
->> +	 */
->> +
->> +	lock_region(ptdev, as_nr, iova, size);
+>> ---
+>> The cover letter of the set can be found here
+>> <URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
+>>
+>> In brief, this patch depends on PM runtime patches adding marking the last
+>> busy timestamp in autosuspend related functions. The patches are here, on
+>> rc2:
+>>
+>>         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+>>                 pm-runtime-6.17-rc1
+>>
+>>  drivers/gpu/drm/panfrost/panfrost_perfcnt.c | 2 --
+>>  1 file changed, 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+>> index 563f16bae543..0dd62e8b2fa7 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_perfcnt.c
+>> @@ -203,7 +203,6 @@ static int panfrost_perfcnt_disable_locked(struct panfrost_device *pfdev,
+>>  	panfrost_mmu_as_put(pfdev, perfcnt->mapping->mmu);
+>>  	panfrost_gem_mapping_put(perfcnt->mapping);
+>>  	perfcnt->mapping = NULL;
+>> -	pm_runtime_mark_last_busy(pfdev->dev);
+>>  	pm_runtime_put_autosuspend(pfdev->dev);
 >>  
->>  	ret = wait_ready(ptdev, as_nr);
->>  	if (ret)
->> @@ -598,33 +620,6 @@ static int mmu_hw_do_flush_on_gpu_ctrl(struct panthor_device *ptdev, int as_nr,
->>  	return wait_ready(ptdev, as_nr);
+>>  	return 0;
+>> @@ -279,7 +278,6 @@ void panfrost_perfcnt_close(struct drm_file *file_priv)
+>>  	if (perfcnt->user == pfile)
+>>  		panfrost_perfcnt_disable_locked(pfdev, file_priv);
+>>  	mutex_unlock(&perfcnt->lock);
+>> -	pm_runtime_mark_last_busy(pfdev->dev);
+>>  	pm_runtime_put_autosuspend(pfdev->dev);
 >>  }
 >>  
->> -static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
->> -				      u64 iova, u64 size, u32 op)
->> -{
->> -	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
->> -
->> -	if (as_nr < 0)
->> -		return 0;
->> -
->> -	/*
->> -	 * If the AS number is greater than zero, then we can be sure
->> -	 * the device is up and running, so we don't need to explicitly
->> -	 * power it up
->> -	 */
->> -
->> -	if (op != AS_COMMAND_UNLOCK)
->> -		lock_region(ptdev, as_nr, iova, size);
->> -
->> -	if (op == AS_COMMAND_FLUSH_MEM || op == AS_COMMAND_FLUSH_PT)
->> -		return mmu_hw_do_flush_on_gpu_ctrl(ptdev, as_nr, op);
->> -
->> -	/* Run the MMU operation */
->> -	write_cmd(ptdev, as_nr, op);
->> -
->> -	/* Wait for the flush to complete */
->> -	return wait_ready(ptdev, as_nr);
->> -}
->> -
->>  static int mmu_hw_do_operation(struct panthor_vm *vm,
->>  			       u64 iova, u64 size, u32 op)
->>  {
 > 
 
