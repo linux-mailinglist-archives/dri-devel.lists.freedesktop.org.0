@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D6EB2774B
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 05:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE6FB2774D
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 05:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF7610E96A;
-	Fri, 15 Aug 2025 03:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B24D210E9AA;
+	Fri, 15 Aug 2025 03:55:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="HzX0Mszh";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4Rf0WQLN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2047.outbound.protection.outlook.com [40.107.101.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A20F110E96A;
- Fri, 15 Aug 2025 03:55:20 +0000 (UTC)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2058.outbound.protection.outlook.com [40.107.95.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AA5510E9AA;
+ Fri, 15 Aug 2025 03:55:35 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hA3jGgIZ61k7qPS5Huh69xWkHSV7gjZ+k5A2BV5dwZCeVcwhBSE+XRAAC5azUVvynJ9nwnxzMoOPfNy8sBv3suZqPEYWdpvo35zYDuiFkLZOGhwSFNWzRzPX7dtOzd+WViIqgzsFperybYvM4xEFyseX4z/ak5SQg72W9f5YsDph8yvK5QKdrfMah+RKLqWBlrZMP8YPspK6avQHjb+Hn/ExaHSPgfh4KgcsJW2KNy7o7C7rLhBfpiq6/0JltXmTfKTt8OPMS3JCGPnWFG27vgHRxtMYMpQBcja9beYrYQDR5D3x9nT7bf20RUVO5/u25grs2Og8/JYzFLhhoZmqqQ==
+ b=aJTUpZDBHPMhBn4L2qXzsaNu07LRsQz7GWnk++InBPyhQm/7pZ+mxd6bxgeCFcvYi0rMv+yjLlWl8P2avg3t/48qjYePLj2CRL0xlHqSFzqpEGO+w/ntltYXV1yaMp7mLzOqXz+5qzn9uKFj9lih6cUXx2jcvvt10Gkqox5FK7/sgq9FadsqkvPK20Zd2FvIHWjrRfk3DS33XR11M0ZxBEAzPDvEE70khDWhyznoQQRqRAvQTztGMV1Kw1lA5mUwOyvIrHOYxwvS2OKEIAkd4f9d56W/7yU2abwtb3hGBbF+BLPf8Q3gHWGFwSyAga0UiISzFMko+wn6Q4mu5H1aFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TsIJ+py1T7Lqg7g0/okYVdgpp8JkSBAzebZBF8Z+Wvw=;
- b=giMvuquNTevG62VHkpdMjcSdlXwxXLqUS5Xz3Jcd23yJlMoReKvKFQWzM5xoyti4rHWYIDVbxdMnJGYlurzRDjP4s4q5+Txk38rvCMEj+nwCaVu2aJJ1V+YxZaQG2RKFyLCg/Et+KWcHdFO7ipQxSIzOM+1ch3LPX8xC89qQpvkf5VY/hFu6XCmZu+OvaUde1Tb7UZBn3XbTEy2wKHG6RQkM9Opn/RDD5o67WwsykGCOb3wfSEHG6B6mkOBoSqiVmE7RsX/8NkGU8DmGuvdX02VZUD/bqqG556d6/zt5WO8OumfcpD+IvQfyh1yX7bVcAByF6uKhqK3eLFYMuy+9vg==
+ bh=1hrGP1L59moQUYeyrajHk+SCwTz3yiE7GpJ6ehmYS20=;
+ b=bwLV42MBD0Omd4QZkqHyAxE12RYrgmTLx+gJAiUexAJ2poraepWpNccULLyZ8XhKNkErepyWlfuJG2yq8BZfdKzXvgBQiZDVfDGMe90dOlUFaUBGnqhUHKWrohe7bWOAZ2x7mAEL9N2TvNJiZ5RmB83F8UxOp6GnHDLEsInaWC5rNBLHu6HeF6nsHuBrHKo08c/2fMxRB2y/0QVfIj/qa0SkLLMieGCQ3Rfid0ssuFbvpDN8vOs5lEU3u6RAheNMhQ8Aau/X/T09Ml7tRmkIZBTzsQRi2k5r4nhX8dwSjEI7kJULIZ0ooP/3DiSxGAhQwb/x3LWUYt04R0kE0la84Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TsIJ+py1T7Lqg7g0/okYVdgpp8JkSBAzebZBF8Z+Wvw=;
- b=HzX0MszhYC0ZTVTA4g+Jl81N4WcDnFoo6bIoRDqkM6rE9tl8I1YFhU0qr0uH8rqrZoK6iJkcJddYJLWBd6Rzuhi7zx/CLsDpCNXW7AhT7zlqGDj0HfmnBgbJCRN87gH39GiyGV1noD/9W4N2ivRoc+hhj2QwdJ5tlr7DMiIHUIA=
-Received: from MW4PR04CA0221.namprd04.prod.outlook.com (2603:10b6:303:87::16)
- by MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=1hrGP1L59moQUYeyrajHk+SCwTz3yiE7GpJ6ehmYS20=;
+ b=4Rf0WQLNflv0TQGcGNOrO9dc3QpV1oa6Tkc4B7q4ZbLLvAZtlNSWTJwY1rnOOin1Z3RisS1Bcpkb4lb1OxfeFgSJBt0m8bu0f/SO2fFuZhl1JFmfSzP6twagiKSiDNxf+eut73mdbKMiAKQ4Yk38IUE88ulSOlBFp/3QdPmYlNQ=
+Received: from CY5PR13CA0047.namprd13.prod.outlook.com (2603:10b6:930:11::29)
+ by DM6PR12MB4316.namprd12.prod.outlook.com (2603:10b6:5:21a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Fri, 15 Aug
- 2025 03:55:16 +0000
-Received: from CY4PEPF0000FCBE.namprd03.prod.outlook.com
- (2603:10b6:303:87:cafe::13) by MW4PR04CA0221.outlook.office365.com
- (2603:10b6:303:87::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.18 via Frontend Transport; Fri,
- 15 Aug 2025 03:55:15 +0000
+ 2025 03:55:30 +0000
+Received: from CY4PEPF0000FCC2.namprd03.prod.outlook.com
+ (2603:10b6:930:11:cafe::2c) by CY5PR13CA0047.outlook.office365.com
+ (2603:10b6:930:11::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.4 via Frontend Transport; Fri,
+ 15 Aug 2025 03:55:30 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000FCBE.mail.protection.outlook.com (10.167.242.100) with Microsoft
+ CY4PEPF0000FCC2.mail.protection.outlook.com (10.167.242.104) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9031.11 via Frontend Transport; Fri, 15 Aug 2025 03:55:15 +0000
+ 15.20.9031.11 via Frontend Transport; Fri, 15 Aug 2025 03:55:29 +0000
 Received: from kylin.lan (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 14 Aug
- 2025 22:55:11 -0500
+ 2025 22:55:26 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -69,9 +69,9 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
  <mcanal@igalia.com>, <nfraprado@collabora.com>, Daniel Stone
  <daniels@collabora.com>
-Subject: [PATCH V11 15/47] drm/vkms: Add kunit tests for linear and sRGB LUTs
-Date: Thu, 14 Aug 2025 21:50:04 -0600
-Message-ID: <20250815035047.3319284-16-alex.hung@amd.com>
+Subject: [PATCH V11 16/47] drm/colorop: Add 3x4 CTM type
+Date: Thu, 14 Aug 2025 21:50:05 -0600
+Message-ID: <20250815035047.3319284-17-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250815035047.3319284-1-alex.hung@amd.com>
 References: <20250815035047.3319284-1-alex.hung@amd.com>
@@ -83,52 +83,52 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCBE:EE_|MN2PR12MB4342:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6bb25ae-aa23-4853-fa78-08dddbaf8b33
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC2:EE_|DM6PR12MB4316:EE_
+X-MS-Office365-Filtering-Correlation-Id: e07b2dee-278f-4360-142e-08dddbaf93ad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|1800799024|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?gnA6Qq+ZW5tDJsyITCENBJ7nLDY1Ysq3lgXDxyORc7kqZK79b6I2WIhPGscr?=
- =?us-ascii?Q?U8isi7jBG1YlbGQi4pqaWs5dejgQFcDjU3Y9aj5BRdLr3U7gD1el1+gteiyM?=
- =?us-ascii?Q?eJ5rGDjEYrg8DouW2RltosMczTxYspusCknA20WpMCpwoPQlKmA2aN1Ev7VD?=
- =?us-ascii?Q?wzAfSuXvmLMmwidjpxYUopau+5wBfCXFuGClYmfcvqXdYGIRwiEkSTYfPEjK?=
- =?us-ascii?Q?IhlQznLF/DKrw87/zXd9t2GNtW5dZyyVwABB/Vbpd3iERKNlq6Jfrh80IAab?=
- =?us-ascii?Q?/NYCp38GbppLwEQvQokk52RIE3ObDbtxw3cxc827c/Xupu7AfZvBgrrCE3e8?=
- =?us-ascii?Q?oq37CH+XtJgH0+BJZ2CqA6YtzChPjgX47kCzLiqZYw4V/mn/XetSqyZeoGhZ?=
- =?us-ascii?Q?0dFRKptrzRBQdNAnHI4lEtp/zr1UZkKkg3VqpE2Fx+fXdj2HWYH8m9X5ieik?=
- =?us-ascii?Q?6tjCbc8EJkRsVVtZ32X17rzo261hDsk9DvmvwvSK0ckTG0HUbdYlwnsP4A4l?=
- =?us-ascii?Q?Iu3vhzIELwl6R7kiZAuyWxShCSw4f9HkDdvIL6u42aHyhoTcN7mq532K2GBb?=
- =?us-ascii?Q?KPneOtwFwGjYA3RcJE7itWXlgvG957daBQXe0HzUimClujWLtsT3Bj8p9OFf?=
- =?us-ascii?Q?EuSa/k8FPvbgjLGBlSh48T/GrxXxpkhWdiO4+fHqugtfW5a0Lv7f8DWwaqwU?=
- =?us-ascii?Q?9aG7hI7FtmwaR2JDfw91WtSVOa0XCKDH5uwVMvq5dYl4taJIAub85aNc6bvR?=
- =?us-ascii?Q?LBxcUeLsoj4a+pI4vcAbYpTjoZ0B5uQzkBdC5tR0Z86f6Xb3ZCNnYN3qlBOQ?=
- =?us-ascii?Q?TN/asIDYOoQmT3xeZNIFCUOdi9KcoEg2+zsUKkKqUzCRGy2MD9TCRnaWvMOG?=
- =?us-ascii?Q?Lk9UjDMXCndvEmwHYlm9BIwFkGNJIswUYc7uiJPbqwX2PanIHvefWD72gfR1?=
- =?us-ascii?Q?jOPkdiEpHnQSe1VDZS56GMbAC2QX3hFwl/V+F4TrA2vkg5Jgm8lEJtrnPZD6?=
- =?us-ascii?Q?TY29xGa/oEfCTlpQIzslQpvf57RGDHDLOW9aAUfxtoTAQ795oFWZTS3eRqVJ?=
- =?us-ascii?Q?7tnGL1iTzK6CmM9tULu1NNRE+Wc7jn9smL+rYY7SBD9YKAsZ4VLNQnynwFJn?=
- =?us-ascii?Q?4WWn3Z4p4Iac7n9vtCCLoFsjYmEupb8/Icv2DKmp0J5Qq3WYXMwzH3b/fGAk?=
- =?us-ascii?Q?rnPmG+DIINiLraraK3a67+UH6HeF4xn4PJyzu95aeh/Lw0WscaEI919IaTVx?=
- =?us-ascii?Q?H3I7Jqfl0FWTAdL++mWr9xVMM7zhSa1DeW/RGbSUW5Yh3OchDSOjDZayEYA4?=
- =?us-ascii?Q?mGfzKvaGUshHI/I5JNZLA9kC3I+un5Z+YzJ3jF2fzh6z/YVG+e5ygBU2NJ3y?=
- =?us-ascii?Q?R/nnGqWCpFqTIb+ppzd5RRqpNhK8sgYJKIGpwnP5OJhoHh30OUthb6daQdwC?=
- =?us-ascii?Q?64+vabWVBmav2Fw9MSvEHgltrqoAaDggTIknqqRhaqVUkHhDLSHsRytqkfvi?=
- =?us-ascii?Q?8Pdy6xiUrieZh10tloaz72oV7wBULjE+8a5X?=
+ ARA:13230040|36860700013|1800799024|7416014|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?VlSqjmb0wYS0iapVmIydjbjWZQLVAEWEnozGA5R9A9vmwt1y2weRo4EtatDi?=
+ =?us-ascii?Q?4t2wl/9iA9hJDTjCzyMmDdk69zahKR1mRqi7x+eqCD8jEguIU3lk7XgxaPvz?=
+ =?us-ascii?Q?S5EZtEkdDO6St3bLpHkI1rePKgx1d979Z7IQXEhDcVhagKoR8bQqX5+JABx0?=
+ =?us-ascii?Q?QmJxCCRbLV/fjJ97WMzLxXivKslQAng4XB/VonqKGJj6P2mpSG6Je5yDvw9p?=
+ =?us-ascii?Q?R7XpGru/+hwL6YVRt13y64HTzuCtjHY1km0MtCDHD629rCiWQQhGy5MGbZ72?=
+ =?us-ascii?Q?RhdEPcBD+phzjyylULJukENl10isOTYy9t6ALRK8A/SqCVdDvz9qosEbTcQ2?=
+ =?us-ascii?Q?O86tKBxYlWhNYOfFJwnpBcunv1raUqyTVaikIq/UwHiN4045jVoOi6PFeUxG?=
+ =?us-ascii?Q?ZXdtk9aXDRU0nX1gZwGbzyTy4oqMO80MieZxyWQqxfkO0t5EgOSBADZFwxkI?=
+ =?us-ascii?Q?IoghrGeKq5B7UP2fI3ZFITec+ZRfdiysDfYyvghVlc0W6xamPlGufIrVUjaf?=
+ =?us-ascii?Q?FtjgOdN2w7lqw9bkrCiWLg6CntlGbyciK593XmaIW/Vm739RgrgComt+8piI?=
+ =?us-ascii?Q?9N1NQwaXNYCH7gEExN1UELB4IJismCk0JbCPUd1hXn0xbbqMGoajeBKA73nH?=
+ =?us-ascii?Q?IjFeff/SoEvudzwyA8raEwROKCLUIRTqijbjOo75QzgSvOx7D7AcEeqnrpK9?=
+ =?us-ascii?Q?f1PZycJ5WhUm+8lzJHsqrQZjCMQAnlqxGzV2TPHf02/Fh7D/X8erX7m1THJf?=
+ =?us-ascii?Q?NNoT8LIRNE2OGvSDgBu26Wg08fON11pnjbraB0mxz7zFkVsjAXDRlLbDr8q7?=
+ =?us-ascii?Q?aI3qdvIgY8VFQrcIZhMtBtX1ysGMfjwGw3ShDXbOa24nJV0z7dhFjlivr/Ne?=
+ =?us-ascii?Q?sQdN4ZjqG31ZglH7ppQuWHiEny/eKDrLEbDI6o4sdc4lJJksfmrbnRV6o5AG?=
+ =?us-ascii?Q?O4b8IBue3oy1YM7TFUogUkfvclX5zqWjNMAFl8Cksmh59tD5nGcAFaRenka5?=
+ =?us-ascii?Q?zPegXhrqRQX3GKxaF+Ql3W+t852zphCi0neU1Zh9QeiPZIl7nuVZSOVj1qk3?=
+ =?us-ascii?Q?lDSxUqx5DBONF32Iko68l/WtQ6le+/3UsNqkJ7gr0aaHty8Pxd0Uaf1cmOal?=
+ =?us-ascii?Q?DvhNJY6xdUZuGQssCfYnyW/Z55o1jZ/gBnnV0+Pz6NiI1hfTizSviaURKH3G?=
+ =?us-ascii?Q?L3KUxMnCWDY6Kp44JDwaPnd972F6KJvUIJf1Y2mTXYObc/ZgjvXSVNjX3AAH?=
+ =?us-ascii?Q?Xtm2UUN2Vkw1omiPQlxExthQ1anjr+0TbKTzrcWUBxYToC73Z+kCq6evAu5r?=
+ =?us-ascii?Q?M/aCEbp8zGGRShVJOUZiXtomZvYz0AM6jCzqAMWg3f1wUYGllB1c3zcg6IV9?=
+ =?us-ascii?Q?/VRS3z8Hy50ufa6m5NvnTbgSIAwQ0Fzz7verenVOJAHC2FvHaFGg+Yke6pj6?=
+ =?us-ascii?Q?HKiD2xvZfeDD8KU7NXc6GkDkta3locGrI/wKj/6URuR0YRFFKX6S3nxnvSz3?=
+ =?us-ascii?Q?Rqi/VJoJfsJY0MaHv2J6u4JssytPci0wPkJF?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014); DIR:OUT;
+ SFS:(13230040)(36860700013)(1800799024)(7416014)(376014)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 03:55:15.6793 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6bb25ae-aa23-4853-fa78-08dddbaf8b33
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 03:55:29.8950 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e07b2dee-278f-4360-142e-08dddbaf93ad
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000FCBE.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000FCC2.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4342
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4316
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,161 +146,327 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Harry Wentland <harry.wentland@amd.com>
 
-Two tests are added to VKMS LUT handling:
-- linear
-- inv_srgb
+This type is used to support a 3x4 matrix in colorops. A 3x4
+matrix uses the last column as a "bias" column. Some HW exposes
+support for 3x4. The calculation looks like:
 
+ out   matrix    in
+ |R|   |0  1  2  3 |   | R |
+ |G| = |4  5  6  7 | x | G |
+ |B|   |8  9  10 11|   | B |
+                       |1.0|
+
+This is also the first colorop where we need a blob property to
+program the property. For that we'll introduce a new DATA
+property that can be used by all colorop TYPEs requiring a
+blob. The way a DATA blob is read depends on the TYPE of
+the colorop.
+
+We only create the DATA property for property types that
+need it.
+
+Reviewed-by: Simon Ser <contact@emersion.fr>
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
+Reviewed-by: Melissa Wen <mwen@igalia.com>
 ---
-v7:
- - Fix checkpatch warnings (Louis Chauvet)
-  - Adde a commit messages
-  - Fix code styles by adding and removing spaces (new lines, tabs and so on)
+v9:
+ - Merge cleanup code for colorop->state->data in drm_colorop_cleanup (Simon Ser)
+ - Update function names by _plane_ (Chaitanya Kumar Borah)
 
- drivers/gpu/drm/vkms/tests/vkms_color_test.c | 39 +++++++++++++++++++-
- drivers/gpu/drm/vkms/vkms_composer.c         | 17 ++-------
- drivers/gpu/drm/vkms/vkms_composer.h         | 13 +++++++
- 3 files changed, 55 insertions(+), 14 deletions(-)
+v6:
+ - take ref for DATA blob in duplicate_state func (Xaver Hugl)
 
-diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_test.c b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-index ee4dc7c62d73..2890aaa9d2c9 100644
---- a/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-+++ b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
-@@ -6,6 +6,7 @@
- #include <drm/drm_mode.h>
- #include "../vkms_drv.h"
- #include "../vkms_composer.h"
-+#include "../vkms_luts.h"
+v5:
+ - Add function signature for init (Sebastian)
+ - Fix kernel-doc
+
+v4:
+ - Create helper function for creating 3x4 CTM colorop
+ - Fix CTM indexes in comment (Pekka)
+
+ drivers/gpu/drm/drm_atomic.c      |  3 ++
+ drivers/gpu/drm/drm_atomic_uapi.c | 30 ++++++++++++++++++++
+ drivers/gpu/drm/drm_colorop.c     | 47 +++++++++++++++++++++++++++++++
+ include/drm/drm_colorop.h         | 24 ++++++++++++++++
+ include/uapi/drm/amdgpu_drm.h     |  9 ------
+ include/uapi/drm/drm_mode.h       | 32 ++++++++++++++++++++-
+ 6 files changed, 135 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index 3bb964e378eb..1f47949aa10b 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -793,6 +793,9 @@ static void drm_atomic_colorop_print_state(struct drm_printer *p,
+ 		drm_printf(p, "\tcurve_1d_type=%s\n",
+ 			   drm_get_colorop_curve_1d_type_name(state->curve_1d_type));
+ 		break;
++	case DRM_COLOROP_CTM_3X4:
++		drm_printf(p, "\tdata blob id=%d\n", state->data ? state->data->base.id : 0);
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 97eeb8aa3677..775e51f3ee06 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -687,6 +687,31 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
+ 	return 0;
+ }
  
- #define TEST_LUT_SIZE 16
++static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
++					      struct drm_colorop_state *state,
++					      struct drm_property *property,
++					      uint64_t val)
++{
++	ssize_t elem_size = -1;
++	ssize_t size = -1;
++	bool replaced = false;
++
++	switch (colorop->type) {
++	case DRM_COLOROP_CTM_3X4:
++		size = sizeof(struct drm_color_ctm_3x4);
++		break;
++	default:
++		/* should never get here */
++		return -EINVAL;
++	}
++
++	return drm_property_replace_blob_from_id(colorop->dev,
++						 &state->data,
++						 val,
++						 size,
++						 elem_size,
++						 &replaced);
++}
  
-@@ -87,7 +88,6 @@ static const struct vkms_color_lut test_linear_lut = {
- 	.channel_value2index_ratio = 0xf000fll
+ static int drm_atomic_colorop_set_property(struct drm_colorop *colorop,
+ 		struct drm_colorop_state *state, struct drm_file *file_priv,
+@@ -696,6 +721,9 @@ static int drm_atomic_colorop_set_property(struct drm_colorop *colorop,
+ 		state->bypass = val;
+ 	} else if (property == colorop->curve_1d_type_property) {
+ 		state->curve_1d_type = val;
++	} else if (property == colorop->data_property) {
++		return drm_atomic_color_set_data_property(colorop, state,
++							  property, val);
+ 	} else {
+ 		drm_dbg_atomic(colorop->dev,
+ 			       "[COLOROP:%d:%d] unknown property [PROP:%d:%s]]\n",
+@@ -718,6 +746,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
+ 		*val = state->bypass;
+ 	} else if (property == colorop->curve_1d_type_property) {
+ 		*val = state->curve_1d_type;
++	} else if (property == colorop->data_property) {
++		*val = (state->data) ? state->data->base.id : 0;
+ 	} else {
+ 		return -EINVAL;
+ 	}
+diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+index 6930d39c8ad3..2d66b9a234ab 100644
+--- a/drivers/gpu/drm/drm_colorop.c
++++ b/drivers/gpu/drm/drm_colorop.c
+@@ -64,6 +64,7 @@
+ 
+ static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
+ 	{ DRM_COLOROP_1D_CURVE, "1D Curve" },
++	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
  };
  
--
- static void vkms_color_test_get_lut_index(struct kunit *test)
+ static const char * const colorop_curve_1d_type_names[] = {
+@@ -148,6 +149,11 @@ static void drm_colorop_cleanup(struct drm_colorop *colorop)
+ 	list_del(&colorop->head);
+ 	config->num_colorop--;
+ 
++	if (colorop->state && colorop->state->data) {
++		drm_property_blob_put(colorop->state->data);
++		colorop->state->data = NULL;
++	}
++
+ 	kfree(colorop->state);
+ }
+ 
+@@ -237,11 +243,51 @@ int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *
+ }
+ EXPORT_SYMBOL(drm_plane_colorop_curve_1d_init);
+ 
++static int drm_colorop_create_data_prop(struct drm_device *dev, struct drm_colorop *colorop)
++{
++	struct drm_property *prop;
++
++	/* data */
++	prop = drm_property_create(dev, DRM_MODE_PROP_ATOMIC | DRM_MODE_PROP_BLOB,
++				   "DATA", 0);
++	if (!prop)
++		return -ENOMEM;
++
++	colorop->data_property = prop;
++	drm_object_attach_property(&colorop->base,
++				   colorop->data_property,
++				   0);
++
++	return 0;
++}
++
++int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
++				   struct drm_plane *plane)
++{
++	int ret;
++
++	ret = drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_CTM_3X4);
++	if (ret)
++		return ret;
++
++	ret = drm_colorop_create_data_prop(dev, colorop);
++	if (ret)
++		return ret;
++
++	drm_colorop_reset(colorop);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_plane_colorop_ctm_3x4_init);
++
+ static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
+ 							struct drm_colorop_state *state)
  {
- 	s64 lut_index;
-@@ -100,6 +100,19 @@ static void vkms_color_test_get_lut_index(struct kunit *test)
- 		lut_index = get_lut_index(&test_linear_lut, test_linear_array[i].red);
- 		KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(lut_index), i);
- 	}
+ 	memcpy(state, colorop->state, sizeof(*state));
+ 
++	if (state->data)
++		drm_property_blob_get(state->data);
 +
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int(get_lut_index(&srgb_eotf, 0x0)), 0x0);
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0x0)), 0x0);
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0x101)), 0x1);
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0x202)), 0x2);
-+
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int(get_lut_index(&srgb_inv_eotf, 0x0)), 0x0);
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_inv_eotf, 0x0)), 0x0);
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_inv_eotf, 0x101)), 0x1);
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_inv_eotf, 0x202)), 0x2);
-+
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0xfefe)), 0xfe);
-+	KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(get_lut_index(&srgb_eotf, 0xffff)), 0xff);
+ 	state->bypass = true;
  }
  
- static void vkms_color_test_lerp(struct kunit *test)
-@@ -113,9 +126,33 @@ static void vkms_color_test_lerp(struct kunit *test)
- 	}
- }
+@@ -323,6 +369,7 @@ void drm_colorop_reset(struct drm_colorop *colorop)
  
-+static void vkms_color_test_linear(struct kunit *test)
-+{
-+	for (int i = 0; i < LUT_SIZE; i++) {
-+		int linear = apply_lut_to_channel_value(&linear_eotf, i * 0x101, LUT_RED);
-+
-+		KUNIT_EXPECT_EQ(test, DIV_ROUND_CLOSEST(linear, 0x101), i);
-+	}
-+}
-+
-+static void vkms_color_srgb_inv_srgb(struct kunit *test)
-+{
-+	u16 srgb, final;
-+
-+	for (int i = 0; i < LUT_SIZE; i++) {
-+		srgb = apply_lut_to_channel_value(&srgb_eotf, i * 0x101, LUT_RED);
-+		final = apply_lut_to_channel_value(&srgb_inv_eotf, srgb, LUT_RED);
-+
-+		KUNIT_EXPECT_GE(test, final / 0x101, i - 1);
-+		KUNIT_EXPECT_LE(test, final / 0x101, i + 1);
-+	}
-+}
-+
- static struct kunit_case vkms_color_test_cases[] = {
- 	KUNIT_CASE(vkms_color_test_get_lut_index),
- 	KUNIT_CASE(vkms_color_test_lerp),
-+	KUNIT_CASE(vkms_color_test_linear),
-+	KUNIT_CASE(vkms_color_srgb_inv_srgb),
- 	{}
+ static const char * const colorop_type_name[] = {
+ 	[DRM_COLOROP_1D_CURVE] = "1D Curve",
++	[DRM_COLOROP_CTM_3X4] = "3x4 Matrix",
  };
  
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 2b9838ef23d3..0f3fcd6a5925 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -82,19 +82,8 @@ VISIBLE_IF_KUNIT s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel
- }
- EXPORT_SYMBOL_IF_KUNIT(get_lut_index);
+ const char *drm_get_colorop_type_name(enum drm_colorop_type type)
+diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+index 0ea1a01ca04e..6e810cb3f8bf 100644
+--- a/include/drm/drm_colorop.h
++++ b/include/drm/drm_colorop.h
+@@ -99,6 +99,17 @@ struct drm_colorop_state {
+ 	 */
+ 	enum drm_colorop_curve_1d_type curve_1d_type;
  
--/*
-- * This enum is related to the positions of the variables inside
-- * `struct drm_color_lut`, so the order of both needs to be the same.
-- */
--enum lut_channel {
--	LUT_RED = 0,
--	LUT_GREEN,
--	LUT_BLUE,
--	LUT_RESERVED
++	/**
++	 * @data:
++	 *
++	 * Data blob for any TYPE that requires such a blob. The
++	 * interpretation of the blob is TYPE-specific.
++	 *
++	 * See the &drm_colorop_type documentation for how blob is laid
++	 * out.
++	 */
++	struct drm_property_blob *data;
++
+ 	/** @state: backpointer to global drm_atomic_state */
+ 	struct drm_atomic_state *state;
+ };
+@@ -208,6 +219,17 @@ struct drm_colorop {
+ 	 */
+ 	struct drm_property *curve_1d_type_property;
+ 
++	/**
++	 * @data_property:
++	 *
++	 * blob property for any TYPE that requires a blob of data,
++	 * such as 1DLUT, CTM, 3DLUT, etc.
++	 *
++	 * The way this blob is interpreted depends on the TYPE of
++	 * this
++	 */
++	struct drm_property *data_property;
++
+ 	/**
+ 	 * @next_property:
+ 	 *
+@@ -243,6 +265,8 @@ void drm_colorop_pipeline_destroy(struct drm_device *dev);
+ 
+ int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
+ 				    struct drm_plane *plane, u64 supported_tfs);
++int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
++				   struct drm_plane *plane);
+ 
+ struct drm_colorop_state *
+ drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
+diff --git a/include/uapi/drm/amdgpu_drm.h b/include/uapi/drm/amdgpu_drm.h
+index bdedbaccf776..3d9c11b6386a 100644
+--- a/include/uapi/drm/amdgpu_drm.h
++++ b/include/uapi/drm/amdgpu_drm.h
+@@ -1619,15 +1619,6 @@ struct drm_amdgpu_info_uq_metadata {
+ #define AMDGPU_FAMILY_GC_11_5_0			150 /* GC 11.5.0 */
+ #define AMDGPU_FAMILY_GC_12_0_0			152 /* GC 12.0.0 */
+ 
+-/* FIXME wrong namespace! */
+-struct drm_color_ctm_3x4 {
+-	/*
+-	 * Conversion matrix with 3x4 dimensions in S31.32 sign-magnitude
+-	 * (not two's complement!) format.
+-	 */
+-	__u64 matrix[12];
 -};
 -
--static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
--				      enum lut_channel channel)
-+VISIBLE_IF_KUNIT u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
-+						enum lut_channel channel)
- {
- 	s64 lut_index = get_lut_index(lut, channel_value);
- 	u16 *floor_lut_value, *ceil_lut_value;
-@@ -119,6 +108,8 @@ static u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 chan
- 	return lerp_u16(floor_channel_value, ceil_channel_value,
- 			lut_index & DRM_FIXED_DECIMAL_MASK);
+ #if defined(__cplusplus)
  }
-+EXPORT_SYMBOL_IF_KUNIT(apply_lut_to_channel_value);
-+
+ #endif
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 1c84384b5e8f..f309d2863180 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -847,6 +847,20 @@ struct drm_color_ctm {
+ 	__u64 matrix[9];
+ };
  
- static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buffer *output_buffer)
- {
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.h b/drivers/gpu/drm/vkms/vkms_composer.h
-index 9316a053e7d7..67ae09913460 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.h
-+++ b/drivers/gpu/drm/vkms/vkms_composer.h
-@@ -5,9 +5,22 @@
- 
- #include <kunit/visibility.h>
- 
-+/*
-+ * This enum is related to the positions of the variables inside
-+ * `struct drm_color_lut`, so the order of both needs to be the same.
-+ */
-+enum lut_channel {
-+	LUT_RED = 0,
-+	LUT_GREEN,
-+	LUT_BLUE,
-+	LUT_RESERVED
++struct drm_color_ctm_3x4 {
++	/*
++	 * Conversion matrix with 3x4 dimensions in S31.32 sign-magnitude
++	 * (not two's complement!) format.
++	 *
++	 * out   matrix          in
++	 * |R|   |0  1  2  3 |   | R |
++	 * |G| = |4  5  6  7 | x | G |
++	 * |B|   |8  9  10 11|   | B |
++	 *                       |1.0|
++	 */
++	__u64 matrix[12];
 +};
 +
- #if IS_ENABLED(CONFIG_KUNIT)
- u16 lerp_u16(u16 a, u16 b, s64 t);
- s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
-+u16 apply_lut_to_channel_value(const struct vkms_color_lut *lut, u16 channel_value,
-+			       enum lut_channel channel);
- #endif
+ struct drm_color_lut {
+ 	/*
+ 	 * Values are mapped linearly to 0.0 - 1.0 range, with 0x0 == 0.0 and
+@@ -874,7 +888,23 @@ enum drm_colorop_type {
+ 	 * A 1D curve that is being applied to all color channels. The
+ 	 * curve is specified via the CURVE_1D_TYPE colorop property.
+ 	 */
+-	DRM_COLOROP_1D_CURVE
++	DRM_COLOROP_1D_CURVE,
++
++	/**
++	 * @DRM_COLOROP_CTM_3X4:
++	 *
++	 * enum string "3x4 Matrix"
++	 *
++	 * A 3x4 matrix. Its values are specified via the
++	 * &drm_color_ctm_3x4 struct provided via the DATA property.
++	 *
++	 * The DATA blob is a float[12]:
++	 * out   matrix          in
++	 * | R |   | 0  1  2  3  |   | R |
++	 * | G | = | 4  5  6  7  | x | G |
++	 * | B |   | 8  9  10 12 |   | B |
++	 */
++	DRM_COLOROP_CTM_3X4,
+ };
  
- #endif /* _VKMS_COMPOSER_H_ */
+ /**
 -- 
 2.43.0
 
