@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A477B2776F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 05:58:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EB1B27770
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 05:58:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA5410EA15;
-	Fri, 15 Aug 2025 03:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D27510E94A;
+	Fri, 15 Aug 2025 03:58:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BvfOo05z";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Qu+pRA6E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6545510EA7F;
- Fri, 15 Aug 2025 03:58:28 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2070.outbound.protection.outlook.com [40.107.93.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99A2C10E94A;
+ Fri, 15 Aug 2025 03:58:41 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rc7QAIons9VfKCkTMmRQqBG34zlSdkUgi8rB3HQpdrvJWBQ4RObVN/IAn935/P2tFepvLxwcN8ExwtevdxlzWO8vdAnQiDU8BclHyWNe6X94kCU46r0BBWZTM2/FeTU17Qiw743VUvghnp4JtTH1fUmFjqBm7HZjz67c/aJJHrCsSS02QgVaIFmnWBoJ8m0Mbt+Ehm87KXVITjo81+HFguH45uKl6orhTT3dJ36CC2ufAT0dtoLFAsTGqPONjOATdtV5PThDLK9dTPWXSIzW24i4C4WICqNkehiRQh6ZfNjc5xBqzSGhaQM5lou8XgRCqAy0qRnPkF3Zi0YfxJPeeg==
+ b=hd/qyMWmQ79oF/DZEwg/moFdHM/dzihyKh3+/wDKOyc3DMIDSUPvYzXP4vf01A7bNgss0OvRAUhI+3i7Oed8UeGDoUq7F1cgfkc9Qx+EhgyA/pJpeSHnRVeWNQDTeQISX3aWIU5DJaTR8+j7kiThV1Z+WWqqVLAFYSptLdBoU5Hu1SsWzBCG4lRaBlNLdgO2SD5J5yYdZsI/N9hmKouAA0rA/fNN9rrPqrS2+24YQ0tJ9n6OiFMy3RpF0KSNvAFX59h/1MshtFEBC+jnc9+YyNELzBzl+Ai7y2P1Mwy51OlMgrAvYG+5W79cacMmZLC05E7ZV42H0zRS4RLjs5ew0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Sl7YIHKDgDrrPbT+8LKclCInDDx0po7sL3uLZhcwFI4=;
- b=elnsEOv0LE8KhiHNwaUdE2+JiWLYT09/opqXU1bVaFoPclVnTEl+JFwTpkIFgUmFvSFvXD8VNKZqRDQMZv5TCYP4AWg3e56Lbx1rfDj9BIxrKyDAMTtxkIfVUvwSw/Cpz9YVBRzMYRwqOEPr8LBoUJe5YORWqfZ70vS3LZmp+FkrH5CmY+yBhaT3RKEUftDyVPTSmGbwmF9Qmef2HR3H+YYRPXHctVJ9Hn1OkCFwyJaO36KLdveMuggIaxlefe5ash06pcKN+vNP9RStAKE7uwNWu1k+9rSJ8cAStKG9LMO9fOIPRS4+zPkAdqBzUZ9WyM/C0oSc4NEMYd+SbMD4qw==
+ bh=/nZqVevnxgeNmzy4BhpZqkowEYrBPMfAU6v9MF3CGQc=;
+ b=CfmmXsvRTb2wbsO0AVmLA3w9qIZI6H7R7Gj3SVVm7oup3IWrubuGJMIp9VYgkpCNB06IU4TMoh+kaDzFerW631b9p2rPsOtVoGquuQwtGl9vl2wv8d+V1nwCP11Vjx7dPmx4Tc9nmB+ji8XepZCTN0l4bO4un3fNcHL81bLyjzyjZF5m4rnLlKJupYzc6CNtYXyDWwDed21kIimZpIsQlbALKYtwrD+g7q7SE5TdNSSbergmY9pUwnDNw06ZZzVQ3tfPbpDc/9cdsv4UMxGRqeknbQ88PRib6r5PEYX1OQrJBD0+PFc0PZgB9hfKNyZfI1gMIxa8ve3Zh7lFMomUdQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Sl7YIHKDgDrrPbT+8LKclCInDDx0po7sL3uLZhcwFI4=;
- b=BvfOo05z+HNngOt+X3O2TETcZiGWjN1Bw+TG9rop/WCfenZQrKXQeuyLTurVTuaou9SWUXj23sND+aLpun4O8Fg03ELM7/VaKB8qNeL2khHBvMNY/YsNmcVXnTnVQJ8Mtfq0tMEA/gUWU38L38BmnssO4UWfk7eQP17a0URG+98=
-Received: from MN0P222CA0009.NAMP222.PROD.OUTLOOK.COM (2603:10b6:208:531::10)
- by PH8PR12MB6722.namprd12.prod.outlook.com (2603:10b6:510:1cd::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.15; Fri, 15 Aug
- 2025 03:58:23 +0000
-Received: from BN2PEPF00004FC1.namprd04.prod.outlook.com
- (2603:10b6:208:531:cafe::42) by MN0P222CA0009.outlook.office365.com
- (2603:10b6:208:531::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.19 via Frontend Transport; Fri,
- 15 Aug 2025 03:58:23 +0000
+ bh=/nZqVevnxgeNmzy4BhpZqkowEYrBPMfAU6v9MF3CGQc=;
+ b=Qu+pRA6EVbjRC3njdeO/hh64i5l86++5a/LQ0HEkx2J/4isOoOKlDDAV5JLjfY6cmi1Beee5gVehJUZU2yO93Di2V+F3SPOuSTp9MmelpxUKv+rc9bMt95d5SKW72mQ+uYsdLdTn7iOVEXH9qk44LuBMt/swUaBoIdulJ86i7Lk=
+Received: from BN0PR04CA0173.namprd04.prod.outlook.com (2603:10b6:408:eb::28)
+ by CY5PR12MB6202.namprd12.prod.outlook.com (2603:10b6:930:25::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.17; Fri, 15 Aug
+ 2025 03:58:38 +0000
+Received: from BN2PEPF00004FBD.namprd04.prod.outlook.com
+ (2603:10b6:408:eb:cafe::83) by BN0PR04CA0173.outlook.office365.com
+ (2603:10b6:408:eb::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.16 via Frontend Transport; Fri,
+ 15 Aug 2025 03:58:37 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF00004FC1.mail.protection.outlook.com (10.167.243.187) with Microsoft
+ BN2PEPF00004FBD.mail.protection.outlook.com (10.167.243.183) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9031.11 via Frontend Transport; Fri, 15 Aug 2025 03:58:23 +0000
+ 15.20.9031.11 via Frontend Transport; Fri, 15 Aug 2025 03:58:37 +0000
 Received: from kylin.lan (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 14 Aug
- 2025 22:58:19 -0500
+ 2025 22:58:34 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -69,10 +69,9 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
  <mcanal@igalia.com>, <nfraprado@collabora.com>, Daniel Stone
  <daniels@collabora.com>
-Subject: [PATCH V11 28/47] drm/amd/display: Add support for sRGB EOTF in BLND
- block
-Date: Thu, 14 Aug 2025 21:50:17 -0600
-Message-ID: <20250815035047.3319284-29-alex.hung@amd.com>
+Subject: [PATCH V11 29/47] drm/colorop: Add PQ 125 EOTF and its inverse
+Date: Thu, 14 Aug 2025 21:50:18 -0600
+Message-ID: <20250815035047.3319284-30-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250815035047.3319284-1-alex.hung@amd.com>
 References: <20250815035047.3319284-1-alex.hung@amd.com>
@@ -84,52 +83,52 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF00004FC1:EE_|PH8PR12MB6722:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d6700ff-f54f-4060-f32b-08dddbaffaf4
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBD:EE_|CY5PR12MB6202:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3fa27a57-905b-4866-d02b-08dddbb00390
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|376014|7416014|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?H8UBYqj6jrZWSuRyY+yDzgEowvAIbxva3mB22PE9c7y8HZnM0z9Z4QDtRzrp?=
- =?us-ascii?Q?zYZwgzYMcA/M9+qnRyl5+7DRTvlhKzsHtdi7oqQA3PXuoHRcGpkxI7P6L0JT?=
- =?us-ascii?Q?kDO8B6W29MNbzhNmn2pmXWK5uc+m+9j5kqv3ou+hsQ+ns955dZbPXZ27+v0k?=
- =?us-ascii?Q?0MPSTr7LLwQ+W7Rp6rHxeXXWbtDHdXxuxwnBj/5kq6+I+KiJekf4E7nyw/Gh?=
- =?us-ascii?Q?uxxKTd+gv3UHE8MSr9o13i5KklyRRxECCDIvjTl+e3ES7QTysKDyM0FniZy3?=
- =?us-ascii?Q?9R8vvAv3LsFmuRJ1FiQBIM7n4vxpJSDmyEakw53jIv7OBMmePIf0/gQj1gfY?=
- =?us-ascii?Q?UV7LNiYkhMTs9wFt+mB7H8T8LXVSxjT8qLx1h4x21gZkCZuZT+iWyP5R8w5b?=
- =?us-ascii?Q?zCIrtrB0CjGRkbSByisfi3s5SJwW49x6wNAACu2JBn6rV1poT9iffD+r5krt?=
- =?us-ascii?Q?75WPCU5J1xaoctLjBWZ+Qgdg+NBssIOI0LyWiRlQplbfBgjuhMSq8LHdoCrv?=
- =?us-ascii?Q?KVt5G0RjbBNVKdW/5MImfL9HMJEaA1n8L4ASJLDaP5FcHkguukhifQ2aHPTl?=
- =?us-ascii?Q?lEmblz6h1OMK1x3OI0r1ZJt/FIjmpdOHKCyRjaON1MccbHMd9fACW+7F9gnq?=
- =?us-ascii?Q?ejygwSAbaDF93hmHVLjxAWN5n9ZCmtnl7j1IPZprPWXZrk5YI7z47Se4dPOG?=
- =?us-ascii?Q?YbfioCnkQlwwXf2xu0IwisrooXg4xWyX2miSjdFUWCizQKSbqN1onqkIvxzm?=
- =?us-ascii?Q?3sU/0XqfBHERPJBRi70H5L935Lc1vJ19hV0gpuqrQBpwODks+8FgB3K9IBLE?=
- =?us-ascii?Q?gO/XTpHwwLUve3WZcq05rtiL3CPIreVvFYm30clWmJlBY9A2IZ+NNSaX+h7d?=
- =?us-ascii?Q?eKiAEPYq8faTPqlssA7rqBtsDHEjSEWBZavyMWfWIwFd+3Kz+kXPk4kKpWHu?=
- =?us-ascii?Q?XbUR2rQIw8hzPvPW4WfpcFwMqGmgQr67KGXdP5oA9cOvYpTmjhZli4AS/qDn?=
- =?us-ascii?Q?eZ0GINXuUZhcnsIjebY2hEsjO2e2Ier5XuRLK4q074vuQ/JjNLStXPxo8suj?=
- =?us-ascii?Q?Hl7XSFmpJsIzJTWiGGpOhnYVzqLpQ0ArK1vx/l1+nJR52CIpjKSnoMOz6mFa?=
- =?us-ascii?Q?XAkKxW6TLU9FD4kn5GDfRWOzA8QKW6E0rAX1TMLI9r4JmDmAfob4LPPJtpjH?=
- =?us-ascii?Q?AfsBcuMtJpkkPuKGLFvdyzhcQ241jVMaPqsDuoZRmr92l/PefpnC3i4gpbmf?=
- =?us-ascii?Q?WKTMxeVPtC1jxEC1t9UQMrLLnwUBNM/bcIH4o8aEvDPFYwj5aKv2ikh6nSJf?=
- =?us-ascii?Q?8HonkIEI58RJwvxEG3gnlm8iwrGL2IPzuVg48EVCRHYsXXR9VQ92+BzhsSfF?=
- =?us-ascii?Q?LIWbwQJvDbjp/FtfkOixDRDJSVaE2qYyN/+Rgf2wBj1ixZZ3jLtObjALKSsq?=
- =?us-ascii?Q?XhnvhJHJogmufuVubEdbocMapOnH93ExaI9js4zBuCPzSKipXaQG64nc/XFE?=
- =?us-ascii?Q?gStCBicO8+01H/FaigeAu5k1l3v5AtULREpB?=
+ ARA:13230040|36860700013|7416014|376014|1800799024|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Pin/0p461lLgm/xIWrUdBJdw0T3ZIDcp98A1K+klHFbaQ+RnupJb8WkGuvC8?=
+ =?us-ascii?Q?RJ7gelNr2Tmqc0p8Ut7vnumhFOOPu5N2PvRXDYaPw5lLfbsGendxyEYKilTi?=
+ =?us-ascii?Q?lQ7jV3/qyvPSf6ZtBIWMlBj7CbrjBqIKjM1/O6sufMHKEJ2/Ff0933YBilVy?=
+ =?us-ascii?Q?qwzMH6Y2GRB8hMkJRgc7QLUmerRgU/+oD002TRWeij5yoRKC5BFCH1C80YRw?=
+ =?us-ascii?Q?/rHuPBgg4sn0MccYTkaPWy7aWTFwNRjE7Hq18N/pQaU98RfyctXBNdWUIl15?=
+ =?us-ascii?Q?IbleAchp+P9STiXNEZfY4hAdkeJDu+DW1rX8Ic337/jT7rW2DVBrptRXtcO5?=
+ =?us-ascii?Q?2O+FQQyRjSlJ5SDcbtNoxUusyBsOxF78W6/QdQHYBm3UNko7GTxq+w3QZ2PE?=
+ =?us-ascii?Q?RDBAdLJsJY5PtckJ/+pAoGRZfP8QsWvzRngNyCNOwWPP3a9Ax4+AKD4UE1Fw?=
+ =?us-ascii?Q?rdPTHAkIjuKGulg6V7z9IuTvMnbgdtpQK22h0wKXVNZ9eDdQaAVJwYew7lQe?=
+ =?us-ascii?Q?WVz/aTqEdBKH61IMDmq/oFM5iKziILlJenCkZdY1KH8+X88/BSPCC5HRuHQt?=
+ =?us-ascii?Q?A8eqbjKz14PriOS+4oUY0QWaQ+di81ySLc3rZTIyiXbjg0pCS00DWrJvztb4?=
+ =?us-ascii?Q?oLseOcqMYOpsVhJ+KnSXcyHEUB1qhV+KA7e8AFPqDe4FL7DR7ZDroNGop+C/?=
+ =?us-ascii?Q?2YYumGQpXjnutbE8IBpR/mMZch3cWtI4a5Sn6bL357Q3tQ4cXWkos/J4QwRS?=
+ =?us-ascii?Q?KPftzaVTu5w/R9/qjOf+dhFEDzrsdO8qjy84YD6aYEmSUlE+CtnhwD1WTj1T?=
+ =?us-ascii?Q?Huf9P1qI+XBKBlgV//H4eKEFepKMlUKq3BPhx5M8oLDeT0QUiryYMlbI3zaN?=
+ =?us-ascii?Q?d9WQY6iA3WWfziFZ0/nheh04AciH2Q9BleXiQ640YpkwRvfTzPy47hvTkkdV?=
+ =?us-ascii?Q?qFURchWmBIe0JsOGJ9nKiqclRBpqK784MjT9xpdl6lWdh/jGG9/FaIRdONW0?=
+ =?us-ascii?Q?VDcEHNefdXl9ZGzCSJosrTcGAFvxWXwJwShcFRY3vJ5Rgmlm4tevTXioahRy?=
+ =?us-ascii?Q?s/MUtC+24KDsLUADYakUoKTd/62Rs4x2x4pZVs2NOpdrtqhRdtGXy+dYmSjK?=
+ =?us-ascii?Q?p2E2cB/ryaRd17W+iih9RJ99jlOssdxyex49B3G4K6U2AiAst4f34PEyi8V1?=
+ =?us-ascii?Q?0jYMrI2vIhNTKDaYM+F5CvzzwUcprJ6opkGABm08mWLtdZl6NFyxe7GGSPC+?=
+ =?us-ascii?Q?Eio24oTK0jXDNKI9N1cSehRG9jPbxBe1UDDT7RXpr3wz/NcsWXp8rvNeUGNI?=
+ =?us-ascii?Q?+ls82Wk4c1nwVwJgG0zF/zcLOdBcYGCbMYWFjUqMgyw5RZLXQuZHllxHv1TJ?=
+ =?us-ascii?Q?vlqrfydSMqQeXlUuP/BYsW6JPwl0Rku2Bplcwm1mh1qtR644nE1N+Ev2GkhW?=
+ =?us-ascii?Q?bH5GFocZ1NGQrzRvzwcUw6Ot4i+IyyJ+A8gNAwYc9Zrw0EgvdHSnJd90qbSg?=
+ =?us-ascii?Q?1MY+HFDl4S/zTFLk1dXMUBc4tn6QRtnhsN0g?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(376014)(7416014)(1800799024)(82310400026); DIR:OUT;
+ SFS:(13230040)(36860700013)(7416014)(376014)(1800799024)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 03:58:23.2162 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d6700ff-f54f-4060-f32b-08dddbaffaf4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 03:58:37.6602 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fa27a57-905b-4866-d02b-08dddbb00390
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF00004FC1.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF00004FBD.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6722
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,181 +144,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Expose a 3rd 1D curve colorop, with support for
-DRM_COLOROP_1D_CURVE_SRGB_EOTF and program the BLND block
-to perform the sRGB transform when the colorop is not in
-bypass
+From: Harry Wentland <harry.wentland@amd.com>
 
-With this change the following IGT test passes:
-kms_colorop --run plane-XR30-XR30-srgb_eotf-srgb_inv_eotf-srgb_eotf
+The PQ function defines a mapping of code values to nits (cd/m^2).
+The max code value maps to 10,000 nits.
 
-The color pipeline now consists of the following colorops:
-1. 1D curve colorop w/ sRGB EOTF support
-2. 1D curve colorop w/ sRGB Inverse EOTF support
-3. 1D curve colorop w/ sRGB EOTF support
+Windows DWM's canonical composition color space (CCCS)  defaults
+to composing SDR contents to 80 nits and uses a float value of
+1.0 to represent this. For this reason AMD HW hard-codes a PQ
+function that is scaled by 125, yielding 80 nit PQ values for
+1.0 and 10,000 nits at 125.0.
 
+This patch introduces this scaled PQ EOTF and its inverse as
+1D curve types.
+
+Reviewed-by: Simon Ser <contact@emersion.fr>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
-Co-developed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 ---
-v10:
- - Remove redundant DRM_ERROR (checkpatch)
+ drivers/gpu/drm/drm_colorop.c |  2 ++
+ include/drm/drm_colorop.h     | 24 ++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
-v9:
- - Update function names by _plane_ (Chaitanya Kumar Borah)
-
-v7:
- - Initialized uint32_t blend_size = 0 by default (kernel test robot)
-
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 77 +++++++++++++++++++
- .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 18 +++++
- .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h |  1 +
- 3 files changed, 96 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-index 4662d88885de..7ce95ddf3851 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-@@ -1264,6 +1264,72 @@ __set_dm_plane_colorop_shaper(struct drm_plane_state *plane_state,
- 	return __set_colorop_in_shaper_1d_curve(dc_plane_state, colorop_state);
- }
+diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+index 2d66b9a234ab..5bb45963fa1f 100644
+--- a/drivers/gpu/drm/drm_colorop.c
++++ b/drivers/gpu/drm/drm_colorop.c
+@@ -70,6 +70,8 @@ static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
+ static const char * const colorop_curve_1d_type_names[] = {
+ 	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "sRGB EOTF",
+ 	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] = "sRGB Inverse EOTF",
++	[DRM_COLOROP_1D_CURVE_PQ_125_EOTF] = "PQ 125 EOTF",
++	[DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] = "PQ 125 Inverse EOTF",
+ };
  
-+
-+static int
-+__set_colorop_1d_curve_blend_tf_lut(struct dc_plane_state *dc_plane_state,
-+				  struct drm_colorop_state *colorop_state)
-+{
-+
-+	struct dc_transfer_func *tf = &dc_plane_state->blend_tf;
-+	struct drm_colorop *colorop = colorop_state->colorop;
-+	struct drm_device *drm = colorop->dev;
-+	const struct drm_color_lut *blend_lut;
-+	uint32_t blend_size = 0;
-+
-+	if (colorop->type != DRM_COLOROP_1D_CURVE &&
-+	    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_EOTF)
-+		return -EINVAL;
-+
-+	if (colorop_state->bypass) {
-+		tf->type = TF_TYPE_BYPASS;
-+		tf->tf = TRANSFER_FUNCTION_LINEAR;
-+		return 0;
-+	}
-+
-+	drm_dbg(drm, "Blend colorop with ID: %d\n", colorop->base.id);
-+
-+	if (colorop->type == DRM_COLOROP_1D_CURVE) {
-+		tf->type = TF_TYPE_DISTRIBUTED_POINTS;
-+		tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
-+		tf->sdr_ref_white_level = SDR_WHITE_LEVEL_INIT_VALUE;
-+		return __set_input_tf(NULL, tf, blend_lut, blend_size);
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int
-+__set_dm_plane_colorop_blend(struct drm_plane_state *plane_state,
-+			     struct dc_plane_state *dc_plane_state,
-+			     struct drm_colorop *colorop)
-+{
-+	struct drm_colorop *old_colorop;
-+	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
-+	struct drm_atomic_state *state = plane_state->state;
-+	int i = 0;
-+
-+	old_colorop = colorop;
-+
-+	/* 3nd op: 1d curve - blend */
-+	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
-+		if (new_colorop_state->colorop == old_colorop &&
-+		    new_colorop_state->curve_1d_type == DRM_COLOROP_1D_CURVE_SRGB_EOTF) {
-+			colorop_state = new_colorop_state;
-+			break;
-+		}
-+
-+		if (new_colorop_state->colorop == old_colorop) {
-+			colorop_state = new_colorop_state;
-+			break;
-+		}
-+	}
-+
-+	if (!colorop_state)
-+		return -EINVAL;
-+
-+	return __set_colorop_1d_curve_blend_tf_lut(dc_plane_state, colorop_state);
-+}
-+
- static int
- amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
- 				     struct dc_plane_state *dc_plane_state)
-@@ -1341,6 +1407,17 @@ amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
- 	if (ret)
- 		return ret;
  
-+	/* 1D Curve - BLND TF */
-+	colorop = colorop->next;
-+	if (!colorop) {
-+		drm_dbg(dev, "no Blend TF colorop found\n");
-+		return -EINVAL;
-+	}
+diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+index 6e810cb3f8bf..a38c90f61dc6 100644
+--- a/include/drm/drm_colorop.h
++++ b/include/drm/drm_colorop.h
+@@ -59,6 +59,30 @@ enum drm_colorop_curve_1d_type {
+ 	 */
+ 	DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF,
+ 
++	/**
++	 * @DRM_COLOROP_1D_CURVE_PQ_125_EOTF:
++	 *
++	 * enum string "PQ 125 EOTF"
++	 *
++	 * The PQ transfer function, scaled by 125.0f, so that 10,000
++	 * nits correspond to 125.0f.
++	 *
++	 * Transfer characteristics of the PQ function as defined by
++	 * SMPTE ST 2084 (2014) for 10-, 12-, 14-, and 16-bit systems
++	 * and Rec. ITU-R BT.2100-2 perceptual quantization (PQ) system,
++	 * represented by H.273 TransferCharacteristics code point 16.
++	 */
++	DRM_COLOROP_1D_CURVE_PQ_125_EOTF,
 +
-+	ret = __set_dm_plane_colorop_blend(plane_state, dc_plane_state, colorop);
-+	if (ret)
-+		return ret;
++	/**
++	 * @DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF:
++	 *
++	 * enum string "PQ 125 Inverse EOTF"
++	 *
++	 * The inverse of DRM_COLOROP_1D_CURVE_PQ_125_EOTF.
++	 */
++	DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF,
 +
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-index ea6078592f4b..e8ba66962ce4 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-@@ -37,6 +37,9 @@ const u64 amdgpu_dm_supported_degam_tfs =
- const u64 amdgpu_dm_supported_shaper_tfs =
- 	BIT(DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF);
- 
-+const u64 amdgpu_dm_supported_blnd_tfs =
-+	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF);
-+
- #define MAX_COLOR_PIPELINE_OPS 10
- 
- int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
-@@ -77,6 +80,21 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
- 
- 	drm_colorop_set_next_property(ops[i-1], ops[i]);
- 
-+	i++;
-+
-+	/* 1D curve - BLND TF */
-+	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-+	if (!ops[i]) {
-+		ret = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-+	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, amdgpu_dm_supported_blnd_tfs);
-+	if (ret)
-+		goto cleanup;
-+
-+	drm_colorop_set_next_property(ops[i-1], ops[i]);
-+
- 	return 0;
- 
- cleanup:
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
-index 71cd27994528..2e1617ffc8ee 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
-@@ -29,6 +29,7 @@
- 
- extern const u64 amdgpu_dm_supported_degam_tfs;
- extern const u64 amdgpu_dm_supported_shaper_tfs;
-+extern const u64 amdgpu_dm_supported_blnd_tfs;
- 
- int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list);
- 
+ 	/**
+ 	 * @DRM_COLOROP_1D_CURVE_COUNT:
+ 	 *
 -- 
 2.43.0
 
