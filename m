@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BC4B286CA
+	by mail.lfdr.de (Postfix) with ESMTPS id 15225B286CB
 	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 21:59:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF3710E964;
-	Fri, 15 Aug 2025 19:59:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB0A310E98C;
+	Fri, 15 Aug 2025 19:59:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="T0YxlGIi";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sKkuaI4n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85DD110E964
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 19:59:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A184F10E988
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 19:59:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=52+wC+LWr/XqFJrPaJguN9iDPM6LJr7r3zTMXj1ujYI=; b=T0YxlGIipgUeGUEKdyQqzmEiEO
- Il68CT3bmO1KrUvOXv/O7XkdwmtGmvugqBukea3DfirTNZYG79QW6S5SU0JZKhYAn9uFaBd5X9NgI
- 5Kg5AVaivtU7J6E8FUEbX6SIbnBpKNIlqh8FlIQYI3dAOE0qfIDLBdw6kdFobA+kkBLjPAO3yd5vC
- mYIrOt8x2vW51dUTO848PXyR0UjIjGXIdMX8eOkMZn3tZ6duhbU2JDX2JrvXvyMTzbufak/b6UR9h
- L4ETPCBOd9pt9ixJPzArOpGCGhjbSddo4z9QnCVLS84lovYYX8pxZWl/3QS9mObtTHH/xLe/k925m
- 1yDpwtZw==;
+ bh=u/7ujHzuRk/YsOKzUw/7rRsrS9FWlsITeIUFoyTXVhg=; b=sKkuaI4nG7Llr351FBbRY2jDrc
+ pPjMQjdZSV0cUXF55mRQ1ZJF4qDuG0d+IFHEDvES+/HOGGCScP/peAwnD0wsrdzbE4LDt4qh2/fhg
+ eyVAhKs/Ci6UXmihRTyPE4E4Le0hQLgdDbb2e5u3OiDn7Zmypd98HiwRbB4OKdPDAazTb/Ky/Gq18
+ 0EwCpTmyWDMbG+8xg5w68HtAYhu0VO2k1rpg29d+0v6yBnmIFv7h0498dzZ+nexYfWPtOixYV4bl2
+ F5qmyrsnOeFr56A+WFh4WDn8F8nFk3v9pizHcS1NOPOE6kW5WjZWWEGcc6Y56dfHssP4sjgPpxXsX
+ nQ3LkrzA==;
 Received: from [177.191.196.76] (helo=[192.168.0.165])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1un0a2-00EoI4-4i; Fri, 15 Aug 2025 21:59:14 +0200
+ id 1un0a5-00EoI4-4s; Fri, 15 Aug 2025 21:59:17 +0200
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Fri, 15 Aug 2025 16:58:44 -0300
-Subject: [PATCH v2 5/6] drm/v3d: Synchronous operations can't timeout
+Date: Fri, 15 Aug 2025 16:58:45 -0300
+Subject: [PATCH v2 6/6] drm/v3d: Protect per-fd reset counter against fd
+ release
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250815-v3d-queue-lock-v2-5-ce37258ffb53@igalia.com>
+Message-Id: <20250815-v3d-queue-lock-v2-6-ce37258ffb53@igalia.com>
 References: <20250815-v3d-queue-lock-v2-0-ce37258ffb53@igalia.com>
 In-Reply-To: <20250815-v3d-queue-lock-v2-0-ce37258ffb53@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>, 
@@ -46,15 +47,15 @@ To: Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>,
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2282; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=+sZrDrdFnAUnaekXGVkCXcdE+KzFESfZ/TUUB8uONxA=;
- b=owEBbQGS/pANAwAKAT/zDop2iPqqAcsmYgBon5GAIg7OQO294wHBhJz3cz6vMufkRjSvJ/cYC
- blpqUPF4/aJATMEAAEKAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaJ+RgAAKCRA/8w6Kdoj6
- qpYyB/0Sf1wf7aDB1l9CrknYuB7sR/oxmJJuzXZ2kXP5A2b6KI5ZkzFtY7Z1HNx+ffLz5sROmcy
- 3kSE1Wa2n6vRdn2DK063ZgXrbDE4D4cas1FwUcqPq/1emwt+OVIr/1/PrCSPzai1cblj8iMbqi3
- +tqFcDkIRfGE4a/WaMVlZfifUMWvGGX+2Pvrge3arTh3ksylOHXlFQM0zWJw3+BE16v1AyI6JhY
- /fWshBbm63mqReV5melbEUNGra1qd1SiBtKg2utxa8hdxZHQwMjPY6aynZpcvnUHDzza7VoNrVG
- 0p+sRejPHoJ8ulr3wnrNLdfF9ksEI7Fr806FwQhqR8+cn9O1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3400; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=Js/8sPOYseXz69G6fqL6/lnLt0JZwawAWPMzye/xk34=;
+ b=owEBbQGS/pANAwAKAT/zDop2iPqqAcsmYgBon5GAuGuaoBFASc1Ygfut6ywbZdDA7r7pBqenf
+ 5wkwOwDbfuJATMEAAEKAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaJ+RgAAKCRA/8w6Kdoj6
+ qh8ZB/sFTPWQEFEXOLvjuSy4YeXgslC0YEb0qySU/OW9uLl76k6bFqHnp4h3CgHKUuuhBZ0scij
+ jAAPHG5+ivhy0zqisi9nOc122TspgxP2ZPNXPsWN2Ar53SZRIFqfpmp4LSdE8tNla/v5oRnuI8l
+ jPo0Pu+blaG8meG2RonFJZmosZ6X+rVcuvMqnKkWeQe25jppW3O/gn35jjgmKIEBXMKM60U2J2e
+ /gOWdhJFSK1EnsIh6Mvgk9nNQxKHemiE36s3nLM3fhZqXwlIhUBHtNVXv3Sd4Rp+Aw1lcpukqyl
+ V/6zncdGoeU2hrcwleZBth9Bw76nqwnuYuUKqfE/4EJNWYdT
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,71 +73,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CPU jobs and CACHE CLEAN jobs execute synchronously once the DRM
-scheduler starts running them. Therefore, there is no fence to wait on,
-neither are those jobs able to timeout.
+The per-fd reset counter tracks GPU resets caused by jobs submitted
+through a specific file descriptor. However, there's a race condition
+where the file descriptor can be closed while jobs are still running,
+leading to potential access to freed memory when updating the reset
+counter.
 
-Hence, remove the `timedout_job` hook from the CPU and CACHE CLEAN
-scheduler ops.
+Ensure that the per-fd reset counter is only updated when the file
+descriptor is still valid, preventing use-after-free scenarios during
+GPU reset handling.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_sched.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/v3d/v3d_sched.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 60e251367f42170b30de968682deb6370604db44..d2045d0db12e63bc67bac6a47cabcf746189ea88 100644
+index d2045d0db12e63bc67bac6a47cabcf746189ea88..05b7c2eae3a5dbd34620f2666ffb69364a5136d5 100644
 --- a/drivers/gpu/drm/v3d/v3d_sched.c
 +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -701,6 +701,7 @@ v3d_cpu_job_run(struct drm_sched_job *sched_job)
- 	trace_v3d_cpu_job_end(&v3d->drm, job->job_type);
- 	v3d_job_update_stats(&job->base, V3D_CPU);
- 
-+	/* Synchronous operation, so no fence to wait on. */
- 	return NULL;
- }
- 
-@@ -716,6 +717,7 @@ v3d_cache_clean_job_run(struct drm_sched_job *sched_job)
- 
- 	v3d_job_update_stats(job, V3D_CACHE_CLEAN);
- 
-+	/* Synchronous operation, so no fence to wait on. */
- 	return NULL;
- }
- 
-@@ -797,7 +799,7 @@ v3d_render_job_timedout(struct drm_sched_job *sched_job)
+@@ -722,17 +722,19 @@ v3d_cache_clean_job_run(struct drm_sched_job *sched_job)
  }
  
  static enum drm_gpu_sched_stat
--v3d_generic_job_timedout(struct drm_sched_job *sched_job)
-+v3d_tfu_job_timedout(struct drm_sched_job *sched_job)
+-v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
++v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job,
++			  enum v3d_queue q)
+ {
+ 	struct v3d_job *job = to_v3d_job(sched_job);
+ 	struct v3d_file_priv *v3d_priv = job->file_priv;
+-	enum v3d_queue q;
++	unsigned long irqflags;
++	enum v3d_queue i;
+ 
+ 	mutex_lock(&v3d->reset_lock);
+ 
+ 	/* block scheduler */
+-	for (q = 0; q < V3D_MAX_QUEUES; q++)
+-		drm_sched_stop(&v3d->queue[q].sched, sched_job);
++	for (i = 0; i < V3D_MAX_QUEUES; i++)
++		drm_sched_stop(&v3d->queue[i].sched, sched_job);
+ 
+ 	if (sched_job)
+ 		drm_sched_increase_karma(sched_job);
+@@ -741,15 +743,17 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
+ 	v3d_reset(v3d);
+ 
+ 	v3d->reset_counter++;
+-	v3d_priv->reset_counter++;
++	spin_lock_irqsave(&v3d->queue[q].queue_lock, irqflags);
++	if (v3d_priv)
++		v3d_priv->reset_counter++;
++	spin_unlock_irqrestore(&v3d->queue[q].queue_lock, irqflags);
+ 
+-	for (q = 0; q < V3D_MAX_QUEUES; q++)
++	for (i = 0; i < V3D_MAX_QUEUES; i++)
+ 		drm_sched_resubmit_jobs(&v3d->queue[q].sched);
+ 
+ 	/* Unblock schedulers and restart their jobs. */
+-	for (q = 0; q < V3D_MAX_QUEUES; q++) {
+-		drm_sched_start(&v3d->queue[q].sched, 0);
+-	}
++	for (i = 0; i < V3D_MAX_QUEUES; i++)
++		drm_sched_start(&v3d->queue[i].sched, 0);
+ 
+ 	mutex_unlock(&v3d->reset_lock);
+ 
+@@ -777,7 +781,7 @@ v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
+ 		return DRM_GPU_SCHED_STAT_NO_HANG;
+ 	}
+ 
+-	return v3d_gpu_reset_for_timeout(v3d, sched_job);
++	return v3d_gpu_reset_for_timeout(v3d, sched_job, q);
+ }
+ 
+ static enum drm_gpu_sched_stat
+@@ -803,7 +807,7 @@ v3d_tfu_job_timedout(struct drm_sched_job *sched_job)
  {
  	struct v3d_job *job = to_v3d_job(sched_job);
  
-@@ -837,7 +839,7 @@ static const struct drm_sched_backend_ops v3d_render_sched_ops = {
+-	return v3d_gpu_reset_for_timeout(job->v3d, sched_job);
++	return v3d_gpu_reset_for_timeout(job->v3d, sched_job, V3D_TFU);
+ }
  
- static const struct drm_sched_backend_ops v3d_tfu_sched_ops = {
- 	.run_job = v3d_tfu_job_run,
--	.timedout_job = v3d_generic_job_timedout,
-+	.timedout_job = v3d_tfu_job_timedout,
- 	.free_job = v3d_sched_job_free,
- };
+ static enum drm_gpu_sched_stat
+@@ -822,7 +826,7 @@ v3d_csd_job_timedout(struct drm_sched_job *sched_job)
+ 		return DRM_GPU_SCHED_STAT_NO_HANG;
+ 	}
  
-@@ -849,13 +851,11 @@ static const struct drm_sched_backend_ops v3d_csd_sched_ops = {
+-	return v3d_gpu_reset_for_timeout(v3d, sched_job);
++	return v3d_gpu_reset_for_timeout(v3d, sched_job, V3D_CSD);
+ }
  
- static const struct drm_sched_backend_ops v3d_cache_clean_sched_ops = {
- 	.run_job = v3d_cache_clean_job_run,
--	.timedout_job = v3d_generic_job_timedout,
- 	.free_job = v3d_sched_job_free
- };
- 
- static const struct drm_sched_backend_ops v3d_cpu_sched_ops = {
- 	.run_job = v3d_cpu_job_run,
--	.timedout_job = v3d_generic_job_timedout,
- 	.free_job = v3d_cpu_job_free
- };
- 
+ static const struct drm_sched_backend_ops v3d_bin_sched_ops = {
 
 -- 
 2.50.1
