@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CECEB27730
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 05:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD4DB27732
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 05:53:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF10410E90A;
-	Fri, 15 Aug 2025 03:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE88810E8F8;
+	Fri, 15 Aug 2025 03:53:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5coP+8pp";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="dwq7EYHY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2063.outbound.protection.outlook.com [40.107.244.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D990C10E90A;
- Fri, 15 Aug 2025 03:52:56 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2044.outbound.protection.outlook.com [40.107.92.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B289B10E909;
+ Fri, 15 Aug 2025 03:53:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RThButDewLoE7driHMZ7asXXQ1Xh+oD+VrlOXbrCAGkB1JjPkIgiPjbE2+Q+zYQYXr1/3Y1oAToLD3T0Ngk5er1alMqYMgIjMQ3ZGTDtyuS6NzPPYASXCsfLZkkuhvX0wCr0EqKN5cFKYv+6aHDAlLKu7M81Cfiw6mLn/2qGCXjBnaHMa/U7MIimKZBVWMCw8kIiN2G/P/WzGS7hQKmeEltaNWjr2t33Aceg95lFRjeVAONvDE8gvW1COOoK9Tl2xvquYLKi2vXLWpBJULhEhCNgZLN3ZotdQ9qiydU36bmFkkhQ1btxA45hdnpa4Uaf7jx7e8viEm/utbdoz5GxUg==
+ b=jsRBI14s20KEMawPDzM2y9jpXpxmuv0jj6+sLMQjuAd7YgudjRCc70YZwbTHwCcQTr2pzypfoZ1oxv4zayxQdIvgIDgan9NvB+OMTY1EHwlOoNVn/4N2Pgj7VmFoDd5+fCaSIZaYPDGBAY89QZ1PFnmUU5BLKh1lr+N/hfFcwFWuS/nMD7AdzIYbdcEA4S0p11VvBqfr8BCSAT1WoG8FDJu/pH0Xygpo+YbFyXg61GKji+vFcqw/oZ8ZlldJ7oSB0kaUYqFjh40KLcOHEAhnxx7qTGvONIAv0XfNbuxRD6XgBlwvbh2Qczsdua0UBxbnAGXWIlObuY5B+lYfA8b3ZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CKf6jTr1Tl+6HL7kplbumn+3ll0Dp46dblWaN3s9gqI=;
- b=cHYV3w/SIqckK5YXhm9ELoU4oqGerFK+Tq8BD3DIgjmLJoJDW1bL9vM++LhZZGMrgjBivgqtRaMSau5AR0kTOTugooXhOUQhjMwLJl4SVI9AdxTfREBO93yLqOdm675BZHphPJReu20ft4CRFCMKBGxBwzKgc9hPhqYVlteWRps+GPef3+Iyzau8H+q4DlECyBrHk6k14wSvbsvP88bZINURN1IXiED8764gbXWq8tQd1pbQ4g9eS3U2jYK5oy6a+fBnvUVJ15GHpem49kSq0fhz2uyBYFn9i6QGhEqH3asLtOYM4/ZvqxIuWeUC3R9TP6bApBrUPbUyFPlkyhrSnQ==
+ bh=1iz31QB48Yf8Ybd4G0VIeUkeczk49dMUm8S4vtjbDY8=;
+ b=MdTiQ5oib9uk1ClGPbVUhOX9oD8UgymmHSeNEDCryWq+3U0wxMw5Eaef8Qe3tEMXYkKjn8McHPItw93fihDhIBhIn6m5/jiHA/9Tz69RGR2txcM4u3bX6tEykZRv0pvnsJmnE3cspChK3P9E/J1uhfTlWEvOzDZ7lIBT8rqZDecwIhR6uvPgcBtwMYCV/14osBCdKCpvGJSqjmykqm0n39Q8zfO4bF1q6x1vqhmYGyxRkKm6eHiMftmGYN85kNXVCTlXI+Nnzt4gRLAWi5cOySB64BEZGVXhmWu2NqzUA5SrL8tQfvzUpWKNrek8d9vPPumd5ASoxJ32a7mZFIrklA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CKf6jTr1Tl+6HL7kplbumn+3ll0Dp46dblWaN3s9gqI=;
- b=5coP+8ppKMyrdWpedVsPTEUUbEld0+/rNAqZW/81cEFKsmm+WlrxmDtaWP6+athx1lQqof7cQ0PYFZ3vhWx3uF0pCVxjM1HR8q3thuen0Chu5mU7E6gFT9rFnSzIC2oEXfBaneAm8VotXnHhO2dwH99zWkeTscfQ4uuUaG485GA=
-Received: from BY5PR13CA0004.namprd13.prod.outlook.com (2603:10b6:a03:180::17)
- by SN7PR12MB7179.namprd12.prod.outlook.com (2603:10b6:806:2a7::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.16; Fri, 15 Aug
- 2025 03:52:51 +0000
-Received: from CY4PEPF0000FCC4.namprd03.prod.outlook.com
- (2603:10b6:a03:180:cafe::61) by BY5PR13CA0004.outlook.office365.com
- (2603:10b6:a03:180::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.7 via Frontend Transport; Fri,
- 15 Aug 2025 03:52:51 +0000
+ bh=1iz31QB48Yf8Ybd4G0VIeUkeczk49dMUm8S4vtjbDY8=;
+ b=dwq7EYHY0pa63QHusYIrjvPSNj7X+tFsbpxWRwkHtSRcYdL8rSe9iDvy+BlZnsVhtuVo+LY6qDai8Th2WwScvivg5hkXS8JtKMavs99BLQ/P9EhsUn5otEO4ZdDbGrYYdxAui/+jk8OCZo993e8DZOmYKMKSQd7erYoypD0oRVs=
+Received: from DM6PR11CA0034.namprd11.prod.outlook.com (2603:10b6:5:190::47)
+ by SN7PR12MB8171.namprd12.prod.outlook.com (2603:10b6:806:322::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Fri, 15 Aug
+ 2025 03:53:06 +0000
+Received: from CY4PEPF0000FCC3.namprd03.prod.outlook.com
+ (2603:10b6:5:190:cafe::cd) by DM6PR11CA0034.outlook.office365.com
+ (2603:10b6:5:190::47) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.18 via Frontend Transport; Fri,
+ 15 Aug 2025 03:53:06 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000FCC4.mail.protection.outlook.com (10.167.242.106) with Microsoft
+ CY4PEPF0000FCC3.mail.protection.outlook.com (10.167.242.105) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9031.11 via Frontend Transport; Fri, 15 Aug 2025 03:52:50 +0000
+ 15.20.9031.11 via Frontend Transport; Fri, 15 Aug 2025 03:53:05 +0000
 Received: from kylin.lan (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 14 Aug
- 2025 22:52:47 -0500
+ 2025 22:53:01 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -69,9 +69,9 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
  <mcanal@igalia.com>, <nfraprado@collabora.com>, Daniel Stone
  <daniels@collabora.com>
-Subject: [PATCH V11 05/47] drm/colorop: Add TYPE property
-Date: Thu, 14 Aug 2025 21:49:54 -0600
-Message-ID: <20250815035047.3319284-6-alex.hung@amd.com>
+Subject: [PATCH V11 06/47] drm/colorop: Add 1D Curve subtype
+Date: Thu, 14 Aug 2025 21:49:55 -0600
+Message-ID: <20250815035047.3319284-7-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250815035047.3319284-1-alex.hung@amd.com>
 References: <20250815035047.3319284-1-alex.hung@amd.com>
@@ -83,52 +83,52 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC4:EE_|SN7PR12MB7179:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7afab49-cf26-4b67-c426-08dddbaf34eb
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC3:EE_|SN7PR12MB8171:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8a665b45-e49f-4e95-964f-08dddbaf3dc4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|36860700013|82310400026|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OooG1UECMi4+w4f2pWeT9BXW74xXiIXipPI2FQWBg2cJC2a0fVCmaq12ES22?=
- =?us-ascii?Q?83XU4yn+483G98EW8yRFX2k8ILtm0yCsh5lr+Que4xrx2U0joECS6h7dtNbp?=
- =?us-ascii?Q?gwTCg5YInMiSAF8Y9kRJv3O/1aXWcNLhzTtNSECvExakrwkIZghGSG0U1z0B?=
- =?us-ascii?Q?pi1PuVl5w0Kew9AoOuSl0XLz2KGOSx8DX8cylYdr/AKbsYxyDcUwERD06Xx9?=
- =?us-ascii?Q?e/un/pcm87QP1mGLA9B2YTSll7E/R2JLQFnbjufPVK/Jl4pnpPKzT5x0AHMY?=
- =?us-ascii?Q?KOpeL3BSQIolUzoR24XSJcudwgG/STrD9fp8ygrE4F2zC8InDMo8vbjOOj+7?=
- =?us-ascii?Q?EFE6ggXGVv08vjnDbv8OmNhI7diJkDmK3kURYm1ggFKETh8thldPH1vyW+ns?=
- =?us-ascii?Q?OUiNO2CFvQaoDasc6sobqQK+xAA35j8Cc9Hd3cQakQH/JSA/AWnlkWMVDPZd?=
- =?us-ascii?Q?nYCBP7e4niOaHFQ0RaIy++8ptjW+81UKNarxeTmI6fqvAG4JYhS4jTUEFqiW?=
- =?us-ascii?Q?HpUAXNvGH8wxV2G0wdGE7Q6II6ym7SuQvVYZkQrRsyjc5UVEJDnjY2cBroGa?=
- =?us-ascii?Q?xLZD86Wwww4KV/qb+kHB4Jj2JEPgW4FotPXc7CsxISkDbN9hRibI4/MYIUCw?=
- =?us-ascii?Q?YAj5EU3/+TGj1dTyJs1QiOs4SJWIhmjpo18MCLzjxwXRpk2fDgeYidKyyBx+?=
- =?us-ascii?Q?fs0Tprq5rdtqXG1JrG9cqmsB6pRnBq4OGRnw6FKRjXRkLTV/hA+gEAZyg0aq?=
- =?us-ascii?Q?i807mF1E746+clEtLVbVK4qSq9kr4xjegXHVyVpWqNEeoeMJXluClzJUlyUL?=
- =?us-ascii?Q?J4UWd6T/FrbKwprCV9jZANpXuPpvG7RCTH9FbADwe/3dwsObIvB71n+YW7YR?=
- =?us-ascii?Q?IB8TIEeg6egbtRvut1Rby5niH6ydghp3AfCzjaj2XbHzAv7180zBnu31eehw?=
- =?us-ascii?Q?4kx+2VCLpFFxL3HfD/eBDBWTzZsoNGkF+0qGQQgUur+oZrwazSh/jfq6TCp1?=
- =?us-ascii?Q?txMFsOY3MJFUTfiVoRr9S2ZIfkHOkchshGx4rA2XBi1xwac7fB6SdjW2yXGB?=
- =?us-ascii?Q?k0+CG2TJVDe2XHXMCncnKh+3vO+VjVqwj5jj37sSpNTZiqCN1325hmXxU+OI?=
- =?us-ascii?Q?UWongxgzdWO59F5J2+zCSRRAZ0jez9rVomDq9xcaF0T6YjqtlOlQiYhtBod3?=
- =?us-ascii?Q?v9NnHnX7BkPaH4hrcvNnP8RozAm3k96Pbluk8kyurje3h0DMsILrPRTl4r8C?=
- =?us-ascii?Q?2E10QV84DdPUZHL6p4qhxOTPlwQFtyMUnwB1gQYB0nAdaBggnGnQMowXNmDB?=
- =?us-ascii?Q?JgAnOF7+tdPaLgCvcIF+aO5CDHCVH1IHxocAdMHGL9ULuXhVkK/rgrHAF9Jw?=
- =?us-ascii?Q?Wg19nWplN105szKyP7RvISitTh0IqLwso+0DuFl/29Up1OcO79NJGczYl2v3?=
- =?us-ascii?Q?d+Z5SWo13wojZuOnONLDJMEX3cIV7PY84N1qU9Zv/P0NP4Cc2yasjiZYhFpW?=
- =?us-ascii?Q?zivKghBmfb3Y1KpZ1ruTgD5R9pwrkxtR/G1+?=
+ ARA:13230040|1800799024|7416014|376014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GvlbUrGpBDMiapurmiP1mWrLg176svJZkHXP22yOl3rdVLTa7gNCGsMt4d22?=
+ =?us-ascii?Q?Kp4BFrJKVhooFxd4J971pwIbUk2C6boQVU43qg7+eVhDXilsCyl/DVNZ0vwc?=
+ =?us-ascii?Q?eVPsBXXT1xbjo2Y3iHUJ+/joqsoxlvDQUwHOJgokW30NP4/2icVxkNAobFFh?=
+ =?us-ascii?Q?T+Uv5g7oakaP1NSYRHIfU1+V7f8qGG0vb6Y/2M7jCDucxvbD9d5ERSgZ1duX?=
+ =?us-ascii?Q?YbXARXNoaaCxc1jTzdfP2VHMEGFTS9C0BWtaSfNoM+WTCW4ZJIgx+W5ugxEM?=
+ =?us-ascii?Q?zE/JHDF/IzdHjimOkur3i1mSBBik3zVWrWF0ETQyDfeu8Tqcd7L/o274QY+0?=
+ =?us-ascii?Q?rAx0DS/uaOfBCltNhqfbeVy3bCFxvUYvPSlf2J26oYmTmAO3vzBHQzK/hzJ8?=
+ =?us-ascii?Q?OPfvGZxRUrVhnnVfLCzOvFn6qk/uZ9VyyTTZn7EhERiourrgXhxvMyMZZHiK?=
+ =?us-ascii?Q?0a0pPZgWN0nsfVnU0DfWrZO6FQwtHnNvQAoKlljVLQJqnHqjaY9qtmh5LUrt?=
+ =?us-ascii?Q?eJ6CqA3MQjUQP9FuGrBI5Z5cY1dwdeN6uUjuY+TKAphkRhWG+hjoRUGuPB8C?=
+ =?us-ascii?Q?0Yhnxvsm2T0UMzAmIIGT9ExdIlPbbMDrvaNkM1wPVn4tlsIcHMA5zsYTjybx?=
+ =?us-ascii?Q?UTJpvp/ibuHtKVkQe54b5Q9AbGXDouhPEIufZKwh1er0lyKGN05mHaIiVctb?=
+ =?us-ascii?Q?UT2C+Ufu5kjEDMeerB2sXZkBvfd5repYdDVl+vyri/5whclH78+OK3TaNLeB?=
+ =?us-ascii?Q?l2863tHxAnNv+lkJ0xGl3la+IYURBMpca3zjpcP1FPaibHyU6f24zJs9/sN6?=
+ =?us-ascii?Q?X4JbALFh1H4QkpSGoTRn+hCHCV0Lw9+Hd1hPsggyuzHTtmfIyq7pM7dZrm2p?=
+ =?us-ascii?Q?tO4ZisRwGpBlO4l1JXmaAWEnorlWAdny8ZdsiANF/hqttXV0AOuKT9o4cV0Q?=
+ =?us-ascii?Q?wllwmt6vsTqWBlak6rJ/XjkduWkk5Vk+9MGZFKXfKAeWDhBze2pa2plqwiXZ?=
+ =?us-ascii?Q?2m0gm66H74Om3wlyogikZ3SU57boe4sGOn/y94XPDtaFXfbuoqBdlAPfxXOi?=
+ =?us-ascii?Q?J/2nV+qoJpWpUShIAy3QcyYFkVjhy5Rug4Ciltr2UBoo/rBkmPDFxxDvTPVA?=
+ =?us-ascii?Q?Od6+nrBEERcZjzcbakwcRkpdSahScCpR/TIZyWCR4zsd25KaDNLWG+2+qaGk?=
+ =?us-ascii?Q?jvtGlx/cD0PnshDgXVsmssfDq/a4qRRwKtqcxZuaFKbuNfoAdQuxU0jkQtO9?=
+ =?us-ascii?Q?d9hDGFcN0cilPsBnf9RWcN1+mODBwGfpUU8in5BDGhr9DQsjbcw4Mx3dN6PD?=
+ =?us-ascii?Q?ZbhGpp2Z4lzvQx9iLNmZHt8jvnBELm81DCOHQzQozgw7kCtontW0NSvgbK0k?=
+ =?us-ascii?Q?XC5xHVysWFqzAHPyUf4mXdaVUtCAoxv6cmEmib6v0qfveHI0C/JtAFj6vRma?=
+ =?us-ascii?Q?YkHR/D+FAGNbw6pCWLc1iLQQnhWJ+X29cd9twX7JO9QeUOFhtQDolbkyW+54?=
+ =?us-ascii?Q?ayR9qDilIz50GPfahl+tDJsPcx4FYQ4EpoJo?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024); DIR:OUT;
+ SFS:(13230040)(1800799024)(7416014)(376014)(36860700013)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 03:52:50.9222 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7afab49-cf26-4b67-c426-08dddbaf34eb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2025 03:53:05.7656 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a665b45-e49f-4e95-964f-08dddbaf3dc4
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000FCC4.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000FCC3.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7179
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8171
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,166 +146,328 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Harry Wentland <harry.wentland@amd.com>
 
-Add a read-only TYPE property. The TYPE specifies the colorop
-type, such as enumerated curve, 1D LUT, CTM, 3D LUT, PWL LUT,
-etc.
-
-For now we're only introducing an enumerated 1D LUT type to
-illustrate the concept.
+Add a new drm_colorop with DRM_COLOROP_1D_CURVE with two subtypes:
+DRM_COLOROP_1D_CURVE_SRGB_EOTF and DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF.
 
 Reviewed-by: Simon Ser <contact@emersion.fr>
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Co-developed-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 Reviewed-by: Melissa Wen <mwen@igalia.com>
 ---
-v6:
- - fix doc typo (Alex Hung)
+V9: Specify function names by _plane_ (Chaitanya Kumar Borah)
 
 v5:
- - Add drm_get_colorop_type_name in header
+ - Add drm_get_colorop_curve_1d_type_name in header
+ - Add drm_colorop_init
+ - Set default curve
  - Add kernel docs
 
 v4:
- - Use enum property for TYPE (Pekka)
+ - Use drm_colorop_curve_1d_type_enum_list to get name (Pekka)
+ - Create separate init function for 1D curve
+ - Pass supported TFs into 1D curve init function
 
-v3:
- - Make TYPE a range property
- - Move enum drm_colorop_type to uapi header
- - Fix drm_get_colorop_type_name description
+ drivers/gpu/drm/drm_atomic_uapi.c |  18 ++--
+ drivers/gpu/drm/drm_colorop.c     | 134 ++++++++++++++++++++++++++++++
+ include/drm/drm_colorop.h         |  63 ++++++++++++++
+ 3 files changed, 210 insertions(+), 5 deletions(-)
 
- drivers/gpu/drm/drm_atomic.c      |  4 ++--
- drivers/gpu/drm/drm_atomic_uapi.c |  8 +++++++-
- drivers/gpu/drm/drm_colorop.c     | 12 ++++++++++++
- include/drm/drm_colorop.h         | 23 +++++++++++++++++++++++
- include/uapi/drm/drm_mode.h       | 19 +++++++++++++++++++
- 5 files changed, 63 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 055d7579f72e..cb7df543bcdb 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -631,8 +631,8 @@ drm_atomic_get_colorop_state(struct drm_atomic_state *state,
- 	state->colorops[index].new_state = colorop_state;
- 	colorop_state->state = state;
- 
--	drm_dbg_atomic(colorop->dev, "Added [COLOROP:%d] %p state to %p\n",
--		       colorop->base.id, colorop_state, state);
-+	drm_dbg_atomic(colorop->dev, "Added [COLOROP:%d:%d] %p state to %p\n",
-+		       colorop->base.id, colorop->type, colorop_state, state);
- 
- 	return colorop_state;
- }
 diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index fad1e3a3c37f..ad2043f16268 100644
+index ad2043f16268..52b5a9b5523e 100644
 --- a/drivers/gpu/drm/drm_atomic_uapi.c
 +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -662,7 +662,13 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
- 		const struct drm_colorop_state *state,
- 		struct drm_property *property, uint64_t *val)
+@@ -650,11 +650,17 @@ static int drm_atomic_colorop_set_property(struct drm_colorop *colorop,
+ 		struct drm_colorop_state *state, struct drm_file *file_priv,
+ 		struct drm_property *property, uint64_t val)
  {
+-	drm_dbg_atomic(colorop->dev,
+-			"[COLOROP:%d] unknown property [PROP:%d:%s]]\n",
+-			colorop->base.id,
+-			property->base.id, property->name);
 -	return -EINVAL;
-+	if (property == colorop->type_property) {
-+		*val = colorop->type;
++	if (property == colorop->curve_1d_type_property) {
++		state->curve_1d_type = val;
 +	} else {
++		drm_dbg_atomic(colorop->dev,
++			       "[COLOROP:%d:%d] unknown property [PROP:%d:%s]]\n",
++			       colorop->base.id, colorop->type,
++			       property->base.id, property->name);
 +		return -EINVAL;
 +	}
 +
 +	return 0;
  }
  
- static int drm_atomic_set_writeback_fb_for_connector(
+ static int
+@@ -664,6 +670,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *colorop,
+ {
+ 	if (property == colorop->type_property) {
+ 		*val = colorop->type;
++	} else if (property == colorop->curve_1d_type_property) {
++		*val = state->curve_1d_type;
+ 	} else {
+ 		return -EINVAL;
+ 	}
 diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index d215e22c9d20..1459a28c7e7b 100644
+index 1459a28c7e7b..6fbc3c284d33 100644
 --- a/drivers/gpu/drm/drm_colorop.c
 +++ b/drivers/gpu/drm/drm_colorop.c
-@@ -102,3 +102,15 @@ void drm_colorop_reset(struct drm_colorop *colorop)
- 	if (colorop->state)
- 		__drm_colorop_reset(colorop, colorop->state);
- }
-+
-+static const char * const colorop_type_name[] = {
-+	[DRM_COLOROP_1D_CURVE] = "1D Curve",
+@@ -31,6 +31,123 @@
+ 
+ #include "drm_crtc_internal.h"
+ 
++static const struct drm_prop_enum_list drm_colorop_type_enum_list[] = {
++	{ DRM_COLOROP_1D_CURVE, "1D Curve" },
 +};
 +
-+const char *drm_get_colorop_type_name(enum drm_colorop_type type)
++static const char * const colorop_curve_1d_type_names[] = {
++	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] = "sRGB EOTF",
++	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] = "sRGB Inverse EOTF",
++};
++
++
++/* Init Helpers */
++
++static int drm_plane_colorop_init(struct drm_device *dev, struct drm_colorop *colorop,
++			    struct drm_plane *plane, enum drm_colorop_type type)
 +{
-+	if (WARN_ON(type >= ARRAY_SIZE(colorop_type_name)))
++	struct drm_mode_config *config = &dev->mode_config;
++	struct drm_property *prop;
++	int ret = 0;
++
++	ret = drm_mode_object_add(dev, &colorop->base, DRM_MODE_OBJECT_COLOROP);
++	if (ret)
++		return ret;
++
++	colorop->base.properties = &colorop->properties;
++	colorop->dev = dev;
++	colorop->type = type;
++	colorop->plane = plane;
++
++	list_add_tail(&colorop->head, &config->colorop_list);
++	colorop->index = config->num_colorop++;
++
++	/* add properties */
++
++	/* type */
++	prop = drm_property_create_enum(dev,
++					DRM_MODE_PROP_IMMUTABLE,
++					"TYPE", drm_colorop_type_enum_list,
++					ARRAY_SIZE(drm_colorop_type_enum_list));
++
++	if (!prop)
++		return -ENOMEM;
++
++	colorop->type_property = prop;
++
++	drm_object_attach_property(&colorop->base,
++				   colorop->type_property,
++				   colorop->type);
++
++	return ret;
++}
++
++/**
++ * drm_plane_colorop_curve_1d_init - Initialize a DRM_COLOROP_1D_CURVE
++ *
++ * @dev: DRM device
++ * @colorop: The drm_colorop object to initialize
++ * @plane: The associated drm_plane
++ * @supported_tfs: A bitfield of supported drm_plane_colorop_curve_1d_init enum values,
++ *                 created using BIT(curve_type) and combined with the OR '|'
++ *                 operator.
++ * @return zero on success, -E value on failure
++ */
++int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
++				    struct drm_plane *plane, u64 supported_tfs)
++{
++	struct drm_prop_enum_list enum_list[DRM_COLOROP_1D_CURVE_COUNT];
++	int i, len;
++
++	struct drm_property *prop;
++	int ret;
++
++	if (!supported_tfs) {
++		drm_err(dev,
++			"No supported TFs for new 1D curve colorop on [PLANE:%d:%s]\n",
++			plane->base.id, plane->name);
++		return -EINVAL;
++	}
++
++	if ((supported_tfs & -BIT(DRM_COLOROP_1D_CURVE_COUNT)) != 0) {
++		drm_err(dev, "Unknown TF provided on [PLANE:%d:%s]\n",
++			plane->base.id, plane->name);
++		return -EINVAL;
++	}
++
++	ret = drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_CURVE);
++	if (ret)
++		return ret;
++
++	len = 0;
++	for (i = 0; i < DRM_COLOROP_1D_CURVE_COUNT; i++) {
++		if ((supported_tfs & BIT(i)) == 0)
++			continue;
++
++		enum_list[len].type = i;
++		enum_list[len].name = colorop_curve_1d_type_names[i];
++		len++;
++	}
++
++	if (WARN_ON(len <= 0))
++		return -EINVAL;
++
++
++	/* initialize 1D curve only attribute */
++	prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC, "CURVE_1D_TYPE",
++					enum_list, len);
++	if (!prop)
++		return -ENOMEM;
++
++	colorop->curve_1d_type_property = prop;
++	drm_object_attach_property(&colorop->base, colorop->curve_1d_type_property,
++				   enum_list[0].type);
++	drm_colorop_reset(colorop);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_plane_colorop_curve_1d_init);
++
+ static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
+ 							struct drm_colorop_state *state)
+ {
+@@ -70,7 +187,16 @@ void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
+ static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
+ 				      struct drm_colorop *colorop)
+ {
++	u64 val;
++
+ 	colorop_state->colorop = colorop;
++
++	if (colorop->curve_1d_type_property) {
++		drm_object_property_get_default_value(&colorop->base,
++						colorop->curve_1d_type_property,
++						&val);
++		colorop_state->curve_1d_type = val;
++	}
+ }
+ 
+ /**
+@@ -114,3 +240,11 @@ const char *drm_get_colorop_type_name(enum drm_colorop_type type)
+ 
+ 	return colorop_type_name[type];
+ }
++
++const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type type)
++{
++	if (WARN_ON(type >= ARRAY_SIZE(colorop_curve_1d_type_names)))
 +		return "unknown";
 +
-+	return colorop_type_name[type];
++	return colorop_curve_1d_type_names[type];
 +}
 diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-index 008665d2d960..9c9698545f63 100644
+index 9c9698545f63..fa167e642e0d 100644
 --- a/include/drm/drm_colorop.h
 +++ b/include/drm/drm_colorop.h
-@@ -112,6 +112,21 @@ struct drm_colorop {
- 	/** @properties: property tracking for this colorop */
- 	struct drm_object_properties properties;
+@@ -31,6 +31,42 @@
+ #include <drm/drm_mode.h>
+ #include <drm/drm_property.h>
  
++
++/**
++ * enum drm_colorop_curve_1d_type - type of 1D curve
++ *
++ * Describes a 1D curve to be applied by the DRM_COLOROP_1D_CURVE colorop.
++ */
++enum drm_colorop_curve_1d_type {
 +	/**
-+	 * @type:
++	 * @DRM_COLOROP_1D_CURVE_SRGB_EOTF:
 +	 *
-+	 * Read-only
-+	 * Type of color operation
++	 * enum string "sRGB EOTF"
++	 *
++	 * sRGB piece-wise electro-optical transfer function. Transfer
++	 * characteristics as defined by IEC 61966-2-1 sRGB. Equivalent
++	 * to H.273 TransferCharacteristics code point 13 with
++	 * MatrixCoefficients set to 0.
 +	 */
-+	enum drm_colorop_type type;
++	DRM_COLOROP_1D_CURVE_SRGB_EOTF,
 +
 +	/**
-+	 * @type_property:
++	 * @DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
 +	 *
-+	 * Read-only "TYPE" property for specifying the type of
-+	 * this color operation. The type is enum drm_colorop_type.
++	 * enum string "sRGB Inverse EOTF"
++	 *
++	 * The inverse of &DRM_COLOROP_1D_CURVE_SRGB_EOTF
 +	 */
-+	struct drm_property *type_property;
++	DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF,
++
++	/**
++	 * @DRM_COLOROP_1D_CURVE_COUNT:
++	 *
++	 * enum value denoting the size of the enum
++	 */
++	DRM_COLOROP_1D_CURVE_COUNT
++};
++
+ /**
+  * struct drm_colorop_state - mutable colorop state
+  */
+@@ -46,6 +82,13 @@ struct drm_colorop_state {
+ 	 * information.
+ 	 */
+ 
++	/**
++	 * @curve_1d_type:
++	 *
++	 * Type of 1D curve.
++	 */
++	enum drm_colorop_curve_1d_type curve_1d_type;
++
+ 	/** @state: backpointer to global drm_atomic_state */
+ 	struct drm_atomic_state *state;
+ };
+@@ -127,6 +170,14 @@ struct drm_colorop {
+ 	 * this color operation. The type is enum drm_colorop_type.
+ 	 */
+ 	struct drm_property *type_property;
++
++	/**
++	 * @curve_1d_type_property:
++	 *
++	 * Sub-type for DRM_COLOROP_1D_CURVE type.
++	 */
++	struct drm_property *curve_1d_type_property;
++
  };
  
  #define obj_to_colorop(x) container_of(x, struct drm_colorop, base)
-@@ -167,5 +182,13 @@ static inline unsigned int drm_colorop_index(const struct drm_colorop *colorop)
- #define drm_for_each_colorop(colorop, dev) \
- 	list_for_each_entry(colorop, &(dev)->mode_config.colorop_list, head)
+@@ -151,6 +202,9 @@ static inline struct drm_colorop *drm_colorop_find(struct drm_device *dev,
+ 	return mo ? obj_to_colorop(mo) : NULL;
+ }
+ 
++int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
++				    struct drm_plane *plane, u64 supported_tfs);
++
+ struct drm_colorop_state *
+ drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
+ 
+@@ -191,4 +245,13 @@ static inline unsigned int drm_colorop_index(const struct drm_colorop *colorop)
+  */
+ const char *drm_get_colorop_type_name(enum drm_colorop_type type);
  
 +/**
-+ * drm_get_colorop_type_name - return a string for colorop type
-+ * @type: colorop type to compute name of
++ * drm_get_colorop_curve_1d_type_name - return a string for 1D curve type
++ * @type: 1d curve type to compute name of
 + *
 + * In contrast to the other drm_get_*_name functions this one here returns a
 + * const pointer and hence is threadsafe.
 + */
-+const char *drm_get_colorop_type_name(enum drm_colorop_type type);
- 
- #endif /* __DRM_COLOROP_H__ */
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index a5331f045c47..1c84384b5e8f 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -858,6 +858,25 @@ struct drm_color_lut {
- 	__u16 reserved;
- };
- 
-+/**
-+ * enum drm_colorop_type - Type of color operation
-+ *
-+ * drm_colorops can be of many different types. Each type behaves differently
-+ * and defines a different set of properties. This enum defines all types and
-+ * gives a high-level description.
-+ */
-+enum drm_colorop_type {
-+	/**
-+	 * @DRM_COLOROP_1D_CURVE:
-+	 *
-+	 * enum string "1D Curve"
-+	 *
-+	 * A 1D curve that is being applied to all color channels. The
-+	 * curve is specified via the CURVE_1D_TYPE colorop property.
-+	 */
-+	DRM_COLOROP_1D_CURVE
-+};
++const char *drm_get_colorop_curve_1d_type_name(enum drm_colorop_curve_1d_type type);
 +
- /**
-  * struct drm_plane_size_hint - Plane size hints
-  * @width: The width of the plane in pixel
+ #endif /* __DRM_COLOROP_H__ */
 -- 
 2.43.0
 
