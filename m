@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54FBB28772
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 22:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834ACB28798
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 23:19:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECE1010E97F;
-	Fri, 15 Aug 2025 20:57:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DFAB10E28C;
+	Fri, 15 Aug 2025 21:19:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uI8Jlx8+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OCEEO9d4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1708D10E280;
- Fri, 15 Aug 2025 20:57:36 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 887DD10E28C;
+ Fri, 15 Aug 2025 21:19:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DF78FA583F9;
- Fri, 15 Aug 2025 20:57:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22BC2C4CEEB;
- Fri, 15 Aug 2025 20:57:31 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 78C2E5C1388;
+ Fri, 15 Aug 2025 21:19:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86EDBC4CEEB;
+ Fri, 15 Aug 2025 21:19:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755291454;
- bh=BV2i9bTImMy1rgp5jv7+5mpj/pVe7ucb3EUOIBIWTbo=;
+ s=k20201202; t=1755292748;
+ bh=bhEvK5wK2YtXTqi0pcFGbwLRtRhDbn8qEwcWJyPDIl0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=uI8Jlx8+PL29U1PLyI0ROPRaY9QHtX4+Wsa3JxXnae8Pw+1FmS7Gs1pGACscxY9fD
- L5zCivpUGY2ldegPZr1JPbBZlJJNOn3GdfmlrK67VRfJ30Yb7u/42/LKa2Ipg3RV97
- L4K5ejBOvhcFT/+DzXMCEWBZ1HA/+57cP+YyrpXCObBYXUtGZV4At8sJBhaFTQIH+1
- jr/NsI+uGDfWnZhgRNPG9LwJfv9e9HRplYi22piFPcV7aHELIxJefGozx8WyYLQpwa
- HB0wQT6nX5+2JM+iEVpVfjGBzl6E/AtE8e7mkuAvBfJn1Ci106HnpyoKIXVepcXsV+
- vAOQV3SizOBXQ==
-Message-ID: <6dfcf686-d212-4768-91d7-992f34932980@kernel.org>
-Date: Fri, 15 Aug 2025 22:57:30 +0200
+ b=OCEEO9d414p+6Udjxo+1FmsrM7oKnOJfVjQGPBeV6CGKLFNIaMSbQAR+hILUCH+Cg
+ UnnE+YMqvTgcjPqSJOBLXF5ls7xoCn28hMAvea/nsHFahCND82tEL4asID8M/YsmIR
+ F2BSoAY3rY3Ape6Mvh90d8hzr6ujzF43dswID1gJu5a0HlkxLmCArceaU275JJXaBQ
+ Quh4o95q6sw8mrmt2pQQaxB+Xqc0TQ4vyOxsVZGeaJPi4cc/qPrS+uliMQ/0R3Bc68
+ WUuWEIf+HKXxE1oY5YTgLC4MpsRloH73GHWFTTVmymW+M45xC1j0sY/ngj76qgbqAI
+ SH0za9Qjh/Org==
+Message-ID: <1117b9e5-b46a-4661-bfe9-56ff844c1218@kernel.org>
+Date: Fri, 15 Aug 2025 23:19:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/nouveau/gsp: fix mismatched alloc/free for
- kvmalloc()
-To: Qianfeng Rong <rongqianfeng@vivo.com>
-Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
- Timur Tabi <ttabi@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20250813125412.96178-1-rongqianfeng@vivo.com>
+Subject: Re: [PATCH] drm: nova-drm: fix 32-bit arm build
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Gaynor <alex.gaynor@gmail.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev
+References: <20250724165441.2105632-1-ojeda@kernel.org>
 From: Danilo Krummrich <dakr@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20250813125412.96178-1-rongqianfeng@vivo.com>
+In-Reply-To: <20250724165441.2105632-1-ojeda@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,15 +65,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/13/25 2:54 PM, Qianfeng Rong wrote:
-> Replace kfree() with kvfree() for memory allocated by kvmalloc().
+On 7/24/25 6:54 PM, Miguel Ojeda wrote:
+> In 32-bit arm, the build fails with:
 > 
-> Compile-tested only.
+>      error[E0308]: mismatched types
+>        --> drivers/gpu/drm/nova/file.rs:42:28
+>         |
+>      42 |         getparam.set_value(value);
+>         |                  --------- ^^^^^ expected `u64`, found `u32`
+>         |                  |
+>         |                  arguments to this method are incorrect
+>         |
+>      note: method defined here
+>        --> drivers/gpu/drm/nova/uapi.rs:29:12
+>         |
+>      29 |     pub fn set_value(&self, v: u64) {
+>         |            ^^^^^^^^^        ------
+>      help: you can convert a `u32` to a `u64`
+>         |
+>      42 |         getparam.set_value(value.into());
+>         |                                 +++++++
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: 8a8b1ec5261f ("drm/nouveau/gsp: split rpc handling out on its own")
-> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
-> Reviewed-by: Timur Tabi <ttabi@nvidia.com>
-> Acked-by: Zhi Wang <zhiw@nvidia.com>
+> The reason is that `Getparam::set_value` takes a `u64` (from the UAPI),
+> but `pci::Device::resource_len()` returns a `resource_size_t`, which is a
+> `phys_addr_t`, which may be 32- or 64-bit.
+> 
+> Thus add an `into()` call to support the 32-bit case, while allowing the
+> Clippy lint that complains in the 64-bit case where the type is the same.
+> 
+> Fixes: cdeaeb9dd762 ("drm: nova-drm: add initial driver skeleton")
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
 Applied to drm-misc-fixes, thanks!
