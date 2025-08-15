@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C11B2739D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 02:19:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525A8B2739F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Aug 2025 02:19:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CBB210E100;
-	Fri, 15 Aug 2025 00:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6308D10E238;
+	Fri, 15 Aug 2025 00:19:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="USYXnGvM";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="B7LMkQXu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A11610E100
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 00:19:31 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id
- d2e1a72fcca58-76e2e618a98so1226681b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 17:19:31 -0700 (PDT)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C9E510E238
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 00:19:47 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-32326e202e0so1385137a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 17:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1755217169; x=1755821969;
+ d=chromium.org; s=google; t=1755217184; x=1755821984;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CEZvwZ6yQfWgMEqsVmo462XXGUa5NScj6l2mlIQyQ0c=;
- b=USYXnGvMGpHuknTl5MhmE1S00phYctNeqmM3kYYYGXE2ym/nDTAnalDbMcXuU2Pkm2
- IkMTOC6Wxq7vfx+vIjuW2wr442jfjQbPM8VQXReaxByGwaKmLtaoHSlvmu3d6coFZzQ/
- ZNySIXRr8/Mb647B20Ux3nK/3dIKb7rSkEhqE=
+ bh=VleEWglR379JUi2VRPyVygfWGFpaMa+WQLnA/qDO5J4=;
+ b=B7LMkQXuoswckPpTKV9pj9UOIGTyhOK1PVDY7Z+6WYS7BzxCtIw9h65OZac7ZG/RDO
+ EGJMnTrb7loZw0LanozoAd/R2TTZg1/8J+UjiJbD28oRIV8BTV2Xp3k6Oxp03wOZqupM
+ IBlZ95kW0QjGRetT8d3C/D3KUOpsf5xxi7/Wc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755217169; x=1755821969;
+ d=1e100.net; s=20230601; t=1755217184; x=1755821984;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CEZvwZ6yQfWgMEqsVmo462XXGUa5NScj6l2mlIQyQ0c=;
- b=kMsUwAs8kN0w/GDZvKrmZsY0N/T5T1zugDm0ANV1dsLthfje8hLY1Qr2O3R1nBTJYd
- s5S5/HlGrw0ek847z6CXe1eqxqnA2d8QCQfnakOa3Vj9JEC3ImGXHO3ZxNfRkQtAvBOy
- JcXmCs26HMQ1LQp89DcBvk6AT5LayaReO9FE6dabwfdpMkb2g30P5InKeICgUlH3Coup
- cgf3TVdNDeQy0dZmLmCSWgZmNHgAElxmm9j7Vqq0PTy+m48Vgypbj32KsqSvYnxRqiCh
- 7yoAS3uUSnEPSATvfiBggrO6xkk/lRlQe4lPFxOtlTnhVVtnDPvFGtGomnNhXdcsmpu5
- zkYw==
+ bh=VleEWglR379JUi2VRPyVygfWGFpaMa+WQLnA/qDO5J4=;
+ b=KyMhiw0No/wG0bzUszXjO0fBtKJGyAEHim1t7fAMcvN/4RXGlPNHW5C1zVnDNyn+nB
+ 92DR1/jkVkY7Hi2ToeRAE4ZCYi2rLXxM471HXM6mL+F8zUNa6sS7d8nqnpGbCUnEL1+Y
+ IFKheM8N/r6yuxh50CfiB1N5Qgf2DobyzKd/8TdTJ6Q2r+PzqPud/rxOh/RXEowuGxlz
+ gLGpvC2UQDriRAZHXTSfbRFeGDgl7pvYBJMP4W9Xqr0wuxAGTTbthT1NHv1qtyDWX4oE
+ KJhKV9O8Jr4XZFpJufFzxqTm3Uv/fQMzIjSGP/hmR60lduKdwbLIkqfspUhZCcqs6cBS
+ xcDg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUpbJmER0AGbf5zaV+Bwwfr6EbADXbs6OKqTnpcQ3VeNXl57bcU6Ue/pHURT/YDQyYqaqL+uscfwaI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwZHnCvYz+/R4GMRRCtjVLZ0OI51zcA7I1y3wlfoRVA8BUxwrs4
- icrGjoFWTWR3BWVQQvzFquj1+Mf+GcziHe1tIEew9mGqLNT28yAfQA14PpHbFPPtm5Diji6iHkw
- iVw0=
-X-Gm-Gg: ASbGncvzV1I9c1F1yh2FcOlYIiQ43aoKvSsTcL7gNTJdUQjckQo8kqvUg0F1AcUa/Y8
- N+Z5uJmcfAEo39e7JTrMWCAb4NQcxwkOE04ltlByVwm0jAqSudKmVmfK+JYj5UQdWImbXkEAiml
- 4PHd9ZjT50ulwZ8UyfDaZc1BJUWQt31VEexc/K9LxvvJ/NZcbry8lCh81vHoKE6ZbdPC/py24G+
- wPwRLzjZrYe4gfMxtMg+G/P6Y6gnRYgU0kDncfCHMvay/tfwJIMIA0491rZh5hlKVwiqj4eISEc
- xGURsxVezAinWAKs6W8gfKacGe0b0JmfHRDquxY4TjAIBQ1Wc6FVJyk1OHl7pmB8byFyVw8UhxJ
- rv1n7i30M2kumbuWjB9OhlibAMqSXd4vTfnIczokw66AUDeauLD872KkSNhcplDjJU3rrGnM6nI
- BG
-X-Google-Smtp-Source: AGHT+IGtHRsRRTZIYWwKZ8LDR6zjWhG/8q/ofc0tK7Hi1wzd9TvzB1WFySyiALtkYHFV8atKtg34ng==
-X-Received: by 2002:a05:6a20:12c8:b0:240:cd6:a922 with SMTP id
- adf61e73a8af0-240d31a882dmr241276637.37.1755217168627; 
- Thu, 14 Aug 2025 17:19:28 -0700 (PDT)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com.
- [209.85.214.171]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76c2078afd8sm23537944b3a.117.2025.08.14.17.19.26
+ AJvYcCX6NDKK6Uor9pkLhPur2nDiWbWcZT2EDJGyOfLX73s6c5lfx3KliT9f8ofmEG93z3eAwJ3ck8sNCwg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxwq4HEoSmDmQTJEAx/DKEG55zaSRMJWR6VFpkt6F44KZ8Fik5O
+ 2KlDo2jJTp8IvTQff1UVT2VkTz2AnIqMt+UOH/D+LCH8TGOAL7DqU9datXm1gd90mClZaRL7TxJ
+ lY58=
+X-Gm-Gg: ASbGnctBDILHG10f1vbedk3xEUynnNsDtmKDBJmfgC4Vp/HEB0EHWb6P33XmOqIWxTN
+ uxWdMzFeL9QwnRIQuZcU49tryHKxhAppAtCJNBxxVCq/1Nop2xrzq3bnvlNmR6adfIvOfP62Ene
+ FPBk3IbI9GnNFjy3aQz44DYYY3hXpOSmVC4f3U8dlQDXIxFgWvfuFHTAfwZWVLqPJ/J06WP/xDm
+ sOJEbHl2/hYdKIQ+QrDECkNGF8jrSs8zVJnkyrNknBNKisLcvYU1yE2X094IIiHct5mQpOVQz7P
+ Bq3koCBdGRN5gZKTT8mlKgjcOKQEHyLOwkkl5OJYst93ELmn97n8Pbu0Ixz9TbmJMIeS/sUHMvB
+ 97XglwMM5/U01wHTzV5ZJZdOt+mL0t7AjQaz/rw/BAg7y7raHRh9562o7KwbXmJjooQ==
+X-Google-Smtp-Source: AGHT+IGB+tf28Mv8WxFhRonxhBVnBREPk9rTy42uz+EH1cBAtQNrdJQw+ojKmtgWpGF4qPrbWUaWNA==
+X-Received: by 2002:a17:90b:314c:b0:312:26d9:d5a7 with SMTP id
+ 98e67ed59e1d1-32341ec55eemr313362a91.20.1755217183772; 
+ Thu, 14 Aug 2025 17:19:43 -0700 (PDT)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com.
+ [209.85.214.180]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b46e5074e87sm9297009a12.54.2025.08.14.17.19.38
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Aug 2025 17:19:26 -0700 (PDT)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-24458317464so16907955ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 17:19:26 -0700 (PDT)
+ Thu, 14 Aug 2025 17:19:43 -0700 (PDT)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-24457f43981so10448725ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Aug 2025 17:19:38 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2hFeYx60QU+ojnJOGQiCdQ+pjHAgYVh2w3IfXuJ5U/NXI1cNR3uXZHCXWDCC+iXTjlPVDOmWFBTE=@lists.freedesktop.org
-X-Received: by 2002:a17:902:e947:b0:242:a3fc:5900 with SMTP id
- d9443c01a7336-2446d5af310mr1936465ad.8.1755217165481; Thu, 14 Aug 2025
- 17:19:25 -0700 (PDT)
+ AJvYcCWIaF86MSe3dG5+ch6oG3rUslyfOgUA7hdjzYykVwHT0E4CboLXZZYPk+6Y6kSQoJAPeA2JqTFe8/A=@lists.freedesktop.org
+X-Received: by 2002:a17:903:1a90:b0:23d:fa9a:80ac with SMTP id
+ d9443c01a7336-2446d6f0ed3mr1600235ad.16.1755217177677; Thu, 14 Aug 2025
+ 17:19:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250813125132.1319482-1-treapking@chromium.org>
-In-Reply-To: <20250813125132.1319482-1-treapking@chromium.org>
+ <20250813125132.1319482-2-treapking@chromium.org>
+In-Reply-To: <20250813125132.1319482-2-treapking@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 14 Aug 2025 17:19:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VAMT4xNoFKan7UpCS8RRXvOPWqRXJGsMudvJ+eWOOuDw@mail.gmail.com>
-X-Gm-Features: Ac12FXz-ckb7A9RPiPMgTBiKCqz6twUCK_GsqpTzShr-jwEY5OOiNXBDYC75hpM
-Message-ID: <CAD=FV=VAMT4xNoFKan7UpCS8RRXvOPWqRXJGsMudvJ+eWOOuDw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/panel: Allow powering on panel follower after
+Date: Thu, 14 Aug 2025 17:19:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XmMwocA_oZVi2OS2Z4+5LBT4BXZE2C1mx1U-Tcs+5SOg@mail.gmail.com>
+X-Gm-Features: Ac12FXzAXTp-VomUKh_3L3spBMWh_fGYcK1SRCaMDzVm6bQCCPWcJLsctftV8BI
+Message-ID: <CAD=FV=XmMwocA_oZVi2OS2Z4+5LBT4BXZE2C1mx1U-Tcs+5SOg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] HID: Make elan touch controllers power on after
  panel is enabled
 To: Pin-yen Lin <treapking@chromium.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -114,55 +114,40 @@ Hi,
 On Wed, Aug 13, 2025 at 5:51=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
 > wrote:
 >
-> @@ -230,6 +239,18 @@ void drm_panel_enable(struct drm_panel *panel)
->         if (ret < 0)
->                 DRM_DEV_INFO(panel->dev, "failed to enable backlight: %d\=
-n",
->                              ret);
-> +
-> +       list_for_each_entry(follower, &panel->followers, list) {
-> +               if (!follower->funcs->panel_enabled)
-> +                       continue;
-> +
-> +               ret =3D follower->funcs->panel_enabled(follower);
-> +               if (ret < 0)
-> +                       dev_info(panel->dev, "%ps failed: %d\n",
-> +                                follower->funcs->panel_enabled, ret);
-> +       }
-> +exit:
-> +       mutex_unlock(&panel->follower_lock);
-
-Extremely nitty nit: all of the other functions have a blank line
-before the "exit" label. :-P Could you match?
-
-
-> @@ -598,12 +641,18 @@ void drm_panel_remove_follower(struct drm_panel_fol=
-lower *follower)
+> Introduce a new HID quirk to indicate that this device has to be enabled
+> after the panel's backlight is enabled, and update the driver data for
+> the elan devices to enable this quirk. This cannot be a I2C HID quirk
+> because the kernel needs to acknowledge this before powering up the
+> device and read the VID/PID. When this quirk is enabled, register
+> .panel_enabled()/.panel_disabling() instead for the panel follower.
 >
->         mutex_lock(&panel->follower_lock);
+> Also rename the *panel_prepare* functions into *panel_follower* because
+> they could be called in other situations now.
 >
-> -       if (panel->prepared) {
-> +       if (panel->prepared && follower->funcs->panel_unpreparing) {
->                 ret =3D follower->funcs->panel_unpreparing(follower);
->                 if (ret < 0)
->                         dev_info(panel->dev, "%ps failed: %d\n",
->                                  follower->funcs->panel_unpreparing, ret)=
-;
->         }
-> +       if (panel->enabled && follower->funcs->panel_disabling) {
-> +               ret =3D follower->funcs->panel_disabling(follower);
-> +               if (ret < 0)
-> +                       dev_info(panel->dev, "%ps failed: %d\n",
-> +                                follower->funcs->panel_disabling, ret);
-> +       }
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+>
+> ---
+>
+> Changes in v2:
+> - Rename *panel_prepare* functions to *panel_follower*
+> - Replace after_panel_enabled flag with enabled/disabling callbacks
+>
+>  drivers/hid/i2c-hid/i2c-hid-core.c    | 46 ++++++++++++++++-----------
+>  drivers/hid/i2c-hid/i2c-hid-of-elan.c | 11 ++++++-
+>  include/linux/hid.h                   |  2 ++
+>  3 files changed, 40 insertions(+), 19 deletions(-)
 
-The above order is incorrect. You should call "panel_disabling" before
-"panel_unpreparing" which will match the natural order things are
-called in.
+This seems reasonable to me.
 
-Also: please review kernel-docs for the following functions and update
-them for your patch:
-* drm_panel_add_follower()
-* drm_panel_remove_follower()
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+Given that this affects devices that we already had support for
+(you're changing the behavior of two touchscreens), should it have a
+Fixes tag?
+
+We'll also need to figure out a process for landing the two patches. I
+can easily land the first one in drm-misc-next, but then it'll be a
+while before the i2c-hid one can land. Is it OK to wait?
+
 
 -Doug
