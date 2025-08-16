@@ -2,131 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49276B28E46
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 15:55:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07A2B28E4C
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 15:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B15EB10E070;
-	Sat, 16 Aug 2025 13:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51D7210E36F;
+	Sat, 16 Aug 2025 13:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="T8UPGD27";
+	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="AJW8g2gf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1759F10E070
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 13:55:06 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57GBps5U028481
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 13:55:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=a9zYANIX49bgaw1SNhNNLdN0
- 47lWkWIZ7zlz0nou/K0=; b=T8UPGD2796uIQ92pVnMHU8i8edIeMhZoq10gcEgu
- I7BBJ7CAR+Zpd1ur5qLaCc9Fu2rDUDtAB1DFWET8HeLQxp8lvnqKvyqyQTFgmv42
- uNjnqw4PYUyZvAnIAzfY5EexTMHzNskzNIcA76KChMqiPrU2hZW3VpRFR29X8ZwX
- b3qlJjWkNgrhHkoCbANwHkH6u/gUJZWpbr71M0H8tgVao2D6Zj6fnF3r0vlAhis9
- pAqdGg0iKaZVbj06rwWGNlj2262PL2JsXHZ08QXPEqlcd7T+PGQE2WNvnoe1R/iW
- 6ISSOsEOwJDW2A3m26CFnFntEckofQBTVVsbVOE0KI2uUg==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jhagrs8x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 13:55:04 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-70a927f4090so61380976d6.1
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 06:55:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755352504; x=1755957304;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a9zYANIX49bgaw1SNhNNLdN047lWkWIZ7zlz0nou/K0=;
- b=OkQLh9UMMy2uoEwktglHYf3uQCu9AXkyzbd31/Kmv6cTA3pPS2T8X4af1UlXTSx8A6
- Xr4Qw+mkfr3+bcX2otdRtJc6NcBBa8vpDWkVlXRnrbJsBOURoCEdSI7BgAmNYCSeH42q
- cjwrW77g7mQjQeBASmawgStw2N/Cteiu11/NdM6C82FNp5lnbiuDV73o3BidBt6ctYUZ
- ira2OYk3fNytEvLAByxKprBkRzA8ycTg0Tnu8uefdGAhfWuDjDmR1JfHbpQje+lsZFJA
- J25zdxuwF94csNJEQdI4F6Iuydyl2bQ6W4lPKJkGYQJ4sXFZmVa8RNOY+LmIkCMAr1d4
- +3IA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX+qeXXvP9vCrn9zPduqB9v90bqc5DXEomcIwIZnCcXBQt9cW/vakc8Ctj1MAdqCs7bHBUC6NoNzqU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yya6lzdr3R195iYJgp/F4il1OoyCltf6XubHGN/ZFrk5SnjV84l
- 42oAiRxBTae0ZpM6E69ONQolyl0mxsaG+MI1ArmzHXUzfNyAc7ywaJ37duoOLzKGo/CjTLCTxbp
- u35DtVrqSI++zVZTaLy2lPHuoXUq7/aDX0kDwfRhznTBqe4HNBOmQyz94DO1/k7cWIG9Dda0=
-X-Gm-Gg: ASbGncsmtOSswvPFhd/HVccmSfahDqTNuw0Oy0m0wY7Sxp4WhmVYyRa9agc3hCnH9d2
- GUbtbAngZtBYWYi0SkwQGprwzdrrfQaa5O72BuDgZyl+cSdeYGTeBiWbopIKAHUqtwcixgjkWyY
- kIusFEry1cl/gv3OkHP81ACpl+Q2k8MroHrkThCA0H0ihMdZxYvM5Uex5tO616ppmUC8qb/WS68
- a8SH7VbBG2rDtbTjK4YlPdOhX/8ErMV3LIESND5ELyoV2relXQ1INeOR1ooY5QU2ZSNovTn0bZr
- IPjk7w8CGPNgW3kEcISTSt2kVHxZ+00W7H6Am1HERUuJGO3CWQARN7xMO8Vc3cFQoKj/g7AV5mF
- 0X1rC+moITqDVRiSuyAKQahbHpbB0kZQZl9q1qau9lsvM0SGSOyN+
-X-Received: by 2002:ad4:5cc2:0:b0:707:56e1:4806 with SMTP id
- 6a1803df08f44-70ba7c0c266mr64819346d6.26.1755352503872; 
- Sat, 16 Aug 2025 06:55:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFjK12eVhr12VMUi48bvOGnpy+oqFtp/dDx+KcfOB4Ct+XDsdWZMBpgCzIT9Wh4SppdahooWg==
-X-Received: by 2002:ad4:5cc2:0:b0:707:56e1:4806 with SMTP id
- 6a1803df08f44-70ba7c0c266mr64818736d6.26.1755352503240; 
- Sat, 16 Aug 2025 06:55:03 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55cef35153asm866295e87.16.2025.08.16.06.55.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Aug 2025 06:55:02 -0700 (PDT)
-Date: Sat, 16 Aug 2025 16:55:00 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, Michael Walle <mwalle@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 0/2] driver core: platform: / drm/msm: dp: Delay applying
- clock defaults
-Message-ID: <ddp77rvwe6brwyvkzbkouguigd5tjg2qqfxomlhd2hb2x7w7uf@2uyl2q47bpei>
-References: <20250814-platform-delay-clk-defaults-v1-0-4aae5b33512f@linaro.org>
- <flybqtcacqa3mtvav4ba7qcqtn6b7ocziweydeuo4v2iosqdqe@4oj7z4ps7d2c>
- <aJ3Y1XhvTPB7J6az@linaro.org>
+Received: from sonic308-54.consmr.mail.gq1.yahoo.com
+ (sonic308-54.consmr.mail.gq1.yahoo.com [98.137.68.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFAA10E36F
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 13:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1755352529; bh=HjlkzkMXPM1wdqlmGdMidt6sUkslgSVRtRzKowGu2vM=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To;
+ b=AJW8g2gfIgSomJj/lvlnxERWKNZQgPKNm1fJ0jLRG0Qk82EWESGb4nkuacmnyg686L76XB7ATZQnFcnXHqrtq3IZ/bjnYI0rgVT/b9YTBRSRSbyYJzdsE8B6k7l1lpHK36b8v3xFcqY+czsAdptiBFL3Z2b1CmREdcOUzyroEaPde/8dgdjZFxefFjwl6gWdmqkc28OHPISR40M1+1I3BoXpqwfrA97FYu1lKCDWo2OO0z4s8C702mx40GgtikxifTY7PbzhMJIzZTwyJONr/yRriReiqzly0Qa7JIOjC6N/zAtC+IqUxnf+REXJgZNMFn10/wCZMad3uavnGceTXQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1755352529; bh=las2hNrLYw16Sp8KpRjLie3RRh8mnOXqVM1cVLFaZs3=;
+ h=X-Sonic-MF:Subject:From:To:Date:From:Subject;
+ b=LGV9eG37OCEfe+N0gv4fIqqHTZkh9sTqkVtnocMKnThsoTNz0o6PTUh+XRLk/c9REDqcDUfisV5CI0bYRWV6/LQtfEBFZd/TcRFApatpJD9Ig08YQ+aYxkZYwSwFz/2YfXUdDynWm0W6WXbvuO26cnumCxJIHUbAUf7R8jbK+0XGda9s5zhIufrRFMMCOt2gMvDAwvTncCrKaQ+xDLxUpRsCWS5bqQP8Nz28eYmWWlfHi13MCfkfxQdNkS7y+8xIs29fDZuQRXKMEzajtTgFSRzn9VVJWogph/ANyis9wRDUzmS3iOE95Wnh124g5+oY3YOjeIrcDRScL1RSR5Q+Ng==
+X-YMail-OSG: M2LDFtIVM1k_4CHPrGVaP2ou0ma6LIW8dF7MC6rjmcrHU28WhS1yQXNiA4LAu1y
+ aablqBG1iFXHnwOnyJ464rS_5JOUoQirYSF4QMAs4yyzBNZ3hxBL1CPPu1qYFswKwDt1_hvc8UNQ
+ POf93VNJzY9SIKfY0hrAnHpufHfwNvFhJEvCWMuuipQAKlQqstwep38ctT79z.t2EpdQMQB3ar67
+ ioICQ7dGzUVUwr_eKdy0FZnKqR8yb_at088eYwRJUjpoBZ2Y3GDryy3PuslMvcWthw0cGo_If93U
+ eAzFu3AgQM0OCKdnGRkU73._Cruw9iiYHFqWlmG86k3gKgAUqjWSEK9ut9mt8w9Ljl0MdmpdtgOg
+ 0GlfeNNeLOdq3dD6dUic93l8fxWhwmd6XOc58Xi1fqIknMm6A6ZROrjHVTiRN2UppGqufgroPMMn
+ mRVi0ylj8YF8l2KzAjtNsiMVmJpWZodZvw9_PUlsEekbSX.KITqVs2f6q9ilGQogjYoN1BOp6dUs
+ FrpPKrbgijAwui_jfxlSMejd1.KPKJebGIVr394HznWRX7nuuN.QFNmTCtdlOYKiGqarTbMLiXPe
+ FhZmbX1dhpmr7YSiDtg0B6_jqROyOdMIOuMF56T.L1bOGngpuoBdJwXR16kk3BVZLVtnX8E5J1sa
+ iauUE1GlOJXeqle579kKEk9uUm_axF.O_aZAZmPOVhLKooB6yrIpgJdEFY8w64Ui.MRRB6PwWNWb
+ xc6dnlFMdYO7DyE_z4B0uoN0u1BwJRMBVnBnUkww7hLngtjibl4rEF3PGX6jFMWvLq40_opiuKpU
+ 1MGW6RTDhCLu086r3_xp7HrtwhMB3gn8lO4pYVUz.G2Aaetr3bU8A.HxxdvKxodhZVRXON4Gtxpk
+ MluEpGpdTwjXTlyRYF2SF4.oWIMgCf0y3o9ZtZzcbi_DWLDgMbYOJbguNQ38DzhNiT0EQ82X0T_J
+ xEsxQbnNSGyy.pPQMV_cFfir9hMllwV9isqpL6550kt_3dadsKXkgghOB._6iVK6xBc8qlTXMkIw
+ D4ops7QY1s1Y95__Dy6ZmV5tLINUEyz7rQ5hKB11Ucjp2114ddgnIPgtTxGzqLqisSr.NOHImtgm
+ pwL2X.BveiH2aG04AK4DnSOOEaXSZBaaC7FK3cCV_PLLiSsAFAnyNA9UO1VH0ORWF927XgCVvuC7
+ 8pKjpAt7YO5u7iG38Mrjps.4CH6pXRWhuEhaGRnUnepo5hV0Xdw0Fr92wMgCVX1faNshvEh9vQGE
+ zif5olTr.huXnN9yFMJ0HPon0ee2oiymhbxvPJxorBjWX6BnkkyR8rIBin5UsXn2QnozOxCJFfX2
+ 1eQTbI9I0C_UP2ymfUOQs8vn9toM6PsV.VQUFvI9A4QdbmBvcmEpVhJdR8lySbydyKzdOQtNlunk
+ Tj1a1vyvmlG8tz6tTbMEraeVYT2N7FQczs90JRGJudrQaa8fp_7J10JZly0F3dLYzVt4aSacDBqk
+ j7wVStFt_TI3jI9qsQuxtBBXTL95_ggHPfjybTADN3eMUTpKzrSB61hdx5gQHOVQsP2oazp04Zfp
+ 9IlmXdB2ynMdtfrZ_53leoMOutJdAuAu9XLEA8.o3cyI39WC8V4pmucUISTPMcD5D8OtiAA5iDQM
+ ij_xdH.fLD4g.gpTNFPXZas8QBg0X39pOPViAexBUqaI_QbkIk9Wu15XEhKWSxvHb8vSxQlGPkAf
+ 0zPxeGbDFp9MpaLBv3LvKKD5IXcHIWvLtbfA4No3_p2oULQSybIMM4QQnkFcu1jR7koiaYTILoNF
+ RR1JbuYvrjTzRcrMMELIyZqq9nVSka9HaU1LLmRDieClejfg_Ne9xy5hzIAy3fvD_qwFgs0MXaj4
+ NvQO7BKMH10f9WaQJ1N8HootkWueBjaYrszZinBSiXCO_aPaojRA6LNYZUGlOsSUSS0FHgq8tQ9h
+ 5qxuz.1bfsOERsqSajE0WWrHAoEewbA.kNZ5awsGFYq7uHHP.ipgn9x4u_5rgaFiMrQm4xn2pvgC
+ _HVbXZhtVSzmHSSQqyvovrXHH8o_Gd3gq7vBRP7B_vCQ4L4t1Xcum6GysKcxlCWjzNaQyT3u2qHO
+ dBXnTJaypu9Rocg.Wrfgdn9voNhueNaEVAxg94iz2odZWIKxhBBNDKL_.8dZVxaWwx8xnYT7fb5t
+ zhWwIO1GcsfC3EqrwbqD_HHw8tUWFbelVofal2WSrRylmV.irWffTPsgEqk3HkLgdg8mKCCkxv4j
+ o96zq_.feefHQ6pH9SRD.951frRdr7ucTGuH11l3f0FUJjmbxI25_vBVHRXmJt9QsHpYo
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: 778ddf55-3f3c-4879-8919-3359cca9252c
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic308.consmr.mail.gq1.yahoo.com with HTTP; Sat, 16 Aug 2025 13:55:29 +0000
+Received: by hermes--production-ir2-858bd4ff7b-p7k8x (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID af34cbe6df9302f5ba9e57eff90f013d; 
+ Sat, 16 Aug 2025 13:55:24 +0000 (UTC)
+Message-ID: <1428d7bff3fb755c5bce8f50d725ae0e2b2438de.camel@aol.com>
+Subject: Re: [PATCH v2] drm/gud: Replace simple display pipe with DRM atomic
+ helpers
+From: Ruben Wauters <rubenru09@aol.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard	
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Ingo Molnar	
+ <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Jani Nikula	
+ <jani.nikula@intel.com>, Jocelyn Falempe <jfalempe@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Sat, 16 Aug 2025 14:55:22 +0100
+In-Reply-To: <20250816100223.5588-1-rubenru09@aol.com>
+References: <20250816100223.5588-1-rubenru09.ref@aol.com>
+ <20250816100223.5588-1-rubenru09@aol.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aJ3Y1XhvTPB7J6az@linaro.org>
-X-Authority-Analysis: v=2.4 cv=D9xHKuRj c=1 sm=1 tr=0 ts=68a08db8 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=vveynParcMvujpoCFGYA:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-ORIG-GUID: A1SMoGVlDAbuuLAYCPc7p4A8CAAMH0o4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAyNCBTYWx0ZWRfX5th2UFmXD88V
- O9br9Di7fvtl39xbV5+zzrhJQdxYEPk7KCT3kbpnuP//Fsljy2s58aFczIrlI+ryJmkAvhGb0al
- jsqDiWYgWDIQi9rcFijyBZC9r+JENqwYs6o+hQ3YiOiOIDoA8nWOF5wvQTOwNpRljbSI8L4Juxs
- m+QH1rqYOsXHWNUnsTjYxuta5IdEvPa5IBXhcWiqQaWNTpL4mQ+yB4i7K09ffHsZJYQmXIY10hz
- RY5nDCWJelo2uzjpX9Wz9YxK9ls6atlNym6GJa4Ol0yxIzKjUpLoMi2yhOMsAZ4pNS69SeWvKLT
- hrO6uQTgSTxqzmSbiW0Rbet3zWMSyVPiOObHWcbeCBeXSRqfrheFAjwa03yHQlwZ9QcP3hkbhop
- 5Pm8NqtD
-X-Proofpoint-GUID: A1SMoGVlDAbuuLAYCPc7p4A8CAAMH0o4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-16_04,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 phishscore=0 impostorscore=0 bulkscore=0
- priorityscore=1501 spamscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160024
+X-Mailer: WebService/1.1.24338
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,123 +97,392 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 14, 2025 at 02:38:45PM +0200, Stephan Gerhold wrote:
-> On Thu, Aug 14, 2025 at 02:55:44PM +0300, Dmitry Baryshkov wrote:
-> > On Thu, Aug 14, 2025 at 11:18:05AM +0200, Stephan Gerhold wrote:
-> > > Currently, the platform driver core always calls of_clk_set_defaults()
-> > > before calling the driver probe() function. This will apply any
-> > > "assigned-clock-parents" and "assigned-clock-rates" specified in the device
-> > > tree. However, in some situations, these defaults cannot be safely applied
-> > > before the driver has performed some early initialization. Otherwise, the
-> > > clock operations might fail or the device could malfunction.
-> > > 
-> > > This is the case for the DP/DSI controller on some Qualcomm platforms. We
-> > > use assigned-clock-parents there to bind the DP/DSI link clocks to the PHY,
-> > > but this fails if the PHY is not already powered on. We often bypass this
-> > > problem because the boot firmware already sets up the correct clock parent,
-> > > but this is not always the case.
-> > 
-> > So, the issue is that our abstraction is loose and we register a clock
-> > before it becomes usable. Would it be better to delay registering a
-> > clock until it's actually useable? (and then maybe to unregister on the
-> > link shutdown)
-> > 
-> > > 
-> > > Michael had a somewhat related problem in the PVR driver recently [1],
-> > > where of_clk_set_defaults() needs to be called a second time from the PVR
-> > > driver (after the GPU has been powered on) to make the assigned-clock-rates
-> > > work correctly.
-> > > 
-> > > I propose adding a simple flag to the platform_driver struct that skips the
-> > > call to of_clk_set_defaults(). The platform driver can then call it later
-> > > after the necessary initialization was performed (in my case: after the PHY
-> > > was fully enabled for the first time).
-> > > 
-> > > There are also alternative solutions that I considered, but so far
-> > > I discarded them in favor of this simple one:
-> > > 
-> > >  - Avoid use of assigned-clock-parents: We could move the clocks from
-> > >    "assigned-clock-parents" to "clocks" and call clk_set_parent() manually
-> > >    from the driver. This is what we did for DSI on SM8750 (see commit
-> > >    80dd5911cbfd ("drm/msm/dsi: Add support for SM8750")).
-> > > 
-> > >    This is the most realistic alternative, but it has a few disadvantages:
-> > > 
-> > >     - We need additional boilerplate in the driver to assign all the clock
-> > >       parents, that would be normally hidden by of_clk_set_defaults().
-> > > 
-> > >     - We need to change the existing DT bindings for a number of platforms
-> > >       just to workaround this limitation in the Linux driver stack. The DT
-> > >       does not specify when to apply the assigned-clock-parents, so there
-> > >       is nothing wrong with the current hardware description.
-> > > 
-> > >  - Use clock subsystem CLK_OPS_PARENT_ENABLE flag: In theory, this would
-> > >    enable the new parent before we try to reparent to it. It does not work
-> > >    in this situation, because the clock subsystem does not have enough
-> > >    information to power on the PHY. Only the DP/DSI driver has.
-> > > 
-> > Another possible option would be to introduce the 'not useable' state /
-> > flag to the CCF, pointing out that the clock is registered, but should
-> > not be considered for parenting operations.
-> > 
-> > >  - Cache the new parent in the clock driver: We could try to workaround
-> > >    this problem in the clock driver, by delaying application of the new
-> > >    clock parent until the parent actually gets enabled. From the
-> > >    perspective of the clock subsystem, the clock would be already
-> > >    reparented. This would create an inconsistent state: What if the clock
-> > >    is already running off some other parent and we get a clk_set_rate()
-> > >    before the parent clock gets enabled? It would operate on the new
-> > >    parent, but the actual rate is still being derived from the old parent.
-> > > 
-> > 
-> > But... Generally it feels that we should be able to bring up the clocks
-> > in some 'safe' configuration, so that the set_parent / set_rate calls
-> > can succeed. E.g. DISP_CC_MDSS_DPTX0_LINK_CLK_SRC can be clocked from XO
-> > until we actually need to switch it to a proper rate. I see that
-> > e.g. dispcc-sm8550.c sets 'CLK_SET_RATE_PARENT' on some of DP clock
-> > sources for no reason (PHY clock rates can not be set through CCF, they
-> > are controlled through PHY ops).
-> > 
-> 
-> I don't think there is any problem with the 'safe' configuration you
-> mention. I have not tried, but we should be able to use that. However,
-> my understanding is that reparenting does not fail because the clock
-> itself is in an "unusable" state, but because the new parent is in an
-> "unusable" state. We can run the clock from XO, but that wouldn't solve
-> the problem of reparenting to the PHY (until the PHY is fully
-> configured).
+On Sat, 2025-08-16 at 10:57 +0100, Ruben Wauters wrote:
+> The simple display pipe is obsolete and the atomic helpers allow for
+> more control over the rendering process. As such, this patch replaces
+> the old simple display pipe system with the newer atomic helpers.
+>=20
+> As the code is mainly the same, merely replaced with the new atomic
+> system, there should be no change in functionality.
+>=20
+> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+> ---
+> I have been able to test this now, having obtained the hardware, and
+> it
+> works fine, though some other unrelated issues have popped up, which
+> I
+> shall try and debug and address in other patches.
+>=20
+> v2 changes:
+> - address review comments by reorganising gud_probe()
+> ---
+> =C2=A0drivers/gpu/drm/gud/gud_connector.c | 24 +++++-----
+> =C2=A0drivers/gpu/drm/gud/gud_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+ 52 +++++++++++++++++-----
+> =C2=A0drivers/gpu/drm/gud/gud_internal.h=C2=A0 | 13 +++---
+> =C2=A0drivers/gpu/drm/gud/gud_pipe.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 69 +=
++++++++++++++++++++-------
+> --
+> =C2=A04 files changed, 108 insertions(+), 50 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/gud/gud_connector.c
+> b/drivers/gpu/drm/gud/gud_connector.c
+> index 0f07d77c5d52..75f404ec08b4 100644
+> --- a/drivers/gpu/drm/gud/gud_connector.c
+> +++ b/drivers/gpu/drm/gud/gud_connector.c
+> @@ -607,13 +607,16 @@ int gud_connector_fill_properties(struct
+> drm_connector_state *connector_state,
+> =C2=A0	return gconn->num_properties;
+> =C2=A0}
+> =C2=A0
+> +static const struct drm_encoder_funcs
+> gud_drm_simple_encoder_funcs_cleanup =3D {
+> +	.destroy =3D drm_encoder_cleanup,
+> +};
+> +
+> =C2=A0static int gud_connector_create(struct gud_device *gdrm, unsigned
+> int index,
+> =C2=A0				struct gud_connector_descriptor_req
+> *desc)
+> =C2=A0{
+> =C2=A0	struct drm_device *drm =3D &gdrm->drm;
+> =C2=A0	struct gud_connector *gconn;
+> =C2=A0	struct drm_connector *connector;
+> -	struct drm_encoder *encoder;
+> =C2=A0	int ret, connector_type;
+> =C2=A0	u32 flags;
+> =C2=A0
+> @@ -681,20 +684,13 @@ static int gud_connector_create(struct
+> gud_device *gdrm, unsigned int index,
+> =C2=A0		return ret;
+> =C2=A0	}
+> =C2=A0
+> -	/* The first connector is attached to the existing simple
+> pipe encoder */
+> -	if (!connector->index) {
+> -		encoder =3D &gdrm->pipe.encoder;
+> -	} else {
+> -		encoder =3D &gconn->encoder;
+> -
+> -		ret =3D drm_simple_encoder_init(drm, encoder,
+> DRM_MODE_ENCODER_NONE);
+> -		if (ret)
+> -			return ret;
+> -
+> -		encoder->possible_crtcs =3D 1;
+> -	}
+> +	gdrm->encoder.possible_crtcs =3D drm_crtc_mask(&gdrm->crtc);
+> +	ret =3D drm_encoder_init(drm, &gdrm->encoder,
+> &gud_drm_simple_encoder_funcs_cleanup,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_MODE_ENCODER_NONE, NULL);
+> +	if (ret)
+> +		return ret;
+> =C2=A0
+> -	return drm_connector_attach_encoder(connector, encoder);
+> +	return drm_connector_attach_encoder(connector, &gdrm-
+> >encoder);
+> =C2=A0}
+> =C2=A0
+> =C2=A0int gud_get_connectors(struct gud_device *gdrm)
+> diff --git a/drivers/gpu/drm/gud/gud_drv.c
+> b/drivers/gpu/drm/gud/gud_drv.c
+> index 5385a2126e45..65c3a83c4037 100644
+> --- a/drivers/gpu/drm/gud/gud_drv.c
+> +++ b/drivers/gpu/drm/gud/gud_drv.c
+> @@ -16,6 +16,7 @@
+> =C2=A0#include <drm/clients/drm_client_setup.h>
+> =C2=A0#include <drm/drm_atomic_helper.h>
+> =C2=A0#include <drm/drm_blend.h>
+> +#include <drm/drm_crtc_helper.h>
+> =C2=A0#include <drm/drm_damage_helper.h>
+> =C2=A0#include <drm/drm_debugfs.h>
+> =C2=A0#include <drm/drm_drv.h>
+> @@ -289,7 +290,7 @@ static int gud_get_properties(struct gud_device
+> *gdrm)
+> =C2=A0			 * but mask out any additions on future
+> devices.
+> =C2=A0			 */
+> =C2=A0			val &=3D GUD_ROTATION_MASK;
+> -			ret =3D
+> drm_plane_create_rotation_property(&gdrm->pipe.plane,
+> +			ret =3D
+> drm_plane_create_rotation_property(&gdrm->plane,
+> =C2=A0							=09
+> DRM_MODE_ROTATE_0, val);
+> =C2=A0			break;
+> =C2=A0		default:
+> @@ -338,10 +339,30 @@ static int gud_stats_debugfs(struct seq_file
+> *m, void *data)
+> =C2=A0	return 0;
+> =C2=A0}
+> =C2=A0
+> -static const struct drm_simple_display_pipe_funcs gud_pipe_funcs =3D {
+> -	.check=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D gud_pipe_check,
+> -	.update	=C2=A0=C2=A0=C2=A0 =3D gud_pipe_update,
+> -	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS
+> +static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs =3D {
+> +	.atomic_check =3D drm_crtc_helper_atomic_check
+> +};
+> +
+> +static const struct drm_crtc_funcs gud_crtc_funcs =3D {
+> +	.reset =3D drm_atomic_helper_crtc_reset,
+> +	.destroy =3D drm_crtc_cleanup,
+> +	.set_config =3D drm_atomic_helper_set_config,
+> +	.page_flip =3D drm_atomic_helper_page_flip,
+> +	.atomic_duplicate_state =3D
+> drm_atomic_helper_crtc_duplicate_state,
+> +	.atomic_destroy_state =3D
+> drm_atomic_helper_crtc_destroy_state,
+> +};
+> +
+> +static const struct drm_plane_helper_funcs gud_plane_helper_funcs =3D
+> {
+> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+> +	.atomic_check =3D gud_plane_atomic_check,
+> +	.atomic_update =3D gud_plane_atomic_update,
+> +};
+> +
+> +static const struct drm_plane_funcs gud_plane_funcs =3D {
+> +	.update_plane =3D drm_atomic_helper_update_plane,
+> +	.disable_plane =3D drm_atomic_helper_disable_plane,
+> +	.destroy =3D drm_plane_cleanup,
+> +	DRM_GEM_SHADOW_PLANE_FUNCS,
+> =C2=A0};
+> =C2=A0
+> =C2=A0static const struct drm_mode_config_funcs gud_mode_config_funcs =3D=
+ {
+> @@ -350,7 +371,7 @@ static const struct drm_mode_config_funcs
+> gud_mode_config_funcs =3D {
+> =C2=A0	.atomic_commit =3D drm_atomic_helper_commit,
+> =C2=A0};
+> =C2=A0
+> -static const u64 gud_pipe_modifiers[] =3D {
+> +static const u64 gud_plane_modifiers[] =3D {
+> =C2=A0	DRM_FORMAT_MOD_LINEAR,
+> =C2=A0	DRM_FORMAT_MOD_INVALID
+> =C2=A0};
+> @@ -567,12 +588,17 @@ static int gud_probe(struct usb_interface
+> *intf, const struct usb_device_id *id)
+> =C2=A0			return -ENOMEM;
+> =C2=A0	}
+> =C2=A0
+> -	ret =3D drm_simple_display_pipe_init(drm, &gdrm->pipe,
+> &gud_pipe_funcs,
+> -					=C2=A0=C2=A0 formats, num_formats,
+> -					=C2=A0=C2=A0 gud_pipe_modifiers,
+> NULL);
+> +	ret =3D drm_universal_plane_init(drm, &gdrm->plane, 0,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &gud_plane_funcs,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 formats, num_formats,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gud_plane_modifiers,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_PLANE_TYPE_PRIMARY,
+> NULL);
+> =C2=A0	if (ret)
+> =C2=A0		return ret;
+> =C2=A0
+> +	drm_plane_helper_add(&gdrm->plane, &gud_plane_helper_funcs);
+> +	drm_plane_enable_fb_damage_clips(&gdrm->plane);
+> +
+> =C2=A0	devm_kfree(dev, formats);
+> =C2=A0	devm_kfree(dev, formats_dev);
+> =C2=A0
+> @@ -582,7 +608,13 @@ static int gud_probe(struct usb_interface *intf,
+> const struct usb_device_id *id)
+> =C2=A0		return ret;
+> =C2=A0	}
+> =C2=A0
+> -	drm_plane_enable_fb_damage_clips(&gdrm->pipe.plane);
+> +	ret =3D drm_crtc_init_with_planes(drm, &gdrm->crtc, &gdrm-
+> >plane, NULL,
+> +					&gud_crtc_funcs, NULL);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_crtc_helper_add(&gdrm->crtc, &gud_crtc_helper_funcs);
+> =C2=A0
+> =C2=A0	ret =3D gud_get_connectors(gdrm);
+> =C2=A0	if (ret) {
+> diff --git a/drivers/gpu/drm/gud/gud_internal.h
+> b/drivers/gpu/drm/gud/gud_internal.h
+> index d6fb25388722..6152a9b5da43 100644
+> --- a/drivers/gpu/drm/gud/gud_internal.h
+> +++ b/drivers/gpu/drm/gud/gud_internal.h
+> @@ -15,7 +15,9 @@
+> =C2=A0
+> =C2=A0struct gud_device {
+> =C2=A0	struct drm_device drm;
+> -	struct drm_simple_display_pipe pipe;
+> +	struct drm_plane plane;
+> +	struct drm_crtc crtc;
+> +	struct drm_encoder encoder;
+> =C2=A0	struct work_struct work;
+> =C2=A0	u32 flags;
+> =C2=A0	const struct drm_format_info *xrgb8888_emulation_format;
+> @@ -62,11 +64,10 @@ int gud_usb_set_u8(struct gud_device *gdrm, u8
+> request, u8 val);
+> =C2=A0
+> =C2=A0void gud_clear_damage(struct gud_device *gdrm);
+> =C2=A0void gud_flush_work(struct work_struct *work);
+> -int gud_pipe_check(struct drm_simple_display_pipe *pipe,
+> -		=C2=A0=C2=A0 struct drm_plane_state *new_plane_state,
+> -		=C2=A0=C2=A0 struct drm_crtc_state *new_crtc_state);
+> -void gud_pipe_update(struct drm_simple_display_pipe *pipe,
+> -		=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_plane_state *old_state);
+> +int gud_plane_atomic_check(struct drm_plane *plane,
+> +			=C2=A0=C2=A0 struct drm_atomic_state *state);
+> +void gud_plane_atomic_update(struct drm_plane *plane,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_atomic_state *atomic_state);
+> =C2=A0int gud_connector_fill_properties(struct drm_connector_state
+> *connector_state,
+> =C2=A0				=C2=A0 struct gud_property_req
+> *properties);
+> =C2=A0int gud_get_connectors(struct gud_device *gdrm);
+> diff --git a/drivers/gpu/drm/gud/gud_pipe.c
+> b/drivers/gpu/drm/gud/gud_pipe.c
+> index 8d548d08f127..6a0e6234224a 100644
+> --- a/drivers/gpu/drm/gud/gud_pipe.c
+> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> @@ -451,14 +451,15 @@ static void gud_fb_handle_damage(struct
+> gud_device *gdrm, struct drm_framebuffer
+> =C2=A0	gud_flush_damage(gdrm, fb, src, !fb->obj[0]->import_attach,
+> damage);
+> =C2=A0}
+> =C2=A0
+> -int gud_pipe_check(struct drm_simple_display_pipe *pipe,
+> -		=C2=A0=C2=A0 struct drm_plane_state *new_plane_state,
+> -		=C2=A0=C2=A0 struct drm_crtc_state *new_crtc_state)
+> +int gud_plane_atomic_check(struct drm_plane *plane,
+> +			=C2=A0=C2=A0 struct drm_atomic_state *state)
+> =C2=A0{
+> -	struct gud_device *gdrm =3D to_gud_device(pipe->crtc.dev);
+> -	struct drm_plane_state *old_plane_state =3D pipe->plane.state;
+> -	const struct drm_display_mode *mode =3D &new_crtc_state->mode;
+> -	struct drm_atomic_state *state =3D new_plane_state->state;
+> +	struct gud_device *gdrm =3D to_gud_device(plane->dev);
+> +	struct drm_plane_state *old_plane_state =3D
+> drm_atomic_get_old_plane_state(state, plane);
+> +	struct drm_plane_state *new_plane_state =3D
+> drm_atomic_get_new_plane_state(state, plane);
+> +	struct drm_crtc *crtc =3D new_plane_state->crtc;
+> +	struct drm_crtc_state *crtc_state;
+> +	const struct drm_display_mode *mode;
+> =C2=A0	struct drm_framebuffer *old_fb =3D old_plane_state->fb;
+> =C2=A0	struct drm_connector_state *connector_state =3D NULL;
+> =C2=A0	struct drm_framebuffer *fb =3D new_plane_state->fb;
+> @@ -472,17 +473,35 @@ int gud_pipe_check(struct
+> drm_simple_display_pipe *pipe,
+> =C2=A0	if (WARN_ON_ONCE(!fb))
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> +	if (WARN_ON_ONCE(!crtc))
+> +		return -EINVAL;
+> +
+> +	crtc_state =3D drm_atomic_get_new_crtc_state(state, crtc);
+> +
+> +	mode =3D &crtc_state->mode;
+> +
+> +	ret =3D drm_atomic_helper_check_plane_state(new_plane_state,
+> crtc_state,
+> +						=C2=A0
+> DRM_PLANE_NO_SCALING,
+> +						=C2=A0
+> DRM_PLANE_NO_SCALING,
+> +						=C2=A0 false, false);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!new_plane_state->visible)
+> +		return 0;
+> +
+> =C2=A0	if (old_plane_state->rotation !=3D new_plane_state->rotation)
+> -		new_crtc_state->mode_changed =3D true;
+> +		crtc_state->mode_changed =3D true;
+> =C2=A0
+> =C2=A0	if (old_fb && old_fb->format !=3D format)
+> -		new_crtc_state->mode_changed =3D true;
+> +		crtc_state->mode_changed =3D true;
+> =C2=A0
+> -	if (!new_crtc_state->mode_changed && !new_crtc_state-
+> >connectors_changed)
+> +	if (!crtc_state->mode_changed && !crtc_state-
+> >connectors_changed)
+> =C2=A0		return 0;
+> =C2=A0
+> =C2=A0	/* Only one connector is supported */
+> -	if (hweight32(new_crtc_state->connector_mask) !=3D 1)
+> +	if (hweight32(crtc_state->connector_mask) !=3D 1)
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> =C2=A0	if (format->format =3D=3D DRM_FORMAT_XRGB8888 && gdrm-
+> >xrgb8888_emulation_format)
+> @@ -500,7 +519,7 @@ int gud_pipe_check(struct drm_simple_display_pipe
+> *pipe,
+> =C2=A0	if (!connector_state) {
+> =C2=A0		struct drm_connector_list_iter conn_iter;
+> =C2=A0
+> -		drm_connector_list_iter_begin(pipe->crtc.dev,
+> &conn_iter);
+> +		drm_connector_list_iter_begin(plane->dev,
+> &conn_iter);
+> =C2=A0		drm_for_each_connector_iter(connector, &conn_iter) {
+> =C2=A0			if (connector->state->crtc) {
+> =C2=A0				connector_state =3D connector->state;
+> @@ -567,16 +586,19 @@ int gud_pipe_check(struct
+> drm_simple_display_pipe *pipe,
+> =C2=A0	return ret;
+> =C2=A0}
+> =C2=A0
+> -void gud_pipe_update(struct drm_simple_display_pipe *pipe,
+> -		=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_plane_state *old_state)
+> +void gud_plane_atomic_update(struct drm_plane *plane,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_atomic_state *atomic_state)
+> =C2=A0{
+> -	struct drm_device *drm =3D pipe->crtc.dev;
+> +	struct drm_device *drm =3D plane->dev;
+> =C2=A0	struct gud_device *gdrm =3D to_gud_device(drm);
+> -	struct drm_plane_state *state =3D pipe->plane.state;
+> -	struct drm_shadow_plane_state *shadow_plane_state =3D
+> to_drm_shadow_plane_state(state);
+> -	struct drm_framebuffer *fb =3D state->fb;
+> -	struct drm_crtc *crtc =3D &pipe->crtc;
+> +	struct drm_plane_state *old_state =3D
+> drm_atomic_get_old_plane_state(atomic_state, plane);
+> +	struct drm_plane_state *new_state =3D
+> drm_atomic_get_new_plane_state(atomic_state, plane);
+> +	struct drm_shadow_plane_state *shadow_plane_state =3D
+> to_drm_shadow_plane_state(new_state);
+> +	struct drm_framebuffer *fb =3D new_state->fb;
+> +	struct drm_crtc *crtc =3D new_state->crtc;
+> =C2=A0	struct drm_rect damage;
+> +	struct drm_rect dst_clip;
+> +	struct drm_atomic_helper_damage_iter iter;
+> =C2=A0	int ret, idx;
+> =C2=A0
+> =C2=A0	if (crtc->state->mode_changed || !crtc->state->enable) {
+> @@ -611,8 +633,15 @@ void gud_pipe_update(struct
+> drm_simple_display_pipe *pipe,
+> =C2=A0	if (ret)
+> =C2=A0		goto ctrl_disable;
+> =C2=A0
+> -	if (drm_atomic_helper_damage_merged(old_state, state,
+> &damage))
+> +	drm_atomic_helper_damage_iter_init(&iter, old_state,
+> new_state);
+> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
+> +		dst_clip =3D new_state->dst;
+> +
+> +		if (!drm_rect_intersect(&dst_clip, &damage))
+> +			continue;
+> +
+> =C2=A0		gud_fb_handle_damage(gdrm, fb, &shadow_plane_state-
+> >data[0], &damage);
+> +	}
+> =C2=A0
+> =C2=A0	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+> =C2=A0
+My apologies, I appear to have typo'd the mailing list, I am replying
+to ensure that it is included here
 
-
-How would the CCF react if we return -ENA from the enable() method of
-the PHY clock if it's not available yet?
-
-> 
-> (It would help a lot if you can find someone from the hardware team at
->  Qualcomm to confirm that. Everything I write is just based on
->  experiments I have done.)
-> 
-> So, assume that DISP_CC_MDSS_DPTX0_LINK_CLK_SRC is already running from
-> XO, but the PHY is powered off. Now of_clk_set_defaults() gets called
-> and we get the call to clk_set_parent() while the PHY is off. How do we
-> deal with that? Returning 0 without actually changing the parent would
-> result in inconsistent state, as I described above. clk_get_parent()
-> would return the new parent, but actually it's still running from XO.
-
-For RCG2 we already have a lot of tricks like that.
-
-> 
-> With my changes in this series the clock state is always consistent with
-> the state returned by the clk APIs. We just delay the call to
-> clk_set_parent() until we know that it can succeed.
-
-I know. But what happens when we power down the PHY? The clock is
-assumed to have the PHY clock as a parent, but it's supposedly not
-clocking.
-
-Another option would be to introduce a safe config for the PHYs and make
-sure that the PHY is brought up every time we need it to be up (e.g. via
-pm_runtime).
-
--- 
-With best wishes
-Dmitry
+Ruben
