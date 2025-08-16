@@ -2,71 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D9BB28958
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 02:36:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E64B2897C
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 02:57:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAE2710E26F;
-	Sat, 16 Aug 2025 00:36:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB31F10E2B6;
+	Sat, 16 Aug 2025 00:57:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ek6LIE4Q";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Yx9mH3Mr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC11510E26F
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 00:36:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7884110E2B6;
+ Sat, 16 Aug 2025 00:57:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755304586; x=1786840586;
+ t=1755305867; x=1786841867;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=benNazeuPaouG/+e8wLXd4fxOv6Us5y+9Sh2v9/dsfc=;
- b=ek6LIE4QKzGF8IPJOtx6T2XNyj+0k7m4iCixa6xpjZ0c7/sTj3CnmUDO
- pAK2ABKS0seDuWDbTEb1w3ecm/HxJKvcHTvF3JbCMOot43lW0LUBZbsY/
- mgiIHlZGPNxJqKblUyhKXjYZLd9DZwNhwwHJpJ89ZXKiB/gy+Xo9B3iQD
- QVq7GY2nwfpi0KTV+CZeyjfPVsZ6YefYunz6o8DPkSEcWyNDlrwRWNRbq
- agw3RnX0MLTG+45XrqoXiwRpNx5RmD4KKurQeD35SSbsm6No0MAqCxNgR
- t+WlvuL0ElnpFuXzupa5ub+c1VJ218aaLlmu+Z7IvWbekfHcP+PXqqd+1 A==;
-X-CSE-ConnectionGUID: BPCf9yDCRwubLj5xL3aQzg==
-X-CSE-MsgGUID: Mx8qfRKRT+O5xOfEdliiBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="61465019"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="61465019"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2025 17:36:25 -0700
-X-CSE-ConnectionGUID: XsfJWJHDRiucVH5KSe51BA==
-X-CSE-MsgGUID: NSRhkyfJQCqWWqVNaOYoEA==
+ bh=ukMsMQdY1esdd5Vpb3YVrIGo9PLgslhipI1hpV6tqTI=;
+ b=Yx9mH3MrfMaHZ6vv4stvIEBPqJ1vQ0dRkWrAOcIxV1Gh7DqhNJKIq3LO
+ IYRIbYd/foZGIROPWT9qafYJ52s2orWeQRc5Y6buZkAI5G+3+f0nuXK8C
+ UL/hvG4ysvj1+NRQ4WI1iQ0MY7pnATd3AtT8pXZJtYr/+A/UHj6mWCfVp
+ BfBiF4jlsAfHHW5YrkAMJH6j36+PnJVHuIerGx063jYPz1FhQ31U168VG
+ k94x5mt61fogdFPDmQigc+GGDie2YFFMnLhZ6BPaQUmSbaCMMDgKwv2la
+ KkPqKkRlk5YU1zBqu/sXA8Nlmuezeq4kh8j41MtJLZCP40l0Fdea/c8aN g==;
+X-CSE-ConnectionGUID: BXKRbS2aTHScGQFakM75pQ==
+X-CSE-MsgGUID: MeZTukRwTPKYoKhS43Q5AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="57536999"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="57536999"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2025 17:57:47 -0700
+X-CSE-ConnectionGUID: vZYKcPdgTbm2DrN25iXXQA==
+X-CSE-MsgGUID: lD6nAVcHT767qK3gjbyk/g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="166309080"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="166750340"
 Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
- by orviesa006.jf.intel.com with ESMTP; 15 Aug 2025 17:36:18 -0700
+ by orviesa009.jf.intel.com with ESMTP; 15 Aug 2025 17:57:44 -0700
 Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1un4u8-000CSI-05;
- Sat, 16 Aug 2025 00:36:16 +0000
-Date: Sat, 16 Aug 2025 08:35:49 +0800
+ (envelope-from <lkp@intel.com>) id 1un5Er-000CSm-1S;
+ Sat, 16 Aug 2025 00:57:41 +0000
+Date: Sat, 16 Aug 2025 08:57:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v4 08/13] drm/bridge: analogix_dp: Add new API
- analogix_dp_finish_probe()
-Message-ID: <202508160857.yC3oMucJ-lkp@intel.com>
-References: <20250814104753.195255-9-damon.ding@rock-chips.com>
+To: 2564278112@qq.com, alex.williamson@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, sunil.khatri@amd.com,
+ alexandre.f.demers@gmail.com, boyuan.zhang@amd.com,
+ jiangwang@kylinos.cn, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/amdgpu: Fixed an issue where audio did not turn off
+ properly after unplugging HDMI
+Message-ID: <202508160829.jfFPh4YJ-lkp@intel.com>
+References: <tencent_E5B1CAABB0320691EB730CDB19E55EA85E05@qq.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814104753.195255-9-damon.ding@rock-chips.com>
+In-Reply-To: <tencent_E5B1CAABB0320691EB730CDB19E55EA85E05@qq.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,64 +74,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Damon,
+Hi,
 
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on rockchip/for-next linus/master v6.17-rc1 next-20250815]
+[also build test ERROR on linus/master v6.17-rc1 next-20250815]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-analogix_dp-Formalize-the-struct-analogix_dp_device/20250814-185009
+url:    https://github.com/intel-lab-lkp/linux/commits/2564278112-qq-com/drm-amdgpu-Fixed-an-issue-where-audio-did-not-turn-off-properly-after-unplugging-HDMI/20250815-164929
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250814104753.195255-9-damon.ding%40rock-chips.com
-patch subject: [PATCH v4 08/13] drm/bridge: analogix_dp: Add new API analogix_dp_finish_probe()
-config: x86_64-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508160857.yC3oMucJ-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/tencent_E5B1CAABB0320691EB730CDB19E55EA85E05%40qq.com
+patch subject: [PATCH] drm/amdgpu: Fixed an issue where audio did not turn off properly after unplugging HDMI
+config: x86_64-buildonly-randconfig-002-20250816 (https://download.01.org/0day-ci/archive/20250816/202508160829.jfFPh4YJ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160857.yC3oMucJ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160829.jfFPh4YJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508160857.yC3oMucJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508160829.jfFPh4YJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `analogix_dp_finish_probe':
->> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1700: undefined reference to `devm_of_dp_aux_populate_bus'
+   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c: In function 'dce_v6_0_encoder_mode_set':
+>> drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:3271:38: error: implicit declaration of function 'amdgpu_connector_edid'; did you mean 'amdgpu_connector_add'? [-Werror=implicit-function-declaration]
+    3271 |         if (drm_detect_monitor_audio(amdgpu_connector_edid(connector))) {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~
+         |                                      amdgpu_connector_add
+>> drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:3271:38: warning: passing argument 1 of 'drm_detect_monitor_audio' makes pointer from integer without a cast [-Wint-conversion]
+    3271 |         if (drm_detect_monitor_audio(amdgpu_connector_edid(connector))) {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      |
+         |                                      int
+   In file included from drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:26:
+   include/drm/drm_edid.h:443:50: note: expected 'const struct edid *' but argument is of type 'int'
+     443 | bool drm_detect_monitor_audio(const struct edid *edid);
+         |                               ~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c: In function 'dce_v6_0_encoder_disable':
+   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c:3341:46: warning: passing argument 1 of 'drm_detect_monitor_audio' makes pointer from integer without a cast [-Wint-conversion]
+    3341 |                 if (drm_detect_monitor_audio(amdgpu_connector_edid(connector)))
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                              |
+         |                                              int
+   include/drm/drm_edid.h:443:50: note: expected 'const struct edid *' but argument is of type 'int'
+     443 | bool drm_detect_monitor_audio(const struct edid *edid);
+         |                               ~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1700 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+vim +3271 drivers/gpu/drm/amd/amdgpu/dce_v6_0.c
 
-  1695	
-  1696	int analogix_dp_finish_probe(struct analogix_dp_device *dp)
-  1697	{
-  1698		int ret;
-  1699	
-> 1700		ret = devm_of_dp_aux_populate_bus(&dp->aux, analogix_dp_aux_done_probing);
-  1701		if (ret) {
-  1702			/*
-  1703			 * If devm_of_dp_aux_populate_bus() returns -ENODEV, the done_probing() will
-  1704			 * not be called because there are no EP devices. Then the callback function
-  1705			 * analogix_dp_aux_done_probing() will be called directly in order to support
-  1706			 * the other valid DT configurations.
-  1707			 *
-  1708			 * NOTE: The devm_of_dp_aux_populate_bus() is allowed to return -EPROBE_DEFER.
-  1709			 */
-  1710			if (ret != -ENODEV) {
-  1711				dev_err(dp->dev, "failed to populate aux bus\n");
-  1712				return ret;
-  1713			}
-  1714	
-  1715			return analogix_dp_aux_done_probing(&dp->aux);
-  1716		}
-  1717	
-  1718		return 0;
-  1719	}
-  1720	EXPORT_SYMBOL_GPL(analogix_dp_finish_probe);
-  1721	
+  3250	
+  3251	static void dce_v6_0_encoder_mode_set(struct drm_encoder *encoder,
+  3252				  struct drm_display_mode *mode,
+  3253				  struct drm_display_mode *adjusted_mode)
+  3254	{
+  3255		struct amdgpu_encoder *amdgpu_encoder = to_amdgpu_encoder(encoder);
+  3256		struct drm_connector *connector;
+  3257		struct amdgpu_connector *amdgpu_connector = NULL;
+  3258		amdgpu_encoder->pixel_clock = adjusted_mode->clock;
+  3259	
+  3260		/* need to call this here rather than in prepare() since we need some crtc info */
+  3261		amdgpu_atombios_encoder_dpms(encoder, DRM_MODE_DPMS_OFF);
+  3262		connector = amdgpu_get_connector_for_encoder_init(encoder);
+  3263		amdgpu_connector = to_amdgpu_connector(connector);
+  3264		if (!amdgpu_connector) {
+  3265			DRM_ERROR("Couldn't find encoder's connector\n");
+  3266		}
+  3267	
+  3268		/* set scaler clears this on some chips */
+  3269		dce_v6_0_set_interleave(encoder->crtc, mode);
+  3270	
+> 3271		if (drm_detect_monitor_audio(amdgpu_connector_edid(connector))) {
+  3272			dce_v6_0_afmt_enable(encoder, true);
+  3273			dce_v6_0_afmt_setmode(encoder, adjusted_mode);
+  3274		}
+  3275	}
+  3276	
 
 -- 
 0-DAY CI Kernel Test Service
