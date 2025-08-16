@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5E8B28B8E
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 09:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8898FB28B91
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 09:49:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF2C810E2E3;
-	Sat, 16 Aug 2025 07:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E799E10E2E8;
+	Sat, 16 Aug 2025 07:49:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="jUmOF3tp";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="MLtMwvYk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
  [136.143.188.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB2F710E2E3;
- Sat, 16 Aug 2025 07:49:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1755330551; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7D010E2E8;
+ Sat, 16 Aug 2025 07:49:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1755330562; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=GGx/y22vt2n1+VvXqcL2yWNISLQy4SswC3PcUorScO2WXW70gvIjkkcb8kSaKdDQIafkgPuRGr+/0gGiNJzSTDqYog+q4VV5Fh3NDjxibz04TKFC+yV3xCD1q+FQ+I5bbOPaqrOG49zq14gmMQGL56ZoE0l9zfBP/YEA9WDq08I=
+ b=YF099E5zO967bfyuMBSXww0TlAsPeeVUp0FDTkm7ijV2KgWJqGA+Ey/9EoYHL7HPPUasiP517CDtSRy1AZfS453P8bRCkWVd7BHExUEjjTOCYqLhDPHLipHnBM79DwHs2wnoCIxiQjRvkyOltQkat0SrSkgduRrfCpnWpobgyuM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1755330551;
+ s=zohoarc; t=1755330562;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=cUbeoz3eH2Lp/NXawnV6Nuu9wKEOZRT4VvJUTFslJ1M=; 
- b=JE6YfCJ4AaU1Dwlvhzd60dYfZzy+C8zMgltuqNXSaanwAkTwnumHETf/QIzxB3j1xvY3ssIOVFbi5yHv1Aw6P6u3o5lYlk8anlTwGoc/v3vRsnsbXnZLtA1yXEmYMjCK9iukawYr1n225tfNiOHzu4hl4Gh1sgEaQ8JB7Y/D3Mg=
+ bh=AKJEL0/mUZ/C7FGFS07m14Rz7LamiiUDHM253Sk2BSE=; 
+ b=UMMTl3bQajSs/p1bd/6QET/MeUaKE32TkIUzGhXw9EdKv5eIhQQ4LoVRfBxxDGAX6I5RAP9iWJVcBNeoLk0tnLX2Csnm1ZutuKKnJ7mCkz82Tca3KHWjUZwhGTDNG74sMi18pa9sUjCwAzvwaQkb24H8ku2KgcwJ7+HgRjwK9Ww=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=icenowy.me;
  spf=pass  smtp.mailfrom=uwu@icenowy.me;
  dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755330551; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755330561; 
  s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=cUbeoz3eH2Lp/NXawnV6Nuu9wKEOZRT4VvJUTFslJ1M=;
- b=jUmOF3tpWt6gG0OC6wxeq1XDIjFVEXlKRh3WkQCtROEYE4OJRzhrgRmBQ9RS7hrv
- Bwrzmv/CfFWEkfgZhfnt5pUMQb1l1eVEiQEwU/q3vfiSfXMbxxrIskYN/HX7NsFGouY
- z6Jm8m2OqtHSX3SS2biCDxFynVBSPGyN2BSleC6rwMi6JR1tQdppG9fLq19CgP4VbDN
- HYnOooly7hRmXUdvxN7DJg9Ljiz77t2shehAFugY5xf8jgXQEmWsiDdC3RRH7U4rWp7
- i9y8UCgCnn9I9vS4TvzA1e5fttjypXdYfvmZaaNQzusw7tbK1MgdnqzeKhv8K7jr9/C
- evok/aeJTQ==
-Received: by mx.zohomail.com with SMTPS id 1755330548740860.1574521157502;
- Sat, 16 Aug 2025 00:49:08 -0700 (PDT)
+ bh=AKJEL0/mUZ/C7FGFS07m14Rz7LamiiUDHM253Sk2BSE=;
+ b=MLtMwvYkp435pUtnIwCuxI96Wy0IhxZWcrBhkN/6+YY9rYhTYBYyB//fjetjD1G1
+ HRAq3MzYR+1CLiT/1CQMP/HPCSi/FDk7ICszj+qMy96dntc+zfr68OAwiBEsTXnAdca
+ InjK15saqPyBKk26BawfUumJZVh3nUXLB4snCv11u4Y+xj6xp1H3zJ8I98AMKGeXr7s
+ zMZWhPKKX9Dl7upFbBTMYwF4N47z4T6KJTVLb2xtnseSW26/trxHFcc9dTeBKyIbbS7
+ 8SHj+L4LMaz6JAMVI8xps8zaHmCz1P02Yipxd0HevQYk5mMUBVI5nzFB6hp24Lfv18m
+ VwqSVH7yYw==
+Received: by mx.zohomail.com with SMTPS id 1755330559475160.36739447746152;
+ Sat, 16 Aug 2025 00:49:19 -0700 (PDT)
 From: Icenowy Zheng <uwu@icenowy.me>
 To: Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
  Fu Wei <wefu@redhat.com>, Lucas Stach <l.stach@pengutronix.de>,
@@ -49,9 +49,10 @@ To: Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
 Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
  etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH 3/7] drm/etnaviv: setup DEC400EX on GC620 r5552
-Date: Sat, 16 Aug 2025 15:47:53 +0800
-Message-ID: <20250816074757.2559055-4-uwu@icenowy.me>
+Subject: [PATCH 4/7] drm/etnaviv: protect whole iommuv2 ctx alloc func under
+ global mutex
+Date: Sat, 16 Aug 2025 15:47:54 +0800
+Message-ID: <20250816074757.2559055-5-uwu@icenowy.me>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250816074757.2559055-1-uwu@icenowy.me>
 References: <20250816074757.2559055-1-uwu@icenowy.me>
@@ -73,52 +74,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GC620 r5552 GPU found on T-Head TH1520 features (and requires) a
-DEC400EX buffer compressor that needs to be set up. In addition, some
-quirk exist for the DEC400 part that needs to be handled during GPU
-reset, otherwise the reset will not happen.
+As we are forced to use a global shared context on some
+PTA-equipped-but-broken GPUs, the fine-grained mutex locking in the
+current implemtnation of etnaviv_iommuv2_context_alloc() won't be
+meaningful any more.
 
-Set the DEC400EX up and add the quirk code to the GPU reset codepath.
-
-Currently the DEC400EX setup is gated by this specific GPU identity,
-however in future we should add a feature flag for it.
+Make the whole function to be protected by the global lock, in order to
+prevent reentrance when allocating global shared context.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 7431e180b3ae4..a8d4394c8f637 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -559,6 +559,10 @@ static int etnaviv_hw_reset(struct etnaviv_gpu *gpu)
- 		control |= VIVS_HI_CLOCK_CONTROL_ISOLATE_GPU;
- 		gpu_write(gpu, VIVS_HI_CLOCK_CONTROL, control);
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
+index d664ae29ae209..5654a604c70cf 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c
+@@ -272,20 +272,18 @@ etnaviv_iommuv2_context_alloc(struct etnaviv_iommu_global *global)
+ 	struct etnaviv_iommuv2_context *v2_context;
+ 	struct etnaviv_iommu_context *context;
  
-+		if (etnaviv_is_model_rev(gpu, 0x620, 0x5552)) {
-+			gpu_write(gpu, VIVS_DEC400EX_UNK00800, 0x10);
-+		}
++	mutex_lock(&global->lock);
 +
- 		if (gpu->identity.minor_features7 & chipMinorFeatures7_BIT_SECURITY) {
- 			gpu_write(gpu, VIVS_MMUv2_AHB_CONTROL,
- 			          VIVS_MMUv2_AHB_CONTROL_RESET);
-@@ -797,6 +801,15 @@ static void etnaviv_gpu_hw_init(struct etnaviv_gpu *gpu)
- 		gpu_write(gpu, VIVS_MC_BUS_CONFIG, bus_config);
- 	}
+ 	v2_context = vzalloc(sizeof(*v2_context));
+ 	if (!v2_context)
+-		return NULL;
++		goto out_mutex_unlock;
  
-+	/*
-+	 * FIXME: Required by GC620 r5552 as a bug workaround, but might be
-+	 * useful on other GPUs with G2D_DEC400EX feature too.
-+	 */
-+	if (etnaviv_is_model_rev(gpu, 0x620, 0x5552)) {
-+		gpu_write(gpu, VIVS_DEC400EX_UNK00800, 0x2010188);
-+		gpu_write(gpu, VIVS_DEC400EX_UNK00808, 0x3fc104);
-+	}
-+
- 	if (gpu->identity.minor_features7 & chipMinorFeatures7_BIT_SECURITY) {
- 		u32 val = gpu_read(gpu, VIVS_MMUv2_AHB_CONTROL);
- 		val |= VIVS_MMUv2_AHB_CONTROL_NONSEC_ACCESS;
+-	mutex_lock(&global->lock);
+ 	v2_context->id = find_first_zero_bit(global->v2.pta_alloc,
+ 					     ETNAVIV_PTA_ENTRIES);
+-	if (v2_context->id < ETNAVIV_PTA_ENTRIES) {
++	if (v2_context->id < ETNAVIV_PTA_ENTRIES)
+ 		set_bit(v2_context->id, global->v2.pta_alloc);
+-	} else {
+-		mutex_unlock(&global->lock);
++	else
+ 		goto out_free;
+-	}
+-	mutex_unlock(&global->lock);
+ 
+ 	v2_context->mtlb_cpu = dma_alloc_wc(global->dev, SZ_4K,
+ 					    &v2_context->mtlb_dma, GFP_KERNEL);
+@@ -304,11 +302,14 @@ etnaviv_iommuv2_context_alloc(struct etnaviv_iommu_global *global)
+ 	INIT_LIST_HEAD(&context->mappings);
+ 	drm_mm_init(&context->mm, SZ_4K, (u64)SZ_1G * 4 - SZ_4K);
+ 
++	mutex_unlock(&global->lock);
+ 	return context;
+ 
+ out_free_id:
+ 	clear_bit(v2_context->id, global->v2.pta_alloc);
+ out_free:
+ 	vfree(v2_context);
++out_mutex_unlock:
++	mutex_unlock(&global->lock);
+ 	return NULL;
+ }
 -- 
 2.50.1
 
