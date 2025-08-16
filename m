@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1ECB28D3F
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 13:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09181B28D45
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 13:06:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6447310E106;
-	Sat, 16 Aug 2025 11:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D791410E2FB;
+	Sat, 16 Aug 2025 11:06:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
- [83.223.95.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2C2C10E106
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 11:02:25 +0000 (UTC)
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
+ [83.223.78.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84F6E10E2E4
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 11:06:26 +0000 (UTC)
 Received: from h08.hostsharing.net (h08.hostsharing.net
  [IPv6:2a01:37:1000::53df:5f1c:0])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
  client-signature RSA-PSS (4096 bits) client-digest SHA256)
  (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
- by bmailout1.hostsharing.net (Postfix) with ESMTPS id 604372C06644;
- Sat, 16 Aug 2025 13:02:22 +0200 (CEST)
+ by bmailout2.hostsharing.net (Postfix) with ESMTPS id 453052009181;
+ Sat, 16 Aug 2025 13:06:25 +0200 (CEST)
 Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id 4BF932E66FB; Sat, 16 Aug 2025 13:02:22 +0200 (CEST)
-Date: Sat, 16 Aug 2025 13:02:22 +0200
+ id 27C5030A43D; Sat, 16 Aug 2025 13:06:25 +0200 (CEST)
+Date: Sat, 16 Aug 2025 13:06:25 +0200
 From: Lukas Wunner <lukas@wunner.de>
-To: Thorsten Blum <thorsten.blum@toblux.com>
-Cc: obitton@habana.ai, ogabbay@kernel.org, ttayar@habana.ai,
- fkassabri@habana.ai, osharabi@habana.ai, dliberman@habana.ai,
- quic_carlv@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Koby Elbaz <koby.elbaz@intel.com>,
+To: Qianfeng Rong <rongqianfeng@vivo.com>
+Cc: Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Farah Kassabri <fkassabri@habana.ai>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Koby Elbaz <koby.elbaz@intel.com>,
  Konstantin Sinyuk <konstantin.sinyuk@intel.com>
-Subject: Re: [RESEND PATCH] accel/habanalabs/gaudi2: Use kvfree() for memory
- allocated with kvcalloc()
-Message-ID: <aKBlPnl69z85WblU@wunner.de>
-References: <20240820231028.136126-1-thorsten.blum@toblux.com>
+Subject: Re: [PATCH] accel/habanalabs: fix mismatched alloc/free for kvcalloc()
+Message-ID: <aKBmMU0_e2tGwCHT@wunner.de>
+References: <20250808085530.233737-1-rongqianfeng@vivo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240820231028.136126-1-thorsten.blum@toblux.com>
+In-Reply-To: <20250808085530.233737-1-rongqianfeng@vivo.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,28 +53,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 21, 2024 at 01:10:28AM +0200, Thorsten Blum wrote:
-> Use kvfree() to fix the following Coccinelle/coccicheck warning reported
-> by kfree_mismatch.cocci:
+On Fri, Aug 08, 2025 at 04:55:27PM +0800, Qianfeng Rong wrote:
+> Replace kfree() with kvfree() for memory allocated by kvcalloc().
 > 
->   WARNING kvmalloc is used to allocate this memory at line 10398
+> Compile-tested only.
 > 
-> Reviewed-by: Tomer Tayar <ttayar@habana.ai>
-> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+> Fixes: f728c17fc97a ("accel/habanalabs/gaudi2: move HMMU page tables to device memory")
+> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
 
-Applied to drm-misc-fixes, thanks.
+Thorsten Blum submitted an identical patch a year earlier:
+https://patch.msgid.link/20240820231028.136126-1-thorsten.blum@toblux.com
 
-You used toblux.com in the Signed-off-by tag but have since amended
-.mailmap to use linux.dev instead.  To avoid a mismatch between the
-Signed-off-by tag and the commit author, I've taken the liberty to
-hand-edit the former to use linux.dev.
+I've just applied his patch but added a Reported-by tag with your name to
+acknowledge your contribution.
 
-I've also added a Fixes tag and stable designation.
-
-Qianfeng Rong later submitted an identical patch, so I've added a
-Reported-by tag to acknowledge that:
-https://patch.msgid.link/20250808085530.233737-1-rongqianfeng@vivo.com
-
-Thanks,
+Thanks!
 
 Lukas
