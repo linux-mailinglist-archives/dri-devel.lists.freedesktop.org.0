@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F432B290F9
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Aug 2025 01:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30F90B290FD
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Aug 2025 01:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2132F10E18F;
-	Sat, 16 Aug 2025 23:37:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526AA10E309;
+	Sat, 16 Aug 2025 23:44:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RjOTL/Cg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QlOSUaad";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AEBC10E18F
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 23:37:58 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE1F10E309
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 23:44:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2751060051;
- Sat, 16 Aug 2025 23:37:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F72BC4CEEF;
- Sat, 16 Aug 2025 23:37:46 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id EC6E25C4A70;
+ Sat, 16 Aug 2025 23:44:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60F91C4CEEF;
+ Sat, 16 Aug 2025 23:44:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755387470;
- bh=n0Ug3xm97yHJIp9hnivwulo49/WkJhxthMq+zEpRlDU=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=RjOTL/CgXh7QEa1CPQmdNA/AiakjbtR6aWhcRkgaaQzVSUnXZz50KwC4Pzxd1Z5XO
- wK5dacrWZGYi4ZtT5vxh1E/JeYxpAOmFohF2EZFtMsC1aSh99JT0JsEj/T46+JkHv5
- YqZc64DjrvIGBIlh4MupDoBC6upfUDjA522/e8wiZ7i+6rZapv0f8s0WX+X6nLTXPP
- +W0eZcUShOYnccB32zZ4fqV6CUF10GDk/bG1vP8Zr+FcxXpk4ITw1hP9edMtUH/kOH
- W6vVHgAJHuTK05j9ew3vZIvD/m4vA0QW37v8Yqs4FHVHKGkm8ITPu8Zt82pEL/5z1I
- hpJUho5enQAPw==
+ s=k20201202; t=1755387887;
+ bh=Y2IR6l2xgHEwLKnQTmYLs6uvEGbn+JQI/rGwjQ/51pw=;
+ h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+ b=QlOSUaadKyFgKRVb2Cn92dQSeIR2FylNjXVpuV2hE1jnFOW0kDWQVOFWhhWJvkGsZ
+ R8tQBGcrSZnsPNquiolfAslZiVBgKAbgIhFtt13sfsi4nwpT2WkpTC9NTNlBHRu1jo
+ mEfCMqg/OmVMInxSFUV3DEgRTfe890VrWs8JPRC3ptYUsOT8i1QmDF3+IpvsEbWnB+
+ a3s7F/vHEBz+u025pi+Mnsa2s+Croe+50shAWTIOpl9K665tkp0j2kUklxr2XJ3tCA
+ 4f8oEE1j6AqHqfxlPjIGZVC5mnEq2kaHEDFaAxCoKk7BJQ7ptNCZVRte+hXxeRPbZX
+ v6ATu4mbrtvPw==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 17 Aug 2025 01:37:44 +0200
-Message-Id: <DC48X8GV4JAW.1S68E9ZZHD9ZY@kernel.org>
-Subject: Re: [PATCH] rust: alloc: fix `rusttest` by providing
- `Cmalloc::aligned_layout` too
-Cc: "Alex Gaynor" <alex.gaynor@gmail.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Lorenzo Stoakes"
- <lorenzo.stoakes@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>, "Liam R .
- Howlett" <Liam.Howlett@oracle.com>, "Uladzislau Rezki" <urezki@gmail.com>,
- <rust-for-linux@vger.kernel.org>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <patches@lists.linux.dev>
-To: "Miguel Ojeda" <ojeda@kernel.org>
+Date: Sun, 17 Aug 2025 01:44:41 +0200
+Message-Id: <DC492K7AA12K.2K9H9SPMPI2Y8@kernel.org>
 From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250816204215.2719559-1-ojeda@kernel.org>
-In-Reply-To: <20250816204215.2719559-1-ojeda@kernel.org>
+Subject: Re: [PATCH 1/4] rust: alloc: replace aligned_size() with
+ Kmalloc::aligned_layout()
+Cc: <lorenzo.stoakes@oracle.com>, <vbabka@suse.cz>,
+ <Liam.Howlett@oracle.com>, <urezki@gmail.com>, <ojeda@kernel.org>,
+ <alex.gaynor@gmail.com>, <boqun.feng@gmail.com>, <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
+ <aliceryhl@google.com>, <tmgross@umich.edu>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <rust-for-linux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+References: <20250731154919.4132-1-dakr@kernel.org>
+ <20250731154919.4132-2-dakr@kernel.org>
+ <CANiq72mUXy6AYkwCW_kO3ikjNBc5pLzXw0+fXFGmYum0tGmw1g@mail.gmail.com>
+In-Reply-To: <CANiq72mUXy6AYkwCW_kO3ikjNBc5pLzXw0+fXFGmYum0tGmw1g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,10 +67,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat Aug 16, 2025 at 10:42 PM CEST, Miguel Ojeda wrote:
-> Commit fde578c86281 ("rust: alloc: replace aligned_size() with
-> Kmalloc::aligned_layout()") provides a public `aligned_layout` function
-> in `Kamlloc`, but not in `Cmalloc`, and thus uses of it will trigger an
-> error in `rusttest`.
+On Sat Aug 16, 2025 at 10:40 PM CEST, Miguel Ojeda wrote:
+> On Thu, Jul 31, 2025 at 5:49=E2=80=AFPM Danilo Krummrich <dakr@kernel.org=
+> wrote:
+>>
+>> +impl Kmalloc {
+>> +    /// Returns a [`Layout`] that makes [`Kmalloc`] fulfill the request=
+ed size and alignment of
+>> +    /// `layout`.
+>> +    pub const fn aligned_layout(layout: Layout) -> Layout {
+>
+> I think this `const fn` here was removed when applying to make it work
+> with older compilers, right?
 
-Good catch, thanks! -- Applied to drm-misc-fixes.
+Yes, that's correct.
+
+> I was fixing another `rusttest` thing and noticed while applying
+> these. I had a patch to fix it, since we can actually just use the
+> feature, and then I noticed it wasn't in the tree. Since I have it, I
+> am attaching it for reference in case the now-stable feature is
+> needed, e.g. if you want to make that `const fn` again.
+
+I think it doesn't add much value for this to be a const function anyways, =
+but
+maybe it is more useful elsewhere? In that case, I think it also doesn't hu=
+rt
+to Kmalloc::aligned_layout() const again.
