@@ -2,87 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B720B28E86
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 16:40:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C25B28EBE
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 17:07:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CF2C10E37F;
-	Sat, 16 Aug 2025 14:40:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0396A10E108;
+	Sat, 16 Aug 2025 15:07:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Abkg/rLO";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="o49DVN3h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64CBE10E37F
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 14:40:38 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-3b9dc5cd4cbso1995892f8f.1
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 07:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755355237; x=1755960037; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bEVp2bSntnyTwfVfXWziCxVIcG52kRRMrwRWIVBmE4c=;
- b=Abkg/rLOWYSAB2uC8OssOBdW7v6FNMlarulU/6rLvikY/hh9qsPXGXIM/1csX/kF1/
- xmfYhh2pqX+qF/CuidiHVFoJx3HWbDmKKPT1ggF5EpZGOxmpG7q+3ftThsubEYB1zPvY
- PpTrGlk+4S1tG7gTnrCoEj7vjVedKiW8IOuPgwiN/xyDtGUXJHQxTdeMY8kYdFw1YeTB
- TfVdJ1x3vXTMctSfV3N80ZctLYjgmAMQsnqrVS5qaejaOr32FvXN15cmdPfMa7KOwBD8
- j9tG8vuOXxeXdHXuDX/BXbwLgsejqHdpRzXKolqe7ni2uB/IifnccQreCRsA5XQAcJZf
- C94w==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B359E10E108
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 15:07:06 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57GEFRcT000923
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 15:07:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ HPARjqGQEXADRJTy3T66+FgY1XO3Wy0tKELjyBfIFxI=; b=o49DVN3h2y+E8+/N
+ RF33OV/8hsHg35oiB2mjstGodiwKhSw4TRfBa4lmMm730v8rWtX7CoQ0RPe3rePc
+ 9L1u7ZYgIzjkIqf5VSVi5vGCwj6YduVSKFa9xeCJ9d3dUbxvdyLNm2exOc6WTS0w
+ RCIJ21ez2tyHsl8yBKItvo/pUUDUfG0I14m0wW28CBkLF+38qUR+VPrjN4FJTx+3
+ 4AkJy/1ewV9KUwzAlJDdxSwyvyg5w/HW47fTmcj+gdEXowBIXAxOpBZVK8ETYFJ5
+ UuDI9bbqxbZirKzScLVk3lsw8DUzfhUt0vieLJwPIf3TD0SMzs7YDLflDJKmpW7W
+ 4dYapw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jfbn91vu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 15:07:05 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-70a94f3bbdbso59058126d6.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 08:07:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755355237; x=1755960037;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bEVp2bSntnyTwfVfXWziCxVIcG52kRRMrwRWIVBmE4c=;
- b=YgDqNy6LTYN6XCtPLdlZiDmnSpmrnK4Er5UsSL0+py4GB8RdcERQwmFQRiLbTOemBG
- xsMcqAJBM7FXaFYNKGycTvMR9Msgw/DL2rH6QFJv6yGpnt7Bkx8oR8qAShzL3GYWAImK
- osPlfqfxAAL/Jm7LW4Z2w/aA/ab9HqknB5PNbdL0eWUZZGuzIvHFEUO7fzf5gs3B9/nP
- tpJF0i2ECbhfyokv29qgmxlQMefq6SwMrbWE6wMje8fQveyvgyHt9MirsErOMkA9QytA
- /gdz2D8hJwkTFkWWwNVEgdoVDDPkTcFGl4xBPTOUASTckcIIMYKch/k4dNOaOAL7fsoH
- kDrA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/mTBIijvCCamk3iw2U28eFLX/5yzSi9j7iywqjxw104v7kS6KAwZaRS3wpYKDvSvUD8Ee2t081l8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzG2Z1mn7ZtI/TkfuSXt/M3bkutEWMhApVqqmDFj9f+37bFLoI9
- qpL0foBoqK7aDiXv89gDy4e4dRX78WFXnpKFA4+WCo1IDXHV4E93K6eOO1AYx6n8XvxjCEKtXWG
- AV22S0zbvJMwz9E/E6ler54y5JjqCeTg=
-X-Gm-Gg: ASbGnct5bypENjGD8Q0I1tienj/9Icxgfrjh98x594QAcltHBptecXKz80QYDm2ZRzq
- clx9LhKSiN0nPKPnXIL5W0vIJQVQMvBlCafUGcci3b3Ujlbmgyuf1foSUg5RQXCn6CDJX3mgNnh
- 7cJZ1TWtLbrouERFIg9Q7Ioe3sGRYS4lzCQYV3J4gNSxm6xQu2RVXjUx29TUCF1uTJRBywf36Kx
- 8Zmd4U2
-X-Google-Smtp-Source: AGHT+IHp35MrDWaLiZzp4YV5fNDq6L616Ev7qDE+6xfiG5+5888/Lv+BZqWqm33wVOprQZ+ZwPVE4XHRuiLA4qvBTeo=
-X-Received: by 2002:a5d:5f89:0:b0:3b7:78c8:9392 with SMTP id
- ffacd0b85a97d-3bb67007abbmr4800366f8f.19.1755355236622; Sat, 16 Aug 2025
- 07:40:36 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1755356824; x=1755961624;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HPARjqGQEXADRJTy3T66+FgY1XO3Wy0tKELjyBfIFxI=;
+ b=i0BM9M83xqUppUxQplr2eYuLjYyEPjO+2olmS5E44eMfVloQ/+g+iWx20zM5n24Qav
+ kL+X/QaJRR6CNbasyVMlhb4YZLTTxafT2B8sZQ8IKFzqoLOtCisS2yU8YlqOiMk0MYiE
+ Nx4nza0YU9GtHawgIZrsedboKgG0fwbO98M167qB6LKg532PLyl84/QiH/U2Lf3Rnsog
+ 7CCJxtnRc/XDyNoiD0rblRU51425sM/yY8tdFFZBOzpwZ9UDRf+hMZOKN2+Q2G1KkBIl
+ oQRKGkekvnELnygdUfXFbGLBg4A9GAqSrFb/y9nrQEumAwB3JoVGIYXd4xvqecCp3To6
+ NjEw==
+X-Gm-Message-State: AOJu0YyU/H9FUrs7tvDggL+AMNPp9GOMz4+pUKg38o4h3s32UGNWf+Dd
+ SmJ1UJWPdS4EsUNBmZ0JcFcVEYs4Et3goEJ25/yBtcnTX6r2+UU3HYbP/RVrSPDgqxuU+dCAUyC
+ dgQy2dvl8WvVykvfU7WEJvgfNNHbWBpcHTZBQYpUyMNq4hAxtgLTaDGBvsf2e66sgl1be4hs=
+X-Gm-Gg: ASbGnctrjReV4I095GGnOAScRh5ob93/AU7D467ZTSErppk65AfI7kWBKm/rP5ArFgD
+ Uh7ji3ShHt9iH7MxD8DV1a7yvFaGPo2Ozl8/OC4SZfj99jVMQgBwdmCQwttiwYRgZ/LQZ7IXxwx
+ 6vcoLKLqsmlMW8mHRMzo5N0FAY5vuJ2Js/ro8833FhGzdYOn8nSSh6wuMMp9apRdI9lwenC07To
+ lLPWRGMvo3fbyk/2sforN92rJY3U/4VTHPSlnWsTie2uwLu6C/hhxm6qgMkz+x1M3G7PSujFe2C
+ IxeTZogHHgZhEKnjzpZwAvGEnpQlt5c2NqmMCFM1HIS46pi8x7C6TTQs+3l8PDAdaIpgNyTMAC/
+ fCBHa8ihf9AX4BuIHCiwNaxmwrjyatcBcrPs4YIVmsdy8arRn3stD
+X-Received: by 2002:a05:6214:5286:b0:709:b6a7:6226 with SMTP id
+ 6a1803df08f44-70bb061f4acmr41921236d6.34.1755356824562; 
+ Sat, 16 Aug 2025 08:07:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGteGpeN0SYzXGMbCcsQLJ69y3P3FVG661/6VvE2NCO2IH44COnPW6Js0Ei0+mI85s4HgD/Ww==
+X-Received: by 2002:a05:6214:5286:b0:709:b6a7:6226 with SMTP id
+ 6a1803df08f44-70bb061f4acmr41920436d6.34.1755356824080; 
+ Sat, 16 Aug 2025 08:07:04 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3340a604194sm10403571fa.50.2025.08.16.08.07.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 16 Aug 2025 08:07:03 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: display-connector: don't set OP_DETECT for
+ DisplayPorts
+Date: Sat, 16 Aug 2025 18:07:01 +0300
+Message-ID: <175535681533.1839975.1951145166123046642.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250802-dp-conn-no-detect-v1-1-2748c2b946da@oss.qualcomm.com>
+References: <20250802-dp-conn-no-detect-v1-1-2748c2b946da@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <20250717142139.57621-1-clamor95@gmail.com>
- <20250717142139.57621-4-clamor95@gmail.com>
- <83755868-09b3-4bd1-8b40-0a4b9f497d2f@gmail.com>
-In-Reply-To: <83755868-09b3-4bd1-8b40-0a4b9f497d2f@gmail.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Sat, 16 Aug 2025 17:40:25 +0300
-X-Gm-Features: Ac12FXzzNUQYc36G3RYOi-Qo11V4GYr7RUJ5Mk2svpoCrcavmPcInJckclXVTds
-Message-ID: <CAPVz0n053GB+igaEVkUT-cnbLxyom6fma-C+-DhRzDtxnfdQ1g@mail.gmail.com>
-Subject: Re: [PATCH v1 3/5] gpu/drm: host1x: mipi: add Tegra20/Tegra30 MIPI
- calibration logic
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Peter De Schrijver <pdeschrijver@nvidia.com>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org
-Content-Type: multipart/alternative; boundary="000000000000556852063c7c7db5"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAwMSBTYWx0ZWRfX9V3/1eiYMhJE
+ GLe8pQc3W0i0xNMAj76N0mgPTH++JReF73XZIoNRt/RR+h92pWgk7GAW/Tfz5UAbF6muhU8UDVZ
+ /33hcf6BCtAdHFdhMKY3D64I9OncExavQwdC5gBAUDo7LG85Lq6bfMmspN8zs0bdyG2HecblgLH
+ vKUcb7FUWqFw1jjfDemr+vAl1qpsPvcdSD0lPfhDt6jLqQ9S6vffM2Rsd2/YYeMSyhYtIVPWL49
+ DGraodXBCqO6vevtW37sc+JAwaWISonlb4xOzo6wynQMo1gEOCxiqHgDPhcmCoMka4N4sDGeqMe
+ s+t58OrZxfM4k5Xh3JKjUmlsIR8nBICI2D2MfcLIjBS12XJzlDHvxgy4chdBoi3c8qvn6TLvcyp
+ lJMpdaj3
+X-Authority-Analysis: v=2.4 cv=A+1sP7WG c=1 sm=1 tr=0 ts=68a09e99 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=3LZpj7SCskOl_Lh2xeoA:9 a=QEXdDO2ut3YA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-GUID: VlFPTAiC8eU0Iy-BSKDldH3xGBSMG_9l
+X-Proofpoint-ORIG-GUID: VlFPTAiC8eU0Iy-BSKDldH3xGBSMG_9l
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-16_04,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0
+ adultscore=0 spamscore=0 impostorscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508160001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,61 +131,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000556852063c7c7db5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sat, 02 Aug 2025 13:40:35 +0300, Dmitry Baryshkov wrote:
+> Detecting the monitor for DisplayPort targets is more complicated than
+> just reading the HPD pin level: it requires reading the DPCD in order to
+> check what kind of device is attached to the port and whether there is
+> an actual display attached.
+> 
+> In order to let DRM framework handle such configurations, disable
+> DRM_BRIDGE_OP_DETECT for dp-connector devices, letting the actual DP
+> driver perform detection. This still keeps DRM_BRIDGE_OP_HPD enabled, so
+> it is valid for the bridge to report HPD events.
+> 
+> [...]
 
-=D1=81=D0=B1, 16 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 17:3=
-7 Dmitry Osipenko <digetx@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+Applied to drm-misc-next, thanks!
 
-> 17.07.2025 17:21, Svyatoslav Ryhel =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > @@ -525,6 +599,14 @@ static int tegra_mipi_probe(struct platform_device
-> *pdev)
-> >               return PTR_ERR(mipi->clk);
-> >       }
-> >
-> > +     if (mipi->soc->dsi_v0) {
-> > +             mipi->csi_clk =3D devm_clk_get_prepared(&pdev->dev, "csi"=
-);
-> > +             if (IS_ERR(mipi->csi_clk)) {
->
-> Doesn't look like the clock needs to be prepared. Normally, you would
-> need to have clock prepared if clock is enabled/disabled from a context
-> that can't sleep, like under spinlock or in IRQ handler. AFAICT, this
-> not the case here.
->
-> Thank you, I will take thin into account.
+[1/1] drm/bridge: display-connector: don't set OP_DETECT for DisplayPorts
+      commit: cb640b2ca54617f4a9d4d6efd5ff2afd6be11f19
 
---000000000000556852063c7c7db5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Best regards,
+-- 
+With best wishes
+Dmitry
 
-<div dir=3D"ltr"><div dir=3D"ltr">=D1=81=D0=B1, 16 =D1=81=D0=B5=D1=80=D0=BF=
-. 2025=E2=80=AF=D1=80. =D0=BE 17:37 Dmitry Osipenko &lt;<a href=3D"mailto:d=
-igetx@gmail.com">digetx@gmail.com</a>&gt; =D0=BF=D0=B8=D1=88=D0=B5:</div><d=
-iv class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">17.07.2025 17:21, Svyatoslav Ryhel =D0=BF=D0=B8=D1=88=
-=D0=B5=D1=82:<br>
-&gt; @@ -525,6 +599,14 @@ static int tegra_mipi_probe(struct platform_devic=
-e *pdev)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(m=
-ipi-&gt;clk);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (mipi-&gt;soc-&gt;dsi_v0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mipi-&gt;csi_clk =3D =
-devm_clk_get_prepared(&amp;pdev-&gt;dev, &quot;csi&quot;);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (IS_ERR(mipi-&gt;c=
-si_clk)) {<br>
-<br>
-Doesn&#39;t look like the clock needs to be prepared. Normally, you would<b=
-r>
-need to have clock prepared if clock is enabled/disabled from a context<br>
-that can&#39;t sleep, like under spinlock or in IRQ handler. AFAICT, this<b=
-r>
-not the case here.<br>
-<br></blockquote><div>Thank you, I will take thin into account.</div></div>=
-</div>
-
---000000000000556852063c7c7db5--
