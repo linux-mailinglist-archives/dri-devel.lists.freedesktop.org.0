@@ -2,65 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0436B288DB
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 01:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D9BB28958
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Aug 2025 02:36:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF1A10E036;
-	Fri, 15 Aug 2025 23:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAE2710E26F;
+	Sat, 16 Aug 2025 00:36:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fXlAoaa6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ek6LIE4Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B41310E036
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 23:39:37 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 886875C6EBA
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 23:39:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2B6BC4CEFE
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 23:39:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755301175;
- bh=wwsSHz9qW4HM4CvVm/6W9nFKkjnMGwSQT3gsML0+kno=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=fXlAoaa6w8xqcofARSS/N8y05yEbcphTUhiWFoaMVITF4PxyPC6AYCZASz2KFEx8s
- ZLlYPVHeFJSrwgNX0JP4fE6QdLc89NfU0NWS+ibkoliEcEC0/qxm0jVMd32aVVayq8
- WXrVqsrk29ADEKvaUuJUSs02DPL80IBbM1K6hG9mfmP8qGrFQGHrQZN33BvFZFEiA1
- lHLqyyTJqj6GXhbvxpC8xTOlUvrugsnAnxh3b/adhETv08buY733krSHpYLFsZ80Wl
- H2ITKOpmeIJXOqqlws+6QXeqvN1n/GztLeK9zrIGLZK1xRaP2KpyaDDC+Dgu4NgRYc
- JYaUjnuUbvlrQ==
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-b4716fb8e74so2154262a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Aug 2025 16:39:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVy4m/0ogp1vTXkgvj2/w6rX9TkXfhaBHarxIvYV4K/V+AQv2QPG7exoOOnexacM0OGKHM9weuoYsI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzbWZTGw7kAPRPuWdaXOkxansp4AABHphKbljG+rjAUbLM3uhW7
- Klxaf3XQeYm7O/QXYUqwpBD1Ol8j4xogfZTHAz4ZCyb2TkbD4YDumABg1SZfUvcIMvMo4Txd8UU
- xMYhllW2poPHFQsU23HVO7BPWVLsKAg==
-X-Google-Smtp-Source: AGHT+IF3UhjPzI/NY7tWC6HSMCDlAaXInyJ/IGmu2yTEf5VazKwog6umahYLBkhkXktfxZh67B39CKu2Ii3gsJIura0=
-X-Received: by 2002:a17:903:b87:b0:240:80f:228e with SMTP id
- d9443c01a7336-2446d93d8dbmr54840315ad.52.1755301174432; Fri, 15 Aug 2025
- 16:39:34 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC11510E26F
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Aug 2025 00:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755304586; x=1786840586;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=benNazeuPaouG/+e8wLXd4fxOv6Us5y+9Sh2v9/dsfc=;
+ b=ek6LIE4QKzGF8IPJOtx6T2XNyj+0k7m4iCixa6xpjZ0c7/sTj3CnmUDO
+ pAK2ABKS0seDuWDbTEb1w3ecm/HxJKvcHTvF3JbCMOot43lW0LUBZbsY/
+ mgiIHlZGPNxJqKblUyhKXjYZLd9DZwNhwwHJpJ89ZXKiB/gy+Xo9B3iQD
+ QVq7GY2nwfpi0KTV+CZeyjfPVsZ6YefYunz6o8DPkSEcWyNDlrwRWNRbq
+ agw3RnX0MLTG+45XrqoXiwRpNx5RmD4KKurQeD35SSbsm6No0MAqCxNgR
+ t+WlvuL0ElnpFuXzupa5ub+c1VJ218aaLlmu+Z7IvWbekfHcP+PXqqd+1 A==;
+X-CSE-ConnectionGUID: BPCf9yDCRwubLj5xL3aQzg==
+X-CSE-MsgGUID: Mx8qfRKRT+O5xOfEdliiBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11523"; a="61465019"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="61465019"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2025 17:36:25 -0700
+X-CSE-ConnectionGUID: XsfJWJHDRiucVH5KSe51BA==
+X-CSE-MsgGUID: NSRhkyfJQCqWWqVNaOYoEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="166309080"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+ by orviesa006.jf.intel.com with ESMTP; 15 Aug 2025 17:36:18 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1un4u8-000CSI-05;
+ Sat, 16 Aug 2025 00:36:16 +0000
+Date: Sat, 16 Aug 2025 08:35:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
+ hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v4 08/13] drm/bridge: analogix_dp: Add new API
+ analogix_dp_finish_probe()
+Message-ID: <202508160857.yC3oMucJ-lkp@intel.com>
+References: <20250814104753.195255-9-damon.ding@rock-chips.com>
 MIME-Version: 1.0
-References: <20250812071932.471730-1-make24@iscas.ac.cn>
-In-Reply-To: <20250812071932.471730-1-make24@iscas.ac.cn>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 16 Aug 2025 07:40:42 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_91C=5YDk1qcU3Dir6TqtN17kgjzTzr=XYRNPHGvQwSgA@mail.gmail.com>
-X-Gm-Features: Ac12FXzKVkel4FRxgngT7H7BLJAi1wo2-ssfsabNu9COZ3np_6DfRlSEuXQhYKk
-Message-ID: <CAAOTY_91C=5YDk1qcU3Dir6TqtN17kgjzTzr=XYRNPHGvQwSgA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: Fix device/node reference count leaks in
- mtk_drm_get_all_drm_priv
-To: Ma Ke <make24@iscas.ac.cn>
-Cc: ck.hu@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
- airlied@gmail.com, simona@ffwll.ch, matthias.bgg@gmail.com, 
- angelogioacchino.delregno@collabora.com, nancy.lin@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- akpm@linux-foundation.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250814104753.195255-9-damon.ding@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,100 +82,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ma Ke <make24@iscas.ac.cn> =E6=96=BC 2025=E5=B9=B48=E6=9C=8812=E6=97=A5 =E9=
-=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=883:19=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Using device_find_child() and of_find_device_by_node() to locate
-> devices could cause an imbalance in the device's reference count.
-> device_find_child() and of_find_device_by_node() both call
-> get_device() to increment the reference count of the found device
-> before returning the pointer. In mtk_drm_get_all_drm_priv(), these
-> references are never released through put_device(), resulting in
-> permanent reference count increments. Additionally, the
-> for_each_child_of_node() iterator fails to release node references in
-> all code paths. This leaks device node references when loop
-> termination occurs before reaching MAX_CRTC. These reference count
-> leaks may prevent device/node resources from being properly released
-> during driver unbind operations.
->
-> As comment of device_find_child() says, 'NOTE: you will need to drop
-> the reference with put_device() after use'.
->
-> Found by code review.
+Hi Damon,
 
-Applied to mediatek-drm-fixes [1], thanks.
+kernel test robot noticed the following build errors:
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on rockchip/for-next linus/master v6.17-rc1 next-20250815]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Regards,
-Chun-Kuang.
+url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-analogix_dp-Formalize-the-struct-analogix_dp_device/20250814-185009
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250814104753.195255-9-damon.ding%40rock-chips.com
+patch subject: [PATCH v4 08/13] drm/bridge: analogix_dp: Add new API analogix_dp_finish_probe()
+config: x86_64-randconfig-001-20250816 (https://download.01.org/0day-ci/archive/20250816/202508160857.yC3oMucJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250816/202508160857.yC3oMucJ-lkp@intel.com/reproduce)
 
->
-> Cc: stable@vger.kernel.org
-> Fixes: 1ef7ed48356c ("drm/mediatek: Modify mediatek-drm for mt8195 multi =
-mmsys support")
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-> ---
-> Changes in v2:
-> - added goto labels as suggestions.
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index d5e6bab36414..f8a817689e16 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -387,19 +387,19 @@ static bool mtk_drm_get_all_drm_priv(struct device =
-*dev)
->
->                 of_id =3D of_match_node(mtk_drm_of_ids, node);
->                 if (!of_id)
-> -                       continue;
-> +                       goto next_put_node;
->
->                 pdev =3D of_find_device_by_node(node);
->                 if (!pdev)
-> -                       continue;
-> +                       goto next_put_node;
->
->                 drm_dev =3D device_find_child(&pdev->dev, NULL, mtk_drm_m=
-atch);
->                 if (!drm_dev)
-> -                       continue;
-> +                       goto next_put_device_pdev_dev;
->
->                 temp_drm_priv =3D dev_get_drvdata(drm_dev);
->                 if (!temp_drm_priv)
-> -                       continue;
-> +                       goto next_put_device_drm_dev;
->
->                 if (temp_drm_priv->data->main_len)
->                         all_drm_priv[CRTC_MAIN] =3D temp_drm_priv;
-> @@ -411,10 +411,17 @@ static bool mtk_drm_get_all_drm_priv(struct device =
-*dev)
->                 if (temp_drm_priv->mtk_drm_bound)
->                         cnt++;
->
-> -               if (cnt =3D=3D MAX_CRTC) {
-> -                       of_node_put(node);
-> +next_put_device_drm_dev:
-> +               put_device(drm_dev);
-> +
-> +next_put_device_pdev_dev:
-> +               put_device(&pdev->dev);
-> +
-> +next_put_node:
-> +               of_node_put(node);
-> +
-> +               if (cnt =3D=3D MAX_CRTC)
->                         break;
-> -               }
->         }
->
->         if (drm_priv->data->mmsys_dev_num =3D=3D cnt) {
-> --
-> 2.25.1
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508160857.yC3oMucJ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `analogix_dp_finish_probe':
+>> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1700: undefined reference to `devm_of_dp_aux_populate_bus'
+
+
+vim +1700 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+
+  1695	
+  1696	int analogix_dp_finish_probe(struct analogix_dp_device *dp)
+  1697	{
+  1698		int ret;
+  1699	
+> 1700		ret = devm_of_dp_aux_populate_bus(&dp->aux, analogix_dp_aux_done_probing);
+  1701		if (ret) {
+  1702			/*
+  1703			 * If devm_of_dp_aux_populate_bus() returns -ENODEV, the done_probing() will
+  1704			 * not be called because there are no EP devices. Then the callback function
+  1705			 * analogix_dp_aux_done_probing() will be called directly in order to support
+  1706			 * the other valid DT configurations.
+  1707			 *
+  1708			 * NOTE: The devm_of_dp_aux_populate_bus() is allowed to return -EPROBE_DEFER.
+  1709			 */
+  1710			if (ret != -ENODEV) {
+  1711				dev_err(dp->dev, "failed to populate aux bus\n");
+  1712				return ret;
+  1713			}
+  1714	
+  1715			return analogix_dp_aux_done_probing(&dp->aux);
+  1716		}
+  1717	
+  1718		return 0;
+  1719	}
+  1720	EXPORT_SYMBOL_GPL(analogix_dp_finish_probe);
+  1721	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
