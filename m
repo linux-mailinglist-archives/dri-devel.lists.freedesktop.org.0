@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E35B295B3
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 01:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2211EB295B7
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 01:45:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3F010E027;
-	Sun, 17 Aug 2025 23:40:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE9E910E030;
+	Sun, 17 Aug 2025 23:45:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Vzdsu0ZD";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="UqhTu58U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3AA10E027
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 23:40:35 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73F5410E030
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 23:45:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=202503; t=1755474338;
+ bh=2P+EHdBkMskSxtDh++Brhi8O6amrL6pAeciOLHwpaDY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=UqhTu58UYwkwvVPt9UoW2gxCZFnzSRz5A0JN9TTjwKgboLp7DPyn334kh4FEAeD5o
+ eMhfshQt4y3OxhqlB3hAwGbicKxb6gD1cU/j01QoJhpY2iLqkjBsaGj2uQvL5IcxT5
+ TXHndWs8ulV3qT3XSDFZ1r1qUTvaXWIeWw3e6IwGAtUwZo9KZO12dSoe0YVgr5eu6I
+ SaXJiryEN3YiGrzZedtUySivIv0+nU6FdhctGLbShcsyZ7+70oExZZDFrg+/XPfhFc
+ Yu20zD3VqV0svo/V5IlybP2mfutpooMav8pNWAcCqUMXrMioIYN9LMVJTyi4vskeMp
+ xd+/Xh9uunW5Q==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4c4sm00yFwz9ssp;
- Mon, 18 Aug 2025 01:40:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1755474032;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iom/s0i6tr0/92vmhPUqTJIIJ8P+iWsTF1Y4mPkXmwQ=;
- b=Vzdsu0ZDLo9plCMFt9kgOARqY07HOcb6JXLm5QXrsukm44CfABJ3rQhEFXNe8iGAbiruHu
- UIusmHEhjIh5/zAKmCSJolctaT1gc+VXIUD6NCxUTNRWAU3bEnN43CtUD5baYle68AUi4r
- qz7a/2Q0kE8vcjWw0uHb6b++EMIitEX72fatcudPbyn+gDBTT5epKx4J4mbt39ZDRaWU6U
- LOHnWVhqouqP8IVvbLKv7WtX+lsmVx2uuwkIA+O9cOotAU8dfmLNfhv5jZFELD2iOIpGF8
- CYAt1F+BYobNVclev5LgXldMezcdye5hc3CbR0RdWoeTkODkBUfs+Do2W1SGOA==
-Message-ID: <ac748c7e-d367-4569-9d9a-ac424c813f14@mailbox.org>
-Date: Mon, 18 Aug 2025 01:40:29 +0200
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4c4ssq4xMTz4wbr;
+ Mon, 18 Aug 2025 09:45:35 +1000 (AEST)
+Date: Mon, 18 Aug 2025 09:45:35 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux DRI Development
+ <dri-devel@lists.freedesktop.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Antonino Maniscalco <antomani103@gmail.com>, =?UTF-8?B?QW5kcsOp?= Almeida
+ <andrealmeid@igalia.com>, Raag Jadav <raag.jadav@intel.com>
+Subject: Re: [PATCH] drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
+ usage in literal code block
+Message-ID: <20250818094535.34358d39@canb.auug.org.au>
+In-Reply-To: <fefba786-57d4-4138-9454-7cd3d924239d@infradead.org>
+References: <20250709024501.9105-1-bagasdotme@gmail.com>
+ <aade485e-0880-4c68-9b37-d8a27dc122e3@kernel.org>
+ <fefba786-57d4-4138-9454-7cd3d924239d@infradead.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
- <4d0f2b7c-d44c-4dc2-9996-3cbbf3bf68b0@ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <4d0f2b7c-d44c-4dc2-9996-3cbbf3bf68b0@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: b793aff83432e4191f5
-X-MBO-RS-META: 3dq94wkm8et7hsoyfjxez8o8uhuknn4u
+Content-Type: multipart/signed; boundary="Sig_/RA3ANG7T.uTmLH1kJb1QB+j";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,144 +69,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/12/25 4:36 PM, Tomi Valkeinen wrote:
+--Sig_/RA3ANG7T.uTmLH1kJb1QB+j
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Hello Tomi,
+Hi Randy,
 
-> On 08/06/2025 17:24, Marek Vasut wrote:
->> Implement support for DSI command transfer mode. Transmission of both Short
-> 
-> I constantly kept reading "DSI command mode support". So I was quite
-> confused for a bit =). Maybe avoid the use of "mode" with "DSI command".
+On Sun, 17 Aug 2025 16:24:02 -0700 Randy Dunlap <rdunlap@infradead.org> wro=
+te:
+>
+> On 7/9/25 12:37 AM, Danilo Krummrich wrote:
+> > On 7/9/25 4:45 AM, Bagas Sanjaya wrote: =20
+> >> Stephen Rothwell reports multiple indentation warnings when merging
+> >> drm-msm tree:
+> >>
+> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2445: ERRO=
+R: Unexpected indentation. [docutils]
+> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2447: WARN=
+ING: Block quote ends without a blank line; unexpected unindent. [docutils]
+> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2451: WARN=
+ING: Definition list ends without a blank line; unexpected unindent. [docut=
+ils]
+> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2452: WARN=
+ING: Definition list ends without a blank line; unexpected unindent. [docut=
+ils]
+> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2456: ERRO=
+R: Unexpected indentation. [docutils]
+> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2457: WARN=
+ING: Definition list ends without a blank line; unexpected unindent. [docut=
+ils]
+> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2458: WARN=
+ING: Definition list ends without a blank line; unexpected unindent. [docut=
+ils]
+> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2459: WARN=
+ING: Definition list ends without a blank line; unexpected unindent. [docut=
+ils]
+> >>
+> >> Fix these by wrapping drm_gpuvm_sm_map_exec_lock() expected usage
+> >> example in literal code block.
+> >>
+> >> Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
+> >> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> >> Closes: https://lore.kernel.org/linux-next/20250708192038.6b0fd31d@can=
+b.auug.org.au/
+> >> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com> =20
+> >=20
+> > I assume this has to go through the MSM tree?
+> >=20
+> > Acked-by: Danilo Krummrich <dakr@kernel.org>
+> >  =20
+>=20
+> Hi,
+> What's happening with this patch?
+> It was posted about 6 weeks ago and the build warnings
+> are still in mainline (6.17-rc2).
 
-I dropped the "mode" in V3.
+This is commit
 
-[...]
+  bb324f85f722 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected usag=
+e in literal code block")
 
->> +static ssize_t rcar_mipi_dsi_host_tx_transfer(struct mipi_dsi_host *host,
->> +					      const struct mipi_dsi_msg *msg,
->> +					      bool is_rx_xfer)
->> +{
->> +	const bool is_tx_long = mipi_dsi_packet_format_is_long(msg->type);
->> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
->> +	struct mipi_dsi_packet packet;
->> +	u8 payload[16] = { 0 };
->> +	u32 status;
->> +	int ret;
->> +
->> +	ret = mipi_dsi_create_packet(&packet, msg);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/* Configure LP or HS command transfer. */
->> +	rcar_mipi_dsi_write(dsi, TXCMSETR, (msg->flags & MIPI_DSI_MSG_USE_LPM) ?
->> +					   TXCMSETR_SPDTYP : 0);
-> 
-> There's no runtime PM in the driver, and the clocks are enabled
-> externally... So I think we just assume that the IP is running here?
+in the drm-msm-fixes tree in linux-next.  I assume that will migrate to
+the drm-fixes tree and thence to Linus' tree in the next week (or so).
 
-Correct.
+--=20
+Cheers,
+Stephen Rothwell
 
-[...]
+--Sig_/RA3ANG7T.uTmLH1kJb1QB+j
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
->> +	/* Start the transfer, RX with BTA, TX without BTA */
->> +	if (is_rx_xfer) {
->> +		rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_BTAREQ);
->> +
->> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
->> +					(status & RXPSR_BTAREQEND),
->> +					2000, 10000, false, dsi, RXPSR);
->> +	} else {
->> +		rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_TXREQ);
->> +
->> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
->> +					(status & TXCMSR_TXREQEND),
->> +					2000, 10000, false, dsi, TXCMSR);
->> +	}
-> 
-> Did you check the timeout is big enough? With LP and BTA... Well, it's
-> only 16 bytes at max. Maybe it's fine. Again, just a note. =)
+-----BEGIN PGP SIGNATURE-----
 
-I did check it with the only hardware I had available which needs this 
-command mode so far, the RPi Display 2 using ILI9881 DSI-to-TCON .
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmiiaZ8ACgkQAVBC80lX
+0Gyt2wf+NqmxZi/kfKr9oBpm5/Cg5mbT0lTbONN0etRgSh6JkLk1evERWcsyhTAo
+VrxYiVtHOHGqjasqfSdy2IhciNF5A3YpN58nz6fobL154gWcPEFfyJYX+71Y2qaX
+OJrLg06Tx5nFXCznXy2/pHAJozPkuSgpFD4gqiuE/R71ef/13YICDJTBhCVAMihk
+3d3MZsL10Ku27GcaNGNZojvCBKc/+IcTg1KXiPODv967JGFBpJLig58naKU6j4BU
+glNAaOmKxL+D8qegT+TNjrd+rpsnVD6XS9EAK3fhazps7k6F27eeZSNcljdFVHqk
+GY24rkFlYggFL2t1lLsocS44A3rFug==
+=yEjJ
+-----END PGP SIGNATURE-----
 
-> Does this work when the video stream is on?
-
-That is untested, the ILI9881 only uses command mode during 
-initialization, before it switches video mode on.
-
-> If yes, then it might take
-> much longer until the command can be transferred.
-
-Do you know the upper limit , is that one or two frame times ?
-
-> If not maybe the
-> function should return an error if the video stream is enabled.
-
-I haven't seen any drivers special casing that, I'd prefer to increase 
-the timeouts. For V3, I'll update the timeout to 50ms , which is about 3 
-frame times.
-
-> What do these read_poll_timeouts wait, exactly? The first one waits
-> until the data is sent, and BTA has been done? And the latter waits only
-> for the data to be sent? Hmm, no... The first must wait until the
-> peripheral has replied, as there's no wait in the
-> rcar_mipi_dsi_host_rx_transfer()...
-
-First one is transmit+BTA+receive , second one is only transmit .
-
-> It would be nice to have a short comment what the wait is for.
-
-Will do in V3.
-
-[...]
-
->> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
->> +				status & PPIDL0SR_STPST,
->> +				2000, 10000, false, dsi, PPIDL0SR);
->> +	if (ret < 0) {
->> +		dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
->> +		return ret;
->> +	}
-> 
-> Same here, it's not very clear what the waits are for. Aren't we done
-> already after the tx function finished?
-
-First one waits for bus handover to host processor to complete, the 
-second one (STPST) waits for data lane to enter LP11 stop state .
-
->> +
->> +	return 0;
->> +}
->> +
->> +static ssize_t rcar_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
->> +					   const struct mipi_dsi_msg *msg)
->> +{
->> +	const bool is_rx_xfer = (msg->flags & MIPI_DSI_MSG_REQ_ACK) || msg->rx_len;
->> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
->> +	int ret;
->> +
->> +	if (msg->tx_len > 16 || msg->rx_len > 16) {
->> +		/* ToDo: Implement Memory on AXI bus command mode. */
->> +		dev_warn(dsi->dev,
->> +			 "Register-based command mode supports only up to 16 Bytes long payload\n");
->> +		return -EOPNOTSUPP;
->> +	}
->> +
->> +	ret = rcar_mipi_dsi_host_tx_transfer(host, msg, is_rx_xfer);
->> +
->> +	/* If TX transfer succeeded and this transfer has RX part. */
->> +	if (ret >= 0 && is_rx_xfer) {
->> +		ret = rcar_mipi_dsi_host_rx_transfer(host, msg);
->> +		if (ret)
->> +			return ret;
->> +
->> +		ret = msg->rx_len;
->> +	}
->> +
->> +	/* Wait a bit between commands */
->> +	usleep_range(1000, 2000);
-> 
-> Why wait and wait a bit between what?
-The consecutive command transmission was unreliable unless there was a 
-slight delay between the consecutive commands. Hence this delay.
+--Sig_/RA3ANG7T.uTmLH1kJb1QB+j--
