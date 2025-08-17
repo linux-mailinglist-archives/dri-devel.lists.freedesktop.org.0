@@ -2,58 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2211EB295B7
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 01:45:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE743B29A27
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 08:52:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE9E910E030;
-	Sun, 17 Aug 2025 23:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B050810E3C5;
+	Mon, 18 Aug 2025 06:52:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="UqhTu58U";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NkUP1d8w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73F5410E030
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 23:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1755474338;
- bh=2P+EHdBkMskSxtDh++Brhi8O6amrL6pAeciOLHwpaDY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=UqhTu58UYwkwvVPt9UoW2gxCZFnzSRz5A0JN9TTjwKgboLp7DPyn334kh4FEAeD5o
- eMhfshQt4y3OxhqlB3hAwGbicKxb6gD1cU/j01QoJhpY2iLqkjBsaGj2uQvL5IcxT5
- TXHndWs8ulV3qT3XSDFZ1r1qUTvaXWIeWw3e6IwGAtUwZo9KZO12dSoe0YVgr5eu6I
- SaXJiryEN3YiGrzZedtUySivIv0+nU6FdhctGLbShcsyZ7+70oExZZDFrg+/XPfhFc
- Yu20zD3VqV0svo/V5IlybP2mfutpooMav8pNWAcCqUMXrMioIYN9LMVJTyi4vskeMp
- xd+/Xh9uunW5Q==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4c4ssq4xMTz4wbr;
- Mon, 18 Aug 2025 09:45:35 +1000 (AEST)
-Date: Mon, 18 Aug 2025 09:45:35 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux DRI Development
- <dri-devel@lists.freedesktop.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robin.clark@oss.qualcomm.com>,
- Antonino Maniscalco <antomani103@gmail.com>, =?UTF-8?B?QW5kcsOp?= Almeida
- <andrealmeid@igalia.com>, Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH] drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
- usage in literal code block
-Message-ID: <20250818094535.34358d39@canb.auug.org.au>
-In-Reply-To: <fefba786-57d4-4138-9454-7cd3d924239d@infradead.org>
-References: <20250709024501.9105-1-bagasdotme@gmail.com>
- <aade485e-0880-4c68-9b37-d8a27dc122e3@kernel.org>
- <fefba786-57d4-4138-9454-7cd3d924239d@infradead.org>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 384F010E185
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 00:00:59 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3b9e4148134so1712446f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 17:00:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755475258; x=1756080058; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=m1/hI4zAQpa/yacZ07Q91nQ7zDbp9gtYAaNYK2UtTyI=;
+ b=NkUP1d8w1AbZo4H/Ed3DVKtZu2xIYMfyEkw+0TmKCxNr/TuwM6mDI5Lo5KFjby6LcS
+ ANDybDD3kE1lMP1OQm8SejGWIqOj59+djipAv1KTjCsaQqi5Y/xZn2XS51yv3DEKxwSx
+ nuypo+/ySNwxf4yExEaZ0vKa4ledIjeZLjbttW3w5nvgoxMQGBjVIdMrmWRuvuXkdryF
+ cbLJchKSK9CWfRZh57q19acBu7DxssEmZEN4rRnFAwbxAOrrlx57tSiawmctLcCmax8/
+ KQbos1Bzp4Lg8J0KCvQie3KTx6LNjO/7iQaVjnAgqtwGcivT6+h2Mln29Uy6+2YS01sZ
+ g1Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755475258; x=1756080058;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m1/hI4zAQpa/yacZ07Q91nQ7zDbp9gtYAaNYK2UtTyI=;
+ b=LbNib5uXRXHFANYl6FKd6KSsDrpZiGVEENjlJstIOISGXMpJWMjHIKreZiPU0lU7qw
+ T/Wh4TdoWb6WLjwR11RrnUkSQ0gZ47Uqe4tadlnBrpV3awdVThqC5WbtpF31IJXI2Ezy
+ 4X5xOFNxopzscm/QGAcJysC9MVvtWFE3+cVVjYnI/+kjHPHi5JZ+it9l16rQ/kDVa/en
+ M8yT18G9XKLEG1jeyOwJNi7LMWYy4J+pYU8oZwT/2KgbfsBcKLqMoLgz/oyQbFOdA04i
+ xQupSslFawTj+wExR/zooSC6Qf4UzFqEEJQeow3FrZ6lRYUyGjwvnuYIUhfy//fQCEGf
+ XGSQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXUCqmXPGnxCHCLyeEwjxMNzrvmE6/iCube+xJyWS6vGnRmtCgZVYeNPctAbLUYVWTlnHoQobgurrY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxBD7fHMq9sz0RgPS/GgcQQecrKfmvDUFdqhWmiDxiWn6fQzgeC
+ +pTk7o+n4vmAtiahJuDfoZUgWYyu22O1JYVbRr8pHeNX3+MurTBkC4uu
+X-Gm-Gg: ASbGncuVr7ndNofGblA2ChV58mxgahAUt+de2TkHxco7oqB2gQXV47KQvexzvSlXp/u
+ PgYeskWXKfnUskGIeclTG9Uz8STz22JNwoYxx6JUSJPlec4tCrCDK281WBCy7HDo2FUL6Il889I
+ OHze4WLHY0qvUVCnP4lM2ZAm1Lgnry4VY8+vZ1jJlYLm9R+5BHeqm6StR/QpquzMe3QZAw2pOBJ
+ MvACgmvehPn6dk9al6bj49J9cUVjHjjRi/5xBQO4kqR24CC9YlvgHdg//hCdpJTi/oKup7taTWr
+ RhUpD/YsBC71y5dN/P9MlJ5JiXTAZv3oId6fJ9WLQPYTqQvPaCEnxHTHNJwih5hbf/ZFuIFnmif
+ cIGWE0EhTEzI2ESTCSciZhcJoMRmZIT0Ula8Ny7H6Ph3FyjbfZhsCLg==
+X-Google-Smtp-Source: AGHT+IEAB+WLlffq7V8E4TMyf2eXBnLp5sNhzDD2NavmOoKq7fhLVZX5GaQCOGPobQS9T6QuJHPudA==
+X-Received: by 2002:a05:6000:18a5:b0:3b9:10ee:6e9a with SMTP id
+ ffacd0b85a97d-3bb6864061dmr5979713f8f.33.1755475257446; 
+ Sun, 17 Aug 2025 17:00:57 -0700 (PDT)
+Received: from stiangglanda-IdeaPad.. ([85.233.101.104])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3bb676caf79sm10734359f8f.42.2025.08.17.17.00.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 Aug 2025 17:00:56 -0700 (PDT)
+From: Leander Kieweg <kieweg.leander@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "[Leander Kieweg]" <kieweg.leander@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ Sean Paul <seanpaul@chromium.org>, linux-kernel@vger.kernel.org
+Subject: [RFC] Plan to convert drm/tiny/bochs to drm_* logging
+Date: Mon, 18 Aug 2025 01:57:48 +0200
+Message-ID: <20250817235836.134286-1-kieweg.leander@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/RA3ANG7T.uTmLH1kJb1QB+j";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 18 Aug 2025 06:52:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,87 +91,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/RA3ANG7T.uTmLH1kJb1QB+j
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: [Leander Kieweg] <kieweg.leander@gmail.com>
 
-Hi Randy,
+Hello,
 
-On Sun, 17 Aug 2025 16:24:02 -0700 Randy Dunlap <rdunlap@infradead.org> wro=
-te:
->
-> On 7/9/25 12:37 AM, Danilo Krummrich wrote:
-> > On 7/9/25 4:45 AM, Bagas Sanjaya wrote: =20
-> >> Stephen Rothwell reports multiple indentation warnings when merging
-> >> drm-msm tree:
-> >>
-> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2445: ERRO=
-R: Unexpected indentation. [docutils]
-> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2447: WARN=
-ING: Block quote ends without a blank line; unexpected unindent. [docutils]
-> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2451: WARN=
-ING: Definition list ends without a blank line; unexpected unindent. [docut=
-ils]
-> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2452: WARN=
-ING: Definition list ends without a blank line; unexpected unindent. [docut=
-ils]
-> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2456: ERRO=
-R: Unexpected indentation. [docutils]
-> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2457: WARN=
-ING: Definition list ends without a blank line; unexpected unindent. [docut=
-ils]
-> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2458: WARN=
-ING: Definition list ends without a blank line; unexpected unindent. [docut=
-ils]
-> >> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2459: WARN=
-ING: Definition list ends without a blank line; unexpected unindent. [docut=
-ils]
-> >>
-> >> Fix these by wrapping drm_gpuvm_sm_map_exec_lock() expected usage
-> >> example in literal code block.
-> >>
-> >> Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
-> >> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> >> Closes: https://lore.kernel.org/linux-next/20250708192038.6b0fd31d@can=
-b.auug.org.au/
-> >> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com> =20
-> >=20
-> > I assume this has to go through the MSM tree?
-> >=20
-> > Acked-by: Danilo Krummrich <dakr@kernel.org>
-> >  =20
->=20
-> Hi,
-> What's happening with this patch?
-> It was posted about 6 weeks ago and the build warnings
-> are still in mainline (6.17-rc2).
+I am a new contributor looking to get started with kernel development. I found the "Convert logging to drm_* functions" task on the gpu/todo.html list.
+The task description advises contacting the relevant maintainers before starting the work to ensure a patch would be welcome.
+After setting up a build and test environment, I've identified the drm/tiny/bochs driver as a good, self-contained candidate for this conversion.
+Would a patch to convert the remaining legacy logging calls in this driver to their modern drm_* equivalents be welcome?
+Thank you for your time,
 
-This is commit
-
-  bb324f85f722 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected usag=
-e in literal code block")
-
-in the drm-msm-fixes tree in linux-next.  I assume that will migrate to
-the drm-fixes tree and thence to Linus' tree in the next week (or so).
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/RA3ANG7T.uTmLH1kJb1QB+j
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmiiaZ8ACgkQAVBC80lX
-0Gyt2wf+NqmxZi/kfKr9oBpm5/Cg5mbT0lTbONN0etRgSh6JkLk1evERWcsyhTAo
-VrxYiVtHOHGqjasqfSdy2IhciNF5A3YpN58nz6fobL154gWcPEFfyJYX+71Y2qaX
-OJrLg06Tx5nFXCznXy2/pHAJozPkuSgpFD4gqiuE/R71ef/13YICDJTBhCVAMihk
-3d3MZsL10Ku27GcaNGNZojvCBKc/+IcTg1KXiPODv967JGFBpJLig58naKU6j4BU
-glNAaOmKxL+D8qegT+TNjrd+rpsnVD6XS9EAK3fhazps7k6F27eeZSNcljdFVHqk
-GY24rkFlYggFL2t1lLsocS44A3rFug==
-=yEjJ
------END PGP SIGNATURE-----
-
---Sig_/RA3ANG7T.uTmLH1kJb1QB+j--
+Leander Kieweg
