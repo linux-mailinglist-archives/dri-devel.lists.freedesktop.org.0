@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91C6B295AD
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 01:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E35B295B3
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 01:40:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF65389854;
-	Sun, 17 Aug 2025 23:24:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3F010E027;
+	Sun, 17 Aug 2025 23:40:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="42P7GHLn";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Vzdsu0ZD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E28D689854
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 23:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=tQ6JTLQMp2lR9NVHV9PDYYFAuOFYRhhA8Cv5cdwQMG8=; b=42P7GHLnb1HcEdW46TQscblVdb
- 8TQOeoh+DtnGTrfD8r0eaSLOB5rIwdFUGplFEmbyyVueFQ9/1giVKuCjw2ErxPOSg/cXJtFRZxnce
- 02b0/kVzvcrke/Y2rF7BGTJxnQ+vAM9Q9t1jybAFa+p09FMJ0U7bV4iUyv5Wn/cH1zIsAs7vL+qmS
- qsGr2stCUIzcqUwG4x1mKK+p1j/ydcu2vMEytq5ZBMGpCKLh3SRt0ECu3d9D0zjCQIH8tZki5MCfz
- yhSDZbr3ea3Rqhh5vQiQu7lGcfdYWFUfgUKGAR4l0568zPokrPMypaBqXkN0MiR8DJJkSPw0bToy9
- m/K/AJkw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
- by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1unmjL-00000006A6h-1wVw; Sun, 17 Aug 2025 23:24:03 +0000
-Message-ID: <fefba786-57d4-4138-9454-7cd3d924239d@infradead.org>
-Date: Sun, 17 Aug 2025 16:24:02 -0700
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3AA10E027
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 23:40:35 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4c4sm00yFwz9ssp;
+ Mon, 18 Aug 2025 01:40:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1755474032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iom/s0i6tr0/92vmhPUqTJIIJ8P+iWsTF1Y4mPkXmwQ=;
+ b=Vzdsu0ZDLo9plCMFt9kgOARqY07HOcb6JXLm5QXrsukm44CfABJ3rQhEFXNe8iGAbiruHu
+ UIusmHEhjIh5/zAKmCSJolctaT1gc+VXIUD6NCxUTNRWAU3bEnN43CtUD5baYle68AUi4r
+ qz7a/2Q0kE8vcjWw0uHb6b++EMIitEX72fatcudPbyn+gDBTT5epKx4J4mbt39ZDRaWU6U
+ LOHnWVhqouqP8IVvbLKv7WtX+lsmVx2uuwkIA+O9cOotAU8dfmLNfhv5jZFELD2iOIpGF8
+ CYAt1F+BYobNVclev5LgXldMezcdye5hc3CbR0RdWoeTkODkBUfs+Do2W1SGOA==
+Message-ID: <ac748c7e-d367-4569-9d9a-ac424c813f14@mailbox.org>
+Date: Mon, 18 Aug 2025 01:40:29 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected
- usage in literal code block
-To: Danilo Krummrich <dakr@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
+Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Antonino Maniscalco <antomani103@gmail.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Raag Jadav <raag.jadav@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20250709024501.9105-1-bagasdotme@gmail.com>
- <aade485e-0880-4c68-9b37-d8a27dc122e3@kernel.org>
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
+ <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
+ <4d0f2b7c-d44c-4dc2-9996-3cbbf3bf68b0@ideasonboard.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aade485e-0880-4c68-9b37-d8a27dc122e3@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <4d0f2b7c-d44c-4dc2-9996-3cbbf3bf68b0@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: b793aff83432e4191f5
+X-MBO-RS-META: 3dq94wkm8et7hsoyfjxez8o8uhuknn4u
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,38 +73,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/12/25 4:36 PM, Tomi Valkeinen wrote:
 
+Hello Tomi,
 
-On 7/9/25 12:37 AM, Danilo Krummrich wrote:
-> On 7/9/25 4:45 AM, Bagas Sanjaya wrote:
->> Stephen Rothwell reports multiple indentation warnings when merging
->> drm-msm tree:
->>
->> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2445: ERROR: Unexpected indentation. [docutils]
->> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2447: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2451: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
->> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2452: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
->> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2456: ERROR: Unexpected indentation. [docutils]
->> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2457: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
->> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2458: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
->> Documentation/gpu/drm-mm:506: ./drivers/gpu/drm/drm_gpuvm.c:2459: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
->>
->> Fix these by wrapping drm_gpuvm_sm_map_exec_lock() expected usage
->> example in literal code block.
->>
->> Fixes: 471920ce25d5 ("drm/gpuvm: Add locking helpers")
->> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
->> Closes: https://lore.kernel.org/linux-next/20250708192038.6b0fd31d@canb.auug.org.au/
->> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> On 08/06/2025 17:24, Marek Vasut wrote:
+>> Implement support for DSI command transfer mode. Transmission of both Short
 > 
-> I assume this has to go through the MSM tree?
-> 
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-> 
+> I constantly kept reading "DSI command mode support". So I was quite
+> confused for a bit =). Maybe avoid the use of "mode" with "DSI command".
 
-Hi,
-What's happening with this patch?
-It was posted about 6 weeks ago and the build warnings
-are still in mainline (6.17-rc2).
+I dropped the "mode" in V3.
 
-thanks.
+[...]
+
+>> +static ssize_t rcar_mipi_dsi_host_tx_transfer(struct mipi_dsi_host *host,
+>> +					      const struct mipi_dsi_msg *msg,
+>> +					      bool is_rx_xfer)
+>> +{
+>> +	const bool is_tx_long = mipi_dsi_packet_format_is_long(msg->type);
+>> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
+>> +	struct mipi_dsi_packet packet;
+>> +	u8 payload[16] = { 0 };
+>> +	u32 status;
+>> +	int ret;
+>> +
+>> +	ret = mipi_dsi_create_packet(&packet, msg);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	/* Configure LP or HS command transfer. */
+>> +	rcar_mipi_dsi_write(dsi, TXCMSETR, (msg->flags & MIPI_DSI_MSG_USE_LPM) ?
+>> +					   TXCMSETR_SPDTYP : 0);
+> 
+> There's no runtime PM in the driver, and the clocks are enabled
+> externally... So I think we just assume that the IP is running here?
+
+Correct.
+
+[...]
+
+>> +	/* Start the transfer, RX with BTA, TX without BTA */
+>> +	if (is_rx_xfer) {
+>> +		rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_BTAREQ);
+>> +
+>> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+>> +					(status & RXPSR_BTAREQEND),
+>> +					2000, 10000, false, dsi, RXPSR);
+>> +	} else {
+>> +		rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_TXREQ);
+>> +
+>> +		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+>> +					(status & TXCMSR_TXREQEND),
+>> +					2000, 10000, false, dsi, TXCMSR);
+>> +	}
+> 
+> Did you check the timeout is big enough? With LP and BTA... Well, it's
+> only 16 bytes at max. Maybe it's fine. Again, just a note. =)
+
+I did check it with the only hardware I had available which needs this 
+command mode so far, the RPi Display 2 using ILI9881 DSI-to-TCON .
+
+> Does this work when the video stream is on?
+
+That is untested, the ILI9881 only uses command mode during 
+initialization, before it switches video mode on.
+
+> If yes, then it might take
+> much longer until the command can be transferred.
+
+Do you know the upper limit , is that one or two frame times ?
+
+> If not maybe the
+> function should return an error if the video stream is enabled.
+
+I haven't seen any drivers special casing that, I'd prefer to increase 
+the timeouts. For V3, I'll update the timeout to 50ms , which is about 3 
+frame times.
+
+> What do these read_poll_timeouts wait, exactly? The first one waits
+> until the data is sent, and BTA has been done? And the latter waits only
+> for the data to be sent? Hmm, no... The first must wait until the
+> peripheral has replied, as there's no wait in the
+> rcar_mipi_dsi_host_rx_transfer()...
+
+First one is transmit+BTA+receive , second one is only transmit .
+
+> It would be nice to have a short comment what the wait is for.
+
+Will do in V3.
+
+[...]
+
+>> +	ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+>> +				status & PPIDL0SR_STPST,
+>> +				2000, 10000, false, dsi, PPIDL0SR);
+>> +	if (ret < 0) {
+>> +		dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
+>> +		return ret;
+>> +	}
+> 
+> Same here, it's not very clear what the waits are for. Aren't we done
+> already after the tx function finished?
+
+First one waits for bus handover to host processor to complete, the 
+second one (STPST) waits for data lane to enter LP11 stop state .
+
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static ssize_t rcar_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+>> +					   const struct mipi_dsi_msg *msg)
+>> +{
+>> +	const bool is_rx_xfer = (msg->flags & MIPI_DSI_MSG_REQ_ACK) || msg->rx_len;
+>> +	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
+>> +	int ret;
+>> +
+>> +	if (msg->tx_len > 16 || msg->rx_len > 16) {
+>> +		/* ToDo: Implement Memory on AXI bus command mode. */
+>> +		dev_warn(dsi->dev,
+>> +			 "Register-based command mode supports only up to 16 Bytes long payload\n");
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +
+>> +	ret = rcar_mipi_dsi_host_tx_transfer(host, msg, is_rx_xfer);
+>> +
+>> +	/* If TX transfer succeeded and this transfer has RX part. */
+>> +	if (ret >= 0 && is_rx_xfer) {
+>> +		ret = rcar_mipi_dsi_host_rx_transfer(host, msg);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		ret = msg->rx_len;
+>> +	}
+>> +
+>> +	/* Wait a bit between commands */
+>> +	usleep_range(1000, 2000);
+> 
+> Why wait and wait a bit between what?
+The consecutive command transmission was unreliable unless there was a 
+slight delay between the consecutive commands. Hence this delay.
