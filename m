@@ -2,54 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85ED2B298C3
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 07:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01770B29A28
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 08:52:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC9A510E34C;
-	Mon, 18 Aug 2025 05:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A54D310E3CC;
+	Mon, 18 Aug 2025 06:52:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=protonmail.com header.i=@protonmail.com header.b="JXyeTlKg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZKYLeBSt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-106110.protonmail.ch (mail-106110.protonmail.ch
- [79.135.106.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 894E310E34C
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 05:05:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail3; t=1755493500; x=1755752700;
- bh=UjQiz3Kpr7q5iwDraf2GEwSkdsiJM+pzbU3XsyPCAkY=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=JXyeTlKgUx3F69ISeKbeN4vDDBjoqGIlMmfpHeI+DGc59x9fxaIwvwZHwSljNO+rV
- V3dXDfwIUIkOxnGPZDUMEDpuBjxflys4UkcG2p6UJl3j4nbvmoCGG8T7ncGWUnvkLv
- ns2oAH3Sf0/Aj0tv+OwCBPNeqO78ANrGakiggSKgu7+f6E8V1PxYFDrw0CpJkWqAYu
- oI+c7dYEwuyZLWaNj2TZP5ykHEaKm4H0rgNLmz2n7BK+XGlINS5eEMKbAqRuSYo14q
- Ez0WhZBofen8Dn3NBZXxAtsozfc15a8wxw4HWXQVrH8iujP3q/ohEN4Nis441bZBR5
- h4wUUJ+yk6uyg==
-Date: Mon, 18 Aug 2025 05:04:52 +0000
-To: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org
-From: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Subject: [RFC PATCH 3/3] rust: drm: Introduce a Connector abstraction
-Message-ID: <20250818050251.102399-5-sergeantsagara@protonmail.com>
-In-Reply-To: <20250818050251.102399-2-sergeantsagara@protonmail.com>
-References: <20250818050251.102399-2-sergeantsagara@protonmail.com>
-Feedback-ID: 26003777:user:proton
-X-Pm-Message-ID: 1e0e52877b5d91260675001b225d770ecb49a434
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9B6110E1A9
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 05:25:35 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-76e43ee62b8so1478687b3a.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 22:25:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755494735; x=1756099535; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qWawdILeIQYq+c7F7VMxTWAdEGo7NrIDJCoccdr/4pg=;
+ b=ZKYLeBStQpOHw5VoCWyqdt2fr9dcbdPAfhaj+n6ICVXSJWsv2dYoIiIKrItghe4CdP
+ K1D5sCPZnWm3Zv1JJ80p0kri39wDEU7Cis3tZieF4XtzwKF8r7OaWpOYOEuY+q1DUSH7
+ IfH/gufWEVDbFSvK7Usie6gZ6cRs5e2JVSRgR1aOj08Zme29jn8KL/YJJwaWIOjeFFSo
+ HXz0veOnVlIB2eu4XFJBG1YyICZYfZUiphtenlGd5T6K2QyPKXvErS4xyndsDhK+HAX4
+ INIxE9/aU9XOZ90f3tKNwZ2w5vet1pzeSMTR/s6GkZBkpxSdNClzEYSUx/o1luHioTua
+ RlAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755494735; x=1756099535;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qWawdILeIQYq+c7F7VMxTWAdEGo7NrIDJCoccdr/4pg=;
+ b=ZiK6VEY/qZ5zUjutMD7z1z/E8PHh8wsSXwzT4mrNTfQrimMAGFaxZ6AOvQezRUA4a9
+ nXtsbVt/OFPc4KG2lnkHTPi0dNIclSK7BvmwuHhgYNscQV8wdWZaQ3H68mRWZPGevyTw
+ Q+Pf4xNrEHCwQOWEc3v18n9OsnlZvLAW5h+t7ucdRXOhmz9pux2Cb6nAtkHSrBEbV73l
+ cw+5lrndMV3CIvR4aKzxxKPD4ULPS4v9fJBmzmQL6X94O/XuEwZYgqv9Kcn97OIpGnB0
+ mLoWzmSSlvMim0tvzCU2Jy0/tdApfE/qt1RV/zoxX9aVxXLEjxB4pxarIYGAI/njsZ8N
+ V1Sg==
+X-Gm-Message-State: AOJu0Yxep6RA3vgcJMA6g/GHlvJ7H7IVTtnql1jiVHRhwqDV5jM6JAvs
+ fl/01qOWyZRWd7SFgHTasmPnbwNv1LDFWcIsX/RVEvvkb3Hn2fpb3+m6
+X-Gm-Gg: ASbGncthwv7IbWr2uROkbKd1KdsHN7p3kNdnVAgtX/dWvSP0FHks8w/JUACluWWfJMF
+ 9RrMz25Z8a2L0GtYrsYevtX7jpn/Iuzaj+A9Lt9BEu9lAN/NnZUqBXht1pBedlT40cAj3K0Hp5+
+ 06BdF13HjDugTGqhTxml9GTCERdP4si2W97dRuMe8Avl7c0BVGON+eu5sbrcJbTaksRZwq3bT+t
+ R29MhyFuozyARIPoU9HAXEf795stzZ5epRQkAG4dRl25nWaxL1u1UvJG6Ukfn3wix7JPNrgPC/v
+ 8PkEeQGB/DInj3TyqPvrOOBKJBdDUd/r37SAfWwic08TXPK0VNLD1ZXFyVsUgRifOcEJjVpDpX2
+ EDBy4jcctfMto16tT8A3z
+X-Google-Smtp-Source: AGHT+IFEyHVBPpUQu87+9vuJC5WFe8phvlVaAzvfFzSLbyBXhy6X9hQUYMGsk0Qw1l0OKlI2IokWqQ==
+X-Received: by 2002:a05:6a00:1398:b0:76b:2c12:334c with SMTP id
+ d2e1a72fcca58-76e4484fb5emr14190101b3a.23.1755494735185; 
+ Sun, 17 Aug 2025 22:25:35 -0700 (PDT)
+Received: from localhost ([159.117.70.219])
+ by smtp.gmail.com with UTF8SMTPSA id
+ d2e1a72fcca58-76e45289544sm6359629b3a.27.2025.08.17.22.25.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 17 Aug 2025 22:25:34 -0700 (PDT)
+From: Nai-Chen Cheng <bleach1827@gmail.com>
+Date: Mon, 18 Aug 2025 13:25:18 +0800
+Subject: [PATCH] drm/dp: Simplify return statement in drm_edp_backlight_enable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250818-drm-dp-helper-logically-dead-code-v1-1-080f76699c0f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAD25omgC/x3NQQqDMBBG4avIrDugAUG9SukiZv7oQGrCBEqLe
+ PcGl9/mvZMqTFFp6U4yfLRqPhqGR0dh98cGVmkm17uxn4aJxd4shXekAuOUNw0+pR8LvHDIAl7
+ n2Y0urjEgUOsUQ9Tv/Xi+rusP0Ma9M3MAAAA=
+X-Change-ID: 20250818-drm-dp-helper-logically-dead-code-b99252fbfcec
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-kernel-mentees@lists.linux.dev, Nai-Chen Cheng <bleach1827@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755494731; l=1333;
+ i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
+ bh=dqxFEX/VL/2RWIvaGy2jWQ4m5TBIX+EXT4oXhAPS5rY=;
+ b=2+mNW0078zBqQmEoPaN8PDrxmYaGLav/YPr7/2cybsMI82J15uA68Dbru45EQvNMjKdVnRWfm
+ jq0pIurPudUCQ/8nWE39IT9aa1GCSUeber/mw5Eaz6aV2M6zoYOno4G
+X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
+ pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
+X-Mailman-Approved-At: Mon, 18 Aug 2025 06:52:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,262 +99,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This abstraction enables implementing new DRM connector APIs in Rust.
-Interfaces can be exported to both C and Rust consumers. The initial
-intention is to implement a new DRM connector level backlight API to handle
-multiple panels with backlight controls on a single system. Ideally,
-various functionalities exposed through DDC and USB Monitor Control Class
-will be plumbed through a Rust DRM Connector abstraction.
+Remove dead code in error handling path. When drm_dp_dpcd_write_byte()
+fails and ret < 0, the condition in "ret < 0 ? ret : -EIO" will always
+be true, making -EIO unreachable.
 
-Signed-off-by: Rahul Rameshbabu <sergeantsagara@protonmail.com>
-Link: https://binary-eater.github.io/tags/usb-monitor-control/
+Simplify by directly returning the error code from
+drm_dp_dpcd_write_byte(), which provides more specific error information
+for debugging.
+
+Found by Coverity(CID 1649043).
+
+Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
 ---
- drivers/gpu/drm/drm_connector.c |   9 +++
- include/drm/drm_connector.h     |  20 +++++++
- rust/bindings/bindings_helper.h |   1 +
- rust/kernel/drm/connector.rs    | 103 ++++++++++++++++++++++++++++++++
- rust/kernel/drm/mod.rs          |   2 +
- 5 files changed, 135 insertions(+)
- create mode 100644 rust/kernel/drm/connector.rs
+ drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connecto=
-r.c
-index 272d6254ea47..8e6a89ad736f 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -272,6 +272,10 @@ static int drm_connector_init_only(struct drm_device *=
-dev,
- =09=09goto out_put_type_id;
- =09}
-=20
-+=09ret =3D drm_connector_init_rust(connector);
-+=09if (ret)
-+=09=09goto out_put_name;
-+
- =09/* provide ddc symlink in sysfs */
- =09connector->ddc =3D ddc;
-=20
-@@ -317,6 +321,9 @@ static int drm_connector_init_only(struct drm_device *d=
-ev,
- =09}
-=20
- =09connector->debugfs_entry =3D NULL;
-+out_put_name:
-+=09if (ret)
-+=09=09kfree(connector->name);
- out_put_type_id:
- =09if (ret)
- =09=09ida_free(connector_ida, connector->connector_type_id);
-@@ -761,6 +768,8 @@ void drm_connector_cleanup(struct drm_connector *connec=
-tor)
- =09=09    DRM_CONNECTOR_REGISTERED))
- =09=09drm_connector_unregister(connector);
-=20
-+=09drm_connector_cleanup_rust(connector);
-+
- =09platform_device_unregister(connector->hdmi_audio.codec_pdev);
-=20
- =09if (connector->privacy_screen) {
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 8f34f4b8183d..8e2a062a7151 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -2305,6 +2305,11 @@ struct drm_connector {
- =09 * @cec: CEC-related data.
- =09 */
- =09struct drm_connector_cec cec;
-+
-+=09/**
-+=09 * @rust: private data for Rust connector API.
-+=09 */
-+=09void *rust;
- };
-=20
- #define obj_to_connector(x) container_of(x, struct drm_connector, base)
-@@ -2346,6 +2351,21 @@ int drm_connector_attach_encoder(struct drm_connecto=
-r *connector,
-=20
- void drm_connector_cleanup(struct drm_connector *connector);
-=20
-+#if IS_ENABLED(CONFIG_RUST)
-+int drm_connector_init_rust(struct drm_connector *connector);
-+void drm_connector_cleanup_rust(struct drm_connector *connector);
-+#else
-+static inline int drm_connector_init_rust(struct drm_connector *connector)
-+{
-+=09return 0;
-+}
-+
-+static inline void drm_connector_cleanup_rust(struct drm_connector *connec=
-tor)
-+{
-+}
-+#endif
-+
-+
- static inline unsigned int drm_connector_index(const struct drm_connector =
-*connector)
- {
- =09return connector->index;
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helpe=
-r.h
-index 84d60635e8a9..c9d0d863c229 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -29,6 +29,7 @@
- #include <linux/hrtimer_types.h>
-=20
- #include <linux/acpi.h>
-+#include <drm/drm_connector.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-diff --git a/rust/kernel/drm/connector.rs b/rust/kernel/drm/connector.rs
-new file mode 100644
-index 000000000000..a65141478d73
---- /dev/null
-+++ b/rust/kernel/drm/connector.rs
-@@ -0,0 +1,103 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+
-+//! DRM connector.
-+//!
-+//! C header: [`include/drm/drm_connector.h`](srctree/include/drm/drm_conn=
-ector.h)
-+
-+use core::marker::PhantomPinned;
-+use kernel::prelude::*;
-+use kernel::types::{ForeignOwnable, Opaque};
-+
-+/// A DRM connector representation that extends `struct drm_connector`.
-+///
-+/// This connector implementation enables DRM connector API development in=
- Rust
-+/// and exposing said functionality to both C and Rust DRM consumers.
-+///
-+/// # Invariants
-+///
-+/// `raw_connector` is a valid pointer to a `struct drm_connector`.
-+///
-+/// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
-+#[pin_data]
-+pub struct Connector {
-+    #[pin]
-+    raw_connector: Opaque<*mut bindings::drm_connector>,
-+    rust_only_attribute: bool,
-+
-+    /// A connector needs to be pinned since it is referred to using a raw
-+    /// pointer field `rust` in the C DRM `struct drm_connector` implement=
-ation.
-+    ///
-+    /// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
-+    #[pin]
-+    _pin: PhantomPinned,
-+}
-+
-+/// C entry point for initializing the Rust extension for a DRM connector.
-+///
-+/// When a DRM connector is being initialized in the core C stack, the Rus=
-t
-+/// `Connector` extension needs to be allocated and initialized.
-+///
-+/// * `raw_connector`: A pointer to `struct drm_connector`, the C DRM conn=
-ector
-+///   implementation.
-+///
-+/// # Safety
-+///
-+/// * `raw_connector` must point to a valid, though partially initialized,
-+///   `struct drm_connector` where the `rust` field is not already initial=
-ized.
-+///
-+/// `raw_connector` must point to a valid `struct drm_connector` for the
-+/// duration of the function call.
-+///
-+/// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
-+#[export]
-+pub unsafe extern "C" fn drm_connector_init_rust(
-+    raw_connector: *mut bindings::drm_connector,
-+) -> kernel::ffi::c_int {
-+    let connector =3D match KBox::pin_init(
-+        try_pin_init!(Connector{
-+            raw_connector <- Opaque::new(raw_connector),
-+            rust_only_attribute: true,
-+            _pin: PhantomPinned,
-+        }),
-+        GFP_KERNEL,
-+    ) {
-+        Ok(kbox) =3D> kbox,
-+        Err(_) =3D> return -ENOMEM.to_errno(),
-+    };
-+
-+    // Provide the C `struct drm_connector` instance a handle to the Rust
-+    // `drm::connector:Connector` implementation for Rust connector APIs a=
-nd the
-+    // `drm_connector_cleanup_rust` cleanup call.
-+    //
-+    // SAFETY: `raw_connector` is a valid pointer with a `rust` field that=
- does
-+    // not already point to an initialized `drm::connector::Connector`
-+    unsafe { (*raw_connector).rust =3D connector.into_foreign() };
-+
-+    0
-+}
-+
-+/// C entry point for tearing down the Rust extension for a DRM connector.
-+///
-+/// When a DRM connector is being cleaned up from the core C stack, the Ru=
-st
-+/// `Connector` extension instance needs to be dropped.
-+///
-+/// * `raw_connector`: A pointer to `struct drm_connector`, the C DRM conn=
-ector
-+///   implementation.
-+///
-+/// # Safety
-+///
-+/// * `raw_connector` must be valid and have the `rust` field initialized =
-by
-+///   `drm_connector_init_rust()`.
-+///
-+/// `raw_connector` must remain valid for the duration of the function cal=
-l and
-+/// the `rust` field must be preserved since the `drm_connector_init_rust(=
-)`
-+/// invocation.
-+///
-+/// [`struct drm_connector`]: srctree/include/drm/drm_connector.h
-+#[export]
-+pub unsafe extern "C" fn drm_connector_cleanup_rust(raw_connector: *mut bi=
-ndings::drm_connector) {
-+    // SAFETY: By the safety requirements of this function, the `rust` fie=
-ld of
-+    // `raw_connector`, a valid pointer, is initialized by the `into_forei=
-gn()`
-+    // call made by `drm_connector_init_rust()`.
-+    drop(unsafe { <Pin<KBox<Connector>>>::from_foreign((*raw_connector).ru=
-st) });
-+}
-diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-index 1b82b6945edf..826fbc4da450 100644
---- a/rust/kernel/drm/mod.rs
-+++ b/rust/kernel/drm/mod.rs
-@@ -2,12 +2,14 @@
-=20
- //! DRM subsystem abstractions.
-=20
-+pub mod connector;
- pub mod device;
- pub mod driver;
- pub mod file;
- pub mod gem;
- pub mod ioctl;
-=20
-+pub use self::connector::Connector;
- pub use self::device::Device;
- pub use self::driver::Driver;
- pub use self::driver::DriverInfo;
---=20
-2.49.0
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index 1ecc3df7e3167d13636e194c4aab44ee8979aa11..b022ee136db2eb3b721ef918650525202dd22035 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -4079,7 +4079,7 @@ int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backli
+ 	if (ret < 0) {
+ 		drm_dbg_kms(aux->drm_dev, "%s: Failed to write aux backlight mode: %d\n",
+ 			    aux->name, ret);
+-		return ret < 0 ? ret : -EIO;
++		return ret;
+ 	}
+ 
+ 	ret = drm_edp_backlight_set_level(aux, bl, level);
 
+---
+base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+change-id: 20250818-drm-dp-helper-logically-dead-code-b99252fbfcec
+
+Best regards,
+-- 
+Nai-Chen Cheng <bleach1827@gmail.com>
 
