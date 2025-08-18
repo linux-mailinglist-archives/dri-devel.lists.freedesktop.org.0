@@ -2,60 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1440B2AC96
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 17:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58663B2ACBF
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 17:29:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCA8610E49B;
-	Mon, 18 Aug 2025 15:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54F7510E47F;
+	Mon, 18 Aug 2025 15:29:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HvVwnu+I";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j3zQbPfO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 037A710E496;
- Mon, 18 Aug 2025 15:22:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755530538; x=1787066538;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=wCyQd1aocovbj+X0zVXZRdeSsrusvHzexwBBFlS7858=;
- b=HvVwnu+I2Mwi++M/Bp1ptRKzH5SxkGjYxEyiq5mhCAwqQFQnfb0+KOZV
- QJ/dJWXTJMu4QLOBwcX2ikbOODhwcO1n9jjlFjmYbpG3ftmUl8se+WeuO
- yoQs59uiQZgV9qrrwh6xX/Dh/lhS6uHGfqbRWPwxReNXEFv7o/hCe5+kH
- Dk7Gblv65beIWEuDGFvfkuJkwwuVl9gVSb7ObZwAcoeHY8NVueT7fNFYP
- cuNDV3xXSQ7FS53KZMXQ2ApVyk+FsYPZ2PH+ccHSmcrobSl5bKHrkfCxY
- s6o1OZkBfUXSrYLizpUt4/01QFpcguuibR0n6+UiCNg2Z5PS7ENbIbHqa A==;
-X-CSE-ConnectionGUID: nE39lUoIT6CrMQ2wxMkzIQ==
-X-CSE-MsgGUID: LkzlUvL4S5ugeFrnxkzaKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="69205865"
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="69205865"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2025 08:22:17 -0700
-X-CSE-ConnectionGUID: 8e7n1H0NSMu5LtvkEmOYNQ==
-X-CSE-MsgGUID: /td6tagHTZiXU00gvM5xRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="171837270"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO mwauld-desk.intel.com)
- ([10.245.245.202])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2025 08:22:16 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v5 8/8] drm/xe/pt: unify xe_pt_svm_pre_commit with userptr
-Date: Mon, 18 Aug 2025 16:22:01 +0100
-Message-ID: <20250818152152.67815-18-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250818152152.67815-10-matthew.auld@intel.com>
-References: <20250818152152.67815-10-matthew.auld@intel.com>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06E0410E1E8;
+ Mon, 18 Aug 2025 15:29:37 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-2445813f6d1so6841965ad.2; 
+ Mon, 18 Aug 2025 08:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755530977; x=1756135777; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RzCbuq+Gbh0OgQBARAQDKXgtinude1MKLs0f7Ap5Gnc=;
+ b=j3zQbPfOGCo4kuAX1qk/UW3hiQSAadUdfYlDGCzoUDIOUuRiKqzR0GaHXegR3Q2p0Z
+ POu/1AWOp5ioFBDTzoHcNsnd6zMNHsKN0xf3in8tQVk6V96P6VRTGnbIEK+kGDyroSGt
+ bpafzjkhKPvbFfBei7O1CIJPD/5wDotGPEhSAH10bPaTdv11QmjRfE8lOtmpJLfzTVLh
+ f7vlsg1hJg6d99TAq+ObCqsjCyV3WrGSRTMstw4KMK1iEOq4L60Ydb3Exl9lYLBID5G5
+ 70It0HF3MZRuYoBKC6nFyGRGN85N6UyD3m2GgZ3GQBNU8zu14XYzVkqfHFAllEJmynWF
+ 1KlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755530977; x=1756135777;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RzCbuq+Gbh0OgQBARAQDKXgtinude1MKLs0f7Ap5Gnc=;
+ b=smoSn58VbmUboECM0Es8LUn3I/dbfxXb6OjWZKQzjejxOgUdJdnpjSomr+sUYpH9bk
+ U8ESdJJZrMcg/g1y+m3krXDE2+AE0VmGhNuNG6fhKWbxf14jlY39A6yOhCBD8nJKQxaN
+ ZAcOMd/3sFSJI6uKktbLfjmNXkuBeMjxd5WeDTz0ikXZxuBTuCHQ8vLCD15IxhcukiN5
+ bYssfKnk6oVn5rDnO5Y8c1l+zjaC0Ypc7qW76oRS5l/bj0tBY1Jx/E5JsbT4cOA50oy+
+ GDgPFTLYsugvscNyah7T6LTQaoIk0JVIWPlKvK4vQvd9WuUxA2ftgoteQ6VQAs+F4NRm
+ mdMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUfRUc+0uLSWhhkpVseu0Q/ezQOckOzUU/RcMq4WGxVU2Fudrrql4YLL7mDxCxEMMdAkbH2itfF@lists.freedesktop.org,
+ AJvYcCXlq7pI+oqPfoyHtZzzOm80cIwmjqsoki2hsRQ4EhOGI3NM3VBSNSdK7MPkNEBxQvrJVrY/sOUuPxZ8@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyGp0LQyRJsXFXrpMMG3LballBaFV32HTXQ0Utp+hBaRZ7BAXtU
+ fm1rZLMqNDqWatvavXjoP4hCXyxssY1Im4O8/Pvyz/F7IpAi/D9HqRStz6r9Zi0PDZAP9QTOhQ+
+ cuDcHlg8H8or9k0ec/Pq7Lz7E2NldMS4=
+X-Gm-Gg: ASbGnct99Rc72GIoapRBZHHWZ+cgYLjd3iikTdESXPRUNk13XkSaMpPqSWvpg8P/dTA
+ mgQhfwKY5v1H6ewBYaRT2CjLPgXs/a/nM/QCxFrISvQmK8TsMbwBZ32MfgB8vsiFmwNzrZj9bAT
+ PMsK7he0WktLiMh5/FNIMeqf/fVUqfi0w+WWAy/LdFuYMLD0QCnBFmjY9QTFeCAqklMrXppsBin
+ Y4Oeso=
+X-Google-Smtp-Source: AGHT+IFQtuz+CyAMPVEijdts/DpltVK9bMgNuHrnfzEDbJ+REcuaOIIo4N6FA6Q0HHjOTejO5nv+CckyUkZgCWChz8k=
+X-Received: by 2002:a17:902:d488:b0:234:f1b5:6e9b with SMTP id
+ d9443c01a7336-2446d6d4c76mr89751465ad.1.1755530977058; Mon, 18 Aug 2025
+ 08:29:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250816143752.397973-1-rongqianfeng@vivo.com>
+ <20250816143752.397973-3-rongqianfeng@vivo.com>
+In-Reply-To: <20250816143752.397973-3-rongqianfeng@vivo.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 18 Aug 2025 11:29:24 -0400
+X-Gm-Features: Ac12FXweR1HbddeALxYgvHcLz-QIOO5fQfMo7oiCGzMfyooW5pNwpZFpeEJq-r4
+Message-ID: <CADnq5_Ph-PuhMcr7BE4Jik_y-m0bx_tSe3Hw8xBTRMeehDD-zg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/radeon: Use vmalloc_array and vcalloc to simplify
+ code
+To: Qianfeng Rong <rongqianfeng@vivo.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,241 +91,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We now use the same notifier lock for SVM and userptr, with that we can
-combine xe_pt_userptr_pre_commit and xe_pt_svm_pre_commit.
+Applied.  Thanks!
 
-v2: (Matt B)
-  - Re-use xe_svm_notifier_lock/unlock for userptr.
-  - Combine svm/userptr handling further down into op_check_svm_userptr.
+Alex
 
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_pt.c       | 123 +++++++++++--------------------
- drivers/gpu/drm/xe/xe_pt_types.h |   2 -
- 2 files changed, 44 insertions(+), 81 deletions(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-index ecd9b0be4997..16024353c165 100644
---- a/drivers/gpu/drm/xe/xe_pt.c
-+++ b/drivers/gpu/drm/xe/xe_pt.c
-@@ -1416,8 +1416,8 @@ static int vma_check_userptr(struct xe_vm *vm, struct xe_vma *vma,
- 	return 0;
- }
- 
--static int op_check_userptr(struct xe_vm *vm, struct xe_vma_op *op,
--			    struct xe_vm_pgtable_update_ops *pt_update)
-+static int op_check_svm_userptr(struct xe_vm *vm, struct xe_vma_op *op,
-+				struct xe_vm_pgtable_update_ops *pt_update)
- {
- 	int err = 0;
- 
-@@ -1439,9 +1439,40 @@ static int op_check_userptr(struct xe_vm *vm, struct xe_vma_op *op,
- 	case DRM_GPUVA_OP_UNMAP:
- 		break;
- 	case DRM_GPUVA_OP_PREFETCH:
--		err = vma_check_userptr(vm, gpuva_to_vma(op->base.prefetch.va),
--					pt_update);
-+		if (xe_vma_is_cpu_addr_mirror(gpuva_to_vma(op->base.prefetch.va))) {
-+			struct xe_svm_range *range = op->map_range.range;
-+			unsigned long i;
-+
-+			xe_assert(vm->xe,
-+				  xe_vma_is_cpu_addr_mirror(gpuva_to_vma(op->base.prefetch.va)));
-+			xa_for_each(&op->prefetch_range.range, i, range) {
-+				xe_svm_range_debug(range, "PRE-COMMIT");
-+
-+				if (!xe_svm_range_pages_valid(range)) {
-+					xe_svm_range_debug(range, "PRE-COMMIT - RETRY");
-+					return -ENODATA;
-+				}
-+			}
-+		} else {
-+			err = vma_check_userptr(vm, gpuva_to_vma(op->base.prefetch.va), pt_update);
-+		}
- 		break;
-+#if IS_ENABLED(CONFIG_DRM_XE_GPUSVM)
-+	case DRM_GPUVA_OP_DRIVER:
-+		if (op->subop == XE_VMA_SUBOP_MAP_RANGE) {
-+			struct xe_svm_range *range = op->map_range.range;
-+
-+			xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(op->map_range.vma));
-+
-+			xe_svm_range_debug(range, "PRE-COMMIT");
-+
-+			if (!xe_svm_range_pages_valid(range)) {
-+				xe_svm_range_debug(range, "PRE-COMMIT - RETRY");
-+				return -EAGAIN;
-+			}
-+		}
-+		break;
-+#endif
- 	default:
- 		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
- 	}
-@@ -1449,7 +1480,7 @@ static int op_check_userptr(struct xe_vm *vm, struct xe_vma_op *op,
- 	return err;
- }
- 
--static int xe_pt_userptr_pre_commit(struct xe_migrate_pt_update *pt_update)
-+static int xe_pt_svm_userptr_pre_commit(struct xe_migrate_pt_update *pt_update)
- {
- 	struct xe_vm *vm = pt_update->vops->vm;
- 	struct xe_vma_ops *vops = pt_update->vops;
-@@ -1462,12 +1493,12 @@ static int xe_pt_userptr_pre_commit(struct xe_migrate_pt_update *pt_update)
- 	if (err)
- 		return err;
- 
--	down_read(&vm->svm.gpusvm.notifier_lock);
-+	xe_svm_notifier_lock(vm);
- 
- 	list_for_each_entry(op, &vops->list, link) {
--		err = op_check_userptr(vm, op, pt_update_ops);
-+		err = op_check_svm_userptr(vm, op, pt_update_ops);
- 		if (err) {
--			up_read(&vm->svm.gpusvm.notifier_lock);
-+			xe_svm_notifier_unlock(vm);
- 			break;
- 		}
- 	}
-@@ -1475,58 +1506,6 @@ static int xe_pt_userptr_pre_commit(struct xe_migrate_pt_update *pt_update)
- 	return err;
- }
- 
--#if IS_ENABLED(CONFIG_DRM_XE_GPUSVM)
--static int xe_pt_svm_pre_commit(struct xe_migrate_pt_update *pt_update)
--{
--	struct xe_vm *vm = pt_update->vops->vm;
--	struct xe_vma_ops *vops = pt_update->vops;
--	struct xe_vma_op *op;
--	unsigned long i;
--	int err;
--
--	err = xe_pt_pre_commit(pt_update);
--	if (err)
--		return err;
--
--	xe_svm_notifier_lock(vm);
--
--	list_for_each_entry(op, &vops->list, link) {
--		struct xe_svm_range *range = NULL;
--
--		if (op->subop == XE_VMA_SUBOP_UNMAP_RANGE)
--			continue;
--
--		if (op->base.op == DRM_GPUVA_OP_PREFETCH) {
--			xe_assert(vm->xe,
--				  xe_vma_is_cpu_addr_mirror(gpuva_to_vma(op->base.prefetch.va)));
--			xa_for_each(&op->prefetch_range.range, i, range) {
--				xe_svm_range_debug(range, "PRE-COMMIT");
--
--				if (!xe_svm_range_pages_valid(range)) {
--					xe_svm_range_debug(range, "PRE-COMMIT - RETRY");
--					xe_svm_notifier_unlock(vm);
--					return -ENODATA;
--				}
--			}
--		} else {
--			xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(op->map_range.vma));
--			xe_assert(vm->xe, op->subop == XE_VMA_SUBOP_MAP_RANGE);
--			range = op->map_range.range;
--
--			xe_svm_range_debug(range, "PRE-COMMIT");
--
--			if (!xe_svm_range_pages_valid(range)) {
--				xe_svm_range_debug(range, "PRE-COMMIT - RETRY");
--				xe_svm_notifier_unlock(vm);
--				return -EAGAIN;
--			}
--		}
--	}
--
--	return 0;
--}
--#endif
--
- struct xe_pt_stage_unbind_walk {
- 	/** @base: The pagewalk base-class. */
- 	struct xe_pt_walk base;
-@@ -1828,7 +1807,7 @@ static int bind_op_prepare(struct xe_vm *vm, struct xe_tile *tile,
- 						 xe_vma_start(vma),
- 						 xe_vma_end(vma));
- 		++pt_update_ops->current_op;
--		pt_update_ops->needs_userptr_lock |= xe_vma_is_userptr(vma);
-+		pt_update_ops->needs_svm_lock |= xe_vma_is_userptr(vma);
- 
- 		/*
- 		 * If rebind, we have to invalidate TLB on !LR vms to invalidate
-@@ -1936,7 +1915,7 @@ static int unbind_op_prepare(struct xe_tile *tile,
- 	xe_pt_update_ops_rfence_interval(pt_update_ops, xe_vma_start(vma),
- 					 xe_vma_end(vma));
- 	++pt_update_ops->current_op;
--	pt_update_ops->needs_userptr_lock |= xe_vma_is_userptr(vma);
-+	pt_update_ops->needs_svm_lock |= xe_vma_is_userptr(vma);
- 	pt_update_ops->needs_invalidation = true;
- 
- 	xe_pt_commit_prepare_unbind(vma, pt_op->entries, pt_op->num_entries);
-@@ -2323,22 +2302,12 @@ static const struct xe_migrate_pt_update_ops migrate_ops = {
- 	.pre_commit = xe_pt_pre_commit,
- };
- 
--static const struct xe_migrate_pt_update_ops userptr_migrate_ops = {
-+static const struct xe_migrate_pt_update_ops svm_userptr_migrate_ops = {
- 	.populate = xe_vm_populate_pgtable,
- 	.clear = xe_migrate_clear_pgtable_callback,
--	.pre_commit = xe_pt_userptr_pre_commit,
-+	.pre_commit = xe_pt_svm_userptr_pre_commit,
- };
- 
--#if IS_ENABLED(CONFIG_DRM_XE_GPUSVM)
--static const struct xe_migrate_pt_update_ops svm_migrate_ops = {
--	.populate = xe_vm_populate_pgtable,
--	.clear = xe_migrate_clear_pgtable_callback,
--	.pre_commit = xe_pt_svm_pre_commit,
--};
--#else
--static const struct xe_migrate_pt_update_ops svm_migrate_ops;
--#endif
--
- /**
-  * xe_pt_update_ops_run() - Run PT update operations
-  * @tile: Tile of PT update operations
-@@ -2365,9 +2334,7 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
- 	int err = 0, i;
- 	struct xe_migrate_pt_update update = {
- 		.ops = pt_update_ops->needs_svm_lock ?
--			&svm_migrate_ops :
--			pt_update_ops->needs_userptr_lock ?
--			&userptr_migrate_ops :
-+			&svm_userptr_migrate_ops :
- 			&migrate_ops,
- 		.vops = vops,
- 		.tile_id = tile->id,
-@@ -2502,8 +2469,6 @@ xe_pt_update_ops_run(struct xe_tile *tile, struct xe_vma_ops *vops)
- 
- 	if (pt_update_ops->needs_svm_lock)
- 		xe_svm_notifier_unlock(vm);
--	if (pt_update_ops->needs_userptr_lock)
--		up_read(&vm->svm.gpusvm.notifier_lock);
- 
- 	xe_gt_tlb_inval_job_put(mjob);
- 	xe_gt_tlb_inval_job_put(ijob);
-diff --git a/drivers/gpu/drm/xe/xe_pt_types.h b/drivers/gpu/drm/xe/xe_pt_types.h
-index 17cdd7c7e9f5..881f01e14db8 100644
---- a/drivers/gpu/drm/xe/xe_pt_types.h
-+++ b/drivers/gpu/drm/xe/xe_pt_types.h
-@@ -105,8 +105,6 @@ struct xe_vm_pgtable_update_ops {
- 	u32 current_op;
- 	/** @needs_svm_lock: Needs SVM lock */
- 	bool needs_svm_lock;
--	/** @needs_userptr_lock: Needs userptr lock */
--	bool needs_userptr_lock;
- 	/** @needs_invalidation: Needs invalidation */
- 	bool needs_invalidation;
- 	/**
--- 
-2.50.1
-
+On Sat, Aug 16, 2025 at 10:54=E2=80=AFAM Qianfeng Rong <rongqianfeng@vivo.c=
+om> wrote:
+>
+> Use vcalloc() and vmalloc_array() to simplify the functions
+> radeon_gart_init().
+>
+> vmalloc_array() is also optimized better, resulting in less instructions
+> being used.
+>
+> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+> ---
+>  drivers/gpu/drm/radeon/radeon_gart.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_gart.c b/drivers/gpu/drm/radeo=
+n/radeon_gart.c
+> index 4bb242437ff6..acd89a20f272 100644
+> --- a/drivers/gpu/drm/radeon/radeon_gart.c
+> +++ b/drivers/gpu/drm/radeon/radeon_gart.c
+> @@ -346,14 +346,14 @@ int radeon_gart_init(struct radeon_device *rdev)
+>         DRM_INFO("GART: num cpu pages %u, num gpu pages %u\n",
+>                  rdev->gart.num_cpu_pages, rdev->gart.num_gpu_pages);
+>         /* Allocate pages table */
+> -       rdev->gart.pages =3D vzalloc(array_size(sizeof(void *),
+> -                                  rdev->gart.num_cpu_pages));
+> +       rdev->gart.pages =3D vcalloc(rdev->gart.num_cpu_pages,
+> +                                  sizeof(void *));
+>         if (rdev->gart.pages =3D=3D NULL) {
+>                 radeon_gart_fini(rdev);
+>                 return -ENOMEM;
+>         }
+> -       rdev->gart.pages_entry =3D vmalloc(array_size(sizeof(uint64_t),
+> -                                                   rdev->gart.num_gpu_pa=
+ges));
+> +       rdev->gart.pages_entry =3D vmalloc_array(rdev->gart.num_gpu_pages=
+,
+> +                                              sizeof(uint64_t));
+>         if (rdev->gart.pages_entry =3D=3D NULL) {
+>                 radeon_gart_fini(rdev);
+>                 return -ENOMEM;
+> --
+> 2.34.1
+>
