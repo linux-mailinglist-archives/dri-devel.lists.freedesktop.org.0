@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9600DB2A03C
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 13:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC26B2AC57
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 17:16:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D746D10E1D7;
-	Mon, 18 Aug 2025 11:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0723D10E47B;
+	Mon, 18 Aug 2025 15:16:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tXPhIcpr";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="eoyyS6nM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36E7E10E1D7;
- Mon, 18 Aug 2025 11:24:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 70F7D5C48E7;
- Mon, 18 Aug 2025 11:24:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E674C4CEEB;
- Mon, 18 Aug 2025 11:24:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755516246;
- bh=S8fx28ZOFv/aRwZ2Xxu1HcW0LeO59Bf0W+4lw52lHUo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=tXPhIcprcunHMleGFLIvoG1s0XiCUEY2N9lcE3i6sadmegRADVYTVBlq3c242EyOX
- 8sNT3sdezjIpZqJpS4aioZ0DzojutaxSXEkpDyl8YOKEf2N5wefVvj4kwhUYaPX+j3
- dHhf2o/643YaqP84+2K2k2IF0Qrq3BXNbXM+FO8xZU7AjwXHhN8A9Qb/uEWuKjMg6L
- GtNb96H8fqsjP/nYrP2xTdw5csi276T6jCX8kZF08Ijf2y1Dji/QvjrjOOo7vsau6z
- u2B5jxc3FCK33EQ6d73QTTJUQgqHoHJqiYw55TUuk1GsHsCPH66WZeGrRlH1oFirNL
- 5Ej4ll1/hIcUA==
-Message-ID: <4574e72d-5cc3-4ad2-beab-78dbeb34d42f@kernel.org>
-Date: Mon, 18 Aug 2025 06:24:00 -0500
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA7810E432
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 11:25:12 +0000 (UTC)
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57IBOWiF2705411;
+ Mon, 18 Aug 2025 06:24:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1755516272;
+ bh=90mC3YfXWKN74giepEOw1+2cwm+ae/kwLy7HbQ/iXSY=;
+ h=From:To:CC:Subject:Date;
+ b=eoyyS6nM4eDavWN/fCQubJRccfaSXee/fITxqMMEenm6T96qKTAwwee8QH/GkBhTw
+ 6BdKVe1Ahm4aVJdx6vH6AHsB0dkK3EqIG7ZN9qMVkoYov+UNvJZoAjtzRXFbe47qVI
+ PCPaqOrAmBrNJnplh6gg/SKBRmaAku86+KgjUgRo=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+ by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57IBOWw7258313
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Mon, 18 Aug 2025 06:24:32 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 18
+ Aug 2025 06:24:31 -0500
+Received: from fllvem-mr08.itg.ti.com (10.64.41.88) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 18 Aug 2025 06:24:31 -0500
+Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
+ by fllvem-mr08.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57IBOVj93651277;
+ Mon, 18 Aug 2025 06:24:31 -0500
+Received: from localhost (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
+ by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 57IBOT19011654;
+ Mon, 18 Aug 2025 06:24:30 -0500
+From: Meghana Malladi <m-malladi@ti.com>
+To: <namcao@linutronix.de>, <jacob.e.keller@intel.com>, <m-malladi@ti.com>,
+ <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
+ <sdf@fomichev.me>, <john.fastabend@gmail.com>, <hawk@kernel.org>,
+ <daniel@iogearbox.net>, <ast@kernel.org>, <pabeni@redhat.com>,
+ <kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
+ <andrew+netdev@lunn.ch>
+CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+Subject: [PATCH net-next 0/6] net: ti: icssg-prueth: Add AF_XDP zero copy
+ support
+Date: Mon, 18 Aug 2025 16:54:18 +0530
+Message-ID: <20250818112424.3068643-1-m-malladi@ti.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 04/11] USB: Pass PMSG_POWEROFF event to
- suspend_common() for poweroff with S4 flow
-To: Oliver Neukum <oneukum@suse.com>, "Rafael J . Wysocki"
- <rafael@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- "open list:HIBERNATION (aka Software Suspend, aka swsusp)"
- <linux-pm@vger.kernel.org>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
- AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
- Eric Naim <dnaim@cachyos.org>
-References: <20250818020101.3619237-1-superm1@kernel.org>
- <20250818020101.3619237-5-superm1@kernel.org>
- <a1cf393a-9901-469b-90f4-81211f2e1b9b@suse.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <a1cf393a-9901-469b-90f4-81211f2e1b9b@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Mailman-Approved-At: Mon, 18 Aug 2025 15:16:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,23 +80,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/18/25 5:50 AM, Oliver Neukum wrote:
-> On 8/18/25 04:00, Mario Limonciello (AMD) wrote:
->> If powering off the system with the S4 flow USB wakeup sources should
->> be ignored. Add a new callback hcd_pci_poweroff() which will 
->> differentiate
->> whether target state is S5 and pass PMSG_POWEROFF as the message so that
->> suspend_common() will avoid doing wakeups.
-> 
-> Hi,
-> 
-> how will Wake-On-LAN work with this change?
-> 
->      Regards
->          Oliver
-> 
+This series adds AF_XDP zero coppy support to icssg driver.
 
- From S5 using a USB dongle?  Is this a use case that is intended to 
-work today?  Does it?
+Tests were performed on AM64x-EVM with xdpsock application [1].
 
-I had expected this only intended from S4, S3 and s2idle.
+A clear improvement is seen Transmit (txonly) and receive (rxdrop)
+for 64 byte packets. 1500 byte test seems to be limited by line
+rate (1G link) so no improvement seen there in packet rate
+
+Having some issue with l2fwd as the benchmarking numbers show 0
+for 64 byte packets after forwading first batch packets and I am
+currently looking into it.
+
+AF_XDP performance using 64 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		259		462		645
+txonly		350		354		760
+l2fwd 		178		240		0
+
+AF_XDP performance using 1500 byte packets in Kpps.
+Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+rxdrop		82		82		82
+txonly		81		82		82
+l2fwd 		81		82		82
+
+[1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
+
+Meghana Malladi (6):
+  net: ti: icssg-prueth: Add functions to create and destroy Rx/Tx
+    queues
+  net: ti: icssg-prueth: Add XSK pool helpers
+  net: ti: icssg-prueth: Add AF_XDP zero copy for TX
+  net: ti: icssg-prueth: Make emac_run_xdp function independent of page
+  net: ti: icssg-prueth: Add AF_XDP zero copy for RX
+  net: ti: icssg-prueth: Enable zero copy in XDP features
+
+ drivers/net/ethernet/ti/icssg/icssg_common.c | 399 +++++++++++++++++--
+ drivers/net/ethernet/ti/icssg/icssg_prueth.c | 379 +++++++++++++++---
+ drivers/net/ethernet/ti/icssg/icssg_prueth.h |  26 +-
+ 3 files changed, 696 insertions(+), 108 deletions(-)
+
+
+base-commit: 715c7a36d59f54162a26fac1d1ed8dc087a24cf1
+-- 
+2.43.0
+
