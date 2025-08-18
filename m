@@ -2,53 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CD2B29AB7
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 09:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB8AB29AB9
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 09:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC1010E1C6;
-	Mon, 18 Aug 2025 07:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1239510E3DB;
+	Mon, 18 Aug 2025 07:21:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GWmi2VPJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H2SOukLo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E965F10E1C6
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 07:20:39 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF61D17D1;
- Mon, 18 Aug 2025 09:19:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1755501581;
- bh=HLqbYlHq1BDKJuJzXWkUG5LFVoomXfaqsUaJko0jS9E=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GWmi2VPJB9OhptOJe2RqkG6GaYtlmP7/H8QkOzEriFc4ISaNoMft7sm3VW8pHVfYU
- cwkUHf+3gCwwGja7UbthFGp7J+/9L9Cg9Tmp1CSJKmtEXZgAgm6GdKhTWNIFfBmkFY
- 88oogSCME1ezcJpVxQV6WfBdyZoNhl7UzY4YQiAs=
-Message-ID: <3f0fc2a6-6e12-45ff-a153-71661ddd236d@ideasonboard.com>
-Date: Mon, 18 Aug 2025 10:20:34 +0300
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2725810E3DB;
+ Mon, 18 Aug 2025 07:21:00 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-76e2ea94c7dso4344655b3a.2; 
+ Mon, 18 Aug 2025 00:21:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755501660; x=1756106460; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=i1EueC6Fubxsq0K6avHKaMHl/1DnpCdRxvVIl9pCUSY=;
+ b=H2SOukLoGqAzPDYyRhlvOQB9UTdbqGvzs8pngFQAkOag8wwkgCOsI7IdR/Lws/r93U
+ fDcl5club43U9nNqrR7SU98qlAF6v3NAzeikPkllllsKhYUenW2RTOkhv7C5rpAgE5rI
+ vxoMkcJf5FF+ojTcAyDwkpugUJQWhvch5t1qr1nZcRGDp0/qKuqZ9AEzW+wvW3IpRS3k
+ b9qN/xiyOrZhQv8YM6ou8fM+yY+0GpfrMpYRSpcuf90JN1EexVs+wvXnfRomZeiT40HY
+ Za9FME1IrXbZEBo3IaE1VaiYU4Th4xzlrs1i7IWAWfmLwAux06S0o33o8BjskrlpTDGM
+ FK1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755501660; x=1756106460;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=i1EueC6Fubxsq0K6avHKaMHl/1DnpCdRxvVIl9pCUSY=;
+ b=c9eKri3RN7es3mI/YCMVN7JE3YJLHhvoVjragd6J/ydM2T/2sqTaMASLA9saUM71yS
+ ebX7hLGeMxas+sDW6oyrCsK0ER5abFGGQOp04qmde37TByDutQ3Lag1Z2WYOryET9c73
+ ja6Vv9brcxhyJ7Hzm43PMGqWumHxroBjNbpp4URN4aoKBHPyz5ZN40AHr8eYOdBDprJV
+ g5iJf0vj/myl0v2RONk4dvnECG3vtAsCp4SfJAZfnbPwcCMJZv21XAZaYwckV3xAANMQ
+ 0kDg4IMRR3cBmFmRKC+4CwXwV2/J0YP3s1pnstCTvXjupuwV05Olmg9/fPKacCIcPXPR
+ fMGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRWWD0GbBOc8UoXM2z2xflei8Yh6r9M8MnfLCBrsfrxgVjXqS35b5/Yb8ww9FeGUyp+wr0Hasi@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzuezbIjz3Dti8npVj01Lzymw7Yz/4N4zDbPCuC4KvyShEbCfhX
+ Cg6yDMTZa6ycQLokILWXsy/iKGEU7bPQJSUBOl82KZk0IMG9AT3j/wA4
+X-Gm-Gg: ASbGncswKgO4JfKVRCC4rxHxdHF1f826dKNSjBCol90aK0SbbhuWEjdTuPeb7nEf5s6
+ ibP0sTfYAaF3+dw61hF7ZF2jyCwwJ9BRdhrrQFrt8lMnkSuPKNWDwn5g9gv3fENdrHc/lN8Qji/
+ yUC2LyCp31LwX0sxlI12Xhv2xth53ZSXkd9Z5nsV24srG6oeNZ+nhwg9h8vTK/R5c8AjwFGpGVl
+ +yFK2SU7tV0z0sr4b0rOO2tW+lC4bvtRcC7J9dnEsRukpOlNe27J4Yh6kEc2JwCCP0RIOwNSWs2
+ DkPlBmX4uani4j9eYwD9DLUvfNxs6pkFuIKVS7cLe+KkHNKhuxtqYLKJl+uLAMNh3wU6utocVYI
+ ptjk8lH8N39G+a2UXjVWN520aXbyeX+pEPL255hiKpywHnOk=
+X-Google-Smtp-Source: AGHT+IESVrvVh+TcBYRzF9y7BmsCm/EL29AU09TeVQWqktjO8x6nSozf5mISthkeTLSWkIFc4/4GAw==
+X-Received: by 2002:a05:6a00:3c94:b0:76b:e868:eedd with SMTP id
+ d2e1a72fcca58-76e4481df98mr17296908b3a.24.1755501659513; 
+ Mon, 18 Aug 2025 00:20:59 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:8899:4b76:ead:acf9:f900:1070])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-76e45268bc5sm6480439b3a.18.2025.08.18.00.20.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Aug 2025 00:20:59 -0700 (PDT)
+From: darshanrathod475@gmail.com
+To: lyude@redhat.com,
+	dakr@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Darshan Rathod <darshanrathod475@gmail.com>
+Subject: [PATCH] drm/nouveau: avoid assignment in if condition
+Date: Mon, 18 Aug 2025 12:50:47 +0530
+Message-Id: <20250818072047.376046-1-darshanrathod475@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
-To: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org
-Cc: David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
- <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
- <4d0f2b7c-d44c-4dc2-9996-3cbbf3bf68b0@ideasonboard.com>
- <ac748c7e-d367-4569-9d9a-ac424c813f14@mailbox.org>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <ac748c7e-d367-4569-9d9a-ac424c813f14@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,180 +89,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Darshan Rathod <darshanrathod475@gmail.com>
 
-On 18/08/2025 02:40, Marek Vasut wrote:
-> On 8/12/25 4:36 PM, Tomi Valkeinen wrote:
-> 
-> Hello Tomi,
-> 
->> On 08/06/2025 17:24, Marek Vasut wrote:
->>> Implement support for DSI command transfer mode. Transmission of both
->>> Short
->>
->> I constantly kept reading "DSI command mode support". So I was quite
->> confused for a bit =). Maybe avoid the use of "mode" with "DSI command".
-> 
-> I dropped the "mode" in V3.
-> 
-> [...]
-> 
->>> +static ssize_t rcar_mipi_dsi_host_tx_transfer(struct mipi_dsi_host
->>> *host,
->>> +                          const struct mipi_dsi_msg *msg,
->>> +                          bool is_rx_xfer)
->>> +{
->>> +    const bool is_tx_long = mipi_dsi_packet_format_is_long(msg->type);
->>> +    struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
->>> +    struct mipi_dsi_packet packet;
->>> +    u8 payload[16] = { 0 };
->>> +    u32 status;
->>> +    int ret;
->>> +
->>> +    ret = mipi_dsi_create_packet(&packet, msg);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    /* Configure LP or HS command transfer. */
->>> +    rcar_mipi_dsi_write(dsi, TXCMSETR, (msg->flags &
->>> MIPI_DSI_MSG_USE_LPM) ?
->>> +                       TXCMSETR_SPDTYP : 0);
->>
->> There's no runtime PM in the driver, and the clocks are enabled
->> externally... So I think we just assume that the IP is running here?
-> 
-> Correct.
-> 
-> [...]
-> 
->>> +    /* Start the transfer, RX with BTA, TX without BTA */
->>> +    if (is_rx_xfer) {
->>> +        rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_BTAREQ);
->>> +
->>> +        ret = read_poll_timeout(rcar_mipi_dsi_read, status,
->>> +                    (status & RXPSR_BTAREQEND),
->>> +                    2000, 10000, false, dsi, RXPSR);
->>> +    } else {
->>> +        rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_TXREQ);
->>> +
->>> +        ret = read_poll_timeout(rcar_mipi_dsi_read, status,
->>> +                    (status & TXCMSR_TXREQEND),
->>> +                    2000, 10000, false, dsi, TXCMSR);
->>> +    }
->>
->> Did you check the timeout is big enough? With LP and BTA... Well, it's
->> only 16 bytes at max. Maybe it's fine. Again, just a note. =)
-> 
-> I did check it with the only hardware I had available which needs this
-> command mode so far, the RPi Display 2 using ILI9881 DSI-to-TCON .
+Move kzalloc assignment out of the if condition to follow
+kernel coding style guidelines and improve readability.
 
-Don't call it "command mode" ;).
+Signed-off-by: Darshan Rathod <darshanrathod475@gmail.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/falcon.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
->> Does this work when the video stream is on?
-> 
-> That is untested, the ILI9881 only uses command mode during
-> initialization, before it switches video mode on.
-> 
->> If yes, then it might take
->> much longer until the command can be transferred.
-> 
-> Do you know the upper limit , is that one or two frame times ?
-
-If using DSI video mode and the stream is on, the DSI TX has to
-interleave the commands either to the line blanking or frame blanking.
-Usually this is configurable in the DSI TX (if the chip can do
-interleaving).
-
-A read command will be the most difficult to interleave, as it takes
-more time with the BTA and reply.
-
-I think the worst case is one frame delay (next vblank).
-
->> If not maybe the
->> function should return an error if the video stream is enabled.
-> 
-> I haven't seen any drivers special casing that, I'd prefer to increase
-> the timeouts. For V3, I'll update the timeout to 50ms , which is about 3
-> frame times.
-
-If the docs have no word about interleaving the commands and there are
-no related registers, I would guess that it's not supported. If this
-can't be tested, I suggest just returning an error if a command is sent
-while the video is on.
-
-You should be able to test this, though. E.g. just add a debugfs/sysfs
-file to the panel or dsi tx driver, which does a DSI command, possibly a
-read. See what happens when the video is enabled.
-
->> What do these read_poll_timeouts wait, exactly? The first one waits
->> until the data is sent, and BTA has been done? And the latter waits only
->> for the data to be sent? Hmm, no... The first must wait until the
->> peripheral has replied, as there's no wait in the
->> rcar_mipi_dsi_host_rx_transfer()...
-> 
-> First one is transmit+BTA+receive , second one is only transmit .
-> 
->> It would be nice to have a short comment what the wait is for.
-> 
-> Will do in V3.
-> 
-> [...]
-> 
->>> +    ret = read_poll_timeout(rcar_mipi_dsi_read, status,
->>> +                status & PPIDL0SR_STPST,
->>> +                2000, 10000, false, dsi, PPIDL0SR);
->>> +    if (ret < 0) {
->>> +        dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n",
->>> status);
->>> +        return ret;
->>> +    }
->>
->> Same here, it's not very clear what the waits are for. Aren't we done
->> already after the tx function finished?
-> 
-> First one waits for bus handover to host processor to complete, the
-> second one (STPST) waits for data lane to enter LP11 stop state .
-> 
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static ssize_t rcar_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
->>> +                       const struct mipi_dsi_msg *msg)
->>> +{
->>> +    const bool is_rx_xfer = (msg->flags & MIPI_DSI_MSG_REQ_ACK) ||
->>> msg->rx_len;
->>> +    struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
->>> +    int ret;
->>> +
->>> +    if (msg->tx_len > 16 || msg->rx_len > 16) {
->>> +        /* ToDo: Implement Memory on AXI bus command mode. */
->>> +        dev_warn(dsi->dev,
->>> +             "Register-based command mode supports only up to 16
->>> Bytes long payload\n");
->>> +        return -EOPNOTSUPP;
->>> +    }
->>> +
->>> +    ret = rcar_mipi_dsi_host_tx_transfer(host, msg, is_rx_xfer);
->>> +
->>> +    /* If TX transfer succeeded and this transfer has RX part. */
->>> +    if (ret >= 0 && is_rx_xfer) {
->>> +        ret = rcar_mipi_dsi_host_rx_transfer(host, msg);
->>> +        if (ret)
->>> +            return ret;
->>> +
->>> +        ret = msg->rx_len;
->>> +    }
->>> +
->>> +    /* Wait a bit between commands */
->>> +    usleep_range(1000, 2000);
->>
->> Why wait and wait a bit between what?
-> The consecutive command transmission was unreliable unless there was a
-> slight delay between the consecutive commands. Hence this delay.
-
-This sounds like there's a bug in the driver, or the TX or RX hardware.
-Please document the sleep clearly in the comment.
-
- Tomi
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/falcon.c b/drivers/gpu/drm/nouveau/nvkm/engine/falcon.c
+index fd5ee9f0af36..46273e6b14ac 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/falcon.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/falcon.c
+@@ -262,6 +262,7 @@ nvkm_falcon_init(struct nvkm_engine *engine)
+ 	/* upload firmware bootloader (or the full code segments) */
+ 	if (falcon->core) {
+ 		u64 addr = nvkm_memory_addr(falcon->core);
++
+ 		if (device->card_type < NV_C0)
+ 			nvkm_wr32(device, base + 0x618, 0x04000000);
+ 		else
+@@ -341,8 +342,10 @@ nvkm_falcon_new_(const struct nvkm_falcon_func *func, struct nvkm_device *device
+ {
+ 	struct nvkm_falcon *falcon;
+ 
+-	if (!(falcon = kzalloc(sizeof(*falcon), GFP_KERNEL)))
++	falcon = kzalloc(sizeof(*falcon), GFP_KERNEL);
++	if (!falcon)
+ 		return -ENOMEM;
++
+ 	falcon->func = func;
+ 	falcon->addr = addr;
+ 	falcon->code.data = func->code.data;
+-- 
+2.25.1
 
