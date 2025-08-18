@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAE0B2A022
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 13:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8043B2A029
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 13:17:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F49A10E0CB;
-	Mon, 18 Aug 2025 11:16:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28F1410E42F;
+	Mon, 18 Aug 2025 11:17:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RaW91XSl";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AsVLVy4+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93AA010E0CB
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 11:16:05 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5D1810E42F
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 11:17:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 02A1A44880;
- Mon, 18 Aug 2025 11:16:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60631C4CEEB;
- Mon, 18 Aug 2025 11:16:04 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id AFD0D601ED;
+ Mon, 18 Aug 2025 11:17:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADC3DC4CEEB;
+ Mon, 18 Aug 2025 11:17:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1755515764;
- bh=0rcut32u7qByun8MXeCN3BhYNxQysEOCEk+rKvlD5U4=;
+ s=korg; t=1755515829;
+ bh=0WlSjThrIqH1ECsNqbXuiaU9TmstXt89kVGSxVPpRtM=;
  h=Subject:To:Cc:From:Date:From;
- b=RaW91XSlXtHmAULg07WDNMDTaX5nhKe092W7KoWsnBIASnBa/07+ev0nA4iUE+bCJ
- ndpk3IKVvh2WWm0L73gVONpehlnZHEjFVAbGpvBnnmNNXBODfFnCcgLDHpxBfR4YXS
- 1gyLY59SFhwIId0aOu+nBJVJt3WuUKC4UVJi0VVo=
+ b=AsVLVy4+mWGja1LOKgADu0NLywaehb4p+9Udg7Ft6YQy4C+pMMDv64GfTJYoFlW38
+ gggECNl/aNPibCsqGlj0wwb0NwuN5AsgA4MFLLI8/gwUdpCg3zdXLkDp6gz1vUJLpJ
+ WsFNm3gL2ECEt1r5VSmM0DdA0b5+QFZwwJjo3WIw=
 Subject: Patch "fbdev: nvidiafb: add depends on HAS_IOPORT" has been added to
- the 6.15-stable tree
+ the 6.16-stable tree
 To: adaplas@gmail.com, arnd@kernel.org, deller@gmx.de,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  rdunlap@infradead.org, schnelle@linux.ibm.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 18 Aug 2025 13:15:54 +0200
-Message-ID: <2025081854-chatter-unskilled-64f4@gregkh>
+Date: Mon, 18 Aug 2025 13:16:05 +0200
+Message-ID: <2025081805-junior-tightwad-5ecf@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     fbdev: nvidiafb: add depends on HAS_IOPORT
 
-to the 6.15-stable tree which can be found at:
+to the 6.16-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      fbdev-nvidiafb-add-depends-on-has_ioport.patch
-and it can be found in the queue-6.15 subdirectory.
+and it can be found in the queue-6.16 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -126,7 +126,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from rdunlap@infradead.org are
 
-queue-6.15/fbdev-nvidiafb-add-depends-on-has_ioport.patch
-queue-6.15/parisc-makefile-fix-a-typo-in-palo.conf.patch
-queue-6.15/kconfig-gconf-fix-potential-memory-leak-in-renderer_.patch
-queue-6.15/kconfig-nconf-ensure-null-termination-where-strncpy-.patch
+queue-6.16/fbdev-nvidiafb-add-depends-on-has_ioport.patch
+queue-6.16/parisc-makefile-fix-a-typo-in-palo.conf.patch
+queue-6.16/kconfig-gconf-fix-potential-memory-leak-in-renderer_.patch
+queue-6.16/kconfig-nconf-ensure-null-termination-where-strncpy-.patch
