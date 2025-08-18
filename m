@@ -2,77 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F28B29F58
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 12:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E813FB29F63
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 12:46:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 810D889E9E;
-	Mon, 18 Aug 2025 10:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5718610E1D0;
+	Mon, 18 Aug 2025 10:46:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O6foFGiY";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=robert.mader@collabora.com header.b="QJp2CnbI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25FA510E1D0;
- Mon, 18 Aug 2025 10:45:00 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-321cfa7ad29so3637651a91.1; 
- Mon, 18 Aug 2025 03:45:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755513900; x=1756118700; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=zI/Nt7+AGO/rMAajmGnpXgwvKkgy60LC/B+5yT8wMm4=;
- b=O6foFGiYQVmxWL9hqfEebollH/YxIqyE1SjPtN9oebb6vgYAG1tlGLyfLsuhGkwfBE
- aeduWpPPr+/XHT9U2DvWctMARdha1vhOD5VbEVo1ZVr9ryIADn5fOrq/UVtwfwDIqO2C
- QjL7R0xmv2W6eohWNJtVfZoqoRQOipqcD8nXDLKgjfGHdrR62URhcUB/tv82CvDR8XSS
- NjVjT9xlCGW1HnwcPqL8XLFPnoCf96e1bv09VUEhlk2SGETUF+vq1LJqIo+kGXuU4TCn
- JnvLWeTLfCH6qMTAD9bPstYfxZmjAVGkqxEXPoE2c81cOtJEVjxjwIrbwX7U2dowxUP2
- JdcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755513900; x=1756118700;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zI/Nt7+AGO/rMAajmGnpXgwvKkgy60LC/B+5yT8wMm4=;
- b=rA5RO9fYdnRrUMN6Vwb7uCwdvwULwJHAbvoe3T/bn4KIBmyocZ1tvOOL36EL95hOPs
- rfr7oHcqLV69m8JwSVNndAwo6KI89WH2r4awDQX5Y1QJBYhFRKrdUeZ19H0LKPJNqyWO
- AR7rzdGqVt/KR0LxtPSqzhP45pmyihL3Hzqeve12NQkmpDnu1Rbh6T8y6AU1+WFDWSf5
- 1WXJROi8WqHNpV0Om7CR5VNWfSOBjIkTvFEJxSLjNJDlbrF+RWSunWrTquY1sDghSeYW
- jEzO8SIr6wFSxBMXKoAcQnwP2NYBYaV6xgO19cDJwGiRnDjKT1e9Q3yuxyMaQgmXHCx7
- i6HQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUNFXMe18n79+JY0tTEcfaLFNrZzBBpNZr7WLOkN7ifyVMazkmxPG5T1W6+1AGeEHvW5nkBSwi+5w==@lists.freedesktop.org,
- AJvYcCWIgCGWV7sZioW7AbDfDXS9McpnksPVw6iRL7e8omZOqmFy/8YNJjev0ELoLKq/CAz5AeQfEA3Szyc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPUEeGWSV8thnqgASyHkFxDFHtFASbL3cac/UFW+5W3sPIeSfl
- dEHNm63uX1kbrGrGTdq3Jp2pi+/5skYvYXhLURtG7qMpccqIRgZORA8K
-X-Gm-Gg: ASbGncvDG+ERVj0f9R0c0m18duzIbmG2Nnn1w0fpI4YzPNhI09Em8qvl89FwgeAfWRP
- Rd9GMZWGGRhL20ocGt0qCB4r5R0+MKvvGbVo1glUHFtUaXJMvcVraEcC/8uPs58cE+07ubvyJhY
- V2xa5BYoH+fsZ3I/dvkLv6D1wl/jMNvuynaZn6cQAoDMwbD5F1d8c/DDxXntTCPeP5LAu3Jt8Rr
- GoUzBJgqm3FTJLRty9agfqVgUBiIEDn+wUK4gBZpG3HFaNawaJG/k49Ob1sh8PeolYH0mJ4DN0P
- h1s57052E1NYrs4V4RbYYNZP54lKUsgxEQZULyqpoF7l4h0tcNTBcdTdeA19lHvySHYOsE38mCu
- hWV4QHlktqRe6fIGsK3RcWywnCN6ZqJHcruYlyPiDkcxfPkU=
-X-Google-Smtp-Source: AGHT+IGc3taSpgAHHOh+V9gwAudEbx1xMbNbGjmO8awFFHCg5952fVvLo7stUlBiQSuCkc+xHp06sg==
-X-Received: by 2002:a17:90b:2c86:b0:31e:f36a:3532 with SMTP id
- 98e67ed59e1d1-323297ac223mr24272393a91.13.1755513899400; 
- Mon, 18 Aug 2025 03:44:59 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:8899:4b76:ead:acf9:f900:1070])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b472d5a6df6sm7793773a12.1.2025.08.18.03.44.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Aug 2025 03:44:59 -0700 (PDT)
-From: darshanrathod475@gmail.com
-To: lyude@redhat.com,
-	dakr@kernel.org
-Cc: airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Darshan Rathod <darshanrathod475@gmail.com>
-Subject: [PATCH] drm/nouveau: move assignment out of condition and fix spacing
-Date: Mon, 18 Aug 2025 16:14:51 +0530
-Message-Id: <20250818104451.916585-1-darshanrathod475@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F3110E1D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 10:46:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1755513981; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=PlznDCCrOlM59ksPQyKCE9h0d+dO2h+b1h4VFT9ZYheRIN+IY6yFNtqS8OWPr+h0LBszhzCCFVib8sJpcwRd+l5iuMLTWy0tB7Tztl8nNA0oapHPJkD7LtWlqYSGUGbEqze7CkoXmzpdkNDVYtGMBcMxvc78cHpy2T6UDMLeNx4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1755513981;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=WHp4XJVWTvvmWcmkaQmduWnck0pIloPgQPEiSVQzdBk=; 
+ b=SiZyZ19q28va3f4VqkqOBDoraxl26yYlTEGhJPZSVvbFsrHR/6nx6EbATnY/RyOMOBsFGSPXA67O2nDMzT1u2M275w6AQcvT1qvbZdMIT8FJEc/ZrHPTteLMxG1xR2YDLTdaXUVuvSS1HLwKnq8WvVi+uc0Wklx5rJepenBHn30=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=robert.mader@collabora.com;
+ dmarc=pass header.from=<robert.mader@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755513981; 
+ s=zohomail; d=collabora.com; i=robert.mader@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=WHp4XJVWTvvmWcmkaQmduWnck0pIloPgQPEiSVQzdBk=;
+ b=QJp2CnbI7SwIJAc65GAmBXfw5fJrlxZJYn3qpTKlQwrsGZ+hwqTdSYSL+Q+Dcqns
+ 8+t6vHnKHROSqhUDoea+o91nF/982osi5GafrV3mIQvELjxgCnA/udCZg1ZN6ro1HEo
+ cb6wEfBS1+wiDvcdFb1IOkIYwaJzs5qppwYJ1x0s=
+Received: by mx.zohomail.com with SMTPS id 175551397875259.006396646258395;
+ Mon, 18 Aug 2025 03:46:18 -0700 (PDT)
+Message-ID: <26f31ab8-1b9f-466e-aa9e-2b76bec7a364@collabora.com>
+Date: Mon, 18 Aug 2025 12:46:15 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] drm: vc4: Add support for additional 10/12/16bit
+ YUV plane formats
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250807-drm-vc4-extra-formats-v2-0-fadc93844551@raspberrypi.com>
+Content-Language: en-US, de-DE
+From: Robert Mader <robert.mader@collabora.com>
+In-Reply-To: <20250807-drm-vc4-extra-formats-v2-0-fadc93844551@raspberrypi.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,41 +72,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Darshan Rathod <darshanrathod475@gmail.com>
+On 07.08.25 15:28, Dave Stevenson wrote:
+> We'd been asked if the S01x YUV formats could be supported on Pi5 as some
+> software codecs produce them.
+> The answer was yes, so this patch adds them and the P01x formats.
 
-Simplify conditional logic by moving the assignment of pll_lim.reg
-to reg1 out of the if() statement. Also adjust spacing in an if()
-statement for consistency with kernel style.
+I tested this with the Gstreamer MR from 1 and can confirm that the 
+formats P010, P012, P016, S010 and S012 work as expected.
 
-Signed-off-by: Darshan Rathod <darshanrathod475@gmail.com>
----
- drivers/gpu/drm/nouveau/dispnv04/hw.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Unfortunately S016 is not supported by Gstreamer yet - however chances 
+seem high that it works as well.
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/hw.c b/drivers/gpu/drm/nouveau/dispnv04/hw.c
-index 8b376f9c8746..165ba41422a5 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/hw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/hw.c
-@@ -172,7 +172,9 @@ nouveau_hw_get_pllvals(struct drm_device *dev, enum nvbios_pll_type plltype,
- 	int ret;
- 
- 	ret = nvbios_pll_parse(bios, plltype, &pll_lim);
--	if (ret || !(reg1 = pll_lim.reg))
-+	reg1 = pll_lim.reg;
-+
-+	if (ret || !reg1)
- 		return -ENOENT;
- 
- 	pll1 = nvif_rd32(device, reg1);
-@@ -747,7 +749,7 @@ nv_load_state_ext(struct drm_device *dev, int head,
- 			/* Not waiting for vertical retrace before modifying
- 			   CRE_53/CRE_54 causes lockups. */
- 			nvif_msec(&drm->client.device, 650,
--				if ( (nvif_rd32(device, NV_PRMCIO_INP0__COLOR) & 8))
-+				if ((nvif_rd32(device, NV_PRMCIO_INP0__COLOR) & 8))
- 					break;
- 			);
- 			nvif_msec(&drm->client.device, 650,
+Thus the series is:
+
+Tested-by: Robert Mader <robert.mader@collabora.com>
+
+1: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8540
+
+>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+> Changes in v2:
+> - Swapped from adding an extra bool hvs6_only to having a min_gen for
+>    each format (suggested by Maíra)
+> - Link to v1: https://lore.kernel.org/r/20250724-drm-vc4-extra-formats-v1-1-67fa80597fad@raspberrypi.com
+>
+> ---
+> Dave Stevenson (2):
+>        drm/vc4: plane: Flag formats as having a minimum generation
+>        drm/vc4: plane: Add support for P01[026] and S01[026] formats
+>
+>   drivers/gpu/drm/vc4/vc4_plane.c | 56 +++++++++++++++++++++++++++++++++++------
+>   drivers/gpu/drm/vc4/vc4_regs.h  |  9 +++++++
+>   2 files changed, 58 insertions(+), 7 deletions(-)
+> ---
+> base-commit: d2b48f2b30f25997a1ae1ad0cefac68c25f8c330
+> change-id: 20250724-drm-vc4-extra-formats-1f53e6491cc1
+>
+> Best regards,
+
 -- 
-2.25.1
+Robert Mader
+Consultant Software Developer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
 
