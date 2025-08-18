@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC11B2AA01
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 16:26:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA6CB2AA58
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 16:31:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98DAA10E44D;
-	Mon, 18 Aug 2025 14:26:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A46D510E455;
+	Mon, 18 Aug 2025 14:31:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=grimler.se header.i=@grimler.se header.b="oCTeUOto";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k/UzzCxh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com
- [95.215.58.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAC1710E1E5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 14:26:38 +0000 (UTC)
-Date: Mon, 18 Aug 2025 16:26:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grimler.se; s=key1;
- t=1755527196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BM8JYvbLnO1/Ucg0aYL8ohJY0qTf1X3d+as2UPeqOU8=;
- b=oCTeUOtozrDTdHGSj3+NoHvrSsFIqNNNFX//yWAy7zaUQbKmfENq2THr1VTKZlqr1zdqCp
- HIUJ3nZttJm+2CajM+QR3lVlbO3ruMapBmi3ibRZo/Wyy2SJIUzMiyWRNn4+Fms8etW9cJ
- spD7VQJEJxbi/90YXfW/DGiDrS2LMw8=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Henrik Grimler <henrik@grimler.se>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm/bridge: sii9234: use extcon cable detection
- logic to detect MHL
-Message-ID: <20250818142622.GA286180@grimfrac.localdomain>
-References: <20250724-exynos4-sii9234-driver-v2-0-faee244f1d40@grimler.se>
- <CGME20250724185204eucas1p1d699db3abebc702ea8261b2e41a77c52@eucas1p1.samsung.com>
- <20250724-exynos4-sii9234-driver-v2-3-faee244f1d40@grimler.se>
- <1840a54c-c03a-42e3-a3a8-52e38919df38@samsung.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6616710E0D9;
+ Mon, 18 Aug 2025 14:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755527461; x=1787063461;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=iJAMC0HCJO7tKBZkMQPbzlc8d29ZVJcuKp1kUO5veFQ=;
+ b=k/UzzCxhitapn/0yF6/mjJrnd6sNMyxfuZ0NVsYdxRGcYn/FSV+6bN7m
+ le7vhPy1OhHrvlCc4gDLXfjd3vtph8ppPU2AIrdUM85KpkXOqVSdDLRFq
+ NLjikw5LvT1EiRizeHV8SJohQE5QIbH3OXJlR7hrdE60yfm/fpfHq/b0b
+ +MAh6NyHMXK8nfv6jsJR2iIRHk/HeT0UD7b5THH+PuLqoBu8glFRdYfHh
+ g7bBoeXorGcP+cWgorlja2exStKSBhP2bHqgMHDPBak8BWKZ1H8Iy8BdJ
+ 92pyFP0FXrCcWQGH66Owsdc7iI7mYp/V5q5cNM+ReU4F2sW67DJTSe5Cp A==;
+X-CSE-ConnectionGUID: aCSKefnISn62bZSKLwcPBA==
+X-CSE-MsgGUID: qVBynor0Ry2dRZQUdN4GHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="61377966"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="61377966"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2025 07:31:00 -0700
+X-CSE-ConnectionGUID: n3NaAbFuSNCUSRnuczmQtw==
+X-CSE-MsgGUID: 34KBZ80xT7u9ev+HWcfQEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; d="scan'208";a="172796445"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.245.221])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Aug 2025 07:30:57 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 4/4] dma-buf/fence-chain: Speed up processing of rearmed
+ callbacks
+Date: Mon, 18 Aug 2025 16:30:54 +0200
+Message-ID: <2443311.NG923GbCHz@jkrzyszt-mobl2.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <0920872a-6f8d-4301-b9fb-c8fa54b7ffe7@amd.com>
+References: <20250814094824.217142-6-janusz.krzysztofik@linux.intel.com>
+ <20250814094824.217142-10-janusz.krzysztofik@linux.intel.com>
+ <0920872a-6f8d-4301-b9fb-c8fa54b7ffe7@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1840a54c-c03a-42e3-a3a8-52e38919df38@samsung.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,149 +77,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi Christian,
 
-On Thu, Aug 14, 2025 at 01:26:33PM +0200, Marek Szyprowski wrote:
-> On 24.07.2025 20:50, Henrik Grimler wrote:
-> > To use MHL we currently need the MHL chip to be permanently on, which
-> > consumes unnecessary power. Let's use extcon attached to MUIC to enable
-> > the MHL chip only if it detects an MHL cable.
-> >
-> > Signed-off-by: Henrik Grimler <henrik@grimler.se>
+On Thursday, 14 August 2025 14:24:29 CEST Christian K=C3=B6nig wrote:
+>=20
+> On 14.08.25 10:16, Janusz Krzysztofik wrote:
+> > When first user starts waiting on a not yet signaled fence of a chain
+> > link, a dma_fence_chain callback is added to a user fence of that link.
+> > When the user fence of that chain link is then signaled, the chain is
+> > traversed in search for a first not signaled link and the callback is
+> > rearmed on a user fence of that link.
+> >=20
+> > Since chain fences may be exposed to user space, e.g. over drm_syncobj
+> > IOCTLs, users may start waiting on any link of the chain, then many lin=
+ks
+> > of a chain may have signaling enabled and their callbacks added to their
+> > user fences.  Once an arbitrary user fence is signaled, all
+> > dma_fence_chain callbacks added to it so far must be rearmed to another
+> > user fence of the chain.  In extreme scenarios, when all N links of a
+> > chain are awaited and then signaled in reverse order, the dma_fence_cha=
+in
+> > callback may be called up to N * (N + 1) / 2 times (an arithmetic serie=
+s).
+> >=20
+> > To avoid that potential excessive accumulation of dma_fence_chain
+> > callbacks, rearm a trimmed-down, signal only callback version to the ba=
+se
+> > fence of a previous link, if not yet signaled, otherwise just signal the
+> > base fence of the current link instead of traversing the chain in search
+> > for a first not signaled link and moving all callbacks collected so far=
+ to
+> > a user fence of that link.
+>=20
+> Well clear NAK to that! You can easily overflow the kernel stack with tha=
+t!
+
+I'll be happy to propose a better solution, but for that I need to understa=
+nd=20
+better your message.  Could you please point out an exact piece of the=20
+proposed code and/or describe a scenario where you can see the risk of stac=
+k=20
+overflow?
+
+>=20
+> Additional to this messing with the fence ops outside of the dma_fence co=
+de is an absolute no-go.
+
+Could you please explain what piece of code you are referring to when you s=
+ay=20
+"messing with the fence ops outside the dma_fence code"?  If not this patch=
+=20
+then which particular one of this series did you mean?  I'm assuming you=20
+didn't mean drm_syncobj code that I mentioned in my commit descriptions.
+
+Thanks,
+Janusz
+
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12904
+> > Suggested-by: Chris Wilson <chris.p.wilson@linux.intel.com>
+> > Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 > > ---
-> > v2: add dependency on extcon. Issue reported by kernel test robot
-> >      <lkp@intel.com>
-> > ---
-> >   drivers/gpu/drm/bridge/Kconfig   |  1 +
-> >   drivers/gpu/drm/bridge/sii9234.c | 89 ++++++++++++++++++++++++++++++++++++++--
-> >   2 files changed, 87 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> > index b9e0ca85226a603a24f90c6879d1499f824060cb..f18a083f6e1c6fe40bde5e65a1548acc61a162ae 100644
-> > --- a/drivers/gpu/drm/bridge/Kconfig
-> > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > @@ -303,6 +303,7 @@ config DRM_SII902X
-> >   config DRM_SII9234
-> >   	tristate "Silicon Image SII9234 HDMI/MHL bridge"
-> >   	depends on OF
-> > +	select EXTCON
-> >   	help
-> >   	  Say Y here if you want support for the MHL interface.
-> >   	  It is an I2C driver, that detects connection of MHL bridge
-> > diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-> > index 0e0bb1bf71fdcef788715cfd6fa158a6992def33..4d84ba01ea76816bebdbc29d48a041c9c6cd508e 100644
-> > --- a/drivers/gpu/drm/bridge/sii9234.c
-> > +++ b/drivers/gpu/drm/bridge/sii9234.c
-
-[ ...]
-
+> >  drivers/dma-buf/dma-fence-chain.c | 101 +++++++++++++++++++++++++-----
+> >  1 file changed, 84 insertions(+), 17 deletions(-)
+> >=20
+> > diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fe=
+nce-chain.c
+> > index a8a90acf4f34d..90eff264ee05c 100644
+> > --- a/drivers/dma-buf/dma-fence-chain.c
+> > +++ b/drivers/dma-buf/dma-fence-chain.c
+> > @@ -119,46 +119,113 @@ static const char *dma_fence_chain_get_timeline_=
+name(struct dma_fence *fence)
+> >          return "unbound";
+> >  }
+> > =20
+> > -static void dma_fence_chain_irq_work(struct irq_work *work)
+> > +static void signal_irq_work(struct irq_work *work)
+> >  {
+> >  	struct dma_fence_chain *chain;
+> > =20
+> >  	chain =3D container_of(work, typeof(*chain), work);
+> > =20
+> > -	/* Try to rearm the callback */
+> > -	if (!dma_fence_chain_enable_signaling(&chain->base))
+> > -		/* Ok, we are done. No more unsignaled fences left */
+> > -		dma_fence_signal(&chain->base);
+> > +	dma_fence_signal(&chain->base);
+> >  	dma_fence_put(&chain->base);
+> >  }
+> > =20
+> > -static void dma_fence_chain_cb(struct dma_fence *f, struct dma_fence_c=
+b *cb)
+> > +static void signal_cb(struct dma_fence *f, struct dma_fence_cb *cb)
+> > +{
+> > +	struct dma_fence_chain *chain;
 > > +
-> > +	edev = extcon_find_edev_by_node(muic);
-> > +	of_node_put(muic);
-> > +	if (IS_ERR(edev)) {
-> > +		dev_err_probe(ctx->dev, PTR_ERR(edev),
-> > +			      "invalid or missing extcon\n");
-> > +	}
-> 
-> It looks that the original logic got lost somehow in the above code 
-> block, what causes kernel oops if compiled as module and loaded before 
-> extcon provider. Please handle -EPROBE_DEFER and propagate error value, 
-> like the original code did in sii8620 driver:
-> 
->          if (IS_ERR(edev)) {
->                  if (PTR_ERR(edev) == -EPROBE_DEFER)
->                          return -EPROBE_DEFER;
->                  dev_err(ctx->dev, "Invalid or missing extcon\n");
->                  return PTR_ERR(edev);
->          }
-
-Thanks for detecting the issue! I think my code is just missing return
-before dev_err_probe (same mistake as I did on patch 2). With return
-added I have not been able to reproduce any kernel oops, but if
-CONFIG_DRM_SII9234=y and CONFIG_EXTCON_MAX77693=m then it seems like
-linux gets stuck probing sii9234 and waiting for the extcon provider
-(verified with some printf debugging). This happens for me both with:
-
-	edev = extcon_find_edev_by_node(muic);
-	of_node_put(muic);
-	if (IS_ERR(edev)) {
-		return dev_err_probe(ctx->dev, PTR_ERR(edev),
-				     "Invalid or missing extcon\n");
-	}
-
-and
-
-	edev = extcon_find_edev_by_node(muic);
-	of_node_put(muic);
-	if (IS_ERR(edev)) {
-		if (PTR_ERR(edev) == -EPROBE_DEFER)
-			return -EPROBE_DEFER;
-		dev_err(ctx->dev, "Invalid or missing extcon\n");
-		return PTR_ERR(edev);
-	}
-
-I am not sure what to do to fix the issue, as far as I can see probe
-logic and extcon handling is the same as in sil-sii8620 and ite-it6505
-(i.e. the other bridges that use extcon). Will investigate further.
-
-Best regards,
-Henrik Grimler
-
-> > +
-> > +	ctx->extcon = edev;
-> > +	ctx->extcon_nb.notifier_call = sii9234_extcon_notifier;
-> > +	INIT_WORK(&ctx->extcon_wq, sii9234_extcon_work);
-> > +	ret = extcon_register_notifier(edev, EXTCON_DISP_MHL, &ctx->extcon_nb);
-> > +	if (ret) {
-> > +		dev_err(ctx->dev, "failed to register notifier for MHL\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	return 0;
+> > +	chain =3D container_of(cb, typeof(*chain), cb);
+> > +	init_irq_work(&chain->work, signal_irq_work);
+> > +	irq_work_queue(&chain->work);
 > > +}
 > > +
-> >   static enum drm_mode_status sii9234_mode_valid(struct drm_bridge *bridge,
-> >   					 const struct drm_display_info *info,
-> >   					 const struct drm_display_mode *mode)
-> > @@ -916,12 +986,17 @@ static int sii9234_probe(struct i2c_client *client)
-> >   	if (ret < 0)
-> >   		return ret;
-> >   
-> > +	ret = sii9234_extcon_init(ctx);
-> > +	if (ret < 0)
-> > +		return ret;
+> > +static void rearm_irq_work(struct irq_work *work)
+> > +{
+> > +	struct dma_fence_chain *chain;
+> > +	struct dma_fence *prev;
 > > +
-> >   	i2c_set_clientdata(client, ctx);
-> >   
-> >   	ctx->bridge.of_node = dev->of_node;
-> >   	drm_bridge_add(&ctx->bridge);
-> >   
-> > -	sii9234_cable_in(ctx);
-> > +	if (!ctx->extcon)
-> > +		sii9234_cable_in(ctx);
-> >   
-> >   	return 0;
-> >   }
-> > @@ -930,7 +1005,15 @@ static void sii9234_remove(struct i2c_client *client)
-> >   {
-> >   	struct sii9234 *ctx = i2c_get_clientdata(client);
-> >   
-> > -	sii9234_cable_out(ctx);
-> > +	if (ctx->extcon) {
-> > +		extcon_unregister_notifier(ctx->extcon, EXTCON_DISP_MHL,
-> > +					   &ctx->extcon_nb);
-> > +		flush_work(&ctx->extcon_wq);
-> > +		if (ctx->cable_state > 0)
-> > +			sii9234_cable_out(ctx);
-> > +	} else {
-> > +		sii9234_cable_out(ctx);
+> > +	chain =3D container_of(work, typeof(*chain), work);
+> > +
+> > +	rcu_read_lock();
+> > +	prev =3D rcu_dereference(chain->prev);
+> > +	if (prev && dma_fence_add_callback(prev, &chain->cb, signal_cb))
+> > +		prev =3D NULL;
+> > +	rcu_read_unlock();
+> > +	if (prev)
+> > +		return;
+> > +
+> > +	/* Ok, we are done. No more unsignaled fences left */
+> > +	signal_irq_work(work);
+> > +}
+> > +
+> > +static inline bool fence_is_signaled__nested(struct dma_fence *fence)
+> > +{
+> > +	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> > +		return true;
+> > +
+> > +	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> > +		unsigned long flags;
+> > +
+> > +		spin_lock_irqsave_nested(fence->lock, flags, SINGLE_DEPTH_NESTING);
+> > +		dma_fence_signal_locked(fence);
+> > +		spin_unlock_irqrestore(fence->lock, flags);
+> > +
+> > +		return true;
 > > +	}
-> >   	drm_bridge_remove(&ctx->bridge);
-> >   }
-> >   
-> >
-> Best regards
-> -- 
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
-> 
+> > +
+> > +	return false;
+> > +}
+> > +
+> > +static bool prev_is_signaled(struct dma_fence_chain *chain)
+> > +{
+> > +	struct dma_fence *prev;
+> > +	bool result;
+> > +
+> > +	rcu_read_lock();
+> > +	prev =3D rcu_dereference(chain->prev);
+> > +	result =3D !prev || fence_is_signaled__nested(prev);
+> > +	rcu_read_unlock();
+> > +
+> > +	return result;
+> > +}
+> > +
+> > +static void rearm_or_signal_cb(struct dma_fence *f, struct dma_fence_c=
+b *cb)
+> >  {
+> >  	struct dma_fence_chain *chain;
+> > =20
+> >  	chain =3D container_of(cb, typeof(*chain), cb);
+> > -	init_irq_work(&chain->work, dma_fence_chain_irq_work);
+> > +	if (prev_is_signaled(chain)) {
+> > +		/* Ok, we are done. No more unsignaled fences left */
+> > +		init_irq_work(&chain->work, signal_irq_work);
+> > +	} else {
+> > +		/* Try to rearm the callback */
+> > +		init_irq_work(&chain->work, rearm_irq_work);
+> > +	}
+> > +
+> >  	irq_work_queue(&chain->work);
+> > -	dma_fence_put(f);
+> >  }
+> > =20
+> >  static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+> >  {
+> >  	struct dma_fence_chain *head =3D to_dma_fence_chain(fence);
+> > +	int err =3D -ENOENT;
+> > =20
+> > -	dma_fence_get(&head->base);
+> > -	dma_fence_chain_for_each(fence, &head->base) {
+> > -		struct dma_fence *f =3D dma_fence_chain_contained(fence);
+> > +	if (WARN_ON(!head))
+> > +		return false;
+> > =20
+> > -		dma_fence_get(f);
+> > -		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
+> > +	dma_fence_get(fence);
+> > +	if (head->fence)
+> > +		err =3D dma_fence_add_callback(head->fence, &head->cb, rearm_or_sign=
+al_cb);
+> > +	if (err) {
+> > +		if (prev_is_signaled(head)) {
+> >  			dma_fence_put(fence);
+> > -			return true;
+> > +		} else {
+> > +			init_irq_work(&head->work, rearm_irq_work);
+> > +			irq_work_queue(&head->work);
+> > +			err =3D 0;
+> >  		}
+> > -		dma_fence_put(f);
+> >  	}
+> > -	dma_fence_put(&head->base);
+> > -	return false;
+> > +
+> > +	return !err;
+> >  }
+> > =20
+> >  static bool dma_fence_chain_signaled(struct dma_fence *fence)
+>=20
+>=20
+
+
+
+
