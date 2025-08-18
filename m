@@ -2,86 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440FAB2ADC0
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 18:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AAEB2ADF3
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 18:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92CAE10E49C;
-	Mon, 18 Aug 2025 16:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6139C10E06A;
+	Mon, 18 Aug 2025 16:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="AilMNkNq";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jir7ZIrP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C4F310E49C
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 16:07:30 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id
- 5614622812f47-435de764e08so2724842b6e.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 09:07:30 -0700 (PDT)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBAB110E06A
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 16:19:53 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id
+ ffacd0b85a97d-3bb2fb3a436so2364810f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 09:19:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1755533249; x=1756138049; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=D6ek7I0iyYbZpN/v0UC5zzd0o0Ftoqgt1vFlNzowpm0=;
- b=AilMNkNq0aPn34oJfcEmiPA8Xao3JUirV/Xr6W3ZYemNL4hVojiWPYAw06sYiE2J09
- kMxgqzbSGFgLRHb2nNvbqbjqQ6rsyE+pEcYIFGFneGTP0SiJgnRROYh31wtPy78Wg/Lw
- alyC55S68f5Dm953s4WzIG7EZ4Lz7eR/uMVvOJr/1Du9v+G9nSZjWSCmwekC1XRTr0XL
- 24f+aRqEK3LPelijGMh40Jv4k/JfhoKlEQ+JzGONbct/siAr9wMuFZXW6e+OsMsGN5zl
- ya8c7I4Sl1wR6GXreEzVMEF3xqg4QMU0SItuqWCyAxvgvJJGervyjQkQ3i/f6Ebxqey8
- Z7OA==
+ d=linaro.org; s=google; t=1755533992; x=1756138792; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=5fL7TtM/2t3RFsvN7yE5RFNF0N3gevEnIHjTT5UTl+w=;
+ b=jir7ZIrP62Ezhj/ZG+xjwCrw2xMUg3IPDy0px+xn03umyA1VbZYiLZNkS3kswFylpM
+ 6WT2pKVO5dudqiDtTaKe73me4k9gJUeyhtDaBJM0pgJIdB8/V69tZ8mc5nXCkwcgsSVF
+ fO5nn+EEVK75tS+2x3+b/c1EPgHPbsiwdZk6BNfl4PhGUlq7psQAEUWWByEyYK0jlIus
+ kzsyH3kkIE2h3cA8yBX1FdkHjtNtqXUhUNTqR5uacRbF+PUBr9nzKVQWJkMCKJzV1i+9
+ uJOcusZW3vYuTHOBpeTm4l1AIwQZGxTCuaY87hOTcphQ/FfPhc8qq7nAIjlCLsjAwhiF
+ G8uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755533249; x=1756138049;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=D6ek7I0iyYbZpN/v0UC5zzd0o0Ftoqgt1vFlNzowpm0=;
- b=QQOkXWIXC8q+6/b5YGN3q3llvQIFydFHM18cISN9c+G08C79mjJpqD4Nn+epEs2/LU
- rxWt8BaEwK5V7Xpj8UaaCI3svJZRSAtf4fz9SuVV7Vn27m2wt6WucZhgeutgnPMN/875
- GoHPJj15K7yvORLTpYlvK4I3U0RWRnGFSKL55tC6h8NRi+ZqFUk9Ft0w40XTkMv4OX6L
- T+J7LzWsOjVOs0qvo2vypL4aPvHyyzVzCHqnQWVv3MoKJuZAkqaDiQPW4MirBZF8ou8x
- mJnqiKY8ml6cJtcSbyhq9qK1FVFpttaM1ilF8rd+rz4KSi92XVWoW3FrIO7HUjmHpB3m
- rb8w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPxWHJdQafAZlYk6S6Nq5o5OFb427dLdi8RkQBLfFn+FuHQEYA9rNYxWTSIGiRVTOdEdSgTHIvSo0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWYUsZ2l45TcTcJ0vkcQ68A0UEMD0La8ImnXbNEbfQQ5MIxtO4
- lUqGb1LpSgUholroMIwTPmSQCu9P1FNXJO5DSkTabMrfsVOqBJzZyRBLYfSirz+GX+s=
-X-Gm-Gg: ASbGncvUOoOxa62/llHt1jUy7i6sbdBiWW8zVuhEdinsmFGEoa5hDJX+vJPfCi788U2
- YDa9AZ437s2aogtgszQWkALPGLSBfig60CHWkrfNrvW7LswsM+u42I10H7OUEppsGcUVjPSv3Tt
- p5Zg7v4qmHIWup0KOOr9mafiX66TUbhtyPDPl3omMdFFg4DAN1CiA8V6pZvTP1z3TU/YBypeOoK
- TP8KqtE1keUXhiWN3jicHXSlrkESsEuL52cujhr7U46p962SihAIGzNuEpYwA/Mneoog9B5zAdp
- iuApdfPFb9Ifg7tj/ZpVTuaSzGGx5gMj4PkW/cIU4zmril8ZCltPgiairneIne01QT2u+Njj
-X-Google-Smtp-Source: AGHT+IHkRfCegHArKlwGfaPyx0kzz53A2FyhdpjpMnPcsXRnYC7i/30cf6RRe0zz3Qa6ICjSFo5brQ==
-X-Received: by 2002:a05:6808:3a07:b0:435:8506:2263 with SMTP id
- 5614622812f47-435ec487ee3mr6478173b6e.24.1755533249123; 
- Mon, 18 Aug 2025 09:07:29 -0700 (PDT)
-Received: from ziepe.ca ([130.41.10.202]) by smtp.gmail.com with ESMTPSA id
- 5614622812f47-435ed1b10bfsm1783361b6e.18.2025.08.18.09.07.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Aug 2025 09:07:27 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1uo2OM-00000004Orw-2igd;
- Mon, 18 Aug 2025 13:07:26 -0300
-Date: Mon, 18 Aug 2025 13:07:26 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: intel-xe@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Matthew Brost <matthew.brost@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [RFC PATCH 1/6] mm/mmu_notifier: Allow multiple struct
- mmu_interval_notifier passes
-Message-ID: <20250818160726.GH599331@ziepe.ca>
-References: <20250809135137.259427-1-thomas.hellstrom@linux.intel.com>
- <20250809135137.259427-2-thomas.hellstrom@linux.intel.com>
+ d=1e100.net; s=20230601; t=1755533992; x=1756138792;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=5fL7TtM/2t3RFsvN7yE5RFNF0N3gevEnIHjTT5UTl+w=;
+ b=FFzVFX7wJXfwyjeqI5Ond8Xr6N736a6gCFsd0bnOBSu/Jl9tWIliqrbCroIyr7FXAc
+ +MuD2qL/TkF5zRSNxPbjzmmJW8xaVipXvyqj/mNv8b3jnB53LAaI13rB9MavjTI2mRr1
+ 8MrMkCmGhN3k5RGfRGZzrdUWYMnPlxqHvYThtc7CkXSXVise3IhXn8pnvxj12VkRPah+
+ 4fjIA+Awl2+UvoGVPioSbRYR1x90cnkcaOx1Abdfh5v3Eicurcj+J2Y4Dj/Sr5R3bobp
+ 6tZLKB9slqs+ycT1Q502MiZLDIgQg7A7a54/DVsPdIwrpuB4Rx86SpX4cKxXvxgZLGRX
+ p4DA==
+X-Gm-Message-State: AOJu0Yx48d/UOvAFlVH7xiRB3PR+//0dNPSjK9Gk/CP3QdvEGex2fwM/
+ wyxy8W+M1EQZvIggzBOHfTJUp+jK39v5P7/1uEqajqAg50izEFJS8zbh5SG3YO65P0o=
+X-Gm-Gg: ASbGncvd/Ny4dwscTgQB3LDxieJgjpw6BmNdhkXMee1DoCR7z63WGw9Dm9XtBsY5ooc
+ HDPGwVH8zKWYRPtnDjw+wYSOk72wcj0Iyh5FM3JjNahu3lfCdnLmDgmEfd8yK1V7XDhNq6G42ZF
+ oGSQjoO6KztM8ChBYgxXBLDFSTPFY6DMNX9f+Z9tSIsfaiiictcVKROX6zC637xDggulmcOQ+SR
+ zPz6NSfbeYCXpybxzR4tS2xYOlP4zu7yKDPhM31WncoVINWSPyA6oB56qeR1qX93C9oRW48dDcd
+ nwdM8/izBMO7P9vaSW8UPWwP+YxifOlchSjSVZC43+fiit6YzymC570gw9uFEHzHwFrVp1zgez/
+ OTEsMpDAVpbTvZ7kA97adeho8oRGz5v4AhhzSvko2ATLM5Lp6zp+WLyPvqYUQBrsqVqZoQBUs
+X-Google-Smtp-Source: AGHT+IE9opMCmGbnh8RDdRVUqADAi8F3vNaDa7AHOcnXCx2CQ4cjiKE06vSx53oJwErFtRNfKVc+sQ==
+X-Received: by 2002:a5d:5d09:0:b0:3b7:899c:e867 with SMTP id
+ ffacd0b85a97d-3bc6a83c6a5mr7373472f8f.59.1755533992290; 
+ Mon, 18 Aug 2025 09:19:52 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:70d:8646:e014:cc6e?
+ ([2a01:e0a:3d9:2080:70d:8646:e014:cc6e])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3c077c57d32sm78852f8f.64.2025.08.18.09.19.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Aug 2025 09:19:51 -0700 (PDT)
+Message-ID: <0627bc95-7fbf-482e-855e-171b6014f6d9@linaro.org>
+Date: Mon, 18 Aug 2025 18:19:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250809135137.259427-2-thomas.hellstrom@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] drm/panel: panel-samsung-s6e88a0-ams427ap24: Fix includes
+To: Thomas Zimmermann <tzimmermann@suse.de>, jessica.zhang@oss.qualcomm.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20250812082509.227879-1-tzimmermann@suse.de>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250812082509.227879-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,85 +112,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 09, 2025 at 03:51:32PM +0200, Thomas Hellström wrote:
-> GPU use-cases for mmu_interval_notifiers with hmm often involve
-> starting a gpu operation and then waiting for it to complete.
-> These operations are typically context preemption or TLB flushing.
+On 12/08/2025 10:25, Thomas Zimmermann wrote:
+> Include <linux/property.h> to declare device_property_read_bool() and
+> <linux/mod_devicetable.h> to declare struct of_device_id. Avoids the
+> dependency on the backlight header to include both.
 > 
-> With single-pass notifiers per GPU this doesn't scale in
-> multi-gpu scenarios. In those scenarios we'd want to first start
-> preemption- or TLB flushing on all GPUs and as a second pass wait
-> for them to complete on all gpus.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
+> index e91f50662997..7e2f4e043d62 100644
+> --- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
+> @@ -7,7 +7,9 @@
+>   #include <linux/backlight.h>
+>   #include <linux/delay.h>
+>   #include <linux/gpio/consumer.h>
+> +#include <linux/mod_devicetable.h>
+>   #include <linux/module.h>
+> +#include <linux/property.h>
+>   #include <linux/regulator/consumer.h>
+>   
+>   #include <video/mipi_display.h>
 
-The idea seems reasonable but I'm not sure I like the naming of
-'multipass' or necessarily the complexity.
-
-This is sort of a co-operative multithreading thing.
-
-Do you really need a linked list here? At least justify the design
-choices in the commit message..
-
-> +struct mmu_interval_notifier_pass {
-> +	struct list_head link;
-> +	/**
-> +	 * @pass: Driver callback for additionall pass.
-> +	 * @additional_pass: Pointer to the mmu_interval_notifier_pass structure.
-> +	 * @range: The mmu_notifier_range.
-> +	 * @cur_seq: The current sequence set by the first pass.
-> +	 *
-> +	 * Return: Either a pointer to a valid mmu_interval_notifier_pass for
-> +	 * another pass to be called, or %NULL if processing is complete for this
-> +	 * notifier. There is no error reporting mechanism for additional passes.
-> +	 */
-> +	struct mmu_interval_notifier_pass *
-> +	(*pass) (struct mmu_interval_notifier_pass *additional_pass,
-> +		 const struct mmu_notifier_range *range,
-> +		 unsigned long cur_seq);
-> +};
-> +
->  /**
->   * struct mmu_interval_notifier_ops
->   * @invalidate: Upon return the caller must stop using any SPTEs within this
-> @@ -243,6 +269,10 @@ struct mmu_interval_notifier_ops {
->  	bool (*invalidate)(struct mmu_interval_notifier *interval_sub,
->  			   const struct mmu_notifier_range *range,
->  			   unsigned long cur_seq);
-> +	bool (*invalidate_multipass)(struct mmu_interval_notifier *interval_sub,
-> +				     const struct mmu_notifier_range *range,
-> +				     unsigned long cur_seq,
-> +				     struct mmu_interval_notifier_pass **pass);
-
-Couldn't this just have a pass number counter and some return code to
-indicate this notifier is done?
-
-Or do you really need more than 2 passes? Start/finish make sense
-too. Otherwise you may have issues overlapping the backgroundable
-operations between different driver types?
-
-> +static void mn_itree_additional_passes(struct list_head *additional_passes,
-> +				       const struct mmu_notifier_range *range,
-> +				       unsigned long cur_seq)
-> +{
-> +	struct mmu_interval_notifier_pass *p, *next;
-> +
-> +	while (!list_empty(additional_passes)) {
-> +		list_for_each_entry_safe(p, next, additional_passes, link) {
-> +			list_del_init(&p->link);
-> +			p = p->pass(p, range, cur_seq);
-> +			if (p)
-> +				list_add_tail(&p->link, additional_passes);
-> +		}
-> +	}
-
-Like this is very naive, if one driver has only 'prepare' and 'wait
-for device ack' passes, then it will immediately stop being concurrent
-while another device may be still working on its 3rd pass.
-
-So either this should be more complicated to properly support
-different numbers of passes per registration or we should just support
-two passes and be done with it?
-
-Jason
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
