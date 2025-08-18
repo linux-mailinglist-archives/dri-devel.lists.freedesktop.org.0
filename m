@@ -2,85 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A637DB2A0BE
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 13:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDFCB2A123
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 14:10:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDB0E10E437;
-	Mon, 18 Aug 2025 11:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC36710E1E1;
+	Mon, 18 Aug 2025 12:10:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="mYcAS7aH";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CRbbCsbo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEFA610E431
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 11:50:25 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-76e2e8aff06so3122937b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 04:50:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1755517825; x=1756122625;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zb1sCPo77mcuKw2zTHcH238POIGc59QSz6qQTiNa2Mw=;
- b=mYcAS7aH6yCFh4yDYGjc3PWXFHOGIx/XQQAphLt1uRXsOlKuEu7RK2mrGcgGttjpZH
- dGi2CjOL63qxbaItBX+Pehr0hC1rym/DrRhW63dqDZpKWUPB/id1sKancz+WVnNGn+RO
- u4FXd9Mv+i7tqoKtvERwdiX85dVcspTZ8kkww=
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03A4210E431
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 12:10:49 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57I8LTRX022741
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 12:10:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ hkCumoRo2vdkK1vJUdNAG8+5dWwDOOe6LmYrb1+L328=; b=CRbbCsboCmEeSV5G
+ He/9QKkQkSmpqBbjylTHOsOuzhgOf2ZhdMWXnzJfyK0gPTKGdEiKKsTzy0fg7u19
+ EByc/RZlQ4mD+wRAmk7W90I5z3hSLiS/Pi0/aB54nJLnE0jtuzkfP54FVMJQKB0L
+ cU7oU/ydbX9pbuGUsGNDh9ExK4dqWRDWUTanvWQLQHKzDU297sSq/kyGCldhQBda
+ UwOSozM4LuL+lz6hT55a5NYtIwLq9wGCYv5z3XaEUDeqIaGBCt64A1NclTy4zx/U
+ a+QHWW069SO57XSNorziTvrd9Lx3aY/TcT/hB4CsV+fl3aPJji/sZXS/coxL0K1r
+ P8bdQA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jgxtcrs5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 12:10:49 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id
+ d9443c01a7336-2445812598bso111251875ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 05:10:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755517825; x=1756122625;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zb1sCPo77mcuKw2zTHcH238POIGc59QSz6qQTiNa2Mw=;
- b=vfNCLaIGBccK5UjsrJ6SX4VORnnxa7EfcKYFFPdFg/PPbRxfy+/xQg+MspRNXNkQCw
- GgdTJ/uICh+mnuinjuvrsuzrY44qjRSDpHV9vNRN+a0UK2GHHt6h+u5T+W4DtOdH3UlR
- 4OYoYkQZhlWlDwxfxDzmo6eAdfXIu6TWXS9IiBB+k2zvUJKqcrGfNjakBbtDPmQHc7U4
- RGN+abgq8XM0hXLOYJPXbmX9W5Hb2Z3jgt8QB21ZQty/ClIbp9UjLjSBwk9OoO+vCxc/
- Ah5xVgoxl2f3CiMywoxsZVG6KE+w5qdKqSwx6uToNmOCipujtH89h15Bz1hatgk5302o
- SfwA==
+ d=1e100.net; s=20230601; t=1755519048; x=1756123848;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hkCumoRo2vdkK1vJUdNAG8+5dWwDOOe6LmYrb1+L328=;
+ b=ic6tvd0BZGD+fGRBYkzw+NkZswkV6w2Se9FlWdDkR4Xid7p/umOsXCrv26yqMd4S1s
+ sDtM3ZXpa7nV+avmGlSCciaPJDg6AuFU4CMItcYDK1bCVZqcQO1BaZ85acUNIYNrdzr+
+ vIuNCrUZiUwK4WSZaJzBE7BSsRh/hQyzudEY0UAbesJu5dNCOpl/NRQ7i+NYbOwOMuwT
+ vB/wlV+6sMshv7ac70Z4c7FW0+1PLfQh1p1NGiNBBNodsKOc34mJxTpU3t8mkHU0AeDI
+ cb1uynOd3SKlbAtuOP9NdjQllUCbWutBzRY9IgOWLZQvgKA4N/YSLfd5l47iaJA6ruS8
+ a8aw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3v3bLW+VFnJeDLcxhYq9cFw7fSr4Mi5isKHHKN/Ocv7ghjDtPHDBBhi/xYKY0nOqVlZJFyelLPVM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIcj8erRwa8sC3PE4goGNQ7eApFFCY5AgfJPrEMzcHlMU/WJYl
- 6URFecQXYBYY0xflkCYKsT2E4D6FWONv+Tx1mja6dV3ob8CiZNYZvBB3UsrPtD2Xvw==
-X-Gm-Gg: ASbGncukCUi+Dqpth16GGianreETVJzRNVHFRRf+0rRi0o+PSSf5zIKz5YdOjunBtpd
- Gqs859O1cTKRcjTJ9Njnu48vzzTVK3XRp1sNlgDmvhYU5/0RAdT6X6lZlSh197m0Y6TGgwe2gr4
- KATGR91uF0aMZc4x8rPC96DsuVffE/5/ZSVrgz5ZGlsnQP8uThkpu+tOf946dfgO7M8GrhiVrb5
- JLL5qLK3QZUf85xfBPh4bn0npJUtDOl19N9L04o2PxxC0aOxQmB0NZ76e+VXrgvZW0ZT9WOaPRx
- myxiHdpW4XLrzvOI8DvMCJ5v8M5GJcRuOddMkwhSYARWdPYDCklUntaLTGZrMycfen4+nw4zGYj
- rUN+/AiVHkm/ov/sf9hPNKa1+weuGR4C7fE9L9pyawRsqZ8ubva1amDu1
-X-Google-Smtp-Source: AGHT+IEnZmo97hTPFZMCorIymSRvtFy/EQxRfq2GVJu7TQxCxXPZYFAQNMo9Bj8lA2NgaOC3Q4hnKw==
-X-Received: by 2002:a17:902:d2c9:b0:242:461b:7d4 with SMTP id
- d9443c01a7336-2446d71ed3amr173689245ad.15.1755517825070; 
- Mon, 18 Aug 2025 04:50:25 -0700 (PDT)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:5130:767b:3a09:59d6])
+ AJvYcCX6x7TbKFfogUCB0g9iQ2aEV0Qh/amXnaI854zJ4n50R9XgrKu5goAAGTkZuJw2J+J93pd5O1yX5PI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9SFb/XfheWEjHn9Z+ctn0Pjp4XQ0n4pjUiZgr7+iuiUC5Bql4
+ hRjAnM80/MUJHqKbdf50MOaErce1cvi4kU37eCphxkKU2wjxUfxgjqo4cVGdqyEZvcz1YyRS5hJ
+ f5mR35Qt6vFzG8QB7FkMGvrkj0Cr93hB3DKVpXWeFcH8q7R88IBmecZ07/MpIRS/ZChBMveaeAq
+ npL4M=
+X-Gm-Gg: ASbGncsm6eqDzjuO6R8Y44/OwknZs57CcriwkMku8u1Dxu7dAA2Hbj/+FUbKxRkDZfA
+ 5IVjh7KQPv+klUXZA/5IBholUT+5ViuNmJSodilSURlxdRe8IZQSmSaIHpKv1opahiihx3MVxtv
+ QS9l7Wlo+IWGdcaBMRb1Wp8oO1I97VSWAP8RBRrTgQt+jzAY3V9q5aQ7yrR8QqgiHfaWbY/RmUh
+ qvxkBcahsIJaQ6o9XLEVy7Mmo9+5FAo9GhaeykSCWdeenWTZkBwavnzinJ5rH6wyfcVkHfBzK01
+ KHnxs+FlunPD7VMwrLVdx4s03OszhPYuY9ebEy5onrIHPOH/n0dqin6ZSE26lLEv
+X-Received: by 2002:a17:902:d4c6:b0:244:5cde:d384 with SMTP id
+ d9443c01a7336-2446d85f7demr181641555ad.31.1755519048386; 
+ Mon, 18 Aug 2025 05:10:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFZONzJWFtT1XNEyRK6xcm4gebbokS24vhl3Ky3z4naJfpk4imCqD/UHpgAJi8OHvE0+TLUjg==
+X-Received: by 2002:a17:902:d4c6:b0:244:5cde:d384 with SMTP id
+ d9443c01a7336-2446d85f7demr181641135ad.31.1755519047954; 
+ Mon, 18 Aug 2025 05:10:47 -0700 (PDT)
+Received: from [192.168.1.4] ([106.222.229.157])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2446ca9ee03sm78997715ad.15.2025.08.18.04.50.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Aug 2025 04:50:24 -0700 (PDT)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- linux-input@vger.kernel.org, Chen-Yu Tsai <wenst@chromium.org>,
- dri-devel@lists.freedesktop.org, Pin-yen Lin <treapking@chromium.org>
-Subject: [PATCH v3 2/2] HID: Make elan touch controllers power on after panel
- is enabled
-Date: Mon, 18 Aug 2025 19:49:34 +0800
-Message-ID: <20250818115015.2909525-2-treapking@chromium.org>
-X-Mailer: git-send-email 2.51.0.rc1.163.g2494970778-goog
-In-Reply-To: <20250818115015.2909525-1-treapking@chromium.org>
-References: <20250818115015.2909525-1-treapking@chromium.org>
+ d9443c01a7336-2446c2f441asm79279165ad.0.2025.08.18.05.10.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Aug 2025 05:10:47 -0700 (PDT)
+Message-ID: <272d2a39-19ce-4ac5-b3c6-3e3d6d9985c5@oss.qualcomm.com>
+Date: Mon, 18 Aug 2025 17:40:42 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm: skip re-emitting IBs for unusable VMs
+To: Antonino Maniscalco <antomani103@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250813-unusable_fix_b4-v1-1-3218d166b8a8@gmail.com>
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20250813-unusable_fix_b4-v1-1-3218d166b8a8@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 4jLJZoV4rE7RUGmuAknuf57IgACVudeW
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAyMCBTYWx0ZWRfXzGEh0m8qQfCr
+ djVD0nmr1geXv0BDuVbRyK/ZsY7HdLinsN7O/qcbLvcgQ6a4DpeCcmByj8PuandNF28i28Do4ia
+ FjT4v4aLbBrBHrRmprxORJFZk/vvtcDpQ6DcUXXTxtoFVbAVqadGqi5si5g1w500xO/jMbfmxOC
+ TkKwTdZArkvDKEnsAUDqo6TcUObwUWPHXh8X1yXlgh8KANg8PVkocHowkbsvTE63kQCqANWqMjz
+ XpKmun5b38/4TkvN3omDC4d7bDh7GSnMc/AOqKsxyaW2TEccVyXWfRvZuSka7DjgY9l01KT3VXV
+ HpYKSRtufc6jRayPzIKJVD+5eNoSicYLfNyyfPYp4FcMIdTEATXfBUfFhCrCs1SCFe0BWi772HC
+ cvM3J1Km
+X-Proofpoint-GUID: 4jLJZoV4rE7RUGmuAknuf57IgACVudeW
+X-Authority-Analysis: v=2.4 cv=V7B90fni c=1 sm=1 tr=0 ts=68a31849 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=9Q8gPALlkHEzzDxkdHlyxw==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=pGLkceISAAAA:8 a=b798ue3nI8IKDaXQGNYA:9
+ a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 malwarescore=0 adultscore=0 clxscore=1015
+ suspectscore=0 impostorscore=0 bulkscore=0 spamscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508160020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,235 +129,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a new HID quirk to indicate that this device has to be enabled
-after the panel's backlight is enabled, and update the driver data for
-the elan devices to enable this quirk. This cannot be a I2C HID quirk
-because the kernel needs to acknowledge this before powering up the
-device and read the VID/PID. When this quirk is enabled, register
-.panel_enabled()/.panel_disabling() instead for the panel follower.
+On 8/13/2025 6:34 PM, Antonino Maniscalco wrote:
+> When a VM is marked as an usuable we disallow new submissions from it,
+> however submissions that where already scheduled on the ring would still
+> be re-sent.
+> 
+> Since this can lead to further hangs, avoid emitting the actual IBs.
+> 
+> Fixes: 6a4d287a1ae6 ("drm/msm: Mark VM as unusable on GPU hangs")
+> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/msm_gpu.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> index c317b25a8162edba0d594f61427eac4440871b73..e6cd85c810bd2314c8bba53644a622464713b7f2 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> @@ -553,8 +553,15 @@ static void recover_worker(struct kthread_work *work)
+>  			unsigned long flags;
+>  
+>  			spin_lock_irqsave(&ring->submit_lock, flags);
+> -			list_for_each_entry(submit, &ring->submits, node)
+> +			list_for_each_entry(submit, &ring->submits, node) {
+> +				/*
+> +				 * If the submit uses an unusable vm make sure
+> +				 * we don't actually run it
+> +				 */
+> +				if (to_msm_vm(submit->vm)->unusable)
+> +					submit->nr_cmds = 0;
 
-Also rename the *panel_prepare* functions into *panel_follower* because
-they could be called in other situations now.
+Just curious, why not just retire this submit here?
 
-Fixes: bd3cba00dcc63 ("HID: i2c-hid: elan: Add support for Elan eKTH6915 i2c-hid touchscreens")
-Fixes: d06651bebf99e ("HID: i2c-hid: elan: Add elan-ekth6a12nay timing")
+-Akhil
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-
----
-
-Changes in v3:
-- Collect review tag
-- Add fixes tags
-
-Changes in v2:
-- Rename *panel_prepare* functions to *panel_follower*
-- Replace after_panel_enabled flag with enabled/disabling callbacks
-
- drivers/hid/i2c-hid/i2c-hid-core.c    | 46 ++++++++++++++++-----------
- drivers/hid/i2c-hid/i2c-hid-of-elan.c | 11 ++++++-
- include/linux/hid.h                   |  2 ++
- 3 files changed, 40 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index d3912e3f2f13a..99ce6386176c6 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -112,9 +112,9 @@ struct i2c_hid {
- 
- 	struct i2chid_ops	*ops;
- 	struct drm_panel_follower panel_follower;
--	struct work_struct	panel_follower_prepare_work;
-+	struct work_struct	panel_follower_work;
- 	bool			is_panel_follower;
--	bool			prepare_work_finished;
-+	bool			panel_follower_work_finished;
- };
- 
- static const struct i2c_hid_quirks {
-@@ -1110,10 +1110,10 @@ static int i2c_hid_core_probe_panel_follower(struct i2c_hid *ihid)
- 	return ret;
- }
- 
--static void ihid_core_panel_prepare_work(struct work_struct *work)
-+static void ihid_core_panel_follower_work(struct work_struct *work)
- {
- 	struct i2c_hid *ihid = container_of(work, struct i2c_hid,
--					    panel_follower_prepare_work);
-+					    panel_follower_work);
- 	struct hid_device *hid = ihid->hid;
- 	int ret;
- 
-@@ -1130,7 +1130,7 @@ static void ihid_core_panel_prepare_work(struct work_struct *work)
- 	if (ret)
- 		dev_warn(&ihid->client->dev, "Power on failed: %d\n", ret);
- 	else
--		WRITE_ONCE(ihid->prepare_work_finished, true);
-+		WRITE_ONCE(ihid->panel_follower_work_finished, true);
- 
- 	/*
- 	 * The work APIs provide a number of memory ordering guarantees
-@@ -1139,12 +1139,12 @@ static void ihid_core_panel_prepare_work(struct work_struct *work)
- 	 * guarantee that a write that happened in the work is visible after
- 	 * cancel_work_sync(). We'll add a write memory barrier here to match
- 	 * with i2c_hid_core_panel_unpreparing() to ensure that our write to
--	 * prepare_work_finished is visible there.
-+	 * panel_follower_work_finished is visible there.
- 	 */
- 	smp_wmb();
- }
- 
--static int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
-+static int i2c_hid_core_panel_follower_resume(struct drm_panel_follower *follower)
- {
- 	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
- 
-@@ -1152,29 +1152,36 @@ static int i2c_hid_core_panel_prepared(struct drm_panel_follower *follower)
- 	 * Powering on a touchscreen can be a slow process. Queue the work to
- 	 * the system workqueue so we don't block the panel's power up.
- 	 */
--	WRITE_ONCE(ihid->prepare_work_finished, false);
--	schedule_work(&ihid->panel_follower_prepare_work);
-+	WRITE_ONCE(ihid->panel_follower_work_finished, false);
-+	schedule_work(&ihid->panel_follower_work);
- 
- 	return 0;
- }
- 
--static int i2c_hid_core_panel_unpreparing(struct drm_panel_follower *follower)
-+static int i2c_hid_core_panel_follower_suspend(struct drm_panel_follower *follower)
- {
- 	struct i2c_hid *ihid = container_of(follower, struct i2c_hid, panel_follower);
- 
--	cancel_work_sync(&ihid->panel_follower_prepare_work);
-+	cancel_work_sync(&ihid->panel_follower_work);
- 
--	/* Match with ihid_core_panel_prepare_work() */
-+	/* Match with ihid_core_panel_follower_work() */
- 	smp_rmb();
--	if (!READ_ONCE(ihid->prepare_work_finished))
-+	if (!READ_ONCE(ihid->panel_follower_work_finished))
- 		return 0;
- 
- 	return i2c_hid_core_suspend(ihid, true);
- }
- 
--static const struct drm_panel_follower_funcs i2c_hid_core_panel_follower_funcs = {
--	.panel_prepared = i2c_hid_core_panel_prepared,
--	.panel_unpreparing = i2c_hid_core_panel_unpreparing,
-+static const struct drm_panel_follower_funcs
-+				i2c_hid_core_panel_follower_prepare_funcs = {
-+	.panel_prepared = i2c_hid_core_panel_follower_resume,
-+	.panel_unpreparing = i2c_hid_core_panel_follower_suspend,
-+};
-+
-+static const struct drm_panel_follower_funcs
-+				i2c_hid_core_panel_follower_enable_funcs = {
-+	.panel_enabled = i2c_hid_core_panel_follower_resume,
-+	.panel_disabling = i2c_hid_core_panel_follower_suspend,
- };
- 
- static int i2c_hid_core_register_panel_follower(struct i2c_hid *ihid)
-@@ -1182,7 +1189,10 @@ static int i2c_hid_core_register_panel_follower(struct i2c_hid *ihid)
- 	struct device *dev = &ihid->client->dev;
- 	int ret;
- 
--	ihid->panel_follower.funcs = &i2c_hid_core_panel_follower_funcs;
-+	if (ihid->hid->initial_quirks | HID_QUIRK_POWER_ON_AFTER_BACKLIGHT)
-+		ihid->panel_follower.funcs = &i2c_hid_core_panel_follower_enable_funcs;
-+	else
-+		ihid->panel_follower.funcs = &i2c_hid_core_panel_follower_prepare_funcs;
- 
- 	/*
- 	 * If we're not in control of our own power up/power down then we can't
-@@ -1237,7 +1247,7 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
- 	init_waitqueue_head(&ihid->wait);
- 	mutex_init(&ihid->cmd_lock);
- 	mutex_init(&ihid->reset_lock);
--	INIT_WORK(&ihid->panel_follower_prepare_work, ihid_core_panel_prepare_work);
-+	INIT_WORK(&ihid->panel_follower_work, ihid_core_panel_follower_work);
- 
- 	/* we need to allocate the command buffer without knowing the maximum
- 	 * size of the reports. Let's use HID_MIN_BUFFER_SIZE, then we do the
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-elan.c b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-index 3fcff6daa0d3a..0215f217f6d86 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-elan.c
-@@ -8,6 +8,7 @@
- #include <linux/delay.h>
- #include <linux/device.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/hid.h>
- #include <linux/i2c.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-@@ -23,6 +24,7 @@ struct elan_i2c_hid_chip_data {
- 	unsigned int post_power_delay_ms;
- 	u16 hid_descriptor_address;
- 	const char *main_supply_name;
-+	bool power_after_backlight;
- };
- 
- struct i2c_hid_of_elan {
-@@ -97,6 +99,7 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
- {
- 	struct i2c_hid_of_elan *ihid_elan;
- 	int ret;
-+	u32 quirks = 0;
- 
- 	ihid_elan = devm_kzalloc(&client->dev, sizeof(*ihid_elan), GFP_KERNEL);
- 	if (!ihid_elan)
-@@ -131,8 +134,12 @@ static int i2c_hid_of_elan_probe(struct i2c_client *client)
- 		}
- 	}
- 
-+	if (ihid_elan->chip_data->power_after_backlight)
-+		quirks = HID_QUIRK_POWER_ON_AFTER_BACKLIGHT;
-+
- 	ret = i2c_hid_core_probe(client, &ihid_elan->ops,
--				 ihid_elan->chip_data->hid_descriptor_address, 0);
-+				 ihid_elan->chip_data->hid_descriptor_address,
-+				 quirks);
- 	if (ret)
- 		goto err_deassert_reset;
- 
-@@ -150,6 +157,7 @@ static const struct elan_i2c_hid_chip_data elan_ekth6915_chip_data = {
- 	.post_gpio_reset_on_delay_ms = 300,
- 	.hid_descriptor_address = 0x0001,
- 	.main_supply_name = "vcc33",
-+	.power_after_backlight = true,
- };
- 
- static const struct elan_i2c_hid_chip_data elan_ekth6a12nay_chip_data = {
-@@ -157,6 +165,7 @@ static const struct elan_i2c_hid_chip_data elan_ekth6a12nay_chip_data = {
- 	.post_gpio_reset_on_delay_ms = 300,
- 	.hid_descriptor_address = 0x0001,
- 	.main_supply_name = "vcc33",
-+	.power_after_backlight = true,
- };
- 
- static const struct elan_i2c_hid_chip_data ilitek_ili9882t_chip_data = {
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 2cc4f1e4ea963..c32425b5d0119 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -364,6 +364,7 @@ struct hid_item {
-  * | @HID_QUIRK_HAVE_SPECIAL_DRIVER:
-  * | @HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE:
-  * | @HID_QUIRK_IGNORE_SPECIAL_DRIVER
-+ * | @HID_QUIRK_POWER_ON_AFTER_BACKLIGHT
-  * | @HID_QUIRK_FULLSPEED_INTERVAL:
-  * | @HID_QUIRK_NO_INIT_REPORTS:
-  * | @HID_QUIRK_NO_IGNORE:
-@@ -391,6 +392,7 @@ struct hid_item {
- #define HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE	BIT(20)
- #define HID_QUIRK_NOINVERT			BIT(21)
- #define HID_QUIRK_IGNORE_SPECIAL_DRIVER		BIT(22)
-+#define HID_QUIRK_POWER_ON_AFTER_BACKLIGHT	BIT(23)
- #define HID_QUIRK_FULLSPEED_INTERVAL		BIT(28)
- #define HID_QUIRK_NO_INIT_REPORTS		BIT(29)
- #define HID_QUIRK_NO_IGNORE			BIT(30)
--- 
-2.51.0.rc1.163.g2494970778-goog
+>  				gpu->funcs->submit(gpu, submit);
+> +			}
+>  			spin_unlock_irqrestore(&ring->submit_lock, flags);
+>  		}
+>  	}
+> 
+> ---
+> base-commit: 8290d37ad2b087bbcfe65fa5bcaf260e184b250a
+> change-id: 20250813-unusable_fix_b4-10bde6f3b756
+> 
+> Best regards,
 
