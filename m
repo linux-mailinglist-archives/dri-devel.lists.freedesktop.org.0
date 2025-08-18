@@ -2,50 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1B5B29717
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 04:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F2BB29883
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 06:42:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 604E610E192;
-	Mon, 18 Aug 2025 02:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E473910E18C;
+	Mon, 18 Aug 2025 04:42:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="CzSJpoG/";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="SYeiqha8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F51B10E077;
- Mon, 18 Aug 2025 02:38:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1755484735;
- bh=/EDNXDGvVfSLRGFAXKGz2eTcc7Spw0fcXsFzzN/5iQU=;
- h=Date:From:To:Cc:Subject:From;
- b=CzSJpoG/GgfU3PY9O6GYZQTK4BTk3TntijldJ+X3foNUkaFWj1OoaxpTOugdQTBio
- 7VE+p4y4hrFksFU1MfM6mF2n5CLsovO0BcdjlPJP+Kz4O+oYf9r6k/U33pDv2HlNMP
- GG7/G6JBa7hcFI9MY+tOb6MQtRyr4RTvnZBROFmD0c925zljg2NCjJ1hFQ0eNl8djf
- GFSUigrfKwvjzQSKbDMKPHip4XTQvz7kc29uGOER0Ts+xWxdqxPay0LjE306/tcyg4
- LsniPvgflACICgUa4+z0iAbM7odf75g18BjctdVoHSaodvD3AZqKDVNic2xwNxqbNM
- QOjO5LxuwW2yw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4c4xjp279Lz4wbn;
- Mon, 18 Aug 2025 12:38:54 +1000 (AEST)
-Date: Mon, 18 Aug 2025 12:38:53 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <seanpaul@chromium.org>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Rob Clark
- <robin.clark@oss.qualcomm.com>, Danilo Krummrich <dakr@kernel.org>, Javier
- Garcia <rampxxxx@gmail.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build warnings after merge of the drm-misc-fixes tree
-Message-ID: <20250818123853.51aa3bc4@canb.auug.org.au>
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC95D10E18C
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 04:42:33 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id
+ 46e09a7af769-74381f217e7so2603920a34.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 21:42:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1755492152; x=1756096952;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BfsQWtM9zlBkMaLNEqnp5wSBhlrCP40LK6Q9xsKtZy4=;
+ b=SYeiqha8ef/aOs497xT5C1cZJRTk/4zYzZaD2RCM8XJo1waAlISimhYUH3O/AHnzCc
+ z6Lbwgw7plY6QPTqJtrDLaoYGARc/dWEgkNhPD1ivYdfGwQcZfOM8vnhpz8ec2flTT4Q
+ PJH9wupFTTWYe0n65mZVSg/tP7wJ0kecKFPZ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755492152; x=1756096952;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BfsQWtM9zlBkMaLNEqnp5wSBhlrCP40LK6Q9xsKtZy4=;
+ b=ZLjYdMvqlzgXsWUos92687faaBDNcrFocY+4MhudRJXWgHsD31SLzHeGDL7C+g8v7o
+ NSHFJv1iq/rAHXwkB11TvEjkZo3eANnhlSeKh3id0yJ3bufCLP/LGxQXlh0P6ro/fh1X
+ h+8HO+S3uJYZ4ZjqOH3u9YQTs5WVkFwbvGPbSw7JOcRwrz31x5sAQrBHxHCIIIFc/rA9
+ Tu23ygzzra0Et44z1zD2wGxvu/Gli8dcupBSlU1V+nvkb++KiyDESVtUb/QVvj4khZsA
+ 7LsIxmZpGjS7isz3vba3Zt/7dB7CI8e+0yyq7Q3qhWwlLPp7SHmPHpzK/ZAyj5N9hK4g
+ XNLA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUY5WsHpuvB8aUEbUUVRf3FLs5tfljkQtiTgki3c78/N7zxk2S64bBJLWJSeXVTHFHUJckFSXayLLk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykTogitI1AccukmY2WoTB3pweV3J+1NgKkNRDhlWhJVJW+xSdE
+ 5HBggFhNCzUPkPI7/WZ60ep3rY03w93PMl35UDIR4qEz/imTLr/7m/2uTbvMDBnihNnOD1Z2FVQ
+ R4E8qdrK5r2fy1r+ODkxsfZTLjwD/9UsTP5cCAnrF
+X-Gm-Gg: ASbGncvc1N7yKq1jhYB3B7QWPdh5RCMorwNHiM7LsJl1DvLrS4STOp/GDpCXvw60Z5/
+ Xl83sHt4oPXs7vx9b9NqDYXnuBS2MYWCL9cf/46stsq0ZMMzJmrsTBtqbAuU3Zg84JFYdWLbLm0
+ zmc99k5dskbI6+6w3IDJ+08dsqpaGU/RSJzRmFHDYHTu7mwFqoPlmiSqWaBrIPr4eZ9GaYeGFSq
+ pF+N5v0LlV8kqN+Wkh63g9KxgJ8ClAzAVc=
+X-Google-Smtp-Source: AGHT+IF/RhLz2fIw1VbTnK6kOfNHtaBYI/Gt5l9e8XL0REmA8tvh4RTpWjRQOCaWMMFqwIexvepYVZNLyvLCWG85f6w=
+X-Received: by 2002:a05:6830:3148:b0:727:3439:5bdf with SMTP id
+ 46e09a7af769-7439bab7241mr4262682a34.13.1755492152672; Sun, 17 Aug 2025
+ 21:42:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/7yr2msOT_t5hQ/B_590u7Cu";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <c8a64686-f1a2-44f1-9d13-fd5b4f923e0f@molgen.mpg.de>
+ <CAAOTY_8vLqU30L3+ijYJPLrioRsUwVwJAeumtVYfRJ9e5tjp4A@mail.gmail.com>
+In-Reply-To: <CAAOTY_8vLqU30L3+ijYJPLrioRsUwVwJAeumtVYfRJ9e5tjp4A@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Mon, 18 Aug 2025 12:42:21 +0800
+X-Gm-Features: Ac12FXz5rMxf27QySQIDZc7iDa9NZ942iMQjso7rsmfG9duoC6kvEJjFLzERuyU
+Message-ID: <CAEXTbpd=-mB-n1EVb4Y7RDxkJ86b-HrFWyErgTE_FYoViZRdpw@mail.gmail.com>
+Subject: Re: MT8183: Only maximum resolution 1280x720?
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +87,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/7yr2msOT_t5hQ/B_590u7Cu
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi CK and Paul,
 
-Hi all,
+On Mon, Aug 18, 2025 at 12:39=E2=80=AFPM Chun-Kuang Hu <chunkuang.hu@kernel=
+.org> wrote:
+>
+> Paul Menzel <pmenzel@molgen.mpg.de> =E6=96=BC 2025=E5=B9=B45=E6=9C=8825=
+=E6=97=A5 =E9=80=B1=E6=97=A5 =E4=B8=8B=E5=8D=882:01=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+> >
+> > Dear Linux folks,
+> >
+> >
+> > On the older MT8183 device Lenovo IdeaPad Duet Chromebook, running
+> > ChromeOS with their Linux 5.10.x, connecting a 1920x1080 Dell monitor t=
+o
+> > a USB-C adapter using HDMI, only the resolution of 1280x720 is
+> > configured, although the adapter also support 1920x1080. It happens wit=
+h
+> > all adapters, for example, LMP USB-C mini Dock [1].
+> >
+> > I reported it to the Chromium OS issue tracker [1], and the last commen=
+t is:
+> >
+> > > It seems the display pipeline for the internal display (DSI) has
+> > > higher clock rate. Also, the resolution support depends on the
+> > > refresh rate as well, so the claimed 2400x1080 might only work on
+> > > lower refresh rate.
+> > >
+> > > For the external display, the display modes are mostly rejected by
+> > > the pre-defined max_clock_khz in mtk_dpi.c:
+> > > https://elixir.bootlin.com/linux/v6.11.4/source/drivers/gpu/drm/media=
+tek/mtk_dpi.c#L940
+> >
+> > Can you confirm this? The font rendering seems not so good in the lower
+> > resolution, and strangely, playing movies these seem to be rendered in
+> > higher resolution (or the monitor or hardware does a good job in
+> > up-scaling).
+>
+> 8183 max_clock_khz is defined in patch [3] by Rex, but this is a
+> prepare patch for mt8192 [4].
+> I'm not sure that Rex has test it for mt8183.
+> Maybe you could try to enlarge 8183 max_clock_khz and see.
 
-After merging the drm-misc-fixes tree, today's linux-next build (htmldocs)
-produced these warnings:
+I found the internal discussion about this (back in 2018), and the
+owner had confirmed MT8183 DPI only supports up to 100Mhz. They also
+clearly stated that 1080p@60 is not supported by MT8183.
+>
+> [3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
+mmit/drivers/gpu/drm/mediatek/mtk_dpi.c?h=3Dv6.17-rc1&id=3D44b07120291c4b7a=
+6722ccb7149f6b9d938cf5a2
+> [4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
+mmit/drivers/gpu/drm/mediatek/mtk_dpi.c?h=3Dv6.17-rc1&id=3D38eaef2dca4ec8df=
+b9ea84d9dde0f76da5c8caaa
+>
+> Regards,
+> CK
+>
+> >
+> >
+> > Kind regards,
+> >
+> > Paul
+> >
+> >
+> > [1]: https://lmp-adapter.com/product/lmp-usb-c-mini-dock/
+> > [2]: https://issuetracker.google.com/issues/295666708
 
-Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2446: ERROR: Unex=
-pected indentation. [docutils]
-Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2448: WARNING: Bl=
-ock quote ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2452: WARNING: De=
-finition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2453: WARNING: De=
-finition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2457: ERROR: Unex=
-pected indentation. [docutils]
-Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2458: WARNING: De=
-finition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2459: WARNING: De=
-finition list ends without a blank line; unexpected unindent. [docutils]
-Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2460: WARNING: De=
-finition list ends without a blank line; unexpected unindent. [docutils]
-
-Introduced by commit
-
-  6cc44e9618f0 ("drm: Add directive to format code in comment")
-
-interacting with commit
-
-  bb324f85f722 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected usag=
-e in literal code block")
-
-from the drm-msm-fixes tree.  Both get applied.
-
-The drm-misc-fixes commit is unneeded.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/7yr2msOT_t5hQ/B_590u7Cu
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmiikj0ACgkQAVBC80lX
-0Gz1tAgAgAhVdDzeptXMLx88AmQAPNlAy0Xzi9slrZrZ1hwwDh6oyS41qYbLy9/J
-9flRTMeEFCjFYu04qzmk3Eb8L0tdy2O3CTpXY47upNERgWuXhjU25TCLRvQ0Pqms
-CtTixVhqEDLaV8C53UMj4R/a1aImOvS0OfwGnNKk1QQqfObErG0Qi0WF5sUfPI2S
-5kHDIjJ6WAX2Pr0HARYzhKHIMPreQxq3LdScTWwovdedE4XNZ1rAvFTr3qHRzke2
-JLBdjQaTswwDfxwDLHs3XaEn4LnUWjb1o0wATNCfljJeJ4jBTvfY6htEWjKv/0Wt
-HVf3FtpWq23lzX9dgALG99VBdZC4hw==
-=TljA
------END PGP SIGNATURE-----
-
---Sig_/7yr2msOT_t5hQ/B_590u7Cu--
+Regards,
+Pin-yen
