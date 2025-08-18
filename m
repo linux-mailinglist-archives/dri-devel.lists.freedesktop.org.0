@@ -2,143 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D687EB29FA3
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 12:52:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E4AB29FD3
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 12:58:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2F2510E428;
-	Mon, 18 Aug 2025 10:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BAB910E1D2;
+	Mon, 18 Aug 2025 10:58:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="aFhq5C3S";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="G7Ui0MD9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A991C10E428
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 10:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
- s=s31663417; t=1755514309; x=1756119109; i=wahrenst@gmx.net;
- bh=EMQjlP0jqiiTFCiCqjpa9LEtzKzmxzTI2QJgAqC9ZnU=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=aFhq5C3SL0ZgB9EIlXQ5qWuMOG6Qchh6kcOWxOGESf1ICk6JZXAkXCSup8METNNi
- UF/9WoGaSmZ920dKElR2yghPlAZTlVkrytZNiaQJJjvpjvuPv0j5ZSfZERmBXwi9j
- 41D/n0Wsytqa418D4rfzgRrGl17lCeOaWnVzakI5ZxOjhnIs+d8uZln7iuJBpvEMo
- C3WS2FmieDjzzFp6r+EHqiFxgbwUEBUnKWdOZC5kKSTBj8nosstPH6sIdmHvh2uPv
- dMVWgGDEclWBA4AQ0I7RV0L7K4w8Kbkirk9G/CkbPfCtjnUOnBVwJW590ul61Fw9S
- Wj5kDClVCTVv/m5rKQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.105] ([79.235.128.112]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MNbkp-1vBQXX3pJD-00U5ea; Mon, 18
- Aug 2025 12:51:49 +0200
-Message-ID: <26680a60-e9f1-4c71-acc9-8c0fb8f6b032@gmx.net>
-Date: Mon, 18 Aug 2025 12:51:45 +0200
-MIME-Version: 1.0
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2050.outbound.protection.outlook.com [40.107.212.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88D0D10E1D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 10:58:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kxG5puxiJpCS9Jf6MIhHV5B7rYZ6f1NqZ4BOEwJCN5mmg86zz5WY7F+/WHBTalqaRHtqK460zPiUVULI2jRo3CWT24YW+9IuQJoexxOxeMEoHA3oyCGeVDkO+GidioUtM1bYE5umfFaxsMgB63XwUUcKZK2BIdfy6YLxGJ0nd7F4q6edy9MSTYGculsI4L8w9yY5cUwbbYll9oVfjhsCFmxtGuWbV/ySj+o8l5XpN138nnGYhSY9oZWt0/6qE2wDzWxitO03ncwRqQlxEOzgOjRrUYt/4kzvq1gcUjPB21Nh7MERLbg3K7Bn9/lF600/Y+N2CQGDRRPI70ThMEyCaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3UBeIyqiYvy11aiqkpO//j7RfrMksCf+LqFH8+B5Wgs=;
+ b=Tn9+BvURsmsO2hd+ucUrbxgulc1w1h0WOHct5wC+aJWPogxkDAE4wUZLreWh9d0Zxse9DJTAPRy1dSeIxzZmFyU7qPPHlZcLlgfQ1hGj33KG0APsT/GrSWsA93qWWmntPIm4gy7sXfbkyHX1ilcYyXkrY5+A4e7gfC+gEtEpER32VM5x5Qa1wfRJ+qRsahT9l4VK5rYzwZmHr2ruzopo9KUtHD/k9YaaStBsrxGB0bJWBjIOYXLAldUz1EBnBqyNdXLCrfiXQTJpTxapsFrRcJ0Hk+StSfAokGQDoURPvkpf3Su1vYMQusRVADIuwkBbMeEyKar0ZFBf5w18spALEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3UBeIyqiYvy11aiqkpO//j7RfrMksCf+LqFH8+B5Wgs=;
+ b=G7Ui0MD9GBuRQ+J3L7Qpx+TmZIa2JyDOezrz80W7kjVVStSq+tYLWS3072oCLjb50qrUhHDMKiUxv/3XiluVyjcVs/8iCqc7wX3+CVMd0eH6u7Tm6bWp9ERFcMp/oLprYgxrPCYxCmcXrfks7keM4w969hO/6p/q/Ep6KIIOtY8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB7592.namprd12.prod.outlook.com (2603:10b6:208:428::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
+ 2025 10:58:48 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
+ 10:58:48 +0000
+Message-ID: <19c6c5da-575f-4908-8f2e-23ca8e5bffd6@amd.com>
+Date: Mon, 18 Aug 2025 12:58:44 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] clk: bcm: rpi: Turn firmware clock on/off when
- preparing/unpreparing
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>, Dom Cobley <popcornmix@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-clk@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, kernel-dev@igalia.com
-References: <20250731-v3d-power-management-v2-0-032d56b01964@igalia.com>
- <20250731-v3d-power-management-v2-2-032d56b01964@igalia.com>
+Subject: Re: [PATCH v2 0/3] udmabuf: Sync to attached devices
+To: Andrew Davis <afd@ti.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Paul Cercueil
+ <paul@crapouillou.net>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20250814161049.678672-1-afd@ti.com>
+ <0b963b02-dec0-4bf5-aea9-dbe3050716ee@amd.com>
+ <008f6004-dcf0-42e8-b2df-f97c0ee5ba66@ti.com>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <20250731-v3d-power-management-v2-2-032d56b01964@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bkRNX2xbcUoYi6qXTmYoLZNdvX4FH4Rpfp+EABXzBYcjMeczOKe
- o/g1+OPWOmSTsRoIuFgYiLKRzkAh9UYGY7BW1CN6EvhLbBJ2o4NjlwVXLsW8HDXSeSWwxjY
- G/OFGlxkZJNIc+2ajH9DmJ30nP3NDzielh8M1rm16vPGDR3tE7uFyNnUdHslCWkepcuFyrh
- GEmo1Qkc3YhJEX6SqPiDQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NUSsT37lQxk=;BPt794qgQN0kPvcaXQnMNggTHmY
- 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
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <008f6004-dcf0-42e8-b2df-f97c0ee5ba66@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0162.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ba::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB7592:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7784a05-9658-42c9-6c58-08ddde46359d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TlFsM2V4N0h4TWFsbXoyQ01yNDBHRkZnc1ZnZzdnaFVIcytMci9jTm5qWXYr?=
+ =?utf-8?B?cVlhQmp4K2NsR3BWWmUyazdCV1ROMktmSGU4MXF3c3I3OHc2eW5Odmx5OWEz?=
+ =?utf-8?B?Nm5vRUE4VDA1dzJ4eFpLbStTUkRjcmQzWmxVZ1pObTlGYVJoNmFBZlhFclZk?=
+ =?utf-8?B?M2JPRy9CaHdxa1Z2K0hzejl4eTkxclJOWTlJMVFFRTVYRTRJaUV6bWxQL2Nu?=
+ =?utf-8?B?N2RzQVlEdWI0a1JsRVAzamt1eFFFRGw0cWRmMlJtVkhVbGhXUThGdmRSZUdz?=
+ =?utf-8?B?MXV2YkMzbkorUXM4YWNuTUJBUkF3bTdMTG9BYmpaMVFEQVRIdUVSWHVQL3FG?=
+ =?utf-8?B?UnEvTkFIakR4emFZUXNCcHJHZmhvcmFQeW1vZmR0NjY5QXJ5VFNGYTl1V2JK?=
+ =?utf-8?B?R3JWNjN2amQydlJ6L0VOMm90QkM1c2V2NXVoYTVCamVYeGhxeTBRb1VBR0JZ?=
+ =?utf-8?B?ZjFJcDhnclBHTDdzZ2N2cG5ZYTBkMGV6dno2QTdhRjRnRjZ2YXhPczNmbzFi?=
+ =?utf-8?B?Z3o5K1l5U1l6VVYwajhYZTZuSEd3MGt5Q0F6bE5mYUZWVDBpa3c4OXE4T3kz?=
+ =?utf-8?B?N29nYXVwbURNb3pBMVcyR2hhbGxOZFNNZmxVc1VDakc1QlVHeWhUSE02N1I1?=
+ =?utf-8?B?TEtWOVBHdnh6c1NlSXhqK3ZSUmdiSkFkMzdWdjc2N2h2US9jU1lmT3FqaWlq?=
+ =?utf-8?B?MzA4Nm0vSnJQbzhzK1FqZEVQOFgxL01vZEM4bHBZaWgzU2d1YUwzUlZHUjlm?=
+ =?utf-8?B?di9zWjcwUjlSNldrTU9pSWRKWjRYK0lPTTBZT0YveVhYcDcvTWN3aGdoS0NZ?=
+ =?utf-8?B?NHhMUWxlbFFJdFBlRktUeDExT0ZkU09NR2NBeVcva0pGUlZucFVJVkR4SFV3?=
+ =?utf-8?B?dHRwL2VydzVsTzNDcVVqWVNORzBqT1dFVG8yWDVEUTlyYTJSQ1B1UmVEbFlU?=
+ =?utf-8?B?Skg4alk4TkduMCt2RHNWWk5uRE5kdk9aKy9mOHp0d1l3WlA0NjZtQXlsc050?=
+ =?utf-8?B?WVYwRXNIM3ZocURYNHdTa08rYXZzaVFlc0tQNUtrVUp2T05KRDFwS0ZFdWxG?=
+ =?utf-8?B?Qk9kN3VibzhHakNHT3VkZUFVbUo0TUhFTlRhc1VYUFlxQ2pzVW45MGMwZmNN?=
+ =?utf-8?B?MzhVcmo4UStTMit6bjE3QnVyTnlRNHJ0Tktnb0Z2aXhzbmplazhyWlViRG54?=
+ =?utf-8?B?Rk9oNGpqOEp3ckt3cmVhakJBQTI2ZGZzK2FXMTI3UjZKTk1SNHlqUzNFdmQv?=
+ =?utf-8?B?U08yd1BMRENSY1VvVkxaYkd1U2Z1bVhQcHhUNUFQSXhPNDVTdXRqOWJRUFlr?=
+ =?utf-8?B?MkJqWG1mN3A0Vm5MME0ydURBRzFJUDMwNkI1QkhuVnRjZlZYVlJzeEx4WmEv?=
+ =?utf-8?B?MFZpc2NXbjNUd1VoeEhJUllGQUNQQTRQTDVVbEFQNWtPRjlZMEY3THVnSm55?=
+ =?utf-8?B?RTVaRW5Zb291bEJIWmZSbCtjZzV0UFFpckYzTUJPWWR4MHpwdVg4SkM0K0Mr?=
+ =?utf-8?B?SWtMeC9wZVVmR1NPOHk1NGZRc1Fob0pmMmttc00wd2d5NFY1SUFKb0N1cEVZ?=
+ =?utf-8?B?UGdmVEdmNDJsOUswZVRLUVBmZGdUNXNGS2xvOExobHdkenpXQjFaY0FteUp2?=
+ =?utf-8?B?SGhNeHQzdGs5eEthbkxZNXBWY2wrTVJuWENudFVEMjJ6M3RIMmd4dXhoYlFk?=
+ =?utf-8?B?aUVUei9jMkk0NjJ4Y1lGNS95K0NpUzRSRTQ1VEVudllhNWpQMmhuMU9mTmFH?=
+ =?utf-8?B?ZmZ6NFBOQlIwdjFTMmlSSHJnTi94Q1ptZ3IrcStybEUzYk52cDA5MEFkNk9J?=
+ =?utf-8?B?VFZHMy9sQThDT1pJcTVvN3U4MnUveGNqcWtzSldXY0ppWTkyNTlTVmVmT0lI?=
+ =?utf-8?Q?Xp/KAJdXs+9Jw?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d1IvMURtbnlQeFNMdmJkb0d5TGQ4bzBHYVRhNHZzVzNtNUVxWVlPZG9kVCs2?=
+ =?utf-8?B?S1AwTGFIbUtQWXJqN3h1WUhOcXFIMndzYnFXSnhadytTQ3dLMVNGSGtQOTNw?=
+ =?utf-8?B?TEFOd2padjdna0krS1RrQzM1b3VhbjhJYzYyWG9BbDQrWlgzRkNHS0xpTXU2?=
+ =?utf-8?B?eFpXSFMzZ3htakIwZmlTZElZR0Q4b3VnbWM5dGo2SUxLSzFMeGdyeVlsRnhB?=
+ =?utf-8?B?c1RFSG1PYW92NU52R3lFbnN2VWJxZS9zLzFaSnp3MEV0TTJzMy9aMUZmcjYw?=
+ =?utf-8?B?MTRBZGlqL0hGc1BPbzIzWS93TVVXVFF4K3gwTlMrS0UxQ1o2VS9aVkNwRVc5?=
+ =?utf-8?B?WFgxYjFBck1ZT2IvY0FJK2JDQm9McE5hTXFWZ3J3aTgrQUpTWnJxM1dUTDZV?=
+ =?utf-8?B?QlgrSStkTTZ1bldlemYweWQxZG9HYUlla1RvMUN3MG1mMWVpMlFnRHNOQyt4?=
+ =?utf-8?B?SHE3Rk5kY1NPUndKMEpCeGxRKzB6bW9ZdHZvWlY4ekM4MFhlV3ZKY1I0VzF2?=
+ =?utf-8?B?VUpKaXdsWWlZQUhyQjFDWnBsVUcxNTdYZWVsYngzR1ZkcndzQjAwZG1JT3Nr?=
+ =?utf-8?B?dDM4d252dEJaUlM1U2Z4OFYyYnEwMzhpRUV2b29oMU1wK3BCYkdHdzczbTZ3?=
+ =?utf-8?B?UGgyR0tZc2I4aTVqZUhMMktsT2lIQXpuMEZXYU12NW5lUGR4Nzl1ZmhMWXMz?=
+ =?utf-8?B?YVBwRUZKWlJNVFljbzNkOXVJKy9XUHlIV0VoYnhSdFlVTjFBSHExcWZRWXR0?=
+ =?utf-8?B?M1E4OWsxSm4rOWNZbG13ZE9iTnpvOVFFWFBrTFp3aEZIOEc3a0NuZEJpQUVB?=
+ =?utf-8?B?ZHMzUC9MMVUzcUx5K1lpYW9JZGNLWEw4Rmt0bTQ2SmlwY1cxdCtCejllNXd6?=
+ =?utf-8?B?TC9qWkt4QzA4WXFwbFJFbW5yQkNhZTh4cFZ5V1UvYkFacXRQQS9tQkFwaGl1?=
+ =?utf-8?B?clBmZFFQUFZPaU0yZXN1M3dUK2k1UHBSY1gyNlZ6N3RRbFVVV3EvRlRvZnFq?=
+ =?utf-8?B?T21xYmN3Wng3TURQU09iZ0hDSnVVWnpkUnhjOGtsOFR4cUNJNDFieHdHazli?=
+ =?utf-8?B?Rm1kOUlKLytaaC8yVU5DMVlDbGRlSVBSY0R1TFNWL1VKVFpWbkxWOG1oRTdu?=
+ =?utf-8?B?SFhqWEVnQUxNNEo3UkYxNEJNOFlRUWlYYkRnT0JxelBPUHpZMlhKZEJwb2Zl?=
+ =?utf-8?B?bkIxTmswaXoyK1l4MzVCM0xzSkQrdDZQVGJlbExzRWp5dVdmUWtMa284K0Ri?=
+ =?utf-8?B?UUNaOXU1YmN5NUNHNG1RajVHdXFSY3ovYTQvMkZJSHNjU3pEZ3Ywbi8yQzh0?=
+ =?utf-8?B?elBxb3ZJSzNKVCtxa21qbWhhV3JJS3BkSFl1KzlvNDdBbUVZdGl6Mm51Mkwz?=
+ =?utf-8?B?RzVtTGpQUzRJMEdzejJhU0gzY2NxUi9XY0hxVUdFQlRXTjAwcUJzT0lGbDc1?=
+ =?utf-8?B?THdhQ1l4akx5UmU4M0FYZFlaTUpWYlNZZk1LT2llVlFxSTdrWUw1ME1MY2ta?=
+ =?utf-8?B?Y0s0NnRSaW9lQmtrdXZCUHBjYVFaaHNSWnkzWjhtRVJ4NzdmandWQ25OMFBB?=
+ =?utf-8?B?V2hSYUxkMHYySWZ0RlRRLzZOK3hVMVN6ZjhnTEpkeFkxU05wQS9wYWR6d2gz?=
+ =?utf-8?B?djZmSWRDRHlCbFFHdTg2NkZNU2p6NkVHR3E5SmJHejNVNk5tQ0pMa3U5S2xW?=
+ =?utf-8?B?b0hxdzJoK2VFQ0ZLcndOSnYvNmRGSG00MW0vZENxdC9Rbkw0TGM2bzVRd29p?=
+ =?utf-8?B?Y0pyL0tVR282TkJNZzdvcXMvSnRSY0hpUXdXdEszMVpNZXlPdGp0WmNtaWNr?=
+ =?utf-8?B?OVVMNGZzOW9yNnBaUldYNE5pS1UxQlFlNGJyTDNGMzhMcC83RFBQZ0VCaUtR?=
+ =?utf-8?B?OHlzQ2FyTXZQL25BWEVxelU2TnVPS1dBTmt5cXZHa0pCeTl5NTBJWUtuRmJm?=
+ =?utf-8?B?YTRDOWhsVjAxNm9kazIrK3ZVWkFHZXdKV0M0WWtqM0dqUTcxQ2dxbUVLM0p4?=
+ =?utf-8?B?Vm9ESlFmcmQ5MmdvZXFzbXprYWNwRVozaVc3NkI2eHVwcFNjaWxUb3MwSVor?=
+ =?utf-8?B?MmNVOWthQXJVWFZXUzNydU5jVGsrd1p5cVREZk9ISDZEVXVNQlh0cHAyck8r?=
+ =?utf-8?Q?j2wYwUrq7DjzfzLjZoXeK/xLf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7784a05-9658-42c9-6c58-08ddde46359d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 10:58:48.6500 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zCrFCGQL8ZZu+uXR4/uTm6vkhK55fTDgCmcCyde5XEjvhp6eUWA/HW+IF7o+TICs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7592
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,187 +166,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Ma=C3=ADra,
+On 15.08.25 21:40, Andrew Davis wrote:
+> On 8/15/25 4:41 AM, Christian König wrote:
+>> On 14.08.25 18:10, Andrew Davis wrote:
+>>> Hello all,
+>>>
+>>> This series makes it so the udmabuf will sync the backing buffer
+>>> with the set of attached devices as required for DMA-BUFs when
+>>> doing {begin,end}_cpu_access.
+>>
+>> Yeah the reason why we didn't do that is that this doesn't even work 100% reliable in theory. So this patchset here might make your use case work but is a bit questionable in general.
+>>
+>> udmabuf is about turning a file descriptor created by memfd_create() into a DMA-buf. Mapping that memory can happen through the memfd as well and so it is perfectly valid to skip the DMA-buf begin_access and end_access callbacks.
+>>
+> 
+> If someone maps the memory backed by the DMA-buf outside of the DMA-APIs then we cannot really
+> control that, but in this case if they do map with the DMA-API then it is *not* valid to skip
+> these begin_access and end_access callbacks. And that is the case I am addressing here.
 
-Am 31.07.25 um 23:06 schrieb Ma=C3=ADra Canal:
-> Currently, when we prepare or unprepare RPi's clocks, we don't actually
-> enable/disable the firmware clock. This means that
-> `clk_disable_unprepare()` doesn't actually change the clock state at
-> all, nor does it lowers the clock rate.
->
->  From the Mailbox Property Interface documentation [1], we can see that
-> we should use `RPI_FIRMWARE_SET_CLOCK_STATE` to set the clock state
-> off/on. Therefore, use `RPI_FIRMWARE_SET_CLOCK_STATE` to create a
-> prepare and an unprepare hook for RPi's firmware clock.
->
-> As now the clocks are actually turned off, some of them are now marked
-> CLK_IS_CRITICAL, as those are required to be on during the whole system
-> operation.
->
-> Link: https://github.com/raspberrypi/firmware/wiki/Mailbox-property-inte=
-rface [1]
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-sorry this late reply, but I was in the holidays.
+Good argument, but that needs quite some documentation then. udmabuf.c could use some general documentation anyway.
 
-In general the approach looks good to me. Very old vc4 firmware versions=
-=20
-doesn't support RPI_FIRMWARE_SET_CLOCK_STATE. I mention this because=20
-sometimes the setups on kernelci.org are not always up to date. But I=20
-think we should be save in this case.
+> 
+> Right now we are not syncing the mapping for any attached device, we just zap it from
+> the CPU caches using some hacky loopback and hope that is enough for the devices :/
 
-Reviewed-by: Stefan Wahren <wahrenst@gmx.net>
->
-> ---
->
-> About the pixel clock: currently, if we actually disable the pixel
-> clock during a hotplug, the system will crash. This happens in the
-> RPi 4.
->
-> The crash happens after we disabled the CRTC (thus, the pixel clock),
-> but before the end of atomic commit tail. As vc4's pixel valve doesn't
-> directly hold a reference to its clock =E2=80=93 we use the HDMI encoder=
- to
-> manage the pixel clock =E2=80=93 I believe we might be disabling the clo=
-ck
-> before we should.
->
-> After this investigation, I decided to keep things as they current are:
-> the pixel clock is never disabled, as fixing it would go out of
-> the scope of this series.
-> ---
->   drivers/clk/bcm/clk-raspberrypi.c | 56 +++++++++++++++++++++++++++++++=
-+++++++-
->   1 file changed, 55 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/clk/bcm/clk-raspberrypi.c b/drivers/clk/bcm/clk-ras=
-pberrypi.c
-> index 166d0bec380310e8b98f91568efa4aa88401af4f..70acfa68827d84670c645bed=
-d17bf0e181aadfbb 100644
-> --- a/drivers/clk/bcm/clk-raspberrypi.c
-> +++ b/drivers/clk/bcm/clk-raspberrypi.c
-> @@ -68,6 +68,7 @@ struct raspberrypi_clk_variant {
->   	char		*clkdev;
->   	unsigned long	min_rate;
->   	bool		minimize;
-> +	u32		flags;
->   };
->  =20
->   static struct raspberrypi_clk_variant
-> @@ -75,6 +76,7 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] =3D =
-{
->   	[RPI_FIRMWARE_ARM_CLK_ID] =3D {
->   		.export =3D true,
->   		.clkdev =3D "cpu0",
-> +		.flags =3D CLK_IS_CRITICAL,
->   	},
->   	[RPI_FIRMWARE_CORE_CLK_ID] =3D {
->   		.export =3D true,
-> @@ -90,6 +92,12 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] =3D=
- {
->   		 * always use the minimum the drivers will let us.
->   		 */
->   		.minimize =3D true,
-> +
-> +		/*
-> +		 * It should never be disabled as it drives the bus for
-> +		 * everything else.
-> +		 */
-> +		.flags =3D CLK_IS_CRITICAL,
->   	},
->   	[RPI_FIRMWARE_M2MC_CLK_ID] =3D {
->   		.export =3D true,
-> @@ -115,6 +123,15 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] =
-=3D {
->   		 * drivers will let us.
->   		 */
->   		.minimize =3D true,
-> +
-> +		/*
-> +		 * As mentioned above, this clock is disabled during boot,
-> +		 * the firmware will skip the HSM initialization, resulting
-> +		 * in a bus lockup. Therefore, make sure it's enabled
-> +		 * during boot, but after it, it can be enabled/disabled
-> +		 * by the driver.
-> +		 */
-> +		.flags =3D CLK_IGNORE_UNUSED,
->   	},
->   	[RPI_FIRMWARE_V3D_CLK_ID] =3D {
->   		.export =3D true,
-> @@ -123,10 +140,12 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] =
-=3D {
->   	[RPI_FIRMWARE_PIXEL_CLK_ID] =3D {
->   		.export =3D true,
->   		.minimize =3D true,
-> +		.flags =3D CLK_IS_CRITICAL,
->   	},
->   	[RPI_FIRMWARE_HEVC_CLK_ID] =3D {
->   		.export =3D true,
->   		.minimize =3D true,
-> +		.flags =3D CLK_IS_CRITICAL,
->   	},
->   	[RPI_FIRMWARE_ISP_CLK_ID] =3D {
->   		.export =3D true,
-> @@ -135,6 +154,7 @@ raspberrypi_clk_variants[RPI_FIRMWARE_NUM_CLK_ID] =
-=3D {
->   	[RPI_FIRMWARE_PIXEL_BVB_CLK_ID] =3D {
->   		.export =3D true,
->   		.minimize =3D true,
-> +		.flags =3D CLK_IS_CRITICAL,
->   	},
->   	[RPI_FIRMWARE_VEC_CLK_ID] =3D {
->   		.export =3D true,
-> @@ -265,7 +285,41 @@ static int raspberrypi_fw_dumb_determine_rate(struc=
-t clk_hw *hw,
->   	return 0;
->   }
->  =20
-> +static int raspberrypi_fw_prepare(struct clk_hw *hw)
-> +{
-> +	const struct raspberrypi_clk_data *data =3D clk_hw_to_data(hw);
-> +	struct raspberrypi_clk *rpi =3D data->rpi;
-> +	u32 state =3D RPI_FIRMWARE_STATE_ENABLE_BIT;
-> +	int ret;
-> +
-> +	ret =3D raspberrypi_clock_property(rpi->firmware, data,
-> +					 RPI_FIRMWARE_SET_CLOCK_STATE, &state);
-> +	if (ret)
-> +		dev_err_ratelimited(rpi->dev,
-> +				    "Failed to set clock %s state to on: %d\n",
-> +				    clk_hw_get_name(hw), ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static void raspberrypi_fw_unprepare(struct clk_hw *hw)
-> +{
-> +	const struct raspberrypi_clk_data *data =3D clk_hw_to_data(hw);
-> +	struct raspberrypi_clk *rpi =3D data->rpi;
-> +	u32 state =3D 0;
-> +	int ret;
-> +
-> +	ret =3D raspberrypi_clock_property(rpi->firmware, data,
-> +					 RPI_FIRMWARE_SET_CLOCK_STATE, &state);
-> +	if (ret)
-> +		dev_err_ratelimited(rpi->dev,
-> +				    "Failed to set clock %s state to off: %d\n",
-> +				    clk_hw_get_name(hw), ret);
-> +}
-> +
->   static const struct clk_ops raspberrypi_firmware_clk_ops =3D {
-> +	.prepare        =3D raspberrypi_fw_prepare,
-> +	.unprepare      =3D raspberrypi_fw_unprepare,
->   	.is_prepared	=3D raspberrypi_fw_is_prepared,
->   	.recalc_rate	=3D raspberrypi_fw_get_rate,
->   	.determine_rate	=3D raspberrypi_fw_dumb_determine_rate,
-> @@ -295,7 +349,7 @@ static struct clk_hw *raspberrypi_clk_register(struc=
-t raspberrypi_clk *rpi,
->   	if (!init.name)
->   		return ERR_PTR(-ENOMEM);
->   	init.ops =3D &raspberrypi_firmware_clk_ops;
-> -	init.flags =3D CLK_GET_RATE_NOCACHE;
-> +	init.flags =3D variant->flags | CLK_GET_RATE_NOCACHE;
->  =20
->   	data->hw.init =3D &init;
->  =20
->
+Yeah that is just pretty horrible.
+
+> 
+>> Additional to that when CONFIG_DMABUF_DEBUG is enabled the DMA-buf code mangles the page addresses in the sg table to prevent importers from abusing it. That makes dma_sync_sgtable_for_cpu() and dma_sync_sgtable_for_device() on the exporter side crash.
+>>
+> 
+> I was not aware of this mangle_sg_table() hack, must have been added while I was not looking :)
+> 
+> Seems very broken TBH, taking a quick look, I see on this line[0] you call it, then
+> just a couple lines later you use that same mangled page_link to walk the SG table[1]..
+
+sg_next() is skipping over the chain entries, only page entries are mangled, but I completely agree that this is as hackish as it can get.
+
+We just had quite a number of harsh problems and even CVEs because importers didn't got that they absolutely shouldn't touch the underlying page of a mapping.
+
+Allowing userspace to R/W to freed up memory or messing up the page count is not funny at all. 
+
+> If anyone enables DMA_API_DEBUG and tried to attach/map a non-contiguous DMA-BUF with
+> a chained sg I don't see how that doesn't crash out.
+> 
+>> That's the reason why DMA-buf heaps uses a copy of the sg table for calling dma_sync_sgtable_for_cpu()/dma_sync_sgtable_for_device().
+>>
+> 
+> Could you point me to where Heaps uses a copy of the SG table? I see it using the
+> exact same SG table for dma_sync_sgtable_for_*() that we created when mapping the
+> device attachments.
+
+See dup_sg_table() in system_heap.c.
+
+Apart from stopping using sg_table in DMA-buf at all what we could potentially do is to improve the mangling. E.g. just allocate a new sg_table, copy over all the DMA addresses and keep the page_link pointing to the original one.
+
+Regards,
+Christian.
+
+> 
+> Thanks,
+> Andrew
+> 
+> [0] https://github.com/torvalds/linux/blob/master/drivers/dma-buf/dma-buf.c#L1142
+> [1] https://github.com/torvalds/linux/blob/master/drivers/dma-buf/dma-buf.c#L1151
+> 
+>> It's basically a hack and should be removed, but for this we need to change all clients which is tons of work.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Thanks
+>>> Andrew
+>>>
+>>> Changes for v2:
+>>>   - fix attachment table use-after-free
+>>>   - rebased on v6.17-rc1
+>>>
+>>> Andrew Davis (3):
+>>>    udmabuf: Keep track current device mappings
+>>>    udmabuf: Sync buffer mappings for attached devices
+>>>    udmabuf: Use module_misc_device() to register this device
+>>>
+>>>   drivers/dma-buf/udmabuf.c | 133 +++++++++++++++++++-------------------
+>>>   1 file changed, 67 insertions(+), 66 deletions(-)
+>>>
+>>
+> 
 
