@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A75B2AD2D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 17:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8B3B2AD2E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 17:48:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A17F10E491;
-	Mon, 18 Aug 2025 15:48:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A26F010E492;
+	Mon, 18 Aug 2025 15:48:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="H1Y7bYkC";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="cqoRe99v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED84A10E491
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 15:48:04 +0000 (UTC)
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 441F710E493
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 15:48:14 +0000 (UTC)
 Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57IFlxAV2748841;
- Mon, 18 Aug 2025 10:47:59 -0500
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57IFm5Bq2691221;
+ Mon, 18 Aug 2025 10:48:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1755532079;
- bh=9ngAYffa1yoRXkD3A+58buw0rAaHWd53bAkBFdTtZvA=;
+ s=ti-com-17Q1; t=1755532085;
+ bh=2dpoG+Ep17pquhQoAOs1k4k2xkCuSFL5NhYt1KTyjKU=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=H1Y7bYkC2iNKRS9JqNtclq8Hhw6VnZNrWrfJ0WpwaP2319teF4+iq3Z5L/OJeK3xq
- psyJDLcwDHnWOx1L5RgCcb5DjDL+0OzJQrKK+dOlBElGpnY1YoILvqUcUnxJKhGeL6
- Vhzm9b3Dqkh60dJRNd14fN8dHehGn1nVAcMxilqg=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57IFlxiw619538
+ b=cqoRe99vbqegNBy+M/f6WSS7WlAZxcNhTCC1ZLD+FYfmd7pPaTVNCN+D9Iolv8EFD
+ 1UzEQ8absIReLT1vsc0GosmDOAoz3NdVikD02s+A+q6MjcrpdLplwYLPbe9uL45sfs
+ CLGYa9Tznsy6gh3dCkLBUE42jnA8o+mQJZS2houA=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57IFm5Pk619645
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 18 Aug 2025 10:47:59 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 18 Aug 2025 10:48:05 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 18
- Aug 2025 10:47:59 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2025 10:48:04 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 18 Aug 2025 10:47:58 -0500
+ Frontend Transport; Mon, 18 Aug 2025 10:48:04 -0500
 Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57IFlk8m1551018;
- Mon, 18 Aug 2025 10:47:53 -0500
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57IFlk8n1551018;
+ Mon, 18 Aug 2025 10:47:59 -0500
 From: Harikrishna Shenoy <h-shenoy@ti.com>
 To: <neil.armstrong@linaro.org>, <jessica.zhang@oss.qualcomm.com>,
  <airlied@gmail.com>, <simona@ffwll.ch>,
@@ -50,10 +50,9 @@ To: <neil.armstrong@linaro.org>, <jessica.zhang@oss.qualcomm.com>,
  <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>
 CC: <s-jain1@ti.com>, <devarsht@ti.com>, <u-kumar1@ti.com>
-Subject: [RFC PATCH 1/3] devicetree: bindings: dsiplay: panel:
- panel-simple.yaml: Add Raspberry pi dsi panel compatible
-Date: Mon, 18 Aug 2025 21:17:44 +0530
-Message-ID: <20250818154746.1373656-2-h-shenoy@ti.com>
+Subject: [RFC PATCH 2/3] arm64: dts: ti: k3-j721e-main: Add DSI and DPHY-TX
+Date: Mon, 18 Aug 2025 21:17:45 +0530
+Message-ID: <20250818154746.1373656-3-h-shenoy@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250818154746.1373656-1-h-shenoy@ti.com>
 References: <20250818154746.1373656-1-h-shenoy@ti.com>
@@ -76,28 +75,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add RPi DSI panel[0] as a valid compatible for simple-panel.
+From: Rahul T R <r-ravikumar@ti.com>
 
-[0]: https://www.raspberrypi.com/products/raspberry-pi-touch-display/
+TI's J721E SoC supports a DPI to DSI video signal conversion bridge on
+it's platform bus. The IP is from Cadence, and it has a custom TI
+wrapper around it to facilitate integration.
 
+This IP takes the DPI video signals from DSS and alongwith the DPHY IP,
+it transmits DSI video signals out of the SoC.
+
+Add support for DSI bridge and the DPHY-TX.
+
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 ---
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/ti/k3-j721e-main.dtsi | 31 +++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 1ac1f0219079..65f486f2bc9d 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -268,6 +268,8 @@ properties:
-       - rocktech,rk070er9427
-         # Rocktech Display Ltd. RK043FN48H 4.3" 480x272 LCD-TFT panel
-       - rocktech,rk043fn48h
-+        # Raspberry, 7" dsi panel
-+      - rpi,7inch-dsi
-         # Samsung Electronics 10.1" WXGA (1280x800) TFT LCD panel
-       - samsung,ltl101al01
-         # Samsung Electronics 10.1" WSVGA TFT LCD panel
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+index 5bd0d36bf33e..ce34d68a70f2 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
++++ b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+@@ -1881,6 +1881,37 @@ port@4 {
+ 		};
+ 	};
+ 
++	dphy2: phy@4480000 {
++		compatible = "ti,j721e-dphy";
++		reg = <0x0 0x04480000 0x0 0x1000>;
++		clocks = <&k3_clks 296 1>, <&k3_clks 296 3>;
++		clock-names = "psm", "pll_ref";
++		#phy-cells = <0>;
++		power-domains = <&k3_pds 296 TI_SCI_PD_EXCLUSIVE>;
++		assigned-clocks = <&k3_clks 296 3>;
++		assigned-clock-parents = <&k3_clks 296 4>;
++		assigned-clock-rates = <19200000>;
++		status = "disabled";
++	};
++
++	dsi0: dsi@4800000 {
++		compatible = "ti,j721e-dsi";
++		reg = <0x0 0x04800000 0x0 0x100000>, <0x0 0x04710000 0x0 0x100>;
++		clocks = <&k3_clks 150 1>, <&k3_clks 150 5>;
++		clock-names = "dsi_p_clk", "dsi_sys_clk";
++		power-domains = <&k3_pds 150 TI_SCI_PD_EXCLUSIVE>;
++		interrupt-parent = <&gic500>;
++		interrupts = <GIC_SPI 600 IRQ_TYPE_LEVEL_HIGH>;
++		phys = <&dphy2>;
++		phy-names = "dphy";
++		status = "disabled";
++
++		dsi0_ports: ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++	};
++
+ 	dss: dss@4a00000 {
+ 		compatible = "ti,j721e-dss";
+ 		reg =
 -- 
 2.34.1
 
