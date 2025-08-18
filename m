@@ -2,88 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01770B29A28
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 08:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7F3B29935
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 07:56:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A54D310E3CC;
-	Mon, 18 Aug 2025 06:52:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81B5E10E1B3;
+	Mon, 18 Aug 2025 05:56:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZKYLeBSt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hlr8iV7F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
- [209.85.210.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B6110E1A9
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 05:25:35 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id
- d2e1a72fcca58-76e43ee62b8so1478687b3a.2
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 22:25:35 -0700 (PDT)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 883FD10E1A9;
+ Mon, 18 Aug 2025 05:56:09 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id
+ 41be03b00d2f7-b47174c3817so2718577a12.2; 
+ Sun, 17 Aug 2025 22:56:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755494735; x=1756099535; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=qWawdILeIQYq+c7F7VMxTWAdEGo7NrIDJCoccdr/4pg=;
- b=ZKYLeBStQpOHw5VoCWyqdt2fr9dcbdPAfhaj+n6ICVXSJWsv2dYoIiIKrItghe4CdP
- K1D5sCPZnWm3Zv1JJ80p0kri39wDEU7Cis3tZieF4XtzwKF8r7OaWpOYOEuY+q1DUSH7
- IfH/gufWEVDbFSvK7Usie6gZ6cRs5e2JVSRgR1aOj08Zme29jn8KL/YJJwaWIOjeFFSo
- HXz0veOnVlIB2eu4XFJBG1YyICZYfZUiphtenlGd5T6K2QyPKXvErS4xyndsDhK+HAX4
- INIxE9/aU9XOZ90f3tKNwZ2w5vet1pzeSMTR/s6GkZBkpxSdNClzEYSUx/o1luHioTua
- RlAA==
+ d=gmail.com; s=20230601; t=1755496569; x=1756101369; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KDnEbrSfurZQ+Y1DvjkMBGJWcaizeGgNKLPFyaBX9ww=;
+ b=Hlr8iV7F7Zo3+wri8aVZeap/Efohr5h+csZkzDt6yYSmiiQv/D8/h1WvCTMe0kmCDD
+ lBrgywO8F3xBwss6GsYM6PSiaC7RCk7v3Z33rIxVsTcdzL1Q5ptrmuuWLWTrspIjhE9z
+ fxgwELDAbMeIp4jFElPyDz1DWUgANjS5TnMPbStd2Jtki/yRu/mIPbLBPNDxqJvQ+0V0
+ pGCeoVVFRR6qJYt3v2vbxb51aXorka8Zn96MAcRQZI8ra76jSBDAMtc/RwbfHsrFsvhc
+ 0tWBiJPsEOrCCjyoOEUMGG1OYVELB15yHkXHwCINZ+eIJ+aDTeBJ/YfBA4m1oNxVAzQ3
+ 67Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755494735; x=1756099535;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qWawdILeIQYq+c7F7VMxTWAdEGo7NrIDJCoccdr/4pg=;
- b=ZiK6VEY/qZ5zUjutMD7z1z/E8PHh8wsSXwzT4mrNTfQrimMAGFaxZ6AOvQezRUA4a9
- nXtsbVt/OFPc4KG2lnkHTPi0dNIclSK7BvmwuHhgYNscQV8wdWZaQ3H68mRWZPGevyTw
- Q+Pf4xNrEHCwQOWEc3v18n9OsnlZvLAW5h+t7ucdRXOhmz9pux2Cb6nAtkHSrBEbV73l
- cw+5lrndMV3CIvR4aKzxxKPD4ULPS4v9fJBmzmQL6X94O/XuEwZYgqv9Kcn97OIpGnB0
- mLoWzmSSlvMim0tvzCU2Jy0/tdApfE/qt1RV/zoxX9aVxXLEjxB4pxarIYGAI/njsZ8N
- V1Sg==
-X-Gm-Message-State: AOJu0Yxep6RA3vgcJMA6g/GHlvJ7H7IVTtnql1jiVHRhwqDV5jM6JAvs
- fl/01qOWyZRWd7SFgHTasmPnbwNv1LDFWcIsX/RVEvvkb3Hn2fpb3+m6
-X-Gm-Gg: ASbGncthwv7IbWr2uROkbKd1KdsHN7p3kNdnVAgtX/dWvSP0FHks8w/JUACluWWfJMF
- 9RrMz25Z8a2L0GtYrsYevtX7jpn/Iuzaj+A9Lt9BEu9lAN/NnZUqBXht1pBedlT40cAj3K0Hp5+
- 06BdF13HjDugTGqhTxml9GTCERdP4si2W97dRuMe8Avl7c0BVGON+eu5sbrcJbTaksRZwq3bT+t
- R29MhyFuozyARIPoU9HAXEf795stzZ5epRQkAG4dRl25nWaxL1u1UvJG6Ukfn3wix7JPNrgPC/v
- 8PkEeQGB/DInj3TyqPvrOOBKJBdDUd/r37SAfWwic08TXPK0VNLD1ZXFyVsUgRifOcEJjVpDpX2
- EDBy4jcctfMto16tT8A3z
-X-Google-Smtp-Source: AGHT+IFEyHVBPpUQu87+9vuJC5WFe8phvlVaAzvfFzSLbyBXhy6X9hQUYMGsk0Qw1l0OKlI2IokWqQ==
-X-Received: by 2002:a05:6a00:1398:b0:76b:2c12:334c with SMTP id
- d2e1a72fcca58-76e4484fb5emr14190101b3a.23.1755494735185; 
- Sun, 17 Aug 2025 22:25:35 -0700 (PDT)
-Received: from localhost ([159.117.70.219])
- by smtp.gmail.com with UTF8SMTPSA id
- d2e1a72fcca58-76e45289544sm6359629b3a.27.2025.08.17.22.25.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Aug 2025 22:25:34 -0700 (PDT)
-From: Nai-Chen Cheng <bleach1827@gmail.com>
-Date: Mon, 18 Aug 2025 13:25:18 +0800
-Subject: [PATCH] drm/dp: Simplify return statement in drm_edp_backlight_enable
+ d=1e100.net; s=20230601; t=1755496569; x=1756101369;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KDnEbrSfurZQ+Y1DvjkMBGJWcaizeGgNKLPFyaBX9ww=;
+ b=jF2m6LYmOp2i/ydU0UVZeDZXQwJWEqHtKoAjbrjswgDOvsQnwNf4VThYpe8A5Mu8Ni
+ bpwu/xgRKazOKIb5RmRpWXsMZ9SlxxZ0/R/Bx+FL2JwsfYAzcJzcfuz5htgHhCinwn6o
+ pmlEsdgU0gCJCb+ARxy+QuKZtWjWrZEzCUo2aOkyaaD4JdPMkFojTHxEdtkuObyHDkhP
+ XC6d9R1eqmfQ/U0cqPhNkS2Z5hMtxNoLvC2HWUX9/eTfrZvSeAtAzGMaXS+DWOUpG45E
+ j/B7LdTH4J4uD+fAVvqx07KUn/rzWAyvmNqnYD2TuO28j4q8KU3/10nqnCrJO43Y2cbA
+ kbcA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWQwDJMs0IPEsWCzppcLoaKP5eMkFChzQ+mhwrol9WcO9rJym80W3xAFEQYNB42gtLweig7WfmbkPE=@lists.freedesktop.org,
+ AJvYcCXrpBNWOwTw59cUV9oo3m23UY90MkCtIA2Fo845Ha++m2vgiZsof0Y8T5BzCIcup/t6corYrbxZQpPP@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyolwXok7ju1fyeWgaDG/S4LVFm5l7E5rhOUPSCvz+OICUnB8SX
+ CaPfArztN1EBSnPEf2HQ742QtrC68sWiABTL4SGZAWgmcIS8rgUKKh+l
+X-Gm-Gg: ASbGncuWSNWL8fs9gNDDTQsq3DvurZD4EmnxvCbMFW1v1lRYokz5B3HBYC5smIPiXIA
+ pHDczKO6osp8fxg9J0jnt0TpL+AQHzc4p+pbcP8N0fMANxWyCN4R5ZMUCGv9TEcR+Yo9jNl7HIJ
+ EL8YEHGkxIYJe1xxDs8dcSqxcjfUgAB/moyiNan0JOgSmVy73PP9Ly/IVUybH/KGDVbViNQH8MZ
+ mlClxC9tog0vfslJF44vYCEXfgnwzUzr3W94/O7VgqUcwFiBNQfUunl9WSg52WDdP3pq64Rsa1M
+ nC/wHfPzDOLh/MPdsmdQvUbXevgyWNqt6d/olspi2Vb6TZt5JCsmPNtg8mouR0R+az0iSAGTrFc
+ N+WVQ31TYGTXEG8ZtUeqILg==
+X-Google-Smtp-Source: AGHT+IGrZb2yXUpDByWXrf0RogRL3wdxGrw6LQsIafOIhXImWcKlQrD4Hqci3k0Rb6xnexOYz1c78g==
+X-Received: by 2002:a17:903:3c6f:b0:23f:df56:c74c with SMTP id
+ d9443c01a7336-2446d715b0bmr129857355ad.14.1755496568819; 
+ Sun, 17 Aug 2025 22:56:08 -0700 (PDT)
+Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2446d57f12esm69189155ad.157.2025.08.17.22.56.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 Aug 2025 22:56:07 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+ id 14B60459631D; Mon, 18 Aug 2025 12:56:03 +0700 (WIB)
+Date: Mon, 18 Aug 2025 12:56:03 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Danilo Krummrich <dakr@kernel.org>, Javier Garcia <rampxxxx@gmail.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+Subject: Re: linux-next: build warnings after merge of the drm-misc-fixes tree
+Message-ID: <aKLAc27XGAadB8n5@archie.me>
+References: <20250818123853.51aa3bc4@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250818-drm-dp-helper-logically-dead-code-v1-1-080f76699c0f@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAD25omgC/x3NQQqDMBBG4avIrDugAUG9SukiZv7oQGrCBEqLe
- PcGl9/mvZMqTFFp6U4yfLRqPhqGR0dh98cGVmkm17uxn4aJxd4shXekAuOUNw0+pR8LvHDIAl7
- n2Y0urjEgUOsUQ9Tv/Xi+rusP0Ma9M3MAAAA=
-X-Change-ID: 20250818-drm-dp-helper-logically-dead-code-b99252fbfcec
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linux.dev, Nai-Chen Cheng <bleach1827@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755494731; l=1333;
- i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
- bh=dqxFEX/VL/2RWIvaGy2jWQ4m5TBIX+EXT4oXhAPS5rY=;
- b=2+mNW0078zBqQmEoPaN8PDrxmYaGLav/YPr7/2cybsMI82J15uA68Dbru45EQvNMjKdVnRWfm
- jq0pIurPudUCQ/8nWE39IT9aa1GCSUeber/mw5Eaz6aV2M6zoYOno4G
-X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
- pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
-X-Mailman-Approved-At: Mon, 18 Aug 2025 06:52:07 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="Ys5Z0BDSBVttoXV4"
+Content-Disposition: inline
+In-Reply-To: <20250818123853.51aa3bc4@canb.auug.org.au>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,40 +97,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove dead code in error handling path. When drm_dp_dpcd_write_byte()
-fails and ret < 0, the condition in "ret < 0 ? ret : -EIO" will always
-be true, making -EIO unreachable.
 
-Simplify by directly returning the error code from
-drm_dp_dpcd_write_byte(), which provides more specific error information
-for debugging.
+--Ys5Z0BDSBVttoXV4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Found by Coverity(CID 1649043).
+On Mon, Aug 18, 2025 at 12:38:53PM +1000, Stephen Rothwell wrote:
+> Hi all,
+>=20
+> After merging the drm-misc-fixes tree, today's linux-next build (htmldocs)
+> produced these warnings:
+>=20
+> Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2446: ERROR: Un=
+expected indentation. [docutils]
+> Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2448: WARNING: =
+Block quote ends without a blank line; unexpected unindent. [docutils]
+> Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2452: WARNING: =
+Definition list ends without a blank line; unexpected unindent. [docutils]
+> Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2453: WARNING: =
+Definition list ends without a blank line; unexpected unindent. [docutils]
+> Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2457: ERROR: Un=
+expected indentation. [docutils]
+> Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2458: WARNING: =
+Definition list ends without a blank line; unexpected unindent. [docutils]
+> Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2459: WARNING: =
+Definition list ends without a blank line; unexpected unindent. [docutils]
+> Documentation/gpu/drm-mm:506: drivers/gpu/drm/drm_gpuvm.c:2460: WARNING: =
+Definition list ends without a blank line; unexpected unindent. [docutils]
+>=20
+> Introduced by commit
+>=20
+>   6cc44e9618f0 ("drm: Add directive to format code in comment")
+>=20
+> interacting with commit
+>=20
+>   bb324f85f722 ("drm/gpuvm: Wrap drm_gpuvm_sm_map_exec_lock() expected us=
+age in literal code block")
 
-Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
----
- drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Duh! drm_gpuvm.c gets tangled...
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 1ecc3df7e3167d13636e194c4aab44ee8979aa11..b022ee136db2eb3b721ef918650525202dd22035 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -4079,7 +4079,7 @@ int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backli
- 	if (ret < 0) {
- 		drm_dbg_kms(aux->drm_dev, "%s: Failed to write aux backlight mode: %d\n",
- 			    aux->name, ret);
--		return ret < 0 ? ret : -EIO;
-+		return ret;
- 	}
- 
- 	ret = drm_edp_backlight_set_level(aux, bl, level);
+Danilo, can you please drop my commit (and kept Javier's one)?
 
----
-base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
-change-id: 20250818-drm-dp-helper-logically-dead-code-b99252fbfcec
+Thanks.
 
-Best regards,
--- 
-Nai-Chen Cheng <bleach1827@gmail.com>
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--Ys5Z0BDSBVttoXV4
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaKLAbgAKCRD2uYlJVVFO
+owDKAQCoKfhqaU9MYn5NO39SYn5JIOoZm6yD0EQIjQ8QNH3+YgD9GtPzY2zmWOwU
+dNDspoFrAULfH+otQwwYcVaT6w0F8Q8=
+=+vhx
+-----END PGP SIGNATURE-----
+
+--Ys5Z0BDSBVttoXV4--
