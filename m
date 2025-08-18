@@ -2,111 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 831D3B2A43C
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 15:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13942B2A4AA
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 15:23:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C236610E043;
-	Mon, 18 Aug 2025 13:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB4010E009;
+	Mon, 18 Aug 2025 13:23:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OgkubE49";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="1NcP56+1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF9910E009
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 13:18:30 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57I7dIBS005508
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 13:18:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=uAqSYAJyc6fudwrnw7aEgAWXtSLsyi9zS9YKc9k28UI=; b=Og
- kubE49ddQr+RVjC0zLPjcLMSYsoaZ4ngHP5tExkWKwoWTgi+jaeHJu0JOqNMU0Fk
- ytIztsUG9m8+ufTEfE51/0IXZmoyML88+Yp1m1dWeVjuof/g0qcCtRmY3zJAaOUs
- c/AoHmqycXNWNag0FKtLqwAMbRghcaHvm9lGBiz6zziGYCreqyblA8yDuLTAvXBN
- 1tIzIjOG2EsXrFfuJqHnaBJ9RxvPYdL2dlois1UNOxqREom615QtZl7x4IG2N0ul
- PNZrayfj2lg+pNoGVQxZ9P+KYiNOIv+Y0cNaWZf9poL6B0k0H3dxAiS9/3vRadwI
- TNveSsdgxbrvz66pjqrA==
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jgxtcxb1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 13:18:30 +0000 (GMT)
-Received: by mail-oo1-f72.google.com with SMTP id
- 006d021491bc7-61bd4e3f1e9so5405655eaf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 06:18:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755523109; x=1756127909;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uAqSYAJyc6fudwrnw7aEgAWXtSLsyi9zS9YKc9k28UI=;
- b=n56jtgkwVfibt3AnNoHdXVkTfAiOEzP/duQ3Qo1FV6piWb0lKoGtWgDllrzkha6JB4
- Ht0813CGcCMVAcXfmPzYptFs2YpKfhTFIV8f/r4PiSpdESKjLUf/45IEtUko3wy5jPrn
- ai4k2I6P8KYRPGZkgznYmj+hP89C6bIGHruf8a6qyC0jWo3vhyD3VpeXB4okC7Iw6t5f
- AV7A1bxog0B5qqro3SY55WtbQ/3PyAQ7Dkt5Q4nQdFQEhPf5A8rxV9hpOLAPw4VGy7ZQ
- KDDmJKJJYPoZxTaEfXfob8YaLXrPm3Pum19jQj5MwPhcBrGSypDHyt9r1VvT7mCaW0kZ
- 7Fug==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVMho10rFbaRHAvGXWtotmsk395UVqGR94i3R7feUIlPfDQaomGKWMPaSytO5U5S74R4d6Jh8hPCAM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzVRwtVuBC8bl1DbJIAxeKO7Lb9WAESzWbG+IZPobwxWlrKorQw
- FIyi12kXhDrBlDGzfsClyPV6rVPPJ1RbhCTRVUh5V/gDTkw0sh+Fm0ZJ3KlYFlLoHgoS14tkLjm
- C1SwL8gswbL5lHrjN/Y/A1nMeY92k8YxnAHz1kG1ZMoj/Y9oIcvavVxdQUVCIthqIH9AZNAlolh
- vzSRrvtiBY9s5izIl1D5txC8bqVOz0gbFkmSND38SN6wr4UA==
-X-Gm-Gg: ASbGncu/16tCQyKyofbxycxKXuf78ZkQmA2uCsbCPPpoWAOJWqUB1xCprzfmnTRTFMR
- pCNWAoDM4fi+wvVchJ72Dq/+LIgVv/eFjBD/LcPXbIiQUYFPmAkLwt6dhUHBWFHVymW0F2OfAkq
- r5MGaLSLU4mJP6jFl6PKro8xgHaWUYDPR7jPH6FtCH7eQ7LP0P6W6b
-X-Received: by 2002:a05:6830:2aa7:b0:73b:1efa:5f40 with SMTP id
- 46e09a7af769-743923c5666mr8065604a34.10.1755523109216; 
- Mon, 18 Aug 2025 06:18:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFrs0mWeBrCCfWhxt3WgLSgIDxLQ6Kc1gX26Zji/sZVYHQF86VSLnVDmuBOOzeWaaZ7/d1hEb9Nw7+/Ihh/Pb4=
-X-Received: by 2002:a05:6830:2aa7:b0:73b:1efa:5f40 with SMTP id
- 46e09a7af769-743923c5666mr8065579a34.10.1755523108735; Mon, 18 Aug 2025
- 06:18:28 -0700 (PDT)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2071.outbound.protection.outlook.com [40.107.244.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C817410E009;
+ Mon, 18 Aug 2025 13:23:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OHgpCaM944b1l66BoPc63m+JqP8Af9fTlYyiyQqjOvcVAB8j9IwlrMPiC1USSVF9N25osbF59kIHnxuQJNqYYNI9c8B1JF4MMbeDeYXboaH/QVO7rU+U3rlGOPQALfRc3Tl/3WTv3709KJRx/lsjCteQJQXw2SkJZuTKWOY8GH+VxYR1dnL1lbXguXK23YgiP4DcVFdJTDa6utHFD1TxjxqNysxW4Nnxby33URRuoQI2dvyGOK2qO9hglk4OKE9qsyl54PwI53Oi4rzXPP00eOk2LxvO/SpNtllv0CJ1l6cUxuQOsovFvDQJs9lV5dpWl/QBm0vCtGTCgo42g5QYrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Uxv+qr1//0w9w4Do1THNGfU7GlTw+lN2aye8Cl7IssM=;
+ b=Qayp+LsEBt2wuxKyO1PK9PhNhedsOOdttoXa9RHE7Omht66gzwjXS2r91VCf9Aq5D/KvBjHT74lCdrMs/fh1My9DOy6OTi8llHqF65dKu1MGrilRefKcHoyKf/y7GQLuyQTC91LkYTgS9XCbsO7GanMDGJ8SIb2nQJqMcT0HyDObHLA3gk2crNpl9qMg0IA4r4IfyZOGrMNbPVRhHXJcgT6Y6ctg+4QfO5seLkg95oxo0qhSaVrYI9Y72wbE8kAIJlZNF6SVMF18vvKwu+KSzFqoAcr5ct+0rEgJ9DAH+A5kXArLabNN/Em4dKOph4zIN35RefrfrumizRWFu9mpaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Uxv+qr1//0w9w4Do1THNGfU7GlTw+lN2aye8Cl7IssM=;
+ b=1NcP56+1uuUwigBNiqgd3l2EI+QAPFwmSQ2kQxoEC34/i7O8xJEV1nty3HCQ/jASLCv50r3qjRqey0QUOaYQwuOXrLmBCxQ/s/ZsIjracNzvcgduUIEWk37g+4SobBaak9Wuska6dTQh+FnMQzR6icq+0jKCTEjqa+ixVKLVS0M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ0PR12MB8614.namprd12.prod.outlook.com (2603:10b6:a03:47d::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.19; Mon, 18 Aug
+ 2025 13:23:42 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
+ 13:23:42 +0000
+Message-ID: <6cb1d152-898a-4cc4-a086-44d85cf7a24d@amd.com>
+Date: Mon, 18 Aug 2025 15:23:37 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: Pin buffer while vmap'ing exported dma-buf
+ objects
+To: Thomas Zimmermann <tzimmermann@suse.de>, sumit.semwal@linaro.org,
+ oushixiong@kylinos.cn, alexander.deucher@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org
+References: <20250818084148.212443-1-tzimmermann@suse.de>
+ <6f409954-2e01-4e87-b8b7-5688bea837f6@amd.com>
+ <7c2d8894-7eb5-4c86-a80a-935fcf24ef83@suse.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <7c2d8894-7eb5-4c86-a80a-935fcf24ef83@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0002.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c8::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20250813-unusable_fix_b4-v1-1-3218d166b8a8@gmail.com>
- <272d2a39-19ce-4ac5-b3c6-3e3d6d9985c5@oss.qualcomm.com>
-In-Reply-To: <272d2a39-19ce-4ac5-b3c6-3e3d6d9985c5@oss.qualcomm.com>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Mon, 18 Aug 2025 06:18:17 -0700
-X-Gm-Features: Ac12FXxrj6x20sKrGWwLUDNi8HYqMcVUNVM5TGMtv8mw9iPJlUONr9yAcK4nzW8
-Message-ID: <CACSVV00Yo=cZxUztB5Jf7153bsnnuATrh3L1utw4SrOQmYERug@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: skip re-emitting IBs for unusable VMs
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Antonino Maniscalco <antomani103@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: jmFvb9QzUCTAQNxVjlbaXO_qeBgjNJWG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAyMCBTYWx0ZWRfX36N8Tf8IoR30
- T5qBI+Kv5sF0y1CARhqOcUMmP1UtSQp82O0CAqwh5jzt554rG3mDGSi/RWtxowtBTE8YGvfuGEz
- wprlYFuGjkzUgnvPD+HwNNROR4TxnZ4xTrrndd3GCQMA7n+TorlXwGy60cmjZxqBTILxir+4MMN
- ImC0/1lxPhUHPdv9LlpKdXecl8D8BnZpeppILxmHmQykqimsvLFJMFQzqkLmH55GPKWuI/ocKgu
- XrrVL+cVpdqTM3J8voaYY6bZ32N79k8te12qKpFnMoBZumYT0ijyzWW1Dieze1zEzN0WRJVGlAP
- fi9H0fgyw528Zirh0Tu2sHwbr+DiAKfB+bG8No8MAYaEtmb8tK0ZAZg0XBZN5S6C2BCk4pN1VWo
- 1T9Uzz4P
-X-Proofpoint-GUID: jmFvb9QzUCTAQNxVjlbaXO_qeBgjNJWG
-X-Authority-Analysis: v=2.4 cv=V7B90fni c=1 sm=1 tr=0 ts=68a32826 cx=c_pps
- a=wURt19dY5n+H4uQbQt9s7g==:117 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
- a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=3oEuPgIEOckFOmJ0i24A:9 a=QEXdDO2ut3YA:10
- a=-UhsvdU3ccFDOXFxFb4l:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 malwarescore=0 adultscore=0 clxscore=1015
- suspectscore=0 impostorscore=0 bulkscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508160020
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB8614:EE_
+X-MS-Office365-Filtering-Correlation-Id: 336ab661-9458-4ace-8410-08ddde5a73b0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NktaQTNqR3pFd2NyZjFZcnRBUjFEVldJR3ZWUEhvdGpWSGdTdEs1WURCajE0?=
+ =?utf-8?B?Zm00a3Y1d0ZaOXNFYWg5azd3WDIrS053bjhNeWhKNXkrQm5XOEFxOFU0RFZG?=
+ =?utf-8?B?T0x6cVBqa1ZvUythRSszckdRQ045cTlUMjA2UUhCV0ZRWFNhNytYWnBBNXFS?=
+ =?utf-8?B?cFAwRStDQkhPZXVjaTRrTlhMZ3JrZm1IUHZZbG5Qc1VXN2dNK3p5M211NVlz?=
+ =?utf-8?B?TkRuaWljbDlhQWV0YkE4bXBxa20yWWpFZFliRG9XMnF5MWhRSzVNUlJzM1lI?=
+ =?utf-8?B?ME5SQ0lXaWwvdDVZOGZaZ3FpL1g1QWFrT3FnR2RLN1JFSG5zOWZJQ3R3MVg5?=
+ =?utf-8?B?MkNiSmd2dldobmRRWnZDRUkveDlFTlFLNDk3aVQ2a1h4dHdBTmR4ZnRVYnpm?=
+ =?utf-8?B?dXFwRzRKV29pTmQyNmJ0c1hhSDJNOE1WREoxQklQVmNBaHFmcit4cjZ3Ulc4?=
+ =?utf-8?B?YWNkTzlOZGhXNHhtbDVUTWdySTFJUlN2VVVjeHpsOXlUSDdjOUl1cmJNTE5W?=
+ =?utf-8?B?OXNINXM2a0JRaXk3RlB1elk5THNPc3IrNU50VWN1UFFvbFQ4R2FTRHdlTStP?=
+ =?utf-8?B?bE9GRWlsem1TTjBMc2tLMngxTFA4dHNRQlhCTnE4QTJtMCtaT2JRY1JDR20y?=
+ =?utf-8?B?RXJGVmVxeWg5aFo0OVN0emk4K2Q2SzR3MWgzYkc2b21iVVNsalpoWkdRQWhr?=
+ =?utf-8?B?Yi9MOCs3SUlUY2NqOHd1TlVPNDFZSGtpelZOWWNJcWpiQm1Hak9WRVVLTFh1?=
+ =?utf-8?B?SlQ2aHJYZmIvNWxLZmdvS2pXZml5RVpaaUNxdWhBa29RQXdlZHdXcFd4MkZF?=
+ =?utf-8?B?QWV2N0UwS01oUnJmOXNPY3ZuOWMxTHdjbzVpNWdIamVwSHBiSlhmWVNzMzVk?=
+ =?utf-8?B?emlrRDNUWmg3NzdoMlFxaHMxZjFHK1pSaFR0czBPSXo2YW1iNkdsMFdMMUlx?=
+ =?utf-8?B?bjJRRmRVK2pZbkx0eHRDS2tUS3NRQ1BZejBSanZld0tSeHJUeEpOeGdZZ2ZT?=
+ =?utf-8?B?QmtTTnVpNFg1TzYrQ3dQMXg3WEtNME5NYXJndW1zL0lBUVB2ZkZqWmJManc0?=
+ =?utf-8?B?MGxLaXhZbktCbkg5ZVE5RnB5cGdFQU82ZER3Y2R2aDk0M1g5b0NDNVRCZ1E0?=
+ =?utf-8?B?VFlReGpQbkN6enBUNHJwMTNlR2U3Ykg4TzNaWWJNdkFYS2dVUU9wdklUSWhN?=
+ =?utf-8?B?dFZnVUVHWW9yeVkwb2p2RUY3VUdwWHJUVGx0TXZ2MU04QU5PeXNTL1pOc1lS?=
+ =?utf-8?B?dHcxZklJNE9NeitqUmV0MXJlcmErSzl0ay9nYVk5blFTb0J0M2JMdEZ4aXM4?=
+ =?utf-8?B?T1hYcUlsMC9kUXVobjI4SDdVUENxVExwWk5vMmlHOGpvRHgyMkFjTGlLdEJi?=
+ =?utf-8?B?ektkR1NWdXZZQUM3dGdrdDZ3U2Q4N0VIS0g5TXY1UTBEV3dNOGtUSUEzWkU1?=
+ =?utf-8?B?UmlrZVU5a09IbkVwZ0NNUWZNSTVhd0tDZjJCN3BYb1hrdG5YRjdUMk9pSGJK?=
+ =?utf-8?B?VG1Bb1A2L1Rha2NVeUpBMHIzK00zQlhDOVFsWkJjWU9CcnVlZTZaSjZXNEdD?=
+ =?utf-8?B?Uk5NT1R4aHUwTStxTXdSUS8raDh1cHBSZEVZei9uRDBnVWhzZHZEdUxrT3Bu?=
+ =?utf-8?B?V2VvYjFuVk9KeVR0V0hlR29KcmdPSUljcnRlM3lwMDA2WHRtdnVkNUEvemZN?=
+ =?utf-8?B?UFJuV2hzN3RtSW9PMDJPZmFFVVBkejAwb2dlTjJrSWRtajlhejVnUlBNVzF5?=
+ =?utf-8?B?c290QXRyK3VkS3BhVjlPWmhWYXBzcm1hSEFrclRVUnFWUEtrNlgzYStVYU83?=
+ =?utf-8?B?ZVVyN2tpYk9DZ1NielUzekdaZzVwQmZMSGJocXIyZUdLZWpreFZra1R3UVFn?=
+ =?utf-8?B?OGJ6UHdMRm03Z1paOVVZSFJIZ3lSMGxBVlVESHk2alRtYUxxT0lWWnJIYW0y?=
+ =?utf-8?Q?3vcE37udhpg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVo0eGx3dXZhTDRpVmFTTmdIVDN1RXRzaVV0cW14cURHNkExZTl4QktETlF1?=
+ =?utf-8?B?WnZxOEVVMVh5MFp3L3BENnhzaGlNV0tDZEZmNGgrVmRJbVJBYU1TRk82b0sw?=
+ =?utf-8?B?V1JXMWxhbDROdDZlV2lNN2svK2tNcWdmM0RJNytUMm13bUZ4YmpuREtNdUtv?=
+ =?utf-8?B?REowTzdMMWtyUFk2dE9NZkkrMWMwWFlzSVhZb09oU2xnZTd1NGl6RFc4UlJp?=
+ =?utf-8?B?VUROaFEzTEFXN3hjcE5QTVBiYVZNclU5cHFHYXZEdmFVSU56RUJVYU1idXBI?=
+ =?utf-8?B?WmxLZ1BQWklreVYrOURwTUpxdVZKQWlVMUtVb0JheHc5M2tJZXBPWkVLVzlO?=
+ =?utf-8?B?WHppVkdicjlmeWFqR1QySjVBMU1vUTBDbDd6Y0VDYjl1RVdmVW5FR25yaHpl?=
+ =?utf-8?B?eEg0OGVrOU4yaUZqcUJFQjMzZUp6ZHhpUlIvL0YrNUNUNE1iYWJOVDVoWWZM?=
+ =?utf-8?B?a0NoOXB5c2ZGS3JpYTM4TGtGZXQxRUxwNW5KTjdLNzBLTWlvLzFwb2VSbHFF?=
+ =?utf-8?B?eEZ2RkFCS1NZQ2drVVFDSkQ3WktJZ24wOGlTMm9wdzhaT0lhQXZab3RLVFVU?=
+ =?utf-8?B?aGt1RFM2KzZ0Y2dLL2ZOSjNQUjlZcHl4VFNVUnFkbWgxZko3UnRjM212T1JU?=
+ =?utf-8?B?d0RMbUpSdGdZUVk0aWF3RENhZUxDam9sQW5selhMRi91Ry83TGhPNkxhaVNH?=
+ =?utf-8?B?dlNTam9YZ2l2TmdibTZEa1h6TVlSejVORmN0MjYwcWZCejRTbjN1L3liL2Yv?=
+ =?utf-8?B?UHBhbk93RjJpM25oVWZzTTZweUM1eWhCYUJzYzdsSDdoZU9FWVRHRHRXdUtM?=
+ =?utf-8?B?NXVYS1B6YXcwS2txeHZQWi9UaVRxMWNYR2NqNTdjMjhsK1lNYlJ1NnVyb0Uw?=
+ =?utf-8?B?QmN5Mlh3dStQT1NMbW5zdnpvYmxYNEVmYzY1SVZqWVNabGdWUk05SE54dTBT?=
+ =?utf-8?B?MFIwZkRZQ3ZlWi8zUE8reUJvU1RxekFkb0QrenVpUzJhLzJXQ1c1MklKQThK?=
+ =?utf-8?B?Ui8vN2JZS05WNE03cC9OWTdVT09nUGRpMGlHNHI2dEowbVlTTkc4WGFra2JK?=
+ =?utf-8?B?VUNUU3pqZTJ4TE4xOEdWMmtETEp3bThRdDZVRWFMYktPaE9aRDhPTWFtNlBt?=
+ =?utf-8?B?eUJqZm53S1VEZ2h4R0xSdGFKeG1ZQTRkc2pMcjhsZmhEcndHRFcrbk91cXI4?=
+ =?utf-8?B?UGYxWHhHYkJ4MjQ3TVpNTkUwTkZQeVFxVjFrRUxnSUo4bHpjemIvM2RpU0JC?=
+ =?utf-8?B?dzVSMjVmRHRmcUVnR3VtRkd6dGphTy91WE9EeW4vWlBVSHBhMzZkMG00dWRr?=
+ =?utf-8?B?RElKVS9GNy9HanFqS3h3MmgwV21yQUN4SEY3eWlnUFY2VCtmZVl6aDNqS0Z3?=
+ =?utf-8?B?bjRmWUZlNzQvcjRuMDF1NlFZMXdzWDRRdWEvWFNaWTZlSkdGNFN2L2Z3Qjl1?=
+ =?utf-8?B?UjQ3U0JjSHhDUlU0NjhnWDBXQndLRHIycU1UNU5uSTFTK0dwREZLMFNuUEhB?=
+ =?utf-8?B?dmVtUHRuN3poc2lxdmpSNkt1bGU0d3dqRjlkUTJyQTQ3dzVxNVNwUFQ5Y1JM?=
+ =?utf-8?B?NEZ4K1lPeThTTU1SVGxtUldhQ0UvWlowdUEzYkdldEZMQk1id29pWDk5ZjlQ?=
+ =?utf-8?B?TG1QRE5ZRVdpaTVFa0VSMnI1c3Q4ODNUTWJ2VEd0STNXanJBUm11c1BPaGlS?=
+ =?utf-8?B?YlFBODFYem9ZY2JMSFNmclJWWWF0R2VCa2xTWUpYR1UwYWU0MUFadDJlYWQr?=
+ =?utf-8?B?cEpOekpySlBEZm53SDYxVTVtTk0zWk1Db1lUMCtQSEdTQzFxM1IwYVh0KzBZ?=
+ =?utf-8?B?MFBnaG9nTmljL0ZPcms5bG5wK1NLQjVIWHk2K0xqV1J1UUVNM0ZLT1Ftaktz?=
+ =?utf-8?B?Z0NmdGVEaHlYT3dQTDRmQUdzMEhBWjhwS2IzeFdLaXcvaGVhM3ZFTGFCOHdu?=
+ =?utf-8?B?aWxwTHhrVUszbUMyemJoL29BdUtKQWNUS1d1bEVXelYyeGlKY09JUVcvZXds?=
+ =?utf-8?B?SjdzOGNxeFBOTnR3YmJJTDQxYkpHR1U1TXpVdE93UzkzMEoyYk1wL2s3dUxR?=
+ =?utf-8?B?Z2xYWFo0bzcrVHk0NmppUGhiNUZtTmNPNENqOHRyNGJvSDdvUXZEdHlSS2ht?=
+ =?utf-8?Q?iOqUid4U+pg5A8qs3H26DHSWs?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 336ab661-9458-4ace-8410-08ddde5a73b0
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 13:23:42.7186 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iEaSMTWWqvgs9CQmcPYUt+l4A9b5e+ky/OL4Da3YNS3ZGBgK5weGWEcVz+ZKD0Rz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB8614
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,69 +166,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 18, 2025 at 5:10=E2=80=AFAM Akhil P Oommen <akhilpo@oss.qualcom=
-m.com> wrote:
->
-> On 8/13/2025 6:34 PM, Antonino Maniscalco wrote:
-> > When a VM is marked as an usuable we disallow new submissions from it,
-> > however submissions that where already scheduled on the ring would stil=
-l
-> > be re-sent.
-> >
-> > Since this can lead to further hangs, avoid emitting the actual IBs.
-> >
-> > Fixes: 6a4d287a1ae6 ("drm/msm: Mark VM as unusable on GPU hangs")
-> > Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
-> > ---
-> >  drivers/gpu/drm/msm/msm_gpu.c | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gp=
-u.c
-> > index c317b25a8162edba0d594f61427eac4440871b73..e6cd85c810bd2314c8bba53=
-644a622464713b7f2 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpu.c
-> > +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> > @@ -553,8 +553,15 @@ static void recover_worker(struct kthread_work *wo=
-rk)
-> >                       unsigned long flags;
-> >
-> >                       spin_lock_irqsave(&ring->submit_lock, flags);
-> > -                     list_for_each_entry(submit, &ring->submits, node)
-> > +                     list_for_each_entry(submit, &ring->submits, node)=
- {
-> > +                             /*
-> > +                              * If the submit uses an unusable vm make=
- sure
-> > +                              * we don't actually run it
-> > +                              */
-> > +                             if (to_msm_vm(submit->vm)->unusable)
-> > +                                     submit->nr_cmds =3D 0;
->
-> Just curious, why not just retire this submit here?
+On 18.08.25 14:46, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 18.08.25 um 14:40 schrieb Christian König:
+> [...]
+>>> +static int amdgpu_dma_buf_vmap(struct dma_buf *dma_buf, struct iosys_map *map)
+>>> +{
+>>> +    struct drm_gem_object *obj = dma_buf->priv;
+>>> +    struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+>>> +    int ret;
+>>> +
+>>> +    /*
+>>> +     * Pin to keep buffer in place while it's vmap'ed. The actual
+>>> +     * location is not important as long as it's mapable.
+>> Yeah, exactly that won't work here. Most of the locations are not CPU accessible.
+>>
+>> You could use AMDGPU_GEM_DOMAIN_GTT, that should most likely work in all cases but isn't necessarily the most optimal solution.
+> 
+> No problem about that, but why not a bit more flexibility? When udl copies from the buffer, it is likely pinned to VRAM.
+> 
+> A bit mask of _CPU, _GTT, and _VRAM should work fine. The other domains are probably irrelevant for our use case.
 
-Because then you'd end up with submits retiring out of order (ie.
-fences on the same timeline signaling out of order)
+The problem is that as soon as you pin into this domain you get an error if you try to pin into another domain.
 
-BR,
--R
+So if you try to use the same buffer with udl and amdgpu scanout and pin it into GTT -> error.
 
-> -Akhil
->
-> >                               gpu->funcs->submit(gpu, submit);
-> > +                     }
-> >                       spin_unlock_irqrestore(&ring->submit_lock, flags)=
-;
-> >               }
-> >       }
-> >
-> > ---
-> > base-commit: 8290d37ad2b087bbcfe65fa5bcaf260e184b250a
-> > change-id: 20250813-unusable_fix_b4-10bde6f3b756
-> >
-> > Best regards,
->
+If you try to use the same buffer with udl and V4L and pin it into VRAM -> error.
+
+There is not works for everybody case here and we need to guess. Pinning it into GTT is just what works most likely.
+
+Regards,
+Christian.
+
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> Regards,
+>> Christian.
+>>
+>>> +     *
+>>> +     * This code is required for exporting to GEM-SHMEM without S/G table.
+>>> +     * Once GEM-SHMEM supports dynamic imports, it should be dropped.
+>>> +     */
+>>> +    ret = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_MASK);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +    ret = drm_gem_dmabuf_vmap(dma_buf, map);
+>>> +    if (ret)
+>>> +        amdgpu_bo_unpin(bo);
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +static void amdgpu_dma_buf_vunmap(struct dma_buf *dma_buf, struct iosys_map *map)
+>>> +{
+>>> +    struct drm_gem_object *obj = dma_buf->priv;
+>>> +    struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+>>> +
+>>> +    drm_gem_dmabuf_vunmap(dma_buf, map);
+>>> +    amdgpu_bo_unpin(bo);
+>>> +}
+>>> +
+>>>   const struct dma_buf_ops amdgpu_dmabuf_ops = {
+>>>       .attach = amdgpu_dma_buf_attach,
+>>>       .pin = amdgpu_dma_buf_pin,
+>>> @@ -294,8 +326,8 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
+>>>       .release = drm_gem_dmabuf_release,
+>>>       .begin_cpu_access = amdgpu_dma_buf_begin_cpu_access,
+>>>       .mmap = drm_gem_dmabuf_mmap,
+>>> -    .vmap = drm_gem_dmabuf_vmap,
+>>> -    .vunmap = drm_gem_dmabuf_vunmap,
+>>> +    .vmap = amdgpu_dma_buf_vmap,
+>>> +    .vunmap = amdgpu_dma_buf_vunmap,
+>>>   };
+>>>     /**
+> 
+
