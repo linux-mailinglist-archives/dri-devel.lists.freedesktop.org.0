@@ -2,44 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25355B2B0ED
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 20:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15BCB2B0EB
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 20:57:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04CBE10E4B4;
-	Mon, 18 Aug 2025 18:57:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F013810E4B8;
+	Mon, 18 Aug 2025 18:57:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="BpgbAlog";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tvwFgFAC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A16F610E4B4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 18:57:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
- Subject:Cc:To:From:Reply-To:Content-Type:In-Reply-To:References;
- bh=JNzSJeGA2KVxjQ7TVG5iBiBWJP0Ic6o9XHWVyDGQ9O4=; b=BpgbAlogHLKVjgwCEw/QM0WqT6
- FVgoewGQvCQyGv3QE+E9kNg3AGrJEmVaBCieK17JVP1JFDLl80xi7WryocB/hmIj+hxaHw+UjtEoc
- AcHZjUhWol7ofNpV9z2Jd06w+fbRReyOseVeyKDsr/kS9i+gBNmw2tuBeIDcNjZp0TYhrjMwU53Ti
- mI36yh2vjcsv351JTCiyhEYvg94GaqCX+6/V/nd8VvJnXXDJJp7lVnlJntRNbJ8kkS9q5qZMupsoZ
- U+6KOdRPExCw00aRJxWvxPQyr5s15y5BEjihuYqdyEgFx3Nwxav4gEaT4py0NDzz7xRN8cKI3y4T+
- uJOle4sA==;
-Received: from i53875ad4.versanet.de ([83.135.90.212] helo=phil..)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1uo52T-0000l0-Bf; Mon, 18 Aug 2025 20:57:01 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: tomeu@tomeuvizoso.net
-Cc: ogabbay@kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, heiko@sntech.de
-Subject: [PATCH] accel/rocket: Check the correct DMA irq status to warn about
-Date: Mon, 18 Aug 2025 20:56:58 +0200
-Message-ID: <20250818185658.2585696-1-heiko@sntech.de>
-X-Mailer: git-send-email 2.47.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ECBF10E4B4
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 18:57:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5EC8A5C62C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 18:57:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 09934C16AAE
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 18:57:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755543421;
+ bh=Q7cQms0VpVYJsFfcAc26tZGqMQUOZNJMK9wUTIEEqvE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=tvwFgFACoLR8xrccSOqsW2DjACkqby2mJuPBWy8mXuW3itr5P8D8nCKqo3FRD9V/6
+ 1TBEbZbryIay1nOKdiLnyAzN/RnmQ1ff+98PfnBo0HIY3CzHoTzNWskWgloOgnLmdp
+ 777hh1R6/OMygdNKU4Sia3jWiOVXREUr3OHaBy0F5R1AdfSjaW/qOyr9bDOsqH3VnN
+ i14HYLtCHIYJQfenUe1MaMMBgebQlmcGBcejGeFW+w8tM9ag4yLXkJMq/Jj8MyLoxa
+ Pqr/z61liagoFhAdru16PXKoydKcu6WUPyOroqisBR/zXOKrqwb/1MbKs+ia7B7yB2
+ 3z96SXSzMjhIQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id E8BADC53BC5; Mon, 18 Aug 2025 18:57:00 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 46181] No Brightness control-nouveau
+Date: Mon, 18 Aug 2025 18:57:00 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: francisco278herrera@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-46181-2300-2sjt1WXIW0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-46181-2300@https.bugzilla.kernel.org/>
+References: <bug-46181-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,30 +74,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Right now, the code checks the DMA_READ_ERROR state 2 times, while
-I guess it was supposed to warn about both read and write errors.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D46181
 
-Change the 2nd check to look at the write-error flag.
+francisco278herrera@gmail.com changed:
 
-Fixes: 0810d5ad88a1 ("accel/rocket: Add job submission IOCTL")
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
----
- drivers/accel/rocket/rocket_job.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |francisco278herrera@gmail.c
+                   |                            |om
 
-diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-index 5d4afd692306..3440b862e749 100644
---- a/drivers/accel/rocket/rocket_job.c
-+++ b/drivers/accel/rocket/rocket_job.c
-@@ -422,7 +422,7 @@ static irqreturn_t rocket_job_irq_handler(int irq, void *data)
- 	u32 raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
- 
- 	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
--	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
-+	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_WRITE_ERROR);
- 
- 	if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
- 	      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
--- 
-2.47.2
+--- Comment #2 from francisco278herrera@gmail.com ---
+I believe this is fixed.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
