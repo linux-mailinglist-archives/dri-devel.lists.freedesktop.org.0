@@ -2,146 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4983FB2A506
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 15:29:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537BAB2A897
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 16:07:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8B7310E1D5;
-	Mon, 18 Aug 2025 13:29:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40E1610E459;
+	Mon, 18 Aug 2025 14:07:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Eq7iz8Yv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1EtEqjhr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Eq7iz8Yv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1EtEqjhr";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="D/UeaWEp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 809CB10E1D5
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 13:29:15 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 158E1211E8;
- Mon, 18 Aug 2025 13:29:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755523754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=vZoIb3TbQLpv/Tsmtkyxxn9rxqorYSjWNj60VMSU40Y=;
- b=Eq7iz8YvNC3moqrH+fcbjjZXU2KzKm5RNzowtWGdR68vu1qowSFHD5dT0yuPzHHmzoCHG/
- UBplkFLRDf7Qb6S8eO3Ymj4u9VNx0TB/SUQ8HO1UFoFl5xHNjh8ayuJntjb7EicoZovKQC
- zXDVAxjk047fSqyzmV6H7zrXhlj1/Go=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755523754;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=vZoIb3TbQLpv/Tsmtkyxxn9rxqorYSjWNj60VMSU40Y=;
- b=1EtEqjhrMSfLlyD3JCWSDDbDq6E6fFmaflGteb19rmIte7ACRlaSwcZ7IA5P1THeK1J+1Z
- KdAL2/6xRwB/5WDA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Eq7iz8Yv;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1EtEqjhr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755523754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=vZoIb3TbQLpv/Tsmtkyxxn9rxqorYSjWNj60VMSU40Y=;
- b=Eq7iz8YvNC3moqrH+fcbjjZXU2KzKm5RNzowtWGdR68vu1qowSFHD5dT0yuPzHHmzoCHG/
- UBplkFLRDf7Qb6S8eO3Ymj4u9VNx0TB/SUQ8HO1UFoFl5xHNjh8ayuJntjb7EicoZovKQC
- zXDVAxjk047fSqyzmV6H7zrXhlj1/Go=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755523754;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=vZoIb3TbQLpv/Tsmtkyxxn9rxqorYSjWNj60VMSU40Y=;
- b=1EtEqjhrMSfLlyD3JCWSDDbDq6E6fFmaflGteb19rmIte7ACRlaSwcZ7IA5P1THeK1J+1Z
- KdAL2/6xRwB/5WDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AEC2913A55;
- Mon, 18 Aug 2025 13:29:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id tNu7KKkqo2jACAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 18 Aug 2025 13:29:13 +0000
-Message-ID: <61317a67-e73e-43d3-85be-8d4e86c1aae2@suse.de>
-Date: Mon, 18 Aug 2025 15:29:13 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B89F10E456
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 14:07:02 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57I8BPFT006751
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 14:07:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ chLwK+SsPQhHTytM+7iGONL6X0o4wGCEiPMrGgw75ts=; b=D/UeaWEpAUWr/gmE
+ WZwGHoUPLUcKr79Zd51wp7wQI0dwsdSBaOAHu78btslcr/KrdR/bGGhyK46HZqo+
+ d7CcZ88NvoPaijN+ZaCV8SJ4Zoj3k42YheITNwu2EepURGBWsBIFaUTcebUiIHLb
+ veAudXcNEk8HxCuQxsDLGlmR4tPaVw/UrcHpJ59RwxUDMnybMAmOYjfuT2tRS3YF
+ +Z7W4DKOF2aMyJ98APKMORCikS8re5V3SDR/IIxj1CzopHIGKJgRGXIXnNxACm9e
+ Crv+BISMW5jApN6gq6ZqrIOVlOMeklP7vUddhJ/ES0OIpOdFZGY5XWuNmliBTg3v
+ RSDmFg==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jhagvx9b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 14:07:01 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-76e1fc66de5so4516715b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 07:07:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755526020; x=1756130820;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=chLwK+SsPQhHTytM+7iGONL6X0o4wGCEiPMrGgw75ts=;
+ b=XDL54amld6NL4nabhUeIFmgv+WhBoCxyx/996udUGiF5juSfnoY7LNMvQpVLiU2NbH
+ H/aTyHsDc3pX7XjN1eHa2R4SmWa6ZycYJNCNjdTVFfaExsh5Fsvj+SVNJG5kCArQe47d
+ OyzVz+WuTcmpKpMx8zdGha0OWzPbA7dpejT1wnYAE3COY2+BDIgJdUuqIydo035zj/M1
+ LTJP2cgI7BYNY+5u/Bym6IW7shmHeZsHyet3W4/6TBa931TSrpzzZ6MRbpVhlHHiqtnI
+ JqEg0NVuPvzzoB6wpwGK6CFlw3GyJdXErK57EeLOHn7JJU6WRxpLw83fWGX9DBRu0Htn
+ yXPg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDlbeUBZBpQA9rq1nsjabM42bYJW29vqd8EoAZzhuUVnJssTS+PDhAsvjoP2uPwJpEVtaxA8YbQnA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzTB8VFCxsJ/pxLPbvbN1BucoLeeM+LXOoxDyxWA6mmEkAEG3WI
+ A2eozJNZuK2ODb3Mjg9jEWI60/nBQWDh6c/9Eyzkb5iviYvYBwYGERV9Y+UeRdH8FQE3VJ4xd1Y
+ B2lcKfvXNQpryJXf/a1n+NKBe2HzOLejZXy4pDA8o75jYzYoYQG2LOIEKj3bq/NKpKrY9s3A=
+X-Gm-Gg: ASbGncsT58QQrnVF31FdTnL2qUJPvELP0yIEB/p5VNbF9VowqNTHJSpJ2syBXGmY/xK
+ AcS9SZlPGb+tAgHX7oflbLVCuPRHCnqdNO3BeW4fefqhL8a68PbWI3K5TQyA9fNd6xKrOjPBTij
+ u74+H4/xCPVBNKx+IngtuiOGfv/myA5Fjr7uqOP2qNtPrqoHO5rIoGxe4/WpJycF6/Q0NIatcEP
+ dMfgAw+KhA5+Jzn3NbEeF+PFkqDwDNTdM51O9GCmq+b8NPtAoIWsAH6yFBHlf5uQ/yh2waVi95U
+ b7rpj22ZiRd2okmkDxvNK0un8dfg/gfVE66aEDUUfD3XNSkpzRgTbM7pdZtS/l1g
+X-Received: by 2002:a05:6a00:14cc:b0:736:4e14:8ec5 with SMTP id
+ d2e1a72fcca58-76e438f0ec5mr15651399b3a.11.1755526019860; 
+ Mon, 18 Aug 2025 07:06:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEaW5O7M2POFlUVEtIHKn+I++/iHZWm/6mA4hEC46cPlJZweEv7D5U88CqdrtLREpBxLoXmhw==
+X-Received: by 2002:a05:6a00:14cc:b0:736:4e14:8ec5 with SMTP id
+ d2e1a72fcca58-76e438f0ec5mr15651177b3a.11.1755526017550; 
+ Mon, 18 Aug 2025 07:06:57 -0700 (PDT)
+Received: from [192.168.1.4] ([106.222.229.157])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-76e45588c05sm7492056b3a.82.2025.08.18.07.06.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Aug 2025 07:06:57 -0700 (PDT)
+Message-ID: <9f94c6d7-7b39-455c-83d1-81c694672775@oss.qualcomm.com>
+Date: Mon, 18 Aug 2025 19:36:52 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/gud: Replace simple display pipe with DRM atomic
- helpers
-To: Ruben Wauters <rubenru09@aol.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ingo Molnar <mingo@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Jani Nikula <jani.nikula@intel.com>,
- Jocelyn Falempe <jfalempe@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250816100223.5588-1-rubenru09.ref@aol.com>
- <20250816100223.5588-1-rubenru09@aol.com>
- <e3e73378-b9d8-4bf4-838c-66794dc1fad4@suse.de>
- <5c067d9a12b1e31400454aae47487af9f481b09a.camel@aol.com>
+Subject: Re: [PATCH] drm/msm: skip re-emitting IBs for unusable VMs
+To: rob.clark@oss.qualcomm.com, Antonino Maniscalco <antomani103@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250813-unusable_fix_b4-v1-1-3218d166b8a8@gmail.com>
+ <272d2a39-19ce-4ac5-b3c6-3e3d6d9985c5@oss.qualcomm.com>
+ <CACSVV00Yo=cZxUztB5Jf7153bsnnuATrh3L1utw4SrOQmYERug@mail.gmail.com>
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <5c067d9a12b1e31400454aae47487af9f481b09a.camel@aol.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <CACSVV00Yo=cZxUztB5Jf7153bsnnuATrh3L1utw4SrOQmYERug@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 158E1211E8
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCPT_COUNT_SEVEN(0.00)[11];
- MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[aol.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,linutronix.de,intel.com,redhat.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[aol.com,gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+X-Authority-Analysis: v=2.4 cv=D9xHKuRj c=1 sm=1 tr=0 ts=68a33385 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=9Q8gPALlkHEzzDxkdHlyxw==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8
+ a=1QxSUWC4Tu4TNCmoOX8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-ORIG-GUID: kumFVnN09DYIT1HFEvND7Wh0WjYYVYDL
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAyNCBTYWx0ZWRfXw13B9WfI6vlS
+ /3JvrJa/UTQ+Qzn0ZTPaOsnnB3qV8W1YfEjtP+KJIqi/cOr7+n3K4fEEbtEHoAHn+cR7apJwu1Y
+ 645xiBXYUfzFAGQr5DWVm47qERoIR5elL8kZXrdfVTX/8D/zDUiknGfuxQAn+35Decev9EOCQAl
+ e/kEGgRvakwS/ksKMVGN3AiOvLMfCYu59ZiJuqhfQFBosd1M9+U957/YL6I1wSl1vQu/Rt5sA2m
+ 9ImX82e/hT/EzxnzBqzap5D7zDw1KQ3OgCn+4h1USTVr/h2J9WgcGy3WbepeTFLKic30Bh9Kos+
+ WNzX0JproNq0LZQJ+vcaJb26+IooKREr+n2vH/MozHUfr3xmTVggumP13V97mvLlDeA0KVxoiNW
+ DMKVZ0Av
+X-Proofpoint-GUID: kumFVnN09DYIT1HFEvND7Wh0WjYYVYDL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 phishscore=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 spamscore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,460 +129,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 18.08.25 um 15:07 schrieb Ruben Wauters:
-[...]
-
->> Thanks for the update. Great to hear that it works. What's that other
->> problem? Maybe it's a known issue with a known workaround.
-> It's mainly latency issues, and problems that I had with the gadget
-> driver, I initially tried to get it to work on a different raspberry pi
-> but couldn't figure that out, but it works well on the zero.
-
-Ok, got it.
-
->> I left additional comments below.
+On 8/18/2025 6:48 PM, Rob Clark wrote:
+> On Mon, Aug 18, 2025 at 5:10 AM Akhil P Oommen <akhilpo@oss.qualcomm.com> wrote:
 >>
->>
->>> v2 changes:
->>> - address review comments by reorganising gud_probe()
+>> On 8/13/2025 6:34 PM, Antonino Maniscalco wrote:
+>>> When a VM is marked as an usuable we disallow new submissions from it,
+>>> however submissions that where already scheduled on the ring would still
+>>> be re-sent.
+>>>
+>>> Since this can lead to further hangs, avoid emitting the actual IBs.
+>>>
+>>> Fixes: 6a4d287a1ae6 ("drm/msm: Mark VM as unusable on GPU hangs")
+>>> Signed-off-by: Antonino Maniscalco <antomani103@gmail.com>
 >>> ---
->>>    drivers/gpu/drm/gud/gud_connector.c | 24 +++++-----
->>>    drivers/gpu/drm/gud/gud_drv.c       | 52 +++++++++++++++++-----
->>>    drivers/gpu/drm/gud/gud_internal.h  | 13 +++---
->>>    drivers/gpu/drm/gud/gud_pipe.c      | 69 ++++++++++++++++++++----
->>> -----
->>>    4 files changed, 108 insertions(+), 50 deletions(-)
->> AFAICT you should be able to un-include <drm/drm_simple_kms_helper.h>
->> from the various files within the driver.
+>>>  drivers/gpu/drm/msm/msm_gpu.c | 9 ++++++++-
+>>>  1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+>>> index c317b25a8162edba0d594f61427eac4440871b73..e6cd85c810bd2314c8bba53644a622464713b7f2 100644
+>>> --- a/drivers/gpu/drm/msm/msm_gpu.c
+>>> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+>>> @@ -553,8 +553,15 @@ static void recover_worker(struct kthread_work *work)
+>>>                       unsigned long flags;
+>>>
+>>>                       spin_lock_irqsave(&ring->submit_lock, flags);
+>>> -                     list_for_each_entry(submit, &ring->submits, node)
+>>> +                     list_for_each_entry(submit, &ring->submits, node) {
+>>> +                             /*
+>>> +                              * If the submit uses an unusable vm make sure
+>>> +                              * we don't actually run it
+>>> +                              */
+>>> +                             if (to_msm_vm(submit->vm)->unusable)
+>>> +                                     submit->nr_cmds = 0;
 >>
+>> Just curious, why not just retire this submit here?
+> 
+> Because then you'd end up with submits retiring out of order (ie.
+> fences on the same timeline signaling out of order)
+
+Yeah, that makes sense.
+
+Reviewed-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+
+-Akhil
+
+> 
+> BR,
+> -R
+> 
+>> -Akhil
 >>
->>> diff --git a/drivers/gpu/drm/gud/gud_connector.c
->>> b/drivers/gpu/drm/gud/gud_connector.c
->>> index 0f07d77c5d52..75f404ec08b4 100644
->>> --- a/drivers/gpu/drm/gud/gud_connector.c
->>> +++ b/drivers/gpu/drm/gud/gud_connector.c
->>> @@ -607,13 +607,16 @@ int gud_connector_fill_properties(struct
->>> drm_connector_state *connector_state,
->>>    	return gconn->num_properties;
->>>    }
->>>    
->>> +static const struct drm_encoder_funcs
->>> gud_drm_simple_encoder_funcs_cleanup = {
->>> +	.destroy = drm_encoder_cleanup,
->>> +};
->>> +
->>>    static int gud_connector_create(struct gud_device *gdrm, unsigned
->>> int index,
->>>    				struct
->>> gud_connector_descriptor_req *desc)
->>>    {
->>>    	struct drm_device *drm = &gdrm->drm;
->>>    	struct gud_connector *gconn;
->>>    	struct drm_connector *connector;
->>> -	struct drm_encoder *encoder;
->>>    	int ret, connector_type;
->>>    	u32 flags;
->>>    
->>> @@ -681,20 +684,13 @@ static int gud_connector_create(struct
->>> gud_device *gdrm, unsigned int index,
->>>    		return ret;
->>>    	}
->>>    
->>> -	/* The first connector is attached to the existing simple
->>> pipe encoder */
->>> -	if (!connector->index) {
->>> -		encoder = &gdrm->pipe.encoder;
->>> -	} else {
->>> -		encoder = &gconn->encoder;
->>> -
->>> -		ret = drm_simple_encoder_init(drm, encoder,
->>> DRM_MODE_ENCODER_NONE);
->>> -		if (ret)
->>> -			return ret;
->>> -
->>> -		encoder->possible_crtcs = 1;
->>> -	}
->>> +	gdrm->encoder.possible_crtcs = drm_crtc_mask(&gdrm->crtc);
->>> +	ret = drm_encoder_init(drm, &gdrm->encoder,
->>> &gud_drm_simple_encoder_funcs_cleanup,
->>> +			       DRM_MODE_ENCODER_NONE, NULL);
->> The display pipeline sends pixels from plane to CRTC to a number of
->> encoder/connector pairs. Hence you have to initialize the encoder at
->> gconn->encoder. The encoder in gud_device should  be removed.
+>>>                               gpu->funcs->submit(gpu, submit);
+>>> +                     }
+>>>                       spin_unlock_irqrestore(&ring->submit_lock, flags);
+>>>               }
+>>>       }
+>>>
+>>> ---
+>>> base-commit: 8290d37ad2b087bbcfe65fa5bcaf260e184b250a
+>>> change-id: 20250813-unusable_fix_b4-10bde6f3b756
+>>>
+>>> Best regards,
 >>
->>
->>> +	if (ret)
->>> +		return ret;
->>>    
->>> -	return drm_connector_attach_encoder(connector, encoder);
->>> +	return drm_connector_attach_encoder(connector, &gdrm-
->>>> encoder);
->>>    }
->>>    
->>>    int gud_get_connectors(struct gud_device *gdrm)
->>> diff --git a/drivers/gpu/drm/gud/gud_drv.c
->>> b/drivers/gpu/drm/gud/gud_drv.c
->>> index 5385a2126e45..65c3a83c4037 100644
->>> --- a/drivers/gpu/drm/gud/gud_drv.c
->>> +++ b/drivers/gpu/drm/gud/gud_drv.c
->>> @@ -16,6 +16,7 @@
->>>    #include <drm/clients/drm_client_setup.h>
->>>    #include <drm/drm_atomic_helper.h>
->>>    #include <drm/drm_blend.h>
->>> +#include <drm/drm_crtc_helper.h>
->>>    #include <drm/drm_damage_helper.h>
->>>    #include <drm/drm_debugfs.h>
->>>    #include <drm/drm_drv.h>
->>> @@ -289,7 +290,7 @@ static int gud_get_properties(struct gud_device
->>> *gdrm)
->>>    			 * but mask out any additions on future
->>> devices.
->>>    			 */
->>>    			val &= GUD_ROTATION_MASK;
->>> -			ret =
->>> drm_plane_create_rotation_property(&gdrm->pipe.plane,
->>> +			ret =
->>> drm_plane_create_rotation_property(&gdrm->plane,
->>>    								
->>> DRM_MODE_ROTATE_0, val);
->>>    			break;
->>>    		default:
->>> @@ -338,10 +339,30 @@ static int gud_stats_debugfs(struct seq_file
->>> *m, void *data)
->>>    	return 0;
->>>    }
->>>    
->>> -static const struct drm_simple_display_pipe_funcs gud_pipe_funcs =
->>> {
->>> -	.check      = gud_pipe_check,
->>> -	.update	    = gud_pipe_update,
->>> -	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS
->>> +static const struct drm_crtc_helper_funcs gud_crtc_helper_funcs =
->>> {
->>> +	.atomic_check = drm_crtc_helper_atomic_check
->>> +};
->>> +
->>> +static const struct drm_crtc_funcs gud_crtc_funcs = {
->>> +	.reset = drm_atomic_helper_crtc_reset,
->>> +	.destroy = drm_crtc_cleanup,
->>> +	.set_config = drm_atomic_helper_set_config,
->>> +	.page_flip = drm_atomic_helper_page_flip,
->>> +	.atomic_duplicate_state =
->>> drm_atomic_helper_crtc_duplicate_state,
->>> +	.atomic_destroy_state =
->>> drm_atomic_helper_crtc_destroy_state,
->>> +};
->>> +
->>> +static const struct drm_plane_helper_funcs gud_plane_helper_funcs
->>> = {
->>> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
->>> +	.atomic_check = gud_plane_atomic_check,
->>> +	.atomic_update = gud_plane_atomic_update,
->>> +};
->>> +
->>> +static const struct drm_plane_funcs gud_plane_funcs = {
->>> +	.update_plane = drm_atomic_helper_update_plane,
->>> +	.disable_plane = drm_atomic_helper_disable_plane,
->>> +	.destroy = drm_plane_cleanup,
->>> +	DRM_GEM_SHADOW_PLANE_FUNCS,
->>>    };
->>>    
->>>    static const struct drm_mode_config_funcs gud_mode_config_funcs =
->>> {
->>> @@ -350,7 +371,7 @@ static const struct drm_mode_config_funcs
->>> gud_mode_config_funcs = {
->>>    	.atomic_commit = drm_atomic_helper_commit,
->>>    };
->>>    
->>> -static const u64 gud_pipe_modifiers[] = {
->>> +static const u64 gud_plane_modifiers[] = {
->>>    	DRM_FORMAT_MOD_LINEAR,
->>>    	DRM_FORMAT_MOD_INVALID
->>>    };
->>> @@ -567,12 +588,17 @@ static int gud_probe(struct usb_interface
->>> *intf, const struct usb_device_id *id)
->>>    			return -ENOMEM;
->>>    	}
->>>    
->>> -	ret = drm_simple_display_pipe_init(drm, &gdrm->pipe,
->>> &gud_pipe_funcs,
->>> -					   formats, num_formats,
->>> -					   gud_pipe_modifiers,
->>> NULL);
->>> +	ret = drm_universal_plane_init(drm, &gdrm->plane, 0,
->>> +				       &gud_plane_funcs,
->>> +				       formats, num_formats,
->>> +				       gud_plane_modifiers,
->>> +				       DRM_PLANE_TYPE_PRIMARY,
->>> NULL);
->>>    	if (ret)
->>>    		return ret;
->>>    
->>> +	drm_plane_helper_add(&gdrm->plane,
->>> &gud_plane_helper_funcs);
->>> +	drm_plane_enable_fb_damage_clips(&gdrm->plane);
->>> +
->>>    	devm_kfree(dev, formats);
->>>    	devm_kfree(dev, formats_dev);
->>>    
->>> @@ -582,7 +608,13 @@ static int gud_probe(struct usb_interface
->>> *intf, const struct usb_device_id *id)
->>>    		return ret;
->>>    	}
->>>    
->>> -	drm_plane_enable_fb_damage_clips(&gdrm->pipe.plane);
->>> +	ret = drm_crtc_init_with_planes(drm, &gdrm->crtc, &gdrm-
->>>> plane, NULL,
->>> +					&gud_crtc_funcs, NULL);
->>> +
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	drm_crtc_helper_add(&gdrm->crtc, &gud_crtc_helper_funcs);
->>>    
->>>    	ret = gud_get_connectors(gdrm);
->>>    	if (ret) {
->>> diff --git a/drivers/gpu/drm/gud/gud_internal.h
->>> b/drivers/gpu/drm/gud/gud_internal.h
->>> index d6fb25388722..6152a9b5da43 100644
->>> --- a/drivers/gpu/drm/gud/gud_internal.h
->>> +++ b/drivers/gpu/drm/gud/gud_internal.h
->>> @@ -15,7 +15,9 @@
->>>    
->>>    struct gud_device {
->>>    	struct drm_device drm;
->>> -	struct drm_simple_display_pipe pipe;
->>> +	struct drm_plane plane;
->>> +	struct drm_crtc crtc;
->>> +	struct drm_encoder encoder;
->> As mentioned above, the encoder field should be removed.
->>
->>>    	struct work_struct work;
->>>    	u32 flags;
->>>    	const struct drm_format_info *xrgb8888_emulation_format;
->>> @@ -62,11 +64,10 @@ int gud_usb_set_u8(struct gud_device *gdrm, u8
->>> request, u8 val);
->>>    
->>>    void gud_clear_damage(struct gud_device *gdrm);
->>>    void gud_flush_work(struct work_struct *work);
->>> -int gud_pipe_check(struct drm_simple_display_pipe *pipe,
->>> -		   struct drm_plane_state *new_plane_state,
->>> -		   struct drm_crtc_state *new_crtc_state);
->>> -void gud_pipe_update(struct drm_simple_display_pipe *pipe,
->>> -		     struct drm_plane_state *old_state);
->>> +int gud_plane_atomic_check(struct drm_plane *plane,
->>> +			   struct drm_atomic_state *state);
->>> +void gud_plane_atomic_update(struct drm_plane *plane,
->>> +			     struct drm_atomic_state
->>> *atomic_state);
->>>    int gud_connector_fill_properties(struct drm_connector_state
->>> *connector_state,
->>>    				  struct gud_property_req
->>> *properties);
->>>    int gud_get_connectors(struct gud_device *gdrm);
->>> diff --git a/drivers/gpu/drm/gud/gud_pipe.c
->>> b/drivers/gpu/drm/gud/gud_pipe.c
->>> index 8d548d08f127..6a0e6234224a 100644
->>> --- a/drivers/gpu/drm/gud/gud_pipe.c
->>> +++ b/drivers/gpu/drm/gud/gud_pipe.c
->>> @@ -451,14 +451,15 @@ static void gud_fb_handle_damage(struct
->>> gud_device *gdrm, struct drm_framebuffer
->>>    	gud_flush_damage(gdrm, fb, src, !fb->obj[0]-
->>>> import_attach, damage);
->>>    }
->>>    
->>> -int gud_pipe_check(struct drm_simple_display_pipe *pipe,
->>> -		   struct drm_plane_state *new_plane_state,
->>> -		   struct drm_crtc_state *new_crtc_state)
->>> +int gud_plane_atomic_check(struct drm_plane *plane,
->>> +			   struct drm_atomic_state *state)
->>>    {
->>> -	struct gud_device *gdrm = to_gud_device(pipe->crtc.dev);
->>> -	struct drm_plane_state *old_plane_state = pipe-
->>>> plane.state;
->>> -	const struct drm_display_mode *mode = &new_crtc_state-
->>>> mode;
->>> -	struct drm_atomic_state *state = new_plane_state->state;
->>> +	struct gud_device *gdrm = to_gud_device(plane->dev);
->>> +	struct drm_plane_state *old_plane_state =
->>> drm_atomic_get_old_plane_state(state, plane);
->>> +	struct drm_plane_state *new_plane_state =
->>> drm_atomic_get_new_plane_state(state, plane);
->>> +	struct drm_crtc *crtc = new_plane_state->crtc;
->>> +	struct drm_crtc_state *crtc_state;
->>> +	const struct drm_display_mode *mode;
->>>    	struct drm_framebuffer *old_fb = old_plane_state->fb;
->>>    	struct drm_connector_state *connector_state = NULL;
->>>    	struct drm_framebuffer *fb = new_plane_state->fb;
->>> @@ -472,17 +473,35 @@ int gud_pipe_check(struct
->>> drm_simple_display_pipe *pipe,
->>>    	if (WARN_ON_ONCE(!fb))
->>>    		return -EINVAL;
->>>    
->>> +	if (WARN_ON_ONCE(!crtc))
->> Please use drm_WARN_ON_ONCE() here.
-> Should the fb WARN_ON_ONCE be converted to drm_WARN_ON_ONCE as well?
-
-Yes.
-
->>> +		return -EINVAL;
->>> +
->>> +	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
->>> +
->>> +	mode = &crtc_state->mode;
->>> +
->>> +	ret = drm_atomic_helper_check_plane_state(new_plane_state,
->>> crtc_state,
->>> +						
->>> DRM_PLANE_NO_SCALING,
->>> +						
->>> DRM_PLANE_NO_SCALING,
->>> +						  false, false);
->>> +
->> No empty line here and before similar "if (ret)" statements.
->>
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	if (!new_plane_state->visible)
->>> +		return 0;
->>> +
->>>    	if (old_plane_state->rotation != new_plane_state-
->>>> rotation)
->>> -		new_crtc_state->mode_changed = true;
->>> +		crtc_state->mode_changed = true;
->>>    
->>>    	if (old_fb && old_fb->format != format)
->>> -		new_crtc_state->mode_changed = true;
->>> +		crtc_state->mode_changed = true;
->>>    
->>> -	if (!new_crtc_state->mode_changed && !new_crtc_state-
->>>> connectors_changed)
->>> +	if (!crtc_state->mode_changed && !crtc_state-
->>>> connectors_changed)
->>>    		return 0;
->>>    
->>>    	/* Only one connector is supported */
->>> -	if (hweight32(new_crtc_state->connector_mask) != 1)
->>> +	if (hweight32(crtc_state->connector_mask) != 1)
->>>    		return -EINVAL;
->> In case you're wondering: this is really a problem with user-space
->> programs. Most compositors (Xorg, Gnome, etc) don't support a single
->> display that is mirrored to multiple outputs. It's only found in low-
->> end
->> hardware and complicated to get right; hence there's little incentive
->> for user space to fix the problem.
->>
->>
->>>    
->>>    	if (format->format == DRM_FORMAT_XRGB8888 && gdrm-
->>>> xrgb8888_emulation_format)
->>> @@ -500,7 +519,7 @@ int gud_pipe_check(struct
->>> drm_simple_display_pipe *pipe,
->>>    	if (!connector_state) {
->>>    		struct drm_connector_list_iter conn_iter;
->>>    
->>> -		drm_connector_list_iter_begin(pipe->crtc.dev,
->>> &conn_iter);
->>> +		drm_connector_list_iter_begin(plane->dev,
->>> &conn_iter);
->>>    		drm_for_each_connector_iter(connector, &conn_iter)
->>> {
->>>    			if (connector->state->crtc) {
->>>    				connector_state = connector-
->>>> state;
->>> @@ -567,16 +586,19 @@ int gud_pipe_check(struct
->>> drm_simple_display_pipe *pipe,
->>>    	return ret;
->>>    }
->>>    
->>> -void gud_pipe_update(struct drm_simple_display_pipe *pipe,
->>> -		     struct drm_plane_state *old_state)
->>> +void gud_plane_atomic_update(struct drm_plane *plane,
->>> +			     struct drm_atomic_state
->>> *atomic_state)
->>>    {
->>> -	struct drm_device *drm = pipe->crtc.dev;
->>> +	struct drm_device *drm = plane->dev;
->>>    	struct gud_device *gdrm = to_gud_device(drm);
->>> -	struct drm_plane_state *state = pipe->plane.state;
->>> -	struct drm_shadow_plane_state *shadow_plane_state =
->>> to_drm_shadow_plane_state(state);
->>> -	struct drm_framebuffer *fb = state->fb;
->>> -	struct drm_crtc *crtc = &pipe->crtc;
->>> +	struct drm_plane_state *old_state =
->>> drm_atomic_get_old_plane_state(atomic_state, plane);
->>> +	struct drm_plane_state *new_state =
->>> drm_atomic_get_new_plane_state(atomic_state, plane);
->>> +	struct drm_shadow_plane_state *shadow_plane_state =
->>> to_drm_shadow_plane_state(new_state);
->>> +	struct drm_framebuffer *fb = new_state->fb;
->>> +	struct drm_crtc *crtc = new_state->crtc;
->>>    	struct drm_rect damage;
->>> +	struct drm_rect dst_clip;
->>> +	struct drm_atomic_helper_damage_iter iter;
->>>    	int ret, idx;
->>>    
->>>    	if (crtc->state->mode_changed || !crtc->state->enable) {
->>> @@ -611,8 +633,15 @@ void gud_pipe_update(struct
->>> drm_simple_display_pipe *pipe,
->>>    	if (ret)
->>>    		goto ctrl_disable;
->>>    
->>> -	if (drm_atomic_helper_damage_merged(old_state, state,
->>> &damage))
->>> +	drm_atomic_helper_damage_iter_init(&iter, old_state,
->>> new_state);
->>> +	drm_atomic_for_each_plane_damage(&iter, &damage) {
->>> +		dst_clip = new_state->dst;
->>> +
->>> +		if (!drm_rect_intersect(&dst_clip, &damage))
->>> +			continue;
->> Where did you get this code snippet? This test should not be
->> necessary
->> here and can even lead to incorrect display updates. Just call
->> gud_fb_hand
-> I found this in the hyperv conversion, I'm guessing then it may not be
-> relevant here and is hyperv specific, (unless it's incorrect in hyperv
-> as well)
-
-The thing is that it refers to a plane that covers the whole screen. And 
-for overlay planes, that dst_clip value should be programmed to hardware 
-to do the clipping.(*) That's what overlay planes are for. So there's 
-probably in issue with hyperv_drm as well.
-
-To give some details: the source buffer for the frame is in system RAM. 
-And there's a 1:1 copy in video RAM (on the RPi) for the output. The 
-damage area is exactly what gud should copy from system memory to video 
-ram. A hardware overlay plane could take that video data, modify and 
-move it on the screen. That's unrelated to the damage transfer.
-
-Best regards
-Thomas
-
-(*) There are drivers that handle state->dst in software, but not this 
-one or hyperv_drm.
-
->> Best regards
->> Thomas
->>
->>> +
->>>    		gud_fb_handle_damage(gdrm, fb,
->>> &shadow_plane_state->data[0], &damage);
->>> +	}
->>>    
->>>    	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
->>>    
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
 
