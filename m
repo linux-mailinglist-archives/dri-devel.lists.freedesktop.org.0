@@ -2,78 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB8AB29AB9
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 09:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71FEB29AF9
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 09:42:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1239510E3DB;
-	Mon, 18 Aug 2025 07:21:01 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H2SOukLo";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D49B10E3D7;
+	Mon, 18 Aug 2025 07:42:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2725810E3DB;
- Mon, 18 Aug 2025 07:21:00 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-76e2ea94c7dso4344655b3a.2; 
- Mon, 18 Aug 2025 00:21:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755501660; x=1756106460; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=i1EueC6Fubxsq0K6avHKaMHl/1DnpCdRxvVIl9pCUSY=;
- b=H2SOukLoGqAzPDYyRhlvOQB9UTdbqGvzs8pngFQAkOag8wwkgCOsI7IdR/Lws/r93U
- fDcl5club43U9nNqrR7SU98qlAF6v3NAzeikPkllllsKhYUenW2RTOkhv7C5rpAgE5rI
- vxoMkcJf5FF+ojTcAyDwkpugUJQWhvch5t1qr1nZcRGDp0/qKuqZ9AEzW+wvW3IpRS3k
- b9qN/xiyOrZhQv8YM6ou8fM+yY+0GpfrMpYRSpcuf90JN1EexVs+wvXnfRomZeiT40HY
- Za9FME1IrXbZEBo3IaE1VaiYU4Th4xzlrs1i7IWAWfmLwAux06S0o33o8BjskrlpTDGM
- FK1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755501660; x=1756106460;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=i1EueC6Fubxsq0K6avHKaMHl/1DnpCdRxvVIl9pCUSY=;
- b=c9eKri3RN7es3mI/YCMVN7JE3YJLHhvoVjragd6J/ydM2T/2sqTaMASLA9saUM71yS
- ebX7hLGeMxas+sDW6oyrCsK0ER5abFGGQOp04qmde37TByDutQ3Lag1Z2WYOryET9c73
- ja6Vv9brcxhyJ7Hzm43PMGqWumHxroBjNbpp4URN4aoKBHPyz5ZN40AHr8eYOdBDprJV
- g5iJf0vj/myl0v2RONk4dvnECG3vtAsCp4SfJAZfnbPwcCMJZv21XAZaYwckV3xAANMQ
- 0kDg4IMRR3cBmFmRKC+4CwXwV2/J0YP3s1pnstCTvXjupuwV05Olmg9/fPKacCIcPXPR
- fMGg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVRWWD0GbBOc8UoXM2z2xflei8Yh6r9M8MnfLCBrsfrxgVjXqS35b5/Yb8ww9FeGUyp+wr0Hasi@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzuezbIjz3Dti8npVj01Lzymw7Yz/4N4zDbPCuC4KvyShEbCfhX
- Cg6yDMTZa6ycQLokILWXsy/iKGEU7bPQJSUBOl82KZk0IMG9AT3j/wA4
-X-Gm-Gg: ASbGncswKgO4JfKVRCC4rxHxdHF1f826dKNSjBCol90aK0SbbhuWEjdTuPeb7nEf5s6
- ibP0sTfYAaF3+dw61hF7ZF2jyCwwJ9BRdhrrQFrt8lMnkSuPKNWDwn5g9gv3fENdrHc/lN8Qji/
- yUC2LyCp31LwX0sxlI12Xhv2xth53ZSXkd9Z5nsV24srG6oeNZ+nhwg9h8vTK/R5c8AjwFGpGVl
- +yFK2SU7tV0z0sr4b0rOO2tW+lC4bvtRcC7J9dnEsRukpOlNe27J4Yh6kEc2JwCCP0RIOwNSWs2
- DkPlBmX4uani4j9eYwD9DLUvfNxs6pkFuIKVS7cLe+KkHNKhuxtqYLKJl+uLAMNh3wU6utocVYI
- ptjk8lH8N39G+a2UXjVWN520aXbyeX+pEPL255hiKpywHnOk=
-X-Google-Smtp-Source: AGHT+IESVrvVh+TcBYRzF9y7BmsCm/EL29AU09TeVQWqktjO8x6nSozf5mISthkeTLSWkIFc4/4GAw==
-X-Received: by 2002:a05:6a00:3c94:b0:76b:e868:eedd with SMTP id
- d2e1a72fcca58-76e4481df98mr17296908b3a.24.1755501659513; 
- Mon, 18 Aug 2025 00:20:59 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:8899:4b76:ead:acf9:f900:1070])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76e45268bc5sm6480439b3a.18.2025.08.18.00.20.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Aug 2025 00:20:59 -0700 (PDT)
-From: darshanrathod475@gmail.com
-To: lyude@redhat.com,
-	dakr@kernel.org,
-	airlied@gmail.com,
-	simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Darshan Rathod <darshanrathod475@gmail.com>
-Subject: [PATCH] drm/nouveau: avoid assignment in if condition
-Date: Mon, 18 Aug 2025 12:50:47 +0530
-Message-Id: <20250818072047.376046-1-darshanrathod475@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8804010E3D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 07:42:28 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4c54Mz1D6cz13NG8;
+ Mon, 18 Aug 2025 15:38:55 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+ by mail.maildlp.com (Postfix) with ESMTPS id B9D60140158;
+ Mon, 18 Aug 2025 15:42:25 +0800 (CST)
+Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 18 Aug 2025 15:42:25 +0800
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 18 Aug 2025 15:42:24 +0800
+Message-ID: <b859e000-5809-414e-acb4-7fcf222e4554@huawei.com>
+Date: Mon, 18 Aug 2025 15:42:24 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 drm-dp 02/11] drm/hisilicon/hibmc: fix dp
+ probabilistical detect errors after HPD irq
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <fengsheng5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250813094238.3722345-1-shiyongbang@huawei.com>
+ <20250813094238.3722345-3-shiyongbang@huawei.com>
+ <aayi7zjrmru2ancexrqmcutams6ohde3nrkhqacixwp45dsk4v@7ig6hqzahdxf>
+ <1dd93bb7-4f67-4b9b-8b6a-d7c5c77cf807@huawei.com>
+ <ce47v3y77uc4dunlwyvmfe6j7d7mza4zfrbvu5dz67t66jdlop@vqgv47saj37i>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <ce47v3y77uc4dunlwyvmfe6j7d7mza4zfrbvu5dz67t66jdlop@vqgv47saj37i>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemq100007.china.huawei.com (7.202.195.175)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,40 +68,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Darshan Rathod <darshanrathod475@gmail.com>
+> On Thu, Aug 14, 2025 at 08:19:41PM +0800, Yongbang Shi wrote:
+>>> On Wed, Aug 13, 2025 at 05:42:29PM +0800, Yongbang Shi wrote:
+>>>> From: Baihan Li <libaihan@huawei.com>
+>>>>
+>>>> The debouncing when HPD pulled out still remains sometimes, 200ms still can
+>>>> not ensure helper_detect() is correct. So add a flag to hold the sink
+>>>> status, and changed detect_ctx() functions by using flag to check status.
+>>> THis doesn't explain what is wrong with
+>>> drm_connector_helper_detect_from_ddc(). In the end, this function
+>>> doesn't use the HPD pin.
+>> I'm sorry about the misunderstanding.
+>> The issue is that after plugging or unplugging the monitor, the driver takes no action sometimes
+>> even though an interrupt is triggered. The root cause is that drm_connector_helper_detect_from_ddc()
+>> still returns connected status when the monitor is unplugged.
+>> And I will fix the way in the end.
+> Can you perform a normal DP detection: read DPCD and check that there is
+> a DPRX attached and that it's either non-branch device or it has one or
+> more sinks?
 
-Move kzalloc assignment out of the if condition to follow
-kernel coding style guidelines and improve readability.
+Alright! I will add read_dpcd_caps() and read_sink_count_cap() here to detect DP.
 
-Signed-off-by: Darshan Rathod <darshanrathod475@gmail.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/falcon.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Thanks for your tips!
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/falcon.c b/drivers/gpu/drm/nouveau/nvkm/engine/falcon.c
-index fd5ee9f0af36..46273e6b14ac 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/falcon.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/falcon.c
-@@ -262,6 +262,7 @@ nvkm_falcon_init(struct nvkm_engine *engine)
- 	/* upload firmware bootloader (or the full code segments) */
- 	if (falcon->core) {
- 		u64 addr = nvkm_memory_addr(falcon->core);
-+
- 		if (device->card_type < NV_C0)
- 			nvkm_wr32(device, base + 0x618, 0x04000000);
- 		else
-@@ -341,8 +342,10 @@ nvkm_falcon_new_(const struct nvkm_falcon_func *func, struct nvkm_device *device
- {
- 	struct nvkm_falcon *falcon;
- 
--	if (!(falcon = kzalloc(sizeof(*falcon), GFP_KERNEL)))
-+	falcon = kzalloc(sizeof(*falcon), GFP_KERNEL);
-+	if (!falcon)
- 		return -ENOMEM;
-+
- 	falcon->func = func;
- 	falcon->addr = addr;
- 	falcon->code.data = func->code.data;
--- 
-2.25.1
 
+>> Thanks,
+>> Baihan Li!
+>>
+>>
+>>>> Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
+>>>> Signed-off-by: Baihan Li <libaihan@huawei.com>
+>>>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+>>>> ---
+>>>> ChangeLog:
+>>>> v3 -> v4:
+>>>>     - remove link training process in hibmc_dp_detect(), suggested by Dmitry Baryshkov.
+>>>>     - remove if (dev->registered), suggested by Dmitry Baryshkov.
+>>>> ---
+>>>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  1 +
+>>>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 19 ++++++++++++-------
+>>>>    2 files changed, 13 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>>>> index 665f5b166dfb..68867475508c 100644
+>>>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>>>> @@ -50,6 +50,7 @@ struct hibmc_dp {
+>>>>    	struct drm_dp_aux aux;
+>>>>    	struct hibmc_dp_cbar_cfg cfg;
+>>>>    	u32 irq_status;
+>>>> +	int hpd_status;
+>>>>    };
+>>>>    int hibmc_dp_hw_init(struct hibmc_dp *dp);
+>>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>>> index d06832e62e96..ded38530ecda 100644
+>>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>>> @@ -34,9 +34,12 @@ static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
+>>>>    static int hibmc_dp_detect(struct drm_connector *connector,
+>>>>    			   struct drm_modeset_acquire_ctx *ctx, bool force)
+>>>>    {
+>>>> -	mdelay(200);
+>>>> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
+>>>> -	return drm_connector_helper_detect_from_ddc(connector, ctx, force);
+>>>> +	if (dp->hpd_status)
+>>>> +		return connector_status_connected;
+>>>> +	else
+>>>> +		return connector_status_disconnected;
+>>>>    }
+>>>>    static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
+>>>> @@ -115,21 +118,23 @@ irqreturn_t hibmc_dp_hpd_isr(int irq, void *arg)
+>>>>    {
+>>>>    	struct drm_device *dev = (struct drm_device *)arg;
+>>>>    	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+>>>> +	struct hibmc_dp *dp = &priv->dp;
+>>>>    	int idx;
+>>>>    	if (!drm_dev_enter(dev, &idx))
+>>>>    		return -ENODEV;
+>>>> -	if (priv->dp.irq_status & DP_MASKED_SINK_HPD_PLUG_INT) {
+>>>> +	if (((dp->irq_status & DP_MASKED_SINK_HPD_PLUG_INT) && !dp->hpd_status)) {
+>>>>    		drm_dbg_dp(&priv->dev, "HPD IN isr occur!\n");
+>>>> -		hibmc_dp_hpd_cfg(&priv->dp);
+>>>> +		hibmc_dp_hpd_cfg(dp);
+>>>> +		dp->hpd_status = 1;
+>>>>    	} else {
+>>>>    		drm_dbg_dp(&priv->dev, "HPD OUT isr occur!\n");
+>>>> -		hibmc_dp_reset_link(&priv->dp);
+>>>> +		hibmc_dp_reset_link(dp);
+>>>> +		dp->hpd_status = 0;
+>>>>    	}
+>>>> -	if (dev->registered)
+>>>> -		drm_connector_helper_hpd_irq_event(&priv->dp.connector);
+>>>> +	drm_connector_helper_hpd_irq_event(&priv->dp.connector);
+>>>>    	drm_dev_exit(idx);
+>>>> -- 
+>>>> 2.33.0
+>>>>
