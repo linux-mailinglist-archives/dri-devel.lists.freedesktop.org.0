@@ -2,137 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38598B29CFC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 11:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 868EEB29D65
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 11:15:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59D7F10E407;
-	Mon, 18 Aug 2025 09:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1060110E404;
+	Mon, 18 Aug 2025 09:15:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="QWQOf8jB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aSu2IVlU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QWQOf8jB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aSu2IVlU";
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="dqT+pXPc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A743710E1CB
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 09:01:25 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 248042195F;
- Mon, 18 Aug 2025 09:01:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755507684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5oXz9783ZBlKgRFdKR+o0DoO821Ca8Yp3hzDLb21mPs=;
- b=QWQOf8jBnz9/q3VVZuoidjr8f+E3mUlRp3XBP3pZMUtQVGAy+411Zmk+CSfB/CQ/r2FaFd
- XrBCiCVZQddxbXRKLq3wRU2+f9H9zl51x1zj1ABuaYe33ht2EP+m6LJ+nbZqCjYMLyeM+6
- ftfc5Br4kfFEGoiAxDx1BjpU7lT4JUs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755507684;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5oXz9783ZBlKgRFdKR+o0DoO821Ca8Yp3hzDLb21mPs=;
- b=aSu2IVlUkLgpsImW6G5P/buJflAJ+m6u/1HNP9hFWyaXN4PAui5ZQmyfjlOc5rP6M/ZR6/
- 3EHmpZWILzeFVFDA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QWQOf8jB;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=aSu2IVlU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755507684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5oXz9783ZBlKgRFdKR+o0DoO821Ca8Yp3hzDLb21mPs=;
- b=QWQOf8jBnz9/q3VVZuoidjr8f+E3mUlRp3XBP3pZMUtQVGAy+411Zmk+CSfB/CQ/r2FaFd
- XrBCiCVZQddxbXRKLq3wRU2+f9H9zl51x1zj1ABuaYe33ht2EP+m6LJ+nbZqCjYMLyeM+6
- ftfc5Br4kfFEGoiAxDx1BjpU7lT4JUs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755507684;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5oXz9783ZBlKgRFdKR+o0DoO821Ca8Yp3hzDLb21mPs=;
- b=aSu2IVlUkLgpsImW6G5P/buJflAJ+m6u/1HNP9hFWyaXN4PAui5ZQmyfjlOc5rP6M/ZR6/
- 3EHmpZWILzeFVFDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 088E713A97;
- Mon, 18 Aug 2025 09:01:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id MQKWAOTromhbMQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 18 Aug 2025 09:01:24 +0000
-Message-ID: <122a2a73-8d9d-4dfd-b747-e445a1ac685a@suse.de>
-Date: Mon, 18 Aug 2025 11:01:23 +0200
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 744A910E404
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 09:15:32 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3b9ba300cb9so2453714f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 02:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1755508531; x=1756113331;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Pk6MPUvzo+wcFgJnv7cQuSp/8wQRoxoagPFiRotgY0k=;
+ b=dqT+pXPcijcvrYS4psNvWVEb9Nlkcp8C8pXZkZgg89rxijppFDmmP/zhQz3HJOKLwP
+ ArYY6nDw1EZi8NVJTcTqmdi3oNKdfRbkvxg3DkzfOn6Uq29h4gdTpFZaNFdpqhjXx2ES
+ kn/iYI8RsPYesrhcz+WFNOEZawzfYNvBAj+AAtSjS5sT/VvfnLxrEv2GP7u/Had3hXjj
+ krFnwxSo2kDR8Gr5tHn/mMr/DVvT8k+6dkPydRcR8Olkzg6eyy0bcUCKmj85pT5x7yvG
+ shntPR4eMIjQkWqvcOAz4gBG7R/Ux33749pLORTIYlDG0HNcIxzp29dvUxm0ECO3WtZL
+ 9Efw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755508531; x=1756113331;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pk6MPUvzo+wcFgJnv7cQuSp/8wQRoxoagPFiRotgY0k=;
+ b=QupkP87CvT5uFVnkaeJPbOVq8w0xu+2YFdMDSFNyy9cYFYT0LlZL5TKm4uNHain0DC
+ nPysyw6KbJ3Fh+/iriih6AhdYZ/185VUl7e55skTSqID7YnwCoQOZYWcVxCvz941V9UC
+ y4RebWtY5O7RLXr21aCYF5oICUEs1FhjgHA1cugnptwxEF3ciJwB0Y/70+IW8HjZqlMz
+ 064/Vl67flJmSt2wV8PKhqLlBEA7s2+K0gP2MCvggLz1hE/6kMdzUKmJzSaJQPFb8JmV
+ vHp2oNVh3sc79sY45iUAH1FtKa/TX33Q574x6Jx4TnYSkAKwcIOkX/S/8T9Mme+lupEV
+ aspg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUFeu1CIH+GABEoammyXrwlt0/NPETzcDTNLUPifzhqcJBTTlkRxIDzkC8UAA5r4f0MD3cGepx9vAg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwY5M6NMcdHB5D+Dj4sMkUCVGmwWx/qBYVl9I7rqj5UqxG/I+a0
+ h8q1sfoMXWlT/CUuawJeCtBJ+kfYouWD6zIhGiQFRKoopBJrpO81UmLaorjaCovocmI=
+X-Gm-Gg: ASbGncvCaZzs6KszSBdu6jHtVcKnFjI62kmb2M8iV7Mct3rg5oz9HJ7kyJvJIKtoEHV
+ 4O/BqY9uHCQtnbNsok52kwYarjh11ZiIL9A4QEIQk5xhq9dlbtVI8R1j2WIEodPbpQjk+Eet6p5
+ tpFfoF/rZ3PLtxyusjlrGcosb2Ys17ywplO9luQPt/3R25T2Y7ZNYrUPBWoerMCHqJmMDK8f8Tp
+ d5yaXYJZFyVx3P5jFIuL5Ix2aTVxsOhkwLeRcDwTlbwswSxhs5J/PZRKMYocAiQ9LGZWUlP5F5z
+ b1RLgyW9ZGlflH0+am/12UL2iDzuEp1YzzWaWeFjhCZvD/LcB2elsrsCGjbMKg1BSXSxTA1rFxC
+ sDET0f+frXOiIVmwZIxL+lT5Rd1NNGJY3M6xgrvLTTgo57OVy0Hiaqrr1TFQRxEVs0ONPYxSiDc
+ 2M0AwaPw==
+X-Google-Smtp-Source: AGHT+IGb+Ck2Rc/beS4ZD2JAeOcF9Yx9/6P72Atsg9LKeyqqmAyuWKj+8gCMCQDmjg/gyjl81iEkpw==
+X-Received: by 2002:a05:6000:3113:b0:3b9:53b:ee91 with SMTP id
+ ffacd0b85a97d-3bb4c5b8043mr8984345f8f.17.1755508530770; 
+ Mon, 18 Aug 2025 02:15:30 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3bc5aba02e2sm9753021f8f.3.2025.08.18.02.15.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Aug 2025 02:15:30 -0700 (PDT)
+Date: Mon, 18 Aug 2025 10:15:28 +0100
+From: Daniel Thompson <daniel@riscstar.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Flavio Suligoi <f.suligoi@asem.it>, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 1/2] backlight: mp3309c: Drop pwm_apply_args()
+Message-ID: <aKLvMLgZJ4fVLjph@aspen.lan>
+References: <cover.1751361465.git.u.kleine-koenig@baylibre.com>
+ <2d1075f5dd45c7c135e4326e279468de699f9d17.1751361465.git.u.kleine-koenig@baylibre.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panel: panel-samsung-s6e88a0-ams427ap24: Fix includes
-To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com
-Cc: dri-devel@lists.freedesktop.org
-References: <20250812082509.227879-1-tzimmermann@suse.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250812082509.227879-1-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_THREE(0.00)[3]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- TO_DN_NONE(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 248042195F
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2d1075f5dd45c7c135e4326e279468de699f9d17.1751361465.git.u.kleine-koenig@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,40 +97,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ping for review
-
-Am 12.08.25 um 10:25 schrieb Thomas Zimmermann:
-> Include <linux/property.h> to declare device_property_read_bool() and
-> <linux/mod_devicetable.h> to declare struct of_device_id. Avoids the
-> dependency on the backlight header to include both.
+On Tue, Jul 01, 2025 at 11:22:36AM +0200, Uwe Kleine-König wrote:
+> pwm_apply_args() sole purpose is to initialize all parameters specified
+> in the device tree for consumers that rely on pwm_config() and
+> pwm_enable(). The mp3309c backlight driver uses pwm_apply_might_sleep()
+> which gets passed the full configuration and so doesn't rely on the
+> default being explicitly applied.
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->   drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-> index e91f50662997..7e2f4e043d62 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams427ap24.c
-> @@ -7,7 +7,9 @@
->   #include <linux/backlight.h>
->   #include <linux/delay.h>
->   #include <linux/gpio/consumer.h>
-> +#include <linux/mod_devicetable.h>
->   #include <linux/module.h>
-> +#include <linux/property.h>
->   #include <linux/regulator/consumer.h>
->   
->   #include <video/mipi_display.h>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+
+Sorry for the delay. I lost track of the review on this one so Lee didn't
+hoover it up!
 
 
+Daniel.
