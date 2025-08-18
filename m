@@ -2,154 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E66BDB295CC
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 02:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7F0B295E2
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 02:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E91C10E199;
-	Mon, 18 Aug 2025 00:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABD5510E023;
+	Mon, 18 Aug 2025 00:42:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BHymdysx";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MDW5UKnb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2061.outbound.protection.outlook.com [40.107.243.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED92210E041;
- Mon, 18 Aug 2025 00:09:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dImgeS4vg5XANvw9O8tKm8ePBxz33RWcpfIXgesdUCDonHUiDNP0WfWgLH4c0g2Co7+OicpuS1R/nhXweDRHt9DGeG1D9SmE0jqf8bLIalb52kEEX3c79dsYZbELbc+T9t+ATIud8LPdu2F7uZykh4oTheFX1zX7Mlo0ADw430YyRn+KAXJbHhkAGHR+SgI7KKT3pPKOmp7+cRJGE4R8H7ntl4RpqAzfnAywCudYLEGyEdL6rTOkcGdVfxbHWejc/D4MUp7k4JZ7Q+lMPtRcCBpm1317HWj1hsJvw/Lx0Jv4VzgMf9Q/J4wqXqF35RiJyU7hmxHyp2KonKTeIbMJxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=REdHazSIZpzBr7Ik2Q8ME8Ibk5RymWNfCts2Mtq7RIY=;
- b=D0w6ZhJj7nFuPjpwcgxOJrUPWK+znd+H8j+ejUQfF0bi/2c43vro46//elBpgwRoNXsniHlH5OIh1fAQZnLe+zq46o6e9n26OntqyqGb+cmM9y39lXUhZebgcpMbrEpj53Ljsu7Wx9s5qjmAudDQjqlg7mKNwS3BRp16Y4PpR6ar/rkrF0aBeU+cp6VtHV/BaslVbLLC3Vil9n4YJMml5b81nCVi6kR1V48Yx0za/z2Y6LlAhfRdiyHizeBztVq4CIcmAoEazx0tWU2S43xXPoQVHyl45Unhm1cN3RHLoPwaaSnc3/etyIDxuSDRc4Zt0Xa5dtRFThAPDjuvFDPMuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=REdHazSIZpzBr7Ik2Q8ME8Ibk5RymWNfCts2Mtq7RIY=;
- b=BHymdysxF0iiSYAyI3W2jCAA5KlA9MLRLikz8erJ2QA7g26TwdcALMPTz5pZZdSiXJL4Na/7ahIapN7FThKyTfZq9kp4Kl9IZKTl3k73jAOfDL5/SQbwNNgrL+nrIEOrW6yVs9kd7ZtfjuaiB7xVkMZfWopWfrE7tlPXCggX2Pg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by SN7PR12MB6887.namprd12.prod.outlook.com (2603:10b6:806:261::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.23; Mon, 18 Aug
- 2025 00:09:40 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%6]) with mapi id 15.20.9031.019; Mon, 18 Aug 2025
- 00:09:40 +0000
-Message-ID: <5e5b4d9e-b2f6-4198-b8a4-86de74a7e54e@amd.com>
-Date: Sun, 17 Aug 2025 18:09:38 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: replace min/max nesting with clamp()
-To: Xichao Zhao <zhao.xichao@vivo.com>, austin.zheng@amd.com,
- jun.lei@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: siqueira@igalia.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250808025209.120448-1-zhao.xichao@vivo.com>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <20250808025209.120448-1-zhao.xichao@vivo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0300.namprd04.prod.outlook.com
- (2603:10b6:303:89::35) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C40F10E023
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 00:42:15 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57HNoIYm004363
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 00:42:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=TTIHaooodPnPN/uV4iXuYwFR
+ FvxVYdQqEnjkEjkUyXs=; b=MDW5UKnb8wZXu3Rq3kr0ghlak3YhUwLOHMqkBlbb
+ gCsLJSXJWev5fu5tMdafOzJ6PVg5cwEvCVpvdP2mqqbfdRkFxtoNHCaRHHYrRJ5M
+ RdQ6EdgcgzlogYwr/96OA9d3y4zwCvzug81MFhlaj4vFZxVWdMgpbdps4ZD23+rt
+ 0FvPy3nCf4uZmk2vGaU94TXPtqJybKfKuRP8PV+/nv9jLL30eVT4hwXKMDiYx/yK
+ Cfy/B6ZXYhgSUJBGutqr4qSc7ywUuCSKIyA4xEza+qHK/jOZC1U9PT7qBr3c4pVX
+ tWCcFfN03QP+rg8PISsy8Oyr6idoFYJns/Cdiib1PnfPOg==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jjrftsaq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 00:42:14 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-70ba7aa11c2so54074886d6.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Aug 2025 17:42:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755477733; x=1756082533;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TTIHaooodPnPN/uV4iXuYwFRFvxVYdQqEnjkEjkUyXs=;
+ b=PUKhzMC7uN8wGDaeD/wX2RXlp4kPOZ4TTfVn3ACBk1SsOm4h4wePu5rSxZ3Pp5r2Wk
+ gU+Eap+ajA6oedgBSYwOpCLh+93qzWCCReYK/HtoLEm5RwD923ATHZvQndGoy8lCqyZk
+ mcnMx49Z7jCjRLjAq8Z8aGGZX4bk4FYGum7mPjHQe6pxKmCPWovnngwG1cEu2BDyM0Kv
+ 7HG8J+mJxlTjhNysUUG10ix9ZVPI1beWqD+7ne3RCIMxUz8LuSj6RRv/cuCSKZB/I9Ai
+ bRtvESS1TAWA3qEu0e73l1ntaa/EGv0dj+gDayAxykBj/yfomNb4UXhU1YQwdzSH2uH2
+ 4yRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWNBVofYIu8aVnU6BAufQSPaziTneI+OK5Q/URqXebttD61E2/KuLJ/8SacVwC1yzO/iiiVn3pE5po=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxktUS3WNuKx9m2Lk9C28KuLBHXZNBlBFEn9Yatux6ezZnhnNtz
+ 9i6nWiw8RZLxXjPLCSqDX9okOrbzBQqG1hcRr2MGortviHsItr/7EkguB9BjO01jCSLb8/jgRGZ
+ w2oXOW5wb5257JG6p9mxs5WTGF2cXSaxjuFFsYqmD3C8oPk1vVBBXjxWxchSnpVriiyyVzUI=
+X-Gm-Gg: ASbGncs/j7JWXCk1wO/GvcZYPMrORP7wPcRdeWz5W4FAq0PtwqIRfDHldCWf/URWRQV
+ SixUegKS1PbP4ViQWRUZ/GPZMiGNu1HRmiQd6E3snO1fBi1Tk81oU004VA1xEFOhZrNOCSbpsmt
+ TrgnemGRZM+Un262ovUHyMCtIlwhrtVA4cp8PG/rLvCv8PoxqRVWlp7dWlRiVesRQQY/YKen5tf
+ /mzo77I5cLGDTI1EE/Tmd0+dkySMKqQKGRW2+x/RPDbexO0o7YPEgLxRgFHED8kVhLWddKIwgXn
+ VtuKx20rzH4B4sv4gRIOf9r1NId51CCPzm5TxSzFHkCPVvQLr+HDvosEIg2+de0fFgg7n/N/xIA
+ 7oMLZIzTnSyV6sZzT7NPSx0u05goYO31CAIqFbEjD01JvP0swT1W9
+X-Received: by 2002:ad4:5c42:0:b0:709:b6bc:f6f4 with SMTP id
+ 6a1803df08f44-70ba7bf7612mr120609036d6.32.1755477733407; 
+ Sun, 17 Aug 2025 17:42:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEaOFAA4xzAEpkq1pbcegEcpv96JKuWHG5xRULfd/dnlRxyzciJwghtw+nPoI3WDSgIvg3ZsQ==
+X-Received: by 2002:ad4:5c42:0:b0:709:b6bc:f6f4 with SMTP id
+ 6a1803df08f44-70ba7bf7612mr120608736d6.32.1755477732843; 
+ Sun, 17 Aug 2025 17:42:12 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3340a604690sm15654081fa.41.2025.08.17.17.42.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 Aug 2025 17:42:10 -0700 (PDT)
+Date: Mon, 18 Aug 2025 03:42:07 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Henrik Grimler <henrik@grimler.se>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org,
+ linux-kernel@vger.kernel.org, m.szyprowski@samsung.com
+Subject: Re: [PATCH v2 3/3] drm/bridge: sii9234: use extcon cable detection
+ logic to detect MHL
+Message-ID: <r2u2odrkzfezohq44nh4jw6oj23j46gohuzsh6k7jpwnzojxqk@vdus4jj5lv7x>
+References: <20250724-exynos4-sii9234-driver-v2-0-faee244f1d40@grimler.se>
+ <20250724-exynos4-sii9234-driver-v2-3-faee244f1d40@grimler.se>
+ <ldhyfuczwtwydwnvno4xn6ppjtt7mtcj35fp52xrqaajtfbtpb@2pgkytczb5k5>
+ <20250808095259.GA31443@grimfrac.localdomain>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|SN7PR12MB6887:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac544748-ac53-45f3-19d8-08ddddeb86a8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aEZRbUxKUjJKNzMwNDA3andlSTVrUFBpR1VVaEsvSnQ3UkhOZFM3ZFJPL3NR?=
- =?utf-8?B?bXBZSXBad290Ym1OR3VacXpCSlMyQUVRUGt4ak5YL3pIRE02clhWWkxiUFIv?=
- =?utf-8?B?ZTh2UTVYdEtUQTlVcVhjdk12emVna3o3MEtyUEpWT0Y0c2xoRTNoMkpYSHBD?=
- =?utf-8?B?d2ZueElzdC9FdC8zYmJGYkdlVGNVdUdnRTcrMU41YjNtVklHK1pKZFViSTZR?=
- =?utf-8?B?c29hMDZtOXZ5blRaeUQyVHZReFl2WFo2bElRN0lFMkxIRHcrU2ZsM3hsMDYv?=
- =?utf-8?B?dTNqVENYZGRqaEg3Szk4RlY0ajUrQzR1ZU9ISkgwcXIrRllGUHdCVU9QTHJD?=
- =?utf-8?B?VkpxWjBVV0E3RUo3QWk5SFFSQ2VXemZ0WS9FS1NWWHpYVStzQ081clJLdEZ2?=
- =?utf-8?B?aU5mRFV4Y1d5Sk9NL01CRzl1NFhCdVRZdUxXUGJ4bWx4VXRVeTRzdGdwNzdS?=
- =?utf-8?B?KzhPWGxBUkdKcUM3dU9oMk13czNLOEZ2L3pQK0tZMjZxeEFjYmh1clBvS08v?=
- =?utf-8?B?S0dYek1UOHFNYTZsSDZHQ1lQb2NVbFdwVWlFeWtiVUIwbjlpOXMxU0w2dCt1?=
- =?utf-8?B?aUhBUmttSXo5bFBtWnNNZG1DUExLYnRETkJUMkdCREN6NmYrVm9nUk5BSGVv?=
- =?utf-8?B?LzlsejhkWXA1OHJMVEZNT0VhaUU4TlMxTzJQQ055aXV3aWFOTG1IeFNaV2Rv?=
- =?utf-8?B?STZ0Nlc5S2p0SWFSem1xMFdjeTBUckVRZGlKblgxMG11YXI5OWF2WUdkbFJu?=
- =?utf-8?B?aTEwUlYxM01iU3l0QVlndTBVdzR3ZFVyM2w0UEFjOUV3WVh4SWYyeEpnaDdH?=
- =?utf-8?B?VUp1UFVGNEFlQ0hUL1dsUHZLVDR4Q0dPQ2c4eGliT0haNFZXZVVISVFhajRm?=
- =?utf-8?B?bG4rb1dZQko3RldTeCtxNitweGI0K0ZmbDd5ekNDSzJ6R3doV3RIcTRBaEJE?=
- =?utf-8?B?ek04aVhrMDduNUF3amJvYlRWNDZnWXplWHNSVjJLMmxIbWdNY2pFdDNtRm1X?=
- =?utf-8?B?bzV5VllvRHRYTGM2UnR5RnZ2R1Y2ODFGdlZBV2pWMG5BMFNWR29WQkRFRU1r?=
- =?utf-8?B?RkdqcEVES0VBdzN1L2VoNGZJUnU0VDJ2aEUwMjBqQWJESGkvY0VzWUVqcHNU?=
- =?utf-8?B?TkJQOUhxWmNWT1g2RHV5Y3h6Z1lIRUxSaE1EbTJKNEJRWDlKTG9PajljOHZZ?=
- =?utf-8?B?TVVaeThpTkZhQnFqMlBwMFhCd0d5WEY0SzFzZ2lxNlBmSGNqOVJ5Q0dxTE10?=
- =?utf-8?B?ZjhGQy9KenNUeEl5cjN1THViSnB3Zkg1bVNUc2s2MGdWWWlNbTBOa0YyRWgr?=
- =?utf-8?B?MHpTbFFld3d4K1ZLbk45NzltblVGdStjaWdqSER6ZE9jVThMdmNPSTA3dmkv?=
- =?utf-8?B?b1RScmZxNGIySGNyZ0VOc1dxSnMrT3pOY3BlQ2dOUUtHdGgyU2x3L1ZnRGVR?=
- =?utf-8?B?MnpSSitodytoOFVKYVpQUE9rbTIxZlg5UFNMeVY2R2JIbGtFODlSNkx2TVFo?=
- =?utf-8?B?Ymh3aTlpdG1ESzhtT1hnZ2dIMG8zZW5xeWQrdUw5dEpVZHdnd1pJb2wwVFFC?=
- =?utf-8?B?Nk50NFIwTDVYT3ROY1lLOEhTN2p2cmdMVlVIRThjTXNmZ3hyVWlVVmsvNGFL?=
- =?utf-8?B?NFlSMENtd0NyMlBzNDJIcFZPcjNpT1Q2YzByUFFudXhiYXluajdYN1JyTkNr?=
- =?utf-8?B?aDUvVjZ0ZUFkZHhxODFyWUx6TDN4MjlXdnFSU05rYW1GNDRnQnluYnNocnYw?=
- =?utf-8?B?RlJKNnVCaURpS2ErZHZKM3lFRTIvTnNXcWxaZzh0VDJSUUJENzZvYys3NFNW?=
- =?utf-8?B?QTl0YS9JOW9UKzd4V3lhT0g2cG5ZUHo2ZmlLQXJDNnB1dStvdkN6UUlVTEpa?=
- =?utf-8?B?eGVlUXZPZFlNdHVUeWZKSWFGMVNIMWdvS013bElESWVZb1NhbHJpZEYrYmQ2?=
- =?utf-8?Q?XuJhyr5pIRg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wm9VdGhYUmw3Z1lsREdjeUkzTit1S3cyZEZBWTVtR1l4NXZYRjBKS0dtMjBl?=
- =?utf-8?B?R2lxTUpHUzlwbzJVUHQ4enNXV3J3NDc4N211ekpzWDUwVEpFM01DMjNlR2xS?=
- =?utf-8?B?NXQxQmZaVGpyOEtjS1NpN0hDKzErZ0dTbXZwNHVqTFVnaDE1YmkrYVdXczJF?=
- =?utf-8?B?QSsvVllNZ2RBaUlPUS96UENSR0lKandJSlJHaDRaMlRiU0NoQzc5K1VrT0Zz?=
- =?utf-8?B?Y0lHMUdIOVJlb0VZalV2TktQS245RHB6ZEVDQW93M2lydWpINnEwZWpqSnlK?=
- =?utf-8?B?NkE1TTRyQTNxUkFPWkdqc3JBeXQ3M0dLMnpwQklGN1UwV1pLU3Z0WmtWdWZs?=
- =?utf-8?B?QWF2ZjZhYVRhN0l0NHh3WElVcjBqelZOUjNuWEFOeEVhYnBrMTJSN3dFVzJO?=
- =?utf-8?B?QngvNEUraC80V2tWWk9OcDhUY1g0aDc4Zi9maVJuN2xWUXdITXl1TlN2bUg0?=
- =?utf-8?B?VUVzN1cydy9DaUZ6N0sxSXlrVW41anl2NHRHTEZ6ZG1qNktzdDhyMVgwSXV3?=
- =?utf-8?B?ZFRaRHVxNWxjQU1xUGx0NWtHdGFGK0dubnZZY2NZRmsrYTJldDk2eXl1dllN?=
- =?utf-8?B?dGZpUzl5MUx2akJvSWNTZ3ZMdFlhaGhxaER0Tk5tUVROemZYSzcxSnRjclRw?=
- =?utf-8?B?Ukx5TUV4cFhtY3lYeVQ4NTBuRmVNdUJtYTdlYStLOFZEbmRBaDdPL3M5Q0ND?=
- =?utf-8?B?OS9TL3RyU2dVWk9TS2laNWd0L0xMZlZRaDE5Zk80ZElvRXF1UEQ4cUxCRVp2?=
- =?utf-8?B?SENpdm1aUC91QmxpYnM4aG8vcW9UcmdnTTU4alI1NlhPVVMyYjZyNk5wdGFu?=
- =?utf-8?B?dmpiYnJkNGJLL3drUWZjSDBHWnlGQjd4Y3AzdG5vRHVYRUhiejYvMGVKa0ZJ?=
- =?utf-8?B?VlpJVXRPT0NVdC9PRmg0RGU5NXpETkVsZGc2R0hvcjZhOWg5ZEFQcmtONURT?=
- =?utf-8?B?NTB1UDZ4NEFBQ0E0aXBLdGxUd0NKUDQwSmUrUnZRMkl0b0xJT090OGprV1o5?=
- =?utf-8?B?T1Nqbi9ia3JMRGFaUUFMN2hnUjFRWjEzYUxRc09YMTV4dnVpdGkxU2lKbVp3?=
- =?utf-8?B?QzNoK1FKYkhvN1BxNmNnOVo2SDFHWWw4aEZSQnloSmhZVjhBOStjSThMNFNP?=
- =?utf-8?B?MWZoU3J4cVUwWTNiNjFkRDlDRWJFT0RUK1dySy9VV0pJdzBtdm1WMTBEYklO?=
- =?utf-8?B?dFNIMGpGZnRUSk1sUVV5RWZybW9aOUxaYUlnU0lsWDVnK2trVWFaVDIwM2R3?=
- =?utf-8?B?K1lEY3FXYnZ1MkxsZVRaRStaSklyVmlUcjJSYW9MckZLMWZzY00yUVJpb3E4?=
- =?utf-8?B?Tks0aEF4QTZzcmNZWkFwUFVpeDRreFloRFRkOUt6Z2JRNDBjSVc2UDRnVERh?=
- =?utf-8?B?V29hak1tT2ZUOHdSdmlqSWxJTDJIa3BxT2w2aWtLREZQdlc2MmRkWElIY2NF?=
- =?utf-8?B?eDl0ZzhnazZQRUo2empFaWY0V2JWWVd4SENRK29QL0ZHaEUvSXN1QVVYTGxG?=
- =?utf-8?B?TWFST21nQ3MzUHZZdmcyLzVWYXlXOWFjQlA3aXBSRUVyK24rZWxLR0QzNnlu?=
- =?utf-8?B?TG1DcVordWFXODZVSEsrT0Z6UDVtclVPQnBlNDIzSEdMOWp1SXdJa2NuS2pn?=
- =?utf-8?B?U3laMjhJUEVraFJqNWN5VStFSTQ0di9KRlVWUlBRZXRjZE1tK1piU1ZEak5z?=
- =?utf-8?B?QWhWK1k4aEhHc0dwK0NLZWVBanNGdms1ckZzWk1LL3Q1aXNtM1NVc1BMZ1ow?=
- =?utf-8?B?NWdQa01oUThhZjZUd2F4Q0R6UWFDaFU5MW1XNFE4WEFnSWxadG8xUXBkdm4w?=
- =?utf-8?B?YU54WmMrWmxvWHVrenYrSE94QmhUTFgyazI3TWRhOElqVE1COER1SDgxL0Qz?=
- =?utf-8?B?bHFVUDlJbzdHYWk1K2k0U3duMWtqREFFRldRQjc3aHJCWWtmMEVBak5NZjZQ?=
- =?utf-8?B?SlNrdTRwOWpteHRqK0ltTTlpdmdtaXRUUTNTWXhONTNJMUpCSFVNM0RseXpV?=
- =?utf-8?B?T2VPajh5UWRWQkROeDM3YURPem9VQzZ2ckV0YzFuMlhzNFZsQUVtb2kzYlFX?=
- =?utf-8?B?WDJzaW4rMjkxNy9pRUFIc3l4dmxaREw4QmhTY1VaL0pRZGtaRFFyQmxCOWZS?=
- =?utf-8?Q?8nYpPNJo3S2HM+xv2G6EQjppM?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac544748-ac53-45f3-19d8-08ddddeb86a8
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 00:09:40.7271 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q728ZLsQ+1l4DXHIkilXNX6pPCPz26seTkRUx71xP/U41172+L+CrYcOXeVPyIwI3SdGUEgtKcRAW8Vlk6GgcA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6887
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250808095259.GA31443@grimfrac.localdomain>
+X-Proofpoint-GUID: cRsNw0izth6UHkFZ0LslenHRXsErx4a6
+X-Authority-Analysis: v=2.4 cv=YrsPR5YX c=1 sm=1 tr=0 ts=68a276e6 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=ZUfLXKp3AAAA:8 a=QyXUC8HyAAAA:8 a=zbyRAtfhQp2mi0id9n0A:9
+ a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22 a=RYC_AntYK8rCuVhA8xHq:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAzOSBTYWx0ZWRfX8v53Xz9mYwRe
+ 051Up+elQPzh/1F+V3ccKqBNeb2VXsZ4qJnREMuYYTJJpJz9FkhQkTFc2zAKcn8Qxry91+Bnoic
+ HR++rPbr9PMrjeBjOzYFcIvT7f4ZyekC5mwSDqdDkozq9EjyCc1Z69QsQUN4uRaGufw8RCeRwff
+ 9S3IsVfTWFEUIk63mM098G2emTZrwvOMLIvAlU+t58xt63P2q4lUWL54v79q7ix37+pSKLt7bY1
+ Vm2WMWUgffP+AovCNMpNmSl0ZZBf5ap+wjusTTwuy+L8EXygGy0FXjFfiM+qzWeAYYzbwpkh5xK
+ EzY/8tNg997GjITMvejoF9LpG/xhjpgFeFyuNn8D8+tH3pM8L05l7x/LOtEV2qbPbAID0pXYKMa
+ u1mD7c/1
+X-Proofpoint-ORIG-GUID: cRsNw0izth6UHkFZ0LslenHRXsErx4a6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-17_10,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 spamscore=0 priorityscore=1501 phishscore=0
+ adultscore=0 bulkscore=0 clxscore=1015 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508160039
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,35 +134,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alex Hung <alex.hung@amd.com>
-
-On 8/7/25 20:52, Xichao Zhao wrote:
-> The clamp() macro explicitly expresses the intent of constraining
-> a value within bounds.Therefore, replacing min(max(a, b), c) with
-> clamp(val, lo, hi) can improve code readability.
+On Fri, Aug 08, 2025 at 11:52:59AM +0200, Henrik Grimler wrote:
+> Hi Dmitry,
 > 
-> Signed-off-by: Xichao Zhao <zhao.xichao@vivo.com>
-> ---
->   drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> On Sun, Jul 27, 2025 at 08:07:37PM +0300, Dmitry Baryshkov wrote:
+> > On Thu, Jul 24, 2025 at 08:50:53PM +0200, Henrik Grimler wrote:
+> > > To use MHL we currently need the MHL chip to be permanently on, which
+> > > consumes unnecessary power. Let's use extcon attached to MUIC to enable
+> > > the MHL chip only if it detects an MHL cable.
+> > 
+> > Does HPD GPIO reflect the correct state of the cable?
 > 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
-> index 0c0b2d67c9cd..00767b8ccdae 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn301/dcn301_fpu.c
-> @@ -435,12 +435,12 @@ void dcn301_fpu_calculate_wm_and_dlg(struct dc *dc,
->   						&context->bw_ctx.dml, pipes, pipe_cnt);
->   	/* WM Set C */
->   	table_entry = &bw_params->wm_table.entries[WM_C];
-> -	vlevel = min(max(vlevel_req, 2), vlevel_max);
-> +	vlevel = clamp(vlevel_req, 2, vlevel_max);
->   	calculate_wm_set_for_vlevel(vlevel, table_entry, &context->bw_ctx.bw.dcn.watermarks.c,
->   						&context->bw_ctx.dml, pipes, pipe_cnt);
->   	/* WM Set B */
->   	table_entry = &bw_params->wm_table.entries[WM_B];
-> -	vlevel = min(max(vlevel_req, 1), vlevel_max);
-> +	vlevel = clamp(vlevel_req, 1, vlevel_max);
->   	calculate_wm_set_for_vlevel(vlevel, table_entry, &context->bw_ctx.bw.dcn.watermarks.b,
->   						&context->bw_ctx.dml, pipes, pipe_cnt);
->   
+> Yes, the HPD gpio pin changes state from low to high when a mhl cable is
+> connected:
+> 
+> $ sudo cat /sys/kernel/debug/gpio|grep gpio-755
+>  gpio-755 (                    |hpd                 ) in  lo IRQ
+> $ sudo cat /sys/kernel/debug/gpio|grep gpio-755
+>  gpio-755 (                    |hpd                 ) in  hi IRQ
+> 
+> so that is described correctly.
+> 
 
+Ack.
+
+> 
+> and in captured trace I see that on cable connect we get an irq that
+> is handled through:
+> 1. max77693_muic_irq_handler
+> 2. max77693_muic_irq_work
+> 3. max77693_muic_adc_handler
+> 4. sii9234_extcon_notifier
+> 5. sii9234_extcon_work
+> 6. sii9234_cable_in
+> 7. hdmi_irq_thread
+> 
+> Raw captured trace dat file can be found here:
+> https://grimler.se/files/sii9234-mhl-connect-trace.dat
+> 
+> Maybe you were asking for some other type of order of events log
+> though, please let me know if I misunderstand.
+> 
+> > Should the sii9234 signal to Exynos HDMI that the link is established?
+> 
+> Maybe.. Sorry, I do not know enough about extcon and drm yet. I assume
+> you mean through drm_helper_hpd_irq_event() and
+> drm_bridge_hpd_notify(), I will experiment a bit and add it to the
+> driver and see if this improves it.
+
+If you are getting the HDMI IRQ event, then I'd suggest checking that
+you are actually getting the 'plugged' event, etc. I was worried that
+you are hijacking the DRM chain. But if you are getting hotplug events,
+then it's fine (and most likely correct).
+
+> 
+> There is currently (as I wrote to Marek Szyprowski in a response in
+> v1) an issue where device screen stops working if cable is connected
+> when device screen is off, maybe proper notification would help..
+> 
+> > > Signed-off-by: Henrik Grimler <henrik@grimler.se>
+> > > ---
+> > > v2: add dependency on extcon. Issue reported by kernel test robot
+> > >     <lkp@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/Kconfig   |  1 +
+> > >  drivers/gpu/drm/bridge/sii9234.c | 89 ++++++++++++++++++++++++++++++++++++++--
+> > >  2 files changed, 87 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> > > index b9e0ca85226a603a24f90c6879d1499f824060cb..f18a083f6e1c6fe40bde5e65a1548acc61a162ae 100644
+> > > --- a/drivers/gpu/drm/bridge/Kconfig
+> > > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > > @@ -303,6 +303,7 @@ config DRM_SII902X
+> > >  config DRM_SII9234
+> > >  	tristate "Silicon Image SII9234 HDMI/MHL bridge"
+> > >  	depends on OF
+> > > +	select EXTCON
+> > 
+> > Either this or 'depends on EXTCON || !EXTCON'
+> 
+> Feels like depends is a better description so will change to it,
+> thanks!
+> 
+> Best regards,
+> Henrik Grimler
+> 
+> > >  	help
+> > >  	  Say Y here if you want support for the MHL interface.
+> > >  	  It is an I2C driver, that detects connection of MHL bridge
+> > 
+> > -- 
+> > With best wishes
+> > Dmitry
+> > 
+
+-- 
+With best wishes
+Dmitry
