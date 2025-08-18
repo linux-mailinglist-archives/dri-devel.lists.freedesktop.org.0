@@ -2,135 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054AEB29AB3
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 09:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0CD2B29AB7
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 09:20:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB3110E1C4;
-	Mon, 18 Aug 2025 07:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC1010E1C6;
+	Mon, 18 Aug 2025 07:20:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="X3a2ttWF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4TjsnFb0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X3a2ttWF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4TjsnFb0";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GWmi2VPJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6869F10E1C4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 07:19:51 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1AF1C2124E;
- Mon, 18 Aug 2025 07:19:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755501590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fDObMno5796K3X+vCGAZ9Nq4/Zn9DnIJRXDn7rn8wvY=;
- b=X3a2ttWF3iUqhZhs6Sb35gcmGsQJi1mboSUF4LCyesMtaTzy01g/M0jgxe1p7CbAWqjogv
- edV8k91ebfFLY/hqoGfTv4nCgrwnOHEjk7JC219tkO066n/RPRDbMI4i3/+0li0XGjFnAF
- JEOCcGZriZO3grbBQkLsi+/PKXFsULY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755501590;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fDObMno5796K3X+vCGAZ9Nq4/Zn9DnIJRXDn7rn8wvY=;
- b=4TjsnFb0Prr8LbsYljJyEdKNTSgCgF/SukgbXcLgIOI8bRZ1dgES1xAYwvOOch7gUUCAGG
- dpKQY3SWrSAiw8Aw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755501590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fDObMno5796K3X+vCGAZ9Nq4/Zn9DnIJRXDn7rn8wvY=;
- b=X3a2ttWF3iUqhZhs6Sb35gcmGsQJi1mboSUF4LCyesMtaTzy01g/M0jgxe1p7CbAWqjogv
- edV8k91ebfFLY/hqoGfTv4nCgrwnOHEjk7JC219tkO066n/RPRDbMI4i3/+0li0XGjFnAF
- JEOCcGZriZO3grbBQkLsi+/PKXFsULY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755501590;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=fDObMno5796K3X+vCGAZ9Nq4/Zn9DnIJRXDn7rn8wvY=;
- b=4TjsnFb0Prr8LbsYljJyEdKNTSgCgF/SukgbXcLgIOI8bRZ1dgES1xAYwvOOch7gUUCAGG
- dpKQY3SWrSAiw8Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CAB8013A55;
- Mon, 18 Aug 2025 07:19:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id od7PLxXUomhUEQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 18 Aug 2025 07:19:49 +0000
-Message-ID: <2daa5756-fac5-41b1-a21a-54290112df7a@suse.de>
-Date: Mon, 18 Aug 2025 09:19:49 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E965F10E1C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 07:20:39 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF61D17D1;
+ Mon, 18 Aug 2025 09:19:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1755501581;
+ bh=HLqbYlHq1BDKJuJzXWkUG5LFVoomXfaqsUaJko0jS9E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GWmi2VPJB9OhptOJe2RqkG6GaYtlmP7/H8QkOzEriFc4ISaNoMft7sm3VW8pHVfYU
+ cwkUHf+3gCwwGja7UbthFGp7J+/9L9Cg9Tmp1CSJKmtEXZgAgm6GdKhTWNIFfBmkFY
+ 88oogSCME1ezcJpVxQV6WfBdyZoNhl7UzY4YQiAs=
+Message-ID: <3f0fc2a6-6e12-45ff-a153-71661ddd236d@ideasonboard.com>
+Date: Mon, 18 Aug 2025 10:20:34 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/efidrm: Match framebuffer device by id instead of
- driver name
-To: Yao Zi <ziyao@disroot.org>, Javier Martinez Canillas
- <javierm@redhat.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250816153430.51235-1-ziyao@disroot.org>
- <20250816153430.51235-2-ziyao@disroot.org>
+Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
+To: Marek Vasut <marek.vasut@mailbox.org>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-renesas-soc@vger.kernel.org
+References: <20250608142636.54033-1-marek.vasut+renesas@mailbox.org>
+ <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
+ <4d0f2b7c-d44c-4dc2-9996-3cbbf3bf68b0@ideasonboard.com>
+ <ac748c7e-d367-4569-9d9a-ac424c813f14@mailbox.org>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250816153430.51235-2-ziyao@disroot.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo,disroot.org:email];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_TO(0.00)[disroot.org,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[8];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,disroot.org:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <ac748c7e-d367-4569-9d9a-ac424c813f14@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,80 +65,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi,
 
-Am 16.08.25 um 17:34 schrieb Yao Zi:
-> Currently the driver matches the platform framebuffer device registered
-> by sysfb through driver name, "efi-framebuffer", this is a little
-> confusing since this driver registers a DRM device, instead of a
-> framebuffer.
->
-> Moreover, we have a driver with the same name, enabled by CONFIG_FB_EFI,
-> that acts as a consumer of efi-framebuffer as well. They cannot be both
-> loaded into the kernel.
->
-> Making these two drivers coexist is sometimes useful, e.g., a
-> distribution may want to build fbcon into the kernel image for debugging
-> purpose, but keep the whole DRM subsystem enabled as module. In such
-> case efidrm could serve as a solution for running DRM-specific userspace
-> programs on platforms with only UEFI framebuffer supplied.
->
-> Let's rename the driver as "efi-display" to avoid possible confusion.
-> A platform_device_id table is introduced to match "efi-framebuffer"
-> devices.
+On 18/08/2025 02:40, Marek Vasut wrote:
+> On 8/12/25 4:36 PM, Tomi Valkeinen wrote:
+> 
+> Hello Tomi,
+> 
+>> On 08/06/2025 17:24, Marek Vasut wrote:
+>>> Implement support for DSI command transfer mode. Transmission of both
+>>> Short
+>>
+>> I constantly kept reading "DSI command mode support". So I was quite
+>> confused for a bit =). Maybe avoid the use of "mode" with "DSI command".
+> 
+> I dropped the "mode" in V3.
+> 
+> [...]
+> 
+>>> +static ssize_t rcar_mipi_dsi_host_tx_transfer(struct mipi_dsi_host
+>>> *host,
+>>> +                          const struct mipi_dsi_msg *msg,
+>>> +                          bool is_rx_xfer)
+>>> +{
+>>> +    const bool is_tx_long = mipi_dsi_packet_format_is_long(msg->type);
+>>> +    struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
+>>> +    struct mipi_dsi_packet packet;
+>>> +    u8 payload[16] = { 0 };
+>>> +    u32 status;
+>>> +    int ret;
+>>> +
+>>> +    ret = mipi_dsi_create_packet(&packet, msg);
+>>> +    if (ret)
+>>> +        return ret;
+>>> +
+>>> +    /* Configure LP or HS command transfer. */
+>>> +    rcar_mipi_dsi_write(dsi, TXCMSETR, (msg->flags &
+>>> MIPI_DSI_MSG_USE_LPM) ?
+>>> +                       TXCMSETR_SPDTYP : 0);
+>>
+>> There's no runtime PM in the driver, and the clocks are enabled
+>> externally... So I think we just assume that the IP is running here?
+> 
+> Correct.
+> 
+> [...]
+> 
+>>> +    /* Start the transfer, RX with BTA, TX without BTA */
+>>> +    if (is_rx_xfer) {
+>>> +        rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_BTAREQ);
+>>> +
+>>> +        ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+>>> +                    (status & RXPSR_BTAREQEND),
+>>> +                    2000, 10000, false, dsi, RXPSR);
+>>> +    } else {
+>>> +        rcar_mipi_dsi_write(dsi, TXCMCR, TXCMCR_TXREQ);
+>>> +
+>>> +        ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+>>> +                    (status & TXCMSR_TXREQEND),
+>>> +                    2000, 10000, false, dsi, TXCMSR);
+>>> +    }
+>>
+>> Did you check the timeout is big enough? With LP and BTA... Well, it's
+>> only 16 bytes at max. Maybe it's fine. Again, just a note. =)
+> 
+> I did check it with the only hardware I had available which needs this
+> command mode so far, the RPi Display 2 using ILI9881 DSI-to-TCON .
 
-NAK, please see the rsp vesa-framebuffer patch for the rational
+Don't call it "command mode" ;).
 
-https://lore.kernel.org/dri-devel/d74f16f0-9615-4816-a49c-efa35b9ab344@suse.de/
+>> Does this work when the video stream is on?
+> 
+> That is untested, the ILI9881 only uses command mode during
+> initialization, before it switches video mode on.
+> 
+>> If yes, then it might take
+>> much longer until the command can be transferred.
+> 
+> Do you know the upper limit , is that one or two frame times ?
 
-Best regards
-Thomas
+If using DSI video mode and the stream is on, the DSI TX has to
+interleave the commands either to the line blanking or frame blanking.
+Usually this is configurable in the DSI TX (if the chip can do
+interleaving).
 
->
-> Signed-off-by: Yao Zi <ziyao@disroot.org>
-> ---
->   drivers/gpu/drm/sysfb/efidrm.c | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-> index 1883c4a8604c..7f76e8961788 100644
-> --- a/drivers/gpu/drm/sysfb/efidrm.c
-> +++ b/drivers/gpu/drm/sysfb/efidrm.c
-> @@ -3,6 +3,7 @@
->   #include <linux/aperture.h>
->   #include <linux/efi.h>
->   #include <linux/limits.h>
-> +#include <linux/mod_devicetable.h>
->   #include <linux/platform_device.h>
->   #include <linux/screen_info.h>
->   
-> @@ -375,10 +376,17 @@ static void efidrm_remove(struct platform_device *pdev)
->   	drm_dev_unplug(dev);
->   }
->   
-> +static const struct platform_device_id efidrm_platform_id[] = {
-> +	{ "efi-framebuffer" },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(platform, efidrm_platform_id);
-> +
->   static struct platform_driver efidrm_platform_driver = {
->   	.driver = {
-> -		.name = "efi-framebuffer",
-> +		.name = "efi-display",
->   	},
-> +	.id_table = efidrm_platform_id,
->   	.probe = efidrm_probe,
->   	.remove = efidrm_remove,
->   };
+A read command will be the most difficult to interleave, as it takes
+more time with the BTA and reply.
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+I think the worst case is one frame delay (next vblank).
 
+>> If not maybe the
+>> function should return an error if the video stream is enabled.
+> 
+> I haven't seen any drivers special casing that, I'd prefer to increase
+> the timeouts. For V3, I'll update the timeout to 50ms , which is about 3
+> frame times.
+
+If the docs have no word about interleaving the commands and there are
+no related registers, I would guess that it's not supported. If this
+can't be tested, I suggest just returning an error if a command is sent
+while the video is on.
+
+You should be able to test this, though. E.g. just add a debugfs/sysfs
+file to the panel or dsi tx driver, which does a DSI command, possibly a
+read. See what happens when the video is enabled.
+
+>> What do these read_poll_timeouts wait, exactly? The first one waits
+>> until the data is sent, and BTA has been done? And the latter waits only
+>> for the data to be sent? Hmm, no... The first must wait until the
+>> peripheral has replied, as there's no wait in the
+>> rcar_mipi_dsi_host_rx_transfer()...
+> 
+> First one is transmit+BTA+receive , second one is only transmit .
+> 
+>> It would be nice to have a short comment what the wait is for.
+> 
+> Will do in V3.
+> 
+> [...]
+> 
+>>> +    ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+>>> +                status & PPIDL0SR_STPST,
+>>> +                2000, 10000, false, dsi, PPIDL0SR);
+>>> +    if (ret < 0) {
+>>> +        dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n",
+>>> status);
+>>> +        return ret;
+>>> +    }
+>>
+>> Same here, it's not very clear what the waits are for. Aren't we done
+>> already after the tx function finished?
+> 
+> First one waits for bus handover to host processor to complete, the
+> second one (STPST) waits for data lane to enter LP11 stop state .
+> 
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static ssize_t rcar_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+>>> +                       const struct mipi_dsi_msg *msg)
+>>> +{
+>>> +    const bool is_rx_xfer = (msg->flags & MIPI_DSI_MSG_REQ_ACK) ||
+>>> msg->rx_len;
+>>> +    struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
+>>> +    int ret;
+>>> +
+>>> +    if (msg->tx_len > 16 || msg->rx_len > 16) {
+>>> +        /* ToDo: Implement Memory on AXI bus command mode. */
+>>> +        dev_warn(dsi->dev,
+>>> +             "Register-based command mode supports only up to 16
+>>> Bytes long payload\n");
+>>> +        return -EOPNOTSUPP;
+>>> +    }
+>>> +
+>>> +    ret = rcar_mipi_dsi_host_tx_transfer(host, msg, is_rx_xfer);
+>>> +
+>>> +    /* If TX transfer succeeded and this transfer has RX part. */
+>>> +    if (ret >= 0 && is_rx_xfer) {
+>>> +        ret = rcar_mipi_dsi_host_rx_transfer(host, msg);
+>>> +        if (ret)
+>>> +            return ret;
+>>> +
+>>> +        ret = msg->rx_len;
+>>> +    }
+>>> +
+>>> +    /* Wait a bit between commands */
+>>> +    usleep_range(1000, 2000);
+>>
+>> Why wait and wait a bit between what?
+> The consecutive command transmission was unreliable unless there was a
+> slight delay between the consecutive commands. Hence this delay.
+
+This sounds like there's a bug in the driver, or the TX or RX hardware.
+Please document the sleep clearly in the comment.
+
+ Tomi
 
