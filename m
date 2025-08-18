@@ -2,61 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E813FB29F63
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 12:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE13B2AC4E
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 17:16:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5718610E1D0;
-	Mon, 18 Aug 2025 10:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74B6C10E46D;
+	Mon, 18 Aug 2025 15:16:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=robert.mader@collabora.com header.b="QJp2CnbI";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="SgufWMth";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18F3110E1D0
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 10:46:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1755513981; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=PlznDCCrOlM59ksPQyKCE9h0d+dO2h+b1h4VFT9ZYheRIN+IY6yFNtqS8OWPr+h0LBszhzCCFVib8sJpcwRd+l5iuMLTWy0tB7Tztl8nNA0oapHPJkD7LtWlqYSGUGbEqze7CkoXmzpdkNDVYtGMBcMxvc78cHpy2T6UDMLeNx4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1755513981;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=WHp4XJVWTvvmWcmkaQmduWnck0pIloPgQPEiSVQzdBk=; 
- b=SiZyZ19q28va3f4VqkqOBDoraxl26yYlTEGhJPZSVvbFsrHR/6nx6EbATnY/RyOMOBsFGSPXA67O2nDMzT1u2M275w6AQcvT1qvbZdMIT8FJEc/ZrHPTteLMxG1xR2YDLTdaXUVuvSS1HLwKnq8WvVi+uc0Wklx5rJepenBHn30=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=robert.mader@collabora.com;
- dmarc=pass header.from=<robert.mader@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755513981; 
- s=zohomail; d=collabora.com; i=robert.mader@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=WHp4XJVWTvvmWcmkaQmduWnck0pIloPgQPEiSVQzdBk=;
- b=QJp2CnbI7SwIJAc65GAmBXfw5fJrlxZJYn3qpTKlQwrsGZ+hwqTdSYSL+Q+Dcqns
- 8+t6vHnKHROSqhUDoea+o91nF/982osi5GafrV3mIQvELjxgCnA/udCZg1ZN6ro1HEo
- cb6wEfBS1+wiDvcdFb1IOkIYwaJzs5qppwYJ1x0s=
-Received: by mx.zohomail.com with SMTPS id 175551397875259.006396646258395;
- Mon, 18 Aug 2025 03:46:18 -0700 (PDT)
-Message-ID: <26f31ab8-1b9f-466e-aa9e-2b76bec7a364@collabora.com>
-Date: Mon, 18 Aug 2025 12:46:15 +0200
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F050810E42C
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 10:50:58 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-45a1b0bde14so20299895e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 03:50:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1755514257; x=1756119057; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OZHyg61EBWZaARHc87dfxpWntWm0nMzTS3sgcvk3T3M=;
+ b=SgufWMthSOf+nbuTSWoV+UnYKlU3NjXi/EijZz8/xRmrKoWSyk3v1hrDJc1xSEKnoU
+ opnN45jwQN50fu7Sdcw5GTblQ+KASNA7k6A4tarVX0+p7GiJ1oq6A8ugt08Ir8WXb5lC
+ SeURmj7szjYoaWlldSmFxEf/jJucc0tDU8v9C3/o09cT0JbLtLRle/8taUWpHAiX1lW4
+ 9gkHiC0c0LjFiQXiA14yNsu6LMsZjZEPcr2sN7cMhckHTpx+HeutUr7F/pHTJwW5J8G3
+ Uvi26FrcqT3B+1//84H2Qmiu452vmqrIpooQSsC7KaOx7ji22J2ulvolrUM+6aMTUNa0
+ 4YAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755514257; x=1756119057;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OZHyg61EBWZaARHc87dfxpWntWm0nMzTS3sgcvk3T3M=;
+ b=mwEvyk6I8a7U4ABo9Dl08v+bUvdsB4zGNl7z/ArodIQ9BbeK3qGszuR4KFTIXsTwUO
+ S8k3Q7V3UNfZ2Slq1puDLsidJaqPx52fOjgVNtAEUyGoGgLIOqVCEzKcwm4LkIGiInCo
+ 92XkuMlcKglF77Ti2QnWCaep2ZIoIoLCwKoR4i5NINbEiYA6QRm9yJTtxpOOGVXzmlRS
+ Q51+5EQI4v8hklJrQ6bTU/pP4vqPwKg53Zpe3G5SynpJLyWWKv3k1zt61ehf1VfwLgy2
+ hcDF0wctKiuW3IObjJn/dO5PrOiatecdbw6/4TtJezJGfkGZ22QBQUV4CWBlfQvOx72I
+ n6iA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXgAdX9yNK0tROH5hhMYK3fhHEtpwwpQEG4MurqTZ8ull6bho5pTCj+Qg7ulMwJVayJ+Ma40qIlXkM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5XgphvxRXPsRsNCCUcP93KQu8xgdY4ukK91g3Gjpv4gB97RiR
+ Ne7BCLhYittk2JTzMkeehqtTaF0ZS4VpYNPqrZ7LYj9N9TrlwM7dW3pH+EddAgxnIu0=
+X-Gm-Gg: ASbGnctjOLmiN9ySK1vJTfUVAy4rGykYiwWaEu2qBPteEIZ0UozBRztr8E2nzs2vWgT
+ 8JJmnBTHBxq+BGEjYxGk8saCyWH1BjwZQ5q4xbjAmzAi78ms7BV6HeYXTXOGoA7AqeQTTwrnJ+a
+ x4DDGnwKia5iQYl9sAdxED/yTdXuo/XdvcVRIlKMV5SdSrKTGnUQxiZxF/w8Lf4mm38L6qDCBWv
+ 4IQd4XsC/0YU4CeYCTB0B7m/88QkFcfru5dNbxrLbsPyWETQRwHNP/bEhNncCIfl4w1nNNdLIQd
+ v48X5FTHE5674wlewf9B+5Bg8nK1BlhE/mYrViygV5EnkVqTB3F5yrHcjFpNMIkiS95sBjQYXVE
+ EZNri8oQmm4dIfSuAexTNZ+KRlaLBxiscAWsYxmSKItShg8wLLOgM2tMq3WCyvaA=
+X-Google-Smtp-Source: AGHT+IFtjih4o8NS4VHkcYD2Txcwmf+pFe1QNvS0DpqHsE8KLRkcgWRFJ+48VhP74+JNXQyo/iL/1w==
+X-Received: by 2002:a5d:5f49:0:b0:3a4:ee40:715c with SMTP id
+ ffacd0b85a97d-3bb66a3baa4mr9592468f8f.14.1755514257365; 
+ Mon, 18 Aug 2025 03:50:57 -0700 (PDT)
+Received: from ?IPV6:2001:a61:134f:2b01:faa4:fc57:140d:45b?
+ ([2001:a61:134f:2b01:faa4:fc57:140d:45b])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3bb6816ef48sm12090391f8f.58.2025.08.18.03.50.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Aug 2025 03:50:56 -0700 (PDT)
+Message-ID: <a1cf393a-9901-469b-90f4-81211f2e1b9b@suse.com>
+Date: Mon, 18 Aug 2025 12:50:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] drm: vc4: Add support for additional 10/12/16bit
- YUV plane formats
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250807-drm-vc4-extra-formats-v2-0-fadc93844551@raspberrypi.com>
-Content-Language: en-US, de-DE
-From: Robert Mader <robert.mader@collabora.com>
-In-Reply-To: <20250807-drm-vc4-extra-formats-v2-0-fadc93844551@raspberrypi.com>
+Subject: Re: [PATCH v6 04/11] USB: Pass PMSG_POWEROFF event to
+ suspend_common() for poweroff with S4 flow
+To: "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "open list:HIBERNATION (aka Software Suspend, aka swsusp)"
+ <linux-pm@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
+ AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
+ Eric Naim <dnaim@cachyos.org>
+References: <20250818020101.3619237-1-superm1@kernel.org>
+ <20250818020101.3619237-5-superm1@kernel.org>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20250818020101.3619237-5-superm1@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Mon, 18 Aug 2025 15:16:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,50 +113,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07.08.25 15:28, Dave Stevenson wrote:
-> We'd been asked if the S01x YUV formats could be supported on Pi5 as some
-> software codecs produce them.
-> The answer was yes, so this patch adds them and the P01x formats.
+On 8/18/25 04:00, Mario Limonciello (AMD) wrote:
+> If powering off the system with the S4 flow USB wakeup sources should
+> be ignored. Add a new callback hcd_pci_poweroff() which will differentiate
+> whether target state is S5 and pass PMSG_POWEROFF as the message so that
+> suspend_common() will avoid doing wakeups.
 
-I tested this with the Gstreamer MR from 1 and can confirm that the 
-formats P010, P012, P016, S010 and S012 work as expected.
+Hi,
 
-Unfortunately S016 is not supported by Gstreamer yet - however chances 
-seem high that it works as well.
+how will Wake-On-LAN work with this change?
 
-Thus the series is:
-
-Tested-by: Robert Mader <robert.mader@collabora.com>
-
-1: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8540
-
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
-> Changes in v2:
-> - Swapped from adding an extra bool hvs6_only to having a min_gen for
->    each format (suggested by Maíra)
-> - Link to v1: https://lore.kernel.org/r/20250724-drm-vc4-extra-formats-v1-1-67fa80597fad@raspberrypi.com
->
-> ---
-> Dave Stevenson (2):
->        drm/vc4: plane: Flag formats as having a minimum generation
->        drm/vc4: plane: Add support for P01[026] and S01[026] formats
->
->   drivers/gpu/drm/vc4/vc4_plane.c | 56 +++++++++++++++++++++++++++++++++++------
->   drivers/gpu/drm/vc4/vc4_regs.h  |  9 +++++++
->   2 files changed, 58 insertions(+), 7 deletions(-)
-> ---
-> base-commit: d2b48f2b30f25997a1ae1ad0cefac68c25f8c330
-> change-id: 20250724-drm-vc4-extra-formats-1f53e6491cc1
->
-> Best regards,
-
--- 
-Robert Mader
-Consultant Software Developer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
-Registered in England & Wales, no. 5513718
+	Regards
+		Oliver
 
