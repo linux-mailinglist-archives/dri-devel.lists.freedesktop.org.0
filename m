@@ -2,65 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54E1B2AD2F
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 17:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440FAB2ADC0
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 18:07:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A65510E493;
-	Mon, 18 Aug 2025 15:48:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92CAE10E49C;
+	Mon, 18 Aug 2025 16:07:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="VLjER6+l";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="AilMNkNq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2312610E493
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 15:48:16 +0000 (UTC)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57IFmBCt3197041;
- Mon, 18 Aug 2025 10:48:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1755532091;
- bh=OwY9b1fbJC64snfhIQczT3frPHpoizNV5hwN0djYsHg=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=VLjER6+lKTsv/3LKgUU4hVLkXckSW6djPE9QceSn33s5X2XZZ/+GDD+SSiUn+AG26
- ceDGqUW4c2c27BDanqBnfjimeVdvQhjktFZCwd88fUEwc7QOh/ldQsv7tMy1x6NQ0Y
- ZRGPKi1Jx+nLfHBWxHlTruwJdPtsm+bIr2T0AQZM=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57IFmAso3914006
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 18 Aug 2025 10:48:11 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 18
- Aug 2025 10:48:10 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 18 Aug 2025 10:48:10 -0500
-Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57IFlk8o1551018;
- Mon, 18 Aug 2025 10:48:05 -0500
-From: Harikrishna Shenoy <h-shenoy@ti.com>
-To: <neil.armstrong@linaro.org>, <jessica.zhang@oss.qualcomm.com>,
- <airlied@gmail.com>, <simona@ffwll.ch>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <nm@ti.com>, <vigneshr@ti.com>,
- <kristo@kernel.org>, <thierry.reding@gmail.com>, <sam@ravnborg.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>
-CC: <s-jain1@ti.com>, <devarsht@ti.com>, <u-kumar1@ti.com>
-Subject: [RFC PATCH 3/3] arm64: dts: ti: k3-j721e-beagleboneai64: Add DSI RPi
- Panel
-Date: Mon, 18 Aug 2025 21:17:46 +0530
-Message-ID: <20250818154746.1373656-4-h-shenoy@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250818154746.1373656-1-h-shenoy@ti.com>
-References: <20250818154746.1373656-1-h-shenoy@ti.com>
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
+ [209.85.167.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C4F310E49C
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 16:07:30 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id
+ 5614622812f47-435de764e08so2724842b6e.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 09:07:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1755533249; x=1756138049; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=D6ek7I0iyYbZpN/v0UC5zzd0o0Ftoqgt1vFlNzowpm0=;
+ b=AilMNkNq0aPn34oJfcEmiPA8Xao3JUirV/Xr6W3ZYemNL4hVojiWPYAw06sYiE2J09
+ kMxgqzbSGFgLRHb2nNvbqbjqQ6rsyE+pEcYIFGFneGTP0SiJgnRROYh31wtPy78Wg/Lw
+ alyC55S68f5Dm953s4WzIG7EZ4Lz7eR/uMVvOJr/1Du9v+G9nSZjWSCmwekC1XRTr0XL
+ 24f+aRqEK3LPelijGMh40Jv4k/JfhoKlEQ+JzGONbct/siAr9wMuFZXW6e+OsMsGN5zl
+ ya8c7I4Sl1wR6GXreEzVMEF3xqg4QMU0SItuqWCyAxvgvJJGervyjQkQ3i/f6Ebxqey8
+ Z7OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755533249; x=1756138049;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=D6ek7I0iyYbZpN/v0UC5zzd0o0Ftoqgt1vFlNzowpm0=;
+ b=QQOkXWIXC8q+6/b5YGN3q3llvQIFydFHM18cISN9c+G08C79mjJpqD4Nn+epEs2/LU
+ rxWt8BaEwK5V7Xpj8UaaCI3svJZRSAtf4fz9SuVV7Vn27m2wt6WucZhgeutgnPMN/875
+ GoHPJj15K7yvORLTpYlvK4I3U0RWRnGFSKL55tC6h8NRi+ZqFUk9Ft0w40XTkMv4OX6L
+ T+J7LzWsOjVOs0qvo2vypL4aPvHyyzVzCHqnQWVv3MoKJuZAkqaDiQPW4MirBZF8ou8x
+ mJnqiKY8ml6cJtcSbyhq9qK1FVFpttaM1ilF8rd+rz4KSi92XVWoW3FrIO7HUjmHpB3m
+ rb8w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPxWHJdQafAZlYk6S6Nq5o5OFb427dLdi8RkQBLfFn+FuHQEYA9rNYxWTSIGiRVTOdEdSgTHIvSo0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzWYUsZ2l45TcTcJ0vkcQ68A0UEMD0La8ImnXbNEbfQQ5MIxtO4
+ lUqGb1LpSgUholroMIwTPmSQCu9P1FNXJO5DSkTabMrfsVOqBJzZyRBLYfSirz+GX+s=
+X-Gm-Gg: ASbGncvUOoOxa62/llHt1jUy7i6sbdBiWW8zVuhEdinsmFGEoa5hDJX+vJPfCi788U2
+ YDa9AZ437s2aogtgszQWkALPGLSBfig60CHWkrfNrvW7LswsM+u42I10H7OUEppsGcUVjPSv3Tt
+ p5Zg7v4qmHIWup0KOOr9mafiX66TUbhtyPDPl3omMdFFg4DAN1CiA8V6pZvTP1z3TU/YBypeOoK
+ TP8KqtE1keUXhiWN3jicHXSlrkESsEuL52cujhr7U46p962SihAIGzNuEpYwA/Mneoog9B5zAdp
+ iuApdfPFb9Ifg7tj/ZpVTuaSzGGx5gMj4PkW/cIU4zmril8ZCltPgiairneIne01QT2u+Njj
+X-Google-Smtp-Source: AGHT+IHkRfCegHArKlwGfaPyx0kzz53A2FyhdpjpMnPcsXRnYC7i/30cf6RRe0zz3Qa6ICjSFo5brQ==
+X-Received: by 2002:a05:6808:3a07:b0:435:8506:2263 with SMTP id
+ 5614622812f47-435ec487ee3mr6478173b6e.24.1755533249123; 
+ Mon, 18 Aug 2025 09:07:29 -0700 (PDT)
+Received: from ziepe.ca ([130.41.10.202]) by smtp.gmail.com with ESMTPSA id
+ 5614622812f47-435ed1b10bfsm1783361b6e.18.2025.08.18.09.07.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Aug 2025 09:07:27 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1uo2OM-00000004Orw-2igd;
+ Mon, 18 Aug 2025 13:07:26 -0300
+Date: Mon, 18 Aug 2025 13:07:26 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: [RFC PATCH 1/6] mm/mmu_notifier: Allow multiple struct
+ mmu_interval_notifier passes
+Message-ID: <20250818160726.GH599331@ziepe.ca>
+References: <20250809135137.259427-1-thomas.hellstrom@linux.intel.com>
+ <20250809135137.259427-2-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+In-Reply-To: <20250809135137.259427-2-thomas.hellstrom@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,223 +97,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for R-Pi DSI Panel for BBAI64.
+On Sat, Aug 09, 2025 at 03:51:32PM +0200, Thomas Hellström wrote:
+> GPU use-cases for mmu_interval_notifiers with hmm often involve
+> starting a gpu operation and then waiting for it to complete.
+> These operations are typically context preemption or TLB flushing.
+> 
+> With single-pass notifiers per GPU this doesn't scale in
+> multi-gpu scenarios. In those scenarios we'd want to first start
+> preemption- or TLB flushing on all GPUs and as a second pass wait
+> for them to complete on all gpus.
 
-The RPi DSI panel[0] uses Toshiba TC358762 for decoding the DSI video
-signals back to DPI for its consumption. It has an ATTINY88-based
-regulator and backlight controller, and also features an EDT-FT5406
-touch controller.
+The idea seems reasonable but I'm not sure I like the naming of
+'multipass' or necessarily the complexity.
 
-Fix DSS ports node in BeagkeBone AI-64 DTS by adding explicit `port@0`
-child node instead of an unlabelled port, to align with dss_ports schema
-used in overlay.
+This is sort of a co-operative multithreading thing.
 
-[0]: https://www.raspberrypi.com/products/raspberry-pi-touch-display/
+Do you really need a linked list here? At least justify the design
+choices in the commit message..
 
-Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
----
- arch/arm64/boot/dts/ti/Makefile               |   4 +
- ...1e-beagleboneai64-dsi-rpi-7inch-panel.dtso | 141 ++++++++++++++++++
- .../boot/dts/ti/k3-j721e-beagleboneai64.dts   |   7 +-
- 3 files changed, 151 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64-dsi-rpi-7inch-panel.dtso
+> +struct mmu_interval_notifier_pass {
+> +	struct list_head link;
+> +	/**
+> +	 * @pass: Driver callback for additionall pass.
+> +	 * @additional_pass: Pointer to the mmu_interval_notifier_pass structure.
+> +	 * @range: The mmu_notifier_range.
+> +	 * @cur_seq: The current sequence set by the first pass.
+> +	 *
+> +	 * Return: Either a pointer to a valid mmu_interval_notifier_pass for
+> +	 * another pass to be called, or %NULL if processing is complete for this
+> +	 * notifier. There is no error reporting mechanism for additional passes.
+> +	 */
+> +	struct mmu_interval_notifier_pass *
+> +	(*pass) (struct mmu_interval_notifier_pass *additional_pass,
+> +		 const struct mmu_notifier_range *range,
+> +		 unsigned long cur_seq);
+> +};
+> +
+>  /**
+>   * struct mmu_interval_notifier_ops
+>   * @invalidate: Upon return the caller must stop using any SPTEs within this
+> @@ -243,6 +269,10 @@ struct mmu_interval_notifier_ops {
+>  	bool (*invalidate)(struct mmu_interval_notifier *interval_sub,
+>  			   const struct mmu_notifier_range *range,
+>  			   unsigned long cur_seq);
+> +	bool (*invalidate_multipass)(struct mmu_interval_notifier *interval_sub,
+> +				     const struct mmu_notifier_range *range,
+> +				     unsigned long cur_seq,
+> +				     struct mmu_interval_notifier_pass **pass);
 
-diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
-index aad9177930e6..25cf12ebccce 100644
---- a/arch/arm64/boot/dts/ti/Makefile
-+++ b/arch/arm64/boot/dts/ti/Makefile
-@@ -114,6 +114,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-j7200-evm-pcie1-ep.dtbo
- # Boards with J721e SoC
- k3-j721e-evm-dtbs := k3-j721e-common-proc-board.dtb k3-j721e-evm-quad-port-eth-exp.dtbo
- dtb-$(CONFIG_ARCH_K3) += k3-j721e-beagleboneai64.dtb
-+dtb-$(CONFIG_ARCH_K3) += k3-j721e-beagleboneai64-dsi-rpi-7inch-panel.dtbo
- dtb-$(CONFIG_ARCH_K3) += k3-j721e-common-proc-board-infotainment.dtbo
- dtb-$(CONFIG_ARCH_K3) += k3-j721e-evm.dtb
- dtb-$(CONFIG_ARCH_K3) += k3-j721e-evm-gesi-exp-board.dtbo
-@@ -220,6 +221,8 @@ k3-am69-sk-pcie0-ep-dtbs := k3-am69-sk.dtb \
- 	k3-am69-sk-pcie0-ep.dtbo
- k3-j7200-evm-pcie1-ep-dtbs := k3-j7200-common-proc-board.dtb \
- 	k3-j7200-evm-pcie1-ep.dtbo
-+k3-j721e-beagleboneai64-dsi-rpi-7inch-panel-dtbs := k3-j721e-beagleboneai64.dtb \
-+	k3-j721e-beagleboneai64-dsi-rpi-7inch-panel.dtbo
- k3-j721e-common-proc-board-infotainment-dtbs := k3-j721e-common-proc-board.dtb \
- 	k3-j721e-common-proc-board-infotainment.dtbo
- k3-j721e-evm-pcie0-ep-dtbs := k3-j721e-common-proc-board.dtb \
-@@ -267,6 +270,7 @@ dtb- += k3-am625-beagleplay-csi2-ov5640.dtb \
- 	k3-am69-sk-csi2-dual-imx219.dtb \
- 	k3-am69-sk-pcie0-ep.dtb \
- 	k3-j7200-evm-pcie1-ep.dtb \
-+	k3-j721e-beagleboneai64-dsi-rpi-7inch-panel.dtb \
- 	k3-j721e-common-proc-board-infotainment.dtb \
- 	k3-j721e-evm-pcie0-ep.dtb \
- 	k3-j721e-evm-pcie1-ep.dtb \
-diff --git a/arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64-dsi-rpi-7inch-panel.dtso b/arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64-dsi-rpi-7inch-panel.dtso
-new file mode 100644
-index 000000000000..c3506ccf60a4
---- /dev/null
-+++ b/arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64-dsi-rpi-7inch-panel.dtso
-@@ -0,0 +1,141 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-+/**
-+ * DT Overlay for RPi 7inch touchscreen panel interfaced with DSI on
-+ * J721E based BeagleBone AI-64 (BBAI-64) platform.
-+ *
-+ * BBAI-64: https://www.beagleboard.org/boards/beaglebone-ai-64
-+ * RPi DSI Panel: https://www.raspberrypi.com/products/raspberry-pi-touch-display/
-+ *
-+ * Copyright (C) 2024 Texas Instruments Incorporated - https://www.ti.com/
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+
-+#include "k3-pinctrl.h"
-+
-+&{/} {
-+	bridge_reg: bridge-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "bridge-reg";
-+		vin-supply = <&display_reg>;
-+		enable-active-high;
-+	};
-+
-+	panel0 {
-+		compatible = "rpi,7inch-dsi";
-+		power-supply = <&display_reg>;
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&panel_bridge_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&main_pmx0 {
-+	dsi_main_i2c4_pins: dsi-main-i2c4-pins {
-+		pinctrl-single,pins = <
-+			J721E_IOPAD(0xa8, PIN_INPUT_PULLUP, 2) /* (AD19) PRG1_MDIO0_MDIO.I2C4_SCL */
-+			J721E_IOPAD(0xac, PIN_INPUT_PULLUP, 2) /* (AD18) PRG1_MDIO0_MDC.I2C4_SDA */
-+		>;
-+	};
-+};
-+
-+&main_i2c4 {
-+	clock-frequency = <400000>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&dsi_main_i2c4_pins>;
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	display_reg: regulator@45 {
-+		compatible = "raspberrypi,7inch-touchscreen-panel-regulator";
-+		reg = <0x45>;
-+	};
-+
-+	touch-controller@38 {
-+		compatible = "edt,edt-ft5406";
-+		reg = <0x38>;
-+
-+		touchscreen-size-x = < 800 >;
-+		touchscreen-size-y = < 480 >;
-+
-+		vcc-supply = <&display_reg>;
-+		interrupts-extended = <&main_gpio0 0 IRQ_TYPE_NONE>;
-+
-+		touchscreen-inverted-x;
-+		touchscreen-inverted-y;
-+	};
-+};
-+
-+&dss_ports {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	port@2 {
-+		reg = <2>;
-+
-+		dpi2_out: endpoint {
-+			remote-endpoint = <&dsi0_in>;
-+		};
-+	};
-+};
-+
-+&dphy2 {
-+	status = "okay";
-+};
-+
-+&dsi0 {
-+	status = "okay";
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+			dsi0_out: endpoint {
-+				remote-endpoint = <&panel_bridge_in>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+			dsi0_in: endpoint {
-+				remote-endpoint = <&dpi2_out>;
-+			};
-+		};
-+	};
-+
-+	bridge@0 {
-+		compatible = "toshiba,tc358762";
-+		reg = <0>;
-+		vddc-supply = <&bridge_reg>;
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				panel_bridge_in: endpoint {
-+					remote-endpoint = <&dsi0_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				panel_bridge_out: endpoint {
-+					remote-endpoint = <&panel_in>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+
-diff --git a/arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dts b/arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dts
-index fb899c99753e..c85317cbff7d 100644
---- a/arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dts
-+++ b/arch/arm64/boot/dts/ti/k3-j721e-beagleboneai64.dts
-@@ -804,7 +804,12 @@ &dss {
- };
- 
- &dss_ports {
--	port {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	port@0 {
-+		reg= <0>;
-+
- 		dpi0_out: endpoint {
- 			remote-endpoint = <&dp0_in>;
- 		};
--- 
-2.34.1
+Couldn't this just have a pass number counter and some return code to
+indicate this notifier is done?
 
+Or do you really need more than 2 passes? Start/finish make sense
+too. Otherwise you may have issues overlapping the backgroundable
+operations between different driver types?
+
+> +static void mn_itree_additional_passes(struct list_head *additional_passes,
+> +				       const struct mmu_notifier_range *range,
+> +				       unsigned long cur_seq)
+> +{
+> +	struct mmu_interval_notifier_pass *p, *next;
+> +
+> +	while (!list_empty(additional_passes)) {
+> +		list_for_each_entry_safe(p, next, additional_passes, link) {
+> +			list_del_init(&p->link);
+> +			p = p->pass(p, range, cur_seq);
+> +			if (p)
+> +				list_add_tail(&p->link, additional_passes);
+> +		}
+> +	}
+
+Like this is very naive, if one driver has only 'prepare' and 'wait
+for device ack' passes, then it will immediately stop being concurrent
+while another device may be still working on its 3rd pass.
+
+So either this should be more complicated to properly support
+different numbers of passes per registration or we should just support
+two passes and be done with it?
+
+Jason
