@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515BDB29672
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 04:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DFAB29676
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 04:01:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A07F710E31D;
-	Mon, 18 Aug 2025 02:01:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C9DF10E330;
+	Mon, 18 Aug 2025 02:01:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bstCRNe7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GhhbmmQ9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59C1010E325;
- Mon, 18 Aug 2025 02:01:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F7AE10E325;
+ Mon, 18 Aug 2025 02:01:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4000144932;
+ by sea.source.kernel.org (Postfix) with ESMTP id 75A07459FE;
+ Mon, 18 Aug 2025 02:01:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A9B1C116B1;
  Mon, 18 Aug 2025 02:01:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C65FC4CEF4;
- Mon, 18 Aug 2025 02:01:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755482485;
- bh=XxmDbp+Gl7Em9FTRsxGLU8Z8numECcu57RGTZraG8Xk=;
+ s=k20201202; t=1755482487;
+ bh=UGv8yMZlE7pfJwSGLN7xjf9pNffnerK8ACuf3st8kZM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bstCRNe7sSTI7R/3ariorIaZW61r5x2O+TgwY/XoVwemLr4j/8bSYua+eGPYjSV6M
- MgRKtWOKhUGU4LjFBDoUx+IbJiIzLAbTrzj5ZScKGVIgqXW1rzcf4w6rKMQIC/6pf2
- f2XjqIuYiO5HQOqMQlzlFoL/gEiBKAzZJjnwGFg3dZQOBoJbmmAF0Y1f8oLzHOXh9g
- GbDyURl1nRowWbGD1N5zkKOOw+CizXv9ay+U8EvMp8Ran+ZfCgfUzJlNgC9wfYtqJI
- 2xwMCrQE/UXvaL2pZoLSrj9QMlVwQQYuId5OczCvSmne4XaKDkrjYf9nm3RTBY3AVI
- GsQrV4wz0iFlw==
+ b=GhhbmmQ9MuLIfqvdFSgxshD0gBCVYLjZMgtPqdJvustP/1C/YbHvrSTINjQNmBc0A
+ /XbaI0ejftjxzctMrwxjEza3X/1US+vlM/FPcceueTN3jBjMDrACBGSZGqFpr+L4Tg
+ BfQAjfk3KlazYl2HJlhTjGF5b3o3vezqc+4B+Dzh3755zY6YZuZCI+yUkz/fJvT2Z/
+ rOjeqc/cR+I8QHKND4e0rSZYCp+vAfsvegpZ/Gi4o2WfKnnBy7qRiElrCx33z2e3tr
+ g7m3iV+d3VKVeQjOHjlQ7woDgdnNbGDYdbNdO4VWYxn+RIJAnWQveJNMdlLrGfnd2q
+ Jqy6nqowoq5sQ==
 From: "Mario Limonciello (AMD)" <superm1@kernel.org>
 To: "Rafael J . Wysocki" <rafael@kernel.org>,
  Bjorn Helgaas <bhelgaas@google.com>
@@ -53,10 +53,10 @@ Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
  =?UTF-8?q?Merthan=20Karaka=C5=9F?= <m3rthn.k@gmail.com>,
  Eric Naim <dnaim@cachyos.org>,
  "Mario Limonciello (AMD)" <superm1@kernel.org>
-Subject: [PATCH v6 06/11] PCI: PM: Split out code from pci_pm_suspend_noirq()
- into helper
-Date: Sun, 17 Aug 2025 21:00:56 -0500
-Message-ID: <20250818020101.3619237-7-superm1@kernel.org>
+Subject: [PATCH v6 07/11] PCI: PM: Run bridge power up actions as part of
+ restore phase
+Date: Sun, 17 Aug 2025 21:00:57 -0500
+Message-ID: <20250818020101.3619237-8-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250818020101.3619237-1-superm1@kernel.org>
 References: <20250818020101.3619237-1-superm1@kernel.org>
@@ -77,130 +77,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to unify suspend and hibernate codepaths without code duplication
-the common code should be in common helpers.  Move it from
-pci_pm_suspend_noirq() into a helper.  No intended functional changes.
+Suspend resume actions will check the state of the device and whether
+bus PM should be skipped.  These same actions make sense during hibernation
+image restore.  Apply them there as well.
 
 Tested-by: Eric Naim <dnaim@cachyos.org>
 Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 ---
 v5:
- * Split from earlier patches
- * Add tags
-v4:
- * https://lore.kernel.org/linux-pci/20250616175019.3471583-1-superm1@kernel.org/
+ * Split out patch
 ---
- drivers/pci/pci-driver.c | 81 +++++++++++++++++++++++++---------------
- 1 file changed, 51 insertions(+), 30 deletions(-)
+ drivers/pci/pci-driver.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-index f201d298d7173..571a3809f163a 100644
+index 571a3809f163a..fb6f1f60b2f1f 100644
 --- a/drivers/pci/pci-driver.c
 +++ b/drivers/pci/pci-driver.c
-@@ -762,6 +762,54 @@ static void pci_pm_complete(struct device *dev)
- 
- #endif /* !CONFIG_PM_SLEEP */
- 
-+#if defined(CONFIG_SUSPEND)
-+/**
-+ * pci_pm_suspend_noirq_common
-+ * @pci_dev: pci device
-+ * @skip_bus_pm: pointer to a boolean indicating whether to skip bus PM
-+ *
-+ * Prepare the device to go into a low power state by saving state and
-+ * deciding whether to skip bus PM.
-+ *
-+ */
-+static void pci_pm_suspend_noirq_common(struct pci_dev *pci_dev, bool *skip_bus_pm)
-+{
-+	if (!pci_dev->state_saved) {
-+		pci_save_state(pci_dev);
-+
-+		/*
-+		 * If the device is a bridge with a child in D0 below it,
-+		 * it needs to stay in D0, so check skip_bus_pm to avoid
-+		 * putting it into a low-power state in that case.
-+		 */
-+		if (!pci_dev->skip_bus_pm && pci_power_manageable(pci_dev))
-+			pci_prepare_to_sleep(pci_dev);
-+	}
-+
-+	pci_dbg(pci_dev, "PCI PM: Sleep power state: %s\n",
-+		pci_power_name(pci_dev->current_state));
-+
-+	if (pci_dev->current_state == PCI_D0) {
-+		pci_dev->skip_bus_pm = true;
-+		/*
-+		 * Per PCI PM r1.2, table 6-1, a bridge must be in D0 if any
-+		 * downstream device is in D0, so avoid changing the power state
-+		 * of the parent bridge by setting the skip_bus_pm flag for it.
-+		 */
-+		if (pci_dev->bus->self)
-+			pci_dev->bus->self->skip_bus_pm = true;
-+	}
-+
-+	if (pci_dev->skip_bus_pm && pm_suspend_no_platform()) {
-+		pci_dbg(pci_dev, "PCI PM: Skipped\n");
-+		*skip_bus_pm = true;
-+		return;
-+	}
-+
-+	pci_pm_set_unknown_state(pci_dev);
-+}
-+#endif /* CONFIG_SUSPEND */
-+
- #ifdef CONFIG_SUSPEND
- static void pcie_pme_root_status_cleanup(struct pci_dev *pci_dev)
- {
-@@ -851,6 +899,7 @@ static int pci_pm_suspend_noirq(struct device *dev)
+@@ -1246,10 +1246,15 @@ static int pci_pm_restore_noirq(struct device *dev)
  {
  	struct pci_dev *pci_dev = to_pci_dev(dev);
  	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
-+	bool skip_bus_pm = false;
++	pci_power_t prev_state = pci_dev->current_state;
++	bool skip_bus_pm = pci_dev->skip_bus_pm;
  
- 	if (dev_pm_skip_suspend(dev))
+ 	pci_pm_default_resume_early(pci_dev);
+ 	pci_fixup_device(pci_fixup_resume_early, pci_dev);
+ 
++	if (!skip_bus_pm && prev_state == PCI_D3cold)
++		pci_pm_bridge_power_up_actions(pci_dev);
++
+ 	if (pci_has_legacy_pm_support(pci_dev))
  		return 0;
-@@ -881,38 +930,10 @@ static int pci_pm_suspend_noirq(struct device *dev)
- 		}
- 	}
  
--	if (!pci_dev->state_saved) {
--		pci_save_state(pci_dev);
--
--		/*
--		 * If the device is a bridge with a child in D0 below it,
--		 * it needs to stay in D0, so check skip_bus_pm to avoid
--		 * putting it into a low-power state in that case.
--		 */
--		if (!pci_dev->skip_bus_pm && pci_power_manageable(pci_dev))
--			pci_prepare_to_sleep(pci_dev);
--	}
--
--	pci_dbg(pci_dev, "PCI PM: Suspend power state: %s\n",
--		pci_power_name(pci_dev->current_state));
-+	pci_pm_suspend_noirq_common(pci_dev, &skip_bus_pm);
- 
--	if (pci_dev->current_state == PCI_D0) {
--		pci_dev->skip_bus_pm = true;
--		/*
--		 * Per PCI PM r1.2, table 6-1, a bridge must be in D0 if any
--		 * downstream device is in D0, so avoid changing the power state
--		 * of the parent bridge by setting the skip_bus_pm flag for it.
--		 */
--		if (pci_dev->bus->self)
--			pci_dev->bus->self->skip_bus_pm = true;
--	}
--
--	if (pci_dev->skip_bus_pm && pm_suspend_no_platform()) {
--		pci_dbg(pci_dev, "PCI PM: Skipped\n");
-+	if (skip_bus_pm)
- 		goto Fixup;
--	}
--
--	pci_pm_set_unknown_state(pci_dev);
- 
- 	/*
- 	 * Some BIOSes from ASUS have a bug: If a USB EHCI host controller's
 -- 
 2.43.0
 
