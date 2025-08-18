@@ -2,45 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8043B2A029
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 13:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9600DB2A03C
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 13:24:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28F1410E42F;
-	Mon, 18 Aug 2025 11:17:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D746D10E1D7;
+	Mon, 18 Aug 2025 11:24:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AsVLVy4+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tXPhIcpr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5D1810E42F
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 11:17:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36E7E10E1D7;
+ Mon, 18 Aug 2025 11:24:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id AFD0D601ED;
- Mon, 18 Aug 2025 11:17:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADC3DC4CEEB;
- Mon, 18 Aug 2025 11:17:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1755515829;
- bh=0WlSjThrIqH1ECsNqbXuiaU9TmstXt89kVGSxVPpRtM=;
- h=Subject:To:Cc:From:Date:From;
- b=AsVLVy4+mWGja1LOKgADu0NLywaehb4p+9Udg7Ft6YQy4C+pMMDv64GfTJYoFlW38
- gggECNl/aNPibCsqGlj0wwb0NwuN5AsgA4MFLLI8/gwUdpCg3zdXLkDp6gz1vUJLpJ
- WsFNm3gL2ECEt1r5VSmM0DdA0b5+QFZwwJjo3WIw=
-Subject: Patch "fbdev: nvidiafb: add depends on HAS_IOPORT" has been added to
- the 6.16-stable tree
-To: adaplas@gmail.com, arnd@kernel.org, deller@gmx.de,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- rdunlap@infradead.org, schnelle@linux.ibm.com
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 18 Aug 2025 13:16:05 +0200
-Message-ID: <2025081805-junior-tightwad-5ecf@gregkh>
+ by dfw.source.kernel.org (Postfix) with ESMTP id 70F7D5C48E7;
+ Mon, 18 Aug 2025 11:24:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E674C4CEEB;
+ Mon, 18 Aug 2025 11:24:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755516246;
+ bh=S8fx28ZOFv/aRwZ2Xxu1HcW0LeO59Bf0W+4lw52lHUo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tXPhIcprcunHMleGFLIvoG1s0XiCUEY2N9lcE3i6sadmegRADVYTVBlq3c242EyOX
+ 8sNT3sdezjIpZqJpS4aioZ0DzojutaxSXEkpDyl8YOKEf2N5wefVvj4kwhUYaPX+j3
+ dHhf2o/643YaqP84+2K2k2IF0Qrq3BXNbXM+FO8xZU7AjwXHhN8A9Qb/uEWuKjMg6L
+ GtNb96H8fqsjP/nYrP2xTdw5csi276T6jCX8kZF08Ijf2y1Dji/QvjrjOOo7vsau6z
+ u2B5jxc3FCK33EQ6d73QTTJUQgqHoHJqiYw55TUuk1GsHsCPH66WZeGrRlH1oFirNL
+ 5Ej4ll1/hIcUA==
+Message-ID: <4574e72d-5cc3-4ad2-beab-78dbeb34d42f@kernel.org>
+Date: Mon, 18 Aug 2025 06:24:00 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 04/11] USB: Pass PMSG_POWEROFF event to
+ suspend_common() for poweroff with S4 flow
+To: Oliver Neukum <oneukum@suse.com>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ "open list:HIBERNATION (aka Software Suspend, aka swsusp)"
+ <linux-pm@vger.kernel.org>,
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ "open list:TRACING" <linux-trace-kernel@vger.kernel.org>,
+ AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
+ Eric Naim <dnaim@cachyos.org>
+References: <20250818020101.3619237-1-superm1@kernel.org>
+ <20250818020101.3619237-5-superm1@kernel.org>
+ <a1cf393a-9901-469b-90f4-81211f2e1b9b@suse.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <a1cf393a-9901-469b-90f4-81211f2e1b9b@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,77 +80,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 8/18/25 5:50 AM, Oliver Neukum wrote:
+> On 8/18/25 04:00, Mario Limonciello (AMD) wrote:
+>> If powering off the system with the S4 flow USB wakeup sources should
+>> be ignored. Add a new callback hcd_pci_poweroff() which will 
+>> differentiate
+>> whether target state is S5 and pass PMSG_POWEROFF as the message so that
+>> suspend_common() will avoid doing wakeups.
+> 
+> Hi,
+> 
+> how will Wake-On-LAN work with this change?
+> 
+>      Regards
+>          Oliver
+> 
 
-This is a note to let you know that I've just added the patch titled
+ From S5 using a USB dongle?  Is this a use case that is intended to 
+work today?  Does it?
 
-    fbdev: nvidiafb: add depends on HAS_IOPORT
-
-to the 6.16-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     fbdev-nvidiafb-add-depends-on-has_ioport.patch
-and it can be found in the queue-6.16 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From ecdd7df997fd992f0ec70b788e3b12258008a2bf Mon Sep 17 00:00:00 2001
-From: Randy Dunlap <rdunlap@infradead.org>
-Date: Sun, 15 Jun 2025 11:36:51 -0700
-Subject: fbdev: nvidiafb: add depends on HAS_IOPORT
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Randy Dunlap <rdunlap@infradead.org>
-
-commit ecdd7df997fd992f0ec70b788e3b12258008a2bf upstream.
-
-The nvidiafb driver uses inb()/outb() without depending on HAS_IOPORT,
-which leads to build errors since kernel v6.13-rc1:
-commit 6f043e757445 ("asm-generic/io.h: Remove I/O port accessors
-for HAS_IOPORT=n")
-
-Add the HAS_IOPORT dependency to prevent the build errors.
-
-(Found in ARCH=um allmodconfig builds)
-
-drivers/video/fbdev/nvidia/nv_accel.c: In function ‘NVDmaWait’:
-include/asm-generic/io.h:596:15: error: call to ‘_outb’ declared with attribute error: outb() requires CONFIG_HAS_IOPORT
-  596 | #define _outb _outb
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Arnd Bergmann <arnd@kernel.org>
-Cc: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Antonino Daplas <adaplas@gmail.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org # v6.13+
-Signed-off-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/video/fbdev/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -660,7 +660,7 @@ config FB_ATMEL
- 
- config FB_NVIDIA
- 	tristate "nVidia Framebuffer Support"
--	depends on FB && PCI
-+	depends on FB && PCI && HAS_IOPORT
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-
-
-Patches currently in stable-queue which might be from rdunlap@infradead.org are
-
-queue-6.16/fbdev-nvidiafb-add-depends-on-has_ioport.patch
-queue-6.16/parisc-makefile-fix-a-typo-in-palo.conf.patch
-queue-6.16/kconfig-gconf-fix-potential-memory-leak-in-renderer_.patch
-queue-6.16/kconfig-nconf-ensure-null-termination-where-strncpy-.patch
+I had expected this only intended from S4, S3 and s2idle.
