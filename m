@@ -2,61 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AAEB2B375
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 23:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1117AB2B428
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 00:39:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0AD10E4FE;
-	Mon, 18 Aug 2025 21:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C08B10E10F;
+	Mon, 18 Aug 2025 22:39:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bl5tyxRk";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="N2j6AD8O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB4E310E4FA;
- Mon, 18 Aug 2025 21:31:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755552685; x=1787088685;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=56Lsg2pKN03663XES83IGedyCaAOWY/Us3gj8d7P5jU=;
- b=bl5tyxRkl6pDLGMRzeV6m0Ag0etTbA/55/xqEPEV9CGdzi4AN2KUKgG3
- Oe4rNAerldKPOrCCiWe7Fx/wDobCXKXX+sSGvWcNQX7/8JhEqSxiQgcEO
- K6yWYIHxMWaFgGoMrySnV8WXhtv962XfGTy3aLaECOuZaEP54JywDXUxS
- 4ZBkSZwJwDXrvP25kOi+XMtZMJYLCnGsOvFMNsyXg2k+zleBu8h42u69I
- Z7DgvvI/KWyhd3DtPLsy9nYhe6z430kuu4hBeAVL2OEl2HIeR35x30qU/
- Q6akzAJayAUiyre1WrrPNLXFAKUUdrXf1x5u4ZLtxg71s/oBhNcwiR8m/ g==;
-X-CSE-ConnectionGUID: j4SRfnc/SfeDHAOWf1PLow==
-X-CSE-MsgGUID: z83hxjn+Rwi49310xLmQBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="56815305"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; d="scan'208";a="56815305"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2025 14:31:25 -0700
-X-CSE-ConnectionGUID: 5vxASDVgQmGq+gAb72Aq0g==
-X-CSE-MsgGUID: SCo48DkfR0uMmYpt6TC0DQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; d="scan'208";a="167186445"
-Received: from himal-super-server.iind.intel.com ([10.190.239.34])
- by fmviesa007.fm.intel.com with ESMTP; 18 Aug 2025 14:31:23 -0700
-From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Shuicheng Lin <shuicheng.lin@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v8 24/24] drm/xe/uapi: Add UAPI for querying VMA count and
- memory attributes
-Date: Tue, 19 Aug 2025 03:27:53 +0530
-Message-Id: <20250818215753.2762426-25-himal.prasad.ghimiray@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250818215753.2762426-1-himal.prasad.ghimiray@intel.com>
-References: <20250818215753.2762426-1-himal.prasad.ghimiray@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B38010E1F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 22:39:55 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57IEUFgZ026407
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 22:39:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ BY1hgucLdkNvv01XAwo6wMbgTIX6hQM/0OVtxlQdU3E=; b=N2j6AD8OZFna85lc
+ 5ERyzh/bddCRfREKd9K8KJlnazErW5hUvVlEWfUyyLTH7rp0pjbWOXZyH36leg/h
+ HgHiY6yINFPTn9CKmzeVRR4bZoyrlqLamcp5qX0eCZt0pRdVf5c/Ns35PKzhD7we
+ 905oulXH+G9eiCLNlG72goh0tIDtatL+tjWfQvxSxe06m+PJh4s8vaEEnRSjG58u
+ 4yq6kM7MC4moR5eqwRgWFR3tmjAb3G4puOKwhzAR/i9/Ed5qpn04H8U5731YiY32
+ TQrSdTQH/3kwZteoLoy2hEyNFM/U4KPhSO5zaPH6qsz0Dvi2OTK2ni54CAcO7xQG
+ SAdWGA==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48kyuntmye-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 22:39:54 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id
+ d2e1a72fcca58-76e2e60c3e7so8183525b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 15:39:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755556793; x=1756161593;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BY1hgucLdkNvv01XAwo6wMbgTIX6hQM/0OVtxlQdU3E=;
+ b=NH8Edqvr/hVwi8QZUnoSmDYR+VL6hJ+TQ3Hf1+2OLE9oX3pd7CdnD4HX0buM2U/pr7
+ nbARACswtdFWhE+xDPCTDo+31lQkNKpFBP0qVNRlxK+welWst28IQVQk5y2wGI4RDtIi
+ rVNBK4WeToHXtN52Qnzy/cnjUDT/vHRLNzYDaFPLHtpygDsRGRA4hru2/e0mrQJHAQ6J
+ /znftf6tYVUWyj0fGDQWHi/lyyYD3vkcQuO/R2IjY4+RFoqzz6TWkrRzG5ypFicukdCf
+ MWhPvstUaWszgzpIGcpI0cJZtS+D8jNRF5Ns4mj2zftb96jzEaSS3SiG7sLeZXbyHM/g
+ Qcsw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbEhq2oj5Ej5trHScJv6sYNFXkIQSG2TW/jJQJSvCpZkEZOPDVGT2jo6Z+YZ1gbTnFY19WXNH7FA8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywcz+ZddIf8q36weDDKHONCYI01lApZ9mUztPmgqW9icx3f9/RB
+ EiIxgE5d/3wg3Hnkv/zM3GrgWTi7ijoU52SmWIjoA8m2KMzlrxsWZ+/GItpBzOtwPXu6YHlyCWv
+ 42VMRvD4wU5u2eg0EfUQo02xYCMWYGrc7Sqea1Lj9IOoGlwykxu9tpz8UYEON3kXcFhyVhzk=
+X-Gm-Gg: ASbGncvHvHFXeA/CjkTs3d6yny0tjlJH1RoMA+A4VeHMIUgIBpD/ZEtZ/+WWY8hdGer
+ tWSLgN842XoaxOioyzd6CFu5ABIeT8piLKu+zzt6gwtfX/ctf+nHyUUpBUSbKA0VieovOg81PDg
+ Wg4eSRqY2l9y9W1aeMoy3BKI0zUDZM4AHS55azNjc/znPkL9VCEaVrsWtaUYumQfWETE3dvqyKn
+ 43OVHCR2AIJr0bwDF1r2HIupYx85oa5ky93qmIYCAB5uqgKGQbWfHRy5oRXHJh/E8vyEFntgPtj
+ IDHlpNK/c6BiqL+svUTjLkHXZqsvNi4zd34iOANWQ//jkAxaJUqh/kgM8zKwwaNplfqosIHL0Q7
+ Oj5+XAOjYL0H842GHHDRK9w==
+X-Received: by 2002:a05:6a20:3d89:b0:235:2cd8:6cb6 with SMTP id
+ adf61e73a8af0-2430d491e52mr384030637.34.1755556793500; 
+ Mon, 18 Aug 2025 15:39:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHq6QzQ92Ms9MWn6tK7XtdYkvkgmvMQ1omaaWBGATwca5iSKcTllJphXcM5JkwhGnaMgdjCwA==
+X-Received: by 2002:a05:6a20:3d89:b0:235:2cd8:6cb6 with SMTP id
+ adf61e73a8af0-2430d491e52mr383994637.34.1755556793043; 
+ Mon, 18 Aug 2025 15:39:53 -0700 (PDT)
+Received: from [10.134.71.99] (i-global254.qualcomm.com. [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-76e81227473sm122042b3a.51.2025.08.18.15.39.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Aug 2025 15:39:52 -0700 (PDT)
+Message-ID: <5572e441-750d-4f91-b08b-5e50f4f79ac4@oss.qualcomm.com>
+Date: Mon, 18 Aug 2025 15:39:49 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 08/13] drm/msm/dpu: split PIPES_PER_STAGE definition
+ per plane and mixer
+To: Jun Nie <jun.nie@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250801-v6-16-rc2-quad-pipe-upstream-v14-0-b626236f4c31@linaro.org>
+ <20250801-v6-16-rc2-quad-pipe-upstream-v14-8-b626236f4c31@linaro.org>
+Content-Language: en-US
+From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+In-Reply-To: <20250801-v6-16-rc2-quad-pipe-upstream-v14-8-b626236f4c31@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: zpaAGeQrGOBq0yv8rU2KFH4UkJKEFPIc
+X-Authority-Analysis: v=2.4 cv=N6UpF39B c=1 sm=1 tr=0 ts=68a3abba cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=lKL-FtN6G_pLEYU0NVEA:9 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE4MDA3MSBTYWx0ZWRfX2F3JfFYep9yW
+ CNcoMfZUj53HbGmeu/kBKisi0cdQqTCj+73t+BFpSLBOld1pN6VlkqX8jbZmwvEBIsLpY1YEd4B
+ /Q1/ERNy91E35m/oB8VhIB602j9Kw44KGN2KFLflQ4uNnpIrMjYNFuWh839gimlLif5h38VlQCw
+ B3Y5PCM6GfA1eaoDVUA4dO0ThAVF3dPAiYixH6LRZ/NA8YQhOXfgFLU+OD0CiZCeFIT7zSPsDxW
+ FMnyPHmfNp4g1AJN/L53qd8EWaami0i/KURHqv/3yH0Q4TUu7dkaD7HQVSqpN5RM6sf5qm62D3C
+ RObYc2qDko+xEYTPTmh/Z054i/jvIq0VVvJaQrETB62EIOGb+kJYfk6KpD1FBvxb+x/tDF+pdqo
+ 3L4uVkTd
+X-Proofpoint-ORIG-GUID: zpaAGeQrGOBq0yv8rU2KFH4UkJKEFPIc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-18_06,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 clxscore=1015 malwarescore=0 impostorscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508180071
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,359 +130,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce the DRM_IOCTL_XE_VM_QUERY_MEMORY_RANGE_ATTRS ioctl to allow
-userspace to query memory attributes of VMAs within a user specified
-virtual address range.
 
-Userspace first calls the ioctl with num_mem_ranges = 0,
-sizeof_mem_ranges_attr = 0 and vector_of_vma_mem_attr = NULL to retrieve
-the number of memory ranges (vmas) and size of each memory range attribute.
-Then, it allocates a buffer of that size and calls the ioctl again to fill
-the buffer with memory range attributes.
 
-This two-step interface allows userspace to first query the required
-buffer size, then retrieve detailed attributes efficiently.
+On 8/1/2025 8:07 AM, Jun Nie wrote:
+> The stage contains configuration for a mixer pair. Currently the plane
+> supports just one stage and 2 pipes. Quad-pipe support will require
+> handling 2 stages and 4 pipes at the same time. In preparation for that
+> add a separate define, PIPES_PER_PLANE, to denote number of pipes that
+> can be used by the plane.
+> 
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-v2 (Matthew Brost)
-- Use same ioctl to overload functionality
+Reviewed-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 
-v3
-- Add kernel-doc
-
-v4
-- Make uapi future proof by passing struct size (Matthew Brost)
-- make lock interruptible (Matthew Brost)
-- set reserved bits to zero (Matthew Brost)
-- s/__copy_to_user/copy_to_user (Matthew Brost)
-- Avod using VMA term in uapi (Thomas)
-- xe_vm_put(vm) is missing (Shuicheng)
-
-v5
-- Nits
-- Fix kernel-doc
-
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_device.c |   2 +
- drivers/gpu/drm/xe/xe_vm.c     | 102 ++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h     |   2 +-
- include/uapi/drm/xe_drm.h      | 139 +++++++++++++++++++++++++++++++++
- 4 files changed, 244 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 98a368a979eb..a9455c05f706 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -203,6 +203,8 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
- 			  DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_MADVISE, xe_vm_madvise_ioctl, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(XE_VM_QUERY_MEM_RANGE_ATTRS, xe_vm_query_vmas_attrs_ioctl,
-+			  DRM_RENDER_ALLOW),
- };
- 
- static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index f2cf8e046eef..39cfb3789bd9 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -2192,6 +2192,108 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- 	return err;
- }
- 
-+static int xe_vm_query_vmas(struct xe_vm *vm, u64 start, u64 end)
-+{
-+	struct drm_gpuva *gpuva;
-+	u32 num_vmas = 0;
-+
-+	lockdep_assert_held(&vm->lock);
-+	drm_gpuvm_for_each_va_range(gpuva, &vm->gpuvm, start, end)
-+		num_vmas++;
-+
-+	return num_vmas;
-+}
-+
-+static int get_mem_attrs(struct xe_vm *vm, u32 *num_vmas, u64 start,
-+			 u64 end, struct drm_xe_mem_range_attr *attrs)
-+{
-+	struct drm_gpuva *gpuva;
-+	int i = 0;
-+
-+	lockdep_assert_held(&vm->lock);
-+
-+	drm_gpuvm_for_each_va_range(gpuva, &vm->gpuvm, start, end) {
-+		struct xe_vma *vma = gpuva_to_vma(gpuva);
-+
-+		if (i == *num_vmas)
-+			return -ENOSPC;
-+
-+		attrs[i].start = xe_vma_start(vma);
-+		attrs[i].end = xe_vma_end(vma);
-+		attrs[i].atomic.val = vma->attr.atomic_access;
-+		attrs[i].pat_index.val = vma->attr.pat_index;
-+		attrs[i].preferred_mem_loc.devmem_fd = vma->attr.preferred_loc.devmem_fd;
-+		attrs[i].preferred_mem_loc.migration_policy =
-+		vma->attr.preferred_loc.migration_policy;
-+
-+		i++;
-+	}
-+
-+	*num_vmas = i;
-+	return 0;
-+}
-+
-+int xe_vm_query_vmas_attrs_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct xe_device *xe = to_xe_device(dev);
-+	struct xe_file *xef = to_xe_file(file);
-+	struct drm_xe_mem_range_attr *mem_attrs;
-+	struct drm_xe_vm_query_mem_range_attr *args = data;
-+	u64 __user *attrs_user = u64_to_user_ptr(args->vector_of_mem_attr);
-+	struct xe_vm *vm;
-+	int err = 0;
-+
-+	if (XE_IOCTL_DBG(xe,
-+			 ((args->num_mem_ranges == 0 &&
-+			  (attrs_user || args->sizeof_mem_range_attr != 0)) ||
-+			 (args->num_mem_ranges > 0 &&
-+			  (!attrs_user ||
-+			   args->sizeof_mem_range_attr !=
-+			   sizeof(struct drm_xe_mem_range_attr))))))
-+		return -EINVAL;
-+
-+	vm = xe_vm_lookup(xef, args->vm_id);
-+	if (XE_IOCTL_DBG(xe, !vm))
-+		return -EINVAL;
-+
-+	err = down_read_interruptible(&vm->lock);
-+	if (err)
-+		goto put_vm;
-+
-+	attrs_user = u64_to_user_ptr(args->vector_of_mem_attr);
-+
-+	if (args->num_mem_ranges == 0 && !attrs_user) {
-+		args->num_mem_ranges = xe_vm_query_vmas(vm, args->start, args->start + args->range);
-+		args->sizeof_mem_range_attr = sizeof(struct drm_xe_mem_range_attr);
-+		goto unlock_vm;
-+	}
-+
-+	mem_attrs = kvmalloc_array(args->num_mem_ranges, args->sizeof_mem_range_attr,
-+				   GFP_KERNEL | __GFP_ACCOUNT |
-+				   __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
-+	if (!mem_attrs) {
-+		err = args->num_mem_ranges > 1 ? -ENOBUFS : -ENOMEM;
-+		goto unlock_vm;
-+	}
-+
-+	memset(mem_attrs, 0, args->num_mem_ranges * args->sizeof_mem_range_attr);
-+	err = get_mem_attrs(vm, &args->num_mem_ranges, args->start,
-+			    args->start + args->range, mem_attrs);
-+	if (err)
-+		goto free_mem_attrs;
-+
-+	err = copy_to_user(attrs_user, mem_attrs,
-+			   args->sizeof_mem_range_attr * args->num_mem_ranges);
-+
-+free_mem_attrs:
-+	kvfree(mem_attrs);
-+unlock_vm:
-+	up_read(&vm->lock);
-+put_vm:
-+	xe_vm_put(vm);
-+	return err;
-+}
-+
- static bool vma_matches(struct xe_vma *vma, u64 page_addr)
- {
- 	if (page_addr > xe_vma_end(vma) - 1 ||
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index c8b8318fe61a..57f77c8430d6 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -199,7 +199,7 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- 			struct drm_file *file);
- int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file);
--
-+int xe_vm_query_vmas_attrs_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
- void xe_vm_close_and_put(struct xe_vm *vm);
- 
- static inline bool xe_vm_in_fault_mode(struct xe_vm *vm)
-diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-index 115b9bca2a25..eaf713706387 100644
---- a/include/uapi/drm/xe_drm.h
-+++ b/include/uapi/drm/xe_drm.h
-@@ -82,6 +82,7 @@ extern "C" {
-  *  - &DRM_IOCTL_XE_WAIT_USER_FENCE
-  *  - &DRM_IOCTL_XE_OBSERVATION
-  *  - &DRM_IOCTL_XE_MADVISE
-+ *  - &DRM_IOCTL_XE_VM_QUERY_MEM_RANGE_ATTRS
-  */
- 
- /*
-@@ -104,6 +105,7 @@ extern "C" {
- #define DRM_XE_WAIT_USER_FENCE		0x0a
- #define DRM_XE_OBSERVATION		0x0b
- #define DRM_XE_MADVISE			0x0c
-+#define DRM_XE_VM_QUERY_MEM_RANGE_ATTRS	0x0d
- 
- /* Must be kept compact -- no holes */
- 
-@@ -120,6 +122,7 @@ extern "C" {
- #define DRM_IOCTL_XE_WAIT_USER_FENCE		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_WAIT_USER_FENCE, struct drm_xe_wait_user_fence)
- #define DRM_IOCTL_XE_OBSERVATION		DRM_IOW(DRM_COMMAND_BASE + DRM_XE_OBSERVATION, struct drm_xe_observation_param)
- #define DRM_IOCTL_XE_MADVISE			DRM_IOW(DRM_COMMAND_BASE + DRM_XE_MADVISE, struct drm_xe_madvise)
-+#define DRM_IOCTL_XE_VM_QUERY_MEM_RANGE_ATTRS	DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_VM_QUERY_MEM_RANGE_ATTRS, struct drm_xe_vm_query_mem_range_attr)
- 
- /**
-  * DOC: Xe IOCTL Extensions
-@@ -2113,6 +2116,142 @@ struct drm_xe_madvise {
- 	__u64 reserved[2];
- };
- 
-+/**
-+ * struct drm_xe_mem_range_attr - Output of &DRM_IOCTL_XE_VM_QUERY_MEM_RANGES_ATTRS
-+ *
-+ * This structure is provided by userspace and filled by KMD in response to the
-+ * DRM_IOCTL_XE_VM_QUERY_MEM_RANGES_ATTRS ioctl. It describes memory attributes of
-+ * a memory ranges within a user specified address range in a VM.
-+ *
-+ * The structure includes information such as atomic access policy,
-+ * page attribute table (PAT) index, and preferred memory location.
-+ * Userspace allocates an array of these structures and passes a pointer to the
-+ * ioctl to retrieve attributes for each memory ranges
-+ *
-+ * @extensions: Pointer to the first extension struct, if any
-+ * @start: Start address of the memory range
-+ * @end: End address of the virtual memory range
-+ *
-+ */
-+struct drm_xe_mem_range_attr {
-+	 /** @extensions: Pointer to the first extension struct, if any */
-+	__u64 extensions;
-+
-+	/** @start: start of the memory range */
-+	__u64 start;
-+
-+	/** @end: end of the memory range */
-+	__u64 end;
-+
-+	/** @preferred_mem_loc: preferred memory location */
-+	struct {
-+		/** @preferred_mem_loc.devmem_fd: fd for preferred loc */
-+		__u32 devmem_fd;
-+
-+		/** @preferred_mem_loc.migration_policy: Page migration policy */
-+		__u32 migration_policy;
-+	} preferred_mem_loc;
-+
-+	/** @atomic: Atomic access policy */
-+	struct {
-+		/** @atomic.val: atomic attribute */
-+		__u32 val;
-+
-+		/** @atomic.reserved: Reserved */
-+		__u32 reserved;
-+	} atomic;
-+
-+	 /** @pat_index: Page attribute table index */
-+	struct {
-+		/** @pat_index.val: PAT index */
-+		__u32 val;
-+
-+		/** @pat_index.reserved: Reserved */
-+		__u32 reserved;
-+	} pat_index;
-+
-+	/** @reserved: Reserved */
-+	__u64 reserved[2];
-+};
-+
-+/**
-+ * struct drm_xe_vm_query_mem_range_attr - Input of &DRM_IOCTL_XE_VM_QUERY_MEM_ATTRIBUTES
-+ *
-+ * This structure is used to query memory attributes of memory regions
-+ * within a user specified address range in a VM. It provides detailed
-+ * information about each memory range, including atomic access policy,
-+ * page attribute table (PAT) index, and preferred memory location.
-+ *
-+ * Userspace first calls the ioctl with @num_mem_ranges = 0,
-+ * @sizeof_mem_ranges_attr = 0 and @vector_of_vma_mem_attr = NULL to retrieve
-+ * the number of memory regions and size of each memory range attribute.
-+ * Then, it allocates a buffer of that size and calls the ioctl again to fill
-+ * the buffer with memory range attributes.
-+ *
-+ * If second call fails with -ENOSPC, it means memory ranges changed between
-+ * first call and now, retry IOCTL again with @num_mem_ranges = 0,
-+ * @sizeof_mem_ranges_attr = 0 and @vector_of_vma_mem_attr = NULL followed by
-+ * Second ioctl call.
-+ *
-+ * Example:
-+ *
-+ * .. code-block:: C
-+ *    struct drm_xe_vm_query_mem_range_attr query = {
-+ *         .vm_id = vm_id,
-+ *         .start = 0x100000,
-+ *         .range = 0x2000,
-+ *     };
-+ *
-+ *    // First ioctl call to get num of mem regions and sizeof each attribute
-+ *    ioctl(fd, DRM_IOCTL_XE_VM_QUERY_MEM_RANGE_ATTRS, &query);
-+ *
-+ *    // Allocate buffer for the memory region attributes
-+ *    void *ptr = malloc(query.num_mem_ranges * query.sizeof_mem_range_attr);
-+ *
-+ *    query.vector_of_mem_attr = (uintptr_t)ptr;
-+ *
-+ *    // Second ioctl call to actually fill the memory attributes
-+ *    ioctl(fd, DRM_IOCTL_XE_VM_QUERY_MEM_RANGE_ATTRS, &query);
-+ *
-+ *    // Iterate over the returned memory region attributes
-+ *    for (unsigned int i = 0; i < query.num_mem_ranges; ++i) {
-+ *       struct drm_xe_mem_range_attr *attr = (struct drm_xe_mem_range_attr *)ptr;
-+ *
-+ *       // Do something with attr
-+ *
-+ *       // Move pointer by one entry
-+ *       ptr += query.sizeof_mem_range_attr;
-+ *     }
-+ *
-+ *    free(ptr);
-+ */
-+struct drm_xe_vm_query_mem_range_attr {
-+	/** @extensions: Pointer to the first extension struct, if any */
-+	__u64 extensions;
-+
-+	/** @vm_id: vm_id of the virtual range */
-+	__u32 vm_id;
-+
-+	/** @num_mem_ranges: number of mem_ranges in range */
-+	__u32 num_mem_ranges;
-+
-+	/** @start: start of the virtual address range */
-+	__u64 start;
-+
-+	/** @range: size of the virtual address range */
-+	__u64 range;
-+
-+	/** @sizeof_mem_range_attr: size of struct drm_xe_mem_range_attr */
-+	__u64 sizeof_mem_range_attr;
-+
-+	/** @vector_of_mem_attr: userptr to array of struct drm_xe_mem_range_attr */
-+	__u64 vector_of_mem_attr;
-+
-+	/** @reserved: Reserved */
-+	__u64 reserved[2];
-+
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
--- 
-2.34.1
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  7 +++----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h |  1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 18 +++++++++---------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h   |  4 ++--
+>   4 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 121bd0d304b308bcd7226784eda14d7c7f5a46f4..30fbd7565b82c6b6b13dc3ec0f4c91328a8e94c9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -472,8 +472,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+>   		if (pstate->stage == DPU_STAGE_BASE && format->alpha_enable)
+>   			bg_alpha_enable = true;
+>   
+> -
+> -		for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +		for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   			if (!pstate->pipe[i].sspp)
+>   				continue;
+>   			set_bit(pstate->pipe[i].sspp->idx, active_fetch);
+> @@ -1305,7 +1304,7 @@ static int dpu_crtc_reassign_planes(struct drm_crtc *crtc, struct drm_crtc_state
+>   	return ret;
+>   }
+>   
+> -#define MAX_CHANNELS_PER_CRTC 2
+> +#define MAX_CHANNELS_PER_CRTC PIPES_PER_PLANE
+>   #define MAX_HDISPLAY_SPLIT 1080
+>   
+>   static struct msm_display_topology dpu_crtc_get_topology(
+> @@ -1663,7 +1662,7 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+>   			state->crtc_x, state->crtc_y, state->crtc_w,
+>   			state->crtc_h);
+>   
+> -		for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +		for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   			if (!pstate->pipe[i].sspp)
+>   				continue;
+>   			seq_printf(s, "\tsspp[%d]:%s\n",
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> index 175639c8bfbb9bbd02ed35f1780bcbd869f08c36..9f75b497aa0c939296207d58dde32028d0a76a6d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> @@ -34,6 +34,7 @@
+>   #define DPU_MAX_PLANES			4
+>   #endif
+>   
+> +#define PIPES_PER_PLANE			2
+>   #define PIPES_PER_STAGE			2
+>   #ifndef DPU_MAX_DE_CURVES
+>   #define DPU_MAX_DE_CURVES		3
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 5e8703b0e2abb89887a5661adb3542a0c10d2b32..55429f29a4b95594771d930efe42aaa4126f6f07 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -634,7 +634,7 @@ static void _dpu_plane_color_fill(struct dpu_plane *pdpu,
+>   		return;
+>   
+>   	/* update sspp */
+> -	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   		if (!pstate->pipe[i].sspp)
+>   			continue;
+>   		_dpu_plane_color_fill_pipe(pstate, &pstate->pipe[i],
+> @@ -1158,7 +1158,7 @@ static int dpu_plane_virtual_atomic_check(struct drm_plane *plane,
+>   		 * resources are freed by dpu_crtc_assign_plane_resources(),
+>   		 * but clean them here.
+>   		 */
+> -		for (i = 0; i < PIPES_PER_STAGE; i++)
+> +		for (i = 0; i < PIPES_PER_PLANE; i++)
+>   			pstate->pipe[i].sspp = NULL;
+>   
+>   		return 0;
+> @@ -1212,7 +1212,7 @@ static int dpu_plane_virtual_assign_resources(struct drm_crtc *crtc,
+>   	pipe_cfg = &pstate->pipe_cfg[0];
+>   	r_pipe_cfg = &pstate->pipe_cfg[1];
+>   
+> -	for (i = 0; i < PIPES_PER_STAGE; i++)
+> +	for (i = 0; i < PIPES_PER_PLANE; i++)
+>   		pstate->pipe[i].sspp = NULL;
+>   
+>   	if (!plane_state->fb)
+> @@ -1345,7 +1345,7 @@ void dpu_plane_flush(struct drm_plane *plane)
+>   		/* force 100% alpha */
+>   		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
+>   	else {
+> -		for (i = 0; i < PIPES_PER_STAGE; i++)
+> +		for (i = 0; i < PIPES_PER_PLANE; i++)
+>   			dpu_plane_flush_csc(pdpu, &pstate->pipe[i]);
+>   	}
+>   
+> @@ -1468,7 +1468,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane,
+>   			&fmt->pixel_format, MSM_FORMAT_IS_UBWC(fmt));
+>   
+>   	/* move the assignment here, to ease handling to another pairs later */
+> -	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   		if (!pstate->pipe[i].sspp)
+>   			continue;
+>   		dpu_plane_sspp_update_pipe(plane, &pstate->pipe[i],
+> @@ -1482,7 +1482,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane,
+>   
+>   	pstate->plane_fetch_bw = 0;
+>   	pstate->plane_clk = 0;
+> -	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   		if (!pstate->pipe[i].sspp)
+>   			continue;
+>   		pstate->plane_fetch_bw += _dpu_plane_calc_bw(pdpu->catalog, fmt,
+> @@ -1501,7 +1501,7 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+>   	struct dpu_sw_pipe *pipe;
+>   	int i;
+>   
+> -	for (i = 0; i < PIPES_PER_STAGE; i += 1) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i += 1) {
+>   		pipe = &pstate->pipe[i];
+>   		if (!pipe->sspp)
+>   			continue;
+> @@ -1623,7 +1623,7 @@ static void dpu_plane_atomic_print_state(struct drm_printer *p,
+>   
+>   	drm_printf(p, "\tstage=%d\n", pstate->stage);
+>   
+> -	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   		pipe = &pstate->pipe[i];
+>   		if (!pipe->sspp)
+>   			continue;
+> @@ -1680,7 +1680,7 @@ void dpu_plane_danger_signal_ctrl(struct drm_plane *plane, bool enable)
+>   		return;
+>   
+>   	pm_runtime_get_sync(&dpu_kms->pdev->dev);
+> -	for (i = 0; i < PIPES_PER_STAGE; i++) {
+> +	for (i = 0; i < PIPES_PER_PLANE; i++) {
+>   		if (!pstate->pipe[i].sspp)
+>   			continue;
+>   		_dpu_plane_set_qos_ctrl(plane, &pstate->pipe[i], enable);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> index 007f044499b99ac9c2e4b58e98e6add013a986de..1ef5a041b8acae270826f20ea9553cbfa35a9f82 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+> @@ -31,8 +31,8 @@
+>    */
+>   struct dpu_plane_state {
+>   	struct drm_plane_state base;
+> -	struct dpu_sw_pipe pipe[PIPES_PER_STAGE];
+> -	struct dpu_sw_pipe_cfg pipe_cfg[PIPES_PER_STAGE];
+> +	struct dpu_sw_pipe pipe[PIPES_PER_PLANE];
+> +	struct dpu_sw_pipe_cfg pipe_cfg[PIPES_PER_PLANE];
+>   	enum dpu_stage stage;
+>   	bool needs_qos_remap;
+>   	bool pending;
+> 
 
