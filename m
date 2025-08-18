@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DFAB29676
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 04:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB708B2967A
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 04:01:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C9DF10E330;
-	Mon, 18 Aug 2025 02:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAA3210E337;
+	Mon, 18 Aug 2025 02:01:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GhhbmmQ9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YKg7k9Hw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F7AE10E325;
- Mon, 18 Aug 2025 02:01:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA50510E32F;
+ Mon, 18 Aug 2025 02:01:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 75A07459FE;
+ by sea.source.kernel.org (Postfix) with ESMTP id 9F4524490B;
+ Mon, 18 Aug 2025 02:01:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97300C116C6;
  Mon, 18 Aug 2025 02:01:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A9B1C116B1;
- Mon, 18 Aug 2025 02:01:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755482487;
- bh=UGv8yMZlE7pfJwSGLN7xjf9pNffnerK8ACuf3st8kZM=;
+ s=k20201202; t=1755482489;
+ bh=et7bJe3p9Q1yVCIYr8gWEO9Yxv/JOZsp+bMu8xhiGjw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GhhbmmQ9MuLIfqvdFSgxshD0gBCVYLjZMgtPqdJvustP/1C/YbHvrSTINjQNmBc0A
- /XbaI0ejftjxzctMrwxjEza3X/1US+vlM/FPcceueTN3jBjMDrACBGSZGqFpr+L4Tg
- BfQAjfk3KlazYl2HJlhTjGF5b3o3vezqc+4B+Dzh3755zY6YZuZCI+yUkz/fJvT2Z/
- rOjeqc/cR+I8QHKND4e0rSZYCp+vAfsvegpZ/Gi4o2WfKnnBy7qRiElrCx33z2e3tr
- g7m3iV+d3VKVeQjOHjlQ7woDgdnNbGDYdbNdO4VWYxn+RIJAnWQveJNMdlLrGfnd2q
- Jqy6nqowoq5sQ==
+ b=YKg7k9HwnF2tc7oS9vdPoDn1VoIX9uTAqmaT78ZBcmTGber96XLzbpbO/p9yO4gJN
+ Q7K5xno3LpbkzbJdGTzR7wx3CqTVqAT/uWyEEqwSDV8XDyq0mRSHeB6BaxySInH9NG
+ 57R6FVG48CFGYvgFuo4zneO7oC7ehJwYVNuLrhTrjcTHTjEFgIu4UOvt7kyc/8h/B2
+ MT5RQS+be3PmLKZ3G6FQ9A3Q7IDeC09CCmD+tV9zzhcjYsfVG//J9eJPU3EgJt7ODc
+ D0c2F+8xPdGZnOl6qoRWFOX1R94q5i1RdveYCz6pxnUmtNsxy1flOqOg2AFjtB/on5
+ QuaofLIxHbjKA==
 From: "Mario Limonciello (AMD)" <superm1@kernel.org>
 To: "Rafael J . Wysocki" <rafael@kernel.org>,
  Bjorn Helgaas <bhelgaas@google.com>
@@ -53,10 +53,10 @@ Cc: Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
  =?UTF-8?q?Merthan=20Karaka=C5=9F?= <m3rthn.k@gmail.com>,
  Eric Naim <dnaim@cachyos.org>,
  "Mario Limonciello (AMD)" <superm1@kernel.org>
-Subject: [PATCH v6 07/11] PCI: PM: Run bridge power up actions as part of
- restore phase
-Date: Sun, 17 Aug 2025 21:00:57 -0500
-Message-ID: <20250818020101.3619237-8-superm1@kernel.org>
+Subject: [PATCH v6 08/11] PCI: PM: Use pci_power_manageable() in
+ pci_pm_poweroff_noirq()
+Date: Sun, 17 Aug 2025 21:00:58 -0500
+Message-ID: <20250818020101.3619237-9-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250818020101.3619237-1-superm1@kernel.org>
 References: <20250818020101.3619237-1-superm1@kernel.org>
@@ -77,9 +77,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Suspend resume actions will check the state of the device and whether
-bus PM should be skipped.  These same actions make sense during hibernation
-image restore.  Apply them there as well.
+Devices with no subordinate should be put into D3 during hibernate, but
+devices that have bridge_d3 set should also be put to sleep during
+hibernate. Adjust the check in pci_pm_poweroff_noirq() to use
+pci_power_manageable() to cover those as well.
 
 Tested-by: Eric Naim <dnaim@cachyos.org>
 Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
@@ -87,29 +88,22 @@ Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 v5:
  * Split out patch
 ---
- drivers/pci/pci-driver.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/pci/pci-driver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-index 571a3809f163a..fb6f1f60b2f1f 100644
+index fb6f1f60b2f1f..c563fd6af979d 100644
 --- a/drivers/pci/pci-driver.c
 +++ b/drivers/pci/pci-driver.c
-@@ -1246,10 +1246,15 @@ static int pci_pm_restore_noirq(struct device *dev)
- {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
- 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
-+	pci_power_t prev_state = pci_dev->current_state;
-+	bool skip_bus_pm = pci_dev->skip_bus_pm;
+@@ -1227,7 +1227,7 @@ static int pci_pm_poweroff_noirq(struct device *dev)
+ 			return error;
+ 	}
  
- 	pci_pm_default_resume_early(pci_dev);
- 	pci_fixup_device(pci_fixup_resume_early, pci_dev);
+-	if (!pci_dev->state_saved && !pci_has_subordinate(pci_dev))
++	if (!pci_dev->state_saved && pci_power_manageable(pci_dev))
+ 		pci_prepare_to_sleep(pci_dev);
  
-+	if (!skip_bus_pm && prev_state == PCI_D3cold)
-+		pci_pm_bridge_power_up_actions(pci_dev);
-+
- 	if (pci_has_legacy_pm_support(pci_dev))
- 		return 0;
- 
+ 	/*
 -- 
 2.43.0
 
