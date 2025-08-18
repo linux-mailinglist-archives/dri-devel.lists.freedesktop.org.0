@@ -2,91 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9873FB2AC50
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 17:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6ABB29B23
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 09:47:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 873DE10E46E;
-	Mon, 18 Aug 2025 15:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF9210E3F9;
+	Mon, 18 Aug 2025 07:47:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="sh5mHvoq";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="pEsj6Tjh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 335 seconds by postgrey-1.36 at gabe;
- Mon, 18 Aug 2025 07:52:18 UTC
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.73.137])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF64910E3FE
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 07:52:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
- s=mxsw2412; t=1755503520;
- bh=ZoS2EI4Zzr8UNkvT28OeXQyqNfv81mVfEDuYTE9zSb4=;
- h=Date:From:To:Subject:Message-ID:MIME-Version;
- b=sh5mHvoqzy4la93+5hLNkN/ye/wrVxsgVJJpJ7VDSuYvjjpzZ5BFjlybqJ5eeXunf
- 2JW2bjXmGaTAEJqxRc9tYmDFJXRuvca/UNvXeawKb+kXCYIzpBp7k2r1zSQweBOf6q
- Lo88jZh5s+k2KpdJbW+3SpnhddfhoEbjOLB3KjoE=
-X-QQ-mid: esmtpgz14t1755503147t6aaf9395
-X-QQ-Originating-IP: yP/GhzIIW7KtDXl1ugZehVOJ05GCdTxziUtHS3a2AF8=
-Received: from = ( [61.145.255.150]) by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 18 Aug 2025 15:45:45 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7680891694613958301
-EX-QQ-RecipientCnt: 29
-Date: Mon, 18 Aug 2025 15:45:45 +0800
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-To: Icenowy Zheng <uwu@icenowy.me>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Drew Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>,
- Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A583110E3F9
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 07:47:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1755503263; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=PfC5AFkj7AUcmsqinJBCvHI8uLtwBEp4Mal/mf4LYlrvIcI8MD6Sf9i2FFxfFrDE6GY8cdmdfTeK5CIOjvJheKQMwRiNkX7SalZy3ZqQ6Vc9IkVeG/l6HJd3fC9qSUtqMYawmmdorrsdO+l3CHwIk6rxrJFpDMIYtR+a2MORpwE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1755503263;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=1WJ36J1RILzy3cNxGa4zvMp2eKEddfnMK+2DLmuU3t8=; 
+ b=CMbNuZ3oygVi63epSY/ajvA1c4zTgBqFNo40D16YTlREbePEcl5GN+IF5ldZ4MUn0O338zhvehsQ/frWK4vMogIAq0FIEWyt8nwIRJPzOW+/LJRdmSracErTanMV/P/N0jyK1pBOX2yr6M5YdJEIRJGE0mzS+aZgsY128cKyEgQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755503263; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=1WJ36J1RILzy3cNxGa4zvMp2eKEddfnMK+2DLmuU3t8=;
+ b=pEsj6TjhR5kwHef3xZinO+dSIP9YunG9HGdl9pf2MCHx/bVlVSMD74Vr4QqI3k6t
+ L3aap9vYnZVF5FoRyYbrjIzXvOIoYxxaTfuSfYTlzcYUasVVCwqaZ/2HnqnRbxI0N2Z
+ q+FK4PaN1bsRk1EcIk9/i9Dlypv/Snc4jwVkMrKIuVbPS5uqGEgS98/qsAqTA91ju/8
+ i7EO/jUuTjeX1y6OZmyNapgNcOIYheYi5QLsCsZsF3l3pn9cuJFD3VpHRXy/+TCesk8
+ FtmHflcT7zEl0QPYzgDW0z2/vb2ozF+x5SQtaD3I4UepsxYYkaxx6KXsK4mFKSFO+xm
+ rd2eeBz42w==
+Received: by mx.zohomail.com with SMTPS id 1755503260247404.8920223443564;
+ Mon, 18 Aug 2025 00:47:40 -0700 (PDT)
+Message-ID: <7ad9a700dce9342d720740525626340237eb8d9f.camel@icenowy.me>
 Subject: Re: [RFC PATCH 5/8] drm/bridge: add a driver for T-Head TH1520 HDMI
  controller
-Message-ID: <F2C43938B17FA1E1+aKLaKQfN1Ax8Blcx@LT-Guozexi>
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Troy Mitchell <troy.mitchell@linux.spacemit.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>, Guo Ren
+ <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Michal Wilczynski
+ <m.wilczynski@samsung.com>, Han Gao <rabenda.cn@gmail.com>, Yao Zi
+ <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+Date: Mon, 18 Aug 2025 15:47:28 +0800
+In-Reply-To: <F2C43938B17FA1E1+aKLaKQfN1Ax8Blcx@LT-Guozexi>
 References: <20250814164048.2336043-1-uwu@icenowy.me>
  <20250814164048.2336043-6-uwu@icenowy.me>
  <sp2pdifimqych5zn3mt7pnba3vl25qflgiys76s7dwmyt3jd72@bmwkc7s6p6c4>
  <63b2ac72fe1d15d214e880f223bb3035e177a07b.camel@icenowy.me>
+ <F2C43938B17FA1E1+aKLaKQfN1Ax8Blcx@LT-Guozexi>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <63b2ac72fe1d15d214e880f223bb3035e177a07b.camel@icenowy.me>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: M8JnMGwRo1mQ/DUTij+F6rLa7n5WUd27DhTfVu4bR8aaSVswMJaKz3bl
- 0hZR0nv/TRx5CoTTdnush+XGBH1Fu7jpiwsFlp6Ba3STLKrBJGNvfa87tdzXysl+8ca6+d7
- rfWmChaL1R9ItnRWpG26+EX6RV8W9YGwdm/VrQhX6uNp30J1JJ+79nNIOCa+1nSn1WnNtCB
- hRZU/aSGmmdjeHCPibVbKEN1o6dBXBYeXgk0Gxra/K6ZefnR+1UpC6Wy2a4Izl2HlY3zmOf
- 6AczelDSg50FcWscIHDQHJ08ZqrxH8P34XC7Ia8Ake4zmKXgARXUm7v6C/xDElwmn7phxBB
- GwMH9Wq+0E/GEGoXfUWVQSnuVDK6V3addlMrju0knv/B9BSxcMaXNtw+UiWJwr58TNfst0A
- CedNyoycbf6HmDv7GR5mQAnTObAkC3Cz7LWBMDTQtDVMsPV2WoHbrdz1cgbrFBOESASjPDv
- 1xLZHp7hEB8Ml/43Hpp53fbXol9X+wthFS15gUP65FpcBPo/UaSJYB1dqfxW4L55aTsp7sx
- ezq3+c1t6EfQNeg6W4dXyj2wyMMFA6nrnwIJSXLnQmlZ7iUSJ9aOc62zId1YDxLDttrFfPz
- jIxlf245CucMcpzQbwU+gJidso3zW4xrz1fIzcmlQYBMalRC+zTlB5Aa0yant45l7cGWMNR
- 7EpoHUkwNKv4naCGRfeqiBACL4SLpwqp/+3i0sp6HG5ffqMKSixeRyvR0KipaFy+sCRWrLV
- 63H4EuA1BLvl9gmk1ly/lmjspYwpECglp0f4L0tUOyhU5MPvYKq/bQro5+Rzj6ShJ60Pavq
- lNtLZ0OlbbaGg2fplj3oqUJuu7V8RBYKbqtUbsuF/JMbhEIJvz6mRgW4bU3GIjVJ/a9YDzu
- 4J9qPz5OVl7xCrGJlfIhUBsteSHCdW/9w986O4n68OaMQ2mIJiZoFBCnCLvTgls44BIHrMd
- vxGZ+BRlyx/IYuTApX1VdJ+e5/s2EM2tgWoS13A9LkqyvveoEyQGV+LawUjAyQ4Ikrgzyat
- SSRxqNWx/w5RXF6138Gplh104X20BXP0u8DNTwoHVwSmYprXiuQp1Yj+blOXOH9MPxL28vn
- mFt7ryeDMm3Bc2EKJAZDMVstCMmAWisYSUHENccKosa
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-X-QQ-RECHKSPAM: 0
-X-Mailman-Approved-At: Mon, 18 Aug 2025 15:16:13 +0000
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,321 +89,258 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 17, 2025 at 01:10:44AM +0800, Icenowy Zheng wrote:
-> 在 2025-08-16星期六的 19:24 +0300，Dmitry Baryshkov写道：
-> > On Fri, Aug 15, 2025 at 12:40:45AM +0800, Icenowy Zheng wrote:
-> > > T-Head TH1520 SoC contains a Synopsys DesignWare HDMI controller
-> > > (paired
-> > > with DesignWare HDMI TX PHY Gen2) that takes the "DP" output from
-> > > the
-> > > display controller.
-> > > 
-> > > Add a driver for this controller utilizing the common DesignWare
-> > > HDMI
-> > > code in the kernel.
-> > > 
-> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > ---
-> > >  MAINTAINERS                             |   1 +
-> > >  drivers/gpu/drm/bridge/Kconfig          |  10 ++
-> > >  drivers/gpu/drm/bridge/Makefile         |   1 +
-> > >  drivers/gpu/drm/bridge/th1520-dw-hdmi.c | 170
-> > > ++++++++++++++++++++++++
-> > >  4 files changed, 182 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> > > 
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index fe168477caa45..eb84e36ded6d5 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -21728,6 +21728,7 @@
-> > > F:      Documentation/devicetree/bindings/reset/thead,th1520-
-> > > reset.yaml
-> > >  F:     arch/riscv/boot/dts/thead/
-> > >  F:     drivers/clk/thead/clk-th1520-ap.c
-> > >  F:     drivers/firmware/thead,th1520-aon.c
-> > > +F:     drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> > >  F:     drivers/mailbox/mailbox-th1520.c
-> > >  F:     drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
-> > >  F:     drivers/pinctrl/pinctrl-th1520.c
-> > > diff --git a/drivers/gpu/drm/bridge/Kconfig
-> > > b/drivers/gpu/drm/bridge/Kconfig
-> > > index b9e0ca85226a6..f75e6ad04179f 100644
-> > > --- a/drivers/gpu/drm/bridge/Kconfig
-> > > +++ b/drivers/gpu/drm/bridge/Kconfig
-> > > @@ -322,6 +322,16 @@ config DRM_THINE_THC63LVD1024
-> > >         help
-> > >           Thine THC63LVD1024 LVDS/parallel converter driver.
-> > >  
-> > > +config DRM_THEAD_TH1520_DW_HDMI
-> > > +       tristate "T-Head TH1520 DesignWare HDMI bridge"
-> > > +       depends on OF
-> > > +       depends on COMMON_CLK
-> > > +       depends on ARCH_THEAD || COMPILE_TEST
-> > > +       select DRM_DW_HDMI
-> > > +       help
-> > > +         Choose this to enable support for the internal HDMI
-> > > bridge found
-> > > +         on the T-Head TH1520 SoC.
-> > > +
-> > >  config DRM_TOSHIBA_TC358762
-> > >         tristate "TC358762 DSI/DPI bridge"
-> > >         depends on OF
-> > > diff --git a/drivers/gpu/drm/bridge/Makefile
-> > > b/drivers/gpu/drm/bridge/Makefile
-> > > index 245e8a27e3fc5..421e445ff1cd9 100644
-> > > --- a/drivers/gpu/drm/bridge/Makefile
-> > > +++ b/drivers/gpu/drm/bridge/Makefile
-> > > @@ -27,6 +27,7 @@ obj-$(CONFIG_DRM_SIL_SII8620) += sil-sii8620.o
-> > >  obj-$(CONFIG_DRM_SII902X) += sii902x.o
-> > >  obj-$(CONFIG_DRM_SII9234) += sii9234.o
-> > >  obj-$(CONFIG_DRM_SIMPLE_BRIDGE) += simple-bridge.o
-> > > +obj-$(CONFIG_DRM_THEAD_TH1520_DW_HDMI) += th1520-dw-hdmi.o
-> > >  obj-$(CONFIG_DRM_THINE_THC63LVD1024) += thc63lvd1024.o
-> > >  obj-$(CONFIG_DRM_TOSHIBA_TC358762) += tc358762.o
-> > >  obj-$(CONFIG_DRM_TOSHIBA_TC358764) += tc358764.o
-> > > diff --git a/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> > > b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> > > new file mode 100644
-> > > index 0000000000000..f8dddf3cb0cca
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
-> > > @@ -0,0 +1,170 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
-> > > + *
-> > > + * Based on rcar_dw_hdmi.c, which is:
-> > > + *   Copyright (C) 2016 Renesas Electronics Corporation
-> > > + * Based on imx8mp-hdmi-tx.c, which is:
-> > > + *   Copyright (C) 2022 Pengutronix, Lucas Stach
-> > > <kernel@pengutronix.de>
-> > > + */
-> > > +
-> > > +#include <linux/clk.h>
-> > > +#include <linux/mod_devicetable.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/platform_device.h>
-> > > +#include <linux/reset.h>
-> > > +
-> > > +#include <drm/bridge/dw_hdmi.h>
-> > > +#include <drm/drm_modes.h>
-> > > +
-> > > +#define TH1520_HDMI_PHY_OPMODE_PLLCFG  0x06    /* Mode of
-> > > operation and PLL dividers */
-> > > +#define TH1520_HDMI_PHY_CKSYMTXCTRL    0x09    /* Clock Symbol and
-> > > Transmitter Control Register */
-> > > +#define TH1520_HDMI_PHY_VLEVCTRL       0x0e    /* Voltage Level
-> > > Control Register */
-> > > +#define TH1520_HDMI_PHY_PLLCURRGMPCTRL 0x10    /* PLL current and
-> > > Gmp (conductance) */
-> > > +#define TH1520_HDMI_PHY_PLLDIVCTRL     0x11    /* PLL dividers */
-> > > +#define TH1520_HDMI_PHY_TXTERM         0x19    /* Transmission
-> > > Termination Register */
-> > > +
-> > > +struct th1520_hdmi_phy_params {
-> > > +       unsigned long mpixelclock;
-> > > +       u16 opmode_pllcfg;
-> > > +       u16 pllcurrgmpctrl;
-> > > +       u16 plldivctrl;
-> > > +       u16 cksymtxctrl;
-> > > +       u16 vlevctrl;
-> > > +       u16 txterm;
-> > > +};
-> > > +
-> > > +static const struct th1520_hdmi_phy_params
-> > > th1520_hdmi_phy_params[] = {
-> > > +       { 35500000,  0x0003, 0x0283, 0x0628, 0x8088, 0x01a0, 0x0007
-> > > },
-> > > +       { 44900000,  0x0003, 0x0285, 0x0228, 0x8088, 0x01a0, 0x0007
-> > > },
-> > > +       { 71000000,  0x0002, 0x1183, 0x0614, 0x8088, 0x01a0, 0x0007
-> > > },
-> > > +       { 90000000,  0x0002, 0x1142, 0x0214, 0x8088, 0x01a0, 0x0007
-> > > },
-> > > +       { 121750000, 0x0001, 0x20c0, 0x060a, 0x8088, 0x01a0, 0x0007
-> > > },
-> > > +       { 165000000, 0x0001, 0x2080, 0x020a, 0x8088, 0x01a0, 0x0007
-> > > },
-> > > +       { 198000000, 0x0000, 0x3040, 0x0605, 0x83c8, 0x0120, 0x0004
-> > > },
-> > > +       { 297000000, 0x0000, 0x3041, 0x0205, 0x81dc, 0x0200, 0x0005
-> > > },
-> > > +       { 371250000, 0x0640, 0x3041, 0x0205, 0x80f6, 0x0140, 0x0000
-> > > },
-> > > +       { 495000000, 0x0640, 0x3080, 0x0005, 0x80f6, 0x0140, 0x0000
-> > > },
-> > > +       { 594000000, 0x0640, 0x3080, 0x0005, 0x80fa, 0x01e0, 0x0004
-> > > },
-> > > +       { ~0UL,      0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
-> > > }
-> > > +};
-> > > +
-> > > +struct th1520_hdmi {
-> > > +       struct dw_hdmi_plat_data plat_data;
-> > > +       struct dw_hdmi *dw_hdmi;
-> > > +       struct clk *pixclk;
-> > > +       struct reset_control *mainrst, *prst;
-> > > +};
-> > > +
-> > > +static enum drm_mode_status
-> > > +th1520_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
-> > > +                      const struct drm_display_info *info,
-> > > +                      const struct drm_display_mode *mode)
-> > > +{
-> > > +       /*
-> > > +        * The maximum supported clock frequency is 594 MHz, as
-> > > shown in the PHY
-> > > +        * parameters table.
-> > > +        */
-> > > +       if (mode->clock > 594000)
-> > > +               return MODE_CLOCK_HIGH;
-> > 
-> > We should rewrite DW bridge into HDMI ops. It would help us to get
-> > rid
-> > of such functions. With it in place it will be handled by the generic
-> > TMDS clock rate check.
-> 
-> Yes, but this mode_valid hook here is part of the private interface of
-> DW bridge, instead of implementing anything for other parts of DRM
-> subsystem.
-> 
-> Even if the TMDS clock rate check is utilized by the DW bridge, the
-> bridge's interface should be modified to expose something to set the
-> maximum clock rate.
-> 
-> > 
-> > > +
-> > > +       return MODE_OK;
-> > > +}
-> > > +
-> > > +static int th1520_hdmi_phy_configure(struct dw_hdmi *hdmi, void
-> > > *data,
-> > > +                                    unsigned long mpixelclock)
-> > > +{
-> > > +       const struct th1520_hdmi_phy_params *params =
-> > > th1520_hdmi_phy_params;
-> > > +
-> > > +       for (; params->mpixelclock != ~0UL; ++params) {
-> > > +               if (mpixelclock <= params->mpixelclock)
-> > > +                       break;
-> > 
-> > for (...) {
-> >         if (mpixelclock <= params->mpixelclock)
-> >                 return th1520_program_phy();
-> 
-> There's no such a function here, and this check isn't used for another
-> time, so having the matching code and programming code extracted out
-> can help nothing.
-I think Dmitry meant that the following code should be moved into
-a new function, th1520_program_phy().  
+5ZyoIDIwMjUtMDgtMTjmmJ/mnJ/kuIDnmoQgMTU6NDUgKzA4MDDvvIxUcm95IE1pdGNoZWxs5YaZ
+6YGT77yaCj4gT24gU3VuLCBBdWcgMTcsIDIwMjUgYXQgMDE6MTA6NDRBTSArMDgwMCwgSWNlbm93
+eSBaaGVuZyB3cm90ZToKPiA+IOWcqCAyMDI1LTA4LTE25pif5pyf5YWt55qEIDE5OjI0ICswMzAw
+77yMRG1pdHJ5IEJhcnlzaGtvduWGmemBk++8mgo+ID4gPiBPbiBGcmksIEF1ZyAxNSwgMjAyNSBh
+dCAxMjo0MDo0NUFNICswODAwLCBJY2Vub3d5IFpoZW5nIHdyb3RlOgo+ID4gPiA+IFQtSGVhZCBU
+SDE1MjAgU29DIGNvbnRhaW5zIGEgU3lub3BzeXMgRGVzaWduV2FyZSBIRE1JCj4gPiA+ID4gY29u
+dHJvbGxlcgo+ID4gPiA+IChwYWlyZWQKPiA+ID4gPiB3aXRoIERlc2lnbldhcmUgSERNSSBUWCBQ
+SFkgR2VuMikgdGhhdCB0YWtlcyB0aGUgIkRQIiBvdXRwdXQKPiA+ID4gPiBmcm9tCj4gPiA+ID4g
+dGhlCj4gPiA+ID4gZGlzcGxheSBjb250cm9sbGVyLgo+ID4gPiA+IAo+ID4gPiA+IEFkZCBhIGRy
+aXZlciBmb3IgdGhpcyBjb250cm9sbGVyIHV0aWxpemluZyB0aGUgY29tbW9uCj4gPiA+ID4gRGVz
+aWduV2FyZQo+ID4gPiA+IEhETUkKPiA+ID4gPiBjb2RlIGluIHRoZSBrZXJuZWwuCj4gPiA+ID4g
+Cj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSWNlbm93eSBaaGVuZyA8dXd1QGljZW5vd3kubWU+Cj4g
+PiA+ID4gLS0tCj4gPiA+ID4gwqBNQUlOVEFJTkVSU8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDEgKwo+ID4gPiA+IMKgZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxMCArKwo+ID4g
+PiA+IMKgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9NYWtlZmlsZcKgwqDCoMKgwqDCoMKgwqAgfMKg
+wqAgMSArCj4gPiA+ID4gwqBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RoMTUyMC1kdy1oZG1pLmMg
+fCAxNzAKPiA+ID4gPiArKysrKysrKysrKysrKysrKysrKysrKysKPiA+ID4gPiDCoDQgZmlsZXMg
+Y2hhbmdlZCwgMTgyIGluc2VydGlvbnMoKykKPiA+ID4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBk
+cml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RoMTUyMC1kdy1oZG1pLmMKPiA+ID4gPiAKPiA+ID4gPiBk
+aWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUwo+ID4gPiA+IGluZGV4IGZlMTY4
+NDc3Y2FhNDUuLmViODRlMzZkZWQ2ZDUgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvTUFJTlRBSU5FUlMK
+PiA+ID4gPiArKysgYi9NQUlOVEFJTkVSUwo+ID4gPiA+IEBAIC0yMTcyOCw2ICsyMTcyOCw3IEBA
+Cj4gPiA+ID4gRjrCoMKgwqDCoMKgwqBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+cmVzZXQvdGhlYWQsdGgxNTIwLQo+ID4gPiA+IHJlc2V0LnlhbWwKPiA+ID4gPiDCoEY6wqDCoMKg
+wqDCoGFyY2gvcmlzY3YvYm9vdC9kdHMvdGhlYWQvCj4gPiA+ID4gwqBGOsKgwqDCoMKgwqBkcml2
+ZXJzL2Nsay90aGVhZC9jbGstdGgxNTIwLWFwLmMKPiA+ID4gPiDCoEY6wqDCoMKgwqDCoGRyaXZl
+cnMvZmlybXdhcmUvdGhlYWQsdGgxNTIwLWFvbi5jCj4gPiA+ID4gK0Y6wqDCoMKgwqDCoGRyaXZl
+cnMvZ3B1L2RybS9icmlkZ2UvdGgxNTIwLWR3LWhkbWkuYwo+ID4gPiA+IMKgRjrCoMKgwqDCoMKg
+ZHJpdmVycy9tYWlsYm94L21haWxib3gtdGgxNTIwLmMKPiA+ID4gPiDCoEY6wqDCoMKgwqDCoGRy
+aXZlcnMvbmV0L2V0aGVybmV0L3N0bWljcm8vc3RtbWFjL2R3bWFjLXRoZWFkLmMKPiA+ID4gPiDC
+oEY6wqDCoMKgwqDCoGRyaXZlcnMvcGluY3RybC9waW5jdHJsLXRoMTUyMC5jCj4gPiA+ID4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvS2NvbmZpZwo+ID4gPiA+IGIvZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnCj4gPiA+ID4gaW5kZXggYjllMGNhODUyMjZhNi4uZjc1
+ZTZhZDA0MTc5ZiAxMDA2NDQKPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tj
+b25maWcKPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcKPiA+ID4g
+PiBAQCAtMzIyLDYgKzMyMiwxNiBAQCBjb25maWcgRFJNX1RISU5FX1RIQzYzTFZEMTAyNAo+ID4g
+PiA+IMKgwqDCoMKgwqDCoMKgwqBoZWxwCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgIFRoaW5l
+IFRIQzYzTFZEMTAyNCBMVkRTL3BhcmFsbGVsIGNvbnZlcnRlciBkcml2ZXIuCj4gPiA+ID4gwqAK
+PiA+ID4gPiArY29uZmlnIERSTV9USEVBRF9USDE1MjBfRFdfSERNSQo+ID4gPiA+ICvCoMKgwqDC
+oMKgwqDCoHRyaXN0YXRlICJULUhlYWQgVEgxNTIwIERlc2lnbldhcmUgSERNSSBicmlkZ2UiCj4g
+PiA+ID4gK8KgwqDCoMKgwqDCoMKgZGVwZW5kcyBvbiBPRgo+ID4gPiA+ICvCoMKgwqDCoMKgwqDC
+oGRlcGVuZHMgb24gQ09NTU9OX0NMSwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoGRlcGVuZHMgb24g
+QVJDSF9USEVBRCB8fCBDT01QSUxFX1RFU1QKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBzZWxlY3Qg
+RFJNX0RXX0hETUkKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBoZWxwCj4gPiA+ID4gK8KgwqDCoMKg
+wqDCoMKgwqAgQ2hvb3NlIHRoaXMgdG8gZW5hYmxlIHN1cHBvcnQgZm9yIHRoZSBpbnRlcm5hbCBI
+RE1JCj4gPiA+ID4gYnJpZGdlIGZvdW5kCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqAgb24gdGhl
+IFQtSGVhZCBUSDE1MjAgU29DLgo+ID4gPiA+ICsKPiA+ID4gPiDCoGNvbmZpZyBEUk1fVE9TSElC
+QV9UQzM1ODc2Mgo+ID4gPiA+IMKgwqDCoMKgwqDCoMKgwqB0cmlzdGF0ZSAiVEMzNTg3NjIgRFNJ
+L0RQSSBicmlkZ2UiCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoGRlcGVuZHMgb24gT0YKPiA+ID4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9NYWtlZmlsZQo+ID4gPiA+IGIv
+ZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9NYWtlZmlsZQo+ID4gPiA+IGluZGV4IDI0NWU4YTI3ZTNm
+YzUuLjQyMWU0NDVmZjFjZDkgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9NYWtlZmlsZQo+ID4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvTWFrZWZp
+bGUKPiA+ID4gPiBAQCAtMjcsNiArMjcsNyBAQCBvYmotJChDT05GSUdfRFJNX1NJTF9TSUk4NjIw
+KSArPSBzaWwtCj4gPiA+ID4gc2lpODYyMC5vCj4gPiA+ID4gwqBvYmotJChDT05GSUdfRFJNX1NJ
+STkwMlgpICs9IHNpaTkwMngubwo+ID4gPiA+IMKgb2JqLSQoQ09ORklHX0RSTV9TSUk5MjM0KSAr
+PSBzaWk5MjM0Lm8KPiA+ID4gPiDCoG9iai0kKENPTkZJR19EUk1fU0lNUExFX0JSSURHRSkgKz0g
+c2ltcGxlLWJyaWRnZS5vCj4gPiA+ID4gK29iai0kKENPTkZJR19EUk1fVEhFQURfVEgxNTIwX0RX
+X0hETUkpICs9IHRoMTUyMC1kdy1oZG1pLm8KPiA+ID4gPiDCoG9iai0kKENPTkZJR19EUk1fVEhJ
+TkVfVEhDNjNMVkQxMDI0KSArPSB0aGM2M2x2ZDEwMjQubwo+ID4gPiA+IMKgb2JqLSQoQ09ORklH
+X0RSTV9UT1NISUJBX1RDMzU4NzYyKSArPSB0YzM1ODc2Mi5vCj4gPiA+ID4gwqBvYmotJChDT05G
+SUdfRFJNX1RPU0hJQkFfVEMzNTg3NjQpICs9IHRjMzU4NzY0Lm8KPiA+ID4gPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aDE1MjAtZHctaGRtaS5jCj4gPiA+ID4gYi9kcml2
+ZXJzL2dwdS9kcm0vYnJpZGdlL3RoMTUyMC1kdy1oZG1pLmMKPiA+ID4gPiBuZXcgZmlsZSBtb2Rl
+IDEwMDY0NAo+ID4gPiA+IGluZGV4IDAwMDAwMDAwMDAwMDAuLmY4ZGRkZjNjYjBjY2EKPiA+ID4g
+PiAtLS0gL2Rldi9udWxsCj4gPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aDE1
+MjAtZHctaGRtaS5jCj4gPiA+ID4gQEAgLTAsMCArMSwxNzAgQEAKPiA+ID4gPiArLy8gU1BEWC1M
+aWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjArCj4gPiA+ID4gKy8qCj4gPiA+ID4gKyAqIENvcHly
+aWdodCAoQykgMjAyNSBJY2Vub3d5IFpoZW5nIDx1d3VAaWNlbm93eS5tZT4KPiA+ID4gPiArICoK
+PiA+ID4gPiArICogQmFzZWQgb24gcmNhcl9kd19oZG1pLmMsIHdoaWNoIGlzOgo+ID4gPiA+ICsg
+KsKgwqAgQ29weXJpZ2h0IChDKSAyMDE2IFJlbmVzYXMgRWxlY3Ryb25pY3MgQ29ycG9yYXRpb24K
+PiA+ID4gPiArICogQmFzZWQgb24gaW14OG1wLWhkbWktdHguYywgd2hpY2ggaXM6Cj4gPiA+ID4g
+KyAqwqDCoCBDb3B5cmlnaHQgKEMpIDIwMjIgUGVuZ3V0cm9uaXgsIEx1Y2FzIFN0YWNoCj4gPiA+
+ID4gPGtlcm5lbEBwZW5ndXRyb25peC5kZT4KPiA+ID4gPiArICovCj4gPiA+ID4gKwo+ID4gPiA+
+ICsjaW5jbHVkZSA8bGludXgvY2xrLmg+Cj4gPiA+ID4gKyNpbmNsdWRlIDxsaW51eC9tb2RfZGV2
+aWNldGFibGUuaD4KPiA+ID4gPiArI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgo+ID4gPiA+ICsj
+aW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGV2aWNlLmg+Cj4gPiA+ID4gKyNpbmNsdWRlIDxsaW51
+eC9yZXNldC5oPgo+ID4gPiA+ICsKPiA+ID4gPiArI2luY2x1ZGUgPGRybS9icmlkZ2UvZHdfaGRt
+aS5oPgo+ID4gPiA+ICsjaW5jbHVkZSA8ZHJtL2RybV9tb2Rlcy5oPgo+ID4gPiA+ICsKPiA+ID4g
+PiArI2RlZmluZSBUSDE1MjBfSERNSV9QSFlfT1BNT0RFX1BMTENGR8KgwqAweDA2wqDCoMKgwqAv
+KiBNb2RlIG9mCj4gPiA+ID4gb3BlcmF0aW9uIGFuZCBQTEwgZGl2aWRlcnMgKi8KPiA+ID4gPiAr
+I2RlZmluZSBUSDE1MjBfSERNSV9QSFlfQ0tTWU1UWENUUkzCoMKgwqDCoDB4MDnCoMKgwqDCoC8q
+IENsb2NrIFN5bWJvbAo+ID4gPiA+IGFuZAo+ID4gPiA+IFRyYW5zbWl0dGVyIENvbnRyb2wgUmVn
+aXN0ZXIgKi8KPiA+ID4gPiArI2RlZmluZSBUSDE1MjBfSERNSV9QSFlfVkxFVkNUUkzCoMKgwqDC
+oMKgwqDCoDB4MGXCoMKgwqDCoC8qIFZvbHRhZ2UKPiA+ID4gPiBMZXZlbAo+ID4gPiA+IENvbnRy
+b2wgUmVnaXN0ZXIgKi8KPiA+ID4gPiArI2RlZmluZSBUSDE1MjBfSERNSV9QSFlfUExMQ1VSUkdN
+UENUUkzCoDB4MTDCoMKgwqDCoC8qIFBMTCBjdXJyZW50Cj4gPiA+ID4gYW5kCj4gPiA+ID4gR21w
+IChjb25kdWN0YW5jZSkgKi8KPiA+ID4gPiArI2RlZmluZSBUSDE1MjBfSERNSV9QSFlfUExMRElW
+Q1RSTMKgwqDCoMKgwqAweDExwqDCoMKgwqAvKiBQTEwgZGl2aWRlcnMKPiA+ID4gPiAqLwo+ID4g
+PiA+ICsjZGVmaW5lIFRIMTUyMF9IRE1JX1BIWV9UWFRFUk3CoMKgwqDCoMKgwqDCoMKgwqAweDE5
+wqDCoMKgwqAvKiBUcmFuc21pc3Npb24KPiA+ID4gPiBUZXJtaW5hdGlvbiBSZWdpc3RlciAqLwo+
+ID4gPiA+ICsKPiA+ID4gPiArc3RydWN0IHRoMTUyMF9oZG1pX3BoeV9wYXJhbXMgewo+ID4gPiA+
+ICvCoMKgwqDCoMKgwqDCoHVuc2lnbmVkIGxvbmcgbXBpeGVsY2xvY2s7Cj4gPiA+ID4gK8KgwqDC
+oMKgwqDCoMKgdTE2IG9wbW9kZV9wbGxjZmc7Cj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgdTE2IHBs
+bGN1cnJnbXBjdHJsOwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoHUxNiBwbGxkaXZjdHJsOwo+ID4g
+PiA+ICvCoMKgwqDCoMKgwqDCoHUxNiBja3N5bXR4Y3RybDsKPiA+ID4gPiArwqDCoMKgwqDCoMKg
+wqB1MTYgdmxldmN0cmw7Cj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgdTE2IHR4dGVybTsKPiA+ID4g
+PiArfTsKPiA+ID4gPiArCj4gPiA+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgdGgxNTIwX2hkbWlf
+cGh5X3BhcmFtcwo+ID4gPiA+IHRoMTUyMF9oZG1pX3BoeV9wYXJhbXNbXSA9IHsKPiA+ID4gPiAr
+wqDCoMKgwqDCoMKgwqB7IDM1NTAwMDAwLMKgIDB4MDAwMywgMHgwMjgzLCAweDA2MjgsIDB4ODA4
+OCwgMHgwMWEwLAo+ID4gPiA+IDB4MDAwNwo+ID4gPiA+IH0sCj4gPiA+ID4gK8KgwqDCoMKgwqDC
+oMKgeyA0NDkwMDAwMCzCoCAweDAwMDMsIDB4MDI4NSwgMHgwMjI4LCAweDgwODgsIDB4MDFhMCwK
+PiA+ID4gPiAweDAwMDcKPiA+ID4gPiB9LAo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoHsgNzEwMDAw
+MDAswqAgMHgwMDAyLCAweDExODMsIDB4MDYxNCwgMHg4MDg4LCAweDAxYTAsCj4gPiA+ID4gMHgw
+MDA3Cj4gPiA+ID4gfSwKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqB7IDkwMDAwMDAwLMKgIDB4MDAw
+MiwgMHgxMTQyLCAweDAyMTQsIDB4ODA4OCwgMHgwMWEwLAo+ID4gPiA+IDB4MDAwNwo+ID4gPiA+
+IH0sCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgeyAxMjE3NTAwMDAsIDB4MDAwMSwgMHgyMGMwLCAw
+eDA2MGEsIDB4ODA4OCwgMHgwMWEwLAo+ID4gPiA+IDB4MDAwNwo+ID4gPiA+IH0sCj4gPiA+ID4g
+K8KgwqDCoMKgwqDCoMKgeyAxNjUwMDAwMDAsIDB4MDAwMSwgMHgyMDgwLCAweDAyMGEsIDB4ODA4
+OCwgMHgwMWEwLAo+ID4gPiA+IDB4MDAwNwo+ID4gPiA+IH0sCj4gPiA+ID4gK8KgwqDCoMKgwqDC
+oMKgeyAxOTgwMDAwMDAsIDB4MDAwMCwgMHgzMDQwLCAweDA2MDUsIDB4ODNjOCwgMHgwMTIwLAo+
+ID4gPiA+IDB4MDAwNAo+ID4gPiA+IH0sCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgeyAyOTcwMDAw
+MDAsIDB4MDAwMCwgMHgzMDQxLCAweDAyMDUsIDB4ODFkYywgMHgwMjAwLAo+ID4gPiA+IDB4MDAw
+NQo+ID4gPiA+IH0sCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgeyAzNzEyNTAwMDAsIDB4MDY0MCwg
+MHgzMDQxLCAweDAyMDUsIDB4ODBmNiwgMHgwMTQwLAo+ID4gPiA+IDB4MDAwMAo+ID4gPiA+IH0s
+Cj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgeyA0OTUwMDAwMDAsIDB4MDY0MCwgMHgzMDgwLCAweDAw
+MDUsIDB4ODBmNiwgMHgwMTQwLAo+ID4gPiA+IDB4MDAwMAo+ID4gPiA+IH0sCj4gPiA+ID4gK8Kg
+wqDCoMKgwqDCoMKgeyA1OTQwMDAwMDAsIDB4MDY0MCwgMHgzMDgwLCAweDAwMDUsIDB4ODBmYSwg
+MHgwMWUwLAo+ID4gPiA+IDB4MDAwNAo+ID4gPiA+IH0sCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKg
+eyB+MFVMLMKgwqDCoMKgwqAgMHgwMDAwLCAweDAwMDAsIDB4MDAwMCwgMHgwMDAwLCAweDAwMDAs
+Cj4gPiA+ID4gMHgwMDAwCj4gPiA+ID4gfQo+ID4gPiA+ICt9Owo+ID4gPiA+ICsKPiA+ID4gPiAr
+c3RydWN0IHRoMTUyMF9oZG1pIHsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHdfaGRt
+aV9wbGF0X2RhdGEgcGxhdF9kYXRhOwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkd19o
+ZG1pICpkd19oZG1pOwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBjbGsgKnBpeGNsazsK
+PiA+ID4gPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgcmVzZXRfY29udHJvbCAqbWFpbnJzdCwgKnBy
+c3Q7Cj4gPiA+ID4gK307Cj4gPiA+ID4gKwo+ID4gPiA+ICtzdGF0aWMgZW51bSBkcm1fbW9kZV9z
+dGF0dXMKPiA+ID4gPiArdGgxNTIwX2hkbWlfbW9kZV92YWxpZChzdHJ1Y3QgZHdfaGRtaSAqaGRt
+aSwgdm9pZCAqZGF0YSwKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9pbmZvICppbmZvLAo+ID4gPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29uc3Qgc3RydWN0IGRy
+bV9kaXNwbGF5X21vZGUgKm1vZGUpCj4gPiA+ID4gK3sKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqAv
+Kgo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoCAqIFRoZSBtYXhpbXVtIHN1cHBvcnRlZCBjbG9jayBm
+cmVxdWVuY3kgaXMgNTk0IE1IeiwgYXMKPiA+ID4gPiBzaG93biBpbiB0aGUgUEhZCj4gPiA+ID4g
+K8KgwqDCoMKgwqDCoMKgICogcGFyYW1ldGVycyB0YWJsZS4KPiA+ID4gPiArwqDCoMKgwqDCoMKg
+wqAgKi8KPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBpZiAobW9kZS0+Y2xvY2sgPiA1OTQwMDApCj4g
+PiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBNT0RFX0NMT0NLX0hJ
+R0g7Cj4gPiA+IAo+ID4gPiBXZSBzaG91bGQgcmV3cml0ZSBEVyBicmlkZ2UgaW50byBIRE1JIG9w
+cy4gSXQgd291bGQgaGVscCB1cyB0bwo+ID4gPiBnZXQKPiA+ID4gcmlkCj4gPiA+IG9mIHN1Y2gg
+ZnVuY3Rpb25zLiBXaXRoIGl0IGluIHBsYWNlIGl0IHdpbGwgYmUgaGFuZGxlZCBieSB0aGUKPiA+
+ID4gZ2VuZXJpYwo+ID4gPiBUTURTIGNsb2NrIHJhdGUgY2hlY2suCj4gPiAKPiA+IFllcywgYnV0
+IHRoaXMgbW9kZV92YWxpZCBob29rIGhlcmUgaXMgcGFydCBvZiB0aGUgcHJpdmF0ZSBpbnRlcmZh
+Y2UKPiA+IG9mCj4gPiBEVyBicmlkZ2UsIGluc3RlYWQgb2YgaW1wbGVtZW50aW5nIGFueXRoaW5n
+IGZvciBvdGhlciBwYXJ0cyBvZiBEUk0KPiA+IHN1YnN5c3RlbS4KPiA+IAo+ID4gRXZlbiBpZiB0
+aGUgVE1EUyBjbG9jayByYXRlIGNoZWNrIGlzIHV0aWxpemVkIGJ5IHRoZSBEVyBicmlkZ2UsIHRo
+ZQo+ID4gYnJpZGdlJ3MgaW50ZXJmYWNlIHNob3VsZCBiZSBtb2RpZmllZCB0byBleHBvc2Ugc29t
+ZXRoaW5nIHRvIHNldAo+ID4gdGhlCj4gPiBtYXhpbXVtIGNsb2NrIHJhdGUuCj4gPiAKPiA+ID4g
+Cj4gPiA+ID4gKwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoHJldHVybiBNT0RFX09LOwo+ID4gPiA+
+ICt9Cj4gPiA+ID4gKwo+ID4gPiA+ICtzdGF0aWMgaW50IHRoMTUyMF9oZG1pX3BoeV9jb25maWd1
+cmUoc3RydWN0IGR3X2hkbWkgKmhkbWksCj4gPiA+ID4gdm9pZAo+ID4gPiA+ICpkYXRhLAo+ID4g
+PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIHVuc2lnbmVkIGxvbmcgbXBpeGVsY2xvY2spCj4gPiA+ID4gK3sK
+PiA+ID4gPiArwqDCoMKgwqDCoMKgwqBjb25zdCBzdHJ1Y3QgdGgxNTIwX2hkbWlfcGh5X3BhcmFt
+cyAqcGFyYW1zID0KPiA+ID4gPiB0aDE1MjBfaGRtaV9waHlfcGFyYW1zOwo+ID4gPiA+ICsKPiA+
+ID4gPiArwqDCoMKgwqDCoMKgwqBmb3IgKDsgcGFyYW1zLT5tcGl4ZWxjbG9jayAhPSB+MFVMOyAr
+K3BhcmFtcykgewo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAobXBp
+eGVsY2xvY2sgPD0gcGFyYW1zLT5tcGl4ZWxjbG9jaykKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGJyZWFrOwo+ID4gPiAKPiA+ID4gZm9yICgu
+Li4pIHsKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoGlmIChtcGl4ZWxjbG9jayA8PSBwYXJhbXMtPm1w
+aXhlbGNsb2NrKQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiB0
+aDE1MjBfcHJvZ3JhbV9waHkoKTsKPiA+IAo+ID4gVGhlcmUncyBubyBzdWNoIGEgZnVuY3Rpb24g
+aGVyZSwgYW5kIHRoaXMgY2hlY2sgaXNuJ3QgdXNlZCBmb3IKPiA+IGFub3RoZXIKPiA+IHRpbWUs
+IHNvIGhhdmluZyB0aGUgbWF0Y2hpbmcgY29kZSBhbmQgcHJvZ3JhbW1pbmcgY29kZSBleHRyYWN0
+ZWQKPiA+IG91dAo+ID4gY2FuIGhlbHAgbm90aGluZy4KPiBJIHRoaW5rIERtaXRyeSBtZWFudCB0
+aGF0IHRoZSBmb2xsb3dpbmcgY29kZSBzaG91bGQgYmUgbW92ZWQgaW50bwo+IGEgbmV3IGZ1bmN0
+aW9uLCB0aDE1MjBfcHJvZ3JhbV9waHkoKS7CoCAKPiAKPiBUaGlzIG1ha2VzIHRoZSBjb2RlIGNs
+ZWFuZXIgYW5kIGFsc28gYXZvaWRzIG9uZSBleHRyYSBpZiBjaGVjay4KCkFzIHRoZXJlJ3Mgbm8g
+Y29kZSByZXVzZSwgaXQgZG9lcyBub3QgbWFrZSBjb2RlIGNsZWFuZXIuCgo+IAo+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAtIFRyb3kKPiA+IAo+ID4gPiB9Cj4gPiA+IAo+ID4gPiBy
+ZXR1cm4gLUVJTlZBTDsKPiA+ID4gCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgfQo+ID4gPiA+ICsK
+PiA+ID4gPiArwqDCoMKgwqDCoMKgwqBpZiAocGFyYW1zLT5tcGl4ZWxjbG9jayA9PSB+MFVMKQo+
+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gLUVJTlZBTDsKPiA+
+ID4gPiArCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgZHdfaGRtaV9waHlfaTJjX3dyaXRlKGhkbWks
+IHBhcmFtcy0+b3Btb2RlX3BsbGNmZywKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgVEgxNTIwX0hETUlfUEhZX09QTU9ERV9Q
+TExDRkcpOwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoGR3X2hkbWlfcGh5X2kyY193cml0ZShoZG1p
+LCBwYXJhbXMtPnBsbGN1cnJnbXBjdHJsLAo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBUSDE1MjBfSERNSV9QSFlfUExMQ1VS
+UkdNUENUUkwpOwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoGR3X2hkbWlfcGh5X2kyY193cml0ZSho
+ZG1pLCBwYXJhbXMtPnBsbGRpdmN0cmwsCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFRIMTUyMF9IRE1JX1BIWV9QTExESVZD
+VFJMKTsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBkd19oZG1pX3BoeV9pMmNfd3JpdGUoaGRtaSwg
+cGFyYW1zLT52bGV2Y3RybCwKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgVEgxNTIwX0hETUlfUEhZX1ZMRVZDVFJMKTsKPiA+
+ID4gPiArwqDCoMKgwqDCoMKgwqBkd19oZG1pX3BoeV9pMmNfd3JpdGUoaGRtaSwgcGFyYW1zLT5j
+a3N5bXR4Y3RybCwKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgVEgxNTIwX0hETUlfUEhZX0NLU1lNVFhDVFJMKTsKPiA+ID4g
+PiArwqDCoMKgwqDCoMKgwqBkd19oZG1pX3BoeV9pMmNfd3JpdGUoaGRtaSwgcGFyYW1zLT50eHRl
+cm0sCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIFRIMTUyMF9IRE1JX1BIWV9UWFRFUk0pOwo+ID4gPiA+ICsKPiA+ID4gPiAr
+wqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiA+ID4gPiArfQo+ID4gPiA+ICsKPiA+ID4gPiArc3Rh
+dGljIGludCB0aDE1MjBfZHdfaGRtaV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
+KQo+ID4gPiA+ICt7Cj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgc3RydWN0IHRoMTUyMF9oZG1pICpo
+ZG1pOwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkd19oZG1pX3BsYXRfZGF0YSAqcGxh
+dF9kYXRhOwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBkZXZpY2UgKmRldiA9ICZwZGV2
+LT5kZXY7Cj4gPiA+ID4gKwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoGhkbWkgPSBkZXZtX2t6YWxs
+b2MoZGV2LCBzaXplb2YoKmhkbWkpLCBHRlBfS0VSTkVMKTsKPiA+ID4gPiArwqDCoMKgwqDCoMKg
+wqBpZiAoIWhkbWkpCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVy
+biAtRU5PTUVNOwo+ID4gPiA+ICsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBwbGF0X2RhdGEgPSAm
+aGRtaS0+cGxhdF9kYXRhOwo+ID4gPiA+ICsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBoZG1pLT5w
+aXhjbGsgPSBkZXZtX2Nsa19nZXRfZW5hYmxlZChkZXYsICJwaXgiKTsKPiA+ID4gPiArwqDCoMKg
+wqDCoMKgwqBpZiAoSVNfRVJSKGhkbWktPnBpeGNsaykpCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoHJldHVybiBkZXZfZXJyX3Byb2JlKGRldiwgUFRSX0VSUihoZG1pLQo+
+ID4gPiA+ID5waXhjbGspLAo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJVbmFibGUgdG8gZ2V0IHBp
+eGVsCj4gPiA+ID4gY2xvY2tcbiIpOwo+ID4gPiA+ICsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBo
+ZG1pLT5tYWlucnN0ID0KPiA+ID4gPiBkZXZtX3Jlc2V0X2NvbnRyb2xfZ2V0X2V4Y2x1c2l2ZV9k
+ZWFzc2VydGVkKGRldiwgIm1haW4iKTsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBpZiAoSVNfRVJS
+KGhkbWktPm1haW5yc3QpKQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBy
+ZXR1cm4gZGV2X2Vycl9wcm9iZShkZXYsIFBUUl9FUlIoaGRtaS0KPiA+ID4gPiA+bWFpbnJzdCks
+Cj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIlVuYWJsZSB0byBnZXQgbWFpbgo+ID4gPiA+IHJlc2V0
+XG4iKTsKPiA+ID4gPiArCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgaGRtaS0+cHJzdCA9Cj4gPiA+
+ID4gZGV2bV9yZXNldF9jb250cm9sX2dldF9leGNsdXNpdmVfZGVhc3NlcnRlZChkZXYsICJhcGIi
+KTsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBpZiAoSVNfRVJSKGhkbWktPnByc3QpKQo+ID4gPiA+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gZGV2X2Vycl9wcm9iZShkZXYs
+IFBUUl9FUlIoaGRtaS0+cHJzdCksCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIlVuYWJsZSB0byBn
+ZXQgYXBiCj4gPiA+ID4gcmVzZXRcbiIpOwo+ID4gPiA+ICsKPiA+ID4gPiArwqDCoMKgwqDCoMKg
+wqBwbGF0X2RhdGEtPm91dHB1dF9wb3J0ID0gMTsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBwbGF0
+X2RhdGEtPm1vZGVfdmFsaWQgPSB0aDE1MjBfaGRtaV9tb2RlX3ZhbGlkOwo+ID4gPiA+ICvCoMKg
+wqDCoMKgwqDCoHBsYXRfZGF0YS0+Y29uZmlndXJlX3BoeSA9IHRoMTUyMF9oZG1pX3BoeV9jb25m
+aWd1cmU7Cj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgcGxhdF9kYXRhLT5wcml2X2RhdGEgPSBoZG1p
+Owo+ID4gPiA+ICsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBoZG1pLT5kd19oZG1pID0gZHdfaGRt
+aV9wcm9iZShwZGV2LCBwbGF0X2RhdGEpOwo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoGlmIChJU19F
+UlIoaGRtaSkpCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBQ
+VFJfRVJSKGhkbWkpOwo+ID4gPiA+ICsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBwbGF0Zm9ybV9z
+ZXRfZHJ2ZGF0YShwZGV2LCBoZG1pKTsKPiA+ID4gPiArCj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKg
+cmV0dXJuIDA7Cj4gPiA+ID4gK30KPiA+ID4gPiArCj4gPiA+ID4gK3N0YXRpYyB2b2lkIHRoMTUy
+MF9kd19oZG1pX3JlbW92ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlCj4gPiA+ID4gKnBkZXYpCj4g
+PiA+ID4gK3sKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgZHdfaGRtaSAqaGRtaSA9IHBs
+YXRmb3JtX2dldF9kcnZkYXRhKHBkZXYpOwo+ID4gPiA+ICsKPiA+ID4gPiArwqDCoMKgwqDCoMKg
+wqBkd19oZG1pX3JlbW92ZShoZG1pKTsKPiA+ID4gPiArfQo+ID4gPiA+ICsKPiA+ID4gPiArc3Rh
+dGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgdGgxNTIwX2R3X2hkbWlfb2ZfdGFibGVbXSA9
+IHsKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqB7IC5jb21wYXRpYmxlID0gInRoZWFkLHRoMTUyMC1k
+dy1oZG1pIiB9LAo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoHsgLyogU2VudGluZWwgKi8gfSwKPiA+
+ID4gPiArfTsKPiA+ID4gPiArTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgdGgxNTIwX2R3X2hkbWlf
+b2ZfdGFibGUpOwo+ID4gPiA+ICsKPiA+ID4gPiArc3RhdGljIHN0cnVjdCBwbGF0Zm9ybV9kcml2
+ZXIgdGgxNTIwX2R3X2hkbWlfcGxhdGZvcm1fZHJpdmVyID0KPiA+ID4gPiB7Cj4gPiA+ID4gK8Kg
+wqDCoMKgwqDCoMKgLnByb2JlwqDCoMKgwqDCoMKgwqDCoMKgwqA9IHRoMTUyMF9kd19oZG1pX3By
+b2JlLAo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoC5yZW1vdmXCoMKgwqDCoMKgwqDCoMKgwqA9IHRo
+MTUyMF9kd19oZG1pX3JlbW92ZSwKPiA+ID4gPiArwqDCoMKgwqDCoMKgwqAuZHJpdmVywqDCoMKg
+wqDCoMKgwqDCoMKgPSB7Cj4gPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC5u
+YW1lwqDCoMKgPSAidGgxNTIwLWR3LWhkbWkiLAo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAub2ZfbWF0Y2hfdGFibGUgPSB0aDE1MjBfZHdfaGRtaV9vZl90YWJsZSwKPiA+
+ID4gPiArwqDCoMKgwqDCoMKgwqB9LAo+ID4gPiA+ICt9Owo+ID4gPiA+ICsKPiA+ID4gPiArbW9k
+dWxlX3BsYXRmb3JtX2RyaXZlcih0aDE1MjBfZHdfaGRtaV9wbGF0Zm9ybV9kcml2ZXIpOwo+ID4g
+PiA+ICsKPiA+ID4gPiArTU9EVUxFX0FVVEhPUigiSWNlbm93eSBaaGVuZyA8dXd1QGljZW5vd3ku
+bWU+Iik7Cj4gPiA+ID4gK01PRFVMRV9ERVNDUklQVElPTigiVC1IZWFkIFRIMTUyMCBIRE1JIEVu
+Y29kZXIgRHJpdmVyIik7Cj4gPiA+ID4gK01PRFVMRV9MSUNFTlNFKCJHUEwiKTsKPiA+ID4gPiAt
+LSAKPiA+ID4gPiAyLjUwLjEKPiA+ID4gPiAKPiA+ID4gCj4gPiAKPiA+IF9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gPiBsaW51eC1yaXNjdiBtYWlsaW5n
+IGxpc3QKPiA+IGxpbnV4LXJpc2N2QGxpc3RzLmluZnJhZGVhZC5vcmcKPiA+IGh0dHA6Ly9saXN0
+cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtcmlzY3YKCg==
 
-This makes the code cleaner and also avoids one extra if check.
-
-                - Troy
-> 
-> > }
-> > 
-> > return -EINVAL;
-> > 
-> > > +       }
-> > > +
-> > > +       if (params->mpixelclock == ~0UL)
-> > > +               return -EINVAL;
-> > > +
-> > > +       dw_hdmi_phy_i2c_write(hdmi, params->opmode_pllcfg,
-> > > +                             TH1520_HDMI_PHY_OPMODE_PLLCFG);
-> > > +       dw_hdmi_phy_i2c_write(hdmi, params->pllcurrgmpctrl,
-> > > +                             TH1520_HDMI_PHY_PLLCURRGMPCTRL);
-> > > +       dw_hdmi_phy_i2c_write(hdmi, params->plldivctrl,
-> > > +                             TH1520_HDMI_PHY_PLLDIVCTRL);
-> > > +       dw_hdmi_phy_i2c_write(hdmi, params->vlevctrl,
-> > > +                             TH1520_HDMI_PHY_VLEVCTRL);
-> > > +       dw_hdmi_phy_i2c_write(hdmi, params->cksymtxctrl,
-> > > +                             TH1520_HDMI_PHY_CKSYMTXCTRL);
-> > > +       dw_hdmi_phy_i2c_write(hdmi, params->txterm,
-> > > +                             TH1520_HDMI_PHY_TXTERM);
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +
-> > > +static int th1520_dw_hdmi_probe(struct platform_device *pdev)
-> > > +{
-> > > +       struct th1520_hdmi *hdmi;
-> > > +       struct dw_hdmi_plat_data *plat_data;
-> > > +       struct device *dev = &pdev->dev;
-> > > +
-> > > +       hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
-> > > +       if (!hdmi)
-> > > +               return -ENOMEM;
-> > > +
-> > > +       plat_data = &hdmi->plat_data;
-> > > +
-> > > +       hdmi->pixclk = devm_clk_get_enabled(dev, "pix");
-> > > +       if (IS_ERR(hdmi->pixclk))
-> > > +               return dev_err_probe(dev, PTR_ERR(hdmi->pixclk),
-> > > +                                    "Unable to get pixel
-> > > clock\n");
-> > > +
-> > > +       hdmi->mainrst =
-> > > devm_reset_control_get_exclusive_deasserted(dev, "main");
-> > > +       if (IS_ERR(hdmi->mainrst))
-> > > +               return dev_err_probe(dev, PTR_ERR(hdmi->mainrst),
-> > > +                                    "Unable to get main reset\n");
-> > > +
-> > > +       hdmi->prst =
-> > > devm_reset_control_get_exclusive_deasserted(dev, "apb");
-> > > +       if (IS_ERR(hdmi->prst))
-> > > +               return dev_err_probe(dev, PTR_ERR(hdmi->prst),
-> > > +                                    "Unable to get apb reset\n");
-> > > +
-> > > +       plat_data->output_port = 1;
-> > > +       plat_data->mode_valid = th1520_hdmi_mode_valid;
-> > > +       plat_data->configure_phy = th1520_hdmi_phy_configure;
-> > > +       plat_data->priv_data = hdmi;
-> > > +
-> > > +       hdmi->dw_hdmi = dw_hdmi_probe(pdev, plat_data);
-> > > +       if (IS_ERR(hdmi))
-> > > +               return PTR_ERR(hdmi);
-> > > +
-> > > +       platform_set_drvdata(pdev, hdmi);
-> > > +
-> > > +       return 0;
-> > > +}
-> > > +
-> > > +static void th1520_dw_hdmi_remove(struct platform_device *pdev)
-> > > +{
-> > > +       struct dw_hdmi *hdmi = platform_get_drvdata(pdev);
-> > > +
-> > > +       dw_hdmi_remove(hdmi);
-> > > +}
-> > > +
-> > > +static const struct of_device_id th1520_dw_hdmi_of_table[] = {
-> > > +       { .compatible = "thead,th1520-dw-hdmi" },
-> > > +       { /* Sentinel */ },
-> > > +};
-> > > +MODULE_DEVICE_TABLE(of, th1520_dw_hdmi_of_table);
-> > > +
-> > > +static struct platform_driver th1520_dw_hdmi_platform_driver = {
-> > > +       .probe          = th1520_dw_hdmi_probe,
-> > > +       .remove         = th1520_dw_hdmi_remove,
-> > > +       .driver         = {
-> > > +               .name   = "th1520-dw-hdmi",
-> > > +               .of_match_table = th1520_dw_hdmi_of_table,
-> > > +       },
-> > > +};
-> > > +
-> > > +module_platform_driver(th1520_dw_hdmi_platform_driver);
-> > > +
-> > > +MODULE_AUTHOR("Icenowy Zheng <uwu@icenowy.me>");
-> > > +MODULE_DESCRIPTION("T-Head TH1520 HDMI Encoder Driver");
-> > > +MODULE_LICENSE("GPL");
-> > > -- 
-> > > 2.50.1
-> > > 
-> > 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
