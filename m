@@ -2,55 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27601B29BFE
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 10:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB95B2AC5C
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 17:16:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6073410E3E6;
-	Mon, 18 Aug 2025 08:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B54D10E480;
+	Mon, 18 Aug 2025 15:16:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MpHYspAz";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="m6alafy7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E20810E3F7;
- Mon, 18 Aug 2025 08:24:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 674415C5B0E;
- Mon, 18 Aug 2025 08:24:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07D0CC4CEEB;
- Mon, 18 Aug 2025 08:24:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755505446;
- bh=oHe8L6AJ1HN36OrIi1UFNdMX8VNWXSRddHimq5CZjsQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MpHYspAzfcqUFGH9LU2mLKVPXtjQbW+njzf0JVMQ+IFJrXikO/Jkn8jcUWtD7SZjT
- xy1d4rUPAvp/ahldzFLNaLepm0HHfpgp+S01zniBRz9sxgnsX8KF4M8lelArs9G70n
- OcqZ8sEoJy0psmJbYv1vOvVzR7Vf/oKhXvrQrbrpkTsIkPfj/NQGAKS2HCukxYeoxk
- bibNys36behl8ImQvodAXJ3fbwL8MJWlJoKyxYd3UGaS2G++aJb1ZhatS4TO7HsnJ0
- ivrgiCPtKTEs9pfHj4X9DZQna25troV18QONGEBbYUkDBKZR73lbWy2N7Oc9bBW5NF
- cFGWCEMRBXKcg==
-Message-ID: <cce242b2-dd21-446f-80f9-7f501aa15725@kernel.org>
-Date: Mon, 18 Aug 2025 10:24:02 +0200
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 628B110E1BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 08:40:39 +0000 (UTC)
+X-UUID: 00bbb25a7c0f11f08729452bf625a8b4-20250818
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=zTc9ILZszspIergQBlX6+NhSE6Fs5a72JurzfDZwPEA=; 
+ b=m6alafy7KwEt+jurtbsy7hDyb/+QEIfB7gYhJzobDe1UYJ0JtwAaqbjrY8E53yz09COZVIG9vOC/VWD2KgVbR9AEk/LMly+HbYl+Zhqs4oydBXUtmnB9VQtO4L0EZCvVXp1Pbv/we2Rhd5x2djYC9g+HHv29KXGBpux01xOAW2U=;
+X-CID-CACHE: Type:Local,Time:202508181634+08,HitQuantity:2
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.3, REQID:9f07d84b-73c4-47e0-95b9-c696bdaa5d14, IP:0,
+ UR
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:f1326cf, CLOUDID:900b0bf4-66cd-4ff9-9728-6a6f64661009,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:-3,IP:
+ nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
+ ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 00bbb25a7c0f11f08729452bf625a8b4-20250818
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
+ mailgw01.mediatek.com (envelope-from <payne.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 574988635; Mon, 18 Aug 2025 16:40:32 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Mon, 18 Aug 2025 16:40:31 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Mon, 18 Aug 2025 16:40:31 +0800
+From: payne.lin <payne.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ Bincai Liu <bincai.liu@mediatek.com>, Payne Lin <payne.lin@mediatek.com>
+Subject: [PATCH] gpu: drm: mediatek: correct clk setting
+ AUX_RX_UI_CNT_THR_AUX_FOR_26M
+Date: Mon, 18 Aug 2025 16:40:23 +0800
+Message-ID: <20250818084028.1043856-1-payne.lin@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: build warnings after merge of the drm-misc-fixes tree
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Simona Vetter <simona.vetter@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <seanpaul@chromium.org>, Javier Garcia <rampxxxx@gmail.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20250818123853.51aa3bc4@canb.auug.org.au>
- <aKLAc27XGAadB8n5@archie.me>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <aKLAc27XGAadB8n5@archie.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
+X-Mailman-Approved-At: Mon, 18 Aug 2025 15:16:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,9 +81,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/18/25 7:56 AM, Bagas Sanjaya wrote:
-> Danilo, can you please drop my commit (and kept Javier's one)?
+From: Bincai Liu <bincai.liu@mediatek.com>
 
-I think yours is in drm-msm-fixes, which I don't maintain.
+Updated the definition of AUX_RX_UI_CNT_THR_AUX_FOR_26M from 13 to 14.
+No other code or logic changes were made; only the macro value was modified.
+This change affects the timing configuration for AUX RX at 26MHz.
+The formula is xtal_clk / 2 + 1.
 
-@Rob: Can you drop it please?
+Signed-off-by: Bincai Liu <bincai.liu@mediatek.com>
+Signed-off-by: Payne Lin <payne.lin@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_dp_reg.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp_reg.h b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+index 8ad7a9cc259e..f8c7b3c0935f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp_reg.h
++++ b/drivers/gpu/drm/mediatek/mtk_dp_reg.h
+@@ -301,7 +301,7 @@
+ #define AUX_TIMEOUT_THR_AUX_TX_P0_VAL			0x1595
+ #define MTK_DP_AUX_P0_3614			0x3614
+ #define AUX_RX_UI_CNT_THR_AUX_TX_P0_MASK		GENMASK(6, 0)
+-#define AUX_RX_UI_CNT_THR_AUX_FOR_26M			13
++#define AUX_RX_UI_CNT_THR_AUX_FOR_26M			14
+ #define MTK_DP_AUX_P0_3618			0x3618
+ #define AUX_RX_FIFO_FULL_AUX_TX_P0_MASK			BIT(9)
+ #define AUX_RX_FIFO_WRITE_POINTER_AUX_TX_P0_MASK	GENMASK(3, 0)
+-- 
+2.45.2
+
