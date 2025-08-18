@@ -2,190 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6977B2B1D4
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 21:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7E3B2B1DA
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Aug 2025 21:47:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 880F010E055;
-	Mon, 18 Aug 2025 19:43:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 768C210E07B;
+	Mon, 18 Aug 2025 19:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AbHT5muq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cKPybFRk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 974B510E055
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 19:42:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755546179; x=1787082179;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=hfGhvh9EekHGT0fxNdGwffRPZ0/yavKKhaTN0K6ofAQ=;
- b=AbHT5muqpBOSgZ4/Vra6PSzTihHY7r13/rjIYV1hnRXDWrnLrfZWZ3R7
- KO9wNP+hNA2UlMk8iIlBpWrNW586sf7TYzyPw3jUPI+rSu/4AZfvCD82B
- Jbgdh54ZlZbzYjPz957chNYq2reomKdFi2Ylvdzbsq8hilisvaF6uhN5k
- dTrBQkPd1V+f64aChS7O233TGoZpgnaBpo5RdJF+OzkmYi1HSIP3NUTbY
- GZxplqq5ByIA3Qs3OFQJGD0qV2pSN2cFvXRBzRNxY4RcEAhBrSdGZbath
- xU8R4ANF/aDD5CXymmH0VuQhTm30WckChFsknEz3dxuggLzHJzpruau37 Q==;
-X-CSE-ConnectionGUID: r5i+07FERDC+RsxXdyrzgA==
-X-CSE-MsgGUID: dshho1/5TK2W6bA4IdJz9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="45355051"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; d="scan'208";a="45355051"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2025 12:42:59 -0700
-X-CSE-ConnectionGUID: raskx3JCQeWwcEUrSO52ug==
-X-CSE-MsgGUID: j9tREj2YRc++KnOL7k7PNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; d="scan'208";a="173001742"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2025 12:42:59 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 18 Aug 2025 12:42:58 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Mon, 18 Aug 2025 12:42:58 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.76) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 18 Aug 2025 12:42:58 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AtobQtE4003MchxJvhSC4Tf/xAwtvS9vLnMbggVkLZ8reB+N3fix7njxr83M5qHGjRboL0CGIzYLrlK5FQyCvycKSUvBdhtdruhTJJzfmGzXp0o2lvJTG7BZrZN2zQLC89sWPyatVjBd2Y8VE70GEHPe8F3vlhx7C3AokTxb5bplEQ6YuOwnYyC2n60nunwCrdTbrhnQaear1H0mnuVVipgNfY3mmd4f5QLJerR+Zg0WBBYxYF9MCPUXbL6rTLFjiXGAjtFvJsnzs061hp9+Pdp3cLHT5ZXH6Co2Kj5XrrHlaVbzGz9XnkiEUmT/wanZtw8v8rsksPaMKTLn/grj3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ABV+HK79IXjLpZi74xClg2KOgw749DFjpWOQ9ty10ME=;
- b=nFMfHp/A7jBXRX0Nsu5pNpSUHrpjIE+rjCxLWtf6nshQw23JDrQQXKqeSz3op7sZQRva+pRcCJYu/KXFWGkVcyass5e/P9ooz+5LVX16/C/MFIidrzfrVW4oC47S0KzM9CTVueFf760nWKTkKKvLtaDWIL13bnDIaiUa4PiHLx2zL0HM85K2bF5Pe8hQ25Et3cupRMo0tK52cIKF/bibJnuC2QuRbId4UHivnxJjQKC/vhwCULwcjeWLUiqhxjTSDgnOIibCAScnemWGQsqvBh4L3qqcqMCEsihm+hlF8W6SFEkD8/f77ZDPw/lHQ5OGWM7oh6qAueb+O45mEJ7uTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6011.namprd11.prod.outlook.com (2603:10b6:208:372::6)
- by CH3PR11MB8154.namprd11.prod.outlook.com (2603:10b6:610:15f::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Mon, 18 Aug
- 2025 19:42:51 +0000
-Received: from MN0PR11MB6011.namprd11.prod.outlook.com
- ([fe80::bbbc:5368:4433:4267]) by MN0PR11MB6011.namprd11.prod.outlook.com
- ([fe80::bbbc:5368:4433:4267%5]) with mapi id 15.20.9031.023; Mon, 18 Aug 2025
- 19:42:51 +0000
-Message-ID: <90f79bba-bee6-47ea-9881-9ae37eae42e0@intel.com>
-Date: Mon, 18 Aug 2025 21:42:46 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm: Replace the deprecated DRM_* logging macros in
- gem helper files
-To: Athul Raj Kollareth <krathul3152@gmail.com>, <tzimmermann@suse.de>
-CC: <airlied@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel-mentees@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <simona@ffwll.ch>, 
- <skhan@linuxfoundation.org>
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com
+ [209.85.161.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89AAF10E07B
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 19:47:01 +0000 (UTC)
+Received: by mail-oo1-f51.google.com with SMTP id
+ 006d021491bc7-61c0a11d042so332906eaf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 12:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755546420; x=1756151220; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=VQdRQK2xrCJNSgk4rlAaL1KBNDxU098DbOr/3KPziO0=;
+ b=cKPybFRkrCADm1NQkT3wt5JMQQIW7tC95F4oGedOtTk882XZJr7xfUYuHbtjnw4ooD
+ 9GUyQzFTyoimaH0tV8rhfVuSz0K3J+yePASmpeEiFQNlRM0XbprodIrrVwObp10G1v0j
+ Lh46UrNeAfTKcmiRhy0RSg7uRqypE4Bvqg2YYuilj76AnZgQEiD+STI0hKLfEcyjCNSD
+ O+3aVN9ykDZ4b440sQ9osrHF8Nz/n4F7N4RhISDHJEkJcd54C/xBCad0kCf6re/rLMU8
+ spqWIrLvGFv2nyrF4RiA0LNI9V2dUGDRQlkvIGjtfH37F4SsB5SlFH71iirUrvQuQuRu
+ UkOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755546420; x=1756151220;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VQdRQK2xrCJNSgk4rlAaL1KBNDxU098DbOr/3KPziO0=;
+ b=Yhlq0xI3PIO1LDaQMVdLf1SRnp4yR0N4AVHTc79v+WZZXUQMo28MG5ChmYFXQ3+b+O
+ erTJk53zAamLz6yKdeWd3PgF120GK5MPvilCSmJUUx3K+8Q7ewIhSKYDvgk5AjtSzLmG
+ ZAM77fMohDsUv7CxYJj2K2Li+PpxYwqfSrnfgzcwCnu6yYurzm2S/ZuWTV/Fnrb2y2K/
+ E6TiHEc2pHqInBbeo9KY/l7IyKJ0OETuL7r/SUuJ6tMDeoGTglvWWmAQ+qKwI5Vwh0gs
+ x++JGSSItD1s9kqsW26grni2UpailFu4sqnSqhGzUCrxRbFxo4lwzUwsulvRhbj/KqMB
+ tQAw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWms4bB0WgiFiKsmLIZW0MTzAx1s8XfPlUEt8DZJHCJ446TfLKSiM6K+k9lemwwxyYGOQ3Cy8vcCYA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxX2+KpVm67XgRkIorUDFuQTI90uxy+q32W/KCg3V+ugSuUAEXN
+ l38ERRjYn/CFOKgHRTjaVl8A3dfPU/NbWyF5Aan4baKvi8g75SC4NZ5o4LsjEsPRvbCMn9iAU7y
+ 0UAS9Wf2rxT7F52GmEZkUrBXHC+kx/Yk=
+X-Gm-Gg: ASbGncsmBwzToMErOR8Ksl2/YajkBTpVFyGQ/w2HOwkthIHciED3CRfdSQyoU0RFKBj
+ rIrei+rghcucIFXMoQOkVHAvR+thju9VkWarEkM4/zhqj2BQh3p9hT19/sSKW4klbxPQMgHEieD
+ lA8OZqr6hsE0fpYyhfoPHL+KzpJeqjyuq0NkmfrQUWI6bqFOtDbIfgYuwMIuxMEdmRlWzaYy6HQ
+ T4T+qfeJex3eKJUi368jTfvAf3b8W1aEkTWWt4=
+X-Google-Smtp-Source: AGHT+IGmPwDhs/ALH0s3WZ5UWEAII3RrvlSzfAhsrt+GGT0u1+KKTSWuKMp5nMZqHb6V6RwyaSnmvspBexfCuL32MQU=
+X-Received: by 2002:a05:6870:b494:b0:30b:7fd0:893e with SMTP id
+ 586e51a60fabf-3110c2c792fmr74599fac.36.1755546420433; Mon, 18 Aug 2025
+ 12:47:00 -0700 (PDT)
+MIME-Version: 1.0
 References: <f94151b4-893a-4758-a118-153076a20d3c@suse.de>
  <20250818192247.58322-1-krathul3152@gmail.com>
-Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
 In-Reply-To: <20250818192247.58322-1-krathul3152@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR09CA0139.eurprd09.prod.outlook.com
- (2603:10a6:803:12c::23) To MN0PR11MB6011.namprd11.prod.outlook.com
- (2603:10b6:208:372::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6011:EE_|CH3PR11MB8154:EE_
-X-MS-Office365-Filtering-Correlation-Id: c48a0c80-85f2-4c65-3c17-08ddde8f6b00
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|1800799024|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?c0hEemk5dytCTldvdjhGVXFjcVo0NytLeGFpL1lZNXdubXlPYTRKb2VRTXJN?=
- =?utf-8?B?dFpXYVh5ck1ZRmRYTzdYUUlNdTVBdkQ5NUFrNnQzS0ViRnhhaGpnbzV5NmRh?=
- =?utf-8?B?ZTZ1czB1dWd6Y1FrckNZcUZPSitCNXRVWGoyTWsrL1V6V0d4MG4xekpJYXdW?=
- =?utf-8?B?T2diRDQxQUZVZzBKRExad2JydXdSdWxIV3hwbXcxZzg5UzVBamgrTlVqYTR3?=
- =?utf-8?B?SGwrYWVEK0JhcE1ldUdoR0tPZ3kyTnBRb1lOVmtFZlVMei9MWjVkRDVIRUtQ?=
- =?utf-8?B?a1FTRjBFYnZ6K2EvVDczNVpCcitoblR1eEk1TU05d0RJclExd3d1RTN6WUJG?=
- =?utf-8?B?RkhwcEhwdGdMVFBuNDYwL0ZCN3lLVytwVnpDaVVGUUIyKytnZDZnanJRUldU?=
- =?utf-8?B?c3Y2WUltRE10a1QvNElvWHdMZFVqekNwUlNOQmNPUHROVTduZjFoNVA0bEY1?=
- =?utf-8?B?UU1lcjk4c0RtQ2tEakdSMnY4WDh2ZGs3cG5KSHN1YXFzbkhNZHFyS2FiU29J?=
- =?utf-8?B?SHowYTRIRSttOUdYYXE5SDJwY0d1VUdld0ErUTJGdm9MMWRQNVVtNDBrWWVI?=
- =?utf-8?B?K2hGR25rZGl3dkhqM3BEalgvZkZrMWFHWXJiT25pMUJUZnU4NXg3Qy9vZExy?=
- =?utf-8?B?d2hMZDhucXVmZm9pVFRXazBUTldOZ00yNU1XazFKOHRkYlFTUVZLYjdUVlU1?=
- =?utf-8?B?Mmc2TVcySjJsb0NRbCswR3BDNlhlR09aT3JlOUpQS3o2ZzVrazBpSkJVNzlB?=
- =?utf-8?B?RWRlMng4dUM5bGhPTFR4VVVNbWh0UWJEeVpjQVcxVlJsc2w4TVRWR1YvcXFF?=
- =?utf-8?B?M0d3Z0svbmxlUXhEU1Fxajg4S1k3NlZ2eEVqaExtNjVFYk0zZFZzR1NIaEZa?=
- =?utf-8?B?Q3I4UUtaMW1yYjdqb3dWQ21zTUdoc3IzSHBuc1lQNkpPL2xmOVRFTUVidGF0?=
- =?utf-8?B?cUFwSFova2pRYU81Q3JGZjdNbjJkd0pNVVVaTzJoZkgxQTRoVUxQWUFwZzM5?=
- =?utf-8?B?cWZCc3BESEQ2ZWF5VGhDdXVWTFhQUzlBN0lrS2hMazBJOWIzWkF5cVRrSkZZ?=
- =?utf-8?B?RzZIWXRKY25iR012bUxDQUF0RHBEc1o3OEc1ZW4yRWRiRzJDbHRDSlo0UW5s?=
- =?utf-8?B?clNvZFJ3Rjg4djVxTXhrYjFocUZ0OW1LWDRwN1BHRXFEbzk1NWZuSm5nWFNC?=
- =?utf-8?B?eE1oSW8xNUVySjloTGJQSFVaN1p2Q08xNVRsN1kzWERzOThKVGdnaHphaVpS?=
- =?utf-8?B?aWluVzVRRDlnd3JKVVYrYUMrL0hITkhmMitPQ01sbVdNT2trRm9oTEpWQUxV?=
- =?utf-8?B?NUlPYm1TZUVXbnExd0FBN2RubWxHVlRGQkxTT2ZybFJ3RVNvL3hCR0RCc0RH?=
- =?utf-8?B?eFJmTDZ5YXlIN3NZdU9nM0RqM044T0lXTGlTNFQzQ1NDUDNkRG9LRnR0RUlQ?=
- =?utf-8?B?WjBMSFJWazFXZzV1dzhnVzlOcVhaMDBGZmNUdTN5b3pTampLZk5MSDNJeEhP?=
- =?utf-8?B?cjRTZ3ZQK0VoOHM0Zmx1OUVoK3hteWFpYmJISVhzYmpDRmsrWHhWcHRwaDBI?=
- =?utf-8?B?Y0ptbzlRSTVhUnpsYnpPZWdKUEN0NmtMR1NxVjJlQXFXL1dwMjg4S2NMK3NC?=
- =?utf-8?B?UVlsRFNHMGFWNGVwZjJrbXVCVXdzdzd5S0o4K3hsaDNESlQrOXVVR3VaYml6?=
- =?utf-8?B?K2hhWlNGVStZeFpqY3h6RURsdm9ITzFkaHRmWUU4bVg2aTE2cUg2YlhIVGxR?=
- =?utf-8?B?VWtKUE52SGJPUUNRYzkzczBnbjJQTWVpUE9mWTlEcUdnK2hsdUhPNzl1a0Fo?=
- =?utf-8?B?SUNuT3BKR1R3YVhjTkVlempzYm9IWUpkcDFhcHdibWRGbGlCK2J2RDNDWHVO?=
- =?utf-8?B?U0tLMUozd3Bhdi8wa3ZvbC9mOURMRStiZUxiNjNMQWtudVE9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6011.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(1800799024)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L3YraDdJb0IrbGZ5alFlRHRCQzc4MG1SQzZpcVpKbUxteFNpNnlRMG5ZTy8v?=
- =?utf-8?B?ZVFZYytDZmdUZlU4cUdRQldCT3NWSnozVFpjYm1VQVVnR0lOZDlNb3lzLzhr?=
- =?utf-8?B?Z0FXQllUeVRtVzEycjl4WXp2Q3dXc3poVmk0UysyM3RVT1Z6ZkRIMEhwSDB1?=
- =?utf-8?B?WUswU1crM1RtM3ZLcWhQd1htUGsrSmlEWWZRU2xDcDlaMjRhQWhrVktzRmJk?=
- =?utf-8?B?NjdvemJYYkxCRUlvVDZDVThrZjJ1aXptWXUxaHN1VDlENWpVT1N2bHRyVWlZ?=
- =?utf-8?B?ZmNJUktYZ3FvRTZRRWZ2Z2w1emoydjREY2NENmttYUsyYTFlSHluZ1pTWm9S?=
- =?utf-8?B?RXpOT3RURzF0U2pTbGxRM09SVjlrUnBYK2c0VXhKMG1ZbHZ1SmlKWFY1NGJv?=
- =?utf-8?B?YSthMmdYbHdzeHVtTEk2MHczNDZjVHViMVdyTmw4OXpaR21EY2VkemJ4THIx?=
- =?utf-8?B?RWdWMFlmdUZkQmxOYXRXeE9waWY5WjVkQ0p6Rzd5ZGNHUVdVS2k5QzN2NjRr?=
- =?utf-8?B?anhoUDUveVNxdVZ3ck9HY3VmV0ducHJ0QTFQV0EwTlpqTEVTck1vcjhVM3lE?=
- =?utf-8?B?ZWloTC95REsycVF4YmcwYVEwWGpmZ3prNGtFaFo2R2pWc1dVaXNjVERvMXU5?=
- =?utf-8?B?Qm9WTDlwOHlhczhSWDhmSktsL1ZkUDd6SkpUcnJIYXI2VGVQK2JTa3kxY0Np?=
- =?utf-8?B?WUtEeWhkTStTWWQrZWR6eHVleldlZUFsYlBWVEtiRmxCUjkzNnorZ0pxN3lq?=
- =?utf-8?B?OWhyc1NzUWRiMlBKSWd2VkxlWmorMHZnQlZ4RWszMVV0S3pJWWlsZFJzTVBO?=
- =?utf-8?B?VEhSUytHNnhleHBCY1AwbS9sakFLTjRZQWNQN0NscVlUY0hvczhKbThmdml5?=
- =?utf-8?B?d3l1Rk42S0xNdDM2NVMxaDlERERXWHdRYlpzM09Nc1ZiWUJwSDV3UE56Rm9h?=
- =?utf-8?B?ZUJTVitLQ0QwZTB3VFJaTGRLZ0NCVkx3WndLQjFkWGUzdmZIalYzeGxnTXFo?=
- =?utf-8?B?SEo5cFpJZjZnT3VmMFFjSlFqWjVyQ0dKWkNqN3EvejY4ZXhReWdYZSsrQjVZ?=
- =?utf-8?B?akp5OXo1SkJwb25aMGQ1MnhXOStnVXVYTlR0dU1LYTNBYlJuZlFaN1I1TW8x?=
- =?utf-8?B?VitRVCtZQ2Y2d25PdEY0MWRhY2RwelpnWVd1SDc5RktjMXlpbk1EbnIyRU52?=
- =?utf-8?B?bWEvMkJBbFZVcGxRNGhXVnloL010Q0t1RzN2RWRScWd2THRaYlBCa0J4UHJY?=
- =?utf-8?B?RldKUExHLzR3S3VxaWhVWVpQZ1l6dkFWckxteVBzM2pFNlJJRC9sSTRBbnE2?=
- =?utf-8?B?YUp0Q0tMVHJoa2tJYnZZaDRhNUdCSVcwWk9vbTRhaFM3QVQvZDhNL1BKN3ZT?=
- =?utf-8?B?TDg5MkpaZVpjWjYveWc3TGEwYU5Na1dkdmo0MHNkbmFlOXZPdStJZHIzM3o1?=
- =?utf-8?B?VWFaRDdERFM0VWxxQTA2WVZJUTlLcEV4WU51NHV3Nmc5em5HYUwzdGpXMDNZ?=
- =?utf-8?B?aGg3MElVZ1JKN3hHeUtseCtJR3ZLU3M5ODRtZGplVHNiSDhMWGF4YXhwUWti?=
- =?utf-8?B?MnNmSE5BQU1sTTBYNlRoLzJwYW1jQVp2Z3k1Q0tQc215Q2E3VTVXSHgxVk1j?=
- =?utf-8?B?ZDJBWFN3Q0d5VmI2YWdvS0pycFBNQ01vdmlsa080dlZHa1ltR09ISUg5Vk9r?=
- =?utf-8?B?NmVTQzNHK05LeUhBOTM1VThyaGoxeUhXZkhZREhaQW1aWnNxTzRoSC83dFFL?=
- =?utf-8?B?Um95d3JKcFJvMncrWGNZWEE2eXZneDV2WVZYQlVYYnRpVjhUc2tjdFhKWTBv?=
- =?utf-8?B?aXdLaEsweXBHUkNud3FjajRRTXRQYnBidW5hTzY1bVVxMlZqQ3JCTFU5dlh5?=
- =?utf-8?B?TDVOb2dib2tRZUZLK1MyTUJ3UzZKZ2g2bFkvOEZsc3RDVnZOTGxQczZGeVl0?=
- =?utf-8?B?cktnTVNBMHhHckNlN1JiUzRCc1JnWlJEOTFDT2NZR05Tb3RYRWVzYnhhMHcz?=
- =?utf-8?B?RVh5Sk9oZHhrL1dzTHVJa0ExdHlTS1dzT2F5ampTR21zeldoTysxN3hkTnU0?=
- =?utf-8?B?bkVYYk9YTDUwaVVmWVVxWnBZUUZsZG9wLzdHOVhzRVJiazRZOHJnS2ZVam1o?=
- =?utf-8?B?eC96TWVTYlpzTTV4ZnZMTTJrU0ZuME1SV1ZxWTF4UjlLVGdiQVFnTTM0dUlX?=
- =?utf-8?B?Ymc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c48a0c80-85f2-4c65-3c17-08ddde8f6b00
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6011.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2025 19:42:51.5611 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hwcoA6cDgAtrf1gu5d8V5182bALOs4NVnj5/hG/tlx5wnBfvLnHPjfurdr8T6pn/MaXBTh/rQjLpb1zJx7pc7Dad7FFkLSmWRbJcMVI0J2s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8154
-X-OriginatorOrg: intel.com
+From: Athul Raj K <krathul3152@gmail.com>
+Date: Tue, 19 Aug 2025 01:16:48 +0530
+X-Gm-Features: Ac12FXyAwGVkIIs9xFCJcRBza2SPyqtD2bM4zjcoqiohAK4LVjwZszVoWlZ2vUA
+Message-ID: <CAPZGEKyhn1LLZQ7z04_u6pjTf9Uqy+ycH4t7xYMRe5dDR9Vg2Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: Replace the deprecated DRM_* logging macros in
+ gem helper files
+To: tzimmermann@suse.de
+Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch, 
+ skhan@linuxfoundation.org
+Content-Type: multipart/alternative; boundary="000000000000c6d874063ca9005b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -201,12 +86,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--000000000000c6d874063ca9005b
+Content-Type: text/plain; charset="UTF-8"
+
+> @@ -858,7 +860,7 @@ long drm_gem_dma_resv_wait(struct drm_file *filep,
+u32 handle,
+>
+>         obj = drm_gem_object_lookup(filep, handle);
+>         if (!obj) {
+> -               DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
+> +               drm_dbg_core(NULL, "Failed to look up GEM BO %d\n",
+handle);
+>                 return -EINVAL;
+>        }
+I missed this in the initial patch. Not sure if I should replace the NULL
+with dev here by changing the function to accept dev from the caller.
+I guess it will require changes to be made to the lima driver [1], Its not
+a lot though.
 
 
-On 8/18/2025 9:20 PM, Athul Raj Kollareth wrote:
-> Replace the DRM_* logging macros used in gem helper files with the appropriate
+[1] https://elixir.bootlin.com/linux/v6.17-rc1/A/ident/lima_gem_wait
+
+On Tue, 19 Aug 2025 at 00:53, Athul Raj Kollareth <krathul3152@gmail.com>
+wrote:
+
+> Replace the DRM_* logging macros used in gem helper files with the
+> appropriate
 > ones specified in /include/drm/drm_print.h.
-> 
+>
 > Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
 > ---
 > Changes in v2:
@@ -221,136 +128,151 @@ On 8/18/2025 9:20 PM, Athul Raj Kollareth wrote:
 >  drivers/gpu/drm/vc4/vc4_gem.c           |  2 +-
 >  include/drm/drm_gem.h                   |  5 +++--
 >  7 files changed, 16 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+>
+> diff --git a/drivers/accel/rocket/rocket_job.c
+> b/drivers/accel/rocket/rocket_job.c
 > index 5d4afd692306..db7c50c9ab90 100644
 > --- a/drivers/accel/rocket/rocket_job.c
 > +++ b/drivers/accel/rocket/rocket_job.c
-> @@ -560,14 +560,14 @@ static int rocket_ioctl_submit_job(struct drm_device *dev, struct drm_file *file
->  	if (ret)
->  		goto out_cleanup_job;
->  
-> -	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->in_bo_handles),
-> +	ret = drm_gem_objects_lookup(dev, file, u64_to_user_ptr(job->in_bo_handles),
->  				     job->in_bo_handle_count, &rjob->in_bos);
->  	if (ret)
->  		goto out_cleanup_job;
->  
->  	rjob->in_bo_count = job->in_bo_handle_count;
->  
-> -	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->out_bo_handles),
-> +	ret = drm_gem_objects_lookup(dev, file, u64_to_user_ptr(job->out_bo_handles),
->  				     job->out_bo_handle_count, &rjob->out_bos);
->  	if (ret)
->  		goto out_cleanup_job;
+> @@ -560,14 +560,14 @@ static int rocket_ioctl_submit_job(struct drm_device
+> *dev, struct drm_file *file
+>         if (ret)
+>                 goto out_cleanup_job;
+>
+> -       ret = drm_gem_objects_lookup(file,
+> u64_to_user_ptr(job->in_bo_handles),
+> +       ret = drm_gem_objects_lookup(dev, file,
+> u64_to_user_ptr(job->in_bo_handles),
+>                                      job->in_bo_handle_count,
+> &rjob->in_bos);
+>         if (ret)
+>                 goto out_cleanup_job;
+>
+>         rjob->in_bo_count = job->in_bo_handle_count;
+>
+> -       ret = drm_gem_objects_lookup(file,
+> u64_to_user_ptr(job->out_bo_handles),
+> +       ret = drm_gem_objects_lookup(dev, file,
+> u64_to_user_ptr(job->out_bo_handles),
+>                                      job->out_bo_handle_count,
+> &rjob->out_bos);
+>         if (ret)
+>                 goto out_cleanup_job;
 > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
 > index 4a89b6acb6af..ee1e5ded6dd6 100644
 > --- a/drivers/gpu/drm/drm_gem.c
 > +++ b/drivers/gpu/drm/drm_gem.c
 > @@ -102,7 +102,7 @@ drm_gem_init(struct drm_device *dev)
->  	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
->  					  GFP_KERNEL);
->  	if (!vma_offset_manager) {
-> -		DRM_ERROR("out of memory\n");
-> +		drm_err(dev, "out of memory\n");
->  		return -ENOMEM;
->  	}
->  
-> @@ -764,6 +764,7 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
->  
+>         vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
+>                                           GFP_KERNEL);
+>         if (!vma_offset_manager) {
+> -               DRM_ERROR("out of memory\n");
+> +               drm_err(dev, "out of memory\n");
+>                 return -ENOMEM;
+>         }
+>
+> @@ -764,6 +764,7 @@ static int objects_lookup(struct drm_file *filp, u32
+> *handle, int count,
+>
 >  /**
 >   * drm_gem_objects_lookup - look up GEM objects from an array of handles
 > + * @dev: corresponding drm_device
 >   * @filp: DRM file private date
 >   * @bo_handles: user pointer to array of userspace handle
 >   * @count: size of handle array
-> @@ -780,8 +781,9 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
+> @@ -780,8 +781,9 @@ static int objects_lookup(struct drm_file *filp, u32
+> *handle, int count,
 >   * failure. 0 is returned on success.
 >   *
 >   */
 > -int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
-> -			   int count, struct drm_gem_object ***objs_out)
+> -                          int count, struct drm_gem_object ***objs_out)
 > +int drm_gem_objects_lookup(struct drm_device *dev, struct drm_file *filp,
-> +			   void __user *bo_handles, int count,
-> +			   struct drm_gem_object ***objs_out)
+> +                          void __user *bo_handles, int count,
+> +                          struct drm_gem_object ***objs_out)
 >  {
-
-can't we just use:
-
-	struct drm_device *dev = filp->minor->dev;
-
->  	int ret;
->  	u32 *handles;
-> @@ -805,7 +807,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
->  
->  	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
->  		ret = -EFAULT;
-> -		DRM_DEBUG("Failed to copy in GEM handles\n");
-> +		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
->  		goto out;
->  	}
->  
-> @@ -858,7 +860,7 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
->  
->  	obj = drm_gem_object_lookup(filep, handle);
->  	if (!obj) {
-> -		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
-> +		drm_dbg_core(NULL, "Failed to look up GEM BO %d\n", handle);
->  		return -EINVAL;
->  	}
->  
-> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+>         int ret;
+>         u32 *handles;
+> @@ -805,7 +807,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void
+> __user *bo_handles,
+>
+>         if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
+>                 ret = -EFAULT;
+> -               DRM_DEBUG("Failed to copy in GEM handles\n");
+> +               drm_dbg_core(dev, "Failed to copy in GEM handles\n");
+>                 goto out;
+>         }
+>
+> @@ -858,7 +860,7 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32
+> handle,
+>
+>         obj = drm_gem_object_lookup(filep, handle);
+>         if (!obj) {
+> -               DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
+> +               drm_dbg_core(NULL, "Failed to look up GEM BO %d\n",
+> handle);
+>                 return -EINVAL;
+>         }
+>
+> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c
+> b/drivers/gpu/drm/drm_gem_dma_helper.c
 > index 4f0320df858f..a507cf517015 100644
 > --- a/drivers/gpu/drm/drm_gem_dma_helper.c
 > +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
-> @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
->  
->  	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
->  	if (ret) {
-> -		DRM_ERROR("Failed to vmap PRIME buffer\n");
-> +		drm_err(dev, "Failed to vmap PRIME buffer\n");
->  		return ERR_PTR(ret);
->  	}
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct
+> drm_device *dev,
+>
+>         ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
+>         if (ret) {
+> -               DRM_ERROR("Failed to vmap PRIME buffer\n");
+> +               drm_err(dev, "Failed to vmap PRIME buffer\n");
+>                 return ERR_PTR(ret);
+>         }
+>
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> b/drivers/gpu/drm/panfrost/panfrost_drv.c
 > index 1ea6c509a5d5..3ffd9d5a9056 100644
 > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
 > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
 > @@ -188,7 +188,7 @@ panfrost_lookup_bos(struct drm_device *dev,
->  	if (!job->bo_count)
->  		return 0;
->  
-> -	ret = drm_gem_objects_lookup(file_priv,
-> +	ret = drm_gem_objects_lookup(dev, file_priv,
->  				     (void __user *)(uintptr_t)args->bo_handles,
->  				     job->bo_count, &job->bos);
->  	if (ret)
-> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
+>         if (!job->bo_count)
+>                 return 0;
+>
+> -       ret = drm_gem_objects_lookup(file_priv,
+> +       ret = drm_gem_objects_lookup(dev, file_priv,
+>                                      (void __user
+> *)(uintptr_t)args->bo_handles,
+>                                      job->bo_count, &job->bos);
+>         if (ret)
+> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c
+> b/drivers/gpu/drm/v3d/v3d_submit.c
 > index 5171ffe9012d..a3ac8e6a4a72 100644
 > --- a/drivers/gpu/drm/v3d/v3d_submit.c
 > +++ b/drivers/gpu/drm/v3d/v3d_submit.c
 > @@ -79,7 +79,7 @@ v3d_lookup_bos(struct drm_device *dev,
->  		return -EINVAL;
->  	}
->  
-> -	return drm_gem_objects_lookup(file_priv,
-> +	return drm_gem_objects_lookup(dev, file_priv,
->  				      (void __user *)(uintptr_t)bo_handles,
->  				      job->bo_count, &job->bo);
+>                 return -EINVAL;
+>         }
+>
+> -       return drm_gem_objects_lookup(file_priv,
+> +       return drm_gem_objects_lookup(dev, file_priv,
+>                                       (void __user *)(uintptr_t)bo_handles,
+>                                       job->bo_count, &job->bo);
 >  }
 > diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
 > index 255e5817618e..6ce65611231b 100644
 > --- a/drivers/gpu/drm/vc4/vc4_gem.c
 > +++ b/drivers/gpu/drm/vc4/vc4_gem.c
 > @@ -692,7 +692,7 @@ vc4_cl_lookup_bos(struct drm_device *dev,
->  		return -EINVAL;
->  	}
->  
-> -	ret = drm_gem_objects_lookup(file_priv, u64_to_user_ptr(args->bo_handles),
-> +	ret = drm_gem_objects_lookup(dev, file_priv, u64_to_user_ptr(args->bo_handles),
->  				     exec->bo_count, &exec->bo);
->  
->  	if (ret)
+>                 return -EINVAL;
+>         }
+>
+> -       ret = drm_gem_objects_lookup(file_priv,
+> u64_to_user_ptr(args->bo_handles),
+> +       ret = drm_gem_objects_lookup(dev, file_priv,
+> u64_to_user_ptr(args->bo_handles),
+>                                      exec->bo_count, &exec->bo);
+>
+>         if (ret)
 > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
 > index d3a7b43e2c63..03cb03f46524 100644
 > --- a/include/drm/drm_gem.h
@@ -358,13 +280,283 @@ can't we just use:
 > @@ -544,8 +544,9 @@ void drm_gem_unlock(struct drm_gem_object *obj);
 >  int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
 >  void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
->  
+>
 > -int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
-> -			   int count, struct drm_gem_object ***objs_out);
+> -                          int count, struct drm_gem_object ***objs_out);
 > +int drm_gem_objects_lookup(struct drm_device *dev, struct drm_file *filp,
-> +			   void __user *bo_handles, int count,
-> +			   struct drm_gem_object ***objs_out);
->  struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
+> +                          void __user *bo_handles, int count,
+> +                          struct drm_gem_object ***objs_out);
+>  struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32
+> handle);
 >  long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
->  				    bool wait_all, unsigned long timeout);
+>                                     bool wait_all, unsigned long timeout);
+> --
+> 2.50.1
+>
+>
 
+--000000000000c6d874063ca9005b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>&gt; @@ -858,7 +860,7 @@ long drm_gem_dma_resv_wait(s=
+truct drm_file *filep, u32 handle,<br>&gt;=C2=A0<br>&gt;=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0obj =3D drm_gem_object_lookup(filep, handle);<br>&gt;=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!obj) {<br>&gt; -=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_DEBUG(&quot;Failed to look up GEM BO =
+%d\n&quot;, handle);<br>&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0drm_dbg_core(NULL, &quot;Failed to look up GEM BO %d\n&quot;, han=
+dle);<br>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+return -EINVAL;<br>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br></div>I missed this=
+ in the initial patch. Not sure if I should replace the NULL with dev here =
+by changing the function to accept dev from the caller.<br>I guess it will =
+require changes to be made to the lima driver [1], Its not a lot though.<br=
+><br><br><div>[1]=C2=A0<a href=3D"https://elixir.bootlin.com/linux/v6.17-rc=
+1/A/ident/lima_gem_wait">https://elixir.bootlin.com/linux/v6.17-rc1/A/ident=
+/lima_gem_wait</a></div></div><br><div class=3D"gmail_quote gmail_quote_con=
+tainer"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 19 Aug 2025 at 00:53,=
+ Athul Raj Kollareth &lt;<a href=3D"mailto:krathul3152@gmail.com">krathul31=
+52@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">Replace the DRM_* logging macros used in gem helper files with =
+the appropriate<br>
+ones specified in /include/drm/drm_print.h.<br>
+<br>
+Signed-off-by: Athul Raj Kollareth &lt;<a href=3D"mailto:krathul3152@gmail.=
+com" target=3D"_blank">krathul3152@gmail.com</a>&gt;<br>
+---<br>
+Changes in v2:<br>
+=C2=A0 =C2=A0 - Change drm_gem_objects_lookup() to take a drm_device* argum=
+ent.<br>
+=C2=A0 =C2=A0 - Make appropriate changes to all calls of drm_gem_objects_lo=
+okup().<br>
+---<br>
+=C2=A0drivers/accel/rocket/rocket_job.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4=
+ ++--<br>
+=C2=A0drivers/gpu/drm/drm_gem.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 12 +++++++-----<br>
+=C2=A0drivers/gpu/drm/drm_gem_dma_helper.c=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0drivers/gpu/drm/panfrost/panfrost_drv.c |=C2=A0 2 +-<br>
+=C2=A0drivers/gpu/drm/v3d/v3d_submit.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2=
+ +-<br>
+=C2=A0drivers/gpu/drm/vc4/vc4_gem.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 2 +-<br>
+=C2=A0include/drm/drm_gem.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +++--<br>
+=C2=A07 files changed, 16 insertions(+), 13 deletions(-)<br>
+<br>
+diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocke=
+t_job.c<br>
+index 5d4afd692306..db7c50c9ab90 100644<br>
+--- a/drivers/accel/rocket/rocket_job.c<br>
++++ b/drivers/accel/rocket/rocket_job.c<br>
+@@ -560,14 +560,14 @@ static int rocket_ioctl_submit_job(struct drm_device =
+*dev, struct drm_file *file<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out_cleanup_jo=
+b;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_gem_objects_lookup(file, u64_to_use=
+r_ptr(job-&gt;in_bo_handles),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_gem_objects_lookup(dev, file, u64_t=
+o_user_ptr(job-&gt;in_bo_handles),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0job-&gt;in_bo_ha=
+ndle_count, &amp;rjob-&gt;in_bos);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out_cleanup_jo=
+b;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rjob-&gt;in_bo_count =3D job-&gt;in_bo_handle_c=
+ount;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_gem_objects_lookup(file, u64_to_use=
+r_ptr(job-&gt;out_bo_handles),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_gem_objects_lookup(dev, file, u64_t=
+o_user_ptr(job-&gt;out_bo_handles),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0job-&gt;out_bo_h=
+andle_count, &amp;rjob-&gt;out_bos);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out_cleanup_jo=
+b;<br>
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c<br>
+index 4a89b6acb6af..ee1e5ded6dd6 100644<br>
+--- a/drivers/gpu/drm/drm_gem.c<br>
++++ b/drivers/gpu/drm/drm_gem.c<br>
+@@ -102,7 +102,7 @@ drm_gem_init(struct drm_device *dev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vma_offset_manager =3D drmm_kzalloc(dev, sizeof=
+(*vma_offset_manager),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 G=
+FP_KERNEL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!vma_offset_manager) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;out=
+ of memory\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dev, &quot;=
+out of memory\n&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -ENOMEM;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+@@ -764,6 +764,7 @@ static int objects_lookup(struct drm_file *filp, u32 *h=
+andle, int count,<br>
+<br>
+=C2=A0/**<br>
+=C2=A0 * drm_gem_objects_lookup - look up GEM objects from an array of hand=
+les<br>
++ * @dev: corresponding drm_device<br>
+=C2=A0 * @filp: DRM file private date<br>
+=C2=A0 * @bo_handles: user pointer to array of userspace handle<br>
+=C2=A0 * @count: size of handle array<br>
+@@ -780,8 +781,9 @@ static int objects_lookup(struct drm_file *filp, u32 *h=
+andle, int count,<br>
+=C2=A0 * failure. 0 is returned on success.<br>
+=C2=A0 *<br>
+=C2=A0 */<br>
+-int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 int count, struct drm_gem_object ***objs_out)<br>
++int drm_gem_objects_lookup(struct drm_device *dev, struct drm_file *filp,<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 void __user *bo_handles, int count,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 struct drm_gem_object ***objs_out)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int ret;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 u32 *handles;<br>
+@@ -805,7 +807,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void =
+__user *bo_handles,<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (copy_from_user(handles, bo_handles, count *=
+ sizeof(u32))) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D -EFAULT;<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_DEBUG(&quot;Fai=
+led to copy in GEM handles\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_dbg_core(dev, &=
+quot;Failed to copy in GEM handles\n&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+@@ -858,7 +860,7 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 =
+handle,<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 obj =3D drm_gem_object_lookup(filep, handle);<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!obj) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_DEBUG(&quot;Fai=
+led to look up GEM BO %d\n&quot;, handle);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_dbg_core(NULL, =
+&quot;Failed to look up GEM BO %d\n&quot;, handle);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem=
+_dma_helper.c<br>
+index 4f0320df858f..a507cf517015 100644<br>
+--- a/drivers/gpu/drm/drm_gem_dma_helper.c<br>
++++ b/drivers/gpu/drm/drm_gem_dma_helper.c<br>
+@@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_devic=
+e *dev,<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D dma_buf_vmap_unlocked(attach-&gt;dmabuf=
+, &amp;map);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DRM_ERROR(&quot;Fai=
+led to vmap PRIME buffer\n&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0drm_err(dev, &quot;=
+Failed to vmap PRIME buffer\n&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ERR_PTR(ret)=
+;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panf=
+rost/panfrost_drv.c<br>
+index 1ea6c509a5d5..3ffd9d5a9056 100644<br>
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c<br>
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c<br>
+@@ -188,7 +188,7 @@ panfrost_lookup_bos(struct drm_device *dev,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!job-&gt;bo_count)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_gem_objects_lookup(file_priv,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_gem_objects_lookup(dev, file_priv,<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(void __user *)(=
+uintptr_t)args-&gt;bo_handles,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0job-&gt;bo_count=
+, &amp;job-&gt;bos);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
+diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_sub=
+mit.c<br>
+index 5171ffe9012d..a3ac8e6a4a72 100644<br>
+--- a/drivers/gpu/drm/v3d/v3d_submit.c<br>
++++ b/drivers/gpu/drm/v3d/v3d_submit.c<br>
+@@ -79,7 +79,7 @@ v3d_lookup_bos(struct drm_device *dev,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return drm_gem_objects_lookup(file_priv,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return drm_gem_objects_lookup(dev, file_priv,<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (void __user *)=
+(uintptr_t)bo_handles,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 job-&gt;bo_coun=
+t, &amp;job-&gt;bo);<br>
+=C2=A0}<br>
+diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c<=
+br>
+index 255e5817618e..6ce65611231b 100644<br>
+--- a/drivers/gpu/drm/vc4/vc4_gem.c<br>
++++ b/drivers/gpu/drm/vc4/vc4_gem.c<br>
+@@ -692,7 +692,7 @@ vc4_cl_lookup_bos(struct drm_device *dev,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINVAL;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_gem_objects_lookup(file_priv, u64_t=
+o_user_ptr(args-&gt;bo_handles),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D drm_gem_objects_lookup(dev, file_priv, =
+u64_to_user_ptr(args-&gt;bo_handles),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec-&gt;bo_coun=
+t, &amp;exec-&gt;bo);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h<br>
+index d3a7b43e2c63..03cb03f46524 100644<br>
+--- a/include/drm/drm_gem.h<br>
++++ b/include/drm/drm_gem.h<br>
+@@ -544,8 +544,9 @@ void drm_gem_unlock(struct drm_gem_object *obj);<br>
+=C2=A0int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);<=
+br>
+=C2=A0void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map=
+);<br>
+<br>
+-int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 int count, struct drm_gem_object ***objs_out);<br>
++int drm_gem_objects_lookup(struct drm_device *dev, struct drm_file *filp,<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 void __user *bo_handles, int count,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 struct drm_gem_object ***objs_out);<br>
+=C2=A0struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u=
+32 handle);<br>
+=C2=A0long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool wait_all, unsigne=
+d long timeout);<br>
+-- <br>
+2.50.1<br>
+<br>
+</blockquote></div>
+
+--000000000000c6d874063ca9005b--
