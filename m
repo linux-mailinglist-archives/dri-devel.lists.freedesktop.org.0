@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0BBB2C8CE
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 17:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D9FB2C966
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 18:22:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F3D10E632;
-	Tue, 19 Aug 2025 15:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7618E10E641;
+	Tue, 19 Aug 2025 16:22:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="T9Ey/ucE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GHib9DjB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F6FC10E634;
- Tue, 19 Aug 2025 15:53:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A662810E1FA;
+ Tue, 19 Aug 2025 16:22:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755618834; x=1787154834;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ox7X3c0cLdJlQ+B+2L2wuJIazZXIVv+szjOL40pV0yA=;
- b=T9Ey/ucEE3f51G2wF18wbnMr5fMkqSy+pbmrSHE15vFS5T14ADA7i47A
- 1FrviQSXUVujl46BYMQr86ZGsc5nTTwMyrY7pV3CxCl3ShpKyFB02Bdhe
- AXM3y5THCNHlZmhi7DzD/ctkKV2P3GZaLdal9XUD5lAOLLG5rXNqGZkwv
- cCaR3r1wAI5BosV9xykn7XqhS0xDK5rR8Ty9ykkN0BNzLtlRR8bzPRyfZ
- eFP8Sv6dQubPTuz3ZgWXt1Yixk4Wwr3PUQq5f131E0x7yoqoxyXRPp8CL
- wIYlIqjvGTx7QpgW2+Dy3GNY6Jzslpa7faL1hdNrIqrNnbfXkb6+c8u9G g==;
-X-CSE-ConnectionGUID: IsrT2yKKS/Oww+yZNKsHkw==
-X-CSE-MsgGUID: CC9sJy8lQoS6INB6zx9X7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="58015724"
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="58015724"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2025 08:53:54 -0700
-X-CSE-ConnectionGUID: o8qhoAoJTTCvHgmLHe66Jg==
-X-CSE-MsgGUID: LdDrvwujSe6rlM4RHhlAlQ==
+ t=1755620542; x=1787156542;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=W5BXlbdL6VMt9fy51GQ8P4Eh8jE43eeq4m0X4bsoFVk=;
+ b=GHib9DjBJp6vJDDrh8UTl313YE1glh1dQ+sVhVmFjvrydx5PpOYGcrlK
+ chhJROyMBjt9b7kAO2q1T3mftxWawLh/1ysd9mVvWMv87VbJMeJ3KH1FB
+ S4ReA/bZ12htap3I1Ku3axfYIl24CFhkBsFREcl2GNfaTVYd/Nns8LuRn
+ RP6Ha3Opy3SgfPxX25W5XkEOc3RSfpznSQmKz0VrD74Bg0mCCHuUfeOzP
+ KvgdoXeAcdBw2LERAclxM5jcT9RqgvvsOvruBM/6QzUsoHWdWpu+UoxFg
+ 6h0LxtsHLU7lQ+9+0mObDqUJycg4GF18AkA50QBvQ135G4MTFYY1z5oIY Q==;
+X-CSE-ConnectionGUID: biOxvtDzTdinLU52NnluXw==
+X-CSE-MsgGUID: mpqTsHliReGUAi5TT3IAIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57784061"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="57784061"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2025 09:22:21 -0700
+X-CSE-ConnectionGUID: KRj5XQo4TCqnKLwiAeRdFQ==
+X-CSE-MsgGUID: L0XRhVf3RUKqK362RJBLlw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="167503929"
-Received: from himal-super-server.iind.intel.com ([10.190.239.34])
- by orviesa009.jf.intel.com with ESMTP; 19 Aug 2025 08:53:53 -0700
-From: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: [PATCH 4/4] drm/gpusvm: Make drm_gpusvm_for_each_* macros public
-Date: Tue, 19 Aug 2025 21:50:58 +0530
-Message-Id: <20250819162058.2777306-5-himal.prasad.ghimiray@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250819162058.2777306-1-himal.prasad.ghimiray@intel.com>
-References: <20250819162058.2777306-1-himal.prasad.ghimiray@intel.com>
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="172326288"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO [10.245.244.175])
+ ([10.245.244.175])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2025 09:22:14 -0700
+Message-ID: <a781f7781a9bf510c3707a5c9a235e1dab785617.camel@linux.intel.com>
+Subject: Re: [RFC 3/3] drm/xe: Add DRM_XE_GEM_CREATE_FLAG_PINNED flag and
+ implementation
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Maarten Lankhorst <dev@lankhorst.se>, Lucas De Marchi	
+ <lucas.demarchi@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, David
+ Airlie	 <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maxime Ripard
+ <mripard@kernel.org>, Natalie Vock <natalie.vock@gmx.de>, Tejun Heo	
+ <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 'Michal
+ =?ISO-8859-1?Q?Koutn=FD=27?=	 <mkoutny@suse.com>, Michal Hocko
+ <mhocko@kernel.org>, Roman Gushchin	 <roman.gushchin@linux.dev>, Shakeel
+ Butt <shakeel.butt@linux.dev>, Muchun Song	 <muchun.song@linux.dev>, Andrew
+ Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "'Liam R . Howlett'"	
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport	
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Thomas
+ Zimmermann	 <tzimmermann@suse.de>
+Cc: Michal Hocko <mhocko@suse.com>, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ cgroups@vger.kernel.org, linux-mm@kvack.org
+Date: Tue, 19 Aug 2025 18:22:12 +0200
+In-Reply-To: <20250819114932.597600-8-dev@lankhorst.se>
+References: <20250819114932.597600-5-dev@lankhorst.se>
+ <20250819114932.597600-8-dev@lankhorst.se>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,285 +86,286 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_gpusvm_for_each_notifier, drm_gpusvm_for_each_notifier_safe and
-drm_gpusvm_for_each_range_safe macros are useful for locating notifiers
-and ranges within a user-specified range. By making these macros public,
-we enable broader access and utility for developers who need to leverage
-them in their implementations.
+Hi, Maarten,
 
-v2 (Matthew Brost)
-- drop inline __drm_gpusvm_range_find
-- /s/notifier_iter_first/drm_gpusvm_notifier_find
+On Tue, 2025-08-19 at 13:49 +0200, Maarten Lankhorst wrote:
+> Add an option to pin memory through the science of cgroup accounting.
+> A bo will be pinned for its entire lifetime, and this allows buffers
+> that are pinned for dma-buf export without requiring the pinning to
+> be
+> done at the dma-buf layer for all devices.
+>=20
+> For now only implement VRAM pinning. Dave Airlie has a series to
+> implement
+> memcg accounting for the GPU but that is not ready yet.
 
-Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/drm_gpusvm.c | 122 +++++++----------------------------
- include/drm/drm_gpusvm.h     |  70 ++++++++++++++++++++
- 2 files changed, 95 insertions(+), 97 deletions(-)
+Previous discussions around this have favoured a UAPI where we pin a
+gpu-vm range, with a pin at mapping time, or dma-buf pin time where
+required, this allows for dynamic pinning and unpinning, and would
+avoid having separate pinning interfaces for bos and userptr.
 
-diff --git a/drivers/gpu/drm/drm_gpusvm.c b/drivers/gpu/drm/drm_gpusvm.c
-index 661306da6b2d..e2a9a6ae1d54 100644
---- a/drivers/gpu/drm/drm_gpusvm.c
-+++ b/drivers/gpu/drm/drm_gpusvm.c
-@@ -271,107 +271,50 @@ npages_in_range(unsigned long start, unsigned long end)
- }
- 
- /**
-- * drm_gpusvm_range_find() - Find GPU SVM range from GPU SVM notifier
-- * @notifier: Pointer to the GPU SVM notifier structure.
-- * @start: Start address of the range
-- * @end: End address of the range
-+ * drm_gpusvm_notifier_find() - Find GPU SVM notifier from GPU SVM
-+ * @gpusvm: Pointer to the GPU SVM structure.
-+ * @start: Start address of the notifier
-+ * @end: End address of the notifier
-  *
-- * Return: A pointer to the drm_gpusvm_range if found or NULL
-+ * Return: A pointer to the drm_gpusvm_notifier if found or NULL
-  */
--struct drm_gpusvm_range *
--drm_gpusvm_range_find(struct drm_gpusvm_notifier *notifier, unsigned long start,
--		      unsigned long end)
-+struct drm_gpusvm_notifier *
-+drm_gpusvm_notifier_find(struct drm_gpusvm *gpusvm, unsigned long start,
-+			 unsigned long end)
- {
- 	struct interval_tree_node *itree;
- 
--	itree = interval_tree_iter_first(&notifier->root, start, end - 1);
-+	itree = interval_tree_iter_first(&gpusvm->root, start, end - 1);
- 
- 	if (itree)
--		return container_of(itree, struct drm_gpusvm_range, itree);
-+		return container_of(itree, struct drm_gpusvm_notifier, itree);
- 	else
- 		return NULL;
- }
--EXPORT_SYMBOL_GPL(drm_gpusvm_range_find);
-+EXPORT_SYMBOL_GPL(drm_gpusvm_notifier_find);
- 
- /**
-- * drm_gpusvm_for_each_range_safe() - Safely iterate over GPU SVM ranges in a notifier
-- * @range__: Iterator variable for the ranges
-- * @next__: Iterator variable for the ranges temporay storage
-- * @notifier__: Pointer to the GPU SVM notifier
-- * @start__: Start address of the range
-- * @end__: End address of the range
-- *
-- * This macro is used to iterate over GPU SVM ranges in a notifier while
-- * removing ranges from it.
-- */
--#define drm_gpusvm_for_each_range_safe(range__, next__, notifier__, start__, end__)	\
--	for ((range__) = drm_gpusvm_range_find((notifier__), (start__), (end__)),	\
--	     (next__) = __drm_gpusvm_range_next(range__);				\
--	     (range__) && (drm_gpusvm_range_start(range__) < (end__));			\
--	     (range__) = (next__), (next__) = __drm_gpusvm_range_next(range__))
--
--/**
-- * __drm_gpusvm_notifier_next() - get the next drm_gpusvm_notifier in the list
-- * @notifier: a pointer to the current drm_gpusvm_notifier
-+ * drm_gpusvm_range_find() - Find GPU SVM range from GPU SVM notifier
-+ * @notifier: Pointer to the GPU SVM notifier structure.
-+ * @start: Start address of the range
-+ * @end: End address of the range
-  *
-- * Return: A pointer to the next drm_gpusvm_notifier if available, or NULL if
-- *         the current notifier is the last one or if the input notifier is
-- *         NULL.
-+ * Return: A pointer to the drm_gpusvm_range if found or NULL
-  */
--static struct drm_gpusvm_notifier *
--__drm_gpusvm_notifier_next(struct drm_gpusvm_notifier *notifier)
--{
--	if (notifier && !list_is_last(&notifier->entry,
--				      &notifier->gpusvm->notifier_list))
--		return list_next_entry(notifier, entry);
--
--	return NULL;
--}
--
--static struct drm_gpusvm_notifier *
--notifier_iter_first(struct rb_root_cached *root, unsigned long start,
--		    unsigned long last)
-+struct drm_gpusvm_range *
-+drm_gpusvm_range_find(struct drm_gpusvm_notifier *notifier, unsigned long start,
-+		      unsigned long end)
- {
- 	struct interval_tree_node *itree;
- 
--	itree = interval_tree_iter_first(root, start, last);
-+	itree = interval_tree_iter_first(&notifier->root, start, end - 1);
- 
- 	if (itree)
--		return container_of(itree, struct drm_gpusvm_notifier, itree);
-+		return container_of(itree, struct drm_gpusvm_range, itree);
- 	else
- 		return NULL;
- }
--
--/**
-- * drm_gpusvm_for_each_notifier() - Iterate over GPU SVM notifiers in a gpusvm
-- * @notifier__: Iterator variable for the notifiers
-- * @notifier__: Pointer to the GPU SVM notifier
-- * @start__: Start address of the notifier
-- * @end__: End address of the notifier
-- *
-- * This macro is used to iterate over GPU SVM notifiers in a gpusvm.
-- */
--#define drm_gpusvm_for_each_notifier(notifier__, gpusvm__, start__, end__)		\
--	for ((notifier__) = notifier_iter_first(&(gpusvm__)->root, (start__), (end__) - 1);	\
--	     (notifier__) && (drm_gpusvm_notifier_start(notifier__) < (end__));		\
--	     (notifier__) = __drm_gpusvm_notifier_next(notifier__))
--
--/**
-- * drm_gpusvm_for_each_notifier_safe() - Safely iterate over GPU SVM notifiers in a gpusvm
-- * @notifier__: Iterator variable for the notifiers
-- * @next__: Iterator variable for the notifiers temporay storage
-- * @notifier__: Pointer to the GPU SVM notifier
-- * @start__: Start address of the notifier
-- * @end__: End address of the notifier
-- *
-- * This macro is used to iterate over GPU SVM notifiers in a gpusvm while
-- * removing notifiers from it.
-- */
--#define drm_gpusvm_for_each_notifier_safe(notifier__, next__, gpusvm__, start__, end__)	\
--	for ((notifier__) = notifier_iter_first(&(gpusvm__)->root, (start__), (end__) - 1),	\
--	     (next__) = __drm_gpusvm_notifier_next(notifier__);				\
--	     (notifier__) && (drm_gpusvm_notifier_start(notifier__) < (end__));		\
--	     (notifier__) = (next__), (next__) = __drm_gpusvm_notifier_next(notifier__))
-+EXPORT_SYMBOL_GPL(drm_gpusvm_range_find);
- 
- /**
-  * drm_gpusvm_notifier_invalidate() - Invalidate a GPU SVM notifier.
-@@ -472,22 +415,6 @@ int drm_gpusvm_init(struct drm_gpusvm *gpusvm,
- }
- EXPORT_SYMBOL_GPL(drm_gpusvm_init);
- 
--/**
-- * drm_gpusvm_notifier_find() - Find GPU SVM notifier
-- * @gpusvm: Pointer to the GPU SVM structure
-- * @fault_addr: Fault address
-- *
-- * This function finds the GPU SVM notifier associated with the fault address.
-- *
-- * Return: Pointer to the GPU SVM notifier on success, NULL otherwise.
-- */
--static struct drm_gpusvm_notifier *
--drm_gpusvm_notifier_find(struct drm_gpusvm *gpusvm,
--			 unsigned long fault_addr)
--{
--	return notifier_iter_first(&gpusvm->root, fault_addr, fault_addr + 1);
--}
--
- /**
-  * to_drm_gpusvm_notifier() - retrieve the container struct for a given rbtree node
-  * @node: a pointer to the rbtree node embedded within a drm_gpusvm_notifier struct
-@@ -943,7 +870,7 @@ drm_gpusvm_range_find_or_insert(struct drm_gpusvm *gpusvm,
- 	if (!mmget_not_zero(mm))
- 		return ERR_PTR(-EFAULT);
- 
--	notifier = drm_gpusvm_notifier_find(gpusvm, fault_addr);
-+	notifier = drm_gpusvm_notifier_find(gpusvm, fault_addr, fault_addr + 1);
- 	if (!notifier) {
- 		notifier = drm_gpusvm_notifier_alloc(gpusvm, fault_addr);
- 		if (IS_ERR(notifier)) {
-@@ -1107,7 +1034,8 @@ void drm_gpusvm_range_remove(struct drm_gpusvm *gpusvm,
- 	drm_gpusvm_driver_lock_held(gpusvm);
- 
- 	notifier = drm_gpusvm_notifier_find(gpusvm,
--					    drm_gpusvm_range_start(range));
-+					    drm_gpusvm_range_start(range),
-+					    drm_gpusvm_range_start(range) + 1);
- 	if (WARN_ON_ONCE(!notifier))
- 		return;
- 
-diff --git a/include/drm/drm_gpusvm.h b/include/drm/drm_gpusvm.h
-index 8d613e9b2690..0e336148309d 100644
---- a/include/drm/drm_gpusvm.h
-+++ b/include/drm/drm_gpusvm.h
-@@ -282,6 +282,10 @@ void drm_gpusvm_range_unmap_pages(struct drm_gpusvm *gpusvm,
- bool drm_gpusvm_has_mapping(struct drm_gpusvm *gpusvm, unsigned long start,
- 			    unsigned long end);
- 
-+struct drm_gpusvm_notifier *
-+drm_gpusvm_notifier_find(struct drm_gpusvm *gpusvm, unsigned long start,
-+			 unsigned long end);
-+
- struct drm_gpusvm_range *
- drm_gpusvm_range_find(struct drm_gpusvm_notifier *notifier, unsigned long start,
- 		      unsigned long end);
-@@ -434,4 +438,70 @@ __drm_gpusvm_range_next(struct drm_gpusvm_range *range)
- 	     (range__) && (drm_gpusvm_range_start(range__) < (end__));	\
- 	     (range__) = __drm_gpusvm_range_next(range__))
- 
-+/**
-+ * drm_gpusvm_for_each_range_safe() - Safely iterate over GPU SVM ranges in a notifier
-+ * @range__: Iterator variable for the ranges
-+ * @next__: Iterator variable for the ranges temporay storage
-+ * @notifier__: Pointer to the GPU SVM notifier
-+ * @start__: Start address of the range
-+ * @end__: End address of the range
-+ *
-+ * This macro is used to iterate over GPU SVM ranges in a notifier while
-+ * removing ranges from it.
-+ */
-+#define drm_gpusvm_for_each_range_safe(range__, next__, notifier__, start__, end__)	\
-+	for ((range__) = drm_gpusvm_range_find((notifier__), (start__), (end__)),	\
-+	     (next__) = __drm_gpusvm_range_next(range__);				\
-+	     (range__) && (drm_gpusvm_range_start(range__) < (end__));			\
-+	     (range__) = (next__), (next__) = __drm_gpusvm_range_next(range__))
-+
-+/**
-+ * __drm_gpusvm_notifier_next() - get the next drm_gpusvm_notifier in the list
-+ * @notifier: a pointer to the current drm_gpusvm_notifier
-+ *
-+ * Return: A pointer to the next drm_gpusvm_notifier if available, or NULL if
-+ *         the current notifier is the last one or if the input notifier is
-+ *         NULL.
-+ */
-+static inline struct drm_gpusvm_notifier *
-+__drm_gpusvm_notifier_next(struct drm_gpusvm_notifier *notifier)
-+{
-+	if (notifier && !list_is_last(&notifier->entry,
-+				      &notifier->gpusvm->notifier_list))
-+		return list_next_entry(notifier, entry);
-+
-+	return NULL;
-+}
-+
-+/**
-+ * drm_gpusvm_for_each_notifier() - Iterate over GPU SVM notifiers in a gpusvm
-+ * @notifier__: Iterator variable for the notifiers
-+ * @gpusvm__: Pointer to the GPU SVM notifier
-+ * @start__: Start address of the notifier
-+ * @end__: End address of the notifier
-+ *
-+ * This macro is used to iterate over GPU SVM notifiers in a gpusvm.
-+ */
-+#define drm_gpusvm_for_each_notifier(notifier__, gpusvm__, start__, end__)		\
-+	for ((notifier__) = drm_gpusvm_notifier_find((gpusvm__), (start__), (end__));	\
-+	     (notifier__) && (drm_gpusvm_notifier_start(notifier__) < (end__));		\
-+	     (notifier__) = __drm_gpusvm_notifier_next(notifier__))
-+
-+/**
-+ * drm_gpusvm_for_each_notifier_safe() - Safely iterate over GPU SVM notifiers in a gpusvm
-+ * @notifier__: Iterator variable for the notifiers
-+ * @next__: Iterator variable for the notifiers temporay storage
-+ * @gpusvm__: Pointer to the GPU SVM notifier
-+ * @start__: Start address of the notifier
-+ * @end__: End address of the notifier
-+ *
-+ * This macro is used to iterate over GPU SVM notifiers in a gpusvm while
-+ * removing notifiers from it.
-+ */
-+#define drm_gpusvm_for_each_notifier_safe(notifier__, next__, gpusvm__, start__, end__)	\
-+	for ((notifier__) = drm_gpusvm_notifier_find((gpusvm__), (start__), (end__)),	\
-+	     (next__) = __drm_gpusvm_notifier_next(notifier__);				\
-+	     (notifier__) && (drm_gpusvm_notifier_start(notifier__) < (end__));		\
-+	     (notifier__) = (next__), (next__) = __drm_gpusvm_notifier_next(notifier__))
-+
- #endif /* __DRM_GPUSVM_H__ */
--- 
-2.34.1
+In particular if we don't know at bo creation time which buffer objects
+will be exported with a method requiring pinning, how would UMD deduce
+what buffer objects to pin?
+
+Thanks,
+Thomas
+
+
+
+>=20
+> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
+> ---
+> =C2=A0drivers/gpu/drm/xe/xe_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 66
+> ++++++++++++++++++++++++++++++++-
+> =C2=A0drivers/gpu/drm/xe/xe_dma_buf.c | 10 ++++-
+> =C2=A0include/uapi/drm/xe_drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 10 =
+++++-
+> =C2=A03 files changed, 82 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index 6fea39842e1e6..4095e6bd04ea9 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -5,6 +5,7 @@
+> =C2=A0
+> =C2=A0#include "xe_bo.h"
+> =C2=A0
+> +#include <linux/cgroup_dmem.h>
+> =C2=A0#include <linux/dma-buf.h>
+> =C2=A0#include <linux/nospec.h>
+> =C2=A0
+> @@ -208,7 +209,8 @@ static bool force_contiguous(u32 bo_flags)
+> =C2=A0	 * must be contiguous, also only contiguous BOs support
+> xe_bo_vmap.
+> =C2=A0	 */
+> =C2=A0	return bo_flags & XE_BO_FLAG_NEEDS_CPU_ACCESS &&
+> -	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo_flags & XE_BO_FLAG_PINNED;
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bo_flags & XE_BO_FLAG_PINNED &&
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !(bo_flags & XE_BO_FLAG_USER);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void add_vram(struct xe_device *xe, struct xe_bo *bo,
+> @@ -1697,6 +1699,16 @@ static void xe_gem_object_free(struct
+> drm_gem_object *obj)
+> =C2=A0	ttm_bo_put(container_of(obj, struct ttm_buffer_object,
+> base));
+> =C2=A0}
+> =C2=A0
+> +static void xe_bo_unpin_user(struct xe_bo *bo)
+> +{
+> +	xe_bo_unpin_external(bo);
+> +
+> +	if (bo->flags & XE_BO_FLAG_SYSTEM)
+> +		WARN_ON(1);
+> +	else
+> +		dmem_cgroup_unpin(bo->ttm.resource->css,
+> xe_bo_size(bo));
+> +}
+> +
+> =C2=A0static void xe_gem_object_close(struct drm_gem_object *obj,
+> =C2=A0				struct drm_file *file_priv)
+> =C2=A0{
+> @@ -1708,6 +1720,10 @@ static void xe_gem_object_close(struct
+> drm_gem_object *obj,
+> =C2=A0		xe_bo_lock(bo, false);
+> =C2=A0		ttm_bo_set_bulk_move(&bo->ttm, NULL);
+> =C2=A0		xe_bo_unlock(bo);
+> +	} else if (bo->flags & XE_BO_FLAG_PINNED) {
+> +		xe_bo_lock(bo, false);
+> +		xe_bo_unpin_user(bo);
+> +		xe_bo_unlock(bo);
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0
+> @@ -2128,8 +2144,27 @@ struct xe_bo *xe_bo_create_user(struct
+> xe_device *xe, struct xe_tile *tile,
+> =C2=A0	struct xe_bo *bo =3D __xe_bo_create_locked(xe, tile, vm, size,
+> 0, ~0ULL,
+> =C2=A0						 cpu_caching,
+> ttm_bo_type_device,
+> =C2=A0						 flags |
+> XE_BO_FLAG_USER, 0);
+> -	if (!IS_ERR(bo))
+> +	if (!IS_ERR(bo)) {
+> +		int ret =3D 0;
+> +
+> +		if (bo->flags & XE_BO_FLAG_PINNED) {
+> +			if (bo->flags & XE_BO_FLAG_SYSTEM) {
+> +				ret =3D -ENOSYS; // TODO
+> +			} else {
+> +				ret =3D dmem_cgroup_try_pin(bo-
+> >ttm.resource->css, size);
+> +			}
+> +			if (!ret)
+> +				ret =3D xe_bo_pin_external(bo);
+> +			else if (ret =3D=3D -EAGAIN)
+> +				ret =3D -ENOSPC;
+> +		}
+> +
+> =C2=A0		xe_bo_unlock_vm_held(bo);
+> +		if (ret) {
+> +			xe_bo_put(bo);
+> +			return ERR_PTR(ret);
+> +		}
+> +	}
+> =C2=A0
+> =C2=A0	return bo;
+> =C2=A0}
+> @@ -2745,6 +2780,28 @@ int xe_gem_create_ioctl(struct drm_device
+> *dev, void *data,
+> =C2=A0			 args->cpu_caching =3D=3D
+> DRM_XE_GEM_CPU_CACHING_WB))
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> +	if (XE_IOCTL_DBG(xe, args->flags &
+> DRM_XE_GEM_CREATE_FLAG_PINNED)) {
+> +		bool pinned_flag =3D true;
+> +		/* Only allow a single placement for pinning */
+> +		if (XE_IOCTL_DBG(xe, pinned_flag && hweight32(args-
+> >placement) !=3D 1))
+> +			return -EINVAL;
+> +
+> +		/* Meant for exporting, do not allow a VM-local BO
+> */
+> +		if (XE_IOCTL_DBG(xe, pinned_flag && args->vm_id))
+> +			return -EINVAL;
+> +
+> +		/* Similarly, force fail at creation time for now.
+> We may relax this requirement later */
+> +		if (XE_IOCTL_DBG(xe, pinned_flag && args->flags &
+> DRM_XE_GEM_CREATE_FLAG_DEFER_BACKING))
+> +			return -EINVAL;
+> +
+> +		/* Require the appropriate cgroups to be enabled. */
+> +		if (XE_IOCTL_DBG(xe, pinned_flag &&
+> !IS_ENABLED(CONFIG_CGROUP_DMEM) && bo_flags & XE_BO_FLAG_VRAM_MASK)
+> ||
+> +		=C2=A0=C2=A0=C2=A0 XE_IOCTL_DBG(xe, pinned_flag &&
+> !IS_ENABLED(CONFIG_MEMCG) && bo_flags & XE_BO_FLAG_SYSTEM))
+> +			return -EINVAL;
+> +
+> +		bo_flags |=3D XE_BO_FLAG_PINNED;
+> +	}
+> +
+> =C2=A0	if (args->vm_id) {
+> =C2=A0		vm =3D xe_vm_lookup(xef, args->vm_id);
+> =C2=A0		if (XE_IOCTL_DBG(xe, !vm))
+> @@ -2790,6 +2847,11 @@ int xe_gem_create_ioctl(struct drm_device
+> *dev, void *data,
+> =C2=A0		__xe_bo_unset_bulk_move(bo);
+> =C2=A0		xe_vm_unlock(vm);
+> =C2=A0	}
+> +	if (bo->flags & XE_BO_FLAG_PINNED) {
+> +		xe_bo_lock(bo, false);
+> +		xe_bo_unpin_user(bo);
+> +		xe_bo_unlock(bo);
+> +	}
+> =C2=A0out_put:
+> =C2=A0	xe_bo_put(bo);
+> =C2=A0out_vm:
+> diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c
+> b/drivers/gpu/drm/xe/xe_dma_buf.c
+> index 346f857f38374..6719f4552ad37 100644
+> --- a/drivers/gpu/drm/xe/xe_dma_buf.c
+> +++ b/drivers/gpu/drm/xe/xe_dma_buf.c
+> @@ -53,6 +53,11 @@ static int xe_dma_buf_pin(struct
+> dma_buf_attachment *attach)
+> =C2=A0	struct xe_device *xe =3D xe_bo_device(bo);
+> =C2=A0	int ret;
+> =C2=A0
+> +	if (bo->flags & XE_BO_FLAG_PINNED) {
+> +		ttm_bo_pin(&bo->ttm);
+> +		return 0;
+> +	}
+> +
+> =C2=A0	/*
+> =C2=A0	 * For now only support pinning in TT memory, for two
+> reasons:
+> =C2=A0	 * 1) Avoid pinning in a placement not accessible to some
+> importers.
+> @@ -83,7 +88,10 @@ static void xe_dma_buf_unpin(struct
+> dma_buf_attachment *attach)
+> =C2=A0	struct drm_gem_object *obj =3D attach->dmabuf->priv;
+> =C2=A0	struct xe_bo *bo =3D gem_to_xe_bo(obj);
+> =C2=A0
+> -	xe_bo_unpin_external(bo);
+> +	if (bo->flags & XE_BO_FLAG_PINNED)
+> +		ttm_bo_unpin(&bo->ttm);
+> +	else
+> +		xe_bo_unpin_external(bo);
+> =C2=A0}
+> =C2=A0
+> =C2=A0static struct sg_table *xe_dma_buf_map(struct dma_buf_attachment
+> *attach,
+> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+> index c721e130c1d2d..3184fa38ce17e 100644
+> --- a/include/uapi/drm/xe_drm.h
+> +++ b/include/uapi/drm/xe_drm.h
+> @@ -765,12 +765,15 @@ struct drm_xe_device_query {
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 until the object is either bound to a virtual =
+memory region
+> via
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 VM_BIND or accessed by the CPU. As a result, n=
+o backing memory
+> is
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 reserved at the time of GEM object creation.
+> - *=C2=A0 - %DRM_XE_GEM_CREATE_FLAG_SCANOUT
+> + *=C2=A0 - %DRM_XE_GEM_CREATE_FLAG_SCANOUT - GEM object will be used
+> + *=C2=A0=C2=A0=C2=A0 display framebuffer.
+> =C2=A0 *=C2=A0 - %DRM_XE_GEM_CREATE_FLAG_NEEDS_VISIBLE_VRAM - When using =
+VRAM
+> as a
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 possible placement, ensure that the correspond=
+ing VRAM
+> allocation
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 will always use the CPU accessible part of VRA=
+M. This is
+> important
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 for small-bar systems (on full-bar systems thi=
+s gets turned
+> into a
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 noop).
+> + *=C2=A0 - %DRM_XE_GEM_CREATE_FLAG_PINNED - Pin the backing memory
+> permanently
+> + *=C2=A0=C2=A0=C2=A0 on allocation, if withing cgroups limits.
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 Note1: System memory can be used as an extra p=
+lacement if the
+> kernel
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 should spill the allocation to system memory, =
+if space can't
+> be made
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 available in the CPU accessible part of VRAM (=
+giving the same
+> @@ -781,6 +784,10 @@ struct drm_xe_device_query {
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 need to use VRAM for display surfaces, therefo=
+re the kernel
+> requires
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 setting this flag for such objects, otherwise =
+an error is
+> thrown on
+> =C2=A0 *=C2=A0=C2=A0=C2=A0 small-bar systems.
+> + *=C2=A0=C2=A0=C2=A0 Note3: %DRM_XE_GEM_CREATE_FLAG_PINNED requires the =
+BO to have
+> only
+> + *=C2=A0=C2=A0=C2=A0 a single placement, no vm_id, requires (device) mem=
+ory cgroups
+> enabled,
+> + *=C2=A0=C2=A0=C2=A0 and is incompatible with the %DEFER_BACKING and
+> %NEEDS_VISIBLE_VRAM
+> + *=C2=A0=C2=A0=C2=A0 flags.
+> =C2=A0 *
+> =C2=A0 * @cpu_caching supports the following values:
+> =C2=A0 *=C2=A0 - %DRM_XE_GEM_CPU_CACHING_WB - Allocate the pages with wri=
+te-
+> back
+> @@ -827,6 +834,7 @@ struct drm_xe_gem_create {
+> =C2=A0#define DRM_XE_GEM_CREATE_FLAG_DEFER_BACKING		(1 << 0)
+> =C2=A0#define DRM_XE_GEM_CREATE_FLAG_SCANOUT			(1 << 1)
+> =C2=A0#define DRM_XE_GEM_CREATE_FLAG_NEEDS_VISIBLE_VRAM	(1 << 2)
+> +#define DRM_XE_GEM_CREATE_FLAG_PINNED			(1 << 3)
+> =C2=A0	/**
+> =C2=A0	 * @flags: Flags, currently a mask of memory instances of
+> where BO can
+> =C2=A0	 * be placed
 
