@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FB6B2C7A0
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 16:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C100CB2C7B6
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 16:57:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F0B810E1FD;
-	Tue, 19 Aug 2025 14:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25CEF10E61A;
+	Tue, 19 Aug 2025 14:57:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IpOPUuCe";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="PLfrC8/C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8384510E1FD
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 14:54:25 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EC5EC2391;
- Tue, 19 Aug 2025 16:53:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1755615206;
- bh=bS73IBP0XgIpvrcjYBqF+tR9I5LvIwqpJWovbWz/tmA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IpOPUuCetwEVA81ICn/utvxBQhlUR2gVMI9g/f2wvAMD3w42pyVdWKFY6N8yNZyb0
- BJ4bXtW5O0j3L8KK41XKSllgBdJ1dvPohgGe6LHE/am2TNml44k1OfXlk6UXxmMl6Q
- GwYz6dqIKHnkU7duJfsMjH6a9vqfFUe3wQmhfTBU=
-Date: Tue, 19 Aug 2025 17:54:01 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Prabhakar <prabhakar.csengg@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v7 0/6] Add support for DU/DSI clocks and DSI driver
- support for the Renesas RZ/V2H(P) SoC
-Message-ID: <20250819145401.GW5862@pendragon.ideasonboard.com>
-References: <20250728201435.3505594-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdXSJO1MOoNS5M2M1Zs=iWmiBbmc8Xc9tMDsXd_kM6bj=Q@mail.gmail.com>
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 231D610E611
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 14:57:03 +0000 (UTC)
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 39FE225D53;
+ Tue, 19 Aug 2025 16:57:02 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id mk32Vz6sFa6J; Tue, 19 Aug 2025 16:57:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1755615421; bh=3Qbz8pqFfdOsOOoqVrdwNTsM+mi/gpOylrAwS7+boC4=;
+ h=From:Subject:Date:To:Cc;
+ b=PLfrC8/C4ggYoNVTx1MUO2ukwPsNaRlclnZze4eG5oNL3GJrpZmFNMgv7dLnMDOyA
+ iswh+GES2GgUswTvmQE/Kz9wBn1ja6cfNfL4ypJIa0eBUNWU4tRtBQ4SCVEZ3hTnph
+ 07Xvp8mkLdSwZDBYNf/awi/llMvf2ALjuFHnSZv/tEnyHOXWdASw28kE8xb4cwGchN
+ wShxAvGkaEpw7Ar5az5I0cpgLNfScDdpfqNaVu7rm9KCbzHeEWE2kIc2CXNxM75Yaj
+ Z/ghhKsHWSU8Tik5LSa0UI7UIP4gEyRChXTeVucMCDcCZ1KsACQ64IS1lIJxoM2LU6
+ xhVyCdmHqyp+Q==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v4 0/2] Support for Synaptics TDDI series panels
+Date: Tue, 19 Aug 2025 20:26:43 +0530
+Message-Id: <20250819-panel-synaptics-tddi-v4-0-448f466d16a6@disroot.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXSJO1MOoNS5M2M1Zs=iWmiBbmc8Xc9tMDsXd_kM6bj=Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKuQpGgC/3XNQQ7CIBCF4as0rMXAAKW68h7GBRRoJzGlgaaxM
+ b27qAs16vJ/yXxzJdkn9JnsqytJfsaMcSghNxVpezN0nqIrTYCBYgoEHc3gzzQvgxknbDOdnEP
+ KLLMiMB0aLkk5HZMPeHmwx1PpHvMU0/L4MvP7+gRrDr/BmVNGXbCNkaCCrtuDw5xinLYxdeROz
+ vDGgPrDQGG0qcFY7rho9TcjXowG9ocRhZHCqJ3SQVqQn8y6rje2+el5SAEAAA==
+X-Change-ID: 20250523-panel-synaptics-tddi-0b0b3f07f814
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755615411; l=2195;
+ i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
+ bh=3Qbz8pqFfdOsOOoqVrdwNTsM+mi/gpOylrAwS7+boC4=;
+ b=mH8hor6y2lPboSWr3nqjiosJrnuuMMK1U5fXyMorEdgBh3P0ASbRX//Ki9+6R1KjkDBujdo06
+ RshDNEUSSoOAEUW0cmDiRqNjKs9P0os+3Wz6QvNGq5TudbXH5oyn+45
+X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
+ pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,36 +75,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 19, 2025 at 03:48:08PM +0200, Geert Uytterhoeven wrote:
-> On Mon, 28 Jul 2025 at 22:14, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > This patch series adds DU/DSI clocks and provides support for the
-> > MIPI DSI interface on the RZ/V2H(P) SoC. It was originally part of
-> > series [0], but has now been split into 6 patches due to dependencies
-> > on the clock driver, making it easier to review and merge.
-> 
-> Thanks for your series!
-> 
-> > Lad Prabhakar (6):
-> >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
-> >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
-> >   clk: renesas: r9a09g057: Add clock and reset entries for DSI and LCDC
-> >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
-> >     RZ/V2N
-> >   drm: renesas: rz-du: mipi_dsi: Add support for LPCLK clock handling
-> >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
-> 
-> On the renesas-clk side, I am (almost) totally happy with this.
-> Any feedback from the renesas-drm side?
+Synaptics' Touch and Display Driver Integration (TDDI) technology [1]
+employs a single chip for both touchscreen and display capabilities.
+Such designs reportedly help reducing costs and power consumption.
 
-Tomi told me he added the patches on this review list.
+Although the touchscreens, which are powered by Synaptics'
+Register-Mapped Interface 4 (RMI4) touch protocol via I2C or SPI have
+driver support in the kernel, the MIPI DSI display panels don't.
 
-> The last patch depends on a header file introduced by the second patch,
-> so I will need to provide an immutable branch containing the first
-> two patches (probably/hopefully based on v8).
+This series introduces a rudimentary driver for controlling said display
+panels, which supports TD4101 and TD4300 panels.
 
+[1] https://www.synaptics.com/technology/display-integration
+
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+---
+Changes in v4:
+- utilized drm_connector_helper_get_modes_fixed() (dmitry.baryshkov)
+- constified backlight properties (dmitry.baryshkov)
+- Link to v3: https://lore.kernel.org/r/20250720-panel-synaptics-tddi-v3-0-43a5957f4b24@disroot.org
+
+Changes in v3:
+- fixed various dt_binding_check errors (robh's bot)
+- adjusted commit description of [v2 1/2] (robh)
+- utilized devm_drm_panel_alloc() and devm_regulator_bulk_get_const()
+- Link to v2: https://lore.kernel.org/r/20250625-panel-synaptics-tddi-v2-0-7a62ab1d13c7@disroot.org
+
+Changes in v2:
+- fixed various dt_binding_check errors (conor)
+- did s/tddi_update_brightness/tddi_update_status
+- added check for panel enable in tddi_update_status()
+- used backlight_get_brightness() in appropriate places
+- Link to v1: https://lore.kernel.org/r/20250612-panel-synaptics-tddi-v1-0-dfb8a425f76c@disroot.org
+
+---
+Kaustabh Chakraborty (2):
+      dt-bindings: display: panel: document Synaptics TDDI panel
+      drm: panel: add support for Synaptics TDDI series DSI panels
+
+ .../display/panel/synaptics,td4300-panel.yaml      |  89 +++++++
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-synaptics-tddi.c       | 276 +++++++++++++++++++++
+ 4 files changed, 377 insertions(+)
+---
+base-commit: 3ac864c2d9bb8608ee236e89bf561811613abfce
+change-id: 20250523-panel-synaptics-tddi-0b0b3f07f814
+
+Best regards,
 -- 
-Regards,
+Kaustabh Chakraborty <kauschluss@disroot.org>
 
-Laurent Pinchart
