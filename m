@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85FAB2BFAD
+	by mail.lfdr.de (Postfix) with ESMTPS id 062E0B2BFAC
 	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 13:01:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1DEE10E5AB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D2910E5A8;
 	Tue, 19 Aug 2025 11:01:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cp5P3C4I";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lxezlpTQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9EF410E5A6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 11:01:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEC2410E5A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 11:01:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id AFF2846258;
- Tue, 19 Aug 2025 11:01:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A42EC19423;
- Tue, 19 Aug 2025 11:01:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id D35594626A;
+ Tue, 19 Aug 2025 11:01:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F9BC19423;
+ Tue, 19 Aug 2025 11:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755601278;
- bh=RSjFfaJWxUYQblpzPRCwMN+MZXg/TH5y7U62UV8jFM8=;
+ s=k20201202; t=1755601279;
+ bh=3om6RlJ1FrtuQO9/XxQ8KBEG17jf3kejVcBwwMOA+mM=;
  h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=cp5P3C4IVS6iImCXa6xcb0aPNk5MNB5mhhBh10d62W9vpZ3DmjcPwhOt5bGtPU1H+
- BNVWxQMnikIbNxmGUlor/Amk9Q02NvfgtdSv4gR2otc8I0dUD/qv6wPBG2FafHzbkF
- DqJ36yLq5vqz8ev9x8//SIt/8yknzeJOdYFZ/TvTxpUSMnoxGy6y5elLzShe2Bl7j+
- 3Kx5JFTSjJ89Kmau6tYlg2TC081JeLmkmI7XuhgHspo/JqseGEpWtiJzvixKrhNpQv
- fRlDv0wXKLpN2OtT18gOESyulrv/YKsr1H12SrdmI5qW4MBNXQ+P30s6nQU3REeTFl
- 9NMUlIKWhPTcg==
-Date: Tue, 19 Aug 2025 06:01:17 -0500
+ b=lxezlpTQ1VJxdf0sF3n0/rnCC5CGmWaOdQERGWLOLzdxQ0gwflpmXEjxaoGoiJNaq
+ LRMvTWMmc7D1V7y9qdS+Qui5fhozl713FNJQAFfUZtJLLO/husIrdEc8BHU8nnwNk1
+ 5H/Ux+E9/4IO43soMLS6pxKTNHeZdO1J7OfpSWV/uzDrSeDEw2/SW7jR+0PwUiBP9R
+ oENsFr/qSfrkwcWjvtFas+aQeYLpyr+/GSj4NNbXEsj8K8O5EHpYQGz54DY1Gu+RBU
+ XAM6yMaMK9KJ2/0QK2MFHgHM7HyRSO0R0DobKAnTonjmydQqwnmSXRVbt6c58NKc6V
+ fuv+SzbfqA9eg==
+Date: Tue, 19 Aug 2025 06:01:18 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Christophe Roullier <christophe.roullier@foss.st.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+Cc: dri-devel@lists.freedesktop.org, 
  Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
  linux-stm32@st-md-mailman.stormreply.com, 
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org, 
- Conor Dooley <conor+dt@kernel.org>, Will Deacon <will@kernel.org>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>
+ linux-arm-kernel@lists.infradead.org, Will Deacon <will@kernel.org>, 
+ David Airlie <airlied@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, linux-kernel@vger.kernel.org, 
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
+ Christophe Roullier <christophe.roullier@foss.st.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20250819-drm-misc-next-v3-4-04153978ebdb@foss.st.com>
+In-Reply-To: <20250819-drm-misc-next-v3-5-04153978ebdb@foss.st.com>
 References: <20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com>
- <20250819-drm-misc-next-v3-4-04153978ebdb@foss.st.com>
-Message-Id: <175560127211.3969200.8967459930007695197.robh@kernel.org>
-Subject: Re: [PATCH v3 04/13] dt-bindings: display: st,stm32mp25-lvds: add
- access-controllers property
+ <20250819-drm-misc-next-v3-5-04153978ebdb@foss.st.com>
+Message-Id: <175560127275.3969236.2787022865949537210.robh@kernel.org>
+Subject: Re: [PATCH v3 05/13] dt-bindings: display: st,stm32mp25-lvds: add
+ power-domains property
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,14 +73,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 19 Aug 2025 11:15:57 +0200, Raphael Gallais-Pou wrote:
-> access-controllers is an optional property that allows a peripheral to
-> refer to one or more domain access controller(s).
-> 
-> This property is added when the peripheral is under the STM32 firewall
-> controller.  It allows an accurate representation of the hardware, where
-> the peripheral is connected to a firewall bus.  The firewall can then
-> check the peripheral accesses before allowing its device to probe.
+On Tue, 19 Aug 2025 11:15:58 +0200, Raphael Gallais-Pou wrote:
+> STM32 LVDS peripheral may be in a power domain.  Allow an optional
+> single 'power-domains' entry for STM32 LVDS devices.
 > 
 > Acked-by: Rob Herring (Arm) <robh@kernel.org>
 > Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
@@ -97,7 +93,7 @@ dtschema/dtc warnings/errors:
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250819-drm-misc-next-v3-4-04153978ebdb@foss.st.com
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250819-drm-misc-next-v3-5-04153978ebdb@foss.st.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
