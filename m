@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A48FB2C2E7
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 14:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C44B2C2EA
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 14:16:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF9410E153;
-	Tue, 19 Aug 2025 12:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA10D10E5BD;
+	Tue, 19 Aug 2025 12:16:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eUBhSdei";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jeRWvqNT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B53C710E153
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 12:16:43 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-afcb79f659aso788126566b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 05:16:43 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1803E10E153
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 12:16:45 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-afcb7af30a5so863764766b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 05:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755605802; x=1756210602; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=OTZBF2cKOGdV37BgNxVIad8RxVSZEEHpIkQVHokH8Wo=;
- b=eUBhSdei90GTg49YhXBmrjNMCg/ap/sFBZSOb17pI60SgyjProe8kp2de0QozQGZ5C
- dh+jJtOuPEYydtu4mH3al8cLttoo7Ckt5wcH4sUy9iQrjQfrVfnvvq4fYmwJq1Eg1Dfe
- xcmwNi6wUCZfdRKxxPeO40RitNYZv7DfnYsFzv63RGhdQhlif1qC8I9+LhHdYT28cWbZ
- pRK6EOeBl3zXiiMzmC+aODWyVT+b8A4FDG1YTQvR6hKHkdlDT66P5iV1XIoHJ8hR4en9
- nqLhQ86B4s7Ujz+FR004vNX5Q66YulzZ7pjsR/2AS48bROCmXAK43FIx7uvoFiNI/yOt
- 6EeA==
+ d=gmail.com; s=20230601; t=1755605803; x=1756210603; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=o/oKOTJz58St1gTwh/bBKNgiqYHP+xMc0H1/D5ORgpY=;
+ b=jeRWvqNTA99NOxDupTsPbcKJ9p7fWcYneDz/2j2Kn9A7gIGdDgew+SB3aXIRktxjvg
+ HyLiQ/cfr1m0zDDEqSGDc8OQdWpOWmCtm2tWlgV++mjP/mHadAxIiyoyGz/xvFRNL3JI
+ qu2MlTCyWIQ1cS1oeGVTOy3ME757Id21vMRGLMXotR03eWt6bl8MSmgBuxxUoeQk2dLQ
+ BiUUF67t9q4pMDJ58zATnErAIw9Ezwd4VpizWIZYjUJAvqqiGXLZEFcG/PwWuzYGoipq
+ yLBDEVHLcw1N3BfgHd6XazOKyFm0vk6jJZAP300QpL/xypIx/w+uDV/DqfraLWOvMM1N
+ Jgog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755605802; x=1756210602;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OTZBF2cKOGdV37BgNxVIad8RxVSZEEHpIkQVHokH8Wo=;
- b=UHyc4KAQqf9aslSXZ6FGDRn90VVCSfbGvNtyhAN0TRwHrwz9SEW3Zrlm5w2+4jjcsF
- Jd1EDOE7KbRC+KrM9JNvLY7a9w9jMEqF9t/cc6KktlG3R6qh5A3C8sLa8Yjbzi/lopQa
- qvabAd9+koHcYPcS7ftqTMP9T+VObIVkB4HX6vTRFvB0HqoVgayUZ6Hf6xfoOOjIb+Fz
- egEpcREUqNMrqH2w+7mbU1RsO0XLMZbQRai9jMxnOMSMYHWz+ReaLZQUO1jTkXP7Pfuk
- vq70jEDvllLK3UuTPYYKso+4wG7hHMWKotwD7yJYJyPecWGB4UchSEVRfRS0GjA6KQgr
- VRbQ==
+ d=1e100.net; s=20230601; t=1755605803; x=1756210603;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=o/oKOTJz58St1gTwh/bBKNgiqYHP+xMc0H1/D5ORgpY=;
+ b=jyIRCZALZvHrqbl5p9kps7Pzzd1Bihb1ERFPw7gW2Sevu7/HbCy/WrPB8aMwPnwqUQ
+ IT2FO6+8pgG7da3l+ckohfHHeOrK2DK1ghz3ZUL9ZdrFV+9qaQepMdA7W/op0sDJGSsR
+ 039EVVgBb07da+oMVGA/O64VjSmPoClyY2RU4MextcdJjNPr239lbSTqlNzl+7qfzT1w
+ XHuHzdibzKBOm0h8v1qW+2/F11BtDXdr0tgR2/KMk6qUe2tMNe5fY73/5mzDEbVZRCQT
+ 5nK4SBSRq6AeLlli6vVe169uG2srU7PN5qfaAIXC2UaWlGKB6ELq/B1KDx5uF3D6pJij
+ g+QA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4vkTr7j7D9jFNx1UMTOuL6WVomYlRHfBeLdkwB8Pve7zt8jQ6Ypp/opv8fwpw5hRcBm5KTew5EME=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLH9lRR0P0V5R9Lh8+09eR6l+mj33qTMz0v6Gi32E4qgitC/QT
- s0eL//zoOvwrxahkvH5rFvsz2aC1r0msWOeTl2tJVUJp90iEB6qFbF/z
-X-Gm-Gg: ASbGncshZ2INcy9e47M3omnbayVff9j6hQSF9AE7nFqczzLnCwYSlgnwLzk1+N0cSVa
- 3aHoA0ad755jwbFKi/QVSBvEra6JHWS784LSb5V0T+/mwN/lQIHTwfU52GcvOcr20bVrrngRCbU
- mOgVUf5DESrmlnLUQf0z1jGZxlgdVVKK/+pBnc4ZDDZvgylDuQCQF+SAbz/JnInPcRVaYnMWvvr
- 6AEEukPJQbHVPvhjYyzh2hL43CWLFc9wrE+IP/WSgFqn7UQUcahqS74kYRSVWkl78t6T7Xf+8mg
- ZR2g7aWHATMU/th5GIjAERKe5fqrm6qbdzvE1Z5TVvxpWzT/Y7BURbIHr7aaK1aS13ho4yQ9U9e
- nv9C1HDGVHFwnKA==
-X-Google-Smtp-Source: AGHT+IFOn/TJHFwwAXjt/aa4+DjS3IYy277UAXO/A/XxXv0w3obUkySSlcaEnmlY0FxNsalKHy8ajQ==
-X-Received: by 2002:a17:907:971d:b0:af9:44fe:dea1 with SMTP id
- a640c23a62f3a-afddccd40afmr224499366b.23.1755605801830; 
- Tue, 19 Aug 2025 05:16:41 -0700 (PDT)
+ AJvYcCVWcgSS+XTIFXrJQTrkD5o1k+KJiuw8dLLqwmXJtlSmbOtEIwn8PkmgUwFUVCRpYDoHYtEnMxpR/YI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwK8LM7IUHjwkMTcnv+lpgzUmnXlJ5PHPd6wSl7q3Jl3mqAq2DY
+ Fce4B9a6G4ZS1zu4flsQ36LcBjrZSYRD75zEWfICdMRz+AZBbzw54Y+A
+X-Gm-Gg: ASbGncvFaGoxrlhz5amYNbrNuGLo6QmxeJHZTReX6wVm/2W/xuFkaS4YiIP8lPVYMYO
+ E3GvHE5LgABHe6P9K0Z/Q6UL+cYmEUTKwBPsh2HSPaWyG80Iuz4ekcJLO1iigvruAn5M47MLfGy
+ NJaGhwfLLL2J0S9O3IPLGjGnoqNu9Ay+QXLraLtEjxgIMHYT8SWZ7ij1BWjy6FpT4xBZhqhJk06
+ uSBnx3yVWcUuhA0tyjHFjvjF7TCKggxSse6Lc2TwgfpqSee/G1HvmdNdMrDJ8uwy4Z+dCDky3IG
+ Oj+ouDKycRqozTQoDztrAfMBwVk6YI/hmXCd4IMRK1su3AJRtwE12z6iAo2tNjIHceKBqnAcIgj
+ X81apYTWApnMYRg==
+X-Google-Smtp-Source: AGHT+IH6gI4Wt9MTamNQRuZI3BgyK+3myche9xoYOBrZQHy1Q90e/zgSuCy2a+6/nFauZvLKfIttEw==
+X-Received: by 2002:a17:907:6d27:b0:af9:71fc:726 with SMTP id
+ a640c23a62f3a-afddcbad953mr235796566b.17.1755605803433; 
+ Tue, 19 Aug 2025 05:16:43 -0700 (PDT)
 Received: from xeon.. ([188.163.112.76]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.40
+ a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Aug 2025 05:16:41 -0700 (PDT)
+ Tue, 19 Aug 2025 05:16:43 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>,
@@ -85,12 +86,13 @@ Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: [PATCH v1 00/19] tegra-video: add CSI support for Tegra20 and Tegra30
-Date: Tue, 19 Aug 2025 15:16:12 +0300
-Message-ID: <20250819121631.84280-1-clamor95@gmail.com>
+Subject: [PATCH v1 01/19] clk: tegra: init CSUS clock for Tegra20 and Tegra30
+Date: Tue, 19 Aug 2025 15:16:13 +0300
+Message-ID: <20250819121631.84280-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250819121631.84280-1-clamor95@gmail.com>
+References: <20250819121631.84280-1-clamor95@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -107,55 +109,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
-with a set of changes required for that.
+CSUS clock is required to be enabled on camera device configuration or
+else camera module refuses to initiate properly.
 
-Svyatoslav Ryhel (19):
-  clk: tegra: init CSUS clock for Tegra20 and Tegra30
-  dt-bindings: clock: tegra20: Add IDs for CSI PAD clocks
-  clk: tegra30: add CSI PAD clock gates
-  dt-bindings: display: tegra: document Tegra30 VIP
-  staging: media: tegra-video: expand VI and VIP support to Tegra30
-  staging: media: tegra-video: csi: move CSI helpers to header
-  staging: media: tegra-video: csi: parametrize MIPI calibration device
-    presence
-  staging: media: tegra-video: vi: adjust get_selection op check
-  staging: media: tegra-video: vi: add flip controls only if no source
-    controls are provided
-  staging: media: tegra-video: tegra20: set correct maximum width and
-    height
-  staging: media: tegra-video: tegra20: add support for second output of
-    VI
-  staging: media: tegra-video: tegra20: simplify format align
-    calculations
-  staging: media: tegra-video: tegra20: set VI HW revision
-  staging: media: tegra-video: tegra20: increase maximum VI clock
-    frequency
-  staging: media: tegra-video: tegra20: expand format support with
-    RAW8/10 and YUV422 1X16
-  staging: media: tegra-video: tegra20: adjust luma buffer stride
-  dt-bindings: display: tegra: document Tegra20 and Tegra30 CSI
-  ARM: tegra: add CSI binding for Tegra20 and Tegra30
-  staging: media: tegra-video: add CSI support for Tegra20 and Tegra30
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ drivers/clk/tegra/clk-tegra20.c | 1 +
+ drivers/clk/tegra/clk-tegra30.c | 1 +
+ 2 files changed, 2 insertions(+)
 
- .../display/tegra/nvidia,tegra20-vip.yaml     |   1 +
- .../display/tegra/nvidia,tegra210-csi.yaml    |  78 +-
- arch/arm/boot/dts/nvidia/tegra20.dtsi         |  17 +-
- arch/arm/boot/dts/nvidia/tegra30.dtsi         |  19 +-
- drivers/clk/tegra/clk-tegra20.c               |   1 +
- drivers/clk/tegra/clk-tegra30.c               |  16 +-
- drivers/staging/media/tegra-video/Makefile    |   1 +
- drivers/staging/media/tegra-video/csi.c       |  35 +-
- drivers/staging/media/tegra-video/csi.h       |  11 +
- drivers/staging/media/tegra-video/tegra20.c   | 771 +++++++++++++++---
- drivers/staging/media/tegra-video/tegra210.c  |   1 +
- drivers/staging/media/tegra-video/vi.c        |  20 +-
- drivers/staging/media/tegra-video/vi.h        |   4 +-
- drivers/staging/media/tegra-video/video.c     |   6 +
- drivers/staging/media/tegra-video/vip.c       |   5 +-
- include/dt-bindings/clock/tegra30-car.h       |   4 +-
- 16 files changed, 842 insertions(+), 148 deletions(-)
-
+diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegra20.c
+index 551ef0cf0c9a..42f8150c6110 100644
+--- a/drivers/clk/tegra/clk-tegra20.c
++++ b/drivers/clk/tegra/clk-tegra20.c
+@@ -1043,6 +1043,7 @@ static struct tegra_clk_init_table init_table[] = {
+ 	{ TEGRA20_CLK_GR3D, TEGRA20_CLK_PLL_C, 300000000, 0 },
+ 	{ TEGRA20_CLK_VDE, TEGRA20_CLK_PLL_C, 300000000, 0 },
+ 	{ TEGRA20_CLK_PWM, TEGRA20_CLK_PLL_P, 48000000, 0 },
++	{ TEGRA20_CLK_CSUS, TEGRA20_CLK_CLK_MAX, 6000000, 1 },
+ 	/* must be the last entry */
+ 	{ TEGRA20_CLK_CLK_MAX, TEGRA20_CLK_CLK_MAX, 0, 0 },
+ };
+diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
+index 82a8cb9545eb..70e85e2949e0 100644
+--- a/drivers/clk/tegra/clk-tegra30.c
++++ b/drivers/clk/tegra/clk-tegra30.c
+@@ -1237,6 +1237,7 @@ static struct tegra_clk_init_table init_table[] = {
+ 	{ TEGRA30_CLK_HDA, TEGRA30_CLK_PLL_P, 102000000, 0 },
+ 	{ TEGRA30_CLK_HDA2CODEC_2X, TEGRA30_CLK_PLL_P, 48000000, 0 },
+ 	{ TEGRA30_CLK_PWM, TEGRA30_CLK_PLL_P, 48000000, 0 },
++	{ TEGRA30_CLK_CSUS, TEGRA30_CLK_CLK_MAX, 6000000, 1 },
+ 	/* must be the last entry */
+ 	{ TEGRA30_CLK_CLK_MAX, TEGRA30_CLK_CLK_MAX, 0, 0 },
+ };
 -- 
 2.48.1
 
