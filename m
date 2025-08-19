@@ -2,65 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7A1B2CA6F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 19:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D6EB2CB57
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 19:49:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66D1C10E0D3;
-	Tue, 19 Aug 2025 17:22:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EJmwzm8J";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA60D10E0E2;
+	Tue, 19 Aug 2025 17:49:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1CB10E0D3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 17:22:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3B5F4613EF;
- Tue, 19 Aug 2025 17:22:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 194B5C4CEF1;
- Tue, 19 Aug 2025 17:22:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755624160;
- bh=Hqw9eNwEyOyjAddQiU40tZUpBUM4UVro4mYONtNAhdU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EJmwzm8JVvkGwG9V+/odTUt0NyAxYoUrIXbQNniA3nwUn548XT34GYo23hN0RP86F
- ltQXVE/9Sl8T0Z7GnwDxTiMTdLU5NhX4dIzgiuGAQLZs2uG115vn9li+4xgY1ORdtd
- cAqo83b1PiMbpr/N6IjhyFE/CLL+6ZeDXjzWuP2LOvNDlPwCHEBWxVirr8w1MuyZ/i
- DQjF5/36k6DShHkW7JLCLcq22uz/M+8OX05N896ZsfrO5ZzQ11AW2W+2MGl4EyZeO5
- MhZqRpPQo3A3jPTCOvmVflCws3MFnYPDtWQx5uYNWsOX+TvEcJrjrs7RukCneYbyzI
- I0jR45Bz9LJRQ==
-Date: Tue, 19 Aug 2025 18:22:34 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Herring <robh@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-tmds181: Add TI TMDS181
- and SN65DP159 bindings
-Message-ID: <20250819-impeach-prognosis-247bec1a809b@spud>
-References: <20250812145256.135645-1-mike.looijmans@topic.nl>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.3b7d4319-e208-470d-9ada-585343a64822@emailsignatures365.codetwo.com>
- <20250812145256.135645-2-mike.looijmans@topic.nl>
- <20250812-designing-tyke-db85527b373d@spud>
- <f4ec7690-322e-493a-b346-7b9560ac0616@topic.nl>
- <9fba4917-a24f-4fee-8f1a-7509a0bc542e@kernel.org>
- <2d694c9c-704e-4353-8b57-de83eb5a7f96@topic.nl>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9A53410E0E2;
+ Tue, 19 Aug 2025 17:49:15 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E877152B;
+ Tue, 19 Aug 2025 10:49:06 -0700 (PDT)
+Received: from [10.1.196.50] (e121345-lin.cambridge.arm.com [10.1.196.50])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 475103F738;
+ Tue, 19 Aug 2025 10:49:10 -0700 (PDT)
+Message-ID: <cdb7b1e7-6e51-4c0e-bffb-b0d4b654a623@arm.com>
+Date: Tue, 19 Aug 2025 18:49:08 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="66JlIddYdkNBaUXn"
-Content-Disposition: inline
-In-Reply-To: <2d694c9c-704e-4353-8b57-de83eb5a7f96@topic.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 19/19] perf: Garbage-collect event_init checks
+To: kernel test robot <oliver.sang@intel.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ dmaengine@vger.kernel.org, linux-fpga@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, coresight@lists.linaro.org,
+ iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
+ linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-pm@vger.kernel.org, peterz@infradead.org, mingo@redhat.com,
+ will@kernel.org, mark.rutland@arm.com, acme@kernel.org, namhyung@kernel.org,
+ alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com,
+ adrian.hunter@intel.com, kan.liang@linux.intel.com,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ imx@lists.linux.dev, linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-riscv@lists.infradead.org
+References: <202508190403.33c83ece-lkp@intel.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <202508190403.33c83ece-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,66 +63,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 19/08/2025 3:44 am, kernel test robot wrote:
+> 
+> 
+> Hello,
+> 
+> kernel test robot noticed "BUG:unable_to_handle_page_fault_for_address" on:
+> 
+> commit: 1ba20479196e5af3ebbedf9321de6b26f2a0cdd3 ("[PATCH 19/19] perf: Garbage-collect event_init checks")
+> url: https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/perf-arm-cmn-Fix-event-validation/20250814-010626
+> base: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git 91325f31afc1026de28665cf1a7b6e157fa4d39d
+> patch link: https://lore.kernel.org/all/ace3532a8a438a96338bf349a27636d8294c7111.1755096883.git.robin.murphy@arm.com/
+> patch subject: [PATCH 19/19] perf: Garbage-collect event_init checks
 
---66JlIddYdkNBaUXn
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK, after looking a bit more deeply at x86 and PowerPC, I think it
+probably is nicest to solve this commonly too. Below is what I've cooked
+up for a v2 (I'll save reposting the whole series this soon...)
 
-On Tue, Aug 19, 2025 at 10:26:15AM +0200, Mike Looijmans wrote:
-> On 19-08-2025 09:51, Krzysztof Kozlowski wrote:
-> > On 19/08/2025 09:46, Mike Looijmans wrote:
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    enum:
-> > > > > +      - ti,tmds181
-> > > > > +      - ti,sn65dp159
-> > > > The driver contains:
-> > > > +	{ .compatible =3D "ti,tmds181", },
-> > > > +	{ .compatible =3D "ti,sn65dp159", },
-> > > > +	{}
-> > > > so why is a fallback compatible not suitable here?
-> > > I don't understand the question. The two are slightly different chips,
-> > Your driver says they are compatible. No one said the same, but compati=
-ble.
-> >=20
-> > > so it makes sense to describe that in the DT.
-> > Compatible devices should use fallback. There is plenty of examples (90%
-> > of all binding files?) including example-schema describing this.
->=20
-> Please help me out here, I'm happy to oblige, but I don't understand what
-> you're asking.
->=20
-> To the best of my knowledge "fallback" compatible is when you write
-> something like this in the device-tree:
-> =A0=A0 compatible =3D "st,m25p80", "jedec,spi-nor";
-> Which means that we can use the "jedec,spi-nor" driver if there's no
-> specific match for "st,m25p80", correct?
->=20
-> I don't understand how that relates to your request, this is the first ti=
-me
-> I ever got this particular feedback. Looking at say the ti,sn65dsi83 driv=
-er,
-> it does the same thing (supports the ti,sn65dsi83 and ti,sn65dsi84).
->=20
-> Please explain or point me somewhere where I can find this?
+Thanks,
+Robin.
 
-Devices that are supersets of, or functionally identical to, others should
-use fallback compatibles. The driver treats these devices as functionally
-identical to one another when it comes to match data (as there is none)
-so you need to either use a fallback compatible or explain in your
-commit message why one is not suitable here.
+----->8-----
+Subject: [PATCH 18.5/19] perf: Add common uncore-CPU check
 
---66JlIddYdkNBaUXn
-Content-Type: application/pgp-signature; name="signature.asc"
+Many uncore drivers depend on event->cpu being valid in order to look
+up various data in their event_init call. Since we've now factored out
+common PMU identification, we can factor out this check in the correct
+order too. While it might technically be possible to hoist the general
+task/cgroup check up here now, that would be horribly messy, so for
+clarity let's keep these as distinct (albeit related) concerns.
 
------BEGIN PGP SIGNATURE-----
+Reported-by: kernel test robot <oliver.sang@intel.com>
+Closes: https://lore.kernel.org/oe-lkp/202508190403.33c83ece-lkp@intel.com
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+  kernel/events/core.c | 12 +++++++++++-
+  1 file changed, 11 insertions(+), 1 deletion(-)
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaKSy2gAKCRB4tDGHoIJi
-0jMkAP9NUxCGEjZ63zCEHXPLBh1Zxa6yjFr146a0y81NFbwSjAD/YzkXycwf8ncA
-kcfhNlkqACOs8kQMNQf0M5TaGq44NAc=
-=o59W
------END PGP SIGNATURE-----
-
---66JlIddYdkNBaUXn--
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 5f7eb526d87c..ddf045ad4d83 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -12562,6 +12562,11 @@ static bool is_raw_pmu(const struct pmu *pmu)
+  	       pmu->capabilities & PERF_PMU_CAP_RAW_EVENTS;
+  }
+  
++static bool is_uncore_pmu(const struct pmu *pmu)
++{
++	return pmu->task_ctx_nr == perf_invalid_context;
++}
++
+  static int perf_try_init_event(struct pmu *pmu, struct perf_event *event)
+  {
+  	struct perf_event_context *ctx = NULL;
+@@ -12571,11 +12576,16 @@ static int perf_try_init_event(struct pmu *pmu, struct perf_event *event)
+  	 * Before touching anything, we can safely skip:
+  	 * - any event for a specific PMU which is not this one
+  	 * - any common event if this PMU doesn't support them
++	 * - non-CPU-bound uncore events (so drivers can assume event->cpu is
++	 *   valid; we'll check the actual task/cgroup attach state later)
+  	 */
+  	if (event->attr.type != pmu->type &&
+  	    (event->attr.type >= PERF_TYPE_MAX || !is_raw_pmu(pmu)))
+  		return -ENOENT;
+  
++	if (is_uncore_pmu(pmu) && event->cpu < 0)
++		return -EINVAL;
++
+  	if (!try_module_get(pmu->module))
+  		return -ENODEV;
+  
+@@ -12990,7 +13000,7 @@ perf_event_alloc(struct perf_event_attr *attr, int cpu,
+  	 * events (they don't make sense as the cgroup will be different
+  	 * on other CPUs in the uncore mask).
+  	 */
+-	if (pmu->task_ctx_nr == perf_invalid_context && (task || cgroup_fd != -1))
++	if (is_uncore_pmu(pmu) && (task || cgroup_fd != -1))
+  		return ERR_PTR(-EINVAL);
+  
+  	if (event->attr.aux_output &&
+-- 
