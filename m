@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B653B2BCEE
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC82B2BCE1
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:18:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E16010E578;
-	Tue, 19 Aug 2025 09:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C26E10E569;
+	Tue, 19 Aug 2025 09:18:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="Las1bXky";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="VF+OU4Wq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
  [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05F2110E56E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:18:38 +0000 (UTC)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J5V5O5023307;
- Tue, 19 Aug 2025 11:18:30 +0200
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F270A10E571
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:18:24 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J97Evm020996;
+ Tue, 19 Aug 2025 11:18:16 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=selector1; bh=
- oY2i3/QdagsbJnCTHKEhw+vk6bgRWtT/H5qOK4fkc20=; b=Las1bXky4/jy1W/9
- t1JDzkCm5ppw3cbt7dgtqC/BDgXjaJHDJQNzWDH5SVEeogIb7AV+ywYZgHt2GRwh
- lq5OT6ZercmbpaiGs7E6CIbiJKjdZ3oE7bU3T27sym9XaqJh2cAcOIbjTCJ05hbG
- TlRfMWGlltwBCOp0zh/QsADHPfZXa1de45Yx2NXUykEfibNzimgIMdtALv81lf5+
- 68Y0UGqi0SNRh2pQkZ7lTr2+FoVtSJu4BU5EA+GcdGbbz1O2E2uvExYyKrrWLAfN
- sX3xLCqohYmQSnSLiaYMBdn7qGJ39TI+7fPOEaLtdTO1ejsuuJnvx+kkr2g6ipyg
- ZTxZQg==
+ akrsF+rqanN9h/weZbTUYAjXWW1c35UUR7IDQhJggDk=; b=VF+OU4WqU1Sj6uI+
+ Gp+hqou6mfklj9buqVEdGTDR/8cyluyqrhNhC4vyofRgXCW+lElCIzeCegKxlIAB
+ bSTxeJmDfKNrngi6+cblm6G6DtXb0fdAVAxpt/Lu+GA/4+wljKwrz4M13Nc7DRI2
+ QN3oLQozdW7QJrVI5SUAAF8cDCxXlvkotfZg+GyiB3oDs++emhkQL0T0C5GA0nZq
+ msBpQB0aL/vq5Vx4l8TnfRSs4Hx47x0sU38UsSzzzWznwtX4Pf/Xeagt/1iat0EP
+ e0FhSaOz0QfDRvKor+iY2zTduTz6LGeDRuSC9Uxr6/mgr3hpwzjHK99LDRivbfoh
+ bOGT+g==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48k4xmqwmb-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48jf47t0d4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Aug 2025 11:18:30 +0200 (MEST)
+ Tue, 19 Aug 2025 11:18:16 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 770A040056;
- Tue, 19 Aug 2025 11:16:58 +0200 (CEST)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4FB9740044;
+ Tue, 19 Aug 2025 11:17:02 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B64B7717656;
- Tue, 19 Aug 2025 11:16:03 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 66A1871763A;
+ Tue, 19 Aug 2025 11:16:04 +0200 (CEST)
 Received: from localhost (10.130.74.180) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 19 Aug
- 2025 11:16:03 +0200
+ 2025 11:16:04 +0200
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Date: Tue, 19 Aug 2025 11:16:04 +0200
-Subject: [PATCH v3 11/13] arm64: dts: st: add clock-cells to syscfg node on
- stm32mp251
+Date: Tue, 19 Aug 2025 11:16:05 +0200
+Subject: [PATCH v3 12/13] arm64: dts: st: enable display support on
+ stm32mp257f-ev1 board
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250819-drm-misc-next-v3-11-04153978ebdb@foss.st.com>
+Message-ID: <20250819-drm-misc-next-v3-12-04153978ebdb@foss.st.com>
 References: <20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com>
 In-Reply-To: <20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com>
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
@@ -89,26 +89,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make the syscfg node a clock provider so clock consumers can reach child
-clocks through device-tree.
+Enable the following IPs on stm32mp257f-ev1 in order to get display:
+   * LTDC
+   * LVDS
+   * WSVGA LVDS panel (1024x600)
+   * Panel LVDS backlight as GPIO backlight
+   * ILI2511 i2c touchscreen
 
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
- arch/arm64/boot/dts/st/stm32mp251.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/st/stm32mp257f-ev1.dts | 79 ++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-index 372a99d9cc5c3730e8fbeddeb6134a3b18d938b6..6d9c0a430a8cc82542029f18b8a1a954a7c4fddb 100644
---- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
-+++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-@@ -1868,6 +1868,7 @@ exti1: interrupt-controller@44220000 {
- 		syscfg: syscon@44230000 {
- 			compatible = "st,stm32mp25-syscfg", "syscon";
- 			reg = <0x44230000 0x10000>;
-+			#clock-cells = <0>;
+diff --git a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
+index 836b1958ce65fb72c99d634a92af3efaf9844d76..2958ad413b0675575d84942e193a16f80197b88e 100644
+--- a/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
++++ b/arch/arm64/boot/dts/st/stm32mp257f-ev1.dts
+@@ -86,6 +86,43 @@ mm_ospi1: mm-ospi@60000000 {
+ 			no-map;
  		};
+ 	};
++
++	panel_lvds: display {
++		compatible = "edt,etml0700z9ndha", "panel-lvds";
++		enable-gpios = <&gpiog 15 GPIO_ACTIVE_HIGH>;
++		backlight = <&panel_lvds_backlight>;
++		power-supply = <&scmi_v3v3>;
++		status = "okay";
++
++		width-mm = <156>;
++		height-mm = <92>;
++		data-mapping = "vesa-24";
++
++		panel-timing {
++			clock-frequency = <54000000>;
++			hactive = <1024>;
++			vactive = <600>;
++			hfront-porch = <150>;
++			hback-porch = <150>;
++			hsync-len = <21>;
++			vfront-porch = <24>;
++			vback-porch = <24>;
++			vsync-len = <21>;
++		};
++
++		port {
++			lvds_panel_in: endpoint {
++				remote-endpoint = <&lvds_out0>;
++			};
++		};
++	};
++
++	panel_lvds_backlight: backlight {
++		compatible = "gpio-backlight";
++		gpios = <&gpioi 5 GPIO_ACTIVE_HIGH>;
++		default-on;
++		status = "okay";
++	};
+ };
  
- 		pinctrl: pinctrl@44240000 {
+ &arm_wdt {
+@@ -183,6 +220,15 @@ imx335_ep: endpoint {
+ 			};
+ 		};
+ 	};
++
++	ili2511: ili2511@41 {
++		compatible = "ilitek,ili251x";
++		reg = <0x41>;
++		interrupt-parent = <&gpioi>;
++		interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
++		reset-gpios = <&gpiog 14 GPIO_ACTIVE_LOW>;
++		status = "okay";
++	};
+ };
+ 
+ &i2c8 {
+@@ -230,6 +276,39 @@ timer {
+ 	};
+ };
+ 
++&ltdc {
++	status = "okay";
++
++	port {
++		ltdc_ep0_out: endpoint {
++			remote-endpoint = <&lvds_in>;
++		};
++	};
++};
++
++&lvds {
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++			lvds_in: endpoint {
++				remote-endpoint = <&ltdc_ep0_out>;
++			};
++		};
++
++		port@1 {
++			reg = <1>;
++			lvds_out0: endpoint {
++				remote-endpoint = <&lvds_panel_in>;
++			};
++		};
++	};
++};
++
+ &rtc {
+ 	status = "okay";
+ };
 
 -- 
 2.25.1
