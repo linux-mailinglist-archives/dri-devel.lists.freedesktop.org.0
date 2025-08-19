@@ -2,52 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A0EB2B9CE
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 08:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A739EB2B9D1
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 08:46:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F318310E536;
-	Tue, 19 Aug 2025 06:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1688010E538;
+	Tue, 19 Aug 2025 06:46:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VGwwQNQc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lU9IsXSI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAACB10E536
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 06:45:50 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E5CB10E538
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 06:46:25 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D66865C5556;
- Tue, 19 Aug 2025 06:45:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDE20C4CEF4;
- Tue, 19 Aug 2025 06:45:44 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 7F13C613AE;
+ Tue, 19 Aug 2025 06:46:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1DFC4CEF4;
+ Tue, 19 Aug 2025 06:46:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755585949;
- bh=30dK5kUXOs6+u4uB68wroZS57yvJCcYw4PvxdbNBzvI=;
+ s=k20201202; t=1755585974;
+ bh=lGp25vvxN1bdJI7JJ6pQQ6sIoh1/R2PC0pGOpW+xqr0=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VGwwQNQctWNpYmj4oDAMTdIUeNv5f32q2OZME6EIkAKcDcZh2dJhiUkJxXnAiqvcm
- r3VNpKgbr9ANiUJ94WfZOq8JJHtfCHVfvqvVCpTp30q+mM58+PXK35p1tFnzyZFph6
- WdDV705dLrineuKevtOWVZZRWDGfpNfPLPJlt2fH2i20d5oCaBtoalYrlicFgzet4s
- kXxvg/gkKy//PyqpuKsJDOtTjY83gGvPZeWTzegX3kT0Br0BuiOWRcaWzvYUavo9Ka
- yR62uqlfmSmvWeKCyH8SlyaBBPmaLfsof7xeNxZvJgcPtE1S1+vNBDZmRyAPvhGQ5t
- W34kSw37zzA7w==
-Message-ID: <b33cb5b7-7028-4942-8490-dbe693c4badb@kernel.org>
-Date: Tue, 19 Aug 2025 08:45:43 +0200
+ b=lU9IsXSIz6KqbHjKR6GTp1xNsC7kXUDM7tS5ICrYD/CuqUFk4hxOGCFY4pRN45G3E
+ MFUtRuCTgUEZrGJKuJmuPGjk/0A/cRsXxaAetvEit5yZA41wQO49z4jU/QOd+DZUCn
+ fd6eX+FhlTuMYPzJHNgpsh7VyOQc4J6mdj9ZYCvE+m61Gd1QV/zV8OFoh9zmV8ya1X
+ HCgSxPkbDhgze6MmwreGnj92fCJdM/8JBjMf3NQ1X0/OD+LpjooE2KcpQddwyN72mb
+ ExP7KXadouObp7RxZhLQjgcSLeipJl8lNQeTSZLob97c/gDYghJZ76NwFlNeC/doVp
+ ygtFCcdygUbog==
+Message-ID: <dee67abf-39e3-43eb-9c04-9e6b04ee18e9@kernel.org>
+Date: Tue, 19 Aug 2025 08:46:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 1/3] devicetree: bindings: dsiplay: panel:
  panel-simple.yaml: Add Raspberry pi dsi panel compatible
-To: "Kumar, Udit" <u-kumar1@ti.com>, Harikrishna Shenoy <h-shenoy@ti.com>,
+To: "Kumar, Udit" <u-kumar1@ti.com>, "Raghavendra, Vignesh"
+ <vigneshr@ti.com>, Harikrishna Shenoy <h-shenoy@ti.com>,
  neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
  airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, nm@ti.com, vigneshr@ti.com,
- kristo@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+ krzk+dt@kernel.org, conor+dt@kernel.org, nm@ti.com, kristo@kernel.org,
+ thierry.reding@gmail.com, sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Cc: s-jain1@ti.com, devarsht@ti.com
 References: <20250818154746.1373656-1-h-shenoy@ti.com>
  <20250818154746.1373656-2-h-shenoy@ti.com>
  <06a9fa20-e45a-458c-971a-a6f0f1d08004@ti.com>
+ <f2fff09a-376a-44b9-a421-13202b1079fb@ti.com>
+ <0268561b-8a3b-4508-bd28-3b47f5a8b754@ti.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <06a9fa20-e45a-458c-971a-a6f0f1d08004@ti.com>
+In-Reply-To: <0268561b-8a3b-4508-bd28-3b47f5a8b754@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,24 +113,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/08/2025 06:54, Kumar, Udit wrote:
->> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->> index 1ac1f0219079..65f486f2bc9d 100644
->> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
->> @@ -268,6 +268,8 @@ properties:
->>         - rocktech,rk070er9427
->>           # Rocktech Display Ltd. RK043FN48H 4.3" 480x272 LCD-TFT panel
->>         - rocktech,rk043fn48h
->> +        # Raspberry, 7" dsi panel
->> +      - rpi,7inch-dsi
+On 19/08/2025 07:52, Kumar, Udit wrote:
 > 
-> Hello Hari,
-> 
-> Driver changes should come first to match new compatible before device 
-> tree changes.
+> I would expect driver changes as well, which should come before device tree.
 
-Read submitting patches before giving advices.
+Stop advising this nonsense.
 
 Best regards,
 Krzysztof
