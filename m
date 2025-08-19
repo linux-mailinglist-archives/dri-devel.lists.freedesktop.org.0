@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A25AB2BCF8
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:18:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F91B2BCFB
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:18:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDC4210E56A;
-	Tue, 19 Aug 2025 09:18:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F25D10E576;
+	Tue, 19 Aug 2025 09:18:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="oJt6+pUM";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="wLEfmWRc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92C9F10E56A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A194D10E576
  for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:18:45 +0000 (UTC)
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J8iL9M013277;
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J93bvK024068;
  Tue, 19 Aug 2025 11:18:30 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=selector1; bh=
- FSAD6xfEyxZhtbs6l7fpAY63jmRWYHQxC9G8VceRiKg=; b=oJt6+pUMdzfgl5da
- 9z6JPFY8Kg9fVUV3d0QNCeXxwmDQ452DbdPoOa2EBKIdXSPTB0C7QXpuKQmJdWuJ
- YNA81c0trx3Yi68ZYEHAoWc4XRz3oVsqCeTq39AALAMBMqRQEhrMiP07uhD36ozl
- 1rXA0+BGgTZ34D2vNN2Zg0oojyuS2lWZLYC0U8HL31CiKZMD2HEyHXk8/glQkxJJ
- pFYKX0IA7A8L3QAZ26IyjPy4s51hwN8Y3XssEltQVA4XvLYV0KeWUhykHhnj7rCL
- 3sb0/Zd20GYPrd05Chhgn/obPXDsOoDHeg2GT38d+DhwLVmHIXHCam4wOoBNYnJ3
- 3Hw1kA==
+ kyXtN74VkBaQLErnP6Oirfq2yZX1obNwJfBjqV4IEtw=; b=wLEfmWRcpN/2fSsL
+ 0p9nN+Bozh9PyYXVAGIp2580Wqkx1dJ+eld5kcWViuPbHTLUSqahv/huKW5+tuZ/
+ pmicCG3sDCXqLMX1vAHuY+eN+JVWQOh7Owx7pXIRtiMIwa5+aiBeQTu6UOMmyMKQ
+ wHPYRIFrBzaIa8vPraO6aKFNmrtID/j7ui0lNeaP+hmpfalrQ0MDGkcUHL2/hPtB
+ wpt8kyJNAef+3mFNajB0NF1Th8EYVPDQgdlnyG8C8WmW2nfz+BZHYMpDO5oCX01M
+ 1Yf1vQupfQk9a+XyAMjzlfjNUUaVZSa6nuZpEHZ7bGNNL6M7Br0wHUkyMSsZDJis
+ 2fS12A==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48k3j4g8x3-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48jhb1t8py-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 19 Aug 2025 11:18:30 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id AC42540051;
- Tue, 19 Aug 2025 11:16:57 +0200 (CEST)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 5584F40053;
+ Tue, 19 Aug 2025 11:16:58 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EF1CC717657;
- Tue, 19 Aug 2025 11:15:59 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 98F3371763B;
+ Tue, 19 Aug 2025 11:16:00 +0200 (CEST)
 Received: from localhost (10.130.74.180) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 19 Aug
- 2025 11:15:59 +0200
+ 2025 11:16:00 +0200
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Date: Tue, 19 Aug 2025 11:15:58 +0200
-Subject: [PATCH v3 05/13] dt-bindings: display: st,stm32mp25-lvds: add
- power-domains property
+Date: Tue, 19 Aug 2025 11:15:59 +0200
+Subject: [PATCH v3 06/13] dt-bindings: arm: stm32: add required
+ #clock-cells property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250819-drm-misc-next-v3-5-04153978ebdb@foss.st.com>
+Message-ID: <20250819-drm-misc-next-v3-6-04153978ebdb@foss.st.com>
 References: <20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com>
 In-Reply-To: <20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com>
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
@@ -89,28 +89,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-STM32 LVDS peripheral may be in a power domain.  Allow an optional
-single 'power-domains' entry for STM32 LVDS devices.
+On STM32MP25 SoC, the syscfg peripheral provides a clock to the display
+subsystem through a multiplexer.  Since it only provides a single clock,
+the cell value is 0.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Doing so allows the clock consumers to reach the peripheral and gate the
+clock accordingly.
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
- Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ .../bindings/arm/stm32/st,stm32-syscon.yaml        | 31 +++++++++++++++-------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml b/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
-index 05a73bbc246a8994b6aabf7c2cd9dca773232be4..14e042156179cb2f2d906422eaff6840da3c91ea 100644
---- a/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
-+++ b/Documentation/devicetree/bindings/display/st,stm32mp25-lvds.yaml
-@@ -62,6 +62,9 @@ properties:
-   access-controllers:
+diff --git a/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml b/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
+index ed97652c84922813e94b1818c07fe8714891c089..95d2319afe235fa86974d80f89c9deeae2275232 100644
+--- a/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
++++ b/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
+@@ -36,20 +36,31 @@ properties:
+   clocks:
      maxItems: 1
  
-+  power-domains:
-+    maxItems: 1
++  "#clock-cells":
++    const: 0
 +
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
+ required:
+   - compatible
+   - reg
+ 
+-if:
+-  properties:
+-    compatible:
+-      contains:
+-        enum:
+-          - st,stm32mp157-syscfg
+-          - st,stm32f4-gcan
+-then:
+-  required:
+-    - clocks
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - st,stm32mp157-syscfg
++              - st,stm32f4-gcan
++    then:
++      required:
++        - clocks
++  - if:
++      properties:
++        compatible:
++          const: st,stm32mp25-syscfg
++    then:
++      required:
++        - "#clock-cells"
+ 
+ additionalProperties: false
  
 
 -- 
