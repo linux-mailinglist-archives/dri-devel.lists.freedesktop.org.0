@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59004B2C2F2
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 14:16:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779B2B2C2F3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 14:17:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFE3210E5C6;
-	Tue, 19 Aug 2025 12:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD64E10E5C5;
+	Tue, 19 Aug 2025 12:16:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="frqyxjTT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y8Id9G3P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B85E10E5C4
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 12:16:54 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-afcb7acfde3so730530466b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 05:16:53 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8AC210E5C5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 12:16:55 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-afcb7322da8so873899966b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 05:16:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755605812; x=1756210612; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1755605814; x=1756210614; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PboKxjSSvW6h8IWsKUFqt3oWZleCNVGyc+XkVJL1pxE=;
- b=frqyxjTTSDT9R/snisy5heFU350/Nj+TPjiyqDYsenMjaXtJMWaoa0WTgRxmYrvp53
- xZnT7NfwqX/rWZfWu+rlXeDPe2/o3oPomq1/Kdw3fOCir+VONNKDOtRLC3/YnhJvJ7Ey
- DgT/ioekwgYzGhndpmbneAR0mRJQ6TsEO3CIQ4J/d77beg8UK/rXC5BDukuC+0KFCOCD
- IORQHNY6aUO066el0EnnnmThk1YdtJwhnp5OPmsZsoGuZe69Md5NkpW89nbqQg6f6nMc
- im46ae9gx6kAuMCtcjHUGY6hU+C9c4m/iawnjNOb+mrwtm/GRiao6FaYnivXYNCE70zG
- LgFg==
+ bh=qiixv77psU4RDvOrkp4fJ28vu40GaS8M7efoSdjRzBY=;
+ b=Y8Id9G3PAW7/li9URFHoKoiUxRKoHNkdLJ2IO+H/35wTgkjfMwFWIVOqKopPUdSPW/
+ I+9Qe7JAd3yxRYPQ6i+w7Yc/+MBgMz+tHu1up+zfBnW60hySHvnBeMxjkp4Y5O0JMUW9
+ nvTDW7spohFf5Ni3FSdh1xQCAkRMApiD2B9qVL10F9xlPUQ1J7TFc4t40U1MFLfZSBna
+ LoelB+FoYO3wRkjJJLL70P6+gOVn3lS/Q9+h94S2LGRVLslXu9rlN0a1wJURzQz2UbUL
+ XSL7wN0Mqq3lLzlV6oci215fRsVRAds0z8IkZBJo0VHjHD3OTdJogdWvteFCAT8eLXvd
+ MTew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755605812; x=1756210612;
+ d=1e100.net; s=20230601; t=1755605814; x=1756210614;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PboKxjSSvW6h8IWsKUFqt3oWZleCNVGyc+XkVJL1pxE=;
- b=uOQfSaGSHBqse/b4c95Uy/MQqfpiFonVBOLkJVoW7KWP6Q9CkewabIcb8mV5sUXk2a
- 687Uj3JFkUe4gVUg7PPa4Co0NlxypN4R2y/67E8JbxoKkvfvtC/InCvWjWezDj9j7l0J
- x6Q5DtsgFgehm6bWF84RiXrHD1vH5D4OJco+JwlQXf8vA7P9h95NWS8k2u5XjsEE0TC3
- lz92AUJT6C78RRbRIFyzbXxVk+vyhpIWDFuhnbbFkPGLQDeDFr8iZwRtbQXMIL1epaEx
- sGN+eSVtXQlel+YAOWzr3fXR2DK91BVt05bQw79vxmZuM+IyFhLDxeFmeX/MS/Ja/UUL
- Cwhg==
+ bh=qiixv77psU4RDvOrkp4fJ28vu40GaS8M7efoSdjRzBY=;
+ b=KLau2wTitEpP+dQgC0Xf20FNXI6aeZex7mxxto+0RZtoZyFsqybjePeMWUpu6GaNm+
+ itbHpJUJvBlmIrUVgjDsgQKSxoxr/1CandifECybgGq0dN+PxEnkhZk64S6gSXEGYSuh
+ cc7tWUQl9/jVTjQ2wN3qKo7YPpq3vGSj4li8+wnHZY4fmT683pebQypmD8qAN+dZ8f1j
+ qwCdAxpAi/RHTj7rXHadPCsMnQdV3Jumc5K840ItV5LD2taU+gsub5HhcJI3spTvSiSB
+ 6//X/3ZCNQoh59XwLWBj9QRI3BRnv7FUmiVo8iiClJ1Fe2KGPmNLBmlOT+JcTGRWcV+s
+ ULEQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWu4P4pReJsWSb43vk4r+xvxjuzAX9iL9M6Ko4Ug+vkcS0MVRO5Eh7o0lgiaizcAEq401kJvBoL19Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwQy/tDymeUoLuOP4EprO+cwz5Sv5AEY1BLZmKAeJn8bxp/1GYU
- Zs99jKUyNFbcXWVCwU0ErCDZ7fJrT3LXb7WKaWw8S8jSzL8zXL9uZm9pKGVzBA==
-X-Gm-Gg: ASbGncuiQPoXs/OJrbO6DW3t6T8NyrE8DnnSzR96uzlwV5IgN+lxYkuRSI22EWJZlHe
- EoUGC9rlxr/19iwp+cF8SmKsGV+Mb4Rs+H+qTtIfKRnNYA4sVJHPjyrq5KVYhBzgRzME7+JrlMs
- SVLS0ckhnwwr9TQb+5rsQ2pF2olPlyk/p/aQKQ0VZNG+A7tIxYLVu+9ZM52ANc7VgI6gdBjODA/
- S/4VxE3F9jYLvwXi+uVO+FfQakRMeCdua/psIWTsG85YUiLR4dvwCYSC+DlsAui0lQ14Gl82Z71
- 8JBhE7OA/M2bKyVjw91vTpnXwXtnrNRc/SQhPh0ZThYyznmHzWODWoyD9PrF/FMVq9aXjExAxIc
- YH61/PaLUhzbW0A==
-X-Google-Smtp-Source: AGHT+IHy3F/e1kSRDlbofyboq4p2pglFSUtVJLGVczC1I6BCAnBxgMTYMS6YyE/2e4b1RIBWu7NZlA==
-X-Received: by 2002:a17:906:c113:b0:afc:d5a3:90c1 with SMTP id
- a640c23a62f3a-afddd21a8c1mr208971666b.55.1755605812119; 
- Tue, 19 Aug 2025 05:16:52 -0700 (PDT)
+ AJvYcCUw6S7BleI5+n2pqcfPSY+NsRBa64EXQTwkGKpg4ZBfMaJ9Yu/zmZ8iFqBqTMvjzttCyfP1BnfIZb8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy3TsgfWle/9wxWRR1xI25ogtJ09zTvhICU+9Yln/Bv9aQYgl6Q
+ 8SVh0ZPLfkYW+PshK0HEG/vp6Wr8olTZRPEQ2iHmHy6um6C4ZXtyee2h
+X-Gm-Gg: ASbGncvYlxaLwWgNkWbyYFsaiYDfNNVNe2olonWMhePx+1QsdltY9smY2iKxpv7YX2/
+ qYxEliLNV/a97cA1Kiy1hwu9OzTq+hc1LCzFMyeX6943y0c9GERm1I/9Or1NHxqrgTFGAZqrtL4
+ DeMAejb4A8lupvLNkibhWTu3mJdAJCSkGWZJIF9WdbBUo8YG/SlFIviP+sO/AlWqVwx8YSUzGTj
+ wsosrZK08Mhl17zGHtCUjYIKRwAEae/KGnndVlzMA8wqfk5qH9O8UAllHfbN6cNwfclq0Z3pPaZ
+ q7EErJmEnESSuLSmycKuavkezvd8Gxh/+Yc6wO4NQNEEtaFk8rSMr4Ff2j1AZrFyjHyuHDRD/Y5
+ mzhu7r62W2nAndQ==
+X-Google-Smtp-Source: AGHT+IHoW7cmlDSj4FeLC0Y6L5fKUHnHWGAThm5Gw2ojTL8jZq6/7sTeg99ABpe7CZ+VwcMWcDndRA==
+X-Received: by 2002:a17:907:3d43:b0:ae3:bd96:78cd with SMTP id
+ a640c23a62f3a-afddc95d9cemr232522666b.7.1755605814133; 
+ Tue, 19 Aug 2025 05:16:54 -0700 (PDT)
 Received: from xeon.. ([188.163.112.76]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.50
+ a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Aug 2025 05:16:51 -0700 (PDT)
+ Tue, 19 Aug 2025 05:16:53 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>,
@@ -86,10 +86,10 @@ Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: [PATCH v1 06/19] staging: media: tegra-video: csi: move CSI helpers
- to header
-Date: Tue, 19 Aug 2025 15:16:18 +0300
-Message-ID: <20250819121631.84280-7-clamor95@gmail.com>
+Subject: [PATCH v1 07/19] staging: media: tegra-video: csi: parametrize MIPI
+ calibration device presence
+Date: Tue, 19 Aug 2025 15:16:19 +0300
+Message-ID: <20250819121631.84280-8-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250819121631.84280-1-clamor95@gmail.com>
 References: <20250819121631.84280-1-clamor95@gmail.com>
@@ -110,58 +110,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move CSI helpers into the header for easier access from SoC-specific video
-driver parts.
+Dedicated MIPI calibration block appears only in Tegra114, before Tegra114
+all MIPI calibration pads were part of VI block.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/staging/media/tegra-video/csi.c | 11 -----------
- drivers/staging/media/tegra-video/csi.h | 10 ++++++++++
- 2 files changed, 10 insertions(+), 11 deletions(-)
+ drivers/staging/media/tegra-video/csi.c      | 12 +++++++-----
+ drivers/staging/media/tegra-video/csi.h      |  1 +
+ drivers/staging/media/tegra-video/tegra210.c |  1 +
+ 3 files changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 604185c00a1a..74c92db1032f 100644
+index 74c92db1032f..2f9907a20db1 100644
 --- a/drivers/staging/media/tegra-video/csi.c
 +++ b/drivers/staging/media/tegra-video/csi.c
-@@ -20,17 +20,6 @@
+@@ -485,11 +485,13 @@ static int tegra_csi_channel_alloc(struct tegra_csi *csi,
+ 	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+ 		return 0;
  
- #define MHZ			1000000
+-	chan->mipi = tegra_mipi_request(csi->dev, node);
+-	if (IS_ERR(chan->mipi)) {
+-		ret = PTR_ERR(chan->mipi);
+-		chan->mipi = NULL;
+-		dev_err(csi->dev, "failed to get mipi device: %d\n", ret);
++	if (csi->soc->has_mipi_calibration) {
++		chan->mipi = tegra_mipi_request(csi->dev, node);
++		if (IS_ERR(chan->mipi)) {
++			ret = PTR_ERR(chan->mipi);
++			chan->mipi = NULL;
++			dev_err(csi->dev, "failed to get mipi device: %d\n", ret);
++		}
+ 	}
  
--static inline struct tegra_csi *
--host1x_client_to_csi(struct host1x_client *client)
--{
--	return container_of(client, struct tegra_csi, client);
--}
--
--static inline struct tegra_csi_channel *to_csi_chan(struct v4l2_subdev *subdev)
--{
--	return container_of(subdev, struct tegra_csi_channel, subdev);
--}
--
- /*
-  * CSI is a separate subdevice which has 6 source pads to generate
-  * test pattern. CSI subdevice pad ops are used only for TPG and
+ 	return ret;
 diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
-index 3e6e5ee1bb1e..3ed2dbc73ce9 100644
+index 3ed2dbc73ce9..400b913bb1cb 100644
 --- a/drivers/staging/media/tegra-video/csi.h
 +++ b/drivers/staging/media/tegra-video/csi.h
-@@ -151,6 +151,16 @@ struct tegra_csi {
- 	struct list_head csi_chans;
+@@ -128,6 +128,7 @@ struct tegra_csi_soc {
+ 	unsigned int num_clks;
+ 	const struct tpg_framerate *tpg_frmrate_table;
+ 	unsigned int tpg_frmrate_table_size;
++	bool has_mipi_calibration;
  };
  
-+static inline struct tegra_csi *host1x_client_to_csi(struct host1x_client *client)
-+{
-+	return container_of(client, struct tegra_csi, client);
-+}
-+
-+static inline struct tegra_csi_channel *to_csi_chan(struct v4l2_subdev *subdev)
-+{
-+	return container_of(subdev, struct tegra_csi_channel, subdev);
-+}
-+
- void tegra_csi_error_recover(struct v4l2_subdev *subdev);
- void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
- 				u8 csi_port_num,
+ /**
+diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
+index da99f19a39e7..305472e94af4 100644
+--- a/drivers/staging/media/tegra-video/tegra210.c
++++ b/drivers/staging/media/tegra-video/tegra210.c
+@@ -1218,4 +1218,5 @@ const struct tegra_csi_soc tegra210_csi_soc = {
+ 	.num_clks = ARRAY_SIZE(tegra210_csi_cil_clks),
+ 	.tpg_frmrate_table = tegra210_tpg_frmrate_table,
+ 	.tpg_frmrate_table_size = ARRAY_SIZE(tegra210_tpg_frmrate_table),
++	.has_mipi_calibration = true,
+ };
 -- 
 2.48.1
 
