@@ -2,115 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F04B2CFF2
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 01:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386E5B2D00C
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 01:35:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E82210E2DE;
-	Tue, 19 Aug 2025 23:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C179110E226;
+	Tue, 19 Aug 2025 23:35:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PrRQ4pbQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iOAI0QJZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 433D310E234
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 23:29:16 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57JL0mhT026151
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 23:29:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=eorQnuKwFmy
- 2NP3qxzCVt5IHD0p6HNwhfpue4EH5fbo=; b=PrRQ4pbQgGU3zIbwI6WUS/i+lbb
- QwgBCdLHKiuGmdVJhDU70Kzzp1XfZraBmqmhhuYi6zCCV8p1KjAyWLGclhjWB/NR
- 49KOhpakQ1bvvAAUukhZBfOjZNt9pI+k9qjqiWuVu3GnPxCp7+5/Vioha3slOf0h
- GlyrLJyPTiSlG8ekygsd1yierTJ5YcC5KVA3X9lGADoFh++EbH9lAQHNea+GI6us
- HW/TtS8ePp56MxRIUYSF5obBvHOoW6DzXUhH3jZqnRgxTr+q9ByMpj7HR5ms32h/
- 7MsxoC5x6smZzogi+ola7robDSTkdSki1Tsg6TvaF1LLqBinpE8iKJ8wuCw==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n0tf88sq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 23:29:15 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-2449b4f316fso13846705ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 16:29:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755646154; x=1756250954;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eorQnuKwFmy2NP3qxzCVt5IHD0p6HNwhfpue4EH5fbo=;
- b=CfjM8jpQmc1Pf5eidPL+FTsL1QmOxQs2awEuoc3dOL82ytOeTw22c3sLWk+Z1iyESo
- +g/vwqBPztOPNIYF/VdlRCn2aAazcyRalVZ+2Sq/itZk+sCCCaK0HRndako4TnKoWWON
- 8IZG8RdcH34YO5xJCzhbaXXIR8Fedx76he0wsL/xYbicC/7kgtv31fLb3r2twDPDkqwZ
- uYumUHOejuZ/jLiFZLYVoj8nW+BWoniEyn/PKRHMXHlUzgzpijGF9VIQuuT23uKGskNf
- jEVYW1x8H7F33L+rF15Pq9JgIT+uXnoourdHvw29OSlCTs41w8meKcCIheU3tdKyyUi0
- hYqA==
-X-Gm-Message-State: AOJu0YwjA8da4dIf+TUM+Wbv/fejzy35+SCoZDOEf+t6BCwSfUOQJBbm
- 9lDs7Zz9QDMmemxnMYapQq4wPf8DhLGEuYJ6nx98ci1cxHaRvW2hpWsFdPozvPqEb37xi2oSG6Q
- vbaGsJgUKctfPw93RRZXi5cADvwkrnfNGNxtjjPRzLewZRtugxOGu56rHS5qJEFLAq0sDv7ceha
- u/af8=
-X-Gm-Gg: ASbGncuE7BEDLj91N3PTDgVY7Vfr/esu1khS1t1p4xFK1I3QvP2jxLRCbETM1TznqWN
- s/1hi056DkGKSDkqrnGmSt9tMwndLjlhby/n4GHBXacPVGCw2bnN7WMxnPWSdxcM6hCa/gk5RjK
- H6gVtwJ0VpIMTvGS0gttm59hFQMK6hNDm5btC+JkUEZcFeUbza9dZxsvoFg92L6Yy4LADygZ0gM
- h6oJ7BhE5wFmWSibjz6eNIzupIrf7F6ZEPGstEfoxNc2ODV6IfQvcvmK+zIe02ZF+qigJOEg2oZ
- eQ9AqybhB11KghQFs4+vmLrO6LSieAmezJcsnkyCFsv6FpTbIrY=
-X-Received: by 2002:a17:903:234e:b0:243:963:2a70 with SMTP id
- d9443c01a7336-245ef156358mr8027695ad.25.1755646154014; 
- Tue, 19 Aug 2025 16:29:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHlmpOombDfq8VbEjWHWMgGH5Q1/mKcc7dH8Jm6GIHXrGX0qRiaR2T3uKoERFwvEKAF5ww/Bg==
-X-Received: by 2002:a17:903:234e:b0:243:963:2a70 with SMTP id
- d9443c01a7336-245ef156358mr8027425ad.25.1755646153561; 
- Tue, 19 Aug 2025 16:29:13 -0700 (PDT)
-Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-245ed4ebc4esm8040925ad.115.2025.08.19.16.29.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Aug 2025 16:29:13 -0700 (PDT)
-From: Rob Clark <robin.clark@oss.qualcomm.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Connor Abbott <cwabbott0@gmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 3/3] drm/msm: Fix 32b size truncation
-Date: Tue, 19 Aug 2025 16:29:03 -0700
-Message-ID: <20250819232905.207547-4-robin.clark@oss.qualcomm.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250819232905.207547-1-robin.clark@oss.qualcomm.com>
-References: <20250819232905.207547-1-robin.clark@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2CFC10E227
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 23:35:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755646543; x=1787182543;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=UoBG8PeGPJVyxd9JSmBx2cgQbXskosf2NHxww4keNsk=;
+ b=iOAI0QJZHd+D5istroFyiOuNdl1snrORgcTH5KiMTmahg+aXO09SIFFu
+ gdXTcwfOQ1mMI3Bnj7zMJhSUXKeUgjH7459xLfI+YbPtIrpCmMJR8QdJ5
+ N/2NLmEac6+pg/Tlz8wig+MHL+XyhoPbNHnZhfKBbpYJAdGm5qBJsPTiN
+ hzad8dbLgRij00j0/VTeaB89uyYVVtHM7C6LTC/QcFrkGWSAqx8tY6tr3
+ tO3ZN2RpgpOicdUcUPIcqM8HFb5M8S1Obt2ScT8jzD6K1OAjeuZ/DO46z
+ s++qyaJzd3yhuCdGWwab29AkmBR6d9P76HPcNNCj7oV9Bd7HzMYyYFFYX A==;
+X-CSE-ConnectionGUID: SXvvF+ODSZ+ht54HG5abTA==
+X-CSE-MsgGUID: gZ/c1NcYTv2sCk/mmRl04Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="58003629"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="58003629"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2025 16:35:43 -0700
+X-CSE-ConnectionGUID: 0O8j5+TvRxqPeA33zeo0Dw==
+X-CSE-MsgGUID: uRAXroCVSIWG87Mbn+uHtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="168774587"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+ by fmviesa010.fm.intel.com with ESMTP; 19 Aug 2025 16:35:39 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uoVrS-000Hm7-0K;
+ Tue, 19 Aug 2025 23:35:30 +0000
+Date: Wed, 20 Aug 2025 07:35:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Mike Looijmans <mike.looijmans@topic.nl>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm: bridge: Add TI tmds181 and sn65dp159 driver
+Message-ID: <202508200712.FUHg7vmw-lkp@intel.com>
+References: <20250819053205.9976-3-mike.looijmans@topic.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Ws3_FUh6kA-GDHidwmwKEXFFS-wxsW9v
-X-Proofpoint-GUID: Ws3_FUh6kA-GDHidwmwKEXFFS-wxsW9v
-X-Authority-Analysis: v=2.4 cv=H5mCA+Yi c=1 sm=1 tr=0 ts=68a508cb cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10
- a=EUspDBNiAAAA:8 a=Zku5-IFyaxskcEPfeVAA:9 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NiBTYWx0ZWRfXws7HyybEBi5M
- 2T7lj+UvljNkFfVFV+TmXGCBptn1lvMpDUuIbD+Eo0Ataz/rGCGZ/P81zOetsnaLlBu4gAk4Z08
- whZLi/XpJWG7UYdgAysBkLJAYZ+E+PWhkxsgaoRfznVJmGGzaymE48xx7MD3XsprTWJsnTpRaMk
- Ts8rw1RTpibxaHRTpi6bsU639RL5FZ1hhr9RVwBjXEtI1LSNyDE4cqCUBiLcaE0mC5Lx9GSWqTE
- nqL1Ypo1ANUh0sCvkMR1QTPnDiOaErLeyL3A+WiAAJK/sSR1+evEirf7v2yb3WfpHIULSX2hXaE
- Zgt37LxTGlfYmMLRR5I3QaL+QGBu3vWW60kYR6ErvbOwB1XD6qmo6IzJdVYqKFLg8yOHiJgWmDj
- e1+rIp5fq9SRfXbPfYtVEkQWI1hysA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-19_04,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
- impostorscore=0 bulkscore=0 priorityscore=1501 adultscore=0 phishscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2508110000
- definitions=main-2508190196
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250819053205.9976-3-mike.looijmans@topic.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,99 +77,237 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Somehow we never noticed this when arm64 became a thing, many years ago.
+Hi Mike,
 
-Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/msm_gem.c | 17 ++++++++---------
- drivers/gpu/drm/msm/msm_gem.h |  6 +++---
- 2 files changed, 11 insertions(+), 12 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 958bac4e2768..9a935650e5e3 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -1142,7 +1142,7 @@ static int msm_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struct
- 
- /* convenience method to construct a GEM buffer object, and userspace handle */
- int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
--		uint32_t size, uint32_t flags, uint32_t *handle,
-+		size_t size, uint32_t flags, uint32_t *handle,
- 		char *name)
- {
- 	struct drm_gem_object *obj;
-@@ -1208,9 +1208,8 @@ static const struct drm_gem_object_funcs msm_gem_object_funcs = {
- 	.vm_ops = &vm_ops,
- };
- 
--static int msm_gem_new_impl(struct drm_device *dev,
--		uint32_t size, uint32_t flags,
--		struct drm_gem_object **obj)
-+static int msm_gem_new_impl(struct drm_device *dev, uint32_t flags,
-+			    struct drm_gem_object **obj)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_gem_object *msm_obj;
-@@ -1244,7 +1243,7 @@ static int msm_gem_new_impl(struct drm_device *dev,
- 	return 0;
- }
- 
--struct drm_gem_object *msm_gem_new(struct drm_device *dev, uint32_t size, uint32_t flags)
-+struct drm_gem_object *msm_gem_new(struct drm_device *dev, size_t size, uint32_t flags)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_gem_object *msm_obj;
-@@ -1259,7 +1258,7 @@ struct drm_gem_object *msm_gem_new(struct drm_device *dev, uint32_t size, uint32
- 	if (size == 0)
- 		return ERR_PTR(-EINVAL);
- 
--	ret = msm_gem_new_impl(dev, size, flags, &obj);
-+	ret = msm_gem_new_impl(dev, flags, &obj);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -1299,12 +1298,12 @@ struct drm_gem_object *msm_gem_import(struct drm_device *dev,
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_gem_object *msm_obj;
- 	struct drm_gem_object *obj;
--	uint32_t size;
-+	size_t size;
- 	int ret, npages;
- 
- 	size = PAGE_ALIGN(dmabuf->size);
- 
--	ret = msm_gem_new_impl(dev, size, MSM_BO_WC, &obj);
-+	ret = msm_gem_new_impl(dev, MSM_BO_WC, &obj);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -1347,7 +1346,7 @@ struct drm_gem_object *msm_gem_import(struct drm_device *dev,
- 	return ERR_PTR(ret);
- }
- 
--void *msm_gem_kernel_new(struct drm_device *dev, uint32_t size, uint32_t flags,
-+void *msm_gem_kernel_new(struct drm_device *dev, size_t size, uint32_t flags,
- 			 struct drm_gpuvm *vm, struct drm_gem_object **bo,
- 			 uint64_t *iova)
- {
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 751c3b4965bc..a4cf31853c50 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -297,10 +297,10 @@ bool msm_gem_active(struct drm_gem_object *obj);
- int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout);
- int msm_gem_cpu_fini(struct drm_gem_object *obj);
- int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
--		uint32_t size, uint32_t flags, uint32_t *handle, char *name);
-+		size_t size, uint32_t flags, uint32_t *handle, char *name);
- struct drm_gem_object *msm_gem_new(struct drm_device *dev,
--		uint32_t size, uint32_t flags);
--void *msm_gem_kernel_new(struct drm_device *dev, uint32_t size, uint32_t flags,
-+		size_t size, uint32_t flags);
-+void *msm_gem_kernel_new(struct drm_device *dev, size_t size, uint32_t flags,
- 			 struct drm_gpuvm *vm, struct drm_gem_object **bo,
- 			 uint64_t *iova);
- void msm_gem_kernel_put(struct drm_gem_object *bo, struct drm_gpuvm *vm);
+[auto build test ERROR on 53e760d8949895390e256e723e7ee46618310361]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Looijmans/dt-bindings-drm-bridge-ti-tmds181-Add-TI-TMDS181-and-SN65DP159-bindings/20250819-133458
+base:   53e760d8949895390e256e723e7ee46618310361
+patch link:    https://lore.kernel.org/r/20250819053205.9976-3-mike.looijmans%40topic.nl
+patch subject: [PATCH v2 2/2] drm: bridge: Add TI tmds181 and sn65dp159 driver
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20250820/202508200712.FUHg7vmw-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250820/202508200712.FUHg7vmw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508200712.FUHg7vmw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/bridge/ti-tmds181.c: In function 'tmds181_enable':
+>> drivers/gpu/drm/bridge/ti-tmds181.c:165:28: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     165 |                            FIELD_PREP(TMDS181_CTRLB_TX_TERM_CTL, val));
+         |                            ^~~~~~~~~~
+   drivers/gpu/drm/bridge/ti-tmds181.c:137:40: warning: unused variable 'bridge_state' [-Wunused-variable]
+     137 |         const struct drm_bridge_state *bridge_state;
+         |                                        ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/ti-tmds181.c: At top level:
+   drivers/gpu/drm/bridge/ti-tmds181.c:181:27: error: initialization of 'int (*)(struct drm_bridge *, struct drm_encoder *, enum drm_bridge_attach_flags)' from incompatible pointer type 'int (*)(struct drm_bridge *, enum drm_bridge_attach_flags)' [-Wincompatible-pointer-types]
+     181 |         .attach         = tmds181_attach,
+         |                           ^~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/ti-tmds181.c:181:27: note: (near initialization for 'tmds181_bridge_funcs.attach')
+   drivers/gpu/drm/bridge/ti-tmds181.c:102:12: note: 'tmds181_attach' declared here
+     102 | static int tmds181_attach(struct drm_bridge *bridge,
+         |            ^~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/ti-tmds181.c:183:27: error: initialization of 'void (*)(struct drm_bridge *, struct drm_atomic_state *)' from incompatible pointer type 'void (*)(struct drm_bridge *, struct drm_bridge_state *)' [-Wincompatible-pointer-types]
+     183 |         .atomic_enable  = tmds181_enable,
+         |                           ^~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/ti-tmds181.c:183:27: note: (near initialization for 'tmds181_bridge_funcs.atomic_enable')
+   drivers/gpu/drm/bridge/ti-tmds181.c:133:13: note: 'tmds181_enable' declared here
+     133 | static void tmds181_enable(struct drm_bridge *bridge, struct drm_bridge_state *old_bridge_state)
+         |             ^~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/ti-tmds181.c:184:27: error: initialization of 'void (*)(struct drm_bridge *, struct drm_atomic_state *)' from incompatible pointer type 'void (*)(struct drm_bridge *, struct drm_bridge_state *)' [-Wincompatible-pointer-types]
+     184 |         .atomic_disable = tmds181_disable,
+         |                           ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/ti-tmds181.c:184:27: note: (near initialization for 'tmds181_bridge_funcs.atomic_disable')
+   drivers/gpu/drm/bridge/ti-tmds181.c:171:13: note: 'tmds181_disable' declared here
+     171 | static void tmds181_disable(struct drm_bridge *bridge, struct drm_bridge_state *old_bridge_state)
+         |             ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/ti-tmds181.c: In function 'termination_show':
+>> drivers/gpu/drm/bridge/ti-tmds181.c:297:26: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     297 |                          FIELD_GET(TMDS181_CTRLB_TX_TERM_CTL, val));
+         |                          ^~~~~~~~~
+   drivers/gpu/drm/bridge/ti-tmds181.c: At top level:
+   drivers/gpu/drm/bridge/ti-tmds181.c:96:12: warning: 'tmds181_apply_changes' defined but not used [-Wunused-function]
+      96 | static int tmds181_apply_changes(struct tmds181_data *data)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/FIELD_PREP +165 drivers/gpu/drm/bridge/ti-tmds181.c
+
+   132	
+   133	static void tmds181_enable(struct drm_bridge *bridge, struct drm_bridge_state *old_bridge_state)
+   134	{
+   135		struct tmds181_data *data = drm_bridge_to_tmds181_data(bridge);
+   136		struct drm_atomic_state *state = old_bridge_state->base.state;
+   137		const struct drm_bridge_state *bridge_state;
+   138		const struct drm_crtc_state *crtc_state;
+   139		const struct drm_display_mode *mode;
+   140		struct drm_connector *connector;
+   141		struct drm_crtc *crtc;
+   142		unsigned int val;
+   143	
+   144		/*
+   145		 * Retrieve the CRTC adjusted mode. This requires a little dance to go
+   146		 * from the bridge to the encoder, to the connector and to the CRTC.
+   147		 */
+   148		connector = drm_atomic_get_new_connector_for_encoder(state,
+   149								     bridge->encoder);
+   150		crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+   151		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+   152		mode = &crtc_state->adjusted_mode;
+   153	
+   154		/* Set retimer/redriver mode based on pixel clock */
+   155		val = mode->clock > data->retimer_threshold_khz ? TMDS181_CTRLA_DEV_FUNC_MODE : 0;
+   156		regmap_update_bits(data->regmap, TMDS181_REG_CTRLA,
+   157				   TMDS181_CTRLA_DEV_FUNC_MODE, val);
+   158	
+   159		/* Configure TX termination based on pixel clock */
+   160		val = mode->clock > HDMI2_PIXEL_RATE_KHZ ?
+   161					TMDS181_CTRLB_TX_TERM_75_150_OHMS :
+   162					TMDS181_CTRLB_TX_TERM_150_300_OHMS;
+   163		regmap_update_bits(data->regmap, TMDS181_REG_CTRLB,
+   164				   TMDS181_CTRLB_TX_TERM_CTL,
+ > 165				   FIELD_PREP(TMDS181_CTRLB_TX_TERM_CTL, val));
+   166	
+   167		regmap_update_bits(data->regmap, TMDS181_REG_CTRL9,
+   168				   TMDS181_CTRL9_PD_EN, 0);
+   169	}
+   170	
+   171	static void tmds181_disable(struct drm_bridge *bridge, struct drm_bridge_state *old_bridge_state)
+   172	{
+   173		struct tmds181_data *data = drm_bridge_to_tmds181_data(bridge);
+   174	
+   175		/* Set the PD_EN bit */
+   176		regmap_update_bits(data->regmap, TMDS181_REG_CTRL9,
+   177				   TMDS181_CTRL9_PD_EN, TMDS181_CTRL9_PD_EN);
+   178	}
+   179	
+   180	static const struct drm_bridge_funcs tmds181_bridge_funcs = {
+   181		.attach		= tmds181_attach,
+   182		.mode_valid	= tmds181_mode_valid,
+   183		.atomic_enable	= tmds181_enable,
+   184		.atomic_disable	= tmds181_disable,
+   185	
+   186		.atomic_reset = drm_atomic_helper_bridge_reset,
+   187		.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+   188		.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+   189	};
+   190	
+   191	static const char * const tmds181_modes[] = {
+   192		"redriver",
+   193		"auto1",
+   194		"auto2",
+   195		"retimer",
+   196	};
+   197	
+   198	static ssize_t mode_show(struct device *dev, struct device_attribute *attr,
+   199				 char *buf)
+   200	{
+   201		struct tmds181_data *data = dev_get_drvdata(dev);
+   202		const char *equalizer;
+   203		u32 val;
+   204		int ret;
+   205	
+   206		ret = regmap_read(data->regmap, TMDS181_REG_CTRLA, &val);
+   207		if (ret < 0)
+   208			return ret;
+   209	
+   210		if (val & BIT(4)) {
+   211			if (val & BIT(5))
+   212				equalizer = "eq-adaptive";
+   213			else
+   214				equalizer = "eq-fixed";
+   215		} else {
+   216			equalizer = "eq-disabled";
+   217		}
+   218	
+   219		return scnprintf(buf, PAGE_SIZE, "%6s %s %s\n",
+   220				(val & BIT(7)) ? "sink" : "source",
+   221				tmds181_modes[val & 0x03],
+   222				equalizer);
+   223	}
+   224	
+   225	static ssize_t mode_store(struct device *dev, struct device_attribute *attr,
+   226				  const char *buf, size_t len)
+   227	{
+   228		struct tmds181_data *data = dev_get_drvdata(dev);
+   229		u32 val;
+   230		int ret;
+   231		int i;
+   232	
+   233		/* Strip trailing newline(s) for being user friendly */
+   234		while (len && buf[len] == '\n')
+   235			--len;
+   236	
+   237		/* Need at least 4 actual characters */
+   238		if (len < 4)
+   239			return -EINVAL;
+   240	
+   241		ret = regmap_read(data->regmap, TMDS181_REG_CTRLA, &val);
+   242		if (ret < 0)
+   243			return ret;
+   244	
+   245		for (i = 0; i < ARRAY_SIZE(tmds181_modes); ++i) {
+   246			if (strncmp(tmds181_modes[i], buf, len) == 0) {
+   247				val &= ~TMDS181_CTRLA_DEV_FUNC_MODE;
+   248				val |= FIELD_PREP(TMDS181_CTRLA_DEV_FUNC_MODE, i);
+   249				break;
+   250			}
+   251		}
+   252	
+   253		if (strncmp("sink", buf, len) == 0)
+   254			val |= TMDS181_CTRLA_MODE_SINK;
+   255	
+   256		if (strncmp("source", buf, len) == 0)
+   257			val &= ~TMDS181_CTRLA_MODE_SINK;
+   258	
+   259		if (strncmp("eq-", buf, 3) == 0) {
+   260			switch (buf[3]) {
+   261			case 'a': /* adaptive */
+   262				val |= TMDS181_CTRLA_EQ_ADA_EN | TMDS181_CTRLA_EQ_EN;
+   263				break;
+   264			case 'f': /* fixed */
+   265				val |= TMDS181_CTRLA_EQ_EN;
+   266				val &= ~TMDS181_CTRLA_EQ_ADA_EN;
+   267				break;
+   268			case 'd': /* disable */
+   269				val &= ~(TMDS181_CTRLA_EQ_ADA_EN | TMDS181_CTRLA_EQ_EN);
+   270				break;
+   271			}
+   272		}
+   273	
+   274		/* Always set the "apply changes" bit */
+   275		val |= TMDS181_CTRLA_APPLY;
+   276	
+   277		ret = regmap_write(data->regmap, TMDS181_REG_CTRLA, val);
+   278		if (ret < 0)
+   279			return ret;
+   280	
+   281		return len;
+   282	}
+   283	
+   284	/* termination for HDMI TX: 0=off, 1=150..300, 3=75..150 ohms */
+   285	static ssize_t termination_show(struct device *dev,
+   286			struct device_attribute *attr, char *buf)
+   287	{
+   288		struct tmds181_data *data = dev_get_drvdata(dev);
+   289		u32 val;
+   290		int ret;
+   291	
+   292		ret = regmap_read(data->regmap, TMDS181_REG_CTRLB, &val);
+   293		if (ret < 0)
+   294			return ret;
+   295	
+   296		return scnprintf(buf, PAGE_SIZE, "%u\n",
+ > 297				 FIELD_GET(TMDS181_CTRLB_TX_TERM_CTL, val));
+   298	}
+   299	
+
 -- 
-2.50.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
