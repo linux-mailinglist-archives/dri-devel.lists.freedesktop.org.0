@@ -2,102 +2,196 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E21B2CEAB
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 23:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4D5B2C88E
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 17:36:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7703710E677;
-	Tue, 19 Aug 2025 21:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 414D510E61F;
+	Tue, 19 Aug 2025 15:35:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="eI+3DtAw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CVNy9TOJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D06110E2D6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 15:31:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1755617469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7OeWRMq4NolNVy7XTnNb2tgNZtoQs/hKakUhJixL3Es=;
- b=eI+3DtAwrFwyuJDdbDZlpAQpFoxCuiKc3JO8wmZJUvJd/s8QvkfXpByNA+JqtJuPKpmswY
- zikoLC7UpG+3Wgu2O2YbXKmY51P5Z+qq4bb5DA8YD7GhNJbqYF5+HW8zIjMf49uaqx/jEW
- gLZdM10QavN7x+5H/ja4f4cglHsDLDo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-246-YxvZ81OrPyi6mmd5U4ANUg-1; Tue, 19 Aug 2025 11:31:08 -0400
-X-MC-Unique: YxvZ81OrPyi6mmd5U4ANUg-1
-X-Mimecast-MFC-AGG-ID: YxvZ81OrPyi6mmd5U4ANUg_1755617467
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-45a1b0d221aso23121765e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 08:31:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755617467; x=1756222267;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=fJEEWjS4nx0j4iBms/XL+mfUSySmqxuEsDLBnWVb1kw=;
- b=hZfIKcm+I7Qqe4cPQlMgHPmoRCvOomg1o1yoAd3HCNO0TitBgNQedUvK7F2rxc42KK
- 0lWxUWHrl/B7AV/qx5cGdV0l41U1hcwomyN2UO+nfcY8FwCGHJJOx/QAIsA4pytYBCUD
- Dm5wK7iuMs1H9+I1boWpltQY54a/KF0mWfHWhcB+RAAg2CcY+pDQutkucXxPra2NIBB5
- JWDey258kiq4M0H32ZGzurAaZi076sVrIll1HuHkcBN8FpmD9KcZMyo63MgeBIVEhets
- 7xUVIFjUB6U0dX7me9AWTXVYnda3Rj3fB8qZy6P6sC2bnQjAULFt6luAchw9PWV7zroq
- F2pw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKDc3Sr7NGvHROjmeGtBk9eMoZD7KCPqZuJuxgViVsGohRZLtcIP69mSHNGdLs1NdmdsJVspFEvFQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmI1eaClkJ+3mD8AihK/G2FllijtoseH9qnu0feQ+Qmfe7197e
- sa0hCmoiBK7irmth+cjJdVEIg5tGz5Z9tXLpjpe7+4zyxfMLZ4Lp4dFClFlZ8xkrnrF8kSHiKW5
- QQKD0moRYG7g/4XuWX28SGzdAqc7T3dN9kmlyLJf9/tPhqtgjmPpUmXJVFTym45JxTMumZA==
-X-Gm-Gg: ASbGnctLQjyUaqY8dX68TKh500lvcE3Ko95OT9ONYnp4X/jUb+6GRnBJC0zcGXIigMP
- /HK2fhVbZidyZ/DNbzkHotQnFqZsLGxQ8mw+ViQifqNt2tyulzti/SYc8ttxX6OTU6y4T7CtGzu
- vP+osE7T8tOxsD9gLSY+hqObKPavCPXgAoJtqHXG+CIQc9zwPUOOqKjVJHkzfnYhChfCW5z4h2x
- 0sBCVyDfTrHB+y9jk0nM1wqvM/KcsVeWLmm9hZ4JJWNdG1V19xiy7dcSLvCS3/z5AgPD5YTfm3k
- 3q6VgFTz+5xQupqBQyPs827sgtWbEz93EJN3Nz1dkDXKeA==
-X-Received: by 2002:a05:6000:26c2:b0:3b9:1684:e10 with SMTP id
- ffacd0b85a97d-3c0e6f4ec63mr2194350f8f.23.1755617466644; 
- Tue, 19 Aug 2025 08:31:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGSu74ukqzE13XtkzdMZwcfl94j95lW/tVfVWJLdV/nTd4Cp3t10+cKvLmNo/ZQ4uzuKA6sxA==
-X-Received: by 2002:a05:6000:26c2:b0:3b9:1684:e10 with SMTP id
- ffacd0b85a97d-3c0e6f4ec63mr2194291f8f.23.1755617466028; 
- Tue, 19 Aug 2025 08:31:06 -0700 (PDT)
-Received: from localhost ([2001:9e8:8986:8500:d724:cc1e:d6eb:bc50])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45a1c748a9esm217496815e9.19.2025.08.19.08.31.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Aug 2025 08:31:05 -0700 (PDT)
-Mime-Version: 1.0
-Date: Tue, 19 Aug 2025 17:31:03 +0200
-Message-Id: <DC6IG8LQAIF4.6KM7AM5JD3J3@redhat.com>
-Cc: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
- <leo.liu@amd.com>, <ville.syrjala@linux.intel.com>,
- <pekka.paalanen@collabora.com>, <contact@emersion.fr>, <mwen@igalia.com>,
- <jadahl@redhat.com>, <shashank.sharma@amd.com>, <agoins@nvidia.com>,
- <joshua@froggi.es>, <mdaenzer@redhat.com>, <aleixpol@kde.org>,
- <xaver.hugl@gmail.com>, <victoria@system76.com>, <daniel@ffwll.ch>,
- <uma.shankar@intel.com>, <quic_naseer@quicinc.com>,
- <quic_cbraga@quicinc.com>, <quic_abhinavk@quicinc.com>, <marcan@marcan.st>,
- <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
- <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
- <mcanal@igalia.com>, <nfraprado@collabora.com>, "Daniel Stone"
- <daniels@collabora.com>
-Subject: Re: [PATCH V11 35/47] drm/colorop: Add 1D Curve Custom LUT type
-From: "Sebastian Wick" <sebastian.wick@redhat.com>
-To: "Alex Hung" <alex.hung@amd.com>, <dri-devel@lists.freedesktop.org>,
- <amd-gfx@lists.freedesktop.org>
-X-Mailer: aerc 0.20.1
-References: <20250815035047.3319284-1-alex.hung@amd.com>
- <20250815035047.3319284-36-alex.hung@amd.com>
-In-Reply-To: <20250815035047.3319284-36-alex.hung@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: J3SzfxTuP0oCeJWz8rpQTsHKMa8BzWt3_gBS4at37vk_1755617467
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-X-Mailman-Approved-At: Tue, 19 Aug 2025 21:42:05 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95B8810E2D6;
+ Tue, 19 Aug 2025 15:35:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755617755; x=1787153755;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=O/SvzCSthO9X6rOReEF0j0Ol3I3ICKqrHNtpif72YPU=;
+ b=CVNy9TOJ4M39JJ5Q24CksrygvII3cftJTJiSE7OYVd1mgK4rXHDUtTMU
+ wIMOt5W8PeecX4iFlTAnHV/HZaCnBaZNAG69p3iwFCXcFhyB/9H2RP1kb
+ wkttpdObiLlwEAkYo2cBwf8LxSZlPVX+7mKXxDPUPvSaj72/sJzEXsEAK
+ gU1iFS248ikUmMkUgJxxB2f55oY0XawNHkA92qSb+EilblwT3LN0nBds2
+ W+JH5t1MF6jzfwEHfnNg4NQhLgTy+rBd4NeT1NRnwV19h53wcFfc3NYbL
+ +KOFVGw4VNyRb5DGHaB8PneziU3+ofsbfG/+Ishkz22gTgmvqGEuV5fyv A==;
+X-CSE-ConnectionGUID: A6GYOgB/SZCLuqk++b73YQ==
+X-CSE-MsgGUID: FVOLMa6oTS+1PDvWN3eN6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="68964024"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="68964024"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2025 08:35:55 -0700
+X-CSE-ConnectionGUID: qZjuwKMNS3G8Rab9Mvey1Q==
+X-CSE-MsgGUID: 72U2PoB4Sma3BqXYUfDsmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="173121258"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Aug 2025 08:35:55 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 19 Aug 2025 08:35:54 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Tue, 19 Aug 2025 08:35:54 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.64)
+ by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 19 Aug 2025 08:35:53 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HV4kkARZvpHd3YUP5l0vLABKfhB3eeMg7RUB5nF88jbs5tOL8hZi3eUD3Zd0RxH1nPi5rxUtrV8lEa4TaD8i0XcyjcNgMoUsE1HYquJ/MzazpVTfgXf7r5v82bMbkKzpY7jBMJQFnc7l/J+FWUwdVq07QMyIxvM8L+aJ6v2zo0kqlypxYfhpQ67yfdEM1ID2thKoPsJtZIPChI3qlDn96+kZZbEIMO0PohXJqgu+nLuE5imfFktEmds4Y+xNaKV6ZfgaUpFv89SCcW9msG0HvChefgS18y5knKikPvPS33qhaQ3gdeRT+9UN2aLA2XBWLc7MDHy+xIH40qxgD/FaGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D0j7Mc43s1Z/cXYaOpoht8iA7j7PdICPBtnxBpSdCzY=;
+ b=L98oe/Zs5Lg1l74cDNVcbi9e9kwmahqIyZzCQKWSxCOuIK47/DHhmwXdC5qnMxTWF1932Z4qZ9BLUbhJdne7DV0l8HODXTgZSH9Iqu2RUbPE7I7Hq4N8ca2kP7k3fKJlp01tDypKsCUDR4myAhDWW034a2kcCeOz84H5HPVSDR/B0iWgmaBHD8Zvw+KzfMlW2DwtJqHGoAB0L7WeLzBp9AQ4YqchjKn6WCR3ckws1riIhJLh2RfAx91OFQZ/3XB+z+11kR67awzgNpPGmVxqfqA7vhpNMgn4SKpq96a3AbezcHdfWLGQNz/Jms/P9tONokDegc0MiiTTzuclD+MUfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by PH7PR11MB6794.namprd11.prod.outlook.com (2603:10b6:510:1b8::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Tue, 19 Aug
+ 2025 15:35:51 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
+ 15:35:51 +0000
+Date: Tue, 19 Aug 2025 08:35:48 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+CC: Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ <intel-xe@lists.freedesktop.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>
+Subject: Re: [RFC PATCH 1/6] mm/mmu_notifier: Allow multiple struct
+ mmu_interval_notifier passes
+Message-ID: <aKSZ1JduQwAFSFQn@lstrano-desk.jf.intel.com>
+References: <20250809135137.259427-1-thomas.hellstrom@linux.intel.com>
+ <20250809135137.259427-2-thomas.hellstrom@linux.intel.com>
+ <20250818160726.GH599331@ziepe.ca>
+ <aKNT8GUu0r3i4Ikq@lstrano-desk.jf.intel.com>
+ <20250818163617.GI599331@ziepe.ca>
+ <aKNYUaPS0PiRk/yj@lstrano-desk.jf.intel.com>
+ <20250818164655.GJ599331@ziepe.ca>
+ <4lsv2lcd7lssyvcjvkqe4t2foubxbhuxrt2ptzee3csymz5gg3@jwrg3xow72lm>
+ <e96dcfd4ce7c84a5b66ff9d5f082ea209266ce48.camel@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e96dcfd4ce7c84a5b66ff9d5f082ea209266ce48.camel@linux.intel.com>
+X-ClientProxiedBy: MW4PR03CA0183.namprd03.prod.outlook.com
+ (2603:10b6:303:b8::8) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH7PR11MB6794:EE_
+X-MS-Office365-Filtering-Correlation-Id: 584edcfc-7327-4718-fd06-08dddf3613f3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cXZ6OFhiZkwyUFBpKzdsWE1qb1ExZWRiQWt5aEJFWkROcGJ1bndEdi9MR2ZF?=
+ =?utf-8?B?QzlPM0xzeTVob2xpQlJQWUc4Zm93a3pFZ1dmRGVILzdHL1o5d2w0aGRLd3Bs?=
+ =?utf-8?B?dGZKdEJiK3VZWVQ5SzhvT29HUkI2RHN6M0pZSUhpbWkwVFlnYjlOaUc1RkJa?=
+ =?utf-8?B?dERIVnZBaWcyZGxmOEg5S2lnaENQSi9jeW1pb0ZIOEJBUCtjVVZXdnVKUHhn?=
+ =?utf-8?B?U0NDcHhkemxmNFdpV0FHUTVyc1pJeGFrODI3T2RsTTlFcytLZGxJWWVBeWFL?=
+ =?utf-8?B?Tm1vanhkVzlzMW91TUdXQ29KWStYK3p1SjFUeHFGbTNwWW4ycElPYm9yeS9P?=
+ =?utf-8?B?eDNqM2loeSs4M2JXT2RUMnBwVmVwRmNLb2o3dFh5Sndnd2txcFVKZmFWZy9Q?=
+ =?utf-8?B?YWlkazA0TERjdjdNQkpRVE95TTcxOTRPckVsSHBYV0hEdmpDN3RxTTlNanZN?=
+ =?utf-8?B?N0g0emJWL0RSTkZIREdKV1VTZUN5cytibXVsZ2o4VGR1ZlQ0RTdxNHl0STRZ?=
+ =?utf-8?B?LzJ2YkloVkgyYzhkeDl2eDg3RXdkOW5SYkU4V2hsOGdDdWJCZzFjSExFMjhq?=
+ =?utf-8?B?R2QzQzJ2N0tuRHRhU0dqYWZtdnFKTVNiZzYrZzNmejNzcC9wUVN3c1MwcXcr?=
+ =?utf-8?B?SzJzTUVHNHpZYnhhbnhUTENKdnRSSzJzSmVVRlhFWFBDRnY0SzRoUE9lOEJP?=
+ =?utf-8?B?TDBDbE5TWVpZNldvQldQa3MwZXhKcUVFUmJsc1B1VHRBYys1NjJHbG5iQ1Mw?=
+ =?utf-8?B?V25iYjc0SzFDeUkyTENoUUNaTkZ6OUxVWkZnN0VRU2NoRmZLTGpEd25jRWtW?=
+ =?utf-8?B?TW5BQjdUNE1lTUFBek81eTVZU095VWNVUmR2TEhVQW1VMndIVCtMVmU2cklR?=
+ =?utf-8?B?dnJ2TDVIVUJ2bkF0NW8wR2NSdjhQRUprcnVLQzZYbkpxVXNZcitMV1hpd2Fv?=
+ =?utf-8?B?UmJhb0NnYXljRU5ZZmd0eUJBeEJ1MVJ5UEVHV25oSTBscnhFQk1yNWVXMFdO?=
+ =?utf-8?B?UVBKVG9kR2IybGZ4UWlrVHYvODczODZod0JBSWNCU2drTG9lMGFPQkIyVnVp?=
+ =?utf-8?B?djhzemRFR3VSV21uTDROb2QrNnlxUXNjVURVZC92cTJJSngvZ1luVXdkSTds?=
+ =?utf-8?B?ZEZWUXhzeThtVGRwcmp6SUtTTjJBcjBBc0JnL0tpVUJ4K3Z3MGNocE9ObUlE?=
+ =?utf-8?B?OGZzUGo0RUQ3Vi9aQ2VMSitpc3QzRXZ2N21kb0J0a0ZlNVpoMCswNUxIc0xU?=
+ =?utf-8?B?YlZ4RFNJbjUvaG9ydXV5TThPSThzcUpZV1NoWldtaFNaTzhBeXhwajhESk8y?=
+ =?utf-8?B?amE3TnAzNkwzZjdHaytFOEhCeDZJTXdReU1XM0kxM1N6aVlCQ3ZINUpuemFL?=
+ =?utf-8?B?ai8xeVdYdkxPYmhjU0dqRiszUDEvb284ZVVyRWJnKzBobDc0VmhNb05iRFBS?=
+ =?utf-8?B?dkdhZ2M0T1RiaTFyRkw1MFBTYnhDWmx2Q3VRSCtra09pUXE2VTFpZitKamYx?=
+ =?utf-8?B?ZzByaE5VZlZObUtqcEFXNEt0SHYrMERhUXZudWppSUxLV2hyeWNGNlBsNVph?=
+ =?utf-8?B?WE5FbEQybnhVMktvR24ybkZPaFAzNEpXcDNlRVduRERPeGFuMDlGVkY4SVhi?=
+ =?utf-8?B?Rk5mREVKT0U1S1RRRTE3dysxZ0l3cUxpUWJxdHduSjh6UU51UFk4VWtjVTVw?=
+ =?utf-8?B?TlE2b2FDRUcxOGJYUEJMWEExSm9NL2pBa2RsQlpTOERFajNMQnhvdUczUGYy?=
+ =?utf-8?B?Um9IajZaSFRxTWZXS005UXJ0N0d5WGZxR1ZGMXZzUFRRMGJEbGFDK1FGMmls?=
+ =?utf-8?B?elBIc3VJMnZqWUFPQ2tSTWVVRW5KVmdnWGVtWmkzaEkvM0gzS2pSNHc3U29V?=
+ =?utf-8?B?dEZyejlVRjNFT1dRcHRuaEtIZkkvclZFcHlOOG9ZNnhVZFE9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TG1SMnF2TVNyVWp3VTI0SDNOMURhcmM4ZUJ5TWIyZ2dkclViWERleXVlRncv?=
+ =?utf-8?B?R25aNmJ4dGdVaDFSZXYrMUlabTRlOU1hWXF4UGJpcFRUaDFsRDZXWkV3dGFs?=
+ =?utf-8?B?UnI1Z2hhUnNkeTV4SlNGWlp1UHd1aXMzbVJJNmlIb1pRRGFjdUNTZWVOVlFm?=
+ =?utf-8?B?YUZGdzMrejYyLzlQYmMzRXlEaWdGU3Y0S1pzOFF5M1RHRDlFc3g5THo4ZFpt?=
+ =?utf-8?B?RWNoblVDOTdNS2RoSnIrVFB6dG96VVVyVENublZQRmQ0cGNCcWZSVmtVdEhS?=
+ =?utf-8?B?ODIyNWlTcXRLMUJTSUc2VS9kNHR2d2hGVWUyVndjRGR5VDVaTTlvYjV6RHRO?=
+ =?utf-8?B?NkxQMFZKYUtiZ2ZVbEJ2ZWlSOUt5QXg4MU1aM0RYWWsvVVV3U243VkNsdUFT?=
+ =?utf-8?B?aHQ2cE9XcTBldGpFTVpNdnVIUmlZYmpHQjV4d1NFa1paWGhUcld3ZDZSR0RO?=
+ =?utf-8?B?QUpFTmpOcUkyQWxGaFVnYVBKZ3JpV216T205eTJ1Q1gvQ2tzZlJJUncwS2o1?=
+ =?utf-8?B?MWNSQlB3a3BMVkczenVtRm5RM3JLVnR1OElNRDhRK211dUFqcjgzOFIxbFhj?=
+ =?utf-8?B?QXJ6TXJlaHdDZnBqaXZrWmtRSmloT2FlcTdVL3ZKR0t5M0h1REszUDZxbGkx?=
+ =?utf-8?B?ZGdnaGFjRDduZEVpdXV2elpVa095eVk3TVdJWWRtaksxL3d4YVErNWJSVS9W?=
+ =?utf-8?B?UEtJVVpLeUpZSy93ZjR0Y1NKSDBWR0RGTVFBWllTcndXSHAreGlGR3lIQjdQ?=
+ =?utf-8?B?aDg1bWRiNytrT0dPZ3pSRjkrVDlzVDFxdjdzU1RVZ0hDYmlDQ2F2R0ZwNHVO?=
+ =?utf-8?B?MU0wdWNOcWpjclVLNWhRajY4OUVWQVpZZ2hkWGZEQmM1SDloVEhSdmRNS3BF?=
+ =?utf-8?B?eUhheGM5NXlpK1BFMnZhdHdyTllaQnN3WGl2YTFPQ2dZZ3didGg5VlRjemRN?=
+ =?utf-8?B?US9qODY0bHFodEc3MGgvZjBlWFBydHZZenNxRVMzQ1pHWkpGUUg3Yk8xZ2li?=
+ =?utf-8?B?T1g2RU1RNXovZE45d2dkb3gzMW00ZGN6VlFyL0piNFBuWEFzYzdRRXBkRjNn?=
+ =?utf-8?B?QVJDWE9LbmRpVXpwek1kR2xZbE1xZ21rUmR0ZmRvczJWMDJDMGZ5MmhjU3hB?=
+ =?utf-8?B?US9td2lEaEhRbGZHM1JrT2UwOTlrVjFkOTRCaHgrN1B0cDg1dTd1NjU3enFu?=
+ =?utf-8?B?VTlOdE82OXNEcGlOU3FsLzRzSEtnSXRMbnZkRTAxNzRYQm1TZ1hiOU9kTmFL?=
+ =?utf-8?B?L09iVTBKU2IxUzh3NFcwNjN3RWZ6Z2UrMXk1d1FFZnVObjV4d1ZlQXJqSUZK?=
+ =?utf-8?B?Y3l1dGpjQVJQeHpMNUlwckswaStiNlN1UlpCZUxjOTdvbmFianZxaGFTZUNX?=
+ =?utf-8?B?NmJQeXFLN2JJVDVLNVBVZWRhZzQrb1BPSmYwMXkvekFleENQTUJ3VlRiYW56?=
+ =?utf-8?B?QmRVN3dsV3VjOVB6Wk5ka0xSazBGMWo1ZUt1TmRSOTJMK0E1U2gxVi9HWkFx?=
+ =?utf-8?B?aXZHTWtCY092L0VrekJ1REdwZnpwcmhhcURtelgvdnZGaHUzeW4xZEVPVjFM?=
+ =?utf-8?B?aC96NTZrRVdicmM0MTY4WW4zOUNjMklHNEdTcVc5bHArZ3NaMXJhaGZSS2Y2?=
+ =?utf-8?B?VFg5Rjg1NW1qMHgyNUJleGRXZE1lcHlvOWg5djltVWlCNkZIbXAzQytpSFcx?=
+ =?utf-8?B?bE9BUmVXUmQvdklPME90T29RZ2c5U1h0eHJ0YTBoVkhRSGl3Q0JSa3p1bHE3?=
+ =?utf-8?B?TFgrRi8yWTd2bEgzNlpGZ2hKZXhzSy9QS2hDcEhxOElYNjhDMWxodTdpcWZW?=
+ =?utf-8?B?UUFGcjNhUndNZjk0WFZzdFowbjZvc0poam14STNWRkFNL2xIN3MvKytlQVRW?=
+ =?utf-8?B?TVFZOVQxcmgzVm96Z3pXVzBjTEVUR2ZOVjgzcTZsaG1zakZ0SURZTWlXM0k1?=
+ =?utf-8?B?L0Z3SXdvM091U2lVczFOUVRPODVycGlTbVc5VGVUWis3SkdRbVg4cXhWeHJx?=
+ =?utf-8?B?QUZmTVVSckxBWEk5ZGh3YjJ4aDFyUU03akRROTN5Vk1QLzljYVlVaHI4Nm1a?=
+ =?utf-8?B?U29wYXFQaVVqMVFtZHc5RkQvMENscXkvSlZqalpxdVJyaVlqRjIvMHB0ZVFh?=
+ =?utf-8?B?d2ZaLzZxNDJlVERNSUk5K2k1UEcxYjJIUCtwM3NTVVFTYVZVWnBSekVRWDR3?=
+ =?utf-8?B?d2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 584edcfc-7327-4718-fd06-08dddf3613f3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 15:35:51.3826 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xTDQrL+NiOzlESobrdvphuqveFrnc7ya9S/Wu9EPikuxiIDCcVNsfozAENenq/MDqngATHW8Nne9t3K46qEFIw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6794
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,263 +207,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Aug 15, 2025 at 5:50 AM CEST, Alex Hung wrote:
-> We've previously introduced DRM_COLOROP_1D_CURVE for
-> pre-defined 1D curves. But we also have HW that supports
-> custom curves and userspace needs the ability to pass
-> custom curves, aka LUTs.
->
-> This patch introduces a new colorop type, called
-> DRM_COLOROP_1D_LUT that provides a SIZE property which
-> is used by a driver to advertise the supported SIZE
-> of the LUT, as well as a DATA property which userspace
-> uses to set the LUT.
->
-> DATA and size function in the same way as current drm_crtc
-> GAMMA and DEGAMMA LUTs.
->
-> Reviewed-by: Simon Ser <contact@emersion.fr>
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> Co-developed-by: Harry Wentland <harry.wentland@amd.com>
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Reviewed-by: Daniel Stone <daniels@collabora.com>
-> ---
-> v11:
->  - Update names from *_lut_32_* to *_lut32_* (Simon Ser)
->
-> v10:
->  - 1D LUT API is now using 32BIT RGB with drm_color_lut_32 (Uma Shankar)
->
-> v9:
->  - Update function names by _plane_ (Chaitanya Kumar Borah)
->
-> v8:
->  - Add DRM_MODE_PROP_ATOMIC to drm_property_create_range (Simon Ser)
->  - Change "1D Curve Custom LUT" to "1D LUT" (Simon Ser)
->
-> v7:
->  - Change "size" to "lut_size" (this affects multiple following commits)
->  - Move "lut_size" from drm_colorop_state to drm_colorop
->  - Modify other files accordingly (i.e. from drm_colorop_state->size
->    to drm_colorop->lut_size)
->
-> v5:
->  - Add kernel doc
->  - Define SIZE in similar manner to GAMMA_SIZE on drm_crtc (Melissa)
->
->  drivers/gpu/drm/drm_atomic.c      |  4 +++
->  drivers/gpu/drm/drm_atomic_uapi.c |  5 ++++
->  drivers/gpu/drm/drm_colorop.c     | 43 +++++++++++++++++++++++++++++++
->  include/drm/drm_colorop.h         | 16 ++++++++++++
->  include/uapi/drm/drm_mode.h       | 14 ++++++++++
->  5 files changed, 82 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 1f47949aa10b..27eba485fe2b 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -793,6 +793,10 @@ static void drm_atomic_colorop_print_state(struct dr=
-m_printer *p,
->  =09=09drm_printf(p, "\tcurve_1d_type=3D%s\n",
->  =09=09=09   drm_get_colorop_curve_1d_type_name(state->curve_1d_type));
->  =09=09break;
-> +=09case DRM_COLOROP_1D_LUT:
-> +=09=09drm_printf(p, "\tsize=3D%d\n", colorop->lut_size);
-> +=09=09drm_printf(p, "\tdata blob id=3D%d\n", state->data ? state->data->=
-base.id : 0);
-> +=09=09break;
->  =09case DRM_COLOROP_CTM_3X4:
->  =09=09drm_printf(p, "\tdata blob id=3D%d\n", state->data ? state->data->=
-base.id : 0);
->  =09=09break;
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atom=
-ic_uapi.c
-> index fe59dd1f2c07..093635d43ea3 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -697,6 +697,9 @@ static int drm_atomic_color_set_data_property(struct =
-drm_colorop *colorop,
->  =09bool replaced =3D false;
-> =20
->  =09switch (colorop->type) {
-> +=09case DRM_COLOROP_1D_LUT:
-> +=09=09size =3D colorop->lut_size * sizeof(struct drm_color_lut32);
-> +=09=09break;
->  =09case DRM_COLOROP_CTM_3X4:
->  =09=09size =3D sizeof(struct drm_color_ctm_3x4);
->  =09=09break;
-> @@ -746,6 +749,8 @@ drm_atomic_colorop_get_property(struct drm_colorop *c=
-olorop,
->  =09=09*val =3D state->bypass;
->  =09} else if (property =3D=3D colorop->curve_1d_type_property) {
->  =09=09*val =3D state->curve_1d_type;
-> +=09} else if (property =3D=3D colorop->lut_size_property) {
-> +=09=09*val =3D colorop->lut_size;
->  =09} else if (property =3D=3D colorop->data_property) {
->  =09=09*val =3D (state->data) ? state->data->base.id : 0;
->  =09} else {
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.=
-c
-> index c245a3ff45d3..e799a87f25fe 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -64,6 +64,7 @@
-> =20
->  static const struct drm_prop_enum_list drm_colorop_type_enum_list[] =3D =
-{
->  =09{ DRM_COLOROP_1D_CURVE, "1D Curve" },
-> +=09{ DRM_COLOROP_1D_LUT, "1D LUT" },
->  =09{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
->  };
-> =20
-> @@ -265,6 +266,47 @@ static int drm_colorop_create_data_prop(struct drm_d=
-evice *dev, struct drm_color
->  =09return 0;
->  }
-> =20
-> +/**
-> + * drm_plane_colorop_curve_1d_lut_init - Initialize a DRM_COLOROP_1D_LUT
-> + *
-> + * @dev: DRM device
-> + * @colorop: The drm_colorop object to initialize
-> + * @plane: The associated drm_plane
-> + * @lut_size: LUT size supported by driver
-> + * @return zero on success, -E value on failure
-> + */
-> +int drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct d=
-rm_colorop *colorop,
-> +=09=09=09=09=09struct drm_plane *plane, uint32_t lut_size)
-> +{
-> +=09struct drm_property *prop;
-> +=09int ret;
-> +
-> +=09ret =3D drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_LU=
-T);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09/* initialize 1D LUT only attribute */
-> +=09/* LUT size */
-> +=09prop =3D drm_property_create_range(dev, DRM_MODE_PROP_IMMUTABLE | DRM=
-_MODE_PROP_ATOMIC,
-> +=09=09=09=09=09 "SIZE", 0, UINT_MAX);
-> +=09if (!prop)
-> +=09=09return -ENOMEM;
-> +
-> +=09colorop->lut_size_property =3D prop;
+On Tue, Aug 19, 2025 at 01:33:40PM +0200, Thomas Hellström wrote:
+> On Tue, 2025-08-19 at 19:55 +1000, Alistair Popple wrote:
+> > On Mon, Aug 18, 2025 at 01:46:55PM -0300, Jason Gunthorpe wrote:
+> > > On Mon, Aug 18, 2025 at 09:44:01AM -0700, Matthew Brost wrote:
+> > > > On Mon, Aug 18, 2025 at 01:36:17PM -0300, Jason Gunthorpe wrote:
+> > > > > On Mon, Aug 18, 2025 at 09:25:20AM -0700, Matthew Brost wrote:
+> > > > > > I think this choice makes sense: it allows embedding the wait
+> > > > > > state from
+> > > > > > the initial notifier call into the pass structure. Patch [6]
+> > > > > > shows this
+> > > > > > by attaching the issued TLB invalidation fences to the pass.
+> > > > > > Since a
+> > > > > > single notifier may be invoked multiple times with different
+> > > > > > ranges but
+> > > > > > the same seqno,
+> > > > > 
+> > > > > That should be explained, but also seems to be a bit of a
+> > > > > different
+> > > > > issue..
+> > > > > 
+> > > > > If the design is really to only have two passes and this linked
+> > > > > list
+> > > > > is about retaining state then there should not be so much
+> > > > > freedom to
+> > > > > have more passes.
+> > > > 
+> > > > I’ll let Thomas weigh in on whether we really need more than two
+> > > > passes;
+> > > > my feeling is that two passes are likely sufficient. It’s also
+> > > > worth
+> > > > noting that the linked list has an added benefit: the notifier
+> > > > tree only
+> > > > needs to be walked once (a small time-complexity win).
+> > > 
+> > > You may end up keeping the linked list just with no way to add a
+> > > third
+> > > pass.
+> > 
+> > It seems to me though that linked list still adds unnecessary
+> > complexity. I
+> > think this would all be much easier to follow if we just added two
+> > new callbacks
+> > - invalidate_start() and invalidate_end() say.
+> 
+> One thing that the linked list avoids, though, is traversing the
+> interval tree two times. It has O(n*log(n)) whereas the linked list
+> overhead is just O(n_2pass).
+> 
+> > 
+> > Admitedly that would still require the linked list (or something
+> > similar) to
+> > retain the ability to hold/pass a context between the start and end
+> > callbacks.
+> > Which is bit annoying, it's a pity we need to allocate memory in a
+> > performance
+> > sensitive path to effectively pass (at least in this case) a single
+> > pointer. I
+> > can't think of any obvious solutions to that though.
+> 
+> One idea is for any two-pass notifier implementation to use a small
+> pool. That would also to some extent mitigate the risk of out-of-memory
+> with GFP_NOWAIT.
+> 
 
-I'm a bit confused here. The property itself is just called "SIZE" which
-looks very similar to the generic "DATA" property. However, it is
-assigned to `lut_size_property`.
+I think we can attach a preallocated list entry to the driver-side
+notifier state; then you’d only need to allocate (or block) if that
+notifier is invoked more than once while a wait action (e.g., a TLB
+invalidation) is outstanding. Multiple invocations are technically
+possible, but in practice I’d expect them to be rare.
 
-Is this meant to be to be a generic property where the exact usage
-depends on the type of the color op (like "DATA"), or is this meant to
-be specific to LUTs (in which case the generic name is misleading)?
+I’m not sure how much of a win this is, though. On Intel hardware, TLB
+invalidations are several orders of magnitude slower than the software
+steps our notifiers perform. Ultimately, whether to allocate or
+preallocate is a driver-side choice.
 
-I also tried to find the user space documentation for all the properties
-but could not find them. The only thing I could find was the kernel
-documentation of
+Matt
 
-    struct drm_property *lut_size_property;
-
-Which says "Size property for custom LUT from userspace."
-
-
-> +=09drm_object_attach_property(&colorop->base, colorop->lut_size_property=
-, lut_size);
-> +=09colorop->lut_size =3D lut_size;
-> +
-> +=09/* data */
-> +=09ret =3D drm_colorop_create_data_prop(dev, colorop);
-> +=09if (ret)
-> +=09=09return ret;
-> +
-> +=09drm_colorop_reset(colorop);
-> +
-> +=09return 0;
-> +}
-> +EXPORT_SYMBOL(drm_plane_colorop_curve_1d_lut_init);
-> +
->  int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_co=
-lorop *colorop,
->  =09=09=09=09   struct drm_plane *plane)
->  {
-> @@ -373,6 +415,7 @@ void drm_colorop_reset(struct drm_colorop *colorop)
-> =20
->  static const char * const colorop_type_name[] =3D {
->  =09[DRM_COLOROP_1D_CURVE] =3D "1D Curve",
-> +=09[DRM_COLOROP_1D_LUT] =3D "1D LUT",
->  =09[DRM_COLOROP_CTM_3X4] =3D "3x4 Matrix",
->  };
-> =20
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> index c6d2b289e3cf..fe662e0f89aa 100644
-> --- a/include/drm/drm_colorop.h
-> +++ b/include/drm/drm_colorop.h
-> @@ -259,6 +259,13 @@ struct drm_colorop {
->  =09 */
->  =09struct drm_property *bypass_property;
-> =20
-> +=09/**
-> +=09 * @lut_size:
-> +=09 *
-> +=09 * Number of entries of the custom LUT. This should be read-only.
-> +=09 */
-> +=09uint32_t lut_size;
-> +
->  =09/**
->  =09 * @curve_1d_type_property:
->  =09 *
-> @@ -266,6 +273,13 @@ struct drm_colorop {
->  =09 */
->  =09struct drm_property *curve_1d_type_property;
-> =20
-> +=09/**
-> +=09 * @lut_size_property:
-> +=09 *
-> +=09 * Size property for custom LUT from userspace.
-> +=09 */
-> +=09struct drm_property *lut_size_property;
-> +
->  =09/**
->  =09 * @data_property:
->  =09 *
-> @@ -312,6 +326,8 @@ void drm_colorop_pipeline_destroy(struct drm_device *=
-dev);
-> =20
->  int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct drm_c=
-olorop *colorop,
->  =09=09=09=09    struct drm_plane *plane, u64 supported_tfs);
-> +int drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct d=
-rm_colorop *colorop,
-> +=09=09=09=09=09struct drm_plane *plane, uint32_t lut_size);
->  int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_co=
-lorop *colorop,
->  =09=09=09=09   struct drm_plane *plane);
-> =20
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index bcc4e9845881..24fd52e16953 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -902,6 +902,20 @@ enum drm_colorop_type {
->  =09 */
->  =09DRM_COLOROP_1D_CURVE,
-> =20
-> +=09/**
-> +=09 * @DRM_COLOROP_1D_LUT:
-> +=09 *
-> +=09 * enum string "1D LUT"
-> +=09 *
-> +=09 * A simple 1D LUT of uniformly spaced &drm_color_lut32 entries,
-> +=09 * packed into a blob via the DATA property. The driver's
-> +=09 * expected LUT size is advertised via the SIZE property.
-> +=09 *
-> +=09 * The DATA blob is an array of struct drm_color_lut32 with size
-> +=09 * of "lut_size".
-> +=09 */
-> +=09DRM_COLOROP_1D_LUT,
-> +
->  =09/**
->  =09 * @DRM_COLOROP_CTM_3X4:
->  =09 *
-
+> /Thomas
+> 
+> 
+> > 
+> > > Jason
+> > > 
+> 
