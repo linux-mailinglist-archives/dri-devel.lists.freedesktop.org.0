@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74047B2BCF9
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:18:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B9FB2BCE8
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:18:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D4E710E574;
-	Tue, 19 Aug 2025 09:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27E2610E560;
+	Tue, 19 Aug 2025 09:18:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="npY/PoXy";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="EGW07mVA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 365EF10E27B
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:18:46 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J7mish032614;
- Tue, 19 Aug 2025 11:18:30 +0200
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66A6D10E575
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:18:25 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J7MuiA029517;
+ Tue, 19 Aug 2025 11:18:16 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=selector1; bh=
- GUKSQ2KB+MJh9mPlihD+WD+B5bbas92a6PG+NIQBETo=; b=npY/PoXya/msF5d1
- xVWQC2nDQoOJ4YtK6+dx9gSKqbnfbpvyiqoGKsBjOje7mw/STQlIKYplNhY3wJLK
- 7rNDgf3MMo8kLo3HN0DZar6OWU756eRXIiwxAMiBtKB20N3XM5wWvRaMg/Y507Ky
- 7vFxmYpSSp/rax6NyZktpT+zwpPXeqYGRTq4IySMYdlF+FySO8KXBZc2eatSLUXG
- TduM4i7GnsEVCp1nHbCEqSihfumpZUAWP4Ykw0ZzN+rhNZH4jN8x54mx3jfsi9fO
- 4fZtdObvKrHXMPObcgTH3OInufV6ne6dnbnsNJ7uOC6Am8+yHRxCXUlMZ82YYVZ+
- GSsXrQ==
+ RUmj8Nt5UtGZPKvlR+QnuojqoxKp1z0jwnSFCxypOrQ=; b=EGW07mVAPO8zEnez
+ 6qBKQsOILQ0tSTE+GZqoVIghV+PZvCCZRkQkbAZXiEPi8rOFVkVKYVyxJPexqrHI
+ OgW1fE4HyzGIYUjAApLpqoIOEOwU6RwzlEIs3rP+xjEC2OE/e4gGcRUzNlrWpw9L
+ 9b1ve4OxULgXXjDZnWZRnD+ovvEmWxgEIorSCVYAf95RMic0Ovg7t/Td1SpnLutl
+ MssDZy4n+V0v7YMrmrsm/4QswuI1ZGimvaMBjUl/CKfPDJJ9N7mTIKp9jHFlB8Dw
+ sZQS9UDwz3u1h2B1orlLW08fcUzw/o5d62HWxICB2VUWoE8EOh0OyImZWKsxGnh1
+ suPTaw==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48jfdkahpq-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48jgvf1ufg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Aug 2025 11:18:30 +0200 (MEST)
+ Tue, 19 Aug 2025 11:18:16 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 9992A40057;
- Tue, 19 Aug 2025 11:16:58 +0200 (CEST)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id ADA6F4005B;
+ Tue, 19 Aug 2025 11:17:01 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D50B371CDA4;
- Tue, 19 Aug 2025 11:16:01 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7485971CDA3;
+ Tue, 19 Aug 2025 11:16:02 +0200 (CEST)
 Received: from localhost (10.130.74.180) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 19 Aug
- 2025 11:16:01 +0200
+ 2025 11:16:02 +0200
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Date: Tue, 19 Aug 2025 11:16:01 +0200
-Subject: [PATCH v3 08/13] drm/stm: ltdc: handle lvds pixel clock
+Date: Tue, 19 Aug 2025 11:16:02 +0200
+Subject: [PATCH v3 09/13] arm64: dts: st: add ltdc support on stm32mp251
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250819-drm-misc-next-v3-8-04153978ebdb@foss.st.com>
+Message-ID: <20250819-drm-misc-next-v3-9-04153978ebdb@foss.st.com>
 References: <20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com>
 In-Reply-To: <20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com>
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
@@ -88,90 +88,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yannick Fertre <yannick.fertre@foss.st.com>
+The LCD-TFT Display Controller (LTDC) handles display composition,
+scaling and rotation.  It provides a parallel digital RGB flow to be
+used by display interfaces.
 
-Handle LVDS pixel clock.
+Add the LTDC node.
 
-The LTDC operates with multiple clock domains for register access,
-requiring all clocks to be provided during read/write operations.  This
-imposes a dependency between the LVDS and LTDC to access correctly all
-LTDC registers.  And because both IPs' pixel rates must be synchronized,
-the LTDC has to handle the LVDS clock.
-
-Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
- drivers/gpu/drm/stm/ltdc.c | 22 +++++++++++++++++++++-
- drivers/gpu/drm/stm/ltdc.h |  1 +
- 2 files changed, 22 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/st/stm32mp251.dtsi | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 74e93f076b62a46e7835985d9d330ba66d990e58..a4c2a1e960fbe426bf5dd2b3f0a88ccff927d041 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -837,6 +837,12 @@ ltdc_crtc_mode_valid(struct drm_crtc *crtc,
- 	int target_max = target + CLK_TOLERANCE_HZ;
- 	int result;
+diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+index 303abf915b8e489671b51a8c832041c14a42ecb8..372a99d9cc5c3730e8fbeddeb6134a3b18d938b6 100644
+--- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
++++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+@@ -1576,6 +1576,18 @@ dcmipp: dcmipp@48030000 {
+ 				status = "disabled";
+ 			};
  
-+	if (ldev->lvds_clk) {
-+		result = clk_round_rate(ldev->lvds_clk, target);
-+		drm_dbg_driver(crtc->dev, "lvds pixclk rate target %d, available %d\n",
-+			       target, result);
-+	}
++			ltdc: display-controller@48010000 {
++				compatible = "st,stm32mp251-ltdc";
++				reg = <0x48010000 0x400>;
++				interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&rcc CK_KER_LTDC>, <&rcc CK_BUS_LTDC>;
++				clock-names = "lcd", "bus";
++				resets = <&rcc LTDC_R>;
++				access-controllers = <&rifsc 80>;
++				status = "disabled";
++			};
 +
- 	result = clk_round_rate(ldev->pixel_clk, target);
- 
- 	DRM_DEBUG_DRIVER("clk rate target %d, available %d\n", target, result);
-@@ -1878,6 +1884,8 @@ void ltdc_suspend(struct drm_device *ddev)
- 	clk_disable_unprepare(ldev->pixel_clk);
- 	if (ldev->bus_clk)
- 		clk_disable_unprepare(ldev->bus_clk);
-+	if (ldev->lvds_clk)
-+		clk_disable_unprepare(ldev->lvds_clk);
- }
- 
- int ltdc_resume(struct drm_device *ddev)
-@@ -1895,8 +1903,16 @@ int ltdc_resume(struct drm_device *ddev)
- 
- 	if (ldev->bus_clk) {
- 		ret = clk_prepare_enable(ldev->bus_clk);
--		if (ret)
-+		if (ret) {
- 			drm_err(ddev, "failed to enable bus clock (%d)\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	if (ldev->lvds_clk) {
-+		ret = clk_prepare_enable(ldev->lvds_clk);
-+		if (ret)
-+			drm_err(ddev, "failed to prepare lvds clock\n");
- 	}
- 
- 	return ret;
-@@ -1980,6 +1996,10 @@ int ltdc_load(struct drm_device *ddev)
- 		}
- 	}
- 
-+	ldev->lvds_clk = devm_clk_get(dev, "lvds");
-+	if (IS_ERR(ldev->lvds_clk))
-+		ldev->lvds_clk = NULL;
-+
- 	rstc = devm_reset_control_get_exclusive(dev, NULL);
- 
- 	mutex_init(&ldev->err_lock);
-diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
-index ddfa8ae61a7ba5dc446fae647562d0ec8e6953e1..17b51a7ce28eee5de6d24ca943ca3b1f48695dfd 100644
---- a/drivers/gpu/drm/stm/ltdc.h
-+++ b/drivers/gpu/drm/stm/ltdc.h
-@@ -48,6 +48,7 @@ struct ltdc_device {
- 	void __iomem *regs;
- 	struct regmap *regmap;
- 	struct clk *pixel_clk;	/* lcd pixel clock */
-+	struct clk *lvds_clk;	/* lvds pixel clock */
- 	struct clk *bus_clk;	/* bus clock */
- 	struct mutex err_lock;	/* protecting error_status */
- 	struct ltdc_caps caps;
+ 			combophy: phy@480c0000 {
+ 				compatible = "st,stm32mp25-combophy";
+ 				reg = <0x480c0000 0x1000>;
 
 -- 
 2.25.1
