@@ -2,65 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48CAEB2C4AA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 15:08:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A97B2C4C0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 15:10:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0640D10E5E9;
-	Tue, 19 Aug 2025 13:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76F0C10E5ED;
+	Tue, 19 Aug 2025 13:10:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Ux1FMWYZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K+FOiamv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1117110E17E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 13:08:29 +0000 (UTC)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57JD8Box015729;
- Tue, 19 Aug 2025 08:08:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1755608891;
- bh=xtTTfFfNriT5ktHRzxyQ7zHdkREPkpN1b5TtXHfK0sc=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=Ux1FMWYZ2cMzW1QEKitGOj7dqtY7Fq7VRpNnr3AVIm5+envElShArvPDpM5iEQbI/
- 5xzKH5K3Q9ghRK9tIHrM56MDHWbd30DV4LwrVYQM4Hd9f+IOwZdzKRlSC79IF6Ux3z
- lysTf4+IYT1llzi9nqsiBje/akG/g203vXxhbJo4=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57JD8B7X421272
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 19 Aug 2025 08:08:11 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 19
- Aug 2025 08:08:11 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 19 Aug 2025 08:08:11 -0500
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57JD8BSh2747739;
- Tue, 19 Aug 2025 08:08:11 -0500
-From: Nishanth Menon <nm@ti.com>
-To: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, David Airlie
- <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
- <neil.armstrong@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, Robert Nelson <robertcnelson@gmail.com>,
- Jason Kridner <jkridner@beagleboard.org>, <afd@ti.com>,
- <tomi.valkeinen@ideasonboard.com>, <devarsht@ti.com>,
- <dmitry.baryshkov@oss.qualcomm.com>, Nishanth Menon <nm@ti.com>
-Subject: [PATCH V4 5/5] drm/bridge: it66121: Add minimal it66122 support
-Date: Tue, 19 Aug 2025 08:08:07 -0500
-Message-ID: <20250819130807.3322536-6-nm@ti.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20250819130807.3322536-1-nm@ti.com>
-References: <20250819130807.3322536-1-nm@ti.com>
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01F8A10E17E;
+ Tue, 19 Aug 2025 13:10:27 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-24457f57ed4so9633935ad.0; 
+ Tue, 19 Aug 2025 06:10:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755609027; x=1756213827; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BBO0mQ7zrboFrLruEp+8+uIF4ovtiK0aQdxBxT/KyMA=;
+ b=K+FOiamv42V+IVpjuA+eKFmPD/MtpZSW/qwNXTUK5yOQa1NFxQLDQcjo4ITF2CFKC1
+ U74d1CL7GqeNLDdYs/4flvlwTWvF03g3xCyA2yHC3l8wrRC2+Ulc0ru9dlP2jzZOZv9U
+ 8vCX0eD9gY6yoJ/c/zlWP3mSX3vB5ft3lxnqtXBZPSWClVjaVFZmg12b94+Pd3IMWRwi
+ 9HEfezU1eJ7iTnrsiZegeLKBnqDwXH8LqRRXr3ECZsSpkFfaiZnT/TWkwpbCp5k7HYtL
+ wpwNwFH/AKpE16lcFn6+JQmeheYNxo/0Mryl0XiipXweAzttpuVC83tH6NzDAIdu8qxU
+ yxyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755609027; x=1756213827;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BBO0mQ7zrboFrLruEp+8+uIF4ovtiK0aQdxBxT/KyMA=;
+ b=ViJzcaw1EMZj9tEqkpryjhRTG8ejNK9AexRI57UL8rQi2oN8EjSlIY1PZmymtiONzp
+ ZX1Z5PYBY0YSfcTcdDoYd2cjc6jOr/8Jw29DoeaWpObw8cRyootvM9XuBMeU6LlNaMji
+ JsBXwzgWkp8SkJyrqn9XLnlcoQceMt3RlZxancpZ3B0XDzYqdgRTwzclASNsLJrgQu/v
+ ePC8YzwdfKAAVvc+2nZD0fAtjtgb521SvKJf8B8THo2nfPQJovRV3OjZxh0bosREOVA8
+ u67zYhlF+ydYuW4Wu2enok8B8wcghr3W/TbEiVZX/LsYzvivraeKqqwIsKYa+b5hfUBz
+ EAIw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVQlbY8PH8cslUKqDVBvxK1FMJ5EUdIJXVpLGko3o2FU9ZYAtB/XRkXm/bzFSlFNLHncSv08IN3VteX@lists.freedesktop.org,
+ AJvYcCW1+zp6jGPXUFURTLxckA3OtjwHfZOJx9yQfZdH/S+t9eu40CVnwuGwkdXbXTVuXMJzlZxPJr5q@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKM/ju/RUSdxrz8b7wUNt6cMwu96h8n5Q0o2RXYCBxAaBIPUqF
+ OJf+LAAFCKo2PCaKJvQeSAIX4yCOhydHGw5IRxh4ZbljPjHp8KZtZ7H92uYv8DC8QHQttY4dXtf
+ FUMoQQL7HrBjIL4jnHpHn1lq3mjL8gLYuqA==
+X-Gm-Gg: ASbGncsEHunim0v9whnO4UFFAdi0rEu2CQNtTphjvOsKlLpm8+o/aNhj7seoDgppZtc
+ jY/Wq9dDR1Q6tzW2F+dj3YtEywRJVeAzpemBrEDtPS0qarbKZ8XE8hvrFb2BJHQWQj4TTXcgP5W
+ a70izsTV9j4k3uNF33Uanzcu7M6A4BNjimvHjBZLR7YE80jq2cnowCsnxuzrlpeHxIJAVjKYa7R
+ z7VTRU=
+X-Google-Smtp-Source: AGHT+IHgDHQQVvQ81lJeFxwOYKVLPEWtIJSQrpi70KdAtd/aUfRobzNM5gDqlN/++cIRn61vbrInrD505a7SNJ3odjc=
+X-Received: by 2002:a17:902:ea07:b0:240:33c7:fbf9 with SMTP id
+ d9443c01a7336-245e0503f5emr17013235ad.11.1755609027188; Tue, 19 Aug 2025
+ 06:10:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <20250819082524.526572-1-liaoyuanhong@vivo.com>
+ <00e7ce33-cc0a-4249-ac18-081ab9ead243@amd.com>
+In-Reply-To: <00e7ce33-cc0a-4249-ac18-081ab9ead243@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 19 Aug 2025 09:10:15 -0400
+X-Gm-Features: Ac12FXwmelZstNIBVdCAl2Tac6u3JKQmNwideXgAhYQM85MNWz4RZc0s2eVEDwE
+Message-ID: <CADnq5_PA8P8V9Da8ZUrDAsYXM_tbnPPyBR4MgF4QA++59vKerA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu/fence: Remove redundant 0 value initialization
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Liao Yuanhong <liaoyuanhong@vivo.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>, 
+ "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,113 +93,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The IT66122 is a pin compatible replacement for the IT66122. Based on
-empirical testing, the new device looks to be compatible with IT66121.
-However due to a lack of public data sheet at this time beyond overall
-feature list[1] (which seems to add additional features vs ITT66121),
-it is hard to determine that additional register operations required
-to enable additional features.
+Applied.  Thanks!
 
-So, introduce the device as a new compatible that we will detect based
-on vid/pid match, with explicit id that can be used to extend the
-driver capability as information becomes available later on.
+Alex
 
-[1] https://www.ite.com.tw/en/product/cate1/IT66122
-
-Signed-off-by: Nishanth Menon <nm@ti.com>
-Reviewed-by: Andrew Davis <afd@ti.com>
----
-Changes in V4:
-* just rebase
-* Picked Andrew's review
-
-V3: https://lore.kernel.org/all/20250815034105.1276548-5-nm@ti.com/
-V2: https://lore.kernel.org/all/20250813204106.580141-4-nm@ti.com/
-
- drivers/gpu/drm/bridge/ite-it66121.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index a1b0f8a8f3e8..fd71609a804e 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -287,6 +287,7 @@
- enum chip_id {
- 	ID_IT6610,
- 	ID_IT66121,
-+	ID_IT66122,
- };
- 
- struct it66121_chip_info {
-@@ -402,7 +403,7 @@ static int it66121_configure_afe(struct it66121_ctx *ctx,
- 		if (ret)
- 			return ret;
- 
--		if (ctx->id == ID_IT66121) {
-+		if (ctx->id == ID_IT66121 || ctx->id == ID_IT66122) {
- 			ret = regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
- 						IT66121_AFE_IP_EC1, 0);
- 			if (ret)
-@@ -428,7 +429,7 @@ static int it66121_configure_afe(struct it66121_ctx *ctx,
- 		if (ret)
- 			return ret;
- 
--		if (ctx->id == ID_IT66121) {
-+		if (ctx->id == ID_IT66121 || ctx->id == ID_IT66122) {
- 			ret = regmap_write_bits(ctx->regmap, IT66121_AFE_IP_REG,
- 						IT66121_AFE_IP_EC1,
- 						IT66121_AFE_IP_EC1);
-@@ -599,7 +600,7 @@ static int it66121_bridge_attach(struct drm_bridge *bridge,
- 	if (ret)
- 		return ret;
- 
--	if (ctx->id == ID_IT66121) {
-+	if (ctx->id == ID_IT66121 || ctx->id == ID_IT66122) {
- 		ret = regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
- 					IT66121_CLK_BANK_PWROFF_RCLK, 0);
- 		if (ret)
-@@ -802,7 +803,7 @@ void it66121_bridge_mode_set(struct drm_bridge *bridge,
- 	if (regmap_write(ctx->regmap, IT66121_HDMI_MODE_REG, IT66121_HDMI_MODE_HDMI))
- 		goto unlock;
- 
--	if (ctx->id == ID_IT66121 &&
-+	if ((ctx->id == ID_IT66121 || ctx->id == ID_IT66122) &&
- 	    regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
- 			      IT66121_CLK_BANK_PWROFF_TXCLK,
- 			      IT66121_CLK_BANK_PWROFF_TXCLK)) {
-@@ -815,7 +816,7 @@ void it66121_bridge_mode_set(struct drm_bridge *bridge,
- 	if (it66121_configure_afe(ctx, adjusted_mode))
- 		goto unlock;
- 
--	if (ctx->id == ID_IT66121 &&
-+	if ((ctx->id == ID_IT66121 || ctx->id == ID_IT66122) &&
- 	    regmap_write_bits(ctx->regmap, IT66121_CLK_BANK_REG,
- 			      IT66121_CLK_BANK_PWROFF_TXCLK, 0)) {
- 		goto unlock;
-@@ -1501,6 +1502,7 @@ static const char * const it66121_supplies[] = {
- static const struct it66121_chip_info it66xx_chip_info[] = {
- 	{.id = ID_IT6610, .vid = 0xca00, .pid = 0x0611 },
- 	{.id = ID_IT66121, .vid = 0x4954, .pid = 0x0612 },
-+	{.id = ID_IT66122, .vid = 0x4954, .pid = 0x0622 },
- 	{ }
- };
- 
-@@ -1621,6 +1623,7 @@ static void it66121_remove(struct i2c_client *client)
- static const struct of_device_id it66121_dt_match[] = {
- 	{ .compatible = "ite,it6610" },
- 	{ .compatible = "ite,it66121" },
-+	{ .compatible = "ite,it66122" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, it66121_dt_match);
-@@ -1628,6 +1631,7 @@ MODULE_DEVICE_TABLE(of, it66121_dt_match);
- static const struct i2c_device_id it66121_id[] = {
- 	{ .name = "it6610" },
- 	{ .name = "it66121" },
-+	{ .name = "it66122" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, it66121_id);
--- 
-2.47.0
-
+On Tue, Aug 19, 2025 at 4:41=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> On 19.08.25 10:25, Liao Yuanhong wrote:
+> > The amdgpu_fence struct is already zeroed by kzalloc(). It's redundant =
+to
+> > initialize am_fence->context to 0.
+> >
+> > Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
+>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> If you want a challenge what we would really use is a scan of all the str=
+uctures defined in drivers/gpu/drm/amd/amdgpu/*.[ch] for unused fields.
+>
+> The UAPI and BIOS/HW header files are full of padding fields, but there s=
+houldn't be any in the driver core defines and we sometimes forget to remov=
+e fields from structures when they are not used any more.
+>
+> Regards,
+> Christian.
+>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_fence.c
+> > index bcb74286a78a..fd8cca241da6 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> > @@ -120,7 +120,6 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, str=
+uct dma_fence **f,
+> >               am_fence =3D kzalloc(sizeof(*am_fence), GFP_KERNEL);
+> >               if (!am_fence)
+> >                       return -ENOMEM;
+> > -             am_fence->context =3D 0;
+> >       } else {
+> >               am_fence =3D af;
+> >       }
+>
