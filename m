@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F91B2BCFB
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B788B2BD02
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F25D10E576;
-	Tue, 19 Aug 2025 09:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB9310E27B;
+	Tue, 19 Aug 2025 09:18:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="wLEfmWRc";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="AzJiCTMS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A194D10E576
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:18:45 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J93bvK024068;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCAB10E27B
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:18:46 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J8v5JQ021413;
  Tue, 19 Aug 2025 11:18:30 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=selector1; bh=
- kyXtN74VkBaQLErnP6Oirfq2yZX1obNwJfBjqV4IEtw=; b=wLEfmWRcpN/2fSsL
- 0p9nN+Bozh9PyYXVAGIp2580Wqkx1dJ+eld5kcWViuPbHTLUSqahv/huKW5+tuZ/
- pmicCG3sDCXqLMX1vAHuY+eN+JVWQOh7Owx7pXIRtiMIwa5+aiBeQTu6UOMmyMKQ
- wHPYRIFrBzaIa8vPraO6aKFNmrtID/j7ui0lNeaP+hmpfalrQ0MDGkcUHL2/hPtB
- wpt8kyJNAef+3mFNajB0NF1Th8EYVPDQgdlnyG8C8WmW2nfz+BZHYMpDO5oCX01M
- 1Yf1vQupfQk9a+XyAMjzlfjNUUaVZSa6nuZpEHZ7bGNNL6M7Br0wHUkyMSsZDJis
- 2fS12A==
+ bsmf5bLEhDcMHd8HjlloeMrrkwwKS55Kw0bi6W7zyHI=; b=AzJiCTMS8u4qIiBq
+ hF3AIkT4qualZwLrP7MXbRhbq/spspDkEVS5XnHdNHQxPsLFtWRMGnIwmrHAMNnX
+ WuPW9H2+xolEuZowgEaZYzQDkrc6bQV2ksE88Tdgc17h8aCTYwaKvN0OtC5+bAbw
+ /CvFCDw3JmTJGyxYOIlhdNAnIWa/P1/hawUR8JTtqLfECllOVKzYugJ9sJkigKMx
+ B5XZu0qjXMJVAH7S4vJoy9DwSTubxWKGJwHLvn+LrA1/9tU/q/jaN7EPmd8a5cl4
+ BJZy1fjpwQ4w961I+Ro6/yGXC0G6yr7jVgCgBKSpnaTt/p0AiplWaDsh62YDxGU1
+ grsKkA==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48jhb1t8py-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48jfdkahpr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 19 Aug 2025 11:18:30 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 5584F40053;
- Tue, 19 Aug 2025 11:16:58 +0200 (CEST)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id EFB6740052;
+ Tue, 19 Aug 2025 11:16:57 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 98F3371763B;
- Tue, 19 Aug 2025 11:16:00 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3CA8A71CDAB;
+ Tue, 19 Aug 2025 11:16:01 +0200 (CEST)
 Received: from localhost (10.130.74.180) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 19 Aug
  2025 11:16:00 +0200
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Date: Tue, 19 Aug 2025 11:15:59 +0200
-Subject: [PATCH v3 06/13] dt-bindings: arm: stm32: add required
- #clock-cells property
+Date: Tue, 19 Aug 2025 11:16:00 +0200
+Subject: [PATCH v3 07/13] drm/stm: ltdc: support new hardware version for
+ STM32MP25 SoC
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250819-drm-misc-next-v3-6-04153978ebdb@foss.st.com>
+Message-ID: <20250819-drm-misc-next-v3-7-04153978ebdb@foss.st.com>
 References: <20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com>
 In-Reply-To: <20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com>
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
@@ -89,65 +89,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On STM32MP25 SoC, the syscfg peripheral provides a clock to the display
-subsystem through a multiplexer.  Since it only provides a single clock,
-the cell value is 0.
+From: Yannick Fertre <yannick.fertre@foss.st.com>
 
-Doing so allows the clock consumers to reach the peripheral and gate the
-clock accordingly.
+STM32MP25 SoC features a new version of the LTDC IP.  Add its compatible
+to the list of device to probe and implement its quirks.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+This hardware supports a pad frequency of 150MHz and a peripheral bus
+clock.
+
+Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
- .../bindings/arm/stm32/st,stm32-syscon.yaml        | 31 +++++++++++++++-------
- 1 file changed, 21 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/stm/drv.c  | 11 ++++++++++-
+ drivers/gpu/drm/stm/ltdc.c | 37 ++++++++++++++++++++++++++++++++++---
+ drivers/gpu/drm/stm/ltdc.h |  5 +++++
+ 3 files changed, 49 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml b/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
-index ed97652c84922813e94b1818c07fe8714891c089..95d2319afe235fa86974d80f89c9deeae2275232 100644
---- a/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
-+++ b/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
-@@ -36,20 +36,31 @@ properties:
-   clocks:
-     maxItems: 1
+diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+index 8ebcaf953782d806a738d5a41ff1f428b0ccff78..8bfdeb486862a95df77427d25ce373e69e886c01 100644
+--- a/drivers/gpu/drm/stm/drv.c
++++ b/drivers/gpu/drm/stm/drv.c
+@@ -236,8 +236,17 @@ static void stm_drm_platform_shutdown(struct platform_device *pdev)
+ 	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
+ }
  
-+  "#clock-cells":
-+    const: 0
++static struct ltdc_plat_data stm_drm_plat_data = {
++	.pad_max_freq_hz = 90000000,
++};
 +
- required:
-   - compatible
-   - reg
++static struct ltdc_plat_data stm_drm_plat_data_mp25 = {
++	.pad_max_freq_hz = 150000000,
++};
++
+ static const struct of_device_id drv_dt_ids[] = {
+-	{ .compatible = "st,stm32-ltdc"},
++	{ .compatible = "st,stm32-ltdc", .data = &stm_drm_plat_data, },
++	{ .compatible = "st,stm32mp251-ltdc", .data = &stm_drm_plat_data_mp25, },
+ 	{ /* end node */ },
+ };
+ MODULE_DEVICE_TABLE(of, drv_dt_ids);
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index ba315c66a04d72758b9d3cfcd842432877f66d3a..74e93f076b62a46e7835985d9d330ba66d990e58 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -14,6 +14,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/media-bus-format.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_graph.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+@@ -51,6 +52,7 @@
+ #define HWVER_10300 0x010300
+ #define HWVER_20101 0x020101
+ #define HWVER_40100 0x040100
++#define HWVER_40101 0x040101
  
--if:
--  properties:
--    compatible:
--      contains:
--        enum:
--          - st,stm32mp157-syscfg
--          - st,stm32f4-gcan
--then:
--  required:
--    - clocks
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - st,stm32mp157-syscfg
-+              - st,stm32f4-gcan
-+    then:
-+      required:
-+        - clocks
-+  - if:
-+      properties:
-+        compatible:
-+          const: st,stm32mp25-syscfg
-+    then:
-+      required:
-+        - "#clock-cells"
+ /*
+  * The address of some registers depends on the HW version: such registers have
+@@ -1779,6 +1781,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
+ {
+ 	struct ltdc_device *ldev = ddev->dev_private;
+ 	u32 bus_width_log2, lcr, gc2r;
++	const struct ltdc_plat_data *pdata = of_device_get_match_data(ddev->dev);
  
- additionalProperties: false
+ 	/*
+ 	 * at least 1 layer must be managed & the number of layers
+@@ -1794,6 +1797,8 @@ static int ltdc_get_caps(struct drm_device *ddev)
+ 	ldev->caps.bus_width = 8 << bus_width_log2;
+ 	regmap_read(ldev->regmap, LTDC_IDR, &ldev->caps.hw_version);
  
++	ldev->caps.pad_max_freq_hz = pdata->pad_max_freq_hz;
++
+ 	switch (ldev->caps.hw_version) {
+ 	case HWVER_10200:
+ 	case HWVER_10300:
+@@ -1811,7 +1816,6 @@ static int ltdc_get_caps(struct drm_device *ddev)
+ 		 * does not work on 2nd layer.
+ 		 */
+ 		ldev->caps.non_alpha_only_l1 = true;
+-		ldev->caps.pad_max_freq_hz = 90000000;
+ 		if (ldev->caps.hw_version == HWVER_10200)
+ 			ldev->caps.pad_max_freq_hz = 65000000;
+ 		ldev->caps.nb_irq = 2;
+@@ -1842,6 +1846,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
+ 		ldev->caps.fifo_threshold = false;
+ 		break;
+ 	case HWVER_40100:
++	case HWVER_40101:
+ 		ldev->caps.layer_ofs = LAY_OFS_1;
+ 		ldev->caps.layer_regs = ltdc_layer_regs_a2;
+ 		ldev->caps.pix_fmt_hw = ltdc_pix_fmt_a2;
+@@ -1849,7 +1854,6 @@ static int ltdc_get_caps(struct drm_device *ddev)
+ 		ldev->caps.pix_fmt_nb = ARRAY_SIZE(ltdc_drm_fmt_a2);
+ 		ldev->caps.pix_fmt_flex = true;
+ 		ldev->caps.non_alpha_only_l1 = false;
+-		ldev->caps.pad_max_freq_hz = 90000000;
+ 		ldev->caps.nb_irq = 2;
+ 		ldev->caps.ycbcr_input = true;
+ 		ldev->caps.ycbcr_output = true;
+@@ -1872,6 +1876,8 @@ void ltdc_suspend(struct drm_device *ddev)
+ 
+ 	DRM_DEBUG_DRIVER("\n");
+ 	clk_disable_unprepare(ldev->pixel_clk);
++	if (ldev->bus_clk)
++		clk_disable_unprepare(ldev->bus_clk);
+ }
+ 
+ int ltdc_resume(struct drm_device *ddev)
+@@ -1887,7 +1893,13 @@ int ltdc_resume(struct drm_device *ddev)
+ 		return ret;
+ 	}
+ 
+-	return 0;
++	if (ldev->bus_clk) {
++		ret = clk_prepare_enable(ldev->bus_clk);
++		if (ret)
++			drm_err(ddev, "failed to enable bus clock (%d)\n", ret);
++	}
++
++	return ret;
+ }
+ 
+ int ltdc_load(struct drm_device *ddev)
+@@ -1922,6 +1934,19 @@ int ltdc_load(struct drm_device *ddev)
+ 		return -ENODEV;
+ 	}
+ 
++	if (of_device_is_compatible(np, "st,stm32mp251-ltdc")) {
++		ldev->bus_clk = devm_clk_get(dev, "bus");
++		if (IS_ERR(ldev->bus_clk))
++			return dev_err_probe(dev, PTR_ERR(ldev->bus_clk),
++					     "Unable to get bus clock\n");
++
++		ret = clk_prepare_enable(ldev->bus_clk);
++		if (ret) {
++			drm_err(ddev, "Unable to prepare bus clock\n");
++			return ret;
++		}
++	}
++
+ 	/* Get endpoints if any */
+ 	for (i = 0; i < nb_endpoints; i++) {
+ 		ret = drm_of_find_panel_or_bridge(np, 0, i, &panel, &bridge);
+@@ -2034,6 +2059,9 @@ int ltdc_load(struct drm_device *ddev)
+ 
+ 	clk_disable_unprepare(ldev->pixel_clk);
+ 
++	if (ldev->bus_clk)
++		clk_disable_unprepare(ldev->bus_clk);
++
+ 	pinctrl_pm_select_sleep_state(ddev->dev);
+ 
+ 	pm_runtime_enable(ddev->dev);
+@@ -2042,6 +2070,9 @@ int ltdc_load(struct drm_device *ddev)
+ err:
+ 	clk_disable_unprepare(ldev->pixel_clk);
+ 
++	if (ldev->bus_clk)
++		clk_disable_unprepare(ldev->bus_clk);
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
+index 9d488043ffdbc652deeede71c9d57d45fb89d3c6..ddfa8ae61a7ba5dc446fae647562d0ec8e6953e1 100644
+--- a/drivers/gpu/drm/stm/ltdc.h
++++ b/drivers/gpu/drm/stm/ltdc.h
+@@ -40,10 +40,15 @@ struct fps_info {
+ 	ktime_t last_timestamp;
+ };
+ 
++struct ltdc_plat_data {
++	int pad_max_freq_hz;	/* max frequency supported by pad */
++};
++
+ struct ltdc_device {
+ 	void __iomem *regs;
+ 	struct regmap *regmap;
+ 	struct clk *pixel_clk;	/* lcd pixel clock */
++	struct clk *bus_clk;	/* bus clock */
+ 	struct mutex err_lock;	/* protecting error_status */
+ 	struct ltdc_caps caps;
+ 	u32 irq_status;
 
 -- 
 2.25.1
