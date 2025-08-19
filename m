@@ -2,118 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D21B2BEDA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 12:26:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21FDB2BEFE
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 12:33:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDAC110E2A9;
-	Tue, 19 Aug 2025 10:26:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EDA210E078;
+	Tue, 19 Aug 2025 10:33:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="P5JhTto1";
+	dkim=pass (2048-bit key; unprotected) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="WD+Lsdcc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D83910E2A9
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 10:26:50 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J90Yjs030348
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 10:26:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=xE7uyuKMxcBKXrxBsPxzQapw
- O+ECMi8oJU47VWU7q9s=; b=P5JhTto1xhp44zXtePfv1MxuWSA7GDZeyRAh9H99
- d8YaN16ENMVeKyPX4BCiLUQgM/LGzLSMHOCijpe/nLqx7t/reYdmHtXOwgpRW9my
- Zt8Fwb0hceJ52FoDU0RtgTXI90REIKYY58AldirlRofk7rsHlXce4euXEIvdrJ/v
- yIPXR2hiFEvKveEyRzbV12WXhvyPSQJ5MSbWCk3DhOhUTHwkdT6B9X7EJj4sbNkm
- 6ApxW38pwEm7O+zXLt49RBrYTqwXLx1NpZPtu6o7Fs1j0ncc3WNnK3XzrhIgZFiG
- 48oykR00n9OMD5JRRzcNmQNPWc1mVU8pvuBrFJNuOkDCfQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48kyunvd1y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 10:26:49 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b1098f924bso155120511cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 03:26:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755599208; x=1756204008;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xE7uyuKMxcBKXrxBsPxzQapwO+ECMi8oJU47VWU7q9s=;
- b=OkvLO40zd1j6cByoWcZGUF8yzW+Age6TyFcJhdgygWo7FvOPVTaiRrgh7O24mlh5eG
- rYxkTUyfVGKEja6bg82ovNdI3DXWkRttfvVycNgKzkipYmGf55Qi7eoL/8IeTDlTu/1F
- pWcA2kAO2egy0+ybXjqUBCJX1BC9dh3136irAITDdrAouQSP7+kKVujY6M+6JgW9FKPB
- NxiAmRuoU7c8sxpMc/lHNSsATeYx4Dr9Hsczjrlk2iVT0b+eEH6FYSP1D+DaL9EWAGKj
- zfVwTq1uhJLrQdGP54pJoGa4d7xKrgZHvb+TlC+Xi6hMx3nc079fd6fvURmBemUgCDk6
- QfYQ==
-X-Gm-Message-State: AOJu0Yxd7+tGUZJpqkLNHIdABqJOd9oLjycF3g7jFMreq9uLwOTE97Oe
- +K4NLRMB6cWV/UN/ChAGxNCoay28lpePblPPm0iMAMYSuVq6YIT8NDvcKEypjhX3HRsdOEfk7n2
- FrzWbkLSV2R2J4vzhOGhUZtVriDue9YhF8vmn/u0jEeZkcXNw3JiLssLDRcwChqlwSvyA+fI=
-X-Gm-Gg: ASbGncucbUiOvYnHPUvkWWunIlUkIGq/u8Fp5ehDbkg+bI6Qq/qOcE0hfWnu5su+1PF
- pr9EM1H3bIrZtuqo0Yfqx/0FpP/ohwM/av/NUNcGCBiRwZkoS5jUnV8JUE0wqTVeA+JZHCz5yvn
- jGzmuyhNEWhxGpSDCmNdU7YXkpgbRH0/C0AK2oQYTkmCkvkOMNjYpsxCOnufa9GlTAuC004Hxwp
- rTxg3BkMuqMupxbozqw4XCvglpAdlpWhx376HatHRjvJFw9BMdPPOHO3tg4D2z0YGSF2+2KEeYs
- /IlqCGSsDlK2UQ75HMDl2w2FCEym4YgSij/bxIOvpWTy0oX3AUf6+a/74KPvNSDyoPaTR8Br18f
- OgPtN9p896if2F+bjIW3QHTsW9eFSf1e+CLyX3qIfbR6Ygj/1spBe
-X-Received: by 2002:ad4:5ca3:0:b0:707:4710:a551 with SMTP id
- 6a1803df08f44-70c35d9c531mr18088946d6.46.1755599208058; 
- Tue, 19 Aug 2025 03:26:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEL+NwHdqESLr4H1zNqBf4L2J3X7OtnhGZV79//D9XbHk/5wVxx4ZjWe4bRnazONdoj9BEFlg==
-X-Received: by 2002:ad4:5ca3:0:b0:707:4710:a551 with SMTP id
- 6a1803df08f44-70c35d9c531mr18088626d6.46.1755599207207; 
- Tue, 19 Aug 2025 03:26:47 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3340a41e3cfsm22274001fa.6.2025.08.19.03.26.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Aug 2025 03:26:46 -0700 (PDT)
-Date: Tue, 19 Aug 2025 13:26:44 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm: bridge: Add TI tmds181 and sn65dp159 driver
-Message-ID: <63xsz4p45hkz23z5hnqzyminrsr2s7m6u74csw244wmlaaihqa@4ib2opfe5l2v>
-References: <20250812145256.135645-1-mike.looijmans@topic.nl>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.6fffab14-bc0e-422f-81bd-f55176f1f6c8@emailsignatures365.codetwo.com>
- <20250812145256.135645-3-mike.looijmans@topic.nl>
+Received: from MRWPR03CU001.outbound.protection.outlook.com
+ (mail-francesouthazon11021100.outbound.protection.outlook.com
+ [40.107.130.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E12AE10E078
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 10:33:10 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wAtkbFxtNmJr9DkIAtqveq7OmBI5MBgyfe2TbUjQVPdNIJP3MJ+fJd6TBv+AGjTTcBkPfDf4OWH1bXHhXJVPViFuo40N/MBCxAfGsmP4rR1JXAwllfhmjVnirEsbHudLQGlhQSpk8CDoa4S/dn7ILiuhkjxb+XV3rcx7H5yZpEbqYIaU5fuXt6hQYQgWW3ob+ULcKFIUU2UMu185ykhZJ81hQRPBtym4k5YdpCTXBbpuNnjNVwAiPXx+DLV8nz00O5vatoLVHKfb1yaK8B9bUso/y0eo3rKwYmgKtv9ChsEMTSZ1PxAcp4Ry4Wk2AIhqElgVbOpd2HLzERhqiyTsUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SfRXL3BZGRwJ5LsFXfDruERl7AbfHmmEspYGs0bqCYA=;
+ b=jXBaNYMpqnh4chiQQzG65h8y7+7X1RE1zWN4pd6mbSN5zVQPnTsNEzXPy2Yh2I0YpmjTuFoZiIeB7IjP+fpLQuSzqek0baxRTfSWGaqd8OJx2QI0h79M63zzUPu0EYT39XNUhhWgCFGpcNbvNiFJqjlQLdLRcIejtl7cUChb68lzzUZGm5DVKJajh+7b7Sl8ZFfGJ8AWXyC+Pycxrre7yD18B7lJkGd0oEuGm8IPZ2hSZUMSoA/k4oUyqqsuWjqdrMUEcUY0SWt3kG7UmpfLeQ2I5mayqpKyXnTDYDMgF1FDN3XETKVjGLf4PpaaPd6S6ug6SU7Ghp9iipFX8LJN1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=gocontroll.com; dmarc=pass action=none
+ header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SfRXL3BZGRwJ5LsFXfDruERl7AbfHmmEspYGs0bqCYA=;
+ b=WD+LsdcceRP4zhMtlQ950psKRO64RZCm/jJeiuwuP1iWbPxM4R834vdJPpJkJ9BinRC1lNtruqk0yzdOAaXC9dnwBzCeeYUnrmR3wYg8wvg0GpkHZnEaM63tugP+/jODkp6XbUCg5awPf2A1DNKEs3lsatYS/SPPCed4bjudjZ+kFEg7RWP+m8mw6c0n2krR2G7MFhAc4+j81HMQXn61NymBRyrWNgpy3hzk0k+U1WTsd8+TSU8PdaSbwuW2qoI3FKJ9GE3gz0HBj4d5tqKIT65YraEhq97wi2+eKVXCRTL7thgEJ1c1JZbyXFjpEqBX8N57a0zZlAaCVD25MkQmVQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=gocontroll.com;
+Received: from PA4PR04MB7630.eurprd04.prod.outlook.com (2603:10a6:102:ec::16)
+ by DB9PR04MB9675.eurprd04.prod.outlook.com (2603:10a6:10:307::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.12; Tue, 19 Aug
+ 2025 10:33:06 +0000
+Received: from PA4PR04MB7630.eurprd04.prod.outlook.com
+ ([fe80::311b:ad3a:4a62:7b5f]) by PA4PR04MB7630.eurprd04.prod.outlook.com
+ ([fe80::311b:ad3a:4a62:7b5f%4]) with mapi id 15.20.9031.014; Tue, 19 Aug 2025
+ 10:33:06 +0000
+Message-ID: <3887eb47-0e30-4adb-8698-e964fe4d22d9@gocontroll.com>
+Date: Tue, 19 Aug 2025 12:33:05 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] backlight: add max25014atg backlight
+To: Daniel Thompson <daniel@riscstar.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ MaudSpieringsmaudspierings@gocontroll.com
+References: <20250725-max25014-v1-0-0e8cce92078e@gocontroll.com>
+ <20250725-max25014-v1-2-0e8cce92078e@gocontroll.com>
+ <aJn6_c79tvy_1dhU@aspen.lan>
+Content-Language: en-US
+From: Maud Spierings <maudspierings@gocontroll.com>
+In-Reply-To: <aJn6_c79tvy_1dhU@aspen.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4P189CA0069.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:659::7) To PA4PR04MB7630.eurprd04.prod.outlook.com
+ (2603:10a6:102:ec::16)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250812145256.135645-3-mike.looijmans@topic.nl>
-X-Proofpoint-GUID: EB2UjCUeG9_akDC-kskdgHCqw4Yc_EkQ
-X-Authority-Analysis: v=2.4 cv=N6UpF39B c=1 sm=1 tr=0 ts=68a45169 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=Z6EfDJrRAAAA:8 a=4mo8Gh65AAAA:8 a=2DNHKj4biBUlbhhL0xsA:9
- a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=GLvejNd0Yr38jcbvy3o4:22
- a=-TqyL22UkbLrTLSMRg8E:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE4MDA3MSBTYWx0ZWRfX2PDVXPOaP1nk
- K2oEFiL7GiwpRl062XCj3penXcPerTSVJ4qNJvnrzOYpFlSrxLJCBIuR6a8FA2WeET9s2QoKegW
- 1hu4MabygD5KwTKphuOZS3dPcjkzglLWVrg8nkFNYoyCXLK4cLCXEYTf+0RhLEP7jCWVpkNS6aI
- pxpbmyuKJn7Z7iidqLPILJw3ncHB3b6SGHtuWFlzRaulQDCVEECorWwwcUJyoHlrRnOzf2ao4sv
- ql97Am6aLl+/TWpzEnaoiyeyiXCA2+o2yrF9ORwhiYw9vf9XE0/iMoNPcE17GtGkvtwckkRQD4Z
- F+a/9FZvCsNiNiMcC1cZipiTOKO4uxVa4EY4HCMNHO207P0sGxIGpOfzNbaUb0QwBgQWynmEPLv
- 8IH5z64V
-X-Proofpoint-ORIG-GUID: EB2UjCUeG9_akDC-kskdgHCqw4Yc_EkQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-19_01,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0 clxscore=1015 malwarescore=0 impostorscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508180071
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB7630:EE_|DB9PR04MB9675:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef429e1d-cc09-4993-98ec-08dddf0bc8eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|10070799003|366016; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?S1RCaFdabkU0TWdzSnZCWHh4RFpYRFQzVGxRK1dTT1RRbTcvYXEyd3M2NGxk?=
+ =?utf-8?B?YXBSRW9nN04xSndmTFVSZEozWFh1WHBsbDQ5MjU5RmdXeGV0YUpzNGdGRGtX?=
+ =?utf-8?B?KzVJMG1VOUozTTFhVHZ3K1MwcHlvVVhoMU9ZS3lROS8xWUhrcHNubVpmbnc3?=
+ =?utf-8?B?am1FVHcrSGxuaVpxZG40cFhQb0NiMzFvckpCbVorNEFMQWdZb2VQWFVGbWZP?=
+ =?utf-8?B?aEQ2NW5UZ3EvSDF1eHVkOHlEVTFXYldkODVJQXV6TTNoOG11bTQxYVRybklS?=
+ =?utf-8?B?dXd0VHdtaXJtOFpLYS96bVdBaUVQb3FHYmlyeVFlM1FLL2VJdmNkV3pBRzhP?=
+ =?utf-8?B?NmZUMWZUWlI4ZHIydjA3azRDN2tySk1nTlNaVkVMb2s1anF2QUowQjhhN09G?=
+ =?utf-8?B?Ym5RMWxmbjJPd1dmNnBycFJ3R1VzVE9OYU5aTVhtaHV0dlZFYlJ6SGRlSHcz?=
+ =?utf-8?B?UUVFQk1oODhGN2J6K0RTR0JWd09WV21uMDVoN2hCeVlOQ1dObjFlZ2RFNC84?=
+ =?utf-8?B?b2pQUnJVeTBDdkZQWVArWVZxVzEyZ1RGWldjS1lkMElBR0ZvV0dPUDhoNTFT?=
+ =?utf-8?B?c1hMcWkyNUxrUUJUeG43K1RNZ3p1VlRQTW9yZW5XY0FldHdjNGNjc0U1ZDFU?=
+ =?utf-8?B?QVY2Y1BsYXRjcldDYVR3bnFwTUR3amVXQU5zYzdxR1dtbHlmQ0hHZHlMenMy?=
+ =?utf-8?B?ZUpCUkt1bWVwcGxzaDl3TUkwRnZuYUJ5aHNoSTRYWGN2cHRaaWdvMURQNGd4?=
+ =?utf-8?B?NmtLcExUUWpIeXJSSjJCWENCUktsWmlFMzg5eTdIVkZSQm44bDZwdHZ0YUZn?=
+ =?utf-8?B?Mk56N1E2dUtCbnN0d2JPaTFjUFlrek9EdlRxM3BmOUdmSXJ3MTdMQVF4SFRR?=
+ =?utf-8?B?MUFrUkpQSjRHeUZFTVBTa2JjQUFpc0IwTHVwREZtV29uVzFRcS80ek9HUmlZ?=
+ =?utf-8?B?SnZ5RnovS0lJZXFtV2NoYXF5OC82cEUwaFhkZ1VBakdtUitOUGJUdThyTXhD?=
+ =?utf-8?B?ZnZNSkwwOU1XaTVYSER2bDNFbmJyMjNFODB3dXAwa2VHenVaYlNIOHl3WXky?=
+ =?utf-8?B?UHBQTkIzU0dwMmI5QjYvWXorVlR3alJIckFLNGYvWXZmMVhZMDFlUGhhZ1hT?=
+ =?utf-8?B?b2FQUkxLUjRRVDNmemlWQ3ZiUDd4SUNYcGNFYmIrdzE4L3l4YjY5ZEorbG5n?=
+ =?utf-8?B?M0JkSGQ5cHBWQ0k2VTFibURwTlNBMEpjUE43TlNQcHRGQ0RVUXFqVVVhajBz?=
+ =?utf-8?B?RTlBdUlENDJKak9PeGVKVDRnbWIvSzZOVFEvVXhBejg1RkdHak1mQUs0RE5M?=
+ =?utf-8?B?ZHpOOFNtRUlxNTRMckhhM1B6bEpLdGZ4eit4dzlsVUFta2VjampuQnRJOUg2?=
+ =?utf-8?B?RFZtSUZsNmVIb0xmV1NFdVMrdk54UTJjUmlKbThtVHFoSnlxME9rVzMrSHRk?=
+ =?utf-8?B?eitDVlFVaURiRnQ2SnQ0bmdqdnBmZXpGVTBDNk9OKzVTNTdVaDRrcE5FaExh?=
+ =?utf-8?B?ajRvSlF6c2t0OG5IT3MvblVZdm15b0J0WW5LaThQYk8yWVR2UVNPamFYcm5u?=
+ =?utf-8?B?N1FyTUtDc3VWUXNYV1RMYWEvM1V0dEFrNk5IVDY5am1sbExwa2dLR1VPTFhr?=
+ =?utf-8?B?dWpkOUJYanNONUtibkF4ZVhxVlJuazAxOTdvcjlCcXJNcWJwT21CKzZiYVQw?=
+ =?utf-8?B?NW9veHhBL2dTZTJnQnpydkFLekJ0LzNCUmRVTlhla2FZR2lMOC9zSklnMTFB?=
+ =?utf-8?B?bVhRSWxZL0I5aGVLdjFIOE15cEhxU3BWdEM2MlM5ZERGc2sra0lKZjRGSUdo?=
+ =?utf-8?B?a0tpZk5XekJOUTJ1Q0thL0NGdEtOODc0dDY4anQyY1g5R1J0VVhQM2JZZlJo?=
+ =?utf-8?B?N2cwYTNWN1Z3bWg4N1Izb1hINWlEcG53ZFZFQ3RLNkhpUlU3cCtMcFduVmp6?=
+ =?utf-8?Q?4Q3Q16E4G/0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR04MB7630.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016); DIR:OUT;
+ SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UnM4QTNhSVNGNUFtRWN5a1pCWDloTzNpNis3R25DdnNFQVM0OUZXY1llbDFQ?=
+ =?utf-8?B?NkhHdTUwQVFzRU1BWkdZZHJyZVpLWVR6bnh6VXo3SUtLb3J5ekZ4M3d4dFZZ?=
+ =?utf-8?B?K2FKUEhQODV4S29LOTV5SkhkSDZQU0xsUlY0SVJEajQ3N1ZJZXE2VThDejFW?=
+ =?utf-8?B?eVZzcUdaRmZHcUZxcm5hTVBZbGFkL1dkcXk1VkU5d3cwbjdRa0oyalVFdWJ1?=
+ =?utf-8?B?dC84SGJwVlVRSURuMFRBajFBbWl1cWRMN2pFcHZQSlJuQTBrRWNUV0Y3RTRG?=
+ =?utf-8?B?RDhWcHgwUGxucGpKZVhnZC9IUkx0bEgzMEtZUE5pRnhBTWJRa2hvTXozby9E?=
+ =?utf-8?B?SFJLSWhXeVBtOXdkRzU2c2t2R3hxWUpGWkRKKzZ3cFFJMVp1bUFETzRpZGhR?=
+ =?utf-8?B?TWkrUDZPR2xyUHBXYmpJNDlQQ2gxQU1LeTNwdjE1OXZ1TXFBeXRjZ3JIZlFI?=
+ =?utf-8?B?aTU0c09nQjdsdkVvL0NJdVNGaUNYVkFEYllUZXJ2VjdPTkRiWFlkREFpV2h3?=
+ =?utf-8?B?UC9kektDbXBuZkttc245QjJqbHF4QW9nQmV5R2orY05sTnc0WVQ0dGU2N2tD?=
+ =?utf-8?B?TFhZMjdKcHVxNkRUa1lTT2x0Y25jMXhMaUVGUGNNVkIySTlSUElLcU93U0ZC?=
+ =?utf-8?B?bWY4RThsaGVCRHk1TVM2aDRZVkt4R2NTYk5PemN6am8ybFdOYzBVTmFVNjBa?=
+ =?utf-8?B?L2xnZ2FFbXRGN0pkNDZsVk5RVm10alFUSm9ubGJIaGRrSUlQekJ1QkZORUMx?=
+ =?utf-8?B?NXF1anNocmt4R3RmTHR4S2I0TXY3TVpYeStCVG5Mb0Z5YXI3SkNnVk5FVWR6?=
+ =?utf-8?B?WjF1aWw4R296aCtJREpTTjBJSTNydTJFWHJDVHR0ZGNQUHhlb250MDdldVlZ?=
+ =?utf-8?B?YnRTTXhhT3JRczZ4MHRva2N4dE5oWHBnaFBsa091enR5MG5sL0NzMHJESFRE?=
+ =?utf-8?B?dkZuWk5MU1lHUXJDYVMrRVZ5cjhNaHN5MnNLUVBqcmR3SmY0WVRYUVVFY2xI?=
+ =?utf-8?B?VkxJUjBOeGRvMEtOeitERlBxUXZTZWk4MFFJZ0dVSUZtbVBvMGl4RW9yWHI0?=
+ =?utf-8?B?WVdSM05iZzY5ajAvQVV2SklTQ1U1UEUyaFM4OVM4MGdHR1JmRHRpZnBYcm5m?=
+ =?utf-8?B?MXgzOVNMcFo5SkFjUVp0cVBXR2J0b1J5WlJ5OXdiMzBReFRhZ292cC9iRDZ2?=
+ =?utf-8?B?YStsSkpyakgvQWJhdEpVTVNWUjdUMVA1N0NHaEtGWWVXMWFkVUhmdlFJTmJt?=
+ =?utf-8?B?ZCtKekVCWHNRU3Fkbm5jb2lpeVNqbTVDa0RoMkNWaVRBVDJhaUozWmh3b2xP?=
+ =?utf-8?B?d2Q0SGEzanJlNm8rbE1MbFREZGVYQ0NjeWI2Rmk5NThMNUFBdnNSdmp1QXdo?=
+ =?utf-8?B?d3VWKys4bXRCQ1U2aWpiWlJ5Nmxvb0c5V0hBbTAvbytONUV1VDNBL05OVkFE?=
+ =?utf-8?B?VUQwY1R4WEUzTXh2K0pyK1JlbWJOcGw2amp5TWorZVpEdFFTeUU3amxpWGs2?=
+ =?utf-8?B?OEIrK1FUT0pscGM2K3VYVTVaR3BqZm1meDBsVzRaVjQzWlE1UE5mWllqKzNN?=
+ =?utf-8?B?anVUaTdUUStnd2JpdWl3NGJmUlFvOVJkY0RKRmM1K25hcnRISHJkaWhwRzB6?=
+ =?utf-8?B?TzVidWo0a2RCRXRMK0tITTE4b1dtTlVzelVQZ2VzMXI1dmllMGJ2K2x5VGhx?=
+ =?utf-8?B?blc0cW9HVTBrQWlFalp4WS9Ib1V0K2wzSUZPZjV1R0Z1UnV0L2JUTVQxZzZ1?=
+ =?utf-8?B?czhVUlZUTzhLYi83NU42VkFqa1lyc1NyamVhZEJpUmFtVEJ5SUVqVTEvempX?=
+ =?utf-8?B?Y1BhZXdMNDVkaXNRTU81L3VNUWFGMkkyMXFsald5bVc5R2wzT1BUd3pnVFVO?=
+ =?utf-8?B?YnJHVkJST1Iwb3ZLZ2VlWk01cC9TYm5sRDJaaTNma216L1l1eDR3MHY4Z3lU?=
+ =?utf-8?B?bnBVa0F5aGRKVU53SitGdWw0NDlSeDU1MXJXU3RzYSt0cXRQbm01QkFLVzFa?=
+ =?utf-8?B?MlNtKzNxTlJCS0QyNFovYTRuNGE4aFRyZXhEYkx4MC9mNjF3dzdmQnozT2g3?=
+ =?utf-8?B?R0Q3emMxUWpHeHJmUVovUWZCMVU2MVY0Zm5DRWxaanBXYTRPR3hRSnIrRTV1?=
+ =?utf-8?B?M3ZKeUxRL1RucnR0NGlORFdpM2ljempibUlYbTlESW5za2NGWUdBUnlOREN2?=
+ =?utf-8?B?cUx5RE4rbURic1BYdDVNZVV0WmQ5Q1l3bXhjZ1FLV2JPRnlJN2krK0lZbGo1?=
+ =?utf-8?B?U0Z1eDZQZU8vRC84L1RxSWNTQnNBPT0=?=
+X-OriginatorOrg: gocontroll.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef429e1d-cc09-4993-98ec-08dddf0bc8eb
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB7630.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 10:33:06.6508 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pSzOC1jTGkPLM1/SCyTXQujMzfH871YjJaRTZPEJY/INbBB0VP1YUE0DxXk06AvfDNw33ZW0ys7u78Ei80zAAKeIgQ2v53UL5nKRJv7dgyE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9675
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,541 +179,407 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 12, 2025 at 04:51:35PM +0200, Mike Looijmans wrote:
-> The tmds181 and sn65dp159 are "retimers" and hence can be considered
-> HDMI-to-HDMI bridges. Typical usage is to convert the output of an
-> FPGA into a valid HDMI signal, and it will typically be inserted
-> between an encoder and hdmi-connector.
-> 
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-> ---
-> 
->  drivers/gpu/drm/bridge/Kconfig      |  11 +
->  drivers/gpu/drm/bridge/Makefile     |   1 +
->  drivers/gpu/drm/bridge/ti-tmds181.c | 512 ++++++++++++++++++++++++++++
->  3 files changed, 524 insertions(+)
->  create mode 100644 drivers/gpu/drm/bridge/ti-tmds181.c
-> 
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index b9e0ca85226a..753177fc9b50 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -430,6 +430,17 @@ config DRM_TI_SN65DSI86
->  	help
->  	  Texas Instruments SN65DSI86 DSI to eDP Bridge driver
->  
-> +config DRM_TI_TMDS181
-> +        tristate "TI TMDS181 and SN65DP159 HDMI retimer bridge driver"
-> +	depends on OF
-> +	select DRM_KMS_HELPER
-> +	select REGMAP_I2C
-> +	help
-> +	  Enable this to support the TI TMDS181 and SN65DP159 HDMI retimers.
-> +	  The SN65DP159 provides output into a cable (source) whereas the
-> +	  TMDS181 is meant to forward a cable signal into a PCB (sink). Either
-> +	  can be set up as source or sink though.
-> +
->  config DRM_TI_TPD12S015
->  	tristate "TI TPD12S015 HDMI level shifter and ESD protection"
->  	depends on OF
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 245e8a27e3fc..f4b5089e903c 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -39,6 +39,7 @@ obj-$(CONFIG_DRM_TI_SN65DSI83) += ti-sn65dsi83.o
->  obj-$(CONFIG_DRM_TI_SN65DSI86) += ti-sn65dsi86.o
->  obj-$(CONFIG_DRM_TI_TDP158) += ti-tdp158.o
->  obj-$(CONFIG_DRM_TI_TFP410) += ti-tfp410.o
-> +obj-$(CONFIG_DRM_TI_TMDS181) += ti-tmds181.o
->  obj-$(CONFIG_DRM_TI_TPD12S015) += ti-tpd12s015.o
->  obj-$(CONFIG_DRM_NWL_MIPI_DSI) += nwl-dsi.o
->  obj-$(CONFIG_DRM_ITE_IT66121) += ite-it66121.o
-> diff --git a/drivers/gpu/drm/bridge/ti-tmds181.c b/drivers/gpu/drm/bridge/ti-tmds181.c
-> new file mode 100644
-> index 000000000000..6fbbc13ddc10
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/ti-tmds181.c
-> @@ -0,0 +1,512 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * TI tmds181 and sn65dp159 HDMI redriver and retimer chips
-> + *
-> + * Copyright (C) 2018 - 2025 Topic Embedded Products <www.topic.nl>
-> + *
-> + * based on code
-> + * Copyright (C) 2007 Hans Verkuil
-> + * Copyright (C) 2016, 2017 Leon Woestenberg <leon@sidebranch.com>
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/kernel.h>
-> +#include <linux/i2c.h>
-> +#include <linux/slab.h>
-> +#include <linux/of.h>
-> +#include <linux/regmap.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/delay.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +MODULE_DESCRIPTION("I2C device driver for DP159 and TMDS181 redriver/retimer");
-> +MODULE_AUTHOR("Mike Looijmans");
-> +MODULE_LICENSE("GPL");
-> +
-> +#define TMDS181_REG_ID		0
-> +#define TMDS181_REG_REV		0x8
-> +#define TMDS181_REG_CTRL9	0x9
-> +/* Registers A and B have a volatile bit, but we don't use it, so cache is ok */
-> +#define TMDS181_REG_CTRLA	0xA
-> +#define TMDS181_REG_CTRLB	0xB
-> +#define TMDS181_REG_CTRLC	0xC
-> +#define TMDS181_REG_EQUALIZER	0xD
-> +#define TMDS181_REG_EYESCAN	0xE
+Hi Daniel,
 
-Usually it's recommended to use lowercase hex.
+Thank you very much for your review, for some reason it ended in my spam 
+box, so I only saw it just now.
 
-> +
-> +enum tmds181_chip {
-> +	tmds181,
-> +	dp159,
-> +};
-> +
-> +struct tmds181_data {
-> +	struct i2c_client *client;
-> +	struct regmap *regmap;
-> +	struct drm_bridge *next_bridge;
-> +	struct drm_bridge bridge;
-> +	enum tmds181_chip chip;
-> +};
-> +
-
-[...]
-
-> +
-> +static const char * const tmds181_modes[] = {
-> +	"redriver",
-> +	"auto1",
-> +	"auto2",
-> +	"retimer",
-> +};
-> +
-> +static ssize_t mode_show(struct device *dev,
-> +		struct device_attribute *attr, char *buf)
-> +{
-> +	struct tmds181_data *data = dev_get_drvdata(dev);
-> +	const char *equalizer;
-> +	u32 val;
-> +	int ret;
-> +
-> +	ret = regmap_read(data->regmap, TMDS181_REG_CTRLA, &val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (val & BIT(4)) {
-> +		if (val & BIT(5))
-> +			equalizer = "eq-adaptive";
-> +		else
-> +			equalizer = "eq-fixed";
-> +	} else {
-> +		equalizer = "eq-disabled";
-> +	}
-> +
-> +	return scnprintf(buf, PAGE_SIZE, "%6s %s %s\n",
-> +			(val & BIT(7)) ? "sink" : "source",
-> +			tmds181_modes[val & 0x03],
-> +			equalizer);
-> +}
-> +
-> +static ssize_t mode_store(struct device *dev,
-> +		struct device_attribute *attr, const char *buf, size_t len)
-> +{
-> +	struct tmds181_data *data = dev_get_drvdata(dev);
-> +	u32 val;
-> +	int ret;
-> +	int i;
-> +
-> +	/* Strip trailing newline(s) for being user friendly */
-> +	while (len && buf[len] == '\n')
-> +		--len;
-> +
-> +	/* Need at least 4 actual characters */
-> +	if (len < 4)
-> +		return -EINVAL;
-> +
-> +	ret = regmap_read(data->regmap, TMDS181_REG_CTRLA, &val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(tmds181_modes); ++i) {
-> +		if (strncmp(tmds181_modes[i], buf, len) == 0) {
-> +			val &= ~0x03;
-> +			val |= i;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (strncmp("sink", buf, len) == 0)
-> +		val |= BIT(7);
-> +
-> +	if (strncmp("source", buf, len) == 0)
-> +		val &= ~BIT(7);
-> +
-> +	if (strncmp("eq-", buf, 3) == 0) {
-> +		switch (buf[3]) {
-> +		case 'a': /* adaptive */
-> +			val |= BIT(4) | BIT(5);
-> +			break;
-> +		case 'f': /* fixed */
-> +			val |= BIT(4);
-> +			val &= ~BIT(5);
-> +			break;
-> +		case 'd': /* disable */
-> +			val &= ~(BIT(4) | BIT(5));
-> +			break;
-> +		}
-> +	}
-> +
-> +	/* Always set the "apply changes" bit */
-> +	val |= BIT(2);
-> +
-> +	ret = regmap_write(data->regmap, TMDS181_REG_CTRLA, val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return len;
-> +}
-> +
-> +/* termination for HDMI TX: 0=off, 1=150..300, 3=75..150 ohms */
-> +static ssize_t termination_show(struct device *dev,
-> +		struct device_attribute *attr, char *buf)
-> +{
-> +	struct tmds181_data *data = dev_get_drvdata(dev);
-> +	u32 val;
-> +	int ret;
-> +
-> +	ret = regmap_read(data->regmap, TMDS181_REG_CTRLB, &val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	val >>= 3;
-> +	val &= 0x03;
-> +
-> +	return scnprintf(buf, PAGE_SIZE, "%u\n", val);
-> +}
-> +
-> +static ssize_t termination_store(struct device *dev,
-> +		struct device_attribute *attr, const char *buf, size_t len)
-> +{
-> +	struct tmds181_data *data = dev_get_drvdata(dev);
-> +	u32 val;
-> +	unsigned long newval;
-> +	int ret;
-> +
-> +	ret = regmap_read(data->regmap, TMDS181_REG_CTRLB, &val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = kstrtoul((const char *) buf, 10, &newval);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (newval > 3)
-> +		return -EINVAL;
-> +
-> +	val &= ~(0x03 << 3);
-> +	val |= newval << 3;
-> +
-> +	ret = regmap_write(data->regmap, TMDS181_REG_CTRLB, val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return len;
-> +}
-> +
-> +static DEVICE_ATTR_RW(mode);
-> +static DEVICE_ATTR_RW(termination);
-
-Undocumented ABI. Why are they configured at runtime rather than through
-the DT / fwnode?
-
-> +
-> +static struct attribute *tmds181_attrs[] = {
-> +	&dev_attr_mode.attr,
-> +	&dev_attr_termination.attr,
-> +	NULL,
-> +};
-> +
-> +static const struct attribute_group tmds181_attr_group = {
-> +	.attrs = tmds181_attrs,
-> +};
-> +
-> +static const u8 tmds181_id_tmds181[8] = "TMDS181 ";
-> +static const u8 tmds181_id_dp159[8]   = "DP159   ";
-> +
-> +static int tmds181_check_id(struct tmds181_data *data)
-> +{
-> +	int ret;
-> +	int retry;
-> +	u8 buffer[8];
-> +
-> +	for (retry = 0; retry < 20; ++retry) {
-> +		ret = regmap_bulk_read(data->regmap, TMDS181_REG_ID, buffer,
-> +				       sizeof(buffer));
-> +		if (!ret)
-> +			break;
-> +
-> +		/* Compensate for very long OE power-up delays due to the cap */
-> +		usleep_range(5000, 10000);
-> +	}
-> +
-> +	if (ret) {
-> +		dev_err(&data->client->dev, "I2C read ID failed\n");
-> +		return ret;
-> +	}
-> +
-> +	if (memcmp(buffer, tmds181_id_tmds181, sizeof(buffer)) == 0) {
-> +		dev_info(&data->client->dev, "Detected: TMDS181\n");
-> +		data->chip = tmds181;
-> +		return 0;
-> +	}
-> +
-> +	if (memcmp(buffer, tmds181_id_dp159, sizeof(buffer)) == 0) {
-> +		dev_info(&data->client->dev, "Detected: DP159\n");
-> +		data->chip = dp159;
-> +		return 0;
-> +	}
-> +
-> +	dev_err(&data->client->dev, "Unknown or wrong ID: %*pE\n", (int)sizeof(buffer), buffer);
-> +
-> +	return -ENODEV;
-> +}
-> +
-> +static bool tmds181_regmap_is_volatile(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	/* IBERT result and status registers, not used yet */
-> +	case 0x15:
-> +	case 0x17 ... 0x1F:
-> +		return true;
-> +	default:
-> +		return false;
-> +	}
-> +}
-> +
-> +static const struct regmap_config tmds181_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.cache_type = REGCACHE_RBTREE,
-> +	.max_register = 0x20,
-> +	.volatile_reg = tmds181_regmap_is_volatile,
-> +};
-> +
-> +static int tmds181_probe(struct i2c_client *client)
-> +{
-> +	struct tmds181_data *data;
-> +	struct gpio_desc *oe_gpio;
-> +	int ret;
-> +	u32 param;
-> +	u8 val;
-> +
-> +	/* Check if the adapter supports the needed features */
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
-> +		return -EIO;
-> +
-> +	data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->client = client;
-> +	i2c_set_clientdata(client, data);
-> +	data->regmap = devm_regmap_init_i2c(client, &tmds181_regmap_config);
-> +	if (IS_ERR(data->regmap))
-> +		return PTR_ERR(data->regmap);
-> +
-> +	/* The "OE" pin acts as a reset */
-> +	oe_gpio = devm_gpiod_get_optional(&client->dev, "oe", GPIOD_OUT_LOW);
-> +	if (IS_ERR(oe_gpio)) {
-> +		ret = PTR_ERR(oe_gpio);
-> +		if (ret != -EPROBE_DEFER)
-> +			dev_err(&client->dev, "failed to acquire 'oe' gpio\n");
-> +		return ret;
-> +	}
-> +	if (oe_gpio) {
-> +		/* Need at least 100us reset pulse */
-> +		usleep_range(100, 200);
-> +		gpiod_set_value_cansleep(oe_gpio, 1);
-> +	}
-> +
-> +	/* Reading the ID also provides enough time for the reset */
-> +	ret = tmds181_check_id(data);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* We take care of power control, so disable the chips PM functions */
-> +	/* SIG_EN=0 PD_EN=1 HPD_AUTO_PWRDWN_DISABLE=1 I2C_DR_CTL=0b11*/
-> +	regmap_update_bits(data->regmap, TMDS181_REG_CTRL9, 0x1f, 0x0f);
-> +
-> +	/* Apply configuration changes */
-> +	if (of_property_read_bool(client->dev.of_node, "source-mode"))
-
-Undocumented DT properties. Please document them in DT bindings.
-
-> +		regmap_update_bits(data->regmap,
-> +				TMDS181_REG_CTRLA, BIT(7), 0);
-> +	if (of_property_read_bool(client->dev.of_node, "sink-mode"))
-> +		regmap_update_bits(data->regmap,
-> +				TMDS181_REG_CTRLA, BIT(7), BIT(7));
-> +	if (of_property_read_bool(client->dev.of_node, "redriver-mode"))
-> +		regmap_update_bits(data->regmap,
-> +				TMDS181_REG_CTRLA, 0x03, 0x00);
-> +	if (of_property_read_bool(client->dev.of_node, "retimer-mode"))
-> +		regmap_update_bits(data->regmap,
-> +				TMDS181_REG_CTRLA, 0x03, 0x03);
-> +	if (of_property_read_bool(client->dev.of_node, "adaptive-equalizer"))
-> +		regmap_update_bits(data->regmap,
-> +			TMDS181_REG_CTRLA, BIT(4) | BIT(5), BIT(4) | BIT(5));
-> +	if (of_property_read_bool(client->dev.of_node, "disable-equalizer"))
-> +		regmap_update_bits(data->regmap, TMDS181_REG_CTRLA, BIT(4), 0);
-> +
-> +	switch (data->chip) {
-> +	case dp159:
-> +		/*  SLEW=0b00 Mode=HDMI DDC_TRAIN_SET=1 */
-> +		val = BIT(0);
-> +		/* Default slew rate is max */
-> +		param = 3;
-> +		if (!of_property_read_u32(client->dev.of_node,
-> +					"slew-rate", &param)) {
-> +			if (param > 3) {
-> +				dev_err(&client->dev, "invalid slew-rate\n");
-> +				return -EINVAL;
-> +			}
-> +			/* Implement 0 = slow, 3 = fast slew rate */
-> +			val = (3 - param) << 6;
-> +		}
-> +		if (of_property_read_bool(client->dev.of_node, "dvi-mode"))
-> +			val |= BIT(5);
-> +		break;
-> +	default:
-> +		/* DDC_DR_SEL=1 DDC_TRAIN_SETDISABLE=1 */
-> +		val = BIT(2) | BIT(0);
-> +		break;
-> +	}
-> +
-> +	/* termination for HDMI TX: 0=off, 1=150..300, 3=75..150 ohms */
-> +	if (!of_property_read_u32(client->dev.of_node, "termination", &param))
-> +		val |= ((param & 0x3) << 3);
-> +
-> +	ret = regmap_write(data->regmap, TMDS181_REG_CTRLB, val);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "regmap_write(B) failed\n");
-> +		return ret;
-> +	}
-> +
-> +	val = 0; /* Default for C register */
-> +	if (!of_property_read_u32(client->dev.of_node, "vswing-data", &param))
-> +		val |= (param << 5);
-> +	if (!of_property_read_u32(client->dev.of_node, "vswing-clk", &param))
-> +		val |= (param << 2);
-> +	/* Datasheet recommends HDMI_TWPST=0b01 for HDMI compliance */
-> +	if (of_property_read_bool(client->dev.of_node, "enable-de-emphasis"))
-> +		val |= 0x01;
-> +	ret = regmap_write(data->regmap, TMDS181_REG_CTRLC, val);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "regmap_write(C) failed\n");
-> +		return ret;
-> +	}
-> +
-> +	/* DIS_HDMI2_SWG: HDMI 1.x only, keep clock at full rate */
-> +	val = BIT(0);
-> +	if (!of_property_read_u32(client->dev.of_node, "eq-data", &param)) {
-> +		val |= (param << 3);
-> +		/* If defined, also force the "fixed" equalizer mode */
-> +		regmap_update_bits(data->regmap, TMDS181_REG_CTRLA, BIT(5), 0);
-> +	}
-> +	if (!of_property_read_u32(client->dev.of_node, "eq-clk", &param)) {
-> +		val |= (param << 1);
-> +		regmap_update_bits(data->regmap, TMDS181_REG_CTRLA, BIT(5), 0);
-> +	}
-> +	ret = regmap_write(data->regmap, TMDS181_REG_EQUALIZER, val);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "regmap_write(EQUALIZER) failed\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = tmds181_apply_changes(data);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "tmds181_apply_changes failed\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = sysfs_create_group(&client->dev.kobj, &tmds181_attr_group);
-> +	if (ret)
-> +		dev_err(&client->dev, "sysfs_create_group error: %d\n", ret);
-> +
-> +	/* Find next bridge in chain */
-> +	data->next_bridge = devm_drm_of_get_bridge(&client->dev, client->dev.of_node, 1, 0);
-> +	if (IS_ERR(data->next_bridge))
-> +		return dev_err_probe(&client->dev, PTR_ERR(data->next_bridge),
-> +				     "Failed to find next bridge\n");
-> +
-> +	/* Register the bridge. */
-> +	data->bridge.funcs = &tmds181_bridge_funcs;
-> +	data->bridge.of_node = client->dev.of_node;
-> +
-> +	return devm_drm_bridge_add(&client->dev, &data->bridge);
-> +}
-> +
-> +static const struct i2c_device_id tmds181_id[] = {
-> +	{ "tmds181", tmds181 },
-> +	{ "sn65dp159", dp159 },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, tmds181_id);
-> +
-> +#if IS_ENABLED(CONFIG_OF)
-> +static const struct of_device_id tmds181_of_match[] = {
-> +	{ .compatible = "ti,tmds181", },
-> +	{ .compatible = "ti,sn65dp159", },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, tmds181_of_match);
-> +#endif
-> +
-> +static struct i2c_driver tmds181_driver = {
-> +	.driver = {
-> +		.owner = THIS_MODULE,
-> +		.name	= "tmds181",
-> +		.of_match_table = of_match_ptr(tmds181_of_match),
-> +	},
-> +	.probe		= tmds181_probe,
-> +	.id_table	= tmds181_id,
-> +};
-> +
-> +module_i2c_driver(tmds181_driver);
-> -- 
-> 2.43.0
+On 8/11/25 16:15, Daniel Thompson wrote:
+> On Fri, Jul 25, 2025 at 01:09:24PM +0200, Maud Spierings via B4 Relay wrote:
+>> From: Maud Spierings <maudspierings@gocontroll.com>
+>>
+>> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+>> with intgrated boost controller.
+>>
+>> Signed-off-by: Maud Spierings maudspierings@gocontroll.com
+>> ---
+>>   MAINTAINERS                            |   2 +
+>>   drivers/video/backlight/Kconfig        |   7 +
+>>   drivers/video/backlight/Makefile       |   1 +
+>>   drivers/video/backlight/max25014.c     | 449 +++++++++++++++++++++++++++++++++
+>>   include/linux/platform_data/max25014.h |  24 ++
 > 
-> 
-> Met vriendelijke groet / kind regards,
-> 
-> Mike Looijmans
-> System Expert
-> 
-> 
-> TOPIC Embedded Products B.V.
-> Materiaalweg 4, 5681 RJ Best
-> The Netherlands
-> 
-> T: +31 (0) 499 33 69 69
-> E: mike.looijmans@topic.nl
-> W: www.topic.nl
-> 
-> Please consider the environment before printing this e-mail
+> Who else included this header file? Can the code here simply be included
+> in the C file?
 
--- 
-With best wishes
-Dmitry
+That was my instinct too, I was following a clearly incorrect pattern 
+from another driver, merged the fields from that struct into the main 
+max25014 struct.
+
+> 
+>> diff --git a/drivers/video/backlight/max25014.c b/drivers/video/backlight/max25014.c
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..371b6017953ae5955f4dfef921980dfdedd65d85
+>> --- /dev/null
+>> +++ b/drivers/video/backlight/max25014.c
+>> @@ -0,0 +1,449 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Backlight driver for Maxim MAX25014
+>> + *
+>> + * Copyright (C) 2025 GOcontroll B.V.
+>> + * Author: Maud Spierings <maudspierings@gocontroll.com>
+>> + */
+>> +
+>> +#include <linux/backlight.h>
+>> +#include <linux/gpio/consumer.h>
+>> +#include <linux/i2c.h>
+>> +#include <linux/platform_data/max25014.h>
+>> +#include <linux/regmap.h>
+>> +#include <linux/slab.h>
+>> +
+>> +#define MAX25014_ISET_DEFAULT_100 11U
+>> +#define MAX_BRIGHTNESS (100U)
+>> +#define MIN_BRIGHTNESS (0U)
+>> +#define TON_MAX (130720U) /* @153Hz */
+>> +#define TON_STEP (1307U) /* @153Hz */
+>> +#define TON_MIN (0U)
+>> +
+>> +#define MAX25014_DEV_ID         (0x00U)
+>> +#define MAX25014_REV_ID         (0x01U)
+>> +#define MAX25014_ISET           (0x02U)
+>> +#define MAX25014_IMODE          (0x03U)
+>> +#define MAX25014_TON1H          (0x04U)
+>> +#define MAX25014_TON1L          (0x05U)
+>> +#define MAX25014_TON2H          (0x06U)
+>> +#define MAX25014_TON2L          (0x07U)
+>> +#define MAX25014_TON3H          (0x08U)
+>> +#define MAX25014_TON3L          (0x09U)
+>> +#define MAX25014_TON4H          (0x0AU)
+>> +#define MAX25014_TON4L          (0x0BU)
+>> +#define MAX25014_TON_1_4_LSB    (0x0CU)
+>> +#define MAX25014_SETTING        (0x12U)
+>> +#define MAX25014_DISABLE        (0x13U)
+>> +#define MAX25014_BSTMON         (0x14U)
+>> +#define MAX25014_IOUT1          (0x15U)
+>> +#define MAX25014_IOUT2          (0x16U)
+>> +#define MAX25014_IOUT3          (0x17U)
+>> +#define MAX25014_IOUT4          (0x18U)
+>> +#define MAX25014_OPEN           (0x1BU)
+>> +#define MAX25014_SHORT_GND      (0x1CU)
+>> +#define MAX25014_SHORT_LED      (0x1DU)
+>> +#define MAX25014_MASK           (0x1EU)
+>> +#define MAX25014_DIAG           (0x1FU)
+> 
+> Forcing all these constants to be unsigned is unusual. Is it really
+> needed?
+
+Removed all the U's
+
+> 
+>> +#define MAX25014_IMODE_HDIM     BIT(2)
+>> +#define MAX25014_ISET_ENABLE    BIT(5)
+>> +#define MAX25014_ISET_PSEN      BIT(4)
+>> +#define MAX25014_DIAG_HW_RST    BIT(2)
+>> +#define MAX25014_SETTING_FPWM   GENMASK(6, 4)
+>> +
+>> +struct max25014;
+> 
+> This is redundant. Remove.
+
+Thats an interesting leftover, removed.
+
+>> +
+>> +struct max25014 {
+>> +	const char *chipname;
+> 
+> Why keep this value around? It is only used during the probe.
+> 
+>> +	struct i2c_client *client;
+>> +	struct backlight_device *bl;
+>> +	struct device *dev;
+> 
+> It is necessary to cache this, is it just a copy of client->dev)?
+
+yep completely unnecessary, removed.
+
+> 
+>> +	struct regmap *regmap;
+>> +	struct max25014_platform_data *pdata;
+>> +	struct gpio_desc *enable;
+>> +	struct regulator *vin; /* regulator for boost converter Vin rail */
+>> +};
+>> +
+>> +static const struct regmap_config max25014_regmap_config = {
+>> +	.reg_bits = 8,
+>> +	.val_bits = 8,
+>> +	.max_register = MAX25014_DIAG,
+>> +};
+>> +
+>> +/**
+>> + * @brief get the bit mask for the DISABLE register.
+>> + *
+>> + * @param strings the led string configuration array.
+>> + * @return uint8_t bits to set in the register.
+>> + */
+>> +static uint8_t strings_mask(struct max25014 *maxim)
+>> +{
+>> +	uint8_t res, i;
+>> +
+>> +	for (i = 0; i < 4; i++) {
+>> +		if (maxim->pdata->strings[i] == 0)
+>> +			res |= 1 << i;
+>> +	}
+>> +	return res;
+> 
+> Could this converison have happened during DT parsing?
+
+inlined it, changed the strings field in to strings_mask and only store 
+the mask it calculates.
+
+>> +}
+>> +
+>> +/**
+>> + * @brief control the brightness with i2c registers
+>> + *
+>> + * @param regmap trivial
+>> + * @param brt brightness
+>> + * @return int
+>> + */
+>> +static int max25014_register_control(struct regmap *regmap, uint32_t brt)
+>> +{
+>> +	uint32_t reg = TON_STEP * brt;
+>> +	int ret;
+>> +	/*
+>> +	 * 18 bit number lowest, 2 bits in first register,
+>> +	 * next lowest 8 in the L register, next 8 in the H register
+>> +	 * Seemingly setting the strength of only one string controls all of
+>> +	 * them, individual settings don't affect the outcome.
+>> +	 */
+>> +
+>> +	ret = regmap_write(regmap, MAX25014_TON_1_4_LSB, reg & 0b00000011);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	ret = regmap_write(regmap, MAX25014_TON1L, (reg >> 2) & 0b11111111);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	return regmap_write(regmap, MAX25014_TON1H, (reg >> 10) & 0b11111111);
+>> +}
+>> +
+>> +static int max25014_check_errors(struct max25014 *maxim)
+>> +{
+>> +	uint8_t i;
+>> +	int ret;
+>> +	uint32_t val;
+>> +
+>> +	ret = regmap_read(maxim->regmap, MAX25014_OPEN, &val);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	if (val > 0) {
+>> +		dev_err(maxim->dev, "Open led strings detected on:\n");
+>> +		for (i = 0; i < 4; i++) {
+>> +			if (val & 1 << i)
+>> +				dev_err(maxim->dev, "string %d\n", i + 1);
+>> +		}
+>> +		return -EIO;
+>> +	}
+>> +
+>> +	ret = regmap_read(maxim->regmap, MAX25014_SHORT_GND, &val);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	if (val > 0) {
+>> +		dev_err(maxim->dev, "Short to ground detected on:\n");
+>> +		for (i = 0; i < 4; i++) {
+>> +			if (val & 1 << i)
+>> +				dev_err(maxim->dev, "string %d\n", i + 1);
+>> +		}
+>> +		return -EIO;
+>> +	}
+>> +
+>> +	ret = regmap_read(maxim->regmap, MAX25014_SHORT_GND, &val);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	if (val > 0) {
+>> +		dev_err(maxim->dev, "Shorted led detected on:\n");
+>> +		for (i = 0; i < 4; i++) {
+>> +			if (val & 1 << i)
+>> +				dev_err(maxim->dev, "string %d\n", i + 1);
+>> +		}
+>> +		return -EIO;
+>> +	}
+>> +
+>> +	ret = regmap_read(maxim->regmap, MAX25014_DIAG, &val);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +	/*
+>> +	 * The HW_RST bit always starts at 1 after power up.
+>> +	 * It is reset on first read, does not indicate an error.
+>> +	 */
+>> +	if (val > 0 && val != MAX25014_DIAG_HW_RST) {
+>> +		if (val & 0b1)
+>> +			dev_err(maxim->dev, "Overtemperature shutdown\n");
+>> +		if (val & 0b10)
+>> +			dev_warn(maxim->dev,
+>> +				 "Chip is getting too hot (>125C)\n");
+>> +		if (val & 0b1000)
+>> +			dev_err(maxim->dev, "Boost converter overvoltage\n");
+>> +		if (val & 0b10000)
+>> +			dev_err(maxim->dev, "Boost converter undervoltage\n");
+>> +		if (val & 0b100000)
+>> +			dev_err(maxim->dev, "IREF out of range\n");
+>> +		return -EIO;
+>> +	}
+>> +	return 0;
+>> +}
+>> +
+>> +/*
+>> + * 1. disable unused strings
+>> + * 2. set dim mode
+>> + * 3. set initial brightness
+>> + * 4. set setting register
+>> + * 5. enable the backlight
+>> + */
+>> +static int max25014_configure(struct max25014 *maxim)
+>> +{
+>> +	int ret;
+>> +	uint32_t val;
+>> +
+>> +	ret = regmap_write(maxim->regmap, MAX25014_DISABLE,
+>> +			   strings_mask(maxim));
+>> +	if (ret != 0)
+>> +		return ret;
+>> +
+>> +	ret = regmap_write(maxim->regmap, MAX25014_IMODE, MAX25014_IMODE_HDIM);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +
+>> +	max25014_register_control(maxim->regmap,
+>> +				  maxim->pdata->initial_brightness);
+>> +
+>> +	ret = regmap_read(maxim->regmap, MAX25014_SETTING, &val);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +
+>> +	ret = regmap_write(
+>> +		maxim->regmap, MAX25014_SETTING,
+>> +		val & ~MAX25014_SETTING_FPWM);
+>> +	if (ret != 0)
+>> +		return ret;
+>> +
+>> +	ret = regmap_write(maxim->regmap, MAX25014_ISET,
+>> +			   maxim->pdata->iset | MAX25014_ISET_ENABLE | MAX25014_ISET_PSEN);
+>> +	return ret;
+>> +}
+>> +
+>> +static int max25014_update_status(struct backlight_device *bl_dev)
+>> +{
+>> +	struct max25014 *maxim = bl_get_data(bl_dev);
+>> +
+>> +	if (bl_dev->props.state & BL_CORE_SUSPENDED)
+>> +		bl_dev->props.brightness = 0;
+>> +
+>> +	return max25014_register_control(maxim->regmap, bl_dev->props.brightness);
+>> +}
+>> +
+>> +static const struct backlight_ops max25014_bl_ops = {
+>> +	.options = BL_CORE_SUSPENDRESUME,
+>> +	.update_status = max25014_update_status,
+>> +};
+>> +
+>> +static int max25014_backlight_register(struct max25014 *maxim)
+>> +{
+>> +	struct backlight_device *bl;
+>> +	struct backlight_properties props;
+>> +	struct max25014_platform_data *pdata = maxim->pdata;
+>> +
+>> +	memset(&props, 0, sizeof(props));
+>> +	props.type = BACKLIGHT_PLATFORM;
+>> +	props.max_brightness = MAX_BRIGHTNESS;
+>> +
+>> +	if (pdata->initial_brightness > props.max_brightness)
+>> +		pdata->initial_brightness = props.max_brightness;
+> 
+> Handle this during DT parsing.
+
+It is already handled there, this is double, so dropped.
+
+>> +
+>> +	props.brightness = pdata->initial_brightness;
+>> +
+>> +	bl = devm_backlight_device_register(maxim->dev, maxim->chipname, maxim->dev,
+>> +					    maxim, &max25014_bl_ops, &props);
+>> +	if (IS_ERR(bl))
+>> +		return PTR_ERR(bl);
+>> +
+>> +	maxim->bl = bl;
+>> +
+>> +	return 0;
+>> +}
+> 
+> Can max25014_backlight_register() be moved into the probe function?
+> There is no special control flow here so this function doesn't make the
+> probe function any simpler.
+
+Done.
+
+>> +
+>> +#ifdef CONFIG_OF
+>> +static int max25014_parse_dt(struct max25014 *maxim)
+>> +{
+>> +	struct device *dev = maxim->dev;
+>> +	struct device_node *node = dev->of_node;
+>> +	struct max25014_platform_data *pdata;
+>> +
+>> +	int res;
+>> +
+>> +	if (!node) {
+>> +		dev_err(dev, "no platform data\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+>> +	if (!pdata)
+>> +		return -ENOMEM;
+>> +
+>> +	res = of_property_count_u32_elems(node, "maxim,strings");
+>> +	if (res == 4) {
+>> +		of_property_read_u32_array(node, "maxim,strings", pdata->strings, 4);
+>> +	} else {
+>> +		dev_err(dev, "strings property not correctly defined\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	pdata->initial_brightness = 50U;
+>> +	of_property_read_u32(node, "default-brightness", &pdata->initial_brightness);
+>> +	pdata->iset = MAX25014_ISET_DEFAULT_100;
+>> +	of_property_read_u32(node, "maxim,iset", &pdata->iset);
+>> +
+>> +	if (pdata->iset < 0 || pdata->iset > 15) {
+>> +		dev_err(dev,
+>> +			"Invalid iset, should be a value from 0-15, entered was %d\n",
+>> +			pdata->iset);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	if (pdata->initial_brightness < 0 || pdata->initial_brightness > 100) {
+>> +		dev_err(dev,
+>> +			"Invalid initial brightness, should be a value from 0-100, entered was %d\n",
+>> +			pdata->initial_brightness);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	maxim->pdata = pdata;
+>> +
+>> +	return 0;
+>> +}
+>> +#else
+>> +static int max25014_parse_dt(struct max25014 *maxim)
+>> +{
+>> +	dev_err(maxim->dev,
+>> +		"CONFIG_OF not configured, unable to parse devicetree");
+>> +	return -EINVAL;
+>> +}
+> 
+> What is the point of this method? New drivers shouldn't support platform
+> data so CONFIG_OF is required for this driver to work at all.
+
+I think it is me following a bad pattern again, dropped the ifdef.
+
+>> +#endif
+>> +
+>> +static int max25014_probe(struct i2c_client *cl)
+>> ...
+
+Kind regards,
+Maud
+
