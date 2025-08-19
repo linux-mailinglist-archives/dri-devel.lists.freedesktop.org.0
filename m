@@ -2,208 +2,200 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DDFB2BBCA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 10:26:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B52B2BBD0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 10:26:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D5010E21E;
-	Tue, 19 Aug 2025 08:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9FC110E221;
+	Tue, 19 Aug 2025 08:26:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=topic.nl header.i=@topic.nl header.b="PjrZ4q7u";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="XzxXUz8+";
+	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="m0agEqay";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com
- (mail-francecentralazon11023085.outbound.protection.outlook.com
- [40.107.162.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E266B10E21E
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 08:26:23 +0000 (UTC)
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com
+ [91.207.212.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA3010E221
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 08:26:55 +0000 (UTC)
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+ by mx08-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 57J4o2sL1319776; Tue, 19 Aug 2025 09:26:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=dk201812; bh=h2JBwIiODq8KEu6lk9593JDGY
+ 2JNXj5O0jghoGllhFs=; b=XzxXUz8+UCvuvsnCEPVUFDu8mhFdA+J88hFu7YfTT
+ ope2KnDtCG5ywX0z63CasP+uKqHNMZSt6KwNm3lm05daFad0yx7wc03/832lqdge
+ gRojk1gOaj7c0Dy4IOAG2AciQuccxrBzZPeSmPCNWMJHdEFxyDpNin/roMV+S35h
+ 4Ox3DO+72al6m8mEp6+tJDdlkrCGzGQy6bikGWhDpY+su6NvkkcMUOAkHhSKhqAs
+ JsBHeTGP0iYfoAN0wYoBCvP0HTzMWGr9bdKbw3HDewNEL5Z4zVS6bUgAYMNQTnN3
+ WYK5OPnLu+zgGlXBTEHQyGnxpfvcVfGKGO16/4bZxyljA==
+Received: from cwxp265cu008.outbound.protection.outlook.com
+ (mail-ukwestazon11020082.outbound.protection.outlook.com [52.101.195.82])
+ by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 48jg8k2uv0-1
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Tue, 19 Aug 2025 09:26:35 +0100 (BST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XOobj7sHtqqyGpIYNARgAMhSYyDSME30UGrswtl4AJe9KHDCPz3OaPzog5hzgVDX39d4U0W2To7hx6AsCAFIrc5lIZMjOHHlGWnDhUmmHznN+igYiw4LyWln+03bEHtnEdNIgEpRal/lPcWxoPdhsIJmxFxfuylEd7g5vVtwTYMxDTJ064nYHdILcqT/b+b79c4PmZBRgAmZztZC/cNbZksFs3Lg5yLShk91Q+7K1jMn0fKMEmOOwC8yj/cdGje3ogrSkS0f2kgGg1rMRPLU3TGpTrtPFRg6ac/vJDeKKpz4OgtMItnlvXbpdyS2WRFDQJlfClkOeQuZbMZJkPPa3w==
+ b=sWY+/FsgdlYN1agwMI0TYETbKyibKQRsWwEAYLPnVD7k0g1bJndNB7D9uuLQla4isHq4fH5yOSakTgBZGeoJtQt0v/eEXsHRRFYc4uM4DBZWs3Lf3hv4Igkx8Qc3vsEDdfNbig8uhFhfaOCMHDXUbqbGsDJf6vXKlsFfy+JyytRSUTIY23Wnv3/BLbv+osNxn3sSX1Mbv8dvuL1EObdkWa8gUgBaL/yICScLtP1eIwJArxvrsr5H7Ht82HMuPjEGqkozBxTjJcH8u6U/D12ByvQfdOX01HNHVcwOYNkDlGCex7q16cSl93gOf45/H2WLbOwfjGcLkVCSRphHkdEkGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0WvK2zq02z8+SwUvemc2b7jC5w0xS14Lk8ffzKWYCo4=;
- b=afXejx2FdL+ZaxqmcRUQAO0hfE6vYEZ1c/bkxfcS7y6VYlNhUedfKO+Smh66DLTheuLcgQG1VYL+fH9OOER9zB2fxirBOL3ed+EbBcawhxTtJg6b5EEXk2SpnE6hEd6QotZyWG17JlFhKcemQqlSj2YEjT2PFnNL2aIHzN/zKsPkn4iSzn65OtYXAy1MoMp5bZn8voJqbSclKIOtNUrb9F6H5L1OIGEVBxySGkn8l0wENLwfkI+Ww7JsKPG2CeuGQU1o6w5S9hTggOtGxbAG5rT2ZasI5y52ihNNJCeYXMbZb39UIf/j6ACwr9QUDces+BXvd1DCVmhHuVyEWDanLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 20.93.157.195) smtp.rcpttodomain=kernel.org smtp.mailfrom=topic.nl;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=topic.nl; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2; 
+ bh=h2JBwIiODq8KEu6lk9593JDGY2JNXj5O0jghoGllhFs=;
+ b=MyDoizvqZsmUPWyk9/TpkKpcQhxznaTJOSJkgu/ezRQLv7j1mxzCtdVOYPR6RWIBVH7ECYfKfhDLoc6GDswCDWpEOkHC/1AbxXDv1Cq/SI5LF99Cs9ERi7f0KFtJQzJiN9SPxunCOtsRR4HEM6TOEYOIxLc1Af5UCf1MWpGZ/OWI71Y09bQas9dqKszXcvOLMMRNLr8byepA/qxsv/gfyNvDfvImsojHxZxODQGeOrMSqIl5MnyAcMQxX7LfE1PjPF8vn+7SuC0JmVks7mk1EqJ8O7R4fjOpSd+iCNGd4AePxARq8BaXnC/eqchgo76pyriJCgbaQ/H/zujpgkCkjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0WvK2zq02z8+SwUvemc2b7jC5w0xS14Lk8ffzKWYCo4=;
- b=PjrZ4q7upEcu/W3bi3ACoN6TWoCUaD7ySst0cnigZ47pQDLIZHbJBzoKBXZsGNP8HMF8Xj8nXRh/WmvsXeC1S6EgkarvcFGymYGNcsVRIAKBdc3E04rd5PW7Ox+rzE4fxmDCsZIir3xN8gq3dW5GVUFjxfH0/B4E4dICbNr9toqSa3hYRaPsToCP9mzsMT+/Ua1DQB0lIm+8JoqChSr3xcyBCMFvjWWQn0GpnU6IRpTrZFbEfxcyTmTlNzlaF2tfGeiVKs2GNYHcpE1LJ7PCPAeEWhe7u6o/U/k/EBv0Yx8bFO8WIPkF0X/gsnX7smREpDzS0cpNZ/s3bvFB+6Y27Q==
-Received: from AS4PR10CA0011.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5dc::14)
- by DB8PR04MB6857.eurprd04.prod.outlook.com (2603:10a6:10:114::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.12; Tue, 19 Aug
- 2025 08:26:20 +0000
-Received: from AM2PEPF0001C70C.eurprd05.prod.outlook.com
- (2603:10a6:20b:5dc::4) by AS4PR10CA0011.outlook.office365.com
- (2603:10a6:20b:5dc::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.24 via Frontend Transport; Tue,
- 19 Aug 2025 08:26:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 20.93.157.195)
- smtp.mailfrom=topic.nl; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
- 20.93.157.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=20.93.157.195; helo=westeu11-emailsignatures-cloud.codetwo.com;
- pr=C
-Received: from westeu11-emailsignatures-cloud.codetwo.com (20.93.157.195) by
- AM2PEPF0001C70C.mail.protection.outlook.com (10.167.16.200) with Microsoft
+ bh=h2JBwIiODq8KEu6lk9593JDGY2JNXj5O0jghoGllhFs=;
+ b=m0agEqayaxGH0kMrLKU0MhQjgaEPEeoqKl3wpTXr6KWj674kxGs7haWw1q8T1PyqGwhQkxK9egmdPJT50Eyfu0kJz7WltrZN4SlmUaSTz0lnAq0PASEVb4nzPYFNgn+/YkzmWPh/PBi7SQjnVld2Xm1kC3hYKgaYyDscZNG+FbA=
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
+ CW1P265MB7881.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:204::22) with
+ Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9052.8 via Frontend Transport; Tue, 19 Aug 2025 08:26:20 +0000
-Received: from GVXPR05CU001.outbound.protection.outlook.com (40.93.214.77) by
- westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12)
- via SMTP; Tue, 19 Aug 2025 08:26:19 +0000
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=topic.nl;
-Received: from AM8PR04MB7779.eurprd04.prod.outlook.com (2603:10a6:20b:24b::14)
- by PAXPR04MB9124.eurprd04.prod.outlook.com (2603:10a6:102:22f::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.12; Tue, 19 Aug
- 2025 08:26:16 +0000
-Received: from AM8PR04MB7779.eurprd04.prod.outlook.com
- ([fe80::7417:d17f:8d97:44d2]) by AM8PR04MB7779.eurprd04.prod.outlook.com
- ([fe80::7417:d17f:8d97:44d2%7]) with mapi id 15.20.9052.012; Tue, 19 Aug 2025
- 08:26:16 +0000
-Message-ID: <2d694c9c-704e-4353-8b57-de83eb5a7f96@topic.nl>
-Date: Tue, 19 Aug 2025 10:26:15 +0200
-User-Agent: Mozilla Thunderbird
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-tmds181: Add TI TMDS181
- and SN65DP159 bindings
-To: Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor@kernel.org>
-CC: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250812145256.135645-1-mike.looijmans@topic.nl>
- <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.3b7d4319-e208-470d-9ada-585343a64822@emailsignatures365.codetwo.com>
- <20250812145256.135645-2-mike.looijmans@topic.nl>
- <20250812-designing-tyke-db85527b373d@spud>
- <f4ec7690-322e-493a-b346-7b9560ac0616@topic.nl>
- <9fba4917-a24f-4fee-8f1a-7509a0bc542e@kernel.org>
-Content-Language: en-US, nl
-Organization: Topic
-In-Reply-To: <9fba4917-a24f-4fee-8f1a-7509a0bc542e@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: AS4P195CA0004.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:5e2::19) To AM8PR04MB7779.eurprd04.prod.outlook.com
- (2603:10a6:20b:24b::14)
+ 15.20.9031.25; Tue, 19 Aug 2025 08:26:31 +0000
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15%7]) with mapi id 15.20.9031.024; Tue, 19 Aug 2025
+ 08:26:31 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+CC: Boris Brezillon <boris.brezillon@collabora.com>, Danilo Krummrich
+ <dakr@kernel.org>, Brendan King <Brendan.King@imgtec.com>, Boris Brezillon
+ <bbrezillon@kernel.org>, Caterina Shablia <caterina.shablia@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Matthew Brost
+ <matthew.brost@intel.com>, Frank Binns <Frank.Binns@imgtec.com>, Alessio
+ Belle <Alessio.Belle@imgtec.com>,
+ Alexandru Dadu <Alexandru.Dadu@imgtec.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v8 01/24] drm/gpuvm: Pass map arguments through a struct
+Thread-Topic: [PATCH v8 01/24] drm/gpuvm: Pass map arguments through a struct
+Thread-Index: AQHcEOL3Ru5RdeWB9EmJ0dVhPltRqQ==
+Date: Tue, 19 Aug 2025 08:26:31 +0000
+Message-ID: <9d91429f-9bd3-4601-8540-e7a6691a74b8@imgtec.com>
+References: <20250818215753.2762426-1-himal.prasad.ghimiray@intel.com>
+ <20250818215753.2762426-2-himal.prasad.ghimiray@intel.com>
+In-Reply-To: <20250818215753.2762426-2-himal.prasad.ghimiray@intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWXP265MB3397:EE_|CW1P265MB7881:EE_
+x-ms-office365-filtering-correlation-id: 8963f755-bbc6-4e9e-0dc3-08dddefa19f0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|38070700018|4053099003; 
+x-microsoft-antispam-message-info: =?utf-8?B?Vm5UcGlERXNadXFLV2ZNRURGSklleUo3NzhzekFlbnBPWnVtYlZkTGx2UnVF?=
+ =?utf-8?B?VEI2MzJSUEEwVkt1cjI5VE8zL0dTU0p1WWlEOGNscC9TNy9lSjkzeTlmVjdi?=
+ =?utf-8?B?dmV4SHplc2t4eGVzNkFrczNOaWoyK2NFV2JUUkZsM0RFNVZRU1ZKeTE5bGll?=
+ =?utf-8?B?MGpqMU1ZWDkzU2FtZjdSNFBVNHQvcUwvSVhBYllGbnViZXdwbXZrSUs3YzRv?=
+ =?utf-8?B?MERCWDIyUTFZN1FRMTArUlhZNHo4Z2h6eldMUVhBcTd0RU8rZ0tycVVHeWd1?=
+ =?utf-8?B?U241cHRmM0tVYVAwZWI3SXVWSU1JMzMzRm9reDF5YWVYUmZ4NVNNYTdGRG51?=
+ =?utf-8?B?dXFNY0hmMW1pU203NGE3ZVo4UFROMTAzYTdtbUlQdTRwTEk3cTIvQUpURmFV?=
+ =?utf-8?B?a3Y2RWVtNENMYVFUOFhxY2N0YXdyempUVlJ2YStyazU1VUVuRFMxai9tU0lj?=
+ =?utf-8?B?ZjBLWlNFWWViai9ENmJ1SVpDdU85aFRydnNlelBmL1dUV0kyN1g5elR3NzU4?=
+ =?utf-8?B?aDZLakxyMWNNcVdlR2xnRlNGV0cxZGQyem5wK0JhVVBpYXNVK1R5TjVJR1N1?=
+ =?utf-8?B?SithZkRpWnFadCtSZHBzbWR1bUg1bG9WZ01nZWhuTDE3M0w3RlVQb1pja1RN?=
+ =?utf-8?B?bE90bFROQlVUUGk3R2Zrc0krOXhIUitpc0czYmZ4UEhSRTk1ZFlWQW03S241?=
+ =?utf-8?B?ekFJL1g1c09ZMUJsTTNGQ2M1cXJEN09PYUhYVmEwelB5RW5DYXlrUFJjUXZn?=
+ =?utf-8?B?T2pVOXhZQWJYd0dDZFVoQjRVTFdHUmRYcEh1V1E2KzFmdndHa0FxWmdwQ2J6?=
+ =?utf-8?B?S0U5WHBJcHpQM1liT2VsWHdQVkRTNGlRVDRLNzBrelhMNTZ3VTNqV3dYeGtm?=
+ =?utf-8?B?bXpRbjkwMENnMkxWeDlDcHBZVHdUY1ZYN28zalJ4L0dlYnRCVFUwVEEzVEta?=
+ =?utf-8?B?V1dxVERVU2QyWHJiaVBkbE1HOG5lNndqblpuNnhOMENSNFhXUkVwcEk3TlpT?=
+ =?utf-8?B?UjZBaWFZTktYQ2RiZUVrY2V4RUloNnhNWGd0dVlIYjZ4dTZKUXRydmNYdjVl?=
+ =?utf-8?B?clN1NlVERWRqS215RVpHRC8rVERwMmVTRk54dG5RL29sWkladTlldmp1dkdO?=
+ =?utf-8?B?WEhOajdKcVQram1nZ2g4MHN2YzZVeEI4ZTZzbUhIcTdkeEs1MXI4WlR5NGFK?=
+ =?utf-8?B?R0lCZG5YNUNPV0JsbUh5Skk5V0JjOVh6a3VRZlNjdVBTdzBXQ2RBY3dZVktu?=
+ =?utf-8?B?YUdPUCtyLzVVMnF1TjBzU0ZnV2ZERnhiRWsyeU5SNE0vdDd2K0g0RkhpakFK?=
+ =?utf-8?B?RG9aNG1DbHpxSDNCTW1yQ0NJbFliZ1FzNGN0bUg0WmRPaGE3WEJxdVBJWkY3?=
+ =?utf-8?B?eGw5bm5VM1UyYWd3UE03QzFzbERsNDZHZFBTZnFnRWQxS1dad1V4NnN4N0FN?=
+ =?utf-8?B?UzZnT0dEOTdZZ3Byb3VzUkVCb1FMVFJyUjBFQmo0enA1RGE0QjFmU3BGOUZh?=
+ =?utf-8?B?V0pKQStxQlZqaHE3aUY1OVFJWG50S0Ivek9jREJGQkJZZVU2eXQwWUtGc3o3?=
+ =?utf-8?B?T3ZQeTRocUxwR0kyc3BybXJ2T2J5bWprMGptMHA0emo1TDU2b0diMzN3Q3pr?=
+ =?utf-8?B?dWNiTSs2UUZuVVMybjhmTXR2V3dSN21WYzlJOFcrc29HMERSQnU1ZzlIZjl3?=
+ =?utf-8?B?SWRLMFpUQXc1eHo0R2xnNCtRbmNVckpsR2xJZ3lzMFdQdGhNd1RNV1NnMXFr?=
+ =?utf-8?B?VmZiaXd5QkNQd1pPK3E5SkJ0RGZ2Q1J3dk9RcWN3RkRpalZSOEc0Wk5RWWJG?=
+ =?utf-8?B?clJlTEFGK3RzTDNTckwvODliZ0VIZTBReFQxWkpNK3Z1OFFmN0hIZnhodzlo?=
+ =?utf-8?B?bUhtUFFqVXpNM1lVbHZmYmFjNzVBck9yaU9CVHdXMmtpRWhDQm9rWHVaZmJa?=
+ =?utf-8?B?dGEwOVVRNzJYRXBzTjB1U3Mwb3BKYmd2Z3BJTW9tQWl5QVZUWXpZc2JUdDRZ?=
+ =?utf-8?Q?9JWltKyUwMOi4FeSz49pMZUQCgGRZs=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(38070700018)(4053099003); DIR:OUT;
+ SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UTM1UFE4NUc1Z1pCYzlGTStzZGMyeVdYR21pZ2ZnZXZtZTRHQ29MVjFSTGhT?=
+ =?utf-8?B?Z3RrMEU2SExFNFZFYzRVRTJZYXhBYVR3NWtSYm1TS2FXbjlUc2g5ejlxVzFP?=
+ =?utf-8?B?cklQTFJWVVhIelZBYXhrSEFxbmJwMnhNSW1vSzlycDRSM1N1azFCWDliNFlJ?=
+ =?utf-8?B?dGp6OE5UVXFkQUU2WjBNMGJEcWsyNXpkaW00OFVoTFkzUjc0dzVUZXFXQmY3?=
+ =?utf-8?B?S2lJaktRVFJsQjlRcnR2VDlRVVFUSXlwMlVVNTV6STVwcmJWYlk4Y0JFVjZa?=
+ =?utf-8?B?dnhGMitBYnlBbVFhbm84ZENpbUVTN3hWd3phbVcvOWxpUEF4UFNmeXlzZjVk?=
+ =?utf-8?B?eXNWTXZBQ01hYzhKemFZQW9SRTNGVW5Ia09QbUtwK0lNUWZqeFU1OTZTNUYw?=
+ =?utf-8?B?YmRLRDFTVThueXYxOWRwbUNIQWZuY0VqNnl0cGNORlptVmhXWmhHWHVkbDk3?=
+ =?utf-8?B?d3dneUFtKzhXWXArUDB2K2tIQlhFMnI3V1ZJVmF0anZDSU1mbHlFZzl2SXZy?=
+ =?utf-8?B?bTRRYllrQitZUmdEOUVUbmRSVkg5bnRIKzZKVTJxN1lhRGxpMjlYeGJ5cklm?=
+ =?utf-8?B?bjVkWkhuU3ppSERVbnliT1VDUjc5blJ4aXAzR3NEWU5BdDBPQlB2dURXd3Ir?=
+ =?utf-8?B?K05iQXVpd2Q5ditoSlpXMVpsYlhhanA0cFpyOHlPNE1ELzUxMjlMVW9Vek1t?=
+ =?utf-8?B?c2FaWWJ1N2ErL3dUbkl2MEo1UjJzekRYVWQ5TXRFd1lYUll4T0tMcHp6OXlW?=
+ =?utf-8?B?Rm5GdENoTzFrTlpScEFrMHBJSnRDL0V5NHM0L0kwUWtnZnBKREgzc0h3UEEy?=
+ =?utf-8?B?a3ZCSDQ0TFVhTE5yVi9FZWovMG1UN1BpaHkxNDhLUnRpZEM5SXlUbFE3MEdT?=
+ =?utf-8?B?NW8xR3NncEpvQTFEOXlOd1A5SVNEWVNaWjNWbzE4S3lWZnZHbm9ESlFtbHhm?=
+ =?utf-8?B?anhVbEl0L3BqKytGTGl4ZkdsQWFWZllqSTZTNFVtd1hLNFdBWUxhaU45S1lG?=
+ =?utf-8?B?Z1BiYTYvZnBsRGMweUxwaDdzeE1oSUlISTA2VDFnTFJrUkZhVm0rbGR5UFFw?=
+ =?utf-8?B?dTZCRWpaVWlORit4cFUzUHBaZFNqVnNHaEduSVBvU1hqSTFFekM0WVBYcWo0?=
+ =?utf-8?B?VjgvdUVxRHIzaUhkcGJNeXVNZ0c2ZmNrZHk0Z1ZnblFWWmU3ZXdtQS9UQWtP?=
+ =?utf-8?B?VDlPSWR0TzZrdER6Y2Ztc1dyYld3MmZPam9kMjF4MjNsZFF3WXVXN2lJT2t1?=
+ =?utf-8?B?YmhhSjVoMForWjlOV0dWeGRmdTZJd3RKSUhNRWNwNU43MXhlMldOZVdpMys5?=
+ =?utf-8?B?OXNmZjBYaFpybWFWYzRiWFNNQmdOV0l4TFNYK29wQlJ3Ymh1anQvWGJEa0hX?=
+ =?utf-8?B?WW1PTi84ZVRKWEF3M1BHZnV3MjQ2V2tKNGIvNUwxMmNJTCtTcHRxcEx6UnFK?=
+ =?utf-8?B?VjR6WTRKcG1VTHFYa3B6Q0xkRnEzTVBoZEJCbVlXNzgwMlZUQkFDMDJkSDdo?=
+ =?utf-8?B?Y25wOVVxZnQxZjNiRk1QVzBTRTlCc0JTVllDbnRlNTRoOWJYTVRZeENSNlRl?=
+ =?utf-8?B?Z0lNY0ZlQXRlSk9WSENzMnJMRjdrczIxOW1rbnRUVW4xMUNiM0ZHS1Fic1pn?=
+ =?utf-8?B?YmQ0RDRkZ1QzbjZLZnlKQWZEQnN6TGlSZjZMb0VHRkJYWWpSa2tnMjlUY0lK?=
+ =?utf-8?B?dUVUTDZDaFJUNHE2NlltQXJGSmJEOElmU1grZytuOGJkNGRaQ3FKTWIxZGt3?=
+ =?utf-8?B?cmY5UUo2VVE4WmRicTNwV3U2ek11eU9nVmVCK0ViTnNCOEZaSmN1YmJPOGJQ?=
+ =?utf-8?B?UUMzcDNIdDBhSE1tcVQ3RXdQb2REaEUyeFladXduZkZIUExOUDM5UTlydENl?=
+ =?utf-8?B?c0p3ZFNjejJVRUNkSzl0V0JHNzlnd2prUFlnKzZHTkRtODJOc3paMXdZUng1?=
+ =?utf-8?B?VnZNMER6RzdicDIzaUR1SERPVGdNKzJVUFEraTBRTElkY3N0UnN2ZUIvY3FR?=
+ =?utf-8?B?d1crV1RJQy9UZEwxU3J5QWxaVTUrM2NRNGk4dGZVS2t3MEJhaG1mMTBGcExQ?=
+ =?utf-8?B?NVJMQWd6UmFlZi9mOUZSbVpGYTVYSSt1S0VmVFRoYlQzVDJCMDkzaXV6T0Np?=
+ =?utf-8?B?WlB6SmY0NnJHUGkrTUtnc0tVVkN2bWRoOFMzeGl5OTlwZzhzZzljZjlkMGo1?=
+ =?utf-8?B?S3c9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------1X0Az4j4iTXLMGnvxkGLBRfY"
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AM8PR04MB7779:EE_|PAXPR04MB9124:EE_|AM2PEPF0001C70C:EE_|DB8PR04MB6857:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e75fe21-b6bb-4a92-bfd2-08dddefa1357
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
- ARA:13230040|366016|1800799024|52116014|7416014|376014|38350700014; 
-X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?NmN4QTB0Z0ZYYWx4ZUxnQjFaVTB3cGlKMVNWVjgvZFFQMU5xNWlhTTBCOUVj?=
- =?utf-8?B?QlJwR2xoNWliTzduV01ERXRuYXNTeGxnazNnLzhZSzNsMlZKMXM3NFdtMWRx?=
- =?utf-8?B?QzExWGltd1VEMUpOZ216QkFnQ1hjZXhRaTBIYWlMaGNNdTYyUDZIUHkrd3hF?=
- =?utf-8?B?c0t4SnVURVBiSTFpck13Ri9rMWhhdjM5MldoYlVROGNSWnkyQm5WS2pxbExI?=
- =?utf-8?B?TldNaUVBVXN6cTdRTGVQNnU5WlRMcTNOMStLdkJOaHFJN2hqWGtQbTRSL3l5?=
- =?utf-8?B?alRBS2c2YStTWnljM3p6UGo4ckVyc1hTTFZ5eCtVdWdlaHdYc0NLMWZnZ3cy?=
- =?utf-8?B?ZmxZSjZIRkw4Mm5qQ001YXBaLytCeEh3MGE3Y3hzOFhPbW1sQVd2Y2RxSnJY?=
- =?utf-8?B?NVB2OHoxdUxqcWhyVVlOSFozM2dsbGQvb0l4SUI0SXp0eDBhSEJtb3NzZm9L?=
- =?utf-8?B?czRqR0hVYXRnYTB5SkZiaHcwQ01vR2xFV1EzaHV3KzdUejVsTlNrVHBoRm5W?=
- =?utf-8?B?YnFTMzk5aG1BTzYwVndpSGR1MmlUSHZMMzFsdXlveW1TcXE5Z1hhWTFkUnpG?=
- =?utf-8?B?aUF0MWVZeUtKYStCN0NodWRFNWFHQ2E2MHFFU1NodVlLeHpBcHVORkc1d1hT?=
- =?utf-8?B?UkhUQmpNKzdINXB6U1JPN0ZTWlcwL3VsQWNYaVc3dWxNMERvdmszSUlJREs5?=
- =?utf-8?B?Vng2cjl6dGtkWi9yai9kUnI4TmEzY3UvdTFKamdNdm9LSnNkY2owdUEvYmk1?=
- =?utf-8?B?ZmtKbWh2SG1od1ZYOHhiYjkvQjFkWVNLMmUvcVNKVGZzSHVUTG1IMHNDd3Z2?=
- =?utf-8?B?Wlo2TVc0WUkvWUNKbERHTzZ4ejJzRlZ0ZTVoN1JQQlJxbkFObm52VjkvWUoy?=
- =?utf-8?B?SzAvZjhPK3MyVERreHdtLzNkZDV4ODcwVFR1TFppSG45Q3N3TzIvREhrOTVW?=
- =?utf-8?B?YnpJVmJPaW51d2VHV05iYnlMK1ZLSFdBMU4wUUFOWktYMk5Sbi92SW9SYzJ2?=
- =?utf-8?B?RG1Ob091akFNcXo3enNaYU9VWXBtcW5PaUdrVFc1ZjM5M09YNm5uMDVJM0pm?=
- =?utf-8?B?ZWF0cExLUEVUdXRwZ3AxYjZsU2VQN0NsNk1wTlRmVUllR1JrdkxMRmRLZzBr?=
- =?utf-8?B?L2pDRFo5ZGU2c3dYM2ZCZHNjUDhqNUN5a0R0NVZreDV0NHZRME5ZdVl2TU5x?=
- =?utf-8?B?WFQ5bFZsZG9SbjVuS1lwdmk1U2FrSEE4TTgvemN6ekwvQ0dmdmZ5MGNyMEFw?=
- =?utf-8?B?WHRxcEx2MkgvekNVV0RmeVRIL1kweVhqMlZ4ajBBU1NDVXlNay92VGxXQWl4?=
- =?utf-8?B?Ym1BWmN5K0Y2eVdGZHlrSmd4QlZhZnZUWFJTZ0xqYk4rUU8waUwwV1VTYnBQ?=
- =?utf-8?B?U3RPelhWVDArcUkrR1RPWVdsR0t6aWNtNEhHYXphZ0NpcnNKTmZncjZocE13?=
- =?utf-8?B?OWxYQnIxL2twTXN2Z3JCdWlhWnI3WktDM3I1Y0toU1VVYmNpTTJpSHAyaHJZ?=
- =?utf-8?B?MTNMWGtrNFVnT0x3eE8wUzdMaWtJU2MvZ3RDTkFiWm1RamJZQVFEVE9SRHlt?=
- =?utf-8?B?OGE2UmIyejJFQzRPN1pnelVldi84ck1yclg2ZG1ubDVFc2xqWDZVNUxDVnE3?=
- =?utf-8?B?TXZlWHd2TXlOMEFjNGpBd2xPZjYwdTNwUG0rSHFRQ0wvQ1VyQTZ1andTTFhZ?=
- =?utf-8?B?MXhSN0taTFV2SERpYlY5blgveDJvWnh3eWVKZFR5TVV1a1dBcUlsRE5Vc2Vx?=
- =?utf-8?B?Y2RiVFA4REJ1ZS9RUFVHYThtZU5rRGEwemp6S21ZdHRTSGMyd0xURjRudTlK?=
- =?utf-8?B?bVg4OXoyRzZCU1BDWlpMK2JPcmVUb21aVVByL1MwS3VLRXNJRGdlR1dyWFd4?=
- =?utf-8?B?aC84NmtYU3plV3VTUVRMR0VQRFB5b0wwQUtuNGZQMEI0NGlzVnUydjlFcjhO?=
- =?utf-8?B?YWhPdG1Bc05XcFhEMHdyMjBIMTAyZDZwbDFnMTgrUWJzdkYySWw1NktIYTls?=
- =?utf-8?B?KzhNN3N4S09nPT0=?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM8PR04MB7779.eurprd04.prod.outlook.com;
- PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(52116014)(7416014)(376014)(38350700014);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9124
-X-CodeTwo-MessageID: 5b37f6c6-a17a-4871-9950-39480e4b7123.20250819082619@westeu11-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM2PEPF0001C70C.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: ea0072ec-f0d5-45d5-b6ee-08dddefa10ad
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|35042699022|14060799003|1800799024|82310400026|36860700013|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MmRSc0RSeFNQNVlmbmdGcTR5Ti9wRFAxdnAybHphTzdWRFRyZEpIMnI5V05o?=
- =?utf-8?B?TlhLSjgyaGpHTVBUbFZTdmtmbUxNdGdvNHZOVjVvSGlnRElzbW02N1A0TDAz?=
- =?utf-8?B?V3BjTEVueC9NN2g1TnRiT3R6SFNXczZ0UXRnMFRXZ3B6VUU5UDdpRmJFSCs0?=
- =?utf-8?B?Q2VSd2ZuWllrdWUxR28vQWZablpSM2trOWVGM240dkg5cnE0aGMrMkRZUC9t?=
- =?utf-8?B?SWc4S2RSMkVrazRITFo0OWNJMFdpV3N1VFB3VERiekNGc1VlMWYwVjJ5NVhY?=
- =?utf-8?B?WTFTWmRWanZYOFAyaktacmYrNmtkQXBZMlZpWU1BODJWcmp6cThodjBxS2sv?=
- =?utf-8?B?aWY1cnlTdGt4SmlCeHdPZDlRUndsbUlwZWFDSXhkR0pQS2x6SWovN2tCUkVZ?=
- =?utf-8?B?c2tHOEg0ZnV6YXFqZFkzbDE0czY3b2J6aFhiNlk0U2w5WGVCN2pVUm9HVlBm?=
- =?utf-8?B?NWNCYVFmbjZHTmxSamhwelVub1A4azdwU2c0TEJaNVNZSkJuSVpIZ01IVlcr?=
- =?utf-8?B?UC9IMXYrb1ZpOXFlczZ0VDlnVnRzNXQ5VXp0Y29adXFaZ25XbnVmYm12OFpt?=
- =?utf-8?B?NklTQjlYQXhnNzk5OHNtQ0xDMnFIbE10eERoY0tPL1JKUEZlaWI4b3FUU2ln?=
- =?utf-8?B?VHJrZ2VFQ2k0cVFTTFJ5VGk3Q3FWaUZ6Q0RBSzdlWitEdVpydGwxbmJwTGdw?=
- =?utf-8?B?N1hTZkg4ZnpYV3A1NFdscjJxaWdPNVhYeUE2UXdac0hvc2pNOURrMG9ITmJy?=
- =?utf-8?B?a013QkZ3QVpMMldnSG5QOXQ5K05Mcndpc1NTSHpVL3doVUQ2WnBRcVM2WHhq?=
- =?utf-8?B?WFlsVy9aNW4xNmlzai9yWTh5aStjQmZ4ajJoSlVRZmRQZG4rd2JjbWYxRjBr?=
- =?utf-8?B?K1BEcURGT1lhSEZvQzJ2d2sxZStlbG4yVU5xUXU4WXUwa1g3T3phU2lKQWc2?=
- =?utf-8?B?WGUzYUdyWHR6a2poNG5oeUlPbmswRlN0cUJEVUFvYXhSRmZDVEp6K2xTaG9C?=
- =?utf-8?B?NVk5UFZldzMzU2ZjRFlNOEcwUWd5aWluRkRBMkc0RnRDTTg3ZWlVZWY5RFJO?=
- =?utf-8?B?NFVuaFNGT3h1UGV4R09nRmlwS2VNcUVleENCcGRiMlA5VXBCT2tKUEdTbWNN?=
- =?utf-8?B?Um5KZFVRbnlaRHJzMzJMMWU2U05iazZnemVxSi9aZmlpZHlkUUJtbWRaMTlC?=
- =?utf-8?B?Q1V0c3M4QjVBUkRacllSYWtvR28vS3l6RC9JYW5DZUY1UkxtVlR1MG1ibzRS?=
- =?utf-8?B?NktpMjhGT0kwN0ZIQnpqdEZ6YUlqaHZsa1MvWHdINGFhZXFLRFh2aTJqVW1O?=
- =?utf-8?B?NEJ6aSt4ckRsOEhNeWRBRnM4VUdRZ2pGeG1nUlkxaW9uek1ORlUyTEw3QVEr?=
- =?utf-8?B?MWtrY0dxa3l2c1dvRmMrQ3BHWHBvbWIxMWVMRDE0ZFFabk0wTkg5VUw3UWJl?=
- =?utf-8?B?RG9UcVpnc0NySmpwR1dJTXRnbDU2RXU5aENOWmtVNTMrd2pnMklFTFovSXE5?=
- =?utf-8?B?ejNiVnRDaVB3WVNJTlhFbFdLVm94ZDhUcEd1SDZqWUczNjVqbTJNNitYUllx?=
- =?utf-8?B?NGJFQUxHUnp3aDZ4c2JVcG5yRkFKdzM0bmhoQ2NkUWJIUXF2bVJ5SGJtdHJT?=
- =?utf-8?B?M2V4cUZQRHV0VXpIYWJyT3djOVJIdXZnaGd0K0lndURPK2RHeUxuU2VmTnZR?=
- =?utf-8?B?SWtpYUxoV3RjaTRFbGRMZmVIdnB6c3ZqOGxGU1d0ZzYvSW4wb0szeC90bHVv?=
- =?utf-8?B?YXJHdktGU2NqbTcyakxiemlGNURlTVk4SWtKOTRYZDlGYXpCak82Nk9iTDBr?=
- =?utf-8?B?NjRnbnZYOWpSMG5HVUdkUkNFZjhOUE42MEpPYnVBWlJaa0hKNFpDcHJBaU1K?=
- =?utf-8?B?b1ljRGw3cHZld0hSMEIvVkdZNGJySzRXT0lFUlpPNHU2Ymd6L3ZZRVFsY003?=
- =?utf-8?B?Z3hqSzRES0Zzb3FWNWdCQURNTEt3cStpM2hXaUJnZnk2bkpBQ09NUlAzSlRW?=
- =?utf-8?B?Rnl2QVdnaG42VWpJWnBHL0U3UHBBc1lSTU5SRG8wYkVTb0Fwdy9VUmxvQjdw?=
- =?utf-8?Q?QrEtK9?=
-X-Forefront-Antispam-Report: CIP:20.93.157.195; CTRY:NL; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:westeu11-emailsignatures-cloud.codetwo.com;
- PTR:westeu11-emailsignatures-cloud.codetwo.com; CAT:NONE;
- SFS:(13230040)(35042699022)(14060799003)(1800799024)(82310400026)(36860700013)(376014)(7416014);
- DIR:OUT; SFP:1102; 
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 08:26:20.3239 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e75fe21-b6bb-4a92-bfd2-08dddefa1357
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3; Ip=[20.93.157.195];
- Helo=[westeu11-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM2PEPF0001C70C.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6857
+X-OriginatorOrg: imgtec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8963f755-bbc6-4e9e-0dc3-08dddefa19f0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2025 08:26:31.4557 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: R0VIYxl9lxlFLSse9a0r5NwNQz2yBWj+jiO9+7KRxHZLpwmI+hc9LoMymJpGe8lmcYyGfMnoOCkjPvS858ni5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB7881
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDA3OCBTYWx0ZWRfXzJ8O5p3D14/k
+ qEAeyFHJPYKRBEhWApGZFaRoGEfZcCjRcqarAlMbV4kBsaBxFaS8KC3D4kKH+SzTYdjEHlXc1nQ
+ nkVvRF87+7ramPjp2Gy7xDh6rLZsCl6vCFHEOkdjHUyirMdI4iLnXS7jJboYWUNZtJo4ZbmfQho
+ 8dmpTiq0wrLX8WMJHSmIR01dUta2jsKNDmzXalTGdIAIJu2bu+PStbi7ZZ60LgQm4+j5xsX1Ocf
+ Lui95+WiWAAaKSgGJUezgXJsMbXV7u87OfhZv1gQx9jwTbbc5v8Bh6WI4usB134rXIl9q6VeJQ6
+ U6sgLizZiBnNhq/BOUVFvKl6J//oOMa3cf9EoU4lOLvRwY1e3T8SFhEgR01ds2UMqH6PSvtb/mb
+ gdNgnP6Af0ZWQbcJ7jRlUH5vUgxPyA==
+X-Authority-Analysis: v=2.4 cv=PtrKrwM3 c=1 sm=1 tr=0 ts=68a4353c cx=c_pps
+ a=p+UPN3jNURWuIvPtd4M81Q==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10
+ a=NgoYpvdbvlAA:10 a=QX4gbG5DAAAA:8 a=VwQbUJbxAAAA:8 a=r_1tXGB3AAAA:8
+ a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8 a=e5mUnYsNAAAA:8 a=34vvhjMUkiT7KxLL56cA:9
+ a=QEXdDO2ut3YA:10 a=BvmlwFSFmKm4wi-JnkgA:9 a=FfaGCDsud1wA:10
+ a=AbAUZ8qAyYyZVLSsDulk:22 a=t8nPyN_e6usw4ciXM-Pk:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: szEe4kKKprUe0OrRIwvCYOa1O8tY4QrB
+X-Proofpoint-ORIG-GUID: szEe4kKKprUe0OrRIwvCYOa1O8tY4QrB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -219,60 +211,521 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19-08-2025 09:51, Krzysztof Kozlowski wrote:
-> On 19/08/2025 09:46, Mike Looijmans wrote:
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    enum:
->>>> +      - ti,tmds181
->>>> +      - ti,sn65dp159
->>> The driver contains:
->>> +	{ .compatible =3D "ti,tmds181", },
->>> +	{ .compatible =3D "ti,sn65dp159", },
->>> +	{}
->>> so why is a fallback compatible not suitable here?
->> I don't understand the question. The two are slightly different chips,
-> Your driver says they are compatible. No one said the same, but compatibl=
-e.
+--------------1X0Az4j4iTXLMGnvxkGLBRfY
+Content-Type: multipart/mixed; boundary="------------nqRvKjD1KZiZ7jtdfDj2UiVT";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Danilo Krummrich <dakr@kernel.org>, Brendan King <Brendan.King@imgtec.com>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Caterina Shablia <caterina.shablia@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Matthew Brost <matthew.brost@intel.com>, Frank Binns
+ <frank.binns@imgtec.com>, Alessio Belle <alessio.belle@imgtec.com>,
+ Alexandru Dadu <alexandru.dadu@imgtec.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <9d91429f-9bd3-4601-8540-e7a6691a74b8@imgtec.com>
+Subject: Re: [PATCH v8 01/24] drm/gpuvm: Pass map arguments through a struct
+References: <20250818215753.2762426-1-himal.prasad.ghimiray@intel.com>
+ <20250818215753.2762426-2-himal.prasad.ghimiray@intel.com>
+In-Reply-To: <20250818215753.2762426-2-himal.prasad.ghimiray@intel.com>
+
+--------------nqRvKjD1KZiZ7jtdfDj2UiVT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On 18/08/2025 22:57, Himal Prasad Ghimiray wrote:
+> From: Boris Brezillon <boris.brezillon@collabora.com>
+>=20
+> We are about to pass more arguments to drm_gpuvm_sm_map[_ops_create](),=
+
+> so, before we do that, let's pass arguments through a struct instead
+> of changing each call site every time a new optional argument is added.=
+
+>=20
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Brendan King <Brendan.King@imgtec.com>
+> Cc: Matt Coster <matt.coster@imgtec.com>
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Cc: Caterina Shablia <caterina.shablia@collabora.com>
+> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Co-developed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com=
 >
->> so it makes sense to describe that in the DT.
-> Compatible devices should use fallback. There is plenty of examples (90%
-> of all binding files?) including example-schema describing this.
+> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Rob Clark <robin.clark@oss.qualcomm.com>
 
-Please help me out here, I'm happy to oblige, but I don't understand=20
-what you're asking.
+Hi Himal,
 
-To the best of my knowledge "fallback" compatible is when you write=20
-something like this in the device-tree:
- =C2=A0=C2=A0 compatible =3D "st,m25p80", "jedec,spi-nor";
-Which means that we can use the "jedec,spi-nor" driver if there's no=20
-specific match for "st,m25p80", correct?
+I'm not sure which is better/more useful to you, so at your choice this
+is either (or both):
 
-I don't understand how that relates to your request, this is the first=20
-time I ever got this particular feedback. Looking at say the=20
-ti,sn65dsi83 driver, it does the same thing (supports the ti,sn65dsi83=20
-and ti,sn65dsi84).
+Reviewed-by: Matt Coster <matt.coster@imgtec.com> # imagination/pvr_vm.c
 
-Please explain or point me somewhere where I can find this?
+or, more generally:
 
->
->
-> Best regards,
-> Krzysztof
+Acked-by: Matt Coster <matt.coster@imgtec.com>
+
+Cheers,
+Matt
+
+> ---
+>  drivers/gpu/drm/drm_gpuvm.c            | 74 +++++++++++---------------=
+
+>  drivers/gpu/drm/imagination/pvr_vm.c   | 15 ++++--
+>  drivers/gpu/drm/msm/msm_gem_vma.c      | 27 +++++++---
+>  drivers/gpu/drm/nouveau/nouveau_uvmm.c | 11 ++--
+>  drivers/gpu/drm/panthor/panthor_mmu.c  | 13 +++--
+>  drivers/gpu/drm/xe/xe_vm.c             | 13 +++--
+>  include/drm/drm_gpuvm.h                | 20 ++++---
+>  7 files changed, 102 insertions(+), 71 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index 74d949995a72..c0e6f9310514 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -486,13 +486,18 @@
+>   *				  u64 addr, u64 range,
+>   *				  struct drm_gem_object *obj, u64 offset)
+>   *	{
+> + *		struct drm_gpuvm_map_req map_req =3D {
+> + *		        .map.va.addr =3D addr,
+> + *	                .map.va.range =3D range,
+> + *	                .map.gem.obj =3D obj,
+> + *	                .map.gem.offset =3D offset,
+> + *	           };
+>   *		struct drm_gpuva_ops *ops;
+>   *		struct drm_gpuva_op *op
+>   *		struct drm_gpuvm_bo *vm_bo;
+>   *
+>   *		driver_lock_va_space();
+> - *		ops =3D drm_gpuvm_sm_map_ops_create(gpuvm, addr, range,
+> - *						  obj, offset);
+> + *		ops =3D drm_gpuvm_sm_map_ops_create(gpuvm, &map_req);
+>   *		if (IS_ERR(ops))
+>   *			return PTR_ERR(ops);
+>   *
+> @@ -2054,16 +2059,15 @@ EXPORT_SYMBOL_GPL(drm_gpuva_unmap);
+> =20
+>  static int
+>  op_map_cb(const struct drm_gpuvm_ops *fn, void *priv,
+> -	  u64 addr, u64 range,
+> -	  struct drm_gem_object *obj, u64 offset)
+> +	  const struct drm_gpuvm_map_req *req)
+>  {
+>  	struct drm_gpuva_op op =3D {};
+> =20
+>  	op.op =3D DRM_GPUVA_OP_MAP;
+> -	op.map.va.addr =3D addr;
+> -	op.map.va.range =3D range;
+> -	op.map.gem.obj =3D obj;
+> -	op.map.gem.offset =3D offset;
+> +	op.map.va.addr =3D req->map.va.addr;
+> +	op.map.va.range =3D req->map.va.range;
+> +	op.map.gem.obj =3D req->map.gem.obj;
+> +	op.map.gem.offset =3D req->map.gem.offset;
+> =20
+>  	return fn->sm_step_map(&op, priv);
+>  }
+> @@ -2102,10 +2106,14 @@ op_unmap_cb(const struct drm_gpuvm_ops *fn, voi=
+d *priv,
+>  static int
+>  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  		   const struct drm_gpuvm_ops *ops, void *priv,
+> -		   u64 req_addr, u64 req_range,
+> -		   struct drm_gem_object *req_obj, u64 req_offset)
+> +		   const struct drm_gpuvm_map_req *req)
+>  {
+> +	struct drm_gem_object *req_obj =3D req->map.gem.obj;
+>  	struct drm_gpuva *va, *next;
+> +
+> +	u64 req_offset =3D req->map.gem.offset;
+> +	u64 req_range =3D req->map.va.range;
+> +	u64 req_addr =3D req->map.va.addr;
+>  	u64 req_end =3D req_addr + req_range;
+>  	int ret;
+> =20
+> @@ -2236,9 +2244,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  		}
+>  	}
+> =20
+> -	return op_map_cb(ops, priv,
+> -			 req_addr, req_range,
+> -			 req_obj, req_offset);
+> +	return op_map_cb(ops, priv, req);
+>  }
+> =20
+>  static int
+> @@ -2303,10 +2309,7 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
+>   * drm_gpuvm_sm_map() - calls the &drm_gpuva_op split/merge steps
+>   * @gpuvm: the &drm_gpuvm representing the GPU VA space
+>   * @priv: pointer to a driver private data structure
+> - * @req_addr: the start address of the new mapping
+> - * @req_range: the range of the new mapping
+> - * @req_obj: the &drm_gem_object to map
+> - * @req_offset: the offset within the &drm_gem_object
+> + * @req: ptr to struct drm_gpuvm_map_req
+>   *
+>   * This function iterates the given range of the GPU VA space. It util=
+izes the
+>   * &drm_gpuvm_ops to call back into the driver providing the split and=
+ merge
+> @@ -2333,8 +2336,7 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
+>   */
+>  int
+>  drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
+> -		 u64 req_addr, u64 req_range,
+> -		 struct drm_gem_object *req_obj, u64 req_offset)
+> +		 const struct drm_gpuvm_map_req *req)
+>  {
+>  	const struct drm_gpuvm_ops *ops =3D gpuvm->ops;
+> =20
+> @@ -2343,9 +2345,7 @@ drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *p=
+riv,
+>  		       ops->sm_step_unmap)))
+>  		return -EINVAL;
+> =20
+> -	return __drm_gpuvm_sm_map(gpuvm, ops, priv,
+> -				  req_addr, req_range,
+> -				  req_obj, req_offset);
+> +	return __drm_gpuvm_sm_map(gpuvm, ops, priv, req);
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map);
+> =20
+> @@ -2421,10 +2421,7 @@ static const struct drm_gpuvm_ops lock_ops =3D {=
+
+>   * @gpuvm: the &drm_gpuvm representing the GPU VA space
+>   * @exec: the &drm_exec locking context
+>   * @num_fences: for newly mapped objects, the # of fences to reserve
+> - * @req_addr: the start address of the range to unmap
+> - * @req_range: the range of the mappings to unmap
+> - * @req_obj: the &drm_gem_object to map
+> - * @req_offset: the offset within the &drm_gem_object
+> + * @req: ptr to drm_gpuvm_map_req struct
+>   *
+>   * This function locks (drm_exec_lock_obj()) objects that will be unma=
+pped/
+>   * remapped, and locks+prepares (drm_exec_prepare_object()) objects th=
+at
+> @@ -2447,9 +2444,7 @@ static const struct drm_gpuvm_ops lock_ops =3D {
+>   *                    ret =3D drm_gpuvm_sm_unmap_exec_lock(gpuvm, &exe=
+c, op->addr, op->range);
+>   *                    break;
+>   *                case DRIVER_OP_MAP:
+> - *                    ret =3D drm_gpuvm_sm_map_exec_lock(gpuvm, &exec,=
+ num_fences,
+> - *                                                     op->addr, op->r=
+ange,
+> - *                                                     obj, op->obj_of=
+fset);
+> + *                    ret =3D drm_gpuvm_sm_map_exec_lock(gpuvm, &exec,=
+ num_fences, &req);
+>   *                    break;
+>   *                }
+>   *
+> @@ -2480,18 +2475,17 @@ static const struct drm_gpuvm_ops lock_ops =3D =
+{
+>  int
+>  drm_gpuvm_sm_map_exec_lock(struct drm_gpuvm *gpuvm,
+>  			   struct drm_exec *exec, unsigned int num_fences,
+> -			   u64 req_addr, u64 req_range,
+> -			   struct drm_gem_object *req_obj, u64 req_offset)
+> +			   struct drm_gpuvm_map_req *req)
+>  {
+> +	struct drm_gem_object *req_obj =3D req->map.gem.obj;
+> +
+>  	if (req_obj) {
+>  		int ret =3D drm_exec_prepare_obj(exec, req_obj, num_fences);
+>  		if (ret)
+>  			return ret;
+>  	}
+> =20
+> -	return __drm_gpuvm_sm_map(gpuvm, &lock_ops, exec,
+> -				  req_addr, req_range,
+> -				  req_obj, req_offset);
+> +	return __drm_gpuvm_sm_map(gpuvm, &lock_ops, exec, req);
+> =20
+>  }
+>  EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map_exec_lock);
+> @@ -2613,10 +2607,7 @@ static const struct drm_gpuvm_ops gpuvm_list_ops=
+ =3D {
+>  /**
+>   * drm_gpuvm_sm_map_ops_create() - creates the &drm_gpuva_ops to split=
+ and merge
+>   * @gpuvm: the &drm_gpuvm representing the GPU VA space
+> - * @req_addr: the start address of the new mapping
+> - * @req_range: the range of the new mapping
+> - * @req_obj: the &drm_gem_object to map
+> - * @req_offset: the offset within the &drm_gem_object
+> + * @req: map request arguments
+>   *
+>   * This function creates a list of operations to perform splitting and=
+ merging
+>   * of existent mapping(s) with the newly requested one.
+> @@ -2644,8 +2635,7 @@ static const struct drm_gpuvm_ops gpuvm_list_ops =
+=3D {
+>   */
+>  struct drm_gpuva_ops *
+>  drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
+> -			    u64 req_addr, u64 req_range,
+> -			    struct drm_gem_object *req_obj, u64 req_offset)
+> +			    const struct drm_gpuvm_map_req *req)
+>  {
+>  	struct drm_gpuva_ops *ops;
+>  	struct {
+> @@ -2663,9 +2653,7 @@ drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpu=
+vm,
+>  	args.vm =3D gpuvm;
+>  	args.ops =3D ops;
+> =20
+> -	ret =3D __drm_gpuvm_sm_map(gpuvm, &gpuvm_list_ops, &args,
+> -				 req_addr, req_range,
+> -				 req_obj, req_offset);
+> +	ret =3D __drm_gpuvm_sm_map(gpuvm, &gpuvm_list_ops, &args, req);
+>  	if (ret)
+>  		goto err_free_ops;
+> =20
+> diff --git a/drivers/gpu/drm/imagination/pvr_vm.c b/drivers/gpu/drm/ima=
+gination/pvr_vm.c
+> index 2896fa7501b1..3d97990170bf 100644
+> --- a/drivers/gpu/drm/imagination/pvr_vm.c
+> +++ b/drivers/gpu/drm/imagination/pvr_vm.c
+> @@ -185,12 +185,17 @@ struct pvr_vm_bind_op {
+>  static int pvr_vm_bind_op_exec(struct pvr_vm_bind_op *bind_op)
+>  {
+>  	switch (bind_op->type) {
+> -	case PVR_VM_BIND_TYPE_MAP:
+> +	case PVR_VM_BIND_TYPE_MAP: {
+> +		const struct drm_gpuvm_map_req map_req =3D {
+> +			.map.va.addr =3D bind_op->device_addr,
+> +			.map.va.range =3D bind_op->size,
+> +			.map.gem.obj =3D gem_from_pvr_gem(bind_op->pvr_obj),
+> +			.map.gem.offset =3D bind_op->offset,
+> +		};
+> +
+>  		return drm_gpuvm_sm_map(&bind_op->vm_ctx->gpuvm_mgr,
+> -					bind_op, bind_op->device_addr,
+> -					bind_op->size,
+> -					gem_from_pvr_gem(bind_op->pvr_obj),
+> -					bind_op->offset);
+> +					bind_op, &map_req);
+> +	}
+> =20
+>  	case PVR_VM_BIND_TYPE_UNMAP:
+>  		return drm_gpuvm_sm_unmap(&bind_op->vm_ctx->gpuvm_mgr,
+> diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/ms=
+m_gem_vma.c
+> index 3cd8562a5109..792b35433666 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_vma.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+> @@ -1171,11 +1171,17 @@ vm_bind_job_lock_objects(struct msm_vm_bind_job=
+ *job, struct drm_exec *exec)
+>  							      op->obj_offset);
+>  				break;
+>  			case MSM_VM_BIND_OP_MAP:
+> -			case MSM_VM_BIND_OP_MAP_NULL:
+> -				ret =3D drm_gpuvm_sm_map_exec_lock(job->vm, exec, 1,
+> -							    op->iova, op->range,
+> -							    op->obj, op->obj_offset);
+> +			case MSM_VM_BIND_OP_MAP_NULL: {
+> +				struct drm_gpuvm_map_req map_req =3D {
+> +					.map.va.addr =3D op->iova,
+> +					.map.va.range =3D op->range,
+> +					.map.gem.obj =3D op->obj,
+> +					.map.gem.offset =3D op->obj_offset,
+> +				};
+> +
+> +				ret =3D drm_gpuvm_sm_map_exec_lock(job->vm, exec, 1, &map_req);
+>  				break;
+> +			}
+>  			default:
+>  				/*
+>  				 * lookup_op() should have already thrown an error for
+> @@ -1282,10 +1288,17 @@ vm_bind_job_prepare(struct msm_vm_bind_job *job=
+)
+>  			if (op->flags & MSM_VM_BIND_OP_DUMP)
+>  				arg.flags |=3D MSM_VMA_DUMP;
+>  			fallthrough;
+> -		case MSM_VM_BIND_OP_MAP_NULL:
+> -			ret =3D drm_gpuvm_sm_map(job->vm, &arg, op->iova,
+> -					       op->range, op->obj, op->obj_offset);
+> +		case MSM_VM_BIND_OP_MAP_NULL: {
+> +			struct drm_gpuvm_map_req map_req =3D {
+> +				.map.va.addr =3D op->iova,
+> +				.map.va.range =3D op->range,
+> +				.map.gem.obj =3D op->obj,
+> +				.map.gem.offset =3D op->obj_offset,
+> +			};
+> +
+> +			ret =3D drm_gpuvm_sm_map(job->vm, &arg, &map_req);
+>  			break;
+> +		}
+>  		default:
+>  			/*
+>  			 * lookup_op() should have already thrown an error for
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/n=
+ouveau/nouveau_uvmm.c
+> index ddfc46bc1b3e..d94a85509176 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> @@ -1276,6 +1276,12 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job =
+*job,
+>  			break;
+>  		case OP_MAP: {
+>  			struct nouveau_uvma_region *reg;
+> +			struct drm_gpuvm_map_req map_req =3D {
+> +				.map.va.addr =3D op->va.addr,
+> +				.map.va.range =3D op->va.range,
+> +				.map.gem.obj =3D op->gem.obj,
+> +				.map.gem.offset =3D op->gem.offset,
+> +			};
+> =20
+>  			reg =3D nouveau_uvma_region_find_first(uvmm,
+>  							     op->va.addr,
+> @@ -1301,10 +1307,7 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job =
+*job,
+>  			}
+> =20
+>  			op->ops =3D drm_gpuvm_sm_map_ops_create(&uvmm->base,
+> -							      op->va.addr,
+> -							      op->va.range,
+> -							      op->gem.obj,
+> -							      op->gem.offset);
+> +							      &map_req);
+>  			if (IS_ERR(op->ops)) {
+>  				ret =3D PTR_ERR(op->ops);
+>  				goto unwind_continue;
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pa=
+nthor/panthor_mmu.c
+> index 367c89aca558..2003b91a8409 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -2202,15 +2202,22 @@ panthor_vm_exec_op(struct panthor_vm *vm, struc=
+t panthor_vm_op_ctx *op,
+>  	mutex_lock(&vm->op_lock);
+>  	vm->op_ctx =3D op;
+>  	switch (op_type) {
+> -	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
+> +	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP: {
+> +		const struct drm_gpuvm_map_req map_req =3D {
+> +			.map.va.addr =3D op->va.addr,
+> +			.map.va.range =3D op->va.range,
+> +			.map.gem.obj =3D op->map.vm_bo->obj,
+> +			.map.gem.offset =3D op->map.bo_offset,
+> +		};
+> +
+>  		if (vm->unusable) {
+>  			ret =3D -EINVAL;
+>  			break;
+>  		}
+> =20
+> -		ret =3D drm_gpuvm_sm_map(&vm->base, vm, op->va.addr, op->va.range,
+> -				       op->map.vm_bo->obj, op->map.bo_offset);
+> +		ret =3D drm_gpuvm_sm_map(&vm->base, vm, &map_req);
+>  		break;
+> +	}
+> =20
+>  	case DRM_PANTHOR_VM_BIND_OP_TYPE_UNMAP:
+>  		ret =3D drm_gpuvm_sm_unmap(&vm->base, vm, op->va.addr, op->va.range)=
+;
+> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> index c86337e08a55..f35d69c0b4c6 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.c
+> +++ b/drivers/gpu/drm/xe/xe_vm.c
+> @@ -2337,10 +2337,17 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, stru=
+ct xe_vma_ops *vops,
+> =20
+>  	switch (operation) {
+>  	case DRM_XE_VM_BIND_OP_MAP:
+> -	case DRM_XE_VM_BIND_OP_MAP_USERPTR:
+> -		ops =3D drm_gpuvm_sm_map_ops_create(&vm->gpuvm, addr, range,
+> -						  obj, bo_offset_or_userptr);
+> +	case DRM_XE_VM_BIND_OP_MAP_USERPTR: {
+> +		struct drm_gpuvm_map_req map_req =3D {
+> +			.map.va.addr =3D addr,
+> +			.map.va.range =3D range,
+> +			.map.gem.obj =3D obj,
+> +			.map.gem.offset =3D bo_offset_or_userptr,
+> +		};
+> +
+> +		ops =3D drm_gpuvm_sm_map_ops_create(&vm->gpuvm, &map_req);
+>  		break;
+> +	}
+>  	case DRM_XE_VM_BIND_OP_UNMAP:
+>  		ops =3D drm_gpuvm_sm_unmap_ops_create(&vm->gpuvm, addr, range);
+>  		break;
+> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> index 274532facfd6..a9fa44148e0c 100644
+> --- a/include/drm/drm_gpuvm.h
+> +++ b/include/drm/drm_gpuvm.h
+> @@ -1058,10 +1058,20 @@ struct drm_gpuva_ops {
+>   */
+>  #define drm_gpuva_next_op(op) list_next_entry(op, entry)
+> =20
+> +/**
+> + * struct drm_gpuvm_map_req - arguments passed to drm_gpuvm_sm_map[_op=
+s_create]()
+> + */
+> +struct drm_gpuvm_map_req {
+> +	/**
+> +	 * @op_map: struct drm_gpuva_op_map
+> +	 */
+> +	struct drm_gpuva_op_map map;
+> +};
+> +
+>  struct drm_gpuva_ops *
+>  drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
+> -			    u64 addr, u64 range,
+> -			    struct drm_gem_object *obj, u64 offset);
+> +			    const struct drm_gpuvm_map_req *req);
+> +
+>  struct drm_gpuva_ops *
+>  drm_gpuvm_sm_unmap_ops_create(struct drm_gpuvm *gpuvm,
+>  			      u64 addr, u64 range);
+> @@ -1205,16 +1215,14 @@ struct drm_gpuvm_ops {
+>  };
+> =20
+>  int drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
+> -		     u64 addr, u64 range,
+> -		     struct drm_gem_object *obj, u64 offset);
+> +		     const struct drm_gpuvm_map_req *req);
+> =20
+>  int drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm, void *priv,
+>  		       u64 addr, u64 range);
+> =20
+>  int drm_gpuvm_sm_map_exec_lock(struct drm_gpuvm *gpuvm,
+>  			  struct drm_exec *exec, unsigned int num_fences,
+> -			  u64 req_addr, u64 req_range,
+> -			  struct drm_gem_object *obj, u64 offset);
+> +			  struct drm_gpuvm_map_req *req);
+> =20
+>  int drm_gpuvm_sm_unmap_exec_lock(struct drm_gpuvm *gpuvm, struct drm_e=
+xec *exec,
+>  				 u64 req_addr, u64 req_range);
 
 
 --=20
-Mike Looijmans
-System Expert
+Matt Coster
+E: matt.coster@imgtec.com
 
-TOPIC Embedded Products B.V.
-Materiaalweg 4, 5681 RJ Best
-The Netherlands
+--------------nqRvKjD1KZiZ7jtdfDj2UiVT--
 
-T: +31 (0) 499 33 69 69
-E: mike.looijmans@topic.nl
-W: www.topic.nl
+--------------1X0Az4j4iTXLMGnvxkGLBRfY
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaKQ1NwUDAAAAAAAKCRB5vBnz2d5qsIXA
+AP99CztWVuuegyJQyfMbJfIXZ5eSyDQ6at70BzdsJP5SfwEAhYkLkRF83JNe+FYxtptghU7a0hTB
+RRTUw9X01S6IWgA=
+=oQpH
+-----END PGP SIGNATURE-----
 
+--------------1X0Az4j4iTXLMGnvxkGLBRfY--
