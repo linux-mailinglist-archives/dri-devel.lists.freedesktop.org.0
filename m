@@ -2,57 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08461B2C024
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 13:21:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B96EB2C062
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 13:29:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCB7910E5AC;
-	Tue, 19 Aug 2025 11:21:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5565210E5AA;
+	Tue, 19 Aug 2025 11:28:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iuUHbXNz";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="pe/gV2nY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E660410E5AA;
- Tue, 19 Aug 2025 11:21:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6F7E15C5E65;
- Tue, 19 Aug 2025 11:21:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DAC2C116B1;
- Tue, 19 Aug 2025 11:21:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755602493;
- bh=lB1ftSYVoalO3pqD17BabvrKVzz8AuFLNPMRaJ5HxqI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iuUHbXNzm8XF0le1Y8TGFU4fPPMDcAeSi6+LYseH4dF0CDcWjxwe9mqXrbfMMi0bb
- my6E0FcmeQgM45MCDhlMn5xV7rP5sXykpv4I4Ez+RbcJyCzC/ezfHfapGRq6pNCOAG
- Hzqq6v79EMRXoKHaDsVGK0FLh6e+R8/BpsKx/A6rQjjstRfg+R28Ti0htOfA9Lqg1J
- VTxL4dU5T9cREAHYg+rTPSaehMUkPTIXfp+SXtRuOm5N+yOLMrHO6t5Rh3UMr9+Ix1
- jXvUAnYwYJueooVz6dDFsWvNem9Sx5S1CbZZFGt5tU0Gd8wEXV3sJnKIn1LctjM972
- g37z/2lNkDFNw==
-Date: Tue, 19 Aug 2025 13:21:29 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Riana Tauro <riana.tauro@intel.com>, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, anshuman.gupta@intel.com,
- lucas.demarchi@intel.com, 
- aravind.iddamsetty@linux.intel.com, raag.jadav@intel.com,
- umesh.nerlige.ramappa@intel.com, 
- frank.scarbrough@intel.com, sk.anirban@intel.com, simona.vetter@ffwll.ch, 
- =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v7 1/9] drm: Add a vendor-specific recovery method to drm
- device wedged uevent
-Message-ID: <5hkngbuzoryldvjrtjwalxhosdhtweeinpjpyguzltjmee7mpu@vw44iwczytw5>
-References: <20250728102809.502324-1-riana.tauro@intel.com>
- <20250728102809.502324-2-riana.tauro@intel.com>
- <aJIb1NbxmxKbUT5U@intel.com>
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
+ [209.85.219.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD0FB10E5AA
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 11:28:43 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-e934c8f961aso1923324276.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 04:28:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1755602923; x=1756207723;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AIpLciw+1XEu/4gPMiZnJGMUt60j6UkGL0YXIEPs+TY=;
+ b=pe/gV2nYIaIuBfoBJ2kx5fc5AoZV9e3zkxY7ARMz4LAbOZTwaLGZZcWZ28A16yyimz
+ 1o7vWNEdoPaKGRtw6MhnsjieeXnfOpcv3T/GG+5QIOh30JxTRSfMnESc1nJxUBBQuGSG
+ F7+1C/OjqVBCw3fz4wXvEyKljlZr1zYBKsWF87a26McZ2KMy3y8QAm0vH1RRNRBiuVKl
+ 9hzOK5a7wYsAcm6ryXYnWwVsklawT9EUYgS7EFAxk/gPBQofcQNWcdxrY0Us9DaJhv2C
+ fhrLZISYFf6dvkiOy/R6KCSkMv5NGAaGiaS5RJMQWaHr/Aw9dMF48LoDA8ZU7aigc+4S
+ 8WsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755602923; x=1756207723;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AIpLciw+1XEu/4gPMiZnJGMUt60j6UkGL0YXIEPs+TY=;
+ b=lcwsCZwSs2TcJPIFhx8yRyYaRLAqzdyHcBWY/QnKdfP7TwhIQc6vHma0ynLpYX8301
+ vyFgJyw7kt7GXl8ebMGQex5oDJWYkC3jjGhe2qEWEaD4V0/FujuDUV9ruFG6vhnt9H0A
+ fPocHaV2M+Ds7/GTEUEOczLTg3/AlEyyEGtVhvTTptyBw/y3UIPj4HAsqN7wWbo6I4wf
+ 5KK75T6y6T+yxzrNoHosUFuKRElJWKzGLqnkIM3fM2e3YS75skoJcUlk8H1emzPH6wEj
+ qBUlt/BWBtgbUVtlRBijh7BMi56I5tlHV+M+X0wWLUAMu/e0v1dUQZFXUK6oZoYTkGfg
+ Hhtg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWnyYYwh+oc0OSXiz+ggbDHUiWrmjyMhpzf0B/61v8qxbXO0dmo9/3c4t5SLJKn7NSJ+JaT2Y5vSBg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEXLMv2MgdAwf5d0JX6Z7DLjt3SveC5eLeVyZMnFUJcqthF0gA
+ 86ecO5nrjrMKBhbBnxkj1CZ1lF3CqzBQhsQ6Y3ZcED4Bln3qwg1j3/yG1m55P7hITQZIKL2X3pj
+ Pa+cfezOfDN6KyZGktYsp0nVz1FcfuHt+6r8lRzuIQA==
+X-Gm-Gg: ASbGnctgklMlJLnl8SXBPkGBVZ/7kNRjB/NfOpRo31+3x9NZiSwsJjG9jN6vgOV97nn
+ wcosiMT47hLZ3wn5o8OHlKmOaRPZkkdf+onJjAuUENhpMNoqvKTUM5QfeDf9cm+4WWJd+g6nmH3
+ uLyJ5cydLEEoi27TZ3VtvoFLnXgI4zlGAFKzqH/Y4uOGaF9+YxkRhI4tw62/RYMUS68l4GFxkb3
+ 8qGiV2zvoBi+7Vg6bYF4Mxqe7sw5jJSm6eSMRQ4tFOGQ9M7cQ==
+X-Google-Smtp-Source: AGHT+IG/wHjJd0uy/3FLG7fBMCiAI52cyNR0ZLVdEi2rD6nkFaQbn6okYNWT8up2/jc1S+MzYBUHsR02oAJoY8whuEI=
+X-Received: by 2002:a05:690c:7209:b0:714:268:a9f8 with SMTP id
+ 00721157ae682-71f9d61d74cmr22846967b3.27.1755602922860; Tue, 19 Aug 2025
+ 04:28:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="aip5wo2wxwo2mdl2"
-Content-Disposition: inline
-In-Reply-To: <aJIb1NbxmxKbUT5U@intel.com>
+References: <20250807-drm-vc4-extra-formats-v2-0-fadc93844551@raspberrypi.com>
+ <26f31ab8-1b9f-466e-aa9e-2b76bec7a364@collabora.com>
+In-Reply-To: <26f31ab8-1b9f-466e-aa9e-2b76bec7a364@collabora.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 19 Aug 2025 12:28:24 +0100
+X-Gm-Features: Ac12FXx3lj2u6gCEsaioe_ILwD0hCHIhxZB4MQMwCNCYBCspDHiMigskd6GA-ew
+Message-ID: <CAPY8ntDJEyexsrQAWmzaunECxnT3F0zDzVhwe5gHmA_zAnW_8g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] drm: vc4: Add support for additional 10/12/16bit
+ YUV plane formats
+To: Robert Mader <robert.mader@collabora.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,161 +92,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Robert
 
---aip5wo2wxwo2mdl2
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 1/9] drm: Add a vendor-specific recovery method to drm
- device wedged uevent
-MIME-Version: 1.0
+On Mon, 18 Aug 2025 at 11:46, Robert Mader <robert.mader@collabora.com> wro=
+te:
+>
+> On 07.08.25 15:28, Dave Stevenson wrote:
+> > We'd been asked if the S01x YUV formats could be supported on Pi5 as so=
+me
+> > software codecs produce them.
+> > The answer was yes, so this patch adds them and the P01x formats.
+>
+> I tested this with the Gstreamer MR from 1 and can confirm that the
+> formats P010, P012, P016, S010 and S012 work as expected.
+>
+> Unfortunately S016 is not supported by Gstreamer yet - however chances
+> seem high that it works as well.
+>
+> Thus the series is:
+>
+> Tested-by: Robert Mader <robert.mader@collabora.com>
 
-On Tue, Aug 05, 2025 at 10:57:24AM -0400, Rodrigo Vivi wrote:
-> On Mon, Jul 28, 2025 at 03:57:51PM +0530, Riana Tauro wrote:
-> > Address the need for a recovery method (firmware flash on Firmware erro=
-rs)
-> > introduced in the later patches of Xe KMD.
-> > Whenever XE KMD detects a firmware error, a firmware flash is required =
-to
-> > recover the device to normal operation.
-> >=20
-> > The initial proposal to use 'firmware-flash' as a recovery method was
-> > not applicable to other drivers and could cause multiple recovery
-> > methods specific to vendors to be added.
-> > To address this a more generic 'vendor-specific' method is introduced,
-> > guiding users to refer to vendor specific documentation and system logs
-> > for detailed vendor specific recovery procedure.
-> >=20
-> > Add a recovery method 'WEDGED=3Dvendor-specific' for such errors.
-> > Vendors must provide additional recovery documentation if this method
-> > is used.
-> >=20
-> > It is the responsibility of the consumer to refer to the correct vendor
-> > specific documentation and usecase before attempting a recovery.
-> >=20
-> > For example: If driver is XE KMD, the consumer must refer
-> > to the documentation of 'Device Wedging' under 'Documentation/gpu/xe/'.
-> >=20
-> > Recovery script contributed by Raag.
-> >=20
-> > v2: fix documentation (Raag)
-> > v3: add more details to commit message (Sima, Rodrigo, Raag)
-> >     add an example script to the documentation (Raag)
-> > v4: use consistent naming (Raag)
-> > v5: fix commit message
-> >=20
-> > Cc: Andr=E9 Almeida <andrealmeid@igalia.com>
-> > Cc: Christian K=F6nig <christian.koenig@amd.com>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Simona Vetter <simona.vetter@ffwll.ch>
->=20
-> Cc: Maxime Ripard <mripard@kernel.org>
->=20
-> > Co-developed-by: Raag Jadav <raag.jadav@intel.com>
-> > Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> > Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-> > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Thanks for testing.
+
+In combination with my MR to libdrm/modetest to support these
+formats[1], I'm happy that S016 works.
+Your testing through Gstreamer gives me confidence that I haven't
+messed up both my kernel patch and modetest setup in the same way :-)
+
+Thanks again
+  Dave
+
+[1] https://gitlab.freedesktop.org/mesa/libdrm/-/merge_requests/425
+
+> 1: https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/85=
+40
+>
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > > ---
-> >  Documentation/gpu/drm-uapi.rst | 42 ++++++++++++++++++++++++++++------
-> >  drivers/gpu/drm/drm_drv.c      |  2 ++
-> >  include/drm/drm_device.h       |  4 ++++
-> >  3 files changed, 41 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uap=
-i.rst
-> > index 843facf01b2d..5691b29acde3 100644
-> > --- a/Documentation/gpu/drm-uapi.rst
-> > +++ b/Documentation/gpu/drm-uapi.rst
-> > @@ -418,13 +418,15 @@ needed.
-> >  Recovery
-> >  --------
-> > =20
-> > -Current implementation defines three recovery methods, out of which, d=
-rivers
-> > +Current implementation defines four recovery methods, out of which, dr=
-ivers
-> >  can use any one, multiple or none. Method(s) of choice will be sent in=
- the
-> >  uevent environment as ``WEDGED=3D<method1>[,..,<methodN>]`` in order o=
-f less to
-> > -more side-effects. If driver is unsure about recovery or method is unk=
-nown
-> > -(like soft/hard system reboot, firmware flashing, physical device repl=
-acement
-> > -or any other procedure which can't be attempted on the fly), ``WEDGED=
-=3Dunknown``
-> > -will be sent instead.
-> > +more side-effects. If recovery method is specific to vendor
-> > +``WEDGED=3Dvendor-specific`` will be sent and userspace should refer t=
-o vendor
-> > +specific documentation for the recovery procedure. As an example if th=
-e driver
-> > +is 'Xe' then the documentation for 'Device Wedging' of Xe driver needs=
- to be
-> > +referred for the recovery procedure. If driver is unsure about recover=
-y or
-> > +method is unknown, ``WEDGED=3Dunknown`` will be sent instead.
->=20
-> What if instead of this we do something like:
->=20
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -441,6 +441,29 @@ following expectations.
->      unknown         consumer policy
->      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> +Vendor-Specific Recovery
-> +++++++++++++++++++++++++
-> +
-> +When ``WEDGED=3Dvendor-specific`` is emitted, it indicates that the devi=
-ce requires a
-> +recovery method that is *not standardized* and is specific to the hardwa=
-re vendor.
-> +
-> +In this case, the vendor driver must provide detailed documentation desc=
-ribing
-> +every single recovery possibilities and its processes. It needs to inclu=
-de:
-> +
-> +- Hints: Which of the following will be used to identify the
-> +  specific device, and guide the administrator:
-> +  + Sysfs, debugfs, tracepoints, or kernel logs (e.g., ``dmesg``)
-> +- Explicit guidance: for any admin or userspace tools and scripts necess=
-ary
-> +  to carry out recovery.
-> +
-> +**Example**:
-> +    If the device uses the ``Xe`` driver, then administrators should con=
-sult the
-> +    *"Device Wedging"* section of the Xe driver's documentation to deter=
-mine
-> +    the proper steps for recovery.
-> +
-> +Notes
-> ++++++
-> +
->  The only exception to this is ``WEDGED=3Dnone``, which signifies that th=
-e device
->=20
-> ----------------------
->=20
-> Maxime, is it any better?
-
-Yes, it is. Thanks!
-Maxime
-
---aip5wo2wxwo2mdl2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaKReOQAKCRAnX84Zoj2+
-dttNAYD6etshHfhq9diIMZ0xBJHx16i1mwsThwgR+pkeyRu+QXMgdg6yMNaZ/QTp
-p7IBR94BgKKYJXjpRtTwpySgH/OKCEfFxX4xMYpW75T24OmMLaE1WChjPjj11CQO
-exd2ePh2vA==
-=Lg6j
------END PGP SIGNATURE-----
-
---aip5wo2wxwo2mdl2--
+> > Changes in v2:
+> > - Swapped from adding an extra bool hvs6_only to having a min_gen for
+> >    each format (suggested by Ma=C3=ADra)
+> > - Link to v1: https://lore.kernel.org/r/20250724-drm-vc4-extra-formats-=
+v1-1-67fa80597fad@raspberrypi.com
+> >
+> > ---
+> > Dave Stevenson (2):
+> >        drm/vc4: plane: Flag formats as having a minimum generation
+> >        drm/vc4: plane: Add support for P01[026] and S01[026] formats
+> >
+> >   drivers/gpu/drm/vc4/vc4_plane.c | 56 ++++++++++++++++++++++++++++++++=
++++------
+> >   drivers/gpu/drm/vc4/vc4_regs.h  |  9 +++++++
+> >   2 files changed, 58 insertions(+), 7 deletions(-)
+> > ---
+> > base-commit: d2b48f2b30f25997a1ae1ad0cefac68c25f8c330
+> > change-id: 20250724-drm-vc4-extra-formats-1f53e6491cc1
+> >
+> > Best regards,
+>
+> --
+> Robert Mader
+> Consultant Software Developer
+>
+> Collabora Ltd.
+> Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+> Registered in England & Wales, no. 5513718
+>
