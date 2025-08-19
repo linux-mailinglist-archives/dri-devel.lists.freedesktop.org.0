@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6B7B2C2F4
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 14:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59004B2C2F2
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 14:16:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C4B010E5C8;
-	Tue, 19 Aug 2025 12:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFE3210E5C6;
+	Tue, 19 Aug 2025 12:16:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QG0FBKAt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="frqyxjTT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
- [209.85.218.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECF710E5BE
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 12:16:52 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id
- a640c23a62f3a-afcb7a8dd3dso744816966b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 05:16:52 -0700 (PDT)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B85E10E5C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 12:16:54 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-afcb7acfde3so730530466b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 05:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755605811; x=1756210611; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1755605812; x=1756210612; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=flb6InEp+Rhz/Z2grT5FKfpHtbQ47S/+b9t1ySuxxnA=;
- b=QG0FBKAtq+cJqO6GFNrnE8jHgxyjqYZVVTGpi7xSr5eDi9JLYyGxda2sHHHb8EOznW
- qNXt3RgigNT7RIArC5QPel1Oibk+RQMGwGyx+cbryfgEdykfLboOnRlGrMyziqt00gs9
- SKy84jkYUbAlctqnELFuPkKn0wVw9UZaI9rtu/kL3+0IDwYLR4vL3Pj3aAE1XKvtD7C/
- 54ZNFPaL4zCnYCiK5FSZwhn+AqQedULjTN+tqLg/QdtdVqM8qd9Sud42K1ujDk1q0VNs
- PsDug+shOsoa1Qqk0s7Cpx60BevGg4P1/j2Gyi2f7jB2++Hzhx8Qz8rvONK2wg2AN1aJ
- dlag==
+ bh=PboKxjSSvW6h8IWsKUFqt3oWZleCNVGyc+XkVJL1pxE=;
+ b=frqyxjTTSDT9R/snisy5heFU350/Nj+TPjiyqDYsenMjaXtJMWaoa0WTgRxmYrvp53
+ xZnT7NfwqX/rWZfWu+rlXeDPe2/o3oPomq1/Kdw3fOCir+VONNKDOtRLC3/YnhJvJ7Ey
+ DgT/ioekwgYzGhndpmbneAR0mRJQ6TsEO3CIQ4J/d77beg8UK/rXC5BDukuC+0KFCOCD
+ IORQHNY6aUO066el0EnnnmThk1YdtJwhnp5OPmsZsoGuZe69Md5NkpW89nbqQg6f6nMc
+ im46ae9gx6kAuMCtcjHUGY6hU+C9c4m/iawnjNOb+mrwtm/GRiao6FaYnivXYNCE70zG
+ LgFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755605811; x=1756210611;
+ d=1e100.net; s=20230601; t=1755605812; x=1756210612;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=flb6InEp+Rhz/Z2grT5FKfpHtbQ47S/+b9t1ySuxxnA=;
- b=uVIbH/mbxcwRDLv7cu2+37V94t/IoeufCLLTy4ap2KP0dQ/jJK6vTlsiPBVIcLV5Lc
- LPLkxnHppOLETvxXGKNRAtiDW2V/e1ZpQ2sXAconlQCjXQOpzGz1G8mdPUSDEKbbXaQ4
- eA6gX3SFEDztxszOMrd32P67pnnGgtTkV4jX/wdhMSka0S3iMaUJvhbOIY/Yk4b9HoMa
- vBqxcti/hCXDe04syhaklXUDv2XAzFENlbaU3s51CbmLVFZNMILRzWWemGiXIqBiT+aC
- 8phmDFuM8GrI8weehu8ZP8ezKGzA3KV2J+8KeYE02GFPoz8XeLquZvaVBeS1zBeWnMvu
- l8HA==
+ bh=PboKxjSSvW6h8IWsKUFqt3oWZleCNVGyc+XkVJL1pxE=;
+ b=uOQfSaGSHBqse/b4c95Uy/MQqfpiFonVBOLkJVoW7KWP6Q9CkewabIcb8mV5sUXk2a
+ 687Uj3JFkUe4gVUg7PPa4Co0NlxypN4R2y/67E8JbxoKkvfvtC/InCvWjWezDj9j7l0J
+ x6Q5DtsgFgehm6bWF84RiXrHD1vH5D4OJco+JwlQXf8vA7P9h95NWS8k2u5XjsEE0TC3
+ lz92AUJT6C78RRbRIFyzbXxVk+vyhpIWDFuhnbbFkPGLQDeDFr8iZwRtbQXMIL1epaEx
+ sGN+eSVtXQlel+YAOWzr3fXR2DK91BVt05bQw79vxmZuM+IyFhLDxeFmeX/MS/Ja/UUL
+ Cwhg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUWeW1ZYrVfY5EwzlmavunEDDRp5y3l0vB3eI7O+eSKw17zMJV7emF6wtYLFqPFIgKyBGn2m80gpwY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1LjwZXqP24mLgl4ia/EkaCUAxRGsg4Jsj9kpBQpJXpeBVxNB4
- teTeOxOH+RfzFchc6GAkr8bGzspcNq0KRowAMuik5ytIZ45ODNBsonLc
-X-Gm-Gg: ASbGncuXjr84Wn3FfTLuzKT1PVgupwWWsif5DyboyQz4e95NKMaoeSa/SRqBbqjoA3s
- Aav332P86YJpHdqlqQYIyNzrc1dVW5zGIInVXeeosv1fgHmN0nbKTL89pp/aw3dcIcz/GP9HpGe
- jGyJCG50+UgkyO9lzWE5lMS4ad1rxx0Adt0nnj7hV3TYHgUckRROCrhLlZtlDGvohT0OKlj1Ljx
- XLB2Kw4DvnuNzIpM/g/Q8bwlbjrwtFqopbCTY8GdzaetYasejdmDk00eOzWC3j0yyeN+6t5hSrw
- Ld33tsZsA329npIS3/lpg2PR3PWeNHWD2naMFPVc4RRNnUx+hEVPBIVIVoHWW8vN0/IrFB2ERor
- 8s5vpVjZ/zS8P1A==
-X-Google-Smtp-Source: AGHT+IEXOXhJ0hiodB5SHvqbo00ALrsk+5peNPZ+NBwXvS3HlKGWuLTRmhWK5ct+hfcLkurIUQXNKg==
-X-Received: by 2002:a17:907:3e9e:b0:afd:d9e4:51e6 with SMTP id
- a640c23a62f3a-afddd25a827mr222294066b.62.1755605810477; 
- Tue, 19 Aug 2025 05:16:50 -0700 (PDT)
+ AJvYcCWu4P4pReJsWSb43vk4r+xvxjuzAX9iL9M6Ko4Ug+vkcS0MVRO5Eh7o0lgiaizcAEq401kJvBoL19Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQy/tDymeUoLuOP4EprO+cwz5Sv5AEY1BLZmKAeJn8bxp/1GYU
+ Zs99jKUyNFbcXWVCwU0ErCDZ7fJrT3LXb7WKaWw8S8jSzL8zXL9uZm9pKGVzBA==
+X-Gm-Gg: ASbGncuiQPoXs/OJrbO6DW3t6T8NyrE8DnnSzR96uzlwV5IgN+lxYkuRSI22EWJZlHe
+ EoUGC9rlxr/19iwp+cF8SmKsGV+Mb4Rs+H+qTtIfKRnNYA4sVJHPjyrq5KVYhBzgRzME7+JrlMs
+ SVLS0ckhnwwr9TQb+5rsQ2pF2olPlyk/p/aQKQ0VZNG+A7tIxYLVu+9ZM52ANc7VgI6gdBjODA/
+ S/4VxE3F9jYLvwXi+uVO+FfQakRMeCdua/psIWTsG85YUiLR4dvwCYSC+DlsAui0lQ14Gl82Z71
+ 8JBhE7OA/M2bKyVjw91vTpnXwXtnrNRc/SQhPh0ZThYyznmHzWODWoyD9PrF/FMVq9aXjExAxIc
+ YH61/PaLUhzbW0A==
+X-Google-Smtp-Source: AGHT+IHy3F/e1kSRDlbofyboq4p2pglFSUtVJLGVczC1I6BCAnBxgMTYMS6YyE/2e4b1RIBWu7NZlA==
+X-Received: by 2002:a17:906:c113:b0:afc:d5a3:90c1 with SMTP id
+ a640c23a62f3a-afddd21a8c1mr208971666b.55.1755605812119; 
+ Tue, 19 Aug 2025 05:16:52 -0700 (PDT)
 Received: from xeon.. ([188.163.112.76]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.48
+ a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Aug 2025 05:16:49 -0700 (PDT)
+ Tue, 19 Aug 2025 05:16:51 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>,
@@ -86,10 +86,10 @@ Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: [PATCH v1 05/19] staging: media: tegra-video: expand VI and VIP
- support to Tegra30
-Date: Tue, 19 Aug 2025 15:16:17 +0300
-Message-ID: <20250819121631.84280-6-clamor95@gmail.com>
+Subject: [PATCH v1 06/19] staging: media: tegra-video: csi: move CSI helpers
+ to header
+Date: Tue, 19 Aug 2025 15:16:18 +0300
+Message-ID: <20250819121631.84280-7-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250819121631.84280-1-clamor95@gmail.com>
 References: <20250819121631.84280-1-clamor95@gmail.com>
@@ -110,93 +110,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Exisitng VI and VIP implementation for Tegra20 is fully compatible with
-Tegra30.
+Move CSI helpers into the header for easier access from SoC-specific video
+driver parts.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/staging/media/tegra-video/Makefile | 1 +
- drivers/staging/media/tegra-video/vi.c     | 3 +++
- drivers/staging/media/tegra-video/vi.h     | 2 +-
- drivers/staging/media/tegra-video/video.c  | 4 ++++
- drivers/staging/media/tegra-video/vip.c    | 5 ++++-
- 5 files changed, 13 insertions(+), 2 deletions(-)
+ drivers/staging/media/tegra-video/csi.c | 11 -----------
+ drivers/staging/media/tegra-video/csi.h | 10 ++++++++++
+ 2 files changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/Makefile b/drivers/staging/media/tegra-video/Makefile
-index 6c7552e05109..96380b5dbd8b 100644
---- a/drivers/staging/media/tegra-video/Makefile
-+++ b/drivers/staging/media/tegra-video/Makefile
-@@ -6,5 +6,6 @@ tegra-video-objs := \
- 		csi.o
+diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+index 604185c00a1a..74c92db1032f 100644
+--- a/drivers/staging/media/tegra-video/csi.c
++++ b/drivers/staging/media/tegra-video/csi.c
+@@ -20,17 +20,6 @@
  
- tegra-video-$(CONFIG_ARCH_TEGRA_2x_SOC)  += tegra20.o
-+tegra-video-$(CONFIG_ARCH_TEGRA_3x_SOC)  += tegra20.o
- tegra-video-$(CONFIG_ARCH_TEGRA_210_SOC) += tegra210.o
- obj-$(CONFIG_VIDEO_TEGRA) += tegra-video.o
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index c9276ff76157..71be205cacb5 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1959,6 +1959,9 @@ static const struct of_device_id tegra_vi_of_id_table[] = {
- #if defined(CONFIG_ARCH_TEGRA_2x_SOC)
- 	{ .compatible = "nvidia,tegra20-vi",  .data = &tegra20_vi_soc },
- #endif
-+#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+	{ .compatible = "nvidia,tegra30-vi",  .data = &tegra20_vi_soc },
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-vi", .data = &tegra210_vi_soc },
- #endif
-diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index 1e6a5caa7082..cac0c0d0e225 100644
---- a/drivers/staging/media/tegra-video/vi.h
-+++ b/drivers/staging/media/tegra-video/vi.h
-@@ -296,7 +296,7 @@ struct tegra_video_format {
- 	u32 fourcc;
+ #define MHZ			1000000
+ 
+-static inline struct tegra_csi *
+-host1x_client_to_csi(struct host1x_client *client)
+-{
+-	return container_of(client, struct tegra_csi, client);
+-}
+-
+-static inline struct tegra_csi_channel *to_csi_chan(struct v4l2_subdev *subdev)
+-{
+-	return container_of(subdev, struct tegra_csi_channel, subdev);
+-}
+-
+ /*
+  * CSI is a separate subdevice which has 6 source pads to generate
+  * test pattern. CSI subdevice pad ops are used only for TPG and
+diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
+index 3e6e5ee1bb1e..3ed2dbc73ce9 100644
+--- a/drivers/staging/media/tegra-video/csi.h
++++ b/drivers/staging/media/tegra-video/csi.h
+@@ -151,6 +151,16 @@ struct tegra_csi {
+ 	struct list_head csi_chans;
  };
  
--#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC) || defined(CONFIG_ARCH_TEGRA_3x_SOC)
- extern const struct tegra_vi_soc tegra20_vi_soc;
- #endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
-diff --git a/drivers/staging/media/tegra-video/video.c b/drivers/staging/media/tegra-video/video.c
-index 074ad0dc56ca..a25885f93cd7 100644
---- a/drivers/staging/media/tegra-video/video.c
-+++ b/drivers/staging/media/tegra-video/video.c
-@@ -127,6 +127,10 @@ static const struct of_device_id host1x_video_subdevs[] = {
- 	{ .compatible = "nvidia,tegra20-vip", },
- 	{ .compatible = "nvidia,tegra20-vi", },
- #endif
-+#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+	{ .compatible = "nvidia,tegra30-vip", },
-+	{ .compatible = "nvidia,tegra30-vi", },
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-csi", },
- 	{ .compatible = "nvidia,tegra210-vi", },
-diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
-index 5ec717f3afd5..00e08a9971d5 100644
---- a/drivers/staging/media/tegra-video/vip.c
-+++ b/drivers/staging/media/tegra-video/vip.c
-@@ -263,13 +263,16 @@ static void tegra_vip_remove(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
- }
- 
--#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC) || defined(CONFIG_ARCH_TEGRA_3x_SOC)
- extern const struct tegra_vip_soc tegra20_vip_soc;
- #endif
- 
- static const struct of_device_id tegra_vip_of_id_table[] = {
- #if defined(CONFIG_ARCH_TEGRA_2x_SOC)
- 	{ .compatible = "nvidia,tegra20-vip", .data = &tegra20_vip_soc },
-+#endif
-+#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+	{ .compatible = "nvidia,tegra30-vip", .data = &tegra20_vip_soc },
- #endif
- 	{ }
- };
++static inline struct tegra_csi *host1x_client_to_csi(struct host1x_client *client)
++{
++	return container_of(client, struct tegra_csi, client);
++}
++
++static inline struct tegra_csi_channel *to_csi_chan(struct v4l2_subdev *subdev)
++{
++	return container_of(subdev, struct tegra_csi_channel, subdev);
++}
++
+ void tegra_csi_error_recover(struct v4l2_subdev *subdev);
+ void tegra_csi_calc_settle_time(struct tegra_csi_channel *csi_chan,
+ 				u8 csi_port_num,
 -- 
 2.48.1
 
