@@ -2,85 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634D6B2BD95
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:38:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76225B2BDFD
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:50:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBCB510E29B;
-	Tue, 19 Aug 2025 09:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA4F10E2A3;
+	Tue, 19 Aug 2025 09:50:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QQU0ofnO";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Z/Q3idA+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F59110E29B
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:38:40 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3b9e41101d4so2669355f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 02:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755596319; x=1756201119; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=at/5eKe3PrrAbraNpLb6KoExLUDoe69Dgy/Mvb40QeY=;
- b=QQU0ofnOxY7FwNpiWrICv3qTAzjJq9oy1EAt3ZJLT+xBh1XkdcFQ26YGKo/JZcjiDG
- 7I/5Bc3LYl1gIazVynkEyayI7liRHFxHkOvohxUBX8sb2DzFv8KoifYB4nRDhdkh+TV9
- 8qamydkULTNvYKM9iTioSZahQV55LrCD1nZYAQMbMBpaWjGgj7EENdVwbzbTv7Zn74sZ
- ded9OFYaEtZQJD0DV0676ujBmZY7D8rbIFuqUCfDEuhS+kpIY5iqbr+PBiGTbTJ0DDjB
- c/Z6fxMhOPSdBUmuKU6N2fVQri4uraUQmilpuT8DlW/5s8k2CltRlqYdxqMV/ZbOe96S
- HgWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755596319; x=1756201119;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=at/5eKe3PrrAbraNpLb6KoExLUDoe69Dgy/Mvb40QeY=;
- b=GoNGRKrqIQXaJd//VOdhK0fM4yBpTn2vDutqcqpKsgcv9gwB6udV2ooONJ061+3Tey
- B/XeoAzyweD1L+zN2ZzzqgtrRrdZsrSmCZ+AzTSPEOcQV3BQFbWFHQZD/eW2n3x3ZOc2
- QLl6XTn+V2J8+r78PANamNzqw6tED34xXm6To+LkJ2mKhUyiK0ILxTYKfbWCqbM+Wwl/
- dNilP8ABT0Ly6xdf+bXCd4d9hsyH1Xil19/gTQDvcWnAIsI0gCsbxYxnqwO3BLuV/s1K
- cjsJXbKuavLG6SXV3nuGcsDRUxx2lurNrTAV2RW6SxZzWtPElpltCCQ54f0ldX1QwUXZ
- DiMQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/Mi5k/JwDF4Nj+w811RVKjujthFk/gFnuHTDStCV5t80zN48B1fMAvMuGoeHfn6h6Jv+9fiCrbM0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxpXiAAsMMUFQ5ftZHKNoZOSW4QHAbcC5XTwsw8kWdE5Ru9N6Mo
- NblRdwOsEsdT9YRr1kKUWB9GB+8l2jzjjA4bCDuJ+AqFPYU3xUC5NhE9SxNVKTkvVJE=
-X-Gm-Gg: ASbGnctvFZJZg3x4sKdauRUp5zqN4YLzGb4ZStgBI/uD87R9llOXBnS/kipAjIjUALw
- tKofXj9QigxCdEaRHkJcvb5Th4OaYARiAdDcpqPKOr+X5/tQe7rDHkHGma+YgOXVWYYw8cg/syt
- KUbakISEi2OLzr+TmvE3iU8ErPtkGCajUo+aNwN+lnZSKQsjVEnFF/5/1KaU52prd3RvU7+fxSM
- kDyg9/8C91yaL2tIxGaYtEPTc6CWgBLoTyz1A+sxR5AGnAf9edj25UuDzhIr5xWsxRvK6LScPJT
- Mo7FFF4aKNRc3BsNHhb9S5NO+0dNiZih8EYE0KkVSPK5i2nF177sWPXYRh0OJvMOtcXt3VUFG6l
- t3eZ2TTUolnHR3oEQG394Nspi2Qw=
-X-Google-Smtp-Source: AGHT+IFkB5hfOSqRO9ucIKbwVALsj+nCtLLW02xqPar2YbcIy4HqcpvqEUmAihdf079LhDp9jt6P0g==
-X-Received: by 2002:a05:6000:4028:b0:3b7:7749:aa92 with SMTP id
- ffacd0b85a97d-3c0ed6c4b1cmr1345276f8f.58.1755596319074; 
- Tue, 19 Aug 2025 02:38:39 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-45a1c6bd172sm220059075e9.6.2025.08.19.02.38.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Aug 2025 02:38:38 -0700 (PDT)
-Date: Tue, 19 Aug 2025 12:38:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Harry Wentland <harry.wentland@amd.com>,
- Suraj Kandpal <suraj.kandpal@intel.com>, Xaver Hugl <xaver.hugl@kde.org>,
- Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] drm/plane: Fix IS_ERR() vs NULL bugs in
- __drm_universal_plane_init()
-Message-ID: <6f9fc3889e0c79d7ac2833f3a2a6ff8b047c2b11.1755591666.git.dan.carpenter@linaro.org>
-References: <cover.1755591666.git.dan.carpenter@linaro.org>
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24ADF10E583
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:50:32 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 6B75EC6B390;
+ Tue, 19 Aug 2025 09:42:21 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id D94DC60697;
+ Tue, 19 Aug 2025 09:42:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 34A3B1C22CE69; 
+ Tue, 19 Aug 2025 11:42:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1755596553; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=hBqpzbi2Hbxep2bpOtuW7wxw+5uHsx1EqMbGij/dqlY=;
+ b=Z/Q3idA+5YgF8Yk+dEOhSqk2M7AgHRazWxtmeOgN0JOjGzjp08Y4spxeBbmPR4zfDuZ6Ix
+ xnPnafOMv1Kyop1KlWumZQoku9SeU4p/WnryCJEBDuSjthjXd6K2MSwj1baIf6W4+0+tvv
+ D+2QdLlalG+Dr0lYoyevO/AtJoX+zKDvazv9YmHTB/Xzcbznizew8Oph/NO5G0WN3iXkXt
+ P9gynn/rBiZZsGrG0QDUiSYK1dhffzOjxYXGHlOgFoV2ceIGlsTxsPq8W0jojtqJQevtr2
+ cq1x6ps4DP4TRmCrDHUFksUFCPMqNWgUjQL2Ct0MuSBJRZujUHwGSwbivIDbgQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v7 0/3] drm/bridge: debugfs: show refcount and list removed
+ bridges
+Date: Tue, 19 Aug 2025 11:42:09 +0200
+Message-Id: <20250819-drm-bridge-debugfs-removed-v7-0-970702579978@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1755591666.git.dan.carpenter@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPFGpGgC/1WOS4rDMBBEr2K0HoG+luOrhBBarZYjiCNHss1Ay
+ N1H+Wxm+argVT1YpZKosrF7sEJ7qinfGrifjuEFbhPxFBozJZQVRgw8lJn7kkJrAvltipUXmvN
+ OgSvrDnE4KDJesyZYCsX0+5YfTx8udN/axvoJmYdKHPM8p3XscEACo50kSwhaYICh7wWA91o7Z
+ 1wAj1aGl/p9x8l/d+B6zcgnWpdt5TGXMwFezt8ySiOBpPO9hXFX7PR8/gFee77X/AAAAA==
+X-Change-ID: 20250408-drm-bridge-debugfs-removed-2579f892e4b3
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+X-Mailer: b4 0.14.2
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,37 +74,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The create_in_format_blob() function returns NULL on error.  It never
-returns error pointers.  Update the check to match.
+This series shows removed bridges to the global <debugfs>/dri/bridges file,
+and shows the bridge refcount.  Removed bridges are bridges after
+drm_bridges_remove() but before they are eventually freed on the last
+drm_bridge_put().
 
-Fixes: 0d6dcd741c26 ("drm/plane: modify create_in_formats to acommodate async")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+This is part of the work towards removal of bridges from a still existing
+DRM pipeline without use-after-free. The grand plan was discussed in [1].
+Here's the work breakdown (➜ marks the current series):
+
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+    (based on devm_drm_bridge_alloc() [0])
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17-rc1)
+    C. ✔ kunit tests (v6.17-rc1)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17-rc1)
+    E. … add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge() + add a cleanup action
+            (drm-misc-next)
+       2. ✔ drm_bridge_get_prev_bridge() (drm-misc-next)
+       3. … drm_bridge_get_next_bridge()
+       4. … drm_for_each_bridge_in_chain()
+       5. drm_bridge_connector_init
+       6. of_drm_find_bridge
+       7. drm_of_find_panel_or_bridge, *_of_get_bridge
+    F. ➜ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ➜ show refcount and list removed bridges
+ 2. … handle gracefully atomic updates during bridge removal
+ 3. … DSI host-device driver interaction
+ 4. finish the hotplug bridge work, removing the "always-disconnected"
+    connector, moving code to the core and potentially removing the
+    hotplug-bridge itself (this needs to be clarified as points 1-3 are
+    developed)
+
+To show the removed bridges we need to keep track of them, thus add a new
+global list to store them between drm_bridge_remove() and the eventual
+free. This is bit tricky in case a bridge is removed and then re-added
+before being freed. This is handled in patch 2.
+
+This series  depends on one other series:
+ * [PATCH v2 0/9] drm/bridge: get/put the bridge when looping over the encoder chain
+   Link: https://lore.kernel.org/r/20250808-drm-bridge-alloc-getput-for_each_bridge-v2-0-edb6ee81edf1@bootlin.com
+   Reason: it uses drm_for_each_bridge_in_chain_scoped()
+
+[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_plane.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This series was initially part of v6 of this other series:
+- Link to v6: https://lore.kernel.org/dri-devel/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/
 
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index beef2a06bc75..2f5a95bc0528 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -483,7 +483,7 @@ static int __drm_universal_plane_init(struct drm_device *dev,
- 	if (format_modifier_count) {
- 		blob = create_in_format_blob(dev, plane,
- 					     plane->funcs->format_mod_supported);
--		if (!IS_ERR(blob))
-+		if (blob)
- 			drm_object_attach_property(&plane->base,
- 						   config->modifiers_property,
- 						   blob->base.id);
-@@ -492,7 +492,7 @@ static int __drm_universal_plane_init(struct drm_device *dev,
- 	if (plane->funcs->format_mod_supported_async) {
- 		blob = create_in_format_blob(dev, plane,
- 					     plane->funcs->format_mod_supported_async);
--		if (!IS_ERR(blob))
-+		if (blob)
- 			drm_object_attach_property(&plane->base,
- 						   config->async_modifiers_property,
- 						   blob->base.id);
+---
+Luca Ceresoli (3):
+      drm/debugfs: bridges_show: show refcount
+      drm/bridge: add list of removed refcounted bridges
+      drm/debugfs: show removed bridges
+
+ drivers/gpu/drm/drm_bridge.c | 47 +++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 40 insertions(+), 7 deletions(-)
+---
+base-commit: c8cea4371e5eca30cda8660aabb337747dabc51d
+change-id: 20250408-drm-bridge-debugfs-removed-2579f892e4b3
+
+Best regards,
 -- 
-2.47.2
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
