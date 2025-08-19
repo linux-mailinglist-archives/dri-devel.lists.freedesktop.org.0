@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BF5B2C11A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 13:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FCF1B2C11B
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 13:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A1D910E5BA;
-	Tue, 19 Aug 2025 11:49:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7D310E5BB;
+	Tue, 19 Aug 2025 11:49:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from lankhorst.se (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C524A10E5B8;
- Tue, 19 Aug 2025 11:49:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A588D10E5BB;
+ Tue, 19 Aug 2025 11:49:52 +0000 (UTC)
 From: Maarten Lankhorst <dev@lankhorst.se>
 To: Lucas De Marchi <lucas.demarchi@intel.com>,
  =?UTF-8?q?=27Thomas=20Hellstr=C3=B6m=27?= <thomas.hellstrom@linux.intel.com>, 
@@ -33,9 +33,9 @@ To: Lucas De Marchi <lucas.demarchi@intel.com>,
 Cc: Michal Hocko <mhocko@suse.com>, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  cgroups@vger.kernel.org, linux-mm@kvack.org
-Subject: [RFC 1/3] page_counter: Allow for pinning some amount of memory
-Date: Tue, 19 Aug 2025 13:49:34 +0200
-Message-ID: <20250819114932.597600-6-dev@lankhorst.se>
+Subject: [RFC 2/3] cgroup/dmem: Implement pinning device memory
+Date: Tue, 19 Aug 2025 13:49:35 +0200
+Message-ID: <20250819114932.597600-7-dev@lankhorst.se>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250819114932.597600-5-dev@lankhorst.se>
 References: <20250819114932.597600-5-dev@lankhorst.se>
@@ -56,186 +56,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a pinned member, and use it for implementing pinning accounting.
-Memory to be pinned has to already be accounted for as normally used,
-and only memory up to the 'min' limit is allowed to be pinned.
-
-This limit is chosen because cgroups already guarantees that memory
-up to that limit will not evicted.
-
-Pinned memory affects min and low calculations, so alter those slightly.
+Add a function to pin, and to unipn memory and adjust the calculations
+in dmem_cgroup_state_evict_valuable().
 
 Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 ---
- include/linux/page_counter.h |  8 +++
- mm/page_counter.c            | 98 +++++++++++++++++++++++++++++++++---
- 2 files changed, 99 insertions(+), 7 deletions(-)
+ include/linux/cgroup_dmem.h |  2 ++
+ kernel/cgroup/dmem.c        | 57 +++++++++++++++++++++++++++++++++++--
+ 2 files changed, 56 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/page_counter.h b/include/linux/page_counter.h
-index d649b6bbbc871..5836c6dfb3c76 100644
---- a/include/linux/page_counter.h
-+++ b/include/linux/page_counter.h
-@@ -13,6 +13,7 @@ struct page_counter {
- 	 * v2. The memcg->memory.usage is a hot member of struct mem_cgroup.
- 	 */
- 	atomic_long_t usage;
-+	atomic_long_t pinned;
- 	unsigned long failcnt; /* v1-only field */
- 
- 	CACHELINE_PADDING(_pad1_);
-@@ -68,11 +69,18 @@ static inline unsigned long page_counter_read(struct page_counter *counter)
- 	return atomic_long_read(&counter->usage);
+diff --git a/include/linux/cgroup_dmem.h b/include/linux/cgroup_dmem.h
+index dd4869f1d736e..a981bb692ba22 100644
+--- a/include/linux/cgroup_dmem.h
++++ b/include/linux/cgroup_dmem.h
+@@ -21,6 +21,8 @@ int dmem_cgroup_try_charge(struct dmem_cgroup_region *region, u64 size,
+ 			   struct dmem_cgroup_pool_state **ret_pool,
+ 			   struct dmem_cgroup_pool_state **ret_limit_pool);
+ void dmem_cgroup_uncharge(struct dmem_cgroup_pool_state *pool, u64 size);
++int dmem_cgroup_try_pin(struct dmem_cgroup_pool_state *pool, u64 size);
++void dmem_cgroup_unpin(struct dmem_cgroup_pool_state *pool, u64 size);
+ bool dmem_cgroup_state_evict_valuable(struct dmem_cgroup_pool_state *limit_pool,
+ 				      struct dmem_cgroup_pool_state *test_pool,
+ 				      bool ignore_low, bool *ret_hit_low);
+diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
+index 10b63433f0573..ec8b1ffec78de 100644
+--- a/kernel/cgroup/dmem.c
++++ b/kernel/cgroup/dmem.c
+@@ -147,6 +147,11 @@ static u64 get_resource_current(struct dmem_cgroup_pool_state *pool)
+ 	return pool ? page_counter_read(&pool->cnt) : 0;
  }
  
-+static inline unsigned long page_counter_pinned(struct page_counter *counter)
++static u64 get_resource_pinned(struct dmem_cgroup_pool_state *pool)
 +{
-+	return atomic_long_read(&counter->pinned);
++	return pool ? page_counter_pinned(&pool->cnt) : 0;
 +}
 +
- void page_counter_cancel(struct page_counter *counter, unsigned long nr_pages);
- void page_counter_charge(struct page_counter *counter, unsigned long nr_pages);
- bool page_counter_try_charge(struct page_counter *counter,
- 			     unsigned long nr_pages,
- 			     struct page_counter **fail);
-+bool page_counter_try_pin(struct page_counter *counter, unsigned long nr_pages);
-+void page_counter_unpin(struct page_counter *counter, unsigned long nr_pages);
- void page_counter_uncharge(struct page_counter *counter, unsigned long nr_pages);
- void page_counter_set_min(struct page_counter *counter, unsigned long nr_pages);
- void page_counter_set_low(struct page_counter *counter, unsigned long nr_pages);
-diff --git a/mm/page_counter.c b/mm/page_counter.c
-index 661e0f2a5127a..d29d0ed01ec18 100644
---- a/mm/page_counter.c
-+++ b/mm/page_counter.c
-@@ -184,6 +184,82 @@ void page_counter_uncharge(struct page_counter *counter, unsigned long nr_pages)
- 		page_counter_cancel(c, nr_pages);
- }
- 
-+static void page_counter_unpin_one(struct page_counter *counter, unsigned long nr_pages)
-+{
-+	long new;
-+
-+	new = atomic_long_sub_return(nr_pages, &counter->pinned);
-+	/* More uncharges than charges? */
-+	if (WARN_ONCE(new < 0, "page_counter pinned underflow: %ld nr_pages=%lu\n",
-+		      new, nr_pages))
-+		atomic_long_set(&counter->pinned, 0);
-+}
-+
-+/**
-+ * page_counter_try_pin - try to hierarchically pin pages
-+ * @counter: counter
-+ * @nr_pages: number of pages to charge
-+ *
-+ * Returns %true on success, or %false if any counter goes above,
-+ * the 'min' limit. Failing cgroup is not returned, as pinned memory
-+ * cannot be evicted.
-+ */
-+bool page_counter_try_pin(struct page_counter *counter,
-+			     unsigned long nr_pages)
-+{
-+	struct page_counter *c, *fail;
-+	bool track_failcnt = counter->track_failcnt;
-+
-+	for (c = counter; c; c = c->parent) {
-+		long new;
-+		/*
-+		 * Pin speculatively to avoid an expensive CAS.  If
-+		 * a bigger charge fails, it might falsely lock out a
-+		 * racing smaller charge and send it into reclaim
-+		 * early, but the error is limited to the difference
-+		 * between the two sizes, which is less than 2M/4M in
-+		 * case of a THP locking out a regular page charge.
-+		 *
-+		 * The atomic_long_add_return() implies a full memory
-+		 * barrier between incrementing the count and reading
-+		 * the limit.  When racing with page_counter_set_max(),
-+		 * we either see the new limit or the setter sees the
-+		 * counter has changed and retries.
-+		 */
-+		new = atomic_long_add_return(nr_pages, &c->pinned);
-+		if (new > READ_ONCE(c->min)) {
-+			atomic_long_sub(nr_pages, &c->pinned);
-+			/*
-+			 * This is racy, but we can live with some
-+			 * inaccuracy in the failcnt which is only used
-+			 * to report stats.
-+			 */
-+			if (track_failcnt)
-+				data_race(c->failcnt++);
-+			fail = c;
-+			goto failed;
-+		}
-+	}
-+	return true;
-+
-+failed:
-+	for (c = counter; c != fail; c = c->parent)
-+		page_counter_unpin_one(c, nr_pages);
-+
-+	return false;
-+}
-+
-+/**
-+ * page_counter_unpin - hierarchically unpin pages
-+ * @counter: counter
-+ * @nr_pages: number of pages to uncharge
-+ */
-+void page_counter_unpin(struct page_counter *counter, unsigned long nr_pages)
-+{
-+	for (struct page_counter *c = counter; c; c = c->parent)
-+		page_counter_unpin_one(c, nr_pages);
-+}
-+
- /**
-  * page_counter_set_max - set the maximum number of pages allowed
-  * @counter: counter
-@@ -425,7 +501,7 @@ void page_counter_calculate_protection(struct page_counter *root,
- 				       struct page_counter *counter,
- 				       bool recursive_protection)
+ static void reset_all_resource_limits(struct dmem_cgroup_pool_state *rpool)
  {
--	unsigned long usage, parent_usage;
-+	unsigned long usage, parent_usage, pinned, min, low;
- 	struct page_counter *parent = counter->parent;
+ 	set_resource_min(rpool, 0);
+@@ -270,7 +275,7 @@ bool dmem_cgroup_state_evict_valuable(struct dmem_cgroup_pool_state *limit_pool,
+ {
+ 	struct dmem_cgroup_pool_state *pool = test_pool;
+ 	struct page_counter *ctest;
+-	u64 used, min, low;
++	u64 used, min, low, pinned;
  
- 	/*
-@@ -442,23 +518,31 @@ void page_counter_calculate_protection(struct page_counter *root,
- 	if (!usage)
- 		return;
+ 	/* Can always evict from current pool, despite limits */
+ 	if (limit_pool == test_pool)
+@@ -296,16 +301,18 @@ bool dmem_cgroup_state_evict_valuable(struct dmem_cgroup_pool_state *limit_pool,
  
-+	pinned = page_counter_pinned(counter);
-+
-+	/* For calculation purposes, pinned memory is subtracted from min/low */
-+	min = READ_ONCE(counter->min);
-+	if (pinned > min)
-+		min = 0;
-+	low = READ_ONCE(counter->low);
-+	if (pinned > low)
-+		low = 0;
-+
- 	if (parent == root) {
--		counter->emin = READ_ONCE(counter->min);
--		counter->elow = READ_ONCE(counter->low);
-+		counter->emin = min;
-+		counter->elow = low;
- 		return;
- 	}
+ 	ctest = &test_pool->cnt;
  
- 	parent_usage = page_counter_read(parent);
++	/* Protection is calculated without pinned memory */
+ 	dmem_cgroup_calculate_protection(limit_pool, test_pool);
  
- 	WRITE_ONCE(counter->emin, effective_protection(usage, parent_usage,
--			READ_ONCE(counter->min),
--			READ_ONCE(parent->emin),
-+			min, READ_ONCE(parent->emin),
- 			atomic_long_read(&parent->children_min_usage),
- 			recursive_protection));
+ 	used = page_counter_read(ctest);
+-	min = READ_ONCE(ctest->emin);
++	pinned = page_counter_pinned(ctest);
++	min = READ_ONCE(ctest->emin) + pinned;
  
- 	WRITE_ONCE(counter->elow, effective_protection(usage, parent_usage,
--			READ_ONCE(counter->low),
--			READ_ONCE(parent->elow),
-+			low, READ_ONCE(parent->elow),
- 			atomic_long_read(&parent->children_low_usage),
- 			recursive_protection));
+ 	if (used <= min)
+ 		return false;
+ 
+ 	if (!ignore_low) {
+-		low = READ_ONCE(ctest->elow);
++		low = READ_ONCE(ctest->elow) + pinned;
+ 		if (used > low)
+ 			return true;
+ 
+@@ -641,6 +648,41 @@ int dmem_cgroup_try_charge(struct dmem_cgroup_region *region, u64 size,
  }
+ EXPORT_SYMBOL_GPL(dmem_cgroup_try_charge);
+ 
++/**
++ * dmem_cgroup_unpin() - Unpin from a pool.
++ * @pool: Pool to unpin.
++ * @size: Size to unpin.
++ *
++ * Undoes the effects of dmem_cgroup_try_pin.
++ * Must be called with the returned pool as argument,
++ * and same @index and @size.
++ */
++void dmem_cgroup_unpin(struct dmem_cgroup_pool_state *pool, u64 size)
++{
++	if (pool)
++		page_counter_unpin(&pool->cnt, size);
++}
++EXPORT_SYMBOL_GPL(dmem_cgroup_unpin);
++
++/**
++ * dmem_cgroup_try_pin() - Try pinning an existing allocation to a region.
++ * @pool: dmem region to pin
++ * @size: Size (in bytes) to pin.
++ *
++ * This function pins in @pool for a size of @size bytes.
++ *
++ * If the function succeeds, the memory is succesfully accounted as being pinned.
++ * The memory may not be uncharged before unpin is called.
++ *
++ * Return: 0 on success, -EAGAIN on hitting a limit, or a negative errno on failure.
++ */
++int dmem_cgroup_try_pin(struct dmem_cgroup_pool_state *pool, u64 size)
++{
++	return page_counter_try_pin(&pool->cnt, size) ? 0 : -EAGAIN;
++
++}
++EXPORT_SYMBOL_GPL(dmem_cgroup_try_pin);
++
+ static int dmem_cgroup_region_capacity_show(struct seq_file *sf, void *v)
+ {
+ 	struct dmem_cgroup_region *region;
+@@ -756,6 +798,11 @@ static int dmem_cgroup_region_current_show(struct seq_file *sf, void *v)
+ 	return dmemcg_limit_show(sf, v, get_resource_current);
+ }
+ 
++static int dmem_cgroup_region_pinned_show(struct seq_file *sf, void *v)
++{
++	return dmemcg_limit_show(sf, v, get_resource_pinned);
++}
++
+ static int dmem_cgroup_region_min_show(struct seq_file *sf, void *v)
+ {
+ 	return dmemcg_limit_show(sf, v, get_resource_min);
+@@ -799,6 +846,10 @@ static struct cftype files[] = {
+ 		.name = "current",
+ 		.seq_show = dmem_cgroup_region_current_show,
+ 	},
++	{
++		.name = "pinned",
++		.seq_show = dmem_cgroup_region_pinned_show,
++	},
+ 	{
+ 		.name = "min",
+ 		.write = dmem_cgroup_region_min_write,
 -- 
 2.50.0
 
