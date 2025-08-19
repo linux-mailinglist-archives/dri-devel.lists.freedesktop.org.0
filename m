@@ -2,82 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E43EB2BF7E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 12:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2519B2BF8D
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 12:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC8C10E32D;
-	Tue, 19 Aug 2025 10:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5689710E59B;
+	Tue, 19 Aug 2025 10:59:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AuDtasGQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ds8mIUsC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9617110E32D
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 10:57:18 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id
- d2e1a72fcca58-76e2e89e89fso6645563b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 03:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755601038; x=1756205838; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/h8vcXy6qR27gP1YZ8Yc6zSfsz6DAOWe2QXpuI2UdEs=;
- b=AuDtasGQIzGP1ghpuKiLkv8+VHcNpRqhUDiZemHZArHuD6Ro3SKbwWcqbeAOE/gMv3
- Q5SSO+sMGZlxiFparjaVE9q492eOFkuTg4PUu65lRdoSwYUvNgKVWWZEc+b6cAhYjyW9
- IBsdyFbtgWNxS5onwpMl8GbYz2E+9T5qj26HrTC+wQ+b7XnsO9W2cg6F7VnZNi4ViUdg
- pKEAzjm2IYc/l15JZ/w40QvNwPTxbXATg8q+yr5W/f8b9AMxwIoWIa9PEYRmOYudpKNr
- sgHZUzPG8P343RhFfqmIXaJjAee5Rs/Or1jRnOhWTrEwYRSqzcEYrwqzK5xarM7i9d8O
- tyng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755601038; x=1756205838;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/h8vcXy6qR27gP1YZ8Yc6zSfsz6DAOWe2QXpuI2UdEs=;
- b=wL2djaWUaRW3wfGGkin/0iN4XlOUXsuH5ClBpfYg36OlhS7Vy77wzIjwb3qXWMuzHj
- 1WnAr8jp1x45m3JszE8qpSuhJW1eW8WpO0oftgQjiec/ywCJZ9t1NNOKRL9sTTmxN3l5
- 1CGFtrZHn90Lc9NdG5bedMZ14TyZOY3x+6SX8pF3AQHKER1A1nJBumXJ3/JC6jipbzc8
- Wt2XLCj5gAksNnQAmvxPWjyAy8dmaBSgotDaJNxvTn27wSwIfR4ijUKz88tCIeRsj5ph
- YzpJxMcgdzlvgp8cN/3XVhJVxZaHR6FFjF0xiqKoBhHcwqOcpxCRv9Aijlh5DWZdkmUO
- yc3w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhRf5JzEdTQH3A8Y9mjPkpR1nfCrVLHAU3oe/1EUPQtZYYUvT9mrYzITHdS1+Z2x13w0bUo7bB/fA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz30Tf4k7t17oE4Xl2RstlX+50eyTRjZ+jeTTN1j7fTkh9I9vNw
- ev09/I+ljB8q3ECIMPj/y9EUUCcoNwICKbhmzwgi1xESLslRBWSuSfiy
-X-Gm-Gg: ASbGncvduI/+xCQAItqQR0auj10SWgCOj+6dxiAxnugy3NO8+dALvi1MggbqdMt/wKo
- vN+UU94RSVe1T2cDYodGXdfjhTnZBWeUcxGzwO1w6DPraUIlc8rpcj1Yuvr9fBTbm2os01NeXHU
- 95mcEKPwyXdfNKHYPm5BkWONj9G3oP57mteYQQkZJSHpwSzUHUVIqyyGe4VssO0/mXW8nRpDWAp
- KOzJaKGSRExJfBw7t93hSeIATSQy5X9/IQfYDx1KbGJGG/hwlR1cVQDrARVfLaYsDqj370QTb5X
- SxHHWtrxUfg8rp1Lut7F6tDt+tHDcVUKQ4LcQ5gLU8o46GCVMXWnTFUYGPIDbxhqerGhT+CR/Qi
- wstzwcc9aCoN9h0CrKQ==
-X-Google-Smtp-Source: AGHT+IEHSyz6oaDA7K+RvMSncY8tbf2c7olIXCrk48S43s9RumALFVRcBntKKJA8rU+d1WXngphnug==
-X-Received: by 2002:a05:6a00:929c:b0:749:bb6:3a8e with SMTP id
- d2e1a72fcca58-76e80eb487cmr2546976b3a.1.1755601038024; 
- Tue, 19 Aug 2025 03:57:18 -0700 (PDT)
-Received: from Terra ([2001:df0:b240:b5e:abe3:8cfd:3fd8:5d8e])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76e7d130cfbsm2218152b3a.40.2025.08.19.03.57.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Aug 2025 03:57:17 -0700 (PDT)
-Date: Tue, 19 Aug 2025 16:27:12 +0530
-From: Athul Raj Kollareth <krathul3152@gmail.com>
-To: tzimmermann@suse.de, michal.wajdeczko@intel.com
-Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- simona@ffwll.ch, skhan@linuxfoundation.org
-Subject: Re: [PATCH v2] drm: Replace the deprecated DRM_* logging macros in
- gem helper files
-Message-ID: <aKRYiJec3VE7xo7J@Terra>
-References: <f94151b4-893a-4758-a118-153076a20d3c@suse.de>
- <20250818192247.58322-1-krathul3152@gmail.com>
- <CAPZGEKyhn1LLZQ7z04_u6pjTf9Uqy+ycH4t7xYMRe5dDR9Vg2Q@mail.gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D459910E592
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 10:59:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5CD505C5E54;
+ Tue, 19 Aug 2025 10:59:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EEF08C4CEF1;
+ Tue, 19 Aug 2025 10:59:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755601144;
+ bh=dqQAaSK5TLp2OGYn22cxx8W1zu8wpnCnRgOi6eRYTh0=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=Ds8mIUsCQgGlE0xRvlVe6y6bgAdwSbA7Zno8tIxEpv50dUGNL5DE+V/7PsXPnCih3
+ FnMJY8Q6bsZ7H/j5mNqMLtWgELkoslnXhQIvlZOyzJ9pWez8R6KG4h4TKQcazzsyXI
+ EbDubeXebPPEca2HZk5D1pbQaCiUVU2xmK4AAeO8aNxO4xiDyfXNdEpw7g3PBqj711
+ Q2dxfUIq70GD2oV2E3744NsWcJphF6/qC+y0xpp5Rloc7Lf7rEkjbBhSpw8YC1JHes
+ 3G4pPvazugxRY14+wOR6bbgR7Boa2Dxc0PPi8fKfcQ/4jUb0IaY0TVVIx0TR+qMwdR
+ zE1oAOpo2lppw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id DE59FCA0EE6;
+ Tue, 19 Aug 2025 10:59:03 +0000 (UTC)
+From: Maud Spierings via B4 Relay
+ <devnull+maudspierings.gocontroll.com@kernel.org>
+Subject: [PATCH v2 0/4] backlight: add new max25014 backlight driver
+Date: Tue, 19 Aug 2025 12:58:58 +0200
+Message-Id: <20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPZGEKyhn1LLZQ7z04_u6pjTf9Uqy+ycH4t7xYMRe5dDR9Vg2Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPJYpGgC/0XMTQrDIBCG4auEWdeiQ8xPV71HyULsJBESp2iQl
+ ODda9NFd/MOH88BkYKjCLfqgEDJRce+BF4qsLPxEwn3LA0oUcsGG7GavVyqFjXKVveKlBk1lPk
+ r0Oj2k3oMpWcXNw7vU07q+/0hLeo/kpSQQlJnLfXF6+g+sWW/BV6Wq+UVhpzzB8licAOlAAAA
+X-Change-ID: 20250626-max25014-4207591e1af5
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ Maud Spierings <maudspierings@gocontroll.com>, 
+ "Maud Spierings maudspierings"@gocontroll.com
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755601142; l=1984;
+ i=maudspierings@gocontroll.com; s=20250214; h=from:subject:message-id;
+ bh=dqQAaSK5TLp2OGYn22cxx8W1zu8wpnCnRgOi6eRYTh0=;
+ b=tg5vLaPXsGCQxjf7wI8AaH2Njrai8idSmUxnlS+4gXs03tlqp5zKmNQ244mZ5Q/rRknUynI+6
+ VBoeyS3B4V8BW7W09dDMRELXD/LJyG0isydsmFlzv4EHKl325Mc8Pl9
+X-Developer-Key: i=maudspierings@gocontroll.com; a=ed25519;
+ pk=7chUb8XpaTQDvWhzTdHC0YPMkTDloELEC7q94tOUyPg=
+X-Endpoint-Received: by B4 Relay for maudspierings@gocontroll.com/20250214
+ with auth_id=341
+X-Original-From: Maud Spierings <maudspierings@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,8 +82,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: maudspierings@gocontroll.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry for the html attachments, I forgot to set the email to plain text
-based.
+The Maxim MAX25014 is an automotive grade backlight driver IC. Its
+datasheet can be found at [1].
+
+With its integrated boost controller, it can power 4 channels (led
+strings) and has a number of different modes using pwm and or i2c.
+Currently implemented is only i2c control.
+
+link: https://www.analog.com/media/en/technical-documentation/data-sheets/MAX25014.pdf [1]
+
+Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+---
+Changes in v2:
+- Remove leftover unused property from the bindings example
+- Complete the bindings example with all properties
+- Remove some double info from the maxim,iset property
+- Remove platform_data header, fold its data into the max25014 struct
+- Don't force defines to be unsigned
+- Remove stray struct max25014 declaration
+- Remove chipname and device from the max25014 struct
+- Inline the max25014_backlight_register() and strings_mask() functions
+- Remove CONFIG_OF ifdef
+- Link to v1: https://lore.kernel.org/r/20250725-max25014-v1-0-0e8cce92078e@gocontroll.com
+
+---
+Maud Spierings (4):
+      dt-bindings: backlight: Add max25014 bindings
+      backlight: add max25014atg backlight
+      arm64: dts: freescale: moduline-display-av101hdt-a10: add backlight
+      arm64: dts: freescale: moduline-display-av123z7m-n17: add backlight
+
+ .../bindings/leds/backlight/maxim,max25014.yaml    |  79 +++++
+ MAINTAINERS                                        |   6 +
+ ...x8p-ml81-moduline-display-106-av101hdt-a10.dtso |  21 ++
+ ...x8p-ml81-moduline-display-106-av123z7m-n17.dtso |  19 +-
+ drivers/video/backlight/Kconfig                    |   7 +
+ drivers/video/backlight/Makefile                   |   1 +
+ drivers/video/backlight/max25014.c                 | 395 +++++++++++++++++++++
+ 7 files changed, 527 insertions(+), 1 deletion(-)
+---
+base-commit: 886e5e7b0432360842303d587bb4a65d10741ae8
+change-id: 20250626-max25014-4207591e1af5
+
+Best regards,
+-- 
+Maud Spierings <maudspierings@gocontroll.com>
+
+
