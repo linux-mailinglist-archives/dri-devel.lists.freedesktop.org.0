@@ -2,127 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A41B2BB42
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 09:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5B6B2BBC0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 10:25:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1827410E547;
-	Tue, 19 Aug 2025 07:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C59E110E210;
+	Tue, 19 Aug 2025 08:25:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AxHxocTu";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="BCAGezD9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D909410E545
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 07:59:36 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57ILf3fJ024196
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 07:59:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=3vU6X6UmptKEeubZXKONa3UV
- WPBKyO0rvUIh820/nkI=; b=AxHxocTuLdMKi6qPApw02H8p2uKc9/gCfFXp6JIk
- Wxrg9EWZNdMQHKdQ/GGv2JYKe7qTS8dWUR+Rtq93OIlUSzsxpfRzW3p3XtVepfcX
- JpVfAr7f4hw1dJaVE0fuIuL6Na32UrtXQ1xJPFyzQomZHGJ2ialZ88e659HAadkN
- LPlO8t4dh/z0HIlDM/3GgStv0OZoihhuG0ZlG/jvLX0V4dDByjjU2F15jWqb5D7h
- P/JPGcAxltYQo8Y1D+X47NJx3vaEa7Ij643UlrkqccUo0l/EoJ/d1n//w26XENCm
- PF0mlMyRL+L94jXit2BEne4DdAtI+3tEKqM9ks2bk3fpAg==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48mca5hd1a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 07:59:36 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-70a88dd0193so114823106d6.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 00:59:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755590375; x=1756195175;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3vU6X6UmptKEeubZXKONa3UVWPBKyO0rvUIh820/nkI=;
- b=joxj3WcvEziJWU+zwsqLQC9L9axZgdsRgeNaNEVHaastdXslLUGMDib/GTyAdXPSVT
- NMLDokG3aBnnTecbG3ARBOBYFld0QptnQ6j2L0c+2cyZIV8sL2d6DLDl0tv4BEjT/IBy
- lk2uAsuAUtE2ryuPHMDQ3htCk+L9irSFtJeZFsbJbhfP1IYpFfpUCffksuNEZenmR4B+
- P6FReAmEkUdTEHfxqw8ScRWstDTqUtoRi1At2wI98WJfww5TDgahOhUkIXs+isu9lJKm
- XUqxNZ1E+TsSVz9DIp369MqknC1oKou4JFX66iBuoPPiG/bwkAJgvlfVVzlCArw6AotZ
- 98uw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUTg+a3qKeLcMnEedFROYuZapZzRQk2GeiuN2TW3OsiUhzQNPppoUdDJ+q9JZ8IXxvtvw3aIdogoro=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxSZ1Mxr/NJeYfkQ9AHQLTeL5fPtae4KuZqXq4dhTqMFgLWkj7x
- 1eZc+UbuW3n2uPGem+UgQgGFq1PVNBZHS/TtufdT63PAucrQwy1ZJMkFBuNKOMIRkB5qXZxI3/C
- 6yNaGkANVJbh/fPBTpYRupRlqIGOkMD60SO3Fc6l+MQ5jlsqXaDoiT9Bfh9KL4X+N3XcbFFA=
-X-Gm-Gg: ASbGncu78LVNEF7Yof0TBdJUF5a3BgOq3lhAzqa3J8J9kY1vCWr/KPnBTikC63VuhCL
- 5igxBPR1GXTPtbI8mDzuUCIMVBKrSgOvROs2uZBnqgGqu31WixORnDWZQghOl6AYyt03oP9tgNv
- cAO+T//Cp4DMlKUzEsTLiJRVkkzO54/DZSMUUxZY+7ja6ERBCseWMa5re80xXuBxajoE2e+w5G2
- Pj0xabMoRNHCE7u6Vr9qSqB5d2wIwAQo7uGgsgcEMVltN7NQhCGpLXE3GTw6YyRc+yjrEvypeea
- 6+wK7XwkL5TNX2WZEBoelnReyGwwJO1rH5eTy9/1xUWxIZLwDJWWZKdJVhcMrRppiccShYfyULm
- CsZ/sKeWOxd3zUJo2Z+L4HrwtarnBg8so0cQoBvHROVLyZxUC0YSP
-X-Received: by 2002:a05:6214:2249:b0:709:8742:e46e with SMTP id
- 6a1803df08f44-70c35c1f06amr21420386d6.45.1755590374851; 
- Tue, 19 Aug 2025 00:59:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHiMVGZQHvFNLcaq5/1TlbULCLv9YgylRXF8bOeajYtu4DRaeBUMTeUknrqEQR/YcjE19k0Pg==
-X-Received: by 2002:a05:6214:2249:b0:709:8742:e46e with SMTP id
- 6a1803df08f44-70c35c1f06amr21420206d6.45.1755590374394; 
- Tue, 19 Aug 2025 00:59:34 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55cef3f3932sm1968059e87.109.2025.08.19.00.59.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Aug 2025 00:59:33 -0700 (PDT)
-Date: Tue, 19 Aug 2025 10:59:31 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from OS8PR02CU002.outbound.protection.outlook.com
+ (mail-japanwestazon11012060.outbound.protection.outlook.com [40.107.75.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F0BD10E210;
+ Tue, 19 Aug 2025 08:25:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=H1GY305evsEVoz4GcnsEEu39uEKriTSr2avboaFuAPw6BCuvDNgkEZHsr4bctDRoSFq42CFWKdEUeRJrg52R8SQZ+O4N1TZD5PYnnwAeZzAkj8rs18kvo4rzakCUNGAu+PX+Y2VZCaE8cX+yS/8li5ekkKFY3FtlfUodnWIR7jFaw3zhW2lntQLxWKAvpHBfEBYCmKRIzrawIYyH+zlPHfKUwDVP6o3bBKQFK+1bsdJn07zviljymZCobT/+6BvxOXFcQc1zAV9LS5VNvCPTunIAmcO1KVNFEVHqPuPtEoz6UkQNw/qoty2qCgzCyPBpS0gH/G0s8+FeG+BZ09jJGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oSKSdvG+O2n38mstHBMQi8xl7eGuotw6lQL/3rlhg4E=;
+ b=Kf0fSRsa3iWK/EmoC0XYWwhTh/D3Vs0+59qYPbXdRGqh+wCxy2fg0cL2ZS/uMP/oTNz2/Jgfvx0bIlfAe4sK6dyrjBAEpO/35QI62Xl1ZO8ojhRUiv5DIgGoUaUYXTHZcSytTtP2TEZhyEVyGNeFLBDRk2Yn1rd7CvUer3ywfToCrzjLnQRD3T0vXRDCeAxnKjUC2pN0VN45kKkpVb8XSY4kFIS+9s3mDlWFlJMlauHZ3rOx9ske9cSD9UrggqFY7sbwF4EaCt16QqFvjVcr7aeSHH5BmRp0KbdC0vP2HN85V95M9pI8fGLzdsEPVK3yv+5kOsQA/+L3bdJgj7QAag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oSKSdvG+O2n38mstHBMQi8xl7eGuotw6lQL/3rlhg4E=;
+ b=BCAGezD9BnjKLkLsjnc8g/u8qbv+csbt+ejciksSbkyzMvAr+hUJLskSQxiH6+0+87rGXA1rdXTM5vz6lVQLKP22v+sT6pVatRpEl5N0wLqGESY0KtmsCKfGTs2uU+8TC77OUtOW3zPVDiBt/KDZRGAF0zwOi0tc+SMGlPBYlhG4sR/AIM5H2/2AMFU77+KRXQK2NwWGHcfxsPsmaLdI+/VSGwSlxGG+nNJHtL7PoJ/hnKx3bkGY5PYlrxj8eF4yOClUBwHD/HlrmJcvFFl0BwhrKKQ51nDP32Vz6wyCFSSA6kgaHZ+6Gx/UIlmzXAQxOl6MvRYteWzQe6DetSeFSw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
+ by TYZPR06MB6955.apcprd06.prod.outlook.com (2603:1096:405:40::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.23; Tue, 19 Aug
+ 2025 08:25:34 +0000
+Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::5c0a:2748:6a72:99b6]) by SEZPR06MB5576.apcprd06.prod.outlook.com
+ ([fe80::5c0a:2748:6a72:99b6%5]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
+ 08:25:34 +0000
+From: Liao Yuanhong <liaoyuanhong@vivo.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 6/6] drm/msm/dp: Add DisplayPort controller for QCS8300
-Message-ID: <brculyyu3dgc5nkj2cuzv3jkjzcouljy5o4jwr6mw33r6i7gt7@j6ur7yvwmky5>
-References: <20250819-qcs8300_mdss-v7-0-49775ef134f4@oss.qualcomm.com>
- <20250819-qcs8300_mdss-v7-6-49775ef134f4@oss.qualcomm.com>
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>,
+ amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list)
+Cc: Liao Yuanhong <liaoyuanhong@vivo.com>
+Subject: [PATCH] drm/amdgpu/fence: Remove redundant 0 value initialization
+Date: Tue, 19 Aug 2025 16:25:21 +0800
+Message-Id: <20250819082524.526572-1-liaoyuanhong@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TY2PR02CA0070.apcprd02.prod.outlook.com
+ (2603:1096:404:e2::34) To SEZPR06MB5576.apcprd06.prod.outlook.com
+ (2603:1096:101:c9::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250819-qcs8300_mdss-v7-6-49775ef134f4@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=FdU3xI+6 c=1 sm=1 tr=0 ts=68a42ee8 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=Yr_zk0diUUozgDP3y_gA:9 a=CjuIK1q_8ugA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-ORIG-GUID: I-0Sq740UYWgzmvpkeU-QelMLF1h0bgX
-X-Proofpoint-GUID: I-0Sq740UYWgzmvpkeU-QelMLF1h0bgX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE4MDIwMiBTYWx0ZWRfX5po2A4qEULXi
- bKvxJOlgYGZG2ec5dIGsljU/inkLIld9qfv20Jhrpxzb1yiWazSn32/jgHNGUDAWBNG9pca1iLH
- 3PSn2JxeYYYLSZdqGjKySrZ5nrdLyfYHCFbLPNm5cRcJZGE51XoToQyShLStwhsMeqoeeuPe8uK
- 3iLTvigFe+uQsKvFuXpYY09DaZQHlrwHjXgYEv7oGzCvJQiZOzuDHTRUAzYXPQYf+q5GI6h9csE
- vL+YHLf91lVOqzfEYLWO+1Z6Yc8VU55mAq9heBqf79yWRKZNkQfwtlmTlqW+LBGQ1yaqFIWP9/Q
- iahHUccRLLCR+m3f53LcdMMA21794T6CsOa4xbInWpJF4dLafc2xzwatH7iwG5pv5X2eJG6ZiBJ
- I5j6vQ/R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-19_01,2025-08-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 phishscore=0 spamscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508180202
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|TYZPR06MB6955:EE_
+X-MS-Office365-Filtering-Correlation-Id: 571f3d36-0079-4f2b-c9b3-08dddef9f7dd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|52116014|366016|38350700014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7MavI4Rm7/EHoFzucVJxKLjsHS5xpRmPc+6gqS5O59StZ6mlqPRq851bzC09?=
+ =?us-ascii?Q?+ApuqDt+8ywtBsg3yZtyK01l2VnXi6wKSzQrXZnlKetQaUmliNzcmTC4GlzL?=
+ =?us-ascii?Q?G2Oq9IOoftxeOtZhzesAK+sy2WcRLxMAfbIbhMAQHm9bTJCKMlkT8LpN0cHr?=
+ =?us-ascii?Q?fgw8a7gYjjN647d6hx4Hqinu/B2lijkMKfi0Lbehz+blSVlTlYGQWUSkUiKt?=
+ =?us-ascii?Q?DNpD3jrygrXBEPsI1OhUJbnuH9+3srqXXPP4lu5AExR7FxqDlLsnWerZqWxb?=
+ =?us-ascii?Q?46rH8dyN9hfaQCH4CxqVgWa4nvD4zAHF1hkHwoEA+N1wPo2JENx2BPJQ0LvG?=
+ =?us-ascii?Q?fa/3T2BmIQDCljl1uvdndMJHFziRCDL/IEv5I21+eB5UQ08pHlILUNlnobZB?=
+ =?us-ascii?Q?AbmmJlX4iR3obfOTCIjDv6lg9yDpClW9Otk3tL5TnG8kfvMouO0A3clZBKMA?=
+ =?us-ascii?Q?0PuvfvhRRIrMUOLfizqeyrjKQKXh5cqLQYL6COfryy0Hfm+f3N1VKOcQN0KH?=
+ =?us-ascii?Q?7XNs3e/4uf0qt8uYIfy+ZdHQRTiUc8d6jmVzT9lhT2px0VsA4hjGpBvsa6EH?=
+ =?us-ascii?Q?TFnuBjbTNh1Q8HvGBDSWSHuM7HPF6i+l8YLBYIgSzEkwAEZxVqb+uuHBqzJt?=
+ =?us-ascii?Q?WABbMft1CTROOoUhBfhFWVwklNPcZpx/W7/HFOEG0ZYUknnNBfxBcM/tSDiB?=
+ =?us-ascii?Q?q1udxx3MF15NUjnnrlZ/VZPOe6v3LJIy9EWcVmXYkIOSm7Rsamnq9sw7uWre?=
+ =?us-ascii?Q?U27HxGA2D7zKwEic7RWQZyQ/VJlAYQOl6zamsFMHVPVhLdi9SWjE3dXtBOv6?=
+ =?us-ascii?Q?aNBP+B9P4cS9HmnbBxFVu9RVC9tQ5i16s9Xw/1fTs66VjxaeUcU79DRIAD2+?=
+ =?us-ascii?Q?Bk3tCZDowdxGfHjf/sXSt1b0gmrd6tGwK4ZxwfkIONFl3C17pisUsmokEGOi?=
+ =?us-ascii?Q?CnG0oOB+tqGKGEJfIVw26X7qvTY8+WGbK+rQOndUU6TQkl3wLw+6kqAdG1BE?=
+ =?us-ascii?Q?+JCNMX/NGjv36cOalq+YxZ4cQKMRl5RBjFlRjVUC6qvYymVTLVL/Tmmg09BJ?=
+ =?us-ascii?Q?ZwZ8k97MwPg0OB3wQ2cxjXEY0ti+yzfS0TqCGnv9Y1IOSmz1AogIojLZOXW8?=
+ =?us-ascii?Q?uO6sBVxL8LROlEvkm35Hi8EvS/8k9UscaH9Hq/BFUSkx6s3Cwy449PombOiD?=
+ =?us-ascii?Q?gceDtasw/wiwR53+8Kcs9EImILgljJaGPusT4TOV9UviMRrVvWwzPtRmNiVN?=
+ =?us-ascii?Q?+XWjULgF6ZggmyctNMXCnZWFckAYP8cA6PNu1gt29X17yEcbJXsgcdQ7udAB?=
+ =?us-ascii?Q?ke4gZcidMNU9A6GPBcHu8MA2kj/qeG3UD3WTS4jvyjlse5F166X84uDmbW7s?=
+ =?us-ascii?Q?iVALuxs+0L2AG1EkkXjae6S/UPowKMIh5pWUAKM54pYAkZKToCOJqu2LDMpE?=
+ =?us-ascii?Q?ThojgLTv1BEehY00WD3UVsPlyR+LZwPIXO1TO3HaoUj0+ROm+MIELhWTT8yz?=
+ =?us-ascii?Q?5+vl5vHfa2O2ohc=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEZPR06MB5576.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(366016)(38350700014)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Kx0QQVNjrg/jGK/45HGnzG4XllYhAls4bef/0QF7ChS/YOiGLnC5zRmATJjI?=
+ =?us-ascii?Q?XnHJrvesFb9cxHYcsp6ysc9KgYI9tKbzRPZUii2JJ5GAi3caAmljGYnNkbac?=
+ =?us-ascii?Q?QNse3qzC4Gmi6QC+kAiRh5NfkvpMGyqoRg6k3fsRtjQZRIl+QpgjLMgn1nql?=
+ =?us-ascii?Q?L89vOK33NG70YjLl6SDFHwZv9g7Ku7i3NHzYIb1UsyWziN/mMuvx3St0RVIv?=
+ =?us-ascii?Q?zkiHRAtckquNvga/JFEXKFqJRZknSD6Ig4vRuEmll9gqF26kSQMIqguJMRE2?=
+ =?us-ascii?Q?3kXadZi53I4Kyl2B/hhrmmSpORSMBoBPLVCtCeBSMgQ6nHTqSZqXiyQfyfbl?=
+ =?us-ascii?Q?Y/IBrziWZL602hT8xxIrXNilzeOQMQ87NaZ1ZHsXZ+B8mOBwboeoa9L2oHlb?=
+ =?us-ascii?Q?5KoylKAr1juqyqn9HRApnTdmwsWLzwvFs8E187sU16+ADaAEOVDUuAZf1M2H?=
+ =?us-ascii?Q?zT4RbStya2iyxQEXiMwtB/57LdUZXKc2llFcAN10lG67b/R0A2ZuZlstNqdT?=
+ =?us-ascii?Q?44Y1xUErOKOYPe/9jioAn8wYt51pUR5NuZDxRp3dHuBsa0oXnaCELzraZ43b?=
+ =?us-ascii?Q?mFmYIuAeV6Qwck7pMdK3pR4h3N8oJ8pZTw8U0vqYa0K8J2+UePGLrvWMnVnJ?=
+ =?us-ascii?Q?asPShp/Gy1dxNVA368WqpY5AF4fNcPD4zZqpzmRl06GRZ2QgC8u3/uVcUKD5?=
+ =?us-ascii?Q?FU4KDexTd5y/KmVz5t5KGxaY094wmmPYyfW10bbj540tKTDdaXWOjiOmR8lW?=
+ =?us-ascii?Q?RdKR1GLNPHl3jQTNZjjO3F3AVXphqpt+j45fbUccG+d09XTDduvNjDPtoqAK?=
+ =?us-ascii?Q?nN76IyIUcWf9Z0oBmdZVeL4EtgxaOfog5gF6PxWvt9EYxPUBrf2JeGt3ZS1T?=
+ =?us-ascii?Q?gn+D/xrklQougPgCNOe06v7H0uiUmar9wThj94C8ClXr1FcV6OkD0cbQY8sS?=
+ =?us-ascii?Q?UeBA4RUHg5Y019K1zX3HVimViZ3xfjlgyCvPzTTHYe4CQzwiVQJdK29HtjYt?=
+ =?us-ascii?Q?CLRajpLrQk/i4ClXV/PPkEUBCGxDg0pfOLrvEhauyyjyt8ZNQS48s0uVkfS0?=
+ =?us-ascii?Q?u7j3RzWS1aAF8Pl5C3cLPZSHm7MgYrPpVvYUGGFkNGE3+U0+X7szcIL/9YDf?=
+ =?us-ascii?Q?+Mn6dART8/7w/SXXJTf9sO0h+Wb0YIJaJkbv+AKTQX8nPYEFfrLEpGxQ/OHE?=
+ =?us-ascii?Q?4aeLjNrjmhXiZpWPJQ+2l9dNUx9vcZndzxNewY3N+TGqxevocrvm15oLdYa2?=
+ =?us-ascii?Q?ZhQKea/eZqVT2dTUP+t07ypYkUDfpXh/YfniOdK7Js63Qau5kwnujlrTk+Yc?=
+ =?us-ascii?Q?mGqUNUbxdgWTSOLz0gFQKJVer1BNbv9sTma1WwBODAUFTYpn8XfNmWiE3Er7?=
+ =?us-ascii?Q?10HLD50K504axkM8tvmM9g2+Bz7rPJKPIyYRf0oGtRIP29T9HqHwl+ca/rvF?=
+ =?us-ascii?Q?a49feEvk511iAZKSpkDS6vZM+MqamdI+mzR3fqRUhjUjYkq5o86uFEy6YwLv?=
+ =?us-ascii?Q?LAlh9298nS/pYEbR0SvZys4olayV8SPa9jMV5zFJf2+40WVJMNZGedruJBwS?=
+ =?us-ascii?Q?I8XUqkbXUlwvonxUnrfuwHr8KKoOsN3uB/szmc2t?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 571f3d36-0079-4f2b-c9b3-08dddef9f7dd
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 08:25:34.5734 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mUX7WC+iplvNggh7Pi1jZ27Zc+2AEpMCTQvqamCSxIRn22mvtY1pUPics07TF5bjC+nXy2OgnLz1RgX2DVNNdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6955
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,45 +152,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 19, 2025 at 11:33:33AM +0800, Yongxing Mou wrote:
-> The Qualcomm QCS8300 platform comes with one DisplayPort controller
-> with same base offset as SM8650. But it requires new compatible string
-> because QCS8300 controller supports 4 MST streams. 4 MST streams will
-> be enabled as part of MST feature support. Currently, using SM8650 as
-> fallback to enable SST on QCS8300.
+The amdgpu_fence struct is already zeroed by kzalloc(). It's redundant to
+initialize am_fence->context to 0.
 
-Hmm, no, you are not using SM8650 as a fallback. You are using the data
-structure for SM8650 for QCS8300. That's a different thing. It would
-have been using SM8650 as fallback, if you had declared device with two
-compatibles, qcom,qcs8300-dp and qcom,sm8650-dp, and then relied on the
-second entry (only) to provide a match and data.
+Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Exactly the same comment applies to the UBWC patch.
-
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index d87d47cc7ec3eb757ac192c411000bc50b824c59..bb4660585849d1a67921a28e7e12422e0c327ab2 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -187,6 +187,7 @@ static const struct msm_dp_desc msm_dp_desc_x1e80100[] = {
->  };
->  
->  static const struct of_device_id msm_dp_dt_match[] = {
-> +	{ .compatible = "qcom,qcs8300-dp", .data = &msm_dp_desc_sm8650 },
->  	{ .compatible = "qcom,sa8775p-dp", .data = &msm_dp_desc_sa8775p },
->  	{ .compatible = "qcom,sc7180-dp", .data = &msm_dp_desc_sc7180 },
->  	{ .compatible = "qcom,sc7280-dp", .data = &msm_dp_desc_sc7280 },
-> 
-> -- 
-> 2.34.1
-> 
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+index bcb74286a78a..fd8cca241da6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+@@ -120,7 +120,6 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f,
+ 		am_fence = kzalloc(sizeof(*am_fence), GFP_KERNEL);
+ 		if (!am_fence)
+ 			return -ENOMEM;
+-		am_fence->context = 0;
+ 	} else {
+ 		am_fence = af;
+ 	}
 -- 
-With best wishes
-Dmitry
+2.34.1
+
