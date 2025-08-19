@@ -2,74 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51A6B2BD91
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:38:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBACDB2BD92
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 11:38:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17AAD10E562;
-	Tue, 19 Aug 2025 09:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CFDC10E597;
+	Tue, 19 Aug 2025 09:38:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x6K3Z55H";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="APPplgrG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3C6310E29B
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:38:23 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-45a1b04f8b5so25627455e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 02:38:23 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 363E210E581
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 09:38:31 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-3b9dc5c2f0eso3267366f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 02:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755596302; x=1756201102; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1755596310; x=1756201110; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=cQNHUhi6q6rKtdJPu5piFu1Pt6Qdn+yGCZCHH5qFNtA=;
- b=x6K3Z55H/hshTMtvP0SMiDuaiEtEQVSMtiBSJM5hp6ptwfgqVtFBBucK4K9XBcJT1+
- 6kA0ZzN+oUhFnjSfcArRpdN7zFI1zqWrH+FawVpkkl/KaE14DuuNUJIB7BrS7U8tu39y
- gOTq+D5NHEu9xzyU/9L+ZnLtM4DlRtfYs0QCq/l6SdeOI4ARLwQ6xKWIJMafBffyHEfD
- 3x1pkc5eLhXeEk6vhiGBaaixdac94R86K6EDLeb9i3h+2MNU7/nqQU8ALAweGrH0FVBQ
- Gxpm44CR3aA2oSH+SHdrApJb7wLvUvqGMUajEEepGKWegn8cw7Q8iV4jILhBv6M+ezDv
- pJDA==
+ bh=Sz9qrbHKfImiU0wIEPpwysb9Rj1rHIdlAeMbcs31ric=;
+ b=APPplgrG0UkgwZbCxQ3QiGyOF9eAAUgCxyymSqv28W/emAycuvc3F65PWOeh5IA/Au
+ gMTGSQ//GCczYKI8LV3SWnPHRopJVKOq/5l45Df/mgyAl5V0UCVbyE3j1PIuKVNdH1o0
+ hIf8CCJUDwSSR/+b0ENohOMYaP6L5gIkm62nD7n/40JMfhwPSrq32vFz9/p0O+TejEy5
+ +KUEPmugfy6bMAF7dt+qMIKbAd2Ur6SgthdMtT2+DdZI7xp0sOSbfzF5nj2kZe2FmVaV
+ psTnGutYnha9Gk1oBMrsQdGgZdSn19XRyBxu8ZIV3xrSAVxU4T5kK1ZucLF5MdnDGLn5
+ CatQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755596302; x=1756201102;
+ d=1e100.net; s=20230601; t=1755596310; x=1756201110;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cQNHUhi6q6rKtdJPu5piFu1Pt6Qdn+yGCZCHH5qFNtA=;
- b=clK2j/9u4zXhQFIN6Htifx6tu7qHbJWYmy6du+JfM6eF8whiT787Ie7AG6VT38ZNVQ
- 6EPyHvU9FMJpzqCgnsiI92CvggTC2yB2dAKIJVXA7DjXPmhzEAzjf2W+u6k6qqM344dF
- UzE+65FmWddWwg4rrbmK6xRdhusUY8w1LGyRcX+yZ9nAv2/XC4wV2yaWPiKznnKLO0A0
- jKySlcYrm1PhRS4nviYQWVcB4P+2SLSkz/LCZ9pTYtJL9fxVSgA1XmJ+71RGO3C8VdnZ
- dp6LEoYqP4PncPB5nOIcY899pY6s68MXQFVDtk+fqYGLAhheocNw1vg1hc4iVTEFLMcM
- B9ew==
+ bh=Sz9qrbHKfImiU0wIEPpwysb9Rj1rHIdlAeMbcs31ric=;
+ b=vFf7iqaUa1x4KNlIyQ3DjjL5TbJsOggLjeoQ5857VNGrLh6ndNiptEBCrnEZQ3VWqN
+ b02Xlzor5D9z0HoMkd8EHoEdlXwAby7cPT3GTmuSqqd+Qa1c9yFqLGGYvFUPgYCUjlHl
+ b/m7w1ZbNleGM8nYogm+v2E61kwhffBOt3LiyMu417+Oy64dFSKf97sjXSbqCr9mhu59
+ 6v9DcSL5Zk2Cy81gGJKfDAP57E9ero3wlTwWL2BrLOxJzuusRUSN35zibkgpkop7t01M
+ FYu9+zZeNN7pEoh4OhbnwfFj+Ql3F4W+gPEirplcx1xvoBzsEV9raWHBXsNUNJt3gQ3Q
+ Enqg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWRVHFHlNx/QVZwsTFAJIp5IzmErFqqlq8cZrEo5Xufwu4JBRo8SZKfgPFBolvskm7oC2nmB7t6J/o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1EN+xMpWDUFYH8HPYslp/9zx8arMMqPVlwwdFH9ueO0cPK7PT
- j85pf6P4XYFqHJDZtkaq6VSwDlLWdb9Ldqp8e1b30n5qeWfOgZLqgqpadyWIqtED2E4=
-X-Gm-Gg: ASbGncupANxXctKBs3DE5Vdm8sZEKsmtxtu4q55ai1FSldnZMR2EwBweqbaVTakXMgE
- HzTr0lpw2LFThXvBzDr5eqkHTRoSp6G7/5IHj9a96XhKd5RmPax6urJFb5rNCfrhT1Iy8MRMpHA
- wwkoi/x28rf+B9JO7uLNfUjVpABxnNeIEny749pVvlL3OH78HHLNJjqhi166BlG77ETJa7COkbx
- 4Al9sfuKcM7WecK3LEL7SGIjg3hDw9IgePckc9oKKEhxCAXXk/DXcsR0DFrGonEr/5tLP5HTknD
- 3kTihv/HD03xFeGZtSzfd5NRZaC4VrS4vThy00c5arCCifDjZMqwDyaK052VswgRZYSZuiIJtqu
- s4bBA10i/kIIuB8q/UgvrE5IlJXI=
-X-Google-Smtp-Source: AGHT+IGyrjULf+RdvVTDZSXTBxzshpoUU51bE+6aqkNwYFecCzQvOYD+ZNcx9bLMZ5tuTwxDYI9CKA==
-X-Received: by 2002:a05:6000:1449:b0:3a6:d7ec:c701 with SMTP id
- ffacd0b85a97d-3c0ec66078fmr1105498f8f.30.1755596302031; 
- Tue, 19 Aug 2025 02:38:22 -0700 (PDT)
+ AJvYcCUHCW116nHEq425X+JrotdU6XFwQDZVE/c+zeGDIHFU6+v3mHyfP1n0j/NBLoOpmrbAjx4Gqx5Chro=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YytJKRxSzhWRrdsfhd8ODkTroWhs4DXlEaqX4JcrEfH/7HsSUi5
+ WlTfM4DhPIgg37eEOQYsCbFsi3wDHmYN+exti+ZMWfsAVve8dQmA20LHYbNJsYg7WSc=
+X-Gm-Gg: ASbGnctRkLyQo4WMxDkl4sWgPXv/pKtpe01uGs8zbAJnxVEqfhYRfUOhHGUUThOmCu0
+ MvVIPP6/tPkHYQ3RGaxVh1DYKDZ9K0ySomoMQCkGHUoMZ05Q2o8d9txt+SLvWMSeUJ/FO/BjGCb
+ Q/ViRqQQLJ2dkQWlVZvx47xxaAJEPn84vsyCMjvPImUvUoHBxh4c/NYh6m5h2+om2qnZ2KQxnYD
+ VZVM7izDDkcUgv3ShPc7wjKs6wNmRNGhuQDGSCcoiT8iiSF4rtM2eBcI+1WwS23+xL/ciDDcKXw
+ Nxv+s/3Yq74buhwIPhv75Fqb6Hd4POXUUmP36Uc06uZOopravRbfiohTbQwz9bBx3mN/fELpH9a
+ 9Lj408oZcdKG0jhe0YYilMdPKbHU=
+X-Google-Smtp-Source: AGHT+IHlXFQlXQqNpNupwtpvRJnPuKsXYXg5yse55qc7nSnLb1u0RqJ4oB2cIQ0DRGelvNX7cDhImw==
+X-Received: by 2002:a5d:64e8:0:b0:3b8:dabe:bd78 with SMTP id
+ ffacd0b85a97d-3c0ed1f32ffmr1300950f8f.54.1755596309645; 
+ Tue, 19 Aug 2025 02:38:29 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
  by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3c0748798aasm3056876f8f.14.2025.08.19.02.38.21
+ ffacd0b85a97d-3c077789c92sm2905553f8f.52.2025.08.19.02.38.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Aug 2025 02:38:21 -0700 (PDT)
-Date: Tue, 19 Aug 2025 12:38:18 +0300
+ Tue, 19 Aug 2025 02:38:29 -0700 (PDT)
+Date: Tue, 19 Aug 2025 12:38:26 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] drm/plane: Clean up 0 vs NULL issue
-Message-ID: <ffa882934a0c0db3c7d2493a7b030051bfa8f683.1755591666.git.dan.carpenter@linaro.org>
+Subject: [PATCH 2/3] drm/plane: Fix IS_ERR() vs NULL checks in
+ drm_plane_create_hotspot_properties()
+Message-ID: <638f3e0c648c3f7c1e3b61dd180d10dc102f52dd.1755591666.git.dan.carpenter@linaro.org>
 References: <cover.1755591666.git.dan.carpenter@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -90,27 +93,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The create_in_format_blob() function returns pointers, not integers.
-Change the zero to a NULL.
+The drm_property_create_signed_range() function returns NULL on error.  It
+doesn't return error pointers.  Fix the check to match.
 
+Fixes: 8f7179a1027d ("drm/atomic: Add support for mouse hotspots")
 Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
 ---
- drivers/gpu/drm/drm_plane.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is a resend of a patch I sent a year ago.
+https://lore.kernel.org/all/CABQX2QOoq3H=eHdM83_k5vgHiaMu9Zsto=H7S95QHxT-s16jEQ@mail.gmail.com/
+---
+ drivers/gpu/drm/drm_plane.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 38f82391bfda..ad21fc855aea 100644
+index ad21fc855aea..beef2a06bc75 100644
 --- a/drivers/gpu/drm/drm_plane.c
 +++ b/drivers/gpu/drm/drm_plane.c
-@@ -210,7 +210,7 @@ static struct drm_property_blob *create_in_format_blob(struct drm_device *dev,
- 	formats_size = sizeof(__u32) * plane->format_count;
- 	if (WARN_ON(!formats_size)) {
- 		/* 0 formats are never expected */
--		return 0;
-+		return NULL;
+@@ -338,14 +338,14 @@ static int drm_plane_create_hotspot_properties(struct drm_plane *plane)
+ 
+ 	prop_x = drm_property_create_signed_range(plane->dev, 0, "HOTSPOT_X",
+ 						  INT_MIN, INT_MAX);
+-	if (IS_ERR(prop_x))
+-		return PTR_ERR(prop_x);
++	if (!prop_x)
++		return -ENOMEM;
+ 
+ 	prop_y = drm_property_create_signed_range(plane->dev, 0, "HOTSPOT_Y",
+ 						  INT_MIN, INT_MAX);
+-	if (IS_ERR(prop_y)) {
++	if (!prop_y) {
+ 		drm_property_destroy(plane->dev, prop_x);
+-		return PTR_ERR(prop_y);
++		return -ENOMEM;
  	}
  
- 	modifiers_size =
+ 	drm_object_attach_property(&plane->base, prop_x, 0);
 -- 
 2.47.2
 
