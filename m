@@ -2,62 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4562DB2BF0D
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 12:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8BBCB2BF25
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 12:40:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A109C10E58B;
-	Tue, 19 Aug 2025 10:35:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RGGU74g+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA7AA10E591;
+	Tue, 19 Aug 2025 10:40:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98EFC10E58C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 10:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755599758; x=1787135758;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=lEqqlSoiP/VHSItgElRylFsVcFhLCEIOadYg72sdtpg=;
- b=RGGU74g+XiFPUPZkPN6+KLTkmE+0/EWUadngdpU5jse6Ng+6prccgtu2
- 50YqpE6sbUfqV8o72sxdNuSEHL8hb2jm1OYQNwnWRWW7ntMOs6fKExasI
- fFrPUGjmCvWBkOWEwbph9eV0nInbrjo/lcEidVmUnXpq/eFjHsQq/qCtW
- 0ag5z5O1jPcomxIWo3MH9TG9uHh4ckDO9TxAXvPbu9yk7Lsd19K6a9HWT
- B3tZa4YD1y0u3qaN06MUPgVh1/E0GK4z4sqaY585+mYr/b1/ADu2DsdV1
- FlQJh6On//XG1+HjMeOje09msMDu/KNbCCId8HMVSD2HkGnVBopSMNldK Q==;
-X-CSE-ConnectionGUID: NH9PJzg3TlmfnDGLVMlRpQ==
-X-CSE-MsgGUID: MaT9e9q9RpiC/X78+dmVvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="83264729"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; d="scan'208";a="83264729"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Aug 2025 03:35:58 -0700
-X-CSE-ConnectionGUID: geLXWB/pRLuVa4XimsBReA==
-X-CSE-MsgGUID: 3wBDJ+lPRyWBQKn5uSYQUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; d="scan'208";a="167320718"
-Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
- by fmviesa007.fm.intel.com with ESMTP; 19 Aug 2025 03:35:55 -0700
-Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uoJh0-000Gkt-0k;
- Tue, 19 Aug 2025 10:35:51 +0000
-Date: Tue, 19 Aug 2025 18:35:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sidhartha Kumar <sidhartha.kumar@oracle.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- willy@infradead.org, sidhartha.kumar@oracle.com
-Subject: Re: [PATCH 1/6] drm: Convert aux_idr to XArray
-Message-ID: <202508191844.VZB7euYb-lkp@intel.com>
-References: <20250818190046.157962-2-sidhartha.kumar@oracle.com>
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
+ [209.85.217.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2E110E591
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 10:40:48 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id
+ ada2fe7eead31-50f8ba51c85so1739856137.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 03:40:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755600047; x=1756204847;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=doFbpw5H93w6OCFZvWHsPgEA4fiQmo1QkgmSlnIHgck=;
+ b=YiDfpgrqlSFr/U+uamKr8F/KkcMRMCbbIBMPJkG8Bj46lU9UA8GrUz7RodYZNPyDlL
+ AD7dZO9wz2rD4uLQMjjO/fZS1OvuHNXmnlifMvrfEDBFggy972qymX3YnJkH1yE/puxV
+ Jm7tATobIUll+O6iHPvIh0Y53WOmFLmDiXnkRREVymIVBFNrgibG1EpO/eznDZATXNNg
+ wVw9uMtg/SFAT5H0bUDgXMvHbC7e8y2b8zCGC3HSvNgPzq8A8FlSxlZH4crgG6vxchPT
+ iqXoVw6K604NAsJW8Mspc1iUPFTagWq3WU1k59SaOKpyRK6ngWdvyps4qapVPdRvLMWL
+ lCBg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWeO0/P6TE5FtwqOocM7ALIfHSFsiP5B4FMIRvQtWy0fDzPDtAm6drfbITrCw56RrgPcUbRD7iyTgE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwdaiuNFZeLL9rItGPOL1owE8lm5Qhbfnsvl4XdxGQV6HbrBHQc
+ xYEMbnW1BWqi+6fd6qTnJM67o3Z8LZ7nZupjEjC9oQqiOkfK1yT1MPQ/EKkSvJ1y
+X-Gm-Gg: ASbGncu0TnBS7LqJElMgyzeslSEL/h/MFWZKtqtLR0HEtB+dUZmiOeYbH0iS32SyAW6
+ vCg2IMJONDWGV6qMZzU9So/5jzbEoGkcb77mK6vZ+1pd6vm7ZmjhN5+0c2D+5GLatPLY5mLJIST
+ HABuZ/pX+yWKMLEk9gYW0uJrl4HSUsXWomWDkPPQXRSQLP898WJyVBMhKQLlVvAeUs2FDngagRw
+ SOOTa9zJFi4F4Dz+OqPdW7yh4GTIUHAEF0tRJBqpNN5FDfKP4U2IzSrPCRu5ssOGpEB3TJKSRB7
+ j3bl0jIQcRCpm2HGrzw2LiKSM+czSduuoQcPIvARNrRYLnldFDMRBySk+C3AU2WMDJvSTFq4FSF
+ KrVwOfT0EMJNu64TNErXY8B0zeUG03B6Rs+ZlmCNHHslItkZm5GaUDtl/F6XD5AIq
+X-Google-Smtp-Source: AGHT+IG/42P/lCvNALYhNrqSJiOju70j2dgaMetn1iokQ7P+f9DnraWA82HcpCKLV7p+VAYNuDS6fQ==
+X-Received: by 2002:a05:6102:b12:b0:4fa:55e:681f with SMTP id
+ ada2fe7eead31-51924b43be8mr694033137.24.1755600046960; 
+ Tue, 19 Aug 2025 03:40:46 -0700 (PDT)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com.
+ [209.85.221.180]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-890277bea3esm2281741241.3.2025.08.19.03.40.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Aug 2025 03:40:46 -0700 (PDT)
+Received: by mail-vk1-f180.google.com with SMTP id
+ 71dfb90a1353d-53b1738e8e3so3841822e0c.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 03:40:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV99hDY5Np2Z0dW7H/Pm83JbXoufYUbJzaZuO1GkdYhYQ21IvqOlXnX8KRsv7iUWqh9RY3Ucf9ocRg=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:548a:b0:4e6:f7e9:c4a5 with SMTP id
+ ada2fe7eead31-51924b3b1c1mr573466137.22.1755600045268; Tue, 19 Aug 2025
+ 03:40:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250818190046.157962-2-sidhartha.kumar@oracle.com>
+References: <20250728201435.3505594-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250728201435.3505594-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8ujMaFFOv8Jd-5=fKHUEfVji1Xt5y_h4uwtR96TBz4VNA@mail.gmail.com>
+In-Reply-To: <CA+V-a8ujMaFFOv8Jd-5=fKHUEfVji1Xt5y_h4uwtR96TBz4VNA@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 19 Aug 2025 12:40:34 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVFxaCrBu0fAJX3wmY9wdgHn1O8-cVOS6OKN6HGX9v55g@mail.gmail.com>
+X-Gm-Features: Ac12FXz7ywVTeSgdEqc13iyHS6v2zZGzk_1Dft3Db5rZ3MNDTn1vQslXfUK25bs
+Message-ID: <CAMuHMdVFxaCrBu0fAJX3wmY9wdgHn1O8-cVOS6OKN6HGX9v55g@mail.gmail.com>
+Subject: Re: [PATCH v7 4/6] dt-bindings: display: bridge: renesas,dsi:
+ Document RZ/V2H(P) and RZ/V2N
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,70 +104,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sidhartha,
+On Mon, 28 Jul 2025 at 22:28, Lad, Prabhakar <prabhakar.csengg@gmail.com> w=
+rote:
+> On Mon, Jul 28, 2025 at 9:14=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add the compatible string "renesas,r9a09g057-mipi-dsi" for the Renesas
+> > RZ/V2H(P) (R9A09G057) SoC. While the MIPI DSI LINK registers are shared
+> > with the RZ/G2L SoC, the D-PHY register layout differs. Additionally, t=
+he
+> > RZ/V2H(P) uses only two resets compared to three on RZ/G2L, and require=
+s
+> > five clocks instead of six.
+> >
+> > To reflect these hardware differences, update the binding schema to
+> > support the reduced clock and reset requirements for RZ/V2H(P).
+> >
+> > Since the RZ/V2N (R9A09G056) SoC integrates an identical DSI IP to
+> > RZ/V2H(P), the same "renesas,r9a09g057-mipi-dsi" compatible string is
+> > reused for RZ/V2N.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > v6->v7:
+> > - Renamed pllclk to pllrefclk
+> > - Preserved the reviewed by tag from Geert and Krzysztof
+> >
+> - Included support for RZ/V2N in the same patch
+> - Updated commit description.
+>
+> I missed mentioning the above.
 
-kernel test robot noticed the following build errors:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[auto build test ERROR on v6.16]
-[also build test ERROR on next-20250819]
-[cannot apply to drm-exynos/exynos-drm-next linus/master v6.17-rc2 v6.17-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Gr{oetje,eeting}s,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sidhartha-Kumar/drm-Convert-aux_idr-to-XArray/20250819-031755
-base:   v6.16
-patch link:    https://lore.kernel.org/r/20250818190046.157962-2-sidhartha.kumar%40oracle.com
-patch subject: [PATCH 1/6] drm: Convert aux_idr to XArray
-config: x86_64-buildonly-randconfig-002-20250819 (https://download.01.org/0day-ci/archive/20250819/202508191844.VZB7euYb-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250819/202508191844.VZB7euYb-lkp@intel.com/reproduce)
+                        Geert
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508191844.VZB7euYb-lkp@intel.com/
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/display/drm_dp_aux_dev.c:85:5: error: passing 'struct xa_limit' to parameter of incompatible type 'void *'
-      85 |                                 XA_LIMIT(0, DRM_AUX_MINORS - 1), aux_dev, GFP_KERNEL);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/xarray.h:248:30: note: expanded from macro 'XA_LIMIT'
-     248 | #define XA_LIMIT(_min, _max) (struct xa_limit) { .min = _min, .max = _max }
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/xarray.h:872:9: note: passing argument to parameter 'entry' here
-     872 |                 void *entry, struct xa_limit limit, gfp_t gfp)
-         |                       ^
-   1 error generated.
-
-
-vim +85 drivers/gpu/drm/display/drm_dp_aux_dev.c
-
-    71	
-    72	static struct drm_dp_aux_dev *alloc_drm_dp_aux_dev(struct drm_dp_aux *aux)
-    73	{
-    74		struct drm_dp_aux_dev *aux_dev;
-    75		int err;
-    76	
-    77		aux_dev = kzalloc(sizeof(*aux_dev), GFP_KERNEL);
-    78		if (!aux_dev)
-    79			return ERR_PTR(-ENOMEM);
-    80		aux_dev->aux = aux;
-    81		atomic_set(&aux_dev->usecount, 1);
-    82		kref_init(&aux_dev->refcount);
-    83	
-    84		err = xa_alloc(&aux_xa, &aux_dev->index,
-  > 85					XA_LIMIT(0, DRM_AUX_MINORS - 1), aux_dev, GFP_KERNEL);
-    86		if (err < 0) {
-    87			kfree(aux_dev);
-    88			return ERR_PTR(err);
-    89		}
-    90	
-    91		return aux_dev;
-    92	}
-    93	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
