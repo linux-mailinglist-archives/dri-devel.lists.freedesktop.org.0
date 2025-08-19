@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FC2B2C7B7
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 16:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765FDB2C7B8
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 16:57:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F00010E2D3;
-	Tue, 19 Aug 2025 14:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D59A810E329;
+	Tue, 19 Aug 2025 14:57:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="CP4gC+O0";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="XP9qrk7h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7342C10E2D3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 14:57:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69A9810E329
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 14:57:23 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 5A6A920D2A;
- Tue, 19 Aug 2025 16:57:10 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 32D0B20CBF;
+ Tue, 19 Aug 2025 16:57:22 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id w_9U3BbE2EY6; Tue, 19 Aug 2025 16:57:09 +0200 (CEST)
+ id CAeAOB_ffVj2; Tue, 19 Aug 2025 16:57:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1755615429; bh=We7amH1B4SyPPjeaqUpaFP4DU6xAfLuufxsp/dk8cPI=;
+ t=1755615441; bh=OovY0T457rnu6HwHTffxEbBQ+PiGMrWHCs3MBjfdbpA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=CP4gC+O0vh/j1nF/ZcZyYYmcySop5s8U3QTZfohi3qs6XH6StcQwGvga65dWbVvIa
- 52EpDPqf+jmTKk3c/2BbI8XOJ8mHtmn8ymDqJCXbwoS38/tRVVN44fsABM11k0CxgQ
- DyfDJVFmckjZ6OB45AGgSEMwKl1HWQOJ7RAGf7RMvKS8Q64zFZMl7yfQPYJrFHRp8G
- t7a0fEU290lVPra4OiupPycCNTnyiIq5YhIPZQcel9joc7Nk1fSUBNb44yj3d8rVwi
- fcM3P5zwyrMk99e4lLqkXqTHUG+QOtAC2WQ4CZG9VFi/icNfkwLfHUsNmX5bq/HlqF
- 4rrBAT3URohbQ==
+ b=XP9qrk7hMd5UZ8EU3R7DJFvsIBnYlLWWaSQNjhlymXzSGlSXRYh6UTR1BrsxcORx5
+ K1DPRgnjxb24gxezEQfvYFwwIGq93zpRbqxfB1sm/rAeZ96HjduE3cvdCiMKofmkqa
+ hYOOA6mEAvkweOYKbZJUigvDnoYn02y4nEfnxuaY56pxBKm+NdfyjPDbYeDo5vCXXk
+ q1n3aboPflpnWKOS6p3eTXh6/yX8WwxkZ0WIGl/j6de0wRauDnS1HPGPTgAscPjKjy
+ wh6B4zZuM3s6uV7s+4+XSVPAL5QCqxhwlFxtdk7EPehAVnIZF8s0rP+ucWHbo7ahpX
+ BShYuEvW7GhgA==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Tue, 19 Aug 2025 20:26:44 +0530
-Subject: [PATCH v4 1/2] dt-bindings: display: panel: document Synaptics
- TDDI panel
+Date: Tue, 19 Aug 2025 20:26:45 +0530
+Subject: [PATCH v4 2/2] drm: panel: add support for Synaptics TDDI series
+ DSI panels
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250819-panel-synaptics-tddi-v4-1-448f466d16a6@disroot.org>
+Message-Id: <20250819-panel-synaptics-tddi-v4-2-448f466d16a6@disroot.org>
 References: <20250819-panel-synaptics-tddi-v4-0-448f466d16a6@disroot.org>
 In-Reply-To: <20250819-panel-synaptics-tddi-v4-0-448f466d16a6@disroot.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -51,11 +51,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755615411; l=3009;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755615411; l=10510;
  i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
- bh=We7amH1B4SyPPjeaqUpaFP4DU6xAfLuufxsp/dk8cPI=;
- b=KF2t3a6LrkLl90sKyXsE4ARvF2XMo2o4RvpKcOi9iXgz2dunnxjikdRuzCA0/+JEUQDr5Semf
- FIVOGkYJWFlCcxSIC34nT3hnZPavMc+8QAvMKplPmDrx1b5NKESmU4m
+ bh=OovY0T457rnu6HwHTffxEbBQ+PiGMrWHCs3MBjfdbpA=;
+ b=3NgnTNHTQLoNwP/ffsFpPEgDJHpqvoIvo+y39C2r0g2e53BtH9C6jSYoogvs+OZtdCBuH7bw1
+ QFRovkf41C/DRHIql3MzLVGOOBSI54MuzdJ2EB/Hy0Rl21Wqy03aSVF
 X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
  pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,114 +73,334 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document the Synaptics TDDI (Touch/Display Integration) panel hardware.
-Along with the MIPI-DSI panel, these devices also have an in-built LED
-backlight device and a touchscreen, all packed together in a single chip.
-
-Also, add compatibles for supported panels - TD4101 and TD4300. Both
-have the '-panel' suffix so as to remove any ambiguity between the panel
-and touchscreen chips.
+Synaptics TDDI (Touch/Display Integration) panels utilize a single chip
+for display and touch controllers. Implement a simple device driver for
+such panels, along with its built-in LED backlight controller, and add
+support for TD4101 and TD4300 panels in the driver.
 
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
- .../display/panel/synaptics,td4300-panel.yaml      | 89 ++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+ drivers/gpu/drm/panel/Kconfig                |  11 ++
+ drivers/gpu/drm/panel/Makefile               |   1 +
+ drivers/gpu/drm/panel/panel-synaptics-tddi.c | 276 +++++++++++++++++++++++++++
+ 3 files changed, 288 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.yaml b/Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.yaml
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 09b9f7ff9340abb708a503f7564acc46b2faaf7d..b080da939f5e3d11bf4c437ae167480d2721b41f 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -1021,6 +1021,17 @@ config DRM_PANEL_SYNAPTICS_R63353
+ 	  Say Y if you want to enable support for panels based on the
+ 	  Synaptics R63353 controller.
+ 
++config DRM_PANEL_SYNAPTICS_TDDI
++	tristate "Synaptics TDDI display panels"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y if you want to enable support for the Synaptics TDDI display
++	  panels. There are multiple MIPI DSI panels manufactured under the TDDI
++	  namesake, with varying resolutions and data lanes. They also have a
++	  built-in LED backlight and a touch controller.
++
+ config DRM_PANEL_TDO_TL070WSH30
+ 	tristate "TDO TL070WSH30 DSI panel"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index 957555b499968ebbfb55c87d2729ce88b5d48a57..a6e786e2b578e09d95de5b6430eba94c668ee4bc 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -98,6 +98,7 @@ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7703) += panel-sitronix-st7703.o
+ obj-$(CONFIG_DRM_PANEL_SITRONIX_ST7789V) += panel-sitronix-st7789v.o
+ obj-$(CONFIG_DRM_PANEL_SUMMIT) += panel-summit.o
+ obj-$(CONFIG_DRM_PANEL_SYNAPTICS_R63353) += panel-synaptics-r63353.o
++obj-$(CONFIG_DRM_PANEL_SYNAPTICS_TDDI) += panel-synaptics-tddi.o
+ obj-$(CONFIG_DRM_PANEL_SONY_ACX565AKM) += panel-sony-acx565akm.o
+ obj-$(CONFIG_DRM_PANEL_SONY_TD4353_JDI) += panel-sony-td4353-jdi.o
+ obj-$(CONFIG_DRM_PANEL_SONY_TULIP_TRULY_NT35521) += panel-sony-tulip-truly-nt35521.o
+diff --git a/drivers/gpu/drm/panel/panel-synaptics-tddi.c b/drivers/gpu/drm/panel/panel-synaptics-tddi.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..152d94367130e9d80a885fe87a2da53db88e3393
+index 0000000000000000000000000000000000000000..a4b3cbdebb6ca4062c02c6e7ac184f3ec245926a
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.yaml
-@@ -0,0 +1,89 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/synaptics,td4300-panel.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/panel/panel-synaptics-tddi.c
+@@ -0,0 +1,276 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Synaptics TDDI display panel driver.
++ *
++ * Copyright (C) 2025 Kaustabh Chakraborty <kauschluss@disroot.org>
++ */
 +
-+title: Synaptics TDDI Display Panel Controller
++#include <linux/backlight.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
 +
-+maintainers:
-+  - Kaustabh Chakraborty <kauschluss@disroot.org>
++#include <video/mipi_display.h>
 +
-+allOf:
-+  - $ref: panel-common.yaml#
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++#include <drm/drm_probe_helper.h>
 +
-+properties:
-+  compatible:
-+    enum:
-+      - syna,td4101-panel
-+      - syna,td4300-panel
++struct tddi_panel_data {
++	u8 lanes;
++	/* wait timings for panel enable */
++	u8 delay_ms_sleep_exit;
++	u8 delay_ms_display_on;
++	/* wait timings for panel disable */
++	u8 delay_ms_display_off;
++	u8 delay_ms_sleep_enter;
++};
 +
-+  reg:
-+    maxItems: 1
++struct tddi_ctx {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++	struct drm_display_mode mode;
++	struct backlight_device *backlight;
++	const struct tddi_panel_data *data;
++	struct regulator_bulk_data *supplies;
++	struct gpio_desc *reset_gpio;
++	struct gpio_desc *backlight_gpio;
++};
 +
-+  vio-supply:
-+    description: core I/O voltage supply
++static const struct regulator_bulk_data tddi_supplies[] = {
++	{ .supply = "vio" },
++	{ .supply = "vsn" },
++	{ .supply = "vsp" },
++};
 +
-+  vsn-supply:
-+    description: negative voltage supply for analog circuits
++static inline struct tddi_ctx *to_tddi_ctx(struct drm_panel *panel)
++{
++	return container_of(panel, struct tddi_ctx, panel);
++}
 +
-+  vsp-supply:
-+    description: positive voltage supply for analog circuits
++static int tddi_update_status(struct backlight_device *backlight)
++{
++	struct tddi_ctx *ctx = bl_get_data(backlight);
++	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
++	u8 brightness = backlight_get_brightness(backlight);
 +
-+  backlight-gpios:
-+    maxItems: 1
-+    description: backlight enable GPIO
++	if (!ctx->panel.enabled)
++		return 0;
 +
-+  reset-gpios: true
-+  width-mm: true
-+  height-mm: true
-+  panel-timing: true
++	mipi_dsi_dcs_set_display_brightness_multi(&dsi, brightness);
 +
-+required:
-+  - compatible
-+  - reg
-+  - width-mm
-+  - height-mm
-+  - panel-timing
++	return dsi.accum_err;
++}
 +
-+additionalProperties: false
++static int tddi_prepare(struct drm_panel *panel)
++{
++	struct tddi_ctx *ctx = to_tddi_ctx(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++	ret = regulator_bulk_enable(ARRAY_SIZE(tddi_supplies), ctx->supplies);
++	if (ret < 0) {
++		dev_err(dev, "failed to enable regulators: %d\n", ret);
++		return ret;
++	}
 +
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	usleep_range(5000, 6000);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	usleep_range(5000, 6000);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	usleep_range(10000, 11000);
 +
-+        panel@0 {
-+            compatible = "syna,td4300-panel";
-+            reg = <0>;
++	gpiod_set_value_cansleep(ctx->backlight_gpio, 0);
++	usleep_range(5000, 6000);
 +
-+            vio-supply = <&panel_vio_reg>;
-+            vsn-supply = <&panel_vsn_reg>;
-+            vsp-supply = <&panel_vsp_reg>;
++	return 0;
++}
 +
-+            backlight-gpios = <&gpd3 5 GPIO_ACTIVE_LOW>;
-+            reset-gpios = <&gpd3 4 GPIO_ACTIVE_LOW>;
++static int tddi_unprepare(struct drm_panel *panel)
++{
++	struct tddi_ctx *ctx = to_tddi_ctx(panel);
 +
-+            width-mm = <68>;
-+            height-mm = <121>;
++	gpiod_set_value_cansleep(ctx->backlight_gpio, 1);
++	usleep_range(5000, 6000);
 +
-+            panel-timing {
-+                clock-frequency = <144389520>;
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	usleep_range(5000, 6000);
 +
-+                hactive = <1080>;
-+                hsync-len = <4>;
-+                hfront-porch = <120>;
-+                hback-porch = <32>;
++	regulator_bulk_disable(ARRAY_SIZE(tddi_supplies), ctx->supplies);
 +
-+                vactive = <1920>;
-+                vsync-len = <2>;
-+                vfront-porch = <21>;
-+                vback-porch = <4>;
-+            };
-+        };
-+    };
++	return 0;
++}
 +
-+...
++static int tddi_enable(struct drm_panel *panel)
++{
++	struct tddi_ctx *ctx = to_tddi_ctx(panel);
++	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
++	u8 brightness = ctx->backlight->props.brightness;
++
++	mipi_dsi_dcs_write_seq_multi(&dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x0c);
++
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi);
++	mipi_dsi_msleep(&dsi, ctx->data->delay_ms_sleep_exit);
++
++	/* sync the panel with the backlight's brightness level */
++	mipi_dsi_dcs_set_display_brightness_multi(&dsi, brightness);
++
++	mipi_dsi_dcs_set_display_on_multi(&dsi);
++	mipi_dsi_msleep(&dsi, ctx->data->delay_ms_display_on);
++
++	return dsi.accum_err;
++};
++
++static int tddi_disable(struct drm_panel *panel)
++{
++	struct tddi_ctx *ctx = to_tddi_ctx(panel);
++	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
++
++	mipi_dsi_dcs_set_display_off_multi(&dsi);
++	mipi_dsi_msleep(&dsi, ctx->data->delay_ms_display_off);
++
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi);
++	mipi_dsi_msleep(&dsi, ctx->data->delay_ms_sleep_enter);
++
++	return dsi.accum_err;
++}
++
++static int tddi_get_modes(struct drm_panel *panel,
++			  struct drm_connector *connector)
++{
++	struct tddi_ctx *ctx = to_tddi_ctx(panel);
++
++	return drm_connector_helper_get_modes_fixed(connector, &ctx->mode);
++}
++
++static const struct backlight_ops tddi_bl_ops = {
++	.update_status = tddi_update_status,
++};
++
++static const struct backlight_properties tddi_bl_props = {
++	.type = BACKLIGHT_PLATFORM,
++	.brightness = 255,
++	.max_brightness = 255,
++};
++
++static const struct drm_panel_funcs tddi_drm_panel_funcs = {
++	.prepare = tddi_prepare,
++	.unprepare = tddi_unprepare,
++	.enable = tddi_enable,
++	.disable = tddi_disable,
++	.get_modes = tddi_get_modes,
++};
++
++static int tddi_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct tddi_ctx *ctx;
++	int ret;
++
++	ctx = devm_drm_panel_alloc(dev, struct tddi_ctx, panel,
++				   &tddi_drm_panel_funcs, DRM_MODE_CONNECTOR_DSI);
++	if (IS_ERR(ctx))
++		return PTR_ERR(ctx);
++
++	ctx->data = of_device_get_match_data(dev);
++
++	ctx->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, ctx);
++
++	ret = devm_regulator_bulk_get_const(dev, ARRAY_SIZE(tddi_supplies),
++					    tddi_supplies, &ctx->supplies);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to get regulators\n");
++
++	ctx->backlight_gpio = devm_gpiod_get_optional(dev, "backlight", GPIOD_ASIS);
++	if (IS_ERR(ctx->backlight_gpio))
++		return dev_err_probe(dev, PTR_ERR(ctx->backlight_gpio),
++				     "failed to get backlight-gpios\n");
++
++	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS);
++	if (IS_ERR(ctx->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
++				     "failed to get reset-gpios\n");
++
++	ret = of_get_drm_panel_display_mode(dev->of_node, &ctx->mode, NULL);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to get panel timings\n");
++
++	ctx->backlight = devm_backlight_device_register(dev, dev_name(dev), dev,
++							ctx, &tddi_bl_ops,
++							&tddi_bl_props);
++	if (IS_ERR(ctx->backlight))
++		return dev_err_probe(dev, PTR_ERR(ctx->backlight),
++				     "failed to register backlight device");
++
++	dsi->lanes = ctx->data->lanes;
++	dsi->format = MIPI_DSI_FMT_RGB888;
++	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
++			  MIPI_DSI_MODE_VIDEO_NO_HFP;
++
++	ctx->panel.prepare_prev_first = true;
++	drm_panel_add(&ctx->panel);
++
++	ret = devm_mipi_dsi_attach(dev, dsi);
++	if (ret < 0) {
++		drm_panel_remove(&ctx->panel);
++		return dev_err_probe(dev, ret, "failed to attach to DSI host\n");
++	}
++
++	return 0;
++}
++
++static void tddi_remove(struct mipi_dsi_device *dsi)
++{
++	struct tddi_ctx *ctx = mipi_dsi_get_drvdata(dsi);
++
++	drm_panel_remove(&ctx->panel);
++}
++
++static const struct tddi_panel_data td4101_panel_data = {
++	.lanes = 2,
++	/* wait timings for panel enable */
++	.delay_ms_sleep_exit = 100,
++	.delay_ms_display_on = 0,
++	/* wait timings for panel disable */
++	.delay_ms_display_off = 20,
++	.delay_ms_sleep_enter = 90,
++};
++
++static const struct tddi_panel_data td4300_panel_data = {
++	.lanes = 4,
++	/* wait timings for panel enable */
++	.delay_ms_sleep_exit = 100,
++	.delay_ms_display_on = 0,
++	/* wait timings for panel disable */
++	.delay_ms_display_off = 0,
++	.delay_ms_sleep_enter = 0,
++};
++
++static const struct of_device_id tddi_of_device_id[] = {
++	{
++		.compatible = "syna,td4101-panel",
++		.data = &td4101_panel_data,
++	}, {
++		.compatible = "syna,td4300-panel",
++		.data = &td4300_panel_data,
++	}, { }
++};
++MODULE_DEVICE_TABLE(of, tddi_of_device_id);
++
++static struct mipi_dsi_driver tddi_dsi_driver = {
++	.probe = tddi_probe,
++	.remove = tddi_remove,
++	.driver = {
++		.name = "panel-synaptics-tddi",
++		.of_match_table = tddi_of_device_id,
++	},
++};
++module_mipi_dsi_driver(tddi_dsi_driver);
++
++MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
++MODULE_DESCRIPTION("Synaptics TDDI Display Panel Driver");
++MODULE_LICENSE("GPL");
 
 -- 
 2.50.0
