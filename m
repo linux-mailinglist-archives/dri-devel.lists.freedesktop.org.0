@@ -2,182 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46F4B2B72E
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 04:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197F5B2B791
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 05:34:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74F2710E521;
-	Tue, 19 Aug 2025 02:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3418210E1FE;
+	Tue, 19 Aug 2025 03:34:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NKCS2PbP";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CGwL40L6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E38310E51D;
- Tue, 19 Aug 2025 02:45:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755571512; x=1787107512;
- h=date:from:to:cc:subject:message-id:in-reply-to: mime-version;
- bh=CayFT9s7VcOTxRjlaOoNz2kqxx2ROPV3p/+xFr8rw7c=;
- b=NKCS2PbPC90D/kI90J4Txcp41Fx/KZ7oVa4F9w6YAv7GCSJsvHUyD5d2
- nPVs/iP/Hw35kczhdSQO4bXTYzLvYbwjKaAUvf/EnqrzWvkiFscgI2D6f
- IlIMcQhrXoycW37mEX9o9MAlCJTDi4/vLpXqhm4x4w0fuzSswOOj+M9wL
- bvUET4zX8OhYMvFI36e1ocRTC13k1FmwKneNFAwTYoteUyokgJdX/VKNi
- bYc7TzuCQ4iFJGw3hIaJcvTneglnG0h+uct5HaDVIHAP1yGdix5ZPkPhL
- C+2kqiikpkPsLu8kec5DV5Gbh7a/ejPTu6Lgm6ibwtM81SwTAcsOeh/1b Q==;
-X-CSE-ConnectionGUID: MmJms36ET96kj1u3JTuBWQ==
-X-CSE-MsgGUID: PCXEWTJgSsesRNcstwbZ/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11526"; a="57876437"
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; d="scan'208";a="57876437"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2025 19:45:12 -0700
-X-CSE-ConnectionGUID: iOm5DksPTjitZ/uJ3IHZ0Q==
-X-CSE-MsgGUID: zafEqcEGRxeY97/srj4f4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,300,1747724400"; d="scan'208";a="167241211"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Aug 2025 19:45:11 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 18 Aug 2025 19:45:10 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Mon, 18 Aug 2025 19:45:10 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.87)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 18 Aug 2025 19:45:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y06oIgppVj+2q+BvvxBOmAI/+xT66KGAlZ3iKcgrSBfA1q0ydZrzPRQ8KCltaEfE3CfGKDz/IT5IkgdyiomjPtluR//wsvosdSzwBwmxLzPrctGZC84sHinZX2L74LDT4W49rfUIl/KTI/5NYZdmBrnk61qHIpaqkGK1d5lTIbAaO1+vlJ9Dp+NcI4iN+0xIcRLxEE1wtrj/W4GJRqLAPJz98nuMdm6rAuLrYRYHkpRjVWmhKUU0tno5injzeftie7Ih/Inhasm4FS4hocS7vS82rEHp5FzbY8eCKDptfwQOLAnO7+On8UtuvUIkfDgNDiNQ2haEI68NVXk4BmgzgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LVmDpGKhzFy7+qtiUB7NCMogCLhINPZStbkOSeJvbAY=;
- b=udmJ5ywDr/Gymo9O6q2+95WBjX7SB/4SmMDgh66nQwBmbJUsOc9KXYFIJx8Xjde2XCBaTb7x6izOtW1JlLVTcge8bSOmBPocirsk4cHWyXgzURFLJSbtyW2K1V0RexrQEzOem5HdLCBm6waLEVLu2M6ExnRgjcnxUo5hGc9TY/JnUhxr/vEj8qzz4GX2OjAT7VnjEWVFg0PQJegtlMnjecf2PJIr+qFePehAh1pBDkxuO5vZ69AaDWIDazZ3Frcumjff1DDWPlcmDhS1X9NP62W8k/Xlh9lMVjvlsmqS4AKtjc1g+eV1VlE7N8dRC954BvyLbBbjCIQVBYJ5PHJHhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by DS0PR11MB6543.namprd11.prod.outlook.com (2603:10b6:8:d1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Tue, 19 Aug
- 2025 02:45:08 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
- 02:45:08 +0000
-Date: Tue, 19 Aug 2025 10:44:49 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Robin Murphy <robin.murphy@arm.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>,
- <linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
- <linux-s390@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
- <dmaengine@vger.kernel.org>, <linux-fpga@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <coresight@lists.linaro.org>,
- <iommu@lists.linux.dev>, <linux-amlogic@lists.infradead.org>,
- <linux-cxl@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <peterz@infradead.org>, <mingo@redhat.com>,
- <will@kernel.org>, <mark.rutland@arm.com>, <acme@kernel.org>,
- <namhyung@kernel.org>, <alexander.shishkin@linux.intel.com>,
- <jolsa@kernel.org>, <irogers@google.com>, <adrian.hunter@intel.com>,
- <kan.liang@linux.intel.com>, <linux-alpha@vger.kernel.org>,
- <linux-snps-arc@lists.infradead.org>, <imx@lists.linux.dev>,
- <linux-csky@vger.kernel.org>, <loongarch@lists.linux.dev>,
- <linux-mips@vger.kernel.org>, <linux-sh@vger.kernel.org>,
- <sparclinux@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-riscv@lists.infradead.org>, <oliver.sang@intel.com>
-Subject: Re: [PATCH 19/19] perf: Garbage-collect event_init checks
-Message-ID: <202508190403.33c83ece-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ace3532a8a438a96338bf349a27636d8294c7111.1755096883.git.robin.murphy@arm.com>
-X-ClientProxiedBy: SG2P153CA0052.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::21)
- To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB2610E520
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 03:33:58 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57ILfAtj024211
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 03:33:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=ENUwjWediX0THdtA40OPB/
+ h6B8YY9WYqTFCdS0y38fI=; b=CGwL40L62zj7GNu2jTStu3ytqsnU9cu1ylemt6
+ 1RclrS+d67M0thflp1mT9mhPu+OGqObxzyBpGSd849HSKjN16Sq/oBGE4BnSp/+J
+ /9MnWUdzin2PIJw7WLhxOkre2ltKUHPfoe0g5qjzNhonJ+XaYBvJB0M2DryihfBk
+ PfqqPTK825yQSf3lfYPPMg7+c2a/l/0UeABPaRcdsuGvjiCPiX2OcDhjPq05iDr6
+ ot78nOdW3AfTfxtMzCpxZ1Kb1ZJAs5G9yr7w6p4Xueq0IME7LvxcqWdCLQ0LAhrn
+ h0bgW0co5ktpl6uHxmHJeGrUhnfMbuyrdmzhIQNiWVix8RtQ==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48mca5gq7e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 03:33:58 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id
+ d9443c01a7336-24458264c5aso49855355ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Aug 2025 20:33:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755574435; x=1756179235;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ENUwjWediX0THdtA40OPB/h6B8YY9WYqTFCdS0y38fI=;
+ b=vAvBhhMJ/mz5TRQRw0UiKCcvO/3KV4Ls8vIvz8728LJ/EjvPz6WZgXzRianjy2Y7hD
+ qQ4aPVSu/rzJLWPa4yASkOCSjErDZpi3z8KNwHXh2bf3eCGhV+9ZaF5lIbfC51Lqzcxu
+ zuWixIyTdNsMo00S0ueCd1jsmIeOVr2im55FvvTnTcmKiyRXz+Q1/0s6HyBL82puZt+r
+ HfjyrnD97l5EiNl4TjTwqhMQ3JhPlnsPn0utrbDZGm86dIe0XwNOAXDLhIrwmoTL3yLC
+ Lhtx2fUtoVwx3Def+qOGtUgGYPKPuY8Sw9PQzyS+HX+Zc7nVeo4982NKMznC8uX2I7pb
+ +wLQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX8uiKFvRoNHtnoY1K4TgtMJ84S6NJWM9bwlHaqo4/rcIQwIRkUEiaLfqvw8R8ZEOhEYrDYrHZkhto=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw4feJzAqznvQFehWtGPxwnT+SP18Wcw1k0Eo1JBI6QJpbRZlvv
+ DBxSleuMUE+D6lAjBWbmvY2QStyRaE99gyN5u9JsrDWsXetpPPHFWYFfXAVZzMAiuoOdmWCV/Vu
+ gySlp4m/87e08tbq4gSMm/wuQ1LmnmZ4Zat2ajXnUpPL7HdGUpSnAy/16CmFHzpCA7/qi3Tw=
+X-Gm-Gg: ASbGncvaInELBYq6KOA9cxFCo6U5+fY3BJQjikbBrykZ2A5ObJSFANoKxGrgDdkSulh
+ GWaeVSFasJ1m1sRG/1yUnSsGs2yQWOAGuFgAQ+lRPAz7kFA/SCF4gJ10t+V6szBAvm5jr6KVIta
+ kXwlGeFfuERALmDKnr0G9rptp8kShryGonhg+kRepuFgDoIyIrmPXLRUjIZYRjf5zBSjgbUSzHw
+ VpIxeCtuVNJQm+CpJe5uDoE3V22CeFRY5DcHuqXMRAjk5tKY303ZFLTRFcnOIRW0wYiXq/NU0Hb
+ 01HWiMq93J6v1vtEmOOvgmEA4ULE2zi1123jBOpjxPYk1SykXfGCNkYcRjeqVxYMES9UE+U=
+X-Received: by 2002:a17:903:2446:b0:234:986c:66bf with SMTP id
+ d9443c01a7336-245e02ba933mr13364435ad.11.1755574434950; 
+ Mon, 18 Aug 2025 20:33:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHss6c8onEoG6c911yMQzA2sYFqZ4ZMtHctzk2SNONn9jf/tAsbViaKRwP7SeFk8XYsBbF6zQ==
+X-Received: by 2002:a17:903:2446:b0:234:986c:66bf with SMTP id
+ d9443c01a7336-245e02ba933mr13363975ad.11.1755574434385; 
+ Mon, 18 Aug 2025 20:33:54 -0700 (PDT)
+Received: from cse-cd01-lnx.ap.qualcomm.com ([114.94.8.21])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2446d50f55esm94486325ad.82.2025.08.18.20.33.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Aug 2025 20:33:54 -0700 (PDT)
+From: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Subject: [PATCH v7 0/6] Display enablement changes for Qualcomm QCS8300
+ platform
+Date: Tue, 19 Aug 2025 11:33:27 +0800
+Message-Id: <20250819-qcs8300_mdss-v7-0-49775ef134f4@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|DS0PR11MB6543:EE_
-X-MS-Office365-Filtering-Correlation-Id: 990ffba7-1ed5-4d51-0157-08dddeca68dc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|7416014|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OmFKav8wQFOde57dm0yYAgE8GZOyNjuefmLcq/DNhAJ4D4nQn8NGjnNdmYz+?=
- =?us-ascii?Q?6biijlP8EYpqaZ8PGh3A0LPSIAmvOA+E02bp11e8w+T4ug54gUKKkI34rMWV?=
- =?us-ascii?Q?JNC5sUecRPVXhMUnTVSWmaFCvZooncJCmAaXeny1EW64jJpRcjSzQw+5nMxo?=
- =?us-ascii?Q?UeUydE6uZKT1Pq144OAf8yu6dP8ENtgFSD3/0WDWwwApk9UVrsIaKZrAf7O8?=
- =?us-ascii?Q?Tjjzhl0quYJzhShibEAvbwHMM0bIOl0sj/LkShLKNDXRb2nV/mbe/fIPoARG?=
- =?us-ascii?Q?VDp4E8RQdubEShPTdiA78xi9v55mo/ibz8VmzB1Ryb/sI3rbnAFBp8TUXxN1?=
- =?us-ascii?Q?YmLXuJ66b+xuzhovfHELmf+ksqHzn93t8Hk71xKst8ERueBoPMimUQdRNgXX?=
- =?us-ascii?Q?G25xGhsn7eajt2RQzXuFffLwthct14UlPN+Xqr7IG6jYNocabZzsYGA10gjo?=
- =?us-ascii?Q?6TZC5WYy1+vP0lJsymkPrruLjam+BURk9eaw8XwTwvSZZKLBsE5SsaG885Fo?=
- =?us-ascii?Q?L6FIUbQP8kZgJrmu/UjTskzncd1JnSfjm1JlLPmCtRwCNwDodJeNdFKxno2j?=
- =?us-ascii?Q?vNzIw7JFoGwU152XykoQv8MhRJ9snYWmA20GbgIEu+C+wyt30nafMz3W7waV?=
- =?us-ascii?Q?5FKo2xUwwS0VMZ6qZ9x0uKi8zJSalyeRR+Qj6l0tXb3Y+qqym0l7YMYnHUvH?=
- =?us-ascii?Q?IwCUmZGJwsa22lgniuRjzHm5/Bl8PulPmNBqKRvC9VCorB9jPyoQnA9DrXrb?=
- =?us-ascii?Q?P+HMXlY7b2K2XkQ+hE2QCN0A1ag0/vtCIFMA809wZPbeB4GQjgpwtU9iBkd3?=
- =?us-ascii?Q?9rWKVcMr1pBmPBTQnePeH9pJ7VQKGWd0C0Cy4WRQCzlPQFfFiwNCvmZCxjCh?=
- =?us-ascii?Q?rEKJJN7Seg6lq3ddmwY+VZzAmntgSfeDI7rIsrTb8VI+U4m9kLUCe/j/jZ1b?=
- =?us-ascii?Q?ixioSq/gZdgDpb9/60m4DQgOvuWp+LahfXffqeNXHJVpqnEVHDyMXVRZSo49?=
- =?us-ascii?Q?oTV992XkV4921pu9NW7wxALDMdsj4iGKUwjDncDgy09pvEpEFlesF1cnykj3?=
- =?us-ascii?Q?39oGyHdiys1JnAXJAKOM8B1gJ70QpgJ4EfjtNgEBSXNtKt5Oxc5aT6seJqy1?=
- =?us-ascii?Q?hoA9KG5TgTW2xblhaS1rqqeDwyegpfo2WmcWgROh0iAjpsYYmwS2PgBOg6BE?=
- =?us-ascii?Q?TRKbsLJwO9s/NkaEoH2eqcBRFTG9pHn0sKcOnrFaplZGmCwfa2lCWg/xu6P2?=
- =?us-ascii?Q?nQys1VpQONtSUlxXqpSLXcmYuH/rX273178KiLSok1DVAnfvSZdAprjMGkBx?=
- =?us-ascii?Q?4XQeU/AZBYiA5HyNac0ip2S8AzuZGZzg6YT/c5pYqNgdRmskEGROtK9wOlo1?=
- =?us-ascii?Q?Xu+vXKPEwsfROdJPSoUmoTLgxoKU?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LV3PR11MB8603.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/mpHyvf05tpQykGbkuSMQ2VkpxiauNaLbC126L4MJEq9Q2kmzp84kAZxujZW?=
- =?us-ascii?Q?AJx1tpBCnUbtE3gaXZ0L2YVLdftafkH3zOSTGLMs9G4FYoSbcqGT40ktzdIi?=
- =?us-ascii?Q?pa5m/QHTpMm19D1wUg1nhKOVoYJd8WkkuHyEKociBKx+B5T6c6A7h+AEv1k4?=
- =?us-ascii?Q?Mz7L1J6Sc8u3yTY90DwCWWELY6Kx4/BSoeH7IVJXQeruiqIJUi/kI2wOjZxf?=
- =?us-ascii?Q?Q6pm6H6zgVtH8LgEMXacI+nu6pDinajahV9VHjrLoKctRCh6QsMNPNGCK8sU?=
- =?us-ascii?Q?ha6EOiEcMFBcjSnoGlap9+QPkG8QrhBIu7vHiLSOKaLo3RTc3yC8VZDFR6Xz?=
- =?us-ascii?Q?cXWu77uo5TILMV/zH7dOA4nVYLbWnoswJn6ADRsbcuSo8rSI6rANT8QM+Z18?=
- =?us-ascii?Q?odhRr+GL84BQfeQFb4XcK3hvojGynqIo8BA9xFVGF79H/JB9jWHeqX9IuJKN?=
- =?us-ascii?Q?Ju5vSdDZT+hmbyQHTEC167QLL/9Ac1aZOuDRnUA0KdC448q/8kDpcK/HukG7?=
- =?us-ascii?Q?bmwfCGNlhjuvScwrtwzcORPmZQ8flWvCvUj95vaiujQg6OHuTYmCUfUKkPlT?=
- =?us-ascii?Q?FBiSxbPicgHLuh6wHQtOF8eeIK7WxGGkqmVbbRGUGdRTppEaW83tuwB6X4Rm?=
- =?us-ascii?Q?q7c18PXEEwyAS7ckqd3ah14MJKkGlxnlz16Yayp8vPJmF0iC0L3AQUMANYl1?=
- =?us-ascii?Q?UWXyP+YOu42Pq97t/vz5fe6ZPuI4ujJSiSvNEvJNjmN3Fkvy0NhuGRmPTKD6?=
- =?us-ascii?Q?SPRWs+vMu+AER306dQxvupSl/OXEtSqjz/JB2nYMv+aJ06z3in252eLAuNLo?=
- =?us-ascii?Q?BXdMT6agn5b5xbZNdmkpCvyYuR8e1gGEI+myf0QrLc9UWDzU9omkHaWhhEhB?=
- =?us-ascii?Q?+unHXMo+YgbEtu+5awJJvmQF94Bqycpur0uciTOjjf19qI76G2vzXyyZ3iia?=
- =?us-ascii?Q?b+tCwnOcR/Oc/SWL5Wpx44Sd7yLqqv2v9NuLmEruk9nsMUUfJQ4ZwonDdHY2?=
- =?us-ascii?Q?xGcLJJClqS4fHhSO/PzjmepKmKbZUy2ZXNfEnHYT9tW26copR0PQZaFmaM21?=
- =?us-ascii?Q?5uclX8x4ITeOnMhATdLVyV5gsMKeeEesZZauMOci6Yg0hqpzJ6C1qTFH4f9l?=
- =?us-ascii?Q?cZIDNZkFMKJcqPl+RnbstMg5+lsLZ/b1Kr3ynbHnwDnLaWoNYkU3E8FXPq6D?=
- =?us-ascii?Q?tOJiBVvZX9hmbBo5s32ZqXYjYSR5PZXUTfmnZ+gy4R/Y6e4EUGth9kf5rxhv?=
- =?us-ascii?Q?Z+rAnm5TKHeZDuNQHLOS4oe++hVa9K4rG6Hy56a+tu7SX3uUDMFU6IJXl+4l?=
- =?us-ascii?Q?BLnsnoVFL29/HXA++owPrjtj7pc6m4rvaUDwaakzx+W8zBJ8V0UMmJwvA7vO?=
- =?us-ascii?Q?750FYEAv01rKYdyRrRMzS1m9EsWiRM0PgO9rpB27rEMUbKgr56Wk4LgU/r1s?=
- =?us-ascii?Q?DrJAsJsJfR7xVCSYlSAzTt480Vmb8FvTlzoV/a0wacb+y7MTdYbYC6/g4oYb?=
- =?us-ascii?Q?ibViziihw5pjVox5CuWD+tHskwr8sMZLYg5ZHxftn/x9T318DgVCKDzf84Uc?=
- =?us-ascii?Q?6N9W/G0LQ6ypScDLhOPbPYMsrYIhth1BdBgTDt//qqbl5G6JwputhmPKTrOW?=
- =?us-ascii?Q?lw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 990ffba7-1ed5-4d51-0157-08dddeca68dc
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 02:45:08.2760 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A8feBY7qIgCEGcJymNGsn9WNMbmY8eePw8STRyuMn+tEuKRyUGaEgAayeYeo5hBQ1RxRlz3ZZN77XBQTViut1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6543
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAI3wo2gC/2WO3WrDMAxGXyX4eg6yncRpGKPvMUrwj5IZZqeJk
+ tJS+u5z2rGb6UJwPtD5dGeES0BiXXFnC14ChSll0G8Fc18mjciDz8wkyBpa0fLZUasA+uiJuFG
+ NGsCDNWBZPjkvOITrU/d5evGC85at6ytkEYnM09oV77/SmvtzH2ntbUg+pJH4peHAUYva5qlV2
+ xwnonLezLebYizz+tjr/st0fk1LLetSVEqpBrjgud/1tymNcdqOO4Tk/hTWEPJdGtauAFkhHLC
+ qKuulhcYgHrwY1IDaKqGcNtIPwlp2ejx+AFalP806AQAA
+X-Change-ID: 20250818-qcs8300_mdss-a363f0d0ba0b
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Yongxing Mou <yongxing.mou@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755574426; l=4914;
+ i=yongxing.mou@oss.qualcomm.com; s=20241121; h=from:subject:message-id;
+ bh=dVyBNXGz5ma3x0LUn2EkFXAjKM3emel65zhTYxIPsTY=;
+ b=f2dkyFEWMQNkJJzFoYA+d3EhrNPohe3TcMjFLx7zGY61oOt2zLUilCNWQGrSUdIahBi/CC7yg
+ zGx6q8Ie9XZAkryvRVWLqr7rnfdHLMAqpGITYishRnsUe+CC2Vnp61L
+X-Developer-Key: i=yongxing.mou@oss.qualcomm.com; a=ed25519;
+ pk=zeCnFRUqtOQMeFvdwex2M5o0Yf67UHYfwCyBRQ3kFbU=
+X-Authority-Analysis: v=2.4 cv=FdU3xI+6 c=1 sm=1 tr=0 ts=68a3f0a6 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=iD6vXzWbp0dc2yQZ6nwA:9 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: ZtdJAWOFyPQJY31WlmAxJdL9Wz3TFOsE
+X-Proofpoint-GUID: ZtdJAWOFyPQJY31WlmAxJdL9Wz3TFOsE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE4MDIwMiBTYWx0ZWRfX/AUI1qc8ZRu9
+ UMSJPLWTWNuJULoEu4NNGdVwJn7KOZ280QpBo8rw31fIL1fuPrb/lhT9t0tDt0ICEuEXkXyRQgZ
+ su8FawVV0upMvO/7oWziZY3iDpfd4Z5eHHF56JononFDK+wcWNSpcLn+udZe7a3Gj+eo07BRNs4
+ Ly/xmwWY381h4vL7o/xCY9/2z6hETLGL7p9QgIsGkheufjgUFFvQ3diqf+lWQGuvGrGT55GX622
+ T/NPbQCkxwYCRIs7AO5vvwbCUkl8sRFxCweg+F2n/mMTwI3mhiq50WFrX8lUcXXbSPi6RA5kN7r
+ gTCyoqtAUPKJNtumBSIxNgs8m8Syf5MjDZ7lr/ggyVpv+v/7gyGBHKVxKHvuBwQAV7q11+AElp9
+ kRoyatUb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-19_01,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1011 phishscore=0 spamscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508180202
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,169 +149,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series introduces support to enable the Mobile Display Subsystem (MDSS)
+, Display Processing Unit (DPU), DisplayPort controller for the Qualcomm
+QCS8300 target. It includes the addition of the hardware catalog, compatible
+string, and their YAML bindings.
 
+Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+---
+Changes in v7: Fixed review comments from Dmitry.
+- Rebase to next-20250818 and 4 pixel stream series V6.
+- Add more description for the dp-controller dt-bingding change.[Dmitry]
+- Reorder the MDSS change and UBWC change.[Dmitry]
+- Switch to the OSS email.
+- Link to v6: https://lore.kernel.org/r/20250806-mdssdt_qcs8300-v6-0-dbc17a8b86af@quicinc.com
 
-Hello,
+Changes in v6: Fixed review comments from Konrad, Dmitry.
+- Rewrite commit msg in dp-controller dt-binding change.[Dmitry]
+- Optimize the description in MDSS dt-binding.[Dmitry]
+- Pass the sc8280xp_data as fallback in the UBWC change.[Konrad]
+- Add the DP controller driver change.
+- Link to v5: https://lore.kernel.org/r/20250730-mdssdt_qcs8300-v5-0-bc8ea35bbed6@quicinc.com
 
-kernel test robot noticed "BUG:unable_to_handle_page_fault_for_address" on:
+Changes in v5:Fixed review comments from Krzysztof, Dmitry.
+- Rebase to next-20250717.
+- Change DP compatible to qcs8300-dp due to add 4 streams support.
+- Add QCS8300 UBWC config change due to rebase.
+- Add 4 streams clk and phy in the mdss yaml.
+- Link to v4: https://lore.kernel.org/r/20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com
 
-commit: 1ba20479196e5af3ebbedf9321de6b26f2a0cdd3 ("[PATCH 19/19] perf: Garbage-collect event_init checks")
-url: https://github.com/intel-lab-lkp/linux/commits/Robin-Murphy/perf-arm-cmn-Fix-event-validation/20250814-010626
-base: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git 91325f31afc1026de28665cf1a7b6e157fa4d39d
-patch link: https://lore.kernel.org/all/ace3532a8a438a96338bf349a27636d8294c7111.1755096883.git.robin.murphy@arm.com/
-patch subject: [PATCH 19/19] perf: Garbage-collect event_init checks
+Changes in v4:Fixed review comments from Krzysztof, Dmitry.
+- Use the common style for the dt-bindings commits.[Dmitry]
+- Update the commits msg for the mdss binding patch, explain why they
+  reuse different platform drivers.[Krzysztof]
+- Link to v3: https://lore.kernel.org/r/20250113-mdssdt_qcs8300-v3-0-6c8e93459600@quicinc.com
 
-in testcase: perf-sanity-tests
-version: 
-with following parameters:
+Changes in v3:Fixed review comments from Krzysztof, Dmitry.
+- Fix the missing space issue in commit message.[Krzysztof]
+- Separate the patch for the phy from this series.[Dmitry]
+- Remove unused dependencies and update in the cover letter.[Dmitry][Krzysztof]
+- Link to v2: https://lore.kernel.org/r/20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com
 
-	perf_compiler: clang
-	group: group-02
+Changes in v2:Fixed review comments from Krzysztof, Dmitry, Rob.
+- Decouple the devicetree changes from this series.[Dmitry][Krzysztof]
+- Drop the dpu driver changes and reuse SA8775P DPU driver.[Dmitry]
+- Fix compilation issues in MDSS bindings.[Rob][Krzysztof]
+- Correct formatting errors and remove unnecessary status in MDSS
+  bindings.[Krzysztof]
+- Add the the necessary information in MDSS changes commit msg.[Dmitry]
+- Rebase MDSS driver changes to https://lore.kernel.org/dri-devel/
+  20241127-msm-mdss-ubwc-v3-0-9782a7c2b023@linaro.org/.[Dmitry]
+- Package the DisplayPort controller and eDP PHY bindings document to
+  this patch series.
+- Collecting MDSS changes reviewd-by Dmitry.
+- Reuse the sa8775p eDP PHY as a fallback compat.[Dmitry]
+- Reuse the sm8650 DP controller as a fallback compat.[Dmitry]
+- Link to v1: https://lore.kernel.org/r/20241127-mdss_qcs8300-v1-0-29b2c3ee95b8@quicinc.com
+---
+This series depend on 4 pixel streams dt-binding series:
+https://lore.kernel.org/all/20250815-dp_mst_bindings-v6-0-e715bbbb5386@oss.qualcomm.com/
 
+and separate eDP PHY binding:
+https://lore.kernel.org/all/20250730072725.1433360-1-quic_yongmou@quicinc.com/
 
+---
+Yongxing Mou (6):
+      dt-bindings: display/msm: Document the DPU for QCS8300
+      dt-bindings: display/msm: dp-controller: document QCS8300 compatible
+      dt-bindings: display/msm: Document MDSS on QCS8300
+      soc: qcom: ubwc: Add QCS8300 UBWC cfg
+      drm/msm: mdss: Add QCS8300 support
+      drm/msm/dp: Add DisplayPort controller for QCS8300
 
-config: x86_64-rhel-9.4-bpf
-compiler: gcc-12
-test machine: 8 threads 1 sockets Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz (Kaby Lake) with 32G memory
+ .../bindings/display/msm/dp-controller.yaml        |   5 +-
+ .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 282 +++++++++++++++++++++
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml      |  15 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |   1 +
+ drivers/gpu/drm/msm/msm_mdss.c                     |   1 +
+ drivers/soc/qcom/ubwc_config.c                     |   1 +
+ 6 files changed, 299 insertions(+), 6 deletions(-)
+---
+base-commit: 024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+change-id: 20250818-qcs8300_mdss-a363f0d0ba0b
+prerequisite-message-id: <20250815-dp_mst_bindings-v6-0-e715bbbb5386@oss.qualcomm.com>
+prerequisite-patch-id: ffeeb0739a4b3d310912f4bb6c0bd17802818879
+prerequisite-patch-id: f0f92109d1bfffa6a1142f2aaecbd72a29b858c0
+prerequisite-patch-id: 9cabb6be69b17e8580a2cffc7aa2709106cc1adf
+prerequisite-patch-id: a389a2e4eca44bf62bb2c861c96596368be7a021
+prerequisite-patch-id: 4f02ab9314f95984ab7dc9b852ba4d6c676746a7
+prerequisite-patch-id: 62d643df7c88d8db2279def1e4b63a605e9145c0
+prerequisite-message-id: <20250730072725.1433360-1-quic_yongmou@quicinc.com>
+prerequisite-patch-id: 2ea89bba3c9c6ba37250ebd947c1d4acedc78a5d
 
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202508190403.33c83ece-lkp@intel.com
-
-
-[  307.132412][ T7614] BUG: unable to handle page fault for address: ffffffff8674015c
-[  307.140048][ T7614] #PF: supervisor read access in kernel mode
-[  307.145926][ T7614] #PF: error_code(0x0000) - not-present page
-[  307.151801][ T7614] PGD 819477067 P4D 819477067 PUD 819478063 PMD 1002c3063 PTE 800ffff7e48bf062
-[  307.160663][ T7614] Oops: Oops: 0000 [#1] SMP KASAN PTI
-[  307.165931][ T7614] CPU: 0 UID: 0 PID: 7614 Comm: perf Tainted: G          I         6.17.0-rc1-00048-g1ba20479196e #1 PREEMPT(voluntary)
-[  307.178456][ T7614] Tainted: [I]=FIRMWARE_WORKAROUND
-[  307.183459][ T7614] Hardware name: Dell Inc. OptiPlex 7050/062KRH, BIOS 1.2.0 12/22/2016
-[ 307.191609][ T7614] RIP: 0010:uncore_pmu_event_init (arch/x86/events/intel/uncore.c:141 arch/x86/events/intel/uncore.c:739) intel_uncore 
-[ 307.198867][ T7614] Code: c1 4c 63 ab 0c 03 00 00 4a 8d 3c ed a0 3e c8 83 e8 17 de 3a c1 4e 03 24 ed a0 3e c8 83 49 8d bc 24 fc 00 00 00 e8 a2 dc 3a c1 <45> 8b a4 24 fc 00 00 00 44 3b 25 03 3d 35 00 0f 83 5b 04 00 00 48
-All code
-========
-   0:	c1 4c 63 ab 0c       	rorl   $0xc,-0x55(%rbx,%riz,2)
-   5:	03 00                	add    (%rax),%eax
-   7:	00 4a 8d             	add    %cl,-0x73(%rdx)
-   a:	3c ed                	cmp    $0xed,%al
-   c:	a0 3e c8 83 e8 17 de 	movabs 0xc13ade17e883c83e,%al
-  13:	3a c1 
-  15:	4e 03 24 ed a0 3e c8 	add    -0x7c37c160(,%r13,8),%r12
-  1c:	83 
-  1d:	49 8d bc 24 fc 00 00 	lea    0xfc(%r12),%rdi
-  24:	00 
-  25:	e8 a2 dc 3a c1       	call   0xffffffffc13adccc
-  2a:*	45 8b a4 24 fc 00 00 	mov    0xfc(%r12),%r12d		<-- trapping instruction
-  31:	00 
-  32:	44 3b 25 03 3d 35 00 	cmp    0x353d03(%rip),%r12d        # 0x353d3c
-  39:	0f 83 5b 04 00 00    	jae    0x49a
-  3f:	48                   	rex.W
-
-Code starting with the faulting instruction
-===========================================
-   0:	45 8b a4 24 fc 00 00 	mov    0xfc(%r12),%r12d
-   7:	00 
-   8:	44 3b 25 03 3d 35 00 	cmp    0x353d03(%rip),%r12d        # 0x353d12
-   f:	0f 83 5b 04 00 00    	jae    0x470
-  15:	48                   	rex.W
-[  307.218475][ T7614] RSP: 0018:ffff8881b30ef8d8 EFLAGS: 00010246
-[  307.224450][ T7614] RAX: 0000000000000000 RBX: ffff8881193547b8 RCX: dffffc0000000000
-[  307.232353][ T7614] RDX: 0000000000000007 RSI: ffffffffc05230ae RDI: ffffffff8674015c
-[  307.240255][ T7614] RBP: ffff88810468d000 R08: 0000000000000000 R09: fffffbfff0ae31b4
-[  307.248151][ T7614] R10: ffffffff85718da7 R11: 0000000067e9e64c R12: ffffffff86740060
-[  307.256042][ T7614] R13: ffffffffffffffff R14: ffff888119354890 R15: ffffffff81727da9
-[  307.263933][ T7614] FS:  00007f54bdb88880(0000) GS:ffff8887a24e8000(0000) knlGS:0000000000000000
-[  307.272787][ T7614] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  307.279279][ T7614] CR2: ffffffff8674015c CR3: 00000002e3e06003 CR4: 00000000003726f0
-[  307.287168][ T7614] Call Trace:
-[  307.290337][ T7614]  <TASK>
-[ 307.293157][ T7614] ? perf_init_event (include/linux/rcupdate.h:331 include/linux/rcupdate.h:841 include/linux/rcupdate.h:1155 kernel/events/core.c:12690) 
-[ 307.298005][ T7614] perf_try_init_event (kernel/events/core.c:12579) 
-[ 307.303538][ T7614] ? perf_init_event (include/linux/rcupdate.h:331 include/linux/rcupdate.h:841 include/linux/rcupdate.h:1155 kernel/events/core.c:12690) 
-[ 307.308370][ T7614] perf_init_event (kernel/events/core.c:12697) 
-[ 307.313031][ T7614] perf_event_alloc (kernel/events/core.c:12972) 
-[ 307.317862][ T7614] ? __pfx_perf_event_output_forward (kernel/events/core.c:8496) 
-[ 307.323919][ T7614] ? __lock_release+0x5d/0x160 
-[ 307.329194][ T7614] __do_sys_perf_event_open (kernel/events/core.c:13492) 
-[ 307.334732][ T7614] ? __pfx___do_sys_perf_event_open (kernel/events/core.c:13374) 
-[ 307.340702][ T7614] ? trace_contention_end (include/trace/events/lock.h:122 (discriminator 21)) 
-[ 307.345808][ T7614] ? lock_acquire (kernel/locking/lockdep.c:470 kernel/locking/lockdep.c:5870 kernel/locking/lockdep.c:5825) 
-[ 307.350379][ T7614] ? find_held_lock (kernel/locking/lockdep.c:5350) 
-[ 307.354947][ T7614] ? rcu_is_watching (arch/x86/include/asm/atomic.h:23 include/linux/atomic/atomic-arch-fallback.h:457 include/linux/context_tracking.h:128 kernel/rcu/tree.c:751) 
-[ 307.359623][ T7614] do_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94) 
-[ 307.364020][ T7614] ? __do_sys_perf_event_open (include/linux/srcu.h:167 include/linux/srcu.h:375 include/linux/srcu.h:479 kernel/events/core.c:13454) 
-[ 307.369726][ T7614] ? __lock_release+0x5d/0x160 
-[ 307.375006][ T7614] ? __do_sys_perf_event_open (include/linux/srcu.h:167 include/linux/srcu.h:375 include/linux/srcu.h:479 kernel/events/core.c:13454) 
-[ 307.380713][ T7614] ? lock_release (kernel/locking/lockdep.c:470 kernel/locking/lockdep.c:5891) 
-[ 307.385194][ T7614] ? __srcu_read_unlock (kernel/rcu/srcutree.c:770) 
-[ 307.390112][ T7614] ? __do_sys_perf_event_open (include/linux/srcu.h:377 include/linux/srcu.h:479 kernel/events/core.c:13454) 
-[ 307.395823][ T7614] ? __pfx___do_sys_perf_event_open (kernel/events/core.c:13374) 
-[ 307.401798][ T7614] ? rcu_is_watching (arch/x86/include/asm/atomic.h:23 include/linux/atomic/atomic-arch-fallback.h:457 include/linux/context_tracking.h:128 kernel/rcu/tree.c:751) 
-[ 307.406455][ T7614] ? trace_irq_enable+0xac/0xe0 
-[ 307.412248][ T7614] ? rcu_is_watching (arch/x86/include/asm/atomic.h:23 include/linux/atomic/atomic-arch-fallback.h:457 include/linux/context_tracking.h:128 kernel/rcu/tree.c:751) 
-[ 307.416904][ T7614] ? trace_irq_enable+0xac/0xe0 
-[ 307.422698][ T7614] ? rcu_is_watching (arch/x86/include/asm/atomic.h:23 include/linux/atomic/atomic-arch-fallback.h:457 include/linux/context_tracking.h:128 kernel/rcu/tree.c:751) 
-[ 307.427355][ T7614] ? trace_irq_enable+0xac/0xe0 
-[ 307.433149][ T7614] ? do_syscall_64 (arch/x86/entry/syscall_64.c:113) 
-[ 307.437808][ T7614] ? handle_mm_fault (include/linux/rcupdate.h:341 include/linux/rcupdate.h:871 include/linux/memcontrol.h:981 include/linux/memcontrol.h:987 mm/memory.c:6229 mm/memory.c:6390) 
-[ 307.442652][ T7614] ? __lock_release+0x5d/0x160 
-[ 307.447923][ T7614] ? find_held_lock (kernel/locking/lockdep.c:5350) 
-[ 307.452491][ T7614] ? rcu_is_watching (arch/x86/include/asm/atomic.h:23 include/linux/atomic/atomic-arch-fallback.h:457 include/linux/context_tracking.h:128 kernel/rcu/tree.c:751) 
-[ 307.457151][ T7614] ? trace_irq_enable+0xac/0xe0 
-[ 307.462954][ T7614] ? do_syscall_64 (arch/x86/entry/syscall_64.c:113) 
-[ 307.467631][ T7614] ? lock_release (kernel/locking/lockdep.c:470 kernel/locking/lockdep.c:5891) 
-[ 307.472122][ T7614] ? do_user_addr_fault (arch/x86/include/asm/atomic.h:93 include/linux/atomic/atomic-arch-fallback.h:949 include/linux/atomic/atomic-instrumented.h:401 include/linux/refcount.h:389 include/linux/refcount.h:432 include/linux/mmap_lock.h:143 include/linux/mmap_lock.h:267 arch/x86/mm/fault.c:1338) 
-[ 307.477225][ T7614] ? rcu_is_watching (arch/x86/include/asm/atomic.h:23 include/linux/atomic/atomic-arch-fallback.h:457 include/linux/context_tracking.h:128 kernel/rcu/tree.c:751) 
-[ 307.481892][ T7614] ? trace_irq_enable+0xac/0xe0 
-[ 307.487692][ T7614] ? lockdep_hardirqs_on_prepare (kernel/locking/lockdep.c:4351 kernel/locking/lockdep.c:4410) 
-[ 307.493487][ T7614] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:130) 
-[  307.499281][ T7614] RIP: 0033:0x7f54c9b4d719
-[ 307.503585][ T7614] Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d b7 06 0d 00 f7 d8 64 89 01 48
-All code
-========
-   0:	08 89 e8 5b 5d c3    	or     %cl,-0x3ca2a418(%rcx)
-   6:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
-   d:	00 00 00 
-  10:	90                   	nop
-  11:	48 89 f8             	mov    %rdi,%rax
-  14:	48 89 f7             	mov    %rsi,%rdi
-  17:	48 89 d6             	mov    %rdx,%rsi
-  1a:	48 89 ca             	mov    %rcx,%rdx
-  1d:	4d 89 c2             	mov    %r8,%r10
-  20:	4d 89 c8             	mov    %r9,%r8
-  23:	4c 8b 4c 24 08       	mov    0x8(%rsp),%r9
-  28:	0f 05                	syscall
-  2a:*	48 3d 01 f0 ff ff    	cmp    $0xfffffffffffff001,%rax		<-- trapping instruction
-  30:	73 01                	jae    0x33
-  32:	c3                   	ret
-  33:	48 8b 0d b7 06 0d 00 	mov    0xd06b7(%rip),%rcx        # 0xd06f1
-  3a:	f7 d8                	neg    %eax
-  3c:	64 89 01             	mov    %eax,%fs:(%rcx)
-  3f:	48                   	rex.W
-
-Code starting with the faulting instruction
-===========================================
-   0:	48 3d 01 f0 ff ff    	cmp    $0xfffffffffffff001,%rax
-   6:	73 01                	jae    0x9
-   8:	c3                   	ret
-   9:	48 8b 0d b7 06 0d 00 	mov    0xd06b7(%rip),%rcx        # 0xd06c7
-  10:	f7 d8                	neg    %eax
-  12:	64 89 01             	mov    %eax,%fs:(%rcx)
-  15:	48                   	rex.W
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20250819/202508190403.33c83ece-lkp@intel.com
-
-
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 
