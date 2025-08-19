@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0E6B2CDC2
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 22:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FAEB2CDD9
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Aug 2025 22:30:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50F4C10E20D;
-	Tue, 19 Aug 2025 20:27:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D164910E668;
+	Tue, 19 Aug 2025 20:30:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pmCFTRj3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="evk13QPM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67BF210E20D
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 20:27:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F88B10E21B
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Aug 2025 20:30:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 87C8A613EF;
- Tue, 19 Aug 2025 20:27:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 166F6C4CEF1;
- Tue, 19 Aug 2025 20:27:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 21B3A5C5BD5;
+ Tue, 19 Aug 2025 20:30:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E42CC4CEF1;
+ Tue, 19 Aug 2025 20:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755635243;
- bh=oIDpHueO9zGTm/sfs/uw7A7+IqTRVGpRNQrkAMXBRsk=;
+ s=k20201202; t=1755635408;
+ bh=ZR2C8Q08ABDZQ88UJtSosGwmMAl53VIxN5VzyU/juXw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pmCFTRj3iZCCkzA57BGea3AnymZmNXaIgJtP0674gt4uZi6udBFgB8yVncHIR7+Ke
- pIgNDFO1IJi9rf3m2tnECTQ6YY2zQBPPLeKDGzBAnqTKtRxfCMB8cpEVItQLdjo8SH
- wHONffK+o4aqaRMEUXiGaFgeuLHVWfxOD2GoakCdmi06QMXdGE6K5KF6iIMz97nC1G
- jnBGlEfBr49Ae10eKlKgXjHv6E1xEcvq18BPlIpq7yfp5uM+HvUYy36KbwBP3kf7Mr
- DJMx/i+tW6w0FNinu33Pdly+YTqdhMtGe9/A11KzN2Kgv2lHIlAalqpLRg2ygW6JVZ
- 6ApwOp+YhQLAA==
-Date: Tue, 19 Aug 2025 15:27:22 -0500
+ b=evk13QPMGD+oT9KokhawGFp/+Z/Fucf/SyvYEV+8YhumHAA2weEBBUVoDt5tAdcvM
+ nVR88XBOqLRsTVhXJeEwhZf5F376YoLKPmmGxTY+XL2Yo1L2XZYgaOlIJVEkXJ42Qt
+ 3uNLB/DiIZgCXR+zTJY+R68PcSkExfyNNdZdV798hpROEhq3Q5l085149ns0eHc8Tj
+ ambGWSAuR6X9ytxpfCBxxh8wDfwgIgb348eqoWqJ0CHjsnuxmmQjqOityJJVWfyVEk
+ jqOYh6XPR1hxOVJAiAPHOM8mvB+cm/KO/KGtKxAWaTxEGK2GUmYm6KeD1iX8mUGzcH
+ FaVJSYdn2jGsQ==
+Date: Tue, 19 Aug 2025 15:30:07 -0500
 From: Rob Herring <robh@kernel.org>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
@@ -57,14 +57,15 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 04/19] dt-bindings: display: tegra: document Tegra30 VIP
-Message-ID: <20250819202722.GA1264491-robh@kernel.org>
+Subject: Re: [PATCH v1 17/19] dt-bindings: display: tegra: document Tegra20
+ and Tegra30 CSI
+Message-ID: <20250819203007.GA1266319-robh@kernel.org>
 References: <20250819121631.84280-1-clamor95@gmail.com>
- <20250819121631.84280-5-clamor95@gmail.com>
+ <20250819121631.84280-18-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819121631.84280-5-clamor95@gmail.com>
+In-Reply-To: <20250819121631.84280-18-clamor95@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,30 +81,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 19, 2025 at 03:16:16PM +0300, Svyatoslav Ryhel wrote:
-> Parallel VI interface found in Tegra30 is exactly the same as Tegra20 has.
-
-That's not what the compatible schema says. 'exactly the same' implies a 
-fallback to whatever it is exactly the same as.
-
+On Tue, Aug 19, 2025 at 03:16:29PM +0300, Svyatoslav Ryhel wrote:
+> Document CSI hw block found in Tegra20 and Tegra30 SoC.
 > 
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->  .../devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml    | 1 +
->  1 file changed, 1 insertion(+)
+>  .../display/tegra/nvidia,tegra210-csi.yaml    | 78 +++++++++++++++----
+>  1 file changed, 63 insertions(+), 15 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> index 14294edb8d8c..39e9b3297dbd 100644
-> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml
-> @@ -13,6 +13,7 @@ properties:
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
+> index fa07a40d1004..a5669447a33b 100644
+> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
+> @@ -16,30 +16,78 @@ properties:
+>  
 >    compatible:
 >      enum:
->        - nvidia,tegra20-vip
-> +      - nvidia,tegra30-vip
+> +      - nvidia,tegra20-csi
+> +      - nvidia,tegra30-csi
+>        - nvidia,tegra210-csi
 >  
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
-> -- 
-> 2.48.1
-> 
+>    reg:
+>      maxItems: 1
+>  
+> -  clocks:
+> -    items:
+> -      - description: module clock
+> -      - description: A/B lanes clock
+> -      - description: C/D lanes clock
+> -      - description: E lane clock
+> -      - description: test pattern generator clock
+> -
+> -  clock-names:
+> -    items:
+> -      - const: csi
+> -      - const: cilab
+> -      - const: cilcd
+> -      - const: cile
+> -      - const: csi_tpg
+> +  clocks: true
+> +  clock-names: true
+>  
+>    power-domains:
+>      maxItems: 1
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - nvidia,tegra20-csi
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: module clock
+> +
+> +        clock-names:
+> +          items:
+> +            - const: csi
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - nvidia,tegra30-csi
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: module clock
+> +            - description: PAD A clock
+> +            - description: PAD B clock
+> +
+> +        clock-names:
+> +          items:
+> +            - const: csi
+> +            - const: csia_pad
+> +            - const: csib_pad
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - nvidia,tegra210-csi
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: module clock
+> +            - description: A/B lanes clock
+> +            - description: C/D lanes clock
+> +            - description: E lane clock
+> +            - description: test pattern generator clock
+> +
+> +        clock-names:
+> +          items:
+> +            - const: csi
+> +            - const: cilab
+> +            - const: cilcd
+> +            - const: cile
+> +            - const: csi_tpg
+> +
+
+This is longer that what's the same. I think this should be a separate 
+schema doc.
+
+Rob
