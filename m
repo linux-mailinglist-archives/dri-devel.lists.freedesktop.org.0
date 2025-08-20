@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0A0B2DE94
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 16:02:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DC8B2DE96
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 16:02:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A335410E74E;
-	Wed, 20 Aug 2025 14:02:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2F0510E751;
+	Wed, 20 Aug 2025 14:02:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TlqKMyud";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mDAxE6Eo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2515810E750
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 14:02:32 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5ECD10E750
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 14:02:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 875F161441;
- Wed, 20 Aug 2025 14:02:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B068C4CEEB;
- Wed, 20 Aug 2025 14:02:30 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8676B44670;
+ Wed, 20 Aug 2025 14:02:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A9FC4CEE7;
+ Wed, 20 Aug 2025 14:02:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755698551;
- bh=NV11js6s9srfec80XO+Hoq/5LAEC7NyYVUkzDZjiUhM=;
+ s=k20201202; t=1755698554;
+ bh=b6xJyo18UYS8O7YOE9dEVSSRl/sjpwJiLbl0KFBA/JY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=TlqKMyudO837wMokfWbMnB2MQD6MHiLbu7e1S6l2duTSlFQ0tdNROEYwBDFK2lnKH
- MbVtALB3k0OBm6fBBNV7Qgxf2XtvNq4QytUaMD9Xyg+FHSIbLWo9zsW0o3XaJ6z0Uk
- 1am30rIfK/AcQnDWODi05LDhJfU+QpwL1LYAyiIIE50etDrgAQypNARnkl4dIqcKGi
- rqseBkHF/CD9EWkhb2ur78oTo2O3Yk+U8VMXm9RT6e+NVsH0mLMXeKpGlIkCkiZF3X
- XQ/NFV/B1Fv3qFcO+pga9yhpK7QyKOCLjORmLE4ScBGD2Jz9pAaNUlbPCQsKNFP5lL
- vrywwxFuzlN3Q==
+ b=mDAxE6EoHibiW3nR5lH0tZnw6styea3YObdfyJfqpLFkcvk3eroH3HhuJ1LcxtL+V
+ w5qRzia5VHNDcKIhh/cRyP5vUqireQxr2FxSqCqbl6M9tmNN8g9RNcFS2VHiYhodOa
+ sPZFUv4Pqr3urRaLrZzsrWb8KD9vYM1jCeJDYOxPJ2S5+/TvChx4b2NW7fDeVylkte
+ ny6h0ImybyJTCgGxyO7DCwFU2lxln8I4VbbkzSKuL78AFnjnaYmh3gD5xdd+G99u5S
+ k4esPOFc3TVrbX7aQzvHXnHpkBdFqfUSmQOtHzRDYArbnwfjDB8Ts0JkP/EqKbO0A8
+ P+yQBzQJP5llg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 20 Aug 2025 16:01:51 +0200
-Subject: [PATCH v2 11/14] drm/tidss: dispc: Switch VP_REG_GET to using a mask
+Date: Wed, 20 Aug 2025 16:01:52 +0200
+Subject: [PATCH v2 12/14] drm/tidss: dispc: Switch VP_REG_FLD_MOD to using
+ a mask
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250820-drm-tidss-field-api-v2-11-43cab671c648@kernel.org>
+Message-Id: <20250820-drm-tidss-field-api-v2-12-43cab671c648@kernel.org>
 References: <20250820-drm-tidss-field-api-v2-0-43cab671c648@kernel.org>
 In-Reply-To: <20250820-drm-tidss-field-api-v2-0-43cab671c648@kernel.org>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -47,12 +48,12 @@ To: Jyri Sarha <jyri.sarha@iki.fi>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2215; i=mripard@kernel.org;
- h=from:subject:message-id; bh=NV11js6s9srfec80XO+Hoq/5LAEC7NyYVUkzDZjiUhM=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlLrwbvNbWQlagPSvmeddCVNcvy2+kEp+WVDVYF2f93v
- UxTSrnSMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACZy5QRjw5ulf1wzst/2L16a
- UWq/XIBx31kpqSiBhFCffUbzci8m3ZD/XaD6/ZX1VMXGE5c2C1xYzFin2dsxUyhUYDVLgZVuhFn
- kvC5m1ijn3emhR1tFCtt3RL9rivEuMZJMfWyazGV7JSwnDQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5443; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=b6xJyo18UYS8O7YOE9dEVSSRl/sjpwJiLbl0KFBA/JY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlLr4ZwxRbVPC6p5fihk53SP31H2XuJ0sXL8nJ+T4h54
+ bXkmfH2jqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCR9zGMDfveck78fmoJ6+tD
+ vpe4Zy5b9HpDR4RX+vSp5fbr7hgvjdud9yuc5emB/SKP/s26fs0oYwpjw/bOgk3T/vb8Wyh2ZPE
+ PuYJ/K4TMUp0NFhv79WhGhNXUNgv+2f4jZ1+iftHsG1px558XAQA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,61 +71,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VP_REG_GET function takes the start and end bits as parameter and
-will generate a mask out of them.
+The VP_REG_FLD_MOD function takes the start and end bits as parameter
+and will generate a mask out of them.
 
 This makes it difficult to share the masks between callers, since we now
 need two arguments and to keep them consistent.
 
-Let's change VP_REG_GET to take the mask as an argument instead, and let
-the caller create the mask. Eventually, this mask will be moved to a
+Let's change VP_REG_FLD_MOD to take the mask as an argument instead, and
+let the caller create the mask. Eventually, this mask will be moved to a
 define.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/tidss/tidss_dispc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/tidss/tidss_dispc.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index 8c0949203ace147e403ea43ab468c3a56d170156..45422fb6038a255b8ba1246762f39a4284e5b1d5 100644
+index 45422fb6038a255b8ba1246762f39a4284e5b1d5..c5cad1ddcccfbf1d0b6fb53773bb3aff428ef493 100644
 --- a/drivers/gpu/drm/tidss/tidss_dispc.c
 +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -632,13 +632,12 @@ void tidss_disable_oldi(struct tidss_device *tidss, u32 hw_videoport)
- 		u32 _reg = dispc_vid_read(_dispc, _hw_plane, _idx);	\
- 		FIELD_MODIFY((mask), &_reg, (val));			\
- 		dispc_vid_write(_dispc, _hw_plane, _idx, _reg);		\
+@@ -635,17 +635,17 @@ void tidss_disable_oldi(struct tidss_device *tidss, u32 hw_videoport)
  	})
  
--#define VP_REG_GET(dispc, vp, idx, start, end)				\
--	((u32)FIELD_GET(GENMASK((start), (end)),			\
--			dispc_vp_read((dispc), (vp), (idx))))
-+#define VP_REG_GET(dispc, vp, idx, mask)				\
-+	((u32)FIELD_GET((mask), dispc_vp_read((dispc), (vp), (idx))))
+ #define VP_REG_GET(dispc, vp, idx, mask)				\
+ 	((u32)FIELD_GET((mask), dispc_vp_read((dispc), (vp), (idx))))
  
- #define VP_REG_FLD_MOD(dispc, vp, idx, val, start, end)			\
+-#define VP_REG_FLD_MOD(dispc, vp, idx, val, start, end)			\
++#define VP_REG_FLD_MOD(dispc, vp, idx, val, mask)			\
  	({								\
  		struct dispc_device *_dispc = (dispc);			\
  		u32 _vp = (vp);						\
-@@ -1273,16 +1272,17 @@ void dispc_vp_unprepare(struct dispc_device *dispc, u32 hw_videoport)
+ 		u32 _idx = (idx);					\
+ 		u32 _reg = dispc_vp_read(_dispc, _vp, _idx);		\
+-		FIELD_MODIFY(GENMASK((start), (end)), &_reg, (val));	\
++		FIELD_MODIFY((mask), &_reg, (val));			\
+ 		dispc_vp_write(_dispc, _vp, _idx, _reg);		\
+ 	})
+ 
+ #define OVR_REG_FLD_MOD(dispc, ovr, idx, val, start, end)		\
+ 	({								\
+@@ -1126,11 +1126,12 @@ static void dispc_set_num_datalines(struct dispc_device *dispc,
+ 	default:
+ 		WARN_ON(1);
+ 		v = 3;
  	}
+ 
+-	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, v, 10, 8);
++	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, v,
++		       GENMASK(10, 8));
  }
  
- bool dispc_vp_go_busy(struct dispc_device *dispc, u32 hw_videoport)
+ static void dispc_enable_am65x_oldi(struct dispc_device *dispc, u32 hw_videoport,
+ 				    const struct dispc_bus_format *fmt)
  {
--	return VP_REG_GET(dispc, hw_videoport, DISPC_VP_CONTROL, 5, 5);
-+	return VP_REG_GET(dispc, hw_videoport, DISPC_VP_CONTROL,
-+			  GENMASK(5, 5));
+@@ -1253,16 +1254,18 @@ void dispc_vp_enable(struct dispc_device *dispc, u32 hw_videoport,
+ 
+ 	dispc_vp_write(dispc, hw_videoport, DISPC_VP_SIZE_SCREEN,
+ 		       FIELD_PREP(GENMASK(11, 0), mode->hdisplay - 1) |
+ 		       FIELD_PREP(GENMASK(27, 16), mode->vdisplay - 1));
+ 
+-	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1, 0, 0);
++	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1,
++		       GENMASK(0, 0));
+ }
+ 
+ void dispc_vp_disable(struct dispc_device *dispc, u32 hw_videoport)
+ {
+-	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 0, 0, 0);
++	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 0,
++		       GENMASK(0, 0));
+ }
+ 
+ void dispc_vp_unprepare(struct dispc_device *dispc, u32 hw_videoport)
+ {
+ 	if (dispc->feat->vp_bus_type[hw_videoport] == DISPC_VP_OLDI_AM65X) {
+@@ -1279,11 +1282,12 @@ bool dispc_vp_go_busy(struct dispc_device *dispc, u32 hw_videoport)
  }
  
  void dispc_vp_go(struct dispc_device *dispc, u32 hw_videoport)
  {
--	WARN_ON(VP_REG_GET(dispc, hw_videoport, DISPC_VP_CONTROL, 5, 5));
-+	WARN_ON(VP_REG_GET(dispc, hw_videoport, DISPC_VP_CONTROL, GENMASK(5, 5)));
- 	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1, 5, 5);
+ 	WARN_ON(VP_REG_GET(dispc, hw_videoport, DISPC_VP_CONTROL, GENMASK(5, 5)));
+-	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1, 5, 5);
++	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONTROL, 1,
++		       GENMASK(5, 5));
  }
  
  enum c8_to_c12_mode { C8_TO_C12_REPLICATE, C8_TO_C12_MAX, C8_TO_C12_MIN };
  
+ static u16 c8_to_c12(u8 c8, enum c8_to_c12_mode mode)
+@@ -2453,11 +2457,11 @@ static void dispc_vp_init(struct dispc_device *dispc)
+ 
+ 	dev_dbg(dispc->dev, "%s()\n", __func__);
+ 
+ 	/* Enable the gamma Shadow bit-field for all VPs*/
+ 	for (i = 0; i < dispc->feat->num_vps; i++)
+-		VP_REG_FLD_MOD(dispc, i, DISPC_VP_CONFIG, 1, 2, 2);
++		VP_REG_FLD_MOD(dispc, i, DISPC_VP_CONFIG, 1, GENMASK(2, 2));
+ }
+ 
+ static void dispc_initial_config(struct dispc_device *dispc)
+ {
+ 	dispc_plane_init(dispc);
+@@ -2686,12 +2690,12 @@ static void dispc_k2g_vp_set_ctm(struct dispc_device *dispc, u32 hw_videoport,
+ 		dispc_k2g_cpr_from_ctm(ctm, &cpr);
+ 		dispc_k2g_vp_write_csc(dispc, hw_videoport, &cpr);
+ 		cprenable = 1;
+ 	}
+ 
+-	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONFIG,
+-		       cprenable, 15, 15);
++	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONFIG, cprenable,
++		       GENMASK(15, 15));
+ }
+ 
+ static s16 dispc_S31_32_to_s3_8(s64 coef)
+ {
+ 	u64 sign_bit = 1ULL << 63;
+@@ -2752,12 +2756,12 @@ static void dispc_k3_vp_set_ctm(struct dispc_device *dispc, u32 hw_videoport,
+ 		dispc_csc_from_ctm(ctm, &csc);
+ 		dispc_k3_vp_write_csc(dispc, hw_videoport, &csc);
+ 		colorconvenable = 1;
+ 	}
+ 
+-	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONFIG,
+-		       colorconvenable, 24, 24);
++	VP_REG_FLD_MOD(dispc, hw_videoport, DISPC_VP_CONFIG, colorconvenable,
++		       GENMASK(24, 24));
+ }
+ 
+ static void dispc_vp_set_color_mgmt(struct dispc_device *dispc,
+ 				    u32 hw_videoport,
+ 				    const struct drm_crtc_state *state,
+@@ -2904,11 +2908,12 @@ static void dispc_softreset_k2g(struct dispc_device *dispc)
+ 	dispc_set_irqenable(dispc, 0);
+ 	dispc_read_and_clear_irqstatus(dispc);
+ 	spin_unlock_irqrestore(&dispc->tidss->irq_lock, flags);
+ 
+ 	for (unsigned int vp_idx = 0; vp_idx < dispc->feat->num_vps; ++vp_idx)
+-		VP_REG_FLD_MOD(dispc, vp_idx, DISPC_VP_CONTROL, 0, 0, 0);
++		VP_REG_FLD_MOD(dispc, vp_idx, DISPC_VP_CONTROL, 0,
++			       GENMASK(0, 0));
+ }
+ 
+ static int dispc_softreset(struct dispc_device *dispc)
+ {
+ 	u32 val;
 
 -- 
 2.50.1
