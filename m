@@ -2,74 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE988B2E64A
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 22:16:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05E8B2E718
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 23:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 464A610E287;
-	Wed, 20 Aug 2025 20:16:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFC0910E288;
+	Wed, 20 Aug 2025 21:03:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="KiRKnS9C";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Fibm73+9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com
- [209.85.210.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEBF210E287
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 20:16:16 +0000 (UTC)
-Received: by mail-pf1-f202.google.com with SMTP id
- d2e1a72fcca58-76e2eb6d2baso783821b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 13:16:16 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC18210E288
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 21:03:36 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-3b9dc5c6521so162029f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 14:03:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1755720976; x=1756325776;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qIpEd04LLhW7wC7d9HjCp8cUc68SFaxpbzBA9V+sYjc=;
- b=KiRKnS9CVGQsVvjMAPXZOYO+jahlIew1wM5+3OtLYJQf1aPJ/8W2CxKMt5z8IpGYeY
- Ozuk8BpKfSQ7G67KqPTalzK/7tN8dkVTSkIKYAdZxQduJqKeunvY7D4FL6AK23j69sGf
- 3Kd6pQYuyS9B3BoWHdTfxJNNRjVbERrGNKMEMelHVIYCF/SidEgaB8bcAA+IVo0XpGGN
- U381riCkmB0IE2tkAO07Sgj0GPyXKe7NS2B4jhXsLJBg/GDJxSN2iAnS9m8/X9+3CEmC
- 69JQ3clfOip+RTkAiH0CkGwdIDYW1IW7D316Qxz/8R7nQTA1mBBGTN1cOTqA89SMY8So
- i6eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755720976; x=1756325776;
- h=content-transfer-encoding:cc:to:from:subject:message-id
- :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1755723815; x=1756328615; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qIpEd04LLhW7wC7d9HjCp8cUc68SFaxpbzBA9V+sYjc=;
- b=NRDlnpImCl3c4ro35ImWO+M2vOX0Vf72q7WmUAD44FjqkW7z4wI5BR6YhvMUD4xw2P
- YpU1iccHwSvxHxjRe4DYUq/0m38csZdI4vG22ufxBfyjtSW50QzLHSGinE8hk7cKP4IQ
- Nu1K8Rk6mXF64EPO1RVtW0M5+zXk5ZYJb/FfxgdMKMHKzaMBLpCZMgQsvWGDikyU0Yqs
- 2QksOvN55myiGVX3oXlNoQv4N+azJU/UGX7pv2AltID3yzfWUqdNaJ49xGYtX9hhIcax
- H68S2OMBUCENJtskjRfAdj7XHra/7zoVGPWhkqFH/tKU1w5OkFwWsPjYAAYI/weEt/md
- 2raw==
+ bh=Vy010xYTys+UZoDQTPjjsGwPqUv0ncRF4YEufPj6XPc=;
+ b=Fibm73+90D/yuPyxTEH8SgxFgTdyttGi8wEBfkyUcrx+dYqNvPAwhhwSWCq4m1nZgx
+ H4VR25neq6uOEBJkYFDYr+fU34m5HlIAdeOM36yE5upnmgs0o5sPV846uIIMe1lfSC8V
+ /QMeMtskIWIFn41vFoSFuZWNyz2CySUNoPnTkbYwrwkFAg1JW+DZYtg+DzU5zp17lFbU
+ G86dxG9U1JQtullHxsxdgqByI+BfdvhNG0swPVRyyLCzIOqhIWAjj4YzVqmxOQ/7bmqE
+ B44PEOmNjsh07B/QRL4pbTZglehCGplYGykZ4hYgP7fnhEKNFwJxu0HQgfmtiGMmTHIc
+ XRAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755723815; x=1756328615;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Vy010xYTys+UZoDQTPjjsGwPqUv0ncRF4YEufPj6XPc=;
+ b=YHwuM0Bi+Vw/hJD9mlomjeIebkXfrMYh7ExhLpKSyjWO3n2XAo7cMB4/cZDI+2Gkpx
+ dcWyubsSFgxvfxvE4r+I9a+1WsRvPIqdAej+MbFZVKOtdkt/oWuJ5a+CYAmW6hWcxlKj
+ OrO+Y2qC35ii+H02INUCWyrkdlpvyAOrpz+VGOis602cQe5gHLU3SRs8jWH1ZH4/w488
+ XVbV58QvdKRRHsuD6ha/N0UDG5MrjCKAFHx5+Rux4NOaRUASwjuA11zglQz5SndHeoWV
+ GLabBiwaP/KVucfcFobf829OCfsm+uaLSuzlw3dIDBzRXPDzfK8ysJgj2Tz0AM4GEBoj
+ RqCg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXyMnLGMewbkfdhDTvBMl6U4KU3cMfdEfQwOyn1MWcGl6PUHfnyJFk+gac38Tv7TDLwcAcoDZ10qm8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzO6nOOK7/llC3z5U+1sljzwO4tP0fMOALUo1EU1wvWA2N4h8Sg
- xfy+nYT6MTf3UWpPK+4vn3m2NZICBdseY7idjZSDSHrHCuQ/FgHeWlYuJHZfOWil86NNh/7QwVw
- vVRUK9XLpkco3kA==
-X-Google-Smtp-Source: AGHT+IE7GwfmR2D95ArpXhAM3e3FihMKCVaV4jn2nhnJyETg8rpRDPNgsDsY/10SNk9YeSB+51j2Lgd5YnxM/A==
-X-Received: from pfbjw5.prod.google.com ([2002:a05:6a00:9285:b0:76b:de2b:6796])
- (user=cmllamas job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:1813:b0:76b:d746:733a with SMTP id
- d2e1a72fcca58-76e8dd85d39mr5837029b3a.21.1755720976156; 
- Wed, 20 Aug 2025 13:16:16 -0700 (PDT)
-Date: Wed, 20 Aug 2025 20:16:11 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.51.0.rc1.193.gad69d77794-goog
-Message-ID: <20250820201612.2549797-1-cmllamas@google.com>
-Subject: [PATCH] drm/xe: replace basename() with portable strrchr()
-From: Carlos Llamas <cmllamas@google.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, 
- "=?UTF-8?q?Thomas=20Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Matt Atwood <matthew.s.atwood@intel.com>
-Cc: kernel-team@android.com, linux-kernel@vger.kernel.org, 
- Carlos Llamas <cmllamas@google.com>, 
- "open list:INTEL DRM XE DRIVER (Lunar Lake and newer)"
- <intel-xe@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+ AJvYcCU4NJPlMdwoHJ8r5R8iYJOSSErSfnZDFnuiAaXRGUWgozeEWIzkbQbTpwTG3QeM9oe8CIa9HIyAn1o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywpch5WhgfRoGZwRKivLDD5yCBPLqrXDdEnxFCiA7R80H7meJux
+ WFXESQoEaoCZb/Q1t4+V2pekJ/5eay4mZN0rxjgmRlfX70R4CxZqSSFsHo1JaJ5p1J/J4gvNHzt
+ PCgpKVIBY337m7KChsddgz7n8rWbgzfU=
+X-Gm-Gg: ASbGnctLIUpj3adBmHIiZBJXixyvXD466ZBrIS+D0lWxjpgi+gEZ4gJ2/dNboir/uh8
+ LHRrb4UfTGw6xqMa+TIoSrJGPyeOK0VSiyVel0ozv2oSJKR8zeLgL64SD3/rb8C+nP3SfyGfZQb
+ AXiFVFAGA7zQ9m/NvFITuOHBsSwrK/GRi/R11h6zJZ4lg1PXCFULWE7DmPQNQ8ZlF9iL4g1hsVb
+ gfHV9agwOxJjpl6fKDqJE+f31tM2XX9xN/Eoeg=
+X-Google-Smtp-Source: AGHT+IGT//JNStzo4AlhT/6OheyMDPgA/6lgp/LDJeHE9GSKv3SnvMDHwyZ3usfH9U7sFiP3cseTePwHmagievN+lhs=
+X-Received: by 2002:a05:6000:2883:b0:3b7:75dd:f37d with SMTP id
+ ffacd0b85a97d-3c4916baf57mr176679f8f.0.1755723815030; Wed, 20 Aug 2025
+ 14:03:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250728201435.3505594-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdXSJO1MOoNS5M2M1Zs=iWmiBbmc8Xc9tMDsXd_kM6bj=Q@mail.gmail.com>
+ <20250819145401.GW5862@pendragon.ideasonboard.com>
+In-Reply-To: <20250819145401.GW5862@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 20 Aug 2025 22:03:08 +0100
+X-Gm-Features: Ac12FXwsqvwmh8r7YOIa3bc7OmC72sWL4CV-OApkkov7Ybminzq3pg16uZOVgCk
+Message-ID: <CA+V-a8unzKr_VhOsUihp8fNgmPxcOy1618qtY0xKXJ7qGCHb1Q@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] Add support for DU/DSI clocks and DSI driver
+ support for the Renesas RZ/V2H(P) SoC
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,49 +103,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit b0a2ee5567ab ("drm/xe: prepare xe_gen_wa_oob to be multi-use")
-introduced a call to basename(). The GNU version of this function is not
-portable and fails to build with alternative libc implementations like
-musl or bionic. This causes the following build error:
+Hi All,
 
-  drivers/gpu/drm/xe/xe_gen_wa_oob.c:130:12: error: assignment to =E2=80=98=
-const char *=E2=80=99 from =E2=80=98int=E2=80=99 makes pointer from integer=
- without a cast [-Wint-conversion]
-    130 |         fn =3D basename(fn);
-        |            ^
+On Tue, Aug 19, 2025 at 3:54=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Tue, Aug 19, 2025 at 03:48:08PM +0200, Geert Uytterhoeven wrote:
+> > On Mon, 28 Jul 2025 at 22:14, Prabhakar wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > This patch series adds DU/DSI clocks and provides support for the
+> > > MIPI DSI interface on the RZ/V2H(P) SoC. It was originally part of
+> > > series [0], but has now been split into 6 patches due to dependencies
+> > > on the clock driver, making it easier to review and merge.
+> >
+> > Thanks for your series!
+> >
+> > > Lad Prabhakar (6):
+> > >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
+> > >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
+> > >   clk: renesas: r9a09g057: Add clock and reset entries for DSI and LC=
+DC
+> > >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) and
+> > >     RZ/V2N
+> > >   drm: renesas: rz-du: mipi_dsi: Add support for LPCLK clock handling
+> > >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
+> >
+> > On the renesas-clk side, I am (almost) totally happy with this.
+> > Any feedback from the renesas-drm side?
+>
+> Tomi told me he added the patches on this review list.
+>
+Shall I send a v8 fixing review comments from Geert or wait for Tomi to rev=
+iew?
 
-While a POSIX version of basename() could be used, it would require a
-separate header plus the behavior differs from GNU version in that it
-might modify its argument. Not great.
-
-Instead replace basename() with a strrchr() based implementation which
-provides the same functionality and avoid portability issues.
-
-Fixes: b0a2ee5567ab ("drm/xe: prepare xe_gen_wa_oob to be multi-use")
-Signed-off-by: Carlos Llamas <cmllamas@google.com>
----
- drivers/gpu/drm/xe/xe_gen_wa_oob.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen=
-_wa_oob.c
-index 6581cb0f0e59..0a94a045bcea 100644
---- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-+++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-@@ -125,9 +125,11 @@ static int parse(FILE *input, FILE *csource, FILE *che=
-ader, char *prefix)
-=20
- static int fn_to_prefix(const char *fn, char *prefix, size_t size)
- {
-+	const char *base;
- 	size_t len;
-=20
--	fn =3D basename(fn);
-+	base =3D strrchr(fn, '/');
-+	fn =3D base ? base + 1 : fn;
- 	len =3D strlen(fn);
-=20
- 	if (len > size - 1)
---=20
-2.51.0.rc1.193.gad69d77794-goog
-
+> > The last patch depends on a header file introduced by the second patch,
+> > so I will need to provide an immutable branch containing the first
+> > two patches (probably/hopefully based on v8).
+>
+Cheers,
+Prabhakar
