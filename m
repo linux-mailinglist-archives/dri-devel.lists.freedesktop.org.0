@@ -2,54 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBD5B2DB3E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 13:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A996B2DB5B
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 13:42:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F80310E703;
-	Wed, 20 Aug 2025 11:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 539F210E6FF;
+	Wed, 20 Aug 2025 11:42:37 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LBV4uVez";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0B1D710E6FF;
- Wed, 20 Aug 2025 11:39:39 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 582231D31;
- Wed, 20 Aug 2025 04:39:30 -0700 (PDT)
-Received: from [10.57.3.97] (unknown [10.57.3.97])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5B3B33F58B;
- Wed, 20 Aug 2025 04:39:32 -0700 (PDT)
-Message-ID: <145e1021-d2c3-4ff3-aabb-fb7416848a97@arm.com>
-Date: Wed, 20 Aug 2025 12:39:28 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDFF910E704
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 11:42:36 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57K9wKTZ010677
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 11:42:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=T7wGxRO/zr/otAECRnr8/RO0
+ TjvVmZ88mWP10yv2gTA=; b=LBV4uVezw1JLJrSRHige1NF7Zz+1fBIqafhTbK/N
+ 8BHx+dI0kk9mxg2PCYPcWfywL1ZRq2lNTW+MBuWKpwkZGyo742bY6yPOviAxrNxV
+ qaisDlWVRXFuuImbnSPWNrcAC6a/PgEWudVD6hUQxqJblw0Fyz7bACuyX3F8NXz4
+ lDPdPJzKgRXCxaqipfJ5EblBr8HgGZHAw2g6TWqg5Lr010Tek9ftSxYlpGcpDIS6
+ ax0fvtSg/GG/ueN14K4N8BKtiMWaanbbNWnIfKYXtoV6eg33tMpZN0LisZisBay2
+ onfof01xAxCK55wvbTTHnepZEBPolEevzsHIDMuozdvSmA==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52bhk4w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 11:42:36 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-70d7c7e9709so11820046d6.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 04:42:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755690155; x=1756294955;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=T7wGxRO/zr/otAECRnr8/RO0TjvVmZ88mWP10yv2gTA=;
+ b=WuXwPHnx3+ELYAzXIDgpqhSM8zZ6VpBwHnXXYNBs120Lnuxd8+Mu0OQy3P//pCqrXJ
+ QF7ylrMUnKcXbCTgYD0Rf2DuGojmL7oRBmPYVX9EjzTcL24fc7j3iJ2CRN41R0xEhhqs
+ KF8Y+KiEZhrMaVrOpmXJucWCuqaCAjmZj0aKlxu91Qwu0UDHsJ2jzgFWQgC6kdAf5H07
+ BfGobJOy7l31h6wBA7CpaTnjZS/3uvnHSEqqhULdkWYzPsNKnNtQOrKeyaoIsVDhAaK5
+ FckxyCskSqAJj4eXyFA49n0cKtJiYCBtLFVY/WME3490g30588v2iTkViEJ+QY5Gf4Uw
+ T2kQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRyxfUlTw+9gTVcps/RrUF0bF9zpDpWSvQwdbb/VmZVldPAHhvxo0H/vGbawO8VYjcvVfMOXNg+Rs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1+ivLzAkeDqs+aGr2E/Qvvo7dv6So6nplybd/CvdHLQqVtK+h
+ wUL0YkD18GspY3FCQ3IxWIQgfblVGJMKbZXKOeA6fdgtD37vau2+cn5+22lG2NH/p+QY0Jh0vpp
+ oisP0hYXnOY3ErvQAvs+1vPnCpc8nlEAxmv9aVvJ483LvoVoepE8cZNkmZLQwqmGtCadUUyk=
+X-Gm-Gg: ASbGncuZCFK44HfFIb8J1cIrQbHdMTnNpZqCNeIeqHTrOtqHVgmLmrytTrzyrBD3T/D
+ dQ0egVrWi9OxNkRD3P2l+2veTLTNCqD6cb87sbKcUR3MKpADcqINtKzhumOiirAVaU4kItAArBV
+ /k8lZcD90K+1hDxPxTY7JmAUe+qN/vUlXCoaPGX1PfS1iveQePN5jWbrqZYtM3rrzHuXyXwfqRL
+ 8a218d92eU6JyRGa5CGh1xtoJdBwivOVwE24CJNPY5ScmPEj6zMMJVejx/SYPRtj3eeWd/fLQuq
+ bnESy7tSBpdFFOBhA3dDWO5D+xUccUwkr0dwLkzah0jY9PtT6d9SOr+jXmKMZVy4eU2qUpi+NsL
+ jScNs2UfwBr68fEcD+Tu63aIHvhuGVdPw50+T5s58mdZKasbMESYA
+X-Received: by 2002:a05:6214:5013:b0:70b:b18b:799e with SMTP id
+ 6a1803df08f44-70d7711d842mr21451856d6.35.1755690154745; 
+ Wed, 20 Aug 2025 04:42:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHqvJOideGl/005mWHcWma4BYe+8BY81PBbre7k8yk+HdS2FrnKStdSSCMsolK/tNiWFENdNg==
+X-Received: by 2002:a05:6214:5013:b0:70b:b18b:799e with SMTP id
+ 6a1803df08f44-70d7711d842mr21451386d6.35.1755690154108; 
+ Wed, 20 Aug 2025 04:42:34 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55cef3cc97csm2566219e87.80.2025.08.20.04.42.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Aug 2025 04:42:33 -0700 (PDT)
+Date: Wed, 20 Aug 2025 14:42:31 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
+ yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, quic_lliu6@quicinc.com
+Subject: Re: [PATCH v3 11/14] phy: qcom: qmp-usbc: Finalize USB/DP switchable
+ PHY support
+Message-ID: <jjsijdmh4hdbgd2boebtrmzvblvhz2hnl7mtv5ga76ine2fnsb@i72dz3r4lbjp>
+References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
+ <20250820-add-displayport-support-for-qcs615-platform-v3-11-a43bd25ec39c@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/19] perf: Introduce positive capability for raw events
-To: Thomas Richter <tmricht@linux.ibm.com>, peterz@infradead.org,
- mingo@redhat.com, will@kernel.org, mark.rutland@arm.com, acme@kernel.org,
- namhyung@kernel.org, alexander.shishkin@linux.intel.com, jolsa@kernel.org,
- irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com
-Cc: linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, dmaengine@vger.kernel.org,
- linux-fpga@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, coresight@lists.linaro.org,
- iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
- linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-riscv@lists.infradead.org
-References: <cover.1755096883.git.robin.murphy@arm.com>
- <542787fd188ea15ef41c53d557989c962ed44771.1755096883.git.robin.murphy@arm.com>
- <67a0d778-6e2c-4955-a7ce-56a10043ae8d@arm.com>
- <295ae4dd-4734-42a0-be63-2d322f00c799@linux.ibm.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <295ae4dd-4734-42a0-be63-2d322f00c799@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820-add-displayport-support-for-qcs615-platform-v3-11-a43bd25ec39c@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX5b68bmTZ56PO
+ uYfe0cMLbjSohSIySB6l+axYn58ZDbmqyVR7ukCR3kUJjPYgVSY4e0/igh6TLYxv6GMr7M/5LwT
+ LgUhy/ZMDWL3SSJLewUpwpKOdSUDEXI8edRpIarDcwauqiy7YBw59Ln8pCf7jBzn2zgW6fEQ2G8
+ daOdvOAqLHabY0QSOrqvjP8Wr1i9HZri7sySW/tk/NNLOiVrqJZCPtrzWF2+R9CVLLUglUamRqC
+ kJJY07zjp0lPEUGpz42cxWXgdvAw1tn8If4FMb3jISjJy/fAtzsqNeJ3Ta/8U6TfALb4sGlHdK7
+ iAHkWatZTzdHGydTsCJMIF+SLxJVPF4nyhpnoL19+H9rfLImslUYh26qOkHDzqAU2MLrb4etKtu
+ uyHIxi2tF8Vh78YfOcW+ciFccOPzOw==
+X-Authority-Analysis: v=2.4 cv=cr3CU14i c=1 sm=1 tr=0 ts=68a5b4ac cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=wWkF1u56cBY0eVE_x6kA:9 a=CjuIK1q_8ugA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-GUID: fd8QhzpxQ5J2iUnHjmc7cgrfTudnq9Fv
+X-Proofpoint-ORIG-GUID: fd8QhzpxQ5J2iUnHjmc7cgrfTudnq9Fv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-20_03,2025-08-20_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 lowpriorityscore=0 bulkscore=0 adultscore=0 phishscore=0
+ malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,190 +142,444 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-On 2025-08-20 9:09 am, Thomas Richter wrote:
-> On 8/19/25 15:15, Robin Murphy wrote:
->> On 13/08/2025 6:01 pm, Robin Murphy wrote:
->>> Only a handful of CPU PMUs accept PERF_TYPE_{RAW,HARDWARE,HW_CACHE}
->>> events without registering themselves as PERF_TYPE_RAW in the first
->>> place. Add an explicit opt-in for these special cases, so that we can
->>> make life easier for every other driver (and probably also speed up the
->>> slow-path search) by having perf_try_init_event() do the basic type
->>> checking to cover the majority of cases.
->>>
->>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
->>> ---
->>>
->>> A further possibility is to automatically add the cap to PERF_TYPE_RAW
->>> PMUs in perf_pmu_register() to have a single point-of-use condition; I'm
->>> undecided...
->>> ---
->>>    arch/s390/kernel/perf_cpum_cf.c    |  1 +
->>>    arch/s390/kernel/perf_pai_crypto.c |  2 +-
->>>    arch/s390/kernel/perf_pai_ext.c    |  2 +-
->>>    arch/x86/events/core.c             |  2 +-
->>>    drivers/perf/arm_pmu.c             |  1 +
->>>    include/linux/perf_event.h         |  1 +
->>>    kernel/events/core.c               | 15 +++++++++++++++
->>>    7 files changed, 21 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/arch/s390/kernel/perf_cpum_cf.c b/arch/s390/kernel/perf_cpum_cf.c
->>> index 1a94e0944bc5..782ab755ddd4 100644
->>> --- a/arch/s390/kernel/perf_cpum_cf.c
->>> +++ b/arch/s390/kernel/perf_cpum_cf.c
->>> @@ -1054,6 +1054,7 @@ static void cpumf_pmu_del(struct perf_event *event, int flags)
->>>    /* Performance monitoring unit for s390x */
->>>    static struct pmu cpumf_pmu = {
->>>        .task_ctx_nr  = perf_sw_context,
->>> +    .capabilities = PERF_PMU_CAP_RAW_EVENTS,
->>>        .pmu_enable   = cpumf_pmu_enable,
->>>        .pmu_disable  = cpumf_pmu_disable,
->>>        .event_init   = cpumf_pmu_event_init,
->>> diff --git a/arch/s390/kernel/perf_pai_crypto.c b/arch/s390/kernel/perf_pai_crypto.c
->>> index a64b6b056a21..b5b6d8b5d943 100644
->>> --- a/arch/s390/kernel/perf_pai_crypto.c
->>> +++ b/arch/s390/kernel/perf_pai_crypto.c
->>> @@ -569,7 +569,7 @@ static const struct attribute_group *paicrypt_attr_groups[] = {
->>>    /* Performance monitoring unit for mapped counters */
->>>    static struct pmu paicrypt = {
->>>        .task_ctx_nr  = perf_hw_context,
->>> -    .capabilities = PERF_PMU_CAP_SAMPLING,
->>> +    .capabilities = PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_RAW_EVENTS,
->>>        .event_init   = paicrypt_event_init,
->>>        .add          = paicrypt_add,
->>>        .del          = paicrypt_del,
->>> diff --git a/arch/s390/kernel/perf_pai_ext.c b/arch/s390/kernel/perf_pai_ext.c
->>> index 1261f80c6d52..bcd28c38da70 100644
->>> --- a/arch/s390/kernel/perf_pai_ext.c
->>> +++ b/arch/s390/kernel/perf_pai_ext.c
->>> @@ -595,7 +595,7 @@ static const struct attribute_group *paiext_attr_groups[] = {
->>>    /* Performance monitoring unit for mapped counters */
->>>    static struct pmu paiext = {
->>>        .task_ctx_nr  = perf_hw_context,
->>> -    .capabilities = PERF_PMU_CAP_SAMPLING,
->>> +    .capabilities = PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_RAW_EVENTS,
->>>        .event_init   = paiext_event_init,
->>>        .add          = paiext_add,
->>>        .del          = paiext_del,
->>> diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
->>> index 789dfca2fa67..764728bb80ae 100644
->>> --- a/arch/x86/events/core.c
->>> +++ b/arch/x86/events/core.c
->>> @@ -2697,7 +2697,7 @@ static bool x86_pmu_filter(struct pmu *pmu, int cpu)
->>>    }
->>>      static struct pmu pmu = {
->>> -    .capabilities        = PERF_PMU_CAP_SAMPLING,
->>> +    .capabilities        = PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_RAW_EVENTS,
->>>          .pmu_enable        = x86_pmu_enable,
->>>        .pmu_disable        = x86_pmu_disable,
->>> diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
->>> index 72d8f38d0aa5..bc772a3bf411 100644
->>> --- a/drivers/perf/arm_pmu.c
->>> +++ b/drivers/perf/arm_pmu.c
->>> @@ -877,6 +877,7 @@ struct arm_pmu *armpmu_alloc(void)
->>>             * specific PMU.
->>>             */
->>>            .capabilities    = PERF_PMU_CAP_SAMPLING |
->>> +                  PERF_PMU_CAP_RAW_EVENTS |
->>>                      PERF_PMU_CAP_EXTENDED_REGS |
->>>                      PERF_PMU_CAP_EXTENDED_HW_TYPE,
->>>        };
->>> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
->>> index 183b7c48b329..c6ad036c0037 100644
->>> --- a/include/linux/perf_event.h
->>> +++ b/include/linux/perf_event.h
->>> @@ -305,6 +305,7 @@ struct perf_event_pmu_context;
->>>    #define PERF_PMU_CAP_EXTENDED_HW_TYPE    0x0100
->>>    #define PERF_PMU_CAP_AUX_PAUSE        0x0200
->>>    #define PERF_PMU_CAP_AUX_PREFER_LARGE    0x0400
->>> +#define PERF_PMU_CAP_RAW_EVENTS        0x0800
->>>      /**
->>>     * pmu::scope
->>> diff --git a/kernel/events/core.c b/kernel/events/core.c
->>> index 71b2a6730705..2ecee76d2ae2 100644
->>> --- a/kernel/events/core.c
->>> +++ b/kernel/events/core.c
->>> @@ -12556,11 +12556,26 @@ static inline bool has_extended_regs(struct perf_event *event)
->>>               (event->attr.sample_regs_intr & PERF_REG_EXTENDED_MASK);
->>>    }
->>>    +static bool is_raw_pmu(const struct pmu *pmu)
->>> +{
->>> +    return pmu->type == PERF_TYPE_RAW ||
->>> +           pmu->capabilities & PERF_PMU_CAP_RAW_EVENTS;
->>> +}
->>> +
->>>    static int perf_try_init_event(struct pmu *pmu, struct perf_event *event)
->>>    {
->>>        struct perf_event_context *ctx = NULL;
->>>        int ret;
->>>    +    /*
->>> +     * Before touching anything, we can safely skip:
->>> +     * - any event for a specific PMU which is not this one
->>> +     * - any common event if this PMU doesn't support them
->>> +     */
->>> +    if (event->attr.type != pmu->type &&
->>> +        (event->attr.type >= PERF_TYPE_MAX || is_raw_pmu(pmu)))
->>
->> Ah, that should be "!is_raw_pmu(pmu)" there (although it's not entirely the cause of the LKP report on the final patch.)
->>
->> Thanks,
->> Robin.
->>
->>> +        return -ENOENT;
->>> +
->>>        if (!try_module_get(pmu->module))
->>>            return -ENODEV;
->>>    
->>
->>
+On Wed, Aug 20, 2025 at 05:34:53PM +0800, Xiangxu Yin wrote:
+> Complete USB/DP switchable PHY integration by adding DP clock
+> registration, aux bridge setup, and DT parsing. Implement clock
+> provider logic for USB and DP branches, and extend PHY translation
+> to support both USB and DP instances.
 > 
-> Hi Robin,
+> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+> ---
+>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 331 ++++++++++++++++++++++++++++---
+>  1 file changed, 299 insertions(+), 32 deletions(-)
 > 
-> what is the intention of that patch?
-> Can you explain that a bit more.
+> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+> index 821398653bef23e1915d9d3a3a2950b0bfbefb9a..74b9f75c8864efe270f394bfbfd748793dada1f5 100644
+> --- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
+> @@ -995,6 +995,11 @@ static int qmp_usbc_usb_power_on(struct phy *phy)
+>  	qmp_configure(qmp->dev, qmp->serdes, cfg->serdes_tbl,
+>  		      cfg->serdes_tbl_num);
+>  
+> +	if (IS_ERR(qmp->pipe_clk)) {
+> +		return dev_err_probe(qmp->dev, PTR_ERR(qmp->pipe_clk),
+> +				     "pipe clock not defined\n");
+> +	}
 
-The background here is that, in this context, we essentially have 3 
-distinct categories of PMU driver:
+No, this should not be allowed.
 
-- Older/simpler CPU PMUs which register as PERF_TYPE_RAW and accept 
-raw/hardware events
-- Newer/heterogeneous CPU PMUs which register as a dynamic type, and 
-accept both raw/hardware events and events of their own type
-- Other (mostly uncore) PMUs which only accept events of their own type
+> +
+>  	ret = clk_prepare_enable(qmp->pipe_clk);
+>  	if (ret) {
+>  		dev_err(qmp->dev, "pipe_clk enable failed err=%d\n", ret);
+> @@ -1365,11 +1370,13 @@ static int __maybe_unused qmp_usbc_runtime_resume(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = clk_prepare_enable(qmp->pipe_clk);
+> -	if (ret) {
+> -		dev_err(dev, "pipe_clk enable failed, err=%d\n", ret);
+> -		clk_bulk_disable_unprepare(qmp->num_clks, qmp->clks);
+> -		return ret;
+> +	if (!IS_ERR(qmp->pipe_clk)) {
 
-These days that third one is by far the majority, so it seems 
-increasingly unreasonable and inefficient to always offer every kind of 
-event to every driver, and so force nearly all of them to have the same 
-boilerplate code to refuse events they don't want. The core code is 
-already in a position to be able to assume that a PERF_TYPE_RAW PMU 
-wants "raw" events and a typed PMU wants its own events, so the only 
-actual new thing we need is a way to discern the 5 drivers in the middle 
-category - where s390 dominates :) - from the rest in the third.
+Similarly.
 
-The way the check itself ends up structured is that the only time we'll 
-now offer an event to a driver of a different type is if it's a "raw" 
-event and the driver has asked to be offered them (either by registering 
-as PERF_TYPE_RAW or with the new cap). Otherwise we can safely assume 
-that this PMU won't want this event, and so skip straight to trying the 
-next one. We can get away with the single PERF_TYPE_MAX check for all 
-"raw" events, since the drivers which do handle them already have to 
-consider the exact type to discern between RAW/HARDWARE/HW_CACHE, and 
-thus must reject SOFTWARE/TRACEPOINT/BREAKPOINT events anyway, but I 
-could of course make that more specific if people prefer. Conversely, 
-since the actual software/tracepoint/breakpoint PMUs won't pass the 
-is_raw_pmu() check either, and thus will only be given their own events, 
-I could remove the type checking from their event_init routines as well, 
-but I thought that might be perhaps a little too subtle as-is.
+> +		ret = clk_prepare_enable(qmp->pipe_clk);
+> +		if (ret) {
+> +			dev_err(dev, "pipe_clk enable failed, err=%d\n", ret);
+> +			clk_bulk_disable_unprepare(qmp->num_clks, qmp->clks);
+> +			return ret;
+> +		}
+>  	}
+>  
+>  	qmp_usbc_disable_autonomous_mode(qmp);
+> @@ -1422,9 +1429,23 @@ static int qmp_usbc_clk_init(struct qmp_usbc *qmp)
+>  	return devm_clk_bulk_get_optional(dev, num, qmp->clks);
+>  }
+>  
+> -static void phy_clk_release_provider(void *res)
+> +static struct clk_hw *qmp_usbc_clks_hw_get(struct of_phandle_args *clkspec, void *data)
+>  {
+> -	of_clk_del_provider(res);
+> +	struct qmp_usbc *qmp = data;
+> +
+> +	if (clkspec->args_count == 0)
+> +		return &qmp->pipe_clk_fixed.hw;
+> +
+> +	switch (clkspec->args[0]) {
+> +	case QMP_USB43DP_USB3_PIPE_CLK:
+> +		return &qmp->pipe_clk_fixed.hw;
+> +	case QMP_USB43DP_DP_LINK_CLK:
+> +		return &qmp->dp_link_hw;
+> +	case QMP_USB43DP_DP_VCO_DIV_CLK:
+> +		return &qmp->dp_pixel_hw;
+> +	}
+> +
+> +	return ERR_PTR(-EINVAL);
+>  }
+>  
+>  /*
+> @@ -1453,8 +1474,11 @@ static int phy_pipe_clk_register(struct qmp_usbc *qmp, struct device_node *np)
+>  
+>  	ret = of_property_read_string(np, "clock-output-names", &init.name);
+>  	if (ret) {
+> -		dev_err(qmp->dev, "%pOFn: No clock-output-names\n", np);
+> -		return ret;
+> +		char name[64];
+> +
+> +		/* Clock name is not mandatory. */
+> +		snprintf(name, sizeof(name), "%s::pipe_clk", dev_name(qmp->dev));
+> +		init.name = name;
+>  	}
+>  
+>  	init.ops = &clk_fixed_rate_ops;
+> @@ -1463,19 +1487,7 @@ static int phy_pipe_clk_register(struct qmp_usbc *qmp, struct device_node *np)
+>  	fixed->fixed_rate = 125000000;
+>  	fixed->hw.init = &init;
+>  
+> -	ret = devm_clk_hw_register(qmp->dev, &fixed->hw);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = of_clk_add_hw_provider(np, of_clk_hw_simple_get, &fixed->hw);
+> -	if (ret)
+> -		return ret;
+> -
+> -	/*
+> -	 * Roll a devm action because the clock provider is the child node, but
+> -	 * the child node is not actually a device.
+> -	 */
+> -	return devm_add_action_or_reset(qmp->dev, phy_clk_release_provider, np);
+> +	return devm_clk_hw_register(qmp->dev, &fixed->hw);
+>  }
+>  
+>  #if IS_ENABLED(CONFIG_TYPEC)
+> @@ -1660,6 +1672,235 @@ static int qmp_usbc_parse_tcsr(struct qmp_usbc *qmp)
+>  	return 0;
+>  }
+>  
+> +static int qmp_usbc_parse_usb3dp_dt(struct qmp_usbc *qmp)
+> +{
+> +	struct platform_device *pdev = to_platform_device(qmp->dev);
+> +	const struct qmp_phy_cfg *cfg = qmp->cfg;
+> +	const struct qmp_usbc_offsets *offs = cfg->offsets;
+> +	struct device *dev = qmp->dev;
+> +	void __iomem *base;
+> +	int ret;
+> +
+> +	base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(base))
+> +		return PTR_ERR(base);
+> +
+> +	qmp->dp_serdes = base + offs->dp_serdes;
+> +	qmp->dp_tx = base + offs->dp_txa;
+> +	qmp->dp_tx2 = base + offs->dp_txb;
+> +	qmp->dp_dp_phy = base + offs->dp_dp_phy;
 
-BTW if the s390 drivers are intended to coexist then I'm not sure they 
-actually handle sharing PERF_TYPE_RAW events very well - what happens to 
-any particular event seems ultimately largely dependent on the order in 
-which the drivers happen to register - but that's a pre-existing issue 
-and this series shouldn't change anything in that respect. (As it 
-similarly shouldn't affect the trick of the first matching driver 
-rewriting the event type to "forward" it to another driver later in the 
-list.)
+Squash this into qmp_usbc_parse_dt(). Set these fields if
+dp_serdes != 0.
 
-Thanks,
-Robin.
+> +	qmp->serdes = base + offs->serdes;
+> +	qmp->pcs = base + offs->pcs;
+> +	if (offs->pcs_misc)
+> +		qmp->pcs_misc = base + offs->pcs_misc;
+> +	qmp->tx = base + offs->tx;
+> +	qmp->rx = base + offs->rx;
+> +
+> +	qmp->tx2 = base + offs->tx2;
+> +	qmp->rx2 = base + offs->rx2;
+> +
+> +	ret = qmp_usbc_clk_init(qmp);
+> +	if (ret)
+> +		return ret;
+> +
+> +	qmp->pipe_clk = devm_clk_get(dev, "pipe");
+> +	if (IS_ERR(qmp->pipe_clk)) {
+> +		/* usb3dp allow no pipe clk define */
+> +		if (cfg->type == QMP_PHY_USBC_USB3_ONLY)
+> +			return dev_err_probe(dev, PTR_ERR(qmp->pipe_clk),
+> +						"failed to get pipe clock\n");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Display Port PLL driver block diagram for branch clocks
+> + *
+> + *              +------------------------------+
+> + *              |         DP_VCO_CLK           |
+> + *              |                              |
+> + *              |    +-------------------+     |
+> + *              |    |   (DP PLL/VCO)    |     |
+> + *              |    +---------+---------+     |
+> + *              |              v               |
+> + *              |   +----------+-----------+   |
+> + *              |   | hsclk_divsel_clk_src |   |
+> + *              |   +----------+-----------+   |
+> + *              +------------------------------+
+> + *                              |
+> + *          +---------<---------v------------>----------+
+> + *          |                                           |
+> + * +--------v----------------+                          |
+> + * |    dp_phy_pll_link_clk  |                          |
+> + * |     link_clk            |                          |
+> + * +--------+----------------+                          |
+> + *          |                                           |
+> + *          |                                           |
+> + *          v                                           v
+> + * Input to DISPCC block                                |
+> + * for link clk, crypto clk                             |
+> + * and interface clock                                  |
+> + *                                                      |
+> + *                                                      |
+> + *      +--------<------------+-----------------+---<---+
+> + *      |                     |                 |
+> + * +----v---------+  +--------v-----+  +--------v------+
+> + * | vco_divided  |  | vco_divided  |  | vco_divided   |
+> + * |    _clk_src  |  |    _clk_src  |  |    _clk_src   |
+> + * |              |  |              |  |               |
+> + * |divsel_six    |  |  divsel_two  |  |  divsel_four  |
+> + * +-------+------+  +-----+--------+  +--------+------+
+> + *         |                 |                  |
+> + *         v---->----------v-------------<------v
+> + *                         |
+> + *              +----------+-----------------+
+> + *              |   dp_phy_pll_vco_div_clk   |
+> + *              +---------+------------------+
+> + *                        |
+> + *                        v
+> + *              Input to DISPCC block
+> + *              for DP pixel clock
+> + *
+> + */
+> +static int qmp_dp_pixel_clk_determine_rate(struct clk_hw *hw, struct clk_rate_request *req)
+> +{
+> +	switch (req->rate) {
+> +	case 1620000000UL / 2:
+> +	case 2700000000UL / 2:
+> +	/* 5.4 and 8.1 GHz are same link rate as 2.7GHz, i.e. div 4 and div 6 */
+> +		return 0;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static unsigned long qmp_dp_pixel_clk_recalc_rate(struct clk_hw *hw, unsigned long parent_rate)
+> +{
+> +	const struct qmp_usbc *qmp;
+> +	const struct phy_configure_opts_dp *dp_opts;
+> +
+> +	qmp = container_of(hw, struct qmp_usbc, dp_pixel_hw);
+> +
+> +	dp_opts = &qmp->dp_opts;
+> +
+> +	switch (dp_opts->link_rate) {
+> +	case 1620:
+> +		return 1620000000UL / 2;
+> +	case 2700:
+> +		return 2700000000UL / 2;
+> +	case 5400:
+> +		return 5400000000UL / 4;
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+> +static const struct clk_ops qmp_dp_pixel_clk_ops = {
+> +	.determine_rate	= qmp_dp_pixel_clk_determine_rate,
+> +	.recalc_rate	= qmp_dp_pixel_clk_recalc_rate,
+> +};
+> +
+> +static int qmp_dp_link_clk_determine_rate(struct clk_hw *hw, struct clk_rate_request *req)
+> +{
+> +	switch (req->rate) {
+> +	case 162000000:
+> +	case 270000000:
+> +	case 540000000:
+> +		return 0;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static unsigned long qmp_dp_link_clk_recalc_rate(struct clk_hw *hw, unsigned long parent_rate)
+> +{
+> +	const struct qmp_usbc *qmp;
+> +	const struct phy_configure_opts_dp *dp_opts;
+> +
+> +	qmp = container_of(hw, struct qmp_usbc, dp_link_hw);
+> +	dp_opts = &qmp->dp_opts;
+> +
+> +	switch (dp_opts->link_rate) {
+> +	case 1620:
+> +	case 2700:
+> +	case 5400:
+> +		return dp_opts->link_rate * 100000;
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+> +static const struct clk_ops qmp_dp_link_clk_ops = {
+> +	.determine_rate	= qmp_dp_link_clk_determine_rate,
+> +	.recalc_rate	= qmp_dp_link_clk_recalc_rate,
+> +};
+> +
+> +static int phy_dp_clks_register(struct qmp_usbc *qmp, struct device_node *np)
+> +{
+> +	struct clk_init_data init = { };
+> +	char name[64];
+> +	int ret;
+> +
+> +	snprintf(name, sizeof(name), "%s::link_clk", dev_name(qmp->dev));
+> +	init.ops = &qmp_dp_link_clk_ops;
+> +	init.name = name;
+> +	qmp->dp_link_hw.init = &init;
+> +	ret = devm_clk_hw_register(qmp->dev, &qmp->dp_link_hw);
+> +	if (ret < 0) {
+> +		dev_err(qmp->dev, "link clk reg fail ret=%d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	snprintf(name, sizeof(name), "%s::vco_div_clk", dev_name(qmp->dev));
+> +	init.ops = &qmp_dp_pixel_clk_ops;
+> +	init.name = name;
+> +	qmp->dp_pixel_hw.init = &init;
+> +	ret = devm_clk_hw_register(qmp->dev, &qmp->dp_pixel_hw);
+> +	if (ret) {
+> +		dev_err(qmp->dev, "pxl clk reg fail ret=%d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int qmp_usbc_register_clocks(struct qmp_usbc *qmp, struct device_node *np)
+> +{
+> +	int ret;
+> +
+> +	if (!IS_ERR(qmp->pipe_clk)) {
+> +		ret = phy_pipe_clk_register(qmp, np);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (qmp->cfg->type == QMP_PHY_USBC_USB3_DP) {
+
+if dp_serdes != 0
+
+> +		ret = phy_dp_clks_register(qmp, np);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return devm_of_clk_add_hw_provider(qmp->dev, qmp_usbc_clks_hw_get, qmp);
+> +}
+> +
+> +static struct phy *qmp_usbc_phy_xlate(struct device *dev, const struct of_phandle_args *args)
+> +{
+> +	struct qmp_usbc *qmp = dev_get_drvdata(dev);
+> +
+> +	if (args->args_count == 0)
+> +		return qmp->usb_phy;
+> +
+> +	switch (args->args[0]) {
+> +	case QMP_USB43DP_USB3_PHY:
+> +		return qmp->usb_phy;
+> +	case QMP_USB43DP_DP_PHY:
+> +		return qmp->dp_phy;
+> +	}
+> +
+> +	return ERR_PTR(-EINVAL);
+> +}
+> +
+>  static int qmp_usbc_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> @@ -1703,16 +1944,32 @@ static int qmp_usbc_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Check for legacy binding with child node. */
+> -	np = of_get_child_by_name(dev->of_node, "phy");
+> -	if (np) {
+> -		ret = qmp_usbc_parse_usb_dt_legacy(qmp, np);
+> -	} else {
+> +	if (qmp->cfg->type == QMP_PHY_USBC_USB3_DP) {
+
+Should not be necessary.
+
+>  		np = of_node_get(dev->of_node);
+> -		ret = qmp_usbc_parse_usb_dt(qmp);
+> +
+> +		ret = qmp_usbc_parse_usb3dp_dt(qmp);
+> +		if (ret) {
+> +			dev_err(qmp->dev, "parse DP dt fail ret=%d\n", ret);
+> +			goto err_node_put;
+> +		}
+> +
+> +		ret = drm_aux_bridge_register(dev);
+> +		if (ret) {
+> +			dev_err(qmp->dev, "aux bridge reg fail ret=%d\n", ret);
+> +			goto err_node_put;
+> +		}
+> +	} else {
+> +		/* Check for legacy binding with child node. */
+> +		np = of_get_child_by_name(dev->of_node, "phy");
+> +		if (np) {
+> +			ret = qmp_usbc_parse_usb_dt_legacy(qmp, np);
+> +		} else {
+> +			np = of_node_get(dev->of_node);
+> +			ret = qmp_usbc_parse_usb_dt(qmp);
+> +		}
+> +		if (ret)
+> +			goto err_node_put;
+>  	}
+> -	if (ret)
+> -		goto err_node_put;
+>  
+>  	pm_runtime_set_active(dev);
+>  	ret = devm_pm_runtime_enable(dev);
+> @@ -1724,7 +1981,7 @@ static int qmp_usbc_probe(struct platform_device *pdev)
+>  	 */
+>  	pm_runtime_forbid(dev);
+>  
+> -	ret = phy_pipe_clk_register(qmp, np);
+> +	ret = qmp_usbc_register_clocks(qmp, np);
+>  	if (ret)
+>  		goto err_node_put;
+>  
+> @@ -1737,9 +1994,19 @@ static int qmp_usbc_probe(struct platform_device *pdev)
+>  
+>  	phy_set_drvdata(qmp->usb_phy, qmp);
+>  
+> +	if (qmp->cfg->type == QMP_PHY_USBC_USB3_DP) {
+
+if dp_serdes != 0
+
+> +		qmp->dp_phy = devm_phy_create(dev, np, &qmp_usbc_dp_phy_ops);
+> +		if (IS_ERR(qmp->dp_phy)) {
+> +			ret = PTR_ERR(qmp->dp_phy);
+> +			dev_err(dev, "failed to create PHY: %d\n", ret);
+> +			goto err_node_put;
+> +		}
+> +		phy_set_drvdata(qmp->dp_phy, qmp);
+> +	}
+> +
+>  	of_node_put(np);
+>  
+> -	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+> +	phy_provider = devm_of_phy_provider_register(dev, qmp_usbc_phy_xlate);
+>  
+>  	return PTR_ERR_OR_ZERO(phy_provider);
+>  
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
