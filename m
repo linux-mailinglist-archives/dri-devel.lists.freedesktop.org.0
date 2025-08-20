@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42E6B2DF87
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 16:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0118AB2DF89
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 16:37:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB9E10E763;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B5D810E764;
 	Wed, 20 Aug 2025 14:37:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f8xgm3jj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a9j11TZ1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CE1810E75C;
- Wed, 20 Aug 2025 14:37:43 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-3b9e413a219so5221606f8f.3; 
- Wed, 20 Aug 2025 07:37:43 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44CF310E760;
+ Wed, 20 Aug 2025 14:37:44 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-45a1b065d59so34459355e9.1; 
+ Wed, 20 Aug 2025 07:37:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755700662; x=1756305462; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=/h5WgUnURJmKBz6rjpCrYx59xCj8F+hnE2Z4mDxSI2Q=;
- b=f8xgm3jjl6ULfFlcOvu4/3ofX4SzzESuy2x5Ru7gM9krsyjCJgN4B50p8dItUMY6yf
- goecWhivAa690eDDUkNQhKodpsWMbjjC7vR5qrt8zTGprwxwmWDmMU5mTRsXO0gIa6WB
- PBE6V2lrlz7VYIgL01pNBPrMI0/htHnhIsITSDdHPwMF/aIVEQ71xI+fxulAs/GD2o4p
- 76Ls7NeKxnlgo06N1VWCicoSz/Vgl9z8JMcuKsGwwDW2b8RM3qOZDwlEZ/Uz2eEGv47L
- kJeqIJ3l+R8jX3a3a6HwKHCWz/nPKX5aHE1wIZ/tNxr778nNNxqT0AdkFOidbK8+o1qC
- xn3A==
+ d=gmail.com; s=20230601; t=1755700663; x=1756305463; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NS+snXBcWjGuXc6US/FxZrRV7iA+zaPJ5+OdkY9krl0=;
+ b=a9j11TZ1swBDYh8wwnrWZ2w6LNFluIn3IyQP8rT2xtHMjhPYKyzFmxhfYIvEUgp5pL
+ v5JRoQnxQLf42FxZtvdQINcFOmyksVe18fjrk1E1BBW0K+VnkvufYdVmUxTcQuGeIe5a
+ /FZbllKY/y5h8eiCzg6RnSofuHYz/D6jqvB0Dy9KTVGEcx3R4fMmLbEQtbSGShI8nBNi
+ vHmtx6aGd2IGubtEljWT3S7D2WIiqF8XT7lRWnbXo01+RFdACc7IULZow4njiX7H08uy
+ 8WCtqBIWuWrNXWNfUmVxYYbL8Tt35TCzziQOd4j5feTrXZQastumUrWo1wGJdtQjbbvj
+ kUnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755700662; x=1756305462;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/h5WgUnURJmKBz6rjpCrYx59xCj8F+hnE2Z4mDxSI2Q=;
- b=eqbvAW7inmX4c4bnw9WPPgTxol8gmzH9++MHGKAQd/t/8OYToyTaKv2b9TrU0hWlog
- Alm8Es12ptivbEC6IxkVP85Q0k9ucWL4OOUcbkVezPbj9WSD7RxJ04oa/uLl92TLYkpQ
- AKQvMG/iOJzC6sTUN7Fjg9bSj0txDBDOYU1vtZiSo8MVVX8nsetFwCXhJ5dY08Y8Cd5L
- +RmIVbGSoziwi8DeEGMNPz06OYiETYuoOdjRzKeBlkmU165ReYDS3pcdA74sYMWavcok
- 8WiIgcg/oxByUUqBUOPImhXqSYOyJpYaeSy20qbPRLM42MDrXQzvD45J0Ij18cPbxm3h
- MQlg==
+ d=1e100.net; s=20230601; t=1755700663; x=1756305463;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NS+snXBcWjGuXc6US/FxZrRV7iA+zaPJ5+OdkY9krl0=;
+ b=MN4R82VhRFilUcZy1wctaHme7T6XkE/N0fjLyAmllIisEqkwtihww4GJc0NR+lUSFz
+ 9JDEyKujYkyc59uqxdqOp70s+v78uKYbXrD6rH2Z8hqCM32dVG9SxnCK5UOp8rTVQe2k
+ 3jc2Jc2TdHCZ0Jt80FyRD85P9cM9qDTA4EXxvpGK+sQtL6yWxonqTlGQSohpHy+YLacG
+ HdKG6DEf1DDp9WAihDG7Q/1hSE5rBNlotMl5pACZ7CMn74GttI2ebC1vvO0+8dIBfhh2
+ 0ly14SclyHeWWPcuQDM8l6lI+h8DVFd7RfAQ7LNu/mlfVZthmQwfWeMNU1tlaCgxFEIN
+ vPbw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUs8Gpy/I5gJDxby3yKMnVAnTIYQG8XW/RxSg4ukB/gVMg/TB8g+V0YSUNHdWoq+3/brPtQDEqZ@lists.freedesktop.org,
- AJvYcCV6x5MyFSs/4ydCos6k+ulXjN5+ogUisPURWCD53kJmGBy9z/w8cwY5YMb3yCRw1CY6T6q0NrZVAIhJ@lists.freedesktop.org,
- AJvYcCW85IKLV0XMrLXUm69yWnwpmJBh65v/n7owuscZMJEDcWvqfq/OkdQSuf1YlrYI2JiqNoIBLy/kwdSU@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyS3Tlj9aZ4bSrf129tCulv5wVYD3xodefFRdsNwRnLAqBr2DtD
- f+fB5qoIpDM5URVHiPMO60eAKNoWBfeSHSHJPKB9mqVeX5uhP5p1CBScqdX9QQ==
-X-Gm-Gg: ASbGncukQJombH8rAdRGuEC4sYs74eZ0WtvpXHWymv+N9SQkvxcGGqTDB+A5537idfJ
- eSEUkUlSHX8/WzCje1zqn4zwTapcZM/uboWCt9sarlqLcyfZxR3ROrh3b1R8yQRybuxx4YFzClp
- 4lEJfupG7WVA7yVxE5/Rqf24T3fFz7KDYmUW6/zy3kIE1DpDXgUX9M3sfU9s9sDV3KtEJEl6B3q
- vlLhsdLCOt1XdDWDtBxGmXq7xyY4I01ZOTDup7lLqjvtORK6CRBrwJNSZXiE5HF0UU7HDnsvG0D
- M69wdyvCQtYzApH1kreSwwKwkxfYvML3T++bDi/0UluRjGAFCifpqtuTqvX3kbRb+C1kAy1lVXb
- u74BIT5nxPfbdxlv4g52+GuMjNdGsPXZe5aI=
-X-Google-Smtp-Source: AGHT+IFlIZ6/tJ89WsmhsHbBVGGH2HYC8H+uJsmdtnLvVwssi83j9MwXW/m6IgCdY5cNkUWzI98S/g==
-X-Received: by 2002:a05:6000:2409:b0:3b7:9dc1:74a9 with SMTP id
- ffacd0b85a97d-3c32e6fe70cmr2407135f8f.42.1755700661762; 
- Wed, 20 Aug 2025 07:37:41 -0700 (PDT)
+ AJvYcCUsFoDCKnUH0YMmS59rG7ndgtAbTVF/u7imDH4FBToS3S7sTXnXfJzlcM7MpNhVkz3NSk2rpouz9jQM@lists.freedesktop.org,
+ AJvYcCVbj7kK8vOqP0AwYejrjNdLbOPvK+m728ySdCIZxSf2r+GxpNRNI0WgQolRp7nf3k6opUdLcW826GEI@lists.freedesktop.org,
+ AJvYcCXKgFWkAzqWa1j6uzx2cx31VIsXFjAdc3mm72Bc+iOl8/Qww33fFjN0hHuDsnHdNI5TaagPlpPu@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0vVO8wJMWFilaTXKqA3k6LUiCU2q6XVntAYB6g0k+1IW/FS0S
+ /TlqqZNoRzhLLorqgL+lbolzf0rgjLBHFxAyINCKtA+TrgL8Y/OTPFW1ifPZcg==
+X-Gm-Gg: ASbGnctUiBlTKm1v5AsOY61WmlZMDQKG8eVCKFTmxwQz2LoxH8bDbx2OCjQNRIPPMIo
+ 5nyCG05TzIciH+y8RRZHjN4d/700HvI9bEZ+tMPAPjoiUPHHXeSDLowJw8fEgRtGApUufvoOafA
+ fVfCucztwnb5avvXQNGD0AtkVW8lUcRI96j6BZZPX9fwE85WbzkqAgRlQG+yNSp5INf68p8p9sd
+ NS3IheN1QH5ic/jZyrAql1yijB2u0lxBG+KMHpenkN/v41cV8FC1js+vtfof+rv4H0uZBDn9G1j
+ zgcjtpw8CeE+OuKZTM2YuStHcQAJcSOyLObiJtx8f7VW9Jkv8oju9QtcwyVFpg0dysi/WWMtiJu
+ IPDCu675zNfL2gB57CxmmPPO8V7cTZq4ugs4=
+X-Google-Smtp-Source: AGHT+IF8iz35hgCcCz1RTUJMw9kuzXS7w9QwarlL5tFhY+fqrTX4qOdl95Jtp8yhsFp2+u4+MAw/8w==
+X-Received: by 2002:a05:600c:4ecf:b0:458:be62:dcd3 with SMTP id
+ 5b1f17b1804b1-45b4a3016e4mr23119775e9.17.1755700662628; 
+ Wed, 20 Aug 2025 07:37:42 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:1579:3800:9446:56c7:e203:3b9c])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3c074d43ba5sm8090404f8f.22.2025.08.20.07.37.40
+ ffacd0b85a97d-3c074d43ba5sm8090404f8f.22.2025.08.20.07.37.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Aug 2025 07:37:41 -0700 (PDT)
+ Wed, 20 Aug 2025 07:37:42 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -72,11 +73,15 @@ To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
 Cc: airlied@gmail.com, thomas.hellstrom@linux.intel.com,
  matthew.brost@intel.com, david@redhat.com, dave.hansen@linux.intel.com,
  luto@kernel.org, peterz@infradead.org
-Subject: 
-Date: Wed, 20 Aug 2025 16:33:10 +0200
-Message-ID: <20250820143739.3422-1-christian.koenig@amd.com>
+Subject: [PATCH 1/3] drm/ttm: use apply_page_range instead of
+ vmf_insert_pfn_prot
+Date: Wed, 20 Aug 2025 16:33:11 +0200
+Message-ID: <20250820143739.3422-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250820143739.3422-1-christian.koenig@amd.com>
+References: <20250820143739.3422-1-christian.koenig@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,41 +98,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+Thomas pointed out that i915 is using apply_page_range instead of
+vm_insert_pfn_prot to circumvent the PAT lookup and generally speed up
+the page fault handling.
 
-sorry for CCing so many people, but that rabbit hole turned out to be
-deeper than originally thought.
+I've thought I give it a try and measure how much this can improve
+things and it turned that mapping a 1GiB buffer is now more than 4x times
+faster than before.
 
-TTM always had problems with UC/WC mappings on 32bit systems and drivers
-often had to revert to hacks like using GFP_DMA32 to get things working
-while having no rational explanation why that helped (see the TTM AGP,
-radeon and nouveau driver code for that).
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo_vm.c | 130 ++++++++++++++++----------------
+ 1 file changed, 64 insertions(+), 66 deletions(-)
 
-It turned out that the PAT implementation we use on x86 not only enforces
-the same caching attributes for pages in the linear kernel mapping, but
-also for highmem pages through a separate R/B tree.
-
-That was unexpected and TTM never updated that R/B tree for highmem pages,
-so the function pgprot_set_cachemode() just overwrote the caching
-attributes drivers passed in to vmf_insert_pfn_prot() and that essentially
-caused all kind of random trouble.
-
-An R/B tree is potentially not a good data structure to hold thousands if
-not millions of different attributes for each page, so updating that is
-probably not the way to solve this issue. 
-
-Thomas pointed out that the i915 driver is using apply_page_range()
-instead of vmf_insert_pfn_prot() to circumvent the PAT implementation and
-just fill in the page tables with what the driver things is the right
-caching attribute.
-
-This patch set here implements this and it turns out to much *faster* than
-the old implementation. Together with another change on my test system
-mapping 1GiB of memory through TTM improved nearly by a factor of 10
-(197ms -> 20ms)!
-
-Please review the general idea and/or comment on the patches.
-
-Thanks,
-Christian.
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+index a194db83421d..93764b166678 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -160,6 +160,38 @@ vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
+ }
+ EXPORT_SYMBOL(ttm_bo_vm_reserve);
+ 
++/* State bag for calls to ttm_bo_vm_apply_cb */
++struct ttm_bo_vm_bag {
++	struct mm_struct		*mm;
++	struct ttm_buffer_object	*bo;
++	struct ttm_tt			*ttm;
++	unsigned long			page_offset;
++	pgprot_t			prot;
++};
++
++/* Callback to fill in a specific PTE */
++static int ttm_bo_vm_apply_cb(pte_t *pte, unsigned long addr, void *data)
++{
++        struct ttm_bo_vm_bag *bag = data;
++	struct ttm_buffer_object *bo = bag->bo;
++	unsigned long pfn;
++
++	if (bo->resource->bus.is_iomem) {
++		pfn = ttm_bo_io_mem_pfn(bo, bag->page_offset);
++	} else {
++		struct page *page = bag->ttm->pages[bag->page_offset];
++
++		if (unlikely(!page))
++			return -ENOMEM;
++		pfn = page_to_pfn(page);
++	}
++
++        /* Special PTE are not associated with any struct page */
++        set_pte_at(bag->mm, addr, pte, pte_mkspecial(pfn_pte(pfn, bag->prot)));
++	bag->page_offset++;
++	return 0;
++}
++
+ /**
+  * ttm_bo_vm_fault_reserved - TTM fault helper
+  * @vmf: The struct vm_fault given as argument to the fault callback
+@@ -183,101 +215,67 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
+ 				    pgoff_t num_prefault)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+-	struct ttm_buffer_object *bo = vma->vm_private_data;
+-	struct ttm_device *bdev = bo->bdev;
+-	unsigned long page_offset;
+-	unsigned long page_last;
+-	unsigned long pfn;
+-	struct ttm_tt *ttm = NULL;
+-	struct page *page;
++	struct ttm_bo_vm_bag bag = {
++		.mm = vma->vm_mm,
++		.bo = vma->vm_private_data
++	};
++	unsigned long size;
++	vm_fault_t ret;
+ 	int err;
+-	pgoff_t i;
+-	vm_fault_t ret = VM_FAULT_NOPAGE;
+-	unsigned long address = vmf->address;
+ 
+ 	/*
+ 	 * Wait for buffer data in transit, due to a pipelined
+ 	 * move.
+ 	 */
+-	ret = ttm_bo_vm_fault_idle(bo, vmf);
++	ret = ttm_bo_vm_fault_idle(bag.bo, vmf);
+ 	if (unlikely(ret != 0))
+ 		return ret;
+ 
+-	err = ttm_mem_io_reserve(bdev, bo->resource);
++	err = ttm_mem_io_reserve(bag.bo->bdev, bag.bo->resource);
+ 	if (unlikely(err != 0))
+ 		return VM_FAULT_SIGBUS;
+ 
+-	page_offset = ((address - vma->vm_start) >> PAGE_SHIFT) +
+-		vma->vm_pgoff - drm_vma_node_start(&bo->base.vma_node);
+-	page_last = vma_pages(vma) + vma->vm_pgoff -
+-		drm_vma_node_start(&bo->base.vma_node);
+-
+-	if (unlikely(page_offset >= PFN_UP(bo->base.size)))
++	bag.page_offset = ((vmf->address - vma->vm_start) >> PAGE_SHIFT) +
++		vma->vm_pgoff - drm_vma_node_start(&bag.bo->base.vma_node);
++	if (unlikely(bag.page_offset >= PFN_UP(bag.bo->base.size)))
+ 		return VM_FAULT_SIGBUS;
+ 
+-	prot = ttm_io_prot(bo, bo->resource, prot);
+-	if (!bo->resource->bus.is_iomem) {
++	prot = ttm_io_prot(bag.bo, bag.bo->resource, prot);
++	if (!bag.bo->resource->bus.is_iomem) {
+ 		struct ttm_operation_ctx ctx = {
+ 			.interruptible = true,
+ 			.no_wait_gpu = false,
+ 			.force_alloc = true
+ 		};
+ 
+-		ttm = bo->ttm;
+-		err = ttm_bo_populate(bo, &ctx);
+-		if (err) {
+-			if (err == -EINTR || err == -ERESTARTSYS ||
+-			    err == -EAGAIN)
+-				return VM_FAULT_NOPAGE;
+-
+-			pr_debug("TTM fault hit %pe.\n", ERR_PTR(err));
+-			return VM_FAULT_SIGBUS;
+-		}
++		bag.ttm = bag.bo->ttm;
++		err = ttm_bo_populate(bag.bo, &ctx);
++		if (err)
++			goto error;
+ 	} else {
+ 		/* Iomem should not be marked encrypted */
+ 		prot = pgprot_decrypted(prot);
+ 	}
++	bag.prot = prot;
+ 
+-	/*
+-	 * Speculatively prefault a number of pages. Only error on
+-	 * first page.
+-	 */
+-	for (i = 0; i < num_prefault; ++i) {
+-		if (bo->resource->bus.is_iomem) {
+-			pfn = ttm_bo_io_mem_pfn(bo, page_offset);
+-		} else {
+-			page = ttm->pages[page_offset];
+-			if (unlikely(!page && i == 0)) {
+-				return VM_FAULT_OOM;
+-			} else if (unlikely(!page)) {
+-				break;
+-			}
+-			pfn = page_to_pfn(page);
+-		}
++	/* Speculatively prefault a number of pages. */
++	size = min(num_prefault << PAGE_SHIFT, vma->vm_end - vmf->address);
++	err = apply_to_page_range(vma->vm_mm, vmf->address, size,
++				  ttm_bo_vm_apply_cb, &bag);
+ 
+-		/*
+-		 * Note that the value of @prot at this point may differ from
+-		 * the value of @vma->vm_page_prot in the caching- and
+-		 * encryption bits. This is because the exact location of the
+-		 * data may not be known at mmap() time and may also change
+-		 * at arbitrary times while the data is mmap'ed.
+-		 * See vmf_insert_pfn_prot() for a discussion.
+-		 */
+-		ret = vmf_insert_pfn_prot(vma, address, pfn, prot);
++error:
++	if (err == -EINTR || err == -ERESTARTSYS || err == -EAGAIN)
++		return VM_FAULT_NOPAGE;
+ 
+-		/* Never error on prefaulted PTEs */
+-		if (unlikely((ret & VM_FAULT_ERROR))) {
+-			if (i == 0)
+-				return VM_FAULT_NOPAGE;
+-			else
+-				break;
+-		}
++	if (err == -ENOMEM)
++		return VM_FAULT_OOM;
+ 
+-		address += PAGE_SIZE;
+-		if (unlikely(++page_offset >= page_last))
+-			break;
++	if (err) {
++		pr_debug("TTM fault hit %pe.\n", ERR_PTR(err));
++		return VM_FAULT_SIGBUS;
+ 	}
+-	return ret;
++
++	return VM_FAULT_NOPAGE;
+ }
+ EXPORT_SYMBOL(ttm_bo_vm_fault_reserved);
+ 
+-- 
+2.43.0
 
