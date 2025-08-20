@@ -2,83 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C14B2E5B6
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 21:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0CFB30823
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 23:16:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EAF910E363;
-	Wed, 20 Aug 2025 19:37:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4625B10E9F6;
+	Thu, 21 Aug 2025 21:16:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="C94tVnGK";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="EOK4N1d4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
- [209.85.216.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D2D010E363;
- Wed, 20 Aug 2025 19:37:55 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id
- 98e67ed59e1d1-32326e5f0bfso274759a91.3; 
- Wed, 20 Aug 2025 12:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755718675; x=1756323475; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DIGqYplhoRs1f/hcHSbYZNmTx5Ex+a8ORKp3qbixI2g=;
- b=C94tVnGK2KMurhafixPEKButTDGa7inZk3T2wnXUjY9NI09JSt+LhE73qQzPsn0WXd
- KV6/jgvD5wdFSAaq7vo+TEEYXjZRdrYEtdpLhETD6RqnJFHyIAsu3geMJxwZc6z5c6e9
- aqazuIoUrxQgFKEk7r5C+MYL/oaK88zW/EDguHpWBQMoRbN5TFDD+606DzCdHjGLR9/k
- CnSqoGSpT2EfacHyTYMT90QYT9VAkZK1n9+XRn4RZ8gwlfeqjeUVeEE2jJSltO4Eo5MX
- lsGyFryV3APuUZI39jU1hnheM7cy1uNfjoM2oQ0lNKhT/Y5XRs66VXhVnTWYgeKfwTjO
- 6EZA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3750010E35D
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 19:40:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1755718845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nNhhKj8XIxu4y9Bto5lKVR6sjGIFrxndrATAmTOdffs=;
+ b=EOK4N1d45KkxVb83i6VXZD0LIpJ5/RBh/48E8pK/iO1/NRhhzBuaF8BQdbdBCYrXx3CMIV
+ jmSN3fW9SSZCtonntFW4+CxOISqBifTk0PaBHIVR1NRwpuczLIIJz3K3rZWNYgIR3Lw9wC
+ notl8AdG0ac3KQ7sgkEhBGbcsPCUgsc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-681-BUalsMeuN4KSp5JHmIa6wA-1; Wed, 20 Aug 2025 15:40:43 -0400
+X-MC-Unique: BUalsMeuN4KSp5JHmIa6wA-1
+X-Mimecast-MFC-AGG-ID: BUalsMeuN4KSp5JHmIa6wA_1755718843
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3b9e4146aa2so96123f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 12:40:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755718675; x=1756323475;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DIGqYplhoRs1f/hcHSbYZNmTx5Ex+a8ORKp3qbixI2g=;
- b=GLVzOtW3Ah0jSx8JJbrDxpTpoztlDHUAOgGsVGDVNrI1IJmgFbmbk27LAC4kItsT25
- xAJc/8nm3Zs534no3sX7YXrZMAgibg/x1bZa31ctuxTvvcb+ZhHZEDBB1ODR9dcBMqJ4
- jOQp0lCz94invC0uafMwsXvc7qfkmfiLJRVZbrOZJj1jPwMwc5C9y+wby7rOmoh1fUGH
- oVmCmzDWqgIrbSrvFu+OLQAHtzcDJOy7hXcIOaoO07bDJxySxWCWGJNIz+BZY1Mror1S
- Gc6PlvCNxybTdqu29WAljTeiW/WwIYIGzJRyfs66xGEdT/4nJrUXWsY4wI1cRA0ITmxP
- bNQg==
+ d=1e100.net; s=20230601; t=1755718843; x=1756323643;
+ h=in-reply-to:references:from:subject:cc:to:message-id:date
+ :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=SldETWHwn7m3fzEtOzKMZjITNOf1gcsK+qNewxq3ttA=;
+ b=ZdkN5lPNAmF6piisEwtlQ8oN69hz8NSWvjUg2YOl80v64Gt0Iz+ybm3Km21bMKO9LF
+ PVwPWXQzqjB/O+t5jEnEeqd5e2IQneL4OEDoBvUkxDOskcJcl3tjQimEawe/l7+qB5Vs
+ gsYJBeAj89MKwFSO9fvljOTeZJENjOySrmAzjLu86XGo+B6BjDtazCJ30kG1BKgiYgG9
+ gmlqRf2U94br0uf1COYzdDSoJoWyImgIZTIY6MYAfZFzQd9z/AIH/5YKf+cnUjvRMNA4
+ /y12pE1yiw299Sz+dl/pW8FWCQlEut4U+E68VbzV7E4IRLy22DTrYYjFwcM9l1igBVUV
+ wOcQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVGm0e2rKfJNur9IEBNk9lE2ZNlLuxYYSEPXPSZHEwjytVWG3jiMKSU6TI96m9tLpiXsU3acm6Mbsae@lists.freedesktop.org,
- AJvYcCX2OK3NAz99tDw/5KKAKrsTjoaAqHaDtEscxlVkO5TZwMvU+ndONnzdux3Wft7ih+fxQsJVzuWL@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YznSrn5xMX6CwzRGgtfIG6fQepsg6ZVBwuLZSZ2wzQrg8+tvLDo
- NK9IfjLZQ9TIE++pZXsDZJSuPbuMXLDzp/rf0PbHO5axMVwmRPZCDvo5
-X-Gm-Gg: ASbGnct3PXzdfL3yFVVnkjZJokxwH6KK42Jgt8UyReClmDh+pPyXVjyco+JkgIPjuW9
- xbt3b8UIliYeIjVBkbbAuzExaqMYZMcw/4ftROFBUgAAV6uDp4wsLi+QplVsMb6mUKXPLuQPhcZ
- jlAKGyxLQJ1bvuscuBJUrFUEBU4JNIqKkWgkkGNAjbKW2WCqUcvlRBNQmc3vSZcaQbRvQwHkI/U
- zNq7OksrelMoAEIMB5YhWnQhsY7KzYDi9PbtpzjyaQi48H7vawEN1Qn3OEKZ2YfK3Ls0yzYgIuE
- INgidlYF3ZdKTeboqn54rRDFNtQSQ+L+rkaeqMPmanmjynB22Bp/jghWf7qUORW+uXV0Y+yIoCQ
- kKipecPOJt3m/q92ann5M0zEHS9o=
-X-Google-Smtp-Source: AGHT+IH4oAP6ojhRdx0McHVBEZbO37qGzzHPVXncvGS5wiZMCWye6YVPnfJGPtuh7vzBHz8DDQSRGA==
-X-Received: by 2002:a17:90b:2587:b0:31c:c661:e4e with SMTP id
- 98e67ed59e1d1-324ed1ed238mr27715a91.33.1755718674513; 
- Wed, 20 Aug 2025 12:37:54 -0700 (PDT)
-Received: from lkmp.. ([49.37.163.128]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b47640b191csm2911858a12.45.2025.08.20.12.37.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Aug 2025 12:37:54 -0700 (PDT)
-From: Rakuram Eswaran <rakuram.e96@gmail.com>
-To: alexander.deucher@amd.com
-Cc: Christian.Koenig@amd.com, Harry.Wentland@amd.com, airlied@gmail.com,
- amd-gfx@lists.freedesktop.org, corbet@lwn.net,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, rakuram.e96@gmail.com, simona@ffwll.ch,
- siqueira@igalia.com, skhan@linuxfoundation.org, tzimmermann@suse.de
-Subject: Re: [PATCH] docs: gpu: Fix spelling mistakes
-Date: Thu, 21 Aug 2025 01:07:38 +0530
-Message-ID: <20250820193739.20263-1-rakuram.e96@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <BL1PR12MB514474E3D1951AA174431414F733A@BL1PR12MB5144.namprd12.prod.outlook.com>
-References: <BL1PR12MB514474E3D1951AA174431414F733A@BL1PR12MB5144.namprd12.prod.outlook.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ AJvYcCXeBHG9UTLkHs5ehoXFylrY0kes84hzuxdZAwHXsEaCpcBVeVxIux3RmV8mAj/1XEQI3PZKHoMmvgo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyrWa6NVOuqTiYVC3P7I+4rcJ8kUqJZW4fBtf2DPEJwyF7FqY92
+ XpD4ZC92kKzoi/qRbzPqu2kv/KeO+y4bbmFO2EuWsgz/JwKhhS2TCDgPu93z/vCioelIR/XFdVX
+ F2q4yrxqFin81htStF9+mL34Yh68B+WVY8QAsry93xPQBeOHW0Dt0sQPLER/PA71F14+8lA==
+X-Gm-Gg: ASbGncv5Cg3QQRTh0rDtpaZ7DqkWxvnCb+2TkQ1uEuu1kqS2EWUXJbadpsQHbo7CJs0
+ MA4ZmWiTKrAYe/QyigkG6yB2LVdMbXmphkAE0ATmp1rYQvHufighaEGWtcgbA0BvFfSwD9wgkVO
+ XLw3rhbsSmdoUr9AJoqdx5jLHETPOTuP17k6/eT7vSWr6zzzu6tmQjR64NA9y9lXzCj/SmK3Owl
+ MkU8kUm4jGAgSqunYZ1FHU6MrqmisDz5n1N+jFZec27oBmQsQrYgP1vvgmwPb7w4f3HFROvf8wN
+ mQHDxpdFu2++g3vMYofKa07c7BViwnCTbNSBkP4C3dzyZw==
+X-Received: by 2002:a05:6000:228a:b0:3c4:3d9b:d5a9 with SMTP id
+ ffacd0b85a97d-3c497741e82mr18545f8f.61.1755718842608; 
+ Wed, 20 Aug 2025 12:40:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGZCKQP/KQ1XqUipshI512eP4eaXPmwe8S1JNsPShIAfnDbMBAM1qN5Hq0PQtSLeWP9szgKEQ==
+X-Received: by 2002:a05:6000:228a:b0:3c4:3d9b:d5a9 with SMTP id
+ ffacd0b85a97d-3c497741e82mr18526f8f.61.1755718842156; 
+ Wed, 20 Aug 2025 12:40:42 -0700 (PDT)
+Received: from localhost ([2001:9e8:899d:e200:81f1:3d49:5938:f438])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45b47c9e1a3sm48555645e9.18.2025.08.20.12.40.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Aug 2025 12:40:41 -0700 (PDT)
+Mime-Version: 1.0
+Date: Wed, 20 Aug 2025 21:40:40 +0200
+Message-Id: <DC7IDWLAGEOW.HQVRVJNBTLXI@redhat.com>
+To: "Alex Hung" <alex.hung@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <amd-gfx@lists.freedesktop.org>
+Cc: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
+ <leo.liu@amd.com>, <ville.syrjala@linux.intel.com>,
+ <pekka.paalanen@collabora.com>, <contact@emersion.fr>, <mwen@igalia.com>,
+ <jadahl@redhat.com>, <shashank.sharma@amd.com>, <agoins@nvidia.com>,
+ <joshua@froggi.es>, <mdaenzer@redhat.com>, <aleixpol@kde.org>,
+ <xaver.hugl@gmail.com>, <victoria@system76.com>, <daniel@ffwll.ch>,
+ <uma.shankar@intel.com>, <quic_naseer@quicinc.com>,
+ <quic_cbraga@quicinc.com>, <quic_abhinavk@quicinc.com>, <marcan@marcan.st>,
+ <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
+ <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
+ <mcanal@igalia.com>, <nfraprado@collabora.com>, "Daniel Stone"
+ <daniels@collabora.com>
+Subject: Re: [PATCH V11 35/47] drm/colorop: Add 1D Curve Custom LUT type
+From: "Sebastian Wick" <sebastian.wick@redhat.com>
+X-Mailer: aerc 0.20.1
+References: <20250815035047.3319284-1-alex.hung@amd.com>
+ <20250815035047.3319284-36-alex.hung@amd.com>
+ <DC6IG8LQAIF4.6KM7AM5JD3J3@redhat.com>
+ <f3061c6f-5a73-4890-92b0-90f153e8dcc0@amd.com>
+In-Reply-To: <f3061c6f-5a73-4890-92b0-90f153e8dcc0@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: _9Y47oPAoj-knTUIjvu0zLxzGeUfFXPtBY4ZGMbxa5A_1755718843
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Mailman-Approved-At: Thu, 21 Aug 2025 21:16:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,9 +115,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Got it, thank you for the guidance.
+On Wed Aug 20, 2025 at 8:16 PM CEST, Alex Hung wrote:
+>
+>
+> On 8/19/25 09:31, Sebastian Wick wrote:
+>>> +/**
+>>> + * drm_plane_colorop_curve_1d_lut_init - Initialize a DRM_COLOROP_1D_L=
+UT
+>>> + *
+>>> + * @dev: DRM device
+>>> + * @colorop: The drm_colorop object to initialize
+>>> + * @plane: The associated drm_plane
+>>> + * @lut_size: LUT size supported by driver
+>>> + * @return zero on success, -E value on failure
+>>> + */
+>>> +int drm_plane_colorop_curve_1d_lut_init(struct drm_device *dev, struct=
+ drm_colorop *colorop,
+>>> +=09=09=09=09=09struct drm_plane *plane, uint32_t lut_size)
+>>> +{
+>>> +=09struct drm_property *prop;
+>>> +=09int ret;
+>>> +
+>>> +=09ret =3D drm_plane_colorop_init(dev, colorop, plane, DRM_COLOROP_1D_=
+LUT);
+>>> +=09if (ret)
+>>> +=09=09return ret;
+>>> +
+>>> +=09/* initialize 1D LUT only attribute */
+>>> +=09/* LUT size */
+>>> +=09prop =3D drm_property_create_range(dev, DRM_MODE_PROP_IMMUTABLE | D=
+RM_MODE_PROP_ATOMIC,
+>>> +=09=09=09=09=09 "SIZE", 0, UINT_MAX);
+>>> +=09if (!prop)
+>>> +=09=09return -ENOMEM;
+>>> +
+>>> +=09colorop->lut_size_property =3D prop;
+>> I'm a bit confused here. The property itself is just called "SIZE" which
+>> looks very similar to the generic "DATA" property. However, it is
+>> assigned to `lut_size_property`.
+>>=20
+>> Is this meant to be to be a generic property where the exact usage
+>> depends on the type of the color op (like "DATA"), or is this meant to
+>> be specific to LUTs (in which case the generic name is misleading)?
+>>=20
+>> I also tried to find the user space documentation for all the properties
+>> but could not find them. The only thing I could find was the kernel
+>> documentation of
+>>=20
+>>      struct drm_property *lut_size_property;
+>>=20
+>> Which says "Size property for custom LUT from userspace."
+>
+> In earlier version, this lut_size was specific to 1D LUT and 3D LUT has=
+=20
+> a dedicate lut size field in another struct, and lut_size_property is=20
+> now used for both 1D and 3D LUTs.
+>
+> Do you mean we clarify by making either changes?
+> 1) "SIZE" to "LUT_SIZE"
+>      -> specific to LUTs
+> 2) "lut_size" and "lut_size_property" "size" and "size_property",=20
+> respectively
+>     -> Can be reused in the future, if any.
 
-I will split this into a 2-patch series, one targeting amdgpu and one targeting drm, and send v2 accordingly.
+Yes! I would prefer "SIZE" as I can see other color op types which use
+the "DATA" prop to require this as well.
 
-Thanks,
-Rakuram
+The documentation should also be adjusted to say that the meaning of the
+"SIZE" property depends on the color op type (same as with "DATA").
+
