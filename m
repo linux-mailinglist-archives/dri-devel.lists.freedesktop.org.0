@@ -2,131 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35235B2D9B7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 12:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF849B2D9DD
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 12:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FEBF10E6DF;
-	Wed, 20 Aug 2025 10:09:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1D2010E6E4;
+	Wed, 20 Aug 2025 10:14:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YmwPi891";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gSLJjM1J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79A7C10E6DF
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 10:09:45 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57K9fHUr011382
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 10:09:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=ZzyoXjeixwKONwz/qTB0oBJK
- sSvE0kt0Ll8kNycredI=; b=YmwPi891MF9yI/eE9XHNxDGzZXiEBlcE8USI/+mj
- sJuh4fyQf9+6VxY40cJQnz7OCMH/t2x+K7wS4rBP6rcOzkxzzt9BSskD5T6g9EHC
- HuuDdUJBnAlYeTsNlJr6NdwT1gnRYaum6Pf/RRs/JsNNR3ruQe/pP4s3quHbescH
- 2uijlbvytgVZ/ExVCW3neaiKd9Uz+mvfH06/Otw1bUck/7TvlPbHH7JEjIrg7a2D
- 97OweyxTjdKHhqOdbWkpAD/g+PMI6HxqozGdt9pFJ9FID06rTlGbMGeoe3MSwPfE
- xhfjtdomv2rcZNr+u8jgyixSQuRrNGXiYi4LKlp/pZPcbw==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52bhbfv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 10:09:40 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4b10ab0062aso169324481cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 03:09:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755684579; x=1756289379;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZzyoXjeixwKONwz/qTB0oBJKsSvE0kt0Ll8kNycredI=;
- b=MfEbvlPe/fuTi2AcbCI4u7CF32nBenE0AOdixsYLugBoIU8R7kkDBwXYkhPIm7Tg4/
- 9SKcPAA5rikubOVf8jw/bec4yGfTw23mVVIkdMTgeC8qUcwVCiNrIrqJhhwQtgTms7SA
- D8cQakvVSr8+5FTHZmM1r/Rm1oJZID4IE9qgkqPb5vuv07kOX8qtJrKVsVFTvcajTbvK
- w4cAwTIf6LPYxiQC/5HiaMP0pQH8gpqw4H1TJ4hksyRFnYcXj5USLLKhqJVkXPvqS3ss
- KJ/H20xsNRFkD0HhnUFXJDHxj5gEqhe/rlBs6CS3UFCs4/DpdvVhFp6OGH3xl1cuEgqz
- 95oQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWO7OBwZI7kIcDs3XnlsrCJVi4kAnM1Zqs1qh+4xMihYyR14vgBk9SnnacmtPC34H0FRpRvmq83Tmk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwsSRQqlxQgH6LEdLhBObDeXiQGohlg/quO8RXUCVLnEnDmKI6e
- T6reOVU0qGQxaPnBrTgf0f+EZwmLTHYPGSZAJOFRiRFKZ3RBQts6+IH9AcILfV1DpxiU8zZD9nM
- MZx8kUFzEExD3vMAlNFWbQK3uKNjjltY92dgYH/ng9l2FLqIt6DfivJ0kH96Tc7RoskRVyUs=
-X-Gm-Gg: ASbGnct38PuVAHc5dYKH3BS6Y3hRlnR0oaTp2xzjZfEZ1JTntv2+YEOsoqTIjHGeX1/
- qOut0wTgHq1PoAQnBU3SfIdsblvu2D7yzDsQe7UtLLZllvGXTMjj8DhfLwmKWGcCJBMR/sU9lIL
- KuTvA1mXZsRtRGQAW6zu6nwEIaVT+e5nA5pJrJmGG1jj1am6ui7/bxgYl6Qu+5f4l3nMiRBT9Ns
- KTrKk1i68/sNx3/J35+8thUtm7oLYFZp2I/WToE8Ith6lI6J22tvdbbK24blygKdv+rMCNCR6P6
- D2q5K2vWWrjFI/T6YwWuV9KHp159LfGh+9aQ36l8e2Mqy+93Ou50bULbDILAQMECODIlda6WhdR
- hjBDyeXc+iAEON6o+uzFRUyaszfpmFe+L+upZXgmhs7zfvkUoViuw
-X-Received: by 2002:a05:622a:4c8a:b0:4a4:2c4c:ccb3 with SMTP id
- d75a77b69052e-4b291baeb33mr28831691cf.38.1755684579209; 
- Wed, 20 Aug 2025 03:09:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFO+07cDalcclEJz4U7wwfw/PcTiuXWte6zf1fXyIS6NX7XUcddZp81APEIdTIESPROsNMifg==
-X-Received: by 2002:a05:622a:4c8a:b0:4a4:2c4c:ccb3 with SMTP id
- d75a77b69052e-4b291baeb33mr28831181cf.38.1755684578661; 
- Wed, 20 Aug 2025 03:09:38 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55cef35f11csm2524249e87.51.2025.08.20.03.09.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Aug 2025 03:09:37 -0700 (PDT)
-Date: Wed, 20 Aug 2025 13:09:35 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, quic_lliu6@quicinc.com
-Subject: Re: [PATCH v3 02/14] dt-bindings: phy: Add QMP USB3+DP PHY for QCS615
-Message-ID: <3lodaz4t72vsxnstfe2msooo3dnwbqy6hxzdshcmyrgb3fbjnv@2afo5atezt24>
-References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
- <20250820-add-displayport-support-for-qcs615-platform-v3-2-a43bd25ec39c@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87FD610E6E1;
+ Wed, 20 Aug 2025 10:14:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755684884; x=1787220884;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=gUEnWJoLqJfU3NCtlqAB2OcvVSydCxGQgG/d0/BcVnQ=;
+ b=gSLJjM1JIZsbY23r4bqLUZWp0e5ERUiD++pt0pizZtCCOXotpLn8XSSl
+ puGXJ6J2pHNDrn6naAWSa3xqmGH6XrxOQal4kCrw1HYIluC3uXxF5fPMD
+ 70aeoeA5uo3UyppOwk+vi8lZp0g/U2ERGYZ8zZxoJTcJZjb0f32W0ncJe
+ WVh/mCpgXFLGCstjzu0E9x0kiQG92QVPBpfo+F+ZN/Rq2De0b73zAzHYW
+ x7ZoNMEgAHt1y9NssZ61yjUyaCQqCcbPDKpAoEMSfmGkuwd3kL1KHQ62D
+ YicjXnJIYVng5LXJzMPiZLC0QG+Rmk6yCkNzZPTT30EWUpcgA/r9jnYEk g==;
+X-CSE-ConnectionGUID: ROQz60e3S56v1evzd5vW5g==
+X-CSE-MsgGUID: BElNEQ/aRjeDPHZ6EmnDPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="61761825"
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="61761825"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2025 03:14:43 -0700
+X-CSE-ConnectionGUID: lmFgDkrASb2GOr4scN2nRA==
+X-CSE-MsgGUID: aXQef7boR3u2SPYTLnZchQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,302,1747724400"; d="scan'208";a="198954539"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.245.57])
+ ([10.245.245.57])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Aug 2025 03:14:41 -0700
+Message-ID: <5961da7c-19a1-46df-862c-dc8ad3133763@intel.com>
+Date: Wed, 20 Aug 2025 11:14:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820-add-displayport-support-for-qcs615-platform-v3-2-a43bd25ec39c@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX0WR6R1gYmRQ5
- 3k96CM4WmBSaezFgIJag+2Vvf6A3zmCaoxAxUZPTY+XKHICOSl9FfD2cIhzvOdKafIWQgOqKc3n
- vjBLC3i8vm9mQllrsmH0Sl1AgGJvh9aGHAz++3hu0eILEIlzBUluhauEa9IZdBnV/mylVoIcAny
- Gkahzwm6cWCTQ7SOtfgG4605sscbXT3Y+LVLZazA2KjecTCBuKY5DYVTx3A07Flx/h0fmDOXnNb
- 8y/X0RUt7oHHi8RusJqsoF7Aeg5lPmm+E1vZ5ZFu0p20/W3lNbq+8EezZA1n/ttGTkWVti0i3Hg
- ZamLCHeG1f12uCIx7V8F6Tjc8q323Ax207r6yOLcNIWBbmkrGgCpXWndS8PZ9quMmaqLKct3VjL
- GlPM8CRRoUSSD6XiMBn7qeXlyeVcwg==
-X-Authority-Analysis: v=2.4 cv=cr3CU14i c=1 sm=1 tr=0 ts=68a59ee4 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
- a=x0hJR-vgZ_cmirHItZUA:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-GUID: rioprfq5Pk6URTXunRyUcY5pDSG9-Lfj
-X-Proofpoint-ORIG-GUID: rioprfq5Pk6URTXunRyUcY5pDSG9-Lfj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-20_03,2025-08-20_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 bulkscore=0 adultscore=0 phishscore=0
- malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm/buddy: Optimize free block management with RB
+ tree
+To: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: alexander.deucher@amd.com
+References: <20250724104640.2319-1-Arunpravin.PaneerSelvam@amd.com>
+ <868ec7ee-442c-4f78-84a8-0c1f966ecc60@intel.com>
+ <0af2a7d9-f5c5-4d82-a631-1c2924a5a35a@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <0af2a7d9-f5c5-4d82-a631-1c2924a5a35a@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,142 +75,487 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 20, 2025 at 05:34:44PM +0800, Xiangxu Yin wrote:
-> Add device tree binding documentation for the Qualcomm QMP USB3+DP PHY
-> on QCS615 Platform. This PHY supports both USB3 and DP functionality
-> over USB-C, with PHY mode switching capability. It does not support
-> combo mode.
+On 20/08/2025 08:56, Arunpravin Paneer Selvam wrote:
+> Hi Matthew,
 > 
-> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> ---
->  .../bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml   | 108 +++++++++++++++++++++
->  1 file changed, 108 insertions(+)
+> On 8/14/2025 4:15 PM, Matthew Auld wrote:
+>> On 24/07/2025 11:46, Arunpravin Paneer Selvam wrote:
+>>> Replace the freelist (O(n)) used for free block management with a
+>>> red-black tree, providing more efficient O(log n) search, insert,
+>>> and delete operations. This improves scalability and performance
+>>> when managing large numbers of free blocks per order (e.g., hundreds
+>>> or thousands).
+>>>
+>>> In the VK-CTS memory stress subtest, the buddy manager merges
+>>> fragmented memory and inserts freed blocks into the freelist. Since
+>>> freelist insertion is O(n), this becomes a bottleneck as fragmentation
+>>> increases. Benchmarking shows list_insert_sorted() consumes ~52.69% CPU
+>>> with the freelist, compared to just 0.03% with the RB tree
+>>> (rbtree_insert.isra.0), despite performing the same sorted insert.
+>>>
+>>> This also improves performance in heavily fragmented workloads,
+>>> such as games or graphics tests that stress memory.
+>>
+>> Neat. Also please Cc intel-gfx@lists.freedesktop.org and intel- 
+>> xe@lists.freedesktop.org on the next revision so our CI can pick this up.
+> Sure, I will add on v3.
+>>
+>>>
+>>> Signed-off-by: Arunpravin Paneer Selvam 
+>>> <Arunpravin.PaneerSelvam@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_buddy.c | 141 +++++++++++++++++++++++-------------
+>>>   include/drm/drm_buddy.h     |  39 +++++++++-
+>>>   2 files changed, 128 insertions(+), 52 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>>> index a1e652b7631d..19e9773b41be 100644
+>>> --- a/drivers/gpu/drm/drm_buddy.c
+>>> +++ b/drivers/gpu/drm/drm_buddy.c
+>>> @@ -31,6 +31,8 @@ static struct drm_buddy_block 
+>>> *drm_block_alloc(struct drm_buddy *mm,
+>>>       block->header |= order;
+>>>       block->parent = parent;
+>>>   +    RB_CLEAR_NODE(&block->rb);
+>>> +
+>>>       BUG_ON(block->header & DRM_BUDDY_HEADER_UNUSED);
+>>>       return block;
+>>>   }
+>>> @@ -41,23 +43,53 @@ static void drm_block_free(struct drm_buddy *mm,
+>>>       kmem_cache_free(slab_blocks, block);
+>>>   }
+>>>   -static void list_insert_sorted(struct drm_buddy *mm,
+>>> -                   struct drm_buddy_block *block)
+>>> +static void rbtree_insert(struct drm_buddy *mm,
+>>> +              struct drm_buddy_block *block)
+>>>   {
+>>> +    struct rb_root *root = &mm- 
+>>> >free_tree[drm_buddy_block_order(block)];
+>>> +    struct rb_node **link = &root->rb_node;
+>>> +    struct rb_node *parent = NULL;
+>>>       struct drm_buddy_block *node;
+>>> -    struct list_head *head;
+>>> +    u64 offset;
+>>> +
+>>> +    offset = drm_buddy_block_offset(block);
+>>>   -    head = &mm->free_list[drm_buddy_block_order(block)];
+>>> -    if (list_empty(head)) {
+>>> -        list_add(&block->link, head);
+>>> -        return;
+>>> +    while (*link) {
+>>> +        parent = *link;
+>>> +        node = rb_entry(parent, struct drm_buddy_block, rb);
+>>> +
+>>> +        if (offset < drm_buddy_block_offset(node))
+>>> +            link = &parent->rb_left;
+>>> +        else
+>>> +            link = &parent->rb_right;
+>>>       }
+>>>   -    list_for_each_entry(node, head, link)
+>>> -        if (drm_buddy_block_offset(block) < 
+>>> drm_buddy_block_offset(node))
+>>> -            break;
+>>> +    rb_link_node(&block->rb, parent, link);
+>>> +    rb_insert_color(&block->rb, root);
+>>> +}
+>>> +
+>>> +static void rbtree_remove(struct drm_buddy *mm,
+>>> +              struct drm_buddy_block *block)
+>>> +{
+>>> +    struct rb_root *root;
+>>>   -    __list_add(&block->link, node->link.prev, &node->link);
+>>> +    root = &mm->free_tree[drm_buddy_block_order(block)];
+>>> +    rb_erase(&block->rb, root);
+>>> +
+>>> +    RB_CLEAR_NODE(&block->rb);
+>>> +}
+>>> +
+>>> +static inline struct drm_buddy_block *
+>>> +rbtree_last_entry(struct drm_buddy *mm, unsigned int order)
+>>> +{
+>>> +    struct rb_node *node = rb_last(&mm->free_tree[order]);
+>>> +
+>>> +    return node ? rb_entry(node, struct drm_buddy_block, rb) : NULL;
+>>> +}
+>>> +
+>>> +static bool rbtree_is_empty(struct drm_buddy *mm, unsigned int order)
+>>> +{
+>>> +    return RB_EMPTY_ROOT(&mm->free_tree[order]);
+>>>   }
+>>>     static void clear_reset(struct drm_buddy_block *block)
+>>> @@ -70,12 +102,13 @@ static void mark_cleared(struct drm_buddy_block 
+>>> *block)
+>>>       block->header |= DRM_BUDDY_HEADER_CLEAR;
+>>>   }
+>>>   -static void mark_allocated(struct drm_buddy_block *block)
+>>> +static void mark_allocated(struct drm_buddy *mm,
+>>> +               struct drm_buddy_block *block)
+>>>   {
+>>>       block->header &= ~DRM_BUDDY_HEADER_STATE;
+>>>       block->header |= DRM_BUDDY_ALLOCATED;
+>>>   -    list_del(&block->link);
+>>> +    rbtree_remove(mm, block);
+>>>   }
+>>>     static void mark_free(struct drm_buddy *mm,
+>>> @@ -84,15 +117,16 @@ static void mark_free(struct drm_buddy *mm,
+>>>       block->header &= ~DRM_BUDDY_HEADER_STATE;
+>>>       block->header |= DRM_BUDDY_FREE;
+>>>   -    list_insert_sorted(mm, block);
+>>> +    rbtree_insert(mm, block);
+>>>   }
+>>>   -static void mark_split(struct drm_buddy_block *block)
+>>> +static void mark_split(struct drm_buddy *mm,
+>>> +               struct drm_buddy_block *block)
+>>>   {
+>>>       block->header &= ~DRM_BUDDY_HEADER_STATE;
+>>>       block->header |= DRM_BUDDY_SPLIT;
+>>>   -    list_del(&block->link);
+>>> +    rbtree_remove(mm, block);
+>>>   }
+>>>     static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2)
+>>> @@ -148,7 +182,7 @@ static unsigned int __drm_buddy_free(struct 
+>>> drm_buddy *mm,
+>>>                   mark_cleared(parent);
+>>>           }
+>>>   -        list_del(&buddy->link);
+>>> +        rbtree_remove(mm, buddy);
+>>>           if (force_merge && drm_buddy_block_is_clear(buddy))
+>>>               mm->clear_avail -= drm_buddy_block_size(mm, buddy);
+>>>   @@ -179,12 +213,17 @@ static int __force_merge(struct drm_buddy *mm,
+>>>           return -EINVAL;
+>>>         for (i = min_order - 1; i >= 0; i--) {
+>>> -        struct drm_buddy_block *block, *prev;
+>>> +        struct drm_buddy_block *block, *prev_block, *first_block;
+>>> +
+>>> +        first_block = rb_entry(rb_first(&mm->free_tree[i]), struct 
+>>> drm_buddy_block, rb);
+>>>   -        list_for_each_entry_safe_reverse(block, prev, &mm- 
+>>> >free_list[i], link) {
+>>> +        for_each_rb_entry_reverse_safe(block, prev_block, &mm- 
+>>> >free_tree[i], rb) {
+>>>               struct drm_buddy_block *buddy;
+>>>               u64 block_start, block_end;
+>>>   +            if (RB_EMPTY_NODE(&block->rb))
+>>> +                break;
+>>
+>> If we got the block from the rb tree, can it be empty here?
 > 
-> diff --git a/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..c2b1fbab2930f0653f4ddb95f7b54d8fe994f92d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
-> @@ -0,0 +1,108 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/qcom,qcs615-qmp-usb3dp-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm QMP USB3-DP PHY controller (DP, QCS615)
-> +
-> +maintainers:
-> +  - Vinod Koul <vkoul@kernel.org>
-> +
-> +description:
-> +  The QMP PHY controller supports physical layer functionality for both
-> +  USB3 and DisplayPort over USB-C. While it enables mode switching
-> +  between USB3 and DisplayPort, but does not support combo mode.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,qcs615-qmp-usb3-dp-phy
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: cfg_ahb
-> +      - const: ref
-> +
-> +  resets:
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    items:
-> +      - const: phy_phy
-> +      - const: dp_phy
-> +
-> +  vdda-phy-supply: true
-> +
-> +  vdda-pll-supply: true
-> +
-> +  "#clock-cells":
-> +    const: 1
-> +    description:
-> +      See include/dt-bindings/phy/phy-qcom-qmp.h
-> +
-> +  "#phy-cells":
-> +    const: 1
-> +    description:
-> +      See include/dt-bindings/phy/phy-qcom-qmp.h
-> +
-> +  qcom,tcsr-reg:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      - items:
-> +          - description: phandle to TCSR hardware block
-> +          - description: offset of the VLS CLAMP register
-> +      - items:
-> +          - description: phandle to TCSR hardware block
-
-Why do we need two phandles?
-
-> +          - description: offset of the DP PHY mode register
-
-s/DP PHY/PHY/
-
-> +    description: Clamp and PHY mode register present in the TCSR
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - vdda-phy-supply
-> +  - vdda-pll-supply
-> +  - "#clock-cells"
-> +  - "#phy-cells"
-> +  - qcom,tcsr-reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/qcom,qcs615-gcc.h>
-> +    #include <dt-bindings/clock/qcom,rpmh.h>
-> +
-> +    phy@88e8000 {
-> +      compatible = "qcom,qcs615-qmp-usb3-dp-phy";
-> +      reg = <0x88e8000 0x2000>;
-> +
-> +      clocks = <&gcc GCC_AHB2PHY_WEST_CLK>,
-> +               <&gcc GCC_USB3_SEC_CLKREF_CLK>;
-> +      clock-names = "cfg_ahb",
-> +                    "ref";
-> +
-> +      resets = <&gcc GCC_USB3PHY_PHY_SEC_BCR >,
-> +               <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
-> +      reset-names = "phy_phy",
-> +                    "dp_phy";
-> +
-> +      vdda-phy-supply = <&vreg_l11a>;
-> +      vdda-pll-supply = <&vreg_l5a>;
-> +
-> +      #clock-cells = <1>;
-> +      #phy-cells = <1>;
-> +
-> +      qcom,tcsr-reg = <&tcsr 0xbff0>,
-> +                      <&tcsr 0xb24c>;
-> +    };
+> I saw a crash earlier without this check while running graphics 
+> workloads, but it is not happening now. I will
 > 
-> -- 
-> 2.34.1
+> test with more workloads and remove it if everything looks fine.
 > 
+>>
+>>> +
+>>>               if (!block->parent)
+>>>                   continue;
+>>>   @@ -206,10 +245,14 @@ static int __force_merge(struct drm_buddy *mm,
+>>>                * block in the next iteration as we would free the
+>>>                * buddy block as part of the free function.
+>>>                */
+>>> -            if (prev == buddy)
+>>> -                prev = list_prev_entry(prev, link);
+>>> +            if (prev_block && prev_block == buddy) {
+>>> +                if (prev_block != first_block)
+>>> +                    prev_block = rb_entry(rb_prev(&prev_block->rb),
+>>> +                                  struct drm_buddy_block,
+>>> +                                  rb);
+>>> +            }
+>>>   -            list_del(&block->link);
+>>> +            rbtree_remove(mm, block);
+>>>               if (drm_buddy_block_is_clear(block))
+>>>                   mm->clear_avail -= drm_buddy_block_size(mm, block);
+>>>   @@ -258,14 +301,14 @@ int drm_buddy_init(struct drm_buddy *mm, u64 
+>>> size, u64 chunk_size)
+>>>         BUG_ON(mm->max_order > DRM_BUDDY_MAX_ORDER);
+>>>   -    mm->free_list = kmalloc_array(mm->max_order + 1,
+>>> -                      sizeof(struct list_head),
+>>> +    mm->free_tree = kmalloc_array(mm->max_order + 1,
+>>> +                      sizeof(struct rb_root),
+>>>                         GFP_KERNEL);
+>>> -    if (!mm->free_list)
+>>> +    if (!mm->free_tree)
+>>>           return -ENOMEM;
+>>>         for (i = 0; i <= mm->max_order; ++i)
+>>> -        INIT_LIST_HEAD(&mm->free_list[i]);
+>>> +        mm->free_tree[i] = RB_ROOT;
+>>>         mm->n_roots = hweight64(size);
+>>>   @@ -273,7 +316,7 @@ int drm_buddy_init(struct drm_buddy *mm, u64 
+>>> size, u64 chunk_size)
+>>>                     sizeof(struct drm_buddy_block *),
+>>>                     GFP_KERNEL);
+>>>       if (!mm->roots)
+>>> -        goto out_free_list;
+>>> +        goto out_free_tree;
+>>>         offset = 0;
+>>>       i = 0;
+>>> @@ -312,8 +355,8 @@ int drm_buddy_init(struct drm_buddy *mm, u64 
+>>> size, u64 chunk_size)
+>>>       while (i--)
+>>>           drm_block_free(mm, mm->roots[i]);
+>>>       kfree(mm->roots);
+>>> -out_free_list:
+>>> -    kfree(mm->free_list);
+>>> +out_free_tree:
+>>> +    kfree(mm->free_tree);
+>>>       return -ENOMEM;
+>>>   }
+>>>   EXPORT_SYMBOL(drm_buddy_init);
+>>> @@ -323,7 +366,7 @@ EXPORT_SYMBOL(drm_buddy_init);
+>>>    *
+>>>    * @mm: DRM buddy manager to free
+>>>    *
+>>> - * Cleanup memory manager resources and the freelist
+>>> + * Cleanup memory manager resources and the freetree
+>>>    */
+>>>   void drm_buddy_fini(struct drm_buddy *mm)
+>>>   {
+>>> @@ -350,7 +393,7 @@ void drm_buddy_fini(struct drm_buddy *mm)
+>>>       WARN_ON(mm->avail != mm->size);
+>>>         kfree(mm->roots);
+>>> -    kfree(mm->free_list);
+>>> +    kfree(mm->free_tree);
+>>>   }
+>>>   EXPORT_SYMBOL(drm_buddy_fini);
+>>>   @@ -383,7 +426,7 @@ static int split_block(struct drm_buddy *mm,
+>>>           clear_reset(block);
+>>>       }
+>>>   -    mark_split(block);
+>>> +    mark_split(mm, block);
+>>>         return 0;
+>>>   }
+>>> @@ -598,7 +641,7 @@ get_maxblock(struct drm_buddy *mm, unsigned int 
+>>> order,
+>>>       for (i = order; i <= mm->max_order; ++i) {
+>>>           struct drm_buddy_block *tmp_block;
+>>>   -        list_for_each_entry_reverse(tmp_block, &mm->free_list[i], 
+>>> link) {
+>>> +        for_each_rb_entry_reverse(tmp_block, &mm->free_tree[i], rb) {
+>>>               if (block_incompatible(tmp_block, flags))
+>>>                   continue;
+>>>   @@ -624,7 +667,7 @@ get_maxblock(struct drm_buddy *mm, unsigned int 
+>>> order,
+>>>   }
+>>>     static struct drm_buddy_block *
+>>> -alloc_from_freelist(struct drm_buddy *mm,
+>>> +alloc_from_freetree(struct drm_buddy *mm,
+>>>               unsigned int order,
+>>>               unsigned long flags)
+>>>   {
+>>> @@ -641,7 +684,7 @@ alloc_from_freelist(struct drm_buddy *mm,
+>>>           for (tmp = order; tmp <= mm->max_order; ++tmp) {
+>>>               struct drm_buddy_block *tmp_block;
+>>>   -            list_for_each_entry_reverse(tmp_block, &mm- 
+>>> >free_list[tmp], link) {
+>>> +            for_each_rb_entry_reverse(tmp_block, &mm- 
+>>> >free_tree[tmp], rb) {
+>>>                   if (block_incompatible(tmp_block, flags))
+>>>                       continue;
+>>>   @@ -657,10 +700,8 @@ alloc_from_freelist(struct drm_buddy *mm,
+>>>       if (!block) {
+>>>           /* Fallback method */
+>>>           for (tmp = order; tmp <= mm->max_order; ++tmp) {
+>>> -            if (!list_empty(&mm->free_list[tmp])) {
+>>> -                block = list_last_entry(&mm->free_list[tmp],
+>>> -                            struct drm_buddy_block,
+>>> -                            link);
+>>> +            if (!rbtree_is_empty(mm, tmp)) {
+>>> +                block = rbtree_last_entry(mm, tmp);
+>>>                   if (block)
+>>>                       break;
+>>>               }
+>>> @@ -728,7 +769,7 @@ static int __alloc_range(struct drm_buddy *mm,
+>>>             if (contains(start, end, block_start, block_end)) {
+>>>               if (drm_buddy_block_is_free(block)) {
+>>> -                mark_allocated(block);
+>>> +                mark_allocated(mm, block);
+>>>                   total_allocated += drm_buddy_block_size(mm, block);
+>>>                   mm->avail -= drm_buddy_block_size(mm, block);
+>>>                   if (drm_buddy_block_is_clear(block))
+>>> @@ -806,7 +847,6 @@ static int __alloc_contig_try_harder(struct 
+>>> drm_buddy *mm,
+>>>   {
+>>>       u64 rhs_offset, lhs_offset, lhs_size, filled;
+>>>       struct drm_buddy_block *block;
+>>> -    struct list_head *list;
+>>>       LIST_HEAD(blocks_lhs);
+>>>       unsigned long pages;
+>>>       unsigned int order;
+>>> @@ -819,11 +859,10 @@ static int __alloc_contig_try_harder(struct 
+>>> drm_buddy *mm,
+>>>       if (order == 0)
+>>>           return -ENOSPC;
+>>>   -    list = &mm->free_list[order];
+>>> -    if (list_empty(list))
+>>> +    if (rbtree_is_empty(mm, order))
+>>>           return -ENOSPC;
+>>>   -    list_for_each_entry_reverse(block, list, link) {
+>>> +    for_each_rb_entry_reverse(block, &mm->free_tree[order], rb) {
+>>>           /* Allocate blocks traversing RHS */
+>>>           rhs_offset = drm_buddy_block_offset(block);
+>>>           err =  __drm_buddy_alloc_range(mm, rhs_offset, size,
+>>> @@ -933,7 +972,7 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
+>>>       list_add(&block->tmp_link, &dfs);
+>>>       err =  __alloc_range(mm, &dfs, new_start, new_size, blocks, NULL);
+>>>       if (err) {
+>>> -        mark_allocated(block);
+>>> +        mark_allocated(mm, block);
+>>>           mm->avail -= drm_buddy_block_size(mm, block);
+>>>           if (drm_buddy_block_is_clear(block))
+>>>               mm->clear_avail -= drm_buddy_block_size(mm, block);
+>>> @@ -956,8 +995,8 @@ __drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>>>           return  __drm_buddy_alloc_range_bias(mm, start, end,
+>>>                                order, flags);
+>>>       else
+>>> -        /* Allocate from freelist */
+>>> -        return alloc_from_freelist(mm, order, flags);
+>>> +        /* Allocate from freetree */
+>>> +        return alloc_from_freetree(mm, order, flags);
+>>>   }
+>>>     /**
+>>> @@ -974,8 +1013,8 @@ __drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>>>    * alloc_range_bias() called on range limitations, which traverses
+>>>    * the tree and returns the desired block.
+>>>    *
+>>> - * alloc_from_freelist() called when *no* range restrictions
+>>> - * are enforced, which picks the block from the freelist.
+>>> + * alloc_from_freetree() called when *no* range restrictions
+>>> + * are enforced, which picks the block from the freetree.
+>>>    *
+>>>    * Returns:
+>>>    * 0 on success, error code on failure.
+>>> @@ -1077,7 +1116,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>>>               }
+>>>           } while (1);
+>>>   -        mark_allocated(block);
+>>> +        mark_allocated(mm, block);
+>>>           mm->avail -= drm_buddy_block_size(mm, block);
+>>>           if (drm_buddy_block_is_clear(block))
+>>>               mm->clear_avail -= drm_buddy_block_size(mm, block);
+>>> @@ -1161,7 +1200,7 @@ void drm_buddy_print(struct drm_buddy *mm, 
+>>> struct drm_printer *p)
+>>>           struct drm_buddy_block *block;
+>>>           u64 count = 0, free;
+>>>   -        list_for_each_entry(block, &mm->free_list[order], link) {
+>>> +        for_each_rb_entry(block, &mm->free_tree[order], rb) {
+>>>               BUG_ON(!drm_buddy_block_is_free(block));
+>>>               count++;
+>>>           }
+>>> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+>>> index 9689a7c5dd36..a64d108a33b7 100644
+>>> --- a/include/drm/drm_buddy.h
+>>> +++ b/include/drm/drm_buddy.h
+>>> @@ -10,6 +10,7 @@
+>>>   #include <linux/list.h>
+>>>   #include <linux/slab.h>
+>>>   #include <linux/sched.h>
+>>> +#include <linux/rbtree.h>
+>>>     #include <drm/drm_print.h>
+>>>   @@ -22,6 +23,41 @@
+>>>       start__ >= max__ || size__ > max__ - start__; \
+>>>   })
+>>>   +/*
+>>> + * for_each_rb_entry() - iterate over an RB tree in order
+>>> + * @pos:    the struct type * to use as a loop cursor
+>>> + * @root:    pointer to struct rb_root to iterate
+>>> + * @member:    name of the rb_node field within the struct
+>>> + */
+>>> +#define for_each_rb_entry(pos, root, member) \
+>>> +    for (pos = rb_entry_safe(rb_first(root), typeof(*pos), member); \
+>>> +         pos; \
+>>> +         pos = rb_entry_safe(rb_next(&(pos)->member), typeof(*pos), 
+>>> member))
+>>> +
+>>> +/*
+>>> + * for_each_rb_entry_reverse() - iterate over an RB tree in reverse 
+>>> order
+>>> + * @pos:    the struct type * to use as a loop cursor
+>>> + * @root:    pointer to struct rb_root to iterate
+>>> + * @member:    name of the rb_node field within the struct
+>>> + */
+>>> +#define for_each_rb_entry_reverse(pos, root, member) \
+>>> +    for (pos = rb_entry_safe(rb_last(root), typeof(*pos), member); \
+>>> +         pos; \
+>>> +         pos = rb_entry_safe(rb_prev(&(pos)->member), typeof(*pos), 
+>>> member))
+>>> +
+>>> +/**
+>>> + * for_each_rb_entry_reverse_safe() - safely iterate over an RB tree 
+>>> in reverse order
+>>> + * @pos:    the struct type * to use as a loop cursor.
+>>> + * @n:        another struct type * to use as temporary storage.
+>>> + * @root:    pointer to struct rb_root to iterate.
+>>> + * @member:    name of the rb_node field within the struct.
+>>> + */
+>>> +#define for_each_rb_entry_reverse_safe(pos, n, root, member) \
+>>
+>> Would it make sense to give these a less generic name? Something like 
+>> for_each_rb_free_block_* ?
+>>
+>> Also should this be exported or rather kept within .c?
+> yes, I will change it.
+>>
+>>> +    for (pos = rb_entry_safe(rb_last(root), typeof(*pos), member), \
+>>> +         n = pos ? rb_entry_safe(rb_prev(&(pos)->member), 
+>>> typeof(*pos), member) : NULL; \
+>>> +         pos; \
+>>> +         pos = n, n = pos ? rb_entry_safe(rb_prev(&(pos)->member), 
+>>> typeof(*pos), member) : NULL)
+>>
+>>
+>>> +
+>>>   #define DRM_BUDDY_RANGE_ALLOCATION        BIT(0)
+>>>   #define DRM_BUDDY_TOPDOWN_ALLOCATION        BIT(1)
+>>>   #define DRM_BUDDY_CONTIGUOUS_ALLOCATION        BIT(2)
+>>> @@ -53,6 +89,7 @@ struct drm_buddy_block {
+>>>        * a list, if so desired. As soon as the block is freed with
+>>>        * drm_buddy_free* ownership is given back to the mm.
+>>>        */
+>>> +    struct rb_node rb;
+>>>       struct list_head link;
+>>
+>> I think we can be slippery here and make this a union? They should be 
+>> mutually exclusive AFAICT?
+> 
+> AFAIK, we need both, rb_node rb is for handling free blocks and the 
+> list_head link for adding the allocated blocks into
+> 
+> the driver's list.
 
--- 
-With best wishes
-Dmitry
+At a given time I think it is either on the free rb or user block list, 
+not both at the same time, given that a block can't be free and 
+allocated? Just thinking if there is an easy way to trim the size a bit, 
+given that we are adding an entire rb_node, and there can be many of 
+these of these blocks around.
+
+> 
+>>
+>>>       struct list_head tmp_link;
+>>
+>> Otherwise it should be possible to get rid of this instead, and just 
+>> re-use link? Could be done as separate patch, if this makes sense.
+> 
+> I think we cannot use link here since it is needed to add the allocated 
+> blocks to the driver's list and tmp_link is already used in
+> 
+> alloc_range() and alloc_range_bias().
+
+Yeah, I don't this will work, but union might still be an option instead.
+
+> 
+> Regards,
+> 
+> Arun.
+> 
+>>
+>>>   };
+>>> @@ -68,7 +105,7 @@ struct drm_buddy_block {
+>>>    */
+>>>   struct drm_buddy {
+>>>       /* Maintain a free list for each order. */
+>>> -    struct list_head *free_list;
+>>> +    struct rb_root *free_tree;
+>>>         /*
+>>>        * Maintain explicit binary tree(s) to track the allocation of the
+>>
+
