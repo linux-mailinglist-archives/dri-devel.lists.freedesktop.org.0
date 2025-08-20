@@ -2,55 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F22BB2D6EA
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 10:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA43B2D6FB
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 10:48:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C78FF10E6C4;
-	Wed, 20 Aug 2025 08:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 232F010E250;
+	Wed, 20 Aug 2025 08:48:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Pq2jeBlG";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RSFpIQsF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MqBip1ht";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RSFpIQsF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MqBip1ht";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3752110E6C4
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 08:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1755679438;
- bh=kSWBiN/GA12YV+qcjFwKA/cHTBbv2Wy0xFRnPWQK9Ko=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Pq2jeBlGW0CUvs+Xm9i6FNFZMCKVKAGxdCNJTRWPhjlDz2XzOAEkVYZrovKo74nQ1
- xY3TT6SIBwsT8FhK7O0aNYjjxAPayV/shBwz+KiY2o4PvR8vjExgytjQYpGhaOHS0K
- vHl+WJqvvdd1G6KOf2+tOBGGubh6qoNDFNAgYtxfPachR3YpFyvy+CDeqfC5hflwRJ
- sdhW0WqHAoCAzSHEABAkuQiWqDTLSShIKnWLu+E1SRWzeS57apkZ39Tw6U1yzjPW+G
- ZArhB/JOqskFgGBMrBjKEOgPjgR+jyVUZxs2g2UrvTM8oXYcrkArqMk9ON/GZ7ihqo
- 4Xat9acOqDz5Q==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 532D110E35E
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 08:48:47 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6DCB017E0488;
- Wed, 20 Aug 2025 10:43:58 +0200 (CEST)
-Date: Wed, 20 Aug 2025 10:43:53 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: always set fence errors on CS_FAULT
-Message-ID: <20250820104353.5cc8035d@fedora>
-In-Reply-To: <CAPaKu7TTR4prUqt=AL2Lh=od9B_RqQpH+5redvFb3FY749Ebgg@mail.gmail.com>
-References: <20250618145550.1901618-1-olvaffe@gmail.com>
- <20250623083241.02127feb@fedora>
- <CAPaKu7TTR4prUqt=AL2Lh=od9B_RqQpH+5redvFb3FY749Ebgg@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3BCFB216D6;
+ Wed, 20 Aug 2025 08:48:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1755679725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fd77WKL9jHBDsPvLjV20YwqyEI3wtdt7O4Mx5/gQPZ8=;
+ b=RSFpIQsF4DFZWa/IMx0dSShvU3+l3qxchdVu34E1hPjIqFISyE1N3UXwjiatjp0b1lxo+L
+ bMCO3cB4AokQcDWPu0rNC2QSILN/gmlZBG8x+Ztx74FLpkckk43DP210P5hyl2r6mGbpJo
+ ZtHM39G9tRRtR56D+e60BmbNNtg9JSg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1755679725;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fd77WKL9jHBDsPvLjV20YwqyEI3wtdt7O4Mx5/gQPZ8=;
+ b=MqBip1htOH8GDeUnT8AmXRXvoqiDJrRCQFmQLi4TV/Sip5Cx8VpzXUUt6JjBq9yHLXHg8r
+ 4i7ch+D3LVtJI0AQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RSFpIQsF;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MqBip1ht
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1755679725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fd77WKL9jHBDsPvLjV20YwqyEI3wtdt7O4Mx5/gQPZ8=;
+ b=RSFpIQsF4DFZWa/IMx0dSShvU3+l3qxchdVu34E1hPjIqFISyE1N3UXwjiatjp0b1lxo+L
+ bMCO3cB4AokQcDWPu0rNC2QSILN/gmlZBG8x+Ztx74FLpkckk43DP210P5hyl2r6mGbpJo
+ ZtHM39G9tRRtR56D+e60BmbNNtg9JSg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1755679725;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fd77WKL9jHBDsPvLjV20YwqyEI3wtdt7O4Mx5/gQPZ8=;
+ b=MqBip1htOH8GDeUnT8AmXRXvoqiDJrRCQFmQLi4TV/Sip5Cx8VpzXUUt6JjBq9yHLXHg8r
+ 4i7ch+D3LVtJI0AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB6D11368B;
+ Wed, 20 Aug 2025 08:48:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id x57kM+yLpWh2cQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 20 Aug 2025 08:48:44 +0000
+Message-ID: <6d6c7fce-9d60-46b1-a075-d23ce648a8e1@suse.de>
+Date: Wed, 20 Aug 2025 10:48:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm: Replace the deprecated DRM_* logging macros in
+ gem helper files
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Athul Raj Kollareth <krathul3152@gmail.com>
+Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch,
+ skhan@linuxfoundation.org
+References: <f94151b4-893a-4758-a118-153076a20d3c@suse.de>
+ <20250818192247.58322-1-krathul3152@gmail.com>
+ <90f79bba-bee6-47ea-9881-9ae37eae42e0@intel.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <90f79bba-bee6-47ea-9881-9ae37eae42e0@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_TO(0.00)[intel.com,gmail.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[gmail.com,lists.freedesktop.org,lists.linux.dev,vger.kernel.org,linux.intel.com,kernel.org,ffwll.ch,linuxfoundation.org];
+ RCPT_COUNT_SEVEN(0.00)[10]; FROM_EQ_ENVFROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 3BCFB216D6
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,68 +155,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 8 Jul 2025 14:40:06 -0700
-Chia-I Wu <olvaffe@gmail.com> wrote:
+Hi
 
-> On Sun, Jun 22, 2025 at 11:32=E2=80=AFPM Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
-> >
-> > On Wed, 18 Jun 2025 07:55:49 -0700
-> > Chia-I Wu <olvaffe@gmail.com> wrote:
-> > =20
-> > > It is unclear why fence errors were set only for CS_INHERIT_FAULT.
-> > > Downstream driver also does not treat CS_INHERIT_FAULT specially.
-> > > Remove the check.
-> > >
-> > > Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/panthor/panthor_sched.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/dr=
-m/panthor/panthor_sched.c
-> > > index a2248f692a030..1a3b1c49f7d7b 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> > > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> > > @@ -1399,7 +1399,7 @@ cs_slot_process_fault_event_locked(struct panth=
-or_device *ptdev,
-> > >       fault =3D cs_iface->output->fault;
-> > >       info =3D cs_iface->output->fault_info;
-> > >
-> > > -     if (queue && CS_EXCEPTION_TYPE(fault) =3D=3D DRM_PANTHOR_EXCEPT=
-ION_CS_INHERIT_FAULT) {
-> > > +     if (queue) {
-> > >               u64 cs_extract =3D queue->iface.output->extract;
-> > >               struct panthor_job *job;
-> > > =20
-> >
-> > Now that I look at the code, I think we should record the error when
-> > the ERROR_BARRIER is executed instead of flagging all in-flight jobs as
-> > faulty. One option would be to re-use the profiling buffer by adding an
-> > error field to panthor_job_profiling_data, but we're going to lose 4
-> > bytes per slot because of the 64-bit alignment we want for timestamps,
-> > so maybe just create a separate buffers with N entries of:
-> >
-> > struct panthor_job_status {
-> >    u32 error;
-> > }; =20
-> The current error path uses cs_extract to mark exactly the offending
-> job faulty.  Innocent in-flight jobs do not seem to be affected.
+Am 18.08.25 um 21:42 schrieb Michal Wajdeczko:
+>
+> On 8/18/2025 9:20 PM, Athul Raj Kollareth wrote:
+>> Replace the DRM_* logging macros used in gem helper files with the appropriate
+>> ones specified in /include/drm/drm_print.h.
+>>
+>> Signed-off-by: Athul Raj Kollareth <krathul3152@gmail.com>
+>> ---
+>> Changes in v2:
+>>      - Change drm_gem_objects_lookup() to take a drm_device* argument.
+>>      - Make appropriate changes to all calls of drm_gem_objects_lookup().
+>> ---
+>>   drivers/accel/rocket/rocket_job.c       |  4 ++--
+>>   drivers/gpu/drm/drm_gem.c               | 12 +++++++-----
+>>   drivers/gpu/drm/drm_gem_dma_helper.c    |  2 +-
+>>   drivers/gpu/drm/panfrost/panfrost_drv.c |  2 +-
+>>   drivers/gpu/drm/v3d/v3d_submit.c        |  2 +-
+>>   drivers/gpu/drm/vc4/vc4_gem.c           |  2 +-
+>>   include/drm/drm_gem.h                   |  5 +++--
+>>   7 files changed, 16 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+>> index 5d4afd692306..db7c50c9ab90 100644
+>> --- a/drivers/accel/rocket/rocket_job.c
+>> +++ b/drivers/accel/rocket/rocket_job.c
+>> @@ -560,14 +560,14 @@ static int rocket_ioctl_submit_job(struct drm_device *dev, struct drm_file *file
+>>   	if (ret)
+>>   		goto out_cleanup_job;
+>>   
+>> -	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->in_bo_handles),
+>> +	ret = drm_gem_objects_lookup(dev, file, u64_to_user_ptr(job->in_bo_handles),
+>>   				     job->in_bo_handle_count, &rjob->in_bos);
+>>   	if (ret)
+>>   		goto out_cleanup_job;
+>>   
+>>   	rjob->in_bo_count = job->in_bo_handle_count;
+>>   
+>> -	ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->out_bo_handles),
+>> +	ret = drm_gem_objects_lookup(dev, file, u64_to_user_ptr(job->out_bo_handles),
+>>   				     job->out_bo_handle_count, &rjob->out_bos);
+>>   	if (ret)
+>>   		goto out_cleanup_job;
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index 4a89b6acb6af..ee1e5ded6dd6 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -102,7 +102,7 @@ drm_gem_init(struct drm_device *dev)
+>>   	vma_offset_manager = drmm_kzalloc(dev, sizeof(*vma_offset_manager),
+>>   					  GFP_KERNEL);
+>>   	if (!vma_offset_manager) {
+>> -		DRM_ERROR("out of memory\n");
+>> +		drm_err(dev, "out of memory\n");
+>>   		return -ENOMEM;
+>>   	}
+>>   
+>> @@ -764,6 +764,7 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
+>>   
+>>   /**
+>>    * drm_gem_objects_lookup - look up GEM objects from an array of handles
+>> + * @dev: corresponding drm_device
+>>    * @filp: DRM file private date
+>>    * @bo_handles: user pointer to array of userspace handle
+>>    * @count: size of handle array
+>> @@ -780,8 +781,9 @@ static int objects_lookup(struct drm_file *filp, u32 *handle, int count,
+>>    * failure. 0 is returned on success.
+>>    *
+>>    */
+>> -int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+>> -			   int count, struct drm_gem_object ***objs_out)
+>> +int drm_gem_objects_lookup(struct drm_device *dev, struct drm_file *filp,
+>> +			   void __user *bo_handles, int count,
+>> +			   struct drm_gem_object ***objs_out)
+>>   {
+> can't we just use:
+>
+> 	struct drm_device *dev = filp->minor->dev;
 
-My bad, I thought the faulty CS was automatically entering the recovery
-substate (fetching all instructions and ignoring RUN_xxx ones), but it
-turns out CS instruction fetching is stalled until the fault is
-acknowledged, so we're good.
+That's even better. Thanks for pointing to this.
 
->=20
-> I looked into emitting LOAD/STORE after SYNC_ADD64 to copy the error
-> to panthor_job_status.  Other than the extra instrs and storage,
-> because group_sync_upd_work can be called before LOAD/STORE, it will
-> need to check both panthor_job_status and panthor_syncobj_64b.  That
-> will be a bit ugly as well.
+Best regards
+Thomas
 
-Nah, I think you're right, I just had a wrong recollection of how
-recovery mode works. The patch is
+>
+>>   	int ret;
+>>   	u32 *handles;
+>> @@ -805,7 +807,7 @@ int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+>>   
+>>   	if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
+>>   		ret = -EFAULT;
+>> -		DRM_DEBUG("Failed to copy in GEM handles\n");
+>> +		drm_dbg_core(dev, "Failed to copy in GEM handles\n");
+>>   		goto out;
+>>   	}
+>>   
+>> @@ -858,7 +860,7 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
+>>   
+>>   	obj = drm_gem_object_lookup(filep, handle);
+>>   	if (!obj) {
+>> -		DRM_DEBUG("Failed to look up GEM BO %d\n", handle);
+>> +		drm_dbg_core(NULL, "Failed to look up GEM BO %d\n", handle);
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+>> index 4f0320df858f..a507cf517015 100644
+>> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
+>> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+>> @@ -582,7 +582,7 @@ drm_gem_dma_prime_import_sg_table_vmap(struct drm_device *dev,
+>>   
+>>   	ret = dma_buf_vmap_unlocked(attach->dmabuf, &map);
+>>   	if (ret) {
+>> -		DRM_ERROR("Failed to vmap PRIME buffer\n");
+>> +		drm_err(dev, "Failed to vmap PRIME buffer\n");
+>>   		return ERR_PTR(ret);
+>>   	}
+>>   
+>> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> index 1ea6c509a5d5..3ffd9d5a9056 100644
+>> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+>> @@ -188,7 +188,7 @@ panfrost_lookup_bos(struct drm_device *dev,
+>>   	if (!job->bo_count)
+>>   		return 0;
+>>   
+>> -	ret = drm_gem_objects_lookup(file_priv,
+>> +	ret = drm_gem_objects_lookup(dev, file_priv,
+>>   				     (void __user *)(uintptr_t)args->bo_handles,
+>>   				     job->bo_count, &job->bos);
+>>   	if (ret)
+>> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
+>> index 5171ffe9012d..a3ac8e6a4a72 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_submit.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
+>> @@ -79,7 +79,7 @@ v3d_lookup_bos(struct drm_device *dev,
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> -	return drm_gem_objects_lookup(file_priv,
+>> +	return drm_gem_objects_lookup(dev, file_priv,
+>>   				      (void __user *)(uintptr_t)bo_handles,
+>>   				      job->bo_count, &job->bo);
+>>   }
+>> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+>> index 255e5817618e..6ce65611231b 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_gem.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
+>> @@ -692,7 +692,7 @@ vc4_cl_lookup_bos(struct drm_device *dev,
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> -	ret = drm_gem_objects_lookup(file_priv, u64_to_user_ptr(args->bo_handles),
+>> +	ret = drm_gem_objects_lookup(dev, file_priv, u64_to_user_ptr(args->bo_handles),
+>>   				     exec->bo_count, &exec->bo);
+>>   
+>>   	if (ret)
+>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+>> index d3a7b43e2c63..03cb03f46524 100644
+>> --- a/include/drm/drm_gem.h
+>> +++ b/include/drm/drm_gem.h
+>> @@ -544,8 +544,9 @@ void drm_gem_unlock(struct drm_gem_object *obj);
+>>   int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map);
+>>   void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
+>>   
+>> -int drm_gem_objects_lookup(struct drm_file *filp, void __user *bo_handles,
+>> -			   int count, struct drm_gem_object ***objs_out);
+>> +int drm_gem_objects_lookup(struct drm_device *dev, struct drm_file *filp,
+>> +			   void __user *bo_handles, int count,
+>> +			   struct drm_gem_object ***objs_out);
+>>   struct drm_gem_object *drm_gem_object_lookup(struct drm_file *filp, u32 handle);
+>>   long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
+>>   				    bool wait_all, unsigned long timeout);
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
 
