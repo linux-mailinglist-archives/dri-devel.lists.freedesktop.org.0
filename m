@@ -2,93 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72B3B2E0DB
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 17:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034EFB2E1A4
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 18:01:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFA2910E783;
-	Wed, 20 Aug 2025 15:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24B6610E7B0;
+	Wed, 20 Aug 2025 16:01:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fnXwNixv";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gbuHnsjF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC9310E783
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 15:25:31 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-323266d2d9eso47665a91.0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 08:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1755703530; x=1756308330;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1Uwy9jIZdofD/KICjKUSkalZ1bxXpwdmk7aQGqM1F+w=;
- b=fnXwNixvyLW4Q/KVUuizk8qyUzv25eLlYkA7nBLPjZL2Z1CYCddzc8cZfabLSnaQwZ
- TtJFEhfSxkKdZ3OaleObw/hFHiiLoDhFf/dqIHnIlM0ub03eBrB26HqYv16shr/52ZuA
- 9Y3HPQdTBpI3mQxdzhjBqPjPgV/cDDArGbZQU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755703530; x=1756308330;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1Uwy9jIZdofD/KICjKUSkalZ1bxXpwdmk7aQGqM1F+w=;
- b=nN5+GIxR1swkFaBOtyi+gZJCzMA3Pj8reAEQUIClFJd7/AHs+bK0m8rI4VxxIsDUCx
- jRVAVlRFguJsdx4OyWOmeSZv2FJeu5wwAEtVsgVd0u1yZxdS16xQtUGIxr9R02jKvrv9
- TAC62e2rK+BD+7Qo+GQe7V8FYWDAIZoBjfmUbpIjnCa15ly5P1O59dzCjZKzTvmNjG22
- QhVTaCayZnthbUhOl6kQJKaM8Z6xk69iskKA/lW1OerfRIhVauG/HttQR54ljwrsmf+x
- foZHM3QC5TBHRZTWbPIr6m1p2WjXNxVVqnyUxNylZ5qqq0mAutMO9ATv363xZ35Jwg/v
- /GwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHCrENkoPjo6Vp30SRLPyHplFpf04iu/8tHlf+m51F845ADnYPtvQlOTUJ6DDbaD1AtpSxqBFzN3A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxTmlQvdQkOeYr/UqVn8kYHjjozOCRf4IlqLuPaHjTrMZbHZc/k
- HXqpkuGg2pk1AHRcqmMRgsrqfgn3YLwDLJl2W5GFneloedmcIBH+NoMByaz/4urlrMs9yp9ifgB
- a1geTIQ==
-X-Gm-Gg: ASbGncsBbLwbMvDZhK2P0z4SM6bnPFTWWES+woZCHQKj6XptWe7ibTQU9v2Tp4fmszE
- vg9lFepvCD0nkl1aZ6B+M/zfgfm1oGvtYt60x5JB6GUGhb6WLI82gLG3Lofql2TL/0DQkkIjica
- VbIqjgSVxdqHTleAtqxqjsihoyCzcvSA+HQcEiVl9JjSmJvzNIxCQoPXi2KfzqHpVspxFruAOJs
- dlsG+BY1Ly9yoVV6pIeX8a8f82yXxKmEzazvAWivk4n9GGxiNdR8a2U830VNx/AF+OrRFMVA7qN
- tljl7VgBwaMfrAAuX+ZsPGax+FQ6Y5jWO/t24TOVP50ywtEA3AjnTQgwUkfpirr21G3bjpCqadk
- mLpDOU7Rk617koMGbphQrmCRqO2yqLc9TLIr23yzR+g5qwnIguLF99/ipFWW3WeheBu2nD3p+a1
- M2
-X-Google-Smtp-Source: AGHT+IFu0UctCK9J5wnE0KvxE625KNI3wHzWJq+3EWVVowqA2EiVzZbGAE2XjHW0CLdqp+Yr5sqY4A==
-X-Received: by 2002:a17:90a:e710:b0:31a:ab75:6e45 with SMTP id
- 98e67ed59e1d1-324e13fde5amr4195376a91.28.1755703529644; 
- Wed, 20 Aug 2025 08:25:29 -0700 (PDT)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com.
- [209.85.214.175]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-324e258af67sm2658423a91.27.2025.08.20.08.25.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Aug 2025 08:25:28 -0700 (PDT)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-24458195495so42698805ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 08:25:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX3z4w5kdud4SN6X8iDSyXVIvuyyVwVinKQHp7L6b6iS29zbf6Gig941vp8g+ZnPq0n1ztJFRyaO3A=@lists.freedesktop.org
-X-Received: by 2002:a17:902:f70e:b0:240:66ff:b253 with SMTP id
- d9443c01a7336-245ef237b85mr45917035ad.46.1755703527669; Wed, 20 Aug 2025
- 08:25:27 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4C610E78A;
+ Wed, 20 Aug 2025 16:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=PXFf5NUrRE2hsZJwNZ1X7sNIcwtonfdPr1NAIWbXTFw=; b=gbuHnsjFOu30aTkmxGx2nKoGdS
+ gt2KI7yBZ0e0PUpa1kw50TUf+4bNNdH4/xP1tZC8Y+vYGC8gsjzFPz0eFi/D123Z0/2NgA9DZWqRg
+ EYAK7uHqrnz79VE07rjkoCYBNUvC6H+SLLK/8riL3UQsKX7y/mlVEx1ki6vdMrXexFUIX7hL9wyGt
+ qoMjktUmrdI3t6FcaEnTx5H5Acgqr8bD1B+ieMkJ9oBrq2mlWX8xaROX+/Hlvsvb66NLVn2bIWin8
+ Ubv/MtgGaGOdMobhe2jQSyO6ePpPEQhFHwaDRtjjZw4GNhBPH1o50sLNLqrtUa3xF0Sf3LDhh6m6H
+ DouWcxYg==;
+Received: from [189.6.13.79] (helo=[192.168.31.42])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uolFA-00Gqnm-Gp; Wed, 20 Aug 2025 18:00:56 +0200
+Message-ID: <e3b1f1bb-eeee-4887-a0f9-d6aa1f725ff4@igalia.com>
+Date: Wed, 20 Aug 2025 13:00:49 -0300
 MIME-Version: 1.0
-References: <20250812082135.3351172-1-fshao@chromium.org>
- <20250812082135.3351172-2-fshao@chromium.org>
- <CAD=FV=X_CiSoXyKkg8jBJLPKe3WDBpLEOAngQJNnN8yZfaC+qw@mail.gmail.com>
- <CAC=S1nhXO4mHkxGbLzja2au7RAfDR+-yRoGAkuMCKCc69N4rng@mail.gmail.com>
-In-Reply-To: <CAC=S1nhXO4mHkxGbLzja2au7RAfDR+-yRoGAkuMCKCc69N4rng@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 20 Aug 2025 08:25:15 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WFR7b=7h6gnyH_MtLW-dcngEqocBz6Lox4_JSBMO9RhQ@mail.gmail.com>
-X-Gm-Features: Ac12FXyCoYEHWTUKnbt2HWCJxT_MXeti6--ZquIbT9ku4wcEFO6wcTTI38buFwc
-Message-ID: <CAD=FV=WFR7b=7h6gnyH_MtLW-dcngEqocBz6Lox4_JSBMO9RhQ@mail.gmail.com>
-Subject: Re: [PATCH v8 1/2] drm_bridge: register content protect property
-To: Fei Shao <fshao@chromium.org>
-Cc: Hubert Mazur <hmazur@google.com>, Sean Paul <seanpaul@chromium.org>, 
- Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] drm/amd/display: fix leak of probed modes
+To: Fedor Pchelkin <pchelkin@ispras.ru>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Cc: Harry Wentland <harry.wentland@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Hans de Goede <hansg@kernel.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org, stable@vger.kernel.org
+References: <20250819184636.232641-1-pchelkin@ispras.ru>
+ <20250819184636.232641-3-pchelkin@ispras.ru>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <20250819184636.232641-3-pchelkin@ispras.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,43 +69,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Tue, Aug 12, 2025 at 8:01=E2=80=AFPM Fei Shao <fshao@chromium.org> wrote=
-:
+
+On 19/08/2025 15:46, Fedor Pchelkin wrote:
+> amdgpu_dm_connector_ddc_get_modes() reinitializes a connector's probed
+> modes list without cleaning it up. First time it is called during the
+> driver's initialization phase, then via drm_mode_getconnector() ioctl.
+> The leaks observed with Kmemleak are as following:
 >
-> On Wed, Aug 13, 2025 at 2:07=E2=80=AFAM Doug Anderson <dianders@chromium.=
-org> wrote:
-> >
-> > Hi,
-> >
-> > On Tue, Aug 12, 2025 at 1:23=E2=80=AFAM Fei Shao <fshao@chromium.org> w=
-rote:
-> > >
-> > > From: Hsin-Yi Wang <hsinyi@chromium.org>
-> > >
-> > > Some bridges can update HDCP status based on userspace requests if th=
-ey
-> > > support HDCP.
-> > >
-> > > The HDCP property is created after connector initialization and befor=
-e
-> > > registration, just like other connector properties.
-> > >
-> > > Add the content protection property to the connector if a bridge
-> > > supports HDCP.
-> > >
-> > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> > > Signed-off-by: Fei Shao <fshao@chromium.org>
-> > > Reviewed-by: Sean Paul <seanpaul@chromium.org>
-> >
-> > nit: your Signed-off-by should always be moved to the bottom when
-> > posting patches. I wouldn't bother re-posting just for that, though...
+> unreferenced object 0xffff88812f91b200 (size 128):
+>    comm "(udev-worker)", pid 388, jiffies 4294695475
+>    hex dump (first 32 bytes):
+>      ac dd 07 00 80 02 70 0b 90 0b e0 0b 00 00 e0 01  ......p.........
+>      0b 07 10 07 5c 07 00 00 0a 00 00 00 00 00 00 00  ....\...........
+>    backtrace (crc 89db554f):
+>      __kmalloc_cache_noprof+0x3a3/0x490
+>      drm_mode_duplicate+0x8e/0x2b0
+>      amdgpu_dm_create_common_mode+0x40/0x150 [amdgpu]
+>      amdgpu_dm_connector_add_common_modes+0x336/0x488 [amdgpu]
+>      amdgpu_dm_connector_get_modes+0x428/0x8a0 [amdgpu]
+>      amdgpu_dm_initialize_drm_device+0x1389/0x17b4 [amdgpu]
+>      amdgpu_dm_init.cold+0x157b/0x1a1e [amdgpu]
+>      dm_hw_init+0x3f/0x110 [amdgpu]
+>      amdgpu_device_ip_init+0xcf4/0x1180 [amdgpu]
+>      amdgpu_device_init.cold+0xb84/0x1863 [amdgpu]
+>      amdgpu_driver_load_kms+0x15/0x90 [amdgpu]
+>      amdgpu_pci_probe+0x391/0xce0 [amdgpu]
+>      local_pci_probe+0xd9/0x190
+>      pci_call_probe+0x183/0x540
+>      pci_device_probe+0x171/0x2c0
+>      really_probe+0x1e1/0x890
 >
-> Ah sorry, I didn't notice that..
-> Could you rearrange the tag order for me when applying these patches?
+> Found by Linux Verification Center (linuxtesting.org).
+>
+> Fixes: acc96ae0d127 ("drm/amd/display: set panel orientation before drm_dev_register")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
+> ---
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index cd0e2976e268..7ec1f9afc081 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -8227,9 +8227,12 @@ static void amdgpu_dm_connector_ddc_get_modes(struct drm_connector *connector,
+>   {
+>   	struct amdgpu_dm_connector *amdgpu_dm_connector =
+>   			to_amdgpu_dm_connector(connector);
+> +	struct drm_display_mode *mode, *t;
+>   
+>   	if (drm_edid) {
+>   		/* empty probed_modes */
+> +		list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
+> +			drm_mode_remove(connector, mode);
+>   		INIT_LIST_HEAD(&connector->probed_modes);
+>   		amdgpu_dm_connector->num_modes =
+>   				drm_edid_connector_add_modes(connector);
 
-Sure, adjusted and pushed to drm-misc-next:
+What if you update the connector with the drm_edid data and skip the 
+INIT_LIST_HEAD instead?
 
-[1/2] drm_bridge: register content protect property
-      commit: 407a2fab3c99c40ad1acedaf028e8222da1f0433
+Something like:
+
+if (drm_edid) {
+    drm_edid_connector_update(connector, drm_edid);
+    amdgpu_drm_connector->num_modes = 
+drm_edid_connector_add_modes(connector);
+[...]
+}
+
+Isn't it enough?
+
+Melissa
+
+
