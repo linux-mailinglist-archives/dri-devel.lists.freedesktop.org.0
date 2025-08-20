@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1880B2D741
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 10:56:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE76EB2D742
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 10:56:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 435A710E6BF;
-	Wed, 20 Aug 2025 08:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 412DD10E6BB;
+	Wed, 20 Aug 2025 08:56:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="JJrb8xlq";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="QufDc8xI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
  [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E06810E6BF
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 08:56:14 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66BA10E6BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 08:56:13 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250820085612euoutp02d3a8c93b340e35d5c41b97c63380f6ce~dbdC5Lx0k0295702957euoutp02i
+ 20250820085612euoutp02bd04246aa3aa0d343b556d24f78a3d19~dbdCntLfF0295302953euoutp02s
  for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 08:56:12 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250820085612euoutp02d3a8c93b340e35d5c41b97c63380f6ce~dbdC5Lx0k0295702957euoutp02i
+ 20250820085612euoutp02bd04246aa3aa0d343b556d24f78a3d19~dbdCntLfF0295302953euoutp02s
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1755680173;
- bh=VfsQJvjq5c9ev8IN+DYZ8WbeMJC6AfqTnoMPHMtlcaY=;
+ s=mail20170921; t=1755680172;
+ bh=o9pup7lxdlJYj1WCugUFlZF6W3E8/CCvLfzm1q+9rG4=;
  h=From:Date:Subject:In-Reply-To:To:Cc:References:From;
- b=JJrb8xlqPmw0pORK2O6ow2zutp+fxIhJXIBnObwFO/ffULF7UEehbXIvMmjtZsI1v
- qTCjSXPJU0wysrONwOrcwsrqukNJFdSWvd+dl+PUwGvJKzm6NvkTGxiYdnGpChbP0X
- /W187OX+dKvz9NyBhzsKTLjhcwbxNjbUurf2/9rA=
+ b=QufDc8xI4smr/1tvhd+SQFha5cIatKLD68bYKP9t8/viN5Yv4cLSeqkF12kCcGupA
+ u2ftjM3OCojP1cFELRvPstlvMqTrnirsY2W8nmDy8j3zJM3yIF077/rLWv/8eCSSNn
+ vZMJsMzC7o6pg5OJ0wOdTWHNcvNA3aVgv1Q9Mod0=
 Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250820085611eucas1p28b42ff015f422b418e95555d4e696521~dbdBGYjjO2080120801eucas1p2z;
- Wed, 20 Aug 2025 08:56:11 +0000 (GMT)
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250820085612eucas1p1ae19fd1baf24a0c445d1d439f944a2a7~dbdCKCdpp0935209352eucas1p1r;
+ Wed, 20 Aug 2025 08:56:12 +0000 (GMT)
 Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
  [106.210.136.40]) by eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250820085609eusmtip17cc6e9d6bf4a3cad28ebdbe29fd72020~dbdAHpkfv0460704607eusmtip1Z;
- Wed, 20 Aug 2025 08:56:09 +0000 (GMT)
+ 20250820085611eusmtip15bff8603433a6dbae2aca87e78707bdc~dbdBKMNHw3025430254eusmtip1S;
+ Wed, 20 Aug 2025 08:56:11 +0000 (GMT)
 From: Michal Wilczynski <m.wilczynski@samsung.com>
-Date: Wed, 20 Aug 2025 10:55:55 +0200
-Subject: [PATCH v12 3/4] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node
+Date: Wed, 20 Aug 2025 10:55:56 +0200
+Subject: [PATCH v12 4/4] drm/imagination: Enable PowerVR driver for RISC-V
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250820-apr_14_for_sending-v12-3-4213ccefbd05@samsung.com>
+Message-Id: <20250820-apr_14_for_sending-v12-4-4213ccefbd05@samsung.com>
 In-Reply-To: <20250820-apr_14_for_sending-v12-0-4213ccefbd05@samsung.com>
 To: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,  Rob Herring
  <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
@@ -61,14 +61,14 @@ Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org,  Bartosz Golaszewski
  <bartosz.golaszewski@linaro.org>
 X-Mailer: b4 0.15-dev
-X-CMS-MailID: 20250820085611eucas1p28b42ff015f422b418e95555d4e696521
+X-CMS-MailID: 20250820085612eucas1p1ae19fd1baf24a0c445d1d439f944a2a7
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250820085611eucas1p28b42ff015f422b418e95555d4e696521
+X-RootMTR: 20250820085612eucas1p1ae19fd1baf24a0c445d1d439f944a2a7
 X-EPHeader: CA
-X-CMS-RootMailID: 20250820085611eucas1p28b42ff015f422b418e95555d4e696521
+X-CMS-RootMailID: 20250820085612eucas1p1ae19fd1baf24a0c445d1d439f944a2a7
 References: <20250820-apr_14_for_sending-v12-0-4213ccefbd05@samsung.com>
- <CGME20250820085611eucas1p28b42ff015f422b418e95555d4e696521@eucas1p2.samsung.com>
+ <CGME20250820085612eucas1p1ae19fd1baf24a0c445d1d439f944a2a7@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,64 +84,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
-TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
-the GPU using the drm/imagination driver.
+Several RISC-V boards feature Imagination GPUs that are compatible with
+the PowerVR driver. An example is the IMG BXM-4-64 GPU on the Lichee Pi
+4A board. This commit adjusts the driver's Kconfig dependencies to allow
+the PowerVR driver to be compiled on the RISC-V architecture.
 
-By adding this node, the kernel can recognize and initialize the GPU,
-providing graphics acceleration capabilities on the Lichee Pi 4A and
-other boards based on the TH1520 SoC.
+By enabling compilation on RISC-V, we expand support for these GPUs,
+providing graphics acceleration capabilities and enhancing hardware
+compatibility on RISC-V platforms.
 
-Add fixed clock gpu_mem_clk, as the MEM clock on the T-HEAD SoC can't be
-controlled programatically.
+The RISC-V support is restricted to 64-bit systems (RISCV && 64BIT) as
+the driver currently has an implicit dependency on a 64-bit platform.
+
+Add a dependency on MMU to fix a build warning on RISC-V configurations
+without an MMU.
 
 Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-Reviewed-by: Drew Fustini <drew@pdp7.com>
 Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 ---
- arch/riscv/boot/dts/thead/th1520.dtsi | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/gpu/drm/imagination/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
-index 42724bf7e90e08fac326c464d0f080e3bd2cd59b..6ae5c632205ba63248c0a119c03bdfc084aac7a0 100644
---- a/arch/riscv/boot/dts/thead/th1520.dtsi
-+++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-@@ -225,6 +225,13 @@ aonsys_clk: clock-73728000 {
- 		#clock-cells = <0>;
- 	};
+diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
+index 3bfa2ac212dccb73c53bdc2bc259bcba636e7cfc..682dd2633d0c012df18d0f7144d029b67a14d241 100644
+--- a/drivers/gpu/drm/imagination/Kconfig
++++ b/drivers/gpu/drm/imagination/Kconfig
+@@ -3,8 +3,9 @@
  
-+	gpu_mem_clk: mem-clk {
-+		compatible = "fixed-clock";
-+		clock-frequency = <0>;
-+		clock-output-names = "gpu_mem_clk";
-+		#clock-cells = <0>;
-+	};
-+
- 	stmmac_axi_config: stmmac-axi-config {
- 		snps,wr_osr_lmt = <15>;
- 		snps,rd_osr_lmt = <15>;
-@@ -500,6 +507,20 @@ clk: clock-controller@ffef010000 {
- 			#clock-cells = <1>;
- 		};
- 
-+		gpu: gpu@ffef400000 {
-+			compatible = "thead,th1520-gpu", "img,img-bxm-4-64",
-+				     "img,img-rogue";
-+			reg = <0xff 0xef400000 0x0 0x100000>;
-+			interrupt-parent = <&plic>;
-+			interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk_vo CLK_GPU_CORE>,
-+				 <&gpu_mem_clk>,
-+				 <&clk_vo CLK_GPU_CFG_ACLK>;
-+			clock-names = "core", "mem", "sys";
-+			power-domains = <&aon TH1520_GPU_PD>;
-+			resets = <&rst TH1520_RESET_ID_GPU>;
-+		};
-+
- 		rst: reset-controller@ffef528000 {
- 			compatible = "thead,th1520-reset";
- 			reg = <0xff 0xef528000 0x0 0x4f>;
+ config DRM_POWERVR
+ 	tristate "Imagination Technologies PowerVR (Series 6 and later) & IMG Graphics"
+-	depends on ARM64
++	depends on (ARM64 || RISCV && 64BIT)
+ 	depends on DRM
++	depends on MMU
+ 	depends on PM
+ 	select DRM_EXEC
+ 	select DRM_GEM_SHMEM_HELPER
 
 -- 
 2.34.1
