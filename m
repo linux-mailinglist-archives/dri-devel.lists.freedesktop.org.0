@@ -2,56 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0C0B2E249
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 18:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8294B2E282
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 18:38:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F2B10E068;
-	Wed, 20 Aug 2025 16:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81D710E791;
+	Wed, 20 Aug 2025 16:38:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CbgkpQOO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jSqEN71e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B689110E068
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 16:29:31 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49C1410E790;
+ Wed, 20 Aug 2025 16:38:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 953CC601D7;
- Wed, 20 Aug 2025 16:29:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAF51C4CEE7;
- Wed, 20 Aug 2025 16:29:29 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id EB02441967;
+ Wed, 20 Aug 2025 16:38:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6838EC4CEE7;
+ Wed, 20 Aug 2025 16:38:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755707370;
- bh=Qzu3sAyj5y1ZHEYtAgX6Nl+Q7wQ4tl5rXdQK2r2hq9s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CbgkpQOOkJMnf7YOfm3L+2WNCbvN5KEBLTDdwMgR39opZMxwb3V5MK73vcbQHirnK
- WevPSToBA1Z2Bd1BJLSfJUjYuaTPfwrbFLBngxvVkBwusojgB7i28p0pf2CAjQGOTI
- OWGI4RYaIQWxIe4yHc/B2L9MU3Oc48+TlxaqVGOJ28GF/EveSvbMI88t5jJUz/4gdL
- nf1y1c9dXmjFaPj6ZVW4UfP4MnM2Kun7XmhFDsJkrQBpw2OmE8LzrNOto2vNhkkKLu
- UZiKOWNEGnG9LzNAeH6ukYhQHtK47/+VD6Z4TrSDqQmwMgcGIcapZ+oEPd9Sevi3CG
- OMAOYwUjQ3ETg==
-Date: Wed, 20 Aug 2025 21:59:25 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Brian Masney <bmasney@redhat.com>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Heiko Stuebner <heiko@sntech.de>, linux-phy@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 2/9] phy: mediatek: phy-mtk-hdmi-mt2701: convert from
- round_rate() to determine_rate()
-Message-ID: <aKX35U4jX55W3W61@vaman>
-References: <20250810-phy-clk-round-rate-v2-0-9162470bb9f2@redhat.com>
- <20250810-phy-clk-round-rate-v2-2-9162470bb9f2@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250810-phy-clk-round-rate-v2-2-9162470bb9f2@redhat.com>
+ s=k20201202; t=1755707891;
+ bh=KLf/x1bae8ZNcSXG4Tm3gMEPqXJdXzwsfFGsA+zQQN0=;
+ h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
+ b=jSqEN71ef8dl7weol/2WNQV5dm5pqCh9gvFpUSr7jCWL7iqIGVuKKXkdFybuvMfHX
+ 8L3/CZ1p51AJsA9g+IE/PCOgjEPWUe7V9Dm3gpiCiEvbNv/JouoPC/5I401RqDDXWc
+ nZq1DwUuVGivzJlGjR4D9t6fTiVHjW4r0YRaeSyivh9hZi3JLko0Z1iP+XEl54u8Rq
+ qGhLbW9mjn2QQKznNVza+Me5wDIGSm5Awxdk8rnRZ85i6pmndCGv8IehDxuwFkFkZz
+ 1qbXxt9UtsuDjaeGjVIdrxEVRS8z1sxIhaR1y0ul6yXC6L18mgPOwbKbXWYF4gI4om
+ 5wUwmVaqc7b+Q==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 20 Aug 2025 18:38:08 +0200
+Message-Id: <DC7EI5AXQHU7.1UZ948MYXH3W4@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] drm/gpuvm: Rename 'map' to 'op' in drm_gpuvm_map_req
+Cc: <intel-xe@lists.freedesktop.org>, "Boris Brezillon"
+ <bbrezillon@kernel.org>, "Matt Coster" <matt.coster@imgtec.com>, "Rob
+ Clark" <robin.clark@oss.qualcomm.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, <dri-devel@lists.freedesktop.org>
+To: "Himal Prasad Ghimiray" <himal.prasad.ghimiray@intel.com>
+References: <20250820152335.2899501-1-himal.prasad.ghimiray@intel.com>
+In-Reply-To: <20250820152335.2899501-1-himal.prasad.ghimiray@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,50 +59,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10-08-25, 18:45, Brian Masney wrote:
-> The round_rate() clk ops is deprecated, so migrate this driver from
-> round_rate() to determine_rate() using the Coccinelle semantic patch
-> on the cover letter of this series.
-> 
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c b/drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c
-> index e51b2d13eab473dddace48c75c2a8d73c8c65635..b0b6497e7eedcb6867541b573d22156ded29a4d5 100644
-> --- a/drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c
-> +++ b/drivers/phy/mediatek/phy-mtk-hdmi-mt2701.c
-> @@ -90,10 +90,10 @@ static void mtk_hdmi_pll_unprepare(struct clk_hw *hw)
->  	usleep_range(80, 100);
->  }
->  
-> -static long mtk_hdmi_pll_round_rate(struct clk_hw *hw, unsigned long rate,
-> -				    unsigned long *parent_rate)
-> +static int mtk_hdmi_pll_determine_rate(struct clk_hw *hw,
-> +				       struct clk_rate_request *req)
->  {
-> -	return rate;
-> +	return 0;
+On Wed Aug 20, 2025 at 5:23 PM CEST, Himal Prasad Ghimiray wrote:
+> Renamed 'map' to 'op' in drm_gpuvm_map_req for clarity and added
+> corresponding documentation. No functional changes introduced.
+>
+> Fixes: baf1638c0956 ("drm/gpuvm: Introduce drm_gpuvm_madvise_ops_create")
+> Fixes: 000a45dce7ad ("drm/gpuvm: Pass map arguments through a struct")
+> Suggested-by: Boris Brezillon <bbrezillon@kernel.org>
+> Suggested-by: Danilo Krummrich <dakr@kernel.org>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matt Coster <matt.coster@imgtec.com>
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 
-This does not sound correct to me? should this not check the requested
-rate?
-
->  }
->  
->  static int mtk_hdmi_pll_set_rate(struct clk_hw *hw, unsigned long rate,
-> @@ -170,7 +170,7 @@ static const struct clk_ops mtk_hdmi_phy_pll_ops = {
->  	.prepare = mtk_hdmi_pll_prepare,
->  	.unprepare = mtk_hdmi_pll_unprepare,
->  	.set_rate = mtk_hdmi_pll_set_rate,
-> -	.round_rate = mtk_hdmi_pll_round_rate,
-> +	.determine_rate = mtk_hdmi_pll_determine_rate,
->  	.recalc_rate = mtk_hdmi_pll_recalc_rate,
->  };
->  
-> 
-> -- 
-> 2.50.1
-
--- 
-~Vinod
+Acked-by: Danilo Krummrich <dakr@kernel.org>
