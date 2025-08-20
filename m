@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65312B2E32B
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 19:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32680B2E32F
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 19:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC8EE10E79E;
-	Wed, 20 Aug 2025 17:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E47510E79F;
+	Wed, 20 Aug 2025 17:16:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="YmQ2Jueg";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="NnIXmD3O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F63E10E79E
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 17:16:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1755710172; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF7310E79F
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 17:16:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1755710187; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=RjzT/f8YblOclyalWeryqHbLicp5WmRidds8+LWiFgwkE9fl7bT0/hyPj3LTqJeXSXAr4OAhcXLbqY2CNpvFD5a/wTcMkyamK1NaU2z7PVd5cLpgOygHkjR8yd+hWfk1jCO949KpeCr5UxT5erSCVBc6/TZuG8eMc+eOrW9rFqM=
+ b=kDLvwleaj883Cc+IOf/PW45nKxmOpw7FuppG8i0Prj5cvfL4kHuRh+UDW/wunz3j70rCneb6y2ysMUooD89JVY9IBQibD/YubrRqa48NSA+8kTw9n2lvDd0qMDcZMKD2AZedsiQz4BxzLfOGFm1EXU+fRZEbofBgKo6umQCFKik=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1755710172;
+ s=zohoarc; t=1755710187;
  h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=U2cYAc7TRbA/3mF29NaHDGo0+OsEf9lfl8V9ifaEr3c=; 
- b=kXi+D+/QdGWNCBtsnYxOQdLJXLRy3HbjU3u4lvvI5lzS18JY5DrPM1QAO2iL7441PZ9gQhXxWCd9BnJINXilS4cuVBqPjyHOAY5nXs52e9+1Ll0ruOe/vIG506nf9Xst3yQw0lIoZ0jLzDs8l2yEPgDsj4r9OlVouggGhNqSX8k=
+ bh=1zuf/x0egV55fv1vWyBb+AzWEsuddlFQ6GFnZVxpJ9g=; 
+ b=TPL8yXuDIY/k0bSxRVY3lNUqbhD9/y7Id/K+OUU0WiArnIjigrgoNRZ6DB/CIZKrN0N1nIyvSqsDmhGUFgCn8NHMzCHBuzD6r/k2aCqUazRcaICqrokLsS9kkqUZyZ3/gqou9IPhaQvCimqJJl4YjnNX7TWvSaHgefXmIQYaBCk=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
  dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755710171; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755710187; 
  s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
  h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=U2cYAc7TRbA/3mF29NaHDGo0+OsEf9lfl8V9ifaEr3c=;
- b=YmQ2Juega/HOl6KnUF4i9NncuelEK2VPn9Fh7FH8d1kJ8KFM/jl89+DeORaM96Md
- tjbalhQof5uDLhfAcUBm9ze0luDTFvZORvjFzngrp+KwzKxwc+GW7XKF9YfD5upPrxI
- gO7DRXkvDMKT5w6X0EuHfQf0WPVePsiU/AzLub4g=
-Received: by mx.zohomail.com with SMTPS id 1755710169818871.9439170647294;
- Wed, 20 Aug 2025 10:16:09 -0700 (PDT)
+ bh=1zuf/x0egV55fv1vWyBb+AzWEsuddlFQ6GFnZVxpJ9g=;
+ b=NnIXmD3OV7f8YZKLt1Uapf8Af9w/UdwvnnjPrjllr+Mv+BqmlmpxtkNjs63jppfL
+ znM6/Aw9GjPSNdhmDzzQ2uop/9r6iipiqDQpF3hhw0QwXhfiMWe6X8sEl3dkLl003SM
+ f2LFmD4tSbU7uwU6zWOwmorwqaB7uxpSH+fDG6O0=
+Received: by mx.zohomail.com with SMTPS id 1755710186878582.0450674165439;
+ Wed, 20 Aug 2025 10:16:26 -0700 (PDT)
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 To: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
  andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
@@ -59,10 +59,10 @@ Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
  netdev@vger.kernel.org
-Subject: [PATCH v1 09/14] dt-bindings: pinctrl: mediatek,
- mt65xx-pinctrl: Allow gpio-line-names
-Date: Wed, 20 Aug 2025 14:12:57 -0300
-Message-ID: <20250820171302.324142-10-ariel.dalessandro@collabora.com>
+Subject: [PATCH v1 10/14] regulator: dt-bindings: Convert Dialog Semiconductor
+ DA9211 Regulators to YAML
+Date: Wed, 20 Aug 2025 14:12:58 -0300
+Message-ID: <20250820171302.324142-11-ariel.dalessandro@collabora.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
 References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
@@ -84,27 +84,339 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current, the DT bindings for MediaTek's MT65xx Pin controller is missing
-the gpio-line-names property, add it to the associated schema.
+Convert the existing text-based DT bindings for Dialog Semiconductor DA9211
+Voltage Regulators family to a YAML schema. Examples are simplified, as
+these are all equal.
 
 Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 ---
- .../devicetree/bindings/pinctrl/mediatek,mt65xx-pinctrl.yaml    | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/regulator/da9211.txt  | 205 ------------------
+ .../bindings/regulator/dlg,da9211.yaml        | 104 +++++++++
+ 2 files changed, 104 insertions(+), 205 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/regulator/da9211.txt
+ create mode 100644 Documentation/devicetree/bindings/regulator/dlg,da9211.yaml
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/mediatek,mt65xx-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/mediatek,mt65xx-pinctrl.yaml
-index b9680b896f12f..aa71398cf522f 100644
---- a/Documentation/devicetree/bindings/pinctrl/mediatek,mt65xx-pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/mediatek,mt65xx-pinctrl.yaml
-@@ -43,6 +43,8 @@ properties:
-       the amount of cells must be specified as 2. See the below mentioned gpio
-       binding representation for description of particular cells.
- 
-+  gpio-line-names: true
+diff --git a/Documentation/devicetree/bindings/regulator/da9211.txt b/Documentation/devicetree/bindings/regulator/da9211.txt
+deleted file mode 100644
+index eb871447d5082..0000000000000
+--- a/Documentation/devicetree/bindings/regulator/da9211.txt
++++ /dev/null
+@@ -1,205 +0,0 @@
+-* Dialog Semiconductor DA9211/DA9212/DA9213/DA9223/DA9214/DA9224/DA9215/DA9225
+- Voltage Regulator
+-
+-Required properties:
+-- compatible: "dlg,da9211" or "dlg,da9212" or "dlg,da9213" or "dlg,da9223"
+-  or "dlg,da9214" or "dlg,da9224" or "dlg,da9215" or "dlg,da9225"
+-- reg: I2C slave address, usually 0x68.
+-- interrupts: the interrupt outputs of the controller
+-- regulators: A node that houses a sub-node for each regulator within the
+-  device. Each sub-node is identified using the node's name, with valid
+-  values listed below. The content of each sub-node is defined by the
+-  standard binding for regulators; see regulator.txt.
+-  BUCKA and BUCKB.
+-
+-Optional properties:
+-- enable-gpios: platform gpio for control of BUCKA/BUCKB.
+-- Any optional property defined in regulator.txt
+-  - regulator-initial-mode and regulator-allowed-modes may be specified using
+-    mode values from dt-bindings/regulator/dlg,da9211-regulator.h
+-
+-Example 1) DA9211
+-	pmic: da9211@68 {
+-		compatible = "dlg,da9211";
+-		reg = <0x68>;
+-		interrupts = <3 27>;
+-
+-		regulators {
+-			BUCKA {
+-				regulator-name = "VBUCKA";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <2000000>;
+-				regulator-max-microamp 	= <5000000>;
+-				enable-gpios = <&gpio 27 0>;
+-				regulator-allowed-modes = <DA9211_BUCK_MODE_SYNC
+-							   DA9211_BUCK_MODE_AUTO>;
+-			};
+-		};
+-	};
+-
+-Example 2) DA9212
+-	pmic: da9212@68 {
+-		compatible = "dlg,da9212";
+-		reg = <0x68>;
+-		interrupts = <3 27>;
+-
+-		regulators {
+-			BUCKA {
+-				regulator-name = "VBUCKA";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <2000000>;
+-				regulator-max-microamp 	= <5000000>;
+-				enable-gpios = <&gpio 27 0>;
+-			};
+-			BUCKB {
+-				regulator-name = "VBUCKB";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <2000000>;
+-				regulator-max-microamp 	= <5000000>;
+-				enable-gpios = <&gpio 17 0>;
+-			};
+-		};
+-	};
+-
+-Example 3) DA9213
+-	pmic: da9213@68 {
+-		compatible = "dlg,da9213";
+-		reg = <0x68>;
+-		interrupts = <3 27>;
+-
+-		regulators {
+-			BUCKA {
+-				regulator-name = "VBUCKA";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <3000000>;
+-				regulator-max-microamp 	= <6000000>;
+-				enable-gpios = <&gpio 27 0>;
+-			};
+-		};
+-	};
+-
+-Example 4) DA9223
+-	pmic: da9223@68 {
+-		compatible = "dlg,da9223";
+-		reg = <0x68>;
+-		interrupts = <3 27>;
+-
+-		regulators {
+-			BUCKA {
+-				regulator-name = "VBUCKA";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <3000000>;
+-				regulator-max-microamp 	= <6000000>;
+-				enable-gpios = <&gpio 27 0>;
+-			};
+-		};
+-	};
+-
+-Example 5) DA9214
+-	pmic: da9214@68 {
+-		compatible = "dlg,da9214";
+-		reg = <0x68>;
+-		interrupts = <3 27>;
+-
+-		regulators {
+-			BUCKA {
+-				regulator-name = "VBUCKA";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <3000000>;
+-				regulator-max-microamp 	= <6000000>;
+-				enable-gpios = <&gpio 27 0>;
+-			};
+-			BUCKB {
+-				regulator-name = "VBUCKB";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <3000000>;
+-				regulator-max-microamp 	= <6000000>;
+-				enable-gpios = <&gpio 17 0>;
+-			};
+-		};
+-	};
+-
+-Example 6) DA9224
+-	pmic: da9224@68 {
+-		compatible = "dlg,da9224";
+-		reg = <0x68>;
+-		interrupts = <3 27>;
+-
+-		regulators {
+-			BUCKA {
+-				regulator-name = "VBUCKA";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <3000000>;
+-				regulator-max-microamp 	= <6000000>;
+-				enable-gpios = <&gpio 27 0>;
+-			};
+-			BUCKB {
+-				regulator-name = "VBUCKB";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <3000000>;
+-				regulator-max-microamp 	= <6000000>;
+-				enable-gpios = <&gpio 17 0>;
+-			};
+-		};
+-	};
+-
+-Example 7) DA9215
+-	pmic: da9215@68 {
+-		compatible = "dlg,da9215";
+-		reg = <0x68>;
+-		interrupts = <3 27>;
+-
+-		regulators {
+-			BUCKA {
+-				regulator-name = "VBUCKA";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <4000000>;
+-				regulator-max-microamp 	= <7000000>;
+-				enable-gpios = <&gpio 27 0>;
+-			};
+-			BUCKB {
+-				regulator-name = "VBUCKB";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <4000000>;
+-				regulator-max-microamp 	= <7000000>;
+-				enable-gpios = <&gpio 17 0>;
+-			};
+-		};
+-	};
+-
+-Example 8) DA9225
+-	pmic: da9225@68 {
+-		compatible = "dlg,da9225";
+-		reg = <0x68>;
+-		interrupts = <3 27>;
+-
+-		regulators {
+-			BUCKA {
+-				regulator-name = "VBUCKA";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <4000000>;
+-				regulator-max-microamp 	= <7000000>;
+-				enable-gpios = <&gpio 27 0>;
+-			};
+-			BUCKB {
+-				regulator-name = "VBUCKB";
+-				regulator-min-microvolt = < 300000>;
+-				regulator-max-microvolt = <1570000>;
+-				regulator-min-microamp 	= <4000000>;
+-				regulator-max-microamp 	= <7000000>;
+-				enable-gpios = <&gpio 17 0>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/regulator/dlg,da9211.yaml b/Documentation/devicetree/bindings/regulator/dlg,da9211.yaml
+new file mode 100644
+index 0000000000000..d4c5b354497f4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/regulator/dlg,da9211.yaml
+@@ -0,0 +1,104 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/regulator/dlg,da9211.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-   mediatek,pctl-regmap:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-     items:
++title: |
++  Dialog Semiconductor DA9211/DA9212/DA9213/DA9223/DA9214/DA9224/DA9215/DA9225
++  Voltage Regulator
++
++maintainers:
++  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
++
++properties:
++  compatible:
++    enum:
++      - "dlg,da9211"
++      - "dlg,da9212"
++      - "dlg,da9213"
++      - "dlg,da9223"
++      - "dlg,da9214"
++      - "dlg,da9224"
++      - "dlg,da9215"
++      - "dlg,da9225"
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  regulators:
++    type: object
++    additionalProperties: false
++    description: |
++      List of regulators provided by the device
++
++    patternProperties:
++      "^BUCK([A-B])$":
++        type: object
++        $ref: regulator.yaml#
++        description: |
++          Properties for a single BUCK regulator
++
++        properties:
++          regulator-initial-mode:
++            items:
++              enum: [ 1, 2, 3 ]
++            description: Defined in include/dt-bindings/regulator/dlg,da9211-regulator.h
++
++          regulator-allowed-modes:
++            items:
++              enum: [ 1, 2, 3 ]
++            description: Defined in include/dt-bindings/regulator/dlg,da9211-regulator.h
++
++          enable-gpios:
++            maxItems: 1
++            description: Specify a valid GPIO for platform control of the regulator
++
++        unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - regulators
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/regulator/dlg,da9211-regulator.h>
++
++    i2c1 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        da9212: da9212@68 {
++            compatible = "dlg,da9212";
++            reg = <0x68>;
++            interrupts = <3 27>;
++
++            regulators {
++                BUCKA {
++                    regulator-name = "VBUCKA";
++                    regulator-min-microvolt = < 300000>;
++                    regulator-max-microvolt = <1570000>;
++                    regulator-min-microamp = <2000000>;
++                    regulator-max-microamp = <5000000>;
++                    enable-gpios = <&gpio 27 0>;
++                };
++                BUCKB {
++                    regulator-name = "VBUCKB";
++                    regulator-min-microvolt = < 300000>;
++                    regulator-max-microvolt = <1570000>;
++                    regulator-min-microamp = <2000000>;
++                    regulator-max-microamp = <5000000>;
++                    enable-gpios = <&gpio 17 0>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.50.1
 
