@@ -2,79 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D102B2E607
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 22:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE988B2E64A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 22:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C62D10E7DF;
-	Wed, 20 Aug 2025 20:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 464A610E287;
+	Wed, 20 Aug 2025 20:16:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZOf84qUd";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="KiRKnS9C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1395A10E26C;
- Wed, 20 Aug 2025 20:05:13 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-32326e69f1dso320086a91.3; 
- Wed, 20 Aug 2025 13:05:13 -0700 (PDT)
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com
+ [209.85.210.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEBF210E287
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 20:16:16 +0000 (UTC)
+Received: by mail-pf1-f202.google.com with SMTP id
+ d2e1a72fcca58-76e2eb6d2baso783821b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 13:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755720312; x=1756325112; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DMT8gQy8g4ulSR+tilKyVevzgFxmeh4E1XZfeU97xY8=;
- b=ZOf84qUdhskPVzY4N+IQvUIo2UNevaOb9poHAf0IGDB96H6MhkxJII0AnaNKMz+vxN
- rHJh5iT0nIHFnpa37ucmPIafWYof51zHZJtLQEtNkTuOwaW1fxoSdGnfmvQ4JaLCOQ3K
- 8bL7HfFy7BCGq3hEq46jM5SnTS8CvrKqrnG81cCOyYfvAnJFoDtCsn+3StuEg95zIGv2
- 5ClFY7basq2SzDUJqm8Dd6xXZe2/KsOvvtcC5t2aLYCJqL9u+tAe2ImHAZycLsg3MLu7
- Nies/Ur5vTsjrVsmz7ZbHZmV9ry5b4BpCZfAo2wQFJQsorE9QEeVBEQqmfMtUVvfkWms
- uT8g==
+ d=google.com; s=20230601; t=1755720976; x=1756325776;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qIpEd04LLhW7wC7d9HjCp8cUc68SFaxpbzBA9V+sYjc=;
+ b=KiRKnS9CVGQsVvjMAPXZOYO+jahlIew1wM5+3OtLYJQf1aPJ/8W2CxKMt5z8IpGYeY
+ Ozuk8BpKfSQ7G67KqPTalzK/7tN8dkVTSkIKYAdZxQduJqKeunvY7D4FL6AK23j69sGf
+ 3Kd6pQYuyS9B3BoWHdTfxJNNRjVbERrGNKMEMelHVIYCF/SidEgaB8bcAA+IVo0XpGGN
+ U381riCkmB0IE2tkAO07Sgj0GPyXKe7NS2B4jhXsLJBg/GDJxSN2iAnS9m8/X9+3CEmC
+ 69JQ3clfOip+RTkAiH0CkGwdIDYW1IW7D316Qxz/8R7nQTA1mBBGTN1cOTqA89SMY8So
+ i6eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755720312; x=1756325112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DMT8gQy8g4ulSR+tilKyVevzgFxmeh4E1XZfeU97xY8=;
- b=UKELFRETp+hk/M1+9DKacSHyuoZyDXYKHvZLsHmDiIBW0X55Hdkjx5zrKBA3qvm4Tc
- mDsI/VQ2r/RUBDWyzpNVxUVLnbof6vmW1grQOebgYkaWhIFF/I9Efwoc98DT7yqXDZhc
- P4cfzRiS2SSrlmlIC+m+78dzlAitOd0NZSpthxOMuPL09cWCZzaO5lH9IthQojcwh+YF
- DzCpGrCCfH2IfZQnhS3zss9566YCbw/8vTYjDRlNZGnNDbro/+y3esFhPKfFrhptOouu
- t8o+Rn9tfDedJRljfk7OugxGWDcJiEq4ZzC21qSPaY4ACht3BDk81nMVWo/XLr8cMOqY
- VCuw==
+ d=1e100.net; s=20230601; t=1755720976; x=1756325776;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qIpEd04LLhW7wC7d9HjCp8cUc68SFaxpbzBA9V+sYjc=;
+ b=NRDlnpImCl3c4ro35ImWO+M2vOX0Vf72q7WmUAD44FjqkW7z4wI5BR6YhvMUD4xw2P
+ YpU1iccHwSvxHxjRe4DYUq/0m38csZdI4vG22ufxBfyjtSW50QzLHSGinE8hk7cKP4IQ
+ Nu1K8Rk6mXF64EPO1RVtW0M5+zXk5ZYJb/FfxgdMKMHKzaMBLpCZMgQsvWGDikyU0Yqs
+ 2QksOvN55myiGVX3oXlNoQv4N+azJU/UGX7pv2AltID3yzfWUqdNaJ49xGYtX9hhIcax
+ H68S2OMBUCENJtskjRfAdj7XHra/7zoVGPWhkqFH/tKU1w5OkFwWsPjYAAYI/weEt/md
+ 2raw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV/m2Mp2TcAaWYSI26Ujcn8OhkUAFQWGDg0VH026ry85VDIZyh1Nd6cR4fFa2cB7CMDNPzThneKlzfA@lists.freedesktop.org,
- AJvYcCW+cH9XPdqdlbE4AHjWqzuNZ88v9zMlaVx2mJyh742DBPBXlnWDfOeYm6CEE7/bllVbJ7hJ9drR@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzfkShw2VO+eo6HDJbGj9h1FUv/6WtGbgpqvDnZTReO8/a5ycbl
- cOutLGrsRq/AkjgSPawdb32VQYVe+aQh3hM6p+jVdjy0gA6A78dB2sk95LxaFQFqFF5RtMPM5p2
- 5FhRu4DztIOmE2ya7+UBcgfXMuf6Dk48=
-X-Gm-Gg: ASbGnctYjiklqMGDwOksbSL1Uxz+MVYzT7j2ncDBvGWYxdfrCXn+AkxtXfffSRup3/q
- PP2/UBDSDzEovp4uVRwLaVLIdyl7+bo0l8a60/NrBRsWTs55QdjvopjPyfY7NHQm3SNbO3QuWbF
- rjZRub3kqewVslyCmLXaDyOdmtljhVvbYxfI2Ra9DeXs07vlZ/3YZKNob+kMFyXPbKFgU0NneEv
- qbkRXA=
-X-Google-Smtp-Source: AGHT+IH1Qq+bzYkRz1Cnps2zoGvMW0iVPgJd3Hpn9od4rUSylQIwnGGuSVnds0b9IhrA2E8NXaxvzNjI4YmB0N7B2Z4=
-X-Received: by 2002:a17:90b:578b:b0:31e:b77c:1f09 with SMTP id
- 98e67ed59e1d1-324ed195634mr144806a91.19.1755720312413; Wed, 20 Aug 2025
- 13:05:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <CABXGCsO+EmR0QgFGjCbq74gzwbQbb76wjt1vOOOJnsCqj9hAhg@mail.gmail.com>
- <CADnq5_PdzYSzFL7KDsPV7zqX2avwn-NhSJqyVVPYF9LOMEyhWg@mail.gmail.com>
-In-Reply-To: <CADnq5_PdzYSzFL7KDsPV7zqX2avwn-NhSJqyVVPYF9LOMEyhWg@mail.gmail.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Thu, 21 Aug 2025 01:05:00 +0500
-X-Gm-Features: Ac12FXx31T4QTbPwCQYmR0dHjxWtSJ0tOEBShMpNL4ncHjKi4hfVUoS4MlpvRRE
-Message-ID: <CABXGCsMYpMXEFeycCXp6yJV8jUekOEtSpk0RV_==1x2bdJxVxQ@mail.gmail.com>
-Subject: Re: REGRESSION drm/amdgpu: Radeon 7900 XTX hang & gpu_sched "Trying
- to push to a killed entity" since 1f02f2044bda (6.17-rc)
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Gang.Ba@amd.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Deucher, Alexander" <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>, 
- Linux regressions mailing list <regressions@lists.linux.dev>
+ AJvYcCXyMnLGMewbkfdhDTvBMl6U4KU3cMfdEfQwOyn1MWcGl6PUHfnyJFk+gac38Tv7TDLwcAcoDZ10qm8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzO6nOOK7/llC3z5U+1sljzwO4tP0fMOALUo1EU1wvWA2N4h8Sg
+ xfy+nYT6MTf3UWpPK+4vn3m2NZICBdseY7idjZSDSHrHCuQ/FgHeWlYuJHZfOWil86NNh/7QwVw
+ vVRUK9XLpkco3kA==
+X-Google-Smtp-Source: AGHT+IE7GwfmR2D95ArpXhAM3e3FihMKCVaV4jn2nhnJyETg8rpRDPNgsDsY/10SNk9YeSB+51j2Lgd5YnxM/A==
+X-Received: from pfbjw5.prod.google.com ([2002:a05:6a00:9285:b0:76b:de2b:6796])
+ (user=cmllamas job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:1813:b0:76b:d746:733a with SMTP id
+ d2e1a72fcca58-76e8dd85d39mr5837029b3a.21.1755720976156; 
+ Wed, 20 Aug 2025 13:16:16 -0700 (PDT)
+Date: Wed, 20 Aug 2025 20:16:11 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.rc1.193.gad69d77794-goog
+Message-ID: <20250820201612.2549797-1-cmllamas@google.com>
+Subject: [PATCH] drm/xe: replace basename() with portable strrchr()
+From: Carlos Llamas <cmllamas@google.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>, 
+ "=?UTF-8?q?Thomas=20Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matt Atwood <matthew.s.atwood@intel.com>
+Cc: kernel-team@android.com, linux-kernel@vger.kernel.org, 
+ Carlos Llamas <cmllamas@google.com>, 
+ "open list:INTEL DRM XE DRIVER (Lunar Lake and newer)"
+ <intel-xe@lists.freedesktop.org>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,29 +87,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 18, 2025 at 7:41=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
-> wrote:
-> Should be fixed in:
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
-mmit/?id=3Daa5fc4362fac9351557eb27c745579159a2e4520
+Commit b0a2ee5567ab ("drm/xe: prepare xe_gen_wa_oob to be multi-use")
+introduced a call to basename(). The GNU version of this function is not
+portable and fails to build with alternative libc implementations like
+musl or bionic. This causes the following build error:
 
-Thanks.
+  drivers/gpu/drm/xe/xe_gen_wa_oob.c:130:12: error: assignment to =E2=80=98=
+const char *=E2=80=99 from =E2=80=98int=E2=80=99 makes pointer from integer=
+ without a cast [-Wint-conversion]
+    130 |         fn =3D basename(fn);
+        |            ^
 
-Confirming the fix: v6.17-rc2 already includes aa5fc4362fac and the
-hang is gone on my system with vanilla -rc2 (no local reverts).
-My earlier test of -rc2 mistakenly kept a local revert of 1f02f2044bda
-- sorry for the noise.
+While a POSIX version of basename() could be used, it would require a
+separate header plus the behavior differs from GNU version in that it
+might modify its argument. Not great.
 
-For the record:
-v6.17-rc1 (d7ee5bdce789): regression present; cherry-picking
-aa5fc4362fac fixes it.
-v6.17-rc2: fixed as the commit is merged.
+Instead replace basename() with a strrchr() based implementation which
+provides the same functionality and avoid portability issues.
 
-Introduced-by: 1f02f2044bda (=E2=80=9Cdrm/amdgpu: Avoid extra evict-restore=
- process=E2=80=9D)
-Fixed-by: aa5fc4362fac
-Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Fixes: b0a2ee5567ab ("drm/xe: prepare xe_gen_wa_oob to be multi-use")
+Signed-off-by: Carlos Llamas <cmllamas@google.com>
+---
+ drivers/gpu/drm/xe/xe_gen_wa_oob.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen=
+_wa_oob.c
+index 6581cb0f0e59..0a94a045bcea 100644
+--- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
++++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+@@ -125,9 +125,11 @@ static int parse(FILE *input, FILE *csource, FILE *che=
+ader, char *prefix)
+=20
+ static int fn_to_prefix(const char *fn, char *prefix, size_t size)
+ {
++	const char *base;
+ 	size_t len;
+=20
+-	fn =3D basename(fn);
++	base =3D strrchr(fn, '/');
++	fn =3D base ? base + 1 : fn;
+ 	len =3D strlen(fn);
+=20
+ 	if (len > size - 1)
 --=20
-Best Regards,
-Mike Gavrilov.
+2.51.0.rc1.193.gad69d77794-goog
+
