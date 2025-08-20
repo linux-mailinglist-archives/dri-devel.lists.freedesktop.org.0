@@ -2,131 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDDE6B2DB2B
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 13:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBD5B2DB3E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 13:39:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 397BB10E707;
-	Wed, 20 Aug 2025 11:37:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="I/khlice";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F80310E703;
+	Wed, 20 Aug 2025 11:39:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9FF910E703
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 11:37:09 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57KA4EOR024833
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 11:37:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=kG5EvtRUaQfCBV/YBpEi6527
- Mm9dhLGyA7HIWyFmk/A=; b=I/khliceukaDzXQ4a8TO8U8d64C7c9DcfnKPgEeI
- MMsXt7NdF862BBfRS+lSt2wt+/vskLgWr1umAzOsSxswVBPai8z0YCfJYyvnOCT9
- Ypygujq0WaGH8GRWYcmBe9HZeySZTPrQ/DjBhYRdAHf7alncQvu3s3OXFDmRIPhS
- 0sfrPgtsH7V4ng8jaxFIqTUfdoY3lvQjdZjMHkvB5kNhUmnbov2elZvLSBaWY0sH
- dSudDwJQwoL99/4IT9IVXYTcisHes0jI2f7FtdbS7JZf0lPoqWCvl0X9bCVS5yP2
- OnxWbSZ8bXMKzmhFnEFdp8LsbChMmrv1TptxzocLl9jQAA==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n5291jcc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 11:37:09 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-70a9f562165so226422646d6.2
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 04:37:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755689828; x=1756294628;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kG5EvtRUaQfCBV/YBpEi6527Mm9dhLGyA7HIWyFmk/A=;
- b=BZGnwGCo5TW4N+mlm/f7+x+Ld9uDRXfKz4xHA+w7HgpT89KbFshvvSkavovGBjazzD
- gCyFrfiAKzW/5Zqzv5AUpbnW0st9f0uKJSGPBkN0840WNepUuR6YHSY8eGUQ0aeszoWV
- ABUz1gmDEmKU3mSLCKZYP4DlOc4od5ZVPOQG/LoknC1WiP6HCa7RtCn+FnH6ecC+zaTH
- HCYOTtelQHVhXzLHwxCcioMXfpm9CNAievm9/PXC1tbed4345P8afPUdfKu+1A7ccbyl
- loPf1R1puK31Ioqnm+WClT3TTQAmK/AjyZaFtRruVUqlzl1gw1RH/Buip1cM1ppnkFfy
- QNwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWq5AYBDO94O7/KH80DDFUQmsb9v7i4maGdd/tHorPIIygxf1BVXw57JYLEuYnKIy3G/4a7KpnibuM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5LyMZ0X3gGQX7fsB084UHZu5nddchnVkMAdgxSFyP4nGtGpXu
- 5/u/kzd+EVYAki5GqZ+XVO55qteHedXTyokDdmuFSRkDbmuK/NoDWcFCNxKa1uCg1Y5QS2Q8Kew
- BrE/5Di3ucF2eSIRKtZqxpReY2ig1G/JFmT+b3PmkxQvlkK7Bw+acVHa8zU019Afx1cQRE6c=
-X-Gm-Gg: ASbGncvUxK6hydXRj/VmmeylLou9cKEuoTth5N1nSLObINzTm6oIgmz46woEA23heLh
- 9Mi0sah5WCfumsZI40QOHKa8MjUpAqCsbagUoM14FdTgbbllxfgrW2iHwyr2ipmOGtqg+y/pxoB
- iC2psiYgVDvTiBCvFbu+q2K8EX09M4twrxsNHcuYVB5drQEe8rEkS2tLiYvyFBgltOdDGz7KoM3
- uAFJFVp8jwLqZ+dgp2Puh1diVgH8kS3DTMGXCNdowf2PPB6qEPa7yJ8aX6ZDtXkbXXgEeWX8z2S
- 8cksJgA2O7D1xO+WKHWv2WEGm0PxWu6cRolTt8wFFYCvrqK56rfV3i+5PViy0WTQikNjLjFUEjc
- Ca/QFQ4EsBM+oERQ8wjlewZ9KkVt3xT2ebqi4Glp0+eqhtifXmNd5
-X-Received: by 2002:a05:6214:c28:b0:70b:af39:8596 with SMTP id
- 6a1803df08f44-70d76fae59cmr27616536d6.28.1755689827703; 
- Wed, 20 Aug 2025 04:37:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHF8uDY/KF39ETwmmHdeKUKsc98VcWiJ/Iu9zjHm6WFS5DWcH3CpZlDmrVqK45d2lN37i/9GQ==
-X-Received: by 2002:a05:6214:c28:b0:70b:af39:8596 with SMTP id
- 6a1803df08f44-70d76fae59cmr27613786d6.28.1755689823518; 
- Wed, 20 Aug 2025 04:37:03 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3340a41e3cfsm27543291fa.6.2025.08.20.04.37.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Aug 2025 04:37:02 -0700 (PDT)
-Date: Wed, 20 Aug 2025 14:37:00 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, quic_lliu6@quicinc.com
-Subject: Re: [PATCH v3 02/14] dt-bindings: phy: Add QMP USB3+DP PHY for QCS615
-Message-ID: <tlilctwavwqw6oy46l5fote2pa6f4hdy2im6meo56cjaawba3a@a42bwbbfnsuw>
-References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
- <20250820-add-displayport-support-for-qcs615-platform-v3-2-a43bd25ec39c@oss.qualcomm.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0B1D710E6FF;
+ Wed, 20 Aug 2025 11:39:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 582231D31;
+ Wed, 20 Aug 2025 04:39:30 -0700 (PDT)
+Received: from [10.57.3.97] (unknown [10.57.3.97])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5B3B33F58B;
+ Wed, 20 Aug 2025 04:39:32 -0700 (PDT)
+Message-ID: <145e1021-d2c3-4ff3-aabb-fb7416848a97@arm.com>
+Date: Wed, 20 Aug 2025 12:39:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820-add-displayport-support-for-qcs615-platform-v3-2-a43bd25ec39c@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=ZJKOWX7b c=1 sm=1 tr=0 ts=68a5b365 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
- a=7souUVsdAZ2KeZQVA08A:9 a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-ORIG-GUID: qHjpU8A9UK4IvKRBe3qF7sKSL42PD_ec
-X-Proofpoint-GUID: qHjpU8A9UK4IvKRBe3qF7sKSL42PD_ec
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX57q/tzA3nMdQ
- YGzOnf7E/0e2bi/MrEMS4GNTvnRRF5RloYICQm64O1UX9MvNs0vG/jZdHtmqpZeFcseEiz1/39W
- vRyKkWMMfrKTHevIj7+rw/xXTfOtGIIQDa3ClL6/nDt0KGbndK05+dUXQuGZM3Z+Ox8tJVshKEC
- aS+KXMhhkGZb9spDC8V/4HNVJLH4qjduhoWrCdStHSzBU2jYJYLtZGXhKgrhlyduNAGN5fhVbbZ
- PqKklQranAWNMLi0EQWDwC1YNzg91AgK2R0lCjXXd6K6MrwqVT85iaJag4MMFNtEkElpS5RjrLZ
- L4tr8e+rwBPMrXTGkdJlgWhCatnvFHX9GpA7r+/qGh4k1xNbJpPDtnoOJPBFO2xcTFXB4F7JerN
- RHl0pxr0pYaOSI5dDc6aQs+jt4HbFw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-20_03,2025-08-20_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 malwarescore=0 adultscore=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 phishscore=0 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 18/19] perf: Introduce positive capability for raw events
+To: Thomas Richter <tmricht@linux.ibm.com>, peterz@infradead.org,
+ mingo@redhat.com, will@kernel.org, mark.rutland@arm.com, acme@kernel.org,
+ namhyung@kernel.org, alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+ irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com
+Cc: linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+ linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, dmaengine@vger.kernel.org,
+ linux-fpga@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, coresight@lists.linaro.org,
+ iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
+ linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+References: <cover.1755096883.git.robin.murphy@arm.com>
+ <542787fd188ea15ef41c53d557989c962ed44771.1755096883.git.robin.murphy@arm.com>
+ <67a0d778-6e2c-4955-a7ce-56a10043ae8d@arm.com>
+ <295ae4dd-4734-42a0-be63-2d322f00c799@linux.ibm.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <295ae4dd-4734-42a0-be63-2d322f00c799@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,139 +65,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 20, 2025 at 05:34:44PM +0800, Xiangxu Yin wrote:
-> Add device tree binding documentation for the Qualcomm QMP USB3+DP PHY
-> on QCS615 Platform. This PHY supports both USB3 and DP functionality
-> over USB-C, with PHY mode switching capability. It does not support
-> combo mode.
-> 
-> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> ---
->  .../bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml   | 108 +++++++++++++++++++++
->  1 file changed, 108 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..c2b1fbab2930f0653f4ddb95f7b54d8fe994f92d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
-> @@ -0,0 +1,108 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/qcom,qcs615-qmp-usb3dp-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm QMP USB3-DP PHY controller (DP, QCS615)
-> +
-> +maintainers:
-> +  - Vinod Koul <vkoul@kernel.org>
-> +
-> +description:
-> +  The QMP PHY controller supports physical layer functionality for both
-> +  USB3 and DisplayPort over USB-C. While it enables mode switching
-> +  between USB3 and DisplayPort, but does not support combo mode.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,qcs615-qmp-usb3-dp-phy
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 2
+Hi Thomas,
 
-Missing GCC_USB2_SEC_PHY_AUX_CLK and GCC_USB2_SEC_PHY_PIPE_CLK
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: cfg_ahb
-> +      - const: ref
-> +
-> +  resets:
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    items:
-> +      - const: phy_phy
-> +      - const: dp_phy
-> +
-> +  vdda-phy-supply: true
-> +
-> +  vdda-pll-supply: true
-> +
-> +  "#clock-cells":
-> +    const: 1
-> +    description:
-> +      See include/dt-bindings/phy/phy-qcom-qmp.h
-> +
-> +  "#phy-cells":
-> +    const: 1
-> +    description:
-> +      See include/dt-bindings/phy/phy-qcom-qmp.h
-> +
-> +  qcom,tcsr-reg:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      - items:
-> +          - description: phandle to TCSR hardware block
-> +          - description: offset of the VLS CLAMP register
-> +      - items:
-> +          - description: phandle to TCSR hardware block
-> +          - description: offset of the DP PHY mode register
-> +    description: Clamp and PHY mode register present in the TCSR
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - vdda-phy-supply
-> +  - vdda-pll-supply
-> +  - "#clock-cells"
-> +  - "#phy-cells"
-> +  - qcom,tcsr-reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/qcom,qcs615-gcc.h>
-> +    #include <dt-bindings/clock/qcom,rpmh.h>
-> +
-> +    phy@88e8000 {
-> +      compatible = "qcom,qcs615-qmp-usb3-dp-phy";
-> +      reg = <0x88e8000 0x2000>;
-> +
-> +      clocks = <&gcc GCC_AHB2PHY_WEST_CLK>,
-> +               <&gcc GCC_USB3_SEC_CLKREF_CLK>;
-> +      clock-names = "cfg_ahb",
-> +                    "ref";
-> +
-> +      resets = <&gcc GCC_USB3PHY_PHY_SEC_BCR >,
-> +               <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
-> +      reset-names = "phy_phy",
-> +                    "dp_phy";
-> +
-> +      vdda-phy-supply = <&vreg_l11a>;
-> +      vdda-pll-supply = <&vreg_l5a>;
-> +
-> +      #clock-cells = <1>;
-> +      #phy-cells = <1>;
-> +
-> +      qcom,tcsr-reg = <&tcsr 0xbff0>,
-> +                      <&tcsr 0xb24c>;
-> +    };
+On 2025-08-20 9:09 am, Thomas Richter wrote:
+> On 8/19/25 15:15, Robin Murphy wrote:
+>> On 13/08/2025 6:01 pm, Robin Murphy wrote:
+>>> Only a handful of CPU PMUs accept PERF_TYPE_{RAW,HARDWARE,HW_CACHE}
+>>> events without registering themselves as PERF_TYPE_RAW in the first
+>>> place. Add an explicit opt-in for these special cases, so that we can
+>>> make life easier for every other driver (and probably also speed up the
+>>> slow-path search) by having perf_try_init_event() do the basic type
+>>> checking to cover the majority of cases.
+>>>
+>>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+>>> ---
+>>>
+>>> A further possibility is to automatically add the cap to PERF_TYPE_RAW
+>>> PMUs in perf_pmu_register() to have a single point-of-use condition; I'm
+>>> undecided...
+>>> ---
+>>>    arch/s390/kernel/perf_cpum_cf.c    |  1 +
+>>>    arch/s390/kernel/perf_pai_crypto.c |  2 +-
+>>>    arch/s390/kernel/perf_pai_ext.c    |  2 +-
+>>>    arch/x86/events/core.c             |  2 +-
+>>>    drivers/perf/arm_pmu.c             |  1 +
+>>>    include/linux/perf_event.h         |  1 +
+>>>    kernel/events/core.c               | 15 +++++++++++++++
+>>>    7 files changed, 21 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/arch/s390/kernel/perf_cpum_cf.c b/arch/s390/kernel/perf_cpum_cf.c
+>>> index 1a94e0944bc5..782ab755ddd4 100644
+>>> --- a/arch/s390/kernel/perf_cpum_cf.c
+>>> +++ b/arch/s390/kernel/perf_cpum_cf.c
+>>> @@ -1054,6 +1054,7 @@ static void cpumf_pmu_del(struct perf_event *event, int flags)
+>>>    /* Performance monitoring unit for s390x */
+>>>    static struct pmu cpumf_pmu = {
+>>>        .task_ctx_nr  = perf_sw_context,
+>>> +    .capabilities = PERF_PMU_CAP_RAW_EVENTS,
+>>>        .pmu_enable   = cpumf_pmu_enable,
+>>>        .pmu_disable  = cpumf_pmu_disable,
+>>>        .event_init   = cpumf_pmu_event_init,
+>>> diff --git a/arch/s390/kernel/perf_pai_crypto.c b/arch/s390/kernel/perf_pai_crypto.c
+>>> index a64b6b056a21..b5b6d8b5d943 100644
+>>> --- a/arch/s390/kernel/perf_pai_crypto.c
+>>> +++ b/arch/s390/kernel/perf_pai_crypto.c
+>>> @@ -569,7 +569,7 @@ static const struct attribute_group *paicrypt_attr_groups[] = {
+>>>    /* Performance monitoring unit for mapped counters */
+>>>    static struct pmu paicrypt = {
+>>>        .task_ctx_nr  = perf_hw_context,
+>>> -    .capabilities = PERF_PMU_CAP_SAMPLING,
+>>> +    .capabilities = PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_RAW_EVENTS,
+>>>        .event_init   = paicrypt_event_init,
+>>>        .add          = paicrypt_add,
+>>>        .del          = paicrypt_del,
+>>> diff --git a/arch/s390/kernel/perf_pai_ext.c b/arch/s390/kernel/perf_pai_ext.c
+>>> index 1261f80c6d52..bcd28c38da70 100644
+>>> --- a/arch/s390/kernel/perf_pai_ext.c
+>>> +++ b/arch/s390/kernel/perf_pai_ext.c
+>>> @@ -595,7 +595,7 @@ static const struct attribute_group *paiext_attr_groups[] = {
+>>>    /* Performance monitoring unit for mapped counters */
+>>>    static struct pmu paiext = {
+>>>        .task_ctx_nr  = perf_hw_context,
+>>> -    .capabilities = PERF_PMU_CAP_SAMPLING,
+>>> +    .capabilities = PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_RAW_EVENTS,
+>>>        .event_init   = paiext_event_init,
+>>>        .add          = paiext_add,
+>>>        .del          = paiext_del,
+>>> diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
+>>> index 789dfca2fa67..764728bb80ae 100644
+>>> --- a/arch/x86/events/core.c
+>>> +++ b/arch/x86/events/core.c
+>>> @@ -2697,7 +2697,7 @@ static bool x86_pmu_filter(struct pmu *pmu, int cpu)
+>>>    }
+>>>      static struct pmu pmu = {
+>>> -    .capabilities        = PERF_PMU_CAP_SAMPLING,
+>>> +    .capabilities        = PERF_PMU_CAP_SAMPLING | PERF_PMU_CAP_RAW_EVENTS,
+>>>          .pmu_enable        = x86_pmu_enable,
+>>>        .pmu_disable        = x86_pmu_disable,
+>>> diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
+>>> index 72d8f38d0aa5..bc772a3bf411 100644
+>>> --- a/drivers/perf/arm_pmu.c
+>>> +++ b/drivers/perf/arm_pmu.c
+>>> @@ -877,6 +877,7 @@ struct arm_pmu *armpmu_alloc(void)
+>>>             * specific PMU.
+>>>             */
+>>>            .capabilities    = PERF_PMU_CAP_SAMPLING |
+>>> +                  PERF_PMU_CAP_RAW_EVENTS |
+>>>                      PERF_PMU_CAP_EXTENDED_REGS |
+>>>                      PERF_PMU_CAP_EXTENDED_HW_TYPE,
+>>>        };
+>>> diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
+>>> index 183b7c48b329..c6ad036c0037 100644
+>>> --- a/include/linux/perf_event.h
+>>> +++ b/include/linux/perf_event.h
+>>> @@ -305,6 +305,7 @@ struct perf_event_pmu_context;
+>>>    #define PERF_PMU_CAP_EXTENDED_HW_TYPE    0x0100
+>>>    #define PERF_PMU_CAP_AUX_PAUSE        0x0200
+>>>    #define PERF_PMU_CAP_AUX_PREFER_LARGE    0x0400
+>>> +#define PERF_PMU_CAP_RAW_EVENTS        0x0800
+>>>      /**
+>>>     * pmu::scope
+>>> diff --git a/kernel/events/core.c b/kernel/events/core.c
+>>> index 71b2a6730705..2ecee76d2ae2 100644
+>>> --- a/kernel/events/core.c
+>>> +++ b/kernel/events/core.c
+>>> @@ -12556,11 +12556,26 @@ static inline bool has_extended_regs(struct perf_event *event)
+>>>               (event->attr.sample_regs_intr & PERF_REG_EXTENDED_MASK);
+>>>    }
+>>>    +static bool is_raw_pmu(const struct pmu *pmu)
+>>> +{
+>>> +    return pmu->type == PERF_TYPE_RAW ||
+>>> +           pmu->capabilities & PERF_PMU_CAP_RAW_EVENTS;
+>>> +}
+>>> +
+>>>    static int perf_try_init_event(struct pmu *pmu, struct perf_event *event)
+>>>    {
+>>>        struct perf_event_context *ctx = NULL;
+>>>        int ret;
+>>>    +    /*
+>>> +     * Before touching anything, we can safely skip:
+>>> +     * - any event for a specific PMU which is not this one
+>>> +     * - any common event if this PMU doesn't support them
+>>> +     */
+>>> +    if (event->attr.type != pmu->type &&
+>>> +        (event->attr.type >= PERF_TYPE_MAX || is_raw_pmu(pmu)))
+>>
+>> Ah, that should be "!is_raw_pmu(pmu)" there (although it's not entirely the cause of the LKP report on the final patch.)
+>>
+>> Thanks,
+>> Robin.
+>>
+>>> +        return -ENOENT;
+>>> +
+>>>        if (!try_module_get(pmu->module))
+>>>            return -ENODEV;
+>>>    
+>>
+>>
 > 
-> -- 
-> 2.34.1
+> Hi Robin,
 > 
+> what is the intention of that patch?
+> Can you explain that a bit more.
 
--- 
-With best wishes
-Dmitry
+The background here is that, in this context, we essentially have 3 
+distinct categories of PMU driver:
+
+- Older/simpler CPU PMUs which register as PERF_TYPE_RAW and accept 
+raw/hardware events
+- Newer/heterogeneous CPU PMUs which register as a dynamic type, and 
+accept both raw/hardware events and events of their own type
+- Other (mostly uncore) PMUs which only accept events of their own type
+
+These days that third one is by far the majority, so it seems 
+increasingly unreasonable and inefficient to always offer every kind of 
+event to every driver, and so force nearly all of them to have the same 
+boilerplate code to refuse events they don't want. The core code is 
+already in a position to be able to assume that a PERF_TYPE_RAW PMU 
+wants "raw" events and a typed PMU wants its own events, so the only 
+actual new thing we need is a way to discern the 5 drivers in the middle 
+category - where s390 dominates :) - from the rest in the third.
+
+The way the check itself ends up structured is that the only time we'll 
+now offer an event to a driver of a different type is if it's a "raw" 
+event and the driver has asked to be offered them (either by registering 
+as PERF_TYPE_RAW or with the new cap). Otherwise we can safely assume 
+that this PMU won't want this event, and so skip straight to trying the 
+next one. We can get away with the single PERF_TYPE_MAX check for all 
+"raw" events, since the drivers which do handle them already have to 
+consider the exact type to discern between RAW/HARDWARE/HW_CACHE, and 
+thus must reject SOFTWARE/TRACEPOINT/BREAKPOINT events anyway, but I 
+could of course make that more specific if people prefer. Conversely, 
+since the actual software/tracepoint/breakpoint PMUs won't pass the 
+is_raw_pmu() check either, and thus will only be given their own events, 
+I could remove the type checking from their event_init routines as well, 
+but I thought that might be perhaps a little too subtle as-is.
+
+BTW if the s390 drivers are intended to coexist then I'm not sure they 
+actually handle sharing PERF_TYPE_RAW events very well - what happens to 
+any particular event seems ultimately largely dependent on the order in 
+which the drivers happen to register - but that's a pre-existing issue 
+and this series shouldn't change anything in that respect. (As it 
+similarly shouldn't affect the trick of the first matching driver 
+rewriting the event type to "forward" it to another driver later in the 
+list.)
+
+Thanks,
+Robin.
