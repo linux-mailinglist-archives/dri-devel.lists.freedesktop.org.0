@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034EFB2E1A4
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 18:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A415BB2E1DC
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 18:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B6610E7B0;
-	Wed, 20 Aug 2025 16:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CCE610E78B;
+	Wed, 20 Aug 2025 16:07:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gbuHnsjF";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="T3r2aOCP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4C610E78A;
- Wed, 20 Aug 2025 16:01:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=PXFf5NUrRE2hsZJwNZ1X7sNIcwtonfdPr1NAIWbXTFw=; b=gbuHnsjFOu30aTkmxGx2nKoGdS
- gt2KI7yBZ0e0PUpa1kw50TUf+4bNNdH4/xP1tZC8Y+vYGC8gsjzFPz0eFi/D123Z0/2NgA9DZWqRg
- EYAK7uHqrnz79VE07rjkoCYBNUvC6H+SLLK/8riL3UQsKX7y/mlVEx1ki6vdMrXexFUIX7hL9wyGt
- qoMjktUmrdI3t6FcaEnTx5H5Acgqr8bD1B+ieMkJ9oBrq2mlWX8xaROX+/Hlvsvb66NLVn2bIWin8
- Ubv/MtgGaGOdMobhe2jQSyO6ePpPEQhFHwaDRtjjZw4GNhBPH1o50sLNLqrtUa3xF0Sf3LDhh6m6H
- DouWcxYg==;
-Received: from [189.6.13.79] (helo=[192.168.31.42])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uolFA-00Gqnm-Gp; Wed, 20 Aug 2025 18:00:56 +0200
-Message-ID: <e3b1f1bb-eeee-4887-a0f9-d6aa1f725ff4@igalia.com>
-Date: Wed, 20 Aug 2025 13:00:49 -0300
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96BE810E276;
+ Wed, 20 Aug 2025 16:07:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755706067;
+ bh=JZnp5yjKMKgRWTZZeJ7KCwPkVJENOyo5NMGFvtD70QU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=T3r2aOCPqSSQjm9ieCypjtClfbtwD8vNZXRNWSRpa0t+DKXkRFwLkDVna6UU/qYJx
+ 53RqWgO50xy8+KJuM8SYN8gRHiGtXpjLWyTC8T0ml/aMxYOLCB9xMqCHDt8DY4MURh
+ ToqRRnsMx51SPX08WYSOAAAfj/P+QLNdkfg18GRUor98W5x+BdpDCbTVgHg5mLrv08
+ syjBl1FkDYm16+W1vs75byfLjKAwQI74uh7r+JpsUp0Mp9Z2TbIxrsD04O2KoKeuss
+ AHaqYu2QoBzz5juKYZcEIcqolIRGYwytGRJeaFeV5QYAd3cNj2So7FAeEaYXJV+TLv
+ 5GwE90sF/c9RA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id EC93417E0488;
+ Wed, 20 Aug 2025 18:07:46 +0200 (CEST)
+Date: Wed, 20 Aug 2025 18:07:42 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Cc: intel-xe@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Matt Coster <matt.coster@imgtec.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Matthew Brost
+ <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/gpuvm: Rename 'map' to 'op' in drm_gpuvm_map_req
+Message-ID: <20250820180742.20623521@fedora>
+In-Reply-To: <20250820152335.2899501-1-himal.prasad.ghimiray@intel.com>
+References: <20250820152335.2899501-1-himal.prasad.ghimiray@intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/amd/display: fix leak of probed modes
-To: Fedor Pchelkin <pchelkin@ispras.ru>,
- Alex Deucher <alexander.deucher@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Hans de Goede <hansg@kernel.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org, stable@vger.kernel.org
-References: <20250819184636.232641-1-pchelkin@ispras.ru>
- <20250819184636.232641-3-pchelkin@ispras.ru>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <20250819184636.232641-3-pchelkin@ispras.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,78 +63,244 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 20 Aug 2025 20:53:35 +0530
+Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com> wrote:
 
+> Renamed 'map' to 'op' in drm_gpuvm_map_req for clarity and added
+> corresponding documentation. No functional changes introduced.
+> 
+> Fixes: baf1638c0956 ("drm/gpuvm: Introduce drm_gpuvm_madvise_ops_create")
+> Fixes: 000a45dce7ad ("drm/gpuvm: Pass map arguments through a struct")
+> Suggested-by: Boris Brezillon <bbrezillon@kernel.org>
+> Suggested-by: Danilo Krummrich <dakr@kernel.org>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matt Coster <matt.coster@imgtec.com>
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Cc: Rob Clark <robin.clark@oss.qualcomm.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
 
-On 19/08/2025 15:46, Fedor Pchelkin wrote:
-> amdgpu_dm_connector_ddc_get_modes() reinitializes a connector's probed
-> modes list without cleaning it up. First time it is called during the
-> driver's initialization phase, then via drm_mode_getconnector() ioctl.
-> The leaks observed with Kmemleak are as following:
->
-> unreferenced object 0xffff88812f91b200 (size 128):
->    comm "(udev-worker)", pid 388, jiffies 4294695475
->    hex dump (first 32 bytes):
->      ac dd 07 00 80 02 70 0b 90 0b e0 0b 00 00 e0 01  ......p.........
->      0b 07 10 07 5c 07 00 00 0a 00 00 00 00 00 00 00  ....\...........
->    backtrace (crc 89db554f):
->      __kmalloc_cache_noprof+0x3a3/0x490
->      drm_mode_duplicate+0x8e/0x2b0
->      amdgpu_dm_create_common_mode+0x40/0x150 [amdgpu]
->      amdgpu_dm_connector_add_common_modes+0x336/0x488 [amdgpu]
->      amdgpu_dm_connector_get_modes+0x428/0x8a0 [amdgpu]
->      amdgpu_dm_initialize_drm_device+0x1389/0x17b4 [amdgpu]
->      amdgpu_dm_init.cold+0x157b/0x1a1e [amdgpu]
->      dm_hw_init+0x3f/0x110 [amdgpu]
->      amdgpu_device_ip_init+0xcf4/0x1180 [amdgpu]
->      amdgpu_device_init.cold+0xb84/0x1863 [amdgpu]
->      amdgpu_driver_load_kms+0x15/0x90 [amdgpu]
->      amdgpu_pci_probe+0x391/0xce0 [amdgpu]
->      local_pci_probe+0xd9/0x190
->      pci_call_probe+0x183/0x540
->      pci_device_probe+0x171/0x2c0
->      really_probe+0x1e1/0x890
->
-> Found by Linux Verification Center (linuxtesting.org).
->
-> Fixes: acc96ae0d127 ("drm/amd/display: set panel orientation before drm_dev_register")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
+Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
+
 > ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index cd0e2976e268..7ec1f9afc081 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -8227,9 +8227,12 @@ static void amdgpu_dm_connector_ddc_get_modes(struct drm_connector *connector,
->   {
->   	struct amdgpu_dm_connector *amdgpu_dm_connector =
->   			to_amdgpu_dm_connector(connector);
-> +	struct drm_display_mode *mode, *t;
->   
->   	if (drm_edid) {
->   		/* empty probed_modes */
-> +		list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
-> +			drm_mode_remove(connector, mode);
->   		INIT_LIST_HEAD(&connector->probed_modes);
->   		amdgpu_dm_connector->num_modes =
->   				drm_edid_connector_add_modes(connector);
-
-What if you update the connector with the drm_edid data and skip the 
-INIT_LIST_HEAD instead?
-
-Something like:
-
-if (drm_edid) {
-    drm_edid_connector_update(connector, drm_edid);
-    amdgpu_drm_connector->num_modes = 
-drm_edid_connector_add_modes(connector);
-[...]
-}
-
-Isn't it enough?
-
-Melissa
-
+>  drivers/gpu/drm/drm_gpuvm.c            | 36 +++++++++++++-------------
+>  drivers/gpu/drm/imagination/pvr_vm.c   |  8 +++---
+>  drivers/gpu/drm/msm/msm_gem_vma.c      | 16 ++++++------
+>  drivers/gpu/drm/nouveau/nouveau_uvmm.c |  8 +++---
+>  drivers/gpu/drm/panthor/panthor_mmu.c  |  8 +++---
+>  drivers/gpu/drm/xe/xe_vm.c             |  8 +++---
+>  include/drm/drm_gpuvm.h                |  4 +--
+>  7 files changed, 44 insertions(+), 44 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> index 39f934a91a7b..e9aaf9b287e7 100644
+> --- a/drivers/gpu/drm/drm_gpuvm.c
+> +++ b/drivers/gpu/drm/drm_gpuvm.c
+> @@ -552,11 +552,11 @@
+>   *				  struct drm_gem_object *obj, u64 offset)
+>   *	{
+>   *		struct drm_gpuvm_map_req map_req = {
+> - *		        .map.va.addr = addr,
+> - *	                .map.va.range = range,
+> - *	                .map.gem.obj = obj,
+> - *	                .map.gem.offset = offset,
+> - *	           };
+> + *		        .op.va.addr = addr,
+> + *	                .op.va.range = range,
+> + *	                .op.gem.obj = obj,
+> + *	                .op.gem.offset = offset,
+> + *	        };
+>   *		struct drm_gpuva_ops *ops;
+>   *		struct drm_gpuva_op *op
+>   *		struct drm_gpuvm_bo *vm_bo;
+> @@ -2132,10 +2132,10 @@ op_map_cb(const struct drm_gpuvm_ops *fn, void *priv,
+>  		return 0;
+>  
+>  	op.op = DRM_GPUVA_OP_MAP;
+> -	op.map.va.addr = req->map.va.addr;
+> -	op.map.va.range = req->map.va.range;
+> -	op.map.gem.obj = req->map.gem.obj;
+> -	op.map.gem.offset = req->map.gem.offset;
+> +	op.map.va.addr = req->op.va.addr;
+> +	op.map.va.range = req->op.va.range;
+> +	op.map.gem.obj = req->op.gem.obj;
+> +	op.map.gem.offset = req->op.gem.offset;
+>  
+>  	return fn->sm_step_map(&op, priv);
+>  }
+> @@ -2180,12 +2180,12 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  		   const struct drm_gpuvm_map_req *req,
+>  		   bool madvise)
+>  {
+> -	struct drm_gem_object *req_obj = req->map.gem.obj;
+> +	struct drm_gem_object *req_obj = req->op.gem.obj;
+>  	const struct drm_gpuvm_map_req *op_map = madvise ? NULL : req;
+>  	struct drm_gpuva *va, *next;
+> -	u64 req_offset = req->map.gem.offset;
+> -	u64 req_range = req->map.va.range;
+> -	u64 req_addr = req->map.va.addr;
+> +	u64 req_offset = req->op.gem.offset;
+> +	u64 req_range = req->op.va.range;
+> +	u64 req_addr = req->op.va.addr;
+>  	u64 req_end = req_addr + req_range;
+>  	int ret;
+>  
+> @@ -2272,8 +2272,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  
+>  				if (madvise) {
+>  					struct drm_gpuvm_map_req map_req = {
+> -						.map.va.addr =  req_addr,
+> -						.map.va.range = end - req_addr,
+> +						.op.va.addr =  req_addr,
+> +						.op.va.range = end - req_addr,
+>  					};
+>  
+>  					ret = op_map_cb(ops, priv, &map_req);
+> @@ -2340,8 +2340,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+>  
+>  				if (madvise) {
+>  					struct drm_gpuvm_map_req map_req = {
+> -						.map.va.addr =  addr,
+> -						.map.va.range = req_end - addr,
+> +						.op.va.addr =  addr,
+> +						.op.va.range = req_end - addr,
+>  					};
+>  
+>  					return op_map_cb(ops, priv, &map_req);
+> @@ -2583,7 +2583,7 @@ drm_gpuvm_sm_map_exec_lock(struct drm_gpuvm *gpuvm,
+>  			   struct drm_exec *exec, unsigned int num_fences,
+>  			   struct drm_gpuvm_map_req *req)
+>  {
+> -	struct drm_gem_object *req_obj = req->map.gem.obj;
+> +	struct drm_gem_object *req_obj = req->op.gem.obj;
+>  
+>  	if (req_obj) {
+>  		int ret = drm_exec_prepare_obj(exec, req_obj, num_fences);
+> diff --git a/drivers/gpu/drm/imagination/pvr_vm.c b/drivers/gpu/drm/imagination/pvr_vm.c
+> index 3d97990170bf..983165eb3e6a 100644
+> --- a/drivers/gpu/drm/imagination/pvr_vm.c
+> +++ b/drivers/gpu/drm/imagination/pvr_vm.c
+> @@ -187,10 +187,10 @@ static int pvr_vm_bind_op_exec(struct pvr_vm_bind_op *bind_op)
+>  	switch (bind_op->type) {
+>  	case PVR_VM_BIND_TYPE_MAP: {
+>  		const struct drm_gpuvm_map_req map_req = {
+> -			.map.va.addr = bind_op->device_addr,
+> -			.map.va.range = bind_op->size,
+> -			.map.gem.obj = gem_from_pvr_gem(bind_op->pvr_obj),
+> -			.map.gem.offset = bind_op->offset,
+> +			.op.va.addr = bind_op->device_addr,
+> +			.op.va.range = bind_op->size,
+> +			.op.gem.obj = gem_from_pvr_gem(bind_op->pvr_obj),
+> +			.op.gem.offset = bind_op->offset,
+>  		};
+>  
+>  		return drm_gpuvm_sm_map(&bind_op->vm_ctx->gpuvm_mgr,
+> diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
+> index 210604181c05..9b5d003bc5a2 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_vma.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+> @@ -1179,10 +1179,10 @@ vm_bind_job_lock_objects(struct msm_vm_bind_job *job, struct drm_exec *exec)
+>  			case MSM_VM_BIND_OP_MAP:
+>  			case MSM_VM_BIND_OP_MAP_NULL: {
+>  				struct drm_gpuvm_map_req map_req = {
+> -					.map.va.addr = op->iova,
+> -					.map.va.range = op->range,
+> -					.map.gem.obj = op->obj,
+> -					.map.gem.offset = op->obj_offset,
+> +					.op.va.addr = op->iova,
+> +					.op.va.range = op->range,
+> +					.op.gem.obj = op->obj,
+> +					.op.gem.offset = op->obj_offset,
+>  				};
+>  
+>  				ret = drm_gpuvm_sm_map_exec_lock(job->vm, exec, 1, &map_req);
+> @@ -1296,10 +1296,10 @@ vm_bind_job_prepare(struct msm_vm_bind_job *job)
+>  			fallthrough;
+>  		case MSM_VM_BIND_OP_MAP_NULL: {
+>  			struct drm_gpuvm_map_req map_req = {
+> -				.map.va.addr = op->iova,
+> -				.map.va.range = op->range,
+> -				.map.gem.obj = op->obj,
+> -				.map.gem.offset = op->obj_offset,
+> +				.op.va.addr = op->iova,
+> +				.op.va.range = op->range,
+> +				.op.gem.obj = op->obj,
+> +				.op.gem.offset = op->obj_offset,
+>  			};
+>  
+>  			ret = drm_gpuvm_sm_map(job->vm, &arg, &map_req);
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> index d94a85509176..314121a857e7 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> @@ -1277,10 +1277,10 @@ nouveau_uvmm_bind_job_submit(struct nouveau_job *job,
+>  		case OP_MAP: {
+>  			struct nouveau_uvma_region *reg;
+>  			struct drm_gpuvm_map_req map_req = {
+> -				.map.va.addr = op->va.addr,
+> -				.map.va.range = op->va.range,
+> -				.map.gem.obj = op->gem.obj,
+> -				.map.gem.offset = op->gem.offset,
+> +				.op.va.addr = op->va.addr,
+> +				.op.va.range = op->va.range,
+> +				.op.gem.obj = op->gem.obj,
+> +				.op.gem.offset = op->gem.offset,
+>  			};
+>  
+>  			reg = nouveau_uvma_region_find_first(uvmm,
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 2003b91a8409..3799e2c6ea59 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -2204,10 +2204,10 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+>  	switch (op_type) {
+>  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP: {
+>  		const struct drm_gpuvm_map_req map_req = {
+> -			.map.va.addr = op->va.addr,
+> -			.map.va.range = op->va.range,
+> -			.map.gem.obj = op->map.vm_bo->obj,
+> -			.map.gem.offset = op->map.bo_offset,
+> +			.op.va.addr = op->va.addr,
+> +			.op.va.range = op->va.range,
+> +			.op.gem.obj = op->map.vm_bo->obj,
+> +			.op.gem.offset = op->map.bo_offset,
+>  		};
+>  
+>  		if (vm->unusable) {
+> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> index f35d69c0b4c6..66b54b152446 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.c
+> +++ b/drivers/gpu/drm/xe/xe_vm.c
+> @@ -2339,10 +2339,10 @@ vm_bind_ioctl_ops_create(struct xe_vm *vm, struct xe_vma_ops *vops,
+>  	case DRM_XE_VM_BIND_OP_MAP:
+>  	case DRM_XE_VM_BIND_OP_MAP_USERPTR: {
+>  		struct drm_gpuvm_map_req map_req = {
+> -			.map.va.addr = addr,
+> -			.map.va.range = range,
+> -			.map.gem.obj = obj,
+> -			.map.gem.offset = bo_offset_or_userptr,
+> +			.op.va.addr = addr,
+> +			.op.va.range = range,
+> +			.op.gem.obj = obj,
+> +			.op.gem.offset = bo_offset_or_userptr,
+>  		};
+>  
+>  		ops = drm_gpuvm_sm_map_ops_create(&vm->gpuvm, &map_req);
+> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+> index 4a22b9d848f7..751c96a817ed 100644
+> --- a/include/drm/drm_gpuvm.h
+> +++ b/include/drm/drm_gpuvm.h
+> @@ -1054,9 +1054,9 @@ struct drm_gpuva_ops {
+>   */
+>  struct drm_gpuvm_map_req {
+>  	/**
+> -	 * @op_map: struct drm_gpuva_op_map
+> +	 * @op: struct drm_gpuva_op_map
+>  	 */
+> -	struct drm_gpuva_op_map map;
+> +	struct drm_gpuva_op_map op;
+>  };
+>  
+>  struct drm_gpuva_ops *
 
