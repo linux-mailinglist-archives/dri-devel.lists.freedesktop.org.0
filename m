@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB96B2DAF6
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 13:31:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F09DCB2DA95
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Aug 2025 13:13:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A89810E259;
-	Wed, 20 Aug 2025 11:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B99E910E6F0;
+	Wed, 20 Aug 2025 11:13:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="WlAqn8SE";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TlfxQRPi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1804 seconds by postgrey-1.36 at gabe;
- Wed, 20 Aug 2025 11:31:25 UTC
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9180910E259
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 11:31:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
- Content-Type; bh=igVC+r9t1pPO+MPUsLfAQNKa2CjPT9tsw6veSywFJ7o=;
- b=WlAqn8SEoQNWxMua51YoTVqNPFgUmaOExPK+RVA2lkjis7GxmR/xaVNk49K6ev
- QBWfDq+jhDkeB0hOMOF9tU8j1lN37UN6pe8wuA1O3oM4WyjhQoej4/hdDmb4pK16
- 9FviIu7XONm8gbzCL3R6/CHDVonHx2FiFVavx286OxkTU=
-Received: from localhost (unknown [])
- by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id
- _____wC3r3ILp6Voc_S3Cg--.25064S2; 
- Wed, 20 Aug 2025 18:44:28 +0800 (CST)
-Date: Wed, 20 Aug 2025 18:44:27 +0800
-From: Qianqiang Liu <qianqiang.liu@163.com>
-To: Jinchao Wang <wangjinchao600@gmail.com>
-Cc: pmladek@suse.com, akpm@linux-foundation.org,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Shixiong Ou <oushixiong@kylinos.cn>,
- Sravan Kumar Gundu <sravankumarlpu@gmail.com>,
- Zsolt Kajtar <soci@c64.rulez.org>, Kees Cook <kees@kernel.org>,
- linux-kernel@vger.kernel.org, feng.tang@linux.alibaba.com,
- joel.granados@kernel.org, john.ogness@linutronix.de,
- namcao@linutronix.de, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/9] fbdev: Use panic_in_progress() helper
-Message-ID: <aKWnC4N8d4lBPrNi@debian.debian.local>
-References: <20250820091702.512524-1-wangjinchao600@gmail.com>
- <20250820091702.512524-2-wangjinchao600@gmail.com>
- <20250820091702.512524-3-wangjinchao600@gmail.com>
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9503610E6FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Aug 2025 11:13:07 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 88DC443292;
+ Wed, 20 Aug 2025 11:13:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1755688385;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ou3MSRgBG8cP602wOscwCCqhc/Oa+T0DZwTTZNBffYE=;
+ b=TlfxQRPi7CCIbzE9v7GFaL7B4qSx0xwJC2B3ssCV6ueN+1gXFc6zORcuq9Sk8Xxcnk83Gy
+ lGxCe6BMFQhgEyOf5BTdumULIco7b7+Pz4BVy+XwmjivQ7+Y7X8RJqeMCiQEN+F8sijIHO
+ dRmhlReSijd+b9G3cg1p3hZA16sNytLVZ2F1rkMkkwE2VKFOMzm504vS3gniWL35/b9Qkx
+ w2G85zGZ3MKYj/VJTCHAAqqbeyb/AYzKQulY1pjhiRifd9lNjVKZStPlTVVy56oOlvfS8R
+ uS09Gk3wVnnTMrvjmKhtDPJG12kXpVXXLQvJAcQkGC7DVQOh2zM/D+pUPcRZgg==
+Date: Wed, 20 Aug 2025 13:13:02 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi83: protect device resources
+ on unplug
+Message-ID: <20250820131302.6a2da5ef@booty>
+In-Reply-To: <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
+References: <20250808-drm-bridge-atomic-vs-remove-v1-0-a52e933b08a8@bootlin.com>
+ <20250808-drm-bridge-atomic-vs-remove-v1-2-a52e933b08a8@bootlin.com>
+ <l2orbpdoh3cqqgqudbnbdlogo3bd57uu4nv3ax74uoahknzjgr@gbxxuky3huw6>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820091702.512524-3-wangjinchao600@gmail.com>
-X-CM-TRANSID: _____wC3r3ILp6Voc_S3Cg--.25064S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Cr1xCF4Utr4rJF45AFW7twb_yoW8Xw43pF
- 45JFW3GF4Dtr15Ga97Wr47AFyFyws7JryUXFZ7t3WFq3Way3yIg3y0kFy0qFWftryxCw1S
- vr1Ut3WrGFyUCFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UQqXQUUUUU=
-X-Originating-IP: [60.166.107.169]
-X-CM-SenderInfo: xtld01pldqwhxolxqiywtou0bp/1tbiYByuamikVa45BQACsx
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduheekvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudeipdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrr
+ hhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,48 +74,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 20, 2025 at 05:14:47PM +0800, Jinchao Wang wrote:
-> This patch updates the fbcon_skip_panic() function to use
-> the panic_in_progress() helper.
-> 
-> The previous direct access to panic_cpu is less
-> readable and is being replaced by a dedicated function
-> that more clearly expresses the intent.
-> 
-> This change is part of a series to refactor the kernel's
-> panic handling logic for better clarity and robustness.
-> 
-> Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
-> ---
->  drivers/video/fbdev/core/fbcon.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 55f5731e94c3..b062b05f4128 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -279,14 +279,7 @@ static int fbcon_get_rotate(struct fb_info *info)
->  
->  static bool fbcon_skip_panic(struct fb_info *info)
->  {
-> -/* panic_cpu is not exported, and can't be used if built as module. Use
-> - * oops_in_progress instead, but non-fatal oops won't be printed.
-> - */
-> -#if defined(MODULE)
-> -	return (info->skip_panic && unlikely(oops_in_progress));
-> -#else
-> -	return (info->skip_panic && unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID));
-> -#endif
-> +	return (info->skip_panic && unlikely(panic_in_progress()));
->  }
->  
->  static inline bool fbcon_is_active(struct vc_data *vc, struct fb_info *info)
-> -- 
-> 2.43.0
+Hello Maxime,
 
-Acked-by Qianqiang Liu <qianqiang.liu@163.com>
+On Tue, 19 Aug 2025 14:29:32 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
+
+> > @@ -1005,7 +1041,24 @@ static void sn65dsi83_remove(struct i2c_client *client)
+> >  {
+> >  	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
+> >  
+> > +	drm_bridge_unplug(&ctx->bridge);
+> >  	drm_bridge_remove(&ctx->bridge);  
+> 
+> Shouldn't we merge drm_bridge_unplug with the release part of
+> devm_drm_bridge_alloc?
+
+I'm not sure I got what you are suggesting here, sorry.
+
+Do you mean that __devm_drm_bridge_alloc() should add a devres action
+to call drm_bridge_unplug(), so the unplug is called implicitly and
+does not need to be called explicitly by all drivers?
+
+If that's what you mean, I don't think that would work. Unless I'm
+missing something, devres actions are always invoked just after the
+driver .remove callback. But we need to call drm_bridge_unplug() at the
+beginning (or just before) .remove, at least for drivers that need to do
+something in .remove that cannot be done by devm.
+
+In pseudocode:
+
+mybridge_remove()
+{
+  drm_bridge_unplug(); <-- explicit call as in my patch
+  xyz_disable();
+  drm_bridge_unplug(); <-- implicitly done by devres
+}
+
+We want xyz_disable() to be done after drm_bridge_unplug(), so other
+code paths using drm_bridge_enter/exit() won't mess with xyz.
+
+devres actions cannot be added to be executed _before_ .remove, AFAIK.
+
+> > +	/*
+> > +	 * sn65dsi83_atomic_disable() should release some resources, but it
+> > +	 * cannot if we call drm_bridge_unplug() before it can
+> > +	 * drm_bridge_enter(). If that happens, let's release those
+> > +	 * resources now.
+> > +	 */
+> > +	if (ctx->disable_resources_needed) {
+> > +		if (!ctx->irq)
+> > +			sn65dsi83_monitor_stop(ctx);
+> > +
+> > +		gpiod_set_value_cansleep(ctx->enable_gpio, 0);
+> > +		usleep_range(10000, 11000);
+> > +
+> > +		regulator_disable(ctx->vcc);
+> > +	}  
+> 
+> I'm not sure you need this. Wouldn't registering a devm action do the
+> same thing?
+
+Good idea, thanks. I'll give it a try.
+
+Luca
 
 -- 
-Best,
-Qianqiang Liu
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
