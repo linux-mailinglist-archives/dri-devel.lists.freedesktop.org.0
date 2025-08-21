@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8C5B2F031
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 09:55:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D167EB2F036
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 09:55:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA41E10E896;
-	Thu, 21 Aug 2025 07:55:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF61410E89B;
+	Thu, 21 Aug 2025 07:55:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62D2410E896
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCF3510E899
  for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 07:55:43 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=ratatoskr.trumtrar.info)
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <s.trumtrar@pengutronix.de>)
- id 1up096-00073K-Sg; Thu, 21 Aug 2025 09:55:40 +0200
+ id 1up097-00073K-Sf; Thu, 21 Aug 2025 09:55:41 +0200
 From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Subject: [PATCH 0/5] arm64: dts: imx8mp-skov: add new 10" variant
-Date: Thu, 21 Aug 2025 09:55:27 +0200
-Message-Id: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-0-b492ef807d12@pengutronix.de>
+Date: Thu, 21 Aug 2025 09:55:28 +0200
+Subject: [PATCH 1/5] dt-bindings: vendor-prefixes: Add JuTouch Technology
+ Co, Ltd
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAO/QpmgC/x2NywrDIBAAfyXsuQsqNY/+SslBzNpsS1TUSCDk3
- ys5DXOZOSFTYsrw6k5IVDlz8E3kowO7Gv8h5KU5KKG0GJXE2qMcsITIFnk7xi1i/oWKS8n43Uv
- Y7YpSsG+YyE3OmEFr+YQWjIkcH/fsPV/XH3upHv58AAAA
-X-Change-ID: 20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-9ef9faa75514
+Message-Id: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-1-b492ef807d12@pengutronix.de>
+References: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-0-b492ef807d12@pengutronix.de>
+In-Reply-To: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-0-b492ef807d12@pengutronix.de>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -65,31 +64,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new board variant for the Skov i.MX8MP based family of boards.
+JuTouch is a chinese touch screen supplier dedicated to manufacturing
+high-end touch display products for the global industrial market.
+(www.jutouch.com)
 
-This variant uses a different 10" panel than the existing ones.
+Add a vendor prefix for it.
 
 Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
 ---
-Steffen Trumtrar (5):
-      dt-bindings: vendor-prefixes: Add JuTouch Technology Co, Ltd
-      dt-bindings: display: simple: Add JuTouch JT101TM023 panel
-      drm/panel: simple: add JuTouch JT101TM023
-      dt-bindings: arm: fsl: add compatible for Skov i.MX8MP variant
-      arm64: dts: imx8mp-skov: support new 10" panel board
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
- Documentation/devicetree/bindings/arm/fsl.yaml     |  1 +
- .../bindings/display/panel/panel-simple.yaml       |  2 +
- .../devicetree/bindings/vendor-prefixes.yaml       |  2 +
- arch/arm64/boot/dts/freescale/Makefile             |  1 +
- .../imx8mp-skov-revc-jutouch-jt101tm023.dts        | 79 ++++++++++++++++++++++
- drivers/gpu/drm/panel/panel-simple.c               | 35 ++++++++++
- 6 files changed, 120 insertions(+)
----
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-change-id: 20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-9ef9faa75514
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 77160cd47f54079a39f35b570d69f7c4c2274724..074e2ce9025dfa5ff76f7df3a743c2dd2f9ccd93 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -799,6 +799,8 @@ patternProperties:
+     description: JOZ BV
+   "^jty,.*":
+     description: JTY
++  "^jutouch,.*":
++    description: JuTouch Technology Co., Ltd.
+   "^kam,.*":
+     description: Kamstrup A/S
+   "^karo,.*":
 
-Best regards,
 -- 
-Steffen Trumtrar <s.trumtrar@pengutronix.de>
+2.49.0
 
