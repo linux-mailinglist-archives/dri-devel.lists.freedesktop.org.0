@@ -2,121 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6FCB2F57B
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 12:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40085B2F589
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 12:43:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA92010E921;
-	Thu, 21 Aug 2025 10:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36BDB10E0CD;
+	Thu, 21 Aug 2025 10:43:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="DOwsiioD";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Nt7DQmg0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D67610E91F
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 10:38:10 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57L9b9pD006311
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 10:38:10 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19EC410E0CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 10:43:33 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57L9bFrc007146
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 10:43:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=r914EYN2oHqG39oPT8nQaNOs
- AXvKl/bytIkZsYAvQVY=; b=DOwsiioDOlsSL104WqMxnj2XV3DqmzE7CeRShTyE
- wDqeftQd3Vz+ACmdeVP4+HwfkhmMH0U9ORUHKNVFrnko+HNulb7/LJpiWofgCspD
- lSgjAqB1LNfXPRLwx1MSKoWCshW+ZDYJ2oNc77x7fuLc7vrK5ZxMUl34yy6zjOqD
- kQscF2TreHZ3msQmxZQJYfThzTCw9H/7BK2r2E6VSp2aUT6dcQPhl70t/gxygUgd
- WWLoDKfB1tbQl3VyEetdumST3BYf4+aPMQsdKkuRmYLh3dIM5BAYuh2Yk42DUBfq
- WGz5lhraaGeHq/FTlarD9ZFn9vXeAfdRfRBWkVk4iPzMPg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52954f4-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ kiZdVlOBBo6Pgbbgd20Jib7efJ//o3XH891vVFgq7LE=; b=Nt7DQmg0d+IiVhI8
+ aoKIua0TMwzmKrWurHqKrX74EpdPyDGV5g+3J7WyPbYUawMPbNhKhmUsp51A+tDi
+ 3N/zBSoQZxOWBFdj7T8tM4295sQQ2pwa+QZiv2IksNzJwB2iqYAWIYIKozz1lOAX
+ VkCPARsdNNSjdQ1jwct5OhuHEEoVNePs5HnldZlfVUJj9Pt0NphuTKbgq5RBxilb
+ Y0WlT8QWNy7lyt/YNwN8OUTbbPcoz6blZP7XTC6gCxo+gsaFGD+9hsEvo4n0xHb1
+ ZuwuE0XwPooTKE693xoIoqLYo5UiupXM51fmEvkauMvQWSsPORTt7c00Nm2k1e6r
+ a3Kwdg==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52954s8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 10:38:09 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4b109ab1e1dso36893681cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 03:38:09 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 10:43:32 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-70d7c7e9709so23971576d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 03:43:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755772688; x=1756377488;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=r914EYN2oHqG39oPT8nQaNOsAXvKl/bytIkZsYAvQVY=;
- b=AHAE47SFGS3VNVYHK/wRRGpAMdV9vkGd2fY94QplamK1ixe9qkQUtKHRNZjGPNcpid
- cpOVlk4ZMOTDFH2L+drYALYF9j5LkNQiLQ378iauC2dGC339waurKRLaTt6CnpBvwk9m
- tc6GwgfI5126eVtPKv/+EoVl2pLIMxppT90QkJ4cBHlaeonzxqqWhaoT/E5zCE8apHtk
- Oz0OkFGNOGCXN0+HgedfelDAcMRMzOiaK/XNX6TIYBMPTuX/i12d77SFpMqPgm+lfMn6
- PJEV6fyYG7xx+nwLPFimHtZkIF+Opr/MSLlZJlc7oy+DX6AKl3YgGvHZTuw/Jei1mrQA
- 276w==
+ d=1e100.net; s=20230601; t=1755773011; x=1756377811;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kiZdVlOBBo6Pgbbgd20Jib7efJ//o3XH891vVFgq7LE=;
+ b=svzXOu1bGgL26KgP01nGXf0b84Mxfnqb7PZVRFlMcE/BzyQ/pBVnoTu7NSvR0Gb26V
+ fj66WM81pEsewamsamDuXZ6LzwNaRBbttYJ/HvkqbzhYtP7yRU3hPFoU5VRYVGKMpGSO
+ Ho7pktNN2U4xkNG8xwCIStnjWUa/HD+si18ngtFXYcAXoBcpo/UuGKbHj8pX9ewbUyOu
+ OItQtrnDeWkS5tOJutSEgDbtTN5XQ/Y9ZbnZg7HyufLQVrdXScDEWejsf9cc0TW2IrqW
+ gnmfigh3xpURABzQ2JHHAqXKFO62tDF1EEq6jXNkJl2Qhzx2WoXDlyYyj655sJyPcj3k
+ GAjw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/N2dLxAt9vM4DQJ+HzMT+yXjOEKzC3jOTmDONgCsRGIr1n7rISb0DT/wHLVnktrDDmOdZBugDeio=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/vO35nIQ3f+GsqXZMwkpsrJQh3u4j8+Wpd82AOMqxLpfrZei3
- 5wonPyUIbZtx06YpnDpQLck1dRJK8am95Dzvr2MNlgklGMHD/97MbjRfCubJqgUYBPcmHDe6RIz
- 9p85A+jfji/A8+g/Va1M3YMOvwplYYZqEHb73ecNDqTWhzt2ysoUUJLu7plqfMOfaGPgUVD4=
-X-Gm-Gg: ASbGncuEUILSxM7Svxq5dtGjaodcIPmsrRzM5IOoreAo0lGMgZjpePLuADU2crROV2L
- zAA/CuYqwTJAdSyNE01fgUog5d+MgaBLZc6AVhB0A30exgBOn24NV/KZbVskETGQbEu5P+Eiup1
- HqzVWq3GFJD4WftNVhyCVt2HnIYgbfPpcb2i2YyXZqXTgfNE15KqWipnsUskxS/vJ9SpSHAgzJQ
- IlMs3SWvg/Oftcwtx3qVsMBptJCPBMSkGW2j4HFtGYMYCyTLP70h+KGZI46SL0efIjNowjHQ4tF
- EuvBCkOImNFbbhjfqkkob2ZDagWP3eCrwJ1TF/1ZaSKlbCtAd8bsL+pGRkTiXVi4jXfKFkPEyfw
- NC6goO2RdG69hz/4385oV60VltYNRQ9gLerc/dhPfgT1qJhhIvfFZ
-X-Received: by 2002:ad4:5c88:0:b0:706:f753:6b14 with SMTP id
- 6a1803df08f44-70d88e3741emr15983736d6.4.1755772688285; 
- Thu, 21 Aug 2025 03:38:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHEa7hNzXAx5DgTP1u13ijsgfOsTyYMteNBIqzj5N6IcVZ3PMpHJWc/EQSHJlepAFEYsq9ykw==
-X-Received: by 2002:ad4:5c88:0:b0:706:f753:6b14 with SMTP id
- 6a1803df08f44-70d88e3741emr15983356d6.4.1755772687617; 
- Thu, 21 Aug 2025 03:38:07 -0700 (PDT)
+ AJvYcCXPZauUVA5yIB6kRWVkh6HBhrY2oE1v3dPqv5ilYdsJRh+FCqk0ppl3yVFBXTWaDsBYE/ryPRN0U7c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxcgD/0ainI04tiq6MwhVAdY6lTr9p/gBrIJjGox2adHMrIOyJd
+ M+/Brg5iVyUqRpTEf8PKa5z41DSK9OFzqPP8IAbVM4wiBgn8BQtra49WVgzdk+5UfeuFlQwLHzl
+ wGRxDt6707K0RAumx9Clza6csgIay3zu3vmyqvHkc/CGwK9r6OBupbiChJqF+oeot23FDtI4=
+X-Gm-Gg: ASbGncvAP4PxGrSebgslmeSCMbvAWMDOIcVQR/eM4ZqP276NuKuPKBp3b9MRMxLJpta
+ k5hMAZwICLNxz6yVannGgCDKiV5kdceyYC/1aS5HiQhijziqFk/4hCG4MvxnCDJuvtNWnW3u4k6
+ DXq6zyFg31Ak0Tc1BOW3u4yOObB0P2/kna7bFgfRIWnIsaN7DEU8iEa3S4Olr/u00LepeH7alfR
+ O1NmGg8P6WF0wiDwpvzVKSHudKSl8lryQd3g2pi5qdUjwnH8JTGS9bT1klSC9L0zHke5FBwjQeT
+ 2K+u7FtOwDichmj8GU4pVSrCIncxA+v3/9bQ2vl1GkiJBRxd2/b6btBKOda+v9ScS2z7hDcgPMX
+ GCpVDjuj9B+0IQCsU0QoFRJwlj2tDNnABduloq5j2PYld2nit57iz
+X-Received: by 2002:a05:6214:2482:b0:70d:84da:7bf6 with SMTP id
+ 6a1803df08f44-70d88fdee3amr16676336d6.35.1755773011132; 
+ Thu, 21 Aug 2025 03:43:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFEIb/BNkoBwI1UH7zDCawOAkuRUeT6HjaNqCMpBF16tkeSGer7aA/PKLuIo2jJRbIHcb+7KQ==
+X-Received: by 2002:a05:6214:2482:b0:70d:84da:7bf6 with SMTP id
+ 6a1803df08f44-70d88fdee3amr16676146d6.35.1755773010672; 
+ Thu, 21 Aug 2025 03:43:30 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55cef368d34sm2973505e87.58.2025.08.21.03.38.06
+ 2adb3069b0e04-55cef3f3eb8sm2976726e87.122.2025.08.21.03.43.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Aug 2025 03:38:06 -0700 (PDT)
-Date: Thu, 21 Aug 2025 13:38:05 +0300
+ Thu, 21 Aug 2025 03:43:28 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Liao Yuanhong <liaoyuanhong@vivo.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Antonino Maniscalco <antomani103@gmail.com>,
- "open list:DRM DRIVER for Qualcomm display hardware"
- <linux-arm-msm@vger.kernel.org>, 
- "open list:DRM DRIVER for Qualcomm display hardware"
- <dri-devel@lists.freedesktop.org>, 
- "open list:DRM DRIVER for Qualcomm display hardware"
- <freedreno@lists.freedesktop.org>, 
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/msm/mdp4: remove the use of dev_err_probe()
-Message-ID: <kefrdoyd5dr4rjvz4lmtznxw552wzuspk3pdse63zm2kmtnpvi@wzzddue2acrm>
-References: <20250820131300.499727-1-liaoyuanhong@vivo.com>
+ Suraj Kandpal <suraj.kandpal@intel.com>,
+ Arun R Murthy <arun.r.murthy@intel.com>, Val Packett <val@packett.cool>
+Cc: ankit.k.nautiyal@intel.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250706204446.8918-1-val@packett.cool>
+References: <20250706204446.8918-1-val@packett.cool>
+Subject: Re: [PATCH] drm/dp: drm_edp_backlight_set_level: do not always
+ send 3-byte commands
+Message-Id: <175577300839.1899572.13934617998352604161.b4-ty@oss.qualcomm.com>
+Date: Thu, 21 Aug 2025 13:43:28 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820131300.499727-1-liaoyuanhong@vivo.com>
-X-Proofpoint-GUID: qHevVp9FV8YpevlwieDQcGZy115kSVlb
-X-Proofpoint-ORIG-GUID: qHevVp9FV8YpevlwieDQcGZy115kSVlb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX3fuWdK9tKplg
- erv8tf+r54IIevYptj1Klj3gB3F3BmU24BPBlrMERrj9jE/dZ8ek87Nehfri1zKzL4Pk8GCaXSD
- seNTMv0QNv9gaTCU07v4ttmHjtQWwvF3hUb29kOCG0Ad/FxvUteF9OZwQO1zhk2jzpSmbhrASxl
- qaxaiSmY04T+r18HxANC/uY8ru8voSq9bEEy7i2fvGNkgOnmMdt3imxZxGGTwzCS/JZdSm28TjB
- g4yHDXSeeWkKGtjmeBCT5UVVvB6bgCPYMXTSLnKmh8fL6LfUAWMHuS4f6ZqAgnIMNMBtAx3vqPG
- jLG/k8agejUGq21A14+2bCYij+f4U4NVWxDVOrwpZgPv+cha+WmvX5BWGJ8KWnjG3fuIWd2bwRv
- 7r104bef6bh8Cr08lFyANR9plEo4Gg==
-X-Authority-Analysis: v=2.4 cv=SPkblOvH c=1 sm=1 tr=0 ts=68a6f711 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=1WtWmnkvAAAA:8 a=EUspDBNiAAAA:8
- a=i0mAgyhDueMVXABGR-YA:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
+X-Authority-Analysis: v=2.4 cv=ZJKOWX7b c=1 sm=1 tr=0 ts=68a6f854 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=2OwXVqhp2XgA:10 a=A1DUZ2MENomNuKwj4w0A:9 a=QEXdDO2ut3YA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-ORIG-GUID: tvxe2zTslG5dcRyHJLyaiPlRk4Cib8-2
+X-Proofpoint-GUID: tvxe2zTslG5dcRyHJLyaiPlRk4Cib8-2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX5SU/1AS0f0VL
+ gWnoBdMaIUsFeBsIGg2GCr8t/MOqmzyL5EmdPKcElPIWhHdU75K+SqSrziSQUv4UUH5OzpoLTdG
+ 9sSIiuHTEkyv1dfyXU7XiqO3p4w65vRDCSbWEzfk271jKiyjxn5sEMj4fU8zOz3AM+8X7e7cs2q
+ FCi2VpXpx4ITcIwMY8nVqUFBb2EJjJ8PL+zQkJN4VPBhcRrcgm/mhHvgKaBG1gYq7BdpZG3Vsdq
+ /xQ0zeON+wpwgyDlhgLeCAiKYV6ZrarKasLYjb+AyQ9gnWmmJ9DTSh15uWn4jxvm+KvPNXV2jbK
+ uBvXlmnhbeuWYOfFdTgHsm61fLOFLKBNJesoIuM+4vzDDUIYJvHGg3EoEmwPkgVNOvcL8wbSC6H
+ bZsYW4m/E/VDw8WSay6XQTxqx4kdMA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-21_02,2025-08-20_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0
- impostorscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ bulkscore=0 priorityscore=1501 malwarescore=0 adultscore=0 suspectscore=0
+ lowpriorityscore=0 impostorscore=0 phishscore=0 clxscore=1015 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -134,27 +129,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 20, 2025 at 09:12:56PM +0800, Liao Yuanhong wrote:
-> Logging messages that show some type of "out of memory" error are generally
-> unnecessary as there is a generic message and a stack dump done by the
-> memory subsystem. These messages generally increase kernel size without
-> much added value[1].
+On Sun, 06 Jul 2025 17:42:24 -0300, Val Packett wrote:
+> At least some panels using the LSB register are not happy with the
+> unconditional increase of the command buffer to 3 bytes.
 > 
-> The dev_err_probe() doesn't do anything when error is '-ENOMEM'. Therefore,
-> remove the useless call to dev_err_probe(), and just return the value
-> instead.
+> With the BOE NE14QDM in my Dell Latitude 7455, the recent patches for
+> luminance based brightness have introduced a regression: the brightness
+> range stopped being contiguous and became nonsensical (it probably was
+> interpreting the last 2 bytes of the buffer and not the first 2).
 > 
-> [1]: https://lore.kernel.org/lkml/1402419340.30479.18.camel@joe-AO725/
-> 
-> Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
-> ---
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+> [...]
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Applied to drm-misc-next, thanks!
 
+[1/1] drm/dp: drm_edp_backlight_set_level: do not always send 3-byte commands
+      commit: 4aa8961b1b9c7498550b41168a91cf1558133dd3
 
+Best regards,
 -- 
 With best wishes
 Dmitry
+
+
