@@ -2,81 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEEDB2F9B4
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 15:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F33B2FA43
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 15:25:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81A5810E997;
-	Thu, 21 Aug 2025 13:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3278910E999;
+	Thu, 21 Aug 2025 13:25:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XUBgggiE";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="nAX+d0s/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA39010E370;
- Thu, 21 Aug 2025 13:13:44 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-323266be64eso70240a91.0; 
- Thu, 21 Aug 2025 06:13:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755782024; x=1756386824; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z0ntcUfwQYZElkssDT+Zc1ph10VSWKrgVIAaGKrNC8c=;
- b=XUBgggiE2R/1uBK620yXk2uUUFD7w5magGKdfyRhCbp4n7jarTzOUsKO8y7yufNB9A
- Y+7TFf0t/QAWdglaywvLEhfjIw+ccIJzouZEs92dJ2uxUU1Zeq66G41q3DZpR0V/CVRV
- RCHjMxTFKKlo22zpzBCsbSDZKR3U+8HF06Xv42pM4OX73wt12qecWOcuDMh3GR0tsbEB
- kih0FSNAocQx1WHBCMJje8x3S9r0b2+GxItQfPRq7erlv2jyWe3V5utxbym+Ct91nBcn
- Jo6xn3oWSVr27m5Ny26acbgGGJmk+MI+vn7O2P4pQ6VnJWsyUwIWC9AEfUnfgWjpx5gF
- jupA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755782024; x=1756386824;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=z0ntcUfwQYZElkssDT+Zc1ph10VSWKrgVIAaGKrNC8c=;
- b=af5Kfvr5hnV1rFQlpL+Fuh5Q4175YmqYjL/T6/ClCCsfxBUUl9Ag02/QGMwDFBkgfG
- UMSu5BwZXyaqESQYdKYBHCqpa0Kl86DiGtaHywCSwI+YKsvF6YCzhPZE6J0sfG9CpLjx
- 5l8Cvea6LbyNXeV8VPBaH9SxiVdASnk4vShS3CMZz3I1+IbZGBM92lEw1KlNhVYAeRm+
- w+aublSlUrLOlFE5nB9gwmtZRLuNZ/wWlV2tNWS8ddmFPrx1MPVuDbCTPtRu7dfUEvkn
- AMGVS+j19lBjxoPELgjEz/dmQ7RGIBY+YPQ22VsV1IcCs2YCxBg1fpVtSDgTBJvqU7c8
- TllQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWDtJaggb++Sg3MWhXk8Dy2iXuPW8dsncYmSSIbXjzreMtOyS+q58Slw4VGEyx3mrewzrcND2LP@lists.freedesktop.org,
- AJvYcCXy3d5zuEJ8AWSkmW97tQiapn+g7KynjybOzalO3EYv8q2SuGbVdOHIKUI6tk3sUMUPiFIUNkDqumq3@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxT2842+H11XFa79JAK805xUIqs9osYg9qPc4abRJ5hfLTD/5XK
- SaosHLZ9uUQQDOhprTSc+ceLCfY1BCwqIijQhIk9kzqPMj6W85Vwmg3LZUgFbLsPs332qk2FC6n
- baHd8f+/uHRf01cb/pr7IiQSABHqNMxI=
-X-Gm-Gg: ASbGnctsk+O/buV0T1wYYP61910oYmn132gL3sG8BNN1ClFWL9i/UPWfpS2O60bDlY8
- 9rKFBRO+9Ij//yT0sukxYoqSbT2rfG7s8uvK5ftd1ArdVJSb4eo6zQr54/k/v20YURfISouONOL
- DNLukMmPMxEy/ahbUDmjmpMfPxBF5W7yzt+RY1W91IJkfwqQdTdKMPl0X34Yb0pVT0A5n2/m9Ra
- LJIILg=
-X-Google-Smtp-Source: AGHT+IGoPLySy4CQlyi2yceJUhRDa389vWBpVwrjGS5LP44+dqCLoo64cKkkz+zBdVLQR8Keth1GycSBjmtAvY8xvC4=
-X-Received: by 2002:a17:90b:4b87:b0:31e:7f76:c123 with SMTP id
- 98e67ed59e1d1-324ed1c269cmr1753231a91.4.1755782024179; Thu, 21 Aug 2025
- 06:13:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250821064031.39090-1-tzimmermann@suse.de>
- <b92c072b-a302-47c8-b2c2-f4b2e3954165@amd.com>
-In-Reply-To: <b92c072b-a302-47c8-b2c2-f4b2e3954165@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 21 Aug 2025 09:13:32 -0400
-X-Gm-Features: Ac12FXx0qAFooaBAgLtQfQOhqXHxanKSBn5_Pvj3vkfwVoVyKwY0WZ6xYzS_0G4
-Message-ID: <CADnq5_PxpsXkzzpa8KJoZL-pBaM2ViVBOaXuYkYyd_xHBNLt9A@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v3] drm/amdgpu: Pin buffers while
- vmap'ing exported dma-buf objects
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, sumit.semwal@linaro.org,
- oushixiong@kylinos.cn, 
- alexander.deucher@amd.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- amd-gfx@lists.freedesktop.org
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com
+ [136.143.188.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B41D310E999
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 13:25:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1755782710; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=T2TzbzvMDyArxL2DAXeC0cYdzSORSabgguc89FcBob+GR87cg1ZrjYlDRZ2TY+uMselTA0Y5XPgcSOLaQQ3loF88faToRZgIVz021r8enH352dGBUtMQQxS5WinAt5mWcOVpo5O7naQKBitonpXloR+X7GtvJyWiiHdjRm6oFf0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1755782710;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=GEt57fSD/WKFqSKnZw0fkgTqvh32FVqesRSq6gNhmAQ=; 
+ b=C6ddXNL91CpNDaJKha6KHRswyYb6LAl+sn9EHK2OSI/EnTdyKjl1jKZLcDh2wJ9+Rvd1DbaS+9FZ0vTgYHnkeoU878gVlreUbmckCIyK81DSOGoZ5BdRMBhpfB3NG8PS3dqJlJEZSF9pLkZ3x3u54n7GLyF2l1XKvOsIFu55h/U=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1755782710; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=GEt57fSD/WKFqSKnZw0fkgTqvh32FVqesRSq6gNhmAQ=;
+ b=nAX+d0s/lCVIOFsszrx59CInekRPkR+8fbkdGlL86nEDoBCsgk5mObRY1oVj4sFe
+ lud4DnFwUa0AzPhUf4tYIE4Jx73C86YSVXcgwbK8EG/q+MgKEPaf8IW89VbMs3Xrx7c
+ wHhCPTug1yUzt7oq5vhkmqdZhavCxm+40kv0/wBpCE7BtE8Ms+pI+3kHXiQcK/GWm7G
+ q+dOYVAQF4cW5HN2cyNPluDqNV9AqYRxJ0JpJnpCyuO9PSzvgnQ7zO32RZMHzuCDgM3
+ zZnRkKKVbCc5YA7+wYEdbpxUsPEbFh+ohkEJYocsErjpZBJ6LEg1IdX3rIMOG28FbrK
+ aYZOqaCsPg==
+Received: by mx.zohomail.com with SMTPS id 1755782708032399.82321534151504;
+ Thu, 21 Aug 2025 06:25:08 -0700 (PDT)
+Message-ID: <8271cdc7d62af9115b195ff3c0ad561be8952605.camel@icenowy.me>
+Subject: Re: [RFC PATCH 5/8] drm/bridge: add a driver for T-Head TH1520 HDMI
+ controller
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Troy Mitchell <troy.mitchell@linux.spacemit.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Drew
+ Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
+ <wefu@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner
+ <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>,  Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Michal
+ Wilczynski <m.wilczynski@samsung.com>, Han Gao <rabenda.cn@gmail.com>, Yao
+ Zi <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+Date: Thu, 21 Aug 2025 21:24:48 +0800
+In-Reply-To: <hkz5zdhy7i6tmmpntvqydck6fnpegpbletfwj6h7mtppkw3qub@bzfvf2vfcudj>
+References: <20250814164048.2336043-1-uwu@icenowy.me>
+ <20250814164048.2336043-6-uwu@icenowy.me>
+ <sp2pdifimqych5zn3mt7pnba3vl25qflgiys76s7dwmyt3jd72@bmwkc7s6p6c4>
+ <63b2ac72fe1d15d214e880f223bb3035e177a07b.camel@icenowy.me>
+ <F2C43938B17FA1E1+aKLaKQfN1Ax8Blcx@LT-Guozexi>
+ <7ad9a700dce9342d720740525626340237eb8d9f.camel@icenowy.me>
+ <hkz5zdhy7i6tmmpntvqydck6fnpegpbletfwj6h7mtppkw3qub@bzfvf2vfcudj>
+Organization: Anthon Open-Source Community
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
+MIME-Version: 1.0
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,175 +90,355 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 21, 2025 at 4:52=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
->
->
-> On 21.08.25 08:40, Thomas Zimmermann wrote:
-> > Current dma-buf vmap semantics require that the mapped buffer remains
-> > in place until the corresponding vunmap has completed.
-> >
-> > For GEM-SHMEM, this used to be guaranteed by a pin operation while crea=
-ting
-> > an S/G table in import. GEM-SHMEN can now import dma-buf objects withou=
-t
-> > creating the S/G table, so the pin is missing. Leads to page-fault erro=
-rs,
-> > such as the one shown below.
-> >
-> > [  102.101726] BUG: unable to handle page fault for address: ffffc90127=
-000000
-> > [...]
-> > [  102.157102] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
-> > [...]
-> > [  102.243250] Call Trace:
-> > [  102.245695]  <TASK>
-> > [  102.2477V95]  ? validate_chain+0x24e/0x5e0
-> > [  102.251805]  ? __lock_acquire+0x568/0xae0
-> > [  102.255807]  udl_render_hline+0x165/0x341 [udl]
-> > [  102.260338]  ? __pfx_udl_render_hline+0x10/0x10 [udl]
-> > [  102.265379]  ? local_clock_noinstr+0xb/0x100
-> > [  102.269642]  ? __lock_release.isra.0+0x16c/0x2e0
-> > [  102.274246]  ? mark_held_locks+0x40/0x70
-> > [  102.278177]  udl_primary_plane_helper_atomic_update+0x43e/0x680 [udl=
-]
-> > [  102.284606]  ? __pfx_udl_primary_plane_helper_atomic_update+0x10/0x1=
-0 [udl]
-> > [  102.291551]  ? lockdep_hardirqs_on_prepare.part.0+0x92/0x170
-> > [  102.297208]  ? lockdep_hardirqs_on+0x88/0x130
-> > [  102.301554]  ? _raw_spin_unlock_irq+0x24/0x50
-> > [  102.305901]  ? wait_for_completion_timeout+0x2bb/0x3a0
-> > [  102.311028]  ? drm_atomic_helper_calc_timestamping_constants+0x141/0=
-x200
-> > [  102.317714]  ? drm_atomic_helper_commit_planes+0x3b6/0x1030
-> > [  102.323279]  drm_atomic_helper_commit_planes+0x3b6/0x1030
-> > [  102.328664]  drm_atomic_helper_commit_tail+0x41/0xb0
-> > [  102.333622]  commit_tail+0x204/0x330
-> > [...]
-> > [  102.529946] ---[ end trace 0000000000000000 ]---
-> > [  102.651980] RIP: 0010:udl_compress_hline16+0x219/0x940 [udl]
-> >
-> > In this stack strace, udl (based on GEM-SHMEM) imported and vmap'ed a
-> > dma-buf from amdgpu. Amdgpu relocated the buffer, thereby invalidating =
-the
-> > mapping.
-> >
-> > Provide a custom dma-buf vmap method in amdgpu that pins the object bef=
-ore
-> > mapping it's buffer's pages into kernel address space. Do the opposite =
-in
-> > vunmap.
-> >
-> > Note that dma-buf vmap differs from GEM vmap in how it handles relocati=
-on.
-> > While dma-buf vmap keeps the buffer in place, GEM vmap requires the cal=
-ler
-> > to keep the buffer in place. Hence, this fix is in amdgpu's dma-buf cod=
-e
-> > instead of its GEM code.
-> >
-> > A discussion of various approaches to solving the problem is available
-> > at [1].
-> >
-> > v3:
-> > - try (GTT | VRAM); drop CPU domain (Christian)
-> > v2:
-> > - only use mapable domains (Christian)
-> > - try pinning to domains in preferred order
-> >
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Fixes: 660cd44659a0 ("drm/shmem-helper: Import dmabuf without mapping i=
-ts sg_table")
-> > Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > Closes: https://lore.kernel.org/dri-devel/ba1bdfb8-dbf7-4372-bdcb-df7e0=
-511c702@suse.de/
-> > Cc: Shixiong Ou <oushixiong@kylinos.cn>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Simona Vetter <simona@ffwll.ch>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Link: https://lore.kernel.org/dri-devel/9792c6c3-a2b8-4b2b-b5ba-fba19b1=
-53e21@suse.de/ # [1]
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+=E5=9C=A8 2025-08-21=E6=98=9F=E6=9C=9F=E5=9B=9B=E7=9A=84 14:38 +0300=EF=BC=
+=8CDmitry Baryshkov=E5=86=99=E9=81=93=EF=BC=9A
+> On Mon, Aug 18, 2025 at 03:47:28PM +0800, Icenowy Zheng wrote:
+> > =E5=9C=A8 2025-08-18=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 15:45 +0800=EF=
+=BC=8CTroy Mitchell=E5=86=99=E9=81=93=EF=BC=9A
+> > > On Sun, Aug 17, 2025 at 01:10:44AM +0800, Icenowy Zheng wrote:
+> > > > =E5=9C=A8 2025-08-16=E6=98=9F=E6=9C=9F=E5=85=AD=E7=9A=84 19:24 +030=
+0=EF=BC=8CDmitry Baryshkov=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > On Fri, Aug 15, 2025 at 12:40:45AM +0800, Icenowy Zheng
+> > > > > wrote:
+> > > > > > T-Head TH1520 SoC contains a Synopsys DesignWare HDMI
+> > > > > > controller
+> > > > > > (paired
+> > > > > > with DesignWare HDMI TX PHY Gen2) that takes the "DP"
+> > > > > > output
+> > > > > > from
+> > > > > > the
+> > > > > > display controller.
+> > > > > >=20
+> > > > > > Add a driver for this controller utilizing the common
+> > > > > > DesignWare
+> > > > > > HDMI
+> > > > > > code in the kernel.
+> > > > > >=20
+> > > > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > > > > > ---
+> > > > > > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > > > > =C2=A0drivers/gpu/drm/bridge/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 ++
+> > > > > > =C2=A0drivers/gpu/drm/bridge/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> > > > > > =C2=A0drivers/gpu/drm/bridge/th1520-dw-hdmi.c | 170
+> > > > > > ++++++++++++++++++++++++
+> > > > > > =C2=A04 files changed, 182 insertions(+)
+> > > > > > =C2=A0create mode 100644 drivers/gpu/drm/bridge/th1520-dw-hdmi.=
+c
+> > > > > >=20
+> > > > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > > > index fe168477caa45..eb84e36ded6d5 100644
+> > > > > > --- a/MAINTAINERS
+> > > > > > +++ b/MAINTAINERS
+> > > > > > @@ -21728,6 +21728,7 @@
+> > > > > > F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Documentation/devicetree/=
+bindings/reset/thead,th152
+> > > > > > 0-
+> > > > > > reset.yaml
+> > > > > > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0arch/riscv/boot/dts/thead=
+/
+> > > > > > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/clk/thead/clk-th1=
+520-ap.c
+> > > > > > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/firmware/thead,th=
+1520-aon.c
+> > > > > > +F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/bridge/th1520-=
+dw-hdmi.c
+> > > > > > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/mailbox/mailbox-t=
+h1520.c
+> > > > > > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/net/ethernet/stmi=
+cro/stmmac/dwmac-thead.c
+> > > > > > =C2=A0F:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/pinctrl/pinctrl-t=
+h1520.c
+> > > > > > diff --git a/drivers/gpu/drm/bridge/Kconfig
+> > > > > > b/drivers/gpu/drm/bridge/Kconfig
+> > > > > > index b9e0ca85226a6..f75e6ad04179f 100644
+> > > > > > --- a/drivers/gpu/drm/bridge/Kconfig
+> > > > > > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > > > > > @@ -322,6 +322,16 @@ config DRM_THINE_THC63LVD1024
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0help
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Thine TH=
+C63LVD1024 LVDS/parallel converter
+> > > > > > driver.
+> > > > > > =C2=A0
+> > > > > > +config DRM_THEAD_TH1520_DW_HDMI
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tristate "T-Head TH1=
+520 DesignWare HDMI bridge"
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on OF
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on COMMON_CL=
+K
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on ARCH_THEA=
+D || COMPILE_TEST
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0select DRM_DW_HDMI
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0help
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Choose this t=
+o enable support for the internal
+> > > > > > HDMI
+> > > > > > bridge found
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 on the T-Head=
+ TH1520 SoC.
+> > > > > > +
+> > > > > > =C2=A0config DRM_TOSHIBA_TC358762
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0tristate "TC358=
+762 DSI/DPI bridge"
+> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0depends on OF
+> > > > > > diff --git a/drivers/gpu/drm/bridge/Makefile
+> > > > > > b/drivers/gpu/drm/bridge/Makefile
+> > > > > > index 245e8a27e3fc5..421e445ff1cd9 100644
+> > > > > > --- a/drivers/gpu/drm/bridge/Makefile
+> > > > > > +++ b/drivers/gpu/drm/bridge/Makefile
+> > > > > > @@ -27,6 +27,7 @@ obj-$(CONFIG_DRM_SIL_SII8620) +=3D sil-
+> > > > > > sii8620.o
+> > > > > > =C2=A0obj-$(CONFIG_DRM_SII902X) +=3D sii902x.o
+> > > > > > =C2=A0obj-$(CONFIG_DRM_SII9234) +=3D sii9234.o
+> > > > > > =C2=A0obj-$(CONFIG_DRM_SIMPLE_BRIDGE) +=3D simple-bridge.o
+> > > > > > +obj-$(CONFIG_DRM_THEAD_TH1520_DW_HDMI) +=3D th1520-dw-hdmi.o
+> > > > > > =C2=A0obj-$(CONFIG_DRM_THINE_THC63LVD1024) +=3D thc63lvd1024.o
+> > > > > > =C2=A0obj-$(CONFIG_DRM_TOSHIBA_TC358762) +=3D tc358762.o
+> > > > > > =C2=A0obj-$(CONFIG_DRM_TOSHIBA_TC358764) +=3D tc358764.o
+> > > > > > diff --git a/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > > > > > b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > > > > > new file mode 100644
+> > > > > > index 0000000000000..f8dddf3cb0cca
+> > > > > > --- /dev/null
+> > > > > > +++ b/drivers/gpu/drm/bridge/th1520-dw-hdmi.c
+> > > > > > @@ -0,0 +1,170 @@
+> > > > > > +// SPDX-License-Identifier: GPL-2.0+
+> > > > > > +/*
+> > > > > > + * Copyright (C) 2025 Icenowy Zheng <uwu@icenowy.me>
+> > > > > > + *
+> > > > > > + * Based on rcar_dw_hdmi.c, which is:
+> > > > > > + *=C2=A0=C2=A0 Copyright (C) 2016 Renesas Electronics Corporat=
+ion
+> > > > > > + * Based on imx8mp-hdmi-tx.c, which is:
+> > > > > > + *=C2=A0=C2=A0 Copyright (C) 2022 Pengutronix, Lucas Stach
+> > > > > > <kernel@pengutronix.de>
+> > > > > > + */
+> > > > > > +
+> > > > > > +#include <linux/clk.h>
+> > > > > > +#include <linux/mod_devicetable.h>
+> > > > > > +#include <linux/module.h>
+> > > > > > +#include <linux/platform_device.h>
+> > > > > > +#include <linux/reset.h>
+> > > > > > +
+> > > > > > +#include <drm/bridge/dw_hdmi.h>
+> > > > > > +#include <drm/drm_modes.h>
+> > > > > > +
+> > > > > > +#define TH1520_HDMI_PHY_OPMODE_PLLCFG=C2=A0=C2=A00x06=C2=A0=C2=
+=A0=C2=A0=C2=A0/* Mode of
+> > > > > > operation and PLL dividers */
+> > > > > > +#define TH1520_HDMI_PHY_CKSYMTXCTRL=C2=A0=C2=A0=C2=A0=C2=A00x0=
+9=C2=A0=C2=A0=C2=A0=C2=A0/* Clock
+> > > > > > Symbol
+> > > > > > and
+> > > > > > Transmitter Control Register */
+> > > > > > +#define TH1520_HDMI_PHY_VLEVCTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A00x0e=C2=A0=C2=A0=C2=A0=C2=A0/* Voltage
+> > > > > > Level
+> > > > > > Control Register */
+> > > > > > +#define TH1520_HDMI_PHY_PLLCURRGMPCTRL=C2=A00x10=C2=A0=C2=A0=
+=C2=A0=C2=A0/* PLL
+> > > > > > current
+> > > > > > and
+> > > > > > Gmp (conductance) */
+> > > > > > +#define TH1520_HDMI_PHY_PLLDIVCTRL=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A00x11=C2=A0=C2=A0=C2=A0=C2=A0/* PLL
+> > > > > > dividers
+> > > > > > */
+> > > > > > +#define TH1520_HDMI_PHY_TXTERM=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A00x19=C2=A0=C2=A0=C2=A0=C2=A0/*
+> > > > > > Transmission
+> > > > > > Termination Register */
+> > > > > > +
+> > > > > > +struct th1520_hdmi_phy_params {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned long mpixel=
+clock;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 opmode_pllcfg;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 pllcurrgmpctrl;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 plldivctrl;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 cksymtxctrl;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 vlevctrl;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u16 txterm;
+> > > > > > +};
+> > > > > > +
+> > > > > > +static const struct th1520_hdmi_phy_params
+> > > > > > th1520_hdmi_phy_params[] =3D {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 35500000,=C2=A0 0x=
+0003, 0x0283, 0x0628, 0x8088,
+> > > > > > 0x01a0,
+> > > > > > 0x0007
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 44900000,=C2=A0 0x=
+0003, 0x0285, 0x0228, 0x8088,
+> > > > > > 0x01a0,
+> > > > > > 0x0007
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 71000000,=C2=A0 0x=
+0002, 0x1183, 0x0614, 0x8088,
+> > > > > > 0x01a0,
+> > > > > > 0x0007
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 90000000,=C2=A0 0x=
+0002, 0x1142, 0x0214, 0x8088,
+> > > > > > 0x01a0,
+> > > > > > 0x0007
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 121750000, 0x0001,=
+ 0x20c0, 0x060a, 0x8088,
+> > > > > > 0x01a0,
+> > > > > > 0x0007
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 165000000, 0x0001,=
+ 0x2080, 0x020a, 0x8088,
+> > > > > > 0x01a0,
+> > > > > > 0x0007
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 198000000, 0x0000,=
+ 0x3040, 0x0605, 0x83c8,
+> > > > > > 0x0120,
+> > > > > > 0x0004
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 297000000, 0x0000,=
+ 0x3041, 0x0205, 0x81dc,
+> > > > > > 0x0200,
+> > > > > > 0x0005
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 371250000, 0x0640,=
+ 0x3041, 0x0205, 0x80f6,
+> > > > > > 0x0140,
+> > > > > > 0x0000
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 495000000, 0x0640,=
+ 0x3080, 0x0005, 0x80f6,
+> > > > > > 0x0140,
+> > > > > > 0x0000
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 594000000, 0x0640,=
+ 0x3080, 0x0005, 0x80fa,
+> > > > > > 0x01e0,
+> > > > > > 0x0004
+> > > > > > },
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ ~0UL,=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 0x0000, 0x0000, 0x0000, 0x0000,
+> > > > > > 0x0000,
+> > > > > > 0x0000
+> > > > > > }
+> > > > > > +};
+> > > > > > +
+> > > > > > +struct th1520_hdmi {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dw_hdmi_plat_=
+data plat_data;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct dw_hdmi *dw_h=
+dmi;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct clk *pixclk;
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct reset_control=
+ *mainrst, *prst;
+> > > > > > +};
+> > > > > > +
+> > > > > > +static enum drm_mode_status
+> > > > > > +th1520_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const st=
+ruct drm_display_info *info,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const st=
+ruct drm_display_mode *mode)
+> > > > > > +{
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/*
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * The maximum suppo=
+rted clock frequency is 594
+> > > > > > MHz, as
+> > > > > > shown in the PHY
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * parameters table.
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (mode->clock > 59=
+4000)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return MODE_CLOCK_HIGH;
+> > > > >=20
+> > > > > We should rewrite DW bridge into HDMI ops. It would help us
+> > > > > to
+> > > > > get
+> > > > > rid
+> > > > > of such functions. With it in place it will be handled by the
+> > > > > generic
+> > > > > TMDS clock rate check.
+> > > >=20
+> > > > Yes, but this mode_valid hook here is part of the private
+> > > > interface
+> > > > of
+> > > > DW bridge, instead of implementing anything for other parts of
+> > > > DRM
+> > > > subsystem.
+> > > >=20
+> > > > Even if the TMDS clock rate check is utilized by the DW bridge,
+> > > > the
+> > > > bridge's interface should be modified to expose something to
+> > > > set
+> > > > the
+> > > > maximum clock rate.
+> > > >=20
+> > > > >=20
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return MODE_OK;
+> > > > > > +}
+> > > > > > +
+> > > > > > +static int th1520_hdmi_phy_configure(struct dw_hdmi *hdmi,
+> > > > > > void
+> > > > > > *data,
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ unsigned long
+> > > > > > mpixelclock)
+> > > > > > +{
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct th1520_=
+hdmi_phy_params *params =3D
+> > > > > > th1520_hdmi_phy_params;
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0for (; params->mpixe=
+lclock !=3D ~0UL; ++params) {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (mpixelclock <=3D params->mpixelclock)
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0break;
+> > > > >=20
+> > > > > for (...) {
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (mpixelclock <=
+=3D params->mpixelclock)
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return th1520_program_phy();
+> > > >=20
+> > > > There's no such a function here, and this check isn't used for
+> > > > another
+> > > > time, so having the matching code and programming code
+> > > > extracted
+> > > > out
+> > > > can help nothing.
+> > > I think Dmitry meant that the following code should be moved into
+> > > a new function, th1520_program_phy().=C2=A0=20
+> > >=20
+> > > This makes the code cleaner and also avoids one extra if check.
+> >=20
+> > As there's no code reuse, it does not make code cleaner.
+>=20
+> It removes necessity for the extra ~0UL entry in the array and
+> removes
+> the post-loop check whether we found an entry or not.
 
-Thomas did you want to take this through drm-misc or do you want me to
-pick this up?
+We will need a way to end the loop for any possible reason, either with
+~0UL or ARRAY_SIZE or any other way, and the post-loop check is just a
+regular pattern.
 
-Thanks,
+In addition, creating such a function will break the sequence of code,
+make it different from the control flow.
 
-Alex
+Maybe the register-writing code could be moved into the loop, but
+creating such a function is just making the code more different to
+read.
 
->
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 34 +++++++++++++++++++--
-> >  1 file changed, 32 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/=
-drm/amd/amdgpu/amdgpu_dma_buf.c
-> > index 5743ebb2f1b7..ce27cb5bb05e 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> > @@ -285,6 +285,36 @@ static int amdgpu_dma_buf_begin_cpu_access(struct =
-dma_buf *dma_buf,
-> >       return ret;
-> >  }
-> >
-> > +static int amdgpu_dma_buf_vmap(struct dma_buf *dma_buf, struct iosys_m=
-ap *map)
-> > +{
-> > +     struct drm_gem_object *obj =3D dma_buf->priv;
-> > +     struct amdgpu_bo *bo =3D gem_to_amdgpu_bo(obj);
-> > +     int ret;
-> > +
-> > +     /*
-> > +      * Pin to keep buffer in place while it's vmap'ed. The actual
-> > +      * domain is not that important as long as it's mapable. Using
-> > +      * GTT and VRAM should be compatible with most use cases.
-> > +      */
-> > +     ret =3D amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT | AMDGPU_GEM_DOMA=
-IN_VRAM);
-> > +     if (ret)
-> > +             return ret;
-> > +     ret =3D drm_gem_dmabuf_vmap(dma_buf, map);
-> > +     if (ret)
-> > +             amdgpu_bo_unpin(bo);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static void amdgpu_dma_buf_vunmap(struct dma_buf *dma_buf, struct iosy=
-s_map *map)
-> > +{
-> > +     struct drm_gem_object *obj =3D dma_buf->priv;
-> > +     struct amdgpu_bo *bo =3D gem_to_amdgpu_bo(obj);
-> > +
-> > +     drm_gem_dmabuf_vunmap(dma_buf, map);
-> > +     amdgpu_bo_unpin(bo);
-> > +}
-> > +
-> >  const struct dma_buf_ops amdgpu_dmabuf_ops =3D {
-> >       .attach =3D amdgpu_dma_buf_attach,
-> >       .pin =3D amdgpu_dma_buf_pin,
-> > @@ -294,8 +324,8 @@ const struct dma_buf_ops amdgpu_dmabuf_ops =3D {
-> >       .release =3D drm_gem_dmabuf_release,
-> >       .begin_cpu_access =3D amdgpu_dma_buf_begin_cpu_access,
-> >       .mmap =3D drm_gem_dmabuf_mmap,
-> > -     .vmap =3D drm_gem_dmabuf_vmap,
-> > -     .vunmap =3D drm_gem_dmabuf_vunmap,
-> > +     .vmap =3D amdgpu_dma_buf_vmap,
-> > +     .vunmap =3D amdgpu_dma_buf_vunmap,
-> >  };
-> >
-> >  /**
->
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+>=20
+
