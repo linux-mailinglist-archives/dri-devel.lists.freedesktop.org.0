@@ -2,74 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3439B2F40B
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 11:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E41B2F4E5
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 12:13:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28DBF10E8EE;
-	Thu, 21 Aug 2025 09:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CFD210E8F3;
+	Thu, 21 Aug 2025 10:13:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BMRUE834";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="x54WHZWt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3721910E8E3;
- Thu, 21 Aug 2025 09:34:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755768892; x=1787304892;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=6Vk2rNv6sQPb2ve7Pj2mP/GF1p2TJt4JFMI53lJXfL8=;
- b=BMRUE834p0j9cC1X4NMJeQftC3HhAU687stmcTRUyX4ke6Ba+CoOC6Cq
- tUrNFChnAQ+vsbPcFNMl/6SxUfSDSX4ibTJp7BWWybzjUQBSh/Gw/RG6S
- V0mtl6UBv6qIhLChmgwCQlTMWKeMqcfulVQnHmQZQIOs8Wr2MRKdOUKMh
- 7n+9vQhlCKsPQEs6BcSWE9p8C1ydhcDuZJpw0nZrFuiDOZfouFq1WhMwV
- B8nbG1iKPsQgdLh3vNpo4y38lkdVWhwQxQTr5wu1T7W0wN03/TwDBSMP/
- /YGVams+vazAcqFyPeBdo/W6yC8zFhE9EEQDdJDZ0q5Q7mpawrUJQlDAl A==;
-X-CSE-ConnectionGUID: i+My7hQ7RsC+HkuSwAusmA==
-X-CSE-MsgGUID: i9jw2jMFTauQOnT2hxa6CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57978878"
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; d="scan'208";a="57978878"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2025 02:34:52 -0700
-X-CSE-ConnectionGUID: Y0heiNaWTYy4UVfXra6P2w==
-X-CSE-MsgGUID: N5zt3aWDSC2Q5n+oE/9ILg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; d="scan'208";a="172786862"
-Received: from johunt-mobl9.ger.corp.intel.com (HELO [10.245.245.201])
- ([10.245.245.201])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2025 02:34:31 -0700
-Message-ID: <05360f1a920afe31ddd743d21f217d7bf8ff1c45.camel@linux.intel.com>
-Subject: Re: [RFC PATCH 1/6] mm/mmu_notifier: Allow multiple struct
- mmu_interval_notifier passes
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- intel-xe@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>, 
- Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, 	linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>
-Date: Thu, 21 Aug 2025 11:34:25 +0200
-In-Reply-To: <aKSZ1JduQwAFSFQn@lstrano-desk.jf.intel.com>
-References: <20250809135137.259427-1-thomas.hellstrom@linux.intel.com>
- <20250809135137.259427-2-thomas.hellstrom@linux.intel.com>
- <20250818160726.GH599331@ziepe.ca>
- <aKNT8GUu0r3i4Ikq@lstrano-desk.jf.intel.com>
- <20250818163617.GI599331@ziepe.ca>
- <aKNYUaPS0PiRk/yj@lstrano-desk.jf.intel.com>
- <20250818164655.GJ599331@ziepe.ca>
- <4lsv2lcd7lssyvcjvkqe4t2foubxbhuxrt2ptzee3csymz5gg3@jwrg3xow72lm>
- <e96dcfd4ce7c84a5b66ff9d5f082ea209266ce48.camel@linux.intel.com>
- <aKSZ1JduQwAFSFQn@lstrano-desk.jf.intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+X-Greylist: delayed 2017 seconds by postgrey-1.36 at gabe;
+ Thu, 21 Aug 2025 10:13:24 UTC
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8758A10E8F3;
+ Thu, 21 Aug 2025 10:13:24 +0000 (UTC)
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57L8uf03028719;
+ Thu, 21 Aug 2025 11:39:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ kHxcorhp5czLlBBNNIvPxeZEYbfShmd+8rRbKqHVLQc=; b=x54WHZWtHoVtnKSh
+ GwXIq32qEehSt5QN4pnCvtl8/TiFHUGkCVxLDpTAaQktot64B36wulxk1ei+r5EB
+ q4oJU0m5ApNcrcGtHJTtGKf8JmVGtpf2P+Nqv7T7elfSWoaqyewnWBbT/y30hkyM
+ QztQ5odjdA0mMraCkgbl+w7JGJlgWV4xAyEG9fI/kLcwVxziU/qGhGPxTAw20d6i
+ hM/4vG1IQ1AxUrf3PLjbdmzhAQKlbABlritN7UG4B85uzMmfNcd9IrPQzWD/XlfS
+ /PHF7fjxPPYQDRwv1ACERxT7tPpV8bBLheQgLG2lpZ+jXslc/76fxC3S4Xlo4gTt
+ cUUJxA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48n81wnyun-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Aug 2025 11:39:25 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 50FE64002D;
+ Thu, 21 Aug 2025 11:36:50 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C3FF873DB4E;
+ Thu, 21 Aug 2025 11:35:26 +0200 (CEST)
+Received: from [10.48.87.178] (10.48.87.178) by SHFDAG1NODE3.st.com
+ (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Aug
+ 2025 11:35:25 +0200
+Message-ID: <ea6b8999-4f5d-4cc2-b92b-b0776c2b1363@foss.st.com>
+Date: Thu, 21 Aug 2025 11:35:24 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/9] drm/stm/dw_mipi_dsi-stm: convert from round_rate()
+ to determine_rate()
+To: Brian Masney <bmasney@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ "Abhinav Kumar" <abhinav.kumar@linux.dev>, Jessica Zhang
+ <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>
+CC: <linux-clk@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>
+References: <20250811-drm-clk-round-rate-v2-0-4a91ccf239cf@redhat.com>
+ <20250811-drm-clk-round-rate-v2-6-4a91ccf239cf@redhat.com>
+Content-Language: en-US
+From: Yannick FERTRE <yannick.fertre@foss.st.com>
+In-Reply-To: <20250811-drm-clk-round-rate-v2-6-4a91ccf239cf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.48.87.178]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE3.st.com
+ (10.75.129.71)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-21_02,2025-08-20_03,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,122 +100,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-08-19 at 08:35 -0700, Matthew Brost wrote:
-> On Tue, Aug 19, 2025 at 01:33:40PM +0200, Thomas Hellstr=C3=B6m wrote:
-> > On Tue, 2025-08-19 at 19:55 +1000, Alistair Popple wrote:
-> > > On Mon, Aug 18, 2025 at 01:46:55PM -0300, Jason Gunthorpe wrote:
-> > > > On Mon, Aug 18, 2025 at 09:44:01AM -0700, Matthew Brost wrote:
-> > > > > On Mon, Aug 18, 2025 at 01:36:17PM -0300, Jason Gunthorpe
-> > > > > wrote:
-> > > > > > On Mon, Aug 18, 2025 at 09:25:20AM -0700, Matthew Brost
-> > > > > > wrote:
-> > > > > > > I think this choice makes sense: it allows embedding the
-> > > > > > > wait
-> > > > > > > state from
-> > > > > > > the initial notifier call into the pass structure. Patch
-> > > > > > > [6]
-> > > > > > > shows this
-> > > > > > > by attaching the issued TLB invalidation fences to the
-> > > > > > > pass.
-> > > > > > > Since a
-> > > > > > > single notifier may be invoked multiple times with
-> > > > > > > different
-> > > > > > > ranges but
-> > > > > > > the same seqno,
-> > > > > >=20
-> > > > > > That should be explained, but also seems to be a bit of a
-> > > > > > different
-> > > > > > issue..
-> > > > > >=20
-> > > > > > If the design is really to only have two passes and this
-> > > > > > linked
-> > > > > > list
-> > > > > > is about retaining state then there should not be so much
-> > > > > > freedom to
-> > > > > > have more passes.
-> > > > >=20
-> > > > > I=E2=80=99ll let Thomas weigh in on whether we really need more t=
-han
-> > > > > two
-> > > > > passes;
-> > > > > my feeling is that two passes are likely sufficient. It=E2=80=99s
-> > > > > also
-> > > > > worth
-> > > > > noting that the linked list has an added benefit: the
-> > > > > notifier
-> > > > > tree only
-> > > > > needs to be walked once (a small time-complexity win).
-> > > >=20
-> > > > You may end up keeping the linked list just with no way to add
-> > > > a
-> > > > third
-> > > > pass.
-> > >=20
-> > > It seems to me though that linked list still adds unnecessary
-> > > complexity. I
-> > > think this would all be much easier to follow if we just added
-> > > two
-> > > new callbacks
-> > > - invalidate_start() and invalidate_end() say.
-> >=20
-> > One thing that the linked list avoids, though, is traversing the
-> > interval tree two times. It has O(n*log(n)) whereas the linked list
-> > overhead is just O(n_2pass).
-> >=20
-> > >=20
-> > > Admitedly that would still require the linked list (or something
-> > > similar) to
-> > > retain the ability to hold/pass a context between the start and
-> > > end
-> > > callbacks.
-> > > Which is bit annoying, it's a pity we need to allocate memory in
-> > > a
-> > > performance
-> > > sensitive path to effectively pass (at least in this case) a
-> > > single
-> > > pointer. I
-> > > can't think of any obvious solutions to that though.
-> >=20
-> > One idea is for any two-pass notifier implementation to use a small
-> > pool. That would also to some extent mitigate the risk of out-of-
-> > memory
-> > with GFP_NOWAIT.
-> >=20
->=20
-> I think we can attach a preallocated list entry to the driver-side
-> notifier state; then you=E2=80=99d only need to allocate (or block) if th=
-at
-> notifier is invoked more than once while a wait action (e.g., a TLB
-> invalidation) is outstanding. Multiple invocations are technically
-> possible, but in practice I=E2=80=99d expect them to be rare.
->=20
-> I=E2=80=99m not sure how much of a win this is, though. On Intel hardware=
-,
-> TLB
-> invalidations are several orders of magnitude slower than the
-> software
-> steps our notifiers perform. Ultimately, whether to allocate or
-> preallocate is a driver-side choice.
+Hi Brian,
 
-I agree we shouldn't enforce anything at this point. But if we envision
-a situation where multiple subsystem two-pass notifiers subscribe, the
-GFP_NOWAIT memory might be exhausted by the notifiers called first. A
-greedy behavior that might eventually cause serialization anyway.
+thanks for the patch.
 
-So to behave nicely towards other notifier subscriptions, an
-implementation should ideally have something pre-allocated.
+Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
-/Thomas
-
-
->=20
-> Matt
->=20
-> > /Thomas
-> >=20
-> >=20
-> > >=20
-> > > > Jason
-> > > >=20
-> >=20
-
+Le 11/08/2025 à 12:56, Brian Masney a écrit :
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
+>
+> Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> ---
+>   drivers/gpu/drm/stm/dw_mipi_dsi-stm.c | 14 ++++++++------
+>   1 file changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> index 2c7bc064bc66c6a58903a207cbe8091a14231c2b..58eae6804cc82d174323744206be7046568b905c 100644
+> --- a/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> +++ b/drivers/gpu/drm/stm/dw_mipi_dsi-stm.c
+> @@ -274,8 +274,8 @@ static unsigned long dw_mipi_dsi_clk_recalc_rate(struct clk_hw *hw,
+>   	return (unsigned long)pll_out_khz * 1000;
+>   }
+>   
+> -static long dw_mipi_dsi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
+> -				       unsigned long *parent_rate)
+> +static int dw_mipi_dsi_clk_determine_rate(struct clk_hw *hw,
+> +					  struct clk_rate_request *req)
+>   {
+>   	struct dw_mipi_dsi_stm *dsi = clk_to_dw_mipi_dsi_stm(hw);
+>   	unsigned int idf, ndiv, odf, pll_in_khz, pll_out_khz;
+> @@ -283,14 +283,14 @@ static long dw_mipi_dsi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
+>   
+>   	DRM_DEBUG_DRIVER("\n");
+>   
+> -	pll_in_khz = (unsigned int)(*parent_rate / 1000);
+> +	pll_in_khz = (unsigned int)(req->best_parent_rate / 1000);
+>   
+>   	/* Compute best pll parameters */
+>   	idf = 0;
+>   	ndiv = 0;
+>   	odf = 0;
+>   
+> -	ret = dsi_pll_get_params(dsi, pll_in_khz, rate / 1000,
+> +	ret = dsi_pll_get_params(dsi, pll_in_khz, req->rate / 1000,
+>   				 &idf, &ndiv, &odf);
+>   	if (ret)
+>   		DRM_WARN("Warning dsi_pll_get_params(): bad params\n");
+> @@ -298,7 +298,9 @@ static long dw_mipi_dsi_clk_round_rate(struct clk_hw *hw, unsigned long rate,
+>   	/* Get the adjusted pll out value */
+>   	pll_out_khz = dsi_pll_get_clkout_khz(pll_in_khz, idf, ndiv, odf);
+>   
+> -	return pll_out_khz * 1000;
+> +	req->rate = pll_out_khz * 1000;
+> +
+> +	return 0;
+>   }
+>   
+>   static int dw_mipi_dsi_clk_set_rate(struct clk_hw *hw, unsigned long rate,
+> @@ -351,7 +353,7 @@ static const struct clk_ops dw_mipi_dsi_stm_clk_ops = {
+>   	.disable = dw_mipi_dsi_clk_disable,
+>   	.is_enabled = dw_mipi_dsi_clk_is_enabled,
+>   	.recalc_rate = dw_mipi_dsi_clk_recalc_rate,
+> -	.round_rate = dw_mipi_dsi_clk_round_rate,
+> +	.determine_rate = dw_mipi_dsi_clk_determine_rate,
+>   	.set_rate = dw_mipi_dsi_clk_set_rate,
+>   };
+>   
+>
