@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9936EB2FD74
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 16:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E927B2FD6F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 16:54:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF73410E9BC;
-	Thu, 21 Aug 2025 14:54:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B6F310E371;
+	Thu, 21 Aug 2025 14:54:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="F+TplOo4";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="ake7V/Gk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
  [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B15A10E9BC
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:54:45 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LEh4vi031119;
- Thu, 21 Aug 2025 14:54:34 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88FA610E37C
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:54:44 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LEBt6t019360;
+ Thu, 21 Aug 2025 14:54:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
  :content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=corp-2025-04-25; bh=N6Gbu
- R9LSSRc3N1wU5xRX5lAGkr/RfOrMSDT6LkHoCQ=; b=F+TplOo4EU7DhAbLThzJf
- tJVNd29WKOBRmgV6oOoHL/17QYOl8pxd2LvdHKRfCV+DYGYWVUgjUoaXyu6wJNXt
- n01EWfGAukiVThvAt0/eclx2Ibi9dRHNpmnYGKOjT9ZJEONS3UOP00j2a3SoC8aH
- dnvdUtrX+dsBBPXzT/P1oenxWWeJOeVWjpSCqjTEsc4st8i6lOhpdowMV5IQD/5b
- 2GbRvzJwaUzGDZHtSsqJ7uLRnUvjLNZLz6XLDftPfzR4xrrSMqxmX/xi6cIn3XKf
- tTrVX84X2e3bSdG8gxVjFY+2J7I1exzG0BDzl9BRXpC+Yc4vOKRpa3NiF0sOysif
- g==
+ :mime-version:references:subject:to; s=corp-2025-04-25; bh=ZB4H0
+ brEDhy/BTQoDbDq/GzCpRwIb20+sslpqu7YiDg=; b=ake7V/GkRhm4O2LwVbpRM
+ lsrT7Ap+zM/ZcGlMciNaJPOfom+bbzsJAs24if26PSo+OIfWK9GNeuoFXu2wpPdq
+ uKqpi9sVjecAELqa+zcWq9fl3QN0fZk8J5IcyM4RhuKeadvqEGz8xdOJa4caUlmb
+ tOcKtLNFVROnoGO1ZlD2todhQNjn6EkSryObl27Cuhey19w2ZPZJhgD2oNPlhhxL
+ AKzTNlVjhUfKFDfr06gdOqn/Aj2JAdx9X9ZuO7L9xK7EHeTmxCOI2qMziwaSqrOH
+ Ko87whtYmtK4NG4NMiWIzT9FVQsZ/T7knvLTDpnLHkVTv/s5tKbzUVinB+EsydMP
+ w==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48n0tsukef-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48n0tr3nme-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Aug 2025 14:54:34 +0000 (GMT)
+ Thu, 21 Aug 2025 14:54:36 +0000 (GMT)
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 57LD9KP8020792; Thu, 21 Aug 2025 14:54:34 GMT
+ with ESMTP id 57LDtTHD020788; Thu, 21 Aug 2025 14:54:34 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 48nj6g5s8u-1
+ 48nj6g5s92-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 21 Aug 2025 14:54:34 +0000
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57LEpOeD011459;
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57LEpOeF011459;
  Thu, 21 Aug 2025 14:54:33 GMT
 Received: from sidhakum-ubuntu.osdevelopmeniad.oraclevcn.com
  (sidhakum-ubuntu.allregionaliads.osdevelopmeniad.oraclevcn.com
  [100.100.250.108])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 48nj6g5s7m-4; Thu, 21 Aug 2025 14:54:33 +0000
+ 48nj6g5s7m-5; Thu, 21 Aug 2025 14:54:33 +0000
 From: Sidhartha Kumar <sidhartha.kumar@oracle.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, willy@infradead.org,
  sidhartha.kumar@oracle.com
-Subject: [PATCH v2 3/6] drm: Convert syncobj_idr to XArray
-Date: Thu, 21 Aug 2025 14:54:26 +0000
-Message-ID: <20250821145429.305526-4-sidhartha.kumar@oracle.com>
+Subject: [PATCH v2 4/6] drm: Convert magic_map to XArray
+Date: Thu, 21 Aug 2025 14:54:27 +0000
+Message-ID: <20250821145429.305526-5-sidhartha.kumar@oracle.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250821145429.305526-1-sidhartha.kumar@oracle.com>
 References: <20250821145429.305526-1-sidhartha.kumar@oracle.com>
@@ -73,20 +73,20 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
  suspectscore=0 bulkscore=0 spamscore=0 adultscore=0 phishscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2508110000 definitions=main-2508210121
-X-Proofpoint-GUID: TKq9kdl9qpybQSI7_o8POUORkkBZf-Lr
-X-Authority-Analysis: v=2.4 cv=S6eAAIsP c=1 sm=1 tr=0 ts=68a7332a b=1 cx=c_pps
+X-Proofpoint-GUID: 8s0toXwNDUjgdIaF8e2CvN7hfbf-lqqa
+X-Authority-Analysis: v=2.4 cv=FY1uBJ+6 c=1 sm=1 tr=0 ts=68a7332c b=1 cx=c_pps
  a=zPCbziy225d3KhSqZt3L1A==:117
  a=zPCbziy225d3KhSqZt3L1A==:17
- a=2OwXVqhp2XgA:10 a=JfrnYn6hAAAA:8 a=yPCof4ZbAAAA:8 a=2SHY49DYBmSurWS0lVIA:9
+ a=2OwXVqhp2XgA:10 a=JfrnYn6hAAAA:8 a=yPCof4ZbAAAA:8 a=9b9-1ReQUuPN9d1JgaQA:9
  a=1CNFftbPRP8L7MoqJWF3:22 cc=ntf awl=host:12069
-X-Proofpoint-ORIG-GUID: TKq9kdl9qpybQSI7_o8POUORkkBZf-Lr
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NyBTYWx0ZWRfX1LiotBPpK+lk
- O07FHF9l2ZTbKXcGW7kC4XQcX4DiLerfU/J2tJ1wyfztwNfnaZEm/JWC3yPUpXzKJSUkyDXqkvF
- 4cLInObwvqjWjamGAXOu2ouaGypJtptwrJsazTte1/7KzDIgxhYnLXpLuYH43eO1TR0qBgEg34e
- psu8hU59/hr2SrXCUE0NW98fc3az5uwWjasLpHaV1t1IXcxfX0+jAfPtatelCJJZnavIZGtNa0+
- LbCn715S5X6c2VnNvzu9nasBL1i/TsZjoyzwYq136YgkJq+qeAi6HVvL4zE+haWJkwQTR00fiwc
- Psl5wtUjaS7SU86kEsvm4wNG47yAjEMOrF6PmqTCgPN85nDAVuUQJh5eb78WBtX3QPIzCIJOfWV
- o/RaY9L1gtfn2Y8XdrB5eNhWhAlx7Y4pTROKtLJcglE7bU9aGCg=
+X-Proofpoint-ORIG-GUID: 8s0toXwNDUjgdIaF8e2CvN7hfbf-lqqa
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NyBTYWx0ZWRfX4DrbzftxXuKQ
+ 71VL8IShCarOARFd60PZLKcF6iQvSw0tj3tRZ45jjXSLq+OGzeop2vSlwW7BakoCmPZWHoDWFge
+ 5YYKgTDGvrlSkmCaxMGaFcFUlBvOrSypRO0b7UBlUkD7zdP4H+kjKdO/zAdcMXIqayFlCHXc7l4
+ qRODkLRJokOnewH+TO/zYttViOvbd1XbjqLJcvA8B3o56RVKs7ebHfwlpFufmXA9rTCZbYGaOXA
+ IXsn+0xXgYK7yKmgU7MtMEoHhrArP5pwHXq/81Gc11RTN98mq4bkHlGbDqSba8K4SHmB9UBWE/U
+ EyA/YE/W1hIZB2nR1+3QVyvRXVVemr5BXJiy5JQ5y/hWIgD5RwCW90lKyQHHnnHU/f+JgANJ4Hf
+ N4REk1w0gr04AjyXK+C/nhdwB/h6/FjkOKLSAu1ZjVrrZM3994M=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,150 +104,96 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Matthew Wilcox <willy@infradead.org>
 
-Remove syncobj_table_lock by converting the syncobj_idr to an XArray.
+Part of the mass conversion of IDR users to the XArray API.
 
 Signed-off-by: Matthew Wilcox <willy@infradead.org>
 Signed-off-by: Sidhartha Kumar <sidhartha.kumar@oracle.com>
 ---
- drivers/gpu/drm/drm_syncobj.c | 64 +++++++++++------------------------
- include/drm/drm_file.h        |  6 ++--
- 2 files changed, 22 insertions(+), 48 deletions(-)
+ drivers/gpu/drm/drm_auth.c | 18 ++++++++----------
+ include/drm/drm_auth.h     |  5 ++---
+ 2 files changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index e1b0fa4000cd..091f43cf11ba 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -250,14 +250,12 @@ struct drm_syncobj *drm_syncobj_find(struct drm_file *file_private,
- {
- 	struct drm_syncobj *syncobj;
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index a2556d16bed6..66a672384367 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -98,16 +98,15 @@ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
  
--	spin_lock(&file_private->syncobj_table_lock);
--
--	/* Check if we currently have a reference on the object */
--	syncobj = idr_find(&file_private->syncobj_idr, handle);
-+	/* Get a reference on the object */
-+	xa_lock(&file_private->syncobjs);
-+	syncobj = xa_load(&file_private->syncobjs, handle);
- 	if (syncobj)
- 		drm_syncobj_get(syncobj);
--
--	spin_unlock(&file_private->syncobj_table_lock);
-+	xa_unlock(&file_private->syncobjs);
+ 	guard(mutex)(&dev->master_mutex);
+ 	if (!file_priv->magic) {
+-		ret = idr_alloc(&file_priv->master->magic_map, file_priv,
+-				1, 0, GFP_KERNEL);
+-		if (ret >= 0)
+-			file_priv->magic = ret;
++		ret = xa_alloc(&file_priv->master->magic_map,
++				&file_priv->magic, file_priv,
++				xa_limit_31b, GFP_KERNEL);
+ 	}
+ 	auth->magic = file_priv->magic;
  
- 	return syncobj;
- }
-@@ -598,23 +596,16 @@ int drm_syncobj_get_handle(struct drm_file *file_private,
- {
- 	int ret;
+ 	drm_dbg_core(dev, "%u\n", auth->magic);
  
--	/* take a reference to put in the idr */
-+	/* take a reference to put in the XArray */
- 	drm_syncobj_get(syncobj);
- 
--	idr_preload(GFP_KERNEL);
--	spin_lock(&file_private->syncobj_table_lock);
--	ret = idr_alloc(&file_private->syncobj_idr, syncobj, 1, 0, GFP_NOWAIT);
--	spin_unlock(&file_private->syncobj_table_lock);
-+	ret = xa_alloc(&file_private->syncobjs, handle, syncobj, xa_limit_31b,
-+			GFP_KERNEL);
- 
--	idr_preload_end();
--
--	if (ret < 0) {
-+	if (ret < 0)
- 		drm_syncobj_put(syncobj);
--		return ret;
--	}
- 
--	*handle = ret;
--	return 0;
+-	return ret < 0 ? ret : 0;
 +	return ret;
  }
- EXPORT_SYMBOL(drm_syncobj_get_handle);
  
-@@ -638,9 +629,7 @@ static int drm_syncobj_destroy(struct drm_file *file_private,
- {
- 	struct drm_syncobj *syncobj;
+ int drm_authmagic(struct drm_device *dev, void *data,
+@@ -119,10 +118,10 @@ int drm_authmagic(struct drm_device *dev, void *data,
+ 	drm_dbg_core(dev, "%u\n", auth->magic);
  
--	spin_lock(&file_private->syncobj_table_lock);
--	syncobj = idr_remove(&file_private->syncobj_idr, handle);
--	spin_unlock(&file_private->syncobj_table_lock);
-+	syncobj = xa_erase(&file_private->syncobjs, handle);
+ 	guard(mutex)(&dev->master_mutex);
+-	file = idr_find(&file_priv->master->magic_map, auth->magic);
++	file = xa_load(&file_priv->master->magic_map, auth->magic);
+ 	if (file) {
+ 		file->authenticated = 1;
+-		idr_replace(&file_priv->master->magic_map, NULL, auth->magic);
++		xa_store(&file_priv->master->magic_map, auth->magic, NULL, 0);
+ 	}
  
- 	if (!syncobj)
- 		return -EINVAL;
-@@ -726,16 +715,10 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
- 	syncobj = fd_file(f)->private_data;
- 	drm_syncobj_get(syncobj);
+ 	return file ? 0 : -EINVAL;
+@@ -137,7 +136,7 @@ struct drm_master *drm_master_create(struct drm_device *dev)
+ 		return NULL;
  
--	idr_preload(GFP_KERNEL);
--	spin_lock(&file_private->syncobj_table_lock);
--	ret = idr_alloc(&file_private->syncobj_idr, syncobj, 1, 0, GFP_NOWAIT);
--	spin_unlock(&file_private->syncobj_table_lock);
--	idr_preload_end();
-+	ret = xa_alloc(&file_private->syncobjs, handle, syncobj, xa_limit_31b,
-+			GFP_KERNEL);
+ 	kref_init(&master->refcount);
+-	idr_init_base(&master->magic_map, 1);
++	xa_init_flags(&master->magic_map, XA_FLAGS_ALLOC1);
+ 	master->dev = dev;
  
--	if (ret > 0) {
--		*handle = ret;
--		ret = 0;
--	} else
-+	if (ret < 0)
- 		drm_syncobj_put(syncobj);
+ 	/* initialize the tree of output resource lessees */
+@@ -342,7 +341,7 @@ void drm_master_release(struct drm_file *file_priv)
+ 	guard(mutex)(&dev->master_mutex);
+ 	master = file_priv->master;
+ 	if (file_priv->magic)
+-		idr_remove(&file_priv->master->magic_map, file_priv->magic);
++		xa_erase(&file_priv->master->magic_map, file_priv->magic);
  
- 	return ret;
-@@ -814,17 +797,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
- void
- drm_syncobj_open(struct drm_file *file_private)
- {
--	idr_init_base(&file_private->syncobj_idr, 1);
--	spin_lock_init(&file_private->syncobj_table_lock);
--}
--
--static int
--drm_syncobj_release_handle(int id, void *ptr, void *data)
--{
--	struct drm_syncobj *syncobj = ptr;
--
--	drm_syncobj_put(syncobj);
--	return 0;
-+	xa_init_flags(&file_private->syncobjs, XA_FLAGS_ALLOC1);
- }
+ 	if (!drm_is_current_master_locked(file_priv))
+ 		goto out;
+@@ -408,7 +407,6 @@ static void drm_master_destroy(struct kref *kref)
+ 	if (drm_core_check_feature(dev, DRIVER_MODESET))
+ 		drm_lease_destroy(master);
  
- /**
-@@ -838,9 +811,12 @@ drm_syncobj_release_handle(int id, void *ptr, void *data)
- void
- drm_syncobj_release(struct drm_file *file_private)
- {
--	idr_for_each(&file_private->syncobj_idr,
--		     &drm_syncobj_release_handle, file_private);
--	idr_destroy(&file_private->syncobj_idr);
-+	struct drm_syncobj *syncobj;
-+	unsigned long index;
-+
-+	xa_for_each(&file_private->syncobjs, index, syncobj)
-+		drm_syncobj_put(syncobj);
-+	xa_destroy(&file_private->syncobjs);
- }
+-	idr_destroy(&master->magic_map);
+ 	idr_destroy(&master->leases);
+ 	idr_destroy(&master->lessee_idr);
  
- int
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 115763799625..ee5a16338c86 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -309,10 +309,8 @@ struct drm_file {
- 	/** @table_lock: Protects @object_idr. */
- 	spinlock_t table_lock;
+diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
+index 50131383ed81..3026aedbc205 100644
+--- a/include/drm/drm_auth.h
++++ b/include/drm/drm_auth.h
+@@ -58,10 +58,9 @@ struct drm_master {
+ 	 */
+ 	int unique_len;
+ 	/**
+-	 * @magic_map: Map of used authentication tokens. Protected by
+-	 * &drm_device.master_mutex.
++	 * @magic_map: Map of used authentication tokens.
+ 	 */
+-	struct idr magic_map;
++	struct xarray magic_map;
+ 	void *driver_priv;
  
--	/** @syncobj_idr: Mapping of sync object handles to object pointers. */
--	struct idr syncobj_idr;
--	/** @syncobj_table_lock: Protects @syncobj_idr. */
--	spinlock_t syncobj_table_lock;
-+	/** @syncobjs: Mapping of sync object handles to object pointers. */
-+	struct xarray syncobjs;
- 
- 	/** @filp: Pointer to the core file structure. */
- 	struct file *filp;
+ 	/**
 -- 
 2.43.0
 
