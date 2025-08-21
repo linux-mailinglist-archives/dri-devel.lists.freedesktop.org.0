@@ -2,82 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A6CB2FA7F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 15:33:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A74B2FA8E
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 15:35:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E7910E99A;
-	Thu, 21 Aug 2025 13:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05F010E9A0;
+	Thu, 21 Aug 2025 13:35:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tli2huCc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dsWLsSTv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE4F10E99A;
- Thu, 21 Aug 2025 13:33:31 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-b475b63ab66so156634a12.3; 
- Thu, 21 Aug 2025 06:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755783211; x=1756388011; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eBxFLGvGtKMlnx45gYA4Cz7A7SuVyCHmLHRhQN6QlRU=;
- b=Tli2huCc1N14RUGonr7kOu7+3dB+3gFHfEqz3n5cW21di/JDFn/cUFIqKd1T8VdXar
- axBkz2i1/8r7aFzg1DVwKFHAqZCFue5mmtPPz0aia8GwoKFRDyA2Ze3nZBYIK/z5VOpx
- Mtjf+6BSFDI/12k7vF/npKnSdsDmFm54P6lN/CdMqBbz92P4IgzP+3wPv80GgO6d4PJI
- 1Tcnz3OQp92zXyytFCyKXRC4c1cgV46FI2IY/vLpG8b/sGRZ9X8QStrHVzVP6HK1yteo
- g8yIfoSnBqrZ6kcMMNUEJPS0U9WUpynPy79TxF1aNXYfWVXwfXJUrcIob55aH8IXEdwP
- lPQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755783211; x=1756388011;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eBxFLGvGtKMlnx45gYA4Cz7A7SuVyCHmLHRhQN6QlRU=;
- b=fURwSrJgtdbWdhrmrbi0FX/6RAXQnyFbZTI6RhqODO3r/LDAebBzbIQhmeUyrRVUtH
- QYACSolVASGN5ihg4mSHM51TkT/jUPdIAGoKh7IXfRTWVFyV1TDwDjbsMKovkJds7HwR
- WKJYJ/QcnFXIguydMnMF4ZxU7BKivNbmvcXZBVaPs/AOW9Iws1dlOee5Z32QujpqEfou
- zFzXJFr3F8TukzU4/EqQKMbdQIdq4e52h9ehzArhsbKI8Y0FZzkV8LKvLxaiknSAfnlx
- G+tQxIhOoxStOaxzgL4HnnhUrHI3jXWOQ/YfaV7yRq4cuQRWNKOnaEgnIwGhW6tFpgDv
- C8DA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhDURpOiAL23K8QOb01PvT/fUEy30ie0m+P9Qs8puk7t2QfRlAFXOLd4xATSeonqekNYK0k/Ip@lists.freedesktop.org,
- AJvYcCXqNKZnpC6h8q2oqf4BCZhSQMMNdgu7AivwQ2+/4KnKpWcwsQOXv4S/r0CVYXwJGj1yC8ulge8Wzfd+@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywuj5rzFWNIElyMoc8UfT6oh1MvPOPCBvAzygLUwkxVgtdLXg6L
- 90LKlmidS6cYXGRHOlOQL6lBAeZg7WwFklE2BEQZdqeY0spqox57IUBxgzJizJKX3BmrjGyWdVg
- ZEfsdhvOhElxsCHlb19sniHBiPQOMUP0=
-X-Gm-Gg: ASbGncvp7bDY+xf0g4AHNPCEJN08Uamacyc6Vh+Uy3Th07NK/sGNYDAv5fOj35WAqkm
- eHXibWybPQsjC3GqYIqoGBsE1iVgn4iFFWIH2i2nxuIuhmqcmwxJ+4644LAp4EW83cfJIbmG+S4
- 0gyjUALREXcsIxl6eXSggRGPICcP6emdppUqsS4rTO5k5c6xnCgwAx4zua8iPvQd1ofmlGg2iIC
- udvku0=
-X-Google-Smtp-Source: AGHT+IEuCQ6k8cNE+8sXidC6dTieVXzmZcwZNDvgdItA/Y3JbANb5UvxKWSYjqg/c7kzUg+S2Z0QM3uU5S2Y9I5QyhQ=
-X-Received: by 2002:a17:902:c40c:b0:243:589d:148e with SMTP id
- d9443c01a7336-245fec1d6e3mr18972085ad.5.1755783210910; Thu, 21 Aug 2025
- 06:33:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250821025957.22546-1-rakuram.e96@gmail.com>
- <20250821025957.22546-2-rakuram.e96@gmail.com>
- <0254008f-1cdf-480f-ad6f-8f002b35d754@infradead.org>
-In-Reply-To: <0254008f-1cdf-480f-ad6f-8f002b35d754@infradead.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 21 Aug 2025 09:33:19 -0400
-X-Gm-Features: Ac12FXzO09gUoAEeRmxWArYXJpVeci5zNo9-7QWsRLPt3DMdtEe9qdrBP4alMe4
-Message-ID: <CADnq5_NdRc+c18V7FuL+U4=C3zUUoAgP15rzu1wZ-U9hNzjcXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] docs: gpu: amdgpu: Fix spelling in amdgpu
- documentation
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Rakuram Eswaran <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org, 
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, 
- corbet@lwn.net, tzimmermann@suse.de, mripard@kernel.org, 
- maarten.lankhorst@linux.intel.com, simona@ffwll.ch, siqueira@igalia.com, 
- harry.wentland@amd.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C7310E99D;
+ Thu, 21 Aug 2025 13:35:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8963C5C67F1;
+ Thu, 21 Aug 2025 13:35:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5DF1C113CF;
+ Thu, 21 Aug 2025 13:35:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755783319;
+ bh=mFhTgdYbQDcbbNx1t+Zjt1lQox08hK5P/Z9kVlkgdFU=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=dsWLsSTvpEkCrSeEaICbXvTgRuQ9JFOjIL6w4+94DjFdVjfXhIJbnjU8ZKtXrMVee
+ Sb9KKyCmwS5wofiEAjacMuS7RdFXF9UvR7lVBnc9LzYH4yotd7MYm1fWNyDXc6c3Vd
+ 2noRgj7Iz3n4e2V9X7i1/AXepssbvjm+248Lpt12hO3yctaDO3f1yPPYtGEUTirjKj
+ Pb5hBiCS6TwKsR3wtM8lnsoJ9aF4F2Oc8e8eosBvez7WnaCtCHkslACYhFqF6pKYRM
+ OdiTwCMJVF/caMqkEJjqlA3r6EZ0Ug4VMOfOxT+FM7alRl+LAwpu6u4JT/OuZ5F1bg
+ 0s/fwvVjzxplA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Aug 2025 15:35:16 +0200
+Message-Id: <DC858O8WDXVQ.2KJJTV9020XHJ@kernel.org>
+Subject: Re: [PATCH] drm/gpuvm: Rename 'map' to 'op' in drm_gpuvm_map_req
+Cc: "Himal Prasad Ghimiray" <himal.prasad.ghimiray@intel.com>,
+ <intel-xe@lists.freedesktop.org>, "Boris Brezillon"
+ <bbrezillon@kernel.org>, "Matt Coster" <matt.coster@imgtec.com>, "Rob
+ Clark" <robin.clark@oss.qualcomm.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, <dri-devel@lists.freedesktop.org>
+To: "Boris Brezillon" <boris.brezillon@collabora.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250820152335.2899501-1-himal.prasad.ghimiray@intel.com>
+ <20250820180742.20623521@fedora> <20250821130146.471cd653@fedora>
+ <20250821132535.0424d0b4@fedora> <DC84DX5YA27J.2UNA0LDKUMUB9@kernel.org>
+ <20250821150124.30c387da@fedora>
+In-Reply-To: <20250821150124.30c387da@fedora>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,46 +63,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Thu Aug 21, 2025 at 3:01 PM CEST, Boris Brezillon wrote:
+> On Thu, 21 Aug 2025 14:55:06 +0200
+> "Danilo Krummrich" <dakr@kernel.org> wrote:
+>
+>> On Thu Aug 21, 2025 at 1:25 PM CEST, Boris Brezillon wrote:
+>> > On Thu, 21 Aug 2025 13:01:46 +0200
+>> > Boris Brezillon <boris.brezillon@collabora.com> wrote: =20
+>> >> On a second thought, I'm now wondering why we need drm_gpuvm_map_req =
+in
+>> >> the first place. It would kinda make sense if it was containing an
+>> >>=20
+>> >> 	bool madvise;
+>> >>=20
+>> >> field, so you don't have to pass it around, but even then, I'm
+>> >> wondering if we wouldn't be better off adding this field to
+>> >> drm_gpuva_op_map instead and passing an drm_gpuva_op_map object to
+>> >> the various map helpers (like Danilo suggested in his review of the
+>> >> REPEATED mode series Caterina sent). =20
+>> >
+>> > More on that: the very reason I introduced drm_gpuvm_map_req in the
+>> > first place is so we have a clear differentiation between an overall
+>> > map request and the sub-operations that are created to fulfill it.
+>> > Looks like this was not a concern for Danilo and he was happy with us
+>> > using _op_map for this.
+>> >
+>> > The other reason we might want to add drm_gpuvm_map_req is so that
+>> > information we only need while splitting a req don't pollute
+>> > drm_gpuva_op_map. Given I was going to pass the flags to the driver's
+>> > callback anyway (meaning it's needed at the op_map level), and given
+>> > you're passing madvise as a separate bool argument to various helpers
+>> > (_map_req just contains the op, not the madvise bool), I don't think
+>> > this aspect matters. =20
+>>=20
+>> Good catch! Indeed, when Himal picked up your struct drm_gpuvm_map_req p=
+atch,
+>> there were additional flags included in the structure. Now that it is
+>> essentially a transparent wrapper, I prefer to use struct drm_gpuva_op_m=
+ap
+>> directly.
+>>=20
+>> However, given that you still have patches in flight that will add a fla=
+gs field
+>> to struct drm_gpuvm_map_req I think it's probably fine to introduce it r=
+ight
+>> away. Or did you drop this plan of adding those flags?
+>
+> I need the flags field in the op_map too (so I can propagate it to the
+> drm_gpuva object), so I'd rather go with an op_map object directly and
+> kill drm_gpuvm_map_req now.
 
-Alex
-
-On Wed, Aug 20, 2025 at 11:13=E2=80=AFPM Randy Dunlap <rdunlap@infradead.or=
-g> wrote:
->
->
->
-> On 8/20/25 7:59 PM, Rakuram Eswaran wrote:
-> > Fixed following typos reported by Codespell
-> >
-> > 1. propogated =3D=3D> propagated
-> >    aperatures =3D=3D> apertures
-> > In Documentation/gpu/amdgpu/debugfs.rst
-> >
-> > 2. parition =3D=3D> partition
-> > In Documentation/gpu/amdgpu/process-isolation.rst
-> >
-> > 3. conections =3D=3D> connections
-> > In Documentation/gpu/amdgpu/display/programming-model-dcn.rst
-> >
-> > In addition to above,
-> > Fixed wrong bit-partition naming in gpu/amdgpu/process-isolation.rst
-> > from "fourth" partition to "third" partition.
-> >
-> > Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> > Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
-> > Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
->
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->
-> Thanks.
->
-> > ---
-> >  Documentation/gpu/amdgpu/debugfs.rst                       | 4 ++--
-> >  Documentation/gpu/amdgpu/display/programming-model-dcn.rst | 2 +-
-> >  Documentation/gpu/amdgpu/process-isolation.rst             | 2 +-
-> >  3 files changed, 4 insertions(+), 4 deletions(-)
->
->
-> --
-> ~Randy
+In this case I agree, let's use struct drm_gpuva_op_map directly.
