@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1A1B2F49F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 11:52:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C7EB2F48F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 11:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3C3A10E918;
-	Thu, 21 Aug 2025 09:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D16F610E2E5;
+	Thu, 21 Aug 2025 09:50:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RjdAbZSX";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Cgs6sY9V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC10810E918
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 09:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1755769969;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+SYzSNImSl+LPKPKIoN+DdHAjnOxi2k0cEcilhLXTaY=;
- b=RjdAbZSXphlbNNOa2NpnK4lXSrzxKq966fuqBdB79k7Uk3enL6VD20qP+loURDm8SazAos
- H5pWWvmQheqkWxy+6GAuCWJXrag+CWtPW+QZ3gpEVKvIIKgC2NxuCaxYQOnyrT+IpQX59F
- FIPgYrrKuljb9mfdT63sP3W/DSDoi4A=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-255-HOOafrVsOBe7CguEyxdt0A-1; Thu,
- 21 Aug 2025 05:52:48 -0400
-X-MC-Unique: HOOafrVsOBe7CguEyxdt0A-1
-X-Mimecast-MFC-AGG-ID: HOOafrVsOBe7CguEyxdt0A_1755769966
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 9773A1956087; Thu, 21 Aug 2025 09:52:46 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.44.33.118])
- by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 98FE9197768D; Thu, 21 Aug 2025 09:52:43 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/panic: Add a kconfig option to dump kunits results to
- png
-Date: Thu, 21 Aug 2025 11:49:07 +0200
-Message-ID: <20250821095228.648156-4-jfalempe@redhat.com>
-In-Reply-To: <20250821095228.648156-1-jfalempe@redhat.com>
-References: <20250821095228.648156-1-jfalempe@redhat.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B028310E2E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 09:50:51 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250821095049euoutp012a031b246a011c52fe04d52f58bfc3e6~dv2BExNEe0030200302euoutp01T
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 09:50:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20250821095049euoutp012a031b246a011c52fe04d52f58bfc3e6~dv2BExNEe0030200302euoutp01T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1755769849;
+ bh=HSvuQ3ZafL8FGWMfbxoBhMAcsMdHdvxyBcoWoRljZZM=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=Cgs6sY9VitL++i12YOxwq0KuzQAZAnn2/w0+ZDLDu1gKU8RWKenQa9vgELQCy6Bca
+ 1NmZvhpPWd4fzDNHg7KzLBIvObQXwmtsw61R69jQaHVDpM9NRvToXL0zQyIn90P00E
+ oQO+2YS4H9vfYis0ZoNZRWeA6LJpss2UCdCDRBzU=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250821095049eucas1p19e5b485fe044f78c1cfcb62b720fd974~dv2Ao05Ph2463024630eucas1p1e;
+ Thu, 21 Aug 2025 09:50:49 +0000 (GMT)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250821095048eusmtip104d6456e3cae6213f4fc65d90468cf00~dv1-pHhmh0661206612eusmtip1s;
+ Thu, 21 Aug 2025 09:50:48 +0000 (GMT)
+Message-ID: <d5c31ec9-84c1-45ea-8c0d-aba78ebd6481@samsung.com>
+Date: Thu, 21 Aug 2025 11:50:48 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/8] drm: verisilicon: add a driver for Verisilicon
+ display controllers
+To: Maud Spierings <maud_spierings@hotmail.com>
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ andrzej.hajda@intel.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, fustini@kernel.org, guoren@kernel.org,
+ heiko@sntech.de, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ krzk+dt@kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, neil.armstrong@linaro.org, p.zabel@pengutronix.de,
+ rabenda.cn@gmail.com, rfoss@kernel.org, robh@kernel.org, simona@ffwll.ch,
+ tzimmermann@suse.de, uwu@icenowy.me, wefu@redhat.com, ziyao@disroot.org
+Content-Language: en-US
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <AM7P189MB10098641C0B58ACFA3502A03E332A@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
+X-CMS-MailID: 20250821095049eucas1p19e5b485fe044f78c1cfcb62b720fd974
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250821093817eucas1p1d1f41f99c9fcf800c8230fb5795ad1d1
+X-EPHeader: CA
+X-CMS-RootMailID: 20250821093817eucas1p1d1f41f99c9fcf800c8230fb5795ad1d1
+References: <4e6d1a0f-4270-4d25-86c5-e4ec3721c451@samsung.com>
+ <CGME20250821093817eucas1p1d1f41f99c9fcf800c8230fb5795ad1d1@eucas1p1.samsung.com>
+ <AM7P189MB10098641C0B58ACFA3502A03E332A@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,247 +81,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a bit hacky, but very handy if you want to customize the
-panic screen.
-It allows to dump the generated images to the logs, and then a python
-script can convert it to .png files. It makes it easy to check how
-the panic screen will look on different resolutions, without having
-to crash a VM.
-To not pollute the logs, it uses a monochrome framebuffer, compress
-it with zlib, and base64 encode it.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/Kconfig.debug          |  14 ++++
- drivers/gpu/drm/tests/drm_panic_test.c | 111 +++++++++++++++++++++++++
- scripts/kunitpanic2png.py              |  53 ++++++++++++
- 3 files changed, 178 insertions(+)
- create mode 100755 scripts/kunitpanic2png.py
 
-diff --git a/drivers/gpu/drm/Kconfig.debug b/drivers/gpu/drm/Kconfig.debug
-index 05dc43c0b8c5..d8ae85132d32 100644
---- a/drivers/gpu/drm/Kconfig.debug
-+++ b/drivers/gpu/drm/Kconfig.debug
-@@ -84,6 +84,20 @@ config DRM_KUNIT_TEST
- 
- 	  If in doubt, say "N".
- 
-+config DRM_PANIC_KUNIT_TEST_DUMP
-+	bool "Enable screen dump to logs in KUnit tests for drm_panic"
-+	default n
-+	depends on DRM && DRM_PANIC && DRM_KUNIT_TEST
-+	select ZLIB_DEFLATE
-+	help
-+	  This allows to dump the panic screen to the KUnit tests logs.
-+	  It's possible with a small python script to write pngs from the logs.
-+
-+	  This is only to help developers customizing the drm_panic screen,
-+	  checking the result for different resolutions.
-+
-+	  If in doubt, say "N"
-+
- config DRM_TTM_KUNIT_TEST
- 	tristate "KUnit tests for TTM" if !KUNIT_ALL_TESTS
- 	default n
-diff --git a/drivers/gpu/drm/tests/drm_panic_test.c b/drivers/gpu/drm/tests/drm_panic_test.c
-index 46ff3e5e0e5d..8cddb845aea9 100644
---- a/drivers/gpu/drm/tests/drm_panic_test.c
-+++ b/drivers/gpu/drm/tests/drm_panic_test.c
-@@ -115,24 +115,135 @@ static void drm_test_panic_screen_user_page(struct kunit *test)
- 	kfree(pages);
- }
- 
-+#ifdef CONFIG_DRM_PANIC_KUNIT_TEST_DUMP
-+#include <linux/base64.h>
-+#include <linux/delay.h>
-+#include <linux/zlib.h>
-+
-+#define LINE_LEN 128
-+
-+#define COMPR_LEVEL 6
-+#define WINDOW_BITS 12
-+#define MEM_LEVEL 4
-+
-+static int compress_image(u8 *src, int size, u8 *dst)
-+{
-+	struct z_stream_s stream;
-+
-+	stream.workspace = kmalloc(zlib_deflate_workspacesize(WINDOW_BITS, MEM_LEVEL),
-+				   GFP_KERNEL);
-+
-+	if (zlib_deflateInit2(&stream, COMPR_LEVEL, Z_DEFLATED, WINDOW_BITS,
-+			      MEM_LEVEL, Z_DEFAULT_STRATEGY) != Z_OK)
-+		return -EINVAL;
-+
-+	stream.next_in = src;
-+	stream.avail_in = size;
-+	stream.total_in = 0;
-+	stream.next_out = dst;
-+	stream.avail_out = size;
-+	stream.total_out = 0;
-+
-+	if (zlib_deflate(&stream, Z_FINISH) != Z_STREAM_END)
-+		return -EINVAL;
-+
-+	if (zlib_deflateEnd(&stream) != Z_OK)
-+		return -EINVAL;
-+
-+	kfree(stream.workspace);
-+
-+	return stream.total_out;
-+}
-+
-+static void dump_image(u8 *fb, unsigned int width, unsigned int height)
-+{
-+	int len = 0;
-+	char *dst;
-+	char *compressed;
-+	int sent = 0;
-+	int stride = DIV_ROUND_UP(width, 8);
-+	int size = stride * height;
-+
-+	compressed = vzalloc(size);
-+	if (!compressed)
-+		return;
-+	len = compress_image(fb, size, compressed);
-+	if (len < 0) {
-+		pr_err("Compression failed %d", len);
-+		return;
-+	}
-+
-+	dst = vzalloc(4 * DIV_ROUND_UP(len, 3) + 1);
-+	if (!dst)
-+		return;
-+
-+	len = base64_encode(compressed, len, dst);
-+
-+	pr_info("KUNIT PANIC IMAGE DUMP START %dx%d", width, height);
-+	while (len > 0) {
-+		char save = dst[sent + LINE_LEN];
-+
-+		dst[sent + LINE_LEN] = 0;
-+		pr_info("%s", dst + sent);
-+		dst[sent + LINE_LEN] = save;
-+		sent += LINE_LEN;
-+		len -= LINE_LEN;
-+	}
-+	pr_info("KUNIT PANIC IMAGE DUMP END");
-+	vfree(compressed);
-+	vfree(dst);
-+
-+}
-+
-+// Ignore pixel format, use 1bit per pixel in monochrome.
- static void drm_test_panic_set_pixel(struct drm_scanout_buffer *sb,
- 				     unsigned int x,
- 				     unsigned int y,
- 				     u32 color)
- {
-+	int stride = DIV_ROUND_UP(sb->width, 8);
-+	size_t off = x / 8 + y * stride;
-+	u8 shift = 7 - (x % 8);
-+	u8 *fb = (u8 *) sb->private;
-+
-+	if (color)
-+		fb[off] |= 1 << shift;
-+	else
-+		fb[off] &= ~(1 << shift);
- }
- 
-+#else
-+static void dump_image(u8 *fb, unsigned int width, unsigned int height) {}
-+static void drm_test_panic_set_pixel(struct drm_scanout_buffer *sb,
-+				     unsigned int x,
-+				     unsigned int y,
-+				     u32 color)
-+{
-+}
-+#endif
-+
- static void drm_test_panic_screen_user_set_pixel(struct kunit *test)
- {
- 	struct drm_scanout_buffer *sb = test->priv;
- 	const struct drm_test_mode *params = test->param_value;
-+	int fb_size;
-+	u8 *fb;
- 
- 	sb->format = drm_format_info(params->format);
-+	fb_size = DIV_ROUND_UP(params->width, 8) * params->height;
-+
-+	fb = vzalloc(fb_size);
-+	KUNIT_ASSERT_NOT_NULL(test, fb);
-+	sb->private = fb;
- 	sb->set_pixel = drm_test_panic_set_pixel;
- 	sb->width = params->width;
- 	sb->height = params->height;
- 
- 	params->draw_screen(sb);
-+	if (params->format == DRM_FORMAT_XRGB8888)
-+		dump_image(fb, sb->width, sb->height);
-+
-+	vfree(fb);
- }
- 
- static void drm_test_panic_desc(const struct drm_test_mode *t, char *desc)
-diff --git a/scripts/kunitpanic2png.py b/scripts/kunitpanic2png.py
-new file mode 100755
-index 000000000000..e292afd7422c
---- /dev/null
-+++ b/scripts/kunitpanic2png.py
-@@ -0,0 +1,53 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: MIT
-+#
-+# Copyright (c) 2025 Red Hat.
-+# Author: Jocelyn Falempe <jfalempe@redhat.com>
-+
-+from argparse import ArgumentParser
-+from PIL import Image
-+import base64
-+import zlib
-+
-+def get_dim(s):
-+    (w, h) = s.split('x')
-+    return (int(w), int(h))
-+
-+def draw_image(img_data, width, height, n_img):
-+
-+    decoded = base64.b64decode(img_data)
-+    unzipped = zlib.decompress(decoded)
-+
-+    img = Image.frombytes("1", (width, height), unzipped)
-+    fname = f"panic_screen_{n_img}.png"
-+    img.save(fname)
-+    print(f"Image {width}x{height} saved to {fname}")
-+
-+def main():
-+    parser = ArgumentParser(
-+        prog="kunitpanic2png",
-+        description="Read drm_panic kunit logs and translate that to png files")
-+
-+    parser.add_argument("filename", help="log file from kunit, usually test.log")
-+
-+    parsing_img = False
-+    img_data = ""
-+    n_img = 0
-+
-+    args = parser.parse_args()
-+    with open(args.filename, "r") as f:
-+        for line in f.readlines():
-+            if line.startswith("KUNIT PANIC IMAGE DUMP START"):
-+                parsing_img = True
-+                width, height = get_dim(line.split()[-1])
-+                continue
-+            if line.startswith("KUNIT PANIC IMAGE DUMP END"):
-+                draw_image(img_data, width, height, n_img)
-+                parsing_img = False
-+                img_data = ""
-+                n_img += 1
-+                continue
-+            if parsing_img:
-+                img_data += line.strip()
-+
-+main()
--- 
-2.50.1
+On 8/21/25 11:38, Maud Spierings wrote:
+>> So I am trying to make it work on JH7110 as well, and here is the
+>> problem:
+>>
+>> =5B    5.564433=5D ------------=5B cut here =5D------------             =
+                                                                           =
+                                                   =5B    5.569161=5D refco=
+unt_t: addition on 0; use-after-free.                                      =
+                                                                           =
+                    =5B    5.574485=5D WARNING: CPU: 2 PID: 71 at lib/refco=
+unt.c:25 refcount_warn_saturate+0x110/0x162                                =
+                                                                =5B    5.57=
+4537=5D Modules linked in:                                                 =
+                                                                           =
+                                 =5B    5.574560=5D CPU: 2 UID: 0 PID: 71 C=
+omm: kworker/u17:2 Not tainted 6.17.0-rc1-g60ec647ec20c-dirty =2377 NONE   =
+                                                                           =
+    =5B    5.574596=5D Hardware name: StarFive
+>> VisionFive 2 v1.2A (DT)                                                 =
+                                                                           =
+    =5B    5.574613=5D Workqueue: events_unbound deferred_probe_work_func  =
+                                                                           =
+                                                =5B    5.574654=5D epc : re=
+fcount_warn_saturate+0x110/0x162                                           =
+                                                                           =
+                 =5B    5.574682=5D  ra : refcount_warn_saturate+0x110/0x16=
+2                                                                          =
+                                                             =5B    5.57471=
+0=5D epc : ffffffff81336608 ra : ffffffff81336608 sp : ffffffc6006e7530    =
+                                                                           =
+                              =5B    5.574732=5D  gp : ffffffff8514c1c0 tp =
+: ffffffd6c14ba580 t0 :
+>> ffffffc6006e7134                                                        =
+                                                     =5B    5.574753=5D  t1=
+ : fffffffef0a29898 t2 : 5f746e756f636665 s0 : ffffffc6006e7550            =
+                                                                           =
+                      =5B    5.574774=5D  s1 : ffffffff83c058a8 a0 : 000000=
+000000002a a1 : 0000000000000004                                           =
+                                                                  =5B    5.=
+574794=5D  a2 : 0000000000000000 a3 : ffffffff801ef586 a4 : 000000000000000=
+0                                                                          =
+                                   =5B    5.574813=5D  a5 : 000000000000000=
+0 a6 : fffffffef0a29899 a7 : 0000000000000003                              =
+                                                                           =
+    =5B    5.574833=5D  s2 : ffffffd6c35e68e8 s3 : ffffffd6c35e6990 s4 :
+>> ffffffd6c33dc008                                                        =
+                                                     =5B    5.574854=5D  s5=
+ : 0000000000000000 s6 : 1ffffffad867b801 s7 : 0000000000000000            =
+                                                                           =
+                      =5B    5.574873=5D  s8 : ffffffd6c35e6990 s9 : 000000=
+0000000000 s10: ffffffd6c3099058                                           =
+                                                                  =5B    5.=
+574894=5D  s11: 1ffffffad861320b t3 : 1ffffff8c00dce34 t4 : fffffffef0a2989=
+8                                                                          =
+                                   =5B    5.574915=5D  t5 : fffffffef0a2989=
+9 t6 : ffffffc6006e6f38                                                    =
+                                                                           =
+    =5B    5.574933=5D status: 0000000200000120 badaddr: 0000000000000000 c=
+ause:
+>> 0000000000000003                                                        =
+                                             =5B    5.574952=5D =5B<fffffff=
+f81336608>=5D refcount_warn_saturate+0x110/0x162                           =
+                                                                           =
+                  =5B    5.574985=5D =5B<ffffffff8193a506>=5D drm_bridge_ge=
+t+0x66/0x6e                                                                =
+                                                                  =5B    5.=
+575022=5D =5B<ffffffff8001f26e>=5D drm_bridge_attach+0x54/0x5a2            =
+                                                                           =
+                                       =5B    5.575055=5D =5B<ffffffff80027=
+40e>=5D vs_bridge_init+0x3bc/0x4ba                                         =
+                                                                           =
+            =5B    5.575087=5D =5B<ffffffff82313026>=5D
+>> vs_drm_initialize+0xe0/0x2f2                                            =
+                                                                           =
+       =5B    5.575126=5D =5B<ffffffff80027ca4>=5D vs_dc_probe+0x758/0x85c =
+                                                                           =
+                                                       =5B    5.575156=5D =
+=5B<ffffffff8233123c>=5D platform_probe+0xac/0x138                         =
+                                                                           =
+                             =5B    5.575186=5D =5B<ffffffff8232b2a8>=5D re=
+ally_probe+0x164/0x59e                                                     =
+                                                                           =
+  =5B    5.575221=5D =5B<ffffffff8232b818>=5D __driver_probe_device+0x136/0=
+x266
+>> =5B    5.575257=5D =5B<ffffffff8232bb18>=5D driver_probe_device+0x56/0x2=
+14
+>> =5B    5.575292=5D =5B<ffffffff8232bdf0>=5D __device_attach_driver+0x11a=
+/0x278
+>> =5B    5.575329=5D =5B<ffffffff823272d8>=5D bus_for_each_drv+0xea/0x16e
+>> =5B    5.575363=5D =5B<ffffffff8232c680>=5D __device_attach+0x160/0x2d4
+>> =5B    5.575398=5D =5B<ffffffff8232ca06>=5D device_initial_probe+0xe/0x1=
+6
+>> =5B    5.575434=5D =5B<ffffffff823291d8>=5D bus_probe_device+0xfe/0x134
+>> =5B    5.575468=5D =5B<ffffffff82329c62>=5D deferred_probe_work_func+0x1=
+28/0x1d6
+>> =5B    5.575503=5D =5B<ffffffff80126aae>=5D process_one_work+0x5c0/0xe76
+>> =5B    5.575543=5D =5B<ffffffff80129da6>=5D worker_thread+0x6d4/0x1316
+>> =5B    5.575572=5D =5B<ffffffff801429ce>=5D kthread+0x29a/0x570
+>> =5B    5.575608=5D =5B<ffffffff8004693e>=5D ret_from_fork_kernel+0x10/0x=
+9a
+>> =5B    5.575643=5D =5B<ffffffff835f55f6>=5D ret_from_fork_kernel_asm+0x1=
+6/0x18
+>> =5B    5.575682=5D ---=5B end trace 0000000000000000 =5D---
+>>
+>>
+>> When a bridge is allocated with kzalloc, its kref count is initialized
+>> to zero. The drm_bridge_attach() function then calls drm_bridge_get() on
+>> this bridge, which sees the zero refcount and triggers a use-after-free
+>> warning because it assumes the object has already been freed.
+>>
+>> To fix this, the bridge's refcount must be initialized with kref_init()
+>> after allocation and before it's attached.
+>=20
+> Do you have a tree I can look at? I am very interested in getting this wo=
+rking on the jh7110. looked at it myself a week ago, but got lost quite qui=
+ckly. If you end up upstreaming it I will definetly be there to test it.
 
+I first started working od getting the Keith version working and have
+the 'old' tree here =5B1=5D. It works with older version of the DC driver.
+
+=5B1=5D - https://github.com/mwilczy/linux/commits/dpu_Aug_9_2/
+
+So the above version works, however the display was 'purple-ish', colors
+were skewed. I shared the image in the 'Mainline Linux for RISC-V'
+telegram chat.
+
+For the current version from Icenowy it's still a bit messy to share
+however it includes addition to inno-hdmi driver to make it works a bit
+more like dw-hdmi currently - introduce a probe function, not just
+bind, so it doesn't use component framework. Plus changes to
+clocks/resets that were discussed.
+
+>=20
+> Did you actually manage to get display out over hdmi? The hdmi output fro=
+m last years starfive driver gave me some strange output issues that I'm cu=
+rrently just living with, but would love to see it gone.
+>=20
+
+On the current version of the DC driver I'm still working on it.
+
+Best regards,
+--=20
+Michal Wilczynski <m.wilczynski=40samsung.com>
