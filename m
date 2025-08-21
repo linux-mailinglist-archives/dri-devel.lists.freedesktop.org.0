@@ -2,92 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A22EB2F72B
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 13:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E88B2F733
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 13:54:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C415310E946;
-	Thu, 21 Aug 2025 11:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC2E10E948;
+	Thu, 21 Aug 2025 11:54:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x5cuzAvS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ly8rgEvX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4940410E946
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 11:53:58 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-333e7517adcso18494851fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 04:53:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1755777236; x=1756382036; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=L7PbAw7tFxkqZThPb3yJ9U2UGY2pHnuSaci2IGV7yfc=;
- b=x5cuzAvSaJZIc12FzYzFp6KP1wzm9WA+jqETwnEfBbXAAcmR/fx6j+s6nToDDxc7/Y
- RJyuO1kF7n+wavCfI5z1NwqbVu6xaafyz/V1v3DatTSdff/sJrRJSTQdLKn2fMgE6HPb
- kTwFxjvr9i9WECNIfP0bLQnF2QyDbRqRMIp2bhHLETU53mSfb1h9bTjvNVlwolXbldXc
- W/niSZ2b+LfmObMzCIx52Iexn+dBuRzwgLu4TlSJRbzg0aLMFx4gWMjWreonBZcimK37
- Gme+q0fJoH0EzEFeSiBAr/h+AJsdUP5HftVmqZD/X0iJt3naKgr688eHJuMJwlSXUhH4
- rhxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755777236; x=1756382036;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=L7PbAw7tFxkqZThPb3yJ9U2UGY2pHnuSaci2IGV7yfc=;
- b=H7I8H2q6LXtXpumghuBSPMH5rKVQ0VZKVmL/9T+PJEeqbJmeb100vSYZxmvM+HBr3r
- DB2oWgB7yUTC+k2vAHqt95KCJMZwAAbJZ5vOOCRFz7HIon/ta/KgybW1/3HPkHdlHJMd
- uYukcg2BjyupPh3wp7pjlGS7W56DhfbFGs3l9bhwWdPMVfzsUbk49NBIOx73R+1Q/sos
- SyEZ13figtJhhRHgePywlGABmz99t4zxdqdW/tK025y1e9QvrYYopyoV6OT6dwr2577p
- 30QSQJPksqmLcM93KSgefeY1raAS/y5dimbC1LP3t/Gxmtx57m51UevS6WlbYR1Gk75z
- +xBw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW3ur/R7lYKxi1eJHQ+HVWxx52fCwj7AuXoIbwSU7ofxWMAvf3H1mzf3p6ZV4D7wFwRGiMO2ECaSOw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJLOP1lJUQIC7KLSIoj/C9agXB79Fb6ppRtFzqjSvTtWPhU90q
- x+ZEfk+prfjdpGerpxNPuKwRBDcVIZk4onrToHgnUMcwCy2w/aRvNmhqsSHk5xP91taADqAlh4Z
- KYwVAlEyn67QUZhVKEPU7CnHE47eyP0/W4JFcx0wwRQ==
-X-Gm-Gg: ASbGncsusz2D1pyLvPD70MMYKQMSGeQW8Tq65+zEXW7+EUMl3y/CM7MplDvtbGH9Ekb
- Ij5FAWHD+gq1AP/4nkK0SwWFSYOfo7p7MeJpXxSz3vYtjGLogOPKSfpSHqKLyFS+75ng+6Qhevd
- AVvyLnDAZuEtq7AObbtUNfrEiZHbXIqAvhoIttQV0KM9qOhLl6MWzB2mZq+l9R2hIKsuNomnoez
- L0X5tw=
-X-Google-Smtp-Source: AGHT+IFoewdvNuLwpOMDi7tPmb9FEQKLI5JEdERuyolhueuXHZ2+5KnKdkT/j3cc2QMbmt8jG7ipw7ObSBOoHSZHVLc=
-X-Received: by 2002:a2e:a013:0:b0:332:2d5c:e171 with SMTP id
- 38308e7fff4ca-3354a275fd8mr4061531fa.11.1755777236482; Thu, 21 Aug 2025
- 04:53:56 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EEC510E948;
+ Thu, 21 Aug 2025 11:54:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755777284;
+ bh=69wzCZHhSFHeHuTH3cr2PUYgHqtI+f+GALGK+wokVyA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ly8rgEvX5U+tO7SJMmv4YFydyn0vAw3UgGN9Bx2xeLJA5ukPvo3AsnW6jngbMxY+N
+ lKez3ppvehdP16jThVFB4BjSU9smlrCz50csvQJA989iC1n8oX+lc+TXvjdNMKveBd
+ ILd9DPlfPzlvVTSOMKPpT3sCrzyqYFWnS2g7jHC7R69oDiG3xAaO4GJ/7z7x6JQswH
+ h7cIxm7z2uUZj71qJIEzgqj4Tkiq7UuJ38zd9DeerR9Tp9rxEhHkXuMaUJ/5OXOYkN
+ fH21M9MwIPuYBCT4FwQinAJOwGQWfQPTAVp7QdLJ1+Miy5lvb+fUDqnBVskzT0s/GA
+ VVCum848K4ViA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id EF55C17E127B;
+ Thu, 21 Aug 2025 13:54:43 +0200 (CEST)
+Date: Thu, 21 Aug 2025 13:54:37 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Adrian Larumbe <adrian.larumbe@collabora.com>
+Cc: Caterina Shablia <caterina.shablia@collabora.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Frank Binns <frank.binns@imgtec.com>, Matt
+ Coster <matt.coster@imgtec.com>, Karol Herbst <kherbst@redhat.com>, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+Subject: Re: [PATCH v4 4/7] drm/gpuvm: Add a helper to check if two VA can
+ be merged
+Message-ID: <20250821135437.499d9a6a@fedora>
+In-Reply-To: <bvoiomc5x7cbyc4l35rbideznuyw557u2ttp7utoifaxs27j3m@6mc7ya7asmpy>
+References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
+ <20250707170442.1437009-5-caterina.shablia@collabora.com>
+ <bvoiomc5x7cbyc4l35rbideznuyw557u2ttp7utoifaxs27j3m@6mc7ya7asmpy>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-10-ariel.dalessandro@collabora.com>
-In-Reply-To: <20250820171302.324142-10-ariel.dalessandro@collabora.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 21 Aug 2025 13:53:45 +0200
-X-Gm-Features: Ac12FXy1SuiUzS280qDRSJHcA_2jVr4y-FjGItB1ru8eWVK-JVnc9Ql5XGWxM9c
-Message-ID: <CACRpkdbVqNpz2HiAz+_vFUkDy1TE6ZDxp6X2g9rRWAt4s=jRgw@mail.gmail.com>
-Subject: Re: [PATCH v1 09/14] dt-bindings: pinctrl: mediatek,mt65xx-pinctrl:
- Allow gpio-line-names
-To: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, 
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com, 
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com, 
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com, 
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com, 
- krzk+dt@kernel.org, kuba@kernel.org, 
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com, 
- louisalexis.eyraud@collabora.com, maarten.lankhorst@linux.intel.com, 
- matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com, 
- mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com, 
- robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch, 
- support.opensource@diasemi.com, tiffany.lin@mediatek.com, tzimmermann@suse.de, 
- yunfei.dong@mediatek.com, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,15 +74,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 20, 2025 at 7:16=E2=80=AFPM Ariel D'Alessandro
-<ariel.dalessandro@collabora.com> wrote:
+On Tue, 22 Jul 2025 20:17:14 +0100
+Adrian Larumbe <adrian.larumbe@collabora.com> wrote:
 
-> Current, the DT bindings for MediaTek's MT65xx Pin controller is missing
-> the gpio-line-names property, add it to the associated schema.
->
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> On 07.07.2025 17:04, Caterina Shablia wrote:
+> > From: Boris Brezillon <boris.brezillon@collabora.com>
+> >
+> > We are going to add flags/properties that will impact the VA merging
+> > ability. Instead of sprinkling tests all over the place in
+> > __drm_gpuvm_sm_map(), let's add a helper aggregating all these checks
+> > can call it for every existing VA we walk through in the
+> > __drm_gpuvm_sm_map() loop.
+> >
+> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
+> > ---
+> >  drivers/gpu/drm/drm_gpuvm.c | 47 +++++++++++++++++++++++++++++--------
+> >  1 file changed, 37 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+> > index 05978c5c38b1..dc3c2f906400 100644
+> > --- a/drivers/gpu/drm/drm_gpuvm.c
+> > +++ b/drivers/gpu/drm/drm_gpuvm.c
+> > @@ -2098,12 +2098,48 @@ op_unmap_cb(const struct drm_gpuvm_ops *fn, void *priv,
+> >  	return fn->sm_step_unmap(&op, priv);
+> >  }
+> >
+> > +static bool can_merge(struct drm_gpuvm *gpuvm, const struct drm_gpuva *a,
+> > +		      const struct drm_gpuva *b)
+> > +{
+> > +	/* Only GEM-based mappings can be merged, and they must point to
+> > +	 * the same GEM object.
+> > +	 */
+> > +	if (a->gem.obj != b->gem.obj || !a->gem.obj)
+> > +		return false;
+> > +
+> > +	/* Let's keep things simple for now and force all flags to match. */
+> > +	if (a->flags != b->flags)
+> > +		return false;
+> > +
+> > +	/* Order VAs for the rest of the checks. */
+> > +	if (a->va.addr > b->va.addr)
+> > +		swap(a, b);
+> > +
+> > +	/* We assume the caller already checked that VAs overlap or are
+> > +	 * contiguous.
+> > +	 */
+> > +	if (drm_WARN_ON(gpuvm->drm, b->va.addr > a->va.addr + a->va.range))
+> > +		return false;
+> > +
+> > +	/* We intentionally ignore u64 underflows because all we care about
+> > +	 * here is whether the VA diff matches the GEM offset diff.
+> > +	 */
+> > +	return b->va.addr - a->va.addr == b->gem.offset - a->gem.offset;  
+> 
+> If we're reordering the VAs for the rest of the checks, when could underflow happen?
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+I think this comments predates the re-ordering (I originally tried not
+to order VAs).
 
-Yours,
-Linus Walleij
+> 
+> > +}
+> > +
+> >  static int
+> >  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+> >  		   const struct drm_gpuvm_ops *ops, void *priv,
+> >  		   const struct drm_gpuvm_map_req *req)
+> >  {
+> >  	struct drm_gpuva *va, *next;
+> > +	struct drm_gpuva reqva = {
+> > +		.va.addr = req->va.addr,
+> > +		.va.range = req->va.range,
+> > +		.gem.offset = req->gem.offset,
+> > +		.gem.obj = req->gem.obj,
+> > +		.flags = req->flags,
+> > +	};
+> >  	u64 req_end = req->va.addr + req->va.range;
+> >  	int ret;
+> >
+> > @@ -2116,12 +2152,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+> >  		u64 addr = va->va.addr;
+> >  		u64 range = va->va.range;
+> >  		u64 end = addr + range;
+> > -		bool merge = !!va->gem.obj;
+> > +		bool merge = can_merge(gpuvm, va, &reqva);
+> >
+> >  		if (addr == req->va.addr) {
+> > -			merge &= obj == req->gem.obj &&
+> > -				 offset == req->gem.offset;
+> > -
+> >  			if (end == req_end) {
+> >  				ret = op_unmap_cb(ops, priv, va, merge);
+> >  				if (ret)
+> > @@ -2163,8 +2196,6 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+> >  			};
+> >  			struct drm_gpuva_op_unmap u = { .va = va };
+> >
+> > -			merge &= obj == req->gem.obj &&
+> > -				 offset + ls_range == req->gem.offset;
+> >  			u.keep = merge;
+> >
+> >  			if (end == req_end) {
+> > @@ -2196,10 +2227,6 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+> >  				break;
+> >  			}
+> >  		} else if (addr > req->va.addr) {
+> > -			merge &= obj == req->gem.obj &&
+> > -				 offset == req->gem.offset +
+> > -					   (addr - req->va.addr);
+> > -
+> >  			if (end == req_end) {
+> >  				ret = op_unmap_cb(ops, priv, va, merge);
+> >  				if (ret)
+> > --
+> > 2.47.2  
+> 
+> 
+> Adrian Larumbe
+
