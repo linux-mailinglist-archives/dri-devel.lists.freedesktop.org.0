@@ -2,51 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4575FB2F793
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 14:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E0C1B2F7B1
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 14:18:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19F0A10E95C;
-	Thu, 21 Aug 2025 12:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE7F910E2FE;
+	Thu, 21 Aug 2025 12:18:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y+MBEtPO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Fkb7eDh4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3457D10E94E
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 12:09:39 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 50C4E60200;
- Thu, 21 Aug 2025 12:09:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7A22C4CEEB;
- Thu, 21 Aug 2025 12:09:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755778178;
- bh=YVudOL9kLvUa7t5Z40vgTlIpdlCqhWXk8VlyZ7WFiNQ=;
- h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
- b=Y+MBEtPOx9jut06XprjYa5k9qJRVLaN8rFTQrX6N3+YUimMlQw7rKcQQnzT8LHuDq
- qyjfPinXN7Sb6Zc20pEsKH73TA0q+LGlpNgbF6zhZlexfuzjT48ceGBsnILcrOVQUV
- /Z15DUI3a/e3OO8cqpMh3WFDcnQnQGkT0Nfe5oF53Kfa1c01CRuMBxYPRp3o8Vc41A
- Veq4phsAsmKxqBt5UopCNzBLPTEVTJfv0yDO63xUzSEdIdPyLkIsVXxHZVsIB7JPAL
- PrKwYke/zaA8eJy+iu6wB0WAfg7kbqZncty9vJfwAf6YRU0jGkdvm6rnHgdwVD6XnX
- YmV5ZHD7bAcdg==
-Content-Type: multipart/signed;
- boundary=3a383ff1ea192992f3804c3bff8ea9d8903d7571fd6cf5190aac3da7f3cc;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Thu, 21 Aug 2025 14:09:34 +0200
-Message-Id: <DC83F2197OLI.2KRLEH7GUBKSA@kernel.org>
-Subject: Re: [PATCH v5 0/3] Decouple max_pclk check from constant display feats
-Cc: <h-shenoy@ti.com>, <devarsht@ti.com>, <vigneshr@ti.com>,
- <praneeth@ti.com>, <u-kumar1@ti.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Swamil Jain" <s-jain1@ti.com>, <jyri.sarha@iki.fi>,
- <tomi.valkeinen@ideasonboard.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <aradhya.bhatia@linux.dev>
-X-Mailer: aerc 0.16.0
-References: <20250819192113.2420396-1-s-jain1@ti.com>
-In-Reply-To: <20250819192113.2420396-1-s-jain1@ti.com>
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 172CC10E2FE;
+ Thu, 21 Aug 2025 12:18:36 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-afcb78da8a7so141357366b.1; 
+ Thu, 21 Aug 2025 05:18:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755778714; x=1756383514; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=8gvnVtPuDeVRwkHWJ+lsQaKYEu509p2WMuBoS0uoPnw=;
+ b=Fkb7eDh4i7Tr2jWGn+hUq8eW+nhJwwNAwOyfA4n24pNRZ2WcxWP/+BMN2fm/+7n1Vv
+ AbjbTD9qEusvfTGwJ9pceLB/yfOmWPk2Tah+Zj8e7DsNyY8/lK1egzLgd56cBMlK7lT2
+ fVbdR0rVb3CKc/4cYTy/FHf3O7I+tF6AHCTV6AxC0iE1rkQDQLfhp95OfXpsGCFVahVS
+ JtHTAQN43kGSjWcZuoE6xRm7jmuhGPEj193OVg+BAVTTVVPqa7nWyEuMxh88BUNCq02j
+ QUXDfW6x/6hquAH+cRscfkqok/OCxavxknhXswP+KOe2nefNHEADWFg4jGbp8OSQrMNC
+ lNwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755778714; x=1756383514;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8gvnVtPuDeVRwkHWJ+lsQaKYEu509p2WMuBoS0uoPnw=;
+ b=l3pyuouYQQl+F2F6z5LARjqqkhusJmPMHGX0L6Nj9Wd8/zOnYRMDt1zKww4F7KnEYY
+ ZJup5UngT/czLE28JtCkco5vD5cmXf+kaNID1DgqetjXz1q179TxZgCAZdB4yZwJ0cm5
+ 9JdNRtotMjrSQgTPBQPX8g1+xIN3aekQNj4M6KJfUrMENjhkcdin36AqWkHdDAN77yZ8
+ 2sJWGBROJnppkGY2Cn4/E+ObJtOQCZ0xgZa+TwnclqCy17fBqPjh77Pmh9E8rLYws83c
+ NiUBqRibXR26G+C/nSpvIck+AXr1ZGARaeLmm/SrVxkXd15vg2z/REDCHDs72gbs1kp8
+ yuHQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUycAe+FV+1t4E76j50Y7b/y0UpM9C6xTu5+QlfFehw0icZAT9Vgx39U0ZUS33JNzzpINTmX0FU@lists.freedesktop.org,
+ AJvYcCW5xEnhYlazbHvoIHCeqcXackCiXBU1Fp6d/+/dLmWr4KKSKkJLnBgWO30BhDCb214cyCc+iuBNARSh@lists.freedesktop.org,
+ AJvYcCWEYsvibKFfVy7ZGud2oYotFWLnVfirKicd0DXGfk71RVSK7q+c5y43ywRn+5S4kQ4NZaAtHOnn7lUsbSd34g==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwC6bwkcy0vzQVDcrCovXPGmzCJ8KXJzhpO4xHWIvnN06idfxK0
+ wAZA9wHQns8tAEGV51fwanTV0ak64qIsKwbSOSZsw3XVnXmPkLaI5dQWfTc5F9dbZ8c2ZjrSE6q
+ ElG0VYB91KiGJWNLEYo/zHTo06AAYC/8=
+X-Gm-Gg: ASbGncvJ3I7/MAVOjsLpmIyjJsJOhZb6NfFvLxlEK0uRXiHl8slqPqeXYIPkQhF8QLw
+ T4HY5JtVXoBOf4Kt1+Va1UmBM3io6PfCZrVJjB1IcpyV51GCubc7uzZONU1ChCnenY39qTk0v+M
+ fIXWjW+bH4z2tflU/aqCHkSBvVWzQoyrY161+07nG9ACyLBYAaV5xjVMeJuHl+7zjVL95HCEEvm
+ VrDSjuThJKEIis1KwDhvPv6Gfb7zCYJrbFtY9oQPAluzKdLEFxi
+X-Google-Smtp-Source: AGHT+IFvy+yYv52L7K1uoUHRrZkGMeN0/je1OaNi3qH+IRYdlFgxHqgh/BwnDh9DP2pLFnXQmvGhLOp0ihdwBA49/5Y=
+X-Received: by 2002:a17:907:6ea5:b0:af9:479b:8caf with SMTP id
+ a640c23a62f3a-afe07c2cb96mr207477366b.51.1755778714321; Thu, 21 Aug 2025
+ 05:18:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20250815035047.3319284-1-alex.hung@amd.com>
+ <20250815035047.3319284-36-alex.hung@amd.com>
+ <DC6IG8LQAIF4.6KM7AM5JD3J3@redhat.com>
+ <f3061c6f-5a73-4890-92b0-90f153e8dcc0@amd.com>
+ <DC7IDWLAGEOW.HQVRVJNBTLXI@redhat.com>
+In-Reply-To: <DC7IDWLAGEOW.HQVRVJNBTLXI@redhat.com>
+From: Xaver Hugl <xaver.hugl@gmail.com>
+Date: Thu, 21 Aug 2025 14:18:22 +0200
+X-Gm-Features: Ac12FXwW9OQ335wgyGuumLyW6QXyY_7nwDU0vHlhJ7ra3fV3Sp6_aN9HkujANJ4
+Message-ID: <CAFZQkGxxf2w+x4xZ-aY5YDnuS14Ys-gi=zro0Z4BE2RJESLoYQ@mail.gmail.com>
+Subject: Re: [PATCH V11 35/47] drm/colorop: Add 1D Curve Custom LUT type
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org, 
+ harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com, 
+ pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com, 
+ jadahl@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com, 
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
+ victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com, 
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com, mcanal@igalia.com, 
+ nfraprado@collabora.com, Daniel Stone <daniels@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,59 +97,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---3a383ff1ea192992f3804c3bff8ea9d8903d7571fd6cf5190aac3da7f3cc
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-
-On Tue Aug 19, 2025 at 9:21 PM CEST, Swamil Jain wrote:
-> In an effort to make the existing compatibles more usable, we are
-> removing the max_pclk_khz form dispc_features structure and doing the
-> supported pixel clock checks using "max_successful_rate[]" and
-> "max_attempted_rate[]".
->
-> Changes are fully backwards compatible.
->
-> After integration of OLDI support[0], we need additional patches in
-> OLDI to identify the VP that has OLDI. We have to do this since
-> OLDI driver owns the VP clock (its serial clock) and we cannot perform
-> clock operations on those VP clock from tidss driver. This issue was
-> also reported upstream when DSI fixes[1] had some clock related calls
-> in tidss driver. When "clk_round_rate()" is called, ideally it should
-> have gone to "sci_clk_determine_rate()" to query DM but it doesn't since
-> clock is owned by OLDI not tidss.
->
-> So add a member is_ext_vp_clk[] in tidss_device structure to identify
-> this and avoid performing clock operations for VP if it has OLDI panel.
-> For the same checks in OLDI driver, atomic_check() hook is added to its
-> bridge_funcs.
-> In the atomic_check() chain, first the bridge_atomic_check() is called
-> and then crtc_atomic_check() is called. So mode clock is first checked
-> in oldi driver and then skipped in tidss driver.
->
-> Had the tidss_oldi structure been exposed to tidss_dispc.c, we could
-> have directly checked VP type in dispc but since the structure is defined
-> in tidss_oldi.c , we have to add additional member to tidss_device
-> structure.
->
-> [0]: https://lore.kernel.org/all/20250528122544.817829-1-aradhya.bhatia@l=
-inux.dev/
-> [1]: https://lore.kernel.org/all/DA6TT575Z82D.3MPK8HG5GRL8U@kernel.org/
-
-Since that wasn't picked up from v4:
-
-Tested-by: Michael Walle <mwalle@kernel.org> # on am67a
-
---3a383ff1ea192992f3804c3bff8ea9d8903d7571fd6cf5190aac3da7f3cc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaKcMfhIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/hU4AF+IvgcxkPRSESU4r7IR/aM34rxVsUbczii
-5ClhTBDU79TzVapcJx4a8PGB+f5WEwkjAYCPvJC/QF/bADblThy3D3ln7plKn30A
-i1GnefaebiLizZ8l5IAVZTDxawBYVY2CIDU=
-=QPzU
------END PGP SIGNATURE-----
-
---3a383ff1ea192992f3804c3bff8ea9d8903d7571fd6cf5190aac3da7f3cc--
+> Yes! I would prefer "SIZE" as I can see other color op types which use
+> the "DATA" prop to require this as well.
++1, no need to make it specific to luts.
