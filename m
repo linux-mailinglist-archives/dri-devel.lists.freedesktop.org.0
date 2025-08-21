@@ -2,112 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D261DB2EFDF
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 09:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA50DB2F02F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 09:55:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3733C10E891;
-	Thu, 21 Aug 2025 07:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9133410E2D9;
+	Thu, 21 Aug 2025 07:55:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="1Zz8+1en";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wWs5qJZ0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Zz8+1en";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wWs5qJZ0";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WZyDfRWy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE1C610E897
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 07:38:25 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB1310E2D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 07:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755762928;
+ bh=HJAMs7DrQ8eVP6HgWB2Z2iOopdRHkgXm32xkR1vCSNc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=WZyDfRWyNuWk7C0mRxMgBuKAJ1RFKj6o4D4N2PCyDolsU1e9+64bIoYkjBX8XEeUl
+ ay10sNzzhKVFzT5cfND6dE5/vE2z6k5rjtNYs86KlsmiWEhBQ3FwAjZhMv89kQJVY1
+ aevqJBiNWBtAX+8Rt8U3JgQf25+yfslprB0p5jeYlgUUXV8Qu7/udA09hVckudw8vp
+ wwjC5czKTQBGWR/gQsBQk1Nq1+79+/y3o1UxGX/azX6So4wJvmkaR/NSkaZ8LS3S1R
+ lkuzy+/iqjNUCmXeSp5PDbJBxOspu6pxH1h2oOxSC64U9eJBfP+8n9EyADIuzfNRPE
+ +lKVRa6dSydwA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2D6D31F38C;
- Thu, 21 Aug 2025 07:38:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755761904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=YvSgPjvnH1dvUR+47yzShT+PF0RxFiRZfZRUVAloGCI=;
- b=1Zz8+1enWN/vswdzTvzcgdGnIB1bhEguSmOW7J9SckbPRCvXbzologzEEWGMh6T8brAx4y
- lh93dtXAZZMX9XcCBtzdNAceLcSqEw1XArHsyn1/lJMsJz848WYOss4Jn45pKZGOi2z8P0
- aAmasB4wsnJj4Alt50fwStPkDgNC3xU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755761904;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=YvSgPjvnH1dvUR+47yzShT+PF0RxFiRZfZRUVAloGCI=;
- b=wWs5qJZ0vdpGDhlQBcH9hm5ilOLOxeYc3fmqYgf6Y4ptgrt266jqqam6KVVreLxeC3xjkV
- Lx9hAjsJ7P8/4aBA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1Zz8+1en;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wWs5qJZ0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755761904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=YvSgPjvnH1dvUR+47yzShT+PF0RxFiRZfZRUVAloGCI=;
- b=1Zz8+1enWN/vswdzTvzcgdGnIB1bhEguSmOW7J9SckbPRCvXbzologzEEWGMh6T8brAx4y
- lh93dtXAZZMX9XcCBtzdNAceLcSqEw1XArHsyn1/lJMsJz848WYOss4Jn45pKZGOi2z8P0
- aAmasB4wsnJj4Alt50fwStPkDgNC3xU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755761904;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type;
- bh=YvSgPjvnH1dvUR+47yzShT+PF0RxFiRZfZRUVAloGCI=;
- b=wWs5qJZ0vdpGDhlQBcH9hm5ilOLOxeYc3fmqYgf6Y4ptgrt266jqqam6KVVreLxeC3xjkV
- Lx9hAjsJ7P8/4aBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE45613867;
- Thu, 21 Aug 2025 07:38:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id y1YSKe/MpmhLBwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 21 Aug 2025 07:38:23 +0000
-Date: Thu, 21 Aug 2025 09:38:22 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next
-Message-ID: <20250821073822.GA45904@2a02-2454-fd5e-fd00-8f09-b5f-980b-a7ef.dyn6.pyur.net>
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id D973517E0458;
+ Thu, 21 Aug 2025 09:55:27 +0200 (CEST)
+Date: Thu, 21 Aug 2025 09:55:23 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 9/9] drm/panthor: add DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE
+Message-ID: <20250821095523.6d142bfe@fedora>
+In-Reply-To: <20250720000146.1405060-10-olvaffe@gmail.com>
+References: <20250720000146.1405060-1-olvaffe@gmail.com>
+ <20250720000146.1405060-10-olvaffe@gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 2D6D31F38C
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch]; TO_DN_SOME(0.00)[];
- MIME_TRACE(0.00)[0:+]; MISSING_XM_UA(0.00)[]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,181 +65,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+On Sat, 19 Jul 2025 17:01:46 -0700
+Chia-I Wu <olvaffe@gmail.com> wrote:
 
-another quiet week in drm-misc-next. There's the usual number of refactorings
-and smaller fixes. The highlight of the PR is panthor adding/improving support
-for a large number of GPU models.
+> When the flag is set, bo data is captured for devcoredump.
+> 
+> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_coredump.c | 36 ++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_drv.c      |  3 +-
+>  drivers/gpu/drm/panthor/panthor_mmu.c      |  7 +++--
+>  include/uapi/drm/panthor_drm.h             |  7 +++++
+>  4 files changed, 49 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_coredump.c b/drivers/gpu/drm/panthor/panthor_coredump.c
+> index 5502452a5baa..db5695b38c2d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_coredump.c
+> +++ b/drivers/gpu/drm/panthor/panthor_coredump.c
+> @@ -5,6 +5,7 @@
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_managed.h>
+>  #include <generated/utsrelease.h>
+> +#include <linux/ascii85.h>
+>  #include <linux/devcoredump.h>
+>  #include <linux/err.h>
+>  #include <linux/pm_runtime.h>
+> @@ -99,6 +100,26 @@ static const char *reason_str(enum panthor_coredump_reason reason)
+>  	}
+>  }
+>  
+> +static void print_bo(struct drm_printer *p, struct panthor_gem_object *bo,
+> +		     u64 offset, u64 size)
+> +{
+> +	struct iosys_map map;
+> +	const u32 *vals;
+> +	u64 count;
+> +	char buf[ASCII85_BUFSZ];
+> +
+> +	if (drm_gem_vmap(&bo->base.base, &map))
+> +		return;
+> +
+> +	/* offset and size are aligned to panthor_vm_page_size, which is SZ_4K */
+> +	vals = map.vaddr + offset;
+> +	count = size / sizeof(u32);
+> +	for (u64 i = 0; i < count; i++)
+> +		drm_puts(p, ascii85_encode(vals[i], buf));
+> +
+> +	drm_gem_vunmap(&bo->base.base, &map);
+> +}
+> +
+>  static void print_vma(struct drm_printer *p,
+>  		      const struct panthor_coredump_vma_state *vma, u32 vma_id,
+>  		      size_t *max_dyn_size)
+> @@ -129,6 +150,21 @@ static void print_vma(struct drm_printer *p,
+>  			}
+>  		}
+>  	}
+> +
+> +	if (vma->flags & DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE) {
+> +		drm_puts(p, "    data: |\n");
+> +		drm_puts(p, "      ");
+> +
+> +		/* bo data is dynamic */
+> +		if (max_dyn_size) {
+> +			*max_dyn_size +=
+> +				vma->size / sizeof(u32) * (ASCII85_BUFSZ - 1);
+> +		} else {
+> +			print_bo(p, bo, vma->bo_offset, vma->size);
+> +		}
 
-Best regards
-Thomas
+Back when Daniel was working on it, I suggested dumping VAs and BOs
+content separately, so we can shrink the dumps when sparse is involved.
+Otherwise you'll have these huge VA range filled with repeated dummy
+pages. It's then up to the coredump analysis tool to reconstruct the
+mapping between VAs and BOs.
 
-drm-misc-next-2025-08-21:
-drm-misc-next for v6.18:
+> +
+> +		drm_puts(p, "\n");
+> +	}
+>  }
+>  
+>  static void print_as(struct drm_printer *p,
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 1116f2d2826e..6c4de1e73cd1 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1608,6 +1608,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+>   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+>   * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
+>   * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
+> + * - 1.6 - adds DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE flag
+>   */
+>  static const struct drm_driver panthor_drm_driver = {
+>  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> @@ -1621,7 +1622,7 @@ static const struct drm_driver panthor_drm_driver = {
+>  	.name = "panthor",
+>  	.desc = "Panthor DRM driver",
+>  	.major = 1,
+> -	.minor = 5,
+> +	.minor = 6,
+>  
+>  	.gem_create_object = panthor_gem_create_object,
+>  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 7862c99984b6..72b1b2799b65 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -2045,10 +2045,11 @@ static void panthor_vma_init(struct panthor_vma *vma, u32 flags)
+>  	vma->flags = flags;
+>  }
+>  
+> -#define PANTHOR_VM_MAP_FLAGS \
+> +#define PANTHOR_VM_MAP_FLAGS                   \
+>  	(DRM_PANTHOR_VM_BIND_OP_MAP_READONLY | \
+> -	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC | \
+> -	 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED)
+> +	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |   \
+> +	 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED | \
+> +	 DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE)
+>  
+>  static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
+>  {
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index e1f43deb7eca..c4c5e38365e9 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -496,6 +496,13 @@ enum drm_panthor_vm_bind_op_flags {
+>  	 */
+>  	DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED = 1 << 2,
+>  
+> +	/**
+> +	 * @DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE: Dump the VMA for devcoredump.
+> +	 *
+> +	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
+> +	 */
+> +	DRM_PANTHOR_VM_BIND_OP_MAP_DUMPABLE = 1 << 3,
 
-Core Changes:
+It feels weird to have this verbose-dump option exposed as a VM
+bind flag. Is there anything in the Vulkan GPU crash extension that
+allows flagging individual memory objects are dumpable? I understand
+that dumping all the VM data means generating potentially huge dumps,
+and that you sometimes could trim that out because all you care about
+in your debug session is CS/shader binaries, but other times it proves
+useful to have regular buffers dumped too. If the coredump is
+partial, it means you'll have to go and ask for users to try and
+reproduce the issue with a dump_all flags set.
 
-bridge:
-- Support Content Protection property
+Given devcoredump is a device interface (meaning we can't really filter
+coredumps per context), I'd be tempted to make this 'dont-dump-BOs'
+option an opt-out debugfs knob, so that, by default, everything is
+dumped.
 
-gpuvm:
-- Support madvice in Xe driver
+> +
+>  	/**
+>  	 * @DRM_PANTHOR_VM_BIND_OP_TYPE_MASK: Mask used to determine the type of operation.
+>  	 */
 
-mipi:
-- Add more multi-read/write helpers for improved error handling
-
-Driver Changes:
-
-amdxdna:
-- Refactoring wrt. hardware contexts
-
-bridge:
-- display-connector: Improve DP display detection
-
-panel:
-- Fix includes in various drivers
-
-panthor:
-- Add support for Mali G710, G510, G310, Gx15, Gx20, Gx25
-- Improve cache flushing
-The following changes since commit dd489c01c3971778c417630f328460021fc8fc61:
-
-  Merge tag 'drm-misc-next-2025-08-14' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next (2025-08-19 07:02:30 +1000)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2025-08-21
-
-for you to fetch changes up to 043d9c6928b010be7902a01b5cdfa7d754535b1a:
-
-  drm/bridge: anx7625: register content protect property (2025-08-20 08:22:01 -0700)
-
-----------------------------------------------------------------
-drm-misc-next for v6.18:
-
-Core Changes:
-
-bridge:
-- Support Content Protection property
-
-gpuvm:
-- Support madvice in Xe driver
-
-mipi:
-- Add more multi-read/write helpers for improved error handling
-
-Driver Changes:
-
-amdxdna:
-- Refactoring wrt. hardware contexts
-
-bridge:
-- display-connector: Improve DP display detection
-
-panel:
-- Fix includes in various drivers
-
-panthor:
-- Add support for Mali G710, G510, G310, Gx15, Gx20, Gx25
-- Improve cache flushing
-
-----------------------------------------------------------------
-Athul Raj Kollareth (1):
-      drm/virtio: clean up minor codestyle issues
-
-Boris Brezillon (2):
-      drm/gpuvm: Pass map arguments through a struct
-      drm/gpuvm: Kill drm_gpuva_init()
-
-Brigham Campbell (2):
-      drm: Add MIPI read_multi func and two write macros
-      drm/panel: novatek-nt35560: Clean up driver
-
-Dmitry Baryshkov (1):
-      drm/bridge: display-connector: don't set OP_DETECT for DisplayPorts
-
-Himal Prasad Ghimiray (2):
-      drm/gpuvm: Introduce drm_gpuvm_madvise_ops_create
-      drm/gpusvm: Make drm_gpusvm_for_each_* macros public
-
-Hsin-Yi Wang (2):
-      drm_bridge: register content protect property
-      drm/bridge: anx7625: register content protect property
-
-Karunika Choo (7):
-      drm/panthor: Add panthor_hw and move gpu_info initialization into it
-      drm/panthor: Simplify getting the GPU model name
-      drm/panthor: Add support for Mali-G710, Mali-G510 and Mali-G310
-      drm/panthor: Add support for Mali-Gx15 family of GPUs
-      drm/panthor: Serialize GPU cache flush operations
-      drm/panthor: Make MMU cache maintenance use FLUSH_CACHES command
-      drm/panthor: Add support for Mali-Gx20 and Mali-Gx25 GPUs
-
-Lizhi Hou (1):
-      accel/amdxdna: Add a function to walk hardware contexts
-
-Maxime Ripard (1):
-      Merge drm/drm-next into drm-misc-next
-
-Sakari Ailus (1):
-      drm/panfrost: Remove redundant pm_runtime_mark_last_busy() calls
-
-Shankari Anand (1):
-      rust: drm: update ARef and AlwaysRefCounted imports from sync::aref
-
-Thomas Zimmermann (1):
-      drm/panel: panel-samsung-s6e88a0-ams427ap24: Fix includes
-
- drivers/accel/amdxdna/aie2_ctx.c                   |  38 +--
- drivers/accel/amdxdna/aie2_message.c               |  21 +-
- drivers/accel/amdxdna/aie2_pci.c                   |  97 ++++---
- drivers/accel/amdxdna/aie2_pci.h                   |   2 +-
- drivers/accel/amdxdna/amdxdna_ctx.c                |  26 +-
- drivers/accel/amdxdna/amdxdna_ctx.h                |   8 +-
- drivers/accel/amdxdna/amdxdna_pci_drv.c            |   7 +-
- drivers/accel/amdxdna/amdxdna_pci_drv.h            |   2 -
- drivers/gpu/drm/bridge/analogix/anx7625.c          |   1 +
- drivers/gpu/drm/bridge/display-connector.c         |   3 +-
- drivers/gpu/drm/display/drm_bridge_connector.c     |   9 +
- drivers/gpu/drm/drm_gpusvm.c                       | 124 ++-------
- drivers/gpu/drm/drm_gpuvm.c                        | 287 +++++++++++++++------
- drivers/gpu/drm/drm_mipi_dsi.c                     |  37 +++
- drivers/gpu/drm/imagination/pvr_vm.c               |  15 +-
- drivers/gpu/drm/msm/msm_gem_vma.c                  |  35 ++-
- drivers/gpu/drm/nouveau/nouveau_uvmm.c             |  11 +-
- drivers/gpu/drm/panel/panel-novatek-nt35560.c      | 198 +++++---------
- .../drm/panel/panel-samsung-s6e88a0-ams427ap24.c   |   2 +
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c        |   2 -
- drivers/gpu/drm/panthor/Makefile                   |   1 +
- drivers/gpu/drm/panthor/panthor_device.c           |   5 +
- drivers/gpu/drm/panthor/panthor_fw.c               |   5 +
- drivers/gpu/drm/panthor/panthor_gpu.c              | 100 +------
- drivers/gpu/drm/panthor/panthor_hw.c               | 125 +++++++++
- drivers/gpu/drm/panthor/panthor_hw.h               |  11 +
- drivers/gpu/drm/panthor/panthor_mmu.c              |  46 +++-
- drivers/gpu/drm/panthor/panthor_regs.h             |   3 +
- drivers/gpu/drm/virtio/virtgpu_display.c           |   3 +-
- drivers/gpu/drm/virtio/virtgpu_kms.c               |  20 +-
- drivers/gpu/drm/virtio/virtgpu_object.c            |   4 +-
- drivers/gpu/drm/virtio/virtgpu_plane.c             |   2 +-
- drivers/gpu/drm/virtio/virtgpu_vq.c                |   2 +
- drivers/gpu/drm/xe/xe_vm.c                         |  13 +-
- include/drm/drm_bridge.h                           |   4 +
- include/drm/drm_gpusvm.h                           |  70 +++++
- include/drm/drm_gpuvm.h                            |  38 +--
- include/drm/drm_mipi_dsi.h                         |  35 +++
- include/uapi/drm/panthor_drm.h                     |   3 +
- rust/kernel/drm/device.rs                          |   3 +-
- rust/kernel/drm/driver.rs                          |   2 +-
- rust/kernel/drm/gem/mod.rs                         |   3 +-
- 42 files changed, 861 insertions(+), 562 deletions(-)
- create mode 100644 drivers/gpu/drm/panthor/panthor_hw.c
- create mode 100644 drivers/gpu/drm/panthor/panthor_hw.h
-
--- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
