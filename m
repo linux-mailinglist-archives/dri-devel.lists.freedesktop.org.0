@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD310B2EB90
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 05:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1EFB2EB92
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 05:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA5910E36E;
-	Thu, 21 Aug 2025 03:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B475F10E375;
+	Thu, 21 Aug 2025 03:01:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O1MLVRWv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Szpi8pEl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACF4C10E36E;
- Thu, 21 Aug 2025 03:01:35 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-245f19aab6aso3465975ad.0; 
- Wed, 20 Aug 2025 20:01:35 -0700 (PDT)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A3710E375;
+ Thu, 21 Aug 2025 03:01:49 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id
+ 41be03b00d2f7-b472fd93ad1so347154a12.0; 
+ Wed, 20 Aug 2025 20:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755745295; x=1756350095; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1755745309; x=1756350109; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2VBfgPDwHJj9xeq+UdTpIXwDQvBU8YAhfbNleYLr6cA=;
- b=O1MLVRWv4VbAAOAHr47jGPq4UQxe/q0XJqei0vo0KEONtyNEXPFSDRQQpR+eCoWwQJ
- kGNR7JelO4gEwXY37qlhOPgmPyCV4vuaNehVgcAPQTIVESaMPYwOmeMeTemAf/JxVjQe
- JdlqEd5kEe6+Clw51kqUZjQdCw3N/ndXAA0iS2MqUe7J9Hlz7UvsYCVlZHSvkBq4IE74
- Sh5GOGvI3dSLa8riYsm3vyzvBW1mSEDFMx6JXnmwW3ZfXoFCGiILgEiv3bqOFPahm2Pb
- TaHn7yrPwrD0vxtm6kBRJVPbYw8guCLKASUHfMmH6iEYGve4n14eKt8RUuFkl5xrscSp
- rEsg==
+ bh=dchl2bUxkqbgVtu+uy7PwD6R4U4jQS+j2652EoPkofQ=;
+ b=Szpi8pEllBXaEj4PFcOY/kI32p5VrbihW0GuWtujkAv5qKPoCVpxKiBnVFLqNCQot1
+ BDcPgv0PM4otHfk7VoylFA0rVyrNEs8/zkfe2ANTwj95zjUWipo6N2qm8F826y5qTrvw
+ 60oqU3Bsrb4QX3R3IvFbBa5C2cCZrlt+2DKCFPha7A8TQQDNwdNSeh37E2THtKDRilND
+ +fmGdBVy41sk63jKwFWf9FhFbtWCEzFUDiQBvSZSaaRMiOO6ABZvTeztD++2eD5tJtcf
+ WLNUdrTQgno+fDXXtA2pgX0qhXhj5RcALFN6u/z2PRhcG8aPN+CNRYD09FhLFPbrY5o4
+ fG5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755745295; x=1756350095;
+ d=1e100.net; s=20230601; t=1755745309; x=1756350109;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2VBfgPDwHJj9xeq+UdTpIXwDQvBU8YAhfbNleYLr6cA=;
- b=e1xh89EXPto6eGWZ7Nnw25oYvbWXRR+kBhEFesgREQ+YMujrhfaNmvx/dIen99lJ4H
- OBuLinb7R+BKUuM8a++7+V2x5SdURphMaAWMcJueDFJbdqV27qVzd1PBSxqxbmQZiNUA
- gOs+OvmheMkFQoyEP9wkyPFIPUH5ka362YWmF2j34XseCaJQA185JpytOL8DG8OxFszl
- PY6hHhCVWI4Bz5rIcp7JWWRr6kTDBTPRxW/cv0FPJwi7qXr25WJLRVscHDJINc9bDxEj
- vYu9Z5xTqT6xw+0StaO3LdFwU3F73GcbIY4c5jnV6smfTIgcB0c7peJWj1zLPeewgjpy
- Ke1A==
+ bh=dchl2bUxkqbgVtu+uy7PwD6R4U4jQS+j2652EoPkofQ=;
+ b=txI3Zh+QX2Mqzf0aEUDI21rx28RR33/fwiQCmEPZ51yCfV+k8Ogv+lcW9p/LQTNmPT
+ ItJRGj2AniCdebqwEra8yUL7LyfNhdXUO1GMMGb8av99snfvqLBFXI8mqnoc1bStY71B
+ zR67mC7H6Ff4aT6SQJE4el0YjM3fx1GKzRzZb2wlmJ6xI2Yp4nCfsetrPUeI249NElfu
+ Jh6e+kIUDoV2ajJ2QuQWsNNJpLiYmUh01vQlkHJFH6FIggjvRwATkYohz/KOVRemdGiH
+ W3a0gySuI6Erj2ad4FimTG/C+xmalaYxx8Y3t4urFqCyhmtVuDR0btotZ1Bd67mBVAW+
+ 9Mjw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVbTx5M28WWIoay1OIgRHtIrpMaegjNRS7zRTFRNzDpHinVRl+njCXTnrA4vO5yOf7mBt8aeIBx@lists.freedesktop.org,
- AJvYcCXPU650gpyAY/9Ga5iwWrpSTogRiQHWx8hPGuy2cLmLaLP9UTsFbNymSocL5U+BMmkCK8OR59SDq2tK@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzGT9x4TjpWdrU3sl4oxUQA1gHDwOVqP5PtFjo01XaFDUsCiadD
- 5IWBF/1MqGjDLCz8K9cAwQWyu1f6jl+D64s3uU3cON0ijC5JVtClMZnR
-X-Gm-Gg: ASbGnct9I904g31W+M417MFpX4en1Tq1ipZhaCtCgnfsbtIhSNa0FCBODGI95eJZGVA
- ipOZXHjsNWkB6TjfvwH3Q6DA2bPtu1g/9cxynKcLjrl/ntgBLXoi4Mm3MMFzfmJC7xqpuXGtpM8
- +M7fGsOIGJUKNkzAlKhJssB/ibdj1bUAPi3OhE+LRJEjIcSSG44Js4ku5XWvm413Z8xUU8WozZS
- zq1xdgMPNQPGtcIdAW75RSyuZhE9HoZIKJpEtswRTesGTxQU2NY5ODl6f1AmX95/6SmsJJanOEi
- k0PJpQO2OFQojRed6Nuhe8C1uA4T+W/mPAxs/s6l337UiDVMmA0G4az+dXS/qh3Wsm6Id+5c5aZ
- 05UUJaJ0pMH7yBpPp9n1ACEZ+3B+GdydWch65Hw==
-X-Google-Smtp-Source: AGHT+IEV1Zcxig6B84KjoGLmnQxYJfI8WE6NEw3RyN2c/rW4MMbT3R26Q1g5buZcviTpIuDd25neeA==
-X-Received: by 2002:a17:902:db07:b0:234:9656:7db9 with SMTP id
- d9443c01a7336-245fedcc650mr13272515ad.32.1755745294859; 
- Wed, 20 Aug 2025 20:01:34 -0700 (PDT)
+ AJvYcCV69rK35dyFs/uKfeVca/u5av3qndu3WN+Zw4d48albs+6lJZhGbREQqRCstalf2tjyWzZLLrhC@lists.freedesktop.org,
+ AJvYcCWOydeWdeFvJY0u+T6fKlkmJV0Z2qxfOUoq9uVqqyyG5rWGYQpJlBWhYvchVFbI/T57AV3fb0IesfY3@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzxLaQUkXDyMcJOw8TtOltnCA2RQBebXNUDrwrA8TsorSB+jXjb
+ gc/Gt9oPOBhmwEyjUmwdfDm3Rs3dHkUp4vTAc/AdlseUtOBvSblfwLhX
+X-Gm-Gg: ASbGnctp2PGqHwNDXH0iFxLtROwJWqPVXO66mECjq5cjsy6SV11O3xC3jSA5j+QCQLu
+ wCmOAB8C50njAtUqGQsOcV3Fx3mTUd3XBJa2TLysHrBfL+uqOFpiw7/H0zp5KgzGJKHD3Ch/a1p
+ ihFmCjfxBOh5J+b0k3pLZrIqCdJs8PujfCeo2eVkAQcXS5wQWN6RrD/XuaFGttJaY97uWtsl9Mr
+ BF9UlddX3rqIUaYV5Xuxtm3E6hQCDJ19g4UYyAV1Gmi6K8D7w3QYyRePoXX/LqqXoD6wFGETx9u
+ 9ZsJ+kSTwrbEOlwxsfv1AB7qdK8HlPfI+T0Sfj/GG2Mqezw5S4KtaC2uF5gdh59GejYMyl99MZl
+ JZaoMyie5aNvkj7jgeSiRtW+q1Os=
+X-Google-Smtp-Source: AGHT+IHsGc+xADnS1KQl1Eq0/IUY+3ItHxMypYdEF+dKr5ceq+9PZoCw5+c5P8t1BY/0NJT8/0dLRg==
+X-Received: by 2002:a17:903:384c:b0:242:e0f1:f4bf with SMTP id
+ d9443c01a7336-245fec053e8mr11669045ad.18.1755745308564; 
+ Wed, 20 Aug 2025 20:01:48 -0700 (PDT)
 Received: from lkmp.. ([49.37.161.210]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-245ed4c73f2sm40160695ad.94.2025.08.20.20.01.30
+ d9443c01a7336-245ed4c73f2sm40160695ad.94.2025.08.20.20.01.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Aug 2025 20:01:34 -0700 (PDT)
+ Wed, 20 Aug 2025 20:01:48 -0700 (PDT)
 From: Rakuram Eswaran <rakuram.e96@gmail.com>
 To: linux-doc@vger.kernel.org, alexander.deucher@amd.com,
  christian.koenig@amd.com, airlied@gmail.com, corbet@lwn.net
@@ -72,9 +72,9 @@ Cc: tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
  rakuram.e96@gmail.com, Randy Dunlap <rdunlap@infradead.org>,
  Alexander Deucher <Alexander.Deucher@amd.com>
-Subject: [PATCH v2 1/2] docs: gpu: amdgpu: Fix spelling in amdgpu documentation
-Date: Thu, 21 Aug 2025 08:29:55 +0530
-Message-ID: <20250821025957.22546-2-rakuram.e96@gmail.com>
+Subject: [PATCH v2 2/2] docs: gpu: Fix spelling in gpu documentation
+Date: Thu, 21 Aug 2025 08:29:56 +0530
+Message-ID: <20250821025957.22546-3-rakuram.e96@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250821025957.22546-1-rakuram.e96@gmail.com>
 References: <20250821025957.22546-1-rakuram.e96@gmail.com>
@@ -97,77 +97,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixed following typos reported by Codespell
 
-1. propogated ==> propagated
-   aperatures ==> apertures
-In Documentation/gpu/amdgpu/debugfs.rst
+1. complection ==> completion
+   implementions ==> implementations
+In Documentation/gpu/todo.rst
 
-2. parition ==> partition
-In Documentation/gpu/amdgpu/process-isolation.rst
-
-3. conections ==> connections
-In Documentation/gpu/amdgpu/display/programming-model-dcn.rst
-
-In addition to above,
-Fixed wrong bit-partition naming in gpu/amdgpu/process-isolation.rst
-from "fourth" partition to "third" partition.
+2. unpriviledged ==> unprivileged
+In Documentation/gpu/drm-uapi.rst
 
 Suggested-by: Randy Dunlap <rdunlap@infradead.org>
 Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
 Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
 ---
- Documentation/gpu/amdgpu/debugfs.rst                       | 4 ++--
- Documentation/gpu/amdgpu/display/programming-model-dcn.rst | 2 +-
- Documentation/gpu/amdgpu/process-isolation.rst             | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/gpu/drm-uapi.rst | 2 +-
+ Documentation/gpu/todo.rst     | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/gpu/amdgpu/debugfs.rst b/Documentation/gpu/amdgpu/debugfs.rst
-index 5150d0a95658..151d8bfc79e2 100644
---- a/Documentation/gpu/amdgpu/debugfs.rst
-+++ b/Documentation/gpu/amdgpu/debugfs.rst
-@@ -94,7 +94,7 @@ amdgpu_error_<name>
- -------------------
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 843facf01b2d..7435664a1ffe 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -535,7 +535,7 @@ ENOSPC:
+ EPERM/EACCES:
+         Returned for an operation that is valid, but needs more privileges.
+         E.g. root-only or much more common, DRM master-only operations return
+-        this when called by unpriviledged clients. There's no clear
++        this when called by unprivileged clients. There's no clear
+         difference between EACCES and EPERM.
  
- Provides an interface to set an error code on the dma fences associated with
--ring <name>.  The error code specified is propogated to all fences associated
-+ring <name>.  The error code specified is propagated to all fences associated
- with the ring.  Use this to inject a fence error into a ring.
+ ENODEV:
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index be8637da3fe9..1d064e617699 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -319,7 +319,7 @@ everything after it has done the write-protect/mkwrite trickery:
  
- amdgpu_pm_info
-@@ -165,7 +165,7 @@ GTT memory.
- amdgpu_regs_*
- -------------
+       vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
  
--Provides direct access to various register aperatures on the GPU.  Used
-+Provides direct access to various register apertures on the GPU.  Used
- by tools like UMR to access GPU registers.
+-- Set the mkwrite and fsync callbacks with similar implementions to the core
++- Set the mkwrite and fsync callbacks with similar implementations to the core
+   fbdev defio stuff. These should all work on plain ptes, they don't actually
+   require a struct page.  uff. These should all work on plain ptes, they don't
+   actually require a struct page.
+@@ -854,7 +854,7 @@ Querying errors from drm_syncobj
+ ================================
  
- amdgpu_regs2
-diff --git a/Documentation/gpu/amdgpu/display/programming-model-dcn.rst b/Documentation/gpu/amdgpu/display/programming-model-dcn.rst
-index c1b48d49fb0b..bc7de97a746f 100644
---- a/Documentation/gpu/amdgpu/display/programming-model-dcn.rst
-+++ b/Documentation/gpu/amdgpu/display/programming-model-dcn.rst
-@@ -100,7 +100,7 @@ represents the connected display.
-    For historical reasons, we used the name `dc_link`, which gives the
-    wrong impression that this abstraction only deals with physical connections
-    that the developer can easily manipulate. However, this also covers
--   conections like eDP or cases where the output is connected to other devices.
-+   connections like eDP or cases where the output is connected to other devices.
+ The drm_syncobj container can be used by driver independent code to signal
+-complection of submission.
++completion of submission.
  
- There are two structs that are not represented in the diagram since they were
- elaborated in the DCN overview page  (check the DCN block diagram :ref:`Display
-diff --git a/Documentation/gpu/amdgpu/process-isolation.rst b/Documentation/gpu/amdgpu/process-isolation.rst
-index 6b6d70e357a7..25b06ffefc33 100644
---- a/Documentation/gpu/amdgpu/process-isolation.rst
-+++ b/Documentation/gpu/amdgpu/process-isolation.rst
-@@ -26,7 +26,7 @@ Example of enabling enforce isolation on a GPU with multiple partitions:
-     $ cat /sys/class/drm/card0/device/enforce_isolation
-     1 0 1 0
- 
--The output indicates that enforce isolation is enabled on zeroth and second parition and disabled on first and fourth parition.
-+The output indicates that enforce isolation is enabled on zeroth and second partition and disabled on first and third partition.
- 
- For devices with a single partition or those that do not support partitions, there will be only one element:
- 
+ One minor feature still missing is a generic DRM IOCTL to query the error
+ status of binary and timeline drm_syncobj.
 -- 
 2.43.0
 
