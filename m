@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44B7B302BA
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 21:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F8EB302BC
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 21:18:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8831110E144;
-	Thu, 21 Aug 2025 19:18:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8FB010E38D;
+	Thu, 21 Aug 2025 19:18:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EqbdOw4C";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jdb8oGEy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A573510E144
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 19:18:05 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0182810E38D
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 19:18:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 7B08AA58591
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 19:18:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 28592C4CEEB
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 19:18:04 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id DF2CA601F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 19:18:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 94502C113CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 19:18:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755803884;
- bh=TSBdlB0JXQiUIgDlJf1S5CIPGz3TMSzNWydsr376bZg=;
+ s=k20201202; t=1755803909;
+ bh=la6OYDaBHIP6z5rB45Vba0Djsymg57zD+44DteszA68=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=EqbdOw4CMgXgPuuo6nNZSVhq22xtMDU1iqku0C5BVWqSg/rmHOvsctqJLB+jVNnA7
- T+zuB7woExdVKRo0CoxZRpnu0ktRUlhMF94o20IajCdQkpAaPlDanVTUbtfkXClDx5
- NhgTQkahVh8AWlr4KKsh1LeiFWic0MoSAmLVsuSOjECg9McmelqXOE3nbsAPDqZa0X
- OdgBOyboasRMfREj2+dc1vfQSN8PiaW0UGtgyl5YCLpI2ptGgjc9R5oX1103X6vPqD
- FpFYBt8Obwmi6vlSjaf9/R5xbD6pKgZMPno7GvplGyc6YOf66sq3/fnh+IxqQrp5NA
- eljXh+xo49d4w==
+ b=Jdb8oGEyTNLQVxhT3ISHyoqAsP8LOTmVLTlcfoSOvvNVaOPnxBtuLNr9czeekISC2
+ JOVvCJvHRDwVjQqV3ismfkI/70GlpeLMrYJbTd9AkQGVEut1p7JDe3DG+Vivrpb1Bj
+ konWTktXChi+M5Z4hIqswa6PlSHCnrNjpxgHpiT49QpcpZkUJ1vijcyFBG08kC+/o5
+ mq+fLcuGazd3DI6C/5D6BFrDWzh8Q9NZ5Ek8x1gYkRsg6lX3g2C96g0Mgs0KCOqWFX
+ rzMWx6SBx2BvqjBd/lbRyKIWTqyKfRbjiwSfqWQvqg/ukLxUm+TyZZcevB8o+Xo28d
+ w8SGCFzN/h5nA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 212E5C53BC9; Thu, 21 Aug 2025 19:18:04 +0000 (UTC)
+ from userid 48) id 87972C3279F; Thu, 21 Aug 2025 19:18:29 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 46181] No Brightness control-nouveau
-Date: Thu, 21 Aug 2025 19:18:03 +0000
+Date: Thu, 21 Aug 2025 19:18:29 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +50,8 @@ X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-46181-2300-fphRaUUpo4@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-46181-2300-Fhg0EyBEfe@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-46181-2300@https.bugzilla.kernel.org/>
 References: <bug-46181-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,12 +76,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D46181
 
-Artem S. Tashkinov (aros@gmx.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+--- Comment #3 from Artem S. Tashkinov (aros@gmx.com) ---
+Even if it's not fixed, the proper bug tracker is here:
+https://gitlab.freedesktop.org/drm/nouveau/-/issues/
 
 --=20
 You may reply to this email to add a comment.
