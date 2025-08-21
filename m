@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347B8B2EBA8
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 05:06:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37238B2EBE0
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 05:22:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CCAC10E859;
-	Thu, 21 Aug 2025 03:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E45910E85D;
+	Thu, 21 Aug 2025 03:22:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="MQWMeOsc";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="yoGmijxh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE1FA10E382;
- Thu, 21 Aug 2025 03:06:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06BC610E85D
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 03:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
  Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
  Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=tIDAFgFXP+KfCHaBZYFy17v8lTqJ/ZVxo+olFKcoIuY=; b=MQWMeOsc+RDyD8Tr1/R8PmI0OQ
- iu1epjTKc78mfsv7VX1uKwZfZ8nTGPaOrPpF7e1+Xjsv6Od3IIwmNjTmuMNz3rPNeGdKtSuG3Y5uk
- tn9sQcda55euFysdFxBzGWMfXp5kMfNTiDVkN/V/b4qsLj2t1Wq6Sz9VMtCnkEswt1H4ZaS1G/JJy
- KMTPF50GwCSFjdDhJmDeNE7U+GwBpxKYy0Jfels2bQyjBesPWsUUsL9xih/z4o4sYWkv4T+WHASMI
- ktdoospC+Y45wsC/cOKnxhRi8HsIXdwE2lvpVo9Wfnn7HLAgUiCMN7D1cU7PymKMMeKWI3TSKIAUJ
- EH6NzA4Q==;
+ bh=VMXZvWdTxmpFtlVQ9jlbQoJIR5oaIbYtP1S8SHubNqQ=; b=yoGmijxhHu+wEGIhK6HrD097at
+ 6cMBFlz8C8WVswT3oLGSdlC5KkEc0GJEgqJwbV8yzsQpRCMqZWEH7cYmoXwKbA9+97QaXBfzNzVVA
+ rPsxXlHDomjMQsPBHw57yLen1Wa6o9YiIhAGdncGVYxeRxwyKMeyaYqd6WJ23oX0YvMLIDlWDw6FH
+ /c1Hx7P/HcqKDcDf068VRYtA+YALxUoTHnHjXbOkO+vJ3SrLCBi4CqU8nRMMKu5JCDwJxkgxnc3A3
+ OhVJJo3UNzlzAs8juRI10/qO5MWvTRtl8REiq3Pt9PVi9WzraKdDI4GqpO3hfo8qqdOV9Qtl6U1qQ
+ Qwr6krsQ==;
 Received: from [50.53.25.54] (helo=[192.168.254.17])
  by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1uovdS-0000000Fb0r-3xFG; Thu, 21 Aug 2025 03:06:42 +0000
-Message-ID: <0f11100e-ca60-44a8-9826-03c80675446f@infradead.org>
-Date: Wed, 20 Aug 2025 20:06:42 -0700
+ id 1uovt7-0000000FcTp-3v7h; Thu, 21 Aug 2025 03:22:53 +0000
+Message-ID: <74ba8f4e-1ccd-4962-bb5e-48a9157da952@infradead.org>
+Date: Wed, 20 Aug 2025 20:22:52 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs: gpu: Fix spelling in gpu documentation
-To: Rakuram Eswaran <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- corbet@lwn.net
-Cc: tzimmermann@suse.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, simona@ffwll.ch, siqueira@igalia.com,
- harry.wentland@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-References: <20250821025957.22546-1-rakuram.e96@gmail.com>
- <20250821025957.22546-3-rakuram.e96@gmail.com>
+Subject: Re: [PATCH v8 04/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+ Jens Wiklander <jens.wiklander@linaro.org>,
+ Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-0-7066680f138a@oss.qualcomm.com>
+ <20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-4-7066680f138a@oss.qualcomm.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250821025957.22546-3-rakuram.e96@gmail.com>
+In-Reply-To: <20250820-qcom-tee-using-tee-ss-without-mem-obj-v8-4-7066680f138a@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,29 +73,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 8/20/25 7:59 PM, Rakuram Eswaran wrote:
-> Fixed following typos reported by Codespell
-> 
-> 1. complection ==> completion
->    implementions ==> implementations
-> In Documentation/gpu/todo.rst
-> 
-> 2. unpriviledged ==> unprivileged
-> In Documentation/gpu/drm-uapi.rst
-> 
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
-> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
+On 8/20/25 4:38 PM, Amirreza Zarrabi wrote:
+> +/**
+> + * struct tee_ioctl_invoke_func_arg - Invokes an object in a Trusted Application
+> + * @id:		[in] Object id
+> + * @op:		[in] Object operation, specific to the object
+> + * @ret:	[out] return value
+> + * @num_params	[in] number of parameters following this struct
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Missing colon (':') above:
+    * @num_params:
 
-Thanks.
-
-> ---
->  Documentation/gpu/drm-uapi.rst | 2 +-
->  Documentation/gpu/todo.rst     | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
-
+> + */
+> +struct tee_ioctl_object_invoke_arg {
+> +	__u64 id;
+> +	__u32 op;
+> +	__u32 ret;
+> +	__u32 num_params;
+> +	/* num_params tells the actual number of element in params */
+> +	struct tee_ioctl_param params[];
+> +};
 
 -- 
 ~Randy
+
