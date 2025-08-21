@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6EAFB2F5FF
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 13:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A44BB2F5FD
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 13:12:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 529BE10E92C;
-	Thu, 21 Aug 2025 11:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D705710E92A;
+	Thu, 21 Aug 2025 11:12:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="t0Y5RbJm";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="oWOs78l3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5CF10E92A
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 11:12:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33ACD10E92A
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 11:12:20 +0000 (UTC)
 Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LAg3FU015986;
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LA6FfA023466;
  Thu, 21 Aug 2025 13:12:07 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=selector1; bh=X+qzU/CTwFD1hKZMqSzOxX
- ahtSY5VOj2gTRB2d6uLcM=; b=t0Y5RbJmiRbMtS506SvgSz4xp/cZCGARjz6IkI
- IFYoAg/9DXtj/drHkpn8hp22FlxyUyK7RsZaJKveb6Hv2OsADZRNosfQ51LISE5i
- yt7V0Kv19XOPNCFiIJubu1z8zfsO9oPOY5A8LF3dGNcE7DQ/5vVKYC+Mq9cZuFSA
- dyNS0nza7MgbEzYzmOqzg0mRqo6d3Y2/PKYEZyLuaUxBpLNhEoKLN50u6WeI6jp5
- 2KmyS4hc/NL1mABdvm/eYDuUF88UB9XWBUPy3GbELwbPlcqH/F6kUcdhsyt5NluT
- 7gdOWEqCAno7LNxCqamLwpyEv/en1jrtOQfKpSJlsnKnVPiA==
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ nWTOJF1epI28bBhF8vVR/yYBW1JjsQwkoHcGU7JgvMc=; b=oWOs78l33V52ahlW
+ exprUK97LoEhZjbz3sXWes58CrZwwui/tBN6TXyXqE+mNyoqugpeJpCSAhN3FaKK
+ 6UqUM1E49XgTKVuICKQMRXMEEYsmn0SHAb7qZlxQxGk9ZdqiKFdAaM6SurKuxLWn
+ 89U5yxuEzZqQQ1Z/PruhbQxsNFFE6RJJEcARO0Ryoh+CYgrQv8+RNnYQnFBtrhMu
+ o+LKNoAeZDtGEyDDUgLV+Xgk2ebgac/tu0jM6W2mHRH4HfnpQpOMgDMeffzn88zW
+ ZPsNx+uW+BV07IOSxCgi47y+VuFVWsaQOB7m8DtD81vd7xSH1sEAppqMdqPx2VtB
+ XLvl5w==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48nj3v3n7y-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48nj3v3n7x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Aug 2025 13:12:07 +0200 (MEST)
+ Thu, 21 Aug 2025 13:12:06 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E0F814004C;
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E047A4004A;
  Thu, 21 Aug 2025 13:10:48 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7C75B74E7CE;
- Thu, 21 Aug 2025 13:09:50 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6CBA7738B22;
+ Thu, 21 Aug 2025 13:09:51 +0200 (CEST)
 Received: from localhost (10.252.7.99) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Aug
- 2025 13:09:50 +0200
+ 2025 13:09:51 +0200
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Subject: [PATCH v4 00/13] Enable display support for STM32MP25
-Date: Thu, 21 Aug 2025 13:08:50 +0200
-Message-ID: <20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com>
+Date: Thu, 21 Aug 2025 13:08:51 +0200
+Subject: [PATCH v4 01/13] dt-bindings: display: st: add two new compatibles
+ to LTDC device
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAEL+pmgC/2XMSQ6CMACF4auQri3pPLjyHsYFdJAuANOSBkO4u
- wUXKi7fS75/AcnF4BI4VwuILocUxqEMdqqA6Zrh7mCwZQOCCEcCS2hjD/uQDBzcPEHWeIaEwYZ
- xD4p5ROfDvPeut7K7kKYxPvd8xtv7LknCD6WMIYIN14opJ4jx+uLHlOo01WbswdbK5OMVJkdPi
- seUeKsYE9TKf0+/vT56WjximFMtlWtt++vXdX0BDTzX0iwBAAA=
-X-Change-ID: 20250617-drm-misc-next-4af406c1c45f
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250821-drm-misc-next-v4-1-7060500f8fd3@foss.st.com>
+References: <20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com>
+In-Reply-To: <20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com>
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
  <philippe.cornu@foss.st.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
@@ -67,8 +66,7 @@ To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
  <christophe.roullier@foss.st.com>
 CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
 X-Mailer: b4 0.14.2
 X-Originating-IP: [10.252.7.99]
 X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
@@ -91,124 +89,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series aims to add and enable sufficient LVDS display support for
-STM32MP257F-EV1 board.
+The new STMicroelectronics SoC features a display controller similar to
+the one used in previous SoCs.  Because there is additional registers,
+and different mandatory clocks it is incompatible with existing IPs.  On
+STM32MP251, the device only needs two clocks while on STM32MP255 it
+needs four.
 
-LVDS is the default use case to drive a display panel on STM32MP257F-EV,
-even though DSI panels will be supported in the near future.
-
-The LTDC needs a pixel rate in sync with the bridge currently in use.
-For that both DSI and LVDS bridges need to declare an internal clock and
-become clock provider to the mux. The mux then selects the reference
-clock for the LTDC pixel rate generation.
-
-For now this mux is handled internally in the LTDC, while waiting for
-the STM32 clock framework to merge a 'clk-mux' based on the SYSCFG.
-This explains the link done in the patch [7/8] between the LVDS,
-providing the reference clock for the LTDC internals.
-
-  +----------+              |\
-  |  DSI PHY |------------->| \           +------------+
-  |          |ck_dsi_phy    |  |          |            |
-  +----------+              |  |--------->|    LTDC    |
-  +----------+              |  |pixel_clk |            |
-  | LVDS PHY |------------->|  |          +------------+
-  |          |clk_pix_lvds  |  |
-  +----------+              |  |
-                            |  |
-   ck_ker_ltdc ------------>| /
-                            |/|
-                              └- SYSCFG
-
-Clock selection applies as follow:
-- 0b00: Selects ck_dsi_phy
-- 0b01: Selects clk_pix_lvds
-- 0b10: Selects ck_ker_ltdc (for parallel or DSI display).
-- 0b11: Reserved
-
-The reset value of the register controlling the mux is 0b01, meaning
-that the default clock assigned is the clk_pix_lvds.  This causes two
-things:
-
-- In order to get basic display on the LVDS encoder, like intended,
-nothing has to be done on this mux within the LTDC driver (which for now
-explains the unused syscfg phandle on the LTDC node in the device-tree).
-
-- 'pixel_clk' is dependent from 'clk_pix_lvds' because of the LTDC clock
-domains.  They also need to be sync to get a coherent pixel rate though
-the display clock tree (which explains the LVDS phandle on the LTDC node
-in the device-tree).
+Add the new names to the list of compatible string and handle each
+quirks accordingly.
 
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
-Changes in v4:
-- Documentation:
-  - LTDC: Add "st,stm32mp255-ltdc" compatible.  After internal
-    discussion, we came to the solution that the LTDC on STM32MP255 SoC
-    needs its own compatible, since it does have the same amount of
-    clocks than on STM32MP251 SoC.
-- Devicetree:
-  - Add "st,stm32mp255" compatible on corresponding dtsi
-- Drivers:
-  - LTDC: Handle "st,stm32mp255" compatible
-- Remove Rob's r-b from patch [01/13] since it was modified.
-- Link to v3: https://lore.kernel.org/r/20250819-drm-misc-next-v3-0-04153978ebdb@foss.st.com
+ .../devicetree/bindings/display/st,stm32-ltdc.yaml | 50 +++++++++++++++++++++-
+ 1 file changed, 48 insertions(+), 2 deletions(-)
 
-Changes in v3:
-- Rebased on latest drm-misc-next
-- Documentation:
-  - LTDC: Clamp correctly min/maxItems value
-  - LVDS: Remove second 'items' keyword
-- Add Krzysztof's trailer where relevant
-- Link to v2: https://lore.kernel.org/r/20250812-drm-misc-next-v2-0-132fd84463d7@foss.st.com
+diff --git a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+index d6ea4d62a2cfae26353c9f20a326a4329fed3a2f..bcedcfef5427f5725a0473c09628e70d172c8f58 100644
+--- a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
++++ b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+@@ -12,7 +12,10 @@ maintainers:
+ 
+ properties:
+   compatible:
+-    const: st,stm32-ltdc
++    enum:
++      - st,stm32-ltdc
++      - st,stm32mp251-ltdc
++      - st,stm32mp255-ltdc
+ 
+   reg:
+     maxItems: 1
+@@ -24,11 +27,16 @@ properties:
+     minItems: 1
+ 
+   clocks:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 4
+ 
+   clock-names:
+     items:
+       - const: lcd
++      - const: bus
++      - const: ref
++      - const: lvds
++    minItems: 1
+ 
+   resets:
+     maxItems: 1
+@@ -51,6 +59,44 @@ required:
+   - resets
+   - port
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - st,stm32-ltdc
++    then:
++      properties:
++        clocks:
++          maxItems: 1
++        clock-names:
++          maxItems: 1
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - st,stm32mp251-ltdc
++    then:
++      properties:
++        clocks:
++          maxItems: 2
++        clock-names:
++          maxItems: 2
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - st,stm32mp255-ltdc
++    then:
++      properties:
++        clocks:
++          minItems: 4
++        clock-names:
++          minItems: 4
++
+ additionalProperties: false
+ 
+ examples:
 
-Changes in v2:
-- Documentation:
-  - Add support for new compatible "st,stm32mp255-lvds"
-  - Change LTDC compatible for SoC compliant one
-  - Make clearer LTDC clock-names property
-- Devicetree:
-  - Change compatible according to the documentation
-  - Change clock and clock-names order to match documentation (and avoid
-    warnings)
-- Drivers:
-  - Change LTDC compatible
-- Add Rob's trailer where relevant
-- Link to v1: https://lore.kernel.org/r/20250725-drm-misc-next-v1-0-a59848e62cf9@foss.st.com
-
----
-Raphael Gallais-Pou (11):
-      dt-bindings: display: st: add two new compatibles to LTDC device
-      dt-bindings: display: st,stm32-ltdc: add access-controllers property
-      dt-bindings: display: st: add new compatible to LVDS device
-      dt-bindings: display: st,stm32mp25-lvds: add access-controllers property
-      dt-bindings: display: st,stm32mp25-lvds: add power-domains property
-      dt-bindings: arm: stm32: add required #clock-cells property
-      arm64: dts: st: add ltdc support on stm32mp251
-      arm64: dts: st: add ltdc support on stm32mp255
-      arm64: dts: st: add lvds support on stm32mp255
-      arm64: dts: st: add clock-cells to syscfg node on stm32mp251
-      arm64: dts: st: enable display support on stm32mp257f-ev1 board
-
-Yannick Fertre (2):
-      drm/stm: ltdc: support new hardware version for STM32MP25 SoC
-      drm/stm: ltdc: handle lvds pixel clock
-
- .../bindings/arm/stm32/st,stm32-syscon.yaml        | 31 ++++++---
- .../devicetree/bindings/display/st,stm32-ltdc.yaml | 53 ++++++++++++++-
- .../bindings/display/st,stm32mp25-lvds.yaml        | 13 +++-
- arch/arm64/boot/dts/st/stm32mp251.dtsi             | 19 ++++++
- arch/arm64/boot/dts/st/stm32mp255.dtsi             | 20 +++++-
- arch/arm64/boot/dts/st/stm32mp257f-ev1.dts         | 79 ++++++++++++++++++++++
- drivers/gpu/drm/stm/drv.c                          | 12 +++-
- drivers/gpu/drm/stm/ltdc.c                         | 58 +++++++++++++++-
- drivers/gpu/drm/stm/ltdc.h                         |  6 ++
- 9 files changed, 273 insertions(+), 18 deletions(-)
----
-base-commit: c8cea4371e5eca30cda8660aabb337747dabc51d
-change-id: 20250617-drm-misc-next-4af406c1c45f
-
-Best regards,
 -- 
-Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+2.25.1
 
