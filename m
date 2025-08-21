@@ -2,66 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC48BB2FA3F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 15:24:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F357B2FA49
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 15:26:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06A6910E279;
-	Thu, 21 Aug 2025 13:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8592510E99B;
+	Thu, 21 Aug 2025 13:26:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RnBgB5CT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cAuuQtHA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B22E10E279
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 13:24:55 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 177E210E99B;
+ Thu, 21 Aug 2025 13:26:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 04044A58385;
- Thu, 21 Aug 2025 13:24:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DFE2C4CEEB;
- Thu, 21 Aug 2025 13:24:53 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B770345C02;
+ Thu, 21 Aug 2025 13:26:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E081C4CEED;
+ Thu, 21 Aug 2025 13:26:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755782693;
- bh=76ReIJtXJzBwzWrjJa65Ko+8l//Yi0hjkZIdqxBBBC4=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=RnBgB5CTZ17kmiwkBbDAExo7pQlNQ7peebeeq092niVb2vM+IwmJxsaCAvlOS3f1A
- 1KXPgaHqN2qA+FxKYuTun7TaAYGIOyMoiJwznaRPhIPEf4jTowAINPvQa5U5Y/q2cm
- 31QZA8P9XHmdskehrqJbo59m7Mlp3EwsKBWt55rxDk06koyNoMi+dS8TV3XLfBuySg
- BUN7JtkuVLrS9PAtC2+onlSRb59amhYyTZUBKjLNryTjslMPmnQOlFeQij1/xLGXTP
- g87wdPfMA2peIEu6ojeGdw+oPlXqMg0JJ2c5MCSOLr2n2eQ+fqaYHiBWU7p3uiloB5
- 8ovoQJMVlfSvA==
-Date: Thu, 21 Aug 2025 08:24:52 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: flora.fu@mediatek.com, chunkuang.hu@kernel.org, broonie@kernel.org, 
- linux-gpio@vger.kernel.org, mripard@kernel.org, 
- louisalexis.eyraud@collabora.com, mchehab@kernel.org, 
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com, 
- linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, 
- conor+dt@kernel.org, kernel@collabora.com, 
- linux-arm-kernel@lists.infradead.org, amergnat@baylibre.com, 
- netdev@vger.kernel.org, tiffany.lin@mediatek.com, 
- linux-input@vger.kernel.org, airlied@gmail.com, linux-clk@vger.kernel.org, 
- jeesw@melfas.com, yunfei.dong@mediatek.com, linus.walleij@linaro.org, 
- sean.wang@kernel.org, linux-media@vger.kernel.org, 
- linux-sound@vger.kernel.org, tzimmermann@suse.de, 
- andrew-ct.chen@mediatek.com, minghsiu.tsai@mediatek.com, simona@ffwll.ch, 
- kuba@kernel.org, jmassot@collabora.com, devicetree@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, houlong.wei@mediatek.com, 
- angelogioacchino.delregno@collabora.com, andrew+netdev@lunn.ch, 
- support.opensource@diasemi.com, maarten.lankhorst@linux.intel.com, 
- ck.hu@mediatek.com, matthias.bgg@gmail.com, pabeni@redhat.com, 
- p.zabel@pengutronix.de, edumazet@google.com, krzk+dt@kernel.org, 
- davem@davemloft.net, dri-devel@lists.freedesktop.org
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250820171302.324142-5-ariel.dalessandro@collabora.com>
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-5-ariel.dalessandro@collabora.com>
-Message-Id: <175578240744.3438740.13033328475024605529.robh@kernel.org>
-Subject: Re: [PATCH v1 04/14] net: dt-bindings: Convert Marvell 8897/8997
- bindings to YAML
+ s=k20201202; t=1755782765;
+ bh=GWr+idq2vaOWrsPIEOyMjKzrWGN2V2+JkSn81+Be6FI=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=cAuuQtHAn/7egNIc19ldb8tRH8UyXm6XziXRA7p6tjIp1YFgjgSzstXYiPxJMeBlR
+ y0ZtDnkLsIih2GtXr7bW34h/beKsqWBFnhiYtQZMolplYGXrv5Q9uD9nrdj5/orf9B
+ GVu2Fa9KRdmHvEjMw2vOIk0/b3kPE1N+wuu9FLCesrbz5JmjhVz+kPpOMd132qNnMn
+ iXtRCJu5LGtV72fKfUTFiB1s9WbTXzhWkJe+iQz33J1liO5K9c+fAXKBYMsI+y8s26
+ sgXnEgXgwH98e+/xOEGAELa8MCTAKgamEoeXbQKsHjQReH5+gY4OXKOb1b3Ea+iCP8
+ L2FbaDIv0JkHQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Aug 2025 15:26:02 +0200
+Message-Id: <DC851M0PQQT4.298DSVDC1RKB0@kernel.org>
+Subject: Re: [PATCH v2] gpu: nova-core: falcon: align DMA transfers to 256
+ bytes
+Cc: "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250821-falcondma_256b-v2-1-83e8647a24b5@nvidia.com>
+In-Reply-To: <20250821-falcondma_256b-v2-1-83e8647a24b5@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,50 +59,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu Aug 21, 2025 at 6:49 AM CEST, Alexandre Courbot wrote:
+> Falcon DMA transfers are done in 256 bytes increments, and the method
+> responsible for initiating the transfer checked that the required length
+> was indeed a multiple of 256. While correct, this also requires callers
+> to specifically account for this limitation of DMA transfers, and we had
+> for instance the fwsec code performing a seemingly arbitrary (and
+> potentially overflowing) upwards alignment of the DMEM load size to
+> match this requirement.
+>
+> Let's move that alignment into the loading code itself instead: since it
+> is working in terms of number of transfers, we can turn this upwards
+> alignment into a non-overflowing operation, and check that the requested
+> transfer remains into the limits of the DMA object. This also allows us
+> to remove a DMA-specific constant in the fwsec code.
+>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 
-On Wed, 20 Aug 2025 14:12:52 -0300, Ariel D'Alessandro wrote:
-> Convert the existing text-based DT bindings for Marvell 8897/8997
-> (sd8897/sd8997) bluetooth devices controller to a YAML schema.
-> 
-> While here, bindings for "usb1286,204e" (USB interface) are dropped from
-> the YAML definition as these are currently documented in file:
-> 
-> - Documentation/devicetree/bindings/net/btusb.txt
-> 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> ---
->  .../bindings/net/marvell,sd8897-bt.yaml       | 91 +++++++++++++++++++
->  .../bindings/net/marvell-bt-8xxx.txt          | 83 -----------------
->  2 files changed, 91 insertions(+), 83 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
->  delete mode 100644 Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml: marvell,wakeup-gap-ms: missing type definition
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/marvell,sd8897-bt.example.dtb: bluetooth@2 (marvell,sd8897-bt): marvell,wakeup-gap-ms: b'\x00d' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-
-doc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/net/btusb.txt references a file that doesn't exist: Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
-Documentation/devicetree/bindings/net/btusb.txt: Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250820171302.324142-5-ariel.dalessandro@collabora.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Applied to nova-next, thanks!
