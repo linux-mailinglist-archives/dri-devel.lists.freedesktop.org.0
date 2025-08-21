@@ -2,190 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9CEDB30794
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 23:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077B0B30797
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 23:00:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5798110E2EB;
-	Thu, 21 Aug 2025 21:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6489310EA37;
+	Thu, 21 Aug 2025 21:00:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N+Mwd09+";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hgwm17af";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0882010E2EB;
- Thu, 21 Aug 2025 21:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755810042; x=1787346042;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=7i7xEUzC9k13c/BYDUkzcOZy5YMDSeIjPDuNGcqu2ws=;
- b=N+Mwd09+C07bxxthby9Qp/MvyhdxI+M740ISkhEgaoAGh2ZiMd4/JYaw
- pRPxjaVYUwLfpcHKX6knPGH+cviN8yMsuG92NdQ3F4pMsznyyTP8C18fd
- TElQ/tcPWfkjuGkchnMuIKgNuFOb/7eCceonSgaiGe430oPWMq50gZWYy
- VkMrthL1lLIlrbG88tOIXAR118H1U+nHOwYDPL0uLcBKnAPUlGW+sAkLp
- sHYMlzNmH5RLb4YyScDf5wqj663j7ol+R4+6mpl3UZ9bmpRsmnx0WBzw3
- Xh+02l77u4N5kCNGAaRwmPY9SjDYsxuGTOSVHQtLrg+t1Nv9uMw+3iApR w==;
-X-CSE-ConnectionGUID: GvHjQN2sR8WDkhH/pdKqfw==
-X-CSE-MsgGUID: kOtWoMeXShqToEKE5vPK4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="83532841"
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="83532841"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2025 14:00:41 -0700
-X-CSE-ConnectionGUID: fU6/YZjjSfOaav6CXgJ/0Q==
-X-CSE-MsgGUID: SCMKqRBYS82Iqlb+nkoc/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="169331332"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2025 14:00:41 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 21 Aug 2025 14:00:40 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Thu, 21 Aug 2025 14:00:40 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.47)
- by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 21 Aug 2025 14:00:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SWLXbk+ByWjfq9zMH+i1iT5bk8POhZ73je9pvVKmtxCbTdkoftGqHGAMdvTgKpaS1Zo0wnLgLkdP+StuKK7tGEwoz1UO6tdDWypPaX/QVwuQtDRmX52rTfIhnQu3j9xmjqFiuVosVn4Lh5QaHOyBpkTx6hjG1TZghCUgyZY0XfXWmX5r5UsN2ftMz8BmLw9DwTYWo6WFOD/c3KvUPG3V0m2w1vJ20kkNw5JXBvbhyOjBGUw/vERDmnU9LzRSdn933oeaMq6R0zmf07H+dme6opvyWA7QD3Qc1234fQkblGAkrnnztmPSqLzhJeExzpPW0/rAIm2304ru4rNit4lNWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NnvsPpMExLR5gYJh7MXgiTBDZslkBR/OdveoWudEiFg=;
- b=PV9UwUO1kxH7bixCbxwJAqnlKGeSwyIkpj1KMSVEmuXK6P+8nLJK29pfpZ3WfGDSBH7rOsv847q3+HFfGsP6yCH4aF9LuPNEb7u9oudYXaOLKuxKbv5bqnucu4h9CbmjcRNZbATgPnPQVyQuy2Epv7qvju4/p7lwdKU1dhFZMR3JXl0m/3yLIqkvBr7IUh87kjQLm9GrWyMoiajtPF3xQkcFELpiLuBNFkLbRV6qJeOIC3ScGeGLeCLQB/gTt1Gbn6gSin0lBJfSgO+O4mAXizLY9eSFZkTJYfZiLwHfGeM0SePATag66kP8ZL8AaU8QudZyk/SfRdUWlovUGznEEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by IA1PR11MB7889.namprd11.prod.outlook.com (2603:10b6:208:3fe::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Thu, 21 Aug
- 2025 21:00:38 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.9052.014; Thu, 21 Aug 2025
- 21:00:38 +0000
-Date: Thu, 21 Aug 2025 16:00:33 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Carlos Llamas <cmllamas@google.com>
-CC: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matt Atwood <matthew.s.atwood@intel.com>,
- <kernel-team@android.com>, <linux-kernel@vger.kernel.org>, "open list:INTEL
- DRM XE DRIVER (Lunar Lake and newer)" <intel-xe@lists.freedesktop.org>, "open
- list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/xe: replace basename() with portable strrchr()
-Message-ID: <v5j6nxynzvvlcxu3m3mkeyjv5dlozzp7ixkgc6u6hdzh7en6jh@zvzqm5n7njfd>
-References: <20250820201612.2549797-1-cmllamas@google.com>
- <peqczm4644mskitmvsq5b2t4r4rs3beei7li3p7uw2nhjne6h6@a3mztccaxfey>
- <aKZUy_XZxHKLQUAS@google.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aKZUy_XZxHKLQUAS@google.com>
-X-ClientProxiedBy: BY3PR05CA0050.namprd05.prod.outlook.com
- (2603:10b6:a03:39b::25) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD3D10EA37
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 21:00:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1755810047;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Cp1mFCWwcTWQzzsUUmh88+YFkDBcq7Y5lQlba0VlHo0=;
+ b=hgwm17afif2H66kmOBZawWpdZSaILBIYskvmAefYnQv1qhbiGx8tHx0c+W0ou5ex49GnOU
+ 8T6W0vSn6kVJ+nMoPfOzlg54kWsFuDFWrNMEm0ELoypMRVbfM5ijKOMRn18tCik6xECAnE
+ 8KO3fDDq+H3PQoTENylzHcJhciV9BZY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-294-xWzpMKHIOPm_LUAzHnLIWg-1; Thu, 21 Aug 2025 17:00:45 -0400
+X-MC-Unique: xWzpMKHIOPm_LUAzHnLIWg-1
+X-Mimecast-MFC-AGG-ID: xWzpMKHIOPm_LUAzHnLIWg_1755810041
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3b9e4146902so573804f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:00:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755810041; x=1756414841;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Cp1mFCWwcTWQzzsUUmh88+YFkDBcq7Y5lQlba0VlHo0=;
+ b=RVdr0ciKiJkLyM2f0mHKFUfBxrqbwHrN8sFyJihf1x3QmMmOe9/0nvhLKJQ56WIlQz
+ Xy7xa7dag8ibCoxFxSdEHpG8aXlNac+D1+3gHckYsD8N+aYK/Aaey0YeA+5sUQg+aVjB
+ VulgYnjItnK1x+urUVtwpJQ148NY/Nu3chgrAY39GAqdVgGOuTEsDAbcnS6WWeXTx4wn
+ tiQc4M3UVm5v0hD/jLffaWegUDhO7zwXJ1WhrUuOpYd35xst9w8BwEPqmMgui77CfcL8
+ 0Kg/eCF5JzcXIt6hPQZe0CA7vNdka4SsYMKw9aKzMZqoKoqDufcCd+gpaGucoMYy7K0X
+ X85w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2ob8En7akIOhgLmrj9kUWq/Nbxm9AIg0A0GwubrE7t/XNN0iKgI0Su722a5f4PSCcuYImUIqQOzA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVnjSPYSccJ+Y2/baKbtaxx8Pi9d4gD6fGu9MyT6BpT9lNQWsD
+ Qyyrdo+FGm7wC7QHF7AlXlDxdXzEXU6Xu5oNC+1LBj9fRMSICviGG2ICf+p6K04FSMRd30mGy8v
+ N8Vligzj9zBRoJ9qkb69Is78IAL8s+P7Je5ExhhkxAaT3POEas5HnC/TOEFi+m1aTLxuB6Q==
+X-Gm-Gg: ASbGncsM2lSKEisLrjtha+2MFOd9vnkNuI8/an7PZ9fPn+7M/Z+nWXks3+675p6abRv
+ 5eCoQxVyVCeNpzLLQDP41JRQgx/ydXAtoJiUvlnneM7ee2S9M31BjkTzMlS1ioLPrpa8pTG5Yzg
+ UMe3duxNSv98UA1FWynCd3cnc7iXPMGH0p+rl1zrkPw2X74iI84z53SxVtjAnNFjHUVHtDlY8kF
+ 1I4+lUw54IXNL5yVZ9LRmf03lSx16RkRzl2EPhOlgpN/mwv8cAo7WTa4W8lnmr1zOFiGUq2aoO3
+ FkDF6rJUIZIX9gx7F0QuRSdYK6YjJszAIA5QdWtw0wepcN3v6/e5suM34bnu03pMvpKOQuBQp8I
+ 98oTvEmIElo/IiQ8kliDGv+x4dMCiulOsAUwqi93uh8ub/mYc1pKeO0ykBQoKSg==
+X-Received: by 2002:a05:6000:200d:b0:3a5:2465:c0c8 with SMTP id
+ ffacd0b85a97d-3c5daa27e6amr265212f8f.7.1755810041314; 
+ Thu, 21 Aug 2025 14:00:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF7vpqV63aDfbj4LuprqMLqq42InG6u1nR+Dt/+ZPeyx1uRJcEanVY8H02OCG3yOg5OQPh6rw==
+X-Received: by 2002:a05:6000:200d:b0:3a5:2465:c0c8 with SMTP id
+ ffacd0b85a97d-3c5daa27e6amr265173f8f.7.1755810040805; 
+ Thu, 21 Aug 2025 14:00:40 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f26:ba00:803:6ec5:9918:6fd?
+ (p200300d82f26ba0008036ec5991806fd.dip0.t-ipconnect.de.
+ [2003:d8:2f26:ba00:803:6ec5:9918:6fd])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3c4ccbf04fasm3476159f8f.7.2025.08.21.14.00.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Aug 2025 14:00:40 -0700 (PDT)
+Message-ID: <23c6e511-19b2-4662-acfc-18692c899a6c@redhat.com>
+Date: Thu, 21 Aug 2025 23:00:37 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|IA1PR11MB7889:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b5c8a3b-2ac9-4621-a031-08dde0f5c7f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?T0RHejE1ZW1jTlFYaC81b2lFMlZMWWVlVjlEWFpYNnZVdDRSUTNiRlhsR3NW?=
- =?utf-8?B?bXI0MGxVUUIwMVlSa3pBN3VITGw2ckwwNk8rcm0ralVidUN5SkVnQm1pMGtE?=
- =?utf-8?B?eHpVRWhSWVQrS09EdFdGNGIrZHBFZTFYOWFRcThVZGZmNEl1TFVpWVNXV2ls?=
- =?utf-8?B?VFNCYTBzREg4K3FONDZna3ZrL3VtaDJnc2NZRnFVSlYvdWdjaGF4dlhnamF5?=
- =?utf-8?B?dEFHaGxlbTFiOCs0M25hbldHblluYUFpZkVqTWFxNmhwTUVwU0RvRTVCQU9l?=
- =?utf-8?B?RTRUbUFyZXAxT05CUWYveWlyVFkzNGNXZXU3N3VEK2RLdWpKeWgrc21BOFNw?=
- =?utf-8?B?elhGQ1hsQUQ4QWFZaTkrOW52Qm1jaVpuMDlPRTYrcDZBZjN3L2E1SGxxOHJM?=
- =?utf-8?B?MmErZ2lxQVB4ZHJuYWJaclJOUjRZV1JLSXRGUFZ0TUVwaHQ5YXlBcFpUVVd2?=
- =?utf-8?B?bXFBaG4rR2V5Zy9wVS9lbW85cHU5WlZWV2Q3aDdhbWszY2RMUkRhUldIZHNz?=
- =?utf-8?B?NVZRcFBKTVM2SWV3eU8ybEFxMmVkdmY0dXdtSmxhVEdnVC9wN0F3RW1qampk?=
- =?utf-8?B?aWxnWmRoeDFJS1paRWdKWEE4SnRURnVHZHpnMFkwUDFLOWVMeWNaYVU4NTFG?=
- =?utf-8?B?NXpGalZvKzd6dDNyaFkxN2ExVHd1dEdzV3pJSm5CRUgzM2s2ZXdFTG9GWnBk?=
- =?utf-8?B?MCs5SGN4S3l2QVRNU0ZESHRCSWlRYjZKeWZDTVkxejFQNW1iakF5bTdtYm83?=
- =?utf-8?B?V3lHaGhlbmVXUGhCTVhuU2FLZVJwaHRsZzR0OXYvTStueXlLcUtvY0NkU01j?=
- =?utf-8?B?T0JOcHZuejd4aVBIdXptamRqTTNZZUVnRzd1aTdNZ1g0OUEwNUhidCtVT1pX?=
- =?utf-8?B?eGRQNGF0WmEvblFwWU96OWNNNGk4NjY4Zi9FTk5zbytYYUZBREJvbUFDMENr?=
- =?utf-8?B?STYrbU4rcXMvSEE4TUFmVjkwYStGMGFzS0dFUC9WVFZKR3VhbnREMVNHWW56?=
- =?utf-8?B?TStieWtNUTZSMFdrYTd5Q1lleVZpOXVlNnd3dUd4N2Fya3hEMlN5b0hLQTRP?=
- =?utf-8?B?UngxeHNtUmloZ3JxNVhHaTYreHFockx2QmJSSTh4SlFFUTQzckFXNS9rMjJK?=
- =?utf-8?B?aHJwdXd4NmNCVWp4Wjg1OVRnZytTMEhsd3NFWXhST3hHR1lIcUY3UEZKMmVV?=
- =?utf-8?B?OWkyZHc4UkNtOWMxSDlqZUorWkNRQkZ2R0J3V0ZObTlMa2hFbFYwUFZGdjRY?=
- =?utf-8?B?ZXVZZjJPc0JOdUNtSVdyN2w5OXZtMERiQS9tSE4rTEpjTnltRnJMbnNZblZI?=
- =?utf-8?B?OEJaUTFDTjhEZmZMaFZmMnpKY3lYOUFRakk2dnBvanFPcWhheW5VNUIrSCtt?=
- =?utf-8?B?UWo3SFRmWnBaaDk1Q3k0WEd5clc2ZXdpYWRpV1l4aC9LaWVuMS9Qa0EvVXFx?=
- =?utf-8?B?VnZVbjhYVnBwZTRDODF0cGc2TVE2ekE2NkxYOEFYYnNTKzdqYUNHRU5YVy9i?=
- =?utf-8?B?VkJNb25uTjUvbmVnU2RmSVd1bTkwS3RseloxamdIWDh4VEtLWlc0NGtad3Zp?=
- =?utf-8?B?R3N5WDVwNFlIZjBFKzBHSVNFVDdPV1pUdzJ3ODdFUzFaVWluRjYxVVJJR01M?=
- =?utf-8?B?K08rbjBnYnVRZXcvbmVUbm5yRG40ZlR6WU5wb1RleG1hanJab0ZrblNmcWdS?=
- =?utf-8?B?d0ltelJtRHZlcCt1MktvU1Y1RCswdno1eFZIR0M1UkhNWjFEWmRZTkl0Zk0y?=
- =?utf-8?B?eUMvVnVoTFppTlplU2JTVGhaSVhsWUJLMDAvWEV1WTJFcENldDNydjJscjhW?=
- =?utf-8?B?a3ZjSG1qWlpMQXRUTk9zTytQbHdnemRqdUtnMytQRmZmUzFZV0NOeDBQZnJy?=
- =?utf-8?B?akM0bmwwbVNsYTdxT052ZUtyVFV4MDk3N0hLZnl1ZEZnZHcyWnpoTmViRnQ3?=
- =?utf-8?Q?DkGC7a6Y1nc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlVvcXJEaWJkcVMyTmx0dDRoWmZJM29UL3B6UkRwV3grZ3BnL21PNXhDODFk?=
- =?utf-8?B?S0hPQ1pwY21UM2xkR0NOeWlSeEZVYzBnVW4vVXVtS2ZEUVZFVnV5WmI2L0Fx?=
- =?utf-8?B?TUlOWDdWdlB1R3JWVDhRK2tPRFlpMEVkZCsvV0NjTk4vdEZYUWozenliUFNL?=
- =?utf-8?B?RWZKemZoRHcrSHd1Wng2TWE1Mk05blhZaThQQ3BBN21ZdzBySGl4SG5YOUxr?=
- =?utf-8?B?MzlLV3hLbXJjWjg1b2ZiWGtFamY0SENiN3BDNllBL3RLZ1g4cEY4QW9QYWNU?=
- =?utf-8?B?M1BpM2xlczNYcTV1TWRQWHRCWGFMTFNVeTJMejNKcjR3WlpDUElrc0l1Nnhj?=
- =?utf-8?B?R2N6NENPVWs5UTNXM0x3b3EwK05yeHdBU1lwbUxlN0trb0wxa2gyd2RWemlY?=
- =?utf-8?B?R3BqaG9QZmIxSG8zeFluVVBrVSswWlJRWG5FTENlekxLZFBXY2xxTWpNdm1y?=
- =?utf-8?B?M0I0QmhDT1RRMUQyVjZlUElMZlc2QmhmY1RjQ0NBT0dEdmFiZ1JOOVV6TVVX?=
- =?utf-8?B?bVVOeDFkQUZGVHM0eWljSVNjQnVibjBrcTNORWNVT2o0VldoT3BZZVBwS0Jn?=
- =?utf-8?B?Mi81WC9VWUM1TW1wR1FMdXFoeGNmMElJSHdHM0FSOHRaQ2g2N0k0Wm8xMVZV?=
- =?utf-8?B?RC91OVBRRWFYaTkveFNBRE5Nd2tLRHd6REI0c01reEdsRmt4RHdjZkdmWHU5?=
- =?utf-8?B?UUloTTVQSWNLR29WcE1vaC9JY2pBdU1ZRS84SHBKeGZza09xQldjc3VXUWRk?=
- =?utf-8?B?VmQyOW1rd2FJUklDOVkreUZYNEIxbXMzWVZ1UkVDdUl3QzNDOGlKYnNpSlR4?=
- =?utf-8?B?ZlZlTW5RZ1dyeDlWd2lGTkNEN0VDREZjL1Vaa1VCK0pmeXQ3Yi9HN3h4L2Ja?=
- =?utf-8?B?UCtuc1dkTmhucTdobjU0bXZPRlNxZENNU21ZVEMvUUxva0djaFhic0hpdXVj?=
- =?utf-8?B?UzJBZUhxR1Zabnh3Q0tZeWJFMmZQVzVCV0QrS0VhTkhnOUEzQmUydWpwZEg3?=
- =?utf-8?B?L2ZRaXhTbzZCM0plY040MlNoS2xCWitoM1pwT01aVUo0eCtXVzRTb2dOcElm?=
- =?utf-8?B?REJMOHg3eVFyaEtoOVlKeGEweUQzbTUrU2ZlTjNyQk9tM0N1ZWYvVFB1Qm52?=
- =?utf-8?B?YmZYZytIemxtWUU0aTVUNWJ3eTc5dnNrR1lyb3BjckZTM2tkSFVtSzRqd1kw?=
- =?utf-8?B?cjRUSGV5cSt6UTU2OVFPT0FmbjZlaEt0MUVENVJhbVRyVW5IWk03SC9TelZL?=
- =?utf-8?B?TXluZGZyTmswQWZCYkJCc09majB3TWhhbTYxbDdXQkJhZVBSMXcrQjc3b09a?=
- =?utf-8?B?Tks1Y0FhM0d6aDNHUTRDZzMvQUdEd1lJMjBUYVhaMTRJTHNiVmFxU2p6eDlT?=
- =?utf-8?B?aG1VVmFsWncyRis1a3B3MGs1ck5WZ3JLSVhwSDFmYldFVDdRQUVmUU9YZVJI?=
- =?utf-8?B?Z3VhRmlxUE1qdU0yUHc4bGNwbXk4V1gvSlF3OXJHSCtBcHN6V1FqdVZ6U2x0?=
- =?utf-8?B?Z3R3NGh3eUFrWnZpM2pocVV5OFJENnpPWWl4OGhjSGUwVlNRbUVpUzU4WjRp?=
- =?utf-8?B?OWt3VEtzVHdjYW90aHpHVWdnd2Zxb3RORnAyanc3U3dVTEhPdTNISTl5U1V0?=
- =?utf-8?B?MDBaUHlweUpETVNUd1RkTGNLV1NLdEpET0hyN0dDa2NMVlViSmFWb25NVGR2?=
- =?utf-8?B?djNuRnlwQjBGdWowRFZERmQ2VElJUm91UHh3UzEwY3BoZDNpTWtVNzcvTW8z?=
- =?utf-8?B?QWY4NGVJbGtTSitJNDBQMkZKVi9VM3Y2Z3grV3dBcWxnNEVFNmxJVFBINUZj?=
- =?utf-8?B?QURnOTdzR3dqcDZLeUpVcW5uK2VVQ3FqSFdSNU05K1RET1VicHNQMHFuL0Jo?=
- =?utf-8?B?SU5JK3psOFE5UEV4Q2Jpd0xlVlR2c3V5dkZJQkRKemNqaUNEeStpeGd4L1Na?=
- =?utf-8?B?ZDM0MEp5VVlnZ0R1aWU5YUxRTGhlMTdaOGJoc3hDeElnMWUzY3YxdCtQei9n?=
- =?utf-8?B?Y0JuUmIrSzNXL2xRS05xV1dpVTcrY1dDc2Vpb21EdFB5eGI5Wkp5UnZRSVEv?=
- =?utf-8?B?bWFoVG83Nno5aG9JVTVyOHorMHVIeHhvcVBqY0JaSXE4QjF0WEVNTWIvZmc2?=
- =?utf-8?B?ei8vWVhFNnp0aHQyci9hOHBWR0FuczAvSWxNbWloK0RkTDY3MkFFcVBMOWxy?=
- =?utf-8?B?bkE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b5c8a3b-2ac9-4621-a031-08dde0f5c7f2
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 21:00:38.4721 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wmg/jmXbxtbaf1X9+K/snYxvolMpZo3KXGHBfLLTePr3rHVmaQ7/vX0HGMnW257nj0o0uLdd+zC2iT1djkt2FLfDD1EKnsQQwB+M366qPwU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7889
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 13/35] mm: simplify folio_page() and folio_page_idx()
+To: Zi Yan <ziy@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
+ Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
+ Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org
+References: <20250821200701.1329277-1-david@redhat.com>
+ <20250821200701.1329277-14-david@redhat.com>
+ <E1AA1AC8-06E4-4896-B62B-F3EA0AE3E09C@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZoEEwEIAEQCGwMCF4ACGQEFCwkIBwICIgIG
+ FQoJCAsCBBYCAwECHgcWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaJzangUJJlgIpAAKCRBN
+ 3hD3AP+DWhAxD/9wcL0A+2rtaAmutaKTfxhTP0b4AAp1r/eLxjrbfbCCmh4pqzBhmSX/4z11
+ opn2KqcOsueRF1t2ENLOWzQu3Roiny2HOU7DajqB4dm1BVMaXQya5ae2ghzlJN9SIoopTWlR
+ 0Af3hPj5E2PYvQhlcqeoehKlBo9rROJv/rjmr2x0yOM8qeTroH/ZzNlCtJ56AsE6Tvl+r7cW
+ 3x7/Jq5WvWeudKrhFh7/yQ7eRvHCjd9bBrZTlgAfiHmX9AnCCPRPpNGNedV9Yty2Jnxhfmbv
+ Pw37LA/jef8zlCDyUh2KCU1xVEOWqg15o1RtTyGV1nXV2O/mfuQJud5vIgzBvHhypc3p6VZJ
+ lEf8YmT+Ol5P7SfCs5/uGdWUYQEMqOlg6w9R4Pe8d+mk8KGvfE9/zTwGg0nRgKqlQXrWRERv
+ cuEwQbridlPAoQHrFWtwpgYMXx2TaZ3sihcIPo9uU5eBs0rf4mOERY75SK+Ekayv2ucTfjxr
+ Kf014py2aoRJHuvy85ee/zIyLmve5hngZTTe3Wg3TInT9UTFzTPhItam6dZ1xqdTGHZYGU0O
+ otRHcwLGt470grdiob6PfVTXoHlBvkWRadMhSuG4RORCDpq89vu5QralFNIf3EysNohoFy2A
+ LYg2/D53xbU/aa4DDzBb5b1Rkg/udO1gZocVQWrDh6I2K3+cCs7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <E1AA1AC8-06E4-4896-B62B-F3EA0AE3E09C@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: hQ5BJrRGaU1RFZt_cdCmNIIoZ0OD2JziaY5yseLra6k_1755810041
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -201,84 +172,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 20, 2025 at 11:05:47PM +0000, Carlos Llamas wrote:
->On Wed, Aug 20, 2025 at 04:15:47PM -0500, Lucas De Marchi wrote:
->> On Wed, Aug 20, 2025 at 08:16:11PM +0000, Carlos Llamas wrote:
->> > Commit b0a2ee5567ab ("drm/xe: prepare xe_gen_wa_oob to be multi-use")
->> > introduced a call to basename(). The GNU version of this function is not
->> > portable and fails to build with alternative libc implementations like
->> > musl or bionic. This causes the following build error:
->> >
->> >  drivers/gpu/drm/xe/xe_gen_wa_oob.c:130:12: error: assignment to ‘const char *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
->> >    130 |         fn = basename(fn);
->> >        |            ^
->> >
->> > While a POSIX version of basename() could be used, it would require a
->> > separate header plus the behavior differs from GNU version in that it
->> > might modify its argument. Not great.
->> >
->> > Instead replace basename() with a strrchr() based implementation which
->> > provides the same functionality and avoid portability issues.
->> >
->> > Fixes: b0a2ee5567ab ("drm/xe: prepare xe_gen_wa_oob to be multi-use")
->> > Signed-off-by: Carlos Llamas <cmllamas@google.com>
->> > ---
->> > drivers/gpu/drm/xe/xe_gen_wa_oob.c | 4 +++-
->> > 1 file changed, 3 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
->> > index 6581cb0f0e59..0a94a045bcea 100644
->> > --- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
->> > +++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
->> > @@ -125,9 +125,11 @@ static int parse(FILE *input, FILE *csource, FILE *cheader, char *prefix)
->> >
->> > static int fn_to_prefix(const char *fn, char *prefix, size_t size)
->> > {
->> > +	const char *base;
->> > 	size_t len;
->> >
->> > -	fn = basename(fn);
->> > +	base = strrchr(fn, '/');
->> > +	fn = base ? base + 1 : fn;
+On 21.08.25 22:55, Zi Yan wrote:
+> On 21 Aug 2025, at 16:06, David Hildenbrand wrote:
+> 
+>> Now that a single folio/compound page can no longer span memory sections
+>> in problematic kernel configurations, we can stop using nth_page().
 >>
->> I think just a xbasename() helper like we've added in kmod would be
->> preferred:
->> https://github.com/kmod-project/kmod/commit/11eb9bc67c319900ab00523997323a97d2d08ad2
+>> While at it, turn both macros into static inline functions and add
+>> kernel doc for folio_page_idx().
 >>
->> Alternativelly add it somewhere that can be shared across the userspace
->> tools in the kernel tree to fix the mess that we have here:
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   include/linux/mm.h         | 16 ++++++++++++++--
+>>   include/linux/page-flags.h |  5 ++++-
+>>   2 files changed, 18 insertions(+), 3 deletions(-)
 >>
->> 	git grep basename -- tools/**.c
+>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> index 48a985e17ef4e..ef360b72cb05c 100644
+>> --- a/include/linux/mm.h
+>> +++ b/include/linux/mm.h
+>> @@ -210,10 +210,8 @@ extern unsigned long sysctl_admin_reserve_kbytes;
 >>
->
->This sounds like a nice idea. However, there is no "centralized" shared
->includes/ across the userspace tools that I'm aware of?
->
->> Some dup the arg simply to be able to use the libgen.h version, some use
->> one or the other on purpose, etc etc.
+>>   #if defined(CONFIG_SPARSEMEM) && !defined(CONFIG_SPARSEMEM_VMEMMAP)
+>>   #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
+>> -#define folio_page_idx(folio, p)	(page_to_pfn(p) - folio_pfn(folio))
+>>   #else
+>>   #define nth_page(page,n) ((page) + (n))
+>> -#define folio_page_idx(folio, p)	((p) - &(folio)->page)
+>>   #endif
 >>
->
->Yeah, and I can force the POSIX version if you prefer. I just personally
->think the strrchr() alternative ends up being simpler.
+>>   /* to align the pointer to the (next) page boundary */
+>> @@ -225,6 +223,20 @@ extern unsigned long sysctl_admin_reserve_kbytes;
+>>   /* test whether an address (unsigned long or pointer) is aligned to PAGE_SIZE */
+>>   #define PAGE_ALIGNED(addr)	IS_ALIGNED((unsigned long)(addr), PAGE_SIZE)
+>>
+>> +/**
+>> + * folio_page_idx - Return the number of a page in a folio.
+>> + * @folio: The folio.
+>> + * @page: The folio page.
+>> + *
+>> + * This function expects that the page is actually part of the folio.
+>> + * The returned number is relative to the start of the folio.
+>> + */
+>> +static inline unsigned long folio_page_idx(const struct folio *folio,
+>> +		const struct page *page)
+>> +{
+>> +	return page - &folio->page;
+>> +}
+>> +
+>>   static inline struct folio *lru_to_folio(struct list_head *head)
+>>   {
+>>   	return list_entry((head)->prev, struct folio, lru);
+>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+>> index d53a86e68c89b..080ad10c0defc 100644
+>> --- a/include/linux/page-flags.h
+>> +++ b/include/linux/page-flags.h
+>> @@ -316,7 +316,10 @@ static __always_inline unsigned long _compound_head(const struct page *page)
+>>    * check that the page number lies within @folio; the caller is presumed
+>>    * to have a reference to the page.
+>>    */
+>> -#define folio_page(folio, n)	nth_page(&(folio)->page, n)
+>> +static inline struct page *folio_page(struct folio *folio, unsigned long nr)
+>> +{
+>> +	return &folio->page + nr;
+>> +}
+> 
+> Maybe s/nr/n/ or s/nr/nth/, since it returns the nth page within a folio.
 
-IMO the POSIX version is horrible. Let's add a xbasename() in this
-xe_gen_wa_oob.c and use it:
+Yeah, it's even called "n" in the kernel docs ...
 
-/*
-  * Avoid the libgen.h vs string.h differences or lack thereof, just use
-  * our own.
-  */
-static const char *xbasename(const char *s)
-{
-	const char *p = strrchr(s, '/');
-	return p ? p + 1 : s;
-}
+> 
+> Since you have added kernel doc for folio_page_idx(), it does not hurt
+> to have something similar for folio_page(). :)
 
-static int fn_to_prefix(const char *fn, char *prefix, size_t size)
-{
-...
-	fn = xbasename(fn);
-...
-}
+... which we already have! (see above the macro) :)
 
-Lucas De Marchi
+Thanks!
+
+-- 
+Cheers
+
+David / dhildenb
+
