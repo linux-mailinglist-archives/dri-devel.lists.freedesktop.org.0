@@ -2,64 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AC8B2F77E
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 14:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4575FB2F793
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 14:09:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCA9A10E957;
-	Thu, 21 Aug 2025 12:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F0A10E95C;
+	Thu, 21 Aug 2025 12:09:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kCj1XYaS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y+MBEtPO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFABF10E957;
- Thu, 21 Aug 2025 12:06:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1755777991;
- bh=azA9B3z3wNJhuYfDiL6hn0MK71QZlZtvPMK9aLiNlzM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=kCj1XYaS83k8mGgwFVzOGw/7T9Jyrr/FSA3T60nkcpG+AsxqHXoDD8gY5Mw1+ETQ1
- HG5gD0g1ImsJwJduMuS6Sone9bNLFwhHUy41nA4Tv0qMZ7nx09B0Aaw7GAdZWWUj7R
- vZvf+65iVW+iYtRzK6VIT5FJkRI2g8oGOWGC8qG9gF28tn8gPyFiGEoCCIe2//FzOD
- pnvTv82D0U84uBclgLWP4iQaQSsEsa640xay1bwo+A4N6xfu7BIO7QVTIYvaykeRVT
- 37Gx5/FY2u3bfXDToAPNU3/2IVr2COWOtpObFzYMXgqer+GxcsijlEwHczC0WwQCIS
- 4xejSDYWju5Mw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BD2E217E0071;
- Thu, 21 Aug 2025 14:06:30 +0200 (CEST)
-Date: Thu, 21 Aug 2025 14:06:25 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: "Caterina Shablia" <caterina.shablia@collabora.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Frank Binns"
- <frank.binns@imgtec.com>, "Matt Coster" <matt.coster@imgtec.com>, "Karol
- Herbst" <kherbst@redhat.com>, "Lyude Paul" <lyude@redhat.com>, "Steven
- Price" <steven.price@arm.com>, "Liviu Dudau" <liviu.dudau@arm.com>, "Lucas
- De Marchi" <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <asahi@lists.linux.dev>, "Asahi Lina"
- <lina@asahilina.net>
-Subject: Re: [PATCH v4 4/7] drm/gpuvm: Add a helper to check if two VA can
- be merged
-Message-ID: <20250821140625.6c33daba@fedora>
-In-Reply-To: <DB61ZHDINPNE.1VFXNF2XXSJPA@kernel.org>
-References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
- <20250707170442.1437009-5-caterina.shablia@collabora.com>
- <DB61ZHDINPNE.1VFXNF2XXSJPA@kernel.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3457D10E94E
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 12:09:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 50C4E60200;
+ Thu, 21 Aug 2025 12:09:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7A22C4CEEB;
+ Thu, 21 Aug 2025 12:09:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755778178;
+ bh=YVudOL9kLvUa7t5Z40vgTlIpdlCqhWXk8VlyZ7WFiNQ=;
+ h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
+ b=Y+MBEtPOx9jut06XprjYa5k9qJRVLaN8rFTQrX6N3+YUimMlQw7rKcQQnzT8LHuDq
+ qyjfPinXN7Sb6Zc20pEsKH73TA0q+LGlpNgbF6zhZlexfuzjT48ceGBsnILcrOVQUV
+ /Z15DUI3a/e3OO8cqpMh3WFDcnQnQGkT0Nfe5oF53Kfa1c01CRuMBxYPRp3o8Vc41A
+ Veq4phsAsmKxqBt5UopCNzBLPTEVTJfv0yDO63xUzSEdIdPyLkIsVXxHZVsIB7JPAL
+ PrKwYke/zaA8eJy+iu6wB0WAfg7kbqZncty9vJfwAf6YRU0jGkdvm6rnHgdwVD6XnX
+ YmV5ZHD7bAcdg==
+Content-Type: multipart/signed;
+ boundary=3a383ff1ea192992f3804c3bff8ea9d8903d7571fd6cf5190aac3da7f3cc;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Thu, 21 Aug 2025 14:09:34 +0200
+Message-Id: <DC83F2197OLI.2KRLEH7GUBKSA@kernel.org>
+Subject: Re: [PATCH v5 0/3] Decouple max_pclk check from constant display feats
+Cc: <h-shenoy@ti.com>, <devarsht@ti.com>, <vigneshr@ti.com>,
+ <praneeth@ti.com>, <u-kumar1@ti.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Swamil Jain" <s-jain1@ti.com>, <jyri.sarha@iki.fi>,
+ <tomi.valkeinen@ideasonboard.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <aradhya.bhatia@linux.dev>
+X-Mailer: aerc 0.16.0
+References: <20250819192113.2420396-1-s-jain1@ti.com>
+In-Reply-To: <20250819192113.2420396-1-s-jain1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,100 +62,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 07 Jul 2025 21:00:54 +0200
-"Danilo Krummrich" <dakr@kernel.org> wrote:
+--3a383ff1ea192992f3804c3bff8ea9d8903d7571fd6cf5190aac3da7f3cc
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-> On Mon Jul 7, 2025 at 7:04 PM CEST, Caterina Shablia wrote:
-> > diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> > index 05978c5c38b1..dc3c2f906400 100644
-> > --- a/drivers/gpu/drm/drm_gpuvm.c
-> > +++ b/drivers/gpu/drm/drm_gpuvm.c
-> > @@ -2098,12 +2098,48 @@ op_unmap_cb(const struct drm_gpuvm_ops *fn, void *priv,
-> >  	return fn->sm_step_unmap(&op, priv);
-> >  }
-> >  
-> > +static bool can_merge(struct drm_gpuvm *gpuvm, const struct drm_gpuva *a,
-> > +		      const struct drm_gpuva *b)
-> > +{
-> > +	/* Only GEM-based mappings can be merged, and they must point to
-> > +	 * the same GEM object.
-> > +	 */
-> > +	if (a->gem.obj != b->gem.obj || !a->gem.obj)
-> > +		return false;
-> > +
-> > +	/* Let's keep things simple for now and force all flags to match. */
-> > +	if (a->flags != b->flags)
-> > +		return false;
-> > +
-> > +	/* Order VAs for the rest of the checks. */
-> > +	if (a->va.addr > b->va.addr)
-> > +		swap(a, b);
-> > +
-> > +	/* We assume the caller already checked that VAs overlap or are
-> > +	 * contiguous.
-> > +	 */
-> > +	if (drm_WARN_ON(gpuvm->drm, b->va.addr > a->va.addr + a->va.range))
-> > +		return false;
-> > +
-> > +	/* We intentionally ignore u64 underflows because all we care about
-> > +	 * here is whether the VA diff matches the GEM offset diff.
-> > +	 */
-> > +	return b->va.addr - a->va.addr == b->gem.offset - a->gem.offset;
-> > +}
-> > +
-> >  static int
-> >  __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  		   const struct drm_gpuvm_ops *ops, void *priv,
-> >  		   const struct drm_gpuvm_map_req *req)
-> >  {
-> >  	struct drm_gpuva *va, *next;
-> > +	struct drm_gpuva reqva = {
-> > +		.va.addr = req->va.addr,
-> > +		.va.range = req->va.range,
-> > +		.gem.offset = req->gem.offset,
-> > +		.gem.obj = req->gem.obj,
-> > +		.flags = req->flags,  
-> 
-> Huh? Where does req->flags come from? I don't remember that this flag exists in
-> struct drm_gpuvm_map_req in the preceding patch?
+On Tue Aug 19, 2025 at 9:21 PM CEST, Swamil Jain wrote:
+> In an effort to make the existing compatibles more usable, we are
+> removing the max_pclk_khz form dispc_features structure and doing the
+> supported pixel clock checks using "max_successful_rate[]" and
+> "max_attempted_rate[]".
+>
+> Changes are fully backwards compatible.
+>
+> After integration of OLDI support[0], we need additional patches in
+> OLDI to identify the VP that has OLDI. We have to do this since
+> OLDI driver owns the VP clock (its serial clock) and we cannot perform
+> clock operations on those VP clock from tidss driver. This issue was
+> also reported upstream when DSI fixes[1] had some clock related calls
+> in tidss driver. When "clk_round_rate()" is called, ideally it should
+> have gone to "sci_clk_determine_rate()" to query DM but it doesn't since
+> clock is owned by OLDI not tidss.
+>
+> So add a member is_ext_vp_clk[] in tidss_device structure to identify
+> this and avoid performing clock operations for VP if it has OLDI panel.
+> For the same checks in OLDI driver, atomic_check() hook is added to its
+> bridge_funcs.
+> In the atomic_check() chain, first the bridge_atomic_check() is called
+> and then crtc_atomic_check() is called. So mode clock is first checked
+> in oldi driver and then skipped in tidss driver.
+>
+> Had the tidss_oldi structure been exposed to tidss_dispc.c, we could
+> have directly checked VP type in dispc but since the structure is defined
+> in tidss_oldi.c , we have to add additional member to tidss_device
+> structure.
+>
+> [0]: https://lore.kernel.org/all/20250528122544.817829-1-aradhya.bhatia@l=
+inux.dev/
+> [1]: https://lore.kernel.org/all/DA6TT575Z82D.3MPK8HG5GRL8U@kernel.org/
 
-Oops, I re-ordered commits, and forgot to verify that the series was
-bisectable. This should be part of patch 4 actually.
+Since that wasn't picked up from v4:
 
-> 
-> > +	};
-> >  	u64 req_end = req->va.addr + req->va.range;
-> >  	int ret;
-> >  
-> > @@ -2116,12 +2152,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
-> >  		u64 addr = va->va.addr;
-> >  		u64 range = va->va.range;
-> >  		u64 end = addr + range;
-> > -		bool merge = !!va->gem.obj;
-> > +		bool merge = can_merge(gpuvm, va, &reqva);  
-> 
-> I know you want to do the swap() trick above, but I don't like creating a
-> temporary struct drm_gpuva with all the other uninitialized fields.
+Tested-by: Michael Walle <mwalle@kernel.org> # on am67a
 
-I mean, I could do it the other way around (gpuva -> op_map), but it
-means doing it on each va with cross.
+--3a383ff1ea192992f3804c3bff8ea9d8903d7571fd6cf5190aac3da7f3cc
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> If you really want this, can we please limit the scope? Maybe the following
-> helper:
-> 
-> 	static bool can_merge(struct drm_gpuvm *gpuvm,
-> 			      const struct drm_gpuva *va,
-> 			      struct drm_gpuvm_map_req *req)
-> 	{
-> 		struct drm_gpuva reqva = { ... };
-> 		return __can_merge(gpuvm, va, reqva);
+-----BEGIN PGP SIGNATURE-----
 
-It's a bit of a shame though, because then this reqva is
-initialized every time can_merge() is called, instead of once at the
-beginning of an sm_map() operation. But maybe the compiler is smart
-enough to see through it when inlining (assuming it actually inlines
-the check).
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaKcMfhIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/hU4AF+IvgcxkPRSESU4r7IR/aM34rxVsUbczii
+5ClhTBDU79TzVapcJx4a8PGB+f5WEwkjAYCPvJC/QF/bADblThy3D3ln7plKn30A
+i1GnefaebiLizZ8l5IAVZTDxawBYVY2CIDU=
+=QPzU
+-----END PGP SIGNATURE-----
 
-> 	}
-
+--3a383ff1ea192992f3804c3bff8ea9d8903d7571fd6cf5190aac3da7f3cc--
