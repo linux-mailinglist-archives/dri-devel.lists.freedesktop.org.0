@@ -2,64 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E700AB2FCF3
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 16:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F20BB2FD4D
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 16:50:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB4E210E9B0;
-	Thu, 21 Aug 2025 14:39:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7C4110E9BA;
+	Thu, 21 Aug 2025 14:50:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MFeCDprX";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NZiPjlaZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6243510E9B0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:39:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 72874601F8
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:39:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 22ED4C4CEEB
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:39:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755787155;
- bh=9XCXaxoCbDyW2pZDl95WZ2xiUuyQqv5p7fZedFto1G8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=MFeCDprXE1YKOPXS8VFKkz4MH2NZDDJLtg64YWdXLxAij5Vv0EnMXxwIisnVLD0GH
- UnsltNrJ+nj9samGpI76+MuPoBMTqjPLWzug7OYuF0T2Gz37zAJ6Sm9lHSUym3KP4n
- 0B7Y/p+tR3mFr+jVU99xj2YjINNFmEKakZMLjhkKpYqcYkjLemiKP1OyjIn+G9orf5
- b4W2uacMOzFW1W+3gXtJindkSCNeFlSnu3p0hoeaMGwcGfMri5ovstWqjDkS1+y7UR
- LFVBM36yq0o+rDU4xu2/liNzYQoXmUNcy1Ayf0mP7i6kBMZP3Dwp5MuIS+6WJ/ymBE
- OpbGOtfHjkXyQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 1859AC53BC7; Thu, 21 Aug 2025 14:39:15 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 206309] Experimental amdgpu w/ Dell E6540 with HD 8790M (MARS
- XTX), massive performance improvement after ACPI suspend
-Date: Thu, 21 Aug 2025 14:39:14 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: jerbear3.14159@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: WILL_NOT_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206309-2300-oOMQuPvKDH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206309-2300@https.bugzilla.kernel.org/>
-References: <bug-206309-2300@https.bugzilla.kernel.org/>
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54BEA10E9BA
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:50:34 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-76e39ec6f30so1056169b3a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 07:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1755787831; x=1756392631;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yjqHieTqBHy+cNT3ZdROla3bmT3OzWvs9RzgpXfbZLc=;
+ b=NZiPjlaZ1/X+dn5MiC0eUgrH6AjjPLwv9gH8gVa4PkuBR1y4/oidKZBPbXk9bfz1lW
+ RzNM/m/0G1OwuCt64rWdiJTxv/m4jwgDrRwVZ5uI80N9uWnUw7VKn25DZYEeX7Ne1kWf
+ +T1hLNdV7+oPI7tOwV2f+ppVPWC0P3qsAkECo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755787831; x=1756392631;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yjqHieTqBHy+cNT3ZdROla3bmT3OzWvs9RzgpXfbZLc=;
+ b=YX4toK2oZFLIioCvV904Mf8FayZ2EwiqN30bdla9fLWfF39Ym7+oaV/dS6zCA81Agb
+ 2kcx6QuFN8RgSisZIOUP82hS7WO4dLy1rmOA56jWwZK9PmFB/uSbE7SkW11engg8Q7jm
+ jpFqhu/rnWHPYAtVv23eXX8SJ+6kY5GWyFDNJAdSJ3se/90SZoPlf3HOLZmGg+qS/YwA
+ dKWwNW3+OjtncrC2DVfDHdh8H50hDclTFk/Tb1/9GRvGshfKOD84+F/5Ijrtn15AzqO7
+ L7PI787kVn7OrpIssk5259VB6M5o7Q51CcZfw/Evfh13+hmHbK0y5UbIIUrp204wMRXD
+ ZJyA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUJN4/k4xM7f6q5DZq9BYvptR38/xfoVu/JuswKYHZbC3SVm6XDTaY6JTdArXqkgGOHGOw9JjqFZVY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwS0OZ0UshnS07YnTwnKzCNE2y0WUlKc3TRobaxF6cZQzUBYmmQ
+ 1Xda2E/Tp2pxdhyE5Q0gqlGUtZz5wb+CwiDTTslGQyrgsMs6h8QganEHRnfSOB3PMfDcwrS6uDd
+ 2aaw=
+X-Gm-Gg: ASbGncvNnbKWvBFng04BO+fmHhlf5c2qCkrFplcM52ukrQ3HUthAjq6hOuXjU/25LDJ
+ gQ2uCj5ycGp4rTgGS9ERapv2lct0z4PJOsf8zCsWcwSmpsV0ivTDnUWKQKnIGz02qVjDdRC9RHq
+ FKz2e8vr+dQnq/Z+Evct4t+ex1T+VksEza5VQCzR6PzimffMIIcTjZYVKZzuk9lcxmRwslye8yg
+ t8kY48utjo1ZwK/Q9r+BCBVcP5NQhlpOVrKw64T9zNzMpPASUJMyOx1b8RBDUFnRuX0KFRJ+OkW
+ qTAVIyEvlF1KKBDm+k0Qqpz916oghR5zFSsd7v7U2EBvJRqUWGgm4tgLfN/oYMiMyrkf4u85Cr4
+ qBLCyTQGTZUfZ5i0A5rk8dc7oq+pq1pQs461GDTQmawA8S/4vQ8/P+YVAm59vWau53w==
+X-Google-Smtp-Source: AGHT+IEtYxmQbj5MHySzsGhO5NxYz+rCE8+mGC2ECW7Qew5QWC1+0sUcip5JXaEQ2K3HlKWRtM+hjA==
+X-Received: by 2002:a05:6a00:2e2a:b0:76e:9906:6e47 with SMTP id
+ d2e1a72fcca58-76ea3265397mr3078252b3a.28.1755787830761; 
+ Thu, 21 Aug 2025 07:50:30 -0700 (PDT)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com.
+ [209.85.214.177]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-76e843bb510sm7447103b3a.53.2025.08.21.07.50.28
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Aug 2025 07:50:29 -0700 (PDT)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-245fd2b63f8so10966625ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 07:50:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVGw3WEFPGSiN+lMigXWywVkybuM8AE4EUtIQDN6YA3c2s0utroIo+EMnOz3ku7+1+DSpWtXvuae3s=@lists.freedesktop.org
+X-Received: by 2002:a17:902:f550:b0:244:214f:13a0 with SMTP id
+ d9443c01a7336-245ff871cf5mr35274985ad.52.1755787828128; Thu, 21 Aug 2025
+ 07:50:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <aKcRfq8xBrFmhqmO@stanley.mountain>
+In-Reply-To: <aKcRfq8xBrFmhqmO@stanley.mountain>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 21 Aug 2025 07:50:16 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WMu9YJgkkqTEpKEzPdMUka8tYzPZVKEeh501-mSsh4uQ@mail.gmail.com>
+X-Gm-Features: Ac12FXwRHXd6Q5sCwpiasX5YznwxVtKCHmDt34fauOc1r6Twa8Tf38YLNCLnydw
+Message-ID: <CAD=FV=WMu9YJgkkqTEpKEzPdMUka8tYzPZVKEeh501-mSsh4uQ@mail.gmail.com>
+Subject: Re: [PATCH next] drm/panel: jdi-lpm102a188a: Fix error code in
+ jdi_panel_prepare()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Brigham Campbell <me@brighamcampbell.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,24 +107,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D206309
+Hi,
 
---- Comment #8 from jerbear3.14159@gmail.com ---
-Hi, if you're comfortable modding your kernel, I managed to fix a couple GPU
-power management bugs, and I have the slightly slower "battery" clock speeds
-working reliably now (haven't cracked full power AC mode yet). It also
-correctly lowers clock speeds when not in use, in order to not run so hot
-anymore. I opened a bug report on the official amdgpu issue tracker with al=
-l my
-findings so far: https://gitlab.freedesktop.org/drm/amd/-/issues/3619
+On Thu, Aug 21, 2025 at 5:31=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> If the mipi_dsi_dual() macro fails, the error code is stored in
+> dsi_ctx.accum_err.  Propagate that error back to the caller instead
+> of returning success as the current code does.
+>
+> Fixes: a6adf47d30cc ("drm/panel: jdi-lpm102a188a: Fix bug and clean up dr=
+iver")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-I intend to take another look someday, and eventually submit a proper patch=
-/PR,
-but just having this hack is such a massive improvement that it hasn't been
-worth it yet for me personally.
+Thanks for the fix.
 
---=20
-You may reply to this email to add a comment.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Since it's straightforward and a fix, I'm not waiting and I'm pushing
+to drm-misc-next.
+
+[1/1] drm/panel: jdi-lpm102a188a: Fix error code in jdi_panel_prepare()
+      commit: 61ce50fd8196c8782b9620bb60d33649ec429f64
