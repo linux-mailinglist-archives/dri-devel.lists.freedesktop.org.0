@@ -2,35 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147C6B2EBA3
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 05:05:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5E1B2EBA5
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 05:06:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B40A10E102;
-	Thu, 21 Aug 2025 03:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE2810E374;
+	Thu, 21 Aug 2025 03:06:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="d7HeN6U1";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from c64.rulez.org (c64.rulez.org [79.139.58.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93C9810E102
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 03:05:09 +0000 (UTC)
-Received: from [192.168.1.73] (4F7A343C.dsl.pool.telekom.hu [79.122.52.60])
- by c64.rulez.org (Postfix) with ESMTPSA id 137441020F;
- Thu, 21 Aug 2025 05:05:08 +0200 (CEST)
-Message-ID: <9473ef5b-c298-56b1-0051-e10bb3b4dd67@c64.rulez.org>
-Date: Thu, 21 Aug 2025 05:04:57 +0200
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFD6210E374;
+ Thu, 21 Aug 2025 03:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=hyX8lYPAronULWeVXJ+quZoKMwRITcvWkFrMcTYt3L4=; b=d7HeN6U1qx7JRmLdDoHfTDeEQL
+ ozU0H8deFujGarIRqlpaRlA3847cObTumeb/HMHK+k8/3P5fcjDJsMp9wu9n64nfbIcJuiAbkP9ZY
+ Hk7toPD+Z11Ss5F/wQ02z12RaXemmkuW6qg4DhvdUb6x+nkNdaN/7K2WmqtYsxjN+Sn2MV/EvS+cI
+ fBwkEjVZDl3ivJmXvUHrGJIjH09JbzehGu8bW6m9vVdaNGqddEjVz7cppfLo1aSltyXoK2uFGWFZG
+ FeA7T2B4wJHkCzqEPnYCUsYXMpS+z7qHtU8KAIyGj6KEIwyo8VrTqlfIEH4RyJnq7eAiw2X+OHiSS
+ LxY5lnLw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+ by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1uovd9-0000000Fayb-3xBh; Thu, 21 Aug 2025 03:06:23 +0000
+Message-ID: <0254008f-1cdf-480f-ad6f-8f002b35d754@infradead.org>
+Date: Wed, 20 Aug 2025 20:06:23 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-GB
-To: Erhard Furtner <erhard_f@mailbox.org>, linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-References: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
-From: =?UTF-8?Q?Kajt=c3=a1r_Zsolt?= <soci@c64.rulez.org>
-Subject: Re: UBSAN: shift-out-of-bounds in
- drivers/video/fbdev/core/fb_fillrect.h:100:21 (v6.17-rc2)
-In-Reply-To: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------465X0dp0dcCFUbYFICqAZu59"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] docs: gpu: amdgpu: Fix spelling in amdgpu
+ documentation
+To: Rakuram Eswaran <rakuram.e96@gmail.com>, linux-doc@vger.kernel.org,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ corbet@lwn.net
+Cc: tzimmermann@suse.de, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, simona@ffwll.ch, siqueira@igalia.com,
+ harry.wentland@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
+References: <20250821025957.22546-1-rakuram.e96@gmail.com>
+ <20250821025957.22546-2-rakuram.e96@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250821025957.22546-2-rakuram.e96@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,71 +65,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------465X0dp0dcCFUbYFICqAZu59
-Content-Type: multipart/mixed; boundary="------------bY0FFrD4MbwWZx0CYx98LZ0G";
- protected-headers="v1"
-From: =?UTF-8?Q?Kajt=c3=a1r_Zsolt?= <soci@c64.rulez.org>
-To: Erhard Furtner <erhard_f@mailbox.org>, linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <9473ef5b-c298-56b1-0051-e10bb3b4dd67@c64.rulez.org>
-Subject: Re: UBSAN: shift-out-of-bounds in
- drivers/video/fbdev/core/fb_fillrect.h:100:21 (v6.17-rc2)
-References: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
-In-Reply-To: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
 
---------------bY0FFrD4MbwWZx0CYx98LZ0G
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-> Greetings!
->=20
-> Getting this UBSAN hit on my PowerMac G4 DP with kernel 6.17-rc2:
->=20
-> [...]
-> Console: switching to colour frame buffer device 240x67
-> ------------[ cut here ]------------
-> UBSAN: shift-out-of-bounds in drivers/video/fbdev/core/fb_fillrect.h:10=
-0:21
-> shift exponent 32 is too large for 32-bit type 'unsigned long'
+On 8/20/25 7:59 PM, Rakuram Eswaran wrote:
+> Fixed following typos reported by Codespell
+> 
+> 1. propogated ==> propagated
+>    aperatures ==> apertures
+> In Documentation/gpu/amdgpu/debugfs.rst
+> 
+> 2. parition ==> partition
+> In Documentation/gpu/amdgpu/process-isolation.rst
+> 
+> 3. conections ==> connections
+> In Documentation/gpu/amdgpu/display/programming-model-dcn.rst
+> 
+> In addition to above,
+> Fixed wrong bit-partition naming in gpu/amdgpu/process-isolation.rst
+> from "fourth" partition to "third" partition.
+> 
+> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+> Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
+> Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
 
-Thanks for reporting!
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-> I guess this would be a problem on other 32bit arches too?
+Thanks.
 
-It's only on 32 bit big endian. I don't have UBSAN for MIPS on my setup
-so haven't noticed it.
+> ---
+>  Documentation/gpu/amdgpu/debugfs.rst                       | 4 ++--
+>  Documentation/gpu/amdgpu/display/programming-model-dcn.rst | 2 +-
+>  Documentation/gpu/amdgpu/process-isolation.rst             | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
 
-#ifndef __LITTLE_ENDIAN
-        pattern <<=3D (BITS_PER_LONG % bpp);
-        pattern |=3D pattern >> bpp;          <-
-#endif
 
-In the 32 BPP case the result is identical in both the no shift and zero
-result implementations.
-
-I've patched it by skipping this realignment as it's only needed if the
-BPP is smaller than the word length.
-
---=20
-						    -soci-
-
---------------bY0FFrD4MbwWZx0CYx98LZ0G--
-
---------------465X0dp0dcCFUbYFICqAZu59
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEE8WlaH4v4aHNT2Bn0WOeEu4KftGsFAmimjNkFAwAAAAAACgkQWOeEu4KftGv7
-bgf+NaPv0Y8aB946BhEzP2K6F5FMVuSdCRFFOABPx7zxh3RrJRki+Sb0g2sT8U0Ku9BTnw1DUPzC
-wBi6O7iXZzdRCxrnbjQyo68lQOIQ2iJhHUieT6M2fyyX1Qqv+1FB2aSVpfi1Lb/xlS7ndUsxwD1A
-RJGGddTsQzc6OoRZn1KgCUf3JdWylU86c7Oe5zhLBo5hRW2qCAjjt4dCfBqNLH8brw4oJU5uAa3s
-xi8rgqbfi8yBuGDz88oHlwzonDRjsV71Xxy8WdV2RzqsGM2BgK0bBvIudg5FQihM2ZNqoW1YIjhj
-Wl3NSwYM6bv8dZ//S6hDzNsB0BNYCBi4SpwLLQCV+Q==
-=v2Nq
------END PGP SIGNATURE-----
-
---------------465X0dp0dcCFUbYFICqAZu59--
+-- 
+~Randy
