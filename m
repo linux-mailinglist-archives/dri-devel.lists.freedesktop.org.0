@@ -2,91 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B870B2F0B9
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 10:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C701B2F0CA
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 10:16:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02DED10E8A5;
-	Thu, 21 Aug 2025 08:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7008610E154;
+	Thu, 21 Aug 2025 08:16:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LQiTQZvW";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="EnrsX72c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95BA310E2F5
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 08:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1755763980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=Iu8q1LFgRVkrut1fK3PxESRCoYM2KRGJpTnUSdfNl9I=;
- b=LQiTQZvWIEu12m2CrpvCBtwIINCMxoFEQeWbVJu5Q8kSfALE3sptbCoxrN9z2nogdIpVzu
- s31BqZUKHkWeLzx168ZHrUyh21Bs2ZnG6U2VCvjuHgJCBBA/rA5oNSGw9cFUSMIAXoBBZT
- PWJwKak1UkdX3h4m3Mxh5W1YE+zkIjg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-61-S7xgwDyZPlOFKgEnniy1tA-1; Thu, 21 Aug 2025 04:12:58 -0400
-X-MC-Unique: S7xgwDyZPlOFKgEnniy1tA-1
-X-Mimecast-MFC-AGG-ID: S7xgwDyZPlOFKgEnniy1tA_1755763977
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3b9edf2d82dso356045f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 01:12:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755763977; x=1756368777;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Iu8q1LFgRVkrut1fK3PxESRCoYM2KRGJpTnUSdfNl9I=;
- b=fuShoMqf6iRLzvtfjj0wrgocFiPPJXVTREtUqsCKOsXqoR0W6Y1sFxdG1cJpB+GM/v
- 8WZHOggXwtriOcoLjaHJaSH9oxnbhGQdEUCKcHLJJr6bwiwlO0IhKANG65dPATHOuts1
- /f8asJgJQAyaSoPtnF4OXhm4qTci4KSIlTw77EzJFoRVIBSzH77mqmb1ulXQPe8JRvSi
- J4tqX3ZyXivn/iroQodD02ywms7HEa3Hxxnyy2ewHCM8tEVsVsUI0M7p4LgPYFy2UxX5
- 8UFtZO2MUaGsyIc9kn1vndbdJv1UxPcpwN1l+H/zrcGT2cr1QRrrR+qQ+S3U77eAG2D7
- o2aQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWM7AGixAaG7yV59IaLufznziIuv82J2FNZr5F1MGUiH20wttIkDksBUrPRVpvQX0TzImPSUC4bh3A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxeItrbTGIi2KkmP/PZ3F0n2X2uYsfECFR0w7+LkPi83rX99G2j
- 6T5RisnB9tjIQLFWchq0PAFR2EwHq9sh6zfKvs2cSlHnyXeyXGrYHm2cPQwLzsHYoZp94AdwUY/
- pzCzIK059l9Tgm1oR9LIXaovA7jeGF+RzGlXMmtD091OyfzsS0Hi/a6tHG+vU5pwuDaiDqQ==
-X-Gm-Gg: ASbGncv1iZkIASk3yGUNJ24rMaXh8scqdmp/584siarBEJyZCmSpPMPrgkYeOZFvGTQ
- Q5KiXFwbM/GtxT/aMf3LPERQUwZ1swhUoJcwye0fKCMtDC1owDBkr6C7jMgErR9i2OSWPKoLrhS
- iOeRkoDpPqgFB+rJik6yLD5BtN07fpBjisDF0UH8p0+zSZNFDUvh+7orFAuKeBRQtw/w2lYADFM
- dsPf8ek5WRAwCNpAGucJdo1dzDFh/SRyGD+HSzoBqBEJY4CpBGIIwOdRogBxml1ZGZk41sdUPQZ
- bW2yVrX4qOFbHNs=
-X-Received: by 2002:a5d:6381:0:b0:3b8:f8e6:867b with SMTP id
- ffacd0b85a97d-3c496f92c82mr966830f8f.31.1755763976949; 
- Thu, 21 Aug 2025 01:12:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IElHv2ckS6bYN4pTNyiBQ93FDKVMiUT6qg3iphXe/u2Ly6tfBIyA4Kb9p886iWiyNgkQlqzFw==
-X-Received: by 2002:a5d:6381:0:b0:3b8:f8e6:867b with SMTP id
- ffacd0b85a97d-3c496f92c82mr966797f8f.31.1755763976430; 
- Thu, 21 Aug 2025 01:12:56 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3c4e6d4d439sm1143678f8f.6.2025.08.21.01.12.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Aug 2025 01:12:55 -0700 (PDT)
-Date: Thu, 21 Aug 2025 10:12:55 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20250821-economic-dandelion-rooster-c57fa9@houat>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A44110E154
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 08:16:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755764193;
+ bh=0C42mOA8a8/fy+R/ielO0GJF//wDr8ePiDFIJm6QXoU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=EnrsX72cx386A5lUamIqn6yuL+snFU2aaDH4OYAxmbA9QeVMNoWDJxl43R9lWt3IN
+ 8+gfp6YNIzBSsnu9WR3GA9frZOXjo6I8N7BZ2IiyzRggRt8ftfFBI8iSTopdkRsxlY
+ AnJhnjHVgtlnQJmVnerPnakVb3fzSfKvSOBhWTLZ2wiObc5UNjenZuxLJ6NGN/zmGe
+ pSPp4YwqdVO6ACFxcexBKDIkXjGXPX4MLnCkN5m1R+eV4CurxngtNYiBrh0lVIR9pz
+ Jgg/RBF4a46CXsq+bOARtQ9rN5ELtYoN0BJnY8sBrlLk9pejYQX1ZxcEb4f/yoPNzM
+ 24Wt8eoFtRlKA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B71E417E0154;
+ Thu, 21 Aug 2025 10:16:32 +0200 (CEST)
+Date: Thu, 21 Aug 2025 10:16:27 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Chia-I Wu <olvaffe@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/9] drm/panthor: add devcoredump support
+Message-ID: <20250821101627.7067ee84@fedora>
+In-Reply-To: <35246e11-3faf-47c3-9332-9d2ff7036cdc@arm.com>
+References: <20250720000146.1405060-1-olvaffe@gmail.com>
+ <20250720000146.1405060-2-olvaffe@gmail.com>
+ <35246e11-3faf-47c3-9332-9d2ff7036cdc@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="qaduzatttsqlmtga"
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,160 +66,631 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 28 Jul 2025 12:24:02 +0100
+Steven Price <steven.price@arm.com> wrote:
 
---qaduzatttsqlmtga
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: [PULL] drm-misc-fixes
-MIME-Version: 1.0
+> On 20/07/2025 01:01, Chia-I Wu wrote:
+> > Create a devcoredump on any faulty or fatal event. The coredump data is
+> > in YAML format for readability and flexibility.
+> > 
+> > Only panthor_group state is captured for now.
+> > 
+> > Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+> > ---
+> >  drivers/gpu/drm/panthor/Makefile           |   2 +
+> >  drivers/gpu/drm/panthor/panthor_coredump.c | 225 +++++++++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_coredump.h |  68 +++++++
+> >  drivers/gpu/drm/panthor/panthor_device.h   |   6 +
+> >  drivers/gpu/drm/panthor/panthor_sched.c    |  69 +++++++
+> >  drivers/gpu/drm/panthor/panthor_sched.h    |   5 +
+> >  6 files changed, 375 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/panthor/panthor_coredump.c
+> >  create mode 100644 drivers/gpu/drm/panthor/panthor_coredump.h
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
+> > index 15294719b09c..9fd1e74af1df 100644
+> > --- a/drivers/gpu/drm/panthor/Makefile
+> > +++ b/drivers/gpu/drm/panthor/Makefile
+> > @@ -11,4 +11,6 @@ panthor-y := \
+> >  	panthor_mmu.o \
+> >  	panthor_sched.o
+> >  
+> > +panthor-$(CONFIG_DEV_COREDUMP) += panthor_coredump.o
+> > +
+> >  obj-$(CONFIG_DRM_PANTHOR) += panthor.o
+> > diff --git a/drivers/gpu/drm/panthor/panthor_coredump.c b/drivers/gpu/drm/panthor/panthor_coredump.c
+> > new file mode 100644
+> > index 000000000000..767f3327e3e8
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/panthor/panthor_coredump.c
+> > @@ -0,0 +1,225 @@
+> > +// SPDX-License-Identifier: GPL-2.0 or MIT
+> > +/* Copyright 2025 Google LLC */
+> > +
+> > +#include <drm/drm_drv.h>
+> > +#include <drm/drm_print.h>
+> > +#include <drm/drm_managed.h>
+> > +#include <generated/utsrelease.h>
+> > +#include <linux/devcoredump.h>
+> > +#include <linux/err.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/timekeeping.h>
+> > +
+> > +#include "panthor_coredump.h"
+> > +#include "panthor_device.h"
+> > +#include "panthor_sched.h"
+> > +
+> > +/**
+> > + * enum panthor_coredump_mask - Coredump state
+> > + */
+> > +enum panthor_coredump_mask {
+> > +	PANTHOR_COREDUMP_GROUP = BIT(0),
+> > +};
+> > +
+> > +/**
+> > + * struct panthor_coredump_header - Coredump header
+> > + */
+> > +struct panthor_coredump_header {
+> > +	enum panthor_coredump_reason reason;
+> > +	ktime_t timestamp;
+> > +};
+> > +
+> > +/**
+> > + * struct panthor_coredump - Coredump
+> > + */
+> > +struct panthor_coredump {
+> > +	/** @ptdev: Device. */
+> > +	struct panthor_device *ptdev;
+> > +
+> > +	/** @work: Bottom half of panthor_coredump_capture. */
+> > +	struct work_struct work;
+> > +
+> > +	/** @header: Header. */
+> > +	struct panthor_coredump_header header;
+> > +
+> > +	/** @mask: Bitmask of captured states. */
+> > +	u32 mask;
+> > +
+> > +	struct panthor_coredump_group_state group;
+> > +
+> > +	/* @data: Serialized coredump data. */
+> > +	void *data;
+> > +
+> > +	/* @size: Serialized coredump size. */
+> > +	size_t size;
+> > +};
+> > +
+> > +static const char *reason_str(enum panthor_coredump_reason reason)
+> > +{
+> > +	switch (reason) {
+> > +	case PANTHOR_COREDUMP_REASON_MMU_FAULT:
+> > +		return "MMU_FAULT";
+> > +	case PANTHOR_COREDUMP_REASON_CSG_REQ_TIMEOUT:
+> > +		return "CSG_REQ_TIMEOUT";
+> > +	case PANTHOR_COREDUMP_REASON_CSG_UNKNOWN_STATE:
+> > +		return "CSG_UNKNOWN_STATE";
+> > +	case PANTHOR_COREDUMP_REASON_CSG_PROGRESS_TIMEOUT:
+> > +		return "CSG_PROGRESS_TIMEOUT";
+> > +	case PANTHOR_COREDUMP_REASON_CS_FATAL:
+> > +		return "CS_FATAL";
+> > +	case PANTHOR_COREDUMP_REASON_CS_FAULT:
+> > +		return "CS_FAULT";
+> > +	case PANTHOR_COREDUMP_REASON_CS_TILER_OOM:
+> > +		return "CS_TILER_OOM";
+> > +	case PANTHOR_COREDUMP_REASON_JOB_TIMEOUT:
+> > +		return "JOB_TIMEOUT";
+> > +	default:
+> > +		return "UNKNOWN";
+> > +	}
+> > +}  
+> 
+> I'd recommend using a macro to reduce the repetition, e.g. take a look
+> at PANTHOR_EXCEPTION().
+> 
+> > +
+> > +static void print_group(struct drm_printer *p,
+> > +			const struct panthor_coredump_group_state *group)
+> > +{
+> > +	drm_puts(p, "group:\n");
+> > +	drm_printf(p, "  priority: %d\n", group->priority);
+> > +	drm_printf(p, "  queue_count: %u\n", group->queue_count);
+> > +	drm_printf(p, "  pid: %d\n", group->pid);
+> > +	drm_printf(p, "  comm: %s\n", group->comm);  
+> 
+> I can see the attraction of YAML, but here "comm" might contain
+> characters that break the YAML parsing. So either we need to correctly
+> quote such characters, or accept this isn't YAML.
+> 
+> In particular YAML starts to become ugly in the final patch when you are
+> dumping buffer objects. Although AFAICT that is quoted successfully.
 
-Hi Dave, Sima,
+I honestly have mixed feelings about human-readable coredumps. On one
+hand it gives you general GPU state info very quickly, on the other
+hand, it becomes a lot bigger when you get to dump the info you need
+for an actual post-mortem debugging session (VAs and BOs). And let's be
+honest, those dumps will be passed to the GPU-specific coredump analysis
+tool 99.99% of the time, so it's not like human-readability is important
+in practice.
 
-Here's this week drm-misc-fixes PR.
+I know most drivers (Xe, AMD, MSM, ...) are using the drm printer and
+generating human readable dumps, which I guess is one more reason to go
+for this approach, but I wish we had some kind of ELF-like format for
+these dumps, with separate sections and an easy way for the coredump
+analysis tools to navigate among these sections easily instead of
+having to parse text. Oh well, looks like this ship has long sailed,
+and we get to follow others lead here.
 
-Maxime
-
-drm-misc-fixes-2025-08-21:
-A bunch of fixes for 6.17:
-  - analogix_dp: devm_drm_bridge_alloc() error handling fix
-  - gaudi: Memory deallocation fix
-  - gpuvm: Documentation warning fix
-  - hibmc: Various misc fixes
-  - nouveau: Memory leak fixes, typos
-  - panic: u64 division handling on 32 bits architecture fix
-  - rockchip: Kconfig fix, register caching fix
-  - rust: memory layout and safety fixes
-  - tests: Endianness fixes
-The following changes since commit c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9:
-
-  Linux 6.17-rc2 (2025-08-17 15:22:10 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-20=
-25-08-21
-
-for you to fetch changes up to 1a2cf179e2973f6801c67397ecc987391b084bcf:
-
-  Merge drm/drm-fixes into drm-misc-fixes (2025-08-20 16:08:49 +0200)
-
-----------------------------------------------------------------
-A bunch of fixes for 6.17:
-  - analogix_dp: devm_drm_bridge_alloc() error handling fix
-  - gaudi: Memory deallocation fix
-  - gpuvm: Documentation warning fix
-  - hibmc: Various misc fixes
-  - nouveau: Memory leak fixes, typos
-  - panic: u64 division handling on 32 bits architecture fix
-  - rockchip: Kconfig fix, register caching fix
-  - rust: memory layout and safety fixes
-  - tests: Endianness fixes
-
-----------------------------------------------------------------
-Avizrat, Yaron (1):
-      MAINTAINERS: Change habanalabs maintainers
-
-Baihan Li (5):
-      drm/hisilicon/hibmc: fix the i2c device resource leak when vdac init =
-failed
-      drm/hisilicon/hibmc: fix irq_request()'s irq name variable is local
-      drm/hisilicon/hibmc: fix the hibmc loaded failed bug
-      drm/hisilicon/hibmc: fix rare monitors cannot display problem
-      drm/hisilicon/hibmc: fix dp and vga cannot show together
-
-Danilo Krummrich (5):
-      MAINTAINERS: entry for DRM GPUVM
-      rust: alloc: replace aligned_size() with Kmalloc::aligned_layout()
-      rust: drm: ensure kmalloc() compatible Layout
-      rust: drm: remove pin annotations from drm::Device
-      rust: drm: don't pass the address of drm::Device to drm_dev_put()
-
-Fanhua Li (1):
-      drm/nouveau/nvif: Fix potential memory leak in nvif_vmm_ctor().
-
-Javier Garcia (1):
-      drm: Add directive to format code in comment
-
-Jocelyn Falempe (1):
-      drm/panic: Add a u64 divide by 10 for arm32
-
-Jos=E9 Exp=F3sito (2):
-      drm/tests: Fix endian warning
-      drm/tests: Fix drm_test_fb_xrgb8888_to_xrgb2101010() on big-endian
-
-Liu Ying (1):
-      drm/bridge: analogix_dp: Fix bailout for devm_drm_bridge_alloc()
-
-Madhur Kumar (1):
-      drm/nouveau: fix typos in comments
-
-Maxime Ripard (1):
-      Merge drm/drm-fixes into drm-misc-fixes
-
-Miguel Ojeda (2):
-      drm: nova-drm: fix 32-bit arm build
-      rust: alloc: fix `rusttest` by providing `Cmalloc::aligned_layout` too
-
-Nitin Gote (1):
-      iosys-map: Fix undefined behavior in iosys_map_clear()
-
-Piotr Zalewski (1):
-      drm/rockchip: vop2: make vp registers nonvolatile
-
-Qianfeng Rong (1):
-      drm/nouveau/gsp: fix mismatched alloc/free for kvmalloc()
-
-Rudi Heitbaum (1):
-      drm/rockchip: cdn-dp: select bridge for cdp-dp
-
-Thomas Zimmermann (2):
-      Merge drm/drm-fixes into drm-misc-fixes
-      Revert "drm/amdgpu: Use dma_buf from GEM object instance"
-
-Thorsten Blum (1):
-      accel/habanalabs/gaudi2: Use kvfree() for memory allocated with kvcal=
-loc()
-
- MAINTAINERS                                        | 14 +++++++++-
- drivers/accel/habanalabs/gaudi2/gaudi2.c           |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  2 +-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  4 +--
- drivers/gpu/drm/drm_gpuvm.c                        |  2 ++
- drivers/gpu/drm/drm_panic_qr.rs                    | 22 ++++++++++++++-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c       | 14 ++++++++--
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    | 22 +++++++++------
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h    |  1 +
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c    |  5 ++++
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c   | 11 ++++++--
- drivers/gpu/drm/nouveau/nouveau_exec.c             |  6 ++--
- drivers/gpu/drm/nouveau/nvif/vmm.c                 |  3 +-
- .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c  |  4 +--
- drivers/gpu/drm/nova/file.rs                       |  3 +-
- drivers/gpu/drm/rockchip/Kconfig                   |  1 +
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  9 +++---
- drivers/gpu/drm/tests/drm_format_helper_test.c     |  3 +-
- include/linux/iosys-map.h                          |  7 +----
- rust/kernel/alloc/allocator.rs                     | 30 ++++++++++++------=
---
- rust/kernel/alloc/allocator_test.rs                | 11 ++++++++
- rust/kernel/drm/device.rs                          | 32 +++++++++++++++++-=
-----
- 24 files changed, 154 insertions(+), 59 deletions(-)
-
---qaduzatttsqlmtga
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaKbVBwAKCRAnX84Zoj2+
-dnYBAYDAQbhzmNTAbWI5BZX/lR4QgO9ENVREPE0P0i2Q/mPV8KVhc7BPjM5kdcZh
-fqAeQdUBgKbrYCoVdcCf6nFAj5xza/8GeMT5uWpbJSxBsrmoF6hzjO5symoIEhYy
-pzDqGAthPg==
-=pl7U
------END PGP SIGNATURE-----
-
---qaduzatttsqlmtga--
+> 
+> > +	drm_printf(p, "  destroyed: %d\n", group->destroyed);
+> > +	drm_printf(p, "  csg_id: %d\n", group->csg_id);
+> > +}
+> > +
+> > +static void print_header(struct drm_printer *p,
+> > +			 const struct panthor_coredump_header *header,
+> > +			 const struct drm_driver *drv)
+> > +{
+> > +	drm_puts(p, "header:\n");
+> > +	drm_puts(p, "  kernel: " UTS_RELEASE "\n");
+> > +	drm_puts(p, "  module: " KBUILD_MODNAME "\n");
+> > +	drm_printf(p, "  driver_version: %d.%d\n", drv->major, drv->minor);
+> > +
+> > +	drm_printf(p, "  reason: %s\n", reason_str(header->reason));
+> > +	drm_printf(p, "  timestamp: %lld\n", ktime_to_ns(header->timestamp));
+> > +}
+> > +
+> > +static void print_cd(struct drm_printer *p, const struct panthor_coredump *cd)
+> > +{
+> > +	/* in YAML format */
+> > +	drm_puts(p, "---\n");
+> > +	print_header(p, &cd->header, cd->ptdev->base.driver);
+> > +
+> > +	if (cd->mask & PANTHOR_COREDUMP_GROUP)
+> > +		print_group(p, &cd->group);
+> > +}
+> > +
+> > +static void process_cd(struct panthor_device *ptdev,
+> > +		       struct panthor_coredump *cd)
+> > +{
+> > +	struct drm_print_iterator iter = {
+> > +		.remain = SSIZE_MAX,
+> > +	};
+> > +	struct drm_printer p = drm_coredump_printer(&iter);
+> > +
+> > +	print_cd(&p, cd);
+> > +
+> > +	iter.remain = SSIZE_MAX - iter.remain;
+> > +	iter.data = kvmalloc(iter.remain, GFP_USER);
+> > +	if (!iter.data)
+> > +		return;
+> > +
+> > +	cd->data = iter.data;
+> > +	cd->size = iter.remain;
+> > +
+> > +	drm_info(&ptdev->base, "generating coredump of size %zu\n", cd->size);
+> > +
+> > +	p = drm_coredump_printer(&iter);
+> > +	print_cd(&p, cd);
+> > +}  
+> 
+> I think this would be better written in the style suggested in the
+> drm_print.h header, moving the iterator into print_cd():
+> 
+> static ssize_t print_cd(char *buffer, ssize_t count, const struct
+> panthor_coredump *cd)
+> {
+> 	struct drm_print_iterator iter = {
+> 		.data = buffer,
+> 		.remain = count,
+> 	};
+> 	struct drm_printer p = drm_coredump_printer(&iter);
+> 
+> 	/* in YAML format */
+> 	drm_puts(p, "---\n");
+> 	print_header(p, &cd->header, cd->ptdev->base.driver);
+> 
+> 	if (cd->mask & PANTHOR_COREDUMP_GROUP)
+> 		print_group(p, &cd->group);
+> 
+> 	return count - iter.remain;
+> }
+> 
+> static void process_cd(struct panthor_device *ptdev,
+> 		       struct panthor_coredump *cd)
+> {
+> 	ssize_t count = print_cd(NULL, SSIZE_MAX, cd);
+> 
+> 	cd->data = kvmalloc(count, GFP_USER);
+> 	if (!cd->data)
+> 		return;
+> 	cd->size = count;
+> 
+> 	drm_info(&ptdev->base, "generating coredump of size %zu\n", count);
+> 	print_cd(cd->data, cd->size, cd);
+> }
+> 
+> > +
+> > +static void capture_cd(struct panthor_device *ptdev,
+> > +		       struct panthor_coredump *cd, struct panthor_group *group)
+> > +{
+> > +	drm_info(&ptdev->base, "capturing coredump states\n");
+> > +
+> > +	if (group) {
+> > +		panthor_group_capture_coredump(group, &cd->group);
+> > +		cd->mask |= PANTHOR_COREDUMP_GROUP;
+> > +	}
+> > +}
+> > +
+> > +static void panthor_coredump_free(void *data)
+> > +{
+> > +	struct panthor_coredump *cd = data;
+> > +	struct panthor_device *ptdev = cd->ptdev;
+> > +
+> > +	kvfree(cd->data);
+> > +	kfree(cd);
+> > +
+> > +	atomic_set(&ptdev->coredump.pending, 0);
+> > +}
+> > +
+> > +static ssize_t panthor_coredump_read(char *buffer, loff_t offset, size_t count,
+> > +				     void *data, size_t datalen)
+> > +{
+> > +	const struct panthor_coredump *cd = data;
+> > +
+> > +	if (offset >= cd->size)
+> > +		return 0;
+> > +
+> > +	if (count > cd->size - offset)
+> > +		count = cd->size - offset;
+> > +
+> > +	memcpy(buffer, cd->data + offset, count);
+> > +
+> > +	return count;
+> > +}
+> > +
+> > +static void panthor_coredump_process_work(struct work_struct *work)
+> > +{
+> > +	struct panthor_coredump *cd =
+> > +		container_of(work, struct panthor_coredump, work);
+> > +	struct panthor_device *ptdev = cd->ptdev;
+> > +
+> > +	process_cd(ptdev, cd);
+> > +
+> > +	dev_coredumpm(ptdev->base.dev, THIS_MODULE, cd, 0, GFP_KERNEL,
+> > +		      panthor_coredump_read, panthor_coredump_free);  
+> 
+> Is there a good reason to reinvent the read/free functionality of
+> devcoredump? Can we not just use dev_coredumpv() instead? The only
+> benefit I can see if the automatic rearming of coredump.pending, but
+> panfrost handles this by having a "panfrost_dump_core" flag which is
+> re-armed manually from user space.
+> 
+> Given core dumps might be large and fairly expensive to create, it seems
+> sensible to not automatically re-arm.
+> 
+> > +}
+> > +
+> > +void panthor_coredump_capture(struct panthor_coredump *cd,
+> > +			      struct panthor_group *group)
+> > +{
+> > +	struct panthor_device *ptdev = cd->ptdev;
+> > +
+> > +	capture_cd(ptdev, cd, group);
+> > +
+> > +	queue_work(system_unbound_wq, &cd->work);
+> > +}  
+> 
+> So I can see why you want to move the work onto a workqueue, but I'm a
+> little worried about lifetimes.
+> 
+> It seems slightly odd that you are capturing the data into a binary
+> format (struct panthor_coredump_group_state, and later
+> panthor_coredump_gpu_state, panthor_coredump_glb_state,
+> panthor_coredump_csg_state etc) and then kicking off a separate
+> workqueue item to convert it all to YAML.
+> 
+> > +
+> > +struct panthor_coredump *
+> > +panthor_coredump_alloc(struct panthor_device *ptdev,
+> > +		       enum panthor_coredump_reason reason, gfp_t gfp)
+> > +{
+> > +	struct panthor_coredump *cd;
+> > +
+> > +	/* reject all but the first coredump until it is handled */
+> > +	if (atomic_cmpxchg(&ptdev->coredump.pending, 0, 1)) {
+> > +		drm_dbg(&ptdev->base, "skip subsequent coredump\n");
+> > +		return NULL;
+> > +	}
+> > +
+> > +	cd = kzalloc(sizeof(*cd), gfp);
+> > +	if (!cd) {
+> > +		atomic_set(&ptdev->coredump.pending, 0);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	cd->ptdev = ptdev;
+> > +	INIT_WORK(&cd->work, panthor_coredump_process_work);
+> > +
+> > +	cd->header.reason = reason;
+> > +	cd->header.timestamp = ktime_get_real();
+> > +
+> > +	return cd;
+> > +}
+> > diff --git a/drivers/gpu/drm/panthor/panthor_coredump.h b/drivers/gpu/drm/panthor/panthor_coredump.h
+> > new file mode 100644
+> > index 000000000000..dd1fe1c2e175
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/panthor/panthor_coredump.h
+> > @@ -0,0 +1,68 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> > +/* Copyright 2019 Collabora ltd. */
+> > +
+> > +#ifndef __PANTHOR_COREDUMP_H__
+> > +#define __PANTHOR_COREDUMP_H__
+> > +
+> > +#include <drm/panthor_drm.h>
+> > +#include <linux/sched.h>
+> > +#include <linux/types.h>
+> > +
+> > +struct panthor_coredump;
+> > +struct panthor_device;
+> > +struct panthor_group;
+> > +
+> > +/**
+> > + * enum panthor_coredump_reason - Coredump reason
+> > + */
+> > +enum panthor_coredump_reason {
+> > +	PANTHOR_COREDUMP_REASON_MMU_FAULT,
+> > +	PANTHOR_COREDUMP_REASON_CSG_REQ_TIMEOUT,
+> > +	PANTHOR_COREDUMP_REASON_CSG_UNKNOWN_STATE,
+> > +	PANTHOR_COREDUMP_REASON_CSG_PROGRESS_TIMEOUT,
+> > +	PANTHOR_COREDUMP_REASON_CS_FATAL,
+> > +	PANTHOR_COREDUMP_REASON_CS_FAULT,
+> > +	PANTHOR_COREDUMP_REASON_CS_TILER_OOM,
+> > +	PANTHOR_COREDUMP_REASON_JOB_TIMEOUT,
+> > +};
+> > +
+> > +/**
+> > + * struct panthor_coredump_group_state - Coredump group state
+> > + *
+> > + * Interesting panthor_group fields.
+> > + */
+> > +struct panthor_coredump_group_state {
+> > +	enum drm_panthor_group_priority priority;
+> > +	u32 queue_count;
+> > +	pid_t pid;
+> > +	char comm[TASK_COMM_LEN];
+> > +	bool destroyed;
+> > +	int csg_id;
+> > +};
+> > +
+> > +#ifdef CONFIG_DEV_COREDUMP
+> > +
+> > +struct panthor_coredump *
+> > +panthor_coredump_alloc(struct panthor_device *ptdev,
+> > +		       enum panthor_coredump_reason reason, gfp_t gfp);
+> > +
+> > +void panthor_coredump_capture(struct panthor_coredump *cd,
+> > +			      struct panthor_group *group);
+> > +
+> > +#else /* CONFIG_DEV_COREDUMP */
+> > +
+> > +static inline struct panthor_coredump *
+> > +panthor_coredump_alloc(struct panthor_device *ptdev,
+> > +		       enum panthor_coredump_reason reason, gfp_t gfp)
+> > +{
+> > +	return NULL;
+> > +}
+> > +
+> > +static inline void panthor_coredump_capture(struct panthor_coredump *cd,
+> > +					    struct panthor_group *group)
+> > +{
+> > +}  
+> 
+> panthor_coredump_alloc() is always called immediately before
+> panthor_coredump_capture(). So instead we could just export a wrapper
+> than combines both functions. This also avoids the caller having to deal
+> with panthor_coredump_alloc() failing.
+> 
+> Thanks,
+> Steve
+> 
+> > +
+> > +#endif /* CONFIG_DEV_COREDUMP */
+> > +
+> > +#endif /* __PANTHOR_COREDUMP_H__ */
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index 4fc7cf2aeed5..766e53c25cfa 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -197,6 +197,12 @@ struct panthor_device {
+> >  		atomic_t recovery_needed;
+> >  	} pm;
+> >  
+> > +	/** @coredump: Coredump-related data. */
+> > +	struct {
+> > +		/** @pending: True if there is a pending coredump. */
+> > +		atomic_t pending;
+> > +	} coredump;
+> > +
+> >  	/** @profile_mask: User-set profiling flags for job accounting. */
+> >  	u32 profile_mask;
+> >  
+> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> > index a2248f692a03..eb45b5ad9774 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> > @@ -23,6 +23,7 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/pm_runtime.h>
+> >  
+> > +#include "panthor_coredump.h"
+> >  #include "panthor_devfreq.h"
+> >  #include "panthor_device.h"
+> >  #include "panthor_fw.h"
+> > @@ -1031,6 +1032,10 @@ group_unbind_locked(struct panthor_group *group)
+> >  	return 0;
+> >  }
+> >  
+> > +static void panthor_sched_coredump_locked(struct panthor_device *ptdev,
+> > +					  enum panthor_coredump_reason reason,
+> > +					  struct panthor_group *group);
+> > +
+> >  /**
+> >   * cs_slot_prog_locked() - Program a queue slot
+> >   * @ptdev: Device.
+> > @@ -1249,6 +1254,10 @@ csg_slot_sync_state_locked(struct panthor_device *ptdev, u32 csg_id)
+> >  		drm_err(&ptdev->base, "Invalid state on CSG %d (state=%d)",
+> >  			csg_id, csg_state);
+> >  		new_state = PANTHOR_CS_GROUP_UNKNOWN_STATE;
+> > +
+> > +		panthor_sched_coredump_locked(
+> > +			ptdev, PANTHOR_COREDUMP_REASON_CSG_UNKNOWN_STATE,
+> > +			group);
+> >  		break;
+> >  	}
+> >  
+> > @@ -1378,6 +1387,9 @@ cs_slot_process_fatal_event_locked(struct panthor_device *ptdev,
+> >  		 panthor_exception_name(ptdev, CS_EXCEPTION_TYPE(fatal)),
+> >  		 (unsigned int)CS_EXCEPTION_DATA(fatal),
+> >  		 info);
+> > +
+> > +	panthor_sched_coredump_locked(ptdev, PANTHOR_COREDUMP_REASON_CS_FATAL,
+> > +				      group);
+> >  }
+> >  
+> >  static void
+> > @@ -1426,6 +1438,9 @@ cs_slot_process_fault_event_locked(struct panthor_device *ptdev,
+> >  		 panthor_exception_name(ptdev, CS_EXCEPTION_TYPE(fault)),
+> >  		 (unsigned int)CS_EXCEPTION_DATA(fault),
+> >  		 info);
+> > +
+> > +	panthor_sched_coredump_locked(ptdev, PANTHOR_COREDUMP_REASON_CS_FAULT,
+> > +				      group);
+> >  }
+> >  
+> >  static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
+> > @@ -1480,6 +1495,10 @@ static int group_process_tiler_oom(struct panthor_group *group, u32 cs_id)
+> >  		drm_warn(&ptdev->base, "Failed to extend the tiler heap\n");
+> >  		group->fatal_queues |= BIT(cs_id);
+> >  		sched_queue_delayed_work(sched, tick, 0);
+> > +
+> > +		panthor_sched_coredump_locked(
+> > +			ptdev, PANTHOR_COREDUMP_REASON_CS_TILER_OOM, group);
+> > +
+> >  		goto out_put_heap_pool;
+> >  	}
+> >  
+> > @@ -1639,6 +1658,9 @@ csg_slot_process_progress_timer_event_locked(struct panthor_device *ptdev, u32 c
+> >  		group->timedout = true;
+> >  
+> >  	sched_queue_delayed_work(sched, tick, 0);
+> > +
+> > +	panthor_sched_coredump_locked(
+> > +		ptdev, PANTHOR_COREDUMP_REASON_CSG_PROGRESS_TIMEOUT, group);
+> >  }
+> >  
+> >  static void sched_process_csg_irq_locked(struct panthor_device *ptdev, u32 csg_id)
+> > @@ -1858,8 +1880,16 @@ static int csgs_upd_ctx_apply_locked(struct panthor_device *ptdev,
+> >  
+> >  		if (ret && acked != req_mask &&
+> >  		    ((csg_iface->input->req ^ csg_iface->output->ack) & req_mask) != 0) {
+> > +			struct panthor_csg_slot *csg_slot =
+> > +				&sched->csg_slots[csg_id];
+> > +			struct panthor_group *group = csg_slot->group;
+> > +
+> >  			drm_err(&ptdev->base, "CSG %d update request timedout", csg_id);
+> >  			ctx->timedout_mask |= BIT(csg_id);
+> > +
+> > +			panthor_sched_coredump_locked(
+> > +				ptdev, PANTHOR_COREDUMP_REASON_CSG_REQ_TIMEOUT,
+> > +				group);
+> >  		}
+> >  	}
+> >  
+> > @@ -2027,6 +2057,10 @@ tick_ctx_init(struct panthor_scheduler *sched,
+> >  		 * CSG IRQs, so we can flag the faulty queue.
+> >  		 */
+> >  		if (panthor_vm_has_unhandled_faults(group->vm)) {
+> > +			panthor_sched_coredump_locked(
+> > +				ptdev, PANTHOR_COREDUMP_REASON_MMU_FAULT,
+> > +				group);
+> > +
+> >  			sched_process_csg_irq_locked(ptdev, i);
+> >  
+> >  			/* No fatal fault reported, flag all queues as faulty. */
+> > @@ -3237,6 +3271,10 @@ queue_timedout_job(struct drm_sched_job *sched_job)
+> >  
+> >  		group_queue_work(group, term);
+> >  	}
+> > +
+> > +	panthor_sched_coredump_locked(
+> > +		ptdev, PANTHOR_COREDUMP_REASON_JOB_TIMEOUT, group);
+> > +
+> >  	mutex_unlock(&sched->lock);
+> >  
+> >  	queue_start(queue);
+> > @@ -3627,6 +3665,37 @@ int panthor_group_get_state(struct panthor_file *pfile,
+> >  	return 0;
+> >  }
+> >  
+> > +static void panthor_sched_coredump_locked(struct panthor_device *ptdev,
+> > +					  enum panthor_coredump_reason reason,
+> > +					  struct panthor_group *group)
+> > +{
+> > +	struct panthor_coredump *cd;
+> > +
+> > +	lockdep_assert_held(&ptdev->scheduler->lock);
+> > +
+> > +	/* GFP_NOWAIT because this may be called from fence signaling path */
+> > +	cd = panthor_coredump_alloc(ptdev, reason, GFP_NOWAIT);
+> > +	if (!cd)
+> > +		return;
+> > +
+> > +	panthor_coredump_capture(cd, group);
+> > +}
+> > +
+> > +void panthor_group_capture_coredump(const struct panthor_group *group,
+> > +				    struct panthor_coredump_group_state *state)
+> > +{
+> > +	const struct panthor_device *ptdev = group->ptdev;
+> > +
+> > +	/* this is called from panthor_coredump_capture */
+> > +	lockdep_assert_held(&ptdev->scheduler->lock);
+> > +
+> > +	state->priority = group->priority;
+> > +	state->queue_count = group->queue_count;
+> > +	/* TODO state->pid and state->comm */
+> > +	state->destroyed = group->destroyed;
+> > +	state->csg_id = group->csg_id;
+> > +}
+> > +
+> >  int panthor_group_pool_create(struct panthor_file *pfile)
+> >  {
+> >  	struct panthor_group_pool *gpool;
+> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
+> > index 742b0b4ff3a3..6c564153133e 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_sched.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_sched.h
+> > @@ -14,8 +14,10 @@ struct drm_panthor_group_create;
+> >  struct drm_panthor_queue_create;
+> >  struct drm_panthor_group_get_state;
+> >  struct drm_panthor_queue_submit;
+> > +struct panthor_coredump_group_state;
+> >  struct panthor_device;
+> >  struct panthor_file;
+> > +struct panthor_group;
+> >  struct panthor_group_pool;
+> >  struct panthor_job;
+> >  
+> > @@ -26,6 +28,9 @@ int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle);
+> >  int panthor_group_get_state(struct panthor_file *pfile,
+> >  			    struct drm_panthor_group_get_state *get_state);
+> >  
+> > +void panthor_group_capture_coredump(const struct panthor_group *group,
+> > +				    struct panthor_coredump_group_state *state);
+> > +
+> >  struct drm_sched_job *
+> >  panthor_job_create(struct panthor_file *pfile,
+> >  		   u16 group_handle,  
+> 
 
