@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8A8B2F035
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 09:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A77B2F038
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 09:55:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C64AE10E89A;
-	Thu, 21 Aug 2025 07:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58A4F10E89D;
+	Thu, 21 Aug 2025 07:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 319B910E89A
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 07:55:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22D6A10E89A
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 07:55:47 +0000 (UTC)
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
  helo=ratatoskr.trumtrar.info)
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <s.trumtrar@pengutronix.de>)
- id 1up09A-00073K-0D; Thu, 21 Aug 2025 09:55:44 +0200
+ id 1up09B-00073K-0O; Thu, 21 Aug 2025 09:55:45 +0200
 From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Date: Thu, 21 Aug 2025 09:55:30 +0200
-Subject: [PATCH 3/5] drm/panel: simple: add JuTouch JT101TM023
+Date: Thu, 21 Aug 2025 09:55:31 +0200
+Subject: [PATCH 4/5] dt-bindings: arm: fsl: add compatible for Skov i.MX8MP
+ variant
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-3-b492ef807d12@pengutronix.de>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-4-b492ef807d12@pengutronix.de>
 References: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-0-b492ef807d12@pengutronix.de>
 In-Reply-To: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-0-b492ef807d12@pengutronix.de>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -63,66 +64,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add JuTouch Technology JT101TM023 10" 1280x800 LVDS panel support.
+In preparation for adding a new device tree variant with a different
+panel, describe the DT compatible in the binding.
 
 Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ Documentation/devicetree/bindings/arm/fsl.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 3333d4a0750468b058155bcdddc694a521d342d6..3bb52a557a193a3687bc5125ab055ad6ff065d49 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2889,6 +2889,38 @@ static const struct panel_desc innolux_zj070na_01p = {
- 	},
- };
- 
-+static const struct display_timing jutouch_jt101tm023_timing = {
-+	.pixelclock = { 66300000, 72400000, 78900000 },
-+	.hactive = { 1280, 1280, 1280 },
-+	.hfront_porch = { 12, 72, 132 },
-+	.hback_porch = { 88, 88, 88 },
-+	.hsync_len = { 10, 10, 48 },
-+	.vactive = { 800, 800, 800 },
-+	.vfront_porch = { 1, 15, 49 },
-+	.vback_porch = { 23, 23, 23 },
-+	.vsync_len = { 5, 6, 13 },
-+	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-+		 DISPLAY_FLAGS_DE_HIGH,
-+};
-+
-+static const struct panel_desc jutouch_jt101tm023 = {
-+	.timings = &jutouch_jt101tm023_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 217,
-+		.height = 136,
-+	},
-+	.delay = {
-+		.enable = 50,
-+		.disable = 50,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
-+
- static const struct display_timing koe_tx14d24vm1bpa_timing = {
- 	.pixelclock = { 5580000, 5850000, 6200000 },
- 	.hactive = { 320, 320, 320 },
-@@ -5185,6 +5217,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "innolux,zj070na-01p",
- 		.data = &innolux_zj070na_01p,
-+	}, {
-+		.compatible = "jutouch,jt101tm023",
-+		.data = &jutouch_jt101tm023,
- 	}, {
- 		.compatible = "koe,tx14d24vm1bpa",
- 		.data = &koe_tx14d24vm1bpa,
+diff --git a/Documentation/devicetree/bindings/arm/fsl.yaml b/Documentation/devicetree/bindings/arm/fsl.yaml
+index a3e9f9e0735a8808721ebba713f14818ee49172a..95078d1a70b07e9c0d298f18ce4eaba3aebd4591 100644
+--- a/Documentation/devicetree/bindings/arm/fsl.yaml
++++ b/Documentation/devicetree/bindings/arm/fsl.yaml
+@@ -1111,6 +1111,7 @@ properties:
+               - skov,imx8mp-skov-revb-lt6 # SKOV i.MX8MP climate control with 7” panel
+               - skov,imx8mp-skov-revb-mi1010ait-1cp1 # SKOV i.MX8MP climate control with 10.1" panel
+               - skov,imx8mp-skov-revc-bd500 # SKOV i.MX8MP climate control with LED frontplate
++              - skov,imx8mp-skov-revc-jutouch-jt101tm023 # SKOV i.MX8MP climate control with 10" JuTouch panel
+               - skov,imx8mp-skov-revc-tian-g07017 # SKOV i.MX8MP climate control with 7" panel
+               - ysoft,imx8mp-iota2-lumpy  # Y Soft i.MX8MP IOTA2 Lumpy Board
+           - const: fsl,imx8mp
 
 -- 
 2.49.0
