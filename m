@@ -2,83 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8716CB30366
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 22:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02342B3036A
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 22:07:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C356A10E9CA;
-	Thu, 21 Aug 2025 20:07:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E42010E3B5;
+	Thu, 21 Aug 2025 20:07:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N/x7g2Gm";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bXrZmPeh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01EB910E3BE
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 20:07:19 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5EFD10E3BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 20:07:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1755806839;
+ s=mimecast20190719; t=1755806843;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zfh98TqNQqR9uCNr2hB5bEgIJ/15ql7Yv0zNbj5EC/8=;
- b=N/x7g2GmM2Y+GNvXIudCJPlMxW6wb2pOQh0itTOdPgmVpr5bIiD/10Qgs0sEFtIJJ/Ionq
- y/oJ9m8uW5OgJVJRFYL6x90zADPzDhOnW5Cff8ALZ7yi2udqSNDaMe4Teseknt/jEeYZd2
- MR1bj7HBKjwsCepEt9I9fJIsGt9bgYw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iU84NUWejaBSUFBs/T0/O04YrYLlq1RcxZMywEFGjU0=;
+ b=bXrZmPehYJDBOtI/hYSV3Tx7nBcN/iN0z8iYigjBFp69tS8F0dO+ewoK6msuz6k5zEHtOU
+ 76Wdpk2jLgXSDCHIS7dldUMZfjpGBekEKB/s5AW9Z74LxiWeJdM2e5zfWIaRNQO6JzuO1C
+ uhm1gEc5RxWdjnA08MZllTSsupy3VvA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-62-n_W3KFXsNSaksQGsJqK42Q-1; Thu, 21 Aug 2025 16:07:17 -0400
-X-MC-Unique: n_W3KFXsNSaksQGsJqK42Q-1
-X-Mimecast-MFC-AGG-ID: n_W3KFXsNSaksQGsJqK42Q_1755806836
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3c584459d02so247097f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 13:07:17 -0700 (PDT)
+ us-mta-619-y-IYeMWtP7iAm-CgYP49eg-1; Thu, 21 Aug 2025 16:07:20 -0400
+X-MC-Unique: y-IYeMWtP7iAm-CgYP49eg-1
+X-Mimecast-MFC-AGG-ID: y-IYeMWtP7iAm-CgYP49eg_1755806839
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-45a1b05b15eso10515285e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 13:07:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755806836; x=1756411636;
+ d=1e100.net; s=20230601; t=1755806839; x=1756411639;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Zfh98TqNQqR9uCNr2hB5bEgIJ/15ql7Yv0zNbj5EC/8=;
- b=g1zp1MNllM+HI+qc6IBacCj6GiI+MjifaSV5uWag38x0WcTiI0jp8h9YnIExLrG/Ml
- VD2mJDMkvi1e9fpcr7hyGP1elRY35nKbrzh4zHnqgNV2wrJRjGFH86AUP7f4XAll0gJp
- 3HoM+yo+f5y8pUAOkn+g1q7AlxjnE1CV++lgc4yFPWwAXoZT9NuR3VDCjnMMwB4/4uqj
- yYr/wfebNaL/Jy/sD8bYdbYQGPXVlU0lKqV59I+uvkMKi6swl1/yocnFIyzI5Rfmn+QE
- gAxFLqzJV6CCmegOXoWJc/vqZ0GB56yGsj1C2VEe77C8pGV9teO/ygFQcSpZzNc96flX
- a45A==
+ bh=iU84NUWejaBSUFBs/T0/O04YrYLlq1RcxZMywEFGjU0=;
+ b=j9wVa9VNJ3pe9j0oRqA/bC21lqkuuqWaGZPCknukfEchx/Jc4rVVPm9FadJLYeSGb0
+ 8Ta8oj0QCW9SSCGtlYZ5s7DRrsmrRGGTTvBvvG8oX4x39FJZXQZFi2eEyWfEXhvU4Wrz
+ h7+YP0HAbUmK+mQ5J3HlfqEX588HThU+PrEOMj+TH01C3SP1kYrVqpVrJKFOmEmJoj+i
+ xHax8u/w07JSlvTOMQYQrsKJrpTr6WCTINmCG/1F1rfB3b8k/lpFjB3H+/BaTdFZwxrZ
+ E0RTIsBte0SMPatzBvSe3Bdllr6ujbsIrBCBdzlHLBfr4U77F3by8hxVzK+oHAhfsfJy
+ jOMw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVhQ6EHSHm/6iHE0rXFJ9LDx233Y81uEhq1Qn/rpNeJ1Ffi05dl9dc+WIaZbnWTBG7gKDendra7UJk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxazGDw82wz7ZcU58Dbgw152EWoaiR9XwuGZdHxh5NKDB+Ua5/2
- Uy+L4qK2wE2qloWYZh7XHhMS4J0Y6khaT6mwr8ajQU+Gp2jW6dKMXWq6McNBi/xis78FStwNv+s
- gscX3vdZIHBJwWGji+5gxIyY+No2nAZlqNbc7t7Z7riQMQx+JnBoWZ7PDHfFubltlGN57lA==
-X-Gm-Gg: ASbGncspdBEEOHs8csHyUU75Km3jEACl3UCDA5M071t0YtEfu/q9Y22t7xOtnlqhoMJ
- 4av+ZhbPW/mJ332cyaDyhNjNJ9AVLq9Df9XaYB7g1F6c6ABA8/jsR3BikRLNQCcU1dCN1Fvn79k
- I4KBPHco9l1tRrWwZb5IhWNvh0xHgYlD44wWYDtzNKaSGKJGfzZY7rsmS0E2aLoF1zo1xGwXh+2
- YRjM5PRm5uwfDqcHcVFePfbJMkAJ0p8Wt7aI75uKa0Pzem6Of9OCdEI03luzbl6snsRlXk5dccs
- L3JvD729+U+yZlzQ0Hs0ttK/9ZsV//fzthpKhPjN+kU0gbp7zP+d2d83FBiBw844TJ//CuNW6/f
- naV2GDAPMFvOumE7WY5SaFw==
-X-Received: by 2002:a05:6000:1445:b0:3a5:27ba:47c7 with SMTP id
- ffacd0b85a97d-3c5dcc0da36mr163011f8f.48.1755806836157; 
- Thu, 21 Aug 2025 13:07:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFpC+bUbLbCjHqucY3RiMYJPd72Xl9UYU3JmJwOiC1ZPXsKWXLLEiwWSHifO8HwGgrBWSbiEw==
-X-Received: by 2002:a05:6000:1445:b0:3a5:27ba:47c7 with SMTP id
- ffacd0b85a97d-3c5dcc0da36mr162946f8f.48.1755806835650; 
- Thu, 21 Aug 2025 13:07:15 -0700 (PDT)
+ AJvYcCUDYJHruuGV+tctY2MsI2C3lUk6wQOh+2xSBrsJmIPnPoDiTz1h5Zlt8AszkRUHYHhEGFvVk15Ayzk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwjJPS6CpUnnRpK3F8mopFT/L3yy1CIAJt3j8js6DmZijrpkv4v
+ RkcPUAqWdYZVs3SnfwJsV5aJpChQjT2K+SkDQnaYsuWAE8WkruZZmKezSUhN0oElwMCKmlhkqDp
+ ptJqPPto+bxaNmkRcKvegxV748yAjp7uS4DEZ95EN9FHkuO+S4FrbPhcQHS73HkqQl4Ri7w==
+X-Gm-Gg: ASbGncu7F/Bcz21LJ+qRWUiGi3gEGcn386vky+RlIeq3uxb8lQY3BeZ1VyuJINUnjhv
+ bQSNyoY8WP1MEMU6GBrF+0b0eDBBJF+mt3VDVDx/wBvnh7/dyZ0xTUicyRUm08lsDNNR7TAMIiw
+ dsKWa2xxY3OVTtFkguG0Bi1FuSOqIjTLghQ9MnwtZMxqoB4IWezZ7TN8q3R0imqoRBpiHtR0FJk
+ Ge6M9oxIhbqqJDkvyY/rcqJnMoozNimHPxno6PzicVX98FLghaNcfX+cgE35VqIm9XZzMf3o0Mp
+ /OP5qfJEipJ6bd9Jy5rX6ZK4KAR0LukVWW2o6oVeTW5NrSWFWTsXXddPgIsmziIkn5wzJNBWQ8J
+ r+qwsAmO6J44V/awCKl4IMA==
+X-Received: by 2002:a05:600c:1f95:b0:459:db80:c2ce with SMTP id
+ 5b1f17b1804b1-45b51799428mr2845345e9.7.1755806838944; 
+ Thu, 21 Aug 2025 13:07:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHMhnqxttMNkrL8PAxIX9Mfq64uKkvY2MjzJ39LtAH2Yg7PxwVl8kOZ6CXLaaMF5rYTxrWwyA==
+X-Received: by 2002:a05:600c:1f95:b0:459:db80:c2ce with SMTP id
+ 5b1f17b1804b1-45b51799428mr2845125e9.7.1755806838506; 
+ Thu, 21 Aug 2025 13:07:18 -0700 (PDT)
 Received: from localhost
  (p200300d82f26ba0008036ec5991806fd.dip0.t-ipconnect.de.
  [2003:d8:2f26:ba00:803:6ec5:9918:6fd])
  by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-45b50dc00a8sm10958175e9.1.2025.08.21.13.07.13
+ 5b1f17b1804b1-45b50dea2b9sm8988005e9.15.2025.08.21.13.07.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Aug 2025 13:07:15 -0700 (PDT)
+ Thu, 21 Aug 2025 13:07:18 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
-Cc: David Hildenbrand <david@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
+Cc: David Hildenbrand <david@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
  Alexander Potapenko <glider@google.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
@@ -104,16 +102,16 @@ Cc: David Hildenbrand <david@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: [PATCH RFC 03/35] s390/Kconfig: drop superfluous "select
+Subject: [PATCH RFC 04/35] x86/Kconfig: drop superfluous "select
  SPARSEMEM_VMEMMAP"
-Date: Thu, 21 Aug 2025 22:06:29 +0200
-Message-ID: <20250821200701.1329277-4-david@redhat.com>
+Date: Thu, 21 Aug 2025 22:06:30 +0200
+Message-ID: <20250821200701.1329277-5-david@redhat.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250821200701.1329277-1-david@redhat.com>
 References: <20250821200701.1329277-1-david@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: upblRGfi73X4eUZ7XXpoU4y51Ep-4JPYqTiDdYD5IsI_1755806836
+X-Mimecast-MFC-PROC-ID: DSWiMep1cRKFeq26ESUhw1mj62kkJryvx82cgnJWPkM_1755806839
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
@@ -135,28 +133,27 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Now handled by the core automatically once SPARSEMEM_VMEMMAP_ENABLE
 is selected.
 
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: Vasily Gorbik <gor@linux.ibm.com>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: Sven Schnelle <svens@linux.ibm.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- arch/s390/Kconfig | 1 -
+ arch/x86/Kconfig | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index bf680c26a33cf..145ca23c2fff6 100644
---- a/arch/s390/Kconfig
-+++ b/arch/s390/Kconfig
-@@ -710,7 +710,6 @@ menu "Memory setup"
- config ARCH_SPARSEMEM_ENABLE
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 58d890fe2100e..e431d1c06fecd 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1552,7 +1552,6 @@ config ARCH_SPARSEMEM_ENABLE
  	def_bool y
- 	select SPARSEMEM_VMEMMAP_ENABLE
--	select SPARSEMEM_VMEMMAP
+ 	select SPARSEMEM_STATIC if X86_32
+ 	select SPARSEMEM_VMEMMAP_ENABLE if X86_64
+-	select SPARSEMEM_VMEMMAP if X86_64
  
  config ARCH_SPARSEMEM_DEFAULT
- 	def_bool y
+ 	def_bool X86_64 || (NUMA && X86_32)
 -- 
 2.50.1
 
