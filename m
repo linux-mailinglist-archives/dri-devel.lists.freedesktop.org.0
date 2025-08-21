@@ -2,84 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1EFB2EB92
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 05:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147C6B2EBA3
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 05:05:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B475F10E375;
-	Thu, 21 Aug 2025 03:01:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Szpi8pEl";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B40A10E102;
+	Thu, 21 Aug 2025 03:05:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50A3710E375;
- Thu, 21 Aug 2025 03:01:49 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-b472fd93ad1so347154a12.0; 
- Wed, 20 Aug 2025 20:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755745309; x=1756350109; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dchl2bUxkqbgVtu+uy7PwD6R4U4jQS+j2652EoPkofQ=;
- b=Szpi8pEllBXaEj4PFcOY/kI32p5VrbihW0GuWtujkAv5qKPoCVpxKiBnVFLqNCQot1
- BDcPgv0PM4otHfk7VoylFA0rVyrNEs8/zkfe2ANTwj95zjUWipo6N2qm8F826y5qTrvw
- 60oqU3Bsrb4QX3R3IvFbBa5C2cCZrlt+2DKCFPha7A8TQQDNwdNSeh37E2THtKDRilND
- +fmGdBVy41sk63jKwFWf9FhFbtWCEzFUDiQBvSZSaaRMiOO6ABZvTeztD++2eD5tJtcf
- WLNUdrTQgno+fDXXtA2pgX0qhXhj5RcALFN6u/z2PRhcG8aPN+CNRYD09FhLFPbrY5o4
- fG5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755745309; x=1756350109;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dchl2bUxkqbgVtu+uy7PwD6R4U4jQS+j2652EoPkofQ=;
- b=txI3Zh+QX2Mqzf0aEUDI21rx28RR33/fwiQCmEPZ51yCfV+k8Ogv+lcW9p/LQTNmPT
- ItJRGj2AniCdebqwEra8yUL7LyfNhdXUO1GMMGb8av99snfvqLBFXI8mqnoc1bStY71B
- zR67mC7H6Ff4aT6SQJE4el0YjM3fx1GKzRzZb2wlmJ6xI2Yp4nCfsetrPUeI249NElfu
- Jh6e+kIUDoV2ajJ2QuQWsNNJpLiYmUh01vQlkHJFH6FIggjvRwATkYohz/KOVRemdGiH
- W3a0gySuI6Erj2ad4FimTG/C+xmalaYxx8Y3t4urFqCyhmtVuDR0btotZ1Bd67mBVAW+
- 9Mjw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV69rK35dyFs/uKfeVca/u5av3qndu3WN+Zw4d48albs+6lJZhGbREQqRCstalf2tjyWzZLLrhC@lists.freedesktop.org,
- AJvYcCWOydeWdeFvJY0u+T6fKlkmJV0Z2qxfOUoq9uVqqyyG5rWGYQpJlBWhYvchVFbI/T57AV3fb0IesfY3@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzxLaQUkXDyMcJOw8TtOltnCA2RQBebXNUDrwrA8TsorSB+jXjb
- gc/Gt9oPOBhmwEyjUmwdfDm3Rs3dHkUp4vTAc/AdlseUtOBvSblfwLhX
-X-Gm-Gg: ASbGnctp2PGqHwNDXH0iFxLtROwJWqPVXO66mECjq5cjsy6SV11O3xC3jSA5j+QCQLu
- wCmOAB8C50njAtUqGQsOcV3Fx3mTUd3XBJa2TLysHrBfL+uqOFpiw7/H0zp5KgzGJKHD3Ch/a1p
- ihFmCjfxBOh5J+b0k3pLZrIqCdJs8PujfCeo2eVkAQcXS5wQWN6RrD/XuaFGttJaY97uWtsl9Mr
- BF9UlddX3rqIUaYV5Xuxtm3E6hQCDJ19g4UYyAV1Gmi6K8D7w3QYyRePoXX/LqqXoD6wFGETx9u
- 9ZsJ+kSTwrbEOlwxsfv1AB7qdK8HlPfI+T0Sfj/GG2Mqezw5S4KtaC2uF5gdh59GejYMyl99MZl
- JZaoMyie5aNvkj7jgeSiRtW+q1Os=
-X-Google-Smtp-Source: AGHT+IHsGc+xADnS1KQl1Eq0/IUY+3ItHxMypYdEF+dKr5ceq+9PZoCw5+c5P8t1BY/0NJT8/0dLRg==
-X-Received: by 2002:a17:903:384c:b0:242:e0f1:f4bf with SMTP id
- d9443c01a7336-245fec053e8mr11669045ad.18.1755745308564; 
- Wed, 20 Aug 2025 20:01:48 -0700 (PDT)
-Received: from lkmp.. ([49.37.161.210]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-245ed4c73f2sm40160695ad.94.2025.08.20.20.01.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Aug 2025 20:01:48 -0700 (PDT)
-From: Rakuram Eswaran <rakuram.e96@gmail.com>
-To: linux-doc@vger.kernel.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, corbet@lwn.net
-Cc: tzimmermann@suse.de, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- simona@ffwll.ch, siqueira@igalia.com, harry.wentland@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- rakuram.e96@gmail.com, Randy Dunlap <rdunlap@infradead.org>,
- Alexander Deucher <Alexander.Deucher@amd.com>
-Subject: [PATCH v2 2/2] docs: gpu: Fix spelling in gpu documentation
-Date: Thu, 21 Aug 2025 08:29:56 +0530
-Message-ID: <20250821025957.22546-3-rakuram.e96@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250821025957.22546-1-rakuram.e96@gmail.com>
-References: <20250821025957.22546-1-rakuram.e96@gmail.com>
+Received: from c64.rulez.org (c64.rulez.org [79.139.58.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93C9810E102
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 03:05:09 +0000 (UTC)
+Received: from [192.168.1.73] (4F7A343C.dsl.pool.telekom.hu [79.122.52.60])
+ by c64.rulez.org (Postfix) with ESMTPSA id 137441020F;
+ Thu, 21 Aug 2025 05:05:08 +0200 (CEST)
+Message-ID: <9473ef5b-c298-56b1-0051-e10bb3b4dd67@c64.rulez.org>
+Date: Thu, 21 Aug 2025 05:04:57 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-GB
+To: Erhard Furtner <erhard_f@mailbox.org>, linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+References: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
+From: =?UTF-8?Q?Kajt=c3=a1r_Zsolt?= <soci@c64.rulez.org>
+Subject: Re: UBSAN: shift-out-of-bounds in
+ drivers/video/fbdev/core/fb_fillrect.h:100:21 (v6.17-rc2)
+In-Reply-To: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------465X0dp0dcCFUbYFICqAZu59"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,58 +46,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixed following typos reported by Codespell
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------465X0dp0dcCFUbYFICqAZu59
+Content-Type: multipart/mixed; boundary="------------bY0FFrD4MbwWZx0CYx98LZ0G";
+ protected-headers="v1"
+From: =?UTF-8?Q?Kajt=c3=a1r_Zsolt?= <soci@c64.rulez.org>
+To: Erhard Furtner <erhard_f@mailbox.org>, linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <9473ef5b-c298-56b1-0051-e10bb3b4dd67@c64.rulez.org>
+Subject: Re: UBSAN: shift-out-of-bounds in
+ drivers/video/fbdev/core/fb_fillrect.h:100:21 (v6.17-rc2)
+References: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
+In-Reply-To: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
 
-1. complection ==> completion
-   implementions ==> implementations
-In Documentation/gpu/todo.rst
+--------------bY0FFrD4MbwWZx0CYx98LZ0G
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-2. unpriviledged ==> unprivileged
-In Documentation/gpu/drm-uapi.rst
+> Greetings!
+>=20
+> Getting this UBSAN hit on my PowerMac G4 DP with kernel 6.17-rc2:
+>=20
+> [...]
+> Console: switching to colour frame buffer device 240x67
+> ------------[ cut here ]------------
+> UBSAN: shift-out-of-bounds in drivers/video/fbdev/core/fb_fillrect.h:10=
+0:21
+> shift exponent 32 is too large for 32-bit type 'unsigned long'
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
-Signed-off-by: Rakuram Eswaran <rakuram.e96@gmail.com>
----
- Documentation/gpu/drm-uapi.rst | 2 +-
- Documentation/gpu/todo.rst     | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Thanks for reporting!
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 843facf01b2d..7435664a1ffe 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -535,7 +535,7 @@ ENOSPC:
- EPERM/EACCES:
-         Returned for an operation that is valid, but needs more privileges.
-         E.g. root-only or much more common, DRM master-only operations return
--        this when called by unpriviledged clients. There's no clear
-+        this when called by unprivileged clients. There's no clear
-         difference between EACCES and EPERM.
- 
- ENODEV:
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index be8637da3fe9..1d064e617699 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -319,7 +319,7 @@ everything after it has done the write-protect/mkwrite trickery:
- 
-       vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
- 
--- Set the mkwrite and fsync callbacks with similar implementions to the core
-+- Set the mkwrite and fsync callbacks with similar implementations to the core
-   fbdev defio stuff. These should all work on plain ptes, they don't actually
-   require a struct page.  uff. These should all work on plain ptes, they don't
-   actually require a struct page.
-@@ -854,7 +854,7 @@ Querying errors from drm_syncobj
- ================================
- 
- The drm_syncobj container can be used by driver independent code to signal
--complection of submission.
-+completion of submission.
- 
- One minor feature still missing is a generic DRM IOCTL to query the error
- status of binary and timeline drm_syncobj.
--- 
-2.43.0
+> I guess this would be a problem on other 32bit arches too?
 
+It's only on 32 bit big endian. I don't have UBSAN for MIPS on my setup
+so haven't noticed it.
+
+#ifndef __LITTLE_ENDIAN
+        pattern <<=3D (BITS_PER_LONG % bpp);
+        pattern |=3D pattern >> bpp;          <-
+#endif
+
+In the 32 BPP case the result is identical in both the no shift and zero
+result implementations.
+
+I've patched it by skipping this realignment as it's only needed if the
+BPP is smaller than the word length.
+
+--=20
+						    -soci-
+
+--------------bY0FFrD4MbwWZx0CYx98LZ0G--
+
+--------------465X0dp0dcCFUbYFICqAZu59
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEE8WlaH4v4aHNT2Bn0WOeEu4KftGsFAmimjNkFAwAAAAAACgkQWOeEu4KftGv7
+bgf+NaPv0Y8aB946BhEzP2K6F5FMVuSdCRFFOABPx7zxh3RrJRki+Sb0g2sT8U0Ku9BTnw1DUPzC
+wBi6O7iXZzdRCxrnbjQyo68lQOIQ2iJhHUieT6M2fyyX1Qqv+1FB2aSVpfi1Lb/xlS7ndUsxwD1A
+RJGGddTsQzc6OoRZn1KgCUf3JdWylU86c7Oe5zhLBo5hRW2qCAjjt4dCfBqNLH8brw4oJU5uAa3s
+xi8rgqbfi8yBuGDz88oHlwzonDRjsV71Xxy8WdV2RzqsGM2BgK0bBvIudg5FQihM2ZNqoW1YIjhj
+Wl3NSwYM6bv8dZ//S6hDzNsB0BNYCBi4SpwLLQCV+Q==
+=v2Nq
+-----END PGP SIGNATURE-----
+
+--------------465X0dp0dcCFUbYFICqAZu59--
