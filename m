@@ -2,96 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F20BB2FD4D
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 16:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570ACB2FD72
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 16:54:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7C4110E9BA;
-	Thu, 21 Aug 2025 14:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCDA510E37E;
+	Thu, 21 Aug 2025 14:54:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NZiPjlaZ";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="TwTRSgri";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54BEA10E9BA
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:50:34 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-76e39ec6f30so1056169b3a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 07:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1755787831; x=1756392631;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yjqHieTqBHy+cNT3ZdROla3bmT3OzWvs9RzgpXfbZLc=;
- b=NZiPjlaZ1/X+dn5MiC0eUgrH6AjjPLwv9gH8gVa4PkuBR1y4/oidKZBPbXk9bfz1lW
- RzNM/m/0G1OwuCt64rWdiJTxv/m4jwgDrRwVZ5uI80N9uWnUw7VKn25DZYEeX7Ne1kWf
- +T1hLNdV7+oPI7tOwV2f+ppVPWC0P3qsAkECo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755787831; x=1756392631;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yjqHieTqBHy+cNT3ZdROla3bmT3OzWvs9RzgpXfbZLc=;
- b=YX4toK2oZFLIioCvV904Mf8FayZ2EwiqN30bdla9fLWfF39Ym7+oaV/dS6zCA81Agb
- 2kcx6QuFN8RgSisZIOUP82hS7WO4dLy1rmOA56jWwZK9PmFB/uSbE7SkW11engg8Q7jm
- jpFqhu/rnWHPYAtVv23eXX8SJ+6kY5GWyFDNJAdSJ3se/90SZoPlf3HOLZmGg+qS/YwA
- dKWwNW3+OjtncrC2DVfDHdh8H50hDclTFk/Tb1/9GRvGshfKOD84+F/5Ijrtn15AzqO7
- L7PI787kVn7OrpIssk5259VB6M5o7Q51CcZfw/Evfh13+hmHbK0y5UbIIUrp204wMRXD
- ZJyA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJN4/k4xM7f6q5DZq9BYvptR38/xfoVu/JuswKYHZbC3SVm6XDTaY6JTdArXqkgGOHGOw9JjqFZVY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwS0OZ0UshnS07YnTwnKzCNE2y0WUlKc3TRobaxF6cZQzUBYmmQ
- 1Xda2E/Tp2pxdhyE5Q0gqlGUtZz5wb+CwiDTTslGQyrgsMs6h8QganEHRnfSOB3PMfDcwrS6uDd
- 2aaw=
-X-Gm-Gg: ASbGncvNnbKWvBFng04BO+fmHhlf5c2qCkrFplcM52ukrQ3HUthAjq6hOuXjU/25LDJ
- gQ2uCj5ycGp4rTgGS9ERapv2lct0z4PJOsf8zCsWcwSmpsV0ivTDnUWKQKnIGz02qVjDdRC9RHq
- FKz2e8vr+dQnq/Z+Evct4t+ex1T+VksEza5VQCzR6PzimffMIIcTjZYVKZzuk9lcxmRwslye8yg
- t8kY48utjo1ZwK/Q9r+BCBVcP5NQhlpOVrKw64T9zNzMpPASUJMyOx1b8RBDUFnRuX0KFRJ+OkW
- qTAVIyEvlF1KKBDm+k0Qqpz916oghR5zFSsd7v7U2EBvJRqUWGgm4tgLfN/oYMiMyrkf4u85Cr4
- qBLCyTQGTZUfZ5i0A5rk8dc7oq+pq1pQs461GDTQmawA8S/4vQ8/P+YVAm59vWau53w==
-X-Google-Smtp-Source: AGHT+IEtYxmQbj5MHySzsGhO5NxYz+rCE8+mGC2ECW7Qew5QWC1+0sUcip5JXaEQ2K3HlKWRtM+hjA==
-X-Received: by 2002:a05:6a00:2e2a:b0:76e:9906:6e47 with SMTP id
- d2e1a72fcca58-76ea3265397mr3078252b3a.28.1755787830761; 
- Thu, 21 Aug 2025 07:50:30 -0700 (PDT)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com.
- [209.85.214.177]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76e843bb510sm7447103b3a.53.2025.08.21.07.50.28
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Aug 2025 07:50:29 -0700 (PDT)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-245fd2b63f8so10966625ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 07:50:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVGw3WEFPGSiN+lMigXWywVkybuM8AE4EUtIQDN6YA3c2s0utroIo+EMnOz3ku7+1+DSpWtXvuae3s=@lists.freedesktop.org
-X-Received: by 2002:a17:902:f550:b0:244:214f:13a0 with SMTP id
- d9443c01a7336-245ff871cf5mr35274985ad.52.1755787828128; Thu, 21 Aug 2025
- 07:50:28 -0700 (PDT)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0769810E37E
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:54:44 +0000 (UTC)
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LEUrVw004114;
+ Thu, 21 Aug 2025 14:54:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+ :content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=corp-2025-04-25; bh=NY8P2pAC2w3BZwheXIPZfToa0idr5
+ ZyXbrJafy8RiIc=; b=TwTRSgrisF0IyRK647Ziio4OxVjqstu00YUIMn6GtVboy
+ MfauEpaURiBXmTkEtH3q+rxMZURm7aozseRggKFT8l2pq8okTAe3+wJw4Gp5yVsI
+ t6X7DasvCX1I/AIykA8HVqxmBHDNPkPZO4QEGyfnuAnhY/N9Z/Ii6oQGGmyRMepT
+ LDY861o5UxYpOgItJUAMlGGEwePEMwIkUGKbKiV2NIp3VxllImltnWinOPPJrxxx
+ TE42yIb0ID/nf21B92Yozl7zTNQcSTJ/q860svkSF0j2ZhtrWqpzjYB6MU1rIJRx
+ SQRG+cantYn03PbhO3b7fc4guN6+JqtskuZcr2/bA==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48n0tquss6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 21 Aug 2025 14:54:33 +0000 (GMT)
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
+ with ESMTP id 57LEp9E3020556; Thu, 21 Aug 2025 14:54:32 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 48nj6g5s7v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 21 Aug 2025 14:54:32 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57LEpOe7011459;
+ Thu, 21 Aug 2025 14:54:32 GMT
+Received: from sidhakum-ubuntu.osdevelopmeniad.oraclevcn.com
+ (sidhakum-ubuntu.allregionaliads.osdevelopmeniad.oraclevcn.com
+ [100.100.250.108])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
+ 48nj6g5s7m-1; Thu, 21 Aug 2025 14:54:32 +0000
+From: Sidhartha Kumar <sidhartha.kumar@oracle.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, willy@infradead.org,
+ sidhartha.kumar@oracle.com
+Subject: [PATCH v2 0/6] DRM IDR to Xarray conversions
+Date: Thu, 21 Aug 2025 14:54:23 +0000
+Message-ID: <20250821145429.305526-1-sidhartha.kumar@oracle.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <aKcRfq8xBrFmhqmO@stanley.mountain>
-In-Reply-To: <aKcRfq8xBrFmhqmO@stanley.mountain>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 21 Aug 2025 07:50:16 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WMu9YJgkkqTEpKEzPdMUka8tYzPZVKEeh501-mSsh4uQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwRHXd6Q5sCwpiasX5YznwxVtKCHmDt34fauOc1r6Twa8Tf38YLNCLnydw
-Message-ID: <CAD=FV=WMu9YJgkkqTEpKEzPdMUka8tYzPZVKEeh501-mSsh4uQ@mail.gmail.com>
-Subject: Re: [PATCH next] drm/panel: jdi-lpm102a188a: Fix error code in
- jdi_panel_prepare()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Brigham Campbell <me@brighamcampbell.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-21_03,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxlogscore=999
+ suspectscore=0 bulkscore=0 spamscore=0 adultscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2508110000 definitions=main-2508210121
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NyBTYWx0ZWRfX2QpT5fqNZrOM
+ w38S0tw5AzQ9yaRTiWwRdvmUvQC7L6sNXcpFyQ7jhzgWk7galJ5A1TUZ+gfF2ON66XWr5EXzEOE
+ 0QWRGqZpAFRbvy9h2LYfNSFfX5mcuBLaLrQlG4ghHvxTPPtViX7WLsxNAVq6nAfH1smxKxEOdD3
+ MWotGTPo+I4vW1G1KnBW26gd7lgs1lPHwlZAqI05+sPDhZDcTPtf8BmIdOM2gkQgGS+43jX8Z35
+ RSiVeo71GICgCBDdsjhOe15XhKcS97rpQW3okh9Iz53wPb4GD7D8Lb+e43L2EBM2QtzMm7DVB67
+ 81oLew58kHUgWCcG8kK5zdx0kvUmeU03I68ZpX9WlfXilG3Ux7HzPb+PGSg9WXX6z1PDHNfq7Oe
+ 2fnGSFT5o8Z0Q4k4izyL4v+HEzWno62fQ5sCixaBh/V6FXtytIY=
+X-Proofpoint-ORIG-GUID: GByawrZvgDPbg_ntwydTDv_xd3GUSyTs
+X-Proofpoint-GUID: GByawrZvgDPbg_ntwydTDv_xd3GUSyTs
+X-Authority-Analysis: v=2.4 cv=K/p73yWI c=1 sm=1 tr=0 ts=68a73329 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117
+ a=zPCbziy225d3KhSqZt3L1A==:17
+ a=2OwXVqhp2XgA:10 a=JfrnYn6hAAAA:8 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
+ a=LxaQk2LVrQ3WACRVRfUA:9 a=1CNFftbPRP8L7MoqJWF3:22 cc=ntf awl=host:12069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,28 +99,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Sidhartha <sidhartha.kumar@oracle.com>
 
-On Thu, Aug 21, 2025 at 5:31=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> If the mipi_dsi_dual() macro fails, the error code is stored in
-> dsi_ctx.accum_err.  Propagate that error back to the caller instead
-> of returning success as the current code does.
->
-> Fixes: a6adf47d30cc ("drm/panel: jdi-lpm102a188a: Fix bug and clean up dr=
-iver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+v1[1] -> v2:
+  - rebase onto latest mainline v6.17-rc2
+  - fix build error in patch 1 per Intel Test Robot
 
-Thanks for the fix.
+This series is part of a project to depcrecate the IDR in favor
+of the Xarray. This simplifies the code as locking is handled by
+the Xarray internally and removes the need for a seperate mutex to
+proect the IDR.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+The patches are from this tree and have been rebased to v6.17-rc2
+https://git.infradead.org/?p=users/willy/xarray.git;a=shortlog;h=refs/heads/xarray-conv
 
-Since it's straightforward and a fix, I'm not waiting and I'm pushing
-to drm-misc-next.
 
-[1/1] drm/panel: jdi-lpm102a188a: Fix error code in jdi_panel_prepare()
-      commit: 61ce50fd8196c8782b9620bb60d33649ec429f64
+The series has been compiled and tested with drivers/gpu/drm/tests/.kunitconfig
+and passes all tests.
+
+[15:22:04] Testing complete. Ran 608 tests: passed: 608
+[15:22:04] Elapsed time: 34.792s total, 3.086s configuring, 31.541s building, 0.141s running
+
+[1]: https://lore.kernel.org/dri-devel/20250818190046.157962-1-sidhartha.kumar@oracle.com/
+
+Matthew Wilcox (6):
+  drm: Convert aux_idr to XArray
+  drm: Convert object_name_idr to XArray
+  drm: Convert syncobj_idr to XArray
+  drm: Convert magic_map to XArray
+  drm: Convert lessee_idr to XArray
+  drm: Convert tile_idr to XArray
+
+ drivers/gpu/drm/display/drm_dp_aux_dev.c | 38 ++++++--------
+ drivers/gpu/drm/drm_auth.c               | 22 ++++----
+ drivers/gpu/drm/drm_connector.c          | 26 ++++------
+ drivers/gpu/drm/drm_debugfs.c            | 19 +++----
+ drivers/gpu/drm/drm_gem.c                | 11 ++--
+ drivers/gpu/drm/drm_lease.c              | 15 +++---
+ drivers/gpu/drm/drm_mode_config.c        |  3 +-
+ drivers/gpu/drm/drm_syncobj.c            | 64 ++++++++----------------
+ include/drm/drm_auth.h                   |  9 ++--
+ include/drm/drm_device.h                 |  4 +-
+ include/drm/drm_file.h                   |  6 +--
+ include/drm/drm_mode_config.h            | 12 ++---
+ 12 files changed, 86 insertions(+), 143 deletions(-)
+
+-- 
+2.43.0
+
