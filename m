@@ -2,76 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6677BB303BA
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 22:08:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB261B303BD
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 22:08:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 308B610EA0C;
-	Thu, 21 Aug 2025 20:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B97510EA11;
+	Thu, 21 Aug 2025 20:08:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JCVudpc1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Gj5GTYJ6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B0010EA0C
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 20:08:27 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7F210EA0C
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 20:08:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1755806906;
+ s=mimecast20190719; t=1755806907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5m4ogAvLOK+AKMqlHwhkjmyVbS/4gGgmBykcdwEFmjg=;
- b=JCVudpc1EzHSdet0Lv869NS5JhVzMl/TZ2wP4EaCZlWK/ZJp7RwFAbctShI6kwz2F8tYea
- IvFU7XxL+S25GidIooIm+Oka7uuwswEc3GVyJ0N95erev81Cxn7HpmAxX/wuAqH903fslf
- 2wKB0XdMwfx6wAItl4c1X9ZQ2zVIXOo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yR/3u5W37RASrGsn/s3pQVQ78UUgH4ByCavV3b4UG3M=;
+ b=Gj5GTYJ6dXzgNF0m9XHgiHOdNPBk0v1RaHpSOBTf/YBBgJOO/pEpJGWxMMvBj4Ji+lfAki
+ KtS07d+FXuzkNWaIMqoazz5AqwvGf42Y5bOL4jMp07YmebaBD8/mAKFLHkh8p7kEsQr+jB
+ uYhmDwTFYltMXuH7aaZuauWyKAy0fsg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-245-kziBwn7SN1G1O6BuKLFbRw-1; Thu, 21 Aug 2025 16:08:21 -0400
-X-MC-Unique: kziBwn7SN1G1O6BuKLFbRw-1
-X-Mimecast-MFC-AGG-ID: kziBwn7SN1G1O6BuKLFbRw_1755806900
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-45a1b0b2b5cso10141335e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 13:08:21 -0700 (PDT)
+ us-mta-270-CIEo_DiHMNaNKx8BVQJsHg-1; Thu, 21 Aug 2025 16:08:24 -0400
+X-MC-Unique: CIEo_DiHMNaNKx8BVQJsHg-1
+X-Mimecast-MFC-AGG-ID: CIEo_DiHMNaNKx8BVQJsHg_1755806904
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3b9bfe2c601so767108f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 13:08:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755806900; x=1756411700;
+ d=1e100.net; s=20230601; t=1755806903; x=1756411703;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5m4ogAvLOK+AKMqlHwhkjmyVbS/4gGgmBykcdwEFmjg=;
- b=mJ3V5UGRW6SZOeUbzFOXk04i1f7nJ83Kl4Q14dgXRe76Xi2wMlIya/4HVXe1xUznhc
- 2M3YoYDrAwdMfMo7ND+VqETELnP7bRpMvYZ/OPopC8qPAORO+p/fDeL6IqldUlc6dxGv
- GWLdlVHfNd8FaXLcbdITahv/noChK5txwtz4BmeG7bfh5YMvoeukUEsUNQVQy5g1b/TN
- Dkj2ZZfiCDESpn3NLrey92/3/fkQ22OMQm17SQ+9IrRrlY8F6RJRthCq/vGSLl5l1VkR
- w9bD28VqGIBdPC9bLH923yLZIDzY3DhW/NrTYUBjqohnyfZsDIyC35iMYgjID9Uvkj0t
- t7NA==
+ bh=yR/3u5W37RASrGsn/s3pQVQ78UUgH4ByCavV3b4UG3M=;
+ b=SOjAwsAImRVI1YHfzaPtweXoytD2KDoM+IFqVnhzFhb9QMxVhrUMHgac40gih5iM5+
+ HEIjV/gcct7OuMkINchywUHmwvajiJyMos5M7mKzE8d2GwtbTvNwjQYIZq+48fyRn3qn
+ js2UbDrd5ecnbXjNG72T8akOWCeWs+jTVQH9fqYSSsIlp8sWJ1X3y1jbFjFKkTMq+5Tw
+ 3/ZkrtdfveFOih4Y2oHreJdCDCWexEu2Ujkw2ZfhXrYJ8u8chgoh+4xZeG82Xpsv6vTV
+ Ti0zUqdfpI1XaWLaoDkhRDVAdwL5Ru7eF9CvSZp4TVKcA7n3MHvnPIoJDNEmBaBpZoqX
+ 2Vug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfW+bT4eeH2fwR+KfwyuXacEDFozGjtR7dnlSGQ22p592OyBBKC/Cynbtb99tfCg9zm0UIdgTyB9E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy9LLglpFRKpyp5r68drx0f0vvuqvSjb7cWThPx1GI4kEFC7ch3
- +0bNO3AvAxinqcdQK60lUk2u7ydUCC+MWQtPRzIV0kcYUSkz1ydD2DVM1XoqM9UQ7OxwMEPD5GO
- +3Jjw/qClLN+RlmA6kZQ/l8Ngtlh0R8tuyei0+IJ2/e5qYNCywD2i4e1UMyPrXKAtmPhAiQ==
-X-Gm-Gg: ASbGnctAPbrIY6E+S6cB7wTKqqBU1hc4v/WUaa+VrTe+/Ex4t4Vq9krr0KhhZSYBkeo
- O2k/ZlwF4wa7Hgc50+FdEKUzSbs1bbJ1d1GmdNGeYeSI4J8W7i6vs+vjVk+ADThWcQMfLjQ1Jwo
- 5E5aSxEq68wMtGmCCNuf+XX3JBMyDd5NPV6rhzNSXOTvWGC00ausecXVynrEKSe0Ygai94m0/fi
- AGdRp57u4MuZIXdEY8DCOfJTEdsiYxS7HR4s+ctzhYh14dHyiAqcTE+dZwXE5n16fxm9Hh8rQwP
- 50rjVKfTTUzWTHYJMokXgHbasj4UQmftXvpsXRQM2uGp7b+Qnwwn4vLf2hF5J8ox6c/FN3LbBGs
- FAXhpAs2s3L3EQA7Q2xeJmA==
-X-Received: by 2002:a05:600d:15a:10b0:458:bc3f:6a77 with SMTP id
- 5b1f17b1804b1-45b51f2fe8dmr510525e9.2.1755806900322; 
- Thu, 21 Aug 2025 13:08:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGpV2b3uhR/IYbmrTMgtg0gx1wkF4+JdBDenNBBSMhYf9nynPUCNMa8PTADPxo4/liFiw6TqA==
-X-Received: by 2002:a05:600d:15a:10b0:458:bc3f:6a77 with SMTP id
- 5b1f17b1804b1-45b51f2fe8dmr509915e9.2.1755806899756; 
- Thu, 21 Aug 2025 13:08:19 -0700 (PDT)
+ AJvYcCXaD9ArG1VtLmJTphT6b+iAo+C9ZcvbnK1O6brAq3/Si4sRW1sp0HxzDiamr9k9dndI7euIu1+q7Zc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyuqKz2g2K/8KPArmusL/N01XLFx/F09Mh5ks7S2LyicWFfEFVU
+ HzZkC1fggTgf2pC18p35dUXZilkfXe9krg/d88VepMN8OeFEXshqOuqBiYixjInF2b3ubCeFp8A
+ y4RQhIzH05dvdAyMLquMRTJutvRkQnZ/m4ttP7w1gDmIHhHfmB472H4uPLwtQAbChcbM6pw==
+X-Gm-Gg: ASbGncvivT38GQ+gmJGsRCo1b1BKwQ/hoLPwDheZKVv78GoCmT64b6jKZPrVsF1/M0X
+ DGrDewp4q8z+bioBca91e7ZU1Cl+lbJB2Qu92NYTacAN+ajh+XhNPgsFjlS3S9igU7o0Op2udx0
+ /Srl6kzVhBv0HQS+q4vh6ekRgO5vYBGKzyUWLmB/IWDtR7vdBRCHPNB4FoQ5Uk7Zan3FRou7dGr
+ pmSw5mOxZ6EWrMPXnuqj7ajnoMC91y3iAb4b5hOExgb0vRJC1nQRYyYjzAybKRQDm1Q3Pk3nIFw
+ gU9jVTpaETzvYhvoQzpXCv56h5CnNRpHj2In697G+F0mU/G+bAZLQ0ZOnGwXTE5NfUV8HKCSR1H
+ m/k9wqTWlm0FE37pdL5iHTg==
+X-Received: by 2002:a05:6000:310e:b0:3c3:5406:12b0 with SMTP id
+ ffacd0b85a97d-3c5d53b40abmr247275f8f.30.1755806903622; 
+ Thu, 21 Aug 2025 13:08:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH+53ePp4gOBoZK5+aLlST4uu6G3xHtHBUa0vmdrbtPfJ4bf44S3Zn2IpCr0m84pAneAOD81g==
+X-Received: by 2002:a05:6000:310e:b0:3c3:5406:12b0 with SMTP id
+ ffacd0b85a97d-3c5d53b40abmr247245f8f.30.1755806903113; 
+ Thu, 21 Aug 2025 13:08:23 -0700 (PDT)
 Received: from localhost
  (p200300d82f26ba0008036ec5991806fd.dip0.t-ipconnect.de.
  [2003:d8:2f26:ba00:803:6ec5:9918:6fd])
  by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-3c07487986fsm13999227f8f.1.2025.08.21.13.08.17
+ ffacd0b85a97d-3c0771c1708sm13032145f8f.38.2025.08.21.13.08.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Aug 2025 13:08:19 -0700 (PDT)
+ Thu, 21 Aug 2025 13:08:22 -0700 (PDT)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -102,15 +102,15 @@ Cc: David Hildenbrand <david@redhat.com>,
  Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
  virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
  wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: [PATCH RFC 26/35] mspro_block: drop nth_page() usage within SG entry
-Date: Thu, 21 Aug 2025 22:06:52 +0200
-Message-ID: <20250821200701.1329277-27-david@redhat.com>
+Subject: [PATCH RFC 27/35] memstick: drop nth_page() usage within SG entry
+Date: Thu, 21 Aug 2025 22:06:53 +0200
+Message-ID: <20250821200701.1329277-28-david@redhat.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250821200701.1329277-1-david@redhat.com>
 References: <20250821200701.1329277-1-david@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: nKj6k7rP7CqxZF9fBP9CVot6x0puKn438XhMfIxeBsc_1755806900
+X-Mimecast-MFC-PROC-ID: 1ewhJQ4j43A0EoneXTV_5kLZYRCfaIYGk3URkUTtxuI_1755806904
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
@@ -137,23 +137,38 @@ Cc: Alex Dubov <oakad@yahoo.com>
 Cc: Ulf Hansson <ulf.hansson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- drivers/memstick/core/mspro_block.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/memstick/host/jmb38x_ms.c | 3 +--
+ drivers/memstick/host/tifm_ms.c   | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/memstick/core/mspro_block.c b/drivers/memstick/core/mspro_block.c
-index c9853d887d282..985cfca3f6944 100644
---- a/drivers/memstick/core/mspro_block.c
-+++ b/drivers/memstick/core/mspro_block.c
-@@ -560,8 +560,7 @@ static int h_mspro_block_transfer_data(struct memstick_dev *card,
- 		t_offset += msb->current_page * msb->page_size;
+diff --git a/drivers/memstick/host/jmb38x_ms.c b/drivers/memstick/host/jmb38x_ms.c
+index cddddb3a5a27f..c5e71d39ffd51 100644
+--- a/drivers/memstick/host/jmb38x_ms.c
++++ b/drivers/memstick/host/jmb38x_ms.c
+@@ -317,8 +317,7 @@ static int jmb38x_ms_transfer_data(struct jmb38x_ms_host *host)
+ 		unsigned int p_off;
  
- 		sg_set_page(&t_sg,
--			    nth_page(sg_page(&(msb->req_sg[msb->current_seg])),
--				     t_offset >> PAGE_SHIFT),
-+			    sg_page(&(msb->req_sg[msb->current_seg])) + t_offset / PAGE_SIZE,
- 			    msb->page_size, offset_in_page(t_offset));
+ 		if (host->req->long_data) {
+-			pg = nth_page(sg_page(&host->req->sg),
+-				      off >> PAGE_SHIFT);
++			pg = sg_page(&host->req->sg) + off / PAGE_SIZE;
+ 			p_off = offset_in_page(off);
+ 			p_cnt = PAGE_SIZE - p_off;
+ 			p_cnt = min(p_cnt, length);
+diff --git a/drivers/memstick/host/tifm_ms.c b/drivers/memstick/host/tifm_ms.c
+index db7f3a088fb09..0d64184ca10a9 100644
+--- a/drivers/memstick/host/tifm_ms.c
++++ b/drivers/memstick/host/tifm_ms.c
+@@ -201,8 +201,7 @@ static unsigned int tifm_ms_transfer_data(struct tifm_ms *host)
+ 		unsigned int p_off;
  
- 		memstick_init_req_sg(*mrq, msb->data_dir == READ
+ 		if (host->req->long_data) {
+-			pg = nth_page(sg_page(&host->req->sg),
+-				      off >> PAGE_SHIFT);
++			pg = sg_page(&host->req->sg) + off / PAGE_SIZE;
+ 			p_off = offset_in_page(off);
+ 			p_cnt = PAGE_SIZE - p_off;
+ 			p_cnt = min(p_cnt, length);
 -- 
 2.50.1
 
