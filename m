@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61069B2FD70
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 16:54:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD762B2FD6D
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 16:54:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BD0010E376;
-	Thu, 21 Aug 2025 14:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0F710E396;
+	Thu, 21 Aug 2025 14:54:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="VOYYY5lO";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="qA9JbZDF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
  [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2397310E9BB
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:54:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 384A010E37C
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 14:54:44 +0000 (UTC)
 Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LEUrXL004090;
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LEUrVx004114;
  Thu, 21 Aug 2025 14:54:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
  :content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=corp-2025-04-25; bh=BMnpx
- XgUHGsxM7kBH8YixGmnCtr9CWBuqMGXVXPyNeY=; b=VOYYY5lO8c+zKI1j6wNDo
- gCiR1iHBdGLFtOM2DWXoQb9R5wg89JoaGVmE3mCxzENxht9VXNAMas4h4KhWRrlT
- 7aZP9GzupHZgzCpcpaBHh6XuTxa4dch6zPWoDmA1Nnc+i2IqwS8QJsuGacsOclqL
- zNUAQAQkyhSNfw5SbEaTMYRbfJiscxroRqW7QWQIFdVPmQwI2CrxNRRTBRoSYgRD
- HAE+guXxJhehsgMd0A41SqmQbEaXwF2c+Nm5vo1lqXWFsxeJyHYHWDgvyTOdI7qu
- F/InJKjSQo21UX7qdsOCCO7R6w5HyHHCm2HRtQmiolPgvuznPcb+c9jxDjKolklo
- w==
+ :mime-version:references:subject:to; s=corp-2025-04-25; bh=lJQR2
+ s5bFPpJRdaGreBdaLP1uehipPklXjIX0NvKcUM=; b=qA9JbZDFaxtUcitSUs4O+
+ 4QUnvwlloAB3KAVIi1kaS+M8M3EmINl/4XiXzVkMvPgtx0Z0Dj27ADvwT6J2TipV
+ EQGa/2YB6XenFDpIn09vheBDcHJMGJw+kYBCw6iz3qPXEy54ICGOHFUUyjKLEtEz
+ 3Y8UrDrR++HpKQC8CRrLAKZiWs2rTc4qiIUM8p5E85jM9M1VHR6G93BSooFjIzpu
+ 7mWg4Jpla9JvLOinSX0XM7suRItRWM7VEGut7GewFMqindvPprNUaJ62/Fpm3wUc
+ axmWYB25uI5MF1FpzP0L5ZBF/NXhqf7WvgDS3OMWprqNIwn+9PRyy/oXlhfKlv+j
+ g==
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48n0tqussb-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 48n0tqussd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 21 Aug 2025 14:54:35 +0000 (GMT)
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 57LDVS01020525; Thu, 21 Aug 2025 14:54:34 GMT
+ with ESMTP id 57LENd3t020541; Thu, 21 Aug 2025 14:54:35 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 48nj6g5s98-1
+ 48nj6g5s9j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Aug 2025 14:54:34 +0000
+ Thu, 21 Aug 2025 14:54:35 +0000
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57LEpOeH011459;
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 57LEpOeJ011459;
  Thu, 21 Aug 2025 14:54:34 GMT
 Received: from sidhakum-ubuntu.osdevelopmeniad.oraclevcn.com
  (sidhakum-ubuntu.allregionaliads.osdevelopmeniad.oraclevcn.com
  [100.100.250.108])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 48nj6g5s7m-6; Thu, 21 Aug 2025 14:54:34 +0000
+ 48nj6g5s7m-7; Thu, 21 Aug 2025 14:54:34 +0000
 From: Sidhartha Kumar <sidhartha.kumar@oracle.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, willy@infradead.org,
  sidhartha.kumar@oracle.com
-Subject: [PATCH v2 5/6] drm: Convert lessee_idr to XArray
-Date: Thu, 21 Aug 2025 14:54:28 +0000
-Message-ID: <20250821145429.305526-6-sidhartha.kumar@oracle.com>
+Subject: [PATCH v2 6/6] drm: Convert tile_idr to XArray
+Date: Thu, 21 Aug 2025 14:54:29 +0000
+Message-ID: <20250821145429.305526-7-sidhartha.kumar@oracle.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250821145429.305526-1-sidhartha.kumar@oracle.com>
 References: <20250821145429.305526-1-sidhartha.kumar@oracle.com>
@@ -73,19 +73,19 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
  suspectscore=0 bulkscore=0 spamscore=0 adultscore=0 phishscore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2508110000 definitions=main-2508210121
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NyBTYWx0ZWRfX9owCNJQE6d3g
- sf2ZtQxeELncd7FDgKQjj86GH/4NVgtH3hUGrGdHFwnlPMmj8ka8qeChYTNn5f9j7zLTTvrPR9D
- VHgd/UlY1d5/L1C0a+toRU2PQp2VQHKdX+XJzklTa0I55VCIru3zVf3heHi/IP2ZaCVogUv2Z1O
- Eit5KvbDDHHrtxfbFeHfstNLoM9QNtpkAWXbytrc//IVpie83x+hti46gYkOXqQGbZxk0cJifwD
- v44KZ5LKQ/t8h5lK/0xQjtFLNoEpsWsrlZRCosD8Z9w4NToXlPghA0UepU37ZUDDbmUui2jWgMD
- WJmwkb3MhTnfQi0AoqrqdNj8bBQGswXSfqwOhb8lVjOtuUL2NF/l8q1Y/pnxCXraezcgN+WtFuV
- RVCJoyxcyqr45IlSaFXnrVrEIEFLHXvLr4v0IyPE5sYdK8LdX2c=
-X-Proofpoint-ORIG-GUID: pWku5Ns7W8Llo39Ov7QYxkUSvUtms5e9
-X-Proofpoint-GUID: pWku5Ns7W8Llo39Ov7QYxkUSvUtms5e9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE5NyBTYWx0ZWRfXw2za5PaxncGA
+ vFmd5jqHnHfqlEL5KiIl71moeADqTdsYcW0Ka8LKaQat22ldMY3Dz+0HFfUN3SYt+nOQ5w7LPvV
+ zpTNMG2ZZzB4DK+32WAuYjcQbTMRvnDdzhaLU9idsVWIzshWUs6IkfLzZ3+ZbZfUJnDDciawNNg
+ E1REBXoHHWKMJRAz68bwXxyeT9/wfpxdYn1SigTzWiEBQ5f2lxAZMl6upFpiESaSIMkEX0v9JwS
+ OM+RDULYOjOKRPNHQRDPJjBa08RleMzWg2dN1QcHNU8PSh+VOomc7diydyUIDVYVwOk/2Lotbum
+ OWPgrOsKa5HFLvC7INWRxQ+UtCXw2+mN7RhRs7gPB6nROVf48V4J3yw9BS/4O5bCzslLKP9hCwW
+ AZ6aDVmUEbSAc4J/LJNi2gJQq9LsEUK+W/cwEcZsVR12OXVftek=
+X-Proofpoint-ORIG-GUID: qKSCdOefhPm1ICh8l5-rj5uZHRoWk9zf
+X-Proofpoint-GUID: qKSCdOefhPm1ICh8l5-rj5uZHRoWk9zf
 X-Authority-Analysis: v=2.4 cv=K/p73yWI c=1 sm=1 tr=0 ts=68a7332b b=1 cx=c_pps
  a=zPCbziy225d3KhSqZt3L1A==:117
  a=zPCbziy225d3KhSqZt3L1A==:17
- a=2OwXVqhp2XgA:10 a=JfrnYn6hAAAA:8 a=yPCof4ZbAAAA:8 a=8R3Qa1oyU1R4MiRUWy8A:9
+ a=2OwXVqhp2XgA:10 a=JfrnYn6hAAAA:8 a=yPCof4ZbAAAA:8 a=EcGSMKKx8drgTz_rwpoA:9
  a=1CNFftbPRP8L7MoqJWF3:22 cc=ntf awl=host:12069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,109 +104,130 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Matthew Wilcox <willy@infradead.org>
 
-Part of the mass conversion of IDR users to the XArray API.
+Convert tile_idr to an Xarray.
 
 Signed-off-by: Matthew Wilcox <willy@infradead.org>
 Signed-off-by: Sidhartha Kumar <sidhartha.kumar@oracle.com>
 ---
- drivers/gpu/drm/drm_auth.c  |  4 +---
- drivers/gpu/drm/drm_lease.c | 15 ++++++---------
- include/drm/drm_auth.h      |  4 ++--
- 3 files changed, 9 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/drm_connector.c   | 26 ++++++++++----------------
+ drivers/gpu/drm/drm_mode_config.c |  3 +--
+ include/drm/drm_mode_config.h     | 12 ++++++------
+ 3 files changed, 17 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 66a672384367..0605a649b27f 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -142,8 +142,7 @@ struct drm_master *drm_master_create(struct drm_device *dev)
- 	/* initialize the tree of output resource lessees */
- 	INIT_LIST_HEAD(&master->lessees);
- 	INIT_LIST_HEAD(&master->lessee_list);
--	idr_init(&master->leases);
--	idr_init_base(&master->lessee_idr, 1);
-+	xa_init_flags(&master->lessee_xa, XA_FLAGS_ALLOC1);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 272d6254ea47..6a64e20d730a 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -3531,9 +3531,7 @@ static void drm_tile_group_free(struct kref *kref)
+ 	struct drm_tile_group *tg = container_of(kref, struct drm_tile_group, refcount);
+ 	struct drm_device *dev = tg->dev;
  
- 	return master;
+-	mutex_lock(&dev->mode_config.idr_mutex);
+-	idr_remove(&dev->mode_config.tile_idr, tg->id);
+-	mutex_unlock(&dev->mode_config.idr_mutex);
++	xa_erase(&dev->mode_config.tiles, tg->id);
+ 	kfree(tg);
  }
-@@ -408,7 +407,6 @@ static void drm_master_destroy(struct kref *kref)
- 		drm_lease_destroy(master);
  
- 	idr_destroy(&master->leases);
--	idr_destroy(&master->lessee_idr);
- 
- 	kfree(master->unique);
- 	kfree(master);
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index 94375c6a5425..a9d5b8a48b24 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -82,7 +82,7 @@ static struct drm_master*
- _drm_find_lessee(struct drm_master *master, int lessee_id)
+@@ -3565,19 +3563,18 @@ struct drm_tile_group *drm_mode_get_tile_group(struct drm_device *dev,
+ 					       const char topology[8])
  {
- 	lockdep_assert_held(&master->dev->mode_config.idr_mutex);
--	return idr_find(&drm_lease_owner(master)->lessee_idr, lessee_id);
-+	return xa_load(&drm_lease_owner(master)->lessee_xa, lessee_id);
- }
- 
- static int _drm_lease_held_master(struct drm_master *master, int id)
-@@ -210,7 +210,6 @@ static struct drm_master *drm_lease_create(struct drm_master *lessor, struct idr
- 	int error;
- 	struct drm_master *lessee;
- 	int object;
+ 	struct drm_tile_group *tg;
 -	int id;
- 	void *entry;
++	unsigned long id;
  
- 	drm_dbg_lease(dev, "lessor %d\n", lessor->lessee_id);
-@@ -237,13 +236,11 @@ static struct drm_master *drm_lease_create(struct drm_master *lessor, struct idr
+-	mutex_lock(&dev->mode_config.idr_mutex);
+-	idr_for_each_entry(&dev->mode_config.tile_idr, tg, id) {
++	xa_lock(&dev->mode_config.tiles);
++	xa_for_each(&dev->mode_config.tiles, id, tg) {
+ 		if (!memcmp(tg->group_data, topology, 8)) {
+ 			if (!kref_get_unless_zero(&tg->refcount))
+ 				tg = NULL;
+-			mutex_unlock(&dev->mode_config.idr_mutex);
+-			return tg;
++			break;
+ 		}
+ 	}
+-	mutex_unlock(&dev->mode_config.idr_mutex);
+-	return NULL;
++	xa_unlock(&dev->mode_config.tiles);
++	return tg;
+ }
+ EXPORT_SYMBOL(drm_mode_get_tile_group);
+ 
+@@ -3606,16 +3603,13 @@ struct drm_tile_group *drm_mode_create_tile_group(struct drm_device *dev,
+ 	memcpy(tg->group_data, topology, 8);
+ 	tg->dev = dev;
+ 
+-	mutex_lock(&dev->mode_config.idr_mutex);
+-	ret = idr_alloc(&dev->mode_config.tile_idr, tg, 1, 0, GFP_KERNEL);
+-	if (ret >= 0) {
+-		tg->id = ret;
+-	} else {
++	ret = xa_alloc(&dev->mode_config.tiles, &tg->id, tg, xa_limit_32b,
++			GFP_KERNEL);
++	if (ret < 0) {
+ 		kfree(tg);
+ 		tg = NULL;
  	}
  
- 	/* Insert the new lessee into the tree */
--	id = idr_alloc(&(drm_lease_owner(lessor)->lessee_idr), lessee, 1, 0, GFP_KERNEL);
--	if (id < 0) {
--		error = id;
-+	error = xa_alloc(&drm_lease_owner(lessor)->lessee_xa,
-+			&lessee->lessee_id, lessee, xa_limit_32b, GFP_KERNEL);
-+	if (error < 0)
- 		goto out_lessee;
--	}
+-	mutex_unlock(&dev->mode_config.idr_mutex);
+ 	return tg;
+ }
+ EXPORT_SYMBOL(drm_mode_create_tile_group);
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index 25f376869b3a..680b97ab58ec 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -439,7 +439,7 @@ int drmm_mode_config_init(struct drm_device *dev)
+ 	INIT_LIST_HEAD(&dev->mode_config.plane_list);
+ 	INIT_LIST_HEAD(&dev->mode_config.privobj_list);
+ 	idr_init_base(&dev->mode_config.object_idr, 1);
+-	idr_init_base(&dev->mode_config.tile_idr, 1);
++	xa_init_flags(&dev->mode_config.tiles, XA_FLAGS_ALLOC1);
+ 	ida_init(&dev->mode_config.connector_ida);
+ 	spin_lock_init(&dev->mode_config.connector_list_lock);
  
--	lessee->lessee_id = id;
- 	lessee->lessor = drm_master_get(lessor);
- 	list_add_tail(&lessee->lessee_list, &lessor->lessees);
+@@ -578,7 +578,6 @@ void drm_mode_config_cleanup(struct drm_device *dev)
+ 	}
  
-@@ -276,11 +273,11 @@ void drm_lease_destroy(struct drm_master *master)
+ 	ida_destroy(&dev->mode_config.connector_ida);
+-	idr_destroy(&dev->mode_config.tile_idr);
+ 	idr_destroy(&dev->mode_config.object_idr);
+ 	drm_modeset_lock_fini(&dev->mode_config.connection_mutex);
+ }
+diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+index 2e848b816218..9e3914119587 100644
+--- a/include/drm/drm_mode_config.h
++++ b/include/drm/drm_mode_config.h
+@@ -393,8 +393,8 @@ struct drm_mode_config {
+ 	/**
+ 	 * @idr_mutex:
+ 	 *
+-	 * Mutex for KMS ID allocation and management. Protects both @object_idr
+-	 * and @tile_idr.
++	 * Mutex for KMS ID allocation and management. Protects the
++	 * objects in @object_idr.
  	 */
- 	WARN_ON(!list_empty(&master->lessees));
+ 	struct mutex idr_mutex;
  
--	/* Remove this master from the lessee idr in the owner */
-+	/* Remove this master from the lessee array in the owner */
- 	if (master->lessee_id != 0) {
- 		drm_dbg_lease(dev, "remove master %d from device list of lessees\n",
- 			      master->lessee_id);
--		idr_remove(&(drm_lease_owner(master)->lessee_idr), master->lessee_id);
-+		xa_erase(&drm_lease_owner(master)->lessee_xa, master->lessee_id);
- 	}
- 
- 	/* Remove this master from any lessee list it may be on */
-diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
-index 3026aedbc205..1b6064afc8b0 100644
---- a/include/drm/drm_auth.h
-+++ b/include/drm/drm_auth.h
-@@ -120,12 +120,12 @@ struct drm_master {
- 	struct idr leases;
+@@ -407,12 +407,12 @@ struct drm_mode_config {
+ 	struct idr object_idr;
  
  	/**
--	 * @lessee_idr:
-+	 * @lessee_xa:
+-	 * @tile_idr:
++	 * @tiles:
  	 *
- 	 * All lessees under this owner (only used where @lessor is NULL).
- 	 * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
+-	 * Use this idr for allocating new IDs for tiled sinks like use in some
+-	 * high-res DP MST screens.
++	 * Use this for allocating new IDs for tiled sinks like those
++	 * used in some high-res DP MST screens.
  	 */
--	struct idr lessee_idr;
-+	struct xarray lessee_xa;
- };
+-	struct idr tile_idr;
++	struct xarray tiles;
  
- struct drm_master *drm_master_get(struct drm_master *master);
+ 	/** @fb_lock: Mutex to protect fb the global @fb_list and @num_fb. */
+ 	struct mutex fb_lock;
 -- 
 2.43.0
 
