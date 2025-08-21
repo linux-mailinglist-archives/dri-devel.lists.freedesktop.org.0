@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3933B308DB
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 00:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E64B308DD
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 00:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD7D10EA1A;
-	Thu, 21 Aug 2025 22:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7A6510EA18;
+	Thu, 21 Aug 2025 22:03:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="KkrdpSJf";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="JA7/0yvQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com
- [209.85.210.202])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0D2C10EA18
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 22:00:58 +0000 (UTC)
-Received: by mail-pf1-f202.google.com with SMTP id
- d2e1a72fcca58-76e2e8e28e1so3715304b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 15:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1755813658; x=1756418458;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
- :reply-to; bh=4cLlpuHdBM/UdMtUWDBy4/i+9L6ubcblOqSNe/mP7/k=;
- b=KkrdpSJf9GynGDMDP4YV0EdRsafyZDsVtcFcTYJnIQ6Zk0TVGZ8uLbuggvMjM3MVhx
- fePXE8idRxBJvMntr3NOfwR6C9w02a3N1fhN+8GWZ7LJm7ghulrgsF1B8QtYzjE5rQum
- jTAHinYfnLjDV/Dmdh76z1HYF8nNE1H6Ml3NFUAd/RR754a6CExEhhEirCL4UfYg98D3
- KDg7BXT0r7auHWeQt6WnxfGg01GXFp6p66mhxOyj+ScZ6AmgDblyS7L6o/+11puFadX6
- Iidgh0MnBkPmTls7GdBAuBhr16/tvLWb9fGc6qketJM7ostJIGiV4kLb92TG1WozDCLJ
- W2fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755813658; x=1756418458;
- h=content-transfer-encoding:cc:to:from:subject:message-id:references
- :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=4cLlpuHdBM/UdMtUWDBy4/i+9L6ubcblOqSNe/mP7/k=;
- b=b5fsgW7c+Myky68dU9htDqNQx1cqBF/9uEwqImAoFsPPpJ2pdkWBU9ucIocAy90Nk2
- lo7DRUgbHcwRQpxb+lySGAyBT7KBVi+d2GmO3/LmS5L2hCKirXlhw9vTVEf8IZweohQw
- i59PBhi1ZlyCJ9xXVZ0m4ebWGBoA3Y76DORidHgct8zkcanHQXj7NPOBuZa3cpaz637J
- yI69wt6dY7gWxPUEJ4McloXTKRmpIcKdrMVBjczV/G9J4YU84RLYO34Lj4mP+mx+nnUj
- Pl2r+uIatNLazfPPPDmMirUGcbnAXIW0HTeWam0wjV84bAiAeWcCcV9hNHPIeW0Of+PL
- 5oGg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWOtsSOHN8EzIrvlVj1L3Inqt8maNGpCwQqkKgouiYr6GxsppZInIiCNW9LOo/QO953hzQ0udY3SDc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5gHo+rxVUlt32wjmHGcvvcyYuf+p50k/ePeF9I6vR8wBvNIRT
- n2wJjpyQ9iACSlzkgx1FzYE6Tdc+YNUr9f14q/J9lV0w/o1hINvM7x6EJBtSPF9x0qOM6I4uCr8
- vHG6QXyIOXyFtWA==
-X-Google-Smtp-Source: AGHT+IEAbdE+rBrrN9gQKjiTu1VWCSa69pr7H1Wqyou0ZlgqSmruqcwdp3/7Db/srMjoEdDP7SkVIJMHghXH9A==
-X-Received: from pfop21.prod.google.com ([2002:a05:6a00:b55:b0:746:1931:952a])
- (user=cmllamas job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:3d0e:b0:76e:885a:c1cd with SMTP id
- d2e1a72fcca58-7702fc472d4mr1141804b3a.31.1755813658055; 
- Thu, 21 Aug 2025 15:00:58 -0700 (PDT)
-Date: Thu, 21 Aug 2025 22:00:53 +0000
-In-Reply-To: <v5j6nxynzvvlcxu3m3mkeyjv5dlozzp7ixkgc6u6hdzh7en6jh@zvzqm5n7njfd>
-Mime-Version: 1.0
-References: <v5j6nxynzvvlcxu3m3mkeyjv5dlozzp7ixkgc6u6hdzh7en6jh@zvzqm5n7njfd>
-X-Mailer: git-send-email 2.51.0.rc2.233.g662b1ed5c5-goog
-Message-ID: <20250821220054.3700783-1-cmllamas@google.com>
-Subject: [PATCH v2] drm/xe: switch to local __basename() helper
-From: Carlos Llamas <cmllamas@google.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>, 
- "=?UTF-8?q?Thomas=20Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Matt Atwood <matthew.s.atwood@intel.com>
-Cc: kernel-team@android.com, linux-kernel@vger.kernel.org, 
- Carlos Llamas <cmllamas@google.com>, Tiffany Yang <ynaffit@google.com>, 
- "open list:INTEL DRM XE DRIVER (Lunar Lake and newer)"
- <intel-xe@lists.freedesktop.org>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7E9C10EA18
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 22:02:59 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250821220257euoutp0299eede77bbf64638090b13573e5b59aa~d51QGAPhP1174411744euoutp02B
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 22:02:57 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250821220257euoutp0299eede77bbf64638090b13573e5b59aa~d51QGAPhP1174411744euoutp02B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1755813777;
+ bh=FhMuLkPlqfOoY3HIjX51+kKhFnIWCP0l9JSXpliABCM=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=JA7/0yvQ9bCoZF7Gao2nrxDRcUPghZ/NnCzteaYJ3z8KWW17iOhcIqkflQLcbCGke
+ JoSwhBZpTny62tt11p3bJesDP5T7I8CrHVkS9lnGecvQVVA1hEn14jVVuMhdXmZRhm
+ XzkOGQNI4ARvYpm/Vo/b+NXer98BSONe8U6Ucw6w=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250821220256eucas1p2c4854f72c98d23d6b8a6247712430482~d51OvRzKh0715107151eucas1p2U;
+ Thu, 21 Aug 2025 22:02:56 +0000 (GMT)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250821220255eusmtip12f604debb503f4c26d3d8ae003a6c9a1~d51Nw2j0p2648126481eusmtip1c;
+ Thu, 21 Aug 2025 22:02:55 +0000 (GMT)
+Message-ID: <1b7b1e78-e94c-4d5b-a023-61852d2f7951@samsung.com>
+Date: Fri, 22 Aug 2025 00:02:55 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 1/4] drm/imagination: Use pwrseq for TH1520 GPU
+ power management
+To: Matt Coster <Matt.Coster@imgtec.com>, Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Frank Binns <Frank.Binns@imgtec.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Drew Fustini <fustini@kernel.org>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Language: en-US
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <27d70d29-9e37-4905-9d22-0266c8a290a2@imgtec.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250821220256eucas1p2c4854f72c98d23d6b8a6247712430482
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250820085609eucas1p2938d69999f4d7c9654d5d2a12a20c906
+X-EPHeader: CA
+X-CMS-RootMailID: 20250820085609eucas1p2938d69999f4d7c9654d5d2a12a20c906
+References: <CGME20250820085609eucas1p2938d69999f4d7c9654d5d2a12a20c906@eucas1p2.samsung.com>
+ <20250820-apr_14_for_sending-v12-0-4213ccefbd05@samsung.com>
+ <20250820-apr_14_for_sending-v12-1-4213ccefbd05@samsung.com>
+ <CAPDyKFqeOUwTbZEUFmHS2Onyj5LZ1b26vGgC4=UHUOxhwbzjRw@mail.gmail.com>
+ <27d70d29-9e37-4905-9d22-0266c8a290a2@imgtec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,68 +89,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit b0a2ee5567ab ("drm/xe: prepare xe_gen_wa_oob to be multi-use")
-introduced a call to basename(). The GNU version of this function is not
-portable and fails to build with alternative libc implementations like
-musl or bionic. This causes the following build error:
 
-  drivers/gpu/drm/xe/xe_gen_wa_oob.c:130:12: error: assignment to =E2=80=98=
-const char *=E2=80=99 from =E2=80=98int=E2=80=99 makes pointer from integer=
- without a cast [-Wint-conversion]
-    130 |         fn =3D basename(fn);
-        |            ^
 
-While a POSIX version of basename() could be used, it would require a
-separate header plus the behavior differs from GNU version in that it
-might modify its argument. Not great.
+On 8/21/25 11:02, Matt Coster wrote:
+> On 20/08/2025 18:08, Ulf Hansson wrote:
+>> On Wed, 20 Aug 2025 at 10:56, Michal Wilczynski
+>>> +#endif /* IS_ENABLED(CONFIG_POWER_SEQUENCING) */
+>>
+>> Yeah, this looks really messy to me.
+>>
+>> If there is something missing in the pwrseq interface to make this
+>> simpler, let's add that instead of having to keep this if/def hacks
+>> around.
+> 
+> Agreed (now that I've actually done my homework), I see no reason to
+> keep the IS_ENABLED(...) checks around.
+> 
+> Cheers,
+> Matt
 
-Instead, implement a local __basename() helper based on strrchr() that
-provides the same functionality and avoids portability issues.
+Thank you both for the feedback, I haven't noticed that there are stubs
+already. Will re-roll the patchset.
 
-Fixes: b0a2ee5567ab ("drm/xe: prepare xe_gen_wa_oob to be multi-use")
-Suggested-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Reviewed-by: Tiffany Yang <ynaffit@google.com>
-Signed-off-by: Carlos Llamas <cmllamas@google.com>
----
-v2:
- - Wrap changes in a helper function per Luca's feedback.
- - Fix typo in commit log: s/avoid/avoids/ per Tiffany.
- - Update commit log.
- - Collect tags.
+> 
+>>
+>> [...]
+>>
+>> Other than the if/def hacks, I think this looks good to me!
+>>
+>> Kind regards
+>> Uffe
+> 
+> 
 
-v1:
-https://lore.kernel.org/all/20250820201612.2549797-1-cmllamas@google.com/
-
- drivers/gpu/drm/xe/xe_gen_wa_oob.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen=
-_wa_oob.c
-index 6581cb0f0e59..c18faccdeb90 100644
---- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-+++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
-@@ -123,11 +123,19 @@ static int parse(FILE *input, FILE *csource, FILE *ch=
-eader, char *prefix)
- 	return 0;
- }
-=20
-+/* Avoid GNU vs POSIX basename() discrepancy, just use our own */
-+static const char *__basename(const char *s)
-+{
-+	const char *p =3D strrchr(s, '/');
-+
-+	return p ? p + 1 : s;
-+}
-+
- static int fn_to_prefix(const char *fn, char *prefix, size_t size)
- {
- 	size_t len;
-=20
--	fn =3D basename(fn);
-+	fn =3D __basename(fn);
- 	len =3D strlen(fn);
-=20
- 	if (len > size - 1)
---=20
-2.51.0.rc2.233.g662b1ed5c5-goog
-
+Best regards,
+-- 
+Michal Wilczynski <m.wilczynski@samsung.com>
