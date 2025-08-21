@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A809B2F2DA
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 10:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197ACB2F2D9
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 10:52:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E18110E8B1;
-	Thu, 21 Aug 2025 08:52:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71CB510E8A4;
+	Thu, 21 Aug 2025 08:52:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u6/Fb0yb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZSwrzDVr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6814A10E8B1
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 08:52:43 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D3A04C78;
- Thu, 21 Aug 2025 10:51:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1755766303;
- bh=C2dlNnaM7u0qj7k51quVsQ//aocjvVqHYJx7fh3mPJo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=u6/Fb0yb36ohZvE0nOc6wbVrQqeEvju5gYPLx5Pm3Lt3BQVxj8UAevRJeINKkII4J
- jCTPGKhv3ksUPsyLardwccR7ZUGheew8S7/fpGigQxq+Vq3JmhU8W97+/lVY+KrPYR
- hIer/A+U+tvqTVzXMJH7QOnH2VnL2Q3GWyjqEvTk=
-Message-ID: <7bffc8e2-ccdd-4a92-bbc6-95c7c99d7e4a@ideasonboard.com>
-Date: Thu, 21 Aug 2025 11:52:38 +0300
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26ADE10E8A4
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 08:52:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 47DA361138
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 08:52:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F3D72C4CEEB
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 08:52:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755766359;
+ bh=urcX9SPXOz2UVMG3mqDWxnU7OSy7AEEt3CAIMN1nfnI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ZSwrzDVreuo4VUv6+rhyKb0aNXNyqB8FQc54jNSv9MUgl/pJadLXktWTPRsmDmF7v
+ D8AgHUCtdDmweb/c/iwpZlAxt7VrFRywblUBOjr0WuTT+N5dH8r1NuFDDxu114p9Eg
+ 5SmGCxc8YBIkVeoFIvS1r2SGpGRLyCeqfP8uPUkgRzAgQLQnIDrtJH0WeI/pQQ4q3C
+ +eHYhZMVLtK+xVNoz0VS//DMov1xxytccNiZzyKSvuuj2JN/bZbrAPejZ869BbtwU2
+ 0mz3ikazMmzVZ+p0dvS6FZRv+3CSTdpmxSlfQJYdzDgXbCUs0gEWJOPFtW7nrk0Or2
+ ZfV0jtkC7MABQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id E7DC8C53BC7; Thu, 21 Aug 2025 08:52:38 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 206309] Experimental amdgpu w/ Dell E6540 with HD 8790M (MARS
+ XTX), massive performance improvement after ACPI suspend
+Date: Thu, 21 Aug 2025 08:52:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: qfjyfq3e38@wyoxafp.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: WILL_NOT_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-206309-2300-UzovQkQtx5@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-206309-2300@https.bugzilla.kernel.org/>
+References: <bug-206309-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/6] drm: renesas: rz-du: mipi_dsi: Add support for
- LPCLK clock handling
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Magnus Damm <magnus.damm@gmail.com>
-References: <20250728201435.3505594-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250728201435.3505594-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250728201435.3505594-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,60 +75,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D206309
 
-On 28/07/2025 23:14, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> Add LPCLK clock support in the RZ/G2L MIPI DSI driver via the optional
-> clock API. This clock is required by some SoCs like RZ/V2H(P) for proper
-> DPHY configuration, whereas it is absent on others like RZ/G2L.
+Gerald Boyle (qfjyfq3e38@wyoxafp.com) changed:
 
-In the DT binding lpclk is present for all SoCs. Is that an error in the
-binding, then? And if I read the binding correctly, it's mandatory for
-all SoCs, so why is it optional in the driver?
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |qfjyfq3e38@wyoxafp.com
 
- Tomi
+--- Comment #7 from Gerald Boyle (qfjyfq3e38@wyoxafp.com) ---
+Wow, this sounds like a real nightmare! On Linux my AMD FirePro also drops
+clocks to idle as soon as I unplug, even under load, while on Windows 8.1 it
+works perfectly. Link:
+https://patchwork.freedesktop.org/patch/msgid/20221024212634.27230-1-luben.=
+tuikov@amd.com
+https://geometrydashworld.net The only semi-reliable workaround I found is
+booting plugged in, forcing high performance, then hoping it sticks after
+unplugging, but it=E2=80=99s unreliable, heats up the laptop, and drains th=
+e battery
+fast. Definitely makes using the laptop for heavy GPU work a constant worry.
 
-> Introduce a new `lpclk` field in the `rzg2l_mipi_dsi` structure and
-> conditionally acquire the "lpclk" clock using `devm_clk_get_optional()`
-> during probe. This allows LPCLK-aware SoCs to pass the clock via device
-> tree without impacting existing platforms.
-> 
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v6->v7:
-> - New patch
-> Note, this patch was previously part of series [0].
-> [0] https://lore.kernel.org/all/20250609225630.502888-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> index f87337c3cbb5..893a90c7a886 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -68,6 +68,7 @@ struct rzg2l_mipi_dsi {
->  	struct drm_bridge *next_bridge;
->  
->  	struct clk *vclk;
-> +	struct clk *lpclk;
->  
->  	enum mipi_dsi_pixel_format format;
->  	unsigned int num_data_lanes;
-> @@ -979,6 +980,10 @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
->  	if (IS_ERR(dsi->vclk))
->  		return PTR_ERR(dsi->vclk);
->  
-> +	dsi->lpclk = devm_clk_get_optional(dsi->dev, "lpclk");
-> +	if (IS_ERR(dsi->lpclk))
-> +		return PTR_ERR(dsi->lpclk);
-> +
->  	dsi->rstc = devm_reset_control_get_optional_exclusive(dsi->dev, "rst");
->  	if (IS_ERR(dsi->rstc))
->  		return dev_err_probe(dsi->dev, PTR_ERR(dsi->rstc),
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
