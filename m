@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5834FB2F704
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 13:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6228DB2F719
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 13:51:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55A4610E952;
-	Thu, 21 Aug 2025 11:47:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B37BA10E94F;
+	Thu, 21 Aug 2025 11:51:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l8trKXeg";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nJbdbHwy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E9510E952;
- Thu, 21 Aug 2025 11:47:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755776825; x=1787312825;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=iJneFFGjQzLecO0NbP6dLUmEON+W6rvWnRMxdzIQpkM=;
- b=l8trKXegGvDTJpgBYQlgtz2Ku6AVBrpCxmLutEE/CSl129AbsxeQ+4Xn
- iiRiUtL0AEYnVaxWoMYdCFEy/m3Nsr988I1zO2fT8afmKfLefiGfIO/do
- RPuruct6CWcMkpH5MfivLwaPtx8oiH4Y+KuSKX0Ci+Uo71RfWLWtETd4U
- um7KyGGMLbkxg4T338MgXiD+7lHJseyuTgA5Hm0wbIK+zEOiHgJp/4bCv
- pGD1qfnA5B4qpXHnoTFWD71pqo8u+q+zD3djUgMJlPKJCd3bMZavjFBa0
- 72UjBJdmREBLU5RRDXpTyRdim8kTX0C59ltRSC2/TnB/IEFLkjp5r4tA0 Q==;
-X-CSE-ConnectionGUID: q2IxBGgSRIyJsqjIb8XcgQ==
-X-CSE-MsgGUID: 0rMCj55FQ66PdSAGPewtlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="57989498"
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; d="scan'208";a="57989498"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2025 04:47:05 -0700
-X-CSE-ConnectionGUID: m/oDoepnQumFqMGRpcZkOw==
-X-CSE-MsgGUID: xiY/gQ3BRTuN2LEm+B2oOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; d="scan'208";a="172613664"
-Received: from johunt-mobl9.ger.corp.intel.com (HELO fedora) ([10.245.245.201])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2025 04:47:02 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Andrew Morton <akpm@linux-foundation.org>,
- Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] drm/xe: Implement two pass MMU notifiers for SVM
-Date: Thu, 21 Aug 2025 13:46:26 +0200
-Message-ID: <20250821114626.89818-7-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250821114626.89818-1-thomas.hellstrom@linux.intel.com>
-References: <20250821114626.89818-1-thomas.hellstrom@linux.intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5535410E94E;
+ Thu, 21 Aug 2025 11:51:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755777094;
+ bh=d03XXEvqiRt/RNkOzV4BVA6T1osymnw/eikOpnxXhQE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=nJbdbHwyWai/8mIFSnwaC9HM44wQpqPpRb1BELwpuYoz6JnapEGqWDbkZ63uo9N9s
+ L9ujkuH43wg3Wj+ybkOyk9UKGbBT9fsMpp46cJ/VYGW7K+fjWo7x2pbqmXR7YA9ope
+ 8Dy7Wg7pAblhNdH0mvRtBNWtwlATYrhEnIU69Z65ld21HyG34ZsXpMbFqtrTmOwABD
+ lMcPsP+uTHN48N3a8G7jPm9oxmmqtuBL+PzAfuUJgnmiunUYTRrHOwRCjUweP8IsuJ
+ GMcRpQgZNo4cMZ9dXT/wNK72VRRzTg6Th5dOKbsSAyzB25+Y/slBseKS6bL4HfaAXP
+ sJdXqP+H/+pMw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 2F6A917E0458;
+ Thu, 21 Aug 2025 13:51:33 +0200 (CEST)
+Date: Thu, 21 Aug 2025 13:51:27 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Caterina Shablia <caterina.shablia@collabora.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Frank Binns <frank.binns@imgtec.com>, Matt
+ Coster <matt.coster@imgtec.com>, Karol Herbst <kherbst@redhat.com>, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Liviu Dudau
+ <liviu.dudau@arm.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
+ =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, asahi@lists.linux.dev, Asahi Lina
+ <lina@asahilina.net>
+Subject: Re: [PATCH v4 1/7] drm/panthor: Add support for atomic page table
+ updates
+Message-ID: <20250821135127.2827abfb@fedora>
+In-Reply-To: <0108b3cd-dfdd-4e4c-a2d8-157458e26f77@arm.com>
+References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
+ <d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com>
+ <2813151.QOukoFCf94@xps> <2434159.cojqenx9y0@xps>
+ <0108b3cd-dfdd-4e4c-a2d8-157458e26f77@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,140 +75,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matthew Brost <matthew.brost@intel.com>
+On Wed, 16 Jul 2025 16:43:24 +0100
+Steven Price <steven.price@arm.com> wrote:
 
-Implement two-pass MMU notifiers for SVM, enabling multiple VMs or
-devices with GPU mappings to pipeline costly TLB invalidations by
-issuing them in the first pass and waiting for completion in the second.
+> >>> I think we need to briefly take vm->op_lock to ensure synchronisation
+> >>> but that doesn't seem a big issue. Or perhaps there's a good reason that
+> >>> I'm missing?  
+> >>
+> >> I think you're right, all other accesses to locked_region are guarded by
+> >> op_lock. GPU job submit poke vm_active concurrently with vm_bind jobs doing
+> >> region {,un}locks.  
+> > Actually no, that's not necessary. Access to locked_region is protected by 
+> > slots_lock, which is held here. Trying to lock vm->op_lock would also be 
+> > detrimental here, because these locks are often taken together and slots_lock 
+> > is taken after op_lock is taken, so taking op_lock here would be extremely 
+> > deadlockful.  
+> 
+> It would obviously be necessary to acquire vm->op_lock before
+> as.slots_lock as you say to avoid deadlocks. Note that as soon as
+> as.slots_lock is held vm->op_lock can be dropped.
 
-v1:
-- Adjust naming.
+Yeah, lock ordering is not an issue, because we take slots_lock in this
+function, so we're in full control of the ordering. And I wouldn't even
+consider releasing op_lock as soon as we acquire slots_lock because
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_svm.c | 73 +++++++++++++++++++++++++++++++------
- 1 file changed, 61 insertions(+), 12 deletions(-)
+- that make things harder to reason about
+- the locked section is not blocking on any sort of external event
+- the locked section is pretty straightforward (so no excessive delays
+expected here)
 
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 5ef673b70575..a278c9dc5306 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -144,15 +144,8 @@ xe_svm_range_notifier_event_begin(struct xe_vm *vm, struct drm_gpusvm_range *r,
- 	 * invalidations spanning multiple ranges.
- 	 */
- 	for_each_tile(tile, xe, id)
--		if (xe_pt_zap_ptes_range(tile, vm, range)) {
-+		if (xe_pt_zap_ptes_range(tile, vm, range))
- 			tile_mask |= BIT(id);
--			/*
--			 * WRITE_ONCE pairs with READ_ONCE in
--			 * xe_vm_has_valid_gpu_mapping()
--			 */
--			WRITE_ONCE(range->tile_invalidated,
--				   range->tile_invalidated | BIT(id));
--		}
- 
- 	return tile_mask;
- }
-@@ -161,16 +154,59 @@ static void
- xe_svm_range_notifier_event_end(struct xe_vm *vm, struct drm_gpusvm_range *r,
- 				const struct mmu_notifier_range *mmu_range)
- {
-+	struct xe_svm_range *range = to_xe_range(r);
- 	struct drm_gpusvm_ctx ctx = { .in_notifier = true, };
- 
- 	xe_svm_assert_in_notifier(vm);
- 
-+	/*
-+	 * WRITE_ONCE pairs with READ_ONCE in xe_vm_has_valid_gpu_mapping()
-+	 */
-+	WRITE_ONCE(range->tile_invalidated, range->tile_present);
-+
- 	drm_gpusvm_range_unmap_pages(&vm->svm.gpusvm, r, &ctx);
- 	if (!xe_vm_is_closed(vm) && mmu_range->event == MMU_NOTIFY_UNMAP)
- 		xe_svm_garbage_collector_add_range(vm, to_xe_range(r),
- 						   mmu_range);
- }
- 
-+struct xe_svm_invalidate_finish {
-+	struct drm_gpusvm *gpusvm;
-+	struct drm_gpusvm_notifier *notifier;
-+#define XE_SVM_INVALIDATE_FENCE_COUNT	\
-+	(XE_MAX_TILES_PER_DEVICE * XE_MAX_GT_PER_TILE)
-+	struct xe_gt_tlb_invalidation_fence fences[XE_SVM_INVALIDATE_FENCE_COUNT];
-+	struct mmu_interval_notifier_finish f;
-+};
-+
-+static void
-+xe_svm_invalidate_finish(struct mmu_interval_notifier_finish *final,
-+			 const struct mmu_notifier_range *mmu_range,
-+			 unsigned long cur_seq)
-+{
-+	struct xe_svm_invalidate_finish *xe_final = container_of(final, typeof(*xe_final), f);
-+	struct drm_gpusvm *gpusvm = xe_final->gpusvm;
-+	struct drm_gpusvm_notifier *notifier = xe_final->notifier;
-+	struct drm_gpusvm_range *r = NULL;
-+	struct xe_vm *vm = gpusvm_to_vm(gpusvm);
-+	u64 adj_start = mmu_range->start, adj_end = mmu_range->end;
-+	int id;
-+
-+	/* Adjust invalidation to notifier boundaries */
-+	adj_start = max(drm_gpusvm_notifier_start(notifier), adj_start);
-+	adj_end = min(drm_gpusvm_notifier_end(notifier), adj_end);
-+
-+	for (id = 0; id < XE_SVM_INVALIDATE_FENCE_COUNT; ++id)
-+		xe_gt_tlb_invalidation_fence_wait(&xe_final->fences[id]);
-+
-+	drm_gpusvm_in_notifier_lock(gpusvm);
-+	drm_gpusvm_for_each_range(r, notifier, adj_start, adj_end)
-+		xe_svm_range_notifier_event_end(vm, r, mmu_range);
-+	drm_gpusvm_in_notifier_unlock(gpusvm);
-+
-+	kfree(xe_final);
-+}
-+
- static void xe_svm_invalidate_start(struct drm_gpusvm *gpusvm,
- 				    struct drm_gpusvm_notifier *notifier,
- 				    const struct mmu_notifier_range *mmu_range,
-@@ -179,6 +215,8 @@ static void xe_svm_invalidate_start(struct drm_gpusvm *gpusvm,
- 	struct xe_vm *vm = gpusvm_to_vm(gpusvm);
- 	struct xe_device *xe = vm->xe;
- 	struct drm_gpusvm_range *r, *first;
-+	struct xe_svm_invalidate_finish *xe_final = NULL;
-+	struct xe_gt_tlb_invalidation_fence *fences = NULL;
- 	u64 adj_start = mmu_range->start, adj_end = mmu_range->end;
- 	u8 tile_mask = 0;
- 	long err;
-@@ -226,14 +264,25 @@ static void xe_svm_invalidate_start(struct drm_gpusvm *gpusvm,
- 
- 	xe_device_wmb(xe);
- 
--	err = xe_vm_range_tilemask_tlb_invalidation(vm, NULL, adj_start,
-+	xe_final = kzalloc(sizeof(*xe_final), GFP_NOWAIT);
-+	if (xe_final) {
-+		xe_final->gpusvm = gpusvm;
-+		xe_final->notifier = notifier;
-+		xe_final->f.finish = xe_svm_invalidate_finish;
-+		fences = xe_final->fences;
-+		*final = &xe_final->f;
-+	}
-+
-+	err = xe_vm_range_tilemask_tlb_invalidation(vm, fences, adj_start,
- 						    adj_end, tile_mask);
- 	WARN_ON_ONCE(err);
- 
- range_notifier_event_end:
--	r = first;
--	drm_gpusvm_for_each_range(r, notifier, adj_start, adj_end)
--		xe_svm_range_notifier_event_end(vm, r, mmu_range);
-+	if (!xe_final) {
-+		r = first;
-+		drm_gpusvm_for_each_range(r, notifier, adj_start, adj_end)
-+			xe_svm_range_notifier_event_end(vm, r, mmu_range);
-+	}
- }
- 
- static int __xe_svm_garbage_collector(struct xe_vm *vm,
--- 
-2.50.1
+> 
+> I just find the current approach a little odd, and unless there's a good
+> reason for it would prefer that we don't enable a VM on a new address
+> space while there's an outstanding vm_bind still running. Obviously if
+> there's a good reason (e.g. we really do expect long running vm_bind
+> operations) then that just need documenting in the commit message. But
+> I'm not aware that's the case here.
 
+I fully agree here. If there's no obvious reason to not serialize
+vm_active() on VM bind ops, I'd opt for taking the VM op_lock and
+calling it a day. And I honestly can't think of any:
+
+- the VM op logic is all synchronous/non-blocking
+- it's expected to be fast
+- AS rotation is something I hope is not happening too often, otherwise
+  we'll have other things to worry about (the whole CSG slot scheduling
+  logic is quite involved, and I'd expect the
+  BIND-while-making-AS-active to be rare enough that it becomes noise
+  in the overall overhead of kernel-side GPU scheduling happening in
+  Panthor)
+
+> 
+> Although in general I'm a bit wary of relying on the whole lock region
+> feature - previous GPUs have an errata. But maybe I'm being over
+> cautious there.
+
+We're heavily relying on it already to allow updates of the VM while
+the GPU is executing stuff. If that's problematic on v10+, I'd rather
+know early :D.
+
+Regards,
+
+Boris
