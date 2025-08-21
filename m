@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CF7B2F605
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 13:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD25B2F616
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Aug 2025 13:12:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A6210E929;
-	Thu, 21 Aug 2025 11:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 294AB10E936;
+	Thu, 21 Aug 2025 11:12:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="SFTHTd7a";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="ekA70GmV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E700A10E929
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 11:12:29 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LAT3k3011323;
- Thu, 21 Aug 2025 13:12:20 +0200
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D33F10E934
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 11:12:43 +0000 (UTC)
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LBC79x026142;
+ Thu, 21 Aug 2025 13:12:31 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=selector1; bh=
- ssbplN6xP6Yb8xqVTeSdSuu1Z6zTfktHu8ETkXtqxKE=; b=SFTHTd7aZTeDlLSG
- J443NSeHX7DdxDZGisChXp0cAkxodKQRiaalMXgBOLhP2bwMRt+kKUQWhJlTxP+Y
- dWyp5dRHUJQBu0rc/3WJ9dUpvUClcgj+8CVIpKFz1wjUG1dw+JJXpXSS1Men0ysv
- hGQGiMpm1GTHz9beQDgj7wHro42mGuVLWisVsmqDmzNnvCohAyj2KU8M580hUkvs
- pYGOXcr9YT+W8jWzR07QUHhpi6ftcdD2xArUXHxbIO1X6BlxGV8nOe9TpC7CGKt+
- xEL3ZmDyP5XL+dBbNeuBiU545pOJMVrFscUkQAftMsZDud67uVZR/EfKIoj0q2tf
- BU5ZnQ==
+ KxXnqMnTHChUHN416MGydDZJLmREvE4xApNxOjVLyQs=; b=ekA70GmVk+gSx4Kr
+ fQWBXNMqxtWaEnYq0SPPg/DvO2WfkYsJAOI58FsM1oe7ZES1wZm0BDYNsr+1fNOE
+ zphpaUqy5+09TcAA7evprlGQ+slDbksTgVSXFxE9xv2Kwk0VMcJC1k/UF8i9ysWg
+ o29Y/uUlVxcsFJ5Wnd3tZBi59elRnoEEEYRgcbk07M+Uzcqo8ALV0K/Ibe5fSppX
+ H/JoSVHMkyC0wn9LxswbIXnkEExY+xapwvL4gdoJD+Mg/BjueJSDVnRfVC/eBGjf
+ +kxvKeW7ORto7DamhmVNLZCBPcc24t4QDRm3EhTcA7S/OA57jFOBqK2NJUhipbDT
+ QqqE8Q==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48n754ehje-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48n81wpacd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Aug 2025 13:12:20 +0200 (MEST)
+ Thu, 21 Aug 2025 13:12:31 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B391540056;
- Thu, 21 Aug 2025 13:10:56 +0200 (CEST)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id C31E740047;
+ Thu, 21 Aug 2025 13:11:03 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 585C974EF0F;
- Thu, 21 Aug 2025 13:10:00 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 596BC74EF14;
+ Thu, 21 Aug 2025 13:10:01 +0200 (CEST)
 Received: from localhost (10.252.7.99) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Aug
- 2025 13:09:59 +0200
+ 2025 13:10:00 +0200
 From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-Date: Thu, 21 Aug 2025 13:09:00 +0200
-Subject: [PATCH v4 10/13] arm64: dts: st: add ltdc support on stm32mp255
+Date: Thu, 21 Aug 2025 13:09:01 +0200
+Subject: [PATCH v4 11/13] arm64: dts: st: add lvds support on stm32mp255
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250821-drm-misc-next-v4-10-7060500f8fd3@foss.st.com>
+Message-ID: <20250821-drm-misc-next-v4-11-7060500f8fd3@foss.st.com>
 References: <20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com>
 In-Reply-To: <20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com>
 To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
@@ -88,54 +88,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the LTDC node for stm32mp255 SoC and handle its loopback clocks.
+The LVDS is used on STM32MP2 as a display interface.
 
-ck_ker_ltdc has the CLK_SET_RATE_PARENT flag.  While having this flag is
-semantically correct, it for now leads to an improper setting of the
-clock rate.  The ck_ker_ltdc parent clock is the flexgen 27, which does
-not support changing rates yet.  To overcome this issue, a fixed clock
-can be used for the kernel clock.
+Add the LVDS node.
 
 Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 ---
- arch/arm64/boot/dts/st/stm32mp251.dtsi | 6 ++++++
- arch/arm64/boot/dts/st/stm32mp255.dtsi | 6 ++++++
- 2 files changed, 12 insertions(+)
+ arch/arm64/boot/dts/st/stm32mp255.dtsi | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-index 372a99d9cc5c3730e8fbeddeb6134a3b18d938b6..b44ff221e0da968be104ff8195f9bef79c90c57a 100644
---- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
-+++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
-@@ -52,6 +52,12 @@ clk_rcbsec: clk-rcbsec {
- 			compatible = "fixed-clock";
- 			clock-frequency = <64000000>;
- 		};
-+
-+		clk_flexgen_27_fixed: clk-54000000 {
-+			#clock-cells = <0>;
-+			compatible = "fixed-clock";
-+			clock-frequency = <54000000>;
-+		};
- 	};
- 
- 	firmware {
 diff --git a/arch/arm64/boot/dts/st/stm32mp255.dtsi b/arch/arm64/boot/dts/st/stm32mp255.dtsi
-index f689b47c5010033120146cf1954d6624c0270045..48a95af1741c42300195b753b710e714abc60d96 100644
+index 48a95af1741c42300195b753b710e714abc60d96..433a0aabe72e5a449ec03fb984a8684c5d5d75a2 100644
 --- a/arch/arm64/boot/dts/st/stm32mp255.dtsi
 +++ b/arch/arm64/boot/dts/st/stm32mp255.dtsi
-@@ -5,6 +5,12 @@
-  */
- #include "stm32mp253.dtsi"
+@@ -12,6 +12,18 @@ &ltdc {
+ };
  
-+&ltdc {
-+	compatible = "st,stm32mp255-ltdc";
-+	clocks = <&clk_flexgen_27_fixed>, <&rcc CK_BUS_LTDC>, <&syscfg>, <&lvds>;
-+	clock-names = "lcd", "bus", "ref", "lvds";
-+};
-+
  &rifsc {
++	lvds: lvds@48060000 {
++		compatible = "st,stm32mp255-lvds", "st,stm32mp25-lvds";
++		#clock-cells = <0>;
++		reg = <0x48060000 0x2000>;
++		clocks = <&rcc CK_BUS_LVDS>, <&rcc CK_KER_LVDSPHY>;
++		clock-names = "pclk", "ref";
++		resets = <&rcc LVDS_R>;
++		access-controllers = <&rifsc 84>;
++		power-domains = <&CLUSTER_PD>;
++		status = "disabled";
++	};
++
  	vdec: vdec@480d0000 {
  		compatible = "st,stm32mp25-vdec";
+ 		reg = <0x480d0000 0x3c8>;
+@@ -28,4 +40,4 @@ venc: venc@480e0000 {
+ 		clocks = <&rcc CK_BUS_VENC>;
+ 		access-controllers = <&rifsc 90>;
+ 	};
+-};
+\ No newline at end of file
++};
 
 -- 
 2.25.1
