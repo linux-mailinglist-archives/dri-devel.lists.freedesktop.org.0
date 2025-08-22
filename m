@@ -2,61 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492ECB31621
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 13:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FBAB31646
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 13:28:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9871D10EAC4;
-	Fri, 22 Aug 2025 11:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C9D910EAC7;
+	Fri, 22 Aug 2025 11:28:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CkX7xk7e";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j4c1BRYI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14B6B10EAC4
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 11:10:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3536660266;
- Fri, 22 Aug 2025 11:09:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E834C4CEED;
- Fri, 22 Aug 2025 11:09:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755860998;
- bh=QENZNcSjzZ+T1rw0YhDJJ50P5QH7ed0Ga7GIZxfb05U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CkX7xk7ezO+kEpGqYB9FGizrlz8gIOW/h9VQNxiJZ2gnvymRfhsaKDbDQvWL4stQc
- JxQPqIaSTpGercxM6ZRWNYMK8VpB3PMHlBPu0WP3I3Ct2BuI0O2gA5TVg0bLUd/lbm
- vC+cnOrGk/LM/XqD6oKfCOXjE2JXzOoOugEODlj7GSngCRYVOPKVprDa9oO8VRM/da
- L5E8yPvDYfcRPNT11+siIcayf+C3aphFDv8CqIwPYN+VpqreZ72Vp02lQ8UmCcvDlp
- kDFje00nq6DJwiClEOAnmS573SrrXf3IBuBhfsVSt7zhDE3h8wh2NfvSpRJp69Y9AJ
- rYx3gLDE7Uj7g==
-Message-ID: <0a548dc5-72c0-4f73-be0d-808606707924@kernel.org>
-Date: Fri, 22 Aug 2025 13:09:53 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] drm_gem: add mutex to drm_gem_object.gpuva
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Rob Herring <robh@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com
+ [209.85.219.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E866F10EAC7
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 11:28:30 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id
+ 6a1803df08f44-70d9a65c2a3so4585926d6.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 04:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755862110; x=1756466910; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fATcXJL+LrcWLjUxzRMgV18SaL968swja9iMB8wf0oc=;
+ b=j4c1BRYI3NciErFdKOlHsuU/AEKv65QPhU6RA3F9Y7gjmeKkyvumlb+ea18WNTYcNn
+ HJHkHxPtcxCcgQ00WWC6NUZ6h3S3TKw+e9M7nd7rjdTmeiIz8yo2lgcKX2sQhYZ4KOlV
+ fmKLF9E+THK3SbpAoZCI4al3yh5APdkTnS+nikFPtZnvO9Fj2TJyLxv3HOlAHDd7RsuZ
+ TeiCQWoxByDLEp5rTlyN3qWbBXcgSpNiVGiifRMLHgm742JVrU5Hoo+4e6Gr1ZbvSgXl
+ XeY3WALD9n6RKYUV7oPYWugj/IwQ+G6/MeGURJQt1o94i8zZKcCXmosXdMj2i9d9taKD
+ /+Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755862110; x=1756466910;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fATcXJL+LrcWLjUxzRMgV18SaL968swja9iMB8wf0oc=;
+ b=MywafrSuKEazmp9PvZWuaXjK/Lgh01xjPoSzwYaW2SR+Be9MFZumMCO88b8/jD0fxn
+ BT3zuNWBYTogJ9DNhpZ0JL9YrwRxsNh4fJl+YTlPBrWkWqCd9ReRBWAc6vlcu7FE70Hr
+ sOjqzZGD+fHd14vX9aPHGyndxEyH41h1f7uWrvMzWr6MIih6UiC9oJWJBIs0+rqDTdJX
+ z8guRKNwOrUkqai8eSUtLtXEaZHXeP72BNNdLDAEbFi71MRM+bsaETo2aB2tkEeEQfKm
+ V9EsLc/5lezc2leyw3M/90ThzujvzpBubojrfAHy28oUb1ox4+0apLp/TMtIxHfYN5mU
+ v8nw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbnMYVTO+TvWWi3Shv1TQKSSgG+f/9nJxnX7DPcfPaeGwIdWF6Igjjz4Iqqc8cEBTjbZCxyLmpZq0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPXe6mZAByVhSzRkCmwCp/MNfCQ4Dv3pb+DdxTvdneL6LBqUnH
+ kJmtyABWiMWSBVdj8dwnHQdAVEY6gyc66gO4wdGEMsoLxJMBslDxHEt1
+X-Gm-Gg: ASbGncsBwtgJy/OVRbOVAZkQ9tIMObzA7xnzelqtPYjMq4TInvxvylMeekRoYesok+s
+ U5Duj2zeboq2evYGNLVe1MttyY6Qie0VM7RFfXdyuf+MlYYFT7v31+PpRdVtWJyacHIVKJuigKV
+ 2Fxh8p6QhWwU6/OXdiVp2zw+UYUL5OSgS0hiu6Im96s5S8OQEXELb5obO+1qbY047cB08brVOkw
+ p3l9NThYllNd2xTctfM160a+Rp8iC7M3s0ScdOiJWP6wdT5RnzOlKLY4Ga9Xv5OnlTCzvYW8bHQ
+ uKiQuL/trgP4yuKmfPuRxZM4X9QAm+uB86jM++HxP9lWpVuj7V0DBBbCW6ApwtgSU05xa1K/bB3
+ TW9UrXvYk2f6iGW8UAmjv3OxZNGQPHQgMZeyUoMwLaiUoaqInvGlhW85YHJUQREI7uN0t
+X-Google-Smtp-Source: AGHT+IFEuC07BCn0ECmRXcw3LPgdxSHH0lEezjr7/+96LbcIVEdq5iydgvMQouzopyVqYSUIxhZivA==
+X-Received: by 2002:ad4:5f0b:0:b0:70d:9587:cf78 with SMTP id
+ 6a1803df08f44-70d97132341mr35945836d6.28.1755862109558; 
+ Fri, 22 Aug 2025 04:28:29 -0700 (PDT)
+Received: from cr-x-redhat96-nsd-2.fyre.ibm.com ([129.41.87.0])
+ by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-70ba90d8e93sm123662476d6.34.2025.08.22.04.28.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Aug 2025 04:28:29 -0700 (PDT)
+From: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+To: jeff.hugo@oss.qualcomm.com,
+	ogabbay@kernel.org
+Cc: quic_carlv@quicinc.com, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20250822-gpuva-mutex-in-gem-v2-0-c41a10d1d3b9@google.com>
- <20250822-gpuva-mutex-in-gem-v2-1-c41a10d1d3b9@google.com>
- <20250822115221.24fffc2c@fedora> <aKhNFn7hdsLapLWO@google.com>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <aKhNFn7hdsLapLWO@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+Subject: [PATCH] accel/qaic: Replace snprintf() with sysfs_emit() in sysfs
+ show functions
+Date: Fri, 22 Aug 2025 04:28:04 -0700
+Message-ID: <20250822112804.1726592-1-chelsyratnawat2001@gmail.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,33 +89,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/22/25 12:57 PM, Alice Ryhl wrote:
-> On Fri, Aug 22, 2025 at 11:52:21AM +0200, Boris Brezillon wrote:
->> On Fri, 22 Aug 2025 09:28:24 +0000
->>
->> Maybe it's time we start moving some bits of the gpuva field docs next
->> to the fields they describe:
->>
->> 	/**
->> 	 * @gpuva: Fields used by GPUVM to manage mappings pointing to this GEM object.
->> 	 */
->> 	struct {
->> 		/**
->> 		 * @gpuva.list: list of GPU VAs attached to this GEM object.
->> 		 *
->> 		 * Drivers should lock list accesses with the GEMs &dma_resv lock
->> 		 * (&drm_gem_object.resv) or &drm_gem_object.gpuva.lock if the
->> 		 * list is being updated in places where the resv lock can't be
->> 		 * acquired (fence signalling path).
->> 		 */
->> 		struct list_head list;
-> 
-> This isn't a new issue, but it's somewhat confusing to call it a list of
-> VAs when it's a list of vm_bos.
+Documentation/filesystems/sysfs.rst mentions that show() should only
+use sysfs_emit() or sysfs_emit_at() when formating the value to be
+returned to user space. So replace scnprintf() with sysfs_emit().
 
-Yes, I already suggested (don't remember where though) to change the name of the
-anonymous accordingly. I think I forgot to rename it back when I introduced
-struct drm_gpuvm_bo.
+Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+---
+ drivers/accel/qaic/qaic_ras.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-If you want, please add a patch for this in the next version. But it's also fine
-to leave as is for your series of course. I can also fix it up. :)
+diff --git a/drivers/accel/qaic/qaic_ras.c b/drivers/accel/qaic/qaic_ras.c
+index 914ffc4a9970..f1d52a710136 100644
+--- a/drivers/accel/qaic/qaic_ras.c
++++ b/drivers/accel/qaic/qaic_ras.c
+@@ -514,21 +514,21 @@ static ssize_t ce_count_show(struct device *dev, struct device_attribute *attr,
+ {
+ 	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(dev));
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", qdev->ce_count);
++	return sysfs_emit(buf, "%d\n", qdev->ce_count);
+ }
+ 
+ static ssize_t ue_count_show(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+ 	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(dev));
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", qdev->ue_count);
++	return sysfs_emit(buf, "%d\n", qdev->ue_count);
+ }
+ 
+ static ssize_t ue_nonfatal_count_show(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+ 	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(dev));
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", qdev->ue_nf_count);
++	return sysfs_emit(buf, "%d\n", qdev->ue_nf_count);
+ }
+ 
+ static DEVICE_ATTR_RO(ce_count);
+-- 
+2.47.3
+
