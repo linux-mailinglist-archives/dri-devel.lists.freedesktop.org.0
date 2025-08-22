@@ -2,55 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED435B31FAC
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 17:55:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1437B3203F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 18:15:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1F8210E169;
-	Fri, 22 Aug 2025 15:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B145810EB60;
+	Fri, 22 Aug 2025 16:15:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ZkI+ncUg";
+	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="AJ3dSVO4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0652B10E169
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 15:55:16 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4c7lBm4S56z9v6w;
- Fri, 22 Aug 2025 17:55:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1755878112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gqwYpbaGMKmxH1oBKbcuZ4By8WCsIw4GnZB+EkEfPZ0=;
- b=ZkI+ncUghL8atBFhWUngS9x/wGZD+GaPB9MLLrmfukJEsg1sbY4x9XrW+Ph/8kNMW2xh5b
- aSwvD2mJMprRrq6EJO0BvmEBG6ZflqP8FzgnlnKFwchnkk+8z5ne7uoUF1zphDQsVtm5R6
- +6a2dMvoyXCe+CTtIL+cLEB6uC+gNfOPiYTChziDtQoW9EPgaB07zAMOgNkviF1CSz4hqy
- amn5Nlqbp28HzbVmk0PeGWSj48dTE5oMqHsiGTJF9hXyscTorgXZkyhRGQjthra3a7/Im6
- Uifs+9Vlh4++CKzH19fC3WBftGueVUF8hmvwSOHRcZO3OtNcnXt7SwK9LP7eMg==
-Message-ID: <913533b5-2384-4131-8a98-a91b73daf490@mailbox.org>
-Date: Fri, 22 Aug 2025 17:55:10 +0200
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 559B410EB5F;
+ Fri, 22 Aug 2025 16:15:08 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46]) (Authenticated sender: zamundaaa)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 26E2E33F2AA;
+ Fri, 22 Aug 2025 17:15:06 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1755879306; bh=6gc+mTlbSfkH6uEN49mrKi1vZJLZUQ3GGSSD7Q/DFj0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=AJ3dSVO461lWrHhw0LcdTJR+c30Z2TYNNDoYt4pcjsJeIPcXqWSgwcpNP4cMEtjtV
+ 4kakd1yilAEHPrFPxbXB96N2VJavTYfGBr7ZAQfhznBk1PfQ+e+IjCPI5Y444iSdTq
+ 4BUOpgth1Yr9Vokl3OHDoxTqxThPa8xvo+F7TBkZrOKX3g3m/toiC38qJdgQ2IsOSw
+ MO6KDypH0hy+6EWgqe0+F/8TjhhEr0/0ZPa/2GKQ/OYEtuZhVRUyWpLnANtJFIX7Bf
+ 7ekOGKaEDKMDMVSbRuzSBSej6PliIPwF4gt/9Ak9R9jNNH1ELQuFEh1zI9K0dxndWJ
+ 7OJF1/hftD+KA==
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-61c14b1689eso2180669a12.1; 
+ Fri, 22 Aug 2025 09:15:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUGGgyc/edPRjT4Plrd38+MWraC2yPAzxFxo1Be6ZoO6mFdU4p5/oHCuPWrDwNTGI0cTM08AKTQ5VA=@lists.freedesktop.org,
+ AJvYcCXW9fBhdXFJYTT2Gr9wDRnf8KkiPPABCNRML/KD5mrb+GJ5LJnk/V6Y+g3yKikhIhGTK9CMpF/dxBM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwfzN9fXRydjmWiynLNIFYOFGbp8l3FIMCTiPEQOPwEcR4qEkC4
+ 2KHZSXE9p6BkCUGKQo2n2sOnDwSciMSdgVDHQjr3He/20ztLVLG26BVCkjpDf58kixMrAEd+j8l
+ TGBOWVjful+ZvmMtjndN2xnEQqLoXXJs=
+X-Google-Smtp-Source: AGHT+IE5b7oShYSOfBwESqfvTkAao0lF+k2ssCA0/dqQXC8llmtYCqUdh3figntKqnBSeIpAJPqnPYRIZrJ5MM5f9uA=
+X-Received: by 2002:a17:907:868d:b0:af9:7a90:6750 with SMTP id
+ a640c23a62f3a-afe28f8369fmr368407566b.3.1755879305486; Fri, 22 Aug 2025
+ 09:15:05 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: UBSAN: shift-out-of-bounds in
- drivers/video/fbdev/core/fb_fillrect.h:100:21 (v6.17-rc2)
-To: =?UTF-8?Q?Kajt=C3=A1r_Zsolt?= <soci@c64.rulez.org>,
- linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-References: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
- <9473ef5b-c298-56b1-0051-e10bb3b4dd67@c64.rulez.org>
-Content-Language: en-US, de-DE
-From: Erhard Furtner <erhard_f@mailbox.org>
-In-Reply-To: <9473ef5b-c298-56b1-0051-e10bb3b4dd67@c64.rulez.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: e6034a2dafda1e90aea
-X-MBO-RS-META: wpt8ordrt66ihaqu1rxux74ddadr5ns6
+References: <20250822-atomic-v3-0-13a0e8f2c581@intel.com>
+ <20250822-atomic-v3-1-13a0e8f2c581@intel.com>
+In-Reply-To: <20250822-atomic-v3-1-13a0e8f2c581@intel.com>
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Fri, 22 Aug 2025 18:14:54 +0200
+X-Gmail-Original-Message-ID: <CAFZQkGwqgo7FavPQecKgwaZ1DcXccY9urRzcfocg+Srd4P9WPA@mail.gmail.com>
+X-Gm-Features: Ac12FXxjkvwgTrNfXGJNKCXUDTzvGQiqv_mY1SQly4_gNZZtuFXlpu_ovpjPM3g
+Message-ID: <CAFZQkGwqgo7FavPQecKgwaZ1DcXccY9urRzcfocg+Srd4P9WPA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] drm: Define user readable error codes for atomic
+ ioctl
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, naveen1.kumar@intel.com, 
+ uma.shankar@intel.com, harry.wentland@amd.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,25 +76,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> It's only on 32 bit big endian. I don't have UBSAN for MIPS on my setup
-> so haven't noticed it.
-> 
-> #ifndef __LITTLE_ENDIAN
->          pattern <<= (BITS_PER_LONG % bpp);
->          pattern |= pattern >> bpp;          <-
-> #endif
-> 
-> In the 32 BPP case the result is identical in both the no shift and zero
-> result implementations.
-> 
-> I've patched it by skipping this realignment as it's only needed if the
-> BPP is smaller than the word length.
+> +#define DRM_MODE_ATOMIC_FAILURE_REASON \
+> +       FAILURE_REASON(DRM_MODE_ATOMIC_CAP_NOT_ENABLED, "DRM_ATOMIC capability not enabled") \
+> +       FAILURE_REASON(DRM_MODE_ATOMIC_INVALID_FLAG, "invalid flag") \
+> +       FAILURE_REASON(DRM_MODE_ATOMIC_PAGE_FLIP_ASYNC, "Legacy DRM_MODE_PAGE_FLIP_ASYNC not to be used in atomic ioctl") \
+> +       FAILURE_REASON(DRM_MODE_ATOMIC_FLIP_EVENT_WITH_CHECKONLY, "requesting page-flip event with TEST_ONLY") \
+> +       FAILURE_REASON(DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET, "Need full modeset on this crtc") \
+> +       FAILURE_REASON(DRM_MODE_ATOMIC_NEED_FULL_MODESET, "Need full modeset on all the connected crtc's") \
+> +       FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_NOT_SUP_PLANE, "Async flip not supported on this plane") \
+> +       FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPPORTED, "Modifier not supported on this plane with async flip") \
+> +       FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED, "No property change allowed when async flip is enabled")
+As mentioned before, some of these errors are a bit too specific. We
+don't need to have an enum value for every way the API can be used
+wrongly - CAP_NOT_ENABLED, INVALID_FLAG, PAGE_FLIP_ASYNC and
+MODIFIER_NOT_SUPPORTED should all just be one enum value for "invalid
+API usage".
+In general, there should only be enum values that the compositor
+implementation can actually use on end-user systems. For further
+information when debugging a broken compositor implementation, other
+tools can be used instead, like drm debug logging or the returned
+string.
 
-Thanks for looking into this!
+> +#define FAILURE_REASON(flag, reason) flag,
+> +typedef enum {
+> +       DRM_MODE_ATOMIC_FAILURE_REASON
+> +} drm_mode_atomic_failure_flag;
+> +#undef FAILURE_REASON
+> +
+> +#define FAILURE_REASON(flag, reason) #reason,
+> +extern const char *drm_mode_atomic_failure_string[];
+> +#undef FAILURE_REASON
+The intention for the string wasn't for the enum values to be paired
+with a description of the enum - that belongs into documentation, not
+uAPI.
 
-Applied your patch from 
-https://lore.kernel.org/linux-fbdev/20250821024248.7458-1-soci@c64.rulez.org/T/#u 
-which fixes the USBAN hit for me.
+The idea behind it was that drivers could add driver-specific
+information in the string for compositors to log (only in commits
+where failure isn't normally expected), so we have an easier time
+debugging issues a user system experienced by looking at the
+compositor logs. Sending the enum value again in string form isn't
+useful.
 
-Greetings,
-Erhard
+- Xaver
