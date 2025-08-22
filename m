@@ -2,68 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EAACB324B8
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 23:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F11B3281A
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 12:04:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 069B210E17F;
-	Fri, 22 Aug 2025 21:49:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC77210E30D;
+	Sat, 23 Aug 2025 10:04:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e5A34ORQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PBXOOS6G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 254BA10E17F
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 21:49:47 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-afcb79db329so369504266b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 14:49:47 -0700 (PDT)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC4F10E046;
+ Fri, 22 Aug 2025 22:00:00 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-321cfa7ad29so2790426a91.1; 
+ Fri, 22 Aug 2025 15:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1755899385; x=1756504185; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3shbphJfK82NW9CE0mD0B4j3zJqllorZS6U3aG69qqI=;
- b=e5A34ORQvWZsBcTVd97ZZ/vyd0NXSOZWDqTkYA0LDrD0QsXIe4P0Wd0euBUgUCPen5
- 4yZ3JsvX4u/BWW+7htMxW+ZOcuplXhPYouPXR2EJeuEwOThdL5Sw38WKNVUilU2qLclX
- XKwu9slZxQdNky3rDCtTWYpD3mUFefTiOVLlbigR03SjaeHJnje/KP8ZgjvNULZiYSLA
- g9OPRL+SZDEIoYDDS2uUAPAELa5TiVwazLhxpstuo3r32MLi/BY/3LZgMvsWtO0mNIHc
- KPgTbQK1MSDGR9SdsXTQWDOncG9DtLuiDkNedDjqW7CBetmm+kZ6FgU+A6sPPFmd9VCa
- FWAQ==
+ d=gmail.com; s=20230601; t=1755900000; x=1756504800; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=27a5/X7zn8hMoq+43xDaLAEXrC+YLxEOzCiaDSpbx+M=;
+ b=PBXOOS6GSPCZTXjdEpImuNMNpco6iV40i6KFeS6DrIV0WGTFlFD2pkJzV5GbGoRSwK
+ FTFcEXe5o2mCM1QH0PkUUb0Lp8jj7E7AxYg2WuxhtWBbYaXaur5CoeJwJGaZBTBXloG5
+ 3uvJIvYBwDWj27/b+DOQz3Mo3DJB7q8tCwkj8zsIxFELzSGyCXIvtLarxSomti2GtufV
+ R677HjzVKveECau/AkNo2j1b6C1pTDL8PYwDtLtuY39Jv4i8fNWwA+DPuF3enGyE+xqf
+ ptxAvyJU8xpDI//zv5Cq44vx4GPBwLVBHSWhn3QtA9qpEGp33stMI0PcPCtUUB0aynqE
+ vC8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755899386; x=1756504186;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1755900000; x=1756504800;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3shbphJfK82NW9CE0mD0B4j3zJqllorZS6U3aG69qqI=;
- b=B6fz/mY/br/lSS99YITb+f+U3SH55v8X97kyuZxSgxlpIaEsMGqi1Lge6uuy2voe3h
- O/CsZBSWP8XgTg/wYCvwudi+FbP7ns9TBlkO3miqxcFTG6vZa50oRKJ4tekfjwnVaeL6
- qTbrHQbWnhp+aB1mhQJIDclfoJGg0C8qpVtxBvbyTFF72BFVO6CZYk50LdQeT72UvoN/
- lb1PVg46J4qb13qoLh4rMRK6GWlY1LFDYsIMjGEQoFsRJxhhYLDjrSEOyZ1WTHnqu2S9
- WVF5XF0wNbxgRFxBKtbidFoYU0CcW8AKM8CzcYT7OXgF/1AAyGvMxr5AGqQuC1F+ca3t
- mkCw==
-X-Gm-Message-State: AOJu0Yz3KJzaUc8cndDU8YNrmzP89LN3gdW/QvsVgD2DDOb8v2RQQa/5
- vUg9hhVvY7COjWEgFwGZZ620QQY16GAJn+5UGaljJp80yTH+TrzBCwFWQT2oD0azCbfs+cWMrBj
- zEPO1SqWUYP2qEuNxLyEGx3YbiEY4QOw=
-X-Gm-Gg: ASbGncuCH3LGy4OcXKrUoOT6n91xRB+9zdYeGWckC4mEDBckF/yhqpVsjgCn0Jl59Nh
- eKoTlh0PPv51LkrUINOl162kBX+2ExA9JtXXBza3UFa51wIBeDd7Kv8iKdCfpJrCzQI7FC6bRPi
- 0IvG5L25pE+Xdk/sN2Mj5O7uTL+GQEvwThfURaRCPNE347Uyi5he0DUuWNJXdCRUrUCMTon9C88
- ayjiw==
-X-Google-Smtp-Source: AGHT+IGanrr+UttB/kvILsftCspDHCpVG9G13dKdpZOX3YfV6wjphNp3XhgWAGRjxZde4BtwsyEY+Stv6NkP5jvJhVQ=
-X-Received: by 2002:a17:907:9305:b0:af6:a116:f13c with SMTP id
- a640c23a62f3a-afe28f16478mr403341566b.23.1755899385298; Fri, 22 Aug 2025
- 14:49:45 -0700 (PDT)
+ bh=27a5/X7zn8hMoq+43xDaLAEXrC+YLxEOzCiaDSpbx+M=;
+ b=U5W0lAuCBh4TFPflc2aNN5C1uFcXSxszYE7sWy5d3T7Yo4YPLxuHuBNpff+KjGmcYg
+ bl9Dj3afRQgt4s2Bppgb7DOraNt8h1Yv8NDAZ0sDkJeOc46J5yKkISHPuriwDRwljpFc
+ 6aTIo3M2xo1BSKuQ/vMtSYiTdQ8trsgydWsUQzgxsSj7vI+AjCM4yFIJKE11gk6AfQ68
+ isAw7bj2t5XISZuda+YhY79NEFidAW7+UcW9sxUCmdmrkhH5iAqIigj/0V5v0G7erst/
+ v4Lmlk2PgkM6j4GEAmyaz2NjZuVYkQfnf6+pv7JddHCWf+0ZA1UUMRfmgQZE98mwQyxM
+ w+6w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXulQCj+hRDipZJF+i2ijDs16shIJo8HjBqdDEJhnSflOEmQzX9wwus4lpAjjb3ldk7TQ5/17kQH8M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyjwrH8gMDJBVUQChKMv3LogJs5EpE7pEeaIoXF8tODPqpeNVh9
+ hJMDRpFPFKMUR1kpFTSbPtMjBlYYe1G/QnOi8sAWxOrvQ0DT05G2y0br
+X-Gm-Gg: ASbGncuFz7zye80O0G/Cvo4NxuCK/5k6fZ6iB+a2Uqab5tV3wjnZhUMpZRAzv9OLLD2
+ DHu4toG1uheRJzVVXxAocy1MtlxlW/4zMpk47fBtrb1XCKn1XXvL5JLEMX4GiJbMj+MH7Q9xlB3
+ I2Q0Os3R1R2L0hzs5KSSuQr0vDK/m2qC06ioC2khpCwhgef8w7xNTZ4xyHTtgTmIoooaav3XnHM
+ qchUfGA9JtDG6ML3jBNVanneO0hG/7ypAYZUq7sYy4P7gUciUN9fyB6B7u7vEP6mObU5o1xqXLD
+ nKqu+oc8imThBKLTstNRd1iHKgwoQAi3KOxQNXgAewk0g11u3FZooZbH5jy59b8RIBnZQMOyQdg
+ iPBYkkuNAWiZcmeyw9nBcdmgkuReA70IRVr7xBcNSc10qtjzYyGZl7NOXjGN3ae2o
+X-Google-Smtp-Source: AGHT+IFfgq+FgRUVzS/dXB0ywpaXJzol3g6ler9CYy/+YGeYcKS1hqdTax7kq94uT6c6IDNSXBEN0Q==
+X-Received: by 2002:a17:90b:3943:b0:312:dbcd:b94f with SMTP id
+ 98e67ed59e1d1-3251d5437bamr5744750a91.11.1755900000064; 
+ Fri, 22 Aug 2025 15:00:00 -0700 (PDT)
+Received: from fedora ([172.59.161.146]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b49cbb7b375sm671860a12.29.2025.08.22.14.59.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Aug 2025 14:59:59 -0700 (PDT)
+From: Alex Tran <alex.t.tran@gmail.com>
+To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Alex Tran <alex.t.tran@gmail.com>
+Subject: [PATCH] gpu/drm/amd/amdkfd/kdf_queue.c: removal of
+ kfd_queue_buffer_put
+Date: Fri, 22 Aug 2025 14:59:50 -0700
+Message-ID: <20250822215950.243504-1-alex.t.tran@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 23 Aug 2025 07:49:34 +1000
-X-Gm-Features: Ac12FXxhMoyarJu_LO9T1fG6x0ENHPEHj4XKRy_sSg7dcDoC7fdvmkDyet6C7FY
-Message-ID: <CAPM=9tx3c2SzxmsTaySLHVVUyHd+zcB-axUL0Hbtk5DdQQ8rrQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.17-rc3
-To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 23 Aug 2025 10:03:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,300 +88,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Removed kfd_queue_buffer_put to call amdgpu_bo_unref directly.
+
+Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h            |  1 -
+ .../drm/amd/amdkfd/kfd_process_queue_manager.c   |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_queue.c           | 16 +++++-----------
+ 3 files changed, 6 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index 67694bcd9464..2bc0365b2ce9 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -1312,7 +1312,6 @@ void print_queue_properties(struct queue_properties *q);
+ void print_queue(struct queue *q);
+ int kfd_queue_buffer_get(struct amdgpu_vm *vm, void __user *addr, struct amdgpu_bo **pbo,
+ 			 u64 expected_size);
+-void kfd_queue_buffer_put(struct amdgpu_bo **bo);
+ int kfd_queue_acquire_buffers(struct kfd_process_device *pdd, struct queue_properties *properties);
+ int kfd_queue_release_buffers(struct kfd_process_device *pdd, struct queue_properties *properties);
+ void kfd_queue_unref_bo_va(struct amdgpu_vm *vm, struct amdgpu_bo **bo);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+index 7fbb5c274ccc..b13817e4a829 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+@@ -610,7 +610,7 @@ int pqm_update_queue_properties(struct process_queue_manager *pqm,
+ 		}
+ 
+ 		kfd_queue_unref_bo_va(vm, &pqn->q->properties.ring_bo);
+-		kfd_queue_buffer_put(&pqn->q->properties.ring_bo);
++		amdgpu_bo_unref(&pqn->q->properties.ring_bo);
+ 		amdgpu_bo_unreserve(vm->root.bo);
+ 
+ 		pqn->q->properties.ring_bo = p->ring_bo;
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_queue.c b/drivers/gpu/drm/amd/amdkfd/kfd_queue.c
+index a65c67cf56ff..dd529e37c0e6 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_queue.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_queue.c
+@@ -224,12 +224,6 @@ int kfd_queue_buffer_get(struct amdgpu_vm *vm, void __user *addr, struct amdgpu_
+ 	return -EINVAL;
+ }
+ 
+-/* FIXME: remove this function, just call amdgpu_bo_unref directly */
+-void kfd_queue_buffer_put(struct amdgpu_bo **bo)
+-{
+-	amdgpu_bo_unref(bo);
+-}
+-
+ int kfd_queue_acquire_buffers(struct kfd_process_device *pdd, struct queue_properties *properties)
+ {
+ 	struct kfd_topology_device *topo_dev;
+@@ -343,11 +337,11 @@ int kfd_queue_release_buffers(struct kfd_process_device *pdd, struct queue_prope
+ 	struct kfd_topology_device *topo_dev;
+ 	u32 total_cwsr_size;
+ 
+-	kfd_queue_buffer_put(&properties->wptr_bo);
+-	kfd_queue_buffer_put(&properties->rptr_bo);
+-	kfd_queue_buffer_put(&properties->ring_bo);
+-	kfd_queue_buffer_put(&properties->eop_buf_bo);
+-	kfd_queue_buffer_put(&properties->cwsr_bo);
++	amdgpu_bo_unref(&properties->wptr_bo);
++	amdgpu_bo_unref(&properties->rptr_bo);
++	amdgpu_bo_unref(&properties->ring_bo);
++	amdgpu_bo_unref(&properties->eop_buf_bo);
++	amdgpu_bo_unref(&properties->cwsr_bo);
+ 
+ 	topo_dev = kfd_topology_device_by_id(pdd->dev->id);
+ 	if (!topo_dev)
+-- 
+2.50.1
 
-Weekly drm fixes. Looks like things did indeed get busier after rc2,
-nothing seems too major, but stuff scattered all over the place,
-amdgpu, xe, i915, hibmc, rust support code, and other small fixes.
-
-Regards,
-Dave.
-
-
-drm-fixes-2025-08-23-1:
-drm fixes for 6.17-rc3
-
-rust:
-- drm device memory layout and safety fixes
-
-tests:
-- Endianness fixes
-
-gpuvm:
-- docs warning fix
-
-panic:
-- fix division on 32-bit arm
-
-i915:
-- TypeC DP display Fixes
-- Silence rpm wakeref asserts on GEN11_GU_MISC_IIR access
-- Relocate compression repacking WA for JSL/EHL
-
-xe:
-- xe_vm_create fixes
-- fix vm bind ioctl double free
-
-amdgpu:
-- Replay fixes
-- SMU14 fix
-- Null check DC fixes
-- DCE6 DC fixes
-- Misc DC fixes
-
-bridge:
-- analogix_dp: devm_drm_bridge_alloc() error handling fix
-
-habanalabs:
-- Memory deallocation fix
-
-hibmc:
-- modesetting black screen fixes
-- fix UAF on irq
-- fix leak on i2c failure path
-
-nouveau:
-- memory leak fixes
-- typos
-
-rockchip:
-- Kconfig fix
-- register caching fix
-The following changes since commit c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9=
-:
-
-  Linux 6.17-rc2 (2025-08-17 15:22:10 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-08-23-1
-
-for you to fetch changes up to a60f5ee68efd91b4507eacbb40d4024ecf363304:
-
-  Merge tag 'drm-xe-fixes-2025-08-21-1' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-(2025-08-23 07:24:52 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.17-rc3
-
-rust:
-- drm device memory layout and safety fixes
-
-tests:
-- Endianness fixes
-
-gpuvm:
-- docs warning fix
-
-panic:
-- fix division on 32-bit arm
-
-i915:
-- TypeC DP display Fixes
-- Silence rpm wakeref asserts on GEN11_GU_MISC_IIR access
-- Relocate compression repacking WA for JSL/EHL
-
-xe:
-- xe_vm_create fixes
-- fix vm bind ioctl double free
-
-amdgpu:
-- Replay fixes
-- SMU14 fix
-- Null check DC fixes
-- DCE6 DC fixes
-- Misc DC fixes
-
-bridge:
-- analogix_dp: devm_drm_bridge_alloc() error handling fix
-
-habanalabs:
-- Memory deallocation fix
-
-hibmc:
-- modesetting black screen fixes
-- fix UAF on irq
-- fix leak on i2c failure path
-
-nouveau:
-- memory leak fixes
-- typos
-
-rockchip:
-- Kconfig fix
-- register caching fix
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu/swm14: Update power limit logic
-
-Avizrat, Yaron (1):
-      MAINTAINERS: Change habanalabs maintainers
-
-Baihan Li (5):
-      drm/hisilicon/hibmc: fix the i2c device resource leak when vdac
-init failed
-      drm/hisilicon/hibmc: fix irq_request()'s irq name variable is local
-      drm/hisilicon/hibmc: fix the hibmc loaded failed bug
-      drm/hisilicon/hibmc: fix rare monitors cannot display problem
-      drm/hisilicon/hibmc: fix dp and vga cannot show together
-
-Chenyuan Yang (1):
-      drm/amd/display: Add null pointer check in mod_hdcp_hdcp1_create_sess=
-ion()
-
-Christoph Manszewski (1):
-      drm/xe: Fix vm_bind_ioctl double free bug
-
-Danilo Krummrich (5):
-      MAINTAINERS: entry for DRM GPUVM
-      rust: alloc: replace aligned_size() with Kmalloc::aligned_layout()
-      rust: drm: ensure kmalloc() compatible Layout
-      rust: drm: remove pin annotations from drm::Device
-      rust: drm: don't pass the address of drm::Device to drm_dev_put()
-
-Dave Airlie (4):
-      Merge tag 'drm-intel-fixes-2025-08-20' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.17-2025-08-20' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2025-08-21' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2025-08-21-1' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-
-Fanhua Li (1):
-      drm/nouveau/nvif: Fix potential memory leak in nvif_vmm_ctor().
-
-Gabe Teeger (1):
-      drm/amd/display: Revert Add HPO encoder support to Replay
-
-Imre Deak (5):
-      drm/i915/lnl+/tc: Fix handling of an enabled/disconnected dp-alt sink
-      drm/i915/icl+/tc: Cache the max lane count value
-      drm/i915/lnl+/tc: Fix max lane count HW readout
-      drm/i915/lnl+/tc: Use the cached max lane count value
-      drm/i915/icl+/tc: Convert AUX powered WARN to a debug message
-
-Jani Nikula (1):
-      drm/i915: silence rpm wakeref asserts on GEN11_GU_MISC_IIR access
-
-Javier Garcia (1):
-      drm: Add directive to format code in comment
-
-Jocelyn Falempe (1):
-      drm/panic: Add a u64 divide by 10 for arm32
-
-Jos=C3=A9 Exp=C3=B3sito (2):
-      drm/tests: Fix endian warning
-      drm/tests: Fix drm_test_fb_xrgb8888_to_xrgb2101010() on big-endian
-
-Liu Ying (1):
-      drm/bridge: analogix_dp: Fix bailout for devm_drm_bridge_alloc()
-
-Madhur Kumar (1):
-      drm/nouveau: fix typos in comments
-
-Mario Limonciello (1):
-      drm/amd/display: Avoid a NULL pointer dereference
-
-Maxime Ripard (1):
-      Merge drm/drm-fixes into drm-misc-fixes
-
-Miguel Ojeda (2):
-      drm: nova-drm: fix 32-bit arm build
-      rust: alloc: fix `rusttest` by providing `Cmalloc::aligned_layout` to=
-o
-
-Nitin Gote (1):
-      iosys-map: Fix undefined behavior in iosys_map_clear()
-
-Piotr Pi=C3=B3rkowski (2):
-      drm/xe: Assign ioctl xe file handler to vm in xe_vm_create
-      drm/xe: Move ASID allocation and user PT BO tracking into xe_vm_creat=
-e
-
-Piotr Zalewski (1):
-      drm/rockchip: vop2: make vp registers nonvolatile
-
-Qianfeng Rong (1):
-      drm/nouveau/gsp: fix mismatched alloc/free for kvmalloc()
-
-Rudi Heitbaum (1):
-      drm/rockchip: cdn-dp: select bridge for cdp-dp
-
-Sebastian Brzezinka (1):
-      drm/i915/gt: Relocate compression repacking WA for JSL/EHL
-
-Thomas Zimmermann (2):
-      Merge drm/drm-fixes into drm-misc-fixes
-      Revert "drm/amdgpu: Use dma_buf from GEM object instance"
-
-Thorsten Blum (1):
-      accel/habanalabs/gaudi2: Use kvfree() for memory allocated with kvcal=
-loc()
-
-Timur Krist=C3=B3f (8):
-      drm/amd/display: Don't overclock DCE 6 by 15%
-      drm/amd/display: Adjust DCE 8-10 clock, don't overclock by 15%
-      drm/amd/display: Find first CRTC and its line time in
-dce110_fill_display_configs
-      drm/amd/display: Fill display clock and vblank time in
-dce110_fill_display_configs
-      drm/amd/display: Don't warn when missing DCE encoder caps
-      drm/amd/display: Don't print errors for nonexistent connectors
-      drm/amd/display: Fix fractional fb divider in set_pixel_clock_v3
-      drm/amd/display: Fix DP audio DTO1 clock source on DCE 6.
-
-Tom Chung (1):
-      drm/amd/display: Fix Xorg desktop unresponsive on Replay panel
-
- MAINTAINERS                                        | 14 +++-
- drivers/accel/habanalabs/gaudi2/gaudi2.c           |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  3 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 19 +++++
- drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  |  5 +-
- .../gpu/drm/amd/display/dc/bios/command_table.c    |  2 +-
- .../amd/display/dc/clk_mgr/dce100/dce_clk_mgr.c    | 14 ++--
- .../amd/display/dc/clk_mgr/dce110/dce110_clk_mgr.c | 40 ++++++----
- .../amd/display/dc/clk_mgr/dce60/dce60_clk_mgr.c   | 31 +++-----
- drivers/gpu/drm/amd/display/dc/core/dc.c           | 15 +++-
- .../gpu/drm/amd/display/dc/dce/dce_link_encoder.c  |  8 +-
- drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c   | 43 +---------
- drivers/gpu/drm/amd/display/dc/dce/dmub_replay.h   |  2 +-
- .../dc/link/protocols/link_edp_panel_control.c     |  2 +-
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    | 20 -----
- .../gpu/drm/amd/display/modules/hdcp/hdcp_psp.c    |  3 +
- .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   | 30 +++++--
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  4 +-
- drivers/gpu/drm/drm_gpuvm.c                        |  2 +
- drivers/gpu/drm/drm_panic_qr.rs                    | 22 ++++-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c       | 14 +++-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    | 22 ++---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h    |  1 +
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c    |  5 ++
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c   | 11 ++-
- drivers/gpu/drm/i915/display/intel_display_irq.c   |  4 +
- drivers/gpu/drm/i915/display/intel_tc.c            | 93 +++++++++++++++++-=
-----
- drivers/gpu/drm/i915/gt/intel_workarounds.c        | 20 ++---
- drivers/gpu/drm/nouveau/nouveau_exec.c             |  6 +-
- drivers/gpu/drm/nouveau/nvif/vmm.c                 |  3 +-
- .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c  |  4 +-
- drivers/gpu/drm/nova/file.rs                       |  3 +-
- drivers/gpu/drm/rockchip/Kconfig                   |  1 +
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  9 ++-
- drivers/gpu/drm/tests/drm_format_helper_test.c     |  3 +-
- drivers/gpu/drm/xe/xe_migrate.c                    |  2 +-
- drivers/gpu/drm/xe/xe_pxp_submit.c                 |  2 +-
- drivers/gpu/drm/xe/xe_vm.c                         | 48 ++++++-----
- drivers/gpu/drm/xe/xe_vm.h                         |  2 +-
- include/linux/iosys-map.h                          |  7 +-
- rust/kernel/alloc/allocator.rs                     | 30 ++++---
- rust/kernel/alloc/allocator_test.rs                | 11 +++
- rust/kernel/drm/device.rs                          | 32 ++++++--
- 46 files changed, 382 insertions(+), 239 deletions(-)
