@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DA9B3240C
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 23:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C60B32411
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 23:21:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABD7210EBC4;
-	Fri, 22 Aug 2025 21:20:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F52510EBC6;
+	Fri, 22 Aug 2025 21:21:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="arYkT+sL";
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="NZbkz9eZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B94E10EBC0;
- Fri, 22 Aug 2025 21:20:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9uZLhzPEmMwp8D7S73NTMgQyO+O6LpYFyWrFqzJc7vM=; b=arYkT+sLUfSekCdSUtkDWfZFab
- /M5zuPdpjW/R27iXLK8WNRIWl1Ma6ocvoAs55hPqAi8Q8XUU051sgda0oFwjEWS1mCv3tQNCd28XS
- VTyiOUyneFP84wycyt9kGYGh75Q71oKNffNiTBXFZ6VbhisqKq0HXRNxpdT2UklJYUHcK2PUuHcC6
- n+bXpbb0yfgS8mL6w7xPzlotyQQNQmAIygHo5FTErKtzY3y/U8MuAWxgm0hjmHbcvuZaVqvsZdWBv
- wqPsrbWcJJk7hNGabw+/kpTBcD7Xnc1/Pdbfl3zz+6wGZLTm/KTXmfTI+i/4F3xrWf+4JiQo5l3Pm
- H1+E86Cg==;
-Received: from [189.6.13.79] (helo=[192.168.31.42])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1upZB5-000I7b-Rv; Fri, 22 Aug 2025 23:20:04 +0200
-Message-ID: <9c544984-7b73-46df-a63a-fc8820d2ccba@igalia.com>
-Date: Fri, 22 Aug 2025 18:19:58 -0300
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D40C10EBC6;
+ Fri, 22 Aug 2025 21:21:36 +0000 (UTC)
+Received: from [192.168.42.116] (p5de4594b.dip0.t-ipconnect.de [93.228.89.75])
+ (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id EFB222FC0069;
+ Fri, 22 Aug 2025 23:21:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1755897694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+cxmw9eDXHLUIkAO2tG8/qESth12sPhFwTRWl0knmW4=;
+ b=NZbkz9eZceoHNRWts3tHpVs+70aEVvtPCPgqL6r5c4RFKylKRLgbvnVKQ3Mhi+12r6n2/C
+ GFUjhRBch4iG+N1c0FZDiOoCeKsnPtwLjk9nO+vCn848R5IWBtFUtPIbqrXcyZgLs6KDZV
+ fiMKLsRnCMG7nNRJG55Agjc30qmdTNs=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <37e439f4-232c-437f-a0ea-b25606f65921@tuxedocomputers.com>
+Date: Fri, 22 Aug 2025 23:21:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amdgpu: Fix kernel-doc comments for some LUT
- properties
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Harry Wentland <harry.wentland@amd.com>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250823-amdgpu-fix-kdoc-lut-v1-1-306bcad41267@collabora.com>
+Subject: Re: [PATCH 1/1] drm/i915/display: Add quirk to force backlight type
+ on some TUXEDO devices
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ simona@ffwll.ch, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250411171756.142777-1-wse@tuxedocomputers.com>
+ <20250411171756.142777-2-wse@tuxedocomputers.com>
+ <Z_llydAABYIueYA6@intel.com>
+ <6e4f4d23-3c5a-448f-bc0b-cf6a6e9f3d2e@tuxedocomputers.com>
+ <6126584e-587e-4758-9bfb-83e0231f98be@tuxedocomputers.com>
 Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <20250823-amdgpu-fix-kdoc-lut-v1-1-306bcad41267@collabora.com>
+In-Reply-To: <6126584e-587e-4758-9bfb-83e0231f98be@tuxedocomputers.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,71 +70,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 22/08/2025 18:11, Cristian Ciocaltea wrote:
-> The following members of struct amdgpu_mode_info do not have valid
-> references in the related kernel-doc sections:
+Am 22.07.25 um 13:40 schrieb Werner Sembach:
+> Hi,
 >
->   - plane_shaper_lut_property
->   - plane_shaper_lut_size_property,
->   - plane_lut3d_size_property
+> Am 15.04.25 um 17:48 schrieb Werner Sembach:
+>> Hi,
+>>
+>> Am 11.04.25 um 20:56 schrieb Ville Syrjälä:
+>>> On Fri, Apr 11, 2025 at 05:55:08PM +0200, Werner Sembach wrote:
+>>>> The display backlight on TUXEDO DX1708 and InsanityBook 15 v1 with panels
+>>>> AUO 12701 and AUO 12701 must be forced to INTEL_DP_AUX_BACKLIGHT_ON to be
+>>>> able to control the brightness.
+>>>>
+>>>> This could already be archived via a module parameter, but this patch adds
+>>>> a quirk to apply this by default on the mentioned device + panel
+>>>> combinations.
+>>> Why aren't you fixing the VBT to be correct in the first place?
+>>
+>> I don't have access to the firmware source code and these are quite old 
+>> devices so I also can't request a fix from the ODM. Besides: it can be quite 
+>> hard to explain to the ODM what exactly the problem is if it doesn't also 
+>> affect Windows.
 >
-> Correct all affected comment blocks.
+> TBH I don't know what VBT stands for, I just assumed it has to to with the 
+> displays firmware?
 >
-> Fixes: f545d82479b4 ("drm/amd/display: add plane shaper LUT and TF driver-specific properties")
-> Fixes: 671994e3bf33 ("drm/amd/display: add plane 3D LUT driver-specific properties")
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Nice catch. Thanks for reviewing docs and fixing them.
-
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+> Unlike I wrote in the cover letter we actually still had an affected device in 
+> our archives -> the issue persists and the quirk is still necessary.
+Hope a gentle bump here is ok
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> index 6da4f946cac008ac865cd6d8a06fb0bd84d646d5..c3ad371658065388c10b7cfc45377b0465bd24ca 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-> @@ -366,15 +366,15 @@ struct amdgpu_mode_info {
->   
->   	struct drm_property *plane_ctm_property;
->   	/**
-> -	 * @shaper_lut_property: Plane property to set pre-blending shaper LUT
-> -	 * that converts color content before 3D LUT. If
-> -	 * plane_shaper_tf_property != Identity TF, AMD color module will
-> +	 * @plane_shaper_lut_property: Plane property to set pre-blending
-> +	 * shaper LUT that converts color content before 3D LUT.
-> +	 * If plane_shaper_tf_property != Identity TF, AMD color module will
->   	 * combine the user LUT values with pre-defined TF into the LUT
->   	 * parameters to be programmed.
->   	 */
->   	struct drm_property *plane_shaper_lut_property;
->   	/**
-> -	 * @shaper_lut_size_property: Plane property for the size of
-> +	 * @plane_shaper_lut_size_property: Plane property for the size of
->   	 * pre-blending shaper LUT as supported by the driver (read-only).
->   	 */
->   	struct drm_property *plane_shaper_lut_size_property;
-> @@ -398,10 +398,10 @@ struct amdgpu_mode_info {
->   	 */
->   	struct drm_property *plane_lut3d_property;
->   	/**
-> -	 * @plane_degamma_lut_size_property: Plane property to define the max
-> -	 * size of 3D LUT as supported by the driver (read-only). The max size
-> -	 * is the max size of one dimension and, therefore, the max number of
-> -	 * entries for 3D LUT array is the 3D LUT size cubed;
-> +	 * @plane_lut3d_size_property: Plane property to define the max size
-> +	 * of 3D LUT as supported by the driver (read-only). The max size is
-> +	 * the max size of one dimension and, therefore, the max number of
-> +	 * entries for 3D LUT array is the 3D LUT size cubed.
->   	 */
->   	struct drm_property *plane_lut3d_size_property;
->   	/**
+> Best Regards,
 >
-> ---
-> base-commit: 0f4c93f7eb861acab537dbe94441817a270537bf
-> change-id: 20250823-amdgpu-fix-kdoc-lut-357db8b57fee
+> Werner
 >
-
+>>
+>> Best regards,
+>>
+>> Werner Sembach
+>>
+>>>
+>>>> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+>>>> Cc: stable@vger.kernel.org
+>>>> ---
+>>>>   .../drm/i915/display/intel_dp_aux_backlight.c | 14 ++++++-
+>>>>   drivers/gpu/drm/i915/display/intel_quirks.c   | 42 +++++++++++++++++++
+>>>>   drivers/gpu/drm/i915/display/intel_quirks.h   |  1 +
+>>>>   3 files changed, 56 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c 
+>>>> b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+>>>> index c846ef4acf5b2..0cac04c98a3e3 100644
+>>>> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+>>>> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+>>>> @@ -34,12 +34,14 @@
+>>>>    * for some reason.
+>>>>    */
+>>>>   +#include <drm/drm_edid.h>
+>>>>   #include "i915_utils.h"
+>>>>   #include "intel_backlight.h"
+>>>>   #include "intel_display_core.h"
+>>>>   #include "intel_display_types.h"
+>>>>   #include "intel_dp.h"
+>>>>   #include "intel_dp_aux_backlight.h"
+>>>> +#include "intel_quirks.h"
+>>>>     /*
+>>>>    * DP AUX registers for Intel's proprietary HDR backlight interface. We 
+>>>> define
+>>>> @@ -607,11 +609,21 @@ int intel_dp_aux_init_backlight_funcs(struct 
+>>>> intel_connector *connector)
+>>>>       struct drm_device *dev = connector->base.dev;
+>>>>       struct intel_panel *panel = &connector->panel;
+>>>>       bool try_intel_interface = false, try_vesa_interface = false;
+>>>> +    int enable_dpcd_backlight;
+>>>> +    u32 pnl_id;
+>>>>         /* Check the VBT and user's module parameters to figure out which
+>>>>        * interfaces to probe
+>>>>        */
+>>>> -    switch (display->params.enable_dpcd_backlight) {
+>>>> +    enable_dpcd_backlight = display->params.enable_dpcd_backlight;
+>>>> +    if (enable_dpcd_backlight == INTEL_DP_AUX_BACKLIGHT_AUTO &&
+>>>> +        intel_has_quirk(display, 
+>>>> QUIRK_AUO_12701_21229_ENABLE_DPCD_BACKLIGHT)) {
+>>>> +        pnl_id = drm_edid_get_panel_id(panel->fixed_edid);
+>>>> +        if (pnl_id == drm_edid_encode_panel_id('A', 'U', 'O', 0x319d) ||
+>>>> +            pnl_id == drm_edid_encode_panel_id('A', 'U', 'O', 0x52ed))
+>>>> +            enable_dpcd_backlight = INTEL_DP_AUX_BACKLIGHT_ON;
+>>>> +    }
+>>>> +    switch (enable_dpcd_backlight) {
+>>>>       case INTEL_DP_AUX_BACKLIGHT_OFF:
+>>>>           return -ENODEV;
+>>>>       case INTEL_DP_AUX_BACKLIGHT_AUTO:
+>>>> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c 
+>>>> b/drivers/gpu/drm/i915/display/intel_quirks.c
+>>>> index 8b30e9fd936e7..6f724e5712664 100644
+>>>> --- a/drivers/gpu/drm/i915/display/intel_quirks.c
+>>>> +++ b/drivers/gpu/drm/i915/display/intel_quirks.c
+>>>> @@ -78,6 +78,12 @@ static void quirk_fw_sync_len(struct intel_dp *intel_dp)
+>>>>       drm_info(display->drm, "Applying Fast Wake sync pulse count quirk\n");
+>>>>   }
+>>>>   +static void quirk_auo_12701_21229_enable_dpcd_backlight(struct 
+>>>> intel_display *display)
+>>>> +{
+>>>> +    intel_set_quirk(display, QUIRK_AUO_12701_21229_ENABLE_DPCD_BACKLIGHT);
+>>>> +    drm_info(display->drm, "Applying Display AUO Model 12701 and 21229 
+>>>> Enable DPCD Backlight quirk\n");
+>>>> +}
+>>>> +
+>>>>   struct intel_quirk {
+>>>>       int device;
+>>>>       int subsystem_vendor;
+>>>> @@ -118,6 +124,12 @@ static int intel_dmi_no_pps_backlight(const struct 
+>>>> dmi_system_id *id)
+>>>>       return 1;
+>>>>   }
+>>>>   +static int intel_dmi_auo_12701_21229_enable_dpcd_backlight(const struct 
+>>>> dmi_system_id *id)
+>>>> +{
+>>>> +    DRM_INFO("Display AUO model 12701 and 21229 DPCD backlight control on 
+>>>> %s\n", id->ident);
+>>>> +    return 1;
+>>>> +}
+>>>> +
+>>>>   static const struct intel_dmi_quirk intel_dmi_quirks[] = {
+>>>>       {
+>>>>           .dmi_id_list = &(const struct dmi_system_id[]) {
+>>>> @@ -164,6 +176,36 @@ static const struct intel_dmi_quirk intel_dmi_quirks[] 
+>>>> = {
+>>>>           },
+>>>>           .hook = quirk_no_pps_backlight_power_hook,
+>>>>       },
+>>>> +    {
+>>>> +        .dmi_id_list = &(const struct dmi_system_id[]) {
+>>>> +            {
+>>>> +                .callback = intel_dmi_auo_12701_21229_enable_dpcd_backlight,
+>>>> +                .ident = "TUXEDO DX1708",
+>>>> +                .matches = {DMI_MATCH(DMI_BOARD_NAME, "N8xEJEK"),
+>>>> +                },
+>>>> +            },
+>>>> +            {
+>>>> +                .callback = intel_dmi_auo_12701_21229_enable_dpcd_backlight,
+>>>> +                .ident = "TUXEDO InsanityBook 15 v1",
+>>>> +                .matches = {DMI_MATCH(DMI_BOARD_NAME, "P95_HP"),
+>>>> +                },
+>>>> +            },
+>>>> +            {
+>>>> +                .callback = intel_dmi_auo_12701_21229_enable_dpcd_backlight,
+>>>> +                .ident = "TUXEDO InsanityBook 15 v1",
+>>>> +                .matches = {DMI_MATCH(DMI_BOARD_NAME, "P95_HR"),
+>>>> +                },
+>>>> +            },
+>>>> +            {
+>>>> +                .callback = intel_dmi_auo_12701_21229_enable_dpcd_backlight,
+>>>> +                .ident = "TUXEDO InsanityBook 15 v1",
+>>>> +                .matches = {DMI_MATCH(DMI_BOARD_NAME, "P95_HP,HR,HQ"),
+>>>> +                },
+>>>> +            },
+>>>> +            { }
+>>>> +        },
+>>>> +        .hook = quirk_auo_12701_21229_enable_dpcd_backlight,
+>>>> +    },
+>>>>   };
+>>>>     static struct intel_quirk intel_quirks[] = {
+>>>> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h 
+>>>> b/drivers/gpu/drm/i915/display/intel_quirks.h
+>>>> index cafdebda75354..38bdbd65d7efb 100644
+>>>> --- a/drivers/gpu/drm/i915/display/intel_quirks.h
+>>>> +++ b/drivers/gpu/drm/i915/display/intel_quirks.h
+>>>> @@ -20,6 +20,7 @@ enum intel_quirk_id {
+>>>>       QUIRK_LVDS_SSC_DISABLE,
+>>>>       QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
+>>>>       QUIRK_FW_SYNC_LEN,
+>>>> +    QUIRK_AUO_12701_21229_ENABLE_DPCD_BACKLIGHT,
+>>>>   };
+>>>>     void intel_init_quirks(struct intel_display *display);
+>>>> -- 
+>>>> 2.43.0
