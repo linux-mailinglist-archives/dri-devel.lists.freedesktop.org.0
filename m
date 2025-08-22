@@ -2,114 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77A4B31999
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 15:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD10EB3185B
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:52:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4996210E10D;
-	Fri, 22 Aug 2025 13:31:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D75F10EAFE;
+	Fri, 22 Aug 2025 12:52:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Npj4oktZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XF1ZFCfJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Npj4oktZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XF1ZFCfJ";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="IJHf3AA1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90C0C10E10D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 13:31:46 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7E7292220B;
- Fri, 22 Aug 2025 13:31:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755869497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LiWmEg2f7MuAOJxy0pv+aQ7qwdJTzcMr4yVsbolov4o=;
- b=Npj4oktZg1Ro/OpVilX4+3wp8H/lZblikD9wrb2eGGs1W+04xkCYUrt2LgZzidgFsYBFAi
- aRgzxJ3xoVe099v0tXPvf22gxk8uo5KS/7ls4XhIr0hgFXjrf7J2JIT5Byt1GT/uqFXmG3
- XmdrbattrCs+iJVRdn/kgkui7fQpUxQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755869497;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LiWmEg2f7MuAOJxy0pv+aQ7qwdJTzcMr4yVsbolov4o=;
- b=XF1ZFCfJC+XQZFQ8vQxxdK6uyio7YDjlN6mB+25n8ZBgKuVmppkVIzg8oxmPzKXRJJCPv4
- DSl8emf9XZnWuNBg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Npj4oktZ;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XF1ZFCfJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755869497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LiWmEg2f7MuAOJxy0pv+aQ7qwdJTzcMr4yVsbolov4o=;
- b=Npj4oktZg1Ro/OpVilX4+3wp8H/lZblikD9wrb2eGGs1W+04xkCYUrt2LgZzidgFsYBFAi
- aRgzxJ3xoVe099v0tXPvf22gxk8uo5KS/7ls4XhIr0hgFXjrf7J2JIT5Byt1GT/uqFXmG3
- XmdrbattrCs+iJVRdn/kgkui7fQpUxQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755869497;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LiWmEg2f7MuAOJxy0pv+aQ7qwdJTzcMr4yVsbolov4o=;
- b=XF1ZFCfJC+XQZFQ8vQxxdK6uyio7YDjlN6mB+25n8ZBgKuVmppkVIzg8oxmPzKXRJJCPv4
- DSl8emf9XZnWuNBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F46613A31;
- Fri, 22 Aug 2025 13:31:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id mJhDDjlxqGgneAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 22 Aug 2025 13:31:37 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 6/6] drm/ast: Put AST_DRAM_ constants into enum ast_dram_layout
-Date: Fri, 22 Aug 2025 14:52:13 +0200
-Message-ID: <20250822132846.25376-7-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250822132846.25376-1-tzimmermann@suse.de>
-References: <20250822132846.25376-1-tzimmermann@suse.de>
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01FD110EAF1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 12:52:45 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3b9dc55d84bso1874877f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 05:52:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1755867164; x=1756471964;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FQxzrle3VKFwpadizhrA++PgP4oF1J7QwIr8TLUlKCQ=;
+ b=IJHf3AA1D9ZIV7tvZaXs994VSNYxfMQL1ERqHNJZSMnP7rRA0pP4K8g5pGFjQEPLu5
+ 2NvN4ErHMF+7e2NbBEVcDd5lH9OqC8RF1BZ7+gmcpYa23LudmV8T8EHHQPYORmyFmcKT
+ 8oUurgr3RXlU2ixvtp/ioZmloT0mREQvhPlw2GsaZL1RKV/VbhW/juuCuzM6/V2SIMSp
+ 36yjr1J5IjBzT/ah6aLu6f0sinrk/g6Fr5pJvtaSmNph43dKUoM3AYMcTLN5KPBuci1R
+ 2IULm+QmhDHgfYCkmjuy6kKXJnMeGgogEcvQmEAPqZ5kTTm2e04TUuO/htfWLsYxKY6S
+ TsSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755867164; x=1756471964;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FQxzrle3VKFwpadizhrA++PgP4oF1J7QwIr8TLUlKCQ=;
+ b=M8RztJq+ILYC7C0nhjOUdlHzQq7HRDs+eDiZoBetfqGil1A8QdFKqzmryzF16FKAbP
+ u4keDhNiHpYtXjlehKFMNVmpN284KU1BPVdqd5kws0RxsqWITx4RevcqZOeB2XCq1JCd
+ uPEhyBR/xrCfKTcC8xzrkbzh8y5+WoNim3IF0UJlS3A68l04u/wuVuKAicRqWTN5t8A3
+ bkYdU1rv398LoEbL+MLVL3h0xlEotuQI0pGaMLO73D6uv/a2G/ZRLmUsivwjGsS1G7r2
+ +WdeDaRvtNjH+Bg7eA2kQJRPlxvPT0ox83O7Jh4SrF8Nvfrec01w92zpepMPm26tSQIx
+ 9/Lw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWMx1cVWV67cnBKI+cGxsHNpt0iS5gWIpItiAj8+KaeamGFnfvnzoTRB27pGsy6BT6UuOyixLWNdNY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwCL7TCz9TKLAgRtNUrpVobRy3FrQUJuwOCA6/4VaOxwUpLa4f2
+ u+C1r3AgZ+V2qVeuJwfoddXIFIZTCMTK/bpHONMkDMyDfu2ABhzZ4RT/32NnrtENQfRQYis9grY
+ thr/jBBqX6W0wPX2FLx498he1ZgiM9u7T2GjWTNWk
+X-Gm-Gg: ASbGnctbHM34uE9nxqKKoIfdbjgMLGZGWb/xrtfBTLklmJOpX/IRq9q3rnJICPIeBS+
+ 9b43OrpmMSIu5VltR/5TtuQFXVawSLToVAAOld9cHw6Ao67c63AWQ28Y87vXlIcU6NyXByfBrNN
+ GJZzzK+rwpqh/eqS33YKIT5u4N2/tyryasSNxujm7PwzIGXAFe/k/xfJ2sZfc05jWURIjj5tT6T
+ VEdcqbTGoGzKhEIIkuEF/MkscnF9Rqn+FyQ/94Gvpuq2y2qdVmLkCpAq2LLVpXUQhgXpS4eIw==
+X-Google-Smtp-Source: AGHT+IE7Y0lQvf5r/Ym72waDaFduU5pis90P/Y8BoW2WQ2ZgXRN4nLW4iRYkwU9mYPjzWGowKlbiftsAubogUD/WtkY=
+X-Received: by 2002:a05:6000:230a:b0:3a4:f72a:b18a with SMTP id
+ ffacd0b85a97d-3c5db6bb8d0mr2118466f8f.26.1755867164304; Fri, 22 Aug 2025
+ 05:52:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 7E7292220B
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- DKIM_TRACE(0.00)[suse.de:+]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[8];
- R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc)];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -3.01
+References: <20250822-nova_firmware-v1-0-ff5633679460@nvidia.com>
+ <20250822-nova_firmware-v1-1-ff5633679460@nvidia.com>
+In-Reply-To: <20250822-nova_firmware-v1-1-ff5633679460@nvidia.com>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Fri, 22 Aug 2025 14:52:32 +0200
+X-Gm-Features: Ac12FXxHtvKHWX7r4WBjHUgk1Fpgkh30TWxJenE5FBjdNdkXpbTtw7CFj3EHlec
+Message-ID: <CAH5fLgiXYj0f0UEPCTjDgykjX3mFo4hf9SUswRYwHzh6Vznwtg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] rust: transmute: add `from_bytes_copy` method to
+ `FromBytes` trait
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,106 +96,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The AST_DRAM_ constants belong together, so put them in an enum
-type. Rename type and variables to 'drm_layout', as there's already
-another DRAM type in the ast driver (AST_DDR2, AST_DDR3).
+On Fri, Aug 22, 2025 at 2:47=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
+com> wrote:
+>
+> `FromBytes::from_bytes` comes with a few practical limitations:
+>
+> - It requires the bytes slice to have the same alignment as the returned
+>   type, which might not be guaranteed in the case of a byte stream,
+> - It returns a reference, requiring the returned type to implement
+>   `Clone` if one wants to keep the value for longer than the lifetime of
+>   the slice.
+>
+> To overcome these when needed, add a `from_bytes_copy` with a default
+> implementation in the trait. `from_bytes_copy` returns an owned value
+> that is populated using an unaligned read, removing the lifetime
+> constraint and making it usable even on non-aligned byte slices.
+>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_2100.c | 20 +++++++++-----------
- drivers/gpu/drm/ast/ast_drv.h  | 16 +++++++++-------
- 2 files changed, 18 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/ast/ast_2100.c b/drivers/gpu/drm/ast/ast_2100.c
-index 44c33dd050eb..736866763349 100644
---- a/drivers/gpu/drm/ast/ast_2100.c
-+++ b/drivers/gpu/drm/ast/ast_2100.c
-@@ -35,10 +35,10 @@
-  * DRAM type
-  */
- 
--static int ast_2100_get_dram_type_p2a(struct ast_device *ast)
-+static enum ast_dram_layout ast_2100_get_dram_layout_p2a(struct ast_device *ast)
- {
- 	u32 mcr_cfg;
--	int dram_type;
-+	enum ast_dram_layout dram_layout;
- 
- 	ast_write32(ast, 0xf004, 0x1e6e0000);
- 	ast_write32(ast, 0xf000, 0x1);
-@@ -47,20 +47,20 @@ static int ast_2100_get_dram_type_p2a(struct ast_device *ast)
- 	switch (mcr_cfg & 0x0c) {
- 	case 0:
- 	case 4:
--		dram_type = AST_DRAM_512Mx16;
-+		dram_layout = AST_DRAM_512Mx16;
- 		break;
- 	case 8:
- 		if (mcr_cfg & 0x40)
--			dram_type = AST_DRAM_1Gx16;
-+			dram_layout = AST_DRAM_1Gx16;
- 		else
--			dram_type = AST_DRAM_512Mx32;
-+			dram_layout = AST_DRAM_512Mx32;
- 		break;
- 	case 0xc:
--		dram_type = AST_DRAM_1Gx32;
-+		dram_layout = AST_DRAM_1Gx32;
- 		break;
- 	}
- 
--	return dram_type;
-+	return dram_layout;
- }
- 
- /*
-@@ -298,9 +298,7 @@ static void ast_post_chip_2100(struct ast_device *ast)
- 	u8 j;
- 	u32 data, temp, i;
- 	const struct ast_dramstruct *dram_reg_info;
--	int dram_type;
--
--	dram_type = ast_2100_get_dram_type_p2a(ast);
-+	enum ast_dram_layout dram_layout  = ast_2100_get_dram_layout_p2a(ast);
- 
- 	j = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd0, 0xff);
- 
-@@ -327,7 +325,7 @@ static void ast_post_chip_2100(struct ast_device *ast)
- 				for (i = 0; i < 15; i++)
- 					udelay(dram_reg_info->data);
- 			} else if (AST_DRAMSTRUCT_IS(dram_reg_info, DRAM_TYPE)) {
--				switch (dram_type) {
-+				switch (dram_layout) {
- 				case AST_DRAM_1Gx16:
- 					data = 0x00000d89;
- 					break;
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 4c29ae9fb511..c15aef014f69 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -98,13 +98,15 @@ enum ast_config_mode {
- 	ast_use_defaults
- };
- 
--#define AST_DRAM_512Mx16 0
--#define AST_DRAM_1Gx16   1
--#define AST_DRAM_512Mx32 2
--#define AST_DRAM_1Gx32   3
--#define AST_DRAM_2Gx16   6
--#define AST_DRAM_4Gx16   7
--#define AST_DRAM_8Gx16   8
-+enum ast_dram_layout {
-+	AST_DRAM_512Mx16 = 0,
-+	AST_DRAM_1Gx16 = 1,
-+	AST_DRAM_512Mx32 = 2,
-+	AST_DRAM_1Gx32 = 3,
-+	AST_DRAM_2Gx16 = 6,
-+	AST_DRAM_4Gx16 = 7,
-+	AST_DRAM_8Gx16 = 8,
-+};
- 
- /*
-  * Hardware cursor
--- 
-2.50.1
-
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
