@@ -2,80 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB997B316B1
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 13:49:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25A9B316D3
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:02:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9882910EAD2;
-	Fri, 22 Aug 2025 11:49:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81F5C10EAD7;
+	Fri, 22 Aug 2025 12:02:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="SdD5jacd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JLdU7mfL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5457810EAD2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 11:49:42 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250822114940euoutp016d0366e481eb796115eb0200085874cf~eFHEY7KCJ2436024360euoutp01Q
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 11:49:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250822114940euoutp016d0366e481eb796115eb0200085874cf~eFHEY7KCJ2436024360euoutp01Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1755863380;
- bh=r7tw+YzfiE2JWtFiWgFD7GmQut2bsW2LirbpAzZSHBM=;
- h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
- b=SdD5jacdlIYJTHl4o6tPWTBdGXzZAhrheFf5WjjKZRxHkIs7ba0wRPrHL7zDfJ61W
- eKRZxXISpn8PnEfDMfHGIXTgURsoZDRzUvs2jP5g4fIkL9RVlQrEZuuFbgguxIh7rf
- QPZwZuUQNCT0+1m9khJ4BpCKbw/WZS5ejIwF6KX0=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250822114939eucas1p235e278e1c3e0bed2210a4aaad0a14f5a~eFHDuYKqO2281222812eucas1p2d;
- Fri, 22 Aug 2025 11:49:39 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250822114938eusmtip2bb870003b57eaa604168094b8a06aae5~eFHCrZrxy0112901129eusmtip2G;
- Fri, 22 Aug 2025 11:49:38 +0000 (GMT)
-Message-ID: <6df6dc78-d86e-4289-bbe2-0bfe4b168c43@samsung.com>
-Date: Fri, 22 Aug 2025 13:49:38 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82A4010EAD4;
+ Fri, 22 Aug 2025 12:02:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755864174; x=1787400174;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=NSnq3j/wmWfZvJf0VEDlY6VZKtuOObyWhhtEHgOMcBY=;
+ b=JLdU7mfLYeP2ZyMTD5PEQn6IlRdH2pJpO+Guf6lbNRQQ5/Lz53w6YkEG
+ nu+XtNmruDEPMuwaa//Tn/0aSXTRNzp0HEwrl4ASTo7mB187JscgsccFc
+ pQigv7DbRRCXGqPRz3OkI2Vre6Mc/JVVoxcFIcMavTPNdlW6cjUKKZ6/u
+ So4B2+cuQwrIzs9t1xFOulxq8/mTMPQ5OEL5rUh/4QNh1SVzt5IbqiMY9
+ utoopN+NeDkLvWMNwVyjzeaP0avPoN6LUVaIcddB0YHzL02zYNJNkFHiD
+ G460S/DcGUrjy50LIo38e4Oisr5xyMynveeBQ7FouXvV8syNhwgDJ32Pl Q==;
+X-CSE-ConnectionGUID: C9S4EWOBQu2ED5BTKYk1yg==
+X-CSE-MsgGUID: dkcXDYieSXahOHTmorfzrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58237009"
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="58237009"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 05:02:53 -0700
+X-CSE-ConnectionGUID: y56d4JGDTBySE3WIyt/heg==
+X-CSE-MsgGUID: q7u3xg8+SUuIKLkFQuVDjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="192357659"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.134])
+ ([10.245.244.134])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 05:02:51 -0700
+Message-ID: <feae67f7-288e-4783-a059-b48dfea6e4e1@intel.com>
+Date: Fri, 22 Aug 2025 13:02:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 1/4] drm/imagination: Use pwrseq for TH1520 GPU
- power management
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-To: Matt Coster <Matt.Coster@imgtec.com>, Drew Fustini <drew@pdp7.com>
-Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
- <p.zabel@pengutronix.de>, Frank Binns <Frank.Binns@imgtec.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson
- <ulf.hansson@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Drew
- Fustini <fustini@kernel.org>, "linux-riscv@lists.infradead.org"
- <linux-riscv@lists.infradead.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-pm@vger.kernel.org"
- <linux-pm@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Content-Language: en-US
-In-Reply-To: <daf94e44-7c37-4fa6-a31e-b043b7bf46f1@samsung.com>
+Subject: Re: [PATCH v3 2/2] drm/buddy: Separate clear and dirty free block
+ trees
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: alexander.deucher@amd.com
+References: <20250821150641.2720-1-Arunpravin.PaneerSelvam@amd.com>
+ <20250821150641.2720-2-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20250821150641.2720-2-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250822114939eucas1p235e278e1c3e0bed2210a4aaad0a14f5a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250821222020eucas1p20e40b85b991da0b4d867df76e55350ed
-X-EPHeader: CA
-X-CMS-RootMailID: 20250821222020eucas1p20e40b85b991da0b4d867df76e55350ed
-References: <20250822-apr_14_for_sending-v13-0-af656f7cc6c3@samsung.com>
- <CGME20250821222020eucas1p20e40b85b991da0b4d867df76e55350ed@eucas1p2.samsung.com>
- <20250822-apr_14_for_sending-v13-1-af656f7cc6c3@samsung.com>
- <aa8d4ffb-4607-4bff-9d87-8635cd37d439@imgtec.com>
- <55e606c5-9ac0-4e0b-8506-5f88a6fc540e@samsung.com>
- <daf94e44-7c37-4fa6-a31e-b043b7bf46f1@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,458 +75,624 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 21/08/2025 16:06, Arunpravin Paneer Selvam wrote:
+> Maintain two separate RB trees per order - one for clear (zeroed) blocks
+> and another for dirty (uncleared) blocks. This separation improves
+> code clarity and makes it more obvious which tree is being searched
+> during allocation. It also improves scalability and efficiency when
+> searching for a specific type of block, avoiding unnecessary checks
+> and making the allocator more predictable under fragmentation.
+> 
+> The changes have been validated using the existing drm_buddy_test
+> KUnit test cases, along with selected graphics workloads,
+> to ensure correctness and avoid regressions.
+> 
+> v2: Missed adding the suggested-by tag. Added it in v2.
+> v3(Matthew):
+>    - Remove the double underscores from the internal functions.
+>    - Rename the internal functions to have less generic names.
+>    - Fix the error handling code.
+>    - Pass tree argument for the tree macro.
+>    - Use the existing dirty/free bit instead of new tree field.
+>    - Make free_trees[] instead of clear_tree and dirty_tree for
+>      more cleaner approach.
+> 
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Suggested-by: Matthew Auld <matthew.auld@intel.com>
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4260
+> ---
+>   drivers/gpu/drm/drm_buddy.c | 342 ++++++++++++++++++++++--------------
+>   include/drm/drm_buddy.h     |   8 +-
+>   2 files changed, 215 insertions(+), 135 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index 92226a46cc2c..f57c384889a9 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -14,6 +14,9 @@
+>   
+>   static struct kmem_cache *slab_blocks;
+>   
+> +#define for_each_free_tree(tree) \
+> +	for ((tree) = CLEAR_TREE; (tree) < MAX_FREE_TREES; (tree)++)
+> +
+>   /*
+>    * for_each_rb_free_block() - iterate over an RB tree in order
+>    * @pos:	the struct type * to use as a loop cursor
+> @@ -78,22 +81,77 @@ static void drm_block_free(struct drm_buddy *mm,
+>   	kmem_cache_free(slab_blocks, block);
+>   }
+>   
+> +static inline struct rb_root *
+> +get_root(struct drm_buddy *mm,
+> +	 unsigned int order,
+> +	 enum free_tree tree)
+> +{
+> +	if (tree == CLEAR_TREE)
+> +		return &mm->free_trees[CLEAR_TREE][order];
+> +	else
+> +		return &mm->free_trees[DIRTY_TREE][order];
 
+I think we can replace this with something like:
 
-On 8/22/25 12:26, Michal Wilczynski wrote:
-> 
-> 
-> On 8/22/25 12:04, Michal Wilczynski wrote:
->>
->>
->> On 8/22/25 11:28, Matt Coster wrote:
->>> On 21/08/2025 23:20, Michal Wilczynski wrote:
->>>> Update the Imagination PVR DRM driver to leverage the pwrseq framework
->>>> for managing the complex power sequence of the GPU on the T-HEAD TH1520
->>>> SoC.
->>>>
->>>> To cleanly separate platform-specific logic from the generic driver,
->>>> this patch introduces an `init` callback to the `pwr_power_sequence_ops`
->>>> struct. This allows for different power management strategies to be
->>>> selected at probe time based on the device's compatible string.
->>>>
->>>> A `pvr_device_data` struct, associated with each compatible in the
->>>> of_device_id table, points to the appropriate ops table (manual or
->>>> pwrseq).
->>>>
->>>> At probe time, the driver now calls the `->init()` op. For pwrseq-based
->>>> platforms, this callback calls `devm_pwrseq_get("gpu-power")`, deferring
->>>> probe if the sequencer is not yet available. For other platforms, it
->>>> falls back to the existing manual clock and reset handling. The runtime
->>>> PM callbacks continue to call the appropriate functions via the ops
->>>> table.
->>>>
->>>> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
->>>
->>> Reviewed-by: Matt Coster <matt.coster@imgtec.com>
->>>
->>> Would you like me to take the non-DTS changes via drm-misc-next?
->>
->> Yeah I think this would be appropriate.
->> Thanks !
-> 
-> Hi Drew,
-> 
-> Matt offered to take the non-DTS patches (1/4 and 4/4) from this series
-> through the DRM tree.
-> 
-> This leaves the DT binding and TH1520 DT patches (2/4 and 3/4). Would
-> you be able to pick them up through your tree ?
+return &mm->free_trees[tree][order];
 
-Aw,
-Sorry I think Matt also meant to take the dt-binding patch, so there would be
-only patch 3 for your tree.
+> +}
+> +
+> +static inline enum free_tree
+> +get_tree_for_block(struct drm_buddy_block *block)
+> +{
+> +	return drm_buddy_block_is_clear(block) ? CLEAR_TREE : DIRTY_TREE;
+> +}
+> +
+> +static inline enum free_tree
+> +get_tree_for_flags(unsigned long flags)
+> +{
+> +	return (flags & DRM_BUDDY_CLEAR_ALLOCATION) ? CLEAR_TREE : DIRTY_TREE;
+> +}
+> +
+> +static inline struct drm_buddy_block *
+> +rbtree_get_free_block(struct rb_node *node)
+> +{
+> +	return node ? rb_entry(node, struct drm_buddy_block, rb) : NULL;
+> +}
+> +
+> +static inline struct drm_buddy_block *
+> +rbtree_prev_free_block(struct rb_node *node)
+> +{
+> +	return rbtree_get_free_block(rb_prev(node));
+> +}
+> +
+> +static inline struct drm_buddy_block *
+> +rbtree_first_free_block(struct rb_root *root)
+> +{
+> +	return rbtree_get_free_block(rb_first(root));
+> +}
+> +
+> +static inline struct drm_buddy_block *
+> +rbtree_last_free_block(struct rb_root *root)
+> +{
+> +	return rbtree_get_free_block(rb_last(root));
+> +}
+> +
+> +static inline bool rbtree_is_empty(struct rb_root *root)
+> +{
+> +	return RB_EMPTY_ROOT(root);
+> +}
+> +
+>   static void rbtree_insert(struct drm_buddy *mm,
+> -			  struct drm_buddy_block *block)
+> +			  struct drm_buddy_block *block,
+> +			  enum free_tree tree)
+>   {
+> -	struct rb_root *root = &mm->free_tree[drm_buddy_block_order(block)];
+> -	struct rb_node **link = &root->rb_node;
+> -	struct rb_node *parent = NULL;
+> +	struct rb_node **link, *parent = NULL;
+>   	struct drm_buddy_block *node;
+> -	u64 offset;
+> +	struct rb_root *root;
+> +	unsigned int order;
+> +
+> +	order = drm_buddy_block_order(block);
+>   
+> -	offset = drm_buddy_block_offset(block);
+> +	root = get_root(mm, order, tree);
+> +	link = &root->rb_node;
+>   
+>   	while (*link) {
+>   		parent = *link;
+> -		node = rb_entry(parent, struct drm_buddy_block, rb);
+> +		node = rbtree_get_free_block(parent);
+>   
+> -		if (offset < drm_buddy_block_offset(node))
+> +		if (drm_buddy_block_offset(block) < drm_buddy_block_offset(node))
+>   			link = &parent->rb_left;
+>   		else
+>   			link = &parent->rb_right;
+> @@ -106,27 +164,19 @@ static void rbtree_insert(struct drm_buddy *mm,
+>   static void rbtree_remove(struct drm_buddy *mm,
+>   			  struct drm_buddy_block *block)
+>   {
+> +	unsigned int order = drm_buddy_block_order(block);
+> +	enum free_tree tree;
+>   	struct rb_root *root;
+>   
+> -	root = &mm->free_tree[drm_buddy_block_order(block)];
+> +	tree = drm_buddy_block_is_clear(block) ?
+> +	       CLEAR_TREE : DIRTY_TREE;
+> +
+> +	root = get_root(mm, order, tree);
+>   	rb_erase(&block->rb, root);
+>   
+>   	RB_CLEAR_NODE(&block->rb);
+>   }
+>   
+> -static inline struct drm_buddy_block *
+> -rbtree_last_entry(struct drm_buddy *mm, unsigned int order)
+> -{
+> -	struct rb_node *node = rb_last(&mm->free_tree[order]);
+> -
+> -	return node ? rb_entry(node, struct drm_buddy_block, rb) : NULL;
+> -}
+> -
+> -static bool rbtree_is_empty(struct drm_buddy *mm, unsigned int order)
+> -{
+> -	return RB_EMPTY_ROOT(&mm->free_tree[order]);
+> -}
+> -
+>   static void clear_reset(struct drm_buddy_block *block)
+>   {
+>   	block->header &= ~DRM_BUDDY_HEADER_CLEAR;
+> @@ -149,10 +199,14 @@ static void mark_allocated(struct drm_buddy *mm,
+>   static void mark_free(struct drm_buddy *mm,
+>   		      struct drm_buddy_block *block)
+>   {
+> +	enum free_tree tree;
+> +
+>   	block->header &= ~DRM_BUDDY_HEADER_STATE;
+>   	block->header |= DRM_BUDDY_FREE;
+>   
+> -	rbtree_insert(mm, block);
+> +	tree = get_tree_for_block(block);
+> +
+> +	rbtree_insert(mm, block, tree);
+>   }
+>   
+>   static void mark_split(struct drm_buddy *mm,
+> @@ -238,6 +292,7 @@ static int __force_merge(struct drm_buddy *mm,
+>   			 u64 end,
+>   			 unsigned int min_order)
+>   {
+> +	enum free_tree tree;
+>   	unsigned int order;
+>   	int i;
+>   
+> @@ -247,50 +302,49 @@ static int __force_merge(struct drm_buddy *mm,
+>   	if (min_order > mm->max_order)
+>   		return -EINVAL;
+>   
+> -	for (i = min_order - 1; i >= 0; i--) {
+> -		struct drm_buddy_block *block, *prev_block, *first_block;
+> -
+> -		first_block = rb_entry(rb_first(&mm->free_tree[i]), struct drm_buddy_block, rb);
+> +	for_each_free_tree(tree) {
+> +		for (i = min_order - 1; i >= 0; i--) {
+> +			struct rb_root *root = get_root(mm, i, tree);
+> +			struct drm_buddy_block *block, *prev_block;
+>   
+> -		for_each_rb_free_block_reverse_safe(block, prev_block, &mm->free_tree[i], rb) {
+> -			struct drm_buddy_block *buddy;
+> -			u64 block_start, block_end;
+> +			for_each_rb_free_block_reverse_safe(block, prev_block, root, rb) {
+> +				struct drm_buddy_block *buddy;
+> +				u64 block_start, block_end;
+>   
+> -			if (!block->parent)
+> -				continue;
+> +				if (!block->parent)
+> +					continue;
+>   
+> -			block_start = drm_buddy_block_offset(block);
+> -			block_end = block_start + drm_buddy_block_size(mm, block) - 1;
+> +				block_start = drm_buddy_block_offset(block);
+> +				block_end = block_start + drm_buddy_block_size(mm, block) - 1;
+>   
+> -			if (!contains(start, end, block_start, block_end))
+> -				continue;
+> +				if (!contains(start, end, block_start, block_end))
+> +					continue;
+>   
+> -			buddy = __get_buddy(block);
+> -			if (!drm_buddy_block_is_free(buddy))
+> -				continue;
+> +				buddy = __get_buddy(block);
+> +				if (!drm_buddy_block_is_free(buddy))
+> +					continue;
+>   
+> -			WARN_ON(drm_buddy_block_is_clear(block) ==
+> -				drm_buddy_block_is_clear(buddy));
+> +				WARN_ON(drm_buddy_block_is_clear(block) ==
+> +					drm_buddy_block_is_clear(buddy));
+>   
+> -			/*
+> -			 * If the prev block is same as buddy, don't access the
+> -			 * block in the next iteration as we would free the
+> -			 * buddy block as part of the free function.
+> -			 */
+> -			if (prev_block && prev_block == buddy) {
+> -				if (prev_block != first_block)
+> -					prev_block = rb_entry(rb_prev(&prev_block->rb),
+> -							      struct drm_buddy_block,
+> -							      rb);
+> -			}
+> +				/*
+> +				 * If the prev block is same as buddy, don't access the
+> +				 * block in the next iteration as we would free the
+> +				 * buddy block as part of the free function.
+> +				 */
+> +				if (prev_block && prev_block == buddy) {
+> +					if (prev_block != rbtree_first_free_block(root))
+> +						prev_block = rbtree_prev_free_block(&prev_block->rb);
+> +				}
+>   
+> -			rbtree_remove(mm, block);
+> -			if (drm_buddy_block_is_clear(block))
+> -				mm->clear_avail -= drm_buddy_block_size(mm, block);
+> +				rbtree_remove(mm, block);
+> +				if (drm_buddy_block_is_clear(block))
+> +					mm->clear_avail -= drm_buddy_block_size(mm, block);
+>   
+> -			order = __drm_buddy_free(mm, block, true);
+> -			if (order >= min_order)
+> -				return 0;
+> +				order = __drm_buddy_free(mm, block, true);
+> +				if (order >= min_order)
+> +					return 0;
+> +			}
+>   		}
+>   	}
+>   
+> @@ -311,7 +365,7 @@ static int __force_merge(struct drm_buddy *mm,
+>    */
+>   int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>   {
+> -	unsigned int i;
+> +	unsigned int i, j;
+>   	u64 offset;
+>   
+>   	if (size < chunk_size)
+> @@ -333,14 +387,16 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>   
+>   	BUG_ON(mm->max_order > DRM_BUDDY_MAX_ORDER);
+>   
+> -	mm->free_tree = kmalloc_array(mm->max_order + 1,
+> -				      sizeof(struct rb_root),
+> -				      GFP_KERNEL);
+> -	if (!mm->free_tree)
+> -		return -ENOMEM;
+> +	for (i = 0; i < MAX_FREE_TREES; i++) {
+> +		mm->free_trees[i] = kmalloc_array(mm->max_order + 1,
+> +						  sizeof(struct rb_root),
+> +						  GFP_KERNEL);
+> +		if (!mm->free_trees[i])
+> +			goto out_free_tree;
+>   
+> -	for (i = 0; i <= mm->max_order; ++i)
+> -		mm->free_tree[i] = RB_ROOT;
+> +		for (j = 0; j <= mm->max_order; ++j)
+> +			mm->free_trees[i][j] = RB_ROOT;
+> +	}
+>   
+>   	mm->n_roots = hweight64(size);
+>   
+> @@ -388,7 +444,8 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>   		drm_block_free(mm, mm->roots[i]);
+>   	kfree(mm->roots);
+>   out_free_tree:
+> -	kfree(mm->free_tree);
+> +	while (i--)
+> +		kfree(mm->free_trees[i]);
+>   	return -ENOMEM;
+>   }
+>   EXPORT_SYMBOL(drm_buddy_init);
+> @@ -424,8 +481,9 @@ void drm_buddy_fini(struct drm_buddy *mm)
+>   
+>   	WARN_ON(mm->avail != mm->size);
+>   
+> +	for (i = 0; i < MAX_FREE_TREES; i++)
+> +		kfree(mm->free_trees[i]);
+>   	kfree(mm->roots);
+> -	kfree(mm->free_tree);
+>   }
+>   EXPORT_SYMBOL(drm_buddy_fini);
+>   
+> @@ -449,15 +507,15 @@ static int split_block(struct drm_buddy *mm,
+>   		return -ENOMEM;
+>   	}
+>   
+> -	mark_free(mm, block->left);
+> -	mark_free(mm, block->right);
+> -
+>   	if (drm_buddy_block_is_clear(block)) {
+>   		mark_cleared(block->left);
+>   		mark_cleared(block->right);
+>   		clear_reset(block);
+>   	}
+>   
+> +	mark_free(mm, block->left);
+> +	mark_free(mm, block->right);
+> +
+>   	mark_split(mm, block);
+>   
+>   	return 0;
+> @@ -491,6 +549,7 @@ EXPORT_SYMBOL(drm_get_buddy);
+>    */
+>   void drm_buddy_reset_clear(struct drm_buddy *mm, bool is_clear)
+>   {
+> +	enum free_tree src_tree, dst_tree;
+>   	u64 root_size, size, start;
+>   	unsigned int order;
+>   	int i;
+> @@ -505,19 +564,24 @@ void drm_buddy_reset_clear(struct drm_buddy *mm, bool is_clear)
+>   		size -= root_size;
+>   	}
+>   
+> +	src_tree = is_clear ? DIRTY_TREE : CLEAR_TREE;
+> +	dst_tree = is_clear ? CLEAR_TREE : DIRTY_TREE;
+> +
+>   	for (i = 0; i <= mm->max_order; ++i) {
+> +		struct rb_root *root = get_root(mm, order, src_tree);
+>   		struct drm_buddy_block *block;
+>   
+> -		for_each_rb_free_block_reverse(block, &mm->free_tree[i], rb) {
+> -			if (is_clear != drm_buddy_block_is_clear(block)) {
+> -				if (is_clear) {
+> -					mark_cleared(block);
+> -					mm->clear_avail += drm_buddy_block_size(mm, block);
+> -				} else {
+> -					clear_reset(block);
+> -					mm->clear_avail -= drm_buddy_block_size(mm, block);
+> -				}
+> +		for_each_rb_free_block_reverse(block, root, rb) {
+> +			rbtree_remove(mm, block);
+> +			if (is_clear) {
+> +				mark_cleared(block);
+> +				mm->clear_avail += drm_buddy_block_size(mm, block);
+> +			} else {
+> +				clear_reset(block);
+> +				mm->clear_avail -= drm_buddy_block_size(mm, block);
+>   			}
+> +
+> +			rbtree_insert(mm, block, dst_tree);
+>   		}
+>   	}
+>   }
+> @@ -707,26 +771,22 @@ __drm_buddy_alloc_range_bias(struct drm_buddy *mm,
+>   }
+>   
+>   static struct drm_buddy_block *
+> -get_maxblock(struct drm_buddy *mm, unsigned int order,
+> -	     unsigned long flags)
+> +get_maxblock(struct drm_buddy *mm,
+> +	     unsigned int order,
+> +	     enum free_tree tree)
+>   {
+>   	struct drm_buddy_block *max_block = NULL, *block = NULL;
+> +	struct rb_root *root;
+>   	unsigned int i;
+>   
+>   	for (i = order; i <= mm->max_order; ++i) {
+> -		struct drm_buddy_block *tmp_block;
+> -
+> -		for_each_rb_free_block_reverse(tmp_block, &mm->free_tree[i], rb) {
+> -			if (block_incompatible(tmp_block, flags))
+> +		root = get_root(mm, i, tree);
+> +		if (!rbtree_is_empty(root)) {
+> +			block = rbtree_last_free_block(root);
+> +			if (!block)
+>   				continue;
+> -
+> -			block = tmp_block;
+> -			break;
+>   		}
+>   
+> -		if (!block)
+> -			continue;
+> -
+>   		if (!max_block) {
+>   			max_block = block;
+>   			continue;
+> @@ -747,36 +807,38 @@ alloc_from_freetree(struct drm_buddy *mm,
+>   		    unsigned long flags)
+>   {
+>   	struct drm_buddy_block *block = NULL;
+> +	struct rb_root *root;
+> +	enum free_tree tree;
+>   	unsigned int tmp;
+>   	int err;
+>   
+> +	tree = get_tree_for_flags(flags);
+> +
+>   	if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
+> -		block = get_maxblock(mm, order, flags);
+> +		block = get_maxblock(mm, order, tree);
+>   		if (block)
+>   			/* Store the obtained block order */
+>   			tmp = drm_buddy_block_order(block);
+>   	} else {
+>   		for (tmp = order; tmp <= mm->max_order; ++tmp) {
+> -			struct drm_buddy_block *tmp_block;
+> -
+> -			for_each_rb_free_block_reverse(tmp_block, &mm->free_tree[tmp], rb) {
+> -				if (block_incompatible(tmp_block, flags))
+> -					continue;
+> -
+> -				block = tmp_block;
+> -				break;
+> +			/* Get RB tree root for this order and tree */
+> +			root = get_root(mm, tmp, tree);
+> +			if (!rbtree_is_empty(root)) {
 
-Thanks !
+Do we need this check? last_free_block should just return NULL? Or if 
+this is somehow a cheaper check, maybe we should move it into the helper 
+instead?
 
-> 
-> Thanks !
-> 
->>
->>>
->>> Cheers,
->>> Matt
->>>
->>>> ---
->>>>  drivers/gpu/drm/imagination/pvr_device.c |  22 +----
->>>>  drivers/gpu/drm/imagination/pvr_device.h |  17 ++++
->>>>  drivers/gpu/drm/imagination/pvr_drv.c    |  23 ++++-
->>>>  drivers/gpu/drm/imagination/pvr_power.c  | 158 +++++++++++++++++++++++--------
->>>>  drivers/gpu/drm/imagination/pvr_power.h  |  15 +++
->>>>  5 files changed, 176 insertions(+), 59 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/imagination/pvr_device.c
->>>> index 8b9ba4983c4cb5bc40342fcafc4259078bc70547..294b6019b4155bb7fdb7de73ccf7fa8ad867811f 100644
->>>> --- a/drivers/gpu/drm/imagination/pvr_device.c
->>>> +++ b/drivers/gpu/drm/imagination/pvr_device.c
->>>> @@ -23,6 +23,7 @@
->>>>  #include <linux/firmware.h>
->>>>  #include <linux/gfp.h>
->>>>  #include <linux/interrupt.h>
->>>> +#include <linux/of.h>
->>>>  #include <linux/platform_device.h>
->>>>  #include <linux/pm_runtime.h>
->>>>  #include <linux/reset.h>
->>>> @@ -121,21 +122,6 @@ static int pvr_device_clk_init(struct pvr_device *pvr_dev)
->>>>  	return 0;
->>>>  }
->>>>  
->>>> -static int pvr_device_reset_init(struct pvr_device *pvr_dev)
->>>> -{
->>>> -	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
->>>> -	struct reset_control *reset;
->>>> -
->>>> -	reset = devm_reset_control_get_optional_exclusive(drm_dev->dev, NULL);
->>>> -	if (IS_ERR(reset))
->>>> -		return dev_err_probe(drm_dev->dev, PTR_ERR(reset),
->>>> -				     "failed to get gpu reset line\n");
->>>> -
->>>> -	pvr_dev->reset = reset;
->>>> -
->>>> -	return 0;
->>>> -}
->>>> -
->>>>  /**
->>>>   * pvr_device_process_active_queues() - Process all queue related events.
->>>>   * @pvr_dev: PowerVR device to check
->>>> @@ -618,6 +604,9 @@ pvr_device_init(struct pvr_device *pvr_dev)
->>>>  	struct device *dev = drm_dev->dev;
->>>>  	int err;
->>>>  
->>>> +	/* Get the platform-specific data based on the compatible string. */
->>>> +	pvr_dev->device_data = of_device_get_match_data(dev);
->>>> +
->>>>  	/*
->>>>  	 * Setup device parameters. We do this first in case other steps
->>>>  	 * depend on them.
->>>> @@ -631,8 +620,7 @@ pvr_device_init(struct pvr_device *pvr_dev)
->>>>  	if (err)
->>>>  		return err;
->>>>  
->>>> -	/* Get the reset line for the GPU */
->>>> -	err = pvr_device_reset_init(pvr_dev);
->>>> +	err = pvr_dev->device_data->pwr_ops->init(pvr_dev);
->>>>  	if (err)
->>>>  		return err;
->>>>  
->>>> diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/imagination/pvr_device.h
->>>> index 7cb01c38d2a9c3fc71effe789d4dfe54eddd93ee..ab8f56ae15df6c2888feb16b1d87b59510961936 100644
->>>> --- a/drivers/gpu/drm/imagination/pvr_device.h
->>>> +++ b/drivers/gpu/drm/imagination/pvr_device.h
->>>> @@ -37,6 +37,9 @@ struct clk;
->>>>  /* Forward declaration from <linux/firmware.h>. */
->>>>  struct firmware;
->>>>  
->>>> +/* Forward declaration from <linux/pwrseq/consumer.h> */
->>>> +struct pwrseq_desc;
->>>> +
->>>>  /**
->>>>   * struct pvr_gpu_id - Hardware GPU ID information for a PowerVR device
->>>>   * @b: Branch ID.
->>>> @@ -57,6 +60,14 @@ struct pvr_fw_version {
->>>>  	u16 major, minor;
->>>>  };
->>>>  
->>>> +/**
->>>> + * struct pvr_device_data - Platform specific data associated with a compatible string.
->>>> + * @pwr_ops: Pointer to a structure with platform-specific power functions.
->>>> + */
->>>> +struct pvr_device_data {
->>>> +	const struct pvr_power_sequence_ops *pwr_ops;
->>>> +};
->>>> +
->>>>  /**
->>>>   * struct pvr_device - powervr-specific wrapper for &struct drm_device
->>>>   */
->>>> @@ -98,6 +109,9 @@ struct pvr_device {
->>>>  	/** @fw_version: Firmware version detected at runtime. */
->>>>  	struct pvr_fw_version fw_version;
->>>>  
->>>> +	/** @device_data: Pointer to platform-specific data. */
->>>> +	const struct pvr_device_data *device_data;
->>>> +
->>>>  	/** @regs_resource: Resource representing device control registers. */
->>>>  	struct resource *regs_resource;
->>>>  
->>>> @@ -148,6 +162,9 @@ struct pvr_device {
->>>>  	 */
->>>>  	struct reset_control *reset;
->>>>  
->>>> +	/** @pwrseq: Pointer to a power sequencer, if one is used. */
->>>> +	struct pwrseq_desc *pwrseq;
->>>> +
->>>>  	/** @irq: IRQ number. */
->>>>  	int irq;
->>>>  
->>>> diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/imagination/pvr_drv.c
->>>> index b058ec183bb30ab5c3db17ebaadf2754520a2a1f..916b40ced7eb0408fe985ba1b83b3be2eb024bae 100644
->>>> --- a/drivers/gpu/drm/imagination/pvr_drv.c
->>>> +++ b/drivers/gpu/drm/imagination/pvr_drv.c
->>>> @@ -1480,15 +1480,33 @@ static void pvr_remove(struct platform_device *plat_dev)
->>>>  	pvr_power_domains_fini(pvr_dev);
->>>>  }
->>>>  
->>>> +static const struct pvr_device_data pvr_device_data_manual = {
->>>> +	.pwr_ops = &pvr_power_sequence_ops_manual,
->>>> +};
->>>> +
->>>> +static const struct pvr_device_data pvr_device_data_pwrseq = {
->>>> +	.pwr_ops = &pvr_power_sequence_ops_pwrseq,
->>>> +};
->>>> +
->>>>  static const struct of_device_id dt_match[] = {
->>>> -	{ .compatible = "img,img-rogue", .data = NULL },
->>>> +	{
->>>> +		.compatible = "thead,th1520-gpu",
->>>> +		.data = &pvr_device_data_pwrseq,
->>>> +	},
->>>> +	{
->>>> +		.compatible = "img,img-rogue",
->>>> +		.data = &pvr_device_data_manual,
->>>> +	},
->>>>  
->>>>  	/*
->>>>  	 * This legacy compatible string was introduced early on before the more generic
->>>>  	 * "img,img-rogue" was added. Keep it around here for compatibility, but never use
->>>>  	 * "img,img-axe" in new devicetrees.
->>>>  	 */
->>>> -	{ .compatible = "img,img-axe", .data = NULL },
->>>> +	{
->>>> +		.compatible = "img,img-axe",
->>>> +		.data = &pvr_device_data_manual,
->>>> +	},
->>>>  	{}
->>>>  };
->>>>  MODULE_DEVICE_TABLE(of, dt_match);
->>>> @@ -1513,4 +1531,5 @@ MODULE_DESCRIPTION(PVR_DRIVER_DESC);
->>>>  MODULE_LICENSE("Dual MIT/GPL");
->>>>  MODULE_IMPORT_NS("DMA_BUF");
->>>>  MODULE_FIRMWARE("powervr/rogue_33.15.11.3_v1.fw");
->>>> +MODULE_FIRMWARE("powervr/rogue_36.52.104.182_v1.fw");
->>>>  MODULE_FIRMWARE("powervr/rogue_36.53.104.796_v1.fw");
->>>> diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/imagination/pvr_power.c
->>>> index 187a07e0bd9adb2f0713ac2c8e091229f4027354..c6e7ff9e935d3b348eff6953c633c72410fdf507 100644
->>>> --- a/drivers/gpu/drm/imagination/pvr_power.c
->>>> +++ b/drivers/gpu/drm/imagination/pvr_power.c
->>>> @@ -18,6 +18,7 @@
->>>>  #include <linux/platform_device.h>
->>>>  #include <linux/pm_domain.h>
->>>>  #include <linux/pm_runtime.h>
->>>> +#include <linux/pwrseq/consumer.h>
->>>>  #include <linux/reset.h>
->>>>  #include <linux/timer.h>
->>>>  #include <linux/types.h>
->>>> @@ -234,6 +235,118 @@ pvr_watchdog_init(struct pvr_device *pvr_dev)
->>>>  	return 0;
->>>>  }
->>>>  
->>>> +static int pvr_power_init_manual(struct pvr_device *pvr_dev)
->>>> +{
->>>> +	struct drm_device *drm_dev = from_pvr_device(pvr_dev);
->>>> +	struct reset_control *reset;
->>>> +
->>>> +	reset = devm_reset_control_get_optional_exclusive(drm_dev->dev, NULL);
->>>> +	if (IS_ERR(reset))
->>>> +		return dev_err_probe(drm_dev->dev, PTR_ERR(reset),
->>>> +				     "failed to get gpu reset line\n");
->>>> +
->>>> +	pvr_dev->reset = reset;
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int pvr_power_on_sequence_manual(struct pvr_device *pvr_dev)
->>>> +{
->>>> +	int err;
->>>> +
->>>> +	err = clk_prepare_enable(pvr_dev->core_clk);
->>>> +	if (err)
->>>> +		return err;
->>>> +
->>>> +	err = clk_prepare_enable(pvr_dev->sys_clk);
->>>> +	if (err)
->>>> +		goto err_core_clk_disable;
->>>> +
->>>> +	err = clk_prepare_enable(pvr_dev->mem_clk);
->>>> +	if (err)
->>>> +		goto err_sys_clk_disable;
->>>> +
->>>> +	/*
->>>> +	 * According to the hardware manual, a delay of at least 32 clock
->>>> +	 * cycles is required between de-asserting the clkgen reset and
->>>> +	 * de-asserting the GPU reset. Assuming a worst-case scenario with
->>>> +	 * a very high GPU clock frequency, a delay of 1 microsecond is
->>>> +	 * sufficient to ensure this requirement is met across all
->>>> +	 * feasible GPU clock speeds.
->>>> +	 */
->>>> +	udelay(1);
->>>> +
->>>> +	err = reset_control_deassert(pvr_dev->reset);
->>>> +	if (err)
->>>> +		goto err_mem_clk_disable;
->>>> +
->>>> +	return 0;
->>>> +
->>>> +err_mem_clk_disable:
->>>> +	clk_disable_unprepare(pvr_dev->mem_clk);
->>>> +
->>>> +err_sys_clk_disable:
->>>> +	clk_disable_unprepare(pvr_dev->sys_clk);
->>>> +
->>>> +err_core_clk_disable:
->>>> +	clk_disable_unprepare(pvr_dev->core_clk);
->>>> +
->>>> +	return err;
->>>> +}
->>>> +
->>>> +static int pvr_power_off_sequence_manual(struct pvr_device *pvr_dev)
->>>> +{
->>>> +	int err;
->>>> +
->>>> +	err = reset_control_assert(pvr_dev->reset);
->>>> +
->>>> +	clk_disable_unprepare(pvr_dev->mem_clk);
->>>> +	clk_disable_unprepare(pvr_dev->sys_clk);
->>>> +	clk_disable_unprepare(pvr_dev->core_clk);
->>>> +
->>>> +	return err;
->>>> +}
->>>> +
->>>> +const struct pvr_power_sequence_ops pvr_power_sequence_ops_manual = {
->>>> +	.init = pvr_power_init_manual,
->>>> +	.power_on = pvr_power_on_sequence_manual,
->>>> +	.power_off = pvr_power_off_sequence_manual,
->>>> +};
->>>> +
->>>> +static int pvr_power_init_pwrseq(struct pvr_device *pvr_dev)
->>>> +{
->>>> +	struct device *dev = from_pvr_device(pvr_dev)->dev;
->>>> +
->>>> +	pvr_dev->pwrseq = devm_pwrseq_get(dev, "gpu-power");
->>>> +	if (IS_ERR(pvr_dev->pwrseq)) {
->>>> +		/*
->>>> +		 * This platform requires a sequencer. If we can't get it, we
->>>> +		 * must return the error (including -EPROBE_DEFER to wait for
->>>> +		 * the provider to appear)
->>>> +		 */
->>>> +		return dev_err_probe(dev, PTR_ERR(pvr_dev->pwrseq),
->>>> +				     "Failed to get required power sequencer\n");
->>>> +	}
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int pvr_power_on_sequence_pwrseq(struct pvr_device *pvr_dev)
->>>> +{
->>>> +	return pwrseq_power_on(pvr_dev->pwrseq);
->>>> +}
->>>> +
->>>> +static int pvr_power_off_sequence_pwrseq(struct pvr_device *pvr_dev)
->>>> +{
->>>> +	return pwrseq_power_off(pvr_dev->pwrseq);
->>>> +}
->>>> +
->>>> +const struct pvr_power_sequence_ops pvr_power_sequence_ops_pwrseq = {
->>>> +	.init = pvr_power_init_pwrseq,
->>>> +	.power_on = pvr_power_on_sequence_pwrseq,
->>>> +	.power_off = pvr_power_off_sequence_pwrseq,
->>>> +};
->>>> +
->>>>  int
->>>>  pvr_power_device_suspend(struct device *dev)
->>>>  {
->>>> @@ -252,11 +365,7 @@ pvr_power_device_suspend(struct device *dev)
->>>>  			goto err_drm_dev_exit;
->>>>  	}
->>>>  
->>>> -	clk_disable_unprepare(pvr_dev->mem_clk);
->>>> -	clk_disable_unprepare(pvr_dev->sys_clk);
->>>> -	clk_disable_unprepare(pvr_dev->core_clk);
->>>> -
->>>> -	err = reset_control_assert(pvr_dev->reset);
->>>> +	err = pvr_dev->device_data->pwr_ops->power_off(pvr_dev);
->>>>  
->>>>  err_drm_dev_exit:
->>>>  	drm_dev_exit(idx);
->>>> @@ -276,53 +385,22 @@ pvr_power_device_resume(struct device *dev)
->>>>  	if (!drm_dev_enter(drm_dev, &idx))
->>>>  		return -EIO;
->>>>  
->>>> -	err = clk_prepare_enable(pvr_dev->core_clk);
->>>> +	err = pvr_dev->device_data->pwr_ops->power_on(pvr_dev);
->>>>  	if (err)
->>>>  		goto err_drm_dev_exit;
->>>>  
->>>> -	err = clk_prepare_enable(pvr_dev->sys_clk);
->>>> -	if (err)
->>>> -		goto err_core_clk_disable;
->>>> -
->>>> -	err = clk_prepare_enable(pvr_dev->mem_clk);
->>>> -	if (err)
->>>> -		goto err_sys_clk_disable;
->>>> -
->>>> -	/*
->>>> -	 * According to the hardware manual, a delay of at least 32 clock
->>>> -	 * cycles is required between de-asserting the clkgen reset and
->>>> -	 * de-asserting the GPU reset. Assuming a worst-case scenario with
->>>> -	 * a very high GPU clock frequency, a delay of 1 microsecond is
->>>> -	 * sufficient to ensure this requirement is met across all
->>>> -	 * feasible GPU clock speeds.
->>>> -	 */
->>>> -	udelay(1);
->>>> -
->>>> -	err = reset_control_deassert(pvr_dev->reset);
->>>> -	if (err)
->>>> -		goto err_mem_clk_disable;
->>>> -
->>>>  	if (pvr_dev->fw_dev.booted) {
->>>>  		err = pvr_power_fw_enable(pvr_dev);
->>>>  		if (err)
->>>> -			goto err_reset_assert;
->>>> +			goto err_power_off;
->>>>  	}
->>>>  
->>>>  	drm_dev_exit(idx);
->>>>  
->>>>  	return 0;
->>>>  
->>>> -err_reset_assert:
->>>> -	reset_control_assert(pvr_dev->reset);
->>>> -
->>>> -err_mem_clk_disable:
->>>> -	clk_disable_unprepare(pvr_dev->mem_clk);
->>>> -
->>>> -err_sys_clk_disable:
->>>> -	clk_disable_unprepare(pvr_dev->sys_clk);
->>>> -
->>>> -err_core_clk_disable:
->>>> -	clk_disable_unprepare(pvr_dev->core_clk);
->>>> +err_power_off:
->>>> +	pvr_dev->device_data->pwr_ops->power_off(pvr_dev);
->>>>  
->>>>  err_drm_dev_exit:
->>>>  	drm_dev_exit(idx);
->>>> diff --git a/drivers/gpu/drm/imagination/pvr_power.h b/drivers/gpu/drm/imagination/pvr_power.h
->>>> index ada85674a7ca762dcf92df40424230e1c3910342..b853d092242cc90cb98cf66100679a309055a1dc 100644
->>>> --- a/drivers/gpu/drm/imagination/pvr_power.h
->>>> +++ b/drivers/gpu/drm/imagination/pvr_power.h
->>>> @@ -41,4 +41,19 @@ pvr_power_put(struct pvr_device *pvr_dev)
->>>>  int pvr_power_domains_init(struct pvr_device *pvr_dev);
->>>>  void pvr_power_domains_fini(struct pvr_device *pvr_dev);
->>>>  
->>>> +/**
->>>> + * struct pvr_power_sequence_ops - Platform specific power sequence operations.
->>>> + * @init: Pointer to the platform-specific initialization function.
->>>> + * @power_on: Pointer to the platform-specific power on function.
->>>> + * @power_off: Pointer to the platform-specific power off function.
->>>> + */
->>>> +struct pvr_power_sequence_ops {
->>>> +	int (*init)(struct pvr_device *pvr_dev);
->>>> +	int (*power_on)(struct pvr_device *pvr_dev);
->>>> +	int (*power_off)(struct pvr_device *pvr_dev);
->>>> +};
->>>> +
->>>> +extern const struct pvr_power_sequence_ops pvr_power_sequence_ops_manual;
->>>> +extern const struct pvr_power_sequence_ops pvr_power_sequence_ops_pwrseq;
->>>> +
->>>>  #endif /* PVR_POWER_H */
->>>>
->>>
->>>
->>
->> Best regards,
-> 
-> Best regards,
+> +				block = rbtree_last_free_block(root);
+> +				if (block)
+> +					break;
+>   			}
+> -
+> -			if (block)
+> -				break;
+>   		}
+>   	}
+>   
+>   	if (!block) {
+> -		/* Fallback method */
+> +		/* Try allocating from the other tree */
+> +		tree = (tree == CLEAR_TREE) ? DIRTY_TREE : CLEAR_TREE;
+> +
+>   		for (tmp = order; tmp <= mm->max_order; ++tmp) {
+> -			if (!rbtree_is_empty(mm, tmp)) {
+> -				block = rbtree_last_entry(mm, tmp);
+> +			root = get_root(mm, tmp, tree);
+> +			if (!rbtree_is_empty(root)) {
 
-Best regards,
--- 
-Michal Wilczynski <m.wilczynski@samsung.com>
+Here also.
+
+> +				block = rbtree_last_free_block(root);
+>   				if (block)
+>   					break;
+>   			}
+> @@ -923,6 +985,7 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
+>   	u64 rhs_offset, lhs_offset, lhs_size, filled;
+>   	struct drm_buddy_block *block;
+>   	LIST_HEAD(blocks_lhs);
+> +	enum free_tree tree;
+>   	unsigned long pages;
+>   	unsigned int order;
+>   	u64 modify_size;
+> @@ -934,34 +997,39 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
+>   	if (order == 0)
+>   		return -ENOSPC;
+>   
+> -	if (rbtree_is_empty(mm, order))
+> +	if (rbtree_is_empty(get_root(mm, order, CLEAR_TREE)) &&
+> +	    rbtree_is_empty(get_root(mm, order, DIRTY_TREE)))
+>   		return -ENOSPC;
+>   
+> -	for_each_rb_free_block_reverse(block, &mm->free_tree[order], rb) {
+> -		/* Allocate blocks traversing RHS */
+> -		rhs_offset = drm_buddy_block_offset(block);
+> -		err =  __drm_buddy_alloc_range(mm, rhs_offset, size,
+> -					       &filled, blocks);
+> -		if (!err || err != -ENOSPC)
+> -			return err;
+> -
+> -		lhs_size = max((size - filled), min_block_size);
+> -		if (!IS_ALIGNED(lhs_size, min_block_size))
+> -			lhs_size = round_up(lhs_size, min_block_size);
+> -
+> -		/* Allocate blocks traversing LHS */
+> -		lhs_offset = drm_buddy_block_offset(block) - lhs_size;
+> -		err =  __drm_buddy_alloc_range(mm, lhs_offset, lhs_size,
+> -					       NULL, &blocks_lhs);
+> -		if (!err) {
+> -			list_splice(&blocks_lhs, blocks);
+> -			return 0;
+> -		} else if (err != -ENOSPC) {
+> +	for_each_free_tree(tree) {
+> +		struct rb_root *root = get_root(mm, order, tree);
+> +
+> +		for_each_rb_free_block_reverse(block, root, rb) {
+> +			/* Allocate blocks traversing RHS */
+> +			rhs_offset = drm_buddy_block_offset(block);
+> +			err =  __drm_buddy_alloc_range(mm, rhs_offset, size,
+> +						       &filled, blocks);
+> +			if (!err || err != -ENOSPC)
+> +				return err;
+> +
+> +			lhs_size = max((size - filled), min_block_size);
+> +			if (!IS_ALIGNED(lhs_size, min_block_size))
+> +				lhs_size = round_up(lhs_size, min_block_size);
+> +
+> +			/* Allocate blocks traversing LHS */
+> +			lhs_offset = drm_buddy_block_offset(block) - lhs_size;
+> +			err =  __drm_buddy_alloc_range(mm, lhs_offset, lhs_size,
+> +						       NULL, &blocks_lhs);
+> +			if (!err) {
+> +				list_splice(&blocks_lhs, blocks);
+> +				return 0;
+> +			} else if (err != -ENOSPC) {
+> +				drm_buddy_free_list_internal(mm, blocks);
+> +				return err;
+> +			}
+> +			/* Free blocks for the next iteration */
+>   			drm_buddy_free_list_internal(mm, blocks);
+> -			return err;
+>   		}
+> -		/* Free blocks for the next iteration */
+> -		drm_buddy_free_list_internal(mm, blocks);
+>   	}
+>   
+>   	return -ENOSPC;
+> @@ -1266,6 +1334,7 @@ EXPORT_SYMBOL(drm_buddy_block_print);
+>    */
+>   void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p)
+>   {
+> +	enum free_tree tree;
+>   	int order;
+>   
+>   	drm_printf(p, "chunk_size: %lluKiB, total: %lluMiB, free: %lluMiB, clear_free: %lluMiB\n",
+> @@ -1273,11 +1342,16 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p)
+>   
+>   	for (order = mm->max_order; order >= 0; order--) {
+>   		struct drm_buddy_block *block;
+> +		struct rb_root *root;
+>   		u64 count = 0, free;
+>   
+> -		for_each_rb_free_block(block, &mm->free_tree[order], rb) {
+> -			BUG_ON(!drm_buddy_block_is_free(block));
+> -			count++;
+> +		for_each_free_tree(tree) {
+> +			root = get_root(mm, order, tree);
+
+Hmm, actually maybe this helper should just give the root (or both)? 
+Seems to be what all users want anyway?
+
+> +
+> +			for_each_rb_free_block(block, root, rb) {
+> +				BUG_ON(!drm_buddy_block_is_free(block));
+> +				count++;
+> +			}
+>   		}
+>   
+>   		drm_printf(p, "order-%2d ", order);
+> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+> index 091823592034..2fc1cc7b78bf 100644
+> --- a/include/drm/drm_buddy.h
+> +++ b/include/drm/drm_buddy.h
+> @@ -14,6 +14,12 @@
+>   
+>   #include <drm/drm_print.h>
+>   
+> +enum free_tree {
+> +	CLEAR_TREE = 0,
+> +	DIRTY_TREE,
+> +	MAX_FREE_TREES,
+> +};
+> +
+>   #define range_overflows(start, size, max) ({ \
+>   	typeof(start) start__ = (start); \
+>   	typeof(size) size__ = (size); \
+> @@ -73,7 +79,7 @@ struct drm_buddy_block {
+>    */
+>   struct drm_buddy {
+>   	/* Maintain a free list for each order. */
+> -	struct rb_root *free_tree;
+> +	struct rb_root *free_trees[MAX_FREE_TREES];
+>   
+>   	/*
+>   	 * Maintain explicit binary tree(s) to track the allocation of the
+
