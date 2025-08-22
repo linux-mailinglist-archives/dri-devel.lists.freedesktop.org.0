@@ -2,67 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC83B31B35
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 16:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1199EB31B85
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 16:30:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E5D10EB15;
-	Fri, 22 Aug 2025 14:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 024F510EB0E;
+	Fri, 22 Aug 2025 14:30:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qaMeOYRl";
+	dkim=pass (2048-bit key; unprotected) header.d=gfxstrand-net.20230601.gappssmtp.com header.i=@gfxstrand-net.20230601.gappssmtp.com header.b="tZxr5Y15";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D269310EB0E;
- Fri, 22 Aug 2025 14:22:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B3368A586EF;
- Fri, 22 Aug 2025 14:22:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39066C4CEED;
- Fri, 22 Aug 2025 14:22:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755872551;
- bh=Jfs2aObCoc6/9U+QUowqTuZJPGKpl9EHfkAakKt01fA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qaMeOYRlR4Wv/Qpfazr+fo0Yo7+OBcRJGW62A3b4/mgjwe9k/g3rOj6w0V6+obcSO
- YwUvSrcRG9N16SjtpKOJ245+NA/KDnGZ8/Flkm2gy06fvsfE1pUYx55oo0EJdYouBR
- 5OaUow07gdPvg7YjN9xh4t7cZoroh7XWXR8hVT+ordFWaXUhQjXXFIOk4C7vKd3Vrb
- KeXDdrxgd6taY8hNG6Ro96WkMwQ115uk/0SmE5YCfZcy5oORlqyxpCFZNO4iU92Q0R
- LOJM9aJrkloBRtFQ1N0+m+r5o3LwqtQBi0TkEcMn5/igGCqMpEgMrEfdEjzEgi2DVY
- wfA3Lm/2ip+/Q==
-Date: Fri, 22 Aug 2025 09:22:30 -0500
-From: Rob Herring <robh@kernel.org>
-To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- fange.zhang@oss.qualcomm.com, yongxing.mou@oss.qualcomm.com,
- tingwei.zhang@oss.qualcomm.com, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- quic_lliu6@quicinc.com
-Subject: Re: [PATCH v3 02/14] dt-bindings: phy: Add QMP USB3+DP PHY for QCS615
-Message-ID: <20250822142230.GA3591699-robh@kernel.org>
-References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
- <20250820-add-displayport-support-for-qcs615-platform-v3-2-a43bd25ec39c@oss.qualcomm.com>
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B25810EB0E
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 14:30:09 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-4b121dc259cso16822791cf.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 07:30:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gfxstrand-net.20230601.gappssmtp.com; s=20230601; t=1755873008; x=1756477808;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+g0RHJlTrkgLw/H7weUsUlBTzklhg4XVgzVbYgiP3Vc=;
+ b=tZxr5Y15EQsbbMCjmDpfzS7+jQXxiFsUpyneR+bkR8V7h6Rf9r3+iuI5C0C01fFs/7
+ itGHbAWZTQ5vttO+xfgcGQPm4E9T6HMSexy0safKfg2r6l9IwBJfPThC4GI4uMx02doY
+ 4gCNWhY00s4NxxX2xxZjhQ5pQAiQkHhtER02annzTmbVmc7vhYO1AvawjUlT5rbEkQOc
+ din4+dwy4SUDJffYnSjW7TQx+sGk4hqDvNDBNGz9cqf6wbxn75K2meJG8Nl965lbVQvW
+ WxvzIwO442gkLLdCV8PYBDtKsAirI8GLOkb4wt4DRRwxTLzLdP1Uujz3IMaPMoGEHpb4
+ RujA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755873008; x=1756477808;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+g0RHJlTrkgLw/H7weUsUlBTzklhg4XVgzVbYgiP3Vc=;
+ b=OOlWfOQckPoV5RBkK6lJFiMvpg0Xp7IQkJQrzjUn6N0B10+5nsx2Zd9b1w+EhJt65B
+ SKNCSgbWQ3X4i4xYwmDQ60HTjJ9UkgDGhfRAH22gVt1icfcxBJ7D2pkH9aO72McbLqed
+ ZZ3fikzzZMJu/lw+6So1liUjkIfCCmj1Y4RPSZsaQ9iAo8ySdRckN2zOo8rPcTYcbmTm
+ Sn+F/gDbxQBSLJsRYO+NvN6Lm6GZpyzL02EXHiP5/GO59n8z+ovauHsGQV8eDD2MN36Z
+ ntmEisNgWK/MwNQx12rOLvCInownAFgdQTdBIV+Yckv9pSTV7ET7NxZBGaiGrxUWIo85
+ UDSA==
+X-Gm-Message-State: AOJu0YyQ4cVENyErTB/xFyEZlpMDjmifD/dD10HOHLo0e97pt5KMa9ik
+ I/1WW2cytnPf4xxO1Ar4QPnpJlUeS49Yp88/2iD8LjRvhFRaKPziVsyen2Fjb/AgS8gT1V9Bv4W
+ 072AR+CM=
+X-Gm-Gg: ASbGnctimqu26bRib1U43WtMDw9/xam5HcfkEHRXK505R9GWjfUjibohndDYZ12nSby
+ JXRHBCYzbNYpTMiJ9xYSE0ulevbt5jNoyvlBkEHoSSKAVg/M5jRGqchxlNzxANtnIZ7xR+FIPxU
+ na7E8aturIOIWnLV1VfNn8X0psSD0j4b85PbJTNcCTB3wukxMXgrmrqkNg/XA+oOnAFr8aNyeLI
+ bw1KQPNiJThkUy5wxJIPUZfnNLyol8+rvY3vsUtp1FbpBypaJ02lHiq1Nn7qVieysku+oROeIBw
+ bijqZQ/XD70/gEU9mKY2YrhiiCvr1/ijejEdyBMF6J50qEmL8T1ZBPE/58HZX8clrQeZCetSMXl
+ f3wYHyM9wf08OWS564FoMBCdly0g4ReM=
+X-Google-Smtp-Source: AGHT+IHetutGX5n1wP6C7E1Q4iN0Mqqi1ZDzWkwNfd/I/6Z1VzhdQdUUIk8ynOSIOLsmja/tKrbWAQ==
+X-Received: by 2002:ac8:7d8b:0:b0:4b2:9728:d976 with SMTP id
+ d75a77b69052e-4b2aab514b5mr31412661cf.80.1755873007570; 
+ Fri, 22 Aug 2025 07:30:07 -0700 (PDT)
+Received: from kermit.lan ([65.93.159.244]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4b2b8e6023asm420131cf.53.2025.08.22.07.30.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Aug 2025 07:30:07 -0700 (PDT)
+From: Faith Ekstrand <faith@gfxstrand.net>
+X-Google-Original-From: Faith Ekstrand <faith.ekstrand@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Faith Ekstrand <faith.ekstrand@collabora.com>
+Subject: [PATCH 0/7] panfrost,panthor: Cached maps and explicit flushing
+Date: Fri, 22 Aug 2025 10:29:09 -0400
+Message-ID: <20250822142954.902402-1-faith.ekstrand@collabora.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820-add-displayport-support-for-qcs615-platform-v3-2-a43bd25ec39c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,141 +86,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 20, 2025 at 05:34:44PM +0800, Xiangxu Yin wrote:
-> Add device tree binding documentation for the Qualcomm QMP USB3+DP PHY
-> on QCS615 Platform. This PHY supports both USB3 and DP functionality
-> over USB-C, with PHY mode switching capability. It does not support
-> combo mode.
-> 
-> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-> ---
->  .../bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml   | 108 +++++++++++++++++++++
->  1 file changed, 108 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..c2b1fbab2930f0653f4ddb95f7b54d8fe994f92d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/qcom,qcs615-qmp-usb3dp-phy.yaml
-> @@ -0,0 +1,108 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/qcom,qcs615-qmp-usb3dp-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm QMP USB3-DP PHY controller (DP, QCS615)
-> +
-> +maintainers:
-> +  - Vinod Koul <vkoul@kernel.org>
+This series implements cached maps and explicit flushing for both panfrost
+and panthor.  To avoid code/bug duplication, the tricky guts of the cache
+flusing ioctl which walk the sg list are broken into a new common shmem
+helper which can be used by any driver.
 
-No, this should be someone who has the h/w.
+The PanVK MR to use this lives here:
 
-> +
-> +description:
-> +  The QMP PHY controller supports physical layer functionality for both
-> +  USB3 and DisplayPort over USB-C. While it enables mode switching
-> +  between USB3 and DisplayPort, but does not support combo mode.
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
 
-Wrap at 80 chars.
+Faith Ekstrand (6):
+  drm/shmem: Add a drm_gem_shmem_sync_mmap() helper
+  drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+  drm/panthor: Bump the driver version to 1.6
+  drm/panfrost: Add flag to map GEM object Write-Back Cacheable
+  drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+  drm/panfrost: Bump the driver version to 1.5
 
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,qcs615-qmp-usb3-dp-phy
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: cfg_ahb
-> +      - const: ref
-> +
-> +  resets:
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    items:
-> +      - const: phy_phy
+Loïc Molinari (1):
+  drm/panthor: Add flag to map GEM object Write-Back Cacheable
 
-phy_phy?
+ drivers/gpu/drm/drm_gem_shmem_helper.c  | 64 +++++++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 67 +++++++++++++++++++++++--
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 23 +++++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.h |  2 +
+ drivers/gpu/drm/panthor/panthor_drv.c   | 58 +++++++++++++++++++--
+ drivers/gpu/drm/panthor/panthor_gem.c   | 23 +++++++++
+ drivers/gpu/drm/panthor/panthor_gem.h   |  3 ++
+ include/drm/drm_gem_shmem_helper.h      |  3 ++
+ include/uapi/drm/panfrost_drm.h         | 46 +++++++++++++++++
+ include/uapi/drm/panthor_drm.h          | 65 ++++++++++++++++++++++++
+ 10 files changed, 348 insertions(+), 6 deletions(-)
 
-> +      - const: dp_phy
-> +
-> +  vdda-phy-supply: true
-> +
-> +  vdda-pll-supply: true
-> +
-> +  "#clock-cells":
-> +    const: 1
-> +    description:
-> +      See include/dt-bindings/phy/phy-qcom-qmp.h
-> +
-> +  "#phy-cells":
-> +    const: 1
-> +    description:
-> +      See include/dt-bindings/phy/phy-qcom-qmp.h
-> +
-> +  qcom,tcsr-reg:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    items:
-> +      - items:
-> +          - description: phandle to TCSR hardware block
-> +          - description: offset of the VLS CLAMP register
-> +      - items:
-> +          - description: phandle to TCSR hardware block
-> +          - description: offset of the DP PHY mode register
-> +    description: Clamp and PHY mode register present in the TCSR
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - vdda-phy-supply
-> +  - vdda-pll-supply
-> +  - "#clock-cells"
-> +  - "#phy-cells"
-> +  - qcom,tcsr-reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/qcom,qcs615-gcc.h>
-> +    #include <dt-bindings/clock/qcom,rpmh.h>
-> +
-> +    phy@88e8000 {
-> +      compatible = "qcom,qcs615-qmp-usb3-dp-phy";
-> +      reg = <0x88e8000 0x2000>;
-> +
-> +      clocks = <&gcc GCC_AHB2PHY_WEST_CLK>,
-> +               <&gcc GCC_USB3_SEC_CLKREF_CLK>;
-> +      clock-names = "cfg_ahb",
-> +                    "ref";
-> +
-> +      resets = <&gcc GCC_USB3PHY_PHY_SEC_BCR >,
-> +               <&gcc GCC_USB3_DP_PHY_SEC_BCR>;
-> +      reset-names = "phy_phy",
-> +                    "dp_phy";
-> +
-> +      vdda-phy-supply = <&vreg_l11a>;
-> +      vdda-pll-supply = <&vreg_l5a>;
-> +
-> +      #clock-cells = <1>;
-> +      #phy-cells = <1>;
-> +
-> +      qcom,tcsr-reg = <&tcsr 0xbff0>,
-> +                      <&tcsr 0xb24c>;
-> +    };
-> 
-> -- 
-> 2.34.1
-> 
+-- 
+2.50.1
+
