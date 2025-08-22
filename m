@@ -2,64 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232D1B31656
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 13:31:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5224FB31658
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 13:31:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4163410EAC9;
-	Fri, 22 Aug 2025 11:31:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B533710EAC8;
+	Fri, 22 Aug 2025 11:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Dc400R1x";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MOzvdOwb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF6D110EAC9;
- Fri, 22 Aug 2025 11:31:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755862267; x=1787398267;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=aNsUMxdllxsCnNXUJqbbfxMa47dm9MKdxbDcENRUiec=;
- b=Dc400R1xUlGzJuF4Faba5YWrS9PoA11v2H43J1Z5wZIKeGdW/LGGhC/i
- utA2P6rgk21n63b3O2ouQbbZHqzVWg/Iw2IliWSmrbe7/KloClD/bBDX7
- e21tj+UwwcW0oBZC+6zb5KtrYRE5LvZLEi2A8ahbpjn62rZBWhLHMi6wT
- zZf9RWnv2CaqlnHyN8v7oTz/cL3jVMqIxjB6JIifxccvxl/DOpstqy7Wx
- pGHvAQ1C5Mm9xDdCk/2mFjJYhGS/1whRm/3uPY33zGfcjB7e/P15Fi61V
- ZXh9lbQ6cMGaOdB1guUxZljQWHRSnsmMcHGgjl+ZnTx/1VciWsYUZHup6 w==;
-X-CSE-ConnectionGUID: IJ+uhJ5zQtKjRqlRFblyXQ==
-X-CSE-MsgGUID: dB+V+Z0iQHaO8Yf61oZLsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="61813022"
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="61813022"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 04:31:06 -0700
-X-CSE-ConnectionGUID: mF0eEZMgTQOP4Se+1QoHlQ==
-X-CSE-MsgGUID: mH5h8zimQQGfM3LflSsuUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="168590019"
-Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.244.105])
- ([10.245.244.105])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 04:31:03 -0700
-Message-ID: <1043ceb7-8198-48ed-9040-9e5d08a01723@linux.intel.com>
-Date: Fri, 22 Aug 2025 13:31:00 +0200
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD64810EACB;
+ Fri, 22 Aug 2025 11:31:29 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-45a1b05fe23so11578375e9.1; 
+ Fri, 22 Aug 2025 04:31:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755862288; x=1756467088; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SfbHPH5Jjp8Rpz5+ZFUkvP8crb1ywqdy8VPh1hjPgaM=;
+ b=MOzvdOwbCpNxKxpGsZ+YJ0NCwEErlAtOcX8+KMZUBBhmAbPKacYcJAHNHj0kDyAo90
+ 6eAmQWHpVuozO36KB5VlZAcLGsfXsxhM2S7VMXoo2SrAeX+vNw9GBF2qWlL7QGQixyon
+ 6B/DJvCkSZYN8IEhf6NXfxBl7YxMqIHQ6Ve6tJLHvoReXSA6IUUjftyoQ1tchzR8FlU3
+ tRJPEWqgTCkR8rpmSMuVvldYRQnDXgYhoxZYOxB2PIW++CHnoU7C7I7tHeYvwNRETh7u
+ uJrYflhvIBSMv/wxSGk5DpiICqLuksfalpmy7S3Qw6geKbNEFei+ZTyTDqI/7zSnOGID
+ zhoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755862288; x=1756467088;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SfbHPH5Jjp8Rpz5+ZFUkvP8crb1ywqdy8VPh1hjPgaM=;
+ b=wZPGiBXZxtZfNl8ulLSxG3V6PtIRu5GxXkCkdCuLPMMtfkXuiePlT/UKcCaydPRcC1
+ DBBx50bOz+yj5xIewWT0wSCbQDey4nBL+eBtDHmalFf5rrpFJpbOX4mlkXiLen66O1CM
+ +TdPLrJqCt/1Y3U3cJgcMn4Da9BcG4ZoLlhoAaREHaGQq1LukcuBMdQ5CMU+M5k1hTlY
+ O6KUmPXEnxyFL59gW8L99rC3V2SNeMYkM9Xh7VXVHblzlwesw7emqqzo5meLd+a9rEF8
+ D2h2TVi5Ccq5IE5pMRwsmNht3Jy1t86/5a9wAQqk+XdK7UR0lKetgmHG1ZSiz7YnWCk/
+ y/UQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUVHyc+aDiucPaODvUHpI3Sn0jOHWyV07v7OBBTJ5CageEpjnQTEvSnQR1YUMR73Z/jaW1J/SkyAFg=@lists.freedesktop.org,
+ AJvYcCVFgTU8TRFIANU+kBoAR+48AkaZ6dBbO6NLvFWGPNoDPR43/kWd3hR0tsziVOwss6WAglZLl2QJXVZP@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwRtFVRTCXaY7dVglkp1B1zP8rmv09AozqxblsmgzFiua+AHvk1
+ AIC5qMonc1x7cfjdvBw0mjRMN9yqbvrO+xsmMxujKSRA9GwcSo6hrlCr
+X-Gm-Gg: ASbGncsCdUHTFL1KkLx+Er1QPFNXIcylw94Bp/ew0Z3ReiKScjEc07IDPurWPrV354k
+ ifgFQuaQyoeH1n/Vx7dgsBvImHGhhJStkot/BS8HrG1Uv78BvM77/B7sR9SLXrhmAI62SOx6i+y
+ LNjcNrWCdXrT+GzmPDu5gp+OAkU64RYz6e0RuAnDaNIkdn99QSEOxCMpnrT8owzrtj1qQ2grmlR
+ 6EuNeaUOe/iOTSU3yHUA3qN88uYjBBTxZw5ApRogYBtdDPgBacuJ0qR0qgY6ExCnx/PLNRj/Qtz
+ u/5jO6Isd6m3Ngu86QBI7X9MoGWSRnBRoLaZM8SBTkl1USR+emLAvOEzXbgOUWSEM9HH7JqmqwJ
+ V/AEQvi2JRy0PfJuTbxSZ85iiwlBDTR3WFC1fmrMvEVSUPcg9ur/5edY=
+X-Google-Smtp-Source: AGHT+IGRxFKrTZ5eDvBkmi1zEgN6s0gJ3t3AoyWptSyZJnQ5Bb32czELomyx9FMDxkr1p0nFemiRbQ==
+X-Received: by 2002:a05:600c:4747:b0:459:e094:92cb with SMTP id
+ 5b1f17b1804b1-45b517ad81bmr24844685e9.12.1755862287996; 
+ Fri, 22 Aug 2025 04:31:27 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87?
+ ([2620:10d:c092:600::1:1b93]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45b50e4241dsm35921185e9.24.2025.08.22.04.31.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Aug 2025 04:31:27 -0700 (PDT)
+Message-ID: <b5b08ad3-d8cd-45ff-9767-7cf1b22b5e03@gmail.com>
+Date: Fri, 22 Aug 2025 12:32:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] drm/i915/display: Error codes for async flip
- failures
-To: Arun R Murthy <arun.r.murthy@intel.com>, dri-devel@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, naveen1.kumar@intel.com,
- xaver.hugl@kde.org, uma.shankar@intel.com, harry.wentland@amd.com
-References: <20250822-atomic-v3-0-13a0e8f2c581@intel.com>
- <20250822-atomic-v3-4-13a0e8f2c581@intel.com>
+Subject: Re: [PATCH RFC 18/35] io_uring/zcrx: remove "struct io_copy_cache"
+ and one nth_page() usage
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Jens Axboe <axboe@kernel.dk>, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
+ Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
+ Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org,
+ Zi Yan <ziy@nvidia.com>
+References: <20250821200701.1329277-1-david@redhat.com>
+ <20250821200701.1329277-19-david@redhat.com>
 Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20250822-atomic-v3-4-13a0e8f2c581@intel.com>
-Content-Type: text/plain; charset=UTF-8
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20250821200701.1329277-19-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,57 +115,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+On 8/21/25 21:06, David Hildenbrand wrote:
+> We always provide a single dst page, it's unclear why the io_copy_cache
+> complexity is required.
 
-I'm not entirely sold on the design, it's way more complicated than it should be, it should be trivial to add any amount of error messages.
+Because it'll need to be pulled outside the loop to reuse the page for
+multiple copies, i.e. packing multiple fragments of the same skb into
+it. Not finished, and currently it's wasting memory.
 
-Replace return -EINVAL; with return drm_atomic_error_einval(state, class, "string");
-Where class may be an enum, but in a way more generic way than currently specified, for example "invalid use of api", "requires modeset", "invalid arguments", "driver limitations", "async flip not possible".
+Why not do as below? Pages there never cross boundaries of their folios.
 
-The drm_atomic_error_einval() would set class and str as appropriate, and then return -EINVAL.
+Do you want it to be taken into the io_uring tree?
 
-That's probably all we should need here.
+diff --git a/io_uring/zcrx.c b/io_uring/zcrx.c
+index e5ff49f3425e..18c12f4b56b6 100644
+--- a/io_uring/zcrx.c
++++ b/io_uring/zcrx.c
+@@ -975,9 +975,9 @@ static ssize_t io_copy_page(struct io_copy_cache *cc, struct page *src_page,
+  
+  		if (folio_test_partial_kmap(page_folio(dst_page)) ||
+  		    folio_test_partial_kmap(page_folio(src_page))) {
+-			dst_page = nth_page(dst_page, dst_offset / PAGE_SIZE);
++			dst_page += dst_offset / PAGE_SIZE;
+  			dst_offset = offset_in_page(dst_offset);
+-			src_page = nth_page(src_page, src_offset / PAGE_SIZE);
++			src_page += src_offset / PAGE_SIZE;
+  			src_offset = offset_in_page(src_offset);
+  			n = min(PAGE_SIZE - src_offset, PAGE_SIZE - dst_offset);
+  			n = min(n, len);
 
-Kind regards,
-~Maarten
-
-Den 2025-08-22 kl. 09:00, skrev Arun R Murthy:
-> For failures in async flip atomic check/commit path return user readable
-> error codes in struct drm_atomic_state.
-> 
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_display.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index c1a3a95c65f0b66c24ddd64f47dfdc67bbde86c9..5e23f4fc747bd01fa05eba63661bf7279b083317 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -5950,6 +5950,7 @@ static int intel_async_flip_check_uapi(struct intel_atomic_state *state,
->  		drm_dbg_kms(display->drm,
->  			    "[CRTC:%d:%s] modeset required\n",
->  			    crtc->base.base.id, crtc->base.name);
-> +		state->base.error_code->failure_flags = DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET;
->  		return -EINVAL;
->  	}
->  
-> @@ -6019,6 +6020,7 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
->  		drm_dbg_kms(display->drm,
->  			    "[CRTC:%d:%s] modeset required\n",
->  			    crtc->base.base.id, crtc->base.name);
-> +		state->base.error_code->failure_flags = DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET;
->  		return -EINVAL;
->  	}
->  
-> @@ -6061,6 +6063,8 @@ static int intel_async_flip_check_hw(struct intel_atomic_state *state, struct in
->  				    plane->base.base.id, plane->base.name,
->  				    &new_plane_state->hw.fb->format->format,
->  				    new_plane_state->hw.fb->modifier);
-> +			state->base.error_code->failure_flags =
-> +				DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPPORTED;
->  			return -EINVAL;
->  		}
->  
-> 
+-- 
+Pavel Begunkov
 
