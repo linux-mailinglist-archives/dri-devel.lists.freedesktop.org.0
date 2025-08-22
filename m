@@ -2,60 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A142EB317E1
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E74B3181A
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:42:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8F110EAE1;
-	Fri, 22 Aug 2025 12:33:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F6BA10EAD9;
+	Fri, 22 Aug 2025 12:42:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TWQbTRGI";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="DWOSEnnd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4265F10EAE2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 12:33:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755865997; x=1787401997;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Kvnel9XyEbfV5QjKOr536zHuHkDHJiMkaAOEXL1llWg=;
- b=TWQbTRGIZ/Leygj91FwSiTQySasbrXf7Adp4nTPV8ShzQKRVIKXXPEns
- a5aA+cwlwdD7gEFnkukzB0mT/CMldTGvLIUKhaIzJ+ivSCNmr/ewUVhY6
- VUtAQKoZPwd/zPpsMA+/qJ8hyr6ZmWQLXAnwRF0BL27sGCwoz1XZJoHnz
- 9mV+tVMLUIumQJzryH/UWDJ9jOkAx+UCyEYE4yMQTUD5xQmLichopEKyd
- sxRJuT1hlwtx7KHfBgA7WgusCOok+nupDdNux73JFr9FQMLTYBb5zL0BA
- GpR3KgwBEflTmWkI2mgoE4Lpmd6NUlz8n8iXpKkC/fZd/L6vFgJ7bWEkR g==;
-X-CSE-ConnectionGUID: RnJdAeIPRpuppwYWIyCZmw==
-X-CSE-MsgGUID: ggnwULrnTfeVyz3IJaptCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="60798370"
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="60798370"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 05:33:16 -0700
-X-CSE-ConnectionGUID: UcW83+0/SL23tcU+MEOH0g==
-X-CSE-MsgGUID: JP9eDJpESMabFyaoW6Ya4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="169520920"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.190])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 05:33:13 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sidhartha Kumar <sidhartha.kumar@oracle.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- willy@infradead.org, sidhartha.kumar@oracle.com
-Subject: Re: [PATCH v2 0/6] DRM IDR to Xarray conversions
-In-Reply-To: <20250821145429.305526-1-sidhartha.kumar@oracle.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250821145429.305526-1-sidhartha.kumar@oracle.com>
-Date: Fri, 22 Aug 2025 15:33:10 +0300
-Message-ID: <f69669c873dbb99c239e9f2ddf154e983baa61e3@intel.com>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02E6310EAD9
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 12:42:37 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MAlQTX029436;
+ Fri, 22 Aug 2025 14:42:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ twVR4aLcjBcIxVR1vTBIjLNrHaf5X700fq4KHmsJOG0=; b=DWOSEnndEyapOE0z
+ yWh2HktcvWlWZHVAPSNECRWV9xXMgfYF7sqZT8Z2rsta6lW0rXJw8LNtyBfBr88I
+ EjmcFYbHkTQo1adZ3IoFV9EbKceqAGe/Is5mk+s+UtPf1Ul4dnJ7R4gX8CLtAUaz
+ 6D3xgF49WDwaxSKr1YsRUa1iAjNXnrMaaAk1UymjBCxqK7L+cIk/m2IDKOzMD/nR
+ t3xoV8acdLP+gFoBMdoEuih82fSSX6v+FFgzkvFqkDrPrrFr1mRGnwWl9n3s+Pnc
+ EokqKutOd6JyCkITN1c4i1AomgidgH6dX8ZFXPjoyKmFMFc/d9aecxFkeBwuf4Rh
+ 33Q5/A==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48np7n7656-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Aug 2025 14:42:27 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 3126F4004A;
+ Fri, 22 Aug 2025 14:41:08 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6DC5F71CEE0;
+ Fri, 22 Aug 2025 14:40:14 +0200 (CEST)
+Received: from [10.48.87.178] (10.48.87.178) by SHFDAG1NODE3.st.com
+ (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 22 Aug
+ 2025 14:40:13 +0200
+Message-ID: <e2a69447-a34c-4e2e-9bbc-3975b9ef08b7@foss.st.com>
+Date: Fri, 22 Aug 2025 14:40:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/13] dt-bindings: display: st,stm32-ltdc: add
+ access-controllers property
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Maxime
+ Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Christophe Roullier
+ <christophe.roullier@foss.st.com>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com>
+ <20250821-drm-misc-next-v4-2-7060500f8fd3@foss.st.com>
+Content-Language: en-US
+From: Yannick FERTRE <yannick.fertre@foss.st.com>
+In-Reply-To: <20250821-drm-misc-next-v4-2-7060500f8fd3@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.48.87.178]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE3.st.com
+ (10.75.129.71)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-22_04,2025-08-20_03,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,58 +91,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 21 Aug 2025, Sidhartha Kumar <sidhartha.kumar@oracle.com> wrote:
-> From: Sidhartha <sidhartha.kumar@oracle.com>
->
-> v1[1] -> v2:
->   - rebase onto latest mainline v6.17-rc2
->   - fix build error in patch 1 per Intel Test Robot
->
-> This series is part of a project to depcrecate the IDR in favor
-> of the Xarray. This simplifies the code as locking is handled by
-> the Xarray internally and removes the need for a seperate mutex to
-> proect the IDR.
+Hi Raphael,
 
-It would be great if the commit messages mentioned whether the
-identifiers are expected to remain the same in the conversion.
+Thanks for the patch.
 
-BR,
-Jani.
+Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
->
-> The patches are from this tree and have been rebased to v6.17-rc2
-> https://git.infradead.org/?p=users/willy/xarray.git;a=shortlog;h=refs/heads/xarray-conv
->
->
-> The series has been compiled and tested with drivers/gpu/drm/tests/.kunitconfig
-> and passes all tests.
->
-> [15:22:04] Testing complete. Ran 608 tests: passed: 608
-> [15:22:04] Elapsed time: 34.792s total, 3.086s configuring, 31.541s building, 0.141s running
->
-> [1]: https://lore.kernel.org/dri-devel/20250818190046.157962-1-sidhartha.kumar@oracle.com/
->
-> Matthew Wilcox (6):
->   drm: Convert aux_idr to XArray
->   drm: Convert object_name_idr to XArray
->   drm: Convert syncobj_idr to XArray
->   drm: Convert magic_map to XArray
->   drm: Convert lessee_idr to XArray
->   drm: Convert tile_idr to XArray
->
->  drivers/gpu/drm/display/drm_dp_aux_dev.c | 38 ++++++--------
->  drivers/gpu/drm/drm_auth.c               | 22 ++++----
->  drivers/gpu/drm/drm_connector.c          | 26 ++++------
->  drivers/gpu/drm/drm_debugfs.c            | 19 +++----
->  drivers/gpu/drm/drm_gem.c                | 11 ++--
->  drivers/gpu/drm/drm_lease.c              | 15 +++---
->  drivers/gpu/drm/drm_mode_config.c        |  3 +-
->  drivers/gpu/drm/drm_syncobj.c            | 64 ++++++++----------------
->  include/drm/drm_auth.h                   |  9 ++--
->  include/drm/drm_device.h                 |  4 +-
->  include/drm/drm_file.h                   |  6 +--
->  include/drm/drm_mode_config.h            | 12 ++---
->  12 files changed, 86 insertions(+), 143 deletions(-)
 
--- 
-Jani Nikula, Intel
+Le 21/08/2025 à 13:08, Raphael Gallais-Pou a écrit :
+> access-controllers is an optional property that allows a peripheral to
+> refer to one or more domain access controller(s).
+>
+> This property is added when the peripheral is under the STM32 firewall
+> controller.  It allows an accurate representation of the hardware, where
+> the peripheral is connected to a firewall bus.  The firewall can then check
+> the peripheral accesses before allowing its device to probe.
+>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> ---
+>   Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+> index bcedcfef5427f5725a0473c09628e70d172c8f58..e27347acee5dacf56cb3971d4b62c34dfc64d7e2 100644
+> --- a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+> +++ b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+> @@ -41,6 +41,9 @@ properties:
+>     resets:
+>       maxItems: 1
+>   
+> +  access-controllers:
+> +    maxItems: 1
+> +
+>     port:
+>       $ref: /schemas/graph.yaml#/properties/port
+>       description: |
+>
