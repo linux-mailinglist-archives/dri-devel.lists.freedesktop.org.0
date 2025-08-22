@@ -2,69 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15615B32254
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 20:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02ABB322E6
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 21:33:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F24C10EB8E;
-	Fri, 22 Aug 2025 18:37:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64ABC10EB8C;
+	Fri, 22 Aug 2025 19:33:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Qn+CCUV/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G+XlR797";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3054F10EB8D;
- Fri, 22 Aug 2025 18:37:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1755887828;
- bh=WoYBS+suj62us0oVK02xkfT8Ry303QosUdXUG5V5o+s=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Qn+CCUV/8f0B211PQEIZ3ASGTBtreAbGZUgjGTj0oNYjtUraf6QXNcC/4t3NsI3o7
- v9OEIe2saKYvd9+raIU5ENp1g9NAL9Qx2Ea/6ya9nzp8YooSlv6Ekv0f5IALcLL9Kx
- sn+cq93AW2B49ksS2SCYWiLBk0sX1GYHqyiExbRHP7E926Ha4R+X6vHgcHwyGAGlzG
- Mrt5s/RVuUeVI1gT8IA9SjyIOgEbAaw+p0mtSEuQmNh0UyKVbIofc+u3gF5VjaaBSY
- TdeRPDR991v1g/voBpo3RV70ffswkZsDVr3pf9ICxPkgnZ8a7VPzEsnM3fNZqTNsHm
- 4GYkF5elPocZw==
-Received: from [127.0.1.1] (unknown
- [IPv6:2600:4041:5b1a:9400:62f0:406e:ac79:4a96])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: nfraprado)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id AF06617E37EB;
- Fri, 22 Aug 2025 20:37:02 +0200 (CEST)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Fri, 22 Aug 2025 14:36:15 -0400
-Subject: [PATCH RFC 5/5] drm/mediatek: gamma: Support post-blend color
- pipeline API
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8633910EB8C;
+ Fri, 22 Aug 2025 19:33:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755891206; x=1787427206;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=Ds+oy5DYQib3+GdjCUn5ovl+dV7DUa4wlFMM5qpdyS8=;
+ b=G+XlR79741Os3Om3w2tRhpFawQ0bGyb4wMBx+WgZBI/gG3CiInAauabo
+ 5IL45wshTOpDgELC2tVKFp46hnraGZqLmRhu812Xqoe0AukO1CnkMlMSX
+ RkPhKP0WHEp4MyAlDd5QrlRTQ8kELxcOpQtZtbXGGRTx9daXWplMsWJ1+
+ zH9bLGOQWhnc9cf4+YJomCCxqCfhFees4px8RpuK57R+2W+MhdF1Uz7wr
+ kaIQko5LwouI9Tl88ZVa6VT7xnKBuMe59bFyMwVBTxsUTLFCYRNqTkmV9
+ N3Bdp1+s07sNf2lRxS0P1XKIiVgpaLR3Vj6sPS7tmp5iH2ylt0PkYLGUl g==;
+X-CSE-ConnectionGUID: ykN2FQ0KSJ2KD01cLW7Bug==
+X-CSE-MsgGUID: f90Qm4URQpywQbvCVBaOkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="60832044"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="60832044"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 12:33:26 -0700
+X-CSE-ConnectionGUID: g+sHOxGbRg6YMU46XYS/KA==
+X-CSE-MsgGUID: SKzA+vufQFSl8vuwSBykiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="169598174"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 12:33:26 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 22 Aug 2025 12:33:25 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17 via Frontend Transport; Fri, 22 Aug 2025 12:33:25 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.62)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 22 Aug 2025 12:33:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HxCUWNuhKk5Ym24CgD9gpLbx6W78fXOj7lXzFrV6JgSa1unWSTc4Tl0Ufjz4pMBAuV/nGkzEWzGUX67dOfBj6dFodx5vzcUbY5U/X+A//pcIu/K0VjcDeyF4ccY0ClA6FH7SsS8XC1DWUebAoobWmug9snGPrJvml2Sn/icGLKbvTcqfDpm84auAQvH8YhKjKtEcc6cKF88IHEIjfGGN8v8zd/Y2n1vrH3t7M+Qhs+aTfXxu2mMPcRp3yZtwDU4ngLBYNT+yUn3M9GFpQkcsdUl7lAkAtiR3oxM5xWdPUbOQhxKBxrxSF33eAIBiTs4Hlnvs/N9HZDlWlMDc8cGyqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2gurVOrZDGZXSG6jgmFJ20WnJuJz49eUC2zKmtnFiV8=;
+ b=bCvIQ4ErO8/+PCYszuVGutInp93TB+lgbzcV307vnym51uCnJiP8yak8UN8Skw2dJSOSzKfLAKkj0WxTF9wXiqN7yoFsX8xAlXGHHIBgmZ3lTpcDP9DpOvS+sF2qDR/P3txd4em3kuUFReQUeIpeKrb2laqb6gBj+MBxPDqV6C1qwFx7EnKtH3xGhZELf4oiS5bbNpzR2wNCvSQ4ELm3YiHm9Wx3lswDfwuGbvxUaUPC6TKC00lhCOkWAzYj8ozHVr5m+pee7oZDo0b4IeBDHx80gdVuUBlncI0107ychXy+xyWM6cbqnpdfCojp46Hio0d1wOl+1iJ8mIw+UM+a+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by PH7PR11MB6521.namprd11.prod.outlook.com (2603:10b6:510:213::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Fri, 22 Aug
+ 2025 19:33:22 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9052.013; Fri, 22 Aug 2025
+ 19:33:22 +0000
+Date: Fri, 22 Aug 2025 15:33:17 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Badal Nilawar <badal.nilawar@intel.com>, <intel-xe@lists.freedesktop.org>, 
+ <dri-devel@lists.freedesktop.org>, <anshuman.gupta@intel.com>,
+ <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>,
+ <daniele.ceraolospurio@intel.com>
+Subject: Re: [RFC 9/9] {fwctl,drm}/xe/pcode: Introduce xe_pcode_fwctl
+Message-ID: <aKjF_ZvP5-1W1tei@intel.com>
+References: <20250429160956.1014376-1-badal.nilawar@intel.com>
+ <20250429160956.1014376-10-badal.nilawar@intel.com>
+ <20250506181353.GA89958@nvidia.com> <aBu5O5odAKaxhhym@intel.com>
+ <20250507220444.GA232705@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250507220444.GA232705@nvidia.com>
+X-ClientProxiedBy: BY3PR05CA0046.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::21) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250822-mtk-post-blend-color-pipeline-v1-5-a9446d4aca82@collabora.com>
-References: <20250822-mtk-post-blend-color-pipeline-v1-0-a9446d4aca82@collabora.com>
-In-Reply-To: <20250822-mtk-post-blend-color-pipeline-v1-0-a9446d4aca82@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org, 
- harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com, 
- pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com, 
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com, 
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
- xaver.hugl@gmail.com, victoria@system76.com, uma.shankar@intel.com, 
- quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
- marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
- chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com, 
- mcanal@igalia.com, kernel@collabora.com, daniels@collabora.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-X-Mailer: b4 0.14.2
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|PH7PR11MB6521:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8f2a6d69-9d25-46e1-e7dd-08dde1b2c11d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Hf3C59FTxrVl0yBF7SYFzdbKxtJ8/8+0INC4Z7RGs7mcY5XLD6NqbvQGoT66?=
+ =?us-ascii?Q?gNSjIycq9pzorF6NXeydITHCO+MoE9yJz6fcZiMz+S7fw+wq4vibO0KMiJLe?=
+ =?us-ascii?Q?vB7aSLBJkxlgWauM4qK3IAtBEvu4t6NOmfIOz6nlM495aFx6+n3alFnCAJlZ?=
+ =?us-ascii?Q?e3CSO5CSOqCdXwUCOT+qM15c/gGmYKGuGJxoXpHWjdkj3rzNOOf+204HVBuz?=
+ =?us-ascii?Q?7Jf0gKeDrBJZL82yiIbJOMI/M4Fk6Nv+7Bne0aoXdmtg6CjLG1mvHvi61V6K?=
+ =?us-ascii?Q?0D6kmwkxySoo3CJtvuGpNHWqBGPJMLzKiLj6GAmiMVRIG2rag91LzAIwAc8s?=
+ =?us-ascii?Q?JAI3BQUJY3V2DGyq9snTMQjTZQdlWFt6lGVsew4i4ScjCCaML6S5c4dlYQEi?=
+ =?us-ascii?Q?wJU7Aqvte3fgKf4Vty8U9oHNMx9TrgHFVhe9FAhexNzf9Rvrh8h2J+8hLH3x?=
+ =?us-ascii?Q?vQRd5+HiSTPz5UYAD8Vdn+s8XaQ6KJoTxhwjSQedfb0ocIQQ4peJUwBSP3R3?=
+ =?us-ascii?Q?dyC1ADxzlA7GogYhNdTfdwL9kBSe+pwdENCCMrhhCh0JEX4MMlnKRVtuC60k?=
+ =?us-ascii?Q?T3if2HdpPSytQjent/iXnAyMfdzdTyx8YCoFx6OgehKeyrOataJ70G35adZJ?=
+ =?us-ascii?Q?anooPM0xsEKAvyExk+j4P39xBRhSR5RJD6it3Pjj3ppeoPm72eVYshYDj1te?=
+ =?us-ascii?Q?rs6usGZxEK3Jt/Ayo+IAiA9ikRnJaRM6EWVlna35ppP1pXakUTh3g4g4z+lZ?=
+ =?us-ascii?Q?uxiXsjMkaWB4Y2DWJ0hGqU6xLwFNcKW2Kx2QA1r/lbcLAaZufZge9L/AsGE5?=
+ =?us-ascii?Q?EXsvZoDAngf4HmKJccduH8KLijH0MQVVVxYLfStDj4zVUUqyy5JjldpxQT4k?=
+ =?us-ascii?Q?3mHcYlELVnlOzmLBIkQvereb/Ho3OwumWIKgNME5/Sv+cHzpl127NG/mMIm9?=
+ =?us-ascii?Q?uYej2OQVEU7C2bq7a2lh5K1vtpepG2U/0vnlL5uelq1dGFrdKE8wXyxOIsJ2?=
+ =?us-ascii?Q?LXH4c96F4nim0i/OTxyyqkIxDpNHkZpfM+fGc3Gvoo6BPknQYJ5ku83eRXFw?=
+ =?us-ascii?Q?CHYXypFWontmVOcn6e2KvN4x1npq8mrCZTdkxe/2vTJe4PqHIMFNUZCjL4IR?=
+ =?us-ascii?Q?FOpHB9Lo124KWmw8JvSy6JnW7hZqhY10qMI2P3tGAFtHtsMHMvI6X3q50sk6?=
+ =?us-ascii?Q?lvDpkL41kdovvXY0ACo5gnmnHrVdPCa0ZJ5+3ptsjAcOHBciyMlpBnfc9cJ0?=
+ =?us-ascii?Q?2nPnY2B0Vl7bep53ewdEB2AhgGI5uOzAu+p8JfGrGGCpIOWuAiFpM+4iJg7H?=
+ =?us-ascii?Q?RO6y3uJ+lI5/NJYzTZ+cyoLj8HBKHBK6AA44sJFFTIBoWdXZcJZdp+rSoFJn?=
+ =?us-ascii?Q?VyXHfca91ZI+AU8ExffvaqUT1zMD/5CuJJK9xglqhwp7Vj73mkYX33XcSwbA?=
+ =?us-ascii?Q?dlMtSKt+1H4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PJmcn6my8p3TzP3DhcxjYs0nozAkUlJB8n4YovgcrUcdJ5rny+7sGGdJttz1?=
+ =?us-ascii?Q?hmY7vZ4We5LNbRwlm0m0TvT0BOxerFtIdpS3utSKfWB1fMxs04p2OvehUx5e?=
+ =?us-ascii?Q?RvAhvEy6TC2pZUKsO2AErsmTUWR6OPJc69G5q0u5W+FZMCGVrR2g+2gXdduA?=
+ =?us-ascii?Q?gZ/BrPgsC+V+o+Eh6hLP4/UInuLB8kMr4TJvzY6JD7mPC5wxP4n1HbjuUVrw?=
+ =?us-ascii?Q?03mUuBVX05dlHnqtEK9fgDJIrvptUtG+mZQBi03W1+3BsH32VSGS/i7Ghcpw?=
+ =?us-ascii?Q?eDg/n4ttXoFZfcNDjtvFczumR0mnbf62EpGRaiyzLJ4/QYxDnTA1Vl2gmnYr?=
+ =?us-ascii?Q?5rKp3NND5x4b9o4k9w22u+ectS8H/V3Tm+lGsC4Kv5XOLmlfC5AfgwBcv8nz?=
+ =?us-ascii?Q?Oud+O+VOSzcvSfEQhdJgsl8JweEMntWkbJ54qizjAMh4twaHRCYNHhK5VgdG?=
+ =?us-ascii?Q?PHe/U8oFU3dcE0Hg+Wp3yOpzu8g2HHKmkmIfRht2CLJyi4PK5a23sMYxbifW?=
+ =?us-ascii?Q?slQ4EHmm0NvzRelJzDgsOC7Z9SQMH5g1hJ/RqfMsTHdfz23gByPF15wMalip?=
+ =?us-ascii?Q?PmG9M+VsSbYr79Au1B30WsnjS2n3Hb1x04/XDqYw57wukZpO6o/1H72Ftm7E?=
+ =?us-ascii?Q?VdlctRBjqvVu8CzLvtjTqrKgBJ8XAa8N9YEIvyaFv1x5Jb7jyqvFK6/rYq02?=
+ =?us-ascii?Q?CGwzISgln3Y8tjJpvwVlyhRMfk7qbatA/00mn6vib/BK19L2N4hoNUhyP7FN?=
+ =?us-ascii?Q?4p43Y0h1cKQDN0qmEGWw2R02OF453gw5G3r5CE1eZAk8Tz9/cbrP7TkCfbZm?=
+ =?us-ascii?Q?GaBII5VK4HfAN4sZbTCc8Cyxu7yefN6c187nkPgs7BpRi6e4msPcBskxWS2b?=
+ =?us-ascii?Q?cUi+22uemLCD1Yqrf0CpgNWa+scP3HGJDaF4qq+QyvHkDLpokEvNuaY+0krA?=
+ =?us-ascii?Q?xUx6NP7lITcCUj0IrLGUnzIbroQQCv+gJebNKEzZ1TzhN+UcFsF0kWoI7rX2?=
+ =?us-ascii?Q?ZfatOZwhaiSvNHnshZxGp/mx1ice3E9c3gE1FrI3Ue5xhO+w77GxDapazLD3?=
+ =?us-ascii?Q?nWkxHPnKkdhYB5L1va4BGhTBDCS/ZpBPGvEjutY0TQqoTF2VqTUOzfBzIqUr?=
+ =?us-ascii?Q?PWGVAeG7yp/58d4y+A7BKodQOCa94UUiXzr/mw8ynI/2w2uFuBgt8UEScPGf?=
+ =?us-ascii?Q?N8mA1NaYN+8aVrlYsjAlFHU2llpa4FYQFtukePeusVLnt7uZlHFXfV+I/Jhl?=
+ =?us-ascii?Q?gpSmApyH+fCn0hXzTIAWH94nBbm6nPc1cFbDDSz7zhKiZ/hyZhXVqbqZq3cf?=
+ =?us-ascii?Q?9tCT9JdoKWM1XL6nNBOBihBzFyb6I2hjM6yS2o1jvXHJmkSK7IT0MBJbbyKl?=
+ =?us-ascii?Q?hiZYIuybjDH/eHrBeTtKHCP7QubD5VU26lV8aAYDfSX8/ddt4QSJyu3OS8mc?=
+ =?us-ascii?Q?VSjIYoUorSOHQxyuVhqNSPHkTJfWJHcKaCOUAJdOjNN795kKNi82WNzwwTqU?=
+ =?us-ascii?Q?40xmXuwY8jakcsQWTw92scHhgeBcM5nj6fxHuXCq0weV48T/WhvZzW4itDtU?=
+ =?us-ascii?Q?2FtoFo7feQxH/yj4A1yQJ7OeuDbh0/cDawXj3Ru8?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f2a6d69-9d25-46e1-e7dd-08dde1b2c11d
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2025 19:33:22.0369 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Usi3EvTQSZb8Bij+m/5lqJLdTbJTHbJ+VvG8hq6cmZK25oIgFfLv+U74iaJgkg7p1Iq3Op4T1cwatyyZzOq9rA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6521
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,227 +181,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement the gamma_set_color_pipeline DDP component function to allow
-configuring the gamma LUT through the post-blend color pipeline API.
+On Wed, May 07, 2025 at 07:04:44PM -0300, Jason Gunthorpe wrote:
+> On Wed, May 07, 2025 at 03:49:15PM -0400, Rodrigo Vivi wrote:
+> 
+> > One last thing since I have your attention here. Was any time in the previous
+> > fwctl discussions talked about the possibility of some extra usages for like
+> > FW flashing or in-field-repair/tests where big data needs to filled bypassing
+> > lockdown mode?
+> 
+> For FW flash I do suggest you try to use devlink's firmware flashing
+> interface. I think it would be really great if that could become a
+> cross-subsystem standard in Linux.
 
-The color pipeline API uses a 32-bit long, rather than 16-bit long, LUT,
-so also update the functions to handle both cases.
+I took a look there and I do believe devlink works very well for fw flashing and
+it is also already prepared for basically any pci device without any change.
+Thanks for the suggestion.
 
-Also make sure to enable or disable the LUT function depending on
-whether the block should be bypassed or not.
+But now I have to ask you about 2 other use cases that are not under the
+umbrella of: configuration and provisioning, but perhaps at least partially
+under the umbrella of debug:
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c   |   3 +-
- drivers/gpu/drm/mediatek/mtk_disp_drv.h   |   3 +-
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 107 +++++++++++++++++++++++++-----
- 3 files changed, 94 insertions(+), 19 deletions(-)
+- In-field-test-and-repair
+- Error injection
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-index c873b527423f51733058cbc3d0ad2a719e26bfe1..d253906546506ecf1f1e2a23123b80e774e981ae 100644
---- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
-@@ -327,7 +327,8 @@ static const struct mtk_ddp_comp_funcs ddp_gamma = {
- 	.clk_enable = mtk_gamma_clk_enable,
- 	.clk_disable = mtk_gamma_clk_disable,
- 	.gamma_get_lut_size = mtk_gamma_get_lut_size,
--	.gamma_set = mtk_gamma_set,
-+	.gamma_set = mtk_gamma_set_legacy,
-+	.gamma_set_color_pipeline = mtk_gamma_set_color_pipeline,
- 	.config = mtk_gamma_config,
- 	.start = mtk_gamma_start,
- 	.stop = mtk_gamma_stop,
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-index ac84cf579150fd0535c79f43ad5942f8d412d450..7795aa5bc057fc09597cbd582f04e4dc76d3ecba 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-@@ -58,7 +58,8 @@ void mtk_gamma_config(struct device *dev, unsigned int w,
- 		      unsigned int h, unsigned int vrefresh,
- 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
- unsigned int mtk_gamma_get_lut_size(struct device *dev);
--void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state);
-+void mtk_gamma_set_legacy(struct device *dev, struct drm_crtc_state *state);
-+void mtk_gamma_set_color_pipeline(struct device *dev, struct drm_color_lut32 *lut);
- void mtk_gamma_start(struct device *dev);
- void mtk_gamma_stop(struct device *dev);
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-index 8afd15006df2a21f3f52fe00eca3c5501f4fb76a..dec9eeb53cb8539e49ecc1087e037645c792ee3d 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-@@ -87,13 +87,34 @@ unsigned int mtk_gamma_get_lut_size(struct device *dev)
- 	return 0;
- }
- 
--static bool mtk_gamma_lut_is_descending(struct drm_color_lut *lut, u32 lut_size)
-+static bool mtk_gamma_lut_is_descending(void *lut, bool bits32, u32 lut_size)
- {
- 	u64 first, last;
- 	int last_entry = lut_size - 1;
-+	u32 lutr_first, lutg_first, lutb_first, lutr_last, lutg_last, lutb_last;
-+	struct drm_color_lut32 *lut32;
-+	struct drm_color_lut *lut16;
-+
-+	if (bits32) {
-+		lut32 = (struct drm_color_lut32 *)lut;
-+		lutr_first = lut32[0].red;
-+		lutg_first = lut32[0].green;
-+		lutb_first = lut32[0].blue;
-+		lutr_last = lut32[last_entry].red;
-+		lutg_last = lut32[last_entry].green;
-+		lutb_last = lut32[last_entry].blue;
-+	} else {
-+		lut16 = (struct drm_color_lut *)lut;
-+		lutr_first = lut16[0].red;
-+		lutg_first = lut16[0].green;
-+		lutb_first = lut16[0].blue;
-+		lutr_last = lut16[last_entry].red;
-+		lutg_last = lut16[last_entry].green;
-+		lutb_last = lut16[last_entry].blue;
-+	}
- 
--	first = lut[0].red + lut[0].green + lut[0].blue;
--	last = lut[last_entry].red + lut[last_entry].green + lut[last_entry].blue;
-+	first = lutr_first + lutg_first + lutb_first;
-+	last = lutr_last + lutg_last + lutb_last;
- 
- 	return !!(first > last);
- }
-@@ -113,7 +134,7 @@ static bool mtk_gamma_lut_is_descending(struct drm_color_lut *lut, u32 lut_size)
-  *     - 12-bits LUT supported
-  *     - 10-its LUT not supported
-  */
--void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
-+static void mtk_gamma_set(struct device *dev, void *lut, bool bits32)
- {
- 	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
- 	void __iomem *lut0_base = gamma->regs + DISP_GAMMA_LUT;
-@@ -121,19 +142,20 @@ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
- 	u32 cfg_val, data_mode, lbank_val, word[2];
- 	u8 lut_bits = gamma->data->lut_bits;
- 	int cur_bank, num_lut_banks;
--	struct drm_color_lut *lut;
- 	unsigned int i;
--
--	/* If there's no gamma lut there's nothing to do here. */
--	if (!state->gamma_lut)
--		return;
-+	struct drm_color_lut32 *lut32;
-+	struct drm_color_lut *lut16;
- 
- 	num_lut_banks = gamma->data->lut_size / gamma->data->lut_bank_size;
--	lut = (struct drm_color_lut *)state->gamma_lut->data;
- 
- 	/* Switch to 12 bits data mode if supported */
- 	data_mode = FIELD_PREP(DISP_GAMMA_BANK_DATA_MODE, !!(lut_bits == 12));
- 
-+	if (bits32)
-+		lut32 = (struct drm_color_lut32 *)lut;
-+	else
-+		lut16 = (struct drm_color_lut *)lut;
-+
- 	for (cur_bank = 0; cur_bank < num_lut_banks; cur_bank++) {
- 
- 		/* Switch gamma bank and set data mode before writing LUT */
-@@ -146,10 +168,21 @@ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
- 		for (i = 0; i < gamma->data->lut_bank_size; i++) {
- 			int n = cur_bank * gamma->data->lut_bank_size + i;
- 			struct drm_color_lut diff, hwlut;
-+			u32 lutr, lutg, lutb;
-+
-+			if (bits32) {
-+				lutr = lut32[n].red;
-+				lutg = lut32[n].green;
-+				lutb = lut32[n].blue;
-+			} else {
-+				lutr = lut16[n].red;
-+				lutg = lut16[n].green;
-+				lutb = lut16[n].blue;
-+			}
- 
--			hwlut.red = drm_color_lut_extract(lut[n].red, lut_bits);
--			hwlut.green = drm_color_lut_extract(lut[n].green, lut_bits);
--			hwlut.blue = drm_color_lut_extract(lut[n].blue, lut_bits);
-+			hwlut.red = drm_color_lut_extract(lutr, lut_bits);
-+			hwlut.green = drm_color_lut_extract(lutg, lut_bits);
-+			hwlut.blue = drm_color_lut_extract(lutb, lut_bits);
- 
- 			if (!gamma->data->lut_diff || (i % 2 == 0)) {
- 				if (lut_bits == 12) {
-@@ -162,13 +195,25 @@ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
- 					word[0] |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
- 				}
- 			} else {
--				diff.red = lut[n].red - lut[n - 1].red;
-+				u32 lutr_prev, lutg_prev, lutb_prev;
-+
-+				if (bits32) {
-+					lutr_prev = lut32[n-1].red;
-+					lutg_prev = lut32[n-1].green;
-+					lutb_prev = lut32[n-1].blue;
-+				} else {
-+					lutr_prev = lut16[n-1].red;
-+					lutg_prev = lut16[n-1].green;
-+					lutb_prev = lut16[n-1].blue;
-+				}
-+
-+				diff.red = lutr - lutr_prev;
- 				diff.red = drm_color_lut_extract(diff.red, lut_bits);
- 
--				diff.green = lut[n].green - lut[n - 1].green;
-+				diff.green = lutg - lutg_prev;
- 				diff.green = drm_color_lut_extract(diff.green, lut_bits);
- 
--				diff.blue = lut[n].blue - lut[n - 1].blue;
-+				diff.blue = lutb - lutb_prev;
- 				diff.blue = drm_color_lut_extract(diff.blue, lut_bits);
- 
- 				if (lut_bits == 12) {
-@@ -191,7 +236,7 @@ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
- 
- 	if (!gamma->data->has_dither) {
- 		/* Descending or Rising LUT */
--		if (mtk_gamma_lut_is_descending(lut, gamma->data->lut_size - 1))
-+		if (mtk_gamma_lut_is_descending(lut, bits32, gamma->data->lut_size - 1))
- 			cfg_val |= FIELD_PREP(GAMMA_LUT_TYPE, 1);
- 		else
- 			cfg_val &= ~GAMMA_LUT_TYPE;
-@@ -206,6 +251,34 @@ void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
- 	writel(cfg_val, gamma->regs + DISP_GAMMA_CFG);
- }
- 
-+void mtk_gamma_set_legacy(struct device *dev, struct drm_crtc_state *state)
-+{
-+	struct drm_color_lut *lut = (struct drm_color_lut *)state->gamma_lut->data;
-+
-+	/* If there's no gamma lut there's nothing to do here. */
-+	if (!state->gamma_lut)
-+		return;
-+
-+	mtk_gamma_set(dev, lut, false);
-+}
-+
-+void mtk_gamma_set_color_pipeline(struct device *dev, struct drm_color_lut32 *lut)
-+{
-+	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-+	u32 cfg_val;
-+
-+	/* Configure block to be bypassed */
-+	if (!lut) {
-+		cfg_val = readl(gamma->regs + DISP_GAMMA_CFG);
-+		cfg_val &= ~GAMMA_LUT_EN;
-+		cfg_val |= GAMMA_RELAY_MODE;
-+		writel(cfg_val, gamma->regs + DISP_GAMMA_CFG);
-+		return;
-+	}
-+
-+	mtk_gamma_set(dev, lut, true);
-+}
-+
- void mtk_gamma_config(struct device *dev, unsigned int w,
- 		      unsigned int h, unsigned int vrefresh,
- 		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+Can fwctl be used for these use cases, supposing that it FW mailboxes
+commands and responses directly with no modification to the fwctl
+infra itself?
 
--- 
-2.47.2
+in-field-test I'd say it is debug, the 'repair' portion is the most
+questionable one. But error-injection I believe it is entirely
+debug.
 
+What's your thoughts and guidance here?
+
+Thanks,
+Rodrigo.
+
+> 
+> If that isn't going to work out then yes I would say fwctl should be
+> considered for flashing.
+> 
+> Saeed's original version had a "big data" memory pinned DMA capable
+> interface as well. With justification it could come into the fwctl
+> version. I'm not against it, but mindful that it widens what is
+> possible by quite a bit.
+> 
+> But you might not need something like that just for flash. Some
+> internal improvement kernel side to allow streaming from large
+> user-space RPC buffers instead of a single alloc and copy would be
+> sufficient..
+> 
+> Jason
