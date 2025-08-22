@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BC1B31343
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 11:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E81B3142A
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 11:52:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8F9C10EAA6;
-	Fri, 22 Aug 2025 09:35:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C614910E073;
+	Fri, 22 Aug 2025 09:52:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="d5M/X4ZM";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nB2uBX1d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1622A10EAA6
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 09:35:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=JxgCFVEuQkp07FCw4bSduVBC2/i6b/QVEgUNfJ28zgM=; b=d
- 5M/X4ZMKBtNeeArwzm2cjNVLuWiWCBuBprMWEdwrkDmriEN50zdHGQfUDUhAnL3L
- HBDgU2tK16P6eWh85KSKMbROtDSIN+njdM7x8ewy0gheovCPjeeTq+zMwkpTiJjY
- BH+cUIF9B6I23dIPkcu+Q8DuivUuNFEXbadsqQffj4=
-Received: from andyshrk$163.com ( [103.29.142.67] ) by
- ajax-webmail-wmsvr-40-118 (Coremail) ; Fri, 22 Aug 2025 17:34:54 +0800
- (CST)
-X-Originating-IP: [103.29.142.67]
-Date: Fri, 22 Aug 2025 17:34:54 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Cc: heiko@sntech.de, hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, 
- stephen@radxa.com, cristian.ciocaltea@collabora.com,
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, robh@kernel.org,
- sebastian.reichel@collabora.com, "Andy Yan" <andy.yan@rock-chips.com>
-Subject: Re:Re: [PATCH v6 00/10] Add support for RK3588 DisplayPort Controller
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <7omsdz6hjhpmzi7a2meem64dm2jrxhivczt3gdi24jyrp5lgjp@iucsgwqtjqzc>
-References: <20250728082846.3811429-1-andyshrk@163.com>
- <1ebeae81.8b20.198cc3ac94a.Coremail.andyshrk@163.com>
- <7omsdz6hjhpmzi7a2meem64dm2jrxhivczt3gdi24jyrp5lgjp@iucsgwqtjqzc>
-X-NTES-SC: AL_Qu2eB/Seukoi4iOeY+kfmUgWjuw/WsG1v/Ul1YBSP556jDDp2CEdenRSImbo8e60Ah+gmgmGYh920MpQRrVzc6w39RtMhO7IpQNdGTAfgU5ltw==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 843C310E073
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 09:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755856345;
+ bh=jfoOjycqNQZf36ZYHkgozD3Xli5JPO0u/7CtBBxQepM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=nB2uBX1dLFPHsb2pBHVJLB2rWMp1MNNQblPU5wKU4NrOafY69EQUymKMaEDYUijfn
+ r14fTSx+VMDqDRTv4X0bD33n1jK20CF19KndGdDKBILph0d0JQDJGuoeKOKHLVGDOh
+ HzwJcqox/BrPqYqqa9tNHxNH+xnqWBK/e0b9LmkLY/gsgPK9g1QTKFAdXBrDadtXxB
+ aZnpiyQSA0dD8lnHwNCwXWCLFGGy2wJOt/Nfo7TlNe2zZ9aIXt6J6hzjYnECK7p/uB
+ K6frOh6zeJW8Lh74ssTwTIPXNosM9oyukAZpCivKyhS9yqwrrWdN4fvR4T1wFuLvWv
+ O9Jvh6fTAKXvA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6826217E12DF;
+ Fri, 22 Aug 2025 11:52:24 +0200 (CEST)
+Date: Fri, 22 Aug 2025 11:52:21 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Danilo Krummrich
+ <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, Steven
+ Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Rob Herring <robh@kernel.org>, Miguel Ojeda
+ <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+ <gary@garyguo.net>, "=?UTF-8?B?QmrDtnJu?= Roy Baron"
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] drm_gem: add mutex to drm_gem_object.gpuva
+Message-ID: <20250822115221.24fffc2c@fedora>
+In-Reply-To: <20250822-gpuva-mutex-in-gem-v2-1-c41a10d1d3b9@google.com>
+References: <20250822-gpuva-mutex-in-gem-v2-0-c41a10d1d3b9@google.com>
+ <20250822-gpuva-mutex-in-gem-v2-1-c41a10d1d3b9@google.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Message-ID: <5975acef.83fc.198d1218fa1.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: digvCgD3Hz6+OahoDLwfAA--.10703W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEhmxXmioNN1wugAFsC
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,114 +72,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlbGxvIERtaXRyeSwKCkF0IDIwMjUtMDgtMjEgMTk6MzY6MDEsICJEbWl0cnkgQmFyeXNoa292
-IiA8ZG1pdHJ5LmJhcnlzaGtvdkBvc3MucXVhbGNvbW0uY29tPiB3cm90ZToKPk9uIFRodSwgQXVn
-IDIxLCAyMDI1IGF0IDA2OjQ0OjIxUE0gKzA4MDAsIEFuZHkgWWFuIHdyb3RlOgo+PiAKPj4gCj4+
-IEhlbGxvIERtaXRyeSwKPj4gICAgIAo+PiAKPj4gQXQgMjAyNS0wNy0yOCAxNjoyODoyNSwgIkFu
-ZHkgWWFuIiA8YW5keXNocmtAMTYzLmNvbT4gd3JvdGU6Cj4+ID5Gcm9tOiBBbmR5IFlhbiA8YW5k
-eS55YW5Acm9jay1jaGlwcy5jb20+Cj4+ID4KPj4gPgo+PiA+VGhlcmUgYXJlIHR3byBEVyBEUFRY
-IGJhc2VkIERpc3BsYXlQb3J0IENvbnRyb2xsZXIgb24gcmszNTg4IHdoaWNoCj4+ID5hcmUgY29t
-cGxpYW50IHdpdGggdGhlIERpc3BsYXlQb3J0IFNwZWNpZmljYXRpb24gVmVyc2lvbiAxLjQgd2l0
-aAo+PiA+dGhlIGZvbGxvd2luZyBmZWF0dXJlczoKPj4gPgo+PiA+KiBEaXNwbGF5UG9ydCAxLjRh
-Cj4+ID4qIE1haW4gTGluazogMS8yLzQgbGFuZXMKPj4gPiogTWFpbiBMaW5rIFN1cHBvcnQgMS42
-MkdicHMsIDIuN0dicHMsIDUuNEdicHMgYW5kIDguMUdicHMKPj4gPiogQVVYIGNoYW5uZWwgMU1i
-cHMKPj4gPiogU2luZ2xlIFN0cmVhbSBUcmFuc3BvcnQoU1NUKQo+PiA+KiBNdWx0aXN0cmVhbSBU
-cmFuc3BvcnQgKE1TVCkKPj4gPiogVHlwZS1DIHN1cHBvcnQgKGFsdGVybmF0ZSBtb2RlKQo+PiA+
-KiBIRENQIDIuMiwgSERDUCAxLjMKPj4gPiogU3VwcG9ydHMgdXAgdG8gOC8xMCBiaXRzIHBlciBj
-b2xvciBjb21wb25lbnQKPj4gPiogU3VwcG9ydHMgUkJHLCBZQ2JDcjQ6NDo0LCBZQ2JDcjQ6Mjoy
-LCBZQ2JDcjQ6MjowCj4+ID4qIFBpeGVsIGNsb2NrIHVwIHRvIDU5NE1Iego+PiA+KiBJMlMsIFNQ
-RElGIGF1ZGlvIGludGVyZmFjZQo+PiA+Cj4+ID5UaGUgY3VycmVudCB2ZXJzaW9uIG9mIHRoaXMg
-cGF0Y2ggc2VyaWVzIG9ubHkgc3VwcG9ydHMgYmFzaWMgZGlzcGxheSBvdXRwdXRzLgo+PiA+SSBj
-b25kdWN0ZWQgdGVzdHMgd2l0aCBEUDAgaW4gMTA4MHAgYW5kIDRLQDYwIFlDYkNyNDoyOjAgbW9k
-ZXM7IHRoZSBBTFQvVHlwZS1DCj4+ID5tb2RlIHdhcyB0ZXN0ZWQgb24gUm9jayA1QiwgRFAxIHdh
-cyB0ZXN0ZWQgb24gUm9jayA1IElUWCBieSBTdGVwaGVuIGFuZCBQaW90ci4KPj4gPkhEQ1AgYW5k
-IGF1ZGlvIGZlYXR1cmVzIHJlbWFpbiB1bmltcGxlbWVudGVkLgo+PiA+Rm9yIFJLMzU4OCwgaXQn
-cyBvbmx5IHN1cHBvcnQgU1NULCB3aGlsZSBpbiB0aGUgdXBjb21pbmcgUkszNTc2LCBpdCBjYW4g
-c3VwcG9ydAo+PiA+TVNUIG91dHB1dC4KPj4gCj4+IAo+PiAKPj4gIENvdWxkIHlvdSB0YWtlIHRo
-aXMgc2VyaWVzPyBJdCB3b3VsZCBiZSBuaWNlIGlmIHRoZXkgY291bGQgbGFuZCBMaW51eCA2LjE4
-Lgo+Cj5kaW0gY2hlY2twYXRjaCBjb21wbGFpbnMgYWJvdXQgdGhlIERXIGxpYnJhcnkgcGF0Y2g6
-Cj4KPgo+LTozODU6IENIRUNLOlVOQ09NTUVOVEVEX0RFRklOSVRJT046IHN0cnVjdCBtdXRleCBk
-ZWZpbml0aW9uIHdpdGhvdXQgY29tbWVudAo+IzM4NTogRklMRTogZHJpdmVycy9ncHUvZHJtL2Jy
-aWRnZS9zeW5vcHN5cy9kdy1kcC5jOjMyMzoKPisJc3RydWN0IG11dGV4IGlycV9sb2NrOwo+Cj4t
-OjgxOTogQ0hFQ0s6VU5ORUNFU1NBUllfUEFSRU5USEVTRVM6IFVubmVjZXNzYXJ5IHBhcmVudGhl
-c2VzIGFyb3VuZCAndiAhPSBhZGotPnZvbHRhZ2Vfc3dpbmdbaV0nCj4jODE5OiBGSUxFOiBkcml2
-ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWRwLmM6NzU3Ogo+KwkJaWYgKCh2ICE9IGFk
-ai0+dm9sdGFnZV9zd2luZ1tpXSkgfHwgKHAgIT0gYWRqLT5wcmVfZW1waGFzaXNbaV0pKQo+Cj4t
-OjgxOTogQ0hFQ0s6VU5ORUNFU1NBUllfUEFSRU5USEVTRVM6IFVubmVjZXNzYXJ5IHBhcmVudGhl
-c2VzIGFyb3VuZCAncCAhPSBhZGotPnByZV9lbXBoYXNpc1tpXScKPiM4MTk6IEZJTEU6IGRyaXZl
-cnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctZHAuYzo3NTc6Cj4rCQlpZiAoKHYgIT0gYWRq
-LT52b2x0YWdlX3N3aW5nW2ldKSB8fCAocCAhPSBhZGotPnByZV9lbXBoYXNpc1tpXSkpCj4KPi06
-MTc1NDogQ0hFQ0s6VVNMRUVQX1JBTkdFOiB1c2xlZXBfcmFuZ2UgaXMgcHJlZmVycmVkIG92ZXIg
-dWRlbGF5OyBzZWUgZnVuY3Rpb24gZGVzY3JpcHRpb24gb2YgdXNsZWVwX3JhbmdlKCkgYW5kIHVk
-ZWxheSgpLgo+IzE3NTQ6IEZJTEU6IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHct
-ZHAuYzoxNjkyOgo+Kwl1ZGVsYXkoMTApOwo+Cj5Db3VsZCB5b3UgcGxlYXNlIHRha2UgYSBsb29r
-IGFuZCBmaXggdGhvc2U/CgpTb3JyeSwgdGhlc2UgaXNzdWVzIGhhdmUgYmVlbiBmaXhlZCBpbiB2
-ZXJzaW9uIFY3WzBdLgoKWzBdaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvZHJpLWRldmVsLzIwMjUw
-ODIyMDYzOTU5LjY5MjA5OC0xLWFuZHlzaHJrQDE2My5jb20vVC8jdAoKPgo+PiAKPj4gCj4+ID4K
-Pj4gPgo+PiA+Q2hhbmdlcyBpbiB2NjoKPj4gPi0gVXNlIGRybV9kcF92c2Nfc2RwX3N1cHBvcnRl
-ZAo+PiA+LSBTdG9yZSBicGMvYnBwL2NvbG9yIGZvcm1hdCBpbiBkd19kcF9icmlkZ2Vfc3RhdGUK
-Pj4gPi0gQ29sbGVjdCBSZXZpZXdlZC1ieSB0YWdzCj4+ID4tIExpbmsgdG8gVjU6IGh0dHBzOi8v
-bG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjUwNzE2MTAwNDQwLjgxNjM1MS0xLWFu
-ZHlzaHJrQDE2My5jb20vCj4+ID4KPj4gPkNoYW5nZXMgaW4gdjU6Cj4+ID4tIFVzZSBkcm1fZHBf
-cmVhZF9zaW5rX2NvdW50X2NhcCBpbnN0ZWFkIG9mIHRoZSBwcml2YXRlIGltcGxlbWVudGF0aW9u
-Lgo+PiA+LSBGaXJzdCBpbmNsdWRlZCBpbiB0aGlzIHZlcnNpb24uCj4+ID4tIExpbmsgdG8gVjQ6
-IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjUwNjE5MDYzOTAwLjcw
-MDQ5MS0xLWFuZHlzaHJrQDE2My5jb20vCj4+ID4KPj4gPkNoYW5nZXMgaW4gdjQ6Cj4+ID4tIERy
-b3AgdW5uZWNlc3NhcnkgaGVhZGVyIGZpbGVzCj4+ID4tIFN3aXRjaCB0byBkZXZtX2RybV9icmlk
-Z2VfYWxsb2MKPj4gPi0gRHJvcCB1bnVzZWQgZnVuY3Rpb24KPj4gPi0gQWRkIHBsYXRmb3JtX3Nl
-dF9kcnZkYXRhCj4+ID4tIExpbmsgdG8gVjM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4
-LXJvY2tjaGlwLzIwMjUwNDAzMDMzNzQ4LjI0NTAwNy0xLWFuZHlzaHJrQDE2My5jb20vCj4+ID4K
-Pj4gPgo+PiA+Q2hhbmdlcyBpbiB2MzoKPj4gPi0gUmViYXNlIG9uIGRybS1taXNjLW5leHQKPj4g
-Pi0gU3dpdGNoIHRvIGNvbW1vbiBoZWxwZXJzIHRvIHBvd2VyIHVwL2Rvd24gZHAgbGluawo+PiA+
-LSBPbmx5IHBhc3MgcGFyYW1ldGVycyB0byBwaHkgdGhhdCBzaG91bGQgYmUgc2V0Cj4+ID4tIEZp
-cnN0IGludHJvZHVjZWQgaW4gdGhpcyB2ZXJzaW9uLgo+PiA+LSBGaXJzdCBpbnRyb2R1Y2VkIGlu
-IHRoaXMgdmVyc2lvbi4KPj4gPi0gQWRkIFJBNjIwIGludG8gYnJpZGdlIGNoYWluLgo+PiA+LSBM
-aW5rIHRvIFYyOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yb2NrY2hpcC8yMDI1MDMx
-MjEwNDIxNC41MjUyNDItMS1hbmR5c2hya0AxNjMuY29tLwo+PiA+Cj4+ID5DaGFuZ2VzIGluIHYy
-Ogo+PiA+LSBGaXggYSBjaGFyYWN0ZXIgZW5jb2RpbmcgaXNzdWUKPj4gPi0gRml4IGNvbXBpbGUg
-ZXJyb3Igd2hlbiBidWlsZCBhcyBtb2R1bGUKPj4gPi0gQWRkIHBoeSBpbml0Cj4+ID4tIE9ubHkg
-dXNlIG9uZSBkd19kcF9saW5rX3RyYWluX3NldAo+PiA+LSBpbmxpbmUgZHdfZHBfcGh5X3VwZGF0
-ZV92c19lbXBoCj4+ID4tIFVzZSBkcF9zZHAKPj4gPi0gQ2hlY2sgcmV0dXJuIHZhbHVlIG9mIGRy
-bV9tb2Rlc2V0X2xvY2sKPj4gPi0gTWVyZ2UgY29kZSBpbiBhdG9taWNfcHJlX2VuYWJsZS9tb2Rl
-X2ZpeHVwIHRvIGF0b21pY19jaGVjawo+PiA+LSBSZXR1cm4gTlVMTCBpZiBjYW4ndCBmaW5kIGEg
-c3VwcG9ydGVkIG91dHB1dCBmb3JtYXQKPj4gPi0gRml4IG1heF9saW5rX3JhdGUgZnJvbSBwbGF0
-X2RhdGEKPj4gPi0gbm8gaW5jbHVkZSB1YXBpIHBhdGgKPj4gPi0gc3dpdGNoIHRvIGRybW1fZW5j
-b2Rlcl9pbml0Cj4+ID4tIFNvcnQgaW4gYWxwaGFiZXRpY2FsIG9yZGVyCj4+ID4tIExpbmsgdG8g
-VjE6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjUwMjIzMTEzMDM2
-Ljc0MjUyLTEtYW5keXNocmtAMTYzLmNvbS8KPj4gPgo+PiA+QW5keSBZYW4gKDEwKToKPj4gPiAg
-ZHQtYmluZGluZ3M6IGRpc3BsYXk6IHJvY2tjaGlwOiBBZGQgc2NoZW1hIGZvciBSSzM1ODggRFBU
-WCBDb250cm9sbGVyCj4+ID4gIGRybS9icmlkZ2U6IHN5bm9wc3lzOiBBZGQgRFcgRFBUWCBDb250
-cm9sbGVyIHN1cHBvcnQgbGlicmFyeQo+PiA+ICBkcm0vcm9ja2NoaXA6IEFkZCBSSzM1ODggRFBU
-WCBvdXRwdXQgc3VwcG9ydAo+PiA+ICBNQUlOVEFJTkVSUzogQWRkIGVudHJ5IGZvciBEVyBEUFRY
-IENvbnRyb2xsZXIgYnJpZGdlCj4+ID4gIGR0LWJpbmRpbmdzOiBkaXNwbGF5OiBzaW1wbGUtYnJp
-ZGdlOiBBZGQgcmE2MjAgY29tcGF0aWJsZQo+PiA+ICBkcm0vYmlyZGdlOiBzaW1wbGUtYnJpZGdl
-OiBBZGQgc3VwcG9ydCBmb3IgcmFkeGEgcmE2MjAKPj4gPiAgYXJtNjQ6IGR0czogcm9ja2NoaXA6
-IEFkZCBEUDAgZm9yIHJrMzU4OAo+PiA+ICBhcm02NDogZHRzOiByb2NrY2hpcDogQWRkIERQMSBm
-b3IgcmszNTg4Cj4+ID4gIGFybTY0OiBkdHM6IHJvY2tjaGlwOiBFbmFibGUgRGlzcGxheVBvcnQg
-Zm9yIHJrMzU4OHMgQ29vbCBQaSA0Qgo+PiA+ICBhcm02NDogZHRzOiByb2NrY2hpcDogRW5hYmxl
-IERQMkhETUkgZm9yIFJPQ0sgNSBJVFgKPj4gPgo+PiA+IC4uLi9kaXNwbGF5L2JyaWRnZS9zaW1w
-bGUtYnJpZGdlLnlhbWwgICAgICAgICB8ICAgIDEgKwo+PiA+IC4uLi9kaXNwbGF5L3JvY2tjaGlw
-L3JvY2tjaGlwLGR3LWRwLnlhbWwgICAgICB8ICAxNTAgKysKPj4gPiBNQUlOVEFJTkVSUyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICA4ICsKPj4gPiBhcmNoL2FybTY0L2Jv
-b3QvZHRzL3JvY2tjaGlwL3JrMzU4OC1iYXNlLmR0c2kgfCAgIDMwICsKPj4gPiAuLi4vYXJtNjQv
-Ym9vdC9kdHMvcm9ja2NoaXAvcmszNTg4LWV4dHJhLmR0c2kgfCAgIDMwICsKPj4gPiAuLi4vYm9v
-dC9kdHMvcm9ja2NoaXAvcmszNTg4LXJvY2stNS1pdHguZHRzICAgfCAgIDU5ICsKPj4gPiAuLi4v
-Ym9vdC9kdHMvcm9ja2NoaXAvcmszNTg4cy1jb29scGktNGIuZHRzICAgfCAgIDM3ICsKPj4gPiBk
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL3NpbXBsZS1icmlkZ2UuYyAgICAgICAgfCAgICA1ICsKPj4g
-PiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL0tjb25maWcgICAgICAgfCAgICA3ICsK
-Pj4gPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL01ha2VmaWxlICAgICAgfCAgICAx
-ICsKPj4gPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWRwLmMgICAgICAgfCAy
-MDk0ICsrKysrKysrKysrKysrKysrCj4+ID4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL0tjb25m
-aWcgICAgICAgICAgICAgIHwgICAgOSArCj4+ID4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL01h
-a2VmaWxlICAgICAgICAgICAgIHwgICAgMSArCj4+ID4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
-L2R3X2RwLXJvY2tjaGlwLmMgICAgIHwgIDE1MCArKwo+PiA+IGRyaXZlcnMvZ3B1L2RybS9yb2Nr
-Y2hpcC9yb2NrY2hpcF9kcm1fZHJ2LmMgICB8ICAgIDEgKwo+PiA+IGRyaXZlcnMvZ3B1L2RybS9y
-b2NrY2hpcC9yb2NrY2hpcF9kcm1fZHJ2LmggICB8ICAgIDEgKwo+PiA+IGluY2x1ZGUvZHJtL2Jy
-aWRnZS9kd19kcC5oICAgICAgICAgICAgICAgICAgICB8ICAgMjAgKwo+PiA+IDE3IGZpbGVzIGNo
-YW5nZWQsIDI2MDQgaW5zZXJ0aW9ucygrKQo+PiA+IGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9yb2NrY2hpcC9yb2NrY2hpcCxkdy1k
-cC55YW1sCj4+ID4gY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lu
-b3BzeXMvZHctZHAuYwo+PiA+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vcm9j
-a2NoaXAvZHdfZHAtcm9ja2NoaXAuYwo+PiA+IGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2Ry
-bS9icmlkZ2UvZHdfZHAuaAo+PiA+Cj4+ID4tLSAKPj4gPjIuNDMuMAo+PiA+Cj4KPi0tIAo+V2l0
-aCBiZXN0IHdpc2hlcwo+RG1pdHJ5Cg==
+On Fri, 22 Aug 2025 09:28:24 +0000
+Alice Ryhl <aliceryhl@google.com> wrote:
+
+> There are two main ways that GPUVM might be used:
+> 
+> * staged mode, where VM_BIND ioctls update the GPUVM immediately so that
+>   the GPUVM reflects the state of the VM *including* staged changes that
+>   are not yet applied to the GPU's virtual address space.
+> * immediate mode, where the GPUVM state is updated during run_job(),
+>   i.e., in the DMA fence signalling critical path, to ensure that the
+>   GPUVM and the GPU's virtual address space has the same state at all
+>   times.
+> 
+> Currently, only Panthor uses GPUVM in immediate mode, but the Rust
+> drivers Tyr and Nova will also use GPUVM in immediate mode, so it is
+> worth to support both staged and immediate mode well in GPUVM. To use
+> immediate mode, the GEMs gpuva list must be modified during the fence
+> signalling path, which means that it must be protected by a lock that is
+> fence signalling safe.
+> 
+> For this reason, a mutex is added to struct drm_gem_object that is
+> intended to achieve this purpose. Adding it directly in the GEM object
+> both makes it easier to use GPUVM in immediate mode, but also makes it
+> possible to take the gpuva lock from core drm code.
+> 
+> As a follow-up, another change that should probably be made to support
+> immediate mode is a mechanism to postpone cleanup of vm_bo objects, as
+> dropping a vm_bo object in the fence signalling path is problematic for
+> two reasons:
+> 
+> * When using DRM_GPUVM_RESV_PROTECTED, you cannot remove the vm_bo from
+>   the extobj/evicted lists during the fence signalling path.
+> * Dropping a vm_bo could lead to the GEM object getting destroyed.
+>   The requirement that GEM object cleanup is fence signalling safe is
+>   dubious and likely to be violated in practice.
+> 
+> Panthor already has its own custom implementation of postponing vm_bo
+> cleanup.
+> 
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+One minor thing below.
+
+> ---
+>  drivers/gpu/drm/drm_gem.c | 2 ++
+>  include/drm/drm_gem.h     | 4 +++-
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 4a89b6acb6af39720451ac24033b89e144d282dc..8d25cc65707d5b44d931beb0207c9d08a3e2de5a 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -187,6 +187,7 @@ void drm_gem_private_object_init(struct drm_device *dev,
+>  	kref_init(&obj->refcount);
+>  	obj->handle_count = 0;
+>  	obj->size = size;
+> +	mutex_init(&obj->gpuva.lock);
+>  	dma_resv_init(&obj->_resv);
+>  	if (!obj->resv)
+>  		obj->resv = &obj->_resv;
+> @@ -210,6 +211,7 @@ void drm_gem_private_object_fini(struct drm_gem_object *obj)
+>  	WARN_ON(obj->dma_buf);
+>  
+>  	dma_resv_fini(&obj->_resv);
+> +	mutex_destroy(&obj->gpuva.lock);
+>  }
+>  EXPORT_SYMBOL(drm_gem_private_object_fini);
+>  
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index d3a7b43e2c637b164eba5af7cc2fc8ef09d4f0a4..5934d8dc267a65aaf62d2d025869221cd110b325 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -403,11 +403,13 @@ struct drm_gem_object {
+>  	 * Provides the list of GPU VAs attached to this GEM object.
+>  	 *
+>  	 * Drivers should lock list accesses with the GEMs &dma_resv lock
+> -	 * (&drm_gem_object.resv) or a custom lock if one is provided.
+> +	 * (&drm_gem_object.resv) or a custom lock if one is provided. The
+> +	 * mutex inside this struct may be used as the custom lock.
+>  	 */
+>  	struct {
+>  		struct list_head list;
+>  
+> +		struct mutex lock;
+
+Maybe it's time we start moving some bits of the gpuva field docs next
+to the fields they describe:
+
+	/**
+	 * @gpuva: Fields used by GPUVM to manage mappings pointing to this GEM object.
+	 */
+	struct {
+		/**
+		 * @gpuva.list: list of GPU VAs attached to this GEM object.
+		 *
+		 * Drivers should lock list accesses with the GEMs &dma_resv lock
+		 * (&drm_gem_object.resv) or &drm_gem_object.gpuva.lock if the
+		 * list is being updated in places where the resv lock can't be
+		 * acquired (fence signalling path).
+		 */
+		struct list_head list;
+
+		/**
+		 * @gpuva.lock: lock protecting access to &drm_gem_object.gpuva.list
+		 * when the resv lock can't be used.
+		 *
+		 * Should only be used when the VM is being modified in a fence
+		 * signalling path, otherwise you should use &drm_gem_object.resv to
+		 * protect accesses to &drm_gem_object.gpuva.list.
+		 */
+		struct mutex lock;
+
+		...
+	};
+
+>  #ifdef CONFIG_LOCKDEP
+>  		struct lockdep_map *lock_dep_map;
+>  #endif
+> 
+
