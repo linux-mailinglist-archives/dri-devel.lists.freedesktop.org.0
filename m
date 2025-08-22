@@ -2,74 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C74B317C1
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41827B317CE
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:29:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EECDD10E0E1;
-	Fri, 22 Aug 2025 12:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90BB510EADE;
+	Fri, 22 Aug 2025 12:29:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="eU7Rkse6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bi/vnbYH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 614D810E0E1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 12:27:45 +0000 (UTC)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MC4SMI030214;
- Fri, 22 Aug 2025 14:27:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- T6mgh6btBywzlp/e+SiWkYAG5i8x7Ry7OTIJ2BWMvmI=; b=eU7Rkse6g+EGMn01
- HitdPnhSEHnufAZ0JgTvzgW3Q/AOoAGt0d8wfy/t2cVf4Uzi1VHgxgFB1FG9Ofkh
- mcMd+97Jbj23wfYuU3kWa6kYvetNs0GCmMXsGFLS2Fo8M8f4AAkxXK2ZOGTApndd
- 0V/9DwWrgCsoA7ukdSLCipC+T67sIzhZb2sxnIkVGji/SJdaaf/y1viFsk4wWmrf
- +guu1XtiLFvvKsiUIOeDG3t39bwpHfwNmo8HhPSlQhsfxYHhoNeSmxlerNEb3qeU
- P6LnZwkc39bpjgzn2awbLDDAFnxK8MuscdQEfcU2Ft7oNqqSqyDWavmoNq+RNFIL
- a7f0cA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48n81wtnr0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Aug 2025 14:27:31 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E456240044;
- Fri, 22 Aug 2025 14:26:14 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A698F71CE44;
- Fri, 22 Aug 2025 14:25:40 +0200 (CEST)
-Received: from [10.48.87.178] (10.48.87.178) by SHFDAG1NODE3.st.com
- (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 22 Aug
- 2025 14:25:40 +0200
-Message-ID: <2f0186da-89ad-4c56-b8e9-928226b95f10@foss.st.com>
-Date: Fri, 22 Aug 2025 14:25:39 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2840C10E116;
+ Fri, 22 Aug 2025 12:28:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755865739; x=1787401739;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=rYAteljHg/LYcH8raVDOfNCQBTOxx3YVhc8KvBI+fTU=;
+ b=bi/vnbYH5nSHolrHz7YD4az8n4ickzmn8UyCzT/LR95BYfZ6e8zanbZZ
+ Q9O6XuciIibhm5st3V3UQ3/dAlist3i0AvYXhGWDMkI45Qee2NT9U8tql
+ A/+W0gwM9cD3NTsVAvJix3iqY03UvZgeuyHIWXpsUNHosmzyye/JDFEF4
+ e0JcY177b8FUaNfQ/MTRwfKA1MDohAVEcqyTZGF/tYEOj/MxODEPEh8Y/
+ hlrMvyQtF9NdVtj8VMbrXq6zHAYHJull5AwlwxWnj8lAtfFWxJyKk5JsR
+ sLERKKZ7oBDPHgCky2rpPaJ5fDbPMTe89uG18dKmdE1MP8XEJl2z6Ppdd w==;
+X-CSE-ConnectionGUID: acIS2n7TQsSihh7r4L33qQ==
+X-CSE-MsgGUID: ysEHj64HR32r8m5a94BpDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="61983860"
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="61983860"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 05:28:58 -0700
+X-CSE-ConnectionGUID: A3NFlRrcR4yx3FerU2nyJQ==
+X-CSE-MsgGUID: 0wRAN96wTfOV7dhaRShc7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="172958259"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.134])
+ ([10.245.244.134])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 05:28:57 -0700
+Message-ID: <0353c333-2673-4157-bf93-08c6435e5827@intel.com>
+Date: Fri, 22 Aug 2025 13:28:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/stm: ltdc: unify log system
-To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC: <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20250821130356.883553-1-raphael.gallais-pou@foss.st.com>
-Content-Language: en-US
-From: Yannick FERTRE <yannick.fertre@foss.st.com>
-In-Reply-To: <20250821130356.883553-1-raphael.gallais-pou@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH v3 1/2] drm/buddy: Optimize free block management with RB
+ tree
+From: Matthew Auld <matthew.auld@intel.com>
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: alexander.deucher@amd.com
+References: <20250821150641.2720-1-Arunpravin.PaneerSelvam@amd.com>
+ <6c813ddf-639e-4816-bd7d-70142a656663@intel.com>
+Content-Language: en-GB
+In-Reply-To: <6c813ddf-639e-4816-bd7d-70142a656663@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.48.87.178]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE3.st.com
- (10.75.129.71)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_04,2025-08-20_03,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,13 +75,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raphael,
+On 22/08/2025 09:37, Matthew Auld wrote:
+> On 21/08/2025 16:06, Arunpravin Paneer Selvam wrote:
+>> Replace the freelist (O(n)) used for free block management with a
+>> red-black tree, providing more efficient O(log n) search, insert,
+>> and delete operations. This improves scalability and performance
+>> when managing large numbers of free blocks per order (e.g., hundreds
+>> or thousands).
+>>
+>> In the VK-CTS memory stress subtest, the buddy manager merges
+>> fragmented memory and inserts freed blocks into the freelist. Since
+>> freelist insertion is O(n), this becomes a bottleneck as fragmentation
+>> increases. Benchmarking shows list_insert_sorted() consumes ~52.69% CPU
+>> with the freelist, compared to just 0.03% with the RB tree
+>> (rbtree_insert.isra.0), despite performing the same sorted insert.
+>>
+>> This also improves performance in heavily fragmented workloads,
+>> such as games or graphics tests that stress memory.
+>>
+>> v3(Matthew):
+>>    - Remove RB_EMPTY_NODE check in force_merge function.
+>>    - Rename rb for loop macros to have less generic names and move to
+>>      .c file.
+>>    - Make the rb node rb and link field as union.
+>>
+>> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> 
+> CI is reporting a crash in rb_erase when running the drm_buddy kunit, 
+> somewhere in drm_test_buddy_alloc_clear it seems.
 
-Thanks for the patch.
+Found one bug in the second patch:
 
-Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -507,6 +507,8 @@ static int split_block(struct drm_buddy *mm,
+                 return -ENOMEM;
+         }
 
++       mark_split(mm, block);
++
+         if (drm_buddy_block_is_clear(block)) {
+                 mark_cleared(block->left);
+                 mark_cleared(block->right);
+@@ -516,8 +518,6 @@ static int split_block(struct drm_buddy *mm,
+         mark_free(mm, block->left);
+         mark_free(mm, block->right);
 
-Le 21/08/2025 à 15:03, Raphael Gallais-Pou a écrit :
-> -	DRM_DEBUG_DRIVER("\n");
-> +	drm_dbg_driver(ddev, "\n");
+-       mark_split(mm, block);
+-
+         return 0;
+  }
+
+Otherwise the mark_split might get the wrong rb root if we reset the 
+clear state first. Might help with this crash.
+
