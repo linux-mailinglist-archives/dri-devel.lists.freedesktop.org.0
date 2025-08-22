@@ -2,154 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20AB0B30C6F
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 05:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E40DB30D5C
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 06:09:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B4B210E1A3;
-	Fri, 22 Aug 2025 03:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0187C10E08A;
+	Fri, 22 Aug 2025 04:09:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="f/273XrP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="S0USeWhY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2089.outbound.protection.outlook.com [40.107.236.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD67F10E1A3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 03:18:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JL6DR4gKQM8+3uampO7UXc+IWIQEINeUB94tUCqiUeaT5RPArEFs/cGnE+yr25AVOIEMj0FmL1XIUA0gq1cnNE3BrLEHe8EVw+KQ1dyVb7DNyEGPQe+rlTIKX32AXkzZJhyf/yJ4cLE8ZCATPr6G1qrbpdnIR54ZwlxSiAesTCRNaewdrP2yiyslVwRW8ie5V0ESD384mG/ZT/hjLtsC61AiarRXhQLZoa9dVp7tYCBP0qnuUucYFy2B+0D6vIRby6Sr9nFShpiSZeGTtjK8ybR311KIqLCOK4FMDxDehsPdmrp02yNgMMQSg6E3iGUvk/8+1pyIaeZnLA9hgkfN/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xa/NY6wNGXmRII34AlZzMTSevDV68lHFeV/2jJSRcGg=;
- b=J/aWUAul5eEURC4VtNpsgMJQ7TeBJ87Yv7NCQ7x3KruQIWGcClboD/mY2+SSA/4sLpwhKkkwlFL++VcpLoVZLhBb4EHFMUnl+Lzde9lWVNWc3SdMAt5K1fdLdw7jqeO4ksCPIqgsstfzjv7BDV4qHs6cM0h/o9gQMlqI1ZLVPycDTcQNub8Ge4BBEy6W15Hb0NNgUViyi4QJSJJNz41K55oBDAWbONmItlP0oTpFVkzrJPuJodbNf/ayWr2KdyzlSZDO5CwL73tAA3K2dsR1Wno6Zd2HhpIveDTGISPvYshK+1ijqtGz8mbuIaQfaeAdTUejJEZyvmbeeVoYFCKDEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xa/NY6wNGXmRII34AlZzMTSevDV68lHFeV/2jJSRcGg=;
- b=f/273XrPayNlP1vF0l2r+Xq96fEtngZNSGeTnusYTlQHBy5ZiOEHTrY6FbNiwyhHxPo3aXa18f58viIo51THl+L6Y/VnadU+y1DDTITbIYo4iSkPGCxst8mxXCpTQN+hPYgyJcdrgEMyO0G8AjQeNmAKTJVU44vtWthfAFxp4zdVfbqkBDi/Ero+LN8x5XnNKka8rR6Rdw3ELu7oXsKqE++Hw9PvSTivB418hsUavYoZabE0TnOsW0dSWv9ebK2k1Qs1qfai1/qqPT6T/mYTbvZtR239N/cuPhfOJvGQonLYe3YM3uKJmwjxzZvH6ia79V2JjgbQ4YAE8Ow2T0L4RA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB6496.namprd12.prod.outlook.com (2603:10b6:8:bd::14) by
- CH3PR12MB8459.namprd12.prod.outlook.com (2603:10b6:610:139::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.17; Fri, 22 Aug
- 2025 03:18:42 +0000
-Received: from DM4PR12MB6496.namprd12.prod.outlook.com
- ([fe80::bede:bc2a:5e14:e393]) by DM4PR12MB6496.namprd12.prod.outlook.com
- ([fe80::bede:bc2a:5e14:e393%7]) with mapi id 15.20.9009.013; Fri, 22 Aug 2025
- 03:18:42 +0000
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: thierry.reding@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- Akhilesh Patil <akhilesh@ee.iitb.ac.in>
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org, akhileshpatilvnit@gmail.com,
- skhan@linuxfoundation.org
-Subject: Re: [PATCH] gpu: host1x: use dev_err_probe() in probe path
-Date: Fri, 22 Aug 2025 12:18:38 +0900
-Message-ID: <6346652.lOV4Wx5bFT@senjougahara>
-In-Reply-To: <aIbBFQqgZalOMc6r@bhairav-test.ee.iitb.ac.in>
-References: <aIbBFQqgZalOMc6r@bhairav-test.ee.iitb.ac.in>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TY1PR01CA0194.jpnprd01.prod.outlook.com (2603:1096:403::24)
- To IA1PR12MB6484.namprd12.prod.outlook.com
- (2603:10b6:208:3a7::13)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAA8A10E315
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 04:09:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1755835767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wD6Kie9NmTYlBWSYITqg8VmPWCkzgpHh3Jn6J+e3AEM=;
+ b=S0USeWhYw+AAtz8n9BJc2lPdXrupSAo0WmePlvOBUUYJ67vXXuEXsPH8jH5n64xquWhsew
+ GHwETkN8M2jEONa3d3KI1nkP+q5tONY6RxO7V+Yrbi0g+uCYjHNVIeUgo8UB6XCKcR623P
+ WNIeD5a20sayIsLkxl46Ne9fgGi8jWo=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-680-8wAUO3goPvi8QfrxaOAH8g-1; Fri, 22 Aug 2025 00:09:23 -0400
+X-MC-Unique: 8wAUO3goPvi8QfrxaOAH8g-1
+X-Mimecast-MFC-AGG-ID: 8wAUO3goPvi8QfrxaOAH8g_1755835762
+Received: by mail-lj1-f199.google.com with SMTP id
+ 38308e7fff4ca-333f92b401bso6907871fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 21:09:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755835762; x=1756440562;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wD6Kie9NmTYlBWSYITqg8VmPWCkzgpHh3Jn6J+e3AEM=;
+ b=kmTUy3UnUINaFU7v3FNmVLrHP2jfxph3UoHRqpmNNBBE83zH28zcnOS0LhmkebRJ4Z
+ 0t++Lk29I3KpvQUYI7P9DwZ6Z48IUclAnDxf5EY2cFJDCzuuLKt/Upxm3AJ+rdsfUNHp
+ yGVExgcNiO9xWzWvVnZng+5sVvsNc/yCZ+yC1J2M/Q0qm6tEHKsk2dXzw1XorIKBTcZ4
+ 8QTLqQ5C7xEI2Y3jjDW0t4ZwA4raTGVImt27ofARB4fMclUi3WUa5zhvDJXnw2wc0YXS
+ N1N1VmZ+gPauxgvDyjCI/TCVn7UdE7NVT6RtMPPJeAQJaZhL0qXWx+HdhfmXXZtNt9vC
+ bGPw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX74uhIGpI8yBlVsRTnpMkjsdvIqxxZ74Kta2Bqdswv5hOmJcXtwSvspkLxMHUoh5yPri6eiFaTblM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyY+VA/dvMW6vsxUOigoc+WwK1v6YMlT3kwBNOGOn9vsUxs7oTJ
+ 3c6P9otLT8DESbcsWVC26CK/KMxYCNvsTOG9pSS4CYjBcKyRvYeprCXVqNab226FnGpbzni/EIi
+ lc3b+SXc4PFFYODuZyn7jKjcG2ItpR9Uq28E5c+dYUD/nmpw+2/TJo9FzCYfBp2HSf3tW
+X-Gm-Gg: ASbGncvK/oCJ+GPSw95AynnegFEFw7wshjIFH24otsRbr/ATHL7vN77lIIiKk2dbMlc
+ Zpk92UiO+mQEA4P6KpxoKUCyE/VmxBAcnfEwkCNIpYOH0otsnNygfsUlb7W2isbJKddAVdaBo9L
+ YsWhAxUaQyGMBYyyXRy1oZYT/FAjtojwJr+UcLY9TqlVJC7gJx1Jewwq4VQMmjhLJuOQ9GCgus6
+ HtEYI6uyCzzJ79ZpVE0k1BP4QgEZRR9SnZQ/5bE3PkjK3uLDiy1iCYQV0odvHXQsVqNdKkBKTTB
+ 3nOMOpUV0OxTrPeYYa7I/SVVrgdFyaIOf+UmDZaLgbUadPpupPM3le4Xbc3mLQdpIg==
+X-Received: by 2002:a2e:be0c:0:b0:333:b6b0:e665 with SMTP id
+ 38308e7fff4ca-33650fa8605mr4319511fa.30.1755835762120; 
+ Thu, 21 Aug 2025 21:09:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHIfwy5viYQG7CiACnNo0XJ1QLrkAQo6vQi0t/AKYxGuojOFc+bxzH8Oeop0sL+wr/cDEqByA==
+X-Received: by 2002:a2e:be0c:0:b0:333:b6b0:e665 with SMTP id
+ 38308e7fff4ca-33650fa8605mr4319091fa.30.1755835761548; 
+ Thu, 21 Aug 2025 21:09:21 -0700 (PDT)
+Received: from [192.168.1.86] (85-23-48-6.bb.dnainternet.fi. [85.23.48.6])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3340a41e3cfsm35236551fa.6.2025.08.21.21.09.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Aug 2025 21:09:19 -0700 (PDT)
+Message-ID: <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
+Date: Fri, 22 Aug 2025 07:09:17 +0300
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6496:EE_|CH3PR12MB8459:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ebd452f-f372-425d-3a10-08dde12a9860
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|366016|376014|1800799024|10070799003;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ekUyVGFOcS82RTQ1bFZZY2hIQk5XMWNEZlppajZSRWExN1J0RWlRb29LampM?=
- =?utf-8?B?RHlDQk9SaVVabkFuMjlMcU5zaHVVQW5iQ2ZEbGhLTXF6RWlQQ1hqaytaSTFa?=
- =?utf-8?B?ZzluMTFFUXpMVzVnbllyckJsV3VNTk1YOEZEM3BHcUg2N3FZOGNaQ0wwbTg4?=
- =?utf-8?B?NXNDdEllbC9mTThZNFdWN3RSa0luMEJNOHRoblpVK0k1RDMyUlFNOTUrcHlz?=
- =?utf-8?B?aGZtMGFmelFlQ29kM0VBT2pnUE12ZTlVM0lNbm54b1BPVC9UWHNmL2tXMGlU?=
- =?utf-8?B?VUgxMHg4QXBXS2RGVmVXSXc5ZHJRL1VGL011Z3BNd1ZNL2VXLzduN0poWVRp?=
- =?utf-8?B?dnFTdE0yVUZ3K1p3Z1o4dStPTXZUUkpSbkx0Lzd3dWh2M3lYaWhTTGh3N0lS?=
- =?utf-8?B?VlZMZFZhV3VVVEZuL0pNR0lXYU5KRVk1VzUxQnVhSlFaNWR2bVU2MHFoNERr?=
- =?utf-8?B?SXY3RVloWGxiUFh3RDZSeXhUdGc0aVA5RlZjL01CZWQvNDJyUlI0dUFpUFZm?=
- =?utf-8?B?SnpESXdrODBmQk92TGY5ajgvOFhodGlzamhDaDRKdUl4WXRrRWpzbWNyQ2xa?=
- =?utf-8?B?MXNLQnZHalNIa0lUdVZrTnc2cDh3VHp6enYzaFlrdVpzTUVYL2w3UkQ5NGJF?=
- =?utf-8?B?eUlEOXp1SkZ1eTJtL2lnQU5iTVFUdnZmVnBGM09jZ281U0gvaGFhdW5hbUE0?=
- =?utf-8?B?ZHpLOGpOaEhBTE92VTZsOTI4dUxTbkF2eHJ4VTJuOFJGM0JiTjhlTjVPU2U4?=
- =?utf-8?B?V2dEYWgwVFZOL0tkc0JkelhCZlhoT25jTUJ2ck1aNHdFMWxyWTlyV0ZWYmE5?=
- =?utf-8?B?TkVuUFJ3MnNtWW0xakZMTU5LbWM5cVBOcnZQd0ZoaEdVY1B5SGEzaVhvd25Y?=
- =?utf-8?B?VGZaTEZidGN6ZitYZ3NuRnl2L0g1aUZZSjZDSVkxKzRTT2RsdktDdDNkeVVK?=
- =?utf-8?B?VGxBeXZWemxNdXA0UG82ckl5RVFQMUV1QUk4NnN3d0VNWHRMT0VYUk1ieHlu?=
- =?utf-8?B?YjBoc2h3NXBXeHRJWmU4dmoreVdaODk5ckRjZjZpaU9wL1IyZVhhQTNGb0RE?=
- =?utf-8?B?T3dZVXUwaUk3ZFJJOXkweDNQdUcvTWI0MytrRDY3SE4vNEVoa3pLN0RoL3JY?=
- =?utf-8?B?bE5zTTQyK2lzRGhhd3l2eHJUWWYxZHhvek5UanQrcWxEWFl5RjhkSlFtNWhL?=
- =?utf-8?B?cGxNOVA4dDNxUEtoazU0WVQvSTBWQXBwODF2UGxFdnBOUjNWaHlyZHV0eGRs?=
- =?utf-8?B?V2l6dlVuckt5NEtBenlRK1hiTUxSUytBbitXT1ZUbWtQY0t4dlJoUkphdUV6?=
- =?utf-8?B?WXFtNEt3YS9XNWtJa0dPT0lCclRjOE5aZDNuNEsvSXJtT1hqVjkveHAyd2w4?=
- =?utf-8?B?a1M4VnYrMnBjSis4dng1VE9MdzN5cmlyRlFySlgwejg5UEdmbHg1bDN6WjBO?=
- =?utf-8?B?MEUrRTlsVlpXYTNoMEFyTW45NG9jendhejZhd0xIWThhVkVzNk01WGtERGVk?=
- =?utf-8?B?bmFHRExSS04rVC9TczVyc3hLQXN3bStqVURMT2dac0JDVkV0MzNyMHBSaDlX?=
- =?utf-8?B?eGhGU09QT2NTRi9ZWTQyc21tbWJCOTRpNzdGSnpkTmhDL0h6cFZGMkd1TnlY?=
- =?utf-8?B?NlFVNEV0UE9IN2VweitoeVZNajBkMm03ZEVlTFZwamdUQjJjeVFBTFJiUytl?=
- =?utf-8?B?NkYxaHZDRmJqUFF6UENuYWdEd3V2TWxSSHR5Zk1PaElMWVNnOTFNK0xyc0Ew?=
- =?utf-8?B?d3pwOE5yQWs5aDVKSUdMRjFPWGRDT1NEamhveTZNRmdUbGxuZThpZmdRV2kx?=
- =?utf-8?B?R3FxejdZSDUwYjNSbUJJU0NxRWRORnNBUUJGNWhLNmVtRlZEUmExNjNXTzBv?=
- =?utf-8?B?Rk80MiszQnJUcEVHS20vcFozWFBqeHM4Nkp4WFFIVVpyZjczMmYzZ3d1MzNH?=
- =?utf-8?Q?Ykz7k7h2h+k=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6496.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(10070799003); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZHBwVkFQY2oyeVhWV0ZtbzM4eEVsNitwSUlZMWU4Q3ozcU9Kd0FWaEduRnNn?=
- =?utf-8?B?OE45cUFOcy9Ta2I0NUpiTDJMNjFRM2sxNVdiUjg3NDFvOEcxNDhrOWRXY0tN?=
- =?utf-8?B?eENFeEZ5KzVYbkRVamJMc21lRkU4c21Hem5JaTA1M0o0NGd6YUwwcHQxZkN6?=
- =?utf-8?B?NFVvbnZqSENrQzNIMXVDVXU3cEh0TkFrbVZubkpNcldjTHlBMGoxQVRkenlK?=
- =?utf-8?B?L0cxZXZFWkFCT2t1SGg0bFB4dGZRM0MrYzBhZW1IbVlwVTV5WUlUWWIwbEEy?=
- =?utf-8?B?WFd0TmJheFVsYVhLSnlOSEIvR2tvN0xJQVVRTTZrQnMzUko5SU44cjk3aHlG?=
- =?utf-8?B?WTlFUkt1cEF2MUxIeGVPcGE1eHp5YkxGVnVYcVM1TWRVeDUvbDdOc3I1MStx?=
- =?utf-8?B?eGRKdmVVSUVzdzhvT3BKTzdBRGZSb0FlV3hNNkNWcUpXMW5meXJsUFZHazJU?=
- =?utf-8?B?dmF1N1REYWt1WlpXTWwyL3JYY3AyNjRjRDBCaWNVeTlWajNsL2tUY0FISE1z?=
- =?utf-8?B?cUNCODJTZDRiOUtZc2c3UW5KR3Jsa1Iwb3J3cWk0RFVmSUtEaExSaEVNRjFZ?=
- =?utf-8?B?Rzd0czVZSHdFUm5TY3VJU051ZlZjWVBYaDcvaFpUcFppYkVNdWljZk1UN2g4?=
- =?utf-8?B?cmhEMHJBalBXQlkxT0UrVTRaKzFRMTlHWTNkY3FUR2g5ejQrb0s3OC9LRnJO?=
- =?utf-8?B?NXdmSVRKQ1RlSFFpNmM0RjdMZm5IdmxUU3h4U3dsLzU2MEd3cDRyZU5zMEZO?=
- =?utf-8?B?ck1EMk1rNWk0SWl1SnhmNUtFRjNxc0JtMVJhbHQvQ1FvUFY4bG5UUUw2WVp1?=
- =?utf-8?B?WXBBUmpaZUZveDlWT1JLQ1pSOS9YR2JtNG9VYmJ2eTJDRi9vQWlGb01IWHd6?=
- =?utf-8?B?WFVpNHZXZ1VDU2hoTGdrVU4yVW83UGtheDc5dHdLTHZjdVkza2NwOUxwMXJN?=
- =?utf-8?B?R0ZXL3BVNFBkeS8rbEQza2I3T09iSEk2ck1zYWdIM3k1dDN3ZE90cnViWGhF?=
- =?utf-8?B?ZEZ6R1lqUHhaTHY5bjdNSFJySDNjSWFBaE1NL1NBRVdiMjBFR09HMVRnNEZz?=
- =?utf-8?B?YXdKTFU5V29tWUE3cEVPMVlmUlZpSmZFNUJKNjR2ZGkwUlpPQ29Ubzc2Z281?=
- =?utf-8?B?SXJGWXV6N0JjNm14cE5BVnMyQ09GRUhkUXRlZ0dPWjJmeDJXSms5cXpwYVVG?=
- =?utf-8?B?ZWNoaFdleTdXcW40ak0vT05QTzFFZEJKQnM4dklWWDNramdkaTFyRVdzY1JL?=
- =?utf-8?B?b21SSDhJNk5ZUWlZdXltYlJkZUx1b2JDN01SRk04WjZzTWRDc3E3bmFFaE1x?=
- =?utf-8?B?RTkwQUlCQk12cUJFcUdzMUxKd2tvMUh4MitMVzJUR1c5bnpBbmVnaS9tTHpu?=
- =?utf-8?B?N0p1blBNc281UTNmVUhOdWczYmN2dEJsbUZMaWx6V3VNMGtERkNJUXRlN3ZO?=
- =?utf-8?B?MlZmaEZvZGIxQ2pvL0lnMHZEWXh1SnkxWGFQKzJxMjF5UU45bkVNZjM2RDd4?=
- =?utf-8?B?RytJcnVXeFAzQlRiNEZBOStQN0FrRVk5WER3c2pBajRyU0o3V3NOSnJVVEZv?=
- =?utf-8?B?Sk1uY0VXTjFrRDlBM25Vanc0MG5MMkppY3YwaUZrWnovYzZleXg3WG9QMkMz?=
- =?utf-8?B?Kzk3WHExRnNqdEpmNzc0VjJ5QXg1Zy9YSjVqa1JmNVZya0RGb1FDRndYcDNJ?=
- =?utf-8?B?Uktnek9OZHYwRnQ1dFhOUjVWOVNrN0piM2ZOSWZ6NmlJZkwwY2I2N05xRjll?=
- =?utf-8?B?SmthbVdKa0dxcCs5R0E0LzJNTzhlRE40MG8yazd6Ky9BQkVlZFJnbTl2VW5C?=
- =?utf-8?B?RHk2YXBHOTBMVlRQZ2xSb2tzeGtRbG95RFNZYmFaT2srUWJkWkZWM3Z6VTc4?=
- =?utf-8?B?VHB0eXNPYXJuVEpDUkFCQVJ6NlBJTzlhTkkrY0p3SFVyMkhFalZKRWxaNy91?=
- =?utf-8?B?ZCtDcG00MEdmZjVxdTByQ2lFZTdaRHJkRkc2WVJrc0lld09lMFN2Q2ZNenYr?=
- =?utf-8?B?SHBpZUFJRkcyNURYMzNvQTd4VWVwWmxRc1NKWEdxU1czL0tmbEg0d25vVW5s?=
- =?utf-8?B?VGUwZkE0UWZuZ2ZQS2M0eFNUa1pRbmJkOGh4YzNGdUlvSTlRU1k3S0t4VjBj?=
- =?utf-8?B?eHJ2MXFzTHhUbUgza0sxQU5oU2JyRUpnWEJjK2RhaFVYKzExSldXeWEwN3lh?=
- =?utf-8?B?TUNIZ1RVdXZBYUREbWdhQ2ZOSCtHb21sdGlpUUNLTXArVGRrMTVpVVkzY2V6?=
- =?utf-8?B?Zi9pdlo3ZmYzeEdob3dlU3I4K0FBPT0=?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ebd452f-f372-425d-3a10-08dde12a9860
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6484.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2025 03:18:42.4388 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CNxwipDeiJJN6hAi11kYC9RlIKfFQlI/AVLKVO4QcdiRb3fxA8hdKirKg323R95ZNLvkmk/P/icJOWb5jdMsHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8459
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 10/35] mm/hugetlb: cleanup
+ hugetlb_folio_init_tail_vmemmap()
+To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
+ Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
+ Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org,
+ Zi Yan <ziy@nvidia.com>
+References: <20250821200701.1329277-1-david@redhat.com>
+ <20250821200701.1329277-11-david@redhat.com>
+From: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>
+In-Reply-To: <20250821200701.1329277-11-david@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: kgcNdf4bibkyI-6lTJQ4_m6t3h9mMha9_16FTlE-RMQ_1755835762
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,46 +125,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Monday, July 28, 2025 9:15=E2=80=AFAM Akhilesh Patil wrote:
-> Use dev_err_probe() helper as recommended by core driver model in
-> drivers/base/core.c to handle deferred probe error. Improve code
-> consistency and debuggability using standard helper.
->=20
-> Signed-off-by: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
+
+On 8/21/25 23:06, David Hildenbrand wrote:
+
+> All pages were already initialized and set to PageReserved() with a
+> refcount of 1 by MM init code.
+
+Just to be sure, how is this working with MEMBLOCK_RSRV_NOINIT, where MM is supposed not to
+initialize struct pages?
+
+> In fact, by using __init_single_page(), we will be setting the refcount to
+> 1 just to freeze it again immediately afterwards.
+>
+> So drop the __init_single_page() and use __ClearPageReserved() instead.
+> Adjust the comments to highlight that we are dealing with an open-coded
+> prep_compound_page() variant.
+>
+> Further, as we can now safely iterate over all pages in a folio, let's
+> avoid the page-pfn dance and just iterate the pages directly.
+>
+> Note that the current code was likely problematic, but we never ran into
+> it: prep_compound_tail() would have been called with an offset that might
+> exceed a memory section, and prep_compound_tail() would have simply
+> added that offset to the page pointer -- which would not have done the
+> right thing on sparsemem without vmemmap.
+>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  drivers/gpu/host1x/dev.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-> index 1f93e5e276c0..e6f3cbeb9ae5 100644
-> --- a/drivers/gpu/host1x/dev.c
-> +++ b/drivers/gpu/host1x/dev.c
-> @@ -587,11 +587,7 @@ static int host1x_probe(struct platform_device *pdev=
-)
->  	host->clk =3D devm_clk_get(&pdev->dev, NULL);
->  	if (IS_ERR(host->clk)) {
->  		err =3D PTR_ERR(host->clk);
+>  mm/hugetlb.c | 21 ++++++++++-----------
+>  1 file changed, 10 insertions(+), 11 deletions(-)
+>
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index d12a9d5146af4..ae82a845b14ad 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -3235,17 +3235,14 @@ static void __init hugetlb_folio_init_tail_vmemmap(struct folio *folio,
+>  					unsigned long start_page_number,
+>  					unsigned long end_page_number)
+>  {
+> -	enum zone_type zone = zone_idx(folio_zone(folio));
+> -	int nid = folio_nid(folio);
+> -	unsigned long head_pfn = folio_pfn(folio);
+> -	unsigned long pfn, end_pfn = head_pfn + end_page_number;
+> +	struct page *head_page = folio_page(folio, 0);
+> +	struct page *page = folio_page(folio, start_page_number);
+> +	unsigned long i;
+>  	int ret;
+>  
+> -	for (pfn = head_pfn + start_page_number; pfn < end_pfn; pfn++) {
+> -		struct page *page = pfn_to_page(pfn);
 > -
-> -		if (err !=3D -EPROBE_DEFER)
-> -			dev_err(&pdev->dev, "failed to get clock: %d\n",=20
-err);
-> -
-> -		return err;
-> +		return dev_err_probe(&pdev->dev, err, "failed to get clock:=20
-%d\n", err);
-
-AIUI, dev_err_probe already prints err, so we don't need to repeat it in th=
-e=20
-message. With that, PTR_ERR(host->clk) can also be inlined into the=20
-dev_err_probe call.
-
-Cheers,
-Mikko
-
+> -		__init_single_page(page, pfn, zone, nid);
+> -		prep_compound_tail((struct page *)folio, pfn - head_pfn);
+> +	for (i = start_page_number; i < end_page_number; i++, page++) {
+> +		__ClearPageReserved(page);
+> +		prep_compound_tail(head_page, i);
+>  		ret = page_ref_freeze(page, 1);
+>  		VM_BUG_ON(!ret);
 >  	}
->=20
->  	err =3D host1x_get_resets(host);
+> @@ -3257,12 +3254,14 @@ static void __init hugetlb_folio_init_vmemmap(struct folio *folio,
+>  {
+>  	int ret;
+>  
+> -	/* Prepare folio head */
+> +	/*
+> +	 * This is an open-coded prep_compound_page() whereby we avoid
+> +	 * walking pages twice by preparing+freezing them in the same go.
+> +	 */
+>  	__folio_clear_reserved(folio);
+>  	__folio_set_head(folio);
+>  	ret = folio_ref_freeze(folio, 1);
+>  	VM_BUG_ON(!ret);
+> -	/* Initialize the necessary tail struct pages */
+>  	hugetlb_folio_init_tail_vmemmap(folio, 1, nr_pages);
+>  	prep_compound_head((struct page *)folio, huge_page_order(h));
+>  }
 
-
-
+--Mika
 
