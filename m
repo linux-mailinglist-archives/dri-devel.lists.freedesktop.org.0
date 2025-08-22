@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2BBB318E6
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 15:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA54B318EB
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 15:12:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA9F810EB0A;
-	Fri, 22 Aug 2025 13:11:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38B7110EB0B;
+	Fri, 22 Aug 2025 13:12:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="sm++KblT";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="y2H6Fw/H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDEC10EB0A
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 13:11:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7F5B10EB0B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 13:12:00 +0000 (UTC)
 Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MCCaeX015941;
- Fri, 22 Aug 2025 15:11:09 +0200
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MD6IEv005413;
+ Fri, 22 Aug 2025 15:11:51 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=selector1; bh=
- B4pYdqJuAzYUBYGLZvAHsnWM97Hp3xHmy6gGSOZhTl0=; b=sm++KblT0vJdhu/X
- xpsgsy8lD9wXrhreSVLSBAtXvdBHIfmWKkBS1wuwTe/6PWel5AzEmcLpZMJOAqIP
- lkY1KdnfrzieOgZ09ggEIaWPSdc+TyLimjZjQOq51CN0mfaRzSVtCo+0mE0jB2Xs
- F1bAPglIEIb8MCDtEsyc0DhTZpbtvPvRhb8f+D7jOUS7uF4FwBnaTbXfF8GVt624
- EMgwNxTea9UynQvLx1X+5dfZJmfOfAaahFe3JHRvnAv1mU5Es9shzQdG9LEXMDLh
- Rd789ZhVXr9hQFyCZLJfnHZvj1gmlEH/8blMCP4z+P8JF2lnGlS2RG3jTUT+qBDZ
- uX+evw==
+ in6GxO8ZSmjbjrF1pJYwhSUIzTBhlvMfmgcVDvnltp8=; b=y2H6Fw/H7iuNqAHM
+ c1QQ9sEQ5bcb9CSfE/1HFjzQqEyXJu9Lkdg2z+BHakPXbZN0OxJW9FhxBLlOqtQt
+ bUXVbxKu4n882gCHVPMJDxQQQqQphNGBkw7t9RmK+xwVpFfjpAjjkUuV3sumXcoG
+ P1Mtwmw/GwWWmrX12RO/GJ/6DOd0KBt2sM90tVUVYqtXiX9M/uGFrINDoMi3k270
+ eVyJMn9Jd6DwTEQTADxrkC0yFMJR0a72Js8mZV8swz1d9Ptm2KPGAeu8fMK3UtLe
+ oiMbf3Iflu+RZSjQeSqUzhmzfn4O8h0jg061v21cftlA9XQ1tUD2Eklhq6t3yexk
+ gAQm8g==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48n70dk7g3-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48n70dk7jy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Aug 2025 15:11:09 +0200 (MEST)
+ Fri, 22 Aug 2025 15:11:50 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 5460840050;
- Fri, 22 Aug 2025 15:09:56 +0200 (CEST)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 817BB4004A;
+ Fri, 22 Aug 2025 15:10:32 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 975616CA48F;
- Fri, 22 Aug 2025 15:08:58 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D75487206EB;
+ Fri, 22 Aug 2025 15:09:35 +0200 (CEST)
 Received: from [10.48.87.178] (10.48.87.178) by SHFDAG1NODE3.st.com
  (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 22 Aug
- 2025 15:08:57 +0200
-Message-ID: <44b7b47d-a42c-499d-a760-f34d2740ff8c@foss.st.com>
-Date: Fri, 22 Aug 2025 15:08:57 +0200
+ 2025 15:09:34 +0200
+Message-ID: <7b482e44-5c41-4c2a-b8eb-431da1bdff8d@foss.st.com>
+Date: Fri, 22 Aug 2025 15:09:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 11/13] arm64: dts: st: add lvds support on stm32mp255
+Subject: Re: [PATCH v4 12/13] arm64: dts: st: add clock-cells to syscfg node
+ on stm32mp251
 To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu
  <philippe.cornu@foss.st.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
@@ -63,10 +64,10 @@ CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-stm32@st-md-mailman.stormreply.com>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
 References: <20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com>
- <20250821-drm-misc-next-v4-11-7060500f8fd3@foss.st.com>
+ <20250821-drm-misc-next-v4-12-7060500f8fd3@foss.st.com>
 Content-Language: en-US
 From: Yannick FERTRE <yannick.fertre@foss.st.com>
-In-Reply-To: <20250821-drm-misc-next-v4-11-7060500f8fd3@foss.st.com>
+In-Reply-To: <20250821-drm-misc-next-v4-12-7060500f8fd3@foss.st.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.48.87.178]
@@ -97,43 +98,24 @@ Thanks for the patch.
 Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
 Le 21/08/2025 à 13:09, Raphael Gallais-Pou a écrit :
-> The LVDS is used on STM32MP2 as a display interface.
->
-> Add the LVDS node.
+> Make the syscfg node a clock provider so clock consumers can reach child
+> clocks through device-tree.
 >
 > Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
 > ---
->   arch/arm64/boot/dts/st/stm32mp255.dtsi | 14 +++++++++++++-
->   1 file changed, 13 insertions(+), 1 deletion(-)
+>   arch/arm64/boot/dts/st/stm32mp251.dtsi | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> diff --git a/arch/arm64/boot/dts/st/stm32mp255.dtsi b/arch/arm64/boot/dts/st/stm32mp255.dtsi
-> index 48a95af1741c42300195b753b710e714abc60d96..433a0aabe72e5a449ec03fb984a8684c5d5d75a2 100644
-> --- a/arch/arm64/boot/dts/st/stm32mp255.dtsi
-> +++ b/arch/arm64/boot/dts/st/stm32mp255.dtsi
-> @@ -12,6 +12,18 @@ &ltdc {
->   };
+> diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+> index b44ff221e0da968be104ff8195f9bef79c90c57a..24823bbfee31f15e813573ad1a0c4f67a125ce51 100644
+> --- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
+> +++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+> @@ -1874,6 +1874,7 @@ exti1: interrupt-controller@44220000 {
+>   		syscfg: syscon@44230000 {
+>   			compatible = "st,stm32mp25-syscfg", "syscon";
+>   			reg = <0x44230000 0x10000>;
+> +			#clock-cells = <0>;
+>   		};
 >   
->   &rifsc {
-> +	lvds: lvds@48060000 {
-> +		compatible = "st,stm32mp255-lvds", "st,stm32mp25-lvds";
-> +		#clock-cells = <0>;
-> +		reg = <0x48060000 0x2000>;
-> +		clocks = <&rcc CK_BUS_LVDS>, <&rcc CK_KER_LVDSPHY>;
-> +		clock-names = "pclk", "ref";
-> +		resets = <&rcc LVDS_R>;
-> +		access-controllers = <&rifsc 84>;
-> +		power-domains = <&CLUSTER_PD>;
-> +		status = "disabled";
-> +	};
-> +
->   	vdec: vdec@480d0000 {
->   		compatible = "st,stm32mp25-vdec";
->   		reg = <0x480d0000 0x3c8>;
-> @@ -28,4 +40,4 @@ venc: venc@480e0000 {
->   		clocks = <&rcc CK_BUS_VENC>;
->   		access-controllers = <&rifsc 90>;
->   	};
-> -};
-> \ No newline at end of file
-> +};
+>   		pinctrl: pinctrl@44240000 {
 >
