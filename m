@@ -2,109 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03AFB32471
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 23:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAACB324B8
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 23:49:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A11BA10EBCB;
-	Fri, 22 Aug 2025 21:30:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 069B210E17F;
+	Fri, 22 Aug 2025 21:49:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pNKFBTLd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e5A34ORQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7BB10EBCB
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 21:30:34 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MHVHns021296
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 21:30:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=K3cYnrvKK4mhHukBokbvlM2E
- 5ZvRA8F45PiHRCM8eU0=; b=pNKFBTLdp3s0SaZ0VE6ZFwnfCw/8o+c4sxhPxbqx
- zpxYkwY8UY45hUj/Sxrjl7dfuhcZi9ZBGfe7lPXk/Q2MgFQSSzH9JifK09hoOvCU
- ewCCH5Tu4BJKLjNogP+WGKWbjUXOKH2w7V0vEVQxpg05qw/10ehybSuQiuHWHlpk
- 363L8J9zwwTeXxGeouKcYPz9cGk/sEqf/qI4SI/jYB74QWVh/S1HrCv0bEUiTwMw
- mKJQuicm/wz3nTRwAwjIvkFu5XMFp/++U5KtfEUT3jAtrcNof+qz/vdt+W6n3quO
- VlXnm41JYxfZZB+qAZnozFHSjsTDZcyHhoz+tLEHkKA07w==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48pw13gh29-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 21:30:34 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4b29a0b8a6aso68554181cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 14:30:34 -0700 (PDT)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 254BA10E17F
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 21:49:47 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id
+ a640c23a62f3a-afcb79db329so369504266b.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 14:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1755899385; x=1756504185; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=3shbphJfK82NW9CE0mD0B4j3zJqllorZS6U3aG69qqI=;
+ b=e5A34ORQvWZsBcTVd97ZZ/vyd0NXSOZWDqTkYA0LDrD0QsXIe4P0Wd0euBUgUCPen5
+ 4yZ3JsvX4u/BWW+7htMxW+ZOcuplXhPYouPXR2EJeuEwOThdL5Sw38WKNVUilU2qLclX
+ XKwu9slZxQdNky3rDCtTWYpD3mUFefTiOVLlbigR03SjaeHJnje/KP8ZgjvNULZiYSLA
+ g9OPRL+SZDEIoYDDS2uUAPAELa5TiVwazLhxpstuo3r32MLi/BY/3LZgMvsWtO0mNIHc
+ KPgTbQK1MSDGR9SdsXTQWDOncG9DtLuiDkNedDjqW7CBetmm+kZ6FgU+A6sPPFmd9VCa
+ FWAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755898233; x=1756503033;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=K3cYnrvKK4mhHukBokbvlM2E5ZvRA8F45PiHRCM8eU0=;
- b=eEntTAD294rRSvS+begk3ZEm56NkVboJcvYC6kSJ9xP5vkWj1pNDckU25Z8iGPMFD7
- ige6bJshiJ/JwrckvNDRxVxqIAMT68jZCCeMgt4asbTm18NWhbjdPUPyUMc00bhd6+Ra
- 5PfPAk0KF2ENqwcuJrkrJzcND4PCsCUs5w0XAR2jAEE14oZXTHhJIZP9C31/SZbwEVe4
- AbaxuFREsbU7wzZq/Rdo1u7FESAa5nyAHGRwqt07HI+TD6rcoKT1aTJVh/y2pSvKI7tG
- 5BSI0HrBIqv6UOM38cQk+cREDiCWgItCf6pxsPsGrK41QqWteAAMcuhBuXb53yJwBOxO
- JUPA==
-X-Gm-Message-State: AOJu0Yx5y40GObC0JfweSSdIGL88fIYyFwS+NfkZxKrkDLSHOXrsQ0F2
- j2ftDmGRwLcK5cdRKtzkgyCL5IrOVkhMaCLoB49Jq23LThTcDIYCibgpgTynh3pk4P1fxJOjrz9
- bcNwikofW5AzgISIM1Kdx7JDrUUKv0xvyLy3jDOZgow/sFGvahFcv6UxYkE+ey8zs/leRfAE=
-X-Gm-Gg: ASbGncvYDROqttXxlfAN9li1J8GFxubh3DqBRq1ZNIsgbVkvgC7uWVxqy4Fe+cekEX5
- X5d1ckPhMdwKytkknOAxgpJcES92vZoXHpjL7fQvIdnqAqNQAV6n8yfo8lMBJJN/xZdYGZhuf8C
- U9VdPjRxfgE0KFeSAoPlRoY0NOPDPy58Buuv+FgE8XYO3Czdg6UZiTd9QuvNRONd9g6GZvxG2Mz
- BW5n2ppZvdW2sHR8AnCvkN0WLI9rdI9zJaoRZuiOGGoo8jcSH8QP5XeqVtxHh6Qr4Ax9frP8eo1
- Huhv9bpn6PhWS9UiPm7ptIi7c39n6f8WFZwco5Bjt6RsTlHJ1t2qnFQHB2CBnQ0/A/n+tWJRTvA
- CRk8EIXf1r5QaOCOUVmOfkqfPglzcvMtHbSds+iflz00d8PnLcgWC
-X-Received: by 2002:a05:622a:486:b0:4b0:ec28:6fee with SMTP id
- d75a77b69052e-4b2aaaf9a16mr60011521cf.38.1755898232422; 
- Fri, 22 Aug 2025 14:30:32 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEalw4tfcyoY3q+WzkqkrtQCzH0eRtrlr+WbjIlyYLzc0gIsv4VtglLs8MsDt/kD+TaiThLjA==
-X-Received: by 2002:a05:622a:486:b0:4b0:ec28:6fee with SMTP id
- d75a77b69052e-4b2aaaf9a16mr60010801cf.38.1755898231446; 
- Fri, 22 Aug 2025 14:30:31 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35c8bb19sm150718e87.73.2025.08.22.14.30.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Aug 2025 14:30:30 -0700 (PDT)
-Date: Sat, 23 Aug 2025 00:30:27 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Marius Vlad <marius.vlad@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, daniel.stone@collabora.com,
- jani.nikula@linux.intel.com, tzimmermann@suse.de, simona.vetter@ffwll.ch
-Subject: Re: [PATCH v2 1/2] drm: Introduce a new connector status
-Message-ID: <kd3hwsrsves5tc42code3r5ueiqzxekjz2strijlcrhhydwic5@otohedg77l6d>
-References: <20250729165708.9947-1-marius.vlad@collabora.com>
- <20250729165708.9947-2-marius.vlad@collabora.com>
+ d=1e100.net; s=20230601; t=1755899386; x=1756504186;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3shbphJfK82NW9CE0mD0B4j3zJqllorZS6U3aG69qqI=;
+ b=B6fz/mY/br/lSS99YITb+f+U3SH55v8X97kyuZxSgxlpIaEsMGqi1Lge6uuy2voe3h
+ O/CsZBSWP8XgTg/wYCvwudi+FbP7ns9TBlkO3miqxcFTG6vZa50oRKJ4tekfjwnVaeL6
+ qTbrHQbWnhp+aB1mhQJIDclfoJGg0C8qpVtxBvbyTFF72BFVO6CZYk50LdQeT72UvoN/
+ lb1PVg46J4qb13qoLh4rMRK6GWlY1LFDYsIMjGEQoFsRJxhhYLDjrSEOyZ1WTHnqu2S9
+ WVF5XF0wNbxgRFxBKtbidFoYU0CcW8AKM8CzcYT7OXgF/1AAyGvMxr5AGqQuC1F+ca3t
+ mkCw==
+X-Gm-Message-State: AOJu0Yz3KJzaUc8cndDU8YNrmzP89LN3gdW/QvsVgD2DDOb8v2RQQa/5
+ vUg9hhVvY7COjWEgFwGZZ620QQY16GAJn+5UGaljJp80yTH+TrzBCwFWQT2oD0azCbfs+cWMrBj
+ zEPO1SqWUYP2qEuNxLyEGx3YbiEY4QOw=
+X-Gm-Gg: ASbGncuCH3LGy4OcXKrUoOT6n91xRB+9zdYeGWckC4mEDBckF/yhqpVsjgCn0Jl59Nh
+ eKoTlh0PPv51LkrUINOl162kBX+2ExA9JtXXBza3UFa51wIBeDd7Kv8iKdCfpJrCzQI7FC6bRPi
+ 0IvG5L25pE+Xdk/sN2Mj5O7uTL+GQEvwThfURaRCPNE347Uyi5he0DUuWNJXdCRUrUCMTon9C88
+ ayjiw==
+X-Google-Smtp-Source: AGHT+IGanrr+UttB/kvILsftCspDHCpVG9G13dKdpZOX3YfV6wjphNp3XhgWAGRjxZde4BtwsyEY+Stv6NkP5jvJhVQ=
+X-Received: by 2002:a17:907:9305:b0:af6:a116:f13c with SMTP id
+ a640c23a62f3a-afe28f16478mr403341566b.23.1755899385298; Fri, 22 Aug 2025
+ 14:49:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250729165708.9947-2-marius.vlad@collabora.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIyMDE2MCBTYWx0ZWRfXwH9jZnELKLXI
- FsykxHrgedLVdvvJsMYTMwLVBY7iFbhT9QKsthF0ciGZLCepSh9iZl7pFOkdqeQi0mM5dDj4rJo
- RAbhJ2nwKfWH9aoOek5StrSSvuEqS4/VX7CZRTMgYIftgeMdJ0QnWCYTHq4pv1o5rgiSDXm5ZB1
- YjpQXCvXytXXNtbpfeC0pkDdGcp+t/rXJwYMV10bvnYWmfXbqrKcn+UqSwFUKTDrdl/VHVhGgWz
- vGvd91fGe7FsQAUAWXhwlMFt7l3B0sZkgzKucAT0Zdoc7HbcYYlAFkRaXiI8gqVkwxQldDZHLB2
- vKmzI65ko0yP/gLL+8Zmz/8C9cgmqV0UoMOa75YiiXPhdcQlN1CWoI1sL4hw3TNWZ350jRdOp2F
- 1DbzdX1R
-X-Proofpoint-ORIG-GUID: KNwiLykqynCb_RkUfKXAoGkm5YYWQ6sU
-X-Authority-Analysis: v=2.4 cv=F6NXdrhN c=1 sm=1 tr=0 ts=68a8e17a cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=QX4gbG5DAAAA:8 a=TRIvmjwQPL6R-e3u1AEA:9 a=CjuIK1q_8ugA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-GUID: KNwiLykqynCb_RkUfKXAoGkm5YYWQ6sU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_05,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 impostorscore=0 adultscore=0 phishscore=0
- bulkscore=0 malwarescore=0 clxscore=1015 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508220160
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 23 Aug 2025 07:49:34 +1000
+X-Gm-Features: Ac12FXxhMoyarJu_LO9T1fG6x0ENHPEHj4XKRy_sSg7dcDoC7fdvmkDyet6C7FY
+Message-ID: <CAPM=9tx3c2SzxmsTaySLHVVUyHd+zcB-axUL0Hbtk5DdQQ8rrQ@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.17-rc3
+To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,123 +79,300 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 29, 2025 at 07:57:07PM +0300, Marius Vlad wrote:
-> This patch introduces a new boolean variable used to track connector's
-> connect/disconnect status and it is being used on both polling and
-> the HPD (Hot Plug Detect) paths.
-> 
-> A subsequent patch would make use of this connector status to propagate
-> per-connector udev hot plug events. This allows user-space to receive
-> the connector's ID, rather than having a generic hot-plug event for all
-> connectors, or in the HPD path, just the first one found with a
-> connection status change.
+Hi Linus,
 
-This looks good, the main question would be, what prevents a races
-during modifications of this field? I think it should be toggled under
-the dev->mode_config.mutex.
+Weekly drm fixes. Looks like things did indeed get busier after rc2,
+nothing seems too major, but stuff scattered all over the place,
+amdgpu, xe, i915, hibmc, rust support code, and other small fixes.
 
-> 
-> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-> ---
->  drivers/gpu/drm/drm_connector.c    |  1 +
->  drivers/gpu/drm/drm_probe_helper.c | 12 ++++++++++++
->  drivers/gpu/drm/drm_sysfs.c        |  1 +
->  include/drm/drm_connector.h        |  3 +++
->  4 files changed, 17 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 272d6254ea47..3c6628ee3096 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -274,6 +274,7 @@ static int drm_connector_init_only(struct drm_device *dev,
->  
->  	/* provide ddc symlink in sysfs */
->  	connector->ddc = ddc;
-> +	connector->status_changed = false;
->  
->  	INIT_LIST_HEAD(&connector->head);
->  	INIT_LIST_HEAD(&connector->global_connector_list_entry);
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 6b3541159c0f..761766181e99 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -628,6 +628,7 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
->  			mod_delayed_work(system_wq,
->  					 &dev->mode_config.output_poll_work,
->  					 0);
-> +		connector->status_changed = true;
->  	}
->  
->  	/*
-> @@ -731,6 +732,15 @@ EXPORT_SYMBOL(drm_helper_probe_single_connector_modes);
->   */
->  void drm_kms_helper_hotplug_event(struct drm_device *dev)
->  {
-> +	struct drm_connector *connector;
-> +	struct drm_connector_list_iter conn_iter;
-> +
-> +	drm_connector_list_iter_begin(dev, &conn_iter);
-> +	drm_for_each_connector_iter(connector, &conn_iter) {
-> +		connector->status_changed = false;
-> +	}
-> +	drm_connector_list_iter_end(&conn_iter);
-> +
->  	drm_sysfs_hotplug_event(dev);
->  	drm_client_dev_hotplug(dev);
->  }
-> @@ -747,6 +757,7 @@ void drm_kms_helper_connector_hotplug_event(struct drm_connector *connector)
->  {
->  	struct drm_device *dev = connector->dev;
->  
-> +	connector->status_changed = false;
->  	drm_sysfs_connector_hotplug_event(connector);
->  	drm_client_dev_hotplug(dev);
+Regards,
+Dave.
 
 
-What would be the rule? Should it be unset before or after calling all
-the notifiers? Otherwise it's really strange. In the chunk below you set
-the flag, then it calls this function and the flags gets immediately
-unset.
+drm-fixes-2025-08-23-1:
+drm fixes for 6.17-rc3
 
->  }
-> @@ -1041,6 +1052,7 @@ bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector)
->  	mutex_unlock(&dev->mode_config.mutex);
->  
->  	if (changed) {
-> +		connector->status_changed = true;
->  		drm_kms_helper_connector_hotplug_event(connector);
->  		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Sent hotplug event\n",
->  			    connector->base.id,
-> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index 60c1f26edb6f..77f880654d6a 100644
-> --- a/drivers/gpu/drm/drm_sysfs.c
-> +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -196,6 +196,7 @@ static ssize_t status_store(struct device *device,
->  		return ret;
->  
->  	old_force = connector->force;
-> +	connector->status_changed = true;
->  
->  	if (sysfs_streq(buf, "detect"))
->  		connector->force = 0;
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 8f34f4b8183d..e4310df3d55c 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -2146,6 +2146,9 @@ struct drm_connector {
->  	/** @force: a DRM_FORCE_<foo> state for forced mode sets */
->  	enum drm_connector_force force;
->  
-> +	/** @status_changed: if the old status doesn't match current connection status */
-> +	bool status_changed;
-> +
->  	/**
->  	 * @edid_override: Override EDID set via debugfs.
->  	 *
-> -- 
-> 2.47.2
-> 
+rust:
+- drm device memory layout and safety fixes
 
--- 
-With best wishes
-Dmitry
+tests:
+- Endianness fixes
+
+gpuvm:
+- docs warning fix
+
+panic:
+- fix division on 32-bit arm
+
+i915:
+- TypeC DP display Fixes
+- Silence rpm wakeref asserts on GEN11_GU_MISC_IIR access
+- Relocate compression repacking WA for JSL/EHL
+
+xe:
+- xe_vm_create fixes
+- fix vm bind ioctl double free
+
+amdgpu:
+- Replay fixes
+- SMU14 fix
+- Null check DC fixes
+- DCE6 DC fixes
+- Misc DC fixes
+
+bridge:
+- analogix_dp: devm_drm_bridge_alloc() error handling fix
+
+habanalabs:
+- Memory deallocation fix
+
+hibmc:
+- modesetting black screen fixes
+- fix UAF on irq
+- fix leak on i2c failure path
+
+nouveau:
+- memory leak fixes
+- typos
+
+rockchip:
+- Kconfig fix
+- register caching fix
+The following changes since commit c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9=
+:
+
+  Linux 6.17-rc2 (2025-08-17 15:22:10 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-08-23-1
+
+for you to fetch changes up to a60f5ee68efd91b4507eacbb40d4024ecf363304:
+
+  Merge tag 'drm-xe-fixes-2025-08-21-1' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2025-08-23 07:24:52 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.17-rc3
+
+rust:
+- drm device memory layout and safety fixes
+
+tests:
+- Endianness fixes
+
+gpuvm:
+- docs warning fix
+
+panic:
+- fix division on 32-bit arm
+
+i915:
+- TypeC DP display Fixes
+- Silence rpm wakeref asserts on GEN11_GU_MISC_IIR access
+- Relocate compression repacking WA for JSL/EHL
+
+xe:
+- xe_vm_create fixes
+- fix vm bind ioctl double free
+
+amdgpu:
+- Replay fixes
+- SMU14 fix
+- Null check DC fixes
+- DCE6 DC fixes
+- Misc DC fixes
+
+bridge:
+- analogix_dp: devm_drm_bridge_alloc() error handling fix
+
+habanalabs:
+- Memory deallocation fix
+
+hibmc:
+- modesetting black screen fixes
+- fix UAF on irq
+- fix leak on i2c failure path
+
+nouveau:
+- memory leak fixes
+- typos
+
+rockchip:
+- Kconfig fix
+- register caching fix
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu/swm14: Update power limit logic
+
+Avizrat, Yaron (1):
+      MAINTAINERS: Change habanalabs maintainers
+
+Baihan Li (5):
+      drm/hisilicon/hibmc: fix the i2c device resource leak when vdac
+init failed
+      drm/hisilicon/hibmc: fix irq_request()'s irq name variable is local
+      drm/hisilicon/hibmc: fix the hibmc loaded failed bug
+      drm/hisilicon/hibmc: fix rare monitors cannot display problem
+      drm/hisilicon/hibmc: fix dp and vga cannot show together
+
+Chenyuan Yang (1):
+      drm/amd/display: Add null pointer check in mod_hdcp_hdcp1_create_sess=
+ion()
+
+Christoph Manszewski (1):
+      drm/xe: Fix vm_bind_ioctl double free bug
+
+Danilo Krummrich (5):
+      MAINTAINERS: entry for DRM GPUVM
+      rust: alloc: replace aligned_size() with Kmalloc::aligned_layout()
+      rust: drm: ensure kmalloc() compatible Layout
+      rust: drm: remove pin annotations from drm::Device
+      rust: drm: don't pass the address of drm::Device to drm_dev_put()
+
+Dave Airlie (4):
+      Merge tag 'drm-intel-fixes-2025-08-20' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.17-2025-08-20' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2025-08-21' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-xe-fixes-2025-08-21-1' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+
+Fanhua Li (1):
+      drm/nouveau/nvif: Fix potential memory leak in nvif_vmm_ctor().
+
+Gabe Teeger (1):
+      drm/amd/display: Revert Add HPO encoder support to Replay
+
+Imre Deak (5):
+      drm/i915/lnl+/tc: Fix handling of an enabled/disconnected dp-alt sink
+      drm/i915/icl+/tc: Cache the max lane count value
+      drm/i915/lnl+/tc: Fix max lane count HW readout
+      drm/i915/lnl+/tc: Use the cached max lane count value
+      drm/i915/icl+/tc: Convert AUX powered WARN to a debug message
+
+Jani Nikula (1):
+      drm/i915: silence rpm wakeref asserts on GEN11_GU_MISC_IIR access
+
+Javier Garcia (1):
+      drm: Add directive to format code in comment
+
+Jocelyn Falempe (1):
+      drm/panic: Add a u64 divide by 10 for arm32
+
+Jos=C3=A9 Exp=C3=B3sito (2):
+      drm/tests: Fix endian warning
+      drm/tests: Fix drm_test_fb_xrgb8888_to_xrgb2101010() on big-endian
+
+Liu Ying (1):
+      drm/bridge: analogix_dp: Fix bailout for devm_drm_bridge_alloc()
+
+Madhur Kumar (1):
+      drm/nouveau: fix typos in comments
+
+Mario Limonciello (1):
+      drm/amd/display: Avoid a NULL pointer dereference
+
+Maxime Ripard (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Miguel Ojeda (2):
+      drm: nova-drm: fix 32-bit arm build
+      rust: alloc: fix `rusttest` by providing `Cmalloc::aligned_layout` to=
+o
+
+Nitin Gote (1):
+      iosys-map: Fix undefined behavior in iosys_map_clear()
+
+Piotr Pi=C3=B3rkowski (2):
+      drm/xe: Assign ioctl xe file handler to vm in xe_vm_create
+      drm/xe: Move ASID allocation and user PT BO tracking into xe_vm_creat=
+e
+
+Piotr Zalewski (1):
+      drm/rockchip: vop2: make vp registers nonvolatile
+
+Qianfeng Rong (1):
+      drm/nouveau/gsp: fix mismatched alloc/free for kvmalloc()
+
+Rudi Heitbaum (1):
+      drm/rockchip: cdn-dp: select bridge for cdp-dp
+
+Sebastian Brzezinka (1):
+      drm/i915/gt: Relocate compression repacking WA for JSL/EHL
+
+Thomas Zimmermann (2):
+      Merge drm/drm-fixes into drm-misc-fixes
+      Revert "drm/amdgpu: Use dma_buf from GEM object instance"
+
+Thorsten Blum (1):
+      accel/habanalabs/gaudi2: Use kvfree() for memory allocated with kvcal=
+loc()
+
+Timur Krist=C3=B3f (8):
+      drm/amd/display: Don't overclock DCE 6 by 15%
+      drm/amd/display: Adjust DCE 8-10 clock, don't overclock by 15%
+      drm/amd/display: Find first CRTC and its line time in
+dce110_fill_display_configs
+      drm/amd/display: Fill display clock and vblank time in
+dce110_fill_display_configs
+      drm/amd/display: Don't warn when missing DCE encoder caps
+      drm/amd/display: Don't print errors for nonexistent connectors
+      drm/amd/display: Fix fractional fb divider in set_pixel_clock_v3
+      drm/amd/display: Fix DP audio DTO1 clock source on DCE 6.
+
+Tom Chung (1):
+      drm/amd/display: Fix Xorg desktop unresponsive on Replay panel
+
+ MAINTAINERS                                        | 14 +++-
+ drivers/accel/habanalabs/gaudi2/gaudi2.c           |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  3 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 19 +++++
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  |  5 +-
+ .../gpu/drm/amd/display/dc/bios/command_table.c    |  2 +-
+ .../amd/display/dc/clk_mgr/dce100/dce_clk_mgr.c    | 14 ++--
+ .../amd/display/dc/clk_mgr/dce110/dce110_clk_mgr.c | 40 ++++++----
+ .../amd/display/dc/clk_mgr/dce60/dce60_clk_mgr.c   | 31 +++-----
+ drivers/gpu/drm/amd/display/dc/core/dc.c           | 15 +++-
+ .../gpu/drm/amd/display/dc/dce/dce_link_encoder.c  |  8 +-
+ drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c   | 43 +---------
+ drivers/gpu/drm/amd/display/dc/dce/dmub_replay.h   |  2 +-
+ .../dc/link/protocols/link_edp_panel_control.c     |  2 +-
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    | 20 -----
+ .../gpu/drm/amd/display/modules/hdcp/hdcp_psp.c    |  3 +
+ .../gpu/drm/amd/pm/swsmu/smu14/smu_v14_0_2_ppt.c   | 30 +++++--
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  4 +-
+ drivers/gpu/drm/drm_gpuvm.c                        |  2 +
+ drivers/gpu/drm/drm_panic_qr.rs                    | 22 ++++-
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c       | 14 +++-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    | 22 ++---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h    |  1 +
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c    |  5 ++
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c   | 11 ++-
+ drivers/gpu/drm/i915/display/intel_display_irq.c   |  4 +
+ drivers/gpu/drm/i915/display/intel_tc.c            | 93 +++++++++++++++++-=
+----
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        | 20 ++---
+ drivers/gpu/drm/nouveau/nouveau_exec.c             |  6 +-
+ drivers/gpu/drm/nouveau/nvif/vmm.c                 |  3 +-
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/rpc.c  |  4 +-
+ drivers/gpu/drm/nova/file.rs                       |  3 +-
+ drivers/gpu/drm/rockchip/Kconfig                   |  1 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  9 ++-
+ drivers/gpu/drm/tests/drm_format_helper_test.c     |  3 +-
+ drivers/gpu/drm/xe/xe_migrate.c                    |  2 +-
+ drivers/gpu/drm/xe/xe_pxp_submit.c                 |  2 +-
+ drivers/gpu/drm/xe/xe_vm.c                         | 48 ++++++-----
+ drivers/gpu/drm/xe/xe_vm.h                         |  2 +-
+ include/linux/iosys-map.h                          |  7 +-
+ rust/kernel/alloc/allocator.rs                     | 30 ++++---
+ rust/kernel/alloc/allocator_test.rs                | 11 +++
+ rust/kernel/drm/device.rs                          | 32 ++++++--
+ 46 files changed, 382 insertions(+), 239 deletions(-)
