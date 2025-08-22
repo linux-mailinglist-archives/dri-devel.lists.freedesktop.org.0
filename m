@@ -2,53 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693F3B31C69
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 16:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3AE9B31C86
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 16:48:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6820C10E149;
-	Fri, 22 Aug 2025 14:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEFDF10EB37;
+	Fri, 22 Aug 2025 14:48:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="prVLOj6t";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BgQ4QtKN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 303AF10EB36;
- Fri, 22 Aug 2025 14:46:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=vSFv5P6r6uHHcex7ev876TgGrB/iNFOS7oWEm1S6nnQ=; b=prVLOj6tIf2BBGWGGiayhD06yA
- GYxNwgN5pme3d6hgrfjMu0qUnG2Q9n2WU2+tIWno7zP6C7orjXKwdHv5fvkw4xnXxm2SWjiNSvReb
- 7oXPkGOfigh/hxx4MH9PSAmTm7tZCvoUyCoFEK/C9Pp/tBk9Fa6w10yMw8VVvCbsfNIlG5djSpHDy
- iqBpIvyLavfkQLp5vtdjEWT+rBA/+7byB/sUayTN0L1iA67c8JK716HU9Clnprf/R7kPbJj/gq3Z1
- CWFkhZiWM9RQJPegHO6eFrMDmNDovPJB2J7Kc+mu+Rh+BYVi+HvTrtvzxbQh21nZuQgLHOCQzmqu4
- An3DpnYg==;
-Received: from [152.250.7.37] (helo=[192.168.15.100])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1upT1j-00091Z-7q; Fri, 22 Aug 2025 16:45:59 +0200
-Message-ID: <0e6b2725-427a-438a-a0e5-c182abaf2909@igalia.com>
-Date: Fri, 22 Aug 2025 11:45:55 -0300
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3012B10EB37
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 14:48:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id CF42D4461D;
+ Fri, 22 Aug 2025 14:48:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87789C4CEED;
+ Fri, 22 Aug 2025 14:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755874097;
+ bh=n4JvEFi7K9Gnd4LcwTA0bUtIPMP+X5TsCejUHnwhR34=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BgQ4QtKN0Hrlp+tukqXWm1mhlAR7cmdX5V73Oyrmx/LUNmbGl7mcWKEc8K0JS3PnU
+ cZsf1QxRdJYiqT/ljbvr2pdN3lqlaBFwrmaXY9/OTYKDRaFBEdkm4ee6gxhixeeX3Y
+ SbwaSRu6YR6PW3QOwwIcYj+KxYEYIRorQUlLaTQ6f7ycze9l1TJ9fTVgauCJF6SrLR
+ 0kpHfu5WZqx4qRoy2M7MnF6/fC8KBVd7adWJ05/3hqBP4BhXQBTsHdseuAcO8dbQhs
+ F5aNMKlX91su9yhj4W+inDZWQhuaIbLsWKeu6rBkRVK3GFyFhOzoxotW3hqt0BRZcM
+ hud/qTNt6vaEQ==
+Date: Fri, 22 Aug 2025 09:48:16 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Simona Vetter <simona@ffwll.ch>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, devicetree@vger.kernel.org,
+ Arnaud Vrac <avrac@freebox.fr>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, Jonas Karlman <jonas@kwiboo.se>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Pierre-Hugues Husson <phhusson@freebox.fr>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: ingenic,jz4780-hdmi: Add
+ missing clock-names
+Message-ID: <175587409204.3789906.17191769934979803832.robh@kernel.org>
+References: <20250820-dt-bindings-display-v2-0-91e2ccba3d4e@linaro.org>
+ <20250820-dt-bindings-display-v2-1-91e2ccba3d4e@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] drm: re-allow no-op changes on non-primary planes in
- async flips
-To: Xaver Hugl <xaver.hugl@kde.org>
-Cc: chris@kode54.net, naveen1.kumar@intel.com, ville.syrjala@linux.intel.com, 
- mdaenzer@redhat.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- alexdeucher@gmail.com, arun.r.murthy@intel.com
-References: <20250808232208.7764-1-xaver.hugl@kde.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20250808232208.7764-1-xaver.hugl@kde.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820-dt-bindings-display-v2-1-91e2ccba3d4e@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,26 +76,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Xaver,
 
-Thanks for the patch and sorry for the delay.
-
-Em 08/08/2025 20:22, Xaver Hugl escreveu:
-> Commit fd40a63c63a1 unintentionally disallowed no-op changes on non-primary
-> planes that the driver doesn't allow async flips on. This broke async flips
-> for compositors that disable the cursor plane in every async atomic commit.
-> This changes drm_atomic_set_property to again only run atomic_async_check
-> if the plane would actually be changed by the atomic commit.
-
-Small nit: kernel commit messages goes in the imperative form:
-
-"Change drm_atomic_set_property to again only run atomic_async_check..."
-
+On Wed, 20 Aug 2025 16:17:36 +0200, Krzysztof Kozlowski wrote:
+> The binding references synopsys,dw-hdmi.yaml schema which defines both
+> 'clocks' and 'clock-names' with variable length, therefore we need here
+> also same constraint for 'clock-names' as for 'clocks'.
 > 
-> Fixes: fd40a63c63a1 ("drm/atomic: Let drivers decide which planes to async flip")
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4263
-> 
-> Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
+>  .../devicetree/bindings/display/bridge/ingenic,jz4780-hdmi.yaml        | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
+Applied, thanks!
+
