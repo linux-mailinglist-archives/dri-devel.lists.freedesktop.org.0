@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35160B323EE
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 23:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2695B323F4
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 23:11:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF30F10EBB2;
-	Fri, 22 Aug 2025 21:08:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C434810EBB6;
+	Fri, 22 Aug 2025 21:11:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="m50fFHfF";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IQb3uoCx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74AF210EBB2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 21:08:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=cypEHEpRR2kJqbcPVa7GjXp1ID7KVO6yBwZP58hpPu8=; b=m50fFHfFtMqgCcu9VSJ5v/1T6H
- rXZjeTd4nbm4TotaElmywFPoV8XWbvuSL8GfaN6a0xWhFP1p1hlUN8ukE7DdXvkYtnaWjfoG4D0je
- JC2lnZk/8KsCYsbU7QoRjO0hQVndHLLDaOe1i3U2ep9K0lAY7RWGhPeiEDWtCxbc+9se5lg8uEIxD
- LMATyPUYvXPGh7wsS4XepSWRK68sUL0SfF70hBPSFw85dmzzccZSp629CltlOpyppucRM1bRNIUJq
- DtYXKHHGXdselR2BtScg+0iTxTl/8apdFsRowbsNS1kCHLh2PbDTLr5VOOgZj+nmkxAlVGRVI3Yh3
- ObWwOPog==;
-Received: from i53875a83.versanet.de ([83.135.90.131] helo=phil..)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1upYzr-000415-Uo; Fri, 22 Aug 2025 23:08:28 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- hjc@rock-chips.com, andy.yan@rock-chips.com, andyshrk@163.com,
- nicolas.frattaroli@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: (subset) [PATCH 00/13] Support DSI output on rk3576 and
- roc-rk3576-pc board
-Date: Fri, 22 Aug 2025 23:08:25 +0200
-Message-ID: <175589689704.3303128.5679950731528883388.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250707164906.1445288-1-heiko@sntech.de>
-References: <20250707164906.1445288-1-heiko@sntech.de>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACB7110EBB6;
+ Fri, 22 Aug 2025 21:11:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755897108;
+ bh=akdSKAL7tVI8pIQYJXa6n3Pb4+YuTDZ9DIiQXpW+W1o=;
+ h=From:Date:Subject:To:Cc:From;
+ b=IQb3uoCxgz9EJgxgtyL9YBHM6u3VY1izwzCzUz0KK2cwUAPbTU0kSYamyGVroOLP5
+ DxJ28/l3zj531dJw1MlvxyCo0V5m9980qVJ14TOdjnXtk+lcd+ytXTvyP12HkUmSvI
+ rY2pE3G9hq/tJquJDoZpM7xBaZ01bo12pyW+hZ04oZGgiPPIsmArVuUKMNLW7VH1TB
+ hIbFcSmratRRLpyOq0AIJjfPzu4ZkQR7NER2RReOMUpI7G41rWkdqkfGxbVfKaeOXD
+ PlG5KvHts0xf2LoNziU84xmFxKaU+nbCP9RE65xhWN1WW3uwigy5ZXxmj5bkY8DPjb
+ JTnxxf/74/NQw==
+Received: from localhost (unknown [82.79.138.60])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 35A3D17E0C54;
+ Fri, 22 Aug 2025 23:11:48 +0200 (CEST)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Date: Sat, 23 Aug 2025 00:11:35 +0300
+Subject: [PATCH] drm/amdgpu: Fix kernel-doc comments for some LUT
+ properties
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250823-amdgpu-fix-kdoc-lut-v1-1-306bcad41267@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAAbdqGgC/x2MWwqAIBAArxL73UIZonSV6KN0s6UnWhGId0/6H
+ IaZCIE8U4C2iODp4cDHnqEuCzDzsDtCtplBVEJWWjQ4bNadN0784mIPg+t9YSOVHfUo1UQEuTw
+ 9Zf9fuz6lDwwD8VhlAAAA
+X-Change-ID: 20250823-amdgpu-fix-kdoc-lut-357db8b57fee
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Harry Wentland <harry.wentland@amd.com>, Melissa Wen <mwen@igalia.com>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +67,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The following members of struct amdgpu_mode_info do not have valid
+references in the related kernel-doc sections:
 
-On Mon, 07 Jul 2025 18:48:53 +0200, Heiko Stuebner wrote:
-> This enables all the necesary bits and bindings to get display output
-> on the dm-m10r800-v3s addon module for the Firefly roc-rk3576-pc board.
-> 
-> A bit of cleanup of the ili9881c, because the driver was still trying
-> to send dcs commands when the underlying DSI driver might have already
-> switched to video-mode, which caused me quite a bit of headache until
-> I realized this being the culprit for my garbled display output :-) .
-> 
-> [...]
+ - plane_shaper_lut_property
+ - plane_shaper_lut_size_property,
+ - plane_lut3d_size_property
 
-Applied, thanks!
+Correct all affected comment blocks.
 
-[01/13] drm/panel: ilitek-ili9881c: turn off power-supply when init fails
-        commit: 6c66eba502709a78281333187c1add7b71f7201f
-[02/13] drm/panel: ilitek-ili9881c: move display_on/_off dcs calls to (un-)prepare
-        commit: 5efa82492066fcb32308210fb3f0b752af74334f
-[03/13] drm/panel: ilitek-ili9881c: convert (un-)prepare to mipi_dsi_multi_context
-        commit: 9002f55ee4480f23bd2ce91fb5fca536ce31717e
-[04/13] dt-bindings: vendor-prefixes: Add prefix for Shenzhen Bestar Electronic
-        commit: 8e484ff181b177ea2e86e537fd7a5c8f9d7532ad
-[05/13] dt-bindings: display: ili9881c: Add Bestar BSD1218-A101KL68 LCD panel
-        commit: 157ba8c6742931a617a34555c27dd10b36385cf3
-[06/13] drm/panel: ilitek-ili9881c: Add Bestar BSD1218-A101KL68 support
-        commit: 38dbbbb41c515d72b0a82fde3cec450d068f5e94
+Fixes: f545d82479b4 ("drm/amd/display: add plane shaper LUT and TF driver-specific properties")
+Fixes: 671994e3bf33 ("drm/amd/display: add plane 3D LUT driver-specific properties")
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+index 6da4f946cac008ac865cd6d8a06fb0bd84d646d5..c3ad371658065388c10b7cfc45377b0465bd24ca 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+@@ -366,15 +366,15 @@ struct amdgpu_mode_info {
+ 
+ 	struct drm_property *plane_ctm_property;
+ 	/**
+-	 * @shaper_lut_property: Plane property to set pre-blending shaper LUT
+-	 * that converts color content before 3D LUT. If
+-	 * plane_shaper_tf_property != Identity TF, AMD color module will
++	 * @plane_shaper_lut_property: Plane property to set pre-blending
++	 * shaper LUT that converts color content before 3D LUT.
++	 * If plane_shaper_tf_property != Identity TF, AMD color module will
+ 	 * combine the user LUT values with pre-defined TF into the LUT
+ 	 * parameters to be programmed.
+ 	 */
+ 	struct drm_property *plane_shaper_lut_property;
+ 	/**
+-	 * @shaper_lut_size_property: Plane property for the size of
++	 * @plane_shaper_lut_size_property: Plane property for the size of
+ 	 * pre-blending shaper LUT as supported by the driver (read-only).
+ 	 */
+ 	struct drm_property *plane_shaper_lut_size_property;
+@@ -398,10 +398,10 @@ struct amdgpu_mode_info {
+ 	 */
+ 	struct drm_property *plane_lut3d_property;
+ 	/**
+-	 * @plane_degamma_lut_size_property: Plane property to define the max
+-	 * size of 3D LUT as supported by the driver (read-only). The max size
+-	 * is the max size of one dimension and, therefore, the max number of
+-	 * entries for 3D LUT array is the 3D LUT size cubed;
++	 * @plane_lut3d_size_property: Plane property to define the max size
++	 * of 3D LUT as supported by the driver (read-only). The max size is
++	 * the max size of one dimension and, therefore, the max number of
++	 * entries for 3D LUT array is the 3D LUT size cubed.
+ 	 */
+ 	struct drm_property *plane_lut3d_size_property;
+ 	/**
+
+---
+base-commit: 0f4c93f7eb861acab537dbe94441817a270537bf
+change-id: 20250823-amdgpu-fix-kdoc-lut-357db8b57fee
+
