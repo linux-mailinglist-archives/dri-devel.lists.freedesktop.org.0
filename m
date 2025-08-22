@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721BEB31F9A
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 17:53:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED435B31FAC
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 17:55:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3CEA10EB5C;
-	Fri, 22 Aug 2025 15:53:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1F8210E169;
+	Fri, 22 Aug 2025 15:55:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tBUykIQB";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ZkI+ncUg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43A5310EB5C
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 15:53:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 02EC6A58AFA;
- Fri, 22 Aug 2025 15:52:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D8FAC4CEED;
- Fri, 22 Aug 2025 15:52:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755877978;
- bh=GZcqAUhind1yPvp4zhhO0FBJJvpJTi5iPD/E6Y6N6GE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tBUykIQBRStiihtAnJe0AVIVB3jiv164suytchNLOiHzXp4/+sT3VdYIWELtCxQ/S
- k+XB53PnA2SVEHhRTUS7U4pZc/6+NTJUkZY7CKASmPvQ9QpYCcufIcSzgpR7NWVkSi
- jp9XGx5f+pZpXKidRSPAs6K+jdBokudQq0L+JSHKIQsakl6rBCtx53/+fKmRYU7AE5
- FMyFc2btLCA2xVryygJW3jkoBWIeiRMncRcBrhZrVRERgO/U1xU0HV1QVl4Lxov6FV
- dzjxYmwhLLY/zdK180LgDdUc1uFpRhZ4yyM60sjdxOlRcDnYbBAtClKHQaXm10ebIj
- AcsRl3MiOJs+A==
-Date: Fri, 22 Aug 2025 10:52:57 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com,
- angelogioacchino.delregno@collabora.com, broonie@kernel.org,
- chunkuang.hu@kernel.org, ck.hu@mediatek.com, conor+dt@kernel.org,
- davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
- flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
- jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
- kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
- lgirdwood@gmail.com, linus.walleij@linaro.org,
- louisalexis.eyraud@collabora.com, maarten.lankhorst@linux.intel.com,
- matthias.bgg@gmail.com, mchehab@kernel.org,
- minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, sean.wang@kernel.org,
- simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de,
- yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-Subject: Re: [PATCH v1 13/14] dt-bindings: input/touchscreen: Convert MELFAS
- MIP4 Touchscreen to YAML
-Message-ID: <20250822155257.GA3865729-robh@kernel.org>
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-14-ariel.dalessandro@collabora.com>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0652B10E169
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 15:55:16 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4c7lBm4S56z9v6w;
+ Fri, 22 Aug 2025 17:55:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1755878112;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gqwYpbaGMKmxH1oBKbcuZ4By8WCsIw4GnZB+EkEfPZ0=;
+ b=ZkI+ncUghL8atBFhWUngS9x/wGZD+GaPB9MLLrmfukJEsg1sbY4x9XrW+Ph/8kNMW2xh5b
+ aSwvD2mJMprRrq6EJO0BvmEBG6ZflqP8FzgnlnKFwchnkk+8z5ne7uoUF1zphDQsVtm5R6
+ +6a2dMvoyXCe+CTtIL+cLEB6uC+gNfOPiYTChziDtQoW9EPgaB07zAMOgNkviF1CSz4hqy
+ amn5Nlqbp28HzbVmk0PeGWSj48dTE5oMqHsiGTJF9hXyscTorgXZkyhRGQjthra3a7/Im6
+ Uifs+9Vlh4++CKzH19fC3WBftGueVUF8hmvwSOHRcZO3OtNcnXt7SwK9LP7eMg==
+Message-ID: <913533b5-2384-4131-8a98-a91b73daf490@mailbox.org>
+Date: Fri, 22 Aug 2025 17:55:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820171302.324142-14-ariel.dalessandro@collabora.com>
+Subject: Re: UBSAN: shift-out-of-bounds in
+ drivers/video/fbdev/core/fb_fillrect.h:100:21 (v6.17-rc2)
+To: =?UTF-8?Q?Kajt=C3=A1r_Zsolt?= <soci@c64.rulez.org>,
+ linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+References: <1fda26b1-f988-449d-834d-b185d3ebf5c6@mailbox.org>
+ <9473ef5b-c298-56b1-0051-e10bb3b4dd67@c64.rulez.org>
+Content-Language: en-US, de-DE
+From: Erhard Furtner <erhard_f@mailbox.org>
+In-Reply-To: <9473ef5b-c298-56b1-0051-e10bb3b4dd67@c64.rulez.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: e6034a2dafda1e90aea
+X-MBO-RS-META: wpt8ordrt66ihaqu1rxux74ddadr5ns6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,39 +66,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 20, 2025 at 02:13:01PM -0300, Ariel D'Alessandro wrote:
-> Convert the existing text-based DT bindings for MELFAS MIP4 Touchscreen
-> controller to a YAML schema.
+> It's only on 32 bit big endian. I don't have UBSAN for MIPS on my setup
+> so haven't noticed it.
 > 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> ---
->  .../input/touchscreen/melfas,mip4_ts.yaml     | 55 +++++++++++++++++++
->  .../input/touchscreen/melfas_mip4.txt         | 20 -------
->  2 files changed, 55 insertions(+), 20 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
->  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt
+> #ifndef __LITTLE_ENDIAN
+>          pattern <<= (BITS_PER_LONG % bpp);
+>          pattern |= pattern >> bpp;          <-
+> #endif
 > 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml b/Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
-> new file mode 100644
-> index 0000000000000..170fd4212467e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
-> @@ -0,0 +1,55 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/melfas,mip4_ts.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MELFAS MIP4 Touchscreen
-> +
-> +maintainers:
-> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: "melfas,mip4_ts"
+> In the 32 BPP case the result is identical in both the no shift and zero
+> result implementations.
+> 
+> I've patched it by skipping this realignment as it's only needed if the
+> BPP is smaller than the word length.
 
-Drop quotes. With that,
+Thanks for looking into this!
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Applied your patch from 
+https://lore.kernel.org/linux-fbdev/20250821024248.7458-1-soci@c64.rulez.org/T/#u 
+which fixes the USBAN hit for me.
+
+Greetings,
+Erhard
