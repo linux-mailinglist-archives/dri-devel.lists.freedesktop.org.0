@@ -2,161 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0515AB30ED6
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 08:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888CBB30F1F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 08:40:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0DAE10EA5C;
-	Fri, 22 Aug 2025 06:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07FA610EA5D;
+	Fri, 22 Aug 2025 06:40:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UJwID/Ny";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="WjDEA3g8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12E8F10EA5A
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 06:24:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1755843878;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WiI+ZnCzEnb/n6DQfRPkU+9oejYIM/R2hKOTH1yevco=;
- b=UJwID/Ny9BPDInw1YPGRiKYIqsfJIcRM6APajZRPAC861tVWZStwPqaU4lf0ELAT2FMEBW
- CTYdqKYWjUKVDsIInd+Xaa4/UWaYmRIoS87In1H4aIZOKwCl7M+Gb4sFKOnG69NBgx5pBS
- +2gKkd6e7fgdBX2gIX4O2cRyfn+3hzQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-596-qgfAgcq_NneNXTR_Kl_Olg-1; Fri, 22 Aug 2025 02:24:36 -0400
-X-MC-Unique: qgfAgcq_NneNXTR_Kl_Olg-1
-X-Mimecast-MFC-AGG-ID: qgfAgcq_NneNXTR_Kl_Olg_1755843875
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3b9e4f039ecso943520f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 23:24:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755843875; x=1756448675;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WiI+ZnCzEnb/n6DQfRPkU+9oejYIM/R2hKOTH1yevco=;
- b=FTW5woDLM0StUMR9lOnYCswkK5eY0yzw8e2FwVTX09q7V267FGvh+Km5C0Z3q7j+YP
- qt/aXkqoPnnSwsWSU2TkXzca6DzHCSyFULmLw/9ty19LD9ly7JXfbCbiPDR6L8eOYNNn
- sZTUasU2MSebEjr1H+JNHEVxzTcfmRChvupMqp3OdGiufFdXA2v0blYhHR7FkWu3VwDE
- N2GKtD++RDh3MfIgxhr2+GmsNDsCSQ7ZF68ftbGvy8eLYvL/16GHFuXzJ9IvdnDhu/sC
- 16OKsJn0uqn9InB5+BNpaKIDY1wADu5uU0ITwvqO8tisLQZLLG2XYHdsY7W/Y0hNaCw3
- /7zg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+kX8yxgY+Qk1/fjiN/h7CYHRXDZnczeEPO9gFy1KUzEuUEUzAMNkw11yJLigaFLjmvBzE0eGMxnI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwExpT9ihPlJTjPtsEJSTa2AXtFxLLlV9jRAoMGjQ5XdkdLDoFs
- K/6X9q++Z16lNcWkK2S9ifq+UZln1BxKsgM+iBJPg2/C1+igja0FOXu4Wk1GGJin0mDIRX19sZX
- 8U5Lvcd5Vvd4/0uMhk8b/vNfSc1cvqP8B6I+Cc3hb26Uco3ETPRl7JS2Ag9u1rSG2sM6ANw==
-X-Gm-Gg: ASbGncsKRmr+chVDJJE/As96l95DPB+eX/h7wSa5yzFN8NCcvGoKsjo1xbeazxqtAH3
- FQu6J0I457s3T6xbOZH8hNkaP8pz06yOI53rgw9V+RTQZ82PrIFvyD4PJrLKjfeVrJR1ughNldm
- UaH28ScEKSoYa2kjfEJtntiE/LI1V9Q7lX6v0ygZaObGO5A/VUC2XlnSksob5EGUpyFtdQSvUl6
- 0V+eEtzsSIcxMu9FC6hGU61V67AoRVDWkAVPHIsJmS5v3TgA/VV+oXuDGaboB6ZSG/GUnJSLzCQ
- fYChaBH+2Gt0/JQhEPnMOleqPDSHzXorND6iNh7w9AtYUSzC7fFSWb3JZ0hTFrbvRM/jfw==
-X-Received: by 2002:a05:6000:26c1:b0:3a3:7ba5:93a5 with SMTP id
- ffacd0b85a97d-3c5daefc4a3mr930364f8f.26.1755843874961; 
- Thu, 21 Aug 2025 23:24:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGkMOIqwJnbz0zMoKzv9XjVteH9mRf82hflWECX8mqHGwhCkTy10DA8QnyI2PcknGc6Szk7/A==
-X-Received: by 2002:a05:6000:26c1:b0:3a3:7ba5:93a5 with SMTP id
- ffacd0b85a97d-3c5daefc4a3mr930326f8f.26.1755843874452; 
- Thu, 21 Aug 2025 23:24:34 -0700 (PDT)
-Received: from [192.168.3.141] (p4ff1f25c.dip0.t-ipconnect.de. [79.241.242.92])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3c6070264fbsm1198544f8f.67.2025.08.21.23.24.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Aug 2025 23:24:33 -0700 (PDT)
-Message-ID: <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
-Date: Fri, 22 Aug 2025 08:24:31 +0200
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CD7B410EA5D
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 06:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=wR
+ gLxWrPc104M1DlAk588ARdsB7OQyUqAiiW8tcp7I4=; b=WjDEA3g8KVlrOcE7Hj
+ k57boNbTn1wbqEMWINqqJcvMmBLa58GKZ01yIIERtXCMbSi7T/tt4/bASAEQpAWI
+ LnBQg5jxfxTrSPiIIKIJA47TSfuwG+pRLHId1mQ3tPbDqQtXTzN1b6VWMjGaqwoF
+ aN2B8ivkuIi4+zbmDsn5Hz0qw=
+Received: from ProDesk.. (unknown [])
+ by gzsmtp3 (Coremail) with SMTP id PigvCgAn9_zCEKhoYtibAA--.23257S2;
+ Fri, 22 Aug 2025 14:40:08 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: dmitry.baryshkov@oss.qualcomm.com,
+	heiko@sntech.de
+Cc: hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, stephen@radxa.com,
+ cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
+ Laurent.pinchart@ideasonboard.com, yubing.zhang@rock-chips.com,
+ krzk+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ robh@kernel.org, sebastian.reichel@collabora.com,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH v7 00/10] Add support for RK3588 DisplayPort Controller
+Date: Fri, 22 Aug 2025 14:39:44 +0800
+Message-ID: <20250822063959.692098-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 10/35] mm/hugetlb: cleanup
- hugetlb_folio_init_tail_vmemmap()
-To: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
- Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
- Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
- Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org,
- Zi Yan <ziy@nvidia.com>
-References: <20250821200701.1329277-1-david@redhat.com>
- <20250821200701.1329277-11-david@redhat.com>
- <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: x_vM9jt2CQpDgIK4HMd34qL8feM9mIhjN5IePSdDfyg_1755843875
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: PigvCgAn9_zCEKhoYtibAA--.23257S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZrWUZrWxJr1fJF1xJFy8Grg_yoWrtw15pa
+ 1UAry5JrWUWFW2qrs2k3Z7ursav3ZrA3yFgwn7J342vF12kF1UAwnI9FsxXr9rXF17AFW2
+ krnxXr1xKrWUZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j4wZcUUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEhexXmioCP3NwgAAsQ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,31 +63,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.08.25 06:09, Mika Penttilä wrote:
-> 
-> On 8/21/25 23:06, David Hildenbrand wrote:
-> 
->> All pages were already initialized and set to PageReserved() with a
->> refcount of 1 by MM init code.
-> 
-> Just to be sure, how is this working with MEMBLOCK_RSRV_NOINIT, where MM is supposed not to
-> initialize struct pages?
+From: Andy Yan <andy.yan@rock-chips.com>
 
-Excellent point, I did not know about that one.
 
-Spotting that we don't do the same for the head page made me assume that 
-it's just a misuse of __init_single_page().
+There are two DW DPTX based DisplayPort Controller on rk3588 which
+are compliant with the DisplayPort Specification Version 1.4 with
+the following features:
 
-But the nasty thing is that we use memblock_reserved_mark_noinit() to 
-only mark the tail pages ...
+* DisplayPort 1.4a
+* Main Link: 1/2/4 lanes
+* Main Link Support 1.62Gbps, 2.7Gbps, 5.4Gbps and 8.1Gbps
+* AUX channel 1Mbps
+* Single Stream Transport(SST)
+* Multistream Transport (MST)
+* Type-C support (alternate mode)
+* HDCP 2.2, HDCP 1.3
+* Supports up to 8/10 bits per color component
+* Supports RBG, YCbCr4:4:4, YCbCr4:2:2, YCbCr4:2:0
+* Pixel clock up to 594MHz
+* I2S, SPDIF audio interface
 
-Let me revert back to __init_single_page() and add a big fat comment why 
-this is required.
+The current version of this patch series only supports basic display outputs.
+I conducted tests with DP0 in 1080p and 4K@60 YCbCr4:2:0 modes; the ALT/Type-C
+mode was tested on Rock 5B, DP1 was tested on Rock 5 ITX by Stephen and Piotr.
+HDCP and audio features remain unimplemented.
+For RK3588, it's only support SST, while in the upcoming RK3576, it can support
+MST output.
 
-Thanks!
+
+Changes in v7:
+- Fix checkpatch warnings
+- Fix a typo in subject: s/birdge/bridge/
+- Collect Reviewed-by tags
+- Link to V6:https://lore.kernel.org/linux-rockchip/20250728082846.3811429-1-andyshrk@163.com/
+
+Changes in v6:
+- Use drm_dp_vsc_sdp_supported
+- Store bpc/bpp/color format in dw_dp_bridge_state
+- Link to V5: https://lore.kernel.org/linux-rockchip/20250716100440.816351-1-andyshrk@163.com/
+
+Changes in v5:
+- Use drm_dp_read_sink_count_cap instead of the private implementation.
+- First included in this version.
+- Link to V4: https://lore.kernel.org/linux-rockchip/20250619063900.700491-1-andyshrk@163.com/
+
+Changes in v4:
+- Drop unnecessary header files
+- Switch to devm_drm_bridge_alloc
+- Drop unused function
+- Add platform_set_drvdata
+- Link to V3: https://lore.kernel.org/linux-rockchip/20250403033748.245007-1-andyshrk@163.com/
+
+Changes in v3:
+- Rebase on drm-misc-next
+- Switch to common helpers to power up/down dp link
+- Only pass parameters to phy that should be set
+- First introduced in this version.
+- First introduced in this version.
+- Add RA620 into bridge chain.
+- Link to V2: https://lore.kernel.org/linux-rockchip/20250312104214.525242-1-andyshrk@163.com/
+
+Changes in v2:
+- Link to V1: https://lore.kernel.org/linux-rockchip/20250223113036.74252-1-andyshrk@163.com/
+- Fix a character encoding issue
+- Fix compile error when build as module
+- Add phy init
+- Only use one dw_dp_link_train_set
+- inline dw_dp_phy_update_vs_emph
+- Use dp_sdp
+- Check return value of drm_modeset_lock
+- Merge code in atomic_pre_enable/mode_fixup to atomic_check
+- Return NULL if can't find a supported output format
+- Fix max_link_rate from plat_data
+- no include uapi path
+- switch to drmm_encoder_init
+- Sort in alphabetical order
+
+Andy Yan (10):
+  dt-bindings: display: rockchip: Add schema for RK3588 DPTX Controller
+  drm/bridge: synopsys: Add DW DPTX Controller support library
+  drm/rockchip: Add RK3588 DPTX output support
+  MAINTAINERS: Add entry for DW DPTX Controller bridge
+  dt-bindings: display: simple-bridge: Add ra620 compatible
+  drm/bridge: simple-bridge: Add support for radxa ra620
+  arm64: dts: rockchip: Add DP0 for rk3588
+  arm64: dts: rockchip: Add DP1 for rk3588
+  arm64: dts: rockchip: Enable DisplayPort for rk3588s Cool Pi 4B
+  arm64: dts: rockchip: Enable DP2HDMI for ROCK 5 ITX
+
+ .../display/bridge/simple-bridge.yaml         |    1 +
+ .../display/rockchip/rockchip,dw-dp.yaml      |  150 ++
+ MAINTAINERS                                   |    8 +
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |   30 +
+ .../arm64/boot/dts/rockchip/rk3588-extra.dtsi |   30 +
+ .../boot/dts/rockchip/rk3588-rock-5-itx.dts   |   59 +
+ .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   |   37 +
+ drivers/gpu/drm/bridge/simple-bridge.c        |    5 +
+ drivers/gpu/drm/bridge/synopsys/Kconfig       |    7 +
+ drivers/gpu/drm/bridge/synopsys/Makefile      |    1 +
+ drivers/gpu/drm/bridge/synopsys/dw-dp.c       | 2095 +++++++++++++++++
+ drivers/gpu/drm/rockchip/Kconfig              |    9 +
+ drivers/gpu/drm/rockchip/Makefile             |    1 +
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c     |  150 ++
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    1 +
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    1 +
+ include/drm/bridge/dw_dp.h                    |   20 +
+ 17 files changed, 2605 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml
+ create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-dp.c
+ create mode 100644 drivers/gpu/drm/rockchip/dw_dp-rockchip.c
+ create mode 100644 include/drm/bridge/dw_dp.h
 
 -- 
-Cheers
+2.43.0
 
-David / dhildenb
+base-commit: 18b8261b84ad5462d7261617fbfa49d85d396fd9
+branch: rk3588-dp-upstream-v7
 
