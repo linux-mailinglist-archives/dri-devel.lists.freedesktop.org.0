@@ -2,100 +2,209 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB07B31307
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 11:29:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB9CB31308
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 11:29:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB70F10EAAC;
-	Fri, 22 Aug 2025 09:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A607110EAAB;
+	Fri, 22 Aug 2025 09:29:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="aGAjsKPi";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="HAsydl0R";
+	dkim=pass (1024-bit key; unprotected) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="SFQBjRK+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
- [209.85.128.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B584B10E00C
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 09:28:52 +0000 (UTC)
-Received: by mail-wm1-f73.google.com with SMTP id
- 5b1f17b1804b1-45a1b05d251so11083215e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 02:28:52 -0700 (PDT)
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30A3010EAAB
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 09:29:06 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 57M501l41142438; Fri, 22 Aug 2025 10:28:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=dk201812; bh=y52k4Sj6Jr2AeU/HvdogzM4Ad
+ AVvxZ2sjOTWhuHudag=; b=HAsydl0Rp/zZml4pG44VvBjNWgWtTfLhzPd8bmi3F
+ hDr5x9x1rABjMpVw5TmXz2VQvjMreajZtR/svn55rVGkWuFpPZqIX0HdtfK4BJwz
+ lkfYCnEjZBkcIWntGN5szt1zWC+gGurWy9Cmr6T3VTjfiqjV3DSJVcP4oX+f+nSi
+ dle+JMN8EA0BwR4a2cbBk8Acw5PD86aw4mtlbV3VUq4apON7Ui0FekpvLICXzSvH
+ A2mVyxy8GLHMxtHzYcwBcWjvWdH/7V1/pAche8U5gkdh8LSU1y03m5zB66fd1MH0
+ 7RXvr63idvBngM6BjXheOQ2nwe8Z+e0m2bpQZPZAptV4w==
+Received: from cwxp265cu008.outbound.protection.outlook.com
+ (mail-ukwestazon11020128.outbound.protection.outlook.com [52.101.195.128])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 48jj2qpfey-1
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+ Fri, 22 Aug 2025 10:28:41 +0100 (BST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s+/rOA/PyrWHO3xq4DV+OL19VOhO2Twi8462LvBZPf9A8A9RiHoC+PyJN1rly+FT7t5VeRTklL3rOdqrbrEKBEB4K40nmusmicFAXsfp2jck4bEDN7Xbiz4F1H2JgDyRQ23+0p/QIMkHC3P3cdCvYfDNJ9es1VLyV3urLrEyMRiRYH6Aw9BDd/D3Gm5d96HoawxyO8ABHSmTGjKl3CvyO3pHUmKk/i0XPWAWYzzYxf9k+1hKqAIYSv87+x5K0fA4aqhQ4PkR7LPvpexv4ZdKc+bZ2O7eDlVFqpZt1fsoDF2CGldUWhkAB9CRKSYVFai4mGqSjVQAPYXF5+7Z4zj71Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y52k4Sj6Jr2AeU/HvdogzM4AdAVvxZ2sjOTWhuHudag=;
+ b=dtw8qgwjj3NNr7G6bIXmd5qyj0FxsssRkCdBEmP0wRKTPavOeHhIcBfZt9gwBwQmm5EyA00LTw+XJKeEO2LlFju4qrOdYl2ShhoT9bdFdKUR1hUteRwvCpTtaeKPlSh/1dY9deUsuKbdndx2+5EcS3cooeGx4Or1+q8mNe1frB2QKJond7ORwral39j7fr3FZ4FzetjzbOWQ0F1z2El894kaOVmVvy4Dua3iQ7vsuEwfqYDyAQePLEuLhSwIZUClu3ZuXnDy+NQnKKXsHu3XY6AflSRlFpG/zM8Jzm7PTQy7BVoDfiJHcCXY1Qdru5Cu5hnnSNc6tzFPLeecDoixig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1755854931; x=1756459731;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=2Ow6XvHySGVB+W2kkd4+T1fvI3S18fIKSk8k0aXDVNI=;
- b=aGAjsKPiQZSRWF+Pyu+AMoNoiuNxvAgW+SRe51ZxMdvyxcEbb1dPyXHzN6cK7q6BlM
- LbtfB2zxPtIDpTvVAO1UU6MttRtsqgLWbMFU0lhF87tY2L0GHP83N9Qa4wI9O8xVjaU0
- 8GtQ5JhLN6Mq+SHjlB3AlAs6tcQsI02BKsWxqCJlEiJYUMT1m4omVV8Lmf12lgoFN+7K
- FmIq4Gb4VD8A47T6VhAs9cobMRtnCtRR5G6eUeSi3Ud+to8DvpS/5qeZi74oGVtLgWQy
- 0ZB3ljWsQc1NEGY8+M3WrumvdSO98XLHi00reZmGKCD8GDWEjWnL6p+69w4gNDzHxUPZ
- /yzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755854931; x=1756459731;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2Ow6XvHySGVB+W2kkd4+T1fvI3S18fIKSk8k0aXDVNI=;
- b=HRkM6U5jlrDAp6LCKAKh7RWWvYXKXMZTfEpIVugu5w+4E5SMjn46wqz+u9uO7FQbC1
- 59rE31+5XjlRXW1pkdlBQKtz4zxIn8MDoKPkxuVu/JRUuhxJlJMhqvIH/w6y7dUg5vZk
- NyoX9y3nqiwgXmJREROp31tBMwwwFf/CpFDgtSZkxn4lQtgGaYbBks0XsvjcfTyVMKlC
- a/Lc8YxyUmlKhqDPM5lN8vrMS+X+3lfSNw4bwgV245rq3uShHz06hVnantDRG7hPFiHs
- 47un535tKOw/pOplRmS3zaeS5XuG95HNTf7s1vC74/hhQQDY4WT9xSvAwen3m//ZD+bC
- oSog==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXWTRh2TQsISpmRq02hf9KQxteaXdNbmBvlhiCBuu/7bcHjjdSfXxLnSpkUsuwEakrm0AJnhpJo2Y0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQ0xqn2SpKdANnAsTM+3zyk+1lfzLFX344XAhHJMP5ZeWFMAC+
- uoq3hj2zhLRZJPHn/dLHCCXp7XkNWZWMAcAybWeLrtFj9cVfz7lJnKP8xnCU2o+qEFKX2fCDYdL
- aIj+EwVFYmPdGFlLRxQ==
-X-Google-Smtp-Source: AGHT+IF8c3P0Z1vVWG+q1H8oB/tl+UK9nbE+C7bMQrs2JLINSn9yU5stP/o7VIvQ7k/31mTwRHsWj+ndEZHzbog=
-X-Received: from wmbfp14.prod.google.com
- ([2002:a05:600c:698e:b0:459:dd85:efda])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:46cb:b0:458:bf7c:f744 with SMTP id
- 5b1f17b1804b1-45b517c2d5fmr15962175e9.32.1755854931287; 
- Fri, 22 Aug 2025 02:28:51 -0700 (PDT)
-Date: Fri, 22 Aug 2025 09:28:26 +0000
-In-Reply-To: <20250822-gpuva-mutex-in-gem-v2-0-c41a10d1d3b9@google.com>
-Mime-Version: 1.0
-References: <20250822-gpuva-mutex-in-gem-v2-0-c41a10d1d3b9@google.com>
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp;
- fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11713; i=aliceryhl@google.com; 
- h=from:subject:message-id;
- bh=k9/xP2hkYInqqac45oA3gCzuPA512fZCIHyvxtWcpMg=; 
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBoqDhOQQ087NxYuUsEEHxVqXjk/V0HkIsZnfuwq
- OpQGacdCY2JAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaKg4TgAKCRAEWL7uWMY5
- Rkh1EACbdGSW+CooCJs/PhJwX0poaGeozdfxI18YoRFDYpQ24dqxZ5tp818A8OpttybLAT1/xto
- gxrudf7pULaUyz2tyAeny8BWOuwL5u4g2zwrEJtMu3L9+jKoS2nbzLe9QuL3uUuW/NH0ibvxR22
- Sxl8QnTJiJKoQE8EMituIZxAdNo/QzTWRavUtyvcN7KWZ8chRhz+NVvBpJwJKsWmOWH5vaqZBxU
- XZsUXR8vPGkJZBA2e9XDgxPpX3qWsTcGFXhRLpzz0LneulEX52MCUrxqvxD+A1133XKddm081me
- yGN85EA4HJ5psOPm5SQhmqhEu4Yrw5J5FJLy/SQpMGQ4q9EdOXOyioISu1bvvlvDIEJ1uophX4Q
- FdpaNhiQyQjCn7eej8N2HrlxQtmn+XUbLn7fmmmeE9Mo7k1OfSLu8i4tIyTyaXW8LM76xb84TaN
- n2iIeRU1pIOWE+IvoDqfxx1AXeLufMRnfGYPskc4kTSFBmMNGf4/n5QdIQb7to9Oabsk8jKFOkb
- 2H9MKo7UnjFG2K6SANiT493HJceFM/Jv8h2YQUH86o2wWds6frpG+a/yjuaFaWYIcYFRe1BYj30
- RLSaPMoiSuOwrZnkD0CH2eq2b+LOaDWSC+K48q9pUZIWVGZQE2M7Qdf1HSiVnfc3oskTwQxyx89
- dkLbygBbPlgWnpw==
-X-Mailer: b4 0.14.2
-Message-ID: <20250822-gpuva-mutex-in-gem-v2-3-c41a10d1d3b9@google.com>
-Subject: [PATCH v2 3/3] gpuvm: remove gem.gpuva.lock_dep_map
-From: Alice Ryhl <aliceryhl@google.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Steven Price <steven.price@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
- Rob Herring <robh@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, 
- "=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="utf-8"
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y52k4Sj6Jr2AeU/HvdogzM4AdAVvxZ2sjOTWhuHudag=;
+ b=SFQBjRK+PxYNgVVEfze96DRR7vQg0ZyhH+k9NCTRD0pTfzZR/p5QdFLLaGuP0tgCQSauxbNT/+WuXgDZLvfq/lp8He3m5j6GD4O/32FP+RDEgAtxbnmE8BqAfkb5C5cNXs7GZ+7lOaEgxnu9pvrEY05Ka90nnk7er4HB9F4s7V4=
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::8) by
+ CWXP265MB3302.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:e7::12) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9052.18; Fri, 22 Aug 2025 09:28:37 +0000
+Received: from CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15]) by CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::8e9d:6b2f:9881:1e15%7]) with mapi id 15.20.9052.017; Fri, 22 Aug 2025
+ 09:28:37 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+CC: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Frank Binns <Frank.Binns@imgtec.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Drew
+ Fustini <fustini@kernel.org>, "linux-riscv@lists.infradead.org"
+ <linux-riscv@lists.infradead.org>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-pm@vger.kernel.org"
+ <linux-pm@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v13 1/4] drm/imagination: Use pwrseq for TH1520 GPU power
+ management
+Thread-Topic: [PATCH v13 1/4] drm/imagination: Use pwrseq for TH1520 GPU power
+ management
+Thread-Index: AQHcE0cjGRHtMZbs+02iUmGfZJD91w==
+Date: Fri, 22 Aug 2025 09:28:37 +0000
+Message-ID: <aa8d4ffb-4607-4bff-9d87-8635cd37d439@imgtec.com>
+References: <20250822-apr_14_for_sending-v13-0-af656f7cc6c3@samsung.com>
+ <CGME20250821222020eucas1p20e40b85b991da0b4d867df76e55350ed@eucas1p2.samsung.com>
+ <20250822-apr_14_for_sending-v13-1-af656f7cc6c3@samsung.com>
+In-Reply-To: <20250822-apr_14_for_sending-v13-1-af656f7cc6c3@samsung.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CWXP265MB3397:EE_|CWXP265MB3302:EE_
+x-ms-office365-filtering-correlation-id: a86b92e0-9da0-452c-f75a-08dde15e4614
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7416014|4053099003|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?Qk1XamZxb3c4STlmTDNiNVBSYWd4Z2RJVllxUUpxb1dIVXgrWG1nZ3grODRt?=
+ =?utf-8?B?aEFtVDY2ZDB2MWlkS0E1bXUvSzdPSkJ5MnloOW5lcnBuYmdDSlFzZzlFRVIx?=
+ =?utf-8?B?eHFETUhFSFBCVkZEUk81ZE9MWE5TUzUrdjB6dDRvSVNYSkxHQmNuY0F2RmFW?=
+ =?utf-8?B?YjltYm85WXNDN0ZMYy9waVY3c1orY25yMk9vT0NoSFpqSTRIQU5ZT2Jaa3V5?=
+ =?utf-8?B?UzRObnpHWlBBY3FXZXgwbWJjbVpnY1Zmak9mdFBZTTIvYzVrS0o1ZlR2cHZ2?=
+ =?utf-8?B?VTQrYk0zNXhUM0NDdmtuWHl3di9GajZqT20rb2JDdW1ZNmRVc2RjNTdES1Jt?=
+ =?utf-8?B?a2FBbC9adGc2Rm93U3ZLbnpGTXRtNVdIeUhJbzZ3TlhpWkxuZHM0d0VOWW5O?=
+ =?utf-8?B?Q3pPc3ViOFdTL1BlK2xKeG1ST2s3UVFWRVpTWlgrRnZPU1lOMHVZM2Zac3Jn?=
+ =?utf-8?B?c1pvUlhMYzZ0RExSdzZnaGF1RXdvTVV1ekZtdzdla0lJMVJIbStJSVc4MU9i?=
+ =?utf-8?B?R1FSY3Z1V1dVcDhVSlg0em5ESkxJYkNNOWR4VjNFa2l1OWRrTGIvYzF2dyts?=
+ =?utf-8?B?WktlamZVR1dEOHcrZmFQU1BGQ2p0ZFMzMy80QTBMejAvZGVFK0V2eU5tbjM2?=
+ =?utf-8?B?U2RXY25XKzF4WG9lSXVkQnA2VDNGc1R0SitzR0EydUNvMGd6Q2FwRzZsNjFa?=
+ =?utf-8?B?dTVzNHBSL3h6eXY5eXFsb1lhSkp2b1dIS0ZMa05QMnBCbFlTMVVBOUYwTDVO?=
+ =?utf-8?B?WUlKNjd1c2UvRmE2OVRDZ3pxbjRYZ0R0RkU3dG04WUpLYmQwYkNNWTdFTk95?=
+ =?utf-8?B?TC9sVjBCWGJjaWxWNXBnWUdpMDJJUFlZOTZzMm9kMjlpcHFlYTdHZi9mZ1NF?=
+ =?utf-8?B?dHRLelkzRG52S2lxbEo2Yit0ZU1xbHJzMUNmSjB3RjMxczFFdkZXc2VOUzRF?=
+ =?utf-8?B?RzAyM1lIWUhISG96bEdLNGtvbThOZUtPOGsvUWthUUVqa3JVa2hHVUJlZkdq?=
+ =?utf-8?B?V0lQTERPbkw1RkRyanVQOCtKL1VPd3R3dG54aXBMSEw2VTdaUFNNblhDL3RJ?=
+ =?utf-8?B?M0dpTGJDRWNhdFAzRFBxeW9PbkJjWHNXY0U2VzFBZjdyWmxLKys1aG9kMkZN?=
+ =?utf-8?B?V0p4ZzRGU0d2SDVMTHdIR1BQWFBqWWpZNU5NVUdCLzF4K0NwekJwR21rSjhp?=
+ =?utf-8?B?ekZNVW9yY0Z3ZEtJL2FWb29kUXlPQjFlamhpM0hZNktSQzlPVDYyLzJ1ME5l?=
+ =?utf-8?B?WFB0QnpJcG16d09helY4WWxyS3lKeDNBbUdEays3WnNhZllqanZySTdyUzQw?=
+ =?utf-8?B?N0x0VTk2eFFyZHc5Vml1VDVEdi9WYlpwb2FlMVVJcFYwM3dWdzRVRFRldWhH?=
+ =?utf-8?B?WG5XSjNvSTRlcmw5RGdZMmJ4dkxkRVJLVEg3eFhCZDY0T0RlT1RFUkc5K0U4?=
+ =?utf-8?B?ams5ejRGRS82Y2RyajlrQWFlOFhUNVZ5TTFEMit6ZzlFaTUrb1dpYzROWG1E?=
+ =?utf-8?B?QkZiWGZiQUJDMHpLVFloSUhTZDV1OSt2WU9kUktNa21mOCs5MVBhQzltN2J2?=
+ =?utf-8?B?S0FiTGpIL2tnZE4xOGtKTEZSVGczUjhHa3U3SXJWbUduTTRyQThrcEViZlk1?=
+ =?utf-8?B?SkFhRXorNDNyRGt3UVl0K3BCcWt0SmtUNlBCOVFraUdCR2M5cWNRcUtjMzlX?=
+ =?utf-8?B?Z1FBeHAxZ01ZNDVIY2w2bGYrM2d2TFpUVFZIczlCZUY1ZTVweHdJSHgrYUxi?=
+ =?utf-8?B?bkljZnNEVVBERmd1a3hQM2hYczdYTHExTUVqTFU3Mk01MXVHdDZrSjIxcjhT?=
+ =?utf-8?B?dUc3N2Jhd05Lc21XZVRxOEpIZVRQcUlBVXVPcFdvU2dnMSsxQWNzTWlZR1lL?=
+ =?utf-8?B?VW0yNk9jOTF1T3lsTGljMFFORWN3SmFzYnVhVktGbTRVaElMd3RydVduV0pN?=
+ =?utf-8?B?VHJpcEs5aWpYL0FNV0hQd00yZzdscnU0S3NwNjduU2kxcmlIdVM0azJacUdO?=
+ =?utf-8?B?cDFYcTkzZG1nPT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(4053099003)(38070700018);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aWlGNEpDbmxjUDB0bzlJVXZZb0JxdktSUnlkd21XdE1vVll2RmcySGxLMkFS?=
+ =?utf-8?B?QjZjeUwveUJDNysrb21wYVQyWUtrOVVjaVNGU2F1VGtScHJONmpEampJb2lp?=
+ =?utf-8?B?R1BpdzVTbTExUlRwRG5wQXlIYU1LaVMzN1JXTjVLTkxxRGYzUFJxYmUwbFhX?=
+ =?utf-8?B?U0h3enRna1ErRHZZcmZaR2xzUGtrWWJKenUyaUZ1TVdLcWFBbGxQSEIrbzV0?=
+ =?utf-8?B?QkljRUlnWGdZbzNCdXZxaytJMk5VRThpOW9HNE9Wck9zb2xVSzhlTC96cGtQ?=
+ =?utf-8?B?WkFncUF1VFE0eXVnQzMvY3gyMFFobHZLSXd0MEpaL3pyRzAyNmZTMUNvWE0r?=
+ =?utf-8?B?d0ZDSE03TERWWGsrSHJPVWZNcmEySitIRi91RjgzUUt5UXZMWXZWaWRCSmNi?=
+ =?utf-8?B?eDlER2lEK1A3NnMrTEZ0bU1OWm91cWRTSUlONGc4cVRjZjZLSEFpakR3SzdP?=
+ =?utf-8?B?bzZLTUtZb096WHJ1Y1ZUMXUwRVJVR3FISXM1b0RGVkxOcHRZeml0TVRsRXlJ?=
+ =?utf-8?B?S3dJcksreGZaUTd1S3RPY2JzUGV1VTV0NkFaUzUrTGJwclFtUVhZTElOWWs2?=
+ =?utf-8?B?ZXNob2s3SDdDMzVoSi95YXMwUnJPWXE4cVFPN0c1Wmc4WHd4ZlFIZjEvQlU5?=
+ =?utf-8?B?a1pXN3dIWTBmTXJLMlBmSUc1TVBsNng1bW83OW9nOG95MlBKK0pNUmZwZ0Iy?=
+ =?utf-8?B?SlhQWE9rZFVSTWZnVXpEaS9uUFZXYWZ0eUdqWTdJeXNRRklaTE9aVTEyQmtm?=
+ =?utf-8?B?eEk3TW1PRnhLTWdUR2szbVVGOVk2eWdCZzVCZGtkNnVFY09laEVsK1o0VGJH?=
+ =?utf-8?B?MHpaTmNuajFJZ3dabGN5S2c2QWVQdE5oZENRTTlsbUtOSDFiK1Qyb3hVVVpx?=
+ =?utf-8?B?MzduaVEwS09MZkVvR0NBeEtlcWhxYnUvMWFlK2NFL0NDV2NIY0tid1h1Zm5v?=
+ =?utf-8?B?NVBCM0NZM3h6MUJwRzJJRDRJVUVXS3VVa0FnM0dxZXVERWdBSHJhakdYRUZ5?=
+ =?utf-8?B?Nkl5aWJXRS8wU21TaXpzdEpJdHFxSkViRWJGTHVNa29QSmZIOXpCdUR3TENz?=
+ =?utf-8?B?OWVFY0tZMmxZb1pzOEFRNVNaOUhGUVBMaUFab2d4VEdJL0x1dktlOG5BM00z?=
+ =?utf-8?B?ZzEySGFndkYwczVOa1pES1VNSnJZeTNnV0NvZko1MWtDV2ZFT0M1dTZHRmtw?=
+ =?utf-8?B?Y09zMTBnWlR5SjVaK2ZiNUs0a0FReGxlS1hZR3lCM3E0akkzaVBKaXNzdTJB?=
+ =?utf-8?B?N3FnZlNoSCsrSWE5WlZkb2QzenNkdC9TMG5UYkloQjVzVnFueFNjU2hTblpy?=
+ =?utf-8?B?U01pQ2R3L01IZjFNakJNQXl4dzZpdjZxbDVpN3JubGtwNG43VW9nZnZ5bGVW?=
+ =?utf-8?B?bElRQnpQYlVmb0orZlZiRkpuT0NzUElZVy9mdW1aNU1NL2YrSVNBVlR1SGtz?=
+ =?utf-8?B?S1haazhUSG1WemJhZ0g1Um5jM21sZlJUeDhTdk4vUXV6c1lMZDhtZUJpOEk2?=
+ =?utf-8?B?Vkh2eTBOQUx0TUx0dE91eXM5MTFoY3ZnYnlOeDNFUWs0N0QzVXRaMzhyVU1h?=
+ =?utf-8?B?UExKa2YxWG8xQ1I0R2c4VkhRMWdDVXB2QmFVWk8rYUJCdlh6ckFjcXdkMXdD?=
+ =?utf-8?B?M0tDWmVodzJiR3VCK083RWppVWJDcDI2a1l5OWFpUGpNcGR4ejgzcjdLRGlI?=
+ =?utf-8?B?V1lYelB1ek12b2FxZUViT0FQSFZCSkNaUUhpSk1xZUptSXlzOFdnNWw1ekJM?=
+ =?utf-8?B?WUdkTjVHcVl3U0cyZVBXd1Y5a2V5eVZUQ1BOMnM2MVFVS3RPcXRtaUVjWGpv?=
+ =?utf-8?B?UU1SbmZPdEM4ZURvYTFuMzZBNEhFWGVacXlFR2E2ZlU4MnRMZFg5VEJINUtm?=
+ =?utf-8?B?TVdrV3pwZm5Xdys3MGc3NHBOejBMOVFwdHZBbGRMN2lrN0R5eWJEZHk0bUFn?=
+ =?utf-8?B?S21JL25DYVJUN3dEZ1pudmZsRWpJSTU5eC9HTkNpTnJpblYzdjNRSXkvMmhi?=
+ =?utf-8?B?THRrWEJRdXZaR1RqdFB6VHQ5OG5ueFhNZnRDZDdJcC8rbHRQOGg1R0tBYlF1?=
+ =?utf-8?B?VUxMOTd5M0twQk1iYVkzcVVKbzEwV21ZMXA2SFpicXB3OS9GdHIzck81Q3lU?=
+ =?utf-8?B?QTFveUFlQWx5UW9jUUJsWC9UOVUva0RlM2owNkNZSGxQZHpVdVdhWVhDd2xm?=
+ =?utf-8?B?NlE9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------kKJxzkDrURcIHkNRgSm40aqx"
+MIME-Version: 1.0
+X-OriginatorOrg: imgtec.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CWXP265MB3397.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: a86b92e0-9da0-452c-f75a-08dde15e4614
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Aug 2025 09:28:37.5167 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FF17MgnII1oBNg67YpcWVccm+eMu143sSatHA5kQNyyopDUq8IVeqxa55/UV5nSCqrvM+LLSP4fFkX6OBecOig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB3302
+X-Authority-Analysis: v=2.4 cv=FodcP2rq c=1 sm=1 tr=0 ts=68a8384a cx=c_pps
+ a=E97w5jz+2IRT4H1jtDRTXQ==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=2OwXVqhp2XgA:10
+ a=NgoYpvdbvlAA:10 a=hD80L64hAAAA:8 a=r_1tXGB3AAAA:8 a=Zornl2wlG5gKESBgaPUA:9
+ a=QEXdDO2ut3YA:10 a=3aJdYfjQ7cC_OQ9j5skA:9 a=FfaGCDsud1wA:10
+ a=t8nPyN_e6usw4ciXM-Pk:22 a=nl4s5V0KI7Kw-pW0DWrs:22 a=pHzHmUro8NiASowvMSCR:22
+ a=xoEH_sTeL_Rfw54TyV31:22
+X-Proofpoint-ORIG-GUID: BLVypNAaUGS-wkcwdHe9gyVG3U3FAXWq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIyMDA4OCBTYWx0ZWRfX4WugGpy9i3w/
+ smepuPUOfjj94lSvrA3Aq7WvZpfQemCQMjTkdlk7v8G4hVpqPL06KsoCpII/hFmS6kUUqUaEj/6
+ s/NzKtdDDCbuyaWEV8bE9n5F5Yb/KUfIq4+JyHTiQeiNGYScIgRgOssqZdUDsBAux7X5V9vSmGn
+ BY6V8DlYAxoTSoQKyb++4Haq7LT9U8qvPlGmAWocf/FZoRb9sbRzfGmd3OaY3TBuCdEjHK3M9TV
+ uIJpqJgr0UMfsn6VDpaXTKyfRE68d0EgWD0nhKGFwt4rH+cx+NyTKeJt+CRpAeZKz4dHxJqRkfo
+ W0bVJHDvh9rw1KRrp88eL8Q5s2SQOCuXUH9m6WWQ5ZBXS7Qrg5BMqAJPDM0h73Fo5NodJqdA7yr
+ z7eM4loO1sUlTZmgKL5SffXRPZe1Fg==
+X-Proofpoint-GUID: BLVypNAaUGS-wkcwdHe9gyVG3U3FAXWq
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,299 +220,504 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since all users of gem.gpuva.lock_dep_map now rely on the mutex directly
-in gpuva, we may remove it. Whether the mutex is used is now tracked by
-a flag in gpuvm rather than by whether lock_dep_map is null.
+--------------kKJxzkDrURcIHkNRgSm40aqx
+Content-Type: multipart/mixed; boundary="------------JJd0FReICCRZ3UPVwu0kCzvo";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns
+ <frank.binns@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Drew Fustini <fustini@kernel.org>, linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-ID: <aa8d4ffb-4607-4bff-9d87-8635cd37d439@imgtec.com>
+Subject: Re: [PATCH v13 1/4] drm/imagination: Use pwrseq for TH1520 GPU power
+ management
+References: <20250822-apr_14_for_sending-v13-0-af656f7cc6c3@samsung.com>
+ <CGME20250821222020eucas1p20e40b85b991da0b4d867df76e55350ed@eucas1p2.samsung.com>
+ <20250822-apr_14_for_sending-v13-1-af656f7cc6c3@samsung.com>
+In-Reply-To: <20250822-apr_14_for_sending-v13-1-af656f7cc6c3@samsung.com>
 
-Note that a GEM object may not be pushed to multiple gpuvms that
-disagree on the value of this new flag. But that's okay because a single
-driver should use the same locking scheme everywhere, and a GEM object
-is driver specific (when a GEM is exported with prime, a new GEM object
-instance is created from the backing dma-buf).
+--------------JJd0FReICCRZ3UPVwu0kCzvo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The flag is present even with CONFIG_LOCKDEP=n because the intent is
-that the flag will also cause vm_bo cleanup to become deferred. However,
-that will happen in a follow-up patch.
+On 21/08/2025 23:20, Michal Wilczynski wrote:
+> Update the Imagination PVR DRM driver to leverage the pwrseq framework
+> for managing the complex power sequence of the GPU on the T-HEAD TH1520=
 
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
----
- drivers/gpu/drm/drm_gpuvm.c           | 30 +++++++++++++--------------
- drivers/gpu/drm/panthor/panthor_gem.c |  1 -
- drivers/gpu/drm/panthor/panthor_mmu.c |  5 +++--
- include/drm/drm_gem.h                 | 39 ++++++++++++++---------------------
- include/drm/drm_gpuvm.h               | 30 ++++++++++++++++++++++++---
- 5 files changed, 59 insertions(+), 46 deletions(-)
+> SoC.
+>=20
+> To cleanly separate platform-specific logic from the generic driver,
+> this patch introduces an `init` callback to the `pwr_power_sequence_ops=
+`
+> struct. This allows for different power management strategies to be
+> selected at probe time based on the device's compatible string.
+>=20
+> A `pvr_device_data` struct, associated with each compatible in the
+> of_device_id table, points to the appropriate ops table (manual or
+> pwrseq).
+>=20
+> At probe time, the driver now calls the `->init()` op. For pwrseq-based=
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index d6bea8a4fffd7613fb9b9ed5c795df373da2e7b6..78a1a4f095095e9379bdf604d583f6c8b9863ccb 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -497,8 +497,7 @@
-  * DRM GPUVM also does not take care of the locking of the backing
-  * &drm_gem_object buffers GPU VA lists and &drm_gpuvm_bo abstractions by
-  * itself; drivers are responsible to enforce mutual exclusion using either the
-- * GEMs dma_resv lock or alternatively a driver specific external lock. For the
-- * latter see also drm_gem_gpuva_set_lock().
-+ * GEMs dma_resv lock or the GEMs gpuva.lock mutex.
-  *
-  * However, DRM GPUVM contains lockdep checks to ensure callers of its API hold
-  * the corresponding lock whenever the &drm_gem_objects GPU VA list is accessed
-@@ -1582,7 +1581,7 @@ drm_gpuvm_bo_destroy(struct kref *kref)
- 	drm_gpuvm_bo_list_del(vm_bo, extobj, lock);
- 	drm_gpuvm_bo_list_del(vm_bo, evict, lock);
- 
--	drm_gem_gpuva_assert_lock_held(obj);
-+	drm_gem_gpuva_assert_lock_held(gpuvm, obj);
- 	list_del(&vm_bo->list.entry.gem);
- 
- 	if (ops && ops->vm_bo_free)
-@@ -1603,7 +1602,8 @@ drm_gpuvm_bo_destroy(struct kref *kref)
-  * If the reference count drops to zero, the &gpuvm_bo is destroyed, which
-  * includes removing it from the GEMs gpuva list. Hence, if a call to this
-  * function can potentially let the reference count drop to zero the caller must
-- * hold the dma-resv or driver specific GEM gpuva lock.
-+ * hold the lock that the GEM uses for its gpuva list (either the GEM's
-+ * dma-resv or gpuva.lock mutex).
-  *
-  * This function may only be called from non-atomic context.
-  *
-@@ -1627,7 +1627,7 @@ __drm_gpuvm_bo_find(struct drm_gpuvm *gpuvm,
- {
- 	struct drm_gpuvm_bo *vm_bo;
- 
--	drm_gem_gpuva_assert_lock_held(obj);
-+	drm_gem_gpuva_assert_lock_held(gpuvm, obj);
- 	drm_gem_for_each_gpuvm_bo(vm_bo, obj)
- 		if (vm_bo->vm == gpuvm)
- 			return vm_bo;
-@@ -1686,7 +1686,7 @@ drm_gpuvm_bo_obtain(struct drm_gpuvm *gpuvm,
- 	if (!vm_bo)
- 		return ERR_PTR(-ENOMEM);
- 
--	drm_gem_gpuva_assert_lock_held(obj);
-+	drm_gem_gpuva_assert_lock_held(gpuvm, obj);
- 	list_add_tail(&vm_bo->list.entry.gem, &obj->gpuva.list);
- 
- 	return vm_bo;
-@@ -1722,7 +1722,7 @@ drm_gpuvm_bo_obtain_prealloc(struct drm_gpuvm_bo *__vm_bo)
- 		return vm_bo;
- 	}
- 
--	drm_gem_gpuva_assert_lock_held(obj);
-+	drm_gem_gpuva_assert_lock_held(gpuvm, obj);
- 	list_add_tail(&__vm_bo->list.entry.gem, &obj->gpuva.list);
- 
- 	return __vm_bo;
-@@ -1894,8 +1894,7 @@ EXPORT_SYMBOL_GPL(drm_gpuva_remove);
-  * reference of the latter is taken.
-  *
-  * This function expects the caller to protect the GEM's GPUVA list against
-- * concurrent access using either the GEMs dma_resv lock or a driver specific
-- * lock set through drm_gem_gpuva_set_lock().
-+ * concurrent access using either the GEM's dma-resv or gpuva.lock mutex.
-  */
- void
- drm_gpuva_link(struct drm_gpuva *va, struct drm_gpuvm_bo *vm_bo)
-@@ -1910,7 +1909,7 @@ drm_gpuva_link(struct drm_gpuva *va, struct drm_gpuvm_bo *vm_bo)
- 
- 	va->vm_bo = drm_gpuvm_bo_get(vm_bo);
- 
--	drm_gem_gpuva_assert_lock_held(obj);
-+	drm_gem_gpuva_assert_lock_held(gpuvm, obj);
- 	list_add_tail(&va->gem.entry, &vm_bo->list.gpuva);
- }
- EXPORT_SYMBOL_GPL(drm_gpuva_link);
-@@ -1930,8 +1929,7 @@ EXPORT_SYMBOL_GPL(drm_gpuva_link);
-  * the latter is dropped.
-  *
-  * This function expects the caller to protect the GEM's GPUVA list against
-- * concurrent access using either the GEMs dma_resv lock or a driver specific
-- * lock set through drm_gem_gpuva_set_lock().
-+ * concurrent access using either the GEM's dma-resv or gpuva.lock mutex.
-  */
- void
- drm_gpuva_unlink(struct drm_gpuva *va)
-@@ -1942,7 +1940,7 @@ drm_gpuva_unlink(struct drm_gpuva *va)
- 	if (unlikely(!obj))
- 		return;
- 
--	drm_gem_gpuva_assert_lock_held(obj);
-+	drm_gem_gpuva_assert_lock_held(va->vm, obj);
- 	list_del_init(&va->gem.entry);
- 
- 	va->vm_bo = NULL;
-@@ -2943,8 +2941,8 @@ EXPORT_SYMBOL_GPL(drm_gpuvm_prefetch_ops_create);
-  * After the caller finished processing the returned &drm_gpuva_ops, they must
-  * be freed with &drm_gpuva_ops_free.
-  *
-- * It is the callers responsibility to protect the GEMs GPUVA list against
-- * concurrent access using the GEMs dma_resv lock.
-+ * This function expects the caller to protect the GEM's GPUVA list against
-+ * concurrent access using either the GEM's dma-resv or gpuva.lock mutex.
-  *
-  * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
-  */
-@@ -2956,7 +2954,7 @@ drm_gpuvm_bo_unmap_ops_create(struct drm_gpuvm_bo *vm_bo)
- 	struct drm_gpuva *va;
- 	int ret;
- 
--	drm_gem_gpuva_assert_lock_held(vm_bo->obj);
-+	drm_gem_gpuva_assert_lock_held(vm_bo->vm, vm_bo->obj);
- 
- 	ops = kzalloc(sizeof(*ops), GFP_KERNEL);
- 	if (!ops)
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index c654a3377903cf7e067becdb481fb14895a4eaa5..156c7a0b62a231219645095d6012a5b108130bbc 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -245,7 +245,6 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
- 
- 	obj->base.base.funcs = &panthor_gem_funcs;
- 	obj->base.map_wc = !ptdev->coherent;
--	drm_gem_gpuva_set_lock(&obj->base.base, &obj->base.base.gpuva.lock);
- 	mutex_init(&obj->label.lock);
- 
- 	panthor_gem_debugfs_bo_init(obj);
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 2881942ab5115686803fb9d9036bc059d56b7fa3..ee9e94448b76ffd31a97d82a857fa925c4cf0cb5 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -2420,8 +2420,9 @@ panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
- 	 * to be handled the same way user VMAs are.
- 	 */
- 	drm_gpuvm_init(&vm->base, for_mcu ? "panthor-MCU-VM" : "panthor-GPU-VM",
--		       DRM_GPUVM_RESV_PROTECTED, &ptdev->base, dummy_gem,
--		       min_va, va_range, 0, 0, &panthor_gpuvm_ops);
-+		       DRM_GPUVM_RESV_PROTECTED | DRM_GPUVM_IMMEDIATE_MODE,
-+		       &ptdev->base, dummy_gem, min_va, va_range, 0, 0,
-+		       &panthor_gpuvm_ops);
- 	drm_gem_object_put(dummy_gem);
- 	return vm;
- 
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 5934d8dc267a65aaf62d2d025869221cd110b325..85a25bbb387c4590678e4ba243b51acd94b008ed 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -402,17 +402,22 @@ struct drm_gem_object {
- 	 *
- 	 * Provides the list of GPU VAs attached to this GEM object.
- 	 *
--	 * Drivers should lock list accesses with the GEMs &dma_resv lock
--	 * (&drm_gem_object.resv) or a custom lock if one is provided. The
--	 * mutex inside this struct may be used as the custom lock.
-+	 * When DRM_GPUVM_IMMEDIATE_MODE is set, this list is protected by the
-+	 * mutex. Otherwise, the list is protected by the GEMs &dma_resv lock.
-+	 *
-+	 * Note that all entries in this list must agree on whether
-+	 * DRM_GPUVM_IMMEDIATE_MODE is set.
- 	 */
- 	struct {
- 		struct list_head list;
- 
-+		/**
-+		 * @gpuva.lock: Only used when DRM_GPUVM_IMMEDIATE_MODE is set.
-+		 * It should be safe to take this mutex during the fence
-+		 * signalling path, so do not allocate memory while holding
-+		 * this lock.
-+		 */
- 		struct mutex lock;
--#ifdef CONFIG_LOCKDEP
--		struct lockdep_map *lock_dep_map;
--#endif
- 	} gpuva;
- 
- 	/**
-@@ -597,26 +602,12 @@ static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
- }
- 
- #ifdef CONFIG_LOCKDEP
--/**
-- * drm_gem_gpuva_set_lock() - Set the lock protecting accesses to the gpuva list.
-- * @obj: the &drm_gem_object
-- * @lock: the lock used to protect the gpuva list. The locking primitive
-- * must contain a dep_map field.
-- *
-- * Call this if you're not proctecting access to the gpuva list with the
-- * dma-resv lock, but with a custom lock.
-- */
--#define drm_gem_gpuva_set_lock(obj, lock) \
--	if (!WARN((obj)->gpuva.lock_dep_map, \
--		  "GEM GPUVA lock should be set only once.")) \
--		(obj)->gpuva.lock_dep_map = &(lock)->dep_map
--#define drm_gem_gpuva_assert_lock_held(obj) \
--	lockdep_assert((obj)->gpuva.lock_dep_map ? \
--		       lock_is_held((obj)->gpuva.lock_dep_map) : \
-+#define drm_gem_gpuva_assert_lock_held(gpuvm, obj) \
-+	lockdep_assert(drm_gpuvm_immediate_mode(gpuvm) ? \
-+		       lock_is_held(&(obj)->gpuva.lock.dep_map) : \
- 		       dma_resv_held((obj)->resv))
- #else
--#define drm_gem_gpuva_set_lock(obj, lock) do {} while (0)
--#define drm_gem_gpuva_assert_lock_held(obj) do {} while (0)
-+#define drm_gem_gpuva_assert_lock_held(gpuvm, obj) do {} while (0)
- #endif
- 
- /**
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index 4a22b9d848f7b3d5710ca554f5b01556abf95985..598ba376b9430cdd4ab7bacdc15de031a887cf71 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -196,10 +196,20 @@ enum drm_gpuvm_flags {
- 	 */
- 	DRM_GPUVM_RESV_PROTECTED = BIT(0),
- 
-+	/**
-+	 * @DRM_GPUVM_IMMEDIATE_MODE: use the locking scheme that makes it safe
-+	 * to modify the GPUVM during the fence signalling path
-+	 *
-+	 * When set, gpuva.lock is used to protect gpuva.list in all GEM
-+	 * objects associated with this GPUVM. Otherwise, the GEMs dma-resv is
-+	 * used.
-+	 */
-+	DRM_GPUVM_IMMEDIATE_MODE = BIT(1),
-+
- 	/**
- 	 * @DRM_GPUVM_USERBITS: user defined bits
- 	 */
--	DRM_GPUVM_USERBITS = BIT(1),
-+	DRM_GPUVM_USERBITS = BIT(2),
- };
- 
- /**
-@@ -369,6 +379,19 @@ drm_gpuvm_resv_protected(struct drm_gpuvm *gpuvm)
- 	return gpuvm->flags & DRM_GPUVM_RESV_PROTECTED;
- }
- 
-+/**
-+ * drm_gpuvm_immediate_mode() - indicates whether &DRM_GPUVM_IMMEDIATE_MODE is
-+ * set
-+ * @gpuvm: the &drm_gpuvm
-+ *
-+ * Returns: true if &DRM_GPUVM_IMMEDIATE_MODE is set, false otherwise.
-+ */
-+static inline bool
-+drm_gpuvm_immediate_mode(struct drm_gpuvm *gpuvm)
-+{
-+	return gpuvm->flags & DRM_GPUVM_IMMEDIATE_MODE;
-+}
-+
- /**
-  * drm_gpuvm_resv() - returns the &drm_gpuvm's &dma_resv
-  * @gpuvm__: the &drm_gpuvm
-@@ -742,9 +765,10 @@ drm_gpuvm_bo_gem_evict(struct drm_gem_object *obj, bool evict)
- {
- 	struct drm_gpuvm_bo *vm_bo;
- 
--	drm_gem_gpuva_assert_lock_held(obj);
--	drm_gem_for_each_gpuvm_bo(vm_bo, obj)
-+	drm_gem_for_each_gpuvm_bo(vm_bo, obj) {
-+		drm_gem_gpuva_assert_lock_held(vm_bo->vm, obj);
- 		drm_gpuvm_bo_evict(vm_bo, evict);
-+	}
- }
- 
- void drm_gpuvm_bo_extobj_add(struct drm_gpuvm_bo *vm_bo);
+> platforms, this callback calls `devm_pwrseq_get("gpu-power")`, deferrin=
+g
+> probe if the sequencer is not yet available. For other platforms, it
+> falls back to the existing manual clock and reset handling. The runtime=
 
--- 
-2.51.0.rc2.233.g662b1ed5c5-goog
+> PM callbacks continue to call the appropriate functions via the ops
+> table.
+>=20
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 
+Reviewed-by: Matt Coster <matt.coster@imgtec.com>
+
+Would you like me to take the non-DTS changes via drm-misc-next?
+
+Cheers,
+Matt
+
+> ---
+>  drivers/gpu/drm/imagination/pvr_device.c |  22 +----
+>  drivers/gpu/drm/imagination/pvr_device.h |  17 ++++
+>  drivers/gpu/drm/imagination/pvr_drv.c    |  23 ++++-
+>  drivers/gpu/drm/imagination/pvr_power.c  | 158 +++++++++++++++++++++++=
+--------
+>  drivers/gpu/drm/imagination/pvr_power.h  |  15 +++
+>  5 files changed, 176 insertions(+), 59 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm=
+/imagination/pvr_device.c
+> index 8b9ba4983c4cb5bc40342fcafc4259078bc70547..294b6019b4155bb7fdb7de7=
+3ccf7fa8ad867811f 100644
+> --- a/drivers/gpu/drm/imagination/pvr_device.c
+> +++ b/drivers/gpu/drm/imagination/pvr_device.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/firmware.h>
+>  #include <linux/gfp.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/reset.h>
+> @@ -121,21 +122,6 @@ static int pvr_device_clk_init(struct pvr_device *=
+pvr_dev)
+>  	return 0;
+>  }
+> =20
+> -static int pvr_device_reset_init(struct pvr_device *pvr_dev)
+> -{
+> -	struct drm_device *drm_dev =3D from_pvr_device(pvr_dev);
+> -	struct reset_control *reset;
+> -
+> -	reset =3D devm_reset_control_get_optional_exclusive(drm_dev->dev, NUL=
+L);
+> -	if (IS_ERR(reset))
+> -		return dev_err_probe(drm_dev->dev, PTR_ERR(reset),
+> -				     "failed to get gpu reset line\n");
+> -
+> -	pvr_dev->reset =3D reset;
+> -
+> -	return 0;
+> -}
+> -
+>  /**
+>   * pvr_device_process_active_queues() - Process all queue related even=
+ts.
+>   * @pvr_dev: PowerVR device to check
+> @@ -618,6 +604,9 @@ pvr_device_init(struct pvr_device *pvr_dev)
+>  	struct device *dev =3D drm_dev->dev;
+>  	int err;
+> =20
+> +	/* Get the platform-specific data based on the compatible string. */
+> +	pvr_dev->device_data =3D of_device_get_match_data(dev);
+> +
+>  	/*
+>  	 * Setup device parameters. We do this first in case other steps
+>  	 * depend on them.
+> @@ -631,8 +620,7 @@ pvr_device_init(struct pvr_device *pvr_dev)
+>  	if (err)
+>  		return err;
+> =20
+> -	/* Get the reset line for the GPU */
+> -	err =3D pvr_device_reset_init(pvr_dev);
+> +	err =3D pvr_dev->device_data->pwr_ops->init(pvr_dev);
+>  	if (err)
+>  		return err;
+> =20
+> diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm=
+/imagination/pvr_device.h
+> index 7cb01c38d2a9c3fc71effe789d4dfe54eddd93ee..ab8f56ae15df6c2888feb16=
+b1d87b59510961936 100644
+> --- a/drivers/gpu/drm/imagination/pvr_device.h
+> +++ b/drivers/gpu/drm/imagination/pvr_device.h
+> @@ -37,6 +37,9 @@ struct clk;
+>  /* Forward declaration from <linux/firmware.h>. */
+>  struct firmware;
+> =20
+> +/* Forward declaration from <linux/pwrseq/consumer.h> */
+> +struct pwrseq_desc;
+> +
+>  /**
+>   * struct pvr_gpu_id - Hardware GPU ID information for a PowerVR devic=
+e
+>   * @b: Branch ID.
+> @@ -57,6 +60,14 @@ struct pvr_fw_version {
+>  	u16 major, minor;
+>  };
+> =20
+> +/**
+> + * struct pvr_device_data - Platform specific data associated with a c=
+ompatible string.
+> + * @pwr_ops: Pointer to a structure with platform-specific power funct=
+ions.
+> + */
+> +struct pvr_device_data {
+> +	const struct pvr_power_sequence_ops *pwr_ops;
+> +};
+> +
+>  /**
+>   * struct pvr_device - powervr-specific wrapper for &struct drm_device=
+
+>   */
+> @@ -98,6 +109,9 @@ struct pvr_device {
+>  	/** @fw_version: Firmware version detected at runtime. */
+>  	struct pvr_fw_version fw_version;
+> =20
+> +	/** @device_data: Pointer to platform-specific data. */
+> +	const struct pvr_device_data *device_data;
+> +
+>  	/** @regs_resource: Resource representing device control registers. *=
+/
+>  	struct resource *regs_resource;
+> =20
+> @@ -148,6 +162,9 @@ struct pvr_device {
+>  	 */
+>  	struct reset_control *reset;
+> =20
+> +	/** @pwrseq: Pointer to a power sequencer, if one is used. */
+> +	struct pwrseq_desc *pwrseq;
+> +
+>  	/** @irq: IRQ number. */
+>  	int irq;
+> =20
+> diff --git a/drivers/gpu/drm/imagination/pvr_drv.c b/drivers/gpu/drm/im=
+agination/pvr_drv.c
+> index b058ec183bb30ab5c3db17ebaadf2754520a2a1f..916b40ced7eb0408fe985ba=
+1b83b3be2eb024bae 100644
+> --- a/drivers/gpu/drm/imagination/pvr_drv.c
+> +++ b/drivers/gpu/drm/imagination/pvr_drv.c
+> @@ -1480,15 +1480,33 @@ static void pvr_remove(struct platform_device *=
+plat_dev)
+>  	pvr_power_domains_fini(pvr_dev);
+>  }
+> =20
+> +static const struct pvr_device_data pvr_device_data_manual =3D {
+> +	.pwr_ops =3D &pvr_power_sequence_ops_manual,
+> +};
+> +
+> +static const struct pvr_device_data pvr_device_data_pwrseq =3D {
+> +	.pwr_ops =3D &pvr_power_sequence_ops_pwrseq,
+> +};
+> +
+>  static const struct of_device_id dt_match[] =3D {
+> -	{ .compatible =3D "img,img-rogue", .data =3D NULL },
+> +	{
+> +		.compatible =3D "thead,th1520-gpu",
+> +		.data =3D &pvr_device_data_pwrseq,
+> +	},
+> +	{
+> +		.compatible =3D "img,img-rogue",
+> +		.data =3D &pvr_device_data_manual,
+> +	},
+> =20
+>  	/*
+>  	 * This legacy compatible string was introduced early on before the m=
+ore generic
+>  	 * "img,img-rogue" was added. Keep it around here for compatibility, =
+but never use
+>  	 * "img,img-axe" in new devicetrees.
+>  	 */
+> -	{ .compatible =3D "img,img-axe", .data =3D NULL },
+> +	{
+> +		.compatible =3D "img,img-axe",
+> +		.data =3D &pvr_device_data_manual,
+> +	},
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, dt_match);
+> @@ -1513,4 +1531,5 @@ MODULE_DESCRIPTION(PVR_DRIVER_DESC);
+>  MODULE_LICENSE("Dual MIT/GPL");
+>  MODULE_IMPORT_NS("DMA_BUF");
+>  MODULE_FIRMWARE("powervr/rogue_33.15.11.3_v1.fw");
+> +MODULE_FIRMWARE("powervr/rogue_36.52.104.182_v1.fw");
+>  MODULE_FIRMWARE("powervr/rogue_36.53.104.796_v1.fw");
+> diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/=
+imagination/pvr_power.c
+> index 187a07e0bd9adb2f0713ac2c8e091229f4027354..c6e7ff9e935d3b348eff695=
+3c633c72410fdf507 100644
+> --- a/drivers/gpu/drm/imagination/pvr_power.c
+> +++ b/drivers/gpu/drm/imagination/pvr_power.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/pwrseq/consumer.h>
+>  #include <linux/reset.h>
+>  #include <linux/timer.h>
+>  #include <linux/types.h>
+> @@ -234,6 +235,118 @@ pvr_watchdog_init(struct pvr_device *pvr_dev)
+>  	return 0;
+>  }
+> =20
+> +static int pvr_power_init_manual(struct pvr_device *pvr_dev)
+> +{
+> +	struct drm_device *drm_dev =3D from_pvr_device(pvr_dev);
+> +	struct reset_control *reset;
+> +
+> +	reset =3D devm_reset_control_get_optional_exclusive(drm_dev->dev, NUL=
+L);
+> +	if (IS_ERR(reset))
+> +		return dev_err_probe(drm_dev->dev, PTR_ERR(reset),
+> +				     "failed to get gpu reset line\n");
+> +
+> +	pvr_dev->reset =3D reset;
+> +
+> +	return 0;
+> +}
+> +
+> +static int pvr_power_on_sequence_manual(struct pvr_device *pvr_dev)
+> +{
+> +	int err;
+> +
+> +	err =3D clk_prepare_enable(pvr_dev->core_clk);
+> +	if (err)
+> +		return err;
+> +
+> +	err =3D clk_prepare_enable(pvr_dev->sys_clk);
+> +	if (err)
+> +		goto err_core_clk_disable;
+> +
+> +	err =3D clk_prepare_enable(pvr_dev->mem_clk);
+> +	if (err)
+> +		goto err_sys_clk_disable;
+> +
+> +	/*
+> +	 * According to the hardware manual, a delay of at least 32 clock
+> +	 * cycles is required between de-asserting the clkgen reset and
+> +	 * de-asserting the GPU reset. Assuming a worst-case scenario with
+> +	 * a very high GPU clock frequency, a delay of 1 microsecond is
+> +	 * sufficient to ensure this requirement is met across all
+> +	 * feasible GPU clock speeds.
+> +	 */
+> +	udelay(1);
+> +
+> +	err =3D reset_control_deassert(pvr_dev->reset);
+> +	if (err)
+> +		goto err_mem_clk_disable;
+> +
+> +	return 0;
+> +
+> +err_mem_clk_disable:
+> +	clk_disable_unprepare(pvr_dev->mem_clk);
+> +
+> +err_sys_clk_disable:
+> +	clk_disable_unprepare(pvr_dev->sys_clk);
+> +
+> +err_core_clk_disable:
+> +	clk_disable_unprepare(pvr_dev->core_clk);
+> +
+> +	return err;
+> +}
+> +
+> +static int pvr_power_off_sequence_manual(struct pvr_device *pvr_dev)
+> +{
+> +	int err;
+> +
+> +	err =3D reset_control_assert(pvr_dev->reset);
+> +
+> +	clk_disable_unprepare(pvr_dev->mem_clk);
+> +	clk_disable_unprepare(pvr_dev->sys_clk);
+> +	clk_disable_unprepare(pvr_dev->core_clk);
+> +
+> +	return err;
+> +}
+> +
+> +const struct pvr_power_sequence_ops pvr_power_sequence_ops_manual =3D =
+{
+> +	.init =3D pvr_power_init_manual,
+> +	.power_on =3D pvr_power_on_sequence_manual,
+> +	.power_off =3D pvr_power_off_sequence_manual,
+> +};
+> +
+> +static int pvr_power_init_pwrseq(struct pvr_device *pvr_dev)
+> +{
+> +	struct device *dev =3D from_pvr_device(pvr_dev)->dev;
+> +
+> +	pvr_dev->pwrseq =3D devm_pwrseq_get(dev, "gpu-power");
+> +	if (IS_ERR(pvr_dev->pwrseq)) {
+> +		/*
+> +		 * This platform requires a sequencer. If we can't get it, we
+> +		 * must return the error (including -EPROBE_DEFER to wait for
+> +		 * the provider to appear)
+> +		 */
+> +		return dev_err_probe(dev, PTR_ERR(pvr_dev->pwrseq),
+> +				     "Failed to get required power sequencer\n");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int pvr_power_on_sequence_pwrseq(struct pvr_device *pvr_dev)
+> +{
+> +	return pwrseq_power_on(pvr_dev->pwrseq);
+> +}
+> +
+> +static int pvr_power_off_sequence_pwrseq(struct pvr_device *pvr_dev)
+> +{
+> +	return pwrseq_power_off(pvr_dev->pwrseq);
+> +}
+> +
+> +const struct pvr_power_sequence_ops pvr_power_sequence_ops_pwrseq =3D =
+{
+> +	.init =3D pvr_power_init_pwrseq,
+> +	.power_on =3D pvr_power_on_sequence_pwrseq,
+> +	.power_off =3D pvr_power_off_sequence_pwrseq,
+> +};
+> +
+>  int
+>  pvr_power_device_suspend(struct device *dev)
+>  {
+> @@ -252,11 +365,7 @@ pvr_power_device_suspend(struct device *dev)
+>  			goto err_drm_dev_exit;
+>  	}
+> =20
+> -	clk_disable_unprepare(pvr_dev->mem_clk);
+> -	clk_disable_unprepare(pvr_dev->sys_clk);
+> -	clk_disable_unprepare(pvr_dev->core_clk);
+> -
+> -	err =3D reset_control_assert(pvr_dev->reset);
+> +	err =3D pvr_dev->device_data->pwr_ops->power_off(pvr_dev);
+> =20
+>  err_drm_dev_exit:
+>  	drm_dev_exit(idx);
+> @@ -276,53 +385,22 @@ pvr_power_device_resume(struct device *dev)
+>  	if (!drm_dev_enter(drm_dev, &idx))
+>  		return -EIO;
+> =20
+> -	err =3D clk_prepare_enable(pvr_dev->core_clk);
+> +	err =3D pvr_dev->device_data->pwr_ops->power_on(pvr_dev);
+>  	if (err)
+>  		goto err_drm_dev_exit;
+> =20
+> -	err =3D clk_prepare_enable(pvr_dev->sys_clk);
+> -	if (err)
+> -		goto err_core_clk_disable;
+> -
+> -	err =3D clk_prepare_enable(pvr_dev->mem_clk);
+> -	if (err)
+> -		goto err_sys_clk_disable;
+> -
+> -	/*
+> -	 * According to the hardware manual, a delay of at least 32 clock
+> -	 * cycles is required between de-asserting the clkgen reset and
+> -	 * de-asserting the GPU reset. Assuming a worst-case scenario with
+> -	 * a very high GPU clock frequency, a delay of 1 microsecond is
+> -	 * sufficient to ensure this requirement is met across all
+> -	 * feasible GPU clock speeds.
+> -	 */
+> -	udelay(1);
+> -
+> -	err =3D reset_control_deassert(pvr_dev->reset);
+> -	if (err)
+> -		goto err_mem_clk_disable;
+> -
+>  	if (pvr_dev->fw_dev.booted) {
+>  		err =3D pvr_power_fw_enable(pvr_dev);
+>  		if (err)
+> -			goto err_reset_assert;
+> +			goto err_power_off;
+>  	}
+> =20
+>  	drm_dev_exit(idx);
+> =20
+>  	return 0;
+> =20
+> -err_reset_assert:
+> -	reset_control_assert(pvr_dev->reset);
+> -
+> -err_mem_clk_disable:
+> -	clk_disable_unprepare(pvr_dev->mem_clk);
+> -
+> -err_sys_clk_disable:
+> -	clk_disable_unprepare(pvr_dev->sys_clk);
+> -
+> -err_core_clk_disable:
+> -	clk_disable_unprepare(pvr_dev->core_clk);
+> +err_power_off:
+> +	pvr_dev->device_data->pwr_ops->power_off(pvr_dev);
+> =20
+>  err_drm_dev_exit:
+>  	drm_dev_exit(idx);
+> diff --git a/drivers/gpu/drm/imagination/pvr_power.h b/drivers/gpu/drm/=
+imagination/pvr_power.h
+> index ada85674a7ca762dcf92df40424230e1c3910342..b853d092242cc90cb98cf66=
+100679a309055a1dc 100644
+> --- a/drivers/gpu/drm/imagination/pvr_power.h
+> +++ b/drivers/gpu/drm/imagination/pvr_power.h
+> @@ -41,4 +41,19 @@ pvr_power_put(struct pvr_device *pvr_dev)
+>  int pvr_power_domains_init(struct pvr_device *pvr_dev);
+>  void pvr_power_domains_fini(struct pvr_device *pvr_dev);
+> =20
+> +/**
+> + * struct pvr_power_sequence_ops - Platform specific power sequence op=
+erations.
+> + * @init: Pointer to the platform-specific initialization function.
+> + * @power_on: Pointer to the platform-specific power on function.
+> + * @power_off: Pointer to the platform-specific power off function.
+> + */
+> +struct pvr_power_sequence_ops {
+> +	int (*init)(struct pvr_device *pvr_dev);
+> +	int (*power_on)(struct pvr_device *pvr_dev);
+> +	int (*power_off)(struct pvr_device *pvr_dev);
+> +};
+> +
+> +extern const struct pvr_power_sequence_ops pvr_power_sequence_ops_manu=
+al;
+> +extern const struct pvr_power_sequence_ops pvr_power_sequence_ops_pwrs=
+eq;
+> +
+>  #endif /* PVR_POWER_H */
+>=20
+
+
+--=20
+Matt Coster
+E: matt.coster@imgtec.com
+
+--------------JJd0FReICCRZ3UPVwu0kCzvo--
+
+--------------kKJxzkDrURcIHkNRgSm40aqx
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCaKg4RQUDAAAAAAAKCRB5vBnz2d5qsMzj
+AP4/Jr16IB6GykZkM/5G23PgH+UU266PrN46tleziUznZAEAnCyLzMQFsAUWwPHlNweke5KXIfpo
+7x1z4k5Tw+xoYAE=
+=8xu5
+-----END PGP SIGNATURE-----
+
+--------------kKJxzkDrURcIHkNRgSm40aqx--
