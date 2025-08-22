@@ -2,86 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E238DB32202
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 20:10:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89278B3220F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 20:11:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0073010E0FA;
-	Fri, 22 Aug 2025 18:10:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2850110EB80;
+	Fri, 22 Aug 2025 18:11:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JHFX0+qk";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IHlqjETq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAC5910E0FA
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 18:10:02 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25CD210EB7F
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 18:10:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1755886202;
+ s=mimecast20190719; t=1755886258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4Qgw45kgIvklypQIdjW4WKJClwzbVj1vFIwI4+ABCxY=;
- b=JHFX0+qkscmKrac5JO5QpD94YU+RlaIqCcfk7NStHx4YpQ7BhKJ68r7z9zUawt1/IEf/xK
- F5Uz4NzVkQX2cifF9pTBMeK4zynem6E9/Ug9ZV+NdoQHMrr4BfCxSCujEAeB8LgXIimM6i
- lG7cYHbAUOumgcUMLrb87AE94jvL/Xw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Cs65i5/BwS5INh2iU3PXL6F11yYfHDlCfNAhWqRXwfw=;
+ b=IHlqjETqzwCuONFy5g3tX285k9HokVykuW9NR4wiLQpEBOzKxW0849TNNbS1S6DVCJHvuW
+ mwROS5gDqKdbloa9ZFdwLW6jbeD/RNHcEYaEz+oIHSMWIuFQZCoOphU8fx6j6L4vgHVvWv
+ am6keBNUTrSU6idrcZKFnYncn72PTso=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-101-SvZK1FHYOsahrRlIqxycsA-1; Fri, 22 Aug 2025 14:09:59 -0400
-X-MC-Unique: SvZK1FHYOsahrRlIqxycsA-1
-X-Mimecast-MFC-AGG-ID: SvZK1FHYOsahrRlIqxycsA_1755886198
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3b9edf332faso743493f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 11:09:59 -0700 (PDT)
+ us-mta-346-i2u6k7CDOP-cBGajrFmmSQ-1; Fri, 22 Aug 2025 14:10:57 -0400
+X-MC-Unique: i2u6k7CDOP-cBGajrFmmSQ-1
+X-Mimecast-MFC-AGG-ID: i2u6k7CDOP-cBGajrFmmSQ_1755886255
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3b9e4157303so1665913f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 11:10:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755886198; x=1756490998;
+ d=1e100.net; s=20230601; t=1755886255; x=1756491055;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4Qgw45kgIvklypQIdjW4WKJClwzbVj1vFIwI4+ABCxY=;
- b=uDPHR126UraKZ9/BseZsiaEDh1EMkZpboRGDSd7Loi+beCC90mebYbnIM2MSkH5vL6
- IRxtivMety+iugMrj8pGmvKHjBQP+j2h9dy3Vn+QyJ1U/nNYpglQ2HZj+3xmTMq1eg1S
- xbdtAQIAmxF4YPD/U85U01AhjGPVN9lfTc6ZgGCS0F5Ee653CTz8gMKXaiP2v87j79yq
- XIOoT4KYaOP2vpb47pF6XBrVRKi6AKt874lTtBxakQBDi5jSG497tGKnseHDv1XXNNiF
- Qh56UKq5i3ztORlM6C4GBd57OOCPTt40rqN0JtvH0Ecvf9KVOB6q3cr66xWUEWofH0yx
- CmGQ==
+ bh=Cs65i5/BwS5INh2iU3PXL6F11yYfHDlCfNAhWqRXwfw=;
+ b=nI8kKwVODqFBUsXEDLl5SjmAbIWRdmD/CHB9axSNzFz44jqN5L2dUlay/V89zUhsTT
+ 92NzS6eGtp+8NmGJhS2VTkTCY8IkH1AbXHBzrp3CZPMRdcCqcG/ZBnkpi6vY2mi0fGwM
+ zkC13Rgy0PZueV51etLXpf+jMibN3GNfXoi/9YdGj1iTQtYh1Q33yabQMA+lvF/qO8fh
+ SPV8D0O3LKlqbbxXHRr18B2Mc/pjwe2WDSuYl/15WmQmM0nRDI3Vt9gN0RwvAsoSkSkt
+ 7D/ZbBRRJ76Ny83vewDcewt8uUy70qWhE8W9AhtPjV3rASRORLaFQsEya0SW2NJmXPbY
+ lxTA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUnCMMKrT7/RMGgIAZTRHdBtJ4gP9Z1jPn936Z34yaVMR93vSRoJhi388ginLbg1/oOiP27eAgcaa4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5iDeCCLouNnLrhLsby4YL6WxkORIFKK9Jsz9f6BpQae8Lke1L
- d5HuxGnYGm45ocWlXkWWwoLcO6xDg2JZsDbgc9c783EOdtBV04tgfGCsz8svjLYo4RD1aDtYxCQ
- UrGWkSYk9UopCW9g1CjBEobOCr7fPiE5fdVMd7a5STeLThHAL4otDPzgxosTKjCaXo32clw==
-X-Gm-Gg: ASbGncsTb0SIfGHJv0+nK0LHLaSL8uqJO04dRtzxeaXLUsmjSmp4B4CMvurZue7e8cp
- En1hLondMPFPkmAdbr+BS4wl4nAH35HCGkvvQM66aQA94z88oOOuN70xMwAY972DO7FUj2Nm9tr
- lS8gRByZx2a7N9H/oMAEBynLPmHhx5tyCCEY/JsQhI/93m2B5FQAbAQNmnajxbDttgEGbFcxgxH
- YMv+z0PJCEclEmpVLNLzRCjzAof9PDXv6yNqHqRWhtD6Ni5zKF+YKuj3gbl7RoIjF4rqWwEzE3t
- 0uXBxQcQ6ahjzu5Bi0HBHOhXBVkYBjUQAcwZyqxW0UBq+bOuFyZKKianR/9pEilRenW7+qtcY8W
- EDGMQkXUpkEREBNYvbquZAkGt8tiYqTfcqdSweM2Pr4eVjifaUMPh2RNFcbFC293FcBE=
-X-Received: by 2002:a05:6000:4011:b0:3a4:f50b:ca2 with SMTP id
- ffacd0b85a97d-3c5da83bbdfmr2672661f8f.8.1755886197915; 
- Fri, 22 Aug 2025 11:09:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGihO/MfCjEADxWF8Q8DVVHHoqn0Rg/Ikr9pZDPhG5cKysecyGKSziAj6ohTWcg7Hwh15RzFg==
-X-Received: by 2002:a05:6000:4011:b0:3a4:f50b:ca2 with SMTP id
- ffacd0b85a97d-3c5da83bbdfmr2672603f8f.8.1755886197412; 
- Fri, 22 Aug 2025 11:09:57 -0700 (PDT)
+ AJvYcCUOFKDRS1DeN55WiewKlYNrhqCOK9vOYUUMnm/SQSdeDIcZnR/U2sSaGkhD7/MJGh+Fna1Hy92DvQw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzE8tHIftXckcdBTvmAIv8w/wTouVzj7lIo0wZEQWM3O+b58Oxg
+ zQhesOnxHjNF7N2aB8ruMBb/kC0/vz6wdGFeRpBOatdrMErJkgBkEvNhZ4Amlhx1FxySsVfB/A2
+ XS83JrRgaJ36ICm118MhAPquYhCOCYcsIPGotJgNN1CJIkW9wz5q1KkycAJA4F3AbJeNKIg==
+X-Gm-Gg: ASbGnctkHQsR+KotcbYh3KsOHfn2Zb2fYvUx0zQfPHGT4AGfk6JMjUmSZxtEx8/YVLi
+ b0CgObrOUp7kvnkuH5DX8op80j3WvONO4Nr1bhnrlMO3vQiKsPwO/R/ZniyiQGSGJ9efTHo4ceD
+ DPyX0B9a+SE00w36MtWHBOs/Imcwbt2M+etYCjk9G02uTlRC8OHce/pQsFtg+L0mEbiz4kxJuzO
+ QTEZmLY/ndK5nq7YFjbs0SIAXVMzn6L9z51hWVsWvJ+g6oLskMh9iZ/oR8meOkdXjNItxbmxn8N
+ wxldkk+aGJeP4ww6wkfoOM4pIww+gqV+QaPIr0qQiRNj+FDdsZNa3Ag9y2SF5wPkBYuHOmpuyv7
+ iNUUu7NZc13cmbkwMM3ARvo1qOLLaPTfrR/R/NiVomVFte0vz9/gPTEP//XveN6thPOM=
+X-Received: by 2002:a05:6000:26ce:b0:3b7:83c0:a9e0 with SMTP id
+ ffacd0b85a97d-3c5daefc76amr3207817f8f.25.1755886254506; 
+ Fri, 22 Aug 2025 11:10:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFruF/9yLWC9qQiiSeqlnaZybt0y1Lc6OlpmYaNOwlaf7dspYYth5O1iwJEpGlFoX5TNvjMRA==
+X-Received: by 2002:a05:6000:26ce:b0:3b7:83c0:a9e0 with SMTP id
+ ffacd0b85a97d-3c5daefc76amr3207779f8f.25.1755886254021; 
+ Fri, 22 Aug 2025 11:10:54 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f2e:6100:d9da:ae87:764c:a77e?
  (p200300d82f2e6100d9daae87764ca77e.dip0.t-ipconnect.de.
  [2003:d8:2f2e:6100:d9da:ae87:764c:a77e])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b5753ac36sm7608875e9.6.2025.08.22.11.09.55
+ ffacd0b85a97d-3c70f238640sm404818f8f.26.2025.08.22.11.10.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Aug 2025 11:09:56 -0700 (PDT)
-Message-ID: <1a3ca0c5-0720-4882-b425-031297c1abb7@redhat.com>
-Date: Fri, 22 Aug 2025 20:09:54 +0200
+ Fri, 22 Aug 2025 11:10:53 -0700 (PDT)
+Message-ID: <9a9eb9ca-a5ae-4230-8921-fd0e0a79ccbb@redhat.com>
+Date: Fri, 22 Aug 2025 20:10:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 09/35] mm/mm_init: make memmap_init_compound() look
- more like prep_compound_page()
-To: Mike Rapoport <rppt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
+Subject: Re: [PATCH RFC 29/35] scsi: core: drop nth_page() usage within SG
+ entry
+To: Bart Van Assche <bvanassche@acm.org>, linux-kernel@vger.kernel.org
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Doug Gilbert <dgilbert@interlog.com>, Alexander Potapenko
+ <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
  Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -97,14 +99,16 @@ Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
  linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
  linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>, Suren Baghdasaryan <surenb@google.com>,
+ Tejun Heo <tj@kernel.org>, virtualization@lists.linux.dev,
+ Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org,
+ Zi Yan <ziy@nvidia.com>
 References: <20250821200701.1329277-1-david@redhat.com>
- <20250821200701.1329277-10-david@redhat.com> <aKiMWoZMyXYTAPJj@kernel.org>
+ <20250821200701.1329277-30-david@redhat.com>
+ <58816f2c-d4a7-4ec0-a48e-66a876ea1168@acm.org>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -150,9 +154,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <aKiMWoZMyXYTAPJj@kernel.org>
+In-Reply-To: <58816f2c-d4a7-4ec0-a48e-66a876ea1168@acm.org>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: _DPlHE3EeSs1aQLgJ1OakrvCpcNP3SYi6I23taOoYrg_1755886198
+X-Mimecast-MFC-PROC-ID: _KpsFTBK230rf8ZiCfeIRZYcVLCJB2YZNMzs7MawgJQ_1755886255
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -172,51 +176,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.08.25 17:27, Mike Rapoport wrote:
-> On Thu, Aug 21, 2025 at 10:06:35PM +0200, David Hildenbrand wrote:
->> Grepping for "prep_compound_page" leaves on clueless how devdax gets its
->> compound pages initialized.
->>
->> Let's add a comment that might help finding this open-coded
->> prep_compound_page() initialization more easily.
->>
->> Further, let's be less smart about the ordering of initialization and just
->> perform the prep_compound_head() call after all tail pages were
->> initialized: just like prep_compound_page() does.
->>
->> No need for a lengthy comment then: again, just like prep_compound_page().
->>
->> Note that prep_compound_head() already does initialize stuff in page[2]
->> through prep_compound_head() that successive tail page initialization
->> will overwrite: _deferred_list, and on 32bit _entire_mapcount and
->> _pincount. Very likely 32bit does not apply, and likely nobody ever ends
->> up testing whether the _deferred_list is empty.
->>
->> So it shouldn't be a fix at this point, but certainly something to clean
->> up.
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   mm/mm_init.c | 13 +++++--------
->>   1 file changed, 5 insertions(+), 8 deletions(-)
->>
->> diff --git a/mm/mm_init.c b/mm/mm_init.c
->> index 5c21b3af216b2..708466c5b2cc9 100644
->> --- a/mm/mm_init.c
->> +++ b/mm/mm_init.c
->> @@ -1091,6 +1091,10 @@ static void __ref memmap_init_compound(struct page *head,
->>   	unsigned long pfn, end_pfn = head_pfn + nr_pages;
->>   	unsigned int order = pgmap->vmemmap_shift;
->>   
->> +	/*
->> +	 * This is an open-coded prep_compound_page() whereby we avoid
->> +	 * walking pages twice by initializing them in the same go.
->> +	 */
-> 
-> While on it, can you also mention that prep_compound_page() is not used to
-> properly set page zone link?
+On 22.08.25 20:01, Bart Van Assche wrote:
+> On 8/21/25 1:06 PM, David Hildenbrand wrote:
+>> It's no longer required to use nth_page() when iterating pages within a
+>> single SG entry, so let's drop the nth_page() usage.
+> Usually the SCSI core and the SG I/O driver are updated separately.
+> Anyway:
 
-Sure, thanks!
+Thanks, I had it separately but decided to merge per broader subsystem 
+before sending. I can split it up in the next version.
 
 -- 
 Cheers
