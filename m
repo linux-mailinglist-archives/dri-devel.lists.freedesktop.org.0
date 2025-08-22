@@ -2,131 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52CBAB311CD
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 10:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5C7B311F3
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 10:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAC3010EA8D;
-	Fri, 22 Aug 2025 08:29:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0EAB10EA8E;
+	Fri, 22 Aug 2025 08:37:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AxqMHrST";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VSiBXjTm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E348310EA8C
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 08:29:40 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57M6ugY9021883
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 08:29:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- oSsDA9Wis3g7ZHaqsLK1duB5UsS6ah4PJUuVmp/O+e4=; b=AxqMHrST9IWjYEoP
- fN++E9sY1jxjQ9liy2e/OKWul6NkClxhHLI//FgfJxhpReMOEI6zQCgzWNV/pH5v
- nza9XqKygXKL+tkyO2h+6FmC55IFeWeUPrnihtiG7erRKNg9Dxedqcaz1mPNZJTB
- CJ1aoiWxHrZCHPHDAuhJbfaHoFOMHXuj0AGUzZLY18e+yKP5OUEeppRbUXBBkM+X
- DeEJkOMxrLHlUqR3jk6jzS8GPDOJhJ+H6VBHF5a7rc4rct30AxsFpk2J0e0bV+ns
- Sp9bg77tK0U9E8+Z7VaESBM4mx1RLdS3RZK3WhUNX+ZEPAwqIx1hHddvI99BrsfZ
- wKlUdw==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52agj16-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 08:29:40 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id
- 41be03b00d2f7-b49c7295627so34989a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 01:29:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755851379; x=1756456179;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=oSsDA9Wis3g7ZHaqsLK1duB5UsS6ah4PJUuVmp/O+e4=;
- b=X7z+y/RaLcYEvQaQx2uD/VI5q8zzRjqwrsgIphFWQ7WFChnNQkRN8uXGS/KgPFiUKH
- duCXyxFpIryL09BR8NlYbawG934sPiIbrrOnIE0SSSZLcjvJ5NtAVp75S/FmGRTvlp8i
- InlBKOS1U7YTNtRIQQsLIg1L5lwwljJui7Smd2X6T882+jwm0kItiT0lBVpnypQ6J+eI
- H5VJtaP7YbZ9c0gT16/518bW5+NX5pfnXNSfaQyRcmeaxdVWtjvIpNK/2ksgGtwib4aL
- /W5RDFbuE+l/u6bhOt9nK2oEIrHmRntJv3yuemTxsGkQrWH0E6pADkG7Or00iHw1hwKB
- ROUQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXQeqAxl5TWPbBJ94RzlJz2whof0tyPWQaFct4Vxk0iOgA9En7h39bHHNjFHXG52PTfZHRQRXfHlCA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzcJc/T202d6xLny2G0vjeFPi1exdvfhbYaSK5IGrUGQIkTAHFV
- v/1pSLO2PvLFxxellD9I7uMx5eCG+J6wW7shExJXQRu35BsKuiAVnbtLRKhfnfNl88RqjlbG//r
- 8IV37RrQC3qCrhspDiA++jo1N8Glp7LtOxfzQiegeAe8B3Tg1xWVIVQWxerZqUj21s/BMp3A=
-X-Gm-Gg: ASbGncvhl9twzhefWFuWriPXrVu4hJS8ArPa1vLYWAuCbHBiBvsmaNNDviGMgp/1KFp
- 7y7RiQQeVXWikgmLtnkTmj1gKtZZr+Hfe1hyks9OXXS7LqsggmazLtdpmVBWXvdZ+F9ZmHYYEuw
- hLPKqdfKZMzqJWDrIh5YClxglLv4IXCkZlWBL/dIiQTwrL2HS+MtYZYTap8BU4bUGv9Hex9f90L
- 9jfETLmaTL+goxu9X3hWUeQkYCBcXCZLMbNCEL76yfMnGKqASa3Opcgi51VU+glddve6Gi7TQy6
- brCcYnU++X313woqMextB5oSP98OsNOLrrMnbODAh/HxqHpYyV4ifGaYrkiQ5deu1YDwupCyl43
- zNQb8682QVC09a3vexKMBV83vLivB1Q==
-X-Received: by 2002:a05:6a00:190e:b0:742:94fe:c844 with SMTP id
- d2e1a72fcca58-7702fc0c607mr1534992b3a.4.1755851379245; 
- Fri, 22 Aug 2025 01:29:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IECS6ht/YMt4fQ0cJ1W+rfpGn2MBw0jytRNBtzImRzLr3L0zMRCdBklcsnccWVDS9F20MVWHA==
-X-Received: by 2002:a05:6a00:190e:b0:742:94fe:c844 with SMTP id
- d2e1a72fcca58-7702fc0c607mr1534945b3a.4.1755851378646; 
- Fri, 22 Aug 2025 01:29:38 -0700 (PDT)
-Received: from [10.133.33.119] (tpe-colo-wan-fw-bordernet.qualcomm.com.
- [103.229.16.4]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-76e7d0d3a61sm10220483b3a.16.2025.08.22.01.29.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Aug 2025 01:29:38 -0700 (PDT)
-Message-ID: <6f7c3962-ccfc-4400-a77f-399b06da93e1@oss.qualcomm.com>
-Date: Fri, 22 Aug 2025 16:29:28 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F22F610EA87;
+ Fri, 22 Aug 2025 08:37:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755851838; x=1787387838;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=3FOLagMlHzlSOg57ps4Py95Vs2EVUWRC2Doo2n4pKio=;
+ b=VSiBXjTmzGA7b1kv4Uf5Mg9ca5j6LMouPjw4ENk5f9leyHwkiIycHIfh
+ ux8apdW/Bmwa2zJmG7mCZylez0AQsGGdRRRDEQE+Fr8vFJbM/IHinFpCL
+ 524y9w2tqhUTAdXYKXNtP/qQhgr7j5YNuW3xc3zsjaiKnfc2J1HUzGtu9
+ DaT2AyIS0Qc94UQSpQ6GQrUaDbOCYZLbqh1+EEMbmR5kdi48A/XUbioCD
+ PgeWbyggNRibJH/MqRC4Ecy2jroDaRi6uB4wAuuVWULt8sGY5WR9DCa/+
+ Jl41QBkCtRJl37usFEwRBKBZeMf4hMZb2VoT75pcILWS6EygvrchXaqhu g==;
+X-CSE-ConnectionGUID: FMw2BbclSTavDCtQOWP9/g==
+X-CSE-MsgGUID: 8lFTq35OTwC5/hr2mSixHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="68859258"
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="68859258"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 01:37:17 -0700
+X-CSE-ConnectionGUID: ogKdiQdPSMaDyN/Oq0/TSw==
+X-CSE-MsgGUID: y6O8lx9nRbO8ECt3ZVIBCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="199536088"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.134])
+ ([10.245.244.134])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 01:37:16 -0700
+Message-ID: <6c813ddf-639e-4816-bd7d-70142a656663@intel.com>
+Date: Fri, 22 Aug 2025 09:37:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/14] phy: qcom: qmp-usbc: Move reset and regulator
- config into PHY cfg
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, fange.zhang@oss.qualcomm.com,
- yongxing.mou@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-References: <20250820-add-displayport-support-for-qcs615-platform-v3-0-a43bd25ec39c@oss.qualcomm.com>
- <20250820-add-displayport-support-for-qcs615-platform-v3-7-a43bd25ec39c@oss.qualcomm.com>
- <ofvzduf5xyip7w6yde2xwsrvv3tdh7ew3yyzeya2qzpqty3j7p@bnetyjowhdn5>
-From: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
-In-Reply-To: <ofvzduf5xyip7w6yde2xwsrvv3tdh7ew3yyzeya2qzpqty3j7p@bnetyjowhdn5>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: POWQmXCawwpkuOs3D3ElpIrQQ1nNmga9
-X-Authority-Analysis: v=2.4 cv=B83gEOtM c=1 sm=1 tr=0 ts=68a82a74 cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=MEhiHkCBgsXSh6r2bIQA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
-X-Proofpoint-GUID: POWQmXCawwpkuOs3D3ElpIrQQ1nNmga9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfXziXqQMhc6Tyb
- q12C2zgIuf0YoxjA70jJYSo2//7uAoiWFaUkKdm2YcXdAyEBwZWHrrYEd8tRFRgCTvEWtsyHq1O
- G/By0BC8MaCBT8snx+PgByaUd4mcGQG9ZqugF4Tl1ZPO26VLxCOdDfRx/B8zf+IUJcgHdxIT9j6
- JAR6tzHGmE16++zfOauoSOnQMjT/ISuRcqthoJpRH7QZ70cJxKDLtxkegak4/UMeqcsKctDATQw
- i5O7ZGAwLJgN+037gIQpyvob6H7c2bviQ8zMS+wvrpqaO8Ss0iM60gP/kEBCd01NG/DnmcO173i
- wHxyrsZ2vDIUhR+dFBLdmiR0UQlugWfucKYEyweKnigAlzmfgoFGCjMqD9yRGc6VRsw9W4Zqchb
- JlKOSe5OpfzU3DSIZ8KNWe60MbRYJA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_03,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+Subject: Re: [PATCH v3 1/2] drm/buddy: Optimize free block management with RB
+ tree
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: alexander.deucher@amd.com
+References: <20250821150641.2720-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20250821150641.2720-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,323 +74,463 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 21/08/2025 16:06, Arunpravin Paneer Selvam wrote:
+> Replace the freelist (O(n)) used for free block management with a
+> red-black tree, providing more efficient O(log n) search, insert,
+> and delete operations. This improves scalability and performance
+> when managing large numbers of free blocks per order (e.g., hundreds
+> or thousands).
+> 
+> In the VK-CTS memory stress subtest, the buddy manager merges
+> fragmented memory and inserts freed blocks into the freelist. Since
+> freelist insertion is O(n), this becomes a bottleneck as fragmentation
+> increases. Benchmarking shows list_insert_sorted() consumes ~52.69% CPU
+> with the freelist, compared to just 0.03% with the RB tree
+> (rbtree_insert.isra.0), despite performing the same sorted insert.
+> 
+> This also improves performance in heavily fragmented workloads,
+> such as games or graphics tests that stress memory.
+> 
+> v3(Matthew):
+>    - Remove RB_EMPTY_NODE check in force_merge function.
+>    - Rename rb for loop macros to have less generic names and move to
+>      .c file.
+>    - Make the rb node rb and link field as union.
+> 
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 
-On 8/20/2025 7:30 PM, Dmitry Baryshkov wrote:
-> On Wed, Aug 20, 2025 at 05:34:49PM +0800, Xiangxu Yin wrote:
->> Refactor reset and regulator configuration to be managed via qmp_phy_cfg
->> instead of hardcoded lists. This enables per-PHY customization and
->> simplifies initialization logic for USB-only and USB/DP switchable PHYs.
-> Please split into two patches in order to simplify reviewing.
+CI is reporting a crash in rb_erase when running the drm_buddy kunit, 
+somewhere in drm_test_buddy_alloc_clear it seems.
 
+> ---
+>   drivers/gpu/drm/drm_buddy.c | 175 +++++++++++++++++++++++++-----------
+>   include/drm/drm_buddy.h     |   9 +-
+>   2 files changed, 130 insertions(+), 54 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index a94061f373de..92226a46cc2c 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -14,6 +14,41 @@
+>   
+>   static struct kmem_cache *slab_blocks;
+>   
+> +/*
+> + * for_each_rb_free_block() - iterate over an RB tree in order
+> + * @pos:	the struct type * to use as a loop cursor
+> + * @root:	pointer to struct rb_root to iterate
+> + * @member:	name of the rb_node field within the struct
+> + */
+> +#define for_each_rb_free_block(pos, root, member) \
+> +	for (pos = rb_entry_safe(rb_first(root), typeof(*pos), member); \
+> +	     pos; \
+> +	     pos = rb_entry_safe(rb_next(&(pos)->member), typeof(*pos), member))
+> +
+> +/*
+> + * for_each_rb_free_block_reverse() - iterate over an RB tree in reverse order
+> + * @pos:	the struct type * to use as a loop cursor
+> + * @root:	pointer to struct rb_root to iterate
+> + * @member:	name of the rb_node field within the struct
+> + */
+> +#define for_each_rb_free_block_reverse(pos, root, member) \
+> +	for (pos = rb_entry_safe(rb_last(root), typeof(*pos), member); \
+> +	     pos; \
+> +	     pos = rb_entry_safe(rb_prev(&(pos)->member), typeof(*pos), member))
+> +
+> +/**
+> + * for_each_rb_free_block_reverse_safe() - safely iterate over an RB tree in reverse order
+> + * @pos:	the struct type * to use as a loop cursor.
+> + * @n:		another struct type * to use as temporary storage.
+> + * @root:	pointer to struct rb_root to iterate.
+> + * @member:	name of the rb_node field within the struct.
+> + */
+> +#define for_each_rb_free_block_reverse_safe(pos, n, root, member) \
+> +	for (pos = rb_entry_safe(rb_last(root), typeof(*pos), member), \
+> +	     n = pos ? rb_entry_safe(rb_prev(&(pos)->member), typeof(*pos), member) : NULL; \
+> +	     pos; \
+> +	     pos = n, n = pos ? rb_entry_safe(rb_prev(&(pos)->member), typeof(*pos), member) : NULL)
+> +
+>   static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
+>   					       struct drm_buddy_block *parent,
+>   					       unsigned int order,
+> @@ -31,6 +66,8 @@ static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
+>   	block->header |= order;
+>   	block->parent = parent;
+>   
+> +	RB_CLEAR_NODE(&block->rb);
+> +
+>   	BUG_ON(block->header & DRM_BUDDY_HEADER_UNUSED);
+>   	return block;
+>   }
+> @@ -41,23 +78,53 @@ static void drm_block_free(struct drm_buddy *mm,
+>   	kmem_cache_free(slab_blocks, block);
+>   }
+>   
+> -static void list_insert_sorted(struct drm_buddy *mm,
+> -			       struct drm_buddy_block *block)
+> +static void rbtree_insert(struct drm_buddy *mm,
+> +			  struct drm_buddy_block *block)
+>   {
+> +	struct rb_root *root = &mm->free_tree[drm_buddy_block_order(block)];
+> +	struct rb_node **link = &root->rb_node;
+> +	struct rb_node *parent = NULL;
+>   	struct drm_buddy_block *node;
+> -	struct list_head *head;
+> +	u64 offset;
+> +
+> +	offset = drm_buddy_block_offset(block);
+>   
+> -	head = &mm->free_list[drm_buddy_block_order(block)];
+> -	if (list_empty(head)) {
+> -		list_add(&block->link, head);
+> -		return;
+> +	while (*link) {
+> +		parent = *link;
+> +		node = rb_entry(parent, struct drm_buddy_block, rb);
+> +
+> +		if (offset < drm_buddy_block_offset(node))
+> +			link = &parent->rb_left;
+> +		else
+> +			link = &parent->rb_right;
+>   	}
+>   
+> -	list_for_each_entry(node, head, link)
+> -		if (drm_buddy_block_offset(block) < drm_buddy_block_offset(node))
+> -			break;
+> +	rb_link_node(&block->rb, parent, link);
+> +	rb_insert_color(&block->rb, root);
+> +}
+>   
+> -	__list_add(&block->link, node->link.prev, &node->link);
+> +static void rbtree_remove(struct drm_buddy *mm,
+> +			  struct drm_buddy_block *block)
+> +{
+> +	struct rb_root *root;
+> +
+> +	root = &mm->free_tree[drm_buddy_block_order(block)];
+> +	rb_erase(&block->rb, root);
+> +
+> +	RB_CLEAR_NODE(&block->rb);
+> +}
+> +
+> +static inline struct drm_buddy_block *
+> +rbtree_last_entry(struct drm_buddy *mm, unsigned int order)
+> +{
+> +	struct rb_node *node = rb_last(&mm->free_tree[order]);
+> +
+> +	return node ? rb_entry(node, struct drm_buddy_block, rb) : NULL;
+> +}
+> +
+> +static bool rbtree_is_empty(struct drm_buddy *mm, unsigned int order)
+> +{
+> +	return RB_EMPTY_ROOT(&mm->free_tree[order]);
+>   }
+>   
+>   static void clear_reset(struct drm_buddy_block *block)
+> @@ -70,12 +137,13 @@ static void mark_cleared(struct drm_buddy_block *block)
+>   	block->header |= DRM_BUDDY_HEADER_CLEAR;
+>   }
+>   
+> -static void mark_allocated(struct drm_buddy_block *block)
+> +static void mark_allocated(struct drm_buddy *mm,
+> +			   struct drm_buddy_block *block)
+>   {
+>   	block->header &= ~DRM_BUDDY_HEADER_STATE;
+>   	block->header |= DRM_BUDDY_ALLOCATED;
+>   
+> -	list_del(&block->link);
+> +	rbtree_remove(mm, block);
+>   }
+>   
+>   static void mark_free(struct drm_buddy *mm,
+> @@ -84,15 +152,16 @@ static void mark_free(struct drm_buddy *mm,
+>   	block->header &= ~DRM_BUDDY_HEADER_STATE;
+>   	block->header |= DRM_BUDDY_FREE;
+>   
+> -	list_insert_sorted(mm, block);
+> +	rbtree_insert(mm, block);
+>   }
+>   
+> -static void mark_split(struct drm_buddy_block *block)
+> +static void mark_split(struct drm_buddy *mm,
+> +		       struct drm_buddy_block *block)
+>   {
+>   	block->header &= ~DRM_BUDDY_HEADER_STATE;
+>   	block->header |= DRM_BUDDY_SPLIT;
+>   
+> -	list_del(&block->link);
+> +	rbtree_remove(mm, block);
+>   }
+>   
+>   static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2)
+> @@ -148,7 +217,7 @@ static unsigned int __drm_buddy_free(struct drm_buddy *mm,
+>   				mark_cleared(parent);
+>   		}
+>   
+> -		list_del(&buddy->link);
+> +		rbtree_remove(mm, buddy);
+>   		if (force_merge && drm_buddy_block_is_clear(buddy))
+>   			mm->clear_avail -= drm_buddy_block_size(mm, buddy);
+>   
+> @@ -179,9 +248,11 @@ static int __force_merge(struct drm_buddy *mm,
+>   		return -EINVAL;
+>   
+>   	for (i = min_order - 1; i >= 0; i--) {
+> -		struct drm_buddy_block *block, *prev;
+> +		struct drm_buddy_block *block, *prev_block, *first_block;
+>   
+> -		list_for_each_entry_safe_reverse(block, prev, &mm->free_list[i], link) {
+> +		first_block = rb_entry(rb_first(&mm->free_tree[i]), struct drm_buddy_block, rb);
+> +
+> +		for_each_rb_free_block_reverse_safe(block, prev_block, &mm->free_tree[i], rb) {
+>   			struct drm_buddy_block *buddy;
+>   			u64 block_start, block_end;
+>   
+> @@ -206,10 +277,14 @@ static int __force_merge(struct drm_buddy *mm,
+>   			 * block in the next iteration as we would free the
+>   			 * buddy block as part of the free function.
+>   			 */
+> -			if (prev == buddy)
+> -				prev = list_prev_entry(prev, link);
+> +			if (prev_block && prev_block == buddy) {
+> +				if (prev_block != first_block)
+> +					prev_block = rb_entry(rb_prev(&prev_block->rb),
+> +							      struct drm_buddy_block,
+> +							      rb);
+> +			}
+>   
+> -			list_del(&block->link);
+> +			rbtree_remove(mm, block);
+>   			if (drm_buddy_block_is_clear(block))
+>   				mm->clear_avail -= drm_buddy_block_size(mm, block);
+>   
+> @@ -258,14 +333,14 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>   
+>   	BUG_ON(mm->max_order > DRM_BUDDY_MAX_ORDER);
+>   
+> -	mm->free_list = kmalloc_array(mm->max_order + 1,
+> -				      sizeof(struct list_head),
+> +	mm->free_tree = kmalloc_array(mm->max_order + 1,
+> +				      sizeof(struct rb_root),
+>   				      GFP_KERNEL);
+> -	if (!mm->free_list)
+> +	if (!mm->free_tree)
+>   		return -ENOMEM;
+>   
+>   	for (i = 0; i <= mm->max_order; ++i)
+> -		INIT_LIST_HEAD(&mm->free_list[i]);
+> +		mm->free_tree[i] = RB_ROOT;
+>   
+>   	mm->n_roots = hweight64(size);
+>   
+> @@ -273,7 +348,7 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>   				  sizeof(struct drm_buddy_block *),
+>   				  GFP_KERNEL);
+>   	if (!mm->roots)
+> -		goto out_free_list;
+> +		goto out_free_tree;
+>   
+>   	offset = 0;
+>   	i = 0;
+> @@ -312,8 +387,8 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+>   	while (i--)
+>   		drm_block_free(mm, mm->roots[i]);
+>   	kfree(mm->roots);
+> -out_free_list:
+> -	kfree(mm->free_list);
+> +out_free_tree:
+> +	kfree(mm->free_tree);
+>   	return -ENOMEM;
+>   }
+>   EXPORT_SYMBOL(drm_buddy_init);
+> @@ -323,7 +398,7 @@ EXPORT_SYMBOL(drm_buddy_init);
+>    *
+>    * @mm: DRM buddy manager to free
+>    *
+> - * Cleanup memory manager resources and the freelist
+> + * Cleanup memory manager resources and the freetree
+>    */
+>   void drm_buddy_fini(struct drm_buddy *mm)
+>   {
+> @@ -350,7 +425,7 @@ void drm_buddy_fini(struct drm_buddy *mm)
+>   	WARN_ON(mm->avail != mm->size);
+>   
+>   	kfree(mm->roots);
+> -	kfree(mm->free_list);
+> +	kfree(mm->free_tree);
+>   }
+>   EXPORT_SYMBOL(drm_buddy_fini);
+>   
+> @@ -383,7 +458,7 @@ static int split_block(struct drm_buddy *mm,
+>   		clear_reset(block);
+>   	}
+>   
+> -	mark_split(block);
+> +	mark_split(mm, block);
+>   
+>   	return 0;
+>   }
+> @@ -433,7 +508,7 @@ void drm_buddy_reset_clear(struct drm_buddy *mm, bool is_clear)
+>   	for (i = 0; i <= mm->max_order; ++i) {
+>   		struct drm_buddy_block *block;
+>   
+> -		list_for_each_entry_reverse(block, &mm->free_list[i], link) {
+> +		for_each_rb_free_block_reverse(block, &mm->free_tree[i], rb) {
+>   			if (is_clear != drm_buddy_block_is_clear(block)) {
+>   				if (is_clear) {
+>   					mark_cleared(block);
+> @@ -641,7 +716,7 @@ get_maxblock(struct drm_buddy *mm, unsigned int order,
+>   	for (i = order; i <= mm->max_order; ++i) {
+>   		struct drm_buddy_block *tmp_block;
+>   
+> -		list_for_each_entry_reverse(tmp_block, &mm->free_list[i], link) {
+> +		for_each_rb_free_block_reverse(tmp_block, &mm->free_tree[i], rb) {
+>   			if (block_incompatible(tmp_block, flags))
+>   				continue;
+>   
+> @@ -667,7 +742,7 @@ get_maxblock(struct drm_buddy *mm, unsigned int order,
+>   }
+>   
+>   static struct drm_buddy_block *
+> -alloc_from_freelist(struct drm_buddy *mm,
+> +alloc_from_freetree(struct drm_buddy *mm,
+>   		    unsigned int order,
+>   		    unsigned long flags)
+>   {
+> @@ -684,7 +759,7 @@ alloc_from_freelist(struct drm_buddy *mm,
+>   		for (tmp = order; tmp <= mm->max_order; ++tmp) {
+>   			struct drm_buddy_block *tmp_block;
+>   
+> -			list_for_each_entry_reverse(tmp_block, &mm->free_list[tmp], link) {
+> +			for_each_rb_free_block_reverse(tmp_block, &mm->free_tree[tmp], rb) {
+>   				if (block_incompatible(tmp_block, flags))
+>   					continue;
+>   
+> @@ -700,10 +775,8 @@ alloc_from_freelist(struct drm_buddy *mm,
+>   	if (!block) {
+>   		/* Fallback method */
+>   		for (tmp = order; tmp <= mm->max_order; ++tmp) {
+> -			if (!list_empty(&mm->free_list[tmp])) {
+> -				block = list_last_entry(&mm->free_list[tmp],
+> -							struct drm_buddy_block,
+> -							link);
+> +			if (!rbtree_is_empty(mm, tmp)) {
+> +				block = rbtree_last_entry(mm, tmp);
+>   				if (block)
+>   					break;
+>   			}
+> @@ -771,7 +844,7 @@ static int __alloc_range(struct drm_buddy *mm,
+>   
+>   		if (contains(start, end, block_start, block_end)) {
+>   			if (drm_buddy_block_is_free(block)) {
+> -				mark_allocated(block);
+> +				mark_allocated(mm, block);
+>   				total_allocated += drm_buddy_block_size(mm, block);
+>   				mm->avail -= drm_buddy_block_size(mm, block);
+>   				if (drm_buddy_block_is_clear(block))
+> @@ -849,7 +922,6 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
+>   {
+>   	u64 rhs_offset, lhs_offset, lhs_size, filled;
+>   	struct drm_buddy_block *block;
+> -	struct list_head *list;
+>   	LIST_HEAD(blocks_lhs);
+>   	unsigned long pages;
+>   	unsigned int order;
+> @@ -862,11 +934,10 @@ static int __alloc_contig_try_harder(struct drm_buddy *mm,
+>   	if (order == 0)
+>   		return -ENOSPC;
+>   
+> -	list = &mm->free_list[order];
+> -	if (list_empty(list))
+> +	if (rbtree_is_empty(mm, order))
+>   		return -ENOSPC;
+>   
+> -	list_for_each_entry_reverse(block, list, link) {
+> +	for_each_rb_free_block_reverse(block, &mm->free_tree[order], rb) {
+>   		/* Allocate blocks traversing RHS */
+>   		rhs_offset = drm_buddy_block_offset(block);
+>   		err =  __drm_buddy_alloc_range(mm, rhs_offset, size,
+> @@ -976,7 +1047,7 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
+>   	list_add(&block->tmp_link, &dfs);
+>   	err =  __alloc_range(mm, &dfs, new_start, new_size, blocks, NULL);
+>   	if (err) {
+> -		mark_allocated(block);
+> +		mark_allocated(mm, block);
+>   		mm->avail -= drm_buddy_block_size(mm, block);
+>   		if (drm_buddy_block_is_clear(block))
+>   			mm->clear_avail -= drm_buddy_block_size(mm, block);
+> @@ -999,8 +1070,8 @@ __drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   		return  __drm_buddy_alloc_range_bias(mm, start, end,
+>   						     order, flags);
+>   	else
+> -		/* Allocate from freelist */
+> -		return alloc_from_freelist(mm, order, flags);
+> +		/* Allocate from freetree */
+> +		return alloc_from_freetree(mm, order, flags);
+>   }
+>   
+>   /**
+> @@ -1017,8 +1088,8 @@ __drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>    * alloc_range_bias() called on range limitations, which traverses
+>    * the tree and returns the desired block.
+>    *
+> - * alloc_from_freelist() called when *no* range restrictions
+> - * are enforced, which picks the block from the freelist.
+> + * alloc_from_freetree() called when *no* range restrictions
+> + * are enforced, which picks the block from the freetree.
+>    *
+>    * Returns:
+>    * 0 on success, error code on failure.
+> @@ -1120,7 +1191,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+>   			}
+>   		} while (1);
+>   
+> -		mark_allocated(block);
+> +		mark_allocated(mm, block);
+>   		mm->avail -= drm_buddy_block_size(mm, block);
+>   		if (drm_buddy_block_is_clear(block))
+>   			mm->clear_avail -= drm_buddy_block_size(mm, block);
+> @@ -1204,7 +1275,7 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p)
+>   		struct drm_buddy_block *block;
+>   		u64 count = 0, free;
+>   
+> -		list_for_each_entry(block, &mm->free_list[order], link) {
+> +		for_each_rb_free_block(block, &mm->free_tree[order], rb) {
+>   			BUG_ON(!drm_buddy_block_is_free(block));
+>   			count++;
+>   		}
+> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+> index 513837632b7d..091823592034 100644
+> --- a/include/drm/drm_buddy.h
+> +++ b/include/drm/drm_buddy.h
+> @@ -10,6 +10,7 @@
+>   #include <linux/list.h>
+>   #include <linux/slab.h>
+>   #include <linux/sched.h>
+> +#include <linux/rbtree.h>
+>   
+>   #include <drm/drm_print.h>
+>   
+> @@ -53,7 +54,11 @@ struct drm_buddy_block {
+>   	 * a list, if so desired. As soon as the block is freed with
+>   	 * drm_buddy_free* ownership is given back to the mm.
+>   	 */
+> -	struct list_head link;
+> +	union {
+> +		struct rb_node rb;
+> +		struct list_head link;
+> +	};
+> +
+>   	struct list_head tmp_link;
+>   };
+>   
+> @@ -68,7 +73,7 @@ struct drm_buddy_block {
+>    */
+>   struct drm_buddy {
+>   	/* Maintain a free list for each order. */
+> -	struct list_head *free_list;
+> +	struct rb_root *free_tree;
+>   
+>   	/*
+>   	 * Maintain explicit binary tree(s) to track the allocation of the
 
-Ok, will split reset and regulator part.
-
-
->> Signed-off-by: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
->> ---
->>  drivers/phy/qualcomm/phy-qcom-qmp-usbc.c | 108 +++++++++++++++----------------
->>  1 file changed, 53 insertions(+), 55 deletions(-)
->>
->> diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
->> index 61128d606238321d1b573655b3b987226aa2d594..4e797b7e65da0e3a827efa9a179f1c150c1b8b00 100644
->> --- a/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
->> +++ b/drivers/phy/qualcomm/phy-qcom-qmp-usbc.c
->> @@ -421,8 +421,9 @@ struct qmp_phy_cfg {
->>  	int (*configure_dp_phy)(struct qmp_usbc *qmp);
->>  	int (*calibrate_dp_phy)(struct qmp_usbc *qmp);
->>  
->> -	/* regulators to be requested */
->> -	const char * const *vreg_list;
->> +	const char * const *reset_list;
->> +	int num_resets;
->> +	const struct regulator_bulk_data *vreg_list;
->>  	int num_vregs;
->>  
->>  	/* array of registers with different offsets */
->> @@ -453,7 +454,6 @@ struct qmp_usbc {
->>  	struct clk_hw dp_pixel_hw;
->>  	struct clk_bulk_data *clks;
->>  	int num_clks;
->> -	int num_resets;
->>  	struct reset_control_bulk_data *resets;
->>  	struct regulator_bulk_data *vregs;
->>  
->> @@ -514,9 +514,18 @@ static const char * const usb3phy_reset_l[] = {
->>  	"phy_phy", "phy",
->>  };
->>  
->> -/* list of regulators */
->> -static const char * const qmp_phy_vreg_l[] = {
->> -	"vdda-phy", "vdda-pll",
->> +static const char * const usb3dpphy_reset_l[] = {
->> +	"phy_phy", "dp_phy",
->> +};
->> +
->> +static const struct regulator_bulk_data qmp_phy_usb_vreg_l[] = {
->> +	{ .supply = "vdda-phy" },
->> +	{ .supply = "vdda-pll" },
-> Please fill in the values for all platforms. It well might be that they
-> all share the same current requirements.
-
-
-I checked previous DP projects and found all platforms configured vdda-phy with 21.8mA and vdda-pll with 36mA.
-
-However, I didn’t find USB load configs in downstream and from SoC related power grids:
-QCS615
-L12A: VDDA_USB0_SS_1P8/VDDA_USB1_SS_1P8 Ipk:20ma
-L5A: VDDA_USB0_SS_0P9/VDDA_USB1_SS_0P9 Ipk:50mA
-
-sm6150
-L11A: VDDA_USB0_SS_1P8/VDDA_USB1_SS_1P8 Ipk:20ma
-L4A: VDDA_USB0_SS_0P9/VDDA_USB1_SS_0P9 Ipk:50mA
-
-SM6115
-L12A: VDDA_USB_SS_DP_1P8 Ipk:13.3mA
-L4A: VDDA_USB_SS_DP_CORE Ipk:66.1mA
-
-QCM2290
-L13A: VDDA_USB_SS_DP_1P8 Ipk:13.3mA
-L12A: VDDA_USB_SS_DP_CORE Ipk:66.1mA
-
-sdm660
-LDO10A: VDDA_USB_SS_1P8 Ipk:14mA
-LDO1B: VDDA_USB_SS_CORE Ipk:68.6mA
-
-msm8998
-L2A: VDDA_USB_SS_1P2 Ipk:14.2mA
-L1A: VDDA_USB_SS_CORE Ipk:68.6mA
-
-It seems the USB power requirements vary across platforms, and the 21800 µA load for vdda-phy exceeds the Ipk range in most cases.
-I also tested removing the load settings for USB+DP PHY, and DP still works fine.
-So, can we keep the regulator config as original qmp_phy_vreg_l?
-static const char * const qmp_phy_vreg_l[] = { "vdda-phy", "vdda-pll"} 
-
-
->> +};
->> +
->> +static const struct regulator_bulk_data qmp_phy_usbdp_vreg_l[] = {
->> +	{ .supply = "vdda-phy", .init_load_uA = 21800 },
->> +	{ .supply = "vdda-phy", .init_load_uA = 36000 },
-> Typo
-
-
-Sorry for Typo, will fix in next patch.
-
-
->>  };
->>  
->>  static const struct qmp_usbc_offsets qmp_usbc_offsets_v3_qcm2290 = {
->> @@ -569,8 +578,10 @@ static const struct qmp_phy_cfg msm8998_usb3phy_cfg = {
->>  	.rx_tbl_num             = ARRAY_SIZE(msm8998_usb3_rx_tbl),
->>  	.pcs_tbl                = msm8998_usb3_pcs_tbl,
->>  	.pcs_tbl_num            = ARRAY_SIZE(msm8998_usb3_pcs_tbl),
->> -	.vreg_list              = qmp_phy_vreg_l,
->> -	.num_vregs              = ARRAY_SIZE(qmp_phy_vreg_l),
->> +	.reset_list		= usb3phy_reset_l,
->> +	.num_resets		= ARRAY_SIZE(usb3phy_reset_l),
->> +	.vreg_list              = qmp_phy_usb_vreg_l,
->> +	.num_vregs              = ARRAY_SIZE(qmp_phy_usb_vreg_l),
->>  	.regs                   = qmp_v3_usb3phy_regs_layout,
->>  };
->>  
->> @@ -586,8 +597,10 @@ static const struct qmp_phy_cfg qcm2290_usb3phy_cfg = {
->>  	.rx_tbl_num		= ARRAY_SIZE(qcm2290_usb3_rx_tbl),
->>  	.pcs_tbl		= qcm2290_usb3_pcs_tbl,
->>  	.pcs_tbl_num		= ARRAY_SIZE(qcm2290_usb3_pcs_tbl),
->> -	.vreg_list		= qmp_phy_vreg_l,
->> -	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
->> +	.reset_list		= usb3phy_reset_l,
->> +	.num_resets		= ARRAY_SIZE(usb3phy_reset_l),
->> +	.vreg_list		= qmp_phy_usb_vreg_l,
->> +	.num_vregs		= ARRAY_SIZE(qmp_phy_usb_vreg_l),
->>  	.regs			= qmp_v3_usb3phy_regs_layout_qcm2290,
->>  };
->>  
->> @@ -603,8 +616,10 @@ static const struct qmp_phy_cfg sdm660_usb3phy_cfg = {
->>  	.rx_tbl_num		= ARRAY_SIZE(sdm660_usb3_rx_tbl),
->>  	.pcs_tbl		= qcm2290_usb3_pcs_tbl,
->>  	.pcs_tbl_num		= ARRAY_SIZE(qcm2290_usb3_pcs_tbl),
->> -	.vreg_list		= qmp_phy_vreg_l,
->> -	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
->> +	.reset_list		= usb3phy_reset_l,
->> +	.num_resets		= ARRAY_SIZE(usb3phy_reset_l),
->> +	.vreg_list		= qmp_phy_usb_vreg_l,
->> +	.num_vregs		= ARRAY_SIZE(qmp_phy_usb_vreg_l),
->>  	.regs			= qmp_v3_usb3phy_regs_layout_qcm2290,
->>  };
->>  
->> @@ -637,6 +652,11 @@ static const struct qmp_phy_cfg qcs615_usb3dp_phy_cfg = {
->>  
->>  	.swing_tbl		= &qmp_dp_voltage_swing_hbr2_rbr,
->>  	.pre_emphasis_tbl	= &qmp_dp_pre_emphasis_hbr2_rbr,
->> +
->> +	.reset_list		= usb3dpphy_reset_l,
->> +	.num_resets		= ARRAY_SIZE(usb3dpphy_reset_l),
->> +	.vreg_list		= qmp_phy_usbdp_vreg_l,
->> +	.num_vregs		= ARRAY_SIZE(qmp_phy_usbdp_vreg_l),
->>  };
->>  
->>  static int qmp_usbc_com_init(struct phy *phy)
->> @@ -653,13 +673,13 @@ static int qmp_usbc_com_init(struct phy *phy)
->>  		return ret;
->>  	}
->>  
->> -	ret = reset_control_bulk_assert(qmp->num_resets, qmp->resets);
->> +	ret = reset_control_bulk_assert(cfg->num_resets, qmp->resets);
->>  	if (ret) {
->>  		dev_err(qmp->dev, "reset assert failed\n");
->>  		goto err_disable_regulators;
->>  	}
->>  
->> -	ret = reset_control_bulk_deassert(qmp->num_resets, qmp->resets);
->> +	ret = reset_control_bulk_deassert(cfg->num_resets, qmp->resets);
->>  	if (ret) {
->>  		dev_err(qmp->dev, "reset deassert failed\n");
->>  		goto err_disable_regulators;
->> @@ -682,7 +702,7 @@ static int qmp_usbc_com_init(struct phy *phy)
->>  	return 0;
->>  
->>  err_assert_reset:
->> -	reset_control_bulk_assert(qmp->num_resets, qmp->resets);
->> +	reset_control_bulk_assert(cfg->num_resets, qmp->resets);
->>  err_disable_regulators:
->>  	regulator_bulk_disable(cfg->num_vregs, qmp->vregs);
->>  
->> @@ -694,7 +714,7 @@ static int qmp_usbc_com_exit(struct phy *phy)
->>  	struct qmp_usbc *qmp = phy_get_drvdata(phy);
->>  	const struct qmp_phy_cfg *cfg = qmp->cfg;
->>  
->> -	reset_control_bulk_assert(qmp->num_resets, qmp->resets);
->> +	reset_control_bulk_assert(cfg->num_resets, qmp->resets);
->>  
->>  	clk_bulk_disable_unprepare(qmp->num_clks, qmp->clks);
->>  
->> @@ -921,42 +941,22 @@ static const struct dev_pm_ops qmp_usbc_pm_ops = {
->>  			   qmp_usbc_runtime_resume, NULL)
->>  };
->>  
->> -static int qmp_usbc_vreg_init(struct qmp_usbc *qmp)
->> +static int qmp_usbc_reset_init(struct qmp_usbc *qmp)
->>  {
->>  	const struct qmp_phy_cfg *cfg = qmp->cfg;
->> -	struct device *dev = qmp->dev;
->> -	int num = cfg->num_vregs;
->> -	int i;
->> -
->> -	qmp->vregs = devm_kcalloc(dev, num, sizeof(*qmp->vregs), GFP_KERNEL);
->> -	if (!qmp->vregs)
->> -		return -ENOMEM;
->> -
->> -	for (i = 0; i < num; i++)
->> -		qmp->vregs[i].supply = cfg->vreg_list[i];
->> -
->> -	return devm_regulator_bulk_get(dev, num, qmp->vregs);
->> -}
->> -
->> -static int qmp_usbc_reset_init(struct qmp_usbc *qmp,
->> -			      const char *const *reset_list,
->> -			      int num_resets)
->> -{
->>  	struct device *dev = qmp->dev;
->>  	int i;
->>  	int ret;
->>  
->> -	qmp->resets = devm_kcalloc(dev, num_resets,
->> +	qmp->resets = devm_kcalloc(dev, cfg->num_resets,
->>  				   sizeof(*qmp->resets), GFP_KERNEL);
->>  	if (!qmp->resets)
->>  		return -ENOMEM;
->>  
->> -	for (i = 0; i < num_resets; i++)
->> -		qmp->resets[i].id = reset_list[i];
->> +	for (i = 0; i < cfg->num_resets; i++)
->> +		qmp->resets[i].id = cfg->reset_list[i];
->>  
->> -	qmp->num_resets = num_resets;
->> -
->> -	ret = devm_reset_control_bulk_get_exclusive(dev, num_resets, qmp->resets);
->> +	ret = devm_reset_control_bulk_get_exclusive(dev, cfg->num_resets, qmp->resets);
->>  	if (ret)
->>  		return dev_err_probe(dev, ret, "failed to get resets\n");
->>  
->> @@ -1146,11 +1146,6 @@ static int qmp_usbc_parse_usb_dt_legacy(struct qmp_usbc *qmp, struct device_node
->>  
->>  	qmp->num_clks = ret;
->>  
->> -	ret = qmp_usbc_reset_init(qmp, usb3phy_legacy_reset_l,
->> -				 ARRAY_SIZE(usb3phy_legacy_reset_l));
->> -	if (ret)
->> -		return ret;
->> -
->>  	return 0;
->>  }
->>  
->> @@ -1187,14 +1182,9 @@ static int qmp_usbc_parse_usb_dt(struct qmp_usbc *qmp)
->>  	qmp->pipe_clk = devm_clk_get(dev, "pipe");
->>  	if (IS_ERR(qmp->pipe_clk)) {
->>  		return dev_err_probe(dev, PTR_ERR(qmp->pipe_clk),
->> -				     "failed to get pipe clock\n");
->> +					"failed to get pipe clock\n");
-> unrelated
-
-
-Ack.
-
-
->>  	}
->>  
->> -	ret = qmp_usbc_reset_init(qmp, usb3phy_reset_l,
->> -				 ARRAY_SIZE(usb3phy_reset_l));
->> -	if (ret)
->> -		return ret;
->> -
->>  	return 0;
->>  }
->>  
->> @@ -1228,6 +1218,7 @@ static int qmp_usbc_probe(struct platform_device *pdev)
->>  	struct phy_provider *phy_provider;
->>  	struct device_node *np;
->>  	struct qmp_usbc *qmp;
->> +	const struct qmp_phy_cfg *cfg;
->>  	int ret;
->>  
->>  	qmp = devm_kzalloc(dev, sizeof(*qmp), GFP_KERNEL);
->> @@ -1239,13 +1230,20 @@ static int qmp_usbc_probe(struct platform_device *pdev)
->>  
->>  	qmp->orientation = TYPEC_ORIENTATION_NORMAL;
->>  
->> -	qmp->cfg = of_device_get_match_data(dev);
->> -	if (!qmp->cfg)
->> +	cfg = of_device_get_match_data(dev);
->> +	if (!cfg)
->>  		return -EINVAL;
->>  
->> +	qmp->cfg = cfg;
-> Why? This doesn't seem related at all.
-
-
-I added the |cfg| variable to simplify access to |num_vregs| and |vreg_list| in the following lines, 
-
-avoiding repeated |qmp->cfg->...| usage. 
-
-If this is considered unrelated, I’ll remove it in the next version.
-
-
->
->> +
->>  	mutex_init(&qmp->phy_mutex);
->>  
->> -	ret = qmp_usbc_vreg_init(qmp);
->> +	ret = qmp_usbc_reset_init(qmp);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = devm_regulator_bulk_get_const(qmp->dev, cfg->num_vregs,
->> +					 cfg->vreg_list, &qmp->vregs);
->>  	if (ret)
->>  		return ret;
->>  
->>
->> -- 
->> 2.34.1
->>
