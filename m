@@ -2,78 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3857B3199B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 15:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A538B31993
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 15:31:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7E410E119;
-	Fri, 22 Aug 2025 13:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36CFF10E0EF;
+	Fri, 22 Aug 2025 13:31:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Vx7EiYOt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BiwhpPzs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zqHyvQ64";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NqNEGg+N";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OuIz3IKM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MNLBc7i8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OuIz3IKM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MNLBc7i8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5B7A10EB23
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 13:31:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6942A10E0EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 13:31:37 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CA9011F38D;
- Fri, 22 Aug 2025 13:31:35 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 249571F444;
+ Fri, 22 Aug 2025 13:31:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1755869496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nveo/sCIINBhIvO8H71DNBeqW9eFchpHr9JPVqfx6m4=;
- b=Vx7EiYOtISSefuppVLQxVjfruNGEgl/gHiqeF9o3jNZa62tdPdCr3UGy+f/MG+svAo1vw0
- 9mNrTMJOwmkuzeDljXWXmc7vqiUVOzgi2OMuO4we6s8eIG2Loj5mdthCaIFYv776Ma4dFW
- xEh/zG+EyZcOLtvFGctBjjNEdAnu1wc=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4cZVm7Q2mvZZzpRPa74FWq7GAPvIktNpOXl0UN7lzGw=;
+ b=OuIz3IKMYwotXs3Ox7BaM051LZt7C4dGqbU4a5NqC4B5ePIWh/iR+HYPgVD/8eoUT+se8S
+ w1BDI8iZ9WiSpE38W2CCNSyuvbDOJv6uqhDAbpESHtbw/qxY/KLDjR++FhgUBURquFaWXV
+ lO47LPBlFJeAA67finDZc+y2U44i6nM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1755869496;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nveo/sCIINBhIvO8H71DNBeqW9eFchpHr9JPVqfx6m4=;
- b=BiwhpPzsGjjhDrdMWezx6IOpc0Yeq6gfOnOQZe9f2Y2RTA/Rssi4Uuwr3cx5Ml+y6rqBlM
- I5920pEzJjk997CA==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4cZVm7Q2mvZZzpRPa74FWq7GAPvIktNpOXl0UN7lzGw=;
+ b=MNLBc7i8ZQ1To+WcYyDds0aacrELizisPpxgK5MTMnlbsoRo3bMYs0yp/bd+l06p5RFBIU
+ iCJ3fHSCIXJhduCQ==
 Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zqHyvQ64;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NqNEGg+N
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OuIz3IKM;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MNLBc7i8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1755869495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nveo/sCIINBhIvO8H71DNBeqW9eFchpHr9JPVqfx6m4=;
- b=zqHyvQ64owHJqNATYixlGCNfvHCQIrNwT/DURm4ud3P0VUjMMoZyGxmAoKlnk0QraQU8Co
- sKZrBIMeKA4+YIRBxWA0ozOZ7MHqpOJLIFaO8cj01gNKjBgyD0Z8HXN9QZzcjHKpRrFnXF
- n+ORXLBBXrZRchXIEQ+84i5GJfl9n9M=
+ t=1755869496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4cZVm7Q2mvZZzpRPa74FWq7GAPvIktNpOXl0UN7lzGw=;
+ b=OuIz3IKMYwotXs3Ox7BaM051LZt7C4dGqbU4a5NqC4B5ePIWh/iR+HYPgVD/8eoUT+se8S
+ w1BDI8iZ9WiSpE38W2CCNSyuvbDOJv6uqhDAbpESHtbw/qxY/KLDjR++FhgUBURquFaWXV
+ lO47LPBlFJeAA67finDZc+y2U44i6nM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1755869495;
+ s=susede2_ed25519; t=1755869496;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=nveo/sCIINBhIvO8H71DNBeqW9eFchpHr9JPVqfx6m4=;
- b=NqNEGg+NKhhHLZOSTBn/lNdfp35atGnNQ7pZ8l+bueB9+QkLi3eu4Ptn5uuIY2lQWEXQfE
- 5QjYcG1+03mcKFDg==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4cZVm7Q2mvZZzpRPa74FWq7GAPvIktNpOXl0UN7lzGw=;
+ b=MNLBc7i8ZQ1To+WcYyDds0aacrELizisPpxgK5MTMnlbsoRo3bMYs0yp/bd+l06p5RFBIU
+ iCJ3fHSCIXJhduCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C94B139B7;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D0E1A13A31;
  Fri, 22 Aug 2025 13:31:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id iEPrIDdxqGgneAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sMvKMTdxqGgneAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 22 Aug 2025 13:31:35 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jfalempe@redhat.com, airlied@redhat.com, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 0/6] ast: Replace DRAM info code
-Date: Fri, 22 Aug 2025 14:52:07 +0200
-Message-ID: <20250822132846.25376-1-tzimmermann@suse.de>
+Subject: [PATCH 1/6] drm/ast: Do not print DRAM info
+Date: Fri, 22 Aug 2025 14:52:08 +0200
+Message-ID: <20250822132846.25376-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250822132846.25376-1-tzimmermann@suse.de>
+References: <20250822132846.25376-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
@@ -95,7 +105,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: CA9011F38D
+X-Rspamd-Queue-Id: 249571F444
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -3.01
@@ -114,32 +124,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ast driver's ast_get_dram_info() helper is supposed to return
-information about the hardware's memory setup. It depends on the
-various types of configurations and the chipset model. The problem
-is that most of this is not needed or outright wrong.
+Most of the information in the DRAM status output is irrelevant; some
+is even wrong. Only the DRAM type is used on some older models. Drop
+the output entirely.
 
-Really needed is only the bank layout of the memory for posting Gen2
-and Gen3 systems with P2A configuration.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/ast/ast_main.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-This series removes ast_gem_dram_info(). The code for retrieving the
-bank layout goes into the Gen2 source code and runs when required.
-
-Tested on AST2100 and AST2600 hardware.
-
-Thomas Zimmermann (6):
-  drm/ast: Do not print DRAM info
-  drm/ast: Remove unused dram_bus_width field
-  drm/ast: Remove unused mclk field
-  drm/ast: Remove unused SCU-MPLL and SCU-STRAP values
-  drm/ast: Move DRAM info next to its only user
-  drm/ast: Put AST_DRAM_ constants into enum ast_dram_layout
-
- drivers/gpu/drm/ast/ast_2100.c |  45 +++++++++++-
- drivers/gpu/drm/ast/ast_drv.h  |  20 +++---
- drivers/gpu/drm/ast/ast_main.c | 126 ---------------------------------
- 3 files changed, 51 insertions(+), 140 deletions(-)
-
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 44b9b5f659fc..830f1c5fe893 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -355,8 +355,6 @@ struct drm_device *ast_device_create(struct pci_dev *pdev,
+ 	ret = ast_get_dram_info(ast);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+-	drm_info(dev, "dram MCLK=%u Mhz type=%d bus_width=%d\n",
+-		 ast->mclk, ast->dram_type, ast->dram_bus_width);
+ 
+ 	ast_detect_tx_chip(ast, need_post);
+ 	switch (ast->tx_chip) {
 -- 
 2.50.1
 
