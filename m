@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC53B31CC0
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 16:53:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0877B31D47
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 17:05:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C28110EB3D;
-	Fri, 22 Aug 2025 14:53:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C98810EB49;
+	Fri, 22 Aug 2025 15:05:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="D9bjwOaH";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XxU+Y4/p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C542510EB3D
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 14:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=A+IxoVzr/Gy0fVsugG6tFwzEXcy9WeUzEa+V/jBW33E=; b=D9bjwOaH6v0mvIcZ78K9PHY6S2
- sVK41lkk9SDAUkVmdwB6MNjDvBAPnOgjgkjSg+LJzzeWnyeuwZHsFUk4w6cqbliO1OH9Jgi1qSyAQ
- HqKz95OKnlZvwaXvJGWIrlVKJ4Tv4ipIr4Cp73O2f8mNWVofEilUF/tl0S5lDWDMLRVDaBI5yQ+Zp
- FTAzi9aUTV21lesBnDXZ/S6WanmNCLHKCoaHWtaflQI4gOkWGbT1kgwXFdjxNwnOU2+f4O984JKD3
- Xz0O6AmuUC8jLYhhCY+vN2btbtChUyDsysNUDzfKxIJ4l+ot505CPIwgdekTdBsILP29xvXt1wwUn
- Bu1/Ldcw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red
- Hat Linux)) id 1upT8c-000000097PU-3xNB;
- Fri, 22 Aug 2025 14:53:07 +0000
-Date: Fri, 22 Aug 2025 15:53:06 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Sidhartha Kumar <sidhartha.kumar@oracle.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Subject: Re: [PATCH v2 0/6] DRM IDR to Xarray conversions
-Message-ID: <aKiEUlldVf2YazK9@casper.infradead.org>
-References: <20250821145429.305526-1-sidhartha.kumar@oracle.com>
- <f69669c873dbb99c239e9f2ddf154e983baa61e3@intel.com>
- <e80a3fd9-56ca-40c5-8ac8-237ce14cc79f@oracle.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC8F10EB49
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 15:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755875107;
+ bh=1ZX66lBcIbneB1xLBQGHDyLO8ehd34quKOh+R4Cgc0o=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=XxU+Y4/pWJxFGq7WEbr1LyBymzSLpysU6IVmEBBTI7FlP9deGvyYHs98nvMahVqYf
+ tIZ3o8V9H/83x2bdTuLeRAUhY/HVhJV2SMzNjMSjeefXrJO/cH9Nbpn0YXVcSsM9Lx
+ yBEm2blpbPcZnFvQk3uuvkTJIDDtjo/ip1YvDenr8biFZZQ6ruOelRQ1i0R6Vy0nRp
+ WXtI8v+dEW10WDIKcPCNAFMPBXdWWf2vvi5Ifn69PDgs5ukBC9cNOZETa775mMqNf4
+ w4I7iFMmIZcVvV9EOCVuA9ygHlHzemJ5+XAhHXi5XF2v12yMiKAh0KpZ4JBe1WWVKs
+ 6tCPw8K4xO0cg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id D32E817E0DE3;
+ Fri, 22 Aug 2025 17:05:06 +0200 (CEST)
+Date: Fri, 22 Aug 2025 17:05:02 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Faith Ekstrand <faith@gfxstrand.net>
+Cc: dri-devel@lists.freedesktop.org, Faith Ekstrand
+ <faith.ekstrand@collabora.com>, Steven Price <steven.price@arm.com>, Liviu
+ Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>
+Subject: Re: [PATCH 0/7] panfrost,panthor: Cached maps and explicit flushing
+Message-ID: <20250822170502.38d9eaaa@fedora>
+In-Reply-To: <20250822142954.902402-1-faith.ekstrand@collabora.com>
+References: <20250822142954.902402-1-faith.ekstrand@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e80a3fd9-56ca-40c5-8ac8-237ce14cc79f@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,13 +63,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 22, 2025 at 10:36:24AM -0400, Sidhartha Kumar wrote:
-> On 8/22/25 8:33 AM, Jani Nikula wrote:
-> > It would be great if the commit messages mentioned whether the
-> > identifiers are expected to remain the same in the conversion.
-> 
-> By identifiers do you mean if the name of the previous idr variable is the
-> same as the XArray variable that is introduced? Sure I can add that in a v3.
++panthor/panfrost maintainers/devs
 
-I think Jani means that the actual numbers assigned should remain the
-saame after the conversion.
+On Fri, 22 Aug 2025 10:29:09 -0400
+Faith Ekstrand <faith@gfxstrand.net> wrote:
+
+> This series implements cached maps and explicit flushing for both panfrost
+> and panthor.  To avoid code/bug duplication, the tricky guts of the cache
+> flusing ioctl which walk the sg list are broken into a new common shmem
+> helper which can be used by any driver.
+>=20
+> The PanVK MR to use this lives here:
+>=20
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
+>=20
+> Faith Ekstrand (6):
+>   drm/shmem: Add a drm_gem_shmem_sync_mmap() helper
+>   drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+>   drm/panthor: Bump the driver version to 1.6
+>   drm/panfrost: Add flag to map GEM object Write-Back Cacheable
+>   drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+>   drm/panfrost: Bump the driver version to 1.5
+>=20
+> Lo=C3=AFc Molinari (1):
+>   drm/panthor: Add flag to map GEM object Write-Back Cacheable
+>=20
+>  drivers/gpu/drm/drm_gem_shmem_helper.c  | 64 +++++++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 67 +++++++++++++++++++++++--
+>  drivers/gpu/drm/panfrost/panfrost_gem.c | 23 +++++++++
+>  drivers/gpu/drm/panfrost/panfrost_gem.h |  2 +
+>  drivers/gpu/drm/panthor/panthor_drv.c   | 58 +++++++++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_gem.c   | 23 +++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h   |  3 ++
+>  include/drm/drm_gem_shmem_helper.h      |  3 ++
+>  include/uapi/drm/panfrost_drm.h         | 46 +++++++++++++++++
+>  include/uapi/drm/panthor_drm.h          | 65 ++++++++++++++++++++++++
+>  10 files changed, 348 insertions(+), 6 deletions(-)
+>=20
+
