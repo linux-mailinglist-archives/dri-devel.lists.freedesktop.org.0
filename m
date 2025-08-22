@@ -2,124 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC68B32249
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 20:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF35B3224D
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 20:36:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 934E410EB84;
-	Fri, 22 Aug 2025 18:32:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 344E810EB87;
+	Fri, 22 Aug 2025 18:36:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HKw7bP4S";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Qp1zDczV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D74910EB84
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 18:32:15 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MHUgRq030070
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 18:32:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=2kF+UHt3RQZ9sKwYUnht3JJb
- 3AN4kfQFQklzuuzACdw=; b=HKw7bP4SgHZje4mEEpfk1z3YhOK/4j7A8Fbaw8Tz
- 6kTekaTVK50xtp+mTMkKWGprk7V4i8P0sQf5OjbCSXWdLGDPBye6e4Hh6fBp1dMz
- ewG1ZZXU9izkXM7D9Pp2cI3SzrodO0rSr3TMaXkT/pycqmbaN/9VSohd6q+keLQ/
- 9CPEiWVBInMyX6j47qsl/ihYz6zP67lWJS+NqpmawHwpJsoIHlFWRBwroJbZ3COy
- YsuXRwXtV7QhvgROmphYmH1redEOuP4Al6568+u7qq1a4BOCOZZv5L43i+4fPTWG
- i7pzLbLOaeezuvqMUh48mTxmpkRSG7SgJ9WdfwlsdBUVog==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48pw0yr67w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 18:32:15 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-70d7c7e972eso56248296d6.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 11:32:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755887534; x=1756492334;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2kF+UHt3RQZ9sKwYUnht3JJb3AN4kfQFQklzuuzACdw=;
- b=Yh0EjamVX/hdPvl3qpTdWOfcjNcV+VPFzEvUjyauPWaH+hWcTIYkcjI3ImqhuKdtPC
- XOQuZQyjgeDEdynETI2zLOOMmZAW9Zg7eNjoBegYdKW1suA5Sv8nH6qghRZDAWPvg4/D
- gEhEN1BM+L3jmhI8VQP/0lUwZ7NoB08oPI7gwRt85QcUjqwHaJl6A4XU+9eGra+9gM2L
- ZiUWQm8RLPXm/UoLRO5+f3cNgO9B/03eIv5DwMu6y8E+aJDpOQU6e3VgKHflFM8Yx91w
- YuRo2CMviqb7nb8b5YAKFMrR9Foq+pmcha6lBj4e82fg4X4IW8rGz5OWl7jNMOa8JZ/A
- VbJA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXOhJKKGbV/RnMd7lrliGkqYGXQ15SU8qMZUMip+uBCJi6mk585O6U5cOhHD41fjQM/YfhANxBIIkY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTPyRIVt0ZE0ujp8aK7UtHh16PtqaYJ3DLlja0qIxJ8FYV2raZ
- F9vCnBboGbSA67bVit8Qh6NkFon6EoQffCfyWNTgLTc3OLC1DkBgqCYAWxbxpp1tV7KM9oDh+QC
- M1J5e7n+v9WhVp8xVmZRLsXfsqiphGChOLPpiUsi9ZPVDrE6g54Zt7N0NNPCxV08pLeakDLg=
-X-Gm-Gg: ASbGnctawMOocI4ayK4DrWqxFngRJMT/QF1kPIIUrbPd3wjsX66QdA/J1R+xZDQJR9c
- rvhucJhMwMd/aXX+JwL8tTiRm9VGT4wXR0zlOqm8K+QavByLv5xLqRL2eC74Ao0L/4Qqtwuf7JC
- htCSAfEJgjHrlQso8rwy3egB1yKvHmLgwuTEFC80/2Apenb5NB5re8N17+XzcN59rlNpvu04Ym5
- UxqDrhgKXJ196ZxsHcuOla2GBi5ifoGj/daQv5s7XgcFIvWVo3LLueJ+p2yRNu9WM8WLnUUuESl
- T6E5TUZt/7dVlt0wBf4nm4g8A+GWQdIcn9OT+SmAHpS3J42Dva7OmwsucrSM6odsQSeijeh+bvJ
- VAe3/U8Y0GuaMi7ROJHiASUl8l+qMmxrsu04MW8S+XVah16711EQf
-X-Received: by 2002:a05:6214:2463:b0:70d:8549:a9dc with SMTP id
- 6a1803df08f44-70d971ecba5mr45207796d6.46.1755887533671; 
- Fri, 22 Aug 2025 11:32:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGUwecfBarwnXQpcnjnUt1xcMPQBcCSeakWpQc5KmvE+AdTu302f3u+QjNzhIWHgctycCfdw==
-X-Received: by 2002:a05:6214:2463:b0:70d:8549:a9dc with SMTP id
- 6a1803df08f44-70d971ecba5mr45207446d6.46.1755887533192; 
- Fri, 22 Aug 2025 11:32:13 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35bfcb27sm96296e87.19.2025.08.22.11.32.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Aug 2025 11:32:12 -0700 (PDT)
-Date: Fri, 22 Aug 2025 21:32:10 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/5] drm/panel: simple: add JuTouch JT101TM023
-Message-ID: <4gyzjoshra7mwkagkhbk2uzxsfeb57ufkr2qilppunka4cem7n@zf7rm75hdd2n>
-References: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-0-b492ef807d12@pengutronix.de>
- <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-3-b492ef807d12@pengutronix.de>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27DD610EB85;
+ Fri, 22 Aug 2025 18:36:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755887795;
+ bh=ojMWLu9sR6XdGXpcfVIIZPVqzPufzHlxziClp8RvZuc=;
+ h=From:Subject:Date:To:Cc:From;
+ b=Qp1zDczVZTuL+KKSr2IZlvqdH3/8Y6QxXavfHVcwdXakerqipjLzv1xqzn6zjw9nS
+ JCt4PIpVo7dSuYysFkbX8+LcF1aa4CIOY9OodbCsczlOVGuh4sCDhLE3g4NPkxirWp
+ XgDaCvVoU/10UIhfLRtl5ZSKp6Hs6R0AWhEeIgNQdVAfVIj3Rl0mxFu9mBf0bQyY/b
+ XaBCBI2ft6njRroOTCJKWe6boNB/pNfe7amjyRE8JJi9/t9AQrWlcw2UK+szQZftP+
+ JxoQ5GvUlQ4I8k4gCvBNXjJTD5tAKvPzO2LOE4SCra4hg9lLU36M7mK/kpFlTQFL4j
+ E9deI22a44jgQ==
+Received: from [127.0.1.1] (unknown
+ [IPv6:2600:4041:5b1a:9400:62f0:406e:ac79:4a96])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: nfraprado)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5C6D017E110D;
+ Fri, 22 Aug 2025 20:36:29 +0200 (CEST)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH RFC 0/5] Introduce support for post-blend color pipeline
+Date: Fri, 22 Aug 2025 14:36:10 -0400
+Message-Id: <20250822-mtk-post-blend-color-pipeline-v1-0-a9446d4aca82@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250821-v6-17-topic-imx8mp-skov-dts-jutouch-10inch-v1-3-b492ef807d12@pengutronix.de>
-X-Authority-Analysis: v=2.4 cv=Z6bsHGRA c=1 sm=1 tr=0 ts=68a8b7af cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=Acj4BH8ZA6BBt8B7gSkA:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-GUID: tRWAPCyaj1MH75r3KOajvbcXmzFqFMoS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIyMDE2MCBTYWx0ZWRfXyXm0Qy2nqXBI
- JkyHM9DRoq7ydQbDcfNQSMe2S0WKlSmfvIyijj8xf7Bxl0IHm7udk+p7uDFEhtEvlQuX74kMzZ+
- /rZM37qUVWgT4nM/+L1wNMBqVLQON8jysEIDgyP+n/F35FhuOEz2poc6b0VcFMv0UqSnKvrv2YE
- KLARlAcPv7XB0sijs3P7lZj01N6icXFNEs/YgM8njbmTF5/CjiGC9CZJf8oc1KunpZrK/+a4K3e
- Xsj8Y8j/bs7fCo6K0UyuS8P0NlF2C+94TDbN3lCaKERq2GI9dh2cZkyFRWxuysnbwNbTEggyw0Q
- d77FOevjTnMv+eaAlOOAigxTailS4rle/FJGQRjNZ4H3tr5CejSY0bFy9jNz5af65pr4GXO8xOh
- aobRt8N8
-X-Proofpoint-ORIG-GUID: tRWAPCyaj1MH75r3KOajvbcXmzFqFMoS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_04,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 malwarescore=0 impostorscore=0
- suspectscore=0 phishscore=0 adultscore=0 bulkscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508220160
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAJu4qGgC/x3MTQqDMBAG0KvIrB2If1S7FXqAbosLjV/t0DQJi
+ RRBvLvB5du8nSKCINI92yngL1GcTSjyjPRntAtY5mQqVdmoW6X4t37Zu7jyZGBn1s64wF48jFh
+ w3bUoxk7rpgKlwwe8Zbv+Fz0fPQ3HcQKcyOaBdAAAAA==
+X-Change-ID: 20250730-mtk-post-blend-color-pipeline-498e1a9cc53e
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org, 
+ harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com, 
+ pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com, 
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com, 
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
+ xaver.hugl@gmail.com, victoria@system76.com, uma.shankar@intel.com, 
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com, 
+ mcanal@igalia.com, kernel@collabora.com, daniels@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,18 +81,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 21, 2025 at 09:55:30AM +0200, Steffen Trumtrar wrote:
-> Add JuTouch Technology JT101TM023 10" 1280x800 LVDS panel support.
-> 
-> Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-> ---
->  drivers/gpu/drm/panel/panel-simple.c | 35 +++++++++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
-> 
+This series is based on "Color Pipeline API w/ VKMS" [1]. It reuses the
+same concept of a color pipeline API but for the post-blend stage
+instead of pre-blend, by attaching the COLOR_PIPELINE property to the
+CRTC rather than a plane.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Patch 1 implements the necessary changes in the DRM core to make this
+happen. The remaining patches implement support for this API in the
+MediaTek DRM driver in particular.
 
+This series has been tested on the MT8195-Tomato Chromebook with a WIP
+Weston branch [2]. Both gamma LUT and CTM color transformations have
+been simultaneously configured in hardware through the API and validated
+(test commits in weston [3] and the kernel [4]).
 
+This is a very early implementation but I'd like to get feedback from
+the community before moving forward. For instance one notable thing
+missing it to add init helpers for the post-blend case for the remaining
+colorop types, as only 3x1d LUT and 3x4 Matrix were needed for gamma LUT
+and CTM use cases.
+
+[1] https://lore.kernel.org/all/20250815035047.3319284-1-alex.hung@amd.com/
+[2] https://gitlab.collabora.com/nfraprado/weston/-/tree/post-blend-colorops?ref_type=heads
+[3] https://gitlab.collabora.com/nfraprado/weston/-/commits/post-blend-color-pipeline-lut-ctm-test?ref_type=tags
+[4] https://gitlab.collabora.com/nfraprado/linux/-/commits/post-blend-color-pipeline-ctm-lut-test?ref_type=tags
+
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+---
+Nícolas F. R. A. Prado (5):
+      drm: Support post-blend color pipeline API
+      drm/colorop: Export drm_colorop_cleanup() so drivers can extend it
+      drm/mediatek: Support post-blend colorops for gamma and ctm
+      drm/mediatek: ccorr: Support post-blend color pipeline API
+      drm/mediatek: gamma: Support post-blend color pipeline API
+
+ drivers/gpu/drm/drm_atomic.c              |  32 ++++-
+ drivers/gpu/drm/drm_atomic_uapi.c         |  50 ++++++-
+ drivers/gpu/drm/drm_colorop.c             | 147 +++++++++++++++++----
+ drivers/gpu/drm/drm_connector.c           |   1 +
+ drivers/gpu/drm/drm_crtc.c                |  77 +++++++++++
+ drivers/gpu/drm/drm_crtc_internal.h       |   6 +
+ drivers/gpu/drm/drm_ioctl.c               |   7 +
+ drivers/gpu/drm/drm_mode_object.c         |  20 +++
+ drivers/gpu/drm/drm_plane.c               |  36 +----
+ drivers/gpu/drm/mediatek/mtk_crtc.c       | 211 +++++++++++++++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c   |   6 +-
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h   |   2 +
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 100 ++++++++++++--
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h   |   6 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 107 ++++++++++++---
+ include/drm/drm_atomic.h                  |  20 +++
+ include/drm/drm_atomic_uapi.h             |   2 +
+ include/drm/drm_colorop.h                 |  17 ++-
+ include/drm/drm_crtc.h                    |  19 +++
+ include/drm/drm_file.h                    |   7 +
+ include/uapi/drm/drm.h                    |  16 +++
+ 21 files changed, 781 insertions(+), 108 deletions(-)
+---
+base-commit: d152eee7ae3b72e2ce70064a7ad9764f7ba8641d
+change-id: 20250730-mtk-post-blend-color-pipeline-498e1a9cc53e
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
