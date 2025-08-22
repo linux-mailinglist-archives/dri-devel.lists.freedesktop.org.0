@@ -2,64 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41827B317CE
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:29:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5981B317DC
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:32:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90BB510EADE;
-	Fri, 22 Aug 2025 12:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D8C10EADF;
+	Fri, 22 Aug 2025 12:32:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bi/vnbYH";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="Zahfk0R3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2840C10E116;
- Fri, 22 Aug 2025 12:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755865739; x=1787401739;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=rYAteljHg/LYcH8raVDOfNCQBTOxx3YVhc8KvBI+fTU=;
- b=bi/vnbYH5nSHolrHz7YD4az8n4ickzmn8UyCzT/LR95BYfZ6e8zanbZZ
- Q9O6XuciIibhm5st3V3UQ3/dAlist3i0AvYXhGWDMkI45Qee2NT9U8tql
- A/+W0gwM9cD3NTsVAvJix3iqY03UvZgeuyHIWXpsUNHosmzyye/JDFEF4
- e0JcY177b8FUaNfQ/MTRwfKA1MDohAVEcqyTZGF/tYEOj/MxODEPEh8Y/
- hlrMvyQtF9NdVtj8VMbrXq6zHAYHJull5AwlwxWnj8lAtfFWxJyKk5JsR
- sLERKKZ7oBDPHgCky2rpPaJ5fDbPMTe89uG18dKmdE1MP8XEJl2z6Ppdd w==;
-X-CSE-ConnectionGUID: acIS2n7TQsSihh7r4L33qQ==
-X-CSE-MsgGUID: ysEHj64HR32r8m5a94BpDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="61983860"
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="61983860"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 05:28:58 -0700
-X-CSE-ConnectionGUID: A3NFlRrcR4yx3FerU2nyJQ==
-X-CSE-MsgGUID: 0wRAN96wTfOV7dhaRShc7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="172958259"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.244.134])
- ([10.245.244.134])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 05:28:57 -0700
-Message-ID: <0353c333-2673-4157-bf93-08c6435e5827@intel.com>
-Date: Fri, 22 Aug 2025 13:28:54 +0100
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8788E10EADF
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 12:32:03 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MCHGJl009682;
+ Fri, 22 Aug 2025 14:31:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ JBT1UDpbACmKUTz7QVz33kNvVsoysRpJ/dCT2cDLpW4=; b=Zahfk0R3fVBUSlts
+ KqSACcCnut8KaGkwtIZecPsqlTIN+SuQG3TxqHT8iCCddekygt83cXwczb6jvr8l
+ VA5fiAaU2B9eDZFRDludMIopoz/7pBF3ktLeHYyH/cMsPjipz1O0bMlQJpx4wQfS
+ R/Z3uz3liKRAL6xgoz7HxXQeBAnVxPFRkQlz9/kEK8Drl08bmPIB4x2w7LuNiFd7
+ tFg1Rqwtz1vEr1JgQ6B4pyq+Yd6e9hfmFKl5XtKOSJ5bNofx1m2eWSIvSe4ggcJj
+ ckmbEczqw+Lql/Way9StH+kZfUmq3PrmX24dfd2vKR6z6qZLobT/H9ddXOm+zsss
+ BcUoMw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48np7n752x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Aug 2025 14:31:55 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1470240046;
+ Fri, 22 Aug 2025 14:30:40 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1F9F26C2A88;
+ Fri, 22 Aug 2025 14:29:43 +0200 (CEST)
+Received: from [10.48.87.178] (10.48.87.178) by SHFDAG1NODE3.st.com
+ (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 22 Aug
+ 2025 14:29:42 +0200
+Message-ID: <512c5e41-276d-4c2c-936c-718347df3711@foss.st.com>
+Date: Fri, 22 Aug 2025 14:29:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] drm/buddy: Optimize free block management with RB
- tree
-From: Matthew Auld <matthew.auld@intel.com>
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Cc: alexander.deucher@amd.com
-References: <20250821150641.2720-1-Arunpravin.PaneerSelvam@amd.com>
- <6c813ddf-639e-4816-bd7d-70142a656663@intel.com>
-Content-Language: en-GB
-In-Reply-To: <6c813ddf-639e-4816-bd7d-70142a656663@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v4 01/13] dt-bindings: display: st: add two new
+ compatibles to LTDC device
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Maxime
+ Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Christophe Roullier
+ <christophe.roullier@foss.st.com>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com>
+ <20250821-drm-misc-next-v4-1-7060500f8fd3@foss.st.com>
+Content-Language: en-US
+From: Yannick FERTRE <yannick.fertre@foss.st.com>
+In-Reply-To: <20250821-drm-misc-next-v4-1-7060500f8fd3@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.48.87.178]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE3.st.com
+ (10.75.129.71)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-22_04,2025-08-20_03,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,57 +91,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/08/2025 09:37, Matthew Auld wrote:
-> On 21/08/2025 16:06, Arunpravin Paneer Selvam wrote:
->> Replace the freelist (O(n)) used for free block management with a
->> red-black tree, providing more efficient O(log n) search, insert,
->> and delete operations. This improves scalability and performance
->> when managing large numbers of free blocks per order (e.g., hundreds
->> or thousands).
->>
->> In the VK-CTS memory stress subtest, the buddy manager merges
->> fragmented memory and inserts freed blocks into the freelist. Since
->> freelist insertion is O(n), this becomes a bottleneck as fragmentation
->> increases. Benchmarking shows list_insert_sorted() consumes ~52.69% CPU
->> with the freelist, compared to just 0.03% with the RB tree
->> (rbtree_insert.isra.0), despite performing the same sorted insert.
->>
->> This also improves performance in heavily fragmented workloads,
->> such as games or graphics tests that stress memory.
->>
->> v3(Matthew):
->>    - Remove RB_EMPTY_NODE check in force_merge function.
->>    - Rename rb for loop macros to have less generic names and move to
->>      .c file.
->>    - Make the rb node rb and link field as union.
->>
->> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> 
-> CI is reporting a crash in rb_erase when running the drm_buddy kunit, 
-> somewhere in drm_test_buddy_alloc_clear it seems.
+Hi Raphael,
 
-Found one bug in the second patch:
+Thanks for the patch.
 
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -507,6 +507,8 @@ static int split_block(struct drm_buddy *mm,
-                 return -ENOMEM;
-         }
+Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
-+       mark_split(mm, block);
-+
-         if (drm_buddy_block_is_clear(block)) {
-                 mark_cleared(block->left);
-                 mark_cleared(block->right);
-@@ -516,8 +518,6 @@ static int split_block(struct drm_buddy *mm,
-         mark_free(mm, block->left);
-         mark_free(mm, block->right);
-
--       mark_split(mm, block);
--
-         return 0;
-  }
-
-Otherwise the mark_split might get the wrong rb root if we reset the 
-clear state first. Might help with this crash.
-
+Le 21/08/2025 à 13:08, Raphael Gallais-Pou a écrit :
+> The new STMicroelectronics SoC features a display controller similar to
+> the one used in previous SoCs.  Because there is additional registers,
+> and different mandatory clocks it is incompatible with existing IPs.  On
+> STM32MP251, the device only needs two clocks while on STM32MP255 it
+> needs four.
+>
+> Add the new names to the list of compatible string and handle each
+> quirks accordingly.
+>
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> ---
+>   .../devicetree/bindings/display/st,stm32-ltdc.yaml | 50 +++++++++++++++++++++-
+>   1 file changed, 48 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+> index d6ea4d62a2cfae26353c9f20a326a4329fed3a2f..bcedcfef5427f5725a0473c09628e70d172c8f58 100644
+> --- a/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+> +++ b/Documentation/devicetree/bindings/display/st,stm32-ltdc.yaml
+> @@ -12,7 +12,10 @@ maintainers:
+>   
+>   properties:
+>     compatible:
+> -    const: st,stm32-ltdc
+> +    enum:
+> +      - st,stm32-ltdc
+> +      - st,stm32mp251-ltdc
+> +      - st,stm32mp255-ltdc
+>   
+>     reg:
+>       maxItems: 1
+> @@ -24,11 +27,16 @@ properties:
+>       minItems: 1
+>   
+>     clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 4
+>   
+>     clock-names:
+>       items:
+>         - const: lcd
+> +      - const: bus
+> +      - const: ref
+> +      - const: lvds
+> +    minItems: 1
+>   
+>     resets:
+>       maxItems: 1
+> @@ -51,6 +59,44 @@ required:
+>     - resets
+>     - port
+>   
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - st,stm32-ltdc
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
+> +        clock-names:
+> +          maxItems: 1
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - st,stm32mp251-ltdc
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 2
+> +        clock-names:
+> +          maxItems: 2
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - st,stm32mp255-ltdc
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 4
+> +        clock-names:
+> +          minItems: 4
+> +
+>   additionalProperties: false
+>   
+>   examples:
+>
