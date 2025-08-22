@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80015B30EA8
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 08:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0515AB30ED6
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 08:24:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9680410E318;
-	Fri, 22 Aug 2025 06:18:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0DAE10EA5C;
+	Fri, 22 Aug 2025 06:24:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CDPw+Cgl";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UJwID/Ny";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8A4310E318
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 06:18:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E8F10EA5A
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 06:24:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1755843526;
+ s=mimecast20190719; t=1755843878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=niXcAgzmbCLTQjKBYxU2ktBBprjtNy5MGdyac9sGLRc=;
- b=CDPw+Cgl+44lMKi5XjtbtWGWnS9+cLBWHtKrimwV3ABFOJwqQVz4LL9k3doLN5omJ0RLfD
- jJ0sBjYxRIix46h9Y3J3ApFHYRoVWENXCvl8N3BilgFIjSbXQBc5algKoUhqkWoqw8uc/V
- UDrmcwoYT0KFEg6ei0Tzk3iokbBvIxM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WiI+ZnCzEnb/n6DQfRPkU+9oejYIM/R2hKOTH1yevco=;
+ b=UJwID/Ny9BPDInw1YPGRiKYIqsfJIcRM6APajZRPAC861tVWZStwPqaU4lf0ELAT2FMEBW
+ CTYdqKYWjUKVDsIInd+Xaa4/UWaYmRIoS87In1H4aIZOKwCl7M+Gb4sFKOnG69NBgx5pBS
+ +2gKkd6e7fgdBX2gIX4O2cRyfn+3hzQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-328-pmg04-SKMuyhCgXM-evXnA-1; Fri, 22 Aug 2025 02:18:45 -0400
-X-MC-Unique: pmg04-SKMuyhCgXM-evXnA-1
-X-Mimecast-MFC-AGG-ID: pmg04-SKMuyhCgXM-evXnA_1755843524
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-45a1b0cfbafso9826765e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 23:18:45 -0700 (PDT)
+ us-mta-596-qgfAgcq_NneNXTR_Kl_Olg-1; Fri, 22 Aug 2025 02:24:36 -0400
+X-MC-Unique: qgfAgcq_NneNXTR_Kl_Olg-1
+X-Mimecast-MFC-AGG-ID: qgfAgcq_NneNXTR_Kl_Olg_1755843875
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3b9e4f039ecso943520f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Aug 2025 23:24:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755843524; x=1756448324;
+ d=1e100.net; s=20230601; t=1755843875; x=1756448675;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:cc:to:subject:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=niXcAgzmbCLTQjKBYxU2ktBBprjtNy5MGdyac9sGLRc=;
- b=CFLxcgeUIGxgmPVknO/ujrC191gsVXARpquusNOKclk60rCqcaTQhjcRfD8i25Q43t
- qyIBxXLeVajD921EaO6YAsDome4rcTmaWhL3C5v86G06Bo87VrbLZXLoSQvD7yBRBHGg
- eyulf6Ez5f7fF6ATqxpuidFBPbqcW1wJ4aU/dy87/Qv4cLLPxo9Bsb5eWSLj5a2bd3GQ
- yDOlixji+3UNxCPS8zwfNnxHhc/pAHUiFP7bI/zbrG6mNRyNZFjA5Hp+JVSQKxFiyiQi
- UGfQyU1YLaODkstRWmBxb8bByJ3CwdUF2V2y6QsPr3ZqRNmCOQVLxMpNXakjO8Ftexj9
- 1azA==
+ bh=WiI+ZnCzEnb/n6DQfRPkU+9oejYIM/R2hKOTH1yevco=;
+ b=FTW5woDLM0StUMR9lOnYCswkK5eY0yzw8e2FwVTX09q7V267FGvh+Km5C0Z3q7j+YP
+ qt/aXkqoPnnSwsWSU2TkXzca6DzHCSyFULmLw/9ty19LD9ly7JXfbCbiPDR6L8eOYNNn
+ sZTUasU2MSebEjr1H+JNHEVxzTcfmRChvupMqp3OdGiufFdXA2v0blYhHR7FkWu3VwDE
+ N2GKtD++RDh3MfIgxhr2+GmsNDsCSQ7ZF68ftbGvy8eLYvL/16GHFuXzJ9IvdnDhu/sC
+ 16OKsJn0uqn9InB5+BNpaKIDY1wADu5uU0ITwvqO8tisLQZLLG2XYHdsY7W/Y0hNaCw3
+ /7zg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUHXoFE5eXI9R7tHCHQUJPV3jL186SlBoLqWoNFGRikEp8iqwm3cy070PkLXpvv/y0pK3hEq1xg0M0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw2myoep3HBEmWuGT4UIFma8gvMIjK33jb2MImMItuftezxlst2
- 95ZSKU9jkcqddf3dv6um4QiTIWYxAuZG+ZanUou3Ygmtesm+HE+4HrC8Caa6hodpEg80G0TLQ5T
- JHV+QcsLdloKUlBj8kf+xB3znYZMbZLpc9qcFZE3Thbx/T4m9sBA5iZvrultX27E+LRUGpA==
-X-Gm-Gg: ASbGncuR/KuPgHM8iHkrVthk1gwdZ8/VckAwWTF2irE+e5m2GK6z3cTVNw6EVLx4qL4
- vkR+MN9GM2MUX9wINJXY7H2VqwtRSjZpol3VYqcXilP0Hs+ZPBNED5qdUhYtzipTdagGmWkq+jE
- muvvGp+EjlWwWV/QIiryZkf/TkapwaUtULDlu50Ocn2H4FVRz73GJ5cArdh/rFuK47hLbmi53sm
- bH9LRVGDvYfG1LWVStX7i2gTc8kRjaMbWjksYZ+0LvbdFkBgfCPzMSJTdTgIYrr/eNSsB4wOYWF
- eITwXb5052uIU/LvKCANojuELV7MPDdOcubzuija1onacQKIRImj73TrkRxVdMQuIJnFRw==
-X-Received: by 2002:a05:600c:4e8c:b0:456:1ac8:cace with SMTP id
- 5b1f17b1804b1-45b5179e7e8mr12435885e9.12.1755843523931; 
- Thu, 21 Aug 2025 23:18:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHdnIqi4Hq3cqdHCtXLM1BskgbP/iNxi6JCTe3b4/5WxUiRcTB1IoXLbvfQ3J7NKdKWtFg41A==
-X-Received: by 2002:a05:600c:4e8c:b0:456:1ac8:cace with SMTP id
- 5b1f17b1804b1-45b5179e7e8mr12435175e9.12.1755843523431; 
- Thu, 21 Aug 2025 23:18:43 -0700 (PDT)
+ AJvYcCW+kX8yxgY+Qk1/fjiN/h7CYHRXDZnczeEPO9gFy1KUzEuUEUzAMNkw11yJLigaFLjmvBzE0eGMxnI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwExpT9ihPlJTjPtsEJSTa2AXtFxLLlV9jRAoMGjQ5XdkdLDoFs
+ K/6X9q++Z16lNcWkK2S9ifq+UZln1BxKsgM+iBJPg2/C1+igja0FOXu4Wk1GGJin0mDIRX19sZX
+ 8U5Lvcd5Vvd4/0uMhk8b/vNfSc1cvqP8B6I+Cc3hb26Uco3ETPRl7JS2Ag9u1rSG2sM6ANw==
+X-Gm-Gg: ASbGncsKRmr+chVDJJE/As96l95DPB+eX/h7wSa5yzFN8NCcvGoKsjo1xbeazxqtAH3
+ FQu6J0I457s3T6xbOZH8hNkaP8pz06yOI53rgw9V+RTQZ82PrIFvyD4PJrLKjfeVrJR1ughNldm
+ UaH28ScEKSoYa2kjfEJtntiE/LI1V9Q7lX6v0ygZaObGO5A/VUC2XlnSksob5EGUpyFtdQSvUl6
+ 0V+eEtzsSIcxMu9FC6hGU61V67AoRVDWkAVPHIsJmS5v3TgA/VV+oXuDGaboB6ZSG/GUnJSLzCQ
+ fYChaBH+2Gt0/JQhEPnMOleqPDSHzXorND6iNh7w9AtYUSzC7fFSWb3JZ0hTFrbvRM/jfw==
+X-Received: by 2002:a05:6000:26c1:b0:3a3:7ba5:93a5 with SMTP id
+ ffacd0b85a97d-3c5daefc4a3mr930364f8f.26.1755843874961; 
+ Thu, 21 Aug 2025 23:24:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGkMOIqwJnbz0zMoKzv9XjVteH9mRf82hflWECX8mqHGwhCkTy10DA8QnyI2PcknGc6Szk7/A==
+X-Received: by 2002:a05:6000:26c1:b0:3a3:7ba5:93a5 with SMTP id
+ ffacd0b85a97d-3c5daefc4a3mr930326f8f.26.1755843874452; 
+ Thu, 21 Aug 2025 23:24:34 -0700 (PDT)
 Received: from [192.168.3.141] (p4ff1f25c.dip0.t-ipconnect.de. [79.241.242.92])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b50d62991sm24078285e9.0.2025.08.21.23.18.41
+ ffacd0b85a97d-3c6070264fbsm1198544f8f.67.2025.08.21.23.24.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Aug 2025 23:18:42 -0700 (PDT)
-Message-ID: <6bff5a45-8e52-4a5d-81cb-63a7331d7d0b@redhat.com>
-Date: Fri, 22 Aug 2025 08:18:40 +0200
+ Thu, 21 Aug 2025 23:24:33 -0700 (PDT)
+Message-ID: <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
+Date: Fri, 22 Aug 2025 08:24:31 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 24/35] ata: libata-eh: drop nth_page() usage within SG
- entry
-To: Damien Le Moal <dlemoal@kernel.org>, linux-kernel@vger.kernel.org
-Cc: Niklas Cassel <cassel@kernel.org>, Alexander Potapenko
- <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+Subject: Re: [PATCH RFC 10/35] mm/hugetlb: cleanup
+ hugetlb_folio_init_tail_vmemmap()
+To: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
  Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
  Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
@@ -102,8 +103,8 @@ Cc: Niklas Cassel <cassel@kernel.org>, Alexander Potapenko
  Vlastimil Babka <vbabka@suse.cz>, wireguard@lists.zx2c4.com, x86@kernel.org,
  Zi Yan <ziy@nvidia.com>
 References: <20250821200701.1329277-1-david@redhat.com>
- <20250821200701.1329277-25-david@redhat.com>
- <3812ed9e-2a47-4c1c-bd69-f37768e62ad3@kernel.org>
+ <20250821200701.1329277-11-david@redhat.com>
+ <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -149,13 +150,13 @@ Autocrypt: addr=david@redhat.com; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <3812ed9e-2a47-4c1c-bd69-f37768e62ad3@kernel.org>
+In-Reply-To: <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: egcTChVYVNcT3XG6b5KkYqg8j2Oa4s4Li1kkMhOaOHE_1755843524
+X-Mimecast-MFC-PROC-ID: x_vM9jt2CQpDgIK4HMd34qL8feM9mIhjN5IePSdDfyg_1755843875
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,39 +172,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.08.25 03:59, Damien Le Moal wrote:
-> On 8/22/25 05:06, David Hildenbrand wrote:
->> It's no longer required to use nth_page() when iterating pages within a
->> single SG entry, so let's drop the nth_page() usage.
->>
->> Cc: Damien Le Moal <dlemoal@kernel.org>
->> Cc: Niklas Cassel <cassel@kernel.org>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   drivers/ata/libata-sff.c | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/ata/libata-sff.c b/drivers/ata/libata-sff.c
->> index 7fc407255eb46..9f5d0f9f6d686 100644
->> --- a/drivers/ata/libata-sff.c
->> +++ b/drivers/ata/libata-sff.c
->> @@ -614,7 +614,7 @@ static void ata_pio_sector(struct ata_queued_cmd *qc)
->>   	offset = qc->cursg->offset + qc->cursg_ofs;
->>   
->>   	/* get the current page and offset */
->> -	page = nth_page(page, (offset >> PAGE_SHIFT));
->> +	page += offset / PAGE_SHIFT;
+On 22.08.25 06:09, Mika Penttilä wrote:
 > 
-> Shouldn't this be "offset >> PAGE_SHIFT" ?
+> On 8/21/25 23:06, David Hildenbrand wrote:
+> 
+>> All pages were already initialized and set to PageReserved() with a
+>> refcount of 1 by MM init code.
+> 
+> Just to be sure, how is this working with MEMBLOCK_RSRV_NOINIT, where MM is supposed not to
+> initialize struct pages?
 
-Thanks for taking a look!
+Excellent point, I did not know about that one.
 
-Yeah, I already reverted back to "offset >> PAGE_SHIFT" after Linus 
-mentioned in another mail in this thread that ">> PAGE_SHIFT" is 
-generally preferred because the compiler cannot optimize as much if 
-offset would be a signed variable.
+Spotting that we don't do the same for the head page made me assume that 
+it's just a misuse of __init_single_page().
 
-So the next version will have the shift again.
+But the nasty thing is that we use memblock_reserved_mark_noinit() to 
+only mark the tail pages ...
+
+Let me revert back to __init_single_page() and add a big fat comment why 
+this is required.
+
+Thanks!
 
 -- 
 Cheers
