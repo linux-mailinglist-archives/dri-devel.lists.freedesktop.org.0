@@ -2,65 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E63CB31243
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 10:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE56EB31272
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 11:00:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A2A10EA92;
-	Fri, 22 Aug 2025 08:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3400410EAA3;
+	Fri, 22 Aug 2025 09:00:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dpOyenzW";
+	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="EmCJm+cq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23C4E10EA92;
- Fri, 22 Aug 2025 08:51:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755852681; x=1787388681;
- h=message-id:subject:from:to:date:in-reply-to:references:
- content-transfer-encoding:mime-version;
- bh=XGfgUR0Yp2JSTN0GjEwhbyPDIVTkGzLeE2RkQgd4X6E=;
- b=dpOyenzWoj9wTsNCUQ09fJjF/0xqw+AwbdAghR/6vGS1nz8woUlpeso/
- yCb199V5Mhb5AfEab97pkeKhllGEwleQltNC3Yl45KLqVEWxNgL9864u7
- Z4Ls+Uwi4SQpy0mpQCDqDxBp4V4UTFCJomeen9gZP6KjjHa6klS+YLPgH
- nbUF1izNQ1Q63JEUUw4V1rI1uEW9E8VmxBUN1/7o3XDF2N2gu6S34JdN6
- 190+UBP7vPMFYTuevkwXT/E62+8Rn6uTyuZBmLlalFgAxET2u3C4DgFQR
- xOGz15pFPhSg272eoJcOgE8clxnc2fbCdAoVrDacNjtASlidzFexkSWki g==;
-X-CSE-ConnectionGUID: uV9IVc34QZOm7MHhB6cW7g==
-X-CSE-MsgGUID: OMEWtpwtRKKupK2lxwAonw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58081468"
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="58081468"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 01:51:20 -0700
-X-CSE-ConnectionGUID: RN6pmHqbS8+/LFBefDIVLg==
-X-CSE-MsgGUID: n6FQwpkBTp67qaPoFMc3nQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="172923511"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO [10.245.244.108])
- ([10.245.244.108])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 01:51:18 -0700
-Message-ID: <c14a919a352742d6344f34455de6aa1e535ecc70.camel@linux.intel.com>
-Subject: Re: Switching over to GEM refcounts and a bunch of cleanups
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- matthew.brost@intel.com, dri-devel@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Date: Fri, 22 Aug 2025 10:51:13 +0200
-In-Reply-To: <d3f60146-39d3-458f-8271-cfcec1c92254@amd.com>
-References: <20250716160555.20217-1-christian.koenig@amd.com>
- <c5830530bafa9806b9e1b0604d87f7907f651c82.camel@linux.intel.com>
- <5a9c2c36-d1b2-4871-b84a-7372aa547399@amd.com>
- <1f13c0b6-fdbb-4364-a32e-4344f8526464@amd.com>
- <fd34b897a3223346518d3fe009772996eb25c90b.camel@linux.intel.com>
- <d3f60146-39d3-458f-8271-cfcec1c92254@amd.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4037A10EAA3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 09:00:44 +0000 (UTC)
+Received: from francesco-nb
+ (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
+ by mail11.truemail.it (Postfix) with ESMTPA id 006B71F928;
+ Fri, 22 Aug 2025 11:00:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+ s=default; t=1755853242;
+ bh=yqVIjOf4gmTgf8/ajdU+DxSBG+h+a3DoeajU5rdLano=; h=From:To:Subject;
+ b=EmCJm+cqqX20mZNOxneRB73/50mbe4rqrqKN35H0gGp9tHmpWsItfctfc+6EAWeEj
+ R6a+PgIqbV9gSNpS4eQ9DVwV8H778fbKMNpY5Xjjrze2ZGhfL9THJbYtiYDbqhY5XS
+ 8+GVIqr3TZ4+34zBmGDK2A8+QFQ+HLX4ZgtCTqhc8xp/gaua9PgzdFO3UTG/Q7nu/u
+ 1B7NvhbTLYhCE9prHbY/voXKeSVuE/wloLIjzwvK+KWDyrrM++ySTzmRyl7GaT8f9y
+ Z58J6MWmMH+6/KRm+/eiNz/ppl43oNWzqbJkl4JkWU9nrh43fQrShZ+Wpz3RneODIF
+ YcvUgrbZe9qbQ==
+Date: Fri, 22 Aug 2025 11:00:38 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Francesco Dolcini <francesco@dolcini.it>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Vitor Soares <ivitro@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vitor Soares <vitor.soares@toradex.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ Jayesh Choudhary <j-choudhary@ti.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v3] drm/bridge: cdns-dsi: Replace deprecated
+ UNIVERSAL_DEV_PM_OPS()
+Message-ID: <20250822090038.GA28190@francesco-nb>
+References: <20250512083215.436149-1-ivitro@gmail.com>
+ <546ef388-299b-4d97-8633-9508fab4475a@ideasonboard.com>
+ <20250822070401.GA15925@francesco-nb>
+ <09441f4b-bdd1-46c9-876e-2ff503dd1160@ideasonboard.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <09441f4b-bdd1-46c9-876e-2ff503dd1160@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,106 +71,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Fri, Aug 22, 2025 at 11:46:40AM +0300, Tomi Valkeinen wrote:
+> On 22/08/2025 10:04, Francesco Dolcini wrote:
+> > On Thu, May 22, 2025 at 12:09:08PM +0300, Tomi Valkeinen wrote:
+> >> On 12/05/2025 11:32, Vitor Soares wrote:
+> >>> From: Vitor Soares <vitor.soares@toradex.com>
+> >>>
+> >>> The deprecated UNIVERSAL_DEV_PM_OPS() macro uses the provided callbacks
+> >>> for both runtime PM and system sleep. This causes the DSI clocks to be
+> >>> disabled twice: once during runtime suspend and again during system
+> >>> suspend, resulting in a WARN message from the clock framework when
+> >>> attempting to disable already-disabled clocks.
+> >>>
+> >>> [   84.384540] clk:231:5 already disabled
+> >>> [   84.388314] WARNING: CPU: 2 PID: 531 at /drivers/clk/clk.c:1181 clk_core_disable+0xa4/0xac
+> >>> ...
+> >>> [   84.579183] Call trace:
+> >>> [   84.581624]  clk_core_disable+0xa4/0xac
+> >>> [   84.585457]  clk_disable+0x30/0x4c
+> >>> [   84.588857]  cdns_dsi_suspend+0x20/0x58 [cdns_dsi]
+> >>> [   84.593651]  pm_generic_suspend+0x2c/0x44
+> >>> [   84.597661]  ti_sci_pd_suspend+0xbc/0x15c
+> >>> [   84.601670]  dpm_run_callback+0x8c/0x14c
+> >>> [   84.605588]  __device_suspend+0x1a0/0x56c
+> >>> [   84.609594]  dpm_suspend+0x17c/0x21c
+> >>> [   84.613165]  dpm_suspend_start+0xa0/0xa8
+> >>> [   84.617083]  suspend_devices_and_enter+0x12c/0x634
+> >>> [   84.621872]  pm_suspend+0x1fc/0x368
+> >>>
+> >>> To address this issue, replace UNIVERSAL_DEV_PM_OPS() with
+> >>> SET_RUNTIME_PM_OPS(), enabling suspend/resume handling through the
+> >>> _enable()/_disable() hooks managed by the DRM framework for both
+> >>> runtime and system-wide PM.
+> >>>
+> >>> Cc: <stable@vger.kernel.org> # 6.1.x
+> >>> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
+> >>> Signed-off-by: Vitor Soares <vitor.soares@toradex.com>
+> > 
+> > ping on this, Tomi, maybe you can pick this one or is there any
+> > concern ?
+> 
+> No concern from my side, but I'm not a bridge or cdns-dsi maintainer, so
+> I don't pick any of these to drm-misc by default.
+> 
+> Aaand now as I wrote that, I realized I just some time ago pushed the
+> cdns-dsi series ("drm/bridge: cdns-dsi: Make it work a bit better") to
 
-On Thu, 2025-08-21 at 16:59 +0200, Christian K=C3=B6nig wrote:
-> On 21.08.25 16:06, Thomas Hellstr=C3=B6m wrote:
-> > > What are you referring to?
-> >=20
-> > https://lore.kernel.org/intel-xe/a004736315d77837172418eb196d5b5f80b74e=
-6c.camel@linux.intel.com/
->=20
-> Thanks, that one never made it into my inbox as far as I can see.
->=20
-> > A couple of questions on the design direction here:
-> >=20
-> > IIRC both xe and i915 has checks to consider objects with a 0 gem
-> > refcount as zombies requiring special treatment or skipping, when
-> > encountered in TTM callbacks. We need to double-check that.
->=20
-> I think I've found all of those. The one in i915 were actually not
-> TTM specific but try to catch the same problem on the GEM refcount.
->=20
-> > But I wonder,=20
-> > first this practice of resurrecting refcounts seem a bit unusual, I
-> > wonder if we can get rid of that somehow?
->=20
-> I was also going back on forth if that is a good idea or not as well.
->=20
-> The usual solution to such kinds of issues is to use two reference
-> counts, so that you got a multi stage cleanup approach. E.g. backing
-> store and object, like what mm_struct is using as well.
->=20
-> The problem was simply that TTM/GEM ended up having *four* reference
-> counts for the same object, each was doing something different and
-> they didn't worked well together at all.
->=20
-> > Furthermore, it seems the problem with drm_exec is related only to
-> > the
-> > LRU walk. What about adding a struct completion to the object, that
-> > is
-> > signaled when the object has freed its final backing-store. The LRU
-> > walk would then check if the object is a zombie, and if so just
-> > wait on
-> > the struct completion. (Need of course to carefully set up locking
-> > orders). Then we wouldn't need to resurrect the gem refcount, nor
-> > use
-> > drm_exec locking for zombies.
->=20
-> I had a similar idea, waiting is already possible by waiting for the
-> BOs work item.
->=20
-> But I abandoned that idea because I couldn't see how we could solve
-> the locking.
->=20
-> > We would still need some form of refcounting while waiting on the
-> > struct completion, but if we restricted the TTM refcount to *only*
-> > be
-> > used internally for that sole purpose, and also replaced the final
-> > ttm_bo_put() with the ttm_bo_finalize() that you suggest we
-> > wouldn't
-> > need to resurrect that refcount since it wouldn't drop to zero
-> > until
-> > the object is ready for final free.
-> >=20
-> > Ideas, comments?
->=20
-> Ideally I think we would use the handle_count as backing store the
-> drm_gem_object->refcount as structure reference.
->=20
-> But that means a massive rework of the GEM handling/drivers/TTM.
->=20
-> Alternative we could just grab a reference to a unsignaled fence when
-> we encounter a dead BO on the LRU.
->=20
-> What do you think of that idea?
+Yep, that's the reason I assumed you could also pick this one. Any
+DRM bridge maintainer can help here?
 
-I think to be able to *guarantee* exhaustive eviction, we need
-1)=C2=A0all unfreed resources to sit on an LRU, and
-2) everything on the LRU needs to be able to have something to wait
-for.
-
-A fence can't really guarantee 2), but it's close. There is a time-
-interval in betwen where the last fence signals and we take the
-resource from the LRU and free it.
-
-A struct completion can be made to signal when the resource is freed.
-I think the locking restriction in the struct completion case (the
-struct completion is likely waited for under a dma-resv), is that
-nothing except the object destructor may take an individualized resv of
-a zombie gem object whose refcount has gone to zero. The destructor
-should use an asserted trylock only to make lockdep happy. The struct
-completion also needs a refcount to avoid destroying it while there are
-waiters.
-
-So what do you think about starting out with a fence, and if / when
-that appears not to be sufficient, we have a backup plan to move to a
-struct completion?
-
-Thomas
+Thanks,
+Francesco
 
 
->=20
-> Regards,
-> Christian.
 
