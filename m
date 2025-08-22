@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B69B31E90
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 17:29:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66938B31E8A
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 17:28:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3010610EB57;
-	Fri, 22 Aug 2025 15:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C638510EB55;
+	Fri, 22 Aug 2025 15:28:57 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="cgTusnlX";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD3310EB56;
- Fri, 22 Aug 2025 15:29:24 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3b9d41d2a5cso1863112f8f.0; 
- Fri, 22 Aug 2025 08:29:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755876563; x=1756481363;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gJgKLDUPdXVCUlCaSiGVYunhzBERjuDsUpRK5nlbwuM=;
- b=ml3VSLVQS9z0LNyySRoLaNbwaevpJ1fLqfH86UpFbU4950WyV9DJLGMZKN6k9BHXS5
- RyOgHw/tNauVXG8j8Z5v0TivH33HJp3TnBrrmS0EtDfnti/om5LVw63TFQEEJS7K0Snt
- BrHj+Wme5q83yIDE97biGiKwjSRC95Ydt5GxU0oXRHb5+8j/v+nk+BuNaDPpAdcD7zI5
- VTRGhRRB48q3OkuQbO7skJFP5x6jsy5zG035gG6romtJgT34YaV6Yk/GXbGICkjRO7L8
- EsQGwteP8OQc7CXduspC24+RsRmtCWFPHN5ZIhJQyHlxZqiHXzKMCEuzKTSjm/7FwDTe
- 3Pzg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU24iAdK+x0YuhX8ghoL/Ss7HdQ4stdE/Piit9RvCqZBmPkcadLP1/nJx3YfZbVgZKlHa2TLQ48BdsP@lists.freedesktop.org,
- AJvYcCWC7qFnxkpN/fAYaeNgfiQ6gb5+ci7yw/tdv2EvvC+csWnWU7wKz33oxoeVRBgtkGQ0Sy5RzqVA@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxG98cJHdzCJBgRTPoCyle0OIiML+mYqiZH7zuha6aajqNuV4B/
- W7yWVFN4nK3j5mAus26Fsg583lIa+DmNMUuX7ZKHEsgXChmK92O5qYkIovDV/IOT
-X-Gm-Gg: ASbGncsiS46vppiFXFk7WUE4g5bRy4nZe6HrndHjaX4e9FyQ0JU2Z7qbSmqWrdFnAQM
- i+PswgMUOnfyuCZrbYvUSof+DZJb7bjcRe6pizk7fjmSz6Lxky2D6zH5MW42upuCJHSYe1ncXcn
- JyIsHrVH8eHbwZGczu7Ae9IqQ8LKMHrDPAbEQF3aAw/ldc5odN/jB9c7aN86fR8kpIVSrJ1EHp0
- ldAO+BJ1NiG6+G7VA5voHF94cU8Y1CGSwjLAi+eVApg49IDugDDLhzi+DTmF2FKlypHgFg2CPuS
- TuP3j82y3785u4zkHnFaHvJoZ56k5XSV7pA1Gqj74PAOS5cWXmIbif/yxo0mP+WPkhqWynewmlB
- beYhgAUik5ChtYtzqQ89xzwv+kAs/X3ijdFOyNvVPeA==
-X-Google-Smtp-Source: AGHT+IEZeUqnk+C2nBdmGBlUSORXPpPFtZzw9ZapY7b13xyWG8wBDtZLMVt/coy2IqS3RfPDnB6WNg==
-X-Received: by 2002:a05:6000:430b:b0:3c6:9e21:f61b with SMTP id
- ffacd0b85a97d-3c69e21f717mr1243368f8f.3.1755876562803; 
- Fri, 22 Aug 2025 08:29:22 -0700 (PDT)
-Received: from xavers-framework.fritz.box
- ([2a04:7d84:aac8:dfc0:164b:fd3:2e86:21ca])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3c684524163sm1661402f8f.61.2025.08.22.08.29.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Aug 2025 08:29:22 -0700 (PDT)
-From: Xaver Hugl <xaver.hugl@kde.org>
-To: dri-devel@lists.freedesktop.org
-Cc: andrealmeid@igalia.com, chris@kode54.net, naveen1.kumar@intel.com,
- ville.syrjala@linux.intel.com, mdaenzer@redhat.com,
- intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- alexdeucher@gmail.com, arun.r.murthy@intel.com,
- Xaver Hugl <xaver.hugl@kde.org>
-Subject: [PATCH v5] drm: re-allow no-op changes on non-primary planes in async
- flips
-Date: Fri, 22 Aug 2025 17:28:49 +0200
-Message-ID: <20250822152849.87843-1-xaver.hugl@kde.org>
-X-Mailer: git-send-email 2.50.1
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFD410EB55
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 15:28:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1755876534;
+ bh=kpwCW+OPqY1Oqc+LuslQe85UUBBxIttqJero4BEkMYk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=cgTusnlXsRHzD5aF3phqnkqNmZXf8wKeKQmH/s7/HMwGkZhb2iWALBblxL8sNsT9X
+ jHolCyPHU7KDoJn06Vu0BMhDeepX4+VWckdzeSiRYji10fKJbdcdJ1d8x18fDfXCzp
+ zZTtT8+WVk8XAjviujPVP2C1+3LqduVx85I+tYtVHK81+7R+P20qG4HnVe+6IirZv7
+ mHSGKhgSvMYs13FE1+77wJfp5Ktz2LMXrMyrS9G/v9qpv+SoDVZFl4CEplkH4pV24x
+ KEJZB5L1Vz8rJ5w71DW2t0I0BkV4ZDcACsOrDhqFgUkmftfQV5bPJqBUfdeshJysF6
+ TH2TUShFWZwNw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9EFDD17E1357;
+ Fri, 22 Aug 2025 17:28:54 +0200 (CEST)
+Date: Fri, 22 Aug 2025 17:28:50 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Faith Ekstrand <faith@gfxstrand.net>
+Cc: dri-devel@lists.freedesktop.org, Faith Ekstrand
+ <faith.ekstrand@collabora.com>
+Subject: Re: [PATCH 3/7] drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+Message-ID: <20250822172850.103dba9c@fedora>
+In-Reply-To: <20250822142954.902402-4-faith.ekstrand@collabora.com>
+References: <20250822142954.902402-1-faith.ekstrand@collabora.com>
+ <20250822142954.902402-4-faith.ekstrand@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,57 +62,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit fd40a63c63a1 unintentionally disallowed no-op changes on non-primary
-planes that the driver doesn't allow async flips on. This broke async flips
-for compositors that disable the cursor plane in every async atomic commit.
-To fix that, change drm_atomic_set_property to again only run atomic_async_check
-if the plane would actually be changed by the atomic commit.
+On Fri, 22 Aug 2025 10:29:12 -0400
+Faith Ekstrand <faith@gfxstrand.net> wrote:
 
-Fixes: fd40a63c63a1 ("drm/atomic: Let drivers decide which planes to async flip")
-Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4263
+It probably deserve a quick description of why this is needed (same for
+the previous commit BTW).
 
-Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
----
- drivers/gpu/drm/drm_atomic_uapi.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c | 47 ++++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_gem.c | 20 ++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h |  3 ++
+>  include/uapi/drm/panthor_drm.h        | 55 +++++++++++++++++++++++++++
+>  4 files changed, 124 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 06ae6a2aeb16..1527966604e1 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -175,7 +175,8 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+> -		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs))
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_bo_sync_op, size))
+>  
+>  /**
+>   * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
+> @@ -1398,6 +1399,49 @@ static int panthor_ioctl_set_user_mmio_offset(struct drm_device *ddev,
+>  	return 0;
+>  }
+>  
+> +#define PANTHOR_BO_SYNC_OP_FLAGS \
+> +	(DRM_PANTHOR_BO_SYNC_TO_DEVICE | \
+> +	 DRM_PANTHOR_BO_SYNC_FROM_DEVICE)
+> +
+> +static int panthor_ioctl_bo_sync(struct drm_device *ddev, void *data,
+> +				 struct drm_file *file)
+> +{
+> +	struct drm_panthor_bo_sync *args = data;
+> +	struct drm_panthor_bo_sync_op *ops;
+> +	struct drm_gem_object *obj;
+> +	int ret = 0;
+> +
+> +	ret = PANTHOR_UOBJ_GET_ARRAY(ops, &args->ops);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (u32 i = 0; i < args->ops.count; i++) {
+> +		if (ops[i].flags & ~PANTHOR_BO_SYNC_OP_FLAGS) {
+> +			ret = -EINVAL;
+> +			goto err_ops;
+> +		}
+> +
+> +		obj = drm_gem_object_lookup(file, ops[i].handle);
+> +		if (!obj) {
+> +			ret = -ENOENT;
+> +			goto err_ops;
+> +		}
+> +
+> +		ret = panthor_gem_bo_sync(obj, ops[i].flags,
+> +					  ops[i].offset, ops[i].size);
+> +
+> +		drm_gem_object_put(obj);
+> +
+> +		if (ret)
+> +			goto err_ops;
+> +	}
+> +
+> +err_ops:
+> +	kvfree(ops);
+> +
+> +	return ret;
+> +}
+> +
+>  static int
+>  panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  {
+> @@ -1481,6 +1525,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+>  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
+> +	PANTHOR_IOCTL(BO_SYNC, bo_sync, DRM_RENDER_ALLOW),
+>  };
+>  
+>  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 530bad12d545..31f5d76002ec 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -344,6 +344,26 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+>  	panthor_gem_bo_set_label(bo->obj, str);
+>  }
+>  
+> +int
+> +panthor_gem_bo_sync(struct drm_gem_object *obj, u32 flags,
+> +		    u64 offset, u64 size)
+> +{
+> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> +	enum dma_data_direction dir = DMA_NONE;
+> +
+> +	if ((flags & DRM_PANTHOR_BO_SYNC_TO_DEVICE) &&
+> +	    (flags & DRM_PANTHOR_BO_SYNC_FROM_DEVICE))
+> +		return -EINVAL;
+> +	else if (flags & DRM_PANTHOR_BO_SYNC_TO_DEVICE)
+> +		dir = DMA_TO_DEVICE;
+> +	else if (flags & DRM_PANTHOR_BO_SYNC_FROM_DEVICE)
+> +		dir = DMA_FROM_DEVICE;
+> +	else
+> +		return 0;
+> +
+> +	return drm_gem_shmem_sync_mmap(&bo->base, offset, size, dir);
+> +}
+> +
+>  #ifdef CONFIG_DEBUG_FS
+>  struct gem_size_totals {
+>  	size_t size;
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index 8fc7215e9b90..36fe392ee627 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -159,6 +159,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
+>  void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
+>  
+> +int panthor_gem_bo_sync(struct drm_gem_object *obj, u32 flags,
+> +			u64 offset, u64 size);
+> +
+>  static inline u64
+>  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
+>  {
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index bf47369c0220..77b3ca5f6150 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -144,6 +144,9 @@ enum drm_panthor_ioctl_id {
+>  	 * pgoff_t size.
+>  	 */
+>  	DRM_PANTHOR_SET_USER_MMIO_OFFSET,
+> +
+> +	/** @DRM_PANTHOR_BO_SYNC: Sync BO data to/from the device */
+> +	DRM_PANTHOR_BO_SYNC,
+>  };
+>  
+>  /**
+> @@ -1047,6 +1050,56 @@ struct drm_panthor_set_user_mmio_offset {
+>  	__u64 offset;
+>  };
+>  
+> +/**
+> + * enum drm_panthor_bo_sync_op_flags - BO sync flags
+> + */
+> +enum drm_panthor_bo_sync_op_flags {
+> +	/**
+> +	 * @DRM_PANTHOR_BO_SYNC_TO_DEVICE: Sync data from the CPU to the
+> +	 * device.
+> +	 */
+> +	DRM_PANTHOR_BO_SYNC_TO_DEVICE = (1 << 0),
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_BO_SYNC_TO_DEVICE: Sync data from the device to the
+> +	 * CPU.
+> +	 */
+> +	DRM_PANTHOR_BO_SYNC_FROM_DEVICE = (1 << 1),
+> +};
+> +
+> +/**
+> + * struct drm_panthor_bo_sync_op - BO map sync op
+> + */
+> +struct drm_panthor_bo_sync_op {
+> +	/** @handle: Handle of the buffer object to sync. */
+> +	__u32 handle;
+> +
+> +	/** @flags: Flags controlling the sync operation. */
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index c2726af6698e..317303cf5b8c 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -1077,19 +1077,20 @@ int drm_atomic_set_property(struct drm_atomic_state *state,
- 		}
- 
- 		if (async_flip) {
--			/* check if the prop does a nop change */
--			if ((prop != config->prop_fb_id &&
--			     prop != config->prop_in_fence_fd &&
--			     prop != config->prop_fb_damage_clips)) {
--				ret = drm_atomic_plane_get_property(plane, plane_state,
--								    prop, &old_val);
--				ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
--			}
-+			/* no-op changes are always allowed */
-+			ret = drm_atomic_plane_get_property(plane, plane_state,
-+							    prop, &old_val);
-+			ret = drm_atomic_check_prop_changes(ret, old_val, prop_value, prop);
- 
--			/* ask the driver if this non-primary plane is supported */
--			if (plane->type != DRM_PLANE_TYPE_PRIMARY) {
--				ret = -EINVAL;
-+			/* fail everything that isn't no-op or a pure flip */
-+			if (ret && prop != config->prop_fb_id &&
-+			    prop != config->prop_in_fence_fd &&
-+			    prop != config->prop_fb_damage_clips) {
-+				break;
-+			}
- 
-+			if (ret && plane->type != DRM_PLANE_TYPE_PRIMARY) {
-+				/* ask the driver if this non-primary plane is supported */
- 				if (plane_funcs && plane_funcs->atomic_async_check)
- 					ret = plane_funcs->atomic_async_check(plane, state, true);
- 
--- 
-2.50.1
+We should probably mention the constraints on flags (TO or FROM_DEVICE,
+but not both at the same time).
+
+> +	__u32 flags;
+> +
+> +	/**
+> +	 * @offset: Offset into the BO at which the sync range starts.
+> +	 *
+> +	 * This will be rounded down to the nearest cache line as needed.
+> +	 */
+> +	__u64 offset;
+> +
+> +	/**
+> +	 * @size: Size of the range to sync
+> +	 *
+> +	 * @size + @offset will be rounded up to the nearest cache line as
+> +	 * needed.
+> +	 */
+> +	__u64 size;
+> +};
+> +
+> +struct drm_panthor_bo_sync {
+> +	/**
+> +	 * @ops: Array of struct drm_panthor_bo_sync_op sync operations.
+> +	 */
+> +	struct drm_panthor_obj_array ops;
+> +};
+> +
+>  /**
+>   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
+>   * @__access: Access type. Must be R, W or RW.
+> @@ -1093,6 +1146,8 @@ enum {
+>  		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
+>  	DRM_IOCTL_PANTHOR_SET_USER_MMIO_OFFSET =
+>  		DRM_IOCTL_PANTHOR(WR, SET_USER_MMIO_OFFSET, set_user_mmio_offset),
+> +	DRM_IOCTL_PANTHOR_BO_SYNC =
+> +		DRM_IOCTL_PANTHOR(WR, BO_SYNC, bo_sync),
+>  };
+>  
+>  #if defined(__cplusplus)
 
