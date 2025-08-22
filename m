@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4F4B32500
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 00:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7D5B32556
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 01:14:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE07D10E046;
-	Fri, 22 Aug 2025 22:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D245410E002;
+	Fri, 22 Aug 2025 23:14:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CJXgVyIm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="u29cAhBs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC1310E046
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 22:21:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F055910E002;
+ Fri, 22 Aug 2025 23:14:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6DE29A5850B;
- Fri, 22 Aug 2025 22:21:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18CC9C4CEED;
- Fri, 22 Aug 2025 22:21:49 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 47D28A58BBD;
+ Fri, 22 Aug 2025 23:14:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55D75C4CEED;
+ Fri, 22 Aug 2025 23:14:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755901309;
- bh=BMOxwfSNpAEUbgWcSk+9Ur6RChgCBTmACh4pdd2awNA=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=CJXgVyIm3RV++2/6oRgGxzuKvaforJghA9okVb3UGdcwGd9SMRXW39mWKvsb1e5sR
- alWhVF6zqtCIByXhIALnb4ep1SvBzXBdTaje2pi1j5LA/TANyJ7TuaW4EllklzCjAR
- vIcXR2hIgH8kiIsVFKGcOGjVJw3gw8G32ivIUwRUM2LtChCk0iQN4rHsEOpppQRc+i
- QE6G0WF5yHBtzxycpqN8UeBkXHumglmaxXykfoJcfT/r3RTzFXMIfgyrZ5tx2pFJdd
- VqsR2Xbz5L7StDCXedQGszuF50abb/cna3IqCjxaTMVwXlu6Elb4p0xqFOtHwLUm0l
- ST5RqZJChwn5w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
- by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
- 33FB2383BF69; Fri, 22 Aug 2025 22:21:59 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 6.17-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tx3c2SzxmsTaySLHVVUyHd+zcB-axUL0Hbtk5DdQQ8rrQ@mail.gmail.com>
-References: <CAPM=9tx3c2SzxmsTaySLHVVUyHd+zcB-axUL0Hbtk5DdQQ8rrQ@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tx3c2SzxmsTaySLHVVUyHd+zcB-axUL0Hbtk5DdQQ8rrQ@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-fixes-2025-08-23-1
-X-PR-Tracked-Commit-Id: a60f5ee68efd91b4507eacbb40d4024ecf363304
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6debb69041724bae8a8a4d0ac60502754c1cd945
-Message-Id: <175590131783.2018712.14349272942198070563.pr-tracker-bot@kernel.org>
-Date: Fri, 22 Aug 2025 22:21:57 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+ s=k20201202; t=1755904446;
+ bh=FW2UlUHWBGIjYX/nRcZEwXb3PwT/VeIoEnBl3k5Bj5I=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=u29cAhBs+icIFmHq/CrbnR4BFguZMLeFfdShAziZuWk40Jw4Ijn2FcdgD3HgfknUV
+ qaidWALIH5FlovLlKxft/O2Q1j/DG6G64PXYjjcQ0DOljfYPbMeF8vGCBeqKvJDjpR
+ IIvl/rABJs0ZAgZBSuCd9Mo9yP+kaL0k9lpmN/2neiaSLY/XvMqFREs7KZWoALup5H
+ w+P08YwTK9id1mBZyuB/jr/mJcs859WR8IMO+uFdGDPflgmZJbt/hLG4iG+cUPE8YK
+ kFgi6QCGrIxAogGtw7fgnj9r6rc2zq1D3JSsPyd/gyxXLj0PuULVYT1Hd0PFYiLq2t
+ jEkTroc8UNXfg==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 23 Aug 2025 01:14:03 +0200
+Message-Id: <DC9C6DFLG1PE.1AWR6TCF6800W@kernel.org>
+Subject: Re: [PATCH 2/3] drm/nouveau/disp: Always accept linear modifier
+Cc: "Lyude Paul" <lyude@redhat.com>, "Faith Ekstrand"
+ <faith.ekstrand@collabora.com>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>
+To: "James Jones" <jajones@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250811220017.1337-1-jajones@nvidia.com>
+ <20250811220017.1337-3-jajones@nvidia.com>
+In-Reply-To: <20250811220017.1337-3-jajones@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,15 +61,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Sat, 23 Aug 2025 07:49:34 +1000:
+On Tue Aug 12, 2025 at 12:00 AM CEST, James Jones wrote:
+> On some chipsets, which block-linear modifiers are
+> supported is format-specific. However, linear
+> modifiers are always be supported. The prior
+> modifier filtering logic was not accounting for
+> the linear case.
+>
+> Fixes: c586f30bf74c ("drm/nouveau/kms: Add format mod prop to base/ovly/n=
+vdisp")
+> Signed-off-by: James Jones <jajones@nvidia.com>
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-08-23-1
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6debb69041724bae8a8a4d0ac60502754c1cd945
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Applied to drm-misc-fixes, thanks!
