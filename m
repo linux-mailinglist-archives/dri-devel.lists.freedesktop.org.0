@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111F8B32405
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 23:16:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55021B323FA
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 23:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73C2D10EBC3;
-	Fri, 22 Aug 2025 21:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0167710EBBE;
+	Fri, 22 Aug 2025 21:14:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OhnS/bvz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iUVFX2eU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3DA110EBC0;
- Fri, 22 Aug 2025 21:16:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=dD3ZkCGszJIY9IBVqNSfQOclCaY7aA9fgdNVRwfMbVc=; b=OhnS/bvzMR8lYxydMCG1oHyjpp
- tqFPmr1+5F1z1NLdtkCKW9sDtTcGHj1HFxo5ViASHM8fkP/qrikLyEMfnyJTX6dCTV7fTdXPCOi/c
- I3JTfxfCF7anhaUjoObESmamo8vRxCYiL9L7JvnaSf/OteaU9wQByqm/T+8uCwlwT0UJHz94GlRyq
- wTbIi2JtQMM+5pJeG5xL9p4FdtOFoKGj4cWGX8JRI52Vgj0StD9dwzznFgv9I943Yxu+RdGmOUb1L
- JxpVR8+HpvJyYvLPWbmB7oIOFPDv9bO5AYAFv2COEFHpYipsHKBNPOuGM6+xybkGnulyVbtM+o6j5
- Gcpt7GEw==;
-Received: from [189.6.13.79] (helo=killbill.home)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1upZ7J-000Hyz-26; Fri, 22 Aug 2025 23:16:09 +0200
-From: Melissa Wen <mwen@igalia.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
-Cc: Xaver Hugl <xaver.hugl@gmail.com>, Christopher Snowhill <kode54@gmail.com>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com
-Subject: [PATCH 2/2] drm/amd/display: don't update out gamma if out_tf didn't
- change
-Date: Fri, 22 Aug 2025 18:14:08 -0300
-Message-ID: <20250822211552.1472375-3-mwen@igalia.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250822211552.1472375-1-mwen@igalia.com>
-References: <20250822211552.1472375-1-mwen@igalia.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFAA710EBBA;
+ Fri, 22 Aug 2025 21:14:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id D5A5C601D3;
+ Fri, 22 Aug 2025 21:14:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC99DC4CEED;
+ Fri, 22 Aug 2025 21:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755897257;
+ bh=SUODiX3PEP0YteZeTBND9JDx9lv8ES1Apf1YUhokTWM=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=iUVFX2eUJmagt6E5Fsim3zhCDYLX1diTczATuvakk2dwk1dNKfGt808Qld/GTf/UM
+ F6mjnD2MDF2VHGx1Cd76LwTjt6w1KUUCOnCNFnNfMGwdEO+lnVGHcB0XwYPXfpt6f5
+ k+kFDH7nSzdQ290E23HZFIlzicOB2qx8TR8m2WIT84Z04cA2e5h+A5iehVZBUBIhIh
+ PnAsFC3lkA8JCAmBbO5s5b99Qdo3l6J0kEZVej4pEWrYVKSE5CSVhjkaOIivTaDj6h
+ CgRxAgISTJdbCZc0xgrYKOFoth8zEQ1L0Wdr0yHSlc9pdrk78IfX1wNKAQn2U5VAcF
+ ifB9jFV2Rk0XQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 22 Aug 2025 23:14:14 +0200
+Message-Id: <DC99MMSCWQSM.5KF4ISD63U4X@kernel.org>
+Subject: Re: [PATCH 2/3] drm/nouveau/disp: Always accept linear modifier
+Cc: "Lyude Paul" <lyude@redhat.com>, "Faith Ekstrand"
+ <faith.ekstrand@collabora.com>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Joel
+ Fernandes" <joelagnelf@nvidia.com>
+To: "James Jones" <jajones@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20250811220017.1337-1-jajones@nvidia.com>
+ <20250811220017.1337-3-jajones@nvidia.com>
+ <DC99870U9374.HUXNLLZ5ZYBE@kernel.org>
+ <69bd369e-ceae-490f-8f14-28a2a8e874bc@nvidia.com>
+In-Reply-To: <69bd369e-ceae-490f-8f14-28a2a8e874bc@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,49 +63,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Whenever a full update is requested, the DC sets out_tf to true, forcing
-the output transfer function to be reprogrammed, but without transfer
-function settings (neither new nor previous). This unsolicited update of
-the output transfer function causes the previous setting, made when user
-space modified color management properties, to be lost. To avoid this,
-make the out_tf bit state persist through a full update and prevent
-reprogramming the output gamma LUT from empty/default data.
+On Fri Aug 22, 2025 at 11:11 PM CEST, James Jones wrote:
+> On 8/22/25 13:55, Danilo Krummrich wrote:
+>> On Tue Aug 12, 2025 at 12:00 AM CEST, James Jones wrote:
+>>> On some chipsets, which block-linear modifiers are
+>>> supported is format-specific. However, linear
+>>> modifiers are always be supported. The prior
+>>> modifier filtering logic was not accounting for
+>>> the linear case.
+>>>
+>>> Fixes: c586f30bf74c ("drm/nouveau/kms: Add format mod prop to base/ovly=
+/nvdisp")
+>>> Signed-off-by: James Jones <jajones@nvidia.com>
+>>=20
+>> This issue seems to be present since v5.10, what's the implication of th=
+is? I
+>> assume this has to be backported into stable releases?
+>>=20
+>> Does the subsequent patch break strictly depend on this fix, or can it g=
+o
+>> separately?
+>
+> Without this fix, the next patch breaks linear modifier use on=20
+> Blackwell2+. In my testing, that meant fbcon was severely corrupted (In=
+=20
+> a manner that suggests it ends up with a block-linear surface rendered=20
+> to as if it was linear).
+>
+> Yes, it has to go back to a fair number of stable branches to fix=20
+> similar issues on pre-fermi GPUs, though oddly in my testing=20
+> before/after this patch, fbcon came up fine on my NV50, so the effects=20
+> might not be as severe there for some reason.
 
-Link: https://gitlab.freedesktop.org/drm/amd/-/issues/4444
-Reported-by: Xaver Hugl <xaver.hugl@gmail.com>
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Ok, thanks! This sounds like we should apply the fix, backmerge the -rc it =
+lands
+in and then merge the rest of this series.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index c30d9ee51c83..92775deea650 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -2195,9 +2195,11 @@ static enum dc_status dc_commit_state_no_check(struct dc *dc, struct dc_state *c
- 	/* Full update should unconditionally be triggered when dc_commit_state_no_check is called */
- 	for (i = 0; i < context->stream_count; i++) {
- 		uint32_t prev_dsc_changed = context->streams[i]->update_flags.bits.dsc_changed;
-+		uint32_t prev_out_tf = context->streams[i]->update_flags.bits.out_tf;
- 
- 		context->streams[i]->update_flags.raw = 0xFFFFFFFF;
- 		context->streams[i]->update_flags.bits.dsc_changed = prev_dsc_changed;
-+		context->streams[i]->update_flags.bits.out_tf = prev_out_tf;
- 	}
- 
- 	determine_pipe_unlock_order(dc, context);
-@@ -3034,8 +3036,11 @@ enum surface_update_type dc_check_update_surfaces_for_stream(
- 	if (type == UPDATE_TYPE_FULL) {
- 		if (stream_update) {
- 			uint32_t dsc_changed = stream_update->stream->update_flags.bits.dsc_changed;
-+			uint32_t out_tf = stream_update->stream->update_flags.bits.out_tf;
-+
- 			stream_update->stream->update_flags.raw = 0xFFFFFFFF;
- 			stream_update->stream->update_flags.bits.dsc_changed = dsc_changed;
-+			stream_update->stream->update_flags.bits.out_tf = out_tf;
- 		}
- 		for (i = 0; i < surface_count; i++)
- 			updates[i].surface->update_flags.raw = 0xFFFFFFFF;
--- 
-2.47.2
-
+- Danilo
