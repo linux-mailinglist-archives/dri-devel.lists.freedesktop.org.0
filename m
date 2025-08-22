@@ -2,127 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9C9B31584
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 12:34:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23503B31594
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 12:38:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9877710EAB8;
-	Fri, 22 Aug 2025 10:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D6D510EAB9;
+	Fri, 22 Aug 2025 10:38:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NbJHNySp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cJnRiaFA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD5E210EAB8
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 10:34:48 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57M8UQT6018010
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 10:34:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=kveQ+tzxSixYaW9ElHHUjKWE
- uXQ0n186XTdsODdNbAY=; b=NbJHNySp6cGBngKyWzHr7So4mttf5+9GBE3hYVFs
- ZEd6u2yMLX0GIOPRWpZg0P+mTOKlZC69c1twVJFxi4UZ4JMTDfEl1CbY8IKOuhQR
- /azdpfol49X2Vyx6kaZwaxPr4pe1g3MjDloys9oQeyikt/r2p36HX/r1Wmjek2pZ
- RCkZafM7HAjwxsvM15rtswXP1qsP6d6FhDBKHDZuGQoYv/TkuipsJLcNIZ/slQLq
- 3YCyx/mrbJCQFqrXw7neMCIYfEVDm92cZR0Lb29VLbOlcvAfG7z98b62y8iEbn8H
- M87g89SlpvBZQBzuoUogJ7QyylEaPwQPASW/1ljOS630iA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n52b0rrb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 10:34:47 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b109ae72caso44657731cf.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 03:34:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755858887; x=1756463687;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kveQ+tzxSixYaW9ElHHUjKWEuXQ0n186XTdsODdNbAY=;
- b=UK7VRPo1kxYg/3YdlCBu1DKoGqwC4Vzm3KGIodk/H6mPF8goCUnZbQpm5WigZtP/Bq
- yF/Vu4XP1QpJc+qeeO+uPqa5sNO5WeWOYoG+ckkasdEpQ19u/aaEu7XIKuf0K5TeCy1Y
- JqqbkHvnQXb2iyI8I7dFkzeM9AvWUVSGTzK+aZkr+udP3VNG7Q46BMWkets8zvQpNR7V
- XHbN8MB2Ikd1lEZ/26n4OhiUiMS9nYRNEIOdE1FDlIQAXZawUq6NXR19n9QctEts349U
- 6zEjJ37L6PcqByYIkHSUqhgajYA5OwAQFA0CWfzQUbgWuErce8/pQjjaeX97Lrde1yff
- Fg1w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWUx8EvcUH7Q4eXyecfwfizaYiHmnHn+iZ6DrI1X/Y/p5sb7WTu+DFPma9/sPrdZfFt39LS9JRrJDg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyuQM3AIKsFRXMYV8B8CgSCLQpmM/XW1VAyNxQIuAywBkuvQUlj
- aKUc95FKWeK1MYbot0EZXIAATI+gXZY7DyW2wCQqmL1UB1NElIId4MorPHueRJOD7blIJNtVftq
- riti1W54aJf0F3ST5GYA9rnqFssZbF7r6tNUKc8YAa1BJ5FactxMGJrj0atuN9J0hZaxygfA=
-X-Gm-Gg: ASbGncv8m5aFzFaRsGxwz9QyllLT3epsDUxUwMOm1zWv8kPuytQDUXmBUxqu3TT0DA/
- hVcy+3j4k4qK/wUo4wh4omvRqHJo/w9SfhkfbLigjmtsbtJNuyW95dkB13KSn/GnJawEb5MDpBQ
- SGHMVzNr0I/H7v2TbFCeIciUuYMbM8me8pjpz8ql1TYKUFqzGM6czq0PovwW5ng9jwhtcXKBq0C
- 5p3Cn+PFGFETNwB+/Wah6t4noi/ZMym7Fj+Xsf4kuQCABTZfUKvsuuLojUvSzxhUyXyemBBYQ7W
- nc+rfQQSxajCXSofO629vBr2RdD4BeU5uTNlrGw729dDwXHklhHGm5F/c5/aDY3Ltb7BIxaLjqZ
- VSE9CkkFG1xRqB4MMaRV2y7q0pxGUs2vigkhP6wNK7t1uhdUgTPDq
-X-Received: by 2002:a05:622a:1a27:b0:4b0:65cc:f64f with SMTP id
- d75a77b69052e-4b2aab3c33bmr22432911cf.54.1755858886925; 
- Fri, 22 Aug 2025 03:34:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGitENoH3QIhDfrMsc85KABpbqP+cmpwOZOUhVCbOkZutTUgU8nZ46PieBebtYJ+AhzzSGsfA==
-X-Received: by 2002:a05:622a:1a27:b0:4b0:65cc:f64f with SMTP id
- d75a77b69052e-4b2aab3c33bmr22432591cf.54.1755858886489; 
- Fri, 22 Aug 2025 03:34:46 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55cef3513c9sm3554851e87.29.2025.08.22.03.34.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Aug 2025 03:34:45 -0700 (PDT)
-Date: Fri, 22 Aug 2025 13:34:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 5/6] drm/msm: mdss: Add QCS8300 support
-Message-ID: <iza3iyj6ztuudm5rqfrxtalwxfghzsguf3pieulylebdblq7sw@divpjvwwvmsg>
-References: <20250821-qcs8300_mdss-v8-0-e9be853938f9@oss.qualcomm.com>
- <20250821-qcs8300_mdss-v8-5-e9be853938f9@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B0F10EAB4;
+ Fri, 22 Aug 2025 10:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755859085; x=1787395085;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=7MSUp626NHVwKRmqYbY3wrHcCVUyrB7Bqzps/6zvcQ8=;
+ b=cJnRiaFANi0LSAozeDcf6V/cwDy7fPdYVYs9D00dddukT2QTvm35/xtA
+ s4C2ORqa9MxJ0dx2E8HWgJDtkFa0Ut1O/KUrCsIgtDbGQTJLaFf7yYiRI
+ nncfzkCi4XHE/IV/8GsVg12yFLY2kN01U+D5Z72M825PGTX1KIBRilRx6
+ 3e6KbDC2RpABZHWD1OFZ2ZxN4vD6k4BU0dS2ZSxJ/NHqNMvx14BW62Iby
+ Hvc7p2Pvt3Mg7R/O7c5SrdZbjwzIJ9UUFT93KgwOtlbNC0AjJ6vdQovHk
+ tta6ix+7nRp57j0nIPoVeQ0xFhaxxzKxT+tSNNkME1XqH85nDg5Xc46Y3 Q==;
+X-CSE-ConnectionGUID: KOVe8HR7RDWUo7kNiv0SaA==
+X-CSE-MsgGUID: gsOaRYZmTBSPDUxXTSXxzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58088626"
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="58088626"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 03:38:04 -0700
+X-CSE-ConnectionGUID: otHkoO4eQAWLwChTK1wnvA==
+X-CSE-MsgGUID: EUWTmwuzS6efU61QIsMkvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,309,1747724400"; d="scan'208";a="173096753"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.190])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 03:37:59 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arun R Murthy <arun.r.murthy@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, naveen1.kumar@intel.com,
+ xaver.hugl@kde.org, uma.shankar@intel.com, harry.wentland@amd.com, Arun R
+ Murthy <arun.r.murthy@intel.com>
+Subject: Re: [PATCH v3 1/4] drm: Define user readable error codes for atomic
+ ioctl
+In-Reply-To: <20250822-atomic-v3-1-13a0e8f2c581@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250822-atomic-v3-0-13a0e8f2c581@intel.com>
+ <20250822-atomic-v3-1-13a0e8f2c581@intel.com>
+Date: Fri, 22 Aug 2025 13:37:56 +0300
+Message-ID: <8f24c0051cab99aa5f399dc3b6eb6dd2fb1e8b6c@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250821-qcs8300_mdss-v8-5-e9be853938f9@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX2Nfq/swYdHzK
- ENV2U1kpkR8TrgrEx4TwKkaDOEdt7ag9CXZdz+hdAY05W7eX0TG8FXIFWcCxzbAmVkcvz8RBZeH
- zySRL4Eogu8A9DBN4ODPBiaJ83BxtbtvWkU7iKqPMH0nPOhBTbErbwWJyATNlkI8BSyguMUeqTN
- URG3TqAO/OXzHuupytDG839uCas2hI1eGpjFqDEfZPJ+w0oYcHxM7C9mYd5yq1KqiGp9gG9IhoY
- la9Ot6uSbGDbgpTsd8l6o/j6m6IAA6YJ5jnYCgN95+/eVGekOoswaFKPLxhFSNBbSDofxSjk981
- 9v7mk0kLeE217+EDac9qvnzLdnXpS9x3+NXpP2xaA7rsqXU2cR+CLLYmvLmoXaIWImKEapPIZbF
- GRTw7qWSZNNT8PbiB4ZVpw42RIpIcg==
-X-Authority-Analysis: v=2.4 cv=TIIci1la c=1 sm=1 tr=0 ts=68a847c7 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=PV2lBtblPjvqxubg-rEA:9 a=CjuIK1q_8ugA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-ORIG-GUID: nQ_J2I-7QYpZQLGiHUv3tH3qthOCXkWP
-X-Proofpoint-GUID: nQ_J2I-7QYpZQLGiHUv3tH3qthOCXkWP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_03,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,18 +77,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Aug 21, 2025 at 11:36:00AM +0800, Yongxing Mou wrote:
-> Add Mobile Display Subsystem (MDSS) support for the QCS8300 platform.
-> 
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+On Fri, 22 Aug 2025, Arun R Murthy <arun.r.murthy@intel.com> wrote:
+> There can be multiple reasons for a failure in atomic_ioctl. Most often
+> in these error conditions -EINVAL is returned. User/Compositor would
+> have to blindly take a call on failure of this ioctl so as to use
+> ALLOW_MODESET or any. It would be good if user/compositor gets a
+> readable error code on failure so they can take proper corrections in
+> the next commit.
+> The struct drm_mode_atomic is being passed by the user/compositor which
+> holds the properties for modeset/flip. Reusing the same struct for
+> returning the error code in case of failure can save by creating a new
+> uapi/interface for returning the error code.
+> The element 'reserved' in the struct drm_mode_atomic is used for
+> returning the user readable error code. This points to the struct
+> drm_mode_atomic_err_code. Failure reasons have been initialized in
+> DRM_MODE_ATOMIC_FAILURE_REASON.
+
+At the moment, I'm not (yet) convinced any of this will work, even as a
+concept.
+
+Even so, I'll comment on some of the choices in the series.
+
+> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 > ---
->  drivers/gpu/drm/msm/msm_mdss.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
+>  include/uapi/drm/drm_mode.h | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+>
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index a122bea2559387576150236e3a88f99c24ad3138..f0986a3fe9a7d61e57e9a9a5ec01a604343f6930 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -45,6 +45,7 @@ extern "C" {
+>  #define DRM_CONNECTOR_NAME_LEN	32
+>  #define DRM_DISPLAY_MODE_LEN	32
+>  #define DRM_PROP_NAME_LEN	32
+> +#define DRM_MODE_ATOMIC_FAILURE_STRING_LEN	64
+>  
+>  #define DRM_MODE_TYPE_BUILTIN	(1<<0) /* deprecated */
+>  #define DRM_MODE_TYPE_CLOCK_C	((1<<1) | DRM_MODE_TYPE_BUILTIN) /* deprecated */
+> @@ -1157,6 +1158,47 @@ struct drm_mode_destroy_dumb {
+>  		DRM_MODE_ATOMIC_NONBLOCK |\
+>  		DRM_MODE_ATOMIC_ALLOW_MODESET)
+>  
+> +#define DRM_MODE_ATOMIC_FAILURE_REASON \
+> +	FAILURE_REASON(DRM_MODE_ATOMIC_CAP_NOT_ENABLED, "DRM_ATOMIC capability not enabled") \
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Please don't add macros that expect other macros in the context. They
+become very confusing. Just pass in the other macro to use. See MACRO__
+in include/drm/intel/pciids.h for an example.
 
+> +	FAILURE_REASON(DRM_MODE_ATOMIC_INVALID_FLAG, "invalid flag") \
+> +	FAILURE_REASON(DRM_MODE_ATOMIC_PAGE_FLIP_ASYNC, "Legacy DRM_MODE_PAGE_FLIP_ASYNC not to be used in atomic ioctl") \
+> +	FAILURE_REASON(DRM_MODE_ATOMIC_FLIP_EVENT_WITH_CHECKONLY, "requesting page-flip event with TEST_ONLY") \
+> +	FAILURE_REASON(DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET, "Need full modeset on this crtc") \
+> +	FAILURE_REASON(DRM_MODE_ATOMIC_NEED_FULL_MODESET, "Need full modeset on all the connected crtc's") \
+> +	FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_NOT_SUP_PLANE, "Async flip not supported on this plane") \
+> +	FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPPORTED, "Modifier not supported on this plane with async flip") \
+> +	FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED, "No property change allowed when async flip is enabled")
+> +
+> +#define FAILURE_REASON(flag, reason) flag,
+> +typedef enum {
+> +	DRM_MODE_ATOMIC_FAILURE_REASON
+> +} drm_mode_atomic_failure_flag;
+> +#undef FAILURE_REASON
+
+This is a uapi header. Do we really want all of that macro trickery here
+in the first place? What's wrong with just a plain enum? (Or macros.)
+
+> +
+> +#define FAILURE_REASON(flag, reason) #reason,
+> +extern const char *drm_mode_atomic_failure_string[];
+> +#undef FAILURE_REASON
+
+Data is not an interface. Don't expose arrays like this. Who is even
+going to know what its size is? Again, uapi header, where does it point,
+what address space is it?
+
+> +
+> +/**
+> + * drm_mode_atomic_err_code - struct to store the error code
+> + *
+> + * pointer to this struct will be stored in reserved variable of
+> + * struct drm_mode_atomic to report the failure cause to the user.
+> + *
+> + * @failure_flags: error codes defined in drm_atomic_failure.failure_flag
+
+Flags? As in a mask of multiple things? Is 64 going to be enough for
+everyone, all conditions in all drivers?
+
+OTOH, what's the promise wrt multiple reasons? Practically all drivers
+bail out at the sight of first issue, and it's usually pretty much
+meaningless to continue to figure out *other* reasons after that.
+
+And this brings us to one of my main concerns on making this fly:
+
+You bail out on the first thing, but you can't expect all drivers to
+check stuff in the same order. It's not practical. So different drivers
+will likely return different reasons for virtually the same
+condition. So how is userspace going to handle that?
+
+> + * @failure_string_ptr: pointer to user readable error message drm_mode_failure.failure_string
+
+Is the string part of uapi, and can never change? Doesn't sound
+great. What's wrong with just a plain enum?
+
+> + * @failure_obj_ptr: pointer to the drm_object that caused error
+> + * @reserved: reserved for future use
+> + * @count_objs: count of drm_objects if multiple drm_objects caused error
+> + */
+> +struct drm_mode_atomic_err_code {
+> +	__u64 failure_flags;
+> +	__u64 failure_objs_ptr;
+> +	__u64 reserved;
+> +	__u32 count_objs;
+> +	char failure_string[DRM_MODE_ATOMIC_FAILURE_STRING_LEN];
+> +};
+> +
+>  struct drm_mode_atomic {
+>  	__u32 flags;
+>  	__u32 count_objs;
 
 -- 
-With best wishes
-Dmitry
+Jani Nikula, Intel
