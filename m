@@ -2,65 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E71B323BB
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 22:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFEB2B323BF
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 22:44:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8B310E0B0;
-	Fri, 22 Aug 2025 20:43:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723A010EBA1;
+	Fri, 22 Aug 2025 20:44:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="myyMEVM+";
+	dkim=pass (2048-bit key; unprotected) header.d=gfxstrand-net.20230601.gappssmtp.com header.i=@gfxstrand-net.20230601.gappssmtp.com header.b="A4ozCEi8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E537410EB9C
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 20:43:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C7DAEA58AD0;
- Fri, 22 Aug 2025 20:43:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A1F9C4CEED;
- Fri, 22 Aug 2025 20:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755895435;
- bh=TEdHF9pUX27RDqqMATVQj7+pnf8Vs/Rf6VDbI1qD1Lk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=myyMEVM+bG7+YSaMj6mY2qSH8azZg5DrqUVeNO5J30SqcakUL1hcNdIoGKP1xJCLX
- AP3TMdbKHat3PbYVL99dJnb4p3+vvlet5ome8KfpPnNtrQyb5zwncNFGbDAbd0SjdG
- ydTEvhFHNa5jRrjCjmc7QH8T5SvIPWHy9DYPx7Ik92gJ2Gr5XFcqHHpeV9dnHUDjQ1
- fFiiNmill6JZ8rsVEWWXVc+5sr9J2iAVRUO4FNc8IF/TpHRxlPfV44lfcxeCQ0Dyif
- KU7Co8VS4oHGDY8b0ADiAzrRgKiFwNYJueNi8ud5pvOi+fVBRpzfjRB2Fzgwx7nZlS
- fQ0aLSJ9nKI6Q==
-Date: Fri, 22 Aug 2025 13:43:53 -0700
-From: Drew Fustini <fustini@kernel.org>
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v13 3/4] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
- node
-Message-ID: <aKjWiU4fQw3k77GR@x1>
-References: <20250822-apr_14_for_sending-v13-0-af656f7cc6c3@samsung.com>
- <CGME20250821222023eucas1p1805feda41e485de76c2981beb8b9102d@eucas1p1.samsung.com>
- <20250822-apr_14_for_sending-v13-3-af656f7cc6c3@samsung.com>
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC9A010EBA1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 20:44:24 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-323266d6f57so2661329a91.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 13:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gfxstrand-net.20230601.gappssmtp.com; s=20230601; t=1755895464; x=1756500264;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=M5ITqkT50q+m4T1anWHEezwcrjeL1XAGQxsPrHmnZXE=;
+ b=A4ozCEi8TqIdTyZmFMovh+fXlIf/dd5nDiC+6JWlj3JzwWFqDsVuaz0XJMboYOZW41
+ fGvDM7CrJygPAel98BxPN5lbnb/iEokCPybAAMDsc7ssXyMsiPtaia9NbaHFyT3IqjGl
+ QZOWRgLK1AlynrPchROvYDYq7pbGedtwFLR5MtMxbFFykVsAO7iRkHbo9E9FGJE1hFXF
+ 63TVkZHgtEh1Opm/F5QmwhqSGXIV5/jv7KtM8QBgkC9TFLPy789j5B4lHINQFkUkw6cw
+ 1E81GMwBfUZz0ebDlctZf2F8aVZr1GB3llDNAwvzpNCxpbVpN56MjR5ZOoHR0QifI/fD
+ Z4TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1755895464; x=1756500264;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=M5ITqkT50q+m4T1anWHEezwcrjeL1XAGQxsPrHmnZXE=;
+ b=OXwRus8Bt/tGuoLqrHHHco8YK4CsVnsLt7vOmtSvJymT54Lb4ZIA2OgXeT2vLsMquk
+ 7fFm3Q02dE2WQ4SHpSnshNGFMWT/avAgMzKDaf/OIST8B/+jVktw1pXTLsIBP/stzIuh
+ 9AoqnDZD7rUtkXipLR2UxSpHPoVugdQVjhoFVkFqmCEUM5kcrLaa+Zuw0+vj/2YdBpYb
+ sMJZCIkNQ+Lx3i3GAp6lhLJZHwSxIViAd4p7M5ACdm3sH7aitHkCfN8+BJKf7Opw9yzY
+ FpnUE5AptFswa9f0fN3h9DDjQm6gPH3hYHQzMqgoLyHE5UYrsPDDFarBYCGnpSHnVdZ7
+ x5gA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUHX9t6Y9dApmsEJ86a4yxSc5Rur0IO7ySeFD+USzwo860vcx4CYqjEJSMTAIQr3XvHzRITU2Efvt4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyYIPDwYa6ks+AhFau7P5g6NQ5KDglKzuUq8EVSwEcEda24MBYw
+ /rvBkEKvVmzB+QsH5xGe6xLcWEEJxDOTvzoXQG7VNVqs4DtUS4KHQbhnAks7b8Q7wRar9vO2EPA
+ uPR42QWyebY+qf8Ji+3BdRNAbADNFXQQbZphttxpQPA==
+X-Gm-Gg: ASbGnctdOvviQjcH4sCuJy9dxIfDMdRgS41ObyMU0XPHJ5qT770GK5g8bNvnM4kZmf5
+ YgFP7fEztz5izmDQf9rC462jvXQ+FZ3VDKF2hoMmoNYFA97N7MmDE3W6XjoKl+0dB56dwyvxHEd
+ zbR8lFwQXdABHXHIv8+ddI7kZZ8qlgZEjcGOh37Y/4AIXKjKQyflUPWODPEY8ctEaQBx6hL6bSQ
+ 5AUCfs=
+X-Google-Smtp-Source: AGHT+IFTpzOZWfzIfZ6aN86j5dGy9+t8X2AWl9e5HS+Cov9GjFJp/s0Sqsh+erThOaCtBqoKlWVXVAsBpE/sHdqOctw=
+X-Received: by 2002:a17:90b:1d51:b0:311:e605:f60e with SMTP id
+ 98e67ed59e1d1-3251774b34bmr6269470a91.20.1755895463766; Fri, 22 Aug 2025
+ 13:44:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250822-apr_14_for_sending-v13-3-af656f7cc6c3@samsung.com>
+References: <20250811220017.1337-1-jajones@nvidia.com>
+In-Reply-To: <20250811220017.1337-1-jajones@nvidia.com>
+From: Faith Ekstrand <faith@gfxstrand.net>
+Date: Fri, 22 Aug 2025 16:44:11 -0400
+X-Gm-Features: Ac12FXzMjozDkVA5Izgtx2pdN-ajBpFeBw-jnrsAAZtPGCcPbJCcjgOt-BOScks
+Message-ID: <CAOFGe972S7S23LGKxEmVq_beyRMpDJE-2rMt0aobPj4HnmWSXw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm/nouveau: Advertise correct modifiers on GB20x
+To: James Jones <jajones@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>, 
+ Faith Ekstrand <faith.ekstrand@collabora.com>, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Joel Fernandes <joelagnelf@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,33 +88,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 22, 2025 at 12:20:17AM +0200, Michal Wilczynski wrote:
-> Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
-> TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
-> the GPU using the drm/imagination driver.
-> 
-> By adding this node, the kernel can recognize and initialize the GPU,
-> providing graphics acceleration capabilities on the Lichee Pi 4A and
-> other boards based on the TH1520 SoC.
-> 
-> Add fixed clock gpu_mem_clk, as the MEM clock on the T-HEAD SoC can't be
-> controlled programatically.
-> 
-> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> Reviewed-by: Drew Fustini <drew@pdp7.com>
-> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> Acked-by: Matt Coster <matt.coster@imgtec.com>
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> ---
->  arch/riscv/boot/dts/thead/th1520.dtsi | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+On Mon, Aug 11, 2025 at 5:57=E2=80=AFPM James Jones <jajones@nvidia.com> wr=
+ote:
+>
+> This series adds new format modifiers for 8 and 16-bit formats on GB20x
+> GPUs, preventing them from mistakenly sharing block-linear surfaces
+> using these formats with prior GPUs that use a different layout.
+>
+> There are a few ways the parameteric format modifier definition
+> could have been altered to handle the new layouts:
+>
+> -The GOB Height and Page Kind field has a reserved value that could
+>  have been used. However, the GOB height and page kind enums did
+>  not change relative to prior chips, so this is sort of a lie.
+>  However, this is the least-invasive change.
+>
+> -An entirely new field could have been added. This seems
+>  inappropriate given the presence of an existing appropriate field.
+>  The advantage here is it avoids splitting the sector layout field
+>  across two bitfields.
+>
+> The chosen approach is the logically consistent one, but has the
+> downside of being the most complex, and that it causes the
+> DRM_FORMAT_MOD_NVIDIA_BLOCK_LINEAR_2D() macro to evaluate its 's'
+> parameter twice. However, utilizing simple helper functions in
+> client code when accessing the parameteric format modifier fields
+> easily addresses the complexity, and I have audited the relevant code
+> and do not believe the double evaluation should cause any problems in
+> practice.
+>
+> Tested on GB20x and TU10x cards using the following:
+>
+> -kmscube w/NVK+Zink built with these patches applied:
+>
+>    https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36336
 
-I've applied this to thead-dt-for-next [1]:
+Both the Mesa and kernel pieces are now reviewed so I think we're good
+to start landing. I've independently tested with kmscube to verify.
 
-0f78e44fb857 ("riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node")
+~Faith
 
-Thanks,
-Drew
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git/log/?h=thead-dt-for-next
-
+>
+>  with various manually specified formats
+>  and both manually specified and automatically
+>  selected modifiers.
+>
+> -drmfmtmods, a tiny test program that lists modifiers:
+>
+>    https://github.com/cubanismo/drmfmtmods
+>
+> Changes since the RFC version here:
+>
+>   https://lore.kernel.org/nouveau/20250703223658.1457-1-jajones@nvidia.co=
+m/
+>
+> -Dropped the helper macros & static inlines in
+>  drm_fourcc.h as requested by Faith Ekstrand,
+>  who noted these aren't helpful for UMD code,
+>  which is all written in rust now. I may re-
+>  introduce some of these in a subsequent series,
+>  but we both agreed we do not want to delay
+>  progress on the modifiers themselves while we
+>  debate the details of those cometic details.
+>
+> -Reserved an extra bit for future sector
+>  layouts.
+>
+> -Fixed handling of linear modifiers on GB20x
+>  and NV5x/G8x/G9x/GT2xx chips.
+>
+> James Jones (3):
+>   drm: define NVIDIA DRM format modifiers for GB20x
+>   drm/nouveau/disp: Always accept linear modifier
+>   drm/nouveau: Advertise correct modifiers on GB20x
+>
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c     |  3 ++
+>  drivers/gpu/drm/nouveau/dispnv50/disp.h     |  1 +
+>  drivers/gpu/drm/nouveau/dispnv50/wndw.c     | 25 ++++++++++++++--
+>  drivers/gpu/drm/nouveau/dispnv50/wndwca7e.c | 33 +++++++++++++++++++++
+>  include/uapi/drm/drm_fourcc.h               | 25 ++++++++++------
+>  5 files changed, 76 insertions(+), 11 deletions(-)
+>
+> --
+> 2.50.1
+>
