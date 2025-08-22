@@ -2,85 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD10EB3185B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF81B31881
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Aug 2025 14:57:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D75F10EAFE;
-	Fri, 22 Aug 2025 12:52:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9FB710EB00;
+	Fri, 22 Aug 2025 12:57:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="IJHf3AA1";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="XcvgCYNC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01FD110EAF1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 12:52:45 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-3b9dc55d84bso1874877f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 05:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1755867164; x=1756471964;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FQxzrle3VKFwpadizhrA++PgP4oF1J7QwIr8TLUlKCQ=;
- b=IJHf3AA1D9ZIV7tvZaXs994VSNYxfMQL1ERqHNJZSMnP7rRA0pP4K8g5pGFjQEPLu5
- 2NvN4ErHMF+7e2NbBEVcDd5lH9OqC8RF1BZ7+gmcpYa23LudmV8T8EHHQPYORmyFmcKT
- 8oUurgr3RXlU2ixvtp/ioZmloT0mREQvhPlw2GsaZL1RKV/VbhW/juuCuzM6/V2SIMSp
- 36yjr1J5IjBzT/ah6aLu6f0sinrk/g6Fr5pJvtaSmNph43dKUoM3AYMcTLN5KPBuci1R
- 2IULm+QmhDHgfYCkmjuy6kKXJnMeGgogEcvQmEAPqZ5kTTm2e04TUuO/htfWLsYxKY6S
- TsSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755867164; x=1756471964;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=FQxzrle3VKFwpadizhrA++PgP4oF1J7QwIr8TLUlKCQ=;
- b=M8RztJq+ILYC7C0nhjOUdlHzQq7HRDs+eDiZoBetfqGil1A8QdFKqzmryzF16FKAbP
- u4keDhNiHpYtXjlehKFMNVmpN284KU1BPVdqd5kws0RxsqWITx4RevcqZOeB2XCq1JCd
- uPEhyBR/xrCfKTcC8xzrkbzh8y5+WoNim3IF0UJlS3A68l04u/wuVuKAicRqWTN5t8A3
- bkYdU1rv398LoEbL+MLVL3h0xlEotuQI0pGaMLO73D6uv/a2G/ZRLmUsivwjGsS1G7r2
- +WdeDaRvtNjH+Bg7eA2kQJRPlxvPT0ox83O7Jh4SrF8Nvfrec01w92zpepMPm26tSQIx
- 9/Lw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWMx1cVWV67cnBKI+cGxsHNpt0iS5gWIpItiAj8+KaeamGFnfvnzoTRB27pGsy6BT6UuOyixLWNdNY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCL7TCz9TKLAgRtNUrpVobRy3FrQUJuwOCA6/4VaOxwUpLa4f2
- u+C1r3AgZ+V2qVeuJwfoddXIFIZTCMTK/bpHONMkDMyDfu2ABhzZ4RT/32NnrtENQfRQYis9grY
- thr/jBBqX6W0wPX2FLx498he1ZgiM9u7T2GjWTNWk
-X-Gm-Gg: ASbGnctbHM34uE9nxqKKoIfdbjgMLGZGWb/xrtfBTLklmJOpX/IRq9q3rnJICPIeBS+
- 9b43OrpmMSIu5VltR/5TtuQFXVawSLToVAAOld9cHw6Ao67c63AWQ28Y87vXlIcU6NyXByfBrNN
- GJZzzK+rwpqh/eqS33YKIT5u4N2/tyryasSNxujm7PwzIGXAFe/k/xfJ2sZfc05jWURIjj5tT6T
- VEdcqbTGoGzKhEIIkuEF/MkscnF9Rqn+FyQ/94Gvpuq2y2qdVmLkCpAq2LLVpXUQhgXpS4eIw==
-X-Google-Smtp-Source: AGHT+IE7Y0lQvf5r/Ym72waDaFduU5pis90P/Y8BoW2WQ2ZgXRN4nLW4iRYkwU9mYPjzWGowKlbiftsAubogUD/WtkY=
-X-Received: by 2002:a05:6000:230a:b0:3a4:f72a:b18a with SMTP id
- ffacd0b85a97d-3c5db6bb8d0mr2118466f8f.26.1755867164304; Fri, 22 Aug 2025
- 05:52:44 -0700 (PDT)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E180510EB00
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 12:57:27 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MBxc3F027155;
+ Fri, 22 Aug 2025 14:57:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ opW6CQ+EIqTEuYkWoukvWl2zvBo6YGtnwvOV0fo5tV8=; b=XcvgCYNC8hOKLHmF
+ 1YDvila7DCEL29BYb+Cndwdb4UamCtkBVMaO0olvOYEkz8Ta1dyt++QR6K0HqlJ+
+ 2Ujeg87Q1C3JWiTeeMdOPOZjr4p1IxE+Av05+lzUzv976+fTI/ob2H+tgxaPUe7G
+ 9rZN1MtW0e4JbbY7EAgG4cJjjqPFRgWfxJ53b4ooX1xbvIMutq3meYl37n7tBn36
+ 8tsmJuL3n5RKcWwTxlol4eP+b8PyYLS+HCtsdLiedVAH/fXDnen6pQIc3HaldI6h
+ +eID3SWXnI5kbWGoSt2XR+hV7TSLIU/Bf4jbQgFW2cXVMHeB/AuMDxRPrYVq+Wxg
+ wlAoiQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48n70dk5vh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Aug 2025 14:57:15 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1D46A40046;
+ Fri, 22 Aug 2025 14:56:00 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node3.st.com [10.75.129.71])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0A67571EE06;
+ Fri, 22 Aug 2025 14:55:05 +0200 (CEST)
+Received: from [10.48.87.178] (10.48.87.178) by SHFDAG1NODE3.st.com
+ (10.75.129.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 22 Aug
+ 2025 14:55:04 +0200
+Message-ID: <46e08e79-a735-453d-9804-d5ed9fb4bb82@foss.st.com>
+Date: Fri, 22 Aug 2025 14:55:03 +0200
 MIME-Version: 1.0
-References: <20250822-nova_firmware-v1-0-ff5633679460@nvidia.com>
- <20250822-nova_firmware-v1-1-ff5633679460@nvidia.com>
-In-Reply-To: <20250822-nova_firmware-v1-1-ff5633679460@nvidia.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 22 Aug 2025 14:52:32 +0200
-X-Gm-Features: Ac12FXxHtvKHWX7r4WBjHUgk1Fpgkh30TWxJenE5FBjdNdkXpbTtw7CFj3EHlec
-Message-ID: <CAH5fLgiXYj0f0UEPCTjDgykjX3mFo4hf9SUswRYwHzh6Vznwtg@mail.gmail.com>
-Subject: Re: [PATCH 1/5] rust: transmute: add `from_bytes_copy` method to
- `FromBytes` trait
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/13] drm/stm: ltdc: support new hardware version for
+ STM32MP25 SoC
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Maxime
+ Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Christophe Roullier
+ <christophe.roullier@foss.st.com>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20250821-drm-misc-next-v4-0-7060500f8fd3@foss.st.com>
+ <20250821-drm-misc-next-v4-7-7060500f8fd3@foss.st.com>
+Content-Language: en-US
+From: Yannick FERTRE <yannick.fertre@foss.st.com>
+In-Reply-To: <20250821-drm-misc-next-v4-7-7060500f8fd3@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.48.87.178]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE3.st.com
+ (10.75.129.71)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-22_04,2025-08-20_03,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,22 +91,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 22, 2025 at 2:47=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
-com> wrote:
->
-> `FromBytes::from_bytes` comes with a few practical limitations:
->
-> - It requires the bytes slice to have the same alignment as the returned
->   type, which might not be guaranteed in the case of a byte stream,
-> - It returns a reference, requiring the returned type to implement
->   `Clone` if one wants to keep the value for longer than the lifetime of
->   the slice.
->
-> To overcome these when needed, add a `from_bytes_copy` with a default
-> implementation in the trait. `from_bytes_copy` returns an owned value
-> that is populated using an unaligned read, removing the lifetime
-> constraint and making it usable even on non-aligned byte slices.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+Hi Raphael,
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Thanks for the patch.
+
+Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
+
+Le 21/08/2025 à 13:08, Raphael Gallais-Pou a écrit :
+> From: Yannick Fertre <yannick.fertre@foss.st.com>
+>
+> STM32MP25 SoC features a new version of the LTDC IP.  Add its compatible
+> to the list of device to probe and implement its quirks.
+>
+> This hardware supports a pad frequency of 150MHz and a peripheral bus
+> clock.
+>
+> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> ---
+>   drivers/gpu/drm/stm/drv.c  | 12 +++++++++++-
+>   drivers/gpu/drm/stm/ltdc.c | 38 +++++++++++++++++++++++++++++++++++---
+>   drivers/gpu/drm/stm/ltdc.h |  5 +++++
+>   3 files changed, 51 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+> index 8ebcaf953782d806a738d5a41ff1f428b0ccff78..ab00d1a6140cc32e71e10abc82f7956328b518e3 100644
+> --- a/drivers/gpu/drm/stm/drv.c
+> +++ b/drivers/gpu/drm/stm/drv.c
+> @@ -236,8 +236,18 @@ static void stm_drm_platform_shutdown(struct platform_device *pdev)
+>   	drm_atomic_helper_shutdown(platform_get_drvdata(pdev));
+>   }
+>   
+> +static struct ltdc_plat_data stm_drm_plat_data = {
+> +	.pad_max_freq_hz = 90000000,
+> +};
+> +
+> +static struct ltdc_plat_data stm_drm_plat_data_mp25 = {
+> +	.pad_max_freq_hz = 150000000,
+> +};
+> +
+>   static const struct of_device_id drv_dt_ids[] = {
+> -	{ .compatible = "st,stm32-ltdc"},
+> +	{ .compatible = "st,stm32-ltdc", .data = &stm_drm_plat_data, },
+> +	{ .compatible = "st,stm32mp251-ltdc", .data = &stm_drm_plat_data_mp25, },
+> +	{ .compatible = "st,stm32mp255-ltdc", .data = &stm_drm_plat_data_mp25, },
+>   	{ /* end node */ },
+>   };
+>   MODULE_DEVICE_TABLE(of, drv_dt_ids);
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index ba315c66a04d72758b9d3cfcd842432877f66d3a..17548dd3484a0a3e1015c58c752b80f8892a0ff7 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -14,6 +14,7 @@
+>   #include <linux/interrupt.h>
+>   #include <linux/media-bus-format.h>
+>   #include <linux/module.h>
+> +#include <linux/of.h>
+>   #include <linux/of_graph.h>
+>   #include <linux/pinctrl/consumer.h>
+>   #include <linux/platform_device.h>
+> @@ -51,6 +52,7 @@
+>   #define HWVER_10300 0x010300
+>   #define HWVER_20101 0x020101
+>   #define HWVER_40100 0x040100
+> +#define HWVER_40101 0x040101
+>   
+>   /*
+>    * The address of some registers depends on the HW version: such registers have
+> @@ -1779,6 +1781,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
+>   {
+>   	struct ltdc_device *ldev = ddev->dev_private;
+>   	u32 bus_width_log2, lcr, gc2r;
+> +	const struct ltdc_plat_data *pdata = of_device_get_match_data(ddev->dev);
+>   
+>   	/*
+>   	 * at least 1 layer must be managed & the number of layers
+> @@ -1794,6 +1797,8 @@ static int ltdc_get_caps(struct drm_device *ddev)
+>   	ldev->caps.bus_width = 8 << bus_width_log2;
+>   	regmap_read(ldev->regmap, LTDC_IDR, &ldev->caps.hw_version);
+>   
+> +	ldev->caps.pad_max_freq_hz = pdata->pad_max_freq_hz;
+> +
+>   	switch (ldev->caps.hw_version) {
+>   	case HWVER_10200:
+>   	case HWVER_10300:
+> @@ -1811,7 +1816,6 @@ static int ltdc_get_caps(struct drm_device *ddev)
+>   		 * does not work on 2nd layer.
+>   		 */
+>   		ldev->caps.non_alpha_only_l1 = true;
+> -		ldev->caps.pad_max_freq_hz = 90000000;
+>   		if (ldev->caps.hw_version == HWVER_10200)
+>   			ldev->caps.pad_max_freq_hz = 65000000;
+>   		ldev->caps.nb_irq = 2;
+> @@ -1842,6 +1846,7 @@ static int ltdc_get_caps(struct drm_device *ddev)
+>   		ldev->caps.fifo_threshold = false;
+>   		break;
+>   	case HWVER_40100:
+> +	case HWVER_40101:
+>   		ldev->caps.layer_ofs = LAY_OFS_1;
+>   		ldev->caps.layer_regs = ltdc_layer_regs_a2;
+>   		ldev->caps.pix_fmt_hw = ltdc_pix_fmt_a2;
+> @@ -1849,7 +1854,6 @@ static int ltdc_get_caps(struct drm_device *ddev)
+>   		ldev->caps.pix_fmt_nb = ARRAY_SIZE(ltdc_drm_fmt_a2);
+>   		ldev->caps.pix_fmt_flex = true;
+>   		ldev->caps.non_alpha_only_l1 = false;
+> -		ldev->caps.pad_max_freq_hz = 90000000;
+>   		ldev->caps.nb_irq = 2;
+>   		ldev->caps.ycbcr_input = true;
+>   		ldev->caps.ycbcr_output = true;
+> @@ -1872,6 +1876,8 @@ void ltdc_suspend(struct drm_device *ddev)
+>   
+>   	DRM_DEBUG_DRIVER("\n");
+>   	clk_disable_unprepare(ldev->pixel_clk);
+> +	if (ldev->bus_clk)
+> +		clk_disable_unprepare(ldev->bus_clk);
+>   }
+>   
+>   int ltdc_resume(struct drm_device *ddev)
+> @@ -1887,7 +1893,13 @@ int ltdc_resume(struct drm_device *ddev)
+>   		return ret;
+>   	}
+>   
+> -	return 0;
+> +	if (ldev->bus_clk) {
+> +		ret = clk_prepare_enable(ldev->bus_clk);
+> +		if (ret)
+> +			drm_err(ddev, "failed to enable bus clock (%d)\n", ret);
+> +	}
+> +
+> +	return ret;
+>   }
+>   
+>   int ltdc_load(struct drm_device *ddev)
+> @@ -1922,6 +1934,20 @@ int ltdc_load(struct drm_device *ddev)
+>   		return -ENODEV;
+>   	}
+>   
+> +	if (of_device_is_compatible(np, "st,stm32mp251-ltdc") ||
+> +	    of_device_is_compatible(np, "st,stm32mp255-ltdc")) {
+> +		ldev->bus_clk = devm_clk_get(dev, "bus");
+> +		if (IS_ERR(ldev->bus_clk))
+> +			return dev_err_probe(dev, PTR_ERR(ldev->bus_clk),
+> +					     "Unable to get bus clock\n");
+> +
+> +		ret = clk_prepare_enable(ldev->bus_clk);
+> +		if (ret) {
+> +			drm_err(ddev, "Unable to prepare bus clock\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+>   	/* Get endpoints if any */
+>   	for (i = 0; i < nb_endpoints; i++) {
+>   		ret = drm_of_find_panel_or_bridge(np, 0, i, &panel, &bridge);
+> @@ -2034,6 +2060,9 @@ int ltdc_load(struct drm_device *ddev)
+>   
+>   	clk_disable_unprepare(ldev->pixel_clk);
+>   
+> +	if (ldev->bus_clk)
+> +		clk_disable_unprepare(ldev->bus_clk);
+> +
+>   	pinctrl_pm_select_sleep_state(ddev->dev);
+>   
+>   	pm_runtime_enable(ddev->dev);
+> @@ -2042,6 +2071,9 @@ int ltdc_load(struct drm_device *ddev)
+>   err:
+>   	clk_disable_unprepare(ldev->pixel_clk);
+>   
+> +	if (ldev->bus_clk)
+> +		clk_disable_unprepare(ldev->bus_clk);
+> +
+>   	return ret;
+>   }
+>   
+> diff --git a/drivers/gpu/drm/stm/ltdc.h b/drivers/gpu/drm/stm/ltdc.h
+> index 9d488043ffdbc652deeede71c9d57d45fb89d3c6..ddfa8ae61a7ba5dc446fae647562d0ec8e6953e1 100644
+> --- a/drivers/gpu/drm/stm/ltdc.h
+> +++ b/drivers/gpu/drm/stm/ltdc.h
+> @@ -40,10 +40,15 @@ struct fps_info {
+>   	ktime_t last_timestamp;
+>   };
+>   
+> +struct ltdc_plat_data {
+> +	int pad_max_freq_hz;	/* max frequency supported by pad */
+> +};
+> +
+>   struct ltdc_device {
+>   	void __iomem *regs;
+>   	struct regmap *regmap;
+>   	struct clk *pixel_clk;	/* lcd pixel clock */
+> +	struct clk *bus_clk;	/* bus clock */
+>   	struct mutex err_lock;	/* protecting error_status */
+>   	struct ltdc_caps caps;
+>   	u32 irq_status;
+>
