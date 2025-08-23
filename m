@@ -2,64 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AFB6B32612
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 02:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C021B3281B
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 12:04:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F69110E023;
-	Sat, 23 Aug 2025 00:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF3B10E1CB;
+	Sat, 23 Aug 2025 10:03:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ocS9cOpw";
+	dkim=pass (2048-bit key; unprotected) header.d=ironrobin.net header.i=@ironrobin.net header.b="Txovt1j8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD7B10E023;
- Sat, 23 Aug 2025 00:58:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 947625C0C4D;
- Sat, 23 Aug 2025 00:58:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B934C4CEED;
- Sat, 23 Aug 2025 00:58:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1755910729;
- bh=GEbuBVht10V2yhK8hk78rrvTcrn/qybKkKOMP5a7JEk=;
- h=From:Date:Subject:To:Cc:Reply-To:From;
- b=ocS9cOpwGrlNoVsVh1kn5SgywV6Nm+aVbM6HUTgq+rtGsral9/bpWeEfO8/AdhC8T
- IzKZdwZ+f/f9dfncJhoChKjoKLhf3HQhALuLbD73QGrB/hoZujhKABMNgiiFV/30Uh
- uVVWqgBaFxcRfCagzP7RhYYxqhLKIecPEMowfhCsmmjXJPWVae3NFPiOUcI0GoOGXH
- 3HR3oTqOncLGq1svPhSy+pejKmJOzUyFQPH+SBoplH3VMk6J2Ybgr8JxSQBklCGLFZ
- BppBYvHv8xwBd2dl0MaUBspO5gQXf21+zn2edFsCVPwcjfd1n9F51Thlq/gYZCkJ1a
- I58Ggu+bH9QAA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 1B106CA0EFC;
- Sat, 23 Aug 2025 00:58:49 +0000 (UTC)
-From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Fri, 22 Aug 2025 19:58:00 -0500
-Subject: [PATCH] drm/nouveau: Support reclocking on gp10b
+Received: from mail-4327.protonmail.ch (mail-4327.protonmail.ch [185.70.43.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B987010E06C;
+ Sat, 23 Aug 2025 02:09:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ironrobin.net;
+ s=protonmail3; t=1755914987; x=1756174187;
+ bh=7uyzeRQggc6oxgd0PY2L8gdeh5mdqNaDhpkqBh9myCA=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=Txovt1j8ozud0Fl9wUnCIPLjQ3vGhuZGrVCHDOGxYKJ89H0ZpJOpKLu2fiKFZqm+G
+ 1kg6LjHoRhSbihBUeejCB+fckqcEsStN+doMMIl44drLq2sXPeEJgQMUkYDWnfysH+
+ gkMBb6EG4Dccp06a9HdUzVeXwTu0bc9LQk0GU905bwJWt74RF8I1PoEGYK7x+WoFVN
+ J6vRclyjG6SHa7ZK3zZAgO21irhpb4e2HiHSe6Z6hUkJ4JfH9GBkG7YiQRMQMSXBhY
+ ozZsqC3ps7Sr6+YWHwf+/9mAXXhEPSCp5Y4PCvSG3UPot/Pq0VXPshVWlHR0tdwAtG
+ BC+FmYtqyWyOQ==
+Date: Sat, 23 Aug 2025 02:09:39 +0000
+To: robin.clark@oss.qualcomm.com
+From: Alex Robinson <alex@ironrobin.net>
+Cc: lumag@kernel.org, abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Alex Robinson <alex@ironrobin.net>
+Subject: [PATCH] drm/msm: fix race in Adreno header generation
+Message-ID: <20250823020919.9947-1-alex@ironrobin.net>
+Feedback-ID: 54785507:user:proton
+X-Pm-Message-ID: 34fe4442870d8e3fff6aaa4af76ca24c06fbe3f5
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250822-gp10b-reclock-v1-1-5b03eaf3735a@gmail.com>
-X-B4-Tracking: v=1; b=H4sIABcSqWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDCyMj3fQCQ4Mk3aLU5Jz85Gxdc/OkNGMzAwPTRAszJaCegqLUtMwKsHn
- RsbW1AEdlYG1fAAAA
-X-Change-ID: 20250822-gp10b-reclock-77bf36005a86
-To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, Aaron Kling <webgeek1234@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755910728; l=7670;
- i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=JGrVd9hnkLIjkMAR216GfQSoYVUlj9ur9vGETeozqoQ=;
- b=7CLqWpd25o1U/chnOF7hSNAUHHqJhjh2MKKOAUhlY533V11yuPngwZlPRsUEE6xYxNrqzgqea
- 0m6f5kQeY4QC7XrVEv3OlR4sKXLOX6kdPOXkrWbfVOJQZgjRbWoBpr+
-X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
- pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
-X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
- auth_id=342
-X-Original-From: Aaron Kling <webgeek1234@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Sat, 23 Aug 2025 10:03:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,275 +54,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: webgeek1234@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aaron Kling <webgeek1234@gmail.com>
+Builds can compile msm-y objects (e.g. msm_gpu_devfreq.o)
+before adreno_common.xml.h is generated in trees that generate Adreno
+headers at build time. Make msm-y depend on the generated headers,
+removing the race.
 
-Starting with Tegra186, gpu clock handling is done by the bpmp and there
-is little to be done by the kernel. The only thing necessary for
-reclocking is to set the gpcclk to the desired rate and the bpmp handles
-the rest. The pstate list is based on the downstream driver generates.
-
-Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+Signed-off-by: Alex Robinson <alex@ironrobin.net>
 ---
- drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h |   1 +
- drivers/gpu/drm/nouveau/nvkm/engine/device/base.c |   1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild    |   1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c   | 180 ++++++++++++++++++++++
- drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.h   |  16 ++
- 5 files changed, 199 insertions(+)
+ drivers/gpu/drm/msm/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h
-index d5d8877064a71581d8e9e92f30a3e28551dabf17..6a09d397c651aa94718aff3d1937162df39cc2ae 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h
-@@ -134,4 +134,5 @@ int gf100_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct
- int gk104_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
- int gk20a_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
- int gm20b_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
-+int gp10b_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
- #endif
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-index 3375a59ebf1a4af73daf4c029605a10a7721c725..2517b65d8faad9947244707f540eb281ad7652e4 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
-@@ -2280,6 +2280,7 @@ nv13b_chipset = {
- 	.acr      = { 0x00000001, gp10b_acr_new },
- 	.bar      = { 0x00000001, gm20b_bar_new },
- 	.bus      = { 0x00000001, gf100_bus_new },
-+	.clk      = { 0x00000001, gp10b_clk_new },
- 	.fault    = { 0x00000001, gp10b_fault_new },
- 	.fb       = { 0x00000001, gp10b_fb_new },
- 	.fuse     = { 0x00000001, gm107_fuse_new },
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild
-index dcecd499d8dffae3b81276ed67bb8649dfa3efd1..9fe394740f568909de71a8c420cc8b6d8dc2235f 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild
-@@ -10,6 +10,7 @@ nvkm-y += nvkm/subdev/clk/gf100.o
- nvkm-y += nvkm/subdev/clk/gk104.o
- nvkm-y += nvkm/subdev/clk/gk20a.o
- nvkm-y += nvkm/subdev/clk/gm20b.o
-+nvkm-y += nvkm/subdev/clk/gp10b.o
- 
- nvkm-y += nvkm/subdev/clk/pllnv04.o
- nvkm-y += nvkm/subdev/clk/pllgt215.o
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..eeee0b1f819a54b082dd33f6597e7dd1889abf99
---- /dev/null
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c
-@@ -0,0 +1,180 @@
-+// SPDX-License-Identifier: MIT
-+#include <subdev/clk.h>
-+#include <subdev/timer.h>
-+#include <core/device.h>
-+#include <core/tegra.h>
-+
-+#include "priv.h"
-+#include "gk20a.h"
-+#include "gp10b.h"
-+
-+static int
-+gp10b_clk_init(struct nvkm_clk *base)
-+{
-+	struct gp10b_clk *clk = gp10b_clk(base);
-+	struct nvkm_subdev *subdev = &clk->base.subdev;
-+	int ret;
-+
-+	/* Start with the highest frequency, matching the BPMP default */
-+	base->func->calc(base, &base->func->pstates[base->func->nr_pstates - 1].base);
-+	ret = base->func->prog(base);
-+	if (ret) {
-+		nvkm_error(subdev, "cannot initialize clock\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+int
-+gp10b_clk_read(struct nvkm_clk *base, enum nv_clk_src src)
-+{
-+	struct gp10b_clk *clk = gp10b_clk(base);
-+	struct nvkm_subdev *subdev = &clk->base.subdev;
-+
-+	switch (src) {
-+	case nv_clk_src_gpc:
-+		return clk_get_rate(clk->clk) / GK20A_CLK_GPC_MDIV;
-+	default:
-+		nvkm_error(subdev, "invalid clock source %d\n", src);
-+		return -EINVAL;
-+	}
-+}
-+
-+static int
-+gp10b_clk_calc(struct nvkm_clk *base, struct nvkm_cstate *cstate)
-+{
-+	struct gp10b_clk *clk = gp10b_clk(base);
-+	u32 target_rate = cstate->domain[nv_clk_src_gpc] * GK20A_CLK_GPC_MDIV;
-+
-+	clk->new_rate = clk_round_rate(clk->clk, target_rate) / GK20A_CLK_GPC_MDIV;
-+
-+	return 0;
-+}
-+
-+static int
-+gp10b_clk_prog(struct nvkm_clk *base)
-+{
-+	struct gp10b_clk *clk = gp10b_clk(base);
-+	int ret;
-+
-+	ret = clk_set_rate(clk->clk, clk->new_rate * GK20A_CLK_GPC_MDIV);
-+	if (ret < 0)
-+		return ret;
-+
-+	clk->rate = clk_get_rate(clk->clk) / GK20A_CLK_GPC_MDIV;
-+
-+	return 0;
-+}
-+
-+static struct nvkm_pstate
-+gp10b_pstates[] = {
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 114750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 216750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 318750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 420750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 522750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 624750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 726750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 828750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 930750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 1032750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 1134750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 1236750,
-+		},
-+	},
-+	{
-+		.base = {
-+			.domain[nv_clk_src_gpc] = 1300500,
-+		},
-+	},
-+};
-+
-+static const struct nvkm_clk_func
-+gp10b_clk = {
-+	.init = gp10b_clk_init,
-+	.read = gp10b_clk_read,
-+	.calc = gp10b_clk_calc,
-+	.prog = gp10b_clk_prog,
-+	.tidy = gk20a_clk_tidy,
-+	.pstates = gp10b_pstates,
-+	.nr_pstates = ARRAY_SIZE(gp10b_pstates),
-+	.domains = {
-+		{ nv_clk_src_gpc, 0xff, 0, "core", GK20A_CLK_GPC_MDIV },
-+		{ nv_clk_src_max }
-+	}
-+};
-+
-+int
-+gp10b_clk_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
-+	      struct nvkm_clk **pclk)
-+{
-+	struct nvkm_device_tegra *tdev = device->func->tegra(device);
-+	const struct nvkm_clk_func *func = &gp10b_clk;
-+	struct gp10b_clk *clk;
-+	int ret, i;
-+
-+	clk = kzalloc(sizeof(*clk), GFP_KERNEL);
-+	if (!clk)
-+		return -ENOMEM;
-+	*pclk = &clk->base;
-+	clk->clk = tdev->clk;
-+
-+	/* Finish initializing the pstates */
-+	for (i = 0; i < func->nr_pstates; i++) {
-+		INIT_LIST_HEAD(&func->pstates[i].list);
-+		func->pstates[i].pstate = i + 1;
-+	}
-+
-+	ret = nvkm_clk_ctor(func, device, type, inst, true, &clk->base);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.h b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..2f65a921a426e3f6339a31e964397f6eefa50250
---- /dev/null
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: MIT */
-+#ifndef __NVKM_CLK_GP10B_H__
-+#define __NVKM_CLK_GP10B_H__
-+
-+struct gp10b_clk {
-+	/* currently applied parameters */
-+	struct nvkm_clk base;
-+	struct clk *clk;
-+	u32 rate;
-+
-+	/* new parameters to apply */
-+	u32 new_rate;
-+};
-+#define gp10b_clk(p) container_of((p), struct gp10b_clk, base)
-+
-+#endif
-
----
-base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
-change-id: 20250822-gp10b-reclock-77bf36005a86
-
-Best regards,
--- 
-Aaron Kling <webgeek1234@gmail.com>
+diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+index 0c0dfb25f01b..1a918d44ac48 100644
+--- a/drivers/gpu/drm/msm/Makefile
++++ b/drivers/gpu/drm/msm/Makefile
+@@ -221,6 +221,7 @@ DISPLAY_HEADERS =3D \
+ =09generated/sfpb.xml.h
+=20
+ $(addprefix $(obj)/,$(adreno-y)): $(addprefix $(obj)/,$(ADRENO_HEADERS))
++$(addprefix $(obj)/,$(msm-y)): $(addprefix $(obj)/,$(ADRENO_HEADERS))
+ $(addprefix $(obj)/,$(msm-display-y)): $(addprefix $(obj)/,$(DISPLAY_HEADE=
+RS))
+=20
+ targets +=3D $(ADRENO_HEADERS) $(DISPLAY_HEADERS)
+--=20
+2.50.1
 
 
