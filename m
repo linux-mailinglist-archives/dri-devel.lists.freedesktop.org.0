@@ -2,54 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93152B32935
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 16:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBBCB3299B
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 17:34:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0407410E1E3;
-	Sat, 23 Aug 2025 14:36:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B60D10E0D9;
+	Sat, 23 Aug 2025 15:34:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="yjODS2TT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fFWJB8rU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4683410E1E3
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 14:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=b4szslA7ZyoDYxRL5lU3Ry83YPf61pXDu12N9fYlNnU=; b=yjODS2TTZXqlklgLHaiMWcDNiQ
- 3h58mSclKn2EB8t/kPEwPboVfbiLiaNI1DsvIUWrQeJF8TIO935nUGCdEnaQXc80l6y43X1q7klkO
- Hl1DVJ7H/bH6d7s0Mp9YI921h58yRV08oisb7YhIZER4JwC/dbjT8q+73mIGtUJUZkVmVHWjJoCiR
- /rRszLMs/LBnxb6Loqq9EqqL7/QtBXWnEgVt9Y6n6zD/Pxg/FC8pcV5L2C4Jk19z92D/4l7Q79fvG
- Sx9rVGFZ9g28SI9pnX77Fnx7edcRqwxO3W+jKsbziQ24WfQgHVQF2DKYoA3QwwX7p9N5/MOROvwnJ
- V7MRdiCw==;
-Received: from i53875b90.versanet.de ([83.135.91.144] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1uppMF-0000aK-Bv; Sat, 23 Aug 2025 16:36:39 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: dmitry.baryshkov@oss.qualcomm.com, Andy Yan <andyshrk@163.com>
-Cc: hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com,
- stephen@radxa.com, cristian.ciocaltea@collabora.com,
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
- yubing.zhang@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- robh@kernel.org, sebastian.reichel@collabora.com,
- Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v7 03/10] drm/rockchip: Add RK3588 DPTX output support
-Date: Sat, 23 Aug 2025 16:36:38 +0200
-Message-ID: <3723317.0YcMNavOfZ@diego>
-In-Reply-To: <20250822063959.692098-4-andyshrk@163.com>
-References: <20250822063959.692098-1-andyshrk@163.com>
- <20250822063959.692098-4-andyshrk@163.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C147A10E0D9
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 15:34:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id B28B360007
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 15:34:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A0F1C4CEE7
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 15:34:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755963250;
+ bh=kTALLSkXGcreCjIk5ouErmIww5GXzdh4sJZ7jSXzRQo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=fFWJB8rUZTR7k1mJNnrOp0U9u6ycN8+Jk8coMcewCtLpogIycNkCI8WXsKET7qRB3
+ pltxGuwxlWfyUyFzOT0Y6UANrSTTY7h+e7Tt0uYdoSK+vN5376+mmga3ro7rt8AcKd
+ xQeJ4b0D11X7cokEVT6D+Z06sQ8efpan8xGj9KS3eAJDbUK1HzkS7xhEKduqugylqf
+ 1arOlaqD4Uxogfzbl2IJUvMpwbuKakn+ZvTkXngEoExybeS67OA8uzF4u11pZkOjbu
+ gabqZmJULI6gjywr73jsXKqhTv55m20yYbXP/ZS7VRp5XfoQGy+1vh8OUMFiyHFlSG
+ plEWMicPJ/Srg==
+Received: by mail-pg1-f173.google.com with SMTP id
+ 41be03b00d2f7-b49d98691faso68922a12.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 08:34:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVV5izAXBYwk9Ftzi76aWEHa9cmbuQ6cmroVdNMzzYby7TSV50z8k+wUW9pL6nbBF2pwfGgFEEzIqk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/cPmfCQ2R37MCBlRuMoybBNvuQp4G7JP+eLSKWbzGie5zZDJ6
+ u/JBMaM6wK/UexW+6I1C3eA8qxdkJn1kSSwE8i0PPLDxqeTNa7QQXqWpfuw/SbMRb42uiZltjaO
+ tNdOKiy1FSiNMJyKm+EYfZoHv3iyCVw==
+X-Google-Smtp-Source: AGHT+IH4plAM5KbETmxDDjvC+xXEie7PQ9eZg3ukysPt7y/ninQ9lLmP959MYy/IC7jqNGnL7Y1cqkNrWOy3mIJtmoY=
+X-Received: by 2002:a17:903:2012:b0:240:2145:e51d with SMTP id
+ d9443c01a7336-2462ef440e3mr63417535ad.31.1755963250030; Sat, 23 Aug 2025
+ 08:34:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20250818-mt8173-fix-hdmi-issue-v1-1-55aff9b0295d@collabora.com>
+In-Reply-To: <20250818-mt8173-fix-hdmi-issue-v1-1-55aff9b0295d@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 23 Aug 2025 23:35:19 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9mS+VRu9T45xawO-jdT0Zk+JR3XMbj7So3LuiUfO8_0w@mail.gmail.com>
+X-Gm-Features: Ac12FXw07uZw-AZ_HWLRa8XVVMEzzj7o_IkjPil9tjxcN8KsqqRfui-EkO3JR-w
+Message-ID: <CAAOTY_9mS+VRu9T45xawO-jdT0Zk+JR3XMbj7So3LuiUfO8_0w@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: mtk_hdmi: fix inverted parameters in some
+ regmap_update_bits calls
+To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ CK Hu <ck.hu@mediatek.com>, 
+ Guillaume Ranquet <granquet@baylibre.com>, kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,17 +79,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, 22. August 2025, 08:39:47 Mitteleurop=C3=A4ische Sommerzeit sch=
-rieb Andy Yan:
-> From: Andy Yan <andy.yan@rock-chips.com>
->=20
-> Add driver extension for Synopsys DesignWare DPTX IP used
-> on Rockchip RK3588 SoC.
->=20
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> Acked-by: Dmitry Baryshkov <lumag@kernel.org>
-> Tested-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Hi, Louis:
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com> =E6=96=BC 2025=E5=B9=
+=B48=E6=9C=8818=E6=97=A5 =E9=80=B1=E4=B8=80
+=E4=B8=8B=E5=8D=8810:18=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> In mtk_hdmi driver, a recent change replaced custom register access
+> function calls by regmap ones, but two replacements by regmap_update_bits
+> were done incorrectly, because original offset and mask parameters were
+> inverted, so fix them.
 
+Applied to mediatek-drm-fixes [1], thanks.
 
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
+
+Regards,
+Chun-Kuang.
+
+>
+> Fixes: d6e25b3590a0 ("drm/mediatek: hdmi: Use regmap instead of iomem for=
+ main registers")
+> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediat=
+ek/mtk_hdmi.c
+> index 845fd8aa43c3c91659808d9e6bb78758d1f9b857..b766dd5e6c8de6d16bff50972=
+b45c3c1a083b985 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+> @@ -182,8 +182,8 @@ static inline struct mtk_hdmi *hdmi_ctx_from_bridge(s=
+truct drm_bridge *b)
+>
+>  static void mtk_hdmi_hw_vid_black(struct mtk_hdmi *hdmi, bool black)
+>  {
+> -       regmap_update_bits(hdmi->regs, VIDEO_SOURCE_SEL,
+> -                          VIDEO_CFG_4, black ? GEN_RGB : NORMAL_PATH);
+> +       regmap_update_bits(hdmi->regs, VIDEO_CFG_4,
+> +                          VIDEO_SOURCE_SEL, black ? GEN_RGB : NORMAL_PAT=
+H);
+>  }
+>
+>  static void mtk_hdmi_hw_make_reg_writable(struct mtk_hdmi *hdmi, bool en=
+able)
+> @@ -310,8 +310,8 @@ static void mtk_hdmi_hw_send_info_frame(struct mtk_hd=
+mi *hdmi, u8 *buffer,
+>
+>  static void mtk_hdmi_hw_send_aud_packet(struct mtk_hdmi *hdmi, bool enab=
+le)
+>  {
+> -       regmap_update_bits(hdmi->regs, AUDIO_PACKET_OFF,
+> -                          GRL_SHIFT_R2, enable ? 0 : AUDIO_PACKET_OFF);
+> +       regmap_update_bits(hdmi->regs, GRL_SHIFT_R2,
+> +                          AUDIO_PACKET_OFF, enable ? 0 : AUDIO_PACKET_OF=
+F);
+>  }
+>
+>  static void mtk_hdmi_hw_config_sys(struct mtk_hdmi *hdmi)
+>
+> ---
+> base-commit: afb39542bbf14acf910012eee2d4159add05d384
+> change-id: 20250818-mt8173-fix-hdmi-issue-287cf353b077
+>
+> Best regards,
+> --
+> Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+>
