@@ -2,89 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261F2B32885
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 14:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E77AB32889
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 14:29:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1715810E1C9;
-	Sat, 23 Aug 2025 12:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B00210E331;
+	Sat, 23 Aug 2025 12:29:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="TZpicumQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DILsqVfG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 553 seconds by postgrey-1.36 at gabe;
- Sat, 23 Aug 2025 12:26:21 UTC
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FAE010E1C9
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 12:26:21 +0000 (UTC)
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id BC1E441491
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 12:17:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1755951427;
- bh=tHRlOV1gcalzCWbpUniF1ug9QqZWPgVHTvYS8H+hUMA=;
- h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=TZpicumQwx9P//l5pS7RKN21LIiNy8BQKnnuI0ltCmfbNzNAnDULaxK81NYYFzRI+
- ph8OrWZXkA2nxRnSarj59BPiZfSeQLwvZp6yqiqkGMCueTLLwjtWof5dz7n7+h4+sv
- wYMFdG6lkrGl80VpvtVUqR0+MFEnYkC2+XHQCKVuMEQqslBSno8nzejczher4P4B4A
- luCDtLMxXrQtdwjgYHdf94JgUg1isPRP3oirXGfk7ni8CsKI5SidgTf2dQmtIGYG1r
- 6/xhhDWoLr3xyV2dhJ0ZO+MwfQRbhNjQfcgVZ0aF+GrN7u5YM2xDPPy6JaAphQVq5H
- LIbAVN/GwMjRA==
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4b2955f64b1so84293651cf.1
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 05:17:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755951426; x=1756556226;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tHRlOV1gcalzCWbpUniF1ug9QqZWPgVHTvYS8H+hUMA=;
- b=BT2Pi/E1VPYm/7trL9vAgUB5dGHc3Ao+Qki+f57lJDrwk1yUIhLth7/5EXlDzFaYxY
- 68iLil4qOQCeN/859e+t49ge5r2igraQNBxMSj4LbA9Ny/moCQWiHFSGRC4iossdek4C
- lx0eZ0YYCOt6MBJ+t/xrIY3APH5Bm1jR4VaC1eLMx74QtCUKwlzl0O0u2LJ0cw1HxFaR
- cNCxQ4PS2eCAkmldNowSqCVW6Bj9Bfwg9xEcmV269v0tIM9idkqE81ynXpDLTLlKVPyW
- bnohGNnB10q1h7rLqDRViSH3/JvBMczx6J/Th8dKtUSUcdBDPQUYK6OtImxiqQBE3TBO
- HLEw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVQeie77THlG/RuC3G0sFWFCuysCl9BczvriJoXDT/BU9dq8zgtRTQggUKBw3/CM79aoX5zAD0mVKI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw00qbWgDgYdcDEkP3wVhSpR0Jt8EVKmA6jZ18Dz8+vsr9x8wfV
- IsZmBxuL8cJDVeMSoz9ZI2zmFHG6v8BCO+DSFvERTjgQ5eiX/wp1pmrsNyY4Yra5Lcm6HWnnhcZ
- Cl4GKX8ipdJSAmb30XehYbgxq+C/1wIqjMKZ90+v+s0Q6PdIKIBx7hUV0/Th576MaTI6eEDJCXQ
- AqtLv4l/7N5A==
-X-Gm-Gg: ASbGnctGuxDCSE8tSSN910P+2xIMKoKsEH+z3GfiAmDyv07elQlWSHK4dLI5NORBwAW
- /86zLEIcexhPayiOZDXw66YMoiZ8n4rqDU1nGIwvNehajc8TzTFevyK/rNzDW5l7eWZhVH8j/9C
- WAXdwRTpe+DOFi438FhdIQcDUb514YPgi4c1tVjHCkohO2EteMo/sZSM+thO+XoMBRoFVXX6iqf
- 5DSXrbX2CInvKv6HHypqkZxTApC0EiPRLKArBxkqKViBJzJ/t9phWvD6MtxEWFrVCw7bFgHtJsC
- vi5rlZg/t5ZpBT7CeqdP1owVor3pWxqSLo1oR16rO2qnOeqWS5Hv945v
-X-Received: by 2002:a05:622a:a:b0:4b2:8ac4:ef5d with SMTP id
- d75a77b69052e-4b2aab546bamr68378011cf.84.1755951426352; 
- Sat, 23 Aug 2025 05:17:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHnIKajDSfV7NO4Hfrf80vUm5NXdkjXXgtLCjExMGkFAp2FhrBW40tEeu25Y2rj3Y+K0BtRNA==
-X-Received: by 2002:a05:622a:a:b0:4b2:8ac4:ef5d with SMTP id
- d75a77b69052e-4b2aab546bamr68377701cf.84.1755951426018; 
- Sat, 23 Aug 2025 05:17:06 -0700 (PDT)
-Received: from localhost.localdomain ([162.213.32.233])
- by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4b2b8c618ddsm15429971cf.10.2025.08.23.05.17.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Aug 2025 05:17:05 -0700 (PDT)
-From: Aaron Ma <aaron.ma@canonical.com>
-To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
- simona@ffwll.ch, suraj.kandpal@intel.com, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/i915/backlight: Honor VESA eDP backlight luminance
- control capability
-Date: Sat, 23 Aug 2025 20:16:47 +0800
-Message-ID: <20250823121647.275834-1-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09C8F10E1E1;
+ Sat, 23 Aug 2025 12:29:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1755952181; x=1787488181;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=v3xJNxOTA3ejstQq8SF/+geOe4Zrznj4F09Ilieo3V8=;
+ b=DILsqVfGtKsxZpVkYvWzK9UTo2n3+49HKCUPqQy+k8LN+sxzNeqZLWSz
+ LAGZPpIcuPWyvNmP+AeUeTaeVvxfUgGSDrAd3enzEA9xj/NuN0wrDzxwB
+ Cuxa3ZmTA+So8uqVKYsQbWdf8tjRB6WQBDZRMsgOG4xTgljqp7JpVZdtP
+ NlpUfFrRlSO71Q+B2nd60vL6R0LcgpQPOyPB23L3jn02hPWI+u3BIDFzx
+ CLtkXXv/41p6K9LSGkJ/2nLAU6VWWzzKyiK8NfMLxkz7ZqfVypJbebNn/
+ wM0gg+MNcgr17mtvbZG2cZsHu+DvMKkjlgcCoCn9JIBRlTAR1wep1e9WI Q==;
+X-CSE-ConnectionGUID: DjRrc+p2RN6zh10HE20pGA==
+X-CSE-MsgGUID: WQIlFWkMSzywLVufTxt7GA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58158773"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="58158773"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2025 05:29:41 -0700
+X-CSE-ConnectionGUID: vUjtLK17TbSU8Jj/Npw2PQ==
+X-CSE-MsgGUID: 9HVw6mUJQ9yrulwzZSkRhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="173316596"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+ by orviesa004.jf.intel.com with ESMTP; 23 Aug 2025 05:29:38 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1upnMm-000MIp-03;
+ Sat, 23 Aug 2025 12:29:13 +0000
+Date: Sat, 23 Aug 2025 20:28:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Aaron Kling <webgeek1234@gmail.com>
+Subject: Re: [PATCH] drm/nouveau: Support reclocking on gp10b
+Message-ID: <202508232014.eQOclzLG-lkp@intel.com>
+References: <20250822-gp10b-reclock-v1-1-5b03eaf3735a@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250822-gp10b-reclock-v1-1-5b03eaf3735a@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,29 +73,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The VESA AUX backlight failed to be enabled becaused luminance_set is
-false always.
-Fix it by using luminance support control capabitliy.
+Hi Aaron,
 
-Fixes: e13af5166a359 ("drm/i915/backlight: Use drm helper to initialize edp backlight")
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
----
- drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index 41228478b21c7..0a3a3f6a5f9d8 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -546,7 +546,7 @@ static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector,
- 				     luminance_range->max_luminance,
- 				     panel->vbt.backlight.pwm_freq_hz,
- 				     intel_dp->edp_dpcd, &current_level, &current_mode,
--				     false);
-+				     panel->backlight.edp.vesa.luminance_control_support);
- 	if (ret < 0)
- 		return ret;
- 
+[auto build test WARNING on c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Kling-via-B4-Relay/drm-nouveau-Support-reclocking-on-gp10b/20250823-090132
+base:   c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+patch link:    https://lore.kernel.org/r/20250822-gp10b-reclock-v1-1-5b03eaf3735a%40gmail.com
+patch subject: [PATCH] drm/nouveau: Support reclocking on gp10b
+config: x86_64-buildonly-randconfig-005-20250823 (https://download.01.org/0day-ci/archive/20250823/202508232014.eQOclzLG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250823/202508232014.eQOclzLG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508232014.eQOclzLG-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c:30:1: warning: no previous prototype for 'gp10b_clk_read' [-Wmissing-prototypes]
+      30 | gp10b_clk_read(struct nvkm_clk *base, enum nv_clk_src src)
+         | ^~~~~~~~~~~~~~
+
+
+vim +/gp10b_clk_read +30 drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c
+
+    28	
+    29	int
+  > 30	gp10b_clk_read(struct nvkm_clk *base, enum nv_clk_src src)
+    31	{
+    32		struct gp10b_clk *clk = gp10b_clk(base);
+    33		struct nvkm_subdev *subdev = &clk->base.subdev;
+    34	
+    35		switch (src) {
+    36		case nv_clk_src_gpc:
+    37			return clk_get_rate(clk->clk) / GK20A_CLK_GPC_MDIV;
+    38		default:
+    39			nvkm_error(subdev, "invalid clock source %d\n", src);
+    40			return -EINVAL;
+    41		}
+    42	}
+    43	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
