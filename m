@@ -2,188 +2,190 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C2DB326ED
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 07:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DAFB326F4
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 07:46:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7FD10E19A;
-	Sat, 23 Aug 2025 05:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E6C410E19D;
+	Sat, 23 Aug 2025 05:46:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="L2joX1sF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="N+wGiaTK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD2E10E199;
- Sat, 23 Aug 2025 05:37:10 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 592E510E199;
+ Sat, 23 Aug 2025 05:46:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1755927430; x=1787463430;
+ t=1755927993; x=1787463993;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=+XOlsvQaG/VaHhmweZISBYJLN9UlXSBHNM8hYbAm0JQ=;
- b=L2joX1sFdYbyDZ17NPIln1aZ7gPuKhqqshOnCd3bGCY4nwUdW+W2Fj1s
- 4cBIhrKPPXMANXj6+7LrnakseNrxiOsXv4/94ICjG/A0kdRAesVcwJVHb
- Eh29RDt23IQ+7eZyzxbfE6fRsmGPugCueAHyScr3SSC2F7gjbWr2LvGAS
- Jafn2PRedMstkGG89iBRLH2Ggg3QOeQXtS6/9NrVhg+pP35IP/TIZjFlg
- gaxbeolBvpUOZ9G7XUlUoV4Pf5EuJLLytUFkN+daY6V3xhsZPUGevf3r+
- h0svkST0yTEZId0YjcXOO0NUzoFdJ8HeuXdP/7OgoKHdxsbm43jlQnnrk Q==;
-X-CSE-ConnectionGUID: OlmNcB9+Q6yabN9OEoN/Ng==
-X-CSE-MsgGUID: caZv0bJtTDSujy0WHyemaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="61871247"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="61871247"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 22:37:09 -0700
-X-CSE-ConnectionGUID: p735nQsRQGOwnrwaal5i6g==
-X-CSE-MsgGUID: Ms5zOcr8Rg6O/2NwasEoFg==
+ bh=68eU/3o/Zz+9hn/WZAYHOBxAhnV0PwAF141AvngdY2A=;
+ b=N+wGiaTKGuWsAH8dA94+NndH/bkmn9NtCWNnKRwWdaTls971bywyniIz
+ ScZtVJQGSYphSGvO4K0TTplsTi/qrzjlZa6406uWxlaVtp9jZ2PEp5MzJ
+ SrcccK3WV5MmkeilsVIWVle+hKVGnFsyYS4dGtcT65OhaG8KAlty9sjFC
+ Ch9NVd4F8GIw/p+mj+1muq6MatLHJK/YP+3ZU9Q5+Sw97K6hb9FWjZ++O
+ FBnApdRSrmLy860zpKDROU+SgC+ZTXd8XYzWEyQ+Nfqr1M+cuIDBjv29z
+ 1hrYhrqXsRVzw1kxbp5Sh9QbUzgJMoIlogVtoEUa8yuBc88O1qHIf1RbL Q==;
+X-CSE-ConnectionGUID: UCtOkm8oQJacs9Am7UJxNw==
+X-CSE-MsgGUID: pLwCWnJ5Q7uS22IfwqUGVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="58325738"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="58325738"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 22:46:33 -0700
+X-CSE-ConnectionGUID: 5OBVWB6ATsymSpOceXcZFw==
+X-CSE-MsgGUID: rt7BMQ4QQeyHv7kj2KmYdQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="206041794"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Aug 2025 22:37:08 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="174176304"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2025 22:46:33 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 22 Aug 2025 22:37:09 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.2.2562.17; Fri, 22 Aug 2025 22:46:32 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Fri, 22 Aug 2025 22:37:09 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.75)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ 15.2.2562.17 via Frontend Transport; Fri, 22 Aug 2025 22:46:32 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.57)
+ by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 22 Aug 2025 22:37:09 -0700
+ 15.2.2562.17; Fri, 22 Aug 2025 22:46:31 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e8i45dMLmHNgrkQVboZ3e6Odi0tYjocrBMaB/h+TPjqmrM//bBYDycW6UEJgIxyOkpPl3Xoi6MXqCFBFHRIPji5bbKzwmuNgeetMC/bkGecrgYhil47BHTF3pOp8ETg2O0P1ER9MTEWr8+oN5AEeyWPdf+ckokchr+j3SHg6LhB8pHCx4Gm+jZW6iyTDoAAnQl2wVjoEasAhuvGiyZN8q9FZgl0pQbDse+ksoR+s9aRuLA6WNRyQkuG5YCLY+3sdRJPZ+AJIboQTcL8jpqv2QMON4tK03+6b8EVrvOza0gpyJjDZSSf2RjyOp0d4QDCV+TJq7CtT8fR8xLU9qFinIQ==
+ b=i3oMt9Iq8I3nufvRMDnXdQY7Od9tROOmbkhcMSX/Rcb8OnX3JCu/upIsOuE/SyB5D6gwzPPX2yyFSC/g/KpAnw89ZHIKak3W6DKV3ZK5066jK53qKv2ZGv3pikX8yjBySEkA5wpObVNAxdVjIFkIdntax/DqNovgL87Yh83ZsDXBrnUosThDytoT9NAmycUSK+Cn8jDlDwfDgnBhHj+uITZc+M23iVwcSSCrwHMvOTgnCdyg+pSPSMhlpmDz7KndFTHDu1l0gBGvZFBFzENNNrL+6ZO188v0BkVYQ7Af6f7lHsK/OUpVIUC/JJCYG8780mxyDBFep0S9Ouck2LiQjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p9TFzgH95sDlL2tPwlWP3FmjQ7h786BtOXuuKi7KOHw=;
- b=RV6uxh+Tq+sa1/cXgZNSxL7XX8kXc52T+9+v8m+r6TnMh5gqfcJn3NMNhrERUomb4D6zA0rXyXgNpL2qqNwsi86w0P78UcXmOx9tBGad2hRdREgboQrrwYqDnamCbuFtYpY25Y8abP14zSQBCA1GABHw0oJrt/Hlt+umm0Ox2p8VVz9DIpaixmwfNTmsdMF/PBgRfg0EBft2EWJeHkYAMfowYMdoI75x3E/GzV7cFXE11ngjUic1FKqDIhmnAXFO/0HTNQc8rk5ECh+jOHVR9M/UJIOZdj0k/cnTOzUT/oM6oCkU4A1P0sjpZ5XxvjRzUuLySJjiDxHqjQmbF4t2YA==
+ bh=BicQIy6sNqkEEB/MrGsw128JILrzv6oAespo8u7ZDag=;
+ b=BIFcss4YeQXUqDz6LYActpYqr/a6vPjDibmDz2pR0xEk3jnC/o8WiGAbe0tilshy0Lo4pT6qQqVbvFru/A43lXdP8/mQh6ALuuOQh8UlkrVYpnO+kh9mEWR5Lfuon3by1m16R6YBUINmUHqGxTya6zI8Tw4YTJ0FLmXgbM/SS8XsTI/he61f4S5Poxhbodal1FEoDnGKlv8H3N5hKCIptYOfSm86nODj/5huim9l+VgDlu2StgQC5pOR/1cxR9QAIIrNuSYTp7PqB3d3miGX2CpmHMYP89ghTCr9r956iKGvRCtMQtkOKG4Ng+PF8PMYg6XFnYL3AJyGpqb6DFK4cg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
- by PH8PR11MB6708.namprd11.prod.outlook.com (2603:10b6:510:1c7::17)
+ by SA3PR11MB7414.namprd11.prod.outlook.com (2603:10b6:806:31c::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Sat, 23 Aug
- 2025 05:37:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Sat, 23 Aug
+ 2025 05:46:24 +0000
 Received: from IA0PR11MB7307.namprd11.prod.outlook.com
  ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
  ([fe80::dafa:d38d:8ac1:e843%4]) with mapi id 15.20.9052.017; Sat, 23 Aug 2025
- 05:37:06 +0000
-Message-ID: <12e88f43-98eb-43aa-931c-edac88d650aa@intel.com>
-Date: Sat, 23 Aug 2025 11:07:00 +0530
+ 05:46:24 +0000
+Message-ID: <3d0136ee-fa1d-40ff-8304-da4d7432b1f1@intel.com>
+Date: Sat, 23 Aug 2025 11:16:18 +0530
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/4] drm: Define user readable error codes for atomic
  ioctl
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>
-CC: Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, <naveen1.kumar@intel.com>, 
- <xaver.hugl@kde.org>, <uma.shankar@intel.com>, <harry.wentland@amd.com>
+To: Xaver Hugl <xaver.hugl@kde.org>
+CC: <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, Simona Vetter <simona@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, "Joonas
+ Lahtinen" <joonas.lahtinen@linux.intel.com>, <naveen1.kumar@intel.com>,
+ <uma.shankar@intel.com>, <harry.wentland@amd.com>
 References: <20250822-atomic-v3-0-13a0e8f2c581@intel.com>
  <20250822-atomic-v3-1-13a0e8f2c581@intel.com>
- <8f24c0051cab99aa5f399dc3b6eb6dd2fb1e8b6c@intel.com>
+ <CAFZQkGwqgo7FavPQecKgwaZ1DcXccY9urRzcfocg+Srd4P9WPA@mail.gmail.com>
 Content-Language: en-US
 From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-In-Reply-To: <8f24c0051cab99aa5f399dc3b6eb6dd2fb1e8b6c@intel.com>
+In-Reply-To: <CAFZQkGwqgo7FavPQecKgwaZ1DcXccY9urRzcfocg+Srd4P9WPA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5PR01CA0028.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:178::6) To IA0PR11MB7307.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0024.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:b8::10) To IA0PR11MB7307.namprd11.prod.outlook.com
  (2603:10b6:208:437::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR11MB7307:EE_|PH8PR11MB6708:EE_
-X-MS-Office365-Filtering-Correlation-Id: 16df134e-2618-49a1-3160-08dde20718a9
+X-MS-TrafficTypeDiagnostic: IA0PR11MB7307:EE_|SA3PR11MB7414:EE_
+X-MS-Office365-Filtering-Correlation-Id: a4a8b369-cda8-4d5c-d2e2-08dde208651e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UFYrQXlYR0FkM3RnTjN4Zmg4dThUVVAydFlvMFNnVG9GTUhSenQ0UytvaDAz?=
- =?utf-8?B?dnNGeVVNRkYxL0NDUUFhOHZIWnNldHJZRDFMRDNHL3pnblg4aTBCTkFUT2xn?=
- =?utf-8?B?dDhLMTJkT3NGOVNNLy8rV0FiaE8xQk1KUHdIdlB2TCtUZ24wdWFPTG9KZmhO?=
- =?utf-8?B?Zm5NTGdObENiV3I0T2YrTHo4U1pOdVJqOXFCSDZYaUFmb0I2MzV2Umdzd0lm?=
- =?utf-8?B?OXBaejhGYzN5OTg0RWR4RXFWZHdMKyt5NmdzZ0prVFZkOElXdUV1RElldnpX?=
- =?utf-8?B?dUh4dmVUK2JpQ0hqd2FjSk9OczlibXUwZGs5Q0UzQVc0dEE3MnNqZDA1QjBG?=
- =?utf-8?B?dVlxVDd5MnZxdGluT01xMmlRYnU4RjVFb3QzQjI3QkJrTWRySi9DOFE3MU41?=
- =?utf-8?B?S0xHa1JwTFRiNFpGblIwNHR2WGZ0RElUYjYyZGtBd0d6QzMxWW1HakFNVFU3?=
- =?utf-8?B?OFAxQmEzV3J1WXI0TkVWb3Z4eFJBZ04wR0cxSEJiNXI1Z2ZOblRpR0J4UXJp?=
- =?utf-8?B?dFJISHRYZzMxWk54NTdGeFpMWHlWZFltakVxeFFEV3k1bm1sbmNsQ3ZDRlVE?=
- =?utf-8?B?M2tpamRDV3E4MUErVTYvVUFjaUhEN0lwZjdqMGFsNjFJb0Nzc0EzTjJWMFlu?=
- =?utf-8?B?YnZ3TjNkL0FtQmNkK0cyekFqM0lPQVY0b1B2Y2tzSkx3MEU4VitKRWNPZGR5?=
- =?utf-8?B?TllnSERvRWJON1pIVm1xRm5MMW9oaEJ5MlNHcWx0Ym9DWVZpTGkwbzlqRUo0?=
- =?utf-8?B?cVVZNHFvc1hjQ0oyYk9vbWpjMCtlazNiUEs5aUl2aGV2N0ExYlFKWDFXVlN6?=
- =?utf-8?B?dWNXYWRmeXpGSFZTLzNmaG5ZYVNMcFVCM0RzRGtsZEcvSUlKQ0Y2ZkFleCtW?=
- =?utf-8?B?Z1p1dlJ5TE9mTkRZM3lFRkVuZi82YUlCYk45Yzc3a2w1SWxCOEFneTNXVTN2?=
- =?utf-8?B?cjdOL1RjMy9vK1AvNVNEQ0llMjROY2VYUzBwMjZOSWVxdlQ1VWY3U0VHM04v?=
- =?utf-8?B?Q1JlcHE1RnJTb1hvSCtnVmwrUHFINnB5dnVkb2JDdnVrVUVEQXVTQUF3T1hh?=
- =?utf-8?B?YllXNFRXZXRSdzloMXZtamlsVXZnRVEzdnlRbkQ1MnJGZEIyb3lseE1TaG1R?=
- =?utf-8?B?ZXpqL2hqSjBOUmVFbnR4a1p4eXA4RTRGRkFOSzlUNEJ3NXhwcStZWlBIMi9M?=
- =?utf-8?B?MlFhazg4d0llL3VObUVsR1FySkxDYlo0TFg2QkxHZDJVcWdabUxPOVVKWnpt?=
- =?utf-8?B?SWdHdHNvaUF4aXlaL09GOVJWQUpEWUNVSUo2QWlQc0hmcmRFUDNuQVRpTnhs?=
- =?utf-8?B?Y21ETHlOaFBYV1JrVVJIZFBISTMrRGZYcld0d0hjOXRBQjdNYkdtZE9oUXZM?=
- =?utf-8?B?cWQwT0E5QXg3VWV5endCMlUybDkzM1F3YnhMMnIyNW01YXFuUk1BN2RZc1R4?=
- =?utf-8?B?MHUvWU15ZTNqVHRUZUlYMityUVlMUUNaa3lXOFg0UURTQlFiZ0l4bUdKeG9P?=
- =?utf-8?B?ZlhXQ1FOVDNmdXdaMHFxZ3pwZTdpejI2cXBBRndNN09OTW43VmlvQTkwZkdq?=
- =?utf-8?B?QWlFVUdUNk0zTm1mTTVMQXNUaHRIbXg5azJsVmVZYWtJTEFJV0d4SmFaaEcv?=
- =?utf-8?B?ajJiOGdQd2hxdzRUeVZZazNKMDlhKzFWTWlDSVlzUUZVdk5pUjR2WTdHdWp6?=
- =?utf-8?B?bzBHVENocHZPR2F3MWYxVEpCT05mOElOM09KaVFEY2dkbTJtQXVvLzQwVGxL?=
- =?utf-8?B?Z3R1UFc3MzgvWEdOYzZDdFcxTGdYd1U0L3RtWnU0ZDRGeTBXMzRXOGp4cjBW?=
- =?utf-8?Q?E6wYd5I5rqCg80t1ubC10/Uy19SKyszNsK/Ac=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SG0rMnJsY293MmNHVjZia1pzcGluSnFQNHVLWHBQaytlblN5KzN1WkR3SGxP?=
+ =?utf-8?B?cUp2K29MNDh3Qk00VVZxam9DMEJSQXhnK2RSV2hvYnlIZElNUTdpOU8yWWdy?=
+ =?utf-8?B?bFNYOVJQTDhXVWhSQmpEQWJnNVlSU1lJYzlqbVBHMyt3YUxIMVZNV0NxSloy?=
+ =?utf-8?B?NzFYM3A2djdsV0taTUdmK1NCZjFBVTZpQmtpSnFPbTFQdGg1OWNWell1Zjkr?=
+ =?utf-8?B?QWNkWVdXaHhaV3lMczhzOE1zaHpLUDd5a01xQkFoRklvV2JpQUdXb1BiOHQv?=
+ =?utf-8?B?MkFuZ2p3a1lnb05uVTlHZlRrR1YwUU9iMEFHc2R3UW0xRjFVOHM2a3BCRktR?=
+ =?utf-8?B?dytWQklKVjJHS3BGdVBackZKRlRWd3hvRzBLaUNtVDZUUS9vZ3pWQzVybWc4?=
+ =?utf-8?B?Yjloc3hTMXowTEFGK0ZKcVJxaENDVXJIU1dCQnNTN1NkTVJpeFdYNjIva01E?=
+ =?utf-8?B?K1JjZHhNcUQ1cVI5NEwyT2EwR0c3MkJoZzBjRm10UzQ5ZG5jOTNtTzFWK0t6?=
+ =?utf-8?B?UEQ4TnRCVlBRWGduaUI2S2R4SUlRWUcxQmFaSzh5Ykxua0FIaDFlY0lJZHRW?=
+ =?utf-8?B?aFBSa0kySHd3WDZoZzlscW5OQWFoT0NYMmozdUR0WW5PSVNtZlZFdGVrS3U5?=
+ =?utf-8?B?RmZFcU1PYUlkL0Vlc3FDb01kbnZVRWx2VkIxZzY5RkZtZ0JpSmJBais3akRw?=
+ =?utf-8?B?NU1lOTdIZXdUOC9tWlQ1MGlhWDFGaGZwc3JCWWVUOWdsSDVXRVd1eXkrai9v?=
+ =?utf-8?B?OURiY3lVaXBTanF6NURjWWx0eW1RaDZmdVl6ampCNmtzSnEvR0l0a1ZKemYx?=
+ =?utf-8?B?YnlsYk5hNVF5aU1QZlJxVWc0UGJPbER1V3V1QVNCYlAxRmtGak1UNERFK0F4?=
+ =?utf-8?B?MFlGdm53cUYyUHJYZkoraE9pdnlleGswbVhCR0FRVnZ5QkhKUnF4WjE4WFRH?=
+ =?utf-8?B?U3pBTWpjZjM1d2dma2FLeTMveGxQVkhGWmZZQ0xyTXJFZkpEMmlydEtMTUJi?=
+ =?utf-8?B?M1FNVGx4VzNhTExvYlM3K3pOeDQzb284eC9MN0JzaGt6Sk1FVTNHL2twcjdX?=
+ =?utf-8?B?aUhYSFBDV1FuSGlsb0FUNEM0ZWtZcHhiMy9MVGV3RHI0NFBmaDJLd09kNzlE?=
+ =?utf-8?B?V3RNS0lpWW5zamZSc0hELzhlNlMzM202ZjhGWks0Qzhvb2xzMzNLYzd6WmhU?=
+ =?utf-8?B?T0NRQWZOODIxZ0JsVUc5RW1Lbk93NGtwV0w0SVZDZG9ETy91V3hPSkFrK3dL?=
+ =?utf-8?B?WmcwQkp4ODBBczkrc01ZMDhjOTR4aHdJYU80dXJ4aHpnQnA3NjhKMHRjTmt2?=
+ =?utf-8?B?cDVHTVNMbWRjOVpoQ3Q0a252Z3N2YmxtS24rK1ZrVkRFZkpySTNCU2NDczR5?=
+ =?utf-8?B?Tlp1Y2MyYkkyRFR6aXUrT2RMZkJLRDRRREFhaXpqcDh5SGtJajVmN1l5K3hK?=
+ =?utf-8?B?NmxQdWQ1amdiQ0t4MXRWQW5ZMDNGVVBkcVQ0bVEyRzVuTmJabGVtMnBaQUth?=
+ =?utf-8?B?ZWttdzgxMFFMK2ZoT3hiNFJ4c2ZsVlFJQ293dUU3bXZwWnVLbTRyOGo5WlYr?=
+ =?utf-8?B?NkFLUkhIa3BWeHJGZ1IyYnhoVGxJWFJ6dG5ka05aQkNOaGZwZlNzZC9qVUk4?=
+ =?utf-8?B?MWM4UXhGaFhKMGFTVGg0cy96OVlESk9kejArT2NCbTdCSXk1U1FFckFrVFBr?=
+ =?utf-8?B?T2RvSXRPQ21KeTdsQ2hoMHhtWU85WHREN2piOGpiVkRKUm9PMnQ4RkVPbWN4?=
+ =?utf-8?B?KytISHJWdnhJbWQyK0lNT0hjZVJPdTduTzFSUHZjUWJNRDNxZUNNeTQxZExM?=
+ =?utf-8?B?V0RPTGlUL29MbHpTdXhXNDBQNElyS3lka0IyS2RTRGgrSXB2T0ZWbURPYktz?=
+ =?utf-8?B?dnlpbUt6TVFmcDZkdm9HYjJMUjU2a0w1RTIvK3VjWHUxUE56MzJUbWxQbFZn?=
+ =?utf-8?Q?N1rXnpKvX34=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Zll5Q0FsakpIZjRDQjJiSFVDSVc4eTdVNVY0OW41VjJPbUYyNmxENHlVUGtZ?=
- =?utf-8?B?VGpGSzYyZHlqYUlYRTRxMEJNbWJaY050RHNUVTV2elFHU0VKbjEvZG5YclBU?=
- =?utf-8?B?aFA1VzFJblRIV1pyblZma24yTGt5QkhQa3FWYnYyZFFSTEdrL1RIWm9obUQ4?=
- =?utf-8?B?Qk0wdmt2ZUZIblRMbzhEdUcvVmwxQzRDOG83Y054MmJhY1FrMVpacW56dlIx?=
- =?utf-8?B?a2VOTkttb0taSElOR2FaMnVsZ3RXaDRkZ0JEaHpZdlZVaWFGNlJaWmFrWHcw?=
- =?utf-8?B?TzFUeklEc04vbWwzR2p0TFVvTHVPWVpqa3FxZ0sraTBOaGxDWE1jUG9HMHM2?=
- =?utf-8?B?enQ3cTAveFdvNnRoT0k2ckVReVNBV3doTmVjMWRhUzE2ejdKZGJJQzBmWXJG?=
- =?utf-8?B?bzJoMy9FNlN2WHpVRnRyQWdhUGpwR284dmpUTU04SG5ZY2x6V2doNk9jV3dD?=
- =?utf-8?B?V0Q1VER2YlRSLzdSUkZoNG4vR211R1JxQnB6M3lHL2J0NzZXaU1aOGs4elIx?=
- =?utf-8?B?Q0JBcEgzbkpEOFltRWUyY1JiZThLMWNTM0llazlXM2hpWjh6Z0Uva2ROcjRj?=
- =?utf-8?B?bkxpMG5VaVJBem9Nd09raldJejVZZVplZCtQcmRIWnpIVExoSjNFczErNjNN?=
- =?utf-8?B?dlo4MzRpZkMvYUFvL1ZrSEljOEZZcHRUU0dnYUlEZU5Ia0czV3NSUUZxQUNS?=
- =?utf-8?B?U1UzVlVtUWkwQ3VYUUJmY3dzTXBad0oyY1l3VTF3QkY3VUZ0OGNsWlZqWkhW?=
- =?utf-8?B?alpxYzZtMjZnZ2xIQWcxQUtrWlE2VkFjd2dmNDd4SnYzU0FDRFlsRlRKM3di?=
- =?utf-8?B?dnlXSnN3VHhXdEoxNTNWcVp2Z3BBZXhlOU12dE40ams2RCtZUGhVeTVWSWs1?=
- =?utf-8?B?SlhkNjlwWkRTMVcvK3UvSEpSTU1BeFc3R3B3Q0twTUNhQnVrSzRiU1hUU1dN?=
- =?utf-8?B?RzdDT1F2SVoyQlpVcjdhdWRjeXE2UWU2VjFmVVZtbzhGQ2tMemN5aGhzY3FZ?=
- =?utf-8?B?bElJc1ZqRmErTTZ1NlZFMVgwTXFYem5wNUhnSlZiWFR2a1BNWDZrNlpTOVdZ?=
- =?utf-8?B?NUVMbDV5UjV6eklkNldUemphOEZNNUJCQlRIdGROZWRNTHZCNVk5dmxsS1B3?=
- =?utf-8?B?TzJ0MWw4Ulhzc3V4OE1TUHdGMkd2UDA5MEoyaXppRDBkYWlrUDJVWjlEQllW?=
- =?utf-8?B?bFlmd0t5WU5SaWhLRDQzdFo5Q2lWTFZXUmJMR1VuNXp5emJWUnIra0NLVjZl?=
- =?utf-8?B?TTJCMHpsSzZZc0VzTy9Yb0FZVFRJcUdWVlVnUVVleEUzYkZaUTlzd1dOaStH?=
- =?utf-8?B?TmVDS1VRV1ppbUhlZ3pDYk1pWkczMXBsVmFmK0NvU2IzMjVwQmRvck81aFgw?=
- =?utf-8?B?cXU2WHUrL2pRczdhNWdmYnhTamEyZUR5TSt6THJkN3k3ckV0ZG1US1lPVmRm?=
- =?utf-8?B?TWVGbVU0MFRGRmtCMXRhbnpHUlNuVHhwK3hlRUUzdXRRZU1LTStWekk4KzBQ?=
- =?utf-8?B?Wm5ETHFpT3Fza2xqUnN4dUR2NHJiUm02dzdpVUFhdG9uZUkxWThWY2tiN3Iv?=
- =?utf-8?B?SStjQytnZVJmWnlnaUF6OU12djN2dVhoY2h2NkZCMXMrRXVneEF0UG5KS0sw?=
- =?utf-8?B?bkthYzA4NGFFZjg5UlFEejlCcmJCY0J4QnBHVSsyOGJ6bWRKMDE0d0JLcG4x?=
- =?utf-8?B?M1NwMm04ZE1TTk9vd1hzcUY0RnN1RlVxYkFHS29BVjc5bXJUOU1weW0xa0x0?=
- =?utf-8?B?TWIreVd0U0U4cHMvRkczcTVZckg5bGtya1BoNVhuKzVWY0VaYnBxc3JMQXo1?=
- =?utf-8?B?a2FlTDFlR2NzOGFSanpzaHFYQW96cTd0S0Y3S0N2czNlZ1FLUWZwcWlxZW00?=
- =?utf-8?B?N05JOFp4MXN6d21MU0ZKWVU0UUNXSGpiS1ZTSFZ1UE51MUMwV2o5ejJHUTEv?=
- =?utf-8?B?RXp6YkQ3NC9ib1BoS3hyMzUvZllKVmluT0pEUG1Td21tRS9WQlBWMUdnUDRT?=
- =?utf-8?B?b0pxeXJyWHYvZThubUcwZ1JKZ3FlZ2pWSHI2RGZCZ3hCd3VCNVNsNElWWWlU?=
- =?utf-8?B?RkxEYVd2dDBEZFJqOU50Z1RqczJpZzJ4S3lLWENrWm1YMW0vMHdvblRIQ0la?=
- =?utf-8?Q?V23msbHjpduVWapClT0lrsh8P?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16df134e-2618-49a1-3160-08dde20718a9
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b3gyZm5HMGdBOVF3bXcxb3kxTGVyR01nbHo4RUdzQmtFL1U0TEJlWGtWLzNK?=
+ =?utf-8?B?bUVuZ0NtY1lrZUpTZS9xaXVETmtZbWVwM2lrcTRxeVhpUXkzRUFkNWtmVFBL?=
+ =?utf-8?B?L2lnOU5xY0Q2V3llL0g4OXE0bzhMeVFPdXNUejF5ZUR0ZDJ0bWFjTUhSM1J5?=
+ =?utf-8?B?ODRXQUE4VjNBN29DT0xYc0FsOC9KSm0raGx0S2FDM2ZFb2t1Nm9BeWpJckpC?=
+ =?utf-8?B?cjc1WmxYRUh0S1hEU0hRM0xhNEM3RWtEWWdkYzJTYXNwNUhyYjN1QmdiZjhC?=
+ =?utf-8?B?eDEwN1Ywd3hiMDM3T3ZHVEZMRTQ2U0lCakE1dHQ4KzRnNUFTNXFSRWNmSjB4?=
+ =?utf-8?B?TEdoOWNLNmZMTGF4MEpuOWUxVDh6QS9UOWdSVkwvOEd1OE85MWh0dE5OTG5a?=
+ =?utf-8?B?S0t1NkZKYWhkMEp1YSswdkR1aDRwMGdjc3Q2WGhoWm1DNU13a0FNdmt4dWVV?=
+ =?utf-8?B?TzRWa01Yakh4WWMweXJPekxJWUJoRGcyYUc2My9yallwcVRRV2EwdHhNNmRK?=
+ =?utf-8?B?UDR2alNXRjJBTi93ZXdqQjZDVmJkb0RqOFY4ZEtTMzFvRHpkU2k1L1B6dkU0?=
+ =?utf-8?B?TDRIUVlKMHJHcVBXMWVMSXZTbTMySU1KZGUyMVJlUHNPUEQ2VnBqc0ZUVHFD?=
+ =?utf-8?B?TmtrRHdCMzBUZFlRN25xSnFQeHBNcGZVSHE3emRkV0FJUm40d2pUcnNUaWVr?=
+ =?utf-8?B?ZUYyQlRBTVZYWWhNZHo3S3NIaVlOdFhwbTcxYzZzR3BGTDBqOEhxdFN4SzRN?=
+ =?utf-8?B?UUYrRFA4akpHK3V2REVyL2Uvak1ncWtzVkVqQ1hyS3hQSXRqdVVEWktaUFNW?=
+ =?utf-8?B?cHlXais5dk05bGpmaHNwWmVjajRoSGNBeTZRRkhsRXU1VlU3NW1BV0tKdWxs?=
+ =?utf-8?B?QzZKaUdmQnRlR1FrMkhmb0M4a3B6T3JRNHBxZjUyQStYQ3Izd3lpVlR2R0RX?=
+ =?utf-8?B?NTByQWR1a1c5dkhueERFYmluZGpOcHhXdEhYQzQ4a1V1VVpYQ08wbHBtdnFq?=
+ =?utf-8?B?cnc4dHBWQlZOU2RwMHlRNTBQdUF1bmI1VWQrQ3Fvdm80ZUFGSFlqclFmdDE4?=
+ =?utf-8?B?YnRGNmhRM3FtWjFUV3Fyc3drRUpwMmltSGE1UjhLY3NKdXhWcWRZRlV4TytY?=
+ =?utf-8?B?cjRzQU91ZlZ2U0JLWSswK05ZV1gyWHJ6d043WFFIbXhISmVWQjRET3JzaEZI?=
+ =?utf-8?B?VExEcmFqSUM4ZXd2RzhqSHdWWFZPUjVsYUxPcFVVekIvWHc2SXR1VGg4Tjh0?=
+ =?utf-8?B?cVNCOGVEa1FBQVBWV2Q3dGMrYU9RZ2JIR04zNk9xb0NkSU9aMVpyQlFyUUJk?=
+ =?utf-8?B?MFYzbXFreWZqYk5uVklzNFpZNm9NSlI3bENLMVlCMTQzbnNNZmdiYXc3algw?=
+ =?utf-8?B?SnRWY2RzMGttM2tpL0F3S1B6a1NEck1YRmtGTDdCdzRyRW9QTklYaFd2NFZE?=
+ =?utf-8?B?dVFkbTM1REhiYmRLOVk4a1RER2VMYlBZWkJKc2hXL1dOLyttYVhrY2lZZEto?=
+ =?utf-8?B?WTF1ZHFBS2FaWUVSVDdueS84MzhxdjhUemN5TklKaFpVWW0rdzRRU05QcWll?=
+ =?utf-8?B?ckR2WlZvQWJVS1B5VDZMUjBNbm0vOFBCRW11b3ZCQ0s2MTlRV2FsYWNnL1NE?=
+ =?utf-8?B?YUVZbXNaNlFWWUF0TTdtT3FoeGlod1N5cmJlcDh1MXBoMmVEcm5ZM0lJa0Jk?=
+ =?utf-8?B?OXdOb0Z2T0kvalB2dmI4SldZSUZXc3RUWHBwSDROa2w3ZWJFSTROeC91SUox?=
+ =?utf-8?B?Skphc1FESEJLWVMrMHdndW1sdFk5Y28vSkZpSTcvY1IySW9yL3ZJSk1Vd0Fx?=
+ =?utf-8?B?THEyT2VtOWYxR2tFWjM1c25EN3o3RHQ1aXR3M2lteW1nMVp3OFk2RXM1Tm95?=
+ =?utf-8?B?ekM4bm1YM2xONlRvNStVaHNWaFlpMWFQWVd1aGFPMWRBOFNkaENOa25TTTNz?=
+ =?utf-8?B?NHZTMXlHdEdoaFdDM0IrMHJUVE5rL2dlMnhVQVJHQjh3OENFd2ZHVnU0VWxD?=
+ =?utf-8?B?V1NPK2hPM0tDa3FRcG1BSzhZaFkyYzcxVVZGUXZhNGF5Mm03ZHljaE1oNkVt?=
+ =?utf-8?B?YU1PQ1B6MUkvNTdwVGtlZ0tWdmd0RGRiUEl1THMyeTVjMlFoaUUxUlcwSzZ0?=
+ =?utf-8?Q?4JmpYzb6zRjuVFRPdk7AZHOWI?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4a8b369-cda8-4d5c-d2e2-08dde208651e
 X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2025 05:37:06.6956 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2025 05:46:24.4023 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Il/4kMFdYCqLHpfi89p+KYpM00Wda/3pzVzMmbdh6SbsjqyBz8EAR09CapPbhVAznjft2Yhe4N9OB1GEWELiSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6708
+X-MS-Exchange-CrossTenant-UserPrincipalName: hP4bgCMtRI+24c7SlwRnFB+AgRLUCk4gX39lR1zlIWsnhiF6B1HeFe8HZ/bm+voMZFfYifblgVTvl6F8xHj2EQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7414
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -200,154 +202,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22-08-2025 16:07, Jani Nikula wrote:
-> On Fri, 22 Aug 2025, Arun R Murthy <arun.r.murthy@intel.com> wrote:
->> There can be multiple reasons for a failure in atomic_ioctl. Most often
->> in these error conditions -EINVAL is returned. User/Compositor would
->> have to blindly take a call on failure of this ioctl so as to use
->> ALLOW_MODESET or any. It would be good if user/compositor gets a
->> readable error code on failure so they can take proper corrections in
->> the next commit.
->> The struct drm_mode_atomic is being passed by the user/compositor which
->> holds the properties for modeset/flip. Reusing the same struct for
->> returning the error code in case of failure can save by creating a new
->> uapi/interface for returning the error code.
->> The element 'reserved' in the struct drm_mode_atomic is used for
->> returning the user readable error code. This points to the struct
->> drm_mode_atomic_err_code. Failure reasons have been initialized in
->> DRM_MODE_ATOMIC_FAILURE_REASON.
-> At the moment, I'm not (yet) convinced any of this will work, even as a
-> concept.
-km_flip test in IGT has been run and is working fine with these patch 
-series. Also
-the existing kms_atomic test with atomic_invalid_test has been modified to
-test this error code(https://patchwork.freedesktop.org/series/153330/)
 
-Am I missing anything over here?
-
-> Even so, I'll comment on some of the choices in the series.
->
->> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
->> ---
->>   include/uapi/drm/drm_mode.h | 42 ++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 42 insertions(+)
->>
->> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
->> index a122bea2559387576150236e3a88f99c24ad3138..f0986a3fe9a7d61e57e9a9a5ec01a604343f6930 100644
->> --- a/include/uapi/drm/drm_mode.h
->> +++ b/include/uapi/drm/drm_mode.h
->> @@ -45,6 +45,7 @@ extern "C" {
->>   #define DRM_CONNECTOR_NAME_LEN	32
->>   #define DRM_DISPLAY_MODE_LEN	32
->>   #define DRM_PROP_NAME_LEN	32
->> +#define DRM_MODE_ATOMIC_FAILURE_STRING_LEN	64
->>   
->>   #define DRM_MODE_TYPE_BUILTIN	(1<<0) /* deprecated */
->>   #define DRM_MODE_TYPE_CLOCK_C	((1<<1) | DRM_MODE_TYPE_BUILTIN) /* deprecated */
->> @@ -1157,6 +1158,47 @@ struct drm_mode_destroy_dumb {
->>   		DRM_MODE_ATOMIC_NONBLOCK |\
->>   		DRM_MODE_ATOMIC_ALLOW_MODESET)
->>   
+On 22-08-2025 21:44, Xaver Hugl wrote:
 >> +#define DRM_MODE_ATOMIC_FAILURE_REASON \
->> +	FAILURE_REASON(DRM_MODE_ATOMIC_CAP_NOT_ENABLED, "DRM_ATOMIC capability not enabled") \
-> Please don't add macros that expect other macros in the context. They
-> become very confusing. Just pass in the other macro to use. See MACRO__
-> in include/drm/intel/pciids.h for an example.
-Here we are mapping an error_code defined as enum with a corresponding 
-string
-using the X macros.
-
-Anyway will have a look at the macro in include/drm/intel/pciids.h
-
-
->> +	FAILURE_REASON(DRM_MODE_ATOMIC_INVALID_FLAG, "invalid flag") \
->> +	FAILURE_REASON(DRM_MODE_ATOMIC_PAGE_FLIP_ASYNC, "Legacy DRM_MODE_PAGE_FLIP_ASYNC not to be used in atomic ioctl") \
->> +	FAILURE_REASON(DRM_MODE_ATOMIC_FLIP_EVENT_WITH_CHECKONLY, "requesting page-flip event with TEST_ONLY") \
->> +	FAILURE_REASON(DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET, "Need full modeset on this crtc") \
->> +	FAILURE_REASON(DRM_MODE_ATOMIC_NEED_FULL_MODESET, "Need full modeset on all the connected crtc's") \
->> +	FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_NOT_SUP_PLANE, "Async flip not supported on this plane") \
->> +	FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPPORTED, "Modifier not supported on this plane with async flip") \
->> +	FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED, "No property change allowed when async flip is enabled")
->> +
+>> +       FAILURE_REASON(DRM_MODE_ATOMIC_CAP_NOT_ENABLED, "DRM_ATOMIC capability not enabled") \
+>> +       FAILURE_REASON(DRM_MODE_ATOMIC_INVALID_FLAG, "invalid flag") \
+>> +       FAILURE_REASON(DRM_MODE_ATOMIC_PAGE_FLIP_ASYNC, "Legacy DRM_MODE_PAGE_FLIP_ASYNC not to be used in atomic ioctl") \
+>> +       FAILURE_REASON(DRM_MODE_ATOMIC_FLIP_EVENT_WITH_CHECKONLY, "requesting page-flip event with TEST_ONLY") \
+>> +       FAILURE_REASON(DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET, "Need full modeset on this crtc") \
+>> +       FAILURE_REASON(DRM_MODE_ATOMIC_NEED_FULL_MODESET, "Need full modeset on all the connected crtc's") \
+>> +       FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_NOT_SUP_PLANE, "Async flip not supported on this plane") \
+>> +       FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPPORTED, "Modifier not supported on this plane with async flip") \
+>> +       FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED, "No property change allowed when async flip is enabled")
+> As mentioned before, some of these errors are a bit too specific. We
+> don't need to have an enum value for every way the API can be used
+> wrongly - CAP_NOT_ENABLED, INVALID_FLAG, PAGE_FLIP_ASYNC and
+> MODIFIER_NOT_SUPPORTED should all just be one enum value for "invalid
+> API usage".
+> In general, there should only be enum values that the compositor
+> implementation can actually use on end-user systems. For further
+> information when debugging a broken compositor implementation, other
+> tools can be used instead, like drm debug logging or the returned
+> string.
+I have considered your comment in the last series and have removed 
+driver specific errors.
+Anyway will have a look again on this and will get back.
 >> +#define FAILURE_REASON(flag, reason) flag,
 >> +typedef enum {
->> +	DRM_MODE_ATOMIC_FAILURE_REASON
+>> +       DRM_MODE_ATOMIC_FAILURE_REASON
 >> +} drm_mode_atomic_failure_flag;
 >> +#undef FAILURE_REASON
-> This is a uapi header. Do we really want all of that macro trickery here
-> in the first place? What's wrong with just a plain enum? (Or macros.)
-This is defined as enum. We have two separate list one for enum and other
-for error message(string) but  upon user adding a new element/error_code 
-in the
-enum, there can be a possibility of missing adding the error string. So 
-have linked
-enum with the corresponding error message/string so both are at a single 
-place
-and upon adding new entry will be easy for the user.
 >> +
 >> +#define FAILURE_REASON(flag, reason) #reason,
 >> +extern const char *drm_mode_atomic_failure_string[];
 >> +#undef FAILURE_REASON
-> Data is not an interface. Don't expose arrays like this. Who is even
-> going to know what its size is? Again, uapi header, where does it point,
-> what address space is it?
+> The intention for the string wasn't for the enum values to be paired
+> with a description of the enum - that belongs into documentation, not
+> uAPI.
 >
-Sorry missed adding documentation for this. Will add in my next series.
->> +
->> +/**
->> + * drm_mode_atomic_err_code - struct to store the error code
->> + *
->> + * pointer to this struct will be stored in reserved variable of
->> + * struct drm_mode_atomic to report the failure cause to the user.
->> + *
->> + * @failure_flags: error codes defined in drm_atomic_failure.failure_flag
-> Flags? As in a mask of multiple things? Is 64 going to be enough for
-> everyone, all conditions in all drivers?
-Should be more that sufficient, this is an enum.
-> OTOH, what's the promise wrt multiple reasons? Practically all drivers
-> bail out at the sight of first issue, and it's usually pretty much
-> meaningless to continue to figure out *other* reasons after that.
->
-> And this brings us to one of my main concerns on making this fly:
->
-> You bail out on the first thing, but you can't expect all drivers to
-> check stuff in the same order. It's not practical. So different drivers
-> will likely return different reasons for virtually the same
-> condition. So how is userspace going to handle that?
-Most of the error check is in the drm-core and these are common across 
-the drivers.
-Upon drivers sending driver specific error code, the compositor may not 
-be able to
-handle the error code. But in cases required compositor changes can be 
-added so
-as to handle them. In general the generic error conditions that are met 
-by compositor
-and for which compositor can take corrective measurements are listed 
-down first.
->> + * @failure_string_ptr: pointer to user readable error message drm_mode_failure.failure_string
-> Is the string part of uapi, and can never change? Doesn't sound
-> great. What's wrong with just a plain enum?
-enum is sufficient enough and this string is added so that this error 
-message
+> The idea behind it was that drivers could add driver-specific
+> information in the string for compositors to log (only in commits
+> where failure isn't normally expected), so we have an easier time
+> debugging issues a user system experienced by looking at the
+> compositor logs. Sending the enum value again in string form isn't
+> useful.
 
-can be printed out in the compositor logs for the user.
+We are not sending enum value in string. Its just a single place where 
+we have both enum and string. Upon user adding new error codes if both 
+enum and string are at a single place it would be easy for the user. 
+Hence adding both in a single place using X macros.
+
+Its not mandatory to have a string for every enum, the string can be 
+left empty if not required, or later in the driver user can overwrite 
+the string as well.
 
 Thanks and Regards,
 Arun R Murthy
--------------------
+--------------------
 
->> + * @failure_obj_ptr: pointer to the drm_object that caused error
->> + * @reserved: reserved for future use
->> + * @count_objs: count of drm_objects if multiple drm_objects caused error
->> + */
->> +struct drm_mode_atomic_err_code {
->> +	__u64 failure_flags;
->> +	__u64 failure_objs_ptr;
->> +	__u64 reserved;
->> +	__u32 count_objs;
->> +	char failure_string[DRM_MODE_ATOMIC_FAILURE_STRING_LEN];
->> +};
->> +
->>   struct drm_mode_atomic {
->>   	__u32 flags;
->>   	__u32 count_objs;
+> - Xaver
