@@ -2,115 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2AAB32595
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 02:14:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFB6B32612
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Aug 2025 02:58:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AF7A10E012;
-	Sat, 23 Aug 2025 00:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F69110E023;
+	Sat, 23 Aug 2025 00:58:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WJmKgGTl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ocS9cOpw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9378E10E012
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 00:14:16 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MHUhHS005170
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 00:14:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=5q/OdSmF/cMGGczwyYiaDZdGQXvSJ/FPohyvehhsUvQ=; b=WJ
- mKgGTl0DyGDzKUz5B5rtc+cKqAltAtR7Z9CZMSv3Ac6c0utmSULuY1LnCePoCBv2
- 8D9lBJlZNrwpvXyuczo2Xfft8gfahQ4bCq0YcGivFGcpH24raqH2xUovjEqQR7uG
- MCT8UPoOYBmbv5h/RgUveI62wkB3AfNgb9eIf1IHdDqBk7zvsDLhYlC5EHAMo4W7
- gZzCS8X0vXtcps/eP3olKjbOWb/i/XIxN4Yn8HWB+O2iXb1s7aWans/LrZH1hHdb
- KsiU7OoJrs2gt9otCm6VX5w2t12PFSKwSjBjHH4n7uX5sfDbpVVa+YAJpcAHTnaL
- fDqWLPNmXmfi/9bYXdDw==
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48pw100tvx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 23 Aug 2025 00:14:15 +0000 (GMT)
-Received: by mail-oi1-f200.google.com with SMTP id
- 5614622812f47-435de71b1adso1556428b6e.1
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Aug 2025 17:14:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1755908054; x=1756512854;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5q/OdSmF/cMGGczwyYiaDZdGQXvSJ/FPohyvehhsUvQ=;
- b=HAnJ/f9eU6jAT/yF5dkqi6BJI919Cb7V7gZOtHtP6ZNd74N0a4KuXiPkTB+sA+tVqZ
- cGzl0qp/cieGaIcgD5jHLTTlP4w7Wl3UxPk+Za6CoXBJEC/ZbZBmaC+yGbATHSqR11Vh
- 6Mc0ZDcmpG1j8qypULQrYu04Q6LPvKf+Np0R798htV75dZXTBmOb72bT4/VvarwYS4IC
- KO4QZZ6GQu098D9FLZlGt346BDqlcDqfr+pWj3GSe36BPN/arsCUGM1ZYbjFWWf9VD5J
- uQQKQho9t5uQ5JV+xPCucWo0MNy44enpbknXyl9grHsfMrctRe4xJDXh8sFjOJ3q8+/k
- ibEQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxnSLs3lXlD04Z9hvNeYHFsv7xt4dW7R6HWoX1JQyEjO0IL72FC4+h0E9CdQwxeX8t7Mc7rguwk9k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwgGn1fjQlLKBocW2nm6nDmrVj1+15a5jbmWSd95oO1LYFf69Dw
- ss3ekpEjUvrg0LUABW9p08uvSeypcbp64DKvT3Lnqk1aqNC/HEN8bAQ7p8V7S308gqKi1bM30cw
- mTH+nchu6jOr74er0CjB91XioKlmnzLbmkNzomXItEytx4+sDX5Mft4TNwfPyqHZgaWfT85Ql8D
- MpSjXSZ/8Bk6aPvZ+4l94MMCZofM7zJIoHFbq/qZeGBDe0aQ==
-X-Gm-Gg: ASbGncvcpdgiedNgEvvr7HrEMQwz0VPpmCRg5UQ7yMg51gAXhVCjDaB7ktiZRxycIbi
- kVKEfA1rHqoQAMiopTk8aii714VrZVmu1E89EhJdE0NwWWQGVg5alwR16KI5KUljJ9V64A8eu20
- 9pWH8T/679hspSq6gBdHrxkbtOoC2w/Mo22UpAAqyoh7tUV8AXYryo
-X-Received: by 2002:a05:6808:508b:b0:435:7445:9b54 with SMTP id
- 5614622812f47-43785272d3fmr1994392b6e.7.1755908053587; 
- Fri, 22 Aug 2025 17:14:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG4t+fq/ZGjil0DXAYYaSwcVpbr7d7MsOBcm0bO6kgAjPfM2vJH/vRb8WNpsTKBsxfQRwH/66jLfygmardG6Mw=
-X-Received: by 2002:a05:6808:508b:b0:435:7445:9b54 with SMTP id
- 5614622812f47-43785272d3fmr1994379b6e.7.1755908053191; Fri, 22 Aug 2025
- 17:14:13 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD7B10E023;
+ Sat, 23 Aug 2025 00:58:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 947625C0C4D;
+ Sat, 23 Aug 2025 00:58:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B934C4CEED;
+ Sat, 23 Aug 2025 00:58:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1755910729;
+ bh=GEbuBVht10V2yhK8hk78rrvTcrn/qybKkKOMP5a7JEk=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=ocS9cOpwGrlNoVsVh1kn5SgywV6Nm+aVbM6HUTgq+rtGsral9/bpWeEfO8/AdhC8T
+ IzKZdwZ+f/f9dfncJhoChKjoKLhf3HQhALuLbD73QGrB/hoZujhKABMNgiiFV/30Uh
+ uVVWqgBaFxcRfCagzP7RhYYxqhLKIecPEMowfhCsmmjXJPWVae3NFPiOUcI0GoOGXH
+ 3HR3oTqOncLGq1svPhSy+pejKmJOzUyFQPH+SBoplH3VMk6J2Ybgr8JxSQBklCGLFZ
+ BppBYvHv8xwBd2dl0MaUBspO5gQXf21+zn2edFsCVPwcjfd1n9F51Thlq/gYZCkJ1a
+ I58Ggu+bH9QAA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 1B106CA0EFC;
+ Sat, 23 Aug 2025 00:58:49 +0000 (UTC)
+From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
+Date: Fri, 22 Aug 2025 19:58:00 -0500
+Subject: [PATCH] drm/nouveau: Support reclocking on gp10b
 MIME-Version: 1.0
-References: <20250823-msm-fix-gpuvm-init-v1-1-e199cd5b1983@oss.qualcomm.com>
-In-Reply-To: <20250823-msm-fix-gpuvm-init-v1-1-e199cd5b1983@oss.qualcomm.com>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Fri, 22 Aug 2025 17:14:02 -0700
-X-Gm-Features: Ac12FXyYHTzWHjyweR5vLi67evbQhmIDPXKLXYX2aATF5P7xijHggxde4nM5TrA
-Message-ID: <CACSVV005RPPoB=o8-Arvteaqbpr9n_ey7LMp7c6WOg16euxh5w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: fix msm_gem_vma_new() allocations for managed
- GPUVMs
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matthew Brost <matthew.brost@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Danct12 <danct12@disroot.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIyMDE2MCBTYWx0ZWRfXyRq9ZeHXjuf2
- fVZvhRAkDaSpRMJyu8NX/GARyWenwlOgmbrnMKGOH4JWObe7jKqczTtwv2XqCUyl58Jj2j0nM4I
- dT1MO1af7AEPfUU6becybjBtHnu8oinPa7u9kPS/lHfACQh5jAnQSukkGrrWQ4G8mW40I/IeXMH
- ShO9OQpnMI0OBZXcoADRCKFL1h42cswGVa8CDtx8f9XSjX7IuzP7WZ5RENN5c3u9+UoQkbJD+tj
- CwkHEXG9QuMcuFOATGgezD6RKoT5kc+BRM49B7HLGFHlAifQMA9Kzv/si1Gp3JZN9f1RPs8G7Fl
- J0VVFQMeM0z9hlxYgGSHH9EZGM9x8OdLYuHs5HLUU2kgEHY8ZjVz2QkCP+UVM13oKz628v6JzXH
- Rhb7AM9a
-X-Proofpoint-GUID: cFGnugRV7yj0M5rhuJmOX0qvqc1PxzUZ
-X-Authority-Analysis: v=2.4 cv=bsRMBFai c=1 sm=1 tr=0 ts=68a907d7 cx=c_pps
- a=AKZTfHrQPB8q3CcvmcIuDA==:117 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
- a=EUspDBNiAAAA:8 a=LpNgXrTXAAAA:8 a=lOIBcmm3ity2mgyilJcA:9 a=QEXdDO2ut3YA:10
- a=pF_qn-MSjDawc0seGVz6:22 a=LqOpv0_-CX5VL_7kjZO3:22
-X-Proofpoint-ORIG-GUID: cFGnugRV7yj0M5rhuJmOX0qvqc1PxzUZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_05,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 clxscore=1015 spamscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 adultscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508220160
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250822-gp10b-reclock-v1-1-5b03eaf3735a@gmail.com>
+X-B4-Tracking: v=1; b=H4sIABcSqWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDCyMj3fQCQ4Mk3aLU5Jz85Gxdc/OkNGMzAwPTRAszJaCegqLUtMwKsHn
+ RsbW1AEdlYG1fAAAA
+X-Change-ID: 20250822-gp10b-reclock-77bf36005a86
+To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, Aaron Kling <webgeek1234@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755910728; l=7670;
+ i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
+ bh=JGrVd9hnkLIjkMAR216GfQSoYVUlj9ur9vGETeozqoQ=;
+ b=7CLqWpd25o1U/chnOF7hSNAUHHqJhjh2MKKOAUhlY533V11yuPngwZlPRsUEE6xYxNrqzgqea
+ 0m6f5kQeY4QC7XrVEv3OlR4sKXLOX6kdPOXkrWbfVOJQZgjRbWoBpr+
+X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
+ pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
+X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
+ auth_id=342
+X-Original-From: Aaron Kling <webgeek1234@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,77 +72,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
+Reply-To: webgeek1234@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Aug 22, 2025 at 5:12=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> Since commit 3309323241fb ("drm/gpuvm: Kill drm_gpuva_init()") MSM
-> driver fails to init, failing with "[drm:msm_gpu_init] *ERROR* could not
-> allocate memptrs: -22" errors. The mentioned commit reworked the
-> function, but didn't take into account that op_map is initialized at the
-> top of the function, while ranges might change if GPUVM is managed by
-> the kernel.
->
-> Move op_mode initialization after finalizing all addresses and right
-> before the drm_gpuva_init_from_op() call.
->
-> Reported-by: Danct12 <danct12@disroot.org>
-> Fixes: 3309323241fb ("drm/gpuvm: Kill drm_gpuva_init()")
-> Suggested-by: Rob Clark <robin.clark@oss.qualcomm.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/msm_gem_vma.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_=
-gem_vma.c
-> index 3f440bc1f7106f3b0091f037611d0b433e5e2c18..6df6b7c0984da57fe64de41fa=
-54f7dea0a324c74 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_vma.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-> @@ -368,12 +368,6 @@ struct drm_gpuva *
->  msm_gem_vma_new(struct drm_gpuvm *gpuvm, struct drm_gem_object *obj,
->                 u64 offset, u64 range_start, u64 range_end)
->  {
-> -       struct drm_gpuva_op_map op_map =3D {
-> -               .va.addr =3D range_start,
-> -               .va.range =3D range_end - range_start,
-> -               .gem.obj =3D obj,
-> -               .gem.offset =3D offset,
-> -       };
->         struct msm_gem_vm *vm =3D to_msm_vm(gpuvm);
->         struct drm_gpuvm_bo *vm_bo;
->         struct msm_gem_vma *vma;
-> @@ -402,6 +396,13 @@ msm_gem_vma_new(struct drm_gpuvm *gpuvm, struct drm_=
-gem_object *obj,
->         if (obj)
->                 GEM_WARN_ON((range_end - range_start) > obj->size);
->
-> +       struct drm_gpuva_op_map op_map =3D {
-> +               .va.addr =3D range_start,
-> +               .va.range =3D range_end - range_start,
-> +               .gem.obj =3D obj,
-> +               .gem.offset =3D offset,
-> +       };
+From: Aaron Kling <webgeek1234@gmail.com>
 
-Thanks,
+Starting with Tegra186, gpu clock handling is done by the bpmp and there
+is little to be done by the kernel. The only thing necessary for
+reclocking is to set the gpcclk to the desired rate and the bpmp handles
+the rest. The pstate list is based on the downstream driver generates.
 
-Reviewed-by: Rob Clark <rob.clark@oss.qualcomm.com>
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+---
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h |   1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c |   1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild    |   1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c   | 180 ++++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.h   |  16 ++
+ 5 files changed, 199 insertions(+)
 
-> +
->         drm_gpuva_init_from_op(&vma->base, &op_map);
->         vma->mapped =3D false;
->
->
-> ---
-> base-commit: 0f4c93f7eb861acab537dbe94441817a270537bf
-> change-id: 20250823-msm-fix-gpuvm-init-520d87ebcf26
->
-> Best regards,
-> --
-> With best wishes
-> Dmitry
->
+diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h
+index d5d8877064a71581d8e9e92f30a3e28551dabf17..6a09d397c651aa94718aff3d1937162df39cc2ae 100644
+--- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h
++++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/clk.h
+@@ -134,4 +134,5 @@ int gf100_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct
+ int gk104_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
+ int gk20a_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
+ int gm20b_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
++int gp10b_clk_new(struct nvkm_device *, enum nvkm_subdev_type, int inst, struct nvkm_clk **);
+ #endif
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
+index 3375a59ebf1a4af73daf4c029605a10a7721c725..2517b65d8faad9947244707f540eb281ad7652e4 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/base.c
+@@ -2280,6 +2280,7 @@ nv13b_chipset = {
+ 	.acr      = { 0x00000001, gp10b_acr_new },
+ 	.bar      = { 0x00000001, gm20b_bar_new },
+ 	.bus      = { 0x00000001, gf100_bus_new },
++	.clk      = { 0x00000001, gp10b_clk_new },
+ 	.fault    = { 0x00000001, gp10b_fault_new },
+ 	.fb       = { 0x00000001, gp10b_fb_new },
+ 	.fuse     = { 0x00000001, gm107_fuse_new },
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild
+index dcecd499d8dffae3b81276ed67bb8649dfa3efd1..9fe394740f568909de71a8c420cc8b6d8dc2235f 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/Kbuild
+@@ -10,6 +10,7 @@ nvkm-y += nvkm/subdev/clk/gf100.o
+ nvkm-y += nvkm/subdev/clk/gk104.o
+ nvkm-y += nvkm/subdev/clk/gk20a.o
+ nvkm-y += nvkm/subdev/clk/gm20b.o
++nvkm-y += nvkm/subdev/clk/gp10b.o
+ 
+ nvkm-y += nvkm/subdev/clk/pllnv04.o
+ nvkm-y += nvkm/subdev/clk/pllgt215.o
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c
+new file mode 100644
+index 0000000000000000000000000000000000000000..eeee0b1f819a54b082dd33f6597e7dd1889abf99
+--- /dev/null
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.c
+@@ -0,0 +1,180 @@
++// SPDX-License-Identifier: MIT
++#include <subdev/clk.h>
++#include <subdev/timer.h>
++#include <core/device.h>
++#include <core/tegra.h>
++
++#include "priv.h"
++#include "gk20a.h"
++#include "gp10b.h"
++
++static int
++gp10b_clk_init(struct nvkm_clk *base)
++{
++	struct gp10b_clk *clk = gp10b_clk(base);
++	struct nvkm_subdev *subdev = &clk->base.subdev;
++	int ret;
++
++	/* Start with the highest frequency, matching the BPMP default */
++	base->func->calc(base, &base->func->pstates[base->func->nr_pstates - 1].base);
++	ret = base->func->prog(base);
++	if (ret) {
++		nvkm_error(subdev, "cannot initialize clock\n");
++		return ret;
++	}
++
++	return 0;
++}
++
++int
++gp10b_clk_read(struct nvkm_clk *base, enum nv_clk_src src)
++{
++	struct gp10b_clk *clk = gp10b_clk(base);
++	struct nvkm_subdev *subdev = &clk->base.subdev;
++
++	switch (src) {
++	case nv_clk_src_gpc:
++		return clk_get_rate(clk->clk) / GK20A_CLK_GPC_MDIV;
++	default:
++		nvkm_error(subdev, "invalid clock source %d\n", src);
++		return -EINVAL;
++	}
++}
++
++static int
++gp10b_clk_calc(struct nvkm_clk *base, struct nvkm_cstate *cstate)
++{
++	struct gp10b_clk *clk = gp10b_clk(base);
++	u32 target_rate = cstate->domain[nv_clk_src_gpc] * GK20A_CLK_GPC_MDIV;
++
++	clk->new_rate = clk_round_rate(clk->clk, target_rate) / GK20A_CLK_GPC_MDIV;
++
++	return 0;
++}
++
++static int
++gp10b_clk_prog(struct nvkm_clk *base)
++{
++	struct gp10b_clk *clk = gp10b_clk(base);
++	int ret;
++
++	ret = clk_set_rate(clk->clk, clk->new_rate * GK20A_CLK_GPC_MDIV);
++	if (ret < 0)
++		return ret;
++
++	clk->rate = clk_get_rate(clk->clk) / GK20A_CLK_GPC_MDIV;
++
++	return 0;
++}
++
++static struct nvkm_pstate
++gp10b_pstates[] = {
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 114750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 216750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 318750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 420750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 522750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 624750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 726750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 828750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 930750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 1032750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 1134750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 1236750,
++		},
++	},
++	{
++		.base = {
++			.domain[nv_clk_src_gpc] = 1300500,
++		},
++	},
++};
++
++static const struct nvkm_clk_func
++gp10b_clk = {
++	.init = gp10b_clk_init,
++	.read = gp10b_clk_read,
++	.calc = gp10b_clk_calc,
++	.prog = gp10b_clk_prog,
++	.tidy = gk20a_clk_tidy,
++	.pstates = gp10b_pstates,
++	.nr_pstates = ARRAY_SIZE(gp10b_pstates),
++	.domains = {
++		{ nv_clk_src_gpc, 0xff, 0, "core", GK20A_CLK_GPC_MDIV },
++		{ nv_clk_src_max }
++	}
++};
++
++int
++gp10b_clk_new(struct nvkm_device *device, enum nvkm_subdev_type type, int inst,
++	      struct nvkm_clk **pclk)
++{
++	struct nvkm_device_tegra *tdev = device->func->tegra(device);
++	const struct nvkm_clk_func *func = &gp10b_clk;
++	struct gp10b_clk *clk;
++	int ret, i;
++
++	clk = kzalloc(sizeof(*clk), GFP_KERNEL);
++	if (!clk)
++		return -ENOMEM;
++	*pclk = &clk->base;
++	clk->clk = tdev->clk;
++
++	/* Finish initializing the pstates */
++	for (i = 0; i < func->nr_pstates; i++) {
++		INIT_LIST_HEAD(&func->pstates[i].list);
++		func->pstates[i].pstate = i + 1;
++	}
++
++	ret = nvkm_clk_ctor(func, device, type, inst, true, &clk->base);
++	if (ret)
++		return ret;
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.h b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..2f65a921a426e3f6339a31e964397f6eefa50250
+--- /dev/null
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/clk/gp10b.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: MIT */
++#ifndef __NVKM_CLK_GP10B_H__
++#define __NVKM_CLK_GP10B_H__
++
++struct gp10b_clk {
++	/* currently applied parameters */
++	struct nvkm_clk base;
++	struct clk *clk;
++	u32 rate;
++
++	/* new parameters to apply */
++	u32 new_rate;
++};
++#define gp10b_clk(p) container_of((p), struct gp10b_clk, base)
++
++#endif
+
+---
+base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+change-id: 20250822-gp10b-reclock-77bf36005a86
+
+Best regards,
+-- 
+Aaron Kling <webgeek1234@gmail.com>
+
+
