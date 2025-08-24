@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88952B32CFE
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 04:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C562BB32D01
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 04:56:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE4410E0FC;
-	Sun, 24 Aug 2025 02:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9469510E1F0;
+	Sun, 24 Aug 2025 02:56:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LnR50E6Q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gfJi0PPK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 651F910E0D2;
- Sun, 24 Aug 2025 02:56:01 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 082E810E1F0;
+ Sun, 24 Aug 2025 02:56:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8B077402BB;
- Sun, 24 Aug 2025 02:56:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63AD6C4CEE7;
- Sun, 24 Aug 2025 02:55:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A5FDC5C4BF8;
+ Sun, 24 Aug 2025 02:56:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D835AC116D0;
+ Sun, 24 Aug 2025 02:56:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756004160;
- bh=+OE4zk2QOOZCHgX82O6BSFFjtdDPcgXJ/GXAHDpLonY=;
+ s=k20201202; t=1756004164;
+ bh=paoZxNbHfmn7LVGrZn+AtT4NxafaDjndYSvZBGdyEj0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LnR50E6QfsaE6+wSpYXZysqcrTN9KQ+uP78ptO2NQxUXzvuVhewgxe/RoHsPCj1Sp
- 0TPHDcTpz+Gi5fIOUZFS2d6U04pj2K7nG62H+y3MZ3Do3cxXUFcFUfCa0dCY+JxyPQ
- pEc569a7+UMwpbFtugTZ3Avhot3Yq1IOAq3PLMe6ztbrUbodgT1sT9dFiEnawpcw0X
- zKsTHT8dNv8kZfBwhvNf18xNaDnEs4qFV7ZGrq1QMtY/NKv6aT0hIWDSpCAaATdEnW
- e7Zc+yEHilL1pDTvx8Gnble7gd712hzuqq5IZ33VC/WcogO5syktkLFKpCnRJyiDVy
- 3QVTZ+mKw9CYg==
+ b=gfJi0PPKNjw+SMGiyjp2TYgiGqcyOp14pvsbTtWGlvlZrukyBjhPilzdIWJz0C4T9
+ QlGLI+N/0u2wdC6vcAvrtBhylUGDlapBVIJjRaAg8Rp9ic1v00TF23jRoZH26ILdcV
+ tWlBdQ6xQeF7XBz98N2tB4oukEaiK79J2PhkOvUWuB54WiRo7hgW+kLrMoxt/YUVuy
+ m/M2HoS0t0wmg/51BBYr9ZbZK9WLqiAYqm/3ZTg4tyPxKOgsg5PWwO8PbwRxFHD+BN
+ VpfDbXfts3WB3szrrqS+IoR+WVGT4xDOOh3p1IbslIdoI3o69cyTLEKL43aUje63AW
+ rUIAUOT5W69Mw==
 From: Bjorn Andersson <andersson@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
  Dmitry Baryshkov <lumag@kernel.org>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, Jens Glathe <jens.glathe@oldschoolsolutions.biz>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Aleksandrs Vinarskis <alex.vinarskis@gmail.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
  Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v4 0/4] Support for Adreno X1-45 GPU
-Date: Sat, 23 Aug 2025 21:55:33 -0500
-Message-ID: <175600415279.952266.17398839743993518772.b4-ty@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH 0/4] dt-bindings: display/msm: describe MDSS unit
+ on SC8180X platform
+Date: Sat, 23 Aug 2025 21:55:36 -0500
+Message-ID: <175600415267.952266.17728057778251475125.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250623-x1p-adreno-v4-0-d2575c839cbb@oss.qualcomm.com>
-References: <20250623-x1p-adreno-v4-0-d2575c839cbb@oss.qualcomm.com>
+In-Reply-To: <20250704-mdss-schema-v1-0-e978e4e73e14@oss.qualcomm.com>
+References: <20250704-mdss-schema-v1-0-e978e4e73e14@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -77,20 +76,21 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 23 Jun 2025 19:42:05 +0530, Akhil P Oommen wrote:
-> Add support for X1-45 GPU found in X1P41200 chipset (8 cpu core
-> version). X1-45 is a smaller version of X1-85 with lower core count and
-> smaller memories. From UMD perspective, this is similar to "FD735"
-> present in Mesa.
+On Fri, 04 Jul 2025 19:31:52 +0300, Dmitry Baryshkov wrote:
+> SC8180X is one of the last platforms which do not have DT schema for the
+> display devices. Add DT schema for Mobile Display SubSystem (MDSS) and
+> Display Processing Unit (DPU) and add SC8180X-compatible to the DSI
+> controller schema.
 > 
-> Tested Glmark & Vkmark on Debian Gnome desktop.
+> While we are at it, also update DT file for SC8180X to follow best
+> current practices for MDSS devicex description.
 > 
 > [...]
 
 Applied, thanks!
 
-[2/4] arm64: defconfig: Enable X1P42100 GPUCC driver
-      commit: cf0ed173d27a2a832642aa441eb28a4dca53fd19
+[4/4] arm64: dts: qcom: sc8180x: modernize MDSS device definition
+      commit: 340e57306a4aeaaa64f294553caa25453cc4c48d
 
 Best regards,
 -- 
