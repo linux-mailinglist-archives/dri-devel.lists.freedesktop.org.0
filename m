@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C562BB32D01
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 04:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA46B32D61
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 05:25:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9469510E1F0;
-	Sun, 24 Aug 2025 02:56:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAA4D10E0CA;
+	Sun, 24 Aug 2025 03:25:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gfJi0PPK";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Lx3OufbY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082E810E1F0;
- Sun, 24 Aug 2025 02:56:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A5FDC5C4BF8;
- Sun, 24 Aug 2025 02:56:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D835AC116D0;
- Sun, 24 Aug 2025 02:56:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756004164;
- bh=paoZxNbHfmn7LVGrZn+AtT4NxafaDjndYSvZBGdyEj0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gfJi0PPKNjw+SMGiyjp2TYgiGqcyOp14pvsbTtWGlvlZrukyBjhPilzdIWJz0C4T9
- QlGLI+N/0u2wdC6vcAvrtBhylUGDlapBVIJjRaAg8Rp9ic1v00TF23jRoZH26ILdcV
- tWlBdQ6xQeF7XBz98N2tB4oukEaiK79J2PhkOvUWuB54WiRo7hgW+kLrMoxt/YUVuy
- m/M2HoS0t0wmg/51BBYr9ZbZK9WLqiAYqm/3ZTg4tyPxKOgsg5PWwO8PbwRxFHD+BN
- VpfDbXfts3WB3szrrqS+IoR+WVGT4xDOOh3p1IbslIdoI3o69cyTLEKL43aUje63AW
- rUIAUOT5W69Mw==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH 0/4] dt-bindings: display/msm: describe MDSS unit
- on SC8180X platform
-Date: Sat, 23 Aug 2025 21:55:36 -0500
-Message-ID: <175600415267.952266.17728057778251475125.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250704-mdss-schema-v1-0-e978e4e73e14@oss.qualcomm.com>
-References: <20250704-mdss-schema-v1-0-e978e4e73e14@oss.qualcomm.com>
+Received: from mail-m49226.qiye.163.com (mail-m49226.qiye.163.com
+ [45.254.49.226])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F221610E0CA
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 03:25:25 +0000 (UTC)
+Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 2061a0ed0;
+ Sun, 24 Aug 2025 11:20:20 +0800 (GMT+08:00)
+From: Damon Ding <damon.ding@rock-chips.com>
+To: heiko@sntech.de,
+	andy.yan@rock-chips.com,
+	hjc@rock-chips.com
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: [PATCH v1] drm/rockchip: analogix_dp: Apply devm_clk_get_optional()
+ for &rockchip_dp_device.grfclk
+Date: Sun, 24 Aug 2025 11:19:32 +0800
+Message-Id: <20250824031932.3204920-1-damon.ding@rock-chips.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a98da175af603a3kunmd9d8bd7f283bbc
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGR4aSlYaQ0hDGU4eGEIfGR9WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=Lx3OufbYegL70szaqn0wNQFhAMi9nw0CxufPmzZR6NNkQ09LpQry93DJzGXEF7ptgCqtYPbu2rT950PixuQ0WWO/GMvz18xww0H+DGQEjT9gaehtu2XOqGvfmYx2IdeSbWLo4qKxY30hICmSYXiHiHh7vumK9J7XyAOSqEEBokU=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=tIZnIOy9j57D5cV3OPQ/tYhpxNdNBEy5VY9qhEUGWMI=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,23 +61,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The "grf" clock is optional for Rockchip eDP controller(RK3399 needs
+while RK3288 and RK3588 do not).
 
-On Fri, 04 Jul 2025 19:31:52 +0300, Dmitry Baryshkov wrote:
-> SC8180X is one of the last platforms which do not have DT schema for the
-> display devices. Add DT schema for Mobile Display SubSystem (MDSS) and
-> Display Processing Unit (DPU) and add SC8180X-compatible to the DSI
-> controller schema.
-> 
-> While we are at it, also update DT file for SC8180X to follow best
-> current practices for MDSS devicex description.
-> 
-> [...]
+It can make the code more consice to use devm_clk_get_optional()
+instead of devm_clk_get() with extra checks.
 
-Applied, thanks!
+Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+---
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-[4/4] arm64: dts: qcom: sc8180x: modernize MDSS device definition
-      commit: 340e57306a4aeaaa64f294553caa25453cc4c48d
-
-Best regards,
+diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+index d30f0983a53a..d0f78ab9faa6 100644
+--- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+@@ -335,12 +335,8 @@ static int rockchip_dp_of_probe(struct rockchip_dp_device *dp)
+ 		return PTR_ERR(dp->grf);
+ 	}
+ 
+-	dp->grfclk = devm_clk_get(dev, "grf");
+-	if (PTR_ERR(dp->grfclk) == -ENOENT) {
+-		dp->grfclk = NULL;
+-	} else if (PTR_ERR(dp->grfclk) == -EPROBE_DEFER) {
+-		return -EPROBE_DEFER;
+-	} else if (IS_ERR(dp->grfclk)) {
++	dp->grfclk = devm_clk_get_optional(dev, "grf");
++	if (IS_ERR(dp->grfclk)) {
+ 		DRM_DEV_ERROR(dev, "failed to get grf clock\n");
+ 		return PTR_ERR(dp->grfclk);
+ 	}
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.34.1
+
