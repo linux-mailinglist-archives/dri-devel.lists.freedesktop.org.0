@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787D3B32E19
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 10:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A837B32E5B
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 10:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4F610E063;
-	Sun, 24 Aug 2025 08:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98CAF10E011;
+	Sun, 24 Aug 2025 08:45:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ku9R66BP";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="jfCDf3gJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82AD310E063;
- Sun, 24 Aug 2025 08:06:36 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F27ED5C550B;
- Sun, 24 Aug 2025 08:06:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F41C4CEF4;
- Sun, 24 Aug 2025 08:06:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1756022794;
- bh=ieB6pBlfUgiHuQIxJgpncSnD+SA7wnWh4kXza1Fis0U=;
- h=Subject:To:Cc:From:Date:In-Reply-To:From;
- b=ku9R66BPMBA4jOuZ1SKQ9uBrW4Zjqsnuli+sT8DWDfC4wi56LtBGh2ihwes3itzcl
- HqH0nBGiIDxr/IVJxuzoKSUmatX3laFvqoBGz2y3fLbFtqEMEPfNF2DqGlQXx31l8v
- AIdUGmzVqBO8BkILaBbsqW6xZWMLs/TEI6L9cyT8=
-Subject: Patch "drm/amdgpu: handle the case of pci_channel_io_frozen only in
- amdgpu_pci_resume" has been added to the 5.10-stable tree
-To: airlied@gmail.com, ajay.kaher@broadcom.com, alexander.deucher@amd.com,
- alexey.makhalov@broadcom.com, amd-gfx@lists.freedesktop.org,
- andrey.grodzovsky@amd.com, bcm-kernel-feedback-list@broadcom.com,
- cesun102@amd.com, christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, guchun.chen@amd.com, lijo.lazar@amd.com,
- linux@treblig.org, mario.limonciello@amd.com, sashal@kernel.org,
- shivani.agarwal@broadcom.com, simona@ffwll.ch, siqueira@igalia.com,
- srinivasan.shanmugam@amd.com, sunil.khatri@amd.com, tapas.kundu@broadcom.com,
- zhangzekun11@huawei.com
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Sun, 24 Aug 2025 10:06:20 +0200
-In-Reply-To: <20250812062349.149549-1-shivani.agarwal@broadcom.com>
-Message-ID: <2025082420-defiant-guiding-a17a@gregkh>
+Received: from mail-m49208.qiye.163.com (mail-m49208.qiye.163.com
+ [45.254.49.208])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA2C810E011
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 08:45:43 +0000 (UTC)
+Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 20643f359;
+ Sun, 24 Aug 2025 16:45:39 +0800 (GMT+08:00)
+From: Damon Ding <damon.ding@rock-chips.com>
+To: andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com, dianders@chromium.org,
+ m.szyprowski@samsung.com, andy.yan@rock-chips.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: [PATCH v1 0/4] Apply DP helper APIs to do link train
+Date: Sun, 24 Aug 2025 16:45:25 +0800
+Message-Id: <20250824084529.3317985-1-damon.ding@rock-chips.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore
+X-HM-Tid: 0a98db4131a703a3kunm71d2620e2ad651
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkgdSlZLTB9IHxgaH0NKTk9WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=jfCDf3gJFNQnNKRDRrCkjZFo3iI7qjsyHCLLSoVH2YbZvF1R/96WspKN24qieilIsaJawYACGdU3qf+BcBaWBVg5ccccyW+AgMslolxUb/uPmlgtFa2Wab7UV9tquZ11cSTN2FPWubYUiVXrXWnwHetzut3wNzYfuFiHsc+2xSM=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=hr2nkaude4kTGAK7pbS2GmFXrT9k46D/c2wtl2Xnp+4=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,100 +62,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Use the existing DP helper APIs instead of repeated self-defined
+interfaces with the same functions. It can help make codes more
+concise.
 
-This is a note to let you know that I've just added the patch titled
+Damon Ding (4):
+  drm/bridge: analogix_dp: Apply DP helper API
+    drm_dp_dpcd_read_link_status()
+  drm/bridge: analogix_dp: Apply DP helper API
+    drm_dp_clock_recovery_ok()
+  drm/bridge: analogix_dp: Apply DP helper API drm_dp_channel_eq_ok()
+  drm/bridge: analogix_dp: Apply DP helper APIs to get adjusted voltages
+    and pre-emphasises
 
-    drm/amdgpu: handle the case of pci_channel_io_frozen only in amdgpu_pci_resume
+ .../drm/bridge/analogix/analogix_dp_core.c    | 123 +++---------------
+ 1 file changed, 18 insertions(+), 105 deletions(-)
 
-to the 5.10-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+-- 
+2.34.1
 
-The filename of the patch is:
-     drm-amdgpu-handle-the-case-of-pci_channel_io_frozen-only-in-amdgpu_pci_resume.patch
-and it can be found in the queue-5.10 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From stable+bounces-167102-greg=kroah.com@vger.kernel.org Tue Aug 12 08:37:31 2025
-From: Shivani Agarwal <shivani.agarwal@broadcom.com>
-Date: Mon, 11 Aug 2025 23:23:49 -0700
-Subject: drm/amdgpu: handle the case of pci_channel_io_frozen only in amdgpu_pci_resume
-To: stable@vger.kernel.org, gregkh@linuxfoundation.org
-Cc: bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org, ajay.kaher@broadcom.com, alexey.makhalov@broadcom.com, tapas.kundu@broadcom.com, alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, lijo.lazar@amd.com, mario.limonciello@amd.com, sunil.khatri@amd.com, srinivasan.shanmugam@amd.com, siqueira@igalia.com, cesun102@amd.com, linux@treblig.org, zhangzekun11@huawei.com, andrey.grodzovsky@amd.com, amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Guchun Chen <guchun.chen@amd.com>, Sasha Levin <sashal@kernel.org>, Shivani Agarwal <shivani.agarwal@broadcom.com>
-Message-ID: <20250812062349.149549-1-shivani.agarwal@broadcom.com>
-
-From: Guchun Chen <guchun.chen@amd.com>
-
-[ Upstream commit 248b061689a40f4fed05252ee2c89f87cf26d7d8 ]
-
-In current code, when a PCI error state pci_channel_io_normal is detectd,
-it will report PCI_ERS_RESULT_CAN_RECOVER status to PCI driver, and PCI
-driver will continue the execution of PCI resume callback report_resume by
-pci_walk_bridge, and the callback will go into amdgpu_pci_resume
-finally, where write lock is releasd unconditionally without acquiring
-such lock first. In this case, a deadlock will happen when other threads
-start to acquire the read lock.
-
-To fix this, add a member in amdgpu_device strucutre to cache
-pci_channel_state, and only continue the execution in amdgpu_pci_resume
-when it's pci_channel_io_frozen.
-
-Fixes: c9a6b82f45e2 ("drm/amdgpu: Implement DPC recovery")
-Suggested-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-[Shivani: Modified to apply on 5.10.y]
-Signed-off-by: Shivani Agarwal <shivani.agarwal@broadcom.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h        |    1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |    6 ++++++
- 2 files changed, 7 insertions(+)
-
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -997,6 +997,7 @@ struct amdgpu_device {
- 
- 	bool                            in_pci_err_recovery;
- 	struct pci_saved_state          *pci_state;
-+	pci_channel_state_t		pci_channel_state;
- };
- 
- static inline struct amdgpu_device *drm_to_adev(struct drm_device *ddev)
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4944,6 +4944,8 @@ pci_ers_result_t amdgpu_pci_error_detect
- 		return PCI_ERS_RESULT_DISCONNECT;
- 	}
- 
-+	adev->pci_channel_state = state;
-+
- 	switch (state) {
- 	case pci_channel_io_normal:
- 		return PCI_ERS_RESULT_CAN_RECOVER;
-@@ -5079,6 +5081,10 @@ void amdgpu_pci_resume(struct pci_dev *p
- 
- 	DRM_INFO("PCI error: resume callback!!\n");
- 
-+	/* Only continue execution for the case of pci_channel_io_frozen */
-+	if (adev->pci_channel_state != pci_channel_io_frozen)
-+		return;
-+
- 	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
- 		struct amdgpu_ring *ring = adev->rings[i];
- 
-
-
-Patches currently in stable-queue which might be from shivani.agarwal@broadcom.com are
-
-queue-5.10/btrfs-fix-deadlock-when-cloning-inline-extents-and-using-qgroups.patch
-queue-5.10/ptp-fix-possible-memory-leak-in-ptp_clock_register.patch
-queue-5.10/scsi-pm80xx-fix-memory-leak-during-rmmod.patch
-queue-5.10/block-don-t-call-rq_qos_ops-done_bio-if-the-bio-isn-t-tracked.patch
-queue-5.10/drm-amdgpu-handle-the-case-of-pci_channel_io_frozen-only-in-amdgpu_pci_resume.patch
-queue-5.10/scsi-lpfc-fix-link-down-processing-to-address-null-pointer-dereference.patch
-queue-5.10/rdma-rxe-return-cqe-error-if-invalid-lkey-was-supplied.patch
