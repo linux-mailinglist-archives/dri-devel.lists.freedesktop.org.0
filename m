@@ -2,84 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617D5B32EC9
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 11:27:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48127B32F3E
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 13:11:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB10810E204;
-	Sun, 24 Aug 2025 09:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B2B810E035;
+	Sun, 24 Aug 2025 11:11:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ejI/mDEK";
+	dkim=pass (1024-bit key; secure) header.d=grimler.se header.i=@grimler.se header.b="MUnsDqjt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0B0210E202
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 09:27:41 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-61c266e81caso1918224a12.3
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 02:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756027660; x=1756632460; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6QAnF6RQJWxSSGLUa+yOoR8YIWrn+p1dbQGhI+0L21k=;
- b=ejI/mDEKddC+pwt7Uxqp90dMw0wv84tBBH6tWAOKQeIqZRn0M7tdySYpB6IDR1yt2Q
- RerdiDhH2v12UskWJkRcNAKCXigr0/5IuAtkS27Jk+QyO9POo3zdXGqobFzgUpiNg/1K
- vdD+zX0mkvNe5rB81yNKdeMhj5HewltCkAaR2Z6mJ4WuZ3nPqWD131YodOQ3OFrsXyxa
- qxU6yuWGZY1oIBPSchutb/34ReMMh9cFNcwr7KXEv+OD2ood6ORY9LIciXafYU0HJmfQ
- tAXjzFy0aJ0e2Nxu+/cUsFWSX7P9WxhmdUxI+uFm7RvYblfUI392VCfO3jPuoB6CPsy0
- 1EeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756027660; x=1756632460;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6QAnF6RQJWxSSGLUa+yOoR8YIWrn+p1dbQGhI+0L21k=;
- b=BH+b4W57EG1gObUTUkuKPIujInuoRmbsWtwN389Mz4Nzp8IR4s/rwWfCL7hXS/pC/X
- 3VeENfvDpmVruIzGyLnRp7SreBabHF5g4BVtB58kKRloY12D2VqWL53sQNZSdV/Jpc3/
- W0tHSF7seERVo1KJ0SPKUn1hioW5EfbrDroqTfBs2mcD5niQmG9tRnG5TZJM6VRie/T7
- zzXQiyWv5EnYhP5EGPJW4Jfvud1w4M3YjH/jNULFxiGg/bEjSLpEtr9JxR2IqFdB/7So
- 5ykUzq+IvYcswfelshXOlx0s/oer9Z8EjGURR4n0sr7COs3msbZ0hwnKvhEjA8AKuHAx
- XqxA==
-X-Gm-Message-State: AOJu0YxZERzwwIpWGNfU49RT6nYdle6G1mQEJ+xzifcFI4BvALpQPtXE
- 25DKHg3V8m68I8YXH6m2K8MqKrXZd0fOYGV5krOlZtNuwVH2WAfMXQhl
-X-Gm-Gg: ASbGncs6mHH9R0vO4nH/V/obxDupUhjbnJ8tLM3vra8ykH2uj1rcTuHgfEI1f8tMjda
- 9y+wuX6G3qcGBNNOm7ibdRiFkNNQUCcGtfzOfKSLnbAqosIgid98EP0UFmV5baV/OQ8Evjz6L4C
- KlbsaN6tSRmX4iffS//GNKmBwlRLxCwO7ujxVpnQjyCjc56wsUmJfXE/Vt40Dl2O6K2ODM5ZCOE
- iSrnpQknz7/v9D4M6xWnsMBlNjacgRB3v3nUjS5WKJoPEnO7GJ5dHgnDF7JOYaqEAdmkoe8kzB5
- zenRTkXm5MLewdyOOPtsRt84tnV5C3Mg7pSx7Erk0d1kC7E6UsCuakVo0/k/qMNkHX1hBTjgxD1
- eiwHBgYQ8BWcHRr/pRCDY453K
-X-Google-Smtp-Source: AGHT+IFRDj2zIEpy57OjDTZdxkDbqj2s6MYrtw/nnV23mOyecpb6Y/xhuaCvm5jFN32fJDOfIoGI+Q==
-X-Received: by 2002:a05:6402:27d1:b0:61c:5272:a739 with SMTP id
- 4fb4d7f45d1cf-61c5272a7e4mr1604664a12.2.1756027660198; 
- Sun, 24 Aug 2025 02:27:40 -0700 (PDT)
-Received: from xeon.. ([188.163.112.76]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-61c316f503dsm3035391a12.31.2025.08.24.02.27.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Aug 2025 02:27:39 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
+ [95.215.58.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9A3010E035
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 11:11:45 +0000 (UTC)
+Date: Sun, 24 Aug 2025 13:11:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=grimler.se; s=key1;
+ t=1756033903;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=We6UGgdPxyJeNBFY5QqZm6AJ0xgPztY160ftcv9K1hg=;
+ b=MUnsDqjt0Xd7Q45ipZswGLTvK3HbeT6AnhjgST2U+aDvPG2SMNvARVQkWD+PpesG9R/Kh0
+ 2GRhvkstz199dlS1nGgwiJUHvElKTZHmUrv3W+PxmHQSNSXG+fHQvmHp0RO+jV5Tbh4TfD
+ XJfw2Aol/nC6UQCurvxBg413PmiZehw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Henrik Grimler <henrik@grimler.se>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Svyatoslav Ryhel <clamor95@gmail.com>,
- Maxim Schwalm <maxim.schwalm@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3 RESEND] drm/bridge: simple-bridge: Add support for
- MStar TSUMU88ADT3-LF-1
-Date: Sun, 24 Aug 2025 12:27:28 +0300
-Message-ID: <20250824092728.105643-4-clamor95@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250824092728.105643-1-clamor95@gmail.com>
-References: <20250824092728.105643-1-clamor95@gmail.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org,
+ linux-kernel@vger.kernel.org, m.szyprowski@samsung.com
+Subject: Re: [PATCH v2 3/3] drm/bridge: sii9234: use extcon cable detection
+ logic to detect MHL
+Message-ID: <20250824111129.GA37114@grimfrac.localdomain>
+References: <20250724-exynos4-sii9234-driver-v2-0-faee244f1d40@grimler.se>
+ <20250724-exynos4-sii9234-driver-v2-3-faee244f1d40@grimler.se>
+ <ldhyfuczwtwydwnvno4xn6ppjtt7mtcj35fp52xrqaajtfbtpb@2pgkytczb5k5>
+ <20250808095259.GA31443@grimfrac.localdomain>
+ <r2u2odrkzfezohq44nh4jw6oj23j46gohuzsh6k7jpwnzojxqk@vdus4jj5lv7x>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <r2u2odrkzfezohq44nh4jw6oj23j46gohuzsh6k7jpwnzojxqk@vdus4jj5lv7x>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,33 +69,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxim Schwalm <maxim.schwalm@gmail.com>
+Hi Dmitry,
 
-A simple HDMI bridge used in ASUS Transformer AiO P1801-T.
+On Mon, Aug 18, 2025 at 03:42:07AM +0300, Dmitry Baryshkov wrote:
+> On Fri, Aug 08, 2025 at 11:52:59AM +0200, Henrik Grimler wrote:
+> > Hi Dmitry,
+> > 
+> > On Sun, Jul 27, 2025 at 08:07:37PM +0300, Dmitry Baryshkov wrote:
+> > > On Thu, Jul 24, 2025 at 08:50:53PM +0200, Henrik Grimler wrote:
+> > > > To use MHL we currently need the MHL chip to be permanently on, which
+> > > > consumes unnecessary power. Let's use extcon attached to MUIC to enable
+> > > > the MHL chip only if it detects an MHL cable.
+> > > 
+> > > Does HPD GPIO reflect the correct state of the cable?
+> > 
+> > Yes, the HPD gpio pin changes state from low to high when a mhl cable is
+> > connected:
+> > 
+> > $ sudo cat /sys/kernel/debug/gpio|grep gpio-755
+> >  gpio-755 (                    |hpd                 ) in  lo IRQ
+> > $ sudo cat /sys/kernel/debug/gpio|grep gpio-755
+> >  gpio-755 (                    |hpd                 ) in  hi IRQ
+> > 
+> > so that is described correctly.
+> > 
+> 
+> Ack.
+> 
+> > 
+> > and in captured trace I see that on cable connect we get an irq that
+> > is handled through:
+> > 1. max77693_muic_irq_handler
+> > 2. max77693_muic_irq_work
+> > 3. max77693_muic_adc_handler
+> > 4. sii9234_extcon_notifier
+> > 5. sii9234_extcon_work
+> > 6. sii9234_cable_in
+> > 7. hdmi_irq_thread
+> > 
+> > Raw captured trace dat file can be found here:
+> > https://grimler.se/files/sii9234-mhl-connect-trace.dat
+> > 
+> > Maybe you were asking for some other type of order of events log
+> > though, please let me know if I misunderstand.
+> > 
+> > > Should the sii9234 signal to Exynos HDMI that the link is established?
+> > 
+> > Maybe.. Sorry, I do not know enough about extcon and drm yet. I assume
+> > you mean through drm_helper_hpd_irq_event() and
+> > drm_bridge_hpd_notify(), I will experiment a bit and add it to the
+> > driver and see if this improves it.
+> 
+> If you are getting the HDMI IRQ event, then I'd suggest checking that
+> you are actually getting the 'plugged' event, etc. I was worried that
+> you are hijacking the DRM chain. But if you are getting hotplug events,
+> then it's fine (and most likely correct).
 
-Signed-off-by: Maxim Schwalm <maxim.schwalm@gmail.com>
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Reviewed-by: Robert Foss <rfoss@kernel.org>
----
- drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
- 1 file changed, 5 insertions(+)
+With some debugging in sii9234_extcon_notifier added:
 
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index ab0b0e36e97a..948300378cb0 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -260,6 +260,11 @@ static const struct of_device_id simple_bridge_match[] = {
- 			.timings = &default_bridge_timings,
- 			.connector_type = DRM_MODE_CONNECTOR_VGA,
- 		},
-+	}, {
-+		.compatible = "mstar,tsumu88adt3-lf-1",
-+		.data = &(const struct simple_bridge_info) {
-+			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
-+		},
- 	}, {
- 		.compatible = "ti,opa362",
- 		.data = &(const struct simple_bridge_info) {
--- 
-2.43.0
+--- a/drivers/gpu/drm/bridge/sii9234.c
++++ b/drivers/gpu/drm/bridge/sii9234.c
+@@ -892,6 +892,8 @@ static int sii9234_extcon_notifier(struct notifier_block *self,
+        struct sii9234 *ctx =
+                container_of(self, struct sii9234, extcon_nb);
+ 
++       dev_info(ctx->dev, "extcon event %lu\n", event);
++
+        schedule_work(&ctx->extcon_wq);
+ 
+        return NOTIFY_DONE;
 
+I see that sii9234 receives the hotplug event. On plug in:
+
+[  532.132981] sii9234 15-0039: extcon event 0
+[  532.136601] max77693-muic max77693-muic: external connector is attached (adc:0x00, prev_adc:0x0)
+[  532.142777] sii9234 15-0039: RSEN_HIGH without RGND_1K
+[  532.149815] sii9234 15-0039: extcon event 1
+[  532.155662] max77693-charger max77693-charger: not charging. connector type: 13
+[  532.164801] sii9234 15-0039: extcon event 0
+[  532.168371] max77693-muic max77693-muic: external connector is detached(chg_type:0x0, prev_chg_type:0x0)
+[  532.178370] sii9234 15-0039: extcon event 0
+[  532.188250] max77693-charger max77693-charger: not charging. connector type: 13
+[  533.097415] i2c i2c-15: sendbytes: NAK bailout.
+[  533.100735] sii9234 15-0039: writebm:  TPI[0x3d] <- 0x3e
+[  533.115161] sii9234 15-0039: writeb:  TPI[0x3d] <- 0x00
+
+and disconnect:
+
+[  547.195219] dwc2 12480000.usb: new device is full-speed
+[  547.204912] max77693-muic max77693-muic: external connector is attached (adc:0x00, prev_adc:0x0)
+[  547.212629] sii9234 15-0039: extcon event 1
+[  547.218304] max77693-charger max77693-charger: not charging. connector type: 13
+[  548.159257] i2c i2c-15: sendbytes: NAK bailout.
+[  548.162602] sii9234 15-0039: writebm:  TPI[0x3d] <- 0x3e
+[  548.167990] sii9234 15-0039: extcon event 0
+[  548.172788] max77693-muic max77693-muic: external connector is attached (adc:0x00, prev_adc:0x0)
+[  548.181336] sii9234 15-0039: extcon event 1
+[  548.186510] max77693-charger max77693-charger: not charging. connector type: 13
+
+It seems a bit weird to me that it receives multiple events, but maybe
+that is expected. Will send a v3 shortly, thank you!
+
+Best regards,
+Henrik Grimler
