@@ -2,54 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7310BB32E61
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 10:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB3A9B32E8D
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 10:59:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC88C10E12E;
-	Sun, 24 Aug 2025 08:45:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20ECF10E1FC;
+	Sun, 24 Aug 2025 08:59:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="ZOEDpcnP";
+	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="eliqVCGi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49251.qiye.163.com (mail-m49251.qiye.163.com
- [45.254.49.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09F8710E124
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 08:45:51 +0000 (UTC)
-Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 20643f365;
- Sun, 24 Aug 2025 16:45:48 +0800 (GMT+08:00)
-From: Damon Ding <damon.ding@rock-chips.com>
-To: andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com, dianders@chromium.org,
- m.szyprowski@samsung.com, andy.yan@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v1 4/4] drm/bridge: analogix_dp: Apply DP helper APIs to get
- adjusted voltages and pre-emphasises
-Date: Sun, 24 Aug 2025 16:45:29 +0800
-Message-Id: <20250824084529.3317985-5-damon.ding@rock-chips.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250824084529.3317985-1-damon.ding@rock-chips.com>
-References: <20250824084529.3317985-1-damon.ding@rock-chips.com>
+X-Greylist: delayed 316 seconds by postgrey-1.36 at gabe;
+ Sun, 24 Aug 2025 08:59:23 UTC
+Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 385D510E1FC;
+ Sun, 24 Aug 2025 08:59:23 +0000 (UTC)
+Received: from relay10 (localhost.localdomain [127.0.0.1])
+ by relay10.grserver.gr (Proxmox) with ESMTP id 867434254D;
+ Sun, 24 Aug 2025 11:54:04 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by relay10.grserver.gr (Proxmox) with ESMTPS id 5275C424F3;
+ Sun, 24 Aug 2025 11:54:03 +0300 (EEST)
+Received: from antheas-z13 (unknown
+ [IPv6:2a05:f6c2:511b:0:7200:c86a:8976:4786])
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id F04821FF50F;
+ Sun, 24 Aug 2025 11:54:01 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+ s=default; t=1756025642;
+ bh=7p73rwQlDcZas67pmnu3CsWtoMOK0KKSOlcghz53mwc=; h=From:To:Subject;
+ b=eliqVCGiNIje1rJRdp4rFMm5Y1UxQymRdRYCYvRMP1Tip8bWkOMXERJtewWD5qYpo
+ Qa+fqwc0SOLSiw+zyuQYd8B8KHJ73zIFlO01/qFcMvG3D9x2jQAAbsR3IuAEymlBU/
+ oGs4sXPGI0CpJzTar9wIazkB6xQBPe9j0vQ2aBCd0BSibAujHrodXsweSkSiWXqqN5
+ 3MJUTSBlKo6FvLKMSkXRezu5VefFTUgMvTkk+cEuzmUlbbq0ChGh/wesk+iNmpz0+N
+ YoWM1aqrptiVVpkjekIBej3h2QcKTvOPdzLRyfhzU7UOETN20IDY5LriHSf5n3W89j
+ 2cSc7Mf8FBiMg==
+Authentication-Results: linux3247.grserver.gr;
+ spf=pass (sender IP is 2a05:f6c2:511b:0:7200:c86a:8976:4786)
+ smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Peyton Lee <peytolee@amd.com>, Lang Yu <lang.yu@amd.com>,
+ Antheas Kapenekakis <lkml@antheas.dev>
+Subject: [PATCH v1 1/2] drm/amdgpu/vpe: increase VPE_IDLE_TIMEOUT to fix hang
+ on Strix Halo
+Date: Sun, 24 Aug 2025 10:53:50 +0200
+Message-ID: <20250824085351.454619-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a98db41548e03a3kunm71d2620e2ad6b6
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGhoZS1YfTE8eQxpDThgeH0tWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=ZOEDpcnPHqH823UJe5r3Lo3NYSXOB5iqcHX0Oea1xUfyUrlM06B/cbbOgwrCjLr7gMKuwUGi34iG1u/W08QWIpt4fgI4TP5vwtVgXvjCvwt8E4vaMAPzU0OlYNY2U4SlC1t0LxsZm9Ms3aCcXR4PRVjLC8vYicehFhPo0wRQ4aw=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=H9gnri70RQHNgzhmdocW9YCmiDbR/FZ20L7aXI26Dwg=;
- h=date:mime-version:subject:message-id:from;
+X-PPP-Message-ID: <175602564264.2903339.9036441210732909972@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,125 +80,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace analogix_dp_get_adjust_request_voltage() and
-analogix_dp_get_adjust_request_pre_emphasis() with existing DP helper
-APIs with the same function.
+On the Asus Z13 2025, which uses a Strix Halo platform, around 8% of the
+suspend resumes result in a soft lock around 1 second after the screen
+turns on (it freezes). This happens due to power gating VPE when it is
+not used, which happens 1 second after inactivity.
 
-Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+Specifically, the VPE gating after resume is as follows: an initial
+ungate, followed by a gate in the resume process. Then,
+amdgpu_device_delayed_init_work_handler with a delay of 2s is scheduled
+to run tests, one of which is testing VPE in vpe_ring_test_ib. This
+causes an ungate, After that test, vpe_idle_work_handler is scheduled
+with VPE_IDLE_TIMEOUT (1s).
+
+When vpe_idle_work_handler runs and tries to gate VPE, it causes the
+SMU to hang and partially freezes half of the GPU IPs, with the thread
+that called the command being stuck processing it.
+
+Specifically, after that SMU command tries to run, we get the following:
+
+snd_hda_intel 0000:c4:00.1: Refused to change power state from D0 to D3hot
+...
+xhci_hcd 0000:c4:00.4: Refused to change power state from D0 to D3hot
+...
+amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VPE!
+[drm:vpe_set_powergating_state [amdgpu]] *ERROR* Dpm disable vpe failed, ret = -62.
+amdgpu 0000:c4:00.0: [drm] *ERROR* [CRTC:93:crtc-0] flip_done timed out
+amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+amdgpu 0000:c4:00.0: amdgpu: Failed to power gate JPEG!
+[drm:jpeg_v4_0_5_set_powergating_state [amdgpu]] *ERROR* Dpm disable jpeg failed, ret = -62.
+amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VCN instance 0!
+[drm:vcn_v4_0_5_stop [amdgpu]] *ERROR* Dpm disable uvd failed, ret = -62.
+thunderbolt 0000:c6:00.5: 0: timeout reading config space 1 from 0xd3
+thunderbolt 0000:c6:00.5: 0: timeout reading config space 2 from 0x5
+thunderbolt 0000:c6:00.5: Refused to change power state from D0 to D3hot
+amdgpu 0000:c4:00.0: [drm] *ERROR* [CRTC:97:crtc-1] flip_done timed out
+amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VCN instance 1!
+
+In addition to e.g., kwin errors in journalctl. 0000:c4.00.0 is the GPU.
+Interestingly, 0000:c4.00.6, which is another HDA block, 0000:c4.00.5,
+a PCI controller, and 0000:c4.00.2, resume normally. 0x00000032 is the
+PowerDownVpe(50) command which is the common failure point in all
+failed resumes.
+
+On a normal resume, we should get the following power gates:
+amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVpe(50) param: 0x00000000, resp: 0x00000001
+amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownJpeg0(33) param: 0x00000000, resp: 0x00000001
+amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownJpeg1(38) param: 0x00010000, resp: 0x00000001
+amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVcn1(4) param: 0x00010000, resp: 0x00000001
+amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVcn0(6) param: 0x00000000, resp: 0x00000001
+amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpVcn0(7) param: 0x00000000, resp: 0x00000001
+amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpVcn1(5) param: 0x00010000, resp: 0x00000001
+amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpJpeg0(34) param: 0x00000000, resp: 0x00000001
+amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpJpeg1(39) param: 0x00010000, resp: 0x00000001
+
+To fix this, increase VPE_IDLE_TIMEOUT to 2 seconds. This increases
+reliability from 4-25 suspends to 200+ (tested) suspends with a cycle
+time of 12s sleep, 8s resume. The suspected reason here is that 1s that
+when VPE is used, it needs a bit of time before it can be gated and
+there was a borderline delay before, which is not enough for Strix Halo.
+When the VPE is not used, such as on resume, gating it instantly does
+not seem to cause issues.
+
+Fixes: 5f82a0c90cca ("drm/amdgpu/vpe: enable vpe dpm")
+Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
- .../drm/bridge/analogix/analogix_dp_core.c    | 49 ++++---------------
- 1 file changed, 9 insertions(+), 40 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 1f1de45ca46f..a6d4935234c2 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -293,25 +293,6 @@ static int analogix_dp_link_start(struct analogix_dp_device *dp)
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
+index 121ee17b522b..24f09e457352 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
+@@ -34,8 +34,8 @@
+ /* VPE CSA resides in the 4th page of CSA */
+ #define AMDGPU_CSA_VPE_OFFSET 	(4096 * 3)
  
--static unsigned char
--analogix_dp_get_adjust_request_voltage(u8 adjust_request[2], int lane)
--{
--	int shift = (lane & 1) * 4;
--	u8 link_value = adjust_request[lane >> 1];
--
--	return (link_value >> shift) & 0x3;
--}
--
--static unsigned char analogix_dp_get_adjust_request_pre_emphasis(
--					u8 adjust_request[2],
--					int lane)
--{
--	int shift = (lane & 1) * 4;
--	u8 link_value = adjust_request[lane >> 1];
--
--	return ((link_value >> shift) & 0xc) >> 2;
--}
--
- static void analogix_dp_reduce_link_rate(struct analogix_dp_device *dp)
- {
- 	analogix_dp_training_pattern_dis(dp);
-@@ -321,17 +302,15 @@ static void analogix_dp_reduce_link_rate(struct analogix_dp_device *dp)
- }
+-/* 1 second timeout */
+-#define VPE_IDLE_TIMEOUT	msecs_to_jiffies(1000)
++/* 2 second timeout */
++#define VPE_IDLE_TIMEOUT	msecs_to_jiffies(2000)
  
- static void analogix_dp_get_adjust_training_lane(struct analogix_dp_device *dp,
--						 u8 adjust_request[2])
-+						 u8 link_status[DP_LINK_STATUS_SIZE])
- {
- 	int lane, lane_count;
- 	u8 voltage_swing, pre_emphasis, training_lane;
- 
- 	lane_count = dp->link_train.lane_count;
- 	for (lane = 0; lane < lane_count; lane++) {
--		voltage_swing = analogix_dp_get_adjust_request_voltage(
--						adjust_request, lane);
--		pre_emphasis = analogix_dp_get_adjust_request_pre_emphasis(
--						adjust_request, lane);
-+		voltage_swing = drm_dp_get_adjust_request_voltage(link_status, lane);
-+		pre_emphasis = drm_dp_get_adjust_request_pre_emphasis(link_status, lane);
- 		training_lane = DPCD_VOLTAGE_SWING_SET(voltage_swing) |
- 				DPCD_PRE_EMPHASIS_SET(pre_emphasis);
- 
-@@ -348,7 +327,7 @@ static int analogix_dp_process_clock_recovery(struct analogix_dp_device *dp)
- {
- 	int lane, lane_count, retval;
- 	u8 voltage_swing, pre_emphasis, training_lane;
--	u8 link_status[DP_LINK_STATUS_SIZE], adjust_request[2];
-+	u8 link_status[DP_LINK_STATUS_SIZE];
- 
- 	usleep_range(100, 101);
- 
-@@ -374,15 +353,10 @@ static int analogix_dp_process_clock_recovery(struct analogix_dp_device *dp)
- 		return 0;
- 	}
- 
--	retval = drm_dp_dpcd_read(&dp->aux, DP_ADJUST_REQUEST_LANE0_1,
--				  adjust_request, 2);
--	if (retval < 0)
--		return retval;
--
- 	for (lane = 0; lane < lane_count; lane++) {
- 		training_lane = analogix_dp_get_lane_link_training(dp, lane);
--		voltage_swing = analogix_dp_get_adjust_request_voltage(adjust_request, lane);
--		pre_emphasis = analogix_dp_get_adjust_request_pre_emphasis(adjust_request, lane);
-+		voltage_swing = drm_dp_get_adjust_request_voltage(link_status, lane);
-+		pre_emphasis = drm_dp_get_adjust_request_pre_emphasis(link_status, lane);
- 
- 		if (DPCD_VOLTAGE_SWING_GET(training_lane) == voltage_swing &&
- 		    DPCD_PRE_EMPHASIS_GET(training_lane) == pre_emphasis)
-@@ -399,7 +373,7 @@ static int analogix_dp_process_clock_recovery(struct analogix_dp_device *dp)
- 		}
- 	}
- 
--	analogix_dp_get_adjust_training_lane(dp, adjust_request);
-+	analogix_dp_get_adjust_training_lane(dp, link_status);
- 	analogix_dp_set_lane_link_training(dp);
- 
- 	retval = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
-@@ -414,7 +388,7 @@ static int analogix_dp_process_equalizer_training(struct analogix_dp_device *dp)
- {
- 	int lane_count, retval;
- 	u32 reg;
--	u8 link_status[DP_LINK_STATUS_SIZE], adjust_request[2];
-+	u8 link_status[DP_LINK_STATUS_SIZE];
- 
- 	usleep_range(400, 401);
- 
-@@ -429,12 +403,7 @@ static int analogix_dp_process_equalizer_training(struct analogix_dp_device *dp)
- 		return -EIO;
- 	}
- 
--	retval = drm_dp_dpcd_read(&dp->aux, DP_ADJUST_REQUEST_LANE0_1,
--				  adjust_request, 2);
--	if (retval < 0)
--		return retval;
--
--	analogix_dp_get_adjust_training_lane(dp, adjust_request);
-+	analogix_dp_get_adjust_training_lane(dp, link_status);
- 
- 	if (drm_dp_channel_eq_ok(link_status, lane_count)) {
- 		/* traing pattern Set to Normal */
+ #define VPE_MAX_DPM_LEVEL			4
+ #define FIXED1_8_BITS_PER_FRACTIONAL_PART	8
+
+base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
 -- 
-2.34.1
+2.50.1
+
 
