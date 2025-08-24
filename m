@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3A9B32E8D
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 10:59:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118BCB32E8E
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 11:00:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20ECF10E1FC;
-	Sun, 24 Aug 2025 08:59:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6327610E128;
+	Sun, 24 Aug 2025 08:59:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="eliqVCGi";
+	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="W2GlU1RH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 316 seconds by postgrey-1.36 at gabe;
- Sun, 24 Aug 2025 08:59:23 UTC
-Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 385D510E1FC;
- Sun, 24 Aug 2025 08:59:23 +0000 (UTC)
-Received: from relay10 (localhost.localdomain [127.0.0.1])
- by relay10.grserver.gr (Proxmox) with ESMTP id 867434254D;
+X-Greylist: delayed 349 seconds by postgrey-1.36 at gabe;
+ Sun, 24 Aug 2025 08:59:56 UTC
+Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A67C10E128;
+ Sun, 24 Aug 2025 08:59:56 +0000 (UTC)
+Received: from relay11 (localhost.localdomain [127.0.0.1])
+ by relay11.grserver.gr (Proxmox) with ESMTP id C1ECCC32D6;
  Sun, 24 Aug 2025 11:54:04 +0300 (EEST)
 Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by relay10.grserver.gr (Proxmox) with ESMTPS id 5275C424F3;
+ by relay11.grserver.gr (Proxmox) with ESMTPS id DB5E7C32DD;
  Sun, 24 Aug 2025 11:54:03 +0300 (EEST)
 Received: from antheas-z13 (unknown
  [IPv6:2a05:f6c2:511b:0:7200:c86a:8976:4786])
- by linux3247.grserver.gr (Postfix) with ESMTPSA id F04821FF50F;
- Sun, 24 Aug 2025 11:54:01 +0300 (EEST)
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id EEA801FF5A2;
+ Sun, 24 Aug 2025 11:54:02 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1756025642;
- bh=7p73rwQlDcZas67pmnu3CsWtoMOK0KKSOlcghz53mwc=; h=From:To:Subject;
- b=eliqVCGiNIje1rJRdp4rFMm5Y1UxQymRdRYCYvRMP1Tip8bWkOMXERJtewWD5qYpo
- Qa+fqwc0SOLSiw+zyuQYd8B8KHJ73zIFlO01/qFcMvG3D9x2jQAAbsR3IuAEymlBU/
- oGs4sXPGI0CpJzTar9wIazkB6xQBPe9j0vQ2aBCd0BSibAujHrodXsweSkSiWXqqN5
- 3MJUTSBlKo6FvLKMSkXRezu5VefFTUgMvTkk+cEuzmUlbbq0ChGh/wesk+iNmpz0+N
- YoWM1aqrptiVVpkjekIBej3h2QcKTvOPdzLRyfhzU7UOETN20IDY5LriHSf5n3W89j
- 2cSc7Mf8FBiMg==
+ s=default; t=1756025643;
+ bh=8cpURkRk8yYSfSPzQ4KDs1/FJn+BEsm4qZ0fH58uy+0=; h=From:To:Subject;
+ b=W2GlU1RHA73/SFA15wFoHxXxbZ/e4LyRMQtzAyv6rSwe49pjRdCz2EqwLlCODpyMW
+ NmvURsFF0Bz8+sQCvInY3YJdpL6CwZVSF+vukqFlGw4/YYfp04k9UE4YZ3XnY0tQgU
+ ZJekGpzI4ebyK1b8xYkENDVvUrJJiUofB/mWdMCe3yoEdcxtiaohYfZmiY//Sj9KPZ
+ Ze4syuJTqfdVBeFhW6kZsRwAr37EBVjlEN3xqzeujIta/j3XEzQL6QUdUTddJiwcrO
+ CvknZ9XiHgCPgG+5kXwZQ3gMO+o2rJm4A5/VxNJQ4XbBwHNXAFgH9CewRvdSRtHj1n
+ tZHIjmhAcRObA==
 Authentication-Results: linux3247.grserver.gr;
  spf=pass (sender IP is 2a05:f6c2:511b:0:7200:c86a:8976:4786)
  smtp.mailfrom=lkml@antheas.dev smtp.helo=antheas-z13
@@ -54,14 +54,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Mario Limonciello <mario.limonciello@amd.com>,
  Peyton Lee <peytolee@amd.com>, Lang Yu <lang.yu@amd.com>,
  Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v1 1/2] drm/amdgpu/vpe: increase VPE_IDLE_TIMEOUT to fix hang
- on Strix Halo
-Date: Sun, 24 Aug 2025 10:53:50 +0200
-Message-ID: <20250824085351.454619-1-lkml@antheas.dev>
+Subject: [PATCH v1 2/2] drm/amd/display: Adjust AUX brightness to be a
+ granularity of 100
+Date: Sun, 24 Aug 2025 10:53:51 +0200
+Message-ID: <20250824085351.454619-2-lkml@antheas.dev>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250824085351.454619-1-lkml@antheas.dev>
+References: <20250824085351.454619-1-lkml@antheas.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <175602564264.2903339.9036441210732909972@linux3247.grserver.gr>
+X-PPP-Message-ID: <175602564355.2904469.15343362986595313099@linux3247.grserver.gr>
 X-PPP-Vhost: antheas.dev
 X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
 X-Virus-Status: Clean
@@ -80,93 +82,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On the Asus Z13 2025, which uses a Strix Halo platform, around 8% of the
-suspend resumes result in a soft lock around 1 second after the screen
-turns on (it freezes). This happens due to power gating VPE when it is
-not used, which happens 1 second after inactivity.
+Certain OLED devices malfunction on specific brightness levels.
+Specifically, when DP_SOURCE_BACKLIGHT_LEVEL is written to with
+the minor byte being 0x00 and sometimes 0x01, the panel forcibly
+turns off until the device sleeps again. This is an issue on
+multiple handhelds, including OneXPlayer F1 Pro and Ayaneo 3
+(the panel is suspected to be the same-1080p 7in OLED).
 
-Specifically, the VPE gating after resume is as follows: an initial
-ungate, followed by a gate in the resume process. Then,
-amdgpu_device_delayed_init_work_handler with a delay of 2s is scheduled
-to run tests, one of which is testing VPE in vpe_ring_test_ib. This
-causes an ungate, After that test, vpe_idle_work_handler is scheduled
-with VPE_IDLE_TIMEOUT (1s).
+Below are some examples. This was found by iterating over brighness
+ranges while printing DP_SOURCE_BACKLIGHT_LEVEL. It was found that
+the screen would malfunction on specific values, and some of them
+were collected.
 
-When vpe_idle_work_handler runs and tries to gate VPE, it causes the
-SMU to hang and partially freezes half of the GPU IPs, with the thread
-that called the command being stuck processing it.
+Broken:
+ 86016:  10101000000000000
+ 86272:  10101000100000000
+ 87808:  10101011100000000
+251648: 111101011100000000
+251649: 111101011100000001
 
-Specifically, after that SMU command tries to run, we get the following:
+Working:
+ 86144:  10101000010000000
+ 87809:  10101011100000001
+251650: 111101011100000010
 
-snd_hda_intel 0000:c4:00.1: Refused to change power state from D0 to D3hot
-...
-xhci_hcd 0000:c4:00.4: Refused to change power state from D0 to D3hot
-...
-amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
-amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VPE!
-[drm:vpe_set_powergating_state [amdgpu]] *ERROR* Dpm disable vpe failed, ret = -62.
-amdgpu 0000:c4:00.0: [drm] *ERROR* [CRTC:93:crtc-0] flip_done timed out
-amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
-amdgpu 0000:c4:00.0: amdgpu: Failed to power gate JPEG!
-[drm:jpeg_v4_0_5_set_powergating_state [amdgpu]] *ERROR* Dpm disable jpeg failed, ret = -62.
-amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
-amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VCN instance 0!
-[drm:vcn_v4_0_5_stop [amdgpu]] *ERROR* Dpm disable uvd failed, ret = -62.
-thunderbolt 0000:c6:00.5: 0: timeout reading config space 1 from 0xd3
-thunderbolt 0000:c6:00.5: 0: timeout reading config space 2 from 0x5
-thunderbolt 0000:c6:00.5: Refused to change power state from D0 to D3hot
-amdgpu 0000:c4:00.0: [drm] *ERROR* [CRTC:97:crtc-1] flip_done timed out
-amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous command: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
-amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VCN instance 1!
+The reason for this is that the range manipulation is too granular.
+AUX is currently written to with a granularity of 1. Forcing 100,
+which on the Ayaneo 3 OLED yields 400*10=4000 values, is plenty of
+granularity and fixes this issue. Iterating over the values through
+Python shows that the final byte is never 0x00, and testing over the
+entire range with a cadence of 0.2s/it and 73 increments (to saturate
+the range) shows no issues. Windows likewise shows no issues.
 
-In addition to e.g., kwin errors in journalctl. 0000:c4.00.0 is the GPU.
-Interestingly, 0000:c4.00.6, which is another HDA block, 0000:c4.00.5,
-a PCI controller, and 0000:c4.00.2, resume normally. 0x00000032 is the
-PowerDownVpe(50) command which is the common failure point in all
-failed resumes.
-
-On a normal resume, we should get the following power gates:
-amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVpe(50) param: 0x00000000, resp: 0x00000001
-amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownJpeg0(33) param: 0x00000000, resp: 0x00000001
-amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownJpeg1(38) param: 0x00010000, resp: 0x00000001
-amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVcn1(4) param: 0x00010000, resp: 0x00000001
-amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVcn0(6) param: 0x00000000, resp: 0x00000001
-amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpVcn0(7) param: 0x00000000, resp: 0x00000001
-amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpVcn1(5) param: 0x00010000, resp: 0x00000001
-amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpJpeg0(34) param: 0x00000000, resp: 0x00000001
-amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpJpeg1(39) param: 0x00010000, resp: 0x00000001
-
-To fix this, increase VPE_IDLE_TIMEOUT to 2 seconds. This increases
-reliability from 4-25 suspends to 200+ (tested) suspends with a cycle
-time of 12s sleep, 8s resume. The suspected reason here is that 1s that
-when VPE is used, it needs a bit of time before it can be gated and
-there was a borderline delay before, which is not enough for Strix Halo.
-When the VPE is not used, such as on resume, gating it instantly does
-not seem to cause issues.
-
-Fixes: 5f82a0c90cca ("drm/amdgpu/vpe: enable vpe dpm")
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3803
 Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 28 +++++++++++--------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
-index 121ee17b522b..24f09e457352 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
-@@ -34,8 +34,8 @@
- /* VPE CSA resides in the 4th page of CSA */
- #define AMDGPU_CSA_VPE_OFFSET 	(4096 * 3)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index cd0e2976e268..bb16adcafb88 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -4739,7 +4739,8 @@ static void amdgpu_dm_update_backlight_caps(struct amdgpu_display_manager *dm,
+ }
  
--/* 1 second timeout */
--#define VPE_IDLE_TIMEOUT	msecs_to_jiffies(1000)
-+/* 2 second timeout */
-+#define VPE_IDLE_TIMEOUT	msecs_to_jiffies(2000)
+ static int get_brightness_range(const struct amdgpu_dm_backlight_caps *caps,
+-				unsigned int *min, unsigned int *max)
++				unsigned int *min, unsigned int *max,
++				unsigned int *multiple)
+ {
+ 	if (!caps)
+ 		return 0;
+@@ -4748,10 +4749,12 @@ static int get_brightness_range(const struct amdgpu_dm_backlight_caps *caps,
+ 		// Firmware limits are in nits, DC API wants millinits.
+ 		*max = 1000 * caps->aux_max_input_signal;
+ 		*min = 1000 * caps->aux_min_input_signal;
++		*multiple = 100;
+ 	} else {
+ 		// Firmware limits are 8-bit, PWM control is 16-bit.
+ 		*max = 0x101 * caps->max_input_signal;
+ 		*min = 0x101 * caps->min_input_signal;
++		*multiple = 1;
+ 	}
+ 	return 1;
+ }
+@@ -4813,23 +4816,25 @@ static void convert_custom_brightness(const struct amdgpu_dm_backlight_caps *cap
+ static u32 convert_brightness_from_user(const struct amdgpu_dm_backlight_caps *caps,
+ 					uint32_t brightness)
+ {
+-	unsigned int min, max;
++	unsigned int min, max, multiple;
  
- #define VPE_MAX_DPM_LEVEL			4
- #define FIXED1_8_BITS_PER_FRACTIONAL_PART	8
-
-base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+-	if (!get_brightness_range(caps, &min, &max))
++	if (!get_brightness_range(caps, &min, &max, &multiple))
+ 		return brightness;
+ 
+ 	convert_custom_brightness(caps, min, max, &brightness);
+ 
+-	// Rescale 0..max to min..max
+-	return min + DIV_ROUND_CLOSEST_ULL((u64)(max - min) * brightness, max);
++	// Rescale 0..max to min..max rounding to nearest multiple
++	return rounddown(
++		min + DIV_ROUND_CLOSEST_ULL((u64)(max - min) * brightness, max),
++		multiple);
+ }
+ 
+ static u32 convert_brightness_to_user(const struct amdgpu_dm_backlight_caps *caps,
+ 				      uint32_t brightness)
+ {
+-	unsigned int min, max;
++	unsigned int min, max, multiple;
+ 
+-	if (!get_brightness_range(caps, &min, &max))
++	if (!get_brightness_range(caps, &min, &max, &multiple))
+ 		return brightness;
+ 
+ 	if (brightness < min)
+@@ -4970,7 +4975,7 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
+ 	struct backlight_properties props = { 0 };
+ 	struct amdgpu_dm_backlight_caps *caps;
+ 	char bl_name[16];
+-	int min, max;
++	int min, max, multiple;
+ 
+ 	if (aconnector->bl_idx == -1)
+ 		return;
+@@ -4983,15 +4988,16 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
+ 	}
+ 
+ 	caps = &dm->backlight_caps[aconnector->bl_idx];
+-	if (get_brightness_range(caps, &min, &max)) {
++	if (get_brightness_range(caps, &min, &max, &multiple)) {
+ 		if (power_supply_is_system_supplied() > 0)
+ 			props.brightness = DIV_ROUND_CLOSEST((max - min) * caps->ac_level, 100);
+ 		else
+ 			props.brightness = DIV_ROUND_CLOSEST((max - min) * caps->dc_level, 100);
+ 		/* min is zero, so max needs to be adjusted */
+ 		props.max_brightness = max - min;
+-		drm_dbg(drm, "Backlight caps: min: %d, max: %d, ac %d, dc %d\n", min, max,
+-			caps->ac_level, caps->dc_level);
++		drm_dbg(drm,
++			"Backlight caps: min: %d, max: %d, ac %d, dc %d, multiple: %d\n",
++			min, max, caps->ac_level, caps->dc_level, multiple);
+ 	} else
+ 		props.brightness = props.max_brightness = MAX_BACKLIGHT_LEVEL;
+ 
 -- 
 2.50.1
 
