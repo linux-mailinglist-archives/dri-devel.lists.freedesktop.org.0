@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC0BB32D6A
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 05:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A5AB32D6C
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Aug 2025 06:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8315D10E07C;
-	Sun, 24 Aug 2025 03:47:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB5410E0DF;
+	Sun, 24 Aug 2025 04:01:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="HfBMHENu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QZoEGjzX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Sun, 24 Aug 2025 03:47:53 UTC
-Received: from mail-m9329.xmail.ntesmail.com (mail-m9329.xmail.ntesmail.com
- [103.126.93.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835FC10E07C
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 03:47:53 +0000 (UTC)
-Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2061d68a8;
- Sun, 24 Aug 2025 11:42:47 +0800 (GMT+08:00)
-From: Damon Ding <damon.ding@rock-chips.com>
-To: andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dmitry.baryshkov@oss.qualcomm.com, dianders@chromium.org,
- m.szyprowski@samsung.com, andy.yan@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v1] drm/bridge: analogix_dp: Reuse &link_train.training_lane[]
- to set DPCD DP_TRAINING_LANEx_SET
-Date: Sun, 24 Aug 2025 11:41:38 +0800
-Message-Id: <20250824034138.3207855-1-damon.ding@rock-chips.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AAAA10E0DF
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 04:01:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756008101; x=1787544101;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=DSbsqCo62f2I7cUW/NtdCvveyEi8icWUS2ub9JnZtGc=;
+ b=QZoEGjzXPoAZP4xFGJZcWFO2rEdYQzdo7M43uzibk6BdWkeTIsdksqWK
+ k9SjusuYFCQIP3Mw92j2m0WChi7+Wid4Qr9rZzgf61P7Myv9S4EERXfzi
+ Vvzgl9MB/VE1UJmaLRZIfouZ0WGNseE/hhW8HoaKb3o0biZOwW53rOEqj
+ PeZ8vpSouIwC7R3jbXuhIR73OvCxlfo+wt1dKmnmWzliugup9935UxTcG
+ 7gx2lruAOKlnhShLTKiYFszp/kK0PxjZgpVdzPPUMnvDbNwSFWplOVQ2f
+ D49QKSRxrErKxtxMOvoYPVB1ICg9j/IkRt1tRB6HNDfm5XWIaxFQvwl1g w==;
+X-CSE-ConnectionGUID: dnkAmNjRTvK6gzeHtlWREQ==
+X-CSE-MsgGUID: ZdJOMseFS1Gwkp4IYOngoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58121312"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="58121312"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2025 21:01:40 -0700
+X-CSE-ConnectionGUID: D5G9j+PIT+mcR8bJXuzjyA==
+X-CSE-MsgGUID: IJW2c3yTRDyfxGZmqkI1pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="192681177"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+ by fmviesa002.fm.intel.com with ESMTP; 23 Aug 2025 21:01:39 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uq1v0-000MkN-1X;
+ Sun, 24 Aug 2025 04:01:24 +0000
+Date: Sun, 24 Aug 2025 12:01:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Faith Ekstrand <faith@gfxstrand.net>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
+Subject: Re: [PATCH 6/7] drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+Message-ID: <202508241157.XlCVeP0d-lkp@intel.com>
+References: <20250822142954.902402-7-faith.ekstrand@collabora.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a98da2be6d203a3kunme50173fe286e82
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkhOTlZCTB9DSx1KHx5MQ05WFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpKQk
- 1VSktLVUpCWQY+
-DKIM-Signature: a=rsa-sha256;
- b=HfBMHENuq1cOiPb6Rcqorn47hRqYt1a5mik2233TjXGi3lq2rCbIw+mrvigLBzFaSwOUEc2htBvTLIBb/QwomabZND9vvREe7u6fNwrz3t9woYfHUbOoIKST21gd5aKDFqYQgknstbuQTRRO3Bt1l4tA8zLbvf4oAcYGus3awjk=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=NUUE6zxynpgWq/cJHFAolsgWAo9l5vDKKEudpxIVWow=;
- h=date:mime-version:subject:message-id:from;
+In-Reply-To: <20250822142954.902402-7-faith.ekstrand@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,38 +71,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In analogix_dp_link_start(), &link_train.training_lane[] is used to
-set phy PE/VS configurations, and buf[] is initialized with the same
-values to set DPCD DP_TRAINING_LANEx_SET.
+Hi Faith,
 
-It makes sense to reuse &link_train.training_lane[] to set DPCD
-DP_TRAINING_LANEx_SET, which can remove the redundant assignments
-and make codes more consice.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
----
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+[auto build test WARNING on drm-exynos/exynos-drm-next]
+[also build test WARNING on linus/master v6.17-rc2 next-20250822]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index ed35e567d117..ec8443d66075 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -281,12 +281,8 @@ static int analogix_dp_link_start(struct analogix_dp_device *dp)
- 	if (retval < 0)
- 		return retval;
- 
--	for (lane = 0; lane < lane_count; lane++)
--		buf[lane] = DP_TRAIN_PRE_EMPH_LEVEL_0 |
--			    DP_TRAIN_VOLTAGE_SWING_LEVEL_0;
--
--	retval = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, buf,
--				   lane_count);
-+	retval = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
-+				   dp->link_train.training_lane, lane_count);
- 	if (retval < 0)
- 		return retval;
- 
+url:    https://github.com/intel-lab-lkp/linux/commits/Faith-Ekstrand/drm-shmem-Add-a-drm_gem_shmem_sync_mmap-helper/20250822-223306
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250822142954.902402-7-faith.ekstrand%40collabora.com
+patch subject: [PATCH 6/7] drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+config: um-randconfig-r133-20250824 (https://download.01.org/0day-ci/archive/20250824/202508241157.XlCVeP0d-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250824/202508241157.XlCVeP0d-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508241157.XlCVeP0d-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/panfrost/panfrost_drv.c:664:9: sparse: sparse: Initializer entry defined twice
+   drivers/gpu/drm/panfrost/panfrost_drv.c:665:9: sparse:   also defined here
+
+vim +664 drivers/gpu/drm/panfrost/panfrost_drv.c
+
+f3ba91228e8e917 Rob Herring     2018-09-10  650  
+f3ba91228e8e917 Rob Herring     2018-09-10  651  static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
+f3ba91228e8e917 Rob Herring     2018-09-10  652  #define PANFROST_IOCTL(n, func, flags) \
+f3ba91228e8e917 Rob Herring     2018-09-10  653  	DRM_IOCTL_DEF_DRV(PANFROST_##n, panfrost_ioctl_##func, flags)
+f3ba91228e8e917 Rob Herring     2018-09-10  654  
+c1572b756066235 Emil Velikov    2019-11-01  655  	PANFROST_IOCTL(SUBMIT,		submit,		DRM_RENDER_ALLOW),
+f3ba91228e8e917 Rob Herring     2018-09-10  656  	PANFROST_IOCTL(WAIT_BO,		wait_bo,	DRM_RENDER_ALLOW),
+f3ba91228e8e917 Rob Herring     2018-09-10  657  	PANFROST_IOCTL(CREATE_BO,	create_bo,	DRM_RENDER_ALLOW),
+f3ba91228e8e917 Rob Herring     2018-09-10  658  	PANFROST_IOCTL(MMAP_BO,		mmap_bo,	DRM_RENDER_ALLOW),
+f3ba91228e8e917 Rob Herring     2018-09-10  659  	PANFROST_IOCTL(GET_PARAM,	get_param,	DRM_RENDER_ALLOW),
+f3ba91228e8e917 Rob Herring     2018-09-10  660  	PANFROST_IOCTL(GET_BO_OFFSET,	get_bo_offset,	DRM_RENDER_ALLOW),
+7786fd1087774c6 Boris Brezillon 2019-06-18  661  	PANFROST_IOCTL(PERFCNT_ENABLE,	perfcnt_enable,	DRM_RENDER_ALLOW),
+7786fd1087774c6 Boris Brezillon 2019-06-18  662  	PANFROST_IOCTL(PERFCNT_DUMP,	perfcnt_dump,	DRM_RENDER_ALLOW),
+013b6510131568c Rob Herring     2019-08-05  663  	PANFROST_IOCTL(MADVISE,		madvise,	DRM_RENDER_ALLOW),
+2f684bbbcb27048 Adrián Larumbe  2025-05-20 @664  	PANFROST_IOCTL(SET_LABEL_BO,	set_label_bo,	DRM_RENDER_ALLOW),
+0f6b6cfee96633e Faith Ekstrand  2025-08-22  665  	PANFROST_IOCTL(SYNC_BO,		sync_bo,	DRM_RENDER_ALLOW),
+f3ba91228e8e917 Rob Herring     2018-09-10  666  };
+f3ba91228e8e917 Rob Herring     2018-09-10  667  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
