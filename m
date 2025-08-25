@@ -2,169 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E07B34616
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 17:42:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5AB9B3462F
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 17:45:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8B810E038;
-	Mon, 25 Aug 2025 15:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A37CA10E4E6;
+	Mon, 25 Aug 2025 15:45:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X3McIJND";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="uaSlHOL3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8396210E038
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 15:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756136561;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5rvZAalDayw76mXlaVcK2G8fQoANSfCHvdaqQVOogfc=;
- b=X3McIJNDyiwC/khtPVqSX+x9CfNLCr/ucY3WiKZKgScv9wPTdjuvtYKOkX/GbNo7U/rGyB
- w2F/QRfYIY7g6sUlJmE/0PAh3cKTmnkvC0SXqB6woh2Q0hyQdBsa4x3ayEa5erz10cvVk2
- uFIiM25gqEyp3hRpbI0223wh8ZbEQJY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-552-Fp0pz7jAOh6svo-ivt4zFg-1; Mon, 25 Aug 2025 11:42:39 -0400
-X-MC-Unique: Fp0pz7jAOh6svo-ivt4zFg-1
-X-Mimecast-MFC-AGG-ID: Fp0pz7jAOh6svo-ivt4zFg_1756136558
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-45a1b0bd6a9so24574675e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:42:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756136558; x=1756741358;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5rvZAalDayw76mXlaVcK2G8fQoANSfCHvdaqQVOogfc=;
- b=bSOHbVv3wiyZXVObeOIgydaZFao5KdKDXJSLvu6WUwLkk1UZJwxquHUSHNgGlbAKcx
- O+TG1ppQM9ReM168zPEhFWHtK3iDTvXOQY/IDiBL5YTON+zOEKuBQcn8g4Lidc1arPuA
- Y133guv0k7adKj/Dure97Thv7DpDfx0zR82FOzSoxq0m91JD5iy3vFBX0HttV7kuGBui
- 7ONNcje+VMKhWBL3/0ZbGbPfwnJR7/BC0EBDAM1xaSObmkFUNTOGMpNkZSPWoImUHqTf
- rSPtJasR+CLkB0nt5SQu83lBS4s8PMjvkRAaNJkyt9J3pkui1T71bB85Npr0mG2A7oh0
- m/Pw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXJEv32KdBbWZC7fK5KaRZvYfaJSw8JEyvgB38ztmCS/kyuVufZld8seSMXp2BZwCYpS6I2f1M+sso=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz33/zUunGnovhknN2aowqulP7eeoXkzpjtqcZnydI0W0Ppr13+
- orY0JisgGquJCyAJOMOVBjbGmnNlLyWCisCQ6cdrZO+4bKjrDWsEtJuav/qBWKjbGSL8rFuuhtL
- ZDLFuoIKtGltIwB8NDC5kuCDy+IQ7gDU15SK6nUQ84dZZ1fgIThu07orb9H9k9kMQQEJe8A==
-X-Gm-Gg: ASbGncs2d9cFW1HvGxYGJLqsy+HmmUPWLsRZh+ILSFIbOd9YKjOA53pwFocTv3pTZiS
- /7ht+NBp1J6WLAqVHVVWZieySFyPXrSczJu4edA3CffHgWiXLfitCBEBiRNyICtefqPWAVCaKJp
- mdDd7K6gHHOYMDaf+a3UVZW8RDSe+BGdMG8gINwDcDmBcGja2xM+FgdSZeMr1wcFxhs3gsqISYt
- 7+j/ckHRDFUvzpWdCMozcJ8j6mVkpkSou66QC7MmwTYRECERK6KeeI/EskfRXv9hqDeZSfxNAqf
- Rw4fD3QAS17QXC9GzoxwBMQAlRWDwCKCN5lI7o03B1nDvAX8GJ8Mfz3KsFATnPmTFLa+DllAyOx
- yQJlSk4YVLkkZdL0LfXRlX68ltROBVcjRPwoLU1Uyov5+cTAdQY+345A7mbGMkJnCNpQ=
-X-Received: by 2002:a05:600c:a344:b0:459:443e:b180 with SMTP id
- 5b1f17b1804b1-45b51f30f97mr116842445e9.8.1756136557856; 
- Mon, 25 Aug 2025 08:42:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEGzUl9/0T2mWXVZgblyhy3uP4lA/MNqA3E39+SzULqMR3WsGlHrWnWezXsHsIiYJtRmIOh8A==
-X-Received: by 2002:a05:600c:a344:b0:459:443e:b180 with SMTP id
- 5b1f17b1804b1-45b51f30f97mr116841885e9.8.1756136557395; 
- Mon, 25 Aug 2025 08:42:37 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76?
- (p200300d82f4f130042f198e5ddf83a76.dip0.t-ipconnect.de.
- [2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b57444958sm113196675e9.2.2025.08.25.08.42.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Aug 2025 08:42:36 -0700 (PDT)
-Message-ID: <f8140a17-c4ec-489b-b314-d45abe48bf36@redhat.com>
-Date: Mon, 25 Aug 2025 17:42:33 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 10/35] mm/hugetlb: cleanup
- hugetlb_folio_init_tail_vmemmap()
-To: Mike Rapoport <rppt@kernel.org>
-Cc: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-References: <20250821200701.1329277-1-david@redhat.com>
- <20250821200701.1329277-11-david@redhat.com>
- <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
- <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
- <aKmDBobyvEX7ZUWL@kernel.org>
- <a90cf9a3-d662-4239-ad54-7ea917c802a5@redhat.com>
- <aKxz9HLQTflFNYEu@kernel.org>
- <a72080b4-5156-4add-ac7c-1160b44e0dfe@redhat.com>
- <aKx6SlYrj_hiPXBB@kernel.org>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aKx6SlYrj_hiPXBB@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: WJ868qTqWzJcDI5YRLmsfULQJd0sfSr-CM0D4bcsxWA_1756136558
-X-Mimecast-Originator: redhat.com
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2063.outbound.protection.outlook.com [40.107.92.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2834210E4EF;
+ Mon, 25 Aug 2025 15:45:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DmFgOfgbVgvqc7aZTIelBQ0Itm2WOh79YK1PswSCOkbbOWRcvEsWPxfPWEVM2wCveQhxRgO6xVnzFqwhPw66R5j3+S9IiyiJHVmbV2Umh7/zUmlq5rOxl46kUFjo7nFo85W0/q8QbrkoAJ3LcmtA23rPEAkeEBxKKIthpFrQKahEmRz54MiT4ii96RlPtpgZy7Y21884RzLZd/idIspN3YE9iwvoOZtkKG+qgwlzQ2MLzkFggnYiE6ZlkPmLCZ7ssUIZg539m9zT16XsmDBwS74Zui2uJdpFKdtghUE5ymc2SRpRpD0i81kH4ERpg9+GBSWw0VwyOIinuQ4sBzwV3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uhMWPhsPzCRNvhiJ+xrUF1kZmLnFGH1OG0aoieJZ/fE=;
+ b=ivrLOPSKClmWR4S1iAUfiQKgpHzfEpBVatyeTTBBf4fTfpvO1ZTuD/Ify2l1wp8KPfbjD73lXq09t7H6aBVYG4iVQ2z6jvrfVIZFFQbJ3GkuwWZyCu6DlxYXeTHq+2C4hU83armrZIa8G4X5fI4zATfHQBkmFNp5mXjTSL+NcX8ucjJF6DQFu4KhxhSb6DB1shp53P2sSizPpYf6aGssADIKjEJ5c17zfLorpRl3znH77QAxC/KUEUTztWYG/Mmp5pVU7dRktTuUpASRUA2wQfWGppJGvzMJnPGkcDNA3t+OduO1gMuxwA06dHibd4AFwIy5I3twLeW8nALcq3yF+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uhMWPhsPzCRNvhiJ+xrUF1kZmLnFGH1OG0aoieJZ/fE=;
+ b=uaSlHOL3scYoA9Zydu7MB9ddkDlie6gC8rw1gOR7qPnO2nz5PvgRJGEK9I43UPOT6sm0heHjZRKmFLJMMMMr3K0+FbwjhzFijvh5U5fI02PGYYlYQ4k+miDkA7QrTQCrLj550mi0YjuEg6853BI44HEAeELpjtbENvdU64nePw+j+gjCT4Qse6qRRAgrtRq4X61dYveD7nzkICPiAVmabcDWibtNLnKWH3P4coPDcOuhc3YxwR04bTdGMw+lWZG8vTmOnfpZfFywLvK2ETwIZoGC7q0/aKb47y++nAnJ1rvVAf3HZ5JKqZbHp7tu4C4XKQ2tA2ydPDx6BC8YryXW3Q==
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com (2603:10b6:930:31::20)
+ by SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.19; Mon, 25 Aug
+ 2025 15:45:13 +0000
+Received: from CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::e420:4e37:166:9c56]) by CY5PR12MB6526.namprd12.prod.outlook.com
+ ([fe80::e420:4e37:166:9c56%6]) with mapi id 15.20.9052.021; Mon, 25 Aug 2025
+ 15:45:13 +0000
+From: Timur Tabi <ttabi@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>, "lossin@kernel.org"
+ <lossin@kernel.org>, "ojeda@kernel.org" <ojeda@kernel.org>,
+ "boqun.feng@gmail.com" <boqun.feng@gmail.com>, "a.hindborg@kernel.org"
+ <a.hindborg@kernel.org>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "tmgross@umich.edu" <tmgross@umich.edu>, "alex.gaynor@gmail.com"
+ <alex.gaynor@gmail.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>, "airlied@gmail.com"
+ <airlied@gmail.com>, "aliceryhl@google.com" <aliceryhl@google.com>,
+ "gary@garyguo.net" <gary@garyguo.net>, "dakr@kernel.org" <dakr@kernel.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH 4/5] gpu: nova-core: firmware: process the GSP bootloader
+Thread-Topic: [PATCH 4/5] gpu: nova-core: firmware: process the GSP bootloader
+Thread-Index: AQHcE2MBPfCDFt57G0GMlQTP8sKZUbRzh7YA
+Date: Mon, 25 Aug 2025 15:45:13 +0000
+Message-ID: <0263077d24090821ab3b035a9940cd7f9a7001f7.camel@nvidia.com>
+References: <20250822-nova_firmware-v1-0-ff5633679460@nvidia.com>
+ <20250822-nova_firmware-v1-4-ff5633679460@nvidia.com>
+In-Reply-To: <20250822-nova_firmware-v1-4-ff5633679460@nvidia.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR12MB6526:EE_|SJ1PR12MB6075:EE_
+x-ms-office365-filtering-correlation-id: b1caab51-b494-4f75-450d-08dde3ee617a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7416014|921020|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?WjFRT0d5MVQ3ZVBDSTRFeTN3ZWh6Q3ZvdjlrVkpKKzR2Z09qcFFLdCsyNjdm?=
+ =?utf-8?B?YnRTZVp0N0lRVDRHYmZ2dHdRaFhxQ3hLSGd3YlRwUW1veUEzbmlWTVZ0VFNO?=
+ =?utf-8?B?V2ZRdTZ0NmltWXJtOTk5cS96ZmE4T0ZYbW93MVhvOG5QK2N6cG4vRjJKbUht?=
+ =?utf-8?B?YWpiT3ltVXhpMkJTcFBrM2xQK2JvYmlNclJpV0NwZXpyN0orcjNkTVJJcUZH?=
+ =?utf-8?B?QUNYZzA4dFd6bTF3Q3hUQzFpdVkwR2R6SGZkSDFqWk0yMithOHZDbE5oZlF1?=
+ =?utf-8?B?MVFTemM2M1NVbWgvWUEwbFZhckhydlBRYkk5eXErRnpDNVhMa3drbUYyVVBI?=
+ =?utf-8?B?R1p3Y0pQTDVwK2VzWTFJZEdyb05BVHZCblRIYXdFc083K3hvUXNseFpMeTdX?=
+ =?utf-8?B?MDdHNFJGSys2TE10YmFYVzVORHdhSXFzaXBzTXdEMDB5Q1JVMEx3Nk1VUi9X?=
+ =?utf-8?B?eGhJSUN4NDNxTGg0NDR4SzZCZnVJYm5kTnJyZUhaNmhWaWdEb3BIUVMvT0RP?=
+ =?utf-8?B?cVc0MDNCQnBxL3ZQb2xWb3BZRjJzMnFVYlN0aXVYZVJaOWZ6YzR2cUlmOURS?=
+ =?utf-8?B?Njd5MWxNclZjb3dtYnlLRjJ1REN1Y2VXNTZFUWd2UUp2S3hpK0VCNFZnamNV?=
+ =?utf-8?B?Ty9XblpNWUJrV3ZnQzlhM0tUVG5iZGc2OWtPVVpIRXYzcmZLai9LS0d3Tm1y?=
+ =?utf-8?B?QW01ejQxZmM5VG1oRE5DcHRXeEl1UFEzc1Y1Zy83emNmS2xXZGg4LzdpVldT?=
+ =?utf-8?B?dU1kcmVsaUFFcEw3N1ZmREplK05RUDBuMjRwRDhER1UvQ0NSSW5XdVRiQTlt?=
+ =?utf-8?B?MjNTYWlOYU1XNGc2elZleHVIQXh4ZTJuRGVwaXNJVlVEVERRbUkrMWZ5ODIx?=
+ =?utf-8?B?VEdDbytscFNNdHlhZ0g1MXJLS3NpZzkxSUtKa2FCdFg1VldkV3g0RHNCSjJu?=
+ =?utf-8?B?UHVobjFScHQ2K0RJaXNJR3RnMlJlcjB2QUpNVzU2OXNQY0xqc3NTMWQ0WVpj?=
+ =?utf-8?B?UUh2R0FaZTkvcVhuMlZHZEt5ZXplNFU2ZjNKR2NJa0o3dHVVeGhuaDB1WVVX?=
+ =?utf-8?B?cDFwWm5NSlQ5UjB2elhsNHBSeWh0K3h3enkxSW5xQjY5aDVQQVJ1TkFNa0Qy?=
+ =?utf-8?B?T3NaOVZFb0ZvZStWRTQ1Tk50YTRpRFhpTVhtRmNyR1d5OFYwakFKY0hPTGpu?=
+ =?utf-8?B?MUFCZmJRZmRBejk2QWg4MTU4bWpTbzAzblNDZFVNSTljcjd3MjRVUjUyZ3ZU?=
+ =?utf-8?B?OFRBMk9kcUUvVnBaaGZWNVFqYVdrR1BGTGhHV01SNnVQeUdjWWdIUmFWZFdY?=
+ =?utf-8?B?eGhqVFFMV1AwN29PZmdrUWpmaU92ekl1bjVZajlEMFJWbm51YUltcDZoM3NF?=
+ =?utf-8?B?WFdnR1NzanY4VGcwSnE1bVVXYWpZQ3ZpQXVyU3BxUGgyNlBnVjlkcFFvTldZ?=
+ =?utf-8?B?V2t2TTVPSXVTTUtTcnluVktObEZrdHp4YTBKZlQvQ2hvTlo2Y1ppVGorVzBk?=
+ =?utf-8?B?YmVwUEFxSDIyeVZsWVMySVN6RmJBQnNkbllMSUdCSW83K2ZIL3JmWFFKaGo5?=
+ =?utf-8?B?aHJpVldhZ1EzNE5tb2wxVzVVSzYxUnh4ZUkzUmpLL0U2Y21LeUdCdTBQcVdU?=
+ =?utf-8?B?L2ZVSGQwTmZsUWt3QXRUdkFvbXFJNUcyK3k0YTBRaGpCaDZRY01kTzYwamdL?=
+ =?utf-8?B?Yng3Q0FteDVoWjkvSTNMZnFIMkZZdGRkNHBKVENOOXZBZjh0UHlqWFQ0akFs?=
+ =?utf-8?B?YWNqVTFQZndVT1hBRkdGZzkycXl5UENjallScHlRWjFGVjNWSHd1RkNTTEY2?=
+ =?utf-8?Q?/7gZ2Ia4UVj+XApIobSmcC5N+KngwrvUa8TeQ=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR12MB6526.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020)(38070700018);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RmNGdnRHOG1za01YeEFDQmVQdHBvd2dMTmN1TDlhdE1hVk80K3B0dW02OGwz?=
+ =?utf-8?B?R2tFUEFjQ29BWC9QbGNvK2R5QlJ2QXJMRjFtUEhYZTZNUFJxbm0rVm9vNXF4?=
+ =?utf-8?B?aTRxcjZ6aHFEOHVTSmdPd1JoNDZBRXVKU3I5dFdhYTI5MHBSMndKRkNiWlMw?=
+ =?utf-8?B?cmV2Y256NGdwSlJBWTZkdldjbDdRMjFxN0dORlF1S3plZ0pBa2F2SXNjaGdT?=
+ =?utf-8?B?M0wvaEpBMnAyOWM3WXdDajlpU2lRRzc2WTNITFVMYTZvVDIyMzNVbnBSbllO?=
+ =?utf-8?B?MWExaFYwVncyK3lIaXRsZDl6K0ZLMGlQT3hGWmtoVTl1QzRWalRJZlhXMGhI?=
+ =?utf-8?B?WkVOZ01WT0NmVTdYelczb1prUVZ4UGxyb2Q3MU1jOHN6RmVNcTZSd1lRT0N6?=
+ =?utf-8?B?UE5zeE4vc0NUM3ZhUHhjc3JSOTNZY3NQWERHMFRqN0xvMUg3TERuOFh3eS9v?=
+ =?utf-8?B?bDRPY2Rndk9XZzVlcFBIMlQ1ejV0SG9ZbGZQT1R6T3lsSm1zUm1EVkR4akNu?=
+ =?utf-8?B?anp6UncwTjRCV0ViRldRN1FwRGk1SFBZVkNLTGh1ZnFhdlA4T0NocWhiRCtp?=
+ =?utf-8?B?Zi80bWNaK3F1d3ozcHZKdmtYVGdmRDEwVGhIejF5ZjhmTlpCY1lQZlBDMzBm?=
+ =?utf-8?B?cjQrVU1FMXVBZE9pRmlDTkp2Uk5lN3NNQjZqeVNDWTVKOW5Hb2l0Ly91czB5?=
+ =?utf-8?B?K09KVFJiY00vVTcrQ3lNaVZRMGhGRmt2MFJkc0FwWlNlVzRnK3d3dldmQlBy?=
+ =?utf-8?B?OTRwOUpQRndyUEhPZm9UM0RxYTRnN0RRUDNVWVJ4c1p4SUtLN3NkbEQyMTZz?=
+ =?utf-8?B?eHN6citINUtYNFE1VmViQ09YaUhjWERXL0FNY1FQdkZRK1lMcW4rNkZWbmZy?=
+ =?utf-8?B?eUpNbjYyRUxad2lrUDdhR0RnLzRWTDI2L0J2U0prNjcwMzdPbVY3Qzh2SHZa?=
+ =?utf-8?B?blY4ZnY3eXVFaGpWeFJBaFJEVWxEUVo5dXk5MUs4T29FbVo1bkFRRWdhRnEr?=
+ =?utf-8?B?eEo5UlFQelFnUlZSanRTemwzOFlIcDZHS2c5UXNiRVhYZ242L2pOc1hCbUFE?=
+ =?utf-8?B?aHRtcEcrRzZoU0YzL0JHMTdlTkpTOVpiRzJ1cm0xemRMd25sWHhGYWViSG5H?=
+ =?utf-8?B?MzVPM1J1M3Y0dlMzaVBKRXFpdjZld1hKbHVrL0dOeEczelhKTjR5QXlCRE5j?=
+ =?utf-8?B?ckd6ZU5jUTk3RnUrMVVUdmFFNWZHamhOQjdnZWFmR0U3NWE5enZyeEhNRXNN?=
+ =?utf-8?B?bkc5dDJXazE5MTZ0ZVU2RjRzSHhqRDR6VG5ab1BOTlp5anNQSkFTeHhnVFhV?=
+ =?utf-8?B?RDZ0U08rY2hLUWM3amUvLzNYRlVCTjNXcGhLVmY0RFZoTlVrYmc4VDZhN0hG?=
+ =?utf-8?B?UFhNd1I4c1pteW1KRy9PMGl3dGM2VDIrdXltd1RpWEZXc3hrL2lESEd3eHMx?=
+ =?utf-8?B?TWpkMk1DMUVsaGcvTHZYOWxUUlhUSHFibnhpSkFSY1ZZQVpMSFNZMW5KS2NO?=
+ =?utf-8?B?amFmM2Y4TnMzNDZad0FEbjdLMWk5cC92ZVEvN2ozOEpjL1ZINW96ZXBGNXVJ?=
+ =?utf-8?B?UUJUQXQ1YStaTFdTYnpJL1pFa2xoOHBLYjJZaWl2Q1k2OG9HbXl1eHFCN3RW?=
+ =?utf-8?B?cHFUd1RCWEptdFJMSzg5S2pLd2wrZVJmSnp6ODk5ZXFuTFBScjBPdDJBVzhS?=
+ =?utf-8?B?SmNMbGR5Rit4R3RRY2NwZi8xdmFZUUUxMmZiZndZNzQ4QnFzOHhEbENDcWNv?=
+ =?utf-8?B?SC9QOHJzMWV5VDRISGpXU0FnVmlOMWNGSjZnWHNHaHY5d3JaQlNSbEZEWHlP?=
+ =?utf-8?B?MGZsN2FvZjFjcUxDSDk4WWUwTmhrdzZNeGEwU3IwSk5ZM2ZGRUtOQi9ESlZL?=
+ =?utf-8?B?TFN0RnFjMW5VYjBlaFVYc2hrSEZqOHlxWk1QUlFQMktFVTE4OUlwYVZXYVVM?=
+ =?utf-8?B?YTh1MzAzeG05V2hZbDFOUkxUdHNmOXFGRGpuaWxDbHM3RWlpOHViSFlqYnVo?=
+ =?utf-8?B?WGE0V09sT1dobXRuRlQ3Y1ZQbTlkaFBPKzFqaWVoRk9HTXhrRnNBSUZXYytI?=
+ =?utf-8?B?WkNIOVRLY241WWRpMHlkQm5nOFlBZEFJMWlwWC9HL2dNSGkrOFNuTkltZldN?=
+ =?utf-8?Q?wnRBJSr18oYsgenOABhmotdJi?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CEC145C2EDE66C4CACFF5DB0A73F6EEB@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6526.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1caab51-b494-4f75-450d-08dde3ee617a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Aug 2025 15:45:13.3463 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5tgnYdTUSboe81cq9Q/1+TuurtMeKe9qpobLPbY0Ez4euZ1OzvuLm/7puxFVsRzySweC8Vb9P0y9iTk2naKhHw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6075
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,98 +179,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25.08.25 16:59, Mike Rapoport wrote:
-> On Mon, Aug 25, 2025 at 04:38:03PM +0200, David Hildenbrand wrote:
->> On 25.08.25 16:32, Mike Rapoport wrote:
->>> On Mon, Aug 25, 2025 at 02:48:58PM +0200, David Hildenbrand wrote:
->>>> On 23.08.25 10:59, Mike Rapoport wrote:
->>>>> On Fri, Aug 22, 2025 at 08:24:31AM +0200, David Hildenbrand wrote:
->>>>>> On 22.08.25 06:09, Mika Penttilä wrote:
->>>>>>>
->>>>>>> On 8/21/25 23:06, David Hildenbrand wrote:
->>>>>>>
->>>>>>>> All pages were already initialized and set to PageReserved() with a
->>>>>>>> refcount of 1 by MM init code.
->>>>>>>
->>>>>>> Just to be sure, how is this working with MEMBLOCK_RSRV_NOINIT, where MM is supposed not to
->>>>>>> initialize struct pages?
->>>>>>
->>>>>> Excellent point, I did not know about that one.
->>>>>>
->>>>>> Spotting that we don't do the same for the head page made me assume that
->>>>>> it's just a misuse of __init_single_page().
->>>>>>
->>>>>> But the nasty thing is that we use memblock_reserved_mark_noinit() to only
->>>>>> mark the tail pages ...
->>>>>
->>>>> And even nastier thing is that when CONFIG_DEFERRED_STRUCT_PAGE_INIT is
->>>>> disabled struct pages are initialized regardless of
->>>>> memblock_reserved_mark_noinit().
->>>>>
->>>>> I think this patch should go in before your updates:
->>>>
->>>> Shouldn't we fix this in memblock code?
->>>>
->>>> Hacking around that in the memblock_reserved_mark_noinit() user sound wrong
->>>> -- and nothing in the doc of memblock_reserved_mark_noinit() spells that
->>>> behavior out.
->>>
->>> We can surely update the docs, but unfortunately I don't see how to avoid
->>> hacking around it in hugetlb.
->>> Since it's used to optimise HVO even further to the point hugetlb open
->>> codes memmap initialization, I think it's fair that it should deal with all
->>> possible configurations.
->>
->> Remind me, why can't we support memblock_reserved_mark_noinit() when
->> CONFIG_DEFERRED_STRUCT_PAGE_INIT is disabled?
-> 
-> When CONFIG_DEFERRED_STRUCT_PAGE_INIT is disabled we initialize the entire
-> memmap early (setup_arch()->free_area_init()), and we may have a bunch of
-> memblock_reserved_mark_noinit() afterwards
-
-Oh, you mean that we get effective memblock modifications after already
-initializing the memmap.
-
-That sounds ... interesting :)
-
-So yeah, we have to document this for memblock_reserved_mark_noinit().
-
-Is it also a problem for kexec_handover?
-
-We should do something like:
-
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 154f1d73b61f2..ed4c563d72c32 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -1091,13 +1091,16 @@ int __init_memblock memblock_clear_nomap(phys_addr_t base, phys_addr_t size)
-  
-  /**
-   * memblock_reserved_mark_noinit - Mark a reserved memory region with flag
-- * MEMBLOCK_RSRV_NOINIT which results in the struct pages not being initialized
-- * for this region.
-+ * MEMBLOCK_RSRV_NOINIT which allows for the "struct pages" corresponding
-+ * to this region not getting initialized, because the caller will take
-+ * care of it.
-   * @base: the base phys addr of the region
-   * @size: the size of the region
-   *
-- * struct pages will not be initialized for reserved memory regions marked with
-- * %MEMBLOCK_RSRV_NOINIT.
-+ * "struct pages" will not be initialized for reserved memory regions marked
-+ * with %MEMBLOCK_RSRV_NOINIT if this function is called before initialization
-+ * code runs. Without CONFIG_DEFERRED_STRUCT_PAGE_INIT, it is more likely
-+ * that this function is not effective.
-   *
-   * Return: 0 on success, -errno on failure.
-   */
-
-
-Optimizing the hugetlb code could be done, but I am not sure how high
-the priority is (nobody complained so far about the double init).
-
--- 
-Cheers
-
-David / dhildenb
-
+T24gRnJpLCAyMDI1LTA4LTIyIGF0IDIxOjQ3ICswOTAwLCBBbGV4YW5kcmUgQ291cmJvdCB3cm90
+ZToNCj4gVGhlIEdTUCBib290bG9hZGVyIGlzIGEgc21hbGwgUklTQy1WIGZpcm13YXJlIHRoYXQg
+aXMgbG9hZGVkIGJ5IEJvb3Rlcg0KPiBvbnRvIHRoZSBHU1AgY29yZSBhbmQgaXMgaW4gY2hhcmdl
+IG9mIGxvYWRpbmcsIHZhbGlkYXRpbmcsIGFuZCBzdGFydGluZw0KPiB0aGUgYWN0dWFsIEdTUCBm
+aXJtd2FyZS4NCj4gDQo+IEl0IGlzIGEgcmVndWxhciBiaW5hcnkgZmlybXdhcmUgZmlsZSBjb250
+YWluaW5nIGEgc3BlY2lmaWMgaGVhZGVyLg0KPiBDcmVhdGUgYSB0eXBlIGhvbGRpbmcgdGhlIERN
+QS1tYXBwZWQgZmlybXdhcmUgYXMgd2VsbCBhcyB1c2VmdWwNCj4gaW5mb3JtYXRpb24gZXh0cmFj
+dGVkIGZyb20gdGhlIGhlYWRlciwgYW5kIGhvb2sgaXQgaW50byBvdXIgZmlybXdhcmUNCj4gc3Ry
+dWN0dXJlIGZvciBsYXRlciB1c2UuDQoNCi4uLg0KDQo+ICsgICAgLy8vIEdTUCBib290bG9hZGVy
+LCB2ZXJpZmllcyB0aGUgR1NQIGZpcm13YXJlIGJlZm9yZSBsb2FkaW5nIGFuZCBydW5uaW5nIGl0
+Lg0KPiArICAgIGJvb3Rsb2FkZXI6IFJpc2N2RmlybXdhcmUsDQoNCkNhbiB5b3UgcGxlYXNlIHJl
+bmFtZSB0aGlzIHRvICJnc3BfYm9vdGxvYWRlciIsIHNvIHRoYXQgaW4gdGhlIGZ1dHVyZSwgaXQg
+Y2FuIGJlIGRpZmZlcmVudGlhdGVkIGZyb20NCnRoZSAiZ2VuZXJpYyBib290bG9hZGVyIiB0aGF0
+IGlzIG5lZWRlZCB0byBsb2FkIEZXU0VDIG9uIFR1cmluZz8NCg==
