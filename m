@@ -2,122 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BEFAB34B45
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 21:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80064B34B60
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 22:03:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2E3D10E547;
-	Mon, 25 Aug 2025 19:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 928A010E554;
+	Mon, 25 Aug 2025 20:03:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cjlo3I6k";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kjoqc4fs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1219910E547
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 19:59:51 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PGFvJo021722
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 19:59:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- QpMXjjOloTbOcv7VKi87DER32XX876zK5UxtTO2ua/w=; b=cjlo3I6kOhBPZA0p
- cSlGSa5xmLkswO5obuRr3lT6JCUurIBNg29AZt1dNny5CZcBaCf76N4y2nuELyXf
- ncRqJZeHIPP5OcEcaqOMOJYxu/au6gGmi/qrz6pXyz97bbkWG5tLYmRs/XeiF+yD
- jTVcBDyJLiedm65n8oeOgMwmma2GdCDn2L3XAa1xrrUMtfdgOIo8jzytvoZ0xPSe
- 3zOrnvWB0JqyUALi0IcShbU8z5qgIs8jonUFjLPaq7uNGFHGz++Aqzqhla827Nbc
- y2L+7qzuNqSvXmUm7IfSuGfmSBEIXVfB1drY7hXAnmBqR+AHxrx30Ia8vLPriTww
- heiRVg==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q615e8ex-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 19:59:48 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-70d9f5bdf6aso67100836d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 12:59:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756151986; x=1756756786;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QpMXjjOloTbOcv7VKi87DER32XX876zK5UxtTO2ua/w=;
- b=jFSBGAKMr/6TY72VQ90U+yFtStS4BUKrL4d0iJIKe2SZbN9zCXRNor7zoEb5BEyDCg
- ceq+qwY3qwzjHJmkxE0TyOwI9u5NYeDuVlVceG5iZoe6fblY/R5Y+CWYxDeB8Yh6j6Pw
- +la+WEsHPTrb1YtMOabyfbPfFsZOSFxak3IfTAUYXUwFIWfmczdxVhgC7J720OSHyqJS
- LPFpbMge8xzjDbicWH+PUuCUr7T4vMKbAjq7fjzXgbm8IFsbmM1bKGZERSx290gLhcWx
- lAwsXLYx11WDO0zBHxGMR2BgdyZkmba4697Lxz64pK+fjzTtb9DgWLRgAhcbwZ4CmWzW
- qtSg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKTJe23FDtiHwhCc6CgrDb3mWkRx5RV0Kw/eJnra7yYaIr/c1oLyfMctofK9uEBCTDmPxE36mQ6gM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwENUrrw1Fyd89nvqxa7/KgTpTxfTIkngyNxjeTBGqxT9gkAMdT
- TTWVdPNHRySpHbsvSCIU4aYalNa9NtqEalL4wx5Ifhk55lTSEzjhVYnp+zC6BI8bnAbwOCmNWN4
- Y5y8poNtmd3zQs2iLzxOnu0gtH3DjUF/yrl6ECmKhjAiosDRGxaJAcnfJKrXqZxtS9/JKMVs=
-X-Gm-Gg: ASbGncujW7d3+L0jU3+CSPMkfXyGzwMspGajY/1kbLKGhAbMeQr7xGfRxBqRMZB+lSY
- tszXmsUschM2JMKJ6d+Rf6YTrJefdh3UTxRQu9TNKsqSi86XDTSvByWscztU2lekDTGb5kkRY73
- P1MGHth4iCcgMmYxlw3Mo5FUn9C5k6dGKMRodDwVQkRrOD9mCPPaigMR7fakF547SRYEdi0lV5v
- 9SLKX+/iscoX2hWZCz8i7mcktSt+Layz8NZcEeuq2MM4QzjtXMPX/eoi20h93NOyUXDOGftU6GV
- TR5hiB5bp5RTdqVxBuLXpIWhb3ypYoi9sr3YG/0SiNm1rGQZ2KCrSAg7W2KOTdOrFLPvQTD9iXz
- kbwCMt/X12xxJnDw0Jj8fx06++jg5XmAoVxSR3aTPaPdOSBVdRZTC
-X-Received: by 2002:ad4:5de9:0:b0:70d:ac6c:d5e with SMTP id
- 6a1803df08f44-70dac6c152cmr97978776d6.17.1756151986351; 
- Mon, 25 Aug 2025 12:59:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEQJCEWzdMqyTuDrQVNON3NoBMK6mCKwkSCCF09YR8Rv+ULva4lyyz7WmxFpfIfcvr79oPndg==
-X-Received: by 2002:ad4:5de9:0:b0:70d:ac6c:d5e with SMTP id
- 6a1803df08f44-70dac6c152cmr97978436d6.17.1756151985824; 
- Mon, 25 Aug 2025 12:59:45 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3365e2687acsm17787781fa.32.2025.08.25.12.59.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Aug 2025 12:59:45 -0700 (PDT)
-Date: Mon, 25 Aug 2025 22:59:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Rob Clark <rob.clark@oss.qualcomm.com>
-Cc: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Alex Robinson <alex@ironrobin.net>, lumag@kernel.org,
- abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com,
- sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
- simona@ffwll.ch, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm: fix race in Adreno header generation
-Message-ID: <7w522k6vkngqw2tfbmrhuvxxcdlby3wwzueaqw75pxud2y7puw@2rjhjl5ikn6c>
-References: <20250823020919.9947-1-alex@ironrobin.net>
- <6sdzghcc4uynvmk6r4axpwgqlmgxqzi457ttedqlrql7f7lt47@glsrzu46a63x>
- <CACSVV01R=FPAErpfJJvESKig+Z8=amEkpf6QFnkXHhTjFsPf5g@mail.gmail.com>
- <5a405510-3eec-4262-9855-483dd589d8dc@oss.qualcomm.com>
- <CACSVV03y1s+EdkNm0nWFL7yuR8y=YuBs-OJaKquOh4izwKc_nA@mail.gmail.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD8A10E554
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 20:03:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=K24D3j0MH56Si2XPbZpL8tPKO3SiQzwVR0/jjb/5OK8=; b=kjoqc4fsg3ZqDOWRp8gH8Nmp5Q
+ 5guyPbDKkV3paxuu2TMwFLaWMjM3VkhfOEcaLSmWJJjtWrWtpGyFms6ZdhBYk5vP9qC+2tPaYLv1B
+ QN6TwfckznbgttViXqNE5SB5MUll1/7FXvclTmsVD/iwPvbalHnP83w+O1CbkYKYIq8q/1KeRAs98
+ v+F7CHoV13QwYxzlgc/yxeVXpn90nZiN3WMBdwvuVPK1h9VX1x/Kc3rz2mi/NBKBtMVXw8gCLeCVI
+ ssyJQQFPrLsJQqcHQwC+VihF8WAzlTHppI9SwdWPxUzsU/ZIpCwk12AqXbgcCEV4swBU+BaUfBJo2
+ tNlIkSiA==;
+Received: from [189.6.13.79] (helo=[192.168.31.42])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uqdPu-001ZLH-IJ; Mon, 25 Aug 2025 22:03:46 +0200
+Message-ID: <8cf9cd49-b4e5-4cd9-b4db-9bb81fdf6b0b@igalia.com>
+Date: Mon, 25 Aug 2025 17:03:42 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/6] drm/v3d: Address race-condition between per-fd GPU
+ stats and fd release
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>,
+ Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+References: <20250815-v3d-queue-lock-v2-0-ce37258ffb53@igalia.com>
+ <20250815-v3d-queue-lock-v2-4-ce37258ffb53@igalia.com>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <20250815-v3d-queue-lock-v2-4-ce37258ffb53@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACSVV03y1s+EdkNm0nWFL7yuR8y=YuBs-OJaKquOh4izwKc_nA@mail.gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzNCBTYWx0ZWRfX8QUDaburo5N+
- TDO1vGTnrLIdHoL3UWVvrPHboYgzzHvphBXmo8b/ers+DxHbmSiNC/6JaPRrJv8pCBM1GzFou/F
- QgkQXMJzR2F5uRaNFMgxYDXgMi3gOQ5HDEDBGXVS8lH0wuLmXFZY/CCN4LlWAk0jBKo4TQJXREy
- jlpBgqVHOVKWpYBhCFwPcsxrt+RmpxaBKRaBQQBNfVEwq0IWSF3Owxp7hxcYr5uWwjuCloRasv6
- +drUbDk4CbKSF5gkCGzG9EzY+dWdnDCP+/j1UdaUBvagAIkLpG+IzfACL3N8Hqx9YOiAf52GqJa
- kvHYEXKEkqNLg1+2CGAlNhe5Gh/A+1lO5LqFSx+UOSlWUJsTYsanqvyI/5imnZMtlU53QpLp4Rt
- y/sQzIW1
-X-Proofpoint-GUID: oqrA1v_jPhYP01TsR4n33sZKaoWBofQP
-X-Authority-Analysis: v=2.4 cv=K+AiHzWI c=1 sm=1 tr=0 ts=68acc0b4 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=foaXouvCAAAA:8 a=ogmizbzjsSRwc_UF5_MA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
- a=lBkOZJTZZNyIbKe29SIT:22
-X-Proofpoint-ORIG-GUID: oqrA1v_jPhYP01TsR4n33sZKaoWBofQP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-25_09,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0
- impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230034
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,54 +65,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 10:48:06AM -0700, Rob Clark wrote:
-> On Mon, Aug 25, 2025 at 9:23 AM Akhil P Oommen <akhilpo@oss.qualcomm.com> wrote:
-> >
-> > On 8/23/2025 7:46 PM, Rob Clark wrote:
-> > > On Sat, Aug 23, 2025 at 6:49 AM Dmitry Baryshkov
-> > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > >>
-> > >> On Sat, Aug 23, 2025 at 02:09:39AM +0000, Alex Robinson wrote:
-> > >>> Builds can compile msm-y objects (e.g. msm_gpu_devfreq.o)
-> > >>> before adreno_common.xml.h is generated in trees that generate Adreno
-> > >>> headers at build time. Make msm-y depend on the generated headers,
-> > >>> removing the race.
-> > >>>
-> > >>> Signed-off-by: Alex Robinson <alex@ironrobin.net>
-> > >>> ---
-> > >>>  drivers/gpu/drm/msm/Makefile | 1 +
-> > >>>  1 file changed, 1 insertion(+)
-> > >>>
-> > >>> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> > >>> index 0c0dfb25f01b..1a918d44ac48 100644
-> > >>> --- a/drivers/gpu/drm/msm/Makefile
-> > >>> +++ b/drivers/gpu/drm/msm/Makefile
-> > >>> @@ -221,6 +221,7 @@ DISPLAY_HEADERS = \
-> > >>>       generated/sfpb.xml.h
-> > >>>
-> > >>>  $(addprefix $(obj)/,$(adreno-y)): $(addprefix $(obj)/,$(ADRENO_HEADERS))
-> > >>> +$(addprefix $(obj)/,$(msm-y)): $(addprefix $(obj)/,$(ADRENO_HEADERS))
-> > >>
-> > >> I'd say, no. The idea was that msm-y should not depend on
-> > >> ADRENO_HEADERS. If there is any dependency, please move it to adreno-y.
-> > >
-> > > probably we should s/adreno/gpu/ and move all the msm_gpu*.* there..
-> > >
-> > > In the mean time, I think we were going to drop this patch from the IFPC series
-> >
-> > Yeah. I will drop that patch.
-> >
-> > Btw, was my usage of adreno_gpu symbol in msm_gpu* files incorrect?
-> 
-> I suppose _technically_ it is, but the split btwn msm_gpu and adreno
-> really only made sense for a2xx, and only if we tried to upstream the
-> old 2d core, which never happened
 
-Granted that there seem to be nobody interested in OpenVG anymore, I
-suggest we forget that Z180 existed. I think it would be wise to
-simplify things for the GPU cores (merging more of the msm_gpu_* into
-adreno/).
 
--- 
-With best wishes
-Dmitry
+On 15/08/2025 16:58, Maíra Canal wrote:
+> When the file descriptor is closed while a job is still running,
+> there's a race condition between the job completion callback and the
+> file descriptor cleanup. This can lead to accessing freed memory when
+> updating per-fd GPU stats, such as the following example:
+>
+> [56120.512903] Unable to handle kernel paging request at virtual address 0000330a92b9688a
+> [56120.520881] Mem abort info:
+> [56120.523687] ESR = 0x0000000096000005
+> [56120.527454] EC = 0x25: DABT (current EL), IL = 32 bits
+> [56120.532785] SET = 0, FnV = 0
+> [56120.535847] EA = 0, S1PTW = 0
+> [56120.538995] FSC = 0x05: level 1 translation fault
+> [56120.543891] Data abort info:
+> [56120.546778] ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+> [56120.552289] CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+> [56120.557362] GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> [56120.562690] user pgtable: 16k pages, 47-bit VAs, pgdp=0000000023f54000
+> [56120.569239] [0000330a92b9688a] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
+> [56120.577975] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+>   	       CPU: 0 UID: 1000 PID: 1497409 Comm: mpv Not tainted 6.12.37-ncvm5+ #1
+>   	       Hardware name: Raspberry Pi 5 Model B Rev 1.0 (DT)
+>   	       pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>   	       pc : v3d_job_update_stats+0x64/0x168 [v3d]
+>   	       lr : v3d_job_update_stats+0x40/0x168 [v3d]
+>   	       sp : ffffc00080003e60
+>   	       x29: ffffc00080003e60 x28: ffff800002860000 x27: 0000000000000000
+>   	       x26: 0000000000000000 x25: ffff800002860000 x24: ffff800002630800
+>   	       x23: ffff800060786000 x22: 0000330a933c31fb x21: 0000000000000001
+>   	       x20: 0000330a92b96302 x19: ffff800060786b10 x18: 0000000000000000
+>   	       x17: ffffaf90506a0000 x16: ffffd06fce57c360 x15: 0000000000000000
+>   	       x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
+>   	       x11: 0000000000000000 x10: 0000000000000000 x9 : ffffd06f5d0fec40
+>   	       x8 : 0000000000000000 x7 : 0000000000000000 x6 : 000002978dbd535a
+>   	       x5 : 00ffffffffffffff x4 : 0000000000000015 x3 : 0000300001fddf88
+>   	       x2 : 0000000000000020 x1 : 0000000000010001 x0 : 0000330a92b96872
+>   	       Call trace:
+> 		 v3d_job_update_stats+0x64/0x168 [v3d]
+> 		 v3d_irq+0x118/0x2e0 [v3d]
+> 		 __handle_irq_event_percpu+0x60/0x220
+>
+> Fix such an issue by protecting all accesses to `job->file_priv` with
+> the queue's lock. With that, we can clear `job->file_priv` before the
+> V3D per-fd structure is freed and assure that `job->file_priv` exists
+> during the per-fd GPU stats updates.
+>
+> Fixes: e1bc3a13bd77 ("drm/v3d: Avoid NULL pointer dereference in `v3d_job_update_stats()`")
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+> ---
+>   drivers/gpu/drm/v3d/v3d_drv.c   | 14 +++++++++++++-
+>   drivers/gpu/drm/v3d/v3d_drv.h   |  2 +-
+>   drivers/gpu/drm/v3d/v3d_sched.c | 14 +++++++-------
+>   3 files changed, 21 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index 2def155ce496ec5f159f6bda9929aeaae141d1a6..c5a3bbbc74c5c6c9a34a6e6111b4e4e21bee0b34 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -157,12 +157,24 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
+>   static void
+>   v3d_postclose(struct drm_device *dev, struct drm_file *file)
+>   {
+> +	struct v3d_dev *v3d = to_v3d_dev(dev);
+>   	struct v3d_file_priv *v3d_priv = file->driver_priv;
+> +	unsigned long irqflags;
+>   	enum v3d_queue q;
+>   
+> -	for (q = 0; q < V3D_MAX_QUEUES; q++)
+> +	for (q = 0; q < V3D_MAX_QUEUES; q++) {
+> +		struct v3d_queue_state *queue = &v3d->queue[q];
+> +		struct v3d_job *job = queue->active_job;
+> +
+>   		drm_sched_entity_destroy(&v3d_priv->sched_entity[q]);
+>   
+> +		if (job && job->base.entity == &v3d_priv->sched_entity[q]) {
+> +			spin_lock_irqsave(&queue->queue_lock, irqflags);
+> +			job->file_priv = NULL;
+> +			spin_unlock_irqrestore(&queue->queue_lock, irqflags);
+> +		}
+> +	}
+> +
+>   	v3d_perfmon_close_file(v3d_priv);
+>   	kfree(v3d_priv);
+>   }
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
+> index cfc2f9c123aa99f6f1875b297eaf6c226b03d4ec..0317f3d7452a3f01b91bfdc691b5a98e54b3a4ec 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -608,7 +608,7 @@ void v3d_timestamp_query_info_free(struct v3d_timestamp_query_info *query_info,
+>   				   unsigned int count);
+>   void v3d_performance_query_info_free(struct v3d_performance_query_info *query_info,
+>   				     unsigned int count);
+> -void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue);
+> +void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q);
+>   int v3d_sched_init(struct v3d_dev *v3d);
+>   void v3d_sched_fini(struct v3d_dev *v3d);
+>   
+> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+> index e348816b691ef05909828accbe15399816e69369..60e251367f42170b30de968682deb6370604db44 100644
+> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> @@ -194,11 +194,11 @@ v3d_stats_update(struct v3d_stats *stats, u64 now)
+>   }
+>   
+>   void
+> -v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+> +v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q)
+>   {
+>   	struct v3d_dev *v3d = job->v3d;
+> -	struct v3d_file_priv *file = job->file_priv;
+> -	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
+> +	struct v3d_queue_state *queue = &v3d->queue[q];
+> +	struct v3d_stats *global_stats = &queue->stats;
+>   	u64 now = local_clock();
+>   	unsigned long flags;
+>   
+> @@ -209,10 +209,10 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
+>   		preempt_disable();
+>   
+>   	/* Don't update the local stats if the file context has already closed */
+> -	if (file)
+> -		v3d_stats_update(&file->stats[queue], now);
+> -	else
+> -		drm_dbg(&v3d->drm, "The file descriptor was closed before job completion\n");
+> +	spin_lock(&queue->queue_lock);
+> +	if (job->file_priv)
+> +		v3d_stats_update(&job->file_priv->stats[q], now);
+Why not keep the drm_dbg() if !job->file_priv?
+> +	spin_unlock(&queue->queue_lock);
+>   
+>   	v3d_stats_update(global_stats, now);
+>   
+>
+
