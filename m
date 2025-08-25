@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009A6B34167
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:45:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F14C6B34165
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F0D10E4A1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D7910E49F;
 	Mon, 25 Aug 2025 13:45:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W9bbviJf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qqRxq6Fu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9627410E4A6;
- Mon, 25 Aug 2025 13:45:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A2A910E494;
+ Mon, 25 Aug 2025 13:45:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6CF714415F;
- Mon, 25 Aug 2025 13:45:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A820C116D0;
- Mon, 25 Aug 2025 13:45:01 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 4AC214368E;
+ Mon, 25 Aug 2025 13:45:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78C4CC116C6;
+ Mon, 25 Aug 2025 13:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756129502;
- bh=c0CdOMShkVXZZKjK+bbptCPCZqzOvjNz6ZMbDLQ9b1k=;
+ s=k20201202; t=1756129505;
+ bh=GVCQVXgqlXIQqoFKKvRG4d8j+VMj99ulhE3PjHHUahc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=W9bbviJfe5pXPMc1R8qqNSWgesz/4yT0wMMjsz9lstmOloS4JAQk6AUW8OO92xrWz
- 4jjPNZXIXpXcdSEO1ZJY1l1oO8sPBAyx3yqbynUIQymxySzjJJPs+6+mW4+GuL5uOx
- yRTLg0eEgixuC39N4D78lLTS8wFBKqqNyXSPzjoO1YMtrgzlp0W8irh2s8qtL57LQ6
- Gy03bIyxUMFwYN4MbjP8wfhqtE1NwJWy7cya6EAR+OFvYqsdsDl6TEjgTWR3NaAVMc
- YyrqR/8/SZN4wU0D3djNoychkVonj9sPgGs6jB38XLXJL4MHCN51g0kAxneWTQC5D0
- InMCOc+L8TrsQ==
+ b=qqRxq6FuF6J6qzpaV4wO2Uzah4+ol8zsgdDB7soEAXzYTWjCBHd/VpODhx1JvOnSL
+ 8iCB5b0/ngm026gAElFp7jAcZu0miEKYYtq9u5bNBQUF4o7UnPIwUuDhtd2C4TY+/c
+ I5ysyLNCkAeYwWkWLWCM5Wz5IXDvwqMlFqAHtPDmpXl8AeO/IHtZstLXpoN1jRNiS3
+ o4DHysweEnhC+aYGiN1XXKsAHbXYM+Z/S4tZaAnv4A6ZLHyyJM0dWfy1j1ZbCw8VFR
+ Z9FIQD85aYZ4ddVPobiMw2tMUQ8iNxMqAxGopVx7i4bGian99GNhb7+l9PMoRU3JnF
+ Ma/LH3J6ES8Og==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 25 Aug 2025 15:43:37 +0200
-Subject: [PATCH 32/39] drm/vboxvideo: Switch to drm_atomic_get_new_crtc_state()
+Date: Mon, 25 Aug 2025 15:43:38 +0200
+Subject: [PATCH 33/39] drm/vc4: Switch to drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250825-drm-no-more-existing-state-v1-32-f08ccd9f85c9@kernel.org>
+Message-Id: <20250825-drm-no-more-existing-state-v1-33-f08ccd9f85c9@kernel.org>
 References: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
 In-Reply-To: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -92,12 +92,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1817; i=mripard@kernel.org;
- h=from:subject:message-id; bh=c0CdOMShkVXZZKjK+bbptCPCZqzOvjNz6ZMbDLQ9b1k=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlrMhqmrD795O8U65qwmdo7X+wNall+T6phn/XR5A6OE
- KmVqnuOdUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJtP5nbLi0XqDgkqjqvpIN
- XWq9HMG/eKeZBCwx2NtgEJVp9zfk7RHdw7lOEaqTbhdW6f+42GrzmrE+TGXt3ZeGdo2XVV131wV
- 7nAw/ozf95jVebtVJQV9NltQLLDwhF5pZx7N0vkxXo9Z8lkMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1861; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=GVCQVXgqlXIQqoFKKvRG4d8j+VMj99ulhE3PjHHUahc=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlrMhqYZAWqr5/UO2el8W236oc9BT/zt17UTj5mV/6Dx
+ e+WCW9/x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZiI/UvGOo21masFXIs3Fm39
+ sPCaOmOY/OL/7i+Y1H/tbRS5c7rw7tfAYjdP6dWHlaP6JCfzdZj7MzZsannlv/YAc63K+dlxv5+
+ fXq8W79YjES0YXNnaUXLC99vZW69ick/MOWvS9uLQkbePz8wHAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,7 +115,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vboxvideo atomic_check implementation uses the deprecated
+The vc4 atomic_check implementation uses the deprecated
 drm_atomic_get_existing_crtc_state() helper.
 
 This hook is called as part of the global atomic_check, thus before the
@@ -124,43 +124,41 @@ we can use drm_atomic_get_new_crtc_state() instead.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/vboxvideo/vbox_mode.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-index 9ff3bade979577df0bc2e6e9653b3fb8fd486062..aa0dded595b6e00a9aa2027b36ca11711ccc0439 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
-@@ -260,12 +260,12 @@ static int vbox_primary_atomic_check(struct drm_plane *plane,
- 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
- 									   plane);
- 	struct drm_crtc_state *crtc_state = NULL;
- 
- 	if (new_state->crtc) {
--		crtc_state = drm_atomic_get_existing_crtc_state(state,
--								new_state->crtc);
-+		crtc_state = drm_atomic_get_new_crtc_state(state,
-+							   new_state->crtc);
- 		if (WARN_ON(!crtc_state))
- 			return -EINVAL;
- 	}
- 
- 	return drm_atomic_helper_check_plane_state(new_state, crtc_state,
-@@ -342,12 +342,12 @@ static int vbox_cursor_atomic_check(struct drm_plane *plane,
- 	u32 width = new_state->crtc_w;
- 	u32 height = new_state->crtc_h;
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index 056d344c5411db0eae975b0fa52c0de7418306f1..b4a53f68865bc18f6cb1fa92b1057890d3fe0382 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -495,12 +495,11 @@ static int vc4_plane_setup_clipping_and_scaling(struct drm_plane_state *state)
+ 	struct drm_crtc_state *crtc_state;
+ 	u32 h_subsample = fb->format->hsub;
+ 	u32 v_subsample = fb->format->vsub;
  	int ret;
  
- 	if (new_state->crtc) {
--		crtc_state = drm_atomic_get_existing_crtc_state(state,
--								new_state->crtc);
-+		crtc_state = drm_atomic_get_new_crtc_state(state,
-+							   new_state->crtc);
- 		if (WARN_ON(!crtc_state))
- 			return -EINVAL;
+-	crtc_state = drm_atomic_get_existing_crtc_state(state->state,
+-							state->crtc);
++	crtc_state = drm_atomic_get_new_crtc_state(state->state, state->crtc);
+ 	if (!crtc_state) {
+ 		DRM_DEBUG_KMS("Invalid crtc state\n");
+ 		return -EINVAL;
  	}
  
- 	ret = drm_atomic_helper_check_plane_state(new_state, crtc_state,
+@@ -873,12 +872,11 @@ static void vc4_plane_calc_load(struct drm_plane_state *state)
+ 	struct vc4_plane_state *vc4_state;
+ 	struct drm_crtc_state *crtc_state;
+ 	unsigned int vscale_factor;
+ 
+ 	vc4_state = to_vc4_plane_state(state);
+-	crtc_state = drm_atomic_get_existing_crtc_state(state->state,
+-							state->crtc);
++	crtc_state = drm_atomic_get_new_crtc_state(state->state, state->crtc);
+ 	vrefresh = drm_mode_vrefresh(&crtc_state->adjusted_mode);
+ 
+ 	/* The HVS is able to process 2 pixels/cycle when scaling the source,
+ 	 * 4 pixels/cycle otherwise.
+ 	 * Alpha blending step seems to be pipelined and it's always operating
 
 -- 
 2.50.1
