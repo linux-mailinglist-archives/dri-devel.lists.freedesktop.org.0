@@ -2,78 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF66B346CF
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 18:12:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D138DB346E1
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 18:17:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E834810E4F5;
-	Mon, 25 Aug 2025 16:12:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98CB010E4FE;
+	Mon, 25 Aug 2025 16:17:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cQ7VlgxH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z1X+B0ZG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42E5F10E4FD
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 16:12:14 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0998710E4FD;
+ Mon, 25 Aug 2025 16:17:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 200436023C;
- Mon, 25 Aug 2025 16:12:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F2DC4CEED;
- Mon, 25 Aug 2025 16:11:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 523095C5FB5;
+ Mon, 25 Aug 2025 16:17:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3323DC4CEED;
+ Mon, 25 Aug 2025 16:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756138321;
- bh=lRmwIXXuuVxuUeGAauGH9Bx39v/B949+O0RVAstjSuk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=cQ7VlgxHju8BEVWwXx8S5s9QO0VAGvXQFLrv/Uk7vG//TkWLtQ958x6s8s27sBA9K
- ZcC+Vqlxi7SLRsijcAT4VR40IpnOE02lPJoJxRdH4JLlfsembYa20HUZxxM4Ykvuhd
- gR9Ewz0C17+TNmcjSvn8rsyUEZ3eHGOfihpu+yQUtN2eQgqTq4UevTo4hW53DjKucR
- RcfXKEtkDNMjSmnffIYVrTmNpy0yJ+On9axRFVmIFarvx0PpkxtcTqBkLOK2JQ/CFW
- UV/FEDmGacDp6s4U8xtBgsmf+FYq4bHcugm4JlhafhGE0dBr3Z/OCxvHsJZPXPRon0
- vH/QeTkJt0PjQ==
-Date: Mon, 25 Aug 2025 09:11:58 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Jaehoon Chung <jh80.chung@samsung.com>, Ulf
- Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Shreeya
- Patel <shreeya.patel@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>, Andy Yan
- <andy.yan@rock-chips.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Vinod Koul <vkoul@kernel.org>, Kishon
- Vijay Abraham I <kishon@kernel.org>, Nicolas Frattaroli
- <frattaroli.nicolas@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, Shawn Lin
- <shawn.lin@rock-chips.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>, Manivannan
- Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham
- <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, Qin
- Jian <qinjian@cqplus1.com>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v3 15/20] net: stmmac: dwmac-rk: switch to
- FIELD_PREP_WM16 macro
-Message-ID: <20250825091158.07893b12@kernel.org>
-In-Reply-To: <20250825-byeword-update-v3-15-947b841cdb29@collabora.com>
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-15-947b841cdb29@collabora.com>
+ s=k20201202; t=1756138640;
+ bh=FANVRTF6GTKZEwwkEPlW/tWs0ubXGJ7R1OcvtRKQmn8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z1X+B0ZGv7uHOoHuOLd4SJt16FexWEbZsjEQFQqRUrapr3OCpVgaCrasYjPdbbOyy
+ eytOcCBL+pDQ3AWWdM11/NupldPVN7n787Ac52JA6muufv5Aq5hmbyZm6HiI3UG9/E
+ S3WLhadcDWFA0vrOLjkLNWku02BCbOZumOEeIy+mLkW7A9OWvR0HBF0JMJQllwxMjH
+ McwQict10AbNwzUaf3Fe4rhbDyKvQqV4mNkpdYsg1XXv1bkWDE2ZZQycNZSZHCAubw
+ xxCEDJgzUrllwHg0O5i5LR3vB8H9ddKiEeoiX5nxByJsLox/KvefidsYGinF192ZU3
+ LkZva/mIcA0xQ==
+Date: Mon, 25 Aug 2025 19:17:02 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: David Hildenbrand <david@redhat.com>
+Cc: Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
+ linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>,
+ Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+ io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH RFC 10/35] mm/hugetlb: cleanup
+ hugetlb_folio_init_tail_vmemmap()
+Message-ID: <aKyMfvWe8JetkbRL@kernel.org>
+References: <20250821200701.1329277-1-david@redhat.com>
+ <20250821200701.1329277-11-david@redhat.com>
+ <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
+ <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
+ <aKmDBobyvEX7ZUWL@kernel.org>
+ <a90cf9a3-d662-4239-ad54-7ea917c802a5@redhat.com>
+ <aKxz9HLQTflFNYEu@kernel.org>
+ <a72080b4-5156-4add-ac7c-1160b44e0dfe@redhat.com>
+ <aKx6SlYrj_hiPXBB@kernel.org>
+ <f8140a17-c4ec-489b-b314-d45abe48bf36@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f8140a17-c4ec-489b-b314-d45abe48bf36@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,21 +92,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 25 Aug 2025 10:28:35 +0200 Nicolas Frattaroli wrote:
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
+On Mon, Aug 25, 2025 at 05:42:33PM +0200, David Hildenbrand wrote:
+> On 25.08.25 16:59, Mike Rapoport wrote:
+> > On Mon, Aug 25, 2025 at 04:38:03PM +0200, David Hildenbrand wrote:
+> > > On 25.08.25 16:32, Mike Rapoport wrote:
+> > > > On Mon, Aug 25, 2025 at 02:48:58PM +0200, David Hildenbrand wrote:
+> > > > > On 23.08.25 10:59, Mike Rapoport wrote:
+> > > > > > On Fri, Aug 22, 2025 at 08:24:31AM +0200, David Hildenbrand wrote:
+> > > > > > > On 22.08.25 06:09, Mika Penttilä wrote:
+> > > > > > > > 
+> > > > > > > > On 8/21/25 23:06, David Hildenbrand wrote:
+> > > > > > > > 
+> > > > > > > > > All pages were already initialized and set to PageReserved() with a
+> > > > > > > > > refcount of 1 by MM init code.
+> > > > > > > > 
+> > > > > > > > Just to be sure, how is this working with MEMBLOCK_RSRV_NOINIT, where MM is supposed not to
+> > > > > > > > initialize struct pages?
+> > > > > > > 
+> > > > > > > Excellent point, I did not know about that one.
+> > > > > > > 
+> > > > > > > Spotting that we don't do the same for the head page made me assume that
+> > > > > > > it's just a misuse of __init_single_page().
+> > > > > > > 
+> > > > > > > But the nasty thing is that we use memblock_reserved_mark_noinit() to only
+> > > > > > > mark the tail pages ...
+> > > > > > 
+> > > > > > And even nastier thing is that when CONFIG_DEFERRED_STRUCT_PAGE_INIT is
+> > > > > > disabled struct pages are initialized regardless of
+> > > > > > memblock_reserved_mark_noinit().
+> > > > > > 
+> > > > > > I think this patch should go in before your updates:
+> > > > > 
+> > > > > Shouldn't we fix this in memblock code?
+> > > > > 
+> > > > > Hacking around that in the memblock_reserved_mark_noinit() user sound wrong
+> > > > > -- and nothing in the doc of memblock_reserved_mark_noinit() spells that
+> > > > > behavior out.
+> > > > 
+> > > > We can surely update the docs, but unfortunately I don't see how to avoid
+> > > > hacking around it in hugetlb.
+> > > > Since it's used to optimise HVO even further to the point hugetlb open
+> > > > codes memmap initialization, I think it's fair that it should deal with all
+> > > > possible configurations.
+> > > 
+> > > Remind me, why can't we support memblock_reserved_mark_noinit() when
+> > > CONFIG_DEFERRED_STRUCT_PAGE_INIT is disabled?
+> > 
+> > When CONFIG_DEFERRED_STRUCT_PAGE_INIT is disabled we initialize the entire
+> > memmap early (setup_arch()->free_area_init()), and we may have a bunch of
+> > memblock_reserved_mark_noinit() afterwards
 > 
-> Like many other Rockchip drivers, dwmac-rk has its own HIWORD_UPDATE
-> macro. Its semantics allow us to redefine it as a wrapper to the shared
-> hw_bitfield.h FIELD_PREP_WM16 macros though.
+> Oh, you mean that we get effective memblock modifications after already
+> initializing the memmap.
 > 
-> Replace the implementation of this driver's very own HIWORD_UPDATE macro
-> with an instance of FIELD_PREP_WM16 from hw_bitfield.h. This keeps the
-> diff easily reviewable, while giving us more compile-time error
-> checking.
-> 
-> The related GRF_BIT macro is left alone for now; any attempt to rework
-> the code to not use its own solution here would likely end up harder to
-> review and less pretty for the time being.
+> That sounds ... interesting :)
 
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+It's memmap, not the free lists. Without deferred init, memblock is active
+for a while after memmap initialized and before the memory goes to the free
+lists.
+ 
+> So yeah, we have to document this for memblock_reserved_mark_noinit().
+> 
+> Is it also a problem for kexec_handover?
+
+With KHO it's also interesting, but it does not support deferred struct
+page init for now :)
+ 
+> We should do something like:
+> 
+> diff --git a/mm/memblock.c b/mm/memblock.c
+> index 154f1d73b61f2..ed4c563d72c32 100644
+> --- a/mm/memblock.c
+> +++ b/mm/memblock.c
+> @@ -1091,13 +1091,16 @@ int __init_memblock memblock_clear_nomap(phys_addr_t base, phys_addr_t size)
+>  /**
+>   * memblock_reserved_mark_noinit - Mark a reserved memory region with flag
+> - * MEMBLOCK_RSRV_NOINIT which results in the struct pages not being initialized
+> - * for this region.
+> + * MEMBLOCK_RSRV_NOINIT which allows for the "struct pages" corresponding
+> + * to this region not getting initialized, because the caller will take
+> + * care of it.
+>   * @base: the base phys addr of the region
+>   * @size: the size of the region
+>   *
+> - * struct pages will not be initialized for reserved memory regions marked with
+> - * %MEMBLOCK_RSRV_NOINIT.
+> + * "struct pages" will not be initialized for reserved memory regions marked
+> + * with %MEMBLOCK_RSRV_NOINIT if this function is called before initialization
+> + * code runs. Without CONFIG_DEFERRED_STRUCT_PAGE_INIT, it is more likely
+> + * that this function is not effective.
+>   *
+>   * Return: 0 on success, -errno on failure.
+>   */
+
+I have a different version :)
+ 
+diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+index b96746376e17..d20d091c6343 100644
+--- a/include/linux/memblock.h
++++ b/include/linux/memblock.h
+@@ -40,8 +40,9 @@ extern unsigned long long max_possible_pfn;
+  * via a driver, and never indicated in the firmware-provided memory map as
+  * system RAM. This corresponds to IORESOURCE_SYSRAM_DRIVER_MANAGED in the
+  * kernel resource tree.
+- * @MEMBLOCK_RSRV_NOINIT: memory region for which struct pages are
+- * not initialized (only for reserved regions).
++ * @MEMBLOCK_RSRV_NOINIT: memory region for which struct pages don't have
++ * PG_Reserved set and are completely not initialized when
++ * %CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled (only for reserved regions).
+  * @MEMBLOCK_RSRV_KERN: memory region that is reserved for kernel use,
+  * either explictitly with memblock_reserve_kern() or via memblock
+  * allocation APIs. All memblock allocations set this flag.
+diff --git a/mm/memblock.c b/mm/memblock.c
+index 154f1d73b61f..02de5ffb085b 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -1091,13 +1091,15 @@ int __init_memblock memblock_clear_nomap(phys_addr_t base, phys_addr_t size)
+ 
+ /**
+  * memblock_reserved_mark_noinit - Mark a reserved memory region with flag
+- * MEMBLOCK_RSRV_NOINIT which results in the struct pages not being initialized
+- * for this region.
++ * MEMBLOCK_RSRV_NOINIT
++ *
+  * @base: the base phys addr of the region
+  * @size: the size of the region
+  *
+- * struct pages will not be initialized for reserved memory regions marked with
+- * %MEMBLOCK_RSRV_NOINIT.
++ * The struct pages for the reserved regions marked %MEMBLOCK_RSRV_NOINIT will
++ * not have %PG_Reserved flag set.
++ * When %CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, setting this flags also
++ * completly bypasses the initialization of struct pages for this region.
+  *
+  * Return: 0 on success, -errno on failure.
+  */
+ 
+> Optimizing the hugetlb code could be done, but I am not sure how high
+> the priority is (nobody complained so far about the double init).
+> 
+> -- 
+> Cheers
+> 
+> David / dhildenb
+> 
+
+-- 
+Sincerely yours,
+Mike.
