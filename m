@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC67B33A01
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 10:57:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E97BDB33A00
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 10:57:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE11B10E410;
-	Mon, 25 Aug 2025 08:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA8F010E432;
+	Mon, 25 Aug 2025 08:57:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e8t1tZDP";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="AEGBn9W5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D740A10E243
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:57:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E29910E40D
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:57:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756112232;
- bh=7+Og7rUGyFk1HcTP8p4Uyc/PYhGejFb5kkEHeMTwBtE=;
+ s=mail; t=1756112233;
+ bh=oAA+CT+px2mYa4L1i6V3uoLfahqbm3emYiVzADVvBxA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=e8t1tZDPcuW161VQWs4w0ue0FAugHx845eecL9ak/QF7jzENLXTW2i1NZ1kuPpOo3
- QureLvkUvzB5b7fxs2ahRl3275k+M7fu/ByWkA3i0FVS58OFRshrBmv9Xx+8s1dZQ2
- tvq8nGYXON2E0muImZxp1q+NkjOcH07rX9DExONsKx1coznAInXe1YJQv/pVBIc4aQ
- IUjjFdpj0HyPT0oUs9J7q2j5WcDmbe6KhrdwzYcilOPy722smVYgGYhze7hL06WdIj
- A+hj7gYWCleSVtkdIvrRVwRDuxfHrKY9g7uPolB7re9Kz5g1YPbNednZJWezpx8sQG
- 7lWCoUvLQKTcg==
+ b=AEGBn9W5w/Fk012fJNDdhwflF05mz03s9E2oTVMNXywCVseIvtjxmrxf2jqDSpAlR
+ uCa7anbistRiH1HlvsIXBI5REPHMZa2uQP7QUjSN8tDpSAveY6nMoM7PRur2naEnPH
+ xAidZOD2mdTt1y1c7iXJF7hf6TbY6YoTREUa/u9GP9c4llMLgq1WjfDqmHt6EvxL5V
+ 4mC+a7L9LIqs/aIt8lt33Uw/icibgYKAFbUfBTkw8fVXYFiWTTGMZGNs9upePV5Znv
+ VOd8SKJya6/T+L1kBzIQVvKZU3K8WVRKTc8PP/7WnBpBNxDC+xF2mfZIv8l4Ip6rU1
+ YVs8CxZrWvVAQ==
 Received: from localhost (unknown [82.79.138.60])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 7752817E059E;
- Mon, 25 Aug 2025 10:57:12 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 4780517E0478;
+ Mon, 25 Aug 2025 10:57:13 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Mon, 25 Aug 2025 11:56:45 +0300
-Subject: [PATCH v3 5/6] drm/rockchip: dw_hdmi_qp: Provide ref clock rate in
- dw_hdmi_qp_plat_data
+Date: Mon, 25 Aug 2025 11:56:46 +0300
+Subject: [PATCH v3 6/6] arm64: defconfig: Enable DW HDMI QP CEC support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250825-rk3588-hdmi-cec-v3-5-95324fb22592@collabora.com>
+Message-Id: <20250825-rk3588-hdmi-cec-v3-6-95324fb22592@collabora.com>
 References: <20250825-rk3588-hdmi-cec-v3-0-95324fb22592@collabora.com>
 In-Reply-To: <20250825-rk3588-hdmi-cec-v3-0-95324fb22592@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -74,54 +73,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to support correct initialization of the timer base in the HDMI
-QP IP block, setup platform data to include the required reference clock
-rate.
+Enable support for the CEC interface of the Synopsys DesignWare HDMI QP
+IP block.
 
-While at it, ensure plat_data is zero-initialized in
-dw_hdmi_qp_rockchip_bind().
+This is used by all boards based on RK3588 & RK3576 SoCs.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index 39b46327afd8e4753d96962fad66792d22b33402..5280383febe25cf579c306ec1642557600595e58 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -431,14 +431,15 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 				    void *data)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-+	struct dw_hdmi_qp_plat_data plat_data = {};
- 	const struct rockchip_hdmi_qp_cfg *cfg;
--	struct dw_hdmi_qp_plat_data plat_data;
- 	struct drm_device *drm = data;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct rockchip_hdmi_qp *hdmi;
- 	struct resource *res;
- 	struct clk_bulk_data *clks;
-+	struct clk *ref_clk;
- 	int ret, irq, i;
- 
- 	if (!pdev->dev.of_node)
-@@ -508,6 +509,14 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 	if (ret < 0)
- 		return dev_err_probe(hdmi->dev, ret, "Failed to get clocks\n");
- 
-+	ref_clk = clk_get(hdmi->dev, "ref");
-+	if (IS_ERR(ref_clk))
-+		return dev_err_probe(hdmi->dev, PTR_ERR(ref_clk),
-+				     "Failed to get ref clock\n");
-+
-+	plat_data.ref_clk_rate = clk_get_rate(ref_clk);
-+	clk_put(ref_clk);
-+
- 	hdmi->enable_gpio = devm_gpiod_get_optional(hdmi->dev, "enable",
- 						    GPIOD_OUT_HIGH);
- 	if (IS_ERR(hdmi->enable_gpio))
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index acb6807d3461384929e84f4c939fcd00c4b509ae..346ef79c1ddd0a317f0b9a8056c680c29a4e0baf 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -966,6 +966,7 @@ CONFIG_DRM_CDNS_MHDP8546=m
+ CONFIG_DRM_IMX8MP_DW_HDMI_BRIDGE=m
+ CONFIG_DRM_DW_HDMI_AHB_AUDIO=m
+ CONFIG_DRM_DW_HDMI_CEC=m
++CONFIG_DRM_DW_HDMI_QP_CEC=y
+ CONFIG_DRM_IMX_DCSS=m
+ CONFIG_DRM_V3D=m
+ CONFIG_DRM_VC4=m
 
 -- 
 2.50.1
