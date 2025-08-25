@@ -2,187 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F541B34DA8
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 23:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9329B34DB4
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 23:10:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB0010E286;
-	Mon, 25 Aug 2025 21:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20A8510E578;
+	Mon, 25 Aug 2025 21:10:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PTsYA116";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="DC4YZkLM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB39E10E286;
- Mon, 25 Aug 2025 21:09:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756156153; x=1787692153;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=mgyxN7Rs/2YvJE9oLpct6rwGqG1Ddlf3+Dj7pwgLueE=;
- b=PTsYA116/4Rfm5cLZu6RiiCSfS8+xWcMJwE3YazgPV8VdXPdrJtOCc6L
- PaY8gX8L/VKe1r8EXX43KfRhxkNnEnWI3mjWt46eqWILx6VwPo9ZuLpc1
- a7etnQ0e6YVDK6A0nNhLfA4SVEs9kxUd9WjweNHs02CeEW3CmE2dAghDO
- kj/LE2BFVTDHOg0KBpm+cGF+eV4IXAvpkUzehh8LeFb705I7qDJ3pm9lH
- lZChgk/n4Dm4xTtvL+is+HE0aR8DOd2klpOnOhABBFY9dHIJt8IH1dhiA
- GiVKB1jIpI1iem6vucltb0H9X7YgW3yQUkvrdEfaiod6FY3pCgQvhnA7D g==;
-X-CSE-ConnectionGUID: ARYwTvGDQbSroK4ntbU5vQ==
-X-CSE-MsgGUID: oqJueHujRl6Irce7XEozCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69093935"
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="69093935"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 14:09:13 -0700
-X-CSE-ConnectionGUID: 7FHLxNBiSruGtNHci92x6w==
-X-CSE-MsgGUID: 7OR10S13RrezxIxzrtG/Xw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="169330920"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 14:09:12 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 25 Aug 2025 14:09:12 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Mon, 25 Aug 2025 14:09:12 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.51)
- by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 25 Aug 2025 14:09:11 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hXBco8Ql3jNBAEk765S6MUSMqy0FP5W6stjvrmmNGk6Hj8P1MzRbZW61WEFflcGq7sm4efSl2rFPT63AS816G+eemi9SVAF51uKZr7eiqj+kJbVcYjsVVNJSQ3UZP5b6AfXdBsm936GTfxNUnTjtpxwai2LK0Q8s8uZ/xQGQ+N895CI4RIqa1YTf7opV47sPO/yNRFZbwP7qQLFgJhfoadye5mhArf47p3N7eZPjxAgumfzBdTTm54FWGPw4Y/nlWqWlxMEhab9DwH4jBiiWZR08kjBxxcxW38vLx0tkqyFhAT3J/gx62sv0sIf1BCeWZmZ4JZotHnqPJ54TY65qXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HHZmW53/0E+VsV7iCsDOr9WkUaFG5imf98OlOXms/6Q=;
- b=Uzmq2IRJyA6Qk2d91nremTvueABnTCNxV2/AFCEfTx5wvrOAirAyTcSDlv+VWt82RNPqGjbsB4yMIpMs8ABqE9NiPkNV9WA5rkBSsuqJJllRk0aTuUj50jYRuMYwPcJkAh+JoND0lk7tsmqvnwOz7ol6qoNwzgRPRv5SoJ0eU4ysx+Imo8WAt59JWy1cWFVUBJtiQ9YEXYaMKkWHSlfgyaqGvtcweDMEfEC6iDNhVX6UcxcSQbvECbxby8mml8+zuZcyLXIep0JXV9mXsHrSiY1059XOHjzFDYmxlxM4Vb5gc4qrZj+eo7fNGBaYrgclykaunGMKZZxTP1Vw/XbIkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA1PR11MB8200.namprd11.prod.outlook.com (2603:10b6:208:454::6)
- by CY5PR11MB6413.namprd11.prod.outlook.com (2603:10b6:930:37::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Mon, 25 Aug
- 2025 21:09:09 +0000
-Received: from IA1PR11MB8200.namprd11.prod.outlook.com
- ([fe80::b6d:5228:91bf:469e]) by IA1PR11MB8200.namprd11.prod.outlook.com
- ([fe80::b6d:5228:91bf:469e%4]) with mapi id 15.20.9052.019; Mon, 25 Aug 2025
- 21:09:09 +0000
-Message-ID: <5714a47e-8b36-491a-a2e7-5af89491b6a4@intel.com>
-Date: Mon, 25 Aug 2025 17:09:06 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/i915/guc: Add synchronization on interrupt enable
- flag
-To: Andi Shyti <andi.shyti@kernel.org>
-CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-References: <20250822141356.3775250-1-zhanjun.dong@intel.com>
- <lmfc6jvlzgmd3xy7ed7rwk2yp66o572hnp7wmq7t4qlenzwv56@izbw6hrdkfa2>
-Content-Language: en-US
-From: "Dong, Zhanjun" <zhanjun.dong@intel.com>
-In-Reply-To: <lmfc6jvlzgmd3xy7ed7rwk2yp66o572hnp7wmq7t4qlenzwv56@izbw6hrdkfa2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0294.namprd04.prod.outlook.com
- (2603:10b6:303:89::29) To IA1PR11MB8200.namprd11.prod.outlook.com
- (2603:10b6:208:454::6)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFB5D10E578
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 21:10:47 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PGv7Ki024592
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 21:10:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=o5NoSP+kvpf4oCKEIwkFCPBr
+ ErrR3qlyUVN/G6WnM1o=; b=DC4YZkLMVND8ne/s2IQo8cjon2ytCnBP/FLRTRcT
+ IiYyfsb0jaqG6Tob0so8DryTQo4nefIN/tAANhpd9rfYEdzF59h/Ii1nnYW0jbZB
+ m/i95Xs/dr2h+O7uhsbXheqPKd5G4i2sbzG4dMzemLbYvt3hEei9LXsBHi4d4I0d
+ 8q4BdCuCuiD48GxzJGkTzb3jsXjtHPsFUBsvcVXto5JtnrlFgFiYJlxD4332jOx6
+ ehtIquPaPbrGDYCvMFWz+Jbus9G12Z1ZtAFQ3c/uLA8NTKZp+YYQLw4+d4UyYlb8
+ Qf9tJgZLid4qNrClcfQdoYuwUxVX4f5ZryhtiObcrskPZw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48rusk8mg2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 21:10:47 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4b1292b00cfso48090921cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 14:10:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756156245; x=1756761045;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=o5NoSP+kvpf4oCKEIwkFCPBrErrR3qlyUVN/G6WnM1o=;
+ b=jdctHjaMw9UC8sRIo50K6CSpvbBVeiri/BT48WBvDRJSv2KCv9UQ5UTZ+LeqPNHeZa
+ Wi+SG3vxfhgwGgcW2BAp+YeeZ1/2s7s0Lunu2Jpvc5mYSgAwF+Uy6PihHdC0FF5sN5l/
+ dvmKYDVs8EakE1rf+s+w+ZbrcY0Ri8RsYX0RKXa5VHJNDYZKKgFA3oR9PN4pjJ7lpk61
+ YhA29KYzH5a/c7lFfeRPmh4VpKsD5UTvI2oI8fRoqPSdEYmaaczrQbr03VkPQdvVLufw
+ iGPJKomu5rIkKXRx080xBcSSviiRRmIc6OmMShnDwnXYnKlz+e3BvO1GZ04QyRXdHIAY
+ KzXw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU6/s2LAz8sv+HoP8DSjPXsWdJRM709G01/cDdUSW92WQ9GUZe7aWzKkW+KlrmNIhk7+4Y/KQ2BYs0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxghiMinaITziX93QlUTavL/QDr5YTHFbE1SLm+0YfHTH7V6NZN
+ ROPLCen40gQ4GH+Zqk/YyJiI2XsxzKsz1TcqcXanssn8wjm6Q6XuMpPKh6Nwd1qMJvlt4Q+R8Lc
+ 0y0TORIXsc29AaR6kiXbaa0Fq08C4jtfbAr0npypb0OqbVcgKAUzVPNGOAxtSVCXKymhiELE5As
+ xtT3k=
+X-Gm-Gg: ASbGncsAOnJjxME4INA0amPKArX/k8qKalMoyxWJsGRfq3VjYjTmKJuWY++7c3rLCe5
+ 3HMUrL0XJXw8LzXWw3f8VUz7gPdONESx48TyWWN4qwLL0Iy4dbzcSqBv/M5wk8GYRzlL2QzXrpp
+ bOWwAUPe6wDv1PIGLxwmoF5N6tYLV4+nFYzocNxeps5s6vS7gYM3IAT6tntP8vwxaAb+CIexDOY
+ Hmq4CzZrrIqXhGYvHyAXAk6velw/GhbIt1Og/UgB25BxK/pu2dYL5Jd5AMuTK43p9vl+ps2G4zx
+ 7WvKMBMTUc6/GTDgrStgru8H++bWC82WPNiJDAC7PwDfLO8ldjxHC1vxL/f/PLo6NIRnq6yEXvy
+ mtlgCDvWr0Cp3PG+h1AhWaoAlNeClo3Vb53XX7k39BjFlHUv+fHA0
+X-Received: by 2002:a05:622a:241:b0:4ae:cc75:46e7 with SMTP id
+ d75a77b69052e-4b2aab44eb1mr153288461cf.57.1756156245451; 
+ Mon, 25 Aug 2025 14:10:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGo1/N0DbFsRaUXJYQAheMpfHeFkegCfsbtibM2neyB5yZ+Wlh3+3JMp7GtjIumnjz3kcEsdA==
+X-Received: by 2002:a05:622a:241:b0:4ae:cc75:46e7 with SMTP id
+ d75a77b69052e-4b2aab44eb1mr153288021cf.57.1756156244734; 
+ Mon, 25 Aug 2025 14:10:44 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55f35caab61sm1814974e87.140.2025.08.25.14.10.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Aug 2025 14:10:43 -0700 (PDT)
+Date: Tue, 26 Aug 2025 00:10:41 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v3 17/38] drm/msm/dp: add support to send ACT packets for
+ MST
+Message-ID: <mtli7kelybfot6ai3lqjagy6hahnpkimqjnjbk26shaoekqoht@cbycvfsmry4o>
+References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
+ <20250825-msm-dp-mst-v3-17-01faacfcdedd@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB8200:EE_|CY5PR11MB6413:EE_
-X-MS-Office365-Filtering-Correlation-Id: abbcd810-26ff-4ea1-6740-08dde41ba238
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ejhGNS9maFZ2a1l0Tm1OVm5MY3pPOXNkQmwzMTFBSkdoV0NmKzlhUlFFOEpN?=
- =?utf-8?B?Umo3K0tiMVI0ajV0TGJqWkhTdzkrUHBaS3pNNDNNVGVtWGRhamNUSmVESlRl?=
- =?utf-8?B?UEk3YVRUcy81bHJLYXNGNWhGc3dDM0RuK2o0SjhIUFVjRjkwRG5KYTVVSUR0?=
- =?utf-8?B?aWFRTkwyZm1hZ0JFTFplNXpMSklxeW9kZVBQUWtMaEtsUUV2L1BFVWNlZ01Y?=
- =?utf-8?B?OU5jSTZrSHVFWWhyYWUwVHdkYjYxemJsWTNpVHJxY2x1ckF1WjZQSnpROVZJ?=
- =?utf-8?B?RnN2aXBRbHlmcG14T0pTeTluN3ZSY0tBQXJNQmVrOC9NanpkZDJVaFJrcVdL?=
- =?utf-8?B?T1hFSlllYnJ6b1lsMDRUMGtQaDlwRmtVSkpMTitCcVpkUlRldUZ3VXZDYXFv?=
- =?utf-8?B?Yyt4aFFDKzJTZHozcVdWR1NGS1NnakNtYUxkTDB4QjZhc1JvbzRwVURwWlFy?=
- =?utf-8?B?Q3Jza2J1ZjFadUxrbS9NYllCbVRDM1FMc0JnWlB5M1BQeFZLRlh2VEFCTGNX?=
- =?utf-8?B?c2VaQ1VUT3MybGJ2eEhUbFUxNUk4NEJXY3NLNHpMNSs2WHhDd01jdDdTNWZi?=
- =?utf-8?B?MHlrUjlEZWhHdCtNbTVOUldVS1BsN2poQ3h4Tkd4Qkx5NFVPUENhbnRBa0wv?=
- =?utf-8?B?UlB0RWw5L040OEZSUjhkblY2ZnpiMDV0RVZvYU9SanNzNThZRGZtM2s0RHRK?=
- =?utf-8?B?TWx1aWVIQnJ6QVBvVEY3N3I3d0NmaldaUTQxa3lZN1RKUXhidFpOS2NZNXlL?=
- =?utf-8?B?MDdoWXB6eVMvU2N1VktIeDRQMXdLSUFVTzR2RzJmMzJFV3pXOGc4T1MvS0Qz?=
- =?utf-8?B?WitaMkdmUTJ3NjEydEwxb0pMcUEwWFJqcmZxY2FwTWpIL0x6UllvOGVKWnBG?=
- =?utf-8?B?N3dWRHlqdTFmWUsxZVBlNGpINjMzVHRNMnVBYTJENHFMbUk0WUg1MFBlMGw4?=
- =?utf-8?B?L3NPQUJOdkZCOFJLVDdpaTRpZXV1NFhUL2hxdWtKS1l4cHM0MHZRMzFEZWZw?=
- =?utf-8?B?OG9OYlluUDFxUTd3V002L1VDOC9zTXhRMnduVkR5QnlLRWljUkFYa3dhSzNP?=
- =?utf-8?B?Znk2TnZ3TlJSRHBKaG5oWUhrVVE4M1lJSW1aNTFGTVlRWUxPSUEzbFpISWMy?=
- =?utf-8?B?UU1JUEVSVVl6ejRZaDhMRTMwN1UxeFQ3TyswLzVsbG01VWduVVZPamVLbzRo?=
- =?utf-8?B?QStGUVNkd2JCMmUwZVdFNlZKc00vUlU5YTZ1UnZLWDNXWnVQNE9ISi9xV2tn?=
- =?utf-8?B?VGdDOXA3enlyeTdZYVBacWhEakNYbkl1a1kxMFQzSVVxdzlScXRMWnAxNmU0?=
- =?utf-8?B?T0tTM0pEK04yb2V5MTVwTEhSMVAzVGIzUW12WTRKQWpTQklld0NuY0wycUVP?=
- =?utf-8?B?b3gzTUZseHdEajdhMVZSSXRMTmlNMkdLUnlIdGZaWDJacysxM3MrNk55T05Q?=
- =?utf-8?B?bDZtRnBsTVN2b3FmQUZERXRJR09qTCtpRUI3SzlFYXF4MTBBZmJUSzhuN3NG?=
- =?utf-8?B?dkhpaGZJZmVqRkFLcU9BLzRvNTM2SUtTaDNMSmxDcVZ4KzNKVDdycHh6WmpN?=
- =?utf-8?B?UWtKQ3V2ZnVHcXl2NjQrdldIV1U4bWh1ejZCMDJpaXNCbHZReWlzUmdoS243?=
- =?utf-8?B?WEtLQzhCMXNiUS9RT2k4Y0xjSzgwamVGelZSeHFWM21CcUtSeEtzRUIyNnNl?=
- =?utf-8?B?MXFmSjJDeEpBNmpXalJSa216MncvVUVVRFE3Z004VEl5ZlNFeUFweW9wbG5x?=
- =?utf-8?B?ajdhK2t4bXZLZTVHWjhqVndrb1JMNE1vOWNLWjFxT2l2MVJCVHNkeUNMblpV?=
- =?utf-8?B?ZWZSckdMR0tib09mMGxhWXF2cWNZRlB0b0ZyUEtxYUk2Mmc4OWF2cjVhcUxo?=
- =?utf-8?B?VVYrVHp0ZXZsVFhGZWJvY0dYdmdPRHByZkpXTmpQcXpXUm0yQjdncnNyUU1t?=
- =?utf-8?Q?/FUosWRecAY=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA1PR11MB8200.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHR6cnI2djZRYUNMVnJKdWxDYTNYdHlSeGRxazVwYmZMZ0VyNy9ZWUZjU0ZQ?=
- =?utf-8?B?OXU4Q1FBYTI2WWtJUm9BTmttTUhiSU9pTVJFc0l6VUNaLzU5WjFWb0ZtNW0z?=
- =?utf-8?B?OUhISlVaZkdFMXI4VUJjUC93amFyL21meXI3SEtEZzZXTDNKYjg3cGQrZ2Jk?=
- =?utf-8?B?SHM1UC9TcTVWZU0veUJwdkNlMFpKbUFGQ295cDdJUUxMUWw2L2QrMzRXVGQ0?=
- =?utf-8?B?QWo5cmVrUkF2dXVrak5sMTdmUTdySzVqNHpZbkxSQVJacE9WVUdxbkxFUVRy?=
- =?utf-8?B?S0ZRVk5DV1BzOGNwNU5rM0dsNTQrOGxvK2NkRys0aEFsMnFYbmFtVXIrb3B1?=
- =?utf-8?B?RnkwcGhENWNZYTFUWm5nSHVEN1ROOFliS1JZd3VEbnIwczJ2UFJLZTJXMTZN?=
- =?utf-8?B?NHRKeDl4NXFLYlNPYmtwMzVlNGxhZjZqeFNjSTRiSVF5c0JvN2F5YitOMmxh?=
- =?utf-8?B?TGVCVll3U1ExL2dIcDQrTVNTeWhJaEdDelJLaTd2ODBNYnpvbjgySWZBYVE4?=
- =?utf-8?B?SFZZYk5TaDBrdW1VenJOTUlqeThNSG8vQnVIUitqSXorWDNleW5lT29pMGJI?=
- =?utf-8?B?aWtNS0x0azBSRDI1eC9SL1hEWjBhcG1zZFBlM1lwTi9LNm53a0F4c3pHSnoy?=
- =?utf-8?B?ejNkMmpONUFEK3pnUEhoOFNkdEdXZHExRUZwRmdFdjE2c3pBZ0ZZVGU1aWtM?=
- =?utf-8?B?SWJEVmFwbm9OUTZIelozampFc2pnNjZZYU5SUWlOMDEreWxhb1J0QjRrbG9m?=
- =?utf-8?B?QTNQRWZTTWNUTHp1TE9wMTJWYmlLdGkzaUhFMjJaVXBUcFV5ZnFZVjM3YzdM?=
- =?utf-8?B?a3JyS21KT2VvZ3NvSkZBWjh5T3M2bzErMTNHRVVGZm4vU1cxcmxYTXlsdGhX?=
- =?utf-8?B?b3FzVS9kWWt6Vm9YZzZOdUk2SFlhNTNLMkRQWmZ4RXh0OVBIZEZFVGY0VlFa?=
- =?utf-8?B?ZkJWTmZwZTRMaU9BNGtuZjJVQTh5bXdDWW9ONlptWVlYOXZiNHpORW1DZjVu?=
- =?utf-8?B?N2dLWGpndS9MZ1RNRkpFK2hlUCtZR0RlUzJPc3lva3YxQllmMkVRZy9aUmpB?=
- =?utf-8?B?U2E1NjgwQlNDdk90R0U5RW95UjdZdjZoWC90L3lhQjN5dnpJUmN3dDFLUFQ0?=
- =?utf-8?B?dzlmcHQrdE10SG1PMWpNblBNUWc1NVd1S2dPNkQrUHFieUdCYUd5Mm5Hc20y?=
- =?utf-8?B?N20rWDVRK2J2SUt1VEFpSWYxZlBwck45bHpSalBlaG9vS1ZpL3dTS0JzS0Rt?=
- =?utf-8?B?cGlQZUl5UXdVMGdUVkdKbnVycUVVRm1mUkVSTXlVaHZ5bkFBWFdtRkVHT1Bj?=
- =?utf-8?B?ZXFkUWNrMlRoYjN4elFXSlo4OEh5eEdjYjdiTnRDR0lzdEN4eTZJYUNHSVI0?=
- =?utf-8?B?SHplM2w3ak5YeEY1a0h1TGY0MHVKdC96a09BVzBjVnR6TTRZNmFHNUhCRTMv?=
- =?utf-8?B?VDM3dG5UbXN2M3UvaE9zODlKbFJkT3lwdjdLaVJhZGpqdHRQd05URXNlbmdp?=
- =?utf-8?B?S0Q5YjBrclhhMXBUOWRBYm1PclNYMDNPY1hNcDZlTHlEbjF6OHgyUVJIdWpS?=
- =?utf-8?B?QUlqZW9uM3ZUMVN6UFZUckN0ZkJ6b0p1bkJTTHJrR2VtRmlzdzJscitwVVJV?=
- =?utf-8?B?V0dOUFNZUjlVOStnNU5YVDQwTkxlcEpPNkdCREdJTmUzaThvK1NYeTB1T29L?=
- =?utf-8?B?RHJzNSt2K0dRMENYelBjYWZpS05iaVVJc1FrNnU1bVNVYUFtZHgvTFZManBN?=
- =?utf-8?B?aVVvb01BeEZHVmFiQmdYVFJYKzNkaGwyK0t2blU3SWRBczJGaElySktmdGZp?=
- =?utf-8?B?UEtsUUtwWmZCZGl2MnBYNzVWU2tQTnpIRmR5OHpDRkRIN2xpRGJ5T1VPbGpy?=
- =?utf-8?B?Tkt1NjRubmY0ZGNUbTN1SSs2V1ZBUXJYaHNjek8vSVpZQzBmSkRienBGQVo1?=
- =?utf-8?B?NHMwcnkwV0k5Y0c1MWJZMlUxN3RpS3ZHTzZCMURhWWh6RXJTcmpJSHAwYTRP?=
- =?utf-8?B?L1ZaM0FDT3JWcUthN1h0Y3JQT01XU3ZxWkU2S1I1T0hXMkJHWEpQTnpURXB3?=
- =?utf-8?B?MDFucHVrS3Qwc3lIc2tISFM0REo0TU54MHhlUG1wcHRwOUNtV0R3b0xSdGRO?=
- =?utf-8?B?cnJyYTZGeUtPN1gvZjlKeHVzMnN1b0RMOVNqZTl4bzJ3cGdpZTN2Vk02RCt4?=
- =?utf-8?B?cEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: abbcd810-26ff-4ea1-6740-08dde41ba238
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB8200.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 21:09:09.5364 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B7OatOZoXT6H0yiIiDg9dliqHDg6a/cMEsc/Gm1856LSBDhDBRcQGKWZQ10U+opgLkf9ct9yZC8KjA/WvrxiRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6413
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250825-msm-dp-mst-v3-17-01faacfcdedd@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=SY73duRu c=1 sm=1 tr=0 ts=68acd157 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=xirQvcjanROXNmDBG14A:9
+ a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 8kosF8LVTS5gBLWHjVnfePaFN2oHVvyt
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI1MDE1MyBTYWx0ZWRfX7zTdslm1dwBC
+ ZBH/0tebt7VoI3NswAYCAk072swWzPHaO0Ul4FBHrxJCAXdIJWSvNm8eLsJjAvcJuj4cfUdvYwH
+ yj0yL7H1ZEeDa3FqZ/t8Sx9u5J2FzFLcuAIeAsZLnF/WmegrbtTeXxi1aO+Q+sebztqYkt/Mw4C
+ Zm5tUHxMAKRlbxP4tw8s0FPNJxpCrIf+gJDKC6vWXIWFPNWyaki5o13CtDMv2g+ri1KFZ6+/YDG
+ qgwDlv5l0RLO4KXOlL0fgK1CZwpm7E26U+M5kRLi0Kfo0Bq60KeUNVU2+kKTaT4h2w2M6JZEQr1
+ Qfi3ldDTQvk4bVID+uYOsJhbAq2JhqPF3YlLGtZ/RtTK928LqpuiI4nTgjvh0VBPJDfg5dlUtHg
+ v6HAonsx
+X-Proofpoint-ORIG-GUID: 8kosF8LVTS5gBLWHjVnfePaFN2oHVvyt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-25_10,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ adultscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508250153
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,51 +132,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-08-25 6:00 a.m., Andi Shyti wrote:
-> Hi Zhanjun,
+On Mon, Aug 25, 2025 at 10:16:03PM +0800, Yongxing Mou wrote:
+> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > 
->> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
->> index 75e802e10be2..21804eec8320 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
->> @@ -20,7 +20,7 @@
->>   
->>   static void guc_irq_handler(struct intel_guc *guc, u16 iir)
->>   {
->> -	if (unlikely(!guc->interrupts.enabled))
->> +	if (unlikely(!atomic_read(&guc->interrupts.enabled)))
->>   		return;
->>   
->>   	if (iir & GUC_INTR_GUC2HOST)
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> index f360f020d8f1..48148cb6cba0 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> @@ -100,8 +100,9 @@ static void gen9_enable_guc_interrupts(struct intel_guc *guc)
->>   			 gt->pm_guc_events);
->>   	gen6_gt_pm_enable_irq(gt, gt->pm_guc_events);
->>   	spin_unlock_irq(gt->irq_lock);
->> -
->> -	guc->interrupts.enabled = true;
->> +	atomic_set(&guc->interrupts.enabled, true);
->> +	/* make sure interrupt handler will see changes */
->> +	smp_mb();
+> Whenever virtual channel slot allocation changes, the DP
+> source must send the action control trigger sequence to notify
+> the sink about the same. This would be applicable during the
+> start and stop of the pixel stream. Add the infrastructure
+> to be able to send ACT packets for the DP controller when
+> operating in MST mode.
 > 
-> Are we sure we need the barriers here? Can you please explain
-> better what you are trying to achieve?
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 39 +++++++++++++++++++++++++++++++++++--
+>  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  4 ++--
+>  drivers/gpu/drm/msm/dp/dp_display.c |  3 ++-
+>  drivers/gpu/drm/msm/dp/dp_display.h |  1 +
+>  drivers/gpu/drm/msm/dp/dp_reg.h     |  2 ++
+>  5 files changed, 44 insertions(+), 5 deletions(-)
 > 
-> My idea of barriers was to use in order to avoid converting
-> everything into atomic, which doesn't necessarily mean that it's
-> the best solution, it was just a thought.
-> 
-> But maybe I misunderstood your intention.
-> 
-> Andi
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index 608a1a077301b2ef3c77c271d873bb4364abe779..16e5ed58e791971d5dca3077cbb77bfcc186505a 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -142,6 +142,7 @@ struct msm_dp_ctrl_private {
+>  	bool core_clks_on;
+>  	bool link_clks_on;
+>  	bool stream_clks_on[DP_STREAM_MAX];
+> +	bool mst_active;
+>  };
+>  
+>  static inline u32 msm_dp_read_ahb(const struct msm_dp_ctrl_private *ctrl, u32 offset)
+> @@ -227,6 +228,32 @@ static int msm_dp_aux_link_configure(struct drm_dp_aux *aux,
+>  	return 0;
+>  }
+>  
+> +void msm_dp_ctrl_mst_send_act(struct msm_dp_ctrl *msm_dp_ctrl)
+> +{
+> +	struct msm_dp_ctrl_private *ctrl;
+> +	bool act_complete;
+> +
+> +	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
+> +
+> +	if (!ctrl->mst_active)
+> +		return;
+> +
+> +	msm_dp_write_link(ctrl, REG_DP_MST_ACT, 0x1);
+> +	/* make sure ACT signal is performed */
+> +	wmb();
+> +
+> +	msleep(20); /* needs 1 frame time */
+> +
+> +	act_complete = msm_dp_read_link(ctrl, REG_DP_MST_ACT);
+> +
+> +	if (!act_complete)
+> +		drm_dbg_dp(ctrl->drm_dev, "mst ACT trigger complete SUCCESS\n");
+> +	else
+> +		drm_dbg_dp(ctrl->drm_dev, "mst ACT trigger complete failed\n");
 
-The barriers seems not needed, the synchronization issue is for 
-interrupt.enable only, no extra memory barrier is needed, to be removed 
-in next rev.
+Shouldn't it return an error if the register dind't latch? Also,
+shouldn't we set mst_active only if the write went through?
 
+> +
+> +	return;
+> +}
+> +
+>  /*
+>   * NOTE: resetting DP controller will also clear any pending HPD related interrupts
+>   */
+> @@ -2079,6 +2106,8 @@ static int msm_dp_ctrl_link_maintenance(struct msm_dp_ctrl_private *ctrl)
+>  
+>  	msm_dp_write_link(ctrl, REG_DP_STATE_CTRL, DP_STATE_CTRL_SEND_VIDEO);
+>  
+> +	msm_dp_ctrl_mst_send_act(&ctrl->msm_dp_ctrl);
+> +
+>  	ret = msm_dp_ctrl_wait4video_ready(ctrl);
+>  end:
+>  	return ret;
+> @@ -2275,7 +2304,7 @@ static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl
+>  	msm_dp_ctrl_off_pixel_clk(&ctrl->msm_dp_ctrl, ctrl->panel->stream_id);
+>  	msm_dp_ctrl_off_link(&ctrl->msm_dp_ctrl);
+>  
+> -	ret = msm_dp_ctrl_on_link(&ctrl->msm_dp_ctrl);
+> +	ret = msm_dp_ctrl_on_link(&ctrl->msm_dp_ctrl, false);
+>  	if (ret) {
+>  		DRM_ERROR("failed to enable DP link controller\n");
+>  		return ret;
+> @@ -2355,7 +2384,7 @@ static bool msm_dp_ctrl_channel_eq_ok(struct msm_dp_ctrl_private *ctrl)
+>  	return drm_dp_channel_eq_ok(link_status, num_lanes);
+>  }
+>  
+> -int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
+> +int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl, bool mst_active)
+>  {
+>  	int rc = 0;
+>  	struct msm_dp_ctrl_private *ctrl;
+> @@ -2373,6 +2402,7 @@ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl)
+>  
+>  	rate = ctrl->panel->link_info.rate;
+>  	pixel_rate = ctrl->panel->msm_dp_mode.drm_mode.clock;
+> +	ctrl->mst_active = mst_active;
+>  
+>  	msm_dp_ctrl_core_clk_enable(&ctrl->msm_dp_ctrl);
+>  
+> @@ -2643,6 +2673,8 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
+>  
+>  	msm_dp_write_link(ctrl, REG_DP_STATE_CTRL, DP_STATE_CTRL_SEND_VIDEO);
+>  
+> +	msm_dp_ctrl_mst_send_act(msm_dp_ctrl);
+> +
+>  	ret = msm_dp_ctrl_wait4video_ready(ctrl);
+>  	if (ret)
+>  		return ret;
+> @@ -2682,6 +2714,8 @@ void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl)
+>  
+>  	msm_dp_ctrl_reset(&ctrl->msm_dp_ctrl);
+>  
+> +	ctrl->mst_active = false;
+> +
+>  	dev_pm_opp_set_rate(ctrl->dev, 0);
+>  	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
+>  
+> @@ -2849,6 +2883,7 @@ struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link
+>  	ctrl->link_base = link_base;
+>  	ctrl->mst2link_base = mst2link_base;
+>  	ctrl->mst3link_base = mst3link_base;
+> +	ctrl->mst_active = false;
+>  
+>  	ret = msm_dp_ctrl_clk_init(&ctrl->msm_dp_ctrl, max_stream);
+>  	if (ret) {
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> index 2baf7a1ff44dd7139d2da86390121d5e7a063e9a..abf84ddf463638900684f2511549a593783d2247 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> @@ -16,7 +16,7 @@ struct msm_dp_ctrl {
+>  
+>  struct phy;
+>  
+> -int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl);
+> +int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl, bool mst_active);
+>  int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *msm_dp_panel);
+>  int msm_dp_ctrl_prepare_stream_on(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train);
+>  void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl);
+> @@ -50,5 +50,5 @@ void msm_dp_ctrl_enable_irq(struct msm_dp_ctrl *msm_dp_ctrl);
+>  void msm_dp_ctrl_disable_irq(struct msm_dp_ctrl *msm_dp_ctrl);
+>  
+>  void msm_dp_ctrl_reinit_phy(struct msm_dp_ctrl *msm_dp_ctrl);
+> -
+> +void msm_dp_ctrl_mst_send_act(struct msm_dp_ctrl *msm_dp_ctrl);
+>  #endif /* _DP_CTRL_H_ */
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 562a5eccf3f08c5669cc7c2ad1268897e975d0c4..eeba73f81c5ce7929dac88f4b47ac3741659864b 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -709,7 +709,7 @@ static int msm_dp_display_prepare(struct msm_dp_display_private *dp)
+>  		force_link_train = true;
+>  	}
+>  
+> -	rc = msm_dp_ctrl_on_link(dp->ctrl);
+> +	rc = msm_dp_ctrl_on_link(dp->ctrl, msm_dp_display->mst_active);
+>  	if (rc) {
+>  		DRM_ERROR("Failed link training (rc=%d)\n", rc);
+>  		msm_dp_display->connector->state->link_status = DRM_LINK_STATUS_BAD;
+> @@ -1557,6 +1557,7 @@ void msm_dp_display_atomic_disable(struct msm_dp *dp)
+>  	msm_dp_display = container_of(dp, struct msm_dp_display_private, msm_dp_display);
+>  
+>  	msm_dp_ctrl_push_idle(msm_dp_display->ctrl);
+> +	msm_dp_ctrl_mst_send_act(msm_dp_display->ctrl);
+>  }
+>  
+>  static void msm_dp_display_unprepare(struct msm_dp_display_private *dp)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+> index a839d0a3941eac3e277185e42fddea15ca05a17f..9442157bca9d63467b4c43fa644651ad2cbcbef5 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+> @@ -21,6 +21,7 @@ struct msm_dp {
+>  	bool audio_enabled;
+>  	bool power_on;
+>  	bool prepared;
+> +	bool mst_active;
+>  	unsigned int connector_type;
+>  	bool is_edp;
+>  	bool internal_hpd;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
+> index a806d397ff9d9ad3830b1f539614bffcc955a786..de3d0b8b52c269fd7575edf3f4096a4284ad0b8d 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_reg.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_reg.h
+> @@ -158,6 +158,8 @@
+>  #define DP_CONFIGURATION_CTRL_BPC_SHIFT		(0x08)
+>  #define DP_CONFIGURATION_CTRL_LSCLK_DIV_SHIFT	(0x0D)
+>  
+> +#define REG_DP_MST_ACT				(0x00000500)
+> +
+>  #define REG_DP_SOFTWARE_MVID			(0x00000010)
+>  #define REG_DP_SOFTWARE_NVID			(0x00000018)
+>  #define REG_DP_TOTAL_HOR_VER			(0x0000001C)
+> 
+> -- 
+> 2.34.1
+> 
 
-Regards,
-Zhanjun Dong
+-- 
+With best wishes
+Dmitry
