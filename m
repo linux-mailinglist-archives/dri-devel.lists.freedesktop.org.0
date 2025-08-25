@@ -2,171 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194E2B34731
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 18:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53501B3474E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 18:28:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70B0810E4F7;
-	Mon, 25 Aug 2025 16:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D6010E118;
+	Mon, 25 Aug 2025 16:28:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LpdWRuxS";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Am6SHu5m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B36F410E4F7
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 16:23:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756139034;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ZJ9VR6/AHZevQeWHrHcSWQbnm5iFaXQGfgpXOMo3AYo=;
- b=LpdWRuxSJqX/FwRxyo3Hn4VIOsQN8mLbwH4XJHO5g9zH+CA8+Az+nyATyH7t5hsGmS3KmP
- vWDrKjTu1jigWdw+nvdKmOPS9HTZlrdg1OlK+x8IM60cdz/F61MpuluYVpxq4UusydZSzK
- l5bvmf4RXY9v3NQDNXw8hwX/NeHYjUI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-347-CRFZSS-NOre5PH8rXlj5Uw-1; Mon, 25 Aug 2025 12:23:53 -0400
-X-MC-Unique: CRFZSS-NOre5PH8rXlj5Uw-1
-X-Mimecast-MFC-AGG-ID: CRFZSS-NOre5PH8rXlj5Uw_1756139032
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-45a1b0cb0aaso34959465e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 09:23:53 -0700 (PDT)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95D2410E503
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 16:28:20 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-770522b34d1so1375729b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 09:28:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1756139300; x=1756744100;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=woAfhn5HDSfsOd/+1jhyZYr6YehlXkPj2oA1ClHW5m0=;
+ b=Am6SHu5m9EshFDRREZUfK3yIAf19hnR0KvRQuojN/EJdePLNpnOYOvoX+yGEjJPs3x
+ 3eoXS440ID4ctBzy6/Iwcv5ByOwZ7/VCRCtBqL9nE1x4uaqKpLx9B6IhTIe23v7JdIGc
+ uOLUO18SpMQrnHGCiQX+C2H7SCAqBhNZvTJCc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756139032; x=1756743832;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZJ9VR6/AHZevQeWHrHcSWQbnm5iFaXQGfgpXOMo3AYo=;
- b=iOlmNTb1aSPz8YfT9vPjM1tfM/9RIEvE4UZu/whVqUBotLICgYUcmmWPrswyKrkAkf
- medy4bTaKr4KGOR6Kx0SssOTdvoYRhQClCfw+jL/v9uLApfqCTmwJ70Mqt3if6cv+IJ2
- xk2buHJqdJO+tAFf1BidQASNsAoL89IIg4AcF8ZA7KyqZIv0YdkHgV0N7gKmIr5iu6cd
- 3545je2m3r4Y23LIauG4Nhs66KOZVw0UXNkpmAJXhJGVM9nZ5znX6mt2xmwUDq91woeJ
- MHqm6QOGPeRtWp9P3gqJaYoyUHtHEC38b2k4e/uavm4R4M1TKIgl38Yp2U9cm/lFUqwU
- xbHw==
+ d=1e100.net; s=20230601; t=1756139300; x=1756744100;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=woAfhn5HDSfsOd/+1jhyZYr6YehlXkPj2oA1ClHW5m0=;
+ b=HG1B6GoxewzMLhXVlKEUtpXVyUuvV+Y73JRCju4PSGDZAnewMema+F6Px0jHyJIo0G
+ 4TEYykHej3pA4yVGXCy8UK2z/eCWvaZcfM7K3PLt+69E+p4OdxHEhKRlEcd/bu80iG/8
+ B2nb/4s6P9DgcabdiJqe+mTV8FJt40p25zPtVFaFXyLBzsfBtXiKmBpcS+o7aBJaNmJt
+ oryxvB7/lWiOGI6YK6/qYRFKAh17b67DXcGkVYIGZcKL/dYCMLK4SMB8/pat+spdNfJJ
+ i9Q4PaNo8lYf/6dTCwAC7v07ajLQfUZ6P2vciLoXkV/nSnf6Z+j3c18MuAsLGywh7+yX
+ afpA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUOsE/I0xPaxyzOs2Pk5//FAQDXVM6wwLlEzUutVOIu8mRF2ZZcCoh5+wjndTSnkkT1OQfVCnkJNb8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzyMKlneIZW3VwfGgIBcDMCFWXjw6Ls09qKbM9hK7gGrtpAVjCq
- UHdCWA3FnE205tLoeFts8pKwKHGOGp7IFp97dosDbWEvOr/zOqoBVC/IdjIH/m4DDBW/Jd2wRBu
- 5ix5KwQtUS3AeoyzK9UhTJ6Nuc8moBIfzKn3X+GvWrBl/1Ok1DNUHYPxMUj8hFlDdr/c97g==
-X-Gm-Gg: ASbGncv6h0ovYKxThkncmhcKplP3HoB9ApjRs9u7sGQRCSJsDMenVi6+FP5sJWMSgam
- ZmvMlzzqXEI6gzZYibCra9wKUqpvhkA6ncmk1U1aE7XT/17Y7o3ncoxdC+NGZqe84MU4vzxnjZ4
- JlOHrIp4sGjSDvUSM7kZpyKBirQeh03dVqvgp2alY4vzWH3YG0rjbYjgRx7U0SmSP2xA/lIB1pD
- h+LK9toLP8uP5W6lSDDKTtPBDUtUKFeuYrRcyEfthvYpZ8T1oD1aFW0/0wZGHTAzgjApbrq8i1z
- btfBSXXwQF7yFPR5dKRHFHNi7948QmU55C8WbE69fDeB0iWPX4bLNcNpkOezigxRFsL6LoF80X7
- srE0p7+8UhY+CUVWBiZ+Bd7AaMw7Rqqg/6XbZjX0nUnpfTOlFXbtYaHpHHahqvJrAYwE=
-X-Received: by 2002:a05:600c:4685:b0:458:bfe1:4a91 with SMTP id
- 5b1f17b1804b1-45b517c5551mr109881875e9.20.1756139031902; 
- Mon, 25 Aug 2025 09:23:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFwiDwmGl/nPb74qkNKdwOJy23XqbHKXC5/+W47v3i62q/hY+QH66S6ZkeqOx/rk3ktbwdSNA==
-X-Received: by 2002:a05:600c:4685:b0:458:bfe1:4a91 with SMTP id
- 5b1f17b1804b1-45b517c5551mr109881195e9.20.1756139031315; 
- Mon, 25 Aug 2025 09:23:51 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76?
- (p200300d82f4f130042f198e5ddf83a76.dip0.t-ipconnect.de.
- [2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45b5fec8e80sm29037215e9.0.2025.08.25.09.23.48
+ AJvYcCVy7DoOIGYUP+5cvWeEHKrXzMbwe1RnKzLk4Es+rbWA83ssF9ZfkKICjHddQWpD2w2IVMO97Y+UUoU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw4JLF11EQ2NTnaaXI5/WPLmrdY4tG9lcKxhnEGdtXtU1WLNBmt
+ CkO5kd6NJS1/pOuxzyy7uAGAItQIbzWg2k6MFVHZJKxoIDfHyKp51o9xTDouNF+hPu52Apberg9
+ O+ag=
+X-Gm-Gg: ASbGnct3dlkZAyotjtLu3XecOktMPeFJc0h1v0iMwoKc3TPf/G+ccPpbAzK6ysu6QFO
+ HF+epRrtxviHCPQLpWwyWFDNh76cqeGzaW7r4vii5Kq9aHI0zwQhoLqYVfxR++JaU6cRaUiBNET
+ 2sWvAX5LsZu79KFyK0yd5MSBqVwEs4Sr+4EQrqLdUJf8pS1H2Tw4pD6rjVz8fmdb1GzR8NWR3N8
+ UwjmCzUeBM1j/HVd0UBhgag/30Y6Qxi8Q5nbPQbbEQ0/6G9vSqAyPz8ktdpsV4vsknHa7ikcCXo
+ vGaS9FtNmaNP6NBoQOyzZFGchLiHsTIu9xhsIXjZbX9MCq4MwJ7issnQygNlwCkzBuxPsfjiPEJ
+ dOw1tyfVHK+CQawlliLLfCNaAnkyEbTXhLBMH1L4ZA+3k2IVE35S4suoTOp+B9J3oaw==
+X-Google-Smtp-Source: AGHT+IFUv/J4IO1t7f907uFnLnFmFHZGEI9usuzZS2KpOqe5CXSInjBRtvvD1usMneUdC08RRJO1HA==
+X-Received: by 2002:a05:6a21:6d9f:b0:23d:d85c:bc0e with SMTP id
+ adf61e73a8af0-2438783ad76mr237024637.14.1756139300098; 
+ Mon, 25 Aug 2025 09:28:20 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com.
+ [209.85.214.172]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-771e39cb4ebsm3087113b3a.85.2025.08.25.09.28.19
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Aug 2025 09:23:50 -0700 (PDT)
-Message-ID: <dbd2ec55-0e7f-407a-a8bd-e1ac83ac2a0a@redhat.com>
-Date: Mon, 25 Aug 2025 18:23:48 +0200
+ Mon, 25 Aug 2025 09:28:19 -0700 (PDT)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-246151aefaaso30415445ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 09:28:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU3dC36nS4zd8aN08vHJ5IUbSnIBGaVjlcjHA3rIKczQmCF08ddD4LuZdt26J/ErC6fmsXO2CRXdnY=@lists.freedesktop.org
+X-Received: by 2002:a17:902:e548:b0:242:c66f:9f62 with SMTP id
+ d9443c01a7336-2485712e9a3mr1483215ad.26.1756139298616; Mon, 25 Aug 2025
+ 09:28:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 10/35] mm/hugetlb: cleanup
- hugetlb_folio_init_tail_vmemmap()
-To: Mike Rapoport <rppt@kernel.org>
-Cc: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
- Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- iommu@lists.linux.dev, io-uring@vger.kernel.org,
- Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
- Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
- kasan-dev@googlegroups.com, kvm@vger.kernel.org,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
- linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-References: <20250821200701.1329277-1-david@redhat.com>
- <20250821200701.1329277-11-david@redhat.com>
- <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
- <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
- <aKmDBobyvEX7ZUWL@kernel.org>
- <a90cf9a3-d662-4239-ad54-7ea917c802a5@redhat.com>
- <aKxz9HLQTflFNYEu@kernel.org>
- <a72080b4-5156-4add-ac7c-1160b44e0dfe@redhat.com>
- <aKx6SlYrj_hiPXBB@kernel.org>
- <f8140a17-c4ec-489b-b314-d45abe48bf36@redhat.com>
- <aKyMfvWe8JetkbRL@kernel.org>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aKyMfvWe8JetkbRL@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: efx2C792VrVCzx-z5WS0K16QPGlm2CPmNh0cGJ2jTz4_1756139032
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250818115015.2909525-1-treapking@chromium.org>
+ <CAD=FV=XZK3HO8iC3VyMH+fP_XG2ogSNvUWuUcPFUxn1jU6-JZA@mail.gmail.com>
+In-Reply-To: <CAD=FV=XZK3HO8iC3VyMH+fP_XG2ogSNvUWuUcPFUxn1jU6-JZA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 25 Aug 2025 09:28:06 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xk+yTnizTh3FUJ8oBU=4q4t3VUO4bnHrSpJLZ1WL9O7w@mail.gmail.com>
+X-Gm-Features: Ac12FXyUA1lsxksgKvSrs7zzRrWLTMGW6RoEiEQyPacS_X8GbWBGn9vOIWW-01U
+Message-ID: <CAD=FV=Xk+yTnizTh3FUJ8oBU=4q4t3VUO4bnHrSpJLZ1WL9O7w@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] drm/panel: Allow powering on panel follower after
+ panel is enabled
+To: Pin-yen Lin <treapking@chromium.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, Chen-Yu Tsai <wenst@chromium.org>, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,85 +109,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->   
->> We should do something like:
->>
->> diff --git a/mm/memblock.c b/mm/memblock.c
->> index 154f1d73b61f2..ed4c563d72c32 100644
->> --- a/mm/memblock.c
->> +++ b/mm/memblock.c
->> @@ -1091,13 +1091,16 @@ int __init_memblock memblock_clear_nomap(phys_addr_t base, phys_addr_t size)
->>   /**
->>    * memblock_reserved_mark_noinit - Mark a reserved memory region with flag
->> - * MEMBLOCK_RSRV_NOINIT which results in the struct pages not being initialized
->> - * for this region.
->> + * MEMBLOCK_RSRV_NOINIT which allows for the "struct pages" corresponding
->> + * to this region not getting initialized, because the caller will take
->> + * care of it.
->>    * @base: the base phys addr of the region
->>    * @size: the size of the region
->>    *
->> - * struct pages will not be initialized for reserved memory regions marked with
->> - * %MEMBLOCK_RSRV_NOINIT.
->> + * "struct pages" will not be initialized for reserved memory regions marked
->> + * with %MEMBLOCK_RSRV_NOINIT if this function is called before initialization
->> + * code runs. Without CONFIG_DEFERRED_STRUCT_PAGE_INIT, it is more likely
->> + * that this function is not effective.
->>    *
->>    * Return: 0 on success, -errno on failure.
->>    */
-> 
-> I have a different version :)
->   
-> diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-> index b96746376e17..d20d091c6343 100644
-> --- a/include/linux/memblock.h
-> +++ b/include/linux/memblock.h
-> @@ -40,8 +40,9 @@ extern unsigned long long max_possible_pfn;
->    * via a driver, and never indicated in the firmware-provided memory map as
->    * system RAM. This corresponds to IORESOURCE_SYSRAM_DRIVER_MANAGED in the
->    * kernel resource tree.
-> - * @MEMBLOCK_RSRV_NOINIT: memory region for which struct pages are
-> - * not initialized (only for reserved regions).
-> + * @MEMBLOCK_RSRV_NOINIT: memory region for which struct pages don't have
-> + * PG_Reserved set and are completely not initialized when
-> + * %CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled (only for reserved regions).
->    * @MEMBLOCK_RSRV_KERN: memory region that is reserved for kernel use,
->    * either explictitly with memblock_reserve_kern() or via memblock
->    * allocation APIs. All memblock allocations set this flag.
-> diff --git a/mm/memblock.c b/mm/memblock.c
-> index 154f1d73b61f..02de5ffb085b 100644
-> --- a/mm/memblock.c
-> +++ b/mm/memblock.c
-> @@ -1091,13 +1091,15 @@ int __init_memblock memblock_clear_nomap(phys_addr_t base, phys_addr_t size)
->   
->   /**
->    * memblock_reserved_mark_noinit - Mark a reserved memory region with flag
-> - * MEMBLOCK_RSRV_NOINIT which results in the struct pages not being initialized
-> - * for this region.
-> + * MEMBLOCK_RSRV_NOINIT
-> + *
->    * @base: the base phys addr of the region
->    * @size: the size of the region
->    *
-> - * struct pages will not be initialized for reserved memory regions marked with
-> - * %MEMBLOCK_RSRV_NOINIT.
-> + * The struct pages for the reserved regions marked %MEMBLOCK_RSRV_NOINIT will
-> + * not have %PG_Reserved flag set.
-> + * When %CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, setting this flags also
-> + * completly bypasses the initialization of struct pages for this region.
+Hi,
 
-s/completly/completely.
+On Mon, Aug 18, 2025 at 1:11=E2=80=AFPM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Mon, Aug 18, 2025 at 4:50=E2=80=AFAM Pin-yen Lin <treapking@chromium.o=
+rg> wrote:
+> >
+> > Some touch controllers have to be powered on after the panel's backligh=
+t
+> > is enabled. To support these controllers, introduce .panel_enabled() an=
+d
+> > .panel_disabling() to panel_follower_funcs and use them to power on the
+> > device after the panel and its backlight are enabled.
+> >
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> >
+> > ---
+> >
+> > Changes in v3:
+> > - Update kernel-docs of drm_panel_add_follower() and drm_panel_remove_f=
+ollower()
+> > - Fix the order of calling .panel_disabling() and .panel_unpreparing()
+> > - Add a blank line before the goto label
+> >
+> > Changes in v2:
+> > - Replace after_panel_enabled flag with enabled/disabling callbacks
+> >
+> >  drivers/gpu/drm/drm_panel.c | 73 +++++++++++++++++++++++++++++++------
+> >  include/drm/drm_panel.h     | 14 +++++++
+> >  2 files changed, 76 insertions(+), 11 deletions(-)
+>
+> Looks good to me now.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> If there are no objections, I'll plan to apply patch #1 next week to
+> give people a little time to speak up. As per discussion in v2 [1],
+> unless we hear back an "Ack" from HID maintainers then patch #2 will
+> just need to wait a while before it can land in the HID tree.
+>
+> Question for Jessica / Neil: what do you think about landing
+> ${SUBJECT} patch in drm-misc-fixes instead of drm-misc-next? This is a
+> dependency for the next patch which is marked as a "Fix". It'll mean
+> that the patch can make it into mainline faster so the HID patch could
+> land faster. The patch is also pretty low risk...
+>
+> [1] https://lore.kernel.org/r/CAD=3DFV=3DUV8_XGmxC=3D7Z18PEnj6wKz+yZQuV_4=
+h+LJh_MNCqszvg@mail.gmail.com/
 
-I don't quite understand the interaction with PG_Reserved and why 
-anybody using this function should care.
+I didn't hear anything and it didn't seem urgent enough to put in
+Fixes. Pushed to drm-misc-next.
 
-So maybe you can rephrase in a way that is easier to digest, and rather 
-focuses on what callers of this function are supposed to do vs. have the 
-liberty of not doing?
-
--- 
-Cheers
-
-David / dhildenb
-
+[1/2] drm/panel: Allow powering on panel follower after panel is enabled
+      commit: 2eb22214c132374e11e681c44d7879c91f67f614
