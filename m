@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E5CB336E5
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942E6B336E7
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:55:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF0B10E239;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1D2410E346;
 	Mon, 25 Aug 2025 06:55:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PRCNpo3V";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tp+dIlTy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B59410E236
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 02:31:53 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-2445806e03cso45350185ad.1
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 19:31:53 -0700 (PDT)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90BD910E236
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 02:32:04 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-2445824dc27so36350625ad.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 19:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756089112; x=1756693912; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756089124; x=1756693924; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=hEDXk3YI1ppq8XrZvysREbE40c1EqMSzH1Ycau0V0x0=;
- b=PRCNpo3VMRIYd3racGfX3C+J7V1fs2lVh5nYwCQsUXA//1WKy9nuOgEQ186SSvP9uB
- 50k2oLAjL3wPv+j1Tsl1g2X4YSvSVg0qYYV9qNUxcXuNGBwwz3Q+c4wIJzeI5wHZjeLV
- J+TLwYyfJHnuZK9eZwNBeWXfWpsyjzS1XiiPiCNWX7qcQpjOKZjPsR7il5qgKTTq4bfg
- cnL47lT612SqVhXy5qHvg/lz1EqcpPPB9/jJLExEHPfMzJFIixUSb0dH+hHRFcqTh4nA
- niyUIlwPwxYPalAVmAP6wYSUjeWTXgvy00sotS6ZbiRePVSlYR0NvuO7rfImB2VO6TNW
- eiRw==
+ :reply-to; bh=O10Bl4oetUFVZeVcIyFTPuGNIUEAVGF7F9sLfkbwSS4=;
+ b=Tp+dIlTy5WLKS6IhBn+jH468spkJaiQxwDLqXB+YyTsDWAzqKNI0COclzr2VrRyTMC
+ KkA2PawpCD/xlsHhsUBw4sb+ez2ny0DDNe7ZQLEUWYazz9KH/AdHJbc0BDeZdoZvzr1a
+ QzrUo+txmBRq6z1KY+bJ2V9JkavL/zyadbsreHZWvJNVLDy6mBEYHdcvkknDZSkow4ul
+ BnoFjWdWwX9UYiNwylqi4Ch/T7OFCaFS0hFvAzLr2UXEziSPdZ1NkLhdG76oNdapSroT
+ ZXV9OIhayYOuj0ozg6IKCLJloWMHHSP8VWefM938ubaHT+32H9dPspXc4pamrRy2le6E
+ l1dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756089112; x=1756693912;
+ d=1e100.net; s=20230601; t=1756089124; x=1756693924;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hEDXk3YI1ppq8XrZvysREbE40c1EqMSzH1Ycau0V0x0=;
- b=YiihV34drcpjOJDABgI7aNenTuOao3GCClNaNzUovqhYp6+u1pNwd/HHH0RukCgLO+
- eQ1DE+h9O/QXDoF4SaO5B39Xc1GUZkF4/aBs5qStsYRU7+exHcyiNZwn0pZxvOa1vC4m
- Z+ei6mb4uy+xhQPJeZ/X47YyyDYLHCs+arP7uDOBXgptuXYhY8/RrDMvugh9695R/uht
- bgExLKJauY76D9dgcsv/EWbP2QgpKj3ggGhN5G+3UwhnVcD0kuWs9Uv8OrDqGuizB/2G
- ZAyfxq4QZK7Qf0ikjXrmmY29E4802voGU1TWMxoyO5x9cjB2j90tJp5QGHBYnRURU6O7
- NaTw==
+ bh=O10Bl4oetUFVZeVcIyFTPuGNIUEAVGF7F9sLfkbwSS4=;
+ b=Wgx6BGi726yMH0TevK9pceIWQqIRV2QedpzM0FS2opRI2PtUGYJXBlkgtByqfyBU70
+ 35iEFunuuLBso796q27nrvxNbIOx+KQsQQUgLuQZkcn8cKs6hLc4hg3gyd9e2viZiOPd
+ EgOCsOpwE1BpIrZ4gmw0lwFPBz+/3DCqfIGDVpoUx/9djmtGP2oyVpg1HB78YT2CQAuy
+ fGTLaLJNTp8cJUEM/T9Fpvm2ivSxLQvZhspnh7Jj+pLg+X+5lhn/o8rco2k+TgMQb63P
+ MDy6XhkCehvtP45+c2XTu/+3BOLJCHq4TWgM2V9EG5FKI/sCMV4qtYbSU/myO5lniu+A
+ 8QUg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUE1wfJ391L7Z5vzhYJgLuH7d4U87V0WX7bVrlId+mG31WTzGdOpSND4Df9+b+6SLzG4yWaPNHBqLs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxwcx0bKDqba1n1gt1iBtdYje098eNv/5pglVew2RhwNJv6INNC
- fgQqyGJZrtdV4jCK6FwSuCRS4fYc/L8bfe/+q0c4mWgIpIXY+CgYfjP8
-X-Gm-Gg: ASbGncucgx67j4QAHySxbsuF5uqSLuOZAOTPokbKNuhtSDIfSzf8aBeW/t/Bwu3qAYw
- QwWHFj/8UQchlYxLfzv11CZ39DYi0Ic213rk3EhGBlOD/XnH/LIgqW76ICYAL2WYoyQeqt2gFMc
- 7swJM2GqutrojwgSMyyHIat4/6qsROsnmE9feuNLJyswwvsb7TEa0R45tm4kTSSVFst8YwuOVyF
- VoFgvDqw+DfJYLelO5VcZHebeIrPssrVgtua7hKIM2F6wOrEkT06GIlxujOn1S6ErkJwpZoTJkG
- LrwbiBgTtAoFBvT/JpevUAZkl42woMA369RTi/EFnbErnpInMQg2M8Oakvk/exhvmrQcIG76SKd
- aUX5AfMe7x1xlwTodd91bhRWgPjGnTEMaSRRL8yCxIV+UUzO4ua+6G4sWqT/Cjbvg3Ke6VJa0I4
- 4=
-X-Google-Smtp-Source: AGHT+IGvyPlqdqig4mXFsHmtjBV9YF8gxzZSDkAdZlQGY1e3N0SakBpd1QLytsyfS5huP+/UcwJ3nw==
-X-Received: by 2002:a17:903:238e:b0:240:50ef:2f00 with SMTP id
- d9443c01a7336-2462eea80fbmr165661135ad.26.1756089112460; 
- Sun, 24 Aug 2025 19:31:52 -0700 (PDT)
+ AJvYcCV4bGTajJp0owCqi/lkUHUAaGrGwnyFKERa+h7j/OSOfJhq9NFzTM86L14NYPUfG7Zli/3BsgJKOV8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzjO3y7ivfhgzyTh/cK7hVb/ISQhrvKUmqnTNkaH73CXwNkULhk
+ GXzJ+Zbod/5LllVOafmaZ/OmFaTcnkAMhtRvvYL+HTb+wT4aLTRImFZm
+X-Gm-Gg: ASbGncuKw/zlooo9yNmVkSbYaOUPxPZcq2VEDquu9jygi/E4bR5/vrzU8IU1tRAuKQb
+ bQPjT3vL/2YRy4k5tp01sL+cXHHbqUP3DOAyxHeyKFEa86jvaaLairWPjKyGGyMc6gz5K0xOfGw
+ yk3iTVwryzwwTzfjKMQJHZ+dSMYxKM/8qPvujY/sLrewSY3TG9ivhtUriSJFg5BVZ5serIdgF5T
+ OAbwsoRVw0C5AeD1lh0tL50bULMS8zzQKa6p9j9LTw4XVdmjH00gyTT5L1LARqqhjOstiQ9EOAH
+ IYGDyHcXGCQj1nV4+tm+bMMpggm13huysv07y36CdeLiwHOA3v4LV2htdsAqzYENNTPB2YYTRwY
+ 574qrFLGQQFtrNeINGwZclCc9hhTpqnfMeTjwbFmPhHucep64qzAuJxNO7T0Ofq5LBI1qFEsQyU
+ w=
+X-Google-Smtp-Source: AGHT+IHiK6ZNzGbxD1aVZDdpEIJSJdRVCIVYu6qhCycor6e6tzkhdDgkg9nCBYkly1FiN66XhTD6Bw==
+X-Received: by 2002:a17:903:38c4:b0:240:5bde:532d with SMTP id
+ d9443c01a7336-2462ef4c8eemr131114705ad.38.1756089123935; 
+ Sun, 24 Aug 2025 19:32:03 -0700 (PDT)
 Received: from localhost.localdomain ([114.242.33.243])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-246687af234sm53905175ad.48.2025.08.24.19.31.41
+ d9443c01a7336-246687af234sm53905175ad.48.2025.08.24.19.31.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Aug 2025 19:31:51 -0700 (PDT)
+ Sun, 24 Aug 2025 19:32:03 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
  Yury Norov <yury.norov@gmail.com>, Qianqiang Liu <qianqiang.liu@163.com>,
@@ -94,10 +94,9 @@ To: Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
  Yicong Yang <yangyicong@hisilicon.com>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
  linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 8/9] panic/printk: replace other_cpu_in_panic() with
- panic_on_other_cpu()
-Date: Mon, 25 Aug 2025 10:29:36 +0800
-Message-ID: <20250825022947.1596226-9-wangjinchao600@gmail.com>
+Subject: [PATCH v2 9/9] watchdog: skip checks when panic is in progress
+Date: Mon, 25 Aug 2025 10:29:37 +0800
+Message-ID: <20250825022947.1596226-10-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250825022947.1596226-1-wangjinchao600@gmail.com>
 References: <20250825022947.1596226-1-wangjinchao600@gmail.com>
@@ -119,131 +118,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The helper other_cpu_in_panic() duplicated logic already provided by
-panic_on_other_cpu().
+This issue was found when an EFI pstore was configured for kdump
+logging with the NMI hard lockup detector enabled. The efi-pstore
+write operation was slow, and with a large number of logs, the
+pstore dump callback within kmsg_dump() took a long time.
 
-Remove other_cpu_in_panic() and update all users to call
-panic_on_other_cpu() instead.
+This delay triggered the NMI watchdog, leading to a nested panic.
+The call flow demonstrates how the secondary panic caused an
+emergency_restart() to be triggered before the initial pstore
+operation could finish, leading to a failure to dump the logs:
 
-This removes redundant code and makes panic handling consistent.
+  real panic() {
+	kmsg_dump() {
+		...
+		pstore_dump() {
+			start_dump();
+			... // long time operation triggers NMI watchdog
+			nmi panic() {
+				...
+				emergency_restart(); // pstore unfinished
+			}
+			...
+			finish_dump(); // never reached
+		}
+	}
+  }
+
+Both watchdog_buddy_check_hardlockup() and watchdog_overflow_callback() may
+trigger during a panic. This can lead to recursive panic handling.
+
+Add panic_in_progress() checks so watchdog activity is skipped once a panic
+has begun.
+
+This prevents recursive panic and keeps the panic path more reliable.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+Reviewed-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 ---
- kernel/printk/internal.h |  1 -
- kernel/printk/nbcon.c    |  8 ++++----
- kernel/printk/printk.c   | 19 ++++---------------
- 3 files changed, 8 insertions(+), 20 deletions(-)
+ kernel/watchdog.c      | 6 ++++++
+ kernel/watchdog_perf.c | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/kernel/printk/internal.h b/kernel/printk/internal.h
-index ef282001f200..f72bbfa266d6 100644
---- a/kernel/printk/internal.h
-+++ b/kernel/printk/internal.h
-@@ -332,7 +332,6 @@ struct printk_message {
- 	unsigned long		dropped;
- };
+diff --git a/kernel/watchdog.c b/kernel/watchdog.c
+index 80b56c002c7f..597c0d947c93 100644
+--- a/kernel/watchdog.c
++++ b/kernel/watchdog.c
+@@ -740,6 +740,12 @@ static enum hrtimer_restart watchdog_timer_fn(struct hrtimer *hrtimer)
+ 	if (!watchdog_enabled)
+ 		return HRTIMER_NORESTART;
  
--bool other_cpu_in_panic(void);
- bool printk_get_next_message(struct printk_message *pmsg, u64 seq,
- 			     bool is_extended, bool may_supress);
++	/*
++	 * pass the buddy check if a panic is in process
++	 */
++	if (panic_in_progress())
++		return HRTIMER_NORESTART;
++
+ 	watchdog_hardlockup_kick();
  
-diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
-index c6d1a4a747e9..171480135830 100644
---- a/kernel/printk/nbcon.c
-+++ b/kernel/printk/nbcon.c
-@@ -255,7 +255,7 @@ static int nbcon_context_try_acquire_direct(struct nbcon_context *ctxt,
- 		 * opportunity to perform any necessary cleanup if they were
- 		 * interrupted by the panic CPU while printing.
- 		 */
--		if (other_cpu_in_panic() &&
-+		if (panic_on_other_cpu() &&
- 		    (!is_reacquire || cur->unsafe_takeover)) {
- 			return -EPERM;
- 		}
-@@ -310,7 +310,7 @@ static bool nbcon_waiter_matches(struct nbcon_state *cur, int expected_prio)
- 	 * Event #2 implies the new context is PANIC.
- 	 * Event #3 occurs when panic() has flushed the console.
- 	 * Event #4 occurs when a non-panic CPU reacquires.
--	 * Event #5 is not possible due to the other_cpu_in_panic() check
-+	 * Event #5 is not possible due to the panic_on_other_cpu() check
- 	 *          in nbcon_context_try_acquire_handover().
- 	 */
+ 	/* kick the softlockup detector */
+diff --git a/kernel/watchdog_perf.c b/kernel/watchdog_perf.c
+index 9c58f5b4381d..d3ca70e3c256 100644
+--- a/kernel/watchdog_perf.c
++++ b/kernel/watchdog_perf.c
+@@ -12,6 +12,7 @@
  
-@@ -349,7 +349,7 @@ static int nbcon_context_try_acquire_requested(struct nbcon_context *ctxt,
- 	struct nbcon_state new;
+ #define pr_fmt(fmt) "NMI watchdog: " fmt
  
- 	/* Note that the caller must still remove the request! */
--	if (other_cpu_in_panic())
-+	if (panic_on_other_cpu())
- 		return -EPERM;
++#include <linux/panic.h>
+ #include <linux/nmi.h>
+ #include <linux/atomic.h>
+ #include <linux/module.h>
+@@ -108,6 +109,9 @@ static void watchdog_overflow_callback(struct perf_event *event,
+ 	/* Ensure the watchdog never gets throttled */
+ 	event->hw.interrupts = 0;
  
- 	/*
-@@ -447,7 +447,7 @@ static int nbcon_context_try_acquire_handover(struct nbcon_context *ctxt,
- 	 * nbcon_waiter_matches(). In particular, the assumption that
- 	 * lower priorities are ignored during panic.
- 	 */
--	if (other_cpu_in_panic())
-+	if (panic_on_other_cpu())
- 		return -EPERM;
++	if (panic_in_progress())
++		return;
++
+ 	if (!watchdog_check_timestamp())
+ 		return;
  
- 	/* Handover is not possible on the same CPU. */
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index faa8b1f0585b..236f03937107 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -346,17 +346,6 @@ static void __up_console_sem(unsigned long ip)
- }
- #define up_console_sem() __up_console_sem(_RET_IP_)
- 
--/*
-- * Return true if a panic is in progress on a remote CPU.
-- *
-- * On true, the local CPU should immediately release any printing resources
-- * that may be needed by the panic CPU.
-- */
--bool other_cpu_in_panic(void)
--{
--	return (panic_in_progress() && !panic_on_this_cpu());
--}
--
- /*
-  * This is used for debugging the mess that is the VT code by
-  * keeping track if we have the console semaphore held. It's
-@@ -2391,7 +2380,7 @@ asmlinkage int vprintk_emit(int facility, int level,
- 	 * non-panic CPUs are generating any messages, they will be
- 	 * silently dropped.
- 	 */
--	if (other_cpu_in_panic() &&
-+	if (panic_on_other_cpu() &&
- 	    !debug_non_panic_cpus &&
- 	    !panic_triggering_all_cpu_backtrace)
- 		return 0;
-@@ -2827,7 +2816,7 @@ void console_lock(void)
- 	might_sleep();
- 
- 	/* On panic, the console_lock must be left to the panic cpu. */
--	while (other_cpu_in_panic())
-+	while (panic_on_other_cpu())
- 		msleep(1000);
- 
- 	down_console_sem();
-@@ -2847,7 +2836,7 @@ EXPORT_SYMBOL(console_lock);
- int console_trylock(void)
- {
- 	/* On panic, the console_lock must be left to the panic cpu. */
--	if (other_cpu_in_panic())
-+	if (panic_on_other_cpu())
- 		return 0;
- 	if (down_trylock_console_sem())
- 		return 0;
-@@ -3227,7 +3216,7 @@ static bool console_flush_all(bool do_cond_resched, u64 *next_seq, bool *handove
- 			any_progress = true;
- 
- 			/* Allow panic_cpu to take over the consoles safely. */
--			if (other_cpu_in_panic())
-+			if (panic_on_other_cpu())
- 				goto abandon;
- 
- 			if (do_cond_resched)
 -- 
 2.43.0
 
