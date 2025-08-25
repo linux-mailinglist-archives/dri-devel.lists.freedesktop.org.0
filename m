@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9489DB33B3F
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 11:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6EBB33B60
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 11:44:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 917B110E362;
-	Mon, 25 Aug 2025 09:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E79B10E40D;
+	Mon, 25 Aug 2025 09:44:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mGR/q8D5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B3myDykN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B39E510E362;
- Mon, 25 Aug 2025 09:38:37 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C33A10E40D;
+ Mon, 25 Aug 2025 09:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756114718; x=1787650718;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=9sqntHVgKVUiqoLrmQFTfaTHpDlYCnY6dmjYlHnWwU8=;
- b=mGR/q8D5oBzSbEdAq98uqBYM7L2+p4Z/hP7djYtJwSFLB3CCwblvKaDy
- yfHdhCFbKHKu/4hgrhkelR3uovzHIKCjAFL7rVemKf4hmeTjP8TySsFAg
- SvczpX8Uvqp18i9gTxjNjNeEvolMSNTJ3LJFe6RJ3FLsPPLwRVpjjxcwW
- 2H7Sa3p61G8tAbddev1y6SBq8VtwBuUF/orntOoVX+Y7vC8mm75PZ4u8C
- 20CTUzMHAplbENzRR+6vzFroV1p9OYirP/t61029kmX9tnTt6RBr8NqbS
- sa93QpWX5+gKBu8Oj9pz0K+97pmeiLj/pGVigDDhSlh2JWwrpGODLxksg g==;
-X-CSE-ConnectionGUID: +4blEptgSKiBJywsp8LNIQ==
-X-CSE-MsgGUID: v0cJkQ9yQG+Up62e7hpiPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="75918930"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208,217";a="75918930"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 02:38:37 -0700
-X-CSE-ConnectionGUID: 9GFYt7SsQt+O8wij9n0+3w==
-X-CSE-MsgGUID: /uAJH7wmT++ZWW+jxh7i4Q==
+ t=1756115048; x=1787651048;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=AXL4TsQTS3cMXdmorgcmeisMbtbYH9ixpITz28maV/E=;
+ b=B3myDykNX8TyrKyjkG+oO6Bu2TD2FpxwVUJvpjhODvBu63r4WpmPJxwy
+ 6rhqEX/xtMiGYtvwc+EeWa0JEGYFrClPGQofjC+f50a0t0+dcWetXcEea
+ g/L9W79T+/hZL4zvQJOCJIBx1XaXrZeQcNr9TfMMLR+CHvqtXEgPdj+50
+ tub9biP5amGwNO0OspWzHbOhmBY7cBo9iL5MxaEuo18sFcDJndvCa6tCz
+ sNnKbx2FtsgJ5SxmE2v66Bpl5yVabvajggn+YddytqPWr2Cfe1vRvKe37
+ OcWwVi++e3GYSNGBW+o6Q0wR5YbOfCOKIprTG6BN43fKqN5l83NVFEE0s w==;
+X-CSE-ConnectionGUID: CGVbNq2jTF+KhRHPpGrikw==
+X-CSE-MsgGUID: pg8DGxBtRMqTgAzv5DFRyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="61965804"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="61965804"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 02:44:08 -0700
+X-CSE-ConnectionGUID: 0RThKte8QbGBRXmiX0U4jw==
+X-CSE-MsgGUID: tecA1ad6TwyOv6ogzg1Oeg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
- d="scan'208,217";a="206419585"
-Received: from aiddamse-mobl3.gar.corp.intel.com (HELO [10.247.233.114])
- ([10.247.233.114])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 02:38:33 -0700
-Content-Type: multipart/alternative;
- boundary="------------rb531RoTw5PjgCelrrq1O90Z"
-Message-ID: <08d8482e-d86b-45a5-8931-39556188cbeb@linux.intel.com>
-Date: Mon, 25 Aug 2025 15:08:30 +0530
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="174560782"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.15])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 02:44:04 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, naveen1.kumar@intel.com,
+ xaver.hugl@kde.org, uma.shankar@intel.com, harry.wentland@amd.com
+Subject: Re: [PATCH v3 1/4] drm: Define user readable error codes for atomic
+ ioctl
+In-Reply-To: <12e88f43-98eb-43aa-931c-edac88d650aa@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250822-atomic-v3-0-13a0e8f2c581@intel.com>
+ <20250822-atomic-v3-1-13a0e8f2c581@intel.com>
+ <8f24c0051cab99aa5f399dc3b6eb6dd2fb1e8b6c@intel.com>
+ <12e88f43-98eb-43aa-931c-edac88d650aa@intel.com>
+Date: Mon, 25 Aug 2025 12:44:00 +0300
+Message-ID: <419591dda7158b3d56c40aac0df86ca499202676@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v5 0/5] Proposal to use netlink for RAS and Telemetry across
- drm subsystem
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@gmail.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Simona Vetter <simona@ffwll.ch>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Michael J <michael.j.ruhl@intel.com>, Riana Tauro <riana.tauro@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>
-References: <20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com>
- <aJzzr-ZuJCrd8r7x@intel.com>
-Content-Language: en-US
-From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
-In-Reply-To: <aJzzr-ZuJCrd8r7x@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,270 +79,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------rb531RoTw5PjgCelrrq1O90Z
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-
-On 14-08-2025 01:51, Rodrigo Vivi wrote:
-> On Wed, Jul 30, 2025 at 12:19:51PM +0530, Aravind Iddamsetty wrote:
->> Revisiting this patch series to address pending feedback and help move
->> the discussion towards a conclusion. This revision includes updates
->> based on previous comments[1] and aims to clarify outstanding concerns.
->> Specifically added command to facility reporting errors from IP blocks
->> to support AMDGPU driver model of RAS.
->> [1]: https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/
->>
->> I sincerely appreciate everyones patience and thoughtful reviews so
->> far, and I hope this refreshed series facilitates the final evaluation
->> and acceptance.
->>
->> Please feel free to share any further suggestions or questions.
->>
->> Thank you for your continued consideration.
->> ----------------------------------------------------------------------
->>
->> Our hardware supports RAS(Reliability, Availability, Serviceability) by
->> reporting the errors to the host, which the KMD processes and exposes a
->> set of error counters which can be used by observability tools to take 
->> corrective actions or repairs. Traditionally there were being exposed 
->> via PMU (for relative counters) and sysfs interface (for absolute 
->> value) in our internal branch. But, due to the limitations in this 
->> approach to use two interfaces and also not able to have an event based 
->> reporting or configurability, an alternative approach to try netlink 
->> was suggested by community for drm subsystem wide UAPI for RAS and 
->> telemetry as discussed in [2]. 
->>
->> This [2] is the inspiration to this series. It uses the generic
->> netlink(genl) family subsystem and exposes a set of commands that can
->> be used by every drm driver, the framework provides a means to have
->> custom commands too. Each drm driver instance in this example xe driver
->> instance registers a family and operations to the genl subsystem through
->> which it enumerates and reports the error counters. An event based
->> notification is also supported to which userpace can subscribe to and
->> be notified when any error occurs and read the error counter this avoids
->> continuous polling on error counter. This can also be extended to
->> threshold based notification.
->>
->> [2]: https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
-> I'm bringing some thoughts below and I'd like to get inputs from folks involved
-> in the original discussions here please.
-> Any thought is welcomed so we can move faster towards a real GPU standard RAS
-> solution.
+On Sat, 23 Aug 2025, "Murthy, Arun R" <arun.r.murthy@intel.com> wrote:
+> On 22-08-2025 16:07, Jani Nikula wrote:
+>> On Fri, 22 Aug 2025, Arun R Murthy <arun.r.murthy@intel.com> wrote:
+>>> There can be multiple reasons for a failure in atomic_ioctl. Most often
+>>> in these error conditions -EINVAL is returned. User/Compositor would
+>>> have to blindly take a call on failure of this ioctl so as to use
+>>> ALLOW_MODESET or any. It would be good if user/compositor gets a
+>>> readable error code on failure so they can take proper corrections in
+>>> the next commit.
+>>> The struct drm_mode_atomic is being passed by the user/compositor which
+>>> holds the properties for modeset/flip. Reusing the same struct for
+>>> returning the error code in case of failure can save by creating a new
+>>> uapi/interface for returning the error code.
+>>> The element 'reserved' in the struct drm_mode_atomic is used for
+>>> returning the user readable error code. This points to the struct
+>>> drm_mode_atomic_err_code. Failure reasons have been initialized in
+>>> DRM_MODE_ATOMIC_FAILURE_REASON.
+>> At the moment, I'm not (yet) convinced any of this will work, even as a
+>> concept.
+> km_flip test in IGT has been run and is working fine with these patch=20
+> series. Also
+> the existing kms_atomic test with atomic_invalid_test has been modified to
+> test this error code(https://patchwork.freedesktop.org/series/153330/)
 >
->> This series is on top [3] series which introduces error counting infra in Xe
->> driver.
->> [3]: https://lore.kernel.org/all/20250730054814.1376770-1-aravind.iddamsetty@linux.intel.com/
+> Am I missing anything over here?
+
+Having a few tests in IGT does not mean a non-trivial userspace
+(compositor) can use the information in a useful way.
+
+>> Even so, I'll comment on some of the choices in the series.
 >>
->> V5:
->> Add support to read error corresponding to an IP BLOCK
-> I honestly don't believe that this version solves all the concerns raised by
-> AMD folks in the previous reviews. It is true that this is bringing ways of
-> reading errors per IP block, but if I understood them correctly, they would
-> like better (and separate) ways to declare and handle the errors coming from
-> different IP block, rather than simply reading/querying for them filtered out.
+>>> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+>>> ---
+>>>   include/uapi/drm/drm_mode.h | 42 ++++++++++++++++++++++++++++++++++++=
+++++++
+>>>   1 file changed, 42 insertions(+)
+>>>
+>>> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+>>> index a122bea2559387576150236e3a88f99c24ad3138..f0986a3fe9a7d61e57e9a9a=
+5ec01a604343f6930 100644
+>>> --- a/include/uapi/drm/drm_mode.h
+>>> +++ b/include/uapi/drm/drm_mode.h
+>>> @@ -45,6 +45,7 @@ extern "C" {
+>>>   #define DRM_CONNECTOR_NAME_LEN	32
+>>>   #define DRM_DISPLAY_MODE_LEN	32
+>>>   #define DRM_PROP_NAME_LEN	32
+>>> +#define DRM_MODE_ATOMIC_FAILURE_STRING_LEN	64
+>>>=20=20=20
+>>>   #define DRM_MODE_TYPE_BUILTIN	(1<<0) /* deprecated */
+>>>   #define DRM_MODE_TYPE_CLOCK_C	((1<<1) | DRM_MODE_TYPE_BUILTIN) /* dep=
+recated */
+>>> @@ -1157,6 +1158,47 @@ struct drm_mode_destroy_dumb {
+>>>   		DRM_MODE_ATOMIC_NONBLOCK |\
+>>>   		DRM_MODE_ATOMIC_ALLOW_MODESET)
+>>>=20=20=20
+>>> +#define DRM_MODE_ATOMIC_FAILURE_REASON \
+>>> +	FAILURE_REASON(DRM_MODE_ATOMIC_CAP_NOT_ENABLED, "DRM_ATOMIC capabilit=
+y not enabled") \
+>> Please don't add macros that expect other macros in the context. They
+>> become very confusing. Just pass in the other macro to use. See MACRO__
+>> in include/drm/intel/pciids.h for an example.
+> Here we are mapping an error_code defined as enum with a corresponding=20
+> string
+> using the X macros.
 >
-> So, I have som grouping ideas below.
-
-As per the comment from Lijo,
-https://lore.kernel.org/all/aa23f0ef-a4ab-ca73-5ab3-ef23d6e36e89@amd.com/
-
-the errors are grouped per bitmask, they are not expecting a separation
-at netlink level.
-
-<31:24> = Block Id
-<23:16> subblock id
-<15:8> - interested instance
-<7:0> - error_type
-
-The interface should  support errors per IP block and instance, which
-the current series support via DRM_RAS_CMD_READ_BLOCK.
-when driver receives the command DRM_RAS_CMD_READ_BLOCK it is supposed
-to decipher the bits based on the above bitsmask.
-The query command is expected to list the blocks and instances
-available, the counters of which will be read via DRM_RAS_CMD_READ_BLOCK.
+> Anyway will have a look at the macro in include/drm/intel/pciids.h
 >
->> v4:
->> 1. Rebase
->> 2. rename drm_genl_send to drm_genl_reply
-> But before going to the ideas below I'd like to also raise the naming issue
-> that I see with this proposal.
 >
-> I was recently running some experiments to devlink with this and similar
-> cases. I don't believe that devlink is a good fit for our drm-ras. It is
-> way too much centric on network devices and any addition there to our
-> GPU RAS would be a heavy lift. But, there are some good things from there
-> that we could perhaps get inspiration from.
+>>> +	FAILURE_REASON(DRM_MODE_ATOMIC_INVALID_FLAG, "invalid flag") \
+>>> +	FAILURE_REASON(DRM_MODE_ATOMIC_PAGE_FLIP_ASYNC, "Legacy DRM_MODE_PAGE=
+_FLIP_ASYNC not to be used in atomic ioctl") \
+>>> +	FAILURE_REASON(DRM_MODE_ATOMIC_FLIP_EVENT_WITH_CHECKONLY, "requesting=
+ page-flip event with TEST_ONLY") \
+>>> +	FAILURE_REASON(DRM_MODE_ATOMIC_CRTC_NEED_FULL_MODESET, "Need full mod=
+eset on this crtc") \
+>>> +	FAILURE_REASON(DRM_MODE_ATOMIC_NEED_FULL_MODESET, "Need full modeset =
+on all the connected crtc's") \
+>>> +	FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_NOT_SUP_PLANE, "Async flip not s=
+upported on this plane") \
+>>> +	FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_MODIFIER_NOT_SUPPORTED, "Modifie=
+r not supported on this plane with async flip") \
+>>> +	FAILURE_REASON(DRM_MODE_ATOMIC_ASYNC_PROP_CHANGED, "No property chang=
+e allowed when async flip is enabled")
+>>> +
+>>> +#define FAILURE_REASON(flag, reason) flag,
+>>> +typedef enum {
+>>> +	DRM_MODE_ATOMIC_FAILURE_REASON
+>>> +} drm_mode_atomic_failure_flag;
+>>> +#undef FAILURE_REASON
+>> This is a uapi header. Do we really want all of that macro trickery here
+>> in the first place? What's wrong with just a plain enum? (Or macros.)
+> This is defined as enum. We have two separate list one for enum and
+> other for error message(string) but=C2=A0 upon user adding a new
+> element/error_code in the enum, there can be a possibility of missing
+> adding the error string. So have linked enum with the corresponding
+> error message/string so both are at a single place and upon adding new
+> entry will be easy for the user.
+
+I think the overall point is this:
+
+a) If the messages are fixed for each enum, there is no point in passing
+   that message across the ioctl. Userspace can map the enums and
+   messages directly.
+
+b) If the messages are not fixed, I see no point in having the above
+   fixed messages at all.
+
+c) If the messages are not fixed, but you want to have default messages,
+   the messages do not belong in the uapi header at all. Hide them in
+   the kernel.
+
+>>> +
+>>> +#define FAILURE_REASON(flag, reason) #reason,
+>>> +extern const char *drm_mode_atomic_failure_string[];
+>>> +#undef FAILURE_REASON
+>> Data is not an interface. Don't expose arrays like this. Who is even
+>> going to know what its size is? Again, uapi header, where does it point,
+>> what address space is it?
+>>
+> Sorry missed adding documentation for this. Will add in my next series.
+
+Documentation does not fix the issue that data is not an interface.
+
+>>> +
+>>> +/**
+>>> + * drm_mode_atomic_err_code - struct to store the error code
+>>> + *
+>>> + * pointer to this struct will be stored in reserved variable of
+>>> + * struct drm_mode_atomic to report the failure cause to the user.
+>>> + *
+>>> + * @failure_flags: error codes defined in drm_atomic_failure.failure_f=
+lag
+>> Flags? As in a mask of multiple things? Is 64 going to be enough for
+>> everyone, all conditions in all drivers?
+> Should be more that sufficient, this is an enum.
+
+Then don't call it "flags".
+
+>> OTOH, what's the promise wrt multiple reasons? Practically all drivers
+>> bail out at the sight of first issue, and it's usually pretty much
+>> meaningless to continue to figure out *other* reasons after that.
+>>
+>> And this brings us to one of my main concerns on making this fly:
+>>
+>> You bail out on the first thing, but you can't expect all drivers to
+>> check stuff in the same order. It's not practical. So different drivers
+>> will likely return different reasons for virtually the same
+>> condition. So how is userspace going to handle that?
+> Most of the error check is in the drm-core and these are common across
+> the drivers.  Upon drivers sending driver specific error code, the
+> compositor may not be able to handle the error code. But in cases
+> required compositor changes can be added so as to handle them. In
+> general the generic error conditions that are met by compositor and
+> for which compositor can take corrective measurements are listed down
+> first.
+
+I think we're going to need a handful of error codes for starters, along
+with compositor changes that make meaningful and benefitial usage of the
+error codes.
+
+>>> + * @failure_string_ptr: pointer to user readable error message drm_mod=
+e_failure.failure_string
+>> Is the string part of uapi, and can never change? Doesn't sound
+>> great. What's wrong with just a plain enum?
+> enum is sufficient enough and this string is added so that this error=20
+> message
 >
-> Starting from the name. devlink is the name of the tool and the name
-> of the framework. It uses netlink on the back, but totally abstracting
-> that. Here in this version we can see:
-> drm_ras: the tool
-> drm_netlink: the abstraction
-> drm_genl_*: the wrapper?
+> can be printed out in the compositor logs for the user.
 >
-> So, I believe that as devlink we should have a single name for everything
-> and avoid wrappers but providing the real module registration, with
-> groups, and functions. Entirely abstracting the netlink and focusing
-> on the RAS functionalities.
-sounds interesting and I feel it looks clean too. But that does mean we
-completely handle
-the netlink framework inside the drm layer and not at the driver and
-expose callback ops to
-drm drivers.
+> Thanks and Regards,
+> Arun R Murthy
+> -------------------
+>
+>>> + * @failure_obj_ptr: pointer to the drm_object that caused error
+>>> + * @reserved: reserved for future use
+>>> + * @count_objs: count of drm_objects if multiple drm_objects caused er=
+ror
+>>> + */
+>>> +struct drm_mode_atomic_err_code {
+>>> +	__u64 failure_flags;
+>>> +	__u64 failure_objs_ptr;
+>>> +	__u64 reserved;
+>>> +	__u32 count_objs;
+>>> +	char failure_string[DRM_MODE_ATOMIC_FAILURE_STRING_LEN];
+>>> +};
+>>> +
+>>>   struct drm_mode_atomic {
+>>>   	__u32 flags;
+>>>   	__u32 count_objs;
 
-Thanks,
-Aravind.
-
---------------rb531RoTw5PjgCelrrq1O90Z
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 14-08-2025 01:51, Rodrigo Vivi
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:aJzzr-ZuJCrd8r7x@intel.com">
-      <pre wrap="" class="moz-quote-pre">On Wed, Jul 30, 2025 at 12:19:51PM +0530, Aravind Iddamsetty wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">Revisiting this patch series to address pending feedback and help move
-the discussion towards a conclusion. This revision includes updates
-based on previous comments[1] and aims to clarify outstanding concerns.
-Specifically added command to facility reporting errors from IP blocks
-to support AMDGPU driver model of RAS.
-[1]: <a class="moz-txt-link-freetext" href="https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/">https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/</a>
-
-I sincerely appreciate everyones patience and thoughtful reviews so
-far, and I hope this refreshed series facilitates the final evaluation
-and acceptance.
-
-Please feel free to share any further suggestions or questions.
-
-Thank you for your continued consideration.
-----------------------------------------------------------------------
-
-Our hardware supports RAS(Reliability, Availability, Serviceability) by
-reporting the errors to the host, which the KMD processes and exposes a
-set of error counters which can be used by observability tools to take 
-corrective actions or repairs. Traditionally there were being exposed 
-via PMU (for relative counters) and sysfs interface (for absolute 
-value) in our internal branch. But, due to the limitations in this 
-approach to use two interfaces and also not able to have an event based 
-reporting or configurability, an alternative approach to try netlink 
-was suggested by community for drm subsystem wide UAPI for RAS and 
-telemetry as discussed in [2]. 
-
-This [2] is the inspiration to this series. It uses the generic
-netlink(genl) family subsystem and exposes a set of commands that can
-be used by every drm driver, the framework provides a means to have
-custom commands too. Each drm driver instance in this example xe driver
-instance registers a family and operations to the genl subsystem through
-which it enumerates and reports the error counters. An event based
-notification is also supported to which userpace can subscribe to and
-be notified when any error occurs and read the error counter this avoids
-continuous polling on error counter. This can also be extended to
-threshold based notification.
-
-[2]: <a class="moz-txt-link-freetext" href="https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html">https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html</a>
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-I'm bringing some thoughts below and I'd like to get inputs from folks involved
-in the original discussions here please.
-Any thought is welcomed so we can move faster towards a real GPU standard RAS
-solution.
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">
-This series is on top [3] series which introduces error counting infra in Xe
-driver.
-[3]: <a class="moz-txt-link-freetext" href="https://lore.kernel.org/all/20250730054814.1376770-1-aravind.iddamsetty@linux.intel.com/">https://lore.kernel.org/all/20250730054814.1376770-1-aravind.iddamsetty@linux.intel.com/</a>
-
-V5:
-Add support to read error corresponding to an IP BLOCK
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-I honestly don't believe that this version solves all the concerns raised by
-AMD folks in the previous reviews. It is true that this is bringing ways of
-reading errors per IP block, but if I understood them correctly, they would
-like better (and separate) ways to declare and handle the errors coming from
-different IP block, rather than simply reading/querying for them filtered out.
-
-So, I have som grouping ideas below.</pre>
-    </blockquote>
-    <p>As per the comment from Lijo,
-<a class="moz-txt-link-freetext" href="https://lore.kernel.org/all/aa23f0ef-a4ab-ca73-5ab3-ef23d6e36e89@amd.com/">https://lore.kernel.org/all/aa23f0ef-a4ab-ca73-5ab3-ef23d6e36e89@amd.com/</a></p>
-    <p>the errors are grouped per bitmask, they are not expecting a
-      separation at netlink level.</p>
-    <pre id="b"
-style="font-size: 13px; font-family: monospace; background: rgb(255, 255, 255); color: rgb(0, 0, 51); white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">&lt;31:24&gt; = Block Id
-&lt;23:16&gt; subblock id
-&lt;15:8&gt; - interested instance
-&lt;7:0&gt; - error_type</pre>
-    The interface should  support errors per IP block and instance,
-    which the current series support via DRM_RAS_CMD_READ_BLOCK.<br>
-    when driver receives the command DRM_RAS_CMD_READ_BLOCK it is
-    supposed to decipher the bits based on the above bitsmask.<br>
-    The query command is expected to list the blocks and instances
-    available, the counters of which will be read via
-    DRM_RAS_CMD_READ_BLOCK.
-    <blockquote type="cite" cite="mid:aJzzr-ZuJCrd8r7x@intel.com">
-      <pre wrap="" class="moz-quote-pre">
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="" class="moz-quote-pre">
-v4:
-1. Rebase
-2. rename drm_genl_send to drm_genl_reply
-</pre>
-      </blockquote>
-      <pre wrap="" class="moz-quote-pre">
-But before going to the ideas below I'd like to also raise the naming issue
-that I see with this proposal.
-
-I was recently running some experiments to devlink with this and similar
-cases. I don't believe that devlink is a good fit for our drm-ras. It is
-way too much centric on network devices and any addition there to our
-GPU RAS would be a heavy lift. But, there are some good things from there
-that we could perhaps get inspiration from.
-
-Starting from the name. devlink is the name of the tool and the name
-of the framework. It uses netlink on the back, but totally abstracting
-that. Here in this version we can see:
-drm_ras: the tool
-drm_netlink: the abstraction
-drm_genl_*: the wrapper?</pre>
-    </blockquote>
-    <blockquote type="cite" cite="mid:aJzzr-ZuJCrd8r7x@intel.com">
-      <pre wrap="" class="moz-quote-pre">
-
-So, I believe that as devlink we should have a single name for everything
-and avoid wrappers but providing the real module registration, with
-groups, and functions. Entirely abstracting the netlink and focusing
-on the RAS functionalities.</pre>
-    </blockquote>
-    sounds interesting and I feel it looks clean too. But that does mean
-    we completely handle<br>
-    the netlink framework inside the drm layer and not at the driver and
-    expose callback ops to<br>
-    drm drivers.<br>
-    <br>
-    Thanks,<br>
-    Aravind.<br>
-    <br>
-  </body>
-</html>
-
---------------rb531RoTw5PjgCelrrq1O90Z--
+--=20
+Jani Nikula, Intel
