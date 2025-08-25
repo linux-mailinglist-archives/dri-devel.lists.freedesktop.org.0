@@ -2,163 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C4CB33DAC
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 13:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD123B33DF9
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 13:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23A2C10E43C;
-	Mon, 25 Aug 2025 11:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDC8810E443;
+	Mon, 25 Aug 2025 11:29:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="cNNXjI7v";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="WFeXTt5t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2054.outbound.protection.outlook.com [40.107.244.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2431F10E43C;
- Mon, 25 Aug 2025 11:07:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lgz9kr1N7rN8DK/eYCsJa7raoAPlpfxjXJjQ24OQXKUdJC8Vvyj/PosMBLhTqCNAJABulxic+hyTaUYO8LHWGIV2AeoHwOOt6yIuA7Ie8zevldWBt8NScJ+tJEe5j5OaIsfnf4BQdlm6xQigbX8vOt6uklU3rOY4zSTBBNSh5T2nzkrpOwCyI7eqbGlhyHxfGGAiWMRIR89w/xVnSExhJlmalS3l/e5/0Z3AmJf6PH4MUCRpPg4/t9LVJ1O5mwVRUBezdu/FohgjHAi6XjXzUBvI/OEVOuynwdP6SUCNPAX5Rrmr+QaSQbEaFdRHPCrwX6nhod0+4EkKz34Euz3JAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZNylrfAZ2TP1p0k+vc1bZUY6NBj99Eq2PStQQnjo324=;
- b=Tln5lUu8gI1tsF86Fd5WqEyh0JsTwG1v8DvlZaPRmt4eYed1A0Axz6o5SUV13H3g04M/w+bmPC310neodXfDCmUarJmV9BRfxF0fckQEn2C/w54IHfxHLAqd3FUJwGWaY0vbAqEedBjio1kY9DJX01Eai+07Tu9lxuHbAwdam6ZOwvr3xMJBrQWnW1OJL8sN4vstgQq2LFPYWLZnu8m76fMuQ6Ff688GLCzkCY4UmmMmU+oq7j2QtpbjV3/LllFWN/svkSy+9p1V4O7dcZOidtrXvrAnyShEjnCfZOf5KYQoSwkkDzDpLZEEpMwVPhmePUsFvo3Ary0uE3qG1ylChg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZNylrfAZ2TP1p0k+vc1bZUY6NBj99Eq2PStQQnjo324=;
- b=cNNXjI7vVuZlMJ+LKV659OoAlnK0Wf5MOyVIF9Wz8tRjGq9UmXnGdtpwCNc36VFTyA7DUsYzD9SlnfoEO4WUq7ErZ20r69g9dLNwz0ldYaUx4oFe4TMTTr4TBfJvaGDmb/gJI0bFA4SWf8LTAsuz2sa11gbxJtKZpHRt6NSC0CfLyUYRgQDclSIJZ87cln8SX8LrSFvelhB0jYA4sZZjv1cK9TOb+REndtI8u524QsDgl6x6bUWYk1bnKB6RP7gWlXA75p0eQSOzSMJkNaPZhnP6AznioiUcweDNr1zmllA46hROcDbqRnCthRiV1IadYiv0ljzr/LXZuADjMKbtHg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by PH8PR12MB7184.namprd12.prod.outlook.com (2603:10b6:510:227::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.18; Mon, 25 Aug
- 2025 11:07:06 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%3]) with mapi id 15.20.9052.019; Mon, 25 Aug 2025
- 11:07:06 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 25 Aug 2025 20:07:01 +0900
-Message-Id: <DCBGLCQVD1RF.6V5UT0NQ4GLB@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, "Danilo Krummrich" <dakr@kernel.org>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 1/2] nova-core: Add a library for bitfields in Rust structs
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250824135954.2243774-1-joelagnelf@nvidia.com>
-In-Reply-To: <20250824135954.2243774-1-joelagnelf@nvidia.com>
-X-ClientProxiedBy: TYBP286CA0047.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:10a::35) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC21310E442;
+ Mon, 25 Aug 2025 11:29:47 +0000 (UTC)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PAuFQ1016927;
+ Mon, 25 Aug 2025 11:29:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=pp1; bh=pZVH01D2Gd/ZuxBDWHvMdhmbI57qiN
+ XppeatopYJClM=; b=WFeXTt5tlq7bvmFwDwurN2gxIAJS4Sbtzub9xJRMuUUCWG
+ dnN+VgZwrU+C7OAoBOS7dQLtS9avFToeFD88Xjc+lW70Zit8RLPH2JZHPbK7MHxb
+ v0D+pVyzXtrwYQl3kI+QLZ7QQLNBqOFnM1k0uGpSZ1+CyNFOS702oVm2UXUhr26g
+ QqYmWP5K4me05w/KlbcV8jlyClHMpN0GwiL9exsIxxhhvb59HKuryvQ6LoqGJJOX
+ azP5+JccDMK8pigXUHrrcngDK4tPx7KmxBkljdhf7EI3Ims4+KAlu4PkVvsOtnHJ
+ SJYiHaa74A1UrHZh5hhabVWUJ/85+yELHuGX+z6g==
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48q5av8jkr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Aug 2025 11:29:07 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+ by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 57PBJCuS013823;
+ Mon, 25 Aug 2025 11:29:06 GMT
+Received: from ppma13.dal12v.mail.ibm.com
+ (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48q5av8jkq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Aug 2025 11:29:06 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+ by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 57PB3VZR002512;
+ Mon, 25 Aug 2025 11:29:05 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 48qt6m5am6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Aug 2025 11:29:05 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 57PBT3gH52166968
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 25 Aug 2025 11:29:03 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 971AE20043;
+ Mon, 25 Aug 2025 11:29:03 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C97EF20040;
+ Mon, 25 Aug 2025 11:28:50 +0000 (GMT)
+Received: from li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.ibm.com (unknown
+ [9.98.110.17]) by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Mon, 25 Aug 2025 11:28:50 +0000 (GMT)
+Date: Mon, 25 Aug 2025 16:58:48 +0530
+From: Gautam Menghani <gautam@linux.ibm.com>
+To: Zihuan Zhang <zhangzihuan@kylinos.cn>
+Cc: "Rafael J . wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Markus Mayer <mmayer@broadcom.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ zhenglifeng <zhenglifeng1@huawei.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Zhang Rui <rui.zhang@intel.com>,
+ Len Brown <lenb@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Beata Michalska <beata.michalska@arm.com>,
+ Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Sumit Gupta <sumitg@nvidia.com>,
+ Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org,
+ x86@kernel.org, kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-omap@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] cpufreq: use __free() for all cpufreq_cpu_get()
+ references
+Message-ID: <aKxI8D5mgLRyydb3@li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.ibm.com>
+References: <20250825092833.42441-1-zhangzihuan@kylinos.cn>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH8PR12MB7184:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57db365e-d5f4-4736-461b-08dde3c78700
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|10070799003|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?U09hNG1qM2g5MW1ZeU1vRzBlRC9KNS9CMS9XdWo3RmtVUXBMNUNGQ3FIUTdR?=
- =?utf-8?B?RS9sY2pUbzRWTmIvSFFqYm5BTldsamRuaWU5bzdsNEU4N0k1L3JvaGNNWjh3?=
- =?utf-8?B?WG9WdTVjbzNEWnQvSnBKbytMUUp5OGF2VWlBeVlNWGNETVloOXR4MElhNGRK?=
- =?utf-8?B?M0VRS2F4Q0Fnbml5bzVNbWMwRXI0Z01EQzJ4aGxERTdtVUI4bVNienNGMXV2?=
- =?utf-8?B?TVdpdzFUY2lNTFFQeW5zZ1M4emNCWW8wOW1aaElWMlF4dGVMdjUwUDNLWkV2?=
- =?utf-8?B?YnIydnk3Uk5OWHNDaXJ0VmpZUGhlMythWno4SGRzN3habkFkc1U4N3Z3QmN4?=
- =?utf-8?B?VDVKS0xpak40djNNZi8wVTIwbWc1Z2ZOSTZTSVZ4cUVBMWErckxPM0RTb1lI?=
- =?utf-8?B?TWJiZCt6OXNyZkZqdVV0Y2EvR1VnVHV1cVorNXpZemIzNXRZS0Y3L0RaVWpS?=
- =?utf-8?B?c3Izems0aFk0MHcxQk4ycVBGMU5waklRK2Zqd0ZRYllpNytPL2tNZ1VZaUFr?=
- =?utf-8?B?aWpqL1VGeFhHcUJIQmtodFB0dUMxZUMvRGN3UkxNbUIxOGdkMWdLNG5yemZZ?=
- =?utf-8?B?dnhVUllMZjhNejdzSE5jNUpZcjVuZTdPMDN5RGljRTB5TWxQeWJ5QkVzTjcy?=
- =?utf-8?B?MnpwektnUGtTRml5UC9IL0RiVnRheUtnMlQybE81OHNOOGxKUWhEbTk2MEtE?=
- =?utf-8?B?eURQdVhQTzhlNzB0Rm9vY2xnM2hTRExjN2xrRzVlNlNZZlRIWUE0ZkxBR3F2?=
- =?utf-8?B?RStuMW9PSzFhcHhtamx0aERBTnVYTDYxRXJKMDV5M2JSWU1Kak10QnUxbWQx?=
- =?utf-8?B?Z3ZqcTVQOWkzV29qNUZKZkFvbzNUbCsrcWdDTmVuK2JONzVPb3luUlA0U0JU?=
- =?utf-8?B?ZkIzMk01Um9uei9DZFZsSStjYTFKbWd2SFFyeXBYbW96a0FFSEcweWNFc0wv?=
- =?utf-8?B?YkprV1FnRFJFYlI0ajQ1WkJHVVNIQnphbk1rV05YQkJiYnhlcHBpRVFBam4y?=
- =?utf-8?B?S08vOFdhcS9GZXpzVlY0VDdXUHVNT00yOHd3UHJEVWR2SmxBMmFyNVJwRHFy?=
- =?utf-8?B?b1BtcXg5ZjcxK3pPdU5pOHh3UWhQNVhUMDNWZ0xMVmlPYmJGZnB1ajg4cnZF?=
- =?utf-8?B?MHEzNll6dGlWcGlESkVuYVNnRFp1WTE2cEQ5Tm1kSHdscDJDcnZENENQaTJH?=
- =?utf-8?B?VjBVQ2hJVlMzUGxhWEpJWUhwczZYS0x5OHh1R1J1MUhtTDJFdjd5V2dPdjhF?=
- =?utf-8?B?ZHI0a2EvRGViMlJjYjNKYmRkeWlCeG9IdmE5a3h5aWxXa0tZdVg5Qm5Nc0Jz?=
- =?utf-8?B?Q05zZGNidk1HODVIaDZzcTM4cHZmcU1acmkvTElkbGpxSlZST3JQS3ZNWWZT?=
- =?utf-8?B?djJHdjljekcvQ1I0L1cvb3kvWkFUWU94NzhUZUZ3OEFJcXhGVG5ZMTNhRG0r?=
- =?utf-8?B?NFdPSVRZT1dvWU1FOHlCL3JJVFBOM3pyWUxRbGVXRys4bHIvOEdVb2RsNmdr?=
- =?utf-8?B?MU94NDAxaXpubEJteWxvaDFMbW9qVi9xVlpBYkJaL1FKcXRZYXUvUWxMUVBT?=
- =?utf-8?B?QlBqK1Rzanp3THVHbFBYRitOS0ZvdGhMU0pjM1BVQ3FXVVI0UnVwdWV4TGhN?=
- =?utf-8?B?dEtLZ0daMHk4RnRhK29DdDVIRlVQWnlIcXplUEhXTVFSQlNMZFcvd005VEZ3?=
- =?utf-8?B?UkVQVWNqRjUzaTlibWFTVEFZdTlsMnpRbTJnOEhVUXNydGhTU1FiUGxmaHpa?=
- =?utf-8?B?dWRLaUFuNXluMFVndE1NS1RrM0RZVS9kVHB5U0RwZERFZGdnUFlSN01kSlFP?=
- =?utf-8?B?TTBOOXNIb2U1UkdpVHFKVHJpQkwyenBVQVhaMDlaNEpZRjg3UmRzczM0YWF5?=
- =?utf-8?B?UFpjb29Gd3VScWRXa1pZaks4N0x3SHRWQkcwUllNV1RpdTE2aW5TcjdtYlYy?=
- =?utf-8?B?Y3dTeXVwT2h4cTV4YkJkNXhJcEZaK3BBZFhVcjE5aGpDWlA4N0s5MVN6eU1V?=
- =?utf-8?B?Q0ViZW0vbHdRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(7416014)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXI4RlIwdWdmeldrNzNsemZ0R1RGV1cwRnlEUWJ0MWxiRVgxajVxaThPRHJq?=
- =?utf-8?B?dWMxdGJZRmw5RjY2MURkekJkN2Q5M1BuK3hGbWY0Z0RCRkJYMkxaMm12RTB3?=
- =?utf-8?B?dTJrSHozZHBWeGlONXpPWjhHTTkzYmFTdmZLN1NnYUNHaWFlb3psMWZINEFE?=
- =?utf-8?B?YmNsS0tUeUE0UDBmK0xPWGp2dmdVWnNhTWJzQ3RLZkJ4N0xLUzUxQjIxQnpD?=
- =?utf-8?B?NkIralZJNEZqcm5IWkpHSTRhVnJzcTFNb0FKVDZua2k3MWl4ZTF0cVpjK21P?=
- =?utf-8?B?V3JSR3pYN3hZc0c0aitjazlFMEhmL3ZhaUtyZFpWSVV2bkx3cjhzbEpCNllY?=
- =?utf-8?B?TkhocnpMN3VNODZKb0VKZ1NibC8zOGdjakNGWVVnWnJUVkQ0WHNKblV3ellL?=
- =?utf-8?B?QnVZMDU5UHlVcW83eUtBSDcxcG16VTU3aHlWbXBwK3J2aHZ3TG1PYXhJdFZr?=
- =?utf-8?B?OS9tYTZvcmJsNFJsTzcveGdrY0pLdndVd2FWRDFsZEVwY3RsMHlKUTgwYW16?=
- =?utf-8?B?QVF5eEpVbzJmYnVCMFlxZll6Ulg5dVgyVUxmTEhRSEZaRnQ3SnRxOGNqaHZ4?=
- =?utf-8?B?OGRSbWk3RzRrMHBzOEd5R2g0YUVPT3E2RjBLZzMvNHBybGFYbEF3Ry9hdzBm?=
- =?utf-8?B?QmJPYit6U0Zvbzd1WHdBUHdJNWU4Yi9TU2pjQTN6OFhPdUROUEJmNzUyMCtL?=
- =?utf-8?B?Sm9tSEtGZ2hzYW1nUGFXZnN4RVdGWXBSVk8rcmlmNXIvOTFNYlFPeW9VTDJK?=
- =?utf-8?B?OUxKV1JHcmgrWFZod2cwOS9pMFB4L251ZEdpcTBRMjZHSzBDUGc1akx6QXB5?=
- =?utf-8?B?L00ySENOZ2dsWGJ4WnBsOW5HUzJCR2U5c2ZQcXlPZkV4TWJZMmt2eUxBd0lt?=
- =?utf-8?B?Y1FodTh1SE5DWHZjdmRSR2tCQzMzOW50VkNQMkF4VDVEWjRuMm1JQ2tnSzdp?=
- =?utf-8?B?MVNUWnZZMWNKQ00xeERxSVNDTEdIVUR6NXY2UU00VmgrQmlXZUVqa2xMMXB0?=
- =?utf-8?B?NXpFMDRaeVlIZXJRMmdiajZQUXRaUVh6QTRoM01uR3plbFZFSzdYcTBBVzZD?=
- =?utf-8?B?a1p0ZDJvL0ZSQXMyMUEyd0FYTk8rK09LNlJrRTRUQmdtbUhLeFQySFZucmVU?=
- =?utf-8?B?YklRdC9NTDJWNFRXRnV3SmkvbWpBMGtNMnRBRFRXaHpOZ1NrUERXNkM2aVd4?=
- =?utf-8?B?MGFlTUxIQlNockxGcVQrNkp5Yk1sNk5SV09NTW95a25sTlcrSmNkeW45RVBH?=
- =?utf-8?B?U2MwSVlibkR5SHZWM3JGZHNtc1JqeHdOSVNYcDBDcjdPUUdCcDAxUEt5UTJm?=
- =?utf-8?B?VTN5WTVBUk4wMHQ4bmJUUCtCZGlMb2FsbVBHbmF5L3FMdFpUQzR3OFR1Yk41?=
- =?utf-8?B?RjQxUTE0OW5ydkdjdmdGWXluY0JtMjlBOGNCUktnVXMra2dMa1NNYVRJc2x0?=
- =?utf-8?B?TkZveDBBeGVCNURaenU2Nzk2K1dWYmNkZldVUVE5VW1McDJVVEszdkkvQWl1?=
- =?utf-8?B?UFF3NnBSU2xSZStKVGEycDk0SnhTbHVONnZGanlTTzB0V0FJWVQxa2ZQSEp0?=
- =?utf-8?B?YnVONkZUaHA4THNYZkFFT2ErdmljOFlxSG9RNThkUnYyNlI3RmhUKzJZWGRv?=
- =?utf-8?B?cFMxZmtxbmpGR3dCbEc0Y3dQb2FWZjI2akh4by9GY1c4N3AvaStwR3JsbnFT?=
- =?utf-8?B?b0VrYm1tczEyVGxwdUZYQ1NUV1hUMmhHUTZXTk1TWkpOYVMrN08yN1MrTW9E?=
- =?utf-8?B?ZDREcStYOHJWUmRvR3VmMHBtYndsRmhLTzVzTlNxemdGbEVqRS9nTEYra3Bz?=
- =?utf-8?B?M0NscU0zSTdLSkREWEV4TVZQblNpL2dnTUtGU1I1NWg5RGREV1dmU3BmN29w?=
- =?utf-8?B?M1J0UGF0eTZUN3lvL2RGRnZTazVtUFJkZER1ZHJtaHBqdC9KZVhQa0hNa0hO?=
- =?utf-8?B?TEJxQ0NZWHB1dVpnY1hLL1dBOFFodHlmcjNvWWJZQ1BjN2oxL2Vob0V5SWR3?=
- =?utf-8?B?bEUxYTh6aTRVMUp3Q2srYmJTQlQ0Mm11M2VHTXI3RFRUL09MYWMwejBVTW9M?=
- =?utf-8?B?dnEwclcwcFFSN2REVUN0eU9nWDJNYVNpRWN4Y1dRTTVhUVB2VnBpQkpHT3lv?=
- =?utf-8?B?WVRxRU83dmxtaW4wTjlYQWYxS3N0eGN5VkZmTEp3aDhYTS9aNUlhY3FNUmU0?=
- =?utf-8?Q?spnQebYUYKw3pj5sYcD/ttcnwB5ionJsj3OB+YLbVLPX?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57db365e-d5f4-4736-461b-08dde3c78700
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 11:07:06.1336 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k4/hFsNIXejVI81M+2/TjsSZZ3uVE2Fdg+b2rfGAzcNzI4sRUnKmoCkfBp070VipwgWFdS8U0CQDLHd3l1qjyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7184
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250825092833.42441-1-zhangzihuan@kylinos.cn>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 0HsQaFGcKHYEMjGxfTSlUJWF6XneJCL9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAyMSBTYWx0ZWRfX/4+yCBHiZkyj
+ BezOHO0JD1p7OO2PV8xmQ1v5shFYKr21Uw1c2F4fW4uXyPCsxOE6ILKOy08exTWUNA73a36dDQc
+ c4y6wbPoU5LvDYQlXlcAhPLqk3LFWCLZ3dICMLqR2WHDlet2Ldgi5be5Hduqsg6kr8/WbswzYXj
+ eL+wfLc/Jeqecx6jg74QDQFlvafBQN6LUG8LrX8tqwzhzd9GgzIeu7kk/N0P/CWyJHwlrc5PIUz
+ Z4q/fYjm6PpSFTkG5SI7ARvGOK+wODTfBZnnKDnPI4C3Bn1Qhf3Y6EvQDrYoSo6dxKELAUhByqt
+ uCcp7lr/HsMOwiulBYsJ81MWSKnZa8+YC9DKTxtqevYNdz87q6XWFXB9AUbfcQ36nGSAmLoiq7W
+ P4ME2Djp
+X-Proofpoint-ORIG-GUID: gtLwqruV6tGzAQkR_fGqnCUDyXx-v5l-
+X-Authority-Analysis: v=2.4 cv=SNNCVPvH c=1 sm=1 tr=0 ts=68ac4903 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=I94fdbTdu9Vpa8W20_wA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-25_05,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 bulkscore=0 phishscore=0 clxscore=1011
+ impostorscore=0 malwarescore=0 suspectscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230021
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,239 +157,267 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joel,
-
-On Sun Aug 24, 2025 at 10:59 PM JST, Joel Fernandes wrote:
-> Add a minimal bitfield library for defining in Rust structures (called
-> bitstruct), similar in concept to bit fields in C structs. This will be u=
-sed
-> for defining page table entries and other structures in nova-core.
-
-This is basically a rewrite (with some improvements, and some missing
-features) of the part of the `register!` macro that deals with
-bitfields. We planned to extract it into its own macro, and the split is
-already effective in its internal rules, so I'd suggest to just move the
-relevant rules into a new macro (as it will give you a couple useful
-features, like automatic conversion to enum types), and then apply your
-improvements on top of it. Otherwise we will end up with two
-implementations of the same thing, for no good justification IMHO.
-
-We were also planning to move the `register!` macro into the kernel
-crate this cycle so Tyr can use it, but this changes the plan a bit.
-Actually it is helpful, since your version implements one thing that we
-needed in the `register!` macro before moving it: visibility specifiers.
-So I would do things in this order:
-
-1. Extract the bitfield-related code from the `register!` macro into its
-   own macro (in nova-core), and make `register!` call into it,
-2. Add support for visibility specifiers and non-u32 types in your macro an=
-d
-   `register!`,
-3. Move both macros to the kernel crate (hopefully in time for the next
-   merge window so Tyr can make use of them).
-
-A few more comments inline.
-
->
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+On Mon, Aug 25, 2025 at 05:28:33PM +0800, Zihuan Zhang wrote:
+> This patch replaces all remaining uses of cpufreq_cpu_get() with
+> the __free(cpufreq_cpu_put) annotation.
+> 
+> Motivation:
+> - Ensures automatic cleanup of policy references when they go out of scope,
+>   reducing the risk of forgetting to call cpufreq_cpu_put() on early return
+>   or error paths.
+> - Brings the code in line with the latest kernel coding style and best
+>   practices for managing reference-counted objects.
+> - No functional changes are introduced; behavior remains the same,
+>   but reference counting is now safer and easier to maintain.
+> 
+> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
 > ---
->  drivers/gpu/nova-core/bitstruct.rs | 149 +++++++++++++++++++++++++++++
->  drivers/gpu/nova-core/nova_core.rs |   1 +
->  2 files changed, 150 insertions(+)
->  create mode 100644 drivers/gpu/nova-core/bitstruct.rs
->
-> diff --git a/drivers/gpu/nova-core/bitstruct.rs b/drivers/gpu/nova-core/b=
-itstruct.rs
-> new file mode 100644
-> index 000000000000..661a75da0a9c
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/bitstruct.rs
-
-I wonder whether this should go under the existing `bits.rs`, or be its
-own module?
-
-> @@ -0,0 +1,149 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +//
-> +// bitstruct.rs =E2=80=94 C-style library for bitfield-packed Rust struc=
-tures
-> +//
-> +// A library that provides support for defining bit fields in Rust
-> +// structures to circumvent lack of native language support for this.
-> +//
-> +// Similar usage syntax to the register! macro.
-
-Eventually the `register!` macro is the one that should reference this
-(simpler) one, so let's make it the reference. :)
-
+>  arch/arm64/kernel/topology.c                  |  9 +++----
+>  arch/x86/kvm/x86.c                            | 10 ++++----
+>  drivers/acpi/processor_thermal.c              | 13 ++++------
+>  drivers/cpufreq/brcmstb-avs-cpufreq.c         |  4 +---
+>  drivers/cpufreq/cppc_cpufreq.c                |  4 +---
+>  drivers/cpufreq/intel_pstate.c                |  3 +--
+>  drivers/cpufreq/longhaul.c                    |  3 +--
+>  drivers/cpufreq/mediatek-cpufreq.c            |  6 ++---
+>  drivers/cpufreq/powernv-cpufreq.c             |  6 ++---
+>  drivers/cpufreq/s5pv210-cpufreq.c             |  3 +--
+>  drivers/cpufreq/tegra186-cpufreq.c            |  3 +--
+>  drivers/devfreq/governor_passive.c            | 19 ++++-----------
+>  drivers/gpu/drm/i915/gt/intel_llc.c           |  3 +--
+>  drivers/macintosh/windfarm_cpufreq_clamp.c    |  4 +---
+>  drivers/powercap/dtpm_cpu.c                   | 24 ++++++-------------
+>  drivers/thermal/imx_thermal.c                 |  7 ++----
+>  .../ti-soc-thermal/ti-thermal-common.c        |  5 +---
+>  kernel/power/energy_model.c                   |  7 ++----
+>  18 files changed, 40 insertions(+), 93 deletions(-)
+> 
+> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
+> index 5d07ee85bdae..e3cb6d54f35b 100644
+> --- a/arch/arm64/kernel/topology.c
+> +++ b/arch/arm64/kernel/topology.c
+> @@ -307,17 +307,16 @@ int arch_freq_get_on_cpu(int cpu)
+>  		 */
+>  		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
+>  		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAMPLE_EXP_MS))) {
+> -			struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
+> +			struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>  			int ref_cpu;
+>  
+> +			policy = cpufreq_cpu_get(cpu);
+>  			if (!policy)
+>  				return -EINVAL;
+>  
+>  			if (!cpumask_intersects(policy->related_cpus,
+> -						housekeeping_cpumask(HK_TYPE_TICK))) {
+> -				cpufreq_cpu_put(policy);
+> +						housekeeping_cpumask(HK_TYPE_TICK)))
+>  				return -EOPNOTSUPP;
+> -			}
+>  
+>  			for_each_cpu_wrap(ref_cpu, policy->cpus, cpu + 1) {
+>  				if (ref_cpu == start_cpu) {
+> @@ -329,8 +328,6 @@ int arch_freq_get_on_cpu(int cpu)
+>  					break;
+>  			}
+>  
+> -			cpufreq_cpu_put(policy);
+> -
+>  			if (ref_cpu >= nr_cpu_ids)
+>  				/* No alternative to pull info from */
+>  				return -EAGAIN;
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index a1c49bc681c4..2a825f4ec701 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -9492,16 +9492,14 @@ static void kvm_timer_init(void)
+>  		max_tsc_khz = tsc_khz;
+>  
+>  		if (IS_ENABLED(CONFIG_CPU_FREQ)) {
+> -			struct cpufreq_policy *policy;
+> +			struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>  			int cpu;
+>  
+>  			cpu = get_cpu();
+>  			policy = cpufreq_cpu_get(cpu);
+> -			if (policy) {
+> -				if (policy->cpuinfo.max_freq)
+> -					max_tsc_khz = policy->cpuinfo.max_freq;
+> -				cpufreq_cpu_put(policy);
+> -			}
+> +			if (policy && policy->cpuinfo.max_freq)
+> +				max_tsc_khz = policy->cpuinfo.max_freq;
 > +
-> +use kernel::prelude::*;
+>  			put_cpu();
+>  		}
+>  		cpufreq_register_notifier(&kvmclock_cpufreq_notifier_block,
+> diff --git a/drivers/acpi/processor_thermal.c b/drivers/acpi/processor_thermal.c
+> index 1219adb11ab9..8367a81c4842 100644
+> --- a/drivers/acpi/processor_thermal.c
+> +++ b/drivers/acpi/processor_thermal.c
+> @@ -64,17 +64,14 @@ static int phys_package_first_cpu(int cpu)
+>  
+>  static int cpu_has_cpufreq(unsigned int cpu)
+>  {
+> -	struct cpufreq_policy *policy;
+> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>  
+>  	if (!acpi_processor_cpufreq_init)
+>  		return 0;
+>  
+>  	policy = cpufreq_cpu_get(cpu);
+> -	if (policy) {
+> -		cpufreq_cpu_put(policy);
+> -		return 1;
+> -	}
+> -	return 0;
 > +
-> +/// Macro for defining bitfield-packed structures in Rust.
-> +/// The size of the underlying storage type is specified with #[repr(TYP=
-E)].
-> +///
-> +/// # Example (just for illustration)
-> +/// ```rust
-> +/// bitstruct! {
-> +///     #[repr(u64)]
-> +///     pub struct PageTableEntry {
-> +///         0:0       present     as bool,
-> +///         1:1       writable    as bool,
-> +///         11:9      available   as u8,
-> +///         51:12     pfn         as u64,
-> +///         62:52     available2  as u16,
-> +///         63:63     nx          as bool,
+> +	return !!policy;
+>  }
+>  
+>  static int cpufreq_get_max_state(unsigned int cpu)
+> @@ -95,7 +92,7 @@ static int cpufreq_get_cur_state(unsigned int cpu)
+>  
+>  static int cpufreq_set_cur_state(unsigned int cpu, int state)
+>  {
+> -	struct cpufreq_policy *policy;
+> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>  	struct acpi_processor *pr;
+>  	unsigned long max_freq;
+>  	int i, ret;
+> @@ -127,8 +124,6 @@ static int cpufreq_set_cur_state(unsigned int cpu, int state)
+>  		max_freq = (policy->cpuinfo.max_freq *
+>  			    (100 - reduction_step(i) * cpufreq_thermal_reduction_pctg)) / 100;
+>  
+> -		cpufreq_cpu_put(policy);
+> -
+>  		ret = freq_qos_update_request(&pr->thermal_req, max_freq);
+>  		if (ret < 0) {
+>  			pr_warn("Failed to update thermal freq constraint: CPU%d (%d)\n",
+> diff --git a/drivers/cpufreq/brcmstb-avs-cpufreq.c b/drivers/cpufreq/brcmstb-avs-cpufreq.c
+> index 5940d262374f..71450cca8e9f 100644
+> --- a/drivers/cpufreq/brcmstb-avs-cpufreq.c
+> +++ b/drivers/cpufreq/brcmstb-avs-cpufreq.c
+> @@ -480,7 +480,7 @@ static bool brcm_avs_is_firmware_loaded(struct private_data *priv)
+>  
+>  static unsigned int brcm_avs_cpufreq_get(unsigned int cpu)
+>  {
+> -	struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
+> +	struct cpufreq_policy *policy __free(put_cpufreq_policy) = cpufreq_cpu_get(cpu);
+>  	struct private_data *priv;
+>  
+>  	if (!policy)
+> @@ -488,8 +488,6 @@ static unsigned int brcm_avs_cpufreq_get(unsigned int cpu)
+>  
+>  	priv = policy->driver_data;
+>  
+> -	cpufreq_cpu_put(policy);
+> -
+>  	return brcm_avs_get_frequency(priv->base);
+>  }
+>  
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index 4a17162a392d..7183754b1f31 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -726,7 +726,7 @@ static int cppc_get_perf_ctrs_sample(int cpu,
+>  static unsigned int cppc_cpufreq_get_rate(unsigned int cpu)
+>  {
+>  	struct cppc_perf_fb_ctrs fb_ctrs_t0 = {0}, fb_ctrs_t1 = {0};
+> -	struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
+> +	struct cpufreq_policy *policy __free(put_cpufreq_policy) = cpufreq_cpu_get(cpu);
+>  	struct cppc_cpudata *cpu_data;
+>  	u64 delivered_perf;
+>  	int ret;
+> @@ -736,8 +736,6 @@ static unsigned int cppc_cpufreq_get_rate(unsigned int cpu)
+>  
+>  	cpu_data = policy->driver_data;
+>  
+> -	cpufreq_cpu_put(policy);
+> -
+>  	ret = cppc_get_perf_ctrs_sample(cpu, &fb_ctrs_t0, &fb_ctrs_t1);
+>  	if (ret) {
+>  		if (ret == -EFAULT)
+> diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pstate.c
+> index f366d35c5840..fb962140af56 100644
+> --- a/drivers/cpufreq/intel_pstate.c
+> +++ b/drivers/cpufreq/intel_pstate.c
+> @@ -1698,7 +1698,7 @@ static ssize_t store_no_turbo(struct kobject *a, struct kobj_attribute *b,
+>  static void update_qos_request(enum freq_qos_req_type type)
+>  {
+>  	struct freq_qos_request *req;
+> -	struct cpufreq_policy *policy;
+> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>  	int i;
+>  
+>  	for_each_possible_cpu(i) {
+> @@ -1710,7 +1710,6 @@ static void update_qos_request(enum freq_qos_req_type type)
+>  			continue;
+>  
+>  		req = policy->driver_data;
+> -		cpufreq_cpu_put(policy);
+>  
+>  		if (!req)
+>  			continue;
+> diff --git a/drivers/cpufreq/longhaul.c b/drivers/cpufreq/longhaul.c
+> index ba0e08c8486a..ae5596919671 100644
+> --- a/drivers/cpufreq/longhaul.c
+> +++ b/drivers/cpufreq/longhaul.c
+> @@ -950,7 +950,7 @@ static int __init longhaul_init(void)
+>  
+>  static void __exit longhaul_exit(void)
+>  {
+> -	struct cpufreq_policy *policy = cpufreq_cpu_get(0);
+> +	struct cpufreq_policy *policy __free(put_cpufreq_policy) = cpufreq_cpu_get(0);
+>  	int i;
+>  
+>  	for (i = 0; i < numscales; i++) {
+> @@ -968,7 +968,6 @@ static void __exit longhaul_exit(void)
+>  		}
+>  	}
+>  
+> -	cpufreq_cpu_put(policy);
+>  	cpufreq_unregister_driver(&longhaul_driver);
+>  	kfree(longhaul_table);
+>  }
+> diff --git a/drivers/cpufreq/mediatek-cpufreq.c b/drivers/cpufreq/mediatek-cpufreq.c
+> index f3f02c4b6888..1fae060e16d9 100644
+> --- a/drivers/cpufreq/mediatek-cpufreq.c
+> +++ b/drivers/cpufreq/mediatek-cpufreq.c
+> @@ -320,7 +320,7 @@ static int mtk_cpufreq_opp_notifier(struct notifier_block *nb,
+>  	struct dev_pm_opp *new_opp;
+>  	struct mtk_cpu_dvfs_info *info;
+>  	unsigned long freq, volt;
+> -	struct cpufreq_policy *policy;
+> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>  	int ret = 0;
+>  
+>  	info = container_of(nb, struct mtk_cpu_dvfs_info, opp_nb);
+> @@ -354,11 +354,9 @@ static int mtk_cpufreq_opp_notifier(struct notifier_block *nb,
+>  
+>  			dev_pm_opp_put(new_opp);
+>  			policy = cpufreq_cpu_get(info->opp_cpu);
+> -			if (policy) {
+> +			if (policy)
+>  				cpufreq_driver_target(policy, freq / 1000,
+>  						      CPUFREQ_RELATION_L);
+> -				cpufreq_cpu_put(policy);
+> -			}
+>  		}
+>  	}
+>  
+> diff --git a/drivers/cpufreq/powernv-cpufreq.c b/drivers/cpufreq/powernv-cpufreq.c
+> index 7d9a5f656de8..ea9d78bbeb38 100644
+> --- a/drivers/cpufreq/powernv-cpufreq.c
+> +++ b/drivers/cpufreq/powernv-cpufreq.c
+> @@ -892,7 +892,7 @@ static int powernv_cpufreq_reboot_notifier(struct notifier_block *nb,
+>  				unsigned long action, void *unused)
+>  {
+>  	int cpu;
+> -	struct cpufreq_policy *cpu_policy;
+> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
 
-A note on syntax: for nova-core, we may want to use the `H:L` notation,
-as this is what OpenRM uses, but in the larger kernel we might want to
-use inclusive ranges (`L..=3DH`) as it will look more natural in Rust
-code (and is the notation the `bits` module already uses).
+There's a typo here. I got a compile error because of wrong variable name.
 
-> +///     }
-> +/// }
-> +/// ```
-> +///
-> +/// This generates a struct with methods:
-> +/// - Constructor: `default()` sets all bits to zero.
-> +/// - Field accessors: `present()`, `pfn()`, etc.
-> +/// - Field setters: `set_present()`, `set_pfn()`, etc.
-> +/// - Builder methods: `with_present()`, `with_pfn()`, etc.
-> +/// - Raw conversion: `from_raw()`, `into_raw()`
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct {
-> +    (
-> +        #[repr($storage:ty)]
-> +        $vis:vis struct $name:ident {
-> +            $(
-> +                $hi:literal : $lo:literal $field:ident as $field_type:tt
-> +            ),* $(,)?
-> +        }
-> +    ) =3D> {
-> +        #[repr(transparent)]
-> +        #[derive(Copy, Clone, Default)]
-> +        $vis struct $name($storage);
-> +
-> +        impl $name {
-> +            /// Create from raw value
-> +            #[inline(always)]
-> +            $vis const fn from_raw(val: $storage) -> Self {
-> +                Self(val)
-> +            }
-> +
-> +            /// Get raw value
-> +            #[inline(always)]
-> +            $vis const fn into_raw(self) -> $storage {
-> +                self.0
-> +            }
-> +        }
-> +
-> +        impl core::fmt::Debug for $name {
-> +            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt=
-::Result {
-> +                write!(f, "{}({:#x})", stringify!($name), self.0)
-> +            }
-> +        }
-> +
-> +        // Generate all field methods
-> +        $(
-> +            bitstruct_field_impl!($vis, $name, $storage, $hi, $lo, $fiel=
-d as $field_type);
-
-Maybe use internal rules [1] instead of a private macro (that cannot be so
-private :))
-
-[1] https://lukaswirth.dev/tlborm/decl-macros/patterns/internal-rules.html
-
-> +        )*
-> +    };
-> +}
-> +
-> +/// Helper to calculate mask for bit fields
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_mask {
-> +    ($hi:literal, $lo:literal, $storage:ty) =3D> {{
-> +        let width =3D ($hi - $lo + 1) as usize;
-> +        let storage_bits =3D 8 * core::mem::size_of::<$storage>();
-> +        if width >=3D storage_bits {
-> +            <$storage>::MAX
-> +        } else {
-> +            ((1 as $storage) << width) - 1
-> +        }
-> +    }};
-> +}
-
-Is there a way to leverage the `genmask_*` functions of the `bits` module?
-
-> +
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_field_impl {
-> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, $lo:literal=
-, $field:ident as $field_type:tt) =3D> {
-> +        impl $struct_name {
-> +            #[inline(always)]
-> +            $vis const fn $field(&self) -> $field_type {
-> +                let field_val =3D (self.0 >> $lo) & bitstruct_mask!($hi,=
- $lo, $storage);
-> +                bitstruct_cast_value!(field_val, $field_type)
-> +            }
-> +        }
-> +        bitstruct_make_setters!($vis, $struct_name, $storage, $hi, $lo, =
-$field, $field_type);
-> +    };
-> +}
-> +
-> +/// Helper macro to convert extracted value to target type
-> +///
-> +/// Special handling for bool types is required because the `as` keyword
-> +/// cannot be used to convert to bool in Rust. For bool fields, we check
-> +/// if the extracted value is non-zero. For all other types, we use the
-> +/// standard `as` conversion.
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_cast_value {
-> +    ($field_val:expr, bool) =3D> {
-> +        $field_val !=3D 0
-> +    };
-> +    ($field_val:expr, $field_type:tt) =3D> {
-> +        $field_val as $field_type
-> +    };
-> +}
-> +
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_write_bits {
-> +    ($raw:expr, $hi:literal, $lo:literal, $val:expr, $storage:ty) =3D> {=
-{
-> +        let mask =3D bitstruct_mask!($hi, $lo, $storage);
-> +        ($raw & !(mask << $lo)) | ((($val as $storage) & mask) << $lo)
-> +    }};
-> +}
-> +
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_make_setters {
-> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, $lo:literal=
-, $field:ident, $field_type:tt) =3D> {
-> +        ::kernel::macros::paste! {
-> +            impl $struct_name {
-> +                #[inline(always)]
-> +                #[allow(dead_code)]
-> +                $vis fn [<set_ $field>](&mut self, val: $field_type) {
-> +                    self.0 =3D bitstruct_write_bits!(self.0, $hi, $lo, v=
-al, $storage);
-> +                }
-> +
-> +                #[inline(always)]
-> +                #[allow(dead_code)]
-> +                $vis const fn [<with_ $field>](mut self, val: $field_typ=
-e) -> Self {
-> +                    self.0 =3D bitstruct_write_bits!(self.0, $hi, $lo, v=
-al, $storage);
-> +                    self
-> +                }
-> +            }
-> +        }
-> +    };
-> +}
-
-Yep, I think you definitely want to put these into internal rules - see
-how `register!` does it, actually it should be easy to extract these
-rules only and implement your improvements on top.
+Thanks,
+Gautam
