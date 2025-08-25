@@ -2,60 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC863B3447C
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 16:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FA9BB344B3
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 16:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA1B010E4E0;
-	Mon, 25 Aug 2025 14:48:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B537910E4DB;
+	Mon, 25 Aug 2025 14:55:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BuOAR6Fk";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="hVYuWiFL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C6B10E4DB;
- Mon, 25 Aug 2025 14:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756133318; x=1787669318;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=igLgfQf8niMslP9gUWwii0eKXSnbu7+LbSOO9i299Vg=;
- b=BuOAR6FkT79adaOxbc9pjrIMht91N9Vjv+F3z1QqIItgfaPCJwOsbMrM
- jxcBqYM8P+VYfL+3RYsBz8RDu/MC5M0qKur9XRICx+QGUrxax2BemrM6x
- bXVcVJL3j8F8TTFzMVztxuE7BiFWlRHFPSRm3SYCVdzCm6WulI9BbZDE9
- w0kz0hfdqZ7LYALXvjBhAqqo2zYQu4IU8PrgC5T/n658vLUze7TprMF+9
- VJgwpFnrMeZ8T9930vRVBtirmkHjpukGs/TsuCUf1YxLrODuRXazW1gqn
- cF29Ncso7i1uwKt1qL/4H+UwrEMoR7iGOiZ+jZfENfQNcoSyDU0qciMUk A==;
-X-CSE-ConnectionGUID: mHe30Yy+SESnb5net7LsBA==
-X-CSE-MsgGUID: Ttc05zbBRIqG/pjfKxi6kQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="57549243"
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; d="scan'208";a="57549243"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 07:48:33 -0700
-X-CSE-ConnectionGUID: fqJSsQ8qRUWETVbsA121PQ==
-X-CSE-MsgGUID: o0FhxdbCQ86eVFHeCbzmAQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; d="scan'208";a="168915616"
-Received: from black.igk.intel.com ([10.91.253.5])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 07:48:31 -0700
-Date: Mon, 25 Aug 2025 16:48:28 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andi Shyti <andi.shyti@kernel.org>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/xe: Skip creation of pcode sysfs files when pcode is
- disabled
-Message-ID: <aKx3vHwxnzf4cExx@black.igk.intel.com>
-References: <20250819175529.3722716-1-andi.shyti@kernel.org>
- <aKibCnAxTuYcKtWx@intel.com> <aKxzu8njh9Xc0wyU@ashyti-mobl2.lan>
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE3C10E4DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 14:55:30 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-55f3ec52a42so2034197e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 07:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1756133729; x=1756738529;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HZltQqa1JiPaVTEAokUCgaMM7517JDy9kaVACznP6Mg=;
+ b=hVYuWiFLFAJNEp+o1HjHc+8ViL5x+jgL/nUmzX/0D2a1Arqx6z1XocfSK941BkBoZZ
+ 7M2W90kWGqJz9urOo03gfxv8wPuZSzJp526tVDcjF9/0QOfGrdHCC4iAli0ga2QIbRNT
+ Ln7swiQeZKx8Ev61A0Jy9qAofYO0ZBbl26/PQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756133729; x=1756738529;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HZltQqa1JiPaVTEAokUCgaMM7517JDy9kaVACznP6Mg=;
+ b=NuUB2ZvUYiKTrA+Ab0LGS1C5qyzan3NWC9PBu5O98D7UFaJSssa2l0ug0eyMFsgdTO
+ aivmKvItU80pHrFkCIal1bQhW4pXgUYJeJeSGGiTA5lWCIPHS8jd+U9TJU3k6JpzIc7y
+ 8QKQcRPpWomocDdq60IJMRFGVqDT8h+2oLIR3I51vEKs06CLN+zuWwnIziCxdOAZzy96
+ xPj1aYlsKN1V1UEhaDVVi+mtyDX/WZ03g6oKULEUaTjhLqZD4fr/37RjsgW2J3ReSUtJ
+ oLkPBDpiIE8/6jndTSpDxga2YvDX/S26A838IA+FI4MeO9GXX/RiLRI2LSjImqZNl4tf
+ +esQ==
+X-Gm-Message-State: AOJu0YxsiHLIfAbaXgbL2EoS2JDzQ2zhBw+HfbMAo4858HnDUDcbMyxH
+ fwwgroO3hnzMcbhAs8nU4Gu4dFso1WHnasdDnKPEPGEeuVoeDAG525JXWv0ip0ez4un/BQsogDt
+ 6RCHeXMNhiYESGGJgowqsARRlv8HhUrnCnKnKeIph
+X-Gm-Gg: ASbGncvDX7Xu0oGa1riv2J0u4rbdb8LkUXUOFan9fiLmJNVMLwgdmMso6R4z3bfSeii
+ scB78LQNM871yQBHED0WZLuklpoiX8MT2sM9Cnhieird5vedawS8tcQo9aiT0Q3XOJnmXrW4EIW
+ AuvMcZART7u9/Ky0GYWhAA4apeGTtiqvfI3kBWNSNXEzBJngR6R22QUBEL3U/bZvydHeAzISC2w
+ ghFHl8d1Q==
+X-Google-Smtp-Source: AGHT+IEZpeoTDTSsArwCzl1l1l/wwXdnUcf5tNDKdV7KZZc7u29Ae3NIxjZuKBLSH1BoqzL03/Y6m1XaPeFnfadFQPw=
+X-Received: by 2002:a05:6512:12c4:b0:55f:43ab:b214 with SMTP id
+ 2adb3069b0e04-55f43abb552mr1458116e87.15.1756133728719; Mon, 25 Aug 2025
+ 07:55:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aKxzu8njh9Xc0wyU@ashyti-mobl2.lan>
+References: <20250821175613.14717-1-ebiggers@kernel.org>
+In-Reply-To: <20250821175613.14717-1-ebiggers@kernel.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 25 Aug 2025 16:55:17 +0200
+X-Gm-Features: Ac12FXxjKOcBiTNpPdKXqoqBJ4orKCURYaKZfX9c6jF45-S8ShurjJD2-s3Vx6s
+Message-ID: <CAGXv+5FxXcJxfCUcX2SY-agbi-sr+btXq2-sDx6quwGF2vu8ew@mail.gmail.com>
+Subject: Re: [PATCH drm-next v2] drm/bridge: it6505: Use SHA-1 library instead
+ of crypto_shash
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-crypto@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,58 +84,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 04:31:23PM +0200, Andi Shyti wrote:
-> Hi Rodrigo,
-> 
-> On Fri, Aug 22, 2025 at 12:30:02PM -0400, Rodrigo Vivi wrote:
-> > On Tue, Aug 19, 2025 at 04:55:29PM -0100, Andi Shyti wrote:
-> > > From: Andi Shyti <andi.shyti@linux.intel.com>
-> > > 
-> > > Coverity warns that 'cap' may be used uninitialised. If pcode
-> > > is disabled there is no need to go through the hassle of a
-> > > pcode read or taking a PM reference.
-> > 
-> > Please mark it as false positive!
-> 
-> this patch is not for fixing the Coverity warning, but I saw it
-> useless to step any further if there is skip pcode.
-> 
-> The same check is done later in the function, but in the meantime
-> we have done a few things that we could have spared.
+On Thu, Aug 21, 2025 at 7:56=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
+wrote:
+>
+> Instead of using the "sha1" crypto_shash, simply call the sha1() library
+> function.  This is simpler and faster.
+>
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
 
-I tried something similar a few days ago, but perhaps not very convincingly
-I presume.
-
-[1] https://lore.kernel.org/intel-xe/20250806152256.748057-1-raag.jadav@intel.com/
-
-Raag
-
-> > We will only get here for BMG which has pcode for sure.
-> > 
-> > > 
-> > > Check skip_pcode early in the function and return if it is set.
-> > > 
-> > > No change for platforms where pcode is enabled.
-> > > 
-> > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > > ---
-> > >  drivers/gpu/drm/xe/xe_device_sysfs.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/xe/xe_device_sysfs.c b/drivers/gpu/drm/xe/xe_device_sysfs.c
-> > > index bd9015761aa0..3a083c215891 100644
-> > > --- a/drivers/gpu/drm/xe/xe_device_sysfs.c
-> > > +++ b/drivers/gpu/drm/xe/xe_device_sysfs.c
-> > > @@ -156,6 +156,9 @@ static int late_bind_create_files(struct device *dev)
-> > >  	u32 cap;
-> > >  	int ret;
-> > >  
-> > > +	if (xe->info.skip_pcode)
-> > > +		return 0;
-> > > +
-> > >  	xe_pm_runtime_get(xe);
-> > >  
-> > >  	ret = xe_pcode_read(root, PCODE_MBOX(PCODE_LATE_BINDING, GET_CAPABILITY_STATUS, 0),
-> > > -- 
-> > > 2.50.0
-> > > 
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
