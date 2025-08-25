@@ -2,46 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58F1B336CB
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:53:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFD3B336C7
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:52:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11F1510E345;
-	Mon, 25 Aug 2025 06:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57EF010E10A;
+	Mon, 25 Aug 2025 06:52:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RQrp85x4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="F592vUhF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4DDD10E345
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 06:53:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 430975C10F1;
- Mon, 25 Aug 2025 06:53:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63C20C116B1;
- Mon, 25 Aug 2025 06:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756104797;
- bh=e4plMWX7Y08I3aCOZjuwuqMbBWvJfYBKz86PFv30pzc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RQrp85x4J7e52YNw7+dNTzmh5cKQcLUUZ6Ie2+STxCT6Tw5Xz0oDWOeXue/YEcYLu
- l8dal/icUZZG6p23O533C0WqbIgDn6VWi6cSYvBGmua8bBJoWK3Q7Zw23xh6ErS6lW
- JTLV43ss8hFaHaIggvjOjZm8hzknXHMW3584rqbm5g/JmiT3AOsYDQaJV1XZbXJZNe
- 5IfpOb5Vthhxf1nfVKPR92fs3XsY7K+9MDTTX/LlT91vET+YZFjoV24qwijIFTUtiE
- bf2KQNY227cQfwudxrsmsCLcb5S0HpgPsfsLJnEvRgdGmvFsuU02kBG2Eo3M23z+hz
- a8kqy0SQq9ZUw==
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@kernel.org>,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 8/8] gpu: drm: display: drm_dp_cec: update Hans' email address
-Date: Mon, 25 Aug 2025 08:51:55 +0200
-Message-ID: <9b18e1f8241e9df6d8f8b2286a197c25031de25b.1756104715.git.hverkuil+cisco@kernel.org>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <cover.1756104715.git.hverkuil+cisco@kernel.org>
-References: <cover.1756104715.git.hverkuil+cisco@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 281E310E10A
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 06:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756104775; x=1787640775;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Pw4R0JRwOlo69W0fOMxFrongozeKctpnEVzcC+YMLEE=;
+ b=F592vUhFwlY5EG1tN/I4UW8wCo1ikRA6cGbC6uKBRKpp0ruk9gkaGZ2b
+ NDP9LKlc672jPaih8XGv38wPOVEueiXH7aKU1DbRc89Zc+1zklnfN9F1D
+ YcnPFdZ/jfrf+qUzlPa85OzUFZrHEH+vPRJAkflzXkTYkGnjmre43J9pH
+ 3Vlzz0b3iu1iP59pSPUap5U2gmQls5LO5yUAum9ibfWnttStnUgsV+TjP
+ P+Fi1UgHG/NLPEPiF6oHjsNuiYomTZKuYmFN/Ny8Ol/o7+yWbwZbXJnlj
+ ylw6q1vNbY5h4pcrriBQeRYuFlggiTkXxCtib1niuTUDaR88VCdxNKxRU A==;
+X-CSE-ConnectionGUID: iiSS+o9MTgu2uCQk42BsEw==
+X-CSE-MsgGUID: qu2A1FM7RNab+Gc5FzVaBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="69682425"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="69682425"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2025 23:52:55 -0700
+X-CSE-ConnectionGUID: F/CmuwEbRs2WnANUvpaGiQ==
+X-CSE-MsgGUID: KM07or7OT3yxCBhxmAkgpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="169147423"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.15])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Aug 2025 23:52:51 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Matthew Wilcox <willy@infradead.org>, Sidhartha Kumar
+ <sidhartha.kumar@oracle.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Subject: Re: [PATCH v2 0/6] DRM IDR to Xarray conversions
+In-Reply-To: <aKiEUlldVf2YazK9@casper.infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250821145429.305526-1-sidhartha.kumar@oracle.com>
+ <f69669c873dbb99c239e9f2ddf154e983baa61e3@intel.com>
+ <e80a3fd9-56ca-40c5-8ac8-237ce14cc79f@oracle.com>
+ <aKiEUlldVf2YazK9@casper.infradead.org>
+Date: Mon, 25 Aug 2025 09:52:48 +0300
+Message-ID: <586cd833db27544321eb9521720803e148519557@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,29 +74,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hans Verkuil <hverkuil@kernel.org>
+On Fri, 22 Aug 2025, Matthew Wilcox <willy@infradead.org> wrote:
+> On Fri, Aug 22, 2025 at 10:36:24AM -0400, Sidhartha Kumar wrote:
+>> On 8/22/25 8:33 AM, Jani Nikula wrote:
+>> > It would be great if the commit messages mentioned whether the
+>> > identifiers are expected to remain the same in the conversion.
+>> 
+>> By identifiers do you mean if the name of the previous idr variable is the
+>> same as the XArray variable that is introduced? Sure I can add that in a v3.
+>
+> I think Jani means that the actual numbers assigned should remain the
+> saame after the conversion.
 
-Replace hverkuil@xs4all.nl by hverkuil@kernel.org.
+Yes. Do they?
 
-Signed-off-by: Hans Verkuil <hverkuil@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/display/drm_dp_cec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+BR,
+Jani.
 
-diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
-index 3b50d817c839..436bfe9f9081 100644
---- a/drivers/gpu/drm/display/drm_dp_cec.c
-+++ b/drivers/gpu/drm/display/drm_dp_cec.c
-@@ -42,7 +42,7 @@
-  *
-  * https://hverkuil.home.xs4all.nl/cec-status.txt
-  *
-- * Please mail me (hverkuil@xs4all.nl) if you find an adapter that works
-+ * Please mail me (hverkuil@kernel.org) if you find an adapter that works
-  * and is not yet listed there.
-  *
-  * Note that the current implementation does not support CEC over an MST hub.
+
 -- 
-2.47.2
-
+Jani Nikula, Intel
