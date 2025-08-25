@@ -2,120 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E1DB34982
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 19:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B912B3498E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 20:01:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3867F10E524;
-	Mon, 25 Aug 2025 17:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B04910E527;
+	Mon, 25 Aug 2025 18:01:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qsy62bIg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ghl/ANtT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A18110E524
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:59:51 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PHFCY1002246
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:59:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=BT8z0LRDEttEEOkFueZVNvOV
- Eoh74KzB/uLotVsvs+c=; b=Qsy62bIgM6U5BfJ/sNwL+GHDDY8ML6XjM2FOdzej
- FwnANLshgaI1pClWwhCsNVP2V3OrNe03ksN0LhaDkRyj7MViyPWoS8c+yKq4q02r
- KGafA4XIZhuFpWXPvrFJosM/qmX3QXm/UmHQ7kQ5LEyTU4A4Z0w9/9IWsppmYckv
- 38qsBRTYIy08oQ4CyfbRg1NTuKkFqWdYHyaBsFlT3dRSasafem07Jpv0v8vnK4Hk
- cNzxdNEdXp9PyZazFp7zOJ+D87+XIsI5N2s13bwnLLkCOfTLI6a+ML/pfqf5+JY2
- vHgXXl0mhFYZDOlGvl55c6FlDR5n3/XqbNuRcGLVfeDnHQ==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5y5dwbp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:59:51 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-70ba7aa13c3so177256606d6.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 10:59:51 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
+ [209.85.222.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9F9810E527
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 18:01:26 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id
+ a1e0cc1a2514c-8921eb4be94so3133151241.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 11:01:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1756144885; x=1756749685; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9JEgY7dRXCprre7D1t++kZh8E0Oja2bjhdoASUmixII=;
+ b=Ghl/ANtTWix95t3xF6RbGjSEzMzK7oQopz+10SaFruU9FG0YdtuuThbW38awRy2ivm
+ AVpqmDz+y6q0apRWkblZYVRCEJCLKxRF/wFoYaBZf6T6LhmO2YuoWsIoSOA7BeK8IupK
+ Lq0s6dlDT7y9n2qe852RpwxXCZnnXloPI9bTaiHDAd0Tikmc5zY5iLpruwobn2AyCxF3
+ w1NBZXUjVqJDGMPxfFFXujs07s1hXxn0wH6QFBCUEWKhHdZSfIuHSKf4p++qVnGGwyf6
+ Ftia4W+Pze2vAMmYm2JaQe030NgvwC3Lsi6NWAF1qr1BPKTMQPgt8MnwpE/tij5lwQ6n
+ g3QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756144790; x=1756749590;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BT8z0LRDEttEEOkFueZVNvOVEoh74KzB/uLotVsvs+c=;
- b=OZHPsQEQCif/AZiVmo3jU4MK0HKM2BaxPvzdFg2vRtANNvoAqfZ/HKwSPcay2mMmgF
- t/wSBHL9GZISxRcc07+xdEm3cWneLNipcXZsk1lIYzGjLqPUbawfDESo5rFncmlIAb34
- 0UqDJW6vQqrquXdzmQO3+2mISknF39Wp6ZlTlMkX9iTOmmOLRdjj/FvVGuCCmdZhPM4i
- o9YjVyooZzam1XztlVGO9XM61xwXgo1If7zd+TkJ9/C/Hz0xfY7HaKs89+MoPSS28h4W
- neAdW0yH4rM7bnt9qUcfO0j+4r96y5v6u68mM3Lmchuu7hlV6kfUeQW7LbzbZrhAMvgH
- CSXw==
+ d=1e100.net; s=20230601; t=1756144885; x=1756749685;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9JEgY7dRXCprre7D1t++kZh8E0Oja2bjhdoASUmixII=;
+ b=w3bDU0LM9tZuiHgEcZBC8c/4aQVy1bLvTC+Z07CI4sNdq+DxN72qWsLFiZmD03UD67
+ DDxNjQRtK6LpyGN5ECZqUj7vUDNoz1oNIRAgQ3sZL5oN9vWPrl1gO2gKyowYk+KMDTcq
+ rHc1pryGrXsFF8v9yEn3C8J+zw+D/64wI1TJLtb/krOFhJqiM+8L4I163EdVR6nTujdz
+ 6XOfoSU/80W/yXs4/a15mcVTh/ci5f8rXjU+MhDd1uCUWpB3nIhdNIbx/kSqY8uOfunv
+ B17iaokJbzM06lib1m3/AQBqRpMFHZL0GPUex4o164F6/7KFccQQMmMxNsXeJwWxM2n6
+ C3xg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU8gj7vDAvHwctJDYSh9ZIXrgT7VGip8sYxRIf9fjL2Z51SbIcO9pX3ndPSI8beqtUfLSomlsUC8jc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUGqWQNMGhPi5TqiOy6OzwAHPtQIXCCT8giHeOkUF9ZOajegFh
- yTcgdtQdvrq56St64zKvVr0RAXE8pYblTF4EJpEj1MFKOyOnJihrUEf7q9qrv1ML0y62WpZIhQx
- PUWm6xXf1gYnpvVoezmZW8dVFm4kYoSFz4R0Bq0Coso4v4JQgDd48N4Gp1jZD/A/b5oaz8gQ=
-X-Gm-Gg: ASbGnctaVDWLViQSpIOvcrH2m5CJjaQLOh4caRvpigRxxgGJ8iYMKrJmrdg0qVw1m4L
- F3lwUQC9CM9XJZia2WsI+Z7CTjvNL6WxhVkAZy25Zf+/b21YEbWCBMxE++Cf6w5GoLn1mMa8Krd
- S+k+ida7PsVNeWaV5gZhQIvpt0bPZG9Cg1herhy0IJxmYVx+fb28+LVFFTZXRiL5Y/M9qhkWEuz
- FYrTW3a69VbhN8vzz82m2doFeVfbmKKD+HAZcLbZJTu49nazRNGhausOBSgME0qiPO1egBMGeVC
- r3eZByGNSrXEcEKFiW6XOE8L+CpTixLJ+hg2il6rtaVDCCkmLNNEpjnX6mqLycrlozbqq0IUfhf
- URSZLkYPWKlems4CXScv20/A5LokKDnOG0dAqY7m1c7btwyvda3vH
-X-Received: by 2002:a05:6214:4113:b0:70d:aefc:359f with SMTP id
- 6a1803df08f44-70daefc3b2dmr81038576d6.48.1756144790042; 
- Mon, 25 Aug 2025 10:59:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHwVde9x0A7/XKsWMfqa29hD4anw+3k6una9QOlEoqt0TwOaBR72/exCERclaKnCCFGULaXgg==
-X-Received: by 2002:a05:6214:4113:b0:70d:aefc:359f with SMTP id
- 6a1803df08f44-70daefc3b2dmr81038186d6.48.1756144789324; 
- Mon, 25 Aug 2025 10:59:49 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3365e5d2b03sm16959081fa.56.2025.08.25.10.59.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Aug 2025 10:59:48 -0700 (PDT)
-Date: Mon, 25 Aug 2025 20:59:46 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v3 14/38] drm/msm/dp: Add support for programming
- p1/p2/p3 register blocks
-Message-ID: <34he7xawyuq5z4iiyq4y4ehkjhfalx2vxhtejgyxly4zgyqma7@4uqoas4sz3nl>
-References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
- <20250825-msm-dp-mst-v3-14-01faacfcdedd@oss.qualcomm.com>
+ AJvYcCWC/gSZi/tSn1QX4C9R0U/h3QkmXeUsiyMy1f5sedb6ytBaDEf9lunlA8HCtX5bx8pnKuJprKiSN6Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGi4kX1CDqLOW/f+dpG0Z3+MGc7y6Uj8tGTayx7J6vSObAyDeo
+ sqThEE5uUKVhHKJ9ze1GhhYPkaJCxZ+n023ThoNT3gFhHQRT8rVkWvJlu5yWhGcOoG/lcVv9oIv
+ vBhMSzidIzep22dkzvXpMXZMEEZ6FZ9o=
+X-Gm-Gg: ASbGncv+7Se7My9Vf23iPMZBL3kh40btigMJ2pJsvIwqLSgosgWHGNWVFg6hGOE6i6n
+ sgE5m2vbMslVBz5gXBumA3n3DI1LBYL9NnGZ8DrueEJ31oy0puZgg+ZCPYI9xy9BT6ryybmfcMX
+ CAyp7PTV1om+hXHu6OvUtAzEmoSxmPBRoiX67ezwUwDt/3xgMw3+KcUKFIb1mlWsrTYlczIqzzI
+ Rl+QUc=
+X-Google-Smtp-Source: AGHT+IEC33cQX3w4hqQ05JpwXSzo+DF9J6YqwU6e3jbvhn8xMt6PPLpI5WLLZwD+06SsM5WvDSWeKawFI5hyV3oKGUE=
+X-Received: by 2002:a05:6102:3e19:b0:4fa:e005:cb20 with SMTP id
+ ada2fe7eead31-51d0c8d7a21mr4380911137.3.1756144885138; Mon, 25 Aug 2025
+ 11:01:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-msm-dp-mst-v3-14-01faacfcdedd@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX0gpJlRcme7Ov
- SL/JsMnqN5RzKZ5nuORzgQLnoifkj2LsZnpdKDp0/Vb236FNDVXlYDKyk20wujuDYzRYFF8NjrU
- S1u/PC1NHaxWAyO7h4GbmRMQE6KQsTlLb2jhF1938aOKOU2Fq5oulZ9YsslIePUrXQiDCBI4e+5
- xdboLegAtxTLJnChXugtDJGagw3UCyWVz5PO7O2ccoOBI9NFepAm5ROQZfUwRUNR+e1VFtRYVg9
- +3rJjWqpULZP6Lx1yv5zz7jOw8fKwauDd6+zmL2EYLbDBXTBvxhtBNDrr959gp2QeIYRPhajLcL
- /CTy9z5kCiCndUC98KtHXQ620g7hb8ruV4H0t2s3Us6frgzfaEai60DjNh1jumOm0WjWjnHMnWn
- v3mUzCBs
-X-Authority-Analysis: v=2.4 cv=Lco86ifi c=1 sm=1 tr=0 ts=68aca497 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=6cDzrhBqED7EB3bCm2sA:9
- a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: XD8gM8yJ-la2HVzEabIK-_QyVKKxsY5K
-X-Proofpoint-ORIG-GUID: XD8gM8yJ-la2HVzEabIK-_QyVKKxsY5K
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-25_08,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 clxscore=1015 malwarescore=0 spamscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
+References: <20250823075139.34797-1-rampxxxx@gmail.com>
+ <20250823075139.34797-2-rampxxxx@gmail.com>
+ <704edc3cae07cf09f27ff476ff11ca5dd2779520@intel.com>
+In-Reply-To: <704edc3cae07cf09f27ff476ff11ca5dd2779520@intel.com>
+From: Giant Sand Fans <rampxxxx@gmail.com>
+Date: Mon, 25 Aug 2025 20:01:14 +0200
+X-Gm-Features: Ac12FXzSA7Kvn7HfMDWBLxmy3lBmT0sJaw4T_DFukIorI-nLs-5vgbIAFKff2XE
+Message-ID: <CABPJ0vh0VTdY4Mcso4m3224NZX01riSEBQng_=mvEZYgjgpBrA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm: fix kernel-doc struct tag for `drm_modeset_lock`.
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,293 +85,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 10:16:00PM +0800, Yongxing Mou wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> QCS8300 supports 4-stream MST. This patch adds support for the additional
-> pixel register blocks (p1, p2, p3), enabling multi-stream configurations.
-> 
-> To reduce code duplication, introduce helper functions msm_dp_read_pn and
-> msm_dp_write_pn. All pixel clocks (PCLKs) share the same register layout,
-> but use different base addresses.
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 39 +++++++++++++--------
->  drivers/gpu/drm/msm/dp/dp_panel.c   | 68 ++++++++++++++++++-------------------
->  2 files changed, 59 insertions(+), 48 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 3422f18bdec71a99407edfe943d31957d0e8847a..935a0c57a928b15a1e9a6f1fab2576b7b09acb8e 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -84,8 +84,8 @@ struct msm_dp_display_private {
->  	void __iomem *link_base;
->  	size_t link_len;
->  
-> -	void __iomem *p0_base;
-> -	size_t p0_len;
-> +	void __iomem *pixel_base[DP_STREAM_MAX];
-> +	size_t pixel_len;
->  
->  	int max_stream;
->  };
-> @@ -619,7 +619,7 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
->  		goto error_link;
->  	}
->  
-> -	dp->panel = msm_dp_panel_get(dev, dp->aux, dp->link, dp->link_base, dp->p0_base);
-> +	dp->panel = msm_dp_panel_get(dev, dp->aux, dp->link, dp->link_base, dp->pixel_base);
+On Mon, 25 Aug 2025 at 10:00, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+> On Sat, 23 Aug 2025, Javier Garcia <rampxxxx@gmail.com> wrote:
+> > - Add needed "@" to avoid warn messages about duplicated symbols
+> > as there is function and struct with the same name.
+> > - The fixed warning is:
+> >
+> >       ./Documentation/gpu/drm-kms:476: ./drivers/gpu/drm/drm_modeset_lock.c:377: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
+> >       Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'. [duplicate_declaration.c]
+>
+> Please look into why adding @ here appear to fix the issue.
+>
+> The problem is deeper than what this patch makes it seem, and this
+> papers over the issue in a way that sets the wrong example for the
+> future.
 
-Why do we need to pass pixel base here? Shouldn't it be pixel_base[P0]?
+Thank you for the comment, I'll look deeper into this.
 
->  	if (IS_ERR(dp->panel)) {
->  		rc = PTR_ERR(dp->panel);
->  		DRM_ERROR("failed to initialize panel, rc = %d\n", rc);
-> @@ -937,8 +937,8 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
->  				    msm_dp_display->aux_base, "dp_aux");
->  	msm_disp_snapshot_add_block(disp_state, msm_dp_display->link_len,
->  				    msm_dp_display->link_base, "dp_link");
-> -	msm_disp_snapshot_add_block(disp_state, msm_dp_display->p0_len,
-> -				    msm_dp_display->p0_base, "dp_p0");
-> +	msm_disp_snapshot_add_block(disp_state, msm_dp_display->pixel_len,
-> +				    msm_dp_display->pixel_base[0], "dp_p0");
-
-This should add all blocks used on this platform.
-
->  }
->  
->  void msm_dp_display_set_psr(struct msm_dp *msm_dp_display, bool enter)
-> @@ -1181,12 +1181,13 @@ static void __iomem *msm_dp_ioremap(struct platform_device *pdev, int idx, size_
->  #define DP_DEFAULT_AUX_SIZE	0x0200
->  #define DP_DEFAULT_LINK_OFFSET	0x0400
->  #define DP_DEFAULT_LINK_SIZE	0x0C00
-> -#define DP_DEFAULT_P0_OFFSET	0x1000
-> -#define DP_DEFAULT_P0_SIZE	0x0400
-> +#define DP_DEFAULT_PIXEL_OFFSET	0x1000
-> +#define DP_DEFAULT_PIXEL_SIZE	0x0400
-
-No need to touch this. It's only required for legacy bindings.
-
->  
->  static int msm_dp_display_get_io(struct msm_dp_display_private *display)
->  {
->  	struct platform_device *pdev = display->msm_dp_display.pdev;
-> +	int i;
->  
->  	display->ahb_base = msm_dp_ioremap(pdev, 0, &display->ahb_len);
->  	if (IS_ERR(display->ahb_base))
-> @@ -1206,7 +1207,7 @@ static int msm_dp_display_get_io(struct msm_dp_display_private *display)
->  		 * reg is specified, so fill in the sub-region offsets and
->  		 * lengths based on this single region.
->  		 */
-> -		if (display->ahb_len < DP_DEFAULT_P0_OFFSET + DP_DEFAULT_P0_SIZE) {
-> +		if (display->ahb_len < DP_DEFAULT_PIXEL_OFFSET + DP_DEFAULT_PIXEL_SIZE) {
->  			DRM_ERROR("legacy memory region not large enough\n");
->  			return -EINVAL;
->  		}
-> @@ -1216,8 +1217,10 @@ static int msm_dp_display_get_io(struct msm_dp_display_private *display)
->  		display->aux_len = DP_DEFAULT_AUX_SIZE;
->  		display->link_base = display->ahb_base + DP_DEFAULT_LINK_OFFSET;
->  		display->link_len = DP_DEFAULT_LINK_SIZE;
-> -		display->p0_base = display->ahb_base + DP_DEFAULT_P0_OFFSET;
-> -		display->p0_len = DP_DEFAULT_P0_SIZE;
-> +		for (i = DP_STREAM_0; i < display->max_stream; i++)
-> +			display->pixel_base[i] = display->ahb_base +
-> +						 (i+1) * DP_DEFAULT_PIXEL_OFFSET;
-> +		display->pixel_len = DP_DEFAULT_PIXEL_SIZE;
->  
->  		return 0;
->  	}
-> @@ -1228,10 +1231,18 @@ static int msm_dp_display_get_io(struct msm_dp_display_private *display)
->  		return PTR_ERR(display->link_base);
->  	}
->  
-> -	display->p0_base = msm_dp_ioremap(pdev, 3, &display->p0_len);
-> -	if (IS_ERR(display->p0_base)) {
-> -		DRM_ERROR("unable to remap p0 region: %pe\n", display->p0_base);
-> -		return PTR_ERR(display->p0_base);
-> +	display->pixel_base[0] = msm_dp_ioremap(pdev, 3, &display->pixel_len);
-> +	if (IS_ERR(display->pixel_base[0])) {
-> +		DRM_ERROR("unable to remap p0 region: %pe\n", display->pixel_base[0]);
-> +		return PTR_ERR(display->pixel_base[0]);
-> +	}
-> +
-> +	for (i = DP_STREAM_1; i < display->max_stream; i++) {
-> +		/* pixels clk reg index start from 3*/
-> +		display->pixel_base[i] = msm_dp_ioremap(pdev, i + 3, &display->pixel_len);
-> +		if (IS_ERR(display->pixel_base[i]))
-> +			DRM_DEBUG_DP("unable to remap p%d region: %pe\n", i,
-> +					      display->pixel_base[i]);
->  	}
->  
->  	return 0;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index eae125972934bb2fb3b716dc47ae71cd0421bd1a..e8c1cf0c7dab7217b8bfe7ecd586af33d7547ca9 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -26,7 +26,7 @@ struct msm_dp_panel_private {
->  	struct drm_dp_aux *aux;
->  	struct msm_dp_link *link;
->  	void __iomem *link_base;
-> -	void __iomem *p0_base;
-> +	void __iomem *pixel_base[DP_STREAM_MAX];
->  	bool panel_on;
->  };
->  
-> @@ -45,24 +45,24 @@ static inline void msm_dp_write_link(struct msm_dp_panel_private *panel,
->  	writel(data, panel->link_base + offset);
->  }
->  
-> -static inline void msm_dp_write_p0(struct msm_dp_panel_private *panel,
-> +static inline void msm_dp_write_pn(struct msm_dp_panel_private *panel,
->  			       u32 offset, u32 data)
-
-Is it really multiplexed on the panel level? I'd assume that each panel
-is connected to only one stream instance... If that's not the case, such
-details must be explained in the commit message.
-
->  {
->  	/*
->  	 * To make sure interface reg writes happens before any other operation,
->  	 * this function uses writel() instread of writel_relaxed()
->  	 */
-> -	writel(data, panel->p0_base + offset);
-> +	writel(data, panel->pixel_base[panel->msm_dp_panel.stream_id] + offset);
->  }
->  
-> -static inline u32 msm_dp_read_p0(struct msm_dp_panel_private *panel,
-> +static inline u32 msm_dp_read_pn(struct msm_dp_panel_private *panel,
->  			       u32 offset)
->  {
->  	/*
->  	 * To make sure interface reg writes happens before any other operation,
->  	 * this function uses writel() instread of writel_relaxed()
->  	 */
-> -	return readl_relaxed(panel->p0_base + offset);
-> +	return readl_relaxed(panel->pixel_base[panel->msm_dp_panel.stream_id] + offset);
->  }
->  
->  static void msm_dp_panel_read_psr_cap(struct msm_dp_panel_private *panel)
-> @@ -297,33 +297,33 @@ static void msm_dp_panel_tpg_enable(struct msm_dp_panel *msm_dp_panel,
->  	display_hctl = (hsync_end_x << 16) | hsync_start_x;
->  
->  
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_HSYNC_CTL, hsync_ctl);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_VSYNC_PERIOD_F0, vsync_period *
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_HSYNC_CTL, hsync_ctl);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_VSYNC_PERIOD_F0, vsync_period *
->  			hsync_period);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_VSYNC_PULSE_WIDTH_F0, v_sync_width *
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_VSYNC_PULSE_WIDTH_F0, v_sync_width *
->  			hsync_period);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_VSYNC_PERIOD_F1, 0);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_VSYNC_PULSE_WIDTH_F1, 0);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_DISPLAY_HCTL, display_hctl);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_ACTIVE_HCTL, 0);
-> -	msm_dp_write_p0(panel, MMSS_INTF_DISPLAY_V_START_F0, display_v_start);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_DISPLAY_V_END_F0, display_v_end);
-> -	msm_dp_write_p0(panel, MMSS_INTF_DISPLAY_V_START_F1, 0);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_DISPLAY_V_END_F1, 0);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_ACTIVE_V_START_F0, 0);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_ACTIVE_V_END_F0, 0);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_ACTIVE_V_START_F1, 0);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_ACTIVE_V_END_F1, 0);
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_POLARITY_CTL, 0);
-> -
-> -	msm_dp_write_p0(panel, MMSS_DP_TPG_MAIN_CONTROL,
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_VSYNC_PERIOD_F1, 0);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_VSYNC_PULSE_WIDTH_F1, 0);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_DISPLAY_HCTL, display_hctl);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_ACTIVE_HCTL, 0);
-> +	msm_dp_write_pn(panel, MMSS_INTF_DISPLAY_V_START_F0, display_v_start);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_DISPLAY_V_END_F0, display_v_end);
-> +	msm_dp_write_pn(panel, MMSS_INTF_DISPLAY_V_START_F1, 0);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_DISPLAY_V_END_F1, 0);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_ACTIVE_V_START_F0, 0);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_ACTIVE_V_END_F0, 0);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_ACTIVE_V_START_F1, 0);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_ACTIVE_V_END_F1, 0);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_POLARITY_CTL, 0);
-> +
-> +	msm_dp_write_pn(panel, MMSS_DP_TPG_MAIN_CONTROL,
->  				DP_TPG_CHECKERED_RECT_PATTERN);
-> -	msm_dp_write_p0(panel, MMSS_DP_TPG_VIDEO_CONFIG,
-> +	msm_dp_write_pn(panel, MMSS_DP_TPG_VIDEO_CONFIG,
->  				DP_TPG_VIDEO_CONFIG_BPP_8BIT |
->  				DP_TPG_VIDEO_CONFIG_RGB);
-> -	msm_dp_write_p0(panel, MMSS_DP_BIST_ENABLE,
-> +	msm_dp_write_pn(panel, MMSS_DP_BIST_ENABLE,
->  				DP_BIST_ENABLE_DPBIST_EN);
-> -	msm_dp_write_p0(panel, MMSS_DP_TIMING_ENGINE_EN,
-> +	msm_dp_write_pn(panel, MMSS_DP_TIMING_ENGINE_EN,
->  				DP_TIMING_ENGINE_EN_EN);
->  	drm_dbg_dp(panel->drm_dev, "%s: enabled tpg\n", __func__);
->  }
-> @@ -333,9 +333,9 @@ static void msm_dp_panel_tpg_disable(struct msm_dp_panel *msm_dp_panel)
->  	struct msm_dp_panel_private *panel =
->  		container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
->  
-> -	msm_dp_write_p0(panel, MMSS_DP_TPG_MAIN_CONTROL, 0x0);
-> -	msm_dp_write_p0(panel, MMSS_DP_BIST_ENABLE, 0x0);
-> -	msm_dp_write_p0(panel, MMSS_DP_TIMING_ENGINE_EN, 0x0);
-> +	msm_dp_write_pn(panel, MMSS_DP_TPG_MAIN_CONTROL, 0x0);
-> +	msm_dp_write_pn(panel, MMSS_DP_BIST_ENABLE, 0x0);
-> +	msm_dp_write_pn(panel, MMSS_DP_TIMING_ENGINE_EN, 0x0);
->  }
->  
->  void msm_dp_panel_tpg_config(struct msm_dp_panel *msm_dp_panel, bool enable)
-> @@ -369,7 +369,7 @@ void msm_dp_panel_clear_dsc_dto(struct msm_dp_panel *msm_dp_panel)
->  	struct msm_dp_panel_private *panel =
->  		container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
->  
-> -	msm_dp_write_p0(panel, MMSS_DP_DSC_DTO, 0x0);
-> +	msm_dp_write_pn(panel, MMSS_DP_DSC_DTO, 0x0);
->  }
->  
->  static void msm_dp_panel_send_vsc_sdp(struct msm_dp_panel_private *panel, struct dp_sdp *vsc_sdp)
-> @@ -559,7 +559,7 @@ int msm_dp_panel_timing_cfg(struct msm_dp_panel *msm_dp_panel, bool wide_bus_en)
->  	msm_dp_write_link(panel, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY, width_blanking);
->  	msm_dp_write_link(panel, REG_DP_ACTIVE_HOR_VER, msm_dp_active);
->  
-> -	reg = msm_dp_read_p0(panel, MMSS_DP_INTF_CONFIG);
-> +	reg = msm_dp_read_pn(panel, MMSS_DP_INTF_CONFIG);
->  	if (wide_bus_en)
->  		reg |= DP_INTF_CONFIG_DATABUS_WIDEN;
->  	else
-> @@ -567,7 +567,7 @@ int msm_dp_panel_timing_cfg(struct msm_dp_panel *msm_dp_panel, bool wide_bus_en)
->  
->  	drm_dbg_dp(panel->drm_dev, "wide_bus_en=%d reg=%#x\n", wide_bus_en, reg);
->  
-> -	msm_dp_write_p0(panel, MMSS_DP_INTF_CONFIG, reg);
-> +	msm_dp_write_pn(panel, MMSS_DP_INTF_CONFIG, reg);
->  
->  	if (msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420)
->  		msm_dp_panel_setup_vsc_sdp_yuv_420(msm_dp_panel);
-> @@ -673,7 +673,7 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
->  struct msm_dp_panel *msm_dp_panel_get(struct device *dev, struct drm_dp_aux *aux,
->  			      struct msm_dp_link *link,
->  			      void __iomem *link_base,
-> -			      void __iomem *p0_base)
-> +			      void __iomem *pixel_base[])
->  {
->  	struct msm_dp_panel_private *panel;
->  	struct msm_dp_panel *msm_dp_panel;
-> @@ -692,7 +692,7 @@ struct msm_dp_panel *msm_dp_panel_get(struct device *dev, struct drm_dp_aux *aux
->  	panel->aux = aux;
->  	panel->link = link;
->  	panel->link_base = link_base;
-> -	panel->p0_base = p0_base;
-> +	memcpy(panel->pixel_base, pixel_base, sizeof(panel->pixel_base));
->  
->  	msm_dp_panel = &panel->msm_dp_panel;
->  	msm_dp_panel->max_bw_code = DP_LINK_BW_8_1;
-> 
-> -- 
-> 2.34.1
-> 
-
--- 
-With best wishes
-Dmitry
+>
+>
+> BR,
+> Jani.
+>
+> >
+> > Fixes: f3a808817fdb ("drm: fix drm_modeset_lock.h kernel-doc notation")
+> > Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+> > ---
+> >  include/drm/drm_modeset_lock.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
+> > index ec4f543c3d95..0de7046dc653 100644
+> > --- a/include/drm/drm_modeset_lock.h
+> > +++ b/include/drm/drm_modeset_lock.h
+> > @@ -75,7 +75,7 @@ struct drm_modeset_acquire_ctx {
+> >  };
+> >
+> >  /**
+> > - * struct drm_modeset_lock - used for locking modeset resources.
+> > + * @struct drm_modeset_lock - used for locking modeset resources.
+> >   * @mutex: resource locking
+> >   * @head: used to hold its place on &drm_atomi_state.locked list when
+> >   *    part of an atomic update
+>
+> --
+> Jani Nikula, Intel
