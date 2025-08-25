@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F0EB336F5
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBBDB336E8
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:55:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 779F110E3C3;
-	Mon, 25 Aug 2025 06:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D41610E349;
+	Mon, 25 Aug 2025 06:55:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M4uEDc1k";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="F9qxVReP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B96D510E236
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 02:30:31 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2460757107bso34695155ad.2
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 19:30:31 -0700 (PDT)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+ [209.85.215.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE13F10E236
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 02:30:42 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id
+ 41be03b00d2f7-b49d46a8d05so1057898a12.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 19:30:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756089031; x=1756693831; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756089042; x=1756693842; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=D22H5WgHrRDr6Rs9uj/QpBbAQMcw3KfQsKqL222d6ec=;
- b=M4uEDc1kiZE1N/Q3XjQ0e2IfMTSwOtsHCfFGbnKyKD7nmo39ilgqLFNma773wmL61F
- bvmoqemp3YL6Iycmdkn2sn5vU04Nlr0sRWw7dsScvNk2zWr3gg2xTJPyoN7MdL37DstS
- g948obOVFHvJxkJmJQ83NmCvKP9YZIESBExysLbf5UGSmgJ6EEk8BfkcHCp346BThIdA
- s0W8c2j2WNzOtEtyzUrCFNnSkPmCUrzmX5OoTjm0WrSPagj8lqrIMzMYPo5lM8Lz2bvg
- 9Ak4HXQS7oWpxrtWMuIg85QHpWMBGQSGDCQStNfOFpCVaUfwjqQd9OoHZmGV5xO67/UM
- e1Cw==
+ :reply-to; bh=zFHAHU/+z+yhl9VER8s4Wp+oPk3FiOJt9Cdy6eMoyvc=;
+ b=F9qxVRePAY60Hr2h+w7SP1pP0hEuvyGOpWuVkCNkkuWa85qw0IIPMA5Rg5AVkQCe2+
+ ktdwL+WcsX3Nb1RB/lnikJ9R8N0Lw79HrxfL3PezZ0VT2YJWFOwVF3Qdeg2YO5KTKPfJ
+ WuvmW2TnUo6hesNRv7/AnQPeooK09xRKRyPjW/u6cTV2TwQxJEfNuhXNmJsfh9mk3Ox1
+ dd4JtndfvjiqvurqlAMAPVikvMKzAZ7o1EwbC1dDlq7Cu/gzOriH4bv41OuH15ie3wvm
+ igsFzooTcpaQ6kalYK7cPQjCxIpEHhA16UT4i8iNgFqaNjMlFDdtdU0RnSyzSRAeFssm
+ 80zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756089031; x=1756693831;
+ d=1e100.net; s=20230601; t=1756089042; x=1756693842;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=D22H5WgHrRDr6Rs9uj/QpBbAQMcw3KfQsKqL222d6ec=;
- b=AbBi5hE53oNRIBuYwIRkfjehClXFwMvDiM3FVWjEk6kU+lFgHSVYue42xTAUeV6AUm
- fDwH1F7kOAJiPjLcwDYtaTBt+JOqziVUHMTe57LEz51/YQ0H/tgOdrcnEK9YX7FgBGKb
- jw1TBF4eaLVl32HUxxuGmjWnn+uTItGZl1uN+HB1h78rUH+t3luxTcR3ksGrXvNbk7RL
- 2bogv4MiUoE0j/yuURVg23xqduSrLaOtnTxo5/9U7xkcXIcfr1wPKccXbLf39yIrSnoX
- 2gS8EuziMweMObKCWHZ0osAdommhiuNrUVTtNhoSl62lUNDXnsndWJJExm/LQBQI3ca4
- 43Eg==
+ bh=zFHAHU/+z+yhl9VER8s4Wp+oPk3FiOJt9Cdy6eMoyvc=;
+ b=ksgH0f5IXvIM1fxshSl6jHfyYbIcyKxXPG953tC0bkN/KlCQY+Cvne4QlfsqCxfY7E
+ Yf/fwSiKYe5XowTO6/iPgsuJYqkR8uVn8uqRuQtbPwaYlLZ7OTevNIX59BSzSNfhh7XM
+ LHwI7/lbxlCeqCLVqprIwOuNL+KfOUDXfWBQJk/o3TqDlbF4TbQoWlKEZWZ9TJ7hVITd
+ yMqgDfU03MAq5IHdJtYH543d7Mz2R9e6XBpmFhQK8Mh+rxlGUZMTVGiFR8MNBOlO5lcx
+ 5iTfk3SqMK/oBbtV4GDwo9xyzyUwyFJ/YY4KsOjz+Q/Uods1Jk892q9UNWufJ8s+wo6P
+ ZdGA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVleRQgCO/Bd6Bqq+5PNDAGiwXbhTaJhbgwIGEzjjgcYNbEAA02EMuJ2+0d+wfEHtJgZKlyrMNh5ZM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzgUpXNL1HFQN+dUF+aTSBt5fAZNSBurHlG92Mktu85yWqInYYX
- Lp1yVbTx/sO4/r7Ni90pNH1F8/nSgsvYx4h7/p7MI33c2NlS1m6+kOdp
-X-Gm-Gg: ASbGncu2sEFXTXwzXM1gAk5nIrFkJxkk2+ngRFUW1HiIS71Fxw7McodvHxtFs4mTjC5
- ud8aUpuklLLmvuQz7hyF8PLxekyseCO4preKer35ikWWsfLi4RQ13c+whWDsBKQfJAIHUSoI+EV
- EZewl53RqKrECJRceYFAhDUAi76zYc9TZ7eAmioYRzn6qm+tyVZq4+BMJ6mnlBWy/+2sFiz3FSd
- LQpccu1p11G69q87T2mOGLcYOJZXqGwJmz6Z2AYWlQ0iqlBdxqOhDsvr/eLyfTiH6Kc8HkYVf+I
- siWddQWFET3IEGFcPjm8vl+TODL/8zXazTjeVmaC1hTB7CurGuwhVOu6dT4RkO8AtJA8uNWBcoy
- TXTZJFFhrK+9RUiZ98phPUL5FVEreSiDi0q6pUWkYhxK+AqruaHGKZKs2SazbLp82OkJQX2FEPY
- w=
-X-Google-Smtp-Source: AGHT+IHvUbvFr57GAj/hQE8xfxiDlLg1TWgL+5HGU9dNUcnxRdGMO81pVBBt5RpnalyVwaK4Xtg7ig==
-X-Received: by 2002:a17:903:1a2c:b0:234:a139:11f0 with SMTP id
- d9443c01a7336-2462edab80amr150747455ad.7.1756089031108; 
- Sun, 24 Aug 2025 19:30:31 -0700 (PDT)
+ AJvYcCUnkKd9Lnblg5W44S+SpsqiwUhkI/np0zbKx336LCKpXOPOuQ8ViFE8GdFnApFNa/Q84Nvp54L9E8M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyUOkZW8N19qGvGJ02T/lM6FexzCH4LpD/wufybIzGyVncAmdTH
+ JjOZ9XZ7BRegozoc/Fo+ixMcn5sAFUPgXjPYv5gh+NWVDFNS9TUAPpDL
+X-Gm-Gg: ASbGnctFSwv8LSfHO4btYzlZkngbUGc1+SU0vo3EamfmKsmO/VvAqq7tZ3ySrE2sVf8
+ XUyQ9XSrdbAGLpaxOF9k9KKD/B1We7T7kpus5NIzoOl313m27WbaLFg9Pd7s3N4hrBAd/1Yk1ii
+ rsxzYF6HsJ48cH6qdRoipiS7BV0nN28rP0EbO0H/YTnGwi4n9tGNXZaXOFQ7gzlRtNDwLXql0VD
+ t4HE6nMv6JO359Bmazi6wqvoVQTKFegHfeMfs0XZinQMF3VnbNLodrGQ9f828Qr4q8dEEGR973/
+ 6SkODYunmRMHiar1UFsDYidGYkrIQg2wGho7Mv/jSZt4mH8TR8JDTDLat4RUNYKOSRO7SSp3TSe
+ eOCWx/PMGD90DhCK58hsUrUPe/U+NbASPpA81YYFReqRPvJa6Ed4829DPeOqzIY13LJRG4CA+eD
+ U=
+X-Google-Smtp-Source: AGHT+IHERO/1eHRkEF6AC+dBVfTjpOtqq/Unp7jmksVhNk83icoLby3erE1Gst+iT6A6gassubAXtA==
+X-Received: by 2002:a17:903:41cc:b0:246:b58b:8b86 with SMTP id
+ d9443c01a7336-246b58b8f44mr31066895ad.32.1756089042108; 
+ Sun, 24 Aug 2025 19:30:42 -0700 (PDT)
 Received: from localhost.localdomain ([114.242.33.243])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-246687af234sm53905175ad.48.2025.08.24.19.30.20
+ d9443c01a7336-246687af234sm53905175ad.48.2025.08.24.19.30.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Aug 2025 19:30:30 -0700 (PDT)
+ Sun, 24 Aug 2025 19:30:41 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
  Yury Norov <yury.norov@gmail.com>, Qianqiang Liu <qianqiang.liu@163.com>,
@@ -94,9 +94,9 @@ To: Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
  Yicong Yang <yangyicong@hisilicon.com>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
  linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/9] panic: Introduce helper functions for panic state
-Date: Mon, 25 Aug 2025 10:29:29 +0800
-Message-ID: <20250825022947.1596226-2-wangjinchao600@gmail.com>
+Subject: [PATCH v2 2/9] fbdev: Use panic_in_progress() helper
+Date: Mon, 25 Aug 2025 10:29:30 +0800
+Message-ID: <20250825022947.1596226-3-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250825022947.1596226-1-wangjinchao600@gmail.com>
 References: <20250825022947.1596226-1-wangjinchao600@gmail.com>
@@ -118,136 +118,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch introduces four new helper functions to abstract the
-management of the panic_cpu variable. These functions will be used in
-subsequent patches to refactor existing code.
+This patch updates the fbcon_skip_panic() function to use the
+panic_in_progress() helper.
 
-The direct use of panic_cpu can be error-prone and ambiguous, as it
-requires manual checks to determine which CPU is handling the panic.
-The new helpers clarify intent:
+The previous direct access to panic_cpu is less readable and is being
+replaced by a dedicated function that more clearly expresses the intent.
 
-panic_try_start():
-Atomically sets the current CPU as the panicking CPU.
-
-panic_reset():
-Reset panic_cpu to PANIC_CPU_INVALID.
-
-panic_in_progress():
-Checks if a panic has been triggered.
-
-panic_on_this_cpu():
-Returns true if the current CPU is the panic originator.
-
-panic_on_other_cpu():
-Returns true if a panic is on another CPU.
-
-This change lays the groundwork for improved code readability
-and robustness in the panic handling subsystem.
+This change is part of a series to refactor the kernel's panic handling
+logic for better clarity and robustness.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
+Acked-by Qianqiang Liu <qianqiang.liu@163.com>
 ---
- include/linux/panic.h  |  6 +++++
- kernel/panic.c         | 53 ++++++++++++++++++++++++++++++++++++++++++
- kernel/printk/printk.c |  5 ----
- 3 files changed, 59 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/core/fbcon.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-index 7be742628c25..6f972a66c13e 100644
---- a/include/linux/panic.h
-+++ b/include/linux/panic.h
-@@ -43,6 +43,12 @@ void abort(void);
- extern atomic_t panic_cpu;
- #define PANIC_CPU_INVALID	-1
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 55f5731e94c3..b062b05f4128 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -279,14 +279,7 @@ static int fbcon_get_rotate(struct fb_info *info)
  
-+bool panic_try_start(void);
-+void panic_reset(void);
-+bool panic_in_progress(void);
-+bool panic_on_this_cpu(void);
-+bool panic_on_other_cpu(void);
-+
- /*
-  * Only to be used by arch init code. If the user over-wrote the default
-  * CONFIG_PANIC_TIMEOUT, honor it.
-diff --git a/kernel/panic.c b/kernel/panic.c
-index 72fcbb5a071b..eacb0c972110 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -294,6 +294,59 @@ void __weak crash_smp_send_stop(void)
- 
- atomic_t panic_cpu = ATOMIC_INIT(PANIC_CPU_INVALID);
- 
-+bool panic_try_start(void)
-+{
-+	int old_cpu, this_cpu;
-+
-+	/*
-+	 * Only one CPU is allowed to execute the crash_kexec() code as with
-+	 * panic().  Otherwise parallel calls of panic() and crash_kexec()
-+	 * may stop each other.  To exclude them, we use panic_cpu here too.
-+	 */
-+	old_cpu = PANIC_CPU_INVALID;
-+	this_cpu = raw_smp_processor_id();
-+
-+	return atomic_try_cmpxchg(&panic_cpu, &old_cpu, this_cpu);
-+}
-+EXPORT_SYMBOL(panic_try_start);
-+
-+void panic_reset(void)
-+{
-+	atomic_set(&panic_cpu, PANIC_CPU_INVALID);
-+}
-+EXPORT_SYMBOL(panic_reset);
-+
-+bool panic_in_progress(void)
-+{
-+	return unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID);
-+}
-+EXPORT_SYMBOL(panic_in_progress);
-+
-+/* Return true if a panic is in progress on the current CPU. */
-+bool panic_on_this_cpu(void)
-+{
-+	/*
-+	 * We can use raw_smp_processor_id() here because it is impossible for
-+	 * the task to be migrated to the panic_cpu, or away from it. If
-+	 * panic_cpu has already been set, and we're not currently executing on
-+	 * that CPU, then we never will be.
-+	 */
-+	return unlikely(atomic_read(&panic_cpu) == raw_smp_processor_id());
-+}
-+EXPORT_SYMBOL(panic_on_this_cpu);
-+
-+/*
-+ * Return true if a panic is in progress on a remote CPU.
-+ *
-+ * On true, the local CPU should immediately release any printing resources
-+ * that may be needed by the panic CPU.
-+ */
-+bool panic_on_other_cpu(void)
-+{
-+	return (panic_in_progress() && !this_cpu_in_panic());
-+}
-+EXPORT_SYMBOL(panic_on_other_cpu);
-+
- /*
-  * A variant of panic() called from NMI context. We return if we've already
-  * panicked on this CPU. If another CPU already panicked, loop in
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 0efbcdda9aab..5fe35f377b79 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -345,11 +345,6 @@ static void __up_console_sem(unsigned long ip)
- }
- #define up_console_sem() __up_console_sem(_RET_IP_)
- 
--static bool panic_in_progress(void)
--{
--	return unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID);
--}
--
- /* Return true if a panic is in progress on the current CPU. */
- bool this_cpu_in_panic(void)
+ static bool fbcon_skip_panic(struct fb_info *info)
  {
+-/* panic_cpu is not exported, and can't be used if built as module. Use
+- * oops_in_progress instead, but non-fatal oops won't be printed.
+- */
+-#if defined(MODULE)
+-	return (info->skip_panic && unlikely(oops_in_progress));
+-#else
+-	return (info->skip_panic && unlikely(atomic_read(&panic_cpu) != PANIC_CPU_INVALID));
+-#endif
++	return (info->skip_panic && unlikely(panic_in_progress()));
+ }
+ 
+ static inline bool fbcon_is_active(struct vc_data *vc, struct fb_info *info)
 -- 
 2.43.0
 
