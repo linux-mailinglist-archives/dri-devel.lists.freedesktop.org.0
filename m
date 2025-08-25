@@ -2,172 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64905B345AD
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 17:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E07B34616
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 17:42:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B530710E4E9;
-	Mon, 25 Aug 2025 15:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8B810E038;
+	Mon, 25 Aug 2025 15:42:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e60CMNrp";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X3McIJND";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A95810E4E8;
- Mon, 25 Aug 2025 15:26:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756135599; x=1787671599;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=dx4LDEvKv7Mw9YGYGX/DjMiZxL0rkADbnBSY0aNTsjM=;
- b=e60CMNrpkXIhCrwvY8p7uVP1OlxqKnu4BIrAx8+JA1oV16Rif14QDLGE
- atpzd4SlJNzS55CGuV4pm0lcEo4wYbl6Y/KeGD20NzXVD1f9MDkWwjvq2
- akBxcEpR0NtlkKwfZsFOiGx3VdPRAxvMARrkhP74ZGihFM0+Ld5kdW0Fe
- JL2Es3G9mxNgnk+0Xdu59NlSyexctWTPjtL4Rv5+D825nbtz0HYL4Tb4u
- h4SLVGXlhfh4RtXLprbqlvl8IVHXyCH6Trs8JEF+FgLYM7mv1VP0Qr9Ow
- ninkjFduETBZOXsejcM2RKLrFH/SiGVNmGAf2APq/GWVZpPFMoONwDo9i Q==;
-X-CSE-ConnectionGUID: LQIHXJDXRvS/QAMOALOmEg==
-X-CSE-MsgGUID: ndZE1tK1TJaMzOzHQWbypw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="75950337"
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; d="scan'208";a="75950337"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 08:26:39 -0700
-X-CSE-ConnectionGUID: t4HKlPpaQwmC4zINrYgcFA==
-X-CSE-MsgGUID: BPiLJC6AQz6gRInDXMI4dA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; d="scan'208";a="200212615"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 08:26:39 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 25 Aug 2025 08:26:38 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Mon, 25 Aug 2025 08:26:38 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.83) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 25 Aug 2025 08:26:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P2PGsh2ooLQ12+Gad0zA1+PQmOKJ/iHjK6wa+lOlkvYCkNtpIbWnk/R4RRRF9piEzxms5iT8Pr1M0yjMgZlskLkqD93FBL+sF9hWTM8Z5i0KNp2coYwdyzOX7Wc7sFDg3au67V2E0PwYa/l8u4lYIP97PgAz9gU1h9cq9I16vkJgiDDMOVkUHBCTevWX/PjiQoGi8Mhv30XO1vwegsYwVSb6kpnyFpdDCNcKcXDLtkOreixKcMI3ow6j+FokIZf5sd5W7BhiZD2DufjD7GdF2TENgHdMvI9TlNW37gFD+KQSzNiRmzPJsO6vOA4JVE4GHSOK/OdLUVybDJpEgM8sNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sNh9mT76DsOQqr3YEiR0PyWu2pIrcv8QWOsFmQPQ010=;
- b=wB+F2BmQ88ZKyYH30ipCL70DFaWfdKiVniEtXMddfgyzRetGWrO2c0QS3whUyQKKUxj0kIAvl/TeCP/BTEjbUhYC8Xb30BNPQZ+cIxzCBagrvZ4wUd5SZ9+NQUuAdz3Dw32bmIwYGlfQWwFtkwOKxbRI2AjJPl0o71n+XGYKiPuCqkGynnOE/WjLmPRhJ36Z47lZIXlFSib4rD/gPOoIvuDJoV0Pl2mXy7OrUCTmROkucHQn8l+MbR7IHDdHrNJqsAjIWQmmO1PaC/3guxnV++2pjSo/J4ghVMnJ1edE7AlukiQz+pCQ8quvPwhwPvg2XfKrD+yBQaSGhXg0VMNjrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by CYXPR11MB8730.namprd11.prod.outlook.com (2603:10b6:930:e3::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.20; Mon, 25 Aug
- 2025 15:26:36 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9052.013; Mon, 25 Aug 2025
- 15:26:36 +0000
-Date: Mon, 25 Aug 2025 11:26:30 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, Jani Nikula <jani.nikula@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- "Lucas De Marchi" <lucas.demarchi@intel.com>, ichal Wajdeczko
- <michal.wajdeczko@intel.com>
-CC: Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti
- <andi.shyti@kernel.org>, <intel-xe@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/xe: Skip creation of pcode sysfs files when pcode is
- disabled
-Message-ID: <aKyApuCLCr5X0Css@intel.com>
-References: <20250819175529.3722716-1-andi.shyti@kernel.org>
- <aKibCnAxTuYcKtWx@intel.com> <aKxzu8njh9Xc0wyU@ashyti-mobl2.lan>
- <aKx3vHwxnzf4cExx@black.igk.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aKx3vHwxnzf4cExx@black.igk.intel.com>
-X-ClientProxiedBy: BYAPR04CA0013.namprd04.prod.outlook.com
- (2603:10b6:a03:40::26) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8396210E038
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 15:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756136561;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5rvZAalDayw76mXlaVcK2G8fQoANSfCHvdaqQVOogfc=;
+ b=X3McIJNDyiwC/khtPVqSX+x9CfNLCr/ucY3WiKZKgScv9wPTdjuvtYKOkX/GbNo7U/rGyB
+ w2F/QRfYIY7g6sUlJmE/0PAh3cKTmnkvC0SXqB6woh2Q0hyQdBsa4x3ayEa5erz10cvVk2
+ uFIiM25gqEyp3hRpbI0223wh8ZbEQJY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-552-Fp0pz7jAOh6svo-ivt4zFg-1; Mon, 25 Aug 2025 11:42:39 -0400
+X-MC-Unique: Fp0pz7jAOh6svo-ivt4zFg-1
+X-Mimecast-MFC-AGG-ID: Fp0pz7jAOh6svo-ivt4zFg_1756136558
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-45a1b0bd6a9so24574675e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:42:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756136558; x=1756741358;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5rvZAalDayw76mXlaVcK2G8fQoANSfCHvdaqQVOogfc=;
+ b=bSOHbVv3wiyZXVObeOIgydaZFao5KdKDXJSLvu6WUwLkk1UZJwxquHUSHNgGlbAKcx
+ O+TG1ppQM9ReM168zPEhFWHtK3iDTvXOQY/IDiBL5YTON+zOEKuBQcn8g4Lidc1arPuA
+ Y133guv0k7adKj/Dure97Thv7DpDfx0zR82FOzSoxq0m91JD5iy3vFBX0HttV7kuGBui
+ 7ONNcje+VMKhWBL3/0ZbGbPfwnJR7/BC0EBDAM1xaSObmkFUNTOGMpNkZSPWoImUHqTf
+ rSPtJasR+CLkB0nt5SQu83lBS4s8PMjvkRAaNJkyt9J3pkui1T71bB85Npr0mG2A7oh0
+ m/Pw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXJEv32KdBbWZC7fK5KaRZvYfaJSw8JEyvgB38ztmCS/kyuVufZld8seSMXp2BZwCYpS6I2f1M+sso=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz33/zUunGnovhknN2aowqulP7eeoXkzpjtqcZnydI0W0Ppr13+
+ orY0JisgGquJCyAJOMOVBjbGmnNlLyWCisCQ6cdrZO+4bKjrDWsEtJuav/qBWKjbGSL8rFuuhtL
+ ZDLFuoIKtGltIwB8NDC5kuCDy+IQ7gDU15SK6nUQ84dZZ1fgIThu07orb9H9k9kMQQEJe8A==
+X-Gm-Gg: ASbGncs2d9cFW1HvGxYGJLqsy+HmmUPWLsRZh+ILSFIbOd9YKjOA53pwFocTv3pTZiS
+ /7ht+NBp1J6WLAqVHVVWZieySFyPXrSczJu4edA3CffHgWiXLfitCBEBiRNyICtefqPWAVCaKJp
+ mdDd7K6gHHOYMDaf+a3UVZW8RDSe+BGdMG8gINwDcDmBcGja2xM+FgdSZeMr1wcFxhs3gsqISYt
+ 7+j/ckHRDFUvzpWdCMozcJ8j6mVkpkSou66QC7MmwTYRECERK6KeeI/EskfRXv9hqDeZSfxNAqf
+ Rw4fD3QAS17QXC9GzoxwBMQAlRWDwCKCN5lI7o03B1nDvAX8GJ8Mfz3KsFATnPmTFLa+DllAyOx
+ yQJlSk4YVLkkZdL0LfXRlX68ltROBVcjRPwoLU1Uyov5+cTAdQY+345A7mbGMkJnCNpQ=
+X-Received: by 2002:a05:600c:a344:b0:459:443e:b180 with SMTP id
+ 5b1f17b1804b1-45b51f30f97mr116842445e9.8.1756136557856; 
+ Mon, 25 Aug 2025 08:42:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEGzUl9/0T2mWXVZgblyhy3uP4lA/MNqA3E39+SzULqMR3WsGlHrWnWezXsHsIiYJtRmIOh8A==
+X-Received: by 2002:a05:600c:a344:b0:459:443e:b180 with SMTP id
+ 5b1f17b1804b1-45b51f30f97mr116841885e9.8.1756136557395; 
+ Mon, 25 Aug 2025 08:42:37 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76?
+ (p200300d82f4f130042f198e5ddf83a76.dip0.t-ipconnect.de.
+ [2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-45b57444958sm113196675e9.2.2025.08.25.08.42.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Aug 2025 08:42:36 -0700 (PDT)
+Message-ID: <f8140a17-c4ec-489b-b314-d45abe48bf36@redhat.com>
+Date: Mon, 25 Aug 2025 17:42:33 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|CYXPR11MB8730:EE_
-X-MS-Office365-Filtering-Correlation-Id: 806e3fee-a5dc-4a56-3f03-08dde3ebc79e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Zj4GlRLnv5I1I0F/iQ0tIttvYQvYYSN2lUSvr1ssLL884jUvq7/0mBGsbjV/?=
- =?us-ascii?Q?Vtg+7+5KgRwl2L0z/VbNQJZE5iMuTqRahPCIdf6QvI/ZpdcVbNl4CBo9uDyB?=
- =?us-ascii?Q?22UtczCoIOy2MMeK51rviKvcLWOiy7x1JSydV7DMEqmAz/Zxfxr4nLaXy+js?=
- =?us-ascii?Q?0XTCUpk0c7aEspDJcv2x/ImH13fp9ocrzi78SrY41EpZEWz4a2zpiae2UiNq?=
- =?us-ascii?Q?nWUNTvq1mbLs6IKB4JqboeTaW2WD+VSEqFWrhWIYDbUt6+SZR+l3L7D0mIqO?=
- =?us-ascii?Q?wJTuG7/8VFM4Jahirn63l5os1vpvYSRFIFVv6PgcpI2bM1eEyu/0jaszEMLZ?=
- =?us-ascii?Q?geN63tNxMAix7J8MzmyMwVgJBGmH2t3P64E9aMMRp00YPCxnrKmV4EPSNJaP?=
- =?us-ascii?Q?R276EfqAJM1b07lbNio+jxBizx0O+wi2XxTaHbS6jU3xMLT+e8JyjxF9gJ3w?=
- =?us-ascii?Q?t8lRcQXNV8nmem+lpke5Hh3tKMxNfnPhgEIPAKuAhAoLmiy7JTXPGKDLsvU0?=
- =?us-ascii?Q?GuZdLoH9DGHP4o473d22i4X0lnmKS505t2YU/DgVsGbuIsug/FCbbQLbiBCi?=
- =?us-ascii?Q?6755Q5jQboyGnu/W0ykaiy5+57VoUWj+H0KyfHUJ6kRC99XvvSDv+3J/5DG1?=
- =?us-ascii?Q?HznZ4AjOrKPq9c2d/0h+9LipRuQPEG2iSPl4g/doJD5hC3cWiprTEf2VpzOe?=
- =?us-ascii?Q?3Tx+iCN4J2ylphT888ddp6RALebWcg4VNXRNAn4qG97/+AE7rHWKAJJUFC/T?=
- =?us-ascii?Q?xqhziSumsmzeU3E1vQLx4F16MnibffQdR9rWGkuGEKT+dGLGYwa+jwuu6xi4?=
- =?us-ascii?Q?jcqtpbazB1hzBd4hhHdZpn7jqMeahMKPriFaZDofKiGXQ4ZfeQdD5L6tVBD3?=
- =?us-ascii?Q?c7FlLOFOS/PjGlCrKsL/jMDdGnUt4qSmUKcob5WOi5phoPsOtEBRfF0rp8KQ?=
- =?us-ascii?Q?feuK5FcSEBHHW74kESMRTXOhxlnW/ad0x3zIYk26TCYYG+GjmLU2n5m4XuRr?=
- =?us-ascii?Q?VnvIninvwuJbk0USd910Ut0F1w/+S62ziDmETzI+8w9WlWfc4Bm9pz9XHz7B?=
- =?us-ascii?Q?OxHc5UMssGHDTP8vDtX0Nio0fsFUxh7h9uIcpPwpH67/+jMIS5a4avMkm7al?=
- =?us-ascii?Q?ze53S34AMd5Id0AeS91UwG+7KxJZY0k7YUM5zq9opSDVfBvRaQHJXnC472L2?=
- =?us-ascii?Q?rM/QWyHd5QeL97fngPox+3dFpfELqgVEpYV9H5NPH50bq4fN9lf4hLzdJSQd?=
- =?us-ascii?Q?THjkeEM8PtiE5pQugO5SR/rDYdUDw7BDSbN53VV/IeTt+tu4rZyM6BGQpsDG?=
- =?us-ascii?Q?3SiZmfQ35Moa86zkOK568ygouoTn9YIY9jFROioP1qhCnrCrpJ6Ul+Mb926f?=
- =?us-ascii?Q?WK9nRG7yhGo2eg/14+ByAM9XfyAaC//vYCgvRqZHYoIPEIm9mYzWbDrEkYyL?=
- =?us-ascii?Q?SdNwHhv89ss=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Aj7aExu2Ob7mvXl6nyoX5Otnb+8ZqBJGf50QODbhSU2AQjIr0+bcKllDsBbl?=
- =?us-ascii?Q?Q86tE4AuUPyeR+Piq2fuKAAo52xJ71RtGY4dJ4ZMJmBQE7+D95ZB5IdOqhOG?=
- =?us-ascii?Q?RIxZY2I7eJsWxwBDAfBT8y134l+hwT6NeECCfbuMLaKDQEyYZjbA5DsXZF0m?=
- =?us-ascii?Q?mTcbDcuc4H3Xb9CPoIWGN63kd/eDNeD+tul0bAu/uFeX+NzJPt0vGf6s+bRO?=
- =?us-ascii?Q?FQD4OpsbVgQNy2JdU5mmYR7styeBVbHHJ6iwad9nkKf7dcaIKeZOoFDL0URw?=
- =?us-ascii?Q?rupuosXFII0ihSqyG8u2+n628vK/UdvQQjgdneQqTP47Sp6m2JFJZXCi8IyD?=
- =?us-ascii?Q?T+2xIWPrFdIdBAV6ULmlMID2MkbqWLrdLoNVfgi9ejQX9mn++4MEgGwuksQ0?=
- =?us-ascii?Q?7hbucTF8KEtq/ktJf9ZoVYUjcshEGOUeuz4e1gqcFqfr5bUhe5E8c46FInlj?=
- =?us-ascii?Q?9XLpjPwKFF3bPXYoYvbaKuLG5TegiSjuzvys8OvOv4hUmJthYTGos8caMva8?=
- =?us-ascii?Q?GymBdTumlEY5NLQplmGuGh4oRUWZeSPUs1EhozIJc70ehoe07qjdVydNJVlX?=
- =?us-ascii?Q?sMythML3bTycA6HWFSYsxFxQrhqp8zzv0yRcikZYKvbMj5Ei70QXqlZH5qRv?=
- =?us-ascii?Q?Xs7qSyToYAWy5EVlhWy9cxtV0aDdhyliYur5Ay7zLmo/NeDJ9xvs0z9MnLoc?=
- =?us-ascii?Q?cYrt4iRmO2Fn5dlkjek6+iX2wHZVnMb6l9Jk7dXx2ysqzPdTIRN52zj5JrQX?=
- =?us-ascii?Q?JhgtQydgZWVVSOxmC8UoNDC0wX/I/xpIeuDkoM0qE55zr5iMqJtjfVfIT+Iu?=
- =?us-ascii?Q?SXZc0EpJFxJrBWgrpMg0JJ4gBHX4MjxTeDq5QYFAtiCvGZZzpk/PdSjZ5lKg?=
- =?us-ascii?Q?bKSI+Vxbff6LCePSkBxAbCNMI7dnaXRBzfX5f//c7WlYisVwK9cMMv4rj7/5?=
- =?us-ascii?Q?rrOmdnr+UUasgKqMWvaFzsncx3hAH1VK+po2MlfXbOADmFA2KnuXeMizF+oO?=
- =?us-ascii?Q?Pkk4k6cZKYm7E0Wqz7jAs68Xf98aYFBefKd+SIosrZ1eMpN1HMW8y6e6P9YD?=
- =?us-ascii?Q?6E90VaBJvfQpQ1ew8V133z4gCcnY9cwkZwVj072/Gs5Hw8w3XKTjSJMss9VC?=
- =?us-ascii?Q?AIJfS9PSn9se5IgXxP7s4FCuLDtenslBG4Nnpym8xUs2jyHf8atdCencRTRY?=
- =?us-ascii?Q?/RuodWorNIxrn7aAE3R7SwA2cdVI5Vhpl8qkFP5prO+2mz2V5PFZ9s0DJtf+?=
- =?us-ascii?Q?FuUPWPUh5ENjMdNjYs7dzU9PR4ZKweVhgHcRrcGzTfuY+s6tvznAdSW4BDZ0?=
- =?us-ascii?Q?hTC43yMLEaAHX5XsqHv3rukVlT2+SCn4BVT//2GGgudkcrPLXodhUHxnSKyr?=
- =?us-ascii?Q?vYsfq0xk1WwuVDGKRC3hcCj5BJ/LF/BmNHaVoD0nTghmfocahmvEoyNsQE2W?=
- =?us-ascii?Q?H6reCYNREY1DyyhIIJJoU8Ufkw9DRRQ98wgFc3d7HYB4Eq+g3QnAicr+narZ?=
- =?us-ascii?Q?rK2b1M+rXCDGCx+XxE82rcRFqKu1uetaEdZ7/MooXS6l0RJJR1wbo6Rxqcpz?=
- =?us-ascii?Q?oYC6WlKY/0v210WeGZ08dHaM79FnNOqjMXuuPHCm?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 806e3fee-a5dc-4a56-3f03-08dde3ebc79e
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 15:26:36.5251 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m9lkMqz++jDwYL7YGLsBMrswC0+BmHPFtQW1zWVAXi/zot6UbHZT+oCDRk05rxg5WUCmK290BvTeQplIzCu8mA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8730
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 10/35] mm/hugetlb: cleanup
+ hugetlb_folio_init_tail_vmemmap()
+To: Mike Rapoport <rppt@kernel.org>
+Cc: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+References: <20250821200701.1329277-1-david@redhat.com>
+ <20250821200701.1329277-11-david@redhat.com>
+ <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
+ <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
+ <aKmDBobyvEX7ZUWL@kernel.org>
+ <a90cf9a3-d662-4239-ad54-7ea917c802a5@redhat.com>
+ <aKxz9HLQTflFNYEu@kernel.org>
+ <a72080b4-5156-4add-ac7c-1160b44e0dfe@redhat.com>
+ <aKx6SlYrj_hiPXBB@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aKx6SlYrj_hiPXBB@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: WJ868qTqWzJcDI5YRLmsfULQJd0sfSr-CM0D4bcsxWA_1756136558
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,85 +180,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 04:48:28PM +0200, Raag Jadav wrote:
-> On Mon, Aug 25, 2025 at 04:31:23PM +0200, Andi Shyti wrote:
-> > Hi Rodrigo,
-> > 
-> > On Fri, Aug 22, 2025 at 12:30:02PM -0400, Rodrigo Vivi wrote:
-> > > On Tue, Aug 19, 2025 at 04:55:29PM -0100, Andi Shyti wrote:
-> > > > From: Andi Shyti <andi.shyti@linux.intel.com>
-> > > > 
-> > > > Coverity warns that 'cap' may be used uninitialised. If pcode
-> > > > is disabled there is no need to go through the hassle of a
-> > > > pcode read or taking a PM reference.
-> > > 
-> > > Please mark it as false positive!
-> > 
-> > this patch is not for fixing the Coverity warning, but I saw it
-> > useless to step any further if there is skip pcode.
-> > 
-> > The same check is done later in the function, but in the meantime
-> > we have done a few things that we could have spared.
+On 25.08.25 16:59, Mike Rapoport wrote:
+> On Mon, Aug 25, 2025 at 04:38:03PM +0200, David Hildenbrand wrote:
+>> On 25.08.25 16:32, Mike Rapoport wrote:
+>>> On Mon, Aug 25, 2025 at 02:48:58PM +0200, David Hildenbrand wrote:
+>>>> On 23.08.25 10:59, Mike Rapoport wrote:
+>>>>> On Fri, Aug 22, 2025 at 08:24:31AM +0200, David Hildenbrand wrote:
+>>>>>> On 22.08.25 06:09, Mika Penttilä wrote:
+>>>>>>>
+>>>>>>> On 8/21/25 23:06, David Hildenbrand wrote:
+>>>>>>>
+>>>>>>>> All pages were already initialized and set to PageReserved() with a
+>>>>>>>> refcount of 1 by MM init code.
+>>>>>>>
+>>>>>>> Just to be sure, how is this working with MEMBLOCK_RSRV_NOINIT, where MM is supposed not to
+>>>>>>> initialize struct pages?
+>>>>>>
+>>>>>> Excellent point, I did not know about that one.
+>>>>>>
+>>>>>> Spotting that we don't do the same for the head page made me assume that
+>>>>>> it's just a misuse of __init_single_page().
+>>>>>>
+>>>>>> But the nasty thing is that we use memblock_reserved_mark_noinit() to only
+>>>>>> mark the tail pages ...
+>>>>>
+>>>>> And even nastier thing is that when CONFIG_DEFERRED_STRUCT_PAGE_INIT is
+>>>>> disabled struct pages are initialized regardless of
+>>>>> memblock_reserved_mark_noinit().
+>>>>>
+>>>>> I think this patch should go in before your updates:
+>>>>
+>>>> Shouldn't we fix this in memblock code?
+>>>>
+>>>> Hacking around that in the memblock_reserved_mark_noinit() user sound wrong
+>>>> -- and nothing in the doc of memblock_reserved_mark_noinit() spells that
+>>>> behavior out.
+>>>
+>>> We can surely update the docs, but unfortunately I don't see how to avoid
+>>> hacking around it in hugetlb.
+>>> Since it's used to optimise HVO even further to the point hugetlb open
+>>> codes memmap initialization, I think it's fair that it should deal with all
+>>> possible configurations.
+>>
+>> Remind me, why can't we support memblock_reserved_mark_noinit() when
+>> CONFIG_DEFERRED_STRUCT_PAGE_INIT is disabled?
 > 
-> I tried something similar a few days ago, but perhaps not very convincingly
-> I presume.
-> 
-> [1] https://lore.kernel.org/intel-xe/20250806152256.748057-1-raag.jadav@intel.com/
+> When CONFIG_DEFERRED_STRUCT_PAGE_INIT is disabled we initialize the entire
+> memmap early (setup_arch()->free_area_init()), and we may have a bunch of
+> memblock_reserved_mark_noinit() afterwards
 
-Cc a bunch of folks...
+Oh, you mean that we get effective memblock modifications after already
+initializing the memmap.
 
-Well, we have a mess to fix here indeed.
+That sounds ... interesting :)
 
-We should not be mixing platform checks with info checks that are coming from
-platform definition...
+So yeah, we have to document this for memblock_reserved_mark_noinit().
 
-Look comment in xe_info_init_early:
-"Initialize device info content that only depends on static driver_data
-passed to the driver at probe time from PCI ID table."
+Is it also a problem for kexec_handover?
 
-However this thread made me to realize that we are not respecting that
-and we are indeed changing the info at runtime and not only based
-on the platform:
+We should do something like:
 
-sriov_update_device_info()
+diff --git a/mm/memblock.c b/mm/memblock.c
+index 154f1d73b61f2..ed4c563d72c32 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -1091,13 +1091,16 @@ int __init_memblock memblock_clear_nomap(phys_addr_t base, phys_addr_t size)
+  
+  /**
+   * memblock_reserved_mark_noinit - Mark a reserved memory region with flag
+- * MEMBLOCK_RSRV_NOINIT which results in the struct pages not being initialized
+- * for this region.
++ * MEMBLOCK_RSRV_NOINIT which allows for the "struct pages" corresponding
++ * to this region not getting initialized, because the caller will take
++ * care of it.
+   * @base: the base phys addr of the region
+   * @size: the size of the region
+   *
+- * struct pages will not be initialized for reserved memory regions marked with
+- * %MEMBLOCK_RSRV_NOINIT.
++ * "struct pages" will not be initialized for reserved memory regions marked
++ * with %MEMBLOCK_RSRV_NOINIT if this function is called before initialization
++ * code runs. Without CONFIG_DEFERRED_STRUCT_PAGE_INIT, it is more likely
++ * that this function is not effective.
+   *
+   * Return: 0 on success, -errno on failure.
+   */
 
-Hence these kind of patches poping up.
 
-Jani, I remember you did a very good organization in i915 with the static
-info vs info that can change in runtime. Any advice, guidance here?
+Optimizing the hugetlb code could be done, but I am not sure how high
+the priority is (nobody complained so far about the double init).
 
-Thanks,
-Rodrigo.
+-- 
+Cheers
 
-> 
-> Raag
-> 
-> > > We will only get here for BMG which has pcode for sure.
-> > > 
-> > > > 
-> > > > Check skip_pcode early in the function and return if it is set.
-> > > > 
-> > > > No change for platforms where pcode is enabled.
-> > > > 
-> > > > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > > > ---
-> > > >  drivers/gpu/drm/xe/xe_device_sysfs.c | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/xe/xe_device_sysfs.c b/drivers/gpu/drm/xe/xe_device_sysfs.c
-> > > > index bd9015761aa0..3a083c215891 100644
-> > > > --- a/drivers/gpu/drm/xe/xe_device_sysfs.c
-> > > > +++ b/drivers/gpu/drm/xe/xe_device_sysfs.c
-> > > > @@ -156,6 +156,9 @@ static int late_bind_create_files(struct device *dev)
-> > > >  	u32 cap;
-> > > >  	int ret;
-> > > >  
-> > > > +	if (xe->info.skip_pcode)
-> > > > +		return 0;
-> > > > +
-> > > >  	xe_pm_runtime_get(xe);
-> > > >  
-> > > >  	ret = xe_pcode_read(root, PCODE_MBOX(PCODE_LATE_BINDING, GET_CAPABILITY_STATUS, 0),
-> > > > -- 
-> > > > 2.50.0
-> > > > 
+David / dhildenb
+
