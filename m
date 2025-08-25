@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178A8B34B3B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 21:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE61B34B3E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 21:57:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5874A10E548;
-	Mon, 25 Aug 2025 19:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 668CB10E54E;
+	Mon, 25 Aug 2025 19:57:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="H+QSRmb6";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="lI6dXExZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1F2E10E548
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 19:56:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5259B10E54E
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 19:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,32 +22,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Axo2i2to86se+cG2QdB4JkXbJo/pcx/OC3V81nUb7oU=; b=H+QSRmb6rnu8FrLAix5wjDPsHp
- IUDj3RChooPhMQVZfDxK/JNGzGiuhuCr7J75IzU0xwQcpvPYeHY9HnFUwbmfMx4WRfzmwgI7rwqSl
- UM4t22tK0Nk947Tq0jLNvlO8Xu4vzCkO3ZlxmJ16/xwr7FN21r4tGpCno+UrG0TX9NIjAyZOFKaC7
- Z27CoRE/WeekHLdkdWt89rCi5riCn414Yxk06tSaassdC9MTg2knCUXcqM1JTAnTXq06THdCSm5Qr
- Np3UOirEvMWlzAFLr909A61L1cTE6zW8Wp8EQjpd8yRNfdTgWo3x9yMgMXC70OC1GfLSb0osF9Rt0
- qxJI7PVQ==;
+ bh=EOH3Kc9MElP0FXSXQZlYTtmSrfl1Zq4rt4hQU6dmlNs=; b=lI6dXExZS741Cu7AH48+pbqDQq
+ cOxax4EhSqyYg3b03vRD318pOAt3oqbV/L+HLfocdcbkQFW0vxTJStA2nGGerBxRJRQZ0WFGBHXcn
+ TVKBYfGEtyDbiY8/rDWlbVt5NRXye9SnrtUKnlR3H7yySkHD47enElTxuVk8eFLhefGf/K1KJ0MbO
+ +hKP2X8boRTH/PAMQ0wvxC9SI7P969PtMrnci4x0yr/WVdBAGCf4XhgczOCC3ALZ412o4+SVi5jFx
+ 2Buz85LeuoiSl7yC1vPYWLwtQdLJRYZ5hZ718ssZ9B4ppmolHO++0cau5XPHu9H1iby7E6IpYvDFi
+ utv7pUnA==;
 Received: from [189.6.13.79] (helo=[192.168.31.42])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uqdJH-001ZBm-LP; Mon, 25 Aug 2025 21:56:55 +0200
-Message-ID: <230174f5-4dd3-4974-a308-24262d5a6b02@igalia.com>
-Date: Mon, 25 Aug 2025 16:56:50 -0300
+ id 1uqdJf-001ZCT-2O; Mon, 25 Aug 2025 21:57:19 +0200
+Message-ID: <60a25b9a-34a2-4e8b-9cff-2855168dcea8@igalia.com>
+Date: Mon, 25 Aug 2025 16:57:15 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] drm/v3d: Store a pointer to `struct v3d_file_priv`
- inside each job
+Subject: Re: [PATCH v2 3/6] drm/v3d: Replace a global spinlock with a
+ per-queue spinlock
 To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
  Iago Toral Quiroga <itoral@igalia.com>,
  Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
 References: <20250815-v3d-queue-lock-v2-0-ce37258ffb53@igalia.com>
- <20250815-v3d-queue-lock-v2-1-ce37258ffb53@igalia.com>
+ <20250815-v3d-queue-lock-v2-3-ce37258ffb53@igalia.com>
 Content-Language: en-US
 From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <20250815-v3d-queue-lock-v2-1-ce37258ffb53@igalia.com>
+In-Reply-To: <20250815-v3d-queue-lock-v2-3-ce37258ffb53@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,95 +68,174 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 15/08/2025 16:58, Maíra Canal wrote:
-> Instead of storing a pointer to the DRM file data, store a pointer
-> directly to the private V3D file struct.
-Why? "to collect per-process information about the GPU"?
+> Each V3D queue works independently and all the dependencies between the
+> jobs are handled through the DRM scheduler. Therefore, there is no need
+> to use one single lock for all queues. Using it, creates unnecessary
+> contention between different queues that can operate independently.
+>
+> Replace the global spinlock with per-queue locks to improve parallelism
+> and reduce contention between different V3D queues (BIN, RENDER, TFU,
+> CSD). This allows independent queues to operate concurrently while
+> maintaining proper synchronization within each queue.
 >
 > Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 > ---
->   drivers/gpu/drm/v3d/v3d_drv.h    |  4 ++--
->   drivers/gpu/drm/v3d/v3d_sched.c  | 10 +++++-----
->   drivers/gpu/drm/v3d/v3d_submit.c |  2 +-
->   3 files changed, 8 insertions(+), 8 deletions(-)
+>   drivers/gpu/drm/v3d/v3d_drv.h   |  8 ++------
+>   drivers/gpu/drm/v3d/v3d_fence.c | 11 ++++++-----
+>   drivers/gpu/drm/v3d/v3d_gem.c   |  3 ++-
+>   drivers/gpu/drm/v3d/v3d_irq.c   |  6 +++---
+>   drivers/gpu/drm/v3d/v3d_sched.c | 13 +++++++------
+>   5 files changed, 20 insertions(+), 21 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-> index 82d84a96235f0c5396ff634c2f6a0a7bb809b332..951a302336ce55f0a70f6a7adc0ec7ca30033198 100644
+> index d557caca5c4b8a7d7dcd35067208c5405de9df3c..cfc2f9c123aa99f6f1875b297eaf6c226b03d4ec 100644
 > --- a/drivers/gpu/drm/v3d/v3d_drv.h
 > +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> @@ -327,9 +327,9 @@ struct v3d_job {
->   	struct v3d_perfmon *perfmon;
+> @@ -61,6 +61,7 @@ struct v3d_queue_state {
 >   
->   	/* File descriptor of the process that submitted the job that could be used
-> -	 * for collecting stats by process of GPU usage.
-> +	 * to collect per-process information about the GPU.
+>   	/* Currently active job for this queue */
+>   	struct v3d_job *active_job;
+> +	spinlock_t queue_lock;
+>   };
+>   
+>   /* Performance monitor object. The perform lifetime is controlled by userspace
+> @@ -164,11 +165,6 @@ struct v3d_dev {
+>   
+>   	struct v3d_queue_state queue[V3D_MAX_QUEUES];
+>   
+> -	/* Spinlock used to synchronize the overflow memory
+> -	 * management against bin job submission.
+> -	 */
+> -	spinlock_t job_lock;
+> -
+>   	/* Used to track the active perfmon if any. */
+>   	struct v3d_perfmon *active_perfmon;
+>   
+> @@ -568,7 +564,7 @@ void v3d_get_stats(const struct v3d_stats *stats, u64 timestamp,
+>   
+>   /* v3d_fence.c */
+>   extern const struct dma_fence_ops v3d_fence_ops;
+> -struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue queue);
+> +struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue q);
+nit: Why rename queue -> q?
+
+Apart from that, LGTM.
+
+Reviewed-by: Melissa Wen <mwen@igalia.com>
+>   
+>   /* v3d_gem.c */
+>   int v3d_gem_init(struct drm_device *dev);
+> diff --git a/drivers/gpu/drm/v3d/v3d_fence.c b/drivers/gpu/drm/v3d/v3d_fence.c
+> index 89840ed212c06036e5b9ecef91852a490538ba89..8f8471adae34af7a444f5eeca4ef08d66ac1b7b5 100644
+> --- a/drivers/gpu/drm/v3d/v3d_fence.c
+> +++ b/drivers/gpu/drm/v3d/v3d_fence.c
+> @@ -3,8 +3,9 @@
+>   
+>   #include "v3d_drv.h"
+>   
+> -struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue queue)
+> +struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue q)
+>   {
+> +	struct v3d_queue_state *queue = &v3d->queue[q];
+>   	struct v3d_fence *fence;
+>   
+>   	fence = kzalloc(sizeof(*fence), GFP_KERNEL);
+> @@ -12,10 +13,10 @@ struct dma_fence *v3d_fence_create(struct v3d_dev *v3d, enum v3d_queue queue)
+>   		return ERR_PTR(-ENOMEM);
+>   
+>   	fence->dev = &v3d->drm;
+> -	fence->queue = queue;
+> -	fence->seqno = ++v3d->queue[queue].emit_seqno;
+> -	dma_fence_init(&fence->base, &v3d_fence_ops, &v3d->job_lock,
+> -		       v3d->queue[queue].fence_context, fence->seqno);
+> +	fence->queue = q;
+> +	fence->seqno = ++queue->emit_seqno;
+> +	dma_fence_init(&fence->base, &v3d_fence_ops, &queue->queue_lock,
+> +		       queue->fence_context, fence->seqno);
+>   
+>   	return &fence->base;
+>   }
+> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+> index cfa09b73c1ed0f3a10f20e616d8abdb08d9b2f11..c77d90aa9b829900147dae0778f42477c8ba1bf6 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> @@ -271,10 +271,11 @@ v3d_gem_init(struct drm_device *dev)
+>   		queue->fence_context = dma_fence_context_alloc(1);
+>   		memset(&queue->stats, 0, sizeof(queue->stats));
+>   		seqcount_init(&queue->stats.lock);
+> +
+> +		spin_lock_init(&queue->queue_lock);
+>   	}
+>   
+>   	spin_lock_init(&v3d->mm_lock);
+> -	spin_lock_init(&v3d->job_lock);
+>   	ret = drmm_mutex_init(dev, &v3d->bo_lock);
+>   	if (ret)
+>   		return ret;
+> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
+> index 6605ec2008281583aed547180533f5ae57b7f904..31ecc5b4ba5af1efbde691b3557a612f6c31552f 100644
+> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+> @@ -62,17 +62,17 @@ v3d_overflow_mem_work(struct work_struct *work)
+>   	 * bin job got scheduled, that's fine.  We'll just give them
+>   	 * some binner pool anyway.
 >   	 */
-> -	struct drm_file *file;
-> +	struct v3d_file_priv *file_priv;
+> -	spin_lock_irqsave(&v3d->job_lock, irqflags);
+> +	spin_lock_irqsave(&queue->queue_lock, irqflags);
+>   	bin_job = (struct v3d_bin_job *)queue->active_job;
 >   
->   	/* Callback for the freeing of the job on refcount going to 0. */
->   	void (*free)(struct kref *ref);
+>   	if (!bin_job) {
+> -		spin_unlock_irqrestore(&v3d->job_lock, irqflags);
+> +		spin_unlock_irqrestore(&queue->queue_lock, irqflags);
+>   		goto out;
+>   	}
+>   
+>   	drm_gem_object_get(obj);
+>   	list_add_tail(&bo->unref_head, &bin_job->render->unref_list);
+> -	spin_unlock_irqrestore(&v3d->job_lock, irqflags);
+> +	spin_unlock_irqrestore(&queue->queue_lock, irqflags);
+>   
+>   	v3d_mmu_flush_all(v3d);
+>   
 > diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index f9d9a198d71866e662376a2367d7d5bcb4a363b6..1846030c5f3a508455087947872dacbfd6fb52ad 100644
+> index 91f2e76319ef9ddef9a9e6e88651be0a5128fc1f..e348816b691ef05909828accbe15399816e69369 100644
 > --- a/drivers/gpu/drm/v3d/v3d_sched.c
 > +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -139,7 +139,7 @@ static void
->   v3d_job_start_stats(struct v3d_job *job, enum v3d_queue queue)
+> @@ -226,27 +226,28 @@ static struct dma_fence *v3d_bin_job_run(struct drm_sched_job *sched_job)
 >   {
->   	struct v3d_dev *v3d = job->v3d;
-> -	struct v3d_file_priv *file = job->file->driver_priv;
-> +	struct v3d_file_priv *file = job->file_priv;
->   	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
->   	struct v3d_stats *local_stats = &file->stats[queue];
->   	u64 now = local_clock();
-> @@ -197,7 +197,7 @@ void
->   v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
->   {
->   	struct v3d_dev *v3d = job->v3d;
-> -	struct v3d_file_priv *file = job->file->driver_priv;
-> +	struct v3d_file_priv *file = job->file_priv;
->   	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
->   	u64 now = local_clock();
->   	unsigned long flags;
-> @@ -574,7 +574,7 @@ static void
->   v3d_reset_performance_queries(struct v3d_cpu_job *job)
->   {
->   	struct v3d_performance_query_info *performance_query = &job->performance_query;
-> -	struct v3d_file_priv *v3d_priv = job->base.file->driver_priv;
-> +	struct v3d_file_priv *v3d_priv = job->base.file_priv;
+>   	struct v3d_bin_job *job = to_bin_job(sched_job);
 >   	struct v3d_dev *v3d = job->base.v3d;
->   	struct v3d_perfmon *perfmon;
+> +	struct v3d_queue_state *queue = &v3d->queue[V3D_BIN];
+>   	struct drm_device *dev = &v3d->drm;
+>   	struct dma_fence *fence;
+>   	unsigned long irqflags;
 >   
-> @@ -604,7 +604,7 @@ v3d_write_performance_query_result(struct v3d_cpu_job *job, void *data,
->   {
->   	struct v3d_performance_query_info *performance_query =
->   						&job->performance_query;
-> -	struct v3d_file_priv *v3d_priv = job->base.file->driver_priv;
-> +	struct v3d_file_priv *v3d_priv = job->base.file_priv;
->   	struct v3d_performance_query *perf_query =
->   			&performance_query->queries[query];
->   	struct v3d_dev *v3d = job->base.v3d;
-> @@ -722,7 +722,7 @@ static enum drm_gpu_sched_stat
->   v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
->   {
->   	struct v3d_job *job = to_v3d_job(sched_job);
-> -	struct v3d_file_priv *v3d_priv = job->file->driver_priv;
-> +	struct v3d_file_priv *v3d_priv = job->file_priv;
->   	enum v3d_queue q;
+>   	if (unlikely(job->base.base.s_fence->finished.error)) {
+> -		spin_lock_irqsave(&v3d->job_lock, irqflags);
+> -		v3d->queue[V3D_BIN].active_job = NULL;
+> -		spin_unlock_irqrestore(&v3d->job_lock, irqflags);
+> +		spin_lock_irqsave(&queue->queue_lock, irqflags);
+> +		queue->active_job = NULL;
+> +		spin_unlock_irqrestore(&queue->queue_lock, irqflags);
+>   		return NULL;
+>   	}
 >   
->   	mutex_lock(&v3d->reset_lock);
-> diff --git a/drivers/gpu/drm/v3d/v3d_submit.c b/drivers/gpu/drm/v3d/v3d_submit.c
-> index 5171ffe9012d4d0140d82d40af71ecbaf029a24a..f3652e90683c398f25d2ce306be1c0fdfe4d286f 100644
-> --- a/drivers/gpu/drm/v3d/v3d_submit.c
-> +++ b/drivers/gpu/drm/v3d/v3d_submit.c
-> @@ -166,7 +166,7 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
+>   	/* Lock required around bin_job update vs
+>   	 * v3d_overflow_mem_work().
+>   	 */
+> -	spin_lock_irqsave(&v3d->job_lock, irqflags);
+> -	v3d->queue[V3D_BIN].active_job = to_v3d_job(sched_job);
+> +	spin_lock_irqsave(&queue->queue_lock, irqflags);
+> +	queue->active_job = to_v3d_job(sched_job);
+>   	/* Clear out the overflow allocation, so we don't
+>   	 * reuse the overflow attached to a previous job.
+>   	 */
+>   	V3D_CORE_WRITE(0, V3D_PTB_BPOS, 0);
+> -	spin_unlock_irqrestore(&v3d->job_lock, irqflags);
+> +	spin_unlock_irqrestore(&queue->queue_lock, irqflags);
 >   
->   	job->v3d = v3d;
->   	job->free = free;
-> -	job->file = file_priv;
-> +	job->file_priv = v3d_priv;
+>   	v3d_invalidate_caches(v3d);
 >   
->   	ret = drm_sched_job_init(&job->base, &v3d_priv->sched_entity[queue],
->   				 1, v3d_priv, file_priv->client_id);
 >
 
