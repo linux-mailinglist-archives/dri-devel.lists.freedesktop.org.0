@@ -2,54 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984B6B34CD2
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 22:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B68B34D34
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 23:00:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFA8F10E562;
-	Mon, 25 Aug 2025 20:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 335E510E565;
+	Mon, 25 Aug 2025 21:00:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BIW78tCy";
+	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="IfCbuxvx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D88B210E562
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 20:53:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Ci9MkpdGKbzRKcDjICnrxiX3K1trrRbr+R7mFp9OVCQ=; b=BIW78tCyM6ywv0tV4kTwERm0y9
- NLz+LG6flM+LM3NA8SsbU7bopSMF5NM3Ut9gmOmW2KPP9HPQbDkF8yZlCxMBpG0v2MPDtUFNaAPJ1
- WM/hfTdLZcw7/mOuAkR4gSqcsgVMqDF2YSVaOlZhqfgBrvZOpXlxwKoBjeflgeK6y+GlDAkcNWsaO
- XuRQPfB+HCa25Sc3jUUKPqMjwItalMOHcFqR8c84Xwz1XD2gcnHrcWsrgQJTQFrX1QoIu//1h8f5+
- OrSGSMgasqCWikj5vkP+oAWiXWXLXgJVAQ0E8GhhoG8XfCsfa1BuYT6mU5WPSNc+XhuBNHOs19Yd1
- 6NF1LGTA==;
-Received: from [189.7.87.79] (helo=[192.168.0.2])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uqeBk-001aYJ-MN; Mon, 25 Aug 2025 22:53:13 +0200
-Message-ID: <8a5ecf46-897e-48ea-92c2-927980ddff0b@igalia.com>
-Date: Mon, 25 Aug 2025 17:53:07 -0300
+Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99E7710E565;
+ Mon, 25 Aug 2025 21:00:27 +0000 (UTC)
+Received: from relay10 (localhost.localdomain [127.0.0.1])
+ by relay10.grserver.gr (Proxmox) with ESMTP id 337D246DE1;
+ Tue, 26 Aug 2025 00:00:25 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by relay10.grserver.gr (Proxmox) with ESMTPS id D5C1346C89;
+ Tue, 26 Aug 2025 00:00:23 +0300 (EEST)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id 2008F2066B8;
+ Tue, 26 Aug 2025 00:00:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+ s=default; t=1756155623;
+ bh=D8ifD12m19pxSkPj+MjJNcpSuPpQyZX3/Aoffcw+wLc=;
+ h=Received:From:Subject:To;
+ b=IfCbuxvx6ZRXXfPOild/vJ8o5gjLbLOmr/g9DFbRiJKcsOZOzl1sCFeWWRDmIZ19G
+ Erm88DVQ/9eb9kHkWc1UPhX/fuBLmDR9X3biTqE2/cff71+zKa/4JAKNhf39XYKjaS
+ QNB6dd0mrx6RZuxr4ZDkpVlY9/XzTdVze9RnRl/gs7P0jXrSG+3sk7uv8fsm6zY2J4
+ PlSDdDLv0u0D5Sg2LU6J2Lgn1sWX0yBro/A7wzyslNladqIshry+2yQBd3KlTRWzNP
+ nPczIj87I7+5G9NEslTnMBO0BsIfoY05p067DOP1D0Q+FX6horyQ5ecZ3Zif4Qvop0
+ s0NS23/oU0f1A==
+Authentication-Results: linux3247.grserver.gr;
+ spf=pass (sender IP is 209.85.208.181) smtp.mailfrom=lkml@antheas.dev
+ smtp.helo=mail-lj1-f181.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-333f92a69d4so35506611fa.2;
+ Mon, 25 Aug 2025 14:00:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV18EPxEvBaIdxyaV2n36MAW/kwYQiqRRD7BBpHc1kr5cK4bvBK/ikcYAViOYAJwvnHfhlBXJ4NHJyH@lists.freedesktop.org,
+ AJvYcCWjZbF7YWJsnDuCuQ70p+J6bmJN4jj7MC3yVnroFAkb5510HUlgEjE1GQpYFukQ3W1yG2q5Nj/H@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxajeK41b2ZwMy+eHFa+UqX8Weg8TSL0UNZhY/9uKTmhTN3bhEX
+ C3A5dpt2kmB5pV1oP79DW7RfGRAMVkAgWD4iOK5PEH3OhSyY4Lgpb2ZuOn0dOIboWdTJL93FSg1
+ zOc+iQkNcOpApPfKLlug7qeEiaVXpGx8=
+X-Google-Smtp-Source: AGHT+IERDdc4cuaeqaeEoP6lBRc2LBCb+njMj/3wEbhTSDngQdBT7xq2OL7FygmjAFEfwtTTTMJNxulrEjvcqsG4xXo=
+X-Received: by 2002:a2e:ae16:0:b0:334:d4b:4965 with SMTP id
+ 38308e7fff4ca-33650ffde38mr32898911fa.31.1756155622487; Mon, 25 Aug 2025
+ 14:00:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] drm/v3d: Address race-condition between per-fd GPU
- stats and fd release
-To: Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>,
- Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20250815-v3d-queue-lock-v2-0-ce37258ffb53@igalia.com>
- <20250815-v3d-queue-lock-v2-4-ce37258ffb53@igalia.com>
- <8cf9cd49-b4e5-4cd9-b4db-9bb81fdf6b0b@igalia.com>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Content-Language: en-US
-In-Reply-To: <8cf9cd49-b4e5-4cd9-b4db-9bb81fdf6b0b@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250824085351.454619-1-lkml@antheas.dev>
+ <CADnq5_MEhMha47V25SK4cZkd8TLcizR_y0si2n9jSDjJTXeoRQ@mail.gmail.com>
+ <CAGwozwF=UKhG0HU_cxaY8957rscY=W4_VK+z==3vkKJJWZehzQ@mail.gmail.com>
+ <CAGwozwFmfBrnZBO6JRZPnPyHLrKycdnoMRtOkK+KpwkdQ4Fw=w@mail.gmail.com>
+ <425162fe-aeb7-4ff5-9a84-e7f6da20225e@kernel.org>
+In-Reply-To: <425162fe-aeb7-4ff5-9a84-e7f6da20225e@kernel.org>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Mon, 25 Aug 2025 23:00:11 +0200
+X-Gmail-Original-Message-ID: <CAGwozwHdQu0K-dgnh72P=ms-ory2bZr-6rtCtWM2QP0u8NqXng@mail.gmail.com>
+X-Gm-Features: Ac12FXyzqiebyPhIvIZHh18pCxRjmJRazAsv4y3o_K7o71Is36skq1VQ6cWjOak
+Message-ID: <CAGwozwHdQu0K-dgnh72P=ms-ory2bZr-6rtCtWM2QP0u8NqXng@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] drm/amdgpu/vpe: increase VPE_IDLE_TIMEOUT to fix
+ hang on Strix Halo
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Alex Deucher <alexdeucher@gmail.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Peyton Lee <peytolee@amd.com>, Lang Yu <lang.yu@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-PPP-Message-ID: <175615562334.2864339.5517262997455263356@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,165 +99,191 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Melissa,
+On Mon, 25 Aug 2025 at 18:41, Mario Limonciello <superm1@kernel.org> wrote:
+>
+> On 8/25/2025 9:01 AM, Antheas Kapenekakis wrote:
+> > On Mon, 25 Aug 2025 at 15:33, Antheas Kapenekakis <lkml@antheas.dev> wr=
+ote:
+> >>
+> >> On Mon, 25 Aug 2025 at 15:20, Alex Deucher <alexdeucher@gmail.com> wro=
+te:
+> >>>
+> >>> On Mon, Aug 25, 2025 at 3:13=E2=80=AFAM Antheas Kapenekakis <lkml@ant=
+heas.dev> wrote:
+> >>>>
+> >>>> On the Asus Z13 2025, which uses a Strix Halo platform, around 8% of=
+ the
+> >>>> suspend resumes result in a soft lock around 1 second after the scre=
+en
+> >>>> turns on (it freezes). This happens due to power gating VPE when it =
+is
+> >>>> not used, which happens 1 second after inactivity.
+> >>>>
+> >>>> Specifically, the VPE gating after resume is as follows: an initial
+> >>>> ungate, followed by a gate in the resume process. Then,
+> >>>> amdgpu_device_delayed_init_work_handler with a delay of 2s is schedu=
+led
+> >>>> to run tests, one of which is testing VPE in vpe_ring_test_ib. This
+> >>>> causes an ungate, After that test, vpe_idle_work_handler is schedule=
+d
+> >>>> with VPE_IDLE_TIMEOUT (1s).
+> >>>>
+> >>>> When vpe_idle_work_handler runs and tries to gate VPE, it causes the
+> >>>> SMU to hang and partially freezes half of the GPU IPs, with the thre=
+ad
+> >>>> that called the command being stuck processing it.
+> >>>>
+> >>>> Specifically, after that SMU command tries to run, we get the follow=
+ing:
+> >>>>
+> >>>> snd_hda_intel 0000:c4:00.1: Refused to change power state from D0 to=
+ D3hot
+> >>>> ...
+> >>>> xhci_hcd 0000:c4:00.4: Refused to change power state from D0 to D3ho=
+t
+> >>>> ...
+> >>>> amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous co=
+mmand: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+> >>>> amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VPE!
+> >>>> [drm:vpe_set_powergating_state [amdgpu]] *ERROR* Dpm disable vpe fai=
+led, ret =3D -62.
+> >>>> amdgpu 0000:c4:00.0: [drm] *ERROR* [CRTC:93:crtc-0] flip_done timed =
+out
+> >>>> amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous co=
+mmand: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+> >>>> amdgpu 0000:c4:00.0: amdgpu: Failed to power gate JPEG!
+> >>>> [drm:jpeg_v4_0_5_set_powergating_state [amdgpu]] *ERROR* Dpm disable=
+ jpeg failed, ret =3D -62.
+> >>>> amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous co=
+mmand: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+> >>>> amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VCN instance 0!
+> >>>> [drm:vcn_v4_0_5_stop [amdgpu]] *ERROR* Dpm disable uvd failed, ret =
+=3D -62.
+> >>>> thunderbolt 0000:c6:00.5: 0: timeout reading config space 1 from 0xd=
+3
+> >>>> thunderbolt 0000:c6:00.5: 0: timeout reading config space 2 from 0x5
+> >>>> thunderbolt 0000:c6:00.5: Refused to change power state from D0 to D=
+3hot
+> >>>> amdgpu 0000:c4:00.0: [drm] *ERROR* [CRTC:97:crtc-1] flip_done timed =
+out
+> >>>> amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous co=
+mmand: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+> >>>> amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VCN instance 1!
+> >>>>
+> >>>> In addition to e.g., kwin errors in journalctl. 0000:c4.00.0 is the =
+GPU.
+> >>>> Interestingly, 0000:c4.00.6, which is another HDA block, 0000:c4.00.=
+5,
+> >>>> a PCI controller, and 0000:c4.00.2, resume normally. 0x00000032 is t=
+he
+> >>>> PowerDownVpe(50) command which is the common failure point in all
+> >>>> failed resumes.
+> >>>>
+> >>>> On a normal resume, we should get the following power gates:
+> >>>> amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVpe(50) para=
+m: 0x00000000, resp: 0x00000001
+> >>>> amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownJpeg0(33) pa=
+ram: 0x00000000, resp: 0x00000001
+> >>>> amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownJpeg1(38) pa=
+ram: 0x00010000, resp: 0x00000001
+> >>>> amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVcn1(4) para=
+m: 0x00010000, resp: 0x00000001
+> >>>> amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVcn0(6) para=
+m: 0x00000000, resp: 0x00000001
+> >>>> amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpVcn0(7) param:=
+ 0x00000000, resp: 0x00000001
+> >>>> amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpVcn1(5) param:=
+ 0x00010000, resp: 0x00000001
+> >>>> amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpJpeg0(34) para=
+m: 0x00000000, resp: 0x00000001
+> >>>> amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpJpeg1(39) para=
+m: 0x00010000, resp: 0x00000001
+> >>>>
+> >>>> To fix this, increase VPE_IDLE_TIMEOUT to 2 seconds. This increases
+> >>>> reliability from 4-25 suspends to 200+ (tested) suspends with a cycl=
+e
+> >>>> time of 12s sleep, 8s resume. The suspected reason here is that 1s t=
+hat
+> >>>> when VPE is used, it needs a bit of time before it can be gated and
+> >>>> there was a borderline delay before, which is not enough for Strix H=
+alo.
+> >>>> When the VPE is not used, such as on resume, gating it instantly doe=
+s
+> >>>> not seem to cause issues.
+> >>>
+> >>> This doesn't make much sense.  The VPE idle timeout is arbitrary.  Th=
+e
+> >>> VPE idle work handler checks to see if the block is idle before it
+> >>> powers gates the block. If it's not idle, then the delayed work is
+> >>> rescheduled so changing the timing should not make a difference.  We
+> >>> are no powering down VPE while it still has active jobs.  It sounds
+> >>> like there is some race condition somewhere else.
+> >>
+> >> On resume, the vpe is ungated and gated instantly, which does not
+> >> cause any crashes, then the delayed work is scheduled to run two
+> >> seconds later. Then, the tests run and finish, which start the gate
+> >> timer. After the timer lapses and the kernel tries to gate VPE, it
+> >> crashes. I logged all SMU commands and there is no difference between
+> >> the ones in a crash and not, other than the fact the VPE gate command
+> >> failed. Which becomes apparent when the next command runs. I will also
+> >> note that until the idle timer lapses, the system is responsive
+> >>
+> >> Since the VPE is ungated to run the tests, I assume that in my setup
+> >> it is not used close to resume.
+> >
+> > I should also add that I forced a kernel panic and dumped all CPU
+> > backtraces in multiple logs. After the softlock, CPUs were either
+> > parked in the scheduler, powered off, or stuck executing an SMU
+> > command by e.g., a userspace usage sensor graph. So it is not a
+> > deadlock.
+> >
+>
+> Can you please confirm if you are on the absolute latest linux-firmware
+> when you reproduced this issue?
 
-On 25/08/25 17:03, Melissa Wen wrote:
-> 
-> 
-> On 15/08/2025 16:58, Maíra Canal wrote:
->> When the file descriptor is closed while a job is still running,
->> there's a race condition between the job completion callback and the
->> file descriptor cleanup. This can lead to accessing freed memory when
->> updating per-fd GPU stats, such as the following example:
->>
->> [56120.512903] Unable to handle kernel paging request at virtual 
->> address 0000330a92b9688a
->> [56120.520881] Mem abort info:
->> [56120.523687] ESR = 0x0000000096000005
->> [56120.527454] EC = 0x25: DABT (current EL), IL = 32 bits
->> [56120.532785] SET = 0, FnV = 0
->> [56120.535847] EA = 0, S1PTW = 0
->> [56120.538995] FSC = 0x05: level 1 translation fault
->> [56120.543891] Data abort info:
->> [56120.546778] ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
->> [56120.552289] CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->> [56120.557362] GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->> [56120.562690] user pgtable: 16k pages, 47-bit VAs, pgdp=0000000023f54000
->> [56120.569239] [0000330a92b9688a] pgd=0000000000000000, 
->> p4d=0000000000000000, pud=0000000000000000
->> [56120.577975] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
->>              CPU: 0 UID: 1000 PID: 1497409 Comm: mpv Not tainted 
->> 6.12.37-ncvm5+ #1
->>              Hardware name: Raspberry Pi 5 Model B Rev 1.0 (DT)
->>              pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS 
->> BTYPE=--)
->>              pc : v3d_job_update_stats+0x64/0x168 [v3d]
->>              lr : v3d_job_update_stats+0x40/0x168 [v3d]
->>              sp : ffffc00080003e60
->>              x29: ffffc00080003e60 x28: ffff800002860000 x27: 
->> 0000000000000000
->>              x26: 0000000000000000 x25: ffff800002860000 x24: 
->> ffff800002630800
->>              x23: ffff800060786000 x22: 0000330a933c31fb x21: 
->> 0000000000000001
->>              x20: 0000330a92b96302 x19: ffff800060786b10 x18: 
->> 0000000000000000
->>              x17: ffffaf90506a0000 x16: ffffd06fce57c360 x15: 
->> 0000000000000000
->>              x14: 0000000000000000 x13: 0000000000000000 x12: 
->> 0000000000000000
->>              x11: 0000000000000000 x10: 0000000000000000 x9 : 
->> ffffd06f5d0fec40
->>              x8 : 0000000000000000 x7 : 0000000000000000 x6 : 
->> 000002978dbd535a
->>              x5 : 00ffffffffffffff x4 : 0000000000000015 x3 : 
->> 0000300001fddf88
->>              x2 : 0000000000000020 x1 : 0000000000010001 x0 : 
->> 0000330a92b96872
->>              Call trace:
->>          v3d_job_update_stats+0x64/0x168 [v3d]
->>          v3d_irq+0x118/0x2e0 [v3d]
->>          __handle_irq_event_percpu+0x60/0x220
->>
->> Fix such an issue by protecting all accesses to `job->file_priv` with
->> the queue's lock. With that, we can clear `job->file_priv` before the
->> V3D per-fd structure is freed and assure that `job->file_priv` exists
->> during the per-fd GPU stats updates.
->>
->> Fixes: e1bc3a13bd77 ("drm/v3d: Avoid NULL pointer dereference in 
->> `v3d_job_update_stats()`")
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
->> ---
->>   drivers/gpu/drm/v3d/v3d_drv.c   | 14 +++++++++++++-
->>   drivers/gpu/drm/v3d/v3d_drv.h   |  2 +-
->>   drivers/gpu/drm/v3d/v3d_sched.c | 14 +++++++-------
->>   3 files changed, 21 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/ 
->> v3d_drv.c
->> index 
->> 2def155ce496ec5f159f6bda9929aeaae141d1a6..c5a3bbbc74c5c6c9a34a6e6111b4e4e21bee0b34 100644
->> --- a/drivers/gpu/drm/v3d/v3d_drv.c
->> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
->> @@ -157,12 +157,24 @@ v3d_open(struct drm_device *dev, struct drm_file 
->> *file)
->>   static void
->>   v3d_postclose(struct drm_device *dev, struct drm_file *file)
->>   {
->> +    struct v3d_dev *v3d = to_v3d_dev(dev);
->>       struct v3d_file_priv *v3d_priv = file->driver_priv;
->> +    unsigned long irqflags;
->>       enum v3d_queue q;
->> -    for (q = 0; q < V3D_MAX_QUEUES; q++)
->> +    for (q = 0; q < V3D_MAX_QUEUES; q++) {
->> +        struct v3d_queue_state *queue = &v3d->queue[q];
->> +        struct v3d_job *job = queue->active_job;
->> +
->>           drm_sched_entity_destroy(&v3d_priv->sched_entity[q]);
->> +        if (job && job->base.entity == &v3d_priv->sched_entity[q]) {
->> +            spin_lock_irqsave(&queue->queue_lock, irqflags);
->> +            job->file_priv = NULL;
->> +            spin_unlock_irqrestore(&queue->queue_lock, irqflags);
->> +        }
->> +    }
->> +
->>       v3d_perfmon_close_file(v3d_priv);
->>       kfree(v3d_priv);
->>   }
->> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/ 
->> v3d_drv.h
->> index 
->> cfc2f9c123aa99f6f1875b297eaf6c226b03d4ec..0317f3d7452a3f01b91bfdc691b5a98e54b3a4ec 100644
->> --- a/drivers/gpu/drm/v3d/v3d_drv.h
->> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
->> @@ -608,7 +608,7 @@ void v3d_timestamp_query_info_free(struct 
->> v3d_timestamp_query_info *query_info,
->>                      unsigned int count);
->>   void v3d_performance_query_info_free(struct 
->> v3d_performance_query_info *query_info,
->>                        unsigned int count);
->> -void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue);
->> +void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q);
->>   int v3d_sched_init(struct v3d_dev *v3d);
->>   void v3d_sched_fini(struct v3d_dev *v3d);
->> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/ 
->> v3d_sched.c
->> index 
->> e348816b691ef05909828accbe15399816e69369..60e251367f42170b30de968682deb6370604db44 100644
->> --- a/drivers/gpu/drm/v3d/v3d_sched.c
->> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
->> @@ -194,11 +194,11 @@ v3d_stats_update(struct v3d_stats *stats, u64 now)
->>   }
->>   void
->> -v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
->> +v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q)
->>   {
->>       struct v3d_dev *v3d = job->v3d;
->> -    struct v3d_file_priv *file = job->file_priv;
->> -    struct v3d_stats *global_stats = &v3d->queue[queue].stats;
->> +    struct v3d_queue_state *queue = &v3d->queue[q];
->> +    struct v3d_stats *global_stats = &queue->stats;
->>       u64 now = local_clock();
->>       unsigned long flags;
->> @@ -209,10 +209,10 @@ v3d_job_update_stats(struct v3d_job *job, enum 
->> v3d_queue queue)
->>           preempt_disable();
->>       /* Don't update the local stats if the file context has already 
->> closed */
->> -    if (file)
->> -        v3d_stats_update(&file->stats[queue], now);
->> -    else
->> -        drm_dbg(&v3d->drm, "The file descriptor was closed before job 
->> completion\n");
->> +    spin_lock(&queue->queue_lock);
->> +    if (job->file_priv)
->> +        v3d_stats_update(&job->file_priv->stats[q], now);
-> Why not keep the drm_dbg() if !job->file_priv?
+I was on the latest at the time built from source. I think it was
+commit 08ee93ff8ffa. There was an update today though it seems.
 
-After some thought, I concluded that this debug message won't be useful
-anymore. After this patch, it doesn't really matter if !job->file_priv,
-the job will still end gracefully.
-Best Regards,
-- Maíra
+
+> Can you please share the debugfs output for amdgpu_firmware_info.
+
+Here is the information from it:
+VCE feature version: 0, firmware version: 0x00000000
+UVD feature version: 0, firmware version: 0x00000000
+MC feature version: 0, firmware version: 0x00000000
+ME feature version: 35, firmware version: 0x0000001f
+PFP feature version: 35, firmware version: 0x0000002c
+CE feature version: 0, firmware version: 0x00000000
+RLC feature version: 1, firmware version: 0x11530505
+RLC SRLC feature version: 0, firmware version: 0x00000000
+RLC SRLG feature version: 0, firmware version: 0x00000000
+RLC SRLS feature version: 0, firmware version: 0x00000000
+RLCP feature version: 1, firmware version: 0x11530505
+RLCV feature version: 0, firmware version: 0x00000000
+MEC feature version: 35, firmware version: 0x0000001f
+IMU feature version: 0, firmware version: 0x0b352300
+SOS feature version: 0, firmware version: 0x00000000
+ASD feature version: 553648366, firmware version: 0x210000ee
+TA XGMI feature version: 0x00000000, firmware version: 0x00000000
+TA RAS feature version: 0x00000000, firmware version: 0x00000000
+TA HDCP feature version: 0x00000000, firmware version: 0x17000044
+TA DTM feature version: 0x00000000, firmware version: 0x12000018
+TA RAP feature version: 0x00000000, firmware version: 0x00000000
+TA SECUREDISPLAY feature version: 0x00000000, firmware version: 0x00000000
+SMC feature version: 0, program: 0, firmware version: 0x00647000 (100.112.0=
+)
+SDMA0 feature version: 60, firmware version: 0x0000000e
+VCN feature version: 0, firmware version: 0x0911800b
+DMCU feature version: 0, firmware version: 0x00000000
+DMCUB feature version: 0, firmware version: 0x09002600
+TOC feature version: 0, firmware version: 0x0000000b
+MES_KIQ feature version: 6, firmware version: 0x0000006c
+MES feature version: 1, firmware version: 0x0000007c
+VPE feature version: 60, firmware version: 0x00000016
+VBIOS version: 113-STRXLGEN-001
+
+I see there was an update today though
+
+Antheas
+>
 
