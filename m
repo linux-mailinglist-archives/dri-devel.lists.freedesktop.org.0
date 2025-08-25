@@ -2,73 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC61B336A2
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:45:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58F1B336CB
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:53:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0BBF10E343;
-	Mon, 25 Aug 2025 06:45:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11F1510E345;
+	Mon, 25 Aug 2025 06:53:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="By0bgJe0";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="sfw4f0GH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RQrp85x4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DEBD10E343
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 06:45:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1756104321; x=1787640321;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=w14T58dmJuNVXMguB61ithau+MDzr8NmKFE7YbjkVFI=;
- b=By0bgJe0Gd1J+8YsZRtuHDKoKzrXUkuoLZ5PImwkS65LLgBPKu71AN4x
- BAXfJAW4xuTfQDSC8u3B5VQz2mdKiby/aY9nA8kiFEm6w0zVej0n/LnU+
- h4BN7qb6dbydPYnGjcBwfFGNc/AKT2JvYvjCOFuSFdoAvliWnGg9y4hlH
- ezfyKX35gYRNwo3cnY8Oh7lNQ439DmRXZAnciCjRm6kIrpavmMjfT7zCq
- SrOuY4IJ6iaN6onURtr0yFdwt0WgzoThyJJZx1yZ7mpKU1fM36b8xib+5
- u0CYWKl6AXsTuu9/qf71tezF4BvjWDRGVytYXAiLmPJ+9xzKNmuONmlsE Q==;
-X-CSE-ConnectionGUID: zPl1VvF3QbWDnEldToc0KA==
-X-CSE-MsgGUID: jSGX+Ye9RsO8KI0LyWrw/Q==
-X-IronPort-AV: E=Sophos;i="6.17,312,1747692000"; d="scan'208";a="45885019"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 25 Aug 2025 08:45:17 +0200
-X-CheckPoint: {68AC067D-37-AD8F5F64-F0EACAA5}
-X-MAIL-CPID: FDCF9C2444F205DBF823452246599193_1
-X-Control-Analysis: str=0001.0A002105.68AC067F.0078, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 99E4D16626E; Mon, 25 Aug 2025 08:45:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1756104313;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=w14T58dmJuNVXMguB61ithau+MDzr8NmKFE7YbjkVFI=;
- b=sfw4f0GHkf4ifl0CpAfePvYuDpaoLhFTxn+RsEkSR6dxDx5HOqkibvhaQLjEGXOr/hxFXH
- A5zAt9AQav3vJW/auJThCKjj2mAxQPrK+V081dnTI0uTfdc5Ca8u8FMkbhlT5dNpvR9n8b
- wAZGOTYCZEEUAGF9B7Okrsw9vYNQeBKGOX9b+s1d0GYWXvsOrsj8hPr75AuPngv1bF7cAi
- r1Rs66xneE2oJlqdQ0oLJDLVV6G8h93Ny0W+QxnVX28Vc9E2DGXpdOXYxBS8XyG0FwoHLU
- k3/UJSmMvPq98AnNnC8raKpGaw2/bxUQ5TcYj20edpGwfiXOyWNe0wXnPRn9pA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] drm: lcdif: Use dev_err_probe()
-Date: Mon, 25 Aug 2025 08:45:10 +0200
-Message-ID: <4679558.LvFx2qVVIh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20250429100919.1180404-1-alexander.stein@ew.tq-group.com>
-References: <20250429100919.1180404-1-alexander.stein@ew.tq-group.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4DDD10E345
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 06:53:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 430975C10F1;
+ Mon, 25 Aug 2025 06:53:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63C20C116B1;
+ Mon, 25 Aug 2025 06:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1756104797;
+ bh=e4plMWX7Y08I3aCOZjuwuqMbBWvJfYBKz86PFv30pzc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=RQrp85x4J7e52YNw7+dNTzmh5cKQcLUUZ6Ie2+STxCT6Tw5Xz0oDWOeXue/YEcYLu
+ l8dal/icUZZG6p23O533C0WqbIgDn6VWi6cSYvBGmua8bBJoWK3Q7Zw23xh6ErS6lW
+ JTLV43ss8hFaHaIggvjOjZm8hzknXHMW3584rqbm5g/JmiT3AOsYDQaJV1XZbXJZNe
+ 5IfpOb5Vthhxf1nfVKPR92fs3XsY7K+9MDTTX/LlT91vET+YZFjoV24qwijIFTUtiE
+ bf2KQNY227cQfwudxrsmsCLcb5S0HpgPsfsLJnEvRgdGmvFsuU02kBG2Eo3M23z+hz
+ a8kqy0SQq9ZUw==
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+To: linux-media@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@kernel.org>,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 8/8] gpu: drm: display: drm_dp_cec: update Hans' email address
+Date: Mon, 25 Aug 2025 08:51:55 +0200
+Message-ID: <9b18e1f8241e9df6d8f8b2286a197c25031de25b.1756104715.git.hverkuil+cisco@kernel.org>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <cover.1756104715.git.hverkuil+cisco@kernel.org>
+References: <cover.1756104715.git.hverkuil+cisco@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,57 +57,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Hans Verkuil <hverkuil@kernel.org>
 
-Am Dienstag, 29. April 2025, 12:09:18 CEST schrieb Alexander Stein:
-> Use dev_err_probe() to add a reason for deferred probe. This can
-> especially happen on lcdif3 which uses hdmi_tx_phy for 'pix' clock
->=20
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Replace hverkuil@xs4all.nl by hverkuil@kernel.org.
 
-Gentle ping? Anyone picking this up? Or is there any other feedback?
+Signed-off-by: Hans Verkuil <hverkuil@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/display/drm_dp_cec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks and best regards
-Alexander
-
-> ---
->  drivers/gpu/drm/mxsfb/lcdif_drv.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lc=
-dif_drv.c
-> index d5996efaf34bb..99e632d4a0e9b 100644
-> --- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-> @@ -164,15 +164,17 @@ static int lcdif_load(struct drm_device *drm)
-> =20
->  	lcdif->clk =3D devm_clk_get(drm->dev, "pix");
->  	if (IS_ERR(lcdif->clk))
-> -		return PTR_ERR(lcdif->clk);
-> +		return dev_err_probe(drm->dev, PTR_ERR(lcdif->clk), "Failed to get pix=
- clock\n");
-> =20
->  	lcdif->clk_axi =3D devm_clk_get(drm->dev, "axi");
->  	if (IS_ERR(lcdif->clk_axi))
-> -		return PTR_ERR(lcdif->clk_axi);
-> +		return dev_err_probe(drm->dev, PTR_ERR(lcdif->clk_axi),
-> +				     "Failed to get axi clock\n");
-> =20
->  	lcdif->clk_disp_axi =3D devm_clk_get(drm->dev, "disp_axi");
->  	if (IS_ERR(lcdif->clk_disp_axi))
-> -		return PTR_ERR(lcdif->clk_disp_axi);
-> +		return dev_err_probe(drm->dev, PTR_ERR(lcdif->clk_disp_axi),
-> +				     "Failed to get disp_axi clock\n");
-> =20
->  	platform_set_drvdata(pdev, drm);
-> =20
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
+index 3b50d817c839..436bfe9f9081 100644
+--- a/drivers/gpu/drm/display/drm_dp_cec.c
++++ b/drivers/gpu/drm/display/drm_dp_cec.c
+@@ -42,7 +42,7 @@
+  *
+  * https://hverkuil.home.xs4all.nl/cec-status.txt
+  *
+- * Please mail me (hverkuil@xs4all.nl) if you find an adapter that works
++ * Please mail me (hverkuil@kernel.org) if you find an adapter that works
+  * and is not yet listed there.
+  *
+  * Note that the current implementation does not support CEC over an MST hub.
+-- 
+2.47.2
 
