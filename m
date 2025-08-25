@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16145B338BC
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 10:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0E4B338BD
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 10:29:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C1610E241;
-	Mon, 25 Aug 2025 08:29:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81CE210E22F;
+	Mon, 25 Aug 2025 08:29:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="cPLPo+ug";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="LMaT0rmP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
  [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8786D10E356
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:29:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756110548; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2E5D10E22F
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:29:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1756110562; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=fcoF6iTWhunYRzmFhgB2V3l5FZ9P/Bv+oOvF+IuclMEqjuYKNO3vJ/sLEWEvCGVAAnsfbR4tGjIqBruztA25yFUmJDCcSab4zBGNsB0Sl+mb1GMnjFFQPkIYI4ekgXtLI4bhQffnlBV6S34KGJLeZ2TT57Xr6Dexx3M0N3SGUxE=
+ b=MhHgpkvRlopW1CT7s31I4NnkC3rx+KDANguWhuG70gIeX0rBidrILzWCXLcqa0JyGFwHVqCYUP5bQYHDH3vLZd9A99VJboAVwIk54RXS4dWtjErMn3HdH3glQjMv5eX1SpAKBMrGlF1oAsFC/82HkBSB0ssue9W6Dv4RQJWk4Yk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756110548;
+ s=zohoarc; t=1756110562;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=+ds7UJ/GcM+1QFx5GWEDvr7qiCy8pTo68rCv3gqg+cA=; 
- b=jcVgmokYWSc3/2pFP2AN4L5NRtJj546MoILinFFpiugnyVfJ0uvPNHkFMi3gtM4KRVbDCjEfL+CZz83bciBuK0ik7VjyTjWoh5vtsRX0f3NYVHspwiMLAAO4Q5N/gglpU/SPDX1nnO+5iC8bxmZz2KuwVRAMr2tPsYxe14QvEpw=
+ bh=2pdvZHRr2nT21IPkzNkyEqDph85oX2bzBrlA9adkQMQ=; 
+ b=UEhzdtyb781N9LG9VI0TglsH9jeg/H31ieRA5jdJMDarfK+RwC+iugemiFFJT7Fg6Z8H+K1fhQt9n1l6wv68IB+Cd5CD02lQcDL1AWBh+ohFq4xiApyherT04/NX5Ge2Ma0FBIfx48T39P880WEOojD7P8cIhFkeR9Izdt4839A=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756110548; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756110562; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=+ds7UJ/GcM+1QFx5GWEDvr7qiCy8pTo68rCv3gqg+cA=;
- b=cPLPo+ugJ9OTuZR0YLUSsUMHTndMsIh1nn7r0cp8U3GoZh17B+lYsHNmg1lfhLoV
- i6RUuPyzRMf8lSBk0TUkt8NGh7loOLdjy4D6F+hmqC4knvMQhv6QyJIPnLNoT4qka/0
- /pzdWdzF4llaxjRtAiqg0a2zRs/NiFpg3Ai9dZ8k=
-Received: by mx.zohomail.com with SMTPS id 1756110545721254.6775577730043;
- Mon, 25 Aug 2025 01:29:05 -0700 (PDT)
+ bh=2pdvZHRr2nT21IPkzNkyEqDph85oX2bzBrlA9adkQMQ=;
+ b=LMaT0rmPjjFC6J4S5RhNJAr8GD1hTvcNt98ehghIuP1gR1cPNN4PVcvrQAiU1Ou1
+ MxprMybncH3rbKPNA/OKNTqOFuMWIiXv7PCiN0EQc/Dz9SXtw1CwBVHBWINErhZ/E94
+ aEWib7vqqUq/m7XfviHOKgrGltOKy+t+8YZC0xs8=
+Received: by mx.zohomail.com with SMTPS id 1756110560002994.5273037503601;
+ Mon, 25 Aug 2025 01:29:20 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 25 Aug 2025 10:28:21 +0200
-Subject: [PATCH v3 01/20] bitmap: introduce hardware-specific bitfield
- operations
+Date: Mon, 25 Aug 2025 10:28:22 +0200
+Subject: [PATCH v3 02/20] mmc: dw_mmc-rockchip: switch to FIELD_PREP_WM16 macro
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250825-byeword-update-v3-1-947b841cdb29@collabora.com>
+Message-Id: <20250825-byeword-update-v3-2-947b841cdb29@collabora.com>
 References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
 In-Reply-To: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
 To: Yury Norov <yury.norov@gmail.com>, 
@@ -101,115 +100,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hardware of various vendors, but very notably Rockchip, often uses
-32-bit registers where the upper 16-bit half of the register is a
-write-enable mask for the lower half.
+The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
+drivers that use constant masks.
 
-This type of hardware setup allows for more granular concurrent register
-write access.
+Switch to the new FIELD_PREP_WM16 macro in hw_bitfield.h, which has
+error checking. Instead of redefining the driver's HIWORD_UPDATE macro
+in this case, replace the two only instances of it with the new macro,
+as I could test that they result in an equivalent value.
 
-Over the years, many drivers have hand-rolled their own version of this
-macro, usually without any checks, often called something like
-HIWORD_UPDATE or FIELD_PREP_HIWORD, commonly with slightly different
-semantics between them.
-
-Clearly there is a demand for such a macro, and thus the demand should
-be satisfied in a common header file. As this is a convention that spans
-across multiple vendors, and similar conventions may also have
-cross-vendor adoption, it's best if it lives in a vendor-agnostic header
-file that can be expanded over time.
-
-Add hw_bitfield.h with two macros: FIELD_PREP_WM16, and
-FIELD_PREP_WM16_CONST. The latter is a version that can be used in
-initializers, like FIELD_PREP_CONST.
-
-Suggested-by: Yury Norov [NVIDIA] <yury.norov@gmail.com>
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- MAINTAINERS                 |  1 +
- include/linux/hw_bitfield.h | 62 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 63 insertions(+)
+ drivers/mmc/host/dw_mmc-rockchip.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d4bddc462c079f85ee35e685527c93dd1620f890..75a266a78a13721372a92b9ae45b9ae56e301347 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4281,6 +4281,7 @@ F:	include/linux/bits.h
- F:	include/linux/cpumask.h
- F:	include/linux/cpumask_types.h
- F:	include/linux/find.h
-+F:	include/linux/hw_bitfield.h
- F:	include/linux/nodemask.h
- F:	include/linux/nodemask_types.h
- F:	include/uapi/linux/bits.h
-diff --git a/include/linux/hw_bitfield.h b/include/linux/hw_bitfield.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..df202e167ce487122e4440962eacb2e44817ad9f
---- /dev/null
-+++ b/include/linux/hw_bitfield.h
-@@ -0,0 +1,62 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Copyright (C) 2025, Collabora Ltd.
-+ */
-+
-+#ifndef _LINUX_HW_BITFIELD_H
-+#define _LINUX_HW_BITFIELD_H
-+
-+#include <linux/bitfield.h>
-+#include <linux/build_bug.h>
-+#include <linux/limits.h>
-+
-+/**
-+ * FIELD_PREP_WM16() - prepare a bitfield element with a mask in the upper half
-+ * @_mask: shifted mask defining the field's length and position
-+ * @_val:  value to put in the field
-+ *
-+ * FIELD_PREP_WM16() masks and shifts up the value, as well as bitwise ORs the
-+ * result with the mask shifted up by 16.
-+ *
-+ * This is useful for a common design of hardware registers where the upper
-+ * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
-+ * register, a bit in the lower half is only updated if the corresponding bit
-+ * in the upper half is high.
-+ */
-+#define FIELD_PREP_WM16(_mask, _val)					     \
-+	({								     \
-+		typeof(_val) __val = _val;				     \
-+		typeof(_mask) __mask = _mask;				     \
-+		__BF_FIELD_CHECK(__mask, ((u16)0U), __val,		     \
-+				 "HWORD_UPDATE: ");			     \
-+		(((typeof(__mask))(__val) << __bf_shf(__mask)) & (__mask)) | \
-+		((__mask) << 16);					     \
-+	})
-+
-+/**
-+ * FIELD_PREP_WM16_CONST() - prepare a constant bitfield element with a mask in
-+ *                           the upper half
-+ * @_mask: shifted mask defining the field's length and position
-+ * @_val:  value to put in the field
-+ *
-+ * FIELD_PREP_WM16_CONST() masks and shifts up the value, as well as bitwise ORs
-+ * the result with the mask shifted up by 16.
-+ *
-+ * This is useful for a common design of hardware registers where the upper
-+ * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
-+ * register, a bit in the lower half is only updated if the corresponding bit
-+ * in the upper half is high.
-+ *
-+ * Unlike FIELD_PREP_WM16(), this is a constant expression and can therefore
-+ * be used in initializers. Error checking is less comfortable for this
-+ * version.
-+ */
-+#define FIELD_PREP_WM16_CONST(_mask, _val)				 \
-+	(								 \
-+		FIELD_PREP_CONST(_mask, _val) |				 \
-+		(BUILD_BUG_ON_ZERO(const_true((u64)(_mask) > U16_MAX)) + \
-+		 ((_mask) << 16))					 \
-+	)
-+
-+
-+#endif /* _LINUX_HW_BITFIELD_H */
+diff --git a/drivers/mmc/host/dw_mmc-rockchip.c b/drivers/mmc/host/dw_mmc-rockchip.c
+index d2aec6cf9773dcb057d1bf3785ace586a7955f12..82dd906bb002cb8327691ac1ef4818561c9ac7e6 100644
+--- a/drivers/mmc/host/dw_mmc-rockchip.c
++++ b/drivers/mmc/host/dw_mmc-rockchip.c
+@@ -6,6 +6,7 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/clk.h>
++#include <linux/hw_bitfield.h>
+ #include <linux/mmc/host.h>
+ #include <linux/of_address.h>
+ #include <linux/mmc/slot-gpio.h>
+@@ -24,8 +25,6 @@
+ #define ROCKCHIP_MMC_DELAYNUM_OFFSET	2
+ #define ROCKCHIP_MMC_DELAYNUM_MASK	(0xff << ROCKCHIP_MMC_DELAYNUM_OFFSET)
+ #define ROCKCHIP_MMC_DELAY_ELEMENT_PSEC	60
+-#define HIWORD_UPDATE(val, mask, shift) \
+-		((val) << (shift) | (mask) << ((shift) + 16))
+ 
+ static const unsigned int freqs[] = { 100000, 200000, 300000, 400000 };
+ 
+@@ -148,9 +147,11 @@ static int rockchip_mmc_set_internal_phase(struct dw_mci *host, bool sample, int
+ 	raw_value |= nineties;
+ 
+ 	if (sample)
+-		mci_writel(host, TIMING_CON1, HIWORD_UPDATE(raw_value, 0x07ff, 1));
++		mci_writel(host, TIMING_CON1,
++			   FIELD_PREP_WM16(GENMASK(11, 1), raw_value));
+ 	else
+-		mci_writel(host, TIMING_CON0, HIWORD_UPDATE(raw_value, 0x07ff, 1));
++		mci_writel(host, TIMING_CON0,
++			   FIELD_PREP_WM16(GENMASK(11, 1), raw_value));
+ 
+ 	dev_dbg(host->dev, "set %s_phase(%d) delay_nums=%u actual_degrees=%d\n",
+ 		sample ? "sample" : "drv", degrees, delay_num,
 
 -- 
 2.51.0
