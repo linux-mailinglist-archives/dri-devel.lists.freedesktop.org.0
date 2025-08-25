@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE534B339FC
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 10:57:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80531B33A04
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 10:57:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 348DF10E243;
-	Mon, 25 Aug 2025 08:57:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D668010E24F;
+	Mon, 25 Aug 2025 08:57:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mLv63d/+";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="N4iqcTjB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90EB110E243
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:57:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D63410E243
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1756112230;
- bh=qZJVzvB3RYpOJBlaQE6hqE/Fp8nZMiJrz+TTlwmiAgM=;
+ s=mail; t=1756112231;
+ bh=WIKih/lv5pN3+A825AnO1OKYgzDPIJjlzykTE0eLhGA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=mLv63d/+/8+H3yf17N8H6yqChGhHVHwgC7VK3Q4XO+ioqw01iGN8jef7nujur1mrn
- JR08cMTTaVdOmADo+7ODNRXC2eNTvDG2iIFZYCDoCRgN5o6wnBGpT1Q1sNGgikXsCW
- qEMewjB7NYR/J14XXCK8g8h8rU+APjkTRrdnolYjRpfhyk/drWHB1kpHucNTKaQZL0
- PhxHiVNgR4cMPHVJUrdHi9RmNZITi77Q1hLz8m4LZ8fRQYnsBsIM5UPDiQpNrhvb+J
- LRVi36dC252sKCbZkduMWbRtosWI66aO8w7+KLwu4Ik6bPJh8KFuJPd0Ruj3fRm0Qn
- mujoaySQAtAqQ==
+ b=N4iqcTjB0LjkPpxBf3Vis8ao9PAbSyEXaP5kCIZqa1j/dINPD+bc8AB18qrFyd/Qw
+ tGz2GEIEbiexEhin6paMid2dXM6ifWn4BiFPvnddIpuL4spnizncZHJl1HKhas+ZXo
+ 5NPOfArbfyrQRm6i23p7FoL3Iu6gLihNHHguIbYfXJS0JcpDbrndJzhBpSjGogYOcY
+ fKTUDTHVrCrhB8dqYWefdH5ElDWvGZjGMKfZRUQxqUxvNx6TqQjvmAlBMfCs3BdevU
+ GASEs6qBL0l8/i9SNUF0FzJDn5a2cduiuRVtZA8ulyodsMr6I6nLsH5QpCcLkcexDr
+ ZyAgHkYCdsa8w==
 Received: from localhost (unknown [82.79.138.60])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 2A72D17E0523;
+ by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id E899C17E056F;
  Mon, 25 Aug 2025 10:57:10 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Mon, 25 Aug 2025 11:56:42 +0300
-Subject: [PATCH v3 2/6] drm/bridge: dw-hdmi-qp: Fixup timer base setup
+Date: Mon, 25 Aug 2025 11:56:43 +0300
+Subject: [PATCH v3 3/6] drm/rockchip: dw_hdmi_qp: Improve error handling
+ with dev_err_probe()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250825-rk3588-hdmi-cec-v3-2-95324fb22592@collabora.com>
+Message-Id: <20250825-rk3588-hdmi-cec-v3-3-95324fb22592@collabora.com>
 References: <20250825-rk3588-hdmi-cec-v3-0-95324fb22592@collabora.com>
 In-Reply-To: <20250825-rk3588-hdmi-cec-v3-0-95324fb22592@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -73,85 +74,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the TIMER_BASE_CONFIG0 register gets initialized to a fixed
-value as initially found in vendor driver code supporting the RK3588
-SoC.  As a matter of fact the value matches the rate of the HDMI TX
-reference clock, which is roughly 428.57 MHz.
+The error handling in dw_hdmi_qp_rockchip_bind() is quite inconsistent,
+i.e. in some cases the error code is not included in the message, while
+in some other cases there is no check for -EPROBE_DEFER.
 
-However, on RK3576 SoC that rate is slightly lower, i.e. 396.00 MHz, and
-the incorrect register configuration breaks CEC functionality.
-
-Set the timer base according to the actual reference clock rate that
-shall be provided by the platform driver.
-
-While at it, also drop the unnecessary empty lines in
-dw_hdmi_qp_init_hw().
+Since this is part of the probe path, address the aforementioned issues
+by switching to dev_err_probe(), which also reduces the code a bit.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 11 ++++++++---
- include/drm/bridge/dw_hdmi_qp.h              |  1 +
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 62 ++++++++++----------------
+ 1 file changed, 24 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index 96455b3bb7b6a3f6ad488d10bc9ba90a1b56e4c8..42a90e0383061dad6c8416af21b27db7a3ba6d7d 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -162,6 +162,7 @@ struct dw_hdmi_qp {
- 		void *data;
- 	} phy;
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+index 7d531b6f4c098c6c548788dad487ce4613a2f32b..4e7794aa2dded4c124963eaa7f5158bde9bbbdb6 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+@@ -457,10 +457,8 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
+ 		return -ENODEV;
  
-+	unsigned long ref_clk_rate;
- 	struct regmap *regm;
+ 	if (!cfg->ctrl_ops || !cfg->ctrl_ops->io_init ||
+-	    !cfg->ctrl_ops->irq_callback || !cfg->ctrl_ops->hardirq_callback) {
+-		dev_err(dev, "Missing platform ctrl ops\n");
+-		return -ENODEV;
+-	}
++	    !cfg->ctrl_ops->irq_callback || !cfg->ctrl_ops->hardirq_callback)
++		return dev_err_probe(dev, -ENODEV, "Missing platform ctrl ops\n");
  
- 	unsigned long tmds_char_rate;
-@@ -1223,13 +1224,11 @@ static void dw_hdmi_qp_init_hw(struct dw_hdmi_qp *hdmi)
- {
- 	dw_hdmi_qp_write(hdmi, 0, MAINUNIT_0_INT_MASK_N);
- 	dw_hdmi_qp_write(hdmi, 0, MAINUNIT_1_INT_MASK_N);
--	dw_hdmi_qp_write(hdmi, 428571429, TIMER_BASE_CONFIG0);
-+	dw_hdmi_qp_write(hdmi, hdmi->ref_clk_rate, TIMER_BASE_CONFIG0);
+ 	hdmi->ctrl_ops = cfg->ctrl_ops;
+ 	hdmi->dev = &pdev->dev;
+@@ -473,10 +471,9 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
+ 			break;
+ 		}
+ 	}
+-	if (hdmi->port_id < 0) {
+-		dev_err(hdmi->dev, "Failed to match HDMI port ID\n");
+-		return hdmi->port_id;
+-	}
++	if (hdmi->port_id < 0)
++		return dev_err_probe(hdmi->dev, hdmi->port_id,
++				     "Failed to match HDMI port ID\n");
  
- 	/* Software reset */
- 	dw_hdmi_qp_write(hdmi, 0x01, I2CM_CONTROL0);
--
- 	dw_hdmi_qp_write(hdmi, 0x085c085c, I2CM_FM_SCL_CONFIG0);
--
- 	dw_hdmi_qp_mod(hdmi, 0, I2CM_FM_EN, I2CM_INTERFACE_CONTROL0);
+ 	plat_data.phy_ops = cfg->phy_ops;
+ 	plat_data.phy_data = hdmi;
+@@ -497,39 +494,30 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
  
- 	/* Clear DONE and ERROR interrupts */
-@@ -1255,6 +1254,11 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
- 		return ERR_PTR(-ENODEV);
+ 	hdmi->regmap = syscon_regmap_lookup_by_phandle(dev->of_node,
+ 						       "rockchip,grf");
+-	if (IS_ERR(hdmi->regmap)) {
+-		dev_err(hdmi->dev, "Unable to get rockchip,grf\n");
+-		return PTR_ERR(hdmi->regmap);
+-	}
++	if (IS_ERR(hdmi->regmap))
++		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->regmap),
++				     "Unable to get rockchip,grf\n");
+ 
+ 	hdmi->vo_regmap = syscon_regmap_lookup_by_phandle(dev->of_node,
+ 							  "rockchip,vo-grf");
+-	if (IS_ERR(hdmi->vo_regmap)) {
+-		dev_err(hdmi->dev, "Unable to get rockchip,vo-grf\n");
+-		return PTR_ERR(hdmi->vo_regmap);
+-	}
++	if (IS_ERR(hdmi->vo_regmap))
++		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->vo_regmap),
++				     "Unable to get rockchip,vo-grf\n");
+ 
+ 	ret = devm_clk_bulk_get_all_enabled(hdmi->dev, &clks);
+-	if (ret < 0) {
+-		dev_err(hdmi->dev, "Failed to get clocks: %d\n", ret);
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(hdmi->dev, ret, "Failed to get clocks\n");
+ 
+ 	hdmi->enable_gpio = devm_gpiod_get_optional(hdmi->dev, "enable",
+ 						    GPIOD_OUT_HIGH);
+-	if (IS_ERR(hdmi->enable_gpio)) {
+-		ret = PTR_ERR(hdmi->enable_gpio);
+-		dev_err(hdmi->dev, "Failed to request enable GPIO: %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(hdmi->enable_gpio))
++		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->enable_gpio),
++				     "Failed to request enable GPIO\n");
+ 
+ 	hdmi->phy = devm_of_phy_get_by_index(dev, dev->of_node, 0);
+-	if (IS_ERR(hdmi->phy)) {
+-		ret = PTR_ERR(hdmi->phy);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(hdmi->dev, "failed to get phy: %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(hdmi->phy))
++		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->phy),
++				     "Failed to get phy\n");
+ 
+ 	cfg->ctrl_ops->io_init(hdmi);
+ 
+@@ -558,17 +546,15 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
+ 
+ 	hdmi->hdmi = dw_hdmi_qp_bind(pdev, encoder, &plat_data);
+ 	if (IS_ERR(hdmi->hdmi)) {
+-		ret = PTR_ERR(hdmi->hdmi);
+ 		drm_encoder_cleanup(encoder);
+-		return ret;
++		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->hdmi),
++				     "Failed to bind dw-hdmi-qp");
  	}
  
-+	if (!plat_data->ref_clk_rate) {
-+		dev_err(dev, "Missing ref_clk rate\n");
-+		return ERR_PTR(-ENODEV);
-+	}
-+
- 	hdmi = devm_drm_bridge_alloc(dev, struct dw_hdmi_qp, bridge,
- 				     &dw_hdmi_qp_bridge_funcs);
- 	if (IS_ERR(hdmi))
-@@ -1274,6 +1278,7 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
+ 	connector = drm_bridge_connector_init(drm, encoder);
+-	if (IS_ERR(connector)) {
+-		ret = PTR_ERR(connector);
+-		dev_err(hdmi->dev, "failed to init bridge connector: %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(connector))
++		return dev_err_probe(hdmi->dev, PTR_ERR(connector),
++				     "Failed to init bridge connector\n");
  
- 	hdmi->phy.ops = plat_data->phy_ops;
- 	hdmi->phy.data = plat_data->phy_data;
-+	hdmi->ref_clk_rate = plat_data->ref_clk_rate;
- 
- 	dw_hdmi_qp_init_hw(hdmi);
- 
-diff --git a/include/drm/bridge/dw_hdmi_qp.h b/include/drm/bridge/dw_hdmi_qp.h
-index b4a9b739734ec7b67013b683fe6017551aa19172..76ecf31301997718604a05f70ce9eab8695e26b5 100644
---- a/include/drm/bridge/dw_hdmi_qp.h
-+++ b/include/drm/bridge/dw_hdmi_qp.h
-@@ -24,6 +24,7 @@ struct dw_hdmi_qp_plat_data {
- 	void *phy_data;
- 	int main_irq;
- 	int cec_irq;
-+	unsigned long ref_clk_rate;
- };
- 
- struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
+ 	return drm_connector_attach_encoder(connector, encoder);
+ }
 
 -- 
 2.50.1
