@@ -2,70 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48008B340BD
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:32:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11951B340C9
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:33:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD0B310E45F;
-	Mon, 25 Aug 2025 13:32:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5D910E466;
+	Mon, 25 Aug 2025 13:33:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="eZxm3CD9";
+	dkim=temperror (0-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="MBUlgB75";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C0E10E45F
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 13:32:00 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PDCIBW027573;
- Mon, 25 Aug 2025 15:31:50 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=selector1; bh=Eh5kA4z57YCWnp0H2BkHkl
- l7osoEmhb74s1I8zaGHUs=; b=eZxm3CD9MNInOp4ICb87YDtOpCMYWexIn8VCMT
- /ZygQI4qHnD3zrdegBsq1wANFc6nbRl5GQL3BBRm3PQTJj/hUMPfNLltj6438rLo
- K1kI2589taImdq0G5zeaaqdkRzSJdAvHn5OxkI0dM6H5aqJZ/hxbfBuQsk4Gk0q8
- L2IgcddKVkRR7bhZWEzlsch/J+gseA0zBq9nYXd6r4qqM54uEiP4fgPMU77Tnoh0
- Hrctmn7eLeEH7LiSk4zhw6Sdvbfb1AjdngUiZLjjWyVu3f5lSMjNbAiYzGSZ5Q37
- iijNCJB3dwnDMrXNqn1PdPftnEcQTNDzFEDOAt3qxNTTdoqg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 48q5xbektb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Aug 2025 15:31:49 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 9B65240044;
- Mon, 25 Aug 2025 15:30:35 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7F1636C9827;
- Mon, 25 Aug 2025 15:30:02 +0200 (CEST)
-Received: from localhost (10.130.74.180) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 25 Aug
- 2025 15:30:02 +0200
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC: <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/stm: ltdc: unify log system
-Date: Mon, 25 Aug 2025 15:29:51 +0200
-Message-ID: <20250825132951.547899-1-raphael.gallais-pou@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B60E10E48D;
+ Mon, 25 Aug 2025 13:33:23 +0000 (UTC)
+Received: from relay11 (localhost.localdomain [127.0.0.1])
+ by relay11.grserver.gr (Proxmox) with ESMTP id DE59BC66D3;
+ Mon, 25 Aug 2025 16:33:20 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by relay11.grserver.gr (Proxmox) with ESMTPS id DDBD9C66CB;
+ Mon, 25 Aug 2025 16:33:19 +0300 (EEST)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by linux3247.grserver.gr (Postfix) with ESMTPSA id 6D9C12063A6;
+ Mon, 25 Aug 2025 16:33:19 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+ s=default; t=1756128799;
+ bh=1Ayp1Heh/2fLbjXf4cHFPifxx1SmJHDUVlKI1ZaQ5qY=;
+ h=Received:From:Subject:To;
+ b=MBUlgB75j/eZSc9cjhX5Gw+nWwE2iZDh9Zr15oBpbnX3m0IoLPprMYaYiyqaAV3MK
+ /WoIcS7GD3AoXSpGJEywf4+N+NxnsG96NeBJVtbcdUSqPISk4IPmMgWmMFmf8HnDFE
+ DSAPAXt1mT816rlYWeD529pFgWJom+9axy+3KbA29ZqITZiNrubYiempP03X3bGnsy
+ OGVC0E96T4apUktWGIHnb62cQ5Aw5ByV12GGiA7dg921cfn7joD6TcpUN/yenQrCpO
+ lJ1h42Ghl50sxhP/y89kvcCyUlQ3FDxX8YdPVVgNfYq/HPYXiNNbrwn3zgRpCTxLoK
+ 3suBIzbClzVdg==
+Authentication-Results: linux3247.grserver.gr;
+ spf=pass (sender IP is 209.85.208.173) smtp.mailfrom=lkml@antheas.dev
+ smtp.helo=mail-lj1-f173.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-3367f35d031so3600031fa.0;
+ Mon, 25 Aug 2025 06:33:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1hmOay4s3+Z1YjPVI2JSB09Np3iYEBlK0TRZzBZN8eW95OPwpR8rFtSlDGPHpv0D95sFDFgVZRt4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YytbKGPHWYGgcZdwLobdZIagTCzpo7PJixIzeR9lRUaJhXU7JZm
+ ZvHXM2/YPs6rVzafjVzIhOukyCmFLpYfzvD8Q1SaZ61ZCK281/pFr81CC23zkSNXGTj+0Bf0+KE
+ qIhlnqVxn2plPDWpDWoYlplmQr2CERw8=
+X-Google-Smtp-Source: AGHT+IFTQfIh9tbdPxsjk001FQZfoh97ESjB8FWEr47zbRTqWm4AAqkvYDTTSYMKso5dttn4oDcVRBuiUtJw6ZNYxrc=
+X-Received: by 2002:a2e:ae10:0:b0:334:97:1105 with SMTP id
+ 38308e7fff4ca-33650f8dc5cmr31975141fa.32.1756128798796;
+ Mon, 25 Aug 2025 06:33:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.130.74.180]
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-25_06,2025-08-20_03,2025-03-28_01
+References: <20250824085351.454619-1-lkml@antheas.dev>
+ <CADnq5_MEhMha47V25SK4cZkd8TLcizR_y0si2n9jSDjJTXeoRQ@mail.gmail.com>
+In-Reply-To: <CADnq5_MEhMha47V25SK4cZkd8TLcizR_y0si2n9jSDjJTXeoRQ@mail.gmail.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Mon, 25 Aug 2025 15:33:06 +0200
+X-Gmail-Original-Message-ID: <CAGwozwF=UKhG0HU_cxaY8957rscY=W4_VK+z==3vkKJJWZehzQ@mail.gmail.com>
+X-Gm-Features: Ac12FXwrppHPQ4K0JzNJk8TRd-B0XuTfCrXGZgdamz21UV6nQJlr5gtTJIyFJNI
+Message-ID: <CAGwozwF=UKhG0HU_cxaY8957rscY=W4_VK+z==3vkKJJWZehzQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] drm/amdgpu/vpe: increase VPE_IDLE_TIMEOUT to fix
+ hang on Strix Halo
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Peyton Lee <peytolee@amd.com>, 
+ Lang Yu <lang.yu@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-PPP-Message-ID: <175612879963.1319592.1830054076660120413@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,487 +95,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DRM_ERROR and similar are deprecated.  Use drm_dev based logging.
+On Mon, 25 Aug 2025 at 15:20, Alex Deucher <alexdeucher@gmail.com> wrote:
+>
+> On Mon, Aug 25, 2025 at 3:13=E2=80=AFAM Antheas Kapenekakis <lkml@antheas=
+.dev> wrote:
+> >
+> > On the Asus Z13 2025, which uses a Strix Halo platform, around 8% of th=
+e
+> > suspend resumes result in a soft lock around 1 second after the screen
+> > turns on (it freezes). This happens due to power gating VPE when it is
+> > not used, which happens 1 second after inactivity.
+> >
+> > Specifically, the VPE gating after resume is as follows: an initial
+> > ungate, followed by a gate in the resume process. Then,
+> > amdgpu_device_delayed_init_work_handler with a delay of 2s is scheduled
+> > to run tests, one of which is testing VPE in vpe_ring_test_ib. This
+> > causes an ungate, After that test, vpe_idle_work_handler is scheduled
+> > with VPE_IDLE_TIMEOUT (1s).
+> >
+> > When vpe_idle_work_handler runs and tries to gate VPE, it causes the
+> > SMU to hang and partially freezes half of the GPU IPs, with the thread
+> > that called the command being stuck processing it.
+> >
+> > Specifically, after that SMU command tries to run, we get the following=
+:
+> >
+> > snd_hda_intel 0000:c4:00.1: Refused to change power state from D0 to D3=
+hot
+> > ...
+> > xhci_hcd 0000:c4:00.4: Refused to change power state from D0 to D3hot
+> > ...
+> > amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous comma=
+nd: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+> > amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VPE!
+> > [drm:vpe_set_powergating_state [amdgpu]] *ERROR* Dpm disable vpe failed=
+, ret =3D -62.
+> > amdgpu 0000:c4:00.0: [drm] *ERROR* [CRTC:93:crtc-0] flip_done timed out
+> > amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous comma=
+nd: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+> > amdgpu 0000:c4:00.0: amdgpu: Failed to power gate JPEG!
+> > [drm:jpeg_v4_0_5_set_powergating_state [amdgpu]] *ERROR* Dpm disable jp=
+eg failed, ret =3D -62.
+> > amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous comma=
+nd: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+> > amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VCN instance 0!
+> > [drm:vcn_v4_0_5_stop [amdgpu]] *ERROR* Dpm disable uvd failed, ret =3D =
+-62.
+> > thunderbolt 0000:c6:00.5: 0: timeout reading config space 1 from 0xd3
+> > thunderbolt 0000:c6:00.5: 0: timeout reading config space 2 from 0x5
+> > thunderbolt 0000:c6:00.5: Refused to change power state from D0 to D3ho=
+t
+> > amdgpu 0000:c4:00.0: [drm] *ERROR* [CRTC:97:crtc-1] flip_done timed out
+> > amdgpu 0000:c4:00.0: amdgpu: SMU: I'm not done with your previous comma=
+nd: SMN_C2PMSG_66:0x00000032 SMN_C2PMSG_82:0x00000000
+> > amdgpu 0000:c4:00.0: amdgpu: Failed to power gate VCN instance 1!
+> >
+> > In addition to e.g., kwin errors in journalctl. 0000:c4.00.0 is the GPU=
+.
+> > Interestingly, 0000:c4.00.6, which is another HDA block, 0000:c4.00.5,
+> > a PCI controller, and 0000:c4.00.2, resume normally. 0x00000032 is the
+> > PowerDownVpe(50) command which is the common failure point in all
+> > failed resumes.
+> >
+> > On a normal resume, we should get the following power gates:
+> > amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVpe(50) param: =
+0x00000000, resp: 0x00000001
+> > amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownJpeg0(33) param=
+: 0x00000000, resp: 0x00000001
+> > amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownJpeg1(38) param=
+: 0x00010000, resp: 0x00000001
+> > amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVcn1(4) param: =
+0x00010000, resp: 0x00000001
+> > amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerDownVcn0(6) param: =
+0x00000000, resp: 0x00000001
+> > amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpVcn0(7) param: 0x=
+00000000, resp: 0x00000001
+> > amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpVcn1(5) param: 0x=
+00010000, resp: 0x00000001
+> > amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpJpeg0(34) param: =
+0x00000000, resp: 0x00000001
+> > amdgpu 0000:c4:00.0: amdgpu: smu send message: PowerUpJpeg1(39) param: =
+0x00010000, resp: 0x00000001
+> >
+> > To fix this, increase VPE_IDLE_TIMEOUT to 2 seconds. This increases
+> > reliability from 4-25 suspends to 200+ (tested) suspends with a cycle
+> > time of 12s sleep, 8s resume. The suspected reason here is that 1s that
+> > when VPE is used, it needs a bit of time before it can be gated and
+> > there was a borderline delay before, which is not enough for Strix Halo=
+.
+> > When the VPE is not used, such as on resume, gating it instantly does
+> > not seem to cause issues.
+>
+> This doesn't make much sense.  The VPE idle timeout is arbitrary.  The
+> VPE idle work handler checks to see if the block is idle before it
+> powers gates the block. If it's not idle, then the delayed work is
+> rescheduled so changing the timing should not make a difference.  We
+> are no powering down VPE while it still has active jobs.  It sounds
+> like there is some race condition somewhere else.
 
-Link: https://lore.kernel.org/r/20250821130356.883553-1-raphael.gallais-pou@foss.st.com
-Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
----
-Changes in v2:
-- Fix kernel test robot's warnings
-https://lore.kernel.org/all/202508250637.nLxtkS26-lkp@intel.com/
-- Rebased onto latest drm-misc-next
-- Remove Yannick's acked-by since the patch changed
----
- drivers/gpu/drm/stm/ltdc.c | 139 +++++++++++++++++++------------------
- 1 file changed, 70 insertions(+), 69 deletions(-)
+On resume, the vpe is ungated and gated instantly, which does not
+cause any crashes, then the delayed work is scheduled to run two
+seconds later. Then, the tests run and finish, which start the gate
+timer. After the timer lapses and the kernel tries to gate VPE, it
+crashes. I logged all SMU commands and there is no difference between
+the ones in a crash and not, other than the fact the VPE gate command
+failed. Which becomes apparent when the next command runs. I will also
+note that until the idle timer lapses, the system is responsive
 
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index ba315c66a04d..b9477fbec1c1 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -641,7 +641,7 @@ static inline void ltdc_set_ycbcr_config(struct drm_plane *plane, u32 drm_pix_fm
- 		break;
- 	default:
- 		/* RGB or not a YCbCr supported format */
--		DRM_ERROR("Unsupported pixel format: %u\n", drm_pix_fmt);
-+		drm_err(plane->dev, "Unsupported pixel format: %u\n", drm_pix_fmt);
- 		return;
- 	}
- 
-@@ -664,18 +664,19 @@ static inline void ltdc_set_ycbcr_coeffs(struct drm_plane *plane)
- 	u32 lofs = plane->index * LAY_OFS;
- 
- 	if (enc != DRM_COLOR_YCBCR_BT601 && enc != DRM_COLOR_YCBCR_BT709) {
--		DRM_ERROR("color encoding %d not supported, use bt601 by default\n", enc);
-+		drm_err(plane->dev, "color encoding %d not supported, use bt601 by default\n", enc);
- 		/* set by default color encoding to DRM_COLOR_YCBCR_BT601 */
- 		enc = DRM_COLOR_YCBCR_BT601;
- 	}
- 
- 	if (ran != DRM_COLOR_YCBCR_LIMITED_RANGE && ran != DRM_COLOR_YCBCR_FULL_RANGE) {
--		DRM_ERROR("color range %d not supported, use limited range by default\n", ran);
-+		drm_err(plane->dev,
-+			"color range %d not supported, use limited range by default\n", ran);
- 		/* set by default color range to DRM_COLOR_YCBCR_LIMITED_RANGE */
- 		ran = DRM_COLOR_YCBCR_LIMITED_RANGE;
- 	}
- 
--	DRM_DEBUG_DRIVER("Color encoding=%d, range=%d\n", enc, ran);
-+	drm_err(plane->dev, "Color encoding=%d, range=%d\n", enc, ran);
- 	regmap_write(ldev->regmap, LTDC_L1CYR0R + lofs,
- 		     ltdc_ycbcr2rgb_coeffs[enc][ran][0]);
- 	regmap_write(ldev->regmap, LTDC_L1CYR1R + lofs,
-@@ -774,7 +775,7 @@ static void ltdc_crtc_atomic_enable(struct drm_crtc *crtc,
- 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
- 	struct drm_device *ddev = crtc->dev;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(crtc->dev, "\n");
- 
- 	pm_runtime_get_sync(ddev->dev);
- 
-@@ -798,7 +799,7 @@ static void ltdc_crtc_atomic_disable(struct drm_crtc *crtc,
- 	struct drm_device *ddev = crtc->dev;
- 	int layer_index = 0;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(crtc->dev, "\n");
- 
- 	drm_crtc_vblank_off(crtc);
- 
-@@ -837,7 +838,7 @@ ltdc_crtc_mode_valid(struct drm_crtc *crtc,
- 
- 	result = clk_round_rate(ldev->pixel_clk, target);
- 
--	DRM_DEBUG_DRIVER("clk rate target %d, available %d\n", target, result);
-+	drm_dbg_driver(crtc->dev, "clk rate target %d, available %d\n", target, result);
- 
- 	/* Filter modes according to the max frequency supported by the pads */
- 	if (result > ldev->caps.pad_max_freq_hz)
-@@ -872,14 +873,14 @@ static bool ltdc_crtc_mode_fixup(struct drm_crtc *crtc,
- 	int rate = mode->clock * 1000;
- 
- 	if (clk_set_rate(ldev->pixel_clk, rate) < 0) {
--		DRM_ERROR("Cannot set rate (%dHz) for pixel clk\n", rate);
-+		drm_err(crtc->dev, "Cannot set rate (%dHz) for pixel clk\n", rate);
- 		return false;
- 	}
- 
- 	adjusted_mode->clock = clk_get_rate(ldev->pixel_clk) / 1000;
- 
--	DRM_DEBUG_DRIVER("requested clock %dkHz, adjusted clock %dkHz\n",
--			 mode->clock, adjusted_mode->clock);
-+	drm_dbg_driver(crtc->dev, "requested clock %dkHz, adjusted clock %dkHz\n",
-+		       mode->clock, adjusted_mode->clock);
- 
- 	return true;
- }
-@@ -934,20 +935,20 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 	if (!pm_runtime_active(ddev->dev)) {
- 		ret = pm_runtime_get_sync(ddev->dev);
- 		if (ret) {
--			DRM_ERROR("Failed to set mode, cannot get sync\n");
-+			drm_err(crtc->dev, "Failed to set mode, cannot get sync\n");
- 			return;
- 		}
- 	}
- 
--	DRM_DEBUG_DRIVER("CRTC:%d mode:%s\n", crtc->base.id, mode->name);
--	DRM_DEBUG_DRIVER("Video mode: %dx%d", mode->hdisplay, mode->vdisplay);
--	DRM_DEBUG_DRIVER(" hfp %d hbp %d hsl %d vfp %d vbp %d vsl %d\n",
--			 mode->hsync_start - mode->hdisplay,
--			 mode->htotal - mode->hsync_end,
--			 mode->hsync_end - mode->hsync_start,
--			 mode->vsync_start - mode->vdisplay,
--			 mode->vtotal - mode->vsync_end,
--			 mode->vsync_end - mode->vsync_start);
-+	drm_dbg_driver(crtc->dev, "CRTC:%d mode:%s\n", crtc->base.id, mode->name);
-+	drm_dbg_driver(crtc->dev, "Video mode: %dx%d", mode->hdisplay, mode->vdisplay);
-+	drm_dbg_driver(crtc->dev, " hfp %d hbp %d hsl %d vfp %d vbp %d vsl %d\n",
-+		       mode->hsync_start - mode->hdisplay,
-+		       mode->htotal - mode->hsync_end,
-+		       mode->hsync_end - mode->hsync_start,
-+		       mode->vsync_start - mode->vdisplay,
-+		       mode->vtotal - mode->vsync_end,
-+		       mode->vsync_end - mode->vsync_start);
- 
- 	/* Convert video timings to ltdc timings */
- 	hsync = mode->hsync_end - mode->hsync_start - 1;
-@@ -1033,7 +1034,7 @@ static void ltdc_crtc_atomic_flush(struct drm_crtc *crtc,
- 	struct drm_device *ddev = crtc->dev;
- 	struct drm_pending_vblank_event *event = crtc->state->event;
- 
--	DRM_DEBUG_ATOMIC("\n");
-+	drm_dbg_atomic(crtc->dev, "\n");
- 
- 	ltdc_crtc_update_clut(crtc);
- 
-@@ -1121,7 +1122,7 @@ static int ltdc_crtc_enable_vblank(struct drm_crtc *crtc)
- 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
- 	struct drm_crtc_state *state = crtc->state;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(crtc->dev, "\n");
- 
- 	if (state->enable)
- 		regmap_set_bits(ldev->regmap, LTDC_IER, IER_LIE);
-@@ -1135,7 +1136,7 @@ static void ltdc_crtc_disable_vblank(struct drm_crtc *crtc)
- {
- 	struct ltdc_device *ldev = crtc_to_ltdc(crtc);
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(crtc->dev, "\n");
- 	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_LIE);
- }
- 
-@@ -1144,11 +1145,11 @@ static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
- 	struct ltdc_device *ldev;
- 	int ret;
- 
--	DRM_DEBUG_DRIVER("\n");
--
- 	if (!crtc)
- 		return -ENODEV;
- 
-+	drm_dbg_driver(crtc->dev, "\n");
-+
- 	ldev = crtc_to_ltdc(crtc);
- 
- 	if (source && strcmp(source, "auto") == 0) {
-@@ -1168,14 +1169,14 @@ static int ltdc_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
- static int ltdc_crtc_verify_crc_source(struct drm_crtc *crtc,
- 				       const char *source, size_t *values_cnt)
- {
--	DRM_DEBUG_DRIVER("\n");
--
- 	if (!crtc)
- 		return -ENODEV;
- 
-+	drm_dbg_driver(crtc->dev, "\n");
-+
- 	if (source && strcmp(source, "auto") != 0) {
--		DRM_DEBUG_DRIVER("Unknown CRC source %s for %s\n",
--				 source, crtc->name);
-+		drm_dbg_driver(crtc->dev, "Unknown CRC source %s for %s\n",
-+			       source, crtc->name);
- 		return -EINVAL;
- 	}
- 
-@@ -1233,7 +1234,7 @@ static int ltdc_plane_atomic_check(struct drm_plane *plane,
- 	struct drm_framebuffer *fb = new_plane_state->fb;
- 	u32 src_w, src_h;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(plane->dev, "\n");
- 
- 	if (!fb)
- 		return 0;
-@@ -1244,7 +1245,7 @@ static int ltdc_plane_atomic_check(struct drm_plane *plane,
- 
- 	/* Reject scaling */
- 	if (src_w != new_plane_state->crtc_w || src_h != new_plane_state->crtc_h) {
--		DRM_DEBUG_DRIVER("Scaling is not supported");
-+		drm_dbg_driver(plane->dev, "Scaling is not supported");
- 
- 		return -EINVAL;
- 	}
-@@ -1270,7 +1271,7 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
- 	enum ltdc_pix_fmt pf;
- 
- 	if (!newstate->crtc || !fb) {
--		DRM_DEBUG_DRIVER("fb or crtc NULL");
-+		drm_dbg_driver(plane->dev, "fb or crtc NULL");
- 		return;
- 	}
- 
-@@ -1280,11 +1281,11 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
- 	src_w = newstate->src_w >> 16;
- 	src_h = newstate->src_h >> 16;
- 
--	DRM_DEBUG_DRIVER("plane:%d fb:%d (%dx%d)@(%d,%d) -> (%dx%d)@(%d,%d)\n",
--			 plane->base.id, fb->base.id,
--			 src_w, src_h, src_x, src_y,
--			 newstate->crtc_w, newstate->crtc_h,
--			 newstate->crtc_x, newstate->crtc_y);
-+	drm_dbg_driver(plane->dev, "plane:%d fb:%d (%dx%d)@(%d,%d) -> (%dx%d)@(%d,%d)\n",
-+		       plane->base.id, fb->base.id,
-+		       src_w, src_h, src_x, src_y,
-+		       newstate->crtc_w, newstate->crtc_h,
-+		       newstate->crtc_x, newstate->crtc_y);
- 
- 	regmap_read(ldev->regmap, LTDC_BPCR, &bpcr);
- 
-@@ -1312,8 +1313,8 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
- 		val = ltdc_set_flexible_pixel_format(plane, pf);
- 
- 	if (val == NB_PF) {
--		DRM_ERROR("Pixel format %.4s not supported\n",
--			  (char *)&fb->format->format);
-+		drm_err(fb->dev, "Pixel format %.4s not supported\n",
-+			(char *)&fb->format->format);
- 		val = 0;	/* set by default ARGB 32 bits */
- 	}
- 	regmap_write_bits(ldev->regmap, LTDC_L1PFCR + lofs, LXPFCR_PF, val);
-@@ -1350,7 +1351,7 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
- 	if (newstate->rotation & DRM_MODE_REFLECT_Y)
- 		paddr += (fb->pitches[0] * (y1 - y0));
- 
--	DRM_DEBUG_DRIVER("fb: phys 0x%08x", paddr);
-+	drm_dbg_driver(fb->dev, "fb: phys 0x%08x", paddr);
- 	regmap_write(ldev->regmap, LTDC_L1CFBAR + lofs, paddr);
- 
- 	/* Configures the color frame buffer pitch in bytes & line length */
-@@ -1517,8 +1518,8 @@ static void ltdc_plane_atomic_disable(struct drm_plane *plane,
- 		regmap_write_bits(ldev->regmap, LTDC_L1RCR + lofs,
- 				  LXRCR_IMR | LXRCR_VBR | LXRCR_GRMSK, LXRCR_VBR);
- 
--	DRM_DEBUG_DRIVER("CRTC:%d plane:%d\n",
--			 oldstate->crtc->base.id, plane->base.id);
-+	drm_dbg_driver(plane->dev, "CRTC:%d plane:%d\n",
-+		       oldstate->crtc->base.id, plane->base.id);
- }
- 
- static void ltdc_plane_atomic_print_state(struct drm_printer *p,
-@@ -1632,7 +1633,7 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
- 
- 	drm_plane_create_alpha_property(plane);
- 
--	DRM_DEBUG_DRIVER("plane:%d created\n", plane->base.id);
-+	drm_dbg_driver(plane->dev, "plane:%d created\n", plane->base.id);
- 
- 	return plane;
- }
-@@ -1647,7 +1648,7 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
- 
- 	primary = ltdc_plane_create(ddev, DRM_PLANE_TYPE_PRIMARY, 0);
- 	if (!primary) {
--		DRM_ERROR("Can not create primary plane\n");
-+		drm_err(ddev, "Can not create primary plane\n");
- 		return -EINVAL;
- 	}
- 
-@@ -1668,7 +1669,7 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
- 		ret = drmm_crtc_init_with_planes(ddev, crtc, primary, NULL,
- 						 &ltdc_crtc_funcs, NULL);
- 	if (ret) {
--		DRM_ERROR("Can not initialize CRTC\n");
-+		drm_err(ddev, "Can not initialize CRTC\n");
- 		return ret;
- 	}
- 
-@@ -1677,13 +1678,13 @@ static int ltdc_crtc_init(struct drm_device *ddev, struct drm_crtc *crtc)
- 	drm_mode_crtc_set_gamma_size(crtc, CLUT_SIZE);
- 	drm_crtc_enable_color_mgmt(crtc, 0, false, CLUT_SIZE);
- 
--	DRM_DEBUG_DRIVER("CRTC:%d created\n", crtc->base.id);
-+	drm_dbg_driver(ddev, "CRTC:%d created\n", crtc->base.id);
- 
- 	/* Add planes. Note : the first layer is used by primary plane */
- 	for (i = 1; i < ldev->caps.nb_layers; i++) {
- 		overlay = ltdc_plane_create(ddev, DRM_PLANE_TYPE_OVERLAY, i);
- 		if (!overlay) {
--			DRM_ERROR("Can not create overlay plane %d\n", i);
-+			drm_err(ddev, "Can not create overlay plane %d\n", i);
- 			return -ENOMEM;
- 		}
- 		if (ldev->caps.dynamic_zorder)
-@@ -1704,7 +1705,7 @@ static void ltdc_encoder_disable(struct drm_encoder *encoder)
- 	struct drm_device *ddev = encoder->dev;
- 	struct ltdc_device *ldev = ddev->dev_private;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(encoder->dev, "\n");
- 
- 	/* Disable LTDC */
- 	regmap_clear_bits(ldev->regmap, LTDC_GCR, GCR_LTDCEN);
-@@ -1718,7 +1719,7 @@ static void ltdc_encoder_enable(struct drm_encoder *encoder)
- 	struct drm_device *ddev = encoder->dev;
- 	struct ltdc_device *ldev = ddev->dev_private;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(encoder->dev, "\n");
- 
- 	/* set fifo underrun threshold register */
- 	if (ldev->caps.fifo_threshold)
-@@ -1734,7 +1735,7 @@ static void ltdc_encoder_mode_set(struct drm_encoder *encoder,
- {
- 	struct drm_device *ddev = encoder->dev;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(encoder->dev, "\n");
- 
- 	/*
- 	 * Set to default state the pinctrl only with DPI type.
-@@ -1770,7 +1771,7 @@ static int ltdc_encoder_init(struct drm_device *ddev, struct drm_bridge *bridge)
- 	if (ret)
- 		return ret;
- 
--	DRM_DEBUG_DRIVER("Bridge encoder:%d created\n", encoder->base.id);
-+	drm_dbg_driver(encoder->dev, "Bridge encoder:%d created\n", encoder->base.id);
- 
- 	return 0;
- }
-@@ -1870,7 +1871,7 @@ void ltdc_suspend(struct drm_device *ddev)
- {
- 	struct ltdc_device *ldev = ddev->dev_private;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(ddev, "\n");
- 	clk_disable_unprepare(ldev->pixel_clk);
- }
- 
-@@ -1879,11 +1880,11 @@ int ltdc_resume(struct drm_device *ddev)
- 	struct ltdc_device *ldev = ddev->dev_private;
- 	int ret;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(ddev, "\n");
- 
- 	ret = clk_prepare_enable(ldev->pixel_clk);
- 	if (ret) {
--		DRM_ERROR("failed to enable pixel clock (%d)\n", ret);
-+		drm_err(ddev, "failed to enable pixel clock (%d)\n", ret);
- 		return ret;
- 	}
- 
-@@ -1903,7 +1904,7 @@ int ltdc_load(struct drm_device *ddev)
- 	int irq, i, nb_endpoints;
- 	int ret = -ENODEV;
- 
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(ddev, "\n");
- 
- 	/* Get number of endpoints */
- 	nb_endpoints = of_graph_get_endpoint_count(np);
-@@ -1913,12 +1914,12 @@ int ltdc_load(struct drm_device *ddev)
- 	ldev->pixel_clk = devm_clk_get(dev, "lcd");
- 	if (IS_ERR(ldev->pixel_clk)) {
- 		if (PTR_ERR(ldev->pixel_clk) != -EPROBE_DEFER)
--			DRM_ERROR("Unable to get lcd clock\n");
-+			drm_err(ddev, "Unable to get lcd clock\n");
- 		return PTR_ERR(ldev->pixel_clk);
- 	}
- 
- 	if (clk_prepare_enable(ldev->pixel_clk)) {
--		DRM_ERROR("Unable to prepare pixel clock\n");
-+		drm_err(ddev, "Unable to prepare pixel clock\n");
- 		return -ENODEV;
- 	}
- 
-@@ -1939,7 +1940,7 @@ int ltdc_load(struct drm_device *ddev)
- 		if (panel) {
- 			bridge = drmm_panel_bridge_add(ddev, panel);
- 			if (IS_ERR(bridge)) {
--				DRM_ERROR("panel-bridge endpoint %d\n", i);
-+				drm_err(ddev, "panel-bridge endpoint %d\n", i);
- 				ret = PTR_ERR(bridge);
- 				goto err;
- 			}
-@@ -1949,7 +1950,7 @@ int ltdc_load(struct drm_device *ddev)
- 			ret = ltdc_encoder_init(ddev, bridge);
- 			if (ret) {
- 				if (ret != -EPROBE_DEFER)
--					DRM_ERROR("init encoder endpoint %d\n", i);
-+					drm_err(ddev, "init encoder endpoint %d\n", i);
- 				goto err;
- 			}
- 		}
-@@ -1967,29 +1968,29 @@ int ltdc_load(struct drm_device *ddev)
- 
- 	ldev->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(ldev->regs)) {
--		DRM_ERROR("Unable to get ltdc registers\n");
-+		drm_err(ddev, "Unable to get ltdc registers\n");
- 		ret = PTR_ERR(ldev->regs);
- 		goto err;
- 	}
- 
- 	ldev->regmap = devm_regmap_init_mmio(&pdev->dev, ldev->regs, &stm32_ltdc_regmap_cfg);
- 	if (IS_ERR(ldev->regmap)) {
--		DRM_ERROR("Unable to regmap ltdc registers\n");
-+		drm_err(ddev, "Unable to regmap ltdc registers\n");
- 		ret = PTR_ERR(ldev->regmap);
- 		goto err;
- 	}
- 
- 	ret = ltdc_get_caps(ddev);
- 	if (ret) {
--		DRM_ERROR("hardware identifier (0x%08x) not supported!\n",
--			  ldev->caps.hw_version);
-+		drm_err(ddev, "hardware identifier (0x%08x) not supported!\n",
-+			ldev->caps.hw_version);
- 		goto err;
- 	}
- 
- 	/* Disable all interrupts */
- 	regmap_clear_bits(ldev->regmap, LTDC_IER, IER_MASK);
- 
--	DRM_DEBUG_DRIVER("ltdc hw version 0x%08x\n", ldev->caps.hw_version);
-+	drm_dbg_driver(ddev, "ltdc hw version 0x%08x\n", ldev->caps.hw_version);
- 
- 	/* initialize default value for fifo underrun threshold & clear interrupt error counters */
- 	ldev->transfer_err = 0;
-@@ -2008,27 +2009,27 @@ int ltdc_load(struct drm_device *ddev)
- 						ltdc_irq_thread, IRQF_ONESHOT,
- 						dev_name(dev), ddev);
- 		if (ret) {
--			DRM_ERROR("Failed to register LTDC interrupt\n");
-+			drm_err(ddev, "Failed to register LTDC interrupt\n");
- 			goto err;
- 		}
- 	}
- 
- 	crtc = drmm_kzalloc(ddev, sizeof(*crtc), GFP_KERNEL);
- 	if (!crtc) {
--		DRM_ERROR("Failed to allocate crtc\n");
-+		drm_err(ddev, "Failed to allocate crtc\n");
- 		ret = -ENOMEM;
- 		goto err;
- 	}
- 
- 	ret = ltdc_crtc_init(ddev, crtc);
- 	if (ret) {
--		DRM_ERROR("Failed to init crtc\n");
-+		drm_err(ddev, "Failed to init crtc\n");
- 		goto err;
- 	}
- 
- 	ret = drm_vblank_init(ddev, NB_CRTC);
- 	if (ret) {
--		DRM_ERROR("Failed calling drm_vblank_init()\n");
-+		drm_err(ddev, "Failed calling drm_vblank_init()\n");
- 		goto err;
- 	}
- 
-@@ -2047,7 +2048,7 @@ int ltdc_load(struct drm_device *ddev)
- 
- void ltdc_unload(struct drm_device *ddev)
- {
--	DRM_DEBUG_DRIVER("\n");
-+	drm_dbg_driver(ddev, "\n");
- 
- 	pm_runtime_disable(ddev->dev);
- }
--- 
-2.25.1
+Since the VPE is ungated to run the tests, I assume that in my setup
+it is not used close to resume.
+
+Antheas
+
+> Alex
+>
+> >
+> > Fixes: 5f82a0c90cca ("drm/amdgpu/vpe: enable vpe dpm")
+> > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_vpe.c
+> > index 121ee17b522b..24f09e457352 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vpe.c
+> > @@ -34,8 +34,8 @@
+> >  /* VPE CSA resides in the 4th page of CSA */
+> >  #define AMDGPU_CSA_VPE_OFFSET  (4096 * 3)
+> >
+> > -/* 1 second timeout */
+> > -#define VPE_IDLE_TIMEOUT       msecs_to_jiffies(1000)
+> > +/* 2 second timeout */
+> > +#define VPE_IDLE_TIMEOUT       msecs_to_jiffies(2000)
+> >
+> >  #define VPE_MAX_DPM_LEVEL                      4
+> >  #define FIXED1_8_BITS_PER_FRACTIONAL_PART      8
+> >
+> > base-commit: c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9
+> > --
+> > 2.50.1
+> >
+> >
+>
 
