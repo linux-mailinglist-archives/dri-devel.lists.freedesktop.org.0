@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E00BB3412E
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6F6B34137
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:44:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5344D10E493;
-	Mon, 25 Aug 2025 13:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D56E10E48C;
+	Mon, 25 Aug 2025 13:44:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Yo7uFRbY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="illFcxV/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2A710E48E;
- Mon, 25 Aug 2025 13:44:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB52C10E490;
+ Mon, 25 Aug 2025 13:44:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0819244D7D;
- Mon, 25 Aug 2025 13:44:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 680F5C116D0;
- Mon, 25 Aug 2025 13:44:16 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B682844D76;
+ Mon, 25 Aug 2025 13:44:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2194FC116C6;
+ Mon, 25 Aug 2025 13:44:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756129456;
- bh=jwpa6CJEP2ubfKRCAjsrSSxCi0tUyYxFZe/THLd4Tak=;
+ s=k20201202; t=1756129459;
+ bh=jHB9qBd94mpoVZjz7oFs7XUljTcZFTODrPUrewnnLNo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Yo7uFRbYFma10rAkRJpRBze4IKA64QXDoB0MxcmOsrLbWcD2b2Hb95zr5wIcLK3fG
- 9BVLxJl84DBZb6Qispw7CkAldKM7cs9RaSiCDJqlIIfLanWNMqLm3mqHES7aYzj7s0
- RiXPMsSE/lXKPGHcWxL6+4Vq+lDx3ldG/2pyUS9xIC+lHbqOhPJ2LAedLj5IlWd2AR
- SNbPPJ/21ATJvXSxlfJieEItgrjCEL0Ts+aEHVskc0+blUwmKUG+ttJZ4Hy7otZKiN
- cMpiA6WvBeE6s7kYeuL1VaVC1q3Wve4M7Ul0d2Rne3o2888drckmSWUmMRMY5Kg8e3
- wajjZRdr8rlyw==
+ b=illFcxV/bFN84mzq62TuLzJem+HLXc+mbLR0AhK+jAIRmfaH97LMfRGo41SgvuL4t
+ Ih9kDFdN4FSLgAgPj9wV4ueHwr8P8BkeG+l1uM+5MVjOmkhg+sRWH8Q7mr9Oryrj+W
+ wP3qa6WQIzjlZ+NB4mL91AaMd4mARcYn+9BELfm+kiRyze9onyhvhadmOtFMZXyO02
+ 654yLjtlYnFNuprTHkSIhuQH9SXQrTOcDv8hNB253JD8jJ9Fc5PNsiNqu4RLXqH7Ns
+ vhW050T1cmh8ZNhnca07e65VY5lgbaAQfDsfEtL6eRxCld64n8K/ESJ22XRH5Gd65f
+ 1jeZS2YTLBZcA==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 25 Aug 2025 15:43:20 +0200
-Subject: [PATCH 15/39] drm/armada: Switch to
+Date: Mon, 25 Aug 2025 15:43:21 +0200
+Subject: [PATCH 16/39] drm/atmel-hlcdc: Switch to
  drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250825-drm-no-more-existing-state-v1-15-f08ccd9f85c9@kernel.org>
+Message-Id: <20250825-drm-no-more-existing-state-v1-16-f08ccd9f85c9@kernel.org>
 References: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
 In-Reply-To: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -93,12 +93,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1178; i=mripard@kernel.org;
- h=from:subject:message-id; bh=jwpa6CJEP2ubfKRCAjsrSSxCi0tUyYxFZe/THLd4Tak=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlrMipm1jo8C4w8YL9pvd4vpZDJZ6qnTo+fuF/zjc0Zz
- auPut4rdUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJlP5grBUO0Uidz7hA7Hqk
- yqwPp50ScjPSX7AWJnelRfxZIzP9fKzqf+uVFaFXM5ZmT3s65cW8t4y1kjbeacxLZmq7+Rx8Uuq
- 4yrcjyudehn+yz3E/wfeK85bt+Vhw7FGB7Q/5G2n53SbrlB4CAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1263; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=jHB9qBd94mpoVZjz7oFs7XUljTcZFTODrPUrewnnLNo=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlrMioDbs6ouL3p0tme1nO7/Mo5VZK/CbLO3tVed6SUe
+ 16iivOVjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjARzyzGOnPBtksbNz3+5WvN
+ 0ZKwLLh9ktmR3Nl3p/k9O7z7ecWbDeI+S978D1uvc7R2aWbXTonbtxgbNj+rrZqwsiLdKs40+6p
+ JpUWMs9yb82kLuAQ3XNNxWXX382HZp3ctp23U6Wj4ec2jcMo0AA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,7 +116,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The armada atomic_check implementation uses the deprecated
+The atmel-hlcdc atomic_check implementation uses the deprecated
 drm_atomic_get_existing_crtc_state() helper.
 
 This hook is called as part of the global atomic_check, thus before the
@@ -125,27 +125,26 @@ we can use drm_atomic_get_new_crtc_state() instead.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/armada/armada_plane.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/armada/armada_plane.c b/drivers/gpu/drm/armada/armada_plane.c
-index cc47c032dbc151a463cbd0b0d048c74c2828f253..786bcce0dc20eadab14c5bee97593ae3e05732b1 100644
---- a/drivers/gpu/drm/armada/armada_plane.c
-+++ b/drivers/gpu/drm/armada/armada_plane.c
-@@ -93,12 +93,11 @@ int armada_drm_plane_atomic_check(struct drm_plane *plane,
- 		new_plane_state->visible = false;
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+index 4a7ba0918eca19eca3fd8febd1db1b2d3a8a6e14..59be5f64c058e2be398f207ad436f922135a5ad0 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c
+@@ -712,11 +712,11 @@ static int atmel_hlcdc_plane_atomic_check(struct drm_plane *p,
+ 	int i;
+ 
+ 	if (!hstate->base.crtc || WARN_ON(!fb))
  		return 0;
- 	}
  
- 	if (state)
--		crtc_state = drm_atomic_get_existing_crtc_state(state,
--								crtc);
-+		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	else
- 		crtc_state = crtc->state;
+-	crtc_state = drm_atomic_get_existing_crtc_state(state, s->crtc);
++	crtc_state = drm_atomic_get_new_crtc_state(state, s->crtc);
+ 	mode = &crtc_state->adjusted_mode;
  
- 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
- 						  0,
+ 	ret = drm_atomic_helper_check_plane_state(s, crtc_state,
+ 						  (1 << 16) / 2048,
+ 						  INT_MAX, true, true);
 
 -- 
 2.50.1
