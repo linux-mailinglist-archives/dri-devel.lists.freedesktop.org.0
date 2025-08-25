@@ -2,58 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7D6B34072
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:14:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F76B34082
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:19:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1821410E25F;
-	Mon, 25 Aug 2025 13:13:59 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="IcuRpTvh";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4E1E10E260;
+	Mon, 25 Aug 2025 13:19:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 210F010E25F
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 13:13:56 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4c9WTF0FkHz9tCT;
- Mon, 25 Aug 2025 15:13:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1756127633; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JH3NDF6p/5eXjkoYcAAQpi+Uhvkn3l8np9GIYi07vUg=;
- b=IcuRpTvhvOpk0HGLV5WWCm8ZQ6j5PATJBeLHwiyCXWvQrYlyVQAjRiNdjSDFBi0aQ6nUGS
- 3zkCssThuRjw2xZAFkcunMAkDSS1Di+vy/lR1Qb4DA6cEtIHWy8FquSwpF9ViFR5erNZpy
- TceEAV6JdpGm7kQqYDnEPaMquHro7modne+UpGCoVPhmPSL8JB23SrXq6i7tFFhiuuM2wA
- ASriA8MkjXn+/Ho3K6xQESHK4y5CpyKWivjri7hhKZLm5gEYLSYSYD0L4f0MXbo9GyveOD
- Ysj5mMNZDF0AumB5AdhtcWHcEV3p28WuqRBL/1tac4a8of4/WEK0W1Rb0gW//g==
-Message-ID: <9b68898ca34483b52d7f4510747a20bce52751c7.camel@mailbox.org>
-Subject: Re: [PATCH v1 2/2] drm/sched: limit sched score update to jobs change
-From: Philipp Stanner <phasta@mailbox.org>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, 
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
- <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,  Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Mon, 25 Aug 2025 15:13:47 +0200
-In-Reply-To: <20250822134348.6819-2-pierre-eric.pelloux-prayer@amd.com>
-References: <20250822134348.6819-1-pierre-eric.pelloux-prayer@amd.com>
- <20250822134348.6819-2-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79BF810E260
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 13:19:41 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id
+ e9e14a558f8ab-3e6670d5bafso118789425ab.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 06:19:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756127981; x=1756732781;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=m2gUYnF69r+HwF1j7zvkXUbnBN61PAECmeVAxL5NQG8=;
+ b=UvFLl3dht/wQSmjv7uKW5rHDMoZCeAnQ3/caEsNE5NONL3XEnlDwLhUM1OzIbTHokD
+ fyK1Y0a2eJS57xcpViFpuAP8IWjXx7OULkNgC4r0x+HTjiGKX3PuVRbvX4CXfKcPlRnj
+ MDK9h0n42Qu7lbQkdO9mpg6q4UzI4kNP9nzRBAtqnXsKV3FnKxaI4Z7MZhEoPOOqRsIG
+ 282c9wAvG2EybF1mLKFdAy7A28ZywiDS6h10df2p8gGjLnAI2klTHUQYnxFdefdP+BS2
+ yK++kCjA0ihLLZRHsim5rj3thTWsW360F4JLAL39CMBTHw0PVz30VLfGkRciMiQWL+nm
+ 2bbw==
+X-Gm-Message-State: AOJu0YwR5muXgnJgrjlUsL3/t+DBLtYjNmvKA2wTG/krWMeBKjY7Qw8I
+ 0ahkCHMjl2q86vGFXVvDXemSVjT2IwwfG4G3Jbjj8abSb3AbMZuekh0/ns8Ndcsr5WnyZEmHnzP
+ qafwvnp2zGUKHPVpo6kB8q7pJGCs+pe5PbHjKYPkUIzo3e0zwRlVUa1gux+0=
+X-Google-Smtp-Source: AGHT+IGgDEcST1ZgJguqZFdPe1mvb8+f7Lok+P7lCTrw7QAleIcAITPyguegeIYLapaJqpoang/aKvMl5si5pCdNCa2cRgU/Ft3I
 MIME-Version: 1.0
-X-MBO-RS-ID: 6db2928092c34427ff6
-X-MBO-RS-META: ggyzgztifobbat95zdyt59uu3hig8uxy
+X-Received: by 2002:a05:6e02:3c86:b0:3ee:1a2d:f73d with SMTP id
+ e9e14a558f8ab-3ee1a2df976mr7223505ab.27.1756127980658; Mon, 25 Aug 2025
+ 06:19:40 -0700 (PDT)
+Date: Mon, 25 Aug 2025 06:19:40 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68ac62ec.050a0220.37038e.008e.GAE@google.com>
+Subject: [syzbot] Monthly dri report (Aug 2025)
+From: syzbot <syzbot+list64daf1ebe24085817f4d@syzkaller.appspotmail.com>
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,93 +56,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-08-22 at 15:43 +0200, Pierre-Eric Pelloux-Prayer wrote:
-> Currently, the scheduler score is incremented when a job is pushed to an
-> entity and when an entity is attached to the scheduler.
+Hello dri maintainers/developers,
 
-It's indeed awkward why attaching is treated equivalently to job
-submission.
+This is a 31-day syzbot report for the dri subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/dri
 
-Can you expand the documentation for drm_sched_init_args a bit so that
-it gets clearer what the score is supposed to do?
+During the period, 1 new issues were detected and 1 were fixed.
+In total, 18 issues are still open and 33 have already been fixed.
 
->=20
-> This leads to some bad scheduling decision where the score value is
-> largely made of idle entities.
->=20
-> For instance, a scenario with 2 schedulers and where 10 entities submit
-> a single job, then do nothing, each scheduler will probably end up with
-> a score of 5.
-> Now, 5 userspace apps exit, so their entities will be dropped.=C2=A0
->=20
+Some of the still happening issues:
 
-"entities will be dropped" =3D=3D "drm_sched_entity_kill() gets called",
-right?
+Ref Crashes Repro Title
+<1> 1829    Yes   WARNING in drm_syncobj_array_find
+                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
+<2> 488     Yes   WARNING in vkms_get_vblank_timestamp (2)
+                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
+<3> 72      Yes   WARNING in drm_mode_create_lease_ioctl
+                  https://syzkaller.appspot.com/bug?extid=6754751ad05524dae739
+<4> 15      No    upstream test error: WARNING in __ww_mutex_wound
+                  https://syzkaller.appspot.com/bug?extid=c4f4e64f6ac2733325f9
 
-> In
-> the worst case, these apps' entities where all attached to the same
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-s/where/were
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-or better yet: "could be"
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
-> scheduler and we end up with score=3D5 (the 5 remaining entities) and
-> score=3D0, despite the 2 schedulers being idle.
-
-Sounds indeed like a (small) problem to me.
-
-
-> When new entities show up, they will all select the second scheduler
-> based on its low score value, instead of alternating between the 2.
->=20
-> Some amdgpu rings depended on this feature, but the previous commit
-> implemented the same thing in amdgpu directly so it can be safely
-> removed from drm/sched.
-
-Can we be that sure that other drivers don't depend on it, though? I
-suspect it's likely that it's just amdgpu, but=E2=80=A6
-
-
-
-BTW, since you're cleaning up related stuff currently: I saw that it
-seems that the only driver that sets &struct drm_sched_init_args.score
-is amdgpu. Would be cool if you can take a look whether that's still
-needed.
-
-
-P.
-
->=20
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd=
-.com>
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 2 --
-> =C2=A01 file changed, 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index 5a550fd76bf0..e6d232a8ec58 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -206,7 +206,6 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
-> =C2=A0	if (!list_empty(&entity->list))
-> =C2=A0		return;
-> =C2=A0
-> -	atomic_inc(rq->sched->score);
-> =C2=A0	list_add_tail(&entity->list, &rq->entities);
-> =C2=A0}
-> =C2=A0
-> @@ -228,7 +227,6 @@ void drm_sched_rq_remove_entity(struct drm_sched_rq *=
-rq,
-> =C2=A0
-> =C2=A0	spin_lock(&rq->lock);
-> =C2=A0
-> -	atomic_dec(rq->sched->score);
-> =C2=A0	list_del_init(&entity->list);
-> =C2=A0
-> =C2=A0	if (rq->current_entity =3D=3D entity)
-
+You may send multiple commands in a single email message.
