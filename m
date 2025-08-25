@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C3BB34EF1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 00:22:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF38B34EF7
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 00:23:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B9FC10E37D;
-	Mon, 25 Aug 2025 22:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63A2F10E59A;
+	Mon, 25 Aug 2025 22:23:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JSZbpPoV";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="M0VnrkVE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B9F710E37D
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 22:22:42 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PGNBaU032260
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 22:22:41 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28D1310E59A
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 22:23:28 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PH0Xbl026177
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 22:23:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=z+Sk1nW8oCFD8PIbPYjbRyQF
- 1Kgwu4pmXehElHXwC2s=; b=JSZbpPoVmu8itHLHlDwDEpPPuMjNWlDxFCLc71fi
- mPmZSJsgCCHUjljxZniGy4fIsy91xXti3YoNGoQn0rJXHX3ktcFPjchXiB6TvDYA
- KB//geg9wxZ02hB9Wmyev9N3E9bZmUWud7od329U1Md3Zfur9bpKVYoKqHz0H7dH
- 22J9KZwgxZHpscAsgcCzlSiqVyvT5pWUpoxzoWWrCV6+oAWhAt+gR2cLWvKU25CC
- tUKI7JU55mU4xFEARbcciZbbUwf5Hq1AiX4yQnhY1fzMUtuiazcKWCy4akN+l6T6
- Ecz9VcWlMGTEyqW7p3Rq5Vl11vZswAw7mBuZNePfXXRaeg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q6thxn0x-1
+ :references:subject:to; s=qcppdkim1; bh=fjH+xA5Hhh74IqC0r3nz4iYW
+ +qHZrS73elo/5Si+ukM=; b=M0VnrkVEwZb5l/PpJpVjvAG369Z6ozbEsYfLWRWK
+ 6B6QwwR/BG8/zXlbCj+DMb82ZTPNhdHgJRHn4G2Yic3ns5VUKZzcapGJgongaPCZ
+ 9EmgKmIma0wZtXMtyfGV0joRsi6cUvE47VUpCWYlVPoMmzP5/lBpauK+qa3OGows
+ QGmOZomk5chmEDbCpuOl+Nvi6zLEcoR/E4tjEdBQsSqNssPmKEf5vucfeiQSV8oO
+ avkXP8h5eZ6PmLMnEw4IFv7SL0ZHtrS5kLlNj9Xcw1f325BWHid2nWGCxIMHYZgH
+ yHoO+TZ/UDFjRCjY8PIKr9vpO8tNPp/uheDRSqBfja8SUg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5xfemft-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 22:22:41 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4b10993f679so134765351cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 15:22:41 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 22:23:27 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4b1292b00cfso48718181cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 15:23:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756160560; x=1756765360;
+ d=1e100.net; s=20230601; t=1756160606; x=1756765406;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=z+Sk1nW8oCFD8PIbPYjbRyQF1Kgwu4pmXehElHXwC2s=;
- b=mK+GXY4EcoV5b03xtPaC/IKK37aFeTbmT9hPZMvKczOc+d2E1OLUlTutX0IOcXDnh0
- 6r4LuVZazVoK4tYw70d1v0Ip6X1zgrP9wwbGp8rGk4cGJl5mDS8dQKDDvyiL+YAcPSDN
- EhvjMAGmrGQWH3E7TuHNQMs6YucjZnP0vYcV6Wg4dSgiZTwSfz5Cgt6fhKziDEIJhhSa
- O59s3Ol3L+/+DNB9//Cejgzhd4Gfn9S2rv3A2im71hJ8S0GWjf0NxSa7/IGpUjX3VzWF
- 6/uSosXUznZ/2MxLXRfqElpw8+8fI84Z86f4eXDTVvkNeOeNIPlwhYJxCHOWbmxOjI2v
- iYXg==
+ bh=fjH+xA5Hhh74IqC0r3nz4iYW+qHZrS73elo/5Si+ukM=;
+ b=BA15e8I/6jIA+Bqqe7HOvDSUG7nEczA+/8dM+lmgvcSQwe4NLbj1uRx2w9vbcOpOZc
+ culCtGPcrTINOZGDxqIt6qDEGfPVNaeZrLowocs6yrQN0Nz1XM8ENebQcjxb++n8J3fI
+ NnjAaOMq0aNy6jx9+uisR7DIhwtXKbC/F9TTo1SHo0vHI1oP2ljCDmOWAke91HbN10sr
+ tI/rQ1ssJE7lTeBnNeBAU/IVi6XdTVGjaiUqEY77e2dJOLqPyg5NGamJ4mejyw5y10Nd
+ mHQeV33zmhkMJ55eGBBqdTEtW0OIF8jl+4jMjsICZ7XX7StWoYCy7DRT14gFcw5tCcuZ
+ ScYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW0e3ARRXdSMhTbwPANtXQN0v2uQJOy39HiBmqypCl/PQF/0+TGA9bRZNK6O40wsrZi1MLXfHSqzls=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxa/iTYq7Dp68lqmd4Mfa0I6wFBYLtuzJK0xwF6Cf0vi0IaOt+c
- 3L8brR4WhSrch8qe1Mbe1PI7eqYg1LhdaKZDZQ2C9js+UnpPMWsUunHFvu7qWrjyyIwNpRueR86
- vAOZ4vPIoqSf4zguq0PmoQT3B1Y88L3QIr+H6VVPRPlkmMU2SkkbT/Qrx6oLEOIDlqEDbeYM=
-X-Gm-Gg: ASbGncsL8VH8aDdtm+T22iueGw3tCwO50TQ1+vBuMzzuXMgF4cQocxa+JCqZinpzdfc
- IbOKIO/pQWpKhtk18VjQ/gd8VisZCTcccv8Lo0akz9pGfRoQ10P4NOSH3h/fSPSAhtGExbl/Ppk
- HVbo3FW+3dw0jhgZoedM/O0DCBvS/KcJmtbgomQp3k1748/cL37VqRj/wl8L+r+Nz5ESoiNh7tN
- oXVl/gwM2WnxOcEJ5LzJkOyvvjdhVz3IPo4z1oU1ILOMpb5YLKl8ZqFzeuwK59w517lQA9o5waE
- mbuX5etKJlMo5atTG0a56PBnUpZl3Nm1D0XuvqkotVQ9rG3SpFvWIp04ni0mv8MA+VA5sPRPAcT
- PqV1jHHRMBpSNM1v0qaG0JNQyqPTz6tTw+q7eBZNWudcWM1G/LShN
-X-Received: by 2002:a05:622a:20b:b0:4af:1f06:6b41 with SMTP id
- d75a77b69052e-4b2aab09776mr142432231cf.59.1756160559836; 
- Mon, 25 Aug 2025 15:22:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHqjwC4JyntFz/S1FDvtnJPuev1QpBFI6qoonjH8iJ3qO2TMVArvtg2gonaXQYthNOljvK2Dw==
-X-Received: by 2002:a05:622a:20b:b0:4af:1f06:6b41 with SMTP id
- d75a77b69052e-4b2aab09776mr142431941cf.59.1756160559319; 
- Mon, 25 Aug 2025 15:22:39 -0700 (PDT)
+ AJvYcCUJoBlX08yeTD0V+lO6usPUatx56AnqivSvTZUKxgNL/LF5Szc7RUzRssahq1nfX6QgDE1ti+cRlYA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzyGlzvjx/BFY3uKIjSNG+Ke7F3R56SPBPrgqZ/LabupDA7Tx6o
+ Y/Bzsd+Lfe/zp/QgO6vPm8IgfdF/tko8QqgB8yFd0+l3kmcIjccxUSMqmzI0+PF7X72BfCbm7+2
+ IF7bh0ZqBq4gMusyNSes919uAQMRdQ0MsyXHgxvVvJiwaJTSRXxZNpvNnWPpVII4Y3e4wt1o=
+X-Gm-Gg: ASbGncvqSJvabTVCz2V9i4pwzXG3hzAAurjVO3E3ahBhKTtevoFXCZ2Xyj9ecIuVhYS
+ Izk8aXreMsPhbqxG3fb8O4yXZ2WxJC+skhFZWyTFu9tua3acQ6RQjaUbkco8X3Tvt9X5cWaJA58
+ bPUKsu6mMmW8V3atR8wVkp19/gktU1SnjeWzStpsyzJV+KkeLu+KijbY0plAj4XOZKh6JSuBAr6
+ Wr2pS4x8PtxCezQDYARnPmmtvdRQ7ziKl+ZgRpb4OA77WLHMig7usyI9sbKHH/O37XgVE6jlKB2
+ XTKDOcW0/V2soRPh4EWKCImg9nMQcHhE2Ugg3YEDGa+UBzys3ga7wVXJEELx0zcqNB9GDw6y3Vu
+ WPmUl9zOikLOIAekY9P6+EV2I6oEZt8eNRt9A4m8agvTqSkWsHx20
+X-Received: by 2002:a05:622a:2443:b0:4b2:8ac4:ef8e with SMTP id
+ d75a77b69052e-4b2aab65f01mr179201261cf.73.1756160606379; 
+ Mon, 25 Aug 2025 15:23:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF/gWs5Q3U2MNb4IhmQlYIuCMvPeaLXJdn7Nhfi+5p06NJqrdTdO3fCjgpZVxrr1qDOV5nUzw==
+X-Received: by 2002:a05:622a:2443:b0:4b2:8ac4:ef8e with SMTP id
+ d75a77b69052e-4b2aab65f01mr179200941cf.73.1756160605874; 
+ Mon, 25 Aug 2025 15:23:25 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35c8bb90sm1893913e87.98.2025.08.25.15.22.38
+ 2adb3069b0e04-55f35c8ba2dsm1836524e87.77.2025.08.25.15.23.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Aug 2025 15:22:38 -0700 (PDT)
-Date: Tue, 26 Aug 2025 01:22:36 +0300
+ Mon, 25 Aug 2025 15:23:23 -0700 (PDT)
+Date: Tue, 26 Aug 2025 01:23:21 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -86,36 +86,36 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v3 24/38] drm/msm/dp: replace power_on with
- active_stream_cnt for dp_display
-Message-ID: <usgc35jyid32flqt2poc2yqaaw3zpji6eh7nqw2zngjslb2mlf@kk7g7sine5fy>
+Subject: Re: [PATCH v3 25/38] drm/msm/dp: Mark the SST bridge disconnected
+ when mst is active
+Message-ID: <bgo6yni27nqe4gkhvurrnzvgih4hn47itpwg7afgtctspin52n@mtf7e2jzcukb>
 References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
- <20250825-msm-dp-mst-v3-24-01faacfcdedd@oss.qualcomm.com>
+ <20250825-msm-dp-mst-v3-25-01faacfcdedd@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250825-msm-dp-mst-v3-24-01faacfcdedd@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDA0MyBTYWx0ZWRfX1YYr8Ws/PAkS
- nmu3JAzosFT7ZLD5mOYgsytx4haqGPqxYB09p/20cct/ok3huunizGhQ8Lw6fYRRwyDfq7dEKwq
- xYI63aK8WsLPXY9jA+WWhjbkPAQRiY5ZuzdZTcJX/nk8Ax7qWi4ppuyiVCtgIJ5dmhiEx9nQgEy
- sr8JGHfTfhgb94t4qpVbi4lg3CK7Nz5cngxhRNDJEHmvfJWSS0VBHawdgtaQ51bK5JEmEZ0jwll
- YP/iGmEiHjHnU+W/67dOu+w5y+G3RtxjsUDAQX28aAV5LMouPi0B7d8fczAQq7ZGQb0JXeICE+5
- wujTbTh9V/w5uLP/669obxnDl+mha4glvMPTBf8VLgAYFsefdNohvzKoTnkVZz7d849BD/QzKds
- BNF5cKqj
-X-Proofpoint-ORIG-GUID: EeJsiELArVBKjIucLMthOKNjZG9FbWyg
-X-Proofpoint-GUID: EeJsiELArVBKjIucLMthOKNjZG9FbWyg
-X-Authority-Analysis: v=2.4 cv=W544VQWk c=1 sm=1 tr=0 ts=68ace231 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=ZugQsj7WvWi4Az5TsbEA:9
- a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22 a=TjNXssC_j7lpFel5tvFf:22
+In-Reply-To: <20250825-msm-dp-mst-v3-25-01faacfcdedd@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX9FzAmPmiGi7G
+ PLltyveOMZxw76w7aPUvKWfgha6qg3iiEFtX9njOBGxBfFnECS5UJ14mbov8FE9BvkmTjTfyOBv
+ h7s6pMUSgnuViGJfTz/fxbP8hCfcLjxpEJbbPoo1Zx8Pp2rsUoW6EJPFM9HECRTRJONLO++hL72
+ 6GMqcIcgNVYgeC0goLomg1bBXhCcuYE+c/c2y3599dotqcfdojyClATDkixZ8p0+Mf4QVg4AdDT
+ CSPPUhJhJhVc21JRrcJvzdv6wuPjpoQyaayyfekgvtMSJQ+hOSFTWwPyuQwrQ1wF8JIP/NsO+0h
+ PXkH5YqbD2eA9Jm0pfR4fwjsmfutsHwfbsZirIOoaRv9Yloi7qQpSz1+tXACvvtKf40k8VOCCSA
+ MaUV0nKq
+X-Proofpoint-GUID: T3jX-9jTwd2p_l1_RKmlcTDs2mOH4v7l
+X-Authority-Analysis: v=2.4 cv=MutS63ae c=1 sm=1 tr=0 ts=68ace25f cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=Cr4VjbKX6U7v81t0Q-gA:9
+ a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: T3jX-9jTwd2p_l1_RKmlcTDs2mOH4v7l
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-25_10,2025-08-20_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 clxscore=1015 suspectscore=0 phishscore=0
- bulkscore=0 impostorscore=0 adultscore=0 malwarescore=0
+ phishscore=0 impostorscore=0 adultscore=0 spamscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230043
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,201 +131,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 10:16:10PM +0800, Yongxing Mou wrote:
+On Mon, Aug 25, 2025 at 10:16:11PM +0800, Yongxing Mou wrote:
 > From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > 
-> For DP MST, the link clock and power domain resources stay on until
-> both streams have been disabled OR we receive hotplug. Introduce an
-> active_stream_cnt to track the number of active streams and necessary
-> state handling. Replace the power_on variable with active_stream_cnt
-> as power_on boolean works only for a single stream.
+> The bridge detect function is only applicable for SST. In MST mode,
+> connector detection is handled by MST bridges. This patch skips
+> detection for the SST bridge when MST is active.
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 > ---
->  drivers/gpu/drm/msm/dp/dp_audio.c   |  2 +-
->  drivers/gpu/drm/msm/dp/dp_display.c | 50 ++++++++++++++++++++++++-------------
->  drivers/gpu/drm/msm/dp/dp_display.h |  3 ++-
->  3 files changed, 36 insertions(+), 19 deletions(-)
+>  drivers/gpu/drm/msm/dp/dp_display.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
-> index 41018e82efa10ec863eb4b60d8df66c23c432fa5..e84c8b8e83d9ec689c0d29e8ac69860a745a4877 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_audio.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
-> @@ -284,7 +284,7 @@ int msm_dp_audio_prepare(struct drm_bridge *bridge,
->  	 * such cases check for connection status and bail out if not
->  	 * connected.
->  	 */
-> -	if (!msm_dp_display->power_on) {
-> +	if (!msm_dp_display_get_active_stream_cnt(msm_dp_display)) {
 
-Why can't it be a part of the public structure?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
->  		rc = -EINVAL;
->  		goto end;
->  	}
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 0815973e6597492e09f33359d9777c0e8ce31e0d..e2e6b0ea2f9dbfe49a599ca19b1d205669365c4c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -73,6 +73,8 @@ struct msm_dp_display_private {
->  
->  	bool wide_bus_supported;
->  
-> +	u32 active_stream_cnt;
-> +
->  	struct msm_dp_audio *audio;
->  
->  	void __iomem *ahb_base;
-> @@ -175,6 +177,15 @@ static const struct of_device_id msm_dp_dt_match[] = {
->  	{}
->  };
->  
-> +int msm_dp_display_get_active_stream_cnt(struct msm_dp *msm_dp_display)
-> +{
-> +	struct msm_dp_display_private *dp;
-> +
-> +	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
-> +
-> +	return dp->active_stream_cnt;
-> +}
-> +
->  static struct msm_dp_display_private *dev_get_dp_display_private(struct device *dev)
->  {
->  	struct msm_dp *dp = dev_get_drvdata(dev);
-> @@ -709,15 +720,17 @@ static int msm_dp_display_prepare(struct msm_dp_display_private *dp)
->  	if (dp->link->sink_count == 0)
->  		return rc;
->  
-> -	if (msm_dp_display->link_ready && !msm_dp_display->power_on) {
-> +	if (msm_dp_display->link_ready && !dp->active_stream_cnt) {
->  		msm_dp_display_host_phy_init(dp);
->  		force_link_train = true;
->  	}
->  
-> -	rc = msm_dp_ctrl_on_link(dp->ctrl, msm_dp_display->mst_active);
-> -	if (rc) {
-> -		DRM_ERROR("Failed link training (rc=%d)\n", rc);
-> -		msm_dp_display->connector->state->link_status = DRM_LINK_STATUS_BAD;
-> +	if (!dp->active_stream_cnt) {
-
-Such changes need at least some explanation in the commit message or,
-better, split to a separate patch.
-
-> +		rc = msm_dp_ctrl_on_link(dp->ctrl, msm_dp_display->mst_active);
-> +		if (rc) {
-> +			DRM_ERROR("Failed link training (rc=%d)\n", rc);
-> +			msm_dp_display->connector->state->link_status = DRM_LINK_STATUS_BAD;
-> +		}
->  	}
->  
->  	rc = msm_dp_ctrl_prepare_stream_on(dp->ctrl, force_link_train);
-> @@ -731,17 +744,10 @@ static int msm_dp_display_enable(struct msm_dp_display_private *dp,
->  				 struct msm_dp_panel *msm_dp_panel)
->  {
->  	int rc = 0;
-> -	struct msm_dp *msm_dp_display = &dp->msm_dp_display;
->  
->  	drm_dbg_dp(dp->drm_dev, "sink_count=%d\n", dp->link->sink_count);
-> -	if (msm_dp_display->power_on) {
-> -		drm_dbg_dp(dp->drm_dev, "Link already setup, return\n");
-> -		return 0;
-> -	}
->  
->  	rc = msm_dp_ctrl_on_stream(dp->ctrl, msm_dp_panel, dp->max_stream);
-> -	if (!rc)
-> -		msm_dp_display->power_on = true;
->  
->  	return rc;
->  }
-> @@ -788,16 +794,14 @@ static void msm_dp_display_audio_notify_disable(struct msm_dp_display_private *d
->  static int msm_dp_display_disable(struct msm_dp_display_private *dp,
->  				  struct msm_dp_panel *msm_dp_panel)
->  {
-> -	struct msm_dp *msm_dp_display = &dp->msm_dp_display;
-> -
-> -	if (!msm_dp_display->power_on)
-> +	if (!dp->active_stream_cnt)
->  		return 0;
->  
->  	msm_dp_panel_disable_vsc_sdp(msm_dp_panel);
->  
->  	msm_dp_ctrl_off_pixel_clk(dp->ctrl, msm_dp_panel->stream_id);
->  
-> -	msm_dp_display->power_on = false;
-> +	dp->active_stream_cnt--;
->  
->  	drm_dbg_dp(dp->drm_dev, "sink count: %d\n", dp->link->sink_count);
->  	return 0;
-> @@ -934,7 +938,7 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
->  	 * power_on status before dumping DP registers to avoid crash due
->  	 * to unclocked access
->  	 */
-> -	if (!dp->power_on)
-> +	if (!msm_dp_display->active_stream_cnt)
->  		return;
->  
->  	msm_disp_snapshot_add_block(disp_state, msm_dp_display->ahb_len,
-> @@ -1543,6 +1547,8 @@ void msm_dp_display_enable_helper(struct msm_dp *msm_dp_display, struct msm_dp_p
->  		}
->  	}
->  
-> +	dp->active_stream_cnt++;
-
-This should be a part of the 'stream_on' function. Also, which locking
-ensures that there is no concurrent modification of this var?
-
-> +
->  	drm_dbg_dp(msm_dp_display->drm_dev, "type=%d Done\n", msm_dp_display->connector_type);
->  }
->  
-> @@ -1564,6 +1570,11 @@ void msm_dp_display_disable_helper(struct msm_dp *msm_dp_display,
->  
->  	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
->  
-> +	if (!dp->active_stream_cnt) {
-> +		drm_dbg_dp(dp->drm_dev, "no active streams\n");
-> +		return;
-> +	}
-> +
->  	msm_dp_ctrl_push_idle(dp->ctrl, msm_dp_panel);
->  	msm_dp_ctrl_mst_stream_channel_slot_setup(dp->ctrl,
->  		dp->max_stream);
-> @@ -1590,6 +1601,11 @@ void msm_dp_display_unprepare(struct msm_dp *msm_dp_display)
->  		return;
->  	}
->  
-> +	if (dp->active_stream_cnt) {
-> +		drm_dbg_dp(dp->drm_dev, "stream still active, return\n");
-> +		return;
-> +	}
-> +
->  	/* dongle is still connected but sinks are disconnected */
->  	if (dp->link->sink_count == 0)
->  		msm_dp_link_psm_config(dp->link, &dp->panel->link_info, true);
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 20b7ed735b3f428e894b82ae2756d0efcfa47624..b1ea027438d952c94f3ae80725c92e46c631bdb2 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -19,7 +19,6 @@ struct msm_dp {
->  	struct drm_bridge *bridge;
->  	bool link_ready;
->  	bool audio_enabled;
-> -	bool power_on;
->  	bool prepared;
->  	bool mst_active;
->  	unsigned int connector_type;
-> @@ -64,4 +63,6 @@ void msm_dp_display_atomic_post_disable_helper(struct msm_dp *msm_dp_display,
->  
->  void msm_dp_display_unprepare(struct msm_dp *dp);
->  
-> +int msm_dp_display_get_active_stream_cnt(struct msm_dp *msm_dp_display);
-> +
->  #endif /* _DP_DISPLAY_H_ */
-> 
-> -- 
-> 2.34.1
-> 
 
 -- 
 With best wishes
