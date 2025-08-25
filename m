@@ -2,154 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3504B3495D
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 19:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6C7B3496E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 19:56:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D40410E520;
-	Mon, 25 Aug 2025 17:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFD5510E277;
+	Mon, 25 Aug 2025 17:56:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EIOIXtc8";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZmFEeEtE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2084.outbound.protection.outlook.com [40.107.93.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB28510E520;
- Mon, 25 Aug 2025 17:53:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n62sDbmIM6w8dOGZXl/XRuEIZG7h7SoU8f+5/v9lsHPAjmGcjFxfh+71o4E9hwTKaHgX9LIP7Nfpysbusv4lYwNDbjIEJU/9bqVgJHWJ8AWtiFFtdt638kBMRRAWcBc5sdjnpS1vW2ZTP4fEO5LNx8po1mFYCNWU2aFpOyy4EXxJMAezh2/LHm5xvZ+2w6O1RvwnBkWLK3++rzJXgEjKjQ1snf99yfSwzbfJITFdQtDkPjnmh6CmyzLqHs1KSFQLc2BRrzmmWKFhobnmH4B3/1vytQyAlZVWD5Y0qoBes2Xub6Z1gzVvjrUrJ1DsPj6dmASjoCzztIljQT3tdKzsBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fQQVRIv1sauuH7ud0NmUwx8tH0mSAdowIGLJwlyPF3Y=;
- b=l56Wq+fBzvHeaRNlAi0tI7zsikh7lK/7BrUTZwih9vTMIoUcq2JUjCgh8fKU9bsK/z5Zd4TQX+mxyTsqYtXuzvbK/vYHKct/qkwCEOv+iFkL1QixMNEmSwIk4z7QHo5/NnBommfeeYbmMKvFWLAKluYio1gJPpVoklo/4WIoqBXFy+usm0ylAWSUOBh/53fDjSp20ESNtLpVFbU3rSx6UuaeNWacWDMs/jfUchmr615STbdLa4xJdmseVFZH1YoCLq9vcE/P9d3ofm5mMyBdOhsaaEaWa/RNClJLfCV8EptgoHIuLSvbLHwjZ6tRMPEpga7ML6fO6kFwj5bbcxdnXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fQQVRIv1sauuH7ud0NmUwx8tH0mSAdowIGLJwlyPF3Y=;
- b=EIOIXtc8Ll9zpE4cCgLd1TpDg94UU03rG7SyVUNYpR4RvMjSleBGnuaDGY8nD+sPFMbBsMBxeuMV1kx7qqtxelMsnq0s1p7oLjbPVaTwNQQkHshCsTE2YcTSD7igYCNbP9VyieWe6giTAfDhX/Y9Bj1AU53Ap0hxBFfRPB1l2FA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by MN0PR12MB5881.namprd12.prod.outlook.com (2603:10b6:208:379::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.20; Mon, 25 Aug
- 2025 17:53:11 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9052.017; Mon, 25 Aug 2025
- 17:53:11 +0000
-Message-ID: <a411d5f9-8764-428f-9ffe-33d0fb2639e3@amd.com>
-Date: Mon, 25 Aug 2025 12:53:09 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/5] drm: panel-backlight-quirks: Convert brightness
- quirk to generic structure
-To: Antheas Kapenekakis <lkml@antheas.dev>, amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- philm@manjaro.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-References: <20250824200202.1744335-1-lkml@antheas.dev>
- <20250824200202.1744335-3-lkml@antheas.dev>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20250824200202.1744335-3-lkml@antheas.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR04CA0089.namprd04.prod.outlook.com
- (2603:10b6:806:121::34) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0164310E277
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:56:18 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PG98rw007747
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:56:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=qZbc+LiP+W9ZiZBK8FOlQwQv
+ CJhWGeKmTwDpg9afkms=; b=ZmFEeEtEHL9QS8O5lYBbwW//3Z5kDSkVvUidjwnA
+ HwAmWqM8lPuO7Ay82PqQAFq15BFH8p/Pe8T14QetYMWeaLbe8DuuVGmXRajltWsL
+ JU917ZPjSDacM02Xkn3wDusb3Xfvj+RC+BvbsX7IKID0RW6TximIPBRm8zNamL1L
+ aagz01YHUsC19EXqbfSOK0dbiq4QUQEGM3lImG76Igt79hfAhve8NKtWih8Wch8d
+ fNFh1JTJVIlcbC/tLRg62UDkBLtATeuikNmAp2aHyLdqNKqxbYGt6SxsNBFjzcWJ
+ Hua46ytpuNScg/PpNmFK/Laj4jnB0w6UZqO5x0meY/xX8A==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5xfe0t8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:56:18 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4b0faa8d615so148364131cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 10:56:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756144577; x=1756749377;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qZbc+LiP+W9ZiZBK8FOlQwQvCJhWGeKmTwDpg9afkms=;
+ b=fDJEP7NQtAUcjgq+xzwiTUTHbWPhb+d8+6z+iLTlEhTWW7JUM+CfwsJfrsAUbuQCbw
+ j5J/JYkq/33cyoNQX3SFUkvcLcsRqeSjw5DOVkDEzzHrlc9tKeijT6HS3h9IGoUCZwXf
+ 6uOi2oXkYFoBzvMGqMneZeeUUh+izJNoRWpI6kRlo4WO8C4iC6Q64EK3IuUNbB//t2WP
+ iDXGtpneeyUHmLEoLa8SN77gQEKzNr4osjryinvcokMoCLjunZSwqjA9GNh3s05SUclD
+ b8KNKhbtYI3zlIgb/5rcJzeoFxM2omHufoq1OiUDgl5eXL9umsY60Fkh577+PMEaF8P+
+ pjhw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCULnMzsxrzvQgNlcIXoyc8yDg6gpMJskPGAi1FePtLp6+5zwLAx43Z0sfjBUXQBdYJEyqZrIxeyu/Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyfK6CA9VVB1xwZEuKzigXp7M9BgdEfySaPMRKDgIiP4htNM0fj
+ EOIoecsgGSZkArEjh1WWdolMMbogSfDSvc+w3nfrYid0tt/ka5HLIUoloISMHvqnHG3wpZ8pnS7
+ aZVDktmuvhxmJItTiyfZSWjvyDVhMBrb7uwgfjOKGRu1qFuatPDOT3IjX/NmjzuCRgHThlrQ=
+X-Gm-Gg: ASbGnct3XahBPCeKxXyb4XoPp7443fzm3cy7VUM8tRUA1jSDs3pyzBdH69Zi5RV02LN
+ om9eSCnM1LlSZUuWsC6M+2Vcv/O957uk3cebyqnHbGLSc35Nu9OCWWy1vtiaNymEXQyAa1b/nOC
+ G4Jpi8mOztb3KEFTNpBrm4e0Wf35UbZGsnUtAFhT1dKrtgy1s/ZT04mT9Y766yvaZAjwCQ/VAHG
+ SBWKUzQflAMSXd07iEym5MXKsza1R3TJP+JOYhlnO8gfshDGOJTKSF2ogU6lX//oiq5ZzaXim6p
+ cdIh5D8oQ6dpt1wQhEQpuQvLZ0hUQ9eu+hbT0l5cxDaLpZGWzM28TWXfK4xQUA5/trTrdT5J7sE
+ 2JgxCK4LD0wyQ8Mgcj+Qtb2GIyQ7lFKwIQQC8ITxUmjsEsAVWbIA1
+X-Received: by 2002:ac8:7c48:0:b0:4b2:9883:830d with SMTP id
+ d75a77b69052e-4b2e0845a60mr7129871cf.0.1756144576987; 
+ Mon, 25 Aug 2025 10:56:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFe/SOgbCIAs7eJLZOpHwdby9mGDyCQ7MxuYmguN5qUnjk/bn2DIS68PMx9r4sIAT4GiA9z/w==
+X-Received: by 2002:ac8:7c48:0:b0:4b2:9883:830d with SMTP id
+ d75a77b69052e-4b2e0845a60mr7129441cf.0.1756144576374; 
+ Mon, 25 Aug 2025 10:56:16 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55f43351382sm971641e87.124.2025.08.25.10.56.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Aug 2025 10:56:15 -0700 (PDT)
+Date: Mon, 25 Aug 2025 20:56:14 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v3 13/38] drm/msm/dp: introduce stream_id for each DP panel
+Message-ID: <wvctskhoyphicaymbm5b6kermvubhrn5u6uzui3pqf7p3a7ia2@zirqohupflvp>
+References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
+ <20250825-msm-dp-mst-v3-13-01faacfcdedd@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|MN0PR12MB5881:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1023182b-8bf9-40c3-ffb5-08dde400420f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NjVickpaYVFlZnJTT2RhVWUzRjRFYXE1TjdPL243YVlNMDdNL0FXYW5ta25p?=
- =?utf-8?B?eTlWemxad2ZBZWhhZVc3a2Z1Z3V4bW1yb2N0bmEyTDhsR0JFWG1OZWhIc3pC?=
- =?utf-8?B?NkxJSHd6L0c4WkhPUHpld29tK2VMZ1lMLzgxVlp0aFlidSsrZHVrTU5RZnFP?=
- =?utf-8?B?U0ZDUU80MGRqbGE1eUdqakhzb0xGUks5cEhxczJtSWNLbW5ESmNNbEtOc3dR?=
- =?utf-8?B?SjBrRFJkNGtMMmRkb3l0TnM4OVFZN0VUekI0anQ5RHkxWW91S2JJOGhhb29Z?=
- =?utf-8?B?R1V6TytsRENMbXhUOTlsMXlKMS82N082dXg4SDdBWExIakVSNFJpR3RBT0gz?=
- =?utf-8?B?YkJMeWYwSzhrS0MxQ2NKZURydEtOV2x4UmcvOUlEQWhDd1V4VkJUekNaVnVj?=
- =?utf-8?B?b2VlSExCaHlQV2w2ZTdEOHQ4Qm9Jbm45ZG5NcjEwKzZFOFJBNERwdXBxcTFG?=
- =?utf-8?B?MjhtNnhEK1RDWnJkYUo4Zkd4OGVvT2YzOFo5cmprUk5hZmZ6d3B3b2pDYzk2?=
- =?utf-8?B?bm9uaXVwUnUyU09oQlBiYTYwckViaUFaSnZyL3E2U054M3Y3bzR6QXd6Y2ZX?=
- =?utf-8?B?clczZkQyZkxlaXJuNi9qd2M1Si95Yk9jcjNvajFiQmZRelJTa0lSR05HdERS?=
- =?utf-8?B?MkFOeUdna2YwYVdHZ2ZIN0w0VUpjZk5Hak8yR3A1Wnl3Q1MwdCtxMXZIMC9j?=
- =?utf-8?B?MTBabk9EN05TcDhsbDJkK1dOMytKZlNTa0dYTUxXcVdqL3c0aDVFbDRJZkp4?=
- =?utf-8?B?cmVTMTJod05pWFltbmhHRVRZbHhuOXhSRXBzbUtEMnBOcmc1MUJFN1FCSHVJ?=
- =?utf-8?B?TjRIaXNzSnRIcncxUVZjNnlxOFRPczI2ZXhoWXNrYkJTdEYvekY4L1piWTFL?=
- =?utf-8?B?N0dzRWw0Wm1oY2gvVnloT1lCcDBiT1JvRkxYRTA4OGU5YlJoM1lNeVZLMFBB?=
- =?utf-8?B?V1YvVGg0VHdUVHJFL01rNm01d2lIYUMrd2E3UFpYeVpkc2RraEVIMlh1NVZu?=
- =?utf-8?B?WjFnTlJtcUdGT3VlekNGNFlMcm5OdWFyTU1lR2pRazZWNVE4dlcyZUZxVUZK?=
- =?utf-8?B?MEpPMlNUT3ZkRE5ZNGhxekQ5WVp4VDFlbU9FUEtVejJ0cmFYQmI4SWxCbVVj?=
- =?utf-8?B?K2VWVEszTExJQURnZUd6THdXT0ZRcVVvYnhGc215eHUwaG9mZFZqb1VheFli?=
- =?utf-8?B?bnJ1UE5QQktoakdBTGovMk9nbXJsZ3EvdGRiRUYrV2U4ZUpZZTNTTEVxTDZV?=
- =?utf-8?B?QXNSV3BFVVdIS0ZlMlhIVkJoM2pIYTdETzBuWlJHRE1JYVdVMWhoQUxISEhX?=
- =?utf-8?B?ODFNeWZObklYc1crcnI0b0R3bVBxNFZxcVVoL3RMQXRzb0lrMEkvcmtsN0VK?=
- =?utf-8?B?TDA3V01kL0U5V3MrYTBvR0JaSlVPMDFIdytkLzQrRThUemR4UjNnbW95K1VR?=
- =?utf-8?B?QlAvQWhLS1BlWjg1UEYwYm45VS9Ka0QyUEx4QVZPOW5Ha2tRYjJ6aXdlNkd0?=
- =?utf-8?B?YjVDcW1KZDIveU5sbk51QkhjV1pNSHFwSFE2djU5bjl3OGkzbGcweEdRbW5S?=
- =?utf-8?B?bTBCVWxwL3VmYnJqYk5ucnlmQ1VFTjFubVpuMHdPVHRmYysxZEI0TDlQMXp3?=
- =?utf-8?B?bmRIY3BzSWZyTmNmYW1ENzVxUnRYMkdrb0hiWHMrNmMvVzhJS0hEcTZ1ZHU2?=
- =?utf-8?B?b1lHNVpzRnkvbXN3WXhJUFZNUkVjRlZFVit6MVE1WGx0Q0R3UXlXRzVXaUNl?=
- =?utf-8?B?aWY2OFFpbklTRkEzYXlnZzk1WTRtc0doK05XUFlwTGMra1Z4RE9hWnZKYXNi?=
- =?utf-8?B?M3VIdS9mZHU3U1hWSG9SRUU4Y2NlcWtiRktvelNGcnhvRDFMb2ttTGptRkNx?=
- =?utf-8?B?Z3o1ZVJiRXpMWmxZWU1jY2FESVVhdTBkSmpDUWlYdWpNclphZkxLUU1nOFgw?=
- =?utf-8?Q?FQv+K1JOtVA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlhHNnh6bEhtWXZFVzVrOVZFd1plQ20vQ2V4TkExRnVvMGxZS2VONjNYamtt?=
- =?utf-8?B?eVdTMXZaWkdZeUs5TjZNN1lEY3V0WTFlMHV6ZUJvQTZaSEhDMW96OVFxTWJW?=
- =?utf-8?B?MmNJK0dFbHZ5eGNaU2V2bnhIWTBCRHVQUjM2WG56RzZJbnhsamV6ZnFKa2ZL?=
- =?utf-8?B?aEFwSURPM1BBQU9qUzA5VXdBYzNUQTFsSXdxeGhWZ2wydmx6ODJadnNXT2Q2?=
- =?utf-8?B?VW10bVF5bTlxbWpDVUh2elJraHNkYUd3TlhJNVFhR1RVRko1RlFJS3FEcExl?=
- =?utf-8?B?WU1YTWZzSjN0RTc2OHRabE9EVnpTSXRGb3dXUDlJQnRYZTJHTHJkTFpPVDhU?=
- =?utf-8?B?THlSSW1XRWJvWU52VC9uOEE0dnl5RllJbjRSTURYWXBCODhQUGNKcnlRb0JY?=
- =?utf-8?B?aWVFQmw0TE9KSHgySUtDbnlISU1xd2dRZjNYTlFmRGlidENFZVErd3JTTzRw?=
- =?utf-8?B?MkJGWlNwZmFmNTdDYTMyS3NIa29XbjlLWEZiMjk4RGZJd2tWbkEzU2JKQmU0?=
- =?utf-8?B?NTQ1eDA3NFVHTGt4ZzVuTEVyZXRsYzNyRXVGL0tGK1I3Y0Q1V1laMnZRVGU4?=
- =?utf-8?B?WTIrTkV1K1l0UDFCMks5WnJia1BBV3lSSGMvdFR5ZUxxYWJ4ZDNJZkdrcGtY?=
- =?utf-8?B?VjFleEQyT0lSaE00VXlyQm1JMXFLT09zN0xHOTZORmZmckdPbnlRU3lsNUJK?=
- =?utf-8?B?QVZ4aFNaWTh0V1ZCZVNsTFYwTHA1SFBNN05QV2Qra09KeWJ6dWVFZkVxakRM?=
- =?utf-8?B?aUFjcGdoVkVCUnZEZDJWeDVJMEZhZkk4cmpDVVNHanVNaWFVKzVoZWFPUDJV?=
- =?utf-8?B?dUpNaThoVXZ4YldpcFU0N0wwN054dzkwNkFMN1BrL1pHM2haSEVJOVNLbGVU?=
- =?utf-8?B?VWMwYS9pMXM2RGpVVlJORlF4VGRLeXVjZC85cnM0R3JmWmY3RXo1ckJJMjVh?=
- =?utf-8?B?dHI3MlZtQ3NCWkM5RVl0Q3NLVzJXMWJrakxkSTQwbEdGUDhNaVhHMkQ0Tm1V?=
- =?utf-8?B?V2RFVDVDZVlUSDdzRHBVKzFnR0JTcW0zN3lqRHk2eC91KzdvUGZ4UTRMVHBN?=
- =?utf-8?B?VHB3aE1WRzNUZTNMNmVjdVpBTVJwVU9pMlZJY1d1UWRXRkgxSXFpb2ltZUxi?=
- =?utf-8?B?RXVlclNLYnZub0VXZmxadkdyQ3RaS2NuaWNmWXNwZm53NmtPWENPZXVPaHlI?=
- =?utf-8?B?eDhwVGtmVVRQeW0wd3lNTzROUys4SktkemhEbjVFanE1aTR0U2JhOWliQ3Iz?=
- =?utf-8?B?cjJYVVhRTERWck1lTlhXOW1DT1ZlOWtOckRMamxPR1N1ekIrVzQyMkZNZnE4?=
- =?utf-8?B?Y1BUc2FqSVhUM0MyV3R1L21BRFJXOHpFUXlxcU05TmZQdlo5d1F5Q3NTMjJw?=
- =?utf-8?B?MERseG1FODlXM25BYmplNDhWVHV1QmlhVjh0QXFZdTBtUnR0Y08ydFVrR3Ez?=
- =?utf-8?B?WjJQc2hFb3N1VDJ1TnB0UkdnR2RaV085UEh0MWVaL2RHMnFkNUVwK242a2pX?=
- =?utf-8?B?K0JUK295d25lS1AyRHdXZUhoOWd4NjcrWGRvWGFaaTJCdFpYZGZ4WW1xNW9v?=
- =?utf-8?B?eEw2VG83YmFhbk53czNNMk5CZ2dFS1JHMWpCMTkvNzBNTnNhU3BGZGE3ZlJB?=
- =?utf-8?B?TVNjWnRVbkZrOHU0Q3ZGQWFTZTZRUjBDVEUwSGtIUUdzK1RYQ0FpV0ZjcnNa?=
- =?utf-8?B?OGVQbmNlU1NEb1dUQWNjSXpOOU1wblA4bENIaGtGZFZYVEpBZk1pY3NCcmY2?=
- =?utf-8?B?WVNKVVZtRUVlVXhpaUJsaFBKNjJ5d1duOTFtekF2di9PQnJuSzB5MXEzQWV1?=
- =?utf-8?B?QUhObTkvQjlmVWozejltdmIyUjU3R0d5UmxCRlhBVnpnSHF4SFVZc2ZvSEZI?=
- =?utf-8?B?bU5tZUo0L3dYY2pXcHVVUDlzSTV0b0hpSDZDT2l5ZWhIMS9WV2dHMHVlRWJE?=
- =?utf-8?B?NTQ5R1FldHpKOE1MRlhEUWFpUU5kSzhjRUs3LzhqaFQ1cTh0SVpObGhSQUhk?=
- =?utf-8?B?bGtnTTZwS05tdyt3QU1GSG5EU1JrNi9CWVJoLyt1WjBWcUIwRUtoa01ia3hu?=
- =?utf-8?B?Tm5LUTVBZ0lsSVVBT1cySHI3d1NkVElvMW9hd2lTYkZhWkpEQTRuZ2VFWUk0?=
- =?utf-8?Q?dW1Zmpf6tT62fp5zwSlvSxckC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1023182b-8bf9-40c3-ffb5-08dde400420f
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 17:53:11.7500 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: shtyN6U3xWfYay71/6DpacQGP5G2m7CmC0aa43XPKCMOPp5hKYkdknKiyEDOPrLk3TDqK3eX/merEQpwpdzR5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5881
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250825-msm-dp-mst-v3-13-01faacfcdedd@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfXzAkOG5mFBoQu
+ edTauzaJo4WUdujGjwyFZK3EWQFgIWIIaW+Jez9B0fULZ8stuyeClMbWbDdK775Wft3uquX4vUa
+ bM72XlwueZE8BxWDwZ+m2mVayI4Or7nEOQJHSfwNUWKsVtdNZaE97/SdZgGgRvQ6XpVhMBeDz0z
+ BAboUWSa2iGDspJ9EPVN0XvGMipVOBr3wcuPuf0vQRO1+4xQ5H5TPVQ4U2875lim5yfvO8ADpmm
+ KXt/mDx+hzpVrwxujzHrytWK+Dz8UZE4S4PUsK64DochoURXeaZMB+mETwLHDJs8Ma979Iw75kf
+ pnH3pDbjquiNb2k12Q0VlhvX6/ViIQRgEGsusoi1KCxXnZWIP+UdQ1L19ABEDQFcKd0txu+FK5P
+ xnqnOSgu
+X-Proofpoint-GUID: LD6U3ozjMW15YPnG_T-k86UZwAAoPO1V
+X-Authority-Analysis: v=2.4 cv=MutS63ae c=1 sm=1 tr=0 ts=68aca3c2 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=esdiVXI3waKZDF_2LzQA:9
+ a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: LD6U3ozjMW15YPnG_T-k86UZwAAoPO1V
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-25_08,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 adultscore=0 spamscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,201 +130,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/24/2025 3:01 PM, Antheas Kapenekakis wrote:
-> Currently, the brightness quirk is limited to minimum brightness only.
-> Refactor it to a structure, so that more quirks can be added in the
-> future. Reserve 0 value for "no quirk", and use u16 to allow minimum
-> brightness up to 255.
+On Mon, Aug 25, 2025 at 10:15:59PM +0800, Yongxing Mou wrote:
+> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > 
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
-
-'Conceptually' this idea makes sense to me if we do end up having a need 
-for new types of quirks besides minimum brightness.
-
+> With MST, each DP controller can handle multiple streams.
+> There shall be one dp_panel for each stream but the dp_display
+> object shall be shared among them. To represent this abstraction,
+> create a stream_id for each DP panel which shall be set by the
+> MST stream. For SST, default this to stream 0.
+> 
+> Use the stream ID to control the pixel clock of that respective
+> stream by extending the clock handles and state tracking of the
+> DP pixel clock to an array of max supported streams. The maximum
+> streams currently is 4.
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 > ---
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 12 ++++--
->   .../link/protocols/link_edp_panel_control.c   |  2 +-
->   drivers/gpu/drm/drm_panel_backlight_quirks.c  | 41 ++++++++++---------
->   include/drm/drm_utils.h                       |  7 +++-
->   4 files changed, 36 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index cd0e2976e268..4ad80ae615a2 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -3612,11 +3612,11 @@ static struct drm_mode_config_helper_funcs amdgpu_dm_mode_config_helperfuncs = {
->   
->   static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
->   {
-> +	const struct drm_panel_backlight_quirk *panel_backlight_quirk;
->   	struct amdgpu_dm_backlight_caps *caps;
->   	struct drm_connector *conn_base;
->   	struct amdgpu_device *adev;
->   	struct drm_luminance_range_info *luminance_range;
-> -	int min_input_signal_override;
->   
->   	if (aconnector->bl_idx == -1 ||
->   	    aconnector->dc_link->connector_signal != SIGNAL_TYPE_EDP)
-> @@ -3656,9 +3656,13 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
->   	else
->   		caps->aux_min_input_signal = 1;
->   
-> -	min_input_signal_override = drm_get_panel_min_brightness_quirk(aconnector->drm_edid);
-> -	if (min_input_signal_override >= 0)
-> -		caps->min_input_signal = min_input_signal_override;
-> +	panel_backlight_quirk =
-> +		drm_get_panel_backlight_quirk(aconnector->drm_edid);
-> +	if (!IS_ERR_OR_NULL(panel_backlight_quirk)) {
-> +		if (panel_backlight_quirk->min_brightness)
-> +			caps->min_input_signal =
-> +				panel_backlight_quirk->min_brightness - 1;
-> +	}
->   }
->   
->   DEFINE_FREE(sink_release, struct dc_sink *, if (_T) dc_sink_release(_T))
-> diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
-> index e7927b8f5ba3..a1f37267b85e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
-> +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_edp_panel_control.c
-> @@ -201,7 +201,7 @@ bool edp_set_backlight_level_nits(struct dc_link *link,
->   			return false;
->   	} else if (link->backlight_control_type == BACKLIGHT_CONTROL_AMD_AUX) {
->   		struct dpcd_source_backlight_set dpcd_backlight_set;
-> -		*(uint32_t *)&dpcd_backlight_set.backlight_level_millinits = backlight_millinits;
-> +		*(uint32_t *)&dpcd_backlight_set.backlight_level_millinits = backlight_millinits | 3;
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 58 ++++++++++++++++++++++---------------
+>  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  3 +-
+>  drivers/gpu/drm/msm/dp/dp_display.c | 27 +++++++++++++++--
+>  drivers/gpu/drm/msm/dp/dp_display.h |  2 ++
+>  drivers/gpu/drm/msm/dp/dp_panel.h   | 11 +++++++
+>  5 files changed, 73 insertions(+), 28 deletions(-)
 
-This seems like a spurious change that was perhaps meant to be tied to a 
-new conceptual quirk.
+> @@ -2677,10 +2675,11 @@ static const char *ctrl_clks[] = {
+>  	"ctrl_link_iface",
+>  };
+>  
+> -static int msm_dp_ctrl_clk_init(struct msm_dp_ctrl *msm_dp_ctrl)
+> +static int msm_dp_ctrl_clk_init(struct msm_dp_ctrl *msm_dp_ctrl, int max_stream)
+>  {
+>  	struct msm_dp_ctrl_private *ctrl;
+>  	struct device *dev;
+> +	char stream_id_str[15];
 
->   		*(uint16_t *)&dpcd_backlight_set.backlight_transition_time_ms = (uint16_t)transition_time_in_ms;
->   
->   		uint8_t backlight_control = isHDR ? 1 : 0;
-> diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
-> index b38b33e26ea5..702726c20ccc 100644
-> --- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
-> @@ -8,23 +8,23 @@
->   #include <drm/drm_edid.h>
->   #include <drm/drm_utils.h>
->   
-> -struct drm_panel_min_backlight_quirk {
-> +struct drm_get_panel_backlight_quirk {
->   	struct {
->   		enum dmi_field field;
->   		const char * const value;
->   	} dmi_match;
->   	struct drm_edid_ident ident;
-> -	u8 min_brightness;
-> +	struct drm_panel_backlight_quirk quirk;
->   };
->   
-> -static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks[] = {
-> +static const struct drm_get_panel_backlight_quirk drm_panel_min_backlight_quirks[] = {
->   	/* 13 inch matte panel */
->   	{
->   		.dmi_match.field = DMI_BOARD_VENDOR,
->   		.dmi_match.value = "Framework",
->   		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x0bca),
->   		.ident.name = "NE135FBM-N41",
-> -		.min_brightness = 0,
-> +		.quirk = { .min_brightness = 1, },
->   	},
->   	/* 13 inch glossy panel */
->   	{
-> @@ -32,7 +32,7 @@ static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks
->   		.dmi_match.value = "Framework",
->   		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x095f),
->   		.ident.name = "NE135FBM-N41",
-> -		.min_brightness = 0,
-> +		.quirk = { .min_brightness = 1, },
->   	},
->   	/* 13 inch 2.8k panel */
->   	{
-> @@ -40,12 +40,13 @@ static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks
->   		.dmi_match.value = "Framework",
->   		.ident.panel_id = drm_edid_encode_panel_id('B', 'O', 'E', 0x0cb4),
->   		.ident.name = "NE135A1M-NY1",
-> -		.min_brightness = 0,
-> +		.quirk = { .min_brightness = 1, },
->   	},
->   };
->   
-> -static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel_min_backlight_quirk *quirk,
-> -						  const struct drm_edid *edid)
-> +static bool drm_panel_min_backlight_quirk_matches(
-> +	const struct drm_get_panel_backlight_quirk *quirk,
-> +	const struct drm_edid *edid)
->   {
->   	if (!dmi_match(quirk->dmi_match.field, quirk->dmi_match.value))
->   		return false;
-> @@ -57,39 +58,39 @@ static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel_min_bac
->   }
->   
->   /**
-> - * drm_get_panel_min_brightness_quirk - Get minimum supported brightness level for a panel.
-> + * drm_get_panel_backlight_quirk - Get backlight quirks for a panel
->    * @edid: EDID of the panel to check
->    *
->    * This function checks for platform specific (e.g. DMI based) quirks
->    * providing info on the minimum backlight brightness for systems where this
-> - * cannot be probed correctly from the hard-/firm-ware.
-> + * cannot be probed correctly from the hard-/firm-ware and other sources.
->    *
->    * Returns:
-> - * A negative error value or
-> - * an override value in the range [0, 255] representing 0-100% to be scaled to
-> - * the drivers target range.
-> + * a drm_panel_backlight_quirk struct if a quirk was found, otherwise an
-> + * error pointer.
->    */
-> -int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid)
-> +const struct drm_panel_backlight_quirk *
-> +drm_get_panel_backlight_quirk(const struct drm_edid *edid)
->   {
-> -	const struct drm_panel_min_backlight_quirk *quirk;
-> +	const struct drm_get_panel_backlight_quirk *quirk;
->   	size_t i;
->   
->   	if (!IS_ENABLED(CONFIG_DMI))
-> -		return -ENODATA;
-> +		return ERR_PTR(-ENODATA);
->   
->   	if (!edid)
-> -		return -EINVAL;
-> +		return ERR_PTR(-EINVAL);
->   
->   	for (i = 0; i < ARRAY_SIZE(drm_panel_min_backlight_quirks); i++) {
->   		quirk = &drm_panel_min_backlight_quirks[i];
->   
->   		if (drm_panel_min_backlight_quirk_matches(quirk, edid))
-> -			return quirk->min_brightness;
-> +			return &quirk->quirk;
->   	}
->   
-> -	return -ENODATA;
-> +	return ERR_PTR(-ENODATA);
->   }
-> -EXPORT_SYMBOL(drm_get_panel_min_brightness_quirk);
-> +EXPORT_SYMBOL(drm_get_panel_backlight_quirk);
->   
->   MODULE_DESCRIPTION("Quirks for panel backlight overrides");
->   MODULE_LICENSE("GPL");
-> diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
-> index 15fa9b6865f4..82eeee4a58ab 100644
-> --- a/include/drm/drm_utils.h
-> +++ b/include/drm/drm_utils.h
-> @@ -16,7 +16,12 @@ struct drm_edid;
->   
->   int drm_get_panel_orientation_quirk(int width, int height);
->   
-> -int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid);
-> +struct drm_panel_backlight_quirk {
-> +	u16 min_brightness;
-> +};
+A comment would be nice. Or better replace this with the array lookup,
+it's much easier than snprintf.
+
+>  	int i, rc;
+>  
+>  	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
+> @@ -2710,9 +2709,19 @@ static int msm_dp_ctrl_clk_init(struct msm_dp_ctrl *msm_dp_ctrl)
+>  	if (rc)
+>  		return rc;
+>  
+> -	ctrl->pixel_clk = devm_clk_get(dev, "stream_pixel");
+> -	if (IS_ERR(ctrl->pixel_clk))
+> -		return PTR_ERR(ctrl->pixel_clk);
+> +	ctrl->pixel_clk[DP_STREAM_0] = devm_clk_get(dev, "stream_pixel");
+> +	if (IS_ERR(ctrl->pixel_clk[DP_STREAM_0]))
+> +		return PTR_ERR(ctrl->pixel_clk[DP_STREAM_0]);
 > +
-> +const struct drm_panel_backlight_quirk *
-> +drm_get_panel_backlight_quirk(const struct drm_edid *edid);
->   
->   signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec);
->   
+> +	for (i = DP_STREAM_1; i < max_stream; i++) {
+> +		sprintf(stream_id_str, "stream_%d_pixel", i);
+> +		ctrl->pixel_clk[i] = devm_clk_get(dev, stream_id_str);
+> +
+> +		if (IS_ERR(ctrl->pixel_clk[i])) {
+> +			DRM_DEBUG_DP("failed to get stream %d pixel clock", i);
+> +			break;
+> +		}
+> +	}
+>  
+>  	return 0;
+>  }
 
+-- 
+With best wishes
+Dmitry
