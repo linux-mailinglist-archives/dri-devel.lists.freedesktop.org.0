@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B10B34F8A
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 01:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39CDB355EB
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 09:42:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F7D710E552;
-	Mon, 25 Aug 2025 23:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6D410E5CB;
+	Tue, 26 Aug 2025 07:42:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jTeaM5Bc";
+	dkim=pass (2048-bit key; unprotected) header.d=weathered-steel.dev header.i=@weathered-steel.dev header.b="Kw7HvHkO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83CA210E29A
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 23:09:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Nnh+tYasjpEYXm0dFo97VikjuNiOaiJxZq0BGwK1Pw8=; b=jTeaM5BcBy6DW5siBNLgo20b0D
- IEshhvyvBPaTGhD8cqXpldTqg1Tn94PjPolMTyhSQFhyOhrUSIKLS8I/WVBQjzYPfZaxZwGl08gNM
- umyzXbXOOHpm6sXAAuLbbuI5Nw9jyMo9XBP817tKVsjSoqOV0PsFah7dGPOBqesrFSE73ULKPUq3g
- J28jEkciUb3svGOsJsu6oX+gduiAM2GgN6dnAUHjxJzjjkpU7KMqQ4yQCiV/xQB9bg7H7WPjoRHit
- XV2lioXEbR39mORNfRuh9XNlhjkQs9sLbPDqMpGg00ZFPrgPzTw53ZCJTSQnvwNc4dfbZAVUhTXIw
- wNP9TdcA==;
-Received: from [189.6.13.79] (helo=[192.168.31.42])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uqgJh-001dij-KM; Tue, 26 Aug 2025 01:09:33 +0200
-Message-ID: <87ed91ca-81bc-4131-80e3-ac78715578bc@igalia.com>
-Date: Mon, 25 Aug 2025 20:09:26 -0300
+Received: from mail-4327.protonmail.ch (mail-4327.protonmail.ch [185.70.43.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E56AB10E5A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 23:20:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weathered-steel.dev;
+ s=protonmail3; t=1756164027; x=1756423227;
+ bh=dbfxHDr+4prCVmBev/sJiog2Lc66l2bjBKk57p6NvnI=;
+ h=Date:From:To:Cc:Subject:Message-ID:References:In-Reply-To:From:To:
+ Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=Kw7HvHkOW/t/7aBcbbaxEWgJIAosTbK9FiF/6CDyQESX2BXBlTRAFBUsx8tZMfYAr
+ db6I272BNYVLGhyhLUyUt86/sxo7RmXvwpjm8C+Jjkr6JyInW0/IQOAJVfpeF90Zzj
+ 5+nWo4hHFKRADJMvcZTjlkhAKamuNUw58vSUs7fVOJwNUZ+ypNoX6ybtgrOTqt75Yx
+ yea2VWK69D3FhqUjpwyABmkcfz2XUDQq1VoKse3WnJus3t53cG1bvF/aEuAhTVNkiR
+ BfCPH2IfwZzREM40vUa2Qc7C0DylCv6VtERKOBfbExqguu0BHpwvtB36zuKpOjPWJ6
+ 8cI9ZlrrjiWNA==
+X-Pm-Submission-Id: 4c9mx60wYnz1DDLJ
+Date: Mon, 25 Aug 2025 23:20:22 +0000
+From: Elle Rhumsaa <elle@weathered-steel.dev>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 1/2] nova-core: Add a library for bitfields in Rust structs
+Message-ID: <aKzvpFf9PkTHYNet@archiso>
+References: <20250824135954.2243774-1-joelagnelf@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] drm/v3d: Address race-condition between per-fd GPU
- stats and fd release
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Iago Toral Quiroga <itoral@igalia.com>,
- Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20250815-v3d-queue-lock-v2-0-ce37258ffb53@igalia.com>
- <20250815-v3d-queue-lock-v2-4-ce37258ffb53@igalia.com>
- <8cf9cd49-b4e5-4cd9-b4db-9bb81fdf6b0b@igalia.com>
- <8a5ecf46-897e-48ea-92c2-927980ddff0b@igalia.com>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <8a5ecf46-897e-48ea-92c2-927980ddff0b@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250824135954.2243774-1-joelagnelf@nvidia.com>
+X-Mailman-Approved-At: Tue, 26 Aug 2025 07:42:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,182 +65,191 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Aug 24, 2025 at 09:59:52AM -0400, Joel Fernandes wrote:
+> Add a minimal bitfield library for defining in Rust structures (called
+> bitstruct), similar in concept to bit fields in C structs. This will be used
+> for defining page table entries and other structures in nova-core.
+> 
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/bitstruct.rs | 149 +++++++++++++++++++++++++++++
+>  drivers/gpu/nova-core/nova_core.rs |   1 +
+>  2 files changed, 150 insertions(+)
+>  create mode 100644 drivers/gpu/nova-core/bitstruct.rs
+> 
+> diff --git a/drivers/gpu/nova-core/bitstruct.rs b/drivers/gpu/nova-core/bitstruct.rs
+> new file mode 100644
+> index 000000000000..661a75da0a9c
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/bitstruct.rs
+> @@ -0,0 +1,149 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// bitstruct.rs — C-style library for bitfield-packed Rust structures
+> +//
+> +// A library that provides support for defining bit fields in Rust
+> +// structures to circumvent lack of native language support for this.
+> +//
+> +// Similar usage syntax to the register! macro.
+> +
+> +use kernel::prelude::*;
+> +
+> +/// Macro for defining bitfield-packed structures in Rust.
+> +/// The size of the underlying storage type is specified with #[repr(TYPE)].
+> +///
+> +/// # Example (just for illustration)
+> +/// ```rust
+> +/// bitstruct! {
+> +///     #[repr(u64)]
+> +///     pub struct PageTableEntry {
+> +///         0:0       present     as bool,
+> +///         1:1       writable    as bool,
+> +///         11:9      available   as u8,
+> +///         51:12     pfn         as u64,
+> +///         62:52     available2  as u16,
+> +///         63:63     nx          as bool,
+> +///     }
+> +/// }
+> +/// ```
+> +///
+> +/// This generates a struct with methods:
+> +/// - Constructor: `default()` sets all bits to zero.
+> +/// - Field accessors: `present()`, `pfn()`, etc.
+> +/// - Field setters: `set_present()`, `set_pfn()`, etc.
+> +/// - Builder methods: `with_present()`, `with_pfn()`, etc.
+> +/// - Raw conversion: `from_raw()`, `into_raw()`
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct {
+> +    (
+> +        #[repr($storage:ty)]
+> +        $vis:vis struct $name:ident {
+> +            $(
+> +                $hi:literal : $lo:literal $field:ident as $field_type:tt
+> +            ),* $(,)?
+> +        }
+> +    ) => {
+> +        #[repr(transparent)]
+> +        #[derive(Copy, Clone, Default)]
+> +        $vis struct $name($storage);
+> +
+> +        impl $name {
+> +            /// Create from raw value
+> +            #[inline(always)]
+> +            $vis const fn from_raw(val: $storage) -> Self {
+> +                Self(val)
+> +            }
+> +
+> +            /// Get raw value
+> +            #[inline(always)]
+> +            $vis const fn into_raw(self) -> $storage {
+> +                self.0
+> +            }
+> +        }
+> +
+> +        impl core::fmt::Debug for $name {
+> +            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+> +                write!(f, "{}({:#x})", stringify!($name), self.0)
+> +            }
+> +        }
+> +
+> +        // Generate all field methods
+> +        $(
+> +            bitstruct_field_impl!($vis, $name, $storage, $hi, $lo, $field as $field_type);
+> +        )*
+> +    };
+> +}
+> +
+> +/// Helper to calculate mask for bit fields
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_mask {
+> +    ($hi:literal, $lo:literal, $storage:ty) => {{
+> +        let width = ($hi - $lo + 1) as usize;
+> +        let storage_bits = 8 * core::mem::size_of::<$storage>();
+> +        if width >= storage_bits {
+> +            <$storage>::MAX
+> +        } else {
+> +            ((1 as $storage) << width) - 1
+> +        }
+> +    }};
+> +}
+> +
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_field_impl {
+> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, $lo:literal, $field:ident as $field_type:tt) => {
+> +        impl $struct_name {
+> +            #[inline(always)]
+> +            $vis const fn $field(&self) -> $field_type {
+> +                let field_val = (self.0 >> $lo) & bitstruct_mask!($hi, $lo, $storage);
+> +                bitstruct_cast_value!(field_val, $field_type)
+> +            }
+> +        }
+> +        bitstruct_make_setters!($vis, $struct_name, $storage, $hi, $lo, $field, $field_type);
+> +    };
+> +}
+> +
+> +/// Helper macro to convert extracted value to target type
+> +///
+> +/// Special handling for bool types is required because the `as` keyword
+> +/// cannot be used to convert to bool in Rust. For bool fields, we check
+> +/// if the extracted value is non-zero. For all other types, we use the
+> +/// standard `as` conversion.
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_cast_value {
+> +    ($field_val:expr, bool) => {
+> +        $field_val != 0
+> +    };
+> +    ($field_val:expr, $field_type:tt) => {
+> +        $field_val as $field_type
+> +    };
+> +}
+> +
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_write_bits {
+> +    ($raw:expr, $hi:literal, $lo:literal, $val:expr, $storage:ty) => {{
+> +        let mask = bitstruct_mask!($hi, $lo, $storage);
+> +        ($raw & !(mask << $lo)) | ((($val as $storage) & mask) << $lo)
+> +    }};
+> +}
+> +
+> +#[allow(unused_macros)]
+> +macro_rules! bitstruct_make_setters {
+> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, $lo:literal, $field:ident, $field_type:tt) => {
+> +        ::kernel::macros::paste! {
+> +            impl $struct_name {
+> +                #[inline(always)]
+> +                #[allow(dead_code)]
+> +                $vis fn [<set_ $field>](&mut self, val: $field_type) {
+> +                    self.0 = bitstruct_write_bits!(self.0, $hi, $lo, val, $storage);
+> +                }
+> +
+> +                #[inline(always)]
+> +                #[allow(dead_code)]
+> +                $vis const fn [<with_ $field>](mut self, val: $field_type) -> Self {
+> +                    self.0 = bitstruct_write_bits!(self.0, $hi, $lo, val, $storage);
+> +                    self
+> +                }
+> +            }
+> +        }
+> +    };
+> +}
 
+This is awesome. Is there a place for this to live outside of
+`nova-core`? I would think this would be extremely useful as a general
+helper for bitfield struct definitions.
 
-On 25/08/2025 17:53, Maíra Canal wrote:
-> Hi Melissa,
->
-> On 25/08/25 17:03, Melissa Wen wrote:
->>
->>
->> On 15/08/2025 16:58, Maíra Canal wrote:
->>> When the file descriptor is closed while a job is still running,
->>> there's a race condition between the job completion callback and the
->>> file descriptor cleanup. This can lead to accessing freed memory when
->>> updating per-fd GPU stats, such as the following example:
->>>
->>> [56120.512903] Unable to handle kernel paging request at virtual 
->>> address 0000330a92b9688a
->>> [56120.520881] Mem abort info:
->>> [56120.523687] ESR = 0x0000000096000005
->>> [56120.527454] EC = 0x25: DABT (current EL), IL = 32 bits
->>> [56120.532785] SET = 0, FnV = 0
->>> [56120.535847] EA = 0, S1PTW = 0
->>> [56120.538995] FSC = 0x05: level 1 translation fault
->>> [56120.543891] Data abort info:
->>> [56120.546778] ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
->>> [56120.552289] CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->>> [56120.557362] GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->>> [56120.562690] user pgtable: 16k pages, 47-bit VAs, 
->>> pgdp=0000000023f54000
->>> [56120.569239] [0000330a92b9688a] pgd=0000000000000000, 
->>> p4d=0000000000000000, pud=0000000000000000
->>> [56120.577975] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
->>>              CPU: 0 UID: 1000 PID: 1497409 Comm: mpv Not tainted 
->>> 6.12.37-ncvm5+ #1
->>>              Hardware name: Raspberry Pi 5 Model B Rev 1.0 (DT)
->>>              pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS 
->>> BTYPE=--)
->>>              pc : v3d_job_update_stats+0x64/0x168 [v3d]
->>>              lr : v3d_job_update_stats+0x40/0x168 [v3d]
->>>              sp : ffffc00080003e60
->>>              x29: ffffc00080003e60 x28: ffff800002860000 x27: 
->>> 0000000000000000
->>>              x26: 0000000000000000 x25: ffff800002860000 x24: 
->>> ffff800002630800
->>>              x23: ffff800060786000 x22: 0000330a933c31fb x21: 
->>> 0000000000000001
->>>              x20: 0000330a92b96302 x19: ffff800060786b10 x18: 
->>> 0000000000000000
->>>              x17: ffffaf90506a0000 x16: ffffd06fce57c360 x15: 
->>> 0000000000000000
->>>              x14: 0000000000000000 x13: 0000000000000000 x12: 
->>> 0000000000000000
->>>              x11: 0000000000000000 x10: 0000000000000000 x9 : 
->>> ffffd06f5d0fec40
->>>              x8 : 0000000000000000 x7 : 0000000000000000 x6 : 
->>> 000002978dbd535a
->>>              x5 : 00ffffffffffffff x4 : 0000000000000015 x3 : 
->>> 0000300001fddf88
->>>              x2 : 0000000000000020 x1 : 0000000000010001 x0 : 
->>> 0000330a92b96872
->>>              Call trace:
->>>          v3d_job_update_stats+0x64/0x168 [v3d]
->>>          v3d_irq+0x118/0x2e0 [v3d]
->>>          __handle_irq_event_percpu+0x60/0x220
->>>
->>> Fix such an issue by protecting all accesses to `job->file_priv` with
->>> the queue's lock. With that, we can clear `job->file_priv` before the
->>> V3D per-fd structure is freed and assure that `job->file_priv` exists
->>> during the per-fd GPU stats updates.
->>>
->>> Fixes: e1bc3a13bd77 ("drm/v3d: Avoid NULL pointer dereference in 
->>> `v3d_job_update_stats()`")
->>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
->>> ---
->>>   drivers/gpu/drm/v3d/v3d_drv.c   | 14 +++++++++++++-
->>>   drivers/gpu/drm/v3d/v3d_drv.h   |  2 +-
->>>   drivers/gpu/drm/v3d/v3d_sched.c | 14 +++++++-------
->>>   3 files changed, 21 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/ 
->>> v3d_drv.c
->>> index 
->>> 2def155ce496ec5f159f6bda9929aeaae141d1a6..c5a3bbbc74c5c6c9a34a6e6111b4e4e21bee0b34 
->>> 100644
->>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
->>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
->>> @@ -157,12 +157,24 @@ v3d_open(struct drm_device *dev, struct 
->>> drm_file *file)
->>>   static void
->>>   v3d_postclose(struct drm_device *dev, struct drm_file *file)
->>>   {
->>> +    struct v3d_dev *v3d = to_v3d_dev(dev);
->>>       struct v3d_file_priv *v3d_priv = file->driver_priv;
->>> +    unsigned long irqflags;
->>>       enum v3d_queue q;
->>> -    for (q = 0; q < V3D_MAX_QUEUES; q++)
->>> +    for (q = 0; q < V3D_MAX_QUEUES; q++) {
->>> +        struct v3d_queue_state *queue = &v3d->queue[q];
->>> +        struct v3d_job *job = queue->active_job;
->>> +
->>> drm_sched_entity_destroy(&v3d_priv->sched_entity[q]);
->>> +        if (job && job->base.entity == &v3d_priv->sched_entity[q]) {
->>> +            spin_lock_irqsave(&queue->queue_lock, irqflags);
->>> +            job->file_priv = NULL;
->>> +            spin_unlock_irqrestore(&queue->queue_lock, irqflags);
->>> +        }
->>> +    }
->>> +
->>>       v3d_perfmon_close_file(v3d_priv);
->>>       kfree(v3d_priv);
->>>   }
->>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/ 
->>> v3d_drv.h
->>> index 
->>> cfc2f9c123aa99f6f1875b297eaf6c226b03d4ec..0317f3d7452a3f01b91bfdc691b5a98e54b3a4ec 
->>> 100644
->>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
->>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
->>> @@ -608,7 +608,7 @@ void v3d_timestamp_query_info_free(struct 
->>> v3d_timestamp_query_info *query_info,
->>>                      unsigned int count);
->>>   void v3d_performance_query_info_free(struct 
->>> v3d_performance_query_info *query_info,
->>>                        unsigned int count);
->>> -void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue);
->>> +void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q);
->>>   int v3d_sched_init(struct v3d_dev *v3d);
->>>   void v3d_sched_fini(struct v3d_dev *v3d);
->>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/ 
->>> v3d_sched.c
->>> index 
->>> e348816b691ef05909828accbe15399816e69369..60e251367f42170b30de968682deb6370604db44 
->>> 100644
->>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
->>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
->>> @@ -194,11 +194,11 @@ v3d_stats_update(struct v3d_stats *stats, u64 
->>> now)
->>>   }
->>>   void
->>> -v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
->>> +v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q)
->>>   {
->>>       struct v3d_dev *v3d = job->v3d;
->>> -    struct v3d_file_priv *file = job->file_priv;
->>> -    struct v3d_stats *global_stats = &v3d->queue[queue].stats;
->>> +    struct v3d_queue_state *queue = &v3d->queue[q];
->>> +    struct v3d_stats *global_stats = &queue->stats;
->>>       u64 now = local_clock();
->>>       unsigned long flags;
->>> @@ -209,10 +209,10 @@ v3d_job_update_stats(struct v3d_job *job, enum 
->>> v3d_queue queue)
->>>           preempt_disable();
->>>       /* Don't update the local stats if the file context has 
->>> already closed */
->>> -    if (file)
->>> -        v3d_stats_update(&file->stats[queue], now);
->>> -    else
->>> -        drm_dbg(&v3d->drm, "The file descriptor was closed before 
->>> job completion\n");
->>> +    spin_lock(&queue->queue_lock);
->>> +    if (job->file_priv)
->>> +        v3d_stats_update(&job->file_priv->stats[q], now);
->> Why not keep the drm_dbg() if !job->file_priv?
->
-> After some thought, I concluded that this debug message won't be useful
-> anymore. After this patch, it doesn't really matter if !job->file_priv,
-> the job will still end gracefully.
+> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
+> index cb2bbb30cba1..54505cad4a73 100644
+> --- a/drivers/gpu/nova-core/nova_core.rs
+> +++ b/drivers/gpu/nova-core/nova_core.rs
+> @@ -2,6 +2,7 @@
+>  
+>  //! Nova Core GPU Driver
+>  
+> +mod bitstruct;
+>  mod dma;
+>  mod driver;
+>  mod falcon;
+> -- 
+> 2.34.1
 
-I think having a dbg message can be helpful to understand why the driver 
-doesn't update local stats but global one in a given situation (?)
-Probably a slightly different message like "file context already closed, 
-local stats not updated".
-
-Melissa
-
-> Best Regards,
-> - Maíra
->
-
+Reviewed-by: Elle Rhumsaa <elle@weathered-steel.dev>
