@@ -2,80 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1FAB3480F
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 18:58:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A49CB34851
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 19:13:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E79F410E13D;
-	Mon, 25 Aug 2025 16:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 182D510E511;
+	Mon, 25 Aug 2025 17:13:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K8EPeL9r";
+	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="Zx+XKe1L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30E4810E068;
- Mon, 25 Aug 2025 16:58:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C4B8D43E7E;
- Mon, 25 Aug 2025 16:58:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF37AC4CEED;
- Mon, 25 Aug 2025 16:58:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756141107;
- bh=5Xs4ClQrBNPUK24yQ8tvJo62CGzQ+OUCbyk/7pv7K6g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=K8EPeL9rFMK2+nBscZ78BHN9AXOnwLlio8wCQA9T4HPI2M7JTseek460vnzI7LqJC
- TDu4NzXeMpXS8jhUa/iSAcIvRfHFDSrWxcvq7/PwB+bucaEQsHAodSxeBqU3oHbYQw
- JfnmUaXpTgDVr5GNOQRbyvPuO31dhRIGQUncZS3uv95CJi5KIRjBjS37ASsfqMbjJV
- FaVoAzebuKQA21fTHdob2rVKAkh6oJNsI5NIl49si6OGRBanVCOrvFPYRUxz3E2h7U
- H5t70EO0n4A9bkEljsMG6VtFtoS+dKBxf5ZFl9Bmc3Iax0SvbwLHZzXF+Oj3qlKigt
- vsahqKXPodl2Q==
-Date: Mon, 25 Aug 2025 19:58:10 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
- linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Brendan Jackman <jackmanb@google.com>,
- Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
- Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
- io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
- Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
- John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
- kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
- linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-mm@kvack.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Marco Elver <elver@google.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
- netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
- Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
- Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
- virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
- wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
-Subject: update kernel-doc for MEMBLOCK_RSRV_NOINIT (was: Re: [PATCH RFC
- 10/35] mm/hugetlb: cleanup hugetlb_folio_init_tail_vmemmap())
-Message-ID: <aKyWIriZ1bmnIrBW@kernel.org>
-References: <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
- <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
- <aKmDBobyvEX7ZUWL@kernel.org>
- <a90cf9a3-d662-4239-ad54-7ea917c802a5@redhat.com>
- <aKxz9HLQTflFNYEu@kernel.org>
- <a72080b4-5156-4add-ac7c-1160b44e0dfe@redhat.com>
- <aKx6SlYrj_hiPXBB@kernel.org>
- <f8140a17-c4ec-489b-b314-d45abe48bf36@redhat.com>
- <aKyMfvWe8JetkbRL@kernel.org>
- <dbd2ec55-0e7f-407a-a8bd-e1ac83ac2a0a@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dbd2ec55-0e7f-407a-a8bd-e1ac83ac2a0a@redhat.com>
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+ [209.85.210.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE46710E512
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:13:00 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id
+ d2e1a72fcca58-76e7af160f1so3194059b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 10:13:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brighamcampbell.com; s=google; t=1756141980; x=1756746780;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
+ :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5JIy/ikd0BLnHtzJtlevyIk9/jwbmefHUhOitr8lfoE=;
+ b=Zx+XKe1LjkKa2a8sEkkx6BFszjmzQ8+to/IwP64PvOT8W6ISkJF7mAKvPdWUmmssbZ
+ XPLM9vV1wAKUDHjEQ9/B04Vq9o+jkMq+XgVvXPZET/wpY/G9kLyvVU+4FjUiap9L62MZ
+ IqcdsMhNHTEs5A9fgP1VW0M5PDX9Vris+166WBFdXs6BKqfVNlRCJ/YKBxYYCntHkVLj
+ GMWQ9uckspCSueV34ACy2wRoVeVFgNJD3jMqf4AwdbH7eZFaX/3MwyftKHDlgcKbSdFL
+ lvmXQ2ZgoR3ZbHYKHCKdU5aTevpkNaezsXSJTmPpBfXMU0q8Fg+bXTOzPPD5Lc4VXATx
+ 0bzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756141980; x=1756746780;
+ h=in-reply-to:references:subject:cc:to:from:message-id:date
+ :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=5JIy/ikd0BLnHtzJtlevyIk9/jwbmefHUhOitr8lfoE=;
+ b=igGu6maWtm4+obsUHGbz3qA14rJyVLYMz56+mug132yPkY6R5c823pm1+PCn8CDNqM
+ A/CNGQl+QaoPm+XX4cn/CpnHm51Hrk7uH06Ifw5251l2Yqup3zProzBO972Ek+regzYG
+ /4qDRVSiIYrpjKVaQKwBTnf55oXXcJxXpHXTwwG/k+cExlvjlZDEZ5/EkNQ0qYTHPgDX
+ Y/7MekWvFvRotx4s/9kNb8I4HDX1GZljmdpGwtB2R8KXZCXlxuBrq454m2AiaFw5Y9eL
+ YjtYhT4xP9FWN3f/Wio+/QqRpiwv5ur37R60V4XcYOKtWbIhT7cbAwRM7S3dEZBaOR9K
+ 458A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW/q5JZ7toHkvq3ZyScUX6cQKqmzIWXEzWNgZYXplwHIay1gpIdeuXSoj/1nXkyGqlgEUwjZ/yqfNM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YznE19LWO9GBcOkiFGeLXMjcaR5/2vrN2wRb5E/gcrhpsPgeMcf
+ ptA+gTejl2JsGWemWPfoWq0hP7wSnyqBRE0/T7meXaUBJ2I1iib2Rr5tgTSNu41HGxY=
+X-Gm-Gg: ASbGncvddTq3pHxdbaFMmsr8Wf6Knh+c7dCX5fr75IZocS3Y2NmWk8wtFsvJ3A3DtNw
+ qxTZz7VHTbBpuGKGUjvTPQDb9TLaTCbaOIzVz6L3ubuPd3KwaRGp58nNfZSd09iBICsuDrndhNp
+ gwOeXIg+OcEtxlRt6yHvvew25O8YJDWR71wLHPUo8gZVLM6RFQgcV/Ld7Ya1ZaiDIdQuUkhMWfN
+ BJDj/Xmxzw5hzl2f5iaSFFWgaqZAaBi6icmLcx7txmyJ7yZUXhsIclB4E6KT7RAv2PzxOIG6w7Y
+ zGiEeyF2Bi4pMep8lralEQBBqitRI58RO6lnGRpqT+/6eOhU32jjhP86guVwwUhYXtnNiY48sTU
+ 3CAj/rqA57SA2iTJzUFo=
+X-Google-Smtp-Source: AGHT+IGeInbCP5zEJV/VOWe6y9YTaEHSH8v+IWrNO4j77bL4LJuoltCMmSx3sMyg2xrRhCTkabtopA==
+X-Received: by 2002:a05:6a20:a110:b0:240:763:797e with SMTP id
+ adf61e73a8af0-24340b8a6a0mr18926571637.25.1756141980050; 
+ Mon, 25 Aug 2025 10:13:00 -0700 (PDT)
+Received: from localhost ([64.71.154.6]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-324f3c94c05sm5317223a91.3.2025.08.25.10.12.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Aug 2025 10:12:59 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 25 Aug 2025 11:12:57 -0600
+Message-Id: <DCBODJ411OLN.1IGN033564525@brighamcampbell.com>
+From: "Brigham Campbell" <me@brighamcampbell.com>
+To: "Dan Carpenter" <dan.carpenter@linaro.org>
+Cc: "Neil Armstrong" <neil.armstrong@linaro.org>, "Jessica Zhang"
+ <jessica.zhang@oss.qualcomm.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Douglas Anderson"
+ <dianders@chromium.org>, "Diogo Ivo" <diogo.ivo@tecnico.ulisboa.pt>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <kernel-janitors@vger.kernel.org>, "dri-devel"
+ <dri-devel-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH next] drm/panel: jdi-lpm102a188a: Fix error code in
+ jdi_panel_prepare()
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <aKcRfq8xBrFmhqmO@stanley.mountain>
+ <DCAVWVJ990VS.255346CDNF1GK@brighamcampbell.com>
+ <aKv5tkJghj6DZQIB@stanley.mountain>
+In-Reply-To: <aKv5tkJghj6DZQIB@stanley.mountain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,69 +100,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 06:23:48PM +0200, David Hildenbrand wrote:
-> 
-> I don't quite understand the interaction with PG_Reserved and why anybody
-> using this function should care.
-> 
-> So maybe you can rephrase in a way that is easier to digest, and rather
-> focuses on what callers of this function are supposed to do vs. have the
-> liberty of not doing?
+On Sun Aug 24, 2025 at 11:50 PM MDT, Dan Carpenter wrote:
+> On Sun, Aug 24, 2025 at 12:54:41PM -0600, Brigham Campbell wrote:
+>> Good catch, Dan! Thank you for the patch. I'll try to be mindful of this
+>> kind of logic error in the future. Please let me know if you have other
+>> suggestions.
+>
+> Heh.  This is just static checker stuff.  https://github.com/error27/smat=
+ch
+> Humans are expected to have mechanical attention to detail at the
+> same level as a computer.  I just try to write the commit message out to
+> prove that I've looked at the code as well.
 
-How about
- 
-diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-index b96746376e17..fcda8481de9a 100644
---- a/include/linux/memblock.h
-+++ b/include/linux/memblock.h
-@@ -40,8 +40,9 @@ extern unsigned long long max_possible_pfn;
-  * via a driver, and never indicated in the firmware-provided memory map as
-  * system RAM. This corresponds to IORESOURCE_SYSRAM_DRIVER_MANAGED in the
-  * kernel resource tree.
-- * @MEMBLOCK_RSRV_NOINIT: memory region for which struct pages are
-- * not initialized (only for reserved regions).
-+ * @MEMBLOCK_RSRV_NOINIT: reserved memory region for which struct pages are not
-+ * fully initialized. Users of this flag are responsible to properly initialize
-+ * struct pages of this region
-  * @MEMBLOCK_RSRV_KERN: memory region that is reserved for kernel use,
-  * either explictitly with memblock_reserve_kern() or via memblock
-  * allocation APIs. All memblock allocations set this flag.
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 154f1d73b61f..46b411fb3630 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -1091,13 +1091,20 @@ int __init_memblock memblock_clear_nomap(phys_addr_t base, phys_addr_t size)
- 
- /**
-  * memblock_reserved_mark_noinit - Mark a reserved memory region with flag
-- * MEMBLOCK_RSRV_NOINIT which results in the struct pages not being initialized
-- * for this region.
-+ * MEMBLOCK_RSRV_NOINIT
-+ *
-  * @base: the base phys addr of the region
-  * @size: the size of the region
-  *
-- * struct pages will not be initialized for reserved memory regions marked with
-- * %MEMBLOCK_RSRV_NOINIT.
-+ * The struct pages for the reserved regions marked %MEMBLOCK_RSRV_NOINIT will
-+ * not be fully initialized to allow the caller optimize their initialization.
-+ *
-+ * When %CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, setting this flag
-+ * completely bypasses the initialization of struct pages for such region.
-+ *
-+ * When %CONFIG_DEFERRED_STRUCT_PAGE_INIT is disabled, struct pages in this
-+ * region will be initialized with default values but won't be marked as
-+ * reserved.
-  *
-  * Return: 0 on success, -errno on failure.
-  */
+Good to know! I'll consider integrating smatch and other static checking
+into my preflight checks.
 
-> -- 
-> Cheers
-> 
-> David / dhildenb
-> 
+By the way, I'm interested in contributing more to drm as a hobbyist.
+I've been working on todo items in drm documentation and I plan to
+continue doing that. If there's anything you'd like help with or you
+know of any work to be done which I may not find in the todo list,
+please let me know. I can be contacted here on the public mailing lists,
+via direct email, or via #dri-devel on OFTC (my nick is xeyler).
 
--- 
-Sincerely yours,
-Mike.
+Cheers,
+Brigham
