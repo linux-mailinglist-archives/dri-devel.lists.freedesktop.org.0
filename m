@@ -2,54 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B41B33F13
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 14:15:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF91B33FE5
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 14:49:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A73010E255;
-	Mon, 25 Aug 2025 12:15:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC58710E457;
+	Mon, 25 Aug 2025 12:49:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="un5ESlkH";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BYxI1CvB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D52FB10E255
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 12:15:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6E61F443B8;
- Mon, 25 Aug 2025 12:15:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F4BC4CEED;
- Mon, 25 Aug 2025 12:15:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756124123;
- bh=FYacGFcvtziYaQU23dkF5qhnNiOq+YUOP4jCmJ/AMb8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=un5ESlkHE/jiWQ4E7w+MIAM9BFrs7ubsGv3bHkx9mxVJvkwmG0FHmZOydp0W/iSt1
- ZyDJ/xT+9FwjUymkV61Vt8c2kUlYCso7GjA59LPhV8503jRYJuJqHe8t6J411TZMod
- slufIfhAYejxpbmfnTPe1aGvMMHd1ZFkT+5gbsMSVi1n9bSWAa0qhHPbJq+hGQ8Iph
- ZiUE7lVH1fpuOn0Vjk094HIuDQ/tkqyJcBkOsbsfxXUYuLpj80dboesibKEjCEt6ia
- QeoS5R5UqXl+AGXnjA/u/aNpS5kpp0tFJ3A44ppfZxZAUag3xJ/9zypter6lYfBsIz
- 94/9r4/4Liofw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Piotr Zalewski <pZ010001011111@proton.me>,
- Diederik de Haas <didi.debian@cknow.org>,
- Andy Yan <andy.yan@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Sasha Levin <sashal@kernel.org>, hjc@rock-chips.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.16-6.12] drm/rockchip: vop2: make vp registers
- nonvolatile
-Date: Mon, 25 Aug 2025 08:15:00 -0400
-Message-ID: <20250825121505.2983941-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250825121505.2983941-1-sashal@kernel.org>
-References: <20250825121505.2983941-1-sashal@kernel.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7935010E457
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 12:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756126146;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3vXE/JZQfiOFAY8LityNc5lKOCwFML9m2hfnchuxSjw=;
+ b=BYxI1CvBl9Lixx6Bap5TpJT+/3Yki4NCC9dgkyp6w62Qe4cY+zPN8O/oYC2ltxxexo5jna
+ t0cn+/tBn2ikROSMPEg/xMCkLKlk162bPnOU9FZFUC3jv+CoJ91B0TLQjez2fXpO7S+22h
+ yECeKpxJkn8wVlL9DV1bK33koujRLCM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-682-SQODo3vSPnO0tCvb5j5S5w-1; Mon, 25 Aug 2025 08:49:05 -0400
+X-MC-Unique: SQODo3vSPnO0tCvb5j5S5w-1
+X-Mimecast-MFC-AGG-ID: SQODo3vSPnO0tCvb5j5S5w_1756126144
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-45a1b0060bfso28682855e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 05:49:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756126144; x=1756730944;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3vXE/JZQfiOFAY8LityNc5lKOCwFML9m2hfnchuxSjw=;
+ b=MtBbMNUKRMYvKJT1zDCt/28aLPaOFxZo+1kH/SmO+HpuSwa3xjyZZXWOexmI0VBpfm
+ CutS3vLG/P/RokWgdVvy0zAIkbGp1GKefb/GvREsRSgM2DZkyw09MvA4hvDz+0WLivrX
+ 9UOSvGR5gu7dIDD9ab79gVHrGAtupuj+u4P8PSKTE/wHTYCrs0IEWMthCU+htYMAFT5L
+ y/y+eyfaVrgWzaolXm8PBsoOYCZczEF0vI6LyeJSIsGOe5ogIYjeUE9WGO9Lr2934cOH
+ 0KqeB0BIUN8UAEGSK3K1Z8P9+RMmP/lRb26akiTn8Lkjx6g9t6r+BMzqsbIZ5GWH8rEd
+ E99Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXvs9h7XnzDJHxOqYWY3RtDTUnlUot0+R5r5edTvadBtTIfLuQwzwtWl5hCW3IUqJ52R6qxdmDIOLU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxh5Lcs/RE99QW2Ynx9s+8K+/ThC9W7IayivWTLMdXtpsX5RF6B
+ 0I38KvpjOpCacpf/E7bc/RX7b27HEr8URH/7E1u3pJytTdJhYQi603QVlUp/S0NGe96F6dzgLin
+ rZTa1khiMw0j7NCqfYmbAu4Eda03gXmp8REVbInOiX0Uhp9o9pR63j8qDH+YxITuzRKnmgA==
+X-Gm-Gg: ASbGncuFwj1HY+uGPH4EJJ4LI52yN3nxb6NPO+O6V/vcHQzBLEPJqiWyEP+7rosyaSB
+ mKmV8SU+BjRKuMzz/zwpc3te983nN4smyqY0cHuZ5dQJdVONt3fXQ6LfnhFY06D8qd/ZxTUnAKy
+ LbWqJ14NuXwe38c09dtXew6O8blCOb2FMk4PAo+LoOghWKRuWk5S1Yfr4uY5+7JlYEW4x8OAt7K
+ 1UyZ6/kCLaJUSrPpKqJr9LzIRwbFoIUH3+N/+EY2AISwXRpKvH+cq4As7Ln5hNFEM5D/mWtiF2y
+ 63ZAANefD9frwL7+r5qA3Z86n6jArPAHUok23eHFg44zf/FLuD9vRrfEBQJxuZcTGz97nulMytf
+ Ck5o0dicJBqdqqZdeNn7zRB5vIVKmFtlVf6JXBxS1oXrx+afSiBiCzm16LA5ORq2RmCo=
+X-Received: by 2002:a05:600c:3b0f:b0:43c:fe5e:f03b with SMTP id
+ 5b1f17b1804b1-45b517d4d50mr117583755e9.30.1756126144205; 
+ Mon, 25 Aug 2025 05:49:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFXxc8CWovMYNQS1+MbZ/J1HLlRjFi84VTIxSAk5gdBYVSg2EOk3SSNbd5GU03jnCMkyvwvPg==
+X-Received: by 2002:a05:600c:3b0f:b0:43c:fe5e:f03b with SMTP id
+ 5b1f17b1804b1-45b517d4d50mr117581475e9.30.1756126141263; 
+ Mon, 25 Aug 2025 05:49:01 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76?
+ (p200300d82f4f130042f198e5ddf83a76.dip0.t-ipconnect.de.
+ [2003:d8:2f4f:1300:42f1:98e5:ddf8:3a76])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3c70ea81d38sm11742640f8f.17.2025.08.25.05.48.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Aug 2025 05:49:00 -0700 (PDT)
+Message-ID: <a90cf9a3-d662-4239-ad54-7ea917c802a5@redhat.com>
+Date: Mon, 25 Aug 2025 14:48:58 +0200
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.16.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 10/35] mm/hugetlb: cleanup
+ hugetlb_folio_init_tail_vmemmap()
+To: Mike Rapoport <rppt@kernel.org>
+Cc: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>, Christoph Lameter <cl@gentwo.org>,
+ Dennis Zhou <dennis@kernel.org>, Dmitry Vyukov <dvyukov@google.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ iommu@lists.linux.dev, io-uring@vger.kernel.org,
+ Jason Gunthorpe <jgg@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+ Johannes Weiner <hannes@cmpxchg.org>, John Hubbard <jhubbard@nvidia.com>,
+ kasan-dev@googlegroups.com, kvm@vger.kernel.org,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-arm-kernel@axis.com,
+ linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>,
+ netdev@vger.kernel.org, Oscar Salvador <osalvador@suse.de>,
+ Peter Xu <peterx@redhat.com>, Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+References: <20250821200701.1329277-1-david@redhat.com>
+ <20250821200701.1329277-11-david@redhat.com>
+ <9156d191-9ec4-4422-bae9-2e8ce66f9d5e@redhat.com>
+ <7077e09f-6ce9-43ba-8f87-47a290680141@redhat.com>
+ <aKmDBobyvEX7ZUWL@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aKmDBobyvEX7ZUWL@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Anp5w5SRQtnn3UyOOoPxZAh5VZlKLHtmFPlZhoHnBhs_1756126144
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,137 +176,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Piotr Zalewski <pZ010001011111@proton.me>
+On 23.08.25 10:59, Mike Rapoport wrote:
+> On Fri, Aug 22, 2025 at 08:24:31AM +0200, David Hildenbrand wrote:
+>> On 22.08.25 06:09, Mika Penttilä wrote:
+>>>
+>>> On 8/21/25 23:06, David Hildenbrand wrote:
+>>>
+>>>> All pages were already initialized and set to PageReserved() with a
+>>>> refcount of 1 by MM init code.
+>>>
+>>> Just to be sure, how is this working with MEMBLOCK_RSRV_NOINIT, where MM is supposed not to
+>>> initialize struct pages?
+>>
+>> Excellent point, I did not know about that one.
+>>
+>> Spotting that we don't do the same for the head page made me assume that
+>> it's just a misuse of __init_single_page().
+>>
+>> But the nasty thing is that we use memblock_reserved_mark_noinit() to only
+>> mark the tail pages ...
+> 
+> And even nastier thing is that when CONFIG_DEFERRED_STRUCT_PAGE_INIT is
+> disabled struct pages are initialized regardless of
+> memblock_reserved_mark_noinit().
+> 
+> I think this patch should go in before your updates:
 
-[ Upstream commit a52dffaa46c2c5ff0b311c4dc1288581f7b9109e ]
+Shouldn't we fix this in memblock code?
 
-Make video port registers nonvolatile. As DSP_CTRL register is written
-to twice due to gamma LUT enable bit which is set outside of the main
-DSP_CTRL initialization within atomic_enable (for rk356x case it is also
-necessary to always disable gamma LUT before writing a new LUT) there is
-a chance that DSP_CTRL value read-out in gamma LUT init/update code is
-not the one which was written by the preceding DSP_CTRL initialization
-code within atomic_enable. This might result in misconfigured DSP_CTRL
-which leads to no visual output[1]. Since DSP_CTRL write takes effect
-after VSYNC[1] the issue is not always present. When tested on Pinetab2
-with kernel 6.14 it happenes only when DRM is compiled as a module[1].
-In order to confirm that it is a timing issue I inserted 18ms udelay
-before vop2_crtc_atomic_try_set_gamma in atomic enable and compiled DRM
-as module - this has also fixed the issue.
+Hacking around that in the memblock_reserved_mark_noinit() user sound 
+wrong -- and nothing in the doc of memblock_reserved_mark_noinit() 
+spells that behavior out.
 
-[1] https://lore.kernel.org/linux-rockchip/562b38e5.a496.1975f09f983.Coremail.andyshrk@163.com/
-
-Reported-by: Diederik de Haas <didi.debian@cknow.org>
-Closes: https://lore.kernel.org/linux-rockchip/DAEVDSTMWI1E.J454VZN0R9MA@cknow.org/
-Suggested-by: Andy Yan <andy.yan@rock-chips.com>
-Signed-off-by: Piotr Zalewski <pZ010001011111@proton.me>
-Tested-by: Diederik de Haas <didi.debian@cknow.org>
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-Link: https://lore.kernel.org/r/20250706083629.140332-2-pZ010001011111@proton.me
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-Based on my analysis of the commit, let me provide my determination:
-
-**Backport Status: YES**
-
-## Extensive Analysis:
-
-This commit is a strong candidate for backporting to stable kernel trees
-for the following reasons:
-
-### 1. **Bug Fix Nature**
-The commit fixes a real bug that causes **no visual output** on
-displays. This is a critical user-visible issue where the display driver
-fails to produce any image output. The commit message clearly describes
-this as fixing a situation where "misconfigured DSP_CTRL which leads to
-no visual output."
-
-### 2. **Race Condition Fix**
-The code changes address a race condition in register access patterns.
-The issue occurs because:
-- DSP_CTRL register is written twice during atomic_enable
-- The second write happens for gamma LUT configuration
-- Due to the register being volatile, read-modify-write operations can
-  read stale values
-- DSP_CTRL writes only take effect after VSYNC, creating a timing window
-  for the race
-
-### 3. **Small and Contained Change**
-The actual code change is minimal - just one line adding the VP register
-range to the nonvolatile list:
-```c
-+       regmap_reg_range(RK3568_VP0_CTRL_BASE, RK3588_VP3_CTRL_BASE +
-255),
-```
-
-This makes the video port registers (0xc00-0xeff based on the offsets)
-use the regmap cache instead of reading back from hardware, preventing
-the race condition.
-
-### 4. **Hardware-Specific Fix**
-The fix is specific to Rockchip VOP2 hardware (RK3568/RK3588 SoCs) and
-doesn't affect other subsystems. It's confined to the DRM/Rockchip
-display driver.
-
-### 5. **Tested and Confirmed**
-The commit includes:
-- A "Reported-by" tag indicating a real user issue
-- A "Tested-by" tag confirming the fix works
-- Clear reproduction details (happens on Pinetab2 with kernel 6.14 when
-  DRM is compiled as module)
-
-### 6. **Low Risk of Regression**
-The change only affects how registers are cached in the regmap
-framework. It doesn't change any functional logic, algorithms, or
-introduce new features. The comment update accurately reflects that both
-window AND video port registers are now marked as non-volatile for cache
-coherency.
-
-### 7. **Follows Stable Rules**
-This fix aligns with stable kernel rules:
-- Fixes a real bug that users are hitting
-- Small change (essentially 1 line of functional code)
-- Already tested by reporter
-- Fix is obvious once the problem is understood
-- No new features or architectural changes
-
-### 8. **Critical Display Functionality**
-Display output is fundamental functionality. A bug that causes "no
-visual output" severely impacts usability of devices using these SoCs,
-making this a high-priority fix for stable trees.
-
-The commit properly documents the issue with external references and
-follows good practices for a bug fix that should be backported to stable
-kernels.
-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 186f6452a7d3..b50927a824b4 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2579,12 +2579,13 @@ static int vop2_win_init(struct vop2 *vop2)
- }
- 
- /*
-- * The window registers are only updated when config done is written.
-- * Until that they read back the old value. As we read-modify-write
-- * these registers mark them as non-volatile. This makes sure we read
-- * the new values from the regmap register cache.
-+ * The window and video port registers are only updated when config
-+ * done is written. Until that they read back the old value. As we
-+ * read-modify-write these registers mark them as non-volatile. This
-+ * makes sure we read the new values from the regmap register cache.
-  */
- static const struct regmap_range vop2_nonvolatile_range[] = {
-+	regmap_reg_range(RK3568_VP0_CTRL_BASE, RK3588_VP3_CTRL_BASE + 255),
- 	regmap_reg_range(0x1000, 0x23ff),
- };
- 
 -- 
-2.50.1
+Cheers
+
+David / dhildenb
 
