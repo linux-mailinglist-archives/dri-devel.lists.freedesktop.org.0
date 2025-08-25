@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221D5B336F2
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6753B336EB
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 08:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7076710E361;
-	Mon, 25 Aug 2025 06:56:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C30D410E34F;
+	Mon, 25 Aug 2025 06:55:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fd6FUCIL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gbrloA3S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6690010E236
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 02:31:30 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-2461864f7f8so31147275ad.2
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 19:31:30 -0700 (PDT)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+ [209.85.215.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C135D10E236
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 02:31:41 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id
+ 41be03b00d2f7-b49d6f8f347so1029293a12.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Aug 2025 19:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1756089090; x=1756693890; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1756089101; x=1756693901; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=QVC8azoXPoxosuCvm1eCBz9SCYhPLAwxnPZ8goaQCGw=;
- b=fd6FUCIL/RhWkPOQNPBam8Cs71s8uCg9eIj6V6m0xabcLT0CAlc5vKHnlYT+t0ZPT5
- hfs84BwF0gB5yWVcqNCJNU/l27/xzZk1H235xjpQTL4T9nb1hf08jWwLeE/Myiu5Tr65
- ZxzRisSSdpG4YkUlwj4TFamhVru3JRxjbNEfXQiOAr+mDc3N/AuV3/G3zMc2395MunND
- 9D8e7qtBCHRAxi3wKyIWwHEzhfHRufiQ0nGnl4rkMg4ejNUuZQIRn1OQuq5/x7lIRU6k
- uZkmdeDaWkXP1EfP/w5RE6tFl8pMqpi2ys9BJxvIB4cNcXD4oCIJ8Y3hH7Ytu+wwoWHo
- DK+g==
+ :reply-to; bh=WUEa4tYSS0p5DNjOCVeWcyYJH7ruf9/pefat3lfo8dQ=;
+ b=gbrloA3SF9qzCLKrOO/J/v6DU8tQHpOa07eFVnoU6YjzT+Y5DpWMjn3x26TUjXiShZ
+ tKaMfqr2o/Y69KLa1KlntolCWFg0p758bkfeY7j9ForWuPsovpxFCICSapjkQJEiRsrH
+ /hMP9eXq3AbsIuSJ1SP8QcBbHRXqZhzFejaeL5wFPqfyUj5hRjY/1i4E+y37GKUHOqeO
+ qBVswa0VsrQR6dqCnz8cIgZyHrQhvoTf+pKFr/iH8A/9lRoIbSt3YEa0e7NcqcHanynm
+ RAp4W7e3lXxD0cdDbw64UbFtIkN0YajNyW2W8/V6i8gegQj1yq0aE3xDTjDbV8mNckN7
+ yP+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756089090; x=1756693890;
+ d=1e100.net; s=20230601; t=1756089101; x=1756693901;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QVC8azoXPoxosuCvm1eCBz9SCYhPLAwxnPZ8goaQCGw=;
- b=odMd1n27inojjvwIh6qbdQfDSaWoVVkHUAYM6nfSYRFHf71HgtsCPaXhYKNhIFkqk9
- mJzkgqdJsD6QtvMwJrUpPkwXda4sxcEeaLzemCLWAD9pQs0hRhUZgRR0QcbhfmAzYWsQ
- 1kv0sRF2mKzckKDUV0i9hIteGT5JDngjJea9ceCvVkw5g32U6PdCSG+OB4Ejxi/Y7A43
- toQLo80gCOoxyihf/QmP2Jcn0Jy/ij5StIKskj0K8/ULJZiujdpY0m0gFclJoUXaFpiv
- +dNCbTFTYDlP0e1vEdAvIXVdaC/mK0ky/jrlNaUypB/wU5YkUa641iq02EYhn7hFnvuE
- Fuvw==
+ bh=WUEa4tYSS0p5DNjOCVeWcyYJH7ruf9/pefat3lfo8dQ=;
+ b=V7lt14Id7FFBRHP9DB4z/OsLQJ4iyNzZ75QrO+0k45IOAY0pUwY4VBY6BvwIPFqFt7
+ tne1PsAo8+8RC+efTSwIaLUyBZF98SaVzyQcXuKdt8LtAqPW3qm6pLccyFX3OhBl7J0b
+ rJPzY5wJgyXhIpr/NHsz3xPOy349LxtKL3ZZcT3FnK5PrMT6dgPpkskXs6vGaYghqpjB
+ KZgr7G8/QE2Jn+Tcn2wolXGf+ZgYw1gJEuY2x25MK8sKp9T/s8ds1unnoVpm24NxvPTp
+ k7MVGxAQyen/kpGU0mjvkGvOIn221eKawHTFKzFqzptAUwLVG8yFQNPiDs+a2Idyjl5S
+ h1CA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWcyemeB35kxZzBqDCC2jnWlPDBfr4ZFEuhBiKrIo0Zy7Ij+sBUvuFsqX9a1hwQlDbb9gEmXAMHSh4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyiznUqWTqojBEgZ4EnwIZ5zfk/3dMVgSXsPIa96VIZdZT9w7Xp
- 9OkcaDuPSU75SuWKBxkTkR/VkPJN0yHoinQhNdat1W5n5Ib9X1/r/jhv
-X-Gm-Gg: ASbGnct7JzeU+mTGX9khTardtgDxHrsKg5+OSU28LFXxf/Bd5jv+Cah650LY6KzZX+E
- Jc52C0j90VPZCNgRW1wC5D9aXPdTG5QFSHLWdXjO2xDoi/XzrfvIwBhakwqRGqdh4QG2wrai0S8
- r/siy01Lm9iOOjBrfzQglbsoJHyadXrr2Ec8MQ5KTm9T6S5uZq/uhmJRdRo653hPSv6ZayDluzk
- /OnQzmIi3cB3x9CFhHZdnCwuZKsncQ68VA6H/6ld7D4h3aWKT5SgopyoCKQD/OgfXA2zFQPWW9/
- GcB3rE57qRmBOwVbY/6bTo5LwfoEqws4sWg8/xCrDTr94bryHt6DbuFjqSjkCLmQYj42rfVpyj/
- hNtsMZfEL7KGoDQaAS3FVgdpy9VOhvUNPW+X6Ztdx3xr3Q9EDpcjxSdySlCFw33xp3/zvv9ozqW
- 4=
-X-Google-Smtp-Source: AGHT+IEJ/RxmV9vk0nXMb491fT4XTeycZujwgAzjS69NOeWahllc9+DZTfyHZl2PP7ynSHAO+OZuag==
-X-Received: by 2002:a17:903:1ae4:b0:240:a889:554d with SMTP id
- d9443c01a7336-2462ef8e723mr143141775ad.45.1756089090224; 
- Sun, 24 Aug 2025 19:31:30 -0700 (PDT)
+ AJvYcCVD/uqBrr8o6K3ko2A5i1K7RVu1FPRkDV6ALY/9TK3qhJL0Tx0euTYduHAjZ/8i1VaKXyGuom90UDo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzdYmRV1P64ij05nWL63McHfj8x5W89EaiyrGDh76DY0o/Uaq72
+ vWVkDcvmnNCK0PW6Zpg1qR5SMBoQsrVuEdawFsA9D9iv+KrnSxRjne+4
+X-Gm-Gg: ASbGncsT98R+hNSt9gR9KvgAuKg43Gwa2H/+41SVxoVGJIjSxJJrFtWpnpArwf7BzlK
+ BHYGDe3ARB3q1ZQRAhyCPqfT4l61us0v167MuW+MsrFUz6OrLjB9nRtNQ7WgqyTcTVreOpojaGN
+ wxkpfZrQYbwp5Etuo3eHG/hBE8nbPck06bSeC+pXqO8dJN/nZ8xej9nkIeENpLma71thsO0d3x8
+ EB5cyQoWk/xUT7EaNTDoFzqimh4yMXHZGzZ17JJmYWAoBezbBVshbAXKgn91FjtjlgwSOuBbeHC
+ s7v23MifJRn2c1wFikOV+yodbthDhH1QOXfWHJsVrtSYEun1Da8DIGI5K8Z96wJjX72Ib/epl2U
+ lqAHMMRvYO1i9a2n1wQl2gfzIMLOj+p6fBJS+m33xJCjkDF8NGRv8YsyUsmHM7p+UYX3k41Qonw
+ Q=
+X-Google-Smtp-Source: AGHT+IEsHHne9AMztJo7a8IjD1y4loI/AihrgL9BB/L9e0AetCJaQuYxWX/l7xlWh7T6OVyIoYtcqA==
+X-Received: by 2002:a17:903:283:b0:246:61c:a67e with SMTP id
+ d9443c01a7336-2462efdd639mr124786615ad.61.1756089101128; 
+ Sun, 24 Aug 2025 19:31:41 -0700 (PDT)
 Received: from localhost.localdomain ([114.242.33.243])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-246687af234sm53905175ad.48.2025.08.24.19.31.18
+ d9443c01a7336-246687af234sm53905175ad.48.2025.08.24.19.31.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Aug 2025 19:31:29 -0700 (PDT)
+ Sun, 24 Aug 2025 19:31:40 -0700 (PDT)
 From: Jinchao Wang <wangjinchao600@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
  Yury Norov <yury.norov@gmail.com>, Qianqiang Liu <qianqiang.liu@163.com>,
@@ -94,9 +94,10 @@ To: Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
  Yicong Yang <yangyicong@hisilicon.com>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
  linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/9] printk/nbcon: use panic_on_this_cpu() helper
-Date: Mon, 25 Aug 2025 10:29:34 +0800
-Message-ID: <20250825022947.1596226-7-wangjinchao600@gmail.com>
+Subject: [PATCH v2 7/9] panic/printk: replace this_cpu_in_panic() with
+ panic_on_this_cpu()
+Date: Mon, 25 Aug 2025 10:29:35 +0800
+Message-ID: <20250825022947.1596226-8-wangjinchao600@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250825022947.1596226-1-wangjinchao600@gmail.com>
 References: <20250825022947.1596226-1-wangjinchao600@gmail.com>
@@ -118,46 +119,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-nbcon_context_try_acquire() compared panic_cpu directly with
-smp_processor_id().  This open-coded check is now provided by
+The helper this_cpu_in_panic() duplicated logic already provided by
 panic_on_this_cpu().
 
-Switch to panic_on_this_cpu() to simplify the code and improve readability.
+Remove this_cpu_in_panic() and switch all users to panic_on_this_cpu().
+
+This simplifies the code and avoids having two helpers for the same check.
 
 Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 ---
- kernel/printk/nbcon.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/linux/printk.h            |  2 --
+ kernel/panic.c                    |  2 +-
+ kernel/printk/nbcon.c             |  2 +-
+ kernel/printk/printk.c            | 15 ++-------------
+ kernel/printk/printk_ringbuffer.c |  2 +-
+ lib/dump_stack.c                  |  2 +-
+ 6 files changed, 6 insertions(+), 19 deletions(-)
 
+diff --git a/include/linux/printk.h b/include/linux/printk.h
+index 5d22b803f51e..45c663124c9b 100644
+--- a/include/linux/printk.h
++++ b/include/linux/printk.h
+@@ -330,8 +330,6 @@ static inline bool pr_flush(int timeout_ms, bool reset_on_progress)
+ 
+ #endif
+ 
+-bool this_cpu_in_panic(void);
+-
+ #ifdef CONFIG_SMP
+ extern int __printk_cpu_sync_try_get(void);
+ extern void __printk_cpu_sync_wait(void);
+diff --git a/kernel/panic.c b/kernel/panic.c
+index 5266e195f5ac..8415e4073da1 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -343,7 +343,7 @@ EXPORT_SYMBOL(panic_on_this_cpu);
+  */
+ bool panic_on_other_cpu(void)
+ {
+-	return (panic_in_progress() && !this_cpu_in_panic());
++	return (panic_in_progress() && !panic_on_this_cpu());
+ }
+ EXPORT_SYMBOL(panic_on_other_cpu);
+ 
 diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
-index 646801813415..7490865e2f44 100644
+index 7490865e2f44..c6d1a4a747e9 100644
 --- a/kernel/printk/nbcon.c
 +++ b/kernel/printk/nbcon.c
-@@ -2,6 +2,7 @@
- // Copyright (C) 2022 Linutronix GmbH, John Ogness
- // Copyright (C) 2022 Intel, Thomas Gleixner
+@@ -1394,7 +1394,7 @@ enum nbcon_prio nbcon_get_default_prio(void)
+ {
+ 	unsigned int *cpu_emergency_nesting;
+ 
+-	if (this_cpu_in_panic())
++	if (panic_on_this_cpu())
+ 		return NBCON_PRIO_PANIC;
+ 
+ 	cpu_emergency_nesting = nbcon_get_cpu_emergency_nesting();
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 5fe35f377b79..faa8b1f0585b 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -17,6 +17,7 @@
+  *	01Mar01 Andrew Morton
+  */
  
 +#include "linux/panic.h"
- #include <linux/atomic.h>
- #include <linux/bug.h>
- #include <linux/console.h>
-@@ -589,7 +590,6 @@ static struct printk_buffers panic_nbcon_pbufs;
-  */
- static bool nbcon_context_try_acquire(struct nbcon_context *ctxt, bool is_reacquire)
- {
--	unsigned int cpu = smp_processor_id();
- 	struct console *con = ctxt->console;
- 	struct nbcon_state cur;
- 	int err;
-@@ -614,7 +614,7 @@ static bool nbcon_context_try_acquire(struct nbcon_context *ctxt, bool is_reacqu
- 	/* Acquire succeeded. */
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
  
- 	/* Assign the appropriate buffer for this context. */
--	if (atomic_read(&panic_cpu) == cpu)
-+	if (panic_on_this_cpu())
- 		ctxt->pbufs = &panic_nbcon_pbufs;
- 	else
- 		ctxt->pbufs = con->pbufs;
+ #include <linux/kernel.h>
+@@ -345,18 +346,6 @@ static void __up_console_sem(unsigned long ip)
+ }
+ #define up_console_sem() __up_console_sem(_RET_IP_)
+ 
+-/* Return true if a panic is in progress on the current CPU. */
+-bool this_cpu_in_panic(void)
+-{
+-	/*
+-	 * We can use raw_smp_processor_id() here because it is impossible for
+-	 * the task to be migrated to the panic_cpu, or away from it. If
+-	 * panic_cpu has already been set, and we're not currently executing on
+-	 * that CPU, then we never will be.
+-	 */
+-	return unlikely(atomic_read(&panic_cpu) == raw_smp_processor_id());
+-}
+-
+ /*
+  * Return true if a panic is in progress on a remote CPU.
+  *
+@@ -365,7 +354,7 @@ bool this_cpu_in_panic(void)
+  */
+ bool other_cpu_in_panic(void)
+ {
+-	return (panic_in_progress() && !this_cpu_in_panic());
++	return (panic_in_progress() && !panic_on_this_cpu());
+ }
+ 
+ /*
+diff --git a/kernel/printk/printk_ringbuffer.c b/kernel/printk/printk_ringbuffer.c
+index d9fb053cff67..e2a1b2d34d2b 100644
+--- a/kernel/printk/printk_ringbuffer.c
++++ b/kernel/printk/printk_ringbuffer.c
+@@ -2143,7 +2143,7 @@ static bool _prb_read_valid(struct printk_ringbuffer *rb, u64 *seq,
+ 			 * But it would have the sequence number returned
+ 			 * by "prb_next_reserve_seq() - 1".
+ 			 */
+-			if (this_cpu_in_panic() &&
++			if (panic_on_this_cpu() &&
+ 			    (!debug_non_panic_cpus || legacy_allow_panic_sync) &&
+ 			    ((*seq + 1) < prb_next_reserve_seq(rb))) {
+ 				(*seq)++;
+diff --git a/lib/dump_stack.c b/lib/dump_stack.c
+index b3a85fe8b673..f0c78b5b5324 100644
+--- a/lib/dump_stack.c
++++ b/lib/dump_stack.c
+@@ -102,7 +102,7 @@ static void __dump_stack(const char *log_lvl)
+  */
+ asmlinkage __visible void dump_stack_lvl(const char *log_lvl)
+ {
+-	bool in_panic = this_cpu_in_panic();
++	bool in_panic = panic_on_this_cpu();
+ 	unsigned long flags;
+ 
+ 	/*
 -- 
 2.43.0
 
