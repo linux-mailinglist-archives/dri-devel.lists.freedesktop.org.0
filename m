@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A4FB348B3
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 19:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37F3B348D5
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 19:34:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3DBB10E51A;
-	Mon, 25 Aug 2025 17:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B39F10E17C;
+	Mon, 25 Aug 2025 17:34:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NVZ9EhpK";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="figFNp7y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4F3910E518
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:32:46 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PFP2aU021128
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:32:46 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFEAE10E042
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:34:42 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57PFqtB2016949
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:34:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=PtOiqEStQKZ77zF7pAKUnMDX
- Hl86zn3BR3KKMOrL/y8=; b=NVZ9EhpKamed2usnZ22OuD7deiCJJtYDOVcRZlh4
- C7h0LGQNQm4BhPWhv5UxLXdQSm6CPiDDWxMgkf8XfW4x/0ShSHHRDa988lxJHkdY
- NMkcr10gI4fWSRf3z3vL78XnME/a7n3ijNuUXGwpfJFzZVXbJ30z2xzJ0rlP3MuP
- CNOc6p3+/nvhLe+EUYefcW/fhy5KdLsVz+Wepweh0hDQMC41mRXMR51xnSJCOeJP
- 3JaDIIjgRpaJNIKcglNm6TILMfgVSJ1BlG0wpkw255znSohOILxAJL9i+Vg4xdBs
- H8GcFpp5dOTcDqddrRJs4zhsj07NveIQud2D/+C0TDQXOA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5um61nd-1
+ :references:subject:to; s=qcppdkim1; bh=921Bzr011b9Fk2gqlTe/2ABf
+ oYFpWqrFuSDN0tU0Jcg=; b=figFNp7yWDmkIdmseVps3EgfXJ5gryeuXcWD5lyA
+ dH6bFvW3l5NbJR7L5OgFMRuNQo3oGOcKskZlSty0IY1fKF9ykdU9jEj6S3fUCi7Q
+ RNObZIodLFJffFaph0aMvFbXWMDylU7ucoGsmJiWL/rRLKyf0nL/oUvXNqg+OeLs
+ TcuxO4AURjP/0wxo357YcbWhk0doJ2GXWmgG7shNBND79+8EbCODQ2iBGDz/X7Z8
+ 6EdPd6etAuIhn3Bf+Mw3nTXSLwq21OvOZHZvqjYsU9/WNZSgfUTnMCl9VE/f3coU
+ 4D7gy5gEiLbq3e3vTUDoU+ZT5/ptJbzeaRec6izeZqlfRA==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5xpp2n9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:32:46 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4b10946ab41so112919381cf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 10:32:46 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 17:34:42 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4b109bc103bso106667981cf.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 10:34:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756143165; x=1756747965;
+ d=1e100.net; s=20230601; t=1756143281; x=1756748081;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PtOiqEStQKZ77zF7pAKUnMDXHl86zn3BR3KKMOrL/y8=;
- b=seawDMyA1AKxTqXVwwGXSsyvC1cOBWpR4KCrg58wY5j9pG/f9V7xedEyZZCrBC4OzK
- NnPCNJTr0Rwv5zzOmczh4NaKmsRZD4cGKhykHk71ZYUY0nYDW7+7XjfY1TiZ/OKVMW4Z
- eIozwiyGZvavbcQUqBsRoPHAe/r2vrDiN27uli5Yo5tCMjf9Vo8fp3hPZ1Ghxdr4YKfY
- vb0OMk9ZuFsZPf0UnPqG8hFiI1dbp6tdaTtOmrNiAsNwQfnBM0RQ+haUrggrxK5wigfz
- R2wQmmp2MTbHrpqnNW1WLHSkCPjdPa0FQfO4Prz9iYFWuIdq3Zx3nn0as0WElOJixjfv
- pQbQ==
+ bh=921Bzr011b9Fk2gqlTe/2ABfoYFpWqrFuSDN0tU0Jcg=;
+ b=uIO6IhZv9IZYbCF3HJ6+iJsjAwLoRvz6WTuhpdZ1OAyyhXdEMwJlWJzFp/OfDJMV99
+ REPmOigDH4+RQtdee+QF8jBkbF3AGOCtS8h6W6TdOw0eiESW7554uzIMFGm0mV6ubHkm
+ btrh5dUKzFVXH7sI8OZXDRVsm2vEF4qAsSWnud+QGQX9s28JwmZh/77g6uTYnVMcU6cS
+ 5iDmWQj1QWOd2VReiHV7RuSuUgpOrEVvWcM7IjliqVdzwrTfSDwnu9h3PgVA56kwnnMx
+ gzvvbxvdxDScmR1iQjrJaIx4sAzsMy/wBB+jFUQiBOR3eEAukQPwhJxGE9IJIH7gt3k2
+ nDSQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUDg+CwHrdvBM4JhBnvs/9H9UR+WNpJP8yohU9D8Te72l9jGskjd2rNwsSzjwrVYUbVc1mkk22OIm8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzyVKBEUagqh053vhgE6icy9dQd3FZcxXdXGAd8pjc1Kqr3iNLm
- MuUyUoNInGlS+k5sr7Oh9WAxtcr/Cx6r+jG9hsAjMuznRnIyoXgdx/SVn0Ael+aoy2zggEndp4f
- HArJ3ir7e6GXb/RD/+CJg4vwUV51Jn0fV8vxqQc9wuRXenU4PNIfq93PHZZ9RM9w+v0z7IzY=
-X-Gm-Gg: ASbGncshHpkY1zfVh/DPjLDyeEw6EOLjd55sAgqkN1+Q/lIICDQIuPbfiX/S87D2zug
- j1GtYiqIAl+JaFlhkw6vy8+VRdIEFkKzgfbymTYxcO3jNLjT6MXozzV+9BdrtoNH0Z0RGonCIq3
- 12fgiC53zupu5IPpvL12ZaNhgiR8pe2fTvODskducdDEb+fr3jLL2ejcGpq6H/Qx9nhMfhCsYtW
- R9GvrOa8BDntOsmEopdSiYYJHTEwnHv0cA+CK2m79zTQUW5F888sBrHd3N4dCeHoIMR5cotg/YZ
- VaPAOSht2A5Zfefa4KgNgGdzucrmVOQxo1vF0fHNGqtMH2g6W9O4BrKHTLFu1jQ81N3SEPmMzAo
- +2MerwTrSxclDIRYM1Di2MqCz5EuKlu+iHP8CW3/dFrIKRyvuBVCT
-X-Received: by 2002:ac8:7c41:0:b0:4b2:8ac4:f098 with SMTP id
- d75a77b69052e-4b2e0a20a11mr6080981cf.34.1756143164599; 
- Mon, 25 Aug 2025 10:32:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEyWUI9/JcuNq34IRC/iYRA3AEnS2Qy6SSU8Z7TfujwVKyou4G/jnYD5HrIwMTWY66+zeUXJg==
-X-Received: by 2002:ac8:7c41:0:b0:4b2:8ac4:f098 with SMTP id
- d75a77b69052e-4b2e0a20a11mr6080081cf.34.1756143163891; 
- Mon, 25 Aug 2025 10:32:43 -0700 (PDT)
+ AJvYcCV+IO7/3DJvZm6itbSfp86rNB/d+7B0Bv54nlkY7kee6CEQprrkepP2B2Xe+nt4CupHL91tINxT28g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzMhxb19JpjvWW9BAj0jEsIPGUoBFuZUwuyZvFKA+ycocs6UNlI
+ 9Nb8Vhk1Zh0tgABhRjTzJaY7Z48niRYR7/fJqIoWbk4qfqNUB+GACqrUJZ0JP0LNYO0N+62Z2Yp
+ w/jLPUdUbuRNUwj8YMxA+Rm6pxjFNxu+FkqMs+9CAL1wOJ+xMZNb3SJdGtPORhSuHqLysoFI=
+X-Gm-Gg: ASbGncvNOJhZvhEoxww4dxKC/uhgW9P4aWBr/7aHksAmokSlN8fFi1a+YV0UWCkTBzS
+ BdzNrAmvyumAbIrpj+z7IxZr3KCxettfNM7m0YLsjGa6yHtkW1/E17nOQnvbzu8yzzpF12sCMRE
+ q8DznT4dbEGx3yNyujyanZUBRIt4mMNdKhUMnCyIGOpDWX31/ft4tA+FDaALYnGDZXMrFDK6UtV
+ ugBo9+xPIK7TwZphusGP/oP6/DrOgSFQb6HCqkQrGBTb6zy/6Ps6KIwhPVzWsp/RI5n9JccUcre
+ eSnS8QHflqZYR2Pn6ZIbTvhciflBzooSICuzuXaYiwslCERcWB4Ithlsi9XXayX9ckILInKLk2i
+ PGqUVYgIIZiFDjsV1MXWaE84nDlTF5DqfCoMK9nF+ziceWcqEXhBS
+X-Received: by 2002:a05:622a:5c9b:b0:4b2:d220:4211 with SMTP id
+ d75a77b69052e-4b2de83cb2emr22826171cf.83.1756143280788; 
+ Mon, 25 Aug 2025 10:34:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFz6WH+r8iVC5X6v7K3eW/AwuiBzcHaMNlP04RqOd75xHftv58SkM/HMIMyfwMINBYuS6fANA==
+X-Received: by 2002:a05:622a:5c9b:b0:4b2:d220:4211 with SMTP id
+ d75a77b69052e-4b2de83cb2emr22825741cf.83.1756143280341; 
+ Mon, 25 Aug 2025 10:34:40 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f3d4d1afasm1436815e87.58.2025.08.25.10.32.42
+ 2adb3069b0e04-55f46dc5a16sm544219e87.125.2025.08.25.10.34.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Aug 2025 10:32:43 -0700 (PDT)
-Date: Mon, 25 Aug 2025 20:32:41 +0300
+ Mon, 25 Aug 2025 10:34:39 -0700 (PDT)
+Date: Mon, 25 Aug 2025 20:34:37 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -86,36 +86,36 @@ Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v3 07/38] drm/msm/dp: allow dp_ctrl stream APIs to use
- any panel passed to it
-Message-ID: <jlgm2fgkyflflphtb4cv5gqedvbrstc64rz5iihjvvwvncha2q@5mrwxuq3i7jx>
+Subject: Re: [PATCH v3 08/38] drm/msm/dp: move the pixel clock control to its
+ own API
+Message-ID: <tmbatmfixhm4axvor3xliq75774vuz5w4ard42serfuwejs624@wh3sk5ug2u4a>
 References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
- <20250825-msm-dp-mst-v3-7-01faacfcdedd@oss.qualcomm.com>
+ <20250825-msm-dp-mst-v3-8-01faacfcdedd@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250825-msm-dp-mst-v3-7-01faacfcdedd@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=VtIjA/2n c=1 sm=1 tr=0 ts=68ac9e3e cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=6Lrzk36WTCfDkofcdswA:9
- a=CjuIK1q_8ugA:10 a=dawVfQjAaf238kedN5IG:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMiBTYWx0ZWRfX0qF+8wKZVj8t
- PgchVMw2P2MDuIEZg37ALrHewYjDUvRfTWwJwMthf9XP4DR57Ou3G/tMkfxjHHz4DISoSPwxxCV
- x175QmQDf6rBVjcfEXBO4PSYfnB5RJ7mRQqkLU5+ALtLPjisf1xdXmouiJJGhNkjk5r4RhKbrWJ
- CxbSifDCFgxDw0fDQf+ap+s0qi/PMqaQnj4MP6q0Pr71PbWsb1gWHUyLVPK0Xec10HdOSmuYXbZ
- epSMTQi468S/uWCIrFaC2p+Fwhdvf87KFj06iTwKd/V3Mfhy+bZBLxXu4NT6m7Cpv4PK2refRp+
- /3G+6/+071SOvZF5/tuFWiddcWSeoawA7lFOru+AjKjdgH2ETCPtczXKeKzpSnDpGM4oMLDLDhP
- P5g55TI8
-X-Proofpoint-GUID: 4nqE52BffKhk0cIRKrw46aa9K7i7rwcV
-X-Proofpoint-ORIG-GUID: 4nqE52BffKhk0cIRKrw46aa9K7i7rwcV
+In-Reply-To: <20250825-msm-dp-mst-v3-8-01faacfcdedd@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=KOlaDEFo c=1 sm=1 tr=0 ts=68ac9eb2 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=YadZbbKFZxuD_lQ-BoMA:9
+ a=CjuIK1q_8ugA:10 a=kacYvNCVWA4VmyqE58fU:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 2ScBOdigKn03caBRFgAVmfUVH9InOLIV
+X-Proofpoint-ORIG-GUID: 2ScBOdigKn03caBRFgAVmfUVH9InOLIV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX0heBsRQqSDtv
+ XRgDhqRQXtoz9raJqTlEkKjwpQ+fvRfeSKJFInAnhQA9KokFlGf1qp1zyLL/RlLTz6bAsn/aQtN
+ 8HrVPML5wb0auN9UCYwHiXNgULkjAeNhfPT3FfjKn7eGKoxyU0y+bjOhieVEIynGahkv9lDSAGB
+ Ngbs0cSEWmCMaAWW+zyDzxmbrbMz7oEBI1NtQZvQ7anzUhY/pBsnN7SQuXJ87/JkXOY9eoq7+gL
+ VPRIjnybJLcww2yACjt2KTXfAlRr5Nu/rv5JExJ5TMTGgZZtm1CJJJzof5jFyXFqVzMRbg0SPU8
+ y6xNfoFCtd31BziYIRGdj55XE+R1vJQvKb3dea733KznHG2cfExNaD9e7pbogbOdaZwr4eUDZhM
+ kKnEnXVA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-25_08,2025-08-20_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508230032
+ malwarescore=0 clxscore=1015 bulkscore=0 adultscore=0 phishscore=0
+ impostorscore=0 spamscore=0 suspectscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,33 +131,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 10:15:53PM +0800, Yongxing Mou wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> Currently, the dp_ctrl stream APIs operate on their own dp_panel
-> which is cached inside the dp_ctrl's private struct. However with MST,
-> the cached panel represents the fixed link and not the sinks which
-> are hotplugged. Allow the stream related APIs to work on the panel
-> which is passed to them rather than the cached one. For SST cases,
-> this shall continue to use the cached dp_panel.
-
-cached -> stored
-
-I think that for MST case we should not be using the msm_dp_panel for
-the link handling at all. Does that make sense or would it require too
-big refactoring?
-
+On Mon, Aug 25, 2025 at 10:15:54PM +0800, Yongxing Mou wrote:
+> Enable/Disable of DP pixel clock happens in multiple code paths
+> leading to code duplication. Move it into individual helpers so that
+> the helpers can be called wherever necessary.
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 > ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 21 +++++++++++----------
->  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
->  drivers/gpu/drm/msm/dp/dp_display.c |  2 +-
->  3 files changed, 13 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 77 +++++++++++++++++++++-------------------
+>  1 file changed, 41 insertions(+), 36 deletions(-)
 > 
+> @@ -2518,21 +2539,10 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
+>  
+>  	drm_dbg_dp(ctrl->drm_dev, "pixel_rate=%lu\n", pixel_rate);
+>  
+> -	ret = clk_set_rate(ctrl->pixel_clk, pixel_rate * 1000);
+> +	ret = msm_dp_ctrl_on_pixel_clk(ctrl, pixel_rate);
+>  	if (ret) {
 
-The patch LGTM.
+Nit: unused curly brackets.
+
+Other than that:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+
+
+> -		DRM_ERROR("Failed to set pixel clock rate. ret=%d\n", ret);
+> -		goto end;
+> -	}
+> -
+> -	if (ctrl->stream_clks_on) {
+> -		drm_dbg_dp(ctrl->drm_dev, "pixel clks already enabled\n");
+> -	} else {
+> -		ret = clk_prepare_enable(ctrl->pixel_clk);
+> -		if (ret) {
+> -			DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
+> -			goto end;
+> -		}
+> -		ctrl->stream_clks_on = true;
+> +		DRM_ERROR("failed to enable pixel clk\n");
+> +		return ret;
+>  	}
+>  
 
 -- 
 With best wishes
