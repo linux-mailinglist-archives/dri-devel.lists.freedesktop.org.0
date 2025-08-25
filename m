@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2899CB33914
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 10:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2F5B3391C
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 10:33:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95EEF10E405;
-	Mon, 25 Aug 2025 08:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D53610E40A;
+	Mon, 25 Aug 2025 08:33:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="E+U7dpeE";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="a1xxl0IC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
  [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA3ED10E40A
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:33:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756110792; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C97210E40A
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:33:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1756110806; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=EU44jlkILiqWOjE8bvdHyOAn8HfLB/+AQYDejGMwt6KgUeD8qZf7x365hX++y/NHtHEpvXNGEp/953GKkiJKaqjrVoLGpz42GcG+e4yf1DVNKUYzMZXJzFlNhVmtfrgPhTVQv8BJJFbKZg+4NLfoFX7fyy+OINXuIvsJ9x1ImtY=
+ b=NEnkm7bkildYSMORz5VwRAsdvB5/k4YKVucjn5aVKdFlLqYZdaQCueHih7rXYrAr6uM5pyqBS/M61FXajgGNYN1B2SdcC0qxLdQVZj+OUy/BWUlttrwNJsMVBSqBFvAMBg0I8JI97vlL99zg0i0ZJZSmjlJuReTpRZjvdsB/V4E=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756110792;
+ s=zohoarc; t=1756110806;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=UJ/V7c5zKcpeViQcTrsVDRQQrw2d8eF4oHVI/ko8H1I=; 
- b=X/+Sm5kFl0UbNCutifAkgWi3o98UpqJxWoJhUTTehWQ3V0u8QMunL4KjiNLJiD7OngdFgvksJHZxqOejUYPCqvXJSDIT1QCXs2YxnCdV33qiQlEtj0R1EwwtJtXheas/DWTlMeQRcgLuxd2ZkJ31h6Y1yWBDkm2JPRyH/bgdLq8=
+ bh=F2wW2nSCfNA+ZzeNk/9bZzgPwpwE6OmmcsyR8TE5mz4=; 
+ b=V7OGdpc871O3sg0OliotP2xsf5buy3R43toSM5lkFjRBBU3kQ9ckhZIhZtQrgouXIJ1KF7RLT/KuLPH4V/thq4PfO/oNa2Wxdv5gUpwnu0PNOCZYj8qtoKi6/x+fWBZdXkw+lyYfAuKQdZO9AIllFwWKTKLlVrhB4hLrfqt4HLY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756110792; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756110806; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=UJ/V7c5zKcpeViQcTrsVDRQQrw2d8eF4oHVI/ko8H1I=;
- b=E+U7dpeEFJNVWTDCMvyWbfP9w5OsHT1QlIfYTwg2dKftuIPYhBy6KBylPNqt6pbW
- CFgf2ZI3R+zKxhef0sn/JIOP+WVSwaocUJOgLEVddQ49UHQq5hw9is1wl4smUT8Q0W7
- cURkRmrPC3dK9UY9ScG+G2ynZK/AnXNubD2NixpU=
-Received: by mx.zohomail.com with SMTPS id 175611079096555.98698687328829;
- Mon, 25 Aug 2025 01:33:10 -0700 (PDT)
+ bh=F2wW2nSCfNA+ZzeNk/9bZzgPwpwE6OmmcsyR8TE5mz4=;
+ b=a1xxl0ICrtBlZFNVvhybNm7kmnuOD/0w74LewtUIcp6X+nq/JAqpl1Rq/Qs6ojft
+ GYGlVu5oL3M/TENJAf4wgIazVAyWEbmSzjwE4eSTISei8Yjwc2ZCqvh/Ffv62f4UICA
+ 0AHYTFXpyJQllaUGFk63rWh6S3KCledb0oYDHvSw=
+Received: by mx.zohomail.com with SMTPS id 1756110805059495.54620359289174;
+ Mon, 25 Aug 2025 01:33:25 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 25 Aug 2025 10:28:38 +0200
-Subject: [PATCH v3 18/20] PM / devfreq: rockchip-dfi: switch to
- FIELD_PREP_WM16 macro
+Date: Mon, 25 Aug 2025 10:28:39 +0200
+Subject: [PATCH v3 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250825-byeword-update-v3-18-947b841cdb29@collabora.com>
+Message-Id: <20250825-byeword-update-v3-19-947b841cdb29@collabora.com>
 References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
 In-Reply-To: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
 To: Yury Norov <yury.norov@gmail.com>, 
@@ -101,110 +100,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-drivers that use constant masks.
-
-Like many other Rockchip drivers, rockchip-dfi brings with it its own
-HIWORD_UPDATE macro. This variant doesn't shift the value (and like the
-others, doesn't do any checking).
+The sp7021 clock driver has its own shifted high word mask macro,
+similar to the ones many Rockchip drivers have.
 
 Remove it, and replace instances of it with hw_bitfield.h's
-FIELD_PREP_WM16.  Since FIELD_PREP_WM16 requires contiguous masks and
-shifts the value for us, some reshuffling of definitions needs to
-happen.
+FIELD_PREP_WM16 macro, which does the same thing except in a common
+macro that also does compile-time error checking.
 
-This gives us better compile-time error checking, and in my opinion,
-nicer code.
-
-Tested on an RK3568 ODROID-M1 board, and an RK3588 ROCK 5B board.
+This was compile-tested with 32-bit ARM with Clang, no runtime tests
+were performed as I lack the hardware. However, I verified that fix
+commit 5c667d5a5a3e ("clk: sp7021: Adjust width of _m in HWM_FIELD_PREP()")
+is not regressed. No warning is produced.
 
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/devfreq/event/rockchip-dfi.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ drivers/clk/clk-sp7021.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/devfreq/event/rockchip-dfi.c b/drivers/devfreq/event/rockchip-dfi.c
-index 0470d7c175f4f6bb3955e36c713f4c55538d1a87..19fc23dedb0af0dfe88dd418f6817a1b0bed10f2 100644
---- a/drivers/devfreq/event/rockchip-dfi.c
-+++ b/drivers/devfreq/event/rockchip-dfi.c
-@@ -20,6 +20,7 @@
+diff --git a/drivers/clk/clk-sp7021.c b/drivers/clk/clk-sp7021.c
+index 95d66191df4bdb3609128ea097be896ef3a1038a..e902ba75e00656688441b938938f3fc4afc46974 100644
+--- a/drivers/clk/clk-sp7021.c
++++ b/drivers/clk/clk-sp7021.c
+@@ -7,6 +7,7 @@
+ #include <linux/clk-provider.h>
  #include <linux/of.h>
- #include <linux/of_device.h>
  #include <linux/bitfield.h>
 +#include <linux/hw_bitfield.h>
- #include <linux/bits.h>
- #include <linux/perf_event.h>
+ #include <linux/slab.h>
+ #include <linux/io.h>
+ #include <linux/err.h>
+@@ -38,13 +39,6 @@ enum {
+ #define MASK_DIVN	GENMASK(7, 0)
+ #define MASK_DIVM	GENMASK(14, 8)
  
-@@ -30,8 +31,6 @@
- 
- #define DMC_MAX_CHANNELS	4
- 
--#define HIWORD_UPDATE(val, mask)	((val) | (mask) << 16)
+-/* HIWORD_MASK FIELD_PREP */
+-#define HWM_FIELD_PREP(mask, value)		\
+-({						\
+-	u64 _m = mask;				\
+-	(_m << 16) | FIELD_PREP(_m, value);	\
+-})
 -
- /* DDRMON_CTRL */
- #define DDRMON_CTRL	0x04
- #define DDRMON_CTRL_DDR4		BIT(5)
-@@ -40,9 +39,6 @@
- #define DDRMON_CTRL_LPDDR23		BIT(2)
- #define DDRMON_CTRL_SOFTWARE_EN		BIT(1)
- #define DDRMON_CTRL_TIMER_CNT_EN	BIT(0)
--#define DDRMON_CTRL_DDR_TYPE_MASK	(DDRMON_CTRL_DDR4 | \
--					 DDRMON_CTRL_LPDDR4 | \
--					 DDRMON_CTRL_LPDDR23)
+ struct sp_pll {
+ 	struct clk_hw hw;
+ 	void __iomem *reg;
+@@ -313,15 +307,15 @@ static int plltv_set_rate(struct sp_pll *clk)
+ 	u32 r0, r1, r2;
  
- #define DDRMON_CH0_WR_NUM		0x20
- #define DDRMON_CH0_RD_NUM		0x24
-@@ -142,29 +138,32 @@ static int rockchip_dfi_enable(struct rockchip_dfi *dfi)
- 			continue;
+ 	r0  = BIT(clk->bp_bit + 16);
+-	r0 |= HWM_FIELD_PREP(MASK_SEL_FRA, clk->p[SEL_FRA]);
+-	r0 |= HWM_FIELD_PREP(MASK_SDM_MOD, clk->p[SDM_MOD]);
+-	r0 |= HWM_FIELD_PREP(MASK_PH_SEL, clk->p[PH_SEL]);
+-	r0 |= HWM_FIELD_PREP(MASK_NFRA, clk->p[NFRA]);
++	r0 |= FIELD_PREP_WM16(MASK_SEL_FRA, clk->p[SEL_FRA]);
++	r0 |= FIELD_PREP_WM16(MASK_SDM_MOD, clk->p[SDM_MOD]);
++	r0 |= FIELD_PREP_WM16(MASK_PH_SEL, clk->p[PH_SEL]);
++	r0 |= FIELD_PREP_WM16(MASK_NFRA, clk->p[NFRA]);
  
- 		/* clear DDRMON_CTRL setting */
--		writel_relaxed(HIWORD_UPDATE(0, DDRMON_CTRL_TIMER_CNT_EN |
--			       DDRMON_CTRL_SOFTWARE_EN | DDRMON_CTRL_HARDWARE_EN),
-+		writel_relaxed(FIELD_PREP_WM16(DDRMON_CTRL_TIMER_CNT_EN, 0) |
-+			       FIELD_PREP_WM16(DDRMON_CTRL_SOFTWARE_EN, 0) |
-+			       FIELD_PREP_WM16(DDRMON_CTRL_HARDWARE_EN, 0),
- 			       dfi_regs + i * dfi->ddrmon_stride + DDRMON_CTRL);
+-	r1  = HWM_FIELD_PREP(MASK_DIVR, clk->p[DIVR]);
++	r1  = FIELD_PREP_WM16(MASK_DIVR, clk->p[DIVR]);
  
- 		/* set ddr type to dfi */
- 		switch (dfi->ddr_type) {
- 		case ROCKCHIP_DDRTYPE_LPDDR2:
- 		case ROCKCHIP_DDRTYPE_LPDDR3:
--			ctrl = DDRMON_CTRL_LPDDR23;
-+			ctrl = FIELD_PREP_WM16(DDRMON_CTRL_LPDDR23, 1) |
-+			       FIELD_PREP_WM16(DDRMON_CTRL_LPDDR4, 0);
- 			break;
- 		case ROCKCHIP_DDRTYPE_LPDDR4:
- 		case ROCKCHIP_DDRTYPE_LPDDR4X:
--			ctrl = DDRMON_CTRL_LPDDR4;
-+			ctrl = FIELD_PREP_WM16(DDRMON_CTRL_LPDDR23, 0) |
-+			       FIELD_PREP_WM16(DDRMON_CTRL_LPDDR4, 1);
- 			break;
- 		default:
- 			break;
- 		}
+-	r2  = HWM_FIELD_PREP(MASK_DIVN, clk->p[DIVN] - 1);
+-	r2 |= HWM_FIELD_PREP(MASK_DIVM, clk->p[DIVM] - 1);
++	r2  = FIELD_PREP_WM16(MASK_DIVN, clk->p[DIVN] - 1);
++	r2 |= FIELD_PREP_WM16(MASK_DIVM, clk->p[DIVM] - 1);
  
--		writel_relaxed(HIWORD_UPDATE(ctrl, DDRMON_CTRL_DDR_TYPE_MASK),
--			       dfi_regs + i * dfi->ddrmon_stride + DDRMON_CTRL);
-+		writel_relaxed(ctrl, dfi_regs + i * dfi->ddrmon_stride +
-+			       DDRMON_CTRL);
- 
- 		/* enable count, use software mode */
--		writel_relaxed(HIWORD_UPDATE(DDRMON_CTRL_SOFTWARE_EN, DDRMON_CTRL_SOFTWARE_EN),
-+		writel_relaxed(FIELD_PREP_WM16(DDRMON_CTRL_SOFTWARE_EN, 1),
- 			       dfi_regs + i * dfi->ddrmon_stride + DDRMON_CTRL);
- 
- 		if (dfi->ddrmon_ctrl_single)
-@@ -194,8 +193,8 @@ static void rockchip_dfi_disable(struct rockchip_dfi *dfi)
- 		if (!(dfi->channel_mask & BIT(i)))
- 			continue;
- 
--		writel_relaxed(HIWORD_UPDATE(0, DDRMON_CTRL_SOFTWARE_EN),
--			      dfi_regs + i * dfi->ddrmon_stride + DDRMON_CTRL);
-+		writel_relaxed(FIELD_PREP_WM16(DDRMON_CTRL_SOFTWARE_EN, 0),
-+			       dfi_regs + i * dfi->ddrmon_stride + DDRMON_CTRL);
- 
- 		if (dfi->ddrmon_ctrl_single)
- 			break;
+ 	spin_lock_irqsave(&clk->lock, flags);
+ 	writel(r0, clk->reg);
 
 -- 
 2.51.0
