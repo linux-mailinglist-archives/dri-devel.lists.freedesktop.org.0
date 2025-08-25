@@ -2,97 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C656DB355EF
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 09:43:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9489DB33B3F
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 11:38:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 279B610E5EB;
-	Tue, 26 Aug 2025 07:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 917B110E362;
+	Mon, 25 Aug 2025 09:38:39 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mGR/q8D5";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D29010E413;
- Mon, 25 Aug 2025 09:29:17 +0000 (UTC)
-X-UUID: f4718114819511f0b29709d653e92f7d-20250825
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:cb130e20-aecb-43b8-b030-6ef1cc18cdba, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
- N:release,TS:-25
-X-CID-META: VersionHash:6493067, CLOUDID:aeb4c23f173f4cd6117d234a0768e40a,
- BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|50,EDM:1,IP:nil
- ,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:
- 1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: f4718114819511f0b29709d653e92f7d-20250825
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
- (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
- with ESMTP id 1183095260; Mon, 25 Aug 2025 17:29:09 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
- by mail.kylinos.cn (NSMail) with SMTP id 7CFD8E008FA5;
- Mon, 25 Aug 2025 17:29:09 +0800 (CST)
-X-ns-mid: postfix-68AC2CE5-2011171159
-Received: from localhost.localdomain (unknown [172.25.120.24])
- by mail.kylinos.cn (NSMail) with ESMTPA id EBA03E008FA4;
- Mon, 25 Aug 2025 17:28:56 +0800 (CST)
-From: Zihuan Zhang <zhangzihuan@kylinos.cn>
-To: "Rafael J . wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Markus Mayer <mmayer@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Daniel Lezcano <daniel.lezcano@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: zhenglifeng <zhenglifeng1@huawei.com>, "H . Peter Anvin" <hpa@zytor.com>,
- Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Beata Michalska <beata.michalska@arm.com>,
- Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Sumit Gupta <sumitg@nvidia.com>,
- Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org,
- x86@kernel.org, kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev, linux-omap@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- Zihuan Zhang <zhangzihuan@kylinos.cn>
-Subject: [PATCH v1] cpufreq: use __free() for all cpufreq_cpu_get() references
-Date: Mon, 25 Aug 2025 17:28:33 +0800
-Message-Id: <20250825092833.42441-1-zhangzihuan@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B39E510E362;
+ Mon, 25 Aug 2025 09:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756114718; x=1787650718;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to;
+ bh=9sqntHVgKVUiqoLrmQFTfaTHpDlYCnY6dmjYlHnWwU8=;
+ b=mGR/q8D5oBzSbEdAq98uqBYM7L2+p4Z/hP7djYtJwSFLB3CCwblvKaDy
+ yfHdhCFbKHKu/4hgrhkelR3uovzHIKCjAFL7rVemKf4hmeTjP8TySsFAg
+ SvczpX8Uvqp18i9gTxjNjNeEvolMSNTJ3LJFe6RJ3FLsPPLwRVpjjxcwW
+ 2H7Sa3p61G8tAbddev1y6SBq8VtwBuUF/orntOoVX+Y7vC8mm75PZ4u8C
+ 20CTUzMHAplbENzRR+6vzFroV1p9OYirP/t61029kmX9tnTt6RBr8NqbS
+ sa93QpWX5+gKBu8Oj9pz0K+97pmeiLj/pGVigDDhSlh2JWwrpGODLxksg g==;
+X-CSE-ConnectionGUID: +4blEptgSKiBJywsp8LNIQ==
+X-CSE-MsgGUID: v0cJkQ9yQG+Up62e7hpiPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="75918930"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208,217";a="75918930"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 02:38:37 -0700
+X-CSE-ConnectionGUID: 9GFYt7SsQt+O8wij9n0+3w==
+X-CSE-MsgGUID: /uAJH7wmT++ZWW+jxh7i4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+ d="scan'208,217";a="206419585"
+Received: from aiddamse-mobl3.gar.corp.intel.com (HELO [10.247.233.114])
+ ([10.247.233.114])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 02:38:33 -0700
+Content-Type: multipart/alternative;
+ boundary="------------rb531RoTw5PjgCelrrq1O90Z"
+Message-ID: <08d8482e-d86b-45a5-8931-39556188cbeb@linux.intel.com>
+Date: Mon, 25 Aug 2025 15:08:30 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 26 Aug 2025 07:42:42 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v5 0/5] Proposal to use netlink for RAS and Telemetry across
+ drm subsystem
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@gmail.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Simona Vetter <simona@ffwll.ch>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Michael J <michael.j.ruhl@intel.com>, Riana Tauro <riana.tauro@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>
+References: <20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com>
+ <aJzzr-ZuJCrd8r7x@intel.com>
+Content-Language: en-US
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+In-Reply-To: <aJzzr-ZuJCrd8r7x@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,694 +78,270 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch replaces all remaining uses of cpufreq_cpu_get() with
-the __free(cpufreq_cpu_put) annotation.
+This is a multi-part message in MIME format.
+--------------rb531RoTw5PjgCelrrq1O90Z
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Motivation:
-- Ensures automatic cleanup of policy references when they go out of scop=
-e,
-  reducing the risk of forgetting to call cpufreq_cpu_put() on early retu=
-rn
-  or error paths.
-- Brings the code in line with the latest kernel coding style and best
-  practices for managing reference-counted objects.
-- No functional changes are introduced; behavior remains the same,
-  but reference counting is now safer and easier to maintain.
 
-Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
----
- arch/arm64/kernel/topology.c                  |  9 +++----
- arch/x86/kvm/x86.c                            | 10 ++++----
- drivers/acpi/processor_thermal.c              | 13 ++++------
- drivers/cpufreq/brcmstb-avs-cpufreq.c         |  4 +---
- drivers/cpufreq/cppc_cpufreq.c                |  4 +---
- drivers/cpufreq/intel_pstate.c                |  3 +--
- drivers/cpufreq/longhaul.c                    |  3 +--
- drivers/cpufreq/mediatek-cpufreq.c            |  6 ++---
- drivers/cpufreq/powernv-cpufreq.c             |  6 ++---
- drivers/cpufreq/s5pv210-cpufreq.c             |  3 +--
- drivers/cpufreq/tegra186-cpufreq.c            |  3 +--
- drivers/devfreq/governor_passive.c            | 19 ++++-----------
- drivers/gpu/drm/i915/gt/intel_llc.c           |  3 +--
- drivers/macintosh/windfarm_cpufreq_clamp.c    |  4 +---
- drivers/powercap/dtpm_cpu.c                   | 24 ++++++-------------
- drivers/thermal/imx_thermal.c                 |  7 ++----
- .../ti-soc-thermal/ti-thermal-common.c        |  5 +---
- kernel/power/energy_model.c                   |  7 ++----
- 18 files changed, 40 insertions(+), 93 deletions(-)
+On 14-08-2025 01:51, Rodrigo Vivi wrote:
+> On Wed, Jul 30, 2025 at 12:19:51PM +0530, Aravind Iddamsetty wrote:
+>> Revisiting this patch series to address pending feedback and help move
+>> the discussion towards a conclusion. This revision includes updates
+>> based on previous comments[1] and aims to clarify outstanding concerns.
+>> Specifically added command to facility reporting errors from IP blocks
+>> to support AMDGPU driver model of RAS.
+>> [1]: https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/
+>>
+>> I sincerely appreciate everyones patience and thoughtful reviews so
+>> far, and I hope this refreshed series facilitates the final evaluation
+>> and acceptance.
+>>
+>> Please feel free to share any further suggestions or questions.
+>>
+>> Thank you for your continued consideration.
+>> ----------------------------------------------------------------------
+>>
+>> Our hardware supports RAS(Reliability, Availability, Serviceability) by
+>> reporting the errors to the host, which the KMD processes and exposes a
+>> set of error counters which can be used by observability tools to take 
+>> corrective actions or repairs. Traditionally there were being exposed 
+>> via PMU (for relative counters) and sysfs interface (for absolute 
+>> value) in our internal branch. But, due to the limitations in this 
+>> approach to use two interfaces and also not able to have an event based 
+>> reporting or configurability, an alternative approach to try netlink 
+>> was suggested by community for drm subsystem wide UAPI for RAS and 
+>> telemetry as discussed in [2]. 
+>>
+>> This [2] is the inspiration to this series. It uses the generic
+>> netlink(genl) family subsystem and exposes a set of commands that can
+>> be used by every drm driver, the framework provides a means to have
+>> custom commands too. Each drm driver instance in this example xe driver
+>> instance registers a family and operations to the genl subsystem through
+>> which it enumerates and reports the error counters. An event based
+>> notification is also supported to which userpace can subscribe to and
+>> be notified when any error occurs and read the error counter this avoids
+>> continuous polling on error counter. This can also be extended to
+>> threshold based notification.
+>>
+>> [2]: https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
+> I'm bringing some thoughts below and I'd like to get inputs from folks involved
+> in the original discussions here please.
+> Any thought is welcomed so we can move faster towards a real GPU standard RAS
+> solution.
+>
+>> This series is on top [3] series which introduces error counting infra in Xe
+>> driver.
+>> [3]: https://lore.kernel.org/all/20250730054814.1376770-1-aravind.iddamsetty@linux.intel.com/
+>>
+>> V5:
+>> Add support to read error corresponding to an IP BLOCK
+> I honestly don't believe that this version solves all the concerns raised by
+> AMD folks in the previous reviews. It is true that this is bringing ways of
+> reading errors per IP block, but if I understood them correctly, they would
+> like better (and separate) ways to declare and handle the errors coming from
+> different IP block, rather than simply reading/querying for them filtered out.
+>
+> So, I have som grouping ideas below.
 
-diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
-index 5d07ee85bdae..e3cb6d54f35b 100644
---- a/arch/arm64/kernel/topology.c
-+++ b/arch/arm64/kernel/topology.c
-@@ -307,17 +307,16 @@ int arch_freq_get_on_cpu(int cpu)
- 		 */
- 		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
- 		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAMPLE_E=
-XP_MS))) {
--			struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
-+			struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 			int ref_cpu;
-=20
-+			policy =3D cpufreq_cpu_get(cpu);
- 			if (!policy)
- 				return -EINVAL;
-=20
- 			if (!cpumask_intersects(policy->related_cpus,
--						housekeeping_cpumask(HK_TYPE_TICK))) {
--				cpufreq_cpu_put(policy);
-+						housekeeping_cpumask(HK_TYPE_TICK)))
- 				return -EOPNOTSUPP;
--			}
-=20
- 			for_each_cpu_wrap(ref_cpu, policy->cpus, cpu + 1) {
- 				if (ref_cpu =3D=3D start_cpu) {
-@@ -329,8 +328,6 @@ int arch_freq_get_on_cpu(int cpu)
- 					break;
- 			}
-=20
--			cpufreq_cpu_put(policy);
--
- 			if (ref_cpu >=3D nr_cpu_ids)
- 				/* No alternative to pull info from */
- 				return -EAGAIN;
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index a1c49bc681c4..2a825f4ec701 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -9492,16 +9492,14 @@ static void kvm_timer_init(void)
- 		max_tsc_khz =3D tsc_khz;
-=20
- 		if (IS_ENABLED(CONFIG_CPU_FREQ)) {
--			struct cpufreq_policy *policy;
-+			struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 			int cpu;
-=20
- 			cpu =3D get_cpu();
- 			policy =3D cpufreq_cpu_get(cpu);
--			if (policy) {
--				if (policy->cpuinfo.max_freq)
--					max_tsc_khz =3D policy->cpuinfo.max_freq;
--				cpufreq_cpu_put(policy);
--			}
-+			if (policy && policy->cpuinfo.max_freq)
-+				max_tsc_khz =3D policy->cpuinfo.max_freq;
-+
- 			put_cpu();
- 		}
- 		cpufreq_register_notifier(&kvmclock_cpufreq_notifier_block,
-diff --git a/drivers/acpi/processor_thermal.c b/drivers/acpi/processor_th=
-ermal.c
-index 1219adb11ab9..8367a81c4842 100644
---- a/drivers/acpi/processor_thermal.c
-+++ b/drivers/acpi/processor_thermal.c
-@@ -64,17 +64,14 @@ static int phys_package_first_cpu(int cpu)
-=20
- static int cpu_has_cpufreq(unsigned int cpu)
- {
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
-=20
- 	if (!acpi_processor_cpufreq_init)
- 		return 0;
-=20
- 	policy =3D cpufreq_cpu_get(cpu);
--	if (policy) {
--		cpufreq_cpu_put(policy);
--		return 1;
--	}
--	return 0;
-+
-+	return !!policy;
- }
-=20
- static int cpufreq_get_max_state(unsigned int cpu)
-@@ -95,7 +92,7 @@ static int cpufreq_get_cur_state(unsigned int cpu)
-=20
- static int cpufreq_set_cur_state(unsigned int cpu, int state)
- {
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	struct acpi_processor *pr;
- 	unsigned long max_freq;
- 	int i, ret;
-@@ -127,8 +124,6 @@ static int cpufreq_set_cur_state(unsigned int cpu, in=
-t state)
- 		max_freq =3D (policy->cpuinfo.max_freq *
- 			    (100 - reduction_step(i) * cpufreq_thermal_reduction_pctg)) / 100=
-;
-=20
--		cpufreq_cpu_put(policy);
--
- 		ret =3D freq_qos_update_request(&pr->thermal_req, max_freq);
- 		if (ret < 0) {
- 			pr_warn("Failed to update thermal freq constraint: CPU%d (%d)\n",
-diff --git a/drivers/cpufreq/brcmstb-avs-cpufreq.c b/drivers/cpufreq/brcm=
-stb-avs-cpufreq.c
-index 5940d262374f..71450cca8e9f 100644
---- a/drivers/cpufreq/brcmstb-avs-cpufreq.c
-+++ b/drivers/cpufreq/brcmstb-avs-cpufreq.c
-@@ -480,7 +480,7 @@ static bool brcm_avs_is_firmware_loaded(struct privat=
-e_data *priv)
-=20
- static unsigned int brcm_avs_cpufreq_get(unsigned int cpu)
- {
--	struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
-u_get(cpu);
- 	struct private_data *priv;
-=20
- 	if (!policy)
-@@ -488,8 +488,6 @@ static unsigned int brcm_avs_cpufreq_get(unsigned int=
- cpu)
-=20
- 	priv =3D policy->driver_data;
-=20
--	cpufreq_cpu_put(policy);
--
- 	return brcm_avs_get_frequency(priv->base);
- }
-=20
-diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufre=
-q.c
-index 4a17162a392d..7183754b1f31 100644
---- a/drivers/cpufreq/cppc_cpufreq.c
-+++ b/drivers/cpufreq/cppc_cpufreq.c
-@@ -726,7 +726,7 @@ static int cppc_get_perf_ctrs_sample(int cpu,
- static unsigned int cppc_cpufreq_get_rate(unsigned int cpu)
- {
- 	struct cppc_perf_fb_ctrs fb_ctrs_t0 =3D {0}, fb_ctrs_t1 =3D {0};
--	struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
-u_get(cpu);
- 	struct cppc_cpudata *cpu_data;
- 	u64 delivered_perf;
- 	int ret;
-@@ -736,8 +736,6 @@ static unsigned int cppc_cpufreq_get_rate(unsigned in=
-t cpu)
-=20
- 	cpu_data =3D policy->driver_data;
-=20
--	cpufreq_cpu_put(policy);
--
- 	ret =3D cppc_get_perf_ctrs_sample(cpu, &fb_ctrs_t0, &fb_ctrs_t1);
- 	if (ret) {
- 		if (ret =3D=3D -EFAULT)
-diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pstat=
-e.c
-index f366d35c5840..fb962140af56 100644
---- a/drivers/cpufreq/intel_pstate.c
-+++ b/drivers/cpufreq/intel_pstate.c
-@@ -1698,7 +1698,7 @@ static ssize_t store_no_turbo(struct kobject *a, st=
-ruct kobj_attribute *b,
- static void update_qos_request(enum freq_qos_req_type type)
- {
- 	struct freq_qos_request *req;
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	int i;
-=20
- 	for_each_possible_cpu(i) {
-@@ -1710,7 +1710,6 @@ static void update_qos_request(enum freq_qos_req_ty=
-pe type)
- 			continue;
-=20
- 		req =3D policy->driver_data;
--		cpufreq_cpu_put(policy);
-=20
- 		if (!req)
- 			continue;
-diff --git a/drivers/cpufreq/longhaul.c b/drivers/cpufreq/longhaul.c
-index ba0e08c8486a..ae5596919671 100644
---- a/drivers/cpufreq/longhaul.c
-+++ b/drivers/cpufreq/longhaul.c
-@@ -950,7 +950,7 @@ static int __init longhaul_init(void)
-=20
- static void __exit longhaul_exit(void)
- {
--	struct cpufreq_policy *policy =3D cpufreq_cpu_get(0);
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
-u_get(0);
- 	int i;
-=20
- 	for (i =3D 0; i < numscales; i++) {
-@@ -968,7 +968,6 @@ static void __exit longhaul_exit(void)
- 		}
- 	}
-=20
--	cpufreq_cpu_put(policy);
- 	cpufreq_unregister_driver(&longhaul_driver);
- 	kfree(longhaul_table);
- }
-diff --git a/drivers/cpufreq/mediatek-cpufreq.c b/drivers/cpufreq/mediate=
-k-cpufreq.c
-index f3f02c4b6888..1fae060e16d9 100644
---- a/drivers/cpufreq/mediatek-cpufreq.c
-+++ b/drivers/cpufreq/mediatek-cpufreq.c
-@@ -320,7 +320,7 @@ static int mtk_cpufreq_opp_notifier(struct notifier_b=
-lock *nb,
- 	struct dev_pm_opp *new_opp;
- 	struct mtk_cpu_dvfs_info *info;
- 	unsigned long freq, volt;
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	int ret =3D 0;
-=20
- 	info =3D container_of(nb, struct mtk_cpu_dvfs_info, opp_nb);
-@@ -354,11 +354,9 @@ static int mtk_cpufreq_opp_notifier(struct notifier_=
-block *nb,
-=20
- 			dev_pm_opp_put(new_opp);
- 			policy =3D cpufreq_cpu_get(info->opp_cpu);
--			if (policy) {
-+			if (policy)
- 				cpufreq_driver_target(policy, freq / 1000,
- 						      CPUFREQ_RELATION_L);
--				cpufreq_cpu_put(policy);
--			}
- 		}
- 	}
-=20
-diff --git a/drivers/cpufreq/powernv-cpufreq.c b/drivers/cpufreq/powernv-=
-cpufreq.c
-index 7d9a5f656de8..ea9d78bbeb38 100644
---- a/drivers/cpufreq/powernv-cpufreq.c
-+++ b/drivers/cpufreq/powernv-cpufreq.c
-@@ -892,7 +892,7 @@ static int powernv_cpufreq_reboot_notifier(struct not=
-ifier_block *nb,
- 				unsigned long action, void *unused)
- {
- 	int cpu;
--	struct cpufreq_policy *cpu_policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
-=20
- 	rebooting =3D true;
- 	for_each_online_cpu(cpu) {
-@@ -900,7 +900,6 @@ static int powernv_cpufreq_reboot_notifier(struct not=
-ifier_block *nb,
- 		if (!cpu_policy)
- 			continue;
- 		powernv_cpufreq_target_index(cpu_policy, get_nominal_index());
--		cpufreq_cpu_put(cpu_policy);
- 	}
-=20
- 	return NOTIFY_DONE;
-@@ -913,7 +912,7 @@ static struct notifier_block powernv_cpufreq_reboot_n=
-b =3D {
- static void powernv_cpufreq_work_fn(struct work_struct *work)
- {
- 	struct chip *chip =3D container_of(work, struct chip, throttle);
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	unsigned int cpu;
- 	cpumask_t mask;
-=20
-@@ -935,7 +934,6 @@ static void powernv_cpufreq_work_fn(struct work_struc=
-t *work)
- 		index =3D cpufreq_table_find_index_c(policy, policy->cur, false);
- 		powernv_cpufreq_target_index(policy, index);
- 		cpumask_andnot(&mask, &mask, policy->cpus);
--		cpufreq_cpu_put(policy);
- 	}
- out:
- 	cpus_read_unlock();
-diff --git a/drivers/cpufreq/s5pv210-cpufreq.c b/drivers/cpufreq/s5pv210-=
-cpufreq.c
-index 76c888ed8d16..95f1568e9530 100644
---- a/drivers/cpufreq/s5pv210-cpufreq.c
-+++ b/drivers/cpufreq/s5pv210-cpufreq.c
-@@ -555,7 +555,7 @@ static int s5pv210_cpufreq_reboot_notifier_event(stru=
-ct notifier_block *this,
- 						 unsigned long event, void *ptr)
- {
- 	int ret;
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
-=20
- 	policy =3D cpufreq_cpu_get(0);
- 	if (!policy) {
-@@ -564,7 +564,6 @@ static int s5pv210_cpufreq_reboot_notifier_event(stru=
-ct notifier_block *this,
- 	}
-=20
- 	ret =3D cpufreq_driver_target(policy, SLEEP_FREQ, 0);
--	cpufreq_cpu_put(policy);
-=20
- 	if (ret < 0)
- 		return NOTIFY_BAD;
-diff --git a/drivers/cpufreq/tegra186-cpufreq.c b/drivers/cpufreq/tegra18=
-6-cpufreq.c
-index cbabb726c664..4d71e262a729 100644
---- a/drivers/cpufreq/tegra186-cpufreq.c
-+++ b/drivers/cpufreq/tegra186-cpufreq.c
-@@ -105,7 +105,7 @@ static unsigned int tegra186_cpufreq_get(unsigned int=
- cpu)
- {
- 	struct tegra186_cpufreq_data *data =3D cpufreq_get_driver_data();
- 	struct tegra186_cpufreq_cluster *cluster;
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	unsigned int edvd_offset, cluster_id;
- 	u32 ndiv;
-=20
-@@ -117,7 +117,6 @@ static unsigned int tegra186_cpufreq_get(unsigned int=
- cpu)
- 	ndiv =3D readl(data->regs + edvd_offset) & EDVD_CORE_VOLT_FREQ_F_MASK;
- 	cluster_id =3D data->cpus[policy->cpu].bpmp_cluster_id;
- 	cluster =3D &data->clusters[cluster_id];
--	cpufreq_cpu_put(policy);
-=20
- 	return (cluster->ref_clk_khz * ndiv) / cluster->div;
- }
-diff --git a/drivers/devfreq/governor_passive.c b/drivers/devfreq/governo=
-r_passive.c
-index 953cf9a1e9f7..cba58684ee06 100644
---- a/drivers/devfreq/governor_passive.c
-+++ b/drivers/devfreq/governor_passive.c
-@@ -80,7 +80,7 @@ static int get_target_freq_with_cpufreq(struct devfreq =
-*devfreq,
- 	struct devfreq_passive_data *p_data =3D
- 				(struct devfreq_passive_data *)devfreq->data;
- 	struct devfreq_cpu_data *parent_cpu_data;
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	unsigned long cpu, cpu_cur, cpu_min, cpu_max, cpu_percent;
- 	unsigned long dev_min, dev_max;
- 	unsigned long freq =3D 0;
-@@ -94,10 +94,8 @@ static int get_target_freq_with_cpufreq(struct devfreq=
- *devfreq,
- 		}
-=20
- 		parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
--		if (!parent_cpu_data) {
--			cpufreq_cpu_put(policy);
-+		if (!parent_cpu_data)
- 			continue;
--		}
-=20
- 		/* Get target freq via required opps */
- 		cpu_cur =3D parent_cpu_data->cur_freq * HZ_PER_KHZ;
-@@ -106,7 +104,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
-q *devfreq,
- 					devfreq->opp_table, &cpu_cur);
- 		if (freq) {
- 			*target_freq =3D max(freq, *target_freq);
--			cpufreq_cpu_put(policy);
- 			continue;
- 		}
-=20
-@@ -121,7 +118,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
-q *devfreq,
- 		freq =3D dev_min + mult_frac(dev_max - dev_min, cpu_percent, 100);
-=20
- 		*target_freq =3D max(freq, *target_freq);
--		cpufreq_cpu_put(policy);
- 	}
-=20
- 	return ret;
-@@ -256,7 +252,7 @@ static int cpufreq_passive_register_notifier(struct d=
-evfreq *devfreq)
- 	struct device *dev =3D devfreq->dev.parent;
- 	struct opp_table *opp_table =3D NULL;
- 	struct devfreq_cpu_data *parent_cpu_data;
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	struct device *cpu_dev;
- 	unsigned int cpu;
- 	int ret;
-@@ -280,16 +276,14 @@ static int cpufreq_passive_register_notifier(struct=
- devfreq *devfreq)
- 		}
-=20
- 		parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
--		if (parent_cpu_data) {
--			cpufreq_cpu_put(policy);
-+		if (parent_cpu_data)
- 			continue;
--		}
-=20
- 		parent_cpu_data =3D kzalloc(sizeof(*parent_cpu_data),
- 						GFP_KERNEL);
- 		if (!parent_cpu_data) {
- 			ret =3D -ENOMEM;
--			goto err_put_policy;
-+			goto err;
- 		}
-=20
- 		cpu_dev =3D get_cpu_device(cpu);
-@@ -314,7 +308,6 @@ static int cpufreq_passive_register_notifier(struct d=
-evfreq *devfreq)
- 		parent_cpu_data->max_freq =3D policy->cpuinfo.max_freq;
-=20
- 		list_add_tail(&parent_cpu_data->node, &p_data->cpu_data_list);
--		cpufreq_cpu_put(policy);
- 	}
-=20
- 	mutex_lock(&devfreq->lock);
-@@ -327,8 +320,6 @@ static int cpufreq_passive_register_notifier(struct d=
-evfreq *devfreq)
-=20
- err_free_cpu_data:
- 	kfree(parent_cpu_data);
--err_put_policy:
--	cpufreq_cpu_put(policy);
- err:
-=20
- 	return ret;
-diff --git a/drivers/gpu/drm/i915/gt/intel_llc.c b/drivers/gpu/drm/i915/g=
-t/intel_llc.c
-index 1d19c073ba2e..53cef2ab133d 100644
---- a/drivers/gpu/drm/i915/gt/intel_llc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_llc.c
-@@ -29,13 +29,12 @@ static struct intel_gt *llc_to_gt(struct intel_llc *l=
-lc)
-=20
- static unsigned int cpu_max_MHz(void)
- {
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	unsigned int max_khz;
-=20
- 	policy =3D cpufreq_cpu_get(0);
- 	if (policy) {
- 		max_khz =3D policy->cpuinfo.max_freq;
--		cpufreq_cpu_put(policy);
- 	} else {
- 		/*
- 		 * Default to measured freq if none found, PCU will ensure we
-diff --git a/drivers/macintosh/windfarm_cpufreq_clamp.c b/drivers/macinto=
-sh/windfarm_cpufreq_clamp.c
-index 28d18ef22bbb..f05e2167481f 100644
---- a/drivers/macintosh/windfarm_cpufreq_clamp.c
-+++ b/drivers/macintosh/windfarm_cpufreq_clamp.c
-@@ -62,7 +62,7 @@ static const struct wf_control_ops clamp_ops =3D {
-=20
- static int __init wf_cpufreq_clamp_init(void)
- {
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	struct wf_control *clamp;
- 	struct device *dev;
- 	int ret;
-@@ -79,8 +79,6 @@ static int __init wf_cpufreq_clamp_init(void)
- 	ret =3D freq_qos_add_request(&policy->constraints, &qos_req, FREQ_QOS_M=
-AX,
- 				   max_freq);
-=20
--	cpufreq_cpu_put(policy);
--
- 	if (ret < 0) {
- 		pr_err("%s: Failed to add freq constraint (%d)\n", __func__,
- 		       ret);
-diff --git a/drivers/powercap/dtpm_cpu.c b/drivers/powercap/dtpm_cpu.c
-index 99390ec1481f..65117569d0f3 100644
---- a/drivers/powercap/dtpm_cpu.c
-+++ b/drivers/powercap/dtpm_cpu.c
-@@ -144,19 +144,16 @@ static int update_pd_power_uw(struct dtpm *dtpm)
- static void pd_release(struct dtpm *dtpm)
- {
- 	struct dtpm_cpu *dtpm_cpu =3D to_dtpm_cpu(dtpm);
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
-=20
- 	if (freq_qos_request_active(&dtpm_cpu->qos_req))
- 		freq_qos_remove_request(&dtpm_cpu->qos_req);
-=20
- 	policy =3D cpufreq_cpu_get(dtpm_cpu->cpu);
--	if (policy) {
-+	if (policy)
- 		for_each_cpu(dtpm_cpu->cpu, policy->related_cpus)
- 			per_cpu(dtpm_per_cpu, dtpm_cpu->cpu) =3D NULL;
-=20
--		cpufreq_cpu_put(policy);
--	}
--
- 	kfree(dtpm_cpu);
- }
-=20
-@@ -192,7 +189,7 @@ static int cpuhp_dtpm_cpu_online(unsigned int cpu)
- static int __dtpm_cpu_setup(int cpu, struct dtpm *parent)
- {
- 	struct dtpm_cpu *dtpm_cpu;
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	struct em_perf_state *table;
- 	struct em_perf_domain *pd;
- 	char name[CPUFREQ_NAME_LEN];
-@@ -207,16 +204,12 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *p=
-arent)
- 		return 0;
-=20
- 	pd =3D em_cpu_get(cpu);
--	if (!pd || em_is_artificial(pd)) {
--		ret =3D -EINVAL;
--		goto release_policy;
--	}
-+	if (!pd || em_is_artificial(pd))
-+		return -EINVAL;
-=20
- 	dtpm_cpu =3D kzalloc(sizeof(*dtpm_cpu), GFP_KERNEL);
--	if (!dtpm_cpu) {
--		ret =3D -ENOMEM;
--		goto release_policy;
--	}
-+	if (!dtpm_cpu)
-+		return -ENOMEM;
-=20
- 	dtpm_init(&dtpm_cpu->dtpm, &dtpm_ops);
- 	dtpm_cpu->cpu =3D cpu;
-@@ -239,7 +232,6 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *par=
-ent)
- 	if (ret < 0)
- 		goto out_dtpm_unregister;
-=20
--	cpufreq_cpu_put(policy);
- 	return 0;
-=20
- out_dtpm_unregister:
-@@ -251,8 +243,6 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *par=
-ent)
- 		per_cpu(dtpm_per_cpu, cpu) =3D NULL;
- 	kfree(dtpm_cpu);
-=20
--release_policy:
--	cpufreq_cpu_put(policy);
- 	return ret;
- }
-=20
-diff --git a/drivers/thermal/imx_thermal.c b/drivers/thermal/imx_thermal.=
-c
-index 38c993d1bcb3..1478ccb99553 100644
---- a/drivers/thermal/imx_thermal.c
-+++ b/drivers/thermal/imx_thermal.c
-@@ -543,7 +543,7 @@ static int imx_thermal_register_legacy_cooling(struct=
- imx_thermal_data *data)
- 	struct device_node *np;
- 	int ret =3D 0;
-=20
--	data->policy =3D cpufreq_cpu_get(0);
-+	data->policy __free(put_cpufreq_policy) =3D cpufreq_cpu_get(0);
- 	if (!data->policy) {
- 		pr_debug("%s: CPUFreq policy not found\n", __func__);
- 		return -EPROBE_DEFER;
-@@ -553,10 +553,8 @@ static int imx_thermal_register_legacy_cooling(struc=
-t imx_thermal_data *data)
-=20
- 	if (!np || !of_property_present(np, "#cooling-cells")) {
- 		data->cdev =3D cpufreq_cooling_register(data->policy);
--		if (IS_ERR(data->cdev)) {
-+		if (IS_ERR(data->cdev))
- 			ret =3D PTR_ERR(data->cdev);
--			cpufreq_cpu_put(data->policy);
--		}
- 	}
-=20
- 	of_node_put(np);
-@@ -567,7 +565,6 @@ static int imx_thermal_register_legacy_cooling(struct=
- imx_thermal_data *data)
- static void imx_thermal_unregister_legacy_cooling(struct imx_thermal_dat=
-a *data)
- {
- 	cpufreq_cooling_unregister(data->cdev);
--	cpufreq_cpu_put(data->policy);
- }
-=20
- #else
-diff --git a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c b/drivers=
-/thermal/ti-soc-thermal/ti-thermal-common.c
-index 0cf0826b805a..7ce023bf01b5 100644
---- a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
-+++ b/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
-@@ -234,7 +234,7 @@ int ti_thermal_register_cpu_cooling(struct ti_bandgap=
- *bgp, int id)
- 	if (!data)
- 		return -EINVAL;
-=20
--	data->policy =3D cpufreq_cpu_get(0);
-+	data->policy __free(put_cpufreq_policy) =3D cpufreq_cpu_get(0);
- 	if (!data->policy) {
- 		pr_debug("%s: CPUFreq policy not found\n", __func__);
- 		return -EPROBE_DEFER;
-@@ -246,7 +246,6 @@ int ti_thermal_register_cpu_cooling(struct ti_bandgap=
- *bgp, int id)
- 		int ret =3D PTR_ERR(data->cool_dev);
- 		dev_err(bgp->dev, "Failed to register cpu cooling device %d\n",
- 			ret);
--		cpufreq_cpu_put(data->policy);
-=20
- 		return ret;
- 	}
-@@ -263,8 +262,6 @@ int ti_thermal_unregister_cpu_cooling(struct ti_bandg=
-ap *bgp, int id)
-=20
- 	if (!IS_ERR_OR_NULL(data)) {
- 		cpufreq_cooling_unregister(data->cool_dev);
--		if (data->policy)
--			cpufreq_cpu_put(data->policy);
- 	}
-=20
- 	return 0;
-diff --git a/kernel/power/energy_model.c b/kernel/power/energy_model.c
-index ea7995a25780..4f91112c10bd 100644
---- a/kernel/power/energy_model.c
-+++ b/kernel/power/energy_model.c
-@@ -451,7 +451,7 @@ static void
- em_cpufreq_update_efficiencies(struct device *dev, struct em_perf_state =
-*table)
- {
- 	struct em_perf_domain *pd =3D dev->em_pd;
--	struct cpufreq_policy *policy;
-+	struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 	int found =3D 0;
- 	int i, cpu;
-=20
-@@ -479,8 +479,6 @@ em_cpufreq_update_efficiencies(struct device *dev, st=
-ruct em_perf_state *table)
- 			found++;
- 	}
-=20
--	cpufreq_cpu_put(policy);
--
- 	if (!found)
- 		return;
-=20
-@@ -787,7 +785,7 @@ static void em_check_capacity_update(void)
-=20
- 	/* Check if CPUs capacity has changed than update EM */
- 	for_each_possible_cpu(cpu) {
--		struct cpufreq_policy *policy;
-+		struct cpufreq_policy *policy __free(put_cpufreq_policy);
- 		struct em_perf_domain *pd;
- 		struct device *dev;
-=20
-@@ -801,7 +799,6 @@ static void em_check_capacity_update(void)
- 					      msecs_to_jiffies(1000));
- 			break;
- 		}
--		cpufreq_cpu_put(policy);
-=20
- 		dev =3D get_cpu_device(cpu);
- 		pd =3D em_pd_get(dev);
---=20
-2.25.1
+As per the comment from Lijo,
+https://lore.kernel.org/all/aa23f0ef-a4ab-ca73-5ab3-ef23d6e36e89@amd.com/
 
+the errors are grouped per bitmask, they are not expecting a separation
+at netlink level.
+
+<31:24> = Block Id
+<23:16> subblock id
+<15:8> - interested instance
+<7:0> - error_type
+
+The interface should  support errors per IP block and instance, which
+the current series support via DRM_RAS_CMD_READ_BLOCK.
+when driver receives the command DRM_RAS_CMD_READ_BLOCK it is supposed
+to decipher the bits based on the above bitsmask.
+The query command is expected to list the blocks and instances
+available, the counters of which will be read via DRM_RAS_CMD_READ_BLOCK.
+>
+>> v4:
+>> 1. Rebase
+>> 2. rename drm_genl_send to drm_genl_reply
+> But before going to the ideas below I'd like to also raise the naming issue
+> that I see with this proposal.
+>
+> I was recently running some experiments to devlink with this and similar
+> cases. I don't believe that devlink is a good fit for our drm-ras. It is
+> way too much centric on network devices and any addition there to our
+> GPU RAS would be a heavy lift. But, there are some good things from there
+> that we could perhaps get inspiration from.
+>
+> Starting from the name. devlink is the name of the tool and the name
+> of the framework. It uses netlink on the back, but totally abstracting
+> that. Here in this version we can see:
+> drm_ras: the tool
+> drm_netlink: the abstraction
+> drm_genl_*: the wrapper?
+>
+> So, I believe that as devlink we should have a single name for everything
+> and avoid wrappers but providing the real module registration, with
+> groups, and functions. Entirely abstracting the netlink and focusing
+> on the RAS functionalities.
+sounds interesting and I feel it looks clean too. But that does mean we
+completely handle
+the netlink framework inside the drm layer and not at the driver and
+expose callback ops to
+drm drivers.
+
+Thanks,
+Aravind.
+
+--------------rb531RoTw5PjgCelrrq1O90Z
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 14-08-2025 01:51, Rodrigo Vivi
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:aJzzr-ZuJCrd8r7x@intel.com">
+      <pre wrap="" class="moz-quote-pre">On Wed, Jul 30, 2025 at 12:19:51PM +0530, Aravind Iddamsetty wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">Revisiting this patch series to address pending feedback and help move
+the discussion towards a conclusion. This revision includes updates
+based on previous comments[1] and aims to clarify outstanding concerns.
+Specifically added command to facility reporting errors from IP blocks
+to support AMDGPU driver model of RAS.
+[1]: <a class="moz-txt-link-freetext" href="https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/">https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/</a>
+
+I sincerely appreciate everyones patience and thoughtful reviews so
+far, and I hope this refreshed series facilitates the final evaluation
+and acceptance.
+
+Please feel free to share any further suggestions or questions.
+
+Thank you for your continued consideration.
+----------------------------------------------------------------------
+
+Our hardware supports RAS(Reliability, Availability, Serviceability) by
+reporting the errors to the host, which the KMD processes and exposes a
+set of error counters which can be used by observability tools to take 
+corrective actions or repairs. Traditionally there were being exposed 
+via PMU (for relative counters) and sysfs interface (for absolute 
+value) in our internal branch. But, due to the limitations in this 
+approach to use two interfaces and also not able to have an event based 
+reporting or configurability, an alternative approach to try netlink 
+was suggested by community for drm subsystem wide UAPI for RAS and 
+telemetry as discussed in [2]. 
+
+This [2] is the inspiration to this series. It uses the generic
+netlink(genl) family subsystem and exposes a set of commands that can
+be used by every drm driver, the framework provides a means to have
+custom commands too. Each drm driver instance in this example xe driver
+instance registers a family and operations to the genl subsystem through
+which it enumerates and reports the error counters. An event based
+notification is also supported to which userpace can subscribe to and
+be notified when any error occurs and read the error counter this avoids
+continuous polling on error counter. This can also be extended to
+threshold based notification.
+
+[2]: <a class="moz-txt-link-freetext" href="https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html">https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html</a>
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+I'm bringing some thoughts below and I'd like to get inputs from folks involved
+in the original discussions here please.
+Any thought is welcomed so we can move faster towards a real GPU standard RAS
+solution.
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">
+This series is on top [3] series which introduces error counting infra in Xe
+driver.
+[3]: <a class="moz-txt-link-freetext" href="https://lore.kernel.org/all/20250730054814.1376770-1-aravind.iddamsetty@linux.intel.com/">https://lore.kernel.org/all/20250730054814.1376770-1-aravind.iddamsetty@linux.intel.com/</a>
+
+V5:
+Add support to read error corresponding to an IP BLOCK
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+I honestly don't believe that this version solves all the concerns raised by
+AMD folks in the previous reviews. It is true that this is bringing ways of
+reading errors per IP block, but if I understood them correctly, they would
+like better (and separate) ways to declare and handle the errors coming from
+different IP block, rather than simply reading/querying for them filtered out.
+
+So, I have som grouping ideas below.</pre>
+    </blockquote>
+    <p>As per the comment from Lijo,
+<a class="moz-txt-link-freetext" href="https://lore.kernel.org/all/aa23f0ef-a4ab-ca73-5ab3-ef23d6e36e89@amd.com/">https://lore.kernel.org/all/aa23f0ef-a4ab-ca73-5ab3-ef23d6e36e89@amd.com/</a></p>
+    <p>the errors are grouped per bitmask, they are not expecting a
+      separation at netlink level.</p>
+    <pre id="b"
+style="font-size: 13px; font-family: monospace; background: rgb(255, 255, 255); color: rgb(0, 0, 51); white-space: pre-wrap; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">&lt;31:24&gt; = Block Id
+&lt;23:16&gt; subblock id
+&lt;15:8&gt; - interested instance
+&lt;7:0&gt; - error_type</pre>
+    The interface should  support errors per IP block and instance,
+    which the current series support via DRM_RAS_CMD_READ_BLOCK.<br>
+    when driver receives the command DRM_RAS_CMD_READ_BLOCK it is
+    supposed to decipher the bits based on the above bitsmask.<br>
+    The query command is expected to list the blocks and instances
+    available, the counters of which will be read via
+    DRM_RAS_CMD_READ_BLOCK.
+    <blockquote type="cite" cite="mid:aJzzr-ZuJCrd8r7x@intel.com">
+      <pre wrap="" class="moz-quote-pre">
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">
+v4:
+1. Rebase
+2. rename drm_genl_send to drm_genl_reply
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+But before going to the ideas below I'd like to also raise the naming issue
+that I see with this proposal.
+
+I was recently running some experiments to devlink with this and similar
+cases. I don't believe that devlink is a good fit for our drm-ras. It is
+way too much centric on network devices and any addition there to our
+GPU RAS would be a heavy lift. But, there are some good things from there
+that we could perhaps get inspiration from.
+
+Starting from the name. devlink is the name of the tool and the name
+of the framework. It uses netlink on the back, but totally abstracting
+that. Here in this version we can see:
+drm_ras: the tool
+drm_netlink: the abstraction
+drm_genl_*: the wrapper?</pre>
+    </blockquote>
+    <blockquote type="cite" cite="mid:aJzzr-ZuJCrd8r7x@intel.com">
+      <pre wrap="" class="moz-quote-pre">
+
+So, I believe that as devlink we should have a single name for everything
+and avoid wrappers but providing the real module registration, with
+groups, and functions. Entirely abstracting the netlink and focusing
+on the RAS functionalities.</pre>
+    </blockquote>
+    sounds interesting and I feel it looks clean too. But that does mean
+    we completely handle<br>
+    the netlink framework inside the drm layer and not at the driver and
+    expose callback ops to<br>
+    drm drivers.<br>
+    <br>
+    Thanks,<br>
+    Aravind.<br>
+    <br>
+  </body>
+</html>
+
+--------------rb531RoTw5PjgCelrrq1O90Z--
