@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C755B34A7D
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 20:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE736B34A7F
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 20:40:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4FCC10E53A;
-	Mon, 25 Aug 2025 18:40:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C711810E561;
+	Mon, 25 Aug 2025 18:40:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="OBvBflmf";
+	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="bl9p1o2R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from OS0P286CU010.outbound.protection.outlook.com
- (mail-japanwestazolkn19011029.outbound.protection.outlook.com [52.103.66.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9938B10E537;
- Mon, 25 Aug 2025 18:40:21 +0000 (UTC)
+ (mail-japanwestazolkn19011024.outbound.protection.outlook.com [52.103.66.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 697B110E53C;
+ Mon, 25 Aug 2025 18:40:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tBahw/9kt/Dvd6VL9/N0/+9sIFI/Pd0pNPyuGfsnMpUYCA/JhT2HcL3/17q9My6GEFCYlCckNfeS9GXeXfTmolfLuytXbVuvx5byPS3xVYdeAwHQz3TRNoSJAQFwYZpa7lcgQ6x4Zni898jpQWr+uBxtWL2zb6qN7wyvC2Jpnga31OfHwzqJ0zYG6KvXpHFIgYe/W3XU0JrdTwe5nSRQH5XjB8PbcQPnkYvIn03Kd2SPfMjJxE8SJhieXTd9V15wYpFUC4A2ufpegNRAKVwRxtqa7KCaCAiB/yqQjgHyTCqQghr5nZwTUMh80Qj+aj1br6Y/7A0Kbcd3zmFcGUuLOw==
+ b=kiRA4xWvegrCozbr7KSpqJLsqroafoYIEBnVYFfjH5FOrdUS20WEydJsKOXyRX8ZRKtQoWO5J+oDmC4h9zjHXhf3gD+JkZP7W92TzunAIOnqWT+aahqUSZTzt+mRzGNrb7XOsXhmcO7/UFYSdCykMFQxpiVPKLUkQgLwYxYz0NpsSYZ1+3qQrlhBad7wyK+m6/JewA2wS6qpCoz52hOO999yC4hf7EiWpMQ2n3AeHrh7hZl0lEDKShnpTljx78M/oNpilBb/g8EzRlYZAsq7k67WwoaAP4IUfPOYPGzyQ9BAA4bfia0RZhLsAEejP/eT+rKrPcnqJRdxU/p2si5gKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KbfjENM4ILQfuisZ+FU54v7uK5nWrvxwCWztzb7uHwQ=;
- b=Cmys2+1H7E3gA1kfLr+1eULCLifspv6QhUWS/WJZJD1SO6m3JeTcRJBCJHSWc4fCM4E/ivRuwgHdlO0KFg4MiKNP9+GFtDv+Pp+9BS8x/dn4jUfV1/h7yZJZKuKucMjax4N5GdhhL7M71+pbLyR2LRMmaQLE5pe6aj8dWjuvhVkF1LYWZ3YGlbTJisMUZrIIbcOfXRaMIVJ8Rp97TAZ5GB2V6trsfhaISW3+nXDE6mIhD1PAvUqAIyr85f+xcni3dgbrSPvfCy0tj64NkB9SRVcT2zD7VE/tWVoTfgsHxOCyAfAGnIWJ/2ao/iBaNtyj8zofTp91LmniUP38xvRvLg==
+ bh=hD1XJOl31y8OZd6SpV/B2Jfi8KwrMjXOwmrBCiEi9O8=;
+ b=ORyPpmfFmnEryD4AmrcnN81MoHKZDm6Fq5rSR7mXrC2ioJWEgDU+sRH1xw23MkXfJbCPXaT+C/D2QYVa2MhsYG2/g52mRzoep4FPwHPuyDQOM3twp6zMtX92F+RKfSZ9d3X6EDTlB/HUql0abEzteaeb7/Sg0idlLOHjH+zFrlgrrnc3ig+Hfhg2NDInFXxZQFsHk2M1kN9sbznP443zNCjyJ16awQWdhaBkEfa3VcFZXD+are9FhfrzSRDKlJt6SIoa72iUo3kLylcKQACt/wdZuoK1ISui3ATpMX/iD/237BLWXP9Ak0ZO+ccsQpLEIdewL2ZTC07REkozr5WQog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KbfjENM4ILQfuisZ+FU54v7uK5nWrvxwCWztzb7uHwQ=;
- b=OBvBflmfn00tdxwulX7dtdEmj9XEfDTZdacGq32yPaaSHl6TC5si4MgCD6obo8iu0cqsRYWH2JOFqxGQm6Vlois9YpGFyzG/KdvF4b9FEZjzWdf28CTOFsniNuAxrUUvLbIjREEvYS0vWcd8bmLjKKovaEfoSc+OP7uWi1QA1WxgZ8wYK0EPTYiGaZuKPLw43H4wfuOnX4+ABZWPYz+IE6DIaTHNL37xBF4M8FZZ1DN9wWd6oxGSMPGZXhjR4mTP09fz6p46zsKQBp1ZuwucMOkP7//iSoehZ5KZpkvyLHexnz8YKsThAQ+iH41m4o2TBdqfSCeHZ+FKVSb4Vx154w==
+ bh=hD1XJOl31y8OZd6SpV/B2Jfi8KwrMjXOwmrBCiEi9O8=;
+ b=bl9p1o2RWtoawp0dHWxTiCBAJjPF6ps8A91dioSR1z053106s2q5IX548E4d4KynpvB6FrD4lnxQyA1+vHFcfQv6YB3eit1Cc7ymybo2qFJpKP5AaPn3fBrv5Kji3HNjKJJWQ/JXPbGHPsxkT8FjkwiBBUVeflAWhPuaRYKCtinlhjIn2b/c+ntHOxARN/pQ2eg81taTMG9aiclC5zgIDw1dQ/WD9cQwNsguNDF9XX1orGZ+CHlKRd6jZrw7gunGzPRGOLXG7w+8qAk7TqePVnpPQEPTvuiv+h7yNSHFfW/XdSkFIFbkCPGqCL+KmO4ConhtMMrkXunyq3fv/+7lyw==
 Received: from TY4PR01MB14432.jpnprd01.prod.outlook.com
  (2603:1096:405:235::10) by TY4PR01MB15954.jpnprd01.prod.outlook.com
  (2603:1096:405:2c8::14) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Mon, 25 Aug
- 2025 18:40:12 +0000
+ 2025 18:40:16 +0000
 Received: from TY4PR01MB14432.jpnprd01.prod.outlook.com
  ([fe80::7679:e9eb:aeb2:f12f]) by TY4PR01MB14432.jpnprd01.prod.outlook.com
  ([fe80::7679:e9eb:aeb2:f12f%7]) with mapi id 15.20.9052.019; Mon, 25 Aug 2025
- 18:40:12 +0000
+ 18:40:16 +0000
 From: Shengyu Qu <wiagn233@outlook.com>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
  simona@ffwll.ch, harry.wentland@amd.com, sunpeng.li@amd.com,
@@ -56,78 +56,78 @@ To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  wayland-devel@lists.freedesktop.org
 Cc: Shengyu Qu <wiagn233@outlook.com>
-Subject: [PATCH v2 1/2] drm/connector: Add "pixel_encoding" to switch between
- RGB & YUV color output modes
-Date: Tue, 26 Aug 2025 02:40:00 +0800
-Message-ID: <TY4PR01MB144322177A6B8D2D538DAC6E4983EA@TY4PR01MB14432.jpnprd01.prod.outlook.com>
+Subject: [PATCH v2 2/2] drm/amdgpu: Add "pixel_encoding" DRM connector
+ property support for amdgpu
+Date: Tue, 26 Aug 2025 02:40:01 +0800
+Message-ID: <TY4PR01MB1443220EA19800A1CA021847A983EA@TY4PR01MB14432.jpnprd01.prod.outlook.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250825184001.6524-1-wiagn233@outlook.com>
 References: <20250825184001.6524-1-wiagn233@outlook.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SGAP274CA0006.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::18)
+X-ClientProxiedBy: SGAP274CA0024.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::36)
  To TY4PR01MB14432.jpnprd01.prod.outlook.com
  (2603:1096:405:235::10)
-X-Microsoft-Original-Message-ID: <20250825184001.6524-2-wiagn233@outlook.com>
+X-Microsoft-Original-Message-ID: <20250825184001.6524-3-wiagn233@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TY4PR01MB14432:EE_|TY4PR01MB15954:EE_
-X-MS-Office365-Filtering-Correlation-Id: 985fe0af-082e-409e-eb44-08dde406d2f8
-X-MS-Exchange-SLBlob-MailProps: Cq7lScuPrnoyTIwSrGph0lItVprk4CpiH7KJDRsAndDzP1tOPusniPV+ybnc4Cwawdz2ElNnneRnZ6/bXkPf+/ENRe3W138gYSyRr3HrffO8s1B6a0+XpU7/1942BmzPBl3qyHBwtqcc54+qK8od5uqmELXchSYeLwm7OJK2BPfVKo7iufbPBM7x6N5s+4Bbxgc+aiD68q+uiwhHKGlmlI+k31k3kS8Cl0Z/bPxgOWDI/lIFxIM62JIO0YoZfw4ffUU57DLhMUv5brIcFfncVIV7a5BSX94HnV+Tz75QgPT8EJu5DagCmzyxxyeghmjNgeuWW2+ioja7jBYTLNZb/LCYYIq4tsAeOso9zuWlCVjsstMy2viMpW1Uv7YkCWj7zrLUwBEgf/AfmPb9be7pBaIjtB1YopLuQzic3QoLHckOgRIqmH3XodXKhRIrOGAp/mSPAXqrKhR2UP963pNUZ4KIir1hI136UBu3m4mlFHvGGJjE6KrkPNAsZVfKq76qsldo9StuqIJETLX5I7JGdn82yXtMh5AF0QbhCFdjk2VfvE0rqEVHJr/oe7kejvW9rNmx69c0dIm0wlrtVBKq+yGyzlhuEFV0Zso2UxcLmfZLON6e179N4GW1qz5nw845kayaHPDCjrLPMNwKs2H4RxPjgfswPM00qnUGrWkxvY4vsYriSDw/M/P1aVbojDMDcWZQYvwNXtz86GnBPG2KVnFBfp8wQqd0Hv48J96v0Lzi1rshziJP4KX7evu5+4LZJC4FzmFK3CA=
+X-MS-Office365-Filtering-Correlation-Id: 22ccc116-d729-4f8e-a30f-08dde406d55b
+X-MS-Exchange-SLBlob-MailProps: quCBMN2EvO+pPRgpcRKeMpPKDEKjvqeWS5kVaUuSeEE3th1VZbLX1nHMNzrpCYZvP6K8NTbx72K1CpmGZUKqJLf1G9qLC5HM8E4Jx6guc5klGHC+tie45Kr7btLIa6NRnI6fPKb7yHq47OE6Q7/86yWq6Iy0Zxwe4h1yEZXQZnQjJY2T+QlTQc1kvLKh3H2yFRsmXO+Nu58zZUDrnqe7CbXc6Ce6fHD3ZUjAycAGe4t1Wc53AOdt7PgEUhtO+1kmXvN4CcMC2xWQ3zJKX8gxjecjDfPgb/thke/ulwGQttZ8E47orifPKe+vPUD3TPMuwVPm0eX1GTClnPDl83BjYdnCu4j2lx/cSUtRXLGvJw9T7A5mg5OkscRS5pYvq/TXFWD/OHvfTEO3zQgYa/xtqsBG9m5WUXo4JN3FWfCr4MSypAWxqCa5mS/V0qM8mD//9uG5+mCUbKDjGAJtw43kmswPGUDZuFRlAwMql9iNT1LPh/2s/b1PwB8bbeRcddohNyl07wqTNdqL2KbKXEgy223NNUx/NVaODxDpz9E/c5G52SeJZr4pAsFMbPTQEDBJa5vB5nogialP7dQFSQfzHx1e0CsqD+jSieZT6UBohgZVhWA8Co3Xx+xMEfFw1t/cHUCpJ68Atyom/y9oC+BKbyBGYkqnFO4jKRbFwrKWOR/tVw3IZd7Pze8jeg2OVKP2Xl5b+Z+NuqTBTvTkryhl1w==
 X-Microsoft-Antispam: BCL:0;
  ARA:14566002|8060799015|19110799012|5072599009|41001999006|15080799012|461199028|23021999003|3412199025|40105399003|440099028|26104999006|1710799026;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?XIHb2dMBTHRl8ff9sfnvt65GsHAqF+gs3UYS1zY8D5H/d9atqX5bGX87orLR?=
- =?us-ascii?Q?D1PTJq4zjbmhMWNw5hAK/J3QAPtq3kVSHAR8LMhrbWeLk3Q/cYE6VntMSsY9?=
- =?us-ascii?Q?X3FMjchTz7A1bWoIpBlXQsVr4s8wT5En8Ty0XGhwMxrnzZNWW6SY7qcghwxr?=
- =?us-ascii?Q?jyP27QDX+1p66u/awH10ZXHh428VqF0vz7Lsjordwy/j16IbcTdadmGl2v4x?=
- =?us-ascii?Q?OwA/9OIx9FLMFk77l//+mmTgDWPs18a4E7QM+DApeAJSDMsNbi3SS3wiL3op?=
- =?us-ascii?Q?lG0BdH06Cngq1xWJMqxOXVydU950Rf74LulX8Ab8VuyK5LkhiwILYZ+fhRQU?=
- =?us-ascii?Q?A7RNBkwuxo50VcsJhmd5vHLKA9dQ475U0VHc8gUirGVKfCKtYokyiWn+fYWD?=
- =?us-ascii?Q?AU794tcKrMEdoEMJfVy2MdOsjz/Q79rFdIG4rcx10WYKLVg/z5JnJsauVJ0p?=
- =?us-ascii?Q?I6M15QfvM0hbM+fek4EEZklgjWRxONmAGAfW2ov6TjWkJ2LjetKLhmilw87h?=
- =?us-ascii?Q?+Uc4QRXwbGdPzhe3R7hVAabVyLCRs8IwhKmOsbepsXplQed6TPt7stW5hyX8?=
- =?us-ascii?Q?qDg/CRjCkshY56uXPVXbMD7cEaX2GR6EC4j5YpWrPD1vlSlbLmpy9y31boos?=
- =?us-ascii?Q?PNrlg/27zy1ATwsRxhze19xiVbfa26CyEvA7eiz92p94Bieb+YY+3L7fA+Ok?=
- =?us-ascii?Q?QQwPGFSS9U/hzCOBjTcXH8A1Fkc+C8LPY/0IZPLCAtNYJ0sVasTux0T7XrwW?=
- =?us-ascii?Q?UH9YoyCOZu7s4l5BEHG1XvX11HxyAeA1wnyWSjLz2JKktcYytwCydbumiu68?=
- =?us-ascii?Q?RfzRrjr1cRV61896lMh4ttgb4KGMP2UVzMCfg6bMf6xn4jPDHIDndX99eneS?=
- =?us-ascii?Q?gZ5FmoFqBsMktKYHoKl9c/8HjrmDU8Tnke8evAbEsYTY5fdf4CaOX8u7Benx?=
- =?us-ascii?Q?NDYXQAOXbNkD43v1Cnhz7haMDGEwdmHhe0LQ5B3BI7iSIvGde5W+/pZzzUgO?=
- =?us-ascii?Q?ndwU+FkVpysz0TSVIJdSm1rwUx2VcIBhGfDobx/Wq2wGK/DJ5bq1FAvvB+k4?=
- =?us-ascii?Q?O9e3B+cSf3ltarlNwi7LuxsHBEwBGxqLsg2G4T65XpXG8/SfWEyhW8+IiHa2?=
- =?us-ascii?Q?pH4Q6eJ1MCC/dcjD7dgc49MRY+p1izFVeJJX2YETDggDyg6jxrB7M778SpzW?=
- =?us-ascii?Q?gjD1AtKEuxiS005jugmHhcm8eYXwr5KLaDhb7gBlbDy13Aa+G380FmYEKvU?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZZ28kFv4w99stHpv8ymKTKw/SS3ncoHjQAzEikDFwrXQ2IG+JZR17T95AlzS?=
+ =?us-ascii?Q?GD9h/QpyRDqkpVF+bi6cZWU+ekkOicRT6Tk6vFv+G2StoseNpfwcse8veOnp?=
+ =?us-ascii?Q?f85fZZGH092M6vCbsHn2mhnJp+HjbqGzRBgEK+Xg+TSyry0aG5jsGo2xfYhn?=
+ =?us-ascii?Q?FZ1tRPoulbO0wUhGQlnSVKvztxGFJJmjG5kOkRv2cwZysJSyCiHff/HxxDvo?=
+ =?us-ascii?Q?IXSlcPFz4SZ6oPvB7V/jNczWZ3vsJuxGuBX3tpfqCcyuZ54rQ2CneztcZxC/?=
+ =?us-ascii?Q?x1300YaCgZT4uCTeRr0xzJyptgrTJy5iDlLSwupDAB+NosgHNK6ybRP/I1rB?=
+ =?us-ascii?Q?7k70v5ToLC8YQ+itDFklWktGBTZyzUtoj8CHqhot9tqzQUJjEOAMbSTI9ua1?=
+ =?us-ascii?Q?6a2kpboAjg7T3YuQSOEG/pfiMLpaUHCqwKT0hIBfH21zoe35I+CB9FAss49Q?=
+ =?us-ascii?Q?dL8ajmOCn7URmPPOo6YlXv+21HhAd9hZAN0wGfISvhVNllQoT1AVrxbaEbtB?=
+ =?us-ascii?Q?OegAzQ6nauSXLQWG9qBic0TVs6A8Be/APZNCPucpe8r1h7770JGEW0Jk/FOi?=
+ =?us-ascii?Q?nXcbVeUo9B0l3u8CIQ+JH3HAeTGE164Ccg4XaR8QcGsUPePgHGKPLofjn6Dr?=
+ =?us-ascii?Q?pOi51yI50abXS7+0BO5Xmzp0C5deuDt/BiNs4tKWJqU6hxYbPWB4WnK/k3+U?=
+ =?us-ascii?Q?ZNc7UChX+mXoOjgfFPSUE+vuN98er+wduO/NT8DxNPw0E5hvPGpkG+LoGt/I?=
+ =?us-ascii?Q?cV3c1itKwPrEg2AhjUw59WtvIM1yEB2UiSbBYu1MyroPsGSG2hEBt6LNA17O?=
+ =?us-ascii?Q?zt+nPUwwNwQ1dNvFNx4qqDvz+RQdeXaZP0JXgFMM2igj6D16XWcdvLVoPtZH?=
+ =?us-ascii?Q?tFmA/1Gy2QRC4mTCMNMcFQWJN9C8hEPnDu+mbMUiYqySlKHtzWdhvCYoYrYm?=
+ =?us-ascii?Q?3yH4F3c9B9DyI1oR3VqZpFx7PSUsMmuYJWf23B2WyEJ0M7aNTZ/09tEMGFxS?=
+ =?us-ascii?Q?/ZUDzCIiy3sGIKA/zzq5VevMp6wXvOwsmxyYI29JGuk9Ve8cwQFPlOVPxjhn?=
+ =?us-ascii?Q?BgCy8262mliC5Yo7PEc+fZ8FYghgoEDkDhnuvbd1B5KocZR3rXNdIaGrW+Dy?=
+ =?us-ascii?Q?c8RKha0gX6i2+Kez1OeLdBD1lpw3Sp0VyU+p0A4DjDQYf9juAcEjyuDE1X9H?=
+ =?us-ascii?Q?h9otzwSh3m63GcKb45ZDzTKjZQZKWVzR+mwKL51DjVSAV1CH25X2c4g8BqA?=
  =?us-ascii?Q?=3D?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?orli9Sfo18garhkDePKi/I74Ku6nIDihIx26ojbRI0zwJfbVZSp+ddFURF6I?=
- =?us-ascii?Q?g8YOtuOx8NdYYuvRSu+dVV772RbSeftqvystu/+os8o3VEz7ikL4C/nIBK6H?=
- =?us-ascii?Q?bsuGi3AeusTzUzh5EXaq1fzvDfErOipP9B21XY6ubk/iIVxnhdjdFEpMDRwN?=
- =?us-ascii?Q?py7Wei/9tdg72aJLDDaEqTerTmTEdNUW/ZLDRJ2EaH/aTkHC6/b342ZBRc6G?=
- =?us-ascii?Q?NXHbCyJpQOwmXXK+6qv7Ijb4ZyZH7lhqvP56aO/fU2e4kOEjgsGtF1BXxTO3?=
- =?us-ascii?Q?pAf4Q9i8WLnQYifIrDlhLN8VLByzrLor7wYLWTuNEvikO7SNo2Ga11IeUtdI?=
- =?us-ascii?Q?Bf9O/KoQ7gsHU45MCwJVrAmpfK5JU57QeDUcQW1fbWYbf09r+r839kD6M7tV?=
- =?us-ascii?Q?C6uFTuMlj0cQlfdXNxoVga62mHoN2xPUKxWSYTQjBUCS1v3HEHPsVPoPSPQ1?=
- =?us-ascii?Q?AfYL+wiivv0i7VfJyFdnV0grhTjvS2kE4HofrkDnU1Vz4ZG7QF5fsmqeo09e?=
- =?us-ascii?Q?2OzdkUJWhv4LH5w83D88rPm5uiiqq+sHTgsCj3aiYHqIsHctNas3tgky/Y0i?=
- =?us-ascii?Q?Jk+GBfO/+9gHiTITnezP5u300fJ5nVwbufzEtk5jz5c380uNPJxqfbYIZ+1O?=
- =?us-ascii?Q?BTAxopmBCcXhwVrrLUezUbydNgFWV7GZDrIWXyzNMIAFEJeZbzVzoTr6nUmm?=
- =?us-ascii?Q?moDv9EXvpIEk1Nr/KfjKGtiCfYyyfno/tH6en3+xdClUC/kpzzywTudoFIrp?=
- =?us-ascii?Q?YpCzpZukJO6m/6svpdVQ8F5Fmn8nRjVtwqjJYX7JrtEyTTLMpKSxmUZkHdhi?=
- =?us-ascii?Q?MRlEm4/DFB2dLEnplC0jjUHnkoGFTe/wQ/R+9phus/xF7sn9Aw8BIxGT9o8i?=
- =?us-ascii?Q?3welbp9P/+b17D9PSHgiXNxac3OhACqqSNWCdHc9Mp/mNqt7KCIjCHWK8XlX?=
- =?us-ascii?Q?HHREJqe6G6Gi/7vYp0Ji8OdCNnRuZBs6ky0piJzn4LhZNcP15NuKDIRmjspv?=
- =?us-ascii?Q?ObuzFu2A/uZRcJpluTi+H07HIt6hIN/2k+IbdKC146Kx3mkEu/sg4Aj2fGpE?=
- =?us-ascii?Q?1YLO5HZb3sY7h9mp48ntOurjjMpIdkoRAkXXaws25BZkRxo/1IrPIFcqeIW5?=
- =?us-ascii?Q?I3no3E2RiaEXr9ARoLGrT2QxulNnVGaiihhzSfmQ7IhmkHvEhSezM5mAeBKZ?=
- =?us-ascii?Q?1eoMI2LXB0hxWlFBJlHIwyfAH/jSOWVf+YQSgvkPfR8qoAr56Uc9xrVKD9KS?=
- =?us-ascii?Q?lOVzKN2O5Am/Nbg8EArq6bNxClKq7HEEP28tI+xXRoqXUpdmGdzUotHWPTB/?=
- =?us-ascii?Q?BrQ=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eunwigZqDj7dufOYZeMdkIoWVltfujXThUR2lq/eAsHu/LtMoTPqCa2X3Qb+?=
+ =?us-ascii?Q?/kPeBUD0cljd2FsbeDEhTZVNkLscMsXyw/DHsa9gdHJzQWqpcVPViU9lCPFO?=
+ =?us-ascii?Q?N7Bnd4PFdvQU+kaFuUFZjwXFzMsIyZdsVCd0CaljZstLcwLn225RHoPA1af+?=
+ =?us-ascii?Q?cbVY9RtTZqO3nZW3KgieA6lW4eIzfro4OCAmWX4y78raZt/Z/u62Ql87JMrF?=
+ =?us-ascii?Q?ugAm9RJjU1x6sbrqX8E5Bzlcf6nrCRhXf5v5AwWGiYzk2wgqlEkc6M7/B4zU?=
+ =?us-ascii?Q?2ghpdAZwwTLhhYE3lPrjE5+ncAK7YKoyxKFmWGEOTbMK3dpW2cz9ER3UGJrv?=
+ =?us-ascii?Q?SPFOQDv0dEosgNtGE4ZsFk3PvfRBEZ56pi+APRF/rRO54TIDDXvGbSonf7SU?=
+ =?us-ascii?Q?b4lfdGoQt/xgerSZhzLa/67K0FUieUuVAzzD+a7rDeRwC/uuXBpXars93S9j?=
+ =?us-ascii?Q?lQSmHHz2bkA/THvYAT/yzXeZP7Tyt/hrrFDpne7XmMmjm+HIjbKTIL1PcQ9r?=
+ =?us-ascii?Q?B6JrZkBlomhcA+UHNtUr367t/VbwrfrMhCxMIJuMlAHihRTEbcmGdvpUHecb?=
+ =?us-ascii?Q?qertoopFq0kIzLgghx/jtdg39ojCH7NxUN3vmlBS3cge6fVrvxZdB52SeCyO?=
+ =?us-ascii?Q?lXSDJgdgePgMlMQIj3WjUlkc5mdGnUh8YYbPUBVvzz/DYPyMD28ag3T+jboV?=
+ =?us-ascii?Q?anZicn7KIJdUomm6g+/BO/G9NEGcAGIBdVN8WnAWXj2HETodIHU3Mn3BDV4z?=
+ =?us-ascii?Q?mzDxfz5QTWngw1uDcxGJobYTmpe7ZWjYJIWb3HtM5JlPbTreQvitMKnaWL63?=
+ =?us-ascii?Q?UA88M2s5QTYIOlV4OPsc4TCWs42W3BlJtCRcC2HxrM8klJxM207K6PVh+Dec?=
+ =?us-ascii?Q?ZrhV7PY2ZtuIqfF5kS7t+dg8lDW841FNMJ0X++K4d78CRPDLIHgyOaL9sqS1?=
+ =?us-ascii?Q?BlJ0UDdY/L30YY9wnAPu4/Sxdm73D0lDycMk4iZWwSEF4hwHEmesqVD3Aruc?=
+ =?us-ascii?Q?EBUzFn0Wa8VWEN9KyB1QI+T9wfYgBxhaWN3QFWpGkt1l5he6PZE2g9pbiSQJ?=
+ =?us-ascii?Q?0imwTDr1f5CFuCoeKHjy1+QAgHtzMpLJ5VWqcBrg6zguyQ1c6HgcwoBi+6fO?=
+ =?us-ascii?Q?kHMv58BvOg70Zf1XbGtrJEN07BiKq3Yg9qBFhGo5HaQXtlIfjOB6ClBnWu2d?=
+ =?us-ascii?Q?5oOoIoxNPvtVOT+/LUo6t+tTMRb9Ny1Kv1POo3wtHxvKRqKpVperj00DdfBZ?=
+ =?us-ascii?Q?/gMWwU4vX3kJWeFgh11pfgWTTVvA9VZ7+TbF+D3deNVQ/J2yokifvRz8Leu1?=
+ =?us-ascii?Q?GaI=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 985fe0af-082e-409e-eb44-08dde406d2f8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22ccc116-d729-4f8e-a30f-08dde406d55b
 X-MS-Exchange-CrossTenant-AuthSource: TY4PR01MB14432.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 18:40:12.0048 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 18:40:16.2046 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
@@ -147,10 +147,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds "pixel_encoding" connector property, which allows user to
-switch to different pixel encodings. This is useful and could solve some
-problems that auto switch would do something wrong(Basically because of
-wrong EDID info).
+This patch adds support for "pixel_encoding" connector property to amdgpu,
+also adds a module parameter for the driver to force override initial
+output pixel format encoding.
+
+usage: amdgpu.pixel_encoding=<encoding> or
+amdgpu.pixel_encoding=<monitor>:<encoding>,<monitor>:<encoding>
 
 Supported encodings are: "auto" (0) (Default and original behavior), "rgb"
 (1), "ycbcr444" (2), "ycbcr422" (4), and "ycbcr420" (8).
@@ -159,78 +161,544 @@ Signed-off-by: Matias N. Goldberg <dark_sylinc@yahoo.com.ar>
 Signed-off-by: Rafael Carvalho <contact@rafaelrc.com>
 Signed-off-by: Shengyu Qu <wiagn233@outlook.com>
 ---
- drivers/gpu/drm/drm_modes.c | 32 ++++++++++++++++++++++++++++++++
- include/drm/drm_connector.h |  7 +++++++
- 2 files changed, 39 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  36 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.h   |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |   2 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 273 +++++++++++++++++-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   1 +
+ drivers/gpu/drm/amd/display/dc/core/dc.c      |   8 +
+ drivers/gpu/drm/amd/display/dc/dc_stream.h    |   2 +
+ 7 files changed, 314 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index e72f855fc495..ac2265e71b00 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -2162,6 +2162,35 @@ static int drm_mode_parse_tv_mode(const char *delim,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 9e463d3ee927..89c173649615 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -1363,6 +1363,34 @@ static const struct drm_prop_enum_list amdgpu_dither_enum_list[] = {
+ 	{ AMDGPU_FMT_DITHER_ENABLE, "on" },
+ };
+ 
++static const struct drm_prop_enum_list amdgpu_user_pixenc_list[] = {
++	{ 0, "auto" },
++	{ DRM_COLOR_FORMAT_RGB444, "rgb" },
++	{ DRM_COLOR_FORMAT_YCBCR444, "ycbcr444" },
++	{ DRM_COLOR_FORMAT_YCBCR422, "ycbcr422" },
++	{ DRM_COLOR_FORMAT_YCBCR420, "ycbcr420" },
++};
++
++bool amdgpu_user_pixenc_from_name(
++	unsigned int *user_pixenc,
++	const char *pixenc_name)
++{
++	bool found = false;
++
++	if (pixenc_name && (*pixenc_name != '\0')) {
++		const int sz = ARRAY_SIZE(amdgpu_user_pixenc_list);
++		int i;
++
++		for (i = 0; !found && i < sz; ++i) {
++			if (strcmp(pixenc_name, amdgpu_user_pixenc_list[i].name) == 0) {
++				*user_pixenc = amdgpu_user_pixenc_list[i].type;
++				found = true;
++			}
++		}
++	}
++	return found;
++}
++
+ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
+ {
+ 	int sz;
+@@ -1409,6 +1437,14 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
+ 					 "dither",
+ 					 amdgpu_dither_enum_list, sz);
+ 
++	sz = ARRAY_SIZE(amdgpu_user_pixenc_list);
++	adev->mode_info.pixel_encoding_property =
++		drm_property_create_enum(adev_to_drm(adev), 0,
++			"pixel encoding",
++			amdgpu_user_pixenc_list, sz);
++	if (!adev->mode_info.pixel_encoding_property)
++		return -ENOMEM;
++
  	return 0;
  }
  
-+static int drm_mode_parse_pixel_encoding(const char *delim,
-+					 struct drm_cmdline_mode *mode)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
+index dfa0d642ac16..4c4f607d1b68 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
+@@ -54,4 +54,7 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev);
+ int amdgpu_display_get_scanout_buffer(struct drm_plane *plane,
+ 				      struct drm_scanout_buffer *sb);
+ 
++bool amdgpu_user_pixenc_from_name(unsigned int *user_pixenc,
++				  const char *pixenc_name);
++
+ #endif
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+index 6da4f946cac0..e56a772376a1 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
+@@ -326,6 +326,8 @@ struct amdgpu_mode_info {
+ 	struct drm_property *audio_property;
+ 	/* FMT dithering */
+ 	struct drm_property *dither_property;
++	/* output pixel format encoding override */
++	struct drm_property *pixel_encoding_property;
+ 	/* hardcoded DFP edid from BIOS */
+ 	const struct drm_edid *bios_hardcoded_edid;
+ 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index b944abea306d..76525b8b7e1e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -176,6 +176,14 @@ static void reset_freesync_config_for_crtc(struct dm_crtc_state *new_crtc_state)
+ static struct amdgpu_i2c_adapter *
+ create_i2c(struct ddc_service *ddc_service, bool oem);
+ 
++/**
++ * DOC: pixel_encoding (string)
++ * Specify the initial output pixel format encoding used by a connector.
++ */
++static char amdgpu_pixel_encoding[MAX_INPUT];
++MODULE_PARM_DESC(pixel_encoding, "Override pixel encoding");
++module_param_string(pixel_encoding, amdgpu_pixel_encoding, sizeof(amdgpu_pixel_encoding), 0444);
++
+ static enum drm_mode_subconnector get_subconnector_type(struct dc_link *link)
+ {
+ 	switch (link->dpcd_caps.dongle_type) {
+@@ -6368,6 +6376,119 @@ static bool adjust_colour_depth_from_display_info(
+ 	return false;
+ }
+ 
++/* convert an pixel encoding property value to a dc_pixel_encoding */
++static bool drm_prop_to_dc_pixel_encoding(
++	enum dc_pixel_encoding *dc_pixenc,
++	unsigned int propval)
 +{
-+	const char *value;
++	bool ret = false;
 +
-+	if (*delim != '=')
-+		return -EINVAL;
-+
-+	value = delim + 1;
-+	delim = strchr(value, ',');
-+	if (!delim)
-+		delim = value + strlen(value);
-+
-+	if (!strncmp(value, "auto", delim - value))
-+		mode->pixel_encoding = 0;
-+	else if (!strncmp(value, "rgb", delim - value))
-+		mode->pixel_encoding = DRM_COLOR_FORMAT_RGB444;
-+	else if (!strncmp(value, "ycbcr444", delim - value))
-+		mode->pixel_encoding = DRM_COLOR_FORMAT_YCBCR444;
-+	else if (!strncmp(value, "ycbcr422", delim - value))
-+		mode->pixel_encoding = DRM_COLOR_FORMAT_YCBCR422;
-+	else if (!strncmp(value, "ycbcr420", delim - value))
-+		mode->pixel_encoding = DRM_COLOR_FORMAT_YCBCR420;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
++	switch (propval) {
++	case 0:
++		*dc_pixenc = PIXEL_ENCODING_UNDEFINED;
++		ret = true;
++		break;
++	case DRM_COLOR_FORMAT_RGB444:
++		*dc_pixenc = PIXEL_ENCODING_RGB;
++		ret = true;
++		break;
++	case DRM_COLOR_FORMAT_YCBCR444:
++		*dc_pixenc = PIXEL_ENCODING_YCBCR444;
++		ret = true;
++		break;
++	case DRM_COLOR_FORMAT_YCBCR422:
++		*dc_pixenc = PIXEL_ENCODING_YCBCR422;
++		ret = true;
++		break;
++	case DRM_COLOR_FORMAT_YCBCR420:
++		*dc_pixenc = PIXEL_ENCODING_YCBCR420;
++		ret = true;
++		break;
++	default:
++		break;
++	}
++	return ret;
 +}
 +
- static int drm_mode_parse_cmdline_options(const char *str,
- 					  bool freestanding,
- 					  const struct drm_connector *connector,
-@@ -2234,6 +2263,9 @@ static int drm_mode_parse_cmdline_options(const char *str,
- 		} else if (!strncmp(option, "tv_mode", delim - option)) {
- 			if (drm_mode_parse_tv_mode(delim, mode))
- 				return -EINVAL;
-+		} else if (!strncmp(option, "pixel_encoding", delim - option)) {
-+			if (drm_mode_parse_pixel_encoding(delim, mode))
-+				return -EINVAL;
- 		} else {
- 			return -EINVAL;
- 		}
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index f13d597370a3..fdaa86d25d6d 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1723,6 +1723,13 @@ struct drm_cmdline_mode {
- 	 * Did the mode have a preferred TV mode?
- 	 */
- 	bool tv_mode_specified;
++/* convert an dc_pixel_encoding to a pixel encoding property value */
++static unsigned int dc_pixel_encoding_to_drm_prop(
++	enum dc_pixel_encoding pixel_encoding)
++{
++	unsigned int propval = 0;
 +
-+	/**
-+	 * @pixel_encoding:
-+	 *
-+	 * Output pixel format encoding.
-+	 */
-+	unsigned int pixel_encoding;
++	switch (pixel_encoding) {
++	case PIXEL_ENCODING_RGB:
++		propval = DRM_COLOR_FORMAT_RGB444;
++		break;
++	case PIXEL_ENCODING_YCBCR444:
++		propval = DRM_COLOR_FORMAT_YCBCR444;
++		break;
++	case PIXEL_ENCODING_YCBCR420:
++		propval = DRM_COLOR_FORMAT_YCBCR420;
++		break;
++	default:
++		break;
++	}
++	return propval;
++}
++
++/*
++ * Tries to read 'pixel_encoding' from the pixel_encoding DRM property on
++ * 'state'. Returns true if a supported, acceptable, non-undefined value is
++ * found; false otherwise. Only modifies 'pixel_encoding' if returning true.
++ */
++bool get_connector_state_pixel_encoding(
++	enum dc_pixel_encoding *pixel_encoding,
++	const struct drm_connector_state *state,
++	const struct drm_display_info *info,
++	const struct drm_display_mode *mode_in)
++{
++	bool ret = false;
++	struct dm_connector_state *dm_state;
++
++	dm_state = to_dm_connector_state(state);
++	if (!dm_state)
++		return false;
++
++	/* check encoding is supported */
++	switch (dm_state->pixel_encoding) {
++	case PIXEL_ENCODING_RGB:
++		ret = (info->color_formats & DRM_COLOR_FORMAT_RGB444);
++		break;
++	case PIXEL_ENCODING_YCBCR444:
++		ret = (info->color_formats & DRM_COLOR_FORMAT_YCBCR444);
++		break;
++	case PIXEL_ENCODING_YCBCR420:
++		ret = drm_mode_is_420(info, mode_in);
++		break;
++	default:
++		break;
++	}
++
++	if (ret)
++		*pixel_encoding = dm_state->pixel_encoding;
++
++	return ret;
++}
++
++/*
++ * Writes 'pixel_encoding' to the pixel_encoding DRM property on 'state', if
++ * the enum value is valid and supported; otherwise writes
++ * PIXEL_ENCODING_UNDEFINED which corresponds to the "auto" property state.
++ */
++void set_connector_state_pixel_encoding(
++	const struct drm_connector_state *state,
++	enum dc_pixel_encoding pixel_encoding)
++{
++	struct dm_connector_state *dm_state;
++
++	dm_state = to_dm_connector_state(state);
++	if (!dm_state)
++		return;
++
++	dm_state->pixel_encoding = pixel_encoding;
++}
++
+ static void fill_stream_properties_from_drm_display_mode(
+ 	struct dc_stream_state *stream,
+ 	const struct drm_display_mode *mode_in,
+@@ -6393,19 +6514,23 @@ static void fill_stream_properties_from_drm_display_mode(
+ 	timing_out->h_border_right = 0;
+ 	timing_out->v_border_top = 0;
+ 	timing_out->v_border_bottom = 0;
+-	/* TODO: un-hardcode */
+-	if (drm_mode_is_420_only(info, mode_in)
++
++	if (!get_connector_state_pixel_encoding(&timing_out->pixel_encoding,
++		connector_state, info, mode_in)) {
++		/* auto-select a pixel encoding */
++		if (drm_mode_is_420_only(info, mode_in)
+ 			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
+-		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+-	else if (drm_mode_is_420_also(info, mode_in)
++			timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
++		else if (drm_mode_is_420_also(info, mode_in)
+ 			&& aconnector
+ 			&& aconnector->force_yuv420_output)
+-		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+-	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR444)
+-			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
+-		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR444;
+-	else
+-		timing_out->pixel_encoding = PIXEL_ENCODING_RGB;
++			timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
++		else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR444)
++				&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
++			timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR444;
++		else
++			timing_out->pixel_encoding = PIXEL_ENCODING_RGB;
++	}
+ 
+ 	timing_out->timing_3d_format = TIMING_3D_FORMAT_NONE;
+ 	timing_out->display_color_depth = convert_color_depth_from_display_info(
+@@ -6479,6 +6604,9 @@ static void fill_stream_properties_from_drm_display_mode(
+ 		}
+ 	}
+ 
++	/* write back final choice of pixel encoding */
++	set_connector_state_pixel_encoding(connector_state, timing_out->pixel_encoding);
++
+ 	stream->output_color_space = get_output_color_space(timing_out, connector_state);
+ 	stream->content_type = get_output_content_type(connector_state);
+ }
+@@ -7181,6 +7309,9 @@ int amdgpu_dm_connector_atomic_set_property(struct drm_connector *connector,
+ 	} else if (property == adev->mode_info.underscan_property) {
+ 		dm_new_state->underscan_enable = val;
+ 		ret = 0;
++	} else if (property == adev->mode_info.pixel_encoding_property) {
++		if (drm_prop_to_dc_pixel_encoding(&dm_new_state->pixel_encoding, val))
++			ret = 0;
+ 	}
+ 
+ 	return ret;
+@@ -7223,6 +7354,9 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
+ 	} else if (property == adev->mode_info.underscan_property) {
+ 		*val = dm_state->underscan_enable;
+ 		ret = 0;
++	} else if (property == adev->mode_info.pixel_encoding_property) {
++		*val = dc_pixel_encoding_to_drm_prop(dm_state->pixel_encoding);
++		ret = 0;
+ 	}
+ 
+ 	return ret;
+@@ -7367,6 +7501,48 @@ static void amdgpu_dm_connector_destroy(struct drm_connector *connector)
+ 	kfree(connector);
+ }
+ 
++/*
++ * Returns the default pixel encoding, depending on the pixel_encoding
++ * module parameter if given.
++ */
++static enum dc_pixel_encoding pixel_encoding_reset(
++	const struct drm_connector *connector)
++{
++	char *param_str = NULL;
++	char *param_str_ptr = NULL;
++	char *param_item = NULL;
++	char *param_item_sep = NULL;
++	char *pixenc_mode = NULL;
++	unsigned int user_pixenc;
++	enum dc_pixel_encoding pixel_encoding = PIXEL_ENCODING_UNDEFINED;
++
++	/* default in absence of module param */
++	if (*amdgpu_pixel_encoding == '\0')
++		return PIXEL_ENCODING_UNDEFINED;
++
++	/* decode param string */
++	param_str = kstrdup(amdgpu_pixel_encoding, GFP_KERNEL);
++	param_str_ptr = param_str;
++	while ((param_item = strsep(&param_str_ptr, ","))) {
++		param_item_sep = strchr(param_item, ':');
++		if (param_item_sep) {
++			if (!strncmp(connector->name, param_item,
++				   param_item_sep - param_item)) {
++				pixenc_mode = param_item_sep + 1;
++				break;
++			}
++		} else
++			pixenc_mode = param_item;
++	}
++
++	/* compare mode string and set */
++	if (amdgpu_user_pixenc_from_name(&user_pixenc, pixenc_mode))
++		drm_prop_to_dc_pixel_encoding(&pixel_encoding, user_pixenc);
++
++	kfree(param_str);
++	return pixel_encoding;
++}
++
+ void amdgpu_dm_connector_funcs_reset(struct drm_connector *connector)
+ {
+ 	struct dm_connector_state *state =
+@@ -7395,6 +7571,24 @@ void amdgpu_dm_connector_funcs_reset(struct drm_connector *connector)
+ 				state->abm_level = amdgpu_dm_abm_level;
+ 		}
+ 
++		switch (connector->cmdline_mode.pixel_encoding) {
++		case DRM_COLOR_FORMAT_RGB444:
++			state->pixel_encoding = PIXEL_ENCODING_RGB;
++			break;
++		case DRM_COLOR_FORMAT_YCBCR444:
++			state->pixel_encoding = PIXEL_ENCODING_YCBCR444;
++			break;
++		case DRM_COLOR_FORMAT_YCBCR422:
++			state->pixel_encoding = PIXEL_ENCODING_YCBCR422;
++			break;
++		case DRM_COLOR_FORMAT_YCBCR420:
++			state->pixel_encoding = PIXEL_ENCODING_YCBCR420;
++			break;
++		default:
++			break;
++		}
++
++		state->pixel_encoding = pixel_encoding_reset(connector);
+ 		__drm_atomic_helper_connector_reset(connector, &state->base);
+ 	}
+ }
+@@ -7421,6 +7615,7 @@ amdgpu_dm_connector_atomic_duplicate_state(struct drm_connector *connector)
+ 	new_state->underscan_vborder = state->underscan_vborder;
+ 	new_state->vcpi_slots = state->vcpi_slots;
+ 	new_state->pbn = state->pbn;
++	new_state->pixel_encoding = state->pixel_encoding;
+ 	return &new_state->base;
+ }
+ 
+@@ -8552,6 +8747,12 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+ 
+ 		if (adev->dm.hdcp_workqueue)
+ 			drm_connector_attach_content_protection_property(&aconnector->base, true);
++
++		if (adev->mode_info.pixel_encoding_property) {
++			drm_object_attach_property(&aconnector->base.base,
++				adev->mode_info.pixel_encoding_property, 0);
++			DRM_DEBUG_DRIVER("amdgpu: attached pixel encoding drm property");
++		}
+ 	}
+ 
+ 	if (connector_type == DRM_MODE_CONNECTOR_eDP) {
+@@ -9833,6 +10034,38 @@ static void amdgpu_dm_commit_audio(struct drm_device *dev,
+ 	}
+ }
+ 
++static void update_stream_for_pixel_encoding(
++	struct dc_stream_update *stream_update,
++	struct drm_connector *connector,
++	struct dm_crtc_state *dm_old_crtc_state,
++	struct dm_crtc_state *dm_new_crtc_state,
++	struct dm_connector_state *dm_new_con_state)
++{
++	struct amdgpu_dm_connector *aconnector =
++		to_amdgpu_dm_connector(connector);
++	struct dc_stream_state *new_stream = NULL;
++
++	if (aconnector)
++		new_stream = create_validate_stream_for_sink(
++			aconnector,
++			&dm_new_crtc_state->base.mode,
++			dm_new_con_state,
++			dm_old_crtc_state->stream);
++	if (new_stream) {
++		dm_new_crtc_state->stream->timing =
++			new_stream->timing;
++		stream_update->timing_for_pixel_encoding =
++			&dm_new_crtc_state->stream->timing;
++
++		dm_new_crtc_state->stream->output_color_space =
++			new_stream->output_color_space;
++		stream_update->output_color_space =
++			&dm_new_crtc_state->stream->output_color_space;
++
++		dc_stream_release(new_stream);
++	}
++}
++
+ /*
+  * amdgpu_dm_crtc_copy_transient_flags - copy mirrored flags from DRM to DC
+  * @crtc_state: the DRM CRTC state
+@@ -10316,6 +10549,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		struct dc_info_packet hdr_packet;
+ 		struct dc_stream_status *status = NULL;
+ 		bool abm_changed, hdr_changed, scaling_changed, output_color_space_changed = false;
++		bool pixenc_changed;
+ 
+ 		memset(&stream_update, 0, sizeof(stream_update));
+ 
+@@ -10345,7 +10579,11 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		hdr_changed =
+ 			!drm_connector_atomic_hdr_metadata_equal(old_con_state, new_con_state);
+ 
+-		if (!scaling_changed && !abm_changed && !hdr_changed && !output_color_space_changed)
++		pixenc_changed = dm_new_con_state->pixel_encoding !=
++			dm_old_con_state->pixel_encoding;
++
++		if (!scaling_changed && !abm_changed && !hdr_changed &&
++			!output_color_space_changed && !pixenc_changed)
+ 			continue;
+ 
+ 		stream_update.stream = dm_new_crtc_state->stream;
+@@ -10375,6 +10613,13 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 			stream_update.hdr_static_metadata = &hdr_packet;
+ 		}
+ 
++		if (pixenc_changed) {
++			update_stream_for_pixel_encoding(&stream_update,
++				connector,
++				dm_old_crtc_state, dm_new_crtc_state,
++				dm_new_con_state);
++		}
++
+ 		status = dc_stream_get_status(dm_new_crtc_state->stream);
+ 
+ 		if (WARN_ON(!status))
+@@ -11922,6 +12167,12 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 		if (dm_old_con_state->abm_level != dm_new_con_state->abm_level ||
+ 		    dm_old_con_state->scaling != dm_new_con_state->scaling)
+ 			new_crtc_state->connectors_changed = true;
++
++		if (dm_old_con_state->pixel_encoding !=
++		    dm_new_con_state->pixel_encoding) {
++			new_crtc_state->connectors_changed = true;
++			new_crtc_state->mode_changed = true;
++		}
+ 	}
+ 
+ 	if (dc_resource_is_dsc_encoding_supported(dc)) {
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index cbd107493f8a..0ef6050182b2 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -987,6 +987,7 @@ struct dm_connector_state {
+ 	uint8_t abm_level;
+ 	int vcpi_slots;
+ 	uint64_t pbn;
++	enum dc_pixel_encoding pixel_encoding;
  };
  
- /**
+ #define to_dm_connector_state(x)\
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index c30d9ee51c83..6ed03dbc6c4d 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -2993,6 +2993,11 @@ static enum surface_update_type check_update_surfaces_for_stream(
+ 		if (stream_update->output_csc_transform)
+ 			su_flags->bits.out_csc = 1;
+ 
++		if (stream_update->timing_for_pixel_encoding) {
++			su_flags->bits.pixel_encoding = 1;
++			elevate_update_type(&overall_type, UPDATE_TYPE_FULL);
++		}
++
+ 		/* Output transfer function changes do not require bandwidth recalculation,
+ 		 * so don't trigger a full update
+ 		 */
+@@ -3347,6 +3352,8 @@ static void copy_stream_update_to_stream(struct dc *dc,
+ 			update->dsc_config = NULL;
+ 		}
+ 	}
++	if (update->timing_for_pixel_encoding)
++		stream->timing = *update->timing_for_pixel_encoding;
+ 	if (update->scaler_sharpener_update)
+ 		stream->scaler_sharpener_update = *update->scaler_sharpener_update;
+ 	if (update->sharpening_required)
+@@ -3600,6 +3607,7 @@ static void commit_planes_do_stream_update(struct dc *dc,
+ 					stream_update->vsc_infopacket ||
+ 					stream_update->vsp_infopacket ||
+ 					stream_update->hfvsif_infopacket ||
++					stream_update->timing_for_pixel_encoding ||
+ 					stream_update->adaptive_sync_infopacket ||
+ 					stream_update->vtem_infopacket) {
+ 				resource_build_info_frame(pipe_ctx);
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_stream.h b/drivers/gpu/drm/amd/display/dc/dc_stream.h
+index 5fc6fea211de..3e1a46291dfe 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_stream.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_stream.h
+@@ -144,6 +144,7 @@ union stream_update_flags {
+ 		uint32_t mst_bw : 1;
+ 		uint32_t crtc_timing_adjust : 1;
+ 		uint32_t fams_changed : 1;
++		uint32_t pixel_encoding : 1;
+ 		uint32_t scaler_sharpener : 1;
+ 		uint32_t sharpening_required : 1;
+ 	} bits;
+@@ -352,6 +353,7 @@ struct dc_stream_update {
+ 	struct dc_mst_stream_bw_update *mst_bw_update;
+ 	struct dc_transfer_func *func_shaper;
+ 	struct dc_3dlut *lut3d_func;
++	struct dc_crtc_timing *timing_for_pixel_encoding;
+ 
+ 	struct test_pattern *pending_test_pattern;
+ 	struct dc_crtc_timing_adjust *crtc_timing_adjust;
 -- 
 2.43.0
 
