@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE72B34173
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3F3B34169
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:45:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC5410E4AD;
-	Mon, 25 Aug 2025 13:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6CF810E49D;
+	Mon, 25 Aug 2025 13:45:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kHPoqmIK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bt7M0hIP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5906010E4AB;
- Mon, 25 Aug 2025 13:45:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8601D10E4A7;
+ Mon, 25 Aug 2025 13:45:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BB9A45C5E39;
- Mon, 25 Aug 2025 13:45:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92DFDC19423;
- Mon, 25 Aug 2025 13:45:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id DF8B05C5DF7;
+ Mon, 25 Aug 2025 13:45:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38B52C4CEED;
+ Mon, 25 Aug 2025 13:45:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756129513;
- bh=YPy4z4OaJoWUL9r4KrGzI/WKjSjH8TP5L3pV+kz8Tdg=;
+ s=k20201202; t=1756129515;
+ bh=KG29DkMhijG/h32XFoVLd/RlQz6ZHNqZLW44iGDdi5g=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=kHPoqmIKFxMx29yCm9My/Ia0c6HynNhlcgUCc3kcBWfFAxgwb9hmbKmed6kdKTInR
- VyC/9fJVC2g6e9wB0rQnWTZZnz//e5fzg7BAaC+8lPqXDaO+6qC3Hw63tPVV3dmzj5
- 2XEf2UxmqSjDQ9sNZChmihl3Hh6LukbtI6GghaMlOyPPyzOjnwuJF+mLqNW38hsSQ1
- VRIApolTvHJIHUVklziyPQ7B46qjruca2szEJykJFON3oAu+1e3hcHnjuRzz6l3m2a
- JcKnwRS08Ft8Nf0CdyZnQQUlDqypDg8KHGKttrOOX6SBYoHGUASoyzjwDyEmpSVBov
- 6imh0w7Zcreow==
+ b=bt7M0hIP/rE6ggdYaV+yPSqKtAkPuA3Umd8yiTSiQb5K9vbg6jTrlMES9eM2vBHNJ
+ pkFAx0BF/gorTzQt0xYC7wE0/GEwXbY6N1PmN4KGugLWa75cVcdRQZUSjkVS27mhl0
+ btPt5Ti5RUIH/ohyuuLQhgCgF4XYQaet//IBG2gQiHAnel9HtadAknDl3+M/pGcIz4
+ nMN7vg1SShT1bonpxpP+Jx2er8uSzTdS2Ktz65d/fWqZAYl0PqvZaRPceqyc3DiUiK
+ VMrWx7EADb/Gzfzia5+lpnreYvFTIgVbbc0v8YR4aNmDqSdp0cfa4oQ7d/eRxsXyzO
+ 9ru91D/OfSuyQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 25 Aug 2025 15:43:41 +0200
-Subject: [PATCH 36/39] drm/atomic: Remove unused
- drm_atomic_get_existing_crtc_state()
+Date: Mon, 25 Aug 2025 15:43:42 +0200
+Subject: [PATCH 37/39] drm/atomic: Document __drm_crtcs_state state pointer
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250825-drm-no-more-existing-state-v1-36-f08ccd9f85c9@kernel.org>
+Message-Id: <20250825-drm-no-more-existing-state-v1-37-f08ccd9f85c9@kernel.org>
 References: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
 In-Reply-To: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -93,12 +92,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1526; i=mripard@kernel.org;
- h=from:subject:message-id; bh=YPy4z4OaJoWUL9r4KrGzI/WKjSjH8TP5L3pV+kz8Tdg=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlrMpq4z94/mjM5g9Gl0v3fvtfWyp5dT7wuFtZMsp/gl
- eIZan+sYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEzkynTG+hyu5J/GXy8duvOo
- 4fv8iRN2VqVmNm5UWeSgEa+vcukzd0qmT7536edZnF1hJzQaVFfJMjYs3KU6QfJc4bONmvHWIZG
- S8hP3GjXyxnVtUFv68/QjN0bPlW9OL7vpsU28f+2NGj/7yfsB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1496; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=KG29DkMhijG/h32XFoVLd/RlQz6ZHNqZLW44iGDdi5g=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlrMppmL90+y/LQXpPsa2vv1DckCdWL8Rp/V9Hld0mad
+ +berLs/O6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEyqYw1rsFtulapgcuWvks
+ IWOC2q/KWtHg2Jy2x431c79PLd+g0SKXxFyZuelFzpHHaqHznk67zVhf/pTp0i1Pzd6iwnz96V5
+ H2ZzT5/+U+Jq+R0xq4rVbnmr/py9ZcKT1RcSi6dbmx+InndMAAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,47 +115,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_atomic_get_existing_crtc_state() function is deprecated and
-isn't used anymore, so let's remove it.
+While the old and new state pointers are somewhat self-explanatory, the
+state pointer and its relation to the other two really isn't.
+
+Now that we've cleaned up everything and it isn't used in any
+modesetting path, we can document what it's still useful for: to free
+the right state when we free the global state.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- include/drm/drm_atomic.h | 18 ------------------
- 1 file changed, 18 deletions(-)
+ include/drm/drm_atomic.h | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 89c9a059b36763205fc2fc764283423cbea62679..cba63857e920515b48b75fc3c2d5239fc1ae59c1 100644
+index cba63857e920515b48b75fc3c2d5239fc1ae59c1..e8edf33ab260c03c81e16917a6a5a7d9648d46c9 100644
 --- a/include/drm/drm_atomic.h
 +++ b/include/drm/drm_atomic.h
-@@ -663,28 +663,10 @@ drm_atomic_get_old_crtc_for_encoder(struct drm_atomic_state *state,
- 					 struct drm_encoder *encoder);
- struct drm_crtc *
- drm_atomic_get_new_crtc_for_encoder(struct drm_atomic_state *state,
- 					 struct drm_encoder *encoder);
+@@ -176,11 +176,25 @@ struct __drm_planes_state {
+ 	struct drm_plane_state *old_state, *new_state;
+ };
  
--/**
-- * drm_atomic_get_existing_crtc_state - get CRTC state, if it exists
-- * @state: global atomic state object
-- * @crtc: CRTC to grab
-- *
-- * This function returns the CRTC state for the given CRTC, or NULL
-- * if the CRTC is not part of the global atomic state.
-- *
-- * This function is deprecated, @drm_atomic_get_old_crtc_state or
-- * @drm_atomic_get_new_crtc_state should be used instead.
-- */
--static inline struct drm_crtc_state *
--drm_atomic_get_existing_crtc_state(const struct drm_atomic_state *state,
--				   struct drm_crtc *crtc)
--{
--	return state->crtcs[drm_crtc_index(crtc)].state;
--}
--
- /**
-  * drm_atomic_get_old_crtc_state - get old CRTC state, if it exists
-  * @state: global atomic state object
-  * @crtc: CRTC to grab
-  *
+ struct __drm_crtcs_state {
+ 	struct drm_crtc *ptr;
+-	struct drm_crtc_state *state, *old_state, *new_state;
++
++	/**
++	 * @state:
++	 *
++	 * Used to track the @drm_crtc_state we will need to free
++	 * when tearing down the associated &drm_atomic_state.
++	 *
++	 * Before a commit, and the call to
++	 * drm_atomic_helper_swap_state() in particular, it points to
++	 * the same state than @new_state. After a commit, it points to
++	 * the same state than @old_state.
++	 */
++	struct drm_crtc_state *state;
++
++	struct drm_crtc_state *old_state, *new_state;
+ 
+ 	/**
+ 	 * @commit:
+ 	 *
+ 	 * A reference to the CRTC commit object that is kept for use by
 
 -- 
 2.50.1
