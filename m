@@ -2,154 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35504B33AF1
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 11:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C656DB355EF
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 09:43:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D191F10E425;
-	Mon, 25 Aug 2025 09:26:44 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XlG1Zg00";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 279B610E5EB;
+	Tue, 26 Aug 2025 07:43:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA0810E42A
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 09:26:43 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57P8GEwD026314
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 09:26:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=4EjmfETgNQm/Vlvha9wFXQHI
- t0wG5jz8jtoxkPVtlaI=; b=XlG1Zg007yo8B7QsjnIaAxiPH9JAUnbzR9Sab0I3
- YHz+BiXJi/mP3RdpI6WVigzYtLwx6oOTG51Yrn9GneL9axk7y47GahXNS9xHdBjR
- macTnmoASdfVIYIxqLuL6IG9rUS79yUrksDyXcUVlWzqceHPjXh9qS9iLGIUXpD/
- DSRuKz3jSsmXW4rBN0qDlOv+LSLwxTV4d2ZA1U1bUOUV0/MJ/FRiNDO0/Lq1GpUR
- M2uUZlHtnqYt/POZif6PT/757sXTQfYKiUhKtzVg1qCLtyAudYXo+28fu7weMMll
- DeMHZH3f2KfZzHtUTT0b25G8n5UTpdC64UeVQaf4Pz6+0w==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5xfckp7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 09:26:42 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-70a9f55eb56so85499536d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 02:26:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756114002; x=1756718802;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4EjmfETgNQm/Vlvha9wFXQHIt0wG5jz8jtoxkPVtlaI=;
- b=MtxnttDlCcTgI/xC8+PgW9R1nqwsUxKN86ZuNbP7T1lCW4IKD3wEjwNI13vClL0e5T
- KrmNVGBZOW5p7iIPV2EsvKKv3moA78mNHz0Z71Q4d+8FKQMblfaO+GFVCRvEb0TBNUf+
- Mru1Gx7l0C2iZLvgp03ofOJbHZ1kh4mraYYhGkBf1xB5/Rr5roeg/qLDEcLNryAQw/C7
- Ccb5H1mumjiC+VIUBuZvJa1rvILvDI3UY1Wkluz7evu0OoyAF7CUSSPBqWArEd3XpTeU
- s4Hb2jGVkT9XvCXkS03I4RYx1p/+UROiSoW7BS/RoT+1u8YnUI18N4iGWaFO90VtjLYS
- jimA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU/R0queYBw/CfiyqIdc4We3wHhy3UqrytXM/h7j/olLuaU5tOMYwfFEDLf/l7B40y+FMmo3oDlQ34=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNRz1j/2hJp5ieAcd1nJBoSgKjT6+kkCD9g7KKbNpn9l0PEFIT
- H1joEl26UtytYWMx2oeQa7ZevU7hWiik/0AJ/Za56jam5zmZHrBJ0ZOoSoVrlbURlhByeDJHiOd
- tDhxnM9BbHo+3rQd8qt5KZr006niV4KO345ciMNU7b/8gB7URUu46O1Bjm3L9830hGiASmsU=
-X-Gm-Gg: ASbGncsPIlR0P0MvKj0HMVM6VxFZXXqKY9e6MrcgcnArXDlftS6KvmXfsY+U5wIIjsI
- D7tFkoz0hrWaECukLdbKCMg/Jj5/t9OaPHbCwLqIkO3gNZC8IUrqCpRtQ3fDKOq2CKp3/zuwvfN
- U5dW4jeamwgVKCmW1CHc5Kj+ZA1d6qSv/bKS2pN0vhcE+38aKDtuOaaBfoZ2pnWh+6g+gkyjVnp
- M4xU4MtLQG9+Rg6mvvbMopzDrJ1YXArbvWMgrUe1y9XvLYDhcd+n2GlU//6W+EsJvhrKOySTjw0
- El9Vn7McSohLOLeegr8H5lBL5dak+yD26X5QBJoTPpappttlKKT6iFV5DZ0ye5n1PPdfTwxmWFI
- pQ/cxpu6vEqykxee/Qm8QzIsaRsMStpDsu+mpd3RofswUfuapsW8G
-X-Received: by 2002:a05:6214:4a02:b0:70d:a44c:7888 with SMTP id
- 6a1803df08f44-70da44c7dc8mr92019656d6.24.1756114001802; 
- Mon, 25 Aug 2025 02:26:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEm4osqf3FKfdRsdXmqHxRRVdAGOSVE7liNGQR4vahCuDo4dZvvt3gTYb3tINRaNS66Ihgu0w==
-X-Received: by 2002:a05:6214:4a02:b0:70d:a44c:7888 with SMTP id
- 6a1803df08f44-70da44c7dc8mr92019466d6.24.1756114001224; 
- Mon, 25 Aug 2025 02:26:41 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3365e20ed53sm15882191fa.4.2025.08.25.02.26.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Aug 2025 02:26:40 -0700 (PDT)
-Date: Mon, 25 Aug 2025 12:26:38 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-Cc: "mripard@kernel.org" <mripard@kernel.org>,
- "liviu.dudau@arm.com" <liviu.dudau@arm.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "Murthy, Arun R" <arun.r.murthy@intel.com>,
- "Shankar, Uma" <uma.shankar@intel.com>,
- "Nikula, Jani" <jani.nikula@intel.com>,
- "harry.wentland@amd.com" <harry.wentland@amd.com>,
- "siqueira@igalia.com" <siqueira@igalia.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>,
- "abhinav.kumar@linux.dev" <abhinav.kumar@linux.dev>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
- "sean@poorly.run" <sean@poorly.run>,
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
- "mcanal@igalia.com" <mcanal@igalia.com>,
- "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
- "tomi.valkeinen+renesas@ideasonboard.com"
- <tomi.valkeinen+renesas@ideasonboard.com>, 
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>, 
- "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-Message-ID: <tk2x6a3laaiwa2tiaewa4esl5o2gi363h3tfb5uha6apno34gr@fxqbhixyicw6>
-References: <20250811092707.3986802-2-suraj.kandpal@intel.com>
- <20250811094429.GE21313@pendragon.ideasonboard.com>
- <awtqznhquyn7etojonmjn7karznefsb7fdudawcjsj5g2bok3u@2iqcdviuiz2s>
- <20250811111546.GA30760@pendragon.ideasonboard.com>
- <2ah3pau7p7brgw7huoxznvej3djct76vgfwtc72n6uub7sjojd@zzaebjdcpdwf>
- <DM3PPF208195D8D0E55A761A3C16B87BAEEE32AA@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <aJ4LQvqli36TlETu@e110455-lin.cambridge.arm.com>
- <hc6f6wgsnauh72cowocpm55tikejhiha5z4mgufeq7v6gb2qml@kmgfd26bigos>
- <wr76vyag2osox2xf7ducnkiaanzk2k5ehd2ahnoyqdm5qiywlk@penf4v5bvg5z>
- <DM3PPF208195D8D87AECE8397914A67D9A1E33EA@DM3PPF208195D8D.namprd11.prod.outlook.com>
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D29010E413;
+ Mon, 25 Aug 2025 09:29:17 +0000 (UTC)
+X-UUID: f4718114819511f0b29709d653e92f7d-20250825
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:cb130e20-aecb-43b8-b030-6ef1cc18cdba, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-25
+X-CID-META: VersionHash:6493067, CLOUDID:aeb4c23f173f4cd6117d234a0768e40a,
+ BulkI
+ D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|50,EDM:1,IP:nil
+ ,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:
+ 1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: f4718114819511f0b29709d653e92f7d-20250825
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+ (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 1183095260; Mon, 25 Aug 2025 17:29:09 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id 7CFD8E008FA5;
+ Mon, 25 Aug 2025 17:29:09 +0800 (CST)
+X-ns-mid: postfix-68AC2CE5-2011171159
+Received: from localhost.localdomain (unknown [172.25.120.24])
+ by mail.kylinos.cn (NSMail) with ESMTPA id EBA03E008FA4;
+ Mon, 25 Aug 2025 17:28:56 +0800 (CST)
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+To: "Rafael J . wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Markus Mayer <mmayer@broadcom.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: zhenglifeng <zhenglifeng1@huawei.com>, "H . Peter Anvin" <hpa@zytor.com>,
+ Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Beata Michalska <beata.michalska@arm.com>,
+ Fabio Estevam <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Sumit Gupta <sumitg@nvidia.com>,
+ Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Yicong Yang <yangyicong@hisilicon.com>, linux-pm@vger.kernel.org,
+ x86@kernel.org, kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-omap@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Zihuan Zhang <zhangzihuan@kylinos.cn>
+Subject: [PATCH v1] cpufreq: use __free() for all cpufreq_cpu_get() references
+Date: Mon, 25 Aug 2025 17:28:33 +0800
+Message-Id: <20250825092833.42441-1-zhangzihuan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM3PPF208195D8D87AECE8397914A67D9A1E33EA@DM3PPF208195D8D.namprd11.prod.outlook.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX/10DPXBoS6RE
- ZB3VkLYTDeLHM47BUJImd9UQH4Xwqk+ETX5bZ4Nj9ljoR0R6/G89SPGiY5DTxxi78mQLNGnN66o
- U0j6aouzvjKafsVTgydGyFisCmO4jldN6tCUFb9Y5sGFu7kvTE78c/A909sO9Kn9BN4W0I74WeX
- V/TRsjaXZvzEt7hgEfz12Q2BiSFcKkyZnKWj06B0vuD2fP5qrXoZQSX11Hy+Y4SJoIMyZMYovqX
- kUvqV+iL1WDAxfaay00EiV2rqszoTv741zBA0Z/3Bm2djbyltbjn2XwNiB52o0Gf2it6+VX4m1U
- CeYtb2ss3UVrHQ9sJm1BKipq/jnkE26fKUnCe0ZdwHDstEtQ0XvdQ6BS2T/aP+udPuYWveFxDtI
- 2bXFWkuO
-X-Proofpoint-GUID: 0bxZlTB_1PUusvlVtflakkMjlypcHHBu
-X-Authority-Analysis: v=2.4 cv=MutS63ae c=1 sm=1 tr=0 ts=68ac2c52 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=2bDsevyxfkvo1t3REK0A:9
- a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: 0bxZlTB_1PUusvlVtflakkMjlypcHHBu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-25_04,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 adultscore=0 spamscore=0 malwarescore=0
- suspectscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 26 Aug 2025 07:42:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,85 +108,694 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 06:26:48AM +0000, Kandpal, Suraj wrote:
-> > Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor
-> > drm_writeback_connector structure
-> > 
-> > Hi,
-> > 
-> > On Sat, Aug 16, 2025 at 01:20:53AM +0300, Dmitry Baryshkov wrote:
-> > > On Thu, Aug 14, 2025 at 05:13:54PM +0100, liviu.dudau@arm.com wrote:
-> > > > Hi,
-> > > >
-> > > > On Wed, Aug 13, 2025 at 10:04:22AM +0000, Kandpal, Suraj wrote:
-> > > > > > > > };
-> > > > > > >
-> > > > > > > I still don't like that. This really doesn't belong here. If
-> > > > > > > anything, the drm_connector for writeback belongs to drm_crtc.
-> > > > > >
-> > > > > > Why? We already have generic HDMI field inside drm_connector. I
-> > > > > > am really hoping to be able to land DP parts next to it. In
-> > > > > > theory we can have a DVI- specific entry there (e.g. with the
-> > subconnector type).
-> > > > > > The idea is not to limit how the drivers subclass those structures.
-> > > > > >
-> > > > > > I don't see a good case why WB should deviate from that design.
-> > > > > >
-> > > > > > > If the issue is that some drivers need a custom drm_connector
-> > > > > > > subclass, then I'd rather turn the connector field of
-> > > > > > > drm_writeback_connector into a pointer.
-> > > > > >
-> > > > > > Having a pointer requires additional ops in order to get
-> > > > > > drm_connector from WB code and vice versa. Having
-> > > > > > drm_connector_wb inside drm_connector saves us from those ops
-> > (which don't manifest for any other kind of structure).
-> > > > > > Nor will it take any more space since union will reuse space
-> > > > > > already taken up by HDMI part.
-> > > > > >
-> > > > > > >
-> > > > >
-> > > > > Seems like this thread has died. We need to get a conclusion on the
-> > design.
-> > > > > Laurent do you have any issue with the design given Dmitry's
-> > > > > explanation as to why this Design is good for drm_writeback_connector.
-> > > >
-> > > > I'm with Laurent here. The idea for drm_connector (and a lot of drm
-> > > > structures) are to be used as base "classes" for extended
-> > > > structures. I don't know why HDMI connector ended up inside
-> > > > drm_connector as not all connectors have HDMI functionality, but that's a
-> > cleanup for another day.
-> > >
-> > > Maybe Maxime can better comment on it, but I think it was made exactly
-> > > for the purpose of not limiting the driver's design. For example, a
-> > > lot of drivers subclass drm_connector via drm_bridge_connector. If
-> > > struct drm_connector_hdmi was a wrapper around struct drm_connector,
-> > > then it would have been impossible to use HDMI helpers for bridge
-> > > drivers, while current design freely allows any driver to utilize
-> > > corresponding library code.
-> > 
-> > That's exactly why we ended up like this. With that design, we wouldn't have
-> > been able to "inherit" two connector "classes": bridge_connector is one,
-> > intel_connector another one.
-> > 
-> > See here for the rationale:
-> > https://lore.kernel.org/dri-devel/ZOTDKHxn2bOg+Xmg@phenom.ffwll.local/
-> > 
-> > I don't think the "but we'll bloat drm_connector" makes sense either.
-> > There's already a *lot* of things that aren't useful to every connector (fwnode,
-> > display_info, edid in general, scaling, vrr, etc.)
-> > 
-> > And it's not like we allocate more than a handful of them during a system's life.
-> 
-> So Are we okay with the approach mentioned here with the changes that have been proposed here like
-> Having drm_writeback_connector in union with drm_hdmi_connector
-> Also one more thing I would like to clarify here is how everyone would like the patches
-> patches where each patch changes both the drm core and all related drivers (ensures buildability but then review is tough for each driver).
-> Or patches where we have initial drm core changes and then each patch does the all changes in a driver in its own respective patch.
+This patch replaces all remaining uses of cpufreq_cpu_get() with
+the __free(cpufreq_cpu_put) annotation.
 
-The kernel must be bisectable. Which means that after each patch in the
-series the kernel must build completely and work without additionally
-introduced issues.
+Motivation:
+- Ensures automatic cleanup of policy references when they go out of scop=
+e,
+  reducing the risk of forgetting to call cpufreq_cpu_put() on early retu=
+rn
+  or error paths.
+- Brings the code in line with the latest kernel coding style and best
+  practices for managing reference-counted objects.
+- No functional changes are introduced; behavior remains the same,
+  but reference counting is now safer and easier to maintain.
 
--- 
-With best wishes
-Dmitry
+Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
+---
+ arch/arm64/kernel/topology.c                  |  9 +++----
+ arch/x86/kvm/x86.c                            | 10 ++++----
+ drivers/acpi/processor_thermal.c              | 13 ++++------
+ drivers/cpufreq/brcmstb-avs-cpufreq.c         |  4 +---
+ drivers/cpufreq/cppc_cpufreq.c                |  4 +---
+ drivers/cpufreq/intel_pstate.c                |  3 +--
+ drivers/cpufreq/longhaul.c                    |  3 +--
+ drivers/cpufreq/mediatek-cpufreq.c            |  6 ++---
+ drivers/cpufreq/powernv-cpufreq.c             |  6 ++---
+ drivers/cpufreq/s5pv210-cpufreq.c             |  3 +--
+ drivers/cpufreq/tegra186-cpufreq.c            |  3 +--
+ drivers/devfreq/governor_passive.c            | 19 ++++-----------
+ drivers/gpu/drm/i915/gt/intel_llc.c           |  3 +--
+ drivers/macintosh/windfarm_cpufreq_clamp.c    |  4 +---
+ drivers/powercap/dtpm_cpu.c                   | 24 ++++++-------------
+ drivers/thermal/imx_thermal.c                 |  7 ++----
+ .../ti-soc-thermal/ti-thermal-common.c        |  5 +---
+ kernel/power/energy_model.c                   |  7 ++----
+ 18 files changed, 40 insertions(+), 93 deletions(-)
+
+diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
+index 5d07ee85bdae..e3cb6d54f35b 100644
+--- a/arch/arm64/kernel/topology.c
++++ b/arch/arm64/kernel/topology.c
+@@ -307,17 +307,16 @@ int arch_freq_get_on_cpu(int cpu)
+ 		 */
+ 		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
+ 		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAMPLE_E=
+XP_MS))) {
+-			struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
++			struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 			int ref_cpu;
+=20
++			policy =3D cpufreq_cpu_get(cpu);
+ 			if (!policy)
+ 				return -EINVAL;
+=20
+ 			if (!cpumask_intersects(policy->related_cpus,
+-						housekeeping_cpumask(HK_TYPE_TICK))) {
+-				cpufreq_cpu_put(policy);
++						housekeeping_cpumask(HK_TYPE_TICK)))
+ 				return -EOPNOTSUPP;
+-			}
+=20
+ 			for_each_cpu_wrap(ref_cpu, policy->cpus, cpu + 1) {
+ 				if (ref_cpu =3D=3D start_cpu) {
+@@ -329,8 +328,6 @@ int arch_freq_get_on_cpu(int cpu)
+ 					break;
+ 			}
+=20
+-			cpufreq_cpu_put(policy);
+-
+ 			if (ref_cpu >=3D nr_cpu_ids)
+ 				/* No alternative to pull info from */
+ 				return -EAGAIN;
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index a1c49bc681c4..2a825f4ec701 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -9492,16 +9492,14 @@ static void kvm_timer_init(void)
+ 		max_tsc_khz =3D tsc_khz;
+=20
+ 		if (IS_ENABLED(CONFIG_CPU_FREQ)) {
+-			struct cpufreq_policy *policy;
++			struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 			int cpu;
+=20
+ 			cpu =3D get_cpu();
+ 			policy =3D cpufreq_cpu_get(cpu);
+-			if (policy) {
+-				if (policy->cpuinfo.max_freq)
+-					max_tsc_khz =3D policy->cpuinfo.max_freq;
+-				cpufreq_cpu_put(policy);
+-			}
++			if (policy && policy->cpuinfo.max_freq)
++				max_tsc_khz =3D policy->cpuinfo.max_freq;
++
+ 			put_cpu();
+ 		}
+ 		cpufreq_register_notifier(&kvmclock_cpufreq_notifier_block,
+diff --git a/drivers/acpi/processor_thermal.c b/drivers/acpi/processor_th=
+ermal.c
+index 1219adb11ab9..8367a81c4842 100644
+--- a/drivers/acpi/processor_thermal.c
++++ b/drivers/acpi/processor_thermal.c
+@@ -64,17 +64,14 @@ static int phys_package_first_cpu(int cpu)
+=20
+ static int cpu_has_cpufreq(unsigned int cpu)
+ {
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+=20
+ 	if (!acpi_processor_cpufreq_init)
+ 		return 0;
+=20
+ 	policy =3D cpufreq_cpu_get(cpu);
+-	if (policy) {
+-		cpufreq_cpu_put(policy);
+-		return 1;
+-	}
+-	return 0;
++
++	return !!policy;
+ }
+=20
+ static int cpufreq_get_max_state(unsigned int cpu)
+@@ -95,7 +92,7 @@ static int cpufreq_get_cur_state(unsigned int cpu)
+=20
+ static int cpufreq_set_cur_state(unsigned int cpu, int state)
+ {
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	struct acpi_processor *pr;
+ 	unsigned long max_freq;
+ 	int i, ret;
+@@ -127,8 +124,6 @@ static int cpufreq_set_cur_state(unsigned int cpu, in=
+t state)
+ 		max_freq =3D (policy->cpuinfo.max_freq *
+ 			    (100 - reduction_step(i) * cpufreq_thermal_reduction_pctg)) / 100=
+;
+=20
+-		cpufreq_cpu_put(policy);
+-
+ 		ret =3D freq_qos_update_request(&pr->thermal_req, max_freq);
+ 		if (ret < 0) {
+ 			pr_warn("Failed to update thermal freq constraint: CPU%d (%d)\n",
+diff --git a/drivers/cpufreq/brcmstb-avs-cpufreq.c b/drivers/cpufreq/brcm=
+stb-avs-cpufreq.c
+index 5940d262374f..71450cca8e9f 100644
+--- a/drivers/cpufreq/brcmstb-avs-cpufreq.c
++++ b/drivers/cpufreq/brcmstb-avs-cpufreq.c
+@@ -480,7 +480,7 @@ static bool brcm_avs_is_firmware_loaded(struct privat=
+e_data *priv)
+=20
+ static unsigned int brcm_avs_cpufreq_get(unsigned int cpu)
+ {
+-	struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
++	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
+u_get(cpu);
+ 	struct private_data *priv;
+=20
+ 	if (!policy)
+@@ -488,8 +488,6 @@ static unsigned int brcm_avs_cpufreq_get(unsigned int=
+ cpu)
+=20
+ 	priv =3D policy->driver_data;
+=20
+-	cpufreq_cpu_put(policy);
+-
+ 	return brcm_avs_get_frequency(priv->base);
+ }
+=20
+diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufre=
+q.c
+index 4a17162a392d..7183754b1f31 100644
+--- a/drivers/cpufreq/cppc_cpufreq.c
++++ b/drivers/cpufreq/cppc_cpufreq.c
+@@ -726,7 +726,7 @@ static int cppc_get_perf_ctrs_sample(int cpu,
+ static unsigned int cppc_cpufreq_get_rate(unsigned int cpu)
+ {
+ 	struct cppc_perf_fb_ctrs fb_ctrs_t0 =3D {0}, fb_ctrs_t1 =3D {0};
+-	struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
++	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
+u_get(cpu);
+ 	struct cppc_cpudata *cpu_data;
+ 	u64 delivered_perf;
+ 	int ret;
+@@ -736,8 +736,6 @@ static unsigned int cppc_cpufreq_get_rate(unsigned in=
+t cpu)
+=20
+ 	cpu_data =3D policy->driver_data;
+=20
+-	cpufreq_cpu_put(policy);
+-
+ 	ret =3D cppc_get_perf_ctrs_sample(cpu, &fb_ctrs_t0, &fb_ctrs_t1);
+ 	if (ret) {
+ 		if (ret =3D=3D -EFAULT)
+diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_pstat=
+e.c
+index f366d35c5840..fb962140af56 100644
+--- a/drivers/cpufreq/intel_pstate.c
++++ b/drivers/cpufreq/intel_pstate.c
+@@ -1698,7 +1698,7 @@ static ssize_t store_no_turbo(struct kobject *a, st=
+ruct kobj_attribute *b,
+ static void update_qos_request(enum freq_qos_req_type type)
+ {
+ 	struct freq_qos_request *req;
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	int i;
+=20
+ 	for_each_possible_cpu(i) {
+@@ -1710,7 +1710,6 @@ static void update_qos_request(enum freq_qos_req_ty=
+pe type)
+ 			continue;
+=20
+ 		req =3D policy->driver_data;
+-		cpufreq_cpu_put(policy);
+=20
+ 		if (!req)
+ 			continue;
+diff --git a/drivers/cpufreq/longhaul.c b/drivers/cpufreq/longhaul.c
+index ba0e08c8486a..ae5596919671 100644
+--- a/drivers/cpufreq/longhaul.c
++++ b/drivers/cpufreq/longhaul.c
+@@ -950,7 +950,7 @@ static int __init longhaul_init(void)
+=20
+ static void __exit longhaul_exit(void)
+ {
+-	struct cpufreq_policy *policy =3D cpufreq_cpu_get(0);
++	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq_cp=
+u_get(0);
+ 	int i;
+=20
+ 	for (i =3D 0; i < numscales; i++) {
+@@ -968,7 +968,6 @@ static void __exit longhaul_exit(void)
+ 		}
+ 	}
+=20
+-	cpufreq_cpu_put(policy);
+ 	cpufreq_unregister_driver(&longhaul_driver);
+ 	kfree(longhaul_table);
+ }
+diff --git a/drivers/cpufreq/mediatek-cpufreq.c b/drivers/cpufreq/mediate=
+k-cpufreq.c
+index f3f02c4b6888..1fae060e16d9 100644
+--- a/drivers/cpufreq/mediatek-cpufreq.c
++++ b/drivers/cpufreq/mediatek-cpufreq.c
+@@ -320,7 +320,7 @@ static int mtk_cpufreq_opp_notifier(struct notifier_b=
+lock *nb,
+ 	struct dev_pm_opp *new_opp;
+ 	struct mtk_cpu_dvfs_info *info;
+ 	unsigned long freq, volt;
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	int ret =3D 0;
+=20
+ 	info =3D container_of(nb, struct mtk_cpu_dvfs_info, opp_nb);
+@@ -354,11 +354,9 @@ static int mtk_cpufreq_opp_notifier(struct notifier_=
+block *nb,
+=20
+ 			dev_pm_opp_put(new_opp);
+ 			policy =3D cpufreq_cpu_get(info->opp_cpu);
+-			if (policy) {
++			if (policy)
+ 				cpufreq_driver_target(policy, freq / 1000,
+ 						      CPUFREQ_RELATION_L);
+-				cpufreq_cpu_put(policy);
+-			}
+ 		}
+ 	}
+=20
+diff --git a/drivers/cpufreq/powernv-cpufreq.c b/drivers/cpufreq/powernv-=
+cpufreq.c
+index 7d9a5f656de8..ea9d78bbeb38 100644
+--- a/drivers/cpufreq/powernv-cpufreq.c
++++ b/drivers/cpufreq/powernv-cpufreq.c
+@@ -892,7 +892,7 @@ static int powernv_cpufreq_reboot_notifier(struct not=
+ifier_block *nb,
+ 				unsigned long action, void *unused)
+ {
+ 	int cpu;
+-	struct cpufreq_policy *cpu_policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+=20
+ 	rebooting =3D true;
+ 	for_each_online_cpu(cpu) {
+@@ -900,7 +900,6 @@ static int powernv_cpufreq_reboot_notifier(struct not=
+ifier_block *nb,
+ 		if (!cpu_policy)
+ 			continue;
+ 		powernv_cpufreq_target_index(cpu_policy, get_nominal_index());
+-		cpufreq_cpu_put(cpu_policy);
+ 	}
+=20
+ 	return NOTIFY_DONE;
+@@ -913,7 +912,7 @@ static struct notifier_block powernv_cpufreq_reboot_n=
+b =3D {
+ static void powernv_cpufreq_work_fn(struct work_struct *work)
+ {
+ 	struct chip *chip =3D container_of(work, struct chip, throttle);
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	unsigned int cpu;
+ 	cpumask_t mask;
+=20
+@@ -935,7 +934,6 @@ static void powernv_cpufreq_work_fn(struct work_struc=
+t *work)
+ 		index =3D cpufreq_table_find_index_c(policy, policy->cur, false);
+ 		powernv_cpufreq_target_index(policy, index);
+ 		cpumask_andnot(&mask, &mask, policy->cpus);
+-		cpufreq_cpu_put(policy);
+ 	}
+ out:
+ 	cpus_read_unlock();
+diff --git a/drivers/cpufreq/s5pv210-cpufreq.c b/drivers/cpufreq/s5pv210-=
+cpufreq.c
+index 76c888ed8d16..95f1568e9530 100644
+--- a/drivers/cpufreq/s5pv210-cpufreq.c
++++ b/drivers/cpufreq/s5pv210-cpufreq.c
+@@ -555,7 +555,7 @@ static int s5pv210_cpufreq_reboot_notifier_event(stru=
+ct notifier_block *this,
+ 						 unsigned long event, void *ptr)
+ {
+ 	int ret;
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+=20
+ 	policy =3D cpufreq_cpu_get(0);
+ 	if (!policy) {
+@@ -564,7 +564,6 @@ static int s5pv210_cpufreq_reboot_notifier_event(stru=
+ct notifier_block *this,
+ 	}
+=20
+ 	ret =3D cpufreq_driver_target(policy, SLEEP_FREQ, 0);
+-	cpufreq_cpu_put(policy);
+=20
+ 	if (ret < 0)
+ 		return NOTIFY_BAD;
+diff --git a/drivers/cpufreq/tegra186-cpufreq.c b/drivers/cpufreq/tegra18=
+6-cpufreq.c
+index cbabb726c664..4d71e262a729 100644
+--- a/drivers/cpufreq/tegra186-cpufreq.c
++++ b/drivers/cpufreq/tegra186-cpufreq.c
+@@ -105,7 +105,7 @@ static unsigned int tegra186_cpufreq_get(unsigned int=
+ cpu)
+ {
+ 	struct tegra186_cpufreq_data *data =3D cpufreq_get_driver_data();
+ 	struct tegra186_cpufreq_cluster *cluster;
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	unsigned int edvd_offset, cluster_id;
+ 	u32 ndiv;
+=20
+@@ -117,7 +117,6 @@ static unsigned int tegra186_cpufreq_get(unsigned int=
+ cpu)
+ 	ndiv =3D readl(data->regs + edvd_offset) & EDVD_CORE_VOLT_FREQ_F_MASK;
+ 	cluster_id =3D data->cpus[policy->cpu].bpmp_cluster_id;
+ 	cluster =3D &data->clusters[cluster_id];
+-	cpufreq_cpu_put(policy);
+=20
+ 	return (cluster->ref_clk_khz * ndiv) / cluster->div;
+ }
+diff --git a/drivers/devfreq/governor_passive.c b/drivers/devfreq/governo=
+r_passive.c
+index 953cf9a1e9f7..cba58684ee06 100644
+--- a/drivers/devfreq/governor_passive.c
++++ b/drivers/devfreq/governor_passive.c
+@@ -80,7 +80,7 @@ static int get_target_freq_with_cpufreq(struct devfreq =
+*devfreq,
+ 	struct devfreq_passive_data *p_data =3D
+ 				(struct devfreq_passive_data *)devfreq->data;
+ 	struct devfreq_cpu_data *parent_cpu_data;
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	unsigned long cpu, cpu_cur, cpu_min, cpu_max, cpu_percent;
+ 	unsigned long dev_min, dev_max;
+ 	unsigned long freq =3D 0;
+@@ -94,10 +94,8 @@ static int get_target_freq_with_cpufreq(struct devfreq=
+ *devfreq,
+ 		}
+=20
+ 		parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
+-		if (!parent_cpu_data) {
+-			cpufreq_cpu_put(policy);
++		if (!parent_cpu_data)
+ 			continue;
+-		}
+=20
+ 		/* Get target freq via required opps */
+ 		cpu_cur =3D parent_cpu_data->cur_freq * HZ_PER_KHZ;
+@@ -106,7 +104,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
+q *devfreq,
+ 					devfreq->opp_table, &cpu_cur);
+ 		if (freq) {
+ 			*target_freq =3D max(freq, *target_freq);
+-			cpufreq_cpu_put(policy);
+ 			continue;
+ 		}
+=20
+@@ -121,7 +118,6 @@ static int get_target_freq_with_cpufreq(struct devfre=
+q *devfreq,
+ 		freq =3D dev_min + mult_frac(dev_max - dev_min, cpu_percent, 100);
+=20
+ 		*target_freq =3D max(freq, *target_freq);
+-		cpufreq_cpu_put(policy);
+ 	}
+=20
+ 	return ret;
+@@ -256,7 +252,7 @@ static int cpufreq_passive_register_notifier(struct d=
+evfreq *devfreq)
+ 	struct device *dev =3D devfreq->dev.parent;
+ 	struct opp_table *opp_table =3D NULL;
+ 	struct devfreq_cpu_data *parent_cpu_data;
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	struct device *cpu_dev;
+ 	unsigned int cpu;
+ 	int ret;
+@@ -280,16 +276,14 @@ static int cpufreq_passive_register_notifier(struct=
+ devfreq *devfreq)
+ 		}
+=20
+ 		parent_cpu_data =3D get_parent_cpu_data(p_data, policy);
+-		if (parent_cpu_data) {
+-			cpufreq_cpu_put(policy);
++		if (parent_cpu_data)
+ 			continue;
+-		}
+=20
+ 		parent_cpu_data =3D kzalloc(sizeof(*parent_cpu_data),
+ 						GFP_KERNEL);
+ 		if (!parent_cpu_data) {
+ 			ret =3D -ENOMEM;
+-			goto err_put_policy;
++			goto err;
+ 		}
+=20
+ 		cpu_dev =3D get_cpu_device(cpu);
+@@ -314,7 +308,6 @@ static int cpufreq_passive_register_notifier(struct d=
+evfreq *devfreq)
+ 		parent_cpu_data->max_freq =3D policy->cpuinfo.max_freq;
+=20
+ 		list_add_tail(&parent_cpu_data->node, &p_data->cpu_data_list);
+-		cpufreq_cpu_put(policy);
+ 	}
+=20
+ 	mutex_lock(&devfreq->lock);
+@@ -327,8 +320,6 @@ static int cpufreq_passive_register_notifier(struct d=
+evfreq *devfreq)
+=20
+ err_free_cpu_data:
+ 	kfree(parent_cpu_data);
+-err_put_policy:
+-	cpufreq_cpu_put(policy);
+ err:
+=20
+ 	return ret;
+diff --git a/drivers/gpu/drm/i915/gt/intel_llc.c b/drivers/gpu/drm/i915/g=
+t/intel_llc.c
+index 1d19c073ba2e..53cef2ab133d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_llc.c
++++ b/drivers/gpu/drm/i915/gt/intel_llc.c
+@@ -29,13 +29,12 @@ static struct intel_gt *llc_to_gt(struct intel_llc *l=
+lc)
+=20
+ static unsigned int cpu_max_MHz(void)
+ {
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	unsigned int max_khz;
+=20
+ 	policy =3D cpufreq_cpu_get(0);
+ 	if (policy) {
+ 		max_khz =3D policy->cpuinfo.max_freq;
+-		cpufreq_cpu_put(policy);
+ 	} else {
+ 		/*
+ 		 * Default to measured freq if none found, PCU will ensure we
+diff --git a/drivers/macintosh/windfarm_cpufreq_clamp.c b/drivers/macinto=
+sh/windfarm_cpufreq_clamp.c
+index 28d18ef22bbb..f05e2167481f 100644
+--- a/drivers/macintosh/windfarm_cpufreq_clamp.c
++++ b/drivers/macintosh/windfarm_cpufreq_clamp.c
+@@ -62,7 +62,7 @@ static const struct wf_control_ops clamp_ops =3D {
+=20
+ static int __init wf_cpufreq_clamp_init(void)
+ {
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	struct wf_control *clamp;
+ 	struct device *dev;
+ 	int ret;
+@@ -79,8 +79,6 @@ static int __init wf_cpufreq_clamp_init(void)
+ 	ret =3D freq_qos_add_request(&policy->constraints, &qos_req, FREQ_QOS_M=
+AX,
+ 				   max_freq);
+=20
+-	cpufreq_cpu_put(policy);
+-
+ 	if (ret < 0) {
+ 		pr_err("%s: Failed to add freq constraint (%d)\n", __func__,
+ 		       ret);
+diff --git a/drivers/powercap/dtpm_cpu.c b/drivers/powercap/dtpm_cpu.c
+index 99390ec1481f..65117569d0f3 100644
+--- a/drivers/powercap/dtpm_cpu.c
++++ b/drivers/powercap/dtpm_cpu.c
+@@ -144,19 +144,16 @@ static int update_pd_power_uw(struct dtpm *dtpm)
+ static void pd_release(struct dtpm *dtpm)
+ {
+ 	struct dtpm_cpu *dtpm_cpu =3D to_dtpm_cpu(dtpm);
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+=20
+ 	if (freq_qos_request_active(&dtpm_cpu->qos_req))
+ 		freq_qos_remove_request(&dtpm_cpu->qos_req);
+=20
+ 	policy =3D cpufreq_cpu_get(dtpm_cpu->cpu);
+-	if (policy) {
++	if (policy)
+ 		for_each_cpu(dtpm_cpu->cpu, policy->related_cpus)
+ 			per_cpu(dtpm_per_cpu, dtpm_cpu->cpu) =3D NULL;
+=20
+-		cpufreq_cpu_put(policy);
+-	}
+-
+ 	kfree(dtpm_cpu);
+ }
+=20
+@@ -192,7 +189,7 @@ static int cpuhp_dtpm_cpu_online(unsigned int cpu)
+ static int __dtpm_cpu_setup(int cpu, struct dtpm *parent)
+ {
+ 	struct dtpm_cpu *dtpm_cpu;
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	struct em_perf_state *table;
+ 	struct em_perf_domain *pd;
+ 	char name[CPUFREQ_NAME_LEN];
+@@ -207,16 +204,12 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *p=
+arent)
+ 		return 0;
+=20
+ 	pd =3D em_cpu_get(cpu);
+-	if (!pd || em_is_artificial(pd)) {
+-		ret =3D -EINVAL;
+-		goto release_policy;
+-	}
++	if (!pd || em_is_artificial(pd))
++		return -EINVAL;
+=20
+ 	dtpm_cpu =3D kzalloc(sizeof(*dtpm_cpu), GFP_KERNEL);
+-	if (!dtpm_cpu) {
+-		ret =3D -ENOMEM;
+-		goto release_policy;
+-	}
++	if (!dtpm_cpu)
++		return -ENOMEM;
+=20
+ 	dtpm_init(&dtpm_cpu->dtpm, &dtpm_ops);
+ 	dtpm_cpu->cpu =3D cpu;
+@@ -239,7 +232,6 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *par=
+ent)
+ 	if (ret < 0)
+ 		goto out_dtpm_unregister;
+=20
+-	cpufreq_cpu_put(policy);
+ 	return 0;
+=20
+ out_dtpm_unregister:
+@@ -251,8 +243,6 @@ static int __dtpm_cpu_setup(int cpu, struct dtpm *par=
+ent)
+ 		per_cpu(dtpm_per_cpu, cpu) =3D NULL;
+ 	kfree(dtpm_cpu);
+=20
+-release_policy:
+-	cpufreq_cpu_put(policy);
+ 	return ret;
+ }
+=20
+diff --git a/drivers/thermal/imx_thermal.c b/drivers/thermal/imx_thermal.=
+c
+index 38c993d1bcb3..1478ccb99553 100644
+--- a/drivers/thermal/imx_thermal.c
++++ b/drivers/thermal/imx_thermal.c
+@@ -543,7 +543,7 @@ static int imx_thermal_register_legacy_cooling(struct=
+ imx_thermal_data *data)
+ 	struct device_node *np;
+ 	int ret =3D 0;
+=20
+-	data->policy =3D cpufreq_cpu_get(0);
++	data->policy __free(put_cpufreq_policy) =3D cpufreq_cpu_get(0);
+ 	if (!data->policy) {
+ 		pr_debug("%s: CPUFreq policy not found\n", __func__);
+ 		return -EPROBE_DEFER;
+@@ -553,10 +553,8 @@ static int imx_thermal_register_legacy_cooling(struc=
+t imx_thermal_data *data)
+=20
+ 	if (!np || !of_property_present(np, "#cooling-cells")) {
+ 		data->cdev =3D cpufreq_cooling_register(data->policy);
+-		if (IS_ERR(data->cdev)) {
++		if (IS_ERR(data->cdev))
+ 			ret =3D PTR_ERR(data->cdev);
+-			cpufreq_cpu_put(data->policy);
+-		}
+ 	}
+=20
+ 	of_node_put(np);
+@@ -567,7 +565,6 @@ static int imx_thermal_register_legacy_cooling(struct=
+ imx_thermal_data *data)
+ static void imx_thermal_unregister_legacy_cooling(struct imx_thermal_dat=
+a *data)
+ {
+ 	cpufreq_cooling_unregister(data->cdev);
+-	cpufreq_cpu_put(data->policy);
+ }
+=20
+ #else
+diff --git a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c b/drivers=
+/thermal/ti-soc-thermal/ti-thermal-common.c
+index 0cf0826b805a..7ce023bf01b5 100644
+--- a/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
++++ b/drivers/thermal/ti-soc-thermal/ti-thermal-common.c
+@@ -234,7 +234,7 @@ int ti_thermal_register_cpu_cooling(struct ti_bandgap=
+ *bgp, int id)
+ 	if (!data)
+ 		return -EINVAL;
+=20
+-	data->policy =3D cpufreq_cpu_get(0);
++	data->policy __free(put_cpufreq_policy) =3D cpufreq_cpu_get(0);
+ 	if (!data->policy) {
+ 		pr_debug("%s: CPUFreq policy not found\n", __func__);
+ 		return -EPROBE_DEFER;
+@@ -246,7 +246,6 @@ int ti_thermal_register_cpu_cooling(struct ti_bandgap=
+ *bgp, int id)
+ 		int ret =3D PTR_ERR(data->cool_dev);
+ 		dev_err(bgp->dev, "Failed to register cpu cooling device %d\n",
+ 			ret);
+-		cpufreq_cpu_put(data->policy);
+=20
+ 		return ret;
+ 	}
+@@ -263,8 +262,6 @@ int ti_thermal_unregister_cpu_cooling(struct ti_bandg=
+ap *bgp, int id)
+=20
+ 	if (!IS_ERR_OR_NULL(data)) {
+ 		cpufreq_cooling_unregister(data->cool_dev);
+-		if (data->policy)
+-			cpufreq_cpu_put(data->policy);
+ 	}
+=20
+ 	return 0;
+diff --git a/kernel/power/energy_model.c b/kernel/power/energy_model.c
+index ea7995a25780..4f91112c10bd 100644
+--- a/kernel/power/energy_model.c
++++ b/kernel/power/energy_model.c
+@@ -451,7 +451,7 @@ static void
+ em_cpufreq_update_efficiencies(struct device *dev, struct em_perf_state =
+*table)
+ {
+ 	struct em_perf_domain *pd =3D dev->em_pd;
+-	struct cpufreq_policy *policy;
++	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 	int found =3D 0;
+ 	int i, cpu;
+=20
+@@ -479,8 +479,6 @@ em_cpufreq_update_efficiencies(struct device *dev, st=
+ruct em_perf_state *table)
+ 			found++;
+ 	}
+=20
+-	cpufreq_cpu_put(policy);
+-
+ 	if (!found)
+ 		return;
+=20
+@@ -787,7 +785,7 @@ static void em_check_capacity_update(void)
+=20
+ 	/* Check if CPUs capacity has changed than update EM */
+ 	for_each_possible_cpu(cpu) {
+-		struct cpufreq_policy *policy;
++		struct cpufreq_policy *policy __free(put_cpufreq_policy);
+ 		struct em_perf_domain *pd;
+ 		struct device *dev;
+=20
+@@ -801,7 +799,6 @@ static void em_check_capacity_update(void)
+ 					      msecs_to_jiffies(1000));
+ 			break;
+ 		}
+-		cpufreq_cpu_put(policy);
+=20
+ 		dev =3D get_cpu_device(cpu);
+ 		pd =3D em_pd_get(dev);
+--=20
+2.25.1
+
