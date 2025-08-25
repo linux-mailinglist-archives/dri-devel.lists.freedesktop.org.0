@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCFDB3412B
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:44:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DECFB34132
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 15:44:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D48310E482;
-	Mon, 25 Aug 2025 13:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73D5E10E498;
+	Mon, 25 Aug 2025 13:44:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QadmStP2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VzhR3Q5r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E350B10E48B;
- Mon, 25 Aug 2025 13:44:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4FBC10E494;
+ Mon, 25 Aug 2025 13:44:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 52FE75C5DB6;
- Mon, 25 Aug 2025 13:44:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733CCC116C6;
- Mon, 25 Aug 2025 13:44:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 44A125C5657;
+ Mon, 25 Aug 2025 13:44:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A538C113D0;
+ Mon, 25 Aug 2025 13:44:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1756129448;
- bh=GtAQSdS1ZwpO1wrhzVk13OKCtrYrUZErGzdK85qhnG4=;
+ s=k20201202; t=1756129451;
+ bh=OVEekJ412TDrWcPosT5PbcAORq/ZSX10mh7GmfSf1w4=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=QadmStP2v9UsuOYT311avWLlpP/l6egme0AcjpIDhH9ksImI4ORKZ3DWspjrDHPgX
- 2x6HjZLLaiPUn3WL6Qm2ObWzvKYprTC4VDHS0rhLOjWSWTJ2GnJUIxSwRcjWv2yckw
- l8ahX7DN03D2kQsSy79t4TDEgCMcLzLDTp3A2zv52af5r0fgSGjecjNIuzwGZ1nVJW
- eFzfPExQ6XUlQqeN8TDT9xjBOJdwXi9T77+svalT5fTLRbHn9VOCulUbwJQhLs1o7z
- WEJBMUjjdObXQ0DaH3GjBKTGNiKlHziXtKPcsZ43x49mFnStg8DrIMPX9pn21+T3Rc
- ZO0ChC/8E/mag==
+ b=VzhR3Q5rh3V4HDtcuCLmgfBZ+t53W1q97NCBIe9yGooqYjO3WbtF7roOG8gNpzAoI
+ +knkrfgaKj7VP6SAuVqMESK+mTtWVoFsbGv1HapCN/2R5t4CHYInBU1PrLwUjn+ggg
+ G2G3m8AnOQbSmPh1SQsD6Ab1xz7Dfz2SPs1KweBHxwCwT2Pj//Xi6TRkFm0JTbfNu7
+ I3b3bQwK9lZk4if44f8RtxaEKQJxfCsNNTCNm03A60uHpmqCHn070ana4/rZU4lgXY
+ oo+0F5+JKJmR4NE2k9CvfdNzi+GTsqNXnBIoGzJvGsN5vP0dB68F8bTDsmKfXJbhPy
+ 16R4HxPcv0Hmw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 25 Aug 2025 15:43:17 +0200
-Subject: [PATCH 12/39] drm/atomic: Convert drm_atomic_get_crtc_state() to
- use new connector state
+Date: Mon, 25 Aug 2025 15:43:18 +0200
+Subject: [PATCH 13/39] drm/ingenic: ipu: Switch to
+ drm_atomic_get_new_crtc_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250825-drm-no-more-existing-state-v1-12-f08ccd9f85c9@kernel.org>
+Message-Id: <20250825-drm-no-more-existing-state-v1-13-f08ccd9f85c9@kernel.org>
 References: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
 In-Reply-To: <20250825-drm-no-more-existing-state-v1-0-f08ccd9f85c9@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -93,12 +93,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1291; i=mripard@kernel.org;
- h=from:subject:message-id; bh=GtAQSdS1ZwpO1wrhzVk13OKCtrYrUZErGzdK85qhnG4=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlrMsqb7n1MlciLNLj+baGYzBGv5o++wa+/Hb3W3b2iI
- VjL1flLx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjI7wDGWqFc1+IbP6z/9FlJ
- VrSbn4pqiO179fVn0iet9HbF3YXW8xc1vrstM5utTsbd332F9H0Hxobnc5h9fB1jt/3prU0r9nK
- rK4x+45n+Y3mkrPiHnoN6rV4LrF5leh1xnibf7mSqr/auCQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1234; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=OVEekJ412TDrWcPosT5PbcAORq/ZSX10mh7GmfSf1w4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBlrMsqPKNnscJ/EkLEysv9qzRqmZdKRilP2FadeZJx6t
+ jFsGrNux1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhImAdjfeXk9bnq/B+VPr9l
+ n/bwkGn9yhVuk1ZzPJlve+kPl5xI1IxV09qZbttnb3268qTnDI1XeYz1buI+OTfzitff1WlwnGO
+ uVGJ2k1F22f+1KzQiLfPFItjel36bZPpeJO+p8E/D00nHT3kAAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,37 +116,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_atomic_get_crtc_state() function calls the deprecated
-drm_atomic_get_existing_crtc_state() helper to get find if a crtc state
-had already been allocated and was part of the given drm_atomic_state.
+The ingenic IPU atomic_set_property implementation uses the deprecated
+drm_atomic_get_existing_crtc_state() helper.
 
-At the point in time where drm_atomic_get_crtc_state() can be
-called (ie, during atomic_check), the existing state is the new state
-and drm_atomic_get_existing_crtc_state() can thus be replaced by
-drm_atomic_get_new_crtc_state().
+This hook is called during the state building process, before
+atomic_check, and thus before the states are swapped. The existing state
+thus points to the new state, and we can use
+drm_atomic_get_new_crtc_state() instead.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic.c | 2 +-
+ drivers/gpu/drm/ingenic/ingenic-ipu.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index a9d1265e34602c454866869b81b8837b2c0a97a4..1147fa890a03ef2c3283972c816796d8de6307c9 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -347,11 +347,11 @@ drm_atomic_get_crtc_state(struct drm_atomic_state *state,
- 	int ret, index = drm_crtc_index(crtc);
- 	struct drm_crtc_state *crtc_state;
+diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+index 26ebf424d63ec21ccee80221745c3e8bcc6b3d7f..2574a4b4d40a2c27cb212114117829d9f6ab3ddb 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
++++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+@@ -703,11 +703,11 @@ ingenic_ipu_plane_atomic_set_property(struct drm_plane *plane,
  
- 	WARN_ON(!state->acquire_ctx);
+ 	mode_changed = val != ipu->sharpness;
+ 	ipu->sharpness = val;
  
--	crtc_state = drm_atomic_get_existing_crtc_state(state, crtc);
-+	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
- 	if (crtc_state)
- 		return crtc_state;
+ 	if (state->crtc) {
+-		crtc_state = drm_atomic_get_existing_crtc_state(state->state, state->crtc);
++		crtc_state = drm_atomic_get_new_crtc_state(state->state, state->crtc);
+ 		if (WARN_ON(!crtc_state))
+ 			return -EINVAL;
  
- 	ret = drm_modeset_lock(&crtc->mutex, state->acquire_ctx);
- 	if (ret)
+ 		crtc_state->mode_changed |= mode_changed;
+ 	}
 
 -- 
 2.50.1
