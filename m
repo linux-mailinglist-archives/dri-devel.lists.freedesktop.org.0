@@ -2,53 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6595AB34996
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 20:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAA5B3499B
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 20:02:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A450010E52E;
-	Mon, 25 Aug 2025 18:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE6410E52C;
+	Mon, 25 Aug 2025 18:02:23 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xUmlCFkL";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com
- [209.85.161.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EAF210E52E
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 18:01:47 +0000 (UTC)
-Received: by mail-oo1-f80.google.com with SMTP id
- 006d021491bc7-61dbd36adcfso3706164eaf.0
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 11:01:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756144906; x=1756749706;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=N/WnMLtGtmmgPsDpXycUG6fldUeZi2a4Hq7BGvKVu0s=;
- b=hTp2fZPFhEhW4S87P9DQIW4mB2ip+M7zHS/+XAPa7608E9LyFfUos1qFFdzVKschrB
- zUV1Qm4HJDs8J423c0ZO5/e1LBUTmDm9xYeMBnaLIz6Js63XENEPduMBEdsnbay5Lhg/
- aBNePT2xkCAodvUtIXFWKXZIHan5FxTFRDcVql+PDf3o0bffAnfpBPWKGc5YmuU7l9Su
- ogLkssa366QD4jcSUwLGjsvGNvA1wZmFDE5xZHVbq7abM92tJYtYbetAcrHGMuyYUGS+
- sbOgkwefHAkkaahgsb23RT3QNCQBCRRKaRji8Tmw5pThYW/C63ZbiPiK68STgUHx4pJf
- eYjw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9HfEbuhQWve+05Twj3YDa4AJVoijZ/FRQ8zUV7asgYGLLwbnq7UhaKGfkSRxoUIpE3jGlQGBjEH8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBwvuXdzye0vhb+fOT27YXazkZRbFNFH58GuT9NmymNlyVp9FH
- amay/z/mt1zEKjTp5rJJiu4CQIAtvndxYdYktwMTEfKdlYAy4E5cKbxu1BJqB11AN4hyja4l0+I
- Dy1wyJQpLJ4BB7k53OxA70j4q7QZRFeIGIHBifYrsndF2SJ7KuBD4HUxzy6c=
-X-Google-Smtp-Source: AGHT+IGtpRWHiX5t5TbZwUBtB2IIqhTAyMGgtViN9mjDqHgdQKqnkXIoG+ydp9tf5rMwru5lt0vMtW7TEHYbmBCz+oBm1m1y5+RV
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2085.outbound.protection.outlook.com [40.107.237.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9384510E52C;
+ Mon, 25 Aug 2025 18:02:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yHI1+XgbYw/6HNJxv8XeBn2tiVpxvV3miw7gOTHEg+ENN6Cf5e6UObVVNbglPbT7+utHI27Qa1z/Np7DYxRUu9/tXtdBkz3XdDm+PvPZtUnG+grN2rmQdJeouTlqKMYquPcvp/stMQARVpwBTWw3R5mLs0Nb1IJtXMuLZEmaUZBmYxEWhw/0Jdc7fwlZiGpp1hxEFbTcaaT3fgm6K3HB/dD0ivfvLHkncJzbgclhGv12wtRTkqGzm3H1huGcL7bM0l0k6ImAM/i2UNsdc7gbgGMz8e+Ll2gCNbDfumxjD6f8p63pQ0bu6MVSvsWWoKyxk2JzMi8l6XYjsbUjk8ZdQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QtYBhhIxiuTBcaeikueuMYQDQwt4Uj57J7+uY8KvIac=;
+ b=eyfYV9lDIAQGMfRJ6T5tbrcNbu43BC23Ou0Nm+wlRRj0R4/or8nY+Jts2s4Domg2qk3I/4hI4AZxMva7HNhe9SQyiUReBKbB+P4rweHyvzagZgvvZucEO+rfjQGR+iios4bYLkBs8u6CpT4f/S5mxKxx+BPtVywN1LvjQ+KhmOyc6ROVer9qC3yAwVY/um7SWL3DRHAqyirzHURmqG5g52lFkq4jVRINslYViC5O9+QMEKBQpqNOSCx+MWnDecF5DHiRhcPhnS4Y3CxZ4YlZuFRu/kYgqVH9Q/rvsE0kf21lff9+ph/D0ISPhgidE3zzEaKNtXrs/xryU2dNAiiIdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QtYBhhIxiuTBcaeikueuMYQDQwt4Uj57J7+uY8KvIac=;
+ b=xUmlCFkLSDviMiQiL8bSO6d9AogVD2y4Xz+2QVDgvT8/7dCn9K/mZQgHGrUAbK169ui4BPVRHS6A3ydYOmwZmwpyKv3pvOcprXmatf8Ndhef2YClTvr2FiY3KARxOrxVTZwcjWMm42Sea4sVzvu3Q6RvLcgp6pzD89NLQA7VOpo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by DS7PR12MB5910.namprd12.prod.outlook.com (2603:10b6:8:7b::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9052.21; Mon, 25 Aug 2025 18:02:18 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9052.017; Mon, 25 Aug 2025
+ 18:02:18 +0000
+Message-ID: <3b420fb9-9f85-4586-a887-f38804007cb8@amd.com>
+Date: Mon, 25 Aug 2025 13:02:15 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 4/5] drm: panel-backlight-quirks: Add brightness mask
+ quirk
+To: Antheas Kapenekakis <lkml@antheas.dev>, amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ philm@manjaro.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20250824200202.1744335-1-lkml@antheas.dev>
+ <20250824200202.1744335-5-lkml@antheas.dev>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20250824200202.1744335-5-lkml@antheas.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1PR04CA0003.namprd04.prod.outlook.com
+ (2603:10b6:806:2ce::7) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1826:b0:434:13f6:d386 with SMTP id
- 5614622812f47-437be0c5f3cmr227837b6e.16.1756144906566; Mon, 25 Aug 2025
- 11:01:46 -0700 (PDT)
-Date: Mon, 25 Aug 2025 11:01:46 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68aca50a.a00a0220.33401d.0441.GAE@google.com>
-Subject: [syzbot] [dri?] possible deadlock in drm_vblank_disable_and_save
-From: syzbot <syzbot+e0930cb581675ca1c2e5@syzkaller.appspotmail.com>
-To: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
- hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org, 
- louis.chauvet@bootlin.com, maarten.lankhorst@linux.intel.com, 
- melissa.srw@gmail.com, mripard@kernel.org, simona@ffwll.ch, 
- syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS7PR12MB5910:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d3e749f-da8d-4f69-aa84-08dde401879b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OXNWL2ZtWU1ROEZURWtxZVpoaVBZNzZZd3d1bkpBVTZCMzg0c0RZRzE2TDdk?=
+ =?utf-8?B?TUpHS1pzK1dkSHdrM241bHBUdzRCeDNPakdWM2JiTlk3UzJWZTcvWSs3QkY5?=
+ =?utf-8?B?cis1ZlR2T1ozWnRKREI2ZkgzOXNmT05USFM4Z0pHbHlhTTdGOThZMTJhMzJs?=
+ =?utf-8?B?UE5lZUlSVVZrcXhHcGcrVmExY3l6WGpDN2hqb2lJNVFRUmNidlpoL3NiMStS?=
+ =?utf-8?B?QVVHRWgxNzgwUVdYM0pia3RxNWFYYWhTdExYdGJVRmFOdzdHWXY4QnpIbVF5?=
+ =?utf-8?B?LzByVkdnMHFRTDZhcFpTRzByQUhSeWoxeGZkV2V2UFhKZkQyYlZiSTl5ZW54?=
+ =?utf-8?B?dnZYVk9OWEh1UlhlTmNycWFZYjYxSjJCQzI0akJkYXErZ3RwNkV4Z0Y1a1h6?=
+ =?utf-8?B?SXJXL2V5dHNLN295bTJDZWxONUhGamU2MjRsc3V4MytUWElzVjNxN1JrRmN0?=
+ =?utf-8?B?OWx1Z25DRWtCRE54N0hkc3p3d1NDaVpaN0V3MEhEczJnM1BXQ0JQV3ZyU0FP?=
+ =?utf-8?B?clk2dHZBWkRhcDRUMjNOdDZkUVJCUGJ2QUlFRG9vVWQ1bFFjWHcyOURrbzVz?=
+ =?utf-8?B?UklwcjJsYXdMamtCdTJlM2NXU1NrMWIyZFBpOVdScDdTR2ljdzA2aUtjWmpz?=
+ =?utf-8?B?T0dnb1hnNTdJb0RIeGxBb214akJYN3lwenh1S3gyNWR5S25kZTBoZE93VHlj?=
+ =?utf-8?B?cG51cTdsem1kZWJIbWZEeW9zNXBDWDZwYVhkUEo3VXljSWtCcnk4dmNSUUhl?=
+ =?utf-8?B?MUlvQ3dpWVpkS1pZNVRIaG1sdUkvdSsxZzE2OVJOcUNqMWtpMXllckFBS3Va?=
+ =?utf-8?B?T0tUYmt0c1Bjb0J5Zk81Q1REQzhNMk5aR2FaZXByQmI3czcxbmtwa2k1d0RI?=
+ =?utf-8?B?Qjd3WWN5THIwUCtBeVBqTDIwREFwUVR3T3p2NjNyTWpZeXRpckJEeXpDbFhm?=
+ =?utf-8?B?OGdXMkg4V1J6NFdDbnMyWERTT2JheHA5MURCV1JVWkJUbXJ3WG5vRU96dzNR?=
+ =?utf-8?B?OGxmVGNDWSthV1BxVDlzMDNsVlBZeXhyM3ZiN2RaSHVwYnMvYllUeURwT3Rr?=
+ =?utf-8?B?WXlBM1g5QnlGQ0l2bmdBQjFoWjBvRk1xc2NPYXFqaEo2dnIreGdHZW9xalJk?=
+ =?utf-8?B?ZXdwRWk4ZE1YYjhEdU12VnVxOFJjdVJGc09FU3VHS21WZmExenJTc2xyMFYz?=
+ =?utf-8?B?aEh5UU1Xb29xVjdIcm04ZEt1S1ZTRGhyT3JuMC9KZHN5cjgweTRQaWZ4RFhB?=
+ =?utf-8?B?b3Z5dXVLOW1IM0N5Y1RtZVhJR2RDTkNQWlpPNWpHb3EwNk5HOVVjaTY0V2tn?=
+ =?utf-8?B?b3U5a1pDdzhqRm1QQTJjOHVJR0pGcVQyOUNMUC9yNHZNdUQweDlueVkvckxE?=
+ =?utf-8?B?L2ZSem5LR1VCWWZzOURZc1dYWG0zQ0U2MFFQeThZT1NIVzVKQlhicVViYU9H?=
+ =?utf-8?B?OHBlYUY5anhCcmZuaWNENjVGeURHYi8yVDlaYXIxdHBCbC81UHc4UU9odklo?=
+ =?utf-8?B?RVhWUWxJWExoQjgwU0xQcWVPb2pLbGsya05QT2dHUDNRZW1CSGRQakFsd3Jw?=
+ =?utf-8?B?NDJBMm5DRDI5MEpXRGpXWHY4VlFYL09ScVNweXI0WUZVbUFBSGtrVG1Ud0dh?=
+ =?utf-8?B?NjZKTXF2TUttOUdQVE9veE9ETFFZa0p2czBVd1NreDlmQVpyZStRN2ZoVWF0?=
+ =?utf-8?B?M3FoejE4aFVaZ3BjbGQ3WjM5akJtQ3EwRzhtK0VRWFVqWHpPUWFjeW1wVHJL?=
+ =?utf-8?B?aGtrcTQvY21mRVZ1WWwremkxWHh2OExJTHM1SUdhK0d0aGtMclpTb1I4Ykhv?=
+ =?utf-8?Q?p0uNnLXTgPdONBy28qQoRLT1PSx8kjAAI8tHA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWVVemV1UHFwbHBSdTFKWjNOYi9UNDU2RDVVZW5Kb20zU1VqaitQdnlGdXJD?=
+ =?utf-8?B?dVVpUlFYY3FTSE9pOUhwbkg0Q3BSdnlnampiUnJoa2tIQk9OSjBqQkhFVmg4?=
+ =?utf-8?B?VGk3SnQ0emppaUNSZ2N3UVoyVjJqODVkZW5FeE5zcjNMSmRDRDV6UExUU2Jm?=
+ =?utf-8?B?WmE4V1B1eWI2S1JmMUlBd045a2ROVUx2cFVaWk9uQ0xtK2dIYlZObFNaYnRT?=
+ =?utf-8?B?azlZWW1TQmVMcm5JK0J4UVZSL1lFcEU1cXlWS2pUVXMzZEdZenhZSkJRUlVn?=
+ =?utf-8?B?Nkxtc1hTZDFPcmRueVNxc1lTbFlaMzk5K0ZLb3ZwSi9mRC9RN2FoSHJrQUsz?=
+ =?utf-8?B?Sk1EZjBmTkRUTGJsYTh0VDArZ3BKZlROZDYrVmVJaDVCRmNDN29hSnVEY3ph?=
+ =?utf-8?B?WUIyOHNvNVd1WG44cjVuUEx4R0FBLzg4Tm9DbVcxYU04QmtReFNUM0twTkhQ?=
+ =?utf-8?B?V2Q0M0NjN3I4M2JEVURQaC9TN1F4azUra2c5blRsZUsyVHF2T0M0WVV6eFg4?=
+ =?utf-8?B?Sy92YUl2SlpSV09RWkg1WDQwdzRmUzVQOWNwRFJrZjRlMVJrMTllTW01UUtq?=
+ =?utf-8?B?dVdOT3d4RnhRTk13clRHK1ZMNFNpRzVsQ3l6U2JnMEhkVU5NK1dFYVNsNWJY?=
+ =?utf-8?B?dXZYUTkyMkNCd2RibFhWSE1NNDRYYllvT3lWbTdLc1hGbE1SQUkvN1hZUjVu?=
+ =?utf-8?B?RnlZOG93WFdpU2loZEZqRk04aGJrcGZkNFRPcVlPUmw1eWNZNEdCQ3FpZS9v?=
+ =?utf-8?B?YnMvd1d0NERKRnJ4MGxlOUg3R3ZBK1Vab0ZDWUx5bEEwd1RiSUNqSzYwWTJG?=
+ =?utf-8?B?aTNLUElJR1BjRlBpTmNCc3dla3B3dE0wZGxNVm56TktqM3ZhMzFHN0Jqd3lx?=
+ =?utf-8?B?bzhqM1lSQkh2UUxrRnFCWG12dEdXSHZIaWsrQVFiTTc3QlVmRFFjOXo0V0l5?=
+ =?utf-8?B?VFBlRzlWREpLSWVrUnBxNTZReFZlS09sNk9KRWhZTEprd2gzTm0yOTVzbzZ6?=
+ =?utf-8?B?Qm40b0JlRXNYZXQvaUpRVTFJeTF0OXFVTGhJcXZXY1JBMTk2dWZKd1dRcjVx?=
+ =?utf-8?B?RGlnUlBhQVN0ZzcxMHk0RkFPSFQvZ1RLL0xuS05Pem9LOERmUGVlVHZvQ3lE?=
+ =?utf-8?B?SkxhUjA4a0F1RlAwaU1NNzhJTTV0WVJTYVpmOXk3SnFSMnUydUd1VEUyblRQ?=
+ =?utf-8?B?L2JXZWdMMytESHRrNDlSb0VvQzRHOW1QVW05QzJiTWNJb1U2TlZEeS8wdkw0?=
+ =?utf-8?B?eEJ3ZWIrY0VJaEhROW10c2FBWEo2Q2RXaW00VFdZL2RtT2N2M0FjaDNDeXRi?=
+ =?utf-8?B?WVBYdWJDcnFZRlZOWCtkZUR5QWw2U0p4NS9BaDRrVjZLNTgrYW5weit2cjVV?=
+ =?utf-8?B?anpSYkFDT2prL1JIaEtPV0t2NXZSdDRYa2k5WllpeWlLQThUOW41ZkpnZDNj?=
+ =?utf-8?B?KzVqOTJYL1YybkNzdHdrMXV4K1NsRXUwTlE5ZVlvSzlRbHNHdHZRWkIwWkx2?=
+ =?utf-8?B?Wm9PdzlRY2x4bXVjeDBmRG5FbGwxYlZqZHFmUWRCOW5ISjhtMkVybnl4ZnU4?=
+ =?utf-8?B?cWJNbk1BSWR2aXQvNU5LM1VoSGdHUSszZXhhbUx1TTI4cTVLOTdkU3BlN1pC?=
+ =?utf-8?B?REFTNUNqcHl2RnBKRUh6cG5HSzdtRElwc2trY1M0Zm1aRnYvUzhDcHMzTHZW?=
+ =?utf-8?B?QVdvWmpWSWdzODlGRjBqM3U0bEt0Y3A0TUxlQnRsRThuQ0JKQlZaRFRHeVA5?=
+ =?utf-8?B?WlZLK041RmhIQjhEYlcvRVJGZGltSGd0TWJmVkh5U2tkaitBT0Z6MWVJTm5s?=
+ =?utf-8?B?L3NvUCtTaDh2RElYamppV2VGWGlPYUg0Tkg2MEhrNGtUaDZXRzM0R24reUJT?=
+ =?utf-8?B?QytZN1h6WWYvbEdjcm04ZHVaNFd1Y2xFaXFTK1NqdGcrdGFmSmJJZThWM3Bw?=
+ =?utf-8?B?N3pwd3FYM3VqM0tnaFJxdFh3S3ZBNXpzK1JGRWJWR3RZYUhPWHIwOTRCK1No?=
+ =?utf-8?B?dWpqNVpJcHZPa0tXa3dGaFF3a0E0S2dqdHZIMEt3akxBVHc0WDVOUEpkeWVM?=
+ =?utf-8?B?RFkydEMyaUl2bTZzZWRwTUkzYkNHMURHZ3o3cnhCclBhZkQrYThadU1GV1Q1?=
+ =?utf-8?Q?OI2zoFqVTR4h46OjXWsbQUbuQ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d3e749f-da8d-4f69-aa84-08dde401879b
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 18:02:17.9340 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Et1wyZBRjFmsWxoNfWxHGclojqY8Dl2VcL6l+rCLqIVFr5JNCzYN2Qp4/vdNsrzKluuwHwm9jBgKz744QhXIZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5910
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,275 +163,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On 8/24/2025 3:02 PM, Antheas Kapenekakis wrote:
+> Certain OLED devices malfunction on specific brightness levels.
+> Specifically, when DP_SOURCE_BACKLIGHT_LEVEL is written to with
+> the first byte being 0x00 and sometimes 0x01, the panel forcibly
+> turns off until the device sleeps again.
+> 
+> Below are some examples. This was found by iterating over brighness
 
-syzbot found the following issue on:
+brightness
 
-HEAD commit:    c330cb607721 Merge tag 'i2c-for-6.17-rc3' of git://git.ker..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15069862580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e1e1566c7726877e
-dashboard link: https://syzkaller.appspot.com/bug?extid=e0930cb581675ca1c2e5
-compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1660ec42580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11f8aef0580000
+> ranges while printing DP_SOURCE_BACKLIGHT_LEVEL. It was found that
+> the screen would malfunction on specific values, and some of them
+> were collected. Summary examples are found below.
+> 
+> This quirk was tested by removing the workarounds and iterating
+> from 0 to 50_000 value ranges with a cadence of 0.2s/it. The
+> range of the panel is 1000...400_000, so the values were slightly
+> interpolated during testing. The custom brightness curve added on
+> 6.15 was disabled.
+> 
+>   86016:  10101000000000000
+>   86272:  10101000100000000
+>   87808:  10101011100000000
+> 251648: 111101011100000000
+> 251649: 111101011100000001
+> 
+>   86144:  10101000010000000
+>   87809:  10101011100000001
+> 251650: 111101011100000010
+> 
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3803
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/e3c902f92d1e/disk-c330cb60.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/bb0ab44f7737/vmlinux-c330cb60.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6c8baacf629b/bzImage-c330cb60.xz
+To me this sounds like a panel firmware bug that is best driven with the 
+panel vendor.  But I'm guessing you're reporting it on proudution 
+hardware already in the field right?  In the field it's basically 
+unheard of to update the panel firmware.  The process is generally 
+speaking too dangerous/fragile.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e0930cb581675ca1c2e5@syzkaller.appspotmail.com
+So in that case a workaround would make sense.  The actual issue as I'm 
+hearing it is that some fractional brightness values aren't working? 
+The API takes millinits, and I guess this was exposed by increasing the 
+granularity of values that userspace can program recently.
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz.0.184/6534 is trying to acquire lock:
-ffff8880b8923d90 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:44 [inline]
-ffff8880b8923d90 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: __local_bh_disable_ip+0x264/0x400 kernel/softirq.c:168
-
-but task is already holding lock:
-ffff8880242183a0 (&dev->vblank_time_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:44 [inline]
-ffff8880242183a0 (&dev->vblank_time_lock){+.+.}-{3:3}, at: drm_vblank_disable_and_save+0x7f/0x380 drivers/gpu/drm/drm_vblank.c:463
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #4 (&dev->vblank_time_lock){+.+.}-{3:3}:
-       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-       rt_spin_lock+0x88/0x2c0 kernel/locking/spinlock_rt.c:56
-       spin_lock include/linux/spinlock_rt.h:44 [inline]
-       drm_reset_vblank_timestamp drivers/gpu/drm/drm_vblank.c:246 [inline]
-       drm_crtc_vblank_on_config+0x2cd/0x860 drivers/gpu/drm/drm_vblank.c:1504
-       drm_crtc_vblank_on+0x88/0xc0 drivers/gpu/drm/drm_vblank.c:1535
-       crtc_enable drivers/gpu/drm/drm_atomic_helper.c:1610 [inline]
-       drm_atomic_helper_commit_modeset_enables+0x602/0xe10 drivers/gpu/drm/drm_atomic_helper.c:1680
-       vkms_atomic_commit_tail+0x69/0x210 drivers/gpu/drm/vkms/vkms_drv.c:65
-       commit_tail+0x281/0x3a0 drivers/gpu/drm/drm_atomic_helper.c:1986
-       drm_atomic_helper_commit+0xa6b/0xb10 drivers/gpu/drm/drm_atomic_helper.c:2226
-       drm_atomic_commit+0x262/0x2c0 drivers/gpu/drm/drm_atomic.c:1577
-       drm_client_modeset_commit_atomic+0x620/0x760 drivers/gpu/drm/drm_client_modeset.c:1103
-       drm_client_modeset_commit_locked+0xce/0x4d0 drivers/gpu/drm/drm_client_modeset.c:1206
-       drm_client_modeset_commit+0x4a/0x70 drivers/gpu/drm/drm_client_modeset.c:1232
-       __drm_fb_helper_restore_fbdev_mode_unlocked+0x9d/0x1b0 drivers/gpu/drm/drm_fb_helper.c:238
-       drm_fb_helper_set_par+0xaf/0x100 drivers/gpu/drm/drm_fb_helper.c:1360
-       fbcon_init+0x1255/0x2370 drivers/video/fbdev/core/fbcon.c:1130
-       visual_init+0x2ef/0x650 drivers/tty/vt/vt.c:1019
-       do_bind_con_driver+0x890/0xf70 drivers/tty/vt/vt.c:3915
-       do_take_over_console+0x899/0xa10 drivers/tty/vt/vt.c:4481
-       do_fbcon_takeover+0x118/0x200 drivers/video/fbdev/core/fbcon.c:565
-       do_fb_registered drivers/video/fbdev/core/fbcon.c:3008 [inline]
-       fbcon_fb_registered+0x35e/0x610 drivers/video/fbdev/core/fbcon.c:3028
-       do_register_framebuffer drivers/video/fbdev/core/fbmem.c:512 [inline]
-       register_framebuffer+0x70f/0x890 drivers/video/fbdev/core/fbmem.c:578
-       __drm_fb_helper_initial_config_and_unlock+0x130a/0x18a0 drivers/gpu/drm/drm_fb_helper.c:1852
-       drm_fbdev_client_hotplug+0x16f/0x230 drivers/gpu/drm/clients/drm_fbdev_client.c:52
-       drm_client_register+0x16f/0x210 drivers/gpu/drm/drm_client.c:141
-       drm_fbdev_client_setup+0x19f/0x3f0 drivers/gpu/drm/clients/drm_fbdev_client.c:159
-       drm_client_setup+0x10a/0x230 drivers/gpu/drm/clients/drm_client_setup.c:46
-       vkms_create drivers/gpu/drm/vkms/vkms_drv.c:201 [inline]
-       vkms_init+0x3e0/0x4b0 drivers/gpu/drm/vkms/vkms_drv.c:221
-       do_one_initcall+0x233/0x820 init/main.c:1269
-       do_initcall_level+0x104/0x190 init/main.c:1331
-       do_initcalls+0x59/0xa0 init/main.c:1347
-       kernel_init_freeable+0x334/0x4b0 init/main.c:1579
-       kernel_init+0x1d/0x1d0 init/main.c:1469
-       ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #3 (&dev->vbl_lock){+.+.}-{3:3}:
-       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-       rt_spin_lock+0x88/0x2c0 kernel/locking/spinlock_rt.c:56
-       spin_lock include/linux/spinlock_rt.h:44 [inline]
-       vblank_disable_fn+0x72/0x190 drivers/gpu/drm/drm_vblank.c:496
-       call_timer_fn+0x17b/0x5f0 kernel/time/timer.c:1747
-       expire_timers kernel/time/timer.c:1798 [inline]
-       __run_timers kernel/time/timer.c:2372 [inline]
-       __run_timer_base+0x648/0x970 kernel/time/timer.c:2384
-       run_timer_base kernel/time/timer.c:2393 [inline]
-       run_timer_softirq+0xb7/0x180 kernel/time/timer.c:2403
-       handle_softirqs+0x22c/0x710 kernel/softirq.c:579
-       __do_softirq kernel/softirq.c:613 [inline]
-       run_ktimerd+0xcf/0x190 kernel/softirq.c:1043
-       smpboot_thread_fn+0x542/0xa60 kernel/smpboot.c:160
-       kthread+0x711/0x8a0 kernel/kthread.c:463
-       ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #2 ((&vblank->disable_timer)){+...}-{0:0}:
-       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-       call_timer_fn+0xdb/0x5f0 kernel/time/timer.c:1744
-       expire_timers kernel/time/timer.c:1798 [inline]
-       __run_timers kernel/time/timer.c:2372 [inline]
-       __run_timer_base+0x648/0x970 kernel/time/timer.c:2384
-       run_timer_base kernel/time/timer.c:2393 [inline]
-       run_timer_softirq+0xb7/0x180 kernel/time/timer.c:2403
-       handle_softirqs+0x22c/0x710 kernel/softirq.c:579
-       __do_softirq kernel/softirq.c:613 [inline]
-       run_ktimerd+0xcf/0x190 kernel/softirq.c:1043
-       smpboot_thread_fn+0x542/0xa60 kernel/smpboot.c:160
-       kthread+0x711/0x8a0 kernel/kthread.c:463
-       ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #1 (&base->expiry_lock){+...}-{3:3}:
-       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-       rt_spin_lock+0x88/0x2c0 kernel/locking/spinlock_rt.c:56
-       spin_lock include/linux/spinlock_rt.h:44 [inline]
-       timer_base_lock_expiry kernel/time/timer.c:1501 [inline]
-       __run_timer_base+0x114/0x970 kernel/time/timer.c:2382
-       run_timer_base kernel/time/timer.c:2393 [inline]
-       run_timer_softirq+0x67/0x180 kernel/time/timer.c:2401
-       handle_softirqs+0x22c/0x710 kernel/softirq.c:579
-       __do_softirq kernel/softirq.c:613 [inline]
-       run_ktimerd+0xcf/0x190 kernel/softirq.c:1043
-       smpboot_thread_fn+0x542/0xa60 kernel/smpboot.c:160
-       kthread+0x711/0x8a0 kernel/kthread.c:463
-       ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #0 ((softirq_ctrl.lock)){+.+.}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3165 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain+0xb9b/0x2140 kernel/locking/lockdep.c:3908
-       __lock_acquire+0xab9/0xd20 kernel/locking/lockdep.c:5237
-       reacquire_held_locks+0x127/0x1d0 kernel/locking/lockdep.c:5385
-       __lock_release kernel/locking/lockdep.c:5574 [inline]
-       lock_release+0x1b4/0x3e0 kernel/locking/lockdep.c:5889
-       __local_bh_enable_ip+0x10c/0x270 kernel/softirq.c:228
-       hrtimer_cancel+0x39/0x60 kernel/time/hrtimer.c:1491
-       __disable_vblank drivers/gpu/drm/drm_vblank.c:442 [inline]
-       drm_vblank_disable_and_save+0x1bc/0x380 drivers/gpu/drm/drm_vblank.c:481
-       drm_crtc_vblank_off+0x22e/0x820 drivers/gpu/drm/drm_vblank.c:1364
-       crtc_disable drivers/gpu/drm/drm_atomic_helper.c:1258 [inline]
-       disable_outputs drivers/gpu/drm/drm_atomic_helper.c:1340 [inline]
-       drm_atomic_helper_commit_modeset_disables+0xc89/0x2010 drivers/gpu/drm/drm_atomic_helper.c:1524
-       vkms_atomic_commit_tail+0x51/0x210 drivers/gpu/drm/vkms/vkms_drv.c:61
-       commit_tail+0x281/0x3a0 drivers/gpu/drm/drm_atomic_helper.c:1986
-       drm_atomic_helper_commit+0xa6b/0xb10 drivers/gpu/drm/drm_atomic_helper.c:2226
-       drm_atomic_commit+0x262/0x2c0 drivers/gpu/drm/drm_atomic.c:1577
-       drm_atomic_helper_set_config+0xe2/0x160 drivers/gpu/drm/drm_atomic_helper.c:3426
-       drm_mode_setcrtc+0x9a4/0x1c50 drivers/gpu/drm/drm_crtc.c:869
-       drm_ioctl_kernel+0x2d2/0x3a0 drivers/gpu/drm/drm_ioctl.c:796
-       drm_ioctl+0x685/0xb20 drivers/gpu/drm/drm_ioctl.c:893
-       vfs_ioctl fs/ioctl.c:51 [inline]
-       __do_sys_ioctl fs/ioctl.c:598 [inline]
-       __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:584
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  (softirq_ctrl.lock) --> &dev->vbl_lock --> &dev->vblank_time_lock
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&dev->vblank_time_lock);
-                               lock(&dev->vbl_lock);
-                               lock(&dev->vblank_time_lock);
-  lock((softirq_ctrl.lock));
-
- *** DEADLOCK ***
-
-8 locks held by syz.0.184/6534:
- #0: ffffc900052d7b20 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_mode_setcrtc+0x555/0x1c50 drivers/gpu/drm/drm_crtc.c:730
- #1: ffffc900052d7b48 (crtc_ww_class_mutex){+.+.}-{4:4}, at: drm_mode_setcrtc+0x555/0x1c50 drivers/gpu/drm/drm_crtc.c:730
- #2: ffff8880242184b8 (&dev->event_lock){+.+.}-{3:3}, at: spin_lock_irq include/linux/spinlock_rt.h:93 [inline]
- #2: ffff8880242184b8 (&dev->event_lock){+.+.}-{3:3}, at: drm_crtc_vblank_off+0xe4/0x820 drivers/gpu/drm/drm_vblank.c:1355
- #3: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
- #3: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:841 [inline]
- #3: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
- #3: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1bb/0x2c0 kernel/locking/spinlock_rt.c:57
- #4: ffff888024218420 (&dev->vbl_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:44 [inline]
- #4: ffff888024218420 (&dev->vbl_lock){+.+.}-{3:3}, at: drm_crtc_vblank_off+0xf5/0x820 drivers/gpu/drm/drm_vblank.c:1357
- #5: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
- #5: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:841 [inline]
- #5: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
- #5: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1bb/0x2c0 kernel/locking/spinlock_rt.c:57
- #6: ffff8880242183a0 (&dev->vblank_time_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:44 [inline]
- #6: ffff8880242183a0 (&dev->vblank_time_lock){+.+.}-{3:3}, at: drm_vblank_disable_and_save+0x7f/0x380 drivers/gpu/drm/drm_vblank.c:463
- #7: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
- #7: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:841 [inline]
- #7: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
- #7: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1bb/0x2c0 kernel/locking/spinlock_rt.c:57
-
-stack backtrace:
-CPU: 1 UID: 0 PID: 6534 Comm: syz.0.184 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
-Call Trace:
- <TASK>
- dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
- print_circular_bug+0x2ee/0x310 kernel/locking/lockdep.c:2043
- check_noncircular+0x134/0x160 kernel/locking/lockdep.c:2175
- check_prev_add kernel/locking/lockdep.c:3165 [inline]
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain+0xb9b/0x2140 kernel/locking/lockdep.c:3908
- __lock_acquire+0xab9/0xd20 kernel/locking/lockdep.c:5237
- reacquire_held_locks+0x127/0x1d0 kernel/locking/lockdep.c:5385
- __lock_release kernel/locking/lockdep.c:5574 [inline]
- lock_release+0x1b4/0x3e0 kernel/locking/lockdep.c:5889
- __local_bh_enable_ip+0x10c/0x270 kernel/softirq.c:228
- hrtimer_cancel+0x39/0x60 kernel/time/hrtimer.c:1491
- __disable_vblank drivers/gpu/drm/drm_vblank.c:442 [inline]
- drm_vblank_disable_and_save+0x1bc/0x380 drivers/gpu/drm/drm_vblank.c:481
- drm_crtc_vblank_off+0x22e/0x820 drivers/gpu/drm/drm_vblank.c:1364
- crtc_disable drivers/gpu/drm/drm_atomic_helper.c:1258 [inline]
- disable_outputs drivers/gpu/drm/drm_atomic_helper.c:1340 [inline]
- drm_atomic_helper_commit_modeset_disables+0xc89/0x2010 drivers/gpu/drm/drm_atomic_helper.c:1524
- vkms_atomic_commit_tail+0x51/0x210 drivers/gpu/drm/vkms/vkms_drv.c:61
- commit_tail+0x281/0x3a0 drivers/gpu/drm/drm_atomic_helper.c:1986
- drm_atomic_helper_commit+0xa6b/0xb10 drivers/gpu/drm/drm_atomic_helper.c:2226
- drm_atomic_commit+0x262/0x2c0 drivers/gpu/drm/drm_atomic.c:1577
- drm_atomic_helper_set_config+0xe2/0x160 drivers/gpu/drm/drm_atomic_helper.c:3426
- drm_mode_setcrtc+0x9a4/0x1c50 drivers/gpu/drm/drm_crtc.c:869
- drm_ioctl_kernel+0x2d2/0x3a0 drivers/gpu/drm/drm_ioctl.c:796
- drm_ioctl+0x685/0xb20 drivers/gpu/drm/drm_ioctl.c:893
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:598 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:584
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fcd2143ebe9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fcd20a85038 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fcd21666090 RCX: 00007fcd2143ebe9
-RDX: 0000200000000740 RSI: 00000000c06864a2 RDI: 0000000000000003
-RBP: 00007fcd214c1e19 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fcd21666128 R14: 00007fcd21666090 R15: 00007ffd85f10678
- </TASK>
+It's possible it was there before too, but there are probably "more" 
+values that can hit it.
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> ---
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  7 +++++
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  6 ++++
+>   drivers/gpu/drm/drm_panel_backlight_quirks.c  | 29 +++++++++++++++++++
+>   include/drm/drm_utils.h                       |  1 +
+>   4 files changed, 43 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 4ad80ae615a2..156f2aae6828 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -3662,6 +3662,9 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+>   		if (panel_backlight_quirk->min_brightness)
+>   			caps->min_input_signal =
+>   				panel_backlight_quirk->min_brightness - 1;
+> +		if (panel_backlight_quirk->brightness_mask)
+> +			caps->brightness_mask =
+> +				panel_backlight_quirk->brightness_mask;
+>   	}
+>   }
+>   
+> @@ -4862,6 +4865,10 @@ static void amdgpu_dm_backlight_set_level(struct amdgpu_display_manager *dm,
+>   	brightness = convert_brightness_from_user(caps, dm->brightness[bl_idx]);
+>   	link = (struct dc_link *)dm->backlight_link[bl_idx];
+>   
+> +	/* Apply brightness quirk */
+> +	if (caps->brightness_mask)
+> +		brightness |= caps->brightness_mask;
+> +
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+I guess a problem I could see with using a mask is that there are 
+basically a bunch of values that are basically becoming no-op.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+An alternative would be to decrease the max value (IE some number 
+smaller than 65535 and scale so userspace doesn't request these "broken" 
+values).
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+I'm not sure it's worth the effort though because you will probably 
+still find some subset of values with this problem.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+The other comment I would say is this is probably very specific to AMD 
+and the millinit based brightness API; it might be better to keep the 
+quirk localized to amdgpu.  I also talked to Phil offline about this and 
+he's got a draft patch that helps a similar system he's seeing this on 
+(presumably) with another panel.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+I think it's worth getting that patch onto the list and we can weigh out 
+the alternatives.
 
-If you want to undo deduplication, reply with:
-#syz undup
+>   	/* Change brightness based on AUX property */
+>   	mutex_lock(&dm->dc_lock);
+>   	if (dm->dc->caps.ips_support && dm->dc->ctx->dmub_srv->idle_allowed) {
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index b937da0a4e4a..340f9b5f68eb 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -200,6 +200,12 @@ struct amdgpu_dm_backlight_caps {
+>   	 * @aux_support: Describes if the display supports AUX backlight.
+>   	 */
+>   	bool aux_support;
+> +	/**
+> +	 * @brightness_mask: After deriving brightness, or it with this mask.
+> +	 * This is used to workaround panels that have issues with certain
+> +	 * brightness values.
+> +	 */
+> +	u32 brightness_mask;
+>   	/**
+>   	 * @ac_level: the default brightness if booted on AC
+>   	 */
+> diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> index 3d386a96e50e..78c430b07d6a 100644
+> --- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> @@ -45,6 +45,35 @@ static const struct drm_get_panel_backlight_quirk drm_panel_min_backlight_quirks
+>   		.ident.name = "NE135A1M-NY1",
+>   		.quirk = { .min_brightness = 1, },
+>   	},
+> +	/* Have OLED Panels with brightness issue when last byte is 0/1 */
+> +	{
+> +		.dmi_match.field = DMI_SYS_VENDOR,
+> +		.dmi_match.value = "AYANEO",
+> +		.dmi_match_other.field = DMI_PRODUCT_NAME,
+> +		.dmi_match_other.value = "AYANEO 3",
+> +		.quirk = { .brightness_mask = 3, },
+> +	},
+> +	{
+> +		.dmi_match.field = DMI_SYS_VENDOR,
+> +		.dmi_match.value = "ZOTAC",
+> +		.dmi_match_other.field = DMI_BOARD_NAME,
+> +		.dmi_match_other.value = "G0A1W",
+> +		.quirk = { .brightness_mask = 3, },
+> +	},
+> +	{
+> +		.dmi_match.field = DMI_SYS_VENDOR,
+> +		.dmi_match.value = "ONE-NETBOOK",
+> +		.dmi_match_other.field = DMI_PRODUCT_NAME,
+> +		.dmi_match_other.value = "ONEXPLAYER F1Pro",
+> +		.quirk = { .brightness_mask = 3, },
+> +	},
+> +	{
+> +		.dmi_match.field = DMI_SYS_VENDOR,
+> +		.dmi_match.value = "ONE-NETBOOK",
+> +		.dmi_match_other.field = DMI_PRODUCT_NAME,
+> +		.dmi_match_other.value = "ONEXPLAYER F1 EVA-02",
+> +		.quirk = { .brightness_mask = 3, },
+> +	}
+>   };
+>   
+>   static bool drm_panel_min_backlight_quirk_matches(
+> diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
+> index 82eeee4a58ab..6a46f755daba 100644
+> --- a/include/drm/drm_utils.h
+> +++ b/include/drm/drm_utils.h
+> @@ -18,6 +18,7 @@ int drm_get_panel_orientation_quirk(int width, int height);
+>   
+>   struct drm_panel_backlight_quirk {
+>   	u16 min_brightness;
+> +	u32 brightness_mask;
+>   };
+>   
+>   const struct drm_panel_backlight_quirk *
+
