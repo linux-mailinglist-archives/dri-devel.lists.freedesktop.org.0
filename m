@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24EF1B33816
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 09:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19754B33864
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Aug 2025 10:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0F1D10E3F1;
-	Mon, 25 Aug 2025 07:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9C410E3FA;
+	Mon, 25 Aug 2025 08:00:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="F+CZpcEH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cuwIYx1I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E60DF10E3F1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 07:48:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1756108093; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Mif53jBa6MJhiFA3/aeaKEpanFEPOgAIH7H2ZuUdsrAtRPu/MgbOT3DP6FBY2rj6ePbMjSECj12yIiQqzo9EC3onYNcemMOPA7kexfcK9xKDYPuR6j4sRJVelnLZBLEQG0X38Apa47eBKSzmFFuNz9vrZ2uFGldXO/K346zQY/c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1756108093;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=80dzrh8aYZfGg2XUHBNmSgUetz0wp59La7rrflIHLYk=; 
- b=hTrQDB+vFRUoh2TzCLNct7ZH6mA+ZiLxyi08MHJ278n9kJefJSS8W0fZv6yV5vnJvzDAcQZhLzydoq1k/A5PczB6y4tbslyaC/qdgSZhpG/4L25+svqU468G3JXb+BZHKPSOMfmr/+kta3MYdiQArODPHxGvpuzc+7VGFRmUwYk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756108093; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=80dzrh8aYZfGg2XUHBNmSgUetz0wp59La7rrflIHLYk=;
- b=F+CZpcEHNCcVVD5E2eusUhfW3VOUS/ZWUIpDXxI5z5QeKjtOV9RCcGxyZ/bOxE14
- x+XVoB1b6xaPLKM4peUQofBqgx8GIHy0CMMo5WJvpvX22tuJAS78545/+5x34SM4fh0
- HU9zR45BRWmSNqHl8sXRyIGwQroD2o9wsHxVH/9U=
-Received: by mx.zohomail.com with SMTPS id 1756108090913704.2939268893988;
- Mon, 25 Aug 2025 00:48:10 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v2 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
-Date: Mon, 25 Aug 2025 09:48:05 +0200
-Message-ID: <2795210.mvXUDI8C0e@workhorse>
-In-Reply-To: <175340605069.3513.18204498860033427106@lazor>
-References: <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
- <20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com>
- <175340605069.3513.18204498860033427106@lazor>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1CAF10E23E
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 08:00:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756108840; x=1787644840;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=GG2c4odGFlYu4f5bVIygyXxOEmLBFST+MhVghFfMPEY=;
+ b=cuwIYx1I/oGEXoKAeDAeFMhVy+YN6iMQMJQ//R5xVAHqYyLD41OH0l3V
+ AlQ6ius0RG7u28+7qMv+TRPkCioy+mzLQJxBrzWVZzcZn9TCXQiqOkbIg
+ YG+r8S+BepjX+82XZxIteODDnlvtT4wyRNthje9a+IdYw4vNyX+8hkBxu
+ XIaYxPnaiLhJMsdJ5Vk6tMzJpeJaIAjD5+W92Qyq125shE05w+sjgYFoA
+ AmwvKskOyat6Cdohr9KPrQVpIObzEqnUFmfzOBp06oDBAczM3KIj21Q8N
+ YjXP/kMiBbstz8KZNwfvvFzWuP1TYLzp5ky1i1d4dsS6+8YuNWYVQCrdb w==;
+X-CSE-ConnectionGUID: MudgIWAwTECjnUD33lYKZg==
+X-CSE-MsgGUID: dffQSMZISuu0Zxc5j4SQnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="61957773"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="61957773"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 01:00:39 -0700
+X-CSE-ConnectionGUID: LB2Q77Q+QEi6EpNo701nVQ==
+X-CSE-MsgGUID: cAmGS6RTTg6CQYfx//dxxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="168731238"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.15])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 01:00:35 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Javier Garcia <rampxxxx@gmail.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Javier
+ Garcia <rampxxxx@gmail.com>
+Subject: Re: [PATCH 2/2] drm: fix kernel-doc struct tag for `drm_modeset_lock`.
+In-Reply-To: <20250823075139.34797-2-rampxxxx@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250823075139.34797-1-rampxxxx@gmail.com>
+ <20250823075139.34797-2-rampxxxx@gmail.com>
+Date: Mon, 25 Aug 2025 11:00:33 +0300
+Message-ID: <704edc3cae07cf09f27ff476ff11ca5dd2779520@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,27 +71,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, 25 July 2025 03:14:10 Central European Summer Time Stephen Boyd wrote:
-> Quoting Nicolas Frattaroli (2025-06-23 09:05:47)
-> > The sp7021 clock driver has its own shifted high word mask macro,
-> > similar to the ones many Rockchip drivers have.
-> > 
-> > Remove it, and replace instances of it with hw_bitfield.h's
-> > FIELD_PREP_WM16 macro, which does the same thing except in a common
-> > macro that also does compile-time error checking.
-> > 
-> > This was compile-tested with 32-bit ARM with Clang, no runtime tests
-> > were performed as I lack the hardware. However, I verified that fix
-> > commit 5c667d5a5a3e ("clk: sp7021: Adjust width of _m in HWM_FIELD_PREP()")
-> > is not regressed. No warning is produced.
-> 
-> Does it generate the same code before and after?
-> 
+On Sat, 23 Aug 2025, Javier Garcia <rampxxxx@gmail.com> wrote:
+> - Add needed "@" to avoid warn messages about duplicated symbols
+> as there is function and struct with the same name.
+> - The fixed warning is:
+>
+> 	./Documentation/gpu/drm-kms:476: ./drivers/gpu/drm/drm_modeset_lock.c:377: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
+> 	Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'. [duplicate_declaration.c]
 
-Yes, the generated machine code is exactly the same, at least with
-clang, and I'll assume it'll be the same for gcc.
+Please look into why adding @ here appear to fix the issue.
 
-Kind regards,
-Nicolas Frattaroli
+The problem is deeper than what this patch makes it seem, and this
+papers over the issue in a way that sets the wrong example for the
+future.
 
 
+BR,
+Jani.
+
+>
+> Fixes: f3a808817fdb ("drm: fix drm_modeset_lock.h kernel-doc notation")
+> Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+> ---
+>  include/drm/drm_modeset_lock.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
+> index ec4f543c3d95..0de7046dc653 100644
+> --- a/include/drm/drm_modeset_lock.h
+> +++ b/include/drm/drm_modeset_lock.h
+> @@ -75,7 +75,7 @@ struct drm_modeset_acquire_ctx {
+>  };
+>  
+>  /**
+> - * struct drm_modeset_lock - used for locking modeset resources.
+> + * @struct drm_modeset_lock - used for locking modeset resources.
+>   * @mutex: resource locking
+>   * @head: used to hold its place on &drm_atomi_state.locked list when
+>   *    part of an atomic update
+
+-- 
+Jani Nikula, Intel
