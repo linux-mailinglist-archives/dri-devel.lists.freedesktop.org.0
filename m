@@ -2,78 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72DDB35EB5
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 14:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15AE3B35EC7
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 14:08:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 090F110E2F3;
-	Tue, 26 Aug 2025 12:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD19E10E2AB;
+	Tue, 26 Aug 2025 12:07:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MTQBJQDX";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OdPAHhM8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D911810E2F3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 12:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=dDdg495ou6nL6BawnMtPY2Olyk3TMv0T2zww8X9OIRI=; b=MTQBJQDXKY833kaPSsaUbyaFlK
- /2lYlgldFVFGs1XofGuiO16GNbl6GddcbiuCspSdjQkd6C5RcgdP4eXYVxz0gLphHjApNg9CJtSTO
- jgR741zD709gHuqliq8R73c4E2c/LsVtKmRliXV+Ro/8eKqbtntM8TiFNqZB6LvBOlPJdBedPVDt4
- 1Or8DFJBaMlugmzGVUDgav9FV5x2Krk2ltaSeHzH4LT2e2uFiHzWPWEjS2N29SmndlBIM6YpmaAq7
- gla9Zqs0lJ6Hs6oglsUj3aGP74YyGmUtEOOWpEAVzhRzHir9u8Pd27/b1eqXWeywXScGDEn48p15a
- LsKLlnxA==;
-Received: from gwsc.sc.usp.br ([143.107.225.16] helo=[172.24.19.36])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uqsOU-001tTB-AO; Tue, 26 Aug 2025 14:03:18 +0200
-Message-ID: <d3f073b8-7eac-4d45-ba90-c6580c3aec65@igalia.com>
-Date: Tue, 26 Aug 2025 09:03:12 -0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C2810E2AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 12:07:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1756210075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Uo8QqPtYPWcbg2SJ7UNAfQxo4xVeFqBTJ7SinpEUAHI=;
+ b=OdPAHhM8CjTsJ3QBd1e4eBZrHCitCO6WtAMgNf1wYxmsclf7g3nfXmF3BnY+DTAWLigeBd
+ JGVZhQJrdwf5PrY2NIC1tsEBAJEguvW+xbo4DJBT601D5Wn3dWSaGu0BzmeFfSTwdAT7Ot
+ na37nXgg70iSm2EyF+BjGmRJygkwGq8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-618-eGxrKdz4N6Kpxg6dMu_w-A-1; Tue, 26 Aug 2025 08:07:54 -0400
+X-MC-Unique: eGxrKdz4N6Kpxg6dMu_w-A-1
+X-Mimecast-MFC-AGG-ID: eGxrKdz4N6Kpxg6dMu_w-A_1756210073
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3c79f0a6050so1335541f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 05:07:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756210073; x=1756814873;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Uo8QqPtYPWcbg2SJ7UNAfQxo4xVeFqBTJ7SinpEUAHI=;
+ b=PI4/Wmwd4g0n3pE7IUlmJwxJHHwjay2BCsKzq06kuDFto3ROL3LlbMmP692Rg/HCGR
+ pjDcDXHSg0IjTDQYffkIHh0NnWOKIQsjsgn4bdmjx/eFnNTfxNV/qBMSIwTw/0oJf8sw
+ 4qOHbDvrK8CcuO0U/CkbkyjnI7hatk5m0mix/qgc6XFWSc/NlPtfDN2sdul19bQ3umiW
+ 0JgtK+7TqV4t7DUkakEAqk2xl/opNThjsOpN9ewnLQ4vZYVasZalqP9N0VtS727qraPK
+ FTVuBzaEmTzF9e23/P6YS4vqR0N46fsJPMIe9a3Dr36T3H23PJ8GaleNIfUfu4LCK9K7
+ n9Rg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWnio6U4S10miGwTtvBo21vGioGQp3SELbbq6PO9RQtoEZN5tJKYZiuU2ROJqfzvskteDEqJk1p4lY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxPngiTcjoQ/1kRDEB237NDW4dp/fr/VoPM1U2JT8cbhx4t1jbb
+ D6qVte/FKBrixsT7/Q8Yo2ctWdOCbpDyzfZ57A1kNmvj+8Z4lAeJlV565lAhXjdR2NhHRZuPAe6
+ WH+5G6f5G6w+1PvYpBOtAASGJyrT1C0S4yGfhLdwtC3tRUBG2s+eXNqvIgoCXCHM7q1j8fw==
+X-Gm-Gg: ASbGncs3t4eL2qAJTtbdgJHpfNFo/ArsYDv0qqJn9QOxXkPZEMjkXYohSEY7jBjy1xp
+ 3BcZit8oqavgGvcempybWurvflx1FejoCN7Xe+1tz03mY+YVatl39QEYlwz7Db830RiTFyP5JsH
+ GEywCN2Ua0oxVD8OPHkK9D0CIIbP17iT5Jw3FXkpuT8uiM2tkxlK9xQ5xP/gZv7UscyjdINiZcR
+ No9ZBanHr6JBQvzj19siTuDA4lhvZoXRjhwgpztKX+uHhuIXPcPfWNCNa+dqB20ayBCl2BJndoR
+ FDcgca4PIecCD0uujjqOg7P+wkstIgejSJaBbArHqQ5JAhzia0+geyUYU50WXhBXivzVU/9CVg=
+ =
+X-Received: by 2002:a5d:4948:0:b0:3c6:af40:a774 with SMTP id
+ ffacd0b85a97d-3c6af40aa2amr8520871f8f.22.1756210073136; 
+ Tue, 26 Aug 2025 05:07:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGph2EoUnVtafTDMODsVx9IZs4dFlfHWSAK/zJyh0p3gRtMg5bs99D6Y9j7BY5F1T/rMK8pCA==
+X-Received: by 2002:a5d:4948:0:b0:3c6:af40:a774 with SMTP id
+ ffacd0b85a97d-3c6af40aa2amr8520837f8f.22.1756210072601; 
+ Tue, 26 Aug 2025 05:07:52 -0700 (PDT)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
+ ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3cbb710172fsm1709728f8f.48.2025.08.26.05.07.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Aug 2025 05:07:52 -0700 (PDT)
+Message-ID: <d32fa753-66a1-451a-8cef-95c1f78fc366@redhat.com>
+Date: Tue, 26 Aug 2025 14:07:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] drm/v3d: Address race-condition between per-fd GPU
- stats and fd release
-To: Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>,
- Jose Maria Casanova Crespo <jmcasanova@igalia.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20250815-v3d-queue-lock-v2-0-ce37258ffb53@igalia.com>
- <20250815-v3d-queue-lock-v2-4-ce37258ffb53@igalia.com>
- <8cf9cd49-b4e5-4cd9-b4db-9bb81fdf6b0b@igalia.com>
- <8a5ecf46-897e-48ea-92c2-927980ddff0b@igalia.com>
- <87ed91ca-81bc-4131-80e3-ac78715578bc@igalia.com>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Subject: Re:
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ x86@kernel.org
+Cc: airlied@gmail.com, thomas.hellstrom@linux.intel.com,
+ matthew.brost@intel.com, dave.hansen@linux.intel.com, luto@kernel.org,
+ peterz@infradead.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+References: <20250820143739.3422-1-christian.koenig@amd.com>
+ <edf4aee5-54eb-4fad-aa89-4913d44371fe@redhat.com>
+ <4e5f4ef0-53f1-417e-8f3b-76fd7c64cd23@amd.com>
+ <f983521c-b43d-4245-93fc-fcb847908573@redhat.com>
+ <a1b95d23-1908-42c1-8ff6-da051fc140aa@amd.com>
+ <6591105b-969d-44d6-80e1-233c1b84b121@redhat.com>
+ <fc3e013c-e7f7-441d-a638-2ee3dd372775@amd.com>
+ <75aca34d-3557-49e9-a523-bd3244c28190@redhat.com>
+ <a01f7ca8-7930-4b04-b597-0ebf8500a748@amd.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <a01f7ca8-7930-4b04-b597-0ebf8500a748@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Sp6lx4u6znHkpHZhug_2E69Wjnmk1C_c85ULYL3IXd8_1756210073
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
- /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
- gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
- SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
- G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
- AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
- dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
- P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
- O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
- GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
- 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
- FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
- TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
- Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
- 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
- LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
- T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
- wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
- zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
- it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
- Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
- uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
- raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <87ed91ca-81bc-4131-80e3-ac78715578bc@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,197 +160,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Melissa,
-
-On 8/25/25 20:09, Melissa Wen wrote:
-> 
-> 
-> On 25/08/2025 17:53, Maíra Canal wrote:
->> Hi Melissa,
 >>
->> On 25/08/25 17:03, Melissa Wen wrote:
->>>
->>>
->>> On 15/08/2025 16:58, Maíra Canal wrote:
->>>> When the file descriptor is closed while a job is still running,
->>>> there's a race condition between the job completion callback and the
->>>> file descriptor cleanup. This can lead to accessing freed memory when
->>>> updating per-fd GPU stats, such as the following example:
->>>>
->>>> [56120.512903] Unable to handle kernel paging request at virtual 
->>>> address 0000330a92b9688a
->>>> [56120.520881] Mem abort info:
->>>> [56120.523687] ESR = 0x0000000096000005
->>>> [56120.527454] EC = 0x25: DABT (current EL), IL = 32 bits
->>>> [56120.532785] SET = 0, FnV = 0
->>>> [56120.535847] EA = 0, S1PTW = 0
->>>> [56120.538995] FSC = 0x05: level 1 translation fault
->>>> [56120.543891] Data abort info:
->>>> [56120.546778] ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
->>>> [56120.552289] CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->>>> [56120.557362] GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->>>> [56120.562690] user pgtable: 16k pages, 47-bit VAs, 
->>>> pgdp=0000000023f54000
->>>> [56120.569239] [0000330a92b9688a] pgd=0000000000000000, 
->>>> p4d=0000000000000000, pud=0000000000000000
->>>> [56120.577975] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
->>>>              CPU: 0 UID: 1000 PID: 1497409 Comm: mpv Not tainted 
->>>> 6.12.37-ncvm5+ #1
->>>>              Hardware name: Raspberry Pi 5 Model B Rev 1.0 (DT)
->>>>              pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS 
->>>> BTYPE=--)
->>>>              pc : v3d_job_update_stats+0x64/0x168 [v3d]
->>>>              lr : v3d_job_update_stats+0x40/0x168 [v3d]
->>>>              sp : ffffc00080003e60
->>>>              x29: ffffc00080003e60 x28: ffff800002860000 x27: 
->>>> 0000000000000000
->>>>              x26: 0000000000000000 x25: ffff800002860000 x24: 
->>>> ffff800002630800
->>>>              x23: ffff800060786000 x22: 0000330a933c31fb x21: 
->>>> 0000000000000001
->>>>              x20: 0000330a92b96302 x19: ffff800060786b10 x18: 
->>>> 0000000000000000
->>>>              x17: ffffaf90506a0000 x16: ffffd06fce57c360 x15: 
->>>> 0000000000000000
->>>>              x14: 0000000000000000 x13: 0000000000000000 x12: 
->>>> 0000000000000000
->>>>              x11: 0000000000000000 x10: 0000000000000000 x9 : 
->>>> ffffd06f5d0fec40
->>>>              x8 : 0000000000000000 x7 : 0000000000000000 x6 : 
->>>> 000002978dbd535a
->>>>              x5 : 00ffffffffffffff x4 : 0000000000000015 x3 : 
->>>> 0000300001fddf88
->>>>              x2 : 0000000000000020 x1 : 0000000000010001 x0 : 
->>>> 0000330a92b96872
->>>>              Call trace:
->>>>          v3d_job_update_stats+0x64/0x168 [v3d]
->>>>          v3d_irq+0x118/0x2e0 [v3d]
->>>>          __handle_irq_event_percpu+0x60/0x220
->>>>
->>>> Fix such an issue by protecting all accesses to `job->file_priv` with
->>>> the queue's lock. With that, we can clear `job->file_priv` before the
->>>> V3D per-fd structure is freed and assure that `job->file_priv` exists
->>>> during the per-fd GPU stats updates.
->>>>
->>>> Fixes: e1bc3a13bd77 ("drm/v3d: Avoid NULL pointer dereference in 
->>>> `v3d_job_update_stats()`")
->>>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->>>> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
->>>> ---
->>>>   drivers/gpu/drm/v3d/v3d_drv.c   | 14 +++++++++++++-
->>>>   drivers/gpu/drm/v3d/v3d_drv.h   |  2 +-
->>>>   drivers/gpu/drm/v3d/v3d_sched.c | 14 +++++++-------
->>>>   3 files changed, 21 insertions(+), 9 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/ 
->>>> v3d_drv.c
->>>> index 
->>>> 2def155ce496ec5f159f6bda9929aeaae141d1a6..c5a3bbbc74c5c6c9a34a6e6111b4e4e21bee0b34 100644
->>>> --- a/drivers/gpu/drm/v3d/v3d_drv.c
->>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
->>>> @@ -157,12 +157,24 @@ v3d_open(struct drm_device *dev, struct 
->>>> drm_file *file)
->>>>   static void
->>>>   v3d_postclose(struct drm_device *dev, struct drm_file *file)
->>>>   {
->>>> +    struct v3d_dev *v3d = to_v3d_dev(dev);
->>>>       struct v3d_file_priv *v3d_priv = file->driver_priv;
->>>> +    unsigned long irqflags;
->>>>       enum v3d_queue q;
->>>> -    for (q = 0; q < V3D_MAX_QUEUES; q++)
->>>> +    for (q = 0; q < V3D_MAX_QUEUES; q++) {
->>>> +        struct v3d_queue_state *queue = &v3d->queue[q];
->>>> +        struct v3d_job *job = queue->active_job;
->>>> +
->>>> drm_sched_entity_destroy(&v3d_priv->sched_entity[q]);
->>>> +        if (job && job->base.entity == &v3d_priv->sched_entity[q]) {
->>>> +            spin_lock_irqsave(&queue->queue_lock, irqflags);
->>>> +            job->file_priv = NULL;
->>>> +            spin_unlock_irqrestore(&queue->queue_lock, irqflags);
->>>> +        }
->>>> +    }
->>>> +
->>>>       v3d_perfmon_close_file(v3d_priv);
->>>>       kfree(v3d_priv);
->>>>   }
->>>> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/ 
->>>> v3d_drv.h
->>>> index 
->>>> cfc2f9c123aa99f6f1875b297eaf6c226b03d4ec..0317f3d7452a3f01b91bfdc691b5a98e54b3a4ec 100644
->>>> --- a/drivers/gpu/drm/v3d/v3d_drv.h
->>>> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
->>>> @@ -608,7 +608,7 @@ void v3d_timestamp_query_info_free(struct 
->>>> v3d_timestamp_query_info *query_info,
->>>>                      unsigned int count);
->>>>   void v3d_performance_query_info_free(struct 
->>>> v3d_performance_query_info *query_info,
->>>>                        unsigned int count);
->>>> -void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue);
->>>> +void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q);
->>>>   int v3d_sched_init(struct v3d_dev *v3d);
->>>>   void v3d_sched_fini(struct v3d_dev *v3d);
->>>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/ 
->>>> v3d_sched.c
->>>> index 
->>>> e348816b691ef05909828accbe15399816e69369..60e251367f42170b30de968682deb6370604db44 100644
->>>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
->>>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
->>>> @@ -194,11 +194,11 @@ v3d_stats_update(struct v3d_stats *stats, u64 
->>>> now)
->>>>   }
->>>>   void
->>>> -v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
->>>> +v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q)
->>>>   {
->>>>       struct v3d_dev *v3d = job->v3d;
->>>> -    struct v3d_file_priv *file = job->file_priv;
->>>> -    struct v3d_stats *global_stats = &v3d->queue[queue].stats;
->>>> +    struct v3d_queue_state *queue = &v3d->queue[q];
->>>> +    struct v3d_stats *global_stats = &queue->stats;
->>>>       u64 now = local_clock();
->>>>       unsigned long flags;
->>>> @@ -209,10 +209,10 @@ v3d_job_update_stats(struct v3d_job *job, enum 
->>>> v3d_queue queue)
->>>>           preempt_disable();
->>>>       /* Don't update the local stats if the file context has 
->>>> already closed */
->>>> -    if (file)
->>>> -        v3d_stats_update(&file->stats[queue], now);
->>>> -    else
->>>> -        drm_dbg(&v3d->drm, "The file descriptor was closed before 
->>>> job completion\n");
->>>> +    spin_lock(&queue->queue_lock);
->>>> +    if (job->file_priv)
->>>> +        v3d_stats_update(&job->file_priv->stats[q], now);
->>> Why not keep the drm_dbg() if !job->file_priv?
+>> 1) We use another interface that consumes pages instead of PFNs, like a
+>>     vm_insert_pages_pgprot() we would be adding.
 >>
->> After some thought, I concluded that this debug message won't be useful
->> anymore. After this patch, it doesn't really matter if !job->file_priv,
->> the job will still end gracefully.
+>>     Is there any strong requirement for inserting non-refcounted PFNs?
 > 
-> I think having a dbg message can be helpful to understand why the driver 
-> doesn't update local stats but global one in a given situation (?)
-> Probably a slightly different message like "file context already closed, 
-> local stats not updated".
+> Yes, there is a strong requirement to insert non-refcounted PFNs.
+> 
+> We had a lot of trouble with KVM people trying to grab a reference to those pages even if the VMA had the VM_PFNMAP flag set.
 
-The thing is: if the driver didn't update the local stats, the fd
-doesn't exist anymore. Therefore, there is nothing to be updated, as
-fdinfo was closed with the fd.
-
-When it comes to the user-space, it won't notice that the local stats
-won't updated, as the local stats don't exist anymore.
-
-The global stats are in sysfs and they are persistent through the
-lifetime of the driver.
-
-Best Regards,
-- Maíra
+Yes, KVM ignored (and maybe still does) VM_PFNMAP to some degree, which 
+is rather nasty.
 
 > 
-> Melissa
-> 
->> Best Regards,
->> - Maíra
+>> 2) We add another interface that consumes PFNs, but explicitly states
+>>     that it is only for ordinary system RAM, and that the user is
+>>     required for updating the direct map.
 >>
+>>     We could sanity-check the direct map in debug kernels.
 > 
+> I would rather like to see vmf_insert_pfn_prot() fixed instead.
+> 
+> That function was explicitly added to insert the PFN with the given attributes and as far as I can see all users of that function expect exactly that.
+
+It's all a bit tricky :(
+
+> 
+>>
+>> 3) We teach PAT code in pfnmap_setup_cachemode_pfn() about treating this
+>>     system RAM differently.
+>>
+>>
+>> There is also the option for a mixture between 1 and 2, where we get pages, but we map them non-refcounted in a VM_PFNMAP.
+>>
+>> In general, having pages makes it easier to assert that they are likely ordinary system ram pages, and that the interface is not getting abused for something else.
+> 
+> Well, exactly that's the use case here and that is not abusive at all as far as I can see.
+> 
+> What drivers want is to insert a PFN with a certain set of caching attributes regardless if it's system memory or iomem. That's why vmf_insert_pfn_prot() was created in the first place.
+
+I mean, the use case of "allocate pages from the buddy and fixup the 
+linear map" sounds perfectly reasonable to me. Absolutely no reason to 
+get PAT involved. Nobody else should be messing with that memory after all.
+
+As soon as we are talking about other memory ranges (iomem) that are not 
+from the buddy, it gets weird to bypass PAT, and the question I am 
+asking myself is, when is it okay, and when not.
+
+> 
+> That drivers need to call set_pages_wc/uc() for the linear mapping on x86 manually is correct and checking that is clearly a good idea for debug kernels.
+
+I'll have to think about this a bit: assuming only vmf_insert_pfn() 
+calls pfnmap_setup_cachemode_pfn() but vmf_insert_pfn_prot() doesn't, 
+how could we sanity check that somebody is doing something against the 
+will of PAT.
+
+-- 
+Cheers
+
+David / dhildenb
 
