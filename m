@@ -2,136 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21906B37057
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 18:31:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0534FB3706E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 18:33:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD9810E6AD;
-	Tue, 26 Aug 2025 16:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A23210E392;
+	Tue, 26 Aug 2025 16:33:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fkFzE2zA";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jsmTrUHG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2054.outbound.protection.outlook.com [40.107.102.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8B310E392
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:31:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aZuxKu9nbPKu8ULBt5Edwr9Gp+g/GOqlowYPTXYZxyg4iPopbSB2aA/8eENWuYjZDLh3l5J6Qhan/pOKvF9DlIOKwdryEtF5Bb0cErfuhcavPfNPi5DyHbJZ+rsbPWW+/tUMZbjTQ/ESUzujZkxmv6aspHH6SsNS3C2F5ltDNKbGae8SlyuwcbkuIz7T3b+UAZIoie6sKI2fnilfI+6zXj5irISDV06UZcmE5KXDct1a6CflcEsuWpk/wWspxYkWRlrvy23sBiHtkIsKVBj5XdW4aJHbEodNtu0WE54j0fewI0MZVQZXn7+sCkg4hzO5mSfNRfLjYw1y+OVEv3V4yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EoLcZ85CVgxC4WUCDdFn4w57/GiWc3k/JuCE9jdfCjs=;
- b=RL1xmcq8C2/9bhokGpFGC/CkUAJ/FnvRVu8LTBSs61lYmR1DH8aL4+T0o/6y4GTl3jqKTcXRYCPkcT5UJYvwA06t9LEJwkQQYPF7ohAMCyTVpzc9skfdSj2i6AT8yCGLXUTQam/QSfoCRJdxP0eXjJfojudpNh5eSmOO7AlbZ+mJuiXM7atdnP7tkHskBbOmtV63LTLRatCh8OVekNx+IO/h5CK2Y4Vm5mEzVWQxbcgzdF5xBsEwOQ7ARfOB2t1fCo5x+nw1ITSxUobyOnujuRXW9ke4I2MeHwOGhSLTRH7HfAlY6iYG+s1zHpLQfSsy6luUQEhnEA6JVhd0XX1Mzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vivo.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EoLcZ85CVgxC4WUCDdFn4w57/GiWc3k/JuCE9jdfCjs=;
- b=fkFzE2zAXxvbETIAg5lBT/f5fliHayJAUGKUZjrxnGwVrDMP3qdzouOEbDPNhusOMJfBdr0RMc/ZLnm4oOhFLpXNxp6aI9iftQfGkOA3LA6DTr9DZCRIjw8I0uW7yH5XsiRc9/zGF31okb8oddFwtZzLIdWD9lrFcmlbcZEncns=
-Received: from BN9PR03CA0671.namprd03.prod.outlook.com (2603:10b6:408:10e::16)
- by IA1PR12MB7519.namprd12.prod.outlook.com (2603:10b6:208:418::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.20; Tue, 26 Aug
- 2025 16:31:29 +0000
-Received: from BN2PEPF00004FBE.namprd04.prod.outlook.com
- (2603:10b6:408:10e:cafe::e7) by BN9PR03CA0671.outlook.office365.com
- (2603:10b6:408:10e::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.21 via Frontend Transport; Tue,
- 26 Aug 2025 16:31:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN2PEPF00004FBE.mail.protection.outlook.com (10.167.243.184) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9073.11 via Frontend Transport; Tue, 26 Aug 2025 16:31:29 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 26 Aug
- 2025 11:31:28 -0500
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Tue, 26 Aug 2025 11:31:28 -0500
-Message-ID: <51440ea7-bbea-c890-057e-109685a72cb3@amd.com>
-Date: Tue, 26 Aug 2025 09:31:23 -0700
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88EF710E391
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:33:33 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57QD3ANN026003
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:33:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=o0JNkVhBc++JdNPVvj2G5Tj3
+ VEOgkLl+3jrDv6VD7BE=; b=jsmTrUHGvaBkNoJMv6AJPlvdxeSRoOXScDgdF8H5
+ yXOY6bOIi/t8o01fuV9IO9u0u9bMxb1l21mNd+/Jb30e07scPF6cc/eWbSFWLTFd
+ Q006RaI322lcHeEaHgQsi0TQBWmN+eszFaZZixyp+V3QvFqEJNb1j3LmONws8q4+
+ +VzKEQ3vxORktU3MqJWeQTYwmkY1tNBSC0awih42NN4k7NxJ60O/5t23HT8aLGoO
+ rxJiAeDAImklFPUzmy1ZwWGjzgCKlGXzt2h+HZBYdNfcJruN68YReBM2hNG+Ofx+
+ LnHV77cIJplKO1g4jyBlcstYoQ3Pj5x1HXx1IfWYWGv1nQ==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q6x89pbv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:33:33 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-70d9a65c386so89342756d6.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 09:33:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756226012; x=1756830812;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=o0JNkVhBc++JdNPVvj2G5Tj3VEOgkLl+3jrDv6VD7BE=;
+ b=bLjiehu35tp3s2416uP0gl3OeXUZnofEqTg2vLaDbjetV3HptJjTfl7bkyZS2jNRH5
+ WhAotOxGyLrK9UkDvGZ8WW8vY/+KHC1YsxVcXdu3VHXLS+byxwnhSc9aqdtrEpAzBN7s
+ 3crtAqTIYlWotqajQjbOvI5GHcTIQhULYo9zOxVWx7P0GKWg7N6uxce3uKAFfmLoTjgm
+ jEyXI9QTfzuJ3d6fY5M2P87i1HBQRdxhZuUcRIDJicL7viPlTC4/vBq5gQphhuVGJzXd
+ SqLCo7PctcVZkbNV51zJkdKYq2l0MrHxmCGn5C6u5E+f9d1xWvPJcxxzqt/SU0Egr+zx
+ rrmA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWe8bpGRzcGPaOJSNrzHnxHPw1tf6vcHtWltoeQ2wPFpIxBMivyAfdJJqnHAtopPyGZE217c3wJqlM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YywfvBAOIUAA1odI++EwA7WngUKem4X7PVKuxn/5/GWBRcKkAzi
+ 28Lj4CRExjCqxY3gck9Oeatw9aONA4cpHmy4VD0E+Io/0ZZNZFdz0BNPiE1HtGEFySOXLATIjSa
+ JOCAvnpT0tpO1541tH8zo4xKEbHogWW7XAOc35uRMlzKU01cYN5mnhrGxiwKChgcJBI80ea0=
+X-Gm-Gg: ASbGncsUp0CuhPaSwFc8EL/ErR+7JkyU7WAVcrxHmSGoLBj9tC50pkTaBaIt2rY/T2j
+ t1Kp83GmLv+A6wzWMneUen+lzrMy6AVRaMDJLwPXBJdyPCKo/1PqBVG0U3jPSptZG5wd+ERkKir
+ t1jwducQuBWKGP931ZTMK+RpU+i79U8DRaErE20tkt7O5wa+kynLURZJrrqwrNYUWcPCFVolc9Y
+ +/na4A05Wjof31JC8l+ApaBAYq2ZbvO6ylDUFz1UFgL7WsdtUTlFqovvMfxVyviHx35spcq/fGD
+ g7Oq439x0mGe8MNDePQO64oTbQfzZ/Sn+nJt60gp1ZnoeHIDzeE2cFCYwLGL13j+BBCVr/vf/n3
+ i+7CJz5QW1bOQ/4WQnC3gxHuczVD2uz877fUWvKG67ZxxSKoUHkQm
+X-Received: by 2002:ad4:5cc1:0:b0:709:ee07:daaf with SMTP id
+ 6a1803df08f44-70d97102f17mr190928326d6.19.1756226011471; 
+ Tue, 26 Aug 2025 09:33:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFZ7aaOomBumnrq1rhi9jEEdDGg0wr1dDNic05npTTurzd/gV21cCPu8vrLKpDQ36ehil5Qyg==
+X-Received: by 2002:ad4:5cc1:0:b0:709:ee07:daaf with SMTP id
+ 6a1803df08f44-70d97102f17mr190927636d6.19.1756226010771; 
+ Tue, 26 Aug 2025 09:33:30 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55f35b27683sm2357303e87.0.2025.08.26.09.33.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Aug 2025 09:33:29 -0700 (PDT)
+Date: Tue, 26 Aug 2025 19:33:28 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v3 27/38] drm/msm/dp: add dp_display_get_panel() to
+ initialize DP panel
+Message-ID: <smvfckejheyi7oehubdkhnh6pxokn7yugvlrynraypsu6kssj3@6vinswn4yku4>
+References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
+ <20250825-msm-dp-mst-v3-27-01faacfcdedd@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] accel/amdxdna: Use int instead of u32 to store error codes
-Content-Language: en-US
-To: Qianfeng Rong <rongqianfeng@vivo.com>, Min Ma <min.ma@amd.com>, Oded
- Gabbay <ogabbay@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20250826072917.186638-1-rongqianfeng@vivo.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <20250826072917.186638-1-rongqianfeng@vivo.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBE:EE_|IA1PR12MB7519:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b96ddc2-d7ca-4a7c-d809-08dde4be0262
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|82310400026|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cG1rRm1OSVJzZC9md3lHQ3ltN2tJOURCM1ZCQWp6aWZJcDJUMVIvcWhLN1VD?=
- =?utf-8?B?VzEyUEZjeHJnU3lEbDVVRWJCUTBHVVE1dHdJaUxoSWx1Y0ZBMGp0SStZQTRh?=
- =?utf-8?B?bVdUdEUrdUJYWlJPNG9BdDBTYUlFbkxDSCtmRDcxeVFpOXlzTFVkeHZFNE1j?=
- =?utf-8?B?VnUvMGFDOVZ1NTZaZ1U2TjllcWZRb1VxNlRaUGdqTHBaKy9FUnpHSWcvTHE0?=
- =?utf-8?B?R3ZUSDZhNWo3N1VLTE1OT01QZ0s3RU8vdy9BR0NYLzF3MXM0RE1yQktqNDJr?=
- =?utf-8?B?a0t3amJBSzNZeXpJVGh3QUh2dmtmVjVRT3piYm1LZ1VOMDU5L3RZa2VHVys0?=
- =?utf-8?B?djVyaW4yYUIweTJsYnFHbmNhSFZVVy9ncEtEcVdMbHkxK3UxQ0FzYWpEYmkr?=
- =?utf-8?B?UnNzWVRiVllUaDJ6dGZYeU1sSU5RYkNSaVJVOC9pTnp0ZW9RemkzTEdEdE1p?=
- =?utf-8?B?eWVpNUpjMkpoaEZwdFhReHlpVWRrKzUwRVJaQTVzamlWMmkwSnBpQ1phNitz?=
- =?utf-8?B?Um5zajk3MWlGZ3l0amNSSmNNVDRxZDBLeEZBR3UxTGRhdXR1L2JPVEdVQnNZ?=
- =?utf-8?B?N3JVUEVRQmE5MjNWTGYwQ2VjL2dPZGwrdDZVcTMvTXMwRmZnSkd6VzVBWXpw?=
- =?utf-8?B?UE5tSWtoVmdGUVdHNzAxTmpXTTYxR0gvYjNsbjFWWk5YT0pJQ1MrdSs3SFFT?=
- =?utf-8?B?OHAwYUtKRzNhMnkrOEFFQmN5bGhwanpyRHJxVDFSY0RKQ3docTRRbG1KWlVh?=
- =?utf-8?B?VE93K2g1aDZEczlyR3EzSFZXZ3hvQXFpdXcyMFpvc0ZObm1reXNxMUNtenhG?=
- =?utf-8?B?RjBwR0RUdVBGeUgxdmswWVhKdU1EM2RaRklMMlJLOXFOT2xvTS9DNTFVbEpu?=
- =?utf-8?B?Z3V6cGsrZHdkaGdEVWtNTDZzTlNMaXJWcFRTd1RHcTNIUVZmcTVzc1g1WW94?=
- =?utf-8?B?YStlWFBzSXhkdU5xTVV5aVBzVDU4Y25ZeVFJV2h3SW9jSFhGd2hhTXE5ZGZa?=
- =?utf-8?B?d3gxbnkvT3R6RjJRMzhuS3R2RzFEVUFPa1NDTVUyd0xoU0lIV2VEK2YvbEdo?=
- =?utf-8?B?Q094OUJHY1QxamoyeUFuQm9zOWM2YmJGUmVpWWR1SkNlOU1TdHltWnhSS1lx?=
- =?utf-8?B?aXBoWDI4RmxyeUQ2am1ObEZSeFAzNlpGOS9EUkh0M0k0S3YzbDE1TUZ1T0xD?=
- =?utf-8?B?b0ZNakIvQzhETkdpWVpWOVVRZEkzLzFwVzg3K3hoSmZhY2RYcVpYYU5UalF3?=
- =?utf-8?B?b1JwMUkzcFJENGpidGovTXZYSzlTRG5xTjBEcjFxZWNZOStsc2owSlZDSldk?=
- =?utf-8?B?bnZ4d0RCd3JQVDVDVWp2a2JGWUxvNGhhcVNyZFVzWnVUb1RvRy9JVUxKVHBa?=
- =?utf-8?B?OWRxekNWcmU2Z3lTenV3dWthbGE2ZjFabldENC9ZcmpBWmVoYVZWVzd6cFQx?=
- =?utf-8?B?cDh3ZnJYQUFVMGdKeG83SEh0VXBpYzNLbnhjTVM1dWF0bUhuNHo3VFJuRllD?=
- =?utf-8?B?dmdRaU5VMFZWaUlLVEkwME4vd1BPZVdMMUdwVGxGWmtxKzljekJHZXU0OGY5?=
- =?utf-8?B?c0ZBWVlJQzhLTzdiOGMvSTBCZXYvNlArdHFldW1RdVY2QUlpV1JnUlROVk10?=
- =?utf-8?B?VThkdzRhc3FqVjhOVk9hOCtTeXpEd1piWVBETVVDVUFDNWgzUG9QR0lEWTRB?=
- =?utf-8?B?WkdCY1NaTktndlZmcVhyamZpZ3hxLzMxZ0FGL3c2Z21LYzh2Wm5Hb3o3Z3Rl?=
- =?utf-8?B?Smh6Tk1DcTZzOElhazMwM1M2MDBMS1pJa0d3eHRkZHdzdzMwaElEOTU3dXlq?=
- =?utf-8?B?WmtOZzJUWU9od3dneGJnSjJXaVFaMzdURHdPS0FQWEUxeVk4aWxmWlpJUzNu?=
- =?utf-8?B?T0tXb1ljK3Y4enEvZ0drdStSNmVGWU4wWjlsd3pQc0lMYk1OWkl6dFNoc0dl?=
- =?utf-8?B?aEllYjh1UTJ2VFI3QjhtK1lhRnB4YVhGNkFYbU51b3VIZXdjeG0zcUI0WkVR?=
- =?utf-8?B?V09xcE1CTEdqbGlIdFE1UXZ1K2lkL002Z1YxRTRIQnJRM3F2Ylh1cllEV3NZ?=
- =?utf-8?Q?qQR/XY?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 16:31:29.0987 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b96ddc2-d7ca-4a7c-d809-08dde4be0262
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF00004FBE.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7519
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250825-msm-dp-mst-v3-27-01faacfcdedd@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: PV0mrjvzkfXZ-dPklVPJUmJqv-LLNhva
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDA0NCBTYWx0ZWRfXyo0u45T4kgOO
+ uB+LGUmofaXp3SYp7EKCK4EVNypvuXaclyKgd6CMRPtgNkdYZbesNfyJlX1tLwRRYth6hZCfhda
+ tNNoCPh034sym9yCim6w2oJPuEYq8wZ4t+MJs76exm2z3wplSZhDGyV5FbCypbmfSFmgN59CTtR
+ bD+eLWyNCHnxy/t6cV+3PZ4EQhL04RRq8XG3B7sXvG2fJ/kJkYXuP66n/XCUAbgs2occn/4YvHR
+ 30vmREUFF5jXUT13G07+f6uULkeZ9wExzss5mDko+/eBitEtV5rjujrBjv0TzOZdu05Jvzy5jjM
+ QZacl0ZPRchfoQ4xpX8QJonirePDNdskCDIM/27vh+xxVWOenixwjyxeG5UB3GzZaoo+QPnZk7m
+ +dSdzQS+
+X-Proofpoint-GUID: PV0mrjvzkfXZ-dPklVPJUmJqv-LLNhva
+X-Authority-Analysis: v=2.4 cv=Ep/SrTcA c=1 sm=1 tr=0 ts=68ade1dd cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=qYs0ZBLfSisuqDwih3YA:9
+ a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230044
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,51 +131,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 8/26/25 00:29, Qianfeng Rong wrote:
-> Change the 'ret' variable from u32 to int to store -EINVAL, reducing
-> potential risks such as incorrect results when comparing 'ret' with
-> error codes.
-
-Sounds this fixes code issue. Could you add "Fixes" tag?
-
-Thanks,
-
-Lizhi
-
-> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
+On Mon, Aug 25, 2025 at 10:16:13PM +0800, Yongxing Mou wrote:
+> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> Add an API dp_display_get_panel() to initialize and return a DP
+> panel to be used by DP MST module. Since some of the fields of
+> DP panel are private, dp_display module needs to initialize these
+> parts and return the panel back.
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 > ---
->   drivers/accel/amdxdna/aie2_ctx.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
-> index 420467a5325c..e9f9b1fa5dc1 100644
-> --- a/drivers/accel/amdxdna/aie2_ctx.c
-> +++ b/drivers/accel/amdxdna/aie2_ctx.c
-> @@ -199,7 +199,7 @@ aie2_sched_resp_handler(void *handle, void __iomem *data, size_t size)
->   {
->   	struct amdxdna_sched_job *job = handle;
->   	struct amdxdna_gem_obj *cmd_abo;
-> -	u32 ret = 0;
-> +	int ret = 0;
->   	u32 status;
->   
->   	cmd_abo = job->cmd_bo;
-> @@ -229,7 +229,7 @@ static int
->   aie2_sched_nocmd_resp_handler(void *handle, void __iomem *data, size_t size)
->   {
->   	struct amdxdna_sched_job *job = handle;
-> -	u32 ret = 0;
-> +	int ret = 0;
->   	u32 status;
->   
->   	if (unlikely(!data))
-> @@ -257,7 +257,7 @@ aie2_sched_cmdlist_resp_handler(void *handle, void __iomem *data, size_t size)
->   	u32 fail_cmd_status;
->   	u32 fail_cmd_idx;
->   	u32 cmd_status;
-> -	u32 ret = 0;
-> +	int ret = 0;
->   
->   	cmd_abo = job->cmd_bo;
->   	if (unlikely(!data) || unlikely(size != sizeof(u32) * 3)) {
+>  drivers/gpu/drm/msm/dp/dp_display.c | 23 +++++++++++++++++++++++
+>  drivers/gpu/drm/msm/dp/dp_display.h |  2 ++
+>  2 files changed, 25 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 84df34306fb557341bea288ea8c13b0c81b11919..abcab3ed43b6da5ef898355cf9b7561cd9fe0404 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -632,6 +632,29 @@ static int msm_dp_irq_hpd_handle(struct msm_dp_display_private *dp, u32 data)
+>  	return 0;
+>  }
+>  
+> +struct msm_dp_panel *msm_dp_display_get_panel(struct msm_dp *msm_dp_display)
+> +{
+> +	struct msm_dp_display_private *dp;
+> +	struct msm_dp_panel *dp_panel;
+> +
+> +	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
+> +
+> +	dp_panel = msm_dp_panel_get(&dp->msm_dp_display.pdev->dev, dp->aux, dp->link,
+> +			       dp->link_base, dp->mst2link_base, dp->mst3link_base,
+> +			       dp->pixel_base);
+> +
+> +	if (IS_ERR(dp->panel)) {
+> +		DRM_ERROR("failed to initialize panel\n");
+> +		return NULL;
+> +	}
+> +
+> +	memcpy(dp_panel->dpcd, dp->panel->dpcd, DP_RECEIVER_CAP_SIZE);
+> +	memcpy(&dp_panel->link_info, &dp->panel->link_info,
+> +	       sizeof(dp->panel->link_info));
+
+Both these lines show that link_info and dpcd belong to msm_dp_display
+rather than the panel. The panel should only be describing properties of
+the particular sink.
+
+> +
+> +	return dp_panel;
+> +}
+> +
+>  static void msm_dp_display_deinit_sub_modules(struct msm_dp_display_private *dp)
+>  {
+>  	msm_dp_audio_put(dp->audio);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+> index b1ea027438d952c94f3ae80725c92e46c631bdb2..d5889b801d190b6f33b180ead898c1e4ebcbf8f3 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
+> @@ -65,4 +65,6 @@ void msm_dp_display_unprepare(struct msm_dp *dp);
+>  
+>  int msm_dp_display_get_active_stream_cnt(struct msm_dp *msm_dp_display);
+>  
+> +struct msm_dp_panel *msm_dp_display_get_panel(struct msm_dp *msm_dp_display);
+> +
+>  #endif /* _DP_DISPLAY_H_ */
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
