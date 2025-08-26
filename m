@@ -2,52 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FDF5B37B8B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB7AB37B83
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:23:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CC8710E72A;
-	Wed, 27 Aug 2025 07:22:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE1C10E71F;
+	Wed, 27 Aug 2025 07:22:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A8AEE10E2FE;
- Tue, 26 Aug 2025 13:11:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 308DD10E2FE;
+ Tue, 26 Aug 2025 13:11:45 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D75BE1A25;
- Tue, 26 Aug 2025 06:11:18 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7A733F63F;
- Tue, 26 Aug 2025 06:11:26 -0700 (PDT)
-Date: Tue, 26 Aug 2025 14:11:24 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
- mark.rutland@arm.com, acme@kernel.org, namhyung@kernel.org,
- alexander.shishkin@linux.intel.com, jolsa@kernel.org,
- irogers@google.com, adrian.hunter@intel.com,
- kan.liang@linux.intel.com, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
- linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, dmaengine@vger.kernel.org,
- linux-fpga@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, coresight@lists.linaro.org,
- iommu@lists.linux.dev, linux-amlogic@lists.infradead.org,
- linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 16/19] perf: Introduce positive capability for sampling
-Message-ID: <20250826131124.GB745921@e132581.arm.com>
-References: <cover.1755096883.git.robin.murphy@arm.com>
- <ae81cb65b38555c628e395cce67ac6c7eaafdd23.1755096883.git.robin.murphy@arm.com>
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C1B82BF2;
+ Tue, 26 Aug 2025 06:11:36 -0700 (PDT)
+Received: from raptor (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B7A13F63F;
+ Tue, 26 Aug 2025 06:11:36 -0700 (PDT)
+Date: Tue, 26 Aug 2025 14:11:34 +0100
+From: Alexandru Elisei <alexandru.elisei@arm.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Brendan Jackman <jackmanb@google.com>,
+ Christoph Lameter <cl@gentwo.org>, Dennis Zhou <dennis@kernel.org>,
+ Dmitry Vyukov <dvyukov@google.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, iommu@lists.linux.dev,
+ io-uring@vger.kernel.org, Jason Gunthorpe <jgg@nvidia.com>,
+ Jens Axboe <axboe@kernel.dk>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Hubbard <jhubbard@nvidia.com>, kasan-dev@googlegroups.com,
+ kvm@vger.kernel.org, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-arm-kernel@axis.com, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Marco Elver <elver@google.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+ Muchun Song <muchun.song@linux.dev>, netdev@vger.kernel.org,
+ Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Suren Baghdasaryan <surenb@google.com>, Tejun Heo <tj@kernel.org>,
+ virtualization@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+ wireguard@lists.zx2c4.com, x86@kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH RFC 21/35] mm/cma: refuse handing out non-contiguous page
+ ranges
+Message-ID: <aK2yhtQ0M_0hqQHh@raptor>
+References: <20250821200701.1329277-1-david@redhat.com>
+ <20250821200701.1329277-22-david@redhat.com>
+ <aK2QZnzS1ErHK5tP@raptor>
+ <ad521f4f-47aa-4728-916f-3704bf01f770@redhat.com>
+ <aK2wlGYvCaFQXzBm@raptor>
+ <ecc599ee-4175-4356-ab66-1d76a75f44f7@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ae81cb65b38555c628e395cce67ac6c7eaafdd23.1755096883.git.robin.murphy@arm.com>
+In-Reply-To: <ecc599ee-4175-4356-ab66-1d76a75f44f7@redhat.com>
 X-Mailman-Approved-At: Wed, 27 Aug 2025 07:22:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,62 +76,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Aug 13, 2025 at 06:01:08PM +0100, Robin Murphy wrote:
-> Sampling is inherently a feature for CPU PMUs, given that the thing
-> to be sampled is a CPU context. These days, we have many more
-> uncore/system PMUs than CPU PMUs, so it no longer makes much sense to
-> assume sampling support by default and force the ever-growing majority
-> of drivers to opt out of it (or erroneously fail to). Instead, let's
-> introduce a positive opt-in capability that's more obvious and easier to
-> maintain.
+Hi David,
 
-[...]
+On Tue, Aug 26, 2025 at 03:08:08PM +0200, David Hildenbrand wrote:
+> On 26.08.25 15:03, Alexandru Elisei wrote:
+> > Hi David,
+> > 
+> > On Tue, Aug 26, 2025 at 01:04:33PM +0200, David Hildenbrand wrote:
+> > ..
+> > > > Just so I can better understand the problem being fixed, I guess you can have
+> > > > two consecutive pfns with non-consecutive associated struct page if you have two
+> > > > adjacent memory sections spanning the same physical memory region, is that
+> > > > correct?
+> > > 
+> > > Exactly. Essentially on SPARSEMEM without SPARSEMEM_VMEMMAP it is not
+> > > guaranteed that
+> > > 
+> > > 	pfn_to_page(pfn + 1) == pfn_to_page(pfn) + 1
+> > > 
+> > > when we cross memory section boundaries.
+> > > 
+> > > It can be the case for early boot memory if we allocated consecutive areas
+> > > from memblock when allocating the memmap (struct pages) per memory section,
+> > > but it's not guaranteed.
+> > 
+> > Thank you for the explanation, but I'm a bit confused by the last paragraph. I
+> > think what you're saying is that we can also have the reverse problem, where
+> > consecutive struct page * represent non-consecutive pfns, because memmap
+> > allocations happened to return consecutive virtual addresses, is that right?
+> 
+> Exactly, that's something we have to deal with elsewhere [1]. For this code,
+> it's not a problem because we always allocate a contiguous PFN range.
+> 
+> > 
+> > If that's correct, I don't think that's the case for CMA, which deals out
+> > contiguous physical memory. Or were you just trying to explain the other side of
+> > the problem, and I'm just overthinking it?
+> 
+> The latter :)
 
-> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
-> index 369e77ad5f13..dbd52851f5c6 100644
-> --- a/drivers/perf/arm_spe_pmu.c
-> +++ b/drivers/perf/arm_spe_pmu.c
-> @@ -955,7 +955,8 @@ static int arm_spe_pmu_perf_init(struct arm_spe_pmu *spe_pmu)
->  	spe_pmu->pmu = (struct pmu) {
->  		.module = THIS_MODULE,
->  		.parent		= &spe_pmu->pdev->dev,
-> -		.capabilities	= PERF_PMU_CAP_EXCLUSIVE | PERF_PMU_CAP_ITRACE,
-> +		.capabilities	= PERF_PMU_CAP_SAMPLING |
-> +				  PERF_PMU_CAP_EXCLUSIVE | PERF_PMU_CAP_ITRACE,
->  		.attr_groups	= arm_spe_pmu_attr_groups,
->  		/*
->  		 * We hitch a ride on the software context here, so that
+Ok, sorry for the noise then, and thank you for educating me.
 
-The change in Arm SPE driver looks good to me.
-
-I noticed you did not set the flag for other AUX events, like Arm
-CoreSight, Intel PT and bts. The drivers locate in:
-
-  drivers/hwtracing/coresight/coresight-etm-perf.c
-  arch/x86/events/intel/bts.c
-  arch/x86/events/intel/pt.c
-
-Genearlly, AUX events generate interrupts based on AUX ring buffer
-watermark but not the period. Seems to me, it is correct to set the
-PERF_PMU_CAP_SAMPLING flag for them.
-
-A special case is Arm CoreSight legacy sinks (like ETR/ETB, etc)
-don't has interrupt. We might need set or clear the flag on the fly
-based on sink type:
-
-diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
-index f1551c08ecb2..404edc94c198 100644
---- a/drivers/hwtracing/coresight/coresight-etm-perf.c
-+++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-@@ -433,6 +433,11 @@ static void *etm_setup_aux(struct perf_event *event, void **pages,
-        if (!sink)
-                goto err;
- 
-+       if (coresight_is_percpu_sink(sink))
-+               event->pmu.capabilities = PERF_PMU_CAP_SAMPLING;
-+       else
-+               event->pmu.capabilities &= ~PERF_PMU_CAP_SAMPLING;
-+
-
-Thanks,
-Leo
+Alex
