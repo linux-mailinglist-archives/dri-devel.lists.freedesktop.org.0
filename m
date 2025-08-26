@@ -2,21 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A29B351A0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 04:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0B5B351A3
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 04:28:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D289A10E2BD;
-	Tue, 26 Aug 2025 02:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32F4B10E2C4;
+	Tue, 26 Aug 2025 02:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B29510E2BC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD1310E2BD
  for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 02:28:27 +0000 (UTC)
 Received: from mail.maildlp.com (unknown [172.19.163.252])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4c9s5t14H1z14Mgc;
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4c9s5t2jGWz14MjR;
  Tue, 26 Aug 2025 10:28:18 +0800 (CST)
 Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
- by mail.maildlp.com (Postfix) with ESMTPS id 7C08B180B6A;
+ by mail.maildlp.com (Postfix) with ESMTPS id AF7CA180B6A;
  Tue, 26 Aug 2025 10:28:24 +0800 (CST)
 Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
  dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
@@ -35,10 +35,13 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <fengsheng5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 drm-dp 0/4] Fix hibmc driver bugs
-Date: Tue, 26 Aug 2025 10:17:40 +0800
-Message-ID: <20250826021744.3237574-1-shiyongbang@huawei.com>
+Subject: [PATCH v5 drm-dp 1/4] drm/hisilicon/hibmc: fix dp probabilistical
+ detect errors after HPD irq
+Date: Tue, 26 Aug 2025 10:17:41 +0800
+Message-ID: <20250826021744.3237574-2-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20250826021744.3237574-1-shiyongbang@huawei.com>
+References: <20250826021744.3237574-1-shiyongbang@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -62,45 +65,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Baihan Li <libaihan@huawei.com>
 
-There are some bugfix for hibmc-drm driver.
+The issue is that drm_connector_helper_detect_from_ddc() returns wrong
+status when plugging or unplugging the monitor. To perform a DP detect(),
+add read_dpcd_cap() and read_sink_count() to detect DP monitor, and 200ms
+delay doesn't need anymore.
+
+Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
+Signed-off-by: Baihan Li <libaihan@huawei.com>
+Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 ---
 ChangeLog:
 v4 -> v5:
-  - Because some of patches are applied, this series only contains the rest of them.
-  - fix the commit and DP detect_ctx(), suggested by Dmitry Baryshkov.
-  - fix bugfix commit ID, suggested by Dmitry Baryshkov.
-  - remove the 08/11 patch, I'll add in next series.
-  - combined 9 and 11 patch together, suggested by Dmitry Baryshkov.
-v3 -> v4:
-  - remove link training process in hibmc_dp_detect(), suggested by Dmitry Baryshkov.
-  - remove if (dev->registered), suggested by Dmitry Baryshkov.
-  - remove non-related changes, suggested by Dmitry Baryshkov.
-  - Remove the clock check, suggested by Dmitry Baryshkov.
-  - ( I'll add them in next series after redesigning this part)
-  - add KVM edid in commit message, suggested by Dmitry Baryshkov.
-  - fix magic values, suggested by Dmitry Baryshkov.
-  - fix the commit subjects, suggested by Dmitry Baryshkov.
-v2 -> v3:
-  - fix hibmc_connector_get_modes() and hibmc_vdac_detect() to realize BMC KVM, suggested by Dmitry Baryshkov.
-  - fix the issue commit ID, suggested by Dmitry Baryshkov.
-  - split into 2 commits, suggested by Dmitry Baryshkov.
-  - add more comments in commit log, suggested by Dmitry Baryshkov.
+  - fix the commit message and DP detect_ctx(), suggested by Dmitry Baryshkov.
 ---
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Baihan Li (4):
-  drm/hisilicon/hibmc: fix dp probabilistical detect errors after HPD
-    irq
-  drm/hisilicon/hibmc: add dp mode valid check
-  drm/hisilicon/hibmc: fix no showing problem with loading hibmc
-    manually
-  drm/hisilicon/hibmc: Adding reset colorbar cfg in dp init.
-
- .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  2 ++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 19 ++++++++++--
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  2 ++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 31 ++++++++++++++++++-
- 4 files changed, 51 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+index d06832e62e96..123372ae2d40 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+@@ -12,6 +12,7 @@
+ 
+ #include "hibmc_drm_drv.h"
+ #include "dp/dp_hw.h"
++#include "dp/dp_comm.h"
+ 
+ #define DP_MASKED_SINK_HPD_PLUG_INT	BIT(2)
+ 
+@@ -34,7 +35,16 @@ static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
+ static int hibmc_dp_detect(struct drm_connector *connector,
+ 			   struct drm_modeset_acquire_ctx *ctx, bool force)
+ {
+-	mdelay(200);
++	struct hibmc_dp *dp = to_hibmc_dp(connector);
++	int ret;
++
++	ret = drm_dp_read_dpcd_caps(&dp->aux, dp->dp_dev->dpcd);
++	if (ret)
++		return connector_status_disconnected;
++
++	ret = drm_dp_read_sink_count(&dp->aux);
++	if (ret <= 0)
++		return connector_status_disconnected;
+ 
+ 	return drm_connector_helper_detect_from_ddc(connector, ctx, force);
+ }
 -- 
 2.33.0
 
