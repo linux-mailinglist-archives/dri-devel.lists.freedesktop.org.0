@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E92B3519F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 04:28:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E944B351A1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 04:28:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D15B210E2BC;
-	Tue, 26 Aug 2025 02:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6AD910E2C1;
+	Tue, 26 Aug 2025 02:28:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53B2B10E2C1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 02:28:27 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.234])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4c9s7H5LqFz27jHv;
- Tue, 26 Aug 2025 10:29:31 +0800 (CST)
-Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
- by mail.maildlp.com (Postfix) with ESMTPS id 62246140296;
- Tue, 26 Aug 2025 10:28:25 +0800 (CST)
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1661610E2BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 02:28:28 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4c9s2f0y7lz24hvG;
+ Tue, 26 Aug 2025 10:25:30 +0800 (CST)
+Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
+ by mail.maildlp.com (Postfix) with ESMTPS id 10A00140278;
+ Tue, 26 Aug 2025 10:28:26 +0800 (CST)
 Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
- dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1544.11; Tue, 26 Aug 2025 10:28:25 +0800
 Received: from localhost.huawei.com (10.169.71.169) by
  kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 26 Aug 2025 10:28:24 +0800
+ 15.2.1544.11; Tue, 26 Aug 2025 10:28:25 +0800
 From: Yongbang Shi <shiyongbang@huawei.com>
 To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -35,10 +35,10 @@ CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
  <fengsheng5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 drm-dp 3/4] drm/hisilicon/hibmc: fix no showing problem
- with loading hibmc manually
-Date: Tue, 26 Aug 2025 10:17:43 +0800
-Message-ID: <20250826021744.3237574-4-shiyongbang@huawei.com>
+Subject: [PATCH v5 drm-dp 4/4] drm/hisilicon/hibmc: Adding reset colorbar cfg
+ in dp init.
+Date: Tue, 26 Aug 2025 10:17:44 +0800
+Message-ID: <20250826021744.3237574-5-shiyongbang@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20250826021744.3237574-1-shiyongbang@huawei.com>
 References: <20250826021744.3237574-1-shiyongbang@huawei.com>
@@ -65,49 +65,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Baihan Li <libaihan@huawei.com>
 
-When using command rmmod and insmod, there is no showing in second time
-insmoding. Because DP controller won't send HPD signals, if connection
-doesn't change or controller isn't reset. So add reset before unreset
-in hibmc_dp_hw_init().
-
-And also need to move the HDCP cfg after DP controller de-resets, so
-that HDCP configuration takes effect.
+Add colorbar disable operation before reset controller, to make sure
+colorbar status is clear in the DP init, so if rmmod the driver and the
+previous colorbar configuration will not affect the next time insmod the
+driver.
 
 Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
 Signed-off-by: Baihan Li <libaihan@huawei.com>
 Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
-ChangeLog:
-v4 -> v5:
-  - combined 9 and 11 patch together, suggested by Dmitry Baryshkov.
----
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-index f8e1b437c385..25a06da05030 100644
+index 25a06da05030..9b4d2d989361 100644
 --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
 +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-@@ -176,13 +176,16 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
- 	dp_dev->link.cap.lanes = 0x2;
- 	dp_dev->link.cap.link_rate = DP_LINK_BW_8_1;
- 
--	/* hdcp data */
--	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
+@@ -179,6 +179,8 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
  	/* int init */
  	writel(0, dp_dev->base + HIBMC_DP_INTR_ENABLE);
  	writel(HIBMC_DP_INT_RST, dp_dev->base + HIBMC_DP_INTR_ORIGINAL_STATUS);
++	/* clr colorbar */
++	writel(0, dp_dev->base + HIBMC_DP_COLOR_BAR_CTRL);
  	/* rst */
-+	writel(0, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
-+	usleep_range(30, 50);
-+	/* de-rst */
- 	writel(HIBMC_DP_DPTX_RST, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
-+	/* hdcp data */
-+	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
- 	/* clock enable */
- 	writel(HIBMC_DP_CLK_EN, dp_dev->base + HIBMC_DP_DPTX_CLK_CTRL);
- 
+ 	writel(0, dp_dev->base + HIBMC_DP_DPTX_RST_CTRL);
+ 	usleep_range(30, 50);
 -- 
 2.33.0
 
