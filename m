@@ -2,85 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD268B35780
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 10:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8B7B357D2
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 11:01:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F8B10E2ED;
-	Tue, 26 Aug 2025 08:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6216610E617;
+	Tue, 26 Aug 2025 09:01:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SgB2FKxp";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="S1twu1zR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C192D10E2EE
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 08:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756197974;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=FCQ3vkE6TMoU0hruNEfZc09a6cr/NttsBsCnt+Bnw9Y=;
- b=SgB2FKxpncQcmvikzfaCCwn+n3TL77eD05IpbXVjPuZBeRZobLyx4dfy7EIxw4j37lL229
- XrCtKihX6viHPqk0gLUn+Ku1qh4xgqSwl49WuO08DCtcvdpJe4aWH01ZE/rHjDGhiZW50N
- k3cD71YHcBW37hs4auMJpQAjlE1L6IA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-532-pg6Nyff1OoGNrOArysW4NA-1; Tue, 26 Aug 2025 04:46:13 -0400
-X-MC-Unique: pg6Nyff1OoGNrOArysW4NA-1
-X-Mimecast-MFC-AGG-ID: pg6Nyff1OoGNrOArysW4NA_1756197972
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3c79f0a5bf3so1514771f8f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 01:46:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756197972; x=1756802772;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FCQ3vkE6TMoU0hruNEfZc09a6cr/NttsBsCnt+Bnw9Y=;
- b=hhKme9E0J9i52I1m5TwBP/YUksOXXISdF6xpvRF+TGgUrMtLS/FfYiQGRXtEpcRUor
- +4iMZM0C53CiFmpp/V/R5j/+yPpgBVRxSF+osnEAL127Z8ZibrpTAKRvKywV5PZZy0wm
- 4W321M6Q9CmPk5aI7Ukhmw/nRstMAlzj/fXQjruD4kxQlTEc2XSyhAaziKGvYRZtct9+
- RHFzegYTMCrJbOr76tMwiehoCo/tLfGT+kyk6fIx5bh05+q06Qr45OuCwwzHYeNT8hxu
- PypV7ZyZ35OeLAw5VjBSV2ddWeTlYRo4EWDGfTVmQEyuvQ5mT7n0POuCNEVbGtOVq1Zf
- 9dMQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnSwVS7gpxxcuva3KN3AkVmYfiMgbGs6H8U0XejAr0NgH7XCwA2Aow381EXbvcLB2DeknBcnY/ow4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw/R3qEHCFxMgsVFIHWLvHbpX5Wv33rYE0a79WcJwq1zILVtMEb
- wZNlfs8UA7aLJLVWQJ6cxxPZbqP9l73P5ABSwhfKmlflZUmZZuV4G/RiuIZ6/iLToIKdPOUSWkE
- upbHo1TAZFxtyMOqOS6KymxxMBtEUxxA0Di2YtsZI/jk6i2l8ZjB7+tiC33CwmnEOVzYhJQ==
-X-Gm-Gg: ASbGnctyu6fFS+todadB/MDlA1QsEoqMqOnrTSizja4LagzOCIu1qZmYfmZHBz9tlxI
- 7STIXRHIeqWyr5/AKhHFQ9h+yWGTEcU0WLuFHXh7zsTDjJ4HMypRHd0npC3FIqBkJAaaHpXvwPp
- 3m43B92lVOxaGfTAjzzEst9nVWbdb6cBNlD5+NTG9TPrO7X7yMv6pORFwRDzXInr/wD01z4jyZL
- v9QPDccEetRJ+u4UTqkc9ULF0/Ympdmhq3+HnOhfvcqQPyvnuTUyp+o43407zsmgwcYpAmE/pkx
- tsHozBuVWsW8cDinKUqIETRnDvYp407XBA8vd5Z2ZTVK+aOPL0iQjtJDNCIX70qoC5IVs099bg=
- =
-X-Received: by 2002:a05:6000:40cd:b0:3b7:8da6:1bb4 with SMTP id
- ffacd0b85a97d-3c5dcefcf18mr13727499f8f.58.1756197971982; 
- Tue, 26 Aug 2025 01:46:11 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGAWd3pLtO+T4Vm//D6dA3FKbDaSGRw7VHq2+wqdn8mJKEwKjmQ8Wito58K7wbM6FNdzlVBPg==
-X-Received: by 2002:a05:6000:40cd:b0:3b7:8da6:1bb4 with SMTP id
- ffacd0b85a97d-3c5dcefcf18mr13727477f8f.58.1756197971519; 
- Tue, 26 Aug 2025 01:46:11 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
- ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3c711f89a11sm15075458f8f.64.2025.08.26.01.46.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Aug 2025 01:46:10 -0700 (PDT)
-Message-ID: <6591105b-969d-44d6-80e1-233c1b84b121@redhat.com>
-Date: Tue, 26 Aug 2025 10:46:09 +0200
-MIME-Version: 1.0
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04on2050.outbound.protection.outlook.com [40.107.100.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60FEA10E616;
+ Tue, 26 Aug 2025 09:01:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ttinp5WhH3Tqpouxg5T8RvQs3YXt4pIYuPtqU5k18PHkbgzCuQGhm6XVZrfVZ8nm+sBJqHhPqKkumFtTaaWUYdCoyLpaLhu5a6MwU/I9pdpGMSmSnFL9css3DMVNK6g7CzAoIOEichmUrQ22jBG3ktybhH1XCQH4MGgjNybe/hVhBk3XEfbYKzb2fjjunw+Rrfc6pRLq+OySa53I5vRNFMAUV7qnRb0K+dRFXwzSN+f5WaRYq8YXgmvJKKAKmiJk3X3Ucc+oO+qkCUEp9kHQFswcHXP11YvgsxudTAG5Q9+SElhtudjD0vnVrXbo/0KDEHGq4blMT+/gmQ754vxjRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3RJWUViXaax2pYeY5ZvmYmxU2Dzo61bnuFE5Glmse5I=;
+ b=HQQeEZEroFUz3XMgDKjXjgqXubjL/DJfDzO2mzqhkEPCZT204rUNdpOMHiv+vY4msODDYtdzaQ0wPFEBYmcFyuZ2MXPYi82L+Mc5uPqokMWZWebTH/5eSwjQ7792hRo8AQgI9n9pbRNZ32NwZuS8MYxAPJDEmSxQ/FI3KKCIMzeN/hR66BtcyMO/Bch6YF/zsFirQqqEKjMS0SekUK0tKS282KdiL80Cf5jDF3Lo+QWAnXv7ZK0RpOJPeXOClOQjh8ZZuqbS5EHK7Lmr1VzVgb7ce+WHCcPuxY86mqW6iIoIdAUKKJQl/iDNkLjwcXFo/0tIKFsPftaxV+dAsXPmXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3RJWUViXaax2pYeY5ZvmYmxU2Dzo61bnuFE5Glmse5I=;
+ b=S1twu1zRav58wSyxQPl+X/bjEUNZxTFjPB1wi7xchKTLHh3t28yWfPonaSXwVltrFfgGdGfW78rt6/4Orw8I9f1njZvaoPQIX8Z2rJ8tRKZFvi/5MQfvAu6WY4HGS5bpd5coyO9ttY8kM9ZMvZy3OBdln7fosd82SjDvov+ixjY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB6835.namprd12.prod.outlook.com (2603:10b6:510:1b5::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.22; Tue, 26 Aug
+ 2025 09:00:59 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9052.019; Tue, 26 Aug 2025
+ 09:00:59 +0000
+Message-ID: <fc3e013c-e7f7-441d-a638-2ee3dd372775@amd.com>
+Date: Tue, 26 Aug 2025 11:00:53 +0200
 User-Agent: Mozilla Thunderbird
 Subject: Re:
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- x86@kernel.org
+To: David Hildenbrand <david@redhat.com>, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, x86@kernel.org
 Cc: airlied@gmail.com, thomas.hellstrom@linux.intel.com,
  matthew.brost@intel.com, dave.hansen@linux.intel.com, luto@kernel.org,
  peterz@infradead.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
@@ -89,58 +56,105 @@ References: <20250820143739.3422-1-christian.koenig@amd.com>
  <4e5f4ef0-53f1-417e-8f3b-76fd7c64cd23@amd.com>
  <f983521c-b43d-4245-93fc-fcb847908573@redhat.com>
  <a1b95d23-1908-42c1-8ff6-da051fc140aa@amd.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <a1b95d23-1908-42c1-8ff6-da051fc140aa@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JwHlnLl_7J9l_R7I0vFyU5XNLLydrlHN_-QjxjKi2zk_1756197972
-X-Mimecast-Originator: redhat.com
+ <6591105b-969d-44d6-80e1-233c1b84b121@redhat.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <6591105b-969d-44d6-80e1-233c1b84b121@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0028.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::15) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB6835:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66c69398-f169-4795-e7a8-08dde47f1344
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K3lUY1I5Yjg5cjM1ZGhUUjFWaGVCUHdNYTV3UE9maVpHZVpha1FPNkJGK2Iw?=
+ =?utf-8?B?Z1dFYjJzQSsyelRxTkswVHpBdXpvOTRjRGh1ME5MdWJLL2Z0NW5DYTNLNzZT?=
+ =?utf-8?B?Y3ZSZW8wNTlBaTIwbkhJL3N4T2Z0VUF2czNudkN4Q3h6TnRXVlNLMTJiNkM0?=
+ =?utf-8?B?aGNBM3VGYk5GdFhtK1dqTFZLY0hJZXpmQmJ2dE5lckU0N1BEL2REQ2t5R0pG?=
+ =?utf-8?B?cktGTCsvNGFCOTVtZmNORDhuR1o4QmhxbE1YdE45LzZNZ2UxZ290MExnekZ3?=
+ =?utf-8?B?TC9YNjhXUjBiaHN5dUNQVHcxR2FOTFJkZFl5Z0lzOUZpTzZqSU00bWJUcG5F?=
+ =?utf-8?B?bUF3QzhYZDIwNzYwNmZJVEpKL3FXNUl0MGl2ZnBCWTBqbk54dS9VWGwwRDJR?=
+ =?utf-8?B?MHdPYjQ0ZGpXMWorRzRuR0oycjNuOEpJUHBkRWNCNFVFVjdER2dCdHBYWmRO?=
+ =?utf-8?B?R3JNQ3BuM0JOZTRWVTd6VW03ejQxalZ0K0tLTzdWaTdTREpmZUdiYVNrdlIz?=
+ =?utf-8?B?OGUwTEtoM2FIdUZBRUliWmFZR2xmSkVHK0dPU2pJL2V1d0gyRnVaQUVkUVdC?=
+ =?utf-8?B?TkVzNkhMbEJYeFZQcTMyUmRPaGp6RXk3ZkZZUVBPRUJvZGdlTGNjT01VaHdI?=
+ =?utf-8?B?TWs3SjFZZ2RLdDJOY1RhRXJNQU5MZDJ0OGJGTFBCTFlxbm8zU3JaSkdQLy9o?=
+ =?utf-8?B?TzYzTUpTTXI5ci9zcmsySjQ4ZVE3WkRkaDhIaFQyVUx5UFVsUVJ6QldXVzZr?=
+ =?utf-8?B?MkJlblp4eVNTY1BTKzlKYVRGR2dmZ2R5YlR0VnBEaGsrcWd2dlJ1dGJDVEJR?=
+ =?utf-8?B?SlhuS1VHN3U3d1p6MTM3MkVnU3prZTR2eVBzMFhKcnFGc3Q5TnBVaHBXUXFl?=
+ =?utf-8?B?UFU2cEpueHNBMTZHV2hWc3puRUJhWis1bVRZQVIxSVNTL053WFZuSU9pNUFz?=
+ =?utf-8?B?bGZ5ZkhSaUZTMWgwOWZrTXYxeHM0Y25rdk40YkxZdGJSR2lvL20vdXJDMUN4?=
+ =?utf-8?B?TG54UW9Ga1JpdDh1THRhNVB6NTZxTlZMVW8wNDh1c21HSjl5QTZlT3UxZGo3?=
+ =?utf-8?B?TnplcEtpQjhLc3Vwa3JsODhxN0lJZStJNTAzMm1RNzM5WVdRZHJLUnM5dEFY?=
+ =?utf-8?B?U3ZOV3Z3cmwzNTUwT1R6MnM2RWFUVWJ5bUpJMk5GWDRHV0o0ZDBKZUNxeURH?=
+ =?utf-8?B?S3JsOHFVYnVlVVliUFVjK0o3UFpkT21KUHU3WlNhMGIxNjVxQWtHeUs0akNJ?=
+ =?utf-8?B?c1NQY1RyT2x0UXU2UGVPa3hOaWpBWU5YSFFXeXJXNUx5WVNxMlhEZ09CVlMw?=
+ =?utf-8?B?eDkvZjhJNjJFRHZveVJuY1Ivd0pzbUxkVHFPY3diVnlDV2kvVE5Ec3RLc29a?=
+ =?utf-8?B?bU5oQUNBamhqTUJpSmh6elpIa09jakNKeURDeXhueW9QMmhDNW1nRVkxV2t3?=
+ =?utf-8?B?UXY1Wnc1WGNieHB0UDltWVJnYThkTEpCUE9DdURYa0pGMXQzRVNFMDVobDlR?=
+ =?utf-8?B?N3h6N0QwN05pekRvYkVFS016WndHNWpYRWs1a0kraGQvRTJDdE9uZHlMN3VJ?=
+ =?utf-8?B?aE42eGxrSGovd0N4UWhxT0c1eUJnRlhjbUdWTEQxYkdBbDZWVzJGZlJPZVBW?=
+ =?utf-8?B?Q3U2cVgvOWRjVjFJUHpVa3owak5lL3U1ajJkSzJZM2lvRHpxd0ZxWE1aM2M5?=
+ =?utf-8?B?eURtVzZEN2tDaVBSeFB6OW1neVFvMEJxNU5pNlpSTTNNS3UxUDREMGZtejIz?=
+ =?utf-8?B?VTFMRXdFak4yWHVLS3lVWmpVL0JSeDdjK1I4Mk1uMjJkMEJ1dnFyTndUT0hu?=
+ =?utf-8?B?ZENxM1ZDSk9nbnlJR1M3bEw5LzhSVHI4aUM2RmlBU2hHdHRUemYyNlRrRXBm?=
+ =?utf-8?B?ditGcWlZQllkV3AwbWVQZUxOUnJjZWpyeVNZa0ZKMGdqNUxVRVFjMWxiaHFq?=
+ =?utf-8?Q?mnEWWEUlvGQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGROK0xsOUJEVlJsSzdPaFV1RVRVdjV6dnlCa2pHSkRQVldaNHZYTnZWK1ZV?=
+ =?utf-8?B?amMrdzljVXM5TFdURVFLVEsyU1J4Z2FyNXpteTVGbW9uUW1HZWJRZTBXdUxQ?=
+ =?utf-8?B?MDhZRmRpejI2MFBzWGFyLytFQjBCY21kS3B0aUc4dDZKa3pXVEJMRCthTjhw?=
+ =?utf-8?B?MDlxL2NnNU1tQ1lFYnZDcmlqZTVDY2U0QUN5Mm0vM3BzTUtVUUlVcnFML2F3?=
+ =?utf-8?B?N1FmM3FKUzhvZE9xcnNWRWM1Rm83dTVEV3FyN0U3RVVHdE1mZk03ejA1cU1w?=
+ =?utf-8?B?VVZSaHJaQkpNQTQ5ZzlJdmI1MXY3S0o0QzRXZ0FVYUorMGxaQnVpRGZ5c2NZ?=
+ =?utf-8?B?M1BLaCswUDRIWWxYeDB3TXI2YnJvTnA3bjFoQUd3V295MUhDbE1JbmpjcXNF?=
+ =?utf-8?B?bE8xWUFpUVRQRWhNWEJPSnpvUFdrbi9FMjgxcmhMUjRkcCtGS3lpdXU1MXR1?=
+ =?utf-8?B?ejNWTDhRc1dUL0JzRTZCZ3F4UWUyM0dGKzdCaVFuNDBJblljSUR2QmZrZXpH?=
+ =?utf-8?B?cU1sLzRVNlNPcTBYY0F5K0FaYmV6d3pXdC9aNUVXRDJIWHVKSklzUkJxdWU2?=
+ =?utf-8?B?eFp1LzVCNGlrOVpNWDJUZmdHUVdGbWMxVzdhMGcvQmdXZUdLTGhyQXJ5MlBU?=
+ =?utf-8?B?cjNEQ2VtNFJLMEU3YjJxNjZLVTVOWHZ5eTAvY29lTXNzY3JoQXRZZUVUMkFG?=
+ =?utf-8?B?bzZwYndZcTVrS2p2dUF0Rk9BT2laZG1ORVk3V21MWXVyQXVyQVpxSm5ubXRB?=
+ =?utf-8?B?b1hSK0lISVM0S1BlSkx3TTNnUTZXaXRnUWFJV1h4VG91Vy9FRnJBb1NoT1VV?=
+ =?utf-8?B?YjVMZFp4ZFpEaFg0SmRrQWlpSkh4enpFNlg2alhtNDNQZmVRbFFvVFBEblRG?=
+ =?utf-8?B?SXJQSXRrN3hPc0Q4NDBlNHU0VHRjdnRtS0ZVY2VxUFU0QVY2cjFmTzIzVGxp?=
+ =?utf-8?B?K3pXTmh0K1BZSDQ0dmJXTXlMdHBxZzJFNjRwbFRFSzhTWEpReExsNmpNaWxq?=
+ =?utf-8?B?bUVEc0xPalVoMlFYN0JLYUdSUWRHT3l0UjFGQzY0d2ZaWFFsdHhhY0dPUFIz?=
+ =?utf-8?B?RmN1RVFMNDZCblZvc00wWk9hRkhTT0I2TWpaeE13WUdUSGJVRWUwTTV2cXUz?=
+ =?utf-8?B?M0NYajVVV1hPNVFqaHR1eWRmcGlWTHpEZytzczQ0czZkTFM5S0l1OW44S0Fx?=
+ =?utf-8?B?WVc4QWp4bHdBcHhkbG84MjlGQnh6SW1FOHpVYTYxMkhoMG1tWmp1YUFMdmhy?=
+ =?utf-8?B?Yld4NEpUYUw3RzVhdTUxUlI5N1NWRVArb0F3QjBvemFnUkFLYVd0R0F0dmF2?=
+ =?utf-8?B?N2pPWE0yNVhmWHpvekdNdms4dExkNVRUamljNTByZ2djNlpDNWQyRVNPbmIr?=
+ =?utf-8?B?YlhwKzBtaFhUSVU5UlFpckpNaGh6T3EyZnNoR3YzMmVyMzg1UVJnbzlXa2tV?=
+ =?utf-8?B?TGtrU2NRdkxPNWtwWGpzRGJhWGlWVTlkQlJEWkRHRzRkRWk2cGl2RjhHMEZ6?=
+ =?utf-8?B?UGxKQUZpWjg0Vk02cGJBWWVMODRaQXBSNGd3RDhDQ2QyWUVCbzJDUWpuY0oy?=
+ =?utf-8?B?dUZWOExLaGpGVDFXMFd5TVpGVDA3TVgvNUNUTTdoSjh0VWR3ZGNNNGh4bXJ4?=
+ =?utf-8?B?MlpsMmd6dTFKanR6Tmc0QkE3R2VmaWlFWjdSTCsrQWU1dUNqcWIxa1dzYmMz?=
+ =?utf-8?B?TEFmN1ZHOWVqY25KUC9WWUNyc2ROb0NzWHFqV0pHWjk5TU9NVjlXUG5IOU1k?=
+ =?utf-8?B?TWNGNHF5cndteUkvTlRMaWdQcm1pbGFvdnhHVHQydmVJT0xzd3YycE1qQWNH?=
+ =?utf-8?B?dSszczhoNzBqeDgyNENrVVNBdkR6cVZYUkh6MWZZbXUvR2FaQTZKT1lIREN1?=
+ =?utf-8?B?UGVJOW9sT0lOOUphM1AvWjZEeExkaWFCaVlvL2l6RWpEM3EzZzRFSlY3WWR6?=
+ =?utf-8?B?SW9NZFUvKzlLNmU1aUV5eG55MFc0dndBVXVNKy9kTXFVQ20ybEZkbGZiZUx2?=
+ =?utf-8?B?NzFEY05WWmg3Q1Irak1PWkdBWGlqbnA0SkpjSVFzSEZGeHc3NzBNQzc5SDJx?=
+ =?utf-8?B?ZzhVR0o1NHVGaExwRFFvbzFrRXJVRmdFNlJZaThOL3F0c1B0S056UzBUbjNu?=
+ =?utf-8?Q?ByvfHt3YTG/ATeHAvtkG2lqkA?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66c69398-f169-4795-e7a8-08dde47f1344
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 09:00:59.4534 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fxpFLN4ilNY5DbW56oSamBLpsIxLVYy+u4NqioKB5AHWRAruM5k4adt4nKLY7iwb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6835
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,106 +170,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26.08.25 10:38, Christian König wrote:
-> On 25.08.25 21:10, David Hildenbrand wrote:
->> On 21.08.25 10:10, Christian König wrote:
->>> On 20.08.25 17:23, David Hildenbrand wrote:
->>>> CCing Lorenzo
->>>>
->>>> On 20.08.25 16:33, Christian König wrote:
->>>>> Hi everyone,
->>>>>
->>>>> sorry for CCing so many people, but that rabbit hole turned out to be
->>>>> deeper than originally thought.
->>>>>
->>>>> TTM always had problems with UC/WC mappings on 32bit systems and drivers
->>>>> often had to revert to hacks like using GFP_DMA32 to get things working
->>>>> while having no rational explanation why that helped (see the TTM AGP,
->>>>> radeon and nouveau driver code for that).
->>>>>
->>>>> It turned out that the PAT implementation we use on x86 not only enforces
->>>>> the same caching attributes for pages in the linear kernel mapping, but
->>>>> also for highmem pages through a separate R/B tree.
->>>>>
->>>>> That was unexpected and TTM never updated that R/B tree for highmem pages,
->>>>> so the function pgprot_set_cachemode() just overwrote the caching
->>>>> attributes drivers passed in to vmf_insert_pfn_prot() and that essentially
->>>>> caused all kind of random trouble.
->>>>>
->>>>> An R/B tree is potentially not a good data structure to hold thousands if
->>>>> not millions of different attributes for each page, so updating that is
->>>>> probably not the way to solve this issue.
->>>>>
->>>>> Thomas pointed out that the i915 driver is using apply_page_range()
->>>>> instead of vmf_insert_pfn_prot() to circumvent the PAT implementation and
->>>>> just fill in the page tables with what the driver things is the right
->>>>> caching attribute.
->>>>
->>>> I assume you mean apply_to_page_range() -- same issue in patch subjects.
->>>
->>> Oh yes, of course. Sorry.
->>>
->>>> Oh this sounds horrible. Why oh why do we have these hacks in core-mm and have drivers abuse them :(
->>>
->>> Yeah I was also a bit hesitated to use that, but the performance advantage is so high that we probably can't avoid the general approach.
->>>
->>>> Honestly, apply_to_pte_range() is just the entry in doing all kinds of weird crap to page tables because "you know better".
->>>
->>> Exactly that's the problem I'm pointing out, drivers *do* know it better. The core memory management has applied incorrect values which caused all kind of the trouble.
->>>
->>> The problem is not a bug in PAT nor TTM/drivers but rather how they interact with each other.
->>>
->>> What I don't understand is why do we have the PAT in the first place? No other architecture does it this way.
+On 26.08.25 10:46, David Hildenbrand wrote:
+>>> So my assumption would be that that is missing for the drivers here?
 >>
->> Probably because no other architecture has these weird glitches I assume ... skimming over memtype_reserve() and friends there are quite some corner cases the code is handling (BIOS, ACPI, low ISA, system RAM, ...)
+>> Well yes and no.
 >>
+>> See the PAT is optimized for applying specific caching attributes to ranges [A..B] (e.g. it uses an R/B tree). But what drivers do here is that they have single pages (usually for get_free_page or similar) and want to apply a certain caching attribute to it.
 >>
->> I did a lot of work on the higher PAT level functions, but I am no expert on the lower level management functions, and in particular all the special cases with different memory types.
+>> So what would happen is that we completely clutter the R/B tree used by the PAT with thousands if not millions of entries.
 >>
->> IIRC, the goal of the PAT subsystem is to make sure that no two page tables map the same PFN with different caching attributes.
 > 
-> Yeah, that actually makes sense. Thomas from Intel recently explained the technical background to me:
-> 
-> Some x86 CPUs write back cache lines even if they aren't dirty and what can happen is that because of the linear mapping the CPU speculatively loads a cache line which is elsewhere mapped uncached.
-> 
-> So the end result is that the writeback of not dirty cache lines potentially corrupts the data in the otherwise uncached system memory.
-> 
-> But that a) only applies to memory in the linear mapping and b) only to a handful of x86 CPU types (e.g. recently Intels Luna Lake, AMD Athlons produced before 2004, maybe others).
-> 
->> It treats ordinary system RAM (IORESOURCE_SYSTEM_RAM) usually in a special way: no special caching mode.
->>
->> For everything else, it expects that someone first reserves a memory range for a specific caching mode.
->>
->> For example, remap_pfn_range()...->pfnmap_track()->memtype_reserve() will make sure that there are no conflicts, to the call memtype_kernel_map_sync() to make sure the identity mapping is updated to the new type.
->>
->> In case someone ends up calling pfnmap_setup_cachemode(), the expectation is that there was a previous call to memtype_reserve_io() or similar, such that pfnmap_setup_cachemode() will find that caching mode.
->>
->>
->> So my assumption would be that that is missing for the drivers here?
-> 
-> Well yes and no.
-> 
-> See the PAT is optimized for applying specific caching attributes to ranges [A..B] (e.g. it uses an R/B tree). But what drivers do here is that they have single pages (usually for get_free_page or similar) and want to apply a certain caching attribute to it.
-> 
-> So what would happen is that we completely clutter the R/B tree used by the PAT with thousands if not millions of entries.
-> 
+> Hm, above you're saying that there is no direct map, but now you are saying that the pages were obtained through get_free_page()?
 
-Hm, above you're saying that there is no direct map, but now you are 
-saying that the pages were obtained through get_free_page()?
+The problem only happens with highmem pages on 32bit kernels. Those pages are not in the linear mapping.
 
-I agree that what you describe here sounds suboptimal. But if the pages 
-where obtained from the buddy, there surely is a direct map -- unless we 
-explicitly remove it :(
+> I agree that what you describe here sounds suboptimal. But if the pages where obtained from the buddy, there surely is a direct map -- unless we explicitly remove it :(
+> 
+> If we're talking about individual pages without a directmap, I would wonder if they are actually part of a bigger memory region that can just be reserved in one go (similar to how remap_pfn_range()) would handle it.
+> 
+> Can you briefly describe how your use case obtains these PFNs, and how scattered tehy + their caching attributes might be?
 
-If we're talking about individual pages without a directmap, I would 
-wonder if they are actually part of a bigger memory region that can just 
-be reserved in one go (similar to how remap_pfn_range()) would handle it.
+What drivers do is to call get_free_page() or alloc_pages_node() with the GFP_HIGHUSER flag set.
 
-Can you briefly describe how your use case obtains these PFNs, and how 
-scattered tehy + their caching attributes might be?
+For non highmem pages drivers then calls set_pages_wc/uc() which changes the caching of the linear mapping, but for highmem pages there is no linear mapping so set_pages_wc() or set_pages_uc() doesn't work and drivers avoid calling it.
 
--- 
-Cheers
+Those are basically just random system memory pages. So they are potentially scattered over the whole memory address space.
 
-David / dhildenb
-
+Regards,
+Christian.
