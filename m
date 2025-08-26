@@ -2,91 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23795B354A5
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 08:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAE6B353CF
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 08:08:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4A110E5C7;
-	Tue, 26 Aug 2025 06:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 339AE10E5C8;
+	Tue, 26 Aug 2025 06:08:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WTbuzO/W";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hIh0HS9B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4C5910E5C7
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 06:33:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1756189980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZbpsP0JVSHBALAr4RXTkvJiiQWMCbeHRvXA5B+Ppf8k=;
- b=WTbuzO/WXWlGBB0UKS3J7WJX3ehkIsk4mnzPa7ULza3R9f5XkfttQ9YQIiZbOpwS4INtXj
- VghfPv1DL3bjcwgUW6IT12CvEQZdqYR3cmiJO0LDuQ9uRQbEFQEwH9AtQK5REpuox93YCO
- ZS+bmAgcoziwg0pHFOxD+kSt81XHN8w=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-685-2jsHeXyPOWe8bJ1BUr6T_A-1; Tue, 26 Aug 2025 02:32:56 -0400
-X-MC-Unique: 2jsHeXyPOWe8bJ1BUr6T_A-1
-X-Mimecast-MFC-AGG-ID: 2jsHeXyPOWe8bJ1BUr6T_A_1756189975
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-afcb7af3e41so436004566b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 23:32:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756189975; x=1756794775;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZbpsP0JVSHBALAr4RXTkvJiiQWMCbeHRvXA5B+Ppf8k=;
- b=q/PuktG2GtzkUN5pv3Qeci7lvZmDMgnAOfEgGnkrF45oX2DLsDwYxxyWpXn1fdCoub
- VBoPpJVILoSJ5G80luxpP8eND47Jhc1FhxQ5sOrcbLvN6LnFHy4znEhfD3mM5f760Fou
- B03740VHc8uNEQXNAUXE1/VHvnqZY0CN0udSbxx++FLF0U4aEvp9Q+fElJ+ngUYhsdh/
- nB/TS0UDzbUWAa+ukRUAENNmLcT+jXz0pkj3rywLs1oXsjfezy6Sbgv16IsfCH840Iz3
- Xrkb0bV0BGFvxvd0YSXoVqsSsPyuWln/U82OECzCmFOIon8hnFwNW78EGA8INuxQAQF+
- SNBw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKPQUtZEuEd2qFG7XHxnO+Q4qNOx3GUFm65igxqRkUHQ1AM0pJDF56ta5Zwbc9GmGmi1QNSKPybEY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybPnfX260ap2BmXoXkrb54ru5Ta/0k/IO7aJCfKprrl5kISbOw
- ocCsCZy6gd99cCYOePoVas7NimscFRGrt10p+jspns33gjrrOGalwncA4qiiEjXhf/911ig3vY4
- Ou3lmCGz5VL78Ffzce78qfnGr9Cz/dd+53TTQSQR0egwVHoBiMZl5b4a9iwAdOKb3DZQPsg==
-X-Gm-Gg: ASbGncuX2i7U3jHMAF4rZbk/CsbOb9gEM36NObM0m0AuvXgTCh9BQSFj6aDKAgQ/XTt
- DHNxEpuaXe/zH89FgBK54I/V3m81BxZK9xUIU9bGip1cfIFUqDGGFfQg4KuOMBvKjh614QTIb+l
- JODW3Wucr4Eq6FicBaMGlVJ09eKLkzrk7TIuR0aKAJgLXD5nj2Q7Xw8yaVmP879rNvRasGTpMdK
- S2dgeIg95YUvTeBE3KfZ6hA2yCj+obFasUB/4NdZGeY6CApJBxu8LGQnhY5e2Qnrw8iI+beb7p9
- U65EQzo2OMmilSwKqy0lazOl5+h6uWLX10KQafywbIWSx6w7vPkK6Jlx0v5qJkgq6y8i7vUxoRF
- LLVkt/41MXA==
-X-Received: by 2002:a17:907:86ab:b0:af4:11e1:f877 with SMTP id
- a640c23a62f3a-afe28f162a8mr1291526066b.21.1756189975115; 
- Mon, 25 Aug 2025 23:32:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFmSRbT/Wld10PpqjSUmNkXsFiZtdZslyiz4ToZl4XaqIzH5GqNA9prjgy3b7ugqVJ4b3iyig==
-X-Received: by 2002:a17:907:86ab:b0:af4:11e1:f877 with SMTP id
- a640c23a62f3a-afe28f162a8mr1291523966b.21.1756189974678; 
- Mon, 25 Aug 2025 23:32:54 -0700 (PDT)
-Received: from lbulwahn-thinkpadx1carbongen9.rmtde.csb
- ([2a02:810d:7e01:ef00:b52:2ad9:f357:f709])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-61c3174f806sm6346137a12.52.2025.08.25.23.32.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Aug 2025 23:32:53 -0700 (PDT)
-From: Lukas Bulwahn <lbulwahn@redhat.com>
-X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: [PATCH] MAINTAINERS: adjust file entry in DRM ACCEL DRIVER FOR
- ROCKCHIP NPU
-Date: Tue, 26 Aug 2025 08:32:48 +0200
-Message-ID: <20250826063248.32153-1-lukas.bulwahn@redhat.com>
-X-Mailer: git-send-email 2.50.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C617810E544;
+ Tue, 26 Aug 2025 06:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756188516; x=1787724516;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=u1PYRC+zf6clyrA+JUtzuS3Qss/6PdaOnYnCa+EqYa4=;
+ b=hIh0HS9B+UsaxVrsKNLzuYxIKp2fHts7AAW54mp4QuiDYY7IdORloKB8
+ 4sum+uaEkgJSGUPnmyBS8ltc7FfLfVLdBFrkQU3Dv1+yx5dOoScZpHITb
+ Alljgx07/FH838nttzQ8/HwaqSo8UOf9u3nleBNWw47g7k9NRh4MJ0RDf
+ Xp6hJuM2DrG5s178SwigLphO7QSEZEc/l9fBwXBiQ/eWRAAoUrAtV8heg
+ 5Bm8DiJ3kEB4vGzDRmGnKsaR7KUSqYAMltPcFUOZpGUl2nauxxzbKhadD
+ 4wxmoETA4kpHJdnsxIwbXUtqJLYzunGzlyw4lh451eLPN6lAs2VijrLdO w==;
+X-CSE-ConnectionGUID: 37h9Y2fBTSysPxSIaFCLeQ==
+X-CSE-MsgGUID: G4jgyhuzR4utb8i8EEcwqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="58271897"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="58271897"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 23:08:35 -0700
+X-CSE-ConnectionGUID: K/AGJqQfTTmhVgpaPdStWQ==
+X-CSE-MsgGUID: hzSmsG9/RcGaipC8o4nyXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="174756687"
+Received: from rtauro-desk.iind.intel.com ([10.190.238.50])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 23:08:30 -0700
+From: Riana Tauro <riana.tauro@intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: riana.tauro@intel.com, anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
+ lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
+ raag.jadav@intel.com, umesh.nerlige.ramappa@intel.com,
+ frank.scarbrough@intel.com, sk.anirban@intel.com, simona.vetter@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
+Subject: [PATCH v9 00/10] Handle Firmware reported Hardware Errors
+Date: Tue, 26 Aug 2025 12:04:07 +0530
+Message-ID: <20250826063419.3022216-1-riana.tauro@intel.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: gyIj-qWwvAzhOaBY14rAdlCkjehZU1rXNkycAXSSkGM_1756189975
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,36 +71,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Add support to handle firmware reported errors. When CSC firmware
+errors are encoutered, a error interrupt is received by the GFX device as
+a MSI interrupt. Device Source control registers indicates the source of the error
+as CSC. The HEC error status register indicates that the error is firmware reported
+Depending on the type of firmware error, the error cause is written to the HEC
+Firmware error register. On encountering such CSC firmware errors, the device is unusable
+and can be recovered only using firmware update.
 
-Commit a7352c849492 ("dt-bindings: npu: rockchip,rknn: Add bindings") adds
-the device-tree binding rockchip,rk3588-rknn-core.yaml, whereas the commit
-ed98261b4168 ("accel/rocket: Add a new driver for Rockchip's NPU") adds the
-section DRM ACCEL DRIVER FOR ROCKCHIP NPU in MAINTAINERS with a file entry
-referring to rockchip,rknn-core.yaml. Note that the file entry is missing
-the part rk3588, compared to the added file above, which it intends to
-refer to.
+Whenever Xe KMD detects such a firmware error, system administrator/userspace needs to be
+notified to trigger a firmware flash. To address the above need, a new
+recovery method is added to drm device wedged uevent.
 
-Adjust the file entry to the intended file name.
+The initial proposal to add 'firmware-flash' as a recovery method was
+not applicable to other drivers and could cause multiple recovery
+methods specific to vendors to be added.
+A more generic 'vendor-specific' method is introduced in this series,
+guiding users to refer to vendor specific documentation and system
+logs, additonal indicators for detailed vendor specific recovery procedure.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It is the responsibility of the consumer to refer to the correct vendor
+specific documentation and usecase before attempting a recovery.
+For example: If driver is XE KMD, the consumer must refer
+to the documentation of 'Xe Device Wedging' under 'Documentation/gpu/xe/'.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d4bddc462c07..a569828c9f3d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7542,7 +7542,7 @@ L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/accel/rocket/
--F:	Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-+F:	Documentation/devicetree/bindings/npu/rockchip,rk3588-rknn-core.yaml
- F:	drivers/accel/rocket/
- F:	include/uapi/drm/rocket_accel.h
- 
+The necessity of a firmware flash in Xe KMD is notified to the user with a
+combination of vendor-specific wedged uevent, runtime survivability
+mode and dmesg logs. Consumer must check both uevent and runtime
+survivability sysfs before triggering a firmware flash.
+
+Udev
+
+$ udevadm monitor --property --kernel
+monitor will print the received events for:
+KERNEL - the kernel uevent
+
+
+KERNEL[754.709341] change   /devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0/drm/card0 (drm)
+ACTION=change
+DEVPATH=/devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0/drm/card0
+SUBSYSTEM=drm
+WEDGED=vendor-specific
+DEVNAME=/dev/dri/card0
+DEVTYPE=drm_minor
+SEQNUM=5973
+MAJOR=226
+MINOR=0
+
+
+Dmesg:
+
+xe 0000:03:00.0: [drm] *ERROR* [Hardware Error]: Tile0 reported NONFATAL error 0x20000
+xe 0000:03:00.0: [drm] *ERROR* [Hardware Error]: NONFATAL: HEC Uncorrected FW FD Corruption error reported, bit[2] is set
+xe 0000:03:00.0: Runtime Survivability mode enabled
+xe 0000:03:00.0: [drm] *ERROR* CRITICAL: Xe has declared device 0000:03:00.0 as wedged.
+               IOCTLs and executions are blocked. Only a rebind may clear the failure
+               Please file a _new_ bug report at https://gitlab.freedesktop.org/drm/xe/kernel/issues/new
+xe 0000:03:00.0: [drm] device wedged, needs recovery
+xe 0000:03:00.0: Firmware flash required, Please refer to the userspace documentation for more details!
+
+
+Runtime survivability Sysfs:
+
+/sys/bus/pci/devices/<device>/survivability_mode
+
+Bspec: 50875, 53073, 53074, 53075, 53076
+
+IGT: https://patchwork.freedesktop.org/patch/660122/
+fwupd PR: https://github.com/fwupd/fwupd/pull/9024
+
+Rev2: add a fault injection for csc errors
+      fix review comments
+
+Rev3: add a vendor-specific recovery method
+      add support for runtime survivability mode
+      enable runtime survivability mode when csc errors are reported
+
+Rev4: refactor survivability code
+
+Rev5: Add more documentation
+      add user friendly logs
+      remove checks for BMG if not necessary
+      fix other review comments
+
+Rev6: Use consistent words
+      revert to include BMG checks
+
+Rev7: fix cosmetic changes
+
+Rev8: add more documentation
+
+Rev9: rebase
+
+Riana Tauro (10):
+  drm/xe: Add documentation for Xe Device Wedging
+  drm: Add a vendor-specific recovery method to drm device wedged uevent
+  drm/xe: Set GT as wedged before sending wedged uevent
+  drm/xe: Add a helper function to set recovery method
+  drm/xe/xe_survivability: Refactor survivability mode
+  drm/xe/xe_survivability: Add support for Runtime survivability mode
+  drm/xe/doc: Document device wedged and runtime survivability
+  drm/xe: Add support to handle hardware errors
+  drm/xe/xe_hw_error: Handle CSC Firmware reported Hardware errors
+  drm/xe/xe_hw_error: Add fault injection to trigger csc error handler
+
+ Documentation/gpu/drm-uapi.rst                |  49 ++++-
+ Documentation/gpu/xe/index.rst                |   1 +
+ Documentation/gpu/xe/xe_device.rst            |  10 +
+ Documentation/gpu/xe/xe_pcode.rst             |   6 +-
+ drivers/gpu/drm/drm_drv.c                     |   2 +
+ drivers/gpu/drm/xe/Makefile                   |   1 +
+ drivers/gpu/drm/xe/regs/xe_gsc_regs.h         |   2 +
+ drivers/gpu/drm/xe/regs/xe_hw_error_regs.h    |  20 ++
+ drivers/gpu/drm/xe/regs/xe_irq_regs.h         |   1 +
+ drivers/gpu/drm/xe/xe_debugfs.c               |   6 +-
+ drivers/gpu/drm/xe/xe_device.c                |  73 ++++++-
+ drivers/gpu/drm/xe/xe_device.h                |   1 +
+ drivers/gpu/drm/xe/xe_device_types.h          |   5 +
+ drivers/gpu/drm/xe/xe_heci_gsc.c              |   2 +-
+ drivers/gpu/drm/xe/xe_hw_error.c              | 182 ++++++++++++++++++
+ drivers/gpu/drm/xe/xe_hw_error.h              |  15 ++
+ drivers/gpu/drm/xe/xe_irq.c                   |   4 +
+ drivers/gpu/drm/xe/xe_pci.c                   |   6 +-
+ drivers/gpu/drm/xe/xe_survivability_mode.c    | 167 ++++++++++++----
+ drivers/gpu/drm/xe/xe_survivability_mode.h    |   5 +-
+ .../gpu/drm/xe/xe_survivability_mode_types.h  |   8 +
+ include/drm/drm_device.h                      |   4 +
+ 22 files changed, 512 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/gpu/xe/xe_device.rst
+ create mode 100644 drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
+ create mode 100644 drivers/gpu/drm/xe/xe_hw_error.c
+ create mode 100644 drivers/gpu/drm/xe/xe_hw_error.h
+
 -- 
-2.50.1
+2.47.1
 
