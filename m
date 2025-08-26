@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5FAB368D1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 16:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB83AB368CF
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 16:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96BAF10E66E;
-	Tue, 26 Aug 2025 14:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B35110E669;
+	Tue, 26 Aug 2025 14:19:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iFszggAT";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ReQFdsyF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD89810E16D
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 14:19:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF28210E66C
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 14:19:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=uZJE1KkyFX5TiX+K9jEsbHI6/pXiDfGbgmQDuFnSXcc=; b=iFszggATdeKggxQG/RttIPH6Ig
- ivGZP/NoD3ErE9/X7DPKTWNrAojbSd6Arpg31p+UTywdziT6GkWBbZ51OyBSdHYsvge4vQCUu8OdF
- cFAP7QV9NzOYXJ4rUfmV/KZpiKNgz3+JI5JYJ1xrm/O50fjTVuiGI2hTjSQQ005ns4F+EQD8S7NMc
- BH0YtTBNvcK/T/gUNw6KDvUZKz1i180Sq3XQLvY9pAZ4BKdOq6Tzh0Z6Iiaf1DZ8/43Woq+Rlzaif
- NXXo+bdZm2F9Xge0yqTVv9opHNKzMiTg7AcYmhmdC502WDftLU1Zfr4WGBkl4ppolRlk3q4ugtbIE
- 7jJRG0oA==;
+ bh=05ETz9vvDLQFERljCAnvp8PAssHcttjI610ihrDMjY8=; b=ReQFdsyFvjcumBbZXOSyGH6n9R
+ yzRqSsiD7wC9fbQVGGbGfNpWFKha+BpP7BkWqAb3+zTt8AZR4pXOfypFrQ/CsHRk+1rjyr5KnNLZn
+ HxtYjZaREJaGWcr2gEd+2UTNo+fPhVaasQXnFEUtYBvIkvf2tjAs2JyQIDM6sNkBK4H4DDHHhBKcg
+ GBjuVNlvcBZjW79OveUTSM5xg3KmEqnSAC12dX2Rw3jYldUNFGGwmPVpfYXv0S8n9JhXL+tDjlPxE
+ jDp6pN0uMnch4cwdFuRAVugER7eDCPwNiNB4cNi3Kk91QKmvBXk8x5ccP4WH3VecWr8kHT5rgrSxM
+ Gjd1nZWQ==;
 Received: from [189.7.87.79] (helo=[192.168.0.8])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uquW8-001wrM-Hc; Tue, 26 Aug 2025 16:19:20 +0200
+ id 1uquWB-001wrM-Je; Tue, 26 Aug 2025 16:19:23 +0200
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Tue, 26 Aug 2025 11:19:01 -0300
-Subject: [PATCH v3 4/6] drm/v3d: Address race-condition between per-fd GPU
- stats and fd release
+Date: Tue, 26 Aug 2025 11:19:02 -0300
+Subject: [PATCH v3 5/6] drm/v3d: Synchronous operations can't timeout
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250826-v3d-queue-lock-v3-4-979efc43e490@igalia.com>
+Message-Id: <20250826-v3d-queue-lock-v3-5-979efc43e490@igalia.com>
 References: <20250826-v3d-queue-lock-v3-0-979efc43e490@igalia.com>
 In-Reply-To: <20250826-v3d-queue-lock-v3-0-979efc43e490@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>, 
@@ -47,15 +46,15 @@ To: Melissa Wen <mwen@igalia.com>, Iago Toral Quiroga <itoral@igalia.com>,
 Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6106; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=mGabNyzQ0gUADKlQNI2FeeripcUBXb0z4oqzHK27wHM=;
- b=owEBbQGS/pANAwAKAT/zDop2iPqqAcsmYgBorcJY4xT64hT4g9CfYX/LABu4TaEe/9tmNkFjs
- Q9OujBmzB+JATMEAAEKAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaK3CWAAKCRA/8w6Kdoj6
- qhkgB/9IKRPzOXYCPfp8PFQ391l75qnZ7hvM1opmR0f3vKzM3ln2Ooy7reNvpy64cpnx6PAMSg2
- +aBzeILcTpz2psJzx17kGsgDNGOn+LgxNTzf9iO3DRN8naKRk9jSdhk08aBLiEViNy3fVignAIR
- MT2vzM0yvB5sGGtvSb4AnZ1VOQT0PQ4qKFDbkHhwxu0950t2F2i3AhPXvQ4wD9jqzrdzj+Jdl0y
- P35XPyW9d0aTmwVccsLJXOkEUSURvti3MEQ5ILj58AEB9r1gOoFrY8KoHII8OHKi6wiG3CCWL2V
- yqsfRBz1+6rdpDUD9mZFAMxhR6fhN57LKZcA0xrZtqTzAQCO
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2326; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=QXSe3gEf1VicmUAL+bQJWVa5/H/EDb766ny43Uokxjs=;
+ b=owEBbQGS/pANAwAKAT/zDop2iPqqAcsmYgBorcJYPP/Jles8/IJKsaw/hEVMxi6Zot4djm6qV
+ sy30VTOPWyJATMEAAEKAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaK3CWAAKCRA/8w6Kdoj6
+ qjgSB/9qqPe+1oX5cfLMushoEoR/AGu5EU3992zfm5fw4HH/4d2870BV4zm00DNjeB4oyVQ4AdI
+ NNIFALkl8f8Yj8R9bhN7sdtkBA7tymEvT3dnVosDehAjSTsHdLkY3dw/dHSRl/amwsTfdo4utx8
+ CSm97igJIC0cIFq8tQGxr1ehZKsIXjjhv9LmL3a4M1Pme7c7N6zWiSfliRWZSeyqzjShPrhQZM+
+ S2S/hGO39VS6RYlCg+R9bQ0sa8YWc2guEeA8JEKTMjy16rr5EhGxN7/F6g3WFmaIRDgcgbZUlpz
+ si1lHY/SEHQ6gNEAZ3bpNR8rUbeazlPdc42ZarnsiykL9A/6
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,136 +72,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the file descriptor is closed while a job is still running,
-there's a race condition between the job completion callback and the
-file descriptor cleanup. This can lead to accessing freed memory when
-updating per-fd GPU stats, such as the following example:
+CPU jobs and CACHE CLEAN jobs execute synchronously once the DRM
+scheduler starts running them. Therefore, there is no fence to wait on,
+neither are those jobs able to timeout.
 
-[56120.512903] Unable to handle kernel paging request at virtual address 0000330a92b9688a
-[56120.520881] Mem abort info:
-[56120.523687] ESR = 0x0000000096000005
-[56120.527454] EC = 0x25: DABT (current EL), IL = 32 bits
-[56120.532785] SET = 0, FnV = 0
-[56120.535847] EA = 0, S1PTW = 0
-[56120.538995] FSC = 0x05: level 1 translation fault
-[56120.543891] Data abort info:
-[56120.546778] ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
-[56120.552289] CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[56120.557362] GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[56120.562690] user pgtable: 16k pages, 47-bit VAs, pgdp=0000000023f54000
-[56120.569239] [0000330a92b9688a] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
-[56120.577975] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
- 	       CPU: 0 UID: 1000 PID: 1497409 Comm: mpv Not tainted 6.12.37-ncvm5+ #1
- 	       Hardware name: Raspberry Pi 5 Model B Rev 1.0 (DT)
- 	       pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
- 	       pc : v3d_job_update_stats+0x64/0x168 [v3d]
- 	       lr : v3d_job_update_stats+0x40/0x168 [v3d]
- 	       sp : ffffc00080003e60
- 	       x29: ffffc00080003e60 x28: ffff800002860000 x27: 0000000000000000
- 	       x26: 0000000000000000 x25: ffff800002860000 x24: ffff800002630800
- 	       x23: ffff800060786000 x22: 0000330a933c31fb x21: 0000000000000001
- 	       x20: 0000330a92b96302 x19: ffff800060786b10 x18: 0000000000000000
- 	       x17: ffffaf90506a0000 x16: ffffd06fce57c360 x15: 0000000000000000
- 	       x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
- 	       x11: 0000000000000000 x10: 0000000000000000 x9 : ffffd06f5d0fec40
- 	       x8 : 0000000000000000 x7 : 0000000000000000 x6 : 000002978dbd535a
- 	       x5 : 00ffffffffffffff x4 : 0000000000000015 x3 : 0000300001fddf88
- 	       x2 : 0000000000000020 x1 : 0000000000010001 x0 : 0000330a92b96872
- 	       Call trace:
-		 v3d_job_update_stats+0x64/0x168 [v3d]
-		 v3d_irq+0x118/0x2e0 [v3d]
-		 __handle_irq_event_percpu+0x60/0x220
+Hence, remove the `timedout_job` hook from the CPU and CACHE CLEAN
+scheduler ops.
 
-Fix such an issue by protecting all accesses to `job->file_priv` with
-the queue's lock. With that, we can clear `job->file_priv` before the
-V3D per-fd structure is freed and assure that `job->file_priv` exists
-during the per-fd GPU stats updates.
-
-Fixes: e1bc3a13bd77 ("drm/v3d: Avoid NULL pointer dereference in `v3d_job_update_stats()`")
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+Reviewed-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.c   | 14 +++++++++++++-
- drivers/gpu/drm/v3d/v3d_drv.h   |  2 +-
- drivers/gpu/drm/v3d/v3d_sched.c | 14 +++++++-------
- 3 files changed, 21 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/v3d/v3d_sched.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index 2def155ce496ec5f159f6bda9929aeaae141d1a6..c5a3bbbc74c5c6c9a34a6e6111b4e4e21bee0b34 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -157,12 +157,24 @@ v3d_open(struct drm_device *dev, struct drm_file *file)
- static void
- v3d_postclose(struct drm_device *dev, struct drm_file *file)
- {
-+	struct v3d_dev *v3d = to_v3d_dev(dev);
- 	struct v3d_file_priv *v3d_priv = file->driver_priv;
-+	unsigned long irqflags;
- 	enum v3d_queue q;
- 
--	for (q = 0; q < V3D_MAX_QUEUES; q++)
-+	for (q = 0; q < V3D_MAX_QUEUES; q++) {
-+		struct v3d_queue_state *queue = &v3d->queue[q];
-+		struct v3d_job *job = queue->active_job;
-+
- 		drm_sched_entity_destroy(&v3d_priv->sched_entity[q]);
- 
-+		if (job && job->base.entity == &v3d_priv->sched_entity[q]) {
-+			spin_lock_irqsave(&queue->queue_lock, irqflags);
-+			job->file_priv = NULL;
-+			spin_unlock_irqrestore(&queue->queue_lock, irqflags);
-+		}
-+	}
-+
- 	v3d_perfmon_close_file(v3d_priv);
- 	kfree(v3d_priv);
- }
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index cfc2f9c123aa99f6f1875b297eaf6c226b03d4ec..0317f3d7452a3f01b91bfdc691b5a98e54b3a4ec 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -608,7 +608,7 @@ void v3d_timestamp_query_info_free(struct v3d_timestamp_query_info *query_info,
- 				   unsigned int count);
- void v3d_performance_query_info_free(struct v3d_performance_query_info *query_info,
- 				     unsigned int count);
--void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue);
-+void v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q);
- int v3d_sched_init(struct v3d_dev *v3d);
- void v3d_sched_fini(struct v3d_dev *v3d);
- 
 diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index 1ae447e58ac28f0d5299446fc2d11358fa36ff4a..ad72be7c5d50da3d722a21fad71027d1790448fa 100644
+index ad72be7c5d50da3d722a21fad71027d1790448fa..b8984e608547cf3e3a4f06bd0b8340b804a0f821 100644
 --- a/drivers/gpu/drm/v3d/v3d_sched.c
 +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -194,11 +194,11 @@ v3d_stats_update(struct v3d_stats *stats, u64 now)
+@@ -701,6 +701,7 @@ v3d_cpu_job_run(struct drm_sched_job *sched_job)
+ 	trace_v3d_cpu_job_end(&v3d->drm, job->job_type);
+ 	v3d_job_update_stats(&job->base, V3D_CPU);
+ 
++	/* Synchronous operation, so no fence to wait on. */
+ 	return NULL;
  }
  
- void
--v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
-+v3d_job_update_stats(struct v3d_job *job, enum v3d_queue q)
+@@ -716,6 +717,7 @@ v3d_cache_clean_job_run(struct drm_sched_job *sched_job)
+ 
+ 	v3d_job_update_stats(job, V3D_CACHE_CLEAN);
+ 
++	/* Synchronous operation, so no fence to wait on. */
+ 	return NULL;
+ }
+ 
+@@ -797,7 +799,7 @@ v3d_render_job_timedout(struct drm_sched_job *sched_job)
+ }
+ 
+ static enum drm_gpu_sched_stat
+-v3d_generic_job_timedout(struct drm_sched_job *sched_job)
++v3d_tfu_job_timedout(struct drm_sched_job *sched_job)
  {
- 	struct v3d_dev *v3d = job->v3d;
--	struct v3d_file_priv *file = job->file_priv;
--	struct v3d_stats *global_stats = &v3d->queue[queue].stats;
-+	struct v3d_queue_state *queue = &v3d->queue[q];
-+	struct v3d_stats *global_stats = &queue->stats;
- 	u64 now = local_clock();
- 	unsigned long flags;
+ 	struct v3d_job *job = to_v3d_job(sched_job);
  
-@@ -209,10 +209,10 @@ v3d_job_update_stats(struct v3d_job *job, enum v3d_queue queue)
- 		preempt_disable();
+@@ -837,7 +839,7 @@ static const struct drm_sched_backend_ops v3d_render_sched_ops = {
  
- 	/* Don't update the local stats if the file context has already closed */
--	if (file)
--		v3d_stats_update(&file->stats[queue], now);
--	else
--		drm_dbg(&v3d->drm, "The file descriptor was closed before job completion\n");
-+	spin_lock(&queue->queue_lock);
-+	if (job->file_priv)
-+		v3d_stats_update(&job->file_priv->stats[q], now);
-+	spin_unlock(&queue->queue_lock);
+ static const struct drm_sched_backend_ops v3d_tfu_sched_ops = {
+ 	.run_job = v3d_tfu_job_run,
+-	.timedout_job = v3d_generic_job_timedout,
++	.timedout_job = v3d_tfu_job_timedout,
+ 	.free_job = v3d_sched_job_free,
+ };
  
- 	v3d_stats_update(global_stats, now);
+@@ -849,13 +851,11 @@ static const struct drm_sched_backend_ops v3d_csd_sched_ops = {
+ 
+ static const struct drm_sched_backend_ops v3d_cache_clean_sched_ops = {
+ 	.run_job = v3d_cache_clean_job_run,
+-	.timedout_job = v3d_generic_job_timedout,
+ 	.free_job = v3d_sched_job_free
+ };
+ 
+ static const struct drm_sched_backend_ops v3d_cpu_sched_ops = {
+ 	.run_job = v3d_cpu_job_run,
+-	.timedout_job = v3d_generic_job_timedout,
+ 	.free_job = v3d_cpu_job_free
+ };
  
 
 -- 
