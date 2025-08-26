@@ -2,53 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39CDB355EB
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 09:42:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FEBB355E6
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 09:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6D410E5CB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F8B310E5E1;
 	Tue, 26 Aug 2025 07:42:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=weathered-steel.dev header.i=@weathered-steel.dev header.b="Kw7HvHkO";
-	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4327.protonmail.ch (mail-4327.protonmail.ch [185.70.43.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E56AB10E5A4
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Aug 2025 23:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=weathered-steel.dev;
- s=protonmail3; t=1756164027; x=1756423227;
- bh=dbfxHDr+4prCVmBev/sJiog2Lc66l2bjBKk57p6NvnI=;
- h=Date:From:To:Cc:Subject:Message-ID:References:In-Reply-To:From:To:
- Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=Kw7HvHkOW/t/7aBcbbaxEWgJIAosTbK9FiF/6CDyQESX2BXBlTRAFBUsx8tZMfYAr
- db6I272BNYVLGhyhLUyUt86/sxo7RmXvwpjm8C+Jjkr6JyInW0/IQOAJVfpeF90Zzj
- 5+nWo4hHFKRADJMvcZTjlkhAKamuNUw58vSUs7fVOJwNUZ+ypNoX6ybtgrOTqt75Yx
- yea2VWK69D3FhqUjpwyABmkcfz2XUDQq1VoKse3WnJus3t53cG1bvF/aEuAhTVNkiR
- BfCPH2IfwZzREM40vUa2Qc7C0DylCv6VtERKOBfbExqguu0BHpwvtB36zuKpOjPWJ6
- 8cI9ZlrrjiWNA==
-X-Pm-Submission-Id: 4c9mx60wYnz1DDLJ
-Date: Mon, 25 Aug 2025 23:20:22 +0000
-From: Elle Rhumsaa <elle@weathered-steel.dev>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- John Hubbard <jhubbard@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 1/2] nova-core: Add a library for bitfields in Rust structs
-Message-ID: <aKzvpFf9PkTHYNet@archiso>
-References: <20250824135954.2243774-1-joelagnelf@nvidia.com>
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6124010E5A7;
+ Tue, 26 Aug 2025 00:30:06 +0000 (UTC)
+X-UUID: cd72a7a4821311f0b29709d653e92f7d-20250826
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:ceaaac63-66e7-4386-900f-99b09cee1dbd, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6493067, CLOUDID:73c0f838f0cb681a0e66fa356d1f9674,
+ BulkI
+ D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
+ -3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
+ AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: cd72a7a4821311f0b29709d653e92f7d-20250826
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+ (envelope-from <zhangzihuan@kylinos.cn>) (Generic MTA)
+ with ESMTP id 266996130; Tue, 26 Aug 2025 08:30:01 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id 2B004E008FA5;
+ Tue, 26 Aug 2025 08:30:00 +0800 (CST)
+X-ns-mid: postfix-68AD0007-5837181
+Received: from [172.25.120.24] (unknown [172.25.120.24])
+ by mail.kylinos.cn (NSMail) with ESMTPA id 830B3E008FA2;
+ Tue, 26 Aug 2025 08:29:47 +0800 (CST)
+Message-ID: <c19b9a8c-bb7d-4d71-89d0-eb98c70a9a85@kylinos.cn>
+Date: Tue, 26 Aug 2025 08:29:46 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250824135954.2243774-1-joelagnelf@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] cpufreq: use __free() for all cpufreq_cpu_get()
+ references
+To: Gautam Menghani <gautam@linux.ibm.com>
+Cc: "Rafael J . wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Markus Mayer
+ <mmayer@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Eduardo Valentin <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ zhenglifeng <zhenglifeng1@huawei.com>, "H . Peter Anvin" <hpa@zytor.com>,
+ Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Beata Michalska <beata.michalska@arm.com>, Fabio Estevam
+ <festevam@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Sumit Gupta <sumitg@nvidia.com>,
+ Prasanna Kumar T S M <ptsm@linux.microsoft.com>,
+ Sudeep Holla <sudeep.holla@arm.com>, Yicong Yang <yangyicong@hisilicon.com>,
+ linux-pm@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-tegra@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250825092833.42441-1-zhangzihuan@kylinos.cn>
+ <aKxI8D5mgLRyydb3@li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.ibm.com>
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+In-Reply-To: <aKxI8D5mgLRyydb3@li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Tue, 26 Aug 2025 07:42:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,191 +110,303 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Aug 24, 2025 at 09:59:52AM -0400, Joel Fernandes wrote:
-> Add a minimal bitfield library for defining in Rust structures (called
-> bitstruct), similar in concept to bit fields in C structs. This will be used
-> for defining page table entries and other structures in nova-core.
-> 
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> ---
->  drivers/gpu/nova-core/bitstruct.rs | 149 +++++++++++++++++++++++++++++
->  drivers/gpu/nova-core/nova_core.rs |   1 +
->  2 files changed, 150 insertions(+)
->  create mode 100644 drivers/gpu/nova-core/bitstruct.rs
-> 
-> diff --git a/drivers/gpu/nova-core/bitstruct.rs b/drivers/gpu/nova-core/bitstruct.rs
-> new file mode 100644
-> index 000000000000..661a75da0a9c
-> --- /dev/null
-> +++ b/drivers/gpu/nova-core/bitstruct.rs
-> @@ -0,0 +1,149 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +//
-> +// bitstruct.rs — C-style library for bitfield-packed Rust structures
-> +//
-> +// A library that provides support for defining bit fields in Rust
-> +// structures to circumvent lack of native language support for this.
-> +//
-> +// Similar usage syntax to the register! macro.
-> +
-> +use kernel::prelude::*;
-> +
-> +/// Macro for defining bitfield-packed structures in Rust.
-> +/// The size of the underlying storage type is specified with #[repr(TYPE)].
-> +///
-> +/// # Example (just for illustration)
-> +/// ```rust
-> +/// bitstruct! {
-> +///     #[repr(u64)]
-> +///     pub struct PageTableEntry {
-> +///         0:0       present     as bool,
-> +///         1:1       writable    as bool,
-> +///         11:9      available   as u8,
-> +///         51:12     pfn         as u64,
-> +///         62:52     available2  as u16,
-> +///         63:63     nx          as bool,
-> +///     }
-> +/// }
-> +/// ```
-> +///
-> +/// This generates a struct with methods:
-> +/// - Constructor: `default()` sets all bits to zero.
-> +/// - Field accessors: `present()`, `pfn()`, etc.
-> +/// - Field setters: `set_present()`, `set_pfn()`, etc.
-> +/// - Builder methods: `with_present()`, `with_pfn()`, etc.
-> +/// - Raw conversion: `from_raw()`, `into_raw()`
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct {
-> +    (
-> +        #[repr($storage:ty)]
-> +        $vis:vis struct $name:ident {
-> +            $(
-> +                $hi:literal : $lo:literal $field:ident as $field_type:tt
-> +            ),* $(,)?
-> +        }
-> +    ) => {
-> +        #[repr(transparent)]
-> +        #[derive(Copy, Clone, Default)]
-> +        $vis struct $name($storage);
-> +
-> +        impl $name {
-> +            /// Create from raw value
-> +            #[inline(always)]
-> +            $vis const fn from_raw(val: $storage) -> Self {
-> +                Self(val)
-> +            }
-> +
-> +            /// Get raw value
-> +            #[inline(always)]
-> +            $vis const fn into_raw(self) -> $storage {
-> +                self.0
-> +            }
-> +        }
-> +
-> +        impl core::fmt::Debug for $name {
-> +            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-> +                write!(f, "{}({:#x})", stringify!($name), self.0)
-> +            }
-> +        }
-> +
-> +        // Generate all field methods
-> +        $(
-> +            bitstruct_field_impl!($vis, $name, $storage, $hi, $lo, $field as $field_type);
-> +        )*
-> +    };
-> +}
-> +
-> +/// Helper to calculate mask for bit fields
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_mask {
-> +    ($hi:literal, $lo:literal, $storage:ty) => {{
-> +        let width = ($hi - $lo + 1) as usize;
-> +        let storage_bits = 8 * core::mem::size_of::<$storage>();
-> +        if width >= storage_bits {
-> +            <$storage>::MAX
-> +        } else {
-> +            ((1 as $storage) << width) - 1
-> +        }
-> +    }};
-> +}
-> +
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_field_impl {
-> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, $lo:literal, $field:ident as $field_type:tt) => {
-> +        impl $struct_name {
-> +            #[inline(always)]
-> +            $vis const fn $field(&self) -> $field_type {
-> +                let field_val = (self.0 >> $lo) & bitstruct_mask!($hi, $lo, $storage);
-> +                bitstruct_cast_value!(field_val, $field_type)
-> +            }
-> +        }
-> +        bitstruct_make_setters!($vis, $struct_name, $storage, $hi, $lo, $field, $field_type);
-> +    };
-> +}
-> +
-> +/// Helper macro to convert extracted value to target type
-> +///
-> +/// Special handling for bool types is required because the `as` keyword
-> +/// cannot be used to convert to bool in Rust. For bool fields, we check
-> +/// if the extracted value is non-zero. For all other types, we use the
-> +/// standard `as` conversion.
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_cast_value {
-> +    ($field_val:expr, bool) => {
-> +        $field_val != 0
-> +    };
-> +    ($field_val:expr, $field_type:tt) => {
-> +        $field_val as $field_type
-> +    };
-> +}
-> +
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_write_bits {
-> +    ($raw:expr, $hi:literal, $lo:literal, $val:expr, $storage:ty) => {{
-> +        let mask = bitstruct_mask!($hi, $lo, $storage);
-> +        ($raw & !(mask << $lo)) | ((($val as $storage) & mask) << $lo)
-> +    }};
-> +}
-> +
-> +#[allow(unused_macros)]
-> +macro_rules! bitstruct_make_setters {
-> +    ($vis:vis, $struct_name:ident, $storage:ty, $hi:literal, $lo:literal, $field:ident, $field_type:tt) => {
-> +        ::kernel::macros::paste! {
-> +            impl $struct_name {
-> +                #[inline(always)]
-> +                #[allow(dead_code)]
-> +                $vis fn [<set_ $field>](&mut self, val: $field_type) {
-> +                    self.0 = bitstruct_write_bits!(self.0, $hi, $lo, val, $storage);
-> +                }
-> +
-> +                #[inline(always)]
-> +                #[allow(dead_code)]
-> +                $vis const fn [<with_ $field>](mut self, val: $field_type) -> Self {
-> +                    self.0 = bitstruct_write_bits!(self.0, $hi, $lo, val, $storage);
-> +                    self
-> +                }
-> +            }
-> +        }
-> +    };
-> +}
 
-This is awesome. Is there a place for this to live outside of
-`nova-core`? I would think this would be extremely useful as a general
-helper for bitfield struct definitions.
+=E5=9C=A8 2025/8/25 19:28, Gautam Menghani =E5=86=99=E9=81=93:
+> On Mon, Aug 25, 2025 at 05:28:33PM +0800, Zihuan Zhang wrote:
+>> This patch replaces all remaining uses of cpufreq_cpu_get() with
+>> the __free(cpufreq_cpu_put) annotation.
+>>
+>> Motivation:
+>> - Ensures automatic cleanup of policy references when they go out of s=
+cope,
+>>    reducing the risk of forgetting to call cpufreq_cpu_put() on early =
+return
+>>    or error paths.
+>> - Brings the code in line with the latest kernel coding style and best
+>>    practices for managing reference-counted objects.
+>> - No functional changes are introduced; behavior remains the same,
+>>    but reference counting is now safer and easier to maintain.
+>>
+>> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
+>> ---
+>>   arch/arm64/kernel/topology.c                  |  9 +++----
+>>   arch/x86/kvm/x86.c                            | 10 ++++----
+>>   drivers/acpi/processor_thermal.c              | 13 ++++------
+>>   drivers/cpufreq/brcmstb-avs-cpufreq.c         |  4 +---
+>>   drivers/cpufreq/cppc_cpufreq.c                |  4 +---
+>>   drivers/cpufreq/intel_pstate.c                |  3 +--
+>>   drivers/cpufreq/longhaul.c                    |  3 +--
+>>   drivers/cpufreq/mediatek-cpufreq.c            |  6 ++---
+>>   drivers/cpufreq/powernv-cpufreq.c             |  6 ++---
+>>   drivers/cpufreq/s5pv210-cpufreq.c             |  3 +--
+>>   drivers/cpufreq/tegra186-cpufreq.c            |  3 +--
+>>   drivers/devfreq/governor_passive.c            | 19 ++++-----------
+>>   drivers/gpu/drm/i915/gt/intel_llc.c           |  3 +--
+>>   drivers/macintosh/windfarm_cpufreq_clamp.c    |  4 +---
+>>   drivers/powercap/dtpm_cpu.c                   | 24 ++++++-----------=
+--
+>>   drivers/thermal/imx_thermal.c                 |  7 ++----
+>>   .../ti-soc-thermal/ti-thermal-common.c        |  5 +---
+>>   kernel/power/energy_model.c                   |  7 ++----
+>>   18 files changed, 40 insertions(+), 93 deletions(-)
+>>
+>> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology=
+.c
+>> index 5d07ee85bdae..e3cb6d54f35b 100644
+>> --- a/arch/arm64/kernel/topology.c
+>> +++ b/arch/arm64/kernel/topology.c
+>> @@ -307,17 +307,16 @@ int arch_freq_get_on_cpu(int cpu)
+>>   		 */
+>>   		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
+>>   		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAMP=
+LE_EXP_MS))) {
+>> -			struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
+>> +			struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>>   			int ref_cpu;
+>>  =20
+>> +			policy =3D cpufreq_cpu_get(cpu);
+>>   			if (!policy)
+>>   				return -EINVAL;
+>>  =20
+>>   			if (!cpumask_intersects(policy->related_cpus,
+>> -						housekeeping_cpumask(HK_TYPE_TICK))) {
+>> -				cpufreq_cpu_put(policy);
+>> +						housekeeping_cpumask(HK_TYPE_TICK)))
+>>   				return -EOPNOTSUPP;
+>> -			}
+>>  =20
+>>   			for_each_cpu_wrap(ref_cpu, policy->cpus, cpu + 1) {
+>>   				if (ref_cpu =3D=3D start_cpu) {
+>> @@ -329,8 +328,6 @@ int arch_freq_get_on_cpu(int cpu)
+>>   					break;
+>>   			}
+>>  =20
+>> -			cpufreq_cpu_put(policy);
+>> -
+>>   			if (ref_cpu >=3D nr_cpu_ids)
+>>   				/* No alternative to pull info from */
+>>   				return -EAGAIN;
+>> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+>> index a1c49bc681c4..2a825f4ec701 100644
+>> --- a/arch/x86/kvm/x86.c
+>> +++ b/arch/x86/kvm/x86.c
+>> @@ -9492,16 +9492,14 @@ static void kvm_timer_init(void)
+>>   		max_tsc_khz =3D tsc_khz;
+>>  =20
+>>   		if (IS_ENABLED(CONFIG_CPU_FREQ)) {
+>> -			struct cpufreq_policy *policy;
+>> +			struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>>   			int cpu;
+>>  =20
+>>   			cpu =3D get_cpu();
+>>   			policy =3D cpufreq_cpu_get(cpu);
+>> -			if (policy) {
+>> -				if (policy->cpuinfo.max_freq)
+>> -					max_tsc_khz =3D policy->cpuinfo.max_freq;
+>> -				cpufreq_cpu_put(policy);
+>> -			}
+>> +			if (policy && policy->cpuinfo.max_freq)
+>> +				max_tsc_khz =3D policy->cpuinfo.max_freq;
+>> +
+>>   			put_cpu();
+>>   		}
+>>   		cpufreq_register_notifier(&kvmclock_cpufreq_notifier_block,
+>> diff --git a/drivers/acpi/processor_thermal.c b/drivers/acpi/processor=
+_thermal.c
+>> index 1219adb11ab9..8367a81c4842 100644
+>> --- a/drivers/acpi/processor_thermal.c
+>> +++ b/drivers/acpi/processor_thermal.c
+>> @@ -64,17 +64,14 @@ static int phys_package_first_cpu(int cpu)
+>>  =20
+>>   static int cpu_has_cpufreq(unsigned int cpu)
+>>   {
+>> -	struct cpufreq_policy *policy;
+>> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>>  =20
+>>   	if (!acpi_processor_cpufreq_init)
+>>   		return 0;
+>>  =20
+>>   	policy =3D cpufreq_cpu_get(cpu);
+>> -	if (policy) {
+>> -		cpufreq_cpu_put(policy);
+>> -		return 1;
+>> -	}
+>> -	return 0;
+>> +
+>> +	return !!policy;
+>>   }
+>>  =20
+>>   static int cpufreq_get_max_state(unsigned int cpu)
+>> @@ -95,7 +92,7 @@ static int cpufreq_get_cur_state(unsigned int cpu)
+>>  =20
+>>   static int cpufreq_set_cur_state(unsigned int cpu, int state)
+>>   {
+>> -	struct cpufreq_policy *policy;
+>> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>>   	struct acpi_processor *pr;
+>>   	unsigned long max_freq;
+>>   	int i, ret;
+>> @@ -127,8 +124,6 @@ static int cpufreq_set_cur_state(unsigned int cpu,=
+ int state)
+>>   		max_freq =3D (policy->cpuinfo.max_freq *
+>>   			    (100 - reduction_step(i) * cpufreq_thermal_reduction_pctg)) /=
+ 100;
+>>  =20
+>> -		cpufreq_cpu_put(policy);
+>> -
+>>   		ret =3D freq_qos_update_request(&pr->thermal_req, max_freq);
+>>   		if (ret < 0) {
+>>   			pr_warn("Failed to update thermal freq constraint: CPU%d (%d)\n",
+>> diff --git a/drivers/cpufreq/brcmstb-avs-cpufreq.c b/drivers/cpufreq/b=
+rcmstb-avs-cpufreq.c
+>> index 5940d262374f..71450cca8e9f 100644
+>> --- a/drivers/cpufreq/brcmstb-avs-cpufreq.c
+>> +++ b/drivers/cpufreq/brcmstb-avs-cpufreq.c
+>> @@ -480,7 +480,7 @@ static bool brcm_avs_is_firmware_loaded(struct pri=
+vate_data *priv)
+>>  =20
+>>   static unsigned int brcm_avs_cpufreq_get(unsigned int cpu)
+>>   {
+>> -	struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
+>> +	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq=
+_cpu_get(cpu);
+>>   	struct private_data *priv;
+>>  =20
+>>   	if (!policy)
+>> @@ -488,8 +488,6 @@ static unsigned int brcm_avs_cpufreq_get(unsigned =
+int cpu)
+>>  =20
+>>   	priv =3D policy->driver_data;
+>>  =20
+>> -	cpufreq_cpu_put(policy);
+>> -
+>>   	return brcm_avs_get_frequency(priv->base);
+>>   }
+>>  =20
+>> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpu=
+freq.c
+>> index 4a17162a392d..7183754b1f31 100644
+>> --- a/drivers/cpufreq/cppc_cpufreq.c
+>> +++ b/drivers/cpufreq/cppc_cpufreq.c
+>> @@ -726,7 +726,7 @@ static int cppc_get_perf_ctrs_sample(int cpu,
+>>   static unsigned int cppc_cpufreq_get_rate(unsigned int cpu)
+>>   {
+>>   	struct cppc_perf_fb_ctrs fb_ctrs_t0 =3D {0}, fb_ctrs_t1 =3D {0};
+>> -	struct cpufreq_policy *policy =3D cpufreq_cpu_get(cpu);
+>> +	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq=
+_cpu_get(cpu);
+>>   	struct cppc_cpudata *cpu_data;
+>>   	u64 delivered_perf;
+>>   	int ret;
+>> @@ -736,8 +736,6 @@ static unsigned int cppc_cpufreq_get_rate(unsigned=
+ int cpu)
+>>  =20
+>>   	cpu_data =3D policy->driver_data;
+>>  =20
+>> -	cpufreq_cpu_put(policy);
+>> -
+>>   	ret =3D cppc_get_perf_ctrs_sample(cpu, &fb_ctrs_t0, &fb_ctrs_t1);
+>>   	if (ret) {
+>>   		if (ret =3D=3D -EFAULT)
+>> diff --git a/drivers/cpufreq/intel_pstate.c b/drivers/cpufreq/intel_ps=
+tate.c
+>> index f366d35c5840..fb962140af56 100644
+>> --- a/drivers/cpufreq/intel_pstate.c
+>> +++ b/drivers/cpufreq/intel_pstate.c
+>> @@ -1698,7 +1698,7 @@ static ssize_t store_no_turbo(struct kobject *a,=
+ struct kobj_attribute *b,
+>>   static void update_qos_request(enum freq_qos_req_type type)
+>>   {
+>>   	struct freq_qos_request *req;
+>> -	struct cpufreq_policy *policy;
+>> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>>   	int i;
+>>  =20
+>>   	for_each_possible_cpu(i) {
+>> @@ -1710,7 +1710,6 @@ static void update_qos_request(enum freq_qos_req=
+_type type)
+>>   			continue;
+>>  =20
+>>   		req =3D policy->driver_data;
+>> -		cpufreq_cpu_put(policy);
+>>  =20
+>>   		if (!req)
+>>   			continue;
+>> diff --git a/drivers/cpufreq/longhaul.c b/drivers/cpufreq/longhaul.c
+>> index ba0e08c8486a..ae5596919671 100644
+>> --- a/drivers/cpufreq/longhaul.c
+>> +++ b/drivers/cpufreq/longhaul.c
+>> @@ -950,7 +950,7 @@ static int __init longhaul_init(void)
+>>  =20
+>>   static void __exit longhaul_exit(void)
+>>   {
+>> -	struct cpufreq_policy *policy =3D cpufreq_cpu_get(0);
+>> +	struct cpufreq_policy *policy __free(put_cpufreq_policy) =3D cpufreq=
+_cpu_get(0);
+>>   	int i;
+>>  =20
+>>   	for (i =3D 0; i < numscales; i++) {
+>> @@ -968,7 +968,6 @@ static void __exit longhaul_exit(void)
+>>   		}
+>>   	}
+>>  =20
+>> -	cpufreq_cpu_put(policy);
+>>   	cpufreq_unregister_driver(&longhaul_driver);
+>>   	kfree(longhaul_table);
+>>   }
+>> diff --git a/drivers/cpufreq/mediatek-cpufreq.c b/drivers/cpufreq/medi=
+atek-cpufreq.c
+>> index f3f02c4b6888..1fae060e16d9 100644
+>> --- a/drivers/cpufreq/mediatek-cpufreq.c
+>> +++ b/drivers/cpufreq/mediatek-cpufreq.c
+>> @@ -320,7 +320,7 @@ static int mtk_cpufreq_opp_notifier(struct notifie=
+r_block *nb,
+>>   	struct dev_pm_opp *new_opp;
+>>   	struct mtk_cpu_dvfs_info *info;
+>>   	unsigned long freq, volt;
+>> -	struct cpufreq_policy *policy;
+>> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+>>   	int ret =3D 0;
+>>  =20
+>>   	info =3D container_of(nb, struct mtk_cpu_dvfs_info, opp_nb);
+>> @@ -354,11 +354,9 @@ static int mtk_cpufreq_opp_notifier(struct notifi=
+er_block *nb,
+>>  =20
+>>   			dev_pm_opp_put(new_opp);
+>>   			policy =3D cpufreq_cpu_get(info->opp_cpu);
+>> -			if (policy) {
+>> +			if (policy)
+>>   				cpufreq_driver_target(policy, freq / 1000,
+>>   						      CPUFREQ_RELATION_L);
+>> -				cpufreq_cpu_put(policy);
+>> -			}
+>>   		}
+>>   	}
+>>  =20
+>> diff --git a/drivers/cpufreq/powernv-cpufreq.c b/drivers/cpufreq/power=
+nv-cpufreq.c
+>> index 7d9a5f656de8..ea9d78bbeb38 100644
+>> --- a/drivers/cpufreq/powernv-cpufreq.c
+>> +++ b/drivers/cpufreq/powernv-cpufreq.c
+>> @@ -892,7 +892,7 @@ static int powernv_cpufreq_reboot_notifier(struct =
+notifier_block *nb,
+>>   				unsigned long action, void *unused)
+>>   {
+>>   	int cpu;
+>> -	struct cpufreq_policy *cpu_policy;
+>> +	struct cpufreq_policy *policy __free(put_cpufreq_policy);
+> There's a typo here. I got a compile error because of wrong variable na=
+me.
+>
+> Thanks,
+> Gautam
 
-> diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
-> index cb2bbb30cba1..54505cad4a73 100644
-> --- a/drivers/gpu/nova-core/nova_core.rs
-> +++ b/drivers/gpu/nova-core/nova_core.rs
-> @@ -2,6 +2,7 @@
->  
->  //! Nova Core GPU Driver
->  
-> +mod bitstruct;
->  mod dma;
->  mod driver;
->  mod falcon;
-> -- 
-> 2.34.1
+Sorry about that.
 
-Reviewed-by: Elle Rhumsaa <elle@weathered-steel.dev>
+Although we did compile-test it, some configs are not enabled by default=20
+so we missed this issue. I=E2=80=99ll fix it in the next version.
+
+Thanks for catching this!
+
+
+
