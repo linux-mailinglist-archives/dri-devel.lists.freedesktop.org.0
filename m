@@ -2,140 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94599B352DB
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 06:48:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08AB8B353A8
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 07:58:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C12288C3D;
-	Tue, 26 Aug 2025 04:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B107B10E373;
+	Tue, 26 Aug 2025 05:58:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="24jTJE6x";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FLTnPoDB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2085.outbound.protection.outlook.com [40.107.92.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60DE710E2C7
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 04:48:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nDgeDy89SnLfVdm2hIsSPct/eMNwgbVEr954Fjtz8miIimR3Kvlt7lOog64TjhHkl2skV2XFOmG0TGE4vD2owbRmEPgIbJnLLrn2AXrPnwxYJGDdGCSDgGZSLVhY8g5IMEXIJ65mbcnBJHrGqtFqtDnzccDJR5gGD4H7hH3XSx5kTqpG4QR40krEGwqwjDXhEk+W6ccXEdnQuYqjRuUs26h7vjarkqJkw0KhEtIiTOBfBGe9817hbdFF+AdAAXmLf8mZ1PhlN5vJRKLa9Vdz3xA7t409zXCr6L6C29fVk+NeWoDgrxLKXFNLsaNvDCLOhWK2OIlkN40UXA5flqIDfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ivgdCpr8gACzqKIIlrbG7x8Mj119nw10kmcHcy5BIXM=;
- b=Yodx13M6O68o2mmJ37GJ5gg+lUP4+ersYveAFR4hMCDyXbag5kvoW51qJk/iWVvQnURvfxytQ6cPihNuaUJ1wuo/tNUiTWQS/7JMJgeuV/gBPfw1R/lGx5S0uTXIcfdxXwO6An+UGjbwYx/BMLQPT1Q+iao5pfsGWc2nHcwV51sqJ+8ZCkwIdj1hyWjqFrsfjKQXU1gyEqWbz/qVcMCsAjAlo0fjOdKomyF443P8hsFJsl5gSMxtO18w39AT9rSlVd7e9gMJ6sWsKFWHmHxY+cgVmGKgXIvC4ZZ8hwXO65VqTQK/S5Q3o8534O1LpsyRScy2fWDZ4H8Pwsc91FfFnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ivgdCpr8gACzqKIIlrbG7x8Mj119nw10kmcHcy5BIXM=;
- b=24jTJE6xBnIOZHR/UfdTzaWcv5mBFgybZ97nuX8sUB/p5nhedoqzBgPgzrRfWzPGw67MMzoce+jAjscs3kJ8ahVaN4zvrn3aUWwDJrflwEqBTAvRigDLmJS8qO7ENEL7W8IavnVGq76FNsmFMi3LHDkbRSd0Upkuy802EK5RicA=
-Received: from BY3PR04CA0003.namprd04.prod.outlook.com (2603:10b6:a03:217::8)
- by BN7PPF08EEA05B5.namprd12.prod.outlook.com
- (2603:10b6:40f:fc02::6c5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Tue, 26 Aug
- 2025 04:48:30 +0000
-Received: from SJ1PEPF00001CDC.namprd05.prod.outlook.com
- (2603:10b6:a03:217:cafe::3d) by BY3PR04CA0003.outlook.office365.com
- (2603:10b6:a03:217::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.21 via Frontend Transport; Tue,
- 26 Aug 2025 04:48:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00001CDC.mail.protection.outlook.com (10.167.242.4) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9073.11 via Frontend Transport; Tue, 26 Aug 2025 04:48:29 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 25 Aug
- 2025 23:48:29 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Mon, 25 Aug
- 2025 21:48:29 -0700
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 25 Aug 2025 23:48:28 -0500
-Message-ID: <d6a02baa-3b05-73e6-9c2a-66c257efecc3@amd.com>
-Date: Mon, 25 Aug 2025 21:48:23 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB06E10E2CF;
+ Tue, 26 Aug 2025 05:58:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1756187890; x=1787723890;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=x3YtPmjsh5zhsV0llxHMciG2N5V2S/HyMIBMqLUBq2M=;
+ b=FLTnPoDBWnodfdkSwGh3ORvJ5BN54eCV9jQnkxqQ/GxxsoA8A+lEXPEd
+ RI/EYFWB2MIsSiY9Qd+J/VUpkqvB98CVLO5iqDJEHYsrrKEflnaCcARwB
+ DGwHGe5A7C22yGKHPJTawSyEIrV56hnpuQUFxtoTNzGUY1PxOoe75g41H
+ ypiBSHJdNpMB3RD6KrI5e3V7PClCo1lpr9gR0bIT0Fa3KRlPIvTdiTKu9
+ H0sSLGVBoDHVO9cLQdzW3HHrsq+I35FC/jZuR+PAl0IuxEa1CMuUKBGOp
+ Qa+Q9yfmpb/v0OBuTBQAX3giUfaa3UDJ3UbB4Sxzftvmn2KsXnSuYlj3x A==;
+X-CSE-ConnectionGUID: oWl1N0KyT2aeaHaj0bqWBQ==
+X-CSE-MsgGUID: 2fVKKxW9RceuqUNndqemjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69785005"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="69785005"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 22:58:09 -0700
+X-CSE-ConnectionGUID: nJMzkz34Tg2UTL+a5+7bOw==
+X-CSE-MsgGUID: Ppn2MIxgQoyipju43Tfhmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="168990643"
+Received: from aiddamse-mobl3.gar.corp.intel.com (HELO [10.247.150.174])
+ ([10.247.150.174])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2025 22:58:05 -0700
+Message-ID: <76bfe7d2-e629-4220-a587-fded78a31a8f@linux.intel.com>
+Date: Tue, 26 Aug 2025 11:28:02 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V1] accel/amdxdna: Add ioctl DRM_IOCTL_AMDXDNA_GET_ARRAY
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v5 1/5] drm/netlink: Add netlink infrastructure
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ Michael J <michael.j.ruhl@intel.com>, Riana Tauro <riana.tauro@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>
+References: <20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com>
+ <20250730064956.1385855-2-aravind.iddamsetty@linux.intel.com>
+ <aJ-rMORMxdhRwc4c@intel.com>
 Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
- <quic_jhugo@quicinc.com>, <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
-References: <20250822172319.377848-1-lizhi.hou@amd.com>
- <2bec1429-4f8c-472c-99a1-420a33a3d316@amd.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <2bec1429-4f8c-472c-99a1-420a33a3d316@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+In-Reply-To: <aJ-rMORMxdhRwc4c@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDC:EE_|BN7PPF08EEA05B5:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e28a97b-7e72-4666-59db-08dde45bcd8b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Sk9yenZISXBrbGQxTnhWMEQ4NGdidkFhdHhuMitpdHA2SVZwNTRkbTVmQTZx?=
- =?utf-8?B?RjJsTlZsM0ZNYS9Dc3I2YlhoZnRGMnFnMEVaVVpYOEpWdzUwbXhsTTRhbzZ6?=
- =?utf-8?B?L3dBUzRycUl1SUxmZk5kazlmaFVtWDAxUitCWlJLTVB5UCtWZUdPckhuNEpy?=
- =?utf-8?B?RTl5R0QycFVTcVZWdk5SVzdJVTZYelRLT0ZkR1FJWDIwWXgzdGQrOHh4Q2Jt?=
- =?utf-8?B?WDJNMUovRU9kM2VENTRabWZYQzZLaDVvYnZmcWdNTnJjMWRrekJLclh5b2xh?=
- =?utf-8?B?d2xCNU96NGxOdDlISVZ4VHREWXM0cmFZdFZoS2RiT25rcU0xUDU5U3VtTHV1?=
- =?utf-8?B?M1hCQUdqS3lCRis4WjhwMGEyTlp0NHpoaVZZODJxNmRnR1RyUVhPOEgrdmFO?=
- =?utf-8?B?WlNSTkNqSG5DdWhKRHZvaUczVWVLQmlERml6Uk52aW9SZUpicWVtMmsvbDg4?=
- =?utf-8?B?SkFuK2pyOUpLOGxhZ21reGE2eUNuYmViNEl1dE9wbEVZelRWWmR1ckhhWXhT?=
- =?utf-8?B?TUlzck1lR0lWTFB0NG5wUnlOODVsalgyRXdXUEtUMkp5bkY1RHdiS0Jxc0Nu?=
- =?utf-8?B?QjN1OVVDSnNJUnZoQVZPNk15WGU4Vmd1MXJaa2JKQkFhZ2tpcmVHNlBoV1VL?=
- =?utf-8?B?L2g0OThaQUdjSlEyd1c3SXRDR2NLR3VTUzZvcko4bUlWUjhINmcwYURxY0xj?=
- =?utf-8?B?MDk3MU4wZXZrMUhQa0ErMWZBcExPMi9nQks5MWtqZW9sSkx4R0thOE5qUUVR?=
- =?utf-8?B?cTdlcS92Y2F1MU9JcGNkemFkUnNqdnVXWC80MDNtUkdETTJFRDdkazZmTEFH?=
- =?utf-8?B?T3RITG9YeW9xUnNuaDBpejFmUmpWUGxIMVV4Vjg4L0ZpS1ZUUXdYdVRaM2No?=
- =?utf-8?B?VTQrVmFnelNsb29pM0F1TGRJaE1ZMHBGRW83Z05FV3pBMGJnZjFscXA1NXgw?=
- =?utf-8?B?bXk3Vm5hNGkwblBZMVZJM2hjYzNnc2tIRzl5eTVGSWhqRHRDWDBmaEU4d0ph?=
- =?utf-8?B?R1QrUUE2RUhIbjFHaGQwaThtZlFDZ3FEbWlzV1BTR016blBwNTlFcnQ4SXpS?=
- =?utf-8?B?WlRJcDJQbnErV3RxVzZCeXRzSXZOMmZwS2hickFZK2ZWcHRWVk9wT0lubEZV?=
- =?utf-8?B?Q1g5ekpTWHFsTDErUFJQdWtSYWlJWWsrbkRqajlMeHEzaGpzdDRYcjFJN3dX?=
- =?utf-8?B?NlRXdWZDZ1JOczQvOXhuT3N5S0dFcG40NDhvcjJYR1ZkZGJUWkxNVnlOanpt?=
- =?utf-8?B?MmxuSW43TXJBVXFnWkx4YXN2V2VnVXBsT3FKbVlSWkQrc2JPalorYVNQRWFj?=
- =?utf-8?B?blhjUHozcE45OUZBLzQvaDRkR3RXR3lBV2J1VDJlM2NkWlBTL1ZxbWNBZDFU?=
- =?utf-8?B?T2VTOE1NbVExakVlVVlUekpPa29aVkplWHh3MDd3dVdZQm16MjR1L29XQng1?=
- =?utf-8?B?K25LeWtHYnR3SHpsOE45RWw2V085ZXltS004a1dWdU9DWHBhV3RRcU91VVBn?=
- =?utf-8?B?ZWZEUVNZKzdUOWV3M0NJcytYZElaaWZIMXdwZ1BvMGVwYUhnSHRxOHpSaEZw?=
- =?utf-8?B?QStpcXh6R3hHK1JUM1VFNGR6d2tRTUd5UjcxTW1QRGhXV1V1aXlncHRGLzNp?=
- =?utf-8?B?UXZGS1o0NlRMLzllYjd2ZkVSbjljb0prOEhrakM4MHRWelUrdndyWjYzZmht?=
- =?utf-8?B?YW94L0dpUVYyb1FocTVOOTNtdXZMSEtZWjNWRkd4bXptOFZCL1pBVkJXa0Fn?=
- =?utf-8?B?Mm5yVGlGMjhvM1pZRGt6NWY0MXBEVDBKY1ZJRzkxdkF2czZYT0srVDhJZllG?=
- =?utf-8?B?aWxydnVWV01yaUVYVGlVUjRuanQyWm1VcVdKUHNqQmJGTDhVUWJhOFlFNUF1?=
- =?utf-8?B?dXpPcTRxbjJVTkg5c0UvMHhWWUlIdndiM29VWndyUkQ1Ris4cFBsUDBWU3Fs?=
- =?utf-8?B?VldFaVBEYy9Qdm8wNXRtdnl0aUpFdE5NMElTcUNhaEhkM3hNS1NHbGRaZ1E5?=
- =?utf-8?B?N2h5VzZQc3VEa2pXZlBnS1dlSDNldklrUm12R2RGTm5pRVFOeGx3eTNDRnVI?=
- =?utf-8?Q?GmnyoP?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 04:48:29.6749 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e28a97b-7e72-4666-59db-08dde45bcd8b
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CDC.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF08EEA05B5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,397 +79,630 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 8/25/25 14:28, Mario Limonciello wrote:
-> On 8/22/2025 12:23 PM, Lizhi Hou wrote:
->> Add interface for applications to get information array. The application
->> provides a buffer pointer along with information type, maximum number of
->> entries and maximum size of each entry. The buffer may also contain 
->> match
->> conditions based on the information type. After the ioctl completes, the
->> actual number of entries and entry size are returned.
+On 16-08-2025 03:18, Rodrigo Vivi wrote:
+> On Wed, Jul 30, 2025 at 12:19:52PM +0530, Aravind Iddamsetty wrote:
+>> Define the netlink registration interface and commands, attributes that
+>> can be commonly used across by drm drivers. This patch intends to use
+>> the generic netlink family to expose various stats of device. At present
+>> it defines some commands that shall be used to expose RAS error counters.
 >>
->> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>> v2:
+>> define common interfaces to genl netlink subsystem that all drm drivers
+>> can leverage.(Tomer Tayar)
+>>
+>> v3: drop DRIVER_NETLINK flag and use the driver_genl_ops structure to
+>> register to netlink subsystem (Daniel Vetter)
+>>
+>> v4:(Michael J. Ruhl)
+>> 1. rename drm_genl_send to drm_genl_reply
+>> 2. catch error from xa_store and handle appropriately
+>>
+>> v5:
+>> 1. compile only if CONFIG_NET is enabled
+>>
+>> V6: Add support for reading an IP block errors
+>>
+>> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> #v4
+>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+>> ---
+>>  drivers/gpu/drm/Makefile       |   1 +
+>>  drivers/gpu/drm/drm_drv.c      |   7 ++
+>>  drivers/gpu/drm/drm_netlink.c  | 212 +++++++++++++++++++++++++++++++++
+>>  include/drm/drm_device.h       |  10 ++
+>>  include/drm/drm_drv.h          |   7 ++
+>>  include/drm/drm_netlink.h      |  41 +++++++
+>>  include/uapi/drm/drm_netlink.h | 101 ++++++++++++++++
+>>  7 files changed, 379 insertions(+)
+>>  create mode 100644 drivers/gpu/drm/drm_netlink.c
+>>  create mode 100644 include/drm/drm_netlink.h
+>>  create mode 100644 include/uapi/drm/drm_netlink.h
+>>
+>> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+>> index 4dafbdc8f86a..39d5183ab35c 100644
+>> --- a/drivers/gpu/drm/Makefile
+>> +++ b/drivers/gpu/drm/Makefile
+>> @@ -77,6 +77,7 @@ drm-$(CONFIG_DRM_CLIENT) += \
+>>  	drm_client.o \
+>>  	drm_client_event.o \
+>>  	drm_client_modeset.o
+>> +drm-$(CONFIG_NET) += drm_netlink.o
+>>  drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
+>>  drm-$(CONFIG_COMPAT) += drm_ioc32.o
+>>  drm-$(CONFIG_DRM_PANEL) += drm_panel.o
+>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>> index 02556363e918..cce55423141c 100644
+>> --- a/drivers/gpu/drm/drm_drv.c
+>> +++ b/drivers/gpu/drm/drm_drv.c
+>> @@ -1088,6 +1088,12 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+>>  	if (ret)
+>>  		goto err_minors;
+>>  
+>> +	if (driver->genl_ops) {
+>> +		ret = drm_genl_register(dev);
+>> +		if (ret)
+>> +			goto err_minors;
+>> +	}
+> Even if we don't go with multiple 'groups' I believe that the driver should
+> explicitly call the netlink registration.
+
+the check is if the driver is supporting netlink callbacks or not and
+only then register the netlink family for the device.
+
+Also, I believe we want drivers to explicitly call drm_ras_register, see
+below
+
 >
-> How does userspace discover whether or not the new IOCTL call is 
-> supported?  Just a test call?
-The kernel header version will be used to determine whether the 
-application which uses new IOCTL will be compiled or not.
+>> +
+>>  	ret = create_compat_control_link(dev);
+>>  	if (ret)
+>>  		goto err_minors;
+>> @@ -1229,6 +1235,7 @@ static void drm_core_exit(void)
+>>  	drm_privacy_screen_lookup_exit();
+>>  	drm_panic_exit();
+>>  	accel_core_exit();
+>> +	drm_genl_exit();
+>>  	unregister_chrdev(DRM_MAJOR, "drm");
+>>  	debugfs_remove(drm_debugfs_root);
+>>  	drm_sysfs_destroy();
+>> diff --git a/drivers/gpu/drm/drm_netlink.c b/drivers/gpu/drm/drm_netlink.c
+>> new file mode 100644
+>> index 000000000000..da4bfde32a22
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/drm_netlink.c
+> drm_ras.c ?
+ok 
+>
+>> @@ -0,0 +1,212 @@
+>> +// SPDX-License-Identifier: MIT
+>> +/*
+>> + * Copyright © 2023 Intel Corporation
+> 2025 here and in any other file
+by bad i just respined the old series without checking for this will fix
+it.
+>
+>> + */
+>> +
+>> +#include <net/genetlink.h>
+>> +#include <uapi/drm/drm_netlink.h>
+> uapi/drm/drm_ras.h ?!
+>
+> like we don't have a drm_ioctl.h but drm_mode.h
+ok makes sense.
+>
+>> +
+>> +#include <drm/drm_device.h>
+>> +#include <drm/drm_drv.h>
+>> +#include <drm/drm_file.h>
+>> +#include <drm/drm_managed.h>
+>> +#include <drm/drm_netlink.h>
+>> +#include <drm/drm_print.h>
+>> +
+>> +DEFINE_XARRAY(drm_dev_xarray);
+>> +
+>> +/**
+>> + * drm_genl_reply - response to a request
+>> + * @msg: socket buffer
+>> + * @info: receiver information
+>> + * @usrhdr: pointer to user specific header in the message buffer
+>> + *
+>> + * RETURNS:
+>> + * 0 on success and negative error code on failure
+>> + */
+>> +int drm_genl_reply(struct sk_buff *msg, struct genl_info *info, void *usrhdr)
+> drm_ras_reply so we standardize in a single namespace everywhere ?!
+>
+> and same for all other functions and structs, except for things
+> that are declared outside drm
+ok so the way i understood based on your comment in the first patch is
+netlink constructs 
+should be abstracted out from drm drivers so this interface should not
+expect sk_buff or genl
+things and handle all that things internally. 
+>
+>> +{
+>> +	int ret;
+>> +
+>> +	genlmsg_end(msg, usrhdr);
+>> +
+>> +	ret = genlmsg_reply(msg, info);
+>> +	if (ret)
+>> +		nlmsg_free(msg);
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL(drm_genl_reply);
+>> +
+>> +/**
+>> + * drm_genl_alloc_msg - allocate genl message buffer
+>> + * @dev: drm_device for which the message is being allocated
+>> + * @info: receiver information
+>> + * @msg_size: size of the msg buffer that needs to be allocated
+>> + * @usrhdr: pointer to user specific header in the message buffer
+>> + *
+>> + * RETURNS:
+>> + * pointer to new allocated buffer on success, NULL on failure
+>> + */
+>> +struct sk_buff *
+>> +drm_genl_alloc_msg(struct drm_device *dev,
+>> +		   struct genl_info *info,
+>> +		   size_t msg_size, void **usrhdr)
+>> +{
+>> +	struct sk_buff *new_msg;
+>> +
+>> +	new_msg = genlmsg_new(msg_size, GFP_KERNEL);
+>> +	if (!new_msg)
+>> +		return new_msg;
+>> +
+>> +	*usrhdr = genlmsg_put_reply(new_msg, info, dev->drm_genl_family, 0, info->genlhdr->cmd);
+>> +	if (!*usrhdr) {
+>> +		nlmsg_free(new_msg);
+>> +		new_msg = NULL;
+>> +	}
+>> +
+>> +	return new_msg;
+>> +}
+>> +EXPORT_SYMBOL(drm_genl_alloc_msg);
+>> +
+>> +static struct drm_device *genl_to_dev(struct genl_info *info)
+>> +{
+>> +	return xa_load(&drm_dev_xarray, info->nlhdr->nlmsg_type);
+>> +}
+>> +
+>> +static int drm_genl_list_errors(struct sk_buff *msg, struct genl_info *info)
+>> +{
+>> +	struct drm_device *dev = genl_to_dev(info);
+>> +
+>> +	if (info->genlhdr->cmd == DRM_RAS_CMD_READ_ALL) {
+>> +		if (GENL_REQ_ATTR_CHECK(info, DRM_RAS_ATTR_READ_ALL))
+>> +			return -EINVAL;
+>> +	} else {
+>> +		if (GENL_REQ_ATTR_CHECK(info, DRM_RAS_ATTR_QUERY))
+>> +			return -EINVAL;
+>> +	}
+>> +
+>> +	if (WARN_ON(!dev->driver->genl_ops[info->genlhdr->cmd].doit))
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	return dev->driver->genl_ops[info->genlhdr->cmd].doit(dev, msg, info);
+>> +}
+>> +
+>> +static int drm_genl_read_error(struct sk_buff *msg, struct genl_info *info)
+>> +{
+>> +	struct drm_device *dev = genl_to_dev(info);
+>> +
+>> +	if (GENL_REQ_ATTR_CHECK(info, DRM_RAS_ATTR_ERROR_ID))
+>> +		return -EINVAL;
+>> +
+>> +	if (WARN_ON(!dev->driver->genl_ops[info->genlhdr->cmd].doit))
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	return dev->driver->genl_ops[info->genlhdr->cmd].doit(dev, msg, info);
+>> +}
+>> +
+>> +/* attribute policies */
+>> +static const struct nla_policy drm_attr_policy_query[DRM_ATTR_MAX + 1] = {
+>> +	[DRM_RAS_ATTR_QUERY] = { .type = NLA_U8 },
+>> +};
+>> +
+>> +static const struct nla_policy drm_attr_policy_read_one[DRM_ATTR_MAX + 1] = {
+>> +	[DRM_RAS_ATTR_ERROR_ID] = { .type = NLA_U64 },
+>> +};
+>> +
+>> +static const struct nla_policy drm_attr_policy_read_all[DRM_ATTR_MAX + 1] = {
+>> +	[DRM_RAS_ATTR_READ_ALL] = { .type = NLA_U8 },
+>> +};
+>> +
+>> +/* drm genl operations definition */
+>> +const struct genl_ops drm_genl_ops[] = {
+>> +	{
+>> +		.cmd = DRM_RAS_CMD_QUERY,
+>> +		.doit = drm_genl_list_errors,
+>> +		.policy = drm_attr_policy_query,
+>> +	},
+>> +	{
+>> +		.cmd = DRM_RAS_CMD_READ_ONE,
+>> +		.doit = drm_genl_read_error,
+>> +		.policy = drm_attr_policy_read_one,
+>> +	},
+>> +	{
+>> +		.cmd = DRM_RAS_CMD_READ_ALL,
+>> +		.doit = drm_genl_list_errors,
+>> +		.policy = drm_attr_policy_read_all,
+>> +	},
+>> +	{
+>> +		.cmd = DRM_RAS_CMD_READ_BLOCK,
+>> +		.doit = drm_genl_read_error,
+>> +		.policy = drm_attr_policy_read_one,
+>> +	},
+>> +
+>> +};
+>> +
+>> +static void drm_genl_family_init(struct drm_device *dev)
+>> +{
+>> +	dev->drm_genl_family = drmm_kzalloc(dev, sizeof(struct genl_family),
+>> +					    GFP_KERNEL);
+>> +
+>> +	/* Use drm primary node name eg: card0 to name the genl family */
+>> +	snprintf(dev->drm_genl_family->name, sizeof(dev->drm_genl_family->name),
+>> +		 "%s", dev->primary->kdev->kobj.name);
+> for the family name I believe we deserve the 'drmras', then
+> the card minor number, then the group name.
+>
+> For instance, but not necessarily suggesting xe to do it:
+>
+> drmras-0-gt
+> drmras-0-soc
+>
+> .....
+>
+> driver can select their own name...
+ok the drm_ras_register that we will introduce shall take a name.
+As I mentioned earlier we needn't expose IP as group.
+>
+>
+>> +	dev->drm_genl_family->version = DRM_GENL_VERSION;
+> I believe driver could control their own version so if something changes in
+> the group names for instance or supported commands they can change it.
+but the commands itself are common, I'm not sure if we want drivers to
+have their private set of commands.
+>
+>> +	dev->drm_genl_family->parallel_ops = true;
+>> +	dev->drm_genl_family->ops = drm_genl_ops;
+>> +	dev->drm_genl_family->n_ops = ARRAY_SIZE(drm_genl_ops);
+>> +	dev->drm_genl_family->maxattr = DRM_ATTR_MAX;
+>> +	dev->drm_genl_family->module = dev->dev->driver->owner;
+>> +}
+>> +
+>> +static void drm_genl_deregister(struct drm_device *dev, void *arg)
+>> +{
+>> +	drm_dbg_driver(dev, "unregistering genl family %s\n", dev->drm_genl_family->name);
+>> +
+>> +	xa_erase(&drm_dev_xarray, dev->drm_genl_family->id);
+>> +
+>> +	genl_unregister_family(dev->drm_genl_family);
+>> +}
+>> +
+>> +/**
+>> + * drm_genl_register - Register genl family
+>> + * @dev: drm_device for which genl family needs to be registered
+>> + *
+>> + * RETURNS:
+>> + * 0 on success and negative error code on failure
+>> + */
+>> +int drm_genl_register(struct drm_device *dev)
+>> +{
+>> +	int ret;
+>> +
+>> +	drm_genl_family_init(dev);
+>> +
+>> +	ret = genl_register_family(dev->drm_genl_family);
+>> +	if (ret < 0) {
+>> +		drm_warn(dev, "genl family registration failed\n");
+>> +		return ret;
+>> +	}
+>> +
+>> +	drm_dbg_driver(dev, "genl family id %d and name %s\n", dev->drm_genl_family->id,
+>> +		       dev->drm_genl_family->name);
+>> +
+>> +	ret = xa_err(xa_store(&drm_dev_xarray, dev->drm_genl_family->id, dev, GFP_KERNEL));
+>> +	if (ret)
+>> +		goto genl_unregister;
+>> +
+>> +	ret = drmm_add_action_or_reset(dev, drm_genl_deregister, NULL);
+>> +
+>> +	return ret;
+>> +
+>> +genl_unregister:
+>> +	genl_unregister_family(dev->drm_genl_family);
+>> +	return ret;
+>> +}
+>> +
+>> +/**
+>> + * drm_genl_exit: destroy drm_dev_xarray
+>> + */
+>> +void drm_genl_exit(void)
+>> +{
+>> +	xa_destroy(&drm_dev_xarray);
+>> +}
+>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+>> index 08b3b2467c4c..8b60a17e4156 100644
+>> --- a/include/drm/drm_device.h
+>> +++ b/include/drm/drm_device.h
+>> @@ -8,6 +8,7 @@
+>>  #include <linux/sched.h>
+>>  
+>>  #include <drm/drm_mode_config.h>
+>> +#include <drm/drm_netlink.h>
+>>  
+>>  struct drm_driver;
+>>  struct drm_minor;
+>> @@ -22,6 +23,8 @@ struct inode;
+>>  struct pci_dev;
+>>  struct pci_controller;
+>>  
+>> +struct genl_family;
+>> +
+>>  /*
+>>   * Recovery methods for wedged device in order of less to more side-effects.
+>>   * To be used with drm_dev_wedged_event() as recovery @method. Callers can
+>> @@ -356,6 +359,13 @@ struct drm_device {
+>>  	 * Root directory for debugfs files.
+>>  	 */
+>>  	struct dentry *debugfs_root;
+>> +
+>> +	/**
+>> +	 * @drm_genl_family:
+>> +	 *
+>> +	 * Generic netlink family registration structure.
+>> +	 */
+>> +	struct genl_family *drm_genl_family;
+> we should probably have this inside a struct drm_ras and without the 1-1
+> tie here
+Ok.
+>
+>
+>>  };
+>>  
+>>  void drm_dev_set_dma_dev(struct drm_device *dev, struct device *dma_dev);
+>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>> index 3f76a32d6b84..908888ac0db2 100644
+>> --- a/include/drm/drm_drv.h
+>> +++ b/include/drm/drm_drv.h
+>> @@ -431,6 +431,13 @@ struct drm_driver {
+>>  	 * some examples.
+>>  	 */
+>>  	const struct file_operations *fops;
+>> +
+>> +	/**
+>> +	 * @genl_ops:
+>> +	 *
+>> +	 * Drivers private callback to genl commands
+>> +	 */
+>> +	const struct driver_genl_ops *genl_ops;
+> as well the ops should be encapsulated in the drm_ras struct
+got it.
+>
+>>  };
+>>  
+>>  void *__devm_drm_dev_alloc(struct device *parent,
+>> diff --git a/include/drm/drm_netlink.h b/include/drm/drm_netlink.h
+>> new file mode 100644
+>> index 000000000000..4a746222337a
+>> --- /dev/null
+>> +++ b/include/drm/drm_netlink.h
+>> @@ -0,0 +1,41 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright © 2023 Intel Corporation
+>> + */
+>> +
+>> +#ifndef __DRM_NETLINK_H__
+>> +#define __DRM_NETLINK_H__
+>> +
+>> +#include <linux/types.h>
+>> +
+>> +struct drm_device;
+>> +struct genl_info;
+>> +struct sk_buff;
+>> +
+>> +struct driver_genl_ops {
+>> +	int		       (*doit)(struct drm_device *dev,
+> when I first saw the doit I was going to complain about it,
+> until I learned this is part of netlink definition :)
+>
+>> +				       struct sk_buff *skb,
+>> +				       struct genl_info *info);
+>> +};
+>> +
+>> +#if IS_ENABLED(CONFIG_NET)
+>> +int drm_genl_register(struct drm_device *dev);
+>> +void drm_genl_exit(void);
+>> +int drm_genl_reply(struct sk_buff *msg, struct genl_info *info, void *usrhdr);
+>> +struct sk_buff *
+>> +drm_genl_alloc_msg(struct drm_device *dev,
+>> +		   struct genl_info *info,
+>> +		   size_t msg_size, void **usrhdr);
+>> +#else
+>> +static inline int drm_genl_register(struct drm_device *dev) { return 0; }
+>> +static inline void drm_genl_exit(void) {}
+>> +static inline int drm_genl_reply(struct sk_buff *msg,
+>> +				 struct genl_info *info,
+>> +				 void *usrhdr) { return 0; }
+>> +static inline struct skb_buff *
+>> +drm_genl_alloc_msg(struct drm_device *dev,
+>> +		   struct genl_info *info,
+>> +		   size_t msg_size, void **usrhdr) { return NULL; }
+>> +#endif
+>> +
+>> +#endif
+>> diff --git a/include/uapi/drm/drm_netlink.h b/include/uapi/drm/drm_netlink.h
+>> new file mode 100644
+>> index 000000000000..58afb6e8d84a
+>> --- /dev/null
+>> +++ b/include/uapi/drm/drm_netlink.h
+>> @@ -0,0 +1,101 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright 2023 Intel Corporation
+>> + *
+>> + * Permission is hereby granted, free of charge, to any person obtaining a
+>> + * copy of this software and associated documentation files (the "Software"),
+>> + * to deal in the Software without restriction, including without limitation
+>> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+>> + * and/or sell copies of the Software, and to permit persons to whom the
+>> + * Software is furnished to do so, subject to the following conditions:
+>> + *
+>> + * The above copyright notice and this permission notice (including the next
+>> + * paragraph) shall be included in all copies or substantial portions of the
+>> + * Software.
+>> + *
+>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+>> + * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+>> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+>> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+>> + * OTHER DEALINGS IN THE SOFTWARE.
+> This header kind of conflicts/overlaps the MIT SPDX above. We should remove it
+> and go only with the SPDX imho, unless I'm missing something
+My bad may be i clubbed the two taking from some header.
+>
+>> + */
+>> +
+>> +#ifndef _DRM_NETLINK_H_
+>> +#define _DRM_NETLINK_H_
+>> +
+>> +#define DRM_GENL_VERSION 1
+>> +
+>> +#if defined(__cplusplus)
+>> +extern "C" {
+>> +#endif
+>> +
+>> +/**
+>> + * enum drm_genl_error_cmds - Supported error commands
+>> + *
+>> + */
+>> +enum drm_genl_error_cmds {
+>> +	DRM_CMD_UNSPEC,
+>> +	/**
+>> +	 * @DRM_RAS_CMD_QUERY: Command to list all errors names with config-id in verbose mode.
+>> +	 * In normal mode will list IP blocks, total instances available and error types supported
+>> +	 */
+>> +	DRM_RAS_CMD_QUERY,
+> here is the part where naming inconsistency is more visible, file has one
+> namespacing, struct has another, and command has even a third one.
+>
+> drm_ras everywhere to solve this please.
+Ok makes sense.
+>
+>> +	/** @DRM_RAS_CMD_READ_ONE: Command to get a counter for a specific error */
+>> +	DRM_RAS_CMD_READ_ONE,
+>> +	/** @DRM_RAS_CMD_READ_BLOCK: Command to get a counter of specific error type from an IP
+>> +	 * block
+>> +	 */
+>> +	DRM_RAS_CMD_READ_BLOCK,
+> here is the part that I believe this API already shows how it is not
+> expansible. you had to create an argument to filter the type of errors
+> instead of declaring the errors per ip block like AMD folks had asked for.
+Based on the comment  here
+https://lore.kernel.org/all/aa23f0ef-a4ab-ca73-5ab3-ef23d6e36e89@amd.com/
+they want to extract the details from a command itself using bitmask.
+Let me know if you think i misunderstood.
+>
+>> +	/** @DRM_RAS_CMD_READ_ALL: Command to get counters of all errors */
+>> +	DRM_RAS_CMD_READ_ALL,
+>> +
+>> +	__DRM_CMD_MAX,
+>> +	DRM_CMD_MAX = __DRM_CMD_MAX - 1,
+>> +};
+>> +
+>> +enum drm_cmd_request_type {
+>> +	DRM_RAS_CMD_QUERY_VERBOSE = 1,
+>> +	DRM_RAS_CMD_QUERY_NORMAL = 2,
+>> +};
+> I don't understand why we need verbose vs normal. Perhaps this should
+> be a separate path or explain with examples?
+>
+> it took me a while to realize that the drm_ras igt tool would only
+> list my available errors if I was using --verbose, otherwise we would
+> return in the begin of the list_error functions in xe...
+The VERBOSE is to support the current error model in Xe where each error is
+enumerated separately and NORMAL for reporting groups for AMDs model.
+
+By default drm_ras tool uses normal that is why it doesn't work with xe
+unless --verbose is passed.
+
+>
+>> +
+>> +/**
+>> + * enum drm_error_attr - Attributes to use with drm_genl_error_cmds
+>> + *
+>> + */
+>> +enum drm_error_attr {
+>> +	DRM_ATTR_UNSPEC,
+>> +	DRM_ATTR_PAD = DRM_ATTR_UNSPEC,
+>> +	/**
+>> +	 * @DRM_RAS_ATTR_QUERY: Should be used with DRM_RAS_CMD_QUERY,
+>> +	 * DRM_RAS_CMD_READ_ALL
+>> +	 */
+>> +	DRM_RAS_ATTR_QUERY, /* NLA_U8 */
+>> +	/**
+>> +	 * @DRM_RAS_ATTR_READ_ALL: Should be used with DRM_RAS_CMD_READ_ALL
+>> +	 */
+>> +	DRM_RAS_ATTR_READ_ALL, /* NLA_U8 */
+>> +	/**
+>> +	 * @DRM_RAS_ATTR_QUERY_REPLY: First Nested attributed sent as a
+>> +	 * response to DRM_RAS_CMD_QUERY, DRM_RAS_CMD_READ_ALL commands.
+>> +	 */
+>> +	DRM_RAS_ATTR_QUERY_REPLY, /* NLA_NESTED */
+>> +	/** @DRM_RAS_ATTR_ERROR_NAME: Used to pass error name */
+>> +	DRM_RAS_ATTR_ERROR_NAME, /* NLA_NUL_STRING */
+>> +	/** @DRM_RAS_ATTR_ERROR_ID: Used to pass error id, should be used with
+>> +	 * DRM_RAS_CMD_READ_ONE, DRM_RAS_CMD_READ_BLOCK
+>> +	 */
+>> +	DRM_RAS_ATTR_ERROR_ID, /* NLA_U64 */
+>> +	/** @DRM_RAS_ATTR_ERROR_VALUE: Used to pass error value */
+>> +	DRM_RAS_ATTR_ERROR_VALUE, /* NLA_U64 */
+>
+> I'm also confused on all of the errors here and why we would need them
+> and it also looks not expansible...
+Netlink commands have attributes which enforce a policy and type
+checking the command can accept.
+and attributes can be specific to the command.
+
+These attributes are used in request and response commands as mentioned
+in the comments.
+
+/* attribute policies */
+static const struct nla_policy drm_attr_policy_query[DRM_ATTR_MAX + 1] = {
+        [DRM_RAS_ATTR_QUERY] = { .type = NLA_U8 },
+};
+
+static const struct nla_policy drm_attr_policy_read_one[DRM_ATTR_MAX +
+1] = {
+        [DRM_RAS_ATTR_ERROR_ID] = { .type = NLA_U64 },
+};
+
+static const struct nla_policy drm_attr_policy_read_all[DRM_ATTR_MAX +
+1] = {
+        [DRM_RAS_ATTR_READ_ALL] = { .type = NLA_U8 },
+};
+
+Please let me know if it is unclear.
 
 Thanks,
-
-Lizhi
-
+Aravind.
 >
->> ---
->>   drivers/accel/amdxdna/aie2_pci.c        | 114 ++++++++++++++++++------
->>   drivers/accel/amdxdna/amdxdna_pci_drv.c |  21 +++++
->>   drivers/accel/amdxdna/amdxdna_pci_drv.h |   1 +
->>   include/uapi/drm/amdxdna_accel.h        | 109 ++++++++++++++++++++++
->>   4 files changed, 220 insertions(+), 25 deletions(-)
+>> +
+>> +	__DRM_ATTR_MAX,
+>> +	DRM_ATTR_MAX = __DRM_ATTR_MAX - 1,
+>> +};
+>> +
+>> +#if defined(__cplusplus)
+>> +}
+>> +#endif
+>> +
+>> +#endif
+>> -- 
+>> 2.25.1
 >>
->> diff --git a/drivers/accel/amdxdna/aie2_pci.c 
->> b/drivers/accel/amdxdna/aie2_pci.c
->> index 16ac0cab4f44..b8bfc0700798 100644
->> --- a/drivers/accel/amdxdna/aie2_pci.c
->> +++ b/drivers/accel/amdxdna/aie2_pci.c
->> @@ -785,10 +785,11 @@ static int aie2_get_clock_metadata(struct 
->> amdxdna_client *client,
->>     static int aie2_hwctx_status_cb(struct amdxdna_hwctx *hwctx, void 
->> *arg)
->>   {
->> -    struct amdxdna_drm_query_hwctx __user *buf, *tmp __free(kfree) = 
->> NULL;
->> -    struct amdxdna_drm_get_info *get_info_args = arg;
->> +    struct amdxdna_drm_hwctx_entry __user *buf, *tmp __free(kfree) = 
->> NULL;
->> +    struct amdxdna_drm_get_array *array_args = arg;
->> +    u32 size;
->>   -    if (get_info_args->buffer_size < sizeof(*tmp))
->> +    if (!array_args->num_element)
->>           return -EINVAL;
->>         tmp = kzalloc(sizeof(*tmp), GFP_KERNEL);
->> @@ -801,14 +802,23 @@ static int aie2_hwctx_status_cb(struct 
->> amdxdna_hwctx *hwctx, void *arg)
->>       tmp->num_col = hwctx->num_col;
->>       tmp->command_submissions = hwctx->priv->seq;
->>       tmp->command_completions = hwctx->priv->completed;
->> -
->> -    buf = u64_to_user_ptr(get_info_args->buffer);
->> -
->> -    if (copy_to_user(buf, tmp, sizeof(*tmp)))
->> +    tmp->pasid = hwctx->client->pasid;
->> +    tmp->priority = hwctx->qos.priority;
->> +    tmp->gops = hwctx->qos.gops;
->> +    tmp->fps = hwctx->qos.fps;
->> +    tmp->dma_bandwidth = hwctx->qos.dma_bandwidth;
->> +    tmp->latency = hwctx->qos.latency;
->> +    tmp->frame_exec_time = hwctx->qos.frame_exec_time;
->> +    tmp->state = AMDXDNA_HWCTX_STATE_ACTIVE;
->> +
->> +    buf = u64_to_user_ptr(array_args->buffer);
->> +    size = min(sizeof(*tmp), array_args->element_size);
->> +
->> +    if (copy_to_user(buf, tmp, size))
->>           return -EFAULT;
->>   -    get_info_args->buffer += sizeof(*tmp);
->> -    get_info_args->buffer_size -= sizeof(*tmp);
->> +    array_args->buffer += size;
->> +    array_args->num_element--;
->>         return 0;
->>   }
->> @@ -816,23 +826,24 @@ static int aie2_hwctx_status_cb(struct 
->> amdxdna_hwctx *hwctx, void *arg)
->>   static int aie2_get_hwctx_status(struct amdxdna_client *client,
->>                    struct amdxdna_drm_get_info *args)
->>   {
->> +    struct amdxdna_drm_get_array array_args;
->>       struct amdxdna_dev *xdna = client->xdna;
->> -    struct amdxdna_drm_get_info info_args;
->>       struct amdxdna_client *tmp_client;
->>       int ret;
->>         drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
->>   -    info_args.buffer = args->buffer;
->> -    info_args.buffer_size = args->buffer_size;
->> -
->> +    array_args.element_size = sizeof(struct amdxdna_drm_query_hwctx);
->> +    array_args.buffer = args->buffer;
->> +    array_args.num_element = args->buffer_size / 
->> array_args.element_size;
->>       list_for_each_entry(tmp_client, &xdna->client_list, node) {
->> -        ret = amdxdna_hwctx_walk(tmp_client, &info_args, 
->> aie2_hwctx_status_cb);
->> +        ret = amdxdna_hwctx_walk(tmp_client, &array_args,
->> +                     aie2_hwctx_status_cb);
->>           if (ret)
->>               break;
->>       }
->>   -    args->buffer_size = (u32)(info_args.buffer - args->buffer);
->> +    args->buffer_size -= (u32)(array_args.buffer - args->buffer);
->>       return ret;
->>   }
->>   @@ -876,6 +887,58 @@ static int aie2_get_info(struct amdxdna_client 
->> *client, struct amdxdna_drm_get_i
->>       return ret;
->>   }
->>   +static int aie2_query_ctx_status_array(struct amdxdna_client *client,
->> +                       struct amdxdna_drm_get_array *args)
->> +{
->> +    struct amdxdna_drm_get_array array_args;
->> +    struct amdxdna_dev *xdna = client->xdna;
->> +    struct amdxdna_client *tmp_client;
->> +    int ret;
->> +
->> +    drm_WARN_ON(&xdna->ddev, !mutex_is_locked(&xdna->dev_lock));
->> +
->> +    array_args.element_size = min(args->element_size,
->> +                      sizeof(struct amdxdna_drm_hwctx_entry));
->> +    array_args.buffer = args->buffer;
->> +    array_args.num_element = args->num_element * args->element_size /
->> +                array_args.element_size;
->> +    list_for_each_entry(tmp_client, &xdna->client_list, node) {
->> +        ret = amdxdna_hwctx_walk(tmp_client, &array_args,
->> +                     aie2_hwctx_status_cb);
->> +        if (ret)
->> +            break;
->> +    }
->> +
->> +    args->element_size = array_args.element_size;
->> +    args->num_element = (u32)((array_args.buffer - args->buffer) /
->> +                  args->element_size);
->> +
->> +    return ret;
->> +}
->> +
->> +static int aie2_get_array(struct amdxdna_client *client,
->> +              struct amdxdna_drm_get_array *args)
->> +{
->> +    struct amdxdna_dev *xdna = client->xdna;
->> +    int ret, idx;
->> +
->> +    if (!drm_dev_enter(&xdna->ddev, &idx))
->> +        return -ENODEV;
->> +
->> +    switch (args->param) {
->> +    case DRM_AMDXDNA_HW_CONTEXT_ALL:
->> +        ret = aie2_query_ctx_status_array(client, args);
->> +        break;
->> +    default:
->> +        XDNA_ERR(xdna, "Not supported request parameter %u", 
->> args->param);
->> +        ret = -EOPNOTSUPP;
->> +    }
->> +    XDNA_DBG(xdna, "Got param %d", args->param);
->> +
->> +    drm_dev_exit(idx);
->> +    return ret;
->> +}
->> +
->>   static int aie2_set_power_mode(struct amdxdna_client *client,
->>                      struct amdxdna_drm_set_state *args)
->>   {
->> @@ -925,15 +988,16 @@ static int aie2_set_state(struct amdxdna_client 
->> *client,
->>   }
->>     const struct amdxdna_dev_ops aie2_ops = {
->> -    .init           = aie2_init,
->> -    .fini           = aie2_fini,
->> -    .resume         = aie2_hw_resume,
->> -    .suspend        = aie2_hw_suspend,
->> -    .get_aie_info   = aie2_get_info,
->> -    .set_aie_state    = aie2_set_state,
->> -    .hwctx_init     = aie2_hwctx_init,
->> -    .hwctx_fini     = aie2_hwctx_fini,
->> -    .hwctx_config   = aie2_hwctx_config,
->> -    .cmd_submit     = aie2_cmd_submit,
->> +    .init = aie2_init,
->> +    .fini = aie2_fini,
->> +    .resume = aie2_hw_resume,
->> +    .suspend = aie2_hw_suspend,
->> +    .get_aie_info = aie2_get_info,
->> +    .set_aie_state = aie2_set_state,
->> +    .hwctx_init = aie2_hwctx_init,
->> +    .hwctx_fini = aie2_hwctx_fini,
->> +    .hwctx_config = aie2_hwctx_config,
->> +    .cmd_submit = aie2_cmd_submit,
->>       .hmm_invalidate = aie2_hmm_invalidate,
->> +    .get_array = aie2_get_array,
->>   };
->> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c 
->> b/drivers/accel/amdxdna/amdxdna_pci_drv.c
->> index 8ef5e4f27f5e..ee89485299bc 100644
->> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
->> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
->> @@ -164,6 +164,26 @@ static int amdxdna_drm_get_info_ioctl(struct 
->> drm_device *dev, void *data, struct
->>       return ret;
->>   }
->>   +static int amdxdna_drm_get_array_ioctl(struct drm_device *dev, 
->> void *data,
->> +                       struct drm_file *filp)
->> +{
->> +    struct amdxdna_client *client = filp->driver_priv;
->> +    struct amdxdna_dev *xdna = to_xdna_dev(dev);
->> +    struct amdxdna_drm_get_array *args = data;
->> +    int ret;
->> +
->> +    if (!xdna->dev_info->ops->get_array)
->> +        return -EOPNOTSUPP;
->> +
->> +    if (args->pad || !args->num_element)
->> +        return -EINVAL;
->> +
->> +    mutex_lock(&xdna->dev_lock);
->> +    ret = xdna->dev_info->ops->get_array(client, args);
->> +    mutex_unlock(&xdna->dev_lock);
->> +    return ret;
->> +}
->> +
->>   static int amdxdna_drm_set_state_ioctl(struct drm_device *dev, void 
->> *data, struct drm_file *filp)
->>   {
->>       struct amdxdna_client *client = filp->driver_priv;
->> @@ -195,6 +215,7 @@ static const struct drm_ioctl_desc 
->> amdxdna_drm_ioctls[] = {
->>       DRM_IOCTL_DEF_DRV(AMDXDNA_EXEC_CMD, 
->> amdxdna_drm_submit_cmd_ioctl, 0),
->>       /* AIE hardware */
->>       DRM_IOCTL_DEF_DRV(AMDXDNA_GET_INFO, amdxdna_drm_get_info_ioctl, 
->> 0),
->> +    DRM_IOCTL_DEF_DRV(AMDXDNA_GET_ARRAY, 
->> amdxdna_drm_get_array_ioctl, 0),
->>       DRM_IOCTL_DEF_DRV(AMDXDNA_SET_STATE, 
->> amdxdna_drm_set_state_ioctl, DRM_ROOT_ONLY),
->>   };
->>   diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h 
->> b/drivers/accel/amdxdna/amdxdna_pci_drv.h
->> index b6b3b424d1d5..72d6696d49da 100644
->> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
->> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
->> @@ -58,6 +58,7 @@ struct amdxdna_dev_ops {
->>       int (*cmd_submit)(struct amdxdna_hwctx *hwctx, struct 
->> amdxdna_sched_job *job, u64 *seq);
->>       int (*get_aie_info)(struct amdxdna_client *client, struct 
->> amdxdna_drm_get_info *args);
->>       int (*set_aie_state)(struct amdxdna_client *client, struct 
->> amdxdna_drm_set_state *args);
->> +    int (*get_array)(struct amdxdna_client *client, struct 
->> amdxdna_drm_get_array *args);
->>   };
->>     /*
->> diff --git a/include/uapi/drm/amdxdna_accel.h 
->> b/include/uapi/drm/amdxdna_accel.h
->> index ce523e9ccc52..e19e4cd04ffa 100644
->> --- a/include/uapi/drm/amdxdna_accel.h
->> +++ b/include/uapi/drm/amdxdna_accel.h
->> @@ -34,6 +34,7 @@ enum amdxdna_drm_ioctl_id {
->>       DRM_AMDXDNA_EXEC_CMD,
->>       DRM_AMDXDNA_GET_INFO,
->>       DRM_AMDXDNA_SET_STATE,
->> +    DRM_AMDXDNA_GET_ARRAY = 10,
->>   };
->>     /**
->> @@ -455,6 +456,110 @@ struct amdxdna_drm_get_info {
->>       __u64 buffer; /* in/out */
->>   };
->>   +#define AMDXDNA_HWCTX_STATE_IDLE    0
->> +#define AMDXDNA_HWCTX_STATE_ACTIVE    1
->> +
->> +/**
->> + * struct amdxdna_drm_hwctx_entry - The hardware context array entry
->> + */
->> +struct amdxdna_drm_hwctx_entry {
->> +    /** @context_id: Context ID. */
->> +    __u32 context_id;
->> +    /** @start_col: Start AIE array column assigned to context. */
->> +    __u32 start_col;
->> +    /** @num_col: Number of AIE array columns assigned to context. */
->> +    __u32 num_col;
->> +    /** @hwctx_id: The real hardware context id. */
->> +    __u32 hwctx_id;
->> +    /** @pid: ID of process which created this context. */
->> +    __s64 pid;
->> +    /** @command_submissions: Number of commands submitted. */
->> +    __u64 command_submissions;
->> +    /** @command_completions: Number of commands completed. */
->> +    __u64 command_completions;
->> +    /** @migrations: Number of times been migrated. */
->> +    __u64 migrations;
->> +    /** @preemptions: Number of times been preempted. */
->> +    __u64 preemptions;
->> +    /** @errors: Number of errors happened. */
->> +    __u64 errors;
->> +    /** @priority: Context priority. */
->> +    __u64 priority;
->> +    /** @heap_usage: Usage of device heap buffer. */
->> +    __u64 heap_usage;
->> +    /** @suspensions: Number of times been suspended. */
->> +    __u64 suspensions;
->> +    /**
->> +     * @state: Context state.
->> +     * %AMDXDNA_HWCTX_STATE_IDLE
->> +     * %AMDXDNA_HWCTX_STATE_ACTIVE
->> +     */
->> +    __u32 state;
->> +    /** @pasid: PASID been bound. */
->> +    __u32 pasid;
->> +    /** @gops: Giga operations per second. */
->> +    __u32 gops;
->> +    /** @fps: Frames per second. */
->> +    __u32 fps;
->> +    /** @dma_bandwidth: DMA bandwidth. */
->> +    __u32 dma_bandwidth;
->> +    /** @latency: Frame response latency. */
->> +    __u32 latency;
->> +    /** @frame_exec_time: Frame execution time. */
->> +    __u32 frame_exec_time;
->> +    /** @txn_op_idx: Index of last control code executed. */
->> +    __u32 txn_op_idx;
->> +    /** @ctx_pc: Program counter. */
->> +    __u32 ctx_pc;
->> +    /** @fatal_error_type: Fatal error type if context crashes. */
->> +    __u32 fatal_error_type;
->> +    /** @fatal_error_exception_type: Firmware exception type. */
->> +    __u32 fatal_error_exception_type;
->> +    /** @fatal_error_exception_pc: Firmware exception program 
->> counter. */
->> +    __u32 fatal_error_exception_pc;
->> +    /** @fatal_error_app_module: Exception module name. */
->> +    __u32 fatal_error_app_module;
->> +};
->> +
->> +#define DRM_AMDXDNA_HW_CONTEXT_ALL    0
->> +
->> +/**
->> + * struct amdxdna_drm_get_array - Get information array.
->> + */
->> +struct amdxdna_drm_get_array {
->> +    /**
->> +     * @param:
->> +     *
->> +     * Supported params:
->> +     *
->> +     * %DRM_AMDXDNA_HW_CONTEXT_ALL:
->> +     * Returns all created hardware contexts.
->> +     */
->> +    __u32 param;
->> +    /**
->> +     * @element_size:
->> +     *
->> +     * Specifies maximum element size and returns the actual element 
->> size.
->> +     */
->> +    __u32 element_size;
->> +    /**
->> +     * @num_element:
->> +     *
->> +     * Specifies maximum number of elements and returns the actual 
->> number
->> +     * of elements.
->> +     */
->> +    __u32 num_element; /* in/out */
->> +    /** @pad: MBZ */
->> +    __u32 pad;
->> +    /**
->> +     * @buffer:
->> +     *
->> +     * Specifies the match conditions and returns the matched 
->> information
->> +     * array.
->> +     */
->> +    __u64 buffer;
->> +};
->> +
->>   enum amdxdna_drm_set_param {
->>       DRM_AMDXDNA_SET_POWER_MODE,
->>       DRM_AMDXDNA_WRITE_AIE_MEM,
->> @@ -519,6 +624,10 @@ struct amdxdna_drm_set_power_mode {
->>       DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_SET_STATE, \
->>            struct amdxdna_drm_set_state)
->>   +#define DRM_IOCTL_AMDXDNA_GET_ARRAY \
->> +    DRM_IOWR(DRM_COMMAND_BASE + DRM_AMDXDNA_GET_ARRAY, \
->> +         struct amdxdna_drm_get_array)
->> +
->>   #if defined(__cplusplus)
->>   } /* extern c end */
->>   #endif
->
