@@ -2,94 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC1FB35F15
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 14:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8309FB37B7C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Aug 2025 09:22:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C05210E636;
-	Tue, 26 Aug 2025 12:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47E8510E71A;
+	Wed, 27 Aug 2025 07:22:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="KGsGTbFz";
+	dkim=pass (2048-bit key; unprotected) header.d=manjaro.org header.i=@manjaro.org header.b="YfPqyL7O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B2210E636
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 12:25:19 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-7e8706491ecso797707285a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 05:25:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1756211119; x=1756815919;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4hO3ALaftqFmH4oH4pH+kk6zISTsy/rbnhx2jQsr7Dw=;
- b=KGsGTbFzXv9g/i+QbxWFa/70uRfSJJKdPpQo8gOhL5B6zEpJ98HguFCdie05QrGouN
- qXYctlvy0WRx7IU5aAoGGczKNZ8mTeV9NF9xtMIRDR+anRdWjm1psiJ5Wz7oVKJq2qd5
- W7HopVdLxhPrtoDNwxAwAIFMXcnRdnkBZ9XZ/nX4/kRgWhQF6L4sx3xpdo0A4uIktQnc
- +5wmUyYzmb6NAyz6Yf/Xdw0bXKwntPywVSOenhJu6DHgaGACMx/t4jKoiIgit5UeHh7s
- EK+B7JFr3+Fd8K4og20pTFKKUl1jZc/PH9wlqjfiQb2iuWMlGHPwLC89rSLC3gpsX71Z
- +xQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756211119; x=1756815919;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4hO3ALaftqFmH4oH4pH+kk6zISTsy/rbnhx2jQsr7Dw=;
- b=TxYQcQIWIzKMnqhnHs84oOSUc8Qubc6cTjKEv0YoPwbRd+tV1pajONFo6djhd/bVtp
- dRCHE606Vwj+keHu0FfP1bpI/aHvUK/01uCgePEgw6YvboU75Mq738s1La8vzyaGtzll
- ERiQOFec6x36+xdYpLg2b0uZXzdsIPEEyGA7cNcmr7Tu7oAos+Bd73A78+ecHNfdEOJb
- fL/ylKNfi+P+4MYFx/RxE5+OlPYMF17kfMVoYpz6FhpqsXIJjOvT1OyTZ7LboRekjagk
- 9qpKTG7cyo8WAbnRadpPONxlS3VGQ+ETAlhyBOEsVviN9cKOHuJQKDz6jE+rg6U2BJZE
- WSsg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUkS75zA9tC0wK/8rwCY7SeJQ/OGm4z25ixGra8QjEQro1wVKXVW4quACPwfa+PdpaBjbslA8jZPFA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxkbFmBUndmBMNeAgxQ4sM2EUlLWAmx8ZZVVWL8MAGAQRfRKmfS
- WVEIZT+TTE7NC8QpSKBApCA7Nd3rlzD3KJk2+E2UdaMmFzM820iemZn0sbjANLKLL1esYpFAaMz
- I0d9zCo2LVoL9EDJKMhmSV23vFcxCNXHoZxnhH8WBcw==
-X-Gm-Gg: ASbGncv8Vz2NHluq3eiLsdLoA1hfBAKOWK2dNUohx6JK3y+WSS3AZYMz/R0aTw4xSmI
- 5TxAJqbEjQ/Vg8KbAtFPUvhb1gdjI0I5PoSgF+Whzu5IKBBuJXTfeXwXO/iS7PC98zsLCXrxVDv
- Tx/0kV6CptQ5jkfVBl9TPKiXrs9ueLovuBzpvd5AqHDA2zImlykoy3XkJSlFB0HmFW8bpglfcPn
- hZT4dGZ8xDwu8GD
-X-Google-Smtp-Source: AGHT+IFgi8Q9hHqPvEtovjl/Iou25u0OhOejPE9XEDWvvY8QwIuVfSOpzRV+vwb4VBRl5Im89zG6tFcD4jX2gBQishU=
-X-Received: by 2002:a05:620a:4149:b0:7e8:6a84:e82e with SMTP id
- af79cd13be357-7ea10fdbed6mr1861144585a.32.1756211118444; Tue, 26 Aug 2025
- 05:25:18 -0700 (PDT)
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9847110E648;
+ Tue, 26 Aug 2025 12:28:13 +0000 (UTC)
+Message-ID: <a23c8b0b-ec62-437b-b876-3143f132a901@manjaro.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+ t=1756211291;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jfzo9ajTl5pL+DzKVsWq0bNdp3fhVYkJzPkksOiabvA=;
+ b=YfPqyL7Oilke1+Ney2mpRJsYsjvaN741LVUQjgnlVsbJBlJk7SPiSixCkqJYQhRTraBpc+
+ QBCGVgxQb78/gHIl2aP1aPGesM2BwcKRg0MuxMLMeOdU0j49xn+nmj5TDQB3vjtCwYG6L7
+ KY/6wumMLuxwcmwvJlEYb80quSRrMMgkiApm8Ym7FbxPm6m9vi8xRBP1HR/FyFi0fvpCHO
+ PNO9Jrc3uHaA3OxSuSUNyaR6s/3G2sG1g9fLjSI5fYmqpplwttXL2A0hdJ8FlI+oFqHkOf
+ v4vRG7ZKfixmP1mlAva3wsoR0HE3yGs/to5nY/ZEbB8Tb5BMlbfX+N9CE2p8RQ==
+Date: Tue, 26 Aug 2025 14:28:10 +0200
 MIME-Version: 1.0
-References: <20250822-mtk-post-blend-color-pipeline-v1-0-a9446d4aca82@collabora.com>
- <20250822-mtk-post-blend-color-pipeline-v1-1-a9446d4aca82@collabora.com>
- <CAPj87rPAoD2D99zTdsvJ=9K8+G17mTS2jDYHMPYmXNtUyp2L_Q@mail.gmail.com>
- <CAFZQkGwotQ6cxVCSgp-BhUi5DaZ7MyVvbnrDJW11Z7ztzqy58g@mail.gmail.com>
-In-Reply-To: <CAFZQkGwotQ6cxVCSgp-BhUi5DaZ7MyVvbnrDJW11Z7ztzqy58g@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 26 Aug 2025 13:25:05 +0100
-X-Gm-Features: Ac12FXxHW5zk0HB8cp7qpDLRzhJSLilNkY6mrjMA15E-TnryutF26kuEp3eSmiI
-Message-ID: <CAPj87rMTOD3_tC70QX4xz3G4zdG=tmwt5VgPhq6jNyf8bbW49Q@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/5] drm: Support post-blend color pipeline API
-To: Xaver Hugl <xaver.hugl@gmail.com>
-Cc: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alex Hung <alex.hung@amd.com>, 
- wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, leo.liu@amd.com, 
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, 
- contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com, 
- sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com, 
- joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
- victoria@system76.com, uma.shankar@intel.com, quic_naseer@quicinc.com, 
- quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, marcan@marcan.st, 
- Liviu.Dudau@arm.com, sashamcintosh@google.com, 
- chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com, mcanal@igalia.com, 
- kernel@collabora.com, daniels@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, Simona Vetter <simona.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v1 4/5] drm: panel-backlight-quirks: Add brightness mask
+ quirk
+To: Antheas Kapenekakis <lkml@antheas.dev>, amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20250824200202.1744335-1-lkml@antheas.dev>
+ <20250824200202.1744335-5-lkml@antheas.dev>
+Content-Language: en-US
+From: =?UTF-8?Q?Philip_M=C3=BCller?= <philm@manjaro.org>
+Organization: Manjaro Community
+In-Reply-To: <20250824200202.1744335-5-lkml@antheas.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=philm@manjaro.org smtp.mailfrom=philm@manjaro.org
+X-Mailman-Approved-At: Wed, 27 Aug 2025 07:22:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,59 +63,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 8/24/25 22:02, Antheas Kapenekakis wrote:
+> Certain OLED devices malfunction on specific brightness levels.
+> Specifically, when DP_SOURCE_BACKLIGHT_LEVEL is written to with
+> the first byte being 0x00 and sometimes 0x01, the panel forcibly
+> turns off until the device sleeps again.
+> 
+> Below are some examples. This was found by iterating over brighness
+> ranges while printing DP_SOURCE_BACKLIGHT_LEVEL. It was found that
+> the screen would malfunction on specific values, and some of them
+> were collected. Summary examples are found below.
+> 
+> This quirk was tested by removing the workarounds and iterating
+> from 0 to 50_000 value ranges with a cadence of 0.2s/it. The
+> range of the panel is 1000...400_000, so the values were slightly
+> interpolated during testing. The custom brightness curve added on
+> 6.15 was disabled.
+> 
+>   86016:  10101000000000000
+>   86272:  10101000100000000
+>   87808:  10101011100000000
+> 251648: 111101011100000000
+> 251649: 111101011100000001
+> 
+>   86144:  10101000010000000
+>   87809:  10101011100000001
+> 251650: 111101011100000010
+> 
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3803
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> ---
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  7 +++++
+>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  6 ++++
+>   drivers/gpu/drm/drm_panel_backlight_quirks.c  | 29 +++++++++++++++++++
+>   include/drm/drm_utils.h                       |  1 +
+>   4 files changed, 43 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 4ad80ae615a2..156f2aae6828 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -3662,6 +3662,9 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+>   		if (panel_backlight_quirk->min_brightness)
+>   			caps->min_input_signal =
+>   				panel_backlight_quirk->min_brightness - 1;
+> +		if (panel_backlight_quirk->brightness_mask)
+> +			caps->brightness_mask =
+> +				panel_backlight_quirk->brightness_mask;
+>   	}
+>   }
+>   
+> @@ -4862,6 +4865,10 @@ static void amdgpu_dm_backlight_set_level(struct amdgpu_display_manager *dm,
+>   	brightness = convert_brightness_from_user(caps, dm->brightness[bl_idx]);
+>   	link = (struct dc_link *)dm->backlight_link[bl_idx];
+>   
+> +	/* Apply brightness quirk */
+> +	if (caps->brightness_mask)
+> +		brightness |= caps->brightness_mask;
+> +
+>   	/* Change brightness based on AUX property */
+>   	mutex_lock(&dm->dc_lock);
+>   	if (dm->dc->caps.ips_support && dm->dc->ctx->dmub_srv->idle_allowed) {
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> index b937da0a4e4a..340f9b5f68eb 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+> @@ -200,6 +200,12 @@ struct amdgpu_dm_backlight_caps {
+>   	 * @aux_support: Describes if the display supports AUX backlight.
+>   	 */
+>   	bool aux_support;
+> +	/**
+> +	 * @brightness_mask: After deriving brightness, or it with this mask.
+> +	 * This is used to workaround panels that have issues with certain
+> +	 * brightness values.
+> +	 */
+> +	u32 brightness_mask;
+>   	/**
+>   	 * @ac_level: the default brightness if booted on AC
+>   	 */
+> diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> index 3d386a96e50e..78c430b07d6a 100644
+> --- a/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+> @@ -45,6 +45,35 @@ static const struct drm_get_panel_backlight_quirk drm_panel_min_backlight_quirks
+>   		.ident.name = "NE135A1M-NY1",
+>   		.quirk = { .min_brightness = 1, },
+>   	},
+> +	/* Have OLED Panels with brightness issue when last byte is 0/1 */
+> +	{
+> +		.dmi_match.field = DMI_SYS_VENDOR,
+> +		.dmi_match.value = "AYANEO",
+> +		.dmi_match_other.field = DMI_PRODUCT_NAME,
+> +		.dmi_match_other.value = "AYANEO 3",
+> +		.quirk = { .brightness_mask = 3, },
+> +	},
+> +	{
+> +		.dmi_match.field = DMI_SYS_VENDOR,
+> +		.dmi_match.value = "ZOTAC",
+> +		.dmi_match_other.field = DMI_BOARD_NAME,
+> +		.dmi_match_other.value = "G0A1W",
+> +		.quirk = { .brightness_mask = 3, },
+> +	},
+> +	{
+> +		.dmi_match.field = DMI_SYS_VENDOR,
+> +		.dmi_match.value = "ONE-NETBOOK",
+> +		.dmi_match_other.field = DMI_PRODUCT_NAME,
+> +		.dmi_match_other.value = "ONEXPLAYER F1Pro",
+> +		.quirk = { .brightness_mask = 3, },
+> +	},
+> +	{
+> +		.dmi_match.field = DMI_SYS_VENDOR,
+> +		.dmi_match.value = "ONE-NETBOOK",
+> +		.dmi_match_other.field = DMI_PRODUCT_NAME,
+> +		.dmi_match_other.value = "ONEXPLAYER F1 EVA-02",
+> +		.quirk = { .brightness_mask = 3, },
+> +	}
+>   };
+>   
+>   static bool drm_panel_min_backlight_quirk_matches(
+> diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
+> index 82eeee4a58ab..6a46f755daba 100644
+> --- a/include/drm/drm_utils.h
+> +++ b/include/drm/drm_utils.h
+> @@ -18,6 +18,7 @@ int drm_get_panel_orientation_quirk(int width, int height);
+>   
+>   struct drm_panel_backlight_quirk {
+>   	u16 min_brightness;
+> +	u32 brightness_mask;
+>   };
+>   
+>   const struct drm_panel_backlight_quirk *
 
-On Mon, 25 Aug 2025 at 19:45, Xaver Hugl <xaver.hugl@gmail.com> wrote:
-> > > @@ -416,6 +417,24 @@ int drm_mode_object_get_properties(struct drm_mode_object *obj, bool atomic,
-> > > +               if (post_blend_color_pipeline && obj->type == DRM_MODE_OBJECT_CRTC) {
-> > > +                       struct drm_crtc *crtc = obj_to_crtc(obj);
-> > > +                       struct drm_mode_config mode_config = crtc->dev->mode_config;
-> > > +
-> > > +                       if (prop == mode_config.gamma_lut_property ||
-> > > +                           prop == mode_config.degamma_lut_property ||
-> > > +                           prop == mode_config.gamma_lut_size_property ||
-> > > +                           prop == mode_config.ctm_property)
-> > > +                               continue;
-> > > +               }
-> > > +
-> > > +               if (!post_blend_color_pipeline && obj->type == DRM_MODE_OBJECT_CRTC) {
-> > > +                       struct drm_crtc *crtc = obj_to_crtc(obj);
-> > > +
-> > > +                       if (prop == crtc->color_pipeline_property)
-> > > +                               continue;
-> > > +               }
-> >
-> > Hmmm. One issue with this is that it makes things like drm_info
-> > harder: if drm_info opted into the client cap, it would no longer be
-> > able to see any GAMMA_LUT/etc programmed by the prior userspace. So I
-> > think allowing at least read-only access would be reasonable here.
->
-> FWIW the cap for per-plane pipelines also hides COLOR_RANGE and
-> COLOR_ENCODING properties from the client.
->
-> From a compositor POV, I slightly prefer hiding the properties
-> entirely, but ignoring them on the compositor side when a color
-> pipeline is available would also be trivial.
-
-It makes it impossible to do smooth transitions from legacy clients,
-as the old (current) properties can't be read back.
-
-I assume the atomic state would also carry the old values (even if the
-drivers are specified to have to ignore them), so there would be an
-odd transition:
-* pre-colorop userspace sets GAMMA_LUT to invert brightness
-* colorop userspace takes over, does not set any colorops on the CRTC,
-brightness is no longer inverted (presumably? depends on what the
-default set of colorops is? and what the drivers do?), but the atomic
-state still carries the old gamma_lut blob
-* pre-colorop userspace takes over, does not touch GAMMA_LUT,
-brightness is inverted as the colorop from the previous atomic state
-is ignored and the pre-atomic one now takes precedence
-
-This isn't necessarily wrong per se, but does seem kind of janky and
-error-prone: like should the old state be reset to zero/bypass for
-commits from colorop-aware clients? Or should we explicitly allow 0
-but no other value?
-
-Cheers,
-Daniel
+Tested-by: Philip Müller <philm@manjaro.org>
