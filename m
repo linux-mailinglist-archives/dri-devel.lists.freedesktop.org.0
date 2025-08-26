@@ -2,120 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C28FB3727C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 20:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05E8B37284
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 20:49:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B073010E3A7;
-	Tue, 26 Aug 2025 18:48:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E43F10E3AB;
+	Tue, 26 Aug 2025 18:49:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eX0/HKGG";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="cyRse94l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4582110E399
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 18:48:01 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57QCD5pm008052
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 18:48:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=xf6zh+YUIyDAnG5BFHyyQbBH
- caERXoO1mxLKUdCM3WQ=; b=eX0/HKGGC5ZnAJrPQniPN0S6qGHl9c/jtuHw4P5O
- VQXKS6cwWF9w+mK8UwyEOrORYR0V3AHbw0FIfl2H6U3zpQSYRpm3Uzf5izkvAQuM
- 67rD7rqs8PdHFPhuI+i735wIC5McGEnTAcfg/wt10dLByjbywOn3sH6azGPpT6Kb
- ZTsulJ82Zz4s9YqcQpwTU8kH1bZTeV7wCipmjx3BdRaI99IU22r4eq8FuhubzluA
- fBXXHqUBWIrWVagz4hFeHmpRa6Rd3MeJnsrYqE1ALaIsEPX70szIpTPjtiO9Oe2X
- IjS/r/j+GXTujzVcW6TLuXn3kVCtr5NMHhzO42/Q7MUM3g==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5w2t64x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 18:48:00 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-70d9eb2ec70so43163586d6.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 11:48:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756234079; x=1756838879;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA5410E6B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 18:49:01 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-248681b5892so43875ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 11:49:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1756234141; x=1756838941;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xf6zh+YUIyDAnG5BFHyyQbBHcaERXoO1mxLKUdCM3WQ=;
- b=FspJFiBbCVEhn1H2N7y4LpB9UZxmKE+fzpKj3mF4EMkxBemZhcUMQJDHuvc97/5vPs
- pV04mK2P0q/tWik7gSOQduZXUN2R2i/TLw0EFdf/Jr7/hxTJ88a2eW3Mu1CNYo9AuHMP
- /ZtBmEqLUNZLNq/+B3TkMH+7s4BbfA+hrYjlQKRfSNAYju70xHXbwXfPFBtxA14HKI8m
- keI5jMXMqXg71VfrLE11XZYLRifl7IS0oRBboMpvzoZOg18MNUUOuoc+jP6usnOEC5fE
- I07sMwcUMr/YgBT5//a4Z5DP07Bndv8l1PSQ8IT89iYNFnMT80EZGr6Uf/VQGxRgVhwS
- MXrQ==
+ bh=E/Ye7/SL7tqTx9oBx/tviBmGnvw5YMp+2zk7nWejWf0=;
+ b=cyRse94lhrN03tNoNUZne7hw9vNFcXBOYEf2gnA6S5HO/HsiFNSPHcsMQ3wWyViX/e
+ UzWloGD2348tmhXFSVbZb6tJAyMut4pkkdmRRIxDVK22SYagmpQ8ZkLsESwHCb/GC9k1
+ ho10tbNP9zMDhWg9yaFh/PpzeX7KQI5sFFQFhZlhNWeW3Ri8LpfBHOKTLVxFw9+opIkX
+ IAUFPdZB1mUYh7W2zwXlAZT1X8jAn+hxK5DcYnf7uCxcuguMV9euzWr9xFDb/L9cBion
+ yOaIQ5RsNmREfFwjytzA9wqzN3puRwZpGPRp0g5E1Ei7/sf8XhKsXZ53WX3jlZ6NDBZ6
+ X7Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1756234141; x=1756838941;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=E/Ye7/SL7tqTx9oBx/tviBmGnvw5YMp+2zk7nWejWf0=;
+ b=gtybNDVpqsUWeFowTv4ZvEoIuzvoj6C1XcS/tYQbCTV54mCog1Uche60Uv9S8z75lQ
+ HACZ3dfn/a75yFvdCeCZ8amx9oxIah4+bRJOTGHbvPeW3fEYtYBfC+j01///2c2H386v
+ hsGO2myd0+pWfeBHCabrTHuJ6qFGuO3lKHj/FH6OAO4Rv3KOvjVUSpz+/Dhhs9U1PyGy
+ jnI7iKIIHf6BjqZbpbUX3zLNZVEYU37MELTrJv+wEYcEhT0JZ4FDpOF0RU7oZt969zO5
+ SC6o7guuJ14aNukrt/89Kk+urIcLfB9mSBYoBJ+cI980JfNdkIVCRH7as02WGJcJ+Qy1
+ 0hNg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCViOgUQFyUPpRfrHMoMrDXwt4HdnzhFAu5Vlt0qtXFwo98LTz+DoIObd7dF2LdvxWSC/AA/HJr6sKY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yym6q5Hx/mdA2vGhbFp9UBOqzRn3j7K1iumUQVhis5ukADW9URE
- MeEzB6ga71L6/3x4RVcCXwag8H2Ucj1ZLJ6Fm+Xzk85fd6quBYhf7Iwoi0fN22pstnRRcJKgGej
- NrEPX+bD187/K5MTzXOw4jgfa6aEJ4V/nX4QfzS6HURUXyGYJt6t6GTqKPxohRuLSEkinzAc=
-X-Gm-Gg: ASbGncvlAvVJm057aisW8qeomnxFxyIEyXuhzOuTXpFzkANblhhma4swJrmExIihp2r
- JrVuMMZFkX8JfkBXXTKY53AIZpbHiP6QrWZ2kHiHdUTxe3k8QbGtyu/rLfDSRjhgT5pUa7d8MZ/
- 0UvEZXAceEJDol36UusYj/OfkCzmjjTFijeNs2k89rsC9ngcWQQqC1v1XEUFn54vEUs5A2Pgo/6
- 231Jn6yS41lGmnzWC8YZ1M3EwqqHpJVhx731dBg4Y1Xby+buQLd6IDvMijbE80z+2QRobevxjj7
- WlgADT3VGaOaKqKR5LPR1UJf0f/0ABm6mEPOAEN36dI0LHLtQcey3b892AFtd7HwyzYF8WaZBek
- 6tm/eFAYdpUqP2ZkjA7Oxc9Oc0c2tnQvW9VU326hPx5tmXVA37Dgm
-X-Received: by 2002:ad4:5d6a:0:b0:70d:95a9:6042 with SMTP id
- 6a1803df08f44-70d972fa85dmr191563796d6.29.1756234078971; 
- Tue, 26 Aug 2025 11:47:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGYYuUq+/6Jzw2suyCggISeUAr69+TeoIaztg68BBBhft9Bnl7W+AOYaJVGrHe3y/GTb8mo8g==
-X-Received: by 2002:ad4:5d6a:0:b0:70d:95a9:6042 with SMTP id
- 6a1803df08f44-70d972fa85dmr191563366d6.29.1756234078350; 
- Tue, 26 Aug 2025 11:47:58 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f35cb5764sm2431932e87.164.2025.08.26.11.47.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Aug 2025 11:47:57 -0700 (PDT)
-Date: Tue, 26 Aug 2025 21:47:55 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v3 33/38] drm/msm: add support for MST non-blocking commits
-Message-ID: <56tbubd46myozsycduvb5ds26smzosydr5fmbvmlv6yoiqt5wr@3ib5gnspxxqa>
-References: <20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com>
- <20250825-msm-dp-mst-v3-33-01faacfcdedd@oss.qualcomm.com>
+ AJvYcCVAAcJeDQzuRL1OP/KTeEunNUb8BlwOaenClhzYfSuhyTNXuXzC2CZhgxG9nr3iSNwgSgTAHQbkopE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwVt1UZC51c6h6C6jQ1bnhDyhu2jBZVlu9pDqY14GZEBQvGATkO
+ qjczDr+OyPMYA3cI7I6LMlZf/88SP8T/tAxJwwiKjXwML6MzLCbBcfrrBsraxV+aOwdYKza4bC5
+ pjvwiReLEmj9J6/egk1Skt5LGqgiZifk7vFZ2NaPV
+X-Gm-Gg: ASbGncuPEA/lStaabvxQkgp1x4J4K2VgR8PK9qVN6Z6kZy5ePIoMBp8QtYS6FLwmzqe
+ juJr1yRjqJubTopRVdFCGc2NQ1IdPEHpJ2oBAGXjseBA9ULScbktiKy8rtie8sVIBJttzmVsFVz
+ XdcavOpCvWxdjjtlwM25UAoYHb3kVOmlZ2t7p7QWP8x5JhyLF8MdC7aaqIRyqoEyj3fQZADs8/c
+ ccovcjnG07SdLl7n3HUVa1xf/3WQzZWhxVii1c6sl0PCUpQx9kE/uyLZwrEBSV4
+X-Google-Smtp-Source: AGHT+IG+ollMBmiaOYcyGD4fK0EXbH34IwD2F+IqBBnZbD5S5EK8GUe1Cco16tj20beWZxJ5YP1hQInru/5q0vhDcUY=
+X-Received: by 2002:a17:903:228c:b0:243:afef:cd88 with SMTP id
+ d9443c01a7336-2486395f193mr4627105ad.11.1756234140425; Tue, 26 Aug 2025
+ 11:49:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-msm-dp-mst-v3-33-01faacfcdedd@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=Z/vsHGRA c=1 sm=1 tr=0 ts=68ae0160 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8
- a=B68cQ6cBXuK3sqdErf8A:9 a=CjuIK1q_8ugA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX1EiftpkozZIl
- RLeacRwrrShv2YWDqSqsGw8kbgLDeOSLoxgZsrZYt+bgB2y2aGET0MZQKlJfEnDoCxZ8JEIABtK
- 5kGUEEy/NHORiEcnAy5/cbLnIHuJ8JXJGFI9im/ufL4TCIrgT+JAaIzmp2P2Uw0PMGJfTm3tC5E
- SiyduHWumgaZwsN32ZZc+R9i0D84Ia32Yqks49UytkfIYpX7gbSThQljm1xXKEhKNk3aPy5IQaa
- xshMEG+z4olB4oUfhldBXmQjIxTEs15IJ+71pdbgKHu/TbVBlKxkXVhzkOjdtRo0rthj9NhfVcX
- MOH54t/JwuVSTGccmhdY4EN8FKibcO6T9d8aNMvpLFMno7dxHemv58BdFlxSnvwS1C1wdxXuu/w
- BEUYL48O
-X-Proofpoint-GUID: cAIE-ACETerLEaVVNHOd1ssXatHxEUFZ
-X-Proofpoint-ORIG-GUID: cAIE-ACETerLEaVVNHOd1ssXatHxEUFZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 malwarescore=0 phishscore=0 clxscore=1015
- suspectscore=0 impostorscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
+References: <cover.1755096883.git.robin.murphy@arm.com>
+ <d6cda4e2999aba5794c8178f043c91068fa8080c.1755096883.git.robin.murphy@arm.com>
+ <20250826130329.GX4067720@noisy.programming.kicks-ass.net>
+ <6080e45d-032e-48c2-8efc-3d7e5734d705@arm.com>
+In-Reply-To: <6080e45d-032e-48c2-8efc-3d7e5734d705@arm.com>
+From: Ian Rogers <irogers@google.com>
+Date: Tue, 26 Aug 2025 11:48:48 -0700
+X-Gm-Features: Ac12FXxL0fQGFTk6-3SCJz15Qd8Ums9V_bcQA6gIxaEwQacWk3scYfeQZZ7cYZQ
+Message-ID: <CAP-5=fXF2x3hW4Sk+A362T-50cBbw6HVd7KY+QEUjFwT+JL37Q@mail.gmail.com>
+Subject: Re: [PATCH 12/19] perf: Ignore event state for group validation
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, mingo@redhat.com, will@kernel.org, 
+ mark.rutland@arm.com, acme@kernel.org, namhyung@kernel.org, 
+ alexander.shishkin@linux.intel.com, jolsa@kernel.org, adrian.hunter@intel.com, 
+ kan.liang@linux.intel.com, linux-perf-users@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org, 
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ imx@lists.linux.dev, linux-csky@vger.kernel.org, loongarch@lists.linux.dev, 
+ linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, dmaengine@vger.kernel.org, 
+ linux-fpga@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, coresight@lists.linaro.org, 
+ iommu@lists.linux.dev, linux-amlogic@lists.infradead.org, 
+ linux-cxl@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,81 +103,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Aug 25, 2025 at 10:16:19PM +0800, Yongxing Mou wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> Integrate MST framework APIs with atomic_commit_setup() and
-> atomic_commit_tail() to support non-blocking atomic commits
-> for DisplayPort MST.
-> 
-> This patch only applies to MST. For SST, non-blocking commits are
-> already handled via commit_tail(), which internally calls
-> drm_atomic_helper_wait_for_dependencies() in the DRM core.
+On Tue, Aug 26, 2025 at 8:32=E2=80=AFAM Robin Murphy <robin.murphy@arm.com>=
+ wrote:
+>
+> On 2025-08-26 2:03 pm, Peter Zijlstra wrote:
+> > On Wed, Aug 13, 2025 at 06:01:04PM +0100, Robin Murphy wrote:
+> >> It may have been different long ago, but today it seems wrong for thes=
+e
+> >> drivers to skip counting disabled sibling events in group validation,
+> >> given that perf_event_enable() could make them schedulable again, and
+> >> thus increase the effective size of the group later. Conversely, if a
+> >> sibling event is truly dead then it stands to reason that the whole
+> >> group is dead, so it's not worth going to any special effort to try to
+> >> squeeze in a new event that's never going to run anyway. Thus, we can
+> >> simply remove all these checks.
+> >
+> > So currently you can do sort of a manual event rotation inside an
+> > over-sized group and have it work.
+> >
+> > I'm not sure if anybody actually does this, but its possible.
+> >
+> > Eg. on a PMU that supports only 4 counters, create a group of 5 and
+> > periodically cycle which of the 5 events is off.
 
-I think this should be squashed into the the commit adding MST
-atomic_check call.
+I'm not sure this is true, I thought this would fail in the
+perf_event_open when adding the 5th event and there being insufficient
+counters for the group. Not all PMUs validate a group will fit on the
+counters, but I thought at least Intel's core PMU would validate and
+not allow this. Fwiw, the metric code is reliant on this behavior as
+by default all events are placed into a weak group:
+https://web.git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.gi=
+t/tree/tools/perf/util/metricgroup.c?h=3Dperf-tools-next#n631
+Weak groups are really just groups that when the perf_event_open fails
+retry with the grouping removed. PMUs that don't fail the
+perf_event_open are problematic as the reads just report "not counted"
+and the metric doesn't work. Sometimes the PMU can't help it due to
+errata. There are a bunch of workarounds for those cases carried in
+the perf tool, but in general weak groups working is relied upon:
+https://web.git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.gi=
+t/tree/tools/perf/pmu-events/pmu-events.h?h=3Dperf-tools-next#n16
 
-Otherwise:
+Thanks,
+Ian
 
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-
-
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/msm_atomic.c | 3 +++
->  drivers/gpu/drm/msm/msm_kms.c    | 2 ++
->  2 files changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-> index 3aa0020dec3a90b693ad3d4171cfcffc091aad4c..b1656fb456d54af11ba8a30d4971fface114c7a1 100644
-> --- a/drivers/gpu/drm/msm/msm_atomic.c
-> +++ b/drivers/gpu/drm/msm/msm_atomic.c
-> @@ -4,6 +4,7 @@
->   * Author: Rob Clark <robdclark@gmail.com>
->   */
->  
-> +#include <drm/display/drm_dp_mst_helper.h>
->  #include <drm/drm_atomic_uapi.h>
->  #include <drm/drm_vblank.h>
->  #include <drm/display/drm_dp_mst_helper.h>
-> @@ -226,6 +227,8 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
->  
->  	trace_msm_atomic_commit_tail_start(async, crtc_mask);
->  
-> +	drm_dp_mst_atomic_wait_for_dependencies(state);
-> +
->  	kms->funcs->enable_commit(kms);
->  
->  	/*
-> diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
-> index 6889f1c1e72121dcc735fa460ea04cdab11c6705..09776be1d3d854f4c77d7df3afa8d56f53639411 100644
-> --- a/drivers/gpu/drm/msm/msm_kms.c
-> +++ b/drivers/gpu/drm/msm/msm_kms.c
-> @@ -10,6 +10,7 @@
->  #include <linux/sched/mm.h>
->  #include <uapi/linux/sched/types.h>
->  
-> +#include <drm/display/drm_dp_mst_helper.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_mode_config.h>
->  #include <drm/drm_vblank.h>
-> @@ -29,6 +30,7 @@ static const struct drm_mode_config_funcs mode_config_funcs = {
->  
->  static const struct drm_mode_config_helper_funcs mode_config_helper_funcs = {
->  	.atomic_commit_tail = msm_atomic_commit_tail,
-> +	.atomic_commit_setup = drm_dp_mst_atomic_setup_commit,
->  };
->  
->  static irqreturn_t msm_irq(int irq, void *arg)
-> 
-> -- 
-> 2.34.1
-> 
-
--- 
-With best wishes
-Dmitry
+> > So I'm not against changing this, but changing stuff like this always
+> > makes me a little fearful -- it wouldn't be the first time that when it
+> > finally trickles down to some 'enterprise' user in 5 years someone come=
+s
+> > and finally says, oh hey, you broke my shit :-(
+>
+> Eww, I see what you mean... and I guess that's probably lower-overhead
+> than actually deleting and recreating the sibling event(s) each time,
+> and potentially less bother then wrangling multiple groups for different
+> combinations of subsets when one simply must still approximate a complex
+> metric that requires more counters than the hardware offers.
+>
+> I'm also not keen to break anything that wasn't already somewhat broken,
+> especially since this patch is only intended as cleanup, so either we
+> could just drop it altogether, or perhaps I can wrap the existing
+> behaviour in a helper that can at least document this assumption and
+> discourage new drivers from copying it. Am I right that only
+> PERF_EVENT_STATE_{OFF,ERROR} would matter for this, though, and my
+> reasoning for state <=3D PERF_EVENT_STATE_EXIT should still stand? As for
+> the fiddly discrepancy with enable_on_exec between arm_pmu and others
+> I'm not really sure what to think...
+>
+> Thanks,
+> Robin.
