@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E4AB353DC
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 08:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10BBAB353DD
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 08:09:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B959710E5C9;
-	Tue, 26 Aug 2025 06:09:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66A6410E5C4;
+	Tue, 26 Aug 2025 06:09:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aLvKmGKR";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eA9lvmJL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D693010E5C6;
- Tue, 26 Aug 2025 06:09:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D585B10E5C4;
+ Tue, 26 Aug 2025 06:09:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1756188577; x=1787724577;
+ t=1756188585; x=1787724585;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=B8eiLyEjHZ2iS2L6gp19cRyEE5L6SJGUOwfUAFkXRx4=;
- b=aLvKmGKRSZe3tN8dwgFrOiR5u+jcy4tq04dNnSqq1QnyD4e0eKR6hk9E
- so3b3vTEwzHquTDCE+r+sLJiOX4LXc2Deva/LQQrqGaNrc7FSBHrWuDMR
- qldn/aa0pEOUN/PcWtw8yzydqh31QpXAj1Pj2uJbyMc+b/QECOeF8y89n
- qr1PXSgRZiJtbLj+rqIE1V7qqIaAjUFBeAJXxCWN4WArJJGiGpyH4iGd3
- UbBMRMBKoOfGGakKuYFUE3Zr34PwmUG6o5wTJvKKdefD3+0OKZtei/46Y
- 79h3FDMZta0Wy5BxeQNxCefMBSEdaPUlkrmJ8Jf4H/ecCJldJaY1jnJUH w==;
-X-CSE-ConnectionGUID: l88ib7nySdyOx9U6vyox3A==
-X-CSE-MsgGUID: rvG59O2zSnuu5+fjj29zIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="58272051"
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="58272051"
+ bh=U+zmNIf4bq6pVIb4AaoNIbST506HujxzqzNX2rbk7BA=;
+ b=eA9lvmJLCyoGHhJIVNC0LPnBsKHvoNW9SZuV6p36ASL6HEUPs6Ur7yQT
+ TaQ7EHPZXDfVU1J3Fb8G1aworEeNivGoI4w/b35kbJa3231kTIOqQLMjD
+ v160EivQwOpe7oVHe8Swogzmvq05zjd7SdwBPBrTkH0ejEGZhtjS6BqGG
+ YNWZzSFSKflpigwSIGBfxtnIEG/i1diwO1HnkfhOrdsKFMCEv5bBp1FMZ
+ 1JfLOFmZQSlg5D11R/Ain51e4dAYT9vgMmQIU8cgQ0Gb1fBv8DrhfG63R
+ 1lqVrVTDxgMkHiflQC0ZX+1DSMQjgjuxHUVRq6wFBTlbU4kQQUDAFjfmn w==;
+X-CSE-ConnectionGUID: c9vDLEcbQ7a/ut6XM08w5w==
+X-CSE-MsgGUID: cFGKtnw3SlWRUGmXir1kyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="58272070"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="58272070"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 23:09:36 -0700
-X-CSE-ConnectionGUID: HxCrOEAGTSq8rtamu5pkGQ==
-X-CSE-MsgGUID: dtMmSt2hRf+qsoRL5URyIQ==
+ 25 Aug 2025 23:09:44 -0700
+X-CSE-ConnectionGUID: QmDbp1boRDSvcHj7CznSJA==
+X-CSE-MsgGUID: jbIIHAtqR3GEDwLphiO7Zg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="174756885"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; d="scan'208";a="174756889"
 Received: from rtauro-desk.iind.intel.com ([10.190.238.50])
  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2025 23:09:31 -0700
+ 25 Aug 2025 23:09:40 -0700
 From: Riana Tauro <riana.tauro@intel.com>
 To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -48,12 +48,11 @@ Cc: riana.tauro@intel.com, anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
  lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
  raag.jadav@intel.com, umesh.nerlige.ramappa@intel.com,
  frank.scarbrough@intel.com, sk.anirban@intel.com, simona.vetter@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- Stuart Summers <stuart.summers@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: [PATCH v9 08/10] drm/xe: Add support to handle hardware errors
-Date: Tue, 26 Aug 2025 12:04:15 +0530
-Message-ID: <20250826063419.3022216-9-riana.tauro@intel.com>
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
+Subject: [PATCH v9 09/10] drm/xe/xe_hw_error: Handle CSC Firmware reported
+ Hardware errors
+Date: Tue, 26 Aug 2025 12:04:16 +0530
+Message-ID: <20250826063419.3022216-10-riana.tauro@intel.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250826063419.3022216-1-riana.tauro@intel.com>
 References: <20250826063419.3022216-1-riana.tauro@intel.com>
@@ -75,254 +74,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Gfx device reports two classes of errors: uncorrectable and
-correctable. Depending on the severity uncorrectable errors are further
-classified Non-Fatal and Fatal.
+Add support to handle CSC firmware reported errors. When CSC firmware
+errors are encoutered, a error interrupt is received by the GFX device as
+a MSI interrupt.
 
-Correctable and Non-Fatal errors: These errors are reported as MSI. Bits in
-the Master Interrupt Register indicate the class of the error.
-The source of the error is then read from the Device Error Source
-Register.
+Device Source control registers indicates the source of the error as CSC
+The HEC error status register indicates that the error is firmware reported
+Depending on the type of error, the error cause is written to the HEC
+Firmware error register.
 
-Fatal errors: These are reported as PCIe errors
-When a PCIe error is asserted, the OS will perform a SBR (Secondary
-Bus reset) which causes the driver to reload. The error registers are
-sticky and the values are maintained through SBR.
+On encountering such CSC firmware errors, the graphics device is
+non-recoverable from driver context. The only way to recover from these
+errors is firmware flash.
 
-Add basic support to handle these errors.
+System admin/userspace is notified of the necessity of firmware flash
+with a combination of vendor-specific drm device edged uevent, dmesg logs
+and runtime survivability sysfs. It is the responsiblity of the consumer
+to verify all the actions and then trigger a firmware flash using tools
+like fwupd.
 
-Bspec: 50875, 53073, 53074, 53075, 53076
+$ udevadm monitor --property --kernel
+monitor will print the received events for:
+KERNEL - the kernel uevent
 
-v2: Format commit message (Umesh)
-v3: fix documentation (Stuart)
+KERNEL[754.709341] change   /devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0/drm/card0 (drm)
+ACTION=change
+DEVPATH=/devices/pci0000:00/0000:00:01.0/0000:01:00.0/0000:02:01.0/0000:03:00.0/drm/card0
+SUBSYSTEM=drm
+WEDGED=vendor-specific
+DEVNAME=/dev/dri/card0
+DEVTYPE=drm_minor
+SEQNUM=5973
+MAJOR=226
+MINOR=0
 
-Cc: Stuart Summers <stuart.summers@intel.com>
-Co-developed-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Signed-off-by: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Logs
+
+xe 0000:03:00.0: [drm] *ERROR* [Hardware Error]: Tile0 reported NONFATAL error 0x20000
+xe 0000:03:00.0: [drm] *ERROR* [Hardware Error]: NONFATAL: HEC Uncorrected FW FD Corruption error reported, bit[2] is set
+xe 0000:03:00.0: Runtime Survivability mode enabled
+xe 0000:03:00.0: [drm] *ERROR* CRITICAL: Xe has declared device 0000:03:00.0 as wedged.
+               IOCTLs and executions are blocked. Only a rebind may clear the failure
+               Please file a _new_ bug report at https://gitlab.freedesktop.org/drm/xe/kernel/issues/new
+xe 0000:03:00.0: [drm] device wedged, needs recovery
+xe 0000:03:00.0: Firmware flash required, Please refer to the userspace documentation for more details!
+
+Runtime survivability Sysfs:
+
+/sys/bus/pci/devices/<device>/survivability_mode
+
+v2: use vendor recovery method with
+    runtime survivability (Christian, Rodrigo, Raag)
+v3: move declare wedged to runtime survivability mode (Rodrigo)
+v4: update commit message
+
 Signed-off-by: Riana Tauro <riana.tauro@intel.com>
 Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 ---
- drivers/gpu/drm/xe/Makefile                |   1 +
- drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  15 +++
- drivers/gpu/drm/xe/regs/xe_irq_regs.h      |   1 +
- drivers/gpu/drm/xe/xe_hw_error.c           | 109 +++++++++++++++++++++
- drivers/gpu/drm/xe/xe_hw_error.h           |  15 +++
- drivers/gpu/drm/xe/xe_irq.c                |   4 +
- 6 files changed, 145 insertions(+)
- create mode 100644 drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
- create mode 100644 drivers/gpu/drm/xe/xe_hw_error.c
- create mode 100644 drivers/gpu/drm/xe/xe_hw_error.h
+ drivers/gpu/drm/xe/regs/xe_gsc_regs.h      |  2 +
+ drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  7 ++-
+ drivers/gpu/drm/xe/xe_device_types.h       |  3 +
+ drivers/gpu/drm/xe/xe_hw_error.c           | 64 +++++++++++++++++++++-
+ drivers/gpu/drm/xe/xe_survivability_mode.c |  2 +-
+ 5 files changed, 75 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index 85b8d3a59ef0..1d1f1bd1968d 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -82,6 +82,7 @@ xe-y += xe_bb.o \
- 	xe_hw_engine.o \
- 	xe_hw_engine_class_sysfs.o \
- 	xe_hw_engine_group.o \
-+	xe_hw_error.o \
- 	xe_hw_fence.o \
- 	xe_irq.o \
- 	xe_lrc.o \
+diff --git a/drivers/gpu/drm/xe/regs/xe_gsc_regs.h b/drivers/gpu/drm/xe/regs/xe_gsc_regs.h
+index 9b66cc972a63..180be82672ab 100644
+--- a/drivers/gpu/drm/xe/regs/xe_gsc_regs.h
++++ b/drivers/gpu/drm/xe/regs/xe_gsc_regs.h
+@@ -13,6 +13,8 @@
+ 
+ /* Definitions of GSC H/W registers, bits, etc */
+ 
++#define BMG_GSC_HECI1_BASE	0x373000
++
+ #define MTL_GSC_HECI1_BASE	0x00116000
+ #define MTL_GSC_HECI2_BASE	0x00117000
+ 
 diff --git a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-new file mode 100644
-index 000000000000..ed9b81fb28a0
---- /dev/null
+index ed9b81fb28a0..c146b9ef44eb 100644
+--- a/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
 +++ b/drivers/gpu/drm/xe/regs/xe_hw_error_regs.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2025 Intel Corporation
-+ */
+@@ -6,10 +6,15 @@
+ #ifndef _XE_HW_ERROR_REGS_H_
+ #define _XE_HW_ERROR_REGS_H_
+ 
++#define HEC_UNCORR_ERR_STATUS(base)                    XE_REG((base) + 0x118)
++#define    UNCORR_FW_REPORTED_ERR                      BIT(6)
 +
-+#ifndef _XE_HW_ERROR_REGS_H_
-+#define _XE_HW_ERROR_REGS_H_
++#define HEC_UNCORR_FW_ERR_DW0(base)                    XE_REG((base) + 0x124)
 +
-+#define DEV_ERR_STAT_NONFATAL			0x100178
-+#define DEV_ERR_STAT_CORRECTABLE		0x10017c
-+#define DEV_ERR_STAT_REG(x)			XE_REG(_PICK_EVEN((x), \
-+								  DEV_ERR_STAT_CORRECTABLE, \
-+								  DEV_ERR_STAT_NONFATAL))
+ #define DEV_ERR_STAT_NONFATAL			0x100178
+ #define DEV_ERR_STAT_CORRECTABLE		0x10017c
+ #define DEV_ERR_STAT_REG(x)			XE_REG(_PICK_EVEN((x), \
+ 								  DEV_ERR_STAT_CORRECTABLE, \
+ 								  DEV_ERR_STAT_NONFATAL))
+-
++#define   XE_CSC_ERROR				BIT(17)
+ #endif
+diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+index b1c75c588e03..71fc29b3372a 100644
+--- a/drivers/gpu/drm/xe/xe_device_types.h
++++ b/drivers/gpu/drm/xe/xe_device_types.h
+@@ -192,6 +192,9 @@ struct xe_tile {
+ 	/** @memirq: Memory Based Interrupts. */
+ 	struct xe_memirq memirq;
+ 
++	/** @csc_hw_error_work: worker to report CSC HW errors */
++	struct work_struct csc_hw_error_work;
 +
-+#endif
-diff --git a/drivers/gpu/drm/xe/regs/xe_irq_regs.h b/drivers/gpu/drm/xe/regs/xe_irq_regs.h
-index 13635e4331d4..7c2a3a140142 100644
---- a/drivers/gpu/drm/xe/regs/xe_irq_regs.h
-+++ b/drivers/gpu/drm/xe/regs/xe_irq_regs.h
-@@ -18,6 +18,7 @@
- #define GFX_MSTR_IRQ				XE_REG(0x190010, XE_REG_OPTION_VF)
- #define   MASTER_IRQ				REG_BIT(31)
- #define   GU_MISC_IRQ				REG_BIT(29)
-+#define   ERROR_IRQ(x)				REG_BIT(26 + (x))
- #define   DISPLAY_IRQ				REG_BIT(16)
- #define   I2C_IRQ				REG_BIT(12)
- #define   GT_DW_IRQ(x)				REG_BIT(x)
+ 	/** @pcode: tile's PCODE */
+ 	struct {
+ 		/** @pcode.lock: protecting tile's PCODE mailbox data */
 diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
-new file mode 100644
-index 000000000000..0fa45792f1c0
---- /dev/null
+index 0fa45792f1c0..4099ed1262e1 100644
+--- a/drivers/gpu/drm/xe/xe_hw_error.c
 +++ b/drivers/gpu/drm/xe/xe_hw_error.c
-@@ -0,0 +1,109 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2025 Intel Corporation
-+ */
+@@ -3,12 +3,16 @@
+  * Copyright © 2025 Intel Corporation
+  */
+ 
++#include "regs/xe_gsc_regs.h"
+ #include "regs/xe_hw_error_regs.h"
+ #include "regs/xe_irq_regs.h"
+ 
+ #include "xe_device.h"
+ #include "xe_hw_error.h"
+ #include "xe_mmio.h"
++#include "xe_survivability_mode.h"
 +
-+#include "regs/xe_hw_error_regs.h"
-+#include "regs/xe_irq_regs.h"
-+
-+#include "xe_device.h"
-+#include "xe_hw_error.h"
-+#include "xe_mmio.h"
-+
-+/* Error categories reported by hardware */
-+enum hardware_error {
-+	HARDWARE_ERROR_CORRECTABLE = 0,
-+	HARDWARE_ERROR_NONFATAL = 1,
-+	HARDWARE_ERROR_FATAL = 2,
-+	HARDWARE_ERROR_MAX,
++#define  HEC_UNCORR_FW_ERR_BITS 4
+ 
+ /* Error categories reported by hardware */
+ enum hardware_error {
+@@ -18,6 +22,13 @@ enum hardware_error {
+ 	HARDWARE_ERROR_MAX,
+ };
+ 
++static const char * const hec_uncorrected_fw_errors[] = {
++	"Fatal",
++	"CSE Disabled",
++	"FD Corruption",
++	"Data Corruption"
 +};
 +
-+static const char *hw_error_to_str(const enum hardware_error hw_err)
+ static const char *hw_error_to_str(const enum hardware_error hw_err)
+ {
+ 	switch (hw_err) {
+@@ -32,6 +43,52 @@ static const char *hw_error_to_str(const enum hardware_error hw_err)
+ 	}
+ }
+ 
++static void csc_hw_error_work(struct work_struct *work)
 +{
-+	switch (hw_err) {
-+	case HARDWARE_ERROR_CORRECTABLE:
-+		return "CORRECTABLE";
-+	case HARDWARE_ERROR_NONFATAL:
-+		return "NONFATAL";
-+	case HARDWARE_ERROR_FATAL:
-+		return "FATAL";
-+	default:
-+		return "UNKNOWN";
-+	}
++	struct xe_tile *tile = container_of(work, typeof(*tile), csc_hw_error_work);
++	struct xe_device *xe = tile_to_xe(tile);
++	int ret;
++
++	ret = xe_survivability_mode_runtime_enable(xe);
++	if (ret)
++		drm_err(&xe->drm, "Failed to enable runtime survivability mode\n");
 +}
 +
-+static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
++static void csc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err)
 +{
 +	const char *hw_err_str = hw_error_to_str(hw_err);
 +	struct xe_device *xe = tile_to_xe(tile);
-+	unsigned long flags;
-+	u32 err_src;
++	struct xe_mmio *mmio = &tile->mmio;
++	u32 base, err_bit, err_src;
++	unsigned long fw_err;
 +
 +	if (xe->info.platform != XE_BATTLEMAGE)
 +		return;
 +
-+	spin_lock_irqsave(&xe->irq.lock, flags);
-+	err_src = xe_mmio_read32(&tile->mmio, DEV_ERR_STAT_REG(hw_err));
++	base = BMG_GSC_HECI1_BASE;
++	lockdep_assert_held(&xe->irq.lock);
++	err_src = xe_mmio_read32(mmio, HEC_UNCORR_ERR_STATUS(base));
 +	if (!err_src) {
-+		drm_err_ratelimited(&xe->drm, HW_ERR "Tile%d reported DEV_ERR_STAT_%s blank!\n",
++		drm_err_ratelimited(&xe->drm, HW_ERR "Tile%d reported HEC_ERR_STATUS_%s blank\n",
 +				    tile->id, hw_err_str);
-+		goto unlock;
-+	}
-+
-+	/* TODO: Process errrors per source */
-+
-+	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), err_src);
-+
-+unlock:
-+	spin_unlock_irqrestore(&xe->irq.lock, flags);
-+}
-+
-+/**
-+ * xe_hw_error_irq_handler - irq handling for hw errors
-+ * @tile: tile instance
-+ * @master_ctl: value read from master interrupt register
-+ *
-+ * Xe platforms add three error bits to the master interrupt register to support error handling.
-+ * These three bits are used to convey the class of error FATAL, NONFATAL, or CORRECTABLE.
-+ * To process the interrupt, determine the source of error by reading the Device Error Source
-+ * Register that corresponds to the class of error being serviced.
-+ */
-+void xe_hw_error_irq_handler(struct xe_tile *tile, const u32 master_ctl)
-+{
-+	enum hardware_error hw_err;
-+
-+	for (hw_err = 0; hw_err < HARDWARE_ERROR_MAX; hw_err++)
-+		if (master_ctl & ERROR_IRQ(hw_err))
-+			hw_error_source_handler(tile, hw_err);
-+}
-+
-+/*
-+ * Process hardware errors during boot
-+ */
-+static void process_hw_errors(struct xe_device *xe)
-+{
-+	struct xe_tile *tile;
-+	u32 master_ctl;
-+	u8 id;
-+
-+	for_each_tile(tile, xe, id) {
-+		master_ctl = xe_mmio_read32(&tile->mmio, GFX_MSTR_IRQ);
-+		xe_hw_error_irq_handler(tile, master_ctl);
-+		xe_mmio_write32(&tile->mmio, GFX_MSTR_IRQ, master_ctl);
-+	}
-+}
-+
-+/**
-+ * xe_hw_error_init - Initialize hw errors
-+ * @xe: xe device instance
-+ *
-+ * Initialize and check for errors that occurred during boot
-+ * prior to driver load
-+ */
-+void xe_hw_error_init(struct xe_device *xe)
-+{
-+	if (!IS_DGFX(xe) || IS_SRIOV_VF(xe))
 +		return;
++	}
 +
-+	process_hw_errors(xe);
++	if (err_src & UNCORR_FW_REPORTED_ERR) {
++		fw_err = xe_mmio_read32(mmio, HEC_UNCORR_FW_ERR_DW0(base));
++		for_each_set_bit(err_bit, &fw_err, HEC_UNCORR_FW_ERR_BITS) {
++			drm_err_ratelimited(&xe->drm, HW_ERR
++					    "%s: HEC Uncorrected FW %s error reported, bit[%d] is set\n",
++					     hw_err_str, hec_uncorrected_fw_errors[err_bit],
++					     err_bit);
++
++			schedule_work(&tile->csc_hw_error_work);
++		}
++	}
++
++	xe_mmio_write32(mmio, HEC_UNCORR_ERR_STATUS(base), err_src);
 +}
-diff --git a/drivers/gpu/drm/xe/xe_hw_error.h b/drivers/gpu/drm/xe/xe_hw_error.h
-new file mode 100644
-index 000000000000..d86e28c5180c
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_hw_error.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2025 Intel Corporation
-+ */
-+#ifndef XE_HW_ERROR_H_
-+#define XE_HW_ERROR_H_
 +
-+#include <linux/types.h>
+ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
+ {
+ 	const char *hw_err_str = hw_error_to_str(hw_err);
+@@ -50,7 +107,8 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
+ 		goto unlock;
+ 	}
+ 
+-	/* TODO: Process errrors per source */
++	if (err_src & XE_CSC_ERROR)
++		csc_hw_error_handler(tile, hw_err);
+ 
+ 	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), err_src);
+ 
+@@ -102,8 +160,12 @@ static void process_hw_errors(struct xe_device *xe)
+  */
+ void xe_hw_error_init(struct xe_device *xe)
+ {
++	struct xe_tile *tile = xe_device_get_root_tile(xe);
 +
-+struct xe_tile;
-+struct xe_device;
+ 	if (!IS_DGFX(xe) || IS_SRIOV_VF(xe))
+ 		return;
+ 
++	INIT_WORK(&tile->csc_hw_error_work, csc_hw_error_work);
 +
-+void xe_hw_error_irq_handler(struct xe_tile *tile, const u32 master_ctl);
-+void xe_hw_error_init(struct xe_device *xe);
-+#endif
-diff --git a/drivers/gpu/drm/xe/xe_irq.c b/drivers/gpu/drm/xe/xe_irq.c
-index 5df5b8c2a3e4..870edaf69388 100644
---- a/drivers/gpu/drm/xe/xe_irq.c
-+++ b/drivers/gpu/drm/xe/xe_irq.c
-@@ -18,6 +18,7 @@
- #include "xe_gt.h"
- #include "xe_guc.h"
- #include "xe_hw_engine.h"
-+#include "xe_hw_error.h"
- #include "xe_i2c.h"
- #include "xe_memirq.h"
- #include "xe_mmio.h"
-@@ -468,6 +469,7 @@ static irqreturn_t dg1_irq_handler(int irq, void *arg)
- 		xe_mmio_write32(mmio, GFX_MSTR_IRQ, master_ctl);
+ 	process_hw_errors(xe);
+ }
+diff --git a/drivers/gpu/drm/xe/xe_survivability_mode.c b/drivers/gpu/drm/xe/xe_survivability_mode.c
+index 86ba767c4e44..53c5af4b810c 100644
+--- a/drivers/gpu/drm/xe/xe_survivability_mode.c
++++ b/drivers/gpu/drm/xe/xe_survivability_mode.c
+@@ -346,7 +346,7 @@ int xe_survivability_mode_runtime_enable(struct xe_device *xe)
  
- 		gt_irq_handler(tile, master_ctl, intr_dw, identity);
-+		xe_hw_error_irq_handler(tile, master_ctl);
+ 	xe_device_set_wedged_method(xe, DRM_WEDGE_RECOVERY_VENDOR);
+ 	xe_device_declare_wedged(xe);
+-	dev_err(&pdev->dev, "Firmware flash required, Refer the userspace documentation for more details!\n");
++	dev_err(&pdev->dev, "Firmware flash required, Please refer to the userspace documentation for more details!\n");
  
- 		/*
- 		 * Display interrupts (including display backlight operations
-@@ -756,6 +758,8 @@ int xe_irq_install(struct xe_device *xe)
- 	int nvec = 1;
- 	int err;
- 
-+	xe_hw_error_init(xe);
-+
- 	xe_irq_reset(xe);
- 
- 	if (xe_device_has_msix(xe)) {
+ 	return 0;
+ }
 -- 
 2.47.1
 
