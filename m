@@ -2,154 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62FFB36F84
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 18:08:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D48B36F8E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Aug 2025 18:09:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED17310E69B;
-	Tue, 26 Aug 2025 16:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8798510E69D;
+	Tue, 26 Aug 2025 16:09:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JbswCT6s";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="exrlm71V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 616E410E696
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:08:26 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57QD3SPc009905
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:08:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=5Y6MH/IfjA1JcEnoDtSw8pJM
- 2X/EunOT5oKJPorXhUE=; b=JbswCT6sjJBwB/oXRot1KzTm7NFqJUos8kr5i1CQ
- MP1A0cQ0WBCm2vDiljFK0hOwi19o+0cJpUQVlWAONGs8nOm7/NEe7wEfUuvyhydc
- CmhkC/SkW6VCegD9VGihV7/3wCI+YqYEZI5A1/Fx3TizavTs3DR0NGFBGFUhhTxl
- SnU65YAmgvZinrJ1lwsb93+k8Klg1GXt/QBvWkL4nZ9pJmbQFJHCg5jMMZS1tKnE
- KWpQSqL6k5pfdetx2H7bjnQOy4oeSH6onMkGAxSU27uvyINNG6CJd8IgdNd1kXyE
- Z/lqRkYgZuw4nptDVgV7LXFFAaNJJzX1TbIWhbep88YBhA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5xpspk0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 16:08:25 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4b109bf1f37so124117061cf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Aug 2025 09:08:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1756224504; x=1756829304;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5Y6MH/IfjA1JcEnoDtSw8pJM2X/EunOT5oKJPorXhUE=;
- b=W4ZmW7dqIbL/n9wJkp7Esupiha3kHUd82cGXQo4Fw7eYSCcKJPRCIFXQmAYcpmVrBC
- 9sKEuwD9J67NxdchkkqhIP3eKyP9QOVqscYx7K0KXJA5L/7Sl5k/8hE3Xd0l+rlxdynr
- b7FyDYxfyEmZkH9yDIc7D32fNRFhTezIhipXuOOpyPDUL8rSTXb4bJLa6g9FIB9WA3Mt
- 5WOi5q/wiM0IRwoWUmUXKfUGVDM3R4+4UBnbcL8SHP+xH9P8PxkRB6ECCwOOFaIPii0B
- OCFMzBPI5UK/6S9QRnE1YyDhy/OJ4p6u7RSa3jl+Q/RGJtLIV7Qpl9X2wYplttDRijj2
- 6Gug==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVz7iQBCFkOK0u7nsl8+/WcOPt8wBZS/dG28kAMwNFUyvrqYLUHNoTlJVnZeG6c+L1IZRF9jftiXY4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy0IzuLe/HCLG+ZBgWp3Os1Aq9cc3M6f9kLfX9nNwHGZxyLob36
- 2cDtFnZUeDgjJqp3FIa42huHbLK1TYE0KqUjlSunhvrqq2Q/0doSJ1AoEHZQt41QJT59jIlnLv8
- PIY0AEEtSBKrDwS+b9Qjm4JB7joyzSmGCa0JmqzK21po6kQyYGbVhudqgi93udsAFEcIVEwU=
-X-Gm-Gg: ASbGncuBBMqxf3IpDbht0q0dNFpHlecyjT9CZ+YCCQWyGetjnzokixYzlzpzabgPX/D
- eBtPSuUmc4ycRXk9loGHm6c7vyG1UFAco9jcs+fkpDSfs92uR10t8kuud/IMaUvah8W6Z3wzi/m
- mIEFPQvleJwEzGvk7pSz+Gz4O3IxDmP2wFtdVuIO//smHMlXZfpAYYQ+e+irmhiUWoQqgB9ZRRH
- VuVqteGiIZaREGqoS9jzUQkwpeOVSSevXqJcn2WZvrSO2YFwSBsWHxBMW0uqPSR4quOsuQA6JKO
- 1TmWvYR+wOm9Im64En6vzeyDD5kVRifZoeJyzM9cJ21enXLlL9VFWXuv9lGvCui8aRMDSciZFGs
- T2Pnd/XUABDyCdpQZcKmeePDHawoybSXKuSVV2iwOqMvas0PTUqnv
-X-Received: by 2002:a05:622a:188e:b0:4b0:677d:d8e1 with SMTP id
- d75a77b69052e-4b2aaa055c4mr159229771cf.17.1756224503992; 
- Tue, 26 Aug 2025 09:08:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGw4XVvhS8sJ4oPyO5LSxRLiQgorFOHBMUJBTT8et5S5EVGydVwVkXldGpoHbR11UxUC58e2w==
-X-Received: by 2002:a05:622a:188e:b0:4b0:677d:d8e1 with SMTP id
- d75a77b69052e-4b2aaa055c4mr159227761cf.17.1756224501655; 
- Tue, 26 Aug 2025 09:08:21 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55f45a230ddsm1241131e87.59.2025.08.26.09.08.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Aug 2025 09:08:20 -0700 (PDT)
-Date: Tue, 26 Aug 2025 19:08:17 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: "mripard@kernel.org" <mripard@kernel.org>
-Cc: "Kandpal, Suraj" <suraj.kandpal@intel.com>,
- "liviu.dudau@arm.com" <liviu.dudau@arm.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "Murthy, Arun R" <arun.r.murthy@intel.com>,
- "Shankar, Uma" <uma.shankar@intel.com>,
- "Nikula, Jani" <jani.nikula@intel.com>,
- "harry.wentland@amd.com" <harry.wentland@amd.com>,
- "siqueira@igalia.com" <siqueira@igalia.com>,
- "alexander.deucher@amd.com" <alexander.deucher@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "robin.clark@oss.qualcomm.com" <robin.clark@oss.qualcomm.com>,
- "abhinav.kumar@linux.dev" <abhinav.kumar@linux.dev>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "jessica.zhang@oss.qualcomm.com" <jessica.zhang@oss.qualcomm.com>,
- "sean@poorly.run" <sean@poorly.run>,
- "marijn.suijten@somainline.org" <marijn.suijten@somainline.org>,
- "mcanal@igalia.com" <mcanal@igalia.com>,
- "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
- "tomi.valkeinen+renesas@ideasonboard.com"
- <tomi.valkeinen+renesas@ideasonboard.com>, 
- "kieran.bingham+renesas@ideasonboard.com"
- <kieran.bingham+renesas@ideasonboard.com>, 
- "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>
-Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor drm_writeback_connector
- structure
-Message-ID: <76cmo6pqa534cdnckfgsnspczenzt7kiwkpgg4olxysjn2can7@g5dxteqi5jjs>
-References: <20250811094429.GE21313@pendragon.ideasonboard.com>
- <awtqznhquyn7etojonmjn7karznefsb7fdudawcjsj5g2bok3u@2iqcdviuiz2s>
- <20250811111546.GA30760@pendragon.ideasonboard.com>
- <2ah3pau7p7brgw7huoxznvej3djct76vgfwtc72n6uub7sjojd@zzaebjdcpdwf>
- <DM3PPF208195D8D0E55A761A3C16B87BAEEE32AA@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <aJ4LQvqli36TlETu@e110455-lin.cambridge.arm.com>
- <hc6f6wgsnauh72cowocpm55tikejhiha5z4mgufeq7v6gb2qml@kmgfd26bigos>
- <wr76vyag2osox2xf7ducnkiaanzk2k5ehd2ahnoyqdm5qiywlk@penf4v5bvg5z>
- <DM3PPF208195D8D87AECE8397914A67D9A1E33EA@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <20250826-skinny-dancing-otter-de9be4@houat>
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2066.outbound.protection.outlook.com [40.107.236.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05E0D10E360;
+ Tue, 26 Aug 2025 16:09:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=S3DJJnHdmtW7FC2EeLBhGMPxODUv7/0NzZBmsewRsE/po9zwTGrUxIQ1pn9oJqBgdrDsCh2F4cQYm8uMQlM7/NAIQjWXuECssN9PI7Qq0+7wHuxDp8MH0tvdtXb/0Gh3OIr20rd74cWpttrGajQ0RlGY7R1bQQ3mh0P6UcGGK4Onrm0O7urN1q2VkdmkjWdFOKRVSnR3wjmdK1jROr0xk3OmcBM3QCnp6cJFmdP3M/2+68/rtw2tPbaJf1sx3GHBIRT54r6/W+l1+xCmwovy+TWjhbpqYXMhvsupVQwKr4ONxwos4GbvSM2l+i8OQHmqgbYdQCO9OIYwF0/f8K9w9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EQY/KhVZEx5kvhO1rHhnUtz/xnNbXy2zrC1gbOFW3ts=;
+ b=FI1frg4TvUgxLQVvQC6azkDMZtPNuqFjnMJpPlWFW2iNXmXxwTrD+LPYqfL+p2h7sNsQjFVL/G4apLKD4DIcfUjYjwwESGEz3NL+HXWqsWRIfKkOh+JosOfbi3zzXzJNmHhn62CWvKjUPtNbcHMKd4jxrqdoc1XGi4AKBUjaQ33EFQ23z2yJ53RU4Pnj9BBMQb+Ho2VyI8fp5XsW58UVRuyGPiFBQuQ/KlhRaGdgRLJi/W8YlnWU6i+5h2kAPqCjVgoUzBn1IB1ElM5+k/V+C3QPPEaVptuMriWixW7/yOPigVJ3kU/O9vlH5md1MVLzYpnx47eU2CC5x12pwCPlcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EQY/KhVZEx5kvhO1rHhnUtz/xnNbXy2zrC1gbOFW3ts=;
+ b=exrlm71VnyDFtlUUUw1rAFFuhEn08knyRo6VX9trymgX/oegpI1eg8eoDG30xtB+RR/IvlzfDEUo7gEqrnF8N5/zWbH4gPIN1q8hFnBnZHoBcp4Sa2bZlnKLy6ROR0mw8ou+Op/9xxueq2thCzHqfYnuQxX7aIaIAZdNUARKUsc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB6064.namprd12.prod.outlook.com (2603:10b6:8:af::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Tue, 26 Aug
+ 2025 16:09:21 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9052.019; Tue, 26 Aug 2025
+ 16:09:21 +0000
+Message-ID: <87050572-811e-4b0c-9ebd-8ebb05f3c617@amd.com>
+Date: Tue, 26 Aug 2025 18:09:13 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re:
+To: David Hildenbrand <david@redhat.com>, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, x86@kernel.org
+Cc: airlied@gmail.com, thomas.hellstrom@linux.intel.com,
+ matthew.brost@intel.com, dave.hansen@linux.intel.com, luto@kernel.org,
+ peterz@infradead.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+References: <20250820143739.3422-1-christian.koenig@amd.com>
+ <edf4aee5-54eb-4fad-aa89-4913d44371fe@redhat.com>
+ <4e5f4ef0-53f1-417e-8f3b-76fd7c64cd23@amd.com>
+ <f983521c-b43d-4245-93fc-fcb847908573@redhat.com>
+ <a1b95d23-1908-42c1-8ff6-da051fc140aa@amd.com>
+ <6591105b-969d-44d6-80e1-233c1b84b121@redhat.com>
+ <fc3e013c-e7f7-441d-a638-2ee3dd372775@amd.com>
+ <75aca34d-3557-49e9-a523-bd3244c28190@redhat.com>
+ <a01f7ca8-7930-4b04-b597-0ebf8500a748@amd.com>
+ <d32fa753-66a1-451a-8cef-95c1f78fc366@redhat.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <d32fa753-66a1-451a-8cef-95c1f78fc366@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0214.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e4::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250826-skinny-dancing-otter-de9be4@houat>
-X-Authority-Analysis: v=2.4 cv=KOlaDEFo c=1 sm=1 tr=0 ts=68addbf9 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8 a=cj-Nge-_NgV5cCdd3SwA:9
- a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-GUID: wb6y_1YItodiQ5JKEHjI4UyL6jAfg_3s
-X-Proofpoint-ORIG-GUID: wb6y_1YItodiQ5JKEHjI4UyL6jAfg_3s
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMyBTYWx0ZWRfX3HVJrB2B4hxA
- A3bZTBoS+MLU2QfmKuzs87I1NuzQStGMuBgqM/8ihjWKNo2kDm9pTZoyC/zRidA5UzGvHlpUJqx
- n/1CrO0V0PWlNBB21N7J3vWUeIvdzwXAMOMgkpnWBdcVeSxvFAEXqGJfuIQHbqF99ADbH4CkGZP
- 5d+UK1RAfac2AAb6KWeXXyKCtNLL36MVpA4cy4UU5Ne9XA0ptQnJl0VIWz5m+tusvR0N8AUmSxU
- IHVlhJSUxzN1AO+AYhCpeM8/a15Xxe3bCF7gkigMasphiphUVxkf7HLDAPdY21p/SLZrosJanH2
- tbN0sK+sqet5nLX5XNsGlQZlboebCtutIIZK4vNq182RSD04Hvkv9LFHDQNQhmxS9OJlUSWMOIp
- 7PFkontz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-26_02,2025-08-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 bulkscore=0 adultscore=0 phishscore=0
- impostorscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230033
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6064:EE_
+X-MS-Office365-Filtering-Correlation-Id: 99a5e11a-5c7e-43a5-3af0-08dde4baead4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1FCaklSS3VtS1JoUEU4Sk5Xbko4Q3oyc0VzSG8zWXpFSGxpcmMyN2JsanNN?=
+ =?utf-8?B?SEZiU3ByV0NUSFF6Z1d0REp3MlJRVHFoNENLTnZ3elI3VDdMc0RoVWptRzZO?=
+ =?utf-8?B?N2JSSW9Bazg5Wnh2cEpIejJzbzNhZUw1TzhhMG02cStDeDhHRlVsVjhwN2JS?=
+ =?utf-8?B?Q3NGV1BIV0JRTk55RHVOdnR2RC9LNUFVYlZyQWYyZEN4Sit2cHpCOCtIZ3hY?=
+ =?utf-8?B?WnZ3UHoxM25GWGVOcDdNenJZYjcrWDBkRmxoMU1VNmJmaE1ZQ3EveUNjZ1FL?=
+ =?utf-8?B?a0lGbHVIc0ttWEZ1c2dyaGUzZzgwZkdwZk8xQUhRTDRvaHZIdmFTMm1nR2ds?=
+ =?utf-8?B?MUNnMkFTWWU0TDZPV1h0aWRuUk1VWEQxNld5ZVFLZXVxTldXVG9kcWtTT1Zx?=
+ =?utf-8?B?ejU1MWZJM01RaThmcnBZa25XaWZCNm9KYVZldGJFZTZ0ZnJKQkhhZzAxOGgr?=
+ =?utf-8?B?WmFCbDFYTjVmeWpaVkdIU2FidVM3ZmEybG15QU1WVXdNYmdsYWJZU1BqaFpH?=
+ =?utf-8?B?SFZyYzIxaEMwTHUyeVg5YnlOVCsya29TcnExbENlVHZ5Z0tGamZVWE9WL1pZ?=
+ =?utf-8?B?ckV1YTlQT0NQYnJrRXgyVi9lWkFIQnNlMldyYnkrYllYcmJYMXVhZzMvRGsy?=
+ =?utf-8?B?VVB0c21NSUdQcTVkSVBBVUlWMG5xUlB5OG5JZFFDSVhPd0VwM2dSTEE2RUxY?=
+ =?utf-8?B?ZWFnUnluREZUMENKYk9Zd2lOMkYyaVdhVDl1MnJVajV2QlR0bU5EeGZCN1gy?=
+ =?utf-8?B?cGMzVTd2S2MxMGZnSmZZVi9WaW5uYU90VEF1YkVvOG5mY0svUzRDQTRHalM5?=
+ =?utf-8?B?bnBTcWhNcGl0V20rMEI5RWtkNTVuSHNua0hoYk40R0hwTGl1RmJCRFBzeFRs?=
+ =?utf-8?B?dDFnbnBmdXRqL0pxb1dFN1VLbGdkSG53NUpCelU0THBxdzFvajE0Yjg5M1ZH?=
+ =?utf-8?B?cUpFS1dCZlArQmhQaHljSVVDbk9Jd2kram1EKzlkeHczVi9VbGs1ZUNvcjlw?=
+ =?utf-8?B?QXhxaGo2ZjFTam92WGw3b0lSTFZueCtrV3BPVS9ZdmVKL0FxMktLejlqYzRy?=
+ =?utf-8?B?NVgxZjk2cjBYdHduTDBwUXk3ZnBvNFFWUFdjcm5zdEQxWE9RWXdxbkJ1bGkx?=
+ =?utf-8?B?NjB0QURneUFpMVN0ekZrb2krcUFORS9rK3BEM2lkMXhkaHFBOFM3Q3NGdDl1?=
+ =?utf-8?B?Slo4OUlqVHE5aTluOTRxcTlsRW9RbE92VGd6eGl0UVVDSGhSbGozeFhCTzhM?=
+ =?utf-8?B?cVRPWGhWYUxtV1VqM2xVY3NQYnlTcDJWZUZSZzAwOFNSRys5dWd3L1NDQVpI?=
+ =?utf-8?B?TzJDSk12QmtIZy92RzF6eExwMGZ2Yy9vNE5RdW55SEZJUGIrUW5LUVE4MEVx?=
+ =?utf-8?B?ZW5KT1RmOGhtb0pJcmt6RGhYbktqOXd3dEZSdEJ4a2NVTlBBempIaTNEN1ps?=
+ =?utf-8?B?R3NraXoreHR3V2FESlR5TXRPRFY5QWRaM3kxOVREbTNZYnZMbG5qWVkzR0ZP?=
+ =?utf-8?B?d3FkUjBydTVydVVtU0FkTFVuVk13WlhicUdjQ1JKdjg4OTJMMDBuTTZqUGlE?=
+ =?utf-8?B?aTNUaVR4elRIOERiV3J4eHJycFBGc0RqOWZ6L1ovL2NBSXZVNVZscmJ1RVdZ?=
+ =?utf-8?B?dTZsbWdYam50UHNsa3o4MHMrN2pqZ3lQVEVocHcwWkV0cmwrbm0xSHFhQVBX?=
+ =?utf-8?B?WVVOY0VGWkZOYlNJQmp3a2NEN1d3bmNVK2NqRTdxL2pJY0NTRzBkQWdCSlBM?=
+ =?utf-8?B?aS9yWGt2VTF6WVJ5NEo0WHlHWkxGd3Y0WTJwSkNGRERyRXpSNDhwb3lSWEFP?=
+ =?utf-8?Q?MZxhz7wRZRH4NillkdH4eN8yrcTuos7jkijzQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WC8xS20rK0JMWjB1OTZXZmNLNE40WFp5VFdKaXlvV2N2M29uanBCMjJ6ZHlq?=
+ =?utf-8?B?M1hRenJDa0hOelBlUzFTTUQxN3ZGRFg0dHl4bW4yOW9QeS8zc2s3dnU4QS9S?=
+ =?utf-8?B?V3h1TnlyMnBqQjB6UDFqQmhtMTA4b1R4aDJSSHpHRnlVejJVWWhldWl3TFVC?=
+ =?utf-8?B?YVU1ZnNPcWFzcGpPQ0RYaXI0KzcyUUxRZ3Z0WUp1SGgzSkxQU3RsNFZIcUhD?=
+ =?utf-8?B?bDV4RVh6WmNsR0FDWUcrWmZwYW1aSjNCUi8yMTFOL09UOWlrYXFMeXhQalZy?=
+ =?utf-8?B?c3F5WXlwZkFxUk5CU1Y5TFVseHY2b1BhSnVkWDk5M0FMV0NubFVDc0ZLU0E2?=
+ =?utf-8?B?RXpnM3RTT25sb3BLSlNkNGkyL1BqQTFHNlJGM1FPdUszaWd4TFMvU1F2SGdP?=
+ =?utf-8?B?eDRJTHA3R1huTERGRmVEbms0TzR1MWVEQi9YV0dkbCs5YkQ1a1V1bHVPZTdH?=
+ =?utf-8?B?amdRdUlrem5KWjBTZlYxdFFOTlN6cEF4Q3NiS0FWSjhEN2tHSmQzUURKajI0?=
+ =?utf-8?B?Q0FNYTVjL2NScGZ6aWNocHoycnVEUXc2WEJCQ3c5MnVqQ0VueXpaT3E5emZ5?=
+ =?utf-8?B?c01hL3ZNdlFFSnRFMFhVenNPeHhkSTRmMjBRdEp3eGhDZzI4ck82d0RyU0xL?=
+ =?utf-8?B?dlppSjBZczUzN05YQVNyY1AraFYyWWdILzVKVG15N3g1eENXNVpEYk01SE5C?=
+ =?utf-8?B?WlM1SmlKVjkrRXM2Y2x2VFpyRktsZDhKaVdjL1JvbG1SMG5WU1VOMEQzZmtU?=
+ =?utf-8?B?YjZVa3ByR3dNYWJCd3ByT1QxdzNsZU94dFhHRGc1eWdsWk10UEI4ZWdmdXNq?=
+ =?utf-8?B?UTBMaVdqNHoyclhjMXluUTBGSjNkVC9yV2tMWU9NZ3dzeThjQ3pMNGl2UGti?=
+ =?utf-8?B?UVR6dVdQMmVLUXNVOVJJTTlIVy8rVnVBc3RGMTF3WDdUY0FNejRGZEs5NUMr?=
+ =?utf-8?B?L1p3SDI3VTQySDRHZkZOZjRGcTFqUmNiOTdZRW56aTA5ZzEzMHRObWI4dlB1?=
+ =?utf-8?B?K2M4NnRiS0JjQkIzVjFXSGtldlBJcmxhZHNFV0puZnRBSzFyKzYySlZQcmNx?=
+ =?utf-8?B?dGpRYXdSanRMOTgzSzdhbGcrTUEwc05nblRKTEt4dFNNRFdWc0RNS2tUaUtr?=
+ =?utf-8?B?cTBLdU9DVVNnQ3FrVUNaazd0NThxR0dmdFlaUGRaUnNjMnhCSjVmVHRZU3dB?=
+ =?utf-8?B?UlFiQVVyQWhNUXB2Zml5TTJQZE1WM1ZNZldkY250Z24yQjlUM0pFZFNBY0Iv?=
+ =?utf-8?B?ME0xL0o1TUtvblJpbDRzQytjRS9ISG4vUVdmUm5VK2ViS28wcTVOWE9aZnVP?=
+ =?utf-8?B?NmRWcjA2RkJaMDcwRnhwa1p1b2V1YXFLRTE2MjZzSUVpbVF6SEh1VzlaenNV?=
+ =?utf-8?B?VGRiYmRzNTZSYUxoLzdydVpYTUpkdUxKbEtEdDhGa2dMT0syNnJYR2lWMW9P?=
+ =?utf-8?B?Y0ZoUVpCWW0yWTRQSkUrZVBtaWNiUkM4RkF2ZjkvQjIzTzBVQjBHTkpneWZz?=
+ =?utf-8?B?RVFOQkJrMHdFL0M4enZ5bkVvOElGaE50cUF0WTlzMDErM1JBTjB5WHMzV05m?=
+ =?utf-8?B?WkVHKzQvaVdUeENIME9mQ3A1VVQ3ckVCc2JkaUhBcUdFS2xvenkyRVcyZ2dp?=
+ =?utf-8?B?bHpoWmZRUXkyTlVtUTBFOFBxaWQ4cTZTUzdJSU1nVGlMRDlTdkpESG45U3g4?=
+ =?utf-8?B?MDNyTVFySDRMMHh2UmZvZGxtZVF4dVU3L2ozdzA1WUcxU1NuN2JMNGpoLzNa?=
+ =?utf-8?B?YVZwdGFXT2pjZXNMQnZsdzhLd2Voa2x2QXJQNmV1ZzVMSHJZV0ZrWFpiM1A5?=
+ =?utf-8?B?NXhsWk9wTUNvdkN1M1N5aDZmbVdpOW1QTE5DZEV1eW91VGVZKy9jV1NFSWN4?=
+ =?utf-8?B?T3dteFVlTFRCZmlJdHdtVktPeS9UVlcvVVdGUU1TdmRxUEZzbjROU0JFZk9m?=
+ =?utf-8?B?Zk8zYWZvTkhnQXgzWWFuKzBmdHpOWVE1WHljN0dJZFltMlhGQ21meS8rcC9T?=
+ =?utf-8?B?UkNZOUx4V3orR0dSNEQ4L0pBM3lWV1R3OElNaDZzMDRIY2xXRGVvVVZ0US9X?=
+ =?utf-8?B?MlFoS084WU5CNW1xY0pNNDJNT3U4aFRLNmdqWE1KdU1RdC9hMUFKck44R2Ux?=
+ =?utf-8?Q?le/6R09/HxFcyoEuYGIfGBTjH?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99a5e11a-5c7e-43a5-3af0-08dde4baead4
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2025 16:09:21.2522 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g1KJjqZW0PFia1G1M2aG1cU9cJ9oJCDsBezoAAiExhuNiP5WdnNqOWRROYaVF2Xl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6064
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,99 +172,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 26, 2025 at 05:48:18PM +0200, mripard@kernel.org wrote:
-> On Mon, Aug 25, 2025 at 06:26:48AM +0000, Kandpal, Suraj wrote:
-> > > Subject: Re: [RFC PATCH 1/8] drm: writeback: Refactor
-> > > drm_writeback_connector structure
-> > > 
-> > > Hi,
-> > > 
-> > > On Sat, Aug 16, 2025 at 01:20:53AM +0300, Dmitry Baryshkov wrote:
-> > > > On Thu, Aug 14, 2025 at 05:13:54PM +0100, liviu.dudau@arm.com wrote:
-> > > > > Hi,
-> > > > >
-> > > > > On Wed, Aug 13, 2025 at 10:04:22AM +0000, Kandpal, Suraj wrote:
-> > > > > > > > > };
-> > > > > > > >
-> > > > > > > > I still don't like that. This really doesn't belong here. If
-> > > > > > > > anything, the drm_connector for writeback belongs to drm_crtc.
-> > > > > > >
-> > > > > > > Why? We already have generic HDMI field inside drm_connector. I
-> > > > > > > am really hoping to be able to land DP parts next to it. In
-> > > > > > > theory we can have a DVI- specific entry there (e.g. with the
-> > > subconnector type).
-> > > > > > > The idea is not to limit how the drivers subclass those structures.
-> > > > > > >
-> > > > > > > I don't see a good case why WB should deviate from that design.
-> > > > > > >
-> > > > > > > > If the issue is that some drivers need a custom drm_connector
-> > > > > > > > subclass, then I'd rather turn the connector field of
-> > > > > > > > drm_writeback_connector into a pointer.
-> > > > > > >
-> > > > > > > Having a pointer requires additional ops in order to get
-> > > > > > > drm_connector from WB code and vice versa. Having
-> > > > > > > drm_connector_wb inside drm_connector saves us from those ops
-> > > (which don't manifest for any other kind of structure).
-> > > > > > > Nor will it take any more space since union will reuse space
-> > > > > > > already taken up by HDMI part.
-> > > > > > >
-> > > > > > > >
-> > > > > >
-> > > > > > Seems like this thread has died. We need to get a conclusion on the
-> > > design.
-> > > > > > Laurent do you have any issue with the design given Dmitry's
-> > > > > > explanation as to why this Design is good for drm_writeback_connector.
-> > > > >
-> > > > > I'm with Laurent here. The idea for drm_connector (and a lot of drm
-> > > > > structures) are to be used as base "classes" for extended
-> > > > > structures. I don't know why HDMI connector ended up inside
-> > > > > drm_connector as not all connectors have HDMI functionality, but that's a
-> > > cleanup for another day.
-> > > >
-> > > > Maybe Maxime can better comment on it, but I think it was made exactly
-> > > > for the purpose of not limiting the driver's design. For example, a
-> > > > lot of drivers subclass drm_connector via drm_bridge_connector. If
-> > > > struct drm_connector_hdmi was a wrapper around struct drm_connector,
-> > > > then it would have been impossible to use HDMI helpers for bridge
-> > > > drivers, while current design freely allows any driver to utilize
-> > > > corresponding library code.
-> > > 
-> > > That's exactly why we ended up like this. With that design, we wouldn't have
-> > > been able to "inherit" two connector "classes": bridge_connector is one,
-> > > intel_connector another one.
-> > > 
-> > > See here for the rationale:
-> > > https://lore.kernel.org/dri-devel/ZOTDKHxn2bOg+Xmg@phenom.ffwll.local/
-> > > 
-> > > I don't think the "but we'll bloat drm_connector" makes sense either.
-> > > There's already a *lot* of things that aren't useful to every connector (fwnode,
-> > > display_info, edid in general, scaling, vrr, etc.)
-> > > 
-> > > And it's not like we allocate more than a handful of them during a system's life.
-> > 
-> > So Are we okay with the approach mentioned here with the changes that have been proposed here like
-> > Having drm_writeback_connector in union with drm_hdmi_connector
+On 26.08.25 14:07, David Hildenbrand wrote: 
+>>
+>>> 2) We add another interface that consumes PFNs, but explicitly states
+>>>     that it is only for ordinary system RAM, and that the user is
+>>>     required for updating the direct map.
+>>>
+>>>     We could sanity-check the direct map in debug kernels.
+>>
+>> I would rather like to see vmf_insert_pfn_prot() fixed instead.
+>>
+>> That function was explicitly added to insert the PFN with the given attributes and as far as I can see all users of that function expect exactly that.
 > 
-> I don't think we need a union here. It artificially creates the same
-> issue: we can't have two types for a connector if we do so.
+> It's all a bit tricky :(
 
-Well... What kind of connector would be both HDMI and WriteBack? I think
-they are mutually exclusive already.
+I would rather say horrible complicated :(
 
-> > Also one more thing I would like to clarify here is how everyone would
-> > like the patches patches where each patch changes both the drm core
-> > and all related drivers (ensures buildability but then review is tough
-> > for each driver). Or patches where we have initial drm core changes
-> > and then each patch does the all changes in a driver in its own
-> > respective patch.
+>>>
+>>> 3) We teach PAT code in pfnmap_setup_cachemode_pfn() about treating this
+>>>     system RAM differently.
+>>>
+>>>
+>>> There is also the option for a mixture between 1 and 2, where we get pages, but we map them non-refcounted in a VM_PFNMAP.
+>>>
+>>> In general, having pages makes it easier to assert that they are likely ordinary system ram pages, and that the interface is not getting abused for something else.
+>>
+>> Well, exactly that's the use case here and that is not abusive at all as far as I can see.
+>>
+>> What drivers want is to insert a PFN with a certain set of caching attributes regardless if it's system memory or iomem. That's why vmf_insert_pfn_prot() was created in the first place.
 > 
-> The latter should be preferred, but if you can't maintain bisectability
-> that way, then it's the most important and you should fall back to the
-> former.
+> I mean, the use case of "allocate pages from the buddy and fixup the linear map" sounds perfectly reasonable to me. Absolutely no reason to get PAT involved. Nobody else should be messing with that memory after all.
+> 
+> As soon as we are talking about other memory ranges (iomem) that are not from the buddy, it gets weird to bypass PAT, and the question I am asking myself is, when is it okay, and when not.
 
-I'd say, we should be trying our best in providing bisectability. It
-really a PITA if one can not use `git bisect run`.
+Ok let me try to explain parts of the history and the big picture for at least the graphics use case on x86.
 
--- 
-With best wishes
-Dmitry
+In 1996/97 Intel came up with the idea of AGP: https://en.wikipedia.org/wiki/Accelerated_Graphics_Port
+
+At that time the CPUs, PCI bus and system memory were all connected together through the north bridge: https://en.wikipedia.org/wiki/Northbridge_(computing)
+
+The problem was that AGP also introduced the concept of putting large amounts of data for the video controller (PCI device) into system memory when you don't have enough local device memory (VRAM).
+
+But that meant when that memory is cached that the north bridge always had to snoop the CPU cache over the front side bus for every access the video controller made. This meant a huge performance bottleneck, so the idea was born to access that data uncached.
+
+
+Well that was nearly 30years ago, PCI, AGP and front side bus are long gone, but the concept of putting video controller (GPU) stuff into uncached system memory has prevailed.
+
+So for example even modern AMD CPU based laptops need uncached system memory if their local memory is not large enough to contain the picture to display on the monitor. And with modern 8k monitors that can actually happen quite fast...
+
+What drivers do today is to call vmf_insert_pfn_prot() either with the PFN of their local memory (iomem) or uncached/wc system memory.
+
+
+To summarize that we have an interface to fill in the page tables with either iomem or system memory is actually part of the design. That's how the HW driver is expected to work.
+
+>> That drivers need to call set_pages_wc/uc() for the linear mapping on x86 manually is correct and checking that is clearly a good idea for debug kernels.
+> 
+> I'll have to think about this a bit: assuming only vmf_insert_pfn() calls pfnmap_setup_cachemode_pfn() but vmf_insert_pfn_prot() doesn't, how could we sanity check that somebody is doing something against the will of PAT.
+
+I think the most defensive approach for a quick fix is this change here:
+
+ static inline void pgprot_set_cachemode(pgprot_t *prot, enum page_cache_mode pcm)
+ {
+-       *prot = __pgprot((pgprot_val(*prot) & ~_PAGE_CACHE_MASK) |
+-                        cachemode2protval(pcm));
++       if (pcm != _PAGE_CACHE_MODE_WB)
++               *prot = __pgprot((pgprot_val(*prot) & ~_PAGE_CACHE_MASK) |
++                                cachemode2protval(pcm));
+ }
+
+This applies the PAT value if it's anything else than _PAGE_CACHE_MODE_WB but still allows callers to use something different on normal WB system memory.
+
+What do you think?
+
+Regards,
+Christian
